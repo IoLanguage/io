@@ -49,7 +49,7 @@ _objs
 _includes
 *_libs
 *Io.*Code.c*
-*io2c*
+io2c
 *Io.*Init.c*
 *pngtest*
 *steve.model*
