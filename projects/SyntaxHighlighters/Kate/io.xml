@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE language>
+<language name="Io" version="1.0" kateversion="2.4.1" section="Scripts" extensions="*.io" mimetype="application/x-io;text/x-io" casesensitive="1" author="Vincent Adam Burns" license="">
+	<highlighting>
+		<list name="operators">
+			<item> ` </item>
+			<item> ~ </item>
+			<item> $ </item>
+			<item> % </item>
+			<item> { </item>
+			<item> } </item>
+			<item> [ </item>
+			<item> ] </item>
+			<item> ++ </item>
+			<item> -- </item>
+			<item> * </item>
+			<item> / </item>
+			<item> % </item>
+			<item> ^ </item>
+			<item> + </item>
+			<item> - </item>
+			<item> &gt;&gt; </item>
+			<item> &lt;&lt; </item>
+			<item> &gt; </item>
+			<item> &lt; </item>
+			<item> &lt;= </item>
+			<item> &gt;= </item>
+			<item> == </item>
+			<item> != </item>
+			<item> &amp; </item>
+			<item> ^ </item>
+			<item> .. </item>
+			<item> | </item>
+			<item> &amp;&amp; </item>
+			<item> || </item>
+			<item> != </item>
+			<item> += </item>
+			<item> -= </item>
+			<item> *= </item>
+			<item> /= </item>
+			<item> &lt;&lt;= </item>
+			<item> &gt;&gt;= </item>
+			<item> &amp;= </item>
+			<item> |= </item>
+			<item> %= </item>
+			<item> = </item>
+			<item> := </item>
+			<item> &lt;- </item>
+			<item> &lt;-&gt; </item>
+			<item> -&gt; </item>
+			<item> . </item>
+			<item> ? </item>
+			<item> @ </item>
+			<item> @@ </item>
+		</list>
+		<list name="flow">
+			<item> and </item>
+			<item> break </item>
+			<item> else </item>
+			<item> elseif </item>
+			<item> exit </item>
+			<item> for </item>
+			<item> foreach </item>
+			<item> if </item>
+			<item> ifFalse </item>
+			<item> ifNil </item>
+			<item> ifTrue </item>
+			<item> or </item>
+			<item> pass </item>
+			<item> raise </item>
+			<item> return </item>
+			<item> then </item>
+			<item> try </item>
+			<item> wait </item>
+			<item> while </item>
+			<item> yield </item>
+		</list>
+		<list name="builtinfuncs">
+			<item> activate </item>
+			<item> activeCoroCount </item>
+			<item> asString </item>
+			<item> block </item>
+			<item> catch </item>
+			<item> clone </item>
+			<item> collectGarbage </item>
+			<item> compileString </item>
+			<item> continue </item>
+			<item> do </item>
+			<item> doFile </item>
+			<item> doMessage </item>
+			<item> doString </item>
+			<item> forward </item>
+			<item> getSlot </item>
+			<item> getenv </item>
+			<item> hasSlot </item>
+			<item> isActive </item>
+			<item> isNil </item>
+			<item> isResumable </item>
+			<item> list </item>
+			<item> message </item>
+			<item> method </item>
+			<item> parent </item>
+			<item> pause </item>
+			<item> perform </item>
+			<item> performWithArgList </item>
+			<item> print </item>
+			<item> proto </item>
+			<item> raiseResumable </item>
+			<item> removeSlot </item>
+			<item> resend </item>
+			<item> resume </item>
+			<item> schedulerSleepSeconds </item>
+			<item> self </item>
+			<item> sender </item>
+			<item> setSchedulerSleepSeconds </item>
+			<item> setSlot </item>
+			<item> shallowCopy </item>
+			<item> slotNames </item>
+			<item> super </item>
+			<item> system </item>
+			<item> thisBlock </item>
+			<item> thisContext </item>
+			<item> thisMessage </item>
+			<item> type </item>
+			<item> uniqueId </item>
+			<item> updateSlot </item>
+			<item> write </item>
+		</list>
+		<list name="specialvars">
+			<item> Array </item>
+			<item> AudioDevice </item>
+			<item> AudioMixer </item>
+			<item> Block </item>
+			<item> Box </item>
+			<item> Buffer </item>
+			<item> CFunction </item>
+			<item> CGI </item>
+			<item> Color </item>
+			<item> Curses </item>
+			<item> DBM </item>
+			<item> DNSResolver </item>
+			<item> DOConnection </item>
+			<item> DOProxy </item>
+			<item> DOServer </item>
+			<item> Date </item>
+			<item> Directory </item>
+			<item> Duration </item>
+			<item> DynLib </item>
+			<item> Error </item>
+			<item> Exception </item>
+			<item> FFT </item>
+			<item> File </item>
+			<item> Fnmatch </item>
+			<item> Font </item>
+			<item> Future </item>
+			<item> GL </item>
+			<item> GLE </item>
+			<item> GLScissor </item>
+			<item> GLU </item>
+			<item> GLUCylinder </item>
+			<item> GLUQuadric </item>
+			<item> GLUSphere </item>
+			<item> GLUT </item>
+			<item> Host </item>
+			<item> Image </item>
+			<item> Importer </item>
+			<item> LinkList </item>
+			<item> List </item>
+			<item> Lobby </item>
+			<item> Locals </item>
+			<item> MD5 </item>
+			<item> MP3Decoder </item>
+			<item> MP3Encoder </item>
+			<item> Map </item>
+			<item> Message </item>
+			<item> Movie </item>
+			<item> NULL </item>
+			<item> nil </item>
+			<item> true </item>
+			<item> false </item>
+			<item> Notification </item>
+			<item> Number </item>
+			<item> Object </item>
+			<item> OpenGL </item>
+			<item> Point </item>
+			<item> Protos </item>
+			<item> Regex </item>
+			<item> SGMLTag </item>
+			<item> SQLite </item>
+			<item> Server </item>
+			<item> ShowMessage </item>
+			<item> SleepyCat </item>
+			<item> SleepyCatCursor </item>
+			<item> Socket </item>
+			<item> SocketManager </item>
+			<item> Sound </item>
+			<item> Soup </item>
+			<item> Store </item>
+			<item> String </item>
+			<item> Tree </item>
+			<item> UDPSender </item>
+			<item> UPDReceiver </item>
+			<item> URL </item>
+			<item> User </item>
+			<item> Warning </item>
+			<item> WeakLink </item>
+		</list>
+		<contexts>
+			<context name="Normal" attribute="Normal Text" lineEndContext="#stay">
+				<keyword attribute="Operator" String="operators" context="#stay"/>
+				<keyword attribute="Flow Control Keyword" String="flow" context="#stay"/>
+				<keyword attribute="Builtin Function" String="builtinfuncs" context="#stay"/>
+				<keyword attribute="Special Variable" String="specialvars" context="#stay"/>
+				<RegExpr attribute="Normal" String="[a-zA-Z_][a-zA-Z_0-9]+" context="#stay"/>
+
+				<RegExpr attribute="Float" String="([0-9]+\.[0-9]*|\.[0-9]+)([eE][0-9]+)?" context="#stay"/>
+				<RegExpr attribute="Int" String="([1-9][0-9]*([eE][0-9]+)?|0)" context="#stay"/>
+				<RegExpr attribute="Hex" String="0[Xx][0-9a-fA-F]+" context="#stay"/>
+
+				<RegExpr attribute="Comment" String="#.*$" context="#stay"/>
+				<RegExpr attribute="Comment" String="//.*$" context="#stay"/>
+				<RegExpr attribute="Comment" String="/\*.*$" context="Comment"/>
+
+				<StringDetect attribute="String" String="&quot;&quot;&quot;" context="Tripple string"/>
+				<DetectChar attribute="String" char="&quot;" context="Single string"/>
+			</context>
+
+			<context name="Comment" attribute="Comment" lineEndContext="#stay">
+				<RegExpr attribute="Comment" String="\*/" context="#pop"/>
+			</context>
+
+			<context name="Tripple string" attribute="String" lineEndContext="#stay">
+				<HlCStringChar attribute="String" context="#stay"/>
+				<RegExpr attribute="String" String="&quot;&quot;&quot;" context="#pop"/>
+			</context>
+
+			<context name="Single string" attribute="String" lineEndContext="#stay">
+				<HlCStringChar attribute="String" context="#stay"/>
+				<DetectChar attribute="String" char="&quot;" context="#pop"/>
+			</context>
+		</contexts>
+		<itemDatas>
+			<itemData name="Normal Text" defStyleNum="dsNormal"/>
+			<itemData name="Operator" defStyleNum="dsOperator"/>
+			<itemData name="Flow Control Keyword" defStyleNum="dsFlow"/>
+			<itemData name="Builtin Function" defStyleNum="dsDataType"/>
+			<itemData name="Special Variable" defStyleNum="dsOthers"/>
+			<itemData name="Float" defStyleNum="dsFloat"/>
+			<itemData name="Int" defStyleNum="dsDecVal"/>
+			<itemData name="Hex" defStyleNum="dsOthers"/>
+			<itemData name="Comment" defStyleNum="dsComment"/>
+			<itemData name="String" defStyleNum="dsString"/>
+		</itemDatas>
+	</highlighting>
+	<general>
+		<folding indentationsensitive="1" />
+		<keywords casesensitive="1" />
+	</general>
+</language>
+

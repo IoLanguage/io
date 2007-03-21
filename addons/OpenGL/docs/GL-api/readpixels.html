@@ -1,0 +1,266 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glReadPixels</STRONG> - read a	block of pixels	from the frame buffer
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glReadPixels</STRONG>( GLint <EM>x</EM>,
+			     GLint <EM>y</EM>,
+			     GLsizei <EM>width</EM>,
+			     GLsizei <EM>height</EM>,
+			     GLenum <EM>format</EM>,
+			     GLenum <EM>type</EM>,
+			     GLvoid *<EM>pixels</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>x</EM>, <EM>y</EM> Specify the window coordinates of the first pixel that
+	       is read from the	frame buffer.  This location is	the
+	       lower left corner of a rectangular block	of pixels.
+
+	  <EM>width</EM>, <EM>height</EM>
+	       Specify the dimensions of the pixel rectangle.  <EM>width</EM>
+	       and <EM>height</EM> of one correspond to a single	pixel.
+
+	  <EM>format</EM>
+	       Specifies the format of the pixel data.	The following
+	       symbolic	values are accepted:  <STRONG>GL_COLOR_INDEX</STRONG>,
+	       <STRONG>GL_STENCIL_INDEX</STRONG>, <STRONG>GL_DEPTH_COMPONENT</STRONG>, <STRONG>GL_RED</STRONG>, <STRONG>GL_GREEN</STRONG>,
+	       <STRONG>GL_BLUE</STRONG>,	<STRONG>GL_ALPHA</STRONG>, <STRONG>GL_RGB</STRONG>, <STRONG>GL_RGBA</STRONG>, <STRONG>GL_LUMINANCE</STRONG>, and
+	       <STRONG>GL_LUMINANCE_ALPHA</STRONG>.
+
+	  <EM>type</EM> Specifies the data type of the pixel data.  Must	be one
+	       of <STRONG>GL_UNSIGNED_BYTE</STRONG>, <STRONG>GL_BYTE</STRONG>, <STRONG>GL_BITMAP</STRONG>,
+	       <STRONG>GL_UNSIGNED_SHORT</STRONG>, <STRONG>GL_SHORT</STRONG>, <STRONG>GL_UNSIGNED_INT</STRONG>, <STRONG>GL_INT</STRONG>,
+	       or <STRONG>GL_FLOAT</STRONG>.
+
+	  <EM>pixels</EM>
+	       Returns the pixel data.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glReadPixels</STRONG> returns pixel data from the frame buffer,
+	  starting with	the pixel whose	lower left corner is at
+	  location (<EM>x</EM>, <EM>y</EM>), into	client memory starting at location
+	  <EM>pixels</EM>.  Several parameters control the processing of	the
+	  pixel	data before it is placed into client memory.  These
+	  parameters are set with three	commands:  <STRONG>glPixelStore</STRONG>,
+	  <STRONG>glPixelTransfer</STRONG>, and <STRONG>glPixelMap</STRONG>.  This reference page
+	  describes the	effects	on <STRONG>glReadPixels</STRONG>	of most, but not all
+	  of the parameters specified by these three commands.
+
+	  <STRONG>glReadPixels</STRONG> returns values from each	pixel with lower left
+	  corner at (<EM>x</EM> + i, <EM>y</EM> +	j) for 0<EM>&lt;</EM>i&lt;<EM>width</EM>  and 0<EM>&lt;</EM>j&lt;<EM>height</EM>.
+	  This pixel is	said to	be the ith pixel in the	jth row.
+	  Pixels are returned in row order from	the lowest to the
+	  highest row, left to right in	each row.
+
+	  <EM>format</EM> specifies the format for the returned pixel values;
+	  accepted values are:
+
+	  <STRONG>GL_COLOR_INDEX</STRONG>
+		    Color indices are read from	the color buffer
+		    selected by	<STRONG>glReadBuffer</STRONG>.  Each index is converted
+		    to fixed point, shifted left or right depending on
+		    the	value and sign of <STRONG>GL_INDEX_SHIFT</STRONG>, and added to
+		    <STRONG>GL_INDEX_OFFSET</STRONG>. If	<STRONG>GL_MAP_COLOR</STRONG> is	<STRONG>GL_TRUE</STRONG>,
+		    indices are	replaced by their mappings in the
+		    table <STRONG>GL_PIXEL_MAP_I_TO_I</STRONG>.
+
+	  <STRONG>GL_STENCIL_INDEX</STRONG>
+		    Stencil values are read from the stencil buffer.
+		    Each index is converted to fixed point, shifted
+		    left or right depending on the value and sign of
+		    <STRONG>GL_INDEX_SHIFT</STRONG>, and	added to <STRONG>GL_INDEX_OFFSET</STRONG>. If
+		    <STRONG>GL_MAP_STENCIL</STRONG> is <STRONG>GL_TRUE</STRONG>, indices are replaced by
+		    their mappings in the table	<STRONG>GL_PIXEL_MAP_S_TO_S</STRONG>.
+
+	  <STRONG>GL_DEPTH_COMPONENT</STRONG>
+		    Depth values are read from the depth buffer.  Each
+		    component is converted to floating point such that
+		    the	minimum	depth value maps to 0 and the maximum
+		    value maps to 1.  Each component is	then
+		    multiplied by <STRONG>GL_DEPTH_SCALE</STRONG>, added	to
+		    <STRONG>GL_DEPTH_BIAS</STRONG>, and finally clamped to the range
+		    [0,1].
+
+	  <STRONG>GL_RED</STRONG>
+
+	  <STRONG>GL_GREEN</STRONG>
+
+	  <STRONG>GL_BLUE</STRONG>
+
+	  <STRONG>GL_ALPHA</STRONG>
+
+	  <STRONG>GL_RGB</STRONG>
+
+	  <STRONG>GL_RGBA</STRONG>
+
+	  <STRONG>GL_LUMINANCE</STRONG>
+
+	  <STRONG>GL_LUMINANCE_ALPHA</STRONG>
+		    Processing differs depending on whether color
+		    buffers store color	indices	or RGBA	color
+		    components.	 If color indices are stored, they are
+		    read from the color	buffer selected	by
+		    <STRONG>glReadBuffer</STRONG>.  Each	index is converted to fixed
+		    point, shifted left	or right depending on the
+		    value and sign of <STRONG>GL_INDEX_SHIFT</STRONG>, and added	to
+		    <STRONG>GL_INDEX_OFFSET</STRONG>. Indices are then replaced by the
+		    red, green,	blue, and alpha	values obtained	by
+		    indexing the tables	<STRONG>GL_PIXEL_MAP_I_TO_R</STRONG>,
+		    <STRONG>GL_PIXEL_MAP_I_TO_G</STRONG>, <STRONG>GL_PIXEL_MAP_I_TO_B</STRONG>, and
+		    <STRONG>GL_PIXEL_MAP_I_TO_A</STRONG>.  Each table must be of	size
+		    2^n, but n may be different	for different tables.
+		    Before an index is used to look up a value in a
+		    table of size 2^n, it must be masked against 2^n-
+		    1.
+
+		    If RGBA color components are stored	in the color
+		    buffers, they are read from	the color buffer
+		    selected by	<STRONG>glReadBuffer</STRONG>.  Each color component is
+		    converted to floating point	such that zero
+		    intensity maps to 0.0 and full intensity maps to
+		    1.0.  Each component is then multiplied by
+		    <STRONG>GL_c_SCALE</STRONG> and added to <STRONG>GL_c_BIAS</STRONG>, where <EM>c</EM> is RED,
+		    GREEN, BLUE, or ALPHA. Finally, if <STRONG>GL_MAP_COLOR</STRONG> is
+		    <STRONG>GL_TRUE</STRONG>, each component is clamped to the range
+		    [0,1], scaled to the size of its corresponding
+		    table, and is then replaced	by its mapping in the
+		    table <STRONG>GL_PIXEL_MAP_c_TO_c</STRONG>, where <EM>c</EM> is R, G,	B, or
+		    A.
+
+		    Unneeded data is then discarded.  For example,
+		    <STRONG>GL_RED</STRONG> discards the	green, blue, and alpha
+		    components,	while <STRONG>GL_RGB</STRONG> discards only the alpha
+		    component.	<STRONG>GL_LUMINANCE</STRONG> computes a	single-
+		    component value as the sum of the red, green, and
+		    blue components, and <STRONG>GL_LUMINANCE_ALPHA</STRONG> does the
+		    same, while	keeping	alpha as a second value.  The
+		    final values are clamped to	the range [0,1].
+
+	  The shift, scale, bias, and lookup factors just described
+	  are all specified by
+	  <STRONG>glPixelTransfer</STRONG>.  The	lookup table contents themselves are
+	  specified by <STRONG>glPixelMap</STRONG>.
+
+	  Finally, the indices or components are converted to the
+	  proper format, as specified by <EM>type</EM>.	If <EM>format</EM> is
+	  <STRONG>GL_COLOR_INDEX</STRONG> or <STRONG>GL_STENCIL_INDEX</STRONG> and <EM>type</EM> is not <STRONG>GL_FLOAT</STRONG>,
+	  each index is	masked with the	mask value given in the
+	  following table.  If <EM>type</EM> is <STRONG>GL_FLOAT</STRONG>, then each integer
+	  index	is converted to	single-precision floating-point
+	  format.
+
+	  If <EM>format</EM> is <STRONG>GL_RED</STRONG>, <STRONG>GL_GREEN</STRONG>, <STRONG>GL_BLUE</STRONG>, <STRONG>GL_ALPHA</STRONG>, <STRONG>GL_RGB</STRONG>,
+	  <STRONG>GL_RGBA</STRONG>, <STRONG>GL_LUMINANCE</STRONG>, or <STRONG>GL_LUMINANCE_ALPHA</STRONG> and <EM>type</EM>	is not
+	  <STRONG>GL_FLOAT</STRONG>, each component is multiplied by the	multiplier
+	  shown	in the following table.	 If type is <STRONG>GL_FLOAT</STRONG>, then
+	  each component is passed as is (or converted to the client's
+	  single-precision floating-point format if it is different
+	  from the one used by the GL).
+
+	    _______________________________________________________
+	    |	   <EM>type</EM>	       | <EM>index</EM> <EM>mask</EM> | <EM>component</EM>	<EM>conversion</EM> |
+	    <EM>|</EM>__________________<EM>|</EM>____________<EM>|</EM>______________________|
+	    |		       |	    |			   |
+	    |<STRONG>GL_UNSIGNED_BYTE</STRONG>  |   2^8-1    |	    (2^8-1)c	   |
+	    |	  <STRONG>GL_BYTE</STRONG>      |   2^7-1    |	 [(2^8-1)c-1]/2	   |
+	    |	 <STRONG>GL_BITMAP</STRONG>     |     1	    |	       1	   |
+	    |<STRONG>GL_UNSIGNED_SHORT</STRONG> |   2^16-1   |	   (2^16-1)c	   |
+	    |	 <STRONG>GL_SHORT</STRONG>      |   2^15-1   |	[(2^16-1)c-1]/2	   |
+	    | <STRONG>GL_UNSIGNED_INT</STRONG>  |   2^32-1   |	   (2^32-1)c	   |
+	    |	  <STRONG>GL_INT</STRONG>       |   2^31-1   |	[(2^32-1)c-1]/2	   |
+	    |	 <STRONG>GL_FLOAT</STRONG>      |    none    |	       c	   |
+	    <EM>|</EM>__________________<EM>|</EM>____________<EM>|</EM>______________________|
+
+	  Return values	are placed in memory as	follows.  If <EM>format</EM> is
+	  <STRONG>GL_COLOR_INDEX</STRONG>, <STRONG>GL_STENCIL_INDEX</STRONG>, <STRONG>GL_DEPTH_COMPONENT</STRONG>,
+	  <STRONG>GL_RED</STRONG>, <STRONG>GL_GREEN</STRONG>, <STRONG>GL_BLUE</STRONG>, <STRONG>GL_ALPHA</STRONG>, or <STRONG>GL_LUMINANCE</STRONG>,	a
+	  single value is returned and the data	for the	ith pixel in
+	  the jth row is placed	in location (j)	width +	i.  <STRONG>GL_RGB</STRONG>
+	  returns three	values,	<STRONG>GL_RGBA</STRONG>	returns	four values, and
+	  <STRONG>GL_LUMINANCE_ALPHA</STRONG> returns two values	for each pixel,	with
+	  all values corresponding to a	single pixel occupying
+	  contiguous space in <EM>pixels</EM>.  Storage parameters set by
+	  <STRONG>glPixelStore</STRONG>,	such as	<STRONG>GL_PACK_LSB_FIRST</STRONG> and
+	  <STRONG>GL_PACK_SWAP_BYTES</STRONG>, affect the way that data is written into
+	  memory.  See <STRONG>glPixelStore</STRONG> for	a description.
+
+     <STRONG>NOTES</STRONG>
+	  Values for pixels that lie outside the window	connected to
+	  the current GL context are undefined.
+
+	  If an	error is generated, no change is made to the contents
+	  of <EM>pixels</EM>.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>format</EM> or <EM>type</EM> is not	an
+	  accepted value.
+
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>type</EM> is <STRONG>GL_BITMAP</STRONG> and	<EM>format</EM>
+	  is not <STRONG>GL_COLOR_INDEX</STRONG>	or <STRONG>GL_STENCIL_INDEX</STRONG>.
+
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if either <EM>width</EM>	or <EM>height</EM> is
+	  negative.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <EM>format</EM> is
+	  <STRONG>GL_COLOR_INDEX</STRONG> and the color buffers store RGBA color
+	  components.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <EM>format</EM> is
+	  <STRONG>GL_STENCIL_INDEX</STRONG> and there is	no stencil buffer.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <EM>format</EM> is
+	  <STRONG>GL_DEPTH_COMPONENT</STRONG> and there is no depth buffer.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glReadPixels</STRONG> is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_INDEX_MODE</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glCopyPixels</STRONG>,	<STRONG>glDrawPixels</STRONG>, <STRONG>glPixelMap</STRONG>, <STRONG>glPixelStore</STRONG>,
+	  <STRONG>glPixelTransfer</STRONG>,
+	  <STRONG>glReadBuffer</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

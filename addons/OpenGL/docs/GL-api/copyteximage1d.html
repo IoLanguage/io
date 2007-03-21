@@ -1,0 +1,163 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glCopyTexImage1D</STRONG> - copy pixels into a	1D texture image
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glCopyTexImage1D</STRONG>( GLenum	<EM>target</EM>,
+				 GLint <EM>level</EM>,
+				 GLenum	<EM>internalFormat</EM>,
+				 GLint <EM>x</EM>,
+				 GLint <EM>y</EM>,
+				 GLsizei <EM>width</EM>,
+				 GLint <EM>border</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>target</EM>	  Specifies the	target texture.	 Must be
+			  <STRONG>GL_TEXTURE_1D</STRONG>.
+
+	  <EM>level</EM>		  Specifies the	level-of-detail	number.	 Level
+			  0 is the base	image level.  Level <EM>n</EM> is the
+			  <EM>n</EM>th mipmap reduction image.
+
+	  <EM>internalFormat</EM>  Specifies the	internal format	of the
+			  texture.  Must be one	of the following
+			  symbolic constants:  <STRONG>GL_ALPHA</STRONG>, <STRONG>GL_ALPHA4</STRONG>,
+			  <STRONG>GL_ALPHA8</STRONG>, <STRONG>GL_ALPHA12</STRONG>, <STRONG>GL_ALPHA16</STRONG>,
+			  <STRONG>GL_LUMINANCE</STRONG>,	<STRONG>GL_LUMINANCE4</STRONG>, <STRONG>GL_LUMINANCE8</STRONG>,
+			  <STRONG>GL_LUMINANCE12</STRONG>, <STRONG>GL_LUMINANCE16</STRONG>,
+			  <STRONG>GL_LUMINANCE_ALPHA</STRONG>, <STRONG>GL_LUMINANCE4_ALPHA4</STRONG>,
+			  <STRONG>GL_LUMINANCE6_ALPHA2</STRONG>,	<STRONG>GL_LUMINANCE8_ALPHA8</STRONG>,
+			  <STRONG>GL_LUMINANCE12_ALPHA4</STRONG>,
+			  <STRONG>GL_LUMINANCE12_ALPHA12</STRONG>,
+			  <STRONG>GL_LUMINANCE16_ALPHA16</STRONG>, <STRONG>GL_INTENSITY</STRONG>,
+			  <STRONG>GL_INTENSITY4</STRONG>, <STRONG>GL_INTENSITY8</STRONG>,
+			  <STRONG>GL_INTENSITY12</STRONG>, <STRONG>GL_INTENSITY16</STRONG>, <STRONG>GL_RGB</STRONG>,
+			  <STRONG>GL_R3_G3_B2</STRONG>, <STRONG>GL_RGB4</STRONG>,	<STRONG>GL_RGB5</STRONG>, <STRONG>GL_RGB8</STRONG>,
+			  <STRONG>GL_RGB10</STRONG>, <STRONG>GL_RGB12</STRONG>, <STRONG>GL_RGB16</STRONG>,	<STRONG>GL_RGBA</STRONG>,
+			  <STRONG>GL_RGBA2</STRONG>, <STRONG>GL_RGBA4</STRONG>, <STRONG>GL_RGB5_A1</STRONG>, <STRONG>GL_RGBA8</STRONG>,
+			  <STRONG>GL_RGB10_A2</STRONG>, <STRONG>GL_RGBA12</STRONG>, or <STRONG>GL_RGBA16</STRONG>.
+
+	  <EM>x</EM>, <EM>y</EM>		  Specify the window coordinates of the	left
+			  corner of the	row of pixels to be copied.
+
+	  <EM>width</EM>		  Specifies the	width of the texture image.
+			  Must be 0 or 2**n + 2*<EM>border</EM> for some
+			  integer n.  The height of the	texture	image
+			  is 1.
+
+	  <EM>border</EM>	  Specifies the	width of the border.  Must be
+			  either 0 or 1.
+
+     <STRONG>DESCRIPTION</STRONG>
+
+	  <STRONG>glCopyTexImage1D</STRONG> defines a one-dimensional texture image
+	  with pixels from the current <STRONG>GL_READ_BUFFER</STRONG>.
+
+	  The screen-aligned pixel row with left corner	at (x,y) and
+	  with a length	of width + 2 * border defines the texture
+	  array	at the mipmap level specified by <EM>level</EM>.
+	  <EM>internalFormat</EM> specifies the internal	format of the texture
+	  array.
+
+	  The pixels in	the row	are processed exactly as if
+	  <STRONG>glCopyPixels</STRONG> had been	called,	but the	process	stops just
+	  before final conversion.  At this point all pixel component
+	  values are clamped to	the range [0, 1] and then converted to
+	  the texture's	internal format	for storage in the texel
+	  array.
+
+	  Pixel	ordering is such that lower x screen coordinates
+	  correspond to	lower texture coordinates.
+
+	  If any of the	pixels within the specified row	of the current
+	  <STRONG>GL_READ_BUFFER</STRONG> are outside the window	associated with	the
+	  current rendering context, then the values obtained for
+	  those	pixels are undefined.
+
+     <STRONG>NOTES</STRONG>
+	  <STRONG>glCopyTexImage1D</STRONG> is available	only if	the GL version is 1.1
+	  or greater.
+
+	  Texturing has	no effect in color index mode.
+
+	  1, 2,	3, and 4 are not accepted values for <EM>internalFormat</EM>.
+
+	  An image with	0 width	indicates a NULL texture.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>target</EM> is not	one of the
+	  allowable values.
+
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if <EM>level</EM> is less than 0.
+
+	  <STRONG>GL_INVALID_VALUE</STRONG> may be generated if <EM>level</EM> is	greater	than
+	  log max, where max is	the returned value of
+	  <STRONG>GL_MAX_TEXTURE_SIZE</STRONG>.
+
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if <EM>internalFormat</EM> is not an
+	  allowable value.
+
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if <EM>width</EM> is less than 0	or
+	  greater than 2 + <STRONG>GL_MAX_TEXTURE_SIZE</STRONG>,	or if it cannot	be
+	  represented as 2**n +	2 * (border) for some integer value of
+	  <EM>n</EM>.
+
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if <EM>border</EM> is not 0 or 1.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glCopyTexImage1D</STRONG>	is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGetTexImage</STRONG>
+	  <STRONG>glIsEnabled</STRONG> with argument <STRONG>GL_TEXTURE_1D</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glCopyPixels</STRONG>,	<STRONG>glCopyTexImage2D</STRONG>, <STRONG>glCopyTexSubImage1D</STRONG>,
+	  <STRONG>glCopyTexSubImage2D</STRONG>, <STRONG>glPixelStore</STRONG>, <STRONG>glPixelTransfer</STRONG>,
+	  <STRONG>glTexEnv</STRONG>, <STRONG>glTexGen</STRONG>, <STRONG>glTexImage1D</STRONG>, <STRONG>glTexImage2D</STRONG>,
+	  <STRONG>glTexSubImage1D</STRONG>, <STRONG>glTexSubImage2D</STRONG>,
+	  <STRONG>glTexParameter</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,111 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glRotated,</STRONG> <STRONG>glRotatef</STRONG> - multiply the current matrix by	a
+	  rotation matrix
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glRotated</STRONG>( GLdouble <EM>angle</EM>,
+			  GLdouble <EM>x</EM>,
+			  GLdouble <EM>y</EM>,
+			  GLdouble <EM>z</EM> )
+	  void <STRONG>glRotatef</STRONG>( GLfloat <EM>angle</EM>,
+			  GLfloat <EM>x</EM>,
+			  GLfloat <EM>y</EM>,
+			  GLfloat <EM>z</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>angle</EM>	 Specifies the angle of	rotation, in degrees.
+
+	  <EM>x</EM>, <EM>y</EM>,	<EM>z</EM>
+		 Specify the <EM>x</EM>,	<EM>y</EM>, and <EM>z</EM> coordinates of	a vector,
+		 respectively.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glRotate</STRONG> produces a rotation of <EM>angle</EM>	degrees	around the
+	  vector (x,y,z).  The current matrix (see <STRONG>glMatrixMode</STRONG>) is
+	  multiplied by	a rotation matrix with the product replacing
+	  the current matrix, as if <STRONG>glMultMatrix</STRONG> were called with the
+	  following matrix as its argument:
+
+		  ( xx(1-c)+c	xy(1-c)-zs  xz(1-c)+ys	 0  )
+		  |					    |
+		  | yx(1-c)+zs	yy(1-c)+c   yz(1-c)-xs	 0  |
+		  | xz(1-c)-ys	yz(1-c)+xs  zz(1-c)+c	 0  |
+		  |					    |
+		  (	 0	     0		 0	 1  )
+	  Where	c = cos(angle),	s = sine(angle), and ||( x,y,z )|| = 1
+	  (if not, the GL will normalize this vector).
+
+
+
+	  If the matrix	mode is	either <STRONG>GL_MODELVIEW</STRONG> or <STRONG>GL_PROJECTION</STRONG>,
+	  all objects drawn after <STRONG>glRotate</STRONG> is called are rotated.  Use
+	  <STRONG>glPushMatrix</STRONG> and <STRONG>glPopMatrix</STRONG> to save and restore the
+	  unrotated coordinate system.
+
+     <STRONG>NOTES</STRONG>
+	  This rotation	follows	the right-hand rule, so	if the vector
+	  (x,y,z) points toward	the user, the rotation will be
+	  counterclockwise.
+
+     <STRONG>ERRORS</STRONG>
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glRotate</STRONG>	is executed
+	  between the execution	of <STRONG>glBegin</STRONG> and the corresponding
+	  execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_MATRIX_MODE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_MODELVIEW_MATRIX</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_PROJECTION_MATRIX</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_TEXTURE_MATRIX</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glMatrixMode</STRONG>,	<STRONG>glMultMatrix</STRONG>, <STRONG>glPushMatrix</STRONG>, <STRONG>glScale</STRONG>,
+	  <STRONG>glTranslate</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

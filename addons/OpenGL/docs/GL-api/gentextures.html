@@ -1,0 +1,58 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glGenTextures</STRONG>	- generate texture names
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glGenTextures</STRONG>( GLsizei <EM>n</EM>,
+			      GLuint *<EM>textures</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>n</EM>	    Specifies the number of texture names to be
+		    generated.
+
+	  <EM>textures</EM>  Specifies an array in which	the generated texture
+		    names are stored.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glGenTextures</STRONG>	returns	<EM>n</EM> texture names	in <EM>textures</EM>.  There is
+	  no guarantee that the	names form a contiguous	set of
+	  integers; however, it	is guaranteed that none	of the
+	  returned names was in	use immediately	before the call	to
+	  <STRONG>glGenTextures</STRONG>.
+
+	  The generated	textures have no dimensionality; they assume
+	  the dimensionality of	the texture target to which they are
+	  first	bound (see <STRONG>glBindTexture</STRONG>).
+
+	  Texture names	returned by a call to <STRONG>glGenTextures</STRONG> are	not
+	  returned by subsequent calls,	unless they are	first deleted
+	  with <STRONG>glDeleteTextures</STRONG>.
+
+     <STRONG>NOTES</STRONG>
+	  <STRONG>glGenTextures</STRONG>	is available only if the GL version is 1.1 or
+	  greater.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if <EM>n</EM> is	negative.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glGenTextures</STRONG> is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glIsTexture</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glBindTexture</STRONG>, <STRONG>glCopyTexImage1D</STRONG>, <STRONG>glCopyTexImage2D</STRONG>,
+	  <STRONG>glDeleteTextures</STRONG>, <STRONG>glGet</STRONG>, <STRONG>glGetTexParameter</STRONG>, <STRONG>glTexImage1D</STRONG>,
+	  <STRONG>glTexImage2D</STRONG>,	<STRONG>glTexParameter</STRONG>
+
+
+
+</PRE>
+</BODY>
+</HTML>

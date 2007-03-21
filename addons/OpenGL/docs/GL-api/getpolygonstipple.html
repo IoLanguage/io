@@ -1,0 +1,58 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glGetPolygonStipple</STRONG> -	return the polygon stipple pattern
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glGetPolygonStipple</STRONG>( GLubyte *<EM>mask</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>mask</EM>	Returns	the stipple pattern. The initial value is all
+		1's.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glGetPolygonStipple</STRONG> returns to <EM>mask</EM> a	32x32 polygon stipple
+	  pattern.  The	pattern	is packed into memory as if
+	  <STRONG>glReadPixels</STRONG> with both <EM>height</EM>	and <EM>width</EM> of 32, <EM>type</EM> of
+	  <STRONG>GL_BITMAP</STRONG>, and <EM>format</EM>	of <STRONG>GL_COLOR_INDEX</STRONG> were called, and the
+	  stipple pattern were stored in an internal 32x32 color index
+	  buffer.  Unlike <STRONG>glReadPixels</STRONG>,	however, pixel transfer
+	  operations (shift, offset, pixel map)	are not	applied	to the
+	  returned stipple image.
+
+     <STRONG>NOTES</STRONG>
+	  If an	error is generated, no change is made to the contents
+	  of <EM>mask</EM>.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glGetPolygonStipple</STRONG> is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glPixelStore</STRONG>,	<STRONG>glPixelTransfer</STRONG>, <STRONG>glPolygonStipple</STRONG>,
+	  <STRONG>glReadPixels</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

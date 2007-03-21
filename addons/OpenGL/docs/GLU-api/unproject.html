@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>gluUnProject</STRONG> - map window coordinates	to object coordinates
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  GLint	<STRONG>gluUnProject</STRONG>( GLdouble <EM>winX</EM>,
+			      GLdouble <EM>winY</EM>,
+			      GLdouble <EM>winZ</EM>,
+			      const GLdouble *<EM>model</EM>,
+			      const GLdouble *<EM>proj</EM>,
+			      const GLint *<EM>view</EM>,
+			      GLdouble*	<EM>objX</EM>,
+			      GLdouble*	<EM>objY</EM>,
+			      GLdouble*	<EM>objZ</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>winX</EM>,	<EM>winY</EM>, <EM>winZ</EM>
+			  Specify the window coordinates to be mapped.
+
+	  <EM>model</EM>		  Specifies the	modelview matrix (as from a
+			  <STRONG>glGetDoublev</STRONG> call).
+
+	  <EM>proj</EM>		  Specifies the	projection matrix (as from a
+			  <STRONG>glGetDoublev</STRONG> call).
+
+	  <EM>view</EM>		  Specifies the	viewport (as from a
+			  <STRONG>glGetIntegerv</STRONG>	call).
+
+	  <EM>objX</EM>,	<EM>objY</EM>, <EM>objZ</EM>
+			  Returns the computed object coordinates.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>gluUnProject</STRONG> maps the	specified window coordinates into
+	  object coordinates using <EM>model</EM>, <EM>proj</EM>,	and <EM>view</EM>.  The result
+	  is stored in <EM>objX</EM>, <EM>objY</EM>, and <EM>objZ</EM>. A return value of <STRONG>GL_TRUE</STRONG>
+	  indicates success; a return value of <STRONG>GL_FALSE</STRONG>	indicates
+	  failure.
+
+	  To compute the coordinates (<EM>objX</EM>, <EM>objY</EM>, and <EM>objZ</EM>),
+	  <STRONG>gluUnProject</STRONG> multiplies the normalized device	coordinates by
+	  the inverse of <EM>model</EM>*<EM>proj</EM> as follows:
+
+
+
+
+
+
+
+
+
+
+				     |			     |
+				     |<STRONG>______</STRONG>_<STRONG>_</STRONG>_<STRONG>________</STRONG>	     |
+		  (	  )	     |	   view[2]	- 1  |
+		  | objX  |	     |			     |
+		  | objY  | = INV(PM)|<STRONG>______</STRONG>_<STRONG>_</STRONG>_<STRONG>________</STRONG>	- 1  |
+		  |	  |	     |	   view[3]	     |
+		  | objZ  |	     |	   2(winZ) - 1	     |
+		  (  W	  )	     |			     |
+				     (		1	     )
+
+	  INV()	denotes	matrix inversion. W is an unused variable,
+	  included for consistent matrix notation.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glGet</STRONG>, <STRONG>gluProject</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

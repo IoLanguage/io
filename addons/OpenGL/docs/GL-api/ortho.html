@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glOrtho</STRONG> - multiply the current matrix	with an	orthographic
+	  matrix
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glOrtho</STRONG>(	GLdouble <EM>left</EM>,
+			GLdouble <EM>right</EM>,
+			GLdouble <EM>bottom</EM>,
+			GLdouble <EM>top</EM>,
+			GLdouble <EM>zNear</EM>,
+			GLdouble <EM>zFar</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>left</EM>,	<EM>right</EM> Specify the coordinates for the left and right
+		      vertical clipping	planes.
+
+	  <EM>bottom</EM>, <EM>top</EM> Specify the coordinates for the bottom and top
+		      horizontal clipping planes.
+
+	  <EM>zNear</EM>, <EM>zFar</EM> Specify the distances to the nearer and farther
+		      depth clipping planes.  These values are
+		      negative if the plane is to be behind the
+		      viewer.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glOrtho</STRONG> describes a transformation that produces a parallel
+	  projection.  The current matrix (see <STRONG>glMatrixMode</STRONG>) is
+	  multiplied by	this matrix and	the result replaces the
+	  current matrix, as if	<STRONG>glMultMatrix</STRONG> were called with the
+	  following matrix as its argument:
+		   (					   )
+		   |_____<STRONG>_</STRONG>____	    0		0	t  |
+		   |right-left				 x |
+		   |		_____<STRONG>_</STRONG>____		   |
+		   |	0	top-bottom	0	ty |
+		   |					   |
+		   |	0	    0	    ____<STRONG>__</STRONG>____	t  |
+		   |			    zFar-zNear	 z |
+		   |	0	    0		0	1  |
+		   (					   )
+
+	  where
+				t  = -<STRONG>__________</STRONG>
+				 x    right-left
+				t  = -<STRONG>__________</STRONG>
+				 y    top-bottom
+				t  = -<STRONG>__________</STRONG>
+				 z    zFar-zNear
+
+	  Typically, the matrix	mode is	<STRONG>GL_PROJECTION</STRONG>, and (<EM>left</EM>,
+	  <EM>bottom</EM>,  -<EM>zNear</EM>) and (<EM>right</EM>, <EM>top</EM>,  -<EM>zNear</EM>) specify the
+	  points on the	near clipping plane that are mapped to the
+	  lower	left and upper right corners of	the window,
+	  respectively,	assuming that the eye is located at (0,	0, 0).
+	  -<EM>zFar</EM>	specifies the location of the far clipping plane.
+	  Both <EM>zNear</EM> and <EM>zFar</EM> can be either positive or	negative.
+
+	  Use <STRONG>glPushMatrix</STRONG> and <STRONG>glPopMatrix</STRONG> to save and restore the
+	  current matrix stack.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glOrtho</STRONG> is executed
+	  between the execution	of <STRONG>glBegin</STRONG> and the corresponding
+	  execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_MATRIX_MODE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_MODELVIEW_MATRIX</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_PROJECTION_MATRIX</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_TEXTURE_MATRIX</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glFrustum</STRONG>, <STRONG>glMatrixMode</STRONG>, <STRONG>glMultMatrix</STRONG>, <STRONG>glPushMatrix</STRONG>,
+	  <STRONG>glViewport</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

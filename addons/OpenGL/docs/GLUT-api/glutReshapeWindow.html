@@ -1,0 +1,77 @@
+
+<HTML><HEAD><TITLE>Manpage of glutReshapeWindow</TITLE>
+</HEAD><BODY>
+<H1>glutReshapeWindow</H1>
+Section: GLUT (3GLUT)<BR>Updated: 3.7<BR><A HREF="#index">Index</A>
+<A HREF="">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+glutReshapeWindow - requests a change to the size of the current window. 
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNTAX</H2>
+
+<PRE>
+
+void glutReshapeWindow(int width, int height);
+</PRE>
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>ARGUMENTS</H2>
+
+<DL COMPACT>
+<DT><I>width</I><DD>
+New width of window in pixels. 
+<DT><I>height</I><DD>
+New height of window in pixels. 
+</DL>
+<A NAME="lbAE">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+glutReshapeWindow requests a change in the size of the current
+window. The width and height parameters are size extents in pixels.
+The width and height must be positive values. 
+
+The requests by glutReshapeWindow are not processed immediately.
+The request is executed after returning to the main event loop. This
+allows multiple glutReshapeWindow, glutPositionWindow, and
+glutFullScreen requests to the same window to be coalesced. 
+
+In the case of top-level windows, a glutReshapeWindow call is
+considered only a request for sizing the window. The window system is
+free to apply its own policies to top-level window sizing. The intent is
+that top-level windows should be reshaped according
+glutReshapeWindow's parameters. Whether a reshape actually takes
+effect and, if so, the reshaped dimensions are reported to the program by
+a reshape callback. 
+
+glutReshapeWindow disables the full screen status of a window if
+previously enabled. 
+<A NAME="lbAF">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+glutPositionWindow, glutReshapeFunc
+<A NAME="lbAG">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Mark J. Kilgard (<A HREF="mailto:mjk@nvidia.com">mjk@nvidia.com</A>)
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNTAX</A><DD>
+<DT><A HREF="#lbAD">ARGUMENTS</A><DD>
+<DT><A HREF="#lbAE">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAF">SEE ALSO</A><DD>
+<DT><A HREF="#lbAG">AUTHOR</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="">man2html</A>,
+using the manual pages.<BR>
+Time: 19:05:09 GMT, September 15, 2003
+</BODY>
+</HTML>

@@ -1,0 +1,63 @@
+
+<HTML><HEAD><TITLE>Manpage of glutAddMenuEntry</TITLE>
+</HEAD><BODY>
+<H1>glutAddMenuEntry</H1>
+Section: GLUT (3GLUT)<BR>Updated: 3.7<BR><A HREF="#index">Index</A>
+<A HREF="">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+glutAddMenuEntry - adds a menu entry to the bottom of the current menu. 
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNTAX</H2>
+
+<PRE>
+
+void glutAddMenuEntry(char *name, int value);
+</PRE>
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>ARGUMENTS</H2>
+
+<DL COMPACT>
+<DT><I>name</I><DD>
+ASCII character string to display in the menu entry. 
+<DT><I>value</I><DD>
+Value to return to the menu's callback function if the menu
+entry is selected. 
+</DL>
+<A NAME="lbAE">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+glutAddMenuEntry adds a menu entry to the bottom of the current
+menu. The string name will be displayed for the newly added menu
+entry. If the menu entry is selected by the user, the menu's callback
+will be called passing value as the callback's parameter. 
+<A NAME="lbAF">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+glutAddSubMenu, glutCreateMenu, glutChangeToMenuEntry, glutRemoveMenuItem
+<A NAME="lbAG">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Mark J. Kilgard (<A HREF="mailto:mjk@nvidia.com">mjk@nvidia.com</A>)
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNTAX</A><DD>
+<DT><A HREF="#lbAD">ARGUMENTS</A><DD>
+<DT><A HREF="#lbAE">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAF">SEE ALSO</A><DD>
+<DT><A HREF="#lbAG">AUTHOR</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="">man2html</A>,
+using the manual pages.<BR>
+Time: 19:05:09 GMT, September 15, 2003
+</BODY>
+</HTML>

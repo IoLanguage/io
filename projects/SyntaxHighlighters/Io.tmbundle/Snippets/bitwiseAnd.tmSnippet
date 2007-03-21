@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string>bitwiseAnd($0)</string>
+	<key>name</key>
+	<string>bitwiseAnd</string>
+	<key>scope</key>
+	<string>source.io</string>
+	<key>tabTrigger</key>
+	<string>bit</string>
+	<key>uuid</key>
+	<string>8B212373-5DB1-4144-885C-C6F7BC43E8BA</string>
+</dict>
+</plist>

@@ -1,0 +1,9 @@
+Users of SubEthaEdit and Io should put the package Io.mode in either:
+
+* Library/Application Support/SubEthaEdit/Modes (if you want everyone on your computer to be able to use it)
+
+or
+
+* ~/Library/Application Support/SubEthaEdit/Modes
+
+Jason Grossman

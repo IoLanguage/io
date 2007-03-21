@@ -1,0 +1,319 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glEnable,</STRONG> <STRONG>glDisable</STRONG> -	enable or disable server-side GL
+	  capabilities
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glEnable</STRONG>( GLenum	<EM>cap</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>cap</EM>  Specifies a symbolic constant indicating	a GL
+	       capability.
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glDisable</STRONG>( GLenum <EM>cap</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>cap</EM>  Specifies a symbolic constant indicating	a GL
+	       capability.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glEnable</STRONG> and <STRONG>glDisable</STRONG> enable	and disable various
+	  capabilities.	 Use <STRONG>glIsEnabled</STRONG> or <STRONG>glGet</STRONG> to determine the
+	  current setting of any capability. The initial value for
+	  each capability with the exception of	<STRONG>GL_DITHER</STRONG> is <STRONG>GL_FALSE</STRONG>.
+	  The initial value for	<STRONG>GL_DITHER</STRONG> is <STRONG>GL_TRUE</STRONG>.
+
+	  Both <STRONG>glEnable</STRONG>	and <STRONG>glDisable</STRONG> take a single argument, <EM>cap</EM>,
+	  which	can assume one of the following	values:
+
+	  <STRONG>GL_ALPHA_TEST</STRONG>		   If enabled, do alpha	testing. See
+				   <STRONG>glAlphaFunc</STRONG>.
+
+	  <STRONG>GL_AUTO_NORMAL</STRONG>	   If enabled, generate	normal vectors
+				   when	either <STRONG>GL_MAP2_VERTEX_3</STRONG>	or
+				   <STRONG>GL_MAP2_VERTEX_4</STRONG> is used to
+				   generate vertices. See <STRONG>glMap2</STRONG>.
+
+	  <STRONG>GL_BLEND</STRONG>		   If enabled, blend the incoming RGBA
+				   color values	with the values	in the
+				   color buffers. See <STRONG>glBlendFunc</STRONG>.
+
+	  <STRONG>GL_CLIP_PLANE</STRONG><EM>i</EM>	   If enabled, clip geometry against
+				   user-defined	clipping plane <EM>i</EM>.  See
+				   <STRONG>glClipPlane</STRONG>.
+
+	  <STRONG>GL_COLOR_LOGIC_OP</STRONG>	   If enabled, apply the currently
+				   selected logical operation to the
+				   incoming RGBA color and color
+				   buffer values. See <STRONG>glLogicOp</STRONG>.
+
+	  <STRONG>GL_COLOR_MATERIAL</STRONG>	   If enabled, have one	or more
+				   material parameters track the
+				   current color.  See
+				   <STRONG>glColorMaterial</STRONG>.
+
+	  <STRONG>GL_CULL_FACE</STRONG>		   If enabled, cull polygons based on
+				   their winding in window
+				   coordinates.	See <STRONG>glCullFace</STRONG>.
+
+	  <STRONG>GL_DEPTH_TEST</STRONG>		   If enabled, do depth	comparisons
+				   and update the depth	buffer.	Note
+				   that	even if	the depth buffer
+				   exists and the depth	mask is	non-
+				   zero, the depth buffer is not
+				   updated if the depth	test is
+				   disabled. See <STRONG>glDepthFunc</STRONG> and
+				   <STRONG>glDepthRange</STRONG>.
+
+	  <STRONG>GL_DITHER</STRONG>		   If enabled, dither color components
+				   or indices before they are written
+				   to the color	buffer.
+
+	  <STRONG>GL_FOG</STRONG>		   If enabled, blend a fog color into
+				   the posttexturing color.  See
+				   <STRONG>glFog</STRONG>.
+
+	  <STRONG>GL_INDEX_LOGIC_OP</STRONG>	   If enabled, apply the currently
+				   selected logical operation to the
+				   incoming index and color buffer
+				   indices. See
+				   <STRONG>glLogicOp</STRONG>.
+
+	  <STRONG>GL_LIGHT</STRONG><EM>i</EM>		   If enabled, include light <EM>i</EM> in the
+				   evaluation of the lighting
+				   equation. See <STRONG>glLightModel</STRONG> and
+				   <STRONG>glLight</STRONG>.
+
+	  <STRONG>GL_LIGHTING</STRONG>		   If enabled, use the current
+				   lighting parameters to compute the
+				   vertex color	or index.  Otherwise,
+				   simply associate the	current	color
+				   or index with each vertex. See
+				   <STRONG>glMaterial</STRONG>, <STRONG>glLightModel</STRONG>, and
+				   <STRONG>glLight</STRONG>.
+
+	  <STRONG>GL_LINE_SMOOTH</STRONG>	   If enabled, draw lines with correct
+				   filtering.  Otherwise, draw aliased
+				   lines.  See <STRONG>glLineWidth</STRONG>.
+
+	  <STRONG>GL_LINE_STIPPLE</STRONG>	   If enabled, use the current line
+				   stipple pattern when	drawing	lines.
+				   See <STRONG>glLineStipple</STRONG>.
+
+	  <STRONG>GL_MAP1_COLOR_4</STRONG>	   If enabled, calls to	<STRONG>glEvalCoord1</STRONG>,
+				   <STRONG>glEvalMesh1</STRONG>,	and <STRONG>glEvalPoint1</STRONG>
+				   generate RGBA values.  See <STRONG>glMap1</STRONG>.
+
+	  <STRONG>GL_MAP1_INDEX</STRONG>		   If enabled, calls to	<STRONG>glEvalCoord1</STRONG>,
+				   <STRONG>glEvalMesh1</STRONG>,	and <STRONG>glEvalPoint1</STRONG>
+				   generate color indices.  See
+				   <STRONG>glMap1</STRONG>.
+
+	  <STRONG>GL_MAP1_NORMAL</STRONG>	   If enabled, calls to	<STRONG>glEvalCoord1</STRONG>,
+				   <STRONG>glEvalMesh1</STRONG>,	and <STRONG>glEvalPoint1</STRONG>
+				   generate normals.  See <STRONG>glMap1</STRONG>.
+
+	  <STRONG>GL_MAP1_TEXTURE_COORD_1</STRONG>  If enabled, calls to	<STRONG>glEvalCoord1</STRONG>,
+				   <STRONG>glEvalMesh1</STRONG>,	and <STRONG>glEvalPoint1</STRONG>
+				   generate <EM>s</EM> texture coordinates.
+				   See <STRONG>glMap1</STRONG>.
+
+	  <STRONG>GL_MAP1_TEXTURE_COORD_2</STRONG>  If enabled, calls to	<STRONG>glEvalCoord1</STRONG>,
+				   <STRONG>glEvalMesh1</STRONG>,	and <STRONG>glEvalPoint1</STRONG>
+				   generate <EM>s</EM> and <EM>t</EM> texture
+				   coordinates.	 See <STRONG>glMap1</STRONG>.
+
+	  <STRONG>GL_MAP1_TEXTURE_COORD_3</STRONG>  If enabled, calls to	<STRONG>glEvalCoord1</STRONG>,
+				   <STRONG>glEvalMesh1</STRONG>,	and <STRONG>glEvalPoint1</STRONG>
+				   generate <EM>s</EM>, <EM>t</EM>, and <EM>r</EM>	texture
+				   coordinates.	 See <STRONG>glMap1</STRONG>.
+
+	  <STRONG>GL_MAP1_TEXTURE_COORD_4</STRONG>  If enabled, calls to	<STRONG>glEvalCoord1</STRONG>,
+				   <STRONG>glEvalMesh1</STRONG>,	and <STRONG>glEvalPoint1</STRONG>
+				   generate <EM>s</EM>, <EM>t</EM>, <EM>r</EM>, and <EM>q</EM> texture
+				   coordinates.	 See <STRONG>glMap1</STRONG>.
+
+	  <STRONG>GL_MAP1_VERTEX_3</STRONG>	   If enabled, calls to	<STRONG>glEvalCoord1</STRONG>,
+				   <STRONG>glEvalMesh1</STRONG>,	and <STRONG>glEvalPoint1</STRONG>
+				   generate <EM>x</EM>, <EM>y</EM>, and <EM>z</EM>	vertex
+				   coordinates.	 See <STRONG>glMap1</STRONG>.
+
+	  <STRONG>GL_MAP1_VERTEX_4</STRONG>	   If enabled, calls to	<STRONG>glEvalCoord1</STRONG>,
+				   <STRONG>glEvalMesh1</STRONG>,	and <STRONG>glEvalPoint1</STRONG>
+				   generate homogeneous	<EM>x</EM>, <EM>y</EM>, <EM>z</EM>, and <EM>w</EM>
+				   vertex coordinates.	See <STRONG>glMap1</STRONG>.
+
+	  <STRONG>GL_MAP2_COLOR_4</STRONG>	   If enabled, calls to	<STRONG>glEvalCoord2</STRONG>,
+				   <STRONG>glEvalMesh2</STRONG>,	and <STRONG>glEvalPoint2</STRONG>
+				   generate RGBA values.  See <STRONG>glMap2</STRONG>.
+
+	  <STRONG>GL_MAP2_INDEX</STRONG>		   If enabled, calls to	<STRONG>glEvalCoord2</STRONG>,
+				   <STRONG>glEvalMesh2</STRONG>,	and <STRONG>glEvalPoint2</STRONG>
+				   generate color indices.  See
+				   <STRONG>glMap2</STRONG>.
+
+	  <STRONG>GL_MAP2_NORMAL</STRONG>	   If enabled, calls to	<STRONG>glEvalCoord2</STRONG>,
+				   <STRONG>glEvalMesh2</STRONG>,	and <STRONG>glEvalPoint2</STRONG>
+				   generate normals.  See <STRONG>glMap2</STRONG>.
+
+	  <STRONG>GL_MAP2_TEXTURE_COORD_1</STRONG>  If enabled, calls to	<STRONG>glEvalCoord2</STRONG>,
+				   <STRONG>glEvalMesh2</STRONG>,	and <STRONG>glEvalPoint2</STRONG>
+				   generate <EM>s</EM> texture coordinates.
+				   See <STRONG>glMap2</STRONG>.
+
+	  <STRONG>GL_MAP2_TEXTURE_COORD_2</STRONG>  If enabled, calls to	<STRONG>glEvalCoord2</STRONG>,
+				   <STRONG>glEvalMesh2</STRONG>,	and <STRONG>glEvalPoint2</STRONG>
+				   generate <EM>s</EM> and <EM>t</EM> texture
+				   coordinates.	 See <STRONG>glMap2</STRONG>.
+
+	  <STRONG>GL_MAP2_TEXTURE_COORD_3</STRONG>  If enabled, calls to	<STRONG>glEvalCoord2</STRONG>,
+				   <STRONG>glEvalMesh2</STRONG>,	and <STRONG>glEvalPoint2</STRONG>
+				   generate <EM>s</EM>, <EM>t</EM>, and <EM>r</EM>	texture
+				   coordinates.	 See <STRONG>glMap2</STRONG>.
+
+	  <STRONG>GL_MAP2_TEXTURE_COORD_4</STRONG>  If enabled, calls to	<STRONG>glEvalCoord2</STRONG>,
+				   <STRONG>glEvalMesh2</STRONG>,	and <STRONG>glEvalPoint2</STRONG>
+				   generate <EM>s</EM>, <EM>t</EM>, <EM>r</EM>, and <EM>q</EM> texture
+				   coordinates.	 See <STRONG>glMap2</STRONG>.
+
+	  <STRONG>GL_MAP2_VERTEX_3</STRONG>	   If enabled, calls to	<STRONG>glEvalCoord2</STRONG>,
+				   <STRONG>glEvalMesh2</STRONG>,	and <STRONG>glEvalPoint2</STRONG>
+				   generate <EM>x</EM>, <EM>y</EM>, and <EM>z</EM>	vertex
+				   coordinates.	 See <STRONG>glMap2</STRONG>.
+
+	  <STRONG>GL_MAP2_VERTEX_4</STRONG>	   If enabled, calls to	<STRONG>glEvalCoord2</STRONG>,
+				   <STRONG>glEvalMesh2</STRONG>,	and <STRONG>glEvalPoint2</STRONG>
+				   generate homogeneous	<EM>x</EM>, <EM>y</EM>, <EM>z</EM>, and <EM>w</EM>
+				   vertex coordinates.	See <STRONG>glMap2</STRONG>.
+
+	  <STRONG>GL_NORMALIZE</STRONG>		   If enabled, normal vectors
+				   specified with <STRONG>glNormal</STRONG> are scaled
+				   to unit length after
+				   transformation. See <STRONG>glNormal</STRONG>.
+
+	  <STRONG>GL_POINT_SMOOTH</STRONG>	   If enabled, draw points with	proper
+				   filtering.  Otherwise, draw aliased
+				   points.  See	<STRONG>glPointSize</STRONG>.
+
+	  <STRONG>GL_POLYGON_OFFSET_FILL</STRONG>   If enabled, and if the polygon is
+				   rendered in <STRONG>GL_FILL</STRONG> mode, an	offset
+				   is added to depth values of a
+				   polygon's fragments before the
+				   depth comparison is performed. See
+				   <STRONG>glPolygonOffset</STRONG>.
+
+	  <STRONG>GL_POLYGON_OFFSET_LINE</STRONG>   If enabled, and if the polygon is
+				   rendered in <STRONG>GL_LINE</STRONG> mode, an	offset
+				   is added to depth values of a
+				   polygon's fragments before the
+				   depth comparison is performed. See
+				   <STRONG>glPolygonOffset</STRONG>.
+
+	  <STRONG>GL_POLYGON_OFFSET_POINT</STRONG>  If enabled, an offset is added to
+				   depth values	of a polygon's
+				   fragments before the	depth
+				   comparison is performed, if the
+				   polygon is rendered in <STRONG>GL_POINT</STRONG>
+				   mode. See
+				   <STRONG>glPolygonOffset</STRONG>.
+
+	  <STRONG>GL_POLYGON_SMOOTH</STRONG>	   If enabled, draw polygons with
+				   proper filtering.  Otherwise, draw
+				   aliased polygons. For correct
+				   anti-aliased	polygons, an alpha
+				   buffer is needed and	the polygons
+				   must	be sorted front	to back.
+
+	  <STRONG>GL_POLYGON_STIPPLE</STRONG>	   If enabled, use the current polygon
+				   stipple pattern when	rendering
+				   polygons. See <STRONG>glPolygonStipple</STRONG>.
+
+	  <STRONG>GL_SCISSOR_TEST</STRONG>	   If enabled, discard fragments that
+				   are outside the scissor rectangle.
+				   See <STRONG>glScissor</STRONG>.
+
+	  <STRONG>GL_STENCIL_TEST</STRONG>	   If enabled, do stencil testing and
+				   update the stencil buffer. See
+				   <STRONG>glStencilFunc</STRONG> and <STRONG>glStencilOp</STRONG>.
+
+	  <STRONG>GL_TEXTURE_1D</STRONG>		   If enabled, one-dimensional
+				   texturing is	performed (unless
+				   two-dimensional texturing is	also
+				   enabled). See <STRONG>glTexImage1D</STRONG>.
+
+	  <STRONG>GL_TEXTURE_2D</STRONG>		   If enabled, two-dimensional
+				   texturing is	performed. See
+				   <STRONG>glTexImage2D</STRONG>.
+
+	  <STRONG>GL_TEXTURE_GEN_Q</STRONG>	   If enabled, the <EM>q</EM> texture
+				   coordinate is computed using	the
+				   texture generation function defined
+				   with	<STRONG>glTexGen</STRONG>.  Otherwise, the
+				   current <EM>q</EM> texture coordinate	is
+				   used.  See <STRONG>glTexGen</STRONG>.
+
+	  <STRONG>GL_TEXTURE_GEN_R</STRONG>	   If enabled, the <EM>r</EM> texture
+				   coordinate is computed using	the
+				   texture generation function defined
+				   with	<STRONG>glTexGen</STRONG>.  Otherwise, the
+				   current <EM>r</EM> texture coordinate	is
+				   used.  See <STRONG>glTexGen</STRONG>.
+
+	  <STRONG>GL_TEXTURE_GEN_S</STRONG>	   If enabled, the <EM>s</EM> texture
+				   coordinate is computed using	the
+				   texture generation function defined
+				   with	<STRONG>glTexGen</STRONG>.  Otherwise, the
+				   current <EM>s</EM> texture coordinate	is
+				   used. See <STRONG>glTexGen</STRONG>.
+
+	  <STRONG>GL_TEXTURE_GEN_T</STRONG>	   If enabled, the <EM>t</EM> texture
+				   coordinate is computed using	the
+				   texture generation function defined
+				   with	<STRONG>glTexGen</STRONG>.  Otherwise, the
+				   current <EM>t</EM> texture coordinate	is
+				   used.  See <STRONG>glTexGen</STRONG>.
+
+     <STRONG>NOTES</STRONG>
+	  <STRONG>GL_POLYGON_OFFSET_FILL</STRONG>, <STRONG>GL_POLYGON_OFFSET_LINE</STRONG>,
+	  <STRONG>GL_POLYGON_OFFSET_POINT</STRONG>, <STRONG>GL_COLOR_LOGIC_OP</STRONG>, and
+	  <STRONG>GL_INDEX_LOGIC_OP</STRONG> are	only available if the GL version is
+	  1.1 or greater.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>cap</EM> is not one of the	values
+	  listed previously.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glEnable</STRONG>	or <STRONG>glDisable</STRONG>
+	  is executed between the execution of <STRONG>glBegin</STRONG> and the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glAlphaFunc</STRONG>, <STRONG>glBlendFunc</STRONG>, <STRONG>glClipPlane</STRONG>, <STRONG>glColorMaterial</STRONG>,
+	  <STRONG>glCullFace</STRONG>,
+	  <STRONG>glDepthFunc</STRONG>, <STRONG>glDepthRange</STRONG>, <STRONG>glEnableClientState</STRONG>, <STRONG>glFog</STRONG>,
+	  <STRONG>glGet</STRONG>, <STRONG>glIsEnabled</STRONG>, <STRONG>glLight</STRONG>, <STRONG>glLightModel</STRONG>, <STRONG>glLineWidth</STRONG>,
+	  <STRONG>glLineStipple</STRONG>, <STRONG>glLogicOp</STRONG>, <STRONG>glMap1</STRONG>, <STRONG>glMap2</STRONG>, <STRONG>glMaterial</STRONG>,
+	  <STRONG>glNormal</STRONG>, <STRONG>glPointSize</STRONG>, <STRONG>glPolygonMode</STRONG>,	<STRONG>glPolygonOffset</STRONG>,
+	  <STRONG>glPolygonStipple</STRONG>, <STRONG>glScissor</STRONG>, <STRONG>glStencilFunc</STRONG>, <STRONG>glStencilOp</STRONG>,
+	  <STRONG>glTexGen</STRONG>, <STRONG>glTexImage1D</STRONG>, <STRONG>glTexImage2D</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

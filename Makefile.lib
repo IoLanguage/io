@@ -1,0 +1,179 @@
+ifeq ($(shell [ -f Makefile.local ] && echo true),true)
+ALL_BEGIN := $(MAKE) -f Makefile.local all_begin
+ALL_END := $(MAKE) -f Makefile.local all_end
+MAKE_LOCAL_CLEAN := $(MAKE) -f Makefile.local clean
+else
+ALL_BEGIN := 
+ALL_END := 
+MAKE_LOCAL_CLEAN := 
+endif
+
+#CC ?= g++
+
+RANLIB ?= ranlib
+AR     ?= ar
+ARFLAGS := rcu 
+AROUTFLAG :=
+CCOUTFLAG := -o 
+LINKDLL := $(CC)
+LINKDLLOUTFLAG := -o 
+LINKDIRFLAG := -L
+LINKLIBFLAG := -l
+
+# may need to remove --param max-inline-insns-single=500 for older versions of gccs
+WARN :=-Wstrict-prototypes 
+#-Winline
+#--param max-inline-insns-single=500
+
+#-ansi -pedantic
+OPTIMIZE :=-O3 -g 
+#-msse2 -msse -mmmx
+#OPTIMIZE :=-O3 -ffast-math -ftree-vectorize  -ftree-vectorizer-verbose=4
+DLL_SUFFIX := so
+DLL_COMMAND := -shared
+FLAT_NAMESPACE :=
+dependson := $(shell cat depends)
+
+HEADERS  :=-I. -I/source
+others := $(dependson)
+others := $(addprefix -I../,$(others))
+others := $(addsuffix /_build/headers,$(others))
+HEADERS += $(others)
+
+DLL_L := $(dependson)
+DLL_L := $(addprefix -L../,$(DLL_L))
+DLL_L := $(addsuffix /_build/dll,$(DLL_L))
+
+DLL_l := $(dependson)
+DLL_l := $(addprefix -l,$(DLL_l))
+
+CFLAGS = $(OPTIMIZE) $(WARN) $(HEADERS) #--param max-inline-insns-single=500
+
+# Uncommment for Coros to register their stack with Valgrind
+#CFLAGS += -DUSE_VALGRIND
+
+### PLATFORM #####################################################
+
+SYS ?= $(shell uname -s)
+
+ifeq ($(SYS),Darwin)
+CFLAGS += -falign-loops=16
+CFLAGS += -fPIC
+DLL_SUFFIX := dylib
+DLL_COMMAND := -dynamiclib
+FLAT_NAMESPACE := -flat_namespace
+endif
+
+ifeq ($(SYS),Linux)
+CFLAGS += -falign-loops=16
+CFLAGS += -fPIC
+endif
+
+ifeq ($(SYS),IRIX)
+RANLIB ?= touch
+endif
+
+ifneq (,$(findstring CYGW,$(SYS)))
+DLL_SUFFIX := dll
+endif
+
+ifneq (,$(findstring MINGW,$(SYS)))
+DLL_SUFFIX := dll
+endif
+
+ifneq (,$(findstring Windows,$(SYS)))
+CC := cl -nologo
+CCOUTFLAG :=-Fo
+WARN := 
+OPTIMIZE :=-Zi -MDd -D_USE_MATH_DEFINES -DWIN32 -D_DEBUG -D_CRTDBG_MAP_ALLOC
+AR := link -lib
+AROUTFLAG :=-out:
+ARFLAGS :=
+LINKDLL := link 
+LINKDLLOUTFLAG :=-out:
+LINKDIRFLAG := -libpath:
+LINKLIBFLAG := lib
+DLL_LIB_SUFFIX := .lib
+DLL_COMMAND := -link /INCREMENTAL:NO -subsystem:WINDOWS -machine:X86 -DLL $(DEF_FILE)
+DLL_SUFFIX := dll
+DLL_EXTRAS := ws2_32.lib
+FLAT_NAMESPACE :=
+RANLIB := echo no ranlib
+endif
+
+### FILES #########################################################
+
+NAME    := $(notdir $(subst $() ,_,$(shell pwd)))
+LIBR    := _build/lib/lib$(NAME).a
+DLL     := _build/dll/lib$(NAME).$(DLL_SUFFIX)
+infiles := $(wildcard source/*.c) 
+#infiles += $(wildcard *.S)
+asmfiles := $(wildcard source/*.S)
+hfiles  := $(wildcard source/*.h)
+objects := $(notdir $(infiles))
+objects := $(basename $(objects))
+objects := $(addsuffix .o,$(objects))
+objects := $(addprefix _build/objs/,$(objects))
+
+vmall_objects := $(notdir $(infiles))
+vmall_objects := $(basename $(vmall_objects))
+vmall_objects := $(addsuffix .o,$(vmall_objects))
+vmall_objects := $(addprefix _build/vmall_objs/,$(vmall_objects))
+
+
+DLL_L := $(dependson)
+DLL_L := $(addprefix $(LINKDIRFLAG)../,$(DLL_L))
+DLL_L := $(addsuffix /_build/dll,$(DLL_L))
+
+DLL_l := $(dependson)
+DLL_l := $(addprefix $(LINKLIBFLAG),$(DLL_l))
+DLL_l := $(addsuffix $(DLL_LIB_SUFFIX),$(DLL_l))
+
+DEF_FILE :=
+
+### RULES ###########################################################
+
+all:
+	$(ALL_BEGIN) 
+	mkdir -p _build
+	mkdir -p _build/objs
+	mkdir -p _build/headers
+	mkdir -p _build/lib
+	mkdir -p _build/dll
+	$(MAKE) $(LIBR)
+	$(MAKE) $(DLL) 
+ifneq (,$(findstring Windows,$(SYS)))
+	mkdir -p _build/vmall_objs
+	$(MAKE) vmall_objs
+endif
+ifneq (,$(hfiles))
+	cp $(hfiles) _build/headers
+endif
+	$(ALL_END)
+
+_build/objs/%.o: source/%.c
+	$(CC) -DINSTALL_PREFIX=\"$(INSTALL_PREFIX)\" $(CFLAGS) -c $< $(CCOUTFLAG)$@
+
+_build/vmall_objs/%.o: source/%.c
+	$(CC) -DINSTALL_PREFIX=\"$(INSTALL_PREFIX)\" $(CFLAGS) \
+        -DBUILDING_IOVMALL_DLL -c $< $(CCOUTFLAG)$@
+
+
+_build/vmall_objs:
+	mkdir -p $@
+
+vmall_objs: _build/vmall_objs $(vmall_objects)
+
+$(LIBR): $(objects)
+ifneq ($(asmfiles),)
+	$(CC) $(CFLAGS) -c $(asmfiles) $(CCOUTFLAG)_build/objs/asm.o || true
+endif
+	$(AR) $(ARFLAGS) $(AROUTFLAG)$@ _build/objs/*.o
+	$(RANLIB) $@
+
+$(DLL): $(objects)
+	$(LINKDLL) $(DLL_COMMAND) $(FLAT_NAMESPACE) $(DLL_L) _build/objs/*.o $(LINKDLLOUTFLAG)$(DLL) $(DLL_l) $(DLL_EXTRAS)
+
+clean:
+	rm -rf _build
+	$(MAKE_LOCAL_CLEAN)

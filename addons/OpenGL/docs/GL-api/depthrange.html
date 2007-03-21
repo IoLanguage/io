@@ -1,0 +1,58 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glDepthRange</STRONG> - specify mapping of depth values from
+	  normalized device coordinates	to window coordinates
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glDepthRange</STRONG>( GLclampd <EM>zNear</EM>,
+			     GLclampd <EM>zFar</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>zNear</EM>	 Specifies the mapping of the near clipping plane to
+		 window	coordinates.  The initial value	is 0.
+
+	  <EM>zFar</EM>	 Specifies the mapping of the far clipping plane to
+		 window	coordinates.  The initial value	is 1.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  After	clipping and division by <EM>w</EM>, depth coordinates range
+	  from -1 to 1,	corresponding to the near and far clipping
+	  planes.  <STRONG>glDepthRange</STRONG>	specifies a linear mapping of the
+	  normalized depth coordinates in this range to	window depth
+	  coordinates.	Regardless of the actual depth buffer
+	  implementation, window coordinate depth values are treated
+	  as though they range from 0 through 1	(like color
+	  components).	Thus, the values accepted by <STRONG>glDepthRange</STRONG> are
+	  both clamped to this range before they are accepted.
+
+	  The setting of (0,1) maps the	near plane to 0	and the	far
+	  plane	to 1.  With this mapping, the depth buffer range is
+	  fully	utilized.
+
+     <STRONG>NOTES</STRONG>
+	  It is	not necessary that <EM>zNear</EM> be less than <EM>zFar</EM>.  Reverse
+	  mappings such	as zNear=1, and	zFar=0 are acceptable.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glDepthRange</STRONG> is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_DEPTH_RANGE</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glDepthFunc</STRONG>, <STRONG>glPolygonOffset</STRONG>,	<STRONG>glViewport</STRONG>
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

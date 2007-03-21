@@ -1,0 +1,58 @@
+
+<HTML><HEAD><TITLE>Manpage of glutRemoveLayer</TITLE>
+</HEAD><BODY>
+<H1>glutRemoveLayer</H1>
+Section: GLUT (3GLUT)<BR>Updated: 3.7<BR><A HREF="#index">Index</A>
+<A HREF="">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+glutRemoveOverlay - removes the overlay (if one exists) from the current window. 
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNTAX</H2>
+
+<PRE>
+
+void glutRemoveOverlay(void);
+</PRE>
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+glutRemoveOverlay removes the overlay (if one exists). It is safe
+to call glutRemoveOverlay even if no overlay is currently
+established--it does nothing in this case. Implicitly, the window's
+layer in use changes to the normal plane immediately once the
+overlay is removed. 
+
+If the program intends to re-establish the overlay later, it is typically
+faster and less resource intensive to use glutHideOverlay and
+glutShowOverlay to simply change the display status of the
+overlay. 
+<A NAME="lbAE">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+glutEstablishOverlay, glutDestroyWindow
+<A NAME="lbAF">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Mark J. Kilgard (<A HREF="mailto:mjk@nvidia.com">mjk@nvidia.com</A>)
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNTAX</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">SEE ALSO</A><DD>
+<DT><A HREF="#lbAF">AUTHOR</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="">man2html</A>,
+using the manual pages.<BR>
+Time: 19:05:09 GMT, September 15, 2003
+</BODY>
+</HTML>

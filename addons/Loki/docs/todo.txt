@@ -1,0 +1,28 @@
+Loki - binary toolbox -- todo list
+==================================
+	
+-- Refactor Assembler/CodeGenerator/Primitives
+	o improve independance/reentrency of each stage (more files ?)
+	o improve speed, cleanup code, compress
+	
+-- Add functionnality to Assembler
+	o PPC assembly
+	o implement x86 diassembler
+	
+-- Add stuff to Primitives
+	o 64 bit & 128 bit SIMD support (8-128 bit integer, 32/64 bit fp)
+	
+-- Better interaction with C code
+	o C backend to Loki primitives
+	o C to Loki translation
+	o C headers symbolic parser (typedefs, structs, function signatures)
+	
+-- Improve mapping to IoVM core 
+	o Define an interface of function pointers
+	o Write a set of primitives dedicated to Io (IoBridge)
+	
+-- Write documentation/examples
+	o Use language shootout as a demonstration
+	o How to write new objects
+	o How to make bindings with dynamic libs
+	o Documentation for the primitives & the engine internals

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "symbol.dtd">
+    <!-- 
+    The <symbol> tag specifies what is being shown in the fuction popup.
+    It features the following attributes, all optional if not noted otherwise:
+        id
+            Has to be a unique string. Has to be specified.
+        image
+            Specify an image includes in the application (no extension) or
+            specify an image in this modes Resources directory (with extension)
+            SubEthaEdit comes with the following images:
+            Symbol#, SymbolC, SymbolE, SymbolF, SymbolF(), SymbolG, SymbolK,
+            SymbolL, SymbolM, SymbolP, SymbolS, SymbolT, SymbolV, SymbolWarn
+        indentation
+            0-15    The level of indentation
+        font-weight
+            normal  Normal font-weight (default)
+            bold    Bold text in popup
+        font-style
+            normal  Normal font-weight (default)
+            italic  Bold text in popup
+    -->    
+        
+        <!-- 
+            The regex tag specifies the regular expression that is search for this
+            symbol. It contains a Ruby-flavored regular expression. If groups are
+            specified in the regular expression the first group is used for the
+            find string. Escape unwanted groups with (?:).
+            This tag has to be specified.
+            Tip: Test your expressions with SubEthaEdits "Find All" command.
+            Tip: Case sensitivity can be set to ignore by including (?i) in your
+                 expression.
+        -->
+        
+
+        <!-- 
+            The postprocess tag specifies the find and replaces that should
+            be executed on the found string. You can use groups like \1 and the
+            like. It contains a Ruby-flavored regular expression. 
+            This tag is optional.
+        -->
+        
+<symbols>
+
+    <blocks>
+        <beginregex>(</beginregex>
+        <endregex>)</endregex>
+    </blocks>
+
+    <symbol id="Method" image="pole.gif" indentation="0" ignoreblocks="yes">
+        <regex>^([\w\t ]*):=[ ]*method[ ]*\(</regex>
+    </symbol>
+
+</symbols>

@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glVertexPointer</STRONG> - define an array of vertex data
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glVertexPointer</STRONG>(	GLint <EM>size</EM>,
+				GLenum <EM>type</EM>,
+				GLsizei	<EM>stride</EM>,
+				const GLvoid *<EM>pointer</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>size</EM>	   Specifies the number	of coordinates per vertex;
+		   must	be 2, 3, or 4. The initial value is 4.
+
+	  <EM>type</EM>	   Specifies the data type of each coordinate in the
+		   array.  Symbolic constants <STRONG>GL_SHORT</STRONG>,	<STRONG>GL_INT</STRONG>,
+		   <STRONG>GL_FLOAT</STRONG>, and <STRONG>GL_DOUBLE</STRONG> are accepted. The initial
+		   value is <STRONG>GL_FLOAT</STRONG>.
+
+	  <EM>stride</EM>   Specifies the byte offset between consecutive
+		   vertexes. If	<EM>stride</EM> is 0, the vertexes are
+		   understood to be tightly packed in the array. The
+		   initial value
+		   is 0.
+
+	  <EM>pointer</EM>  Specifies a pointer to the first coordinate of the
+		   first vertex	in the array.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glVertexPointer</STRONG> specifies the	location and data format of an
+	  array	of vertex coordinates to use when rendering.  <EM>size</EM>
+	  specifies the	number of coordinates per vertex and <EM>type</EM> the
+	  data type of the coordinates.	<EM>stride</EM> specifies the byte
+	  stride from one vertex to the	next allowing vertexes and
+	  attributes to	be packed into a single	array or stored	in
+	  separate arrays.  (Single-array storage may be more
+	  efficient on some implementations; see <STRONG>glInterleavedArrays</STRONG>.)
+	  When a vertex	array is specified, <EM>size</EM>, <EM>type</EM>,	<EM>stride</EM>,	and
+	  <EM>pointer</EM> are saved as client-side state.
+
+	  To enable and	disable	the vertex array, call
+	  <STRONG>glEnableClientState</STRONG> and
+	  <STRONG>glDisableClientState</STRONG> with the	argument <STRONG>GL_VERTEX_ARRAY</STRONG>. If
+	  enabled, the vertex array is used when <STRONG>glDrawArrays</STRONG>,
+	  <STRONG>glDrawElements</STRONG>, or <STRONG>glArrayElement</STRONG> is called.
+
+	  Use <STRONG>glDrawArrays</STRONG> to construct	a sequence of primitives (all
+	  of the same type) from prespecified vertex and vertex
+	  attribute arrays.  Use <STRONG>glArrayElement</STRONG>	to specify primitives
+	  by indexing vertexes and vertex attributes  and
+	  <STRONG>glDrawElements</STRONG> to construct a	sequence of primitives by
+	  indexing vertexes and	vertex attributes.
+
+     <STRONG>NOTES</STRONG>
+	  <STRONG>glVertexPointer</STRONG> is available only if the GL version is 1.1
+	  or greater.
+
+	  The vertex array is initially	disabled and isn't accessed
+	  when <STRONG>glArrayElement</STRONG>, <STRONG>glDrawElements</STRONG> or <STRONG>glDrawArrays</STRONG> is
+	  called.
+
+	  Execution of <STRONG>glVertexPointer</STRONG> is not allowed between the
+	  execution of <STRONG>glBegin</STRONG> and the corresponding execution of
+	  <STRONG>glEnd</STRONG>, but an	error may or may not be	generated. If no error
+	  is generated,	the operation is undefined.
+
+	  <STRONG>glVertexPointer</STRONG> is typically implemented on the client side.
+
+	  Vertex array parameters are client-side state	and are
+	  therefore not	saved or restored by <STRONG>glPushAttrib</STRONG> and
+	  <STRONG>glPopAttrib</STRONG>.	Use <STRONG>glPushClientAttrib</STRONG> and <STRONG>glPopClientAttrib</STRONG>
+	  instead.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if <EM>size</EM>	is not 2, 3, or	4.
+
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>type</EM> is is not an accepted
+	  value.
+
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if <EM>stride</EM> is negative.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glIsEnabled</STRONG> with argument <STRONG>GL_VERTEX_ARRAY</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_VERTEX_ARRAY_SIZE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_VERTEX_ARRAY_TYPE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_VERTEX_ARRAY_STRIDE</STRONG>
+	  <STRONG>glGetPointerv</STRONG>	with argument <STRONG>GL_VERTEX_ARRAY_POINTER</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glArrayElement</STRONG>, <STRONG>glColorPointer</STRONG>, <STRONG>glDrawArrays</STRONG>,
+	  <STRONG>glDrawElements</STRONG>,
+	  <STRONG>glEdgeFlagPointer</STRONG>, <STRONG>glEnable</STRONG>, <STRONG>glGetPointerv</STRONG>, <STRONG>glIndexPointer</STRONG>,
+	  <STRONG>glInterleavedArrays</STRONG>, <STRONG>glNormalPointer</STRONG>,	<STRONG>glPopClientAttrib</STRONG>,
+	  <STRONG>glPushClientAttrib</STRONG>, <STRONG>glTexCoordPointer</STRONG>
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

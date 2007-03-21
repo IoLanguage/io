@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glArrayElement</STRONG> - render a vertex using the specified vertex
+	  array	element
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glArrayElement</STRONG>( GLint <EM>i</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>i</EM>  Specifies an index	into the enabled vertex	data arrays.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glArrayElement</STRONG> commands are used within <STRONG>glBegin</STRONG>/<STRONG>glEnd</STRONG>	pairs
+	  to specify vertex and	attribute data for point, line,	and
+	  polygon primitives. If <STRONG>GL_VERTEX_ARRAY</STRONG> is enabled when
+	  <STRONG>glArrayElement</STRONG> is called, a single vertex is drawn, using
+	  vertex and attribute data taken from location	<EM>i</EM> of the
+	  enabled arrays. If <STRONG>GL_VERTEX_ARRAY</STRONG> is	not enabled, no
+	  drawing occurs but the attributes corresponding to the
+	  enabled arrays are modified.
+
+	  Use <STRONG>glArrayElement</STRONG> to	construct primitives by	indexing
+	  vertex data, rather than by streaming	through	arrays of data
+	  in first-to-last order. Because each call specifies only a
+	  single vertex, it is possible	to explicitly specify per-
+	  primitive attributes such as a single	normal per individual
+	  triangle.
+
+	  Changes made to array	data between the execution of <STRONG>glBegin</STRONG>
+	  and the corresponding	execution of <STRONG>glEnd</STRONG> may affect calls to
+	  <STRONG>glArrayElement</STRONG> that are made within the same <STRONG>glBegin</STRONG>/<STRONG>glEnd</STRONG>
+	  period in non-sequential ways.  That is, a call to
+	  <STRONG>glArrayElement</STRONG> that precedes a change	to array data may
+	  access the changed data, and a call that follows a change to
+	  array	data may access	original data.
+
+     <STRONG>NOTES</STRONG>
+	  <STRONG>glArrayElement</STRONG> is available only if the GL version is	1.1 or
+	  greater.
+
+	  <STRONG>glArrayElement</STRONG> is included in	display	lists. If
+	  <STRONG>glArrayElement</STRONG> is entered into a display list, the necessary
+	  array	data (determined by the	array pointers and enables) is
+	  also entered into the	display	list. Because the array
+	  pointers and enables are client-side state, their values
+	  affect display lists when the	lists are created, not when
+	  the lists are	executed.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glColorPointer</STRONG>, <STRONG>glDrawArrays</STRONG>,	<STRONG>glEdgeFlagPointer</STRONG>,
+	  <STRONG>glGetPointerv</STRONG>,
+	  <STRONG>glIndexPointer</STRONG>, <STRONG>glInterleavedArrays</STRONG>, <STRONG>glNormalPointer</STRONG>,
+	  <STRONG>glTexCoordPointer</STRONG>, <STRONG>glVertexPointer</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

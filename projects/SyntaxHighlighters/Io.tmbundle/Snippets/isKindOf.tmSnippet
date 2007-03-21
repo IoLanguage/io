@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string>isKindOf(${1:AnObject})</string>
+	<key>name</key>
+	<string>isKindOf</string>
+	<key>scope</key>
+	<string>source.io</string>
+	<key>tabTrigger</key>
+	<string>isK</string>
+	<key>uuid</key>
+	<string>C9AC7A12-78D9-429C-9C94-33310292F300</string>
+</dict>
+</plist>

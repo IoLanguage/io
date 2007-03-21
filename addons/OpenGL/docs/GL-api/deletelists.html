@@ -1,0 +1,58 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glDeleteLists</STRONG>	- delete a contiguous group of display lists
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glDeleteLists</STRONG>( GLuint <EM>list</EM>,
+			      GLsizei <EM>range</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>list</EM>	 Specifies the integer name of the first display list
+		 to delete.
+
+	  <EM>range</EM>	 Specifies the number of display lists to delete.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glDeleteLists</STRONG>	causes a contiguous group of display lists to
+	  be deleted.  <EM>list</EM> is the name	of the first display list to
+	  be deleted, and <EM>range</EM>	is the number of display lists to
+	  delete.  All display lists <EM>d</EM> with <EM>list</EM> <EM>&lt;</EM> <EM>d</EM> <EM>&lt;</EM> <EM>list</EM> + <EM>range</EM> -
+	  1 are	deleted.
+
+	  All storage locations	allocated to the specified display
+	  lists	are freed, and the names are available for reuse at a
+	  later	time.  Names within the	range that do not have an
+	  associated display list are ignored.	If <EM>range</EM> is 0, nothing
+	  happens.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if <EM>range</EM> is negative.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glDeleteLists</STRONG> is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glCallList</STRONG>, <STRONG>glCallLists</STRONG>, <STRONG>glGenLists</STRONG>, <STRONG>glIsList</STRONG>, <STRONG>glNewList</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

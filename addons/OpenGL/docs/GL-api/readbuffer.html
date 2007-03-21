@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glReadBuffer</STRONG> - select	a color	buffer source for pixels
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glReadBuffer</STRONG>( GLenum <EM>mode</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>mode</EM>	Specifies a color buffer.  Accepted values are
+		<STRONG>GL_FRONT_LEFT</STRONG>, <STRONG>GL_FRONT_RIGHT</STRONG>, <STRONG>GL_BACK_LEFT</STRONG>,
+		<STRONG>GL_BACK_RIGHT</STRONG>, <STRONG>GL_FRONT</STRONG>, <STRONG>GL_BACK</STRONG>, <STRONG>GL_LEFT</STRONG>, <STRONG>GL_RIGHT</STRONG>,
+		and <STRONG>GL_AUX</STRONG><EM>i</EM>, where <EM>i</EM> is	between	0 and <STRONG>GL_AUX_BUFFERS</STRONG>
+		-1.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glReadBuffer</STRONG> specifies a color buffer	as the source for
+	  subsequent <STRONG>glReadPixels</STRONG>, <STRONG>glCopyTexImage1D</STRONG>, <STRONG>glCopyTexImage2D</STRONG>,
+	  <STRONG>glCopyTexSubImage1D</STRONG>, <STRONG>glCopyTexSubImage2D</STRONG>, and	<STRONG>glCopyPixels</STRONG>
+	  commands. <EM>mode</EM> accepts one of	twelve or more predefined
+	  values.  (<STRONG>GL_AUX0</STRONG> through <STRONG>GL_AUX3</STRONG> are	always defined.)  In a
+	  fully	configured system, <STRONG>GL_FRONT</STRONG>, <STRONG>GL_LEFT</STRONG>, and
+	  <STRONG>GL_FRONT_LEFT</STRONG>	all name the front left	buffer,	<STRONG>GL_FRONT_RIGHT</STRONG>
+	  and <STRONG>GL_RIGHT</STRONG> name the	front right buffer, and	<STRONG>GL_BACK_LEFT</STRONG>
+	  and <STRONG>GL_BACK</STRONG> name the back left buffer.
+
+	  Nonstereo double-buffered configurations have	only a front
+	  left and a back left buffer.	Single-buffered	configurations
+	  have a front left and	a front	right buffer if	stereo,	and
+	  only a front left buffer if nonstereo.  It is	an error to
+	  specify a nonexistent	buffer to <STRONG>glReadBuffer</STRONG>.
+
+	  <EM>mode</EM> is initially <STRONG>GL_FRONT</STRONG> in	single-buffered
+	  configurations, and <STRONG>GL_BACK</STRONG> in double-buffered
+	  configurations.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>mode</EM> is not one of the
+	  twelve (or more) accepted values.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <EM>mode</EM> specifies a	buffer
+	  that does not	exist.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glReadBuffer</STRONG> is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_READ_BUFFER</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glCopyPixels</STRONG>,	<STRONG>glCopyTexImage1D</STRONG>, <STRONG>glCopyTexImage2D</STRONG>,
+	  <STRONG>glCopyTexSubImage1D</STRONG>, <STRONG>glCopyTexSubImage2D</STRONG>, <STRONG>glDrawBuffer</STRONG>,
+	  <STRONG>glReadPixels</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

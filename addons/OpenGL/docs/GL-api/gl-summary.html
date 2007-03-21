@@ -1,0 +1,246 @@
+<html><head><title>OpenGL Function Calls</title></head>
+<body bgcolor="#ffffff">
+
+<h2>OpenGL Function Calls</h2>
+
+<hr><p>
+
+<dl>
+
+<dd><b>Primitives</b>
+
+<ul>
+<li>void <b>glBegin</b> (GLenum mode)
+<li>void <b>glEdgeFlag</b> (GLboolean flag)
+<li>void <b>glEdgeFlagv</b> (const GLboolean *flag)
+<li>void <b>glEnd</b> (void)
+<li>extern void <b>glPolygonOffset</b> (GLfloat factor, GLfloat units)
+<li>void <b>glRect</b> (TYPE x1, TYPE y1, TYPE x2, TYPE y2)
+<li>void <b>glRectv</b> (const TYPE *v1, const TYPE *v2)
+<li>void <b>glVertex2</b> (TYPE x, TYPE y)
+<li>void <b>glVertex3</b> (TYPE x, TYPE y, TYPE z)
+<li>void <b>glVertex4</b> (TYPE x, TYPE y, TYPE z, TYPE w)
+
+</ul><p>
+
+<dd><b>Vertex Arrays</b>
+
+<ul>
+<li>extern void <b>glArrayElement</b> (GLint i)
+<li>extern void <b>glColorPointer</b> (GLint size, GLenum type, GLsizei stride, const GLvoid *pointer)
+<li>extern void <b>glDisableClientState</b> (GLenum array)
+<li>extern void <b>glDrawArrays</b> (GLenum mode, GLint first, GLsizei count)
+<li>extern void <b>glDrawElements</b> (GLenum mode, GLsizei count, GLenum type, const GLvoid *indices)
+<li>extern void <b>glEdgeFlagPointer</b> (GLsizei stride, const GLvoid *pointer)
+<li>extern void <b>glEnableClientState</b> (GLenum array)
+<li>extern void <b>glIndexPointer</b> (GLenum type, GLsizei stride, const GLvoid *pointer)
+<li>extern void <b>glInterleavedArrays</b> (GLenum format, GLsizei stride, const GLvoid *pointer)
+<li>extern void <b>glNormalPointer</b> (GLenum type, GLsizei stride, const GLvoid *pointer)
+<li>extern void <b>glTexCoordPointer</b> (GLint size, GLenum type, GLsizei stride, const GLvoid *pointer)
+<li>extern void <b>glVertexPointer</b> (GLint size, GLenum type, GLsizei stride, const GLvoid *pointer)
+
+</ul><p>
+
+<dd><b>Coordinate Transformation</b>
+
+<ul>
+<li>void <b>glDepthRange</b> (GLclampd near, GLclampd far)
+<li>void <b>glFrustum</b> (GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble near, GLdouble far)
+<li>void <b>glLoadIdentity</b> (void)
+<li>void <b>glLoadMatrix</b> (const TYPE *m)
+<li>void <b>glMatrixMode</b> (GLenum mode)
+<li>void <b>glMultMatrix</b> (const TYPE *m)
+<li>void <b>glOrtho</b> (GLdouble left, GLdouble right, GLdouble bottom, GLdouble top, GLdouble near, GLdouble far)
+<li>void <b>glPopMatrix</b> (void)
+<li>void <b>glPushMatrix</b> (void)
+<li>void <b>glRotate</b> (TYPE angle, TYPE x, TYPE y, TYPE z)
+<li>void <b>glScale</b> (TYPE x, TYPE y, TYPE z)
+<li>void <b>glTranslate</b> (TYPE x, TYPE y, TYPE z)
+<li>void <b>glViewport</b> (GLint x, GLint y, GLsizei width, GLsizei height)
+</ul><p>
+
+<dd><b>Coloring and Lighting</b>
+
+<ul>
+<li>void <b>glColor3</b> (TYPE red, TYPE green, TYPE blue)
+<li>void <b>glColor4</b> (TYPE red, TYPE green, TYPE blue, TYPE alpha)
+<li>void <b>glColorMaterial</b> (GLenum face, GLenum mode)
+<li>void <b>glFrontFace</b> (GLenum dir)
+<li>void <b>glGetLight</b> (GLenum light, GLenum pname, TYPE *params)
+<li>void <b>glGetMaterial</b> (GLenum face, GLenum pname, TYPE *params)
+<li>void <b>glIndex</b> (TYPE index)
+<li>void <b>glLight</b> (GLenum light, GLenum pname, TYPE param)
+<li>void <b>glLightModel</b> (GLenum pname, TYPE param)
+<li>void <b>glMaterial</b> (GLenum face, GLenum pname, TYPE param)
+<li>void <b>glNormal3</b> (TYPE nx, TYPE ny, TYPE nz)
+<li>void <b>glShadeModel</b> (GLenum mode)
+</ul><p>
+
+<dd><b>Clipping</b>
+
+<ul>
+<li>void <b>glClipPlane</b> (GLenum plane, const GLdouble *equation)
+<li>void <b>glGetClipPlane</b> (GLenum plane, GLdouble *equation)
+</ul><p>
+
+<dd><b>Rasterization</b>
+
+<ul>
+<li>void <b>glBitmap</b> (GLsizei width, GLsizei height, GLfloat xorig, GLfloat yorig, GLfloat xmove, GLfloat ymove, const GLubyte *bitmap)
+<li>void <b>glCullFace</b> (GLenum mode)
+<li>void <b>glGetPolygonStipple</b> (GLubyte *mask)
+<li>void <b>glLineStipple</b> (GLint factor, GLushort pattern)
+<li>void <b>glLineWidth</b> (GLfloat width)
+<li>void <b>glPointSize</b> (GLfloat size)
+<li>void <b>glPolygonMode</b> (GLenum face, GLenum mode)
+<li>void <b>glPolygonStipple</b> (const GLubyte *mask)
+<li>void <b>glRasterPos2</b> (TYPE x, TYPE y)
+<li>void <b>glRasterPos3</b> (TYPE x, TYPE y, TYPE z)
+<li>void <b>glRasterPos4</b> (TYPE x, TYPE y, TYPE z, TYPE w)
+</ul><p>
+
+<dd><b>Pixel Operations</b>
+
+<ul>
+<li>void <b>glCopyPixels</b> (GLint x, GLint y, GLsizei width, GLsizei keight, GLenum type)
+<li>void <b>glDrawPixels</b> (GLsizei width, GLsizei keight, GLenum format, GLenum type, const GLvoid *pixels)
+<li>void <b>glGetPixelMap</b> (GLenum map, TYPE *values)
+<li>void <b>glPixelMap</b> (GLenum map, GLint mapsize, const TYPE *values)
+<li>void <b>glPixelStore</b>  (GLenum pname, TYPE param)
+<li>void <b>glPixelTransfer</b> (GLenum pname, TYPE param)
+<li>void <b>glPixelZoom</b> (GLfloat xfactor, GLfloat yfactor)
+<li>void <b>glReadBuffer</b> (GLenum mode)
+<li>void <b>glReadPixels</b> (GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid *pixels)
+</ul><p>
+
+<dd><b>Textures</b>
+
+<ul>
+<li>GLboolean <b>glAreTexturesResident</b> (GLsizei n, const GLuint *textures, GLboolean *residences)
+<li>void <b>glBindTexture</b> (GLenum target, GLuint texture)
+<li>void <b>glCopyTexSubimage1D</b> (GLenum target, GLint level, GLint xoffset, GLint x, GLint y, GLsizei width)
+<li>void <b>glCopyTexSubimage2D</b> (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height)
+<li>void <b>glCopyTeximage1D</b> (GLenum target, GLint level, GLenum internalFormat, GLint x, GLint GLsizei v, GLint border)
+<li>void <b>glCopyTeximage2D</b> (GLenum target, GLint level, GLenum internalFormat, GLint x, GLint, GLsizei width, GLsizei height, GLint border)
+<li>void <b>glDeleteTextures</b> (GLsizei n, const GLuint *textures)
+<li>void <b>glGenTextures</b> (GLsizei n, GLuint *textures)
+<li>void <b>glGetTexEnv</b> (GLenum target, GLenuni pname, TYPE *params)
+<li>void <b>glGetTexGen</b> (GLenum coord, GLenum pname, TYPE *params)
+<li>void <b>glGetTexLevelParameter</b> (GLenum targrt, GLint level, GLenum pname, TYPE *params)
+<li>void <b>glGetTexParameter</b> (GLenum target, GLenum pname, TYPE *params)
+<li>void <b>glGetTeximage</b> (GLenum target, GLint level, GLenum format, GLenum type, GLvoid *pixels)
+<li>void <b>glIsTexture</b> (GLuint texture)
+<li>void <b>glPrioritizeTextures</b> (GLsizei n, const GLuint *textures, const GLclampf *priorities)
+<li>void <b>glTexCoord1</b> (TYPE s)
+<li>void <b>glTexCoord2</b> (TYPE s, TYPE t)
+<li>void <b>glTexCoord3</b> (TYPE s, TYPE t, TYPE r)
+<li>void <b>glTexCoord4</b> (TYPE s, TYPE t, TYPE r, TYPE q)
+<li>void <b>glTexEnv</b> (GLenum target, GLenum pname, TYPE param)
+<li>void <b>glTexGen</b> (GLenum coord, GLenum pname, TYPE param)
+<li>void <b>glTexImage1D</b> (GLenum target, GLint level, GLint components, GLsizei width, GLint border, GLenum format, GLenum type, const GLvoid *pixels)
+<li>void <b>glTexImage2D</b> (GLenum target, GLint level, GLint components, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid *pixels)
+<li>void <b>glTexParameter</b> (GLenum target, GLenum pname, TYPE param)
+<li>void <b>glTexSubImage1D</b> (GLenum target, GLint leve'l, GLint xoffset, GLsizei width, GLenum format, GLenum type, const GLvoid *pixels)
+<li>void <b>glTexSubImage2D</b> (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid *pixels)
+</ul><p>
+
+<dd><b>Fog</b>
+
+<ul>
+<li>void <b>glFog</b> (GLenum pname, TYPE param)
+</ul><p>
+
+<dd><b>Frame Buffer Operations</b>
+
+<ul>
+<li>void <b>glAccum</b> (GLenum op, GLfloat value)
+<li>void <b>glAlphaFunc</b> (GLenum func, GLclampf ref)
+<li>void <b>glBlendFunc</b> (GLenum sfactor, GLenum dfactor)
+<li>void <b>glClear</b> (GLbitfield mask)
+<li>void <b>glClearAccum</b> (GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha)
+<li>void <b>glClearColor</b> ( GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha)
+<li>void <b>glClearDepth</b> (GLclampd depth)
+<li>void <b>glClearIndex</b> (GLfloat c)
+<li>void <b>glClearStencil</b> (GLint s)
+<li>void <b>glColorMask</b> ( GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha)
+<li>void <b>glDepthFunc</b> (GLenum func)
+<li>void <b>glDepthMask</b> (GLboolean flag)
+<li>void <b>glDrawBuffer</b> (GLenum mode)
+<li>void <b>glIndexMask</b> (GLuint mask)
+<li>void <b>glLogicOp</b> (GLenum opcode)
+<li>void <b>glScissor</b> (GLint x, GLint y, GLsizei width, GLsizei height)
+<li>void <b>glStencilFunc</b> (GLenum func, GLint ref, GLuint mask)
+<li>void <b>glStencilMask</b> (GLuint mask)
+<li>void <b>glStencilOp</b> (GLenum fail, GLenum pass, GLenum zpass)
+</ul><p>
+
+<dd><b>Evaluators</b>
+
+<ul>
+<li>void <b>glEvalCoord1</b> (TYPE u)
+<li>void <b>glEvalCoord2</b> (TYPE u, TYPE v)
+<li>void <b>glEvalMesh1</b> (GLenum mode, GLint i1, GLint i2)
+<li>void <b>glEvalMesh2</b> (GLenum mode, GLint i1, GLint i2, GLint j1, GLint j2)
+<li>void <b>glEvalPoint1</b> (GLint i)
+<li>void <b>glEvalPoint2</b> (GLint i, GLint j)
+<li>void <b>glGetMap</b> (GLenum target, GLenum query, TYPE *v)
+<li>void <b>glMap1</b> (GLenum target, TYPE u1, TYPE u2, GLint stride, GLint order, const TYPE *points)
+<li>void <b>glMap2</b> (GLenum target, TYPE u1, TYPE u2, GLint ustride, GLint uorder, TYPE v1, TYPE v2, GLint vstride, GLint vorder, const TYPE *points)
+<li>void <b>glMapGrid1</b> (GLint n, TYPE u1, TYPE u2)
+<li>void <b>glMapGrid2</b> (GLint un, TYPE u1, TYPE u2, GLint vn, TYPE v1, TYPE v2)
+</ul><p>
+
+<dd><b>Selection and Feedback</b>
+
+<ul>
+<li>void <b>glFeedbackBuffer</b> (GLsizei size, GLenum type, GLfloat *buffer)
+<li>void <b>glInitNames</b> (void)
+<li>void <b>glLoadName</b> (GLuint name)
+<li>void <b>glPassThrough</b> (GLfloat token)
+<li>void <b>glPopName</b> (void)
+<li>void <b>glPushName</b> (GLuint name)
+<li>GLint <b>glRenderMode</b> (GLenum mode)
+<li>void <b>glSelectBuffer</b> (GLsizei size, GLuint *buffer)
+</ul><p>
+
+<dd><b>Display Lists</b>
+
+<ul>
+<li>void <b>glCallList</b> (GLuint list)
+<li>void <b>glCallLists</b> (GLsizei n, GLenum type, const GLvoid *lists)
+<li>void <b>glDeleteLists</b> (GLuint list, GLsizei range)
+<li>void <b>glEndList</b> (void)
+<li>GLuint <b>glGenLists</b> (GLsizei range)
+<li>GLboolean <b>glIsList</b> (GLuint list)
+<li>void <b>glListBase</b> (GLuint base)
+<li>void <b>glNewList</b> (GLuint list, GLenum mode)
+</ul><p>
+
+<dd><b>Modes and Execution</b>
+
+<ul>
+<li>void <b>glDisable</b> (GLenum cap)
+<li>void <b>glEnable</b> (GLenum cap)
+<li>void <b>glFinish</b> (void)
+<li>void <b>glFlush</b> (void)
+<li>void <b>glHint</b> (GLenum target, GLenum mode)
+<li>GLboolean <b>glIsEnabled</b> (GLenum cap)
+</ul><p>
+
+<dd><b>State Queries</b>
+
+<ul>
+<li>void <b>glGetBooleanv</b> (GLenum pname, GLboolean *params)
+<li>void <b>glGetDoublev</b> (GLenum pname, GLdouble *params)
+<li>GLenum <b>glGetError</b> (void)
+<li>void <b>glGetFloatv</b> (GLenum pname, GLfloat *params)
+<li>void <b>glGetIntegerv</b> (GLenum pname, GLint *params)
+<li>const GLubyte <b>*glGetString</b> (GLenum name)
+<li>void <b>glPopAttrib</b> (void)
+<li>void <b>glPushAttrib</b> (GLbitfield mask)
+</ul><p>
+
+</dl>
+
+</body>
+</html>

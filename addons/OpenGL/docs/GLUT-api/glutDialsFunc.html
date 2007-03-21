@@ -1,0 +1,74 @@
+
+<HTML><HEAD><TITLE>Manpage of glutDialsFunc</TITLE>
+</HEAD><BODY>
+<H1>glutDialsFunc</H1>
+Section: GLUT (3GLUT)<BR>Updated: 3.7<BR><A HREF="#index">Index</A>
+<A HREF="">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+glutDialsFunc - sets the dial &amp; button box dials callback for the current window. 
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNTAX</H2>
+
+<PRE>
+
+void glutDialsFunc(void (*func)(int dial, int value));
+</PRE>
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>ARGUMENTS</H2>
+
+<DL COMPACT>
+<DT><I>func</I><DD>
+The new dials callback function. 
+</DL>
+<A NAME="lbAE">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+glutDialsFunc sets the dial &amp; button box dials callback for the
+current window. The dial &amp; button box dials callback for a window is
+called when the window has dial &amp; button box input focus (normally,
+when the mouse is in the window) and the user generates dial &amp; button
+box dial changes. The dial parameter will be the dial number (starting
+at one). The number of available dial &amp; button box dials can be
+determined with glutDeviceGet(GLUT_NUM_DIALS). The value
+measures the absolute rotation in degrees. Dial values do not ``roll over''
+with each complete rotation but continue to accumulate degrees (until the
+int dial value overflows). 
+
+Registering a dial &amp; button box dials callback when a dial &amp; button box
+device is not available is ineffectual and not an error. In this case, no dial
+&amp; button box dials callbacks will be generated. 
+
+Passing NULL to glutDialsFunc disables the generation of dial &amp;
+button box dials callbacks. When a new window is created, no dial &amp;
+button box dials callback is initially registered. 
+<A NAME="lbAF">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+glutButtonBoxFunc, glutDeviceGet
+<A NAME="lbAG">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Mark J. Kilgard (<A HREF="mailto:mjk@nvidia.com">mjk@nvidia.com</A>)
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNTAX</A><DD>
+<DT><A HREF="#lbAD">ARGUMENTS</A><DD>
+<DT><A HREF="#lbAE">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAF">SEE ALSO</A><DD>
+<DT><A HREF="#lbAG">AUTHOR</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="">man2html</A>,
+using the manual pages.<BR>
+Time: 19:05:09 GMT, September 15, 2003
+</BODY>
+</HTML>

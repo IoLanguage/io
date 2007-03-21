@@ -1,0 +1,147 @@
+Io
+	a small programming language
+
+overview
+	prototype-based
+	simple, consistent syntax
+	everything is a dynamic message
+	code is data and runtime modifiable
+	all objects can be actors
+	coroutines
+	futures 
+	bundled with official bindings
+
+the language
+	no keywords
+	no statements (only expressions)
+	expressions are composed only of messages
+	supports lexically scoped blocks
+	objects can have multiple parents
+
+message syntax
+	foo
+	foo(a)
+	foo(a, b)
+
+operators
+	expression:   a * 2 * b
+	compiles to:  a *(2) *(b)
+
+assignment
+	expression: a := 2
+	compiles to: setSlot(“a”, 2)
+	expression: a = 2
+	compiles to: updateSlot(“a”, 2)
+
+loops
+	while(x < 10, ...)
+	for(i, 1, 10, ...)
+	loop(...)
+	10 repeatTimes(...)
+
+conditions
+    a := if(b == 1, c, d) // conditions are expressions
+    if(a == b) then(
+	    ...
+    ) elseif(...) then(
+	    ...
+    )
+
+enumeration
+	someList := list(“a”, 2.3, “foo”) 
+	someList foreach(i, v, 
+		writeln(i, “ : ”, v)
+	)
+	// foreach also works on Maps, Strings, Buffers, etc
+
+blocks and methods
+	foo := method(a, a + b) // object scoped
+	foo := block(a, a + b)  // lexically scoped
+
+scoping
+	no globals 
+	variables are local by default
+
+expressions
+	a := people select(person, person age < 30)
+	names := people map(i, person, person name)
+
+"macro" example
+	glChunk := method(
+		glPushMatrix
+		sender doMessage(thisMessage argAt(0))
+		glPopMatrix
+	)
+	glChunk(glTranslated(1,2,3); glRectd(0,0,100,100))
+
+objects
+	Account := Object clone do(
+		balance := 0
+		deposit := method(amount,
+			balance = balance + amount
+		)
+	)
+
+example
+	account := Account clone
+	account deposit(10.00)
+	writeln(“balance:”, account balance)
+
+Everything is an Object
+	Number double := method(self * 2)
+	100 double
+	==> 200
+
+introspection
+	Number double := method(self * 2)
+	Number getSlot(“double”) code
+	==> “method(self *(2))”
+
+concurrency
+	url := URL with(“http://www.iolanguage.com”)
+	url fetch	// sync message
+	f := url @fetch	// future message
+	url @@fetch	// async message
+	// futures auto-detect deadlocks
+
+server bindings
+	SGMLParser (supports XML and HTML)
+	Socket (async, libevent, supports async DNS)
+	Transparent Distributed Objects
+	Vector (supports SIMD/altivec) 
+	Regex
+	SQLite3
+	MD5
+	Blowfish
+	CGI, URL
+
+desktop bindings
+	OpenGL, GLU, GLUT
+	Audio (PortAudio)
+	Font (FreeType, caches in texture)
+	Movie (ffmpeg)
+	Ion user interface toolkit
+
+collector
+	non-moving
+	tri-color
+	write-barrier
+	generational
+
+platforms
+	unix
+	    osx, linux, bsd, irix
+	windows
+	    cygwin, mingw, msvc
+	other
+	    symbian, syllable, zeta
+
+next?
+	1.0 by end of 2005
+	incremental transparent persistence
+	improved transparent distributed objects
+	docs for Ion
+	bug tracker
+	revision control
+	official wiki
+

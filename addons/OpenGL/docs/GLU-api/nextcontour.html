@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>gluNextContour</STRONG> - mark	the beginning of another contour
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>gluNextContour</STRONG>( GLUtesselator* <EM>tess</EM>,
+			       GLenum <EM>type</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>tess</EM>	Specifies the tessellation object (created with
+		<STRONG>gluNewTess</STRONG>).
+
+	  <EM>type</EM>	Specifies the type of the contour being	defined. Valid
+		values are <STRONG>GLU_EXTERIOR</STRONG>, <STRONG>GLU_INTERIOR</STRONG>, <STRONG>GLU_UNKNOWN</STRONG>,
+		<STRONG>GLU_CCW</STRONG>, and <STRONG>GLU_CW</STRONG>.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>gluNextContour</STRONG> is used in describing polygons	with multiple
+	  contours. After the first contour has	been described through
+	  a series of <STRONG>gluTessVertex</STRONG> calls, a <STRONG>gluNextContour</STRONG> call
+	  indicates that the previous contour is complete and that the
+	  next contour is about	to begin.  Another series of
+	  <STRONG>gluTessVertex</STRONG>	calls is then used to describe the new
+	  contour. This	process	can be repeated	until all contours
+	  have been described.
+
+	  <EM>type</EM> defines what type of contour follows.  The legal
+	  contour types	are as follows:
+
+	  <STRONG>GLU_EXTERIOR</STRONG>	    An exterior	contour	defines	an exterior
+			    boundary of	the polygon.
+
+	  <STRONG>GLU_INTERIOR</STRONG>	    An interior	contour	defines	an interior
+			    boundary of	the polygon (such as a hole).
+
+	  <STRONG>GLU_UNKNOWN</STRONG>	    An unknown contour is analyzed by the
+			    library to determine if it is interior or
+			    exterior.
+
+	  <STRONG>GLU_CCW</STRONG>,
+
+	  <STRONG>GLU_CW</STRONG>	    The	first <STRONG>GLU_CCW</STRONG> or <STRONG>GLU_CW</STRONG>	contour
+			    defined is considered to be	exterior. All
+			    other contours are considered to be
+			    exterior if	they are oriented in the same
+			    direction (clockwise or counterclockwise)
+			    as the first contour, and interior if they
+			    are	not.
+
+	  If one contour is of type <STRONG>GLU_CCW</STRONG> or <STRONG>GLU_CW</STRONG>, then all
+	  contours must	be of the same type (if	they are not, then all
+	  <STRONG>GLU_CCW</STRONG> and <STRONG>GLU_CW</STRONG> contours will be changed to <STRONG>GLU_UNKNOWN</STRONG>).
+
+	  Note that there is no	real difference	between	the <STRONG>GLU_CCW</STRONG>
+	  and <STRONG>GLU_CW</STRONG> contour types.
+
+	  Before the first contour is described, <STRONG>gluNextContour</STRONG>	can be
+	  called to define the type of the first contour.  If
+	  <STRONG>gluNextContour</STRONG> is not	called before the first	contour, then
+	  the first contour is marked <STRONG>GLU_EXTERIOR</STRONG>.
+
+	  This command is obsolete and is provided for backward
+	  compatibility	only. Calls to <STRONG>gluNextContour</STRONG> are mapped to
+	  <STRONG>gluTessEndContour</STRONG> followed by	<STRONG>gluTessBeginContour</STRONG>.
+
+     <STRONG>EXAMPLE</STRONG>
+	  A quadrilateral with a triangular hole in it can be
+	  described as follows:
+
+	  gluBeginPolygon(tobj);
+	     gluTessVertex(tobj, v1, v1);
+	     gluTessVertex(tobj, v2, v2);
+	     gluTessVertex(tobj, v3, v3);
+	     gluTessVertex(tobj, v4, v4); gluNextContour(tobj,
+	  GLU_INTERIOR);
+	     gluTessVertex(tobj, v5, v5);
+	     gluTessVertex(tobj, v6, v6);
+	     gluTessVertex(tobj, v7, v7); gluEndPolygon(tobj);
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>gluBeginPolygon</STRONG>, <STRONG>gluNewTess</STRONG>, <STRONG>gluTessCallback</STRONG>,	<STRONG>gluTessVertex</STRONG>,
+	  <STRONG>gluTessBeginContour</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

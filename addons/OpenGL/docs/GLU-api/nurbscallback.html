@@ -1,0 +1,214 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>gluNurbsCallback</STRONG> - define a callback for a NURBS object
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>gluNurbsCallback</STRONG>( GLUnurbs* <EM>nurb</EM>,
+				 GLenum	<EM>which</EM>,
+				 GLvoid	(*<EM>CallBackFunc</EM>)( )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>nurb</EM>		Specifies the NURBS object (created with
+			<STRONG>gluNewNurbsRenderer</STRONG>).
+
+	  <EM>which</EM>		Specifies the callback being defined. Valid
+			values are <STRONG>GLU_NURBS_BEGIN_EXT</STRONG>,
+			<STRONG>GLU_NURBS_VERTEX_EXT</STRONG>, <STRONG>GLU_NORMAL_EXT</STRONG>,
+			<STRONG>GLU_NURBS_COLOR_EXT</STRONG>,
+			<STRONG>GLU_NURBS_TEXTURE_COORD_EXT</STRONG>, <STRONG>GLU_END_EXT</STRONG>,
+			<STRONG>GLU_NURBS_BEGIN_DATA_EXT</STRONG>,
+			<STRONG>GLU_NURBS_VERTEX_DATA_EXT</STRONG>,
+			<STRONG>GLU_NORMAL_DATA_EXT</STRONG>, <STRONG>GLU_NURBS_COLOR_DATA_EXT</STRONG>,
+			<STRONG>GLU_NURBS_TEXTURE_COORD_DATA_EXT</STRONG>,
+			<STRONG>GLU_END_DATA_EXT</STRONG>, and <STRONG>GLU_ERROR</STRONG>.
+
+	  <EM>CallBackFunc</EM>	Specifies the function that the	callback
+			calls.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>gluNurbsCallback</STRONG> is used to define a callback	to be used by
+	  a NURBS object.  If the specified callback is	already
+	  defined, then	it is replaced.	 If <EM>CallBackFunc</EM> is NULL, then
+	  this callback	will not get invoked and the related data, if
+	  any, will be lost.
+
+	  Except the error callback, these callbacks are used by NURBS
+	  tessellator (when <STRONG>GLU_NURBS_MODE_EXT</STRONG> is set to be
+	  <STRONG>GLU_NURBS_TESSELLATOR_EXT</STRONG>) to	return back the	openGL polygon
+	  primitives resulted from the tessellation. Note that there
+	  are two versions of each callback: one with a	user data
+	  pointer and one without. If both versions for	a particular
+	  callback are specified then the callback with	the user data
+	  pointer will be used.	Note that "userData" is	a copy of the
+	  pointer that was specified at	the last call to
+	  <STRONG>gluNurbsCallbackDataEXT</STRONG>.
+
+	  The error callback function is effective no matter which
+	  value	that <STRONG>GLU_NURBS_MODE_EXT</STRONG>	is set to.  All	other callback
+	  functions are	effective only when <STRONG>GLU_NURBS_MODE_EXT</STRONG> is set
+	  to <STRONG>GLU_NURBS_TESSELLATOR_EXT</STRONG>.
+
+	  The legal callbacks are as follows:
+	  <STRONG>GLU_NURBS_BEGIN_EXT</STRONG>
+		    The	begin callback indicates the start of a
+		    primitive. The function takes a single argument of
+		    type GLenum	which can be one of <STRONG>GL_LINES</STRONG>,
+		    <STRONG>GL_LINE_STRIPS</STRONG>, <STRONG>GL_TRIANGLE_FAN</STRONG>,
+		    <STRONG>GL_TRIANGLE_STRIP</STRONG>, <STRONG>GL_TRIANGLES</STRONG>, or	<STRONG>GL_QUAD_STRIP</STRONG>.
+		    The	default	begin callback function	is NULL. The
+		    function prototype for this	callback looks like:
+		    void begin ( GLenum	type );
+
+	  <STRONG>GLU_NURBS_BEGIN_DATA_EXT</STRONG>
+		    The	same as	the <STRONG>GLU_NURBS_BEGIN_EXT</STRONG>	callback
+		    except that	it takes an additional pointer
+		    argument. This pointer is a	copy of	the pointer
+		    that was specified at the last call	to
+		    <STRONG>gluNurbsCallbackDataEXT</STRONG>.  The default callback
+		    function is	NULL. The function prototype for this
+		    callback function looks like:
+		    void beginData (GLenum type, void *userData);
+
+	  <STRONG>GLU_NURBS_VERTEX_EXT</STRONG>
+		    The	vertex callback	indicates a vertex of the
+		    primitive. The coordinates of the vertex are
+		    stored in the parameter "vertex". All the
+		    generated vertices have dimension 3, that is,
+		    homogeneous	coordinates have been transformed into
+		    affine coordinates.	The default vertex callback
+		    function is	NULL. The function prototype for this
+		    callback function looks like:
+		    void vertex	( GLfloat *vertex );
+
+	  <STRONG>GLU_NURBS_VERTEX_DATA_EXT</STRONG>
+		    The	same as	the <STRONG>GLU_NURBS_VERTEX_EXT</STRONG> callback
+		    except that	it takes an additional pointer
+		    argument. This pointer is a	copy of	the pointer
+		    that was specified at the last call	to
+		    <STRONG>gluNurbsCallbackDataEXT</STRONG>.  The default callback
+		    function is	NULL. The function prototype for this
+		    callback function looks like:
+		    void vertexData ( GLfloat *vertex, void *userData
+		    );
+
+	  <STRONG>GLU_NORMAL_EXT</STRONG>
+		    The	normal callback	is invoked as the vertex
+		    normal is generated.  The components of the	normal
+		    are	stored in the parameter	"normal".  In the case
+		    of a NURBS curve, the callback function is
+		    effective only when	the user provides a normal map
+		    (<STRONG>GL_MAP1_NORMAL</STRONG>).  In the case of a	NURBS surface,
+		    if a normal	map (<STRONG>GL_MAP2_NORMAL</STRONG>) is	provided, then
+		    the	generated normal is computed from the normal
+		    map.  If a normal map is not provided then a
+		    surface normal is computed in a manner similar to
+		    that described for evaluators when <STRONG>GL_AUTO_NORMAL</STRONG>
+		    is enabled.	The  default normal callback function
+		    is NULL. The function prototype for	this callback
+		    function looks like:
+		    void normal	( GLfloat *normal );
+
+	  <STRONG>GLU_NORMAL_DATA_EXT</STRONG>
+		    The	same as	the <STRONG>GLU_NURBS_NORMAL_EXT</STRONG> callback
+		    except that	it takes an additional pointer
+		    argument. This pointer is a	copy of	the pointer
+		    that was specified at the last call	to
+		    <STRONG>gluNurbsCallbackDataEXT</STRONG>.  The default callback
+		    function is	NULL. The function prototype for this
+		    callback function looks like:
+		    void normalData ( GLfloat *normal, void *userData
+		    );
+
+	  <STRONG>GLU_NURBS_COLOR_EXT</STRONG>
+		    The	color callback is invoked as the color of a
+		    vertex is generated.  The components of the	color
+		    are	stored in the parameter	"color".  This
+		    callback is	effective only when the	user provides
+		    a color map	(<STRONG>GL_MAP1_COLOR_4</STRONG> or <STRONG>GL_MAP2_COLOR_4</STRONG>).
+		    "color" contains four components: R,G,B,A. The
+		    default color callback function is NULL. The
+		    prototype for this callback	function looks like:
+		    void color ( GLfloat *color	);
+
+	  <STRONG>GLU_NURBS_COLOR_DATA_EXT</STRONG>
+		    The	same as	the <STRONG>GLU_NURBS_COLOR_EXT</STRONG>	callback
+		    except that	it takes an additional pointer
+		    argument. This pointer is a	copy of	the pointer
+		    that was specified at the last call	to
+		    <STRONG>gluNurbsCallbackDataEXT</STRONG>.  The default callback
+		    function is	NULL. The function prototype for this
+		    callback function looks like:
+		    void colorData ( GLfloat *color, void *userData );
+
+	  <STRONG>GLU_NURBS_TEXTURE_COORD_EXT</STRONG>
+		    The	texture	callback is invoked as the texture
+		    coordinates	of a vertex are	generated. These
+		    coordinates	are stored in the parameter
+		    "texCoord".	The number of texture coordinates can
+		    be 1, 2, 3,	or 4 depending on which	type of
+		    texture map	is specified (<STRONG>GL_MAP*_TEXTURE_COORD_1</STRONG>,
+		    <STRONG>GL_MAP*_TEXTURE_COORD_2</STRONG>, <STRONG>GL_MAP*_TEXTURE_COORD_3</STRONG>,
+		    <STRONG>GL_MAP*_TEXTURE_COORD_4</STRONG> where * can	be either 1 or
+		    2).	 If no texture map is specified, this callback
+		    function will not be called.  The default texture
+		    callback function is NULL. The function prototype
+		    for	this callback function looks like:
+		    void texCoord ( GLfloat *texCoord );
+
+	   <STRONG>GLU_NURBS_TEXTURE_COORD_DATA_EXT</STRONG>
+		    The	same as	the <STRONG>GLU_NURBS_TEXTURE_COORD_EXT</STRONG>
+		    callback except that it takes an additional
+		    pointer argument. This pointer is a	copy of	the
+		    pointer that was specified at the last call	to
+		    <STRONG>gluNurbsCallbackDataEXT</STRONG>.  The default callback
+		    function is	NULL. The function prototype for this
+		    callback function looks like:
+		    void texCoordData (GLfloat *texCoord, void
+		    *userData);
+
+	  <STRONG>GLU_END_EXT</STRONG>
+		    The	end callback is	invoked	at the end of a
+		    primitive. The default end callback	function is
+		    NULL. The function prototype for this callback
+		    function looks like:
+		    void end ( void );
+
+	  <STRONG>GLU_END_DATA_EXT</STRONG>
+		    The	same as	the <STRONG>GLU_NURBS_TEXTURE_COORD_EXT</STRONG>
+		    callback except that it takes an additional
+		    pointer argument. This pointer is a	copy of	the
+		    pointer that was specified at the last call	to
+		    <STRONG>gluNurbsCallbackDataEXT</STRONG>.  The default callback
+		    function is	NULL. The function prototype for this
+		    callback function looks like:
+		    void endData ( void	 *userData );
+
+	  <STRONG>GLU_ERROR</STRONG> The	error function is called when an error is
+		    encountered.  Its single argument is of type
+		    GLenum, and	it indicates the specific error	that
+		    occurred.  There are 37 errors unique to NURBS
+		    named <STRONG>GLU_NURBS_ERROR1</STRONG> through <STRONG>GLU_NURBS_ERROR37</STRONG>.
+		    Character strings describing these errors can be
+		    retrieved with <STRONG>gluErrorString</STRONG>.
+
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>gluErrorString</STRONG>, <STRONG>gluNewNurbsRenderer</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

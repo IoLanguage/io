@@ -1,0 +1,87 @@
+/*
+docCopyright("Steve Dekorte", 2002)
+docLicense("BSD revised")
+*/
+
+#ifndef IOIMAGE_DEFINED
+#define IOIMAGE_DEFINED 1
+
+#include "IoImageApi.h"
+
+#include "IoObject.h"
+#include "IoSeq.h"
+#include "IoSeq.h"
+#include "GLImage.h"
+
+#define ISIMAGE(self) IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoImage_rawClone)
+
+typedef IoObject IoImage;
+
+typedef struct
+{
+  int width;
+  int height;
+  IoSeq *buffer;
+  GLImage *glImage;
+  int textureWidth;
+  int textureHeight;
+} IoImageData;
+
+IOIMAGE_API IoImage *IoImage_proto(void *state);
+IOIMAGE_API IoImage *IoImage_new(void *state);
+IOIMAGE_API IoImage *IoImage_newWithPath_(void *state, IoSymbol *path);
+IOIMAGE_API IoImage *IoImage_rawClone(IoImage *self);
+
+IOIMAGE_API void IoImage_free(IoImage *self);
+IOIMAGE_API void IoImage_mark(IoImage *self);
+IOIMAGE_API GLImage *IoImage_glImage(IoImage *self);
+IOIMAGE_API GLImage *IoImage_rawGLImage(IoImage *self);
+
+/* ----------------------------------------------------------- */
+IOIMAGE_API IoObject *IoImage_setDataWidthHeightComponentCount(IoImage *self, IoObject *locals, IoMessage *m);
+
+IOIMAGE_API IoObject *IoImage_path(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_setPath(IoImage *self, IoObject *locals, IoMessage *m);
+
+IOIMAGE_API IoObject *IoImage_open(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_save(IoImage *self, IoObject *locals, IoMessage *m);
+
+IOIMAGE_API IoObject *IoImage_width(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_height(IoImage *self, IoObject *locals, IoMessage *m);
+
+IOIMAGE_API IoObject *IoImage_originalWidth(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_originalHeight(IoImage *self, IoObject *locals, IoMessage *m);
+
+IOIMAGE_API IoObject *IoImage_data(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_error(IoImage *self, IoObject *locals, IoMessage *m);
+
+IOIMAGE_API IoObject *IoImage_buffer(IoImage *self, IoObject *locals, IoMessage *m);
+
+IOIMAGE_API IoObject *IoImage_isRGB8(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_isRGBA8(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_isL8(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_isLA8(IoImage *self, IoObject *locals, IoMessage *m);
+
+IOIMAGE_API IoObject *IoImage_draw(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_scaleTo(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_crop(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_compositeTo(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_grab(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_grabTexture(IoImage *self, IoObject *locals, IoMessage *m);
+
+IOIMAGE_API IoObject *IoImage_textureId(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_bindTexture(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_updateTexture(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_closeTexture(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_drawTexture(IoImage *self, IoObject *locals, IoMessage *m);
+IoObject *IoImage_drawScaledTexture(IoImage *self, IoObject *locals, IoMessage *m);
+
+/* --- extras -------------------------------------------------------- */
+IOIMAGE_API IoObject *IoImage_setEncodingQuality(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_encodingQuality(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_setDecodingWidthHint(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_decodingWidthHint(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_setDecodingHeightHint(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_decodingHeightHint(IoImage *self, IoObject *locals, IoMessage *m);
+
+#endif

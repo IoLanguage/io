@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glLineWidth</STRONG> -	specify	the width of rasterized	lines
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glLineWidth</STRONG>( GLfloat <EM>width</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>width</EM>	 Specifies the width of	rasterized lines.  The initial
+		 value is 1.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glLineWidth</STRONG> specifies	the rasterized width of	both aliased
+	  and antialiased lines.  Using	a line width other than	1 has
+	  different effects, depending on whether line antialiasing is
+	  enabled.  To enable and disable line antialiasing, call
+	  <STRONG>glEnable</STRONG> and <STRONG>glDisable</STRONG> with argument <STRONG>GL_LINE_SMOOTH</STRONG>. Line
+	  antialiasing is initially disabled.
+
+	  If line antialiasing is disabled, the	actual width is
+	  determined by	rounding the supplied width to the nearest
+	  integer.  (If	the rounding results in	the value 0, it	is as
+	  if the line width were 1.)  If
+	  | DELTA x | &gt;= | DELTA y |,
+	  <EM>i</EM> pixels are filled in each column that is rasterized, where
+	  <EM>i</EM> is the rounded value of <EM>width</EM>.  Otherwise, <EM>i</EM> pixels	are
+	  filled in each row that is rasterized.
+
+	  If antialiasing is enabled, line rasterization produces a
+	  fragment for each pixel square that intersects the region
+	  lying	within the rectangle having width equal	to the current
+	  line width, length equal to the actual length	of the line,
+	  and centered on the mathematical line	segment.  The coverage
+	  value	for each fragment is the window	coordinate area	of the
+	  intersection of the rectangular region with the
+	  corresponding	pixel square.  This value is saved and used in
+	  the final rasterization step.
+
+	  Not all widths can be	supported when line antialiasing is
+	  enabled. If an unsupported width is requested, the nearest
+	  supported width is used.  Only width 1 is guaranteed to be
+	  supported; others depend on the implementation.  To query
+	  the range of supported widths	and the	size difference
+	  between supported widths within the range, call <STRONG>glGet</STRONG>	with
+	  arguments <STRONG>GL_LINE_WIDTH_RANGE</STRONG>	and <STRONG>GL_LINE_WIDTH_GRANULARITY</STRONG>.
+
+     <STRONG>NOTES</STRONG>
+	  The line width specified by <STRONG>glLineWidth</STRONG> is always returned
+	  when <STRONG>GL_LINE_WIDTH</STRONG> is	queried.  Clamping and rounding	for
+	  aliased and antialiased lines	have no	effect on the
+	  specified value.
+	  Nonantialiased line width may	be clamped to an
+	  implementation-dependent maximum.  Although this maximum
+	  cannot be queried, it	must be	no less	than the maximum value
+	  for antialiased lines, rounded to the	nearest	integer	value.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if <EM>width</EM> is less than or equal
+	  to 0.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glLineWidth</STRONG> is executed
+	  between the execution	of <STRONG>glBegin</STRONG> and the corresponding
+	  execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_LINE_WIDTH</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_LINE_WIDTH_RANGE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_LINE_WIDTH_GRANULARITY</STRONG>
+	  <STRONG>glIsEnabled</STRONG> with argument <STRONG>GL_LINE_SMOOTH</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glEnable</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

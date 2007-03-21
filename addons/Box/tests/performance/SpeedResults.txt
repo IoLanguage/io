@@ -1,0 +1,45 @@
+// vectorSize = 30000
+// iterations = 10000
+// values are in GFLOPS
+
+Io := Object clone do(
+  sin               := 0.27
+  mean              := 0.41
+  rms               := 0.85
+
+  timesEquals       := 1.20
+  plusEquals        := 1.15
+  minusEquals       := 1.25
+
+  timesEqualsScalar := 4.29
+  plusEqualsScalar  := 0.71
+  minusEqualsScalar := 0.62
+
+  square            := 4.29
+  dot               := 1.36
+
+  version := "20050531"
+)
+
+// vector size = 30000
+// iterations = 3000
+// values are in GFLOPS
+Python := Object clone do(
+  sin               := 0.0004625
+  mean              := 0.12
+  rms               := 0.03
+
+  timesEquals       := 0.03
+  plusEquals        := 0.52
+  minusEquals       := 0.52
+
+  timesEqualsScalar := 0.05
+  plusEqualsScalar  := 0.53
+  minusEqualsScalar := 0.50
+
+  square            := 0.03
+  dot               := 0.42
+
+  version := "2.3.0 final 0"
+)
+

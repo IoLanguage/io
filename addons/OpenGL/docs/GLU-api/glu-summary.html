@@ -1,0 +1,100 @@
+<html><head><title>glu Function Calls</title></head>
+<body bgcolor="#ffffff">
+
+<h2>glu Function Calls</h2>
+
+<hr><p>
+
+<dl>
+
+<dd><b>Coordinate Transformations</b>
+
+<ul>
+<li>void <b>gluLookAt</b> (GLdouble eyex, GLdouble eyey, GLdouble eyez, GLdouble centerx, GLdouble centery, GLdouble centerz, GLdouble upx, GLdouble upy, GLdouble upz)
+<li>void <b>gluOrtho2D</b> (GLdouble left, GLdouble right, GLdouble bottom, GLdouble top)
+<li>void <b>gluPerspective</b> (GLdouble fovy, GLdouble aspect, GLdouble zNear, GLdouble zFar)
+<li>void <b>gluPickMatrix</b> (GLdouble x, GLdouble y, GLdouble width, GLdouble height, GLint viewport[4])
+<li>int <b>gluProject</b> (GLdouble objx, GLdouble objy, GLdouble objz, GLdouble modelMatrix[16], GLdoubleprojMatrix[16], GLint viewport[4], GLdouble *winx, GLdouble *winy, GLdouble *winz)
+<li>int <b>gluUnProject</b> (GLdouble winx, GLdouble winy, GLdouble winz, GLdouble modelMatrix[16], GLdoubleprojMatrix[16], GLint viewport[4], GLdouble *objx, GLdouble *objy, GLdouble *objz)
+</ul><p>
+
+<dd><b>Manipulating Images for Texturing</b>
+
+<ul>
+<li>int <b>gluBuild1DMipmaps</b> (GLenum target, GLint components, GLint width, GLenum format, GLenum type, void *data)
+<li>int <b>gluBuild2DMipmaps</b> (GLenum target, GLint components, GLint width, GLint height, GLenum format, GLenum type, void *data)
+<li>int <b>gluScaleImage</b> (GLenum format, GLint widthin, GLint heightin, GLenum typein, const void *datain, GLint widthout, GLint heightout, GLenum typeout, void *dataout)
+</ul><p>
+
+<dd><b>Polygon Tessellation</b>
+
+<ul>
+<li>void <b>gluBeginPolygon</b> (GLUtesselator *tess)
+<li>void <b>gluDeleteTess</b> (GLUtesselator *tobj)
+<li>void <b>gluEndPolygon</b> (GLUtesselator *tess)
+<li>void <b>gluGetTessProperty</b> (GLUtesselator *tess, GLenum which, GLdouble *data)
+<li>GLUtesselator* <b>gluNewTess</b> (void)
+<li>void <b>gluNextContour</b> (GLUtesselator *tobj, GLenum type)
+<li>void <b>gluTessBeginContour</b> (GLUtesselator *tess)
+<li>void <b>gluTessBeginPolygon</b> (GLUtesselator *tobj)
+<li>void <b>gluTessCallback</b> (GLUtesselator *tobj, GLenum which, void (*fn)())
+<li>void <b>gluTessEndContour</b> (GLUtesselator *tess)
+<li>void <b>gluTessEndPolygon</b> (GLUtesselator *tobj)
+<li>void <b>gluTessNormal</b> (GLUtesselator *tess, GLdouble x, GLdouble y, GLdouble z)
+<li>void <b>gluTessProperty</b> (GLUtesselator *tess, GLenum which, GLdouble value)
+<li>void <b>gluTessVertex</b> (GLUtesselator *tobj, GLdouble v[3], void *data)
+</ul><p>
+
+<dd><b>Quadric Objects</b>
+
+<ul>
+<li>void <b>gluDeleteQuadric</b> (GLUquadric *state)
+<li>GLUquadric* <b>gluNewQuadric</b> (void)
+<li>void <b>gluQuadricCallback</b> (GLUquadric *qobj, GLenum which, void (*fn)())
+<li>void <b>gluQuadricDrawStyle</b> (GLUquadric *quadObject, GLenum drawStyle)
+<li>void <b>gluQuadricNormals</b> (GLUquadric *quadObject, GLenum normals)
+<li>void <b>gluQuadricOrientation</b> (GLUquadric *quadObject, GLenum orientation)
+<li>void <b>gluQuadricTexture</b> (GLUquadric *quadObject, GLboolean textureCoords)
+</ul><p>
+
+<dd><b>Rendering Spheres, Cylinders, and Disks</b>
+
+<ul>
+<li>void <b>gluCylinder</b> (GLUquadric *qobj, GLdouble baseRadius, GLdouble topRadius, GLdouble height, GLint slices, GLint stacks)
+<li>void <b>gluDisk</b> (GLUquadric *qobj, GLdouble innerRadius, GLdouble outerRadius, GLint slices, GLint loops)
+<li>void <b>gluPartialDisk</b> (GLUquadric *qobj, GLdouble innerRadius, GLdouble outerRadius, GLint slices, GLint loops, GLdouble startAngle, GLdouble sweepAngle)
+<li>void <b>gluSphere</b> (GLUquadric *qobj, GLdouble radius, GLint slices, GLint stacks)
+</ul><p>
+
+<dd><b>Non-Uniform Rational B-Spline (NURBS) Curve and Surfaces</b>
+
+<ul>
+<li>void <b>gluBeginCurve</b> (GLUnurbs *nobj)
+<li>void <b>gluBeginSurface</b> (GLUnurbs *nobj)
+<li>void <b>gluBeginTrim</b> (GLUnurbs *nobj)
+<li>void <b>gluDeleteNurbsRenderer</b> (GLUnurbs *nobj)
+<li>void <b>gluEndCurve</b> (GLUnurbs *nobj)
+<li>void <b>gluEndSurface</b> (GLUnurbs *nobj)
+<li>void <b>gluEndTrim</b> (GLUnurbs *nobj)
+<li>void <b>gluGetNurbsProperty</b> (GLUnurbs *nobj, GLenum property, GLfloat *value)
+<li>void <b>gluLoadSamplingMatrices</b> (GLUnurbs *nobj, GLfloat modelMatrix[161, GLfloat projMatrix[16], GLint viewport[4])
+<li>GLUnurbs* <b>gluNewNurbsRenderer</b> (void)
+<li>void <b>gluNurbsCallback</b> (GLUnurbs *nobj, GLenurn which, void (*fn)())
+<li>void <b>gluNurbsCurve</b> (GLUnurbs *nobj, GLint nknots, GLfloat *knot, GLint stride, GLfloat *ctiarray, GLint order, GLenum type)
+<li>void <b>gluNurbsProperty</b> (GLUnurbs *nobj, GLenum property, GLfloat value)
+<li>void <b>gluNurbsSurface</b> (GLUnurbs *nobj, GLint uknot_count, GLfloat *uknot, GLint vknot_Count, GLfloat *vknot, GLint u_stride, GLint v_stride, GLfloat *ctlarray, GLint sorder, GLint torder, GLenum type)
+<li>void <b>gluPwlCurve</b> (GLUnurbs *nobj, GLint count, GLfloat *array, GLint stride, GLenum type)
+</ul><p>
+
+<dd><b>Describing Errors</b>
+
+<ul>
+<li>const GLubyte* <b>gluGetString</b> (GLenum errorCode)
+<li>const GLubyte* <b>gluErrorString</b> (GLenum name)
+<li>wchar_t* <b>gluErrorUnicodeStringEXT</b> (GLenum errCode)
+</ul><p>
+
+</dl>
+
+</body>
+</html>

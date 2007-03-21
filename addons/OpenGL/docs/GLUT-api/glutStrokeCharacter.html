@@ -1,0 +1,115 @@
+
+<HTML><HEAD><TITLE>Manpage of glutStrokeCharacter</TITLE>
+</HEAD><BODY>
+<H1>glutStrokeCharacter</H1>
+Section: GLUT (3GLUT)<BR>Updated: 3.7<BR><A HREF="#index">Index</A>
+<A HREF="">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+glutStrokeCharacter - renders a stroke character using OpenGL. 
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNTAX</H2>
+
+<PRE>
+
+void glutStrokeCharacter(void *font, int character);
+</PRE>
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>ARGUMENTS</H2>
+
+<DL COMPACT>
+<DT><I>font</I><DD>
+Stroke font to use. 
+<DT><I>character</I><DD>
+Character to render (not confined to 8 bits). 
+</DL>
+<A NAME="lbAE">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+Without using any display lists, glutStrokeCharacter renders the
+character in the named stroke font. The available fonts are: 
+<DL COMPACT>
+<DT><B>GLUT_STROKE_ROMAN </B>
+
+<DD>
+A proportionally spaced Roman Simplex font for ASCII characters
+32 through 127. The maximum top character in the font is 119.05
+units; the bottom descends 33.33 units. 
+<DT><B>GLUT_STROKE_MONO_ROMAN </B>
+
+<DD>
+A mono-spaced spaced Roman Simplex font (same characters as
+GLUT_STROKE_ROMAN) for ASCII characters 32 through 127. The
+maximum top character in the font is 119.05 units; the bottom
+descends 33.33 units. Each character is 104.76 units wide. 
+</DL>
+<P>
+
+Rendering a nonexistent character has no effect. A glTranslatef is
+used to translate the current model view matrix to advance the width of
+the character. 
+<A NAME="lbAF">&nbsp;</A>
+<H2>EXAMPLE</H2>
+
+Here is a routine that shows how to render a string of ASCII text
+with glutStrokeCharacter:
+<PRE>
+
+  void 
+  output(GLfloat x, GLfloat y, char *text)
+  {
+    char *p;
+
+    glPushMatrix();
+    glTranslatef(x, y, 0);
+    for (p = text; *p; p++)
+      glutStrokeCharacter(GLUT_STROKE_ROMAN, *p);
+    glPopMatrix();
+  }
+</PRE>
+
+<P>
+
+If you want to draw stroke font text using wide, antialiased lines, use:
+<PRE>
+
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  glEnable(GL_BLEND);
+  glEnable(GL_LINE_SMOOTH);
+  glLineWidth(2.0);
+  output(200, 225, &quot;This is antialiased.&quot;);
+</PRE>
+
+<P>
+
+<A NAME="lbAG">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+glutBitmapCharacter, glutStrokeWidth
+<A NAME="lbAH">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Mark J. Kilgard (<A HREF="mailto:mjk@nvidia.com">mjk@nvidia.com</A>)
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNTAX</A><DD>
+<DT><A HREF="#lbAD">ARGUMENTS</A><DD>
+<DT><A HREF="#lbAE">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAF">EXAMPLE</A><DD>
+<DT><A HREF="#lbAG">SEE ALSO</A><DD>
+<DT><A HREF="#lbAH">AUTHOR</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="">man2html</A>,
+using the manual pages.<BR>
+Time: 19:05:09 GMT, September 15, 2003
+</BODY>
+</HTML>

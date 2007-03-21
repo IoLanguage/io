@@ -1,0 +1,162 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glBlendFunc</STRONG> -	specify	pixel arithmetic
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glBlendFunc</STRONG>( GLenum <EM>sfactor</EM>,
+			    GLenum <EM>dfactor</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>sfactor</EM>  Specifies how the red, green, blue, and alpha
+		   source blending factors are computed.  Nine
+		   symbolic constants are accepted:  <STRONG>GL_ZERO</STRONG>, <STRONG>GL_ONE</STRONG>,
+		   <STRONG>GL_DST_COLOR</STRONG>, <STRONG>GL_ONE_MINUS_DST_COLOR</STRONG>, <STRONG>GL_SRC_ALPHA</STRONG>,
+		   <STRONG>GL_ONE_MINUS_SRC_ALPHA</STRONG>, <STRONG>GL_DST_ALPHA</STRONG>,
+		   <STRONG>GL_ONE_MINUS_DST_ALPHA</STRONG>, and <STRONG>GL_SRC_ALPHA_SATURATE</STRONG>.
+		   The initial value is	<STRONG>GL_ONE</STRONG>.
+
+	  <EM>dfactor</EM>  Specifies how the red, green, blue, and alpha
+		   destination blending	factors	are computed.  Eight
+		   symbolic constants are accepted:  <STRONG>GL_ZERO</STRONG>, <STRONG>GL_ONE</STRONG>,
+		   <STRONG>GL_SRC_COLOR</STRONG>, <STRONG>GL_ONE_MINUS_SRC_COLOR</STRONG>, <STRONG>GL_SRC_ALPHA</STRONG>,
+		   <STRONG>GL_ONE_MINUS_SRC_ALPHA</STRONG>, <STRONG>GL_DST_ALPHA</STRONG>, and
+		   <STRONG>GL_ONE_MINUS_DST_ALPHA</STRONG>. The initial value is
+		   <STRONG>GL_ZERO</STRONG>.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  In RGBA mode,	pixels can be drawn using a function that
+	  blends the incoming (source) RGBA values with	the RGBA
+	  values that are already in the frame buffer (the destination
+	  values).  Blending is	initially disabled.  Use <STRONG>glEnable</STRONG> and
+	  <STRONG>glDisable</STRONG> with argument <STRONG>GL_BLEND</STRONG> to enable and disable
+	  blending.
+
+	  <STRONG>glBlendFunc</STRONG> defines the operation of blending	when it	is
+	  enabled.  <EM>sfactor</EM> specifies which of nine methods is used to
+	  scale	the source color components.  <EM>dfactor</EM> specifies	which
+	  of eight methods is used to scale the	destination color
+	  components.  The eleven possible methods are described in
+	  the following	table.	Each method defines four scale
+	  factors, one each for	red, green, blue, and alpha.
+
+	  In the table and in subsequent equations, source and
+	  destination color components are referred to as
+	  (R ,G	,B ,A )	and (R ,G ,B ,A	).  They are understood	to
+	  ha<STRONG>v</STRONG>e <STRONG>i</STRONG>nt<STRONG>e</STRONG>ge<STRONG>r</STRONG> values <STRONG>b</STRONG>et<STRONG>w</STRONG>ee<STRONG>n</STRONG> 0dand (k ,k ,k ,k	), where
+					      R	 G  B  A
+					   mc
+				     kc	= 2  -1
+
+	  and (mR,mG,mB,mA) is the number of red, green, blue, and
+	  alpha	bitplanes.
+	  Source and destination scale factors are referred to as
+	  (s ,s	,s ,s )	and (d ,d ,d ,d	).  The	scale factors
+	  de<STRONG>s</STRONG>cr<STRONG>i</STRONG>be<STRONG>d</STRONG> i<STRONG>n</STRONG> the tab<STRONG>l</STRONG>e,Gde<STRONG>n</STRONG>ot<STRONG>e</STRONG>d (f ,f	,f ,f ), represent
+	  either source	or destination facto<STRONG>r</STRONG>s.G A<STRONG>l</STRONG>l <STRONG>s</STRONG>cale factors
+	  have range [0,1].
+
+     ______________________________________________________________________
+     |	    <EM>parameter</EM>	     |		  (f ,	f ,  f ,  f )		   |
+     <EM>|</EM>_______________________<EM>|</EM>______________<STRONG>_</STRONG>____<STRONG>_</STRONG>____<STRONG>_</STRONG>____<STRONG>_</STRONG>_______________|
+     |	     <STRONG>GL_ZERO</STRONG>	     |		      (0, 0, 0,	0)		   |
+     |	      <STRONG>GL_ONE</STRONG>	     |		      (1, 1, 1,	1)		   |
+     |	   <STRONG>GL_SRC_COLOR</STRONG>	     |	      (R /k , G	/k , B /k , A /k )	   |
+     |<STRONG>GL_ONE_MINUS_SRC_COLOR</STRONG> | (1, 1, 1,s1)R- (<STRONG>R</STRONG> /<STRONG>k</STRONG> , <STRONG>G</STRONG>	/<STRONG>k</STRONG> , <STRONG>B</STRONG> /<STRONG>k</STRONG> , A /k ) |
+     |	   <STRONG>GL_DST_COLOR</STRONG>	     |	      (R /k , G	<STRONG>/</STRONG>k <STRONG>,</STRONG> B <STRONG>/</STRONG>k <STRONG>,</STRONG> A <STRONG>/</STRONG>k <STRONG>)</STRONG>   s	A  |
+     |<STRONG>GL_ONE_MINUS_DST_COLOR</STRONG> | (1, 1, 1,d1)R- (<STRONG>R</STRONG> /<STRONG>k</STRONG> , <STRONG>G</STRONG>	/<STRONG>k</STRONG> , <STRONG>B</STRONG> /<STRONG>k</STRONG> , A /k ) |
+     |	   <STRONG>GL_SRC_ALPHA</STRONG>	     |	      (A /k , A	<STRONG>/</STRONG>k <STRONG>,</STRONG> A <STRONG>/</STRONG>k <STRONG>,</STRONG> A <STRONG>/</STRONG>k <STRONG>)</STRONG>   d	A  |
+     |<STRONG>GL_ONE_MINUS_SRC_ALPHA</STRONG> | (1, 1, 1,s1)A- (<STRONG>A</STRONG> /<STRONG>k</STRONG> , <STRONG>A</STRONG>	/<STRONG>k</STRONG> , <STRONG>A</STRONG> /<STRONG>k</STRONG> , A /k ) |
+     |	   <STRONG>GL_DST_ALPHA</STRONG>	     |	      (A /k , A	<STRONG>/</STRONG>k <STRONG>,</STRONG> A <STRONG>/</STRONG>k <STRONG>,</STRONG> A <STRONG>/</STRONG>k <STRONG>)</STRONG>   s	A  |
+     |<STRONG>GL_ONE_MINUS_DST_ALPHA</STRONG> | (1, 1, 1,d1)A- (<STRONG>A</STRONG> /<STRONG>k</STRONG> , <STRONG>A</STRONG>	/<STRONG>k</STRONG> , <STRONG>A</STRONG> /<STRONG>k</STRONG> , A /k ) |
+     |<STRONG>GL_SRC_ALPHA_SATURATE</STRONG>  |		      (i<STRONG>,</STRONG> i<STRONG>,</STRONG> i,d1)A   d	 A   d	A  |
+     <EM>|</EM>_______________________<EM>|</EM>_____________________________________________|
+
+	  In the table,
+
+		    i =	min(A ,	k -A ) / k
+			     s	 A  d	  A
+	  To determine the blended RGBA	values of a pixel when drawing
+	  in RGBA mode,	the system uses	the following equations:
+
+		    R  = min(k ,  R s +R d )
+		    Gd = min(kR,  GssR+GddR)
+		    Bd = min(kG,  BssG+BddG)
+		    Ad = min(kB,  AssB+AddB)
+		     d	      A	   s A	d A
+	  Despite the apparent precision of the	above equations,
+	  blending arithmetic is not exactly specified,	because
+	  blending operates with imprecise integer color values.
+	  However, a blend factor that should be equal to 1 is
+	  guaranteed not to modify its multiplicand, and a blend
+	  factor equal to 0 reduces its	multiplicand to	0.  For
+	  example, when	<EM>sfactor</EM>	is <STRONG>GL_SRC_ALPHA</STRONG>, <EM>dfactor</EM> is
+	  <STRONG>GL_ONE_MINUS_SRC_ALPHA</STRONG>, and A	 is equal to k , the equations
+	  reduce to simple replacement:s	      A
+
+		    R  = R
+		    Gd = Gs
+		    Bd = Bs
+		    Ad = As
+		     d	  s
+     <STRONG>EXAMPLES</STRONG>
+	  Transparency is best implemented using blend function
+	  (<STRONG>GL_SRC_ALPHA</STRONG>, <STRONG>GL_ONE_MINUS_SRC_ALPHA</STRONG>) with primitives
+	  sorted from farthest to nearest.  Note that this
+	  transparency calculation does	not require the	presence of
+	  alpha	bitplanes in the frame buffer.
+
+	  Blend	function (<STRONG>GL_SRC_ALPHA</STRONG>,	<STRONG>GL_ONE_MINUS_SRC_ALPHA</STRONG>)	is
+	  also useful for rendering antialiased	points and lines in
+	  arbitrary order.
+
+	  Polygon antialiasing is optimized using blend	function
+	  (<STRONG>GL_SRC_ALPHA_SATURATE</STRONG>, <STRONG>GL_ONE</STRONG>) with polygons	sorted from
+	  nearest to farthest.	(See the <STRONG>glEnable</STRONG>, <STRONG>glDisable</STRONG> reference
+	  page and the <STRONG>GL_POLYGON_SMOOTH</STRONG> argument for information on
+	  polygon antialiasing.)  Destination alpha bitplanes, which
+	  must be present for this blend function to operate
+	  correctly, store the accumulated coverage.
+
+     <STRONG>NOTES</STRONG>
+	  Incoming (source) alpha is correctly thought of as a
+	  material opacity, ranging from 1.0 (K	), representing
+	  complete opacity, to 0.0 (0),	represe<STRONG>n</STRONG>ting complete
+	  transparency.
+
+	  When more than one color buffer is enabled for drawing, the
+	  GL performs blending separately for each enabled buffer,
+	  using	the contents of	that buffer for	destination color.
+	  (See <STRONG>glDrawBuffer</STRONG>.)
+
+	  Blending affects only	RGBA rendering.	 It is ignored by
+	  color	index renderers.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if either <EM>sfactor</EM> or <EM>dfactor</EM> is
+	  not an accepted value.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glBlendFunc</STRONG> is executed
+	  between the execution	of <STRONG>glBegin</STRONG> and the corresponding
+	  execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_BLEND_SRC</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_BLEND_DST</STRONG>
+	  <STRONG>glIsEnabled</STRONG> with argument <STRONG>GL_BLEND</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glAlphaFunc</STRONG>, <STRONG>glClear</STRONG>,	<STRONG>glDrawBuffer</STRONG>, <STRONG>glEnable</STRONG>,	<STRONG>glLogicOp</STRONG>,
+	  <STRONG>glStencilFunc</STRONG>
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

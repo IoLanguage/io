@@ -1,0 +1,58 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>gluLoadSamplingMatrices</STRONG> - load NURBS sampling	and culling
+	  matrices
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>gluLoadSamplingMatrices</STRONG>(	GLUnurbs* <EM>nurb</EM>,
+					const GLfloat *<EM>model</EM>,
+					const GLfloat *<EM>perspective</EM>,
+					const GLint *<EM>view</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>nurb</EM>	       Specifies the NURBS object (created with
+		       <STRONG>gluNewNurbsRenderer</STRONG>).
+
+	  <EM>model</EM>	       Specifies a modelview matrix (as	from a
+		       <STRONG>glGetFloatv</STRONG> call).
+
+	  <EM>perspective</EM>  Specifies a projection matrix (as from a
+		       <STRONG>glGetFloatv</STRONG> call).
+
+	  <EM>view</EM>	       Specifies a viewport (as	from a <STRONG>glGetIntegerv</STRONG>
+		       call).
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>gluLoadSamplingMatrices</STRONG> uses <EM>model</EM>, <EM>perspective</EM>, and <EM>view</EM> to
+	  recompute the	sampling and culling matrices stored in	<EM>nurb</EM>.
+	  The sampling matrix determines how finely a NURBS curve or
+	  surface must be tessellated to satisfy the sampling
+	  tolerance (as	determined by the <STRONG>GLU_SAMPLING_TOLERANCE</STRONG>
+	  property).  The culling matrix is used in deciding if	a
+	  NURBS	curve or surface should	be culled before rendering
+	  (when	the <STRONG>GLU_CULLING</STRONG>	property is turned on).
+
+	  <STRONG>gluLoadSamplingMatrices</STRONG> is necessary only if the
+	  <STRONG>GLU_AUTO_LOAD_MATRIX</STRONG> property	is turned off (see
+	  <STRONG>gluNurbsProperty</STRONG>).  Although it can be convenient to leave
+	  the <STRONG>GLU_AUTO_LOAD_MATRIX</STRONG> property turned on, there can be a
+	  performance penalty for doing	so.  (A	round trip to the GL
+	  server is needed to fetch the	current	values of the
+	  modelview matrix, projection matrix, and viewport.)
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>gluGetNurbsProperty</STRONG>, <STRONG>gluNewNurbsRenderer</STRONG>, <STRONG>gluNurbsProperty</STRONG>
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

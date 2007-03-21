@@ -1,0 +1,58 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glEdgeFlag,</STRONG> <STRONG>glEdgeFlagv</STRONG> - flag edges as either boundary or
+	  nonboundary
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glEdgeFlag</STRONG>( GLboolean <EM>flag</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>flag</EM>	Specifies the current edge flag	value, either <STRONG>GL_TRUE</STRONG>
+		or <STRONG>GL_FALSE</STRONG>. The initial value is <STRONG>GL_TRUE</STRONG>.
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glEdgeFlagv</STRONG>( const GLboolean *<EM>flag</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>flag</EM> Specifies a pointer to an array that contains a single
+	       boolean element,	which replaces the current edge	flag
+	       value.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  Each vertex of a polygon, separate triangle, or separate
+	  quadrilateral	specified between a <STRONG>glBegin</STRONG>/<STRONG>glEnd</STRONG> pair is
+	  marked as the	start of either	a boundary or nonboundary
+	  edge.	 If the	current	edge flag is true when the vertex is
+	  specified, the vertex	is marked as the start of a boundary
+	  edge.	 Otherwise, the	vertex is marked as the	start of a
+	  nonboundary edge.  <STRONG>glEdgeFlag</STRONG>	sets the edge flag bit to
+	  <STRONG>GL_TRUE</STRONG> if <EM>flag</EM> is <STRONG>GL_TRUE</STRONG>, and to <STRONG>GL_FALSE</STRONG> otherwise.
+
+	  The vertices of connected triangles and connected
+	  quadrilaterals are always marked as boundary,	regardless of
+	  the value of the edge	flag.
+
+	  Boundary and nonboundary edge	flags on vertices are
+	  significant only if <STRONG>GL_POLYGON_MODE</STRONG> is set to	<STRONG>GL_POINT</STRONG> or
+	  <STRONG>GL_LINE</STRONG>.  See	<STRONG>glPolygonMode</STRONG>.
+
+     <STRONG>NOTES</STRONG>
+	  The current edge flag	can be updated at any time.  In
+	  particular, <STRONG>glEdgeFlag</STRONG> can be	called between a call to
+	  <STRONG>glBegin</STRONG> and the corresponding	call to	<STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_EDGE_FLAG</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glBegin</STRONG>, <STRONG>glEdgeFlagPointer</STRONG>, <STRONG>glPolygonMode</STRONG>
+
+
+</PRE>
+</BODY>
+</HTML>

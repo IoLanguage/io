@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glIndexPointer</STRONG> - define an array of color indexes
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glIndexPointer</STRONG>( GLenum <EM>type</EM>,
+			       GLsizei <EM>stride</EM>,
+			       const GLvoid *<EM>pointer</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>type</EM>	   Specifies the data type of each color index in the
+		   array.  Symbolic constants <STRONG>GL_UNSIGNED_BYTE</STRONG>,
+		   <STRONG>GL_SHORT</STRONG>, <STRONG>GL_INT</STRONG>, <STRONG>GL_FLOAT</STRONG>, and <STRONG>GL_DOUBLE</STRONG> are
+		   accepted.
+
+	  <EM>stride</EM>   Specifies the byte offset between consecutive color
+		   indexes.  If	<EM>stride</EM> is 0 (the initial value), the
+		   color indexes are understood	to be tightly packed
+		   in the array.
+
+	  <EM>pointer</EM>  Specifies a pointer to the first index in the
+		   array.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glIndexPointer</STRONG> specifies the location	and data format	of an
+	  array	of color indexes to use	when rendering.	 <EM>type</EM>
+	  specifies the	data type of each color	index and <EM>stride</EM> gives
+	  the byte stride from one color index to the next allowing
+	  vertexes and attributes to be	packed into a single array or
+	  stored in separate arrays.  (Single-array storage may	be
+	  more efficient on some implementations; see
+	  <STRONG>glInterleavedArrays</STRONG>.)
+
+	  <EM>type</EM>,	<EM>stride</EM>,	and <EM>pointer</EM> are	saved as client-side state.
+
+	  The color index array	is initially disabled. To enable and
+	  disable the array, call <STRONG>glEnableClientState</STRONG> and
+	  <STRONG>glDisableClientState</STRONG> with the	argument <STRONG>GL_INDEX_ARRAY</STRONG>. If
+	  enabled, the color index array is used when <STRONG>glDrawArrays</STRONG>,
+	  <STRONG>glDrawElements</STRONG> or <STRONG>glArrayElement</STRONG> is called.
+
+	  Use <STRONG>glDrawArrays</STRONG> to construct	a sequence of primitives (all
+	  of the same type) from prespecified vertex and vertex
+	  attribute arrays.  Use <STRONG>glArrayElement</STRONG>	to specify primitives
+	  by indexing vertexes and vertex attributes and
+	  <STRONG>glDrawElements</STRONG> to construct a	sequence of primitives by
+	  indexing vertexes and	vertex attributes.
+
+     <STRONG>NOTES</STRONG>
+	  <STRONG>glIndexPointer</STRONG> is available only if the GL version is	1.1 or
+	  greater.
+	  The color index array	is initially disabled, and it isn't
+	  accessed when	<STRONG>glArrayElement</STRONG>,	<STRONG>glDrawElements</STRONG> or <STRONG>glDrawArrays</STRONG>
+	  is called.
+
+	  Execution of <STRONG>glIndexPointer</STRONG> is not allowed between <STRONG>glBegin</STRONG>
+	  and the corresponding	<STRONG>glEnd</STRONG>, but an error may	or may not be
+	  generated. If	an error is not	generated, the operation is
+	  undefined.
+
+	  <STRONG>glIndexPointer</STRONG> is typically implemented on the client	side.
+
+	  Since	the color index	array parameters are client-side
+	  state, they are not saved or restored	by <STRONG>glPushAttrib</STRONG>	and
+	  <STRONG>glPopAttrib</STRONG>.	Use <STRONG>glPushClientAttrib</STRONG> and <STRONG>glPopClientAttrib</STRONG>
+	  instead.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>type</EM> is not an accepted
+	  value.
+
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if <EM>stride</EM> is negative.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glIsEnabled</STRONG> with argument <STRONG>GL_INDEX_ARRAY</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_INDEX_ARRAY_TYPE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_INDEX_ARRAY_STRIDE</STRONG>
+	  <STRONG>glGetPointerv</STRONG>	with argument <STRONG>GL_INDEX_ARRAY_POINTER</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glArrayElement</STRONG>, <STRONG>glColorPointer</STRONG>, <STRONG>glDrawArrays</STRONG>,
+	  <STRONG>glDrawElements</STRONG>, <STRONG>glEdgeFlagPointer</STRONG>, <STRONG>glEnable</STRONG>, <STRONG>glGetPointerv</STRONG>,
+	  <STRONG>glInterleavedArrays</STRONG>, <STRONG>glNormalPointer</STRONG>,	<STRONG>glPopClientAttrib</STRONG>,
+	  <STRONG>glPushClientAttrib</STRONG>, <STRONG>glTexCoordPointer</STRONG>, <STRONG>glVertexPointer</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

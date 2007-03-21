@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glBindTexture</STRONG>	- bind a named texture to a texturing target
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glBindTexture</STRONG>( GLenum <EM>target</EM>,
+			      GLuint <EM>texture</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>target</EM>   Specifies the target	to which the texture is	bound.
+		   Must	be either <STRONG>GL_TEXTURE_1D</STRONG>	or <STRONG>GL_TEXTURE_2D</STRONG>.
+
+	  <EM>texture</EM>  Specifies the name of a texture.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glBindTexture</STRONG>	lets you create	or use a named texture.
+	  Calling <STRONG>glBindTexture</STRONG>	with
+	  <EM>target</EM> set to	<STRONG>GL_TEXTURE_1D</STRONG> or <STRONG>GL_TEXTURE_2D</STRONG> and <EM>texture</EM> set
+	  to the name of the newtexture	binds the texture name to the
+	  target. When a texture is bound to a target, the previous
+	  binding for that target is automatically broken.
+
+	  Texture names	are unsigned integers. The value zero is
+	  reserved to represent	the default texture for	each texture
+	  target.  Texture names and the corresponding texture
+	  contents are local to	the shared display-list	space (see
+	  <STRONG>glXCreateContext</STRONG>) of the current GL rendering	context; two
+	  rendering contexts share texture names only if they also
+	  share	display	lists.
+
+	  You may use <STRONG>glGenTextures</STRONG> to generate	a set of new texture
+	  names.
+
+	  When a texture is first bound, it assumes the	dimensionality
+	  of its target:  A texture first bound	to <STRONG>GL_TEXTURE_1D</STRONG>
+	  becomes 1-dimensional	and a texture first bound to
+	  <STRONG>GL_TEXTURE_2D</STRONG>	becomes	2-dimensional. The state of a 1-
+	  dimensional texture immediately after	it is first bound is
+	  equivalent to	the state of the default <STRONG>GL_TEXTURE_1D</STRONG> at GL
+	  initialization, and similarly	for 2-dimensional textures.
+
+	  While	a texture is bound, GL operations on the target	to
+	  which	it is bound affect the bound texture, and queries of
+	  the target to	which it is bound return state from the	bound
+	  texture. If texture mapping of the dimensionality of the
+	  target to which a texture is bound is	active,	the bound
+	  texture is used.  In effect, the texture targets become
+	  aliases for the textures currently bound to them, and	the
+	  texture name zero refers to the default textures that	were
+	  bound	to them	at initialization.
+
+	  A texture binding created with <STRONG>glBindTexture</STRONG> remains active
+	  until	a different texture is bound to	the same target, or
+	  until	the bound texture is deleted with <STRONG>glDeleteTextures</STRONG>.
+
+	  Once created,	a named	texture	may be re-bound	to the target
+	  of the matching dimensionality as often as needed.  It is
+	  usually much faster to use <STRONG>glBindTexture</STRONG> to bind an existing
+	  named	texture	to one of the texture targets than it is to
+	  reload the texture image using <STRONG>glTexImage1D</STRONG> or <STRONG>glTexImage2D</STRONG>.
+	  For additional control over performance, use
+	  <STRONG>glPrioritizeTextures</STRONG>.
+
+	  <STRONG>glBindTexture</STRONG>	is included in display lists.
+
+     <STRONG>NOTES</STRONG>
+	  <STRONG>glBindTexture</STRONG>	is available only if the GL version is 1.1 or
+	  greater.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>target</EM> is not	one of the
+	  allowable values.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <EM>texture</EM> has a
+	  dimensionality which doesn't match that of <EM>target</EM>.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glBindTexture</STRONG> is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_TEXTURE_1D_BINDING</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_TEXTURE_2D_BINDING</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glAreTexturesResident</STRONG>, <STRONG>glDeleteTextures</STRONG>, <STRONG>glGenTextures</STRONG>,
+	  <STRONG>glGet</STRONG>,
+	  <STRONG>glGetTexParameter</STRONG>, <STRONG>glIsTexture</STRONG>, <STRONG>glPrioritizeTextures</STRONG>,
+	  <STRONG>glTexImage1D</STRONG>,	<STRONG>glTexImage2D</STRONG>, <STRONG>glTexParameter</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,1360 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<meta name="Generator" content="Pages 2.0.2" />
+<title></title>
+<link rel="stylesheet" type="text/css" media="screen" href="guide_files/guide.css" />
+<script type="text/javascript" src="guide_files/guide.js"></script></head>
+<body style="margin: 36pt 63pt 36pt 63.3pt; " onload="onPageLoad();">
+<div><div style="margin: 72pt 0pt 0pt 0pt; width: 485.6pt; "><div class="paragraph Heading" style="line-height: 38pt; margin-bottom: 0pt; margin-top: 0pt; padding-top: 0pt; text-align: right; font-size: 32pt; line-height: 38pt;">Io, The Programming Language </div>
+<div class="paragraph Version" style="line-height: 115pt; font-size: 8pt; line-height: 10pt;  text-decoration: none;"> </div>
+<div class="paragraph Copyright" style="line-height: 10pt; font-size: 8pt; line-height: 10pt;  text-decoration: none;"> </div>
+<div class="paragraph Copyright" style="line-height: 10pt; "></div>
+<div class="paragraph Heading" style="line-height: 29pt; ">Contents</div>
+</div>
+<div style="margin: 18pt 0pt 0pt 36pt; width: 449.6pt; "><div class="paragraph TOC_Heading_2" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; padding-bottom: 0pt; padding-top: 25pt; text-indent: -0pt; "><a href="#TOC681" style="color: #000000; font-weight: bold; letter-spacing:    -0.02em; line-height: 13pt; opacity: 1.00; ">Introduction</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC1090" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Perspective</a></div>
+<div class="paragraph TOC_Heading_2" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; padding-bottom: 0pt; padding-top: 25pt; text-indent: -0pt; "><a href="#TOC2392" style="color: #000000; font-weight: bold; letter-spacing:    -0.02em; line-height: 13pt; opacity: 1.00; ">Getting Started</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC2408" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Downloading</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC2483" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Installing</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC3090" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Binaries</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC3459" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Running Scripts</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC3641" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Interactive Mode</a></div>
+<div class="paragraph TOC_Heading_2" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; padding-bottom: 0pt; padding-top: 25pt; text-indent: -0pt; "><a href="#TOC5040" style="color: #000000; font-weight: bold; letter-spacing:    -0.02em; line-height: 13pt; opacity: 1.00; ">Syntax</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC5088" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Expressions</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC5385" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Messages</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC6579" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Operators</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC7098" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Assignment</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC7491" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Numbers</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC7663" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Strings</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC7999" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Comments</a></div>
+<div class="paragraph TOC_Heading_2" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; padding-bottom: 0pt; padding-top: 25pt; text-indent: -0pt; "><a href="#TOC8393" style="color: #000000; font-weight: bold; letter-spacing:    -0.02em; line-height: 13pt; opacity: 1.00; ">Objects</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC8831" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Overview</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC8930" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Prototypes</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC9827" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Inheritance</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC11057" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Methods</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC11847" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Blocks</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC13776" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Forward</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC14182" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Resend</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC14474" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Super</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC14732" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Introspection</a></div>
+<div class="paragraph TOC_Heading_2" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; padding-bottom: 0pt; padding-top: 25pt; text-indent: -0pt; "><a href="#TOC15842" style="color: #000000; font-weight: bold; letter-spacing:    -0.02em; line-height: 13pt; opacity: 1.00; ">Control Flow</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC15855" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">true, false and nil</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC16058" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Comparison</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC16180" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Conditions</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC17032" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Loops</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC18454" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Importing</a></div>
+<div class="paragraph TOC_Heading_2" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; padding-bottom: 0pt; padding-top: 25pt; text-indent: -0pt; "><a href="#TOC18856" style="color: #000000; font-weight: bold; letter-spacing:    -0.02em; line-height: 13pt; opacity: 1.00; ">Concurrency</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC18868" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Coroutines</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC19207" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Scheduler</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC19386" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Actors</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC20515" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Yield</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC20717" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Pause and Resume</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC20869" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Futures</a></div>
+<div class="paragraph TOC_Heading_2" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; padding-bottom: 0pt; padding-top: 25pt; text-indent: -0pt; "><a href="#TOC21750" style="color: #000000; font-weight: bold; letter-spacing:    -0.02em; line-height: 13pt; opacity: 1.00; ">Exceptions</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC21761" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Raise</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC22104" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Try and Catch</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC22654" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Pass</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC22959" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Custom Exceptions</a></div>
+<div class="paragraph TOC_Heading_2" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; padding-bottom: 0pt; padding-top: 25pt; text-indent: -0pt; "><a href="#TOC23099" style="color: #000000; font-weight: bold; letter-spacing:    -0.02em; line-height: 13pt; opacity: 1.00; ">Primitives</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC23815" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Object</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC24051" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">List</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC26034" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Sequence</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC27558" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Ranges</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC28484" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">File</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC28761" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Directory</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC29562" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Date</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC30107" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Networking</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC31414" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">XML</a></div>
+<div class="paragraph TOC_Heading_2" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; padding-bottom: 0pt; padding-top: 25pt; text-indent: -0pt; "><a href="#TOC31592" style="color: #000000; font-weight: bold; letter-spacing:    -0.02em; line-height: 13pt; opacity: 1.00; ">Embedding</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC31602" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Coding Conventions</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC33091" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">IoState</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC33917" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Values</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC34697" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Bindings</a></div>
+<div class="paragraph TOC_Heading_2" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; padding-bottom: 0pt; padding-top: 25pt; text-indent: -0pt; "><a href="#TOC34721" style="color: #000000; font-weight: bold; letter-spacing:    -0.02em; line-height: 13pt; opacity: 1.00; ">Appendix</a></div>
+<div class="paragraph TOC_Heading_3" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 141.6pt; margin-top: 0pt; padding-top: 1pt; text-indent: -123.6pt; "><a href="#TOC34731" style="color: #3f3f3f; line-height: 13pt; opacity: 1.00; ">Grammar</a></div>
+<div class="paragraph TOC_Heading_2" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; padding-bottom: 0pt; padding-top: 25pt; text-indent: -0pt; "><a href="#TOC36160" style="color: #000000; font-weight: bold; letter-spacing:    -0.02em; line-height: 13pt; opacity: 1.00; ">Credits</a></div>
+<div class="paragraph TOC_Heading_2" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; padding-bottom: 0pt; padding-top: 25pt; text-indent: -0pt; "><a href="#TOC36701" style="color: #000000; font-weight: bold; letter-spacing:    -0.02em; line-height: 13pt; opacity: 1.00; ">References</a></div>
+<div class="paragraph TOC_Heading_2" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; padding-bottom: 0pt; padding-top: 25pt; text-indent: -0pt; "><a href="#TOC36717" style="color: #000000; font-weight: bold; letter-spacing:    -0.02em; line-height: 13pt; opacity: 1.00; ">License</a></div>
+<div class="paragraph Heading" style="line-height: 29pt; text-decoration: none;"> </div>
+</div>
+</div>
+<div><div class="layout_style_149"><div class="paragraph"></div>
+<div class="paragraph Heading" style="line-height: 29pt; padding-top: 0pt; "><a name="TOC681" id="TOC681"></a><span>Introduction</span><span style="font-family: 'Times-Roman', 'Times', 'Times New Roman', 'serif'; font-size: 11pt; line-height: 13pt; "></span></div>
+<div class="paragraph Quote" style="line-height: 13pt; ">Simplicity is the essence of happiness.<br />
+- Cedric Bledsoe</div>
+<div class="paragraph Body" style="line-height: 12pt; ">Io is a dynamic prototype-based programming language. The ideas in Io are mostly inspired by Smalltalk[1] (all values are objects), Self[2] (prototype-based), NewtonScript[3] (differential inheritance), Act1[4] (actors and futures for concurrency), Lisp[5] (code is a runtime inspectable / modifiable tree) and Lua[6] (small, embeddable).</div>
+<div class="paragraph Heading_1" style="line-height: 17pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; "><a name="TOC1090" style="line-height: 17pt; " id="TOC1090"></a><span style="line-height: 17pt; ">Perspective</span><span style="font-family: 'Times-Roman', 'Times', 'Times New Roman', 'serif'; line-height: 18pt; "></span></div>
+<div class="paragraph Heading_2" style="line-height: 13pt; padding-top: 10pt; ">Why Another Language?</div>
+<div class="paragraph Body" style="line-height: 12pt; ">The focus of programming language research for the last thirty years has been to combine the high level expressive power of Smalltalk with the performance of low level languages with little attention paid to advancing expressive power itself. Io’s purpose is to focus on expressiveness by exploring higher level dynamic programming features with greater levels of runtime flexibility and simplified programming syntax and semantics. </div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">In Io, all values are objects (of which, anything can change at runtime, including slots, methods and inheritance), all code is made up of expressions (which are runtime inspectable and modifiable) and all expressions are made up of dynamic message sends (including assignment and control structures). Execution contexts themselves are objects and activatable objects such as methods/blocks and functions are unified into blocks with assignable scope. Concurrency is made more easily manageable through actors and implemented using coroutines for scalability.</div>
+<div class="paragraph Heading_2" style="line-height: 13pt; margin-bottom: 0pt; margin-left: 71.6pt; margin-top: 0pt; text-indent: 0pt; "><span style="line-height: 13pt; ">Practical Goals</span><span style="font-family: 'Times-Roman', 'Times', 'Times New Roman', 'serif'; font-size: 11pt; line-height: 13pt; "></span></div>
+<div class="paragraph Body" style="line-height: 12pt; ">To be a language that is:</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<ol><li><ol><li><ol><li><ol><li><ol><li><ol><li style="line-height: 14.4pt; margin-left: 9pt; padding-left: 90pt; text-indent: -9pt; "><div class="paragraph Body_Bullet" style="line-height: 14.4pt; margin-top: -1.2pt; text-indent: -9pt; "><span style="color: #000000; font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: 0; line-height: 14.4pt; opacity: 1.00; position: relative; text-decoration: none; text-transform: none; top: 1pt; " class="Bullet">•</span><span style="width: 5pt; " class="Spacer"></span><span style="font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; line-height: 14.4pt; ">simple</span></div>
+<ol><li style="line-height: 14.4pt; margin-left: 9pt; padding-left: 9pt; text-indent: -9pt; "><div class="paragraph Body_Bullet" style="line-height: 14.4pt; margin-top: 1.2pt; text-indent: -9pt; "><span style="color: #000000; font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: 0; line-height: 14.4pt; opacity: 1.00; position: relative; text-decoration: none; text-transform: none; top: 1pt; " class="Bullet">•</span><span style="width: 5pt; " class="Spacer"></span><span>conceptually simple and consistent</span></div>
+</li>
+<li style="line-height: 14.4pt; margin-left: 9pt; padding-left: 9pt; text-indent: -9pt; "><div class="paragraph Body_Bullet" style="line-height: 14.4pt; text-indent: -9pt; "><span style="color: #000000; font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: 0; line-height: 14.4pt; opacity: 1.00; position: relative; text-decoration: none; text-transform: none; top: 1pt; " class="Bullet">•</span><span style="width: 5pt; " class="Spacer"></span><span style="font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; line-height: 14.4pt; ">easily embedded and extended</span></div>
+</li>
+</ol>
+</li>
+<li style="line-height: 14.4pt; margin-left: 9pt; padding-left: 90pt; text-indent: -9pt; "><div class="paragraph Body_Bullet" style="line-height: 14.4pt; text-indent: -9pt; "><span style="color: #000000; font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: 0; line-height: 14.4pt; opacity: 1.00; position: relative; text-decoration: none; text-transform: none; top: 1pt; " class="Bullet">•</span><span style="width: 5pt; " class="Spacer"></span><span style="font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; line-height: 14.4pt; ">powerful</span></div>
+<ol><li style="line-height: 14.4pt; margin-left: 9pt; padding-left: 9pt; text-indent: -9pt; "><div class="paragraph Body_Bullet" style="line-height: 14.4pt; text-indent: -9pt; "><span style="color: #000000; font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: 0; line-height: 14.4pt; opacity: 1.00; position: relative; text-decoration: none; text-transform: none; top: 1pt; " class="Bullet">•</span><span style="width: 5pt; " class="Spacer"></span><span>highly dynamic and introspective</span></div>
+</li>
+<li style="line-height: 14.4pt; margin-left: 9pt; padding-left: 9pt; text-indent: -9pt; "><div class="paragraph Body_Bullet" style="line-height: 14.4pt; text-indent: -9pt; "><span style="color: #000000; font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: 0; line-height: 14.4pt; opacity: 1.00; position: relative; text-decoration: none; text-transform: none; top: 1pt; " class="Bullet">•</span><span style="width: 5pt; " class="Spacer"></span><span>highly concurrent (via coroutines and async i/o)</span><span style="font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; line-height: 14.4pt; "></span></div>
+</li>
+</ol>
+</li>
+<li style="line-height: 14.4pt; margin-left: 9pt; padding-left: 90pt; text-indent: -9pt; "><div class="paragraph Body_Bullet" style="line-height: 14.4pt; text-indent: -9pt; "><span style="color: #000000; font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: 0; line-height: 14.4pt; opacity: 1.00; position: relative; text-decoration: none; text-transform: none; top: 1pt; " class="Bullet">•</span><span style="width: 5pt; " class="Spacer"></span><span style="font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; line-height: 14.4pt; ">practical</span></div>
+<ol><li style="line-height: 14.4pt; margin-left: 9pt; padding-left: 9pt; text-indent: -9pt; "><div class="paragraph Body_Bullet" style="line-height: 14.4pt; text-indent: -9pt; "><span style="color: #000000; font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: 0; line-height: 14.4pt; opacity: 1.00; position: relative; text-decoration: none; text-transform: none; top: 1pt; " class="Bullet">•</span><span style="width: 5pt; " class="Spacer"></span><span style="font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; line-height: 14.4pt; ">fast enough</span></div>
+</li>
+<li style="line-height: 14.4pt; margin-left: 9pt; padding-left: 9pt; text-indent: -9pt; "><div class="paragraph Body_Bullet" style="line-height: 14.4pt; text-indent: -9pt; "><span style="color: #000000; font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: 0; line-height: 14.4pt; opacity: 1.00; position: relative; text-decoration: none; text-transform: none; top: 1pt; " class="Bullet">•</span><span style="width: 5pt; " class="Spacer"></span><span style="font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; line-height: 14.4pt; ">multi-platform</span></div>
+</li>
+<li style="line-height: 14.4pt; margin-left: 9pt; padding-left: 9pt; text-indent: -9pt; "><div class="paragraph Body_Bullet" style="line-height: 14.4pt; text-indent: -9pt; "><span style="color: #000000; font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: 0; line-height: 14.4pt; opacity: 1.00; position: relative; text-decoration: none; text-transform: none; top: 1pt; " class="Bullet">•</span><span style="width: 5pt; " class="Spacer"></span><span style="font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; line-height: 14.4pt; ">a comprehensive set of standard packages which also have these goals</span></div>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<div class="paragraph Heading" style="line-height: 29pt; "></div>
+<div class="paragraph Heading" style="line-height: 29pt; "><a name="TOC2392" id="TOC2392"></a><span>Getting Started</span></div>
+<div class="paragraph Heading_1" style="line-height: 17pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; "><a name="TOC2408" style="line-height: 17pt; " id="TOC2408"></a><span style="line-height: 17pt; ">Downloading</span><span style="line-height: 17pt; "> </span><span style="line-height: 17pt; "></span></div>
+<div class="paragraph Body" style="line-height: 12pt; ">Io distributions are available at:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; "><a href="http://www.iolanguage.com" title="http://www.iolanguage.com" style="color: #0f0097; line-height: 11pt; opacity: 1.00; text-decoration: underline; ">http://www.iolanguage.com</a></div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC2483" id="TOC2483"></a><span>Installing</span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">To build, from the top folder, run:</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">make </div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Binaries will be placed in the _build/binaries subfolder. To install:</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">sudo make install </div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">or, if you’d like the install to simply link to your development folder:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">sudo make linkInstall</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">and to run the unit tests:</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">make test</div>
+<div class="paragraph Heading_2" style="line-height: 13pt; ">Addons</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Some of Io’s addons require libraries that may not be installed on your system already. To install these automatically, type either:</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">su -c " sudo make aptget”</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">or:</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">su -c "make emerge”</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">or:</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">sudo make port</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">Depending on which package installer you use. Port is macports/darwinports (http://www.macports.org/) for OSX.</div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC3090" id="TOC3090"></a><span>Binaries</span></div>
+<div class="paragraph Body" style="line-height: 12pt; ">Io builds two executables and places them in the binaries folder. They are: </div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">io_static</div>
+<div class="paragraph Code" style="line-height: 11pt; ">io</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">The io_static executable contains the vm with a minimal set of primitives all statically linked into the executable. The io executable contains just enough to load the iovm dynamically linked library and is able to dynamically load io addons when they are referenced.</div>
+<div class="paragraph Heading_1" style="line-height: 17pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; "><a name="TOC3459" style="line-height: 17pt; " id="TOC3459"></a><span style="line-height: 17pt; ">Running Scripts</span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">An example of running a script: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">io samples/HelloWorld.io</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">There is no main() function or object that gets executed first in Io. Scripts are executed when compiled.</div>
+<div class="paragraph Heading_1" style="line-height: 17pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; "><a name="TOC3641" style="line-height: 17pt; " id="TOC3641"></a><span style="line-height: 17pt; ">Interactive Mode</span><span style="font-family: 'Times-Roman', 'Times', 'Times New Roman', 'serif'; font-size: 11pt; line-height: 13pt; "></span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Running: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">./_build/binaries/io</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">Or, if Io is installed, running:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">io</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">will open the Io interpreter prompt. </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">You can evaluate code by entering it directly. Example:</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">Io&gt; "Hello world!" println</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; Hello world!</div>
+<div class="paragraph Body" style="line-height: 12pt; font-family: 'Times-Roman', 'Times', 'Times New Roman', 'serif'; font-size: 11pt; line-height: 13pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Expressions are evaluated in the context of the Lobby: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">Io&gt; print</div>
+<div class="paragraph Code" style="line-height: 11pt; ">[printout of lobby contents]</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">If you have a .iorc file in your home folder, it will be evaled before the interactive prompt starts. Also, rlwrap can be used to add line history features:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">rlwrap io</div>
+<div class="paragraph Heading_2" style="line-height: 13pt; ">Inspecting objects</div>
+<div class="paragraph Body" style="line-height: 12pt; ">You can get a list of the slots of an object like this:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">Io&gt; someObject slotNames</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">To show them in sorted order:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">Io&gt; someObject slotNames sort</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+</div>
+</div>
+<div><div class="layout_style_6"><div class="paragraph"></div>
+<div class="paragraph Heading_2" style="line-height: 13pt; padding-top: 0pt; ">doFile and doString</div>
+<div class="paragraph Body" style="line-height: 12pt; ">A script can be run from the interactive mode using the doFile method:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">doFile(“scriptName.io”)</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">The evaluation context of doFile is the receiver, which in this case would be the lobby. To evaluate the script in the context of some other object, simply send the doFile message to it:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">someObject doFile(“scriptName.io”)</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">The doString method can be used to evaluate a string:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">Io&gt; doString(“1+1”)</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; 2</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">And to evaluate a string in the context of a particular object:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">someObject doString(“1 + 1”)</div>
+<div class="paragraph Heading_2" style="line-height: 13pt; ">Command Line Arguments</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Example of printing out command line arguments:</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; "><span>args foreach(k, v, write("'", v, "'\n"))</span><span style="font-family: 'Times-Roman', 'Times', 'Times New Roman', 'serif'; font-size: 11pt; line-height: 13pt; "></span></div>
+<div class="paragraph Heading_2" style="line-height: 13pt; ">launchPath</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">The Lobby "launchPath" slot is set to the location on the initial source file that is executed.</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; "></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Heading" style="line-height: 29pt; "><a name="TOC5040" id="TOC5040"></a><span style="font-family: 'Helvetica-Bold', 'Helvetica', 'Arial', 'sans-serif'; font-size: 24pt; font-weight: bold; line-height: 29pt; ">S</span><span style="font-family: 'Helvetica-Bold', 'Helvetica', 'Arial', 'sans-serif'; font-size: 24pt; font-weight: bold; line-height: 29pt; ">yntax</span></div>
+<div class="paragraph Quote" style="line-height: 13pt; margin-bottom: 0pt; margin-top: 0pt; padding-bottom: 0pt; "><span style="line-height: 13pt; ">Less is more.<br />
+- Ludwig Mies van der Rohe</span><span style="line-height: 13pt; "></span></div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC5088" id="TOC5088"></a><span>E</span><span>xpressions</span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; "><span style="line-height: 12pt; ">Io has no keywords or statements. Everything is an expression composed entirely of messages, </span><span style="line-height: 12pt; ">each of which is a runtime accessible object</span><span style="line-height: 12pt; ">. The informal BNF description:</span><span style="line-height: 12pt; "></span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 89.7pt; margin-top: 0pt; text-indent: 0pt; "><table cellspacing="0" cellpadding="0" style="background: transparent; border-collapse: collapse; height: 65pt; width: 375pt; word-wrap: break-word; " id="id1"><tr><td style="background: transparent; border: 1pt #bfbfbf none; height: 63pt; width: 64pt; "><div><div style="margin: 5pt; width: 64pt; "><div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; padding-top: 0pt; text-indent: 0pt; font-family: 'Courier', 'serif'; font-size: 9pt; font-style: normal; font-weight: normal; line-height: 11pt;">exp</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; text-indent: 0pt; font-family: 'Courier', 'serif'; font-size: 9pt; font-style: normal; font-weight: normal; line-height: 11pt;">message</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; text-indent: 0pt; font-family: 'Courier', 'serif'; font-size: 9pt; font-style: normal; font-weight: normal; line-height: 11pt;">arguments</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; text-indent: 0pt; font-family: 'Courier', 'serif'; font-size: 9pt; font-style: normal; font-weight: normal; line-height: 11pt;">symbol</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; padding-bottom: 0pt; text-indent: 0pt; font-family: 'Courier', 'serif'; font-size: 9pt; font-style: normal; font-weight: normal; line-height: 11pt;">terminator</div>
+</div>
+</div>
+</td>
+<td style="background: transparent; border: 1pt #bfbfbf none; height: 63pt; width: 309pt; "><div><div style="margin: 5pt; width: 309pt; "><div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 1pt; margin-top: 0pt; padding-top: 0pt; text-indent: 0pt; font-family: 'Courier', 'serif'; font-size: 9pt; font-style: normal; line-height: 11pt;">::= { message | terminator }</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 1pt; margin-top: 0pt; text-indent: 0pt; font-family: 'Courier', 'serif'; font-size: 9pt; font-style: normal; line-height: 11pt;">::= symbol [arguments]</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 1pt; margin-top: 0pt; text-indent: 0pt; font-family: 'Courier', 'serif'; font-size: 9pt; font-style: normal; line-height: 11pt;">::= “(“ [exp [ { “,” exp } ]] “)”</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 1pt; margin-top: 0pt; text-indent: 0pt; font-family: 'Courier', 'serif'; font-size: 9pt; font-style: normal; line-height: 11pt;">::= identifier | number | string</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 1pt; margin-top: 0pt; padding-bottom: 0pt; text-indent: 0pt; font-family: 'Courier', 'serif'; font-size: 9pt; font-style: normal; line-height: 11pt;">::= “\n” | “;”</div>
+</div>
+</div>
+</td>
+</tr>
+</table>
+<span style="line-height: 12pt; "></span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; "><span style="line-height: 12pt; ">For </span><span style="line-height: 12pt; ">performance reason</span><span style="line-height: 12pt; ">s, String and Number literal messages have their results cached in their message objects.</span></div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC5385" id="TOC5385"></a><span>Messages</span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; "><span style="line-height: 12pt; ">Message arguments are passed as expressions and evaluated by the receiver. Selective evaluation of arguments </span><span style="line-height: 12pt; ">can be used </span><span style="line-height: 12pt; ">to implement control flow. Examples:</span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; font-size: 9pt; line-height: 11pt;">for(i, 1, 10, i println)</div>
+<div class="paragraph Code" style="line-height: 11pt; font-size: 9pt; line-height: 11pt;">a := if(b == 0, c + 1, d)</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; "><span style="line-height: 12pt; ">In the above code,</span><span style="line-height: 12pt; "> “</span><span style="line-height: 12pt; ">for” and “if” are just normal messages, not special forms or keywords.</span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Likewise, dynamic evaluation can be used with enumeration without the need to wrap the expression in a block. Examples:</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">people select(person, person age &lt; 30)</div>
+<div class="paragraph Code" style="line-height: 11pt; ">names := people map(person, person name)</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">Methods like map and select will typically apply the expression directly to the values if only the expression is provided:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">people select(age &lt; 30)</div>
+<div class="paragraph Code" style="line-height: 11pt; ">names := people map(name)</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">There is also some syntax sugar for operators (including assignment), which are handled by an Io macro executed on the expression after it is compiled into a message tree. Some sample source code:</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">Account := Object clone</div>
+<div class="paragraph Code" style="line-height: 11pt; ">Account balance := 0</div>
+<div class="paragraph Code" style="line-height: 11pt; ">Account deposit := method(amount,</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    balance = balance + amount</div>
+<div class="paragraph Code" style="line-height: 11pt; ">)</div>
+<div class="paragraph Code" style="line-height: 11pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">account := Account clone</div>
+<div class="paragraph Code" style="line-height: 11pt; ">account deposit(10.00)</div>
+<div class="paragraph Code" style="line-height: 11pt; ">account balance println</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; "><span style="line-height: 12pt; ">Like Self[2], Io’s syntax does not distinguish between accessing a slot containing a method from one containing a variable.</span><span style="line-height: 12pt; "></span></div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC6579" id="TOC6579"></a><span>Operators</span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">An operator is just a message whose name contains no alphanumeric characters (other than ":", "_", '"' or ".") or is one of the following words: or, and, return. Example: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">1 + 2</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">This just gets compiled into the normal message: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">1 +(2)</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Which is the form you can use if you need to do grouping: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">1 +(2 * 4)</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Standard operators follow C's precedence order, so: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">1 + 2 * 3 + 4</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Is parsed as: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">1 +(2 *(3)) +(4)</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">User defined operators (that don't have a standard operator name) are performed left to right.</div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC7098" id="TOC7098"></a><span>Assignment</span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Io has two assignment messages, “:=” and “=”. </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">a := 1 </div>
+<div class="paragraph Code" style="line-height: 11pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">which compiles to:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">setSlot(“a”, 1)</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">which creates the slot in the current context. And:</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">a = 1 </div>
+<div class="paragraph Code" style="line-height: 11pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">which compiles to:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">updateSlot(“a”, 1)</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">which sets the slot if it is found in the lookup path or raises an exception otherwise. By overloading updateSlot and forward in the Locals prototype, self is made implicit in methods.</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+</div>
+</div>
+<div><div class="layout_style_10"><div class="paragraph"></div>
+<div class="paragraph Heading_1" style="line-height: 17pt; padding-top: 0pt; "><a name="TOC7491" id="TOC7491"></a><span>Numbers</span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">The following are valid number formats: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">123</div>
+<div class="paragraph Code" style="line-height: 11pt; ">123.456</div>
+<div class="paragraph Code" style="line-height: 11pt; ">0.456</div>
+<div class="paragraph Code" style="line-height: 11pt; ">.456</div>
+<div class="paragraph Code" style="line-height: 11pt; ">123e-4</div>
+<div class="paragraph Code" style="line-height: 11pt; ">123e4</div>
+<div class="paragraph Code" style="line-height: 11pt; ">123.456e-7</div>
+<div class="paragraph Code" style="line-height: 11pt; ">123.456e2</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Hex numbers are also supported (in any casing): </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">0x0</div>
+<div class="paragraph Code" style="line-height: 11pt; ">0x0F</div>
+<div class="paragraph Code" style="line-height: 11pt; ">0XeE</div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC7663" id="TOC7663"></a><span>Strings</span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Strings can be defined surrounded by a single set of double quotes with escaped quotes (and other escape characters) within. </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">s := "this is a \"test\".\nThis is only a test."</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Or for strings with non-escaped characters and/or spanning many lines, triple quotes can be used. </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">s := """this is a "test".</div>
+<div class="paragraph Code" style="line-height: 11pt; ">This is only a test."""</div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC7999" id="TOC7999"></a><span>Comments</span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Comments of the //, /**/ and # style are supported. Examples: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">a := b // add a comment to a line</div>
+<div class="paragraph Code" style="line-height: 11pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">/* comment out a group</div>
+<div class="paragraph Code" style="line-height: 11pt; ">a := 1</div>
+<div class="paragraph Code" style="line-height: 11pt; ">b := 2</div>
+<div class="paragraph Code" style="line-height: 11pt; ">*/</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">The "#" style is useful for unix scripts: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">#!/usr/local/bin/io</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">That's it! You now know everything there is to know about Io's syntax. Control flow, objects, methods, exceptions are expressed with the syntax and semantics described above. </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Heading" style="line-height: 29pt; "></div>
+<div class="paragraph Heading" style="line-height: 29pt; "><a name="TOC8393" id="TOC8393"></a><span>Objects</span></div>
+<div class="paragraph Quote" style="line-height: 13pt; color: #616161; line-height: 13pt; opacity: 1.00;">In all other languages we've considered [Fortran, Algol60, Lisp, APL, Cobol, Pascal], a program consists of passive data-objects on the one hand and the executable program that manipulates these passive objects on the other. Object-oriented programs replace this bipartite structure with a homogeneous one: they consist of a set of data systems, each of which is capable of operating on itself. - David Gelernter and Suresh J Jag</div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC8831" id="TOC8831"></a><span>Overview</span></div>
+<div class="paragraph Body" style="line-height: 12pt; ">Io’s guiding design principle is simplicity and power through conceptual unification. </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; font-family: 'Times-Roman', 'Times', 'Times New Roman', 'serif'; font-size: 11pt; line-height: 13pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 89.7pt; margin-top: 0pt; text-indent: 0pt; "><table cellspacing="0" cellpadding="0" style="background: transparent; border-collapse: collapse; height: 58pt; width: 375pt; word-wrap: break-word; " id="id2"><tr><td style="background: transparent; border: 1pt #bfbfbf none; height: 56pt; width: 150pt; "><div><div style="margin: 5pt; width: 150.3pt; "><div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; padding-top: 0pt; text-indent: 0pt; "><span style="color: #000000; font-style: italic; font-weight: bold; line-height: 12pt; opacity: 1.00; ">concept</span><span style="color: #000000; font-style: italic; font-weight: normal; line-height: 12pt; opacity: 1.00; "></span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; text-indent: 0pt; color: #000000; font-style: italic; font-weight: normal; line-height: 12pt; opacity: 1.00;">prototypes </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; text-indent: 0pt; color: #000000; font-style: italic; font-weight: normal; line-height: 12pt; opacity: 1.00;">messages</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; padding-bottom: 0pt; text-indent: 0pt; color: #000000; font-style: italic; font-weight: normal; line-height: 12pt; opacity: 1.00;">blocks with assignable scope</div>
+</div>
+</div>
+</td>
+<td style="background: transparent; border: 1pt #bfbfbf none; height: 56pt; width: 223pt; "><div><div style="margin: 5pt; width: 222.7pt; "><div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 1pt; margin-top: 0pt; padding-top: 0pt; text-indent: 0pt; color: #000000; font-style: italic; font-weight: bold; line-height: 12pt; opacity: 1.00;">unifies</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 1pt; margin-top: 0pt; text-indent: 0pt; color: #000000; font-style: italic; font-weight: normal; line-height: 12pt; opacity: 1.00;">objects, classes, namespaces, locals functions,</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 1pt; margin-top: 0pt; text-indent: 0pt; color: #000000; font-style: italic; font-weight: normal; line-height: 12pt; opacity: 1.00;">operators, calls, assignment, variable accesses</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 1pt; margin-top: 0pt; padding-bottom: 0pt; text-indent: 0pt; color: #000000; font-style: italic; font-weight: normal; line-height: 12pt; opacity: 1.00;">methods, closures, functions</div>
+</div>
+</div>
+</td>
+</tr>
+</table>
+<span style="font-family: 'Times-Roman', 'Times', 'Times New Roman', 'serif'; font-size: 11pt; line-height: 13pt; "></span></div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC8930" id="TOC8930"></a><span>Prototypes</span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; "><span style="line-height: 12pt; ">In Io, everything is an object</span><span style="line-height: 12pt; "> (</span><span style="line-height: 12pt; ">including the locals storage of a block and the namesp</span><span style="line-height: 12pt; ">ace itself) and a</span><span style="line-height: 12pt; ">ll actions are messages</span><span style="line-height: 12pt; "> (</span><span style="line-height: 12pt; ">including assignment). </span><span style="line-height: 12pt; ">Objects are composed of a list of key/value pairs called slots, </span><span style="line-height: 12pt; ">and an internal list of objects from which it inherits called protos. </span><span style="line-height: 12pt; ">A slot’s key is a symbol (a unique immutable sequence) and it’s value can be any type of object.</span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;"> </div>
+<div class="paragraph Heading_2" style="line-height: 13pt; ">clone and init</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">New objects are made by cloning existing ones. A clone is an empty object that has the parent in it’s list of protos. A new instance’s init slot will be activated which gives the object a chance to initialize itself. Like NewtonScript[3], slots in Io are create-on-write.</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">me := Person clone</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">To add an instance variable or method, simply set it: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">myDog name := "rover"</div>
+<div class="paragraph Code" style="line-height: 11pt; ">myDog sit := method("I'm sitting\n" print)</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">When an object is cloned, its "init" slot will be called if it has one.</div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC9827" id="TOC9827"></a><span>Inheritance</span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; "><span style="line-height: 12pt; ">When an object receives a message it looks for a matching slot, if not found, the lookup continues depth first recursively in its protos. Lookup loops are detected (at runtime) and avoided. If the matching slot contains an activatable object, such as a Block or CFunction, it is activated, if it contains any other type of value it returns the value. Io has no globals </span><span style="line-height: 12pt; ">and the root object in the Io namespace is called the Lobby.</span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Since there are no classes, there's no difference between a subclass and an instance. Here’s an example of creating a the equivalent of a subclass: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">Io&gt; Dog := Object clone</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; Object_0x4a7c0 </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">The above code sets the Lobby slot "Dog" to a clone of the Object object. Notice it only contains a protos list contains a reference to Object. Dog is now essentially a subclass of Object. Instance variables and methods are inherited from the proto. If a slot is set, it creates a new slot in our object instead of changing the proto: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">  Io&gt; Dog color := "red"</div>
+<div class="paragraph Code" style="line-height: 11pt; ">  Io&gt; Dog</div>
+<div class="paragraph Code" style="line-height: 11pt; ">  ==&gt; Object_0x4a7c0:</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    color := "red"</div>
+<div class="paragraph Heading_2" style="line-height: 13pt; ">Multiple Inheritance</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">You can add any number of protos to an object's protos list. When responding to a message, the lookup mechanism does a depth first search of the proto chain.</div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC11057" id="TOC11057"></a><span>Methods</span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">A method is an anonymous function which, when called, creates an object to store it's locals and sets the local’s proto pointer and it’s self slot to the target of the message. The Object method method() can be used to create methods. Example:</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">method((2 + 2) print)</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">An example of using a method in an object: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">Dog := Object clone</div>
+<div class="paragraph Code" style="line-height: 11pt; ">Dog bark := method("woof!" print)</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">The above code creates a new "subclass" of object named Dog and adds a bark slot containing a block that prints "woof!". Example of calling this method:</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">Dog bark</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">The default return value of a block is the  result of the last expression.</div>
+<div class="paragraph Heading_2" style="line-height: 13pt; ">Arguments</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Methods can also be defined to take arguments. Example: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">add := method(a, b, a + b)</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">The general form is: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; font-style: italic; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph PsuedoCode" style="line-height: 13pt; ">method(&lt;arg name 0&gt;, &lt;arg name 1&gt;, ..., &lt;do message&gt;)</div>
+<div class="paragraph PsuedoCode" style="line-height: 13pt; text-decoration: none;"> </div>
+</div>
+</div>
+<div><div class="layout_style_19"><div class="paragraph"></div>
+<div class="paragraph Heading_1" style="line-height: 17pt; padding-top: 0pt; "><a name="TOC11847" id="TOC11847"></a><span>B</span><span>locks</span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">A block is the same as a method except it is lexically scoped. That is, variable lookups continue in the context of where the block was created instead of the target of the message which activated the block. A block can be created using the Object method block(). Example of creating a block:</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">b := block(a, a + b)</div>
+<div class="paragraph Heading_2" style="line-height: 13pt; margin-bottom: 0pt; margin-top: 0pt; padding-top: 22pt; line-height: 13pt;">Blocks vs. Methods</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">This is sometimes a source of confusion so it's worth explaining in detail. Both methods and blocks create an object to hold their locals when they are called. The difference is what the "proto" and "self" slots of that locals object are set to. In a method, those slots are set to the target of the message. In a block, they're set to the locals object where the block was created. So a failed variable lookup in a block's locals continue in the locals where it was created. And a failed variable lookup in a method's locals continue in the object to which the message that activated it was sent.</div>
+<div class="paragraph Heading_2" style="line-height: 13pt; ">call and self slots</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">When a locals object is created, it’s self slot is set (to the target of the message, in the case of a method, or to the creation context, in the case of a block) and it’s call slot is set to a Call object that can be used to access information about the block activation:</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 89.7pt; margin-top: 0pt; text-indent: 0pt; "><table cellspacing="0" cellpadding="0" style="background: transparent; border-collapse: collapse; height: 82pt; width: 302pt; word-wrap: break-word; " id="id3"><tr><td style="background: transparent; border: 1pt #bfbfbf none; height: 80pt; width: 89pt; "><div><div style="margin: 5pt; width: 89.4pt; "><div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; padding-top: 0pt; text-indent: 0pt; "><span style="font-style: italic; font-weight: bold; line-height: 12pt; ">slot</span><span style="font-style: italic; font-weight: normal; line-height: 12pt; "></span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; text-indent: 0pt; font-style: italic; font-weight: normal; line-height: 12pt;">call sender </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; text-indent: 0pt; font-style: italic; font-weight: normal; line-height: 12pt;">call message </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; text-indent: 0pt; font-style: italic; font-weight: normal; line-height: 12pt;">call activated</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; text-indent: 0pt; font-style: italic; font-weight: normal; line-height: 12pt;">call slotContext</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; padding-bottom: 0pt; text-indent: 0pt; font-style: italic; font-weight: normal; line-height: 12pt;">call target</div>
+</div>
+</div>
+</td>
+<td style="background: transparent; border: 1pt #bfbfbf none; height: 80pt; width: 211pt; "><div><div style="margin: 5pt; width: 210.6pt; "><div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 1pt; margin-top: 0pt; padding-top: 0pt; text-indent: 0pt; font-style: italic; font-weight: bold; line-height: 12pt;">returns</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 1pt; margin-top: 0pt; text-indent: 0pt; font-style: italic; font-weight: normal; line-height: 12pt;">locals object of caller</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 1pt; margin-top: 0pt; text-indent: 0pt; font-style: italic; font-weight: normal; line-height: 12pt;">message used to call this method/block</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 1pt; margin-top: 0pt; text-indent: 0pt; font-style: italic; font-weight: normal; line-height: 12pt;">the activated method/block</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 1pt; margin-top: 0pt; text-indent: 0pt; font-style: italic; font-weight: normal; line-height: 12pt;">context in which slot was found</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 1pt; margin-top: 0pt; padding-bottom: 0pt; text-indent: 0pt; font-style: italic; font-weight: normal; line-height: 12pt;">current object</div>
+</div>
+</div>
+</td>
+</tr>
+</table>
+<span style="line-height: 12pt; "></span></div>
+<div class="paragraph Heading_2" style="line-height: 13pt; ">Variable Arguments</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">The “call message” slot in locals can be used to access the unevaluated argument messages. Example of implementing if() within Io: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">if := method(</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    (call sender doMessage(call message argAt(0))) ifTrue( </div>
+<div class="paragraph Code" style="line-height: 11pt; ">     call sender doMessage(call message argAt(1))) ifFalse( </div>
+<div class="paragraph Code" style="line-height: 11pt; ">     call sender doMessage(call message argAt(2)))</div>
+<div class="paragraph Code" style="line-height: 11pt; ">)</div>
+<div class="paragraph Code" style="line-height: 11pt; ">myif(foo == bar, write("true\n"), write("false\n"))</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">The doMessage() method evaluates the argument in the context of the receiver.</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">A shorter way to express this is to use the evalArgAt() method on the call object:</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">if := method(</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    call evalArgAt(0) ifTrue(</div>
+<div class="paragraph Code" style="line-height: 11pt; "><span>    </span><span>call evalArgAt(</span><span>1</span><span>)</span><span>) ifFalse( </span></div>
+<div class="paragraph Code" style="line-height: 11pt; "><span>    </span><span>call evalArgAt(</span><span>2</span><span>)</span><span>)</span></div>
+<div class="paragraph Code" style="line-height: 11pt; ">)</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">myif(foo == bar, write("true\n"), write("false\n"))</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC13776" id="TOC13776"></a><span>Forward</span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">If an object doesn't respond to a message, it will invoke its "forward" method if it has one. Here’s an example of how to print the information related lookup that failed:</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">MyObject forward := method(</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    write("sender = ", call sender, "\n")</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    write("message name = ", call message name, "\n")</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    args := call message argsEvaluatedIn(call sender)</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    args foreach(i, v, write("arg", i, " = ", v, "\n") )</div>
+<div class="paragraph Code" style="line-height: 11pt; ">)</div>
+<div class="paragraph Heading_1" style="line-height: 17pt; margin-bottom: 0pt; margin-left: 71.6pt; margin-top: 0pt; text-indent: 0pt; "><a name="TOC14182" style="line-height: 17pt; " id="TOC14182"></a><span style="line-height: 17pt; ">Resend</span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Sends the current message to the receiver's proto with the context of self. Example: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">A := Object clone</div>
+<div class="paragraph Code" style="line-height: 11pt; ">A m := method(write("in A\n"))</div>
+<div class="paragraph Code" style="line-height: 11pt; ">B := A clone</div>
+<div class="paragraph Code" style="line-height: 11pt; ">B m := method(write("in B\n"); resend)</div>
+<div class="paragraph Code" style="line-height: 11pt; ">B m</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">will print: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">in B</div>
+<div class="paragraph Code" style="line-height: 11pt; ">in A</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">For sending other messages to the receiver's proto, super is used.</div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC14474" id="TOC14474"></a><span>Super</span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Sometimes it's necessary to send a message directly to a proto. Example: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">Dog := Object clone</div>
+<div class="paragraph Code" style="line-height: 11pt; ">Dog bark := method(writeln("woof!"))</div>
+<div class="paragraph Code" style="line-height: 11pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">fido := Dog clone</div>
+<div class="paragraph Code" style="line-height: 11pt; ">fido bark := method(</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    writeln("ruf!")</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    super(bark)</div>
+<div class="paragraph Code" style="line-height: 11pt; ">)</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">Both resend and super are implemented in Io.</div>
+</div>
+</div>
+<div><div class="layout_style_17"><div class="paragraph"></div>
+<div class="paragraph Heading_1" style="line-height: 17pt; padding-top: 0pt; text-decoration: none;"> </div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC14732" id="TOC14732"></a><span>Introspection</span></div>
+<div class="paragraph Body" style="line-height: 12pt; ">Using the following methods you can introspect the entire Io namespace. There are also methods for modifying any and all of these attributes at runtime.</div>
+<div class="paragraph Heading_2" style="line-height: 13pt; ">slotNames</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">The slotNames method returns a list of the names of an object’s slots:</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">Io&gt; Dog slotNames</div>
+<div class="paragraph Code" style="line-height: 11pt; "><span>==&gt; list(“bark”)</span><span style="font-family: 'Helvetica-Bold', 'Helvetica', 'Arial', 'sans-serif'; font-size: 11pt; font-weight: bold; line-height: 13pt; "></span></div>
+<div class="paragraph Heading_2" style="line-height: 13pt; "><span>protos</span><span style="font-family: 'Helvetica-Bold', 'Helvetica', 'Arial', 'sans-serif'; font-size: 11pt; font-weight: bold; line-height: 13pt; "></span></div>
+<div class="paragraph Body" style="line-height: 12pt; ">The protos method returns a list of the objects which an object inherits from:</div>
+<div class="paragraph Body" style="line-height: 12pt; font-family: 'Helvetica-Bold', 'Helvetica', 'Arial', 'sans-serif'; font-size: 11pt; font-weight: bold; line-height: 13pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">Io&gt; Dog protos</div>
+<div class="paragraph Code" style="line-height: 11pt; "><span>==&gt; list(“Object”)</span><span style="font-family: 'Helvetica-Bold', 'Helvetica', 'Arial', 'sans-serif'; font-size: 11pt; font-weight: bold; line-height: 13pt; "></span></div>
+<div class="paragraph Heading_2" style="line-height: 13pt; font-family: 'Helvetica-Bold', 'Helvetica', 'Arial', 'sans-serif'; font-size: 11pt; font-weight: bold; line-height: 13pt;">getSlot</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; "><span style="line-height: 12pt; ">T</span><span style="line-height: 12pt; ">he "getSlot" method</span><span style="line-height: 12pt; "> can be used to get the value of a block in a slot without activating it: </span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">myMethod := Dog getSlot("bark")</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; "><span style="line-height: 12pt; ">Above, we've set the locals object’s "myMethod" slot to the bark method. It's important to remember that if you then want use the </span><span style="line-height: 12pt; ">myMethod</span><span style="line-height: 12pt; "> without activating it, you'll need to use the getSlot method: </span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">otherObject newMethod := getSlot("myMethod")</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Here, the target of the getSlot method is the locals object.</div>
+<div class="paragraph Heading_2" style="line-height: 13pt; ">code</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">The arguments and expressions of methods are open to introspection. A useful convenience method is “code”, which returns a string representation of the source code of the method in a normalized form.</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">Io&gt; method(a, a * 2) code</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; “method(a, a *(2))”</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; "></div>
+<div class="paragraph Heading" style="line-height: 29pt; "><a name="TOC15842" id="TOC15842"></a><span>Control Flow</span></div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC15855" id="TOC15855"></a><span>true, false and nil</span></div>
+<div class="paragraph Body" style="line-height: 12pt; "><span>Io has predefined</span><span> singletons </span><span>for true, false and nil. true and false are used for boolean truth values and nil is typically used to indicate an unset or missing or unavailable value.</span></div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC16058" id="TOC16058"></a><span>Comparison</span></div>
+<div class="paragraph Body" style="line-height: 12pt; ">The standard comparison operations (==, !=, &gt;=, &lt;=, &gt;, &lt;) return either the true or false.</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">Io&gt; 1 &lt; 2</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; true</div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC16180" id="TOC16180"></a><span>Conditions</span></div>
+<div class="paragraph Heading_2" style="line-height: 13pt; ">if</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">The Lobby contains the condition and loop methods. A condition looks like: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph PsuedoCode" style="line-height: 13pt; ">if(&lt;condition&gt;, &lt;do message&gt;, &lt;else do message&gt;)</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; font-style: italic; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Example: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">if(a == 10, "a is 10" print)</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">The else argument is optional. The condition is considered false if the condition expression evaluates to false or nil, and is considered true otherwise.</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">The result of the evaluated message is returned, so: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">if(y &lt; 10, x := y, x := 0)</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">is the same as: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">x := if(y &lt; 10, y, 0)</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Conditions can also be used in this form (though not as efficiently): </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">if(y &lt; 10) then(x := y) else(x := 2)</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Else-if is supported: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; font-size: 9pt; line-height: 11pt;">if(y &lt; 10) then(x := y) elseif(y == 11) then(x := 0) else(x := 2)</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">As well as Smalltalk style ifTrue, ifFalse, ifNil and ifNonNil methods:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">(y &lt; 10) ifTrue(x := y) ifFalse(x := 2)</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">Notice that the condition expression must have parenthesis surrounding it.</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+</div>
+</div>
+<div><div class="layout_style_9"><div class="paragraph"></div>
+<div class="paragraph Heading_1" style="line-height: 17pt; padding-top: 0pt; "><a name="TOC17032" id="TOC17032"></a><span>Loops</span></div>
+<div class="paragraph Heading_2" style="line-height: 13pt; ">loop</div>
+<div class="paragraph Body" style="line-height: 12pt; ">The loop method can be used for “infinite” loops:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">loop(“foo” println)</div>
+<div class="paragraph Heading_2" style="line-height: 13pt; ">while</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Like conditions, loops are just messages. while() takes the arguments: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph PsuedoCode" style="line-height: 13pt; ">while(&lt;condition&gt;, &lt;do message&gt;)</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Example: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">a := 1</div>
+<div class="paragraph Code" style="line-height: 11pt; ">while(a &lt; 10, </div>
+<div class="paragraph Code" style="line-height: 11pt; ">    a print</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    a = a + 1</div>
+<div class="paragraph Code" style="line-height: 11pt; ">)</div>
+<div class="paragraph Heading_2" style="line-height: 13pt; ">for</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">for() takes the arguments: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph PsuedoCode" style="line-height: 13pt; ">for(&lt;counter&gt;, &lt;start&gt;, &lt;end&gt;, &lt;optional step&gt;, &lt;do message&gt;)</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">The start and end messages are only evaluated once, when the loop starts.</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Example: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">for(a, 0, 10, </div>
+<div class="paragraph Code" style="line-height: 11pt; ">    a println</div>
+<div class="paragraph Code" style="line-height: 11pt; ">)</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">Example with a step:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">for(x, 0, 10, 3, x println)</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">Which would print:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">0</div>
+<div class="paragraph Code" style="line-height: 11pt; ">3</div>
+<div class="paragraph Code" style="line-height: 11pt; ">6</div>
+<div class="paragraph Code" style="line-height: 11pt; ">9</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">To reverse the order of the loop, add a negative step: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">for(a, 0, 10, -1, a println)</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Note: the first value will be the first value of the loop variable and the last will be the last value on the final pass through the loop. So a loop of 1 to 10 will loop 10 times and a loop of 0 to 10 will loop 11 times.</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Example of using a block in a loop: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">test := method(v, v print)</div>
+<div class="paragraph Code" style="line-height: 11pt; ">for(i, 1, 10, test(i))</div>
+<div class="paragraph Heading_2" style="line-height: 13pt; ">repeat</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">The Number repeat method is simpler and more efficient when a counter isn’t needed.</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">3 repeat(“foo” print)</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; foofoofoo</div>
+<div class="paragraph Heading_2" style="line-height: 13pt; ">break and continue</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">The flow control operations break and continue are supported in loops. For example: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">for(i, 1, 10, </div>
+<div class="paragraph Code" style="line-height: 11pt; ">    if(i == 3, continue)</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    if(i == 7, break)</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    i print</div>
+<div class="paragraph Code" style="line-height: 11pt; ">)</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Would print: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">12456</div>
+<div class="paragraph Heading_2" style="line-height: 13pt; color: #5f5f5f; line-height: 13pt; opacity: 1.00;">return</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Any part of a block can return immediately using the return method. Example: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">Io&gt; test := method(123 print; return "abc"; 456 print)</div>
+<div class="paragraph Code" style="line-height: 11pt; ">Io&gt; test</div>
+<div class="paragraph Code" style="line-height: 11pt; ">123</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; abc</div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC18454" id="TOC18454"></a><span>Importing</span></div>
+<div class="paragraph Body" style="line-height: 12pt; padding-bottom: 0pt; ">The Importer proto implements Io’s built-in auto importer feature. If you put each of your proto’s in their own file, and give the file the same name with and “.io” extension, the Importer will automatically import that file when the proto is first referenced. The Importer’s default search path is the current working directory, but can add search paths using it’s addSearchPath() method. </div>
+</div>
+</div>
+<div><div class="layout_style_18"><div class="paragraph"></div>
+<div class="paragraph Body" style="line-height: 12pt; padding-top: 0pt; text-decoration: none;"> </div>
+<div class="paragraph Heading" style="line-height: 29pt; "><a name="TOC18856" id="TOC18856"></a><span>Concurrency</span></div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC18868" id="TOC18868"></a><span>Coroutines</span></div>
+<div class="paragraph Body" style="line-height: 12pt; "><span>Io uses coroutines (</span><span>user level cooperative threads)</span><span>, instead of preemptive OS level threads to implement concurrency. This avoids the substantial costs (memory, system calls, locking, caching issues, etc) associated with native threads and allows Io to support a very high level of concurrency with thousands of active threads.</span></div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC19207" id="TOC19207"></a><span>Scheduler</span></div>
+<div class="paragraph Body" style="line-height: 12pt; ">The Scheduler object is responsible for resuming coroutines that are yielding. The current scheduling system uses a simple first-in-first-out policy with no priorities.</div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC19386" id="TOC19386"></a><span>Actors</span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">An actor is an object with it's own thread (in our case, it’s own coroutine) which it uses to process it's queue of asynchronous messages. Any object in Io can be sent an asynchronous message by placing a @ or @@ before the message name. (think of the "a" in @ as standing for "asynchronous") </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Example:</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">  result := self foo // synchronous </div>
+<div class="paragraph Code" style="line-height: 11pt; ">  futureResult := self @foo // async, immediately returns a Future</div>
+<div class="paragraph Code" style="line-height: 1pt; margin-bottom: 0pt; margin-top: 5.4pt; line-height: 1pt;">  self @@foo // async, immediately returns nil</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-top: -0.1pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">When an object receives an asynchronous message it puts the message in its queue and, if it doesn't already have one, starts a coroutine to process the messages in its queue. Queued messages are processed sequentially in a first-in-first-out order. Control can be yielded to other coroutines by calling "yield". Example: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">  obj1 := Object clone</div>
+<div class="paragraph Code" style="line-height: 11pt; ">  obj1 test := method(for(n, 1, 3, n print; yield))</div>
+<div class="paragraph Code" style="line-height: 11pt; ">  obj2 := obj1 clone</div>
+<div class="paragraph Code" style="line-height: 11pt; ">  obj1 @@test; obj2 @@test</div>
+<div class="paragraph Code" style="line-height: 11pt; ">  while(Scheduler activeActorCount &gt; 1, yield)</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">This would print "112233".</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Here's a more real world example: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">  HttpServer handleRequest := method(aSocket,</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    HttpRequestHandler clone @@handleRequest(aSocket)</div>
+<div class="paragraph Code" style="line-height: 11pt; ">  )</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+</div>
+</div>
+<div><div class="layout_style_11"><div class="paragraph"></div>
+<div class="paragraph Heading_1" style="line-height: 17pt; padding-top: 0pt; "><a name="TOC20515" id="TOC20515"></a><span>Yield</span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">An object will automatically yield between processing each of its asynchronous messages. The yield method only needs to be called if a yield is required during an asynchronous message execution. </div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC20717" id="TOC20717"></a><span>Pause and Resume</span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">It's also possible to pause and resume an object. See the concurrency methods of the Object primitive for details and related methods.</div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC20869" id="TOC20869"></a><span>Futures</span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Io's futures are transparent. That is, when the result is ready, they become the result. If a message is sent to a future (besides the two methods it implements), it waits until it turns into the result before processing the message. Transparent futures are powerful because they allow programs minimize blocking while also freeing the programmer from managing the fine details of synchronization.</div>
+<div class="paragraph Heading_2" style="line-height: 13pt; ">Auto Deadlock Detection</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; "><span style="line-height: 12pt; ">An advantage of using futures is that when a future requires a wait, it will check to see if pausing to wait for the result would cause a deadlock and if so, avoid the deadlock and raise an exception. I</span><span style="line-height: 12pt; ">t </span><span style="line-height: 12pt; ">performs</span><span style="line-height: 12pt; "> this check by travers</span><span style="line-height: 12pt; ">ing</span><span style="line-height: 12pt; "> the list of connected future</span><span style="line-height: 12pt; ">s</span><span style="line-height: 12pt; ">.</span><span style="line-height: 12pt; "></span></div>
+<div class="paragraph Heading_2" style="line-height: 13pt; ">The @ and @@ Operators</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">The @ or @@ before an asynchronous message is just a normal operator message. So: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">  self @test</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Gets parsed as(and can be written as): </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">  self @(test)</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Heading" style="line-height: 29pt; "></div>
+<div class="paragraph Heading" style="line-height: 29pt; "><a name="TOC21750" id="TOC21750"></a><span>Exceptions</span></div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC21761" id="TOC21761"></a><span>Raise</span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">An exception can be raised by calling raise() on an exception proto. </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph PsuedoCode" style="line-height: 13pt; ">exceptionProto raise(&lt;description&gt;)</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; font-style: italic; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">There are three predefined children of the Exception proto: Error, Warning and Notification. Examples: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">Exception raise("generic foo exception")</div>
+<div class="paragraph Code" style="line-height: 11pt; ">Warning raise("No defaults found, creating them")</div>
+<div class="paragraph Code" style="line-height: 11pt; ">Error raise("Not enough memory")</div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC22104" id="TOC22104"></a><span>Try and Catch</span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">To catch an exception, the try() method of the Object proto is used. try() will catch any exceptions that occur within it and return the caught exception or nil if no exception is caught. </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">e := try(&lt;doMessage&gt;)</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">To catch a particular exception, the Exception catch() method can be used. Example:</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">e := try(</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    // ...</div>
+<div class="paragraph Code" style="line-height: 11pt; ">) </div>
+<div class="paragraph Code" style="line-height: 11pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">e catch(Exception,</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    writeln(e coroutine backtraceString)</div>
+<div class="paragraph Code" style="line-height: 11pt; ">)</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">The first argument to catch indicates which types of exceptions will be caught. catch() returns the exception if it doesn't match and nil if it does.</div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC22654" id="TOC22654"></a><span>Pass</span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">To re-raise an exception caught by try(), use the pass method. This is useful to pass the exception up to the next outer exception handler, usually after all catches failed to match the type of the current exception: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">e := try(</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    // ...</div>
+<div class="paragraph Code" style="line-height: 11pt; ">) </div>
+<div class="paragraph Code" style="line-height: 11pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">e catch(Error,</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    // ...</div>
+<div class="paragraph Code" style="line-height: 11pt; ">) catch(Exception,</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    // ...</div>
+<div class="paragraph Code" style="line-height: 11pt; ">) pass</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+</div>
+</div>
+<div><div class="layout_style_12"><div class="paragraph"></div>
+<div class="paragraph Heading_1" style="line-height: 17pt; padding-top: 0pt; "><a name="TOC22959" id="TOC22959"></a><span>Custom Exceptions</span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Custom exception types can be implemented by simply cloning an existing Exception type: </div>
+<div class="paragraph Code" style="line-height: 11pt; ">  MyErrorType := Error clone</div>
+<div class="paragraph Heading_1" style="line-height: 17pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; "></div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Heading" style="line-height: 29pt; "><a name="TOC23099" id="TOC23099"></a><span>Primitives</span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Primitives are objects built into Io whose methods are typically implemented in C and store some hidden data in their instances. For example, the Number primitive has a double precision floating point number as it's hidden data and it’s methods that do arithmetic operations are C functions. All Io primitives inherit from the Object prototype and are mutable. That is, their methods can be changed. The reference docs contain more info on primitives.</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; "><span>This document is not meant as a reference manual, but an </span><span>overview</span><span> of the base primitives and bindings is provided here to give the user a jump start and a feel for what is available and where to look in the reference documentation for further details.</span></div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC23815" id="TOC23815"></a><span>Object</span></div>
+<div class="paragraph Heading_2" style="line-height: 13pt; ">The ? Operator</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Sometimes it's desirable to conditionally call a method only if it exists (to avoid raising an exception). Example: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">if(obj getSlot("foo"), obj foo)</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Putting a "?" before a message has the same effect: </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">obj ?foo</div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC24051" id="TOC24051"></a><span>L</span><span>ist</span></div>
+<div class="paragraph Body" style="line-height: 12pt; ">A List is an array of references and supports all the standard array manipulation and enumeration methods. Examples:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">Create an empty list:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">a := List clone</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; "><span>Create a list of arbitrary objects</span><span> using the list() method: </span></div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; "><span>a := list(33, </span><span>"a"</span><span>)</span></div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">Append an item:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">a append(“b”)</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; list(33, “a”, “b”)</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">Get the list size:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">a size</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; 3</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; "><span>Get</span><span> the</span><span> item at </span><span>a given index (</span><span>List indexes begin at zero</span><span>)</span><span>:</span></div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">a at(1)</div>
+<div class="paragraph Code" style="line-height: 11pt; "><span>==&gt; "</span><span>a</span><span>"</span></div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">Note: List indexes begin at zero and nil is returned if the accessed index doesn’t exist.</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; "><span>S</span><span>et</span><span> the</span><span> item at </span><span>a given index</span><span>:</span></div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; "><span>a atPut(2, "</span><span>foo</span><span>")</span></div>
+<div class="paragraph Code" style="line-height: 11pt; "><span>==&gt; list(</span><span>33</span><span>, "</span><span>a</span><span>", </span><span>"</span><span>foo</span><span>", </span><span>"</span><span>b</span><span>")</span></div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; "><span>a atPut(</span><span>6</span><span>, "Fred")</span></div>
+<div class="paragraph Code" style="line-height: 11pt; "><span>==&gt;</span><span> Exception: index out of bounds</span></div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">Remove an item at a given index:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">a remove(“foo”)</div>
+<div class="paragraph Code" style="line-height: 11pt; "><span>==&gt; list(</span><span>33</span><span>, "</span><span>a</span><span>"</span><span>, </span><span>"</span><span>b</span><span>")</span></div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; "><span>Inserting an item at</span><span> a given index</span><span>:</span></div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; "><span>a atPut(2, "</span><span>foo</span><span>")</span></div>
+<div class="paragraph Code" style="line-height: 11pt; "><span>==&gt; list(</span><span>33</span><span>, "</span><span>a</span><span>", </span><span>"</span><span>foo</span><span>", </span><span>"</span><span>56</span><span>")</span></div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Heading_2" style="line-height: 13pt; ">foreach</div>
+<div class="paragraph Body" style="line-height: 12pt; ">The foreach, map and select methods can be used in three forms:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; "><span>Io&gt; </span><span>a</span><span> := list(</span><span>65, 21, 122</span><span>)</span></div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; "><span>In the first form, the first argument i</span><span>s used as an index variable, the second as a value variable and the 3rd as the expression to evaluate for each value.</span></div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; "><span>Io&gt; </span><span>a</span><span> </span><span>foreach</span><span>(i, v, </span><span>write(i, “:”, v, “, ”)</span><span>)</span></div>
+<div class="paragraph Code" style="line-height: 11pt; "><span>==&gt; </span><span>0:65, 1:21, 2:122,</span></div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">The second form removes the index argument:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; "><span>Io&gt; </span><span>a</span><span> foreach(v, </span><span>v</span><span> println)</span></div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; 65</div>
+<div class="paragraph Code" style="line-height: 11pt; ">21</div>
+<div class="paragraph Code" style="line-height: 11pt; ">122</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">The third form removes the value argument and simply sends the expression as a message to each value:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; "><span>Io&gt; </span><span>a</span><span> foreach(</span><span>println</span><span>)</span></div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; 65</div>
+<div class="paragraph Code" style="line-height: 11pt; ">21</div>
+<div class="paragraph Code" style="line-height: 11pt; ">122</div>
+<div class="paragraph Heading_2" style="line-height: 13pt; text-decoration: none;"> </div>
+<div class="paragraph Heading_2" style="line-height: 13pt; ">map and select</div>
+<div class="paragraph Body" style="line-height: 12pt; ">Io's map and select (known as filter in some other languages) methods allow arbitrary expressions as the map/select predicates.</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">Io&gt; numbers := list(1, 2, 3, 4, 5, 6)</div>
+<div class="paragraph Code" style="line-height: 11pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">Io&gt; numbers select(isOdd)</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; list(1, 3, 5)</div>
+<div class="paragraph Code" style="line-height: 11pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">Io&gt; numbers select(x, x isOdd)</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; list(1, 3, 5)</div>
+<div class="paragraph Code" style="line-height: 11pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">Io&gt; numbers select(i, x, x isOdd)</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; list(1, 3, 5)</div>
+<div class="paragraph Code" style="line-height: 11pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">Io&gt; numbers map(x, x*2)</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; list(2, 4, 6, 8, 10, 12)</div>
+<div class="paragraph Code" style="line-height: 11pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">Io&gt; numbers map(i, x, x+i)</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; list(1, 3, 5, 7, 9, 11)</div>
+<div class="paragraph Code" style="line-height: 11pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">Io&gt; numbers map(*3)</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; list(3, 6, 9, 12, 15, 18)</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">The map and select methods return new lists. To do the same operations in-place, you can use selectInPlace() and mapInPlace() methods.</div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC26034" id="TOC26034"></a><span>S</span><span>equence</span></div>
+<div class="paragraph Body" style="line-height: 12pt; "><span>In Io, an immutable Sequence is called a Symbol and a mutable Sequence is the equivalent of a Buffer or String</span><span>. Literal </span><span>strings(ones that appear in source code surrounded by quotes) are Symbols. Mutable operations cannot be performed on Symbols, but one can make mutable copy of a Symbol calling it’s asMutable method and then perform the mutation operations on the copy.</span></div>
+<div class="paragraph Heading_2" style="line-height: 13pt; ">Common string operations</div>
+<div class="paragraph Body" style="line-height: 12pt; ">Getting the length of a string:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">"abc" size</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; 3</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">Checking if a string contains a substring:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">"apples" containsSeq("ppl")</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; true</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">Getting the character (byte) at position N:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">"Kavi" at(1)</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; 97</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">Slicing:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">"Kirikuro" slice(0, 2)</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; "Ki"</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">"Kirikuro" slice(-2)  # NOT: slice(-2, 0)!</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; "ro"</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">Io&gt; "Kirikuro" slice(0, -2)</div>
+<div class="paragraph Code" style="line-height: 11pt; "># "Kiriku"</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">Stripping whitespace:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; "><span>"  abc  " </span><span>adMutable </span><span>strip</span></div>
+<div class="paragraph Code" style="line-height: 11pt; "><span>==&gt;</span><span> "abc"</span></div>
+<div class="paragraph Code" style="line-height: 11pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; "><span>"  abc  " asMutable </span><span>l</span><span>strip</span></div>
+<div class="paragraph Code" style="line-height: 11pt; "><span>==&gt;</span><span> "abc</span><span>  </span><span>"</span></div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; "><span>"</span><span>  </span><span>abc  " asMutable rstrip</span></div>
+<div class="paragraph Code" style="line-height: 11pt; "><span>==&gt;</span><span> "</span><span>  </span><span>abc"</span></div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">Converting to upper/lowercase:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">"Kavi" asUppercase</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; "KAVI"</div>
+<div class="paragraph Code" style="line-height: 11pt; ">"Kavi" asLowercase</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; "kavi"</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">Splitting a string:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">"the quick brown fox" split</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; list("the", "quick", "brown", "fox")</div>
+<div class="paragraph Code" style="line-height: 11pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; "><span>S</span><span>plitting by others character is possible as well</span><span>.</span></div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">"a few good men" split("e")</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; list("a f", "w good m", "n")</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">Converting to number:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">"13" asNumber</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; 13</div>
+<div class="paragraph Code" style="line-height: 11pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">"a13" asNumber</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; nil</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">String interpolation:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">name := "Fred"</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; Fred</div>
+<div class="paragraph Code" style="line-height: 11pt; ">"My name is #{name}" interpolate</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; My name is Fred</div>
+<div class="paragraph Body" style="line-height: 12pt; "> </div>
+<div class="paragraph Body" style="line-height: 12pt; "><span>I</span><span>nterpolat</span><span>e will eval anything with #{} as Io code in the local context. The code may include loops or anything else but needs to return an object that responds to asString.</span></div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC27558" id="TOC27558"></a><span style="font-family: 'Helvetica', 'Arial', 'sans-serif'; line-height: 17pt; ">R</span><span style="font-family: 'Helvetica', 'Arial', 'sans-serif'; line-height: 17pt; ">anges</span></div>
+<div class="paragraph Body" style="line-height: 12pt; "><span>A range is a container containing a start and an end point, and instructions on how to get from the start, to the end. Using Ranges is often convenient when creating large lists of sequential data as they can be easily converted to lists, or as a replacement for the for() method.</span><span style="font-family: 'Helvetica', 'Arial', 'sans-serif'; line-height: 12pt; "></span></div>
+<div class="paragraph Heading_2" style="line-height: 13pt; "><span>The Range protocol</span><span style="font-family: 'Helvetica', 'Arial', 'sans-serif'; line-height: 13pt; "></span></div>
+<div class="paragraph Body" style="line-height: 12pt; ">Each object that can be used in Ranges needs to implement a "nextInSequence" method which takes a single optional argument (the number of items to skip in the sequence of objects), and return the next item after that skip value. The default skip value is 1. The skip value of 0 is undefined. An example:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">Number nextInSequence := method(skipVal,</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    if(skipVal isNil, skipVal = 1)</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    self + skipVal</div>
+<div class="paragraph Code" style="line-height: 11pt; ">)</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">With this method on Number (it’s already there in the standard libraries), you can then use Numbers in Ranges, as demonstrated below:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">1 to(5) foreach(v, v println)</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">The above will print 1 through 5, each on its own line.</div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC28484" id="TOC28484"></a><span>File</span></div>
+<div class="paragraph Body" style="line-height: 12pt; ">Tthe methods openForAppending, openForReading, or openForUpdating are used for opening files. To erase an existing file before opening a new open, the remove method can be used. Example:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">f := File with(“foo.txt)</div>
+<div class="paragraph Code" style="line-height: 11pt; ">f remove</div>
+<div class="paragraph Code" style="line-height: 11pt; "><span>f </span><span>openForUpdating</span></div>
+<div class="paragraph Code" style="line-height: 11pt; ">f write(“hello world!”)</div>
+<div class="paragraph Code" style="line-height: 11pt; ">f close</div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC28761" id="TOC28761"></a><span>Directory</span></div>
+<div class="paragraph Body" style="line-height: 12pt; ">Creating a directory object:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; font-size: 9pt; line-height: 11pt;">dir := Directory with(“/Users/steve/”)</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">Get a list of file objects for all the files in a directory:</div>
+<div class="paragraph Code" style="line-height: 11pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">files := dir files</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; "><span>==&gt; list(File_0x820c40, </span><span>File_0x820c40, ...)</span></div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">Get a list of both the file and directory objects in a directory:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">items := Directory items</div>
+<div class="paragraph Code" style="line-height: 11pt; "><span>==&gt; list(Directory_0x8446b0, </span><span>File_0x820c40, ...)</span></div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">items at(4) name</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; DarkSide-0.0.1 # a directory name</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">Setting a Directory object to a certain directory and using it:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">root := Directory clone setPath("c:/")</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; Directory_0x8637b8</div>
+<div class="paragraph Code" style="line-height: 11pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">root fileNames</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; list("AUTOEXEC.BAT", "boot.ini", "CONFIG.SYS", ...)</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">Testing for existance:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">Directory clone setPath("q:/") exists</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; false</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">Getthing the current working directory:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">Directory currentWorkingDirectory</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; “/cygdrive/c/lang/IoFull-Cygwin-2006-04-20”</div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC29562" id="TOC29562"></a><span>Date</span></div>
+<div class="paragraph Body" style="line-height: 12pt; ">Creating a new date instance:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">d := Date clone</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">Setting it to the current date/time:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">d now</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">Getting the date/time as a number, in seconds:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">Date now asNumber</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; 1147198509.417114</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">Date now asNumber</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; 1147198512.33313</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">Getting individual parts of a Date object:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">d := Date now</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; 2006-05-09 21:53:03 EST</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">d</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; 2006-05-09 21:53:03 EST</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">d year</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; 2006</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">d month</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; 5</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">d day</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; 9</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">d hour</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; 21</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">d minute</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; 53</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">d second</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; 3.747125</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">Find how long it takes to execute some code:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">Date cpuSecondsToRun(100000 repeat(1+1))</div>
+<div class="paragraph Code" style="line-height: 11pt; ">==&gt; 0.02</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+</div>
+</div>
+<div><div class="layout_style_13"><div class="paragraph"></div>
+<div class="paragraph Heading_1" style="line-height: 17pt; padding-top: 0pt; text-decoration: none;"> </div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC30107" id="TOC30107"></a><span>Networking</span></div>
+<div class="paragraph Body" style="line-height: 12pt; ">All of Io’s networking is done with asynchronous sockets underneath, but operations like reading and writing to a socket appear to be synchronous since the calling coroutine is unscheduled until the socket has completed the operation, or a timeout occurs. Note that you’ll need to first reference the associated addon in order to cause it to load before using it’s objects. In these examples, you’ll have to reference “Socket” to get the Socket addon to load first.</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; "><span>Creating a </span><span>URL</span><span> object:</span></div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">url := URL with("http://example.com/")</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">Fetching an URL:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">data := url fetch  </div>
+<div class="paragraph Code" style="line-height: 11pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">Streaming a URL to a file:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; "><span>url streamTo(</span><span>File with("out.txt")</span><span>)</span></div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">A simple whois client:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">whois := method(host,</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    socket := Socket clone setHostName("rs.internic.net") setPort(43) </div>
+<div class="paragraph Code" style="line-height: 11pt; ">    socket connect streamWrite(host, "\n")</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    while(socket streamReadNextChunk, nil)</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    return socket readBuffer</div>
+<div class="paragraph Code" style="line-height: 11pt; ">)</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">A minimal web server:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">WebRequest := Object clone do(</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    handleSocket := method(aSocket,</div>
+<div class="paragraph Code" style="line-height: 11pt; ">        aSocket streamReadNextChunk</div>
+<div class="paragraph Code" style="line-height: 11pt; ">        request := aSocket readBuffer betweenSeq("GET ", " HTTP")</div>
+<div class="paragraph Code" style="line-height: 11pt; ">        f := File with(request) </div>
+<div class="paragraph Code" style="line-height: 11pt; ">        if(f exists, f streamTo(aSocket), aSocket streamWrite("not found"))</div>
+<div class="paragraph Code" style="line-height: 11pt; ">        aSocket close</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    )</div>
+<div class="paragraph Code" style="line-height: 11pt; ">)</div>
+<div class="paragraph Code" style="line-height: 11pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">WebServer := Server clone do(</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    setPort(8000)</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    handleSocket := method(aSocket, </div>
+<div class="paragraph Code" style="line-height: 11pt; ">        WebRequest clone @handleSocket(aSocket)</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    )</div>
+<div class="paragraph Code" style="line-height: 11pt; ">)</div>
+<div class="paragraph Code" style="line-height: 11pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">WebServer start</div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC31414" id="TOC31414"></a><span>XML</span></div>
+<div class="paragraph Body" style="line-height: 12pt; ">Using the XML parser to find the links in a web page:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; "><span style="font-family: 'Courier', 'serif'; line-height: 11pt; ">xml := URL with("http://www.yahoo.com/") fetch </span><span>asXML</span></div>
+<div class="paragraph Code" style="line-height: 11pt; font-family: 'Courier', 'serif'; line-height: 11pt;">links := xml elementsWithName("a") map(attributes at("href"))</div>
+<div class="paragraph Heading_1" style="line-height: 17pt; text-decoration: none;"> </div>
+<div class="paragraph Heading_1" style="line-height: 17pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; "></div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Heading" style="line-height: 29pt; "><a name="TOC31592" id="TOC31592"></a><span>Embedding</span></div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC31602" id="TOC31602"></a><span>Coding Conventions</span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Io’s C code is written using object oriented style conventions where structures are treated as objects and functions as methods. Familiarity with these may help make the embedding APIs easier to understand.</div>
+<div class="paragraph Heading_2" style="line-height: 13pt; ">Structures</div>
+<div class="paragraph Body" style="line-height: 12pt; ">Member names are words that begin with a lower case character with successive words each having their first character upper cased. Acronyms are capitalized. Structure names are words with their first character capitalized.</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">Example:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">typdef struct </div>
+<div class="paragraph Code" style="line-height: 11pt; ">{</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    char *firstName;</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    char *lastName;</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    char *address;</div>
+<div class="paragraph Code" style="line-height: 11pt; ">} Person;</div>
+<div class="paragraph Heading_2" style="line-height: 13pt; ">Functions</div>
+<div class="paragraph Body" style="line-height: 12pt; ">Function names begin with the name of structure they operate on followed by an underscore and the method name. Each structure has a new and free function.</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">Example:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">List *List_new(void);</div>
+<div class="paragraph Code" style="line-height: 11pt; ">void List_free(List *self);</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">All methods (except new) have the structure (the "object") as the first argument the variable is named "self". Method names are in keyword format. That is, for each argument, the method name has a description followed by an underscore. The casing of the descriptions follow that of structure member names.</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">Examples:</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">int List_count(List *self); /* no argument */</div>
+<div class="paragraph Code" style="line-height: 11pt; ">void List_add_(List *self, void *item); /* one argument */</div>
+<div class="paragraph Code" style="line-height: 11pt; ">void Dictionary_key_value_(Dictionary *self, char *key, char *value); </div>
+<div class="paragraph Heading_2" style="line-height: 13pt; ">File Names</div>
+<div class="paragraph Body" style="line-height: 12pt; ">Each structure has it's own separate .h and .c files. The names of the files are the same as the name of the structure. These files contain all the functions(methods) that operate on the given structure.</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+</div>
+</div>
+<div><div class="layout_style_14"><div class="paragraph"></div>
+<div class="paragraph Heading_1" style="line-height: 17pt; padding-top: 0pt; text-decoration: none;"> </div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC33091" id="TOC33091"></a><span>IoState</span></div>
+<div class="paragraph Body" style="line-height: 12pt; ">An IoState can be thought of as an instance of an Io “virtual machine”, although “virtual machine” is a less appropriate term because it implies a particular type of implementation. </div>
+<div class="paragraph Heading_2" style="line-height: 13pt; ">Multiple states</div>
+<div class="paragraph Body" style="line-height: 12pt; ">Io is multi-state, meaning that it is designed to support multiple state instances within the same process. These instances are isolated and share no memory so they can be safely accessed simultaneously by different os threads, though a given state should only be accessed by one os thread at a time.</div>
+<div class="paragraph Heading_2" style="line-height: 13pt; ">Creating a state</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">Here’s a simple example of creating a state, evaluating a string in it, and freeing the state:</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">#include "IoState.h"</div>
+<div class="paragraph Code" style="line-height: 11pt; text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">int main(int argc, const char *argv[])</div>
+<div class="paragraph Code" style="line-height: 11pt; ">{</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    IoState *self = IoState_new();</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    IoState_init(self);</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    IoState_doCString_(self, “writeln(\”hello world!\””);</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    IoState_free(self);</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    return 0;</div>
+<div class="paragraph Code" style="line-height: 11pt; ">}</div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC33917" id="TOC33917"></a><span>Values</span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">We can also get return values and look at their types and print them:</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">IoObject *v = IoState_doCString_(self, someString);</div>
+<div class="paragraph Code" style="line-height: 11pt; ">char *name = IoObject_name(v);</div>
+<div class="paragraph Code" style="line-height: 11pt; ">printf(“return type is a ‘%s’, name);</div>
+<div class="paragraph Code" style="line-height: 11pt; ">IoObject_print(v);</div>
+<div class="paragraph Heading_2" style="line-height: 13pt; ">Checking value types</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;">There are some macro short cuts to help with quick type checks:</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Code" style="line-height: 11pt; ">if (ISNUMBER(v))</div>
+<div class="paragraph Code" style="line-height: 11pt; ">{</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    printf(“result is the number %f”, IoNumber_asFloat(v));</div>
+<div class="paragraph Code" style="line-height: 11pt; ">} </div>
+<div class="paragraph Code" style="line-height: 11pt; ">else if(ISSEQ(v))</div>
+<div class="paragraph Code" style="line-height: 11pt; ">{</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    printf(“result is the string %s”, IoSeq_asCString(v));</div>
+<div class="paragraph Code" style="line-height: 11pt; ">}</div>
+<div class="paragraph Code" style="line-height: 11pt; ">else if(ISLIST(v))</div>
+<div class="paragraph Code" style="line-height: 11pt; ">{</div>
+<div class="paragraph Code" style="line-height: 11pt; ">    printf(“result is a list with %i elements”, IoList_rawSize(v));</div>
+<div class="paragraph Code" style="line-height: 11pt; ">}</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; ">Note that return values are always proper Io objects (as all values are objects in Io). You can find the C level methods (functions like IoList_rawSize()) for these objects in the header files in the folder Io/libs/iovm/source. </div>
+<div class="paragraph Heading_1" style="line-height: 17pt; text-decoration: none;"> </div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC34697" id="TOC34697"></a><span>Bindings</span></div>
+<div class="paragraph Body" style="line-height: 12pt; ">forthcoming..</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Heading" style="line-height: 29pt; margin-bottom: 0pt; margin-top: 0pt; padding-bottom: 3pt; "><a name="TOC34721" style="line-height: 29pt; " id="TOC34721"></a><span style="line-height: 29pt; ">Appendix</span></div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "></div>
+<div class="paragraph Heading_1" style="line-height: 17pt; "><a name="TOC34731" id="TOC34731"></a><span>Grammar</span><span style="font-size: 8pt; line-height: 10pt; "></span></div>
+<div class="paragraph Heading_2" style="line-height: 13pt; ">messages</div>
+<div class="paragraph Code" style="line-height: 11pt; font-size: 10pt; line-height: 12pt;">expression ::= { message | sctpad }</div>
+<div class="paragraph Code" style="line-height: 11pt; font-size: 10pt; line-height: 12pt;">message ::= [wcpad] symbol [scpad] [arguments]</div>
+<div class="paragraph Code" style="line-height: 11pt; font-size: 10pt; line-height: 12pt;">arguments ::= Open [argument [ { Comma argument } ]] Close</div>
+<div class="paragraph Code" style="line-height: 11pt; "><span style="font-size: 10pt; line-height: 12pt; ">argument ::= [wcpad] expression [wcpad]</span><span style="font-family: 'ArialMT', 'Arial', 'sans-serif'; font-size: 10pt; line-height: 11pt; "></span></div>
+<div class="paragraph Heading_2" style="line-height: 13pt; ">symbols</div>
+<div class="paragraph Code" style="line-height: 11pt; font-size: 10pt; line-height: 12pt;">symbol ::= Identifier | number | Operator | quote</div>
+<div class="paragraph Code" style="line-height: 11pt; ">Identifier ::= { letter | digit | "_" }</div>
+<div class="paragraph Code" style="line-height: 11pt; ">Operator ::= { “:” | "." | "'" | "~" | "!" | "@" | "$" | "%" | "^" | "&amp;" | "*" | "-" | "+" | "/" | "=" | "{" | "}" | "[" | "]" | "|" | "\" | "&lt;" | "&gt;" | "?" }</div>
+<div class="paragraph Heading_2" style="line-height: 13pt; ">quotes</div>
+<div class="paragraph Code" style="line-height: 11pt; font-size: 10pt; line-height: 12pt;">quote ::= MonoQuote | TriQuote</div>
+<div class="paragraph Code" style="line-height: 11pt; font-size: 10pt; line-height: 12pt;">MonoQuote ::= """ [ "\"" | not(""")] """</div>
+<div class="paragraph Code" style="line-height: 11pt; "><span style="font-size: 10pt; line-height: 12pt; ">TriQuote ::= """"" [ not(""""")] """""</span><span style="font-family: 'ArialMT', 'Arial', 'sans-serif'; font-size: 10pt; line-height: 11pt; "></span></div>
+<div class="paragraph Heading_2" style="line-height: 13pt; ">spans</div>
+<div class="paragraph Code" style="line-height: 11pt; font-size: 10pt; line-height: 12pt;">Terminator ::= { [seperator] ";" | "\n" | "\r" [seperator] }</div>
+<div class="paragraph Code" style="line-height: 11pt; font-size: 10pt; line-height: 12pt;">seperator ::= { " " | "\f" | "\t" | "\v" }</div>
+<div class="paragraph Code" style="line-height: 11pt; font-size: 10pt; line-height: 12pt;">whitespace ::= { " " | "\f" | "\r" | "\t" | "\v" | "\n" }</div>
+<div class="paragraph Code" style="line-height: 11pt; font-size: 10pt; line-height: 12pt;">sctpad ::= { separator | Comment | Terminator }</div>
+<div class="paragraph Code" style="line-height: 11pt; font-size: 10pt; line-height: 12pt;">scpad ::= { separator | Comment }</div>
+<div class="paragraph Code" style="line-height: 11pt; "><span style="font-size: 10pt; line-height: 12pt; ">wcpad ::= { whitespace | Comment }</span><span style="font-family: 'ArialMT', 'Arial', 'sans-serif'; font-size: 10pt; line-height: 11pt; "></span></div>
+<div class="paragraph Heading_2" style="line-height: 13pt; ">comments</div>
+<div class="paragraph Code" style="line-height: 11pt; font-size: 10pt; line-height: 12pt;">Comment ::= slashStarComment | slashSlashComment | poundComment</div>
+<div class="paragraph Code" style="line-height: 11pt; font-size: 10pt; line-height: 12pt;">slashStarComment ::= "/*" [not("*/")] "*/"</div>
+<div class="paragraph Code" style="line-height: 11pt; font-size: 10pt; line-height: 12pt;">slashSlashComment ::= "//" [not("\n")] "\n"</div>
+<div class="paragraph Code" style="line-height: 11pt; "><span style="font-size: 10pt; line-height: 12pt; ">poundComment ::= "#" [not("\n")] "\n"</span><span style="font-family: 'ArialMT', 'Arial', 'sans-serif'; font-size: 10pt; line-height: 11pt; "></span></div>
+<div class="paragraph Heading_2" style="line-height: 13pt; ">numbers</div>
+<div class="paragraph Code" style="line-height: 11pt; font-size: 10pt; line-height: 12pt;">number ::= HexNumber | Decimal</div>
+<div class="paragraph Code" style="line-height: 11pt; font-size: 10pt; line-height: 12pt;">HexNumber ::= "0" anyCase("x") { [ digit | hexLetter ] }</div>
+<div class="paragraph Code" style="line-height: 11pt; font-size: 10pt; line-height: 12pt;">hexLetter ::= "a" | "b" | "c" | "d" | "e" | "f"</div>
+<div class="paragraph Code" style="line-height: 11pt; "><span style="font-size: 10pt; line-height: 12pt; ">Decimal ::= digits | "." digits | digits "." digits ["e" [-] digits]</span><span style="font-family: 'ArialMT', 'Arial', 'sans-serif'; font-size: 10pt; line-height: 11pt; "></span></div>
+<div class="paragraph Heading_2" style="line-height: 13pt; ">characters</div>
+<div class="paragraph Code" style="line-height: 11pt; font-size: 10pt; line-height: 12pt;">Comma ::= ","</div>
+<div class="paragraph Code" style="line-height: 11pt; font-size: 10pt; line-height: 12pt;">Open ::= "(" | "[" | "{"</div>
+<div class="paragraph Code" style="line-height: 11pt; font-size: 10pt; line-height: 12pt;">Close ::= ")" | "]" | "}"</div>
+<div class="paragraph Code" style="line-height: 11pt; font-size: 10pt; line-height: 12pt;">letter ::= "a" ... "z" | "A" ... "Z"</div>
+<div class="paragraph Code" style="line-height: 11pt; font-size: 10pt; line-height: 12pt;">digit ::= "0" ... "9"</div>
+<div class="paragraph Code" style="line-height: 11pt; font-size: 10pt; line-height: 12pt;">digits ::= { digit }</div>
+<div class="paragraph Body" style="line-height: 12pt; font-family: 'ArialMT', 'Arial', 'sans-serif'; line-height: 11pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; "></div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Heading" style="line-height: 29pt; "><a name="TOC36160" id="TOC36160"></a><span>Credits</span></div>
+<div class="paragraph Body" style="line-height: 12pt; ">Io is the product of all the talented folks who taken the time and interest to make a contribution. The complete list of contributors is difficult to keep track of, but some of the recent major contributors include; Jonathan Wright, Jeremy Tregunna, Mike Austin, Chris Double, Oliver Ansaldi, Baptist Heyman, Ken Kerahone, Christian Thater, Brian Mitchell, Zachary Bir and many more. The mailing list archives, repo inventory and release history are probably the best sources for a more complete record of individual contributions.</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Heading" style="line-height: 29pt; "><a name="TOC36701" id="TOC36701"></a><span>References</span></div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 72pt; margin-top: 0pt; text-indent: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; "><table cellspacing="0" cellpadding="0" style="background: transparent; border-collapse: collapse; height: 286pt; width: 375pt; word-wrap: break-word; " id="id4"><tr><td style="background: transparent; border: 1pt #bfbfbf none; height: 284pt; width: 16pt; "><div><div style="margin: 5pt; width: 16pt; "><div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; padding-top: 0pt; text-indent: 0pt; font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; font-style: normal; font-weight: normal; line-height: 12pt;">1</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; text-indent: 0pt; font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; font-style: normal; font-weight: normal; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; text-indent: 0pt; font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; font-style: normal; font-weight: normal; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; text-indent: 0pt; font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; font-style: normal; font-weight: normal; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; text-indent: 0pt; font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; font-style: normal; font-weight: normal; line-height: 12pt;">2</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; text-indent: 0pt; font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; font-style: normal; font-weight: normal; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; text-indent: 0pt; font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; font-style: normal; font-weight: normal; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; text-indent: 0pt; font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; font-style: normal; font-weight: normal; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; text-indent: 0pt; font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; font-style: normal; font-weight: normal; line-height: 12pt;">3</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; text-indent: 0pt; font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; font-style: normal; font-weight: normal; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; text-indent: 0pt; font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; font-style: normal; font-weight: normal; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; text-indent: 0pt; font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; font-style: normal; font-weight: normal; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; text-indent: 0pt; font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; font-style: normal; font-weight: normal; line-height: 12pt;">4</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; text-indent: 0pt; font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; font-style: normal; font-weight: normal; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; text-indent: 0pt; font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; font-style: normal; font-weight: normal; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; text-indent: 0pt; font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; font-style: normal; font-weight: normal; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; text-indent: 0pt; font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; font-style: normal; font-weight: normal; line-height: 12pt;">5</div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; text-indent: 0pt; font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; font-style: normal; font-weight: normal; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; text-indent: 0pt; font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; font-style: normal; font-weight: normal; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; text-indent: 0pt; font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; font-style: normal; font-weight: normal; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; margin-bottom: 0pt; margin-left: 0pt; margin-top: 0pt; padding-bottom: 0pt; text-indent: 0pt; font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; font-style: normal; font-weight: normal; line-height: 12pt;">6</div>
+</div>
+</div>
+</td>
+<td style="background: transparent; border: 1pt #bfbfbf none; height: 284pt; width: 357pt; "><div><div style="margin: 5pt; width: 357pt; "><div class="paragraph Footnote_Text" style="line-height: 12pt; margin-bottom: 0pt; margin-top: 0pt; padding-bottom: 0pt; padding-top: 0pt; line-height: 12pt;">Goldberg, A et al. </div>
+<div class="paragraph Footnote_Text" style="line-height: 12pt; margin-bottom: 0pt; margin-top: 0pt; padding-bottom: 0pt; line-height: 12pt;">Smalltalk-80: The Language and Its Implementation</div>
+<div class="paragraph Footnote_Text" style="line-height: 12pt; margin-bottom: 0pt; margin-top: 0pt; padding-bottom: 0pt; line-height: 12pt;">Addison-Wesley, 1983</div>
+<div class="paragraph Footnote_Text" style="line-height: 12pt; margin-bottom: 0pt; margin-top: 0pt; padding-bottom: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Footnote_Text" style="line-height: 12pt; margin-bottom: 0pt; margin-top: 0pt; padding-bottom: 0pt; line-height: 12pt;">Ungar, D and Smith, </div>
+<div class="paragraph Footnote_Text" style="line-height: 12pt; margin-bottom: 0pt; margin-top: 0pt; padding-bottom: 0pt; line-height: 12pt;">RB. Self: The Power of Simplicity</div>
+<div class="paragraph Footnote_Text" style="line-height: 12pt; margin-bottom: 0pt; margin-top: 0pt; padding-bottom: 0pt; line-height: 12pt;">OOPSLA, 1987</div>
+<div class="paragraph Footnote_Text" style="line-height: 12pt; margin-bottom: 0pt; margin-top: 0pt; padding-bottom: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Footnote_Text" style="line-height: 12pt; margin-bottom: 0pt; margin-top: 0pt; padding-bottom: 0pt; line-height: 12pt;">Smith, W. </div>
+<div class="paragraph Footnote_Text" style="line-height: 12pt; margin-bottom: 0pt; margin-top: 0pt; padding-bottom: 0pt; line-height: 12pt;">Class-based NewtonScript Programming</div>
+<div class="paragraph Footnote_Text" style="line-height: 12pt; margin-bottom: 0pt; margin-top: 0pt; padding-bottom: 0pt; line-height: 12pt;">PIE Developers magazine, Jan 1994</div>
+<div class="paragraph Footnote_Text" style="line-height: 12pt; margin-bottom: 0pt; margin-top: 0pt; padding-bottom: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Footnote_Text" style="line-height: 12pt; margin-bottom: 0pt; margin-top: 0pt; padding-bottom: 0pt; line-height: 12pt;">Lieberman</div>
+<div class="paragraph Footnote_Text" style="line-height: 12pt; margin-bottom: 0pt; margin-top: 0pt; padding-bottom: 0pt; line-height: 12pt;">H. Concurrent Object-Oriented Programming in Act 1</div>
+<div class="paragraph Footnote_Text" style="line-height: 12pt; margin-bottom: 0pt; margin-top: 0pt; padding-bottom: 0pt; line-height: 12pt;">MIT AI Lab, 1987</div>
+<div class="paragraph Footnote_Text" style="line-height: 12pt; margin-bottom: 0pt; margin-top: 0pt; padding-bottom: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Footnote_Text" style="line-height: 12pt; margin-bottom: 0pt; margin-top: 0pt; padding-bottom: 0pt; line-height: 12pt;">McCarthy, J et al. </div>
+<div class="paragraph Footnote_Text" style="line-height: 12pt; margin-bottom: 0pt; margin-top: 0pt; padding-bottom: 0pt; line-height: 12pt;">LISP I programmer's manual</div>
+<div class="paragraph Footnote_Text" style="line-height: 12pt; margin-bottom: 0pt; margin-top: 0pt; padding-bottom: 0pt; line-height: 12pt;">MIT Press, 1960</div>
+<div class="paragraph Footnote_Text" style="line-height: 12pt; margin-bottom: 0pt; margin-top: 0pt; padding-bottom: 0pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Footnote_Text" style="line-height: 12pt; margin-bottom: 0pt; margin-top: 0pt; padding-bottom: 0pt; line-height: 12pt;">Ierusalimschy, R, et al.     </div>
+<div class="paragraph Footnote_Text" style="line-height: 12pt; margin-bottom: 0pt; margin-top: 0pt; padding-bottom: 0pt; line-height: 12pt;">Lua: an extensible extension language</div>
+<div class="paragraph Footnote_Text" style="line-height: 12pt; margin-bottom: 0pt; margin-top: 0pt; padding-bottom: 0pt; line-height: 12pt;">John Wiley &amp; Sons, 1996</div>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph Body" style="line-height: 12pt; text-decoration: none;"> </div>
+<div class="paragraph Heading" style="line-height: 29pt; "></div>
+<div class="paragraph Heading" style="line-height: 29pt; "><a name="TOC36717" id="TOC36717"></a><span>License</span></div>
+<div class="paragraph Body" style="line-height: 12pt; font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; line-height: 12pt;">Copyright 2006 Steve Dekorte. All rights reserved.</div>
+<div class="paragraph Body" style="line-height: 12pt; font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; line-height: 12pt;">Redistribution and use of this document with or without modification, are permitted provided that the copies reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.</div>
+<div class="paragraph Body" style="line-height: 12pt; font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; line-height: 12pt;  text-decoration: none;"> </div>
+<div class="paragraph Body" style="line-height: 12pt; padding-bottom: 0pt; font-family: 'Helvetica', 'Arial', 'sans-serif'; font-size: 10pt; line-height: 12pt;">This documentation is provided "as is" and any express or implied warranties, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose are disclaimed. In no event shall the freebsd documentation project be liable for any direct, indirect, incidental, special, exemplary, or consequential damages (including, but not limited to, procurement of substitute goods or services; loss of use, data, or profits; or business interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including negligence or otherwise) arising in any way out of the use of this documentation, even if advised of the possibility of such damage.</div>
+</div>
+</div>
+</body>
+</html>

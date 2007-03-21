@@ -1,0 +1,163 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glPixelMapfv,</STRONG>	<STRONG>glPixelMapuiv,</STRONG> <STRONG>glPixelMapusv</STRONG> - set up pixel
+	  transfer maps
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glPixelMapfv</STRONG>( GLenum <EM>map</EM>,
+			     GLsizei <EM>mapsize</EM>,
+			     const GLfloat *<EM>values</EM> )
+	  void <STRONG>glPixelMapuiv</STRONG>( GLenum <EM>map</EM>,
+			      GLsizei <EM>mapsize</EM>,
+			      const GLuint *<EM>values</EM> )
+	  void <STRONG>glPixelMapusv</STRONG>( GLenum <EM>map</EM>,
+			      GLsizei <EM>mapsize</EM>,
+			      const GLushort *<EM>values</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>map</EM>	   Specifies a symbolic	map name.  Must	be one of the
+		   following:  <STRONG>GL_PIXEL_MAP_I_TO_I</STRONG>,
+		   <STRONG>GL_PIXEL_MAP_S_TO_S</STRONG>,	<STRONG>GL_PIXEL_MAP_I_TO_R</STRONG>,
+		   <STRONG>GL_PIXEL_MAP_I_TO_G</STRONG>,	<STRONG>GL_PIXEL_MAP_I_TO_B</STRONG>,
+		   <STRONG>GL_PIXEL_MAP_I_TO_A</STRONG>,	<STRONG>GL_PIXEL_MAP_R_TO_R</STRONG>,
+		   <STRONG>GL_PIXEL_MAP_G_TO_G</STRONG>,	<STRONG>GL_PIXEL_MAP_B_TO_B</STRONG>, or
+		   <STRONG>GL_PIXEL_MAP_A_TO_A</STRONG>.
+
+	  <EM>mapsize</EM>  Specifies the size of the map being defined.
+
+	  <EM>values</EM>   Specifies an	array of <EM>mapsize</EM> values.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glPixelMap</STRONG> sets up translation tables, or <EM>maps</EM>, used by
+	  <STRONG>glCopyPixels</STRONG>,	<STRONG>glCopyTexImage1D</STRONG>, <STRONG>glCopyTexImage2D</STRONG>,
+	  <STRONG>glCopyTexSubImage1D</STRONG>, <STRONG>glCopyTexSubImage2D</STRONG>, <STRONG>glDrawPixels</STRONG>,
+	  <STRONG>glReadPixels</STRONG>,	<STRONG>glTexImage1D</STRONG>, <STRONG>glTexImage2D</STRONG>, <STRONG>glTexSubImage1D</STRONG>,
+	  and <STRONG>glTexSubImage2D</STRONG>.	Use of these maps is described
+	  completely in	the <STRONG>glPixelTransfer</STRONG> reference page, and	partly
+	  in the reference pages for the pixel and texture image
+	  commands.  Only the specification of the maps	is described
+	  in this reference page.
+
+	  <EM>map</EM> is a symbolic map	name, indicating one of	ten maps to
+	  set.	<EM>mapsize</EM>	specifies the number of	entries	in the map,
+	  and <EM>values</EM> is	a pointer to an	array of <EM>mapsize</EM> map values.
+
+	  The ten maps are as follows:
+
+	  <STRONG>GL_PIXEL_MAP_I_TO_I</STRONG>		Maps color indices to color
+					indices.
+
+	  <STRONG>GL_PIXEL_MAP_S_TO_S</STRONG>		Maps stencil indices to
+					stencil	indices.
+
+	  <STRONG>GL_PIXEL_MAP_I_TO_R</STRONG>		Maps color indices to red
+					components.
+
+	  <STRONG>GL_PIXEL_MAP_I_TO_G</STRONG>		Maps color indices to green
+					components.
+
+	  <STRONG>GL_PIXEL_MAP_I_TO_B</STRONG>		Maps color indices to blue
+					components.
+
+	  <STRONG>GL_PIXEL_MAP_I_TO_A</STRONG>		Maps color indices to alpha
+					components.
+
+	  <STRONG>GL_PIXEL_MAP_R_TO_R</STRONG>		Maps red components to red
+					components.
+
+	  <STRONG>GL_PIXEL_MAP_G_TO_G</STRONG>		Maps green components to green
+					components.
+
+	  <STRONG>GL_PIXEL_MAP_B_TO_B</STRONG>		Maps blue components to	blue
+					components.
+
+	  <STRONG>GL_PIXEL_MAP_A_TO_A</STRONG>		Maps alpha components to alpha
+					components.
+
+	  The entries in a map can be specified	as single-precision
+	  floating-point numbers, unsigned short integers, or unsigned
+	  long integers.  Maps that store color	component values (all
+	  but <STRONG>GL_PIXEL_MAP_I_TO_I</STRONG> and <STRONG>GL_PIXEL_MAP_S_TO_S</STRONG>) retain
+	  their	values in floating-point format, with unspecified
+	  mantissa and exponent	sizes.	Floating-point values
+	  specified by <STRONG>glPixelMapfv</STRONG> are	converted directly to the
+	  internal floating-point format of these maps,	then clamped
+	  to the range [0,1].  Unsigned	integer	values specified by
+	  <STRONG>glPixelMapusv</STRONG>	and <STRONG>glPixelMapuiv</STRONG> are converted	linearly such
+	  that the largest representable integer maps to 1.0, and 0
+	  maps to 0.0.
+
+	  Maps that store indices, <STRONG>GL_PIXEL_MAP_I_TO_I</STRONG> and
+	  <STRONG>GL_PIXEL_MAP_S_TO_S</STRONG>, retain their values in fixed-point
+	  format, with an unspecified number of	bits to	the right of
+	  the binary point.  Floating-point values specified by
+	  <STRONG>glPixelMapfv</STRONG> are converted directly to the internal fixed-
+	  point	format of these	maps.  Unsigned	integer	values
+	  specified by <STRONG>glPixelMapusv</STRONG> and <STRONG>glPixelMapuiv</STRONG> specify integer
+	  values, with all 0's to the right of the binary point.
+
+	  The following	table shows the	initial	sizes and values for
+	  each of the maps.  Maps that are indexed by either color or
+	  stencil indices must have <EM>mapsize</EM> = 2n for some n or the
+	  results are undefined.  The maximum allowable	size for each
+	  map depends on the implementation and	can be determined by
+	  calling <STRONG>glGet</STRONG>	with argument <STRONG>GL_MAX_PIXEL_MAP_TABLE</STRONG>.  The
+	  single maximum applies to all	maps; it is at least 32.
+     ______________________________________________________________________________________
+     |	      <EM>map</EM>	  |  <EM>lookup</EM> <EM>index</EM>  |  <EM>lookup</EM> <EM>value</EM>  | <EM>initial</EM> <EM>size</EM> | <EM>initial</EM> <EM>value</EM> |
+     <EM>|</EM>____________________<EM>|</EM>________________<EM>|</EM>________________<EM>|</EM>______________<EM>|</EM>_______________|
+     |<STRONG>GL_PIXEL_MAP_I_TO_I</STRONG> |  color index   |  color index   |	   1	   |	   0	   |
+     |<STRONG>GL_PIXEL_MAP_S_TO_S</STRONG> | stencil index  | stencil index  |	   1	   |	   0	   |
+     |<STRONG>GL_PIXEL_MAP_I_TO_R</STRONG> |  color index   |	   R	    |	   1	   |	   0	   |
+     |<STRONG>GL_PIXEL_MAP_I_TO_G</STRONG> |  color index   |	   G	    |	   1	   |	   0	   |
+     |<STRONG>GL_PIXEL_MAP_I_TO_B</STRONG> |  color index   |	   B	    |	   1	   |	   0	   |
+     |<STRONG>GL_PIXEL_MAP_I_TO_A</STRONG> |  color index   |	   A	    |	   1	   |	   0	   |
+     |<STRONG>GL_PIXEL_MAP_R_TO_R</STRONG> |	  R	   |	   R	    |	   1	   |	   0	   |
+     |<STRONG>GL_PIXEL_MAP_G_TO_G</STRONG> |	  G	   |	   G	    |	   1	   |	   0	   |
+     |<STRONG>GL_PIXEL_MAP_B_TO_B</STRONG> |	  B	   |	   B	    |	   1	   |	   0	   |
+     |<STRONG>GL_PIXEL_MAP_A_TO_A</STRONG> |	  A	   |	   A	    |	   1	   |	   0	   |
+     <EM>|</EM>____________________<EM>|</EM>________________<EM>|</EM>________________<EM>|</EM>______________<EM>|</EM>_______________|
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>map</EM> is not an	accepted
+	  value.
+
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if <EM>mapsize</EM> is less than	one or
+	  larger than <STRONG>GL_MAX_PIXEL_MAP_TABLE</STRONG>.
+
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if <EM>map</EM> is <STRONG>GL_PIXEL_MAP_I_TO_I</STRONG>,
+	  <STRONG>GL_PIXEL_MAP_S_TO_S</STRONG>, <STRONG>GL_PIXEL_MAP_I_TO_R</STRONG>,
+	  <STRONG>GL_PIXEL_MAP_I_TO_G</STRONG>, <STRONG>GL_PIXEL_MAP_I_TO_B</STRONG>, or
+	  <STRONG>GL_PIXEL_MAP_I_TO_A</STRONG>, and <EM>mapsize</EM> is not a power of two.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glPixelMap</STRONG> is executed
+	  between the execution	of <STRONG>glBegin</STRONG> and the corresponding
+	  execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGetPixelMap</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_PIXEL_MAP_I_TO_I_SIZE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_PIXEL_MAP_S_TO_S_SIZE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_PIXEL_MAP_I_TO_R_SIZE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_PIXEL_MAP_I_TO_G_SIZE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_PIXEL_MAP_I_TO_B_SIZE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_PIXEL_MAP_I_TO_A_SIZE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_PIXEL_MAP_R_TO_R_SIZE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_PIXEL_MAP_G_TO_G_SIZE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_PIXEL_MAP_B_TO_B_SIZE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_PIXEL_MAP_A_TO_A_SIZE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_MAX_PIXEL_MAP_TABLE</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glCopyPixels</STRONG>,	<STRONG>glCopyTexImage1D</STRONG>, <STRONG>glCopyTexImage2D</STRONG>,
+	  <STRONG>glCopyTexSubImage1D</STRONG>, <STRONG>glCopyTexSubImage2D</STRONG>, <STRONG>glDrawPixels</STRONG>,
+	  <STRONG>glPixelStore</STRONG>,	<STRONG>glPixelTransfer</STRONG>, <STRONG>glReadPixels</STRONG>, <STRONG>glTexImage1D</STRONG>,
+	  <STRONG>glTexImage2D</STRONG>,	<STRONG>glTexSubImage1D</STRONG>, <STRONG>glTexSubImage2D</STRONG>
+
+</PRE>
+</BODY>
+</HTML>

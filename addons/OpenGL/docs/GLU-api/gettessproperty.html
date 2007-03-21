@@ -1,0 +1,58 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>gluGetTessProperty</STRONG> - get a tessellation object property
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>gluGetTessProperty</STRONG>( GLUtesselator* <EM>tess</EM>,
+				   GLenum <EM>which</EM>,
+				   GLdouble* <EM>data</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>tess</EM>	 Specifies the tessellation object (created with
+		 <STRONG>gluNewTess</STRONG>).
+
+	  <EM>which</EM>	 Specifies the property	whose value is to be fetched.
+		 Valid values are <STRONG>GLU_TESS_WINDING_RULE</STRONG>,
+		 <STRONG>GLU_TESS_BOUNDARY_ONLY</STRONG>, and <STRONG>GLU_TESS_TOLERANCE</STRONG>.
+
+	  <EM>data</EM>	 Specifies a pointer to	the location into which	the
+		 value of the named property is	written.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>gluGetTessProperty</STRONG> retrieves properties stored in a
+	  tessellation object. These properties	affect the way that
+	  tessellation objects are interpreted and rendered. See the
+	  <STRONG>gluTessProperty</STRONG> reference page for information about the
+	  properties and what they do.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>gluNewTess</STRONG>, <STRONG>gluTessProperty</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

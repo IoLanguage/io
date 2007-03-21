@@ -1,0 +1,215 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glMaterialf,</STRONG> <STRONG>glMateriali,</STRONG> <STRONG>glMaterialfv,</STRONG> <STRONG>glMaterialiv</STRONG> -
+	  specify material parameters for the lighting model
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glMaterialf</STRONG>( GLenum <EM>face</EM>,
+			    GLenum <EM>pname</EM>,
+			    GLfloat <EM>param</EM> )
+	  void <STRONG>glMateriali</STRONG>( GLenum <EM>face</EM>,
+			    GLenum <EM>pname</EM>,
+			    GLint <EM>param</EM>	)
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>face</EM>	  Specifies which face or faces	are being updated.
+		  Must be one of <STRONG>GL_FRONT</STRONG>, <STRONG>GL_BACK</STRONG>, or
+		  <STRONG>GL_FRONT_AND_BACK</STRONG>.
+
+	  <EM>pname</EM>	  Specifies the	single-valued material parameter of
+		  the face or faces that is being updated.  Must be
+		  <STRONG>GL_SHININESS</STRONG>.
+
+	  <EM>param</EM>	  Specifies the	value that parameter <STRONG>GL_SHININESS</STRONG> will
+		  be set to.
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glMaterialfv</STRONG>( GLenum <EM>face</EM>,
+			     GLenum <EM>pname</EM>,
+			     const GLfloat *<EM>params</EM> )
+	  void <STRONG>glMaterialiv</STRONG>( GLenum <EM>face</EM>,
+			     GLenum <EM>pname</EM>,
+			     const GLint *<EM>params</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>face</EM> Specifies which face or faces are being updated.	 Must
+	       be one of <STRONG>GL_FRONT</STRONG>, <STRONG>GL_BACK</STRONG>, or <STRONG>GL_FRONT_AND_BACK</STRONG>.
+
+	  <EM>pname</EM>
+	       Specifies the material parameter	of the face or faces
+	       that is being updated.  Must be one of <STRONG>GL_AMBIENT</STRONG>,
+	       <STRONG>GL_DIFFUSE</STRONG>, <STRONG>GL_SPECULAR</STRONG>,	<STRONG>GL_EMISSION</STRONG>, <STRONG>GL_SHININESS</STRONG>,
+	       <STRONG>GL_AMBIENT_AND_DIFFUSE</STRONG>,	or <STRONG>GL_COLOR_INDEXES</STRONG>.
+
+	  <EM>params</EM>
+	       Specifies a pointer to the value	or values that <EM>pname</EM>
+	       will be set to.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glMaterial</STRONG> assigns values to material	parameters.  There are
+	  two matched sets of material parameters.  One, the <EM>front</EM>-
+	  <EM>facing</EM> set, is used to shade points, lines, bitmaps, and all
+	  polygons (when two-sided lighting is disabled), or just
+	  front-facing polygons	(when two-sided	lighting is enabled).
+	  The other set, <EM>back</EM>-<EM>facing</EM>, is used to shade back-facing
+	  polygons only	when two-sided lighting	is enabled.  Refer to
+	  the <STRONG>glLightModel</STRONG> reference page for details concerning one-
+	  and two-sided	lighting calculations.
+
+	  <STRONG>glMaterial</STRONG> takes three arguments.  The first,	<EM>face</EM>,
+	  specifies whether the	<STRONG>GL_FRONT</STRONG> materials, the	<STRONG>GL_BACK</STRONG>
+	  materials, or	both <STRONG>GL_FRONT_AND_BACK</STRONG> materials will be
+	  modified.  The second, <EM>pname</EM>,	specifies which	of several
+	  parameters in	one or both sets will be modified.  The	third,
+	  <EM>params</EM>, specifies what value or values will be assigned to
+	  the specified	parameter.
+
+	  Material parameters are used in the lighting equation	that
+	  is optionally	applied	to each	vertex.	 The equation is
+	  discussed in the <STRONG>glLightModel</STRONG>	reference page.	 The
+	  parameters that can be specified using <STRONG>glMaterial</STRONG>, and their
+	  interpretations by the lighting equation, are	as follows:
+
+	  <STRONG>GL_AMBIENT</STRONG>	      <EM>params</EM> contains four integer or
+			      floating-point values that specify the
+			      ambient RGBA reflectance of the
+			      material.	 Integer values	are mapped
+			      linearly such that the most positive
+			      representable value maps to 1.0, and the
+			      most negative representable value	maps
+			      to -1.0.	Floating-point values are
+			      mapped directly.	Neither	integer	nor
+			      floating-point values are	clamped.  The
+			      initial ambient reflectance for both
+			      front- and back-facing materials is
+			      (0.2, 0.2, 0.2, 1.0).
+
+	  <STRONG>GL_DIFFUSE</STRONG>	      <EM>params</EM> contains four integer or
+			      floating-point values that specify the
+			      diffuse RGBA reflectance of the
+			      material.	 Integer values	are mapped
+			      linearly such that the most positive
+			      representable value maps to 1.0, and the
+			      most negative representable value	maps
+			      to -1.0.	Floating-point values are
+			      mapped directly.	Neither	integer	nor
+			      floating-point values are	clamped.  The
+			      initial diffuse reflectance for both
+			      front- and back-facing materials is
+			      (0.8, 0.8, 0.8, 1.0).
+
+	  <STRONG>GL_SPECULAR</STRONG>	      <EM>params</EM> contains four integer or
+			      floating-point values that specify the
+			      specular RGBA reflectance	of the
+			      material.	 Integer values	are mapped
+			      linearly such that the most positive
+			      representable value maps to 1.0, and the
+			      most negative representable value	maps
+			      to -1.0.	Floating-point values are
+			      mapped directly.	Neither	integer	nor
+			      floating-point values are	clamped.  The
+			      initial specular reflectance for both
+			      front- and back-facing materials is (0,
+			      0, 0, 1).
+
+	  <STRONG>GL_EMISSION</STRONG>	      <EM>params</EM> contains four integer or
+			      floating-point values that specify the
+			      RGBA emitted light intensity of the
+			      material.	 Integer values	are mapped
+			      linearly such that the most positive
+			      representable value maps to 1.0, and the
+			      most negative representable value	maps
+			      to -1.0.	Floating-point values are
+			      mapped directly.	Neither	integer	nor
+			      floating-point values are	clamped.  The
+			      initial emission intensity for both
+			      front- and back-facing materials is (0,
+			      0, 0, 1).
+
+	  <STRONG>GL_SHININESS</STRONG>	      <EM>params</EM> is	a single integer or floating-
+			      point value that specifies the RGBA
+			      specular exponent	of the material.
+			      Integer and floating-point values	are
+			      mapped directly.	Only values in the
+			      range [0,128] are	accepted.  The initial
+			      specular exponent	for both front-	and
+			      back-facing materials is 0.
+
+	  <STRONG>GL_AMBIENT_AND_DIFFUSE</STRONG>
+			      Equivalent to calling <STRONG>glMaterial</STRONG> twice
+			      with the same parameter values, once
+			      with <STRONG>GL_AMBIENT</STRONG> and once with
+			      <STRONG>GL_DIFFUSE</STRONG>.
+
+	  <STRONG>GL_COLOR_INDEXES</STRONG>    <EM>params</EM> contains three integer or
+			      floating-point values specifying the
+			      color indices for	ambient, diffuse, and
+			      specular lighting.  These	three values,
+			      and <STRONG>GL_SHININESS</STRONG>,	are the	only material
+			      values used by the color index mode
+			      lighting equation.  Refer	to the
+			      <STRONG>glLightModel</STRONG> reference page for a
+			      discussion of color index	lighting.
+
+     <STRONG>NOTES</STRONG>
+
+	  The material parameters can be updated at any	time.  In
+	  particular, <STRONG>glMaterial</STRONG> can be	called between a call to
+	  <STRONG>glBegin</STRONG> and the corresponding	call to	<STRONG>glEnd</STRONG>.	If only	a
+	  single material parameter is to be changed per vertex,
+	  however, <STRONG>glColorMaterial</STRONG> is preferred	over <STRONG>glMaterial</STRONG>	(see
+	  <STRONG>glColorMaterial</STRONG>).
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if either <EM>face</EM> or <EM>pname</EM> is not
+	  an accepted value.
+
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if a specular exponent outside
+	  the range [0,128] is specified.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGetMaterial</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glColorMaterial</STRONG>, <STRONG>glLight</STRONG>, <STRONG>glLightModel</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

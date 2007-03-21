@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<filetype binary="false" default_extension="" description="Io files" name="Io">
+  <highlighting>
+    <options>
+      <option name="LINE_COMMENT" value="//" />
+      <option name="COMMENT_START" value="/*" />
+      <option name="COMMENT_END" value="*/" />
+      <option name="HEX_PREFIX" value="0x" />
+      <option name="NUM_POSTFIXES" value="" />
+      <option name="HAS_BRACES" value="true" />
+      <option name="HAS_BRACKETS" value="true" />
+      <option name="HAS_PARENS" value="true" />
+    </options>
+    <keywords ignore_case="false">
+      <keyword name="Block" />
+      <keyword name="Buffer" />
+      <keyword name="CFunction" />
+      <keyword name="Date" />
+      <keyword name="Duration" />
+      <keyword name="File" />
+      <keyword name="LinkedList" />
+      <keyword name="List" />
+      <keyword name="Map" />
+      <keyword name="Message" />
+      <keyword name="nil" />
+      <keyword name="true" />
+      <keyword name="false" />
+      <keyword name="Number" />
+      <keyword name="Object" />
+      <keyword name="String" />
+      <keyword name="WeakLink" />
+    </keywords>
+    <keywords2>
+      <keyword name="$" />
+      <keyword name="%" />
+      <keyword name="&amp;" />
+      <keyword name="*" />
+      <keyword name="+" />
+      <keyword name="-" />
+      <keyword name="/" />
+      <keyword name=":=" />
+      <keyword name="&lt;=" />
+      <keyword name="=" />
+      <keyword name="&gt;=" />
+      <keyword name="?" />
+      <keyword name="@" />
+      <keyword name="@@" />
+      <keyword name="\" />
+      <keyword name="^" />
+      <keyword name="`" />
+      <keyword name="block" />
+      <keyword name="method" />
+      <keyword name="~" />
+    </keywords2>
+    <keywords3>
+      <keyword name="do" />
+      <keyword name="else" />
+      <keyword name="foreach" />
+      <keyword name="if" />
+      <keyword name="while" />
+    </keywords3>
+    <keywords4>
+      <keyword name="clone" />
+      <keyword name="forward" />
+      <keyword name="hasSlot" />
+      <keyword name="print" />
+      <keyword name="proto" />
+      <keyword name="self" />
+      <keyword name="setSlot" />
+      <keyword name="super" />
+      <keyword name="type" />
+      <keyword name="write" />
+    </keywords4>
+  </highlighting>
+</filetype>
+

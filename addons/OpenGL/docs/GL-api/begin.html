@@ -1,0 +1,162 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glBegin,</STRONG> <STRONG>glEnd</STRONG> - delimit the vertices	of a primitive or a
+	  group	of like	primitives
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glBegin</STRONG>(	GLenum <EM>mode</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>mode</EM>	Specifies the primitive	or primitives that will	be
+		created	from vertices presented	between	<STRONG>glBegin</STRONG>	and
+		the subsequent <STRONG>glEnd</STRONG>.  Ten symbolic constants are
+		accepted:  <STRONG>GL_POINTS</STRONG>, <STRONG>GL_LINES</STRONG>,	<STRONG>GL_LINE_STRIP</STRONG>,
+		<STRONG>GL_LINE_LOOP</STRONG>, <STRONG>GL_TRIANGLES</STRONG>, <STRONG>GL_TRIANGLE_STRIP</STRONG>,
+		<STRONG>GL_TRIANGLE_FAN</STRONG>, <STRONG>GL_QUADS</STRONG>, <STRONG>GL_QUAD_STRIP</STRONG>, and
+		<STRONG>GL_POLYGON</STRONG>.
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glEnd</STRONG>( void )
+
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glBegin</STRONG> and <STRONG>glEnd</STRONG> delimit the	vertices that define a
+	  primitive or a group of like primitives.  <STRONG>glBegin</STRONG> accepts a
+	  single argument that specifies in which of ten ways the
+	  vertices are interpreted.  Taking <EM>n</EM> as an integer count
+	  starting at one, and <EM>N</EM> as the	total number of	vertices
+	  specified, the interpretations are as	follows:
+
+	  <STRONG>GL_POINTS</STRONG>	       Treats each vertex as a single point.
+			       Vertex <EM>n</EM>	defines	point <EM>n</EM>.  <EM>N</EM> points are
+			       drawn.
+
+	  <STRONG>GL_LINES</STRONG>	       Treats each pair	of vertices as an
+			       independent line	segment.  Vertices
+			       <EM>2n</EM>-<EM>1</EM> and	<EM>2n</EM> define line <EM>n</EM>.  <EM>N</EM>/<EM>2</EM> lines
+			       are drawn.
+
+	  <STRONG>GL_LINE_STRIP</STRONG>	       Draws a connected group of line
+			       segments	from the first vertex to the
+			       last.  Vertices <EM>n</EM> and <EM>n</EM>+<EM>1</EM> define	line
+			       <EM>n</EM>.  <EM>N</EM>-<EM>1</EM> lines are drawn.
+
+	  <STRONG>GL_LINE_LOOP</STRONG>	       Draws a connected group of line
+			       segments	from the first vertex to the
+			       last, then back to the first.  Vertices
+			       <EM>n</EM> and <EM>n</EM>+<EM>1</EM> define	line <EM>n</EM>.	 The last
+			       line, however, is defined by vertices <EM>N</EM>
+			       and <EM>1</EM>.  <EM>N</EM> lines are drawn.
+
+	  <STRONG>GL_TRIANGLES</STRONG>	       Treats each triplet of vertices as an
+			       independent triangle.  Vertices <EM>3n</EM>-<EM>2</EM>,
+			       <EM>3n</EM>-<EM>1</EM>, and <EM>3n</EM> define triangle <EM>n</EM>.	<EM>N</EM>/<EM>3</EM>
+			       triangles are drawn.
+
+	  <STRONG>GL_TRIANGLE_STRIP</STRONG>    Draws a connected group of triangles.
+			       One triangle is defined for each	vertex
+			       presented after the first two vertices.
+			       For odd <EM>n</EM>, vertices <EM>n</EM>, <EM>n</EM>+<EM>1</EM>, and <EM>n</EM>+<EM>2</EM>
+			       define triangle <EM>n</EM>.  For even <EM>n</EM>,
+			       vertices	<EM>n</EM>+<EM>1</EM>, <EM>n</EM>,	and <EM>n</EM>+<EM>2</EM>	define
+			       triangle	<EM>n</EM>.  <EM>N</EM>-<EM>2</EM>	triangles are drawn.
+
+	  <STRONG>GL_TRIANGLE_FAN</STRONG>      Draws a connected group of triangles.
+			       One triangle is defined for each	vertex
+			       presented after the first two vertices.
+			       Vertices	<EM>1</EM>, <EM>n</EM>+<EM>1</EM>,	and <EM>n</EM>+<EM>2</EM>	define
+			       triangle	<EM>n</EM>.  <EM>N</EM>-<EM>2</EM>	triangles are drawn.
+
+	  <STRONG>GL_QUADS</STRONG>	       Treats each group of four vertices as
+			       an independent quadrilateral.  Vertices
+			       <EM>4n</EM>-<EM>3</EM>, <EM>4n</EM>-<EM>2</EM>, <EM>4n</EM>-<EM>1</EM>, and <EM>4n</EM>	define
+			       quadrilateral <EM>n</EM>.	 <EM>N</EM>/<EM>4</EM> quadrilaterals
+			       are drawn.
+
+	  <STRONG>GL_QUAD_STRIP</STRONG>	       Draws a connected group of
+			       quadrilaterals.	One quadrilateral is
+			       defined for each	pair of	vertices
+			       presented after the first pair.
+			       Vertices	<EM>2n</EM>-<EM>1</EM>, <EM>2n</EM>, <EM>2n</EM>+<EM>2</EM>,	and <EM>2n</EM>+<EM>1</EM>
+			       define quadrilateral <EM>n</EM>.	<EM>N</EM>/<EM>2</EM>-<EM>1</EM>
+			       quadrilaterals are drawn.  Note that
+			       the order in which vertices are used to
+			       construct a quadrilateral from strip
+			       data is different from that used	with
+			       independent data.
+
+	  <STRONG>GL_POLYGON</STRONG>	       Draws a single, convex polygon.
+			       Vertices	<EM>1</EM> through <EM>N</EM> define this
+			       polygon.
+
+	  Only a subset	of GL commands can be used between <STRONG>glBegin</STRONG> and
+	  <STRONG>glEnd</STRONG>.  The commands are <STRONG>glVertex</STRONG>, <STRONG>glColor</STRONG>, <STRONG>glIndex</STRONG>,
+	  <STRONG>glNormal</STRONG>, <STRONG>glTexCoord</STRONG>,	<STRONG>glEvalCoord</STRONG>, <STRONG>glEvalPoint</STRONG>,
+	  <STRONG>glArrayElement</STRONG>, <STRONG>glMaterial</STRONG>, and <STRONG>glEdgeFlag</STRONG>.  Also, it	is
+	  acceptable to	use <STRONG>glCallList</STRONG> or <STRONG>glCallLists</STRONG> to execute
+	  display lists	that include only the preceding	commands.  If
+	  any other GL command is executed between <STRONG>glBegin</STRONG> and <STRONG>glEnd</STRONG>,
+	  the error flag is set	and the	command	is ignored.
+
+	  Regardless of	the value chosen for <EM>mode</EM>, there is no limit
+	  to the number	of vertices that can be	defined	between
+	  <STRONG>glBegin</STRONG> and <STRONG>glEnd</STRONG>.  Lines, triangles,	quadrilaterals,	and
+	  polygons that	are incompletely specified are not drawn.
+	  Incomplete specification results when	either too few
+	  vertices are provided	to specify even	a single primitive or
+	  when an incorrect multiple of	vertices is specified. The
+	  incomplete primitive is ignored; the rest are	drawn.
+
+	  The minimum specification of vertices	for each primitive is
+	  as follows:  1 for a point, 2	for a line, 3 for a triangle,
+	  4 for	a quadrilateral, and 3 for a polygon.  Modes that
+	  require a certain multiple of	vertices are <STRONG>GL_LINES</STRONG> (2),
+	  <STRONG>GL_TRIANGLES</STRONG> (3), <STRONG>GL_QUADS</STRONG> (4), and <STRONG>GL_QUAD_STRIP</STRONG> (2).
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>mode</EM> is set to an unaccepted
+	  value.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glBegin</STRONG> is executed
+	  between a <STRONG>glBegin</STRONG> and	the corresponding execution of <STRONG>glEnd</STRONG>.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glEnd</STRONG> is	executed
+	  without being	preceded by a <STRONG>glBegin</STRONG>.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if a command other than
+	  <STRONG>glVertex</STRONG>, <STRONG>glColor</STRONG>, <STRONG>glIndex</STRONG>, <STRONG>glNormal</STRONG>,	<STRONG>glTexCoord</STRONG>,
+	  <STRONG>glEvalCoord</STRONG>, <STRONG>glEvalPoint</STRONG>, <STRONG>glArrayElement</STRONG>, <STRONG>glMaterial</STRONG>,
+	  <STRONG>glEdgeFlag</STRONG>, <STRONG>glCallList</STRONG>, or <STRONG>glCallLists</STRONG> is executed between
+	  the execution	of <STRONG>glBegin</STRONG> and the corresponding execution
+	  <STRONG>glEnd</STRONG>.
+
+	  Execution of <STRONG>glEnableClientState</STRONG>, <STRONG>glDisableClientState</STRONG>,
+	  <STRONG>glEdgeFlagPointer</STRONG>, <STRONG>glTexCoordPointer</STRONG>,	<STRONG>glColorPointer</STRONG>,
+	  <STRONG>glIndexPointer</STRONG>, <STRONG>glNormalPointer</STRONG>,
+	  <STRONG>glVertexPointer</STRONG>, <STRONG>glInterleavedArrays</STRONG>,	or <STRONG>glPixelStore</STRONG>	is not
+	  allowed after	a call to <STRONG>glBegin</STRONG> and before the corresponding
+	  call to <STRONG>glEnd</STRONG>, but an	error may or may not be	generated.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glArrayElement</STRONG>, <STRONG>glCallList</STRONG>, <STRONG>glCallLists</STRONG>, <STRONG>glColor</STRONG>,
+	  <STRONG>glEdgeFlag</STRONG>, <STRONG>glEvalCoord</STRONG>,
+	  <STRONG>glEvalPoint</STRONG>, <STRONG>glIndex</STRONG>,	<STRONG>glMaterial</STRONG>, <STRONG>glNormal</STRONG>, <STRONG>glTexCoord</STRONG>,
+	  <STRONG>glVertex</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

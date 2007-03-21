@@ -1,0 +1,162 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>gluBuild1DMipmaps</STRONG> - builds a 1-D mipmap
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  GLint	<STRONG>gluBuild1DMipmaps</STRONG>( GLenum <EM>target</EM>,
+				   GLint <EM>internalFormat</EM>,
+				   GLsizei <EM>width</EM>,
+				   GLenum <EM>format</EM>,
+				   GLenum <EM>type</EM>,
+				   const void *<EM>data</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>target</EM>	  Specifies the	target texture.	Must be
+			  <STRONG>GL_TEXTURE_1D</STRONG>.
+
+	  <EM>internalFormat</EM>  Requests the internal	storage	format of the
+			  texture image.  Must be 1, 2,	3, or 4	or one
+			  of the following symbolic constants:
+			  <STRONG>GL_ALPHA</STRONG>, <STRONG>GL_ALPHA4</STRONG>, <STRONG>GL_ALPHA8</STRONG>, <STRONG>GL_ALPHA12</STRONG>,
+			  <STRONG>GL_ALPHA16</STRONG>, <STRONG>GL_LUMINANCE</STRONG>, <STRONG>GL_LUMINANCE4</STRONG>,
+			  <STRONG>GL_LUMINANCE8</STRONG>, <STRONG>GL_LUMINANCE12</STRONG>,
+			  <STRONG>GL_LUMINANCE16</STRONG>, <STRONG>GL_LUMINANCE_ALPHA</STRONG>,
+			  <STRONG>GL_LUMINANCE4_ALPHA4</STRONG>,	<STRONG>GL_LUMINANCE6_ALPHA2</STRONG>,
+			  <STRONG>GL_LUMINANCE8_ALPHA8</STRONG>,	<STRONG>GL_LUMINANCE12_ALPHA4</STRONG>,
+			  <STRONG>GL_LUMINANCE12_ALPHA12</STRONG>,
+			  <STRONG>GL_LUMINANCE16_ALPHA16</STRONG>, <STRONG>GL_INTENSITY</STRONG>,
+			  <STRONG>GL_INTENSITY4</STRONG>, <STRONG>GL_INTENSITY8</STRONG>,
+			  <STRONG>GL_INTENSITY12</STRONG>, <STRONG>GL_INTENSITY16</STRONG>, <STRONG>GL_RGB</STRONG>,
+			  <STRONG>GL_R3_G3_B2</STRONG>, <STRONG>GL_RGB4</STRONG>,	<STRONG>GL_RGB5</STRONG>, <STRONG>GL_RGB8</STRONG>,
+			  <STRONG>GL_RGB10</STRONG>, <STRONG>GL_RGB12</STRONG>, <STRONG>GL_RGB16</STRONG>,	<STRONG>GL_RGBA</STRONG>,
+			  <STRONG>GL_RGBA2</STRONG>, <STRONG>GL_RGBA4</STRONG>, <STRONG>GL_RGB5_A1</STRONG>, <STRONG>GL_RGBA8</STRONG>,
+			  <STRONG>GL_RGB10_A2</STRONG>, <STRONG>GL_RGBA12</STRONG> or <STRONG>GL_RGBA16</STRONG>.
+
+	  <EM>width</EM>		  Specifies the	width, in pixels, of the
+			  texture image.
+
+	  <EM>format</EM>	  Specifies the	format of the pixel data.
+			  Must be one of <STRONG>GL_COLOR_INDEX</STRONG>, <STRONG>GL_RED</STRONG>,
+			  <STRONG>GL_GREEN</STRONG>, <STRONG>GL_BLUE</STRONG>, <STRONG>GL_ALPHA</STRONG>, <STRONG>GL_RGB</STRONG>,
+			  <STRONG>GL_RGBA</STRONG>, <STRONG>GL_LUMINANCE</STRONG>, and
+			  <STRONG>GL_LUMINANCE_ALPHA</STRONG>.
+
+	  <EM>type</EM>		  Specifies the	data type for <EM>data</EM>.  Must be
+			  one of <STRONG>GL_UNSIGNED_BYTE</STRONG>, <STRONG>GL_BYTE</STRONG>, <STRONG>GL_BITMAP</STRONG>,
+			  <STRONG>GL_UNSIGNED_SHORT</STRONG>, <STRONG>GL_SHORT</STRONG>,
+			  <STRONG>GL_UNSIGNED_INT</STRONG>, <STRONG>GL_INT</STRONG>, or <STRONG>GL_FLOAT</STRONG>.
+
+	  <EM>data</EM>		  Specifies a pointer to the image data	in
+			  memory.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>gluBuild1DMipmaps</STRONG> builds a series of prefiltered 1-D texture
+	  maps of decreasing resolutions called	a mipmap. This is used
+	  for the antialiasing of texture mapped primitives.
+
+	  A return value of 0 indicates	success, otherwise a GLU error
+	  code is returned (see	<STRONG>gluErrorString</STRONG>).
+
+	  Initially, the <EM>width</EM> of <EM>data</EM> is checked to see if it is a
+	  power	of two.	If not,	a copy of <EM>data</EM> (not <EM>data</EM>) is scaled up
+	  or down to the nearest power of two. This copy will be used
+	  for subsequent mipmapping operations described below.	(If
+	  <EM>width</EM>	is exactly between powers of 2,	then the copy of <EM>data</EM>
+	  will scale upwards.)	For example, if	<EM>width</EM> is 57 then a
+	  copy of <EM>data</EM> will scale up to	64 before mipmapping takes
+	  place.
+
+	  Then,	proxy textures (see <STRONG>glTexImage1D</STRONG>) are used to
+	  determine if the implementation can fit the requested
+	  texture. If not, <EM>width</EM> is continually	halved until it	fits.
+
+	  Next,	a series of mipmap levels is built by decimating a
+	  copy of <EM>data</EM> in half until size 1 is reached.	At each	level,
+	  each texel in	the halved mipmap level	is an average of the
+	  corresponding	two texels in the larger mipmap	level.
+
+	  <STRONG>glTexImage1D</STRONG> is called to load each of these mipmap levels.
+	  Level	0 is a copy of <EM>data</EM>. The highest level is log2(width).
+	  For example, if width	is 64 and the implementation can store
+	  a texture of this size, the following	mipmap levels are
+	  built: 64x1, 32x1, 16x1, 8x1,	4x1, 2x1 and 1x1. These
+	  correspond to	levels 0 through 6, respectively.
+
+	  See the <STRONG>glTexImage1D</STRONG> reference page for a description	of the
+	  acceptable values for	<EM>type</EM>. See the <STRONG>glDrawPixels</STRONG> reference
+	  page for a description of the	acceptable values for <EM>data</EM>.
+
+     <STRONG>NOTES</STRONG>
+	  Note that there is no	direct way of querying the maximum
+	  level. This can be derived indirectly	via
+	  <STRONG>glGetTexLevelParameter</STRONG>. First, query for the width actually
+	  used at level	0. (The	width may not be equal to <EM>width</EM>	since
+	  proxy	textures might have scaled it to fit the
+	  implementation.)  Then the maximum level can be derived from
+	  the formula log2(width).
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GLU_INVALID_VALUE</STRONG> is returned	if <EM>width</EM> is &lt; 1.
+
+	  <STRONG>GLU_INVALID_ENUM</STRONG> is returned if <EM>internalFormat</EM>, <EM>format</EM> or
+	  <EM>type</EM> are not legal.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glDrawPixels</STRONG>,	<STRONG>glTexImage1D</STRONG>, <STRONG>glTexImage2D</STRONG>, <STRONG>gluBuild2DMipmaps</STRONG>,
+	  <STRONG>gluErrorString</STRONG>, <STRONG>gluScaleImage</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

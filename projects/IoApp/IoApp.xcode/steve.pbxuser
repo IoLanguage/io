@@ -1,0 +1,807 @@
+// !$*UTF8*$!
+{
+	29B97313FDCFA39411CA2CEA = {
+		activeBuildStyle = 4A9504CCFFE6A4B311CA0CBA;
+		activeExecutable = AA2ACCFD06A4CD6300483F52;
+		activeTarget = 8D1107260486CEB800E47090;
+		addToTargets = (
+			8D1107260486CEB800E47090,
+		);
+		breakpoints = (
+		);
+		codeSenseManager = AA2ACD0906A4CDAA00483F52;
+		executables = (
+			AA2ACCFD06A4CD6300483F52,
+		);
+		perUserDictionary = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXExecutablesDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXExecutablesDataSource_NameID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					22,
+					611.7974,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXExecutablesDataSource_ActiveFlagID,
+					PBXExecutablesDataSource_NameID,
+				);
+			};
+			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					448,
+					20,
+					82,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXConfiguration.PBXTargetDataSource.PBXTargetDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					382,
+					84,
+					20,
+					84,
+					43,
+					43,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXTargetDataSource_PrimaryAttribute,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 151147622;
+			PBXPrepackagedSmartGroups_v2 = (
+				{
+					PBXTransientLocationAtTop = bottom;
+					absolutePathToBundle = "";
+					activationKey = OldTargetSmartGroup;
+					clz = PBXTargetSmartGroup;
+					description = "Displays all targets of the project.";
+					globalID = 1C37FABC04509CD000000102;
+					name = Targets;
+					preferences = {
+						image = Targets;
+					};
+				},
+				{
+					PBXTransientLocationAtTop = bottom;
+					absolutePathToBundle = "";
+					clz = PBXTargetSmartGroup2;
+					description = "Displays all targets of the project as well as nested build phases.";
+					globalID = 1C37FBAC04509CD000000102;
+					name = Targets;
+					preferences = {
+						image = Targets;
+					};
+				},
+				{
+					PBXTransientLocationAtTop = bottom;
+					absolutePathToBundle = "";
+					clz = PBXExecutablesSmartGroup;
+					description = "Displays all executables of the project.";
+					globalID = 1C37FAAC04509CD000000102;
+					name = Executables;
+					preferences = {
+						image = Executable;
+					};
+				},
+				{
+					" PBXTransientLocationAtTop " = bottom;
+					absolutePathToBundle = "";
+					clz = PBXErrorsWarningsSmartGroup;
+					description = "Displays files with errors or warnings.";
+					globalID = 1C08E77C0454961000C914BD;
+					name = "Errors and Warnings";
+					preferences = {
+						fnmatch = "";
+						image = WarningsErrors;
+						recursive = 1;
+						regex = "";
+						root = "<PROJECT>";
+					};
+				},
+				{
+					PBXTransientLocationAtTop = bottom;
+					absolutePathToBundle = "";
+					clz = PBXFilenameSmartGroup;
+					description = "Filters items in a given group (potentially recursively) based on matching the name with the regular expression of the filter.";
+					globalID = 1CC0EA4004350EF90044410B;
+					name = "Implementation Files";
+					preferences = {
+						canSave = 1;
+						fnmatch = "";
+						image = SmartFolder;
+						isLeaf = 0;
+						recursive = 1;
+						regex = "?*\\.[mcMC]";
+						root = "<PROJECT>";
+					};
+				},
+				{
+					PBXTransientLocationAtTop = bottom;
+					absolutePathToBundle = "";
+					clz = PBXFilenameSmartGroup;
+					description = "This group displays Interface Builder NIB Files.";
+					globalID = 1CC0EA4004350EF90041110B;
+					name = "NIB Files";
+					preferences = {
+						canSave = 1;
+						fnmatch = "*.nib";
+						image = SmartFolder;
+						isLeaf = 0;
+						recursive = 1;
+						regex = "";
+						root = "<PROJECT>";
+					};
+				},
+				{
+					PBXTransientLocationAtTop = no;
+					absolutePathToBundle = "";
+					clz = PBXFindSmartGroup;
+					description = "Displays Find Results.";
+					globalID = 1C37FABC05509CD000000102;
+					name = "Find Results";
+					preferences = {
+						image = spyglass;
+					};
+				},
+				{
+					PBXTransientLocationAtTop = no;
+					absolutePathToBundle = "";
+					clz = PBXBookmarksSmartGroup;
+					description = "Displays Project Bookmarks.";
+					globalID = 1C37FABC05539CD112110102;
+					name = Bookmarks;
+					preferences = {
+						image = Bookmarks;
+					};
+				},
+				{
+					PBXTransientLocationAtTop = bottom;
+					absolutePathToBundle = "";
+					clz = XCSCMSmartGroup;
+					description = "Displays files with interesting SCM status.";
+					globalID = E2644B35053B69B200211256;
+					name = SCM;
+					preferences = {
+						image = PBXRepository;
+						isLeaf = 0;
+					};
+				},
+				{
+					PBXTransientLocationAtTop = bottom;
+					absolutePathToBundle = "";
+					clz = PBXSymbolsSmartGroup;
+					description = "Displays all symbols for the project.";
+					globalID = 1C37FABC04509CD000100104;
+					name = "Project Symbols";
+					preferences = {
+						image = ProjectSymbols;
+						isLeaf = 1;
+					};
+				},
+				{
+					PBXTransientLocationAtTop = bottom;
+					absolutePathToBundle = "";
+					clz = PBXFilenameSmartGroup;
+					description = "Filters items in a given group (potentially recursively) based on matching the name with the regular expression of the filter.";
+					globalID = PBXTemplateMarker;
+					name = "Simple Filter SmartGroup";
+					preferences = {
+						canSave = 1;
+						fnmatch = "*.nib";
+						image = SmartFolder;
+						isLeaf = 0;
+						recursive = 1;
+						regex = "";
+						root = "<PROJECT>";
+					};
+				},
+				{
+					PBXTransientLocationAtTop = bottom;
+					absolutePathToBundle = "";
+					clz = PBXFilenameSmartGroup;
+					description = "Filters items in a given group (potentially recursively) based on matching the name with the regular expression of the filter.";
+					globalID = PBXTemplateMarker;
+					name = "Simple Regular Expression SmartGroup";
+					preferences = {
+						canSave = 1;
+						fnmatch = "";
+						image = SmartFolder;
+						isLeaf = 0;
+						recursive = 1;
+						regex = "?*\\.[mcMC]";
+						root = "<PROJECT>";
+					};
+				},
+				{
+					PBXTransientLocationAtTop = bottom;
+					clz = XDDesignSmartGroup;
+					description = "Displays Xdesign models";
+					globalID = 2E4A936305E6979E00701470;
+					name = Design;
+					preferences = {
+						image = Design;
+						isLeaf = 0;
+					};
+				},
+			);
+			PBXWorkspaceContents = (
+				{
+					PBXProjectWorkspaceModule_StateKey_Rev39 = {
+						PBXProjectWorkspaceModule_DEGV_Geometry = {
+							_collapsingFrameDimension = 0;
+							_indexOfCollapsedView = 0;
+							_percentageOfCollapsedView = 0;
+							isCollapsed = yes;
+							sizes = (
+								"{{0, 0}, {938, 0}}",
+								"{{0, 0}, {938, 775}}",
+							);
+						};
+						PBXProjectWorkspaceModule_DataSourceSelectionKey_Rev6 = {
+							BoundsStr = "{{0, 0}, {923, 16}}";
+							Rows = (
+								0,
+							);
+							VisibleRectStr = "{{0, 0}, {0, 0}}";
+						};
+						PBXProjectWorkspaceModule_EditorOpen = true;
+						PBXProjectWorkspaceModule_EmbeddedNavigatorGroup = {
+							PBXSplitModuleInNavigatorKey = {
+								Split0 = {
+									bookmark = AAA9159306BB4B3400DB4F6F;
+									history = (
+										AA33762406A52B780034D9B5,
+										AA33794C06A532560034D9B5,
+										AA91290006A602DA00FB069A,
+										AA966F5E06A68CBB00784B53,
+										AA966F5F06A68CBB00784B53,
+										AA96894006AD772C008C5E90,
+										AAA9154806BA14CE00DB4F6F,
+										AAA9159106BB4B3400DB4F6F,
+										AAA9151106B9343500DB4F6F,
+									);
+									prevStack = (
+										AA33762606A52B780034D9B5,
+										AA33762706A52B780034D9B5,
+										AA33793C06A52F790034D9B5,
+										AA33794D06A532560034D9B5,
+										AA966F6106A68CBB00784B53,
+										AA966F6206A68CBB00784B53,
+										AA966F6306A68CBB00784B53,
+										AAA9154A06BA14CE00DB4F6F,
+										AAA9159206BB4B3400DB4F6F,
+									);
+								};
+								SplitCount = 1;
+							};
+						};
+						PBXProjectWorkspaceModule_GeometryKey_Rev15 = {
+							PBXProjectWorkspaceModule_SGTM_Geometry = {
+								_collapsingFrameDimension = 0;
+								_indexOfCollapsedView = 0;
+								_percentageOfCollapsedView = 0;
+								sizes = (
+									"{{0, 0}, {182, 775}}",
+									"{{182, 0}, {938, 775}}",
+								);
+							};
+						};
+						PBXProjectWorkspaceModule_OldDetailFrame = "{{0, 0}, {938, 0}}";
+						PBXProjectWorkspaceModule_OldEditorFrame = "{{0, 0}, {938, 775}}";
+						PBXProjectWorkspaceModule_OldSuperviewFrame = "{{182, 0}, {938, 775}}";
+						PBXProjectWorkspaceModule_SGTM = {
+							PBXBottomSmartGroupGIDs = (
+								1C37FBAC04509CD000000102,
+								1C37FAAC04509CD000000102,
+								1C08E77C0454961000C914BD,
+								1CC0EA4004350EF90044410B,
+								1CC0EA4004350EF90041110B,
+								1C37FABC05509CD000000102,
+								1C37FABC05539CD112110102,
+								E2644B35053B69B200211256,
+								1C37FABC04509CD000100104,
+							);
+							PBXSmartGroupTreeModuleColumnData = {
+								PBXSmartGroupTreeModuleColumnWidthsKey = (
+									165,
+								);
+								PBXSmartGroupTreeModuleColumnsKey_v4 = (
+									MainColumn,
+								);
+							};
+							PBXSmartGroupTreeModuleOutlineStateKey_v7 = {
+								PBXSmartGroupTreeModuleOutlineStateExpansionKey = (
+									29B97314FDCFA39411CA2CEA,
+									AA2ACD0E06A4D06600483F52,
+									080E96DDFE201D6D7F000001,
+									29B97315FDCFA39411CA2CEA,
+									29B97317FDCFA39411CA2CEA,
+									29B97323FDCFA39411CA2CEA,
+									1058C7A0FEA54F0111CA2CBB,
+									1058C7A2FEA54F0111CA2CBB,
+									1C37FBAC04509CD000000102,
+								);
+								PBXSmartGroupTreeModuleOutlineStateSelectionKey = (
+									(
+										7,
+										5,
+										0,
+									),
+								);
+								PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 0}, {165, 757}}";
+							};
+							PBXTopSmartGroupGIDs = (
+							);
+						};
+					};
+				},
+			);
+			"PBXWorkspaceContents:PBXConfiguration.PBXModule.PBXBuildResultsModule" = {
+			};
+			"PBXWorkspaceContents:PBXConfiguration.PBXModule.PBXDebugBreakpointsModule" = {
+			};
+			"PBXWorkspaceContents:PBXConfiguration.PBXModule.PBXDebugCLIModule" = {
+			};
+			"PBXWorkspaceContents:PBXConfiguration.PBXModule.PBXDebugSessionModule" = {
+				Debugger = {
+					HorizontalSplitView = {
+						_collapsingFrameDimension = 0;
+						_indexOfCollapsedView = 0;
+						_percentageOfCollapsedView = 0;
+						isCollapsed = yes;
+						sizes = (
+							"{{0, 0}, {324, 160}}",
+							"{{324, 0}, {560, 160}}",
+						);
+					};
+					VerticalSplitView = {
+						_collapsingFrameDimension = 0;
+						_indexOfCollapsedView = 0;
+						_percentageOfCollapsedView = 0;
+						isCollapsed = yes;
+						sizes = (
+							"{{0, 0}, {884, 160}}",
+							"{{0, 160}, {884, 596}}",
+						);
+					};
+				};
+				LauncherConfigVersion = 8;
+			};
+			"PBXWorkspaceContents:PBXConfiguration.PBXModule.PBXProjectWorkspaceModule" = {
+				PBXProjectWorkspaceModule_StateKey_Rev39 = {
+					PBXProjectWorkspaceModule_DEGV_Geometry = {
+						_collapsingFrameDimension = 0;
+						_indexOfCollapsedView = 0;
+						_percentageOfCollapsedView = 0;
+						isCollapsed = yes;
+						sizes = (
+							"{{0, 0}, {938, 0}}",
+							"{{0, 0}, {938, 775}}",
+						);
+					};
+					PBXProjectWorkspaceModule_DataSourceSelectionKey_Rev6 = {
+						BoundsStr = "{{0, 0}, {923, 16}}";
+						Rows = (
+							0,
+						);
+						VisibleRectStr = "{{0, 0}, {0, 0}}";
+					};
+					PBXProjectWorkspaceModule_EditorOpen = true;
+					PBXProjectWorkspaceModule_EmbeddedNavigatorGroup = {
+						PBXSplitModuleInNavigatorKey = {
+							Split0 = {
+								bookmark = AAA9158806BB3BEA00DB4F6F;
+								history = (
+									AA33762406A52B780034D9B5,
+									AA33794C06A532560034D9B5,
+									AA91290006A602DA00FB069A,
+									AA966F5E06A68CBB00784B53,
+									AA966F5F06A68CBB00784B53,
+									AA96894006AD772C008C5E90,
+									AAA9151106B9343500DB4F6F,
+									AAA9154806BA14CE00DB4F6F,
+									AAA9156206BA15C700DB4F6F,
+								);
+								prevStack = (
+									AA33762606A52B780034D9B5,
+									AA33762706A52B780034D9B5,
+									AA33793C06A52F790034D9B5,
+									AA33794D06A532560034D9B5,
+									AA966F6106A68CBB00784B53,
+									AA966F6206A68CBB00784B53,
+									AA966F6306A68CBB00784B53,
+									AAA9154A06BA14CE00DB4F6F,
+								);
+							};
+							SplitCount = 1;
+						};
+					};
+					PBXProjectWorkspaceModule_GeometryKey_Rev15 = {
+						PBXProjectWorkspaceModule_SGTM_Geometry = {
+							_collapsingFrameDimension = 0;
+							_indexOfCollapsedView = 0;
+							_percentageOfCollapsedView = 0;
+							sizes = (
+								"{{0, 0}, {182, 775}}",
+								"{{182, 0}, {938, 775}}",
+							);
+						};
+					};
+					PBXProjectWorkspaceModule_OldDetailFrame = "{{0, 0}, {938, 0}}";
+					PBXProjectWorkspaceModule_OldEditorFrame = "{{0, 0}, {938, 775}}";
+					PBXProjectWorkspaceModule_OldSuperviewFrame = "{{182, 0}, {938, 775}}";
+					PBXProjectWorkspaceModule_SGTM = {
+						PBXBottomSmartGroupGIDs = (
+							1C37FBAC04509CD000000102,
+							1C37FAAC04509CD000000102,
+							1C08E77C0454961000C914BD,
+							1CC0EA4004350EF90044410B,
+							1CC0EA4004350EF90041110B,
+							1C37FABC05509CD000000102,
+							1C37FABC05539CD112110102,
+							E2644B35053B69B200211256,
+							1C37FABC04509CD000100104,
+						);
+						PBXSmartGroupTreeModuleColumnData = {
+							PBXSmartGroupTreeModuleColumnWidthsKey = (
+								165,
+							);
+							PBXSmartGroupTreeModuleColumnsKey_v4 = (
+								MainColumn,
+							);
+						};
+						PBXSmartGroupTreeModuleOutlineStateKey_v7 = {
+							PBXSmartGroupTreeModuleOutlineStateExpansionKey = (
+								29B97314FDCFA39411CA2CEA,
+								AA2ACD0E06A4D06600483F52,
+								080E96DDFE201D6D7F000001,
+								29B97315FDCFA39411CA2CEA,
+								29B97317FDCFA39411CA2CEA,
+								29B97323FDCFA39411CA2CEA,
+								1058C7A0FEA54F0111CA2CBB,
+								1058C7A2FEA54F0111CA2CBB,
+								1C37FBAC04509CD000000102,
+							);
+							PBXSmartGroupTreeModuleOutlineStateSelectionKey = (
+								(
+									7,
+									5,
+									0,
+								),
+							);
+							PBXSmartGroupTreeModuleOutlineStateVisibleRectKey = "{{0, 0}, {165, 757}}";
+						};
+						PBXTopSmartGroupGIDs = (
+						);
+					};
+				};
+			};
+			"PBXWorkspaceContents:PBXConfiguration.PBXModule.PBXRunSessionModule" = {
+				LauncherConfigVersion = 3;
+				Runner = {
+					HorizontalSplitView = {
+						_collapsingFrameDimension = 0;
+						_indexOfCollapsedView = 0;
+						_percentageOfCollapsedView = 0;
+						isCollapsed = yes;
+						sizes = (
+							"{{0, 0}, {491, 167}}",
+							"{{0, 176}, {491, 267}}",
+						);
+					};
+					VerticalSplitView = {
+						_collapsingFrameDimension = 0;
+						_indexOfCollapsedView = 0;
+						_percentageOfCollapsedView = 0;
+						isCollapsed = yes;
+						sizes = (
+							"{{0, 0}, {405, 443}}",
+							"{{414, 0}, {514, 443}}",
+						);
+					};
+				};
+			};
+			PBXWorkspaceGeometries = (
+				{
+					Frame = "{{0, 0}, {1120, 775}}";
+					PBXProjectWorkspaceModule_GeometryKey_Rev15 = {
+						PBXProjectWorkspaceModule_RunWindowVisible = true;
+					};
+					RubberWindowFrame = "67 168 1120 817 0 0 1600 1002 ";
+				},
+			);
+			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXBuildResultsModule" = {
+				Frame = "{{0, 0}, {649, 256}}";
+				PBXModuleWindowStatusBarHidden = YES;
+				RubberWindowFrame = "963 117 649 277 0 0 1600 1002 ";
+			};
+			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXDebugBreakpointsModule" = {
+				BreakpointsTreeTableConfiguration = (
+					enabledColumn,
+					16,
+					breakpointColumn,
+					282.583,
+				);
+				Frame = "{{0, 0}, {208, 495}}";
+				PBXModuleWindowStatusBarHidden = YES;
+				RubberWindowFrame = "550 427 208 516 0 0 1600 1002 ";
+			};
+			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXDebugCLIModule" = {
+				Frame = "{{0, 0}, {575, 291}}";
+				RubberWindowFrame = "14 66 575 333 0 0 1600 1002 ";
+			};
+			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXDebugSessionModule" = {
+				DebugConsoleDrawerSize = "{1067, 99}";
+				DebugConsoleVisible = Drawer;
+				DebugConsoleWindowFrame = "{{200, 200}, {500, 300}}";
+				DebugSTDIOWindowFrame = "{{14, 66}, {575, 333}}";
+				Frame = "{{0, 0}, {884, 756}}";
+				RubberWindowFrame = "662 181 884 798 0 0 1600 1002 ";
+			};
+			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXProjectWorkspaceModule" = {
+				Frame = "{{0, 0}, {1120, 775}}";
+				PBXProjectWorkspaceModule_GeometryKey_Rev15 = {
+					PBXProjectWorkspaceModule_BuildResultsWindowVisible = true;
+					PBXProjectWorkspaceModule_DebuggerWindowVisible = true;
+					PBXProjectWorkspaceModule_RunWindowVisible = true;
+				};
+				RubberWindowFrame = "67 168 1120 817 0 0 1600 1002 ";
+			};
+			"PBXWorkspaceGeometries:PBXConfiguration.PBXModule.PBXRunSessionModule" = {
+				Frame = "{{0, 0}, {1311, 319}}";
+				PBXModuleWindowStatusBarHidden = YES;
+				RubberWindowFrame = "27 299 1311 340 0 0 1600 1002 ";
+			};
+			PBXWorkspaceStateSaveDate = 151147622;
+		};
+		perUserProjectItems = {
+			AA2214C00829E29A00DA251D = AA2214C00829E29A00DA251D;
+			AA22179A082A086F00DA251D = AA22179A082A086F00DA251D;
+			AA2217A8082A08A400DA251D = AA2217A8082A08A400DA251D;
+			AA2221C8082BDA4300DA251D = AA2221C8082BDA4300DA251D;
+			AA2221C9082BDA4300DA251D = AA2221C9082BDA4300DA251D;
+			AA550D5807B9703B00AF77EA = AA550D5807B9703B00AF77EA;
+			AA5BFC0308B2B63E00CDC159 = AA5BFC0308B2B63E00CDC159;
+			AAC428BB07A7B49E00663699 = AAC428BB07A7B49E00663699;
+			AAE7425F06F6BDF5005265A4 = AAE7425F06F6BDF5005265A4;
+			AAE8148D090311BF0081EFBA = AAE8148D090311BF0081EFBA;
+			AAF39C2307D535830064EDC5 = AAF39C2307D535830064EDC5;
+			AAFAD65D07C2D5220055D090 = AAFAD65D07C2D5220055D090;
+			AAFAD66107C2D5220055D090 = AAFAD66107C2D5220055D090;
+		};
+		sourceControlManager = AA2ACD0806A4CDAA00483F52;
+		userBuildSettings = {
+		};
+	};
+	29B97316FDCFA39411CA2CEA = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {680, 643}}";
+			sepNavSelRange = "{251, 0}";
+			sepNavVisRect = "{{0, 0}, {680, 643}}";
+		};
+	};
+	32CA4F630368D1EE00C91783 = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {618, 592}}";
+			sepNavSelRange = "{141, 0}";
+			sepNavVisRect = "{{0, 0}, {618, 592}}";
+		};
+	};
+	8D1107260486CEB800E47090 = {
+		activeExec = 0;
+		executables = (
+			AA2ACCFD06A4CD6300483F52,
+		);
+	};
+	AA2214C00829E29A00DA251D = {
+		fRef = AA33766406A52DA10034D9B5;
+		isa = PBXTextBookmark;
+		name = "GLIoView.h: quitMenu";
+		rLen = 0;
+		rLoc = 660;
+		rType = 0;
+		vrLen = 952;
+		vrLoc = 433;
+	};
+	AA22179A082A086F00DA251D = {
+		fRef = AA18689606A6B4C40098CFA8;
+		isa = PBXBookmark;
+	};
+	AA2217A8082A08A400DA251D = {
+		fRef = AA18689606A6B4C40098CFA8;
+		isa = PBXBookmark;
+	};
+	AA2221C8082BDA4300DA251D = {
+		fRef = AA840BBB071A69D5005AE4A1;
+		isa = PBXTextBookmark;
+		name = "main.io: 174";
+		rLen = 0;
+		rLoc = 3871;
+		rType = 0;
+		vrLen = 906;
+		vrLoc = 0;
+	};
+	AA2221C9082BDA4300DA251D = {
+		fRef = 29B97316FDCFA39411CA2CEA;
+		isa = PBXTextBookmark;
+		name = "main.m: 13";
+		rLen = 0;
+		rLoc = 251;
+		rType = 0;
+		vrLen = 254;
+		vrLoc = 0;
+	};
+	AA2ACCFD06A4CD6300483F52 = {
+		activeArgIndex = 2147483647;
+		activeArgIndices = (
+		);
+		argumentStrings = (
+		);
+		configStateDict = {
+		};
+		cppStopOnCatchEnabled = 0;
+		cppStopOnThrowEnabled = 0;
+		customDataFormattersEnabled = 1;
+		debuggerPlugin = GDBDebugging;
+		disassemblyDisplayState = 0;
+		dylibVariantSuffix = "";
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		isa = PBXExecutable;
+		libgmallocEnabled = 0;
+		name = IoApp;
+		savedGlobals = {
+		};
+		shlibInfoDictList = (
+		);
+		sourceDirectories = (
+		);
+	};
+	AA2ACD0806A4CDAA00483F52 = {
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		isa = PBXSourceControlManager;
+		scmConfiguration = {
+		};
+		scmType = scm.cvs;
+	};
+	AA2ACD0906A4CDAA00483F52 = {
+		indexTemplatePath = "";
+		isa = PBXCodeSenseManager;
+		usesDefaults = 0;
+		wantsCodeCompletion = 0;
+		wantsCodeCompletionAutoSuggestions = 0;
+		wantsCodeCompletionCaseSensitivity = 1;
+		wantsCodeCompletionListAlways = 1;
+		wantsCodeCompletionOnlyMatchingItems = 1;
+		wantsCodeCompletionParametersIncluded = 1;
+		wantsCodeCompletionPlaceholdersInserted = 1;
+		wantsCodeCompletionTabCompletes = 1;
+		wantsIndex = 1;
+	};
+	AA33766406A52DA10034D9B5 = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {790, 980}}";
+			sepNavSelRange = "{44, 19}";
+			sepNavVisRect = "{{0, 0}, {790, 227}}";
+		};
+	};
+	AA33766506A52DA10034D9B5 = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {680, 11452}}";
+			sepNavSelRange = "{0, 21954}";
+			sepNavVisRect = "{{0, 9048}, {680, 643}}";
+		};
+	};
+	AA550D5807B9703B00AF77EA = {
+		fRef = AA33766406A52DA10034D9B5;
+		isa = PBXTextBookmark;
+		name = "GLIoView.h: 17";
+		rLen = 0;
+		rLoc = 101;
+		rType = 0;
+		vrLen = 777;
+		vrLoc = 0;
+	};
+	AA5BFC0308B2B63E00CDC159 = {
+		fRef = AA33766506A52DA10034D9B5;
+		isa = PBXTextBookmark;
+		name = "GLIoView.m: DoIoFile";
+		rLen = 0;
+		rLoc = 5535;
+		rType = 0;
+		vrLen = 1246;
+		vrLoc = 5442;
+	};
+	AA840BBB071A69D5005AE4A1 = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {680, 2604}}";
+			sepNavSelRange = "{3871, 0}";
+			sepNavVisRect = "{{0, 1961}, {680, 643}}";
+		};
+	};
+	AAC428BB07A7B49E00663699 = {
+		fRef = AA33766506A52DA10034D9B5;
+		isa = PBXTextBookmark;
+		name = chdir;
+		rLen = 5;
+		rLoc = 5743;
+		rType = 0;
+		vrLen = 519;
+		vrLoc = 5218;
+	};
+	AAE7425F06F6BDF5005265A4 = {
+		fRef = 29B97316FDCFA39411CA2CEA;
+		isa = PBXTextBookmark;
+		name = "main.m: 13";
+		rLen = 0;
+		rLoc = 251;
+		rType = 0;
+		vrLen = 254;
+		vrLoc = 0;
+	};
+	AAE8148D090311BF0081EFBA = {
+		fRef = AA33766506A52DA10034D9B5;
+		isa = PBXTextBookmark;
+		name = "#import \"GLIoView.h\"\n#import \"IoGL.h\"\n#import \"IoState.h\"\n#import \"IoCFunction.h\"\n\n#import <OpenGL/gl.h>\n#import <GLUT/glut.h>\n#include <unistd.h>\n\nstatic id sharedInstance = nil; \nstatic BOOL needsDisplay = YES; \n\n// --- Register for event notification calls ---\n\nvoid GLIoView_postRedisplay(IoGL *self, IoObject *locals, IoMessage *m)\n{ \n    //[[GLIoView sharedInstance] postRedisplay];\n    needsDisplay = YES;\n}\n\nvoid GLIoView_glutReshapeFunc(IoGL *self, IoObject *locals, IoMessage *m)\n{ \n    [[GLIoView sharedInstance] setReshape:YES]; \n}\n\nvoid GLIoView_glutDisplayFunc(IoGL *self, IoObject *locals, IoMessage *m)\n{ \n    [[GLIoView sharedInstance] setDisplay:YES]; \n}\n\nvoid GLIoView_glutEntryFunc(IoGL *self, IoObject *locals, IoMessage *m)\n{ \n    [[GLIoView sharedInstance] setEntry:YES]; \n}\n\nvoid GLIoView_glutMouseFunc(IoGL *self, IoObject *locals, IoMessage *m)\n{ \n    [[GLIoView sharedInstance] setMouse:YES]; \n}\n\nvoid GLIoView_glutMotionFunc(IoGL *self, IoObject *locals, IoMessage *m)\n{\n    [[GLIoView sharedInstance] setMotion:YES]; \n}\n\nvoid GLIoView_glutKeyboardFunc(IoGL *self, IoObject *locals, IoMessage *m)\n{ \n    [[GLIoView sharedInstance] setKeyboard:YES]; \n}\n\nvoid GLIoView_glutPassiveMotionFunc(IoGL *self, IoObject *locals, IoMessage *m)\n{ \n    [[GLIoView sharedInstance] setPassiveMotion:YES]; \n}\n\nvoid GLIoView_registerTimer(IoGL *self, IoObject *locals, IoMessage *m)\n{ \n    int millisecs = IoMessage_locals_intArgAt_(m, locals, 0);\n    int tid = IoMessage_locals_intArgAt_(m, locals, 1);\n    id timerId = [NSNumber numberWithInt:tid];\n    NSMutableDictionary *info = [NSMutableDictionary dictionary];\n    id aTimer;\n    \n    [info setObject:timerId forKey:@\"id\"];\n    \n    //[NSTimer scheduledTimerWithTimeInterval:(NSTimeInterval)((float)millisecs)/1000.0\n    aTimer = [NSTimer timerWithTimeInterval:(NSTimeInterval)((float)millisecs)/1000.0\n\t\t\t\t     target:[GLIoView sharedInstance]\n\t\t\t\t   selector:@selector(doTimer:)\n\t\t\t\t   userInfo:info\n\t\t\t\t    repeats:NO];\n    [info setObject:[NSNumber numberWithInt:(int)[aTimer hash]] forKey:@\"hash\"];\n    [[GLIoView sharedInstance] addTimer:aTimer];\n}\n\n// --- setter calls ---\n\nvoid GLIoView_glutInitWindowSize(IoGL *self, IoObject *locals, IoMessage *m)\n{ \n    NSWindow *window = [[GLIoView sharedInstance] window];\n    int width = IoMessage_locals_intArgAt_(m, locals, 0);\n    int height = IoMessage_locals_intArgAt_(m, locals, 1);\n    NSRect f = [window frame];\n    \n    f.size.width = width;\n    f.size.height = height;\n    printf(\"set window %p size %i %i\\n\", window, width, height);\n    [window setFrame:f display:YES];\n    [[GLIoView sharedInstance] reshape];\n}\n\nvoid GLIoView_glutInitWindowPosition(IoGL *self, IoObject *locals, IoMessage *m)\n{ \n    NSWindow *window = [[GLIoView sharedInstance] window];\n    int x = IoMessage_locals_intArgAt_(m, locals, 0);\n    int y = IoMessage_locals_intArgAt_(m, locals, 1);\n    NSRect f = [window frame];\n    \n    f.origin.x = x;\n    f.origin.y = y;\n    printf(\"set window %p position %i %i\\n\", window, x, y);\n    [window setFrame:f display:YES];\n    //[[GLIoView sharedInstance] reshape];\n}\n\n// -----------------\n\nvoid GLIoView_mainLoop(IoGL *self, IoObject *locals, IoMessage *m)\n{ \n    [[GLIoView sharedInstance] mainLoop]; \n}\n\nvoid GLIoView_noop(IoGL *self, IoObject *locals, IoMessage *m) {}\n\nvoid IoDesktopInit(IoState *self, IoObject *context);\n\n@implementation GLIoView\n\n// ---------------------------------\n\n+ (NSOpenGLPixelFormat *)defaultPixelFormat\n{\n    NSOpenGLPixelFormatAttribute attributes[] = {0};\n    /*\n     NSOpenGLPixelFormatAttribute attributes [] = \n     {\n\t NSOpenGLPFAWindow,\n\t //NSOpenGLPFADoubleBuffer, // double buffered\n\t //NSOpenGLPFADepthSize, (NSOpenGLPixelFormatAttribute)16, // 16 bit depth buffer\n\t //NSOpenGLPFAAlphaSize, (NSOpenGLPixelFormatAttribute)8, // 8 bit alpha \n\t (NSOpenGLPixelFormatAttribute)nil\n     };\n     */\n    return [[[NSOpenGLPixelFormat alloc] initWithAttributes:attributes] autorelease];\n}\n\n- initWithFrame:(NSRect)frameRect pixelFormat:(NSOpenGLPixelFormat *)pf\n{\n    printf(\"--------------------- IoGLView initWithFrame:pixelFormat:\\n\");\n    self = [super initWithFrame:frameRect pixelFormat:pf];\n    return self;\n}\n\n- initWithFrame:(NSRect)frameRect\n{\n    printf(\"--------------------- IoGLView initWithFrame:\\n\");\n    self = [super initWithFrame:frameRect \n\t\t    pixelFormat:[GLIoView defaultPixelFormat]];\n    return self;\n}\n\n- initWithCoder:(NSCoder *)c\n{\n    id r = [super initWithCoder:c];\n    printf(\"--------------------- IoGLView initWithCoder:\\n\");\n    timers = [[NSMutableDictionary alloc] init];\n    [self runMain];\n    return r;\n}\n\n- (void)awakeFromNib\n{\n    //[super initWithCoder:c];\n    printf(\"--------------------- IoGLView awakeFromNib\\n\");\n    //timers = [[NSMutableDictionary alloc] init];\n    sharedInstance = self;\n    [self setTrackingRect];\n    [[self window] setDelegate:self];\n    canDrag = NO;\n    canDrop = YES;\n    [self registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];\n    //[self runMain];\n    \n    //[self setAppName:@\"Foo\"];\n    \n    /*\n     [[GLIoView sharedInstance] \n      performSelector:@selector(setAppName:) \n\t   withObject:@\"Foo\" \n\t   afterDelay:0.0001]; \n     */\n}\n\n- (BOOL)acceptsFirstResponder \n{ \n    return YES; \n}\n\n- (BOOL)becomeFirstResponder  \n{ \n    return YES; \n}\n\n- (BOOL)resignFirstResponder  \n{ \n    return YES; \n}\n\n+ sharedInstance \n{\n    return sharedInstance; \n}\n\nvoid *DoIoFile(IoState *ioState, char *path, void *unused)\n{\n    return IoState_doFile_(ioState, path);\n}\n\nvoid *DoIoString(IoState *ioState, char *s, void *unused)\n{\n    return IoState_doCString_(ioState, s);\n}\n\n- (void)runMain\n{ \n    char lp[256];\n    NSString *path = [[NSBundle mainBundle] resourcePath];\n    chdir([path cString]);\n    if (didInit) return;\n    didInit = YES;\n    \n    printf(\"path = %s\\n\", [path cString]);\n    ioState = IoState_new();\n    IoDesktopInit(ioState, ioState->lobby);\n    [self overrideIoGLMethods];\n    \n    sprintf(lp, \"launchPath := \\\"%s\\\"\", [path cString]);\n    printf(\"lp = [%s]\\n\", lp);\n    //IoState_doCString_(ioState, lp);\n    \n    IoState_pushRetainPool(ioState);\n    {\n\tIoException *e;\n\tIoCatch *catch = IoCatch_new(ioState);\n\tIoCatch_tryFunc_(catch, (IoCatchCallback *)DoIoString, (void *)ioState, (void *)lp, (void *)0x0, &e);\n\tIoCatch_free(catch);\n\tif (e) IoException_printBackTrace(e); \n    }\n    \n    path = [path stringByAppendingPathComponent:@\"main.io\"];\n    //IoState_doFile_(ioState, (char *)[path cString]);\n    \n    {\n\tIoException *e;\n\tIoCatch *catch = IoCatch_new(ioState);\n\tIoCatch_tryFunc_(catch, (IoCatchCallback *)DoIoFile, (void *)ioState, (void *)[path cString], (void *)0x0, &e);\n\tIoCatch_free(catch);\n\tif (e) IoException_printBackTrace(e);\n    }\n    IoState_popRetainPool(ioState);\n}\n\n- (void)setAppName:(NSString *)appName\n{\n    [[NSApp mainMenu] setTitle:appName];\n    [aboutMenu setTitle:[NSString stringWithFormat:@\"About %@\", appName]];\n    [hideMenu setTitle:[NSString stringWithFormat:@\"Hide %@\", appName]];\n    [quitMenu setTitle:[NSString stringWithFormat:@\"Quit %@\", appName]];\n}\n\n- (void)dealloc\n{\n    [timers autorelease];\n    if (ioState) IoState_free(ioState);\n    [super dealloc];\n}\n\n- (void)drawRect:(NSRect)rect \n{\n    //[self setAppName:@\"Foo\"];\n    //int w, h;\n    //glViewport(0, 0, w, h);\n    if (!didInit) [self runMain];\n    //w = [super frame].size.width;\n    //h = [super frame].size.height;\n    /*\n     if (!firstDisplayDone)\n     {\n\t firstDisplayDone = YES;\n\t [self reshape];\n     }\n     */\n    \n    IoGlutDisplayFunc();\n    glFlush();\n}\n\n- (float)height\n{ return [super frame].size.height; }\n\n- (void)reshape\n{\n    int w, h;\n    //glViewport(0, 0, w, h);\n    if (!didInit) [self runMain];\n    w = [super frame].size.width;\n    h = [super frame].size.height;\n    \n    //printf(\"reshape %i %i\\n\", w, h);\n    IoGlutReshapeFunc(w, h);  \n    \n    [self setTrackingRect];\n    //[super reshape];\n}\n\n- (void)setTrackingRect\n{\n    if (trackingRectTag) \n    { \n\t[self removeTrackingRect:trackingRectTag]; \n    }\n    \n    trackingRectTag = [self addTrackingRect:[super frame] \n\t\t\t\t      owner:self userData:nil assumeInside:NO];\n}\n\n- (void)setReshape:(BOOL)b       { doesReshape = b; }\n- (void)setDisplay:(BOOL)b       { doesDisplay = b; }\n- (void)setMouse:(BOOL)b         { doesMouse = b; }\n- (void)setMotion:(BOOL)b        { doesMotion = b; }\n- (void)setKeyboard:(BOOL)b      { doesKeyboard = b; }\n- (void)setPassiveMotion:(BOOL)b { doesPassiveMotion = b; }\n- (void)setEntry:(BOOL)b         { doesEntry = b; }\n\n    // --- Events -----------------------------------------\n\n- (void)windowDidExpose:(NSNotification *)aNotification\n{\n    //IoGlutVisibilityFunc(GLUT_VISIBLE);\n}\n\n- (void)windowDidMiniaturize:(NSNotification *)aNotification\n{\n    //IoGlutVisibilityFunc(GLUT_NOT_VISIBLE);\n}\n\n- (void)postRedisplay\n{\n    needsDisplay = YES;\n}\n\n- (void)updateDisplayIfNeeded\n{\n    if (needsDisplay) [self setNeedsDisplay:YES]; \n    needsDisplay = NO;\n}\n\n- (void)mouseDown:(NSEvent *)event\n{\n    if (doesMouse)\n    {\n\tint x = [event locationInWindow].x;\n\tint y = [self height] - [event locationInWindow].y;\n\tIoGlutMouseFunc(0, 0, x, y);\n\t[self updateDisplayIfNeeded]; \n    }\n    [[self window] makeFirstResponder:self];\n}\n\n- (void)mouseUp:(NSEvent *)event\n{\n    if (doesMouse)\n    {\n\tint x = [event locationInWindow].x;\n\tint y = [self height] - [event locationInWindow].y;\n\tIoGlutMouseFunc(0, 1, x, y);\n\tif (needsDisplay) [self setNeedsDisplay:YES]; \n    }\n}\n\n- (void)mouseMoved:(NSEvent *)event\n{\n    if (doesPassiveMotion) \n    {\n\tint x = [event locationInWindow].x;\n\tint y = [self height] - [event locationInWindow].y;\n\tIoGlutPassiveMotionFunc(x, y);\n\tif (needsDisplay) [self setNeedsDisplay:YES]; \n    }\n}\n\n- (void)mouseEntered:(NSEvent *)event\n{\n    [[self window] makeFirstResponder:self];\n    if (doesEntry) IoGlutEntryFunc(GLUT_ENTERED);\n    if (needsDisplay) [self setNeedsDisplay:YES]; \n}\n\n- (void)mouseExited:(NSEvent *)event\n{\n    if (doesEntry) IoGlutEntryFunc(GLUT_LEFT);\n    if (needsDisplay) [self setNeedsDisplay:YES]; \n}\n\n- (void)mouseDragged:(NSEvent *)event\n{\n    if (doesMotion)\n    {\n\tint x = [event locationInWindow].x;\n\tint y = [self height] - [event locationInWindow].y;\n\tIoGlutMotionFunc(x, y);\n\t\n\tif (needsDisplay) \n\t{\n\t    [self setNeedsDisplay:YES]; \n\t}\n    }\n}\n\n- (void)keyDown:(NSEvent *)event\n{\n    if (doesKeyboard)\n    {\n\tNSString *k = [event characters];\n\tunsigned char key = [k cString][0];\n\tIoGlutKeyboardFunc(key, 0, 0);\n\t\n\tif (needsDisplay) \n\t{\n\t    [self setNeedsDisplay:YES]; \n\t}\n    }\n}\n\n- (void)keyUp:(NSEvent *)event\n{\n    if (doesKeyboard)\n    {\n\tNSString *k = [event characters];\n\tunsigned char key = [k cString][0];\n\t\n\tIoGlutKeyboardUpFunc(key, 0, 0);\n\t\n\tif (needsDisplay) \n\t{\n\t    [self setNeedsDisplay:YES]; \n\t}\n    }\n}\n\n// ----------------------------------------------------------\n\n- (void)doTimer:(id)timerId \n{\n    int n = [[[timerId userInfo] objectForKey:@\"id\"] intValue];\n    \n    [timers removeObjectForKey:[[timerId userInfo] objectForKey:@\"hash\"]];\n    IoGlutTimerFunc(n);\n    \n    if (needsDisplay) \n    {\n\t[self setNeedsDisplay:YES]; \n    }\n}\n\n- (void)addTimer:(NSTimer *)aTimer\n{\n    [timers setObject:aTimer forKey:[NSNumber numberWithInt:(int)[aTimer hash]]];\n    [[NSRunLoop currentRunLoop] addTimer:aTimer forMode:NSDefaultRunLoopMode];\n}\n\n- (IBAction)stopTimers:(id)sender\n{\n    id enm = [timers objectEnumerator];\n    id timer;\n    \n    while (timer = [enm nextObject]) \n    { \n\t[timer invalidate]; \n    }\n    \n    [timers removeAllObjects];\n}\n\n- (IBAction)redisplay:(id)sender\n{\n    [self setNeedsDisplay:YES];\n}\n\n- (void)mainLoop\n{\n    [self reshape];\n    [self setNeedsDisplay:YES];\n}\n\n#define IOCFUNCTION_GL(func) IoCFunction_newWithFunctionPointer_tag_(ioState, (void *)func, NULL)\n\n- (void)overrideIoGLMethods  \n{\n    IoObject *cxt = IoState_doCString_(ioState, \"GLUT\");\n    IoCFunction *noopfunc = IOCFUNCTION_GL(GLIoView_noop);\n    \n    IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, \"glutDisplayFunc\"),\n\t\t\t IOCFUNCTION_GL(GLIoView_glutDisplayFunc));\n    IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, \"glutReshapeFunc\"), \n\t\t\t IOCFUNCTION_GL(GLIoView_glutReshapeFunc));\n    IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, \"glutKeyboardFunc\"), \n\t\t\t IOCFUNCTION_GL(GLIoView_glutKeyboardFunc));\n    IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, \"glutKeyboardUpFunc\"), \n\t\t\t IOCFUNCTION_GL(GLIoView_glutKeyboardFunc));\n    IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, \"glutMouseFunc\"),\n\t\t\t IOCFUNCTION_GL(GLIoView_glutMouseFunc));\n    IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, \"glutMotionFunc\"), \n\t\t\t IOCFUNCTION_GL(GLIoView_glutMotionFunc));\n    IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, \"glutPassiveMotionFunc\"), \n\t\t\t IOCFUNCTION_GL(GLIoView_glutPassiveMotionFunc));\n    IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, \"glutEntryFunc\"), \n\t\t\t IOCFUNCTION_GL(GLIoView_glutEntryFunc));\n    \n    IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, \"glutVisibilityFunc\"), noopfunc);\n    IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, \"glutTimerFunc\"), \n\t\t\t IOCFUNCTION_GL(GLIoView_registerTimer));\n    \n    IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, \"glutIdleFunc\"), noopfunc);\n    IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, \"glutPostRedisplay\"), \n\t\t\t IOCFUNCTION_GL(GLIoView_postRedisplay));\n    \n    IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, \"glutInit\"), noopfunc);\n    IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, \"glutMainLoop\"), noopfunc);\n    IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, \"glutInitDisplayMode\"), noopfunc);\n    IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, \"glutInitWindowSize\"), \n\t\t\t IOCFUNCTION_GL(GLIoView_glutInitWindowSize));\n    \n    IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, \"glutCreateWindow\"), noopfunc);\n    IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, \"glutInitWindowPosition\"), \n\t\t\t IOCFUNCTION_GL(GLIoView_glutInitWindowPosition));\n    IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, \"glutReshapeWindow\"), \n\t\t\t IOCFUNCTION_GL(GLIoView_glutInitWindowPosition));\n    \n    IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, \"glutEventTarget\"), \n\t\t\t IOCFUNCTION_GL(IoGLUT_glutEventTarget_));  \n    \n    IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, \"glutInitDisplayMode\"), noopfunc);\n    IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, \"glutSwapBuffers\"), \n\t\t\t IOCFUNCTION_GL(GLIoView_postRedisplay));\n}\n\n/* \n    drop methods\n\t1. draggingEntered\n\t2. draggingUpdated\n\t3. draggingExited\n\t4. prepareForDragOperation\n\t5. performDragOperation\n\t6. concludeDragOperation\n*/\n\n\n- (unsigned int)draggingEntered:(id <NSDraggingInfo>)sender\n{\n    printf(\"draggingEntered\\n\");\n    return NSDragOperationCopy; \n\n/*\n    NSPasteboard *dragPasteboard = [sender draggingPasteboard];\n    NSArray *types = [dragPasteboard types];\n    //printf(\"draggingEntered:\\n\");\n    \n    if (!canDrop) \n    { \n\treturn NSDragOperationNone; \n    }\n    \n    if ([types containsObject:NSFilenamesPboardType])\n    {\n\t NSArray *paths = [dragPasteboard propertyListForType:NSFilenamesPboardType];\n\t [self filePaths:paths];\n\t \n\t if ([delegate respondsToSelector:@selector(acceptsDrop:)])\n\t { \n\t     if (![delegate acceptsDrop:self]) { return NSDragOperationNone; } \n\t }\n\treturn NSDragOperationCopy; \n    }\n    \n    return NSDragOperationNone;\n*/\n}\n\n- (NSDragOperation)draggingUpdated:(id <NSDraggingInfo>)draggingInfo \n{\n    NSPasteboard *dragPasteboard = [draggingInfo draggingPasteboard];\n    NSArray *types = [dragPasteboard types];\n\n    int result = 0;\n    //printf(\"draggingUpdated\\n\");\n    \n    if ([types containsObject:NSFilenamesPboardType])\n    {\n\tNSArray *paths = [dragPasteboard propertyListForType:NSFilenamesPboardType];\n\tNSEnumerator *pathEnum = [paths objectEnumerator];\n\tint x = [draggingInfo draggingLocation].x;\n\tint y = [draggingInfo draggingLocation].y;\n\tconst char *type = \"Filenames\";\n\tByteArray *ba = ByteArray_new();\n\tNSString *path;\n\t\n\twhile (path = [pathEnum nextObject])\n\t{\n\t    ByteArray_appendCString_(ba, (char *)[path cString]);\n\t    ByteArray_appendByte_(ba, '\\n');\n\t}\n\t\n\t//printf(\"calling IoGlutAcceptsDropFunc with: %s\\n\", ByteArray_bytes(ba));\n\t\n\tresult = IoGlutAcceptsDropFunc(x, y, type, ByteArray_bytes(ba), ByteArray_size(ba));\n\tprintf(\"result = %i\\n\", result);\n\tByteArray_free(ba);\n    }\n    \n    return result ? NSDragOperationCopy : NSDragOperationNone; \n}\n\n- (void)draggingExited:(id <NSDraggingInfo>)sender\n{\n    printf(\"draggingExited\\n\");\n}\n\n- (BOOL)prepareForDragOperation:(id <NSDraggingInfo>)sender\n{\n    printf(\"prepareForDragOperation\\n\");\n    return YES;\n}\n\n- (BOOL)performDragOperation:(id <NSDraggingInfo>)draggingInfo\n{\n    NSPasteboard *dragPasteboard = [draggingInfo draggingPasteboard];\n    NSArray *types = [dragPasteboard types];\n\n    printf(\"performDragOperation\\n\");\n    \n    //printf(\"performDragOperation:\\n\");\n    if ([types containsObject:NSFilenamesPboardType])\n    {\n\tNSArray *paths = [dragPasteboard propertyListForType:NSFilenamesPboardType];\n\tNSEnumerator *pathEnum = [paths objectEnumerator];\n\tint x = [draggingInfo draggingLocation].x;\n\tint y = [draggingInfo draggingLocation].y;\n\tconst char *type = \"Filenames\";\n\tByteArray *ba = ByteArray_new();\n\tNSString *path;\n\t\n\twhile (path = [pathEnum nextObject])\n\t{\n\t    ByteArray_appendCString_(ba, (char *)[path cString]);\n\t    ByteArray_appendByte_(ba, '\\n');\n\t}\n\t\n\tprintf(\"calling IoGlutDropFunc with: %s\\n\", ByteArray_bytes(ba));\n\t\n\tIoGlutDropFunc(x, y, type, ByteArray_bytes(ba), ByteArray_size(ba));\n\tByteArray_free(ba);\n\treturn YES;\n    }\n    return NO;\n}\n\n// --- Drop -------------------------------------------------\n\n/*\n - (void)mouseDown:(NSEvent *)theEvent\n {\n     //NSSize dragOffset = NSMakeSize(0.0, 0.0);\n     NSPasteboard *pboard = [NSPasteboard pasteboardWithName:NSDragPboard];\n     NSPoint locationInWindow = [theEvent locationInWindow];\n     NSPoint imageLocation;\n     id image = [self image];\n     [image setSize:[self frame].size];\n     if (!canDrag) { return; }\n     imageLocation.x = locationInWindow.x - [self frame].origin.x;\n     imageLocation.y = locationInWindow.y - [self frame].origin.y;\n     \n     [pboard declareTypes:[NSArray arrayWithObject:NSFilenamesPboardType] owner:self];\n     [pboard setPropertyList:filePaths forType:NSFilenamesPboardType];\n     //[pboard setData:[[self image] TIFFRepresentation] forType:NSTIFFPboardType];\n     [self dragImage:[self image] at:imageLocation\n\t      offset:NSMakeSize(0, 0) event:theEvent pasteboard:pboard source:self slideBack:YES];\n }\n */\n\n- (BOOL)allowDropFrom:(NSPasteboard *)dragPasteboard\n{\n    /*\n    NSArray *types = [dragPasteboard types];\n    NSArray *paths;\n    //printf(\"draggingEntered:\\n\");\n\n    if (!canDrop) { return NSDragOperationNone; }\n\n    if (![types containsObject:NSFilenamesPboardType])\n    { return NSDragOperationNone; }\n\n    paths = [dragPasteboard propertyListForType:NSFilenamesPboardType];\n\n    if ( (!canDropMultiple) && [paths count] !=1 ) \n    { return NSDragOperationNone; }\n\n    if ([delegate respondsToSelector:@selector(acceptsDropPaths:)]\n    && ![delegate acceptsDropPaths:paths]) \n    { return NSDragOperationNone; }\n\n    [self setImage:[[NSWorkspace sharedWorkspace] iconForFiles:paths]];\n    */\n    return NSDragOperationCopy; \n}\n\n\n- (void)draggedImage:(NSImage *)anImage beganAt:(NSPoint)aPoint\n{\n    printf(\"draggedImage:beganAt:\\n\");\n}\n\n- (void)draggedImage:(NSImage *)anImage \n\t     endedAt:(NSPoint)aPoint \n\t   operation:(NSDragOperation)operation\n{\n    printf(\"draggedImage:endedAt:operation:\\n\");\n\n}\n\n- (void)draggedImage:(NSImage *)draggedImage \n\t     movedTo:(NSPoint)screenPoint\n{\n    printf(\"draggedImage:movedTo:\\n\");\n\n}\n\n- (NSDragOperation)draggingSourceOperationMaskForLocal:(BOOL)flag\n{\n    printf(\"draggingSourceOperationMaskForLocal:\\n\");\n\n    if ((!canDrag) || flag) \n    { \n\treturn NSDragOperationNone; \n    }\n    \n    return NSDragOperationCopy;\n}\n\n- (BOOL)ignoreModifierKeysWhileDragging \n{ \n    printf(\"ignoreModifierKeysWhileDragging:\\n\");\n    return NO; \n}\n\n// -----------\n\n- (void)copy:sender\n{\n    /*\n     NSPasteboard *pboard = [NSPasteboard pasteboardWithName:NSGeneralPboard];\n     [pboard declareTypes:[NSArray arrayWithObject:NSTIFFPboardType] owner:self];\n     [pboard setData:[image TIFFRepresentation] forType:NSTIFFPboardType];\n     */\n}\n\n- (void)paste:sender\n{\n    printf(\"paste\\n\");\n}\n\n- (void)delete:sender\n{\n    printf(\"delete\\n\");\n}\n\n// ------------------------------------------\n\n- (IBAction)toggleFullScreen:(id)sender\n{\n    if( FullScreenOn == true ) // we need to go back to non-full screen\n    {\n        [FullScreenWindow close];\n        [StartingWindow setContentView: self];\n        [StartingWindow makeKeyAndOrderFront: self];\n        [StartingWindow makeFirstResponder: self];\n        FullScreenOn = false;\n    }\n    else // FullScreenOn == false\n    {\n        unsigned int windowStyle;\n        NSRect       contentRect;\n\t\n        StartingWindow = [NSApp keyWindow];\n        windowStyle    = NSBorderlessWindowMask; \n        contentRect    = [[NSScreen mainScreen] frame];\n\t\n        FullScreenWindow = [[NSWindow alloc] \n\t    initWithContentRect:contentRect\n\t\t      styleMask: windowStyle \n\t\t\tbacking:NSBackingStoreBuffered \n\t\t\t  defer:NO];\n\t\n        if (FullScreenWindow != nil)\n        {\n            NSLog(@\"Window was created\");\t\t\t\n            [FullScreenWindow setTitle: @\"myWindow\"];\t\t\t\n            [FullScreenWindow setReleasedWhenClosed: YES];\n            [FullScreenWindow setContentView: self];\n            [FullScreenWindow makeKeyAndOrderFront:self ];\n            [FullScreenWindow setLevel: NSScreenSaverWindowLevel - 1];\n            [FullScreenWindow makeFirstResponder:self];\n            FullScreenOn = true;\n        }\n    }\n}\n\n\n@end\n";
+		rLen = 21954;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1476;
+		vrLoc = 17407;
+	};
+	AAF39C2307D535830064EDC5 = {
+		fRef = AA840BBB071A69D5005AE4A1;
+		isa = PBXTextBookmark;
+		name = "main.io: 146";
+		rLen = 0;
+		rLoc = 3146;
+		rType = 0;
+		vrLen = 1109;
+		vrLoc = 2641;
+	};
+	AAFAD65D07C2D5220055D090 = {
+		fRef = 32CA4F630368D1EE00C91783;
+		isa = PBXTextBookmark;
+		name = "IoApp_Prefix.pch: 8";
+		rLen = 0;
+		rLoc = 141;
+		rType = 0;
+		vrLen = 141;
+		vrLoc = 0;
+	};
+	AAFAD66107C2D5220055D090 = {
+		fRef = 32CA4F630368D1EE00C91783;
+		isa = PBXTextBookmark;
+		name = "IoApp_Prefix.pch: 8";
+		rLen = 0;
+		rLoc = 141;
+		rType = 0;
+		vrLen = 141;
+		vrLoc = 0;
+	};
+}

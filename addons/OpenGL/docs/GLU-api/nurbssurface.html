@@ -1,0 +1,163 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>gluNurbsSurface</STRONG> - define the shape of	a NURBS	surface
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>gluNurbsSurface</STRONG>(	GLUnurbs* <EM>nurb</EM>,
+				GLint <EM>sKnotCount</EM>,
+				GLfloat* <EM>sKnots</EM>,
+				GLint <EM>tKnotCount</EM>,
+				GLfloat* <EM>tKnots</EM>,
+				GLint <EM>sStride</EM>,
+				GLint <EM>tStride</EM>,
+				GLfloat* <EM>control</EM>,
+				GLint <EM>sOrder</EM>,
+				GLint <EM>tOrder</EM>,
+				GLenum <EM>type</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>nurb</EM>	      Specifies	the NURBS object (created with
+		      <STRONG>gluNewNurbsRenderer</STRONG>).
+
+	  <EM>sKnotCount</EM>  Specifies	the number of knots in the parametric
+		      <EM>u</EM>	direction.
+
+	  <EM>sKnots</EM>      Specifies	an array of <EM>sKnotCount</EM> nondecreasing
+		      knot values in the parametric <EM>u</EM> direction.
+
+	  <EM>tKnotCount</EM>  Specifies	the number of knots in the parametric
+		      <EM>v</EM>	direction.
+
+	  <EM>tKnots</EM>      Specifies	an array of <EM>tKnotCount</EM> nondecreasing
+		      knot values in the parametric <EM>v</EM> direction.
+
+	  <EM>sStride</EM>     Specifies	the offset (as a number	of single-
+		      precision	floating point values) between
+		      successive control points	in the parametric <EM>u</EM>
+		      direction	in <EM>control</EM>.
+
+	  <EM>tStride</EM>     Specifies	the offset (in single-precision
+		      floating-point values) between successive
+		      control points in	the parametric <EM>v</EM> direction in
+		      <EM>control</EM>.
+
+	  <EM>control</EM>     Specifies	an array containing control points for
+		      the NURBS	surface.  The offsets between
+		      successive control points	in the parametric <EM>u</EM>
+		      and <EM>v</EM> directions are given by <EM>sStride</EM> and
+		      <EM>tStride</EM>.
+
+	  <EM>sOrder</EM>      Specifies	the order of the NURBS surface in the
+		      parametric <EM>u</EM> direction. The order	is one more
+		      than the degree, hence a surface that is cubic
+		      in <EM>u</EM> has a <EM>u</EM> order of 4.
+
+	  <EM>tOrder</EM>      Specifies	the order of the NURBS surface in the
+		      parametric <EM>v</EM> direction. The order	is one more
+		      than the degree, hence a surface that is cubic
+		      in <EM>v</EM> has a <EM>v</EM> order of 4.
+
+	  <EM>type</EM>	      Specifies	type of	the surface. <EM>type</EM> can be any
+		      of the valid two-dimensional evaluator types
+		      (such as <STRONG>GL_MAP2_VERTEX_3</STRONG>	or <STRONG>GL_MAP2_COLOR_4</STRONG>).
+
+     <STRONG>DESCRIPTION</STRONG>
+	  Use <STRONG>gluNurbsSurface</STRONG> within a NURBS (Non-Uniform Rational B-
+	  Spline) surface definition to	describe the shape of a	NURBS
+	  surface (before any trimming). To mark the beginning of a
+	  NURBS	surface	definition, use	the <STRONG>gluBeginSurface</STRONG> command.
+	  To mark the end of a NURBS surface definition, use the
+	  <STRONG>gluEndSurface</STRONG>	command. Call <STRONG>gluNurbsSurface</STRONG> within a NURBS
+	  surface definition only.
+
+	  Positional, texture, and color coordinates are associated
+	  with a surface by presenting each as a separate
+	  <STRONG>gluNurbsSurface</STRONG> between a <STRONG>gluBeginSurface</STRONG>/<STRONG>gluEndSurface</STRONG>
+	  pair.	No more	than one call to <STRONG>gluNurbsSurface</STRONG> for each of
+	  color, position, and texture data can	be made	within a
+	  single <STRONG>gluBeginSurface</STRONG>/<STRONG>gluEndSurface</STRONG> pair. Exactly one call
+	  must be made to describe the position	of the surface (a <EM>type</EM>
+	  of <STRONG>GL_MAP2_VERTEX_3</STRONG> or <STRONG>GL_MAP2_VERTEX_4</STRONG>).
+
+	  A NURBS surface can be trimmed by using the commands
+	  <STRONG>gluNurbsCurve</STRONG>	and <STRONG>gluPwlCurve</STRONG>	between	calls to <STRONG>gluBeginTrim</STRONG>
+	  and <STRONG>gluEndTrim</STRONG>.
+
+	  Note that a <STRONG>gluNurbsSurface</STRONG> with <EM>sKnotCount</EM> knots in the <EM>u</EM>
+	  direction and	<EM>tKnotCount</EM> knots in the	<EM>v</EM> direction with
+	  orders <EM>sOrder</EM>	and <EM>tOrder</EM> must	have (<EM>sKnotCount</EM> - <EM>sOrder</EM>) x
+	  (<EM>tKnotCount</EM> -	<EM>tOrder</EM>)	control	points.
+
+     <STRONG>EXAMPLE</STRONG>
+	  The following	commands render	a textured NURBS surface with
+	  normals; the texture coordinates and normals are also	NURBS
+	  surfaces:
+
+	  gluBeginSurface(nobj);
+	     gluNurbsSurface(nobj, ...,	GL_MAP2_TEXTURE_COORD_2);
+	     gluNurbsSurface(nobj, ...,	GL_MAP2_NORMAL);
+	     gluNurbsSurface(nobj, ...,	GL_MAP2_VERTEX_4);
+	  gluEndSurface(nobj);
+
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+
+	  <STRONG>gluBeginSurface</STRONG>, <STRONG>gluBeginTrim</STRONG>, <STRONG>gluNewNurbsRenderer</STRONG>,
+	  <STRONG>gluNurbsCurve</STRONG>, <STRONG>gluPwlCurve</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

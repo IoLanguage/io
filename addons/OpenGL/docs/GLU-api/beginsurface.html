@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>gluBeginSurface,</STRONG> <STRONG>gluEndSurface</STRONG> - delimit a NURBS surface
+	  definition
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>gluBeginSurface</STRONG>(	GLUnurbs* <EM>nurb</EM> )
+
+	  void <STRONG>gluEndSurface</STRONG>( GLUnurbs*	<EM>nurb</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>nurb</EM>	Specifies the NURBS object (created with
+		<STRONG>gluNewNurbsRenderer</STRONG>).
+
+     <STRONG>DESCRIPTION</STRONG>
+	  Use <STRONG>gluBeginSurface</STRONG> to mark the beginning of a NURBS surface
+	  definition. After calling <STRONG>gluBeginSurface</STRONG>, make one or more
+	  calls	to <STRONG>gluNurbsSurface</STRONG> to define the attributes of the
+	  surface.  Exactly one	of these calls to <STRONG>gluNurbsSurface</STRONG> must
+	  have a surface type of <STRONG>GL_MAP2_VERTEX_3</STRONG> or <STRONG>GL_MAP2_VERTEX_4</STRONG>.
+	  To mark the end of the NURBS surface definition, call
+	  <STRONG>gluEndSurface</STRONG>.
+
+	  Trimming of NURBS surfaces is	supported with <STRONG>gluBeginTrim</STRONG>,
+	  <STRONG>gluPwlCurve</STRONG>, <STRONG>gluNurbsCurve</STRONG>, and <STRONG>gluEndTrim</STRONG>. See the
+	  <STRONG>gluBeginTrim</STRONG> reference page for details.
+
+	  GL evaluators	are used to render the NURBS surface as	a set
+	  of polygons.	Evaluator state	is preserved during rendering
+	  with <STRONG>glPushAttrib</STRONG>(<STRONG>GL_EVAL_BIT</STRONG>) and <STRONG>glPopAttrib</STRONG>(). See	the
+	  <STRONG>glPushAttrib</STRONG> reference page for details on exactly what
+	  state	these calls preserve.
+
+     <STRONG>EXAMPLE</STRONG>
+	  The following	commands render	a textured NURBS surface with
+	  normals; the texture coordinates and normals are also
+	  described as NURBS surfaces:
+
+	  gluBeginSurface(nobj);
+	     gluNurbsSurface(nobj, ...,	GL_MAP2_TEXTURE_COORD_2);
+	     gluNurbsSurface(nobj, ...,	GL_MAP2_NORMAL);
+	     gluNurbsSurface(nobj, ...,	GL_MAP2_VERTEX_4);
+	  gluEndSurface(nobj);
+
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>gluBeginCurve</STRONG>, <STRONG>gluBeginTrim</STRONG>, <STRONG>gluNewNurbsRenderer</STRONG>,
+	  <STRONG>gluNurbsCurve</STRONG>, <STRONG>gluNurbsSurface</STRONG>, <STRONG>gluPwlCurve</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

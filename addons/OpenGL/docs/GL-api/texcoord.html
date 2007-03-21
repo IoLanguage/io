@@ -1,0 +1,162 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glTexCoord1d,</STRONG>	<STRONG>glTexCoord1f,</STRONG> <STRONG>glTexCoord1i,</STRONG> <STRONG>glTexCoord1s,</STRONG>
+	  <STRONG>glTexCoord2d,</STRONG>	<STRONG>glTexCoord2f,</STRONG> <STRONG>glTexCoord2i,</STRONG> <STRONG>glTexCoord2s,</STRONG>
+	  <STRONG>glTexCoord3d,</STRONG>	<STRONG>glTexCoord3f,</STRONG> <STRONG>glTexCoord3i,</STRONG> <STRONG>glTexCoord3s,</STRONG>
+	  <STRONG>glTexCoord4d,</STRONG>	<STRONG>glTexCoord4f,</STRONG> <STRONG>glTexCoord4i,</STRONG> <STRONG>glTexCoord4s,</STRONG>
+	  <STRONG>glTexCoord1dv,</STRONG> <STRONG>glTexCoord1fv,</STRONG>	<STRONG>glTexCoord1iv,</STRONG> <STRONG>glTexCoord1sv,</STRONG>
+	  <STRONG>glTexCoord2dv,</STRONG> <STRONG>glTexCoord2fv,</STRONG>	<STRONG>glTexCoord2iv,</STRONG> <STRONG>glTexCoord2sv,</STRONG>
+	  <STRONG>glTexCoord3dv,</STRONG> <STRONG>glTexCoord3fv,</STRONG>	<STRONG>glTexCoord3iv,</STRONG> <STRONG>glTexCoord3sv,</STRONG>
+	  <STRONG>glTexCoord4dv,</STRONG> <STRONG>glTexCoord4fv,</STRONG>	<STRONG>glTexCoord4iv,</STRONG> <STRONG>glTexCoord4sv</STRONG> -
+	  set the current texture coordinates
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glTexCoord1d</STRONG>( GLdouble <EM>s</EM>	)
+	  void <STRONG>glTexCoord1f</STRONG>( GLfloat <EM>s</EM> )
+	  void <STRONG>glTexCoord1i</STRONG>( GLint <EM>s</EM> )
+	  void <STRONG>glTexCoord1s</STRONG>( GLshort <EM>s</EM> )
+	  void <STRONG>glTexCoord2d</STRONG>( GLdouble <EM>s</EM>,
+			     GLdouble <EM>t</EM>	)
+	  void <STRONG>glTexCoord2f</STRONG>( GLfloat <EM>s</EM>,
+			     GLfloat <EM>t</EM> )
+	  void <STRONG>glTexCoord2i</STRONG>( GLint <EM>s</EM>,
+			     GLint <EM>t</EM> )
+	  void <STRONG>glTexCoord2s</STRONG>( GLshort <EM>s</EM>,
+			     GLshort <EM>t</EM> )
+	  void <STRONG>glTexCoord3d</STRONG>( GLdouble <EM>s</EM>,
+			     GLdouble <EM>t</EM>,
+			     GLdouble <EM>r</EM>	)
+	  void <STRONG>glTexCoord3f</STRONG>( GLfloat <EM>s</EM>,
+			     GLfloat <EM>t</EM>,
+			     GLfloat <EM>r</EM> )
+	  void <STRONG>glTexCoord3i</STRONG>( GLint <EM>s</EM>,
+			     GLint <EM>t</EM>,
+			     GLint <EM>r</EM> )
+	  void <STRONG>glTexCoord3s</STRONG>( GLshort <EM>s</EM>,
+			     GLshort <EM>t</EM>,
+			     GLshort <EM>r</EM> )
+	  void <STRONG>glTexCoord4d</STRONG>( GLdouble <EM>s</EM>,
+			     GLdouble <EM>t</EM>,
+			     GLdouble <EM>r</EM>,
+			     GLdouble <EM>q</EM>	)
+	  void <STRONG>glTexCoord4f</STRONG>( GLfloat <EM>s</EM>,
+			     GLfloat <EM>t</EM>,
+			     GLfloat <EM>r</EM>,
+			     GLfloat <EM>q</EM> )
+	  void <STRONG>glTexCoord4i</STRONG>( GLint <EM>s</EM>,
+			     GLint <EM>t</EM>,
+			     GLint <EM>r</EM>,
+			     GLint <EM>q</EM> )
+	  void <STRONG>glTexCoord4s</STRONG>( GLshort <EM>s</EM>,
+			     GLshort <EM>t</EM>,
+			     GLshort <EM>r</EM>,
+			     GLshort <EM>q</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>s</EM>, <EM>t</EM>,	<EM>r</EM>, <EM>q</EM>
+		   Specify <EM>s</EM>, <EM>t</EM>, <EM>r</EM>, and	<EM>q</EM>  texture coordinates.	 Not
+		   all parameters are present in all forms of the
+		   command.
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glTexCoord1dv</STRONG>( const GLdouble *<EM>v</EM>	)
+	  void <STRONG>glTexCoord1fv</STRONG>( const GLfloat *<EM>v</EM> )
+	  void <STRONG>glTexCoord1iv</STRONG>( const GLint *<EM>v</EM> )
+	  void <STRONG>glTexCoord1sv</STRONG>( const GLshort *<EM>v</EM> )
+	  void <STRONG>glTexCoord2dv</STRONG>( const GLdouble *<EM>v</EM>	)
+	  void <STRONG>glTexCoord2fv</STRONG>( const GLfloat *<EM>v</EM> )
+	  void <STRONG>glTexCoord2iv</STRONG>( const GLint *<EM>v</EM> )
+	  void <STRONG>glTexCoord2sv</STRONG>( const GLshort *<EM>v</EM> )
+	  void <STRONG>glTexCoord3dv</STRONG>( const GLdouble *<EM>v</EM>	)
+	  void <STRONG>glTexCoord3fv</STRONG>( const GLfloat *<EM>v</EM> )
+	  void <STRONG>glTexCoord3iv</STRONG>( const GLint *<EM>v</EM> )
+	  void <STRONG>glTexCoord3sv</STRONG>( const GLshort *<EM>v</EM> )
+	  void <STRONG>glTexCoord4dv</STRONG>( const GLdouble *<EM>v</EM>	)
+	  void <STRONG>glTexCoord4fv</STRONG>( const GLfloat *<EM>v</EM> )
+	  void <STRONG>glTexCoord4iv</STRONG>( const GLint *<EM>v</EM> )
+	  void <STRONG>glTexCoord4sv</STRONG>( const GLshort *<EM>v</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>v</EM>    Specifies a pointer to an array of one, two, three, or
+	       four elements, which in turn specify the	<EM>s</EM>, <EM>t</EM>, <EM>r</EM>, and <EM>q</EM>
+	       texture coordinates.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glTexCoord</STRONG> specifies texture coordinates in one, two,	three,
+	  or four dimensions. <STRONG>glTexCoord1</STRONG> sets the current texture
+	  coordinates to (<EM>s</EM>, 0,	0, 1); a call to
+	  <STRONG>glTexCoord2</STRONG> sets them	to (<EM>s</EM>, <EM>t</EM>, 0, 1).  Similarly,
+	  <STRONG>glTexCoord3</STRONG> specifies	the texture coordinates	as (<EM>s</EM>, <EM>t</EM>, <EM>r</EM>,
+	  1), and <STRONG>glTexCoord4</STRONG> defines all four components explicitly
+	  as (<EM>s</EM>, <EM>t</EM>, <EM>r</EM>, <EM>q</EM>).
+
+	  The current texture coordinates are part of the data that is
+	  associated with each vertex and with the current raster
+	  position. Initially, the values for <EM>s</EM>, <EM>t</EM>, <EM>r</EM>, and <EM>q</EM> are (0,
+	  0, 0,	1).
+
+     <STRONG>NOTES</STRONG>
+	  The current texture coordinates can be updated at any	time.
+	  In particular,
+	  <STRONG>glTexCoord</STRONG> can be called between a call to <STRONG>glBegin</STRONG> and the
+	  corresponding	call to	<STRONG>glEnd</STRONG>.
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_CURRENT_TEXTURE_COORDS</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glTexCoordPointer</STRONG>, <STRONG>glVertex</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

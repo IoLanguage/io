@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glClear</STRONG> - clear buffers to preset values
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glClear</STRONG>(	GLbitfield <EM>mask</EM>	)
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>mask</EM>	Bitwise	OR of masks that indicate the buffers to be
+		cleared.  The four masks are <STRONG>GL_COLOR_BUFFER_BIT</STRONG>,
+		<STRONG>GL_DEPTH_BUFFER_BIT</STRONG>, <STRONG>GL_ACCUM_BUFFER_BIT</STRONG>, and
+		<STRONG>GL_STENCIL_BUFFER_BIT</STRONG>.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glClear</STRONG> sets the bitplane area of the	window to values
+	  previously selected by <STRONG>glClearColor</STRONG>, <STRONG>glClearIndex</STRONG>,
+	  <STRONG>glClearDepth</STRONG>,	<STRONG>glClearStencil</STRONG>,	and <STRONG>glClearAccum</STRONG>.  Multiple
+	  color	buffers	can be cleared simultaneously by selecting
+	  more than one	buffer at a time using <STRONG>glDrawBuffer</STRONG>.
+
+	  The pixel ownership test, the	scissor	test, dithering, and
+	  the buffer writemasks	affect the operation of	<STRONG>glClear</STRONG>.  The
+	  scissor box bounds the cleared region.  Alpha	function,
+	  blend	function, logical operation, stenciling, texture
+	  mapping, and depth-buffering are ignored by <STRONG>glClear</STRONG>.
+
+	  <STRONG>glClear</STRONG> takes	a single argument that is the bitwise OR of
+	  several values indicating which buffer is to be cleared.
+
+	  The values are as follows:
+
+	  <STRONG>GL_COLOR_BUFFER_BIT</STRONG>	    Indicates the buffers currently
+				    enabled for	color writing.
+
+	  <STRONG>GL_DEPTH_BUFFER_BIT</STRONG>	    Indicates the depth	buffer.
+
+	  <STRONG>GL_ACCUM_BUFFER_BIT</STRONG>	    Indicates the accumulation buffer.
+
+	  <STRONG>GL_STENCIL_BUFFER_BIT</STRONG>	    Indicates the stencil buffer.
+
+	  The value to which each buffer is cleared depends on the
+	  setting of the clear value for that buffer.
+
+     <STRONG>NOTES</STRONG>
+	  If a buffer is not present, then a <STRONG>glClear</STRONG> directed at that
+	  buffer has no	effect.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if any bit other than the four
+	  defined bits is set in <EM>mask</EM>.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glClear</STRONG> is executed
+	  between the execution	of <STRONG>glBegin</STRONG> and the corresponding
+	  execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_ACCUM_CLEAR_VALUE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_DEPTH_CLEAR_VALUE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_INDEX_CLEAR_VALUE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_COLOR_CLEAR_VALUE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_STENCIL_CLEAR_VALUE</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glClearAccum</STRONG>,	<STRONG>glClearColor</STRONG>, <STRONG>glClearDepth</STRONG>, <STRONG>glClearIndex</STRONG>,
+	  <STRONG>glClearStencil</STRONG>, <STRONG>glDrawBuffer</STRONG>,	<STRONG>glScissor</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

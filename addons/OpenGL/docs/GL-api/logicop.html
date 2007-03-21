@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glLogicOp</STRONG> - specify a	logical	pixel operation	for color
+	  index	rendering
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glLogicOp</STRONG>( GLenum <EM>opcode</EM>	)
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>opcode</EM>  Specifies a symbolic constant	that selects a logical
+		  operation.  The following symbols are	accepted:
+		  <STRONG>GL_CLEAR</STRONG>, <STRONG>GL_SET</STRONG>, <STRONG>GL_COPY</STRONG>, <STRONG>GL_COPY_INVERTED</STRONG>,
+		  <STRONG>GL_NOOP</STRONG>, <STRONG>GL_INVERT</STRONG>, <STRONG>GL_AND</STRONG>, <STRONG>GL_NAND</STRONG>, <STRONG>GL_OR</STRONG>, <STRONG>GL_NOR</STRONG>,
+		  <STRONG>GL_XOR</STRONG>, <STRONG>GL_EQUIV</STRONG>, <STRONG>GL_AND_REVERSE</STRONG>, <STRONG>GL_AND_INVERTED</STRONG>,
+		  <STRONG>GL_OR_REVERSE</STRONG>, and <STRONG>GL_OR_INVERTED</STRONG>. The initial value
+		  is <STRONG>GL_COPY</STRONG>.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glLogicOp</STRONG> specifies a	logical	operation that,	when enabled,
+	  is applied between the incoming color	index or RGBA color
+	  and the color	index or RGBA color at the corresponding
+	  location in the frame	buffer.	To enable or disable the
+	  logical operation, call <STRONG>glEnable</STRONG> and <STRONG>glDisable</STRONG> using the
+	  symbolic constant <STRONG>GL_COLOR_LOGIC_OP</STRONG> for RGBA mode or
+	  <STRONG>GL_INDEX_LOGIC_OP</STRONG> for	color index mode. The initial value is
+	  disabled for both operations.
+
+		      ____________________________________
+		      |	    <EM>opcode</EM>	| <EM>resulting</EM> <EM>value</EM> |
+		      <EM>|</EM>_________________<EM>|</EM>_________________|
+		      |	   <STRONG>GL_CLEAR</STRONG>	|	 0	  |
+		      |	    <STRONG>GL_SET</STRONG>	|	 1	  |
+		      |	   <STRONG>GL_COPY</STRONG>	|	 s	  |
+		      |<STRONG>GL_COPY_INVERTED</STRONG>	|	~s	  |
+		      |	   <STRONG>GL_NOOP</STRONG>	|	 d	  |
+		      |	  <STRONG>GL_INVERT</STRONG>	|	~d	  |
+		      |	    <STRONG>GL_AND</STRONG>	|      s &amp; d	  |
+		      |	   <STRONG>GL_NAND</STRONG>	|    ~(s &amp; d)	  |
+		      |	    <STRONG>GL_OR</STRONG>	|      s | d	  |
+		      |	    <STRONG>GL_NOR</STRONG>	|    ~(s | d)	  |
+		      |	    <STRONG>GL_XOR</STRONG>	|      s ^ d	  |
+		      |	   <STRONG>GL_EQUIV</STRONG>	|    ~(s ^ d)	  |
+		      |	<STRONG>GL_AND_REVERSE</STRONG>	|     s	&amp; ~d	  |
+		      |<STRONG>GL_AND_INVERTED</STRONG>	|     ~s &amp; d	  |
+		      |	<STRONG>GL_OR_REVERSE</STRONG>	|     s	| ~d	  |
+		      |	<STRONG>GL_OR_INVERTED</STRONG>	|     ~s | d	  |
+		      <EM>|</EM>_________________<EM>|</EM>_________________|
+
+	  <EM>opcode</EM> is a symbolic constant	chosen from the	list above.
+	  In the explanation of	the logical operations,	<EM>s</EM> represents
+	  the incoming color index and <EM>d</EM> represents the	index in the
+	  frame	buffer.	 Standard C-language operators are used.  As
+	  these	bitwise	operators suggest, the logical operation is
+	  applied independently	to each	bit pair of the	source and
+	  destination indices or colors.
+
+     <STRONG>NOTES</STRONG>
+	  Color	index logical operations are always supported. RGBA
+	  logical operations are supported only	if the GL version is
+	  1.1 or greater.
+
+	  When more than one RGBA color	or index buffer	is enabled for
+	  drawing, logical operations are performed separately for
+	  each enabled buffer, using for the destination value the
+	  contents of that buffer (see <STRONG>glDrawBuffer</STRONG>).
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>opcode</EM> is not	an accepted
+	  value.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glLogicOp</STRONG> is executed
+	  between the execution	of <STRONG>glBegin</STRONG> and the corresponding
+	  execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_LOGIC_OP_MODE</STRONG>.
+	  <STRONG>glIsEnabled</STRONG> with argument <STRONG>GL_COLOR_LOGIC_OP</STRONG> or
+	  <STRONG>GL_INDEX_LOGIC_OP</STRONG>.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glAlphaFunc</STRONG>, <STRONG>glBlendFunc</STRONG>, <STRONG>glDrawBuffer</STRONG>, <STRONG>glEnable</STRONG>,
+	  <STRONG>glStencilOp</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

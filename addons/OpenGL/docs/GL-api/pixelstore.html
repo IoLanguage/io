@@ -1,0 +1,320 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glPixelStoref,</STRONG> <STRONG>glPixelStorei</STRONG> - set pixel storage modes
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glPixelStoref</STRONG>( GLenum <EM>pname</EM>,
+			      GLfloat <EM>param</EM> )
+	  void <STRONG>glPixelStorei</STRONG>( GLenum <EM>pname</EM>,
+			      GLint <EM>param</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>pname</EM>	 Specifies the symbolic	name of	the parameter to be
+		 set.  Six values affect the packing of	pixel data
+		 into memory:  <STRONG>GL_PACK_SWAP_BYTES</STRONG>, <STRONG>GL_PACK_LSB_FIRST</STRONG>,
+		 <STRONG>GL_PACK_ROW_LENGTH</STRONG>, <STRONG>GL_PACK_SKIP_PIXELS</STRONG>,
+		 <STRONG>GL_PACK_SKIP_ROWS</STRONG>, and	<STRONG>GL_PACK_ALIGNMENT</STRONG>.  Six	more
+		 affect	the unpacking of pixel data <EM>from</EM> memory:
+		 <STRONG>GL_UNPACK_SWAP_BYTES</STRONG>, <STRONG>GL_UNPACK_LSB_FIRST</STRONG>,
+		 <STRONG>GL_UNPACK_ROW_LENGTH</STRONG>, <STRONG>GL_UNPACK_SKIP_PIXELS</STRONG>,
+		 <STRONG>GL_UNPACK_SKIP_ROWS</STRONG>, and <STRONG>GL_UNPACK_ALIGNMENT</STRONG>.
+
+	  <EM>param</EM>	 Specifies the value that <EM>pname</EM>	is set to.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glPixelStore</STRONG> sets pixel storage modes	that affect the
+	  operation of subsequent <STRONG>glDrawPixels</STRONG> and <STRONG>glReadPixels</STRONG>	as
+	  well as the unpacking	of polygon stipple patterns (see
+	  <STRONG>glPolygonStipple</STRONG>), bitmaps (see <STRONG>glBitmap</STRONG>), and texture
+	  patterns (see	<STRONG>glTexImage1D</STRONG>, <STRONG>glTexImage2D</STRONG>, <STRONG>glTexSubImage1D</STRONG>,
+	  and <STRONG>glTexSubImage2D</STRONG>).
+
+	  <EM>pname</EM>	is a symbolic constant indicating the parameter	to be
+	  set, and <EM>param</EM> is the	new value.  Six	of the twelve storage
+	  parameters affect how	pixel data is returned to client
+	  memory, and are therefore significant	only for <STRONG>glReadPixels</STRONG>
+	  commands.  They are as follows:
+
+	  <STRONG>GL_PACK_SWAP_BYTES</STRONG>
+		    If true, byte ordering for multibyte color
+		    components,	depth components, color	indices, or
+		    stencil indices is reversed.  That is, if a	four-
+		    byte component consists of bytes b , b , b , b ,
+		    it is stored in memory as b	, b , <STRONG>b</STRONG>	, <STRONG>b</STRONG>  i<STRONG>f</STRONG>	  3
+		    <STRONG>GL_PACK_SWAP_BYTES</STRONG> is true.3 <STRONG>GL_PACK_SWAP_BYTES</STRONG>
+		    has	no effect on the memory	order of components
+		    within a pixel, only on the	order of bytes within
+		    components or indices.  For	example, the three
+		    components of a <STRONG>GL_RGB</STRONG> format pixel	are always
+		    stored with	red first, green second, and blue
+		    third, regardless of the value of
+		    <STRONG>GL_PACK_SWAP_BYTES</STRONG>.
+
+	  <STRONG>GL_PACK_LSB_FIRST</STRONG>
+		    If true, bits are ordered within a byte from least
+		    significant	to most	significant; otherwise,	the
+		    first bit in each byte is the most significant
+		    one.  This parameter is significant	for bitmap
+		    data only.
+
+	  <STRONG>GL_PACK_ROW_LENGTH</STRONG>
+		    If greater than 0, <STRONG>GL_PACK_ROW_LENGTH</STRONG> defines the
+		    number of pixels in	a row.	If the first pixel of
+		    a row is placed at location	p in memory, then the
+		    location of	the first pixel	of the next row	is
+		    obtained by	skipping
+
+					 (
+					 |nl	  s<EM>&gt;</EM>a
+				     k = |<STRONG>_</STRONG>|<STRONG>___</STRONG>|  s&lt;a
+					 |s| a |
+					 (
+		    components or indices, where n is the number of
+		    components or indices in a pixel, l	is the number
+		    of pixels in a row (<STRONG>GL_PACK_ROW_LENGTH</STRONG> if it is
+		    greater than 0, the	width argument to the pixel
+		    routine otherwise),	a is the value of
+		    <STRONG>GL_PACK_ALIGNMENT</STRONG>, and s is	the size, in bytes, of
+		    a single component (if a&lt;s,	then it	is as if a=s).
+		    In the case	of 1-bit values, the location of the
+		    next row is	obtained by skipping
+
+					k = 8a|<STRONG>__</STRONG>|
+					      |8a|
+		    components or indices.
+
+		    The	word <EM>component</EM> in this description refers to
+		    the	nonindex values	red, green, blue, alpha, and
+		    depth.  Storage format <STRONG>GL_RGB</STRONG>, for example,	has
+		    three components per pixel:	 first red, then
+		    green, and finally blue.
+
+	  <STRONG>GL_PACK_SKIP_PIXELS</STRONG> and <STRONG>GL_PACK_SKIP_ROWS</STRONG>
+		    These values are provided as a convenience to the
+		    programmer;	they provide no	functionality that
+		    cannot be duplicated simply	by incrementing	the
+		    pointer passed to <STRONG>glReadPixels</STRONG>.  Setting
+		    <STRONG>GL_PACK_SKIP_PIXELS</STRONG>	to i is	equivalent to
+		    incrementing the pointer by	in components or
+		    indices, where n is	the number of components or
+		    indices in each pixel.  Setting <STRONG>GL_PACK_SKIP_ROWS</STRONG>
+		    to j is equivalent to incrementing the pointer by
+		    jk components or indices, where k is the number of
+		    components or indices per row, as just computed in
+		    the	<STRONG>GL_PACK_ROW_LENGTH</STRONG> section.
+
+	  <STRONG>GL_PACK_ALIGNMENT</STRONG>
+		    Specifies the alignment requirements for the start
+		    of each pixel row in memory.  The allowable	values
+		    are	1 (byte-alignment), 2 (rows aligned to even-
+		    numbered bytes), 4 (word-alignment), and 8 (rows
+		    start on double-word boundaries).
+
+	  The other six	of the twelve storage parameters affect	how
+	  pixel	data is	read from client memory.  These	values are
+	  significant for <STRONG>glDrawPixels</STRONG>,	<STRONG>glTexImage1D</STRONG>, <STRONG>glTexImage2D</STRONG>,
+	  <STRONG>glTexSubImage1D</STRONG>, <STRONG>glTexSubImage2D</STRONG>, <STRONG>glBitmap</STRONG>, and
+	  <STRONG>glPolygonStipple</STRONG>.  They are as follows:
+
+	  <STRONG>GL_UNPACK_SWAP_BYTES</STRONG>
+	       If true,	byte ordering for multibyte color components,
+	       depth components, color indices,	or stencil indices is
+	       reversed.  That is, if a	four-byte component consists
+	       of bytes	b , b ,	b , b ,	it is taken from memory	as b ,
+	       b , b , b 0if <STRONG>GL_UNPACK_SWAP_BYTES</STRONG> is true.	    3
+	       <STRONG>GL_UNPACK_SWAP_BYTES</STRONG> has	no effect on the memory	order
+	       of components within a pixel, only on the order of
+	       bytes within components or indices.  For	example, the
+	       three components	of a <STRONG>GL_RGB</STRONG> format pixel are always
+	       stored with red first, green second, and	blue third,
+	       regardless of the value of <STRONG>GL_UNPACK_SWAP_BYTES</STRONG>.
+
+	  <STRONG>GL_UNPACK_LSB_FIRST</STRONG>
+	       If true,	bits are ordered within	a byte from least
+	       significant to most significant;	otherwise, the first
+	       bit in each byte	is the most significant	one.  This is
+	       relevant	only for bitmap	data.
+
+	  <STRONG>GL_UNPACK_ROW_LENGTH</STRONG>
+	       If greater than 0, <STRONG>GL_UNPACK_ROW_LENGTH</STRONG> defines the
+	       number of pixels	in a row.  If the first	pixel of a row
+	       is placed at location p in memory, then the location of
+	       the first pixel of the next row is obtained by skipping
+
+				      (
+				      |nl      s<EM>&gt;</EM>a
+				  k = |<STRONG>_</STRONG>|<STRONG>___</STRONG>|  s&lt;a
+				      |s| a |
+				      (
+	       components or indices, where n is the number of
+	       components or indices in	a pixel, l is the number of
+	       pixels in a row (<STRONG>GL_UNPACK_ROW_LENGTH</STRONG> if	it is greater
+	       than 0, the width argument to the pixel routine
+	       otherwise), a is	the value of <STRONG>GL_UNPACK_ALIGNMENT</STRONG>, and
+	       s is the	size, in bytes,	of a single component (if a&lt;s,
+	       then it is as if	a=s).  In the case of 1-bit values,
+	       the location of the next	row is obtained	by skipping
+
+				     k = 8a|<STRONG>__</STRONG>|
+					   |8a|
+	       components or indices.
+
+	       The word	<EM>component</EM> in this description refers to	the
+	       nonindex	values red, green, blue, alpha,	and depth.
+	       Storage format <STRONG>GL_RGB</STRONG>, for example, has three
+	       components per pixel:  first red, then green, and
+	       finally blue.
+
+	  <STRONG>GL_UNPACK_SKIP_PIXELS</STRONG>	and <STRONG>GL_UNPACK_SKIP_ROWS</STRONG>
+	       These values are	provided as a convenience to the
+	       programmer; they	provide	no functionality that cannot
+	       be duplicated by	incrementing the pointer passed	to
+	       <STRONG>glDrawPixels</STRONG>, <STRONG>glTexImage1D</STRONG>, <STRONG>glTexImage2D</STRONG>,
+	       <STRONG>glTexSubImage1D</STRONG>,	<STRONG>glTexSubImage2D</STRONG>, <STRONG>glBitmap</STRONG>, or
+	       <STRONG>glPolygonStipple</STRONG>.  Setting <STRONG>GL_UNPACK_SKIP_PIXELS</STRONG>	to i
+	       is equivalent to	incrementing the pointer by in
+	       components or indices, where n is the number of
+	       components or indices in	each pixel.  Setting
+	       <STRONG>GL_UNPACK_SKIP_ROWS</STRONG> to j	is equivalent to incrementing
+	       the pointer by jk components or indices,	where k	is the
+	       number of components or indices per row,	as just
+	       computed	in the <STRONG>GL_UNPACK_ROW_LENGTH</STRONG> section.
+
+	  <STRONG>GL_UNPACK_ALIGNMENT</STRONG>
+	       Specifies the alignment requirements for	the start of
+	       each pixel row in memory.  The allowable	values are 1
+	       (byte-alignment), 2 (rows aligned to even-numbered
+	       bytes), 4 (word-alignment), and 8 (rows start on
+	       double-word boundaries).
+
+	  The following	table gives the	type, initial value, and range
+	  of valid values for each storage parameter that can be set
+	  with <STRONG>glPixelStore</STRONG>.
+
+       _________________________________________________________________
+       |	<EM>pname</EM>	      |	 <EM>type</EM>	| <EM>initial</EM> <EM>value</EM>	|  <EM>valid</EM> <EM>range</EM>	|
+       <EM>|</EM>______________________<EM>|</EM>_________<EM>|</EM>_______________<EM>|</EM>_______________|
+       | <STRONG>GL_PACK_SWAP_BYTES</STRONG>   |	boolean	|     false	| true or false	|
+       |  <STRONG>GL_PACK_LSB_FIRST</STRONG>   |	boolean	|     false	| true or false	|
+       | <STRONG>GL_PACK_ROW_LENGTH</STRONG>   |	integer	|	0	|    [0,oo)	|
+       |  <STRONG>GL_PACK_SKIP_ROWS</STRONG>   |	integer	|	0	|    [0,oo)	|
+       | <STRONG>GL_PACK_SKIP_PIXELS</STRONG>  |	integer	|	0	|    [0,oo)	|
+       |  <STRONG>GL_PACK_ALIGNMENT</STRONG>   |	integer	|	4	| 1, 2,	4, or 8	|
+       <EM>|</EM>______________________<EM>|</EM>_________<EM>|</EM>_______________<EM>|</EM>_______________|
+       |<STRONG>GL_UNPACK_SWAP_BYTES</STRONG>  |	boolean	|     false	| true or false	|
+       | <STRONG>GL_UNPACK_LSB_FIRST</STRONG>  |	boolean	|     false	| true or false	|
+       |<STRONG>GL_UNPACK_ROW_LENGTH</STRONG>  |	integer	|	0	|    [0,oo)	|
+       | <STRONG>GL_UNPACK_SKIP_ROWS</STRONG>  |	integer	|	0	|    [0,oo)	|
+       <EM>|</EM>______________________<EM>|</EM>_________<EM>|</EM>_______________<EM>|</EM>_______________|
+
+       |<STRONG>GL_UNPACK_SKIP_PIXELS</STRONG> |	integer	|	0	|    [0,oo)	|
+       | <STRONG>GL_UNPACK_ALIGNMENT</STRONG>  |	integer	|	4	| 1, 2,	4, or 8	|
+       <EM>|</EM>______________________<EM>|</EM>_________<EM>|</EM>_______________<EM>|</EM>_______________|
+
+	  <STRONG>glPixelStoref</STRONG>	can be used to set any pixel store parameter.
+	  If the parameter type	is boolean, then if <EM>param</EM> is 0,	the
+	  parameter is false; otherwise	it is set to true.  If <EM>pname</EM>
+	  is a integer type parameter, <EM>param</EM> is	rounded	to the nearest
+	  integer.
+
+	  Likewise, <STRONG>glPixelStorei</STRONG> can also be used to set any of the
+	  pixel	store parameters.  Boolean parameters are set to false
+	  if <EM>param</EM> is 0	and true otherwise.
+
+     <STRONG>NOTES</STRONG>
+	  The pixel storage modes in effect when <STRONG>glDrawPixels</STRONG>,
+	  <STRONG>glReadPixels</STRONG>,	<STRONG>glTexImage1D</STRONG>, <STRONG>glTexImage2D</STRONG>, <STRONG>glTexSubImage1D</STRONG>,
+	  <STRONG>glTexSubImage2D</STRONG>, <STRONG>glBitmap</STRONG>, or	<STRONG>glPolygonStipple</STRONG> is placed in
+	  a display list control the interpretation of memory data.
+	  The pixel storage modes in effect when a display list	is
+	  executed are not significant.
+
+	  Pixel	storage	modes are client state and must	be pushed and
+	  restored using
+	  <STRONG>glPushClientAttrib</STRONG> and <STRONG>glPopClientAttrib</STRONG>.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>pname</EM>	is not an accepted
+	  value.
+
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if a negative row length,
+	  pixel	skip, or row skip value	is specified, or if alignment
+	  is specified as other	than 1,	2, 4, or 8.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glPixelStore</STRONG> is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_PACK_SWAP_BYTES</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_PACK_LSB_FIRST</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_PACK_ROW_LENGTH</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_PACK_SKIP_ROWS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_PACK_SKIP_PIXELS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_PACK_ALIGNMENT</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_UNPACK_SWAP_BYTES</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_UNPACK_LSB_FIRST</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_UNPACK_ROW_LENGTH</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_UNPACK_SKIP_ROWS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_UNPACK_SKIP_PIXELS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_UNPACK_ALIGNMENT</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glBitmap</STRONG>, <STRONG>glDrawPixels</STRONG>, <STRONG>glPixelMap</STRONG>, <STRONG>glPixelTransfer</STRONG>,
+	  <STRONG>glPixelZoom</STRONG>,
+	  <STRONG>glPolygonStipple</STRONG>, <STRONG>glPushClientAttrib</STRONG>,	<STRONG>glReadPixels</STRONG>,
+	  <STRONG>glTexImage1D</STRONG>,	<STRONG>glTexImage2D</STRONG>, <STRONG>glTexSubImage1D</STRONG>, <STRONG>glTexSubImage2D</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,58 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glLoadIdentity</STRONG> - replace the current matrix with the
+	  identity matrix
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glLoadIdentity</STRONG>( void )
+
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glLoadIdentity</STRONG> replaces the current matrix with the identity
+	  matrix.  It is semantically equivalent to calling
+	  <STRONG>glLoadMatrix</STRONG> with the	identity matrix
+
+
+			       ( 1   0	 0   0	)
+			       |		|
+			       | 0   1	 0   0	|
+			       | 0   0	 1   0	|
+			       |		|
+			       ( 0   0	 0   1	)
+
+	  but in some cases it is more efficient.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glLoadIdentity</STRONG> is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_MATRIX_MODE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_MODELVIEW_MATRIX</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_PROJECTION_MATRIX</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_TEXTURE_MATRIX</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glLoadMatrix</STRONG>,	<STRONG>glMatrixMode</STRONG>, <STRONG>glMultMatrix</STRONG>, <STRONG>glPushMatrix</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

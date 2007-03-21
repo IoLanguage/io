@@ -1,0 +1,58 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>gluTessBeginContour,</STRONG> <STRONG>gluTessEndContour</STRONG> - delimit a contour
+	  description
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>gluTessBeginContour</STRONG>( GLUtesselator* <EM>tess</EM>	)
+
+	  void <STRONG>gluTessEndContour</STRONG>( GLUtesselator* <EM>tess</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>tess</EM>	Specifies the tessellation object (created with
+		<STRONG>gluNewTess</STRONG>).
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>gluTessBeginContour</STRONG> and <STRONG>gluTessEndContour</STRONG> delimit the
+	  definition of	a polygon contour. Within each
+	  <STRONG>gluTessBeginContour</STRONG>/<STRONG>gluTessEndContour</STRONG>	pair, there can	be
+	  zero or more calls to	<STRONG>gluTessVertex</STRONG>. The vertices specify a
+	  closed contour (the last vertex of each contour is
+	  automatically	linked to the first).  See the <STRONG>gluTessVertex</STRONG>
+	  reference page for more details.  <STRONG>gluTessBeginContour</STRONG>	can
+	  only be called between <STRONG>gluTessBeginPolygon</STRONG> and
+	  <STRONG>gluTessEndPolygon</STRONG>.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>gluNewTess</STRONG>, <STRONG>gluTessBeginPolygon</STRONG>, <STRONG>gluTessVertex</STRONG>,
+	  <STRONG>gluTessCallback</STRONG>, <STRONG>gluTessProperty</STRONG>, <STRONG>gluTessNormal</STRONG>,
+	  <STRONG>gluTessEndPolygon</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

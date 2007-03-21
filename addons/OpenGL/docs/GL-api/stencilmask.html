@@ -1,0 +1,58 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glStencilMask</STRONG>	- control the writing of individual bits in
+	  the stencil planes
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glStencilMask</STRONG>( GLuint <EM>mask</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>mask</EM>	Specifies a bit	mask to	enable and disable writing of
+		individual bits	in the stencil planes.	Initially, the
+		mask is	all 1's.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glStencilMask</STRONG>	controls the writing of	individual bits	in the
+	  stencil planes.  The least significant n bits	of <EM>mask</EM>, where
+	  n is the number of bits in the stencil buffer, specify a
+	  mask.	 Where a 1 appears in the mask,	it's possible to write
+	  to the corresponding bit in the stencil buffer.  Where a 0
+	  appears, the corresponding bit is write-protected.
+	  Initially, all bits are enabled for writing.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glStencilMask</STRONG> is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_STENCIL_WRITEMASK</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_STENCIL_BITS</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glColorMask</STRONG>, <STRONG>glDepthMask</STRONG>, <STRONG>glIndexMask</STRONG>, <STRONG>glStencilFunc</STRONG>,
+	  <STRONG>glStencilOp</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

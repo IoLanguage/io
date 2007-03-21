@@ -1,0 +1,58 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>gluQuadricOrientation</STRONG>	- specify inside/outside orientation
+	  for quadrics
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>gluQuadricOrientation</STRONG>( GLUquadric* <EM>quad</EM>,
+				      GLenum <EM>orientation</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>quad</EM>	       Specifies the quadrics object (created with
+		       <STRONG>gluNewQuadric</STRONG>).
+
+	  <EM>orientation</EM>  Specifies the desired orientation. Valid	values
+		       are <STRONG>GLU_OUTSIDE</STRONG> and <STRONG>GLU_INSIDE</STRONG>.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>gluQuadricOrientation</STRONG>	specifies what kind of orientation is
+	  desired for quadrics rendered	with <EM>quad</EM>. The <EM>orientation</EM>
+	  values are as	follows:
+
+	  <STRONG>GLU_OUTSIDE</STRONG>	 Quadrics are drawn with normals pointing
+			 outward (the initial value).
+
+	  <STRONG>GLU_INSIDE</STRONG>	 Quadrics are drawn with normals pointing
+			 inward.
+
+	  Note that the	interpretation of <EM>outward</EM> and <EM>inward</EM> depends
+	  on the quadric being drawn.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>gluNewQuadric</STRONG>, <STRONG>gluQuadricDrawStyle</STRONG>, <STRONG>gluQuadricNormals</STRONG>,
+	  <STRONG>gluQuadricTexture</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

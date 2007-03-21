@@ -1,0 +1,155 @@
+<?xml version="1.0"?>
+
+<!-- @RisingSun//XML//1.0//EN________________________________________________
+	
+	JEdit syntax mode for Io
+
+	..........................................................................
+
+	File name		:	io.xml
+	Description		:	JEdit syntax file for the Io programming language
+	Related links	:	<http://www.iolanguage.com>, <http://www.jedit.org>
+
+	..........................................................................
+	Author			:	Sébastien Pierre                  <spierre@type-z.org>
+	..........................................................................
+
+	Creation date	:	05-May-2003
+	Last revision	:	19-May-2003
+	Revision		:	1.1
+    History			:	
+						19-May-2003 Added primitives highlighting.
+						05-May-2003 First release
+ 
+	.....................................................................  -->
+
+<!-- ________________________________________________________D O C T Y P E -->
+<!DOCTYPE MODE SYSTEM "xmode.dtd">
+
+<!-- ____________________________________________D O C U M E N T _ R O O T -->
+<MODE>
+
+	<!-- Properties_______________________________________________________ -->
+
+	<PROPS>
+		<PROPERTY NAME="commentStart" VALUE="/*" />
+		<PROPERTY NAME="commentStart" VALUE="*/" />
+		<PROPERTY NAME="lineComment" VALUE="#" />
+		<!-- FIXME: There may be a problem with this redefinition of
+		lineComment-->
+		<PROPERTY NAME="lineComment" VALUE="//" />
+		<PROPERTY NAME="indentOpenBrackets" VALUE="(" />
+		<PROPERTY NAME="indentCloseBrackets" VALUE=")" />
+		<PROPERTY NAME="lineUpClosingBracket" VALUE="true" />
+	</PROPS>
+
+	<!-- Rules____________________________________________________________ -->
+
+	<RULES ESCAPE="\" IGNORE_CASE="FALSE" HIGHLIGHT_DIGITS="TRUE">
+
+		<!-- Comments_____________________________________________________ -->
+
+		<!-- Shell-like comments -->
+		<EOL_SPAN TYPE="COMMENT1">#</EOL_SPAN>
+
+
+		<!-- C-like comments -->
+		<EOL_SPAN TYPE="COMMENT1">//</EOL_SPAN>
+		<SPAN TYPE="COMMENT1">
+			<BEGIN>/*</BEGIN>
+			<END>*/</END>
+		</SPAN>
+
+		<!-- Strings______________________________________________________ -->
+
+		<!-- Single quotes -->
+		<SPAN TYPE="LITERAL2">
+			<BEGIN>"</BEGIN>
+			<END>"</END>
+		</SPAN>
+
+		<!-- Triple quotes -->
+		<SPAN TYPE="LITERAL2">
+			<BEGIN>"""</BEGIN>
+			<END>"""</END>
+		</SPAN>
+
+		<!-- Operatiors___________________________________________________ -->
+
+		<SEQ TYPE="OPERATOR">`</SEQ>
+		<SEQ TYPE="OPERATOR">~</SEQ>
+		<SEQ TYPE="OPERATOR">@</SEQ>
+		<SEQ TYPE="OPERATOR">@@</SEQ>
+		<SEQ TYPE="OPERATOR">$</SEQ>
+		<SEQ TYPE="OPERATOR">%</SEQ>
+		<SEQ TYPE="OPERATOR">^</SEQ>
+		<SEQ TYPE="OPERATOR">&amp;</SEQ>
+		<SEQ TYPE="OPERATOR">*</SEQ>
+		<SEQ TYPE="OPERATOR">-</SEQ>
+		<SEQ TYPE="OPERATOR">+</SEQ>
+		<SEQ TYPE="OPERATOR">/</SEQ>
+		<SEQ TYPE="OPERATOR">=</SEQ>
+		<SEQ TYPE="OPERATOR">{</SEQ>
+		<SEQ TYPE="OPERATOR">}</SEQ>
+		<SEQ TYPE="OPERATOR">[</SEQ>
+		<SEQ TYPE="OPERATOR">]</SEQ>
+		<SEQ TYPE="OPERATOR">|</SEQ>
+		<SEQ TYPE="OPERATOR">\</SEQ>
+		<SEQ TYPE="OPERATOR">&gt;=</SEQ>
+		<SEQ TYPE="OPERATOR">&lt;=</SEQ>
+		<SEQ TYPE="OPERATOR">?</SEQ>
+
+		<!-- Keywords_____________________________________________________ -->
+
+		<KEYWORDS>
+
+			<!-- Io primitives -->
+			<KEYWORD1>Block</KEYWORD1>
+			<KEYWORD1>Buffer</KEYWORD1>
+			<KEYWORD1>CFunction</KEYWORD1>
+			<KEYWORD1>Date</KEYWORD1>
+			<KEYWORD1>Duration</KEYWORD1>
+			<KEYWORD1>File</KEYWORD1>
+			<KEYWORD1>Future</KEYWORD1>
+			<KEYWORD1>List</KEYWORD1>
+			<KEYWORD1>LinkedList</KEYWORD1>
+			<KEYWORD1>Map</KEYWORD1>
+			<KEYWORD1>Message</KEYWORD1>
+			<KEYWORD1>nil</KEYWORD1>
+			<KEYWORD1>true</KEYWORD1>
+			<KEYWORD1>false</KEYWORD1>
+			<KEYWORD1>Number</KEYWORD1>
+			<KEYWORD1>Object</KEYWORD1>
+			<KEYWORD1>String</KEYWORD1>
+			<KEYWORD1>WeakLink</KEYWORD1>
+
+			<!-- Io lambda-like primitives -->
+			<KEYWORD1>block</KEYWORD1>
+			<KEYWORD1>method</KEYWORD1>
+
+			<!--  Io control primitives -->
+			<KEYWORD2>while</KEYWORD2>
+			<KEYWORD2>foreach</KEYWORD2>
+			<KEYWORD2>if</KEYWORD2>
+			<KEYWORD2>else</KEYWORD2>
+			<KEYWORD2>do</KEYWORD2>
+
+			<!--  Io basic messages -->
+			<KEYWORD3>super</KEYWORD3>
+			<KEYWORD3>self</KEYWORD3>
+			<KEYWORD3>clone</KEYWORD3>
+			<KEYWORD3>proto</KEYWORD3>
+			<KEYWORD3>setSlot</KEYWORD3>
+			<KEYWORD3>hasSlot</KEYWORD3>
+			<KEYWORD3>type</KEYWORD3>
+			<KEYWORD3>write</KEYWORD3>
+			<KEYWORD3>print</KEYWORD3>
+			<KEYWORD3>forward</KEYWORD3>
+
+		</KEYWORDS>
+
+	</RULES>
+
+</MODE>
+
+<!-- EOF-UNIX/iso-8895-1__________________________@RisingSun//XML//1.0//EN -->

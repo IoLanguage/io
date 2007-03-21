@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string>removeAllProtos</string>
+	<key>name</key>
+	<string>removeAllProtos</string>
+	<key>scope</key>
+	<string>source.io</string>
+	<key>tabTrigger</key>
+	<string>removeA</string>
+	<key>uuid</key>
+	<string>259820FF-370A-4CB7-AEDB-9F075ACC5395</string>
+</dict>
+</plist>

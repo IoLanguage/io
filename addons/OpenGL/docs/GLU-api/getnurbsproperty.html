@@ -1,0 +1,58 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>gluGetNurbsProperty</STRONG> -	get a NURBS property
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>gluGetNurbsProperty</STRONG>( GLUnurbs* <EM>nurb</EM>,
+				    GLenum <EM>property</EM>,
+				    GLfloat* <EM>data</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>nurb</EM>	    Specifies the NURBS	object (created	with
+		    <STRONG>gluNewNurbsRenderer</STRONG>).
+
+	  <EM>property</EM>  Specifies the property whose value is to be
+		    fetched. Valid values are <STRONG>GLU_CULLING</STRONG>,
+		    <STRONG>GLU_SAMPLING_TOLERANCE</STRONG>, <STRONG>GLU_DISPLAY_MODE</STRONG>,
+		    <STRONG>GLU_AUTO_LOAD_MATRIX</STRONG>, <STRONG>GLU_PARAMETRIC_TOLERANCE</STRONG>,
+		    <STRONG>GLU_SAMPLING_METHOD</STRONG>, <STRONG>GLU_U_STEP</STRONG>, and <STRONG>GLU_V_STEP</STRONG>.
+
+	  <EM>data</EM>	    Specifies a	pointer	to the location	into which the
+		    value of the named property	is written.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>gluGetNurbsProperty</STRONG> retrieves	properties stored in a NURBS
+	  object. These	properties affect the way that NURBS curves
+	  and surfaces are rendered. See the <STRONG>gluNurbsProperty</STRONG>
+	  reference page for information about what the	properties are
+	  and what they	do.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>gluNewNurbsRenderer</STRONG>, <STRONG>gluNurbsProperty</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

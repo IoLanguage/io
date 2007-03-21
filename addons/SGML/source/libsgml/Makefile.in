@@ -1,0 +1,35 @@
+all:
+	cd src && make
+	cd examples && make
+
+install:
+	install -d /usr/local/include/sgml	
+	install -m644 include/DomComment.h /usr/local/include/sgml/DomComment.h
+	install -m644 include/DomDocument.h /usr/local/include/sgml/DomDocument.h
+	install -m644 include/DomElement.h /usr/local/include/sgml/DomElement.h
+	install -m644 include/DomNode.h /usr/local/include/sgml/DomNode.h
+	install -m644 include/DomNodeList.h /usr/local/include/sgml/DomNodeList.h
+	install -m644 include/DomText.h /usr/local/include/sgml/DomText.h
+	install -m644 include/SgmlParser.h /usr/local/include/sgml/SgmlParser.h
+	install -m644 include/SgmlExtensionHtml.h /usr/local/include/sgml/SgmlExtensionHtml.h
+	install -m644 include/SgmlExtensionXml.h /usr/local/include/sgml/SgmlExtensionXml.h
+	install -m644 include/libsgml.h /usr/local/include/sgml/libsgml.h
+	install -m644 include/Variant.h /usr/local/include/sgml/Variant.h
+	install -m644 libsgml.a /usr/local/lib/libsgml.a
+	-install -m644 libsgml.so /usr/local/lib/libsgml.so
+	-install -m644 libsgml.dylib /usr/local/lib/libsgml.dylib
+
+uninstall:
+	rm -rf /usr/local/include/sgml
+	rm -rf /usr/local/lib/libsgml.a
+	-rm -rf /usr/local/lib/libsgml.so
+	-rm -rf /usr/local/lib/libsgml.dylib
+
+clean:
+	cd src && make clean
+	cd examples && make clean
+
+distclean:
+	cd src && make distclean
+	cd examples && make distclean
+	rm -f config.* Makefile	

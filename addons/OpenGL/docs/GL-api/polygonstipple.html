@@ -1,0 +1,58 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glPolygonStipple</STRONG> - set the polygon stippling pattern
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glPolygonStipple</STRONG>( const GLubyte *<EM>mask</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>mask</EM>	Specifies a pointer to a 32x32 stipple pattern that
+		will be	unpacked from memory in	the same way that
+		<STRONG>glDrawPixels</STRONG> unpacks pixels.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  Polygon stippling, like line stippling (see <STRONG>glLineStipple</STRONG>),
+	  masks	out certain fragments produced by rasterization,
+	  creating a pattern.  Stippling is independent	of polygon
+	  antialiasing.
+
+	  <EM>mask</EM> is a pointer to a 32x32 stipple pattern that is stored
+	  in memory just like the pixel	data supplied to a
+	  <STRONG>glDrawPixels</STRONG> call with <EM>height</EM>	and <EM>width</EM> both equal to	32, a
+	  pixel	format of <STRONG>GL_COLOR_INDEX</STRONG>, and data type	of <STRONG>GL_BITMAP</STRONG>.
+	  That is, the stipple pattern is represented as a 32x32 array
+	  of 1-bit color indices packed	in unsigned bytes.
+	  <STRONG>glPixelStore</STRONG> parameters like <STRONG>GL_UNPACK_SWAP_BYTES</STRONG> and
+	  <STRONG>GL_UNPACK_LSB_FIRST</STRONG> affect the assembling of the bits	into a
+	  stipple pattern.  Pixel transfer operations (shift, offset,
+	  pixel	map) are not applied to	the stipple image, however.
+
+	  To enable and	disable	polygon	stippling, call	<STRONG>glEnable</STRONG> and
+	  <STRONG>glDisable</STRONG> with argument <STRONG>GL_POLYGON_STIPPLE</STRONG>. Polygon
+	  stippling is initially disabled. If it's enabled, a
+	  rasterized polygon fragment with window coordinates x	 and
+	  y  is	sent to	the next stage of the GL if and	only ifwthe
+	  (<STRONG>x</STRONG>  mod 32)th	bit in the (y  mod 32)th row of	the stipple
+	  pa<STRONG>t</STRONG>tern is 1 (one).  When p<STRONG>o</STRONG>lygon stippling is disabled, it
+	  is as	if the stipple pattern consists	of all 1's.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glPolygonStipple</STRONG>	is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGetPolygonStipple</STRONG>
+	  <STRONG>glIsEnabled</STRONG> with argument <STRONG>GL_POLYGON_STIPPLE</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glDrawPixels</STRONG>,	<STRONG>glLineStipple</STRONG>, <STRONG>glPixelStore</STRONG>, <STRONG>glPixelTransfer</STRONG>
+
+
+</PRE>
+</BODY>
+</HTML>

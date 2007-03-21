@@ -1,0 +1,58 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>gluQuadricNormals</STRONG> - specify what kind	of normals are desired
+	  for quadrics
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>gluQuadricNormals</STRONG>( GLUquadric* <EM>quad</EM>,
+				  GLenum <EM>normal</EM>	)
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>quad</EM>	  Specifes the quadrics	object (created	with
+		  <STRONG>gluNewQuadric</STRONG>).
+
+	  <EM>normal</EM>  Specifies the	desired	type of	normals. Valid values
+		  are <STRONG>GLU_NONE</STRONG>,	<STRONG>GLU_FLAT</STRONG>, and <STRONG>GLU_SMOOTH</STRONG>.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>gluQuadricNormals</STRONG> specifies what kind	of normals are desired
+	  for quadrics rendered	with <EM>quad</EM>. The legal values are	as
+	  follows:
+
+	  <STRONG>GLU_NONE</STRONG>	 No normals are	generated.
+
+	  <STRONG>GLU_FLAT</STRONG>	 One normal is generated for every facet of a
+			 quadric.
+
+	  <STRONG>GLU_SMOOTH</STRONG>	 One normal is generated for every vertex of a
+			 quadric. This is the initial value.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>gluNewQuadric</STRONG>, <STRONG>gluQuadricDrawStyle</STRONG>, <STRONG>gluQuadricOrientation</STRONG>,
+	  <STRONG>gluQuadricTexture</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,58 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glGetClipPlane</STRONG> - return the coefficients of the specified
+	  clipping plane
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glGetClipPlane</STRONG>( GLenum <EM>plane</EM>,
+			       GLdouble	*<EM>equation</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>plane</EM>	    Specifies a	clipping plane.	 The number of
+		    clipping planes depends on the implementation, but
+		    at least six clipping planes are supported.	 They
+		    are	identified by symbolic names of	the form
+		    <STRONG>GL_CLIP_PLANE</STRONG>i where 0 <EM>&lt;</EM> i &lt; <STRONG>GL_MAX_CLIP_PLANES</STRONG>.
+
+	  <EM>equation</EM>  Returns four double-precision values that are the
+		    coefficients of the	plane equation of <EM>plane</EM>	in eye
+		    coordinates.  The initial value is (0, 0, 0, 0).
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glGetClipPlane</STRONG> returns in <EM>equation</EM> the four coefficients of
+	  the plane equation for <EM>plane</EM>.
+
+     <STRONG>NOTES</STRONG>
+	  It is	always the case	that <STRONG>GL_CLIP_PLANE</STRONG>i = <STRONG>GL_CLIP_PLANE0</STRONG> +
+	  i.
+
+	  If an	error is generated, no change is made to the contents
+	  of <EM>equation</EM>.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>plane</EM>	is not an accepted
+	  value.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glGetClipPlane</STRONG> is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glClipPlane</STRONG>
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

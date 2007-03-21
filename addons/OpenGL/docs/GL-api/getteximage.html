@@ -1,0 +1,162 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glGetTexImage</STRONG>	- return a texture image
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glGetTexImage</STRONG>( GLenum <EM>target</EM>,
+			      GLint <EM>level</EM>,
+			      GLenum <EM>format</EM>,
+			      GLenum <EM>type</EM>,
+			      GLvoid *<EM>pixels</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>target</EM>  Specifies which texture is to	be obtained.
+		  <STRONG>GL_TEXTURE_1D</STRONG>	and <STRONG>GL_TEXTURE_2D</STRONG> are accepted.
+
+	  <EM>level</EM>	  Specifies the	level-of-detail	number of the desired
+		  image.  Level	0 is the base image level.  Level n is
+		  the nth mipmap reduction image.
+
+	  <EM>format</EM>  Specifies a pixel format for the returned data.  The
+		  supported formats are	<STRONG>GL_RED</STRONG>,	<STRONG>GL_GREEN</STRONG>, <STRONG>GL_BLUE</STRONG>,
+		  <STRONG>GL_ALPHA</STRONG>, <STRONG>GL_RGB</STRONG>, <STRONG>GL_RGBA</STRONG>, <STRONG>GL_LUMINANCE</STRONG>, and
+		  <STRONG>GL_LUMINANCE_ALPHA</STRONG>.
+
+	  <EM>type</EM>	  Specifies a pixel type for the returned data.	 The
+		  supported types are <STRONG>GL_UNSIGNED_BYTE</STRONG>,	<STRONG>GL_BYTE</STRONG>,
+		  <STRONG>GL_UNSIGNED_SHORT</STRONG>, <STRONG>GL_SHORT</STRONG>, <STRONG>GL_UNSIGNED_INT</STRONG>,
+		  <STRONG>GL_INT</STRONG>, and <STRONG>GL_FLOAT</STRONG>.
+
+	  <EM>pixels</EM>  Returns the texture image.  Should be	a pointer to
+		  an array of the type specified by <EM>type</EM>.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glGetTexImage</STRONG>	returns	a texture image	into <EM>pixels</EM>.  <EM>target</EM>
+	  specifies whether the	desired	texture	image is one specified
+	  by <STRONG>glTexImage1D</STRONG> (<STRONG>GL_TEXTURE_1D</STRONG>) or by	<STRONG>glTexImage2D</STRONG>
+	  (<STRONG>GL_TEXTURE_2D</STRONG>).  <EM>level</EM> specifies the	level-of-detail	number
+	  of the desired image.	 <EM>format</EM>	and <EM>type</EM> specify the format
+	  and type of the desired image	array.	See the	reference
+	  pages	<STRONG>glTexImage1D</STRONG> and <STRONG>glDrawPixels</STRONG> for a description	of the
+	  acceptable values for	the <EM>format</EM> and <EM>type</EM> parameters,
+	  respectively.
+
+	  To understand	the operation of <STRONG>glGetTexImage</STRONG>,	consider the
+	  selected internal four-component texture image to be an RGBA
+	  color	buffer the size	of the image.  The semantics of
+	  <STRONG>glGetTexImage</STRONG>	are then identical to those of <STRONG>glReadPixels</STRONG>
+	  called with the same <EM>format</EM> and <EM>type</EM>,	with <EM>x</EM> and <EM>y</EM> set to 0,
+	  <EM>width</EM>	set to the width of the	texture	image (including
+	  border if one	was specified),	and <EM>height</EM> set to 1 for	1D
+	  images, or to	the height of the texture image	(including
+	  border if one	was specified) for 2D images.  Because the
+	  internal texture image is an RGBA image, pixel formats
+	  <STRONG>GL_COLOR_INDEX</STRONG>, <STRONG>GL_STENCIL_INDEX</STRONG>, and	<STRONG>GL_DEPTH_COMPONENT</STRONG> are
+	  not accepted,	and pixel type <STRONG>GL_BITMAP</STRONG> is not	accepted.
+
+	  If the selected texture image	does not contain four
+	  components, the following mappings are applied.  Single-
+	  component textures are treated as RGBA buffers with red set
+	  to the single-component value, green set to 0,  blue set to
+	  0, and alpha set to 1.  Two-component	textures are treated
+	  as RGBA buffers with red set to the value of component zero,
+	  alpha	set to the value of component one, and green and blue
+	  set to 0.  Finally, three-component textures are treated as
+	  RGBA buffers with red	set to component zero, green set to
+	  component one, blue set to component two, and	alpha set to
+	  1.
+
+	  To determine the required size of <EM>pixels</EM>, use
+	  <STRONG>glGetTexLevelParameter</STRONG> to determine the dimensions of	the
+	  internal texture image, then scale the required number of
+	  pixels by the	storage	required for each pixel, based on
+	  <EM>format</EM> and <EM>type</EM>.  Be sure to take the	pixel storage
+	  parameters into account, especially <STRONG>GL_PACK_ALIGNMENT</STRONG>.
+
+     <STRONG>NOTES</STRONG>
+	  If an	error is generated, no change is made to the contents
+	  of <EM>pixels</EM>.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>target</EM>, <EM>format</EM>, or <EM>type</EM> is
+	  not an accepted value.
+
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if <EM>level</EM> is less than 0.
+
+	  <STRONG>GL_INVALID_VALUE</STRONG> may be generated if <EM>level</EM> is	greater	than
+	  log max, where max is	the returned value of
+	  <STRONG>GL_MAX_TEXTURE_SIZE</STRONG>.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glGetTexImage</STRONG> is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGetTexLevelParameter</STRONG> with argument <STRONG>GL_TEXTURE_WIDTH</STRONG>
+	  <STRONG>glGetTexLevelParameter</STRONG> with argument <STRONG>GL_TEXTURE_HEIGHT</STRONG>
+	  <STRONG>glGetTexLevelParameter</STRONG> with argument <STRONG>GL_TEXTURE_BORDER</STRONG>
+	  <STRONG>glGetTexLevelParameter</STRONG> with argument <STRONG>GL_TEXTURE_COMPONENTS</STRONG>
+	  <STRONG>glGet</STRONG>	with arguments <STRONG>GL_PACK_ALIGNMENT</STRONG> and others
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glDrawPixels</STRONG>,	<STRONG>glReadPixels</STRONG>, <STRONG>glTexEnv</STRONG>,	<STRONG>glTexGen</STRONG>,
+	  <STRONG>glTexImage1D</STRONG>,	<STRONG>glTexImage2D</STRONG>, <STRONG>glTexSubImage1D</STRONG>,
+	  <STRONG>glTexSubImage2D</STRONG>, <STRONG>glTexParameter</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

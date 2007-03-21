@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glFrustum</STRONG> - multiply the current matrix by a perspective
+	  matrix
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glFrustum</STRONG>( GLdouble <EM>left</EM>,
+			  GLdouble <EM>right</EM>,
+			  GLdouble <EM>bottom</EM>,
+			  GLdouble <EM>top</EM>,
+			  GLdouble <EM>zNear</EM>,
+			  GLdouble <EM>zFar</EM>	)
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>left</EM>,	<EM>right</EM> Specify the coordinates for the left and right
+		      vertical clipping	planes.
+
+	  <EM>bottom</EM>, <EM>top</EM> Specify the coordinates for the bottom and top
+		      horizontal clipping planes.
+
+	  <EM>zNear</EM>, <EM>zFar</EM> Specify the distances to the near	and far	depth
+		      clipping planes.	Both distances must be
+		      positive.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glFrustum</STRONG> describes a	perspective matrix that	produces a
+	  perspective projection.  The current matrix (see
+	  <STRONG>glMatrixMode</STRONG>)	is multiplied by this matrix and the result
+	  replaces the current matrix, as if <STRONG>glMultMatrix</STRONG> were called
+	  with the following matrix as its argument:
+
+		   (					   )
+		   |  __<STRONG>_</STRONG>_<STRONG>_____</STRONG>_			   |
+		   |  right-left       0       A       0   |
+		   |					   |
+		   |	  0	  __<STRONG>_</STRONG>_<STRONG>_____</STRONG>_   B       0   |
+		   |		  top-bottom		   |
+		   |	  0	       0       C       D   |
+		   |					   |
+		   |	  0	       0       -1      0   |
+		   (					   )
+
+				     <STRONG>__________</STRONG>
+				 A = right-left
+				     <STRONG>__________</STRONG>
+				 B = top-bottom
+				     <STRONG>__________</STRONG>
+				C = -zFar-zNear
+				    <STRONG>_</STRONG>_<STRONG>____</STRONG>_<STRONG>_____</STRONG>
+			       D = - zFar-zNear
+	  Typically, the matrix	mode is	<STRONG>GL_PROJECTION</STRONG>, and (<EM>left</EM>,
+	  <EM>bottom</EM>, -<EM>zNear</EM>) and (<EM>right</EM>, <EM>top</EM>,  -<EM>zNear</EM>) specify the	points
+	  on the near clipping plane that are mapped to	the lower left
+	  and upper right corners of the window, assuming that the eye
+	  is located at	(0, 0, 0).  -<EM>zFar</EM> specifies the	location of
+	  the far clipping plane.  Both	<EM>zNear</EM> and <EM>zFar</EM> must be
+	  positive.
+
+	  Use <STRONG>glPushMatrix</STRONG> and <STRONG>glPopMatrix</STRONG> to save and restore the
+	  current matrix stack.
+
+     <STRONG>NOTES</STRONG>
+	  Depth	buffer precision is affected by	the values specified
+	  for <EM>zNear</EM> and	<EM>zFar</EM>.  The greater the ratio of	<EM>zFar</EM> to	<EM>zNear</EM>
+	  is, the less effective the depth buffer will be at
+	  distinguishing between surfaces that are near	each other.
+	  If
+
+				   r = _<STRONG>____</STRONG>
+				       zNear
+	  roughly log (r) bits of depth	buffer precision are lost.
+	  Because r a<STRONG>p</STRONG>proaches infinity	as <EM>zNear</EM> approaches 0, <EM>zNear</EM>
+	  must never be	set to 0.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if <EM>zNear</EM> or <EM>zFar</EM> is not
+	  positive.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glFrustum</STRONG> is executed
+	  between the execution	of <STRONG>glBegin</STRONG> and the corresponding
+	  execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_MATRIX_MODE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_MODELVIEW_MATRIX</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_PROJECTION_MATRIX</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_TEXTURE_MATRIX</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glOrtho</STRONG>, <STRONG>glMatrixMode</STRONG>, <STRONG>glMultMatrix</STRONG>, <STRONG>glPushMatrix</STRONG>,
+	  <STRONG>glViewport</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

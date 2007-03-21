@@ -1,0 +1,214 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>gluNurbsProperty</STRONG> - set a NURBS property
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>gluNurbsProperty</STRONG>( GLUnurbs* <EM>nurb</EM>,
+				 GLenum	<EM>property</EM>,
+				 GLfloat <EM>value</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>nurb</EM>	    Specifies the NURBS	object (created	with
+		    <STRONG>gluNewNurbsRenderer</STRONG>).
+
+	  <EM>property</EM>  Specifies the property to be set. Valid values are
+		    <STRONG>GLU_SAMPLING_TOLERANCE</STRONG>, <STRONG>GLU_DISPLAY_MODE</STRONG>,
+		    <STRONG>GLU_CULLING</STRONG>, <STRONG>GLU_AUTO_LOAD_MATRIX</STRONG>,
+		    <STRONG>GLU_PARAMETRIC_TOLERANCE</STRONG>, <STRONG>GLU_SAMPLING_METHOD</STRONG>,
+		    <STRONG>GLU_U_STEP</STRONG>,	<STRONG>GLU_V_STEP</STRONG>, or <STRONG>GLU_NURBS_MODE_EXT</STRONG>.
+
+	  <EM>value</EM>	    Specifies the value	of the indicated property.  It
+		    may	be a numeric value, or one of
+		    <STRONG>GLU_OUTLINE_POLYGON</STRONG>, <STRONG>GLU_FILL</STRONG>, <STRONG>GLU_OUTLINE_PATCH</STRONG>,
+		    <STRONG>GL_TRUE</STRONG>, <STRONG>GL_FALSE</STRONG>, <STRONG>GLU_PATH_LENGTH</STRONG>,
+		    <STRONG>GLU_PARAMETRIC_ERROR</STRONG>, <STRONG>GLU_DOMAIN_DISTANCE</STRONG>,
+		    <STRONG>GLU_NURBS_RENDERER_EXT</STRONG>, or
+		    <STRONG>GLU_NURBS_TESSELLATOR_EXT</STRONG>.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>gluNurbsProperty</STRONG> is used to control properties stored	in a
+	  NURBS	object.	These properties affect	the way	that a NURBS
+	  curve	is rendered. The accepted values for <EM>property</EM> are as
+	  follows:
+
+	  <STRONG>GLU_NURBS_MODE_EXT</STRONG>
+			 <EM>value</EM> should be set to	be either
+			 <STRONG>GLU_NURBS_RENDERER_EXT</STRONG>	or
+			 <STRONG>GLU_NURBS_TESSELLATOR_EXT</STRONG>. When set to
+			 <STRONG>GLU_NURBS_RENDERER_EXT</STRONG>, NURBS objects are
+			 tessellated into openGL primitives and	sent
+			 to the	pipeline for rendering.	When set to
+			 <STRONG>GLU_NURBS_TESSELLATOR_EXT</STRONG>, NURBS objects are
+			 tessellated into openGL primitives but	the
+			 vertices, normals, colors, and/or textures
+			 are retrieved back through a callback
+			 interface (see	<STRONG>gluNurbsCallback</STRONG>). This	allows
+			 the user to cache the tessellated results for
+			 further processing.
+
+	  <STRONG>GLU_SAMPLING_METHOD</STRONG>
+			 Specifies how a NURBS surface should be
+			 tessellated.  <EM>value</EM> may be one	of
+			 <STRONG>GLU_PATH_LENGTH</STRONG>, <STRONG>GLU_PARAMETRIC_ERROR</STRONG>,
+			 <STRONG>GLU_DOMAIN_DISTANCE</STRONG>,
+			 <STRONG>GLU_OBJECT_PATH_LENGTH_EXT</STRONG>, or
+			 <STRONG>GLU_OBJECT_PARAMETRIC_ERROR_EXT</STRONG>.  When	set to
+			 <STRONG>GLU_PATH_LENGTH</STRONG>, the surface is rendered so
+			 that the maximum length, in pixels, of	the
+			 edges of the tessellation polygons is no
+			 greater than what is specified	by
+			 <STRONG>GLU_SAMPLING_TOLERANCE</STRONG>.
+
+			 <STRONG>GLU_PARAMETRIC_ERROR</STRONG> specifies	that the
+			 surface is rendered in	such a way that	the
+			 value specified by <STRONG>GLU_PARAMETRIC_TOLERANCE</STRONG>
+			 describes the maximum distance, in pixels,
+			 between the tessellation polygons and the
+			 surfaces they approximate.
+
+			 <STRONG>GLU_DOMAIN_DISTANCE</STRONG> allows users to specify,
+			 in parametric coordinates, how	many sample
+			 points	per unit length	are taken in <EM>u</EM>,	<EM>v</EM>
+			 direction.
+
+			 <STRONG>GLU_OBJECT_PATH_LENGTH_EXT</STRONG>  is	similar	to
+			 <STRONG>GLU_PATH_LENGTH</STRONG> except	that it	is view
+			 independent, that is, the surface is rendered
+			 so that the maximum length, in	object space,
+			 of edges of the tessellation polygons is no
+			 greater than what is specified	by
+			 <STRONG>GLU_SAMPLING_TOLERANCE</STRONG>.
+
+			 <STRONG>GLU_OBJECT_PARAMETRIC_ERROR_EXT</STRONG> is similar to
+			 <STRONG>GLU_PARAMETRIC_ERROR</STRONG> except that it is	view
+			 independent, that is, the surface is rendered
+			 in such a way that the	value specified	by
+			 <STRONG>GLU_PARAMETRIC_TOLERANCE</STRONG> describes the
+			 maximum distance, in object space, between
+			 the tessellation polygons and the surfaces
+			 they approximate.
+
+			 The initial value of <STRONG>GLU_SAMPLING_METHOD</STRONG> is
+			 <STRONG>GLU_PATH_LENGTH</STRONG>.
+
+	  <STRONG>GLU_SAMPLING_TOLERANCE</STRONG>
+			 Specifies the maximum length, in pixels or in
+			 object	space length unit, to use when the
+			 sampling method is set	to <STRONG>GLU_PATH_LENGTH</STRONG> or
+			 <STRONG>GLU_OBJECT_PATH_LENGTH_EXT</STRONG>.  The NURBS	code
+			 is conservative when rendering	a curve	or
+			 surface, so the actual	length can be somewhat
+			 shorter. The initial value is 50.0 pixels.
+
+	  <STRONG>GLU_PARAMETRIC_TOLERANCE</STRONG>
+			 Specifies the maximum distance, in pixels or
+			 in object space length	unit, to use when the
+			 sampling method is <STRONG>GLU_PARAMETRIC_ERROR</STRONG> or
+			 <STRONG>GLU_OBJECT_PARAMETRIC_ERROR_EXT</STRONG>.  The initial
+			 value is 0.5.
+
+	  <STRONG>GLU_U_STEP</STRONG>	 Specifies the number of sample	points per
+			 unit length taken along the <EM>u</EM> axis in
+			 parametric coordinates. It is needed when
+			 <STRONG>GLU_SAMPLING_METHOD</STRONG> is	set to
+			 <STRONG>GLU_DOMAIN_DISTANCE</STRONG>.  The initial value is
+			 100.
+
+	  <STRONG>GLU_V_STEP</STRONG>	 Specifies the number of sample	points per
+			 unit length taken along the <EM>v</EM> axis in
+			 parametric coordinate.	It is needed when
+			 <STRONG>GLU_SAMPLING_METHOD</STRONG> is	set to
+			 <STRONG>GLU_DOMAIN_DISTANCE</STRONG>. The initial value	is
+			 100.
+
+	  <STRONG>GLU_DISPLAY_MODE</STRONG>
+			 <EM>value</EM> can be set to <STRONG>GLU_OUTLINE_POLYGON</STRONG>,
+			 <STRONG>GLU_FILL</STRONG>, or <STRONG>GLU_OUTLINE_PATCH</STRONG>.  When
+			 <STRONG>GLU_NURBS_MODE_EXT</STRONG> is set to be
+			 <STRONG>GLU_NURBS_RENDERER_EXT</STRONG>, <EM>value</EM> defines how a
+			 NURBS surface should be rendered.  When <EM>value</EM>
+			 is set	to <STRONG>GLU_FILL</STRONG>, the surface is rendered
+			 as a set of polygons. When <EM>value</EM> is set to
+			 <STRONG>GLU_OUTLINE_POLYGON</STRONG>, the NURBS	library	draws
+			 only the outlines of the polygons created by
+			 tessellation. When <EM>value</EM> is set to
+			 <STRONG>GLU_OUTLINE_PATCH</STRONG> just	the outlines of
+			 patches and trim curves defined by the	user
+			 are drawn.
+
+			 When <STRONG>GLU_NURBS_MODE_EXT</STRONG> is set	to be
+			 <STRONG>GLU_NURBS_TESSELLATOR_EXT</STRONG>, <EM>value</EM> defines how
+			 a NURBS surface should	be tessellated.	 When
+			 <STRONG>GLU_DISPLAY_MODE</STRONG> is set to <STRONG>GLU_FILL</STRONG> or
+			 <STRONG>GLU_OUTLINE_POLY</STRONG>, the NURBS surface is
+			 tessellated into openGL triangle primitives
+			 which can be retrieved	back  through callback
+			 functions. If <STRONG>GLU_DISPLAY_MODE</STRONG>	is set to
+			 <STRONG>GLU_OUTLINE_PATCH</STRONG>, only the outlines of the
+			 patches and trim curves are generated as a
+			 sequence of line strips which can be
+			 retrieved back	through	callback functions.
+
+			 The initial value is <STRONG>GLU_FILL</STRONG>.
+
+	  <STRONG>GLU_CULLING</STRONG>	 <EM>value</EM> is a boolean value that,	when set to
+			 <STRONG>GL_TRUE</STRONG>, indicates that a NURBS curve should
+			 be discarded prior to tessellation if its
+			 control points	lie outside the	current
+			 viewport. The initial value is	<STRONG>GL_FALSE</STRONG>.
+
+	  <STRONG>GLU_AUTO_LOAD_MATRIX</STRONG>
+			 <EM>value</EM> is a boolean value. When	set to
+			 <STRONG>GL_TRUE</STRONG>, the NURBS code downloads the
+			 projection matrix, the	modelview matrix, and
+			 the viewport from the GL server to compute
+			 sampling and culling matrices for each	NURBS
+			 curve that is rendered. Sampling and culling
+			 matrices are required to determine the
+			 tessellation of a NURBS surface into line
+			 segments or polygons and to cull a NURBS
+			 surface if it lies outside the	viewport.
+
+			 If this mode is set to	<STRONG>GL_FALSE</STRONG>, then the
+			 program needs to provide a projection matrix,
+			 a modelview matrix, and a viewport for	the
+			 NURBS renderer	to use to construct sampling
+			 and culling matrices.	This can be done with
+			 the <STRONG>gluLoadSamplingMatrices</STRONG> function.	This
+			 mode is initially set to <STRONG>GL_TRUE</STRONG>.  Changing
+			 it from <STRONG>GL_TRUE</STRONG> to <STRONG>GL_FALSE</STRONG> does not affect
+			 the sampling and culling matrices until
+			 <STRONG>gluLoadSamplingMatrices</STRONG> is called.
+
+     <STRONG>NOTES</STRONG>
+	  If <STRONG>GLU_AUTO_LOAD_MATRIX</STRONG> is true, sampling and	culling	may be
+	  executed incorrectly if NURBS	routines are compiled into a
+	  display list.
+
+	  A <EM>property</EM> of	<STRONG>GLU_PARAMETRIC_TOLERANCE</STRONG>, <STRONG>GLU_SAMPLING_METHOD</STRONG>,
+	  <STRONG>GLU_U_STEP</STRONG>, or <STRONG>GLU_V_STEP</STRONG>, or	a <EM>value</EM>	of <STRONG>GLU_PATH_LENGTH</STRONG>,
+	  <STRONG>GLU_PARAMETRIC_ERROR</STRONG>,	<STRONG>GLU_DOMAIN_DISTANCE</STRONG> are	only available
+	  if the GLU version is	1.1 or greater.	They are not valid
+	  parameters in	GLU 1.0.
+
+	  <STRONG>gluGetString</STRONG> can be used to determine	the GLU	version.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>gluGetNurbsProperty</STRONG>, <STRONG>gluLoadSamplingMatrices</STRONG>,
+	  <STRONG>gluNewNurbsRenderer</STRONG>, <STRONG>gluGetString</STRONG>, <STRONG>gluNurbsCallback</STRONG>
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

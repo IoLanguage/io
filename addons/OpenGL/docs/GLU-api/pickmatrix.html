@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>gluPickMatrix</STRONG>	- define a picking region
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>gluPickMatrix</STRONG>( GLdouble <EM>x</EM>,
+			      GLdouble <EM>y</EM>,
+			      GLdouble <EM>delX</EM>,
+			      GLdouble <EM>delY</EM>,
+			      GLint *<EM>viewport</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>x</EM>, <EM>y</EM> Specify the center of a picking region in window
+	       coordinates.
+
+	  <EM>delX</EM>,	<EM>delY</EM>
+	       Specify the width and height, respectively, of the
+	       picking region in window	coordinates.
+
+	  <EM>viewport</EM>
+	       Specifies the current viewport (as from a <STRONG>glGetIntegerv</STRONG>
+	       call).
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>gluPickMatrix</STRONG>	creates	a projection matrix that can be	used
+	  to restrict drawing to a small region	of the viewport.  This
+	  is typically useful to determine what	objects	are being
+	  drawn	near the cursor.  Use <STRONG>gluPickMatrix</STRONG> to restrict
+	  drawing to a small region around the cursor.	Then, enter
+	  selection mode (with <STRONG>glRenderMode</STRONG>) and rerender the scene.
+	  All primitives that would have been drawn near the cursor
+	  are identified and stored in the selection buffer.
+
+	  The matrix created by	<STRONG>gluPickMatrix</STRONG> is multiplied by the
+	  current matrix just as if <STRONG>glMultMatrix</STRONG> is called with	the
+	  generated matrix.  To	effectively use	the generated pick
+	  matrix for picking, first call <STRONG>glLoadIdentity</STRONG>	to load	an
+	  identity matrix onto the perspective matrix stack.  Then
+	  call <STRONG>gluPickMatrix</STRONG>, and finally, call	a command (such	as
+	  <STRONG>gluPerspective</STRONG>) to multiply the perspective matrix by	the
+	  pick matrix.
+
+	  When using <STRONG>gluPickMatrix</STRONG> to pick NURBS, be careful to	turn
+	  off the NURBS	property <STRONG>GLU_AUTO_LOAD_MATRIX</STRONG>.	If
+	  <STRONG>GLU_AUTO_LOAD_MATRIX</STRONG> is not turned off, then any NURBS
+	  surface rendered is subdivided differently with the pick
+	  matrix than the way it was subdivided	without	the pick
+	  matrix.
+
+     <STRONG>EXAMPLE</STRONG>
+	  When rendering a scene as follows:
+	  glMatrixMode(GL_PROJECTION); glLoadIdentity();
+	  gluPerspective(...); glMatrixMode(GL_MODELVIEW); /* Draw the
+	  scene	*/
+
+	  a portion of the viewport can	be selected as a pick region
+	  like this:
+
+	  glMatrixMode(GL_PROJECTION); glLoadIdentity();
+	  gluPickMatrix(x, y, width, height, viewport);
+	  gluPerspective(...); glMatrixMode(GL_MODELVIEW); /* Draw the
+	  scene	*/
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glGet</STRONG>, <STRONG>glLoadIndentity</STRONG>, <STRONG>glMultMatrix</STRONG>,	<STRONG>glRenderMode</STRONG>,
+	  <STRONG>gluPerspective</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

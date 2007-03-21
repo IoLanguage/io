@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string>prependProto(${1:SomeProto})</string>
+	<key>name</key>
+	<string>prependProto</string>
+	<key>scope</key>
+	<string>source.io</string>
+	<key>tabTrigger</key>
+	<string>prependP</string>
+	<key>uuid</key>
+	<string>1990B5B2-F30F-47E9-A50D-E6EE7C380221</string>
+</dict>
+</plist>

@@ -1,0 +1,266 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glPixelTransferf,</STRONG> <STRONG>glPixelTransferi</STRONG> - set pixel transfer
+	  modes
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glPixelTransferf</STRONG>( GLenum	<EM>pname</EM>,
+				 GLfloat <EM>param</EM> )
+	  void <STRONG>glPixelTransferi</STRONG>( GLenum	<EM>pname</EM>,
+				 GLint <EM>param</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>pname</EM>	 Specifies the symbolic	name of	the pixel transfer
+		 parameter to be set.  Must be one of the following:
+		 <STRONG>GL_MAP_COLOR</STRONG>, <STRONG>GL_MAP_STENCIL</STRONG>, <STRONG>GL_INDEX_SHIFT</STRONG>,
+		 <STRONG>GL_INDEX_OFFSET</STRONG>, <STRONG>GL_RED_SCALE</STRONG>,	<STRONG>GL_RED_BIAS</STRONG>,
+		 <STRONG>GL_GREEN_SCALE</STRONG>, <STRONG>GL_GREEN_BIAS</STRONG>,	<STRONG>GL_BLUE_SCALE</STRONG>,
+		 <STRONG>GL_BLUE_BIAS</STRONG>, <STRONG>GL_ALPHA_SCALE</STRONG>, <STRONG>GL_ALPHA_BIAS</STRONG>,
+		 <STRONG>GL_DEPTH_SCALE</STRONG>, or <STRONG>GL_DEPTH_BIAS</STRONG>.
+
+	  <EM>param</EM>	 Specifies the value that <EM>pname</EM>	is set to.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glPixelTransfer</STRONG> sets pixel transfer modes that affect	the
+	  operation of subsequent <STRONG>glCopyPixels</STRONG>,	<STRONG>glCopyTexImage1D</STRONG>,
+	  <STRONG>glCopyTexImage2D</STRONG>, <STRONG>glCopyTexSubImage1D</STRONG>, <STRONG>glCopyTexSubImage2D</STRONG>,
+	  <STRONG>glDrawPixels</STRONG>,	<STRONG>glReadPixels</STRONG>, <STRONG>glTexImage1D</STRONG>, <STRONG>glTexImage2D</STRONG>,
+	  <STRONG>glTexSubImage1D</STRONG>, and <STRONG>glTexSubImage2D</STRONG> commands.  The
+	  algorithms that are specified	by pixel transfer modes
+	  operate on pixels after they are read	from the frame buffer
+	  (<STRONG>glCopyPixels</STRONG>	<STRONG>glCopyTexImage1D</STRONG>, <STRONG>glCopyTexImage2D</STRONG>,
+	  <STRONG>glCopyTexSubImage1D</STRONG>, <STRONG>glCopyTexSubImage2D</STRONG>, and	<STRONG>glReadPixels</STRONG>),
+	  or unpacked from client memory (<STRONG>glDrawPixels</STRONG>,	<STRONG>glTexImage1D</STRONG>,
+	  <STRONG>glTexImage2D</STRONG>,	<STRONG>glTexSubImage1D</STRONG>, and <STRONG>glTexSubImage2D</STRONG>). Pixel
+	  transfer operations happen in	the same order,	and in the
+	  same manner, regardless of the command that resulted in the
+	  pixel	operation.  Pixel storage modes	(see <STRONG>glPixelStore</STRONG>)
+	  control the unpacking	of pixels being	read from client
+	  memory, and the packing of pixels being written back into
+	  client memory.
+
+	  Pixel	transfer operations handle four	fundamental pixel
+	  types:  <EM>color</EM>, <EM>color</EM> <EM>index</EM>, <EM>depth</EM>, and <EM>stencil</EM>.  <EM>Color</EM>
+	  pixels consist of four floating-point	values with
+	  unspecified mantissa and exponent sizes, scaled such that 0
+	  represents zero intensity and	1 represents full intensity.
+	  <EM>Color</EM>	<EM>indices</EM>	comprise a single fixed-point value, with
+	  unspecified precision	to the right of	the binary point.
+	  <EM>Depth</EM>	pixels comprise	a single floating-point	value, with
+	  unspecified mantissa and exponent sizes, scaled such that
+	  0.0 represents the minimum depth buffer value, and 1.0
+	  represents the maximum depth buffer value.  Finally, <EM>stencil</EM>
+	  pixels comprise a single fixed-point value, with unspecified
+	  precision to the right of the	binary point.
+
+	  The pixel transfer operations	performed on the four basic
+	  pixel	types are as follows:
+
+	  Color	      Each of the four color components	is multiplied
+		      by a scale factor, then added to a bias factor.
+		      That is, the red component is multiplied by
+		      <STRONG>GL_RED_SCALE</STRONG>, then added to <STRONG>GL_RED_BIAS</STRONG>; the
+		      green component is multiplied by <STRONG>GL_GREEN_SCALE</STRONG>,
+		      then added to <STRONG>GL_GREEN_BIAS</STRONG>; the blue component
+		      is multiplied by <STRONG>GL_BLUE_SCALE</STRONG>, then added to
+		      <STRONG>GL_BLUE_BIAS</STRONG>; and	the alpha component is
+		      multiplied by <STRONG>GL_ALPHA_SCALE</STRONG>, then added to
+		      <STRONG>GL_ALPHA_BIAS</STRONG>.  After all	four color components
+		      are scaled and biased, each is clamped to	the
+		      range [0,1].  All	color, scale, and bias values
+		      are specified with <STRONG>glPixelTransfer</STRONG>.
+
+		      If <STRONG>GL_MAP_COLOR</STRONG> is true, each color component is
+		      scaled by	the size of the	corresponding color-
+		      to-color map, then replaced by the contents of
+		      that map indexed by the scaled component.	 That
+		      is, the red component is scaled by
+		      <STRONG>GL_PIXEL_MAP_R_TO_R_SIZE</STRONG>,	then replaced by the
+		      contents of <STRONG>GL_PIXEL_MAP_R_TO_R</STRONG> indexed by
+		      itself.  The green component is scaled by
+		      <STRONG>GL_PIXEL_MAP_G_TO_G_SIZE</STRONG>,	then replaced by the
+		      contents of <STRONG>GL_PIXEL_MAP_G_TO_G</STRONG> indexed by
+		      itself.  The blue	component is scaled by
+		      <STRONG>GL_PIXEL_MAP_B_TO_B_SIZE</STRONG>,	then replaced by the
+		      contents of <STRONG>GL_PIXEL_MAP_B_TO_B</STRONG> indexed by
+		      itself.  And the alpha component is scaled by
+		      <STRONG>GL_PIXEL_MAP_A_TO_A_SIZE</STRONG>,	then replaced by the
+		      contents of <STRONG>GL_PIXEL_MAP_A_TO_A</STRONG> indexed by
+		      itself.  All components taken from the maps are
+		      then clamped to the range	[0,1].	<STRONG>GL_MAP_COLOR</STRONG>
+		      is specified with	<STRONG>glPixelTransfer</STRONG>.  The contents
+		      of the various maps are specified	with
+		      <STRONG>glPixelMap</STRONG>.
+
+	  Color	index Each color index is shifted left by
+		      <STRONG>GL_INDEX_SHIFT</STRONG> bits; any bits beyond the number
+		      of fraction bits carried by the fixed-point
+		      index are	filled with zeros.  If <STRONG>GL_INDEX_SHIFT</STRONG>
+		      is negative, the shift is	to the right, again
+		      zero filled.  Then <STRONG>GL_INDEX_OFFSET</STRONG> is added to
+		      the index.  <STRONG>GL_INDEX_SHIFT</STRONG> and <STRONG>GL_INDEX_OFFSET</STRONG>
+		      are specified with
+		      <STRONG>glPixelTransfer</STRONG>.
+		      From this	point, operation diverges depending on
+		      the required format of the resulting pixels.  If
+		      the resulting pixels are to be written to	a
+		      color index buffer, or if	they are being read
+		      back to client memory in <STRONG>GL_COLOR_INDEX</STRONG> format,
+		      the pixels continue to be	treated	as indices.
+		      If <STRONG>GL_MAP_COLOR</STRONG> is true, each index is masked by
+		      2n - 1, where n is <STRONG>GL_PIXEL_MAP_I_TO_I_SIZE</STRONG>,
+		      then replaced by the contents of
+		      <STRONG>GL_PIXEL_MAP_I_TO_I</STRONG> indexed by the masked	value.
+		      <STRONG>GL_MAP_COLOR</STRONG> is specified	with <STRONG>glPixelTransfer</STRONG>.
+		      The contents of the index	map is specified with
+		      <STRONG>glPixelMap</STRONG>.
+
+		      If the resulting pixels are to be	written	to an
+		      RGBA color buffer, or if they are	read back to
+		      client memory in a format	other than
+		      <STRONG>GL_COLOR_INDEX</STRONG>, the pixels are converted from
+		      indices to colors	by referencing the four	maps
+		      <STRONG>GL_PIXEL_MAP_I_TO_R</STRONG>, <STRONG>GL_PIXEL_MAP_I_TO_G</STRONG>,
+		      <STRONG>GL_PIXEL_MAP_I_TO_B</STRONG>, and <STRONG>GL_PIXEL_MAP_I_TO_A</STRONG>.
+		      Before being dereferenced, the index is masked
+		      by 2n - 1, where n is <STRONG>GL_PIXEL_MAP_I_TO_R_SIZE</STRONG>
+		      for the red map, <STRONG>GL_PIXEL_MAP_I_TO_G_SIZE</STRONG>	for
+		      the green	map, <STRONG>GL_PIXEL_MAP_I_TO_B_SIZE</STRONG> for the
+		      blue map,	and <STRONG>GL_PIXEL_MAP_I_TO_A_SIZE</STRONG> for the
+		      alpha map.  All components taken from the	maps
+		      are then clamped to the range [0,1].  The
+		      contents of the four maps	is specified with
+		      <STRONG>glPixelMap</STRONG>.
+
+	  Depth	      Each depth value is multiplied by
+		      <STRONG>GL_DEPTH_SCALE</STRONG>, added to <STRONG>GL_DEPTH_BIAS</STRONG>, then
+		      clamped to the range [0,1].
+
+	  Stencil     Each index is shifted <STRONG>GL_INDEX_SHIFT</STRONG> bits	just
+		      as a color index is, then	added to
+		      <STRONG>GL_INDEX_OFFSET</STRONG>.	If <STRONG>GL_MAP_STENCIL</STRONG> is true,
+		      each index is masked by 2n - 1, where n is
+		      <STRONG>GL_PIXEL_MAP_S_TO_S_SIZE</STRONG>,	then replaced by the
+		      contents of <STRONG>GL_PIXEL_MAP_S_TO_S</STRONG> indexed by the
+		      masked value.
+
+	  The following	table gives the	type, initial value, and range
+	  of valid values for each of the pixel	transfer parameters
+	  that are set with <STRONG>glPixelTransfer</STRONG>.
+
+
+
+
+
+
+	   _________________________________________________________
+	   |	 <EM>pname</EM>	    |  <EM>type</EM>   |	<EM>initial</EM>	<EM>value</EM> |	<EM>valid</EM> <EM>range</EM> |
+	   <EM>|</EM>________________<EM>|</EM>_________<EM>|</EM>_______________<EM>|</EM>_____________|
+	   | <STRONG>GL_MAP_COLOR</STRONG>   | boolean |	    false     |	true/false  |
+	   |<STRONG>GL_MAP_STENCIL</STRONG>  | boolean |	    false     |	true/false  |
+	   |<STRONG>GL_INDEX_SHIFT</STRONG>  | integer |	      0	      |	 (-oo,oo)   |
+	   |<STRONG>GL_INDEX_OFFSET</STRONG> | integer |	      0	      |	 (-oo,oo)   |
+	   | <STRONG>GL_RED_SCALE</STRONG>   |  float  |	      1	      |	 (-oo,oo)   |
+	   |<STRONG>GL_GREEN_SCALE</STRONG>  |  float  |	      1	      |	 (-oo,oo)   |
+	   | <STRONG>GL_BLUE_SCALE</STRONG>  |  float  |	      1	      |	 (-oo,oo)   |
+	   |<STRONG>GL_ALPHA_SCALE</STRONG>  |  float  |	      1	      |	 (-oo,oo)   |
+	   |<STRONG>GL_DEPTH_SCALE</STRONG>  |  float  |	      1	      |	 (-oo,oo)   |
+	   |  <STRONG>GL_RED_BIAS</STRONG>   |  float  |	      0	      |	 (-oo,oo)   |
+	   | <STRONG>GL_GREEN_BIAS</STRONG>  |  float  |	      0	      |	 (-oo,oo)   |
+	   | <STRONG>GL_BLUE_BIAS</STRONG>   |  float  |	      0	      |	 (-oo,oo)   |
+	   | <STRONG>GL_ALPHA_BIAS</STRONG>  |  float  |	      0	      |	 (-oo,oo)   |
+	   | <STRONG>GL_DEPTH_BIAS</STRONG>  |  float  |	      0	      |	 (-oo,oo)   |
+	   <EM>|</EM>________________<EM>|</EM>_________<EM>|</EM>_______________<EM>|</EM>_____________|
+
+	  <STRONG>glPixelTransferf</STRONG> can be used to set any pixel	transfer
+	  parameter.  If the parameter type is boolean,	0 implies
+	  false	and any	other value implies true.  If <EM>pname</EM> is an
+	  integer parameter, <EM>param</EM> is rounded to the nearest integer.
+
+	  Likewise, <STRONG>glPixelTransferi</STRONG> can be used to set	any of the
+	  pixel	transfer parameters.  Boolean parameters are set to
+	  false	if <EM>param</EM> is 0 and to true otherwise.  <EM>param</EM> is
+	  converted to floating	point before being assigned to real-
+	  valued parameters.
+
+     <STRONG>NOTES</STRONG>
+	  If a <STRONG>glCopyPixels</STRONG>, <STRONG>glCopyTexImage1D</STRONG>, <STRONG>glCopyTexImage2D</STRONG>,
+	  <STRONG>glCopyTexSubImage1D</STRONG>, <STRONG>glCopyTexSubImage2D</STRONG>, <STRONG>glDrawPixels</STRONG>,
+	  <STRONG>glReadPixels</STRONG>,	<STRONG>glTexImage1D</STRONG>, <STRONG>glTexImage2D</STRONG>, <STRONG>glTexSubImage1D</STRONG>,
+	  or <STRONG>glTexSubImage2D</STRONG> command is	placed in a display list (see
+	  <STRONG>glNewList</STRONG> and	<STRONG>glCallList</STRONG>), the pixel transfer	mode settings
+	  in effect when the display list is <EM>executed</EM> are the ones
+	  that are used.  They may be different	from the settings when
+	  the command was compiled into	the display list.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>pname</EM>	is not an accepted
+	  value.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glPixelTransfer</STRONG> is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_MAP_COLOR</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_MAP_STENCIL</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_INDEX_SHIFT</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_INDEX_OFFSET</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_RED_SCALE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_RED_BIAS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_GREEN_SCALE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_GREEN_BIAS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_BLUE_SCALE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_BLUE_BIAS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_ALPHA_SCALE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_ALPHA_BIAS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_DEPTH_SCALE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_DEPTH_BIAS</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glCallList</STRONG>, <STRONG>glCopyPixels</STRONG>, <STRONG>glCopyTexImage1D</STRONG>,
+	  <STRONG>glCopyTexImage2D</STRONG>, <STRONG>glCopyTexSubImage1D</STRONG>, <STRONG>glCopyTexSubImage2D</STRONG>,
+	  <STRONG>glDrawPixels</STRONG>,	<STRONG>glNewList</STRONG>, <STRONG>glPixelMap</STRONG>, <STRONG>glPixelStore</STRONG>,
+	  <STRONG>glPixelZoom</STRONG>, <STRONG>glReadPixels</STRONG>, <STRONG>glTexImage1D</STRONG>, <STRONG>glTexImage2D</STRONG>,
+	  <STRONG>glTexSubImage1D</STRONG>, <STRONG>glTexSubImage2D</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

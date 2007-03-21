@@ -1,0 +1,14 @@
+/**
+	Io source file specs.
+*/
+(
+{
+  Identifier = text.script.io;
+  BasedOn = text.script;
+  Extensions = (io);
+  MIMETypes = ("text/x-io-script");
+  MagicWord = ("#! ioVM"
+	       );
+  ComputerLanguage = shell.io;
+}
+)

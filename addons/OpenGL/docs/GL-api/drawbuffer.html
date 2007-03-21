@@ -1,0 +1,162 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glDrawBuffer</STRONG> - specify which color buffers are to be drawn
+	  into
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glDrawBuffer</STRONG>( GLenum <EM>mode</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>mode</EM>	Specifies up to	four color buffers to be drawn into.
+		Symbolic constants <STRONG>GL_NONE</STRONG>, <STRONG>GL_FRONT_LEFT</STRONG>,
+		<STRONG>GL_FRONT_RIGHT</STRONG>,	<STRONG>GL_BACK_LEFT</STRONG>, <STRONG>GL_BACK_RIGHT</STRONG>, <STRONG>GL_FRONT</STRONG>,
+		<STRONG>GL_BACK</STRONG>, <STRONG>GL_LEFT</STRONG>, <STRONG>GL_RIGHT</STRONG>, <STRONG>GL_FRONT_AND_BACK</STRONG>, and
+		<STRONG>GL_AUX</STRONG><EM>i</EM>, where <EM>i</EM> is between 0 and ``<STRONG>GL_AUX_BUFFERS</STRONG>''
+		-1, are	accepted (<STRONG>GL_AUX_BUFFERS</STRONG> is not	the upper
+		limit; use <STRONG>glGet</STRONG> to query the number of	available aux
+		buffers.)  The initial value is	<STRONG>GL_FRONT</STRONG> for single-
+		buffered contexts, and <STRONG>GL_BACK</STRONG> for double-buffered
+		contexts.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  When colors are written to the frame buffer, they are
+	  written into the color buffers specified by <STRONG>glDrawBuffer</STRONG>.
+	  The specifications are as follows:
+
+	  <STRONG>GL_NONE</STRONG>		   No color buffers are	written.
+
+	  <STRONG>GL_FRONT_LEFT</STRONG>		   Only	the front left color buffer is
+				   written.
+
+	  <STRONG>GL_FRONT_RIGHT</STRONG>	   Only	the front right	color buffer
+				   is written.
+
+	  <STRONG>GL_BACK_LEFT</STRONG>		   Only	the back left color buffer is
+				   written.
+
+	  <STRONG>GL_BACK_RIGHT</STRONG>		   Only	the back right color buffer is
+				   written.
+
+	  <STRONG>GL_FRONT</STRONG>		   Only	the front left and front right
+				   color buffers are written.  If
+				   there is no front right color
+				   buffer, only	the front left color
+				   buffer is written.
+
+	  <STRONG>GL_BACK</STRONG>		   Only	the back left and back right
+				   color buffers are written.  If
+				   there is no back right color
+				   buffer, only	the back left color
+				   buffer is written.
+
+	  <STRONG>GL_LEFT</STRONG>		   Only	the front left and back	left
+				   color buffers are written.  If
+				   there is no back left color buffer,
+				   only	the front left color buffer is
+				   written.
+
+	  <STRONG>GL_RIGHT</STRONG>		   Only	the front right	and back right
+				   color buffers are written.  If
+				   there is no back right color
+				   buffer, only	the front right	color
+				   buffer is written.
+
+	  <STRONG>GL_FRONT_AND_BACK</STRONG>	   All the front and back color
+				   buffers (front left,	front right,
+				   back	left, back right) are written.
+				   If there are	no back	color buffers,
+				   only	the front left and front right
+				   color buffers are written.  If
+				   there are no	right color buffers,
+				   only	the front left and back	left
+				   color buffers are written.  If
+				   there are no	right or back color
+				   buffers, only the front left	color
+				   buffer is written.
+
+	  <STRONG>GL_AUX</STRONG><EM>i</EM>		   Only	auxiliary color	buffer <EM>i</EM> is
+				   written.
+
+	  If more than one color buffer	is selected for	drawing, then
+	  blending or logical operations are computed and applied
+	  independently	for each color buffer and can produce
+	  different results in each buffer.
+
+	  Monoscopic contexts include only <EM>left</EM>	buffers, and
+	  stereoscopic contexts	include	both <EM>left</EM> and <EM>right</EM> buffers.
+	  Likewise, single-buffered contexts include only <EM>front</EM>
+	  buffers, and double-buffered contexts	include	both <EM>front</EM> and
+	  <EM>back</EM> buffers.	 The context is	selected at GL initialization.
+
+     <STRONG>NOTES</STRONG>
+	  It is	always the case	that <STRONG>GL_AUX</STRONG>i = <STRONG>GL_AUX0</STRONG> + i.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>mode</EM> is not an accepted
+	  value.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if none of the buffers
+	  indicated by <EM>mode</EM> exists.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glDrawBuffer</STRONG> is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_DRAW_BUFFER</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_AUX_BUFFERS</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glBlendFunc</STRONG>, <STRONG>glColorMask</STRONG>, <STRONG>glIndexMask</STRONG>, <STRONG>glLogicOp</STRONG>,
+	  <STRONG>glReadBuffer</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

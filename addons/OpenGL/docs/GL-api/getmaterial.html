@@ -1,0 +1,162 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glGetMaterialfv,</STRONG> <STRONG>glGetMaterialiv</STRONG> - return material
+	  parameters
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glGetMaterialfv</STRONG>(	GLenum <EM>face</EM>,
+				GLenum <EM>pname</EM>,
+				GLfloat	*<EM>params</EM>	)
+	  void <STRONG>glGetMaterialiv</STRONG>(	GLenum <EM>face</EM>,
+				GLenum <EM>pname</EM>,
+				GLint *<EM>params</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>face</EM>	  Specifies which of the two materials is being
+		  queried.  <STRONG>GL_FRONT</STRONG> or	<STRONG>GL_BACK</STRONG>	are accepted,
+		  representing the front and back materials,
+		  respectively.
+
+	  <EM>pname</EM>	  Specifies the	material parameter to return.
+		  <STRONG>GL_AMBIENT</STRONG>, <STRONG>GL_DIFFUSE</STRONG>, <STRONG>GL_SPECULAR</STRONG>, <STRONG>GL_EMISSION</STRONG>,
+		  <STRONG>GL_SHININESS</STRONG>,	and <STRONG>GL_COLOR_INDEXES</STRONG> are accepted.
+
+	  <EM>params</EM>  Returns the requested	data.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glGetMaterial</STRONG>	returns	in <EM>params</EM> the value or values of
+	  parameter <EM>pname</EM> of material <EM>face</EM>. Six	parameters are
+	  defined:
+
+	  <STRONG>GL_AMBIENT</STRONG>		<EM>params</EM> returns four integer or
+				floating-point values representing the
+				ambient	reflectance of the material.
+				Integer	values,	when requested,	are
+				linearly mapped	from the internal
+				floating-point representation such
+				that 1.0 maps to the most positive
+				representable integer value, and -1.0
+				maps to	the most negative
+				representable integer value.  If the
+				internal value is outside the range
+				[-1, 1], the corresponding integer
+				return value is	undefined. The initial
+				value is (0.2, 0.2, 0.2, 1.0)
+
+	  <STRONG>GL_DIFFUSE</STRONG>		<EM>params</EM> returns four integer or
+				floating-point values representing the
+				diffuse	reflectance of the material.
+				Integer	values,	when requested,	are
+				linearly mapped	from the internal
+				floating-point representation such
+				that 1.0 maps to the most positive
+				representable integer value, and -1.0
+				maps to	the most negative
+				representable integer value.  If the
+				internal value is outside the range
+				[-1, 1], the corresponding integer
+				return value is	undefined. The initial
+				value is (0.8, 0.8, 0.8, 1.0).
+
+	  <STRONG>GL_SPECULAR</STRONG>		<EM>params</EM> returns four integer or
+				floating-point values representing the
+				specular reflectance of	the material.
+				Integer	values,	when requested,	are
+				linearly mapped	from the internal
+				floating-point representation such
+				that 1.0 maps to the most positive
+				representable integer value, and -1.0
+				maps to	the most negative
+				representable integer value.  If the
+				internal value is outside the range
+				[-1, 1], the corresponding integer
+				return value is	undefined. The initial
+				value is (0, 0,	0, 1).
+
+	  <STRONG>GL_EMISSION</STRONG>		<EM>params</EM> returns four integer or
+				floating-point values representing the
+				emitted	light intensity	of the
+				material.  Integer values, when
+				requested, are linearly	mapped from
+				the internal floating-point
+				representation such that 1.0 maps to
+				the most positive representable
+				integer	value, and -1.0	maps to	the
+				most negative representable integer
+				value.	If the internal	value is
+				outside	the range [-1, 1.0], the
+				corresponding integer return value is
+				undefined. The initial value is	(0, 0,
+				0, 1).
+
+	  <STRONG>GL_SHININESS</STRONG>		<EM>params</EM> returns one integer or
+				floating-point value representing the
+				specular exponent of the material.
+				Integer	values,	when requested,	are
+				computed by rounding the internal
+				floating-point value to	the nearest
+				integer	value. The initial value is 0.
+
+	  <STRONG>GL_COLOR_INDEXES</STRONG>	<EM>params</EM> returns three integer or
+				floating-point values representing the
+				ambient, diffuse, and specular indices
+				of the material.  These	indices	are
+				used only for color index lighting.
+				(All the other parameters are used
+				only for RGBA lighting.)  Integer
+				values,	when requested,	are computed
+				by rounding the	internal floating-
+				point values to	the nearest integer
+				values.
+
+     <STRONG>NOTES</STRONG>
+	  If an	error is generated, no change is made to the contents
+	  of <EM>params</EM>.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>face</EM> or <EM>pname</EM>	is not an
+	  accepted value.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glGetMaterial</STRONG> is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glMaterial</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

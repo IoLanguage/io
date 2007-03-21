@@ -1,0 +1,71 @@
+
+<HTML><HEAD><TITLE>Manpage of glutSolidCone</TITLE>
+</HEAD><BODY>
+<H1>glutSolidCone</H1>
+Section: GLUT (3GLUT)<BR>Updated: 3.7<BR><A HREF="#index">Index</A>
+<A HREF="">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+glutSolidCone, glutWireCone - render a solid or wireframe cone respectively. 
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNTAX</H2>
+
+<PRE>
+
+void glutSolidCone(GLdouble base, GLdouble height,
+                   GLint slices, GLint stacks);
+void glutWireCone(GLdouble base, GLdouble height,
+                  GLint slices, GLint stacks);
+</PRE>
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>ARGUMENTS</H2>
+
+<DL COMPACT>
+<DT><I>base</I><DD>
+The radius of the base of the cone. 
+<DT><I>height</I><DD>
+The height of the cone. 
+<DT><I>slices</I><DD>
+The number of subdivisions around the Z axis. 
+<DT><I>stacks</I><DD>
+The number of subdivisions along the Z axis. 
+</DL>
+<A NAME="lbAE">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+glutSolidCone and glutWireCone render a solid or wireframe cone
+respectively oriented along the Z axis. The base of the cone is placed at Z
+= 0, and the top at Z = height. The cone is subdivided around the Z axis
+into slices, and along the Z axis into stacks. 
+<A NAME="lbAF">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+glutSolidSphere, glutSolidCube, glutSolidTorus, glutSolidDodecahedron,
+glutSolidOctahedron, glutSolidTetrahedron, glutSolidIcosahedron,
+glutSolidTeapot
+<A NAME="lbAG">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Mark J. Kilgard (<A HREF="mailto:mjk@nvidia.com">mjk@nvidia.com</A>)
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNTAX</A><DD>
+<DT><A HREF="#lbAD">ARGUMENTS</A><DD>
+<DT><A HREF="#lbAE">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAF">SEE ALSO</A><DD>
+<DT><A HREF="#lbAG">AUTHOR</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="">man2html</A>,
+using the manual pages.<BR>
+Time: 19:05:09 GMT, September 15, 2003
+</BODY>
+</HTML>

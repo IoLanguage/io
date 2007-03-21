@@ -1,0 +1,109 @@
+<HTML>
+<HEAD>
+<TITLE>Point GL category</TITLE>
+<STYLE>
+BODY, TD, TABLE, TR { font-size:13; font-weight:normal; font-family:"helvetica, arial, sans"; } 
+PRE { font-size:13; font-weight:normal; font-family:"courier"; } 
+A {text-decoration: none}
+</STYLE>
+</HEAD>
+<BODY BGCOLOR="white">
+
+<H1>Point - GL extensions</H1>
+<SMALL>
+Copyright 2002, Steve Dekorte. All rights reserved.<BR>
+</SMALL>
+<BR>
+
+<A NAME="Summary"></A>
+<h2>Summary</h2>
+<ul>
+These are extensions of the Point primitive which add features useful for use with OpenGL.
+</UL>
+
+<A NAME="Methods"></A>
+<h2>Methods</h2>
+<UL>
+
+
+</UL>
+<h3>Transformations</h3>
+<UL>
+<br>
+
+<b>glNormal</b>
+<p>
+Calls the OpenGL glNormal(x, y, z) function with the values of the receiver. Returns self.
+<br><br><br>
+
+<b>glTranslate</b>
+<p>
+Calls the OpenGL glTranslate(x, y, z)  function with the values of the receiver. Returns self.
+<br><br><br>
+
+<b>glRotate(angle)</b>
+<p>
+Calls glRotate(angle, x, y, z) function with the values of the receiver. Returns self.
+<br><br><br>
+
+<b>glScale</b>
+<p>
+Calls glScale(x, y, z) function with the values of the receiver. Returns self.
+<br><br><br>
+
+
+<b>glUnproject</b>
+<p>
+Maps the receiver's x, y and z values from window coordinates to object coordinates. Returns self.
+<br><br><br>
+
+<b>glProject</b>
+<p>
+Maps the receiver's x, y and z values from object coordinates to window coordinates. Returns self.
+<br><br><br>
+
+
+
+
+</UL>
+<h3>Drawing</h3>
+<UL>
+<br>
+
+
+<b>glVertex</b>
+<p>
+Calls glVertex(x, y, z) function with the values of the receiver. Returns self.
+<br><br><br>
+
+<b>glColor</b>
+<p>
+Calls glColor(x, y, z, 1) function with the values of the receiver. Returns self.
+<br><br><br>
+
+
+<b>drawQuad</b>
+<p>
+Draws a rectangular polygon from 0,0,0 to the receiver's coordinates. Returns self.
+<br><br><br>
+
+<b>drawQuadTo(aPoint)</b>
+<p>
+Draws a rectangular polygon from aPoint to the receiver's coordinates. Returns self.
+<br><br><br>
+
+<b>drawLineLoop</b>
+<p>
+Draws a rectangular line around the rectangle with the corners 0,0,0 and the receiver's coordinates. Returns self.
+<br><br><br>
+
+
+
+</UL>
+
+<BR>
+<BR>
+<BR>
+<BR>
+
+</html>

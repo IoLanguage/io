@@ -1,0 +1,111 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>gluTessEndPolygon</STRONG> - delimit a	polygon	description
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>gluTessEndPolygon</STRONG>( GLUtesselator* <EM>tess</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>tess</EM>	Specifies the tessellation object (created with
+		<STRONG>gluNewTess</STRONG>).
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>gluTessBeginPolygon</STRONG> and <STRONG>gluTessEndPolygon</STRONG> delimit the
+	  definition of	a convex, concave or self-intersecting
+	  polygon. Within each <STRONG>gluTessBeginPolygon</STRONG>/<STRONG>gluTessEndPolygon</STRONG>
+	  pair,	there must be one or more calls	to
+	  <STRONG>gluTessBeginContour</STRONG>/<STRONG>gluTessEndContour</STRONG>. Within	each contour,
+	  there	are zero or more calls to <STRONG>gluTessVertex</STRONG>. The vertices
+	  specify a closed contour (the	last vertex of each contour is
+	  automatically	linked to the first). See the <STRONG>gluTessVertex</STRONG>,
+	  <STRONG>gluTessBeginContour</STRONG> and <STRONG>gluTessEndContour</STRONG> reference pages
+	  for more details.
+
+	  Once <STRONG>gluTessEndPolygon</STRONG> is called, the	polygon	is
+	  tessellated, and the resulting triangles are described
+	  through callbacks.  See <STRONG>gluTessCallback</STRONG> for descriptions of
+	  the callback functions.
+
+     <STRONG>EXAMPLE</STRONG>
+	  A quadrilateral with a triangular hole in it can be
+	  described like this:
+
+	  gluTessBeginPolygon(tobj, NULL);
+	   gluTessBeginContour(tobj);
+	     gluTessVertex(tobj, v1, v1);
+	     gluTessVertex(tobj, v2, v2);
+	     gluTessVertex(tobj, v3, v3);
+	     gluTessVertex(tobj, v4, v4);
+	   gluTessEndContour(tobj);
+	   gluTessBeginContour(tobj);
+	     gluTessVertex(tobj, v5, v5);
+	     gluTessVertex(tobj, v6, v6);
+	     gluTessVertex(tobj, v7, v7);
+	   gluTessEndContour(tobj); gluTessEndPolygon(tobj);
+
+	  In the above example the pointers, v1	through	v7, should
+	  point	to different addresses,	since the values stored	at
+	  these	addresses will not be read by the tesselator until
+	  <STRONG>gluTessEndPolygon</STRONG> is called.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+
+	  <STRONG>gluNewTess</STRONG>, <STRONG>gluTessBeginContour</STRONG>, <STRONG>gluTessVertex</STRONG>,
+	  <STRONG>gluTessCallback</STRONG>, <STRONG>gluTessProperty</STRONG>, <STRONG>gluTessNormal</STRONG>,
+	  <STRONG>gluTessBeginPolygon</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

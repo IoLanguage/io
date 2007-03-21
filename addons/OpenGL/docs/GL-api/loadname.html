@@ -1,0 +1,58 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glLoadName</STRONG> - load a name onto	the name stack
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glLoadName</STRONG>( GLuint <EM>name</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>name</EM>	Specifies a name that will replace the top value on
+		the name stack.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  The name stack is used during	selection mode to allow	sets
+	  of rendering commands	to be uniquely identified.  It
+	  consists of an ordered set of	unsigned integers.  <STRONG>glLoadName</STRONG>
+	  causes <EM>name</EM> to replace the value on the top of the name
+	  stack, which is initially empty.
+
+	  The name stack is always empty while the render mode is not
+	  <STRONG>GL_SELECT</STRONG>.  Calls to <STRONG>glLoadName</STRONG> while	the render mode	is not
+	  <STRONG>GL_SELECT</STRONG> are	ignored.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glLoadName</STRONG> is called
+	  while	the name stack is empty.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glLoadName</STRONG> is executed
+	  between the execution	of <STRONG>glBegin</STRONG> and the corresponding
+	  execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_NAME_STACK_DEPTH</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_MAX_NAME_STACK_DEPTH</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glInitNames</STRONG>, <STRONG>glPushName</STRONG>, <STRONG>glRenderMode</STRONG>, <STRONG>glSelectBuffer</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

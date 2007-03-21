@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string>between(${1:0}, ${2:0})</string>
+	<key>name</key>
+	<string>between</string>
+	<key>scope</key>
+	<string>source.io</string>
+	<key>tabTrigger</key>
+	<string>bet</string>
+	<key>uuid</key>
+	<string>7AB9DD4B-DD70-4D1A-B4A6-6548E3F4D9BC</string>
+</dict>
+</plist>

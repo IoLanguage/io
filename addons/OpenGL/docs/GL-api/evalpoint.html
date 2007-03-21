@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glEvalPoint1,</STRONG>	<STRONG>glEvalPoint2</STRONG> - generate	and evaluate a single
+	  point	in a mesh
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glEvalPoint1</STRONG>( GLint <EM>i</EM> )
+	  void <STRONG>glEvalPoint2</STRONG>( GLint <EM>i</EM>,
+			     GLint <EM>j</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>i</EM>  Specifies the integer value for grid domain variable i.
+
+	  <EM>j</EM>  Specifies the integer value for grid domain variable j
+	     (<STRONG>glEvalPoint2</STRONG> only).
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glMapGrid</STRONG> and	<STRONG>glEvalMesh</STRONG> are used in tandem to efficiently
+	  generate and evaluate	a series of evenly spaced map domain
+	  values.  <STRONG>glEvalPoint</STRONG> can be used to evaluate a single	grid
+	  point	in the same gridspace that is traversed	by <STRONG>glEvalMesh</STRONG>.
+	  Calling <STRONG>glEvalPoint1</STRONG> is equivalent to	calling
+
+	  glEvalCoord1(i . DELTA u + u );
+				      1
+	  where
+
+	  DELTA	u = (u - u  ) /	n
+		      2	  1
+
+	  and n, u , and u
+		  1	  2
+
+	  are the arguments to the most	recent <STRONG>glMapGrid1</STRONG> command.
+	  The one absolute numeric requirement is that if i = n, then
+	  the value computed from
+	  i . DELTA u +	u  is exactly u	.
+			 1	       2
+
+
+	  In the two-dimensional case, <STRONG>glEvalPoint2</STRONG>, let
+	  DELTA	u = (u	- u )/n
+		      2	   1
+
+	  DELTA	v = (v	- v )/m
+		      2	   1
+
+	  where	n, u , u , m, v	, and v
+		    1	2      1       2
+
+	  are the arguments to the most	recent <STRONG>glMapGrid2</STRONG> command.
+	  Then the <STRONG>glEvalPoint2</STRONG>	command	is equivalent to calling
+
+	  glEvalCoord2(i .  DELTA u + u	, j . DELTA v +	v );
+				       1		 1
+
+	  The only absolute numeric requirements are that if i = n,
+	  then the value computed from
+
+	  i . DELTA u +	u  is exactly u	,
+			 1	       2
+	  and if j = m,	then the value computed	from
+
+	  j cdot DELTA v + v  is exactly v .
+			    1		  2
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_MAP1_GRID_DOMAIN</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_MAP2_GRID_DOMAIN</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_MAP1_GRID_SEGMENTS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_MAP2_GRID_SEGMENTS</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glEvalCoord</STRONG>, <STRONG>glEvalMesh</STRONG>, <STRONG>glMap1</STRONG>, <STRONG>glMap2</STRONG>, <STRONG>glMapGrid</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

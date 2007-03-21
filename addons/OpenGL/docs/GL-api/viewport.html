@@ -1,0 +1,58 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glViewport</STRONG> - set the viewport
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glViewport</STRONG>( GLint <EM>x</EM>,
+			   GLint <EM>y</EM>,
+			   GLsizei <EM>width</EM>,
+			   GLsizei <EM>height</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>x</EM>, <EM>y</EM> Specify the lower left corner of	the viewport
+	       rectangle, in pixels. The initial value is (0,0).
+
+	  <EM>width</EM>, <EM>height</EM>
+	       Specify the width and height of the viewport.  When a
+	       GL context is first attached to a window, <EM>width</EM> and
+	       <EM>height</EM> are set to the dimensions	of that	window.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glViewport</STRONG> specifies the affine transformation of x and y
+	  from normalized device coordinates to	window coordinates.
+	  Let (x  , y  ) be normalized device coordinates.  Then the
+	  windown<STRONG>c</STRONG>oor<STRONG>di</STRONG>nates (x	, y ) are computed as follows:
+			       w   w
+			    x  = (x  +1)(<STRONG>_____</STRONG>)	+ x
+			     w	   nd	(  2  )
+			    y  = (y  +1)(<STRONG>______</STRONG>) + y
+			     w	   nd	(  2   )
+	  Viewport width and height are	silently clamped to a range
+	  that depends on the implementation.  To query	this range,
+	  call <STRONG>glGet</STRONG> with argument <STRONG>GL_MAX_VIEWPORT_DIMS</STRONG>.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if either <EM>width</EM>	or <EM>height</EM> is
+	  negative.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glViewport</STRONG> is executed
+	  between the execution	of <STRONG>glBegin</STRONG> and the corresponding
+	  execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_VIEWPORT</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_MAX_VIEWPORT_DIMS</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glDepthRange</STRONG>
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

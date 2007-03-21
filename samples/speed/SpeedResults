@@ -1,0 +1,37 @@
+
+Io localAccesses      := 26.73
+Io localSets          := 10.32
+
+Io slotAccesses       := 11.19
+Io slotSets           := 4.89
+
+Io blockActivations   := 3.66
+Io instantiations     := 2.15
+Io cfuncActivations   := 24.40
+Io version := 20050615
+// values in millions per second
+
+Python localAccesses       := 23.23
+Python localSets           := 23.25
+
+Python slotAccesses        := 6.09
+Python slotSets            := 5.89
+
+Python blockActivations    := 1.59
+Python instantiations      := 1.38
+Python version := "2.3.0 final 0"
+
+// values in millions per second
+
+
+Ruby localAccesses       := 8.12
+Ruby localSets           := 5.75
+
+Ruby slotAccesses        := 3.36
+Ruby slotSets            := 4.41
+
+Ruby blockActivations    := 2.26
+Ruby instantiations      := 1.44
+Ruby version := "1.6.8"
+// values in millions per second
+

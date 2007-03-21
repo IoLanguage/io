@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<seestyle>
+<mode id="IoMode.io">
+  <style id="_Default"
+    color="#000000" inverted-color="#ffffff"  font-style="normal" font-weight="normal" background-color="#dfdfdf" inverted-background-color="#000000" />
+  <style id="_Default.Keywords"
+    color="#808080" inverted-color="#bfbfbf"  font-style="normal" font-weight="bold" />
+  <style id="_Default.Numbers"
+    color="#0000ff" inverted-color="#0000ff"  font-style="normal" font-weight="normal" />
+  <style id="_Default.Operators"
+    color="#808080" inverted-color="#bfbfbf"  font-style="normal" font-weight="bold" />
+  <style id="_Default.Brackets"
+    color="#000000" inverted-color="#bfbfbf"  font-style="normal" font-weight="bold" />
+  <style id="HashComment"
+    color="#bfbfbf" inverted-color="#606060"  font-style="italic" font-weight="normal" />
+  <style id="Comment"
+    color="#bfbfbf" inverted-color="#626262"  font-style="italic" font-weight="normal" />
+  <style id="SingleComment"
+    color="#bfbfbf" inverted-color="#646464"  font-style="italic" font-weight="normal" />
+  <style id="String"
+    color="#0000ff" inverted-color="#0000ff"  font-style="normal" font-weight="normal" />
+</mode>
+</seestyle>

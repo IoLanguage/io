@@ -1,0 +1,46 @@
+TARGET		io.app
+TARGETTYPE	app
+TARGETPATH	\system\apps\io20021108
+UID             0x100039CE 0x10004855
+RESOURCE	io.rss
+SOURCEPATH	.
+SOURCE		..\..\IoExceptionCatch.c
+SOURCE		..\..\IoState.c
+SOURCE		..\..\IoObject.c
+SOURCE		..\..\IoTag.c
+SOURCE		..\..\IoValue.c
+SOURCE		..\..\IoNil.c
+SOURCE		..\..\IoNumber.c
+SOURCE		..\..\IoString.c
+SOURCE		..\..\IoList.c
+SOURCE		..\..\IoMap.c
+SOURCE		..\..\IoBuffer.c
+SOURCE		..\..\IoMessage.c
+SOURCE		..\..\IoMessage_parser.c
+SOURCE		..\..\IoBlock.c
+SOURCE		..\..\IoCFunction.c
+SOURCE		..\..\IoDate.c
+SOURCE		..\..\IoFile.c
+SOURCE		..\..\IoLinkedList.c
+SOURCE		..\..\IoCoroutine.c
+SOURCE		..\..\IoObject_actor.c
+SOURCE		..\..\IoValueGroup.c
+SOURCE		..\..\base\ByteArray.c
+SOURCE		..\..\base\list.c
+SOURCE		..\..\base\phash.c
+SOURCE		..\..\base\hash.c
+SOURCE		..\..\base\splaytree.c
+SOURCE		..\..\base\stack.c
+SOURCE		..\..\base\linkedlist.c
+SOURCE		..\..\base\parser.c
+SOURCE		..\..\base\CLI.c
+SOURCE		..\..\base\MainArgs.c
+SOURCE		..\..\base\Scheduler.c
+
+SOURCE		symbianmain.cpp
+SOURCE		SymbianSockets.cpp
+
+SYSTEMINCLUDE	\epoc32\include\libc  \epoc32\include ..\..\base ..\..
+LIBRARY		estlib.lib edllstub.lib euser.lib apparc.lib cone.lib eikcore.lib  eikcoctl.lib  efsrv.lib gdi.lib bafl.lib estor.lib esock.lib insock.lib etext.lib charconv.lib eikctl.lib
+
+STATICLIBRARY egcc.lib

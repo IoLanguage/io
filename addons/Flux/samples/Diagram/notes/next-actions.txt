@@ -1,0 +1,17 @@
+This file is to track actions which could be done right now.
+
+Steve or Jonathan
+        - Fix ctrl-clicking bug in Flux
+	- Add simple (automatic) loading and saving
+		- load at start
+		- save on exit
+        - Add copyright notice to source
+
+	- Implement more of the 'requirements' listed in the plan.txt
+	- Test app: Play with app with the aim of finding bugs
+
+	- Highlight the target when creating a line
+
+	- if boxes at both ends of a line are selected, then select the line
+	  as well
+

@@ -1,0 +1,66 @@
+
+<HTML><HEAD><TITLE>Manpage of glutAttachMenu</TITLE>
+</HEAD><BODY>
+<H1>glutAttachMenu</H1>
+Section: GLUT (3GLUT)<BR>Updated: 3.7<BR><A HREF="#index">Index</A>
+<A HREF="">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+glutAttachMenu - attaches a mouse button for the current window to the
+identifier of the current menu; glutDetachMenu - detaches an attached
+mouse button from the current window. 
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNTAX</H2>
+
+<PRE>
+
+void glutAttachMenu(int button);
+void glutDetachMenu(int button);
+</PRE>
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>ARGUMENTS</H2>
+
+<DL COMPACT>
+<DT><I>button</I><DD>
+The button to attach a menu or detach a menu.
+</DL>
+<A NAME="lbAE">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+glutAttachMenu attaches a mouse button for the current window to the
+identifier of the current menu; glutDetachMenu detaches an attached
+mouse button from the current window. By attaching a menu identifier to
+a button, the named menu will be popped up when the user presses the
+specified button. button should be one of GLUT_LEFT_BUTTON,
+GLUT_MIDDLE_BUTTON, and GLUT_RIGHT_BUTTON. Note that the menu
+is attached to the button by identifier, not by reference. 
+<A NAME="lbAF">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+glutCreateMenu, glutMouseFunc, glutMenuStatusFunc
+<A NAME="lbAG">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Mark J. Kilgard (<A HREF="mailto:mjk@nvidia.com">mjk@nvidia.com</A>)
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNTAX</A><DD>
+<DT><A HREF="#lbAD">ARGUMENTS</A><DD>
+<DT><A HREF="#lbAE">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAF">SEE ALSO</A><DD>
+<DT><A HREF="#lbAG">AUTHOR</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="">man2html</A>,
+using the manual pages.<BR>
+Time: 19:05:09 GMT, September 15, 2003
+</BODY>
+</HTML>

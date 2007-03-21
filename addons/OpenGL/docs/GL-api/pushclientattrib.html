@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glPushClientAttrib,</STRONG> <STRONG>glPopClientAttrib</STRONG>	- push and pop the
+	  client attribute stack
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glPushClientAttrib</STRONG>( GLbitfield <EM>mask</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>mask</EM>	Specifies a mask that indicates	which attributes to
+		save.  Values for <EM>mask</EM> are listed below.
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glPopClientAttrib</STRONG>( void )
+
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glPushClientAttrib</STRONG> takes one argument, a mask	that indicates
+	  which	groups of client-state variables to save on the	client
+	  attribute stack. Symbolic constants are used to set bits in
+	  the mask.  <EM>mask</EM> is typically constructed by OR'ing several
+	  of these constants together.	The special mask
+	  <STRONG>GL_CLIENT_ALL_ATTRIB_BITS</STRONG> can	be used	to save	all stackable
+	  client state.
+
+	  The symbolic mask constants and their	associated GL client
+	  state	are as follows (the second column lists	which
+	  attributes are saved):
+
+	  <STRONG>GL_CLIENT_PIXEL_STORE_BIT</STRONG>	Pixel storage modes
+	  <STRONG>GL_CLIENT_VERTEX_ARRAY_BIT</STRONG>	Vertex arrays (and enables)
+
+	  <STRONG>glPopClientAttrib</STRONG> restores the values	of the client-state
+	  variables saved with the last	<STRONG>glPushClientAttrib</STRONG>.  Those not
+	  saved	are left unchanged.
+
+	  It is	an error to push attributes onto a full	client
+	  attribute stack, or to pop attributes	off an empty stack.
+	  In either case, the error flag is set, and no	other change
+	  is made to GL	state.
+
+	  Initially, the client	attribute stack	is empty.
+
+     <STRONG>NOTES</STRONG>
+	  <STRONG>glPushClientAttrib</STRONG> is	available only if the GL version is
+	  1.1 or greater.
+
+	  Not all values for GL	client state can be saved on the
+	  attribute stack.  For	example, select	and feedback state
+	  cannot be saved.
+
+	  The depth of the attribute stack depends on the
+	  implementation, but it must be at least 16.
+
+	  Use <STRONG>glPushAttrib</STRONG> and <STRONG>glPopAttrib</STRONG> to push and restore state
+	  which	is kept	on the server. Only pixel storage modes	and
+	  vertex array state may be pushed and popped with
+	  <STRONG>glPushClientAttrib</STRONG> and <STRONG>glPopClientAttrib</STRONG>.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_STACK_OVERFLOW</STRONG> is generated if <STRONG>glPushClientAttrib</STRONG> is
+	  called while the attribute stack is full.
+
+	  <STRONG>GL_STACK_UNDERFLOW</STRONG> is	generated if <STRONG>glPopClientAttrib</STRONG> is
+	  called while the attribute stack is empty.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_ATTRIB_STACK_DEPTH</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_MAX_CLIENT_ATTRIB_STACK_DEPTH</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glColorPointer</STRONG>, <STRONG>glDisableClientState</STRONG>,	<STRONG>glEdgeFlagPointer</STRONG>,
+	  <STRONG>glEnableClientState</STRONG>, <STRONG>glGet</STRONG>, <STRONG>glGetError</STRONG>, <STRONG>glIndexPointer</STRONG>,
+	  <STRONG>glNormalPointer</STRONG>, <STRONG>glNewList</STRONG>, <STRONG>glPixelStore</STRONG>, <STRONG>glPushAttrib</STRONG>,
+	  <STRONG>glTexCoordPointer</STRONG>, <STRONG>glVertexPointer</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

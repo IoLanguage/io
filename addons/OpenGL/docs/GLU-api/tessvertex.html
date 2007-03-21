@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>gluTessVertex</STRONG>	- specify a vertex on a	polygon
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>gluTessVertex</STRONG>( GLUtesselator* <EM>tess</EM>,
+			      GLdouble *<EM>location</EM>,
+			      GLvoid* <EM>data</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>tess</EM>	    Specifies the tessellation object (created with
+		    <STRONG>gluNewTess</STRONG>).
+
+	  <EM>location</EM>  Specifies the location of the vertex.
+
+	  <EM>data</EM>	    Specifies an opaque	pointer	passed back to the
+		    program with the vertex callback (as specified by
+		    <STRONG>gluTessCallback</STRONG>).
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>gluTessVertex</STRONG>	describes a vertex on a	polygon	that the
+	  program defines. Successive <STRONG>gluTessVertex</STRONG> calls describe a
+	  closed contour. For example, to describe a quadrilateral
+	  <STRONG>gluTessVertex</STRONG>	should be called four times.  <STRONG>gluTessVertex</STRONG>
+	  can only be called between <STRONG>gluTessBeginContour</STRONG> and
+	  <STRONG>gluTessEndContour</STRONG>.
+
+	  <EM>data</EM> normally	points to a structure containing the vertex
+	  location, as well as other per-vertex	attributes such	as
+	  color	and normal.  This pointer is passed back to the	user
+	  through the <STRONG>GLU_TESS_VERTEX</STRONG> or <STRONG>GLU_TESS_VERTEX_DATA</STRONG> callback
+	  after	tessellation (see the <STRONG>gluTessCallback</STRONG> reference	page).
+
+     <STRONG>EXAMPLE</STRONG>
+	  A quadrilateral with a triangular hole in it can be
+	  described as follows:
+
+	  gluTessBeginPolygon(tobj, NULL);
+	   gluTessBeginContour(tobj);
+	     gluTessVertex(tobj, v1, v1);
+	     gluTessVertex(tobj, v2, v2);
+	     gluTessVertex(tobj, v3, v3);
+	     gluTessVertex(tobj, v4, v4);
+	   gluTessEndContour(tobj);
+	   gluTessBeginContour(tobj);
+	     gluTessVertex(tobj, v5, v5);
+	     gluTessVertex(tobj, v6, v6);
+	     gluTessVertex(tobj, v7, v7);
+	   gluTessEndContour(tobj); gluTessEndPolygon(tobj);
+
+
+     <STRONG>NOTES</STRONG>
+	  It is	a common error to use a	local variable for <EM>location</EM> or
+	  <EM>data</EM> and store values	into it	as part	of a loop.  For
+	  example:  for	(i = 0;	i &lt; NVERTICES; ++i) {
+	    GLdouble data[3];
+	    data[0] = vertex[i][0];
+	    data[1] = vertex[i][1];
+	    data[2] = vertex[i][2];
+	    gluTessVertex(tobj,	data, data);
+	    }
+
+	  This doesn't work.  Because the pointers specified by
+	  <EM>location</EM> and <EM>data</EM> might not be dereferenced until
+	  <STRONG>gluTessEndPolygon</STRONG> is executed, all the vertex	coordinates
+	  but the very last set	could be overwritten before
+	  tessellation begins.
+
+	  Two common symptoms of this problem are consists of a	single
+	  point	(when a	local variable is used for <EM>data</EM>) and a
+	  <STRONG>GLU_TESS_NEED_COMBINE_CALLBACK</STRONG> error (when a local variable
+	  is used for <EM>location</EM>).
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>gluTessBeginPolygon</STRONG>, <STRONG>gluNewTess</STRONG>, <STRONG>gluTessBeginContour</STRONG>,
+	  <STRONG>gluTessCallback</STRONG>, <STRONG>gluTessProperty</STRONG>, <STRONG>gluTessNormal</STRONG>,
+	  <STRONG>gluTessEndPolygon</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

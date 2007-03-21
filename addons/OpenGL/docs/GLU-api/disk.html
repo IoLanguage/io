@@ -1,0 +1,58 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>gluDisk</STRONG> - draw a disk
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>gluDisk</STRONG>(	GLUquadric* <EM>quad</EM>,
+			GLdouble <EM>inner</EM>,
+			GLdouble <EM>outer</EM>,
+			GLint <EM>slices</EM>,
+			GLint <EM>loops</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>quad</EM>	  Specifies the	quadrics object	(created with
+		  <STRONG>gluNewQuadric</STRONG>).
+
+	  <EM>inner</EM>	  Specifies the	inner radius of	the disk (may be 0).
+
+	  <EM>outer</EM>	  Specifies the	outer radius of	the disk.
+
+	  <EM>slices</EM>  Specifies the	number of subdivisions around the <EM>z</EM>
+		  axis.
+
+	  <EM>loops</EM>	  Specifies the	number of concentric rings about the
+		  origin into which the	disk is	subdivided.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>gluDisk</STRONG> renders a disk on the	<EM>z</EM> = 0 plane. The disk has a
+	  radius of <EM>outer</EM>, and contains	a concentric circular hole
+	  with a radius	of <EM>inner</EM>. If <EM>inner</EM> is 0, then no hole is
+	  generated. The disk is subdivided around the <EM>z</EM> axis into
+	  slices (like pizza slices), and also about the <EM>z</EM> axis	into
+	  rings	(as specified by <EM>slices</EM>	and <EM>loops</EM>, respectively).
+
+	  With respect to orientation, the +<EM>z</EM> side of the disk is
+	  considered to	be "outside" (see <STRONG>gluQuadricOrientation</STRONG>).
+	  This means that if the orientation is	set to <STRONG>GLU_OUTSIDE</STRONG>,
+	  then any normals generated point along the +<EM>z</EM>	axis.
+	  Otherwise, they point	along the -<EM>z</EM> axis.
+
+	  If texturing has been	turned on (with	<STRONG>gluQuadricTexture</STRONG>),
+	  texture coordinates are generated linearly such that where
+	  r=outer, the value at	(<EM>r</EM>, 0, 0) is (1, 0.5), at (0, <EM>r</EM>, 0) it
+	  is (0.5, 1), at (-<EM>r</EM>, 0, 0) it	is (0, 0.5), and at (0,	-<EM>r</EM>, 0)
+	  it is	(0.5, 0).
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>gluCylinder</STRONG>, <STRONG>gluNewQuadric</STRONG>, <STRONG>gluPartialDisk</STRONG>,
+	  <STRONG>gluQuadricOrientation</STRONG>, <STRONG>gluQuadricTexture</STRONG>, <STRONG>gluSphere</STRONG>
+
+
+
+</PRE>
+</BODY>
+</HTML>

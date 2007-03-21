@@ -1,0 +1,76 @@
+
+<HTML><HEAD><TITLE>Manpage of glutTabletButtonFunc</TITLE>
+</HEAD><BODY>
+<H1>glutTabletButtonFunc</H1>
+Section: GLUT (3GLUT)<BR>Updated: 3.7<BR><A HREF="#index">Index</A>
+<A HREF="">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+glutTabletButtonFunc - sets the special keyboard callback for the current window. 
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNTAX</H2>
+
+<PRE>
+
+void glutTabletButtonFunc(void (*func)(int button, int state,
+                          int x, int y));
+</PRE>
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>ARGUMENTS</H2>
+
+<DL COMPACT>
+<DT><I>func</I><DD>
+The new tablet button callback function. 
+</DL>
+<A NAME="lbAE">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+glutTabletButtonFunc sets the tablet button callback for the current
+window. The tablet button callback for a window is called when the
+window has tablet input focus (normally, when the mouse is in the
+window) and the user generates tablet button presses. The button
+parameter will be the button number (starting at one). The number of
+available tablet buttons can be determined with
+glutDeviceGet(GLUT_NUM_TABLET_BUTTONS). The state is
+either GLUT_UP or GLUT_DOWN indicating whether the callback was due
+to a release or press respectively. The x and y callback parameters
+indicate the window relative coordinates when the tablet button state
+changed. 
+
+Registering a tablet button callback when a tablet device is not available
+is ineffectual and not an error. In this case, no tablet button callbacks will
+be generated. 
+
+Passing NULL to glutTabletButtonFunc disables the generation of
+tablet button callbacks. When a new window is created, no tablet button
+callback is initially registered. 
+<A NAME="lbAF">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+glutTabletMotionFunc, glutDeviceGet, glutMotionFunc, glutSpaceballMotionFunc
+<A NAME="lbAG">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Mark J. Kilgard (<A HREF="mailto:mjk@nvidia.com">mjk@nvidia.com</A>)
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNTAX</A><DD>
+<DT><A HREF="#lbAD">ARGUMENTS</A><DD>
+<DT><A HREF="#lbAE">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAF">SEE ALSO</A><DD>
+<DT><A HREF="#lbAG">AUTHOR</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="">man2html</A>,
+using the manual pages.<BR>
+Time: 19:05:09 GMT, September 15, 2003
+</BODY>
+</HTML>

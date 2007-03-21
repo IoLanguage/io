@@ -1,0 +1,58 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glDeleteTextures</STRONG> - delete named textures
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glDeleteTextures</STRONG>( GLsizei <EM>n</EM>,
+				 const GLuint *<EM>textures</EM>	)
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>n</EM>	    Specifies the number of textures to	be deleted.
+
+	  <EM>textures</EM>  Specifies an array of textures to be deleted.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glDeleteTextures</STRONG> deletes <EM>n</EM> textures named by the elements of
+	  the array <EM>textures</EM>.  After a texture is deleted, it has no
+	  contents or dimensionality, and its name is free for reuse
+	  (for example by <STRONG>glGenTextures</STRONG>).  If a	texture	that is
+	  currently bound is deleted, the binding reverts to 0 (the
+	  default texture).
+
+	  <STRONG>glDeleteTextures</STRONG> silently ignores 0's	and names that do not
+	  correspond to	existing textures.
+
+     <STRONG>NOTES</STRONG>
+	  <STRONG>glDeleteTextures</STRONG> is available	only if	the GL version is 1.1
+	  or greater.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if <EM>n</EM> is	negative.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glDeleteTextures</STRONG>	is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glIsTexture</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glAreTexturesResident</STRONG>, <STRONG>glBindTexture</STRONG>,	<STRONG>glCopyTexImage1D</STRONG>,
+	  <STRONG>glCopyTexImage2D</STRONG>, <STRONG>glGenTextures</STRONG>, <STRONG>glGet</STRONG>, <STRONG>glGetTexParameter</STRONG>,
+	  <STRONG>glPrioritizeTextures</STRONG>,	<STRONG>glTexImage1D</STRONG>, <STRONG>glTexImage2D</STRONG>,
+	  <STRONG>glTexParameter</STRONG>
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

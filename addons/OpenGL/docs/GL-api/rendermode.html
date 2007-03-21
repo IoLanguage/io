@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glRenderMode</STRONG> - set rasterization mode
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  GLint	<STRONG>glRenderMode</STRONG>( GLenum <EM>mode</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>mode</EM>	Specifies the rasterization mode.  Three values	are
+		accepted:  <STRONG>GL_RENDER</STRONG>, <STRONG>GL_SELECT</STRONG>, and <STRONG>GL_FEEDBACK</STRONG>.  The
+		initial	value is <STRONG>GL_RENDER</STRONG>.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glRenderMode</STRONG> sets the	rasterization mode.  It	takes one
+	  argument, <EM>mode</EM>, which	can assume one of three	predefined
+	  values:
+
+	  <STRONG>GL_RENDER</STRONG>	  Render mode. Primitives are rasterized,
+			  producing pixel fragments, which are written
+			  into the frame buffer.  This is the normal
+			  mode and also	the default mode.
+
+	  <STRONG>GL_SELECT</STRONG>	  Selection mode.  No pixel fragments are
+			  produced, and	no change to the frame buffer
+			  contents is made.  Instead, a	record of the
+			  names	of primitives that would have been
+			  drawn	if the render mode had been <STRONG>GL_RENDER</STRONG>
+			  is returned in a select buffer, which	must
+			  be created (see <STRONG>glSelectBuffer</STRONG>) before
+			  selection mode is entered.
+
+	  <STRONG>GL_FEEDBACK</STRONG>	  Feedback mode.  No pixel fragments are
+			  produced, and	no change to the frame buffer
+			  contents is made.  Instead, the coordinates
+			  and attributes of vertices that would	have
+			  been drawn if	the render mode	had been
+			  <STRONG>GL_RENDER</STRONG> is returned	in a feedback buffer,
+			  which	must be	created	(see <STRONG>glFeedbackBuffer</STRONG>)
+			  before feedback mode is entered.
+
+	  The return value of <STRONG>glRenderMode</STRONG> is determined by the	render
+	  mode at the time <STRONG>glRenderMode</STRONG>	is called, rather than by
+	  <EM>mode</EM>.	 The values returned for the three render modes	are as
+	  follows:
+
+	  <STRONG>GL_RENDER</STRONG>	  0.
+
+	  <STRONG>GL_SELECT</STRONG>	  The number of	hit records transferred	to the
+			  select buffer.
+
+	  <STRONG>GL_FEEDBACK</STRONG>	  The number of	values (not vertices)
+			  transferred to the feedback buffer.
+
+	  See the <STRONG>glSelectBuffer</STRONG> and <STRONG>glFeedbackBuffer</STRONG> reference	pages
+	  for more details concerning selection	and feedback
+	  operation.
+
+     <STRONG>NOTES</STRONG>
+	  If an	error is generated, <STRONG>glRenderMode</STRONG> returns 0 regardless
+	  of the current render	mode.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>mode</EM> is not one of the three
+	  accepted values.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glSelectBuffer</STRONG> is
+	  called while the render mode is <STRONG>GL_SELECT</STRONG>, or	if
+	  <STRONG>glRenderMode</STRONG> is called with argument <STRONG>GL_SELECT</STRONG> before
+	  <STRONG>glSelectBuffer</STRONG> is called at least once.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glFeedbackBuffer</STRONG>	is
+	  called while the render mode is <STRONG>GL_FEEDBACK</STRONG>, or if
+	  <STRONG>glRenderMode</STRONG> is called with argument <STRONG>GL_FEEDBACK</STRONG> before
+	  <STRONG>glFeedbackBuffer</STRONG> is called at	least once.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glRenderMode</STRONG> is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_RENDER_MODE</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glFeedbackBuffer</STRONG>, <STRONG>glInitNames</STRONG>, <STRONG>glLoadName</STRONG>, <STRONG>glPassThrough</STRONG>,
+	  <STRONG>glPushName</STRONG>, <STRONG>glSelectBuffer</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

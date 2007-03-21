@@ -1,0 +1,162 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glTexSubImage2D</STRONG> - specify a two-dimensional texture subimage
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glTexSubImage2D</STRONG>(	GLenum <EM>target</EM>,
+				GLint <EM>level</EM>,
+				GLint <EM>xoffset</EM>,
+				GLint <EM>yoffset</EM>,
+				GLsizei	<EM>width</EM>,
+				GLsizei	<EM>height</EM>,
+				GLenum <EM>format</EM>,
+				GLenum <EM>type</EM>,
+				const GLvoid *<EM>pixels</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>target</EM>   Specifies the target	texture.  Must be
+		   <STRONG>GL_TEXTURE_2D</STRONG>.
+
+	  <EM>level</EM>	   Specifies the level-of-detail number.  Level	0 is
+		   the base image level.  Level	<EM>n</EM> is the <EM>n</EM>th mipmap
+		   reduction image.
+
+	  <EM>xoffset</EM>  Specifies a texel offset in the x direction within
+		   the texture array.
+
+	  <EM>yoffset</EM>  Specifies a texel offset in the y direction within
+		   the texture array.
+
+	  <EM>width</EM>	   Specifies the width of the texture subimage.
+
+	  <EM>height</EM>   Specifies the height	of the texture subimage.
+
+	  <EM>format</EM>   Specifies the format	of the pixel data.  The
+		   following symbolic values are accepted:
+		   <STRONG>GL_COLOR_INDEX</STRONG>, <STRONG>GL_RED</STRONG>, <STRONG>GL_GREEN</STRONG>, <STRONG>GL_BLUE</STRONG>,
+		   <STRONG>GL_ALPHA</STRONG>, <STRONG>GL_RGB</STRONG>, <STRONG>GL_RGBA</STRONG>, <STRONG>GL_LUMINANCE</STRONG>, and
+		   <STRONG>GL_LUMINANCE_ALPHA</STRONG>.
+
+	  <EM>type</EM>	   Specifies the data type of the pixel	data.  The
+		   following symbolic values are accepted:
+		   <STRONG>GL_UNSIGNED_BYTE</STRONG>, <STRONG>GL_BYTE</STRONG>, <STRONG>GL_BITMAP</STRONG>,
+		   <STRONG>GL_UNSIGNED_SHORT</STRONG>, <STRONG>GL_SHORT</STRONG>,	<STRONG>GL_UNSIGNED_INT</STRONG>,
+		   <STRONG>GL_INT</STRONG>, and <STRONG>GL_FLOAT</STRONG>.
+
+	  <EM>pixels</EM>   Specifies a pointer to the image data in memory.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  Texturing maps a portion of a	specified texture image	onto
+	  each graphical primitive for which texturing is enabled.  To
+	  enable and disable two-dimensional texturing,	call <STRONG>glEnable</STRONG>
+	  and <STRONG>glDisable</STRONG>	with argument <STRONG>GL_TEXTURE_2D</STRONG>.
+
+	  <STRONG>glTexSubImage2D</STRONG> redefines a contiguous subregion of an
+	  existing two-dimensional texture image.  The texels
+	  referenced by	<EM>pixels</EM> replace the portion of the existing
+	  texture array	with x indices <EM>xoffset</EM> and
+	  xoffset + width - 1, inclusive, and y	indices	<EM>yoffset</EM>	and
+	  yoffset + height - 1,	inclusive. This	region may not include
+	  any texels outside the range of the texture array as it was
+	  originally specified.	 It is not an error to specify a
+	  subtexture with zero width or	height,	but such a
+	  specification	has no effect.
+
+     <STRONG>NOTES</STRONG>
+	  <STRONG>glTexSubImage2D</STRONG> is available only if the GL version is 1.1
+	  or greater.
+
+	  Texturing has	no effect in color index mode.
+
+	  <STRONG>glPixelStore</STRONG> and <STRONG>glPixelTransfer</STRONG> modes affect	texture	images
+	  in exactly the way they affect <STRONG>glDrawPixels</STRONG>.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>target</EM> is not	<STRONG>GL_TEXTURE_2D</STRONG>.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if the texture array has
+	  not been defined by a	previous <STRONG>glTexImage2D</STRONG> operation.
+
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if <EM>level</EM> is less than 0.
+
+	  P <STRONG>GL_INVALID_VALUE</STRONG> may be generated if <EM>level</EM> is greater than
+	  log <EM>max</EM>, where <EM>max</EM> is	the returned value of
+	  <STRONG>GL_MAX_TEXTURE_SIZE</STRONG>.
+
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if xoffset &lt;  -b,
+	  (xoffset + width) &gt; (w - b), yoffset &lt;  -b, or
+	  (yoffset + height) &gt; (h - b).	 Where w is the
+	  <STRONG>GL_TEXTURE_WIDTH</STRONG>, h is the <STRONG>GL_TEXTURE_HEIGHT</STRONG>,	and b is the
+	  border width of the texture image being modified.  Note that
+	  w and	h include twice	the border width.
+
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if <EM>width</EM> or <EM>height</EM> is less
+	  than 0.
+
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>format</EM> is not	an accepted
+	  format constant.
+
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>type</EM> is not a	type constant.
+
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>type</EM> is <STRONG>GL_BITMAP</STRONG> and	<EM>format</EM>
+	  is not <STRONG>GL_COLOR_INDEX</STRONG>.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glTexSubImage2D</STRONG> is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGetTexImage</STRONG>
+	  <STRONG>glIsEnabled</STRONG> with argument <STRONG>GL_TEXTURE_2D</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glCopyTexImage1D</STRONG>, <STRONG>glCopyTexImage2D</STRONG>, <STRONG>glCopyTexSubImage1D</STRONG>,
+	  <STRONG>glCopyTexSubImage2D</STRONG>, <STRONG>glDrawPixels</STRONG>, <STRONG>glPixelStore</STRONG>,
+	  <STRONG>glPixelTransfer</STRONG>, <STRONG>glTexEnv</STRONG>, <STRONG>glTexGen</STRONG>, <STRONG>glTexImage1D</STRONG>,
+	  <STRONG>glTexImage2D</STRONG>,	<STRONG>glTexSubImage1D</STRONG>, <STRONG>glTexParameter</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

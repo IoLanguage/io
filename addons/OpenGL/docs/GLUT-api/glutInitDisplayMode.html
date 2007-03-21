@@ -1,0 +1,139 @@
+
+<HTML><HEAD><TITLE>Manpage of glutInitDisplayMode</TITLE>
+</HEAD><BODY>
+<H1>glutInitDisplayMode</H1>
+Section: GLUT (3GLUT)<BR>Updated: 3.7<BR><A HREF="#index">Index</A>
+<A HREF="">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+glutInitDisplayMode - sets the initial display mode. 
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNTAX</H2>
+
+<PRE>
+
+void glutInitDisplayMode(unsigned int mode);
+</PRE>
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>ARGUMENTS</H2>
+
+<DL COMPACT>
+<DT><I>mode</I><DD>
+Display mode, normally the bitwise {\m OR}-ing of GLUT display mode bit masks.
+See values below:
+<DT><B>GLUT_RGBA</B>
+
+<DD>
+Bit mask to select an RGBA mode window. This is the default if
+neither GLUT_RGBA nor GLUT_INDEX are specified. 
+<DT><B>GLUT_RGB</B>
+
+<DD>
+An alias for GLUT_RGBA. 
+<DT><B>GLUT_INDEX</B>
+
+<DD>
+Bit mask to select a color index mode window. This overrides
+GLUT_RGBA if it is also specified. 
+<DT><B>GLUT_SINGLE</B>
+
+<DD>
+Bit mask to select a single buffered window. This is the default if
+neither GLUT_DOUBLE or GLUT_SINGLE are specified. 
+<DT><B>GLUT_DOUBLE</B>
+
+<DD>
+Bit mask to select a double buffered window. This overrides
+GLUT_SINGLE if it is also specified. 
+<DT><B>GLUT_ACCUM</B>
+
+<DD>
+Bit mask to select a window with an accumulation buffer. 
+<DT><B>GLUT_ALPHA</B>
+
+<DD>
+Bit mask to select a window with an alpha component to the color
+buffer(s). 
+<DT><B>GLUT_DEPTH</B>
+
+<DD>
+Bit mask to select a window with a depth buffer. 
+<DT><B>GLUT_STENCIL</B>
+
+<DD>
+Bit mask to select a window with a stencil buffer. 
+<DT><B>GLUT_MULTISAMPLE</B>
+
+<DD>
+Bit mask to select a window with multisampling support. If
+multisampling is not available, a non-multisampling window will
+automatically be chosen. Note: both the OpenGL client-side and
+server-side implementations must support the
+GLX_SAMPLE_SGIS extension for multisampling to be available. 
+<DT><B>GLUT_STEREO</B>
+
+<DD>
+Bit mask to select a stereo window. 
+<DT><B>GLUT_LUMINANCE</B>
+
+<DD>
+Bit mask to select a window with a ``luminance'' color model.
+This model provides the functionality of OpenGL's RGBA color
+model, but the green and blue components are not maintained in
+the frame buffer. Instead each pixel's red component is converted
+to an index between zero and
+glutGet(GLUT_WINDOW_COLORMAP_SIZE)-1 and looked up in
+a per-window color map to determine the color of pixels within
+the window. The initial colormap of GLUT_LUMINANCE windows
+is initialized to be a linear gray ramp, but can be modified with
+GLUT's colormap routines. 
+</DL>
+<A NAME="lbAE">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+The initial display mode is used when creating top-level windows,
+subwindows, and overlays to determine the OpenGL display mode for
+the to-be-created window or overlay. 
+
+Note that GLUT_RGBA selects the RGBA color model, but it does not
+request any bits of alpha (sometimes called an alpha buffer or destination
+alpha) be allocated. To request alpha, specify GLUT_ALPHA. The same
+applies to GLUT_LUMINANCE. 
+
+The glutInitDisplayString routine provides a more powerful way to
+select frame buffer capabilities for GLUT windows.
+<A NAME="lbAF">&nbsp;</A>
+<H2>GLUT_LUMINANCE IMPLEMENTATION NOTES</H2>
+
+GLUT_LUMINANCE is not supported on most OpenGL platforms. 
+<A NAME="lbAG">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+glutInit, glutCreateWindow, glutInitDisplayString
+<A NAME="lbAH">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Mark J. Kilgard (<A HREF="mailto:mjk@nvidia.com">mjk@nvidia.com</A>)
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNTAX</A><DD>
+<DT><A HREF="#lbAD">ARGUMENTS</A><DD>
+<DT><A HREF="#lbAE">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAF">GLUT_LUMINANCE IMPLEMENTATION NOTES</A><DD>
+<DT><A HREF="#lbAG">SEE ALSO</A><DD>
+<DT><A HREF="#lbAH">AUTHOR</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="">man2html</A>,
+using the manual pages.<BR>
+Time: 19:05:09 GMT, September 15, 2003
+</BODY>
+</HTML>

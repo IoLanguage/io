@@ -1,0 +1,58 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>gluBeginCurve,</STRONG> <STRONG>gluEndCurve</STRONG> - delimit a NURBS curve
+	  definition
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>gluBeginCurve</STRONG>( GLUnurbs*	<EM>nurb</EM> )
+
+	  void <STRONG>gluEndCurve</STRONG>( GLUnurbs* <EM>nurb</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>nurb</EM>	Specifies the NURBS object (created with
+		<STRONG>gluNewNurbsRenderer</STRONG>).
+
+     <STRONG>DESCRIPTION</STRONG>
+	  Use <STRONG>gluBeginCurve</STRONG> to mark the	beginning of a NURBS curve
+	  definition.  After calling <STRONG>gluBeginCurve</STRONG>, make one or	more
+	  calls	to <STRONG>gluNurbsCurve</STRONG> to define the attributes of the
+	  curve.  Exactly one of the calls to <STRONG>gluNurbsCurve</STRONG> must have
+	  a curve type of <STRONG>GL_MAP1_VERTEX_3</STRONG> or <STRONG>GL_MAP1_VERTEX_4</STRONG>.	 To
+	  mark the end of the NURBS curve definition, call
+	  <STRONG>gluEndCurve</STRONG>.
+
+	  GL evaluators	are used to render the NURBS curve as a	series
+	  of line segments.  Evaluator state is	preserved during
+	  rendering with <STRONG>glPushAttrib</STRONG>(<STRONG>GL_EVAL_BIT</STRONG>) and <STRONG>glPopAttrib</STRONG>().
+	  See the <STRONG>glPushAttrib</STRONG> reference page for details on exactly
+	  what state these calls preserve.
+
+     <STRONG>EXAMPLE</STRONG>
+	  The following	commands render	a textured NURBS curve with
+	  normals; texture coordinates and normals are also specified
+	  as NURBS curves:
+
+	  gluBeginCurve(nobj);
+	     gluNurbsCurve(nobj, ..., GL_MAP1_TEXTURE_COORD_2);
+	     gluNurbsCurve(nobj, ..., GL_MAP1_NORMAL);
+	     gluNurbsCurve(nobj, ..., GL_MAP1_VERTEX_4);
+	  gluEndCurve(nobj);
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>gluBeginSurface</STRONG>, <STRONG>gluBeginTrim</STRONG>, <STRONG>gluNewNurbsRenderer</STRONG>,
+	  <STRONG>gluNurbsCurve</STRONG>, <STRONG>glPopAttrib</STRONG>, <STRONG>glPushAttrib</STRONG>
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

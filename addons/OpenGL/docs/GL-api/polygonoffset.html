@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glPolygonOffset</STRONG> - set	the scale and units used to calculate
+	  depth	values
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glPolygonOffset</STRONG>(	GLfloat	<EM>factor</EM>,
+				GLfloat	<EM>units</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>factor</EM>  Specifies a scale factor that	is used	to create a
+		  variable depth offset	for each polygon. The initial
+		  value	is 0.
+
+	  <EM>units</EM>	  Is multiplied	by an implementation-specific value to
+		  create a constant depth offset. The initial value is
+		  0.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  When <STRONG>GL_POLYGON_OFFSET</STRONG> is enabled, each fragment's <EM>depth</EM>
+	  value	will be	offset after it	is interpolated	from the <EM>depth</EM>
+	  values of the	appropriate vertices.  The value of the	offset
+	  is factor * DZ  +  r * units,	where DZ  is a measurement of
+	  the change in	depth relative to the screen area of the
+	  polygon, and r is the	smallest value that is guaranteed to
+	  produce a resolvable offset for a given implementation.  The
+	  offset is added before the depth test	is performed and
+	  before the value is written into the depth buffer.
+
+	  <STRONG>glPolygonOffset</STRONG> is useful for	rendering hidden-line images,
+	  for applying decals to surfaces, and for rendering solids
+	  with highlighted edges.
+
+     <STRONG>NOTES</STRONG>
+	  <STRONG>glPolygonOffset</STRONG> is available only if the GL version is 1.1
+	  or greater.
+
+	  <STRONG>glPolygonOffset</STRONG> has no effect	on depth coordinates placed in
+	  the feedback buffer.
+
+	  <STRONG>glPolygonOffset</STRONG> has no effect	on selection.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glPolygonOffset</STRONG> is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glIsEnabled</STRONG> with argument <STRONG>GL_POLYGON_OFFSET_FILL</STRONG>,
+	  <STRONG>GL_POLYGON_OFFSET_LINE</STRONG>, or <STRONG>GL_POLYGON_OFFSET_POINT</STRONG>.
+
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_POLYGON_OFFSET_FACTOR</STRONG> or
+	  <STRONG>GL_POLYGON_OFFSET_UNITS</STRONG>.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glDepthFunc</STRONG>, <STRONG>glDisable</STRONG>, <STRONG>glEnable</STRONG>, <STRONG>glGet</STRONG>, <STRONG>glIsEnabled</STRONG>,
+	  <STRONG>glLineWidth</STRONG>, <STRONG>glStencilOp</STRONG>, <STRONG>glTexEnv</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

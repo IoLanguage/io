@@ -1,0 +1,58 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glColorMask</STRONG> -	enable and disable writing of frame buffer
+	  color	components
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glColorMask</STRONG>( GLboolean <EM>red</EM>,
+			    GLboolean <EM>green</EM>,
+			    GLboolean <EM>blue</EM>,
+			    GLboolean <EM>alpha</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>red</EM>, <EM>green</EM>, <EM>blue</EM>, <EM>alpha</EM>
+				Specify	whether	red, green, blue, and
+				alpha can or cannot be written into
+				the frame buffer.  The initial values
+				are all	<STRONG>GL_TRUE</STRONG>, indicating that the
+				color components can be	written.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glColorMask</STRONG> specifies	whether	the individual color
+	  components in	the frame buffer can or	cannot be written.  If
+	  <EM>red</EM> is <STRONG>GL_FALSE</STRONG>, for example,	no change is made to the red
+	  component of any pixel in any	of the color buffers,
+	  regardless of	the drawing operation attempted.
+
+	  Changes to individual	bits of	components cannot be
+	  controlled.  Rather, changes are either enabled or disabled
+	  for entire color components.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glColorMask</STRONG> is executed
+	  between the execution	of <STRONG>glBegin</STRONG> and the corresponding
+	  execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_COLOR_WRITEMASK</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_RGBA_MODE</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glColor</STRONG>, <STRONG>glColorPointer</STRONG>, <STRONG>glDepthMask</STRONG>,	<STRONG>glIndex</STRONG>,
+	  <STRONG>glIndexPointer</STRONG>, <STRONG>glIndexMask</STRONG>, <STRONG>glStencilMask</STRONG>
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

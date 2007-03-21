@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glPrioritizeTextures</STRONG> - set texture residence priority
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glPrioritizeTextures</STRONG>( GLsizei <EM>n</EM>,
+				     const GLuint *<EM>textures</EM>,
+				     const GLclampf *<EM>priorities</EM>	)
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>n</EM>	      Specifies	the number of textures to be
+		      prioritized.
+
+	  <EM>textures</EM>    Specifies	an array containing the	names of the
+		      textures to be prioritized.
+
+	  <EM>priorities</EM>  Specifies	an array containing the	texture
+		      priorities.  A priority given in an element of
+		      <EM>priorities</EM> applies to the	texture	named by the
+		      corresponding element of <EM>textures</EM>.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glPrioritizeTextures</STRONG> assigns the <EM>n</EM> texture priorities	given
+	  in <EM>priorities</EM>	to the <EM>n</EM> textures named	in <EM>textures</EM>.
+
+	  The GL establishes a ``working set'' of textures that	are
+	  resident in texture memory.  These textures may be bound to
+	  a texture target much	more efficiently than textures that
+	  are not resident.  By	specifying a priority for each
+	  texture, <STRONG>glPrioritizeTextures</STRONG>	allows applications to guide
+	  the GL implementation	in determining which textures should
+	  be resident.
+
+	  The priorities given in <EM>priorities</EM> are clamped to the	range
+	  [0,1]	before they are	assigned.  0 indicates the lowest
+	  priority; textures with priority 0 are least likely to be
+	  resident.  1 indicates the highest priority; textures	with
+	  priority 1 are most likely to	be resident.  However,
+	  textures are not guaranteed to be resident until they	are
+	  used.
+
+	  <STRONG>glPrioritizeTextures</STRONG> silently	ignores	attempts to prioritize
+	  texture 0, or	any texture name that does not correspond to
+	  an existing texture.
+
+	  <STRONG>glPrioritizeTextures</STRONG> does not	require	that any of the
+	  textures named by <EM>textures</EM> be	bound to a texture target.
+	  <STRONG>glTexParameter</STRONG> may also be used to set a texture's priority,
+	  but only if the texture is currently bound.  This is the
+	  only way to set the priority of a default texture.
+
+     <STRONG>NOTES</STRONG>
+	  <STRONG>glPrioritizeTextures</STRONG> is available only if the	GL version is
+	  1.1 or greater.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if <EM>n</EM> is	negative.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glPrioritizeTextures</STRONG> is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGetTexParameter</STRONG> with parameter name	<STRONG>GL_TEXTURE_PRIORITY</STRONG>
+	  retrieves the	priority of a currently	bound texture.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glAreTexturesResident</STRONG>, <STRONG>glBindTexture</STRONG>,	<STRONG>glCopyTexImage1D</STRONG>,
+	  <STRONG>glCopyTexImage2D</STRONG>, <STRONG>glTexImage1D</STRONG>, <STRONG>glTexImage2D</STRONG>,	<STRONG>glTexParameter</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

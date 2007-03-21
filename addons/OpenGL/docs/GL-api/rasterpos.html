@@ -1,0 +1,214 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glRasterPos2d,</STRONG> <STRONG>glRasterPos2f,</STRONG>	<STRONG>glRasterPos2i,</STRONG> <STRONG>glRasterPos2s,</STRONG>
+	  <STRONG>glRasterPos3d,</STRONG> <STRONG>glRasterPos3f,</STRONG>	<STRONG>glRasterPos3i,</STRONG> <STRONG>glRasterPos3s,</STRONG>
+	  <STRONG>glRasterPos4d,</STRONG> <STRONG>glRasterPos4f,</STRONG>	<STRONG>glRasterPos4i,</STRONG> <STRONG>glRasterPos4s,</STRONG>
+	  <STRONG>glRasterPos2dv,</STRONG> <STRONG>glRasterPos2fv,</STRONG> <STRONG>glRasterPos2iv,</STRONG>
+	  <STRONG>glRasterPos2sv,</STRONG> <STRONG>glRasterPos3dv,</STRONG> <STRONG>glRasterPos3fv,</STRONG>
+	  <STRONG>glRasterPos3iv,</STRONG> <STRONG>glRasterPos3sv,</STRONG> <STRONG>glRasterPos4dv,</STRONG>
+	  <STRONG>glRasterPos4fv,</STRONG> <STRONG>glRasterPos4iv,</STRONG> <STRONG>glRasterPos4sv</STRONG> - specify the
+	  raster position for pixel operations
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glRasterPos2d</STRONG>( GLdouble <EM>x</EM>,
+			      GLdouble <EM>y</EM> )
+	  void <STRONG>glRasterPos2f</STRONG>( GLfloat <EM>x</EM>,
+			      GLfloat <EM>y</EM>	)
+	  void <STRONG>glRasterPos2i</STRONG>( GLint <EM>x</EM>,
+			      GLint <EM>y</EM> )
+	  void <STRONG>glRasterPos2s</STRONG>( GLshort <EM>x</EM>,
+			      GLshort <EM>y</EM>	)
+	  void <STRONG>glRasterPos3d</STRONG>( GLdouble <EM>x</EM>,
+			      GLdouble <EM>y</EM>,
+			      GLdouble <EM>z</EM> )
+	  void <STRONG>glRasterPos3f</STRONG>( GLfloat <EM>x</EM>,
+			      GLfloat <EM>y</EM>,
+			      GLfloat <EM>z</EM>	)
+	  void <STRONG>glRasterPos3i</STRONG>( GLint <EM>x</EM>,
+			      GLint <EM>y</EM>,
+			      GLint <EM>z</EM> )
+	  void <STRONG>glRasterPos3s</STRONG>( GLshort <EM>x</EM>,
+			      GLshort <EM>y</EM>,
+			      GLshort <EM>z</EM>	)
+	  void <STRONG>glRasterPos4d</STRONG>( GLdouble <EM>x</EM>,
+			      GLdouble <EM>y</EM>,
+			      GLdouble <EM>z</EM>,
+			      GLdouble <EM>w</EM> )
+	  void <STRONG>glRasterPos4f</STRONG>( GLfloat <EM>x</EM>,
+			      GLfloat <EM>y</EM>,
+			      GLfloat <EM>z</EM>,
+			      GLfloat <EM>w</EM>	)
+	  void <STRONG>glRasterPos4i</STRONG>( GLint <EM>x</EM>,
+			      GLint <EM>y</EM>,
+			      GLint <EM>z</EM>,
+			      GLint <EM>w</EM> )
+	  void <STRONG>glRasterPos4s</STRONG>( GLshort <EM>x</EM>,
+			      GLshort <EM>y</EM>,
+			      GLshort <EM>z</EM>,
+			      GLshort <EM>w</EM>	)
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>x</EM>, <EM>y</EM>,	<EM>z</EM>, <EM>w</EM>
+		   Specify the x, y, z,	and w object coordinates (if
+		   present) for	the raster position.
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glRasterPos2dv</STRONG>( const GLdouble *<EM>v</EM> )
+	  void <STRONG>glRasterPos2fv</STRONG>( const GLfloat *<EM>v</EM>	)
+	  void <STRONG>glRasterPos2iv</STRONG>( const GLint *<EM>v</EM> )
+	  void <STRONG>glRasterPos2sv</STRONG>( const GLshort *<EM>v</EM>	)
+	  void <STRONG>glRasterPos3dv</STRONG>( const GLdouble *<EM>v</EM> )
+	  void <STRONG>glRasterPos3fv</STRONG>( const GLfloat *<EM>v</EM>	)
+	  void <STRONG>glRasterPos3iv</STRONG>( const GLint *<EM>v</EM> )
+	  void <STRONG>glRasterPos3sv</STRONG>( const GLshort *<EM>v</EM>	)
+	  void <STRONG>glRasterPos4dv</STRONG>( const GLdouble *<EM>v</EM> )
+	  void <STRONG>glRasterPos4fv</STRONG>( const GLfloat *<EM>v</EM>	)
+	  void <STRONG>glRasterPos4iv</STRONG>( const GLint *<EM>v</EM> )
+	  void <STRONG>glRasterPos4sv</STRONG>( const GLshort *<EM>v</EM>	)
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>v</EM>    Specifies a pointer to an array of two, three, or four
+	       elements, specifying x, y, z, and w coordinates,
+	       respectively.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  The GL maintains a 3D	position in window coordinates.	 This
+	  position, called the raster position,	is used	to position
+	  pixel	and bitmap write operations. It	is maintained with
+	  subpixel accuracy.  See <STRONG>glBitmap</STRONG>, <STRONG>glDrawPixels</STRONG>, and
+	  <STRONG>glCopyPixels</STRONG>.
+
+	  The current raster position consists of three	window
+	  coordinates (x, y, z), a clip	coordinate value (w), an eye
+	  coordinate distance, a valid bit, and	associated color data
+	  and texture coordinates.  The	w coordinate is	a clip
+	  coordinate, because w	is not projected to window
+	  coordinates.	<STRONG>glRasterPos4</STRONG> specifies object coordinates x,
+	  y, z,	and w explicitly.  <STRONG>glRasterPos3</STRONG>	specifies object
+	  coordinate x,	y, and z explicitly, while w is	implicitly set
+	  to 1.	 <STRONG>glRasterPos2</STRONG> uses the argument	values for x and y
+	  while	implicitly setting z and w to 0	and 1.
+
+	  The object coordinates presented by <STRONG>glRasterPos</STRONG> are treated
+	  just like those of a <STRONG>glVertex</STRONG>	command:  They are transformed
+	  by the current modelview and projection matrices and passed
+	  to the clipping stage.  If the vertex	is not culled, then it
+	  is projected and scaled to window coordinates, which become
+	  the new current raster position, and the
+	  <STRONG>GL_CURRENT_RASTER_POSITION_VALID</STRONG> flag	is set.	 If the	vertex
+	  <EM>is</EM> culled, then the valid bit	is cleared and the current
+	  raster position and associated color and texture coordinates
+	  are undefined.
+
+	  The current raster position also includes some associated
+	  color	data and texture coordinates.  If lighting is enabled,
+	  then <STRONG>GL_CURRENT_RASTER_COLOR</STRONG> (in RGBA	mode) or
+	  <STRONG>GL_CURRENT_RASTER_INDEX</STRONG> (in color index mode)	is set to the
+	  color	produced by the	lighting calculation (see <STRONG>glLight</STRONG>,
+	  <STRONG>glLightModel</STRONG>,	and
+	  <STRONG>glShadeModel</STRONG>).  If lighting is disabled, current color (in
+	  RGBA mode, state variable <STRONG>GL_CURRENT_COLOR</STRONG>) or color index
+	  (in color index mode,	state variable <STRONG>GL_CURRENT_INDEX</STRONG>) is
+	  used to update the current raster color.
+
+	  Likewise, <STRONG>GL_CURRENT_RASTER_TEXTURE_COORDS</STRONG> is	updated	as a
+	  function of <STRONG>GL_CURRENT_TEXTURE_COORDS</STRONG>, based on the texture
+	  matrix and the texture generation functions (see <STRONG>glTexGen</STRONG>).
+	  Finally, the distance	from the origin	of the eye coordinate
+	  system to the	vertex as transformed by only the modelview
+	  matrix replaces <STRONG>GL_CURRENT_RASTER_DISTANCE</STRONG>.
+
+	  Initially, the current raster	position is (0,	0, 0, 1), the
+	  current raster distance is 0,	the valid bit is set, the
+	  associated RGBA color	is (1, 1, 1, 1), the associated	color
+	  index	is 1, and the associated texture coordinates are (0,
+	  0, 0,	1).  In	RGBA mode, <STRONG>GL_CURRENT_RASTER_INDEX</STRONG> is always
+	  1; in	color index mode, the current raster RGBA color	always
+	  maintains its	initial	value.
+
+     <STRONG>NOTES</STRONG>
+	  The raster position is modified both by <STRONG>glRasterPos</STRONG> and by
+	  <STRONG>glBitmap</STRONG>.
+
+	  When the raster position coordinates are invalid, drawing
+	  commands that	are based on the raster	position are ignored
+	  (that	is, they do not	result in changes to GL	state).
+
+	  Calling <STRONG>glDrawElements</STRONG> may leave the current color or	index
+	  indeterminate.  If <STRONG>glRasterPos</STRONG> is executed while the current
+	  color	or index is indeterminate, the current raster color or
+	  current raster index remains indeterminate.
+
+	  To set a valid raster	position outside the viewport, first
+	  set a	valid raster position, then call <STRONG>glBitmap</STRONG> with NULL as
+	  the <EM>bitmap</EM> parameter.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glRasterPos</STRONG> is executed
+	  between the execution	of <STRONG>glBegin</STRONG> and the corresponding
+	  execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_CURRENT_RASTER_POSITION</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_CURRENT_RASTER_POSITION_VALID</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_CURRENT_RASTER_DISTANCE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_CURRENT_RASTER_COLOR</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_CURRENT_RASTER_INDEX</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_CURRENT_RASTER_TEXTURE_COORDS</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glBitmap</STRONG>, <STRONG>glCopyPixels</STRONG>, <STRONG>glDrawElements</STRONG>, <STRONG>glDrawPixels</STRONG>,
+	  <STRONG>glLight</STRONG>, <STRONG>glLightModel</STRONG>, <STRONG>glShadeModel</STRONG>, <STRONG>glTexCoord</STRONG>, <STRONG>glTexGen</STRONG>,
+	  <STRONG>glVertex</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

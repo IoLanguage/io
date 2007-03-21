@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glScaled,</STRONG> <STRONG>glScalef</STRONG> - multiply	the current matrix by a
+	  general scaling matrix
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glScaled</STRONG>( GLdouble <EM>x</EM>,
+			 GLdouble <EM>y</EM>,
+			 GLdouble <EM>z</EM> )
+	  void <STRONG>glScalef</STRONG>( GLfloat <EM>x</EM>,
+			 GLfloat <EM>y</EM>,
+			 GLfloat <EM>z</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>x</EM>, <EM>y</EM>,	<EM>z</EM>
+		 Specify scale factors along the <EM>x</EM>, <EM>y</EM>, and <EM>z</EM> axes,
+		 respectively.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glScale</STRONG> produces a nonuniform	scaling	along the <EM>x</EM>, <EM>y</EM>,	and <EM>z</EM>
+	  axes.	The three parameters indicate the desired scale	factor
+	  along	each of	the three axes.
+
+	  The current matrix (see <STRONG>glMatrixMode</STRONG>)	is multiplied by this
+	  scale	matrix,	and the	product	replaces the current matrix as
+	  if <STRONG>glScale</STRONG> were called with the following matrix as its
+	  argument:
+
+
+			      (	 x   0	 0   0	)
+			      |			|
+			      |	 0   y	 0   0	|
+			      |	 0   0	 z   0	|
+			      |			|
+			      (	 0   0	 0   1	)
+	  If the matrix	mode is	either <STRONG>GL_MODELVIEW</STRONG> or <STRONG>GL_PROJECTION</STRONG>,
+	  all objects drawn after <STRONG>glScale</STRONG> is called are	scaled.
+
+	  Use <STRONG>glPushMatrix</STRONG> and <STRONG>glPopMatrix</STRONG> to save and restore the
+	  unscaled coordinate system.
+
+     <STRONG>NOTES</STRONG>
+	  If scale factors other than 1	are applied to the modelview
+	  matrix and lighting is enabled, lighting often appears
+	  wrong.  In that case,	enable automatic normalization of
+	  normals by calling <STRONG>glEnable</STRONG> with the argument	<STRONG>GL_NORMALIZE</STRONG>.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glScale</STRONG> is executed
+	  between the execution	of <STRONG>glBegin</STRONG> and the corresponding
+	  execution of <STRONG>glEnd</STRONG>.
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_MATRIX_MODE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_MODELVIEW_MATRIX</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_PROJECTION_MATRIX</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_TEXTURE_MATRIX</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glMatrixMode</STRONG>,	<STRONG>glMultMatrix</STRONG>, <STRONG>glPushMatrix</STRONG>, <STRONG>glRotate</STRONG>,
+	  <STRONG>glTranslate</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,162 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glStencilFunc</STRONG>	- set function and reference value for stencil
+	  testing
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glStencilFunc</STRONG>( GLenum <EM>func</EM>,
+			      GLint <EM>ref</EM>,
+			      GLuint <EM>mask</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>func</EM>	Specifies the test function.  Eight tokens are valid:
+		<STRONG>GL_NEVER</STRONG>, <STRONG>GL_LESS</STRONG>, <STRONG>GL_LEQUAL</STRONG>, <STRONG>GL_GREATER</STRONG>, <STRONG>GL_GEQUAL</STRONG>,
+		<STRONG>GL_EQUAL</STRONG>, <STRONG>GL_NOTEQUAL</STRONG>, and <STRONG>GL_ALWAYS</STRONG>. The initial
+		value is <STRONG>GL_ALWAYS</STRONG>.
+
+	  <EM>ref</EM>	Specifies the reference	value for the stencil test.
+		<EM>ref</EM> is clamped to the range [0,2n-1], where n is the
+		number of bitplanes in the stencil buffer. The initial
+		value is 0.
+
+	  <EM>mask</EM>	Specifies a mask that is ANDed with both the reference
+		value and the stored stencil value when	the test is
+		done. The initial value	is all 1's.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  Stenciling, like depth-buffering, enables and	disables
+	  drawing on a per-pixel basis.	 You draw into the stencil
+	  planes using GL drawing primitives, then render geometry and
+	  images, using	the stencil planes to mask out portions	of the
+	  screen.  Stenciling is typically used	in multipass rendering
+	  algorithms to	achieve	special	effects, such as decals,
+	  outlining, and constructive solid geometry rendering.
+
+	  The stencil test conditionally eliminates a pixel based on
+	  the outcome of a comparison between the reference value and
+	  the value in the stencil buffer.  To enable and disable the
+	  test,	call <STRONG>glEnable</STRONG> and <STRONG>glDisable</STRONG> with argument
+	  <STRONG>GL_STENCIL_TEST</STRONG>.  To specify actions based on	the outcome of
+	  the stencil test, call <STRONG>glStencilOp</STRONG>.
+
+	  <EM>func</EM> is a symbolic constant that determines the stencil
+	  comparison function.	It accepts one of eight	values,	shown
+	  in the following list.  <EM>ref</EM> is an integer reference value
+	  that is used in the stencil comparison.  It is clamped to
+	  the range [0,2n-1], where n is the number of bitplanes in
+	  the stencil buffer.  <EM>mask</EM> is bitwise ANDed with both the
+	  reference value and the stored stencil value,	with the ANDed
+	  values participating in the comparison.
+
+	  If <EM>stencil</EM> represents	the value stored in the	corresponding
+	  stencil buffer location, the following list shows the	effect
+	  of each comparison function that can be specified by <EM>func</EM>.
+	  Only if the comparison succeeds is the pixel passed through
+	  to the next stage in the rasterization process (see
+	  <STRONG>glStencilOp</STRONG>).	 All tests treat <EM>stencil</EM> values	as unsigned
+	  integers in the range	[0,2n-1], where	n is the number	of
+	  bitplanes in the stencil buffer.
+
+	  The following	values are accepted by <EM>func</EM>:
+
+	  <STRONG>GL_NEVER</STRONG>	    Always fails.
+
+	  <STRONG>GL_LESS</STRONG>	    Passes if (	<EM>ref</EM> &amp; <EM>mask</EM> ) &lt; ( <EM>stencil</EM> &amp;
+			    <EM>mask</EM> ).
+
+	  <STRONG>GL_LEQUAL</STRONG>	    Passes if (	<EM>ref</EM> &amp; <EM>mask</EM> ) <EM>&lt;</EM> ( <EM>stencil</EM> &amp;
+			    <EM>mask</EM> ).
+
+	  <STRONG>GL_GREATER</STRONG>	    Passes if (	<EM>ref</EM> &amp; <EM>mask</EM> ) &gt; ( <EM>stencil</EM> &amp;
+			    <EM>mask</EM> ).
+
+	  <STRONG>GL_GEQUAL</STRONG>	    Passes if (	<EM>ref</EM> &amp; <EM>mask</EM> ) <EM>&gt;</EM> ( <EM>stencil</EM> &amp;
+			    <EM>mask</EM> ).
+
+	  <STRONG>GL_EQUAL</STRONG>	    Passes if (	<EM>ref</EM> &amp; <EM>mask</EM> ) = ( <EM>stencil</EM> &amp;
+			    <EM>mask</EM> ).
+
+	  <STRONG>GL_NOTEQUAL</STRONG>	    Passes if (	<EM>ref</EM> &amp; <EM>mask</EM> ) <STRONG>/</STRONG>	( <EM>stencil</EM> &amp;
+			    <EM>mask</EM> ).
+
+	  <STRONG>GL_ALWAYS</STRONG>	    Always passes.
+
+     <STRONG>NOTES</STRONG>
+	  Initially, the stencil test is disabled.  If there is	no
+	  stencil buffer, no stencil modification can occur and	it is
+	  as if	the stencil test always	passes.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>func</EM> is not one of the eight
+	  accepted values.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glStencilFunc</STRONG> is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_STENCIL_FUNC</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_STENCIL_VALUE_MASK</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_STENCIL_REF</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_STENCIL_BITS</STRONG>
+	  <STRONG>glIsEnabled</STRONG> with argument <STRONG>GL_STENCIL_TEST</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glAlphaFunc</STRONG>, <STRONG>glBlendFunc</STRONG>, <STRONG>glDepthFunc</STRONG>, <STRONG>glEnable</STRONG>,
+	  <STRONG>glIsEnabled</STRONG>, <STRONG>glLogicOp</STRONG>, <STRONG>glStencilOp</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

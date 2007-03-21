@@ -1,0 +1,58 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glPassThrough</STRONG>	- place	a marker in the	feedback buffer
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glPassThrough</STRONG>( GLfloat <EM>token</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>token</EM>	 Specifies a marker value to be	placed in the feedback
+		 buffer	following a <STRONG>GL_PASS_THROUGH_TOKEN</STRONG>.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  Feedback is a	GL render mode.	 The mode is selected by
+	  calling <STRONG>glRenderMode</STRONG> with <STRONG>GL_FEEDBACK</STRONG>.  When the GL is in
+	  feedback mode, no pixels are produced	by rasterization.
+	  Instead, information about primitives	that would have	been
+	  rasterized is	fed back to the	application using the GL.  See
+	  the <STRONG>glFeedbackBuffer</STRONG> reference page for a description	of the
+	  feedback buffer and the values in it.
+
+	  <STRONG>glPassThrough</STRONG>	inserts	a user-defined marker in the feedback
+	  buffer when it is executed in	feedback mode. <EM>token</EM> is
+	  returned as if it were a primitive; it is indicated with its
+	  own unique identifying value:	 <STRONG>GL_PASS_THROUGH_TOKEN</STRONG>.	 The
+	  order	of <STRONG>glPassThrough</STRONG> commands with respect to the
+	  specification	of graphics primitives is maintained.
+
+     <STRONG>NOTES</STRONG>
+	  <STRONG>glPassThrough</STRONG>	is ignored if the GL is	not in feedback	mode.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glPassThrough</STRONG> is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_RENDER_MODE</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glFeedbackBuffer</STRONG>, <STRONG>glRenderMode</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

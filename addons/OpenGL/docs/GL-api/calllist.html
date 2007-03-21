@@ -1,0 +1,58 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glCallList</STRONG> - execute a display list
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glCallList</STRONG>( GLuint <EM>list</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>list</EM>	Specifies the integer name of the display list to be
+		executed.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glCallList</STRONG> causes the	named display list to be executed.
+	  The commands saved in	the display list are executed in
+	  order, just as if they were called without using a display
+	  list.	 If <EM>list</EM> has not been defined as a display list,
+	  <STRONG>glCallList</STRONG> is	ignored.
+
+	  <STRONG>glCallList</STRONG> can appear	inside a display list.	To avoid the
+	  possibility of infinite recursion resulting from display
+	  lists	calling	one another, a limit is	placed on the nesting
+	  level	of display lists during	display-list execution.	 This
+	  limit	is at least 64,	and it depends on the implementation.
+
+	  GL state is not saved	and restored across a call to
+	  <STRONG>glCallList</STRONG>.  Thus, changes made to GL	state during the
+	  execution of a display list remain after execution of	the
+	  display list is completed.  Use <STRONG>glPushAttrib</STRONG>,	<STRONG>glPopAttrib</STRONG>,
+	  <STRONG>glPushMatrix</STRONG>,	and <STRONG>glPopMatrix</STRONG>	to preserve GL state across
+	  <STRONG>glCallList</STRONG> calls.
+
+     <STRONG>NOTES</STRONG>
+	  Display lists	can be executed	between	a call to <STRONG>glBegin</STRONG> and
+	  the corresponding call to <STRONG>glEnd</STRONG>, as long as the display list
+	  includes only	commands that are allowed in this interval.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_MAX_LIST_NESTING</STRONG>
+	  <STRONG>glIsList</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glCallLists</STRONG>, <STRONG>glDeleteLists</STRONG>, <STRONG>glGenLists</STRONG>, <STRONG>glNewList</STRONG>,
+	  <STRONG>glPushAttrib</STRONG>,	<STRONG>glPushMatrix</STRONG>
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

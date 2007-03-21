@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glGetPixelMapfv,</STRONG> <STRONG>glGetPixelMapuiv,</STRONG> <STRONG>glGetPixelMapusv</STRONG> -	return
+	  the specified	pixel map
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glGetPixelMapfv</STRONG>(	GLenum <EM>map</EM>,
+				GLfloat	*<EM>values</EM>	)
+	  void <STRONG>glGetPixelMapuiv</STRONG>( GLenum	<EM>map</EM>,
+				 GLuint	*<EM>values</EM>	)
+	  void <STRONG>glGetPixelMapusv</STRONG>( GLenum	<EM>map</EM>,
+				 GLushort *<EM>values</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>map</EM>	  Specifies the	name of	the pixel map to return.
+		  Accepted values are <STRONG>GL_PIXEL_MAP_I_TO_I</STRONG>,
+		  <STRONG>GL_PIXEL_MAP_S_TO_S</STRONG>, <STRONG>GL_PIXEL_MAP_I_TO_R</STRONG>,
+		  <STRONG>GL_PIXEL_MAP_I_TO_G</STRONG>, <STRONG>GL_PIXEL_MAP_I_TO_B</STRONG>,
+		  <STRONG>GL_PIXEL_MAP_I_TO_A</STRONG>, <STRONG>GL_PIXEL_MAP_R_TO_R</STRONG>,
+		  <STRONG>GL_PIXEL_MAP_G_TO_G</STRONG>, <STRONG>GL_PIXEL_MAP_B_TO_B</STRONG>, and
+		  <STRONG>GL_PIXEL_MAP_A_TO_A</STRONG>.
+
+	  <EM>values</EM>  Returns the pixel map	contents.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  See the <STRONG>glPixelMap</STRONG> reference page for	a description of the
+	  acceptable values for	the <EM>map</EM>	parameter.  <STRONG>glGetPixelMap</STRONG>
+	  returns in <EM>values</EM> the	contents of the	pixel map specified in
+	  <EM>map</EM>.	Pixel maps are used during the execution of
+	  <STRONG>glReadPixels</STRONG>,	<STRONG>glDrawPixels</STRONG>, <STRONG>glCopyPixels</STRONG>, <STRONG>glTexImage1D</STRONG>, and
+	  <STRONG>glTexImage2D</STRONG> to map color indices, stencil indices, color
+	  components, and depth	components to other values.
+
+	  Unsigned integer values, if requested, are linearly mapped
+	  from the internal fixed or floating-point representation
+	  such that 1.0	maps to	the largest representable integer
+	  value, and 0.0 maps to 0.  Return unsigned integer values
+	  are undefined	if the map value was not in the	range [0,1].
+
+	  To determine the required size of <EM>map</EM>, call <STRONG>glGet</STRONG> with the
+	  appropriate symbolic constant.
+
+     <STRONG>NOTES</STRONG>
+	  If an	error is generated, no change is made to the contents
+	  of <EM>values</EM>.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>map</EM> is not an	accepted
+	  value.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glGetPixelMap</STRONG> is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_PIXEL_MAP_I_TO_I_SIZE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_PIXEL_MAP_S_TO_S_SIZE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_PIXEL_MAP_I_TO_R_SIZE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_PIXEL_MAP_I_TO_G_SIZE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_PIXEL_MAP_I_TO_B_SIZE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_PIXEL_MAP_I_TO_A_SIZE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_PIXEL_MAP_R_TO_R_SIZE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_PIXEL_MAP_G_TO_G_SIZE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_PIXEL_MAP_B_TO_B_SIZE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_PIXEL_MAP_A_TO_A_SIZE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_MAX_PIXEL_MAP_TABLE</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glCopyPixels</STRONG>,	<STRONG>glDrawPixels</STRONG>, <STRONG>glPixelMap</STRONG>, <STRONG>glPixelTransfer</STRONG>,
+	  <STRONG>glReadPixels</STRONG>,	<STRONG>glTexImage1D</STRONG>, <STRONG>glTexImage2D</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

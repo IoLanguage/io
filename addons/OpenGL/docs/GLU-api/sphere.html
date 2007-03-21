@@ -1,0 +1,58 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>gluSphere</STRONG> - draw a sphere
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>gluSphere</STRONG>( GLUquadric* <EM>quad</EM>,
+			  GLdouble <EM>radius</EM>,
+			  GLint	<EM>slices</EM>,
+			  GLint	<EM>stacks</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>quad</EM>	  Specifies the	quadrics object	(created with
+		  <STRONG>gluNewQuadric</STRONG>).
+
+	  <EM>radius</EM>  Specifies the	radius of the sphere.
+
+	  <EM>slices</EM>  Specifies the	number of subdivisions around the <EM>z</EM>
+		  axis (similar	to lines of longitude).
+
+	  <EM>stacks</EM>  Specifies the	number of subdivisions along the <EM>z</EM>
+		  axis (similar	to lines of latitude).
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>gluSphere</STRONG> draws a sphere of the given	radius centered	around
+	  the origin. The sphere is subdivided around the <EM>z</EM> axis into
+	  slices and along the <EM>z</EM> axis into stacks (similar to lines of
+	  longitude and	latitude).
+
+	  If the orientation is	set to <STRONG>GLU_OUTSIDE</STRONG> (with
+	  <STRONG>gluQuadricOrientation</STRONG>), then any normals generated point
+	  away from the	center of the sphere.  Otherwise, they point
+	  toward the center of the sphere.
+
+	  If texturing is turned on (with <STRONG>gluQuadricTexture</STRONG>), then
+	  texture coordinates are generated so that <EM>t</EM> ranges from 0.0
+	  at z=-radius to 1.0 at z=radius (<EM>t</EM> increases linearly	along
+	  longitudinal lines), and <EM>s</EM> ranges from 0.0 at	the +<EM>y</EM> axis,
+	  to 0.25 at the +<EM>x</EM> axis, to 0.5 at the	-<EM>y</EM> axis, to 0.75 at
+	  the -<EM>x</EM> axis, and back	to 1.0 at the +<EM>y</EM> axis.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>gluCylinder</STRONG>, <STRONG>gluDisk</STRONG>,	<STRONG>gluNewQuadric</STRONG>, <STRONG>gluPartialDisk</STRONG>,
+	  <STRONG>gluQuadricOrientation</STRONG>, <STRONG>gluQuadricTexture</STRONG>
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

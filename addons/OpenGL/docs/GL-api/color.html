@@ -1,0 +1,163 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glColor3b,</STRONG> <STRONG>glColor3d,</STRONG>	<STRONG>glColor3f,</STRONG> <STRONG>glColor3i,</STRONG> <STRONG>glColor3s,</STRONG>
+	  <STRONG>glColor3ub,</STRONG> <STRONG>glColor3ui,</STRONG> <STRONG>glColor3us,</STRONG> <STRONG>glColor4b,</STRONG> <STRONG>glColor4d,</STRONG>
+	  <STRONG>glColor4f,</STRONG> <STRONG>glColor4i,</STRONG>	<STRONG>glColor4s,</STRONG> <STRONG>glColor4ub,</STRONG> <STRONG>glColor4ui,</STRONG>
+	  <STRONG>glColor4us,</STRONG> <STRONG>glColor3bv,</STRONG> <STRONG>glColor3dv,</STRONG> <STRONG>glColor3fv,</STRONG> <STRONG>glColor3iv,</STRONG>
+	  <STRONG>glColor3sv,</STRONG> <STRONG>glColor3ubv,</STRONG> <STRONG>glColor3uiv,</STRONG>	<STRONG>glColor3usv,</STRONG>
+	  <STRONG>glColor4bv,</STRONG> <STRONG>glColor4dv,</STRONG> <STRONG>glColor4fv,</STRONG> <STRONG>glColor4iv,</STRONG> <STRONG>glColor4sv,</STRONG>
+	  <STRONG>glColor4ubv,</STRONG> <STRONG>glColor4uiv,</STRONG> <STRONG>glColor4usv</STRONG>	- set the current
+	  color
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glColor3b</STRONG>( GLbyte <EM>red</EM>,
+			  GLbyte <EM>green</EM>,
+			  GLbyte <EM>blue</EM> )
+	  void <STRONG>glColor3d</STRONG>( GLdouble <EM>red</EM>,
+			  GLdouble <EM>green</EM>,
+			  GLdouble <EM>blue</EM>	)
+	  void <STRONG>glColor3f</STRONG>( GLfloat <EM>red</EM>,
+			  GLfloat <EM>green</EM>,
+			  GLfloat <EM>blue</EM> )
+	  void <STRONG>glColor3i</STRONG>( GLint	<EM>red</EM>,
+			  GLint	<EM>green</EM>,
+			  GLint	<EM>blue</EM> )
+	  void <STRONG>glColor3s</STRONG>( GLshort <EM>red</EM>,
+			  GLshort <EM>green</EM>,
+			  GLshort <EM>blue</EM> )
+	  void <STRONG>glColor3ub</STRONG>( GLubyte <EM>red</EM>,
+			   GLubyte <EM>green</EM>,
+			   GLubyte <EM>blue</EM>	)
+	  void <STRONG>glColor3ui</STRONG>( GLuint <EM>red</EM>,
+			   GLuint <EM>green</EM>,
+			   GLuint <EM>blue</EM> )
+	  void <STRONG>glColor3us</STRONG>( GLushort <EM>red</EM>,
+			   GLushort <EM>green</EM>,
+			   GLushort <EM>blue</EM> )
+	  void <STRONG>glColor4b</STRONG>( GLbyte <EM>red</EM>,
+			  GLbyte <EM>green</EM>,
+			  GLbyte <EM>blue</EM>,
+			  GLbyte <EM>alpha</EM> )
+	  void <STRONG>glColor4d</STRONG>( GLdouble <EM>red</EM>,
+			  GLdouble <EM>green</EM>,
+			  GLdouble <EM>blue</EM>,
+			  GLdouble <EM>alpha</EM> )
+	  void <STRONG>glColor4f</STRONG>( GLfloat <EM>red</EM>,
+			  GLfloat <EM>green</EM>,
+			  GLfloat <EM>blue</EM>,
+			  GLfloat <EM>alpha</EM>	)
+	  void <STRONG>glColor4i</STRONG>( GLint	<EM>red</EM>,
+			  GLint	<EM>green</EM>,
+			  GLint	<EM>blue</EM>,
+			  GLint	<EM>alpha</EM> )
+
+	  void <STRONG>glColor4s</STRONG>( GLshort <EM>red</EM>,
+			  GLshort <EM>green</EM>,
+			  GLshort <EM>blue</EM>,
+			  GLshort <EM>alpha</EM>	)
+	  void <STRONG>glColor4ub</STRONG>( GLubyte <EM>red</EM>,
+			   GLubyte <EM>green</EM>,
+			   GLubyte <EM>blue</EM>,
+			   GLubyte <EM>alpha</EM> )
+	  void <STRONG>glColor4ui</STRONG>( GLuint <EM>red</EM>,
+			   GLuint <EM>green</EM>,
+			   GLuint <EM>blue</EM>,
+			   GLuint <EM>alpha</EM>	)
+	  void <STRONG>glColor4us</STRONG>( GLushort <EM>red</EM>,
+			   GLushort <EM>green</EM>,
+			   GLushort <EM>blue</EM>,
+			   GLushort <EM>alpha</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>red</EM>, <EM>green</EM>, <EM>blue</EM>
+			  Specify new red, green, and blue values for
+			  the current color.
+
+	  <EM>alpha</EM>		  Specifies a new alpha	value for the current
+			  color.  Included only	in the four-argument
+			  <STRONG>glColor4</STRONG> commands.
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glColor3bv</STRONG>( const GLbyte	*<EM>v</EM> )
+	  void <STRONG>glColor3dv</STRONG>( const GLdouble *<EM>v</EM> )
+	  void <STRONG>glColor3fv</STRONG>( const GLfloat *<EM>v</EM> )
+	  void <STRONG>glColor3iv</STRONG>( const GLint *<EM>v</EM> )
+	  void <STRONG>glColor3sv</STRONG>( const GLshort *<EM>v</EM> )
+	  void <STRONG>glColor3ubv</STRONG>( const GLubyte *<EM>v</EM> )
+	  void <STRONG>glColor3uiv</STRONG>( const GLuint *<EM>v</EM> )
+	  void <STRONG>glColor3usv</STRONG>( const GLushort *<EM>v</EM> )
+	  void <STRONG>glColor4bv</STRONG>( const GLbyte	*<EM>v</EM> )
+	  void <STRONG>glColor4dv</STRONG>( const GLdouble *<EM>v</EM> )
+	  void <STRONG>glColor4fv</STRONG>( const GLfloat *<EM>v</EM> )
+	  void <STRONG>glColor4iv</STRONG>( const GLint *<EM>v</EM> )
+	  void <STRONG>glColor4sv</STRONG>( const GLshort *<EM>v</EM> )
+	  void <STRONG>glColor4ubv</STRONG>( const GLubyte *<EM>v</EM> )
+	  void <STRONG>glColor4uiv</STRONG>( const GLuint *<EM>v</EM> )
+	  void <STRONG>glColor4usv</STRONG>( const GLushort *<EM>v</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>v</EM>    Specifies a pointer to an array that contains red,
+	       green, blue, and	(sometimes) alpha values.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  The GL stores	both a current single-valued color index and a
+	  current four-valued RGBA color.  <STRONG>glColor</STRONG> sets	a new four-
+	  valued RGBA color.  <STRONG>glColor</STRONG> has two major variants:
+	  <STRONG>glColor3</STRONG> and <STRONG>glColor4</STRONG>.  <STRONG>glColor3</STRONG> variants specify new	red,
+	  green, and blue values explicitly and	set the	current	alpha
+	  value	to 1.0 (full intensity)	implicitly.  <STRONG>glColor4</STRONG> variants
+	  specify all four color components explicitly.
+
+	  <STRONG>glColor3b</STRONG>, <STRONG>glColor4b</STRONG>,	<STRONG>glColor3s</STRONG>, <STRONG>glColor4s</STRONG>, <STRONG>glColor3i</STRONG>, and
+	  <STRONG>glColor4i</STRONG> take three or four signed byte, short, or long
+	  integers as arguments.  When <STRONG>v</STRONG> is appended to	the name, the
+	  color	commands can take a pointer to an array	of such
+	  values.
+
+	  Current color	values are stored in floating-point format,
+	  with unspecified mantissa and	exponent sizes.	 Unsigned
+	  integer color	components, when specified, are	linearly
+	  mapped to floating-point values such that the	largest
+	  representable	value maps to 1.0 (full	intensity), and	0 maps
+	  to 0.0 (zero intensity).  Signed integer color components,
+	  when specified, are linearly mapped to floating-point	values
+	  such that the	most positive representable value maps to 1.0,
+	  and the most negative	representable value maps to -1.0.
+	  (Note	that this mapping does not convert 0 precisely to
+	  0.0.)	 Floating-point	values are mapped directly.
+
+	  Neither floating-point nor signed integer values are clamped
+	  to the range [0,1] before the	current	color is updated.
+	  However, color components are	clamped	to this	range before
+	  they are interpolated	or written into	a color	buffer.
+
+     <STRONG>NOTES</STRONG>
+	  The initial value for	the current color is (1, 1, 1, 1).
+
+	  The current color can	be updated at any time.	 In
+	  particular, <STRONG>glColor</STRONG> can be called between a call to <STRONG>glBegin</STRONG>
+	  and the corresponding	call to	<STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_CURRENT_COLOR</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_RGBA_MODE</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glIndex</STRONG>
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

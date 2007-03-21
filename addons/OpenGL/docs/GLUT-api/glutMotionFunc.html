@@ -1,0 +1,71 @@
+
+<HTML><HEAD><TITLE>Manpage of glutMotionFunc</TITLE>
+</HEAD><BODY>
+<H1>glutMotionFunc</H1>
+Section: GLUT (3GLUT)<BR>Updated: 3.7<BR><A HREF="#index">Index</A>
+<A HREF="">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+glutMotionFunc, glutPassiveMotionFunc - set the motion and
+passive motion callbacks respectively for the current window. 
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNTAX</H2>
+
+<PRE>
+
+void glutMotionFunc(void (*func)(int x, int y));
+void glutPassiveMotionFunc(void (*func)(int x, int y));
+</PRE>
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>ARGUMENTS</H2>
+
+<DL COMPACT>
+<DT><I>func</I><DD>
+The new motion or passive motion callback function. 
+</DL>
+<A NAME="lbAE">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+glutMotionFunc and glutPassiveMotionFunc set the motion and
+passive motion callback respectively for the current window. The motion
+callback for a window is called when the mouse moves within the window
+while one or more mouse buttons are pressed. The passive motion callback
+for a window is called when the mouse moves within the window while
+no mouse buttons are pressed. 
+
+The x and y callback parameters indicate the mouse location in window
+relative coordinates. 
+
+Passing NULL to glutMotionFunc or glutPassiveMotionFunc
+disables the generation of the mouse or passive motion callback
+respectively. 
+<A NAME="lbAF">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+glutMouseFunc, glutSpaceballMotionFunc, glutTabletMotionFunc
+<A NAME="lbAG">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Mark J. Kilgard (<A HREF="mailto:mjk@nvidia.com">mjk@nvidia.com</A>)
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNTAX</A><DD>
+<DT><A HREF="#lbAD">ARGUMENTS</A><DD>
+<DT><A HREF="#lbAE">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAF">SEE ALSO</A><DD>
+<DT><A HREF="#lbAG">AUTHOR</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="">man2html</A>,
+using the manual pages.<BR>
+Time: 19:05:09 GMT, September 15, 2003
+</BODY>
+</HTML>

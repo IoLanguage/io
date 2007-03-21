@@ -1,0 +1,58 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glClearAccum</STRONG> - specify clear values for the accumulation
+	  buffer
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glClearAccum</STRONG>( GLfloat <EM>red</EM>,
+			     GLfloat <EM>green</EM>,
+			     GLfloat <EM>blue</EM>,
+			     GLfloat <EM>alpha</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>red</EM>, <EM>green</EM>, <EM>blue</EM>, <EM>alpha</EM>
+				Specify	the red, green,	blue, and
+				alpha values used when the
+				accumulation buffer is cleared.	 The
+				initial	values are all 0.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glClearAccum</STRONG> specifies the red, green, blue, and alpha
+	  values used by <STRONG>glClear</STRONG> to clear the accumulation buffer.
+
+	  Values specified by <STRONG>glClearAccum</STRONG> are clamped to the range
+	  [-1,1].
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glClearAccum</STRONG> is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_ACCUM_CLEAR_VALUE</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glClear</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

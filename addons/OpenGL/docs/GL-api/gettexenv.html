@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glGetTexEnvfv,</STRONG> <STRONG>glGetTexEnviv</STRONG> - return	texture	environment
+	  parameters
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glGetTexEnvfv</STRONG>( GLenum <EM>target</EM>,
+			      GLenum <EM>pname</EM>,
+			      GLfloat *<EM>params</EM> )
+	  void <STRONG>glGetTexEnviv</STRONG>( GLenum <EM>target</EM>,
+			      GLenum <EM>pname</EM>,
+			      GLint *<EM>params</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>target</EM>  Specifies a texture environment.  Must be
+		  <STRONG>GL_TEXTURE_ENV</STRONG>.
+
+	  <EM>pname</EM>	  Specifies the	symbolic name of a texture environment
+		  parameter.  Accepted values are <STRONG>GL_TEXTURE_ENV_MODE</STRONG>
+		  and <STRONG>GL_TEXTURE_ENV_COLOR</STRONG>.
+
+	  <EM>params</EM>  Returns the requested	data.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glGetTexEnv</STRONG> returns in <EM>params</EM>	selected values	of a texture
+	  environment that was specified with <STRONG>glTexEnv</STRONG>.	 <EM>target</EM>
+	  specifies a texture environment.  Currently, only one
+	  texture environment is defined and supported:
+	  <STRONG>GL_TEXTURE_ENV</STRONG>.
+
+	  <EM>pname</EM>	names a	specific texture environment parameter,	as
+	  follows:
+
+	  <STRONG>GL_TEXTURE_ENV_MODE</STRONG>
+		    <EM>params</EM> returns the single-valued texture
+		    environment	mode, a	symbolic constant. The initial
+		    value is <STRONG>GL_MODULATE</STRONG>.
+
+	  <STRONG>GL_TEXTURE_ENV_COLOR</STRONG>
+		    <EM>params</EM> returns four	integer	or floating-point
+		    values that	are the	texture	environment color.
+		    Integer values, when requested, are	linearly
+		    mapped from	the internal floating-point
+		    representation such	that 1.0 maps to the most
+		    positive representable integer, and	-1.0 maps to
+		    the	most negative representable integer. The
+		    initial value is (0, 0, 0, 0).
+
+     <STRONG>NOTES</STRONG>
+	  If an	error is generated, no change is made to the contents
+	  of <EM>params</EM>.
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>target</EM> or <EM>pname</EM> is not an
+	  accepted value.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glGetTexEnv</STRONG> is executed
+	  between the execution	of <STRONG>glBegin</STRONG> and the corresponding
+	  execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glTexEnv</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

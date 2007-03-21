@@ -1,0 +1,144 @@
+
+<HTML><HEAD><TITLE>Manpage of glutDeviceGet</TITLE>
+</HEAD><BODY>
+<H1>glutDeviceGet</H1>
+Section: GLUT (3GLUT)<BR>Updated: 3.7<BR><A HREF="#index">Index</A>
+<A HREF="">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+glutDeviceGet - retrieves GLUT device information represented by integers. 
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNTAX</H2>
+
+<PRE>
+
+int glutDeviceGet(GLenum info);
+</PRE>
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>ARGUMENTS</H2>
+
+<DL COMPACT>
+<DT><I>info</I><DD>
+Name of device information to retrieve.
+<DT><B>GLUT_HAS_KEYBOARD </B>
+
+<DD>
+Non-zero if a keyboard is available; zero if not available. For most
+GLUT implementations, a keyboard can be assumed.
+<DT><B>GLUT_HAS_MOUSE</B>
+
+<DD>
+Non-zero if a mouse is available; zero if not available. For most GLUT
+implementations, a keyboard can be assumed. 
+<DT><B>GLUT_HAS_SPACEBALL</B>
+
+<DD>
+Non-zero if a Spaceball is available; zero if not available. 
+<DT><B>GLUT_HAS_DIAL_AND_BUTTON_BOX </B>
+
+<DD>
+Non-zero if a dial &amp; button box is available; zero if not available. 
+<DT><B>GLUT_HAS_TABLET </B>
+
+<DD>
+Non-zero if a tablet is available; zero if not available. 
+<DT><B>GLUT_NUM_MOUSE_BUTTONS </B>
+
+<DD>
+Number of buttons supported by the mouse. If no mouse is supported, zero is
+returned. 
+<DT><B>GLUT_NUM_SPACEBALL_BUTTONS </B>
+
+<DD>
+Number of buttons supported by the Spaceball. If no Spaceball is supported, zero is
+returned. 
+<DT><B>GLUT_NUM_BUTTON_BOX_BUTTONS </B>
+
+<DD>
+Number of buttons supported by the dial &amp; button box device. If no dials &amp; button
+box device is supported, zero is returned. 
+<DT><B>GLUT_NUM_DIALS </B>
+
+<DD>
+Number of dials supported by the dial &amp; button box device. If no dials &amp; button
+box device is supported, zero is returned. 
+<DT><B>GLUT_NUM_TABLET_BUTTONS </B>
+
+<DD>
+Number of buttons supported by the tablet. If no tablet is supported, zero is
+returned. 
+<DT><B>GLUT_DEVICE_IGNORE_KEY_REPEAT</B>
+
+<DD>
+Returns true if the current window's auto repeated keys are ignored.
+This state is controlled by glutIgnoreKeyRepeat.
+<DT><B>GLUT_DEVICE_KEY_REPEAT</B>
+
+<DD>
+The window system's global key repeat state.  Returns either GLUT_KEY_REPEAT_OFF, GLUT_KEY_REPEAT_ON, or GLUT_KEY_REPEAT_DEFAULT.  This will not necessarily return the value last passed to glutSetKeyRepeat.
+<DT><B>GLUT_JOYSTICK_POLL_RATE</B>
+
+<DD>
+Returns the current window's joystick poll rate as set by glutJoystickFunc.  If no joystick is supported, the poll rate will always be zero.  The joystick poll
+rate also returns zero if the poll rate last specified to glutJoystickFunc is negative or a NULL callback was registered.
+<DT><B>GLUT_HAS_JOYSTICK</B>
+
+<DD>
+Non-zero if a joystick is available; zero if not available.
+<DT><B>GLUT_JOYSTICK_BUTTONS</B>
+
+<DD>
+Number of buttons supported by the joystick.  If no joystick is supported, zero is returned.
+<DT><B>GLUT_JOYSTICK_AXES</B>
+
+<DD>
+Number of axes supported by the joystick.  If no joystick is supposrted, zero is returned.
+</DL>
+<A NAME="lbAE">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+glutDeviceGet retrieves GLUT device information represented by integers. The info
+parameter determines what type of device information to return. Requesting device
+information for an invalid GLUT device information name returns negative one.
+<A NAME="lbAF">&nbsp;</A>
+<H2>X IMPLEMENTATION NOTES</H2>
+
+The current implementation uses to X Input extension to regonize SGI's Spaceball,
+tablet, and dial and button box devices.
+<A NAME="lbAG">&nbsp;</A>
+<H2>WIN32 IMPLEMENTATION NOTES</H2>
+
+The GLUT_DEVICE_KEY_REPEAT alwasy returns GLUT_KEY_REPEAT_ON.
+<A NAME="lbAH">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+glutGet, glutKeyboardFunc, glutMouseFunc, glutSpaceballMotion, glutTabletMotionFunc, glutTabletButtonFunc,
+glutDialsFunc, glutButtonBoxFunc, glutIgnoreKeyRepeat, glutSetKeyRepeat, glutJoystickFunc
+<A NAME="lbAI">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Mark J. Kilgard (<A HREF="mailto:mjk@nvidia.com">mjk@nvidia.com</A>)
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNTAX</A><DD>
+<DT><A HREF="#lbAD">ARGUMENTS</A><DD>
+<DT><A HREF="#lbAE">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAF">X IMPLEMENTATION NOTES</A><DD>
+<DT><A HREF="#lbAG">WIN32 IMPLEMENTATION NOTES</A><DD>
+<DT><A HREF="#lbAH">SEE ALSO</A><DD>
+<DT><A HREF="#lbAI">AUTHOR</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="">man2html</A>,
+using the manual pages.<BR>
+Time: 19:05:09 GMT, September 15, 2003
+</BODY>
+</HTML>

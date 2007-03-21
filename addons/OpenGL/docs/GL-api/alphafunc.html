@@ -1,0 +1,111 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glAlphaFunc</STRONG> -	specify	the alpha test function
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glAlphaFunc</STRONG>( GLenum <EM>func</EM>,
+			    GLclampf <EM>ref</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>func</EM>	Specifies the alpha comparison function.  Symbolic
+		constants <STRONG>GL_NEVER</STRONG>, <STRONG>GL_LESS</STRONG>, <STRONG>GL_EQUAL</STRONG>, <STRONG>GL_LEQUAL</STRONG>,
+		<STRONG>GL_GREATER</STRONG>, <STRONG>GL_NOTEQUAL</STRONG>, <STRONG>GL_GEQUAL</STRONG>, and	<STRONG>GL_ALWAYS</STRONG> are
+		accepted. The initial value is <STRONG>GL_ALWAYS</STRONG>.
+
+	  <EM>ref</EM>	Specifies the reference	value that incoming alpha
+		values are compared to.	 This value is clamped to the
+		range 0	through	1, where 0 represents the lowest
+		possible alpha value and 1 the highest possible	value.
+		The initial reference value is 0.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  The alpha test discards fragments depending on the outcome
+	  of a comparison between an incoming fragment's alpha value
+	  and a	constant reference value.  <STRONG>glAlphaFunc</STRONG> specifies the
+	  reference value and the comparison function.	The comparison
+	  is performed only if alpha testing is	enabled. By default,
+	  it is	not enabled. (See <STRONG>glEnable</STRONG> and <STRONG>glDisable</STRONG> of
+	  <STRONG>GL_ALPHA_TEST</STRONG>.)
+
+	  <EM>func</EM> and <EM>ref</EM> specify the conditions under which the pixel is
+	  drawn.  The incoming alpha value is compared to <EM>ref</EM> using
+	  the function specified by <EM>func</EM>.  If the value	passes the
+	  comparison, the incoming fragment is drawn if	it also	passes
+	  subsequent stencil and depth buffer tests. If	the value
+	  fails	the comparison,	no change is made to the frame buffer
+	  at that pixel	location. The comparison functions are as
+	  follows:
+
+	  <STRONG>GL_NEVER</STRONG>	    Never passes.
+
+	  <STRONG>GL_LESS</STRONG>	    Passes if the incoming alpha value is less
+			    than the reference value.
+
+	  <STRONG>GL_EQUAL</STRONG>	    Passes if the incoming alpha value is
+			    equal to the reference value.
+
+	  <STRONG>GL_LEQUAL</STRONG>	    Passes if the incoming alpha value is less
+			    than or equal to the reference value.
+
+	  <STRONG>GL_GREATER</STRONG>	    Passes if the incoming alpha value is
+			    greater than the reference value.
+
+	  <STRONG>GL_NOTEQUAL</STRONG>	    Passes if the incoming alpha value is not
+			    equal to the reference value.
+
+	  <STRONG>GL_GEQUAL</STRONG>	    Passes if the incoming alpha value is
+			    greater than or equal to the reference
+			    value.
+
+	  <STRONG>GL_ALWAYS</STRONG>	    Always passes (initial value).
+
+	  <STRONG>glAlphaFunc</STRONG> operates on all pixel write operations,
+	  including those resulting from the scan conversion of
+	  points, lines, polygons, and bitmaps,	and from pixel draw
+	  and copy operations.	<STRONG>glAlphaFunc</STRONG> does not affect screen
+	  clear	operations.
+
+     <STRONG>NOTES</STRONG>
+	  Alpha	testing	is performed only in RGBA mode.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>func</EM> is not an accepted
+	  value.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glAlphaFunc</STRONG> is executed
+	  between the execution	of <STRONG>glBegin</STRONG> and the corresponding
+	  execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_ALPHA_TEST_FUNC</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_ALPHA_TEST_REF</STRONG>
+	  <STRONG>glIsEnabled</STRONG> with argument <STRONG>GL_ALPHA_TEST</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glBlendFunc</STRONG>, <STRONG>glClear</STRONG>,	<STRONG>glDepthFunc</STRONG>, <STRONG>glEnable</STRONG>, <STRONG>glStencilFunc</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

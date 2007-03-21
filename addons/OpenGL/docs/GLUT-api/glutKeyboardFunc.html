@@ -1,0 +1,75 @@
+
+<HTML><HEAD><TITLE>Manpage of glutKeyboardFunc</TITLE>
+</HEAD><BODY>
+<H1>glutKeyboardFunc</H1>
+Section: GLUT (3GLUT)<BR>Updated: 3.7<BR><A HREF="#index">Index</A>
+<A HREF="">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+glutKeyboardFunc - sets the keyboard callback for the current window. 
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNTAX</H2>
+
+<PRE>
+
+void glutKeyboardFunc(void (*func)(unsigned char key,
+                      int x, int y));
+</PRE>
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>ARGUMENTS</H2>
+
+<DL COMPACT>
+<DT><I>func</I><DD>
+The new keyboard callback function. 
+</DL>
+<A NAME="lbAE">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+glutKeyboardFunc sets the keyboard callback for the current window.
+When a user types into the window, each key press generating an ASCII
+character will generate a keyboard callback. The key callback parameter
+is the generated ASCII character. The state of modifier keys such as Shift
+cannot be determined directly; their only effect will be on the returned
+ASCII data. The x and y callback parameters indicate the mouse location
+in window relative coordinates when the key was pressed. When a new
+window is created, no keyboard callback is initially registered, and ASCII
+key strokes in the window are ignored. Passing NULL to
+glutKeyboardFunc disables the generation of keyboard callbacks. 
+
+During a keyboard callback, glutGetModifiers may be called to
+determine the state of modifier keys when the keystroke generating the
+callback occurred. 
+
+Use glutSpecialFunc for a means to detect non-ASCII key
+strokes.
+<A NAME="lbAF">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+glutKeyboardUpFunc,
+glutSpecialFunc, glutCreateWindow, glutMouseFunc, glutSpaceballButtonFunc, glutButtonBoxFunc, glutTabletButtonFunc, glutGetModifiers
+<A NAME="lbAG">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Mark J. Kilgard (<A HREF="mailto:mjk@nvidia.com">mjk@nvidia.com</A>)
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNTAX</A><DD>
+<DT><A HREF="#lbAD">ARGUMENTS</A><DD>
+<DT><A HREF="#lbAE">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAF">SEE ALSO</A><DD>
+<DT><A HREF="#lbAG">AUTHOR</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="">man2html</A>,
+using the manual pages.<BR>
+Time: 19:05:09 GMT, September 15, 2003
+</BODY>
+</HTML>

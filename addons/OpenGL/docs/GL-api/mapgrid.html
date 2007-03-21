@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glMapGrid1d,</STRONG> <STRONG>glMapGrid1f,</STRONG> <STRONG>glMapGrid2d,</STRONG> <STRONG>glMapGrid2f</STRONG> - define
+	  a one- or two-dimensional mesh
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glMapGrid1d</STRONG>( GLint <EM>un</EM>,
+			    GLdouble <EM>u1</EM>,
+			    GLdouble <EM>u2</EM>	)
+	  void <STRONG>glMapGrid1f</STRONG>( GLint <EM>un</EM>,
+			    GLfloat <EM>u1</EM>,
+			    GLfloat <EM>u2</EM> )
+	  void <STRONG>glMapGrid2d</STRONG>( GLint <EM>un</EM>,
+			    GLdouble <EM>u1</EM>,
+			    GLdouble <EM>u2</EM>,
+			    GLint <EM>vn</EM>,
+			    GLdouble <EM>v1</EM>,
+			    GLdouble <EM>v2</EM>	)
+	  void <STRONG>glMapGrid2f</STRONG>( GLint <EM>un</EM>,
+			    GLfloat <EM>u1</EM>,
+			    GLfloat <EM>u2</EM>,
+			    GLint <EM>vn</EM>,
+			    GLfloat <EM>v1</EM>,
+			    GLfloat <EM>v2</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>un</EM>  Specifies	the number of partitions in the	grid range
+	      interval [<EM>u1</EM>, <EM>u2</EM>].  Must be positive.
+
+	  <EM>u1</EM>, <EM>u2</EM>
+	      Specify the mappings for integer grid domain values i=0
+	      and i=un.
+
+	  <EM>vn</EM>  Specifies	the number of partitions in the	grid range
+	      interval [<EM>v1</EM>, <EM>v2</EM>]
+	      (<STRONG>glMapGrid2</STRONG> only).
+
+	  <EM>v1</EM>, <EM>v2</EM>
+	      Specify the mappings for integer grid domain values j=0
+	      and j=vn
+	      (<STRONG>glMapGrid2</STRONG> only).
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glMapGrid</STRONG> and	<STRONG>glEvalMesh</STRONG> are used together to	efficiently
+	  generate and evaluate	a series of evenly-spaced map domain
+	  values.  <STRONG>glEvalMesh</STRONG> steps through the	integer	domain of a
+	  one- or two-dimensional grid,	whose range is the domain of
+	  the evaluation maps specified	by <STRONG>glMap1</STRONG> and <STRONG>glMap2</STRONG>.
+
+	  <STRONG>glMapGrid1</STRONG> and <STRONG>glMapGrid2</STRONG> specify the	linear grid mappings
+	  between the i	(or i and j) integer grid coordinates, to the
+	  u (or	u and v) floating-point	evaluation map coordinates.
+	  See <STRONG>glMap1</STRONG> and <STRONG>glMap2</STRONG>	for details of how u and v coordinates
+	  are evaluated.
+
+	  <STRONG>glMapGrid1</STRONG> specifies a single	linear mapping such that
+	  integer grid coordinate 0 maps exactly to <EM>u1</EM>,	and integer
+	  grid coordinate <EM>un</EM> maps exactly to <EM>u2</EM>.  All other integer
+	  grid coordinates i are mapped	so that
+
+			      u	= i(u2-u1)/un +	u1
+
+	  <STRONG>glMapGrid2</STRONG> specifies two such	linear mappings.  One maps
+	  integer grid coordinate i=0 exactly to <EM>u1</EM>, and integer grid
+	  coordinate i=un exactly to <EM>u2</EM>.  The other maps integer grid
+	  coordinate j=0 exactly to <EM>v1</EM>,	and integer grid coordinate
+	  j=vn exactly to <EM>v2</EM>.  Other integer grid coordinates i	and j
+	  are mapped such that
+
+			      u	= i(u2-u1)/un +	u1
+
+			      v	= j(v2-v1)/vn +	v1
+
+	  The mappings specified by <STRONG>glMapGrid</STRONG> are used identically by
+	  <STRONG>glEvalMesh</STRONG> and <STRONG>glEvalPoint</STRONG>.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if either <EM>un</EM> or	<EM>vn</EM> is not
+	  positive.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glMapGrid</STRONG> is executed
+	  between the execution	of <STRONG>glBegin</STRONG> and the corresponding
+	  execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_MAP1_GRID_DOMAIN</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_MAP2_GRID_DOMAIN</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_MAP1_GRID_SEGMENTS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_MAP2_GRID_SEGMENTS</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glEvalCoord</STRONG>, <STRONG>glEvalMesh</STRONG>, <STRONG>glEvalPoint</STRONG>,	<STRONG>glMap1</STRONG>,	<STRONG>glMap2</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

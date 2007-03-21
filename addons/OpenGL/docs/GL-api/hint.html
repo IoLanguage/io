@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glHint</STRONG> - specify implementation-specific hints
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glHint</STRONG>( GLenum <EM>target</EM>,
+		       GLenum <EM>mode</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>target</EM>  Specifies a symbolic constant	indicating the
+		  behavior to be controlled.  <STRONG>GL_FOG_HINT</STRONG>,
+		  <STRONG>GL_LINE_SMOOTH_HINT</STRONG>, <STRONG>GL_PERSPECTIVE_CORRECTION_HINT</STRONG>,
+		  <STRONG>GL_POINT_SMOOTH_HINT</STRONG>,	and <STRONG>GL_POLYGON_SMOOTH_HINT</STRONG> are
+		  accepted.
+
+	  <EM>mode</EM>	  Specifies a symbolic constant	indicating the desired
+		  behavior.  <STRONG>GL_FASTEST</STRONG>, <STRONG>GL_NICEST</STRONG>, and	<STRONG>GL_DONT_CARE</STRONG>
+		  are accepted.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  Certain aspects of GL	behavior, when there is	room for
+	  interpretation, can be controlled with hints.	 A hint	is
+	  specified with two arguments.	 <EM>target</EM>	is a symbolic constant
+	  indicating the behavior to be	controlled, and	<EM>mode</EM> is
+	  another symbolic constant indicating the desired behavior.
+	  The initial value for	each <EM>target</EM> is <STRONG>GL_DONT_CARE</STRONG>. <EM>mode</EM> can
+	  be one of the	following:
+
+	  <STRONG>GL_FASTEST</STRONG>	      The most efficient option	should be
+			      chosen.
+
+	  <STRONG>GL_NICEST</STRONG>	      The most correct,	or highest quality,
+			      option should be chosen.
+
+	  <STRONG>GL_DONT_CARE</STRONG>	      No preference.
+
+	  Though the implementation aspects that can be	hinted are
+	  well defined,	the interpretation of the hints	depends	on the
+	  implementation.  The hint aspects that can be	specified with
+	  <EM>target</EM>, along	with suggested semantics, are as follows:
+
+	  <STRONG>GL_FOG_HINT</STRONG>	      Indicates	the accuracy of	fog
+			      calculation.  If per-pixel fog
+			      calculation is not efficiently supported
+			      by the GL	implementation,	hinting
+			      <STRONG>GL_DONT_CARE</STRONG> or <STRONG>GL_FASTEST</STRONG> can result in
+			      per-vertex calculation of	fog effects.
+
+	  <STRONG>GL_LINE_SMOOTH_HINT</STRONG> Indicates	the sampling quality of
+			      antialiased lines.  If a larger filter
+			      function is applied, hinting <STRONG>GL_NICEST</STRONG>
+			      can result in more pixel fragments being
+			      generated	during rasterization,
+
+	  <STRONG>GL_PERSPECTIVE_CORRECTION_HINT</STRONG>
+			      Indicates	the quality of color and
+			      texture coordinate interpolation.	 If
+			      perspective-corrected parameter
+			      interpolation is not efficiently
+			      supported	by the GL implementation,
+			      hinting <STRONG>GL_DONT_CARE</STRONG> or <STRONG>GL_FASTEST</STRONG> can
+			      result in	simple linear interpolation of
+			      colors and/or texture coordinates.
+
+	  <STRONG>GL_POINT_SMOOTH_HINT</STRONG>
+			      Indicates	the sampling quality of
+			      antialiased points.  If a	larger filter
+			      function is applied, hinting <STRONG>GL_NICEST</STRONG>
+			      can result in more pixel fragments being
+			      generated	during rasterization,
+
+	  <STRONG>GL_POLYGON_SMOOTH_HINT</STRONG>
+			      Indicates	the sampling quality of
+			      antialiased polygons.  Hinting <STRONG>GL_NICEST</STRONG>
+			      can result in more pixel fragments being
+			      generated	during rasterization, if a
+			      larger filter function is	applied.
+
+     <STRONG>NOTES</STRONG>
+	  The interpretation of	hints depends on the implementation.
+	  Some implementations ignore <STRONG>glHint</STRONG> settings.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if either <EM>target</EM>	or <EM>mode</EM>	is not
+	  an accepted value.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glHint</STRONG> is executed
+	  between the execution	of <STRONG>glBegin</STRONG> and the corresponding
+	  execution of <STRONG>glEnd</STRONG>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

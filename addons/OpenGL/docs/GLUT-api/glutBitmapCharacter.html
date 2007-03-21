@@ -1,0 +1,154 @@
+
+<HTML><HEAD><TITLE>Manpage of glutBitmapCharacter</TITLE>
+</HEAD><BODY>
+<H1>glutBitmapCharacter</H1>
+Section: GLUT (3GLUT)<BR>Updated: 3.7<BR><A HREF="#index">Index</A>
+<A HREF="">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+glutBitmapCharacter - renders a bitmap character using OpenGL. 
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNTAX</H2>
+
+<PRE>
+
+void glutBitmapCharacter(void *font, int character);
+</PRE>
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>ARGUMENTS</H2>
+
+<DL COMPACT>
+<DT><I>font</I><DD>
+Bitmap font to use. 
+<DT><I>character</I><DD>
+Character to render (not confined to 8 bits). 
+</DL>
+<A NAME="lbAE">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+Without using any display lists, glutBitmapCharacter renders the
+character in the named bitmap font. The available fonts are: 
+<DL COMPACT>
+<DT><B>GLUT_BITMAP_8_BY_13 </B>
+
+<DD>
+A fixed width font with every character fitting in an 8 by 13 pixel
+rectangle. The exact bitmaps to be used is defined by the standard X
+glyph bitmaps for the X font named: 
+
+-misc-fixed-medium-r-normal--13-120-75-75-C-80-iso8859-1
+
+<DT><B>GLUT_BITMAP_9_BY_15 </B>
+
+<DD>
+A fixed width font with every character fitting in an 9 by 15 pixel
+rectangle. The exact bitmaps to be used is defined by the standard X
+glyph bitmaps for the X font named: 
+
+-misc-fixed-medium-r-normal--15-140-75-75-C-90-iso8859-1
+
+<DT><B>GLUT_BITMAP_TIMES_ROMAN_10 </B>
+
+<DD>
+A 10-point proportional spaced Times Roman font. The exact
+bitmaps to be used is defined by the standard X glyph bitmaps for
+the X font named: 
+
+-adobe-times-medium-r-normal--10-100-75-75-p-54-iso8859-1
+
+<DT><B>GLUT_BITMAP_TIMES_ROMAN_24 </B>
+
+<DD>
+A 24-point proportional spaced Times Roman font. The exact
+bitmaps to be used is defined by the standard X glyph bitmaps for
+the X font named: 
+
+-adobe-times-medium-r-normal--24-240-75-75-p-124-iso8859-1
+
+<DT><B>GLUT_BITMAP_HELVETICA_10 </B>
+
+<DD>
+A 10-point proportional spaced Helvetica font. The exact bitmaps
+to be used is defined by the standard X glyph bitmaps for the X font
+named: 
+
+-adobe-helvetica-medium-r-normal--10-100-75-75-p-56-iso8859-1
+
+<DT><B>GLUT_BITMAP_HELVETICA_12 </B>
+
+<DD>
+A 12-point proportional spaced Helvetica font. The exact bitmaps
+to be used is defined by the standard X glyph bitmaps for the X font
+named: 
+
+-adobe-helvetica-medium-r-normal--12-120-75-75-p-67-iso8859-1
+
+<DT><B>GLUT_BITMAP_HELVETICA_18 </B>
+
+<DD>
+A 18-point proportional spaced Helvetica font. The exact bitmaps
+to be used is defined by the standard X glyph bitmaps for the X font
+named: 
+
+-adobe-helvetica-medium-r-normal--18-180-75-75-p-98-iso8859-1
+</DL>
+<P>
+
+Rendering a nonexistent character has no effect.
+glutBitmapCharacter automatically sets the OpenGL unpack pixel
+storage modes it needs appropriately and saves and restores the previous
+modes before returning. The generated call to glBitmap will adjust the
+current raster position based on the width of the character. 
+<A NAME="lbAF">&nbsp;</A>
+<H2>EXAMPLE</H2>
+
+Here is a routine that shows how to render a string of ASCII
+text with glutBitmapCharacter:
+<PRE>
+
+  void
+  output(int x, int y, char *string)
+  {
+    int len, i;
+
+    glRasterPos2f(x, y);
+    len = (int) strlen(string);
+    for (i = 0; i &lt; len; i++) {
+      glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, string[i]);
+    }
+  }
+</PRE>
+
+<P>
+
+<A NAME="lbAG">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+glutBitmapWidth, glutStrokeCharacter
+<A NAME="lbAH">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Mark J. Kilgard (<A HREF="mailto:mjk@nvidia.com">mjk@nvidia.com</A>)
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNTAX</A><DD>
+<DT><A HREF="#lbAD">ARGUMENTS</A><DD>
+<DT><A HREF="#lbAE">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAF">EXAMPLE</A><DD>
+<DT><A HREF="#lbAG">SEE ALSO</A><DD>
+<DT><A HREF="#lbAH">AUTHOR</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="">man2html</A>,
+using the manual pages.<BR>
+Time: 19:05:09 GMT, September 15, 2003
+</BODY>
+</HTML>

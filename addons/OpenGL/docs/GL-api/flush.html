@@ -1,0 +1,58 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glFlush</STRONG> - force execution of GL commands in finite time
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glFlush</STRONG>(	void )
+
+
+     <STRONG>DESCRIPTION</STRONG>
+	  Different GL implementations buffer commands in several
+	  different locations, including network buffers and the
+	  graphics accelerator itself.	<STRONG>glFlush</STRONG>	empties	all of these
+	  buffers, causing all issued commands to be executed as
+	  quickly as they are accepted by the actual rendering engine.
+	  Though this execution	may not	be completed in	any particular
+	  time period, it does complete	in finite time.
+
+	  Because any GL program might be executed over	a network, or
+	  on an	accelerator that buffers commands, all programs	should
+	  call <STRONG>glFlush</STRONG> whenever	they count on having all of their
+	  previously issued commands completed.	 For example, call
+	  <STRONG>glFlush</STRONG> before waiting for user input	that depends on	the
+	  generated image.
+
+     <STRONG>NOTES</STRONG>
+	  <STRONG>glFlush</STRONG> can return at	any time.  It does not wait until the
+	  execution of all previously issued GL	commands is complete.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glFlush</STRONG> is executed
+	  between the execution	of <STRONG>glBegin</STRONG> and the corresponding
+	  execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glFinish</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

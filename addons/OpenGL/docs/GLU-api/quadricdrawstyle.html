@@ -1,0 +1,58 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>gluQuadricDrawStyle</STRONG> -	specify	the draw style desired for
+	  quadrics
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>gluQuadricDrawStyle</STRONG>( GLUquadric*	<EM>quad</EM>,
+				    GLenum <EM>draw</EM>	)
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>quad</EM>	Specifies the quadrics object (created with
+		<STRONG>gluNewQuadric</STRONG>).
+
+	  <EM>draw</EM>	Specifies the desired draw style. Valid	values are
+		<STRONG>GLU_FILL</STRONG>, <STRONG>GLU_LINE</STRONG>, <STRONG>GLU_SILHOUETTE</STRONG>, and	<STRONG>GLU_POINT</STRONG>.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>gluQuadricDrawStyle</STRONG> specifies	the draw style for quadrics
+	  rendered with	<EM>quad</EM>. The legal	values are as follows:
+
+	  <STRONG>GLU_FILL</STRONG>	 Quadrics are rendered with polygon
+			 primitives. The polygons are drawn in a
+			 counterclockwise fashion with respect to
+			 their normals (as defined with
+			 <STRONG>gluQuadricOrientation</STRONG>).
+
+	  <STRONG>GLU_LINE</STRONG>	 Quadrics are rendered as a set	of lines.
+
+	  <STRONG>GLU_SILHOUETTE</STRONG> Quadrics are rendered as a set	of lines,
+			 except	that edges separating coplanar faces
+			 will not be drawn.
+
+	  <STRONG>GLU_POINT</STRONG>	 Quadrics are rendered as a set	of points.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>gluNewQuadric</STRONG>, <STRONG>gluQuadricNormals</STRONG>, <STRONG>gluQuadricOrientation</STRONG>,
+	  <STRONG>gluQuadricTexture</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

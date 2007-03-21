@@ -1,0 +1,1199 @@
+/*#io
+Sequence ioDoc(
+			docCopyright("Steve Dekorte", 2002)
+			docLicense("BSD revised")
+			docObject("ImmutableSequence")
+			docDescription("""A Sequence is a container for a list of data elements. Immutable Sequences are also called "Symbols". """)
+			docCategory("Core")
+			*/
+
+#define _GNU_SOURCE // for NAN macro
+#include "IoSeq.h"
+#include "IoState.h"
+#include "IoCFunction.h"
+#include "IoObject.h"
+#include "IoNumber.h"
+#include "IoMessage.h"
+#include "IoList.h"
+#include <ctype.h>
+#include <errno.h>
+#include <math.h> // for NAN macro
+#ifdef _MSC_VER
+static double dNaN()
+{
+	double a = 0, b = 0;
+	return a / b;
+}
+#define NAN dNaN()
+#endif
+#ifndef NAN
+#define NAN 0.0/0.0
+#endif
+
+#define BIVAR(self) ((UArray *)IoObject_dataPointer(self))
+
+
+IoObject *IoSeq_rawAsSymbol(IoSeq *self)
+{
+	if (ISSYMBOL(self))
+	{
+		return self;
+	}
+	
+	return IoState_symbolWithUArray_copy_(IOSTATE, BIVAR(self), 1); 
+}
+
+IoObject *IoSeq_with(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("with(aSequence, ...)", 
+		   "Returns a new Sequence which is the concatination of the arguments. 
+The returned sequence will have the same mutability status as the receiver.")
+	*/
+	
+	int n, argCount = IoMessage_argCount(m);
+	UArray *ba = UArray_clone(BIVAR(self));
+	
+	for (n = 0; n < argCount; n ++)
+	{
+		IoSeq *v = IoMessage_locals_seqArgAt_(m, locals, n);
+		UArray_append_(ba, BIVAR(v));
+	}
+	
+	if (ISSYMBOL(self))
+	{
+		return IoState_symbolWithUArray_copy_(IOSTATE, ba, 0);
+	}
+	
+	return IoSeq_newWithUArray_copy_(IOSTATE, ba, 0);
+}
+
+IoObject *IoSeq_itemType(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("itemType", "Returns machine type of elements. ")
+	*/
+	
+	return IOSYMBOL(CTYPE_name(UArray_itemType(BIVAR(self)))); 
+}
+
+IoObject *IoSeq_itemSize(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("itemSize", "Returns number of bytes in each element. ")
+	*/
+	
+	return IONUMBER(UArray_itemSize(BIVAR(self))); 
+}
+
+IoObject *IoSeq_encoding(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("encoding", "Returns the encoding of the elements. ")
+	*/
+	
+	return IOSYMBOL(CENCODING_name(UArray_encoding(BIVAR(self)))); 
+}
+
+IoObject *IoSeq_asUTF8(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("asUTF8", "Returns a new copy of the receiver converted to utf8 encoding. ")
+	*/
+	
+	return IoSeq_newWithUArray_copy_(IOSTATE, UArray_asUTF8(BIVAR(self)), 0); 
+}
+
+IoObject *IoSeq_asUTF16(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("asUTF16", "Returns a new copy of the receiver converted to utf16 encoding. ")
+	*/
+	
+	return IoSeq_newWithUArray_copy_(IOSTATE, UArray_asUTF16(BIVAR(self)), 0); 
+}
+
+IoObject *IoSeq_asUTF32(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("asUTF32", "Returns a new copy of the receiver converted to utf32 encoding. ")
+	*/
+	
+	return IoSeq_newWithUArray_copy_(IOSTATE, UArray_asUTF32(BIVAR(self)), 0); 
+}
+
+IoObject *IoSeq_asFixedSizeType(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("asFixedSizeType", "Returns a new sequence with the receiver encoded in the minimal fixed width text encoding that it's characters can fit into (either, ascii, utf8, utf16 or utf32). ")
+	*/
+	
+	IOASSERT(1 == 0, "IoSeq_asFixedSizeType unimplemented");
+	//return IoSeq_newWithUArray_copy_(IOSTATE, UArray_asFixedSizeType(BIVAR(self)), 0); 
+	return self;
+}
+
+IoObject *IoSeq_asBinaryNumber(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("asBinaryNumber", 
+		   "Returns a Number containing the first 8 bytes of the 
+receiver without casting them to a double.")
+	*/
+	
+	IoNumber *byteCount = IoMessage_locals_valueArgAt_(m, locals, 0);
+	size_t max = UArray_size(BIVAR(self));
+	int bc = sizeof(double);
+	double d = 0;
+	
+	if (!ISNIL(byteCount)) 
+	{
+		bc = IoNumber_asInt(byteCount);
+	}
+	
+	if (max < bc)
+	{
+		IoState_error_(IOSTATE, m, "requested first %i bytes, but Sequence only contians %i bytes", bc, max);
+	}
+	
+	memcpy(&d, UArray_bytes(BIVAR(self)), bc);
+	return IONUMBER(d);
+}
+
+IoObject *IoSeq_asSymbol(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("asSymbol", 
+		   "Returns a immutable Sequence (aka Symbol) version of the receiver.")
+	*/
+	
+	return IoSeq_rawAsSymbol(self);
+}
+
+IoObject *IoSeq_isSymbol(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("isSymbol", 
+		   "Returns true if the receiver is a 
+immutable Sequence (aka, a Symbol) or false otherwise.")
+	*/
+	
+	return IOBOOL(self, ISSYMBOL(self));
+}
+
+IoObject *IoSeq_isMutable(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("isMutable", 
+		   "Returns true if the receiver is a mutable Sequence or false otherwise.")
+	*/
+	
+	return IOBOOL(self, !ISSYMBOL(self));
+}
+
+
+IoObject *IoSeq_print(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("print", 
+		   "Prints the receiver as a string. Returns self.")
+	*/
+	
+	IoState_justPrintba_(IOSTATE, BIVAR(self));
+	return self;
+}
+
+IoObject *IoSeq_linePrint(IoObject *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("linePrint", 
+		   "Prints the Sequence and a newline character.")
+	*/
+	
+	IoState_justPrintba_(IOSTATE, BIVAR(self));
+	IoState_justPrintln_(IOSTATE);
+	return self;
+}
+
+IoObject *IoSeq_isEmpty(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("isEmpty", """Returns true if the size of the receiver is 0, false otherwise.""")
+	*/
+	
+	return IOBOOL(self, UArray_size(BIVAR(self)) == 0); 
+}
+
+IoObject *IoSeq_size(IoSeq *self, IoObject *locals, IoMessage *m)
+{ 
+	/*#io
+	docSlot("size", """Returns the length in bytes of the receiver. For example,
+<pre>
+"abc" size == 3
+<pre>
+""")
+	*/
+	
+	return IONUMBER(UArray_size(BIVAR(self))); 
+}
+
+IoObject *IoSeq_at(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("at(aNumber)", 
+		   "Returns a value at the index specified by aNumber. 
+Returns nil if the index is out of bounds.")
+	*/
+	
+	size_t i = IoMessage_locals_sizetArgAt_(m, locals, 0);
+	UArray *a = BIVAR(self);
+	
+	//IOASSERT((i < UArray_size(BIVAR(self))), "index out of bounds");
+	if(i >= UArray_size(BIVAR(self))) return IONIL(self);
+
+	if(UArray_isFloatType(a))
+	{    
+		return IONUMBER(UArray_doubleAt_(a, i));
+	}
+	else
+	{
+		return IONUMBER(UArray_longAt_(a, i));
+	}
+}
+
+IoObject *IoSeq_slice(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("slice(startIndex, endIndex)", 
+		   "Returns a new string containing the subset of the 
+receiver from the startIndex to the endIndex. The endIndex argument 
+is optional. If not given, it is assumed to be the end of the string. ")
+	*/
+	
+	long fromIndex = IoMessage_locals_longArgAt_(m, locals, 0);
+	long last = UArray_size(BIVAR(self));
+	UArray *ba;
+	
+	if (IoMessage_argCount(m) > 1)
+	{ 
+		last = IoMessage_locals_longArgAt_(m, locals, 1); 
+	}
+	
+	ba = UArray_slice(BIVAR(self), fromIndex, last);
+	
+	if (ISSYMBOL(self))
+	{
+		return IoState_symbolWithUArray_copy_(IOSTATE, ba, 0);
+	}
+	
+	return IoSeq_newWithUArray_copy_(IOSTATE, ba, 0);
+}
+
+IoObject *IoSeq_between(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("between(aSequence, anotherSequence)", 
+		   "Returns a new Sequence containing the bytes between the 
+occurance of aSequence and anotherSequence in the receiver.")
+	*/
+	
+	long start = 0;
+	long end = 0;
+	IoSeq *fromSeq, *toSeq;
+	
+	fromSeq = (IoSeq *)IoMessage_locals_valueArgAt_(m, locals, 0);
+	
+	if (ISSEQ(fromSeq))
+	{
+		start = UArray_find_from_(BIVAR(self), BIVAR(fromSeq), 0) + 
+		IoSeq_rawSize(fromSeq);
+		
+		if (start == -1) 
+		{
+			start = 0;
+		}
+	}
+	else if (ISNIL(fromSeq)) 
+	{ 
+		start = 0; 
+	}
+	else
+	{
+		IoState_error_(IOSTATE, m, "Nil or Sequence argument required for arg 0, not a %s", 
+					IoObject_name((IoObject *)fromSeq));
+	}
+	
+	toSeq = (IoSeq *)IoMessage_locals_valueArgAt_(m, locals, 1);
+	
+	if (ISSEQ(toSeq))
+	{
+		end = UArray_find_from_(BIVAR(self), BIVAR(toSeq), start); 
+		if (end == -1) start = UArray_size(BIVAR(self));
+	}
+	else if (ISNIL(toSeq))
+	{ 
+		end = UArray_size(BIVAR(self)); 
+	}
+	else
+	{
+		IoState_error_(IOSTATE, m, "Nil or Sequence argument required for arg 1, not a %s", 
+					IoObject_name((IoObject *)toSeq));
+	}  
+	
+	{
+		UArray *ba = UArray_slice(BIVAR(self), start, end);
+		IoSeq *result = IoSeq_newWithUArray_copy_(IOSTATE, ba, 0);
+		return result;
+	}
+}
+
+// find ---------------------------------------------------------- 
+
+IoObject *IoSeq_findSeqs(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("findSeqs(listOfSequences, optionalStartIndex)", 
+		   "Returns a object with two slots - an "index" slot which contains the first occurrence of any of the sequences in listOfSequences found in the receiver after the startIndex, and a "match" slot, which contains a reference to the matching sequence from listOfSequences. If no startIndex is specified, the search starts at index 0. nil is returned if no occurences are found. ")
+	*/
+	
+	IoList *others = IoMessage_locals_listArgAt_(m, locals, 0);
+	List *delims = IoList_rawList(others);
+	long f = 0;
+	long firstIndex = -1;
+	int match = 0;
+	
+	if (IoMessage_argCount(m) > 1)
+	{ 
+		f = IoMessage_locals_longArgAt_(m, locals, 1); 
+	}
+	
+	{
+		int index;
+		
+		LIST_FOREACH(delims, i, s,
+				   if (!ISSEQ((IoSeq *)s))
+				   {
+					   IoState_error_(IOSTATE, m, "requires Sequences as arguments, not %ss", IoObject_name((IoSeq *)s));
+				   }
+				   
+				   index = UArray_find_from_(BIVAR(self), BIVAR(((IoSeq *)s)), f);
+				   
+				   if(index != -1 && (firstIndex == -1 || index < firstIndex)) { firstIndex = index; match = i; }
+				   
+				   );
+	}
+	
+	if (firstIndex == -1)
+	{
+		return IONIL(self);
+	}
+	else
+	{
+		IoObject *result = IoObject_new(IOSTATE);
+		IoObject_setSlot_to_(result, IOSYMBOL("index"), IONUMBER(firstIndex));
+		IoObject_setSlot_to_(result, IOSYMBOL("match"), (IoObject *)List_at_(delims, match));
+		return result;
+	}
+}
+
+
+IoObject *IoSeq_findSeq(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("findSeq(aSequence, optionalStartIndex)", 
+		   "Returns a number with the first occurrence of aSequence in 
+the receiver after the startIndex. If no startIndex is specified, 
+the search starts at index 0. 
+nil is returned if no occurences are found. ")
+	*/
+	
+	IoSeq *otherSequence = IoMessage_locals_seqArgAt_(m, locals, 0);
+	long f = 0;
+	long index;
+	
+	if (IoMessage_argCount(m) > 1)
+	{ 
+		f = IoMessage_locals_longArgAt_(m, locals, 1); 
+	}
+	
+	index = UArray_find_from_(BIVAR(self), BIVAR(otherSequence), f);
+	
+	return (index == -1) ? IONIL(self) : IONUMBER(index);
+}
+
+IoObject *IoSeq_reverseFindSeq(IoObject *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("reverseFindSeq(aSequence, startIndex)", 
+		   "Returns a number with the first occurrence of aSequence in 
+the receiver before the startIndex. The startIndex argument is optional. 
+By default reverseFind starts at the end of the string. Nil is 
+returned if no occurrences are found. ")
+	*/
+	
+	IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
+	long from = UArray_size(BIVAR(self));
+	long index;
+	
+	if (IoMessage_argCount(m) > 1)
+	{ 
+		from = IoMessage_locals_intArgAt_(m, locals, 1); 
+	}
+	
+	index = UArray_rFind_from_(BIVAR(self), BIVAR(other), from);
+	
+	if (index == -1) 
+	{
+		return IONIL(self);
+	}
+	
+	return IONUMBER((double)index);
+}
+
+IoObject *IoSeq_beginsWithSeq(IoObject *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("beginsWithSeq(aSequence)", 
+		   "Returns true if the receiver begins with aSequence, false otherwise.") 
+	*/
+	
+	IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
+	
+	return IOBOOL(self, UArray_beginsWith_(BIVAR(self), BIVAR(other)));
+}
+
+IoObject *IoSeq_endsWithSeq(IoObject *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("endsWithSeq(aSequence)", 
+		   "Returns true if the receiver ends with aSequence, false otherwise. ")
+	*/
+	
+	IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
+	return IOBOOL(self, UArray_endsWith_(BIVAR(self), BIVAR(other)));
+}
+
+IoObject *IoSeq_contains(IoObject *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("contains(aNumber)", 
+		   "Returns true if the receiver contains an element equal in value to aNumber, false otherwise. ")
+	*/
+	
+	// will make this more efficient when Numbers are Arrays
+	
+	IoNumber *n = IoMessage_locals_numberArgAt_(m, locals, 0);
+	
+	UArray tmp = IoNumber_asStackUArray(n);
+	return IOBOOL(self, UArray_contains_(BIVAR(self), &tmp));
+}
+
+IoObject *IoSeq_containsSeq(IoObject *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("containsSeq(aSequence)", 
+		   "Returns true if the receiver contains the substring 
+aSequence, false otherwise. ")
+	*/
+	
+	IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
+	
+	return IOBOOL(self, UArray_contains_(BIVAR(self), BIVAR(other)));
+}
+
+IoObject *IoSeq_containsAnyCaseSeq(IoObject *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("containsAnyCaseSeq(aSequence)", 
+		   "Returns true if the receiver contains the aSequence 
+regardless of casing, false otherwise. ")
+	*/
+	
+	IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
+	return IOBOOL(self, UArray_containsAnyCase_(BIVAR(self), BIVAR(other)));
+}
+
+IoObject *IoSeq_isLowercase(IoObject *self, IoObject *locals, IoMessage *m)
+{ 
+	/*#io
+	docSlot("isLowercase", 
+		   "Returns self if all the characters in the string are lower case.")
+	*/
+	
+	return IOBOOL(self, UArray_isLowercase(BIVAR(self))); 
+}
+
+IoObject *IoSeq_isUppercase(IoObject *self, IoObject *locals, IoMessage *m)
+{ 
+	/*#io
+	docSlot("isUppercase", 
+		   "Returns self if all the characters in the string are upper case.")
+	*/
+	
+	return IOBOOL(self, UArray_isUppercase(BIVAR(self))); 
+}
+
+IoObject *IoSeq_isEqualAnyCase(IoObject *self, IoObject *locals, IoMessage *m)
+{ 
+	/*#io
+	docSlot("isEqualAnyCase(aSequence)", 
+		   "Returns true if aSequence is equal to the receiver 
+ignoring case differences, false otherwise.")
+	*/
+	
+	IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
+	
+	return IOBOOL(self, UArray_equalsAnyCase_(BIVAR(self), BIVAR(other)));
+}
+
+IoObject *IoSeq_asNumber(IoObject *self, IoObject *locals, IoMessage *m)
+{  
+	/*#io
+	docSlot("asNumber", 
+		   "Returns the receiver converted to a number. 
+Initial whitespace is ignored.")
+	*/
+	
+	size_t size = UArray_size(BIVAR(self));
+	char *s = (char *)UArray_bytes(BIVAR(self));
+	char *endp;
+	double d = strtod(s, &endp);
+	
+	if (size > 2 && s[0] == '0' && (s[1] == 'x' || s[1] == 'X'))
+	{
+		return IONUMBER(IoSeq_rawAsDoubleFromHex(self));
+	}
+	
+	if (errno == ERANGE || endp == s) 
+	{ 
+		return IONUMBER(NAN);
+	}
+	
+	return IONUMBER(d); 
+}
+
+IoList *IoSeq_whiteSpaceStrings(IoObject *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("whiteSpaceStrings", 
+		   "Returns a List of strings. Each string contains a different 
+whitespace character.")
+	*/
+	
+	IoList *strings = IoList_new(IOSTATE);
+	IoList_rawAppend_(strings, IOSYMBOL(" "));
+	IoList_rawAppend_(strings, IOSYMBOL("\t"));
+	IoList_rawAppend_(strings, IOSYMBOL("\n"));
+	IoList_rawAppend_(strings, IOSYMBOL("\r"));
+	return strings;
+}
+
+// split ---------------------------------------------------------------------
+
+IoList *IoSeq_stringListForArgs(IoObject *self, IoObject *locals, IoMessage *m)
+{
+	if (IoMessage_argCount(m) == 0) 
+	{
+		return IoSeq_whiteSpaceStrings(self, locals, m);
+	}
+	return IoMessage_evaluatedArgs(m, locals, m);
+}
+
+List *IoSeq_byteArrayListForSeqList(IoObject *self, IoObject *locals, IoMessage *m, IoList *seqs)
+{
+	List *args = IoList_rawList(seqs);
+	List *list = List_new();
+	
+	LIST_FOREACH(args, i, s,
+			   if (!ISSEQ((IoSeq *)s))
+			   {
+				   List_free(list);
+				   IoState_error_(IOSTATE, m, 
+							   "requires Sequences as arguments, not %ss", 
+							   IoObject_name((IoSeq *)s));
+			   }
+			   
+			   List_append_(list, BIVAR(((IoSeq *)s)));
+			   );
+	
+	return list;
+}
+
+IoObject *IoSeq_splitToFunction(IoObject *self, 
+						  IoObject *locals, 
+						  IoMessage *m, 
+						  IoSplitFunction *func)
+{
+	IoList *output = IoList_new(IOSTATE);
+	List *others = IoSeq_byteArrayListForSeqList(self, locals, m, IoSeq_stringListForArgs(self, locals, m));
+	int i;
+	
+	for (i = 0; i < List_size(others); i ++)
+	{
+		if (UArray_size(List_at_(others, i)) == 0)
+		{
+			IoState_error_(IOSTATE, m, "empty string argument");
+		}
+	}
+	
+	{
+		UArray othersArray = List_asStackAllocatedUArray(others);
+		UArray *results = UArray_split_(BIVAR(self), &othersArray);
+		
+		for (i = 0; i < UArray_size(results); i ++)
+		{
+			UArray *ba = UArray_pointerAt_(results, i);
+			IoObject *item = (*func)(IOSTATE, ba, 0);
+			IoList_rawAppend_(output, item);
+		}
+		
+		UArray_free(results);
+	}
+	
+	List_free(others);
+	return output;
+}
+
+IoObject *IoSeq_split(IoObject *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("split(optionalArg1, optionalArg2, ...)", """
+Returns a list containing the sub-sequences of the receiver divided by the given arguments.
+If no arguments are given the sequence is split on white space.
+Examples:
+<pre>
+"a b c d" split == list("a", "b", "c", "d")
+"a*b*c*d" split("*") == list("a", "b", "c", "d")
+"a*b|c,d" split("*", "|", ",") == list("a", "b", "c", "d")
+"a   b  c d" split == list("a", "", "", "", "b", "", "", "c", "", "d")
+</pre>
+""")
+	*/
+	
+	return IoSeq_splitToFunction(self, locals, m, IoSeq_newWithUArray_copy_);
+}
+
+IoObject *IoSeq_splitAt(IoObject *self, IoObject *locals, IoMessage *m)
+{
+	int index = IoMessage_locals_intArgAt_(m, locals, 0);
+	IoList *splitSeqs = IoList_new(IOSTATE);
+	index = UArray_wrapPos_(BIVAR(self), index);
+	
+	{
+		const char *s = UArray_asCString(BIVAR(self));
+		IoSeq *s1 = IoState_symbolWithCString_length_(IOSTATE, s, index);
+		IoSeq *s2 = IoState_symbolWithCString_(IOSTATE, s + index);
+		IoList_rawAppend_(splitSeqs, (IoObject *)s1);
+		IoList_rawAppend_(splitSeqs, (IoObject *)s2);
+	}
+	
+	return splitSeqs;
+}
+
+/* --- base -------------------------------------------------------------- */
+
+IoObject *IoSeq_fromBase(IoObject *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("fromBase(aNumber)", 
+		   "Returns a number with a base 10 representation of the receiver 
+converted from the specified base. Only base 2 through 32 are currently supported.")
+	*/
+	
+	int base = IoMessage_locals_intArgAt_(m, locals, 0);
+	char *s = CSTRING(self);
+	unsigned long r;
+	char *tail;
+	errno = 0;
+	r = strtoul(s, &tail, base);
+	
+	if (errno == EINVAL)
+	{
+		errno = 0;
+		IoState_error_(IOSTATE, m, "conversion from base %i not supported", base);
+	}
+	else if (errno == ERANGE)
+	{
+		errno = 0;
+		IoState_error_(IOSTATE, m, "resulting value \"%s\" was out of range", s);
+	}
+	else if (*s == 0 || *tail != 0 || errno != 0)
+	{
+		errno = 0;
+		IoState_error_(IOSTATE, m, "conversion of \"%s\" to base %i failed", s, base);
+	}
+	
+	return IONUMBER(r);
+}
+
+IoObject *IoSeq_toBase(IoObject *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("toBase(aNumber)", 
+		   "Returns a Sequence containing the receiver(which is 
+											  assumed to be a base 10 number) converted to the specified base. 
+Only base 8 and 16 are currently supported. ")
+	*/
+	
+	const char * const table = "0123456789abcdefghijklmnopqrstuvwxyz";
+	int base = IoMessage_locals_intArgAt_(m, locals, 0);
+	unsigned long n = (unsigned long) IoSeq_asDouble(self);
+	char buf[64], *ptr = buf + 64;
+	
+	if (base < 2 || base > 36)
+	{
+		IoState_error_(IOSTATE, m, "conversion to base %i not supported", base);
+	}
+	
+	/* Build the converted string backwards. */
+	*(--ptr) = '\0';
+	
+	if (n == 0)
+	{
+		*(--ptr) = '0';
+	}
+	else
+	{
+		do 
+		{
+			*(--ptr) = table[n % base];
+		}
+		while ((n /= base) != 0);
+	}
+	
+	return IoSeq_newWithCString_(IOSTATE, ptr);
+}
+
+IoObject *IoSeq_each(IoObject *self, IoObject *locals, IoMessage *m)
+{
+	IoState *state = IOSTATE;
+	IoObject *result = IONIL(self);
+	IoMessage *doMessage = IoMessage_rawArgAt_(m, 0);
+	size_t i;
+	
+	IoState_pushRetainPool(state);
+	
+	for (i = 0; i < UArray_size(BIVAR(self)); i ++)
+	{
+		IoState_clearTopPool(IOSTATE);
+		
+		if (UArray_isFloatType(BIVAR(self)))
+		{
+			result = IoMessage_locals_performOn_(doMessage, locals, IONUMBER(UArray_doubleAt_(BIVAR(self), i)));
+		}
+		else
+		{
+			result = IoMessage_locals_performOn_(doMessage, locals, IONUMBER(UArray_longAt_(BIVAR(self), i)));
+		}
+		
+		if (IoState_handleStatus(IOSTATE)) 
+		{
+			goto done;
+		}
+	}
+	
+done:
+		IoState_popRetainPoolExceptFor_(state, result);
+	return result;
+}
+
+
+IoObject *IoSeq_foreach(IoObject *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("foreach(optionalIndex, value, message)", 
+		   """For each element, set index to the index of the 
+element and value the element value and execute message. Example:
+<pre>
+aSequence foreach(i, v, writeln("value at index ", i, " is ", v))
+aSequence foreach(v, writeln("value ", v))
+</pre>""")
+	*/
+	
+	IoObject *result = IONIL(self);
+	IoMessage *doMessage;
+	
+	IoSymbol *indexSlotName;
+	IoSymbol *characterSlotName;
+	
+	size_t i;
+	
+	if (IoMessage_argCount(m) == 1)
+	{
+		return IoSeq_each(self, locals, m);
+	}
+	
+	IoMessage_foreachArgs(m, self, &indexSlotName, &characterSlotName, &doMessage);
+	
+	IoState_pushRetainPool(IOSTATE);
+	
+	for (i = 0; i < UArray_size(BIVAR(self)); i ++)
+	{
+		IoState_clearTopPool(IOSTATE);
+		
+		if (indexSlotName)
+		{
+			IoObject_setSlot_to_(locals, indexSlotName, IONUMBER(i));
+		}
+		
+		if(UArray_isFloatType(BIVAR(self)))
+		{
+			IoObject_setSlot_to_(locals, characterSlotName, IONUMBER(UArray_doubleAt_(BIVAR(self), i)));
+		}
+		else
+		{
+			IoObject_setSlot_to_(locals, characterSlotName, IONUMBER(UArray_longAt_(BIVAR(self), i)));
+		}
+		result = IoMessage_locals_performOn_(doMessage, locals, locals);
+		
+		if (IoState_handleStatus(IOSTATE)) 
+		{
+			goto done;
+		}
+	}
+done:
+		IoState_popRetainPoolExceptFor_(IOSTATE, result);
+	return result;
+}
+
+IoObject *IoSeq_asMessage(IoObject *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("asMessage", 
+		   "Returns the compiled message object for the string.")
+	*/
+	
+	return IoMessage_newFromText_label_(IOSTATE, CSTRING(self), "[asMessage]");
+}
+
+/*#io
+docSlot("..(aSequence)", "Returns a copy of the receiver with aSequence appended to it. ")
+*/
+
+IoObject *IoSeq_cloneAppendSeq(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	IoObject *other = IoMessage_locals_valueArgAt_(m, locals, 0);
+	UArray *ba;
+	
+	if (ISNUMBER(other)) 
+	{ 
+		other = IoNumber_justAsString((IoNumber *)other, (IoObject *)locals, m); 
+	}
+	
+	if (!ISSEQ(other))
+	{
+		IoState_error_(IOSTATE, m, "argument 0 to method '%s' must be a number or string, not a '%s'",
+					CSTRING(IoMessage_name(m)), 
+					IoObject_name(other));
+	}
+	
+	if (UArray_size(BIVAR(other)) == 0) 
+	{
+		return self;
+	}
+	
+	ba = UArray_clone(BIVAR(self));
+	UArray_append_(ba, BIVAR(other));
+	return IoState_symbolWithUArray_copy_(IOSTATE, ba, 0);
+}
+
+
+IoObject *IoSeq_asMutable(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("asMutable", 
+		   "Returns a mutable copy of the receiver. ")
+	*/
+	
+	return IoSeq_rawMutableCopy(self);
+}
+
+/* --- case ------------------------------------------------ */
+
+IoObject *IoSeq_asUppercase(IoSeq *self, IoObject *locals, IoMessage *m)
+{ 
+	/*#io
+	docSlot("asUppercase", 
+		   "Returns a symbol containing the reveiver made uppercase. ")
+	*/
+	
+	UArray *ba = UArray_clone(BIVAR(self));
+	UArray_toupper(ba);
+	return IoState_symbolWithUArray_copy_(IOSTATE, ba, 0);
+}
+
+IoObject *IoSeq_asLowercase(IoSeq *self, IoObject *locals, IoMessage *m)
+{ 
+	/*#io
+	docSlot("asLowercase", 
+		   "Returns a symbol containing the reveiver made Lowercase. ")
+	*/
+	
+	UArray *ba = UArray_clone(BIVAR(self));
+	UArray_tolower(ba);
+	return IoState_symbolWithUArray_copy_(IOSTATE, ba, 0);
+}
+
+/* --- path ------------------------------------------------ */
+
+
+IoObject *IoSeq_lastPathComponent(IoObject *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("lastPathComponent", 
+		   "Returns a string containing the receiver clipped up 
+to the last path separator. ")
+	*/
+	
+	UArray *ba = UArray_lastPathComponent(BIVAR(self));
+	return IoSeq_newWithUArray_copy_(IOSTATE, ba, 0);
+}
+
+IoObject *IoSeq_pathExtension(IoObject *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("pathExtension", 
+		   "Returns a string containing the receiver clipped up to the last period. ")
+	*/
+	
+	UArray *path = UArray_pathExtension(BIVAR(self));
+	return IoState_symbolWithUArray_copy_(IOSTATE, path, 0);
+}
+
+IoObject *IoSeq_fileName(IoObject *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("fileName", 
+		   "Returns the last path component sans the path extension.")
+	*/
+	
+	UArray *path = UArray_fileName(BIVAR(self));
+	return IoState_symbolWithUArray_copy_(IOSTATE, path, 0);
+}
+
+IoObject *IoSeq_cloneAppendPath(IoObject *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("cloneAppendPath(aSequence)", 
+		   "Appends argument to a copy the receiver such that there is one 
+and only one path separator between the two and returns the result.")
+	*/
+	
+	IoSeq *component = IoMessage_locals_seqArgAt_(m, locals, 0);
+	UArray *ba = UArray_clone(BIVAR(self));
+	UArray_appendPath_(ba, BIVAR(component));
+	return IoState_symbolWithUArray_copy_(IOSTATE, ba, 0);
+}
+
+IoObject *IoSeq_pathComponent(IoObject *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("pathComponent", 
+		   "Returns a slice of the receiver before the last path separator as a symbol. ")
+	*/
+	
+	UArray *ba = UArray_clone(BIVAR(self));
+	UArray_removeLastPathComponent(ba);
+	return IoState_symbolWithUArray_copy_(IOSTATE, ba, 0);
+}
+
+IoObject *IoSeq_beforeSeq(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("beforeSeq(aSequence)", 
+		   "Returns the slice of the receiver (as a Symbol) before 
+aSequence or self if aSequence is not found.")
+	*/
+	
+	IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
+	long pos = UArray_find_(BIVAR(self), BIVAR(other));
+	
+	if (pos != -1)
+	{
+		UArray *ba = UArray_slice(BIVAR(self), 0, pos);
+		
+		if (ISSYMBOL(self))
+		{
+			return IoState_symbolWithUArray_copy_(IOSTATE, ba, 0);
+		}
+		else
+		{
+			return IoSeq_newWithUArray_copy_(IOSTATE, ba, 0);
+		}
+	}
+	
+	if (ISSYMBOL(self)) 
+	{
+		return self;
+	}
+	
+	return IOCLONE(self);
+}
+
+IoObject *IoSeq_afterSeq(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("afterSeq(aSequence)", 
+		   "Returns the slice of the receiver (as a Symbol) 
+after aSequence or Nil if aSequence is not found. 
+If aSequence is empty, the receiver (or a copy of the 
+							  receiver if it is mutable) is returned.")
+	*/
+	
+	IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
+	long pos = UArray_find_(BIVAR(self), BIVAR(other));
+	
+	if (pos != -1)
+	{
+		UArray *ba = UArray_slice(BIVAR(self), pos + UArray_size(BIVAR(other)), UArray_size(BIVAR(self)));
+		
+		if (ISSYMBOL(self))
+		{
+			return IoState_symbolWithUArray_copy_(IOSTATE, ba, 0);
+		}
+		else
+		{
+			return IoSeq_newWithUArray_copy_(IOSTATE, ba, 0);
+		}
+	}
+	
+	return IONIL(self);
+}
+
+IoObject *IoSeq_asCapitalized(IoObject *self, IoObject *locals, IoMessage *m)
+{ 
+	/*#io
+	docSlot("asCapitalized", 
+		   "Returns a copy of the receiver with the first charater made uppercase.")
+	*/
+	
+	/* need to fix for multi-byte characters */
+	
+	int firstChar = UArray_firstLong(BIVAR(self));
+	int upperChar = toupper(firstChar);
+	
+	if (ISSYMBOL(self) && (firstChar == upperChar)) 
+	{
+		return self;
+	}
+	else
+	{
+		UArray *ba = UArray_clone(BIVAR(self));
+		UArray_at_putLong_(ba, 0, upperChar); 
+		
+		if (ISSYMBOL(self))
+		{
+			return IoState_symbolWithUArray_copy_(IOSTATE, ba, 0);
+		}
+		
+		return IoSeq_newWithUArray_copy_(IOSTATE, ba, 0);
+	}
+}
+
+IoObject *IoSeq_occurancesOfSeq(IoObject *self, IoObject *locals, IoMessage *m)
+{ 
+	/*#io
+	docSlot("occurancesOfSeq(aSeq)", "Returns count of aSeq in the receiver.")
+	*/
+		
+	IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
+	size_t count = UArray_count_(BIVAR(self), BIVAR(other));
+	return IONUMBER(count);
+}
+
+IoObject *IoSeq_interpolate(IoObject *self, IoObject *locals, IoMessage *m)
+{ 
+	/*#io
+	docSlot("interpolate(ctx)", "Returns immutable copy of self with interpolateInPlace(ctx) passed to the copy.")
+	*/
+		
+	IoSeq *s = IoSeq_newWithUArray_copy_(IOSTATE, IoSeq_rawUArray(self), 1);
+	IoSeq_interpolateInPlace(s, locals, m);
+	return IoSeq_rawAsSymbol(s);
+}
+
+IoObject *IoSeq_distanceTo(IoObject *self, IoObject *locals, IoMessage *m)
+{ 
+	/*#io
+	docSlot("distanceTo(aSeq)", "Returns a number with the square root of the sum of the square of the differences of the items between the sequences.")
+	*/
+	
+	IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
+	double d;
+	
+	d = UArray_distanceTo_(BIVAR(self), BIVAR(other));
+	return IONUMBER(d);
+}
+
+void IoSeq_addImmutableMethods(IoSeq *self)
+{
+	IoMethodTable methodTable[] = {
+	{"itemType", IoSeq_itemType},
+	{"itemSize", IoSeq_itemSize},
+	{"encoding", IoSeq_encoding},
+	{"asUTF8", IoSeq_asUTF8},
+	{"asUTF16", IoSeq_asUTF16},
+	{"asUTF32", IoSeq_asUTF32},
+	{"asFixedSizeType", IoSeq_asFixedSizeType},
+		
+	{"asBinaryNumber", IoSeq_asBinaryNumber},
+	{"isSymbol", IoSeq_isSymbol},
+	{"isMutable", IoSeq_isMutable},
+	{"asSymbol", IoSeq_asSymbol},
+	{"asString", IoSeq_asSymbol},
+	{"asNumber", IoSeq_asNumber},
+	{"whiteSpaceStrings", IoSeq_whiteSpaceStrings},
+	{"print", IoSeq_print},
+	{"linePrint", IoSeq_linePrint},
+	{"size", IoSeq_size},
+	{"isEmpty", IoSeq_isEmpty},
+	{"at", IoSeq_at},
+	{"slice", IoSeq_slice},
+     {"between", IoSeq_between},
+     {"betweenSeq", IoSeq_between},
+	{"findSeqs", IoSeq_findSeqs},
+	{"findSeq", IoSeq_findSeq},
+	{"reverseFindSeq", IoSeq_reverseFindSeq},
+	{"beginsWithSeq", IoSeq_beginsWithSeq},
+	{"endsWithSeq", IoSeq_endsWithSeq},
+	{"split", IoSeq_split},
+	{"contains", IoSeq_contains},
+	{"containsSeq", IoSeq_containsSeq},
+	{"containsAnyCaseSeq", IoSeq_containsAnyCaseSeq},
+	{"isLowercase", IoSeq_isLowercase},
+	{"isUppercase", IoSeq_isUppercase},
+	{"isEqualAnyCase", IoSeq_isEqualAnyCase},
+	{"splitAt", IoSeq_splitAt},
+	{"fromBase", IoSeq_fromBase},
+	{"toBase", IoSeq_toBase},
+	{"foreach", IoSeq_foreach},
+	{"asMessage", IoSeq_asMessage},
+     {"..", IoSeq_cloneAppendSeq},
+     {"cloneAppendSeq", IoSeq_cloneAppendSeq},
+	{"asMutable", IoSeq_asMutable},
+	{"asBuffer", IoSeq_asMutable},
+		
+		// paths
+		
+	{"fileName", IoSeq_fileName},
+	{"pathExtension", IoSeq_pathExtension},
+	{"lastPathComponent", IoSeq_lastPathComponent},
+	{"cloneAppendPath", IoSeq_cloneAppendPath},
+	{"pathComponent", IoSeq_pathComponent},
+		
+	{"afterSeq",  IoSeq_afterSeq},
+	{"beforeSeq", IoSeq_beforeSeq},
+		
+	{"asCapitalized", IoSeq_asCapitalized},
+	{"asUppercase", IoSeq_asUppercase},
+	{"asLowercase", IoSeq_asLowercase},
+	{"with", IoSeq_with},
+	{"occurancesOfSeq", IoSeq_occurancesOfSeq},
+	{"interpolate", IoSeq_interpolate},
+	{"distanceTo", IoSeq_distanceTo},
+		
+	{NULL, NULL},
+	};
+	
+	IoObject_addMethodTable_(self, methodTable);    
+}

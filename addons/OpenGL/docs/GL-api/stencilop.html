@@ -1,0 +1,162 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glStencilOp</STRONG> -	set stencil test actions
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glStencilOp</STRONG>( GLenum <EM>fail</EM>,
+			    GLenum <EM>zfail</EM>,
+			    GLenum <EM>zpass</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>fail</EM>	 Specifies the action to take when the stencil test
+		 fails.	 Six symbolic constants	are accepted:
+		 <STRONG>GL_KEEP</STRONG>, <STRONG>GL_ZERO</STRONG>, <STRONG>GL_REPLACE</STRONG>, <STRONG>GL_INCR</STRONG>,	<STRONG>GL_DECR</STRONG>, and
+		 <STRONG>GL_INVERT</STRONG>. The	initial	value is <STRONG>GL_KEEP</STRONG>.
+
+	  <EM>zfail</EM>	 Specifies the stencil action when the stencil test
+		 passes, but the depth test fails.  <EM>zfail</EM> accepts the
+		 same symbolic constants as <EM>fail</EM>. The initial value is
+		 <STRONG>GL_KEEP</STRONG>.
+
+	  <EM>zpass</EM>	 Specifies the stencil action when both	the stencil
+		 test and the depth test pass, or when the stencil
+		 test passes and either	there is no depth buffer or
+		 depth testing is not enabled.	<EM>zpass</EM> accepts the same
+		 symbolic constants as <EM>fail</EM>. The initial value is
+		 <STRONG>GL_KEEP</STRONG>.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  Stenciling, like depth-buffering, enables and	disables
+	  drawing on a per-pixel basis.	 You draw into the stencil
+	  planes using GL drawing primitives, then render geometry and
+	  images, using	the stencil planes to mask out portions	of the
+	  screen.  Stenciling is typically used	in multipass rendering
+	  algorithms to	achieve	special	effects, such as decals,
+	  outlining, and constructive solid geometry rendering.
+
+	  The stencil test conditionally eliminates a pixel based on
+	  the outcome of a comparison between the value	in the stencil
+	  buffer and a reference value.	To enable and disable the
+	  test,	call <STRONG>glEnable</STRONG> and <STRONG>glDisable</STRONG> with argument
+	  <STRONG>GL_STENCIL_TEST</STRONG>; to control it, call <STRONG>glStencilFunc</STRONG>.
+
+	  <STRONG>glStencilOp</STRONG> takes three arguments that indicate what happens
+	  to the stored	stencil	value while stenciling is enabled.  If
+	  the stencil test fails, no change is made to the pixel's
+	  color	or depth buffers, and <EM>fail</EM> specifies what happens to
+	  the stencil buffer contents.	The following six actions are
+	  possible.
+
+	  <STRONG>GL_KEEP</STRONG>	  Keeps	the current value.
+
+	  <STRONG>GL_ZERO</STRONG>	  Sets the stencil buffer value	to 0.
+
+	  <STRONG>GL_REPLACE</STRONG>	  Sets the stencil buffer value	to <EM>ref</EM>,	as
+			  specified by <STRONG>glStencilFunc</STRONG>.
+
+	  <STRONG>GL_INCR</STRONG>	  Increments the current stencil buffer	value.
+			  Clamps to the	maximum	representable unsigned
+			  value.
+
+	  <STRONG>GL_DECR</STRONG>	  Decrements the current stencil buffer	value.
+			  Clamps to 0.
+
+	  <STRONG>GL_INVERT</STRONG>	  Bitwise inverts the current stencil buffer
+			  value.
+
+	  Stencil buffer values	are treated as unsigned	integers.
+	  When incremented and decremented, values are clamped to 0
+	  and 2n-1, where n is the value returned by querying
+	  <STRONG>GL_STENCIL_BITS</STRONG>.
+
+	  The other two	arguments to <STRONG>glStencilOp</STRONG> specify stencil
+	  buffer actions that depend on	whether	subsequent depth
+	  buffer tests succeed (<EM>zpass</EM>) or fail (<EM>zfail</EM>) (see
+	  <STRONG>glDepthFunc</STRONG>).	 The actions are specified using the same six
+	  symbolic constants as	<EM>fail</EM>.  Note that <EM>zfail</EM> is ignored when
+	  there	is no depth buffer, or when the	depth buffer is	not
+	  enabled.  In these cases, <EM>fail</EM> and <EM>zpass</EM> specify stencil
+	  action when the stencil test fails and passes, respectively.
+
+     <STRONG>NOTES</STRONG>
+	  Initially the	stencil	test is	disabled.  If there is no
+	  stencil buffer, no stencil modification can occur and	it is
+	  as if	the stencil tests always pass, regardless of any call
+	  to <STRONG>glStencilOp</STRONG>.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>fail</EM>,	<EM>zfail</EM>, or <EM>zpass</EM>	is any
+	  value	other than the six defined constant values.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glStencilOp</STRONG> is executed
+	  between the execution	of <STRONG>glBegin</STRONG> and the corresponding
+	  execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_STENCIL_FAIL</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_STENCIL_PASS_DEPTH_PASS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_STENCIL_PASS_DEPTH_FAIL</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_STENCIL_BITS</STRONG>
+	  <STRONG>glIsEnabled</STRONG> with argument <STRONG>GL_STENCIL_TEST</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glAlphaFunc</STRONG>, <STRONG>glBlendFunc</STRONG>, <STRONG>glDepthFunc</STRONG>, <STRONG>glEnable</STRONG>, <STRONG>glLogicOp</STRONG>,
+	  <STRONG>glStencilFunc</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

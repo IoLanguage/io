@@ -1,0 +1,20 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {convert = id; }; 
+            CLASS = Converter; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {input = id; output = id; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {doSomething = id; }; 
+            CLASS = Foobar; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {controller = id; text = id; }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

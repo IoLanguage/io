@@ -1,0 +1,69 @@
+
+<HTML><HEAD><TITLE>Manpage of glutPostRedisplay</TITLE>
+</HEAD><BODY>
+<H1>glutPostRedisplay</H1>
+Section: GLUT (3GLUT)<BR>Updated: 3.7<BR><A HREF="#index">Index</A>
+<A HREF="">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+glutPostRedisplay, glutPostWindowRedisplay - marks the current or specified window as needing to be
+redisplayed. 
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNTAX</H2>
+
+<PRE>
+
+void glutPostRedisplay(void);
+void glutPostWindowRedisplay(int win);
+</PRE>
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+glutPostRedisplay marks the normal plane of current window as needing to be redisplayed.
+glutPostWindowRedisplay works the specified window as needing to be redisplayed.
+After either call, the next iteration through glutMainLoop, the window's display
+callback will be called to redisplay the window's normal plane. Multiple
+calls to glutPostRedisplay before the next display callback
+opportunity generates only a single redisplay callback.
+glutPostRedisplay may be called within a window's display or
+overlay display callback to re-mark that window for redisplay. 
+
+Logically, normal plane damage notification for a window is treated as a
+glutPostRedisplay on the damaged window. Unlike damage
+reported by the window system, glutPostRedisplay will not set to
+true the normal plane's damaged status (returned by
+glutLayerGet(GLUT_NORMAL_DAMAGED). 
+
+If the window you want to post a redisplay on is not already current
+(and you do not require it to be immediately made current), using
+glutPostWindowRedisplay is more efficient that calling glutSetWindow to
+the desired window and then calling glutPostRedisplay.
+<A NAME="lbAE">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+glutPostOverlayRedisplay, glutDisplayFunc
+<A NAME="lbAF">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Mark J. Kilgard (<A HREF="mailto:mjk@nvidia.com">mjk@nvidia.com</A>)
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNTAX</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">SEE ALSO</A><DD>
+<DT><A HREF="#lbAF">AUTHOR</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="">man2html</A>,
+using the manual pages.<BR>
+Time: 19:05:09 GMT, September 15, 2003
+</BODY>
+</HTML>

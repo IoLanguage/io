@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>gluCylinder</STRONG> -	draw a cylinder
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>gluCylinder</STRONG>( GLUquadric*	<EM>quad</EM>,
+			    GLdouble <EM>base</EM>,
+			    GLdouble <EM>top</EM>,
+			    GLdouble <EM>height</EM>,
+			    GLint <EM>slices</EM>,
+			    GLint <EM>stacks</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>quad</EM>	  Specifies the	quadrics object	(created with
+		  <STRONG>gluNewQuadric</STRONG>).
+
+	  <EM>base</EM>	  Specifies the	radius of the cylinder at <EM>z</EM> = 0.
+
+	  <EM>top</EM>	  Specifies the	radius of the cylinder at <EM>z</EM> = <EM>height</EM>.
+
+	  <EM>height</EM>  Specifies the	height of the cylinder.
+
+	  <EM>slices</EM>  Specifies the	number of subdivisions around the <EM>z</EM>
+		  axis.
+
+	  <EM>stacks</EM>  Specifies the	number of subdivisions along the <EM>z</EM>
+		  axis.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>gluCylinder</STRONG> draws a cylinder oriented	along the <EM>z</EM> axis. The
+	  base of the cylinder is placed at <EM>z</EM> =	0, and the top at
+	  z=height. Like a sphere, a cylinder is subdivided around the
+	  <EM>z</EM> axis into slices, and along	the <EM>z</EM> axis into	stacks.
+
+	  Note that if <EM>top</EM> is set to 0.0, this routine generates a
+	  cone.
+
+	  If the orientation is	set to <STRONG>GLU_OUTSIDE</STRONG> (with
+	  <STRONG>gluQuadricOrientation</STRONG>), then any generated normals point
+	  away from the	<EM>z</EM> axis.	Otherwise, they	point toward the <EM>z</EM>
+	  axis.
+
+	  If texturing is turned on (with <STRONG>gluQuadricTexture</STRONG>), then
+	  texture coordinates are generated so that <EM>t</EM> ranges linearly
+	  from 0.0 at <EM>z</EM>	= 0 to 1.0 at <EM>z</EM>	= <EM>height</EM>, and <EM>s</EM>	ranges from
+	  0.0 at the +<EM>y</EM>	axis, to 0.25 at the +<EM>x</EM>	axis, to 0.5 at	the -<EM>y</EM>
+	  axis,	to 0.75	at the -<EM>x</EM> axis,	and back to 1.0	at the +<EM>y</EM>
+	  axis.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>gluDisk</STRONG>, <STRONG>gluNewQuadric</STRONG>, <STRONG>gluPartialDisk</STRONG>, <STRONG>gluQuadricTexture</STRONG>,
+	  <STRONG>gluSphere</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

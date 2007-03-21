@@ -1,0 +1,71 @@
+
+<HTML><HEAD><TITLE>Manpage of glutSpaceballMotionFunc</TITLE>
+</HEAD><BODY>
+<H1>glutSpaceballMotionFunc</H1>
+Section: GLUT (3GLUT)<BR>Updated: 3.7<BR><A HREF="#index">Index</A>
+<A HREF="">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+glutSpaceballMotionFunc - sets the Spaceball motion callback for the current window. 
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNTAX</H2>
+
+<PRE>
+
+void glutSpaceballMotionFunc(void (*func)(int x, int y, int z));
+</PRE>
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>ARGUMENTS</H2>
+
+<DL COMPACT>
+<DT><I>func</I><DD>
+The new entry callback function. 
+</DL>
+<A NAME="lbAE">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+glutSpaceballMotionFunc sets the Spaceball motion callback for
+the current window. The Spaceball motion callback for a window is
+called when the window has Spaceball input focus (normally, when the
+mouse is in the window) and the user generates Spaceball translations.
+The x, y, and z callback parameters indicate the translations along the X,
+Y, and Z axes. The callback parameters are normalized to be within the
+range of -1000 to 1000 inclusive. 
+
+Registering a Spaceball motion callback when a Spaceball device is not
+available has no effect and is not an error. In this case, no Spaceball
+motion callbacks will be generated. 
+
+Passing NULL to glutSpaceballMotionFunc disables the generation
+of Spaceball motion callbacks. When a new window is created, no
+Spaceball motion callback is initially registered. 
+<A NAME="lbAF">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+glutSpaceballRotateFunc, glutSpaceballButtonFunc, glutMotionFunc, glutTabletMotionFunc, glutJoystickFunc, glutDeviceGet
+<A NAME="lbAG">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Mark J. Kilgard (<A HREF="mailto:mjk@nvidia.com">mjk@nvidia.com</A>)
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNTAX</A><DD>
+<DT><A HREF="#lbAD">ARGUMENTS</A><DD>
+<DT><A HREF="#lbAE">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAF">SEE ALSO</A><DD>
+<DT><A HREF="#lbAG">AUTHOR</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="">man2html</A>,
+using the manual pages.<BR>
+Time: 19:05:09 GMT, September 15, 2003
+</BODY>
+</HTML>

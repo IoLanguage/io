@@ -1,0 +1,90 @@
+
+<HTML><HEAD><TITLE>Manpage of glutExtensionSupported</TITLE>
+</HEAD><BODY>
+<H1>glutExtensionSupported</H1>
+Section: GLUT (3GLUT)<BR>Updated: 3.7<BR><A HREF="#index">Index</A>
+<A HREF="">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+glutExtensionSupported - helps to easily determine whether a
+given OpenGL extension is supported. 
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNTAX</H2>
+
+<PRE>
+
+int glutExtensionSupported(char *extension);
+</PRE>
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>ARGUMENTS</H2>
+
+<DL COMPACT>
+<DT><I>extension</I><DD>
+Name of OpenGL extension.
+</DL>
+<A NAME="lbAE">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+glutExtensionSupported helps to easily determine whether a
+given OpenGL extension is supported or not. The extension
+parameter names the extension to query. The supported extensions can
+also be determined with glGetString(GL_EXTENSIONS), but
+glutExtensionSupported does the correct parsing of the returned
+string. 
+
+glutExtensionSupported returns non-zero if the extension is
+supported, zero if not supported. 
+
+There must be a valid current window to call
+glutExtensionSupported. 
+
+glutExtensionSupported only returns information about OpenGL
+extensions only. This means window system dependent extensions (for
+example, GLX extensions) are not reported by
+glutExtensionSupported. 
+<A NAME="lbAF">&nbsp;</A>
+<H2>EXAMPLE</H2>
+
+Here is an example of using glutExtensionSupported:
+<PRE>
+
+  if (!glutExtensionSupported(&quot;GL_EXT_texture&quot;)) {
+    fprintf(stderr, &quot;Missing the texture extension!\n&quot;);
+    <A HREF="?1+exit">exit</A>(1);
+  }
+
+</PRE>
+
+Notice that the name argument includes both the GL prefix and the
+extension family prefix (EXT).
+<A NAME="lbAG">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+glutGet, glGetString
+<A NAME="lbAH">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Mark J. Kilgard (<A HREF="mailto:mjk@nvidia.com">mjk@nvidia.com</A>)
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNTAX</A><DD>
+<DT><A HREF="#lbAD">ARGUMENTS</A><DD>
+<DT><A HREF="#lbAE">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAF">EXAMPLE</A><DD>
+<DT><A HREF="#lbAG">SEE ALSO</A><DD>
+<DT><A HREF="#lbAH">AUTHOR</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="">man2html</A>,
+using the manual pages.<BR>
+Time: 19:05:09 GMT, September 15, 2003
+</BODY>
+</HTML>

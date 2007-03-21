@@ -1,0 +1,318 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>gluTessCallback</STRONG> - define a callback for a tessellation
+	  object
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>gluTessCallback</STRONG>(	GLUtesselator* <EM>tess</EM>,
+				GLenum <EM>which</EM>,
+				GLvoid (*<EM>CallBackFunc</EM>)(	)
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>tess</EM>		Specifies the tessellation object (created
+			with <STRONG>gluNewTess</STRONG>).
+
+	  <EM>which</EM>		Specifies the callback being defined. The
+			following values are valid:  <STRONG>GLU_TESS_BEGIN</STRONG>,
+			<STRONG>GLU_TESS_BEGIN_DATA</STRONG>, <STRONG>GLU_TESS_EDGE_FLAG</STRONG>,
+			<STRONG>GLU_TESS_EDGE_FLAG_DATA</STRONG>, <STRONG>GLU_TESS_VERTEX</STRONG>,
+			<STRONG>GLU_TESS_VERTEX_DATA</STRONG>, <STRONG>GLU_TESS_END</STRONG>,
+			<STRONG>GLU_TESS_END_DATA</STRONG>, <STRONG>GLU_TESS_COMBINE</STRONG>,
+			<STRONG>GLU_TESS_COMBINE_DATA</STRONG>, <STRONG>GLU_TESS_ERROR</STRONG>, and
+			<STRONG>GLU_TESS_ERROR_DATA</STRONG>.
+
+	  <EM>CallBackFunc</EM>	Specifies the function to be called.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>gluTessCallback</STRONG> is used to indicate a	callback to be used by
+	  a tessellation object.  If the specified callback is already
+	  defined, then	it is replaced.	If <EM>CallBackFunc</EM>	is NULL, then
+	  the existing callback	becomes	undefined.
+
+	  These	callbacks are used by the tessellation object to
+	  describe how a polygon specified by the user is broken into
+	  triangles. Note that there are two versions of each
+	  callback: one	with user-specified polygon data and one
+	  without. If both versions of a particular callback are
+	  specified, then the callback with user-specified polygon
+	  data will be used. Note that the <EM>polygon</EM>_<EM>data</EM>	parameter used
+	  by some of the functions is a	copy of	the pointer that was
+	  specified when <STRONG>gluTessBeginPolygon</STRONG> was called. The legal
+	  callbacks are	as follows:
+
+	  <STRONG>GLU_TESS_BEGIN</STRONG>
+		    The	begin callback is invoked like <STRONG>glBegin</STRONG> to
+		    indicate the start of a (triangle) primitive. The
+		    function takes a single argument of	type GLenum.
+		    If the <STRONG>GLU_TESS_BOUNDARY_ONLY</STRONG> property is set to
+		    <STRONG>GL_FALSE</STRONG>, then the argument	is set to either
+		    <STRONG>GL_TRIANGLE_FAN</STRONG>, <STRONG>GL_TRIANGLE_STRIP</STRONG>,	or
+		    <STRONG>GL_TRIANGLES</STRONG>. If the <STRONG>GLU_TESS_BOUNDARY_ONLY</STRONG>
+		    property is	set to <STRONG>GL_TRUE</STRONG>,	then the argument will
+		    be set to <STRONG>GL_LINE_LOOP</STRONG>. The	function prototype for
+		    this callback is:
+		    void begin ( GLenum	type );
+
+	  <STRONG>GLU_TESS_BEGIN_DATA</STRONG>
+		    The	same as	the <STRONG>GLU_TESS_BEGIN</STRONG> callback except
+		    that it takes an additional	pointer	argument. This
+		    pointer is identical to the	opaque pointer
+		    provided when <STRONG>gluTessBeginPolygon</STRONG> was called. The
+		    function prototype for this	callback is:
+		    void beginData ( GLenum type, void *polygon_data
+		    );
+
+	  <STRONG>GLU_TESS_EDGE_FLAG</STRONG>
+		    The	edge flag callback is similar to <STRONG>glEdgeFlag</STRONG>.
+		    The	function takes a single	boolean	flag that
+		    indicates which edges lie on the polygon boundary.
+		    If the flag	is <STRONG>GL_TRUE</STRONG>, then each vertex that
+		    follows begins an edge that	lies on	the polygon
+		    boundary, that is, an edge that separates an
+		    interior region from an exterior one.  If the flag
+		    is <STRONG>GL_FALSE</STRONG>, then each vertex that follows begins
+		    an edge that lies in the polygon interior. The
+		    edge flag callback (if defined) is invoked before
+		    the	first vertex callback.
+
+		    Since triangle fans	and triangle strips do not
+		    support edge flags,	the begin callback is not
+		    called with	<STRONG>GL_TRIANGLE_FAN</STRONG>	or <STRONG>GL_TRIANGLE_STRIP</STRONG>
+		    if a non-NULL edge flag callback is	provided. (If
+		    the	callback is initialized	to NULL, there is no
+		    impact on performance). Instead, the fans and
+		    strips are converted to independent	triangles. The
+		    function prototype for this	callback is:
+		    void edgeFlag ( GLboolean flag );
+
+	  <STRONG>GLU_TESS_EDGE_FLAG_DATA</STRONG>
+		    The	same as	the <STRONG>GLU_TESS_EDGE_FLAG</STRONG> callback	except
+		    that it takes an additional	pointer	argument. This
+		    pointer is identical to the	opaque pointer
+		    provided when <STRONG>gluTessBeginPolygon</STRONG> was called. The
+		    function prototype for this	callback is:
+		    void edgeFlagData (	GLboolean flag,	void
+		    *polygon_data );
+
+	  <STRONG>GLU_TESS_VERTEX</STRONG>
+		    The	vertex callback	is invoked between the begin
+		    and	end callbacks.	It is similar to <STRONG>glVertex</STRONG>, and
+		    it defines the vertices of the triangles created
+		    by the tessellation	process. The function takes a
+		    pointer as its only	argument.  This	pointer	is
+		    identical to the opaque pointer provided by	the
+		    user when the vertex was described (see
+		    <STRONG>gluTessVertex</STRONG>). The	function prototype for this
+		    callback is:
+		    void vertex	( void *vertex_data );
+
+	  <STRONG>GLU_TESS_VERTEX_DATA</STRONG>
+		    The	same as	the <STRONG>GLU_TESS_VERTEX</STRONG> callback except
+		    that it takes an additional	pointer	argument. This
+		    pointer is identical to the	opaque pointer
+		    provided when <STRONG>gluTessBeginPolygon</STRONG> was called. The
+		    function prototype for this	callback is:
+		    void vertexData ( void *vertex_data, void
+		    *polygon_data );
+
+	  <STRONG>GLU_TESS_END</STRONG>
+		    The	end callback serves the	same purpose as	<STRONG>glEnd</STRONG>.
+		    It indicates the end of a primitive	and it takes
+		    no arguments. The function prototype for this
+		    callback is:
+		    void end ( void );
+
+	  <STRONG>GLU_TESS_END_DATA</STRONG>
+		    The	same as	the <STRONG>GLU_TESS_END</STRONG> callback except that
+		    it takes an	additional pointer argument. This
+		    pointer is identical to the	opaque pointer
+		    provided when <STRONG>gluTessBeginPolygon</STRONG> was called. The
+		    function prototype for this	callback is:
+		    void endData ( void	*polygon_data);
+
+	  <STRONG>GLU_TESS_COMBINE</STRONG>
+		    The	combine	callback is called to create a new
+		    vertex when	the tessellation detects an
+		    intersection, or wishes to merge features. The
+		    function takes four	arguments: an array of three
+		    elements each of type GLdouble, an array of	four
+		    pointers, an array of four elements	each of	type
+		    GLfloat, and a pointer to a	pointer. The prototype
+		    is:
+		    void combine( GLdouble coords[3], void
+		    *vertex_data[4],
+				  GLfloat weight[4], void **outData );
+
+		    The	vertex is defined as a linear combination of
+		    up to four existing	vertices, stored in
+		    <EM>vertex</EM>_<EM>data</EM>. The coefficients of the linear
+		    combination	are given by <EM>weight</EM>; these weights
+		    always add up to 1.	 All vertex pointers are valid
+		    even when some of the weights are 0.  <EM>coords</EM> gives
+		    the	location of the	new vertex.
+
+		    The	user must allocate another vertex, interpolate
+		    parameters using <EM>vertex</EM>_<EM>data</EM> and <EM>weight</EM>, and
+		    return the new vertex pointer in <EM>outData</EM>. This
+		    handle is supplied during rendering	callbacks.
+		    The	user is	responsible for	freeing	the memory
+		    some time after <STRONG>gluTessEndPolygon</STRONG> is called.
+
+		    For	example, if the	polygon	lies in	an arbitrary
+		    plane in 3-space, and a color is associated	with
+		    each vertex, the <STRONG>GLU_TESS_COMBINE</STRONG> callback might
+		    look like this:
+		    void myCombine( GLdouble coords[3],	VERTEX *d[4],
+				    GLfloat w[4], VERTEX **dataOut ) {
+		       VERTEX *new = new_vertex();
+
+		       new-&gt;x =	coords[0];
+		       new-&gt;y =	coords[1];
+		       new-&gt;z =	coords[2];
+		       new-&gt;r =	w[0]*d[0]-&gt;r + w[1]*d[1]-&gt;r +
+		    w[2]*d[2]-&gt;r + w[3]*d[3]-&gt;r;
+		       new-&gt;g =	w[0]*d[0]-&gt;g + w[1]*d[1]-&gt;g +
+		    w[2]*d[2]-&gt;g + w[3]*d[3]-&gt;g;
+		       new-&gt;b =	w[0]*d[0]-&gt;b + w[1]*d[1]-&gt;b +
+		    w[2]*d[2]-&gt;b + w[3]*d[3]-&gt;b;
+		       new-&gt;a =	w[0]*d[0]-&gt;a + w[1]*d[1]-&gt;a +
+		    w[2]*d[2]-&gt;a + w[3]*d[3]-&gt;a;
+		       *dataOut	= new; }
+
+		    If the tessellation	detects	an intersection, then
+		    the	<STRONG>GLU_TESS_COMBINE</STRONG> or <STRONG>GLU_TESS_COMBINE_DATA</STRONG>
+		    callback (see below) must be defined, and it must
+		    write a non-NULL pointer into <EM>dataOut</EM>. Otherwise
+		    the	<STRONG>GLU_TESS_NEED_COMBINE_CALLBACK</STRONG> error occurs,
+		    and	no output is generated.
+
+	  <STRONG>GLU_TESS_COMBINE_DATA</STRONG>
+		    The	same as	the <STRONG>GLU_TESS_COMBINE</STRONG> callback except
+		    that it takes an additional	pointer	argument. This
+		    pointer is identical to the	opaque pointer
+		    provided when <STRONG>gluTessBeginPolygon</STRONG> was called. The
+		    function prototype for this	callback is:
+		    void combineData ( GLdouble	coords[3], void
+		    *vertex_data[4],
+				       GLfloat weight[4], void
+		    **outData,
+				       void *polygon_data );
+
+	  <STRONG>GLU_TESS_ERROR</STRONG>
+		    The	error callback is called when an error is
+		    encountered. The one argument is of	type GLenum;
+		    it indicates the specific error that occurred and
+		    will be set	to one of
+		    <STRONG>GLU_TESS_MISSING_BEGIN_POLYGON</STRONG>,
+		    <STRONG>GLU_TESS_MISSING_END_POLYGON</STRONG>,
+		    <STRONG>GLU_TESS_MISSING_BEGIN_CONTOUR</STRONG>,
+		    <STRONG>GLU_TESS_MISSING_END_CONTOUR</STRONG>,
+		    <STRONG>GLU_TESS_COORD_TOO_LARGE</STRONG>,
+		    <STRONG>GLU_TESS_NEED_COMBINE_CALLBACK</STRONG> or
+		    <STRONG>GLU_OUT_OF_MEMORY</STRONG>. Character strings describing
+		    these errors can be	retrieved with the
+		    <STRONG>gluErrorString</STRONG> call. The function prototype	for
+		    this callback is:
+		    void error ( GLenum	errno );
+
+		    The	GLU library will recover from the first	four
+		    errors by inserting	the missing call(s).
+		    <STRONG>GLU_TESS_COORD_TOO_LARGE</STRONG> indicates that some
+		    vertex coordinate exceeded the predefined constant
+		    <STRONG>GLU_TESS_MAX_COORD</STRONG> in absolute value, and that the
+		    value has been clamped. (Coordinate	values must be
+		    small enough so that two can be multiplied
+		    together without overflow.)
+		    <STRONG>GLU_TESS_NEED_COMBINE_CALLBACK</STRONG> indicates that the
+		    tessellation detected an intersection between two
+		    edges in the input data, and the <STRONG>GLU_TESS_COMBINE</STRONG>
+		    or <STRONG>GLU_TESS_COMBINE_DATA</STRONG> callback was not
+		    provided. No output	is generated.
+		    <STRONG>GLU_OUT_OF_MEMORY</STRONG> indicates	that there is not
+		    enough memory so no	output is generated.
+
+	  <STRONG>GLU_TESS_ERROR_DATA</STRONG>
+		    The	same as	the <STRONG>GLU_TESS_ERROR</STRONG> callback except
+		    that it takes an additional	pointer	argument. This
+		    pointer is identical to the	opaque pointer
+		    provided when <STRONG>gluTessBeginPolygon</STRONG> was called. The
+		    function prototype for this	callback is:
+		    void errorData ( GLenum errno, void	*polygon_data
+		    );
+
+     <STRONG>EXAMPLE</STRONG>
+	  Polygons tessellated can be rendered directly	like this:
+
+	  gluTessCallback(tobj,	GLU_TESS_BEGIN,	glBegin);
+	  gluTessCallback(tobj,	GLU_TESS_VERTEX, glVertex3dv);
+	  gluTessCallback(tobj,	GLU_TESS_END, glEnd);
+	  gluTessCallback(tobj,	GLU_TESS_COMBINE, myCombine);
+	  gluTessBeginPolygon(tobj, NULL);
+	    gluTessBeginContour(tobj);
+	      gluTessVertex(tobj, v, v);
+	      ...
+	    gluTessEndContour(tobj); gluTessEndPolygon(tobj);
+
+	  Typically, the tessellated polygon should be stored in a
+	  display list so that it does not need	to be retessellated
+	  every	time it	is rendered.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glBegin</STRONG>, <STRONG>glEdgeFlag</STRONG>, <STRONG>glVertex</STRONG>, <STRONG>gluNewTess</STRONG>, <STRONG>gluErrorString</STRONG>,
+	  <STRONG>gluTessVertex</STRONG>, <STRONG>gluTessBeginPolygon</STRONG>, <STRONG>gluTessBeginContour</STRONG>,
+	  <STRONG>gluTessProperty</STRONG>, <STRONG>gluTessNormal</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,60 @@
+
+<HTML><HEAD><TITLE>Manpage of glutShowWindow</TITLE>
+</HEAD><BODY>
+<H1>glutShowWindow</H1>
+Section: GLUT (3GLUT)<BR>Updated: 3.7<BR><A HREF="#index">Index</A>
+<A HREF="">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+glutShowWindow, glutHideWindow, glutIconifyWindow - change the display status of the current window. 
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNTAX</H2>
+
+<PRE>
+
+void glutShowWindow(void);
+void glutHideWindow(void);
+void glutIconifyWindow(void);
+</PRE>
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+glutShowWindow will show the current window (though it may still
+not be visible if obscured by other shown windows). glutHideWindow
+will hide the current window. glutIconifyWindow will iconify a
+top-level window, but GLUT prohibits iconification of a subwindow.
+The effect of showing, hiding, and iconifying windows does not take
+place immediately. Instead the requests are saved for execution upon
+return to the GLUT event loop. Subsequent show, hide, or iconification
+requests on a window replace the previously saved request for that
+window. The effect of hiding, showing, or iconifying top-level windows
+is subject to the window system's policy for displaying windows. 
+<A NAME="lbAE">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+glutPopWindow, glutPushWindow
+<A NAME="lbAF">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Mark J. Kilgard (<A HREF="mailto:mjk@nvidia.com">mjk@nvidia.com</A>)
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNTAX</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">SEE ALSO</A><DD>
+<DT><A HREF="#lbAF">AUTHOR</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="">man2html</A>,
+using the manual pages.<BR>
+Time: 19:05:09 GMT, September 15, 2003
+</BODY>
+</HTML>

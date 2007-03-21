@@ -1,0 +1,319 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glTexImage1D</STRONG> - specify a one-dimensional texture image
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glTexImage1D</STRONG>( GLenum <EM>target</EM>,
+			     GLint <EM>level</EM>,
+			     GLint <EM>internalformat</EM>,
+			     GLsizei <EM>width</EM>,
+			     GLint <EM>border</EM>,
+			     GLenum <EM>format</EM>,
+			     GLenum <EM>type</EM>,
+			     const GLvoid *<EM>pixels</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>target</EM>	  Specifies the	target texture.	 Must be
+			  <STRONG>GL_TEXTURE_1D</STRONG>	or <STRONG>GL_PROXY_TEXTURE_1D</STRONG>.
+
+	  <EM>level</EM>		  Specifies the	level-of-detail	number.	 Level
+			  0 is the base	image level.  Level <EM>n</EM> is the
+			  <EM>n</EM>th mipmap reduction image.
+
+	  <EM>internalformat</EM>  Specifies the	number of color	components in
+			  the texture.	Must be	1, 2, 3, or 4, or one
+			  of the following symbolic constants:
+			  <STRONG>GL_ALPHA</STRONG>, <STRONG>GL_ALPHA4</STRONG>, <STRONG>GL_ALPHA8</STRONG>, <STRONG>GL_ALPHA12</STRONG>,
+			  <STRONG>GL_ALPHA16</STRONG>, <STRONG>GL_LUMINANCE</STRONG>, <STRONG>GL_LUMINANCE4</STRONG>,
+			  <STRONG>GL_LUMINANCE8</STRONG>, <STRONG>GL_LUMINANCE12</STRONG>,
+			  <STRONG>GL_LUMINANCE16</STRONG>, <STRONG>GL_LUMINANCE_ALPHA</STRONG>,
+			  <STRONG>GL_LUMINANCE4_ALPHA4</STRONG>,	<STRONG>GL_LUMINANCE6_ALPHA2</STRONG>,
+			  <STRONG>GL_LUMINANCE8_ALPHA8</STRONG>,	<STRONG>GL_LUMINANCE12_ALPHA4</STRONG>,
+			  <STRONG>GL_LUMINANCE12_ALPHA12</STRONG>,
+			  <STRONG>GL_LUMINANCE16_ALPHA16</STRONG>, <STRONG>GL_INTENSITY</STRONG>,
+			  <STRONG>GL_INTENSITY4</STRONG>, <STRONG>GL_INTENSITY8</STRONG>,
+			  <STRONG>GL_INTENSITY12</STRONG>, <STRONG>GL_INTENSITY16</STRONG>, <STRONG>GL_RGB</STRONG>,
+			  <STRONG>GL_R3_G3_B2</STRONG>, <STRONG>GL_RGB4</STRONG>,	<STRONG>GL_RGB5</STRONG>, <STRONG>GL_RGB8</STRONG>,
+			  <STRONG>GL_RGB10</STRONG>, <STRONG>GL_RGB12</STRONG>, <STRONG>GL_RGB16</STRONG>,	<STRONG>GL_RGBA</STRONG>,
+			  <STRONG>GL_RGBA2</STRONG>, <STRONG>GL_RGBA4</STRONG>, <STRONG>GL_RGB5_A1</STRONG>, <STRONG>GL_RGBA8</STRONG>,
+			  <STRONG>GL_RGB10_A2</STRONG>, <STRONG>GL_RGBA12</STRONG>, or <STRONG>GL_RGBA16</STRONG>.
+
+	  <EM>width</EM>		  Specifies the	width of the texture image.
+			  Must be 2n+2(border) for some	integer	n. All
+			  implementations support texture images that
+			  are at least 64 texels wide. The height of
+			  the 1D texture image is 1.
+
+	  <EM>border</EM>	  Specifies the	width of the border.  Must be
+			  either 0 or 1.
+
+	  <EM>format</EM>	  Specifies the	format of the pixel data.  The
+			  following symbolic values are	accepted:
+			  <STRONG>GL_COLOR_INDEX</STRONG>, <STRONG>GL_RED</STRONG>, <STRONG>GL_GREEN</STRONG>, <STRONG>GL_BLUE</STRONG>,
+			  <STRONG>GL_ALPHA</STRONG>, <STRONG>GL_RGB</STRONG>, <STRONG>GL_RGBA</STRONG>, <STRONG>GL_LUMINANCE</STRONG>, and
+			  <STRONG>GL_LUMINANCE_ALPHA</STRONG>.
+
+	  <EM>type</EM>		  Specifies the	data type of the pixel data.
+			  The following	symbolic values	are accepted:
+			  <STRONG>GL_UNSIGNED_BYTE</STRONG>, <STRONG>GL_BYTE</STRONG>, <STRONG>GL_BITMAP</STRONG>,
+			  <STRONG>GL_UNSIGNED_SHORT</STRONG>, <STRONG>GL_SHORT</STRONG>,
+			  <STRONG>GL_UNSIGNED_INT</STRONG>, <STRONG>GL_INT</STRONG>, and <STRONG>GL_FLOAT</STRONG>.
+
+	  <EM>pixels</EM>	  Specifies a pointer to the image data	in
+			  memory.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  Texturing maps a portion of a	specified texture image	onto
+	  each graphical primitive for which texturing is enabled.  To
+	  enable and disable one-dimensional texturing,	call <STRONG>glEnable</STRONG>
+	  and <STRONG>glDisable</STRONG>	with argument <STRONG>GL_TEXTURE_1D</STRONG>.
+
+	  Texture images are defined with <STRONG>glTexImage1D</STRONG>.	 The arguments
+	  describe the parameters of the texture image,	such as	width,
+	  width	of the border, level-of-detail number (see
+	  <STRONG>glTexParameter</STRONG>), and the internal resolution and format used
+	  to store the image.  The last	three arguments	describe how
+	  the image is represented in memory; they are identical to
+	  the pixel formats used for <STRONG>glDrawPixels</STRONG>.
+
+	  If <EM>target</EM> is <STRONG>GL_PROXY_TEXTURE_1D</STRONG>, no data is read from
+	  <EM>pixels</EM>, but all of the texture image state is	recalculated,
+	  checked for consistency, and checked against the
+	  implementation's capabilities.  If the implementation	cannot
+	  handle a texture of the requested texture size, it sets all
+	  of the image state to	0, but does not	generate an error (see
+	  <STRONG>glGetError</STRONG>). To query	for an entire mipmap array, use	an
+	  image	array level greater than or equal to 1.
+
+	  If <EM>target</EM> is <STRONG>GL_TEXTURE_1D</STRONG>, data is read from	<EM>pixels</EM> as a
+	  sequence of signed or	unsigned bytes,	shorts,	or longs, or
+	  single-precision floating-point values, depending on <EM>type</EM>.
+	  These	values are grouped into	sets of	one, two, three, or
+	  four values, depending on <EM>format</EM>, to form elements. If <EM>type</EM>
+	  is <STRONG>GL_BITMAP</STRONG>,	the data is considered as a string of unsigned
+	  bytes	(and <EM>format</EM> must be <STRONG>GL_COLOR_INDEX</STRONG>). Each data byte is
+	  treated as eight 1-bit elements, with	bit ordering
+	  determined by	<STRONG>GL_UNPACK_LSB_FIRST</STRONG> (see <STRONG>glPixelStore</STRONG>).
+
+	  The first element corresponds	to the left end	of the texture
+	  array.  Subsequent elements progress left-to-right through
+	  the remaining	texels in the texture array.  The final
+	  element corresponds to the right end of the texture array.
+
+	  <EM>format</EM> determines the	composition of each element in <EM>pixels</EM>.
+	  It can assume	one of nine symbolic values:
+
+	  <STRONG>GL_COLOR_INDEX</STRONG>
+		    Each element is a single value, a color index. The
+		    GL converts	it to fixed point (with	an unspecified
+		    number of zero bits	to the right of	the binary
+		    point), shifted left or right depending on the
+		    value and sign of <STRONG>GL_INDEX_SHIFT</STRONG>, and added	to
+		    <STRONG>GL_INDEX_OFFSET</STRONG> (see <STRONG>glPixelTransfer</STRONG>). The
+		    resulting index is converted to a set of color
+		    components using the <STRONG>GL_PIXEL_MAP_I_TO_R</STRONG>,
+		    <STRONG>GL_PIXEL_MAP_I_TO_G</STRONG>, <STRONG>GL_PIXEL_MAP_I_TO_B</STRONG>, and
+		    <STRONG>GL_PIXEL_MAP_I_TO_A</STRONG>	tables,	and clamped to the
+		    range [0,1].
+
+	  <STRONG>GL_RED</STRONG>    Each element is a single red component. The	GL
+		    converts it	to floating point and assembles	it
+		    into an RGBA element by attaching 0	for green and
+		    blue, and 1	for alpha. Each	component is then
+		    multiplied by the signed scale factor <STRONG>GL_c_SCALE</STRONG>,
+		    added to the signed	bias <STRONG>GL_c_BIAS</STRONG>,	and clamped to
+		    the	range [0,1] (see <STRONG>glPixelTransfer</STRONG>).
+
+	  <STRONG>GL_GREEN</STRONG>  Each element is a single green component. The GL
+		    converts it	to floating point and assembles	it
+		    into an RGBA element by attaching 0	for red	and
+		    blue, and 1	for alpha. Each	component is then
+		    multiplied by the signed scale factor <STRONG>GL_c_SCALE</STRONG>,
+		    added to the signed	bias <STRONG>GL_c_BIAS</STRONG>,	and clamped to
+		    the	range [0,1] (see <STRONG>glPixelTransfer</STRONG>).
+
+	  <STRONG>GL_BLUE</STRONG>   Each element is a single blue component. The GL
+		    converts it	to floating point and assembles	it
+		    into an RGBA element by attaching 0	for red	and
+		    green, and 1 for alpha. Each component is then
+		    multiplied by the signed scale factor <STRONG>GL_c_SCALE</STRONG>,
+		    added to the signed	bias <STRONG>GL_c_BIAS</STRONG>,	and clamped to
+		    the	range [0,1] (see <STRONG>glPixelTransfer</STRONG>).
+
+	  <STRONG>GL_ALPHA</STRONG>  Each element is a single alpha component. The GL
+		    converts it	to floating point and assembles	it
+		    into an RGBA element by attaching 0	for red,
+		    green, and blue.  Each component is	then
+		    multiplied by the signed scale factor <STRONG>GL_c_SCALE</STRONG>,
+		    added to the signed	bias <STRONG>GL_c_BIAS</STRONG>,	and clamped to
+		    the	range [0,1] (see <STRONG>glPixelTransfer</STRONG>).
+
+	  <STRONG>GL_RGB</STRONG>    Each element is an RGB triple.  The	GL converts it
+		    to floating	point and assembles it into an RGBA
+		    element by attaching 1 for alpha.  Each component
+		    is then multiplied by the signed scale factor
+		    <STRONG>GL_c_SCALE</STRONG>,	added to the signed bias <STRONG>GL_c_BIAS</STRONG>,
+		    and	clamped	to the range [0,1] (see
+		    <STRONG>glPixelTransfer</STRONG>).
+
+	  <STRONG>GL_RGBA</STRONG>   Each element contains all four components.	Each
+		    component is then multiplied by the	signed scale
+		    factor <STRONG>GL_c_SCALE</STRONG>, added to	the signed bias
+		    <STRONG>GL_c_BIAS</STRONG>, and clamped to the range	[0,1] (see
+		    <STRONG>glPixelTransfer</STRONG>).
+
+	  <STRONG>GL_LUMINANCE</STRONG>
+		    Each element is a single luminance value.  The GL
+		    converts it	to floating point, then	assembles it
+		    into an RGBA element by replicating	the luminance
+		    value three	times for red, green, and blue and
+		    attaching 1	for alpha. Each	component is then
+		    multiplied by the signed scale factor <STRONG>GL_c_SCALE</STRONG>,
+		    added to the signed	bias <STRONG>GL_c_BIAS</STRONG>,	and clamped to
+		    the	range [0,1] (see <STRONG>glPixelTransfer</STRONG>).
+
+	  <STRONG>GL_LUMINANCE_ALPHA</STRONG>
+		    Each element is a luminance/alpha pair.  The GL
+		    converts it	to floating point, then	assembles it
+		    into an RGBA element by replicating	the luminance
+		    value three	times for red, green, and blue.	 Each
+		    component is then multiplied by the	signed scale
+		    factor <STRONG>GL_c_SCALE</STRONG>, added to	the signed bias
+		    <STRONG>GL_c_BIAS</STRONG>, and clamped to the range	[0,1] (see
+		    <STRONG>glPixelTransfer</STRONG>).
+
+	  If an	application wants to store the texture at a certain
+	  resolution or	in a certain format, it	can request the
+	  resolution and format	with <EM>internalformat</EM>. The GL will
+	  choose an internal representation that closely approximates
+	  that requested by <EM>internalformat</EM>, but	it may not match
+	  exactly.  (The representations specified by <STRONG>GL_LUMINANCE</STRONG>,
+	  <STRONG>GL_LUMINANCE_ALPHA</STRONG>, <STRONG>GL_RGB</STRONG>, and <STRONG>GL_RGBA</STRONG> must match exactly.
+	  The numeric values 1,	2, 3, and 4 may	also be	used to
+	  specify the preceding	representations.)
+
+	  Use the <STRONG>GL_PROXY_TEXTURE_1D</STRONG> target to	try out	a resolution
+	  and format. The implementation will update and recompute its
+	  best match for the requested storage resolution and format.
+	  To query this	state, call <STRONG>glGetTexLevelParameter</STRONG>.  If	the
+	  texture cannot be accommodated, texture state	is set to 0.
+
+	  A one-component texture image	uses only the red component of
+	  the RGBA color extracted from	<EM>pixels</EM>.	A two-component	image
+	  uses the R and A values.  A three-component image uses the
+	  R, G,	and B values.  A four-component	image uses all of the
+	  RGBA components.
+
+     <STRONG>NOTES</STRONG>
+
+	  Texturing has	no effect in color index mode.
+
+	  The texture image can	be represented by the same data
+	  formats as the pixels	in a <STRONG>glDrawPixels</STRONG> command, except that
+	  <STRONG>GL_STENCIL_INDEX</STRONG> and <STRONG>GL_DEPTH_COMPONENT</STRONG> cannot be used.
+	  <STRONG>glPixelStore</STRONG> and <STRONG>glPixelTransfer</STRONG> modes affect	texture	images
+	  in exactly the way they affect <STRONG>glDrawPixels</STRONG>.
+
+	  <STRONG>GL_PROXY_TEXTURE_1D</STRONG> may only be used if the GL version is
+	  1.1 or greater.
+
+	  Internal formats other than 1, 2, 3, or 4 may	only be	used
+	  if the GL version is 1.1 or greater.
+
+	  In GL	version	1.1 or greater,	<EM>pixels</EM> may be a	null pointer.
+	  In this case texture memory is allocated to accommodate a
+	  texture of width <EM>width</EM>. You can then download	subtextures to
+	  initialize the texture memory. The image is undefined	if the
+	  program tries	to apply an uninitialized portion of the
+	  texture image	to a primitive.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>target</EM> is not	<STRONG>GL_TEXTURE_1D</STRONG>
+	  or <STRONG>GL_PROXY_TEXTURE_1D</STRONG>.
+
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>format</EM> is not	an accepted
+	  format constant.  Format constants other than
+	  <STRONG>GL_STENCIL_INDEX</STRONG> and <STRONG>GL_DEPTH_COMPONENT</STRONG> are accepted.
+
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>type</EM> is not a	type constant.
+
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>type</EM> is <STRONG>GL_BITMAP</STRONG> and	<EM>format</EM>
+	  is not <STRONG>GL_COLOR_INDEX</STRONG>.
+
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if <EM>level</EM> is less than 0.
+
+	  <STRONG>GL_INVALID_VALUE</STRONG> may be generated if <EM>level</EM> is	greater	than
+	  log <EM>max</EM>, where <EM>max</EM> is	the returned value of
+	  <STRONG>GL_MAX_TEXTURE_SIZE</STRONG>.
+
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if <EM>internalformat</EM> is not 1, 2,
+	  3, 4,	or one of the accepted resolution and format symbolic
+	  constants.
+
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if <EM>width</EM> is less than 0	or
+	  greater than 2 + <STRONG>GL_MAX_TEXTURE_SIZE</STRONG>,	or if it cannot	be
+	  represented as 2n+2(border) for some integer value of	<EM>n</EM>.
+
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if <EM>border</EM> is not 0 or 1.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glTexImage1D</STRONG> is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGetTexImage</STRONG>	<STRONG>glIsEnabled</STRONG> with argument <STRONG>GL_TEXTURE_1D</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glCopyPixels</STRONG>,	<STRONG>glCopyTexImage1D</STRONG>, <STRONG>glCopyTexImage2D</STRONG>,
+	  <STRONG>glCopyTexSubImage1D</STRONG>, <STRONG>glCopyTexSubImage2D</STRONG>, <STRONG>glDrawPixels</STRONG>,
+	  <STRONG>glPixelStore</STRONG>,	<STRONG>glPixelTransfer</STRONG>, <STRONG>glTexEnv</STRONG>, <STRONG>glTexGen</STRONG>,
+	  <STRONG>glTexImage2D</STRONG>,	<STRONG>glTexSubImage1D</STRONG>, <STRONG>glTexSubImage2D</STRONG>,
+	  <STRONG>glTexParameter</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

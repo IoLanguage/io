@@ -1,0 +1,58 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glPixelZoom</STRONG> -	specify	the pixel zoom factors
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glPixelZoom</STRONG>( GLfloat <EM>xfactor</EM>,
+			    GLfloat <EM>yfactor</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>xfactor</EM>, <EM>yfactor</EM> Specify the x and y zoom factors for	pixel
+			   write operations.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glPixelZoom</STRONG> specifies	values for the x and y zoom factors.
+	  During the execution of <STRONG>glDrawPixels</STRONG> or <STRONG>glCopyPixels</STRONG>,	if
+	  (xr, yr) is the current raster position, and a given element
+	  is in	the mth	row and	nth column of the pixel	rectangle,
+	  then pixels whose centers are	in the rectangle with corners
+	  at
+
+		       (xr + n.xfactor,	yr + m.yfactor)
+
+		    (xr	+ (n+1).xfactor, yr + (m+1).yfactor)
+
+	  are candidates for replacement.  Any pixel whose center lies
+	  on the bottom	or left	edge of	this rectangular region	is
+	  also modified.
+
+	  Pixel	zoom factors are not limited to	positive values.
+	  Negative zoom	factors	reflect	the resulting image about the
+	  current raster position.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glPixelZoom</STRONG> is executed
+	  between the execution	of <STRONG>glBegin</STRONG> and the corresponding
+	  execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_ZOOM_X</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_ZOOM_Y</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glCopyPixels</STRONG>,	<STRONG>glDrawPixels</STRONG>
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glDrawElements</STRONG> - render primitives from array	data
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glDrawElements</STRONG>( GLenum <EM>mode</EM>,
+			       GLsizei <EM>count</EM>,
+			       GLenum <EM>type</EM>,
+			       const GLvoid *<EM>indices</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>mode</EM>	   Specifies what kind of primitives to	render.
+		   Symbolic constants <STRONG>GL_POINTS</STRONG>, <STRONG>GL_LINE_STRIP</STRONG>,
+		   <STRONG>GL_LINE_LOOP</STRONG>, <STRONG>GL_LINES</STRONG>, <STRONG>GL_TRIANGLE_STRIP</STRONG>,
+		   <STRONG>GL_TRIANGLE_FAN</STRONG>, <STRONG>GL_TRIANGLES</STRONG>, <STRONG>GL_QUAD_STRIP</STRONG>,
+		   <STRONG>GL_QUADS</STRONG>, and <STRONG>GL_POLYGON</STRONG> are	accepted.
+
+	  <EM>count</EM>	   Specifies the number	of elements to be rendered.
+
+	  <EM>type</EM>	   Specifies the type of the values in <EM>indices</EM>.	Must
+		   be one of <STRONG>GL_UNSIGNED_BYTE</STRONG>, <STRONG>GL_UNSIGNED_SHORT</STRONG>, or
+		   <STRONG>GL_UNSIGNED_INT</STRONG>.
+
+	  <EM>indices</EM>  Specifies a pointer to the location where the
+		   indices are stored.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glDrawElements</STRONG> specifies multiple geometric primitives with
+	  very few subroutine calls. Instead of	calling	a GL function
+	  to pass each individual vertex, normal, texture coordinate,
+	  edge flag, or	color, you can prespecify separate arrays of
+	  vertexes, normals, and so on and use them to construct a
+	  sequence of primitives with a	single call to <STRONG>glDrawElements</STRONG>.
+
+	  When <STRONG>glDrawElements</STRONG> is called, it uses <EM>count</EM> sequential
+	  elements from	an enabled array, starting at <EM>indices</EM> to
+	  construct a sequence of geometric primitives.	<EM>mode</EM> specifies
+	  what kind of primitives are constructed, and how the array
+	  elements construct these primitives. If more than one	array
+	  is enabled, each is used. If <STRONG>GL_VERTEX_ARRAY</STRONG> is not enabled,
+	  no geometric primitives are constructed.
+
+	  Vertex attributes that are modified by <STRONG>glDrawElements</STRONG>	have
+	  an unspecified value after <STRONG>glDrawElements</STRONG> returns. For
+	  example, if <STRONG>GL_COLOR_ARRAY</STRONG> is	enabled, the value of the
+	  current color	is undefined after <STRONG>glDrawElements</STRONG> executes.
+	  Attributes that aren't modified remain well defined.
+
+     <STRONG>NOTES</STRONG>
+	  <STRONG>glDrawElements</STRONG> is available only if the GL version is	1.1 or
+	  greater.
+	  <STRONG>glDrawElements</STRONG> is included in	display	lists. If
+	  <STRONG>glDrawElements</STRONG> is entered into a display list, the necessary
+	  array	data (determined by the	array pointers and enables) is
+	  also entered into the	display	list. Because the array
+	  pointers and enables are client-side state, their values
+	  affect display lists when the	lists are created, not when
+	  the lists are	executed.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>mode</EM> is not an accepted
+	  value.
+
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if <EM>count</EM> is negative.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glDrawElements</STRONG> is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	<STRONG>glEnd</STRONG>.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glArrayElement</STRONG>, <STRONG>glColorPointer</STRONG>, <STRONG>glDrawArrays</STRONG>,
+	  <STRONG>glEdgeFlagPointer</STRONG>,
+	  <STRONG>glGetPointerv</STRONG>, <STRONG>glIndexPointer</STRONG>, <STRONG>glInterleavedArrays</STRONG>,
+	  <STRONG>glNormalPointer</STRONG>,
+	  <STRONG>glTexCoordPointer</STRONG>, <STRONG>glVertexPointer</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

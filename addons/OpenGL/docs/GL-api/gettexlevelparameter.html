@@ -1,0 +1,162 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glGetTexLevelParameterfv,</STRONG> <STRONG>glGetTexLevelParameteriv</STRONG> - return
+	  texture parameter values for a specific level	of detail
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glGetTexLevelParameterfv</STRONG>( GLenum	<EM>target</EM>,
+					 GLint <EM>level</EM>,
+					 GLenum	<EM>pname</EM>,
+					 GLfloat *<EM>params</EM> )
+	  void <STRONG>glGetTexLevelParameteriv</STRONG>( GLenum	<EM>target</EM>,
+					 GLint <EM>level</EM>,
+					 GLenum	<EM>pname</EM>,
+					 GLint *<EM>params</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>target</EM>  Specifies the	symbolic name of the target texture,
+		  either <STRONG>GL_TEXTURE_1D</STRONG>,	<STRONG>GL_TEXTURE_2D</STRONG>,
+		  <STRONG>GL_PROXY_TEXTURE_1D</STRONG>, or <STRONG>GL_PROXY_TEXTURE_2D</STRONG>.
+
+	  <EM>level</EM>	  Specifies the	level-of-detail	number of the desired
+		  image.  Level	0 is the base image level.  Level n is
+		  the nth mipmap reduction image.
+
+	  <EM>pname</EM>	  Specifies the	symbolic name of a texture parameter.
+		  <STRONG>GL_TEXTURE_WIDTH</STRONG>, <STRONG>GL_TEXTURE_HEIGHT</STRONG>,
+		  <STRONG>GL_TEXTURE_INTERNAL_FORMAT</STRONG>, <STRONG>GL_TEXTURE_BORDER</STRONG>,
+		  <STRONG>GL_TEXTURE_RED_SIZE</STRONG>, <STRONG>GL_TEXTURE_GREEN_SIZE</STRONG>,
+		  <STRONG>GL_TEXTURE_BLUE_SIZE</STRONG>,	<STRONG>GL_TEXTURE_ALPHA_SIZE</STRONG>,
+		  <STRONG>GL_TEXTURE_LUMINANCE_SIZE</STRONG>, and
+		  <STRONG>GL_TEXTURE_INTENSITY_SIZE</STRONG> are	accepted.
+
+	  <EM>params</EM>  Returns the requested	data.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glGetTexLevelParameter</STRONG> returns in <EM>params</EM> texture parameter
+	  values for a specific	level-of-detail	value, specified as
+	  <EM>level</EM>.  <EM>target</EM> defines the target texture, either
+	  <STRONG>GL_TEXTURE_1D</STRONG>, <STRONG>GL_TEXTURE_2D</STRONG>,	<STRONG>GL_PROXY_TEXTURE_1D</STRONG>, or
+	  <STRONG>GL_PROXY_TEXTURE_2D</STRONG>.
+
+	  <STRONG>GL_MAX_TEXTURE_SIZE</STRONG> is not really descriptive	enough.	 It
+	  has to report	the largest square texture image that can be
+	  accommodated with mipmaps and	borders, but a long skinny
+	  texture, or a	texture	without	mipmaps	and borders, may
+	  easily fit in	texture	memory.	The proxy targets allow	the
+	  user to more accurately query	whether	the GL can accommodate
+	  a texture of a given configuration.  If the texture cannot
+	  be accommodated, the texture state variables,	which may be
+	  queried with <STRONG>glGetTexLevelParameter</STRONG>, are set to 0.  If the
+	  texture can be accommodated, the texture state values	will
+	  be set as they would be set for a non-proxy target.
+
+	  <EM>pname</EM>	specifies the texture parameter	whose value or values
+	  will be returned.
+
+	  The accepted parameter names are as follows:
+
+	  <STRONG>GL_TEXTURE_WIDTH</STRONG>
+		    <EM>params</EM> returns a single value, the width of	the
+		    texture image.  This value includes	the border of
+		    the	texture	image. The initial value is 0.
+
+	  <STRONG>GL_TEXTURE_HEIGHT</STRONG>
+		    <EM>params</EM> returns a single value, the height of the
+		    texture image.  This value includes	the border of
+		    the	texture	image. The initial value is 0.
+
+	  <STRONG>GL_TEXTURE_INTERNAL_FORMAT</STRONG>
+		    <EM>params</EM> returns a single value, the internal	format
+		    of the texture image.
+
+	  <STRONG>GL_TEXTURE_BORDER</STRONG>
+		    <EM>params</EM> returns a single value, the width in	pixels
+		    of the border of the texture image.	The initial
+		    value is 0.
+
+	  <STRONG>GL_TEXTURE_RED_SIZE</STRONG>,
+
+	  <STRONG>GL_TEXTURE_GREEN_SIZE</STRONG>,
+
+	  <STRONG>GL_TEXTURE_BLUE_SIZE</STRONG>,
+
+	  <STRONG>GL_TEXTURE_ALPHA_SIZE</STRONG>,
+
+	  <STRONG>GL_TEXTURE_LUMINANCE_SIZE</STRONG>,
+
+	  <STRONG>GL_TEXTURE_INTENSITY_SIZE</STRONG>
+		    The	internal storage resolution of an individual
+		    component.	The resolution chosen by the GL	will
+		    be a close match for the resolution	requested by
+		    the	user with the component	argument of
+		    <STRONG>glTexImage1D</STRONG> or <STRONG>glTexImage2D</STRONG>. The initial value is
+		    0.
+
+     <STRONG>NOTES</STRONG>
+	  If an	error is generated, no change is made to the contents
+	  of <EM>params</EM>.
+
+	  <STRONG>GL_TEXTURE_INTERNAL_FORMAT</STRONG> is	only available if the GL
+	  version is 1.1 or greater. In	version	1.0, use
+	  <STRONG>GL_TEXTURE_COMPONENTS</STRONG>	instead.
+
+	  <STRONG>GL_PROXY_TEXTURE_1D</STRONG> and <STRONG>GL_PROXY_TEXTURE_2D</STRONG> are only
+	  available if the GL version is 1.1 or	greater.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>target</EM> or <EM>pname</EM> is not an
+	  accepted value.
+
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if <EM>level</EM> is less than 0.
+
+	  <STRONG>GL_INVALID_VALUE</STRONG> may be generated if <EM>level</EM> is	greater	than
+	  log  <EM>max</EM>, where <EM>max</EM> is the returned value of
+	  <STRONG>GL_MAX_TEXTURE_SIZE</STRONG>.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glGetTexLevelParameter</STRONG>
+	  is executed between the execution of <STRONG>glBegin</STRONG> and the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glGetTexParameter</STRONG>, <STRONG>glCopyTexImage1D</STRONG>, <STRONG>glCopyTexImage2D</STRONG>,
+	  <STRONG>glCopyTexSubImage1D</STRONG>, <STRONG>glCopyTexSubImage2D</STRONG>, <STRONG>glTexEnv</STRONG>,
+	  <STRONG>glTexGen</STRONG>, <STRONG>glTexImage1D</STRONG>, <STRONG>glTexImage2D</STRONG>,	<STRONG>glTexSubImage1D</STRONG>,
+	  <STRONG>glTexSubImage2D</STRONG>,
+	  <STRONG>glTexParameter</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

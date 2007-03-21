@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glVertex2d,</STRONG> <STRONG>glVertex2f,</STRONG> <STRONG>glVertex2i,</STRONG> <STRONG>glVertex2s,</STRONG> <STRONG>glVertex3d,</STRONG>
+	  <STRONG>glVertex3f,</STRONG> <STRONG>glVertex3i,</STRONG> <STRONG>glVertex3s,</STRONG> <STRONG>glVertex4d,</STRONG> <STRONG>glVertex4f,</STRONG>
+	  <STRONG>glVertex4i,</STRONG> <STRONG>glVertex4s,</STRONG> <STRONG>glVertex2dv,</STRONG> <STRONG>glVertex2fv,</STRONG>
+	  <STRONG>glVertex2iv,</STRONG> <STRONG>glVertex2sv,</STRONG> <STRONG>glVertex3dv,</STRONG> <STRONG>glVertex3fv,</STRONG>
+	  <STRONG>glVertex3iv,</STRONG> <STRONG>glVertex3sv,</STRONG> <STRONG>glVertex4dv,</STRONG> <STRONG>glVertex4fv,</STRONG>
+	  <STRONG>glVertex4iv,</STRONG> <STRONG>glVertex4sv</STRONG> - specify a vertex
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glVertex2d</STRONG>( GLdouble <EM>x</EM>,
+			   GLdouble <EM>y</EM> )
+	  void <STRONG>glVertex2f</STRONG>( GLfloat <EM>x</EM>,
+			   GLfloat <EM>y</EM> )
+	  void <STRONG>glVertex2i</STRONG>( GLint <EM>x</EM>,
+			   GLint <EM>y</EM> )
+	  void <STRONG>glVertex2s</STRONG>( GLshort <EM>x</EM>,
+			   GLshort <EM>y</EM> )
+	  void <STRONG>glVertex3d</STRONG>( GLdouble <EM>x</EM>,
+			   GLdouble <EM>y</EM>,
+			   GLdouble <EM>z</EM> )
+	  void <STRONG>glVertex3f</STRONG>( GLfloat <EM>x</EM>,
+			   GLfloat <EM>y</EM>,
+			   GLfloat <EM>z</EM> )
+	  void <STRONG>glVertex3i</STRONG>( GLint <EM>x</EM>,
+			   GLint <EM>y</EM>,
+			   GLint <EM>z</EM> )
+	  void <STRONG>glVertex3s</STRONG>( GLshort <EM>x</EM>,
+			   GLshort <EM>y</EM>,
+			   GLshort <EM>z</EM> )
+	  void <STRONG>glVertex4d</STRONG>( GLdouble <EM>x</EM>,
+			   GLdouble <EM>y</EM>,
+			   GLdouble <EM>z</EM>,
+			   GLdouble <EM>w</EM> )
+	  void <STRONG>glVertex4f</STRONG>( GLfloat <EM>x</EM>,
+			   GLfloat <EM>y</EM>,
+			   GLfloat <EM>z</EM>,
+			   GLfloat <EM>w</EM> )
+	  void <STRONG>glVertex4i</STRONG>( GLint <EM>x</EM>,
+			   GLint <EM>y</EM>,
+			   GLint <EM>z</EM>,
+			   GLint <EM>w</EM> )
+	  void <STRONG>glVertex4s</STRONG>( GLshort <EM>x</EM>,
+			   GLshort <EM>y</EM>,
+			   GLshort <EM>z</EM>,
+			   GLshort <EM>w</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>x</EM>, <EM>y</EM>,	<EM>z</EM>, <EM>w</EM>
+		   Specify <EM>x</EM>, <EM>y</EM>, <EM>z</EM>, and	<EM>w</EM> coordinates of a vertex.
+		   Not all parameters are present in all forms of the
+		   command.
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glVertex2dv</STRONG>( const GLdouble *<EM>v</EM> )
+	  void <STRONG>glVertex2fv</STRONG>( const GLfloat *<EM>v</EM> )
+	  void <STRONG>glVertex2iv</STRONG>( const GLint	*<EM>v</EM> )
+	  void <STRONG>glVertex2sv</STRONG>( const GLshort *<EM>v</EM> )
+	  void <STRONG>glVertex3dv</STRONG>( const GLdouble *<EM>v</EM> )
+	  void <STRONG>glVertex3fv</STRONG>( const GLfloat *<EM>v</EM> )
+	  void <STRONG>glVertex3iv</STRONG>( const GLint	*<EM>v</EM> )
+	  void <STRONG>glVertex3sv</STRONG>( const GLshort *<EM>v</EM> )
+	  void <STRONG>glVertex4dv</STRONG>( const GLdouble *<EM>v</EM> )
+	  void <STRONG>glVertex4fv</STRONG>( const GLfloat *<EM>v</EM> )
+	  void <STRONG>glVertex4iv</STRONG>( const GLint	*<EM>v</EM> )
+	  void <STRONG>glVertex4sv</STRONG>( const GLshort *<EM>v</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>v</EM>    Specifies a pointer to an array of two, three, or four
+	       elements.  The elements of a two-element	array are <EM>x</EM>
+	       and <EM>y</EM>; of a three-element array,	<EM>x</EM>, <EM>y</EM>, and <EM>z</EM>; and of a
+	       four-element array, <EM>x</EM>, <EM>y</EM>, <EM>z</EM>, and	<EM>w</EM>.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glVertex</STRONG> commands are	used within <STRONG>glBegin</STRONG>/<STRONG>glEnd</STRONG> pairs	to
+	  specify point, line, and polygon vertices.  The current
+	  color, normal, and texture coordinates are associated	with
+	  the vertex when <STRONG>glVertex</STRONG> is called.
+
+	  When only <EM>x</EM> and <EM>y</EM> are	specified, <EM>z</EM> defaults to 0 and <EM>w</EM>
+	  defaults to 1.  When <EM>x</EM>, <EM>y</EM>, and <EM>z</EM> are specified, <EM>w</EM> defaults
+	  to 1.
+
+     <STRONG>NOTES</STRONG>
+	  Invoking <STRONG>glVertex</STRONG> outside of a <STRONG>glBegin</STRONG>/<STRONG>glEnd</STRONG> pair results in
+	  undefined behavior.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glBegin</STRONG>, <STRONG>glCallList</STRONG>, <STRONG>glColor</STRONG>,	<STRONG>glEdgeFlag</STRONG>, <STRONG>glEvalCoord</STRONG>,
+	  <STRONG>glIndex</STRONG>, <STRONG>glMaterial</STRONG>,
+	  <STRONG>glNormal</STRONG>, <STRONG>glRect</STRONG>, <STRONG>glTexCoord</STRONG>,	<STRONG>glVertexPointer</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

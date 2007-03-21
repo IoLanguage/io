@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glRectd,</STRONG> <STRONG>glRectf,</STRONG> <STRONG>glRecti,</STRONG> <STRONG>glRects,</STRONG> <STRONG>glRectdv,</STRONG>	<STRONG>glRectfv,</STRONG>
+	  <STRONG>glRectiv,</STRONG> <STRONG>glRectsv</STRONG> - draw a rectangle
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glRectd</STRONG>(	GLdouble <EM>x1</EM>,
+			GLdouble <EM>y1</EM>,
+			GLdouble <EM>x2</EM>,
+			GLdouble <EM>y2</EM> )
+	  void <STRONG>glRectf</STRONG>(	GLfloat	<EM>x1</EM>,
+			GLfloat	<EM>y1</EM>,
+			GLfloat	<EM>x2</EM>,
+			GLfloat	<EM>y2</EM> )
+	  void <STRONG>glRecti</STRONG>(	GLint <EM>x1</EM>,
+			GLint <EM>y1</EM>,
+			GLint <EM>x2</EM>,
+			GLint <EM>y2</EM> )
+	  void <STRONG>glRects</STRONG>(	GLshort	<EM>x1</EM>,
+			GLshort	<EM>y1</EM>,
+			GLshort	<EM>x2</EM>,
+			GLshort	<EM>y2</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>x1</EM>, <EM>y1</EM> Specify one vertex of a rectangle.
+
+	  <EM>x2</EM>, <EM>y2</EM> Specify the opposite vertex of	the rectangle.
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glRectdv</STRONG>( const GLdouble	*<EM>v1</EM>,
+			 const GLdouble	*<EM>v2</EM> )
+	  void <STRONG>glRectfv</STRONG>( const GLfloat *<EM>v1</EM>,
+			 const GLfloat *<EM>v2</EM> )
+	  void <STRONG>glRectiv</STRONG>( const GLint *<EM>v1</EM>,
+			 const GLint *<EM>v2</EM> )
+	  void <STRONG>glRectsv</STRONG>( const GLshort *<EM>v1</EM>,
+			 const GLshort *<EM>v2</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>v1</EM>   Specifies a pointer to one vertex of a rectangle.
+
+	  <EM>v2</EM>   Specifies a pointer to the opposite vertex of the
+	       rectangle.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glRect</STRONG> supports efficient specification of rectangles	as two
+	  corner points.  Each rectangle command takes four arguments,
+	  organized either as two consecutive pairs of (<EM>x</EM>,<EM>y</EM>)
+	  coordinates, or as two pointers to arrays, each containing
+	  an (<EM>x</EM>,<EM>y</EM>) pair.  The resulting	rectangle is defined in	the
+	  <EM>z</EM>=0 plane.
+
+	  <STRONG>glRect</STRONG>(<EM>x1</EM>, <EM>y1</EM>, <EM>x2</EM>, <EM>y2</EM>) is exactly equivalent to the
+	  following sequence:  glBegin(<STRONG>GL_POLYGON</STRONG>); glVertex2(<EM>x1</EM>, <EM>y1</EM>);
+	  glVertex2(<EM>x2</EM>,	<EM>y1</EM>); glVertex2(<EM>x2</EM>, <EM>y2</EM>);	glVertex2(<EM>x1</EM>, <EM>y2</EM>);
+	  glEnd(); Note	that if	the second vertex is above and to the
+	  right	of the first vertex, the rectangle is constructed with
+	  a counterclockwise winding.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glRect</STRONG> is executed
+	  between the execution	of <STRONG>glBegin</STRONG> and the corresponding
+	  execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glBegin</STRONG>, <STRONG>glVertex</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

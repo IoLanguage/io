@@ -1,0 +1,23 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {
+                add = id; 
+                clear = id; 
+                compute = id; 
+                digit = id; 
+                div = id; 
+                dot = id; 
+                mul = id; 
+                sqrt = id; 
+                sub = id; 
+            }; 
+            CLASS = Controller; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {output = id; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

@@ -1,0 +1,214 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glFeedbackBuffer</STRONG> - controls feedback mode
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glFeedbackBuffer</STRONG>( GLsizei <EM>size</EM>,
+				 GLenum	<EM>type</EM>,
+				 GLfloat *<EM>buffer</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>size</EM>	  Specifies the	maximum	number of values that can be
+		  written into <EM>buffer</EM>.
+
+	  <EM>type</EM>	  Specifies a symbolic constant	that describes the
+		  information that will	be returned for	each vertex.
+		  <STRONG>GL_2D</STRONG>, <STRONG>GL_3D</STRONG>,	<STRONG>GL_3D_COLOR</STRONG>, <STRONG>GL_3D_COLOR_TEXTURE</STRONG>, and
+		  <STRONG>GL_4D_COLOR_TEXTURE</STRONG> are accepted.
+
+	  <EM>buffer</EM>  Returns the feedback data.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  The <STRONG>glFeedbackBuffer</STRONG> function	controls feedback.  Feedback,
+	  like selection, is a GL mode.	 The mode is selected by
+	  calling <STRONG>glRenderMode</STRONG> with <STRONG>GL_FEEDBACK</STRONG>.  When the GL is in
+	  feedback mode, no pixels are produced	by rasterization.
+	  Instead, information about primitives	that would have	been
+	  rasterized is	fed back to the	application using the GL.
+
+	  <STRONG>glFeedbackBuffer</STRONG> has three arguments:	 <EM>buffer</EM>	is a pointer
+	  to an	array of floating-point	values into which feedback
+	  information is placed.  <EM>size</EM> indicates the size of the
+	  array.  <EM>type</EM> is a symbolic constant describing the
+	  information that is fed back for each	vertex.
+	  <STRONG>glFeedbackBuffer</STRONG> must	be issued before feedback mode is
+	  enabled (by calling <STRONG>glRenderMode</STRONG> with	argument <STRONG>GL_FEEDBACK</STRONG>).
+	  Setting <STRONG>GL_FEEDBACK</STRONG> without establishing the feedback
+	  buffer, or calling <STRONG>glFeedbackBuffer</STRONG> while the	GL is in
+	  feedback mode, is an error.
+
+	  When <STRONG>glRenderMode</STRONG> is called while in feedback	mode, it
+	  returns the number of	entries	placed in the feedback array,
+	  and resets the feedback array	pointer	to the base of the
+	  feedback buffer. The returned	value never exceeds <EM>size</EM>. If
+	  the feedback data required more room than was	available in
+	  <EM>buffer</EM>, <STRONG>glRenderMode</STRONG> returns a negative value.  To take the
+	  GL out of feedback mode, call	<STRONG>glRenderMode</STRONG> with a parameter
+	  value	other than <STRONG>GL_FEEDBACK</STRONG>.
+
+	  While	in feedback mode, each primitive, bitmap, or pixel
+	  rectangle that would be rasterized generates a block of
+	  values that are copied into the feedback array.  If doing so
+	  would	cause the number of entries to exceed the maximum, the
+	  block	is partially written so	as to fill the array (if there
+	  is any room left at all), and	an overflow flag is set.  Each
+	  block	begins with a code indicating the primitive type,
+	  followed by values that describe the primitive's vertices
+	  and associated data.	Entries	are also written for bitmaps
+	  and pixel rectangles.	 Feedback occurs after polygon culling
+	  and <STRONG>glPolygonMode</STRONG> interpretation of polygons has taken
+	  place, so polygons that are culled are not returned in the
+	  feedback buffer.  It can also	occur after polygons with more
+	  than three edges are broken up into triangles, if the	GL
+	  implementation renders polygons by performing	this
+	  decomposition.
+
+	  The <STRONG>glPassThrough</STRONG> command can	be used	to insert a marker
+	  into the feedback buffer.  See <STRONG>glPassThrough</STRONG>.
+
+	  Following is the grammar for the blocks of values written
+	  into the feedback buffer.  Each primitive is indicated with
+	  a unique identifying value followed by some number of
+	  vertices.  Polygon entries include an	integer	value
+	  indicating how many vertices follow.	A vertex is fed	back
+	  as some number of floating-point values, as determined by
+	  <EM>type</EM>.	 Colors	are fed	back as	four values in RGBA mode and
+	  one value in color index mode.
+
+	       feedbackList &lt;- feedbackItem feedbackList |
+	       feedbackItem
+
+	       feedbackItem &lt;- point | lineSegment | polygon | bitmap
+	       | pixelRectangle	| passThru
+
+	       point &lt;-	<STRONG>GL_POINT_TOKEN</STRONG> vertex
+
+	       lineSegment &lt;- <STRONG>GL_LINE_TOKEN</STRONG> vertex vertex |
+	       <STRONG>GL_LINE_RESET_TOKEN</STRONG> vertex vertex
+
+	       polygon &lt;- <STRONG>GL_POLYGON_TOKEN</STRONG> n polySpec
+
+	       polySpec	&lt;- polySpec vertex | vertex vertex vertex
+
+	       bitmap &lt;- <STRONG>GL_BITMAP_TOKEN</STRONG> vertex
+
+	       pixelRectangle &lt;- <STRONG>GL_DRAW_PIXEL_TOKEN</STRONG> vertex |
+	       <STRONG>GL_COPY_PIXEL_TOKEN</STRONG> vertex
+
+	       passThru	&lt;- <STRONG>GL_PASS_THROUGH_TOKEN</STRONG> value
+
+	       vertex &lt;- 2d | 3d | 3dColor | 3dColorTexture |
+	       4dColorTexture
+
+	       2d &lt;- value value
+	       3d &lt;- value value value
+
+	       3dColor	&lt;- value value value color
+
+	       3dColorTexture &lt;- value value value color tex
+
+	       4dColorTexture &lt;- value value value value color tex
+
+	       color &lt;-	rgba | index
+
+	       rgba &lt;- value value value value
+
+	       index &lt;-	value
+
+	       tex &lt;- value value value	value
+
+
+	  <EM>value</EM>	is a floating-point number, and	<EM>n</EM> is a floating-point
+	  integer giving the number of vertices	in the polygon.
+	  <STRONG>GL_POINT_TOKEN</STRONG>, <STRONG>GL_LINE_TOKEN</STRONG>, <STRONG>GL_LINE_RESET_TOKEN</STRONG>,
+	  <STRONG>GL_POLYGON_TOKEN</STRONG>, <STRONG>GL_BITMAP_TOKEN</STRONG>, <STRONG>GL_DRAW_PIXEL_TOKEN</STRONG>,
+	  <STRONG>GL_COPY_PIXEL_TOKEN</STRONG> and <STRONG>GL_PASS_THROUGH_TOKEN</STRONG>	are symbolic
+	  floating-point constants.  <STRONG>GL_LINE_RESET_TOKEN</STRONG> is returned
+	  whenever the line stipple pattern is reset.  The data
+	  returned as a	vertex depends on the feedback <EM>type</EM>.
+
+	  The following	table gives the	correspondence between <EM>type</EM>
+	  and the number of values per vertex.	<EM>k</EM> is 1 in color	index
+	  mode and 4 in	RGBA mode.
+
+     ______________________________________________________________________________
+     |	     <EM>type</EM>	  | <EM>coordinates</EM>	| <EM>color</EM>	| <EM>texture</EM> | <EM>total</EM> <EM>number</EM> <EM>of</EM> <EM>values</EM> |
+     <EM>|</EM>____________________<EM>|</EM>_____________<EM>|</EM>_______<EM>|</EM>_________<EM>|</EM>________________________|
+     |	     <STRONG>GL_2D</STRONG>	  |    <EM>x</EM>, <EM>y</EM>	|	|	  |	      2		   |
+     |	     <STRONG>GL_3D</STRONG>	  |   <EM>x</EM>, <EM>y</EM>, <EM>z</EM>	|	|	  |	      3		   |
+     |	  <STRONG>GL_3D_COLOR</STRONG>	  |   <EM>x</EM>, <EM>y</EM>, <EM>z</EM>	|   k	|	  |	     3+k	   |
+     |<STRONG>GL_3D_COLOR_TEXTURE</STRONG> |  <EM>x</EM>,	<EM>y</EM>, <EM>z</EM>,	|   k	|    4	  |	     7+k	   |
+     |<STRONG>GL_4D_COLOR_TEXTURE</STRONG> | <EM>x</EM>, <EM>y</EM>, <EM>z</EM>, <EM>w</EM>	|   k	|    4	  |	     8+k	   |
+     <EM>|</EM>____________________<EM>|</EM>_____________<EM>|</EM>_______<EM>|</EM>_________<EM>|</EM>________________________|
+
+
+	  Feedback vertex coordinates are in window coordinates,
+	  except <EM>w</EM>, which is in	clip coordinates.  Feedback colors are
+	  lighted, if lighting is enabled.  Feedback texture
+	  coordinates are generated, if	texture	coordinate generation
+	  is enabled.  They are	always transformed by the texture
+	  matrix.
+
+     <STRONG>NOTES</STRONG>
+	  <STRONG>glFeedbackBuffer</STRONG>, when used in a display list, is not
+	  compiled into	the display list but is	executed immediately.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>type</EM> is not an accepted
+	  value.
+
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if <EM>size</EM>	is negative.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glFeedbackBuffer</STRONG>	is
+	  called while the render mode is <STRONG>GL_FEEDBACK</STRONG>, or if
+	  <STRONG>glRenderMode</STRONG> is called with argument <STRONG>GL_FEEDBACK</STRONG> before
+	  <STRONG>glFeedbackBuffer</STRONG> is called at	least once.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glFeedbackBuffer</STRONG>	is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_RENDER_MODE</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glBegin</STRONG>, <STRONG>glLineStipple</STRONG>, <STRONG>glPassThrough</STRONG>, <STRONG>glPolygonMode</STRONG>,
+	  <STRONG>glRenderMode</STRONG>,	<STRONG>glSelectBuffer</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

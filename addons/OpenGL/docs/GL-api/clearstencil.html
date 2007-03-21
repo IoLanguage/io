@@ -1,0 +1,58 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glClearStencil</STRONG> - specify the clear value for the stencil
+	  buffer
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glClearStencil</STRONG>( GLint <EM>s</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>s</EM>  Specifies the index used when the stencil buffer is
+	     cleared.  The initial value is 0.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glClearStencil</STRONG> specifies the index used by <STRONG>glClear</STRONG> to	clear
+	  the stencil buffer.  <EM>s</EM> is masked with	2m-1, where m is the
+	  number of bits in the	stencil	buffer.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glClearStencil</STRONG> is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_STENCIL_CLEAR_VALUE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_STENCIL_BITS</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glClear</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

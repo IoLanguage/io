@@ -1,0 +1,58 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glMatrixMode</STRONG> - specify which matrix is the current matrix
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glMatrixMode</STRONG>( GLenum <EM>mode</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>mode</EM>	Specifies which	matrix stack is	the target for
+		subsequent matrix operations.  Three values are
+		accepted:  <STRONG>GL_MODELVIEW</STRONG>, <STRONG>GL_PROJECTION</STRONG>,	and
+		<STRONG>GL_TEXTURE</STRONG>.  The initial value is <STRONG>GL_MODELVIEW</STRONG>.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glMatrixMode</STRONG> sets the	current	matrix mode.  <EM>mode</EM> can assume
+	  one of three values:
+
+	  <STRONG>GL_MODELVIEW</STRONG>		   Applies subsequent matrix
+				   operations to the modelview matrix
+				   stack.
+
+	  <STRONG>GL_PROJECTION</STRONG>		   Applies subsequent matrix
+				   operations to the projection	matrix
+				   stack.
+
+	  <STRONG>GL_TEXTURE</STRONG>		   Applies subsequent matrix
+				   operations to the texture matrix
+				   stack.
+
+	  To find out which matrix stack is currently the target of
+	  all matrix operations, call <STRONG>glGet</STRONG> with argument
+	  <STRONG>GL_MATRIX_MODE</STRONG>. The initial value is <STRONG>GL_MODELVIEW</STRONG>.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>mode</EM> is not an accepted
+	  value.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glMatrixMode</STRONG> is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_MATRIX_MODE</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glLoadMatrix</STRONG>,	<STRONG>glPushMatrix</STRONG>
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

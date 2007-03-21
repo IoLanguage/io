@@ -1,0 +1,1 @@
+StackOverflowError := Exception clone

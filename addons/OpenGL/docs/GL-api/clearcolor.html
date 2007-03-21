@@ -1,0 +1,58 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glClearColor</STRONG> - specify clear values for the color buffers
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glClearColor</STRONG>( GLclampf <EM>red</EM>,
+			     GLclampf <EM>green</EM>,
+			     GLclampf <EM>blue</EM>,
+			     GLclampf <EM>alpha</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>red</EM>, <EM>green</EM>, <EM>blue</EM>, <EM>alpha</EM>
+				Specify	the red, green,	blue, and
+				alpha values used when the color
+				buffers	are cleared.  The initial
+				values are all 0.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glClearColor</STRONG> specifies the red, green, blue, and alpha
+	  values used by <STRONG>glClear</STRONG> to clear the color buffers.  Values
+	  specified by <STRONG>glClearColor</STRONG> are	clamped	to the range [0,1].
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glClearColor</STRONG> is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_COLOR_CLEAR_VALUE</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glClear</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,162 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glLightModelf,</STRONG> <STRONG>glLightModeli,</STRONG>	<STRONG>glLightModelfv,</STRONG>	<STRONG>glLightModeliv</STRONG>
+	  - set	the lighting model parameters
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glLightModelf</STRONG>( GLenum <EM>pname</EM>,
+			      GLfloat <EM>param</EM> )
+	  void <STRONG>glLightModeli</STRONG>( GLenum <EM>pname</EM>,
+			      GLint <EM>param</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>pname</EM>	  Specifies a single-valued lighting model parameter.
+		  <STRONG>GL_LIGHT_MODEL_LOCAL_VIEWER</STRONG> and
+		  <STRONG>GL_LIGHT_MODEL_TWO_SIDE</STRONG> are accepted.
+
+	  <EM>param</EM>	  Specifies the	value that <EM>param</EM> will be set to.
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glLightModelfv</STRONG>( GLenum <EM>pname</EM>,
+			       const GLfloat *<EM>params</EM> )
+	  void <STRONG>glLightModeliv</STRONG>( GLenum <EM>pname</EM>,
+			       const GLint *<EM>params</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>pname</EM>
+	       Specifies a lighting model parameter.
+	       <STRONG>GL_LIGHT_MODEL_AMBIENT</STRONG>, <STRONG>GL_LIGHT_MODEL_LOCAL_VIEWER</STRONG>,
+	       and <STRONG>GL_LIGHT_MODEL_TWO_SIDE</STRONG> are accepted.
+
+	  <EM>params</EM>
+	       Specifies a pointer to the value	or values that <EM>params</EM>
+	       will be set to.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glLightModel</STRONG> sets the	lighting model parameter.  <EM>pname</EM> names
+	  a parameter and <EM>params</EM> gives the new value.  There are three
+	  lighting model parameters:
+
+	  <STRONG>GL_LIGHT_MODEL_AMBIENT</STRONG>
+		    <EM>params</EM> contains four integer or floating-point
+		    values that	specify	the ambient RGBA intensity of
+		    the	entire scene.  Integer values are mapped
+		    linearly such that the most	positive representable
+		    value maps to 1.0, and the most negative
+		    representable value	maps to	-1.0.  Floating-point
+		    values are mapped directly.	 Neither integer nor
+		    floating-point values are clamped.	The initial
+		    ambient scene intensity is (0.2, 0.2, 0.2, 1.0).
+
+	  <STRONG>GL_LIGHT_MODEL_LOCAL_VIEWER</STRONG>
+		    <EM>params</EM> is a	single integer or floating-point value
+		    that specifies how specular	reflection angles are
+		    computed.  If <EM>params</EM> is 0 (or 0.0),	specular
+		    reflection angles take the view direction to be
+		    parallel to	and in the direction of	the -<EM>z</EM> axis,
+		    regardless of the location of the vertex in	eye
+		    coordinates.  Otherwise, specular reflections are
+		    computed from the origin of	the eye	coordinate
+		    system.  The initial value is 0.
+
+	  <STRONG>GL_LIGHT_MODEL_TWO_SIDE</STRONG>
+		    <EM>params</EM> is a	single integer or floating-point value
+		    that specifies whether one-	or two-sided lighting
+		    calculations are done for polygons.	 It has	no
+		    effect on the lighting calculations	for points,
+		    lines, or bitmaps.	If <EM>params</EM> is 0 (or 0.0), one-
+		    sided lighting is specified, and only the <EM>front</EM>
+		    material parameters	are used in the	lighting
+		    equation.  Otherwise, two-sided lighting is
+		    specified.	In this	case, vertices of back-facing
+		    polygons are lighted using the <EM>back</EM>	material
+		    parameters,	and have their normals reversed	before
+		    the	lighting equation is evaluated.	 Vertices of
+		    front-facing polygons are always lighted using the
+		    <EM>front</EM> material parameters, with no change to their
+		    normals. The initial value is 0.
+
+	  In RGBA mode,	the lighted color of a vertex is the sum of
+	  the material emission	intensity, the product of the material
+	  ambient reflectance and the lighting model full-scene
+	  ambient intensity, and the contribution of each enabled
+	  light	source.	 Each light source contributes the sum of
+	  three	terms:	ambient, diffuse, and specular.	 The ambient
+	  light	source contribution is the product of the material
+	  ambient reflectance and the light's ambient intensity.  The
+	  diffuse light	source contribution is the product of the
+	  material diffuse reflectance,	the light's diffuse intensity,
+	  and the dot product of the vertex's normal with the
+	  normalized vector from the vertex to the light source.  The
+	  specular light source	contribution is	the product of the
+	  material specular reflectance, the light's specular
+	  intensity, and the dot product of the	normalized vertex-to-
+	  eye and vertex-to-light vectors, raised to the power of the
+	  shininess of the material.  All three	light source
+	  contributions	are attenuated equally based on	the distance
+	  from the vertex to the light source and on light source
+	  direction, spread exponent, and spread cutoff	angle.	All
+	  dot products are replaced with 0 if they evaluate to a
+	  negative value.
+
+	  The alpha component of the resulting lighted color is	set to
+	  the alpha value of the material diffuse reflectance.
+
+	  In color index mode, the value of the	lighted	index of a
+	  vertex ranges	from the ambient to the	specular values	passed
+	  to <STRONG>glMaterial</STRONG>	using <STRONG>GL_COLOR_INDEXES</STRONG>.	 Diffuse and specular
+	  coefficients,	computed with a	(.30, .59, .11)	weighting of
+	  the lights' colors, the shininess of the material, and the
+	  same reflection and attenuation equations as in the RGBA
+	  case,	determine how much above ambient the resulting index
+	  is.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>pname</EM>	is not an accepted
+	  value.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glLightModel</STRONG> is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_LIGHT_MODEL_AMBIENT</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_LIGHT_MODEL_LOCAL_VIEWER</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_LIGHT_MODEL_TWO_SIDE</STRONG>
+	  <STRONG>glIsEnabled</STRONG> with argument <STRONG>GL_LIGHTING</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glLight</STRONG>, <STRONG>glMaterial</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

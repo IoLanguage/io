@@ -1,0 +1,214 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glCopyTexSubImage2D</STRONG> -	copy a two-dimensional texture
+	  subimage
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glCopyTexSubImage2D</STRONG>( GLenum <EM>target</EM>,
+				    GLint <EM>level</EM>,
+				    GLint <EM>xoffset</EM>,
+				    GLint <EM>yoffset</EM>,
+				    GLint <EM>x</EM>,
+				    GLint <EM>y</EM>,
+				    GLsizei <EM>width</EM>,
+				    GLsizei <EM>height</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>target</EM>   Specifies the target	texture.  Must be
+		   <STRONG>GL_TEXTURE_2D</STRONG>
+
+	  <EM>level</EM>	   Specifies the level-of-detail number.  Level	0 is
+		   the base image level.  Level	<EM>n</EM> is the <EM>n</EM>th mipmap
+		   reduction image.
+
+	  <EM>xoffset</EM>  Specifies a texel offset in the x direction within
+		   the texture array.
+
+	  <EM>yoffset</EM>  Specifies a texel offset in the y direction within
+		   the texture array.
+
+	  <EM>x</EM>, <EM>y</EM>	   Specify the window coordinates of the lower left
+		   corner of the rectangular region of pixels to be
+		   copied.
+
+	  <EM>width</EM>	   Specifies the width of the texture subimage.
+
+	  <EM>height</EM>   Specifies the height	of the texture subimage.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glCopyTexSubImage2D</STRONG> replaces a rectangular portion of	a
+	  two-dimensional texture image	with pixels from the current
+	  <STRONG>GL_READ_BUFFER</STRONG> (rather than from main	memory,	as is the case
+	  for <STRONG>glTexSubImage2D</STRONG>).
+
+	  The screen-aligned pixel rectangle with lower	left corner at
+	  (<EM>x</EM>, <EM>y</EM>) and with width	<EM>width</EM> and height <EM>height</EM>	replaces the
+	  portion of the texture array with x indices <EM>xoffset</EM> through
+	  <EM>xoffset</EM> + <EM>width</EM> - 1, inclusive, and y	indices	<EM>yoffset</EM>
+	  through <EM>yoffset</EM> + <EM>height</EM> - 1,	inclusive, at the mipmap level
+	  specified by <EM>level</EM>.
+
+	  The pixels in	the rectangle are processed exactly as if
+	  <STRONG>glCopyPixels</STRONG> had been	called,	but the	process	stops just
+	  before final conversion.  At this point, all pixel component
+	  values are clamped to	the range [0, 1] and then converted to
+	  the texture's	internal format	for storage in the texel
+	  array.
+
+	  The destination rectangle in the texture array may not
+	  include any texels outside the texture array as it was
+	  originally specified.	 It is not an error to specify a
+	  subtexture with zero width or	height,	but such a
+	  specification	has no effect.
+
+	  If any of the	pixels within the specified rectangle of the
+	  current <STRONG>GL_READ_BUFFER</STRONG> are outside the read window
+	  associated with the current rendering	context, then the
+	  values obtained for those pixels are undefined.
+
+	  No change is made to the <EM>internalformat</EM>, <EM>width</EM>, <EM>height</EM>, or
+	  <EM>border</EM> parameters of the specified texture array or to texel
+	  values outside the specified subregion.
+
+     <STRONG>NOTES</STRONG>
+	  <STRONG>glCopyTexSubImage2D</STRONG> is available only	if the GL version is
+	  1.1 or greater.
+
+	  Texturing has	no effect in color index mode.
+
+	  <STRONG>glPixelStore</STRONG> and <STRONG>glPixelTransfer</STRONG> modes affect	texture	images
+	  in exactly the way they affect <STRONG>glDrawPixels</STRONG>.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>target</EM> is not	<STRONG>GL_TEXTURE_2D</STRONG>.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if the texture array has
+	  not been defined by a	previous <STRONG>glTexImage2D</STRONG> or
+	  <STRONG>glCopyTexImage2D</STRONG> operation.
+
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if <EM>level</EM> is less than 0.
+
+	  <STRONG>GL_INVALID_VALUE</STRONG> may be generated if <EM>level</EM> is	greater	than
+	  log max, where max is	the returned value of
+	  <STRONG>GL_MAX_TEXTURE_SIZE</STRONG>.
+
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if <EM>x</EM> &lt;	-b or if <EM>y</EM> &lt;  -b,
+	  where	b is the border	width of the texture array.
+
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if xoffset &lt; -b,
+	  (<EM>xoffset</EM> + <EM>width</EM>) &gt; (w - b), <EM>yoffset</EM> &lt;  -b, or
+	  (<EM>yoffset</EM> + <EM>height</EM>) &gt; (h - b),	where w	is the
+	  <STRONG>GL_TEXTURE_WIDTH</STRONG>, h is the  <STRONG>GL_TEXTURE_HEIGHT</STRONG>, and b is the
+	  <STRONG>GL_TEXTURE_BORDER</STRONG> of the texture image being modified.  Note
+	  that w and h include twice the border	width.
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glCopyTexSubImage2D</STRONG> is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGetTexImage</STRONG>
+	  <STRONG>glIsEnabled</STRONG> with argument <STRONG>GL_TEXTURE_2D</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glCopyPixels</STRONG>,	<STRONG>glCopyTexImage1D</STRONG>, <STRONG>glCopyTexImage2D</STRONG>,
+	  <STRONG>glCopyTexSubImage1D</STRONG>, <STRONG>glPixelStore</STRONG>, <STRONG>glPixelTransfer</STRONG>,
+	  <STRONG>glTexEnv</STRONG>, <STRONG>glTexGen</STRONG>, <STRONG>glTexImage1D</STRONG>, <STRONG>glTexImage2D</STRONG>,
+	  <STRONG>glTexParameter</STRONG>, <STRONG>glTexSubImage1D</STRONG>, <STRONG>glTexSubImage2D</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

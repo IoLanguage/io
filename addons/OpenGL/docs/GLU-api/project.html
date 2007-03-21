@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>gluProject</STRONG> - map object coordinates to window	coordinates
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  GLint	<STRONG>gluProject</STRONG>( GLdouble <EM>objX</EM>,
+			    GLdouble <EM>objY</EM>,
+			    GLdouble <EM>objZ</EM>,
+			    const GLdouble *<EM>model</EM>,
+			    const GLdouble *<EM>proj</EM>,
+			    const GLint	*<EM>view</EM>,
+			    GLdouble* <EM>winX</EM>,
+			    GLdouble* <EM>winY</EM>,
+			    GLdouble* <EM>winZ</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>objX</EM>,	<EM>objY</EM>, <EM>objZ</EM>
+			  Specify the object coordinates.
+
+	  <EM>model</EM>		  Specifies the	current	modelview matrix (as
+			  from a <STRONG>glGetDoublev</STRONG> call).
+
+	  <EM>proj</EM>		  Specifies the	current	projection matrix (as
+			  from a <STRONG>glGetDoublev</STRONG> call).
+
+	  <EM>view</EM>		  Specifies the	current	viewport (as from a
+			  <STRONG>glGetIntegerv</STRONG>	call).
+
+	  <EM>winX</EM>,	<EM>winY</EM>, <EM>winZ</EM>
+			  Return the computed window coordinates.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>gluProject</STRONG> transforms	the specified object coordinates into
+	  window coordinates using <EM>model</EM>, <EM>proj</EM>,	and <EM>view</EM>. The result
+	  is stored in <EM>winX</EM>, <EM>winY</EM>, and <EM>winZ</EM>. A return value of <STRONG>GL_TRUE</STRONG>
+	  indicates success, a return value of <STRONG>GL_FALSE</STRONG>	indicates
+	  failure.
+
+	  To compute the coordinates, let v=(objX,objY,objZ,1.0)
+	  represented as a matrix with 4 rows and 1 column.  Then
+	  <STRONG>gluProject</STRONG> computes v' as follows:
+
+	  v' = P x M x v
+
+	  where	P is the current projection matrix <EM>proj</EM>, M is the
+	  current modelview matrix <EM>model</EM> (both represented as 4x4
+	  matrices in column-major order) and 'x' represents matrix
+	  multiplication.
+
+	  The window coordinates are then computed as follows:
+
+	  winX = view(0) + view(2) * (v'(0) + 1) / 2
+
+	  winY = view(1) + view(3) * (v'(1) + 1) / 2
+
+	  winZ = (v'(2)	+ 1) / 2
+
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glGet</STRONG>, <STRONG>gluUnProject</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

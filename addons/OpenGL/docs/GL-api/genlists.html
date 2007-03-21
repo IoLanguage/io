@@ -1,0 +1,58 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glGenLists</STRONG> - generate	a contiguous set of empty display
+	  lists
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  GLuint <STRONG>glGenLists</STRONG>( GLsizei <EM>range</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>range</EM>	 Specifies the number of contiguous empty display
+		 lists to be generated.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glGenLists</STRONG> has one argument, <EM>range</EM>.  It returns an integer <EM>n</EM>
+	  such that <EM>range</EM> contiguous empty display lists, named	<EM>n</EM>,
+	  <EM>n</EM>+1, ..., <EM>n</EM>+<EM>range</EM> -1,	are created.  If <EM>range</EM> is 0, if	there
+	  is no	group of <EM>range</EM> contiguous names	available, or if any
+	  error	is generated, no display lists are generated, and 0 is
+	  returned.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if <EM>range</EM> is negative.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glGenLists</STRONG> is executed
+	  between the execution	of <STRONG>glBegin</STRONG> and the corresponding
+	  execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glIsList</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glCallList</STRONG>, <STRONG>glCallLists</STRONG>, <STRONG>glDeleteLists</STRONG>, <STRONG>glNewList</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glColorMaterial</STRONG> - cause a material color to track the
+	  current color
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glColorMaterial</STRONG>(	GLenum <EM>face</EM>,
+				GLenum <EM>mode</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>face</EM>	Specifies whether front, back, or both front and back
+		material parameters should track the current color.
+		Accepted values	are <STRONG>GL_FRONT</STRONG>, <STRONG>GL_BACK</STRONG>, and
+		<STRONG>GL_FRONT_AND_BACK</STRONG>.  The	initial	value is
+		<STRONG>GL_FRONT_AND_BACK</STRONG>.
+
+	  <EM>mode</EM>	Specifies which	of several material parameters track
+		the current color.  Accepted values are	<STRONG>GL_EMISSION</STRONG>,
+		<STRONG>GL_AMBIENT</STRONG>, <STRONG>GL_DIFFUSE</STRONG>,	<STRONG>GL_SPECULAR</STRONG>, and
+		<STRONG>GL_AMBIENT_AND_DIFFUSE</STRONG>.	 The initial value is
+		<STRONG>GL_AMBIENT_AND_DIFFUSE</STRONG>.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glColorMaterial</STRONG> specifies which material parameters track
+	  the current color.  When <STRONG>GL_COLOR_MATERIAL</STRONG> is	enabled, the
+	  material parameter or	parameters specified by	<EM>mode</EM>, of the
+	  material or materials	specified by <EM>face</EM>, track the current
+	  color	at all times.
+
+	  To enable and	disable	<STRONG>GL_COLOR_MATERIAL</STRONG>, call	<STRONG>glEnable</STRONG> and
+	  <STRONG>glDisable</STRONG> with argument <STRONG>GL_COLOR_MATERIAL</STRONG>.
+	  <STRONG>GL_COLOR_MATERIAL</STRONG> is initially disabled.
+
+     <STRONG>NOTES</STRONG>
+	  <STRONG>glColorMaterial</STRONG> makes	it possible to change a	subset of
+	  material parameters for each vertex using only the <STRONG>glColor</STRONG>
+	  command, without calling <STRONG>glMaterial</STRONG>.	If only	such a subset
+	  of parameters	is to be specified for each vertex, calling
+	  <STRONG>glColorMaterial</STRONG> is preferable	to calling <STRONG>glMaterial</STRONG>.
+
+	  Call <STRONG>glColorMaterial</STRONG> before enabling <STRONG>GL_COLOR_MATERIAL</STRONG>.
+
+	  Calling <STRONG>glDrawElements</STRONG> may leave the current color
+	  indeterminate.  If <STRONG>glColorMaterial</STRONG> is	enabled	while the
+	  current color	is indeterminate, the lighting material	state
+	  specified by <EM>face</EM> and	<EM>mode</EM> is	also indeterminate.
+
+	  If the GL version is 1.1 or greater, and <STRONG>GL_COLOR_MATERIAL</STRONG>
+	  is enabled, evaluated	color values affect the	results	of the
+	  lighting equation as if the current color were being
+	  modified, but	no change is made to the tracking lighting
+	  parameter of the current color.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>face</EM> or <EM>mode</EM> is not an
+	  accepted value.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glColorMaterial</STRONG> is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glIsEnabled</STRONG> with argument <STRONG>GL_COLOR_MATERIAL</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_COLOR_MATERIAL_PARAMETER</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_COLOR_MATERIAL_FACE</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glColor</STRONG>, <STRONG>glColorPointer</STRONG>, <STRONG>glDrawElements</STRONG>, <STRONG>glEnable</STRONG>, <STRONG>glLight</STRONG>,
+	  <STRONG>glLightModel</STRONG>,	<STRONG>glMaterial</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

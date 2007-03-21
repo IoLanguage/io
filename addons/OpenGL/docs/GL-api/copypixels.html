@@ -1,0 +1,214 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glCopyPixels</STRONG> - copy pixels in	the frame buffer
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glCopyPixels</STRONG>( GLint <EM>x</EM>,
+			     GLint <EM>y</EM>,
+			     GLsizei <EM>width</EM>,
+			     GLsizei <EM>height</EM>,
+			     GLenum <EM>type</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>x</EM>, <EM>y</EM> Specify the window coordinates of the lower left	corner
+	       of the rectangular region of pixels to be copied.
+
+	  <EM>width</EM>, <EM>height</EM>
+	       Specify the dimensions of the rectangular region	of
+	       pixels to be copied.  Both must be nonnegative.
+
+	  <EM>type</EM> Specifies whether color values, depth values, or
+	       stencil values are to be	copied.	 Symbolic constants
+	       <STRONG>GL_COLOR</STRONG>, <STRONG>GL_DEPTH</STRONG>, and <STRONG>GL_STENCIL</STRONG> are accepted.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glCopyPixels</STRONG> copies a	screen-aligned rectangle of pixels
+	  from the specified frame buffer location to a	region
+	  relative to the current raster position.  Its	operation is
+	  well defined only if the entire pixel	source region is
+	  within the exposed portion of	the window.  Results of	copies
+	  from outside the window, or from regions of the window that
+	  are not exposed, are hardware	dependent and undefined.
+
+	  <EM>x</EM> and	<EM>y</EM> specify the window coordinates of the	lower left
+	  corner of the	rectangular region to be copied.  <EM>width</EM>	and
+	  <EM>height</EM> specify the dimensions	of the rectangular region to
+	  be copied.  Both <EM>width</EM> and <EM>height</EM> must not be	negative.
+
+	  Several parameters control the processing of the pixel data
+	  while	it is being copied.  These parameters are set with
+	  three	commands:  <STRONG>glPixelTransfer</STRONG>, <STRONG>glPixelMap</STRONG>,	and
+	  <STRONG>glPixelZoom</STRONG>.	This reference page describes the effects on
+	  <STRONG>glCopyPixels</STRONG> of most,	but not	all, of	the parameters
+	  specified by these three commands.
+
+	  <STRONG>glCopyPixels</STRONG> copies values from each pixel with the lower
+	  left-hand corner at (<EM>x</EM> + i, <EM>y</EM>	+ j) for 0<EM>&lt;</EM>i&lt;<EM>width</EM>  and
+	  0<EM>&lt;</EM>j&lt;<EM>height</EM>.  This pixel is said to be	the ith	pixel in the
+	  jth row. Pixels are copied in	row order from the lowest to
+	  the highest row, left	to right in each row.
+
+	  <EM>type</EM> specifies whether color,	depth, or stencil data is to
+	  be copied.  The details of the transfer for each data	type
+	  are as follows:
+
+	  <STRONG>GL_COLOR</STRONG>	 Indices or RGBA colors	are read from the
+			 buffer	currently specified as the read	source
+			 buffer	(see <STRONG>glReadBuffer</STRONG>).  If	the GL is in
+			 color index mode, each	index that is read
+			 from this buffer is converted to a fixed-
+			 point format with an unspecified number of
+			 bits to the right of the binary point.	 Each
+			 index is then shifted left by <STRONG>GL_INDEX_SHIFT</STRONG>
+			 bits, and added to <STRONG>GL_INDEX_OFFSET</STRONG>.  If
+			 <STRONG>GL_INDEX_SHIFT</STRONG>	is negative, the shift is to
+			 the right.  In	either case, zero bits fill
+			 otherwise unspecified bit locations in	the
+			 result.  If <STRONG>GL_MAP_COLOR</STRONG> is true, the index
+			 is replaced with the value that it references
+			 in lookup table <STRONG>GL_PIXEL_MAP_I_TO_I</STRONG>.  Whether
+			 the lookup replacement	of the index is	done
+			 or not, the integer part of the index is then
+			 ANDed with 2b-1, where	b is the number	of
+			 bits in a color index buffer.
+
+			 If the	GL is in RGBA mode, the	red, green,
+			 blue, and alpha components of each pixel that
+			 is read are converted to an internal
+			 floating-point	format with unspecified
+			 precision.  The conversion maps the largest
+			 representable component value to 1.0, and
+			 component value 0 to 0.0.  The	resulting
+			 floating-point	color values are then
+			 multiplied by <STRONG>GL_c_SCALE</STRONG> and added to
+			 <STRONG>GL_c_BIAS</STRONG>, where <EM>c</EM> is RED, GREEN, BLUE, and
+			 ALPHA for the respective color	components.
+			 The results are clamped to the	range [0,1].
+			 If <STRONG>GL_MAP_COLOR</STRONG> is true, each color component
+			 is scaled by the size of lookup table
+			 <STRONG>GL_PIXEL_MAP_c_TO_c</STRONG>, then replaced by the
+			 value that it references in that table.  <EM>c</EM> is
+			 R, G, B, or A.
+
+			 The GL	then converts the resulting indices or
+			 RGBA colors to	fragments by attaching the
+			 current raster	position <EM>z</EM> coordinate and
+			 texture coordinates to	each pixel, then
+			 assigning window coordinates (x +i,y +j),
+			 where (x ,y ) is the current ra<STRONG>s</STRONG>ter <STRONG>p</STRONG>osition,
+			 and the <STRONG>p</STRONG>ix<STRONG>e</STRONG>l was the ith pixel in the	jth
+			 row.  These pixel fragments are then treated
+			 just like the fragments generated by
+			 rasterizing points, lines, or polygons.
+			 Texture mapping, fog, and all the fragment
+			 operations are	applied	before the fragments
+			 are written to	the frame buffer.
+
+	  <STRONG>GL_DEPTH</STRONG>	 Depth values are read from the	depth buffer
+			 and converted directly	to an internal
+			 floating-point	format with unspecified
+			 precision.  The resulting floating-point
+			 depth value is	then multiplied	by
+			 <STRONG>GL_DEPTH_SCALE</STRONG>	and added to <STRONG>GL_DEPTH_BIAS</STRONG>.
+			 The result is clamped to the range [0,1].
+
+			 The GL	then converts the resulting depth
+			 components to fragments by attaching the
+			 current raster	position color or color	index
+			 and texture coordinates to each pixel,	then
+			 assigning window coordinates (x +i,y +j),
+			 where (x ,y ) is the current ra<STRONG>s</STRONG>ter <STRONG>p</STRONG>osition,
+			 and the <STRONG>p</STRONG>ix<STRONG>e</STRONG>l was the ith pixel in the	jth
+			 row.  These pixel fragments are then treated
+			 just like the fragments generated by
+			 rasterizing points, lines, or polygons.
+			 Texture mapping, fog, and all the fragment
+			 operations are	applied	before the fragments
+			 are written to	the frame buffer.
+
+	  <STRONG>GL_STENCIL</STRONG>	 Stencil indices are read from the stencil
+			 buffer	and converted to an internal fixed-
+			 point format with an unspecified number of
+			 bits to the right of the binary point.	 Each
+			 fixed-point index is then shifted left	by
+			 <STRONG>GL_INDEX_SHIFT</STRONG>	bits, and added	to
+			 <STRONG>GL_INDEX_OFFSET</STRONG>.  If <STRONG>GL_INDEX_SHIFT</STRONG> is
+			 negative, the shift is	to the right.  In
+			 either	case, zero bits	fill otherwise
+			 unspecified bit locations in the result.  If
+			 <STRONG>GL_MAP_STENCIL</STRONG>	is true, the index is replaced
+			 with the value	that it	references in lookup
+			 table <STRONG>GL_PIXEL_MAP_S_TO_S</STRONG>.  Whether the
+			 lookup	replacement of the index is done or
+			 not, the integer part of the index is then
+			 ANDed with 2b-1, where	b is the number	of
+			 bits in the stencil buffer.  The resulting
+			 stencil indices are then written to the
+			 stencil buffer	such that the index read from
+			 the ith location of the jth row is written to
+			 location (x +i,y +j), where (x	,y ) is	the
+			 current ras<STRONG>t</STRONG>er	p<STRONG>o</STRONG>sition.  Onlyrth<STRONG>e</STRONG> pixel
+			 ownership test, the scissor test, and the
+			 stencil writemask affect these	write
+			 operations.
+
+	  The rasterization described thus far assumes pixel zoom
+	  factors of 1.0.  If
+	  <STRONG>glPixelZoom</STRONG> is used to change	the x and y pixel zoom
+	  factors, pixels are converted	to fragments as	follows.  If
+	  (x , y ) is the current raster position, and a given pixel
+	  isrin	<STRONG>t</STRONG>he ith	location in the	jth row	of the source pixel
+	  rectangle, then fragments are	generated for pixels whose
+	  centers are in the rectangle with corners at
+
+			     (x	+zoom i, y +zoom j)
+			       r     x	  r	y
+				      and
+			 (x +zoom (i+1), y +zoom (j+1))
+			   r	 x	  r	y
+	  where	zoom  is the value of <STRONG>GL_ZOOM_X</STRONG>	and zoom  is the value
+	  of <STRONG>GL_ZOOM_Y</STRONG>.					y
+
+     <STRONG>EXAMPLES</STRONG>
+	  To copy the color pixel in the lower left corner of the
+	  window to the	current	raster position, use glCopyPixels(0,
+	  0, 1,	1, <STRONG>GL_COLOR</STRONG>);
+
+     <STRONG>NOTES</STRONG>
+	  Modes	specified by <STRONG>glPixelStore</STRONG> have no effect on the
+	  operation of <STRONG>glCopyPixels</STRONG>.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>type</EM> is not an accepted
+	  value.
+
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if either <EM>width</EM>	or <EM>height</EM> is
+	  negative.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <EM>type</EM> is <STRONG>GL_DEPTH</STRONG>	and
+	  there	is no depth buffer.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <EM>type</EM> is <STRONG>GL_STENCIL</STRONG> and
+	  there	is no stencil buffer.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glCopyPixels</STRONG> is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_CURRENT_RASTER_POSITION</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_CURRENT_RASTER_POSITION_VALID</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glDepthFunc</STRONG>, <STRONG>glDrawBuffer</STRONG>, <STRONG>glDrawPixels</STRONG>, <STRONG>glPixelMap</STRONG>,
+	  <STRONG>glPixelTransfer</STRONG>, <STRONG>glPixelZoom</STRONG>,	<STRONG>glRasterPos</STRONG>, <STRONG>glReadBuffer</STRONG>,
+	  <STRONG>glReadPixels</STRONG>,	<STRONG>glStencilFunc</STRONG>
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>gluLookAt</STRONG> - define a viewing transformation
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>gluLookAt</STRONG>( GLdouble <EM>eyeX</EM>,
+			  GLdouble <EM>eyeY</EM>,
+			  GLdouble <EM>eyeZ</EM>,
+			  GLdouble <EM>centerX</EM>,
+			  GLdouble <EM>centerY</EM>,
+			  GLdouble <EM>centerZ</EM>,
+			  GLdouble <EM>upX</EM>,
+			  GLdouble <EM>upY</EM>,
+			  GLdouble <EM>upZ</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>eyeX</EM>,	<EM>eyeY</EM>, <EM>eyeZ</EM>
+			  Specifies the	position of the	eye point.
+
+	  <EM>centerX</EM>, <EM>centerY</EM>, <EM>centerZ</EM>
+			  Specifies the	position of the	reference
+			  point.
+
+	  <EM>upX</EM>, <EM>upY</EM>, <EM>upZ</EM>	  Specifies the	direction of the <EM>up</EM> vector.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>gluLookAt</STRONG> creates a viewing matrix derived from an eye
+	  point, a reference point indicating the center of the	scene,
+	  and an <EM>UP</EM> vector.
+
+	  The matrix maps the reference	point to the negative <EM>z</EM>	axis
+	  and the eye point to the origin.  When a typical projection
+	  matrix is used, the center of	the scene therefore maps to
+	  the center of	the viewport.  Similarly, the direction
+	  described by the <EM>UP</EM> vector projected onto the	viewing	plane
+	  is mapped to the positive <EM>y</EM> axis so that it points upward in
+	  the viewport.	 The <EM>UP</EM>	vector must not	be parallel to the
+	  line of sight	from the eye point to the reference point.
+
+	  Let
+
+	      (	centerX	  -   eyeX  )
+	  F = |			    |
+	      |	centerY	  -   eyeY  |
+	      (	centerZ	  -   eyeZ  )
+
+	  Let <EM>UP</EM> be the	vector (upX,upY,upZ).
+
+	  Then normalize as follows: f = __<STRONG>_</STRONG>__
+					 ||F||
+
+	  UP' =	__<STRONG>__</STRONG>__
+		||UP||
+
+	  Finally, let s = f x UP', and	u = s x	f.
+
+	  M is then constructed	as follows:
+	      (	s[0]   s[1]   s[2]  0  )
+	      |	u[0]   u[1]   u[2]  0  |
+	  M = |			       |
+	      |-f[0]  -f[1]  -f[2]  0  |
+	      |	 0	0      0    1  |
+	      (			       )
+	  and <STRONG>gluLookAt</STRONG>	is equivalent to glMultMatrixf(M);
+	  glTranslated (-eyex, -eyey, -eyez);
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glFrustum</STRONG>, <STRONG>gluPerspective</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

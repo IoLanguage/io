@@ -1,0 +1,85 @@
+v1.0 Purpose
+------------
+ - A real project using Io
+	- Helps Io stabilise
+		- Lots of bugs in Io will be fixed along the way
+		- Identify areas where Io is weak
+ - Simple diagramming tool
+	- possibly for brain storming sessions
+ - Diagrams for on-screen display rather than print display
+ - Create the ground work for a shareware app
+ - A quick success
+
+v1.0 Principles
+---------------
+ - Dead simple interface
+ - Short time frame
+ - Iterative/Multiple versions (v1.0, v2.0, v3.0...)
+ - Any profits are split evenly
+ - 
+
+Vision
+------
+ - A cool little on-screen diagramming tool which in an iteration or two will be
+	 sold as a small shareware app.
+ - Many small advancements made to Io.
+ - Io in better shape than it is now.
+ - Aware of more deficiencies in Io.
+
+
+Features in v1.0
+----------------
+ - Boxes
+	- Square
+	- With boarder
+	- Contain Labels
+ - Labels
+	- Single line labels
+ - Lines
+	- Straight lines from centre of one box, to the centre of the other
+ - Arrows on line ends
+ - Editing
+	- Creating box (double-click on background)
+	- Moving (click'n'drag)
+	- Resizing (???)
+	- Linking boxes (ctrl-click'n'drag from first box to second box)
+	- Removing links between boxes (select link; press delete key)
+	- Editing Box label (double-click on box) [Or only on label?]
+	- Toggling arrows on one end of a line (double click to toggle)
+ - Selection
+	- Multiple Selection
+	- Shift-click to toggle item's membership in selection
+	- Shift-drag to add items touched by the selection region to the selection
+		- no way to remove all items within a region from selection
+ - Load/Save Diagrams
+ - Runs on OSX and Linux
+ - Grid
+	- Toggle grid visibility
+	- Always snap to grid
+
+To Resolve
+----------
+ - Interface for loading and saving
+	- How does the user trigger a load?
+	- How does the user trigger a save?
+ - Able to change grid divisions?
+ - Able to change label's text size?
+ - Able to give the diagram a name? (Maybe the name of the saved file?)
+	- displayed on screen somewhere
+ - Should another box/line intersection rules be used in v1.0?
+
+Features maybe in v1.0 (can be dropped)
+---------------------------------------
+ - Full screen
+
+Features not in v1.0
+--------------------
+ - Export/Save to other image formats
+ - Standalone program with a single exe
+ - Multi-line labels
+ - Curved lines
+ - Line segments/points on lines
+ - Lines anchoring to points other than the centre of the box
+
+Features in v2.0
+----------------

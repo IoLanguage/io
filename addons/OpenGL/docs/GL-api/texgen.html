@@ -1,0 +1,214 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glTexGend,</STRONG> <STRONG>glTexGenf,</STRONG>	<STRONG>glTexGeni,</STRONG> <STRONG>glTexGendv,</STRONG> <STRONG>glTexGenfv,</STRONG>
+	  <STRONG>glTexGeniv</STRONG> - control the generation of texture coordinates
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glTexGend</STRONG>( GLenum <EM>coord</EM>,
+			  GLenum <EM>pname</EM>,
+			  GLdouble <EM>param</EM> )
+	  void <STRONG>glTexGenf</STRONG>( GLenum <EM>coord</EM>,
+			  GLenum <EM>pname</EM>,
+			  GLfloat <EM>param</EM>	)
+	  void <STRONG>glTexGeni</STRONG>( GLenum <EM>coord</EM>,
+			  GLenum <EM>pname</EM>,
+			  GLint	<EM>param</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>coord</EM>	  Specifies a texture coordinate.  Must	be one of
+		  <STRONG>GL_S</STRONG>,	<STRONG>GL_T</STRONG>, <STRONG>GL_R</STRONG>, or <STRONG>GL_Q</STRONG>.
+
+	  <EM>pname</EM>	  Specifies the	symbolic name of the texture-
+		  coordinate generation	function.  Must	be
+		  <STRONG>GL_TEXTURE_GEN_MODE</STRONG>.
+
+	  <EM>param</EM>	  Specifies a single-valued texture generation
+		  parameter, one of <STRONG>GL_OBJECT_LINEAR</STRONG>, <STRONG>GL_EYE_LINEAR</STRONG>,
+		  or <STRONG>GL_SPHERE_MAP</STRONG>.
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glTexGendv</STRONG>( GLenum <EM>coord</EM>,
+			   GLenum <EM>pname</EM>,
+			   const GLdouble *<EM>params</EM> )
+	  void <STRONG>glTexGenfv</STRONG>( GLenum <EM>coord</EM>,
+			   GLenum <EM>pname</EM>,
+			   const GLfloat *<EM>params</EM> )
+	  void <STRONG>glTexGeniv</STRONG>( GLenum <EM>coord</EM>,
+			   GLenum <EM>pname</EM>,
+			   const GLint *<EM>params</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>coord</EM>
+	       Specifies a texture coordinate.	Must be	one of <STRONG>GL_S</STRONG>,
+	       <STRONG>GL_T</STRONG>, <STRONG>GL_R</STRONG>, or <STRONG>GL_Q</STRONG>.
+
+	  <EM>pname</EM>
+	       Specifies the symbolic name of the texture-coordinate
+	       generation function or function parameters.  Must be
+	       <STRONG>GL_TEXTURE_GEN_MODE</STRONG>, <STRONG>GL_OBJECT_PLANE</STRONG>, or	<STRONG>GL_EYE_PLANE</STRONG>.
+
+	  <EM>params</EM>
+	       Specifies a pointer to an array of texture generation
+	       parameters.  If <EM>pname</EM> is	<STRONG>GL_TEXTURE_GEN_MODE</STRONG>, then the
+	       array must contain a single symbolic constant, one of
+	       <STRONG>GL_OBJECT_LINEAR</STRONG>, <STRONG>GL_EYE_LINEAR</STRONG>,	or <STRONG>GL_SPHERE_MAP</STRONG>.
+	       Otherwise, <EM>params</EM> holds the coefficients	for the
+	       texture-coordinate generation function specified	by
+	       <EM>pname</EM>.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glTexGen</STRONG> selects a texture-coordinate	generation function or
+	  supplies coefficients	for one	of the functions.  <EM>coord</EM> names
+	  one of the (<EM>s</EM>, <EM>t</EM>, <EM>r</EM>, <EM>q</EM>) texture coordinates; it must be one
+	  of the symbols <STRONG>GL_S</STRONG>, <STRONG>GL_T</STRONG>, <STRONG>GL_R</STRONG>, or <STRONG>GL_Q</STRONG>.  <EM>pname</EM> must	be one
+	  of three symbolic constants:	<STRONG>GL_TEXTURE_GEN_MODE</STRONG>,
+	  <STRONG>GL_OBJECT_PLANE</STRONG>, or <STRONG>GL_EYE_PLANE</STRONG>. If <EM>pname</EM> is
+	  <STRONG>GL_TEXTURE_GEN_MODE</STRONG>, then <EM>params</EM> chooses a mode, one of
+	  <STRONG>GL_OBJECT_LINEAR</STRONG>, <STRONG>GL_EYE_LINEAR</STRONG>, or <STRONG>GL_SPHERE_MAP</STRONG>. If	<EM>pname</EM>
+	  is either <STRONG>GL_OBJECT_PLANE</STRONG> or <STRONG>GL_EYE_PLANE</STRONG>, <EM>params</EM> contains
+	  coefficients for the corresponding texture generation
+	  function.
+
+	  If the texture generation function is	<STRONG>GL_OBJECT_LINEAR</STRONG>, the
+	  function
+
+			     g=p x +p y	+p z +p	w
+				1 o  2 o  3 o  4 o
+	  is used, where g is the value	computed for the coordinate
+	  named	in <EM>coord</EM>, p , p	, p , and p  are the four values
+	  supplied in <EM>param</EM><STRONG><</STRONG>EM>s</EM>, a<STRONG>n</STRONG>d x3, y	, z4, and w  are the object
+	  coordinates of the vertex<STRONG>.</STRONG>  T<STRONG>h</STRONG>is <STRONG>f</STRONG>unctionocan	be used, for
+	  example, to texture-map terrain using	sea level as a
+	  reference plane (defined by p	, p , p	, and p	). The
+	  altitude of a	terrain	vertex <STRONG>i</STRONG>s c<STRONG>o</STRONG>mpu<STRONG>t</STRONG>ed by t<STRONG>h</STRONG>e
+	  <STRONG>GL_OBJECT_LINEAR</STRONG> coordinate generation function as its
+	  distance from	sea level; that	altitude can then be used to
+	  index	the texture image to map white snow onto peaks and
+	  green	grass onto foothills.
+
+	  If the texture generation function is	<STRONG>GL_EYE_LINEAR</STRONG>, the
+	  function
+
+			 g=p ' x +p ' y	+p ' z +p ' w
+			    1	e  2   e  3   e	 4   e
+	  is used, where
+
+		   (p '	 p '  p	'  p ')=(p   p	 p   p ) M-1
+		     1	  2    3    4	  1   2	  3   4
+	  and x	, y , z	, and w	 are the eye coordinates of the
+	  verte<STRONG>x</STRONG>, pe, pe, p , a<STRONG>n</STRONG>d p  are the values supplied in
+	  <EM>params</EM>, a<STRONG>n</STRONG>d M2is <STRONG>t</STRONG>he mode<STRONG>l</STRONG>view matrix	when <STRONG>glTexGen</STRONG> is
+	  invoked.  If M is poorly conditioned or singular, texture
+	  coordinates generated	by the resulting function may be
+	  inaccurate or	undefined.
+
+	  Note that the	values in <EM>params</EM> define	a reference plane in
+	  eye coordinates. The modelview matrix	that is	applied	to
+	  them may not be the same one in effect when the polygon
+	  vertices are transformed. This function establishes a	field
+	  of texture coordinates that can produce dynamic contour
+	  lines	on moving objects.
+
+	  If <EM>pname</EM> is <STRONG>GL_SPHERE_MAP</STRONG> and	<EM>coord</EM> is either	<STRONG>GL_S</STRONG> or	<STRONG>GL_T</STRONG>,
+	  s and	t texture coordinates are generated as follows.	Let <EM>u</EM>
+	  be the unit vector pointing from the origin to the polygon
+	  vertex (in eye coordinates). Let <EM>n</EM> sup prime be the current
+	  normal, after	transformation to eye coordinates. Let
+
+			       f = (f	f   f )T
+	  be the reflection vector su<STRONG>c</STRONG>h	t<STRONG>h</STRONG>at z
+
+					  ' 'T
+				f = u -	2n n  u
+			      _______________
+	  Finally, let m = 2 |f	2+f 2+(f +1)2. Then the	values
+	  assigned to the s <STRONG>an</STRONG>dxt t<STRONG>e</STRONG>xtur<STRONG>e</STRONG> coordinates are
+
+				       <STRONG>__</STRONG>   <STRONG>_</STRONG>
+				   s = m  + 2
+				       f
+				   t = _<STRONG>_</STRONG> + <STRONG>_</STRONG>
+				       m    2
+	  To enable or disable a texture-coordinate generation
+	  function, call <STRONG>glEnable</STRONG> or <STRONG>glDisable</STRONG> with one	of the
+	  symbolic texture-coordinate names (<STRONG>GL_TEXTURE_GEN_S</STRONG>,
+	  <STRONG>GL_TEXTURE_GEN_T</STRONG>, <STRONG>GL_TEXTURE_GEN_R</STRONG>, or <STRONG>GL_TEXTURE_GEN_Q</STRONG>) as
+	  the argument.	When enabled, the specified texture coordinate
+	  is computed according	to the generating function associated
+	  with that coordinate.	When disabled, subsequent vertices
+	  take the specified texture coordinate	from the current set
+	  of texture coordinates. Initially, all texture generation
+	  functions are	set to <STRONG>GL_EYE_LINEAR</STRONG> and are disabled.	Both s
+	  plane	equations are (1, 0, 0,	0), both t plane equations are
+	  (0, 1, 0, 0),	and all	r and q	plane equations	are (0,	0, 0,
+	  0).
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated when <EM>coord</EM> or <EM>pname</EM> is not an
+	  accepted defined value, or when <EM>pname</EM>	is <STRONG>GL_TEXTURE_GEN_MODE</STRONG>
+	  and <EM>params</EM> is	not an accepted	defined	value.
+
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated when <EM>pname</EM> is
+	  <STRONG>GL_TEXTURE_GEN_MODE</STRONG>, <EM>params</EM> is <STRONG>GL_SPHERE_MAP</STRONG>,	and <EM>coord</EM> is
+	  either <STRONG>GL_R</STRONG> or <STRONG>GL_Q</STRONG>.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glTexGen</STRONG>	is executed
+	  between the execution	of <STRONG>glBegin</STRONG> and the corresponding
+	  execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGetTexGen</STRONG>
+	  <STRONG>glIsEnabled</STRONG> with argument <STRONG>GL_TEXTURE_GEN_S</STRONG>
+	  <STRONG>glIsEnabled</STRONG> with argument <STRONG>GL_TEXTURE_GEN_T</STRONG>
+	  <STRONG>glIsEnabled</STRONG> with argument <STRONG>GL_TEXTURE_GEN_R</STRONG>
+	  <STRONG>glIsEnabled</STRONG> with argument <STRONG>GL_TEXTURE_GEN_Q</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glCopyPixels</STRONG>,	<STRONG>glCopyTexImage2D</STRONG>, <STRONG>glCopyTexSubImage1D</STRONG>,
+	  <STRONG>glCopyTexSubImage2D</STRONG>, <STRONG>glTexEnv</STRONG>, <STRONG>glTexImage1D</STRONG>, <STRONG>glTexImage2D</STRONG>,
+	  <STRONG>glTexParameter</STRONG>, <STRONG>glTexSubImage1D</STRONG>, <STRONG>glTexSubImage2D</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

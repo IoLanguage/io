@@ -1,0 +1,68 @@
+// EIKECHO.RSS
+//
+// Copyright (c) 1997-1999 Symbian Ltd.  All rights reserved.
+//
+
+NAME io
+
+#include <eikon.rh>
+
+RESOURCE RSS_SIGNATURE { }
+
+RESOURCE TBUF16 { buf=""; }
+
+RESOURCE EIK_APP_INFO { hotkeys=r_cons_hotkeys; menubar=r_cons_menubar; cba=r_cons_cba; }
+
+RESOURCE HOTKEYS r_cons_hotkeys
+    {
+    control=
+        {
+        HOTKEY { command=EEikCmdExit; key='e'; }
+        };
+    }
+
+RESOURCE MENU_BAR r_cons_menubar
+    {
+    titles=
+        {
+        MENU_TITLE { menu_pane=r_cons_file_menu; txt="File"; },
+        MENU_TITLE { menu_pane=r_cons_extend_menu; txt="Extend"; }
+        };
+    }
+
+RESOURCE MENU_PANE r_cons_file_menu
+    {
+    items=
+        {
+       MENU_ITEM 
+			{ 
+			command=200; 
+			txt="Test";
+			},
+       MENU_ITEM 
+			{ 
+			command=EEikCmdExit; 
+			txt="Exit"; 
+			}
+        };
+    }
+
+RESOURCE MENU_PANE r_cons_extend_menu
+    {
+    }
+
+RESOURCE CBA r_cons_cba
+{
+	buttons =
+		{
+			CBA_BUTTON
+				{
+					id = EEikCmdExit;
+					txt = "Exit";
+				}
+		};
+}
+
+
+
+

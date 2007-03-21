@@ -1,0 +1,58 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>gluQuadricTexture</STRONG> - specify if texturing is desired for
+	  quadrics
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>gluQuadricTexture</STRONG>( GLUquadric* <EM>quad</EM>,
+				  GLboolean <EM>texture</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>quad</EM>	   Specifies the quadrics object (created with
+		   <STRONG>gluNewQuadric</STRONG>).
+
+	  <EM>texture</EM>  Specifies a flag indicating if texture coordinates
+		   should be generated.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>gluQuadricTexture</STRONG> specifies if texture coordinates should be
+	  generated for	quadrics rendered with <EM>quad</EM>.  If the value of
+	  <EM>texture</EM> is <STRONG>GL_TRUE</STRONG>, then texture coordinates are generated,
+	  and if <EM>texture</EM> is <STRONG>GL_FALSE</STRONG>, they are not.  The initial value
+	  is <STRONG>GL_FALSE</STRONG>.
+
+	  The manner in	which texture coordinates are generated
+	  depends upon the specific quadric rendered.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>gluNewQuadric</STRONG>, <STRONG>gluQuadricDrawStyle</STRONG>, <STRONG>gluQuadricNormals</STRONG>,
+	  <STRONG>gluQuadricOrientation</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

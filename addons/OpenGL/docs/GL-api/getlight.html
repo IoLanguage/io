@@ -1,0 +1,214 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glGetLightfv,</STRONG>	<STRONG>glGetLightiv</STRONG> - return light source parameter
+	  values
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glGetLightfv</STRONG>( GLenum <EM>light</EM>,
+			     GLenum <EM>pname</EM>,
+			     GLfloat *<EM>params</EM> )
+	  void <STRONG>glGetLightiv</STRONG>( GLenum <EM>light</EM>,
+			     GLenum <EM>pname</EM>,
+			     GLint *<EM>params</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>light</EM>	  Specifies a light source.  The number	of possible
+		  lights depends on the	implementation,	but at least
+		  eight	lights are supported.  They are	identified by
+		  symbolic names of the	form <STRONG>GL_LIGHT</STRONG>i where 0 <EM>&lt;</EM> i &lt;
+		  <STRONG>GL_MAX_LIGHTS</STRONG>.
+
+	  <EM>pname</EM>	  Specifies a light source parameter for <EM>light</EM>.
+		  Accepted symbolic names are <STRONG>GL_AMBIENT</STRONG>, <STRONG>GL_DIFFUSE</STRONG>,
+		  <STRONG>GL_SPECULAR</STRONG>, <STRONG>GL_POSITION</STRONG>, <STRONG>GL_SPOT_DIRECTION</STRONG>,
+		  <STRONG>GL_SPOT_EXPONENT</STRONG>, <STRONG>GL_SPOT_CUTOFF</STRONG>,
+		  <STRONG>GL_CONSTANT_ATTENUATION</STRONG>, <STRONG>GL_LINEAR_ATTENUATION</STRONG> , and
+		  <STRONG>GL_QUADRATIC_ATTENUATION</STRONG>.
+
+	  <EM>params</EM>  Returns the requested	data.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glGetLight</STRONG> returns in	<EM>params</EM> the value or values of a	light
+	  source parameter.  <EM>light</EM> names the light and is a symbolic
+	  name of the form <STRONG>GL_LIGHT</STRONG>i for 0<EM>&lt;</EM>i&lt;<STRONG>GL_MAX_LIGHTS</STRONG>, where
+	  <STRONG>GL_MAX_LIGHTS</STRONG>	is an implementation dependent constant	that
+	  is greater than or equal to eight.  <EM>pname</EM> specifies one of
+	  ten light source parameters, again by	symbolic name.
+
+	  The following	parameters are defined:
+
+	  <STRONG>GL_AMBIENT</STRONG>	      <EM>params</EM> returns four integer or
+			      floating-point values representing the
+			      ambient intensity	of the light source.
+			      Integer values, when requested, are
+			      linearly mapped from the internal
+			      floating-point representation such that
+			      1.0 maps to the most positive
+			      representable integer value, and -1.0
+			      maps to the most negative	representable
+			      integer value.  If the internal value is
+			      outside the range	[-1, 1], the
+			      corresponding integer return value is
+			      undefined. The initial value is (0, 0,
+			      0, 1).
+
+	  <STRONG>GL_DIFFUSE</STRONG>	      <EM>params</EM> returns four integer or
+			      floating-point values representing the
+			      diffuse intensity	of the light source.
+			      Integer values, when requested, are
+			      linearly mapped from the internal
+			      floating-point representation such that
+			      1.0 maps to the most positive
+			      representable integer value, and -1.0
+			      maps to the most negative	representable
+			      integer value.  If the internal value is
+			      outside the range	[-1, 1], the
+			      corresponding integer return value is
+			      undefined. The initial value for
+			      <STRONG>GL_LIGHT0</STRONG>	is (1, 1, 1, 1); for other
+			      lights, the initial value	is (0, 0, 0,
+			      0).
+
+	  <STRONG>GL_SPECULAR</STRONG>	      <EM>params</EM> returns four integer or
+			      floating-point values representing the
+			      specular intensity of the	light source.
+			      Integer values, when requested, are
+			      linearly mapped from the internal
+			      floating-point representation such that
+			      1.0 maps to the most positive
+			      representable integer value, and -1.0
+			      maps to the most negative	representable
+			      integer value.  If the internal value is
+			      outside the range	[-1, 1], the
+			      corresponding integer return value is
+			      undefined. The initial value for
+			      <STRONG>GL_LIGHT0</STRONG>	is (1, 1, 1, 1); for other
+			      lights, the initial value	is (0, 0, 0,
+			      0).
+
+	  <STRONG>GL_POSITION</STRONG>	      <EM>params</EM> returns four integer or
+			      floating-point values representing the
+			      position of the light source.  Integer
+			      values, when requested, are computed by
+			      rounding the internal floating-point
+			      values to	the nearest integer value.
+			      The returned values are those maintained
+			      in eye coordinates.  They	will not be
+			      equal to the values specified using
+			      <STRONG>glLight</STRONG>, unless the modelview matrix was
+			      identity at the time <STRONG>glLight</STRONG> was called.
+			      The initial value	is (0, 0, 1, 0).
+
+	  <STRONG>GL_SPOT_DIRECTION</STRONG>   <EM>params</EM> returns three integer or
+			      floating-point values representing the
+			      direction	of the light source.  Integer
+			      values, when requested, are computed by
+			      rounding the internal floating-point
+			      values to	the nearest integer value.
+			      The returned values are those maintained
+			      in eye coordinates.  They	will not be
+			      equal to the values specified using
+			      <STRONG>glLight</STRONG>, unless the modelview matrix was
+			      identity at the time <STRONG>glLight</STRONG> was called.
+			      Although spot direction is normalized
+			      before being used	in the lighting
+			      equation,	the returned values are	the
+			      transformed versions of the specified
+			      values prior to normalization. The
+			      initial value is (0, 0, -1).
+
+	  <STRONG>GL_SPOT_EXPONENT</STRONG>    <EM>params</EM> returns a single integer or
+			      floating-point value representing	the
+			      spot exponent of the light.  An integer
+			      value, when requested, is	computed by
+			      rounding the internal floating-point
+			      representation to	the nearest integer.
+			      The initial value	is 0.
+
+	  <STRONG>GL_SPOT_CUTOFF</STRONG>      <EM>params</EM> returns a single integer or
+			      floating-point value representing	the
+			      spot cutoff angle	of the light.  An
+			      integer value, when requested, is
+			      computed by rounding the internal
+			      floating-point representation to the
+			      nearest integer. The initial value is
+			      180.
+
+	  <STRONG>GL_CONSTANT_ATTENUATION</STRONG>
+			      <EM>params</EM> returns a single integer or
+			      floating-point value representing	the
+			      constant (not distance-related)
+			      attenuation of the light.	 An integer
+			      value, when requested, is	computed by
+			      rounding the internal floating-point
+			      representation to	the nearest integer.
+			      The initial value	is 1.
+
+	  <STRONG>GL_LINEAR_ATTENUATION</STRONG>
+			      <EM>params</EM> returns a single integer or
+			      floating-point value representing	the
+			      linear attenuation of the	light.	An
+			      integer value, when requested, is
+			      computed by rounding the internal
+			      floating-point representation to the
+			      nearest integer. The initial value is 0.
+
+	  <STRONG>GL_QUADRATIC_ATTENUATION</STRONG>
+			      <EM>params</EM> returns a single integer or
+			      floating-point value representing	the
+			      quadratic	attenuation of the light.  An
+			      integer value, when requested, is
+			      computed by rounding the internal
+			      floating-point representation to the
+			      nearest integer. The initial value is 0.
+
+     <STRONG>NOTES</STRONG>
+	  It is	always the case	that <STRONG>GL_LIGHT</STRONG>i = <STRONG>GL_LIGHT0</STRONG> + i.
+
+	  If an	error is generated, no change is made to the contents
+	  of <EM>params</EM>.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>light</EM>	or <EM>pname</EM> is not	an
+	  accepted value.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glGetLight</STRONG> is executed
+	  between the execution	of <STRONG>glBegin</STRONG> and the corresponding
+	  execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glLight</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

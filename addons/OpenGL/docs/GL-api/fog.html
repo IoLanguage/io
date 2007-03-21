@@ -1,0 +1,162 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glFogf,</STRONG> <STRONG>glFogi,</STRONG> <STRONG>glFogfv,</STRONG> <STRONG>glFogiv</STRONG> - specify fog parameters
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glFogf</STRONG>( GLenum <EM>pname</EM>,
+		       GLfloat <EM>param</EM> )
+	  void <STRONG>glFogi</STRONG>( GLenum <EM>pname</EM>,
+		       GLint <EM>param</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>pname</EM>	  Specifies a single-valued fog	parameter.
+		  <STRONG>GL_FOG_MODE</STRONG>, <STRONG>GL_FOG_DENSITY</STRONG>, <STRONG>GL_FOG_START</STRONG>,
+		  <STRONG>GL_FOG_END</STRONG>, and <STRONG>GL_FOG_INDEX</STRONG> are accepted.
+
+	  <EM>param</EM>	  Specifies the	value that <EM>pname</EM> will be set to.
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glFogfv</STRONG>(	GLenum <EM>pname</EM>,
+			const GLfloat *<EM>params</EM> )
+	  void <STRONG>glFogiv</STRONG>(	GLenum <EM>pname</EM>,
+			const GLint *<EM>params</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>pname</EM>
+	       Specifies a fog parameter.  <STRONG>GL_FOG_MODE</STRONG>,
+	       <STRONG>GL_FOG_DENSITY</STRONG>, <STRONG>GL_FOG_START</STRONG>, <STRONG>GL_FOG_END</STRONG>, <STRONG>GL_FOG_INDEX</STRONG>,
+	       and <STRONG>GL_FOG_COLOR</STRONG>	are accepted.
+
+	  <EM>params</EM>
+	       Specifies the value or values to	be assigned to <EM>pname</EM>.
+	       <STRONG>GL_FOG_COLOR</STRONG> requires an	array of four values.  All
+	       other parameters	accept an array	containing only	a
+	       single value.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  Fog is initially disabled.  While enabled, fog affects
+	  rasterized geometry, bitmaps,	and pixel blocks, but not
+	  buffer clear operations. To enable and disable fog, call
+	  <STRONG>glEnable</STRONG> and <STRONG>glDisable</STRONG> with argument <STRONG>GL_FOG</STRONG>.
+
+	  <STRONG>glFog</STRONG>	assigns	the value or values in <EM>params</EM> to the fog
+	  parameter specified by <EM>pname</EM>.	 The following values are
+	  accepted for <EM>pname</EM>:
+
+	  <STRONG>GL_FOG_MODE</STRONG>	      <EM>params</EM> is	a single integer or floating-
+			      point value that specifies the equation
+			      to be used to compute the	fog blend
+			      factor, f.  Three	symbolic constants are
+			      accepted:	 <STRONG>GL_LINEAR</STRONG>, <STRONG>GL_EXP</STRONG>, and
+			      <STRONG>GL_EXP2</STRONG>.	The equations corresponding to
+			      these symbolic constants are defined
+			      below.  The initial fog mode is <STRONG>GL_EXP</STRONG>.
+
+	  <STRONG>GL_FOG_DENSITY</STRONG>      <EM>params</EM> is	a single integer or floating-
+			      point value that specifies density, the
+			      fog density used in both exponential fog
+			      equations.  Only nonnegative densities
+			      are accepted.  The initial fog density
+			      is 1.
+
+	  <STRONG>GL_FOG_START</STRONG>	      <EM>params</EM> is	a single integer or floating-
+			      point value that specifies start,	the
+			      near distance used in the	linear fog
+			      equation.	 The initial near distance is
+			      0.
+
+	  <STRONG>GL_FOG_END</STRONG>	      <EM>params</EM> is	a single integer or floating-
+			      point value that specifies end, the far
+			      distance used in the linear fog
+			      equation.	 The initial far distance is
+			      1.
+
+	  <STRONG>GL_FOG_INDEX</STRONG>	      <EM>params</EM> is	a single integer or floating-
+			      point value that specifies i , the fog
+			      color index.  The	initial	fo<STRONG>g</STRONG> index is
+			      0.
+
+	  <STRONG>GL_FOG_COLOR</STRONG>	      <EM>params</EM> contains four integer or
+			      floating-point values that specify C ,
+			      the fog color.  Integer values are  f
+			      mapped linearly such that	the most
+			      positive representable value maps	to
+			      1.0, and the most	negative representable
+			      value maps to -1.0.  Floating-point
+			      values are mapped	directly.  After
+			      conversion, all color components are
+			      clamped to the range [0,1].  The initial
+			      fog color	is (0, 0, 0, 0).
+
+	  Fog blends a fog color with each rasterized pixel fragment's
+	  posttexturing	color using a blending factor f.  Factor f is
+	  computed in one of three ways, depending on the fog mode.
+	  Let z	be the distance	in eye coordinates from	the origin to
+	  the fragment being fogged.  The equation for <STRONG>GL_LINEAR</STRONG> fog
+	  is
+
+				f = __<STRONG>___</STRONG>_<STRONG>_</STRONG>_<STRONG>_</STRONG>__
+				    end	- start
+
+	  The equation for <STRONG>GL_EXP</STRONG> fog is
+
+			    f =	e**(-(density .	z))
+
+
+	  The equation for <STRONG>GL_EXP2</STRONG> fog is
+
+			   f = e**(-(density . z)**2)
+
+
+	  Regardless of	the fog	mode, f	is clamped to the range	[0,1]
+	  after	it is computed.	 Then, if the GL is in RGBA color
+	  mode,	the fragment's color C	is replaced by
+				      r
+			       C ' = fC	+(1-f)C
+				r      r       f
+	  In color index mode, the fragment's color index i  is
+	  replaced by					   r
+
+				i ' = i	+(1-f)i
+				 r     r       f
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>pname</EM>	is not an accepted
+	  value, or if <EM>pname</EM> is	<STRONG>GL_FOG_MODE</STRONG> and	<EM>params</EM> is not an
+	  accepted value.
+
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if <EM>pname</EM> is <STRONG>GL_FOG_DENSITY</STRONG>,
+	  and <EM>params</EM> is	negative.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glFog</STRONG> is	executed
+	  between the execution	of <STRONG>glBegin</STRONG> and the corresponding
+	  execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glIsEnabled</STRONG> with argument <STRONG>GL_FOG</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_FOG_COLOR</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_FOG_INDEX</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_FOG_DENSITY</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_FOG_START</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_FOG_END</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_FOG_MODE</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glEnable</STRONG>
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,332 @@
+
+<HTML><HEAD><TITLE>Manpage of glutInitDisplayString</TITLE>
+</HEAD><BODY>
+<H1>glutInitDisplayString</H1>
+Section: GLUT (3GLUT)<BR>Updated: 3.7<BR><A HREF="#index">Index</A>
+<A HREF="">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+glutInitDisplayString - sets the initial display mode via a string. 
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNTAX</H2>
+
+<PRE>
+
+void glutInitDisplayString(char *string);
+</PRE>
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>ARGUMENTS</H2>
+
+<DL COMPACT>
+<DT><I>string</I><DD>
+Display mode description string, see below.
+</DL>
+<A NAME="lbAE">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+The initial display mode description string is used when creating top-level windows,
+subwindows, and overlays to determine the OpenGL display mode for
+the to-be-created window or overlay. 
+
+The string is a list of zero or more capability descriptions separated by
+spaces and tabs.  Each capability description is a capability name that
+is optionally followed by a comparator and a numeric value.  For
+example, &quot;double&quot; and &quot;depth&gt;=12&quot; are both valid criteria.
+
+The capability descriptions are translated into a set of criteria
+used to select the appropriate frame buffer configuration.
+
+The criteria are matched in
+strict left to right order of precdence.  That is, the first specified
+criteria (leftmost) takes precedence over the later criteria for non-exact
+criteria (greater than, less than, etc. comparators).  Exact
+criteria (equal, not equal compartors) must match exactly so precedence is
+not relevant.
+
+The numeric value is an integer that is parsed according to ANSI C's
+strtol(str, strptr, 0) behavior.  This means that decimal, octal
+(leading 0), and hexidecimal values (leading 0x) are accepeted.
+
+The valid compartors are:
+<DL COMPACT>
+<DT><B>=</B>
+
+<DD>
+Equal.
+<DT><B>!=</B>
+
+<DD>
+Not equal.
+<DT><B>&lt;</B>
+
+<DD>
+Less than and preferring larger difference (the least is best).
+<DT><B>&gt;</B>
+
+<DD>
+Greeater than and preferring larger differences (the most is best).
+<DT><B>&lt;=</B>
+
+<DD>
+Less than or equal and preferring larger difference (the least is best).
+<DT><B>&gt;=</B>
+
+<DD>
+Greater than or equal and preferring more instead of less.
+This comparator is useful for allocating resources like color
+precsion or depth buffer precision where the maximum precison
+is generally preferred.  Contrast with the tilde (~) comprator.
+<DT><B>~</B>
+
+<DD>
+Greater than or equal but preferring less instead of more.  This
+compartor is useful for allocating resources such as stencil bits or
+auxillary color buffers where you would rather not over allocate.
+
+When the compartor and numeric value are not specified, each
+capability name has a different default (one default is to require
+a a compartor and numeric value).
+
+</DL>
+<P>
+
+The valid capability names are:
+<DL COMPACT>
+<DT><B>alpha </B>
+
+<DD>
+Alpha color buffer precision in bits.
+Default is &quot;&gt;=1&quot;.
+<DT><B>acca</B>
+
+<DD>
+Red, green, blue, and alpha accumulation buffer precision in bits.
+Default is &quot;&gt;=1&quot; for red, green, blue, and alpha capabilities.
+<DT><B>acc</B>
+
+<DD>
+Red, green, and green accumulation buffer precision in bits and zero
+bits of alpha accumulation buffer precision.
+Default is &quot;&gt;=1&quot; for red, green, and blue capabilities, and 
+&quot;~0&quot; for the alpha capability.
+<DT><B>blue</B>
+
+<DD>
+Blue color buffer precision in bits.
+Default is &quot;&gt;=1&quot;.
+<DT><B>buffer</B>
+
+<DD>
+Number of bits in the color index color buffer.
+Default is &quot;&gt;=1&quot;.
+<DT><B>conformant</B>
+
+<DD>
+Boolean indicating if the frame buffer configuration is conformant or
+not.  Conformance information is based on GLX's EXT_visual_rating
+extension if supported.  If the extension is not supported, all visuals
+are assumed conformat.
+Default is &quot;=1&quot;.
+<DT><B>depth</B>
+
+<DD>
+Number of bits of precsion in the depth buffer.
+Default is &quot;&gt;=12&quot;.
+<DT><B>double</B>
+
+<DD>
+Boolean indicating if the color buffer is double buffered.
+Default is &quot;=1&quot;.
+<DT><B>green</B>
+
+<DD>
+Green color buffer precision in bits.
+Default is &quot;&gt;=1&quot;.
+<DT><B>index</B>
+
+<DD>
+Boolean if the color model is color index or not.  True is color index.
+Default is &quot;&gt;=1&quot;.
+<DT><B>num</B>
+
+<DD>
+A special capability name indicating where the value represents the
+Nth frame buffer configuration matching the description string.
+When not specified, glutInitDisplayString also returns the first
+(best matching) configuration.  num requires a compartor and
+numeric value.
+<DT><B>red</B>
+
+<DD>
+Red color buffer precision in bits.
+Default is &quot;&gt;=1&quot;.
+<DT><B>rgba</B>
+
+<DD>
+Number of bits of red, green, blue, and alpha in the RGBA color buffer.
+Default is &quot;&gt;=1&quot; for red, green, blue, and alpha capabilities,
+and &quot;=1&quot; for the RGBA color model capability.
+<DT><B>rgb</B>
+
+<DD>
+Number of bits of red, green, and blue in the RGBA color buffer and
+zero bits of alpha color buffer precision.
+Default is &quot;&gt;=1&quot; for the red, green, and blue capabilities, and &quot;~0&quot; for 
+alpha capability, and &quot;=1&quot; for the RGBA color model capability.
+<DT><B>luminance</B>
+
+<DD>
+Number of bits of red in the RGBA and zero bits of green, blue (alpha
+not specified) of color buffer precision.
+Default is &quot;&gt;=1&quot; for the red capabilitis, and &quot;=0&quot; for the
+green and blue capabilities, and &quot;=1&quot; for the RGBA color model
+capability, and, for X11, &quot;=1&quot; for the StaticGray (&quot;xstaticgray&quot;)
+capability.
+
+SGI InfiniteReality (and other future machines) support a 16-bit
+luminance (single channel) display mode (an additional 16-bit alpha
+channel can also be requested).  The red channel maps to gray scale and
+green and blue channels are not available.  A 16-bit precision
+luminance display mode is often appropriate for medical imaging
+applications.  Do not expect many machines to support extended
+precision luminance display modes.
+<DT><B>stencil</B>
+
+<DD>
+Number of bits in the stencil buffer.
+<DT><B>single</B>
+
+<DD>
+Boolean indicate the color buffer is single buffered.
+Double buffer capability &quot;=1&quot;.
+<DT><B>stereo</B>
+
+<DD>
+Boolean indicating the color buffer is supports OpenGL-style stereo.
+Default is &quot;=1&quot;.
+<DT><B>samples</B>
+
+<DD>
+Indicates the number of multisamples to use based on GLX's
+SGIS_multisample extension (for antialiasing).
+Default is &quot;&lt;=4&quot;.  This default means that a GLUT application can
+request multipsampling if available by simply specifying &quot;samples&quot;.
+<DT><B>slow</B>
+
+<DD>
+Boolean indicating if the frame buffer configuration is slow or
+not.  Slowness information is based on GLX's EXT_visual_rating
+extension if supported.  If the extension is not supported, all visuals
+are assumed fast.  Note that slowness is a relative designation relative
+to other frame buffer configurations available.  The intent of the
+slow capability is to help programs avoid frame buffer configurations
+that are slower (but perhaps higher precision) for the current machine.
+Default is &quot;&gt;=0&quot;.  This default means that slow visuals are used in
+preference to fast visuals, but fast visuals will still be allowed.
+<DT><B>win32pfd</B>
+
+<DD>
+Only recognized on GLUT implementations for Win32, this capability
+name matches the Win32 Pixel Format Descriptor by numer.  win32pfd
+requires a compartor and numeric value.
+<DT><B>xvisual</B>
+
+<DD>
+Only recongized on GLUT implementations for the X Window System, this
+capability name matches the X visual ID by number.
+xvisual requires a compartor and numeric value.
+<DT><B>xstaticgray</B>
+
+<DD>
+Only recongized on GLUT implementations for the X Window System,
+boolean indicating if the frame buffer configuration's X visual is
+of type StaticGray.
+Default is &quot;=1&quot;.
+<DT><B>xgrayscale</B>
+
+<DD>
+Only recongized on GLUT implementations for the X Window System,
+boolean indicating if the frame buffer configuration's X visual is
+of type GrayScale.
+Default is &quot;=1&quot;.
+<DT><B>xstaticcolor</B>
+
+<DD>
+Only recongized on GLUT implementations for the X Window System,
+boolean indicating if the frame buffer configuration's X visual is
+of type StaticColor.
+Default is &quot;=1&quot;.
+<DT><B>xpseudocolor</B>
+
+<DD>
+Only recongized on GLUT implementations for the X Window System,
+boolean indicating if the frame buffer configuration's X visual is
+of type PsuedoColor.
+Default is &quot;=1&quot;.
+<DT><B>xtruecolor</B>
+
+<DD>
+Only recongized on GLUT implementations for the X Window System,
+boolean indicating if the frame buffer configuration's X visual is
+of type TrueColor.
+Default is &quot;=1&quot;.
+<DT><B>xdirectcolor</B>
+
+<DD>
+Only recongized on GLUT implementations for the X Window System,
+boolean indicating if the frame buffer configuration's X visual is
+of type DirectColor.
+Default is &quot;=1&quot;.
+</DL>
+<P>
+
+Unspecifed capability descriptions will result in unspecified
+criteria being generated.  These unspecified criteria help
+glutInitDisplayString behave sensibly with terse
+display mode description strings.
+<A NAME="lbAF">&nbsp;</A>
+<H2>EXAMPLE</H2>
+
+Here is an examples using glutInitDisplayString:
+<PRE>
+
+  glutInitDisplayString(&quot;stencil~2 rgb double depth&gt;=16 samples&quot;);
+
+</PRE>
+
+The above call requests a window with an RGBA color model (but requesting
+no bits of alpha), a depth buffer with at least 16 bits of precsion but
+preferring more, mutlisampling
+if available, and at least 2 bits of stencil (favoring less stencil
+to more as long as 2 bits are available).
+<A NAME="lbAG">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+glutInit, glutCreateWindow, glutInitDisplayMode
+<A NAME="lbAH">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Mark J. Kilgard (<A HREF="mailto:mjk@nvidia.com">mjk@nvidia.com</A>)
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNTAX</A><DD>
+<DT><A HREF="#lbAD">ARGUMENTS</A><DD>
+<DT><A HREF="#lbAE">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAF">EXAMPLE</A><DD>
+<DT><A HREF="#lbAG">SEE ALSO</A><DD>
+<DT><A HREF="#lbAH">AUTHOR</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="">man2html</A>,
+using the manual pages.<BR>
+Time: 19:05:09 GMT, September 15, 2003
+</BODY>
+</HTML>

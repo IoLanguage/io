@@ -1,0 +1,2 @@
+include ../../Makefile.lib
+CFLAGS += -DBUILDING_COLLECTOR_DLL $(IOVMALLFLAGS)

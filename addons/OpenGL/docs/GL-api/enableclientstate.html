@@ -1,0 +1,111 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glEnableClientState,</STRONG> <STRONG>glDisableClientState</STRONG> - enable or
+	  disable client-side capability
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glEnableClientState</STRONG>( GLenum <EM>cap</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>cap</EM>  Specifies the capability	to enable.  Symbolic constants
+	       <STRONG>GL_COLOR_ARRAY</STRONG>, <STRONG>GL_EDGE_FLAG_ARRAY</STRONG>, <STRONG>GL_INDEX_ARRAY</STRONG>,
+	       <STRONG>GL_NORMAL_ARRAY</STRONG>,	<STRONG>GL_TEXTURE_COORD_ARRAY</STRONG>,	and
+	       <STRONG>GL_VERTEX_ARRAY</STRONG> are accepted.
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glDisableClientState</STRONG>( GLenum <EM>cap</EM>	)
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>cap</EM>  Specifies the capability	to disable.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glEnableClientState</STRONG> and <STRONG>glDisableClientState</STRONG> enable or
+	  disable individual client-side capabilities. By default, all
+	  client-side capabilities are disabled.  Both
+	  <STRONG>glEnableClientState</STRONG> and <STRONG>glDisableClientState</STRONG> take a single
+	  argument, <EM>cap</EM>, which can assume one of the following values:
+
+	  <STRONG>GL_COLOR_ARRAY</STRONG>	   If enabled, the color array is
+				   enabled for writing and used	during
+				   rendering when <STRONG>glDrawArrays</STRONG> or
+				   <STRONG>glDrawElement</STRONG> is called. See
+				   <STRONG>glColorPointer</STRONG>.
+
+	  <STRONG>GL_EDGE_FLAG_ARRAY</STRONG>	   If enabled, the edge	flag array is
+				   enabled for writing and used	during
+				   rendering when <STRONG>glDrawArrays</STRONG> or
+				   <STRONG>glDrawElements</STRONG> is called. See
+				   <STRONG>glEdgeFlagPointer</STRONG>.
+
+	  <STRONG>GL_INDEX_ARRAY</STRONG>	   If enabled, the index array is
+				   enabled for writing and used	during
+				   rendering when <STRONG>glDrawArrays</STRONG> or
+				   <STRONG>glDrawElements</STRONG> is called. See
+				   <STRONG>glIndexPointer</STRONG>.
+
+	  <STRONG>GL_NORMAL_ARRAY</STRONG>	   If enabled, the normal array	is
+				   enabled for writing and used	during
+				   rendering when <STRONG>glDrawArrays</STRONG> or
+				   <STRONG>glDrawElements</STRONG> is called. See
+				   <STRONG>glNormalPointer</STRONG>.
+
+	  <STRONG>GL_TEXTURE_COORD_ARRAY</STRONG>   If enabled, the texture coordinate
+				   array is enabled for	writing	and
+				   used	for rendering when
+				   <STRONG>glDrawArrays</STRONG>	or <STRONG>glDrawElements</STRONG> is
+				   called. See <STRONG>glTexCoordPointer</STRONG>.
+
+	  <STRONG>GL_VERTEX_ARRAY</STRONG>	   If enabled, the vertex array	is
+				   enabled for writing and used	during
+				   rendering when <STRONG>glDrawArrays</STRONG> or
+				   <STRONG>glDrawElements</STRONG> is called. See
+				   <STRONG>glVertexPointer</STRONG>.
+
+     <STRONG>NOTES</STRONG>
+	  <STRONG>glEnableClientState</STRONG> is available only	if the GL version is
+	  1.1 or greater.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>cap</EM> is not an	accepted
+	  value.
+
+	  <STRONG>glEnableClientState</STRONG> is not allowed between the execution of
+	  <STRONG>glBegin</STRONG> and the corresponding	<STRONG>glEnd</STRONG>, but an error may	or may
+	  not be generated. If no error	is generated, the behavior is
+	  undefined.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glArrayElement</STRONG>, <STRONG>glColorPointer</STRONG>, <STRONG>glDrawArrays</STRONG>,
+	  <STRONG>glDrawElements</STRONG>, <STRONG>glEdgeFlagPointer</STRONG>, <STRONG>glEnable</STRONG>, <STRONG>glGetPointerv</STRONG>,
+	  <STRONG>glIndexPointer</STRONG>, <STRONG>glInterleavedArrays</STRONG>, <STRONG>glNormalPointer</STRONG>,
+	  <STRONG>glTexCoordPointer</STRONG>, <STRONG>glVertexPointer</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

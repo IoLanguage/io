@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glDepthFunc</STRONG> -	specify	the value used for depth buffer
+	  comparisons
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glDepthFunc</STRONG>( GLenum <EM>func</EM>	)
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>func</EM>	Specifies the depth comparison function.  Symbolic
+		constants <STRONG>GL_NEVER</STRONG>, <STRONG>GL_LESS</STRONG>, <STRONG>GL_EQUAL</STRONG>, <STRONG>GL_LEQUAL</STRONG>,
+		<STRONG>GL_GREATER</STRONG>, <STRONG>GL_NOTEQUAL</STRONG>, <STRONG>GL_GEQUAL</STRONG>, and	<STRONG>GL_ALWAYS</STRONG> are
+		accepted.  The initial value is	<STRONG>GL_LESS</STRONG>.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glDepthFunc</STRONG> specifies	the function used to compare each
+	  incoming pixel depth value with the depth value present in
+	  the depth buffer.  The comparison is performed only if depth
+	  testing is enabled.  (See <STRONG>glEnable</STRONG> and <STRONG>glDisable</STRONG> of
+	  <STRONG>GL_DEPTH_TEST</STRONG>.)
+
+	  <EM>func</EM> specifies the conditions	under which the	pixel will be
+	  drawn.  The comparison functions are as follows:
+
+	  <STRONG>GL_NEVER</STRONG>	  Never	passes.
+
+	  <STRONG>GL_LESS</STRONG>	  Passes if the	incoming depth value is	less
+			  than the stored depth	value.
+
+	  <STRONG>GL_EQUAL</STRONG>	  Passes if the	incoming depth value is	equal
+			  to the stored	depth value.
+
+	  <STRONG>GL_LEQUAL</STRONG>	  Passes if the	incoming depth value is	less
+			  than or equal	to the stored depth value.
+
+	  <STRONG>GL_GREATER</STRONG>	  Passes if the	incoming depth value is
+			  greater than the stored depth	value.
+
+	  <STRONG>GL_NOTEQUAL</STRONG>	  Passes if the	incoming depth value is	not
+			  equal	to the stored depth value.
+
+	  <STRONG>GL_GEQUAL</STRONG>	  Passes if the	incoming depth value is
+			  greater than or equal	to the stored depth
+			  value.
+
+	  <STRONG>GL_ALWAYS</STRONG>	  Always passes.
+
+	  The initial value of <EM>func</EM> is <STRONG>GL_LESS</STRONG>.	 Initially, depth
+	  testing is disabled.	Even if	the depth buffer exists	and
+	  the depth mask is non-zero, the depth	buffer is not updated
+	  if the depth test is disabled.
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>func</EM> is not an accepted
+	  value.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glDepthFunc</STRONG> is executed
+	  between the execution	of <STRONG>glBegin</STRONG> and the corresponding
+	  execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_DEPTH_FUNC</STRONG>
+	  <STRONG>glIsEnabled</STRONG> with argument <STRONG>GL_DEPTH_TEST</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glDepthRange</STRONG>,	<STRONG>glEnable</STRONG>, <STRONG>glPolygonOffset</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

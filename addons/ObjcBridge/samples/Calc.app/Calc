@@ -1,0 +1,58 @@
+#! /usr/bin/env io
+
+ObjcBridge autoLookupClassNamesOn
+
+buffer := ""
+memory := 0.0
+operator := ""
+
+NSObject newSubclassNamed:("Controller") do(
+	addVariableNamed:("output")
+	add: := method(sender,
+		self compute:(sender)
+		operator = "+"
+	)
+	compute: := method(sender,
+		if(operator == "", memory = self output doubleValue)
+		if(operator == "+", memory = memory + self output doubleValue)
+		if(operator == "-", memory = memory - self output doubleValue)
+		if(operator == "*", memory = memory * self output doubleValue)
+		if(operator == "/", memory = memory / self output doubleValue)
+		if(operator == "sqrt", memory = self output doubleValue sqrt)
+		self output setFloatValue:(memory)
+		operator = ""
+		buffer = ""
+	)
+	clear: := method(sender,
+		self output setFloatValue:(0.0)
+		buffer = ""
+		memory = 0
+	)
+	digit: := method(sender,
+		buffer = buffer .. sender tag
+		self output setStringValue:(buffer)
+	)
+	div: := method(sender,
+		self compute:(sender)
+		operator = "/"
+	)
+	dot: := method(sender,
+		buffer = buffer .. "."
+		self output setStringValue:(buffer)
+	)
+	mul: := method(sender,
+		self compute:(sender)
+		operator = "*"
+	)
+	sub: := method(sender,
+		self compute:(sender)
+		operator = "-"
+	)
+	sqrt: := method(sender,
+		operator = "sqrt"
+		self compute:(sender)
+	)
+	windowWillClose: := method(notification, NSApplication sharedApplication stop:(notification))
+)
+
+ObjcBridge main

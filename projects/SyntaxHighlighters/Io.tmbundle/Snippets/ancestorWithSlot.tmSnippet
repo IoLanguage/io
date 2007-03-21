@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string>ancestorWithSlot("${1:someSlot}")</string>
+	<key>name</key>
+	<string>ancestorWithSlot</string>
+	<key>scope</key>
+	<string>source.io</string>
+	<key>tabTrigger</key>
+	<string>ancestor</string>
+	<key>uuid</key>
+	<string>17BCA3E6-D55D-4C4B-83C4-27C1E7A41941</string>
+</dict>
+</plist>

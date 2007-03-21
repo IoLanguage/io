@@ -1,0 +1,58 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>gluQuadricCallback</STRONG> - define a	callback for a quadrics	object
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>gluQuadricCallback</STRONG>( GLUquadric* <EM>quad</EM>,
+				   GLenum <EM>which</EM>,
+				   GLvoid (*<EM>CallBackFunc</EM>)( )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>quad</EM>		Specifies the quadrics object (created with
+			<STRONG>gluNewQuadric</STRONG>).
+
+	  <EM>which</EM>		Specifies the callback being defined.  The
+			only valid value is <STRONG>GLU_ERROR</STRONG>.
+
+	  <EM>CallBackFunc</EM>	Specifies the function to be called.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>gluQuadricCallback</STRONG> is	used to	define a new callback to be
+	  used by a quadrics object.  If the specified callback	is
+	  already defined, then	it is replaced.	If <EM>CallBackFunc</EM>	is
+	  NULL,	then any existing callback is erased.
+
+	  The one legal	callback is <STRONG>GLU_ERROR</STRONG>:
+
+	  <STRONG>GLU_ERROR</STRONG>	 The function is called	when an	error is
+			 encountered. Its single argument is of	type
+			 GLenum, and it	indicates the specific error
+			 that occurred.	 Character strings describing
+			 these errors can be retrieved with the
+			 <STRONG>gluErrorString</STRONG>	call.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>gluErrorString</STRONG>, <STRONG>gluNewQuadric</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

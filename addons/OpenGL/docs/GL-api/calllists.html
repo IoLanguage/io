@@ -1,0 +1,163 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glCallLists</STRONG> -	execute	a list of display lists
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glCallLists</STRONG>( GLsizei <EM>n</EM>,
+			    GLenum <EM>type</EM>,
+			    const GLvoid *<EM>lists</EM>	)
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>n</EM>	 Specifies the number of display lists to be executed.
+
+	  <EM>type</EM>	 Specifies the type of values in <EM>lists</EM>.	 Symbolic
+		 constants <STRONG>GL_BYTE</STRONG>, <STRONG>GL_UNSIGNED_BYTE</STRONG>, <STRONG>GL_SHORT</STRONG>,
+		 <STRONG>GL_UNSIGNED_SHORT</STRONG>, <STRONG>GL_INT</STRONG>, <STRONG>GL_UNSIGNED_INT</STRONG>, <STRONG>GL_FLOAT</STRONG>,
+		 <STRONG>GL_2_BYTES</STRONG>, <STRONG>GL_3_BYTES</STRONG>, and <STRONG>GL_4_BYTES</STRONG>	are accepted.
+
+	  <EM>lists</EM>	 Specifies the address of an array of name offsets in
+		 the display list.  The	pointer	type is	void because
+		 the offsets can be bytes, shorts, ints, or floats,
+		 depending on the value	of <EM>type</EM>.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glCallLists</STRONG> causes each display list in the list of names
+	  passed as <EM>lists</EM> to be	executed.  As a	result,	the commands
+	  saved	in each	display	list are executed in order, just as if
+	  they were called without using a display list.  Names	of
+	  display lists	that have not been defined are ignored.
+
+	  <STRONG>glCallLists</STRONG> provides an efficient means for executing	more
+	  than one display list.  <EM>type</EM> allows lists with various name
+	  formats to be	accepted.  The formats are as follows:
+
+	  <STRONG>GL_BYTE</STRONG>		   <EM>lists</EM> is treated as an array	of
+				   signed bytes, each in the range
+				   -128	through	127.
+
+	  <STRONG>GL_UNSIGNED_BYTE</STRONG>	   <EM>lists</EM> is treated as an array	of
+				   unsigned bytes, each	in the range 0
+				   through 255.
+
+	  <STRONG>GL_SHORT</STRONG>		   <EM>lists</EM> is treated as an array	of
+				   signed two-byte integers, each in
+				   the range -32768 through 32767.
+
+	  <STRONG>GL_UNSIGNED_SHORT</STRONG>	   <EM>lists</EM> is treated as an array	of
+				   unsigned two-byte integers, each in
+				   the range 0 through 65535.
+
+	  <STRONG>GL_INT</STRONG>		   <EM>lists</EM> is treated as an array	of
+				   signed four-byte integers.
+
+	  <STRONG>GL_UNSIGNED_INT</STRONG>	   <EM>lists</EM> is treated as an array	of
+				   unsigned four-byte integers.
+
+	  <STRONG>GL_FLOAT</STRONG>		   <EM>lists</EM> is treated as an array	of
+				   four-byte floating-point values.
+
+	  <STRONG>GL_2_BYTES</STRONG>		   <EM>lists</EM> is treated as an array	of
+				   unsigned bytes.  Each pair of bytes
+				   specifies a single display-list
+				   name.  The value of the pair	is
+				   computed as 256 times the unsigned
+				   value of the	first byte plus	the
+				   unsigned value of the second	byte.
+
+	  <STRONG>GL_3_BYTES</STRONG>		   <EM>lists</EM> is treated as an array	of
+				   unsigned bytes.  Each triplet of
+				   bytes specifies a single display-
+				   list	name.  The value of the
+				   triplet is computed as 65536	times
+				   the unsigned	value of the first
+				   byte, plus 256 times	the unsigned
+				   value of the	second byte, plus the
+				   unsigned value of the third byte.
+
+	  <STRONG>GL_4_BYTES</STRONG>		   <EM>lists</EM> is treated as an array	of
+				   unsigned bytes.  Each quadruplet of
+				   bytes specifies a single display-
+				   list	name.  The value of the
+				   quadruplet is computed as 16777216
+				   times the unsigned value of the
+				   first byte, plus 65536 times	the
+				   unsigned value of the second	byte,
+				   plus	256 times the unsigned value
+				   of the third	byte, plus the
+				   unsigned value of the fourth	byte.
+
+	  The list of display-list names is not	null-terminated.
+	  Rather, <EM>n</EM> specifies how many names are to be taken from
+	  <EM>lists</EM>.
+
+	  An additional	level of indirection is	made available with
+	  the <STRONG>glListBase</STRONG> command, which	specifies an unsigned offset
+	  that is added	to each	display-list name specified in <EM>lists</EM>
+	  before that display list is executed.
+
+	  <STRONG>glCallLists</STRONG> can appear inside	a display list.	 To avoid the
+	  possibility of infinite recursion resulting from display
+	  lists	calling	one another, a limit is	placed on the nesting
+	  level	of display lists during	display-list execution.	 This
+	  limit	must be	at least 64, and it depends on the
+	  implementation.
+
+	  GL state is not saved	and restored across a call to
+	  <STRONG>glCallLists</STRONG>.	Thus, changes made to GL state during the
+	  execution of the display lists remain	after execution	is
+	  completed.  Use <STRONG>glPushAttrib</STRONG>,	<STRONG>glPopAttrib</STRONG>, <STRONG>glPushMatrix</STRONG>, and
+	  <STRONG>glPopMatrix</STRONG> to preserve GL state across <STRONG>glCallLists</STRONG> calls.
+
+     <STRONG>NOTES</STRONG>
+	  Display lists	can be executed	between	a call to <STRONG>glBegin</STRONG> and
+	  the corresponding call to <STRONG>glEnd</STRONG>, as long as the display list
+	  includes only	commands that are allowed in this interval.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if <EM>n</EM> is	negative.
+
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>type</EM> is not one of <STRONG>GL_BYTE</STRONG>,
+	  <STRONG>GL_UNSIGNED_BYTE</STRONG>, <STRONG>GL_SHORT</STRONG>, <STRONG>GL_UNSIGNED_SHORT</STRONG>, <STRONG>GL_INT</STRONG>,
+	  <STRONG>GL_UNSIGNED_INT</STRONG>, <STRONG>GL_FLOAT</STRONG>, <STRONG>GL_2_BYTES</STRONG>, <STRONG>GL_3_BYTES</STRONG>,
+	  <STRONG>GL_4_BYTES</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_LIST_BASE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_MAX_LIST_NESTING</STRONG>
+	  <STRONG>glIsList</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glCallList</STRONG>, <STRONG>glDeleteLists</STRONG>, <STRONG>glGenLists</STRONG>, <STRONG>glListBase</STRONG>,
+	  <STRONG>glNewList</STRONG>, <STRONG>glPushAttrib</STRONG>,
+	  <STRONG>glPushMatrix</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

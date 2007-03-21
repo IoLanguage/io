@@ -1,0 +1,76 @@
+
+<HTML><HEAD><TITLE>Manpage of glutPositionWindow</TITLE>
+</HEAD><BODY>
+<H1>glutPositionWindow</H1>
+Section: GLUT (3GLUT)<BR>Updated: 3.7<BR><A HREF="#index">Index</A>
+<A HREF="">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+glutPositionWindow - requests a change to the position of the current window. 
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNTAX</H2>
+
+<PRE>
+
+void glutPositionWindow(int x, int y);
+</PRE>
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>ARGUMENTS</H2>
+
+<DL COMPACT>
+<DT><I>x</I><DD>
+New X location of window in pixels. 
+<DT><I>y</I><DD>
+New Y location of window in pixels. 
+</DL>
+<A NAME="lbAE">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+glutPositionWindow requests a change in the position of the current
+window. For top-level windows, the x and y parameters are pixel offsets
+from the screen origin. For subwindows, the x and y parameters are
+pixel offsets from the window's parent window origin. 
+
+The requests by glutPositionWindow are not processed immediately.
+The request is executed after returning to the main event loop. This
+allows multiple glutPositionWindow, glutReshapeWindow, and
+glutFullScreen requests to the same window to be coalesced. 
+
+In the case of top-level windows, a glutPositionWindow call is
+considered only a request for positioning the window. The window
+system is free to apply its own policies to top-level window placement.
+The intent is that top-level windows should be repositioned according
+glutPositionWindow's parameters. 
+
+glutPositionWindow disables the full screen status of a window if
+previously enabled. 
+<A NAME="lbAF">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+glutInitWindowPosition, glutReshapeWindow
+<A NAME="lbAG">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Mark J. Kilgard (<A HREF="mailto:mjk@nvidia.com">mjk@nvidia.com</A>)
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNTAX</A><DD>
+<DT><A HREF="#lbAD">ARGUMENTS</A><DD>
+<DT><A HREF="#lbAE">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAF">SEE ALSO</A><DD>
+<DT><A HREF="#lbAG">AUTHOR</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="">man2html</A>,
+using the manual pages.<BR>
+Time: 19:05:09 GMT, September 15, 2003
+</BODY>
+</HTML>

@@ -1,0 +1,58 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glFinish</STRONG> - block until all GL	execution is complete
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glFinish</STRONG>( void )
+
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glFinish</STRONG> does	not return until the effects of	all previously
+	  called GL commands are complete.  Such effects include all
+	  changes to GL	state, all changes to connection state,	and
+	  all changes to the frame buffer contents.
+
+     <STRONG>NOTES</STRONG>
+	  <STRONG>glFinish</STRONG> requires a round trip to the	server.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glFinish</STRONG>	is executed
+	  between the execution	of <STRONG>glBegin</STRONG> and the corresponding
+	  execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glFlush</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

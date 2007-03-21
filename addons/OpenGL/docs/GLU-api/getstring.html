@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>gluGetString</STRONG> - return	a string describing the	GLU version or
+	  GLU extensions
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  const	GLubyte	* <STRONG>gluGetString</STRONG>(	GLenum <EM>name</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>name</EM>	Specifies a symbolic constant, one of <STRONG>GLU_VERSION</STRONG>, or
+		<STRONG>GLU_EXTENSIONS</STRONG>.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>gluGetString</STRONG> returns a pointer to a static string describing
+	  the GLU version or the GLU extensions	that are supported.
+
+	  The version number is	one of the following forms:
+
+	  <EM>major</EM>_<EM>number</EM>.<EM>minor</EM>_<EM>number</EM>
+	  <EM>major</EM>_<EM>number</EM>.<EM>minor</EM>_<EM>number</EM>.<EM>release</EM>_<EM>number</EM>.
+
+	  The version string is	of the following form:
+
+	  <EM>version</EM> <EM>number</EM>&lt;<EM>space</EM>&gt;<EM>vendor</EM>-<EM>specific</EM> <EM>information</EM>
+
+	  Vendor-specific information is optional.  Its	format and
+	  contents depend on the implementation.
+
+	  The standard GLU contains a basic set	of features and
+	  capabilities.	 If a company or group of companies wish to
+	  support other	features, these	may be included	as extensions
+	  to the GLU. If <EM>name</EM> is <STRONG>GLU_EXTENSIONS</STRONG>, then <STRONG>gluGetString</STRONG>
+	  returns a space-separated list of names of supported GLU
+	  extensions.  (Extension names	never contain spaces.)
+
+	  All strings are null-terminated.
+
+     <STRONG>NOTES</STRONG>
+	  <STRONG>gluGetString</STRONG> only returns information	about GLU extensions.
+	  Call <STRONG>glGetString</STRONG> to get a list of GL extensions.
+
+	  <STRONG>gluGetString</STRONG> is an initialization routine. Calling it	after
+	  a <STRONG>glNewList</STRONG> results in undefined behavior.
+
+     <STRONG>ERRORS</STRONG>
+	  NULL is returned if <EM>name</EM> is not <STRONG>GLU_VERSION</STRONG> or
+	  <STRONG>GLU_EXTENSIONS</STRONG>.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glGetString</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,108 @@
+
+<HTML><HEAD><TITLE>Manpage of glutJoystickFunc</TITLE>
+</HEAD><BODY>
+<H1>glutJoystickFunc</H1>
+Section: GLUT (3GLUT)<BR>Updated: 3.7<BR><A HREF="#index">Index</A>
+<A HREF="">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+glutJoystickFunc - sets the joystick callback for the current window. 
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNTAX</H2>
+
+<PRE>
+
+void glutJoystickFunc(void (*func)(unsigned int buttonMask,
+                     int x, int y, int z), int pollInterval);
+</PRE>
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>ARGUMENTS</H2>
+
+<DL COMPACT>
+<DT><I>func</I><DD>
+The new joystick callback function. 
+<DT><I>pollInterval</I><DD>
+Joystick polling interval in milliseconds.
+</DL>
+<A NAME="lbAE">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+glutJoystickFunc sets the joystick callback for the current window. 
+
+The joystick callback is called either due to polling of the joystick
+at the uniform timer interval specified by pollInterval (in milliseconds) or 
+in response to calling glutForceJoystickFunc.  If the pollInterval is
+non-positive, no joystick polling is performed and the GLUT application
+must frequently (usually from an idle callback) call glutForceJoystickFunc.
+
+The joystick buttons are reported by the callback's buttonMask parameter.
+The constants GLUT_JOYSTICK_BUTTON_A (0x1), GLUT_JOYSTICK_BUTTON_B (0x2),
+GLUT_JOYSTICK_BUTTON_C (0x4), and GLUT_JOYSTICK_BUTTON_D (0x8) are provided
+for programming convience.
+
+The x, y, and z callback parameters report the X, Y, and Z axes of the
+joystick.  The joystick is centered at (0,0,0).  X, Y, and Z are
+scaled to range between -1000 and 1000.  Moving the joystick left reports
+negative X; right reports positive X.  Pulling the stick towards
+you reports negative Y; push the stick away from you reports positive Y.
+If the joystick has a third axis (rudder or up/down), down reports
+negative Z; up reports positive Z.
+
+Passing a NULL func to glutJoystickFunc
+disables the generation of joystick callbacks.  Without a joystick
+callback registered, glutForceJoystickFunc does nothing.
+
+When a new window is created, no joystick callback is
+initially registered.
+<A NAME="lbAF">&nbsp;</A>
+<H2>LIMITATIONS</H2>
+
+The GLUT joystick callback only reports the first 3 axes and 32 buttons.
+GLUT supports only a single joystick.
+<A NAME="lbAG">&nbsp;</A>
+<H2>GLUT IMPLEMENTATION NOTES FOR X11</H2>
+
+The GLUT 3.7 implementation of GLUT for X11 supports the joystick API, but
+not joystick input.  A future implementation of GLUT for X11 may
+add joystick support.
+<A NAME="lbAH">&nbsp;</A>
+<H2>GLUT IMPLEMENTATION NOTES FOR WIN32</H2>
+
+The GLUT 3.7 implementation of GLUT for Win32 supports the joystick API
+and joystick input, but does so through the dated joySetCapture and
+joyGetPosEx Win32 Multimedia API.  The GLUT 3.7 joystick support for
+Win32 has all the limitations of the Win32 Multimedia API joystick support.
+A future implementation of GLUT for Win32 may use DirectInput.
+<A NAME="lbAI">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+glutForceJoystickFunc, glutMotionFunc, glutMouseFunc, glutSpaceballButtonFunc, glutSpaceballMotionFunc, glutButtonBoxFunc, glutTabletButtonFunc, glutDeviceGet
+<A NAME="lbAJ">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Mark J. Kilgard (<A HREF="mailto:mjk@nvidia.com">mjk@nvidia.com</A>)
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNTAX</A><DD>
+<DT><A HREF="#lbAD">ARGUMENTS</A><DD>
+<DT><A HREF="#lbAE">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAF">LIMITATIONS</A><DD>
+<DT><A HREF="#lbAG">GLUT IMPLEMENTATION NOTES FOR X11</A><DD>
+<DT><A HREF="#lbAH">GLUT IMPLEMENTATION NOTES FOR WIN32</A><DD>
+<DT><A HREF="#lbAI">SEE ALSO</A><DD>
+<DT><A HREF="#lbAJ">AUTHOR</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="">man2html</A>,
+using the manual pages.<BR>
+Time: 19:05:09 GMT, September 15, 2003
+</BODY>
+</HTML>

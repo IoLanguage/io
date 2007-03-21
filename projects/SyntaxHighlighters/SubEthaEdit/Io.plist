@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+
+<!-- Derived partially from the Python.plist syntax definition, and Hydra's Template.plist -->
+
+	<key>Header</key>
+	<dict>
+	    
+	    <!-- The language's name, shown in the Hydra's menu -->
+	    <key>Name</key>
+		<string>Io</string>
+		
+		<!-- The languages file extensions seperated by "," for syntax coloring on load. -->
+		<key>Extensions</key>
+		<string>io</string> <!-- *.foobar,*.foo,*.bar -->
+
+	    <!-- Set of valid characters for variables, to find keywords (see below, in the Plain Strings section) -->
+		<key>Valid Characters for Variables</key>
+		<string>_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+
+	    <!-- Optional: A regular expression matching the languages functions, for display in Hydra's function popup -->
+        <key>Functions Regular Expression</key>
+		<!--<string>(function \([^\)]*\))</string> <!-- matches "function (something)" -->		
+		<string>([^ ]* *:?= *method *\()</string>
+		<!-- Optional: Replace strings before display in the function popup -->
+		<key>Function Modifiers</key>
+		<array>
+			<dict>
+				<key>Replace</key>
+				<!--<string>\([^\)]*\)</string> <!-- Regular expression to search. This one matches (.*) -->
+                <string>( *:?= *method *\()</string>
+                <key>With</key>
+				<string></string> <!-- Replacement String. (Everything inside () gets deleted.) -->
+			</dict>
+		</array>
+	</dict>
+	
+	
+    <key>Styles</key>
+	<array>
+
+        <!-- Sample Singleline Style (default, if no "Mutiline" key present) -->
+		<dict>
+            <!-- Unique name -->
+			<key>Name</key>
+			<string>Keywords in Template</string>
+
+            <!-- This style's color as an array of red, green and blue values, ranging from 0 to 1. -->
+			<key>Color</key>
+			<array>
+				<real>0.0</real>
+				<real>0.0</real>
+				<real>1</real>     <!-- It's blue. -->
+			</array>
+			
+            <!-- Optional: 'Plain Strings' are regular expressions not surrounded by 
+                            legal variable name characters (see above)
+                  This is useful if you want to match "self" but not e.g. "myself" -->
+			<key>Plain Strings</key>
+			<array>
+                <string>super</string>
+                <string>continue</string>
+                <string>list</string>
+                <string>break</string>
+                <string>clone</string>
+                <string>proto</string>
+                <string>raiseException</string> 
+                <string>pause</string>
+                <string>wait</string>
+                <string>exit</string>
+                <string>yield</string>
+                <string>block</string>
+                <string>return</string>
+                <string>method</string>
+                <string>catchException</string> 
+                <string>resume</string>
+				<string>self</string>
+				<string>thisContext</string>
+				<string>sender</string>
+			</array>
+			
+			
+            <!-- Optional: Matches a regular expression
+			<key>Regular Expressions</key>
+			<array>
+				<string>fo{1,2}bar</string> <!-- matches "fobar" and "foobar", everywhere in the text - ->
+			</array>
+			-->
+		</dict>
+
+
+        <!-- Sample Multiline Style -->
+		<dict>
+
+            <!-- This sytle's name. HAS TO BE UNIQUE. -->
+			<key>Name</key>
+			<string>C-Style Comments</string>
+
+            <!-- This sytle's color as an array of red, green and blue values. -->
+			<key>Color</key>
+			<array>
+				<real>0.1371999979019165</real>
+				<real>0.4313000142574310</real>
+				<real>0.1449999958276749</real>  <!-- PBX's standard comment color. -->
+			</array>
+
+            <!-- This is a Multiline Style: Multiline=true (default is false) -->
+			<key>Multiline</key>
+			<true/>
+			
+            <!-- This is a Comment: Comment=true (default is false) -->
+            <!-- (Mainly used to not show functions in popup, which are in comments) -->
+            <key>Comment</key>
+			<true/>
+			
+            <!-- The Comment begins with "/*" -->
+			<key>Multiline Begin</key>
+			<string>/*</string>  <!-- Begin. This is a string. -->
+			
+            <!-- The Comment ends with "*/" -->
+			<key>Multiline End</key>
+			<string>*/</string> <!-- End. This is a string. -->
+			
+		</dict>
+
+		<dict>
+			<key>Color</key>
+			<array>
+				<real>0.0</real>
+				<real>0.0</real>
+				<real>1</real>
+			</array>
+			<key>Multiline</key>
+			<false/>
+			<key>Name</key>
+			<string>Numbers</string>
+			<key>Plain Strings</key>
+			<array>
+				<string>[0-9]*\.*[0-9]+</string>
+				<string>[1-9][0-9]*([eE][0-9.]+)?[Ll]</string>
+				<string>0[Xx][0-9a-fA-F]+</string>
+				<string>[0-9+.-]+[Jj]</string>
+				<string>([1-9][0-9]*)?\.[0-9]*([eE][1-9][0-9]*(\.[0-9]*)?)?</string>
+				<string>([1-9][0-9]*([eE][0-9]+)?|0)</string>
+			</array>
+		</dict>
+		<dict>
+			<key>Color</key>
+			<array>
+				<real>0.46274000406265259</real>
+				<real>0.058820001780986786</real>
+				<real>0.082353003323078156</real>
+			</array>
+			<key>Name</key>
+			<string>Strings</string>
+			<key>Regular Expressions</key>
+			<array>
+				<string>("(\\"|[^"])*")</string>
+			</array>
+		</dict>
+		<dict>
+			<key>Color</key>
+			<array>
+				<real>0.46274000406265259</real>
+				<real>0.058820001780986786</real>
+				<real>0.082353003323078156</real>
+			</array>
+			<key>Comment</key>
+			<true/>
+			<key>Multiline</key>
+			<true/>
+			<key>Multiline Begin</key>
+			<string>"""</string>
+			<key>Multiline End</key>
+			<string>"""</string>
+			<key>Name</key>
+			<string>Here Document</string>
+		</dict>
+
+	</array>
+</dict>
+</plist>

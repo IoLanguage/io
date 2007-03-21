@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glPolygonMode</STRONG>	- select a polygon rasterization mode
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glPolygonMode</STRONG>( GLenum <EM>face</EM>,
+			      GLenum <EM>mode</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>face</EM>	Specifies the polygons that <EM>mode</EM> applies to.  Must be
+		<STRONG>GL_FRONT</STRONG> for front-facing polygons, <STRONG>GL_BACK</STRONG> for	back-
+		facing polygons, or <STRONG>GL_FRONT_AND_BACK</STRONG> for front- and
+		back-facing polygons.
+
+	  <EM>mode</EM>	Specifies how polygons will be rasterized.  Accepted
+		values are <STRONG>GL_POINT</STRONG>, <STRONG>GL_LINE</STRONG>, and <STRONG>GL_FILL</STRONG>.  The
+		initial	value is <STRONG>GL_FILL</STRONG> for both front- and back-
+		facing polygons.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glPolygonMode</STRONG>	controls the interpretation of polygons	for
+	  rasterization.  <EM>face</EM> describes which polygons	<EM>mode</EM> applies
+	  to:  front-facing polygons (<STRONG>GL_FRONT</STRONG>), back-facing polygons
+	  (<STRONG>GL_BACK</STRONG>), or	both (<STRONG>GL_FRONT_AND_BACK</STRONG>).  The polygon mode
+	  affects only the final rasterization of polygons.  In
+	  particular, a	polygon's vertices are lit and the polygon is
+	  clipped and possibly culled before these modes are applied.
+
+	  Three	modes are defined and can be specified in <EM>mode</EM>:
+
+	  <STRONG>GL_POINT</STRONG>	Polygon	vertices that are marked as the	start
+			of a boundary edge are drawn as	points.	 Point
+			attributes such	as <STRONG>GL_POINT_SIZE</STRONG> and
+			<STRONG>GL_POINT_SMOOTH</STRONG>	control	the rasterization of
+			the points.  Polygon rasterization attributes
+			other than <STRONG>GL_POLYGON_MODE</STRONG> have	no effect.
+
+	  <STRONG>GL_LINE</STRONG>	Boundary edges of the polygon are drawn	as
+			line segments.	They are treated as connected
+			line segments for line stippling; the line
+			stipple	counter	and pattern are	not reset
+			between	segments (see <STRONG>glLineStipple</STRONG>).  Line
+			attributes such	as <STRONG>GL_LINE_WIDTH</STRONG> and
+			<STRONG>GL_LINE_SMOOTH</STRONG> control the rasterization of
+			the lines.  Polygon rasterization attributes
+			other than <STRONG>GL_POLYGON_MODE</STRONG> have	no effect.
+
+	  <STRONG>GL_FILL</STRONG>	The interior of	the polygon is filled.
+			Polygon	attributes such	as <STRONG>GL_POLYGON_STIPPLE</STRONG>
+			and <STRONG>GL_POLYGON_SMOOTH</STRONG> control the
+			rasterization of the polygon.
+     <STRONG>EXAMPLES</STRONG>
+	  To draw a surface with filled	back-facing polygons and
+	  outlined front-facing	polygons, call glPolygonMode(<STRONG>GL_FRONT</STRONG>,
+	  <STRONG>GL_LINE</STRONG>);
+
+     <STRONG>NOTES</STRONG>
+	  Vertices are marked as boundary or nonboundary with an edge
+	  flag.	 Edge flags are	generated internally by	the GL when it
+	  decomposes polygons; they can	be set explicitly using
+	  <STRONG>glEdgeFlag</STRONG>.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if either <EM>face</EM> or <EM>mode</EM> is not
+	  an accepted value.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glPolygonMode</STRONG> is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_POLYGON_MODE</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glBegin</STRONG>, <STRONG>glEdgeFlag</STRONG>, <STRONG>glLineStipple</STRONG>, <STRONG>glLineWidth</STRONG>,
+	  <STRONG>glPointSize</STRONG>, <STRONG>glPolygonStipple</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

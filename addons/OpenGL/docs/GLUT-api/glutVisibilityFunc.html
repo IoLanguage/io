@@ -1,0 +1,76 @@
+
+<HTML><HEAD><TITLE>Manpage of glutVisibilityFunc</TITLE>
+</HEAD><BODY>
+<H1>glutVisibilityFunc</H1>
+Section: GLUT (3GLUT)<BR>Updated: 3.7<BR><A HREF="#index">Index</A>
+<A HREF="">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+glutVisibilityFunc - sets the visibility callback for the current window. 
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNTAX</H2>
+
+<PRE>
+
+void glutVisibilityFunc(void (*func)(int state));
+</PRE>
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>ARGUMENTS</H2>
+
+<DL COMPACT>
+<DT><I>func</I><DD>
+The new visibility callback function. 
+</DL>
+<A NAME="lbAE">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+glutVisibilityFunc sets the visibility callback for the current
+window. The visibility callback for a window is called when the visibility
+of a window changes. The state callback parameter is either
+GLUT_NOT_VISIBLE or GLUT_VISIBLE depending on the current
+visibility of the window. GLUT_VISIBLE does not distinguish a window
+being totally versus partially visible. GLUT_NOT_VISIBLE means no part
+of the window is visible, i.e., until the window's visibility changes, all
+further rendering to the window is discarded. 
+
+GLUT considers a window visible if any pixel of the window is visible or
+any pixel of any descendant window is visible on the screen. 
+
+Passing NULL to glutVisibilityFunc disables the generation of the
+visibility callback. 
+
+If the visibility callback for a window is disabled and later re-enabled, the
+visibility status of the window is undefined; any change in window
+visibility will be reported, that is if you disable a visibility callback and
+re-enable the callback, you are guaranteed the next visibility change will
+be reported. 
+<A NAME="lbAF">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+glutCreateWindow, glutPopWindow
+<A NAME="lbAG">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Mark J. Kilgard (<A HREF="mailto:mjk@nvidia.com">mjk@nvidia.com</A>)
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNTAX</A><DD>
+<DT><A HREF="#lbAD">ARGUMENTS</A><DD>
+<DT><A HREF="#lbAE">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAF">SEE ALSO</A><DD>
+<DT><A HREF="#lbAG">AUTHOR</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="">man2html</A>,
+using the manual pages.<BR>
+Time: 19:05:09 GMT, September 15, 2003
+</BODY>
+</HTML>

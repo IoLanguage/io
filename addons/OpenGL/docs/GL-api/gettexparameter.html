@@ -1,0 +1,162 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glGetTexParameterfv,</STRONG> <STRONG>glGetTexParameteriv</STRONG> - return texture
+	  parameter values
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glGetTexParameterfv</STRONG>( GLenum <EM>target</EM>,
+				    GLenum <EM>pname</EM>,
+				    GLfloat *<EM>params</EM> )
+	  void <STRONG>glGetTexParameteriv</STRONG>( GLenum <EM>target</EM>,
+				    GLenum <EM>pname</EM>,
+				    GLint *<EM>params</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>target</EM>  Specifies the	symbolic name of the target texture.
+		  <STRONG>GL_TEXTURE_1D</STRONG>	and <STRONG>GL_TEXTURE_2D</STRONG> are accepted.
+
+	  <EM>pname</EM>	  Specifies the	symbolic name of a texture parameter.
+		  <STRONG>GL_TEXTURE_MAG_FILTER</STRONG>, <STRONG>GL_TEXTURE_MIN_FILTER</STRONG>,
+		  <STRONG>GL_TEXTURE_WRAP_S</STRONG>, <STRONG>GL_TEXTURE_WRAP_T</STRONG>,
+		  <STRONG>GL_TEXTURE_BORDER_COLOR</STRONG>, <STRONG>GL_TEXTURE_PRIORITY</STRONG>,	and
+		  <STRONG>GL_TEXTURE_RESIDENT</STRONG> are accepted.
+
+	  <EM>params</EM>  Returns the texture parameters.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glGetTexParameter</STRONG> returns in <EM>params</EM> the value	or values of
+	  the texture parameter	specified as <EM>pname</EM>.  <EM>target</EM> defines
+	  the target texture, either <STRONG>GL_TEXTURE_1D</STRONG> or <STRONG>GL_TEXTURE_2D</STRONG>,
+	  to specify one- or two-dimensional texturing.	 <EM>pname</EM> accepts
+	  the same symbols as <STRONG>glTexParameter</STRONG>, with the same
+	  interpretations:
+
+	  <STRONG>GL_TEXTURE_MAG_FILTER</STRONG>		     Returns the single-valued
+					     texture magnification
+					     filter, a symbolic
+					     constant. The initial
+					     value is <STRONG>GL_LINEAR</STRONG>.
+
+	  <STRONG>GL_TEXTURE_MIN_FILTER</STRONG>		     Returns the single-valued
+					     texture minification
+					     filter, a symbolic
+					     constant. The initial
+					     value is
+					     <STRONG>GL_NEAREST_MIPMAP_LINEAR</STRONG>.
+
+	  <STRONG>GL_TEXTURE_WRAP_S</STRONG>		     Returns the single-valued
+					     wrapping function for
+					     texture coordinate	s, a
+					     symbolic constant.	The
+					     initial value is
+					     <STRONG>GL_REPEAT</STRONG>.
+
+	  <STRONG>GL_TEXTURE_WRAP_T</STRONG>		     Returns the single-valued
+					     wrapping function for
+					     texture coordinate	t, a
+					     symbolic constant.	The
+					     initial value is
+					     <STRONG>GL_REPEAT</STRONG>.
+
+	  <STRONG>GL_TEXTURE_BORDER_COLOR</STRONG>	     Returns four integer or
+					     floating-point numbers
+					     that comprise the RGBA
+					     color of the texture
+					     border.  Floating-point
+					     values are	returned in
+					     the range [0, 1].
+					     Integer values are
+					     returned as a linear
+					     mapping of	the internal
+					     floating-point
+					     representation such that
+					     1.0 maps to the most
+					     positive representable
+					     integer and -1.0 maps to
+					     the most negative
+					     representable integer.
+					     The initial value is (0,
+					     0,	0, 0).
+
+	  <STRONG>GL_TEXTURE_PRIORITY</STRONG>		     Returns the residence
+					     priority of the target
+					     texture (or the named
+					     texture bound to it). The
+					     initial value is 1. See
+					     <STRONG>glPrioritizeTextures</STRONG>.
+
+	  <STRONG>GL_TEXTURE_RESIDENT</STRONG>		     Returns the residence
+					     status of the target
+					     texture.  If the value
+					     returned in <EM>params</EM>	is
+					     <STRONG>GL_TRUE</STRONG>, the texture is
+					     resident in texture
+					     memory.  See
+					     <STRONG>glAreTexturesResident</STRONG>.
+
+     <STRONG>NOTES</STRONG>
+	  <STRONG>GL_TEXTURE_PRIORITY</STRONG> and <STRONG>GL_TEXTURE_RESIDENT</STRONG> are only
+	  available if the GL version is 1.1 or	greater.
+
+	  If an	error is generated, no change is made to the contents
+	  of <EM>params</EM>.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>target</EM> or <EM>pname</EM> is not an
+	  accepted value.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glGetTexParameter</STRONG> is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glAreTexturesResident</STRONG>, <STRONG>glPrioritizeTextures</STRONG>, <STRONG>glTexParameter</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glNormal3b,</STRONG> <STRONG>glNormal3d,</STRONG> <STRONG>glNormal3f,</STRONG> <STRONG>glNormal3i,</STRONG> <STRONG>glNormal3s,</STRONG>
+	  <STRONG>glNormal3bv,</STRONG> <STRONG>glNormal3dv,</STRONG> <STRONG>glNormal3fv,</STRONG> <STRONG>glNormal3iv,</STRONG>
+	  <STRONG>glNormal3sv</STRONG> -	set the	current	normal vector
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glNormal3b</STRONG>( GLbyte <EM>nx</EM>,
+			   GLbyte <EM>ny</EM>,
+			   GLbyte <EM>nz</EM> )
+	  void <STRONG>glNormal3d</STRONG>( GLdouble <EM>nx</EM>,
+			   GLdouble <EM>ny</EM>,
+			   GLdouble <EM>nz</EM> )
+	  void <STRONG>glNormal3f</STRONG>( GLfloat <EM>nx</EM>,
+			   GLfloat <EM>ny</EM>,
+			   GLfloat <EM>nz</EM> )
+	  void <STRONG>glNormal3i</STRONG>( GLint <EM>nx</EM>,
+			   GLint <EM>ny</EM>,
+			   GLint <EM>nz</EM> )
+	  void <STRONG>glNormal3s</STRONG>( GLshort <EM>nx</EM>,
+			   GLshort <EM>ny</EM>,
+			   GLshort <EM>nz</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>nx</EM>, <EM>ny</EM>, <EM>nz</EM>
+		    Specify the	x, y, and z coordinates	of the new
+		    current normal.  The initial value of the current
+		    normal is the unit vector, (0, 0, 1).
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glNormal3bv</STRONG>( const GLbyte *<EM>v</EM> )
+	  void <STRONG>glNormal3dv</STRONG>( const GLdouble *<EM>v</EM> )
+	  void <STRONG>glNormal3fv</STRONG>( const GLfloat *<EM>v</EM> )
+	  void <STRONG>glNormal3iv</STRONG>( const GLint	*<EM>v</EM> )
+	  void <STRONG>glNormal3sv</STRONG>( const GLshort *<EM>v</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>v</EM>    Specifies a pointer to an array of three	elements:  the
+	       x, y, and z coordinates of the new current normal.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  The current normal is	set to the given coordinates whenever
+	  <STRONG>glNormal</STRONG> is issued.  Byte, short, or integer arguments are
+	  converted to floating-point format with a linear mapping
+	  that maps the	most positive representable integer value to
+	  1.0, and the most negative representable integer value to
+	  -1.0.
+
+	  Normals specified with <STRONG>glNormal</STRONG> need not have	unit length.
+	  If normalization is enabled, then normals specified with
+	  <STRONG>glNormal</STRONG> are normalized after	transformation.	 To enable and
+	  disable normalization, call <STRONG>glEnable</STRONG> and <STRONG>glDisable</STRONG> with the
+	  argument <STRONG>GL_NORMALIZE</STRONG>.  Normalization	is initially disabled.
+
+     <STRONG>NOTES</STRONG>
+	  The current normal can be updated at any time.  In
+	  particular, <STRONG>glNormal</STRONG> can be called between a call to <STRONG>glBegin</STRONG>
+	  and the corresponding	call to	<STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_CURRENT_NORMAL</STRONG>
+	  <STRONG>glIsEnabled</STRONG> with argument <STRONG>GL_NORMALIZE</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glBegin</STRONG>, <STRONG>glColor</STRONG>, <STRONG>glIndex</STRONG>, <STRONG>glNormalPointer</STRONG>, <STRONG>glTexCoord</STRONG>,
+	  <STRONG>glVertex</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

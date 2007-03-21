@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>gluScaleImage</STRONG>	- scale	an image to an arbitrary size
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  GLint	<STRONG>gluScaleImage</STRONG>( GLenum <EM>format</EM>,
+			       GLsizei <EM>wIn</EM>,
+			       GLsizei <EM>hIn</EM>,
+			       GLenum <EM>typeIn</EM>,
+			       const void *<EM>dataIn</EM>,
+			       GLsizei <EM>wOut</EM>,
+			       GLsizei <EM>hOut</EM>,
+			       GLenum <EM>typeOut</EM>,
+			       GLvoid* <EM>dataOut</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>format</EM>   Specifies the format	of the pixel data.  The
+		   following symbolic values are valid:
+		   <STRONG>GL_COLOR_INDEX</STRONG>, <STRONG>GL_STENCIL_INDEX</STRONG>,
+		   <STRONG>GL_DEPTH_COMPONENT</STRONG>, <STRONG>GL_RED</STRONG>, <STRONG>GL_GREEN</STRONG>, <STRONG>GL_BLUE</STRONG>,
+		   <STRONG>GL_ALPHA</STRONG>, <STRONG>GL_RGB</STRONG>, <STRONG>GL_RGBA</STRONG>, <STRONG>GL_LUMINANCE</STRONG>, and
+		   <STRONG>GL_LUMINANCE_ALPHA</STRONG>.
+
+	  <EM>wIn</EM>, <EM>hIn</EM> Specify the width and height, respectively, of the
+		   source image	that is	scaled.
+
+	  <EM>typeIn</EM>   Specifies the data type for <EM>dataIn</EM>. Must be one of
+		   <STRONG>GL_UNSIGNED_BYTE</STRONG>, <STRONG>GL_BYTE</STRONG>, <STRONG>GL_BITMAP</STRONG>,
+		   <STRONG>GL_UNSIGNED_SHORT</STRONG>, <STRONG>GL_SHORT</STRONG>,	<STRONG>GL_UNSIGNED_INT</STRONG>,
+		   <STRONG>GL_INT</STRONG>, or <STRONG>GL_FLOAT</STRONG>.
+
+	  <EM>dataIn</EM>   Specifies a pointer to the source image.
+
+	  <EM>wOut</EM>,	<EM>hOut</EM>
+		   Specify the width and height, respectively, of the
+		   destination image.
+
+	  <EM>typeOut</EM>  Specifies the data type for <EM>dataOut</EM>.	Must be	one of
+		   <STRONG>GL_UNSIGNED_BYTE</STRONG>, <STRONG>GL_BYTE</STRONG>, <STRONG>GL_BITMAP</STRONG>,
+		   <STRONG>GL_UNSIGNED_SHORT</STRONG>, <STRONG>GL_SHORT</STRONG>,	<STRONG>GL_UNSIGNED_INT</STRONG>,
+		   <STRONG>GL_INT</STRONG>, or <STRONG>GL_FLOAT</STRONG>.
+
+	  <EM>dataOut</EM>  Specifies a pointer to the destination image.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>gluScaleImage</STRONG>	scales a pixel image using the appropriate
+	  pixel	store modes to unpack data from	the source image and
+	  pack data into the destination image.
+
+	  When shrinking an image, <STRONG>gluScaleImage</STRONG> uses a	box filter to
+	  sample the source image and create pixels for	the
+	  destination image. When magnifying an	image, the pixels from
+	  the source image are linearly	interpolated to	create the
+	  destination image.
+
+	  A return value of 0 indicates	success, otherwise a GLU error
+	  code is returned (see	<STRONG>gluErrorString</STRONG>).
+
+	  See the <STRONG>glReadPixels</STRONG> reference page for a description	of the
+	  acceptable values for	<EM>format</EM>,	<EM>typeIn</EM>,	and <EM>typeOut</EM>.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GLU_INVALID_VALUE</STRONG> is returned	if <EM>wIn</EM>,	<EM>hIn</EM>, <EM>wOut</EM>, or <EM>hOut</EM> are
+	  &lt; 0.
+
+	  <STRONG>GLU_INVALID_ENUM</STRONG> is returned if <EM>format</EM>, <EM>typeIn</EM>, or <EM>typeOut</EM>
+	  are not legal.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glDrawPixels</STRONG>,	<STRONG>glReadPixels</STRONG>, <STRONG>gluBuild1DMipmaps</STRONG>,
+	  <STRONG>gluBuild2DMipmaps</STRONG>, <STRONG>gluErrorString</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

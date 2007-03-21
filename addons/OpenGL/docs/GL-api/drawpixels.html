@@ -1,0 +1,422 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glDrawPixels</STRONG> - write a block of pixels to the	frame buffer
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glDrawPixels</STRONG>( GLsizei <EM>width</EM>,
+			     GLsizei <EM>height</EM>,
+			     GLenum <EM>format</EM>,
+			     GLenum <EM>type</EM>,
+			     const GLvoid *<EM>pixels</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>width</EM>, <EM>height</EM>	Specify	the dimensions of the pixel rectangle
+			to be written into the frame buffer.
+
+	  <EM>format</EM>	Specifies the format of	the pixel data.
+			Symbolic constants <STRONG>GL_COLOR_INDEX</STRONG>,
+			<STRONG>GL_STENCIL_INDEX</STRONG>, <STRONG>GL_DEPTH_COMPONENT</STRONG>, <STRONG>GL_RGBA</STRONG>,
+			<STRONG>GL_RED</STRONG>,	<STRONG>GL_GREEN</STRONG>, <STRONG>GL_BLUE</STRONG>, <STRONG>GL_ALPHA</STRONG>, <STRONG>GL_RGB</STRONG>,
+			<STRONG>GL_LUMINANCE</STRONG>, and <STRONG>GL_LUMINANCE_ALPHA</STRONG> are
+			accepted.
+
+	  <EM>type</EM>		Specifies the data type	for <EM>pixels</EM>.  Symbolic
+			constants <STRONG>GL_UNSIGNED_BYTE</STRONG>, <STRONG>GL_BYTE</STRONG>,
+			<STRONG>GL_BITMAP</STRONG>, <STRONG>GL_UNSIGNED_SHORT</STRONG>, <STRONG>GL_SHORT</STRONG>,
+			<STRONG>GL_UNSIGNED_INT</STRONG>, <STRONG>GL_INT</STRONG>, and <STRONG>GL_FLOAT</STRONG> are
+			accepted.
+
+	  <EM>pixels</EM>	Specifies a pointer to the pixel data.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glDrawPixels</STRONG> reads pixel data	from memory and	writes it into
+	  the frame buffer relative to the current raster position.
+	  Use <STRONG>glRasterPos</STRONG> to set the current raster position; use
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_CURRENT_RASTER_POSITION</STRONG> to query the
+	  raster position.
+
+	  Several parameters define the	encoding of pixel data in
+	  memory and control the processing of the pixel data before
+	  it is	placed in the frame buffer.  These parameters are set
+	  with four commands:  <STRONG>glPixelStore</STRONG>, <STRONG>glPixelTransfer</STRONG>,
+	  <STRONG>glPixelMap</STRONG>, and <STRONG>glPixelZoom</STRONG>.	This reference page describes
+	  the effects on <STRONG>glDrawPixels</STRONG> of many, but not all, of the
+	  parameters specified by these	four commands.
+
+	  Data is read from <EM>pixels</EM> as a	sequence of signed or unsigned
+	  bytes, signed	or unsigned shorts, signed or unsigned
+	  integers, or single-precision	floating-point values,
+	  depending on <EM>type</EM>.  Each of these bytes, shorts, integers,
+	  or floating-point values is interpreted as one color or
+	  depth	component, or one index, depending on <EM>format</EM>.  Indices
+	  are always treated individually.  Color components are
+	  treated as groups of one, two, three,	or four	values,	again
+	  based	on <EM>format</EM>.  Both individual indices and	groups of
+	  components are referred to as	pixels.	 If <EM>type</EM> is <STRONG>GL_BITMAP</STRONG>,
+	  the data must	be unsigned bytes, and <EM>format</EM> must be either
+	  <STRONG>GL_COLOR_INDEX</STRONG> or <STRONG>GL_STENCIL_INDEX</STRONG>.  Each unsigned byte is
+	  treated as eight 1-bit pixels, with bit ordering determined
+	  by <STRONG>GL_UNPACK_LSB_FIRST</STRONG> (see <STRONG>glPixelStore</STRONG>).
+
+	  <EM>width</EM>x<EM>height</EM> pixels are read from memory, starting at
+	  location <EM>pixels</EM>.  By default,	these pixels are taken from
+	  adjacent memory locations, except that after all <EM>width</EM>
+	  pixels are read, the read pointer is advanced	to the next
+	  four-byte boundary.  The four-byte row alignment is
+	  specified by <STRONG>glPixelStore</STRONG> with argument <STRONG>GL_UNPACK_ALIGNMENT</STRONG>,
+	  and it can be	set to one, two, four, or eight	bytes.	Other
+	  pixel	store parameters specify different read	pointer
+	  advancements,	both before the	first pixel is read and	after
+	  all <EM>width</EM> pixels are read.  See the
+	  <STRONG>glPixelStore</STRONG> reference page for details on these options.
+
+	  The <EM>width</EM>x<EM>height</EM> pixels that are read	from memory are	each
+	  operated on in the same way, based on	the values of several
+	  parameters specified by <STRONG>glPixelTransfer</STRONG> and <STRONG>glPixelMap</STRONG>.  The
+	  details of these operations, as well as the target buffer
+	  into which the pixels	are drawn, are specific	to the format
+	  of the pixels, as specified by <EM>format</EM>.  <EM>format</EM> can assume
+	  one of eleven	symbolic values:
+
+	  <STRONG>GL_COLOR_INDEX</STRONG>
+		    Each pixel is a single value, a color index.  It
+		    is converted to fixed-point	format,	with an
+		    unspecified	number of bits to the right of the
+		    binary point, regardless of	the memory data	type.
+		    Floating-point values convert to true fixed-point
+		    values.  Signed and	unsigned integer data is
+		    converted with all fraction	bits set to 0.	Bitmap
+		    data convert to either 0 or	1.
+
+		    Each fixed-point index is then shifted left	by
+		    <STRONG>GL_INDEX_SHIFT</STRONG> bits	and added to <STRONG>GL_INDEX_OFFSET</STRONG>.
+		    If <STRONG>GL_INDEX_SHIFT</STRONG> is negative, the shift is	to the
+		    right.  In either case, zero bits fill otherwise
+		    unspecified	bit locations in the result.
+
+		    If the GL is in RGBA mode, the resulting index is
+		    converted to an RGBA pixel with the	help of	the
+		    <STRONG>GL_PIXEL_MAP_I_TO_R</STRONG>, <STRONG>GL_PIXEL_MAP_I_TO_G</STRONG>,
+		    <STRONG>GL_PIXEL_MAP_I_TO_B</STRONG>, and <STRONG>GL_PIXEL_MAP_I_TO_A</STRONG>
+		    tables.  If	the GL is in color index mode, and if
+		    <STRONG>GL_MAP_COLOR</STRONG> is true, the index is replaced	with
+		    the	value that it references in lookup table
+		    <STRONG>GL_PIXEL_MAP_I_TO_I</STRONG>.  Whether the lookup
+		    replacement	of the index is	done or	not, the
+		    integer part of the	index is then ANDed with 2b-1,
+		    where b is the number of bits in a color index
+		    buffer.
+
+		    The	GL then	converts the resulting indices or RGBA
+		    colors to fragments	by attaching the current
+		    raster position <EM>z</EM> coordinate and texture
+		    coordinates	to each	pixel, then assigning x	and y
+		    window coordinates to the nth fragment such	that
+
+				  x  = x  + n mod width
+				   n	r
+				  y  = y  + | n/width |
+				   n	r
+
+		    where (x ,y	) is the current raster	position.
+		    These pi<STRONG>x</STRONG>elrfragments are then treated just	like
+		    the	fragments generated by rasterizing points,
+		    lines, or polygons.	 Texture mapping, fog, and all
+		    the	fragment operations are	applied	before the
+		    fragments are written to the frame buffer.
+
+	  <STRONG>GL_STENCIL_INDEX</STRONG>
+		    Each pixel is a single value, a stencil index.  It
+		    is converted to fixed-point	format,	with an
+		    unspecified	number of bits to the right of the
+		    binary point, regardless of	the memory data	type.
+		    Floating-point values convert to true fixed-point
+		    values.  Signed and	unsigned integer data is
+		    converted with all fraction	bits set to 0.	Bitmap
+		    data convert to either 0 or	1.
+
+		    Each fixed-point index is then shifted left	by
+		    <STRONG>GL_INDEX_SHIFT</STRONG> bits, and added to <STRONG>GL_INDEX_OFFSET</STRONG>.
+		    If <STRONG>GL_INDEX_SHIFT</STRONG> is negative, the shift is	to the
+		    right.  In either case, zero bits fill otherwise
+		    unspecified	bit locations in the result.  If
+		    <STRONG>GL_MAP_STENCIL</STRONG> is true, the	index is replaced with
+		    the	value that it references in lookup table
+		    <STRONG>GL_PIXEL_MAP_S_TO_S</STRONG>.  Whether the lookup
+		    replacement	of the index is	done or	not, the
+		    integer part of the	index is then ANDed with 2b-1,
+		    where b is the number of bits in the stencil
+		    buffer.  The resulting stencil indices are then
+		    written to the stencil buffer such that the	nth
+		    index is written to	location
+
+			       x  = x  + n mod width
+				n    r
+				y  = y	+ | n/width |
+	       where (x	,y ) is	the current raster position.  Only the
+	       pixel ow<STRONG>n</STRONG>er<STRONG>s</STRONG>hip test, the scissor test, and the stencil
+	       writemask affect	these write operations.
+
+	  <STRONG>GL_DEPTH_COMPONENT</STRONG>
+	       Each pixel is a single-depth component.	Floating-point
+	       data is converted directly to an	internal floating-
+	       point format with unspecified precision.	 Signed
+	       integer data is mapped linearly to the internal
+	       floating-point format such that the most	positive
+	       representable integer value maps	to 1.0,	and the	most
+	       negative	representable value maps to -1.0.  Unsigned
+	       integer data is mapped similarly:  the largest integer
+	       value maps to 1.0, and 0	maps to	0.0.  The resulting
+	       floating-point depth value is then multiplied by	by
+	       <STRONG>GL_DEPTH_SCALE</STRONG> and added	to <STRONG>GL_DEPTH_BIAS</STRONG>.  The result
+	       is clamped to the range [0,1].
+
+	       The GL then converts the	resulting depth	components to
+	       fragments by attaching the current raster position
+	       color or	color index and	texture	coordinates to each
+	       pixel, then assigning x and y window coordinates	to the
+	       nth fragment such that
+
+			       x  = x  + n mod width
+				n    r
+				y  = y	+ | n/width |
+				 n    r
+
+	       where (x	,y ) is	the current raster position.  These
+	       pixel fr<STRONG>a</STRONG>gm<STRONG>e</STRONG>nts are then	treated	just like the
+	       fragments generated by rasterizing points, lines, or
+	       polygons.  Texture mapping, fog,	and all	the fragment
+	       operations are applied before the fragments are written
+	       to the frame buffer.
+
+	  <STRONG>GL_RGBA</STRONG>
+	       Each pixel is a four-component group: for <STRONG>GL_RGBA</STRONG>, the
+	       red component is	first, followed	by green, followed by
+	       blue, followed by alpha.	 Floating-point	values are
+	       converted directly to an	internal floating-point	format
+	       with unspecified	precision.  Signed integer values are
+	       mapped linearly to the internal floating-point format
+	       such that the most positive representable integer value
+	       maps to 1.0, and	the most negative representable	value
+	       maps to -1.0. (Note that	this mapping does not convert
+	       0 precisely to 0.0.)  Unsigned integer data is mapped
+	       similarly:  the largest integer value maps to 1.0, and
+	       0 maps to 0.0.  The resulting floating-point color
+	       values are then multiplied by <STRONG>GL_c_SCALE</STRONG>	and added to
+	       <STRONG>GL_c_BIAS</STRONG>, where	<EM>c</EM> is RED, GREEN, BLUE, and ALPHA for
+	       the respective color components.	 The results are
+	       clamped to the range [0,1].
+
+	       If <STRONG>GL_MAP_COLOR</STRONG> is true,	each color component is	scaled
+	       by the size of lookup table <STRONG>GL_PIXEL_MAP_c_TO_c</STRONG>,	then
+	       replaced	by the value that it references	in that	table.
+	       <EM>c</EM> is R, G, B, or	A respectively.
+
+	       The GL then converts the	resulting RGBA colors to
+	       fragments by attaching the current raster position <EM>z</EM>
+	       coordinate and texture coordinates to each pixel, then
+	       assigning x and y window	coordinates to the nth
+	       fragment	such that
+
+			       x  = x  + n mod width
+				n    r
+				y  = y	+ | n/width |
+				 n    r
+
+	       where (x	,y ) is	the current raster position.  These
+	       pixel fr<STRONG>a</STRONG>gm<STRONG>e</STRONG>nts are then	treated	just like the
+	       fragments generated by rasterizing points, lines, or
+	       polygons.  Texture mapping, fog,	and all	the fragment
+	       operations are applied before the fragments are written
+	       to the frame buffer.
+
+	  <STRONG>GL_RED</STRONG>
+	       Each pixel is a single red component.  This component
+	       is converted to the internal floating-point format in
+	       the same	way the	red component of an RGBA pixel is. It
+	       is then converted to an RGBA pixel with green and blue
+	       set to 0, and alpha set to 1.  After this conversion,
+	       the pixel is treated as if it had been read as an RGBA
+	       pixel.
+
+	  <STRONG>GL_GREEN</STRONG>
+	       Each pixel is a single green component.	This component
+	       is converted to the internal floating-point format in
+	       the same	way the	green component	of an RGBA pixel is.
+	       It is then converted to an RGBA pixel with red and blue
+	       set to 0, and alpha set to 1.  After this conversion,
+	       the pixel is treated as if it had been read as an RGBA
+	       pixel.
+
+	  <STRONG>GL_BLUE</STRONG>
+	       Each pixel is a single blue component.  This component
+	       is converted to the internal floating-point format in
+	       the same	way the	blue component of an RGBA pixel	is.
+	       It is then converted to an RGBA pixel with red and
+	       green set to 0, and alpha set to	1.  After this
+	       conversion, the pixel is	treated	as if it had been read
+	       as an RGBA pixel.
+
+	  <STRONG>GL_ALPHA</STRONG>
+	       Each pixel is a single alpha component.	This component
+	       is converted to the internal floating-point format in
+	       the same	way the	alpha component	of an RGBA pixel is.
+	       It is then converted to an RGBA pixel with red, green,
+	       and blue	set to 0.  After this conversion, the pixel is
+	       treated as if it	had been read as an RGBA pixel.
+
+	  <STRONG>GL_RGB</STRONG>
+	       Each pixel is a three-component group:  red first,
+	       followed	by green, followed by blue.  Each component is
+	       converted to the	internal floating-point	format in the
+	       same way	the red, green,	and blue components of an RGBA
+	       pixel are.  The color triple is converted to an RGBA
+	       pixel with alpha	set to 1.  After this conversion, the
+	       pixel is	treated	as if it had been read as an RGBA
+	       pixel.
+
+	  <STRONG>GL_LUMINANCE</STRONG>
+	       Each pixel is a single luminance	component.  This
+	       component is converted to the internal floating-point
+	       format in the same way the red component	of an RGBA
+	       pixel is.  It is	then converted to an RGBA pixel	with
+	       red, green, and blue set	to the converted luminance
+	       value, and alpha	set to 1.  After this conversion, the
+	       pixel is	treated	as if it had been read as an RGBA
+	       pixel.
+
+	  <STRONG>GL_LUMINANCE_ALPHA</STRONG>
+	       Each pixel is a two-component group:  luminance first,
+	       followed	by alpha.  The two components are converted to
+	       the internal floating-point format in the same way the
+	       red component of	an RGBA	pixel is.  They	are then
+	       converted to an RGBA pixel with red, green, and blue
+	       set to the converted luminance value, and alpha set to
+	       the converted alpha value.  After this conversion, the
+	       pixel is	treated	as if it had been read as an RGBA
+	       pixel.
+
+	  The following	table summarizes the meaning of	the valid
+	  constants for	the <EM>type</EM> parameter:
+
+
+
+
+
+
+
+
+
+
+
+	  ____________________________________________________________
+	  |	 <EM>type</EM>	     |		 <EM>corresponding</EM> <EM>type</EM>	      |
+	  <EM>|</EM>__________________<EM>|</EM>________________________________________|
+	  |GL_UNSIGNED_BYTE  |	       unsigned	8-bit integer	      |
+	  |	GL_BYTE	     |		signed 8-bit integer	      |
+	  |    GL_BITMAP     | single bits in unsigned 8-bit integers |
+	  |GL_UNSIGNED_SHORT |	      unsigned 16-bit integer	      |
+	  |    GL_SHORT	     |	       signed 16-bit integer	      |
+	  | GL_UNSIGNED_INT  |	      unsigned 32-bit integer	      |
+	  |	GL_INT	     |		   32-bit integer	      |
+	  |    GL_FLOAT	     |	  single-precision floating-point     |
+	  <EM>|</EM>__________________<EM>|</EM>________________________________________|
+
+
+	  The rasterization described so far assumes pixel zoom
+	  factors of 1.	 If
+	  <STRONG>glPixelZoom</STRONG> is used to change	the x and y pixel zoom
+	  factors, pixels are converted	to fragments as	follows.  If
+	  (x , y ) is the current raster position, and a given pixel
+	  isrin	<STRONG>t</STRONG>he nth	column and mth row of the pixel	rectangle,
+	  then fragments are generated for pixels whose	centers	are in
+	  the rectangle	with corners at
+
+			       (x +zoom	n, y +zoom m)
+				 r     x    r	  y
+			   (x +zoom (n+1), y +zoom (m+1))
+			     r	   x	    r	  y
+
+	  where	zoom  is the value of <STRONG>GL_ZOOM_X</STRONG>	and zoom  is the value
+	  of <STRONG>GL_ZOOM_Y</STRONG>.					y
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_VALUE</STRONG> is generated	if either <EM>width</EM>	or <EM>height</EM> is
+	  negative.
+
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>format</EM> or <EM>type</EM> is not	one of
+	  the accepted values.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <EM>format</EM> is <STRONG>GL_RED</STRONG>,
+	  <STRONG>GL_GREEN</STRONG>, <STRONG>GL_BLUE</STRONG>, <STRONG>GL_ALPHA</STRONG>, <STRONG>GL_RGB</STRONG>, <STRONG>GL_RGBA</STRONG>,	<STRONG>GL_LUMINANCE</STRONG>,
+	  or <STRONG>GL_LUMINANCE_ALPHA</STRONG>, and the GL is in color	index mode.
+
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>type</EM> is <STRONG>GL_BITMAP</STRONG> and	<EM>format</EM>
+	  is not either	<STRONG>GL_COLOR_INDEX</STRONG> or <STRONG>GL_STENCIL_INDEX</STRONG>.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <EM>format</EM> is
+	  <STRONG>GL_STENCIL_INDEX</STRONG> and there is	no stencil buffer.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glDrawPixels</STRONG> is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_CURRENT_RASTER_POSITION</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_CURRENT_RASTER_POSITION_VALID</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glAlphaFunc</STRONG>, <STRONG>glBlendFunc</STRONG>, <STRONG>glCopyPixels</STRONG>, <STRONG>glDepthFunc</STRONG>,
+	  <STRONG>glLogicOp</STRONG>, <STRONG>glPixelMap</STRONG>, <STRONG>glPixelStore</STRONG>, <STRONG>glPixelTransfer</STRONG>,
+	  <STRONG>glPixelZoom</STRONG>, <STRONG>glRasterPos</STRONG>, <STRONG>glReadPixels</STRONG>, <STRONG>glScissor</STRONG>,
+	  <STRONG>glStencilFunc</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

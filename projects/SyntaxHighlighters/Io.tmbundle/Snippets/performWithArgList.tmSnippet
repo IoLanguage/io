@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>content</key>
+	<string>performWithArgList("${1:name}", ${2:list(arg1, arg2)})</string>
+	<key>name</key>
+	<string>performWithArgList</string>
+	<key>scope</key>
+	<string>source.io</string>
+	<key>tabTrigger</key>
+	<string>performW</string>
+	<key>uuid</key>
+	<string>21E626EE-328F-40CC-8350-3BF169A86B0C</string>
+</dict>
+</plist>

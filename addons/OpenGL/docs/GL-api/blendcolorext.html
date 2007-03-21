@@ -1,0 +1,58 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glBlendColorEXT</STRONG> - set	the blend color
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glBlendColorEXT</STRONG>(	GLclampf <EM>red</EM>,
+				GLclampf <EM>green</EM>,
+				GLclampf <EM>blue</EM>,
+				GLclampf <EM>alpha</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+     <STRONG>GL_BLEND_COLOR_EXT</STRONG>
+	  <EM>red</EM>, <EM>green</EM>, <EM>blue</EM>, <EM>alpha</EM> specify the components of
+
+
+     <STRONG>DESCRIPTION</STRONG>
+	  The <STRONG>GL_BLEND_COLOR_EXT</STRONG> may be	used to	calculate the source
+	  and destination blending factors. See	<STRONG>glBlendFunc</STRONG> for	a
+	  complete description of the blending operations.  Initially
+	  the <STRONG>GL_BLEND_COLOR_EXT</STRONG> is set	to (0,0,0,0).
+
+     <STRONG>NOTES</STRONG>
+	  <STRONG>glBlendColorEXT</STRONG> is part of the <STRONG>EXT_blend_color</STRONG> extension,
+	  not part of the core GL command set.	If <STRONG>GL_EXT_blend_color</STRONG>
+	  is included in the string returned by	<STRONG>glGetString</STRONG>, when
+	  called with argument <STRONG>GL_EXTENSIONS</STRONG>, extension
+	  <STRONG>EXT_blend_color</STRONG> is supported by the connection.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glBlendColorEXT</STRONG> is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with an	argument of <STRONG>GL_BLEND_COLOR_EXT</STRONG>.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glBlendFunc</STRONG>, <STRONG>glGetString</STRONG>.
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

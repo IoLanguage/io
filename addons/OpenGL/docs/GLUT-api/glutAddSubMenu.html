@@ -1,0 +1,64 @@
+
+<HTML><HEAD><TITLE>Manpage of glutAddSubMenu</TITLE>
+</HEAD><BODY>
+<H1>glutAddSubMenu</H1>
+Section: GLUT (3GLUT)<BR>Updated: 3.7<BR><A HREF="#index">Index</A>
+<A HREF="">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+glutAddSubMenu - adds a sub-menu trigger to the bottom of the current menu. 
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNTAX</H2>
+
+<PRE>
+
+void glutAddSubMenu(char *name, int menu);
+</PRE>
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>ARGUMENTS</H2>
+
+<DL COMPACT>
+<DT><I>name</I><DD>
+ASCII character string to display in the menu item from which
+to cascade the sub-menu. 
+<DT><I>menu</I><DD>
+Identifier of the menu to cascade from this sub-menu menu item. 
+</DL>
+<A NAME="lbAE">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+glutAddSubMenu adds a sub-menu trigger to the bottom of the
+current menu. The string name will be displayed for the newly added
+sub-menu trigger. If the sub-menu trigger is entered, the sub-menu
+numbered menu will be cascaded, allowing sub-menu menu items to
+be selected. 
+<A NAME="lbAF">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+glutAddMenuEntry, glutChangeToSubMenu, glutRemoveItem
+<A NAME="lbAG">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Mark J. Kilgard (<A HREF="mailto:mjk@nvidia.com">mjk@nvidia.com</A>)
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNTAX</A><DD>
+<DT><A HREF="#lbAD">ARGUMENTS</A><DD>
+<DT><A HREF="#lbAE">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAF">SEE ALSO</A><DD>
+<DT><A HREF="#lbAG">AUTHOR</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="">man2html</A>,
+using the manual pages.<BR>
+Time: 19:05:09 GMT, September 15, 2003
+</BODY>
+</HTML>

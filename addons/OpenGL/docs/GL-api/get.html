@@ -1,0 +1,1519 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glGetBooleanv,</STRONG> <STRONG>glGetDoublev,</STRONG> <STRONG>glGetFloatv,</STRONG> <STRONG>glGetIntegerv</STRONG> -
+	  return the value or values of	a selected parameter
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glGetBooleanv</STRONG>( GLenum <EM>pname</EM>,
+			      GLboolean	*<EM>params</EM>	)
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glGetDoublev</STRONG>( GLenum <EM>pname</EM>,
+			     GLdouble *<EM>params</EM> )
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glGetFloatv</STRONG>( GLenum <EM>pname</EM>,
+			    GLfloat *<EM>params</EM> )
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glGetIntegerv</STRONG>( GLenum <EM>pname</EM>,
+			      GLint *<EM>params</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>pname</EM>	  Specifies the	parameter value	to be returned.	 The
+		  symbolic constants in	the list below are accepted.
+
+	  <EM>params</EM>  Returns the value or values of the specified
+		  parameter.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  These	four commands return values for	simple state variables
+	  in GL. <EM>pname</EM> is a symbolic constant indicating the state
+	  variable to be returned, and <EM>params</EM> is a pointer to an array
+	  of the indicated type	in which to place the returned data.
+
+	  Type conversion is performed if <EM>params</EM> has a different type
+	  than the state variable value	being requested.  If
+	  <STRONG>glGetBooleanv</STRONG>	is called, a floating-point (or	integer) value
+	  is converted to <STRONG>GL_FALSE</STRONG> if and only if it is	0.0 (or	0).
+	  Otherwise, it	is converted to	<STRONG>GL_TRUE</STRONG>.  If <STRONG>glGetIntegerv</STRONG> is
+	  called, boolean values are returned as <STRONG>GL_TRUE</STRONG> or <STRONG>GL_FALSE</STRONG>,
+	  and most floating-point values are rounded to	the nearest
+	  integer value. Floating-point	colors and normals, however,
+	  are returned with a linear mapping that maps 1.0 to the most
+	  positive representable integer value,	and -1.0 to the	most
+	  negative representable integer value.	 If <STRONG>glGetFloatv</STRONG>	or
+	  <STRONG>glGetDoublev</STRONG> is called, boolean values are returned as
+	  <STRONG>GL_TRUE</STRONG> or <STRONG>GL_FALSE</STRONG>, and integer values are converted	to
+	  floating-point values.
+	  The following	symbolic constants are accepted	by <EM>pname</EM>:
+
+	  <STRONG>GL_ACCUM_ALPHA_BITS</STRONG>	   <EM>params</EM> returns one value, the
+				   number of alpha bitplanes in	the
+				   accumulation	buffer.
+
+	  <STRONG>GL_ACCUM_BLUE_BITS</STRONG>	   <EM>params</EM> returns one value, the
+				   number of blue bitplanes in the
+				   accumulation	buffer.
+
+	  <STRONG>GL_ACCUM_CLEAR_VALUE</STRONG>	   <EM>params</EM> returns four values:	the
+				   red,	green, blue, and alpha values
+				   used	to clear the accumulation
+				   buffer.  Integer values, if
+				   requested, are linearly mapped from
+				   the internal	floating-point
+				   representation such that 1.0
+				   returns the most positive
+				   representable integer value,	and
+				   -1.0	returns	the most negative
+				   representable integer value.	The
+				   initial value is (0,	0, 0, 0). See
+				   <STRONG>glClearAccum</STRONG>.
+
+	  <STRONG>GL_ACCUM_GREEN_BITS</STRONG>	   <EM>params</EM> returns one value, the
+				   number of green bitplanes in	the
+				   accumulation	buffer.
+
+	  <STRONG>GL_ACCUM_RED_BITS</STRONG>	   <EM>params</EM> returns one value, the
+				   number of red bitplanes in the
+				   accumulation	buffer.
+
+	  <STRONG>GL_ALPHA_BIAS</STRONG>		   <EM>params</EM> returns one value, the alpha
+				   bias	factor used during pixel
+				   transfers. The initial value	is 0.
+				   See <STRONG>glPixelTransfer</STRONG>.
+
+	  <STRONG>GL_ALPHA_BITS</STRONG>		   <EM>params</EM> returns one value, the
+				   number of alpha bitplanes in	each
+				   color buffer.
+
+	  <STRONG>GL_ALPHA_SCALE</STRONG>	   <EM>params</EM> returns one value, the alpha
+				   scale factor	used during pixel
+				   transfers. The initial value	is 1.
+				   See <STRONG>glPixelTransfer</STRONG>.
+
+	  <STRONG>GL_ALPHA_TEST</STRONG>		   <EM>params</EM> returns a single boolean
+				   value indicating whether alpha
+				   testing of fragments	is enabled.
+				   The initial value is	<STRONG>GL_FALSE</STRONG>. See
+				   <STRONG>glAlphaFunc</STRONG>.
+
+	  <STRONG>GL_ALPHA_TEST_FUNC</STRONG>	   <EM>params</EM> returns one value, the
+				   symbolic name of the	alpha test
+				   function. The initial value is
+				   <STRONG>GL_ALWAYS</STRONG>. See <STRONG>glAlphaFunc</STRONG>.
+
+	  <STRONG>GL_ALPHA_TEST_REF</STRONG>	   <EM>params</EM> returns one value, the
+				   reference value for the alpha test.
+				   The initial value is	0. See
+				   <STRONG>glAlphaFunc</STRONG>.	 An integer value, if
+				   requested, is linearly mapped from
+				   the internal	floating-point
+				   representation such that 1.0
+				   returns the most positive
+				   representable integer value,	and
+				   -1.0	returns	the most negative
+				   representable integer value.
+
+	  <STRONG>GL_ATTRIB_STACK_DEPTH</STRONG>	   <EM>params</EM> returns one value, the depth
+				   of the attribute stack.  If the
+				   stack is empty, 0 is	returned. The
+				   initial value is 0. See
+				   <STRONG>glPushAttrib</STRONG>.
+
+	  <STRONG>GL_AUTO_NORMAL</STRONG>	   <EM>params</EM> returns a single boolean
+				   value indicating whether 2D map
+				   evaluation automatically generates
+				   surface normals. The	initial	value
+				   is <STRONG>GL_FALSE</STRONG>.	See <STRONG>glMap2</STRONG>.
+
+	  <STRONG>GL_AUX_BUFFERS</STRONG>	   <EM>params</EM> returns one value, the
+				   number of auxiliary color buffers.
+				   The initial value is	0.
+
+	  <STRONG>GL_BLEND</STRONG>		   <EM>params</EM> returns a single boolean
+				   value indicating whether blending
+				   is enabled. The initial value is
+				   <STRONG>GL_FALSE</STRONG>. See <STRONG>glBlendFunc</STRONG>.
+
+	  <STRONG>GL_BLEND_COLOR_EXT</STRONG>	   <EM>params</EM> returns four values, the
+				   red,	green, blue, and alpha values
+				   which are the components of the
+				   blend color.	 See <STRONG>glBlendColorEXT</STRONG>.
+
+	  <STRONG>GL_BLEND_DST</STRONG>		   <EM>params</EM> returns one value, the
+				   symbolic constant identifying the
+				   destination blend function. The
+				   initial value is <STRONG>GL_ZERO</STRONG>. See
+				   <STRONG>glBlendFunc</STRONG>.
+
+	  <STRONG>GL_BLEND_EQUATION_EXT</STRONG>	   <EM>params</EM> returns one value, a
+				   symbolic constant indicating
+				   whether the blend equation is
+				   <STRONG>GL_FUNC_ADD_EXT</STRONG>, <STRONG>GL_MIN_EXT</STRONG> or
+				   <STRONG>GL_MAX_EXT</STRONG>. See <STRONG>glBlendEquationEXT</STRONG>.
+
+	  <STRONG>GL_BLEND_SRC</STRONG>		   <EM>params</EM> returns one value, the
+				   symbolic constant identifying the
+				   source blend	function. The initial
+				   value is <STRONG>GL_ONE</STRONG>. See	<STRONG>glBlendFunc</STRONG>.
+
+	  <STRONG>GL_BLUE_BIAS</STRONG>		   <EM>params</EM> returns one value, the blue
+				   bias	factor used during pixel
+				   transfers. The initial value	is 0.
+				   See <STRONG>glPixelTransfer</STRONG>.
+
+	  <STRONG>GL_BLUE_BITS</STRONG>		   <EM>params</EM> returns one value, the
+				   number of blue bitplanes in each
+				   color buffer.
+
+	  <STRONG>GL_BLUE_SCALE</STRONG>		   <EM>params</EM> returns one value, the blue
+				   scale factor	used during pixel
+				   transfers. The initial value	is 1.
+				   See <STRONG>glPixelTransfer</STRONG>.
+
+	  <STRONG>GL_CLIENT_ATTRIB_STACK_DEPTH</STRONG>
+				   <EM>params</EM> returns one value indicating
+				   the depth of	the attribute stack.
+				   The initial value is	0.  See
+				   <STRONG>glPushClientAttrib</STRONG>.
+
+	  <STRONG>GL_CLIP_PLANE</STRONG><EM>i</EM>	   <EM>params</EM> returns a single boolean
+				   value indicating whether the
+				   specified clipping plane is
+				   enabled. The	initial	value is
+				   <STRONG>GL_FALSE</STRONG>. See <STRONG>glClipPlane</STRONG>.
+
+	  <STRONG>GL_COLOR_ARRAY</STRONG>	   <EM>params</EM> returns a single boolean
+				   value indicating whether the	color
+				   array is enabled. The initial value
+				   is <STRONG>GL_FALSE</STRONG>.	See <STRONG>glColorPointer</STRONG>.
+
+	  <STRONG>GL_COLOR_ARRAY_SIZE</STRONG>	   <EM>params</EM> returns one value, the
+				   number of components	per color in
+				   the color array. The	initial	value
+				   is 4. See <STRONG>glColorPointer</STRONG>.
+
+	  <STRONG>GL_COLOR_ARRAY_STRIDE</STRONG>	   <EM>params</EM> returns one value, the byte
+				   offset between consecutive colors
+				   in the color	array. The initial
+				   value is 0. See <STRONG>glColorPointer</STRONG>.
+
+	  <STRONG>GL_COLOR_ARRAY_TYPE</STRONG>	   <EM>params</EM> returns one value, the data
+				   type	of each	component in the color
+				   array. The initial value is
+				   <STRONG>GL_FLOAT</STRONG>. See <STRONG>glColorPointer</STRONG>.
+
+	  <STRONG>GL_COLOR_CLEAR_VALUE</STRONG>	   <EM>params</EM> returns four values:	the
+				   red,	green, blue, and alpha values
+				   used	to clear the color buffers.
+				   Integer values, if requested, are
+				   linearly mapped from	the internal
+				   floating-point representation such
+				   that	1.0 returns the	most positive
+				   representable integer value,	and
+				   -1.0	returns	the most negative
+				   representable integer value.	The
+				   initial value is (0,	0, 0, 0). See
+				   <STRONG>glClearColor</STRONG>.
+
+	  <STRONG>GL_COLOR_LOGIC_OP</STRONG>	   <EM>params</EM> returns a single boolean
+				   value indicating whether a
+				   fragment's RGBA color values	are
+				   merged into the framebuffer using a
+				   logical operation. The initial
+				   value is <STRONG>GL_FALSE</STRONG>.  See <STRONG>glLogicOp</STRONG>.
+
+	  <STRONG>GL_COLOR_MATERIAL</STRONG>	   <EM>params</EM> returns a single boolean
+				   value indicating whether one	or
+				   more	material parameters are
+				   tracking the	current	color. The
+				   initial value is <STRONG>GL_FALSE</STRONG>. See
+				   <STRONG>glColorMaterial</STRONG>.
+
+	  <STRONG>GL_COLOR_MATERIAL_FACE</STRONG>   <EM>params</EM> returns one value, a
+				   symbolic constant indicating	which
+				   materials have a parameter that is
+				   tracking the	current	color. The
+				   initial value is <STRONG>GL_FRONT_AND_BACK</STRONG>.
+				   See <STRONG>glColorMaterial</STRONG>.
+
+	  <STRONG>GL_COLOR_MATERIAL_PARAMETER</STRONG>
+				   <EM>params</EM> returns one value, a
+				   symbolic constant indicating	which
+				   material parameters are tracking
+				   the current color. The initial
+				   value is <STRONG>GL_AMBIENT_AND_DIFFUSE</STRONG>.
+				   See <STRONG>glColorMaterial</STRONG>.
+
+	  <STRONG>GL_COLOR_WRITEMASK</STRONG>	   <EM>params</EM> returns four boolean values:
+				   the red, green, blue, and alpha
+				   write enables for the color
+				   buffers. The	initial	value is
+				   (<STRONG>GL_TRUE</STRONG>, <STRONG>GL_TRUE</STRONG>, <STRONG>GL_TRUE</STRONG>,
+				   <STRONG>GL_TRUE</STRONG>). See <STRONG>glColorMask</STRONG>.
+
+	  <STRONG>GL_CULL_FACE</STRONG>		   <EM>params</EM> returns a single boolean
+				   value indicating whether polygon
+				   culling is enabled. The initial
+				   value is <STRONG>GL_FALSE</STRONG>. See <STRONG>glCullFace</STRONG>.
+
+	  <STRONG>GL_CULL_FACE_MODE</STRONG>	   <EM>params</EM> returns one value, a
+				   symbolic constant indicating	which
+				   polygon faces are to	be culled. The
+				   initial value is <STRONG>GL_BACK</STRONG>. See
+				   <STRONG>glCullFace</STRONG>.
+
+	  <STRONG>GL_CURRENT_COLOR</STRONG>	   <EM>params</EM> returns four values:	the
+				   red,	green, blue, and alpha values
+				   of the current color.  Integer
+				   values, if requested, are linearly
+				   mapped from the internal floating-
+				   point representation	such that 1.0
+				   returns the most positive
+				   representable integer value,	and
+				   -1.0	returns	the most negative
+				   representable integer value.	 See
+				   <STRONG>glColor</STRONG>. The	initial	value is (1,
+				   1, 1, 1).
+
+	  <STRONG>GL_CURRENT_INDEX</STRONG>	   <EM>params</EM> returns one value, the
+				   current color index.	The initial
+				   value is 1. See <STRONG>glIndex</STRONG>.
+
+	  <STRONG>GL_CURRENT_NORMAL</STRONG>	   <EM>params</EM> returns three	values:	 the
+				   <EM>x</EM>, <EM>y</EM>, and <EM>z</EM> values of the current
+				   normal.  Integer values, if
+				   requested, are linearly mapped from
+				   the internal	floating-point
+				   representation such that 1.0
+				   returns the most positive
+				   representable integer value,	and
+				   -1.0	returns	the most negative
+				   representable integer value.	 The
+				   initial value is (0,	0, 1). See
+				   <STRONG>glNormal</STRONG>.
+
+	  <STRONG>GL_CURRENT_RASTER_COLOR</STRONG>  <EM>params</EM> returns four values:	the
+				   red,	green, blue, and alpha values
+				   of the current raster position.
+				   Integer values, if requested, are
+				   linearly mapped from	the internal
+				   floating-point representation such
+				   that	1.0 returns the	most positive
+				   representable integer value,	and
+				   -1.0	returns	the most negative
+				   representable integer value.	The
+				   initial value is (1,	1, 1, 1). See
+				   <STRONG>glRasterPos</STRONG>.
+
+	  <STRONG>GL_CURRENT_RASTER_DISTANCE</STRONG>
+				   <EM>params</EM> returns one value, the
+				   distance from the eye to the
+				   current raster position. The
+				   initial value is 0.	See
+				   <STRONG>glRasterPos</STRONG>.
+
+	  <STRONG>GL_CURRENT_RASTER_INDEX</STRONG>  <EM>params</EM> returns one value, the color
+				   index of the	current	raster
+				   position. The initial value is 1.
+				   See <STRONG>glRasterPos</STRONG>.
+
+	  <STRONG>GL_CURRENT_RASTER_POSITION</STRONG>
+				   <EM>params</EM> returns four values:	the <EM>x</EM>,
+				   <EM>y</EM>, <EM>z</EM>, and <EM>w</EM> components of the
+				   current raster position.  <EM>x</EM>,	<EM>y</EM>, and
+				   <EM>z</EM> are in window coordinates,	and <EM>w</EM>
+				   is in clip coordinates. The initial
+				   value is (0,	0, 0, 1). See
+				   <STRONG>glRasterPos</STRONG>.
+
+	  <STRONG>GL_CURRENT_RASTER_POSITION_VALID</STRONG>
+				   <EM>params</EM> returns a single boolean
+				   value indicating whether the
+				   current raster position is valid.
+				   The initial value is	<STRONG>GL_TRUE</STRONG>.  See
+				   <STRONG>glRasterPos</STRONG>.
+
+	  <STRONG>GL_CURRENT_RASTER_TEXTURE_COORDS</STRONG>
+				   <EM>params</EM> returns four values:	the <EM>s</EM>,
+				   <EM>t</EM>, <EM>r</EM>, and <EM>q</EM> current raster texture
+				   coordinates.	The initial value is
+				   (0, 0, 0, 1).  See <STRONG>glRasterPos</STRONG> and
+				   <STRONG>glTexCoord</STRONG>.
+
+	  <STRONG>GL_CURRENT_TEXTURE_COORDS</STRONG>
+				   <EM>params</EM> returns four values:	the <EM>s</EM>,
+				   <EM>t</EM>, <EM>r</EM>, and <EM>q</EM> current texture
+				   coordinates.	The initial value is
+				   (0, 0, 0, 1).  See <STRONG>glTexCoord</STRONG>.
+
+	  <STRONG>GL_DEPTH_BIAS</STRONG>		   <EM>params</EM> returns one value, the depth
+				   bias	factor used during pixel
+				   transfers. The initial value	is 0.
+				   See <STRONG>glPixelTransfer</STRONG>.
+
+	  <STRONG>GL_DEPTH_BITS</STRONG>		   <EM>params</EM> returns one value, the
+				   number of bitplanes in the depth
+				   buffer.
+
+	  <STRONG>GL_DEPTH_CLEAR_VALUE</STRONG>	   <EM>params</EM> returns one value, the value
+				   that	is used	to clear the depth
+				   buffer.  Integer values, if
+				   requested, are linearly mapped from
+				   the internal	floating-point
+				   representation such that 1.0
+				   returns the most positive
+				   representable integer value,	and
+				   -1.0	returns	the most negative
+				   representable integer value.	The
+				   initial value is 1. See
+				   <STRONG>glClearDepth</STRONG>.
+
+	  <STRONG>GL_DEPTH_FUNC</STRONG>		   <EM>params</EM> returns one value, the
+				   symbolic constant that indicates
+				   the depth comparison	function. The
+				   initial value is <STRONG>GL_LESS</STRONG>. See
+				   <STRONG>glDepthFunc</STRONG>.
+
+	  <STRONG>GL_DEPTH_RANGE</STRONG>	   <EM>params</EM> returns two values:  the
+				   near	and far	mapping	limits for the
+				   depth buffer.  Integer values, if
+				   requested, are linearly mapped from
+				   the internal	floating-point
+				   representation such that 1.0
+				   returns the most positive
+				   representable integer value,	and
+				   -1.0	returns	the most negative
+				   representable integer value.	The
+				   initial value is (0,	1).  See
+				   <STRONG>glDepthRange</STRONG>.
+
+	  <STRONG>GL_DEPTH_SCALE</STRONG>	   <EM>params</EM> returns one value, the depth
+				   scale factor	used during pixel
+				   transfers. The initial value	is 1.
+				   See <STRONG>glPixelTransfer</STRONG>.
+
+	  <STRONG>GL_DEPTH_TEST</STRONG>		   <EM>params</EM> returns a single boolean
+				   value indicating whether depth
+				   testing of fragments	is enabled.
+				   The initial value is	<STRONG>GL_FALSE</STRONG>. See
+				   <STRONG>glDepthFunc</STRONG> and <STRONG>glDepthRange</STRONG>.
+
+	  <STRONG>GL_DEPTH_WRITEMASK</STRONG>	   <EM>params</EM> returns a single boolean
+				   value indicating if the depth
+				   buffer is enabled for writing. The
+				   initial value is <STRONG>GL_TRUE</STRONG>. See
+				   <STRONG>glDepthMask</STRONG>.
+
+	  <STRONG>GL_DITHER</STRONG>		   <EM>params</EM> returns a single boolean
+				   value indicating whether dithering
+				   of fragment colors and indices is
+				   enabled. The	initial	value is
+				   <STRONG>GL_TRUE</STRONG>.
+
+	  <STRONG>GL_DOUBLEBUFFER</STRONG>	   <EM>params</EM> returns a single boolean
+				   value indicating whether double
+				   buffering is	supported.
+
+	  <STRONG>GL_DRAW_BUFFER</STRONG>	   <EM>params</EM> returns one value, a
+				   symbolic constant indicating	which
+				   buffers are being drawn to. See
+				   <STRONG>glDrawBuffer</STRONG>. The initial value is
+				   <STRONG>GL_BACK</STRONG> if there are	back buffers,
+				   otherwise it	is <STRONG>GL_FRONT</STRONG>.
+
+	  <STRONG>GL_EDGE_FLAG</STRONG>		   <EM>params</EM> returns a single boolean
+				   value indicating whether the
+				   current edge	flag is	<STRONG>GL_TRUE</STRONG>	or
+				   <STRONG>GL_FALSE</STRONG>. The initial value is
+				   <STRONG>GL_TRUE</STRONG>. See	<STRONG>glEdgeFlag</STRONG>.
+
+	  <STRONG>GL_EDGE_FLAG_ARRAY</STRONG>	   <EM>params</EM> returns a single boolean
+				   value indicating whether the	edge
+				   flag	array is enabled. The initial
+				   value is <STRONG>GL_FALSE</STRONG>. See
+				   <STRONG>glEdgeFlagPointer</STRONG>.
+
+	  <STRONG>GL_EDGE_FLAG_ARRAY_STRIDE</STRONG>
+				   <EM>params</EM> returns one value, the byte
+				   offset between consecutive edge
+				   flags in the	edge flag array. The
+				   initial value is 0.	See
+				   <STRONG>glEdgeFlagPointer</STRONG>.
+
+	  <STRONG>GL_FOG</STRONG>		   <EM>params</EM> returns a single boolean
+				   value indicating whether fogging is
+				   enabled. The	initial	value is
+				   <STRONG>GL_FALSE</STRONG>. See <STRONG>glFog</STRONG>.
+
+	  <STRONG>GL_FOG_COLOR</STRONG>		   <EM>params</EM> returns four values:	the
+				   red,	green, blue, and alpha
+				   components of the fog color.
+				   Integer values, if requested, are
+				   linearly mapped from	the internal
+				   floating-point representation such
+				   that	1.0 returns the	most positive
+				   representable integer value,	and
+				   -1.0	returns	the most negative
+				   representable integer value.	The
+				   initial value is (0,	0, 0, 0). See
+				   <STRONG>glFog</STRONG>.
+
+	  <STRONG>GL_FOG_DENSITY</STRONG>	   <EM>params</EM> returns one value, the fog
+				   density parameter. The initial
+				   value is 1. See <STRONG>glFog</STRONG>.
+
+	  <STRONG>GL_FOG_END</STRONG>		   <EM>params</EM> returns one value, the end
+				   factor for the linear fog equation.
+				   The initial value is	1. See <STRONG>glFog</STRONG>.
+
+	  <STRONG>GL_FOG_HINT</STRONG>		   <EM>params</EM> returns one value, a
+				   symbolic constant indicating	the
+				   mode	of the fog hint. The initial
+				   value is <STRONG>GL_DONT_CARE</STRONG>.  See <STRONG>glHint</STRONG>.
+
+	  <STRONG>GL_FOG_INDEX</STRONG>		   <EM>params</EM> returns one value, the fog
+				   color index.	The initial value is
+				   0. See <STRONG>glFog</STRONG>.
+
+	  <STRONG>GL_FOG_MODE</STRONG>		   <EM>params</EM> returns one value, a
+				   symbolic constant indicating	which
+				   fog equation	is selected. The
+				   initial value is <STRONG>GL_EXP</STRONG>. See	<STRONG>glFog</STRONG>.
+
+	  <STRONG>GL_FOG_START</STRONG>		   <EM>params</EM> returns one value, the start
+				   factor for the linear fog equation.
+				   The initial value is	0. See <STRONG>glFog</STRONG>.
+
+	  <STRONG>GL_FRONT_FACE</STRONG>		   <EM>params</EM> returns one value, a
+				   symbolic constant indicating
+				   whether clockwise or
+				   counterclockwise polygon winding is
+				   treated as front-facing. The
+				   initial value is <STRONG>GL_CCW</STRONG>. See
+				   <STRONG>glFrontFace</STRONG>.
+
+	  <STRONG>GL_GREEN_BIAS</STRONG>		   <EM>params</EM> returns one value, the green
+				   bias	factor used during pixel
+				   transfers. The initial value	is 0.
+
+	  <STRONG>GL_GREEN_BITS</STRONG>		   <EM>params</EM> returns one value, the
+				   number of green bitplanes in	each
+				   color buffer.
+
+	  <STRONG>GL_GREEN_SCALE</STRONG>	   <EM>params</EM> returns one value, the green
+				   scale factor	used during pixel
+				   transfers. The initial value	is 1.
+				   See <STRONG>glPixelTransfer</STRONG>.
+
+	  <STRONG>GL_INDEX_ARRAY</STRONG>	   <EM>params</EM> returns a single boolean
+				   value indicating whether the	color
+				   index array is enabled. The initial
+				   value is <STRONG>GL_FALSE</STRONG>. See
+				   <STRONG>glIndexPointer</STRONG>.
+
+	  <STRONG>GL_INDEX_ARRAY_STRIDE</STRONG>	   <EM>params</EM> returns one value, the byte
+				   offset between consecutive color
+				   indexes in the color	index array.
+				   The initial value is	0. See
+				   <STRONG>glIndexPointer</STRONG>.
+
+	  <STRONG>GL_INDEX_ARRAY_TYPE</STRONG>	   <EM>params</EM> returns one value, the data
+				   type	of indexes in the color	index
+				   array. The initial value is
+				   <STRONG>GL_FLOAT</STRONG>. See <STRONG>glIndexPointer</STRONG>.
+
+	  <STRONG>GL_INDEX_BITS</STRONG>		   <EM>params</EM> returns one value, the
+				   number of bitplanes in each color
+				   index buffer.
+
+	  <STRONG>GL_INDEX_CLEAR_VALUE</STRONG>	   <EM>params</EM> returns one value, the color
+				   index used to clear the color index
+				   buffers. The	initial	value is 0.
+				   See <STRONG>glClearIndex</STRONG>.
+
+	  <STRONG>GL_INDEX_LOGIC_OP</STRONG>	   <EM>params</EM> returns a single boolean
+				   value indicating whether a
+				   fragment's index values are merged
+				   into	the framebuffer	using a
+				   logical operation. The initial
+				   value is <STRONG>GL_FALSE</STRONG>. See <STRONG>glLogicOp</STRONG>.
+
+	  <STRONG>GL_INDEX_MODE</STRONG>		   <EM>params</EM> returns a single boolean
+				   value indicating whether the	GL is
+				   in color index mode (<STRONG>GL_TRUE</STRONG>) or
+				   RGBA	mode (<STRONG>GL_FALSE</STRONG>).
+
+	  <STRONG>GL_INDEX_OFFSET</STRONG>	   <EM>params</EM> returns one value, the
+				   offset added	to color and stencil
+				   indices during pixel	transfers. The
+				   initial value is 0. See
+				   <STRONG>glPixelTransfer</STRONG>.
+
+	  <STRONG>GL_INDEX_SHIFT</STRONG>	   <EM>params</EM> returns one value, the
+				   amount that color and stencil
+				   indices are shifted during pixel
+				   transfers. The initial value	is 0.
+				   See <STRONG>glPixelTransfer</STRONG>.
+
+	  <STRONG>GL_INDEX_WRITEMASK</STRONG>	   <EM>params</EM> returns one value, a mask
+				   indicating which bitplanes of each
+				   color index buffer can be written.
+				   The initial value is	all 1's. See
+				   <STRONG>glIndexMask</STRONG>.
+
+	  <STRONG>GL_LIGHT</STRONG><EM>i</EM>		   <EM>params</EM> returns a single boolean
+				   value indicating whether the
+				   specified light is enabled. The
+				   initial value is <STRONG>GL_FALSE</STRONG>. See
+				   <STRONG>glLight</STRONG> and <STRONG>glLightModel</STRONG>.
+
+	  <STRONG>GL_LIGHTING</STRONG>		   <EM>params</EM> returns a single boolean
+				   value indicating whether lighting
+				   is enabled. The initial value is
+				   <STRONG>GL_FALSE</STRONG>. See <STRONG>glLightModel</STRONG>.
+
+	  <STRONG>GL_LIGHT_MODEL_AMBIENT</STRONG>   <EM>params</EM> returns four values:	the
+				   red,	green, blue, and alpha
+				   components of the ambient intensity
+				   of the entire scene.	 Integer
+				   values, if requested, are linearly
+				   mapped from the internal floating-
+				   point representation	such that 1.0
+				   returns the most positive
+				   representable integer value,	and
+				   -1.0	returns	the most negative
+				   representable integer value.	The
+				   initial value is (0.2, 0.2, 0.2,
+				   1.0). See <STRONG>glLightModel</STRONG>.
+
+	  <STRONG>GL_LIGHT_MODEL_LOCAL_VIEWER</STRONG>
+				   <EM>params</EM> returns a single boolean
+				   value indicating whether specular
+				   reflection calculations treat the
+				   viewer as being local to the	scene.
+				   The initial value is	<STRONG>GL_FALSE</STRONG>. See
+				   <STRONG>glLightModel</STRONG>.
+
+	  <STRONG>GL_LIGHT_MODEL_TWO_SIDE</STRONG>  <EM>params</EM> returns a single boolean
+				   value indicating whether separate
+				   materials are used to compute
+				   lighting for	front- and back-facing
+				   polygons. The initial value is
+				   <STRONG>GL_FALSE</STRONG>. See <STRONG>glLightModel</STRONG>.
+
+	  <STRONG>GL_LINE_SMOOTH</STRONG>	   <EM>params</EM> returns a single boolean
+				   value indicating whether
+				   antialiasing	of lines is enabled.
+				   The initial value is	<STRONG>GL_FALSE</STRONG>. See
+				   <STRONG>glLineWidth</STRONG>.
+
+	  <STRONG>GL_LINE_SMOOTH_HINT</STRONG>	   <EM>params</EM> returns one value, a
+				   symbolic constant indicating	the
+				   mode	of the line antialiasing hint.
+				   The initial value is	<STRONG>GL_DONT_CARE</STRONG>.
+				   See <STRONG>glHint</STRONG>.
+
+	  <STRONG>GL_LINE_STIPPLE</STRONG>	   <EM>params</EM> returns a single boolean
+				   value indicating whether stippling
+				   of lines is enabled.	The initial
+				   value is <STRONG>GL_FALSE</STRONG>.  See
+				   <STRONG>glLineStipple</STRONG>.
+
+	  <STRONG>GL_LINE_STIPPLE_PATTERN</STRONG>  <EM>params</EM> returns one value, the 16-
+				   bit line stipple pattern. The
+				   initial value is all	1's. See
+				   <STRONG>glLineStipple</STRONG>.
+
+	  <STRONG>GL_LINE_STIPPLE_REPEAT</STRONG>   <EM>params</EM> returns one value, the line
+				   stipple repeat factor. The initial
+				   value is 1. See <STRONG>glLineStipple</STRONG>.
+
+	  <STRONG>GL_LINE_WIDTH</STRONG>		   <EM>params</EM> returns one value, the line
+				   width as specified with
+				   <STRONG>glLineWidth</STRONG>.	The initial value is
+				   1.
+
+	  <STRONG>GL_LINE_WIDTH_GRANULARITY</STRONG>
+				   <EM>params</EM> returns one value, the width
+				   difference between adjacent
+				   supported widths for	antialiased
+				   lines.  See <STRONG>glLineWidth</STRONG>.
+
+	  <STRONG>GL_LINE_WIDTH_RANGE</STRONG>	   <EM>params</EM> returns two values:  the
+				   smallest and	largest	supported
+				   widths for antialiased lines. See
+				   <STRONG>glLineWidth</STRONG>.
+
+	  <STRONG>GL_LIST_BASE</STRONG>		   <EM>params</EM> returns one value, the base
+				   offset added	to all names in	arrays
+				   presented to	<STRONG>glCallLists</STRONG>. The
+				   initial value is 0. See <STRONG>glListBase</STRONG>.
+
+	  <STRONG>GL_LIST_INDEX</STRONG>		   <EM>params</EM> returns one value, the name
+				   of the display list currently under
+				   construction.  0 is returned	if no
+				   display list	is currently under
+				   construction. The initial value is
+				   0.  See <STRONG>glNewList</STRONG>.
+
+	  <STRONG>GL_LIST_MODE</STRONG>		   <EM>params</EM> returns one value, a
+				   symbolic constant indicating	the
+				   construction	mode of	the display
+				   list	currently under	construction.
+				   The initial value is	0.  See
+				   <STRONG>glNewList</STRONG>.
+
+	  <STRONG>GL_LOGIC_OP_MODE</STRONG>	   <EM>params</EM> returns one value, a
+				   symbolic constant indicating	the
+				   selected logic operation mode. The
+				   initial value is <STRONG>GL_COPY</STRONG>. See
+				   <STRONG>glLogicOp</STRONG>.
+
+	  <STRONG>GL_MAP1_COLOR_4</STRONG>	   <EM>params</EM> returns a single boolean
+				   value indicating whether 1D
+				   evaluation generates	colors.	The
+				   initial value is <STRONG>GL_FALSE</STRONG>.  See
+				   <STRONG>glMap1</STRONG>.
+
+	  <STRONG>GL_MAP1_GRID_DOMAIN</STRONG>	   <EM>params</EM> returns two values:  the
+				   endpoints of	the 1D map's grid
+				   domain. The initial value is	(0,
+				   1). See <STRONG>glMapGrid</STRONG>.
+
+	  <STRONG>GL_MAP1_GRID_SEGMENTS</STRONG>	   <EM>params</EM> returns one value, the
+				   number of partitions	in the 1D
+				   map's grid domain. The initial
+				   value is 1. See <STRONG>glMapGrid</STRONG>.
+
+	  <STRONG>GL_MAP1_INDEX</STRONG>		   <EM>params</EM> returns a single boolean
+				   value indicating whether 1D
+				   evaluation generates	color indices.
+				   The initial value is	<STRONG>GL_FALSE</STRONG>.  See
+				   <STRONG>glMap1</STRONG>.
+
+	  <STRONG>GL_MAP1_NORMAL</STRONG>	   <EM>params</EM> returns a single boolean
+				   value indicating whether 1D
+				   evaluation generates	normals. The
+				   initial value is <STRONG>GL_FALSE</STRONG>.  See
+				   <STRONG>glMap1</STRONG>.
+
+	  <STRONG>GL_MAP1_TEXTURE_COORD_1</STRONG>  <EM>params</EM> returns a single boolean
+				   value indicating whether 1D
+				   evaluation generates	1D texture
+				   coordinates.	The initial value is
+				   <STRONG>GL_FALSE</STRONG>. See <STRONG>glMap1</STRONG>.
+
+	  <STRONG>GL_MAP1_TEXTURE_COORD_2</STRONG>  <EM>params</EM> returns a single boolean
+				   value indicating whether 1D
+				   evaluation generates	2D texture
+				   coordinates.	The initial value is
+				   <STRONG>GL_FALSE</STRONG>. See <STRONG>glMap1</STRONG>.
+
+	  <STRONG>GL_MAP1_TEXTURE_COORD_3</STRONG>  <EM>params</EM> returns a single boolean
+				   value indicating whether 1D
+				   evaluation generates	3D texture
+				   coordinates.	The initial value is
+				   <STRONG>GL_FALSE</STRONG>. See <STRONG>glMap1</STRONG>.
+
+	  <STRONG>GL_MAP1_TEXTURE_COORD_4</STRONG>  <EM>params</EM> returns a single boolean
+				   value indicating whether 1D
+				   evaluation generates	4D texture
+				   coordinates.	The initial value is
+				   <STRONG>GL_FALSE</STRONG>.  See <STRONG>glMap1</STRONG>.
+
+	  <STRONG>GL_MAP1_VERTEX_3</STRONG>	   <EM>params</EM> returns a single boolean
+				   value indicating whether 1D
+				   evaluation generates	3D vertex
+				   coordinates.	The initial value is
+				   <STRONG>GL_FALSE</STRONG>. See <STRONG>glMap1</STRONG>.
+
+	  <STRONG>GL_MAP1_VERTEX_4</STRONG>	   <EM>params</EM> returns a single boolean
+				   value indicating whether 1D
+				   evaluation generates	4D vertex
+				   coordinates.	The initial value is
+				   <STRONG>GL_FALSE</STRONG>. See <STRONG>glMap1</STRONG>.
+
+	  <STRONG>GL_MAP2_COLOR_4</STRONG>	   <EM>params</EM> returns a single boolean
+				   value indicating whether 2D
+				   evaluation generates	colors.	The
+				   initial value is <STRONG>GL_FALSE</STRONG>.  See
+				   <STRONG>glMap2</STRONG>.
+
+	  <STRONG>GL_MAP2_GRID_DOMAIN</STRONG>	   <EM>params</EM> returns four values:	the
+				   endpoints of	the 2D map's i and j
+				   grid	domains. The initial value is
+				   (0,1; 0,1). See <STRONG>glMapGrid</STRONG>.
+
+	  <STRONG>GL_MAP2_GRID_SEGMENTS</STRONG>	   <EM>params</EM> returns two values:  the
+				   number of partitions	in the 2D
+				   map's i and j grid domains. The
+				   initial value is (1,1). See
+				   <STRONG>glMapGrid</STRONG>.
+
+	  <STRONG>GL_MAP2_INDEX</STRONG>		   <EM>params</EM> returns a single boolean
+				   value indicating whether 2D
+				   evaluation generates	color indices.
+				   The initial value is	<STRONG>GL_FALSE</STRONG>.  See
+				   <STRONG>glMap2</STRONG>.
+
+	  <STRONG>GL_MAP2_NORMAL</STRONG>	   <EM>params</EM> returns a single boolean
+				   value indicating whether 2D
+				   evaluation generates	normals. The
+				   initial value is <STRONG>GL_FALSE</STRONG>.  See
+				   <STRONG>glMap2</STRONG>.
+
+	  <STRONG>GL_MAP2_TEXTURE_COORD_1</STRONG>  <EM>params</EM> returns a single boolean
+				   value indicating whether 2D
+				   evaluation generates	1D texture
+				   coordinates.	The initial value is
+				   <STRONG>GL_FALSE</STRONG>. See <STRONG>glMap2</STRONG>.
+
+	  <STRONG>GL_MAP2_TEXTURE_COORD_2</STRONG>  <EM>params</EM> returns a single boolean
+				   value indicating whether 2D
+				   evaluation generates	2D texture
+				   coordinates.	The initial value is
+				   <STRONG>GL_FALSE</STRONG>. See <STRONG>glMap2</STRONG>.
+
+	  <STRONG>GL_MAP2_TEXTURE_COORD_3</STRONG>  <EM>params</EM> returns a single boolean
+				   value indicating whether 2D
+				   evaluation generates	3D texture
+				   coordinates.	The initial value is
+				   <STRONG>GL_FALSE</STRONG>. See <STRONG>glMap2</STRONG>.
+
+	  <STRONG>GL_MAP2_TEXTURE_COORD_4</STRONG>  <EM>params</EM> returns a single boolean
+				   value indicating whether 2D
+				   evaluation generates	4D texture
+				   coordinates.	The initial value is
+				   <STRONG>GL_FALSE</STRONG>. See <STRONG>glMap2</STRONG>.
+
+	  <STRONG>GL_MAP2_VERTEX_3</STRONG>	   <EM>params</EM> returns a single boolean
+				   value indicating whether 2D
+				   evaluation generates	3D vertex
+				   coordinates.	The initial value is
+				   <STRONG>GL_FALSE</STRONG>. See <STRONG>glMap2</STRONG>.
+
+	  <STRONG>GL_MAP2_VERTEX_4</STRONG>	   <EM>params</EM> returns a single boolean
+				   value indicating whether 2D
+				   evaluation generates	4D vertex
+				   coordinates.	The initial value is
+				   <STRONG>GL_FALSE</STRONG>. See <STRONG>glMap2</STRONG>.
+
+	  <STRONG>GL_MAP_COLOR</STRONG>		   <EM>params</EM> returns a single boolean
+				   value indicating if colors and
+				   color indices are to	be replaced by
+				   table lookup	during pixel
+				   transfers. The initial value	is
+				   <STRONG>GL_FALSE</STRONG>. See <STRONG>glPixelTransfer</STRONG>.
+
+	  <STRONG>GL_MAP_STENCIL</STRONG>	   <EM>params</EM> returns a single boolean
+				   value indicating if stencil indices
+				   are to be replaced by table lookup
+				   during pixel	transfers. The initial
+				   value is <STRONG>GL_FALSE</STRONG>. See
+				   <STRONG>glPixelTransfer</STRONG>.
+
+	  <STRONG>GL_MATRIX_MODE</STRONG>	   <EM>params</EM> returns one value, a
+				   symbolic constant indicating	which
+				   matrix stack	is currently the
+				   target of all matrix	operations.
+				   The initial value is	<STRONG>GL_MODELVIEW</STRONG>.
+				   See <STRONG>glMatrixMode</STRONG>.
+
+	  <STRONG>GL_MAX_CLIENT_ATTRIB_STACK_DEPTH</STRONG>
+				   <EM>params</EM> returns one value indicating
+				   the maximum supported depth of the
+				   client attribute stack.  See
+				   <STRONG>glPushClientAttrib</STRONG>.
+
+	  <STRONG>GL_MAX_ATTRIB_STACK_DEPTH</STRONG>
+				   <EM>params</EM> returns one value, the
+				   maximum supported depth of the
+				   attribute stack. The	value must be
+				   at least 16.	 See <STRONG>glPushAttrib</STRONG>.
+
+	  <STRONG>GL_MAX_CLIP_PLANES</STRONG>	   <EM>params</EM> returns one value, the
+				   maximum number of application-
+				   defined clipping planes. The	value
+				   must	be at least 6.	See
+				   <STRONG>glClipPlane</STRONG>.
+
+	  <STRONG>GL_MAX_EVAL_ORDER</STRONG>	   <EM>params</EM> returns one value, the
+				   maximum equation order supported by
+				   1D and 2D evaluators. The value
+				   must	be at least 8.	See <STRONG>glMap1</STRONG> and
+				   <STRONG>glMap2</STRONG>.
+
+	  <STRONG>GL_MAX_LIGHTS</STRONG>		   <EM>params</EM> returns one value, the
+				   maximum number of lights. The value
+				   must	be at least 8.	See <STRONG>glLight</STRONG>.
+
+	  <STRONG>GL_MAX_LIST_NESTING</STRONG>	   <EM>params</EM> returns one value, the
+				   maximum recursion depth allowed
+				   during display-list traversal. The
+				   value must be at least 64.  See
+				   <STRONG>glCallList</STRONG>.
+
+	  <STRONG>GL_MAX_MODELVIEW_STACK_DEPTH</STRONG>
+				   <EM>params</EM> returns one value, the
+				   maximum supported depth of the
+				   modelview matrix stack. The value
+				   must	be at least 32.	 See
+				   <STRONG>glPushMatrix</STRONG>.
+
+	  <STRONG>GL_MAX_NAME_STACK_DEPTH</STRONG>  <EM>params</EM> returns one value, the
+				   maximum supported depth of the
+				   selection name stack. The value
+				   must	be at least 64.	 See
+				   <STRONG>glPushName</STRONG>.
+
+	  <STRONG>GL_MAX_PIXEL_MAP_TABLE</STRONG>   <EM>params</EM> returns one value, the
+				   maximum supported size of a
+				   <STRONG>glPixelMap</STRONG> lookup table. The	value
+				   must	be at least 32.	 See
+				   <STRONG>glPixelMap</STRONG>.
+
+	  <STRONG>GL_MAX_PROJECTION_STACK_DEPTH</STRONG>
+				   <EM>params</EM> returns one value, the
+				   maximum supported depth of the
+				   projection matrix stack. The	value
+				   must	be at least 2.	See
+				   <STRONG>glPushMatrix</STRONG>.
+
+	  <STRONG>GL_MAX_TEXTURE_SIZE</STRONG>	   <EM>params</EM> returns one value.  The
+				   value gives a rough estimate	of the
+				   largest texture that	the GL can
+				   handle.  If the GL version is 1.1
+				   or greater, use <STRONG>GL_PROXY_TEXTURE_1D</STRONG>
+				   or <STRONG>GL_PROXY_TEXTURE_2D</STRONG> to determine
+				   if a	texture	is too large.  See
+				   <STRONG>glTexImage1D</STRONG>	and <STRONG>glTexImage2D</STRONG>.
+
+	  <STRONG>GL_MAX_TEXTURE_STACK_DEPTH</STRONG>
+				   <EM>params</EM> returns one value, the
+				   maximum supported depth of the
+				   texture matrix stack. The value
+				   must	be at least 2.	See
+				   <STRONG>glPushMatrix</STRONG>.
+
+	  <STRONG>GL_MAX_VIEWPORT_DIMS</STRONG>	   <EM>params</EM> returns two values:  the
+				   maximum supported width and height
+				   of the viewport.  These must	be at
+				   least as large as the visible
+				   dimensions of the display being
+				   rendered to.	 See <STRONG>glViewport</STRONG>.
+
+	  <STRONG>GL_MODELVIEW_MATRIX</STRONG>	   <EM>params</EM> returns sixteen values:  the
+				   modelview matrix on the top of the
+				   modelview matrix stack. Initially
+				   this	matrix is the identity matrix.
+				   See <STRONG>glPushMatrix</STRONG>.
+
+	  <STRONG>GL_MODELVIEW_STACK_DEPTH</STRONG> <EM>params</EM> returns one value, the
+				   number of matrices on the modelview
+				   matrix stack.  The initial value is
+				   1.  See <STRONG>glPushMatrix</STRONG>.
+
+	  <STRONG>GL_NAME_STACK_DEPTH</STRONG>	   <EM>params</EM> returns one value, the
+				   number of names on the selection
+				   name	stack. The initial value is 0.
+				   See <STRONG>glPushName</STRONG>.
+
+	  <STRONG>GL_NORMAL_ARRAY</STRONG>	   <EM>params</EM> returns a single boolean
+				   value, indicating whether the
+				   normal array	is enabled. The
+				   initial value is <STRONG>GL_FALSE</STRONG>. See
+				   <STRONG>glNormalPointer</STRONG>.
+
+	  <STRONG>GL_NORMAL_ARRAY_STRIDE</STRONG>   <EM>params</EM> returns one value, the byte
+				   offset between consecutive normals
+				   in the normal array.	The initial
+				   value is 0. See <STRONG>glNormalPointer</STRONG>.
+
+	  <STRONG>GL_NORMAL_ARRAY_TYPE</STRONG>	   <EM>params</EM> returns one value, the data
+				   type	of each	coordinate in the
+				   normal array. The initial value is
+				   <STRONG>GL_FLOAT</STRONG>. See <STRONG>glNormalPointer</STRONG>.
+
+	  <STRONG>GL_NORMALIZE</STRONG>		   <EM>params</EM> returns a single boolean
+				   value indicating whether normals
+				   are automatically scaled to unit
+				   length after	they have been
+				   transformed to eye coordinates. The
+				   initial value is <STRONG>GL_FALSE</STRONG>. See
+				   <STRONG>glNormal</STRONG>.
+
+	  <STRONG>GL_PACK_ALIGNMENT</STRONG>	   <EM>params</EM> returns one value, the byte
+				   alignment used for writing pixel
+				   data	to memory. The initial value
+				   is 4. See <STRONG>glPixelStore</STRONG>.
+
+	  <STRONG>GL_PACK_LSB_FIRST</STRONG>	   <EM>params</EM> returns a single boolean
+				   value indicating whether single-bit
+				   pixels being	written	to memory are
+				   written first to the	least
+				   significant bit of each unsigned
+				   byte. The initial value is
+				   <STRONG>GL_FALSE</STRONG>. See <STRONG>glPixelStore</STRONG>.
+
+	  <STRONG>GL_PACK_ROW_LENGTH</STRONG>	   <EM>params</EM> returns one value, the row
+				   length used for writing pixel data
+				   to memory. The initial value	is 0.
+				   See <STRONG>glPixelStore</STRONG>.
+
+	  <STRONG>GL_PACK_SKIP_PIXELS</STRONG>	   <EM>params</EM> returns one value, the
+				   number of pixel locations skipped
+				   before the first pixel is written
+				   into	memory.	The initial value is
+				   0. See <STRONG>glPixelStore</STRONG>.
+
+	  <STRONG>GL_PACK_SKIP_ROWS</STRONG>	   <EM>params</EM> returns one value, the
+				   number of rows of pixel locations
+				   skipped before the first pixel is
+				   written into	memory.	The initial
+				   value is 0. See <STRONG>glPixelStore</STRONG>.
+
+	  <STRONG>GL_PACK_SWAP_BYTES</STRONG>	   <EM>params</EM> returns a single boolean
+				   value indicating whether the	bytes
+				   of two-byte and four-byte pixel
+				   indices and components are swapped
+				   before being	written	to memory. The
+				   initial value is <STRONG>GL_FALSE</STRONG>. See
+				   <STRONG>glPixelStore</STRONG>.
+
+	  <STRONG>GL_PERSPECTIVE_CORRECTION_HINT</STRONG>
+				   <EM>params</EM> returns one value, a
+				   symbolic constant indicating	the
+				   mode	of the perspective correction
+				   hint. The initial value is
+				   <STRONG>GL_DONT_CARE</STRONG>. See <STRONG>glHint</STRONG>.
+
+	  <STRONG>GL_PIXEL_MAP_A_TO_A_SIZE</STRONG> <EM>params</EM> returns one value, the size
+				   of the alpha-to-alpha pixel
+				   translation table.  The initial
+				   value is 1.	See <STRONG>glPixelMap</STRONG>.
+
+	  <STRONG>GL_PIXEL_MAP_B_TO_B_SIZE</STRONG> <EM>params</EM> returns one value, the size
+				   of the blue-to-blue pixel
+				   translation table.  The initial
+				   value is 1.	See <STRONG>glPixelMap</STRONG>.
+
+	  <STRONG>GL_PIXEL_MAP_G_TO_G_SIZE</STRONG> <EM>params</EM> returns one value, the size
+				   of the green-to-green pixel
+				   translation table.  The initial
+				   value is 1.	See <STRONG>glPixelMap</STRONG>.
+
+	  <STRONG>GL_PIXEL_MAP_I_TO_A_SIZE</STRONG> <EM>params</EM> returns one value, the size
+				   of the index-to-alpha pixel
+				   translation table.  The initial
+				   value is 1.	See <STRONG>glPixelMap</STRONG>.
+
+	  <STRONG>GL_PIXEL_MAP_I_TO_B_SIZE</STRONG> <EM>params</EM> returns one value, the size
+				   of the index-to-blue	pixel
+				   translation table.  The initial
+				   value is 1.	See <STRONG>glPixelMap</STRONG>.
+
+	  <STRONG>GL_PIXEL_MAP_I_TO_G_SIZE</STRONG> <EM>params</EM> returns one value, the size
+				   of the index-to-green pixel
+				   translation table.  The initial
+				   value is 1.	See <STRONG>glPixelMap</STRONG>.
+
+	  <STRONG>GL_PIXEL_MAP_I_TO_I_SIZE</STRONG> <EM>params</EM> returns one value, the size
+				   of the index-to-index pixel
+				   translation table.  The initial
+				   value is 1.	See <STRONG>glPixelMap</STRONG>.
+
+	  <STRONG>GL_PIXEL_MAP_I_TO_R_SIZE</STRONG> <EM>params</EM> returns one value, the size
+				   of the index-to-red pixel
+				   translation table.  The initial
+				   value is 1.	See <STRONG>glPixelMap</STRONG>.
+
+	  <STRONG>GL_PIXEL_MAP_R_TO_R_SIZE</STRONG> <EM>params</EM> returns one value, the size
+				   of the red-to-red pixel translation
+				   table.  The initial value is	1.
+				   See <STRONG>glPixelMap</STRONG>.
+
+	  <STRONG>GL_PIXEL_MAP_S_TO_S_SIZE</STRONG> <EM>params</EM> returns one value, the size
+				   of the stencil-to-stencil pixel
+				   translation table.  The initial
+				   value is 1.	See <STRONG>glPixelMap</STRONG>.
+
+	  <STRONG>GL_POINT_SIZE</STRONG>		   <EM>params</EM> returns one value, the point
+				   size	as specified by	<STRONG>glPointSize</STRONG>.
+				   The initial value is	1.
+
+	  <STRONG>GL_POINT_SIZE_GRANULARITY</STRONG>
+				   <EM>params</EM> returns one value, the size
+				   difference between adjacent
+				   supported sizes for antialiased
+				   points.  See	<STRONG>glPointSize</STRONG>.
+
+	  <STRONG>GL_POINT_SIZE_RANGE</STRONG>	   <EM>params</EM> returns two values:  the
+				   smallest and	largest	supported
+				   sizes for antialiased points. The
+				   smallest size must be at most 1,
+				   and the largest size	must be	at
+				   least 1.  See <STRONG>glPointSize</STRONG>.
+
+	  <STRONG>GL_POINT_SMOOTH</STRONG>	   <EM>params</EM> returns a single boolean
+				   value indicating whether
+				   antialiasing	of points is enabled.
+				   The initial value is	<STRONG>GL_FALSE</STRONG>. See
+				   <STRONG>glPointSize</STRONG>.
+
+	  <STRONG>GL_POINT_SMOOTH_HINT</STRONG>	   <EM>params</EM> returns one value, a
+				   symbolic constant indicating	the
+				   mode	of the point antialiasing
+				   hint. The initial value is
+				   <STRONG>GL_DONT_CARE</STRONG>.  See <STRONG>glHint</STRONG>.
+
+	  <STRONG>GL_POLYGON_MODE</STRONG>	   <EM>params</EM> returns two values:
+				   symbolic constants indicating
+				   whether front-facing	and back-
+				   facing polygons are rasterized as
+				   points, lines, or filled polygons.
+				   The initial value is	<STRONG>GL_FILL</STRONG>. See
+				   <STRONG>glPolygonMode</STRONG>.
+
+	  <STRONG>GL_POLYGON_OFFSET_FACTOR</STRONG> <EM>params</EM> returns one value, the
+				   scaling factor used to determine
+				   the variable	offset that is added
+				   to the depth	value of each fragment
+				   generated when a polygon is
+				   rasterized. The initial value is 0.
+				   See <STRONG>glPolygonOffset</STRONG>.
+
+	  <STRONG>GL_POLYGON_OFFSET_UNITS</STRONG>  <EM>params</EM> returns one value.  This
+				   value is multiplied by an
+				   implementation-specific value and
+				   then	added to the depth value of
+				   each	fragment generated when	a
+				   polygon is rasterized. The initial
+				   value is 0. See <STRONG>glPolygonOffset</STRONG>.
+
+	  <STRONG>GL_POLYGON_OFFSET_FILL</STRONG>   <EM>params</EM> returns a single boolean
+				   value indicating whether polygon
+				   offset is enabled for polygons in
+				   fill	mode. The initial value	is
+				   <STRONG>GL_FALSE</STRONG>.  See <STRONG>glPolygonOffset</STRONG>.
+
+	  <STRONG>GL_POLYGON_OFFSET_LINE</STRONG>   <EM>params</EM> returns a single boolean
+				   value indicating whether polygon
+				   offset is enabled for polygons in
+				   line	mode. The initial value	is
+				   <STRONG>GL_FALSE</STRONG>.  See <STRONG>glPolygonOffset</STRONG>.
+
+	  <STRONG>GL_POLYGON_OFFSET_POINT</STRONG>  <EM>params</EM> returns a single boolean
+				   value indicating whether polygon
+				   offset is enabled for polygons in
+				   point mode. The initial value is
+				   <STRONG>GL_FALSE</STRONG>. See <STRONG>glPolygonOffset</STRONG>.
+
+	  <STRONG>GL_POLYGON_SMOOTH</STRONG>	   <EM>params</EM> returns a single boolean
+				   value indicating whether
+				   antialiasing	of polygons is
+				   enabled. The	initial	value is
+				   <STRONG>GL_FALSE</STRONG>. See <STRONG>glPolygonMode</STRONG>.
+
+	  <STRONG>GL_POLYGON_SMOOTH_HINT</STRONG>   <EM>params</EM> returns one value, a
+				   symbolic constant indicating	the
+				   mode	of the polygon antialiasing
+				   hint. The initial value is
+				   <STRONG>GL_DONT_CARE</STRONG>.  See <STRONG>glHint</STRONG>.
+
+	  <STRONG>GL_POLYGON_STIPPLE</STRONG>	   <EM>params</EM> returns a single boolean
+				   value indicating whether polygon
+				   stippling is	enabled. The initial
+				   value is <STRONG>GL_FALSE</STRONG>. See
+				   <STRONG>glPolygonStipple</STRONG>.
+
+	  <STRONG>GL_PROJECTION_MATRIX</STRONG>	   <EM>params</EM> returns sixteen values:  the
+				   projection matrix on	the top	of the
+				   projection matrix stack. Initially
+				   this	matrix is the identity matrix.
+				   See <STRONG>glPushMatrix</STRONG>.
+
+	  <STRONG>GL_PROJECTION_STACK_DEPTH</STRONG>
+				   <EM>params</EM> returns one value, the
+				   number of matrices on the
+				   projection matrix stack.  The
+				   initial value is 1.	See
+				   <STRONG>glPushMatrix</STRONG>.
+
+	  <STRONG>GL_READ_BUFFER</STRONG>	   <EM>params</EM> returns one value, a
+				   symbolic constant indicating	which
+				   color buffer	is selected for
+				   reading. The	initial	value is
+				   <STRONG>GL_BACK</STRONG> if there is a back buffer,
+				   otherwise it	is <STRONG>GL_FRONT</STRONG>.  See
+				   <STRONG>glReadPixels</STRONG>	and <STRONG>glAccum</STRONG>.
+
+	  <STRONG>GL_RED_BIAS</STRONG>		   <EM>params</EM> returns one value, the red
+				   bias	factor used during pixel
+				   transfers. The initial value	is 0.
+
+	  <STRONG>GL_RED_BITS</STRONG>		   <EM>params</EM> returns one value, the
+				   number of red bitplanes in each
+				   color buffer.
+
+	  <STRONG>GL_RED_SCALE</STRONG>		   <EM>params</EM> returns one value, the red
+				   scale factor	used during pixel
+				   transfers. The initial value	is 1.
+				   See <STRONG>glPixelTransfer</STRONG>.
+
+	  <STRONG>GL_RENDER_MODE</STRONG>	   <EM>params</EM> returns one value, a
+				   symbolic constant indicating
+				   whether the GL is in	render,
+				   select, or feedback mode. The
+				   initial value is <STRONG>GL_RENDER</STRONG>. See
+				   <STRONG>glRenderMode</STRONG>.
+
+	  <STRONG>GL_RGBA_MODE</STRONG>		   <EM>params</EM> returns a single boolean
+				   value indicating whether the	GL is
+				   in RGBA mode	(true) or color	index
+				   mode	(false).  See <STRONG>glColor</STRONG>.
+
+	  <STRONG>GL_SCISSOR_BOX</STRONG>	   <EM>params</EM> returns four values:	the x
+				   and y window	coordinates of the
+				   scissor box,	followed by its	width
+				   and height. Initially the x and y
+				   window coordinates are both 0 and
+				   the width and height	are set	to the
+				   size	of the window.	See <STRONG>glScissor</STRONG>.
+
+	  <STRONG>GL_SCISSOR_TEST</STRONG>	   <EM>params</EM> returns a single boolean
+				   value indicating whether scissoring
+				   is enabled. The initial value is
+				   <STRONG>GL_FALSE</STRONG>.  See <STRONG>glScissor</STRONG>.
+
+	  <STRONG>GL_SHADE_MODEL</STRONG>	   <EM>params</EM> returns one value, a
+				   symbolic constant indicating
+				   whether the shading mode is flat or
+				   smooth. The initial value is
+				   <STRONG>GL_SMOOTH</STRONG>. See <STRONG>glShadeModel</STRONG>.
+
+	  <STRONG>GL_STENCIL_BITS</STRONG>	   <EM>params</EM> returns one value, the
+				   number of bitplanes in the stencil
+				   buffer.
+
+	  <STRONG>GL_STENCIL_CLEAR_VALUE</STRONG>   <EM>params</EM> returns one value, the index
+				   to which the	stencil	bitplanes are
+				   cleared. The	initial	value is 0.
+				   See <STRONG>glClearStencil</STRONG>.
+
+	  <STRONG>GL_STENCIL_FAIL</STRONG>	   <EM>params</EM> returns one value, a
+				   symbolic constant indicating	what
+				   action is taken when	the stencil
+				   test	fails. The initial value is
+				   <STRONG>GL_KEEP</STRONG>. See	<STRONG>glStencilOp</STRONG>.
+
+	  <STRONG>GL_STENCIL_FUNC</STRONG>	   <EM>params</EM> returns one value, a
+				   symbolic constant indicating	what
+				   function is used to compare the
+				   stencil reference value with	the
+				   stencil buffer value. The initial
+				   value is <STRONG>GL_ALWAYS</STRONG>. See
+				   <STRONG>glStencilFunc</STRONG>.
+
+	  <STRONG>GL_STENCIL_PASS_DEPTH_FAIL</STRONG>
+				   <EM>params</EM> returns one value, a
+				   symbolic constant indicating	what
+				   action is taken when	the stencil
+				   test	passes,	but the	depth test
+				   fails. The initial value is
+				   <STRONG>GL_KEEP</STRONG>. See	<STRONG>glStencilOp</STRONG>.
+
+	  <STRONG>GL_STENCIL_PASS_DEPTH_PASS</STRONG>
+				   <EM>params</EM> returns one value, a
+				   symbolic constant indicating	what
+				   action is taken when	the stencil
+				   test	passes and the depth test
+				   passes. The initial value is
+				   <STRONG>GL_KEEP</STRONG>. See	<STRONG>glStencilOp</STRONG>.
+
+	  <STRONG>GL_STENCIL_REF</STRONG>	   <EM>params</EM> returns one value, the
+				   reference value that	is compared
+				   with	the contents of	the stencil
+				   buffer. The initial value is	0. See
+				   <STRONG>glStencilFunc</STRONG>.
+
+	  <STRONG>GL_STENCIL_TEST</STRONG>	   <EM>params</EM> returns a single boolean
+				   value indicating whether stencil
+				   testing of fragments	is enabled.
+				   The initial value is	<STRONG>GL_FALSE</STRONG>.  See
+				   <STRONG>glStencilFunc</STRONG> and <STRONG>glStencilOp</STRONG>.
+
+	  <STRONG>GL_STENCIL_VALUE_MASK</STRONG>	   <EM>params</EM> returns one value, the mask
+				   that	is used	to mask	both the
+				   stencil reference value and the
+				   stencil buffer value	before they
+				   are compared. The initial value is
+				   all 1's.  See <STRONG>glStencilFunc</STRONG>.
+
+	  <STRONG>GL_STENCIL_WRITEMASK</STRONG>	   <EM>params</EM> returns one value, the mask
+				   that	controls writing of the
+				   stencil bitplanes. The initial
+				   value is all	1's. See
+				   <STRONG>glStencilMask</STRONG>.
+
+	  <STRONG>GL_STEREO</STRONG>		   <EM>params</EM> returns a single boolean
+				   value indicating whether stereo
+				   buffers (left and right) are
+				   supported.
+
+	  <STRONG>GL_SUBPIXEL_BITS</STRONG>	   <EM>params</EM> returns one value, an
+				   estimate of the number of bits of
+				   subpixel resolution that are	used
+				   to position rasterized geometry in
+				   window coordinates. The initial
+				   value is 4.
+
+	  <STRONG>GL_TEXTURE_1D</STRONG>		   <EM>params</EM> returns a single boolean
+				   value indicating whether 1D texture
+				   mapping is enabled. The initial
+				   value is <STRONG>GL_FALSE</STRONG>.  See
+				   <STRONG>glTexImage1D</STRONG>.
+
+	  <STRONG>GL_TEXTURE_1D_BINDING</STRONG>	   <EM>params</EM> returns a single value, the
+				   name	of the texture currently bound
+				   to the target <STRONG>GL_TEXTURE_1D</STRONG>.	The
+				   initial value is 0.	See
+				   <STRONG>glBindTexture</STRONG>.
+
+	  <STRONG>GL_TEXTURE_2D</STRONG>		   <EM>params</EM> returns a single boolean
+				   value indicating whether 2D texture
+				   mapping is enabled. The initial
+				   value is <STRONG>GL_FALSE</STRONG>.  See
+				   <STRONG>glTexImage2D</STRONG>.
+
+	  <STRONG>GL_TEXTURE_2D_BINDING</STRONG>	   <EM>params</EM> returns a single value, the
+				   name	of the texture currently bound
+				   to the target <STRONG>GL_TEXTURE_2D</STRONG>.	The
+				   initial value is 0.	See
+				   <STRONG>glBindTexture</STRONG>.
+
+	  <STRONG>GL_TEXTURE_COORD_ARRAY</STRONG>   <EM>params</EM> returns a single boolean
+				   value indicating whether the
+				   texture coordinate array is
+				   enabled. The	initial	value is
+				   <STRONG>GL_FALSE</STRONG>. See <STRONG>glTexCoordPointer</STRONG>.
+
+	  <STRONG>GL_TEXTURE_COORD_ARRAY_SIZE</STRONG>
+				   <EM>params</EM> returns one value, the
+				   number of coordinates per element
+				   in the texture coordinate array.
+				   The initial value is	4. See
+				   <STRONG>glTexCoordPointer</STRONG>.
+
+	  <STRONG>GL_TEXTURE_COORD_ARRAY_STRIDE</STRONG>
+				   <EM>params</EM> returns one value, the byte
+				   offset between consecutive elements
+				   in the texture coordinate array.
+				   The initial value is	0. See
+				   <STRONG>glTexCoordPointer</STRONG>.
+
+	  <STRONG>GL_TEXTURE_COORD_ARRAY_TYPE</STRONG>
+				   <EM>params</EM> returns one value, the data
+				   type	of the coordinates in the
+				   texture coordinate array. The
+				   initial value is <STRONG>GL_FLOAT</STRONG>. See
+				   <STRONG>glTexCoordPointer</STRONG>.
+
+	  <STRONG>GL_TEXTURE_GEN_Q</STRONG>	   <EM>params</EM> returns a single boolean
+				   value indicating whether automatic
+				   generation of the <EM>q</EM> texture
+				   coordinate is enabled. The initial
+				   value is <STRONG>GL_FALSE</STRONG>. See <STRONG>glTexGen</STRONG>.
+
+	  <STRONG>GL_TEXTURE_GEN_R</STRONG>	   <EM>params</EM> returns a single boolean
+				   value indicating whether automatic
+				   generation of the <EM>r</EM> texture
+				   coordinate is enabled. The initial
+				   value is <STRONG>GL_FALSE</STRONG>. See <STRONG>glTexGen</STRONG>.
+
+	  <STRONG>GL_TEXTURE_GEN_S</STRONG>	   <EM>params</EM> returns a single boolean
+				   value indicating whether automatic
+				   generation of the <EM>S</EM> texture
+				   coordinate is enabled. The initial
+				   value is <STRONG>GL_FALSE</STRONG>. See <STRONG>glTexGen</STRONG>.
+
+	  <STRONG>GL_TEXTURE_GEN_T</STRONG>	   <EM>params</EM> returns a single boolean
+				   value indicating whether automatic
+				   generation of the T texture
+				   coordinate is enabled. The initial
+				   value is <STRONG>GL_FALSE</STRONG>. See <STRONG>glTexGen</STRONG>.
+
+	  <STRONG>GL_TEXTURE_MATRIX</STRONG>	   <EM>params</EM> returns sixteen values:  the
+				   texture matrix on the top of	the
+				   texture matrix stack. Initially
+				   this	matrix is the identity matrix.
+				   See <STRONG>glPushMatrix</STRONG>.
+
+	  <STRONG>GL_TEXTURE_STACK_DEPTH</STRONG>   <EM>params</EM> returns one value, the
+				   number of matrices on the texture
+				   matrix stack.  The initial value is
+				   1.  See <STRONG>glPushMatrix</STRONG>.
+
+	  <STRONG>GL_UNPACK_ALIGNMENT</STRONG>	   <EM>params</EM> returns one value, the byte
+				   alignment used for reading pixel
+				   data	from memory. The initial value
+				   is 4. See <STRONG>glPixelStore</STRONG>.
+
+	  <STRONG>GL_UNPACK_LSB_FIRST</STRONG>	   <EM>params</EM> returns a single boolean
+				   value indicating whether single-bit
+				   pixels being	read from memory are
+				   read	first from the least
+				   significant bit of each unsigned
+				   byte. The initial value is
+				   <STRONG>GL_FALSE</STRONG>. See <STRONG>glPixelStore</STRONG>.
+
+	  <STRONG>GL_UNPACK_ROW_LENGTH</STRONG>	   <EM>params</EM> returns one value, the row
+				   length used for reading pixel data
+				   from	memory.	The initial value is
+				   0. See <STRONG>glPixelStore</STRONG>.
+
+	  <STRONG>GL_UNPACK_SKIP_PIXELS</STRONG>	   <EM>params</EM> returns one value, the
+				   number of pixel locations skipped
+				   before the first pixel is read from
+				   memory. The initial value is	0. See
+				   <STRONG>glPixelStore</STRONG>.
+
+	  <STRONG>GL_UNPACK_SKIP_ROWS</STRONG>	   <EM>params</EM> returns one value, the
+				   number of rows of pixel locations
+				   skipped before the first pixel is
+				   read	from memory. The initial value
+				   is 0. See <STRONG>glPixelStore</STRONG>.
+
+	  <STRONG>GL_UNPACK_SWAP_BYTES</STRONG>	   <EM>params</EM> returns a single boolean
+				   value indicating whether the	bytes
+				   of two-byte and four-byte pixel
+				   indices and components are swapped
+				   after being read from memory. The
+				   initial value is <STRONG>GL_FALSE</STRONG>. See
+				   <STRONG>glPixelStore</STRONG>.
+
+	  <STRONG>GL_VERTEX_ARRAY</STRONG>	   <EM>params</EM> returns a single boolean
+				   value indicating whether the	vertex
+				   array is enabled. The initial value
+				   is <STRONG>GL_FALSE</STRONG>.	 See <STRONG>glVertexPointer</STRONG>.
+
+	  <STRONG>GL_VERTEX_ARRAY_SIZE</STRONG>	   <EM>params</EM> returns one value, the
+				   number of coordinates per vertex in
+				   the vertex array. The initial value
+				   is 4.  See <STRONG>glVertexPointer</STRONG>.
+
+	  <STRONG>GL_VERTEX_ARRAY_STRIDE</STRONG>   <EM>params</EM> returns one value, the byte
+				   offset between consecutive vertexes
+				   in the vertex array.	The initial
+				   value is 0. See <STRONG>glVertexPointer</STRONG>.
+
+	  <STRONG>GL_VERTEX_ARRAY_TYPE</STRONG>	   <EM>params</EM> returns one value, the data
+				   type	of each	coordinate in the
+				   vertex array. The initial value is
+				   <STRONG>GL_FLOAT</STRONG>. See <STRONG>glVertexPointer</STRONG>.
+
+	  <STRONG>GL_VIEWPORT</STRONG>		   <EM>params</EM> returns four values:	the x
+				   and y window	coordinates of the
+				   viewport, followed by its width and
+				   height. Initially the x and y
+				   window coordinates are both set to
+				   0, and the width and	height are set
+				   to the width	and height of the
+				   window into which the GL will do
+				   its rendering.  See <STRONG>glViewport</STRONG>.
+
+	  <STRONG>GL_ZOOM_X</STRONG>		   <EM>params</EM> returns one value, the x
+				   pixel zoom factor. The initial
+				   value is 1. See <STRONG>glPixelZoom</STRONG>.
+
+	  <STRONG>GL_ZOOM_Y</STRONG>		   <EM>params</EM> returns one value, the y
+				   pixel zoom factor. The initial
+				   value is 1.	See <STRONG>glPixelZoom</STRONG>.
+
+	  Many of the boolean parameters can also be queried more
+	  easily using <STRONG>glIsEnabled</STRONG>.
+
+     <STRONG>NOTES</STRONG>
+	  <STRONG>GL_COLOR_LOGIC_OP</STRONG>, <STRONG>GL_COLOR_ARRAY</STRONG>, <STRONG>GL_COLOR_ARRAY_SIZE</STRONG>,
+	  <STRONG>GL_COLOR_ARRAY_STRIDE</STRONG>, <STRONG>GL_COLOR_ARRAY_TYPE</STRONG>,
+	  <STRONG>GL_EDGE_FLAG_ARRAY</STRONG>, <STRONG>GL_EDGE_FLAG_ARRAY_STRIDE</STRONG>,
+	  <STRONG>GL_INDEX_ARRAY</STRONG>, <STRONG>GL_INDEX_ARRAY_STRIDE</STRONG>, <STRONG>GL_INDEX_ARRAY_TYPE</STRONG>,
+	  <STRONG>GL_INDEX_LOGIC_OP</STRONG>, <STRONG>GL_NORMAL_ARRAY</STRONG>, <STRONG>GL_NORMAL_ARRAY_STRIDE</STRONG>,
+	  <STRONG>GL_NORMAL_ARRAY_TYPE</STRONG>,	<STRONG>GL_POLYGON_OFFSET_UNITS</STRONG>,
+	  <STRONG>GL_POLYGON_OFFSET_FACTOR</STRONG>, <STRONG>GL_POLYGON_OFFSET_FILL</STRONG>,
+	  <STRONG>GL_POLYGON_OFFSET_LINE</STRONG>, <STRONG>GL_POLYGON_OFFSET_POINT</STRONG>,
+	  <STRONG>GL_TEXTURE_COORD_ARRAY</STRONG>, <STRONG>GL_TEXTURE_COORD_ARRAY_SIZE</STRONG>,
+	  <STRONG>GL_TEXTURE_COORD_ARRAY_STRIDE</STRONG>, <STRONG>GL_TEXTURE_COORD_ARRAY_TYPE</STRONG>,
+	  <STRONG>GL_VERTEX_ARRAY</STRONG>, <STRONG>GL_VERTEX_ARRAY_SIZE</STRONG>,
+	  <STRONG>GL_VERTEX_ARRAY_STRIDE</STRONG>, and <STRONG>GL_VERTEX_ARRAY_TYPE</STRONG> are
+	  available only if the	GL version is 1.1 or greater.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if <EM>pname</EM>	is not an accepted
+	  value.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glGet</STRONG> is	executed
+	  between the execution	of <STRONG>glBegin</STRONG> and the corresponding
+	  execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glGetClipPlane</STRONG>, <STRONG>glGetError</STRONG>, <STRONG>glGetLight</STRONG>, <STRONG>glGetMap</STRONG>,
+	  <STRONG>glGetMaterial</STRONG>, <STRONG>glGetPixelMap</STRONG>,	<STRONG>glGetPointerv</STRONG>,
+	  <STRONG>glGetPolygonStipple</STRONG>, <STRONG>glGetString</STRONG>, <STRONG>glGetTexEnv</STRONG>, <STRONG>glGetTexGen</STRONG>,
+	  <STRONG>glGetTexImage</STRONG>, <STRONG>glGetTexLevelParameter</STRONG>, <STRONG>glGetTexParameter</STRONG>,
+	  <STRONG>glIsEnabled</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

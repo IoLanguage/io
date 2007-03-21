@@ -1,0 +1,111 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glLoadMatrixd,</STRONG> <STRONG>glLoadMatrixf</STRONG> - replace the current matrix
+	  with the specified matrix
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glLoadMatrixd</STRONG>( const GLdouble *<EM>m</EM>	)
+	  void <STRONG>glLoadMatrixf</STRONG>( const GLfloat *<EM>m</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>m</EM>  Specifies a pointer to 16 consecutive values, which are
+	     used as the elements of a 4x4 column-major	matrix.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glLoadMatrix</STRONG> replaces	the current matrix with	the one	whose
+	  elements are specified by <EM>m</EM>.	The current matrix is the
+	  projection matrix, modelview matrix, or texture matrix,
+	  depending on the current matrix mode (see <STRONG>glMatrixMode</STRONG>).
+
+	  The current matrix, M,  defines a transformation of
+	  coordinates.	For instance, assume M refers to the modelview
+	  matrix.  If  v = (v[0],v[1],v[2],v[3]) is the	set of object
+	  coordinates of a vertex, and <EM>m</EM> points	to an array of 16
+	  single- or double-precision floating-point values
+	  m[0],m[1],...,m[15], then the	modelview transformation M(v)
+	  does the following:
+
+
+		     ( m[0]   m[4]   m[8]    m[12] )	 ( v[0]	)
+		     |				   |	 |	|
+		     |m[1]   m[5]    m[9]   m[13]  |	 | v[1]	|
+	      M(v) = |m[2]   m[6]   m[10]   m[14]  |  x	 | v[2]	|
+		     |				   |	 |	|
+		     (m[3]   m[7]   m[11]   m[15]  )	 ( v[3]	)
+
+	  Where	'x' denotes matrix multiplication.
+
+	  Projection and texture transformations are similarly
+	  defined.
+
+     <STRONG>NOTES</STRONG>
+	  While	the elements of	the matrix may be specified with
+	  single or double precision, the GL implementation may	store
+	  or operate on	these values in	less than single precision.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glLoadMatrix</STRONG> is
+	  executed between the execution of <STRONG>glBegin</STRONG> and	the
+	  corresponding	execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_MATRIX_MODE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_MODELVIEW_MATRIX</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_PROJECTION_MATRIX</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_TEXTURE_MATRIX</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glLoadIdentity</STRONG>, <STRONG>glMatrixMode</STRONG>,	<STRONG>glMultMatrix</STRONG>, <STRONG>glPushMatrix</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

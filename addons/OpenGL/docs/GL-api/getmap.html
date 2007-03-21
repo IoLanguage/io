@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glGetMapdv,</STRONG> <STRONG>glGetMapfv,</STRONG> <STRONG>glGetMapiv</STRONG> - return evaluator
+	  parameters
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glGetMapdv</STRONG>( GLenum <EM>target</EM>,
+			   GLenum <EM>query</EM>,
+			   GLdouble *<EM>v</EM> )
+	  void <STRONG>glGetMapfv</STRONG>( GLenum <EM>target</EM>,
+			   GLenum <EM>query</EM>,
+			   GLfloat *<EM>v</EM> )
+	  void <STRONG>glGetMapiv</STRONG>( GLenum <EM>target</EM>,
+			   GLenum <EM>query</EM>,
+			   GLint *<EM>v</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>target</EM>  Specifies the	symbolic name of a map.	 Accepted
+		  values are <STRONG>GL_MAP1_COLOR_4</STRONG>, <STRONG>GL_MAP1_INDEX</STRONG>,
+		  <STRONG>GL_MAP1_NORMAL</STRONG>, <STRONG>GL_MAP1_TEXTURE_COORD_1</STRONG>,
+		  <STRONG>GL_MAP1_TEXTURE_COORD_2</STRONG>, <STRONG>GL_MAP1_TEXTURE_COORD_3</STRONG>,
+		  <STRONG>GL_MAP1_TEXTURE_COORD_4</STRONG>, <STRONG>GL_MAP1_VERTEX_3</STRONG>,
+		  <STRONG>GL_MAP1_VERTEX_4</STRONG>, <STRONG>GL_MAP2_COLOR_4</STRONG>, <STRONG>GL_MAP2_INDEX</STRONG>,
+		  <STRONG>GL_MAP2_NORMAL</STRONG>, <STRONG>GL_MAP2_TEXTURE_COORD_1</STRONG>,
+		  <STRONG>GL_MAP2_TEXTURE_COORD_2</STRONG>, <STRONG>GL_MAP2_TEXTURE_COORD_3</STRONG>,
+		  <STRONG>GL_MAP2_TEXTURE_COORD_4</STRONG>, <STRONG>GL_MAP2_VERTEX_3</STRONG>, and
+		  <STRONG>GL_MAP2_VERTEX_4</STRONG>.
+
+	  <EM>query</EM>	  Specifies which parameter to return.	Symbolic names
+		  <STRONG>GL_COEFF</STRONG>, <STRONG>GL_ORDER</STRONG>, and <STRONG>GL_DOMAIN</STRONG> are	accepted.
+
+	  <EM>v</EM>	  Returns the requested	data.
+
+     <STRONG>DESCRIPTION</STRONG>
+	  <STRONG>glMap1</STRONG> and <STRONG>glMap2</STRONG> define evaluators.	<STRONG>glGetMap</STRONG> returns
+	  evaluator parameters.	 <EM>target</EM>	chooses	a map, <EM>query</EM> selects a
+	  specific parameter, and <EM>v</EM> points to storage where the	values
+	  will be returned.
+
+	  The acceptable values	for the	<EM>target</EM> parameter are described
+	  in the <STRONG>glMap1</STRONG>	and <STRONG>glMap2</STRONG> reference pages.
+
+	  <EM>query</EM>	can assume the following values:
+
+	  <STRONG>GL_COEFF</STRONG>	 <EM>v</EM> returns the control points for the
+			 evaluator function.  One-dimensional
+			 evaluators return order control points, and
+			 two-dimensional evaluators return
+			 uorderxvorder control points.	Each control
+			 point consists	of one,	two, three, or four
+			 integer, single-precision floating-point, or
+			 double-precision floating-point values,
+			 depending on the type of the evaluator.  The
+			 GL returns two-dimensional control points in
+			 row-major order, incrementing the uorder
+			 index quickly and the vorder index after each
+			 row.  Integer values, when requested, are
+			 computed by rounding the internal floating-
+			 point values to the nearest integer values.
+
+	  <STRONG>GL_ORDER</STRONG>	 <EM>v</EM> returns the order of	the evaluator
+			 function.  One-dimensional evaluators return
+			 a single value, order.	The initial value is
+			 1.  Two-dimensional evaluators	return two
+			 values, uorder	and vorder. The	initial	value
+			 is 1,1.
+
+	  <STRONG>GL_DOMAIN</STRONG>	 <EM>v</EM> returns the linear u	and v mapping
+			 parameters.  One-dimensional evaluators
+			 return	two values, u1 and u2, as specified by
+			 <STRONG>glMap1</STRONG>.  Two-dimensional evaluators return
+			 four values (u1, u2, v1, and v2) as specified
+			 by <STRONG>glMap2</STRONG>.  Integer values, when requested,
+			 are computed by rounding the internal
+			 floating-point	values to the nearest integer
+			 values.
+
+     <STRONG>NOTES</STRONG>
+	  If an	error is generated, no change is made to the contents
+	  of <EM>v</EM>.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_INVALID_ENUM</STRONG> is generated if either <EM>target</EM>	or <EM>query</EM> is
+	  not an accepted value.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glGetMap</STRONG>	is executed
+	  between the execution	of <STRONG>glBegin</STRONG> and the corresponding
+	  execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glEvalCoord</STRONG>, <STRONG>glMap1</STRONG>, <STRONG>glMap2</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

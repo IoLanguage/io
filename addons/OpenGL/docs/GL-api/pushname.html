@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glPushName,</STRONG> <STRONG>glPopName</STRONG>	- push and pop the name	stack
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glPushName</STRONG>( GLuint <EM>name</EM> )
+
+
+     <STRONG>PARAMETERS</STRONG>
+	  <EM>name</EM>	Specifies a name that will be pushed onto the name
+		stack.
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glPopName</STRONG>( void )
+
+
+     <STRONG>DESCRIPTION</STRONG>
+	  The name stack is used during	selection mode to allow	sets
+	  of rendering commands	to be uniquely identified.  It
+	  consists of an ordered set of	unsigned integers and is
+	  initially empty.
+
+	  <STRONG>glPushName</STRONG> causes <EM>name</EM> to be pushed onto the name stack.
+	  <STRONG>glPopName</STRONG> pops one name off the top of the stack.
+
+	  The maximum name stack depth is implementation-dependent;
+	  call <STRONG>GL_MAX_NAME_STACK_DEPTH</STRONG> to find out the value for a
+	  particular implementation. It	is an error to push a name
+	  onto a full stack, or	to pop a name off an empty stack.  It
+	  is also an error to manipulate the name stack	between	the
+	  execution of <STRONG>glBegin</STRONG> and the corresponding execution of
+	  <STRONG>glEnd</STRONG>.  In any of these cases, the error flag	is set and no
+	  other	change is made to GL state.
+
+	  The name stack is always empty while the render mode is not
+	  <STRONG>GL_SELECT</STRONG>.  Calls to <STRONG>glPushName</STRONG> or <STRONG>glPopName</STRONG> while the
+	  render mode is not <STRONG>GL_SELECT</STRONG> are ignored.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_STACK_OVERFLOW</STRONG> is generated if <STRONG>glPushName</STRONG> is called while
+	  the name stack is full.
+
+	  <STRONG>GL_STACK_UNDERFLOW</STRONG> is	generated if <STRONG>glPopName</STRONG> is called while
+	  the name stack is empty.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glPushName</STRONG> or <STRONG>glPopName</STRONG>
+	  is executed between a	call to	<STRONG>glBegin</STRONG>	and the	corresponding
+	  call to <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_NAME_STACK_DEPTH</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_MAX_NAME_STACK_DEPTH</STRONG>
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glInitNames</STRONG>, <STRONG>glLoadName</STRONG>, <STRONG>glRenderMode</STRONG>, <STRONG>glSelectBuffer</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>

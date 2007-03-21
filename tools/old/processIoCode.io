@@ -1,0 +1,2 @@
+doFile("processIoCodeFor.io")
+processIoCodeFor(".")

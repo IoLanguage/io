@@ -1,0 +1,110 @@
+<HTML>
+<BODY>
+<PRE>
+     <STRONG>NAME</STRONG>
+	  <STRONG>glPushMatrix,</STRONG>	<STRONG>glPopMatrix</STRONG> - push and pop the current matrix
+	  stack
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glPushMatrix</STRONG>( void )
+
+
+     <STRONG>C</STRONG> <STRONG>SPECIFICATION</STRONG>
+	  void <STRONG>glPopMatrix</STRONG>( void )
+
+
+     <STRONG>DESCRIPTION</STRONG>
+	  There	is a stack of matrices for each	of the matrix modes.
+	  In <STRONG>GL_MODELVIEW</STRONG> mode,	the stack depth	is at least 32.	 In
+	  the other two	modes, <STRONG>GL_PROJECTION</STRONG> and <STRONG>GL_TEXTURE</STRONG>, the depth
+	  is at	least 2.  The current matrix in	any mode is the	matrix
+	  on the top of	the stack for that mode.
+
+	  <STRONG>glPushMatrix</STRONG> pushes the current matrix stack down by one,
+	  duplicating the current matrix.  That	is, after a
+	  <STRONG>glPushMatrix</STRONG> call, the matrix	on top of the stack is
+	  identical to the one below it.
+
+	  <STRONG>glPopMatrix</STRONG> pops the current matrix stack, replacing the
+	  current matrix with the one below it on the stack.
+
+	  Initially, each of the stacks	contains one matrix, an
+	  identity matrix.
+
+	  It is	an error to push a full	matrix stack, or to pop	a
+	  matrix stack that contains only a single matrix.  In either
+	  case,	the error flag is set and no other change is made to
+	  GL state.
+
+     <STRONG>ERRORS</STRONG>
+	  <STRONG>GL_STACK_OVERFLOW</STRONG> is generated if <STRONG>glPushMatrix</STRONG> is called
+	  while	the current matrix stack is full.
+
+	  <STRONG>GL_STACK_UNDERFLOW</STRONG> is	generated if <STRONG>glPopMatrix</STRONG> is called
+	  while	the current matrix stack contains only a single
+	  matrix.
+
+	  <STRONG>GL_INVALID_OPERATION</STRONG> is generated if <STRONG>glPushMatrix</STRONG> or
+	  <STRONG>glPopMatrix</STRONG> is executed between the execution	of <STRONG>glBegin</STRONG> and
+	  the corresponding execution of <STRONG>glEnd</STRONG>.
+
+     <STRONG>ASSOCIATED</STRONG>	<STRONG>GETS</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_MATRIX_MODE</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_MODELVIEW_MATRIX</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_PROJECTION_MATRIX</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_TEXTURE_MATRIX</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_MODELVIEW_STACK_DEPTH</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_PROJECTION_STACK_DEPTH</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_TEXTURE_STACK_DEPTH</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_MAX_MODELVIEW_STACK_DEPTH</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_MAX_PROJECTION_STACK_DEPTH</STRONG>
+	  <STRONG>glGet</STRONG>	with argument <STRONG>GL_MAX_TEXTURE_STACK_DEPTH</STRONG>
+
+     <STRONG>SEE</STRONG> <STRONG>ALSO</STRONG>
+	  <STRONG>glFrustum</STRONG>, <STRONG>glLoadIdentity</STRONG>, <STRONG>glLoadMatrix</STRONG>, <STRONG>glMatrixMode</STRONG>,
+	  <STRONG>glMultMatrix</STRONG>,	<STRONG>glOrtho</STRONG>, <STRONG>glRotate</STRONG>, <STRONG>glScale</STRONG>, <STRONG>glTranslate</STRONG>,
+	  <STRONG>glViewport</STRONG>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>
