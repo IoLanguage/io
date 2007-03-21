@@ -412,6 +412,7 @@ IoDynLib *IoDynLib_justCall(IoDynLib *self, IoObject *locals, IoMessage *m, int 
 
 		params[n] = p;
 		
+		/*
 		if (p == 0) 
 		{
 			IoState_error_(IOSTATE, m, "DynLib error marshalling argument (%i) to call '%s'.", 
@@ -420,6 +421,7 @@ IoDynLib *IoDynLib_justCall(IoDynLib *self, IoObject *locals, IoMessage *m, int 
 			io_free(params);
 			return IONIL(self);
 		}
+		*/
 	}
 	
 #if 0
