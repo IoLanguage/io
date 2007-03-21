@@ -3,14 +3,9 @@
 
 test := method(TestSuite clone setPath(launchPath) run)
 
-/*
-//loop(
 time := Date clone cpuSecondsToRun(r := test)
 writeln("time: ", time, " seconds")
-//writeln("------------------------------------")
-//)
 System exit(r)
-*/
 
 /*
 allocsPerMark
