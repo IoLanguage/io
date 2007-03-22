@@ -6,7 +6,12 @@
 #include "UArray.h" 
 #include <math.h>
 #include <float.h>
+
+#ifdef IO_USE_SIMD
 #include "simd_cp.h"
+#else
+#include "simd_cp_emu.h"
+#endif
 
 #define VEC_SIZE 4
 
