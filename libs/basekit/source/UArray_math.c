@@ -10,6 +10,7 @@
 #ifdef IO_USE_SIMD
 #include "simd_cp.h"
 #else
+#define __UNK__EMU__
 #include "simd_cp_emu.h"
 #endif
 
