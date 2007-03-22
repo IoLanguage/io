@@ -17,6 +17,7 @@ Addon := Object clone do(
 
     ioFiles := method(
         d := Directory with(addonPath) folderNamed("io")
+        if(d == nil, return list())
         files := d files select(path endsWithSeq(".io"))
         files map(name) sort map(name, d fileNamed(name))
     )
