@@ -28,6 +28,7 @@ Terminology
 #define BIVAR(self) ((UArray *)IoObject_dataPointer(self))
 
 #define IO_ASSERT_NOT_SYMBOL(self) IoAssertNotSymbol(self, m)
+#define IO_ASSERT_NUMBER_ENCODING(self) IOASSERT(BIVAR(self)->encoding == CENCODING_NUMBER, "operation not valid on non-number encodings")
 
 static void IoAssertNotSymbol(IoSeq *self, IoMessage *m)
 {
@@ -820,6 +821,7 @@ IoObject *IoSeq_addEquals(IoSeq *self, IoObject *locals, IoMessage *m)
 	IoObject *other = IoMessage_locals_valueArgAt_(m, locals, 0);
 	
 	IO_ASSERT_NOT_SYMBOL(self);
+	IO_ASSERT_NUMBER_ENCODING(self);
 
 	if (ISSEQ(other)) 
 	{
@@ -843,6 +845,7 @@ IoObject *IoSeq_subtractEquals(IoSeq *self, IoObject *locals, IoMessage *m)
 	IoObject *other = IoMessage_locals_valueArgAt_(m, locals, 0);
 	
 	IO_ASSERT_NOT_SYMBOL(self);
+	IO_ASSERT_NUMBER_ENCODING(self);
 
 	if (ISSEQ(other)) 
 	{
@@ -866,6 +869,7 @@ IoObject *IoSeq_multiplyEquals(IoSeq *self, IoObject *locals, IoMessage *m)
 	IoObject *other = IoMessage_locals_valueArgAt_(m, locals, 0);
 	
 	IO_ASSERT_NOT_SYMBOL(self);
+	IO_ASSERT_NUMBER_ENCODING(self);
 
 	if (ISSEQ(other)) 
 	{
@@ -889,6 +893,7 @@ IoObject *IoSeq_divideEquals(IoSeq *self, IoObject *locals, IoMessage *m)
 	IoObject *other = IoMessage_locals_valueArgAt_(m, locals, 0);
 	
 	IO_ASSERT_NOT_SYMBOL(self);
+	IO_ASSERT_NUMBER_ENCODING(self);
 
 	if (ISSEQ(other)) 
 	{
