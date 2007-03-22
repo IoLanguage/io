@@ -77,7 +77,7 @@ THE AUTHOR'S WRITTEN PERMISSION, WITH THE FOLLOWING EXCEPTIONS:
 
 
 
-#ifdef _WIN32  /* Microsoft VC Compiler */
+#ifdef _MSC_VER  /* Microsoft VC Compiler */
 
    #ifdef _M_IX86  /* MSVC for X86 CPU  (same as GNUC?)*/
       #define __MSVC__X86__
@@ -110,7 +110,8 @@ THE AUTHOR'S WRITTEN PERMISSION, WITH THE FOLLOWING EXCEPTIONS:
    #include <simd_cp_emu.h>
 #endif
 
-#ifdef __GNUC__X86__  /* gcc x86 compiler */
+#if defined( __GNUC__X86__ ) || defined(__MSVC__X86__)
+        /* gcc x86 compiler or msvc x86 */
    #include <simd_cp_x86.h>
 #endif /* __GNUC__X86__ */
 
