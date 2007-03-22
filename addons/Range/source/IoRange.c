@@ -63,6 +63,12 @@ IoRange *IoRange_rawClone(IoRange *proto)
     IoObject *self = IoObject_rawClonePrimitive(proto);
     IoObject_tag_(self, IoObject_tag(proto));
     IoObject_setDataPointer_(self, io_calloc(1, sizeof(IoRangeData)));
+
+    DATA(self)->start = DATA(proto)->start;
+    DATA(self)->curr = DATA(proto)->curr;
+    DATA(self)->end = DATA(proto)->end;
+    DATA(self)->increment = DATA(proto)->increment;
+    DATA(self)->index = DATA(proto)->index;
     return self; 
 }
 
