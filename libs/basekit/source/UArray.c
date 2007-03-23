@@ -151,6 +151,11 @@ void UArray_setItemType_(UArray *self, CTYPE type)
 
 	self->itemSize = itemSize;
 	self->size = q.quot;
+	
+	if (UArray_isFloat(self))
+	{
+		self->encoding = CENCODING_NUMBER;
+	}
 }
 
 CENCODING UArray_encoding(const UArray *self)
