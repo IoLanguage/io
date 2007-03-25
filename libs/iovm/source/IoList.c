@@ -34,7 +34,7 @@ IoTag *IoList_newTag(void *state)
 	return tag;
 }
 
-void IoList_writeToStream_(IoObject *self, BStream *stream)
+void IoList_writeToStream_(IoList *self, BStream *stream)
 {
 	List *list = LISTIVAR(self);
 	
@@ -45,7 +45,7 @@ void IoList_writeToStream_(IoObject *self, BStream *stream)
 	);
 }
 
-void IoList_readFromStream_(IoObject *self, BStream *stream)
+void IoList_readFromStream_(IoList *self, BStream *stream)
 {
 	List *list = LISTIVAR(self);
 	int i, max = BStream_readTaggedInt32(stream);
@@ -159,7 +159,7 @@ void IoList_mark(IoList *self)
 	LIST_FOREACH(LISTIVAR(self), i, item, IoObject_shouldMark(item));
 }
 
-int IoList_compare(IoObject *self, IoList *otherList)
+int IoList_compare(IoList *self, IoList *otherList)
 {
 	if (!ISLIST(otherList)) 
 	{ 
@@ -196,33 +196,33 @@ List *IoList_rawList(IoList *self)
 	return LISTIVAR(self); 
 }
 
-IoObject *IoList_rawAt_(IoObject *self, int i)
+IoObject *IoList_rawAt_(IoList *self, int i)
 { 
 	return List_at_(LISTIVAR(self), i); 
 }
 
-void IoList_rawAt_put_(IoObject *self, int i, IoObject *v)
+void IoList_rawAt_put_(IoList *self, int i, IoObject *v)
 {
 	List_at_put_(LISTIVAR(self), i, IOREF(v)); 
 }
 
-void IoList_rawAppend_(IoObject *self, IoObject *v)
+void IoList_rawAppend_(IoList *self, IoObject *v)
 { 
 	List_append_(LISTIVAR(self), IOREF(v)); 
 }
 
-void IoList_rawRemove_(IoObject *self, IoObject *v)
+void IoList_rawRemove_(IoList *self, IoObject *v)
 { 
 	List_remove_(LISTIVAR(self), IOREF(v)); 
 }
 
-void IoList_rawAddBaseList_(IoObject *self, List *otherList)
+void IoList_rawAddBaseList_(IoList *self, List *otherList)
 {
 	List *list = LISTIVAR(self);	
 	LIST_FOREACH(otherList, i, v, List_append_(list, IOREF((IoObject *)v)); );
 }
 
-void IoList_rawAddIoList_(IoObject *self, IoList *other)
+void IoList_rawAddIoList_(IoList *self, IoList *other)
 {
 	IoList_rawAddBaseList_(self, LISTIVAR(other));
 }
@@ -232,7 +232,7 @@ size_t IoList_rawSize(IoList *self)
 	return List_size(LISTIVAR(self)); 
 }
 
-int IoList_rawIndexOf_(IoObject *self, IoObject *v)
+int IoList_rawIndexOf_(IoList *self, IoObject *v)
 {
 	List *list = LISTIVAR(self);
 
@@ -246,7 +246,7 @@ int IoList_rawIndexOf_(IoObject *self, IoObject *v)
 	return -1;
 }
 
-void IoList_checkIndex(IoObject *self, IoMessage *m, char allowsExtending, int index, const char *methodName)
+void IoList_checkIndex(IoList *self, IoMessage *m, char allowsExtending, int index, const char *methodName)
 {
 	int max = List_size(LISTIVAR(self));
 	
@@ -263,7 +263,7 @@ void IoList_checkIndex(IoObject *self, IoMessage *m, char allowsExtending, int i
 
 // immutable -------------------------------------------------------- 
 
-IoObject *IoList_with(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoList_with(IoList *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("with(anObject, ...)", 
@@ -283,7 +283,7 @@ IoObject *IoList_with(IoObject *self, IoObject *locals, IoMessage *m)
 }
 
 
-IoObject *IoList_indexOf(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoList_indexOf(IoList *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("indexOf(anObject)", 
@@ -304,7 +304,7 @@ in the receiver. Returns Nil if the receiver doesn't contain anObject. ")
 	}
 }
 
-IoObject *IoList_contains(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoList_contains(IoList *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("contains(anObject)", 
@@ -315,7 +315,7 @@ IoObject *IoList_contains(IoObject *self, IoObject *locals, IoMessage *m)
 	return IOBOOL(self, IoList_rawIndexOf_(self, v) != -1);
 }
 
-IoObject *IoList_containsIdenticalTo(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoList_containsIdenticalTo(IoList *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("containsIdenticalTo(anObject)", 
@@ -326,7 +326,7 @@ IoObject *IoList_containsIdenticalTo(IoObject *self, IoObject *locals, IoMessage
 	return IOBOOL(self, List_contains_(LISTIVAR(self), v) != 0);
 }
 
-IoObject *IoList_capacity(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoList_capacity(IoList *self, IoObject *locals, IoMessage *m)
 {
     /*#io
 	docSlot("capacity", "Returns the number of potential elements the receiver can hold before it needs to grow.")
@@ -334,7 +334,7 @@ IoObject *IoList_capacity(IoObject *self, IoObject *locals, IoMessage *m)
     return IONUMBER(LISTIVAR(self)->memSize / sizeof(void *));
 }
 
-IoObject *IoList_size(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoList_size(IoList *self, IoObject *locals, IoMessage *m)
 { 
 	/*#io
 	docSlot("size", "Returns the number of items in the receiver. ")
@@ -343,7 +343,7 @@ IoObject *IoList_size(IoObject *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(List_size(LISTIVAR(self))); 
 }
 
-IoObject *IoList_at(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoList_at(IoList *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("at(index)", 
@@ -357,7 +357,7 @@ IoObject *IoList_at(IoObject *self, IoObject *locals, IoMessage *m)
 	return (v) ? v : IONIL(self);
 }
 
-IoObject *IoList_first(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoList_first(IoList *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("first(optionalSize)", 
@@ -387,7 +387,7 @@ If optionalSize is provided, that number of the first items in the list are retu
 	}
 }
 
-IoObject *IoList_last(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoList_last(IoList *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("last(optionalSize)", 
@@ -416,7 +416,7 @@ If optionalSize is provided, that number of the last items in the list are retur
 	}
 }
 
-void IoList_sliceArguments(IoObject *self, IoObject *locals, IoMessage *m, int *start, int *end)
+void IoList_sliceArguments(IoList *self, IoObject *locals, IoMessage *m, int *start, int *end)
 {
         int size = IoList_rawSize(self);
 	
@@ -445,7 +445,7 @@ void IoList_sliceArguments(IoObject *self, IoObject *locals, IoMessage *m, int *
 	}
 }
 
-IoObject *IoList_slice(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoList_slice(IoList *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("slice(startIndex, endIndex)", 
@@ -470,7 +470,7 @@ is optional. If not given, it is assumed to be the end of the string. ")
         }
 }
 
-IoObject *IoList_sliceInPlace(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoList_sliceInPlace(IoList *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("sliceInPlace(startIndex, endIndex)", 
@@ -494,7 +494,7 @@ is optional. If not given, it is assumed to be the end of the string. ")
 	return self;
 }
 
-IoObject *IoList_each(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoList_each(IoList *self, IoObject *locals, IoMessage *m)
 {	
 	IoState *state = IOSTATE;
 	IoObject *result = IONIL(self);
@@ -515,7 +515,7 @@ done:
 }
 
 
-IoObject *IoList_foreach(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoList_foreach(IoList *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("foreach(optionalIndex, value, message)", 
@@ -568,7 +568,7 @@ done:
 	return result;
 }
 
-IoObject *IoList_reverseForeach(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoList_reverseForeach(IoList *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("reverseForeach(index, value, message)", "Same as foreach, but in reverse order.")
@@ -612,7 +612,7 @@ done:
 
 // mutable -------------------------------------------------------- 
 
-IoObject *IoList_appendIfAbsent(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoList_appendIfAbsent(IoList *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("appendIfAbsent(anObject)", 
@@ -635,7 +635,7 @@ IoObject *IoList_appendIfAbsent(IoObject *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoList_appendSeq(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoList_appendSeq(IoList *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("appendSeq(aList1, aList2, ...)", 
@@ -670,7 +670,7 @@ IoObject *IoList_appendSeq(IoObject *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoList_append(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoList_append(IoList *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("append(anObject1, anObject2, ...)", 
@@ -694,7 +694,7 @@ IoObject *IoList_append(IoObject *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoList_prepend(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoList_prepend(IoList *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("prepend(anObject1, anObject2, ...)", 
@@ -715,7 +715,7 @@ IoObject *IoList_prepend(IoObject *self, IoObject *locals, IoMessage *m)
 }
 
 
-IoObject *IoList_remove(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoList_remove(IoList *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("remove(anObject, ...)", 
@@ -751,7 +751,7 @@ IoObject *IoList_remove(IoObject *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoList_pop(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoList_pop(IoList *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("pop", 
@@ -763,7 +763,7 @@ from the receiver. Returns nil if the receiver is empty. ")
 	return (v) ? v : IONIL(self);
 }
 
-IoObject *IoList_atInsert(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoList_atInsert(IoList *self, IoObject *locals, IoMessage *m)
 {
 	/*
 	 docSlot("atInsert(index, anObject)", 
@@ -780,7 +780,7 @@ IoObject *IoList_atInsert(IoObject *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoList_removeAt(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoList_removeAt(IoList *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("removeAt(index)", 
@@ -796,7 +796,7 @@ Raises an exception if the index is out of bounds. ")
 	return (v) ? v : IONIL(self);
 }
 
-void IoList_rawAtPut(IoObject *self, int i, IoObject *v)
+void IoList_rawAtPut(IoList *self, int i, IoObject *v)
 {
 	while (List_size(LISTIVAR(self)) < i) /* not efficient */
 	{ 
@@ -806,7 +806,7 @@ void IoList_rawAtPut(IoObject *self, int i, IoObject *v)
 	List_at_put_(LISTIVAR(self), i, IOREF(v));
 }
 
-IoObject *IoList_atPut(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoList_atPut(IoList *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("atPut(index, anObject)", 
@@ -822,7 +822,7 @@ Raises an exception if the index is out of bounds. Returns self.")
 	return self;
 }
 
-IoObject *IoList_removeAll(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoList_removeAll(IoList *self, IoObject *locals, IoMessage *m)
 { 
 	/*#io
 	docSlot("empty", "Removes all items from the receiver.") 
@@ -832,7 +832,7 @@ IoObject *IoList_removeAll(IoObject *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoList_swapIndices(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoList_swapIndices(IoList *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("swapIndices(index1, index2)", 
@@ -849,7 +849,7 @@ Raises an exception if either index is out of bounds. Returns self.")
 	return self;
 }
 
-IoObject *IoList_reverse(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoList_reverse(IoList *self, IoObject *locals, IoMessage *m)
 { 
 	/*#io
 	docSlot("reverse", 
@@ -860,7 +860,7 @@ IoObject *IoList_reverse(IoObject *self, IoObject *locals, IoMessage *m)
 	return self; 
 }
 
-IoObject *IoList_preallocateToSize(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoList_preallocateToSize(IoList *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("preallocateToSize(aNumber)", 
@@ -903,7 +903,7 @@ void MSortContext_swapForSort(MSortContext *self, int i, int j)
 	List_swap_with_(self->list, i, j); 
 }
 
-IoObject *IoList_sortInPlace(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoList_sortInPlace(IoList *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("sortInPlace(optionalExpression)", 
@@ -966,7 +966,7 @@ void SortContext_swapForSort(SortContext *self, int i, int j)
 	List_swap_with_(self->list, i, j); 
 }
 
-IoObject *IoList_sortInPlaceBy(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoList_sortInPlaceBy(IoList *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("sortBy(aBlock)", 
