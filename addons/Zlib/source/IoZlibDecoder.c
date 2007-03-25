@@ -126,7 +126,7 @@ The processed inputBuffer is empties except for the spare bytes at the end which
 	uint8_t *inputBytes = (uint8_t *)UArray_bytes(input);
 	size_t inputSize = UArray_sizeInBytes(input);
 	
-	printf("inputBytes = [%s]\n", inputBytes);
+	//printf("inputBytes = [%s]\n", inputBytes);
 	
 	if (inputSize)
 	{
@@ -148,8 +148,8 @@ The processed inputBuffer is empties except for the spare bytes at the end which
 		
 		ret = inflate(strm, Z_NO_FLUSH);
 
-		printf("inputSize  = %i\n", (int)inputSize);
-		printf("outputRoom = %i\n", (int)outputRoom);
+		//printf("inputSize  = %i\n", (int)inputSize);
+		//printf("outputRoom = %i\n", (int)outputRoom);
 		
 		if (errno)
 		{
@@ -170,7 +170,7 @@ The processed inputBuffer is empties except for the spare bytes at the end which
 		{
 		size_t outputSize = outputRoom - strm->avail_out;
 		//size_t outputSize = strm->avail_out;
-		printf("outputSize = %i\n", (int)outputSize);
+		//printf("outputSize = %i\n", (int)outputSize);
 		UArray_setSize_(output, oldOutputSize + outputSize);
 		}
 		

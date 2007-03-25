@@ -1,7 +1,7 @@
 Socket
 
 DOTest := UnitTest clone do(
-	testDO := method(
+	xxxtestDO := method(
 		Root := Object clone
 		Root test := method(v, return list(1))
 
