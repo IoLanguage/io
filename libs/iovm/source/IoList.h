@@ -22,69 +22,69 @@ extern "C" {
 typedef IoObject IoList;
 
 IOVM_API IoList *IoList_proto(void *state);
-IOVM_API IoList *IoList_rawClone(IoObject *self);
+IOVM_API IoList *IoList_rawClone(IoList *self);
 IOVM_API IoList *IoList_new(void *state);
 IOVM_API IoList *IoList_newWithList_(void *state, List *list);
-IOVM_API void IoList_free(IoObject *self);
-IOVM_API void IoList_mark(IoObject *self);
-IOVM_API int IoList_compare(IoObject *self, IoList *otherList);
+IOVM_API void IoList_free(IoList *self);
+IOVM_API void IoList_mark(IoList *self);
+IOVM_API int IoList_compare(IoList *self, IoList *otherList);
 
-IOVM_API void IoList_writeToStream_(IoObject *self, BStream *stream);
-IOVM_API void IoList_readFromStream_(IoObject *self, BStream *stream);
+IOVM_API void IoList_writeToStream_(IoList *self, BStream *stream);
+IOVM_API void IoList_readFromStream_(IoList *self, BStream *stream);
 
-IOVM_API List *IoList_rawList(IoObject *self);
-IOVM_API IoObject *IoList_rawAt_(IoObject *self, int i);
-IOVM_API void IoList_rawAt_put_(IoObject *self, int i, IoObject *v);
-IOVM_API void IoList_rawAppend_(IoObject *self, IoObject *v);
-IOVM_API void IoList_rawRemove_(IoObject *self, IoObject *v);
-IOVM_API void IoList_rawAddIoList_(IoObject *self, IoList *other);
-IOVM_API void IoList_rawAddBaseList_(IoObject *self, List *other);
-IOVM_API size_t IoList_rawSize(IoObject *self);
+IOVM_API List *IoList_rawList(IoList *self);
+IOVM_API IoObject *IoList_rawAt_(IoList *self, int i);
+IOVM_API void IoList_rawAt_put_(IoList *self, int i, IoObject *v);
+IOVM_API void IoList_rawAppend_(IoList *self, IoObject *v);
+IOVM_API void IoList_rawRemove_(IoList *self, IoObject *v);
+IOVM_API void IoList_rawAddIoList_(IoList *self, IoList *other);
+IOVM_API void IoList_rawAddBaseList_(IoList *self, List *other);
+IOVM_API size_t IoList_rawSize(IoList *self);
 
 // immutable 
 
-IOVM_API IoObject *IoList_with(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_indexOf(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_contains(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_containsIdenticalTo(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_capacity(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_size(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_at(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_first(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_last(IoObject *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoList_with(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoList_indexOf(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoList_contains(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoList_containsIdenticalTo(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoList_capacity(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoList_size(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoList_at(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoList_first(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoList_last(IoList *self, IoObject *locals, IoMessage *m);
 
-IOVM_API IoObject *IoList_slice(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_sliceInPlace(IoObject *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoList_slice(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoList_sliceInPlace(IoList *self, IoObject *locals, IoMessage *m);
 
-IOVM_API IoObject *IoList_mapInPlace(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_map(IoObject *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoList_mapInPlace(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoList_map(IoList *self, IoObject *locals, IoMessage *m);
 
-IOVM_API IoObject *IoList_select(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_detect(IoObject *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoList_select(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoList_detect(IoList *self, IoObject *locals, IoMessage *m);
 
-IOVM_API IoObject *IoList_foreach(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_reverseForeach(IoObject *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoList_foreach(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoList_reverseForeach(IoList *self, IoObject *locals, IoMessage *m);
 
 // mutable
 
-IOVM_API IoObject *IoList_preallocateToSize(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_append(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_prepend(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_appendIfAbsent(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_appendSeq(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_remove(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_push(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_pop(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_removeAll(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_atInsert(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_removeAt(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_atPut(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_removeAll(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_swapIndices(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_reverse(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_sortInPlace(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_sortInPlaceBy(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_selectInPlace(IoObject *self, IoObject *locals, IoMessage *m);\
+IOVM_API IoObject *IoList_preallocateToSize(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoList_append(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoList_prepend(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoList_appendIfAbsent(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoList_appendSeq(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoList_remove(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoList_push(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoList_pop(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoList_removeAll(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoList_atInsert(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoList_removeAt(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoList_atPut(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoList_removeAll(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoList_swapIndices(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoList_reverse(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoList_sortInPlace(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoList_sortInPlaceBy(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoList_selectInPlace(IoList *self, IoObject *locals, IoMessage *m);\
 
 #ifdef __cplusplus
 }

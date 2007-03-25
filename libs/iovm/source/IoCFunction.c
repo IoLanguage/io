@@ -42,7 +42,7 @@ void IoCFunction_protoFinish(void *state)
 	IoMethodTable methodTable[] = {
 	{"id", IoCFunction_id},
 	{"==", IoCFunction_equals},
-	{"performOn", IoFunction_performOn},
+	{"performOn", IoCFunction_performOn},
 	{"uniqueName", IoCFunction_uniqueName},
 	{"typeName", IoCFunction_typeName},
 	{NULL, NULL},
@@ -169,7 +169,7 @@ IoObject *IoCFunction_activate(IoCFunction *self, IoObject *target, IoObject *lo
 	return result;
 }
 
-IoObject *IoFunction_performOn(IoCFunction *self, IoObject *locals, IoMessage *m)
+IoObject *IoCFunction_performOn(IoCFunction *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("performOn(target, blockLocals, optionalMessage, optionalContext)", "Activates the CFunctions with the supplied settings.")

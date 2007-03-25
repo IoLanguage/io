@@ -131,7 +131,7 @@ void IoCall_free(IoCall *self)
 	io_free(IoObject_dataPointer(self)); 
 }
 
-IoObject *IoCall_sender(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoCall_sender(IoCall *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("sender", "Returns the sender value.")
@@ -139,7 +139,7 @@ IoObject *IoCall_sender(IoObject *self, IoObject *locals, IoMessage *m)
 	return DATA(self)->sender;
 }
 
-IoObject *IoCall_message(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoCall_message(IoCall *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("message", "Returns the message value.")
@@ -147,7 +147,7 @@ IoObject *IoCall_message(IoObject *self, IoObject *locals, IoMessage *m)
 	return DATA(self)->message;
 }
 
-IoObject *IoCall_target(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoCall_target(IoCall *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("target", "Returns the target value.")
@@ -155,7 +155,7 @@ IoObject *IoCall_target(IoObject *self, IoObject *locals, IoMessage *m)
 	return DATA(self)->target;
 }
 
-IoObject *IoCall_slotContext(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoCall_slotContext(IoCall *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("slotContext", "Returns the slotContext value.")
@@ -163,7 +163,7 @@ IoObject *IoCall_slotContext(IoObject *self, IoObject *locals, IoMessage *m)
 	return DATA(self)->slotContext;
 }
 
-IoObject *IoCall_activated(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoCall_activated(IoCall *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("activated", "Returns the activated value.")
@@ -171,7 +171,7 @@ IoObject *IoCall_activated(IoObject *self, IoObject *locals, IoMessage *m)
 	return DATA(self)->activated;
 }
 
-IoObject *IoCall_coroutine(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoCall_coroutine(IoCall *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("activated", "Returns the coroutine in which the message was sent.")
@@ -179,7 +179,7 @@ IoObject *IoCall_coroutine(IoObject *self, IoObject *locals, IoMessage *m)
 	return DATA(self)->coroutine;
 }
 
-IoObject *IoCall_evalArgAt(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoCall_evalArgAt(IoCall *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("evalArgAt(argNumber)", "Evaluates the specified argument of the Call's message in the context of it's sender.")
@@ -189,7 +189,7 @@ IoObject *IoCall_evalArgAt(IoObject *self, IoObject *locals, IoMessage *m)
 	return IoMessage_locals_valueArgAt_(data->message, data->sender, n);
 }
 
-IoObject *IoCall_argAt(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoCall_argAt(IoCall *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("argAt(argNumber)", "Returns the message's argNumber arg. Shorthand for same as call message argAt(argNumber).")
@@ -197,17 +197,17 @@ IoObject *IoCall_argAt(IoObject *self, IoObject *locals, IoMessage *m)
 	return IoMessage_argAt(DATA(self)->message, locals, m);
 }
 
-int IoCall_rawStopStatus(IoObject *self)
+int IoCall_rawStopStatus(IoCall *self)
 {
 	return DATA(self)->stopStatus;
 }
 
-IoObject *IoCall_stopStatus(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoCall_stopStatus(IoCall *self, IoObject *locals, IoMessage *m)
 {
 	return IoState_stopStatusObject(IOSTATE, DATA(self)->stopStatus);
 }
 
-IoObject *IoCall_setStopStatus(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoCall_setStopStatus(IoCall *self, IoObject *locals, IoMessage *m)
 {
 	IoObject *status = IoMessage_locals_valueArgAt_(m, locals, 0);
 	DATA(self)->stopStatus = IoState_stopStatusNumber(IOSTATE, status);

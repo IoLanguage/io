@@ -45,7 +45,7 @@ IOVM_API IoObject *IoCFunction_typeName(IoCFunction *self, IoObject *locals, IoM
 IOVM_API IoObject *IoCFunction_equals(IoCFunction *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoCFunction_activate(IoCFunction *self, IoObject *target, IoObject *locals, IoMessage *m, IoObject *slotContext);
 
-IOVM_API IoObject *IoFunction_performOn(IoCFunction *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoCFunction_performOn(IoCFunction *self, IoObject *locals, IoMessage *m);
 
 #ifdef __cplusplus
 }

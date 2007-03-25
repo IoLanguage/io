@@ -203,7 +203,7 @@ IoObject *IoSeq_print(IoSeq *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoSeq_linePrint(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_linePrint(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("linePrint", 
@@ -421,7 +421,7 @@ nil is returned if no occurences are found. ")
 	return (index == -1) ? IONIL(self) : IONUMBER(index);
 }
 
-IoObject *IoSeq_reverseFindSeq(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_reverseFindSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("reverseFindSeq(aSequence, startIndex)", 
@@ -450,7 +450,7 @@ returned if no occurrences are found. ")
 	return IONUMBER((double)index);
 }
 
-IoObject *IoSeq_beginsWithSeq(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_beginsWithSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("beginsWithSeq(aSequence)", 
@@ -462,7 +462,7 @@ IoObject *IoSeq_beginsWithSeq(IoObject *self, IoObject *locals, IoMessage *m)
 	return IOBOOL(self, UArray_beginsWith_(BIVAR(self), BIVAR(other)));
 }
 
-IoObject *IoSeq_endsWithSeq(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_endsWithSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("endsWithSeq(aSequence)", 
@@ -473,7 +473,7 @@ IoObject *IoSeq_endsWithSeq(IoObject *self, IoObject *locals, IoMessage *m)
 	return IOBOOL(self, UArray_endsWith_(BIVAR(self), BIVAR(other)));
 }
 
-IoObject *IoSeq_contains(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_contains(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("contains(aNumber)", 
@@ -488,7 +488,7 @@ IoObject *IoSeq_contains(IoObject *self, IoObject *locals, IoMessage *m)
 	return IOBOOL(self, UArray_contains_(BIVAR(self), &tmp));
 }
 
-IoObject *IoSeq_containsSeq(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_containsSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("containsSeq(aSequence)", 
@@ -501,7 +501,7 @@ aSequence, false otherwise. ")
 	return IOBOOL(self, UArray_contains_(BIVAR(self), BIVAR(other)));
 }
 
-IoObject *IoSeq_containsAnyCaseSeq(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_containsAnyCaseSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("containsAnyCaseSeq(aSequence)", 
@@ -513,7 +513,7 @@ regardless of casing, false otherwise. ")
 	return IOBOOL(self, UArray_containsAnyCase_(BIVAR(self), BIVAR(other)));
 }
 
-IoObject *IoSeq_isLowercase(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_isLowercase(IoSeq *self, IoObject *locals, IoMessage *m)
 { 
 	/*#io
 	docSlot("isLowercase", 
@@ -523,7 +523,7 @@ IoObject *IoSeq_isLowercase(IoObject *self, IoObject *locals, IoMessage *m)
 	return IOBOOL(self, UArray_isLowercase(BIVAR(self))); 
 }
 
-IoObject *IoSeq_isUppercase(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_isUppercase(IoSeq *self, IoObject *locals, IoMessage *m)
 { 
 	/*#io
 	docSlot("isUppercase", 
@@ -533,7 +533,7 @@ IoObject *IoSeq_isUppercase(IoObject *self, IoObject *locals, IoMessage *m)
 	return IOBOOL(self, UArray_isUppercase(BIVAR(self))); 
 }
 
-IoObject *IoSeq_isEqualAnyCase(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_isEqualAnyCase(IoSeq *self, IoObject *locals, IoMessage *m)
 { 
 	/*#io
 	docSlot("isEqualAnyCase(aSequence)", 
@@ -546,7 +546,7 @@ ignoring case differences, false otherwise.")
 	return IOBOOL(self, UArray_equalsAnyCase_(BIVAR(self), BIVAR(other)));
 }
 
-IoObject *IoSeq_asNumber(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_asNumber(IoSeq *self, IoObject *locals, IoMessage *m)
 {  
 	/*#io
 	docSlot("asNumber", 
@@ -572,7 +572,7 @@ Initial whitespace is ignored.")
 	return IONUMBER(d); 
 }
 
-IoList *IoSeq_whiteSpaceStrings(IoObject *self, IoObject *locals, IoMessage *m)
+IoList *IoSeq_whiteSpaceStrings(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("whiteSpaceStrings", 
@@ -590,7 +590,7 @@ whitespace character.")
 
 // split ---------------------------------------------------------------------
 
-IoList *IoSeq_stringListForArgs(IoObject *self, IoObject *locals, IoMessage *m)
+IoList *IoSeq_stringListForArgs(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	if (IoMessage_argCount(m) == 0) 
 	{
@@ -599,7 +599,7 @@ IoList *IoSeq_stringListForArgs(IoObject *self, IoObject *locals, IoMessage *m)
 	return IoMessage_evaluatedArgs(m, locals, m);
 }
 
-List *IoSeq_byteArrayListForSeqList(IoObject *self, IoObject *locals, IoMessage *m, IoList *seqs)
+List *IoSeq_byteArrayListForSeqList(IoSeq *self, IoObject *locals, IoMessage *m, IoList *seqs)
 {
 	List *args = IoList_rawList(seqs);
 	List *list = List_new();
@@ -619,7 +619,7 @@ List *IoSeq_byteArrayListForSeqList(IoObject *self, IoObject *locals, IoMessage 
 	return list;
 }
 
-IoObject *IoSeq_splitToFunction(IoObject *self, 
+IoObject *IoSeq_splitToFunction(IoSeq *self, 
 						  IoObject *locals, 
 						  IoMessage *m, 
 						  IoSplitFunction *func)
@@ -654,7 +654,7 @@ IoObject *IoSeq_splitToFunction(IoObject *self,
 	return output;
 }
 
-IoObject *IoSeq_split(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_split(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("split(optionalArg1, optionalArg2, ...)", """
@@ -673,7 +673,7 @@ Examples:
 	return IoSeq_splitToFunction(self, locals, m, IoSeq_newWithUArray_copy_);
 }
 
-IoObject *IoSeq_splitAt(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_splitAt(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	int index = IoMessage_locals_intArgAt_(m, locals, 0);
 	IoList *splitSeqs = IoList_new(IOSTATE);
@@ -692,7 +692,7 @@ IoObject *IoSeq_splitAt(IoObject *self, IoObject *locals, IoMessage *m)
 
 /* --- base -------------------------------------------------------------- */
 
-IoObject *IoSeq_fromBase(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_fromBase(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("fromBase(aNumber)", 
@@ -726,7 +726,7 @@ converted from the specified base. Only base 2 through 32 are currently supporte
 	return IONUMBER(r);
 }
 
-IoObject *IoSeq_toBase(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_toBase(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("toBase(aNumber)", 
@@ -764,7 +764,7 @@ Only base 8 and 16 are currently supported. ")
 	return IoSeq_newWithCString_(IOSTATE, ptr);
 }
 
-IoObject *IoSeq_each(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_each(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	IoState *state = IOSTATE;
 	IoObject *result = IONIL(self);
@@ -798,7 +798,7 @@ done:
 }
 
 
-IoObject *IoSeq_foreach(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_foreach(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("foreach(optionalIndex, value, message)", 
@@ -856,7 +856,7 @@ done:
 	return result;
 }
 
-IoObject *IoSeq_asMessage(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_asMessage(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("asMessage", 
@@ -937,7 +937,7 @@ IoObject *IoSeq_asLowercase(IoSeq *self, IoObject *locals, IoMessage *m)
 /* --- path ------------------------------------------------ */
 
 
-IoObject *IoSeq_lastPathComponent(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_lastPathComponent(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("lastPathComponent", 
@@ -949,7 +949,7 @@ to the last path separator. ")
 	return IoSeq_newWithUArray_copy_(IOSTATE, ba, 0);
 }
 
-IoObject *IoSeq_pathExtension(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_pathExtension(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("pathExtension", 
@@ -960,7 +960,7 @@ IoObject *IoSeq_pathExtension(IoObject *self, IoObject *locals, IoMessage *m)
 	return IoState_symbolWithUArray_copy_(IOSTATE, path, 0);
 }
 
-IoObject *IoSeq_fileName(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_fileName(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("fileName", 
@@ -971,7 +971,7 @@ IoObject *IoSeq_fileName(IoObject *self, IoObject *locals, IoMessage *m)
 	return IoState_symbolWithUArray_copy_(IOSTATE, path, 0);
 }
 
-IoObject *IoSeq_cloneAppendPath(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_cloneAppendPath(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("cloneAppendPath(aSequence)", 
@@ -985,7 +985,7 @@ and only one path separator between the two and returns the result.")
 	return IoState_symbolWithUArray_copy_(IOSTATE, ba, 0);
 }
 
-IoObject *IoSeq_pathComponent(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_pathComponent(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("pathComponent", 
@@ -1060,7 +1060,7 @@ If aSequence is empty, the receiver (or a copy of the
 	return IONIL(self);
 }
 
-IoObject *IoSeq_asCapitalized(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_asCapitalized(IoSeq *self, IoObject *locals, IoMessage *m)
 { 
 	/*#io
 	docSlot("asCapitalized", 
@@ -1090,7 +1090,7 @@ IoObject *IoSeq_asCapitalized(IoObject *self, IoObject *locals, IoMessage *m)
 	}
 }
 
-IoObject *IoSeq_occurancesOfSeq(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_occurancesOfSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 { 
 	/*#io
 	docSlot("occurancesOfSeq(aSeq)", "Returns count of aSeq in the receiver.")
@@ -1101,7 +1101,7 @@ IoObject *IoSeq_occurancesOfSeq(IoObject *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(count);
 }
 
-IoObject *IoSeq_interpolate(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_interpolate(IoSeq *self, IoObject *locals, IoMessage *m)
 { 
 	/*#io
 	docSlot("interpolate(ctx)", "Returns immutable copy of self with interpolateInPlace(ctx) passed to the copy.")
@@ -1112,7 +1112,7 @@ IoObject *IoSeq_interpolate(IoObject *self, IoObject *locals, IoMessage *m)
 	return IoSeq_rawAsSymbol(s);
 }
 
-IoObject *IoSeq_distanceTo(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_distanceTo(IoSeq *self, IoObject *locals, IoMessage *m)
 { 
 	/*#io
 	docSlot("distanceTo(aSeq)", "Returns a number with the square root of the sum of the square of the differences of the items between the sequences.")

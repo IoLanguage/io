@@ -134,84 +134,84 @@ void IoCoroutine_rawShow(IoCoroutine *self)
 	printf("\n");
 }
 
-void *IoCoroutine_cid(IoObject *self)
+void *IoCoroutine_cid(IoCoroutine *self)
 {
 	return DATA(self)->cid;
 }
 
 // runTarget
 
-void IoCoroutine_rawSetRunTarget_(IoObject *self, IoObject *v)
+void IoCoroutine_rawSetRunTarget_(IoCoroutine *self, IoObject *v)
 {
 	IoObject_setSlot_to_(self, IOSYMBOL("runTarget"), v);
 }
 
-IoObject *IoCoroutine_rawRunTarget(IoObject *self)
+IoObject *IoCoroutine_rawRunTarget(IoCoroutine *self)
 {
 	return IoObject_rawGetSlot_(self, IOSYMBOL("runTarget"));
 }
 
 // runMessage
 
-void IoCoroutine_rawSetRunMessage_(IoObject *self, IoObject *v)
+void IoCoroutine_rawSetRunMessage_(IoCoroutine *self, IoObject *v)
 {
 	IoObject_setSlot_to_(self, IOSYMBOL("runMessage"), v);
 }
 
-IoObject *IoCoroutine_rawRunMessage(IoObject *self)
+IoObject *IoCoroutine_rawRunMessage(IoCoroutine *self)
 {
 	return IoObject_rawGetSlot_(self, IOSYMBOL("runMessage"));
 }
 
 // runLocals
 
-void IoCoroutine_rawSetRunLocals_(IoObject *self, IoObject *v)
+void IoCoroutine_rawSetRunLocals_(IoCoroutine *self, IoObject *v)
 {
 	IoObject_setSlot_to_(self, IOSYMBOL("runLocals"), v);
 }
 
-IoObject *IoCoroutine_rawRunLocals(IoObject *self)
+IoObject *IoCoroutine_rawRunLocals(IoCoroutine *self)
 {
 	return IoObject_rawGetSlot_(self, IOSYMBOL("runLocals"));
 }
 
 // parent
 
-void IoCoroutine_rawSetParentCoroutine_(IoObject *self, IoObject *v)
+void IoCoroutine_rawSetParentCoroutine_(IoCoroutine *self, IoObject *v)
 {
 	IoObject_setSlot_to_(self, IOSYMBOL("parentCoroutine"), v);
 }
 
-IoObject *IoCoroutine_rawParentCoroutine(IoObject *self)
+IoObject *IoCoroutine_rawParentCoroutine(IoCoroutine *self)
 {
 	return IoObject_getSlot_(self, IOSYMBOL("parentCoroutine"));
 }
 
 // result
 
-void IoCoroutine_rawSetResult_(IoObject *self, IoObject *v)
+void IoCoroutine_rawSetResult_(IoCoroutine *self, IoObject *v)
 {
 	IoObject_setSlot_to_(self, IOSYMBOL("result"), v);
 }
 
-IoObject *IoCoroutine_rawResult(IoObject *self)
+IoObject *IoCoroutine_rawResult(IoCoroutine *self)
 {
 	return IoObject_getSlot_(self, IOSYMBOL("result"));
 }
 
 // exception
 
-void IoCoroutine_rawRemoveException(IoObject *self)
+void IoCoroutine_rawRemoveException(IoCoroutine *self)
 {
 	IoObject_removeSlot_(self, IOSYMBOL("exception"));
 }
 
-void IoCoroutine_rawSetException_(IoObject *self, IoObject *v)
+void IoCoroutine_rawSetException_(IoCoroutine *self, IoObject *v)
 {
 	IoObject_setSlot_to_(self, IOSYMBOL("exception"), v);
 }
 
-IoObject *IoCoroutine_rawException(IoObject *self)
+IoObject *IoCoroutine_rawException(IoCoroutine *self)
 {
 	return IoObject_getSlot_(self, IOSYMBOL("exception"));
 }
@@ -282,7 +282,7 @@ void IoCoroutine_coroStartWithContextAndCFunction(void *context, CoroStartCallba
 }
 */
 
-IoObject *IoCoroutine_freeStack(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoCoroutine_freeStack(IoCoroutine *self, IoObject *locals, IoMessage *m)
 {
 	IoCoroutine *current = IoState_currentCoroutine(IOSTATE);
 
@@ -293,7 +293,7 @@ IoObject *IoCoroutine_freeStack(IoObject *self, IoObject *locals, IoMessage *m)
 	}
 }
 
-IoObject *IoCoroutine_main(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoCoroutine_main(IoCoroutine *self, IoObject *locals, IoMessage *m)
 {
 	IoObject *runTarget  = IoCoroutine_rawRunTarget(self);
 	IoObject *runLocals  = IoCoroutine_rawRunLocals(self);
@@ -311,17 +311,17 @@ IoObject *IoCoroutine_main(IoObject *self, IoObject *locals, IoMessage *m)
 	return IONIL(self);
 }
 
-Coro *IoCoroutine_rawCoro(IoObject *self)
+Coro *IoCoroutine_rawCoro(IoCoroutine *self)
 {
 	return DATA(self)->cid;
 }
 
-void IoCoroutine_clearStack(IoObject *self)
+void IoCoroutine_clearStack(IoCoroutine *self)
 {
    Stack_clear(DATA(self)->ioStack);
 }
 
-void IoCoroutine_rawRun(IoObject *self)
+void IoCoroutine_rawRun(IoCoroutine *self)
 {	
 	Coro *coro = DATA(self)->cid;
 
@@ -348,13 +348,13 @@ void IoCoroutine_rawRun(IoObject *self)
 	}
 }
 
-IoObject *IoCoroutine_run(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoCoroutine_run(IoCoroutine *self, IoObject *locals, IoMessage *m)
 { 
 	IoCoroutine_rawRun(self);
 	return IoCoroutine_rawResult(self);
 }
 
-void IoCoroutine_try(IoObject *self, IoObject *target, IoObject *locals, IoMessage *message)
+void IoCoroutine_try(IoCoroutine *self, IoObject *target, IoObject *locals, IoMessage *message)
 {
 	IoCoroutine *currentCoro = (IoCoroutine *)IoState_currentCoroutine((IoState *)IOSTATE);
 	IoCoroutine_rawSetRunTarget_(self, target);
@@ -392,7 +392,7 @@ void IoCoroutine_raiseError(IoCoroutine *self, IoSymbol *description, IoMessage 
 
 // methods
 
-IoObject *IoCoroutine_rawResume(IoObject *self)
+IoObject *IoCoroutine_rawResume(IoCoroutine *self)
 { 
 	if(DATA(self)->cid)
 	{
@@ -412,36 +412,36 @@ IoObject *IoCoroutine_rawResume(IoObject *self)
 	return self;
 }
 
-IoObject *IoCoroutine_resume(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoCoroutine_resume(IoCoroutine *self, IoObject *locals, IoMessage *m)
 { 
 	//printf("IoCoroutine_resume()\n");
 	return IoCoroutine_rawResume(self);
 }
 
-IoObject *IoCoroutine_implementation(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoCoroutine_implementation(IoCoroutine *self, IoObject *locals, IoMessage *m)
 { 
 	return IOSYMBOL(CORO_IMPLEMENTATION);
 }
 
-IoObject *IoCoroutine_isCurrent(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoCoroutine_isCurrent(IoCoroutine *self, IoObject *locals, IoMessage *m)
 { 
 	IoObject *v = IOBOOL(self, self == IoState_currentCoroutine(IOSTATE));
 	return v;
 }
 
-IoObject *IoCoroutine_currentCoroutine(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoCoroutine_currentCoroutine(IoCoroutine *self, IoObject *locals, IoMessage *m)
 { 
 	return IoState_currentCoroutine(IOSTATE);
 }
 
 // stack trace
 
-int IoCoroutine_rawIoStackSize(IoObject *self)
+int IoCoroutine_rawIoStackSize(IoCoroutine *self)
 {
 	return Stack_count(DATA(self)->ioStack);
 }
 
-void IoCoroutine_rawPrint(IoObject *self)
+void IoCoroutine_rawPrint(IoCoroutine *self)
 {
 	Coro *coro = DATA(self)->cid;
 	
@@ -456,12 +456,12 @@ void IoCoroutine_rawPrint(IoObject *self)
 
 // debugging
 
-int IoCoroutine_rawDebuggingOn(IoObject *self)
+int IoCoroutine_rawDebuggingOn(IoCoroutine *self)
 {
 	return DATA(self)->debuggingOn;
 }
 
-IoObject *IoCoroutine_setMessageDebugging(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoCoroutine_setMessageDebugging(IoCoroutine *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("setMessageDebugging(aBoolean)", "Turns on message level debugging for this coro. When on, this 
@@ -477,7 +477,7 @@ for more information. ")
 	return self;
 }
 
-IoObject *IoObject_performWithDebugger(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoObject_performWithDebugger(IoCoroutine *self, IoObject *locals, IoMessage *m)
 {
 	IoState *state = IOSTATE;
 	IoObject *currentCoroutine = IoState_currentCoroutine(state);
@@ -505,7 +505,7 @@ IoObject *IoObject_performWithDebugger(IoObject *self, IoObject *locals, IoMessa
 	return IoObject_perform(self, locals, m);
 }
 
-void IoCoroutine_rawPrintBackTrace(IoObject *self)
+void IoCoroutine_rawPrintBackTrace(IoCoroutine *self)
 {
 	IoObject *e = IoCoroutine_rawException(self);
 	IoMessage *caughtMessage = IoObject_rawGetSlot_(e, IOSYMBOL("caughtMessage"));

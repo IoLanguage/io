@@ -500,7 +500,7 @@ IoObject *IoSeq_sort(IoSeq *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoSeq_replaceMap(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_replaceMap(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("replaceMap(aMap)", 
@@ -535,7 +535,7 @@ IoObject *IoSeq_replaceMap(IoObject *self, IoObject *locals, IoMessage *m)
 
 // translate ------------------------------------------------------
 
-IoObject *IoSeq_translate(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_translate(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("translate(fromChars, toChars)",
@@ -560,7 +560,7 @@ IoObject *IoSeq_translate(IoObject *self, IoObject *locals, IoMessage *m)
 
 // reverse --------------------------------------------------------
 
-IoObject *IoSeq_reverse(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_reverse(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 		   docSlot("reverse", "Reverses the bytes in the receiver, in-place.")
@@ -573,7 +573,7 @@ IoObject *IoSeq_reverse(IoObject *self, IoObject *locals, IoMessage *m)
 
 // strip ---------------------------------------------------------- 
 
-IoObject *IoSeq_strip(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_strip(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("strip(optionalSequence)", 
@@ -601,7 +601,7 @@ IoObject *IoSeq_strip(IoObject *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoSeq_lstrip(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_lstrip(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("lstrip(aSequence)", 
@@ -630,7 +630,7 @@ stripped from the beginning of the receiver. Example:
 	return self;
 }
 
-IoObject *IoSeq_rstrip(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_rstrip(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("rstrip(aSequence)", 
@@ -661,7 +661,7 @@ aSequence stripped from the end of the receiver. Example:
 
 // ----------------------------------------------------------- 
 
-IoObject *IoSeq_escape(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_escape(IoSeq *self, IoObject *locals, IoMessage *m)
 { 
 	/*#io
 	docSlot("escape", 
@@ -675,7 +675,7 @@ following 2 characters after being escaped: "\n". Returns self.""")
 	return self; 
 }
 
-IoObject *IoSeq_unescape(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_unescape(IoSeq *self, IoObject *locals, IoMessage *m)
 { 
 	/*#io
 	docSlot("unescape", 
@@ -687,7 +687,7 @@ IoObject *IoSeq_unescape(IoObject *self, IoObject *locals, IoMessage *m)
 	return self; 
 }
 
-IoObject *IoSeq_removePrefix(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_removePrefix(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("removePrefix(aSequence)", 
@@ -706,7 +706,7 @@ IoObject *IoSeq_removePrefix(IoObject *self, IoObject *locals, IoMessage *m)
 	return self; 
 }
 
-IoObject *IoSeq_removeSuffix(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_removeSuffix(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("removeSuffix(aSequence)", 
@@ -728,7 +728,7 @@ IoObject *IoSeq_removeSuffix(IoObject *self, IoObject *locals, IoMessage *m)
 	return self; 
 }
 
-IoObject *IoSeq_capitalize(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_capitalize(IoSeq *self, IoObject *locals, IoMessage *m)
 { 
 	/*#io
 	docSlot("capitalize", 
@@ -742,7 +742,7 @@ IoObject *IoSeq_capitalize(IoObject *self, IoObject *locals, IoMessage *m)
 	return self; 
 }
 
-IoObject *IoSeq_appendPathSeq(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_appendPathSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("appendPathSeq(aSeq)", 

@@ -37,61 +37,61 @@ IOVM_API void IoCoroutine_mark(IoCoroutine *self);
 Stack *IoCoroutine_rawIoStack(IoCoroutine *self);
 IOVM_API void IoCoroutine_rawShow(IoCoroutine *self);
 
-IOVM_API IoObject *IoCoroutine_main(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoCoroutine_freeStack(IoObject *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoCoroutine_main(IoCoroutine *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoCoroutine_freeStack(IoCoroutine *self, IoObject *locals, IoMessage *m);
 
-IOVM_API void *IoCoroutine_cid(IoObject *self);
+IOVM_API void *IoCoroutine_cid(IoCoroutine *self);
 
 // label
 
 //void IoCoroutine_rawSetLabel_(IoCoroutine *self, IoSymbol *s);
 //IoObject *IoCoroutine_rawLabel(IoCoroutine *self);
 
-IOVM_API IoObject *IoCoroutine_setLabel(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoCoroutine_label(IoObject *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoCoroutine_setLabel(IoCoroutine *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoCoroutine_label(IoCoroutine *self, IoObject *locals, IoMessage *m);
 
 // runTarget
 
-IOVM_API void IoCoroutine_rawSetRunTarget_(IoObject *self, IoObject *v);
-IOVM_API IoObject *IoCoroutine_rawRunTarget(IoObject *self);
+IOVM_API void IoCoroutine_rawSetRunTarget_(IoCoroutine *self, IoObject *v);
+IOVM_API IoObject *IoCoroutine_rawRunTarget(IoCoroutine *self);
 
 // runMessage
 
-IOVM_API void IoCoroutine_rawSetRunMessage_(IoObject *self, IoObject *v);
-IOVM_API IoObject *IoCoroutine_rawRunMessage(IoObject *self);
+IOVM_API void IoCoroutine_rawSetRunMessage_(IoCoroutine *self, IoObject *v);
+IOVM_API IoObject *IoCoroutine_rawRunMessage(IoCoroutine *self);
 
 // runLocals
 
-IOVM_API void IoCoroutine_rawSetRunLocals_(IoObject *self, IoObject *v);
-IOVM_API IoObject *IoCoroutine_rawRunLocals(IoObject *self);
+IOVM_API void IoCoroutine_rawSetRunLocals_(IoCoroutine *self, IoObject *v);
+IOVM_API IoObject *IoCoroutine_rawRunLocals(IoCoroutine *self);
 
 // parent
 
-IOVM_API void IoCoroutine_rawSetParentCoroutine_(IoObject *self, IoObject *v);
-IOVM_API IoObject *IoCoroutine_rawParentCoroutine(IoObject *self);
+IOVM_API void IoCoroutine_rawSetParentCoroutine_(IoCoroutine *self, IoObject *v);
+IOVM_API IoObject *IoCoroutine_rawParentCoroutine(IoCoroutine *self);
 // exception
 
-IOVM_API void IoCoroutine_rawSetResult_(IoObject *self, IoObject *v);
-IOVM_API IoObject *IoCoroutine_rawResult(IoObject *self);
+IOVM_API void IoCoroutine_rawSetResult_(IoCoroutine *self, IoObject *v);
+IOVM_API IoObject *IoCoroutine_rawResult(IoCoroutine *self);
 
 // exception
 
-IOVM_API void IoCoroutine_rawRemoveException(IoObject *self);
-IOVM_API void IoCoroutine_rawSetException_(IoObject *self, IoObject *v);
-IOVM_API IoObject *IoCoroutine_rawException(IoObject *self);
+IOVM_API void IoCoroutine_rawRemoveException(IoCoroutine *self);
+IOVM_API void IoCoroutine_rawSetException_(IoCoroutine *self, IoObject *v);
+IOVM_API IoObject *IoCoroutine_rawException(IoCoroutine *self);
 
 // ioStack
 
 IOVM_API IoObject *IoCoroutine_ioStack(IoCoroutine *self, IoObject *locals, IoMessage *m);
-IOVM_API int IoCoroutine_rawIoStackSize(IoObject *self);
+IOVM_API int IoCoroutine_rawIoStackSize(IoCoroutine *self);
 
 // raw
 
-IOVM_API void IoCoroutine_rawRun(IoObject *self);
+IOVM_API void IoCoroutine_rawRun(IoCoroutine *self);
 
-IOVM_API void IoCoroutine_clearStack(IoObject *self);
+IOVM_API void IoCoroutine_clearStack(IoCoroutine *self);
 
-IOVM_API void IoCoroutine_try(IoObject *self, IoObject *target, IoObject *locals, IoMessage *message);
+IOVM_API void IoCoroutine_try(IoCoroutine *self, IoObject *target, IoObject *locals, IoMessage *message);
 
 IOVM_API IoCoroutine *IoCoroutine_newWithTry(void *state, 
 							 IoObject *target, 
@@ -102,56 +102,56 @@ IOVM_API void IoCoroutine_raiseError(IoCoroutine *self, IoSymbol *description, I
 
 // methods
 
-IOVM_API IoObject *IoCoroutine_implementation(IoObject *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoCoroutine_implementation(IoCoroutine *self, IoObject *locals, IoMessage *m);
 
-IOVM_API IoObject *IoCoroutine_run(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoCoroutine_callStack(IoObject *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoCoroutine_run(IoCoroutine *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoCoroutine_callStack(IoCoroutine *self, IoObject *locals, IoMessage *m);
 
-IOVM_API IoObject *IoCoroutine_isCurrent(IoObject *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoCoroutine_isCurrent(IoCoroutine *self, IoObject *locals, IoMessage *m);
 
 // runTarget
 
-IOVM_API void IoCoroutine_rawSetRunTarget_(IoObject *self, IoObject *v);
-IOVM_API IoObject *IoCoroutine_rawRunTarget(IoObject *self);
+IOVM_API void IoCoroutine_rawSetRunTarget_(IoCoroutine *self, IoObject *v);
+IOVM_API IoObject *IoCoroutine_rawRunTarget(IoCoroutine *self);
 
 // message
 
-IOVM_API void IoCoroutine_rawSetRunMessage_(IoObject *self, IoObject *v);
-IOVM_API IoObject *IoCoroutine_rawRunMessage(IoObject *self);
+IOVM_API void IoCoroutine_rawSetRunMessage_(IoCoroutine *self, IoObject *v);
+IOVM_API IoObject *IoCoroutine_rawRunMessage(IoCoroutine *self);
 
 // parent
 
-IOVM_API void IoCoroutine_rawSetParentCoroutine_(IoObject *self, IoObject *v);
-IOVM_API IoObject *IoCoroutine_rawParentCoroutine(IoObject *self);
+IOVM_API void IoCoroutine_rawSetParentCoroutine_(IoCoroutine *self, IoObject *v);
+IOVM_API IoObject *IoCoroutine_rawParentCoroutine(IoCoroutine *self);
 
 // try
 
-IOVM_API IoObject *IoCoroutine_start(IoObject *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoCoroutine_start(IoCoroutine *self, IoObject *locals, IoMessage *m);
 
-IOVM_API IoObject *IoCoroutine_rawResume(IoObject *self);
-IOVM_API IoObject *IoCoroutine_resume(IoObject *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoCoroutine_rawResume(IoCoroutine *self);
+IOVM_API IoObject *IoCoroutine_resume(IoCoroutine *self, IoObject *locals, IoMessage *m);
 
-IOVM_API IoObject *IoCoroutine_isCurrent(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoCoroutine_currentCoroutine(IoObject *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoCoroutine_isCurrent(IoCoroutine *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoCoroutine_currentCoroutine(IoCoroutine *self, IoObject *locals, IoMessage *m);
 
 // stack trace
 
-IOVM_API IoObject *IoObject_callStack(IoObject *self);
+IOVM_API IoObject *IoObject_callStack(IoCoroutine *self);
 
-IOVM_API void IoObject_appendStackEntryDescription(IoObject *self, UArray *ba);
+IOVM_API void IoObject_appendStackEntryDescription(IoCoroutine *self, UArray *ba);
 
-IOVM_API void IoCoroutine_rawPrint(IoObject *self);
+IOVM_API void IoCoroutine_rawPrint(IoCoroutine *self);
 
 // debugging
 
-IOVM_API int IoCoroutine_rawDebuggingOn(IoObject *self);
+IOVM_API int IoCoroutine_rawDebuggingOn(IoCoroutine *self);
 
-IOVM_API IoObject *IoCoroutine_setMessageDebugging(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_performWithDebugger(IoObject *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoCoroutine_setMessageDebugging(IoCoroutine *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoObject_performWithDebugger(IoCoroutine *self, IoObject *locals, IoMessage *m);
 
-IOVM_API IoObject *IoCoroutine_callStack(IoObject *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoCoroutine_callStack(IoCoroutine *self, IoObject *locals, IoMessage *m);
 
-IOVM_API void IoCoroutine_rawPrintBackTrace(IoObject *self);
+IOVM_API void IoCoroutine_rawPrintBackTrace(IoCoroutine *self);
 
 #ifdef __cplusplus
 }

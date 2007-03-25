@@ -25,7 +25,7 @@ IoObject *IoSeq_asNumber(IoSeq *self, IoObject *locals, IoMessage *m);
 IoObject *IoSeq_whiteSpaceStrings(IoSeq *self, IoObject *locals, IoMessage *m);
 
 IoObject *IoSeq_print(IoSeq *self, IoObject *locals, IoMessage *m);
-IoObject *IoSeq_linePrint(IoObject *self, IoObject *locals, IoMessage *m);
+IoObject *IoSeq_linePrint(IoSeq *self, IoObject *locals, IoMessage *m);
 
 // access
 
@@ -83,12 +83,12 @@ IoObject *IoSeq_lastPathComponent(IoSeq *self, IoObject *locals, IoMessage *m);
 IoObject *IoSeq_pathExtension(IoSeq *self, IoObject *locals, IoMessage *m);
 IoObject *IoSeq_fileName(IoSeq *self, IoObject *locals, IoMessage *m);
 
-IoObject *IoSeq_cloneAppendPath(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoSeq_pathComponent(IoObject *self, IoObject *locals, IoMessage *m);
+IoObject *IoSeq_cloneAppendPath(IoSeq *self, IoObject *locals, IoMessage *m);
+IoObject *IoSeq_pathComponent(IoSeq *self, IoObject *locals, IoMessage *m);
 
 
 IoObject *IoSeq_beforeSeq(IoSeq *self, IoObject *locals, IoMessage *m);
 IoObject *IoSeq_afterSeq(IoSeq *self, IoObject *locals, IoMessage *m);
 
-IoObject *IoSeq_asCapitalized(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoSeq_occurancesOfSeq(IoObject *self, IoObject *locals, IoMessage *m);
+IoObject *IoSeq_asCapitalized(IoSeq *self, IoObject *locals, IoMessage *m);
+IoObject *IoSeq_occurancesOfSeq(IoSeq *self, IoObject *locals, IoMessage *m);
