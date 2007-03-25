@@ -12,10 +12,11 @@ If the sweepsPerGeneration is set to zero, it will immediately mark all blacks a
 
 #include "IoCollector.h"
 #include "IoNumber.h"
+#include "IoList.h"
 
+typedef IoObject IoCollector;
 
-
-IoObject *IoCollector_collect(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoCollector_collect(IoCollector *self, IoObject *locals, IoMessage *m)
 { 
 	/*#io
 	docSlot("collect", "Runs garbage collector. Returns the number of items collected. ")
@@ -26,7 +27,7 @@ IoObject *IoCollector_collect(IoObject *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(count); 
 }
 
-IoObject *IoCollector_showStats(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoCollector_showStats(IoCollector *self, IoObject *locals, IoMessage *m)
 { 
 	io_show_mem("IoCollector_showStats");
 	printf("marksPerAlloc       %i\n", Collector_marksPerAlloc(IOSTATE->collector));
@@ -34,18 +35,18 @@ IoObject *IoCollector_showStats(IoObject *self, IoObject *locals, IoMessage *m)
 	return self; 
 }
 
-IoObject *IoCollector_maxAllocatedBytes(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoCollector_maxAllocatedBytes(IoCollector *self, IoObject *locals, IoMessage *m)
 { 
 	return IONUMBER(io_maxAllocatedBytes());
 }
 
-IoObject *IoCollector_resetMaxAllocatedBytes(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoCollector_resetMaxAllocatedBytes(IoCollector *self, IoObject *locals, IoMessage *m)
 { 
 	io_resetMaxAllocatedBytes();
 	return self; 
 }
 
-IoObject *IoCollector_setDebug(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoCollector_setDebug(IoCollector *self, IoObject *locals, IoMessage *m)
 { 
 	/*#io
 	docSlot("setDebug(aBool)", "Turns on/off printing of collector debugging messages. Returns self.")
@@ -56,7 +57,7 @@ IoObject *IoCollector_setDebug(IoObject *self, IoObject *locals, IoMessage *m)
 	return self; 
 }
 
-IoObject *IoCollector_setMarksPerAlloc(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoCollector_setMarksPerAlloc(IoCollector *self, IoObject *locals, IoMessage *m)
 { 
 	/*#io
 	docSlot("setMarksPerAlloc(aNumber)", "Sets the number of incremental collector marks per object allocation (can be fractional). Returns self.")
@@ -68,7 +69,7 @@ IoObject *IoCollector_setMarksPerAlloc(IoObject *self, IoObject *locals, IoMessa
 	return self; 
 }
 
-IoObject *IoCollector_marksPerAlloc(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoCollector_marksPerAlloc(IoCollector *self, IoObject *locals, IoMessage *m)
 { 
 	/*#io
 	docSlot("allocsPerMark", 
@@ -78,7 +79,7 @@ IoObject *IoCollector_marksPerAlloc(IoObject *self, IoObject *locals, IoMessage 
 	return IONUMBER(Collector_marksPerAlloc(IOSTATE->collector));
 }
 
-IoObject *IoCollector_setAllocatedStep(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoCollector_setAllocatedStep(IoCollector *self, IoObject *locals, IoMessage *m)
 { 
 	/*#io
 	docSlot("setAllocatedStep(aNumber)", "Sets the allocatedStep (can have a fractional component, but must be larger than 1). A collector sweep is forced when the number of allocated objects exceeds the allocatedSweepLevel. After a sweep, the allocatedSweepLevel is set to the allocated object count times the allocatedStep. Returns self.")
@@ -90,7 +91,7 @@ IoObject *IoCollector_setAllocatedStep(IoObject *self, IoObject *locals, IoMessa
 	return self; 
 }
 
-IoObject *IoCollector_allocatedStep(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoCollector_allocatedStep(IoCollector *self, IoObject *locals, IoMessage *m)
 { 
 	/*#io
 	docSlot("allocatedStep", 
@@ -100,7 +101,7 @@ IoObject *IoCollector_allocatedStep(IoObject *self, IoObject *locals, IoMessage 
 	return IONUMBER(Collector_allocatedStep(IOSTATE->collector));
 }
 
-IoObject *IoCollector_timeUsed(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoCollector_timeUsed(IoCollector *self, IoObject *locals, IoMessage *m)
 { 
 	/*#io
 	docSlot("timeUsed", "Return the time used so far by the collector in seconds.")
@@ -109,9 +110,7 @@ IoObject *IoCollector_timeUsed(IoObject *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(Collector_timeUsed(IOSTATE->collector));
 }
 
-#include "IoList.h"
-
-IoObject *IoCollector_allObjects(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoCollector_allObjects(IoCollector *self, IoObject *locals, IoMessage *m)
 { 
 	/*#io
 	docSlot("allObjects", "Returns a List containing all objects known to the collector.")
