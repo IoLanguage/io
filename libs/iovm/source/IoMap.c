@@ -17,7 +17,7 @@ Map ioDoc(
 #include "IoList.h"
 #include "IoBlock.h"
 
-#define HASHIVAR(self) ((PHash *)IoObject_dataPointer(self))
+#define DATA(self) ((PHash *)IoObject_dataPointer(self))
 
 IoTag *IoMap_newTag(void *state)
 {
@@ -33,7 +33,7 @@ IoTag *IoMap_newTag(void *state)
 
 void IoMap_writeToStream_(IoMap *self, BStream *stream)
 {	
-	PHASH_FOREACH(HASHIVAR(self), k, v,
+	PHASH_FOREACH(DATA(self), k, v,
 		BStream_writeTaggedInt32_(stream, IoObject_pid(k));
 		BStream_writeTaggedInt32_(stream, IoObject_pid(v));
 	);
@@ -43,7 +43,7 @@ void IoMap_writeToStream_(IoMap *self, BStream *stream)
 
 void IoMap_readFromStream_(IoMap *self, BStream *stream)
 {
-	PHash *hash = HASHIVAR(self);
+	PHash *hash = DATA(self);
 	
 	for (;;)
 	{
@@ -93,7 +93,7 @@ IoMap *IoMap_proto(void *state)
 IoMap *IoMap_rawClone(IoMap *proto) 
 { 
 	IoObject *self = IoObject_rawClonePrimitive(proto);
-	IoObject_setDataPointer_(self, PHash_clone(HASHIVAR(proto)));
+	IoObject_setDataPointer_(self, PHash_clone(DATA(proto)));
 	return self; 
 }
 
@@ -105,23 +105,23 @@ IoMap *IoMap_new(void *state)
 
 void IoMap_free(IoMap *self) 
 {
-	PHash_free(HASHIVAR(self));
+	PHash_free(DATA(self));
 }
 
 void IoMap_mark(IoMap *self) 
 { 
-	//PHash_doOnKeyAndValue_(HASHIVAR(self), (ListDoCallback *)IoObject_shouldMark);
-	PHASH_FOREACH(HASHIVAR(self), k, v, IoObject_shouldMark(k); IoObject_shouldMark(v));
+	//PHash_doOnKeyAndValue_(DATA(self), (ListDoCallback *)IoObject_shouldMark);
+	PHASH_FOREACH(DATA(self), k, v, IoObject_shouldMark(k); IoObject_shouldMark(v));
 }
 
 void IoMap_rawAtPut(IoMap *self, IoSymbol *k, IoObject *v)
 {
-	PHash_at_put_(HASHIVAR(self), IOREF(k), IOREF(v));
+	PHash_at_put_(DATA(self), IOREF(k), IOREF(v));
 }
 
 PHash *IoMap_rawHash(IoMap *self)
 { 
-	return HASHIVAR(self); 
+	return DATA(self); 
 }
 
 // ----------------------------------------------------------- 
@@ -132,13 +132,13 @@ IoObject *IoMap_empty(IoMap *self, IoObject *locals, IoMessage *m)
 	docSlot("empty", "Removes all keys from the receiver. Returns self.")
 	*/
 	
-	PHash_clean(HASHIVAR(self)); 
+	PHash_clean(DATA(self)); 
 	return self; 
 }
 
 IoObject *IoMap_rawAt(IoMap *self, IoSymbol *k)
 {
-	return PHash_at_(HASHIVAR(self), k);
+	return PHash_at_(DATA(self), k);
 }
 
 IoObject *IoMap_at(IoMap *self, IoObject *locals, IoMessage *m)
@@ -149,7 +149,7 @@ IoObject *IoMap_at(IoMap *self, IoObject *locals, IoMessage *m)
 	*/
 	
 	IoSymbol *k = IoMessage_locals_symbolArgAt_(m, locals, 0);
-	void *result = PHash_at_(HASHIVAR(self), k);
+	void *result = PHash_at_(DATA(self), k);
 	
 	if (!result && IoMessage_argCount(m) > 1) 
 	{ 
@@ -181,13 +181,13 @@ IoObject *IoMap_atIfAbsentPut(IoMap *self, IoObject *locals, IoMessage *m)
 	
 	IoSymbol *k = IoMessage_locals_symbolArgAt_(m, locals, 0);
 	
-	if (PHash_at_(HASHIVAR(self), k) == NULL)
+	if (PHash_at_(DATA(self), k) == NULL)
 	{
 		IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 1);
 		IoMap_rawAtPut(self, k, v);
 	}
 	
-	return PHash_at_(HASHIVAR(self), k);
+	return PHash_at_(DATA(self), k);
 }
 
 IoObject *IoMap_size(IoMap *self, IoObject *locals, IoMessage *m)
@@ -197,7 +197,7 @@ IoObject *IoMap_size(IoMap *self, IoObject *locals, IoMessage *m)
 		   "Returns the number of key/value pairs in the receiver.") 
 	*/
 	
-	return IONUMBER(PHash_count(HASHIVAR(self))); 
+	return IONUMBER(PHash_count(DATA(self))); 
 }
 
 IoObject *IoMap_hasKey(IoMap *self, IoObject *locals, IoMessage *m)
@@ -208,7 +208,7 @@ IoObject *IoMap_hasKey(IoMap *self, IoObject *locals, IoMessage *m)
 	*/
 	
 	IoSymbol *k = IoMessage_locals_symbolArgAt_(m, locals, 0);
-	return IOBOOL(self, PHash_at_(HASHIVAR(self), k) != NULL);
+	return IOBOOL(self, PHash_at_(DATA(self), k) != NULL);
 }
 
 IoObject *IoMap_removeAt(IoMap *self, IoObject *locals, IoMessage *m)
@@ -219,7 +219,7 @@ IoObject *IoMap_removeAt(IoMap *self, IoObject *locals, IoMessage *m)
 	*/
 	
 	IoSymbol *k = IoMessage_locals_symbolArgAt_(m, locals, 0);
-	PHash_removeKey_(HASHIVAR(self), k);
+	PHash_removeKey_(DATA(self), k);
 	return self;
 }
 
@@ -239,7 +239,7 @@ IoObject *IoMap_hasValue(IoMap *self, IoObject *locals, IoMessage *m)
 IoList *IoMap_rawKeys(IoMap *self)
 {
 	IoList *list = IoList_new(IOSTATE);
-	PHASH_FOREACH(HASHIVAR(self), k, v, IoList_rawAppend_(list, k));
+	PHASH_FOREACH(DATA(self), k, v, IoList_rawAppend_(list, k));
 	return list;
 }
 
@@ -259,7 +259,7 @@ IoObject *IoMap_values(IoMap *self, IoObject *locals, IoMessage *m)
 	*/
 	
 	IoList *list = IoList_new(IOSTATE);
-	PHASH_FOREACH(HASHIVAR(self), k, v, IoList_rawAppend_(list, v));
+	PHASH_FOREACH(DATA(self), k, v, IoList_rawAppend_(list, v));
 	return list;
 }
 
@@ -288,7 +288,7 @@ aMap foreach(k, v, myBlock(k, v))</pre>""")
 	IoMessage_foreachArgs(m, self, &keyName, &valueName, &doMessage);
 	IoState_pushRetainPool(state);
 	
-	PHASH_FOREACH(HASHIVAR(self), key, value,
+	PHASH_FOREACH(DATA(self), key, value,
 		IoState_clearTopPool(state);			
 		if (keyName)
 		{
