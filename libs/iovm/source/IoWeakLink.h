@@ -39,10 +39,10 @@ IoObject *IoWeakLink_rawLink(IoWeakLink *self);
 void IoObject_collectorNotification(IoWeakLink *self);
 
 IoObject *IoWeakLink_setLink(IoWeakLink *self, IoObject *locals, IoMessage *m);
-void IoWeakLink_rawSetLink(IoObject *self, IoObject *v);
+void IoWeakLink_rawSetLink(IoWeakLink *self, IoObject *v);
 IoObject *IoWeakLink_link(IoWeakLink *self, IoObject *locals, IoMessage *m);
 
-void IoWeakLink_notification(IoObject *self, void *notification);
+void IoWeakLink_notification(IoWeakLink *self, void *notification);
 
 #ifdef __cplusplus
 }

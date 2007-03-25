@@ -50,7 +50,7 @@ void IoWeakLink_readFromStream_(IoWeakLink *self, BStream *stream)
 	}
 }
 
-IoObject *IoWeakLink_proto(void *state) 
+IoObject *IoWeakLink_proto(void *state)
 { 
 	IoMethodTable methodTable[] = {
 	{"setLink", IoWeakLink_setLink},
@@ -69,7 +69,7 @@ IoObject *IoWeakLink_proto(void *state)
 	return self;
 }
 
-IoObject *IoWeakLink_rawClone(IoObject *proto) 
+IoObject *IoWeakLink_rawClone(IoWeakLink *proto)
 { 
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, io_calloc(1, sizeof(IoWeakLinkData)));
@@ -83,12 +83,12 @@ IoObject *IoWeakLink_new(void *state)
 	return IOCLONE(proto);
 }
 
-void IoWeakLink_rawStopListening(IoObject *self)
+void IoWeakLink_rawStopListening(IoWeakLink *self)
 {
 	if (DATA(self)->link) IoObject_removeListener_(DATA(self)->link, self);
 }
 
-void IoWeakLink_free(IoObject *self)
+void IoWeakLink_free(IoWeakLink *self)
 {
 	IoWeakLink_rawStopListening(self);
 	io_free(IoObject_dataPointer(self));
@@ -101,7 +101,7 @@ IoObject *IoWeakLink_newWithValue_(void *state, IoObject *v)
 	return self;
 }
 
-void IoWeakLink_notification(IoObject *self, void *notification) // called when link is freed
+void IoWeakLink_notification(IoWeakLink *self, void *notification) // called when link is freed
 {
 	DATA(self)->link = NULL;
 	//IoMessage_locals_performOn_(IOSTATE->collectedLinkMessage, self, self);
@@ -109,7 +109,7 @@ void IoWeakLink_notification(IoObject *self, void *notification) // called when 
 
 // ----------------------------------------------------------- 
 
-IoObject *IoWeakLink_setLink(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoWeakLink_setLink(IoWeakLink *self, IoObject *locals, IoMessage *m)
 { 
 	/*#io
 	docSlot("setLink(aValue)", "Sets the link pointer. Returns self.")
@@ -119,11 +119,11 @@ IoObject *IoWeakLink_setLink(IoObject *self, IoObject *locals, IoMessage *m)
 	return self; 
 }
 
-void IoWeakLink_rawSetLink(IoObject *self, IoObject *v)
+void IoWeakLink_rawSetLink(IoWeakLink *self, IoObject *v)
 {
 	IoWeakLink_rawStopListening(self);
 			
-	if (ISNIL(v)) 
+	if (ISNIL(v))
 	{
 		DATA(self)->link = NULL;
 	}
@@ -134,7 +134,7 @@ void IoWeakLink_rawSetLink(IoObject *self, IoObject *v)
 	}
 }
 
-IoObject *IoWeakLink_link(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoWeakLink_link(IoWeakLink *self, IoObject *locals, IoMessage *m)
 { 
 	/*#io
 	docSlot("link", "Returns the link pointer or Nil if none is set.")
