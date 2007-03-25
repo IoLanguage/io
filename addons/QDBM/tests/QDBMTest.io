@@ -8,7 +8,7 @@ QDBMTest := UnitTest clone do(
 	
 	testBasic := method(
 		qdbm := QDBM clone
-		
+
 		File with("test.qdbm") remove
 		
 		qdbm open("test.qdbm")
