@@ -535,7 +535,7 @@ int IoDirectory_SetCurrentWorkingDirectory(const char *path)
 	return chdir(path);
 }
 
-IoObject *IoDirectory_currentWorkingDirectory(IoFile *self, IoObject *locals, IoMessage *m)
+IoObject *IoDirectory_currentWorkingDirectory(IoDirectory *self, IoObject *locals, IoMessage *m)
 {
     /*#io
     docSlot("currentWorkingDirectory", 
@@ -553,7 +553,7 @@ IoObject *IoDirectory_currentWorkingDirectory(IoFile *self, IoObject *locals, Io
  }
  */
 
-IoObject *IoDirectory_setCurrentWorkingDirectory(IoFile *self, IoObject *locals, IoMessage *m)
+IoObject *IoDirectory_setCurrentWorkingDirectory(IoDirectory *self, IoObject *locals, IoMessage *m)
 {
     /*#io
     docSlot("setCurrentWorkingDirectory(pathString)", 
