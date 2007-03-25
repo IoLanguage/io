@@ -19,7 +19,7 @@ List ioDoc(
 #include "Sorting.h"
 #include <math.h>
 
-#define LISTIVAR(self) ((List *)(IoObject_dataPointer(self)))
+#define DATA(self) ((List *)(IoObject_dataPointer(self)))
 
 IoTag *IoList_newTag(void *state)
 {
@@ -36,7 +36,7 @@ IoTag *IoList_newTag(void *state)
 
 void IoList_writeToStream_(IoList *self, BStream *stream)
 {
-	List *list = LISTIVAR(self);
+	List *list = DATA(self);
 	
 	BStream_writeTaggedInt32_(stream, List_size(list));
 	
@@ -47,7 +47,7 @@ void IoList_writeToStream_(IoList *self, BStream *stream)
 
 void IoList_readFromStream_(IoList *self, BStream *stream)
 {
-	List *list = LISTIVAR(self);
+	List *list = DATA(self);
 	int i, max = BStream_readTaggedInt32(stream);
 	
 	for (i = 0; i < max; i ++)
@@ -121,7 +121,7 @@ IoList *IoList_rawClone(IoList *proto)
 { 
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_tag_(self, IoObject_tag(proto));
-	IoObject_setDataPointer_(self, List_clone(LISTIVAR(proto)));
+	IoObject_setDataPointer_(self, List_clone(DATA(proto)));
 	return self; 
 }
 
@@ -142,21 +142,21 @@ IoList *IoList_newWithList_(void *state, List *list)
 
 void IoList_free(IoList *self) 
 {
-	if (NULL == LISTIVAR(self)) 
+	if (NULL == DATA(self))
 	{ 
 		printf("IoList_free(%p) already freed\n", (void *)self);
 		exit(1);
 	}
-	//printf("IoList_free(%p) List_free(%p)\n", (void *)self, (void *)LISTIVAR(self));
+	//printf("IoList_free(%p) List_free(%p)\n", (void *)self, (void *)DATA(self));
 	
-	List_free(LISTIVAR(self));
+	List_free(DATA(self));
 	IoObject_setDataPointer_(self, NULL);
 
 }
 
 void IoList_mark(IoList *self) 
 { 
-	LIST_FOREACH(LISTIVAR(self), i, item, IoObject_shouldMark(item));
+	LIST_FOREACH(DATA(self), i, item, IoObject_shouldMark(item));
 }
 
 int IoList_compare(IoList *self, IoList *otherList)
@@ -167,8 +167,8 @@ int IoList_compare(IoList *self, IoList *otherList)
 	}
 	else
 	{
-		size_t s1 =  List_size(LISTIVAR(self));
-		size_t s2 =  List_size(LISTIVAR(otherList));
+		size_t s1 =  List_size(DATA(self));
+		size_t s2 =  List_size(DATA(otherList));
 		size_t i;
 		
 		if (s1 != s2) 
@@ -178,8 +178,8 @@ int IoList_compare(IoList *self, IoList *otherList)
 		
 		for (i = 0; i < s1; i ++)
 		{
-			IoObject *v1 = LIST_AT_(LISTIVAR(self), i);
-			IoObject *v2 = LIST_AT_(LISTIVAR(otherList), i);
+			IoObject *v1 = LIST_AT_(DATA(self), i);
+			IoObject *v2 = LIST_AT_(DATA(otherList), i);
 			int c = IoObject_compare(v1, v2);
 			
 			if (c) 
@@ -193,48 +193,48 @@ int IoList_compare(IoList *self, IoList *otherList)
 
 List *IoList_rawList(IoList *self)
 { 
-	return LISTIVAR(self); 
+	return DATA(self);
 }
 
 IoObject *IoList_rawAt_(IoList *self, int i)
 { 
-	return List_at_(LISTIVAR(self), i); 
+	return List_at_(DATA(self), i);
 }
 
 void IoList_rawAt_put_(IoList *self, int i, IoObject *v)
 {
-	List_at_put_(LISTIVAR(self), i, IOREF(v)); 
+	List_at_put_(DATA(self), i, IOREF(v));
 }
 
 void IoList_rawAppend_(IoList *self, IoObject *v)
 { 
-	List_append_(LISTIVAR(self), IOREF(v)); 
+	List_append_(DATA(self), IOREF(v));
 }
 
 void IoList_rawRemove_(IoList *self, IoObject *v)
 { 
-	List_remove_(LISTIVAR(self), IOREF(v)); 
+	List_remove_(DATA(self), IOREF(v));
 }
 
 void IoList_rawAddBaseList_(IoList *self, List *otherList)
 {
-	List *list = LISTIVAR(self);	
+	List *list = DATA(self);
 	LIST_FOREACH(otherList, i, v, List_append_(list, IOREF((IoObject *)v)); );
 }
 
 void IoList_rawAddIoList_(IoList *self, IoList *other)
 {
-	IoList_rawAddBaseList_(self, LISTIVAR(other));
+	IoList_rawAddBaseList_(self, DATA(other));
 }
 
 size_t IoList_rawSize(IoList *self) 
 { 
-	return List_size(LISTIVAR(self)); 
+	return List_size(DATA(self));
 }
 
 int IoList_rawIndexOf_(IoList *self, IoObject *v)
 {
-	List *list = LISTIVAR(self);
+	List *list = DATA(self);
 
 	LIST_FOREACH(list, i, item, 
 		if (IoObject_compare(v, (IoObject *)item) == 0) 
@@ -248,7 +248,7 @@ int IoList_rawIndexOf_(IoList *self, IoObject *v)
 
 void IoList_checkIndex(IoList *self, IoMessage *m, char allowsExtending, int index, const char *methodName)
 {
-	int max = List_size(LISTIVAR(self));
+	int max = List_size(DATA(self));
 	
 	if (allowsExtending)
 	{
@@ -323,7 +323,7 @@ IoObject *IoList_containsIdenticalTo(IoList *self, IoObject *locals, IoMessage *
 	*/
 	
 	IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 0);
-	return IOBOOL(self, List_contains_(LISTIVAR(self), v) != 0);
+	return IOBOOL(self, List_contains_(DATA(self), v) != 0);
 }
 
 IoObject *IoList_capacity(IoList *self, IoObject *locals, IoMessage *m)
@@ -331,7 +331,7 @@ IoObject *IoList_capacity(IoList *self, IoObject *locals, IoMessage *m)
     /*#io
 	docSlot("capacity", "Returns the number of potential elements the receiver can hold before it needs to grow.")
     */
-    return IONUMBER(LISTIVAR(self)->memSize / sizeof(void *));
+    return IONUMBER(DATA(self)->memSize / sizeof(void *));
 }
 
 IoObject *IoList_size(IoList *self, IoObject *locals, IoMessage *m)
@@ -340,7 +340,7 @@ IoObject *IoList_size(IoList *self, IoObject *locals, IoMessage *m)
 	docSlot("size", "Returns the number of items in the receiver. ")
 	*/
 	
-	return IONUMBER(List_size(LISTIVAR(self))); 
+	return IONUMBER(List_size(DATA(self)));
 }
 
 IoObject *IoList_at(IoList *self, IoObject *locals, IoMessage *m)
@@ -353,7 +353,7 @@ IoObject *IoList_at(IoList *self, IoObject *locals, IoMessage *m)
 	int index = IoMessage_locals_intArgAt_(m, locals, 0);
 	IoObject *v;
 	/*IoList_checkIndex(self, m, 0, index, "Io List at");*/
-	v = List_at_(LISTIVAR(self), index);
+	v = List_at_(DATA(self), index);
 	return (v) ? v : IONIL(self);
 }
 
@@ -367,7 +367,7 @@ If optionalSize is provided, that number of the first items in the list are retu
 	
 	if (IoMessage_argCount(m) == 0)
 	{
-		IoObject *result = List_at_(LISTIVAR(self), 0);
+		IoObject *result = List_at_(DATA(self), 0);
 		
 		return result ? result : ((IoState *)IOSTATE)->ioNil; 
 	}
@@ -381,7 +381,7 @@ If optionalSize is provided, that number of the first items in the list are retu
 		}
 		else
 		{
-			List *list = List_cloneSlice(LISTIVAR(self), 0, end - 1);
+			List *list = List_cloneSlice(DATA(self), 0, end - 1);
 			return IoList_newWithList_(IOSTATE, list);
 		}
 	}
@@ -397,7 +397,7 @@ If optionalSize is provided, that number of the last items in the list are retur
 	
 	if (IoMessage_argCount(m) == 0)
 	{
-		IoObject *result = List_at_(LISTIVAR(self), List_size(LISTIVAR(self))-1);
+		IoObject *result = List_at_(DATA(self), List_size(DATA(self))-1);
 		return result ? result : ((IoState *)IOSTATE)->ioNil;
 	}
 	else
@@ -411,7 +411,7 @@ If optionalSize is provided, that number of the last items in the list are retur
 			start = 0;
 		}
 		
-		list = List_cloneSlice(LISTIVAR(self), start, size);
+		list = List_cloneSlice(DATA(self), start, size);
 		return IoList_newWithList_(IOSTATE, list);
 	}
 }
@@ -465,7 +465,7 @@ is optional. If not given, it is assumed to be the end of the string. ")
         }
         else
         {
-            list = List_cloneSlice(LISTIVAR(self), start, end);
+            list = List_cloneSlice(DATA(self), start, end);
             return IoList_newWithList_(IOSTATE, list);
         }
 }
@@ -485,11 +485,11 @@ is optional. If not given, it is assumed to be the end of the string. ")
 
         if (end < start)
         {
-                List_removeAll(LISTIVAR(self));
+                List_removeAll(DATA(self));
         }
         else
         {
-                List_sliceInPlace(LISTIVAR(self), start, end);
+                List_sliceInPlace(DATA(self), start, end);
         }
 	return self;
 }
@@ -499,7 +499,7 @@ IoObject *IoList_each(IoList *self, IoObject *locals, IoMessage *m)
 	IoState *state = IOSTATE;
 	IoObject *result = IONIL(self);
 	IoMessage *doMessage = IoMessage_rawArgAt_(m, 0);
-	List *list = LISTIVAR(self);
+	List *list = DATA(self);
 	
 	IoState_pushRetainPool(state);
 	
@@ -532,7 +532,7 @@ list(1, 2, 3) foreach(v, writeln(v))</pre>
 	IoSymbol *slotName = NULL;
 	IoSymbol *valueName;
 	IoMessage *doMessage;
-	List *list = LISTIVAR(self);
+	List *list = DATA(self);
 	
 	if (IoMessage_argCount(m) == 1)
 	{
@@ -584,11 +584,11 @@ IoObject *IoList_reverseForeach(IoList *self, IoObject *locals, IoMessage *m)
 	
 	IoState_pushRetainPool(state);
 	
-	for (i = List_size(LISTIVAR(self)) - 1; i >= 0; i --)
+	for (i = List_size(DATA(self)) - 1; i >= 0; i --)
 	{
 		IoState_clearTopPool(state);
 		{
-			IoObject *value = (IoObject *)LIST_AT_(LISTIVAR(self), i);
+			IoObject *value = (IoObject *)LIST_AT_(DATA(self), i);
 			
 			if (slotName)
 			{
@@ -603,7 +603,7 @@ IoObject *IoList_reverseForeach(IoList *self, IoObject *locals, IoMessage *m)
 				goto done;
 			}
 		}
-		if(i > List_size(LISTIVAR(self)) - 1) { i = List_size(LISTIVAR(self)) - 1; }
+		if(i > List_size(DATA(self)) - 1) { i = List_size(DATA(self)) - 1; }
 	}
 done:
 		IoState_popRetainPoolExceptFor_(state, result);
@@ -628,7 +628,7 @@ IoObject *IoList_appendIfAbsent(IoList *self, IoObject *locals, IoMessage *m)
 		if (IoList_rawIndexOf_(self, v) == -1)
 		{
 			IoState_stackRetain_(IOSTATE, v);
-			List_append_(LISTIVAR(self), IOREF(v));
+			List_append_(DATA(self), IOREF(v));
 		}
 	}
 	
@@ -656,8 +656,8 @@ IoObject *IoList_appendSeq(IoList *self, IoObject *locals, IoMessage *m)
 		}
 		else
 		{
-			List *selfList  = LISTIVAR(self);
-			List *otherList = LISTIVAR(other);
+			List *selfList  = DATA(self);
+			List *otherList = DATA(other);
 			int i, max = List_size(otherList);
 			
 			for (i = 0; i < max; i ++)
@@ -688,7 +688,7 @@ IoObject *IoList_append(IoList *self, IoObject *locals, IoMessage *m)
 	for (n = 0; n < IoMessage_argCount(m); n ++)
 	{
 		IoObject *v = IoMessage_locals_valueArgAt_(m, locals, n);
-		List_append_(LISTIVAR(self), IOREF(v));
+		List_append_(DATA(self), IOREF(v));
 	}
 	
 	return self;
@@ -708,7 +708,7 @@ IoObject *IoList_prepend(IoList *self, IoObject *locals, IoMessage *m)
 	for (n = 0; n < IoMessage_argCount(m); n ++)
 	{
 		IoObject *v = IoMessage_locals_valueArgAt_(m, locals, n);
-		List_at_insert_(LISTIVAR(self), 0, IOREF(v));
+		List_at_insert_(DATA(self), 0, IOREF(v));
 	}
 	
 	return self;
@@ -732,7 +732,7 @@ IoObject *IoList_remove(IoList *self, IoObject *locals, IoMessage *m)
 		IoObject *v = IoMessage_locals_valueArgAt_(m, locals, j);
 
 		// a quick pass to remove values with equal pointers 
-		List_remove_(LISTIVAR(self), v); 
+		List_remove_(DATA(self), v);
 		
 		// slow pass to remove values that match comparision test 
 		for (;;)
@@ -744,7 +744,7 @@ IoObject *IoList_remove(IoList *self, IoObject *locals, IoMessage *m)
 				break;
 			}
 			
-			List_removeIndex_(LISTIVAR(self), i);
+			List_removeIndex_(DATA(self), i);
 		}
 	}
 	
@@ -759,7 +759,7 @@ IoObject *IoList_pop(IoList *self, IoObject *locals, IoMessage *m)
 from the receiver. Returns nil if the receiver is empty. ")
 	*/
 	
-	IoObject *v = List_pop(LISTIVAR(self));
+	IoObject *v = List_pop(DATA(self));
 	return (v) ? v : IONIL(self);
 }
 
@@ -776,7 +776,7 @@ IoObject *IoList_atInsert(IoList *self, IoObject *locals, IoMessage *m)
 	IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 1);
 	
 	IoList_checkIndex(self, m, 1, index, "List atInsert");
-	List_at_insert_(LISTIVAR(self), index, IOREF(v));
+	List_at_insert_(DATA(self), index, IOREF(v));
 	return self;
 }
 
@@ -789,21 +789,21 @@ Raises an exception if the index is out of bounds. ")
 	*/
 	
 	int index = IoMessage_locals_intArgAt_(m, locals, 0);
-	IoObject *v = List_at_(LISTIVAR(self), index);
+	IoObject *v = List_at_(DATA(self), index);
 	
 	IoList_checkIndex(self, m, 0, index, "Io List atInsert");
-	List_removeIndex_(LISTIVAR(self), index);
+	List_removeIndex_(DATA(self), index);
 	return (v) ? v : IONIL(self);
 }
 
 void IoList_rawAtPut(IoList *self, int i, IoObject *v)
 {
-	while (List_size(LISTIVAR(self)) < i) /* not efficient */
+	while (List_size(DATA(self)) < i) /* not efficient */
 	{ 
-		List_append_(LISTIVAR(self), IONIL(self)); 
+		List_append_(DATA(self), IONIL(self));
 	} 
 	
-	List_at_put_(LISTIVAR(self), i, IOREF(v));
+	List_at_put_(DATA(self), i, IOREF(v));
 }
 
 IoObject *IoList_atPut(IoList *self, IoObject *locals, IoMessage *m)
@@ -828,7 +828,7 @@ IoObject *IoList_removeAll(IoList *self, IoObject *locals, IoMessage *m)
 	docSlot("empty", "Removes all items from the receiver.") 
 	*/
 	
-	List_removeAll(LISTIVAR(self)); 
+	List_removeAll(DATA(self));
 	return self;
 }
 
@@ -845,7 +845,7 @@ Raises an exception if either index is out of bounds. Returns self.")
 	
 	IoList_checkIndex(self, m, 0, i, "List swapIndices");
 	IoList_checkIndex(self, m, 0, j, "List swapIndices");
-	List_swap_with_(LISTIVAR(self), i, j);
+	List_swap_with_(DATA(self), i, j);
 	return self;
 }
 
@@ -856,7 +856,7 @@ IoObject *IoList_reverse(IoList *self, IoObject *locals, IoMessage *m)
 		   "Reverses the ordering of all the items in the receiver. Returns self.") 
 	*/
 	
-	List_reverse(LISTIVAR(self)); 
+	List_reverse(DATA(self));
 	return self; 
 }
 
@@ -868,7 +868,7 @@ IoObject *IoList_preallocateToSize(IoList *self, IoObject *locals, IoMessage *m)
 	*/
 	
 	int newSize = IoMessage_locals_intArgAt_(m, locals, 0);
-	List_preallocateToSize_(LISTIVAR(self), newSize);
+	List_preallocateToSize_(DATA(self), newSize);
 	return self;
 }
 
@@ -914,7 +914,7 @@ of the optionalExpression on each value.")
 	
 	if (IoMessage_argCount(m) == 0)
 	{
-		List_qsort(LISTIVAR(self), (ListSortCallback *)IoObject_sortCompare);
+		List_qsort(DATA(self), (ListSortCallback *)IoObject_sortCompare);
 	} 
 	else 
 	{
@@ -922,14 +922,14 @@ of the optionalExpression on each value.")
 		MSortContext *sortContext = &sc; 
 		sortContext->state = IOSTATE;
 		
-		sortContext->list = LISTIVAR(self);
+		sortContext->list = DATA(self);
 		sortContext->locals = locals;
 		sortContext->exp = IoMessage_rawArgAt_(m, 0);
 		
 		Sorting_context_comp_swap_size_type_(sortContext, 
 										(SDSortCompareCallback *)MSortContext_compareForSort, 
 										(SDSortSwapCallback *)MSortContext_swapForSort, 
-										List_size(LISTIVAR(self)), SDQuickSort);    
+										List_size(DATA(self)), SDQuickSort);
 		
 	}
 	
@@ -977,7 +977,7 @@ IoObject *IoList_sortInPlaceBy(IoList *self, IoObject *locals, IoMessage *m)
 	SortContext *sortContext = &sc; 
 	sortContext->state = IOSTATE;
 	
-	sortContext->list = LISTIVAR(self);
+	sortContext->list = DATA(self);
 	sortContext->locals = locals;
 	sortContext->block = IoMessage_locals_blockArgAt_(m, locals, 0);
 	sortContext->blockMsg = IoMessage_new(IOSTATE);
@@ -990,7 +990,7 @@ IoObject *IoList_sortInPlaceBy(IoList *self, IoObject *locals, IoMessage *m)
 	Sorting_context_comp_swap_size_type_(sortContext, 
 									(SDSortCompareCallback *)SortContext_compareForSort, 
 									(SDSortSwapCallback *)SortContext_swapForSort, 
-									List_size(LISTIVAR(self)), SDQuickSort);
+									List_size(DATA(self)), SDQuickSort);
 	
 	return self;
 }

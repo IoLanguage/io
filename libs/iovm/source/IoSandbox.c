@@ -19,7 +19,7 @@ Sandbox ioDoc(
 #include <errno.h>
 #include <stdio.h>
 
-#define DATA(self) ((IoSandboxData *)IoObject_dataPointer(self))
+#define DATA(self) ((IoState *)IoObject_dataPointer(self))
 
 IoTag *IoSandbox_newTag(void *state)
 {
@@ -53,17 +53,15 @@ IoSandbox *IoSandbox_proto(void *state)
 	return self;
 }
 
-#define BOXSTATE(self) ((IoState *)(IoObject_dataPointer(self)))
-
 IoState *IoSandbox_boxState(IoSandbox *self)
 {
-	if (!IoObject_dataPointer(self))
+	if (!DATA(self))
 	{
 		IoObject_setDataPointer_(self, IoState_new());
 		IoSandbox_addPrintCallback(self);
 	}
 	
-	return (IoState *)(IoObject_dataPointer(self));
+	return DATA(self);
 }
 
 void IoSandbox_addMakeSecureMethod(IoSandbox *self)

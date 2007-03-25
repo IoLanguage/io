@@ -30,7 +30,7 @@ static double dNaN()
 #define NAN 0.0/0.0
 #endif
 
-#define BIVAR(self) ((UArray *)IoObject_dataPointer(self))
+#define DATA(self) ((UArray *)IoObject_dataPointer(self))
 
 
 IoObject *IoSeq_rawAsSymbol(IoSeq *self)
@@ -40,7 +40,7 @@ IoObject *IoSeq_rawAsSymbol(IoSeq *self)
 		return self;
 	}
 	
-	return IoState_symbolWithUArray_copy_(IOSTATE, BIVAR(self), 1); 
+	return IoState_symbolWithUArray_copy_(IOSTATE, DATA(self), 1);
 }
 
 IoObject *IoSeq_with(IoSeq *self, IoObject *locals, IoMessage *m)
@@ -52,12 +52,12 @@ The returned sequence will have the same mutability status as the receiver.")
 	*/
 	
 	int n, argCount = IoMessage_argCount(m);
-	UArray *ba = UArray_clone(BIVAR(self));
+	UArray *ba = UArray_clone(DATA(self));
 	
 	for (n = 0; n < argCount; n ++)
 	{
 		IoSeq *v = IoMessage_locals_seqArgAt_(m, locals, n);
-		UArray_append_(ba, BIVAR(v));
+		UArray_append_(ba, DATA(v));
 	}
 	
 	if (ISSYMBOL(self))
@@ -74,7 +74,7 @@ IoObject *IoSeq_itemType(IoSeq *self, IoObject *locals, IoMessage *m)
 	docSlot("itemType", "Returns machine type of elements. ")
 	*/
 	
-	return IOSYMBOL(CTYPE_name(UArray_itemType(BIVAR(self)))); 
+	return IOSYMBOL(CTYPE_name(UArray_itemType(DATA(self))));
 }
 
 IoObject *IoSeq_itemSize(IoSeq *self, IoObject *locals, IoMessage *m)
@@ -83,7 +83,7 @@ IoObject *IoSeq_itemSize(IoSeq *self, IoObject *locals, IoMessage *m)
 	docSlot("itemSize", "Returns number of bytes in each element. ")
 	*/
 	
-	return IONUMBER(UArray_itemSize(BIVAR(self))); 
+	return IONUMBER(UArray_itemSize(DATA(self)));
 }
 
 IoObject *IoSeq_encoding(IoSeq *self, IoObject *locals, IoMessage *m)
@@ -92,7 +92,7 @@ IoObject *IoSeq_encoding(IoSeq *self, IoObject *locals, IoMessage *m)
 	docSlot("encoding", "Returns the encoding of the elements. ")
 	*/
 	
-	return IOSYMBOL(CENCODING_name(UArray_encoding(BIVAR(self)))); 
+	return IOSYMBOL(CENCODING_name(UArray_encoding(DATA(self))));
 }
 
 IoObject *IoSeq_asUTF8(IoSeq *self, IoObject *locals, IoMessage *m)
@@ -101,7 +101,7 @@ IoObject *IoSeq_asUTF8(IoSeq *self, IoObject *locals, IoMessage *m)
 	docSlot("asUTF8", "Returns a new copy of the receiver converted to utf8 encoding. ")
 	*/
 	
-	return IoSeq_newWithUArray_copy_(IOSTATE, UArray_asUTF8(BIVAR(self)), 0); 
+	return IoSeq_newWithUArray_copy_(IOSTATE, UArray_asUTF8(DATA(self)), 0);
 }
 
 IoObject *IoSeq_asUTF16(IoSeq *self, IoObject *locals, IoMessage *m)
@@ -110,7 +110,7 @@ IoObject *IoSeq_asUTF16(IoSeq *self, IoObject *locals, IoMessage *m)
 	docSlot("asUTF16", "Returns a new copy of the receiver converted to utf16 encoding. ")
 	*/
 	
-	return IoSeq_newWithUArray_copy_(IOSTATE, UArray_asUTF16(BIVAR(self)), 0); 
+	return IoSeq_newWithUArray_copy_(IOSTATE, UArray_asUTF16(DATA(self)), 0);
 }
 
 IoObject *IoSeq_asUTF32(IoSeq *self, IoObject *locals, IoMessage *m)
@@ -119,7 +119,7 @@ IoObject *IoSeq_asUTF32(IoSeq *self, IoObject *locals, IoMessage *m)
 	docSlot("asUTF32", "Returns a new copy of the receiver converted to utf32 encoding. ")
 	*/
 	
-	return IoSeq_newWithUArray_copy_(IOSTATE, UArray_asUTF32(BIVAR(self)), 0); 
+	return IoSeq_newWithUArray_copy_(IOSTATE, UArray_asUTF32(DATA(self)), 0);
 }
 
 IoObject *IoSeq_asFixedSizeType(IoSeq *self, IoObject *locals, IoMessage *m)
@@ -129,7 +129,7 @@ IoObject *IoSeq_asFixedSizeType(IoSeq *self, IoObject *locals, IoMessage *m)
 	*/
 	
 	IOASSERT(1 == 0, "IoSeq_asFixedSizeType unimplemented");
-	//return IoSeq_newWithUArray_copy_(IOSTATE, UArray_asFixedSizeType(BIVAR(self)), 0); 
+	//return IoSeq_newWithUArray_copy_(IOSTATE, UArray_asFixedSizeType(DATA(self)), 0);
 	return self;
 }
 
@@ -142,7 +142,7 @@ receiver without casting them to a double.")
 	*/
 	
 	IoNumber *byteCount = IoMessage_locals_valueArgAt_(m, locals, 0);
-	size_t max = UArray_size(BIVAR(self));
+	size_t max = UArray_size(DATA(self));
 	int bc = sizeof(double);
 	double d = 0;
 	
@@ -156,7 +156,7 @@ receiver without casting them to a double.")
 		IoState_error_(IOSTATE, m, "requested first %i bytes, but Sequence only contians %i bytes", bc, max);
 	}
 	
-	memcpy(&d, UArray_bytes(BIVAR(self)), bc);
+	memcpy(&d, UArray_bytes(DATA(self)), bc);
 	return IONUMBER(d);
 }
 
@@ -199,7 +199,7 @@ IoObject *IoSeq_print(IoSeq *self, IoObject *locals, IoMessage *m)
 		   "Prints the receiver as a string. Returns self.")
 	*/
 	
-	IoState_justPrintba_(IOSTATE, BIVAR(self));
+	IoState_justPrintba_(IOSTATE, DATA(self));
 	return self;
 }
 
@@ -210,7 +210,7 @@ IoObject *IoSeq_linePrint(IoSeq *self, IoObject *locals, IoMessage *m)
 		   "Prints the Sequence and a newline character.")
 	*/
 	
-	IoState_justPrintba_(IOSTATE, BIVAR(self));
+	IoState_justPrintba_(IOSTATE, DATA(self));
 	IoState_justPrintln_(IOSTATE);
 	return self;
 }
@@ -221,7 +221,7 @@ IoObject *IoSeq_isEmpty(IoSeq *self, IoObject *locals, IoMessage *m)
 	docSlot("isEmpty", """Returns true if the size of the receiver is 0, false otherwise.""")
 	*/
 	
-	return IOBOOL(self, UArray_size(BIVAR(self)) == 0); 
+	return IOBOOL(self, UArray_size(DATA(self)) == 0);
 }
 
 IoObject *IoSeq_size(IoSeq *self, IoObject *locals, IoMessage *m)
@@ -234,7 +234,7 @@ IoObject *IoSeq_size(IoSeq *self, IoObject *locals, IoMessage *m)
 """)
 	*/
 	
-	return IONUMBER(UArray_size(BIVAR(self))); 
+	return IONUMBER(UArray_size(DATA(self)));
 }
 
 IoObject *IoSeq_at(IoSeq *self, IoObject *locals, IoMessage *m)
@@ -246,10 +246,10 @@ Returns nil if the index is out of bounds.")
 	*/
 	
 	size_t i = IoMessage_locals_sizetArgAt_(m, locals, 0);
-	UArray *a = BIVAR(self);
+	UArray *a = DATA(self);
 	
-	//IOASSERT((i < UArray_size(BIVAR(self))), "index out of bounds");
-	if(i >= UArray_size(BIVAR(self))) return IONIL(self);
+	//IOASSERT((i < UArray_size(DATA(self))), "index out of bounds");
+	if(i >= UArray_size(DATA(self))) return IONIL(self);
 
 	if(UArray_isFloatType(a))
 	{    
@@ -271,7 +271,7 @@ is optional. If not given, it is assumed to be the end of the string. ")
 	*/
 	
 	long fromIndex = IoMessage_locals_longArgAt_(m, locals, 0);
-	long last = UArray_size(BIVAR(self));
+	long last = UArray_size(DATA(self));
 	UArray *ba;
 	
 	if (IoMessage_argCount(m) > 1)
@@ -279,7 +279,7 @@ is optional. If not given, it is assumed to be the end of the string. ")
 		last = IoMessage_locals_longArgAt_(m, locals, 1); 
 	}
 	
-	ba = UArray_slice(BIVAR(self), fromIndex, last);
+	ba = UArray_slice(DATA(self), fromIndex, last);
 	
 	if (ISSYMBOL(self))
 	{
@@ -305,8 +305,7 @@ occurance of aSequence and anotherSequence in the receiver.")
 	
 	if (ISSEQ(fromSeq))
 	{
-		start = UArray_find_from_(BIVAR(self), BIVAR(fromSeq), 0) + 
-		IoSeq_rawSize(fromSeq);
+		start = UArray_find_from_(DATA(self), DATA(fromSeq), 0) + IoSeq_rawSize(fromSeq);
 		
 		if (start == -1) 
 		{
@@ -327,12 +326,12 @@ occurance of aSequence and anotherSequence in the receiver.")
 	
 	if (ISSEQ(toSeq))
 	{
-		end = UArray_find_from_(BIVAR(self), BIVAR(toSeq), start); 
-		if (end == -1) start = UArray_size(BIVAR(self));
+		end = UArray_find_from_(DATA(self), DATA(toSeq), start);
+		if (end == -1) start = UArray_size(DATA(self));
 	}
 	else if (ISNIL(toSeq))
 	{ 
-		end = UArray_size(BIVAR(self)); 
+		end = UArray_size(DATA(self));
 	}
 	else
 	{
@@ -341,7 +340,7 @@ occurance of aSequence and anotherSequence in the receiver.")
 	}  
 	
 	{
-		UArray *ba = UArray_slice(BIVAR(self), start, end);
+		UArray *ba = UArray_slice(DATA(self), start, end);
 		IoSeq *result = IoSeq_newWithUArray_copy_(IOSTATE, ba, 0);
 		return result;
 	}
@@ -376,7 +375,7 @@ IoObject *IoSeq_findSeqs(IoSeq *self, IoObject *locals, IoMessage *m)
 					   IoState_error_(IOSTATE, m, "requires Sequences as arguments, not %ss", IoObject_name((IoSeq *)s));
 				   }
 				   
-				   index = UArray_find_from_(BIVAR(self), BIVAR(((IoSeq *)s)), f);
+				   index = UArray_find_from_(DATA(self), DATA(((IoSeq *)s)), f);
 				   
 				   if(index != -1 && (firstIndex == -1 || index < firstIndex)) { firstIndex = index; match = i; }
 				   
@@ -416,7 +415,7 @@ nil is returned if no occurences are found. ")
 		f = IoMessage_locals_longArgAt_(m, locals, 1); 
 	}
 	
-	index = UArray_find_from_(BIVAR(self), BIVAR(otherSequence), f);
+	index = UArray_find_from_(DATA(self), DATA(otherSequence), f);
 	
 	return (index == -1) ? IONIL(self) : IONUMBER(index);
 }
@@ -432,7 +431,7 @@ returned if no occurrences are found. ")
 	*/
 	
 	IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
-	long from = UArray_size(BIVAR(self));
+	long from = UArray_size(DATA(self));
 	long index;
 	
 	if (IoMessage_argCount(m) > 1)
@@ -440,7 +439,7 @@ returned if no occurrences are found. ")
 		from = IoMessage_locals_intArgAt_(m, locals, 1); 
 	}
 	
-	index = UArray_rFind_from_(BIVAR(self), BIVAR(other), from);
+	index = UArray_rFind_from_(DATA(self), DATA(other), from);
 	
 	if (index == -1) 
 	{
@@ -459,7 +458,7 @@ IoObject *IoSeq_beginsWithSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 	
 	IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
 	
-	return IOBOOL(self, UArray_beginsWith_(BIVAR(self), BIVAR(other)));
+	return IOBOOL(self, UArray_beginsWith_(DATA(self), DATA(other)));
 }
 
 IoObject *IoSeq_endsWithSeq(IoSeq *self, IoObject *locals, IoMessage *m)
@@ -470,7 +469,7 @@ IoObject *IoSeq_endsWithSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 	*/
 	
 	IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
-	return IOBOOL(self, UArray_endsWith_(BIVAR(self), BIVAR(other)));
+	return IOBOOL(self, UArray_endsWith_(DATA(self), DATA(other)));
 }
 
 IoObject *IoSeq_contains(IoSeq *self, IoObject *locals, IoMessage *m)
@@ -485,7 +484,7 @@ IoObject *IoSeq_contains(IoSeq *self, IoObject *locals, IoMessage *m)
 	IoNumber *n = IoMessage_locals_numberArgAt_(m, locals, 0);
 	
 	UArray tmp = IoNumber_asStackUArray(n);
-	return IOBOOL(self, UArray_contains_(BIVAR(self), &tmp));
+	return IOBOOL(self, UArray_contains_(DATA(self), &tmp));
 }
 
 IoObject *IoSeq_containsSeq(IoSeq *self, IoObject *locals, IoMessage *m)
@@ -498,7 +497,7 @@ aSequence, false otherwise. ")
 	
 	IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
 	
-	return IOBOOL(self, UArray_contains_(BIVAR(self), BIVAR(other)));
+	return IOBOOL(self, UArray_contains_(DATA(self), DATA(other)));
 }
 
 IoObject *IoSeq_containsAnyCaseSeq(IoSeq *self, IoObject *locals, IoMessage *m)
@@ -510,7 +509,7 @@ regardless of casing, false otherwise. ")
 	*/
 	
 	IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
-	return IOBOOL(self, UArray_containsAnyCase_(BIVAR(self), BIVAR(other)));
+	return IOBOOL(self, UArray_containsAnyCase_(DATA(self), DATA(other)));
 }
 
 IoObject *IoSeq_isLowercase(IoSeq *self, IoObject *locals, IoMessage *m)
@@ -520,7 +519,7 @@ IoObject *IoSeq_isLowercase(IoSeq *self, IoObject *locals, IoMessage *m)
 		   "Returns self if all the characters in the string are lower case.")
 	*/
 	
-	return IOBOOL(self, UArray_isLowercase(BIVAR(self))); 
+	return IOBOOL(self, UArray_isLowercase(DATA(self)));
 }
 
 IoObject *IoSeq_isUppercase(IoSeq *self, IoObject *locals, IoMessage *m)
@@ -530,7 +529,7 @@ IoObject *IoSeq_isUppercase(IoSeq *self, IoObject *locals, IoMessage *m)
 		   "Returns self if all the characters in the string are upper case.")
 	*/
 	
-	return IOBOOL(self, UArray_isUppercase(BIVAR(self))); 
+	return IOBOOL(self, UArray_isUppercase(DATA(self)));
 }
 
 IoObject *IoSeq_isEqualAnyCase(IoSeq *self, IoObject *locals, IoMessage *m)
@@ -543,7 +542,7 @@ ignoring case differences, false otherwise.")
 	
 	IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
 	
-	return IOBOOL(self, UArray_equalsAnyCase_(BIVAR(self), BIVAR(other)));
+	return IOBOOL(self, UArray_equalsAnyCase_(DATA(self), DATA(other)));
 }
 
 IoObject *IoSeq_asNumber(IoSeq *self, IoObject *locals, IoMessage *m)
@@ -554,8 +553,8 @@ IoObject *IoSeq_asNumber(IoSeq *self, IoObject *locals, IoMessage *m)
 Initial whitespace is ignored.")
 	*/
 	
-	size_t size = UArray_size(BIVAR(self));
-	char *s = (char *)UArray_bytes(BIVAR(self));
+	size_t size = UArray_size(DATA(self));
+	char *s = (char *)UArray_bytes(DATA(self));
 	char *endp;
 	double d = strtod(s, &endp);
 	
@@ -613,7 +612,7 @@ List *IoSeq_byteArrayListForSeqList(IoSeq *self, IoObject *locals, IoMessage *m,
 							   IoObject_name((IoSeq *)s));
 			   }
 			   
-			   List_append_(list, BIVAR(((IoSeq *)s)));
+			   List_append_(list, DATA(((IoSeq *)s)));
 			   );
 	
 	return list;
@@ -638,7 +637,7 @@ IoObject *IoSeq_splitToFunction(IoSeq *self,
 	
 	{
 		UArray othersArray = List_asStackAllocatedUArray(others);
-		UArray *results = UArray_split_(BIVAR(self), &othersArray);
+		UArray *results = UArray_split_(DATA(self), &othersArray);
 		
 		for (i = 0; i < UArray_size(results); i ++)
 		{
@@ -677,10 +676,10 @@ IoObject *IoSeq_splitAt(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	int index = IoMessage_locals_intArgAt_(m, locals, 0);
 	IoList *splitSeqs = IoList_new(IOSTATE);
-	index = UArray_wrapPos_(BIVAR(self), index);
+	index = UArray_wrapPos_(DATA(self), index);
 	
 	{
-		const char *s = UArray_asCString(BIVAR(self));
+		const char *s = UArray_asCString(DATA(self));
 		IoSeq *s1 = IoState_symbolWithCString_length_(IOSTATE, s, index);
 		IoSeq *s2 = IoState_symbolWithCString_(IOSTATE, s + index);
 		IoList_rawAppend_(splitSeqs, (IoObject *)s1);
@@ -773,17 +772,17 @@ IoObject *IoSeq_each(IoSeq *self, IoObject *locals, IoMessage *m)
 	
 	IoState_pushRetainPool(state);
 	
-	for (i = 0; i < UArray_size(BIVAR(self)); i ++)
+	for (i = 0; i < UArray_size(DATA(self)); i ++)
 	{
 		IoState_clearTopPool(IOSTATE);
 		
-		if (UArray_isFloatType(BIVAR(self)))
+		if (UArray_isFloatType(DATA(self)))
 		{
-			result = IoMessage_locals_performOn_(doMessage, locals, IONUMBER(UArray_doubleAt_(BIVAR(self), i)));
+			result = IoMessage_locals_performOn_(doMessage, locals, IONUMBER(UArray_doubleAt_(DATA(self), i)));
 		}
 		else
 		{
-			result = IoMessage_locals_performOn_(doMessage, locals, IONUMBER(UArray_longAt_(BIVAR(self), i)));
+			result = IoMessage_locals_performOn_(doMessage, locals, IONUMBER(UArray_longAt_(DATA(self), i)));
 		}
 		
 		if (IoState_handleStatus(IOSTATE)) 
@@ -827,7 +826,7 @@ aSequence foreach(v, writeln("value ", v))
 	
 	IoState_pushRetainPool(IOSTATE);
 	
-	for (i = 0; i < UArray_size(BIVAR(self)); i ++)
+	for (i = 0; i < UArray_size(DATA(self)); i ++)
 	{
 		IoState_clearTopPool(IOSTATE);
 		
@@ -836,13 +835,13 @@ aSequence foreach(v, writeln("value ", v))
 			IoObject_setSlot_to_(locals, indexSlotName, IONUMBER(i));
 		}
 		
-		if(UArray_isFloatType(BIVAR(self)))
+		if(UArray_isFloatType(DATA(self)))
 		{
-			IoObject_setSlot_to_(locals, characterSlotName, IONUMBER(UArray_doubleAt_(BIVAR(self), i)));
+			IoObject_setSlot_to_(locals, characterSlotName, IONUMBER(UArray_doubleAt_(DATA(self), i)));
 		}
 		else
 		{
-			IoObject_setSlot_to_(locals, characterSlotName, IONUMBER(UArray_longAt_(BIVAR(self), i)));
+			IoObject_setSlot_to_(locals, characterSlotName, IONUMBER(UArray_longAt_(DATA(self), i)));
 		}
 		result = IoMessage_locals_performOn_(doMessage, locals, locals);
 		
@@ -887,13 +886,13 @@ IoObject *IoSeq_cloneAppendSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 					IoObject_name(other));
 	}
 	
-	if (UArray_size(BIVAR(other)) == 0) 
+	if (UArray_size(DATA(other)) == 0)
 	{
 		return self;
 	}
 	
-	ba = UArray_clone(BIVAR(self));
-	UArray_append_(ba, BIVAR(other));
+	ba = UArray_clone(DATA(self));
+	UArray_append_(ba, DATA(other));
 	return IoState_symbolWithUArray_copy_(IOSTATE, ba, 0);
 }
 
@@ -917,7 +916,7 @@ IoObject *IoSeq_asUppercase(IoSeq *self, IoObject *locals, IoMessage *m)
 		   "Returns a symbol containing the reveiver made uppercase. ")
 	*/
 	
-	UArray *ba = UArray_clone(BIVAR(self));
+	UArray *ba = UArray_clone(DATA(self));
 	UArray_toupper(ba);
 	return IoState_symbolWithUArray_copy_(IOSTATE, ba, 0);
 }
@@ -929,7 +928,7 @@ IoObject *IoSeq_asLowercase(IoSeq *self, IoObject *locals, IoMessage *m)
 		   "Returns a symbol containing the reveiver made Lowercase. ")
 	*/
 	
-	UArray *ba = UArray_clone(BIVAR(self));
+	UArray *ba = UArray_clone(DATA(self));
 	UArray_tolower(ba);
 	return IoState_symbolWithUArray_copy_(IOSTATE, ba, 0);
 }
@@ -945,7 +944,7 @@ IoObject *IoSeq_lastPathComponent(IoSeq *self, IoObject *locals, IoMessage *m)
 to the last path separator. ")
 	*/
 	
-	UArray *ba = UArray_lastPathComponent(BIVAR(self));
+	UArray *ba = UArray_lastPathComponent(DATA(self));
 	return IoSeq_newWithUArray_copy_(IOSTATE, ba, 0);
 }
 
@@ -956,7 +955,7 @@ IoObject *IoSeq_pathExtension(IoSeq *self, IoObject *locals, IoMessage *m)
 		   "Returns a string containing the receiver clipped up to the last period. ")
 	*/
 	
-	UArray *path = UArray_pathExtension(BIVAR(self));
+	UArray *path = UArray_pathExtension(DATA(self));
 	return IoState_symbolWithUArray_copy_(IOSTATE, path, 0);
 }
 
@@ -967,7 +966,7 @@ IoObject *IoSeq_fileName(IoSeq *self, IoObject *locals, IoMessage *m)
 		   "Returns the last path component sans the path extension.")
 	*/
 	
-	UArray *path = UArray_fileName(BIVAR(self));
+	UArray *path = UArray_fileName(DATA(self));
 	return IoState_symbolWithUArray_copy_(IOSTATE, path, 0);
 }
 
@@ -980,8 +979,8 @@ and only one path separator between the two and returns the result.")
 	*/
 	
 	IoSeq *component = IoMessage_locals_seqArgAt_(m, locals, 0);
-	UArray *ba = UArray_clone(BIVAR(self));
-	UArray_appendPath_(ba, BIVAR(component));
+	UArray *ba = UArray_clone(DATA(self));
+	UArray_appendPath_(ba, DATA(component));
 	return IoState_symbolWithUArray_copy_(IOSTATE, ba, 0);
 }
 
@@ -992,7 +991,7 @@ IoObject *IoSeq_pathComponent(IoSeq *self, IoObject *locals, IoMessage *m)
 		   "Returns a slice of the receiver before the last path separator as a symbol. ")
 	*/
 	
-	UArray *ba = UArray_clone(BIVAR(self));
+	UArray *ba = UArray_clone(DATA(self));
 	UArray_removeLastPathComponent(ba);
 	return IoState_symbolWithUArray_copy_(IOSTATE, ba, 0);
 }
@@ -1006,11 +1005,11 @@ aSequence or self if aSequence is not found.")
 	*/
 	
 	IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
-	long pos = UArray_find_(BIVAR(self), BIVAR(other));
+	long pos = UArray_find_(DATA(self), DATA(other));
 	
 	if (pos != -1)
 	{
-		UArray *ba = UArray_slice(BIVAR(self), 0, pos);
+		UArray *ba = UArray_slice(DATA(self), 0, pos);
 		
 		if (ISSYMBOL(self))
 		{
@@ -1041,11 +1040,11 @@ If aSequence is empty, the receiver (or a copy of the
 	*/
 	
 	IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
-	long pos = UArray_find_(BIVAR(self), BIVAR(other));
+	long pos = UArray_find_(DATA(self), DATA(other));
 	
 	if (pos != -1)
 	{
-		UArray *ba = UArray_slice(BIVAR(self), pos + UArray_size(BIVAR(other)), UArray_size(BIVAR(self)));
+		UArray *ba = UArray_slice(DATA(self), pos + UArray_size(DATA(other)), UArray_size(DATA(self)));
 		
 		if (ISSYMBOL(self))
 		{
@@ -1069,7 +1068,7 @@ IoObject *IoSeq_asCapitalized(IoSeq *self, IoObject *locals, IoMessage *m)
 	
 	/* need to fix for multi-byte characters */
 	
-	int firstChar = UArray_firstLong(BIVAR(self));
+	int firstChar = UArray_firstLong(DATA(self));
 	int upperChar = toupper(firstChar);
 	
 	if (ISSYMBOL(self) && (firstChar == upperChar)) 
@@ -1078,7 +1077,7 @@ IoObject *IoSeq_asCapitalized(IoSeq *self, IoObject *locals, IoMessage *m)
 	}
 	else
 	{
-		UArray *ba = UArray_clone(BIVAR(self));
+		UArray *ba = UArray_clone(DATA(self));
 		UArray_at_putLong_(ba, 0, upperChar); 
 		
 		if (ISSYMBOL(self))
@@ -1097,7 +1096,7 @@ IoObject *IoSeq_occurancesOfSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 	*/
 		
 	IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
-	size_t count = UArray_count_(BIVAR(self), BIVAR(other));
+	size_t count = UArray_count_(DATA(self), DATA(other));
 	return IONUMBER(count);
 }
 
@@ -1121,7 +1120,7 @@ IoObject *IoSeq_distanceTo(IoSeq *self, IoObject *locals, IoMessage *m)
 	IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
 	double d;
 	
-	d = UArray_distanceTo_(BIVAR(self), BIVAR(other));
+	d = UArray_distanceTo_(DATA(self), DATA(other));
 	return IONUMBER(d);
 }
 
