@@ -18,7 +18,7 @@ IoObject *IoObject_break(IoObject *self, IoObject *locals, IoMessage *m);
 IoObject *IoObject_continue(IoObject *self, IoObject *locals, IoMessage *m);
 IoObject *IoObject_stopStatus(IoObject *self, IoObject *locals, IoMessage *m);
 
-// branch 
+// branch
 
 IoObject *IoObject_if(IoObject *self, IoObject *locals, IoMessage *m);
 IoObject *IoObject_if2(IoObject *self, IoObject *locals, IoMessage *m);

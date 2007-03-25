@@ -1,9 +1,9 @@
 /*   Copyright (c) 2003, Steve Dekorte
 docLicense("BSD revised")
  *
- *   The lexer takes source code and produces a token stream. 
+ *   The lexer takes source code and produces a token stream.
  */
- 
+
 #ifndef IOLEXER_DEFINED
 #define IOLEXER_DEFINED 1
 
@@ -69,38 +69,38 @@ int IoToken_grabLength(IoLexer *self);
 void IoToken_grabTokenType_(IoLexer *self, IoTokenType type);
 IoToken *IoLexer_addTokenString_length_type_(IoLexer *self, const char *s1, size_t len, IoTokenType type);
 
-// reading 
+// reading
 
 int IoLexer_read(IoLexer *self);
 void IoLexer_messageChain(IoLexer *self);
 
-// message 
+// message
 
 int IoLexer_readMessage(IoLexer *self);
 int IoLexer_readPadding(IoLexer *self);
 int IoLexer_readOpenParen(IoLexer *self);
 int IoLexer_readCloseParen(IoLexer *self);
 
-// symbols 
+// symbols
 
 int IoLexer_readSymbol(IoLexer *self);
 int IoLexer_readIdentifier(IoLexer *self);
 int IoLexer_readOperator(IoLexer *self);
 
-// comments 
+// comments
 
 int IoLexer_readComment(IoLexer *self);
 int IoLexer_readSlashStarComment(IoLexer *self);
 int IoLexer_readSlashSlashComment(IoLexer *self);
 int IoLexer_readPoundComment(IoLexer *self);
 
-// quotes 
+// quotes
 
 int IoLexer_readQuote(IoLexer *self);
 int IoLexer_readMonoQuote(IoLexer *self);
 int IoLexer_readTriQuote(IoLexer *self);
 
-// helpers 
+// helpers
 
 int IoLexer_readTokenChar_type_(IoLexer *self, char c, IoTokenType type);
 int IoLexer_readTokenString_(IoLexer *self, const char *s);
@@ -136,7 +136,7 @@ int IoLexer_readNumber(IoLexer *self);
 int IoLexer_readDecimal(IoLexer *self);
 int IoLexer_readHexNumber(IoLexer *self);
 
-// parsing 
+// parsing
 
 IoToken *IoLexer_rootMessageToken(IoLexer *self, IoToken **error);
 

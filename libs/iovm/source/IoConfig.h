@@ -22,7 +22,7 @@
 #endif
 
 /* #if defined(__MACOSX__) && defined(_BSD_PPC_SETJMP_H_) */
-#if defined(_BSD_PPC_SETJMP_H_) 
+#if defined(_BSD_PPC_SETJMP_H_)
     /* OSX/PPC */
     #define IO_OS_TYPE		darwin
     #define IO_PROCESSOR_TYPE	powerpc
@@ -66,12 +66,12 @@
 
     #endif
 
-#elif defined(__CYGWIN__) 
+#elif defined(__CYGWIN__)
     #define IO_OS_TYPE		cygwin
 
-#elif defined(__MINGW32__) 
+#elif defined(__MINGW32__)
     #define IO_OS_TYPE		mingw
-  
+
 #elif defined(_MSC_VER)
     /* win32 visual c - should this be the same as __MINGW32__? */
     #define IO_OS_TYPE		win32

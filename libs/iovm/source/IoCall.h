@@ -28,7 +28,7 @@ typedef struct
         int stopStatus;
 } IoCallData;
 
-IoCall *IoCall_with(void *state, 
+IoCall *IoCall_with(void *state,
 									 IoObject *sender,
 									 IoObject *target,
 									 IoObject *message,

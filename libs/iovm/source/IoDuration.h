@@ -38,7 +38,7 @@ void IoDuration_readFromStream_(IoDuration *self, BStream *stream);
 IoDuration *IoDuration_fromSeconds_(IoDuration *self, double s);
 double IoDuration_asSeconds(IoDuration *self);
 
-// getters/setters 
+// getters/setters
 
 IoObject *IoDuration_years(IoDuration *self, IoObject *locals, IoMessage *m);
 IoObject *IoDuration_setYears(IoDuration *self, IoObject *locals, IoMessage *m);
@@ -67,7 +67,7 @@ IoObject *IoDuration_asNumber(IoDuration *self, IoObject *locals, IoMessage *m);
 IoObject *IoDuration_fromNumber(IoDuration *self, IoObject *locals, IoMessage *m);
 IoObject *IoDuration_fromString(IoDuration *self, IoObject *locals, IoMessage *m);
 
-// math 
+// math
 
 IoObject *IoDuration_add(IoDuration *self, IoObject *locals, IoMessage *m);
 IoObject *IoDuration_subtract(IoDuration *self, IoObject *locals, IoMessage *m);

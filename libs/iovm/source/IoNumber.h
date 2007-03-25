@@ -41,9 +41,9 @@ float IoNumber_asFloat(IoNumber *self);
 IOVM_API int IoNumber_compare(IoNumber *self, IoNumber *v);
 IOVM_API void IoNumber_print(IoNumber *self);
 //void IoNumber_rawSet(IoNumber *self, double v);
-#define IoNumber_rawSet(self, v) CNUMBER(self) = v; 
+#define IoNumber_rawSet(self, v) CNUMBER(self) = v;
 
-// ----------------------------------------------------------- 
+// -----------------------------------------------------------
 
 IOVM_API IoObject *IoNumber_htonl(IoNumber *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoNumber_ntohl(IoNumber *self, IoObject *locals, IoMessage *m);
@@ -62,7 +62,7 @@ IOVM_API IoObject *IoNumber_asCharacter(IoNumber *self, IoObject *locals, IoMess
 IOVM_API IoObject *IoNumber_asUint32Buffer(IoNumber *self, IoObject *locals, IoMessage *m);
 //IoObject *IoNumber_asDate(IoNumber *self, IoObject *locals, IoMessage *m);
 
-// no arg methods 
+// no arg methods
 
 IOVM_API IoObject *IoNumber_abs(IoNumber *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoNumber_acos(IoNumber *self, IoObject *locals, IoMessage *m);
@@ -105,7 +105,7 @@ IOVM_API IoObject *IoNumber_gaussianRandom(IoNumber *self, IoObject *locals, IoM
 IOVM_API IoObject *IoNumber_randomseed(IoNumber *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoNumber_toggle(IoNumber *self, IoObject *locals, IoMessage *m);
 
-// bitwise operations 
+// bitwise operations
 
 IOVM_API IoObject *IoNumber_newBitwiseAnd(IoNumber *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoNumber_newBitwiseOr(IoNumber *self, IoObject *locals, IoMessage *m);
@@ -117,7 +117,7 @@ IOVM_API IoObject *IoNumber_bitwiseComplement(IoNumber *self, IoObject *locals, 
 IOVM_API IoObject *IoNumber_bitShiftLeft(IoNumber *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoNumber_bitShiftRight(IoNumber *self, IoObject *locals, IoMessage *m);
 
-// even and odd 
+// even and odd
 
 IOVM_API IoObject *IoNumber_isEven(IoNumber *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoNumber_isOdd(IoNumber *self, IoObject *locals, IoMessage *m);
@@ -144,7 +144,7 @@ IOVM_API IoObject *IoNumber_clip(IoNumber *self, IoObject *locals, IoMessage *m)
 IOVM_API IoObject *IoNumber_negate(IoNumber *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoNumber_at(IoNumber *self, IoObject *locals, IoMessage *m);
 
-// limits 
+// limits
 
 IOVM_API IoObject *IoNumber_integerMax(IoNumber *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoNumber_integerMin(IoNumber *self, IoObject *locals, IoMessage *m);

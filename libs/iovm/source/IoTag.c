@@ -5,7 +5,7 @@
 
 #define IOTAG_C 1
 #include "IoTag.h"
-#undef IOTAG_C 
+#undef IOTAG_C
 
 #include "IoObject.h"
 #include "IoState.h"
@@ -31,7 +31,7 @@ IoTag *IoTag_newWithName_(char *name)
 	return self;
 }
 
-void IoTag_free(IoTag *self) 
+void IoTag_free(IoTag *self)
 {
 	//printf("io_free tag %p\n", (void *)self);
 	//printf("%s\n", self->name ? self->name : "NULL");
@@ -40,33 +40,33 @@ void IoTag_free(IoTag *self)
 	{
 		(self->tagCleanupFunc)(self);
 	}
-	
-	if (self->name) 
+
+	if (self->name)
 	{
-		io_free(self->name); 
+		io_free(self->name);
 		self->name = NULL;
 	}
-	
+
 	//Stack_free(self->recyclableInstances);
-	io_free(self); 
+	io_free(self);
 }
 
 void IoTag_name_(IoTag *self, const char *name)
-{ 
-	self->name = strcpy((char *)io_realloc(self->name, strlen(name)+1), name); 
+{
+	self->name = strcpy((char *)io_realloc(self->name, strlen(name)+1), name);
 }
 
-const char *IoTag_name(IoTag *self) 
-{ 
-	return self->name; 
+const char *IoTag_name(IoTag *self)
+{
+	return self->name;
 }
 
 void IoTag_mark(IoTag *self)
 {
 	/*
 	 if (Stack_count(self->recyclableInstances))
-	 { 
-		 Stack_do_(self->recyclableInstances, (StackDoCallback *)IoObject_shouldMark); 
+	 {
+		 Stack_do_(self->recyclableInstances, (StackDoCallback *)IoObject_shouldMark);
 	 }
 	 */
 }

@@ -34,7 +34,7 @@ void IoDate_readFromStream_(IoDate *self, BStream *stream);
 
 double IoDate_difference_(IoDate *self, IoDate *other);
 
-// ----------------------------------------------------------- 
+// -----------------------------------------------------------
 
 IoObject *IoDate_now(IoDate *self, IoObject *locals, IoMessage *m);
 IoObject *IoDate_clock(IoDate *self, IoObject *locals, IoMessage *m);
@@ -75,7 +75,7 @@ IoObject *IoDate_fromString(IoDate *self, IoObject *locals, IoMessage *m);
 IoObject *IoDate_setFormat(IoDate *self, IoObject *locals, IoMessage *m);
 IoObject *IoDate_format(IoDate *self, IoObject *locals, IoMessage *m);
 
-// durations 
+// durations
 
 IoObject *IoDate_subtract(IoDate *self, IoObject *locals, IoMessage *m);
 IoObject *IoDate_subtractInPlace(IoDate *self, IoObject *locals, IoMessage *m);

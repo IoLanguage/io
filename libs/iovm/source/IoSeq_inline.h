@@ -1,9 +1,9 @@
-/*   
+/*
 docCopyright("Steve Dekorte", 2002)
 docLicense("BSD revised")
 */
 
-#ifdef IOSEQ_C 
+#ifdef IOSEQ_C
 #define IO_IN_C_FILE
 #endif
 #include "Common_inline.h"

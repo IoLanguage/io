@@ -2,7 +2,7 @@
 
 #define IOSEQ_C
 #include "IoSeq.h"
-#undef IOSEQ_C 
+#undef IOSEQ_C
 #include "IoSeq_mutable.h"
 #include "IoSeq_immutable.h"
 #include "IoState.h"
@@ -23,7 +23,7 @@ int ISMUTABLESEQ(IoObject *self)
 }
 
 int ioSymbolFindFunc(void *s, void *ioSymbol)
-{ 
+{
     return strcmp((char *)s, (char *)UArray_bytes(DATA((IoObject *)ioSymbol)));
 }
 
@@ -47,18 +47,18 @@ void IoSeq_rawPrint(IoSeq *self)
  {
      BStream_writeTaggedUArray_(stream, DATA(self));
  }
- 
+
  IoSymbol *IoSymbol_allocFromStore_stream_(IoSymbol *self, BStream *stream)
  {
      UArray *ba = BStream_readTaggedUArray(stream);
-     
+
      if (!ba)
      {
          printf("String read error: missing byte array");
          IoState_exit(IOSTATE, -1);
      }
-     
-     return IoState_symbolWithUArray_copy_(IOSTATE, ba, 1);  
+
+     return IoState_symbolWithUArray_copy_(IOSTATE, ba, 1);
  }
  */
 
@@ -88,10 +88,10 @@ IoTag *IoSeq_newTag(void *state)
 IoSeq *IoSeq_proto(void *state)
 {
     IoObject *self = IoObject_new(state);
-    
+
     IoObject_tag_(self, IoSeq_newTag(state));
     IoObject_setDataPointer_(self, UArray_new());
-    
+
     IoState_registerProtoWithFunc_((IoState *)state, self, IoSeq_proto);
     return self;
 }
@@ -117,7 +117,7 @@ IoSeq *IoSeq_rawClone(IoSeq *proto)
     }
 }
 
-// ----------------------------------------------------------- 
+// -----------------------------------------------------------
 
 IoSeq *IoSeq_new(void *state)
 {
@@ -133,21 +133,21 @@ IoSeq *IoSeq_newWithData_length_(void *state, const unsigned char *s, size_t len
 }
 
 IoSeq *IoSeq_newWithCString_(void *state, const char *s)
-{ 
+{
     return IoSeq_newWithData_length_(state, (unsigned char *)s, strlen(s));
 }
 
 IoSeq *IoSeq_newWithCString_length_(void *state, const char *s, size_t length)
-{ 
+{
     return IoSeq_newWithData_length_(state, (unsigned char *)s, length);
 }
 
 IoSeq *IoSeq_newWithUArray_copy_(void *state, UArray *ba, int copy)
 {
     IoSeq *self = IoSeq_new(state);
-    
+
     if (copy)
-    { 
+    {
         UArray_copy_(DATA(self), ba);
     }
     else
@@ -155,7 +155,7 @@ IoSeq *IoSeq_newWithUArray_copy_(void *state, UArray *ba, int copy)
         UArray_free(DATA(self));
         IoObject_setDataPointer_(self, ba);
     }
-    
+
     return self;
 }
 
@@ -168,11 +168,11 @@ IoSeq *IoSeq_newFromFilePath_(void *state, const char *path)
 }
 
 IoSeq *IoSeq_rawMutableCopy(IoSeq *self)
-{ 
+{
     return IoSeq_newWithUArray_copy_(IOSTATE, DATA(self), 1);
 }
 
-// these Symbol creation methods should only be called by IoState ------ 
+// these Symbol creation methods should only be called by IoState ------
 
 IoSymbol *IoSeq_newSymbolWithData_length_(void *state, const char *s, size_t length)
 {
@@ -182,16 +182,16 @@ IoSymbol *IoSeq_newSymbolWithData_length_(void *state, const char *s, size_t len
 }
 
 IoSymbol *IoSeq_newSymbolWithCString_(void *state, const char *s)
-{ 
+{
     return IoSeq_newSymbolWithData_length_(state, s, strlen(s));
 }
 
 IoSymbol *IoSeq_newSymbolWithUArray_copy_(void *state, UArray *ba, int copy)
 {
     IoObject *self = IoSeq_new(state);
-    
+
     if (copy)
-    { 
+    {
         UArray_copy_(DATA(self), ba);
     }
     else
@@ -199,11 +199,11 @@ IoSymbol *IoSeq_newSymbolWithUArray_copy_(void *state, UArray *ba, int copy)
         UArray_free(DATA(self));
         IoObject_setDataPointer_(self, ba);
     }
-    
+
     return self;
 }
 
-// these Symbol creation methods can be called by anyone 
+// these Symbol creation methods can be called by anyone
 
 IoSymbol *IoSeq_newSymbolWithFormat_(void *state, const char *format, ...)
 {
@@ -215,81 +215,81 @@ IoSymbol *IoSeq_newSymbolWithFormat_(void *state, const char *format, ...)
     return IoState_symbolWithUArray_copy_(state, ba, 0);
 }
 
-// ----------------------------------------------------- 
+// -----------------------------------------------------
 
-void IoSeq_free(IoSeq *self) 
+void IoSeq_free(IoSeq *self)
 {
-    if (IoObject_isSymbol(self)) 
-    { 
-        IoState_removeSymbol_(IOSTATE, self); 
+    if (IoObject_isSymbol(self))
+    {
+        IoState_removeSymbol_(IOSTATE, self);
     }
-    
+
     if (DATA(self) != NULL)
     {
         UArray_free(DATA(self));
     }
 }
 
-int IoSeq_compare(IoSeq *self, IoSeq *v) 
-{ 
+int IoSeq_compare(IoSeq *self, IoSeq *v)
+{
     if (ISSEQ(v))
-    {        
+    {
 	    if (self == v) return 0;
 	    return UArray_compare_(DATA(self), DATA(v));
     }
-    
+
     return IoObject_defaultCompare(self, v);
 }
 
 UArray *IoSeq_rawUArray(IoSeq *self)
-{ 
+{
     return DATA(self);
 }
 
-char *IoSeq_asCString(IoSeq *self) 
-{ 
+char *IoSeq_asCString(IoSeq *self)
+{
     return (char *)UArray_bytes(DATA(self));
 }
 
 unsigned char *IoSeq_rawBytes(IoSeq *self)
-{ 
+{
     return (unsigned char *)UArray_bytes(DATA(self));
 }
 
 size_t IoSeq_rawSize(IoSeq *self)
-{ 
+{
     return (size_t)(UArray_size(DATA(self)));
 }
 
 size_t IoSeq_rawSizeInBytes(IoSeq *self)
-{ 
+{
     return (size_t)(UArray_size(DATA(self)));
 }
 
 double IoSeq_asDouble(IoSeq *self)
-{ 
+{
     return strtod((char *)UArray_bytes(DATA(self)), NULL);
 }
 
-// ----------------------------------------------------------- 
+// -----------------------------------------------------------
 
 void IoSeq_rawSetSize_(IoSeq *self, size_t size)
-{ 
+{
     UArray_setSize_(DATA(self), size);
 }
 
 size_t IoSeq_memorySize(IoSeq *self)
-{ 
+{
     //return sizeof(IoSeq) + UArray_memorySize(DATA(self));
     return 0;
 }
 
-void IoSeq_compact(IoSeq *self) 
-{ 
+void IoSeq_compact(IoSeq *self)
+{
     //UArray_compact(DATA(self));
 }
 
-// ----------------------------------------------------------- 
+// -----------------------------------------------------------
 
 IoSymbol *IoSeq_rawAsUnquotedSymbol(IoSeq *self)
 {
@@ -317,7 +317,7 @@ double IoSeq_rawAsDoubleFromHex(IoSeq *self)
 {
     char *s = IoSeq_asCString(self);
     unsigned int i;
-    
+
     sscanf(s, "%x", &i);
     return (double)i;
 }
@@ -326,25 +326,25 @@ double IoSeq_rawAsDoubleFromOctal(IoSeq *self)
 {
     char *s = IoSeq_asCString(self);
     unsigned int i;
-    
+
     sscanf(s, "%o", &i);
     return (double)i;
 }
 
-int IoSeq_rawEqualsCString_(IoSeq *self, const char *s) 
-{ 
+int IoSeq_rawEqualsCString_(IoSeq *self, const char *s)
+{
     return (strcmp((char *)UArray_bytes(DATA(self)), s) == 0);
 }
 
 int IoSeq_rawIsNotAlphaNumeric(IoSeq *self)
 {
      char *s = (char *)UArray_bytes(DATA(self));
-     
-     while (!isalnum((int)*s) && *s != 0) 
-     { 
-         s ++; 
+
+     while (!isalnum((int)*s) && *s != 0)
+     {
+         s ++;
      }
-     
+
      return (*s == 0);
 }
 
@@ -359,39 +359,39 @@ int IoSeq_rawEqualTo(IoSeq *self, IoObject *other)
 uintptr_t IoSeq_rawHash(IoSeq *self)
 {
 	uintptr_t hash = IoObject_dataPointer2(self);
-	
+
 	if (!hash)
 	{
 		hash = UArray_hash(DATA(self));
 		IoObject_setDataPointer2_(self, hash);
 	}
-	
+
 	return hash;
 }
 */
- 
+
 /*
  int IoSeq_rawIsNotAlphaNumeric(IoSeq *self)
  {
      char *s = (char *)UArray_bytes(DATA(self));
-     
-     while (!isalnum((int)*s) && *s != 0) 
-     { 
-         s ++; 
+
+     while (!isalnum((int)*s) && *s != 0)
+     {
+         s ++;
      }
-     
+
      return (*s == 0);
  }
- 
+
  unsigned int IoSeq_rawHashCode(IoSeq *self)
- { 
-     uintptr_t h = (uintptr_t)HASHIVAR(self); 
+ {
+     uintptr_t h = (uintptr_t)HASHIVAR(self);
      return (unsigned int)h;
  }
- 
+
  void IoSeq_rawSetHashCode_(IoSeq *self, unsigned int h)
  {
-     HASHIVAR(self) = (void *)(uintptr_t)h; 
+     HASHIVAR(self) = (void *)(uintptr_t)h;
  }
  */
 

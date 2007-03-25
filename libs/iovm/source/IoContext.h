@@ -3,7 +3,7 @@ docCopyright("Steve Dekorte", 2002)
 docLicense("BSD revised")
 */
 
-#ifndef IOCONTEXT_DEFINED 
+#ifndef IOCONTEXT_DEFINED
 #define IOCONTEXT_DEFINED 1
 
 #include "IoObject_struct.h"

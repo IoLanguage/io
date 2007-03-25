@@ -29,7 +29,7 @@ IoCFunction *IoCFunction_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCFunction_newTag(state));
-	
+
 	IoObject_setDataPointer_(self, io_calloc(1, sizeof(IoCFunctionData)));
 	DATA(self)->func = IoObject_self;
 	//IoObject_isActivatable_(self, 1);
@@ -47,7 +47,7 @@ void IoCFunction_protoFinish(void *state)
 	{"typeName", IoCFunction_typeName},
 	{NULL, NULL},
 	};
-	
+
 	IoObject *self = IoState_protoWithInitFunction_((IoState *)state, IoCFunction_proto);
 	IoObject_setSlot_to_(self, IOSYMBOL("type"), IOSYMBOL("CFunction"));
 	/*#io
@@ -66,9 +66,9 @@ IoCFunction *IoCFunction_rawClone(IoCFunction *proto)
 
 void IoCFunction_mark(IoCFunction *self)
 {
-	if (DATA(self)->uniqueName) 
-	{ 
-		IoObject_shouldMark(DATA(self)->uniqueName); 
+	if (DATA(self)->uniqueName)
+	{
+		IoObject_shouldMark(DATA(self)->uniqueName);
 	}
 }
 
@@ -80,7 +80,7 @@ void IoCFunction_free(IoCFunction *self)
 void IoCFunction_print(IoCFunction *self)
 {
 	IoCFunctionData *data = DATA(self);
-	
+
 	printf("CFunction_%p", self);
 	printf(" %p", (data->func));
 	printf(" %s", data->typeTag ? data->typeTag->name : "?");
@@ -88,26 +88,26 @@ void IoCFunction_print(IoCFunction *self)
 	printf("\n");
 }
 
-IoCFunction *IoCFunction_newWithFunctionPointer_tag_name_(void *state, 
-											   IoUserFunction *func, 
-											   IoTag *typeTag, 
+IoCFunction *IoCFunction_newWithFunctionPointer_tag_name_(void *state,
+											   IoUserFunction *func,
+											   IoTag *typeTag,
 											   const char *funcName)
 {
 	IoCFunction *proto = IoState_protoWithInitFunction_((IoState *)state, IoCFunction_proto);
 	IoCFunction *self = IOCLONE(proto);
 	DATA(self)->typeTag = typeTag;
 	DATA(self)->func = func;
-	DATA(self)->uniqueName = IoState_symbolWithCString_((IoState *)state, funcName); 
+	DATA(self)->uniqueName = IoState_symbolWithCString_((IoState *)state, funcName);
 	return self;
 }
 
 IoObject *IoCFunction_id(IoCFunction *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
 	docSlot("id", "Returns a number containing a unique id for the receiver's internal C function. ")
 	*/
-	
-	return IONUMBER(((uintptr_t)self)); 
+
+	return IONUMBER(((uintptr_t)self));
 }
 
 IoObject *IoCFunction_uniqueName(IoCFunction *self, IoObject *locals, IoMessage *m)
@@ -115,12 +115,12 @@ IoObject *IoCFunction_uniqueName(IoCFunction *self, IoObject *locals, IoMessage 
 	/*#io
 	docSlot("uniqueName", "Returns the name given to the CFunction.")
 	*/
-	
-	if (DATA(self)->uniqueName) 
-	{ 
-		return DATA(self)->uniqueName; 
+
+	if (DATA(self)->uniqueName)
+	{
+		return DATA(self)->uniqueName;
 	}
-	
+
 	return IONIL(self);
 }
 
@@ -129,23 +129,23 @@ IoObject *IoCFunction_typeName(IoCFunction *self, IoObject *locals, IoMessage *m
 	/*#io
 	docSlot("typeName", "Returns the owning type of the CFunction or nil if the CFunction can be called on any object.")
 	*/
-	
-	if (DATA(self)->typeTag) 
-	{ 
-		return IOSYMBOL(IoTag_name(DATA(self)->typeTag)); 
+
+	if (DATA(self)->typeTag)
+	{
+		return IOSYMBOL(IoTag_name(DATA(self)->typeTag));
 	}
-	
+
 	return IONIL(self);
 }
 
 IoObject *IoCFunction_equals(IoCFunction *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
 	docSlot("==(anObject)", "Returns self if the argument is a CFunction with the same internal C function pointer. ")
 	*/
-	
+
 	IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 0);
-	
+
 	return IOBOOL(self, ISCFUNCTION(v) && (DATA(self)->func == DATA(v)->func));
 }
 
@@ -153,16 +153,16 @@ IoObject *IoCFunction_activate(IoCFunction *self, IoObject *target, IoObject *lo
 {
 	IoCFunctionData *selfData = DATA(self);
 	IoTag *t = selfData->typeTag;
-	//IoObject_waitOnFutureIfNeeded(target); future forward will already deal with this? 
+	//IoObject_waitOnFutureIfNeeded(target); future forward will already deal with this?
 	IoObject *result;
-	
+
 	if (t && t != IoObject_tag(target)) // eliminate t check by matching Object tag?
 	{
 		char *a = (char *)IoTag_name(t);
 		char *b = (char *)IoTag_name(IoObject_tag(target));
 		IoState_error_(IOSTATE, m, "CFunction defined for type %s but called on type %s", a, b);
 	}
-	
+
 	//IoState_pushRetainPool(state);
 	result = (*(IoUserFunction *)(selfData->func))(target, locals, m);
 	//IoState_popRetainPoolExceptFor_(state, result);
@@ -174,28 +174,28 @@ IoObject *IoCFunction_performOn(IoCFunction *self, IoObject *locals, IoMessage *
 	/*#io
 	docSlot("performOn(target, blockLocals, optionalMessage, optionalContext)", "Activates the CFunctions with the supplied settings.")
 	*/
-	
+
 	IoObject *bTarget = IoMessage_locals_valueArgAt_(m, locals, 0);
 	IoObject *bLocals = locals;
 	IoObject *bMessage = m;
 	IoObject *bContext = bTarget;
 	int argCount = IoMessage_argCount(m);
-	
+
 	if (argCount > 1)
 	{
-		bLocals = IoMessage_locals_valueArgAt_(m, locals, 1); 
+		bLocals = IoMessage_locals_valueArgAt_(m, locals, 1);
 	}
-	
+
 	if (argCount > 2)
 	{
-		bMessage = IoMessage_locals_valueArgAt_(m, locals, 2); 
+		bMessage = IoMessage_locals_valueArgAt_(m, locals, 2);
 	}
-	
+
 	if (argCount > 3)
 	{
-		bContext = IoMessage_locals_valueArgAt_(m, locals, 3); 
+		bContext = IoMessage_locals_valueArgAt_(m, locals, 3);
 	}
-	
+
 	return IoCFunction_activate(self, bTarget, bLocals, bMessage, bContext);
 }
 

@@ -1,4 +1,4 @@
-/*   
+/*
 docCopyright("Steve Dekorte", 2002)
 docLicense("BSD revised")
 */

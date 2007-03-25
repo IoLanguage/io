@@ -1,10 +1,10 @@
 /*#io
 System ioDoc(
 docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised") 
+docLicense("BSD revised")
 */
 
-#ifndef IoSystem_DEFINED 
+#ifndef IoSystem_DEFINED
 #define IoSystem_DEFINED 1
 
 #include "IoObject.h"

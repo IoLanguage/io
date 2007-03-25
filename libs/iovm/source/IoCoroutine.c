@@ -1,7 +1,7 @@
 /*#io
 Map ioDoc(
           docCopyright("Steve Dekorte", 2002)
-          docLicense("BSD revised")    
+          docLicense("BSD revised")
           docDescription("Object wrapper for an Io coroutine.")
 		docCategory("Core")
          */
@@ -49,9 +49,9 @@ IoTag *IoCoroutine_newTag(void *state)
 }
 
 IoCoroutine *IoCoroutine_proto(void *state)
-{	
+{
 	IoObject *self = IoObject_new(state);
-	
+
 	IoObject_tag_(self, IoCoroutine_newTag(state));
 	IoObject_setDataPointer_(self, io_calloc(1, sizeof(IoCoroutineData)));
 	DATA(self)->ioStack = Stack_new();
@@ -59,7 +59,7 @@ IoCoroutine *IoCoroutine_proto(void *state)
 	Stack_popCallback_(DATA(self)->ioStack, IoObject_freeIfUnreferenced);
 #endif
 	IoState_registerProtoWithFunc_((IoState *)state, self, IoCoroutine_proto);
-	
+
 	// init Coroutine proto's coro as the main one
 	{
 	Coro *coro = Coro_new();
@@ -84,12 +84,12 @@ void IoCoroutine_protoFinish(IoCoroutine *self)
 	{"freeStack", IoCoroutine_freeStack},
 	{NULL, NULL},
 	};
-	
+
 	IoObject_addMethodTable_(self, methodTable);
 }
 
-IoCoroutine *IoCoroutine_rawClone(IoCoroutine *proto) 
-{ 
+IoCoroutine *IoCoroutine_rawClone(IoCoroutine *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, io_calloc(1, sizeof(IoCoroutineData)));
 	DATA(self)->ioStack = Stack_new();
@@ -97,7 +97,7 @@ IoCoroutine *IoCoroutine_rawClone(IoCoroutine *proto)
 	Stack_popCallback_(DATA(self)->ioStack, IoObject_freeIfUnreferenced);
 #endif
 	DATA(self)->cid = (Coro *)NULL;
-	return self; 
+	return self;
 }
 
 IoCoroutine *IoCoroutine_new(void *state)
@@ -107,7 +107,7 @@ IoCoroutine *IoCoroutine_new(void *state)
 	return self;
 }
 
-void IoCoroutine_free(IoCoroutine *self) 
+void IoCoroutine_free(IoCoroutine *self)
 {
 	Coro *coro = DATA(self)->cid;
 	if (coro) Coro_free(coro);
@@ -115,7 +115,7 @@ void IoCoroutine_free(IoCoroutine *self)
 	io_free(DATA(self));
 }
 
-void IoCoroutine_mark(IoCoroutine *self) 
+void IoCoroutine_mark(IoCoroutine *self)
 {
 	//printf("Coroutine_%p mark\n", (void *)self);
 	Stack_do_(DATA(self)->ioStack, (ListDoCallback *)IoObject_shouldMark);
@@ -124,8 +124,8 @@ void IoCoroutine_mark(IoCoroutine *self)
 // raw
 
 Stack *IoCoroutine_rawIoStack(IoCoroutine *self)
-{ 
-	return DATA(self)->ioStack; 
+{
+	return DATA(self)->ioStack;
 }
 
 void IoCoroutine_rawShow(IoCoroutine *self)
@@ -219,18 +219,18 @@ IoObject *IoCoroutine_rawException(IoCoroutine *self)
 // ioStack
 
 IoObject *IoCoroutine_ioStack(IoCoroutine *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
 	docSlot("ioStack", "Returns List of values on this coroutine's stack.")
 	*/
-	
+
 	return IoList_newWithList_(IOSTATE, Stack_asList(DATA(self)->ioStack));
 }
 
 void IoCoroutine_rawReturnToParent(IoCoroutine *self)
 {
 	IoCoroutine *parent = IoCoroutine_rawParentCoroutine(self);
-		  	
+
 	if (parent && ISCOROUTINE(parent))
 	{
 		IoCoroutine_rawResume(parent);
@@ -248,8 +248,8 @@ void IoCoroutine_rawReturnToParent(IoCoroutine *self)
 	{
 		IoCoroutine_rawPrintBackTrace(self);
 	}
-	
-	printf("IoCoroutine error: unable to auto abort coro %p by resuming parent coro %s_%p\n", 
+
+	printf("IoCoroutine error: unable to auto abort coro %p by resuming parent coro %s_%p\n",
 		  (void *)self, IoObject_name(parent), (void *)parent);
 	exit(-1);
 }
@@ -262,7 +262,7 @@ void IoCoroutine_coroStart(void *context) // Called by Coro_Start()
 	IoState_setCurrentCoroutine_(IOSTATE, self);
 	//printf("%p-%p start\n", (void *)self, (void *)DATA(self)->cid);
 	result = IoMessage_locals_performOn_(IOSTATE->mainMessage, self, self);
-		
+
 	IoCoroutine_rawSetResult_(self, result);
 	IoCoroutine_rawReturnToParent(self);
 }
@@ -272,11 +272,11 @@ void IoCoroutine_coroStartWithContextAndCFunction(void *context, CoroStartCallba
 {
 	IoCoroutine *self = (IoCoroutine *)context;
 	IoObject *result;
-	
+
 	IoState_setCurrentCoroutine_(IOSTATE, self);
 	//printf("%p-%p start\n", (void *)self, (void *)DATA(self)->cid);
 	result = IoMessage_locals_performOn_(IOSTATE->mainMessage, self, self);
-	
+
 	IoCoroutine_rawSetResult_(self, result);
 	IoCoroutine_rawReturnToParent(self);
 }
@@ -298,7 +298,7 @@ IoObject *IoCoroutine_main(IoCoroutine *self, IoObject *locals, IoMessage *m)
 	IoObject *runTarget  = IoCoroutine_rawRunTarget(self);
 	IoObject *runLocals  = IoCoroutine_rawRunLocals(self);
 	IoObject *runMessage = IoCoroutine_rawRunMessage(self);
-	
+
 	if (runTarget && runLocals && runMessage)
 	{
 		return IoMessage_locals_performOn_(runMessage, runLocals, runTarget);
@@ -322,24 +322,24 @@ void IoCoroutine_clearStack(IoCoroutine *self)
 }
 
 void IoCoroutine_rawRun(IoCoroutine *self)
-{	
+{
 	Coro *coro = DATA(self)->cid;
 
 	if (!coro)
 	{
 		coro = Coro_new();
-		DATA(self)->cid = coro;	
+		DATA(self)->cid = coro;
 	}
 
 	{
 		IoObject *stackSize = IoObject_getSlot_(self, IOSTATE->stackSizeSymbol);
-		
+
 		if(ISNUMBER(stackSize))
 		{
 			Coro_setStackSize_(coro, CNUMBER(stackSize));
 		}
 	}
-	
+
 	{
 		IoCoroutine *current = IoState_currentCoroutine(IOSTATE);
 		Coro *currentCoro = IoCoroutine_rawCoro(current);
@@ -349,7 +349,7 @@ void IoCoroutine_rawRun(IoCoroutine *self)
 }
 
 IoObject *IoCoroutine_run(IoCoroutine *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	IoCoroutine_rawRun(self);
 	return IoCoroutine_rawResult(self);
 }
@@ -364,9 +364,9 @@ void IoCoroutine_try(IoCoroutine *self, IoObject *target, IoObject *locals, IoMe
 	IoCoroutine_rawRun(self);
 }
 
-IoCoroutine *IoCoroutine_newWithTry(void *state, 
-							 IoObject *target, 
-							 IoObject *locals, 
+IoCoroutine *IoCoroutine_newWithTry(void *state,
+							 IoObject *target,
+							 IoObject *locals,
 							 IoMessage *message)
 {
 	IoCoroutine *self = IoCoroutine_new(state);
@@ -377,7 +377,7 @@ IoCoroutine *IoCoroutine_newWithTry(void *state,
 void IoCoroutine_raiseError(IoCoroutine *self, IoSymbol *description, IoMessage *m)
 {
 	IoObject *e = IoObject_rawGetSlot_(self, IOSYMBOL("Exception"));
-	
+
 	if (e)
 	{
 		e = IOCLONE(e);
@@ -386,21 +386,21 @@ void IoCoroutine_raiseError(IoCoroutine *self, IoSymbol *description, IoMessage 
 		IoObject_setSlot_to_(e, IOSYMBOL("coroutine"), self);
 		IoCoroutine_rawSetException_(self, e);
 	}
-	
+
 	IoCoroutine_rawReturnToParent(self);
 }
 
 // methods
 
 IoObject *IoCoroutine_rawResume(IoCoroutine *self)
-{ 
+{
 	if(DATA(self)->cid)
 	{
 		IoCoroutine *current = IoState_currentCoroutine(IOSTATE);
 		IoState_setCurrentCoroutine_(IOSTATE, self);
 		//printf("IoCoroutine resuming %p\n", (void *)self);
 		Coro_switchTo_(IoCoroutine_rawCoro(current), IoCoroutine_rawCoro(self));
-		
+
 		//IoState_setCurrentCoroutine_(IOSTATE, current);
 	}
 	else
@@ -413,24 +413,24 @@ IoObject *IoCoroutine_rawResume(IoCoroutine *self)
 }
 
 IoObject *IoCoroutine_resume(IoCoroutine *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	//printf("IoCoroutine_resume()\n");
 	return IoCoroutine_rawResume(self);
 }
 
 IoObject *IoCoroutine_implementation(IoCoroutine *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	return IOSYMBOL(CORO_IMPLEMENTATION);
 }
 
 IoObject *IoCoroutine_isCurrent(IoCoroutine *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	IoObject *v = IOBOOL(self, self == IoState_currentCoroutine(IOSTATE));
 	return v;
 }
 
 IoObject *IoCoroutine_currentCoroutine(IoCoroutine *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	return IoState_currentCoroutine(IOSTATE);
 }
 
@@ -444,12 +444,12 @@ int IoCoroutine_rawIoStackSize(IoCoroutine *self)
 void IoCoroutine_rawPrint(IoCoroutine *self)
 {
 	Coro *coro = DATA(self)->cid;
-	
+
 	if (coro)
 	{
-		printf("Coroutine_%p with cid %p ioStackSize %i\n", 
-			  (void *)self, 
-			  (void *)coro, 
+		printf("Coroutine_%p with cid %p ioStackSize %i\n",
+			  (void *)self,
+			  (void *)coro,
 			  (int)Stack_count(DATA(self)->ioStack));
 	}
 }
@@ -464,16 +464,16 @@ int IoCoroutine_rawDebuggingOn(IoCoroutine *self)
 IoObject *IoCoroutine_setMessageDebugging(IoCoroutine *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("setMessageDebugging(aBoolean)", "Turns on message level debugging for this coro. When on, this 
-coro will send a vmWillSendMessage message to the Debugger object before 
-each message send and pause itself. See the Debugger object documentation 
+	docSlot("setMessageDebugging(aBoolean)", "Turns on message level debugging for this coro. When on, this
+coro will send a vmWillSendMessage message to the Debugger object before
+each message send and pause itself. See the Debugger object documentation
 for more information. ")
 	*/
 	IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 0);
-	
+
 	DATA(self)->debuggingOn = ISTRUE(v);
 	IoState_updateDebuggingMode(IOSTATE);
-	
+
 	return self;
 }
 
@@ -481,27 +481,27 @@ IoObject *IoObject_performWithDebugger(IoCoroutine *self, IoObject *locals, IoMe
 {
 	IoState *state = IOSTATE;
 	IoObject *currentCoroutine = IoState_currentCoroutine(state);
-	
+
 	if (IoCoroutine_rawDebuggingOn(currentCoroutine))
 	{
 		IoObject *debugger = state->debugger; // stack retain it?
 
 		if (debugger)
-		{							
+		{
 			IoObject_setSlot_to_(debugger, IOSYMBOL("messageCoroutine"), currentCoroutine);
 			IoObject_setSlot_to_(debugger, IOSYMBOL("messageSelf"), self);
 			IoObject_setSlot_to_(debugger, IOSYMBOL("messageLocals"), locals);
 			IoObject_setSlot_to_(debugger, IOSYMBOL("message"), m);
-			
+
 			{
 				IoObject *context;
 				IoCoroutine *c = IoObject_rawGetSlot_context_(debugger, IOSYMBOL("debuggerCoroutine"), &context);
-				IOASSERT(c, "Debugger needs a debuggerCoroutine slot"); 
+				IOASSERT(c, "Debugger needs a debuggerCoroutine slot");
 				IoCoroutine_rawResume(c);
 			}
 		}
 	}
-	
+
 	return IoObject_perform(self, locals, m);
 }
 
@@ -509,7 +509,7 @@ void IoCoroutine_rawPrintBackTrace(IoCoroutine *self)
 {
 	IoObject *e = IoCoroutine_rawException(self);
 	IoMessage *caughtMessage = IoObject_rawGetSlot_(e, IOSYMBOL("caughtMessage"));
-	
+
 	if (IoObject_rawGetSlot_(e, IOSYMBOL("showStack"))) // sanity check
 	{
 		IoState_on_doCString_withLabel_(IOSTATE, e, "showStack", "[Coroutine]");
@@ -517,22 +517,22 @@ void IoCoroutine_rawPrintBackTrace(IoCoroutine *self)
 	else
 	{
 		IoSymbol *error = IoObject_rawGetSlot_(e, IOSYMBOL("error"));
-		
+
 		if (error)
 		{
-			fputs(CSTRING(error), stderr); 
-			fputs("\n", stderr); 
+			fputs(CSTRING(error), stderr);
+			fputs("\n", stderr);
 		}
 		else
 		{
-			fputs("error: [missing error slot in Exception object]\n", stderr); 
+			fputs("error: [missing error slot in Exception object]\n", stderr);
 		}
-		
+
 		if (caughtMessage)
 		{
 			UArray *ba = IoMessage_asMinimalStackEntryDescription(caughtMessage);
-			fputs(UArray_asCString(ba), stderr); 
-			fputs("\n", stderr); 
+			fputs(UArray_asCString(ba), stderr);
+			fputs("\n", stderr);
 			UArray_free(ba);
 		}
 	}

@@ -4,7 +4,7 @@ docCopyright("Steve Dekorte", 2002)
 docLicense("BSD revised")
 */
 
-#ifndef IoCompiler_DEFINED 
+#ifndef IoCompiler_DEFINED
 #define IoCompiler_DEFINED 1
 
 #include "IoObject.h"

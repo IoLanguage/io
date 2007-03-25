@@ -18,18 +18,18 @@ void IoState_fatalError_(IoState *self, char *error)
 void IoState_error_(IoState *self, IoMessage *m, const char *format, ...)
 {
 	IoSymbol *description;
-	
+
 	va_list ap;
 	va_start(ap, format);
 	description = IoState_symbolWithUArray_copy_(self, UArray_newWithVargs_(format, ap), 0);
 	va_end(ap);
-	
+
 	/*
-	fputs("\nIoState_error_: ", stderr); 
-	fputs(CSTRING(description), stderr); 
-	fputs("\n\n", stderr); 
+	fputs("\nIoState_error_: ", stderr);
+	fputs(CSTRING(description), stderr);
+	fputs("\n\n", stderr);
 	*/
-	
+
 	{
 		IoCoroutine *coroutine = IoState_currentCoroutine(self);
 		IoCoroutine_raiseError(coroutine, description, m);

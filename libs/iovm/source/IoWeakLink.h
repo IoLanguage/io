@@ -3,7 +3,7 @@ docCopyright("Steve Dekorte", 2002)
 docLicense("BSD revised")
 */
 
-#ifndef IOWEAKLINK_DEFINED 
+#ifndef IOWEAKLINK_DEFINED
 #define IOWEAKLINK_DEFINED 1
 
 #include "Common.h"
@@ -19,7 +19,7 @@ extern "C" {
 
 typedef IoObject IoWeakLink;
 
-typedef struct 
+typedef struct
 {
     IoObject *link;
 } IoWeakLinkData;

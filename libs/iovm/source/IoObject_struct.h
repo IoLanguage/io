@@ -3,7 +3,7 @@ docCopyright("Steve Dekorte", 2002)
 docLicense("BSD revised")
 */
 
-#ifndef OBJECT_STRUCT_DEFINED 
+#ifndef OBJECT_STRUCT_DEFINED
 #define OBJECT_STRUCT_DEFINED 1
 
 #include "Common.h"
@@ -30,9 +30,9 @@ struct IoObjectData
 {
 	unsigned int markerCount;
 
-	union 
+	union
 	{
-		union 
+		union
 		{
 			void *ptr;
 			void *ptr2;
@@ -40,23 +40,23 @@ struct IoObjectData
 		double d;
 		uint32_t ui32;
 	} data; // 8 bytes (9+8 = 17)
-	
+
 	// 4*4 = 16 bytes (17+16 = 33)
-	IoTag *tag; 
+	IoTag *tag;
 	PHash *slots;
 	List *listeners;
 	IoObject **protos;
 
 #ifdef IOOBJECT_PERSISTENCE
-	PID_TYPE persistentId; 
+	PID_TYPE persistentId;
 #endif
-	
+
 	unsigned int hasDoneLookup : 1;    // used to avoid slot lookup loops
 	unsigned int isActivatable : 1;    // if true, upon activation, call activate slot
 	unsigned int isDirty : 1;          // set to true when the object changes it's storable state
 
 	// optimizations
-	
+
 	unsigned int ownsSlots : 1;        // if true, io_free slots hash table when io_freeing object
 	unsigned int isSymbol : 1;         // true if the object is a unqiue sequence - a symbol
 	unsigned int isLocals : 1;         // true if the Object is a locals object
@@ -120,7 +120,7 @@ struct IoObjectData
 #define IoObject_isDirty_(self, v) IoObject_deref(self)->isDirty = v;
 #define IoObject_isDirty(self)     (IoObject_deref(self)->isDirty)
 #else
-#define IoObject_isDirty_(self, v) 
+#define IoObject_isDirty_(self, v)
 #define IoObject_isDirty(self) 0
 #endif
 
@@ -131,7 +131,7 @@ struct IoObjectData
 #define IoObject_persistentId_(self, v) IoObject_deref(self)->persistentId = v;
 #define IoObject_persistentId(self) (IoObject_deref(self)->persistentId)
 #else
-#define IoObject_persistentId_(self, v) 
+#define IoObject_persistentId_(self, v)
 #define IoObject_persistentId(self) 0
 #endif
 
@@ -139,13 +139,13 @@ struct IoObjectData
 #define IoObject_isReferenced_(self, v) IoObject_deref(self)->isReferenced = v;
 #define IoObject_isReferenced(self) (IoObject_deref(self)->isReferenced)
 #else
-#define IoObject_isReferenced_(self, v) 
+#define IoObject_isReferenced_(self, v)
 #define IoObject_isReferenced(self) 0
 #endif
 
 typedef IoObject *(IoMethodFunc)(IoObject *, IoObject *, IoObject *);
 
-typedef struct  
+typedef struct
 {
     char *name;
     IoMethodFunc *func;

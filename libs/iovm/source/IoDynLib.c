@@ -45,31 +45,31 @@ IoObject *IoDynLib_proto(void *state)
 	{"returnsString", IoDynLib_returnsString},
 	{NULL, NULL},
 	};
-	
+
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoDynLib_newTag(state));
 	IoObject_setDataPointer_(self, DynLib_new());
 	DynLib_setInitArg_(DATA(self), state);
 	DynLib_setFreeArg_(DATA(self), state);
 	IoState_registerProtoWithFunc_((IoState *)state, self, IoDynLib_proto);
-	
+
 	IoObject_addMethodTable_(self, methodTable);
 	return self;
 }
 
 IoDynLib *IoDynLib_new(void *state)
-{ 
+{
 	IoDynLib *proto = IoState_protoWithInitFunction_((IoState *)state, IoDynLib_proto);
-	return IOCLONE(proto); 
+	return IOCLONE(proto);
 }
 
 IoDynLib *IoDynLib_rawClone(IoDynLib *proto)
 {
-	/* 
+	/*
 	Note that due to the nature of this object, a clone will *NOT* inherit
 	 it's parent's dynamically loaded object.
 	 */
-	
+
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, DynLib_new());
 	DynLib_setInitArg_(DATA(self), IOSTATE);
@@ -85,105 +85,105 @@ void IoDynLib_free(IoDynLib *self)
 IoDynLib *IoDynLib_setPath(IoDynLib *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("setPath(aString)", 
+	docSlot("setPath(aString)",
 		   "Sets the path to the dynamic library. Returns self.")
 	*/
-	
-	DynLib_setPath_(DATA(self), 
+
+	DynLib_setPath_(DATA(self),
 				 CSTRING(IoMessage_locals_symbolArgAt_(m, locals, 0)));
 	return self;
 }
 
 IoDynLib *IoDynLib_path(IoDynLib *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
 	docSlot("path", "Returns the path to the dynamic library.")
 	*/
-	
-	return IOSYMBOL(DynLib_path(DATA(self))); 
+
+	return IOSYMBOL(DynLib_path(DATA(self)));
 }
 
 IoDynLib *IoDynLib_setInitFuncName(IoDynLib *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
-	docSlot("setInitFuncName(aString)", 
+	docSlot("setInitFuncName(aString)",
 		   "Sets the initialization function name for the dynamic library. Returns self.")
 	*/
-	
-	DynLib_setInitFuncName_(DATA(self), 
-					    CSTRING(IoMessage_locals_symbolArgAt_(m, locals, 0))); 
+
+	DynLib_setInitFuncName_(DATA(self),
+					    CSTRING(IoMessage_locals_symbolArgAt_(m, locals, 0)));
 	return self;
 }
 
 IoDynLib *IoDynLib_initFuncName(IoDynLib *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
 	docSlot("initFuncName", "Returns the initialization function name.")
 	*/
-	
-	return IOSYMBOL(DynLib_initFuncName(DATA(self))); 
+
+	return IOSYMBOL(DynLib_initFuncName(DATA(self)));
 }
 
 IoDynLib *IoDynLib_setFreeFuncName(IoDynLib *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
 	docSlot("setFreeFuncName(aString)", "Sets the io_free function name. Returns self.")
 	*/
-	
-	DynLib_setFreeFuncName_(DATA(self), 
+
+	DynLib_setFreeFuncName_(DATA(self),
 					    CSTRING(IoMessage_locals_symbolArgAt_(m, locals, 0)));
 	return self;
 }
 
 IoDynLib *IoDynLib_freeFuncName(IoDynLib *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
 	docSlot("freeFuncName", "Returns the io_free function name.")
 	*/
-	
-	return IOSYMBOL(DynLib_freeFuncName(DATA(self))); 
+
+	return IOSYMBOL(DynLib_freeFuncName(DATA(self)));
 }
 
 IoDynLib *IoDynLib_open(IoDynLib *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("open", 
+	docSlot("open",
 		   "Opens the dynamic library and returns self or raises a DynLoad.open Error if there is an error. ")
 	*/
-	
-	if (IoMessage_argCount(m)) 
+
+	if (IoMessage_argCount(m))
 	{
 		IoDynLib_setPath(self, locals, m);
 	}
-	
+
 	DynLib_open(DATA(self));
-	
+
 	if (DynLib_error(DATA(self)))
 	{
-		IoState_error_(IOSTATE, m, "Error loading object '%s': '%s'", 
+		IoState_error_(IOSTATE, m, "Error loading object '%s': '%s'",
 					DynLib_path(DATA(self)), DynLib_error(DATA(self)));
 	}
-	
+
 	return self;
 }
 
 IoDynLib *IoDynLib_close(IoDynLib *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("close", 
+	docSlot("close",
 		   "Closes the library. Returns self.")
 	*/
-	
+
 	DynLib_close(DATA(self));
 	return self;
 }
 
 IoDynLib *IoDynLib_isOpen(IoDynLib *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
 	docSlot("isOpen", "Returns true if the library is open, or false otherwise.")
 	*/
-	
+
 	return IOBOOL(self, DynLib_isOpen(DATA(self)));
 }
 
@@ -193,7 +193,7 @@ intptr_t bouncer(IoBlock *self, intptr_t ret, intptr_t a, intptr_t b, intptr_t c
 	IoNumber *n;
 	static IoMessage *m = NULL;
 	List *argNames = ((IoBlockData*)IoObject_dataPointer(self))->argNames;
-	
+
 	if (m == NULL)
 		m = IoMessage_new(IOSTATE);
 	if (0 < argNames->size)
@@ -206,21 +206,21 @@ intptr_t bouncer(IoBlock *self, intptr_t ret, intptr_t a, intptr_t b, intptr_t c
 		IoMessage_setCachedArg_toInt_(m, 3, d);
 	if (4 < argNames->size)
 		IoMessage_setCachedArg_toInt_(m, 4, e);
-	
+
 	n = IoBlock_activate(self, lobby, lobby, m, lobby);
-	
+
 	if (ISNUMBER(n))
 	{
 		return (intptr_t)IoNumber_asInt(n);
 	}
-	
+
 	return 0;
 }
 
 intptr_t marshal(IoDynLib *self, IoObject *arg)
 {
 	intptr_t n = 0;
-	
+
 	if (ISNUMBER(arg))
 	{
 		n = IoNumber_asInt(arg);
@@ -229,19 +229,19 @@ intptr_t marshal(IoDynLib *self, IoObject *arg)
 	{
 		n = (intptr_t)CSTRING(arg);
 	}
-	else if (ISLIST(arg)) 
+	else if (ISLIST(arg))
 	{
 		int i;
 		intptr_t *l = io_calloc(1, IoList_rawSize(arg) * sizeof(intptr_t));
 		for (i = 0; i < IoList_rawSize(arg); i ++)
 			l[i] = marshal(self, List_rawAt_(IoList_rawList(arg), i));
 		n = (intptr_t)l;
-	} 
-	else if (ISBUFFER(arg)) 
+	}
+	else if (ISBUFFER(arg))
 	{
 		n = (intptr_t)IoSeq_rawBytes(arg);
-	} 
-	else if (ISBLOCK(arg)) 
+	}
+	else if (ISBLOCK(arg))
 	{
 		unsigned char *blk = io_calloc(1, 20), *p = blk;
 		// FIXME: need trampoline code for other architectures
@@ -258,56 +258,56 @@ intptr_t marshal(IoDynLib *self, IoObject *arg)
 		*p++ = 0x04;
 		*p++ = 0xc3;
 		n = (intptr_t)blk;
-	} 
-	else 
+	}
+	else
 	{
 		n =  (intptr_t)arg; //IONIL(self);
 	}
-	
+
 	return n;
 }
 
 IoObject *demarshal(IoObject *self, IoObject *arg, intptr_t n)
 {
-	if (ISNUMBER(arg)) 
+	if (ISNUMBER(arg))
 	{
 		return IONUMBER(n);
-	} 
-	else if (ISSYMBOL(arg)) 
+	}
+	else if (ISSYMBOL(arg))
 	{
 		if (n == 0)
 			return IOSYMBOL("");
 		return IOSYMBOL((char*)n);
-	} 
-	else if (ISLIST(arg)) 
+	}
+	else if (ISLIST(arg))
 	{
 		intptr_t *values = (intptr_t *)n;
 		int i;
-		
-		for (i = 0; i < IoList_rawSize(arg); i ++) 
+
+		for (i = 0; i < IoList_rawSize(arg); i ++)
 		{
 			IoObject *value = List_at_(IoList_rawList(arg), i);
 			List_at_put_(IoList_rawList(arg), i, demarshal(self, value, values[i]));
 		}
-		
+
 		io_free(values);
 		return arg;
-	} 
-	else if (ISBUFFER(arg)) 
-	{
-		return arg;
-	} 
-	else if (ISBLOCK(arg)) 
+	}
+	else if (ISBUFFER(arg))
 	{
 		return arg;
 	}
-	
+	else if (ISBLOCK(arg))
+	{
+		return arg;
+	}
+
 	return IONIL(self);
 }
 
 void IoDynLib_rawVoidCall(void *f, int argCount, intptr_t *params)
-{	
-	switch(argCount - 1) 
+{
+	switch(argCount - 1)
 	{
 		case 0:
 			((void (*)(void))f)();
@@ -342,8 +342,8 @@ void IoDynLib_rawVoidCall(void *f, int argCount, intptr_t *params)
 intptr_t IoDynLib_rawNonVoidCall(void *f, int argCount, intptr_t *params)
 {
 	intptr_t rc;
-	
-	switch(argCount - 1) 
+
+	switch(argCount - 1)
 	{
 		case 0:
 			rc = ((intptr_t (*)(void))f)();
@@ -373,7 +373,7 @@ intptr_t IoDynLib_rawNonVoidCall(void *f, int argCount, intptr_t *params)
 			rc = ((intptr_t (*)(intptr_t,intptr_t,intptr_t,intptr_t,intptr_t,intptr_t,intptr_t,intptr_t))f)(params[0], params[1], params[2], params[3], params[4], params[5], params[6], params[7]);
 			break;
 	}
-	
+
 	return rc;
 }
 
@@ -386,36 +386,36 @@ IoDynLib *IoDynLib_justCall(IoDynLib *self, IoObject *locals, IoMessage *m, int 
 
 	//printf("DynLib calling '%s'\n", CSTRING(callName));
 
-	if (f == NULL) 
+	if (f == NULL)
 	{
 		IoState_error_(IOSTATE, m, "Error resolving call '%s'.", CSTRING(callName));
 		return IONIL(self);
 	}
-	
-	if (IoMessage_argCount(m) > 9) 
+
+	if (IoMessage_argCount(m) > 9)
 	{
-		IoState_error_(IOSTATE, m, "Error, too many arguments (%i) to call '%s'.", 
+		IoState_error_(IOSTATE, m, "Error, too many arguments (%i) to call '%s'.",
 					IoMessage_argCount(m) - 1,
 					CSTRING(callName));
 		return IONIL(self);
 	}
-	
+
 	if (IoMessage_argCount(m) > 1)
 	{
 		params = io_calloc(1, IoMessage_argCount(m) * sizeof(unsigned int));
 	}
-	
-	for (n = 0; n < IoMessage_argCount(m) - 1; n++) 
+
+	for (n = 0; n < IoMessage_argCount(m) - 1; n++)
 	{
 		IoObject *arg = IoMessage_locals_valueArgAt_(m, locals, n + 1);
 		intptr_t p = marshal(self, arg);
 
 		params[n] = p;
-		
+
 		/*
-		if (p == 0) 
+		if (p == 0)
 		{
-			IoState_error_(IOSTATE, m, "DynLib error marshalling argument (%i) to call '%s'.", 
+			IoState_error_(IOSTATE, m, "DynLib error marshalling argument (%i) to call '%s'.",
 						n + 1, CSTRING(callName));
 			// FIXME this can leak memory.
 			io_free(params);
@@ -423,15 +423,15 @@ IoDynLib *IoDynLib_justCall(IoDynLib *self, IoObject *locals, IoMessage *m, int 
 		}
 		*/
 	}
-	
+
 #if 0
-	printf("calling %s with %i arguments\n", 
+	printf("calling %s with %i arguments\n",
 		  CSTRING(IoMessage_locals_symbolArgAt_(m, locals, 0)),
 		  IoMessage_argCount(m) - 1);
 #endif
-	
+
 	IoState_pushCollectorPause(IOSTATE);
-	
+
 	if (isVoid)
 	{
 		IoDynLib_rawVoidCall(f, IoMessage_argCount(m), params);
@@ -440,18 +440,18 @@ IoDynLib *IoDynLib_justCall(IoDynLib *self, IoObject *locals, IoMessage *m, int 
 	{
 		rc = IoDynLib_rawNonVoidCall(f, IoMessage_argCount(m), params);
 	}
-	
+
 	IoState_popCollectorPause(IOSTATE);
-	
-	
-	for (n = 0; n < IoMessage_argCount(m) - 1; n ++) 
+
+
+	for (n = 0; n < IoMessage_argCount(m) - 1; n ++)
 	{
 		IoObject *arg = IoMessage_locals_valueArgAt_(m, locals, n + 1);
 		demarshal(self, arg, params[n]);
 	}
-	
+
 	io_free(params);
-	
+
 	return isVoid ? IONIL(self) : IONUMBER(rc);
 }
 
@@ -469,40 +469,40 @@ IoDynLib *IoDynLib_callPluginInitFunc(IoDynLib *self, IoObject *locals, IoMessag
 {
 	int rc = 0;
 	intptr_t *params = NULL;
-	void *f = DynLib_pointerForSymbolName_(DATA(self), 
+	void *f = DynLib_pointerForSymbolName_(DATA(self),
 								    CSTRING(IoMessage_locals_symbolArgAt_(m, locals, 0)));
-	if (f == NULL) 
+	if (f == NULL)
 	{
-		IoState_error_(IOSTATE, m, "Error resolving call '%s'.", 
+		IoState_error_(IOSTATE, m, "Error resolving call '%s'.",
 					CSTRING(IoMessage_locals_symbolArgAt_(m, locals, 0)));
 		return IONIL(self);
 	}
-	
-	if (IoMessage_argCount(m) < 1) 
+
+	if (IoMessage_argCount(m) < 1)
 	{
 		IoState_error_(IOSTATE, m, "Error, you must give an init function name to check for.");
 		return IONIL(self);
 	}
-	
+
 	params = io_calloc(1, sizeof(intptr_t) * 2);
-	
+
 	params[0] = (intptr_t)IOSTATE;
 	params[1] = (intptr_t)IOSTATE->lobby;
 	rc = ((intptr_t (*)(intptr_t, intptr_t))f)(params[0], params[1]);
 	io_free(params);
-	
+
 	return IONUMBER(rc);
 }
 
 IoSeq *IoDynLib_returnsString(IoDynLib *self, IoObject *locals, IoMessage *m)
 {
 	intptr_t n = IoNumber_asInt(IoMessage_locals_numberArgAt_(m, locals, 0));
-	
+
 	if (n == 0)
 	{
 		return IOSYMBOL("");
 	}
-	
+
 	return IOSYMBOL((char *)n);
 }
 

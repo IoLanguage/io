@@ -1,7 +1,7 @@
 /*   Copyright (c) 2003, Steve Dekorte
 docLicense("BSD revised")
  */
- 
+
 #ifndef IOTOKEN_DEFINED
 #define IOTOKEN_DEFINED 1
 
@@ -12,25 +12,25 @@ docLicense("BSD revised")
 extern "C" {
 #endif
 
-typedef enum 
-{ 
-    NO_TOKEN, 
+typedef enum
+{
+    NO_TOKEN,
 
-    OPENPAREN_TOKEN, 
-    COMMA_TOKEN, 
-    CLOSEPAREN_TOKEN, 
+    OPENPAREN_TOKEN,
+    COMMA_TOKEN,
+    CLOSEPAREN_TOKEN,
 
-    MONOQUOTE_TOKEN, 
-    TRIQUOTE_TOKEN, 
+    MONOQUOTE_TOKEN,
+    TRIQUOTE_TOKEN,
 
-    IDENTIFIER_TOKEN, 
-    TERMINATOR_TOKEN, 
+    IDENTIFIER_TOKEN,
+    TERMINATOR_TOKEN,
 
     COMMENT_TOKEN,
-    NUMBER_TOKEN, 
+    NUMBER_TOKEN,
     HEXNUMBER_TOKEN
 } IoTokenType;
- 
+
 typedef struct IoToken IoToken;
 
 struct IoToken

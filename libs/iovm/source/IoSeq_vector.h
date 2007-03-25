@@ -16,7 +16,7 @@ float *IoSeq_floatPointerOfLength_(IoSeq *self, size_t size);
 
 // vec2f ---------------------------
 
-typedef struct 
+typedef struct
 {
 	NUM_TYPE x;
 	NUM_TYPE y;
@@ -29,7 +29,7 @@ void IoSeq_setVec2f_(IoSeq *self, vec2f v);
 
 // vec3f ---------------------------
 
-typedef struct 
+typedef struct
 {
 	NUM_TYPE x;
 	NUM_TYPE y;

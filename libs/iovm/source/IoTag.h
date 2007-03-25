@@ -1,9 +1,9 @@
 /*#io
 docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised") 
+docLicense("BSD revised")
 */
 
-#ifndef IOTAG_DEFINED 
+#ifndef IOTAG_DEFINED
 #define IOTAG_DEFINED 1
 
 #include "Common.h"
@@ -26,7 +26,7 @@ typedef void * (IoTagPerformFunc)(void *, void *, void *); // self, locals, mess
 typedef void * (IoTagActivateFunc)(void *, void *, void *, void *, void *); // self, target, locals, message, slotContext
 typedef int    (IoTagCompareFunc)(void *, void *); // self and another IoObject
 
-typedef void   (IoTagWriteToStreamFunc)(void *, BStream *);   // self, store, stream 
+typedef void   (IoTagWriteToStreamFunc)(void *, BStream *);   // self, store, stream
 typedef void * (IoTagAllocFromStreamFunc)(void *, BStream *); // self, store, stream
 typedef void   (IoTagReadFromStreamFunc)(void *, BStream *);  // self, store, stream
 
@@ -36,7 +36,7 @@ typedef struct
     char *name;
 
 	// memory management
-	
+
     IoTagCloneFunc *cloneFunc;
     IoTagFreeFunc *freeFunc;
     IoTagCleanupFunc *tagCleanupFunc;
@@ -44,14 +44,14 @@ typedef struct
     IoTagNotificationFunc *notificationFunc;
 
 	// actions
-	
+
     //IoTagTouchFunc *touchFunc; // if present, call before type check
     IoTagPerformFunc *performFunc; // lookup and activate, return result
-    IoTagActivateFunc *activateFunc; // return the receiver or compute and return a value 
+    IoTagActivateFunc *activateFunc; // return the receiver or compute and return a value
     IoTagCompareFunc *compareFunc;
-    
+
 	// persistence
-	
+
     IoTagWriteToStreamFunc   *writeToStreamFunc;
     IoTagAllocFromStreamFunc *allocFromStreamFunc;
     IoTagReadFromStreamFunc  *readFromStreamFunc;

@@ -25,7 +25,7 @@ typedef IoObject IoCFunction;
 
 typedef struct
 {
-    IoTag *typeTag; // pointer to tag of type excepted for self value to have as data 
+    IoTag *typeTag; // pointer to tag of type excepted for self value to have as data
     IoUserFunction *func;
     IoSymbol *uniqueName;
 } IoCFunctionData;

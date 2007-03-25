@@ -3,8 +3,8 @@
 
 void IoState_show(IoState *self);
 
-IoObject *IoState_replacePerformFunc_with_(IoState *self, 
-								   IoTagPerformFunc *oldFunc, 
+IoObject *IoState_replacePerformFunc_with_(IoState *self,
+								   IoTagPerformFunc *oldFunc,
 								   IoTagPerformFunc *newFunc);
 
 void IoState_debuggingOn(IoState *self);

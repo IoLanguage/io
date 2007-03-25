@@ -56,7 +56,7 @@ IoObject *IoSeq_isLowercase(IoSeq *self, IoObject *locals, IoMessage *m);
 IoObject *IoSeq_isUppercase(IoSeq *self, IoObject *locals, IoMessage *m);
 IoObject *IoSeq_isEqualAnyCase(IoSeq *self, IoObject *locals, IoMessage *m);
 
-// split 
+// split
 
 IoObject *IoSeq_split(IoSeq *self, IoObject *locals, IoMessage *m);
 IoObject *IoSeq_splitAt(IoSeq *self, IoObject *locals, IoMessage *m);
@@ -72,12 +72,12 @@ IoObject *IoSeq_asMessage(IoSeq *self, IoObject *locals, IoMessage *m);
 IoObject *IoSeq_cloneAppendSeq(IoSeq *self, IoObject *locals, IoMessage *m);
 IoObject *IoSeq_asMutable(IoSeq *self, IoObject *locals, IoMessage *m);
 
-// case 
+// case
 
 IoObject *IoSeq_asUppercase(IoSeq *self, IoObject *locals, IoMessage *m);
 IoObject *IoSeq_asLowercase(IoSeq *self, IoObject *locals, IoMessage *m);
 
-// path 
+// path
 
 IoObject *IoSeq_lastPathComponent(IoSeq *self, IoObject *locals, IoMessage *m);
 IoObject *IoSeq_pathExtension(IoSeq *self, IoObject *locals, IoMessage *m);

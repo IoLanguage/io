@@ -28,7 +28,7 @@ IOVM_API IoDirectory *IoDirectory_cloneWithPath_(IoDirectory *self, IoSymbol *pa
 IOVM_API void IoDirectory_free(IoDirectory *self);
 IOVM_API void IoDirectory_mark(IoDirectory *self);
 
-// ----------------------------------------------------------- 
+// -----------------------------------------------------------
 
 IOVM_API IoObject *IoDirectory_path(IoDirectory *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoDirectory_setPath(IoDirectory *self, IoObject *locals, IoMessage *m);
