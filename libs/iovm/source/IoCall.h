@@ -46,18 +46,18 @@ void IoCall_free(IoCall *self);
 void IoCall_writeToStream_(IoCall *self, BStream *stream);
 void IoCall_readFromStream_(IoCall *self, BStream *stream);
 
-IoObject *IoCall_sender(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoCall_message(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoCall_target(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoCall_slotContext(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoCall_activated(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoCall_coroutine(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoCall_evalArgAt(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoCall_argAt(IoObject *self, IoObject *locals, IoMessage *m);
+IoObject *IoCall_sender(IoCall *self, IoObject *locals, IoMessage *m);
+IoObject *IoCall_message(IoCall *self, IoObject *locals, IoMessage *m);
+IoObject *IoCall_target(IoCall *self, IoObject *locals, IoMessage *m);
+IoObject *IoCall_slotContext(IoCall *self, IoObject *locals, IoMessage *m);
+IoObject *IoCall_activated(IoCall *self, IoObject *locals, IoMessage *m);
+IoObject *IoCall_coroutine(IoCall *self, IoObject *locals, IoMessage *m);
+IoObject *IoCall_evalArgAt(IoCall *self, IoObject *locals, IoMessage *m);
+IoObject *IoCall_argAt(IoCall *self, IoObject *locals, IoMessage *m);
 
-int IoCall_rawStopStatus(IoObject *self);
-IoObject *IoCall_stopStatus(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoCall_setStopStatus(IoObject *self, IoObject *locals, IoMessage *m);
+int IoCall_rawStopStatus(IoCall *self);
+IoObject *IoCall_stopStatus(IoCall *self, IoObject *locals, IoMessage *m);
+IoObject *IoCall_setStopStatus(IoCall *self, IoObject *locals, IoMessage *m);
 
 #ifdef __cplusplus
 }
