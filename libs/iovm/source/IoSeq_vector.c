@@ -23,7 +23,7 @@ void *IoMessage_locals_pointArgAt_(IoMessage *m, void *locals, int n)
 	return self;
 }
 
-void IoSeq_assertIsVector(IoObject *self, IoObject *locals, IoMessage *m)
+void IoSeq_assertIsVector(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	IOASSERT(ISVECTOR(v), "Seq needs to be of type float32"); 
 }

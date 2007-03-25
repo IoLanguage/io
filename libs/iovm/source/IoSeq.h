@@ -94,17 +94,17 @@ IOVM_API void IoSeq_rawSetSize_(IoSeq *self, size_t size);
 IOVM_API double IoSeq_asDouble(IoSeq *self);
 IOVM_API IoSymbol *IoSeq_rawAsSymbol(IoSeq *self);
 
-IOVM_API IoSymbol *IoSeq_rawAsUnquotedSymbol(IoObject *self);
-IOVM_API IoSymbol *IoSeq_rawAsUnescapedSymbol(IoObject *self);
+IOVM_API IoSymbol *IoSeq_rawAsUnquotedSymbol(IoSeq *self);
+IOVM_API IoSymbol *IoSeq_rawAsUnescapedSymbol(IoSeq *self);
 
-IOVM_API int IoSeq_rawEqualsCString_(IoObject *self, const char *s);
-IOVM_API double IoSeq_rawAsDoubleFromHex(IoObject *self);
-IOVM_API double IoSeq_rawAsDoubleFromOctal(IoObject *self);
+IOVM_API int IoSeq_rawEqualsCString_(IoSeq *self, const char *s);
+IOVM_API double IoSeq_rawAsDoubleFromHex(IoSeq *self);
+IOVM_API double IoSeq_rawAsDoubleFromOctal(IoSeq *self);
 
 // hashing
 /*
-int IoSeq_rawEqualTo(IoObject *self, IoObject *other);
-uintptr_t IoSeq_rawHash(IoObject *self);
+int IoSeq_rawEqualTo(IoSeq *self, IoObject *other);
+uintptr_t IoSeq_rawHash(IoSeq *self);
 */
 
 #include "IoSeq_immutable.h"
