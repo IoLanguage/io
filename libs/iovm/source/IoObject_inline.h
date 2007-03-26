@@ -1,9 +1,9 @@
-/*   
+/*
 docCopyright("Steve Dekorte", 2002)
 docLicense("BSD revised")
 */
 
-#ifdef IOOBJECT_C 
+#ifdef IOOBJECT_C
 #define IO_IN_C_FILE
 #endif
 #include "Common_inline.h"
@@ -69,9 +69,9 @@ IOINLINE int IoObject_isBlack(IoObject *self)
 IOINLINE void IoObject_createSlotsIfNeeded(IoObject *self)
 {
 	if (!IoObject_ownsSlots(self))
-	{ 
+	{
 		/*printf("creating slots for %s %p\n", IoObject_tag(self)->name, (void *)self);*/
-		IoObject_createSlots(self); 
+		IoObject_createSlots(self);
 	}
 }
 
@@ -82,13 +82,13 @@ IOINLINE void IoObject_rawRemoveAllProtos(IoObject *self)
 }
 
 IOINLINE void IoObject_shouldMark(IoObject *self)
-{	
+{
 	Collector_shouldMark_(IOCOLLECTOR, self);
 }
 
 IOINLINE void IoObject_shouldMarkIfNonNull(IoObject *self)
-{	
-	if (self) 
+{
+	if (self)
 	{
 		IoObject_shouldMark(self);
 	}
@@ -107,121 +107,121 @@ IOINLINE IoObject *IoObject_addingRef_(IoObject *self, IoObject *ref)
 {
 	#ifdef IO_BLOCK_LOCALS_RECYCLING
 	//printf("IoObject_addingRef_\n");
-	if(IoObject_isLocals(self)) 
+	if(IoObject_isLocals(self))
 	{
 		//printf("IoObject_isReferenced_\n");
 		IoObject_isReferenced_(ref, 1);
 	}
 	#endif
-		 
+
 	Collector_value_addingRefTo_(IOCOLLECTOR, self, ref);
 	//IoObject_isDirty_(self, 1);
 
 	return ref;
 }
 
-IOINLINE void IoObject_inlineSetSlot_to_(IoObject *self, 
-                                         IoSymbol *slotName, 
+IOINLINE void IoObject_inlineSetSlot_to_(IoObject *self,
+                                         IoSymbol *slotName,
                                          IoObject *value)
-{ 
+{
 	IoObject_createSlotsIfNeeded(self);
 	/*
-	 if (!slotName->isSymbol) 
-	 { 
-		 printf("Io System Error: setSlot slotName not symbol\n"); 
-		 exit(1); 
+	 if (!slotName->isSymbol)
+	 {
+		 printf("Io System Error: setSlot slotName not symbol\n");
+		 exit(1);
 	 }
 	 */
-	
+
 	PHash_at_put_(IoObject_slots(self), IOREF(slotName), IOREF(value));
-	
+
 	/*
 	 if(PHash_at_put_(IoObject_slots(self), IOREF(slotName), IOREF(value)))
-	 { 
-		 IoObject_isDirty_(self, 1); 
+	 {
+		 IoObject_isDirty_(self, 1);
 	 }
-	 */ 
+	 */
 }
 
-IOINLINE IoObject *IoObject_rawGetSlot_context_(IoObject *self, 
-                                                IoSymbol *slotName, 
+IOINLINE IoObject *IoObject_rawGetSlot_context_(IoObject *self,
+                                                IoSymbol *slotName,
                                                 IoObject **context)
 {
 	register IoObject *v = (IoObject *)NULL;
-	
+
 	if (IoObject_ownsSlots(self))
 	{
 		v = (IoObject *)PHash_at_(IoObject_slots(self), slotName);
-		
-		if (v) 
+
+		if (v)
 		{
 			*context = self;
-			return v; 
+			return v;
 		}
 	}
-	
+
 	IoObject_hasDoneLookup_(self, 1);
-	
+
 	{
 		register IoObject **protos = IoObject_protos(self);
-		
+
 		for (; *protos; protos ++)
 		{
-			if (IoObject_hasDoneLookup((*protos))) 
+			if (IoObject_hasDoneLookup((*protos)))
 			{
 				continue;
 			}
-			
+
 			v = IoObject_rawGetSlot_context_(*protos, slotName, context);
-			
-			if (v) 
+
+			if (v)
 			{
 				break;
 			}
 		}
 	}
-	
+
 	IoObject_hasDoneLookup_(self, 0);
-	
+
 	return v;
 }
 
 IOINLINE IoObject *IoObject_rawGetSlot_(IoObject *self, IoSymbol *slotName)
 {
 	register IoObject *v = (IoObject *)NULL;
-	
+
 	if (IoObject_ownsSlots(self))
 	{
 		v = (IoObject *)PHash_at_(IoObject_slots(self), slotName);
-		
-		if (v) return v; 
+
+		if (v) return v;
 	}
-	
+
 	IoObject_hasDoneLookup_(self, 1);
-	
+
 	{
 		register IoObject **protos = IoObject_protos(self);
-		
+
 		for (; *protos; protos ++)
 		{
-			if (IoObject_hasDoneLookup((*protos))) 
+			if (IoObject_hasDoneLookup((*protos)))
 			{
 				continue;
 			}
-			
+
 			v = IoObject_rawGetSlot_(*protos, slotName);
-			
+
 			if (v) break;
 		}
 	}
-	
+
 	IoObject_hasDoneLookup_(self, 0);
-	
+
 	return v;
 }
 
 IOINLINE int IoObject_mark(IoObject *self)
-{	
+{
 	/*
 	if (IoObject_isLocals(self))
 	{
@@ -232,37 +232,37 @@ IOINLINE int IoObject_mark(IoObject *self)
 		printf("mark %p %s\n", (void *)self, IoObject_name(self));
 	}
 	*/
-	
+
 	if (IoObject_ownsSlots(self))
-	{ 
-		PHASH_FOREACH(IoObject_slots(self), k, v, 
-			IoObject_shouldMark((IoObject *)k); 
+	{
+		PHASH_FOREACH(IoObject_slots(self), k, v,
+			IoObject_shouldMark((IoObject *)k);
 			IoObject_shouldMark((IoObject *)v);
 		);
 	}
-	
-	// mark protos 
-	
+
+	// mark protos
+
 	IOOBJECT_FOREACHPROTO(self, proto, IoObject_shouldMark(proto));
-	
+
 	{
 		IoTagMarkFunc *func = IoTag_markFunc(IoObject_tag(self));
-		
-		if (func) 
+
+		if (func)
 		{
 			(func)(self);
 		}
 	}
-	
+
 	return 1;
 }
 
 IoObject *IoObject_addingRef_(IoObject *self, IoObject *ref);
 IOVM_API int IoObject_hasCloneFunc_(IoObject *self, IoTagCloneFunc *func);
 
-IOINLINE IoObject *IoObject_activate(IoObject *self, 
-                                     IoObject *target, 
-                                     IoObject *locals, 
+IOINLINE IoObject *IoObject_activate(IoObject *self,
+                                     IoObject *target,
+                                     IoObject *locals,
                                      IoMessage *m,
                                      IoObject *slotContext)
 {
@@ -279,22 +279,22 @@ IOINLINE IoObject *IoObject_forward(IoObject *self, IoObject *locals, IoMessage 
 	IoState *state = IOSTATE;
 	IoObject *context;
 	IoObject *forwardSlot = IoObject_rawGetSlot_context_(self, state->forwardSymbol, &context);
-	
-	/*
-	if (Coro_stackSpaceAlmostGone((Coro*)IoCoroutine_cid(state->currentCoroutine))) 
-	{ 
 
-		IoState_error_(IOSTATE, m, "stack overflow in forward while sending '%s' message to a '%s' object", 
-					CSTRING(IoMessage_name(m)), IoObject_name(self)); 
+	/*
+	if (Coro_stackSpaceAlmostGone((Coro*)IoCoroutine_cid(state->currentCoroutine)))
+	{
+
+		IoState_error_(IOSTATE, m, "stack overflow in forward while sending '%s' message to a '%s' object",
+					CSTRING(IoMessage_name(m)), IoObject_name(self));
 	}
 	*/
-		
-	if (forwardSlot) 
+
+	if (forwardSlot)
 	{
 		return IoObject_activate(forwardSlot, self, locals, m, context);
 	}
-	
-	IoState_error_(state, m, "'%s' does not respond to message '%s'", 
+
+	IoState_error_(state, m, "'%s' does not respond to message '%s'",
 				IoObject_name(self), CSTRING(IoMessage_name(m)));
 	return self;
 }
@@ -306,7 +306,7 @@ IOINLINE IoObject *IoObject_perform(IoObject *self, IoObject *locals, IoMessage 
 
 	// note: coro chaining was moved to IoBlock.c
 
-	if (slotValue) 
+	if (slotValue)
 	{
 		return IoObject_activate(slotValue, self, locals, m, context);
 	}

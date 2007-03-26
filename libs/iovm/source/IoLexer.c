@@ -1,4 +1,4 @@
-/* 	
+/*
 Copyright (c) 2003, Steve Dekorte
 All rights reserved. See _BSDLicense.txt.
 
@@ -14,11 +14,11 @@ Aug 2004 - removed {} from op chars
 
 //#define LEXER_DEBUG
 //#define LEXER_DEBUG_TOKENS
-#define TEST_INLINE inline 
+#define TEST_INLINE inline
 
 static IoToken *IoLexer_currentToken(IoLexer *self)
-{ 
-	return List_top(self->tokenStream); 
+{
+	return List_top(self->tokenStream);
 }
 
 IoLexer *IoLexer_new(void)
@@ -54,16 +54,16 @@ char *IoLexer_errorDescription(IoLexer *self)
 		self->errorDescription = io_calloc(1, 1024);
 		self->errorDescription[0] = 0;
 	}
-	
+
 	if (et)
 	{
-		sprintf(self->errorDescription, 
-			"\"%s\" on line %i character %i", 
-			et->error, 
-			IoToken_lineNumber(et), 
+		sprintf(self->errorDescription,
+			"\"%s\" on line %i character %i",
+			et->error,
+			IoToken_lineNumber(et),
 			IoToken_charNumber(et));
 	}
-	
+
 	return self->errorDescription;
 }
 
@@ -71,11 +71,11 @@ char *IoLexer_errorDescription(IoLexer *self)
 void IoLexer_buildLineIndex(IoLexer *self)
 {
 	char *s = self->s;
-	
+
 	List_removeAll(self->charLineIndex);
-	
+
 	List_append_(self->charLineIndex, s);
-	
+
 	while (*s)
 	{
 		if (*s == '\n')
@@ -84,7 +84,7 @@ void IoLexer_buildLineIndex(IoLexer *self)
 		}
 		s ++;
 	}
-	
+
 	List_append_(self->charLineIndex, s);
 	self->lineHint = 0;
 }
@@ -158,18 +158,18 @@ TEST_INLINE uchar_t IoLexer_nextChar(IoLexer *self)
     }
 
     seqlen = UTF8_SEQLEN(c);
-    
+
     for (i = 0; i < seqlen; i++)
     {
         if (self->current[i] == 0)
         {
-            // XXX: invalid or incomplete sequence 
+            // XXX: invalid or incomplete sequence
             return 0;
         }
     }
 
     uch = _IoLexer_DecodeUTF8((unsigned char*)self->current);
-    
+
     if (uch == INVALID_CHAR)
     {
         return 0;
@@ -200,32 +200,32 @@ TEST_INLINE uchar_t IoLexer_prevChar(IoLexer *self)
 }
 
 TEST_INLINE char *IoLexer_current(IoLexer *self)
-{ 
-	return self->current; 
+{
+	return self->current;
 }
 
 TEST_INLINE int IoLexer_onNULL(IoLexer *self)
-{ 
-	return (*(self->current) == 0); 
+{
+	return (*(self->current) == 0);
 }
 
-// ------------------------------------------ 
+// ------------------------------------------
 
 size_t IoLexer_currentLineNumberOld(IoLexer *self)
 {
 	size_t lineNumber = 1;
 	char *s = self->s;
-	
+
 	while (s < self->current)
-	{ 
-		if (*s == '\n') 
+	{
+		if (*s == '\n')
 		{
 			lineNumber ++;
 		}
-		
+
 		s ++;
 	}
-	
+
 	return lineNumber;
 }
 
@@ -233,37 +233,37 @@ TEST_INLINE size_t IoLexer_currentLineNumber(IoLexer *self)
 {
 	// this should be even faster than a binary search
 	// since almost all results are very close to the last
-	
+
 	List *index = self->charLineIndex;
 	size_t line = self->lineHint;
 	size_t numLines = List_size(index);
 	void *current = (void *)self->current;
-	
+
 	if (current < List_at_(index, line))
 	{
-		// walk down lines until char is bigger than one 
+		// walk down lines until char is bigger than one
 		while (line > 0 && !(current > List_at_(index, line)))
-		{ 	
+		{
 			line --;
 		}
 		line ++;
 	}
 	else
 	{
-		// walk up lines until char is less than or equal to one 
+		// walk up lines until char is less than or equal to one
 		while (line < numLines && !(current <= List_at_(index, line)))
-		{ 	
+		{
 			line ++;
 		}
 	}
-	
-	
+
+
 	self->lineHint = line;
-     
+
 	/*
 	 {
 		 size_t realLine = IoLexer_currentLineNumberOld(self);
-		 
+
 		 if (line != realLine)
 		 {
 			 printf("mismatch on currentLine %i != %i\n", (int)line, (int)realLine);
@@ -277,19 +277,19 @@ void IoLexer_clear(IoLexer *self)
 {
 	LIST_FOREACH(self->tokenStream, i, t, IoToken_free((IoToken *)t) );
 	List_removeAll(self->tokenStream);
-	
+
 	Stack_clear(self->posStack);
 	Stack_clear(self->tokenStack);
-	
+
 	self->current = self->s;
 	self->resultIndex = 0;
 	self->maxChar = 0;
 	self->errorToken = NULL;
 }
 
-IoToken *IoLexer_errorToken(IoLexer *self) 
-{ 
-	return self->errorToken; 
+IoToken *IoLexer_errorToken(IoLexer *self)
+{
+	return self->errorToken;
 }
 
 // lexing -------------------------------------
@@ -305,100 +305,100 @@ void IoLexer_printLast_(IoLexer *self, int max)
 {
 	char *s = self->s + self->maxChar;
 	int i;
-	
-	for (i = 0; i < max && s[i]; i ++) 
+
+	for (i = 0; i < max && s[i]; i ++)
 	{
 		putchar(s[i]);
 	}
 }
 
-// --- token and character position stacks --- 
+// --- token and character position stacks ---
 
 char *IoLexer_lastPos(IoLexer *self)
-{ 
-	return Stack_top(self->posStack); 
+{
+	return Stack_top(self->posStack);
 }
 
 TEST_INLINE void IoLexer_pushPos(IoLexer *self)
-{ 
+{
 	intptr_t index = self->current - self->s;
-	
-	if (index > (intptr_t)self->maxChar) 
+
+	if (index > (intptr_t)self->maxChar)
 	{
 		self->maxChar = index;
 	}
-	
+
 	Stack_push_(self->tokenStack, (void *)(intptr_t)(List_size(self->tokenStream) - 1));
 	Stack_push_(self->posStack, self->current);
-	
+
 #ifdef LEXER_DEBUG
-	printf("push: "); 
+	printf("push: ");
 	IoLexer_print(self);
 #endif
 }
 
 TEST_INLINE void IoLexer_popPos(IoLexer *self)
-{ 
+{
 	Stack_pop(self->tokenStack);
 	Stack_pop(self->posStack);
 #ifdef LEXER_DEBUG
-	printf("pop:	"); 
+	printf("pop:	");
 	IoLexer_print(self);
 #endif
 }
 
 TEST_INLINE void IoLexer_popPosBack(IoLexer *self)
-{ 
+{
 	intptr_t i = (intptr_t)Stack_pop(self->tokenStack);
 	intptr_t topIndex = (intptr_t)Stack_top(self->tokenStack);
-	
+
 	if (i > -1)
 	{
 		List_setSize_(self->tokenStream, i + 1);
-		
-		if (i != topIndex) // ok to io_free token 
+
+		if (i != topIndex) // ok to io_free token
 		{
 			IoToken *parent = IoLexer_currentToken(self);
-			
-			if (parent) 
+
+			if (parent)
 			{
-				IoToken_nextToken_(parent, NULL); 
+				IoToken_nextToken_(parent, NULL);
 			}
 		}
 	}
-	
-	self->current = Stack_pop(self->posStack); 
+
+	self->current = Stack_pop(self->posStack);
 #ifdef LEXER_DEBUG
 	printf("back: "); IoLexer_print(self);
 #endif
 }
 
-// ------------------------------------------ 
+// ------------------------------------------
 
 int IoLexer_lex(IoLexer *self)
 {
 	IoLexer_clear(self);
 	IoLexer_pushPos(self);
-	
+
 	IoLexer_messageChain(self);
-	
-	if (*(self->current)) 
+
+	if (*(self->current))
 	{
 		//printf("Lexing error after: ");
 		//IoLexer_printLast_(self, 30);
 		//printf("\n");
-		
+
 		if (!self->errorToken)
 		{
-			if (List_size(self->tokenStream)) 
-			{ 
+			if (List_size(self->tokenStream))
+			{
 				self->errorToken = IoLexer_currentToken(self);
 			}
 			else
-			{ 
-				self->errorToken = IoLexer_addTokenString_length_type_(self, self->current, 30, NO_TOKEN); 
+			{
+				self->errorToken = IoLexer_addTokenString_length_type_(self, self->current, 30, NO_TOKEN);
 			}
-			
+
 			IoToken_error_(self->errorToken, "Syntax error near this location");
 		}
 		return -1;
@@ -409,23 +409,23 @@ int IoLexer_lex(IoLexer *self)
 // getting results --------------------------------
 
 IoToken *IoLexer_top(IoLexer *self)
-{ 
-	return List_at_(self->tokenStream, self->resultIndex); 
+{
+	return List_at_(self->tokenStream, self->resultIndex);
 }
 
 IoTokenType IoLexer_topType(IoLexer *self)
-{ 
-	if (!IoLexer_top(self)) 
+{
+	if (!IoLexer_top(self))
 	{
 		return 0;
 	}
-	
-	return IoLexer_top(self)->type; 
+
+	return IoLexer_top(self)->type;
 }
 
 IoToken *IoLexer_pop(IoLexer *self)
 {
-	IoToken *t = IoLexer_top(self); 
+	IoToken *t = IoLexer_top(self);
 	self->resultIndex ++;
 	return t;
 }
@@ -435,32 +435,32 @@ IoToken *IoLexer_pop(IoLexer *self)
 void IoLexer_print(IoLexer *self)
 {
 	IoToken *first = List_first(self->tokenStream);
-	
-	if (first) 
+
+	if (first)
 	{
 		IoToken_print(first);
 	}
-	
+
 	printf("\n");
 }
 
 void IoLexer_printTokens(IoLexer *self)
 {
 	int i;
-	
+
 	for (i = 0; i < List_size(self->tokenStream); i ++)
 	{
 		IoToken *t = List_at_(self->tokenStream, i);
-		
+
 		printf("'%s'", t->name);
 		printf(" %s ", IoToken_typeName(t));
-		
-		if (i < List_size(self->tokenStream) - 1) 
+
+		if (i < List_size(self->tokenStream) - 1)
 		{
 			printf(", ");
 		}
 	}
-	
+
 	printf("\n");
 }
 
@@ -470,7 +470,7 @@ int IoLexer_grabLength(IoLexer *self)
 {
 	char *s1 = IoLexer_lastPos(self);
 	char *s2 = IoLexer_current(self);
-	
+
 	return s2 - s1;
 }
 
@@ -479,13 +479,13 @@ void IoLexer_grabTokenType_(IoLexer *self, IoTokenType type)
 	char *s1 = IoLexer_lastPos(self);
 	char *s2 = IoLexer_current(self);
 	size_t len = (s2 - s1);
-	
-	if (!len) 
-	{ 
-		printf("IoLexer fatal error: empty token\n"); 
-		exit(1); 
+
+	if (!len)
+	{
+		printf("IoLexer fatal error: empty token\n");
+		exit(1);
 	}
-	
+
 	IoLexer_addTokenString_length_type_(self, s1, len, type);
 }
 
@@ -493,29 +493,29 @@ IoToken *IoLexer_addTokenString_length_type_(IoLexer *self, const char *s1, size
 {
 	IoToken *top = IoLexer_currentToken(self);
 	IoToken *t = IoToken_new();
-	
+
 	t->lineNumber = IoLexer_currentLineNumber(self);
 	//t->charNumber = (int)(s1 - self->s);
 	t->charNumber = (int)(self->current - self->s);
-	
+
 	if (t->charNumber < 0)
 	{
 		printf("bad t->charNumber = %i\n", t->charNumber);
 	}
-	
+
 	IoToken_name_length_(t, s1, len);
 	IoToken_type_(t, type);
-	
-	if (top) 
+
+	if (top)
 	{
 		IoToken_nextToken_(top, t);
 	}
-	
+
 	List_push_(self->tokenStream, t);
 #ifdef LEXER_DEBUG_TOKENS
 	printf("token '%s' %s\n", t->name, IoToken_typeName(t));
 #endif
-	
+
 	return t;
 }
 
@@ -525,9 +525,9 @@ void IoLexer_messageChain(IoLexer *self)
 {
 	do
 	{
-		while (	IoLexer_readTerminator(self) || 
-				IoLexer_readSeparator(self) || 
-				IoLexer_readComment(self)) 
+		while (	IoLexer_readTerminator(self) ||
+				IoLexer_readSeparator(self) ||
+				IoLexer_readComment(self))
 		{}
 	} while ( IoLexer_readMessage(self));
 }
@@ -548,7 +548,7 @@ int IoLexer_readTokenChars_type_(IoLexer *self, const char *chars, IoTokenType t
 		if (IoLexer_readTokenChar_type_(self, *chars, type)) return 1;
 		chars ++;
 	}
-	
+
 	return 0;
 }
 
@@ -556,11 +556,11 @@ const char *IoLexer_nameForGroupChar_(IoLexer *self, char groupChar)
 {
 	switch (groupChar)
 	{
-		case '(': return ""; 
+		case '(': return "";
 		case '[': return "squareBrackets";
 		case '{': return "curlyBrackets";
 	}
-	
+
 	printf("IoLexer: fatal error - invalid group char %c\n", groupChar);
 	exit(1);
 }
@@ -570,86 +570,86 @@ static char *specialChars = ":._";
 int IoLexer_readMessage(IoLexer *self)
 {
 	char foundSymbol;
-	
+
 	IoLexer_pushPos(self);
 	IoLexer_readPadding(self);
-	
-	foundSymbol = IoLexer_readSymbol(self);	
-	
-	
+
+	foundSymbol = IoLexer_readSymbol(self);
+
+
 	{
 		char groupChar;
-		while (IoLexer_readSeparator(self) || IoLexer_readComment(self)) 
+		while (IoLexer_readSeparator(self) || IoLexer_readComment(self))
 		{}
-		
+
 		groupChar = *IoLexer_current(self);
-		
+
 		if (groupChar && (strchr("[{", groupChar) || (!foundSymbol && groupChar == '(')))
-		{ 
+		{
 			char *groupName = (char *)IoLexer_nameForGroupChar_(self, groupChar);
-			IoLexer_addTokenString_length_type_(self, groupName, strlen(groupName), IDENTIFIER_TOKEN); 
+			IoLexer_addTokenString_length_type_(self, groupName, strlen(groupName), IDENTIFIER_TOKEN);
 		}
-		
+
 		if (IoLexer_readTokenChars_type_(self, "([{", OPENPAREN_TOKEN))
 		{
 			IoLexer_readPadding(self);
 			do {
 				IoTokenType type = IoLexer_currentToken(self)->type;
-				
+
 				IoLexer_readPadding(self);
-				// Empty argument: (... ,) 
+				// Empty argument: (... ,)
 				if (COMMA_TOKEN == type)
 				{
 					char c = *IoLexer_current(self);
-					
+
 					if (',' == c || strchr(")]}", c))
-					{ 
-						IoLexer_readMessage_error(self, "missing argument in argument list"); 
-						return 0; 
+					{
+						IoLexer_readMessage_error(self, "missing argument in argument list");
+						return 0;
 					}
 				}
-				
+
 				if (groupChar == '[') specialChars = "._";
 				IoLexer_messageChain(self);
 				if (groupChar == '[') specialChars = ":._";
 				IoLexer_readPadding(self);
-				
+
 			} while (IoLexer_readTokenChar_type_(self, ',', COMMA_TOKEN));
-			
-			if (!IoLexer_readTokenChars_type_(self, ")]}", CLOSEPAREN_TOKEN)) 
+
+			if (!IoLexer_readTokenChars_type_(self, ")]}", CLOSEPAREN_TOKEN))
 			{
 				/*
 				char c = *IoLexer_current(self);
-				
+
 				if (strchr("([{", c))
 				{
-					IoLexer_readMessage_error(self, "expected a message but instead found a open group character"); 
+					IoLexer_readMessage_error(self, "expected a message but instead found a open group character");
 				}
 				else
-				{ 
-					IoLexer_readMessage_error(self, "missing closing group character for argument list"); 
+				{
+					IoLexer_readMessage_error(self, "missing closing group character for argument list");
 				}
 				*/
 				if (groupChar == '(')
 				{
-					IoLexer_readMessage_error(self, "unmatched ()s"); 
+					IoLexer_readMessage_error(self, "unmatched ()s");
 				}
 				else if (groupChar == '[')
 				{
-					IoLexer_readMessage_error(self, "unmatched []s"); 
+					IoLexer_readMessage_error(self, "unmatched []s");
 				}
 				else if (groupChar == '{')
 				{
-					IoLexer_readMessage_error(self, "unmatched {}s"); 
-				}				
+					IoLexer_readMessage_error(self, "unmatched {}s");
+				}
 				//printf("Token %p error: %s - %s\n", t, t->error, IoToken_error(t));
 				return 0;
 			}
-			
+
 			IoLexer_popPos(self);
 			return 1;
 		}
-		
+
 		if (foundSymbol)
 		{
 			IoLexer_popPos(self);
@@ -663,12 +663,12 @@ int IoLexer_readMessage(IoLexer *self)
 int IoLexer_readPadding(IoLexer *self)
 {
 	int r = 0;
-	
-	while (IoLexer_readWhitespace(self) || IoLexer_readComment(self)) 
-	{ 
-		r = 1; 
+
+	while (IoLexer_readWhitespace(self) || IoLexer_readComment(self))
+	{
+		r = 1;
 	}
-	
+
 	return r;
 }
 
@@ -686,31 +686,31 @@ int IoLexer_readSymbol(IoLexer *self)
 int IoLexer_readIdentifier(IoLexer *self)
 {
 	IoLexer_pushPos(self);
-	
+
 	while ( IoLexer_readLetter(self) ||
 		   IoLexer_readDigit(self) ||
 		   IoLexer_readSpecialChar(self))
 	{}
-	
+
 	if (IoLexer_grabLength(self))
 	{
-		// avoid grabing : on last character if followed by = 
-		
+		// avoid grabing : on last character if followed by =
+
 		char *current = IoLexer_current(self);
-		
+
 		if (*(current - 1) == ':' && *current == '=')
-		{ 
-			IoLexer_prevChar(self); 
+		{
+			IoLexer_prevChar(self);
 		}
-		
-		
+
+
 		IoLexer_grabTokenType_(self, IDENTIFIER_TOKEN);
 		IoLexer_popPos(self);
 		return 1;
 	}
-	
+
 	IoLexer_popPosBack(self);
-	
+
 	return 0;
 }
 
@@ -718,36 +718,36 @@ int IoLexer_readOperator(IoLexer *self)
 {
 	uchar_t c;
 	IoLexer_pushPos(self);
-	// ok if first character is a colon 
+	// ok if first character is a colon
 	c = IoLexer_nextChar(self);
 	//printf("IoLexer_nextChar(self) = %c %i\n", c, c);
-	
-	if (c == 0) 
-	{ 
-		IoLexer_popPosBack(self); 
-		return 0; 
+
+	if (c == 0)
+	{
+		IoLexer_popPosBack(self);
+		return 0;
 	}
 	else
 	{
-		IoLexer_prevChar(self); 
+		IoLexer_prevChar(self);
 	}
 	/*
-	if (c != ':') 
-	{ 
-		IoLexer_prevChar(self); 
+	if (c != ':')
+	{
+		IoLexer_prevChar(self);
 	}
 	*/
-	
+
 	while (IoLexer_readOpChar(self))
 	{ }
-	
+
 	if (IoLexer_grabLength(self))
 	{
 		IoLexer_grabTokenType_(self, IDENTIFIER_TOKEN);
 		IoLexer_popPos(self);
 		return 1;
 	}
-	
+
 	IoLexer_popPosBack(self);
 	return 0;
 }
@@ -764,7 +764,7 @@ int IoLexer_readComment(IoLexer *self)
 int IoLexer_readSlashStarComment(IoLexer *self)
 {
 	IoLexer_pushPos(self);
-	
+
 	if (IoLexer_readString_(self, "/*"))
 	{
 		unsigned int nesting = 1;
@@ -796,7 +796,7 @@ int IoLexer_readSlashStarComment(IoLexer *self)
 int IoLexer_readSlashSlashComment(IoLexer *self)
 {
 	IoLexer_pushPos(self);
-	
+
 	if (IoLexer_nextChar(self) == '/')
 	{
 		if (IoLexer_nextChar(self) == '/')
@@ -807,7 +807,7 @@ int IoLexer_readSlashSlashComment(IoLexer *self)
 			return 1;
 		}
 	}
-	
+
 	IoLexer_popPosBack(self);
 	return 0;
 }
@@ -815,17 +815,17 @@ int IoLexer_readSlashSlashComment(IoLexer *self)
 int IoLexer_readPoundComment(IoLexer *self)
 {
 	IoLexer_pushPos(self);
-	
+
 	if (IoLexer_nextChar(self) == '#')
 	{
-		while (IoLexer_readNonReturn(self)) 
-		{ 
+		while (IoLexer_readNonReturn(self))
+		{
 		}
 		//IoLexer_grabTokenType_(self, COMMENT_TOKEN);
 		IoLexer_popPos(self);
 		return 1;
 	}
-	
+
 	IoLexer_popPosBack(self);
 	return 0;
 }
@@ -839,56 +839,56 @@ int IoLexer_readQuote(IoLexer *self)
 
 int IoLexer_readMonoQuote(IoLexer *self)
 {
-	int mbskip = 0; // multi-byte character length 
-	
+	int mbskip = 0; // multi-byte character length
+
 	IoLexer_pushPos(self);
-	
+
 	if (IoLexer_nextChar(self) == '"')
 	{
 		for (;;)
 		{
 			uchar_t c = IoLexer_nextChar(self);
-			
-			if (mbskip <= 0 && ismbchar(c)) 
-			{ 
-				mbskip = mbcharlen(c); 
+
+			if (mbskip <= 0 && ismbchar(c))
+			{
+				mbskip = mbcharlen(c);
 			}
-			
-			if (mbskip-- > 0) 
-			{ 
-				continue; 
+
+			if (mbskip-- > 0)
+			{
+				continue;
 			}
-			
-			if (c == '"') 
+
+			if (c == '"')
 			{
 				break;
 			}
-			
-			if (c == '\\') 
-			{ 
-				IoLexer_nextChar(self); 
-				continue; 
+
+			if (c == '\\')
+			{
+				IoLexer_nextChar(self);
+				continue;
 			}
-			
+
 			if (c == 0)
-			{ 
+			{
 				self->errorToken = IoLexer_currentToken(self);
-				
-				if (self->errorToken) 
+
+				if (self->errorToken)
 				{
 					IoToken_error_(self->errorToken, "unterminated quote");
 				}
-				
-				IoLexer_popPosBack(self); 
-				return 0; 
+
+				IoLexer_popPosBack(self);
+				return 0;
 			}
 		}
-		
+
 		IoLexer_grabTokenType_(self, MONOQUOTE_TOKEN);
 		IoLexer_popPos(self);
 		return 1;
 	}
-	
+
 	IoLexer_popPosBack(self);
 	return 0;
 }
@@ -896,42 +896,42 @@ int IoLexer_readMonoQuote(IoLexer *self)
 int IoLexer_readTriQuote(IoLexer *self)
 {
 	IoLexer_pushPos(self);
-	
+
 	if (IoLexer_readString_(self, "\"\"\""))
 	{
 		while (!IoLexer_readString_(self, "\"\"\""))
-		{ 
-			uchar_t c = IoLexer_nextChar(self); 
-			
+		{
+			uchar_t c = IoLexer_nextChar(self);
+
 			if (c == 0)
-			{ 
-				IoLexer_popPosBack(self); 
-				return 0; 
+			{
+				IoLexer_popPosBack(self);
+				return 0;
 			}
 		}
-		
+
 		IoLexer_grabTokenType_(self, TRIQUOTE_TOKEN);
 		IoLexer_popPos(self);
 		return 1;
 	}
-	
+
 	IoLexer_popPosBack(self);
 	return 0;
 }
 
-// helpers ---------------------------- 
+// helpers ----------------------------
 
 int IoLexer_readTokenChar_type_(IoLexer *self, char c, IoTokenType type)
 {
 	IoLexer_pushPos(self);
-	
+
 	if (IoLexer_readChar_(self, c))
 	{
 		IoLexer_grabTokenType_(self, type);
 		IoLexer_popPos(self);
 		return 1;
 	}
-	
+
 	IoLexer_popPosBack(self);
 	return 0;
 }
@@ -939,14 +939,14 @@ int IoLexer_readTokenChar_type_(IoLexer *self, char c, IoTokenType type)
 int IoLexer_readTokenString_(IoLexer *self, const char *s)
 {
 	IoLexer_pushPos(self);
-	
+
 	if (IoLexer_readString_(self, s))
 	{
 		IoLexer_grabTokenType_(self, IDENTIFIER_TOKEN);
 		IoLexer_popPos(self);
 		return 1;
 	}
-	
+
 	IoLexer_popPosBack(self);
 	return 0;
 }
@@ -955,18 +955,18 @@ int IoLexer_readTokenString_(IoLexer *self, const char *s)
 int IoLexer_readString_(IoLexer *self, const char *s)
 {
 	int len = strlen(s);
-	
-	if (IoLexer_onNULL(self)) 
+
+	if (IoLexer_onNULL(self))
 	{
 		return 0;
 	}
-	
+
 	if (strncmp(self->current, s, len) == 0)
 	{
 		self->current += len;
 		return 1;
 	}
-	
+
 	return 0;
 }
 
@@ -975,12 +975,12 @@ TEST_INLINE int IoLexer_readCharIn_(IoLexer *self, const char *s)
 	if (!IoLexer_onNULL(self))
 	{
 		uchar_t c = IoLexer_nextChar(self);
-		
-		if (c < 0x80 && strchr(s, c)) 
+
+		if (c < 0x80 && strchr(s, c))
 		{
 			return 1;
 		}
-		
+
 		IoLexer_prevChar(self);
 	}
 	return 0;
@@ -991,12 +991,12 @@ TEST_INLINE int IoLexer_readCharInRange_(IoLexer *self, uchar_t first, uchar_t l
 	if (!IoLexer_onNULL(self))
 	{
 		uchar_t c = IoLexer_nextChar(self);
-		
-		if (c >= first && c <= last) 
+
+		if (c >= first && c <= last)
 		{
 			return 1;
 		}
-		
+
 		IoLexer_prevChar(self);
 	}
 	return 0;
@@ -1007,12 +1007,12 @@ int IoLexer_readChar_(IoLexer *self, char c)
 	if (!IoLexer_onNULL(self))
 	{
 		uchar_t nc = IoLexer_nextChar(self);
-		
-		if (nc && nc == c) 
+
+		if (nc && nc == c)
 		{
 			return 1;
 		}
-		
+
 		IoLexer_prevChar(self);
 	}
 	return 0;
@@ -1023,12 +1023,12 @@ int IoLexer_readCharAnyCase_(IoLexer *self, char c)
 	if (!IoLexer_onNULL(self))
 	{
 		uchar_t nc = IoLexer_nextChar(self);
-		
-		if (nc && tolower(nc) == tolower(c)) 
+
+		if (nc && tolower(nc) == tolower(c))
 		{
 			return 1;
 		}
-		
+
 		IoLexer_prevChar(self);
 	}
 	return 0;
@@ -1064,17 +1064,17 @@ int IoLexer_readNonQuote(IoLexer *self)
 	return 0;
 }
 
-// character definitions ---------------------------- 
+// character definitions ----------------------------
 
 int IoLexer_readCharacters(IoLexer *self)
 {
 	int read = 0;
-	
-	while (IoLexer_readCharacter(self)) 
-	{ 
-		read = 1; 
+
+	while (IoLexer_readCharacter(self))
+	{
+		read = 1;
 	}
-	
+
 	return read;
 }
 
@@ -1089,23 +1089,23 @@ int IoLexer_readCharacter(IoLexer *self)
 }
 
 int IoLexer_readOpChar(IoLexer *self)
-{ 
-	return IoLexer_readCharIn_(self, ":'~!@$%^&*-+=|\\<>?/"); 
+{
+	return IoLexer_readCharIn_(self, ":'~!@$%^&*-+=|\\<>?/");
 }
 
 int IoLexer_readSpecialChar(IoLexer *self)
-{ 
+{
 	return IoLexer_readCharIn_(self, specialChars);
 }
 
 int IoLexer_readDigit(IoLexer *self)
-{ 
-	return IoLexer_readCharInRange_(self, '0', '9'); 
+{
+	return IoLexer_readCharInRange_(self, '0', '9');
 }
 
 int IoLexer_readLetter(IoLexer *self)
 {
-	return IoLexer_readCharInRange_(self, 'A', 'Z') || 
+	return IoLexer_readCharInRange_(self, 'A', 'Z') ||
 	    IoLexer_readCharInRange_(self, 'a', 'z') ||
         IoLexer_readNonASCIIChar_(self);
 }
@@ -1117,35 +1117,35 @@ int IoLexer_readTerminator(IoLexer *self)
 	int terminated = 0;
 	IoLexer_pushPos(self);
 	IoLexer_readSeparator(self);
-	
+
 	while (IoLexer_readTerminatorChar(self))
-	{ 
-		terminated = 1; 
-		IoLexer_readSeparator(self); 
+	{
+		terminated = 1;
+		IoLexer_readSeparator(self);
 	}
-	
+
 	if (terminated)
 	{
 		IoToken *top = IoLexer_currentToken(self);
-		
-		// avoid double terminators 
-		if (top && IoToken_type(top) == TERMINATOR_TOKEN) 
-		{ 
-			return 1; 
-		} 
-		
+
+		// avoid double terminators
+		if (top && IoToken_type(top) == TERMINATOR_TOKEN)
+		{
+			return 1;
+		}
+
 		IoLexer_addTokenString_length_type_(self, ";", 1, TERMINATOR_TOKEN);
 		IoLexer_popPos(self);
 		return 1;
 	}
-	
+
 	IoLexer_popPosBack(self);
 	return 0;
 }
 
 int IoLexer_readTerminatorChar(IoLexer *self)
-{ 
-	return IoLexer_readCharIn_(self, ";\n"); 
+{
+	return IoLexer_readCharIn_(self, ";\n");
 }
 
 // separator --------------------------------
@@ -1153,24 +1153,24 @@ int IoLexer_readTerminatorChar(IoLexer *self)
 int IoLexer_readSeparator(IoLexer *self)
 {
 	IoLexer_pushPos(self);
-	
-	while (IoLexer_readSeparatorChar(self)) 
+
+	while (IoLexer_readSeparatorChar(self))
 	{
 	}
-	
+
 	if (IoLexer_grabLength(self))
 	{
 		//IoLexer_grabTokenType_(self, SEPERATOR_TOKEN);
 		IoLexer_popPos(self);
 		return 1;
 	}
-	
+
 	IoLexer_popPosBack(self);
 	return 0;
 }
 
 int IoLexer_readSeparatorChar(IoLexer *self)
-{ 
+{
 	if (IoLexer_readCharIn_(self, " \f\r\t\v"))
 	{
 		return 1;
@@ -1200,78 +1200,78 @@ int IoLexer_readSeparatorChar(IoLexer *self)
 int IoLexer_readWhitespace(IoLexer *self)
 {
 	IoLexer_pushPos(self);
-	
-	while (IoLexer_readWhitespaceChar(self)) 
-	{ 
+
+	while (IoLexer_readWhitespaceChar(self))
+	{
 	}
-	
+
 	if (IoLexer_grabLength(self))
 	{
 		//IoLexer_grabTokenType_(self, WHITESPACE_TOKEN);
 		IoLexer_popPos(self);
 		return 1;
 	}
-	
+
 	IoLexer_popPosBack(self);
 	return 0;
 }
 
 int IoLexer_readWhitespaceChar(IoLexer *self)
-{ 
-	return IoLexer_readCharIn_(self, " \f\r\t\v\n"); 
+{
+	return IoLexer_readCharIn_(self, " \f\r\t\v\n");
 }
 
 int IoLexer_readDigits(IoLexer *self)
 {
 	int read = 0;
-	
+
 	IoLexer_pushPos(self);
-	
-	while (IoLexer_readDigit(self)) 
-	{ 
-		read = 1; 
+
+	while (IoLexer_readDigit(self))
+	{
+		read = 1;
 	}
-	
-	if (!read) 
-	{ 
-		IoLexer_popPosBack(self); 
-		return 0; 
+
+	if (!read)
+	{
+		IoLexer_popPosBack(self);
+		return 0;
 	}
-	
+
 	IoLexer_popPos(self);
 	return read;
 }
 
 int IoLexer_readNumber(IoLexer *self)
-{ 
-	return (IoLexer_readHexNumber(self) || IoLexer_readDecimal(self)); 
+{
+	return (IoLexer_readHexNumber(self) || IoLexer_readDecimal(self));
 }
 
 int IoLexer_readExponent(IoLexer *self)
 {
-	if (IoLexer_readCharAnyCase_(self, 'e')) 
-	{ 
+	if (IoLexer_readCharAnyCase_(self, 'e'))
+	{
 		IoLexer_readChar_(self, '-');
-		
-		if (!IoLexer_readDigits(self)) 
+
+		if (!IoLexer_readDigits(self))
 		{
 			return -1;
 		}
-		
+
 		return 1;
-	}	
+	}
 	return 0;
 }
 
 int IoLexer_readDecimalPlaces(IoLexer *self)
 {
 	if (IoLexer_readChar_(self, '.'))
-	{ 
-		if (!IoLexer_readDigits(self)) 
+	{
+		if (!IoLexer_readDigits(self))
 		{
-			return -1; 
+			return -1;
 		}
-		
+
 		return 1;
 	}
 	return 0;
@@ -1280,33 +1280,33 @@ int IoLexer_readDecimalPlaces(IoLexer *self)
 int IoLexer_readDecimal(IoLexer *self)
 {
 	IoLexer_pushPos(self);
-	
+
 	if (IoLexer_readDigits(self))
-	{ 
-		if (IoLexer_readDecimalPlaces(self) == -1) 
+	{
+		if (IoLexer_readDecimalPlaces(self) == -1)
 		{
-			goto error; 
+			goto error;
 		}
 	}
 	else
-	{ 
-		if (IoLexer_readDecimalPlaces(self) != 1) 
+	{
+		if (IoLexer_readDecimalPlaces(self) != 1)
 		{
-			goto error; 
+			goto error;
 		}
 	}
-	
-	if (IoLexer_readExponent(self) == -1) 
+
+	if (IoLexer_readExponent(self) == -1)
 	{
 		goto error;
 	}
-	
+
 	if (IoLexer_grabLength(self))
 	{
 		IoLexer_grabTokenType_(self, NUMBER_TOKEN);
 		IoLexer_popPos(self);
 		return 1;
-	}	
+	}
 error:
 		IoLexer_popPosBack(self);
 	return 0;
@@ -1315,24 +1315,24 @@ error:
 int IoLexer_readHexNumber(IoLexer *self)
 {
 	int read = 0;
-	
+
 	IoLexer_pushPos(self);
-	
+
 	if (IoLexer_readChar_(self, '0') && IoLexer_readCharAnyCase_(self, 'x'))
 	{
 		while (IoLexer_readDigits(self) || IoLexer_readCharacters(self))
-		{ 
-			read ++; 
+		{
+			read ++;
 		}
 	}
-	
+
 	if (read && IoLexer_grabLength(self))
 	{
 		IoLexer_grabTokenType_(self, HEXNUMBER_TOKEN);
 		IoLexer_popPos(self);
 		return 1;
 	}
-	
+
 	IoLexer_popPosBack(self);
 	return 0;
 }

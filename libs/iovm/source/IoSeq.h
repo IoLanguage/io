@@ -29,14 +29,14 @@ IOVM_API int ISMUTABLESEQ(IoObject *self);
 
 #define WHITESPACE         " \t\n\r"
 
-// Symbol defines 
+// Symbol defines
 
 #define IOSYMBOL(s)         IoState_symbolWithCString_((IoState*)IOSTATE, (char *)(s))
 #define IOSYMBOLID(s)       (IoObject_dataPointer(self))
 #define CSTRING(uString)    IoSeq_asCString(uString)
 
-#if !defined(IoSymbol_DEFINED) 
-  #define IoSymbol_DEFINED 
+#if !defined(IoSymbol_DEFINED)
+  #define IoSymbol_DEFINED
   typedef IoObject IoSymbol;
   typedef IoObject IoSeq;
 #endif
@@ -66,7 +66,7 @@ IOVM_API IoSeq *IoSeq_newWithCString_(void *state, const char *s);
 IOVM_API IoSeq *IoSeq_newFromFilePath_(void *state, const char *path);
 IOVM_API IoSeq *IoSeq_rawMutableCopy(IoSeq *self);
 
-// these Symbol creation methods should only be called by IoState 
+// these Symbol creation methods should only be called by IoState
 
 IOVM_API IoSymbol *IoSeq_newSymbolWithCString_(void *state, const char *s);
 IOVM_API IoSymbol *IoSeq_newSymbolWithData_length_(void *state, const char *s, size_t length);
@@ -89,7 +89,7 @@ IOVM_API size_t IoSeq_rawSize(IoSeq *self);
 IOVM_API size_t IoSeq_rawSizeInBytes(IoSeq *self);
 IOVM_API void IoSeq_rawSetSize_(IoSeq *self, size_t size);
 
-// conversion 
+// conversion
 
 IOVM_API double IoSeq_asDouble(IoSeq *self);
 IOVM_API IoSymbol *IoSeq_rawAsSymbol(IoSeq *self);

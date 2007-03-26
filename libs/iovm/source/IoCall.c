@@ -51,7 +51,7 @@ void IoCall_initSlots(IoCall *self)
 IoCall *IoCall_proto(void *vState)
 {
 	IoState *state = (IoState *)vState;
-	
+
 	IoMethodTable methodTable[] = {
 	{"sender",      IoCall_sender},
 	{"message",     IoCall_message},
@@ -65,15 +65,15 @@ IoCall *IoCall_proto(void *vState)
 	{"setStopStatus", IoCall_setStopStatus},
 	{NULL, NULL},
 	};
-	
+
 	IoObject *self = IoObject_new(state);
-	
+
 	IoObject_setDataPointer_(self, io_calloc(1, sizeof(IoCallData)));
 	IoObject_tag_(self, IoCall_newTag(state));
 	IoCall_initSlots(self);
-	
+
 	IoState_registerProtoWithFunc_((IoState *)state, self, IoCall_proto);
-	
+
 	IoObject_addMethodTable_(self, methodTable);
 	return self;
 }
@@ -93,7 +93,7 @@ IoCall *IoCall_new(IoState *state)
 	return IOCLONE(proto);
 }
 
-IoCall *IoCall_with(void *state, 
+IoCall *IoCall_with(void *state,
 				 IoObject *sender,
 				 IoObject *target,
 				 IoObject *message,
@@ -102,11 +102,11 @@ IoCall *IoCall_with(void *state,
 				 IoObject *coroutine)
 {
 	IoCall *self = IoCall_new(state);
-	
+
 	DATA(self)->sender      = sender;
 	DATA(self)->target      = target;
 	DATA(self)->message     = message;
-	DATA(self)->slotContext = slotContext;	
+	DATA(self)->slotContext = slotContext;
 	DATA(self)->activated   = activated;
 	DATA(self)->coroutine   = coroutine;
 	DATA(self)->stopStatus  = MESSAGE_STOP_STATUS_NORMAL;
@@ -114,7 +114,7 @@ IoCall *IoCall_with(void *state,
 }
 
 void IoCall_mark(IoCall *self)
-{ 
+{
 	IoCallData *d = DATA(self);
 
 	IoObject_shouldMark(d->sender);
@@ -128,7 +128,7 @@ void IoCall_mark(IoCall *self)
 void IoCall_free(IoCall *self)
 {
 	//printf("IoCall_free() %p|%p\n", (void *)self, IoObject_dataPointer(self));
-	io_free(IoObject_dataPointer(self)); 
+	io_free(IoObject_dataPointer(self));
 }
 
 IoObject *IoCall_sender(IoCall *self, IoObject *locals, IoMessage *m)

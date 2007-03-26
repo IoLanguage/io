@@ -25,7 +25,7 @@ extern "C" {
 
 #define ISMESSAGE(self) IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoMessage_rawClone)
 
-#if !defined(IoSymbol_DEFINED) 
+#if !defined(IoSymbol_DEFINED)
   #define IoSymbol_DEFINED
   typedef IoObject IoSymbol;
 #endif
@@ -36,23 +36,23 @@ typedef IoObject IoMessage;
 
 typedef struct
 {
-    IoSymbol *name; 
+    IoSymbol *name;
     List *args;
     #ifdef IOMESSAGE_HASPREV
     IoMessage *previous; // unused for now
     #endif
     IoMessage *next;
     IoObject *cachedResult;
-    
-    // debugging info 
+
+    // debugging info
     //int charNumber;
     int lineNumber;
-    IoSymbol *label; 
+    IoSymbol *label;
 } IoMessageData;
 
 #define IOMESSAGEDATA(self) ((IoMessageData *)IoObject_dataPointer(self))
 
-// basics 
+// basics
 
 IOVM_API IoMessage *IoMessage_proto(void *state);
 IOVM_API IoMessage *IoMessage_rawClone(IoMessage *m);
@@ -97,11 +97,11 @@ IOVM_API void IoMessage_assertArgCount_receiver_(IoMessage *self, int n, IoObjec
 IOVM_API int IoMessage_argCount(IoMessage *self);
 
 IOVM_API void IoMessage_locals_numberArgAt_errorForType_(
-  IoMessage *self, 
-  IoObject *locals, 
-  int n, 
+  IoMessage *self,
+  IoObject *locals,
+  int n,
   const char *typeName);
-  
+
 IOVM_API IoObject *IoMessage_locals_numberArgAt_(IoMessage *self, IoObject *locals, int n);
 IOVM_API int IoMessage_locals_intArgAt_(IoMessage *self, IoObject *locals, int n);
 IOVM_API long IoMessage_locals_longArgAt_(IoMessage *self, IoObject *locals, int n);
@@ -120,7 +120,7 @@ IOVM_API IoObject *IoMessage_locals_mapArgAt_(IoMessage *self, IoObject *locals,
 IOVM_API IoObject *IoMessage_locals_messageArgAt_(IoMessage *self, IoObject *locals, int n);
 IOVM_API IoObject *IoMessage_locals_listArgAt_(IoMessage *self, IoObject *locals, int n);
 
-// printing 
+// printing
 
 IOVM_API void IoMessage_print(IoMessage *self);
 IOVM_API void IoMessage_printWithReturn(IoMessage *self);
@@ -181,15 +181,15 @@ IOVM_API IoObject *IoMessage_fromString(IoMessage *self, IoObject *locals, IoMes
 IOVM_API IoObject *IoMessage_argsEvaluatedIn(IoMessage *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoMessage_evaluatedArgs(IoMessage *self, IoObject *locals, IoMessage *m);
 
-IOVM_API void IoMessage_foreachArgs(IoMessage *self, 
-    IoObject *object, 
-    IoSymbol **indexSlotName, 
-    IoSymbol **valueSlotName, 
+IOVM_API void IoMessage_foreachArgs(IoMessage *self,
+    IoObject *object,
+    IoSymbol **indexSlotName,
+    IoSymbol **valueSlotName,
     IoMessage **doMessage);
 
 IOVM_API IoMessage *IoMessage_asMessageWithEvaluatedArgs(IoMessage *self, IoObject *locals, IoMessage *m);
 
-//  ------------------------------ 
+//  ------------------------------
 
 #include "IoMessage_inline.h"
 #include "IoMessage_parser.h"

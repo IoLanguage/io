@@ -11,11 +11,11 @@ Debugger ioDoc(
 
 IoObject *IoDebugger_proto(void *state)
 {
-    IoMethodTable methodTable[] = 
-    { 
+    IoMethodTable methodTable[] =
+    {
     {NULL, NULL},
     };
-    
+
     IoObject *self = IoObject_new(state);
     IoObject_setSlot_to_(self, IOSYMBOL("type"), IOSYMBOL("Debugger"));
     IoObject_addMethodTable_(self, methodTable);

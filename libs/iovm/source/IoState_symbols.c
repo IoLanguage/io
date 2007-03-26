@@ -16,9 +16,9 @@
 void IoState_setupCachedNumbers(IoState *self)
 {
 	int i;
-	
+
 	self->cachedNumbers = List_new();
-	
+
 	for (i = MIN_CACHED_NUMBER; i < MAX_CACHED_NUMBER + 1; i ++)
 	{
 		IoNumber *number = IoNumber_newWithDouble_(self, i);
@@ -30,12 +30,12 @@ void IoState_setupCachedNumbers(IoState *self)
 IoObject *IoState_numberWithDouble_(IoState *self, double n)
 {
 	long i = (long)n;
-	
+
 	if (self->cachedNumbers && i == n && i >= MIN_CACHED_NUMBER && i <= MAX_CACHED_NUMBER)
 	{
 		return List_at_(self->cachedNumbers, i - MIN_CACHED_NUMBER);
 	}
-	
+
 	return IoNumber_newWithDouble_(self, n);
 }
 
@@ -45,18 +45,18 @@ IoObject *IoState_numberWithDouble_(IoState *self, double n)
 IoSymbol *IoState_symbolWithUArray_copy_(IoState *self, UArray *ba, int copy)
 {
 	IoSymbol *ioSymbol = SHash_at_(self->symbols, ba);
-	
+
 	if (!ioSymbol)
 	{
 		ioSymbol = IoSeq_newSymbolWithUArray_copy_(self, ba, copy);
 		return IoState_addSymbol_(self, ioSymbol);
 	}
-	
-	if (!copy) 
-	{ 
-		UArray_free(ba); 
+
+	if (!copy)
+	{
+		UArray_free(ba);
 	}
-	
+
 	IoState_stackRetain_(self, ioSymbol);
 	return ioSymbol;
 }
@@ -80,6 +80,6 @@ IoSymbol *IoState_addSymbol_(IoState *self, IoSymbol *s)
 }
 
 void IoState_removeSymbol_(IoState *self, IoSymbol *s)
-{ 
+{
 	SHash_removeKey_(self->symbols, IoSeq_rawUArray(s));
 }

@@ -3,7 +3,7 @@ docCopyright("Steve Dekorte", 2002)
 docLicense("BSD revised")
 */
 
-#ifndef OBJECT_DEFINED 
+#ifndef OBJECT_DEFINED
 #define OBJECT_DEFINED 1
 
 #include "IoVMApi.h"
@@ -76,14 +76,14 @@ IOVM_API double IoObject_doubleGetSlot_(IoObject *self, IoSymbol *slotName);
 //IoObject *IoObject_objectWithSlotValue_(IoObject *self, IoObject *slotValue);
 IOVM_API void IoObject_removeSlot_(IoObject *self, IoSymbol *slotName);
 
-// perform and activate 
+// perform and activate
 
 IOVM_API IoObject *IoObject_activate(IoObject *self, IoObject *target, IoObject *locals, IoMessage *m, IoObject *slotContext);
 IOVM_API IoObject *IoObject_perform(IoObject *self, IoObject *locals, IoMessage *m);
 //IoObject *IoObject_forward(IoObject *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoObject_localsForward(IoObject *self, IoObject *locals, IoMessage *m);
 
-// tag functions 
+// tag functions
 
 IOVM_API int IoObject_compare(IoObject *self, IoObject *v);
 IOVM_API int IoObject_defaultCompare(IoObject *self, IoObject *v);
@@ -98,7 +98,7 @@ IOVM_API void IoObject_compact(IoObject *self);
 IOVM_API char *IoObject_markColorName(IoObject *self);
 IOVM_API void IoObject_show(IoObject *self);
 
-// proto 
+// proto
 
 IOVM_API IoObject *IoObject_clone(IoObject *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoObject_cloneWithoutInit(IoObject *self, IoObject *locals, IoMessage *m);
@@ -106,13 +106,13 @@ IOVM_API IoObject *IoObject_shallowCopy(IoObject *self, IoObject *locals, IoMess
 IOVM_API IoObject *IoObject_duplicate(IoObject *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoObject_initClone_(IoObject *self, IoObject *locals, IoMessage *m, IoObject *newObject);
 
-// printing 
+// printing
 
 IOVM_API IoObject *IoObject_protoPrint(IoObject *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoObject_protoWrite(IoObject *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoObject_protoWriteLn(IoObject *self, IoObject *locals, IoMessage *m);
 
-// reflection 
+// reflection
 
 IOVM_API IoObject *IoObject_protoPerform(IoObject *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoObject_protoPerformWithArgList(IoObject *self, IoObject *locals, IoMessage *m);
@@ -148,14 +148,14 @@ IOVM_API IoObject *IoObject_thisMessage(IoObject *self, IoObject *locals, IoMess
 IOVM_API IoObject *IoObject_memorySizeMethod(IoObject *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoObject_compactMethod(IoObject *self, IoObject *locals, IoMessage *m);
 
-// description 
+// description
 
 IOVM_API void IoObject_defaultPrint(IoObject *self);
 
 IOVM_API IoObject *IoObject_type(IoObject *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoObject_lobbyPrint(IoObject *self, IoObject *locals, IoMessage *m);
 
-// logic 
+// logic
 
 IOVM_API IoObject *IoObject_and(IoObject *self, IoObject *locals, IoMessage *m);
 
@@ -176,7 +176,7 @@ IOVM_API IoObject *IoObject_isLessThanOrEqualTo_(IoObject *self, IoObject *local
 IOVM_API IoObject *IoObject_isGreaterThan_(IoObject *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoObject_isGreaterThanOrEqualTo_(IoObject *self, IoObject *locals, IoMessage *m);
 
-// meta 
+// meta
 
 IOVM_API IoObject *IoObject_evalArg(IoObject *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoObject_evalArgAndReturnNil(IoObject *self, IoObject *locals, IoMessage *m);
@@ -205,14 +205,14 @@ IOVM_API IoObject *IoObject_eval(IoObject *self, IoMessage *m, IoObject *locals)
 IOVM_API IoObject *IoObject_argIsActivationRecord(IoObject *self, IoMessage *m, IoObject *locals);
 IOVM_API IoObject *IoObject_argIsCall(IoObject *self, IoMessage *m, IoObject *locals);
 
-IOVM_API UArray *IoObject_rawGetUArraySlot(IoObject *self, 
-								IoObject *locals, 
-								IoMessage *m, 
+IOVM_API UArray *IoObject_rawGetUArraySlot(IoObject *self,
+								IoObject *locals,
+								IoMessage *m,
 								IoSymbol *slotName);
-								
-IOVM_API UArray *IoObject_rawGetMutableUArraySlot(IoObject *self, 
-								IoObject *locals, 
-								IoMessage *m, 
+
+IOVM_API UArray *IoObject_rawGetMutableUArraySlot(IoObject *self,
+								IoObject *locals,
+								IoMessage *m,
 								IoSymbol *slotName);
 
 IOVM_API IoObject *IoObject_become(IoObject *self, IoObject *locals, IoMessage *m);

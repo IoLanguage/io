@@ -7,12 +7,12 @@
 void *IoMessage_locals_vectorArgAt_(IoMessage *self, void *locals, int n)
 {
 	IoObject *v = IoMessage_locals_valueArgAt_(self, locals, n);
-	
-	if (!ISVECTOR(v)) 
+
+	if (!ISVECTOR(v))
 	{
-		IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "Vector"); 
+		IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "Vector");
 	}
-	
+
 	return v;
 }
 
@@ -25,7 +25,7 @@ void *IoMessage_locals_pointArgAt_(IoMessage *m, void *locals, int n)
 
 void IoSeq_assertIsVector(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	IOASSERT(ISVECTOR(v), "Seq needs to be of type float32"); 
+	IOASSERT(ISVECTOR(v), "Seq needs to be of type float32");
 }
 
 // ---------------------------------------------
@@ -48,12 +48,12 @@ IoSeq *IoSeq_newFloatArrayOfSize_(void *state, size_t size)
 float *IoSeq_floatPointerOfLength_(IoSeq *self, size_t size)
 {
 	UArray *u = IoSeq_rawUArray(self);
-	
+
 	if(UArray_itemType(u) == CTYPE_float32_t && UArray_size(u) >= size)
 	{
 		return (float *)UArray_bytes(u);
 	}
-	
+
 	return (float *)NULL;
 }
 

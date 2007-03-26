@@ -1,7 +1,7 @@
 /*#io
 Map ioDoc(
           docCopyright("Steve Dekorte", 2002)
-          docLicense("BSD revised")    
+          docLicense("BSD revised")
           docObject("Map")
           docDescription("A key/value dictionary appropriate for holding large key/value collections.")
 		docCategory("DataStructures")
@@ -17,7 +17,7 @@ Map ioDoc(
 #include "IoList.h"
 #include "IoBlock.h"
 
-#define HASHIVAR(self) ((PHash *)IoObject_dataPointer(self))
+#define DATA(self) ((PHash *)IoObject_dataPointer(self))
 
 IoTag *IoMap_newTag(void *state)
 {
@@ -32,50 +32,50 @@ IoTag *IoMap_newTag(void *state)
 }
 
 void IoMap_writeToStream_(IoMap *self, BStream *stream)
-{	
-	PHASH_FOREACH(HASHIVAR(self), k, v,
+{
+	PHASH_FOREACH(DATA(self), k, v,
 		BStream_writeTaggedInt32_(stream, IoObject_pid(k));
 		BStream_writeTaggedInt32_(stream, IoObject_pid(v));
 	);
-	
+
 	BStream_writeTaggedInt32_(stream, 0);
 }
 
 void IoMap_readFromStream_(IoMap *self, BStream *stream)
 {
-	PHash *hash = HASHIVAR(self);
-	
+	PHash *hash = DATA(self);
+
 	for (;;)
 	{
 		int k, v;
-		
+
 		k = BStream_readTaggedInt32(stream);
-		
-		if (k == 0) 
+
+		if (k == 0)
 		{
 			break;
 		}
-		
+
 		v = BStream_readTaggedInt32(stream);
 		PHash_at_put_(hash, IoState_objectWithPid_(IOSTATE, k), IoState_objectWithPid_(IOSTATE, v));
-	}  
+	}
 }
 
 
 IoMap *IoMap_proto(void *state)
 {
 	IoMethodTable methodTable[] = {
-	{"empty",    IoMap_empty}, 
-	{"at",       IoMap_at}, 
-	{"atPut",    IoMap_atPut}, 
-	{"atIfAbsentPut", IoMap_atIfAbsentPut}, 
-	{"size",     IoMap_size}, 
-	{"keys",     IoMap_keys}, 
-	{"values",   IoMap_values}, 
-	{"foreach",  IoMap_foreach}, 
-	{"hasKey",   IoMap_hasKey}, 
-	{"hasValue", IoMap_hasValue}, 
-	{"removeAt", IoMap_removeAt}, 
+	{"empty",    IoMap_empty},
+	{"at",       IoMap_at},
+	{"atPut",    IoMap_atPut},
+	{"atIfAbsentPut", IoMap_atIfAbsentPut},
+	{"size",     IoMap_size},
+	{"keys",     IoMap_keys},
+	{"values",   IoMap_values},
+	{"foreach",  IoMap_foreach},
+	{"hasKey",   IoMap_hasKey},
+	{"hasValue", IoMap_hasValue},
+	{"removeAt", IoMap_removeAt},
 	{NULL, NULL},
 	};
 
@@ -90,11 +90,11 @@ IoMap *IoMap_proto(void *state)
     return self;
 }
 
-IoMap *IoMap_rawClone(IoMap *proto) 
-{ 
+IoMap *IoMap_rawClone(IoMap *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
-	IoObject_setDataPointer_(self, PHash_clone(HASHIVAR(proto)));
-	return self; 
+	IoObject_setDataPointer_(self, PHash_clone(DATA(proto)));
+	return self;
 }
 
 IoMap *IoMap_new(void *state)
@@ -103,69 +103,69 @@ IoMap *IoMap_new(void *state)
 	return IOCLONE(proto);
 }
 
-void IoMap_free(IoMap *self) 
+void IoMap_free(IoMap *self)
 {
-	PHash_free(HASHIVAR(self));
+	PHash_free(DATA(self));
 }
 
-void IoMap_mark(IoMap *self) 
-{ 
-	//PHash_doOnKeyAndValue_(HASHIVAR(self), (ListDoCallback *)IoObject_shouldMark);
-	PHASH_FOREACH(HASHIVAR(self), k, v, IoObject_shouldMark(k); IoObject_shouldMark(v));
+void IoMap_mark(IoMap *self)
+{
+	//PHash_doOnKeyAndValue_(DATA(self), (ListDoCallback *)IoObject_shouldMark);
+	PHASH_FOREACH(DATA(self), k, v, IoObject_shouldMark(k); IoObject_shouldMark(v));
 }
 
 void IoMap_rawAtPut(IoMap *self, IoSymbol *k, IoObject *v)
 {
-	PHash_at_put_(HASHIVAR(self), IOREF(k), IOREF(v));
+	PHash_at_put_(DATA(self), IOREF(k), IOREF(v));
 }
 
 PHash *IoMap_rawHash(IoMap *self)
-{ 
-	return HASHIVAR(self); 
+{
+	return DATA(self);
 }
 
-// ----------------------------------------------------------- 
+// -----------------------------------------------------------
 
 IoObject *IoMap_empty(IoMap *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
 	docSlot("empty", "Removes all keys from the receiver. Returns self.")
 	*/
-	
-	PHash_clean(HASHIVAR(self)); 
-	return self; 
+
+	PHash_clean(DATA(self));
+	return self;
 }
 
 IoObject *IoMap_rawAt(IoMap *self, IoSymbol *k)
 {
-	return PHash_at_(HASHIVAR(self), k);
+	return PHash_at_(DATA(self), k);
 }
 
 IoObject *IoMap_at(IoMap *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("at(keyString, optionalDefaultValue)", 
+	docSlot("at(keyString, optionalDefaultValue)",
 		   "Returns the value for the key keyString. Returns nil if the key is absent. ")
 	*/
-	
+
 	IoSymbol *k = IoMessage_locals_symbolArgAt_(m, locals, 0);
-	void *result = PHash_at_(HASHIVAR(self), k);
-	
-	if (!result && IoMessage_argCount(m) > 1) 
-	{ 
-		return IoMessage_locals_valueArgAt_(m, locals, 1); 
+	void *result = PHash_at_(DATA(self), k);
+
+	if (!result && IoMessage_argCount(m) > 1)
+	{
+		return IoMessage_locals_valueArgAt_(m, locals, 1);
 	}
-	
+
 	return (result) ? result : IONIL(self);
 }
 
 IoObject *IoMap_atPut(IoMap *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("atPut(keyString, aValue)", 
+	docSlot("atPut(keyString, aValue)",
 		   "Inserts/sets aValue with the key keyString. Returns self. ")
 	*/
-	
+
 	IoSymbol *k = IoMessage_locals_symbolArgAt_(m, locals, 0);
 	IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 1);
 	IoMap_rawAtPut(self, k, v);
@@ -175,71 +175,71 @@ IoObject *IoMap_atPut(IoMap *self, IoObject *locals, IoMessage *m)
 IoObject *IoMap_atIfAbsentPut(IoMap *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("atIfAbsentPut(keyString, aValue)", 
+	docSlot("atIfAbsentPut(keyString, aValue)",
 		   "If a value is present at the specified key, the value is returned. Otherwise, inserts/sets aValue and returns aValue. ")
 	*/
-	
+
 	IoSymbol *k = IoMessage_locals_symbolArgAt_(m, locals, 0);
-	
-	if (PHash_at_(HASHIVAR(self), k) == NULL)
+
+	if (PHash_at_(DATA(self), k) == NULL)
 	{
 		IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 1);
 		IoMap_rawAtPut(self, k, v);
 	}
-	
-	return PHash_at_(HASHIVAR(self), k);
+
+	return PHash_at_(DATA(self), k);
 }
 
 IoObject *IoMap_size(IoMap *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
-	docSlot("size", 
-		   "Returns the number of key/value pairs in the receiver.") 
+	docSlot("size",
+		   "Returns the number of key/value pairs in the receiver.")
 	*/
-	
-	return IONUMBER(PHash_count(HASHIVAR(self))); 
+
+	return IONUMBER(PHash_count(DATA(self)));
 }
 
 IoObject *IoMap_hasKey(IoMap *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("hasKey(keyString)", 
+	docSlot("hasKey(keyString)",
 		   "Returns true if the key is present or false otherwise.")
 	*/
-	
+
 	IoSymbol *k = IoMessage_locals_symbolArgAt_(m, locals, 0);
-	return IOBOOL(self, PHash_at_(HASHIVAR(self), k) != NULL);
+	return IOBOOL(self, PHash_at_(DATA(self), k) != NULL);
 }
 
 IoObject *IoMap_removeAt(IoMap *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("removeAt(keyString)", 
+	docSlot("removeAt(keyString)",
 		   "Removes the specified keyString if present. Returns self. ")
 	*/
-	
+
 	IoSymbol *k = IoMessage_locals_symbolArgAt_(m, locals, 0);
-	PHash_removeKey_(HASHIVAR(self), k);
+	PHash_removeKey_(DATA(self), k);
 	return self;
 }
 
 IoObject *IoMap_hasValue(IoMap *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("hasValue(aValue)", 
+	docSlot("hasValue(aValue)",
 		   "Returns true if the value is one of the Map's values or false otherwise.")
 	*/
-	
+
 	// slow implementation
-	
-	IoList *values = IoMap_values(self, locals, m); 
+
+	IoList *values = IoMap_values(self, locals, m);
 	return IoList_contains(values, locals, m);
 }
 
 IoList *IoMap_rawKeys(IoMap *self)
 {
 	IoList *list = IoList_new(IOSTATE);
-	PHASH_FOREACH(HASHIVAR(self), k, v, IoList_rawAppend_(list, k));
+	PHASH_FOREACH(DATA(self), k, v, IoList_rawAppend_(list, k));
 	return list;
 }
 
@@ -248,7 +248,7 @@ IoList *IoMap_keys(IoMap *self, IoObject *locals, IoMessage *m)
 	/*#io
 	docSlot("keys", "Returns a List of the receivers keys.")
 	*/
-	
+
 	return IoMap_rawKeys(self);
 }
 
@@ -257,17 +257,17 @@ IoObject *IoMap_values(IoMap *self, IoObject *locals, IoMessage *m)
 	/*#io
 	docSlot("values", "Returns a List of the receivers values.")
 	*/
-	
+
 	IoList *list = IoList_new(IOSTATE);
-	PHASH_FOREACH(HASHIVAR(self), k, v, IoList_rawAppend_(list, v));
+	PHASH_FOREACH(DATA(self), k, v, IoList_rawAppend_(list, v));
 	return list;
 }
 
 IoObject *IoMap_foreach(IoMap *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("foreach(optionalKey, value, message)", 
-		   """For each key value pair, sets the locals key to 
+	docSlot("foreach(optionalKey, value, message)",
+		   """For each key value pair, sets the locals key to
 the key and value to the value and executes message.
 Example:
 <pre>aMap foreach(k, v, writeln(k, " = ", v))
@@ -275,35 +275,35 @@ aMap foreach(v, write(v))</pre>
 
 Example use with a block:
 
-<pre>myBlock = block(k, v, write(k, " = ", v, "\n")) 
+<pre>myBlock = block(k, v, write(k, " = ", v, "\n"))
 aMap foreach(k, v, myBlock(k, v))</pre>""")
 	*/
-	
+
 	IoState *state = IOSTATE;
 	IoSymbol *keyName, *valueName;
 	IoMessage *doMessage;
-	
-	
-	IoObject *result = IONIL(self);    
+
+
+	IoObject *result = IONIL(self);
 	IoMessage_foreachArgs(m, self, &keyName, &valueName, &doMessage);
 	IoState_pushRetainPool(state);
-	
-	PHASH_FOREACH(HASHIVAR(self), key, value,
-		IoState_clearTopPool(state);			
+
+	PHASH_FOREACH(DATA(self), key, value,
+		IoState_clearTopPool(state);
 		if (keyName)
 		{
 			IoObject_setSlot_to_(locals, keyName, key);
 		}
-		
+
 		IoObject_setSlot_to_(locals, valueName, value);
 		IoMessage_locals_performOn_(doMessage, locals, locals);
-		
-		if (IoState_handleStatus(IOSTATE)) 
+
+		if (IoState_handleStatus(IOSTATE))
 		{
 			break;
 		}
 	);
-	
+
 	IoState_popRetainPoolExceptFor_(state, result);
 	return result;
 }

@@ -19,7 +19,7 @@ Sandbox ioDoc(
 #include <errno.h>
 #include <stdio.h>
 
-#define DATA(self) ((IoSandboxData *)IoObject_dataPointer(self))
+#define DATA(self) ((IoState *)IoObject_dataPointer(self))
 
 IoTag *IoSandbox_newTag(void *state)
 {
@@ -42,37 +42,35 @@ IoSandbox *IoSandbox_proto(void *state)
 	{"doSandboxString", IoSandbox_doSandboxString},
 	{NULL, NULL},
 	};
-	
+
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoSandbox_newTag(state));
-	
+
 	IoState_registerProtoWithFunc_((IoState *)state, self, IoSandbox_proto);
-	
+
 	IoObject_addMethodTable_(self, methodTable);
-	
+
 	return self;
 }
 
-#define BOXSTATE(self) ((IoState *)(IoObject_dataPointer(self)))
-
 IoState *IoSandbox_boxState(IoSandbox *self)
 {
-	if (!IoObject_dataPointer(self))
+	if (!DATA(self))
 	{
 		IoObject_setDataPointer_(self, IoState_new());
 		IoSandbox_addPrintCallback(self);
 	}
-	
-	return (IoState *)(IoObject_dataPointer(self));
+
+	return DATA(self);
 }
 
 void IoSandbox_addMakeSecureMethod(IoSandbox *self)
 {
 	/*#io
-	docSlot("makeSecure", 
+	docSlot("makeSecure",
 		   "Removes Collector DynLib File Directory Debugger Store Sandbox objects.")
 	*/
-	
+
 	char *s = "makeSecure := method("
 	"Object removeSlots := method(\n"
 	"    stackLoop := block(\n"
@@ -135,7 +133,7 @@ void IoSandbox_addPrintCallback(IoSandbox *self)
 {
 	IoState *boxState = IoSandbox_boxState(self);
 	IoState_callbackContext_(boxState, self);
-	IoState_printCallback_(boxState, (IoStatePrintCallback *)IoSandbox_printCallback);  
+	IoState_printCallback_(boxState, (IoStatePrintCallback *)IoSandbox_printCallback);
 }
 
 void IoSandbox_printCallback(IoSandbox *self, const char *s)
@@ -156,7 +154,7 @@ IoSandbox *IoSandbox_new(void *state)
 
 void IoSandbox_free(IoSandbox *self)
 {
-	if (IoObject_dataPointer(self)) 
+	if (IoObject_dataPointer(self))
 	{
 		IoState_free(IoSandbox_boxState(self));
 	}
@@ -176,70 +174,70 @@ void *IoSandbox_readFromStream_(IoSandbox *self, BStream *stream)
 IoNumber *IoSandbox_messageCount(IoSandbox *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("messageCount", 
+	docSlot("messageCount",
 		   "Returns a number containing the messageCount limit of the Sandbox. ")
 	*/
-	
+
 	IoState *boxState = IoSandbox_boxState(self);
 	return IONUMBER(boxState->messageCountLimit);
 }
 
 IoObject *IoSandbox_setMessageCount(IoSandbox *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
-	docSlot("setMessageCount(anInteger)", 
+	docSlot("setMessageCount(anInteger)",
 		   "Sets the messageCount limit of the receiver. ")
 	*/
-	
+
 	IoState *boxState = IoSandbox_boxState(self);
 	boxState->messageCountLimit = IoMessage_locals_intArgAt_(m, locals, 0);
-	return self; 
+	return self;
 }
 
 IoNumber *IoSandbox_timeLimit(IoSandbox *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("timeLimit", 
+	docSlot("timeLimit",
 		   "Returns a number containing the time limit of calls made to the Sandbox. ")
 	*/
-	
+
 	IoState *boxState = IoSandbox_boxState(self);
 	return IONUMBER(boxState->timeLimit);
 }
 
 IoObject *IoSandbox_setTimeLimit(IoSandbox *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
-	docSlot("setTimeLimit(aDouble)", 
+	docSlot("setTimeLimit(aDouble)",
 		   "Sets the time limit of the Sandbox. ")
 	*/
-	
+
 	IoState *boxState = IoSandbox_boxState(self);
 	boxState->timeLimit = IoMessage_locals_doubleArgAt_(m, locals, 0);
-	return self; 
+	return self;
 }
 
 IoObject *IoSandbox_doSandboxString(IoSandbox *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("doSandboxString(aString)", 
+	docSlot("doSandboxString(aString)",
 		   "Evaluate aString instead the Sandbox. ")
 	*/
-	
+
 	IoState *boxState = IoSandbox_boxState(self);
 	char *s = IoMessage_locals_cStringArgAt_(m, locals, 0);
-	
+
 	IoObject *result = IoState_doSandboxCString_(boxState, s);
-	
+
 	if (ISSYMBOL(result))
 	{
 		return IOSYMBOL(CSTRING(result));
 	}
-	
+
 	if (ISNUMBER(result))
 	{
 		return IONUMBER(CNUMBER(result));
-	}    
-	
+	}
+
 	return IONIL(self);
 }

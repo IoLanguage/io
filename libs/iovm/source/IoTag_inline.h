@@ -1,9 +1,9 @@
 /*#io
 docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised") 
+docLicense("BSD revised")
 */
 
-#ifdef IOTAG_C 
+#ifdef IOTAG_C
 #define IO_IN_C_FILE
 #endif
 #include "Common_inline.h"

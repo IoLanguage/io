@@ -3,7 +3,7 @@ docCopyright("Steve Dekorte", 2002)
 docLicense("BSD revised")
 */
 
-#ifndef IOOBJECT_PERSISTENCE_DEFINED 
+#ifndef IOOBJECT_PERSISTENCE_DEFINED
 #define IOOBJECT_PERSISTENCE_DEFINED 1
 
 #include "IoObject.h"

@@ -29,7 +29,7 @@ PHash *IoMap_rawHash(IoMap *self);
 void IoMap_writeToStream_(IoMap *self, BStream *stream);
 void IoMap_readFromStream_(IoMap *self, BStream *stream);
 
-// ----------------------------------------------------------- 
+// -----------------------------------------------------------
 
 IoObject *IoMap_empty(IoMap *self, IoObject *locals, IoMessage *m);
 

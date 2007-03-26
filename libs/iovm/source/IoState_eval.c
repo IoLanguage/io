@@ -8,18 +8,18 @@
 #include <time.h>
 #include "PortableGettimeofday.h"
 
-IoObject *IoState_tryToPerform(IoState *self, 
-							  IoObject *target, 
-							  IoObject *locals, 
+IoObject *IoState_tryToPerform(IoState *self,
+							  IoObject *target,
+							  IoObject *locals,
 							  IoMessage *m)
-{ 
+{
 	IoCoroutine *tryCoro = IoCoroutine_newWithTry(self, target, locals, m);
-	
+
 	if (IoCoroutine_rawException(tryCoro) != self->ioNil)
 	{
 		IoState_exception_(self, tryCoro);
 	}
-	
+
 	return IoCoroutine_rawResult(tryCoro);
 }
 
@@ -33,41 +33,41 @@ void IoState_resetSandboxCounts(IoState *self)
 {
 	struct timeval startTv;
 	double start;
-	
-	// Get the start and current time 
+
+	// Get the start and current time
 	gettimeofday(&startTv, NULL);
 	start = (double)startTv.tv_sec + ((double)startTv.tv_usec/1000000.0);
-	
-	// Calculate the end of time 
+
+	// Calculate the end of time
 	self->endTime = start + self->timeLimit;
-	
+
 	self->messageCount = self->messageCountLimit;
 }
 
-IoObject *IoState_on_doCString_withLabel_(IoState *self, 
-								  IoObject *target, 
-								  const char *s, 
+IoObject *IoState_on_doCString_withLabel_(IoState *self,
+								  IoObject *target,
+								  const char *s,
 								  const char *label)
 {
 	IoObject *result;
-	
+
 	IoState_pushRetainPool(self);
-	
+
 	{
 		IoMessage *m = IoMessage_newWithName_andCachedArg_(self, SIOSYMBOL("doString"), SIOSYMBOL(s));
-		
+
 		if (label)
 		{
 			IoMessage_addCachedArg_(m, SIOSYMBOL(label));
 		}
-		
+
 		IoState_zeroSandboxCounts(self);
-		
+
 		result = IoState_tryToPerform(self, target, target, m);
 	}
-	
+
 	IoState_popRetainPoolExceptFor_(self, result);
-	
+
 	return result;
 }
 

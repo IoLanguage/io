@@ -24,7 +24,7 @@ typedef struct
 {
     IoMessage *message;
     List *argNames;
-    IoObject *scope; // if 0x0, then use target as the locals proto 
+    IoObject *scope; // if 0x0, then use target as the locals proto
 #ifdef IO_BLOCK_USE_PHASH_SETTINGS
 	PHashSettings phashSettings;
 #endif
@@ -40,7 +40,7 @@ void IoBlock_message_(IoBlock *self, IoMessage *m);
 void IoBlock_writeToStream_(IoBlock *self, BStream *stream);
 void IoBlock_readFromStream_(IoBlock *self, BStream *stream);
 
-// calling 
+// calling
 
 IoObject *IoBlock_activate(IoBlock *self, IoObject *target, IoObject *locals, IoMessage *m, IoObject *slotContext);
 IoObject *IoBlock_print(IoBlock *self, IoObject *locals, IoMessage *m);
@@ -58,7 +58,7 @@ IoObject *IoBlock_argumentNames_(IoBlock *self, IoObject *locals, IoMessage *m);
 IoObject *IoBlock_setScope_(IoBlock *self, IoObject *locals, IoMessage *m);
 IoObject *IoBlock_scope(IoBlock *self, IoObject *locals, IoMessage *m);
 
-// lobby methods 
+// lobby methods
 
 IoObject *IoBlock_method(IoObject *target, IoObject *locals, IoMessage *m);
 IoObject *IoObject_block(IoObject *target, IoObject *locals, IoMessage *m);

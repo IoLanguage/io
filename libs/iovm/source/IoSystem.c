@@ -37,7 +37,7 @@ static void setenv(const char *varName, const char* value, int force)
 	{
 		return;
 	}
-	
+
 	if (!value)
 	{
 		safeValue = "";
@@ -46,15 +46,15 @@ static void setenv(const char *varName, const char* value, int force)
 	{
 		safeValue = value;
 	}
-	
+
 	// buffer for var and value plus '=' and the \0
 	buf = (char*)io_calloc(1, strlen(varName) + strlen(safeValue) + 2);
-	
+
 	if (!buf)
 	{
 		return;
 	}
-	
+
 	strcpy(buf, varName);
 	strcat(buf, "=");
 	strcat(buf, safeValue);
@@ -72,7 +72,7 @@ static void setenv(const char *varName, const char* value, int force)
 
 IoObject *IoSystem_proto(void *state)
 {
-	IoMethodTable methodTable[] = { 
+	IoMethodTable methodTable[] = {
 	{"errno", IoObject_errnoDescription},
 	{"exit", IoObject_exit},
 	{"getenv", IoObject_getenv},
@@ -90,10 +90,10 @@ IoObject *IoSystem_proto(void *state)
 	{"symbols", IoObject_symbols},
 	{NULL, NULL},
 	};
-	
+
 	IoObject *self = IoObject_new(state);
 	IoObject_addMethodTable_(self, methodTable);
-	
+
 	/*#io
 		docSlot("version", "Returns the Io version number.")
 	*/
@@ -101,17 +101,17 @@ IoObject *IoSystem_proto(void *state)
 
 	//IoObject_setSlot_to_(self, IOSYMBOL("distribution"), IOSYMBOL("Io"));
 	IoObject_setSlot_to_(self, IOSYMBOL("type"), IOSYMBOL("System"));
-	
+
 	#ifndef INSTALL_PREFIX
 	#define INSTALL_PREFIX "/usr/local/"
 	#endif
-	
-	
+
+
 	/*#io
 		docSlot("installPrefix", "Returns the root path where io was install. The default is /usr/local/.")
 	*/
 	IoObject_setSlot_to_(self, IOSYMBOL("installPrefix"), IOSYMBOL(INSTALL_PREFIX));
-	
+
 	return self;
 }
 
@@ -134,50 +134,50 @@ IoObject *IoObject_errnoDescription(IoObject *self, IoObject *locals, IoMessage 
 }
 
 IoObject *IoObject_exit(IoObject *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
-	docSlot("exit(optionalReturnCodeNumber)", 
-		   "Shutdown the IoState (io_free all objects) and return 
+	docSlot("exit(optionalReturnCodeNumber)",
+		   "Shutdown the IoState (io_free all objects) and return
 control to the calling program (if any). ")
 	*/
-	
+
 	int returnCode = 0;
-	
+
 	if (IoMessage_argCount(m))
 	{
 		returnCode = IoMessage_locals_intArgAt_(m, locals, 0);
 	}
-	
-	IoState_exit(IOSTATE, returnCode); 
-	return self; 
+
+	IoState_exit(IOSTATE, returnCode);
+	return self;
 }
 
 IoObject *IoObject_getenv(IoObject *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
-	docSlot("getenv(nameString)", 
-		   "Returns a string with the value of the environment 
-variable whose name is specified by nameString.") 
+	docSlot("getenv(nameString)",
+		   "Returns a string with the value of the environment
+variable whose name is specified by nameString.")
 	*/
-	
+
 	IoSymbol *key = IoMessage_locals_symbolArgAt_(m, locals, 0);
 	char *s = getenv(CSTRING(key));
-	
-	if (!s) 
+
+	if (!s)
 	{
 		return ((IoState *)IOSTATE)->ioNil;
 	}
-	
+
 	return IoState_symbolWithCString_(IOSTATE, s);
 }
 
 IoObject *IoObject_system(IoObject *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("system(aString)", 
+	docSlot("system(aString)",
 		   "Makes a system call and returns a Number for the return value.")
 	*/
-	
+
 	IoSymbol *s = IoMessage_locals_symbolArgAt_(m, locals, 0);
 	int result = system(CSTRING(s))/ 256;
 	//printf("system result = %i\n", result);
@@ -185,38 +185,38 @@ IoObject *IoObject_system(IoObject *self, IoObject *locals, IoMessage *m)
 }
 
 IoObject *IoObject_memorySizeOfState(IoObject *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*
-	 docSlot("memorySizeOfState", 
-		    "Returns the number of bytes in the IoState 
+	 docSlot("memorySizeOfState",
+		    "Returns the number of bytes in the IoState
 	 (this may not include memory allocated by C libraries).")
 	 */
-	
-	return IONUMBER(0); 
-	//return IONUMBER(IoState_memorySize(IOSTATE)); 
+
+	return IONUMBER(0);
+	//return IONUMBER(IoState_memorySize(IOSTATE));
 }
 
 IoObject *IoObject_compactState(IoObject *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*
-	 docSlot("compactState", 
+	 docSlot("compactState",
 		    "Attempt to compact the memory of the IoState if possible.")
 	 */
-	
-	//IoState_compact(IOSTATE); 
-	return self; 
+
+	//IoState_compact(IOSTATE);
+	return self;
 }
- 
+
 IoObject *IoObject_setenv(IoObject *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
 	docSlot("setenv(keyString, valueString)", "Sets the environment variable keyString to the value valueString.")
 	*/
-	
+
 	// setenv() takes different args in different implementations
 	IoSymbol *key = IoMessage_locals_symbolArgAt_(m, locals, 0);
 	IoSymbol *value = IoMessage_locals_symbolArgAt_(m, locals, 1);
-	setenv(CSTRING(key), CSTRING(value), 1); 
+	setenv(CSTRING(key), CSTRING(value), 1);
 	return self;
 }
 
@@ -225,7 +225,7 @@ IoObject *IoObject_platform(IoObject *self, IoObject *locals, IoMessage *m)
 	/*#io
 	 docSlot("platform", "Returns a string description of the platform.")
 	 */
-	
+
 	char *platform = "Unknown";
 
 #if defined(__CYGWIN__)
@@ -239,11 +239,11 @@ IoObject *IoObject_platform(IoObject *self, IoObject *locals, IoMessage *m)
 #elif defined(_WIN32)
 
 	OSVERSIONINFO os;
-	
+
 	os.dwOSVersionInfoSize = sizeof( OSVERSIONINFO );
 	GetVersionEx(&os);
-	
-	switch(os.dwPlatformId) 
+
+	switch(os.dwPlatformId)
 	{
 		case VER_PLATFORM_WIN32_WINDOWS:
 			switch(os.dwMinorVersion)
@@ -262,11 +262,11 @@ IoObject *IoObject_platform(IoObject *self, IoObject *locals, IoMessage *m)
 					break;
 			}
 			break;
-			
+
 		case VER_PLATFORM_WIN32_NT:
 			if (os.dwMajorVersion == 3 || os.dwMajorVersion == 4)
 			{
-				platform = "Windows NT"; 
+				platform = "Windows NT";
 			}
 			else if (os.dwMajorVersion == 5)
 			{
@@ -285,18 +285,18 @@ IoObject *IoObject_platform(IoObject *self, IoObject *locals, IoMessage *m)
 			}
 			break;
 	}
-	
+
 #elif defined(unix) || defined(__APPLE__) || defined(__NetBSD__)
 	/* Why Apple and NetBSD don't define 'unix' I'll never know. */
 	struct utsname os;
 	int ret = uname(&os);
-	
-	if (ret == 0) 
+
+	if (ret == 0)
 	{
 		platform = os.sysname;
 	}
 #endif
-	
+
 	return IoState_symbolWithCString_(IOSTATE, platform);
 }
 
@@ -307,14 +307,14 @@ IoObject *IoObject_platformVersion(IoObject *self, IoObject *locals, IoMessage *
 	/*#io
 	docSlot("platformVersion", "Returns the version id of the OS.")
 	*/
-	
+
 #if defined(_WIN32)
 
 	OSVERSIONINFO os;
-	
+
 	os.dwOSVersionInfoSize = sizeof( OSVERSIONINFO );
 	GetVersionEx(&os);
-	
+
 	snprintf(platformVersion, sizeof(platformVersion) - 1, "%d.%d",
 		os.dwMajorVersion, os.dwMinorVersion);
 
@@ -322,13 +322,13 @@ IoObject *IoObject_platformVersion(IoObject *self, IoObject *locals, IoMessage *
 	/* Why Apple and NetBSD don't define 'unix' I'll never know. */
 	struct utsname os;
 	int ret = uname(&os);
-	
-	if (ret == 0) 
+
+	if (ret == 0)
 	{
 		snprintf(platformVersion, sizeof(platformVersion) - 1, os.release);
 	}
 #endif
-	
+
 	return IoState_symbolWithCString_(IOSTATE, platformVersion);
 }
 
@@ -371,7 +371,7 @@ IoObject *IoObject_sleep(IoObject *self, IoObject *locals, IoMessage *m)
 	/*#io
 	docSlot("sleep(secondsNumber)", "Performs a *blocking* sleep call for specified number of seconds.")
 	*/
-	
+
 	double seconds = IoMessage_locals_doubleArgAt_(m, locals, 0);
 	unsigned int microseconds = (seconds * 1000000);
 	usleep(microseconds);
@@ -383,7 +383,7 @@ IoObject *IoObject_maxRecycledObjects(IoObject *self, IoObject *locals, IoMessag
 	/*#io
 	docSlot("maxRecycledObjects", "Returns the max number of recycled objects used.")
 	*/
-	
+
 	return IONUMBER(IOSTATE->maxRecycledObjects);
 }
 
@@ -392,7 +392,7 @@ IoObject *IoObject_setMaxRecycledObjects(IoObject *self, IoObject *locals, IoMes
 	/*#io
 	docSlot("setMaxRecycledObjects(aNumber)", "Sets the max number of recycled objects used.")
 	*/
-	
+
 	size_t max = IoMessage_locals_sizetArgAt_(m, locals, 0);
 	IOSTATE->maxRecycledObjects = max;
 	return self;
@@ -403,7 +403,7 @@ IoObject *IoObject_recycledObjectCount(IoObject *self, IoObject *locals, IoMessa
 	/*#io
 	docSlot("recycledObjectCount", "Returns the current number of objects being held for recycling.")
 	*/
-	
+
 	return IONUMBER(List_size(IOSTATE->recycledObjects));
 }
 
@@ -455,8 +455,8 @@ int IoState_syncState(IoState *self)
 	Collector *collector = IOSTATE->collector;
 	self->store->open();
 	Collector_collect(collect);
-	COLLECTOR_FOREACH(collector, v, 
-				   if (!IoObject_persistentId(v) || IoObject_isDirty(v)) 
+	COLLECTOR_FOREACH(collector, v,
+				   if (!IoObject_persistentId(v) || IoObject_isDirty(v))
 				   IoState_storeObject_(state, v)
 				   );
 	self->store->close();
@@ -465,11 +465,11 @@ int IoState_syncState(IoState *self)
 
 PID_TYPE IoObject_pid(IoObject *self)
 {
-	if (!IoObject_persistentId(self)) 
+	if (!IoObject_persistentId(self))
 	{
 		IoObject_persistentId_(self, IoState_newPid(IOSTATE));
 	}
-	
+
 	return IoObject_persistentId(self);
 }
 
@@ -490,7 +490,7 @@ int IoState_storeObject_(IoState *self, IoObject *v)
 // load ----------------------
 
 int IoState_loadState(IoState *self, IoObject *v)
-{	
+{
 	IoObject *lobby;
 	self->store->open();
 	Datum *d = self->store->at(state, 1); // pid of lobby

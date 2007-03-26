@@ -41,7 +41,7 @@ IOVM_API void IoList_rawAddIoList_(IoList *self, IoList *other);
 IOVM_API void IoList_rawAddBaseList_(IoList *self, List *other);
 IOVM_API size_t IoList_rawSize(IoList *self);
 
-// immutable 
+// immutable
 
 IOVM_API IoObject *IoList_with(IoList *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoList_indexOf(IoList *self, IoObject *locals, IoMessage *m);

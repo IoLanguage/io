@@ -3,7 +3,7 @@ docCopyright("Steve Dekorte", 2002)
 docLicense("BSD revised")
 */
 
-#ifndef IOSTATE_DEFINED 
+#ifndef IOSTATE_DEFINED
 #define IOSTATE_DEFINED 1
 
 #include "IoVMApi.h"
@@ -42,10 +42,10 @@ struct IoState
 
 	IoObject *objectProto;
 	IoObject *mainCoroutine;    // the object that represents the main "thread"
-	IoObject *currentCoroutine; // the object whose coroutine is active 
-	Stack *currentIoStack;      // quick access to current coro's retain stack 
+	IoObject *currentCoroutine; // the object whose coroutine is active
+	Stack *currentIoStack;      // quick access to current coro's retain stack
 
-	// quick access objects 
+	// quick access objects
 
 	IoSymbol *activateSymbol;
 	IoSymbol *forwardSymbol;
@@ -76,7 +76,7 @@ struct IoState
 	IoMessage *yieldMessage;
 
 	List *cachedNumbers;
-	
+
 	// singletons
 
 	IoObject *ioNil;
@@ -84,7 +84,7 @@ struct IoState
 	IoObject *ioFalse;
 
 	// Flow control singletons
-	
+
 	IoObject *ioNormal;
 	IoObject *ioBreak;
 	IoObject *ioContinue;
@@ -96,8 +96,8 @@ struct IoState
 	Collector *collector;
 	IoObject *lobby;
 	IoObject *core;
-	
-	// recycling 
+
+	// recycling
 
 	List *recycledObjects;
 	size_t maxRecycledObjects;
@@ -106,7 +106,7 @@ struct IoState
 
 	MainArgs *mainArgs;
 
-	// current execution state 
+	// current execution state
 
 	int stopStatus;
 	void *returnValue;
@@ -126,7 +126,7 @@ struct IoState
 	IoObject *debugger;
 	IoMessage *vmWillSendMessage;
 
-	// SandBox limits 
+	// SandBox limits
 
 	int messageCountLimit;
 	int messageCount;
@@ -154,7 +154,7 @@ void IoState_setupQuickAccessSymbols(IoState *self);
 void IoState_setupCachedMessages(IoState *self);
 void IoState_setupSingletons(IoState *self);
 
-// setup tags 
+// setup tags
 
 IOVM_API void IoState_registerProtoWithFunc_(IoState *self, IoObject *proto, IoStateProtoFunc *func);
 IOVM_API IoObject *IoState_protoWithInitFunction_(IoState *self, IoStateProtoFunc *func);
@@ -167,7 +167,7 @@ IOVM_API void IoState_free(IoState *self);
 IOVM_API IoObject *IoState_lobby(IoState *self);
 IOVM_API void IoState_setLobby_(IoState *self, IoObject *obj);
 
-// command line 
+// command line
 
 IOVM_API void IoState_argc_argv_(IoState *self, int argc, const char *argv[]);
 IOVM_API void IoState_runCLI(IoState *self);
