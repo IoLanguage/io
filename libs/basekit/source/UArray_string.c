@@ -490,7 +490,7 @@ void UArray_translate(UArray *self, UArray *fromChars, UArray *toChars)
 
 size_t UArray_count_(const UArray *self, const UArray *other)
 {
-	long i;
+	long i = 0;
 	size_t count = 0;
 	
 	while ((i = UArray_find_from_(self, other, i)) != -1)

@@ -152,7 +152,7 @@ void UArray_setItemType_(UArray *self, CTYPE type)
 	self->itemSize = itemSize;
 	self->size = q.quot;
 	
-	if (UArray_isFloat(self))
+	if (UArray_isFloatType(self))
 	{
 		self->encoding = CENCODING_NUMBER;
 	}
@@ -215,7 +215,6 @@ void UArray_convertToEncoding_(UArray *self, CENCODING encoding)
 UArray *UArray_newWithData_type_size_copy_(void *bytes, CTYPE type, size_t size, int copy)
 {
 	UArray *self = (UArray *)io_calloc(1, sizeof(UArray));
-	memset(self, 0, sizeof(UArray));
 	UArray_setData_type_size_copy_(self, bytes, type, size, copy);
 	self->encoding = CENCODING_ASCII;
 	return self;

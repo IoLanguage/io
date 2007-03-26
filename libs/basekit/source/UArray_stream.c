@@ -131,7 +131,7 @@ long UArray_writeToCStream_(const UArray *self, FILE *stream)
 
 long UArray_writeToFilePath_(const UArray *self, const UArray *path)
 {
-	UArray *sysPath = (UArray_itemSize(sysPath) == 1) ? (UArray *)path : UArray_asUTF8(path);
+	UArray *sysPath = (UArray_itemSize(path) == 1) ? (UArray *)path : UArray_asUTF8(path);
 	FILE *fp = fopen(UArray_asCString(sysPath), "w");
 	long itemsWritten = -1;
 	

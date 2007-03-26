@@ -139,7 +139,6 @@ extern "C" {
 #endif
 	
 //#define IO_CHECK_ALLOC
-//#define IO_BBUDDY_ALLOC
 
 #ifdef IO_CHECK_ALLOC
 	BASEKIT_API size_t io_memsize(void *ptr);
@@ -162,33 +161,23 @@ extern "C" {
 	BASEKIT_API size_t io_allocatedBytes(void);
 	
 	BASEKIT_API void io_showUnfreed(void);
-
 #else
-	#ifdef IO_BBUDDY_ALLOC
-		#include "binbuddy.h"
-		#define io_memsize
-		#define io_malloc rt_malloc
-		#define io_calloc rt_calloc
-		#define io_realloc rt_realloc
-		#define io_free rt_free
-		//#define io_show_mem statistics_data
-		#define io_show_mem 
-	#else
-		#define io_memsize
-		#define io_malloc malloc
-		#define io_calloc calloc
-		#define io_realloc realloc
-		#define io_free free
-		#define io_show_mem 
-	#endif
-#define io_maxAllocatedBytes() 0 
-#define io_frees() 0 
-#define io_allocs() 0 
-#define io_allocatedBytes() 0 
-#define io_resetMaxAllocatedBytes() 
+	#define io_memsize
+	#define io_malloc malloc
+	#define io_calloc calloc
+	#define io_realloc io_freerealloc
+	#define io_free free
+	#define io_show_mem 
+
+	#define io_maxAllocatedBytes() 0 
+	#define io_frees() 0 
+	#define io_allocs() 0 
+	#define io_allocatedBytes() 0 
+	#define io_resetMaxAllocatedBytes() 
 #endif
 	
 BASEKIT_API void *cpalloc(const void *p, size_t size);
+BASEKIT_API void *io_freerealloc(void *p, size_t size);
 
 #ifdef __cplusplus
 }
