@@ -270,7 +270,23 @@ void io_showUnfreed(void)
 void *cpalloc(const void *p, size_t size)
 {
 	void *n = io_malloc(size);
-	memcpy(n, p, size);
+	if(p) memcpy(n, p, size);
 	return n;
+}
+
+void *io_freerealloc(void *p, size_t size)
+{
+	return realloc(p, size);
+	/*
+	void *n = io_malloc(size);
+	
+	if (p != NULL) 
+	{
+		memcpy(n, p, size);
+		free(p);
+	}
+	
+	return n;
+	*/
 }
 
