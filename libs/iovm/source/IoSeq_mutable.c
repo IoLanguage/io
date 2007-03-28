@@ -784,8 +784,12 @@ IoObject *IoSeq_interpolateInPlace(IoSeq *self, IoObject *locals, IoMessage *m)
 
 	context = (context == IONIL(self)) ? locals : context;
 
+	IoState_pushRetainPool(IOSTATE);
+
 	for(;;)
 	{
+		IoState_clearTopPool(IOSTATE);
+
 		from = UArray_find_from_(string, &begin, from);
 		if (from == -1) break;
 
@@ -809,7 +813,10 @@ IoObject *IoSeq_interpolateInPlace(IoSeq *self, IoObject *locals, IoMessage *m)
 
 		UArray_removeRange(string, from, to-from+1);
 		UArray_at_putAll_(string, from, evaluatedCodeAsString);
+		from = from + UArray_size(evaluatedCodeAsString);
 	}
+	
+	IoState_popRetainPool(IOSTATE);
 
 	return self;
 }
