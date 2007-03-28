@@ -321,10 +321,14 @@ IoObject *IoObject_rawClone(IoObject *proto)
 {
 	IoObject *self = IoObject_alloc(proto);
 	IoObject_tag_(self, IoObject_tag(proto));
+	/*
 	{
 		IoObject **protos = IoObject_protos(self);
 		protos[0] = proto;
 	}
+	*/
+	IoObject_setProtoTo_(self, proto);
+
 	//IoObject_protos(self)[0] = proto;
 	//IoObject_setDataPointer_(self, IoObject_dataPointer(proto)); // is this right?
 	IoObject_isDirty_(self, 1);

@@ -486,8 +486,18 @@ IoObject *IoMessage_locals_performOn_(IoMessage *self, IoObject *locals, IoObjec
 		else
 		{
 			result = md->cachedResult; // put it on the stack?
-			//if(state->debugOn) printf("%s\n", CSTRING(DATA(m)->name));
-
+			/*
+			if(state->debugOn) 
+			{
+				char *s = CSTRING(DATA(m)->name);
+				printf("%s\n", s);
+				if (strcmp(s, "clone") == 0)
+				{
+					printf("found '%s'\n", s);
+				}
+			}
+			*/
+			
 			if (!result)
 			{
 				IoState_pushRetainPool(state);

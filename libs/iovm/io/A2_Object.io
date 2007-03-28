@@ -273,7 +273,7 @@ Object do(
     )
     
     docSlot("println", "Same as print, but also prints a new line. Returns self.")
-    println := method(self print; write("\n"); self)
+    println := method(getSlot("self") print; write("\n"); self)
 
     docSlot("?(aMessage)", """
     description: Sends the message aMessage to the receiver if it can respond to it. Example:

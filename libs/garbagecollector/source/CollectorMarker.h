@@ -33,10 +33,19 @@ typedef struct CollectorMarker CollectorMarker;
 	CollectorMarker *next; \
 	unsigned int color : 2; 
 
+/*
+#if !defined(COLLECTOROBJECTTYPE)
+#define COLLECTOROBJECTTYPE void
+#endif
+*/
+
+typedef struct IoObjectData IoObjectData;
+#define IoObjectDataDefined 1
+
 struct CollectorMarker
 {
 	CollectorMarkerSansPointer
-	void *object;
+	IoObjectData *object;
 };
 
 #define COLLECTOR_REF_TYPE(Type) \

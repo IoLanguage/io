@@ -6,14 +6,19 @@ docLicense("BSD revised")
 #ifndef IOSTATE_DEFINED
 #define IOSTATE_DEFINED 1
 
+
 #include "IoVMApi.h"
 
-#include "Collector.h"
+//#include "Collector.h"
 #include "Stack.h"
 #include "PHash.h"
 #include "SHash.h"
 #include "MainArgs.h"
 #include "IoObject_struct.h"
+#define COLLECTOROBJECTTYPE IoObjectData
+
+#include "Collector.h"
+
 #include "IoSeq.h"
 #include "IoVersion.h"
 #include "IoCoroutine.h"
