@@ -291,6 +291,8 @@ IoObject *IoCoroutine_freeStack(IoCoroutine *self, IoObject *locals, IoMessage *
 		Coro_free(DATA(self)->cid);
 		DATA(self)->cid = NULL;
 	}
+	
+	return self;
 }
 
 IoObject *IoCoroutine_main(IoCoroutine *self, IoObject *locals, IoMessage *m)
