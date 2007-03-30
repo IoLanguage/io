@@ -173,7 +173,7 @@ IoObject *IoGLScissor_unionWithScreenRect(IoGLScissor *self, IoObject *locals, I
 
 IoObject *IoGLScissor_isVisible(IoGLScissor *self, IoObject *locals, IoMessage *m)
 { 
-	return UArray_isZero(IoSeq_rawUArray(IoBox_rawSize(DATA(self)->rect))); 
+	return IOBOOL(self, UArray_isZero(IoSeq_rawUArray(IoBox_rawSize(DATA(self)->rect)))); 
 }
 
 

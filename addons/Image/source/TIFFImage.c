@@ -257,11 +257,6 @@ int TIFFImage_sizeInBytes(TIFFImage *self)
     return self->height * self->width * self->components; 
 }
 
-void *TIFFImage_data(TIFFImage *self) 
-{ 
-    return UArray_bytes(self->byteArray); 
-}
-
 UArray *TIFFImage_byteArray(TIFFImage *self) 
 { 
     return self->byteArray; 

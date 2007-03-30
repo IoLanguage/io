@@ -455,10 +455,13 @@ callsystem_abort(callsystem_pid_t * pid)
 #ifdef unix
   if (kill (*pid, SIGKILL) == -1)
     return -1;
+  return 0;
 #elif defined(WIN32)
   if (!TerminateProcess(*pid, 127))
     return -1;
   return 0;
+#else
+  return -1;
 #endif
 }
 

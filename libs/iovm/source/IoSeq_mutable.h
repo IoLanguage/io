@@ -10,7 +10,7 @@ IoObject *IoSeq_convertToItemType(IoSeq *self, IoObject *locals, IoMessage *m);
 IoObject *IoSeq_convertToFixedSizeType(IoSeq *self, IoObject *locals, IoMessage *m);
 IoObject *IoSeq_setEncoding(IoSeq *self, IoObject *locals, IoMessage *m);
 
-void IoSeq_rawCopy(IoSeq *self, IoSeq *other);
+void IoSeq_rawCopy_(IoSeq *self, IoSeq *other);
 IoObject *IoSeq_copy(IoSeq *self, IoObject *locals, IoMessage *m);
 IoObject *IoSeq_appendSeq(IoSeq *self, IoObject *locals, IoMessage *m);
 IoObject *IoSeq_append(IoSeq *self, IoObject *locals, IoMessage *m);
