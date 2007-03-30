@@ -120,4 +120,17 @@ ObjectTest := UnitTest clone do(
 
 		assertEquals(f, list("b", "c", "d", "a", "b", "c"))
 	)
+	
+	_willFree2 := method(
+        Lobby willFreeWorked := false
+		Object clone do(willFree := method("foo" println; Lobby willFreeWorked := true))
+		nil
+	)
+	
+	testWillFree := method(
+        _willFree2
+		Collector collect
+		assertEquals(Lobby willFreeWorked, true)
+	)
+
 )
