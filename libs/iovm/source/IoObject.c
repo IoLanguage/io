@@ -571,13 +571,18 @@ void IoObject_listenNotification(IoObject *self, void *notification)
 
 void IoObject_willFree(IoObject *self)
 {
-	IoObject *context;
-	IoMessage *m = IOSTATE->willFreeMessage;
-	IoObject *finalizeSlotValue = IoObject_rawGetSlot_context_(self, IoMessage_name(m), &context);
-
-	if (finalizeSlotValue)
+	if (IoObject_sentWillFree(self) == 0)
 	{
-		IoObject_perform(self, self, m);
+		IoObject *context;
+		IoMessage *m = IOSTATE->willFreeMessage;
+		IoObject *finalizeSlotValue = IoObject_rawGetSlot_context_(self, IoMessage_name(m), &context);
+
+		if (finalizeSlotValue)
+		{
+			IoObject_perform(self, self, m);
+			IoObject_sentWillFree_(self, 1);
+			//IoObject_makeGray(self);
+		}
 	}
 }
 
