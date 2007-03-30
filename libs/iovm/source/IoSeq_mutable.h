@@ -88,6 +88,7 @@ IoObject *IoSeq_divide(IoSeq *self, IoObject *locals, IoMessage *m);
 
 IoObject *IoSeq_dotProduct(IoSeq *self, IoObject *locals, IoMessage *m);
 IoObject *IoSeq_sum(IoSeq *self, IoObject *locals, IoMessage *m);
+IoObject *IoSeq_product(IoSeq *self, IoObject *locals, IoMessage *m);
 IoObject *IoSeq_min(IoSeq *self, IoObject *locals, IoMessage *m);
 IoObject *IoSeq_max(IoSeq *self, IoObject *locals, IoMessage *m);
 IoObject *IoSeq_arithmeticMeanAsDouble(IoSeq *self, IoObject *locals, IoMessage *m);

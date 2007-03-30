@@ -129,13 +129,6 @@ double UArray_dotProduct_(const UArray *self, const UArray *other)
 	return 0;
 }
 
-double UArray_product(const UArray *self)
-{
-	double p = 1;
-	UARRAY_FOREACH(self, i, v, p *= v);
-	return p;
-}
-
 // basic scalar math
 
 void UArray_addScalarDouble_(UArray *self, double value)
@@ -343,6 +336,13 @@ double UArray_sumAsDouble(const UArray *self)
 	double sum = 0;
 	UARRAY_FOREACH(self, i, v, sum += v);
 	return sum;
+}
+
+double UArray_productAsDouble(const UArray *self)
+{
+	double p = 1;
+	UARRAY_FOREACH(self, i, v, p *= v);
+	return p;
 }
 
 double UArray_arithmeticMeanAsDouble(const UArray *self)

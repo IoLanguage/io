@@ -1004,6 +1004,7 @@ IoObject *IoSeq_ ## name (IoSeq *self, IoObject *locals, IoMessage *m) \
 { return IONUMBER(UArray_ ## name (DATA(self))); }
 
 IoSeqNoArgNumberResultOp(sumAsDouble);
+IoSeqNoArgNumberResultOp(productAsDouble);
 IoSeqNoArgNumberResultOp(minAsDouble);
 IoSeqNoArgNumberResultOp(maxAsDouble);
 IoSeqNoArgNumberResultOp(arithmeticMeanAsDouble);
@@ -1118,6 +1119,7 @@ void IoSeq_addMutableMethods(IoSeq *self)
 		//
 	{"dotProduct", IoSeq_dotProduct},
 	{"sum", IoSeq_sumAsDouble},
+	{"product", IoSeq_productAsDouble},
 	{"min", IoSeq_minAsDouble},
 	{"max", IoSeq_maxAsDouble},
 	{"mean", IoSeq_arithmeticMeanAsDouble},
