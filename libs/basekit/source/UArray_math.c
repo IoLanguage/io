@@ -193,11 +193,11 @@ void UArray_bitwiseNot(UArray *self)
 
 // bitwise ops
 
-void UArray_setAllBitsTo_(UArray *self, uint8_t bool)
+void UArray_setAllBitsTo_(UArray *self, uint8_t aBool)
 {
 	size_t i, max = UArray_sizeInBytes(self);
 	uint8_t *data = self->data;
-	uint8_t bits = bool ? ~0 : 0;
+	uint8_t bits = aBool ? ~0 : 0;
 	for (i = 0; i < max; i ++) { data[i] = bits; }
 }
 
@@ -217,7 +217,7 @@ uint8_t UArray_byteAt_(UArray *self, size_t i)
 	return 0;
 }
 
-void UArray_setBit_at_(UArray *self, int bool, size_t i)
+void UArray_setBit_at_(UArray *self, int aBool, size_t i)
 {
 	size_t bytePos = i / 8;
 	size_t bitPos  = i - bytePos;
@@ -226,7 +226,7 @@ void UArray_setBit_at_(UArray *self, int bool, size_t i)
 	if (bytePos >= UArray_sizeInBytes(self)) return; 
 	b = self->data[bytePos];
 	b ^= n;
-	if (bool) b |= (0x1 << bitPos);
+	if (aBool) b |= (0x1 << bitPos);
 	self->data[bytePos] = b;	
 }
 

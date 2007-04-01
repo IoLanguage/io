@@ -77,6 +77,7 @@ AddonLoader := Object clone do(
     hasAddonNamed := method(name, addonFor(name) != nil)
 
     loadAddonNamed := method(name,
+    	writeln("loadAddonNamed(", name, ")")
         addon := addonFor(name)
         if(addon, addon load, nil)
         Lobby getSlot(name)

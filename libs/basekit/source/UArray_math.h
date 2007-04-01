@@ -36,7 +36,7 @@ BASEKIT_API void UArray_bitwiseNot(UArray *self);
 
 // bitwise ops
 
-BASEKIT_API void UArray_setAllBitsTo_(UArray *self, uint8_t bool);
+BASEKIT_API void UArray_setAllBitsTo_(UArray *self, uint8_t aBool);
 BASEKIT_API uint8_t UArray_byteAt_(UArray *self, size_t i);
 BASEKIT_API int UArray_bitAt_(UArray *self, size_t i);
 BASEKIT_API void UArray_setBit_at_(UArray *self, int b, size_t i);

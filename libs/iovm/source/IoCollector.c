@@ -51,9 +51,9 @@ IoObject *IoCollector_setDebug(IoCollector *self, IoObject *locals, IoMessage *m
 	/*#io
 	docSlot("setDebug(aBool)", "Turns on/off printing of collector debugging messages. Returns self.")
 	*/
-	IoObject *bool = IoMessage_locals_valueArgAt_(m, locals, 0);
+	IoObject *aBool = IoMessage_locals_valueArgAt_(m, locals, 0);
 
-	Collector_setDebug_(IOSTATE->collector, ISTRUE(bool));
+	Collector_setDebug_(IOSTATE->collector, ISTRUE(aBool));
 	return self;
 }
 

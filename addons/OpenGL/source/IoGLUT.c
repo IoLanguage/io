@@ -47,6 +47,8 @@ IoGLUT *IoGLUT_proto(void *state)
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoGLUTData)));
 	
 	DATA(self)->coroutine = IoCoroutine_new(state);
+
+	
 	DATA(self)->eventTarget = NULL;
 	DATA(self)->entryMessage      = GLUTMESSAGE("entry");
 	DATA(self)->displayMessage    = GLUTMESSAGE("display");
@@ -68,6 +70,18 @@ IoGLUT *IoGLUT_proto(void *state)
 	DATA(self)->pasteMessage  = GLUTMESSAGE("paste");
 	DATA(self)->deleteMessage = GLUTMESSAGE("delete");
 	DATA(self)->nanoSleepPeriod = 1000000000/2;
+
+
+
+
+	printf("GLUT coro = %p\n", (void *)DATA(self)->coroutine);
+	IoState_retain_(state, self);
+	IoState_retain_(state, DATA(self)->coroutine);
+	IoState_retain_(state, DATA(self)->displayMessage);
+	IoState_retain_(state, DATA(self)->reshapeMessage);
+	IoState_retain_(state, DATA(self)->timerMessage);
+
+
 
 	DATA(self)->j = IoSeq_newFloatArrayOfSize_(state, 0);
 	DATA(self)->lastJ = UArray_new();
@@ -92,6 +106,8 @@ void IoGLUT_free(IoGLUT *self)
 
 void IoGLUT_mark(IoGLUT *self)
 {
+	printf("IoGLUT_mark\n");
+	
 	if (DATA(self)->eventTarget) 
 	{
 		IoObject_shouldMark(DATA(self)->eventTarget);
@@ -292,6 +308,7 @@ IoObject *IoGLUT_glutEventTarget_(IoGLUT *self, IoObject *locals, IoMessage *m)
 
 void IoGlutDisplayFunc(void)
 {
+	printf("IoGlutDisplayFunc\n");
 	IoState_pushRetainPool(IoObject_state(proto));
 
 	IoGLUT_tryCallback(proto, DATA(proto)->displayMessage);
@@ -445,6 +462,7 @@ IoObject *IoGLUT_glutMouseFunc(IoGLUT *self, IoObject *locals, IoMessage *m)
 
 void IoGlutReshapeFunc(int width, int height)
 {
+	printf("IoGlutReshapeFunc\n");
 	IoState_pushRetainPool(IoObject_state(proto));
 	{
 		IoMessage_setCachedArg_toInt_(DATA(proto)->reshapeMessage, 0, width?width:1);
@@ -465,6 +483,9 @@ IoObject *IoGLUT_glutReshapeFunc(IoGLUT *self, IoObject *locals, IoMessage *m)
 void IoGlutTimerFunc(int vv)
 {
 	IoState *state = IoObject_state(proto);
+
+	printf("IoGlutTimerFunc\n");
+
 	IoState_pushRetainPool(state);
 	
 	if (vv == -1)
@@ -495,6 +516,8 @@ IoObject *IoGLUT_tryCallback(IoGLUT *self, IoMessage *m)
 	IoObject *tryCoro = DATA(self)->coroutine;
 	IoObject *t = DATA(proto)->eventTarget;
 	IoObject *result = state->ioNil;
+	
+	printf("IoGLUT_tryCallback(self, %p)\n", (void *)m);
 	
 	if (t)
 	{
@@ -851,8 +874,9 @@ void IoGlutJoystickFunc(unsigned int buttonMask, int x, int y, int z)
 {
 	UArray *j = IoSeq_rawUArray(DATA(proto)->j);
 	UArray *lastJ = DATA(proto)->lastJ;
+	vec3f v = (vec3f){x, y, z};
 	
-	IoSeq_setVec3f_(j, (vec3f){x, y, z});
+	IoSeq_setVec3f_(DATA(proto)->j, v);
 	UArray_subtract_(lastJ, j);
 
 	if (DATA(proto)->lastJoystickButton != buttonMask || UArray_sumAsDouble(lastJ) != 0.0) // only send callback if a change occurs
