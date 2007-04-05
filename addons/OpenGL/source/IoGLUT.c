@@ -89,6 +89,32 @@ IoGLUT *IoGLUT_proto(void *state)
 	
 	IoState_registerProtoWithFunc_(state, self, IoGLUT_proto);	
 	
+	
+	//-----------------------------
+	
+	IoState_retain_(state, DATA(self)->j);
+	
+	IoState_retain_(state, DATA(self)->coroutine);
+	IoState_retain_(state, DATA(self)->entryMessage);
+	IoState_retain_(state, DATA(self)->displayMessage);
+	IoState_retain_(state, DATA(self)->keyboardMessage);
+	IoState_retain_(state, DATA(self)->keyboardUpMessage);
+	IoState_retain_(state, DATA(self)->joystickMessage);
+	IoState_retain_(state, DATA(self)->menuMessage);
+	IoState_retain_(state, DATA(self)->mouseMessage);
+	IoState_retain_(state, DATA(self)->motionMessage);
+	IoState_retain_(state, DATA(self)->passiveMotionMessage);
+	IoState_retain_(state, DATA(self)->reshapeMessage);
+	IoState_retain_(state, DATA(self)->specialMessage);
+	IoState_retain_(state, DATA(self)->timerMessage);
+	
+	IoState_retain_(state, DATA(self)->acceptsDropMessage);
+	IoState_retain_(state, DATA(self)->dragMessage);
+	IoState_retain_(state, DATA(self)->dropMessage);
+	IoState_retain_(state, DATA(self)->copyMessage);
+	IoState_retain_(state, DATA(self)->pasteMessage);
+	IoState_retain_(state, DATA(self)->deleteMessage);
+	
 	IoGLUT_protoInit(self);
 	return self;
 }

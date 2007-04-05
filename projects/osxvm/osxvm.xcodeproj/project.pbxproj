@@ -287,7 +287,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		8DD76FB20486AB0100D96B5E /* osxvm */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = osxvm; sourceTree = BUILT_PRODUCTS_DIR; };
+		8DD76FB20486AB0100D96B5E /* osxvm */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.executable"; path = osxvm; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA2E9CA10B6DA6CB0075FC67 /* ConvertUTF.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = ConvertUTF.c; path = ../../libs/basekit/source/ConvertUTF.c; sourceTree = SOURCE_ROOT; };
 		AA2E9CA20B6DA6CB0075FC67 /* ConvertUTF.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ConvertUTF.h; path = ../../libs/basekit/source/ConvertUTF.h; sourceTree = SOURCE_ROOT; };
 		AA6AC0260BA8E5D10049770F /* IoSeq_vector.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoSeq_vector.c; path = ../../libs/iovm/source/IoSeq_vector.c; sourceTree = SOURCE_ROOT; };
