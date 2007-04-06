@@ -52,7 +52,8 @@ typedef struct Coro Coro;
 
 struct Coro
 {        
-	size_t stackSize;
+	size_t requestedStackSize;
+	size_t allocatedStackSize;
 	void *stack;
 
 #ifdef USE_VALGRIND

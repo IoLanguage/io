@@ -46,7 +46,7 @@
 	Coro *c = (coro); \
 		c->valgrindStackId = VALGRIND_STACK_REGISTER( \
 											 c->stack, \
-											 c->stack + c->stackSize); \
+											 c->stack + c->requestedStackSize); \
 }
 
 #define STACK_DEREGISTER(coro) \
@@ -68,7 +68,8 @@ static CallbackBlock globalCallbackBlock;
 Coro *Coro_new(void)
 {
 	Coro *self = (Coro *)io_calloc(1, sizeof(Coro));
-	self->stackSize = CORO_DEFAULT_STACK_SIZE;
+	self->requestedStackSize = CORO_DEFAULT_STACK_SIZE;
+	self->allocatedStackSize = 0;
 	
 #ifdef HAS_FIBERS
 	self->fiber = NULL;
@@ -80,10 +81,20 @@ Coro *Coro_new(void)
 
 void Coro_allocStackIfNeeded(Coro *self)
 {
-	//self->stack = io_calloc(1, self->stackSize + 16);
-	self->stack = (void *)io_calloc(1, self->stackSize + 16);
-	//printf("Coro_%p allocating stack size %i\n", (void *)self, self->stackSize);
-	STACK_REGISTER(self);
+	if (self->stack && self->requestedStackSize < self->allocatedStackSize)
+	{
+		io_free(self->stack);
+		self->stack = NULL;
+		self->requestedStackSize = 0;
+	}
+
+	if (!self->stack)
+	{
+		self->stack = (void *)io_calloc(1, self->requestedStackSize + 16);
+		self->allocatedStackSize = self->requestedStackSize;
+		//printf("Coro_%p allocating stack size %i\n", (void *)self, self->requestedStackSize);
+		STACK_REGISTER(self);
+	}
 }
 
 void Coro_free(Coro *self)
@@ -117,12 +128,12 @@ void *Coro_stack(Coro *self)
 
 size_t Coro_stackSize(Coro *self)
 {
-	return self->stackSize;
+	return self->requestedStackSize;
 }
 
 void Coro_setStackSize_(Coro *self, size_t sizeInBytes)
 {
-	self->stackSize = sizeInBytes;
+	self->requestedStackSize = sizeInBytes;
 	//self->stack = (void *)io_realloc(self->stack, sizeInBytes);
 	//printf("Coro_%p io_reallocating stack size %i\n", (void *)self, sizeInBytes);
 }
@@ -145,7 +156,7 @@ size_t Coro_bytesLeftOnStack(Coro *self)
 	ptrdiff_t p2 = (ptrdiff_t)Coro_CurrentStackPointer();
 	int stackMovesUp = p2 > p1;
 	ptrdiff_t start = ((ptrdiff_t)self->stack);
-	ptrdiff_t end   = start + self->stackSize;
+	ptrdiff_t end   = start + self->requestedStackSize;
 	
 	if (stackMovesUp) // like x86
 	{
