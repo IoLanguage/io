@@ -871,7 +871,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		8DD76FB20486AB0100D96B5E /* osx */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.executable"; path = osx; sourceTree = BUILT_PRODUCTS_DIR; };
+		8DD76FB20486AB0100D96B5E /* osx */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = osx; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA1C3FA00B7448B500334368 /* UArray_format.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = UArray_format.c; sourceTree = "<group>"; };
 		AA1C3FA10B7448B500334368 /* UArray_format.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = UArray_format.h; sourceTree = "<group>"; };
 		AA1C3FA20B7448B500334368 /* UArray_path.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = UArray_path.c; sourceTree = "<group>"; };
@@ -1465,8 +1465,6 @@
 				AA6ABF790BA8012F0049770F /* io */,
 				AA6ABF7B0BA8012F0049770F /* Makefile */,
 				AA6ABF7C0BA8012F0049770F /* protos */,
-				AA6ABF7D0BA8012F0049770F /* resources */,
-				AA6ABF7E0BA8012F0049770F /* samples */,
 				AA6ABF7F0BA8012F0049770F /* source */,
 				AA6ABF820BA8012F0049770F /* tests */,
 			);
@@ -1481,22 +1479,6 @@
 			);
 			name = io;
 			path = ../../addons/Box/io;
-			sourceTree = SOURCE_ROOT;
-		};
-		AA6ABF7D0BA8012F0049770F /* resources */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = resources;
-			path = ../../addons/Box/resources;
-			sourceTree = SOURCE_ROOT;
-		};
-		AA6ABF7E0BA8012F0049770F /* samples */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = samples;
-			path = ../../addons/Box/samples;
 			sourceTree = SOURCE_ROOT;
 		};
 		AA6ABF7F0BA8012F0049770F /* source */ = {

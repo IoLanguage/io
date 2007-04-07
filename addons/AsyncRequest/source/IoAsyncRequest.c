@@ -219,9 +219,9 @@ IoObject *IoAsyncRequest_copyBufferTo(IoAsyncRequest *self, IoObject *locals, Io
 {
 	if (IOCB_BUFFER(self))
 	{
-		IoSeq *data = IoMessage_locals_seqArgAt_(m, locals, 0);
+		IoSeq *data = IoMessage_locals_mutableSeqArgAt_(m, locals, 0);
 		UArray *ba = IoSeq_rawUArray(data);
-		UArray_setData_size_(ba, IOCB_BUFFER(self), IOCB(self)->aio_nbytes);
+		UArray_setData_type_size_copy_(ba, IOCB_BUFFER(self), CTYPE_uint8_t, IOCB(self)->aio_nbytes, 1);
 		return self;
 	}
 	

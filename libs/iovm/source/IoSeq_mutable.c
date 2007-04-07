@@ -784,8 +784,12 @@ IoObject *IoSeq_interpolateInPlace(IoSeq *self, IoObject *locals, IoMessage *m)
 
 	context = (context == IONIL(self)) ? locals : context;
 
+	IoState_pushRetainPool(IOSTATE);
+
 	for(;;)
 	{
+		IoState_clearTopPool(IOSTATE);
+
 		from = UArray_find_from_(string, &begin, from);
 		if (from == -1) break;
 
@@ -809,7 +813,10 @@ IoObject *IoSeq_interpolateInPlace(IoSeq *self, IoObject *locals, IoMessage *m)
 
 		UArray_removeRange(string, from, to-from+1);
 		UArray_at_putAll_(string, from, evaluatedCodeAsString);
+		from = from + UArray_size(evaluatedCodeAsString);
 	}
+	
+	IoState_popRetainPool(IOSTATE);
 
 	return self;
 }
@@ -961,6 +968,20 @@ IoObject *IoSeq_setItemsToDouble_(IoSeq *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
+IoObject *IoSeq_set_(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	double i, max = IoMessage_argCount(m);
+	IO_ASSERT_NOT_SYMBOL(self);
+	
+	for (i = 0; i < max; i ++)
+	{
+		double v = IoMessage_locals_doubleArgAt_(m, locals, i);
+		UArray_at_putDouble_(DATA(self), i, v);
+	}
+	
+	return self;
+}
+
 #define IoSeqMutateNoArgNoResultOp(name) \
 IoObject *IoSeq_ ## name (IoSeq *self, IoObject *locals, IoMessage *m) \
 { IO_ASSERT_NOT_SYMBOL(self); UArray_ ## name (DATA(self)); return self; }
@@ -997,6 +1018,7 @@ IoObject *IoSeq_ ## name (IoSeq *self, IoObject *locals, IoMessage *m) \
 { return IONUMBER(UArray_ ## name (DATA(self))); }
 
 IoSeqNoArgNumberResultOp(sumAsDouble);
+IoSeqNoArgNumberResultOp(productAsDouble);
 IoSeqNoArgNumberResultOp(minAsDouble);
 IoSeqNoArgNumberResultOp(maxAsDouble);
 IoSeqNoArgNumberResultOp(arithmeticMeanAsDouble);
@@ -1111,6 +1133,7 @@ void IoSeq_addMutableMethods(IoSeq *self)
 		//
 	{"dotProduct", IoSeq_dotProduct},
 	{"sum", IoSeq_sumAsDouble},
+	{"product", IoSeq_productAsDouble},
 	{"min", IoSeq_minAsDouble},
 	{"max", IoSeq_maxAsDouble},
 	{"mean", IoSeq_arithmeticMeanAsDouble},
@@ -1158,6 +1181,7 @@ void IoSeq_addMutableMethods(IoSeq *self)
 	{"logicalOr",  IoSeq_logicalOr_},
 	{"setItemsToLong", IoSeq_setItemsToLong_},
 	{"setItemsToDouble", IoSeq_setItemsToDouble_},
+	{"set", IoSeq_set_},
 
 	{NULL, NULL},
 	};

@@ -18,7 +18,6 @@ BASEKIT_API void UArray_subtract_(UArray *self, const UArray *other);
 BASEKIT_API void UArray_multiply_(UArray *self, const UArray *other);
 BASEKIT_API void UArray_divide_(UArray *self, const UArray *other);
 BASEKIT_API double UArray_dotProduct_(const UArray *self, const UArray *other);
-BASEKIT_API double UArray_product_(const UArray *self, const UArray *other);
 
 // basic scalar math
 
@@ -87,6 +86,7 @@ BASEKIT_API double UArray_distanceTo_(const UArray *self, const UArray *other);
 // extras 
 
 BASEKIT_API double UArray_sumAsDouble(const UArray *self);
+BASEKIT_API double UArray_productAsDouble(const UArray *self);
 BASEKIT_API double UArray_arithmeticMeanAsDouble(const UArray *self);
 BASEKIT_API double UArray_arithmeticMeanSquareAsDouble(const UArray *self);
 BASEKIT_API double UArray_maxAsDouble(const UArray *self);

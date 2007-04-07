@@ -35,8 +35,9 @@ if (!(value)) { IoState_error_(IOSTATE, m, "Io Assertion '%s'", message); }
 
 inline IoObject *IOBOOL(IoObject *self, int b);
 
+#if !defined(IoObjectDataDefined)
 typedef struct IoObjectData IoObjectData;
-
+#endif
 
 IOINLINE IoObject *IOTRUE(IoObject *self)
 {

@@ -51,4 +51,9 @@ Box do(
 	print := method(self serialized print)
 )
 
-Vector
+Sequence width  := Vector getSlot("x")
+Sequence setWidth  := Vector getSlot("setX")
+Sequence height := Vector getSlot("y")
+Sequence setHeight := Vector getSlot("setY")
+Sequence depth  := Vector getSlot("z")
+Sequence setDepth  := Vector getSlot("setZ")

@@ -61,6 +61,7 @@ struct IoObjectData
 	unsigned int isSymbol : 1;         // true if the object is a unqiue sequence - a symbol
 	unsigned int isLocals : 1;         // true if the Object is a locals object
 	unsigned int isReferenced : 1;     // 1 bit ref counter
+	unsigned int sentWillFree : 1;     // 1 is sent willFree mes
 	//unsigned int isPObject : 1;        // check before type tests?
 };
 
@@ -123,6 +124,9 @@ struct IoObjectData
 #define IoObject_isDirty_(self, v)
 #define IoObject_isDirty(self) 0
 #endif
+
+#define IoObject_sentWillFree_(self, v) IoObject_deref(self)->sentWillFree = v;
+#define IoObject_sentWillFree(self)     (IoObject_deref(self)->sentWillFree)
 
 #define IoObject_isLocals_(self, v) IoObject_deref(self)->isLocals = v;
 #define IoObject_isLocals(self)     (IoObject_deref(self)->isLocals)

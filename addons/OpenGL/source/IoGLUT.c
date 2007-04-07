@@ -74,7 +74,7 @@ IoGLUT *IoGLUT_proto(void *state)
 
 
 
-	printf("GLUT coro = %p\n", (void *)DATA(self)->coroutine);
+	//printf("GLUT coro = %p\n", (void *)DATA(self)->coroutine);
 	IoState_retain_(state, self);
 	IoState_retain_(state, DATA(self)->coroutine);
 	IoState_retain_(state, DATA(self)->displayMessage);
@@ -132,7 +132,7 @@ void IoGLUT_free(IoGLUT *self)
 
 void IoGLUT_mark(IoGLUT *self)
 {
-	printf("IoGLUT_mark\n");
+	//printf("IoGLUT_mark\n");
 	
 	if (DATA(self)->eventTarget) 
 	{
@@ -334,7 +334,7 @@ IoObject *IoGLUT_glutEventTarget_(IoGLUT *self, IoObject *locals, IoMessage *m)
 
 void IoGlutDisplayFunc(void)
 {
-	printf("IoGlutDisplayFunc\n");
+	//printf("IoGlutDisplayFunc\n");
 	IoState_pushRetainPool(IoObject_state(proto));
 
 	IoGLUT_tryCallback(proto, DATA(proto)->displayMessage);
@@ -488,7 +488,7 @@ IoObject *IoGLUT_glutMouseFunc(IoGLUT *self, IoObject *locals, IoMessage *m)
 
 void IoGlutReshapeFunc(int width, int height)
 {
-	printf("IoGlutReshapeFunc\n");
+	//printf("IoGlutReshapeFunc\n");
 	IoState_pushRetainPool(IoObject_state(proto));
 	{
 		IoMessage_setCachedArg_toInt_(DATA(proto)->reshapeMessage, 0, width?width:1);
@@ -510,7 +510,7 @@ void IoGlutTimerFunc(int vv)
 {
 	IoState *state = IoObject_state(proto);
 
-	printf("IoGlutTimerFunc\n");
+	//printf("IoGlutTimerFunc\n");
 
 	IoState_pushRetainPool(state);
 	
@@ -543,7 +543,7 @@ IoObject *IoGLUT_tryCallback(IoGLUT *self, IoMessage *m)
 	IoObject *t = DATA(proto)->eventTarget;
 	IoObject *result = state->ioNil;
 	
-	printf("IoGLUT_tryCallback(self, %p)\n", (void *)m);
+	//printf("IoGLUT_tryCallback(self, %p)\n", (void *)m);
 	
 	if (t)
 	{

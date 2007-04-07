@@ -321,10 +321,14 @@ IoObject *IoObject_rawClone(IoObject *proto)
 {
 	IoObject *self = IoObject_alloc(proto);
 	IoObject_tag_(self, IoObject_tag(proto));
+	/*
 	{
 		IoObject **protos = IoObject_protos(self);
 		protos[0] = proto;
 	}
+	*/
+	IoObject_setProtoTo_(self, proto);
+
 	//IoObject_protos(self)[0] = proto;
 	//IoObject_setDataPointer_(self, IoObject_dataPointer(proto)); // is this right?
 	IoObject_isDirty_(self, 1);
@@ -567,13 +571,18 @@ void IoObject_listenNotification(IoObject *self, void *notification)
 
 void IoObject_willFree(IoObject *self)
 {
-	IoObject *context;
-	IoMessage *m = IOSTATE->willFreeMessage;
-	IoObject *finalizeSlotValue = IoObject_rawGetSlot_context_(self, IoMessage_name(m), &context);
-
-	if (finalizeSlotValue)
+	if (IoObject_sentWillFree(self) == 0)
 	{
-		IoObject_perform(self, self, m);
+		IoObject *context;
+		IoMessage *m = IOSTATE->willFreeMessage;
+		IoObject *finalizeSlotValue = IoObject_rawGetSlot_context_(self, IoMessage_name(m), &context);
+
+		if (finalizeSlotValue)
+		{
+			IoObject_perform(self, self, m);
+			IoObject_sentWillFree_(self, 1);
+			//IoObject_makeGray(self);
+		}
 	}
 }
 

@@ -941,7 +941,7 @@ long UArray_rFindAnyCase_(const UArray *self, const UArray *other)
 
 #define UARRAY_RFINDANYVALUE_TYPES(OP2, TYPE1, self, TYPE2, other)\
 {\
-	long i, j, minSize;\
+	long i, j;\
 		if(self->size < other->size) return -1;\
 			for(i = self->size - 1; i > -1; i --)\
 			{\

@@ -272,7 +272,6 @@ IoObject *IoQDBM_abort(IoObject *self, IoObject *locals, IoMessage *m)
 	docSlot("abort", "Abort transaction. Returns self")
 	*/
 	int result;
-	int rnum;
 	IOASSERT(QDBM(self), "invalid QDBM");
 	result = vltranabort(QDBM(self));
 	IOASSERT(result, dperrmsg(dpecode));

@@ -19,8 +19,7 @@ Mouse := Object clone do(
 		if(s == 1, return)
 
 		shortClick := currentTime now secondsSince(lastClickTime) < .2
-
-		clickCount = if(clickCount == 1 and shortClick) then(2) elseif(shortClick) then(1) else(0)
+		if(clickCount == 1 and shortClick) then(clickCount = 2) elseif(shortClick) then(clickCount = 1) else(clickCount = 0)
 
 		//writeln(s, " ", clickCount)
 		lastClickTime now
@@ -72,7 +71,12 @@ Mouse := Object clone do(
     
     stateMessage := method(
 		mod := OpenGL glutGetModifiers
-		//writeln("glutGetModifiers = ", mod)
+		/*
+		writeln("glutGetModifiers = ", mod)
+		writeln("clickCount = ", clickCount)
+		writeln("button = ", button)
+		writeln("state = ", state)
+		*/
 		mouseRoute at(mod) at(clickCount) at(button) at(state)
     )
 )

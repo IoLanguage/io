@@ -231,20 +231,27 @@ void Collector_markGraysMax_(Collector *self, size_t max)
 					  max --;
 					  if(0 == max) break;
 					  );
+
 	self->queuedMarks = 0;
+}
+
+void Collector_sendWillFreeCallbacks(Collector *self)
+{
+	CollectorWillFreeFunc *willFreeFunc = self->willFreeFunc;
+	
+	if (willFreeFunc)
+	{
+		Collector_pushPause(self); // since the callback may create new objects
+		COLLECTMARKER_FOREACH(self->whites, v, (*willFreeFunc)(v));
+		Collector_popPause(self);
+	}
 }
 
 size_t Collector_freeWhites(Collector *self)
 {
 	size_t count = 0;
 	CollectorFreeFunc *freeFunc = self->freeFunc;
-	CollectorWillFreeFunc *willFreeFunc = self->willFreeFunc;
 	
-	if (willFreeFunc)
-	{
-		COLLECTMARKER_FOREACH(self->whites, v, (*willFreeFunc)(v));
-	}
-
 	COLLECTMARKER_FOREACH(self->whites, v, 
 					  (*freeFunc)(v);
 					  Collector_makeFree_(self, v);
@@ -317,7 +324,12 @@ size_t Collector_sweepPhase(Collector *self)
 	
 	while (!CollectorMarker_isEmpty(self->grays)) 
 	{
-		Collector_markGrays(self);
+		do 
+		{
+			Collector_markGrays(self);
+		} while (!CollectorMarker_isEmpty(self->grays));
+		
+		Collector_sendWillFreeCallbacks(self);
 	}
 	
 	freedCount = Collector_freeWhites(self);
