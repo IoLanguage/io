@@ -307,8 +307,7 @@ inline void IoObject_freeData(IoObject *self)
 
 inline void IoObject_setProtoTo_(IoObject *self, IoObject *proto)
 {
-	IoObject_rawRemoveAllProtos(self);
-	IoObject_protos(self)[0] = proto;
+	IoObject_rawSetProto_(self, proto);
 
 	if (!IoObject_slots(self))
 	{
@@ -406,7 +405,7 @@ void IoObject_rawRemoveProto_(IoObject *self, IoObject *p)
     {
         if (*proto == p)
         {
-            memcpy(proto, proto + 1, (count - index) * sizeof(IoObject *));
+            memmove(proto, proto + 1, (count - index) * sizeof(IoObject *));
         }
         else
         {
@@ -449,6 +448,7 @@ void IoObject_testProtosCode(IoObject *self)
 
 void IoObject_rawSetProto_(IoObject *self, IoObject *proto)
 {
+	IoObject_rawRemoveAllProtos(self);
 	IoObject_protos(self)[0] = IOREF(proto);
 }
 
