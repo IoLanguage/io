@@ -4,6 +4,12 @@
 
 #define IO_ASSERT_NOT_SYMBOL(self) IoAssertNotSymbol(self, m)
 
+int ISVECTOR(IoObject *self)
+{
+	// Don't have ISVECTOR as a macro because self is used twice.
+	return ISSEQ(self) && UArray_itemType(IoSeq_rawUArray(self)) == CTYPE_float32_t;
+}
+
 void *IoMessage_locals_vectorArgAt_(IoMessage *self, void *locals, int n)
 {
 	IoObject *v = IoMessage_locals_valueArgAt_(self, locals, n);
@@ -25,7 +31,7 @@ void *IoMessage_locals_pointArgAt_(IoMessage *m, void *locals, int n)
 
 void IoSeq_assertIsVector(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	IOASSERT(ISVECTOR(v), "Seq needs to be of type float32");
+	IOASSERT(ISVECTOR(self), "Seq needs to be of type float32");
 }
 
 // ---------------------------------------------

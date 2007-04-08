@@ -3,7 +3,7 @@ typedef float NUM_TYPE;
 
 //typedef IoSeq IoVector;
 #define IoVector IoSeq
-#define ISVECTOR(v) (ISSEQ(self) && UArray_itemType(IoSeq_rawUArray(self)) == CTYPE_float32_t)
+int ISVECTOR(IoObject *self);
 
 // ---------------------------------------
 
