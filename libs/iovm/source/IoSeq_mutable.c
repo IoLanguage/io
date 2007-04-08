@@ -1046,6 +1046,9 @@ IoSeqMutateNoArgNoResultOp(bitwiseNot);
 IoSeqSeqArgNoResultOp(logicalOr_);
 IoSeqSeqArgNoResultOp(logicalAnd_);
 
+IoSeqSeqArgNoResultOp(Max);
+IoSeqSeqArgNoResultOp(Min);
+
 /*#io
 docSlot("removeOddIndexes",
 	   "Removes odd indexes in the receiver.
@@ -1150,6 +1153,8 @@ void IoSeq_addMutableMethods(IoSeq *self)
 	{"log10", IoSeq_log10},
 	{"negate", IoSeq_negate},
 	{"rangeFill", IoSeq_rangeFill},
+	{"Min", IoSeq_Min},
+	{"Max", IoSeq_Min},
 
 	{"sin", IoSeq_sin},
 	{"cos", IoSeq_cos},
