@@ -413,7 +413,8 @@ BASEKIT_API void UArray_Min(UArray *self, const UArray *other)
 
 void UArray_normalize(UArray *self)
 {
-	double a = UArray_maxAsDouble(self);
+	double a = UArray_arithmeticMeanSquareAsDouble(self);
+	a = sqrt(a);
 	UArray_divideScalarDouble_(self, a);
 }
 
