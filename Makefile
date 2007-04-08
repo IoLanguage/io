@@ -99,7 +99,8 @@ vmlib:
 # Unlink the io binary before copying so running Io processes will keep running
 install:
 	umask 022
-	mkdir -p $(INSTALL_PREFIX)/{bin,lib} || true
+	mkdir -p $(INSTALL_PREFIX)/bin || true
+	mkdir -p $(INSTALL_PREFIX)/lib || true
 	rm -f $(INSTALL_PREFIX)/bin/io$(BINARY_SUFFIX)
 	cp _build/binaries/io$(BINARY_SUFFIX) $(INSTALL_PREFIX)/bin || true
 	chmod ugo+rx $(INSTALL_PREFIX)/bin/io$(BINARY_SUFFIX)
