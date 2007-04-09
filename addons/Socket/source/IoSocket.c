@@ -114,9 +114,9 @@ IoSocket *IoSocket_proto(void *state)
 		{"setSocketWriteLowWaterMark", IoSocket_setSocketWriteLowWaterMark},
 		
 		{"setNoDelay", IoSocket_setNoDelay},
-                {"errno", IoSocket_errnoDescription},
+		{"errno", IoSocket_errnoDescription},
 
-		{NULL, NULL},
+		{NULL, NULL}
 		};
 		IoObject_addMethodTable_(self, methodTable);
 	}
