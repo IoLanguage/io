@@ -1,18 +1,17 @@
-
 Importer addSearchPath("build")
-//doFile("vm/processIoCodeFor.io")
 
-Directory do(    
-    nonUnderscoreFolders := method(folders select(name beginsWithSeq("_") not))
-    fileNamedOrNil := method(path, f := fileNamed(path); if(f exists, f, nil))
+Directory fileNamedOrNil := method(path,
+    f := fileNamed(path)
+    if(f exists, f, nil)
 )
 
 Directory setCurrentWorkingDirectory(launchPath)
 
+project := Project clone
 if(args at(1) == "-a") then(
-	Project clone addons detect(name == args at(2)) build
+    project buildAddon(args at(2))
 ) elseif (args at(1)) then(
-	Project clone doString(args at(1))
+	project clone doString(args at(1))
 ) else (
-	Project clone build
+	project clone build
 )

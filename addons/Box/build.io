@@ -3,6 +3,5 @@ Binding clone do(
 		dependsOnFramework("Accelerate")
 		dependsOnLinkOption("-faltivec")
 	)
-	setIsServerBinding(true)
 )
 

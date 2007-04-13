@@ -3,7 +3,6 @@ Binding clone do(
 	dependsOnHeader("libxml/xmlreader.h")
 	dependsOnHeader("libxml/xmlwriter.h")
 	headerSearchPaths foreach(headerSearchPath, appendHeaderSearchPath(headerSearchPath .. "/libxml2"))
-	setIsServerBinding(true)
 
 	debs    atPut("xml2", "libxml2-dev")
 	ebuilds atPut("xml2", "libxml2")

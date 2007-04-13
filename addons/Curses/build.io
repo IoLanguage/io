@@ -9,8 +9,6 @@ Binding clone do(
 		dependsOnHeader("ncurses.h")
 	)
 
-	setIsServerBinding(true)
-
 	debs    atPut("ncurses", "libncurses5-dev")
 	ebuilds atPut("ncurses", "ncurses")
 	pkgs    atPut("ncurses", "ncurses")

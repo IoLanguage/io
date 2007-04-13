@@ -7,8 +7,6 @@ Binding clone do(
 	dependsOnFrameworkOrLib("Python", "python" .. version)
 	headerSearchPaths foreach(headerSearchPath, appendHeaderSearchPath(headerSearchPath .. "/python" .. version))
 
-	setIsServerBinding(true)
-
 	debs    atPut("python2.4", "python2.4-dev")
 	ebuilds atPut("python2.4", "python")
 	pkgs    atPut("python2.4", "python24")

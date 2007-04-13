@@ -21,8 +21,6 @@ Binding clone do(
 
 	headerSearchPaths foreach(headerSearchPath, appendHeaderSearchPath(headerSearchPath .. "/freetype2"))
 
-	setIsServerBinding(false)
-
 	debs    atPut("freetype", "libfreetype6-dev")
 	ebuilds atPut("freetype", "freetype")
 	pkgs    atPut("freetype", "freetype")

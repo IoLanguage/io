@@ -6,6 +6,4 @@ Binding clone do(
 	if(list("freebsd", "linux", "netbsd") contains(platform),
 		dependsOnLib("pthread")
 	)
-
-	setIsServerBinding(true)
 )

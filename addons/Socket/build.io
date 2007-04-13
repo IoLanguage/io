@@ -18,8 +18,6 @@ Binding clone do(
 		dependsOnLib("socket")
 	)
 
-	setIsServerBinding(true)
-
 	debs    atPut("event", "libevent-dev")
 	ebuilds atPut("event", "libevent")
 	pkgs    atPut("event", "libevent")

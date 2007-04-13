@@ -4,6 +4,4 @@ Binding clone do(
     if(platform != "darwin",
         dependsOnLib("uuid")
     )
-
-    setIsServerBinding(true)
 )

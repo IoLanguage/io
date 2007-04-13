@@ -4,7 +4,5 @@ Binding clone do(
 	dependsOnFrameworkOrLib("MySQL", "mysqlclient")
 	headerSearchPaths foreach(headerSearchPath, appendHeaderSearchPath(headerSearchPath .. "/mysql"))
 
-	setIsServerBinding(true)
-
 	ebuilds atPut("mysql5.0", "mysql")
 )

@@ -1,6 +1,3 @@
-//List insertEven := method(arg, c := cursor; c insert(arg); c next; while(c next, c insert(arg); c next); self)
-//List insertOdd  := method(arg, c := self cursor; while(c next, c insert(arg); c next); self)
-
 Sequence prepend := method(s, s .. self)
 
 Binding := Object clone do(
@@ -52,8 +49,8 @@ Binding := Object clone do(
 	searchPrefixes append("/usr/pkg")
 	searchPrefixes append("/opt/local")
 	searchPrefixes append("/sw")
-        // on windows there is no such thing as a standard plave
-        // to look for these things
+    // on windows there is no such thing as a standard place
+    // to look for these things
 	searchPrefixes append("i:/io/addonLibs")
 
 	headerSearchPaths := List clone
@@ -73,7 +70,6 @@ Binding := Object clone do(
 		self folder := Directory clone
 
 		self depends := Object clone do(
-//			dlls := List clone
 			headers := List clone
 			libs := List clone
 			frameworks := List clone
@@ -81,25 +77,17 @@ Binding := Object clone do(
 			includes := List clone
 			linkOptions := List clone
 			addons := List clone
-//			installCommands := Map clone
 		)
 	)
 
-//	appendInstallCommand := method(installer, command,
-//		s := depends installCommands at(installer)
-//		if(s == nil, s = "")
-//		s = s .. ";" .. command
-//		depends installCommands atPut(installer, s)
-//	)
-
-        mkdir := method(path,
-            if (folder path != ".",
-                path := folder path .. "/" .. path
-            )
-            writeln("Mkdir " .. path )
-            dir :=  Directory with(".")
-            path split("/") foreach(x, dir := dir folderNamedCreateIfAbsent(x))
+    mkdir := method(path,
+        if (folder path != ".",
+            path := folder path .. "/" .. path
         )
+        writeln("Mkdir " .. path )
+        dir :=  Directory with(".")
+        path split("/") foreach(x, dir := dir folderNamedCreateIfAbsent(x))
+    )
 
 	pathForFramework := method(name,
 		frameworkname := name .. ".framework"
@@ -128,7 +116,6 @@ Binding := Object clone do(
 	)
 
 	dependsOnBinding    := method(v, depends addons appendIfAbsent(v))
-//	dependsOnDll      := method(v, depends dlls appendIfAbsent(v))
 	dependsOnHeader     := method(v, depends headers appendIfAbsent(v))
 	dependsOnLib        := method(v, depends libs appendIfAbsent(v))
 	dependsOnFramework  := method(v, depends frameworks appendIfAbsent(v))
@@ -221,17 +208,13 @@ Binding := Object clone do(
 	oldDate := Date clone setYear(1970)
 	
 	libName := method("libIo" .. folder name ..  ".a")
-//	dllName := method("libIo" .. folder name ..  "." .. dllSuffix)
 
 	libFile := method(folder fileNamedOrNil(libName))
-//	dllFile := method(folder fileNamedOrNil(dllName))
 	objsFolder := method(self objsFolder := folder createSubdirectory("_build/objs"))
 	sourceFolder := method(folder folderNamed("source"))
 	cFiles := method(
 		sourceFolder filesWithExtension("cpp") appendSeq(sourceFolder filesWithExtension("c")) appendSeq(sourceFolder filesWithExtension("m"))
 	)
-
-	newSlot("isServerBinding", false)
 
 	libsFolder   := method(Directory with("libs"))
 	addonsFolder := method(Directory with("addons"))
@@ -244,7 +227,6 @@ Binding := Object clone do(
 	)
 
 	build := method(options,
-		//appendLibSearchPath(folder path)
 		writeln("--- ", folder name, " ---")
 		mkdir("_build/headers")
 		if(Directory with(Path with(folder path, "source")) filesWithExtension(".h") size > 0,
@@ -285,7 +267,6 @@ Binding := Object clone do(
                 if (ranlib != nil, systemCall(ranlib .. " _build/lib/" .. libName))
 	)
 
-	//dllSuffix := method(if(platform == "darwin", "bundle", "so"))
 	dllSuffix := method(
 		if(list("cygwin", "mingw", "windows") contains(platform), return "dll")
 		if(platform == "darwin", return "dylib")
@@ -294,7 +275,6 @@ Binding := Object clone do(
 
 	dllNameFor := method(s, "lib" .. s .. "." .. dllSuffix)
 
-	//dllCommand := method(if(platform == "darwin", "-bundle", "-shared"))
 	dllCommand := method(
             if(platform == "darwin",
                 "-dynamiclib -single_module -read_only_relocs suppress"
@@ -322,10 +302,7 @@ Binding := Object clone do(
 		)
 		links appendSeq(libSearchPaths map(v, linkDirPathFlag .. v))
 		links appendSeq(depends libs map(v, linkLibFlag .. v .. linkLibSuffix))
-//		links appendSeq(depends dlls map(v, "-l" .. v))
-//		links appendSeq(depends dlls map(v, "-I" .. v .. "/_build/headers"))
 		links appendSeq(list(linkDirPathFlag .. "../../_build/dll", linkLibFlag .. "iovmall" .. linkLibSuffix))
-		//links appendSeq(Directory with("libs") folders map(f, "-L../../" .. f path .. "/_build/dll -l" .. f name))
 
 		links appendSeq(depends frameworks map(v, "-framework " .. v))
 		links appendSeq(depends linkOptions)
@@ -369,13 +346,11 @@ Binding := Object clone do(
 		orderedFiles := List clone appendSeq(iocFiles)
 
 		iocFiles foreach(f,
-			//writeln("checking for depends on ", f path)
 			d := f open readLines detect(line, line containsSeq("docDependsOn"))
 			f close
 
 			if(d,
 				prerequisitName := "Io" .. d afterSeq("(\"") beforeSeq("\")") .. ".c"
-				//writeln(">>> ", f path, " depends on ", prerequisitName)
 				prerequisit := orderedFiles detect(of, of name == prerequisitName )
 				orderedFiles remove(f)
 				orderedFiles insertAfter(f, prerequisit)
@@ -410,9 +385,6 @@ Binding := Object clone do(
 		)
 
 		if(ioCodeFolder and isStatic,
-			//processIoCodeFor(folder path)
-			//processedIoFiles := folder folderNamed("ioprocessed") filesWithExtension("io")
-			//processedIoFiles sortInPlace(name) foreach(f, initFile write(codeForIoFile(f)))
 			ioFiles foreach(f, initFile write(codeForIoFile(f)))
 		)
 
