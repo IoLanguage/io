@@ -1,8 +1,3 @@
-
-Object relativeDoFile := method(path,
-	call sender doFile(Path with(call message label pathComponent, path))
-)
-
 Importer := Object clone do(
     docDescription("A simple search path based auto-importer.")
 

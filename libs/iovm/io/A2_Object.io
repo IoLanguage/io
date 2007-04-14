@@ -434,10 +434,14 @@ Object do(
 	)
 
 	docSlot("doRelativeFile(pathString)",
-			"Evaluates the File in the context of the receiver. Returns the result. pathString is relative to the file calling doRelativeFile.")
+			"Evaluates the File in the context of the receiver. Returns the result. pathString is relative to the file calling doRelativeFile. (Duplicate of relativeDoFile)")
 	doRelativeFile := method(path,
 		self doFile(Path with(call message label pathComponent, path))
 	)
+
+	docSlot("relativeDoFile(pathString)",
+			"Evaluates the File in the context of the receiver. Returns the result. pathString is relative to the file calling doRelativeFile. (Duplicate of doRelativeFile)")
+	relativeDoFile := getSlot("doRelativeFile")
 )
 
 Lobby args := method(System args)
