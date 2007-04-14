@@ -1,4 +1,3 @@
-
 CLI := Object clone do(
 	stdout := File clone standardOutput
 	stdin  := File clone standardInput
@@ -15,6 +14,7 @@ CLI := Object clone do(
 		Lobby launchPath := if(Path isPathAbsolute(path) , path,
 			Directory currentWorkingDirectory asMutable appendPathSeq(path)
 		) pathComponent
+		System launchScript = path
 		e := try(Lobby doFile(path))
 		if(e, e showStack)
 	)
