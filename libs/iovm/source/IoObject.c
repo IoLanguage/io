@@ -1745,7 +1745,7 @@ IoObject *IoObject_evalArg(IoObject *self, IoObject *locals, IoMessage *m)
 	/*#io
 	docSlot("evalArg(expression)", "The '' method evaluates the argument and returns the result.")
 	*/
-	IOASSERT(IoMessage_argCount(m) > 0, "argument required\n");
+	IOASSERT(IoMessage_argCount(m) > 0, "argument required");
 	/* eval the arg and return a non-Nil so an attached else() won't get performed */
 	return IoMessage_locals_valueArgAt_(m, locals, 0);
 }
