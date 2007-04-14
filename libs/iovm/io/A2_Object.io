@@ -269,6 +269,7 @@ Object do(
         Lobby args := args
         Lobby launchPath :=  path pathComponent
         Directory setCurrentWorkingDirectory(Lobby launchPath)
+		System launchScript = path
         self doFile(path)
     )
     
