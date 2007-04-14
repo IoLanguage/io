@@ -3,7 +3,7 @@
    All code licensed under the New BSD license.
  */
 
-Binding clone do(
+AddonBuilder clone do(
 	dependsOnLib("ffi")
 	dependsOnHeader("ffi.h")
 

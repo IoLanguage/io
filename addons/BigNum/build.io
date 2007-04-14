@@ -1,4 +1,4 @@
-Binding clone do(
+AddonBuilder clone do(
 	dependsOnHeader("gmp.h")
 	dependsOnFrameworkOrLib("GMP", "gmp")
 

@@ -1,4 +1,4 @@
-Binding clone do(
+AddonBuilder clone do(
 	if(list("cygwin", "mingw") contains(platform),
 		dependsOnLib("glu32")
 		dependsOnLib("opengl32")

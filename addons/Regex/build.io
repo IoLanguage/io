@@ -1,4 +1,4 @@
-Binding clone do(
+AddonBuilder clone do(
 	dependsOnLib("pcre")
 	dependsOnHeader("pcre.h")
 

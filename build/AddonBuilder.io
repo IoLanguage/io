@@ -1,6 +1,6 @@
 Sequence prepend := method(s, s .. self)
 
-Binding := Object clone do(
+AddonBuilder := Object clone do(
 	platform := System platform split at(0) asLowercase
 	cflags := method(System getenv("CFLAGS") ifNilEval(""))
         if (platform == "windows",
@@ -252,7 +252,7 @@ Binding := Object clone do(
                                     s = s .. name asUppercase
                                     s = s .. "_ADDON "
                                 )
-				s = s .. "-c " .. ccOutFlag .."_build/objs/" .. obj .. " source/" .. f name
+				s = s .. "-c " .. ccOutFlag .. "_build/objs/" .. obj .. " source/" .. f name
 				systemCall(s)
 			)
 		)

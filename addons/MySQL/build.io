@@ -1,4 +1,4 @@
-Binding clone do(
+AddonBuilder clone do(
 	dependsOnHeader("mysql.h")
 
 	dependsOnFrameworkOrLib("MySQL", "mysqlclient")

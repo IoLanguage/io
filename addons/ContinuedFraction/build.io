@@ -1,2 +1,2 @@
-Binding clone do(
+AddonBuilder clone do(
 )

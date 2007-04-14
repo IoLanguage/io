@@ -1,4 +1,4 @@
-Binding clone do(
+AddonBuilder clone do(
 	if(list("cygwin", "mingw", "windows") contains(platform),
 		dependsOnLib("curses")
 		dependsOnHeader("curses.h")

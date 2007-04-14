@@ -1,4 +1,4 @@
-Binding clone do(
+AddonBuilder clone do(
 	dependsOnLib("freetype")
 	dependsOnHeader("ft2build.h")
 	dependsOnHeader("freetype/config/ftheader.h")

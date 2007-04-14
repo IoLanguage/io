@@ -1,4 +1,4 @@
-Binding clone do(
+AddonBuilder clone do(
 	dependsOnLib("glfw")
 	dependsOnHeader("GL/glfw.h")
 	if(platform == "darwin", dependsOnFramework("AGL"))

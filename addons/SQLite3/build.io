@@ -1,4 +1,4 @@
-Binding clone do(
+AddonBuilder clone do(
 	dependsOnLib("sqlite3")
 	dependsOnHeader("sqlite3.h")
 
