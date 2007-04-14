@@ -432,6 +432,12 @@ Object do(
 	isLaunchScript := method(
 		call message label == System launchScript
 	)
+
+	docSlot("doRelativeFile(pathString)",
+			"Evaluates the File in the context of the receiver. Returns the result. pathString is relative to the file calling doRelativeFile.")
+	doRelativeFile := method(path,
+		self doFile(Path with(call message label pathComponent, path))
+	)
 )
 
 Lobby args := method(System args)

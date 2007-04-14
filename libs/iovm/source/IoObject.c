@@ -1491,7 +1491,7 @@ IoObject *IoObject_doFile(IoObject *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("doFile(pathString)",
-			"Evaluates the File in the context of the receiver. Returns the result. ")
+			"Evaluates the File in the context of the receiver. Returns the result. pathString is relative to the current working directory.")
 	*/
 
 	IoSymbol *path = IoMessage_locals_symbolArgAt_(m, locals, 0);
