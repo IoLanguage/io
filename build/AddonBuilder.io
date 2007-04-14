@@ -3,34 +3,32 @@ Sequence prepend := method(s, s .. self)
 AddonBuilder := Object clone do(
 	platform := System platform split at(0) asLowercase
 	cflags := method(System getenv("CFLAGS") ifNilEval(""))
-        if (platform == "windows",
-            cc := method(System getenv("CC") ifNilEval(return "cl -nologo"))
-            cxx := method(System getenv("CXX") ifNilEval(return "cl -nologo"))
-            ccOutFlag := "-Fo"
-            linkdll := "link -link -nologo"
-            linkDirPathFlag := "-libpath:"
-            linkLibFlag := "lib"
-            linkOutFlag := "-out:"
-            linkLibSuffix := ".lib"
-            ar := "link -lib -nologo"
-            arFlags := "-out:"
-            ranlib := nil
-        ,
-            cc := method(System getenv("CC") ifNilEval(return "cc"))
-            cxx := method(System getenv("CXX") ifNilEval(return "g++"))
-            ccOutFlag := "-o "
-            linkdll := cc
-            linkDirPathFlag := "-L"
-            linkLibFlag := "-l"
-            linkLibSuffix := ""
-            linkOutFlag := "-o "
-            linkLibSuffix := ""
-            ar := method(System getenv("AR") ifNilEval(return "ar"))
-            arFlags := "rcu "
-            ranlib := method(System getenv("RANLIB") ifNilEval(return "ranlib"))
-        )
-
-	platformVersion := System platformVersion
+    if (platform == "windows",
+        cc := method(System getenv("CC") ifNilEval(return "cl -nologo"))
+        cxx := method(System getenv("CXX") ifNilEval(return "cl -nologo"))
+        ccOutFlag := "-Fo"
+        linkdll := "link -link -nologo"
+        linkDirPathFlag := "-libpath:"
+        linkLibFlag := "lib"
+        linkOutFlag := "-out:"
+        linkLibSuffix := ".lib"
+        ar := "link -lib -nologo"
+        arFlags := "-out:"
+        ranlib := nil
+    ,
+        cc := method(System getenv("CC") ifNilEval(return "cc"))
+        cxx := method(System getenv("CXX") ifNilEval(return "g++"))
+        ccOutFlag := "-o "
+        linkdll := cc
+        linkDirPathFlag := "-L"
+        linkLibFlag := "-l"
+        linkLibSuffix := ""
+        linkOutFlag := "-o "
+        linkLibSuffix := ""
+        ar := method(System getenv("AR") ifNilEval(return "ar"))
+        arFlags := "rcu "
+        ranlib := method(System getenv("RANLIB") ifNilEval(return "ranlib"))
+    )
 
 	supportedOnPlatform := true
 
