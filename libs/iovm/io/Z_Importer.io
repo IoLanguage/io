@@ -71,4 +71,3 @@ Importer := Object clone do(
     turnOn
 )
 
-//Collector collect; Collector collect; System symbols select(size >50) println
