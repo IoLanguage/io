@@ -55,6 +55,7 @@ getSlot("Block") do(
 		formatBlock := method(theBlock,
 			msg := getSlot("theBlock") message
 
+			appendSeq("# " .. msg label .. ":" .. msg lineNumber, "\n")
 			appendSeq("method(")
 			if(getSlot("theBlock") argumentNames size > 0,
 				getSlot("theBlock") argumentNames foreach(i, name,
@@ -67,7 +68,6 @@ getSlot("Block") do(
 
 				appendSeq(", ")
 			)
-			appendSeq(" # " .. msg label .. ":" .. msg lineNumber)
 
 			newLine
 			lineNumber = msg lineNumber
@@ -107,7 +107,9 @@ getSlot("Block") do(
 				if(reverseAssignOperators hasKey(m name)) then(
 					args := m arguments
 
-					appendSeq(args first cachedResult, " ")
+					if(args first cachedResult,
+						appendSeq(args first cachedResult, " ")
+					)
 					appendSeq(reverseAssignOperators at(m name))
 
 					appendSeq(" ")
