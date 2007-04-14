@@ -1497,30 +1497,15 @@ IoObject *IoObject_doFile(IoObject *self, IoObject *locals, IoMessage *m)
 	IoSymbol *path = IoMessage_locals_symbolArgAt_(m, locals, 0);
 	IoFile *file = IoFile_newWithPath_(IOSTATE, path);
 	IoSymbol *string = (IoSymbol *)IoSeq_rawAsSymbol(IoFile_contents(file, locals, m));
-	//IoSeq *string = IoFile_contents(file, locals, m);
 
 	if (IoSeq_rawSize(string))
 	{
-		IoList *argsList = IoList_new(IOSTATE);
-		int argn = 1;
-		IoObject *arg = IoMessage_locals_valueArgAt_(m, locals, argn);
-
-		while (arg && !ISNIL(arg))
-		{
-			IoList_rawAppend_(argsList, arg);
-			argn ++;
-			arg = IoMessage_locals_valueArgAt_(m, locals, argn);
-		}
-
-		if (IoList_rawSize(argsList))
-		{
-			IoObject_setSlot_to_(self, IOSYMBOL("args"), argsList);
-		}
-
 		return IoObject_rawDoString_label_(self, string, path);
 	}
-
-	return IONIL(self);
+	else
+	{
+		return IONIL(self);
+	}
 }
 
 IoObject *IoObject_isIdenticalTo(IoObject *self, IoObject *locals, IoMessage *m)
