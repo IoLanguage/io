@@ -26,5 +26,12 @@ Path := Object clone do(
         absolute
     )        
         
+	absolute := method(path,
+		if(isPathAbsolute(path),
+			path
+		,
+			with(Directory currentWorkingDirectory, path)
+		)
+	)
 )
 

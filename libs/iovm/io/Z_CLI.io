@@ -31,6 +31,7 @@ CLI := Object clone do(
 	run := method(
 		// Move Lobby launchPath to System launchPath?
 		Lobby launchPath := Directory currentWorkingDirectory
+		Importer addSearchPath(Lobby launchPath)
         context exit := method(System exit)
 
 		runIorc
