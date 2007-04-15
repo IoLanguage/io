@@ -102,21 +102,7 @@ IoObject *IoObject_messageForString(IoObject *self, IoObject *locals, IoMessage 
 		label = IoMessage_locals_symbolArgAt_(m, locals, 1);
 	}
 
-	//printf("CSTRING((IoSymbol *)string) = %s\n", CSTRING((IoSymbol *)string));
-
-	result = IoMessage_newFromText_label_(IOSTATE,
-								   CSTRING((IoSymbol *)string),
-								   CSTRING((IoSymbol *)label));
-
-	/*
-	 {
-		 IoState_print_(IOSTATE, "parsed: ");
-		 IoMessage_print((IoMessage *)result);
-		 IoState_print_(IOSTATE, "\n");
-	 }
-	 */
-
-	return (IoObject *)result;
+	return IoMessage_newFromText_labelSymbol_(IOSTATE, CSTRING((IoSymbol *)string), (IoSymbol *)label);
 }
 
 

@@ -5,6 +5,8 @@ CLI := Object clone do(
 
 	newSlot("context", method(Lobby))
 	newSlot("isRunning", true)
+
+	newSlot("commandLineLabel", "Command Line")
 	
 	stop := method(setIsRunning(false))
 	
@@ -86,7 +88,7 @@ CLI := Object clone do(
 			context exit
 		)
 
-		e := try(result := context doMessage(line asMessage setLabel("CLI")))
+		e := try(result := context doMessage(line asMessage(commandLineLabel)))
 		if(e,
 			e showStack
 		,
@@ -139,7 +141,7 @@ CLI := Object clone do(
 				continue
 			)
 
-			compileError := try(lineAsMessage := line asMessage setLabel("CLI"))
+			compileError := try(lineAsMessage := line asMessage(commandLineLabel))
 			if(compileError,
 				if(nextLine size > 0,
 					# If they're missing the end of the line, then let them finish it

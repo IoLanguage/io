@@ -1129,7 +1129,7 @@ result of aString. ")
 		label = IoMessage_locals_symbolArgAt_(m, locals, 1);
 	}
 
-	return IoMessage_newFromText_label_(IOSTATE, CSTRING(string), CSTRING(label));
+	return IoMessage_newFromText_labelSymbol_(IOSTATE, CSTRING(string), label);
 }
 
 IoObject *IoMessage_cachedResult(IoMessage *self, IoObject *locals, IoMessage *m)
