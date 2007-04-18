@@ -1669,7 +1669,12 @@ int IoObject_compare(IoObject *self, IoObject *v)
 
 int IoObject_defaultCompare(IoObject *self, IoObject *v)
 {
+
+	//IoState_error_(IOSTATE, NULL, "attempt to compare %s to %s", IoObject_name(self), IoObject_name(v));
+	//return 0;
+	
 	ptrdiff_t d = -((ptrdiff_t)IoObject_tag(self) - (ptrdiff_t)IoObject_tag(v));
+	//printf("warning: IoObject_defaultCompare attempt to compare %s to %s\n", IoObject_name(self), IoObject_name(v));
 
 	if (d == 0)
 	{

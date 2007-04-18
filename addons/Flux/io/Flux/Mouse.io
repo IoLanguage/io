@@ -14,6 +14,7 @@ Mouse := Object clone do(
     mouse := method(b, s, mx, my,
 		button = b
 		state = s
+		//writeln("Mouse ", button, state)
 		self motion(mx, my)
 
 		if(s == 1, return)

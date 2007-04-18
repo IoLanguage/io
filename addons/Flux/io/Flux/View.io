@@ -265,20 +265,31 @@ View := Responder clone do(
     
     directHit := method(p,	
     	p = p - position
-    	p <=(size) and(p >= 0)
+    	p <=(size) and(p >= zeroPoint)
     )
+    
+    Vector <= := method(other,
+        self foreach(i, v, if(other at(i) > v, return false))
+        true
+    )
+    
+    Vector >= := method(other,
+        self foreach(i, v, if(other at(i) < v, return false))
+        true
+    )
+    
+    zeroPoint := vector(0,0,0)
     
     hit := method(p,
     	// p should be in the coords of the superview
-		//write("hit p ", p, "\n"); 
 		p = p - position
-		//write(self type, " hit ", p, "\n"); 
+		//write(self type, " hit p = ", p, "\n"); 
 		//write("position ", position, "\n"); 
 		//write("size ", size, "\n"); 
 		//write("hit p - position ", p, "\n"); 
-		//write("p >= 0 ", p >= 0, "\n"); 
+		//write("p >= zeroPoint ", p >= zeroPoint, "\n"); 
 		//write("p <=(size) ", p <=(size), "\n"); 
-		if(p <=(size) and(p >= 0),
+		if(p <=(size) and(p >= zeroPoint),
 			subviews foreach(view, 
 				v := view hit(p)
 				if(v, 
@@ -296,11 +307,11 @@ View := Responder clone do(
     screenHit := method(
 		p := Mouse tmpPoint copy(Mouse position)
 		
-		//write(self type, " screenHit ", p, "\n"); 
-		//write("position = ", position, "\n"); 
-		//write("size = ", size, "\n"); 
+		//write(self type, " screenHit mouse ", p x, " ", p y , " "); 
+		//write(" pos ", position x, " ", position y, " size ",  size x, " ", size y, "\n"); 
 		v := hit(screenToView(p) + position)
 		
+		//writeln("hit = ", v type)
 		//writeln(self type, " screenHit return ", v type, "\n")
 		
 		return v
@@ -338,6 +349,7 @@ View := Responder clone do(
 
     keyboard := method(key, x, y,
 		//writeln(self type, "_", self uniqueId, " keyboard ", key)
+		//writeln("keyboard ", GLUT_KEY_DEL, "-", GLUT_KEY_DELETE)
 		if(key == 27, if(self hasSlot("keyboardEscape"), keyboardEscape; return))
 		if(key == GLUT_KEY_DEL, if(self hasSlot("keyboardDel"), keyboardDel; return))
 		if(key == GLUT_KEY_DELETE, if(self hasSlot("keyboardDelete"), keyboardDelete; return))
@@ -604,14 +616,14 @@ View := Responder clone do(
 	
 	quadric := method(self quadric := gluNewQuadric)
 	
-	newSlot("roundingSize", 4)
+	newSlot("roundingSize", 10)
 	//boxColor := Color clone set(.15,.15,.15,1)
-	newSlot("boxColor", Color clone set(.2,.2,.2,1))
+	newSlot("boxColor", Color clone set(.1,.1,.1,1))
 	newSlot("backgroundColor", Color clone set(0,0,0,1))
 	
 	drawRoundedBox := method(
         slices := 20
-        //boxColor glColor
+        boxColor glColor
         gluRoundedBox(quadric, size x, size y, roundingSize, slices)
         gluRoundedBoxOutline(quadric, size x, size y, roundingSize, slices)
     )
