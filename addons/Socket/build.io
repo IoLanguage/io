@@ -1,4 +1,4 @@
-Binding clone do(
+AddonBuilder clone do(
 	dependsOnLib("event")
 	dependsOnHeader("event.h")
 
@@ -17,8 +17,6 @@ Binding clone do(
 		dependsOnLib("nsl")
 		dependsOnLib("socket")
 	)
-
-	setIsServerBinding(true)
 
 	debs    atPut("event", "libevent-dev")
 	ebuilds atPut("event", "libevent")

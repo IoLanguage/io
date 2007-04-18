@@ -1,3 +1,3 @@
-Binding clone do(
+AddonBuilder clone do(
 	dependsOnLib("qdbm")
 )

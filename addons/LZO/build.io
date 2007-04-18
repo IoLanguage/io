@@ -1,3 +1,2 @@
-Binding clone do(
-	setIsServerBinding(true)
+AddonBuilder clone do(
 )

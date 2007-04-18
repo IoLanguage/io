@@ -1,168 +1,177 @@
-
 CLI := Object clone do(
-	stdout := File clone standardOutput
-	stdin  := File clone standardInput
-	newSlot("inPrompt", "Io> ")
+	newSlot("prompt", "Io> ")
 	newSlot("outPrompt", "==> ")
-	multiLine := true
-	newSlot("evalContext", method(Lobby))
+	newSlot("continuedLinePrompt", "    ")
+
+	newSlot("context", method(Lobby))
 	newSlot("isRunning", true)
+
+	newSlot("commandLineLabel", "Command Line")
 	
 	stop := method(setIsRunning(false))
 	
-	runPath := method(path,
-		//Lobby launchPath := path pathComponent
-		Lobby launchPath := if(Path isPathAbsolute(path) , path,
+	runFile := method(path,
+		Lobby launchPath := if(Path isPathAbsolute(path),
+			path
+		,
 			Directory currentWorkingDirectory asMutable appendPathSeq(path)
 		) pathComponent
-		e := try(Lobby doFile(path))
-		if(e, e showStack)
+
+		System launchScript = path
+
+		try(context doFile(path)) ?showStack
+	)
+
+	runIorc := method(
+        if(?User,
+            context doFile(Path with(User homeDirectory path, ".iorc"))
+        )
 	)
 
 	run := method(
+		// Move Lobby launchPath to System launchPath?
 		Lobby launchPath := Directory currentWorkingDirectory
-        Lobby exit := method(System exit)
+		Importer addSearchPath(Lobby launchPath)
+        context exit := method(System exit)
 
-        if(?User,
-            doString(File with(User homeDirectory path .. "/.iorc") contents)
-        )
+		runIorc
+
+		if(?args first == "-e", 
+			writeln(context doString(args slice(1) join(" ")))
+			return
+		)
         
-		if(?args and(args size > 0), 
-			args foreach(i, arg,
+		if(?args and args size > 0,
 			
-				if(arg == "-e", 
-					writeln(evalContext doString(args slice(i + 1) join(" ")))
-					return
+			if(args first == "-i",
+				if(args size >= 2,
+					runFile(args at(1))
+				,
+					if(File clone setPath("main.io") exists, runFile("main.io"))
 				)
-				
-				if(arg == "-i",
-					if(args size == i + 1,
-						if(File clone setPath("main.io") exists,
-							runPath("main.io")
-						)
-					,
-						nextArg := args at(i + 1) 
-						if(nextArg, runPath(nextArg))
-					)
-					return interactiveMultiline
-				)
-				
-				runPath(arg)
-				return
+				return interactiveMultiline
 			)
+			
+			runFile(args first)
 		,
 			if(File clone setPath("main.io") exists,
-				runPath("main.io")
-				return
+				runFile("main.io")
+			,
+				interactiveMultiline
 			)
 		)
-
-        interactiveMultiline
 	)
 	
-	//outputEncoding ::= "utf8"
-	
-	outputResult := method(result, 
-		s := getSlot("result") asString
-		//if(s encoding != outputEncoding, s = s convertToEncoding(outputEncoding))
-		writeln("\n", outPrompt, s)
+	interactiveMultiline := method(
+		writeln("Io ", System version)
+		while(isRunning,
+			handleInteractiveMultiline
+		)
 	)
 	
 	interactive := method(
 		writeln("Io ", System version)
  		while(isRunning,
-			write(inPrompt)
-			line := stdin readLine
-			if(stdin isAtEnd, writeln; Lobby exit)
-			result := nil
-			e := try(result = evalContext doString(line))
-			if(e, e showStack)
-			outputResult(getSlot("result"))
+			handleInteractiveSingleLine
 		)
 	)
 
-	stripEnd := method(error,
-		return error beforeSeq(" on line")
+	writeCommandResult := method(result, 
+		writeln("\n", outPrompt, getSlot("result") asString)
 	)
 	
-	interactiveMultiline := method(
-		writeln("Io ", System version)
-		errTriQuote	:= stripEnd(try(Compiler messageForString("\"\"\"")) error)
-		errParen := stripEnd(try(Compiler messageForString("(")) error)
-		errArg := stripEnd(try(Compiler messageForString("(x,")) error)
-		//errParen2	:= stripEnd(try(Compiler messageForString("1+(2+(")) error)
-		mapContinueOnErr := Map clone
-		mapContinueOnErr atPut(errTriQuote, "\"-> ")
-		mapContinueOnErr atPut(errParen, ")-> ")
-		//mapContinueOnErr atPut(errParen2, "))> ")
+	handleInteractiveSingleLine := method(
+		write(prompt)
 
-		while(isRunning,
-			prompt := inPrompt
-			line := ""
-			loop(
-				write(prompt)
-				nextLine := stdin readLine
-				nextLine ifNil(Lobby exit)
-				line := line .. "\n" .. (nextLine)
-				if(line endsWithSeq("""\\"""),
-					prompt = "    "
-					continue
-				)
-				result := nil
-				e := try(result = evalContext doString(line))
-				if(e,
-					err := stripEnd(e error)
-					if(prompt = mapContinueOnErr at(err),
-						//err println
-						continue
-					)
-					if(err ==(errArg) and(line asMutable strip endsWithSeq(",")),
-						//err println
-						prompt = "a-> "
-						continue
-					)
-					e showStack
-				)
-				break
+		line := File standardInput readLine
+		if(File standardInput isAtEnd,
+			writeln
+			context exit
+		)
+
+		e := try(result := context doMessage(line asMessage(commandLineLabel)))
+		if(e,
+			e showStack
+		,
+			writeCommandResult(getSlot("result"))
+		)
+	)
+
+	errorMessage := method(error,
+		error beforeSeq(" on line")
+	)
+
+	# Find error messages for the errors we understand
+	lazySlot("knownErrors",
+		m := Map clone
+		m atPut(compileErrorMessage("("), ")-> ")
+		m atPut(compileErrorMessage("\"\"\""), "\"-> ")
+		m atPut(knownErrorMissingArgument, ")-> ")
+	)
+
+	lazySlot("knownErrorMissingArgument",
+		compileErrorMessage("(x,")
+	)
+
+	compileErrorMessage := method(source,
+		errorMessage(try(source asMessage) error)
+	)
+
+	handleInteractiveMultiline := method(
+		# Start with the default prompt. The prompt is changed for continued lines, and errors.
+		nextPrompt := prompt
+		line := ""
+
+		# If there are unmatched ( or the command ends with a \ then we'll need to read multiple lines
+		loop(
+			# Write out prompt. 
+			write(nextPrompt)
+
+			# Read line
+			nextLine := File standardInput readLine
+			
+			# If there was no line, exit
+			nextLine ifNil(context exit)
+
+			# Add what we read to the line we've been building up
+			line := line .. "\n" .. nextLine
+
+			# If there is a \ on the end of the line, then keep building up the line
+			if(line endsWithSeq("""\\"""),
+				nextPrompt = continuedLinePrompt
+				continue
 			)
-			outputResult(getSlot("result"))
+
+			compileError := try(lineAsMessage := line asMessage(commandLineLabel))
+			if(compileError,
+				if(nextLine size > 0,
+					# If they're missing the end of the line, then let them finish it
+					error := compileError error
+					continuePrompt := knownErrors at(errorMessage(error))
+					if(error == knownErrorMissingArgument and line asMutable strip endsWithSeq(",") not,
+						continuePrompt = nil
+					)
+					if(continuePrompt,
+						nextPrompt = continuePrompt
+						continue
+					)
+				)
+
+				# If the error can't be fixed by continuing the line, report the error.
+				compileError showStack
+				return
+			)
+
+			# Execute the line and report any exceptions which happen
+			executionError := try(result := context doMessage(lineAsMessage, context))
+			if(executionError,
+				executionError showStack
+				return
+			,
+				# Write out the command's result
+				writeCommandResult(getSlot("result"))
+				return
+			)
 		)
 	)
 )
-
-/*
-Shell := Object clone do(
-	newSlot("directory", Directory clone setPath("."))
-
-    cd := method(dir,
-        if(dir isKindOf(Sequence), 
-            setCurrentWorkingDirectory(dir),
-            if(dir isKindOf(Directory) not) then(
-                Exception raise("cd requires a directory or a path name as its argument")
-            ) else(setDirectory(dir))
-        )
-    )
-    
-	ls := method(directory items foreach(name println))
-
-	open := method(name,
-		item := directory at(call argAt(0) name)
-		if(item isUserExecutable,
-			// insert stuff to add args
-			System system(item path)
-		)	
-	)
-	
-	forward := method(
-		call delegateTo(directory)
-		//item := directory at(call message name)
-		//if(item == nil, writeln("no such path"); return item)
-	)
-)
-
-Lobby shell := method(
-	CLI setEvalContext(Shell)
-	//CLI outputResult := method(nil)
-)
-*/
-

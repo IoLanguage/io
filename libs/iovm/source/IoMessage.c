@@ -432,10 +432,10 @@ name of the file from which the source code for the message was read.")
 IoObject *IoMessage_setLabel(IoMessage *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("setLabel(aString)", "Sets the label of the message. Returns self.")
+	docSlot("setLabel(aString)", "Sets the label of the message and its children. Returns self.")
 	*/
 
-	DATA(self)->label = IOREF(IoMessage_locals_symbolArgAt_(m , locals, 0));
+	IoMessage_label_(self, IoMessage_locals_symbolArgAt_(m , locals, 0));
 	return self;
 }
 
@@ -1129,7 +1129,7 @@ result of aString. ")
 		label = IoMessage_locals_symbolArgAt_(m, locals, 1);
 	}
 
-	return IoMessage_newFromText_label_(IOSTATE, CSTRING(string), CSTRING(label));
+	return IoMessage_newFromText_labelSymbol_(IOSTATE, CSTRING(string), label);
 }
 
 IoObject *IoMessage_cachedResult(IoMessage *self, IoObject *locals, IoMessage *m)

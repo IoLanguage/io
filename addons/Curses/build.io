@@ -1,4 +1,4 @@
-Binding clone do(
+AddonBuilder clone do(
 	if(list("cygwin", "mingw", "windows") contains(platform),
 		dependsOnLib("curses")
 		dependsOnHeader("curses.h")
@@ -8,8 +8,6 @@ Binding clone do(
 		dependsOnLib("ncurses")
 		dependsOnHeader("ncurses.h")
 	)
-
-	setIsServerBinding(true)
 
 	debs    atPut("ncurses", "libncurses5-dev")
 	ebuilds atPut("ncurses", "ncurses")

@@ -1,4 +1,3 @@
-Binding clone do(
+AddonBuilder clone do(
 	dependsOnHeader("syslog.h")
-	setIsServerBinding(true)
 )

@@ -1,4 +1,4 @@
-Binding clone do(
+AddonBuilder clone do(
 	dependsOnLib("tag_c")
 	dependsOnHeader("taglib/tag_c.h")
 

@@ -33,7 +33,7 @@ ObjectTest := UnitTest clone do(
     testActor := method(
         A := Object clone
         A s := Sequence clone
-        A test := method(a, for(i, 1, 2, s appendSeq(a, i, "."); yield))
+        A test := method(a, for(i, 1, 2, s appendSeq(a, i asString, "."); yield))
         A clone @@test("a"); 
         yield
         A clone @@test("b")
@@ -123,7 +123,7 @@ ObjectTest := UnitTest clone do(
 	
 	_willFree2 := method(
         Lobby willFreeWorked := false
-		Object clone do(willFree := method("foo" println; Lobby willFreeWorked := true))
+		Object clone do(willFree := method(Lobby willFreeWorked := true))
 		nil
 	)
 	
@@ -133,4 +133,17 @@ ObjectTest := UnitTest clone do(
 		assertEquals(Lobby willFreeWorked, true)
 	)
 
+	testLazySlot := method(
+		o := Object clone
+		o bobCalcCount := 0
+		o lazySlot("bob", bobCalcCount = bobCalcCount + 1; 19)
+
+		assertEquals(o bobCalcCount, 0)
+		assertEquals(o bob, 19)
+		assertEquals(o bobCalcCount, 1)
+		assertEquals(o bob, 19)
+		assertEquals(o bobCalcCount, 1)
+		assertEquals(o bob, 19)
+		assertEquals(o bobCalcCount, 1)
+	)
 )

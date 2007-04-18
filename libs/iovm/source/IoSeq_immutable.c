@@ -858,11 +858,18 @@ done:
 IoObject *IoSeq_asMessage(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("asMessage",
+	docSlot("asMessage(optionalLabel)",
 		   "Returns the compiled message object for the string.")
 	*/
 
-	return IoMessage_newFromText_label_(IOSTATE, CSTRING(self), "[asMessage]");
+	IoSymbol *label;
+
+	if (IoMessage_argCount(m) >= 1)
+		label = IoMessage_locals_symbolArgAt_(m, locals, 0);
+	else
+		label = IOSYMBOL("[asMessage]");
+
+	return IoMessage_newFromText_labelSymbol_(IOSTATE, CSTRING(self), label);
 }
 
 /*#io

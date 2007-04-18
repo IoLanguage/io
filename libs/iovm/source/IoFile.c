@@ -1038,32 +1038,3 @@ aFile foreach(v, writeln("byte ", v))
     }
     return result;
 }
-
-/*
-IoObject *IoFile_rawDo(IoFile *self, IoObject *context)
-{
-    return IoObject_rawDoString_label_(context, (IoSymbol *)IoFile_rawAsString(self), DATA(self)->path);
-}
-
-IoObject *IoFile_do(IoFile *self, IoObject *locals, IoMessage *m)
-{
-    IoList *argsList = IoList_new(IOSTATE);
-    IoObject *context = IoMessage_locals_valueArgAt_(m, locals, 0);
-    int argn = 1;
-    IoObject *arg = IoMessage_locals_valueArgAt_(m, locals, argn);
-
-    while (arg && !ISNIL(arg))
-    {
-		IoList_rawAppend_(argsList, arg);
-		argn ++;
-		arg = IoMessage_locals_valueArgAt_(m, locals, argn);
-    }
-
-    if (IoList_rawSize(argsList))
-    {
-		IoObject_setSlot_to_(context, IOSYMBOL("args"), argsList);
-    }
-
-    return IoObject_rawDoString_label_(context, (IoSymbol *)IoFile_rawAsString(self), DATA(self)->path);
-}
-*/

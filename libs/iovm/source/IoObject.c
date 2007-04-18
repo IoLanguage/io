@@ -307,8 +307,7 @@ inline void IoObject_freeData(IoObject *self)
 
 inline void IoObject_setProtoTo_(IoObject *self, IoObject *proto)
 {
-	IoObject_rawRemoveAllProtos(self);
-	IoObject_protos(self)[0] = proto;
+	IoObject_rawSetProto_(self, proto);
 
 	if (!IoObject_slots(self))
 	{
@@ -406,7 +405,7 @@ void IoObject_rawRemoveProto_(IoObject *self, IoObject *p)
     {
         if (*proto == p)
         {
-            memcpy(proto, proto + 1, (count - index) * sizeof(IoObject *));
+            memmove(proto, proto + 1, (count - index) * sizeof(IoObject *));
         }
         else
         {
@@ -449,6 +448,7 @@ void IoObject_testProtosCode(IoObject *self)
 
 void IoObject_rawSetProto_(IoObject *self, IoObject *proto)
 {
+	IoObject_rawRemoveAllProtos(self);
 	IoObject_protos(self)[0] = IOREF(proto);
 }
 
@@ -1417,19 +1417,14 @@ IoObject *IoObject_rawDoString_label_(IoObject *self, IoSymbol *string, IoSymbol
 		cm = IoMessage_newWithName_label_(state, IOSYMBOL("Compiler"), internal);
 		messageForString = IoMessage_newWithName_label_(state, IOSYMBOL("messageForString"), internal);
 
-		//IoMessage_rawSetAttachedMessage(cm, messageForString);
 		IoMessage_rawSetNext(cm, messageForString);
 		IoMessage_addCachedArg_(messageForString, string);
 		IoMessage_addCachedArg_(messageForString, label);
 
-		//printf("cm = %p\n", (void *)cm);
-		//printf("messageForString = %p\n", (void *)messageForString);
 		newMessage = IoMessage_locals_performOn_(cm, self, self);
 
 		IoState_stackRetain_(state, newMessage); // needed?
 		IoState_popCollectorPause(state);
-
-		//IoMessage *newMessage = IoMessage_newFromText_label_(state, CSTRING(string), CSTRING(label));
 
 		if (newMessage)
 		{
@@ -1491,36 +1486,21 @@ IoObject *IoObject_doFile(IoObject *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("doFile(pathString)",
-			"Evaluates the File in the context of the receiver. Returns the result. ")
+			"Evaluates the File in the context of the receiver. Returns the result. pathString is relative to the current working directory.")
 	*/
 
 	IoSymbol *path = IoMessage_locals_symbolArgAt_(m, locals, 0);
 	IoFile *file = IoFile_newWithPath_(IOSTATE, path);
 	IoSymbol *string = (IoSymbol *)IoSeq_rawAsSymbol(IoFile_contents(file, locals, m));
-	//IoSeq *string = IoFile_contents(file, locals, m);
 
 	if (IoSeq_rawSize(string))
 	{
-		IoList *argsList = IoList_new(IOSTATE);
-		int argn = 1;
-		IoObject *arg = IoMessage_locals_valueArgAt_(m, locals, argn);
-
-		while (arg && !ISNIL(arg))
-		{
-			IoList_rawAppend_(argsList, arg);
-			argn ++;
-			arg = IoMessage_locals_valueArgAt_(m, locals, argn);
-		}
-
-		if (IoList_rawSize(argsList))
-		{
-			IoObject_setSlot_to_(self, IOSYMBOL("args"), argsList);
-		}
-
 		return IoObject_rawDoString_label_(self, string, path);
 	}
-
-	return IONIL(self);
+	else
+	{
+		return IONIL(self);
+	}
 }
 
 IoObject *IoObject_isIdenticalTo(IoObject *self, IoObject *locals, IoMessage *m)
@@ -1765,7 +1745,7 @@ IoObject *IoObject_evalArg(IoObject *self, IoObject *locals, IoMessage *m)
 	/*#io
 	docSlot("evalArg(expression)", "The '' method evaluates the argument and returns the result.")
 	*/
-	IOASSERT(IoMessage_argCount(m) > 0, "argument required\n");
+	IOASSERT(IoMessage_argCount(m) > 0, "argument required");
 	/* eval the arg and return a non-Nil so an attached else() won't get performed */
 	return IoMessage_locals_valueArgAt_(m, locals, 0);
 }

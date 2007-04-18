@@ -222,7 +222,7 @@ UArray *UArray_newWithData_type_size_copy_(void *bytes, CTYPE type, size_t size,
 
 UArray *UArray_new(void)
 {
-	return UArray_newWithData_type_size_copy_(0x0, CTYPE_uint8_t, 0, 0);
+	return UArray_newWithData_type_size_copy_("", CTYPE_uint8_t, 0, 1);
 }
 
 UArray *UArray_clone(const UArray *self)

@@ -1,4 +1,4 @@
-Binding clone do(
+AddonBuilder clone do(
 	supportedOnPlatform := method(platform, platform == "darwin")
 
 	dependsOnFramework("CoreFoundation")

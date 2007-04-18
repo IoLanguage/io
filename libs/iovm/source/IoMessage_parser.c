@@ -65,22 +65,21 @@ void IoMessage_ifPossibleCacheToken_(IoMessage *self, IoToken *p)
 
 IoMessage *IoMessage_newFromText_label_(void *state, const char *text, const char *label)
 {
+	IoSymbol *labelSymbol = IoState_symbolWithCString_((IoState *)state, label);
+	return IoMessage_newFromText_labelSymbol_(state, text, labelSymbol);
+}
+
+IoMessage *IoMessage_newFromText_labelSymbol_(void *state, const char *text, IoSymbol *label)
+{
 	IoLexer *lexer = IoLexer_new();
 	IoMessage *msg;
 
 	IoLexer_string_(lexer, text);
 	IoLexer_lex(lexer);
 
-
 	msg = IoMessage_newParse(state, lexer);
-
 	IoMessage_opShuffle_(msg);
-
-	{
-		IoSymbol *labelSymbol = IoState_symbolWithCString_((IoState *)state, label);
-		IoMessage_label_(msg, labelSymbol);
-	}
-
+	IoMessage_label_(msg, label);
 	IoLexer_free(lexer);
 
 	return msg;
@@ -95,8 +94,8 @@ IoMessage *IoMessage_newParse(void *state, IoLexer *lexer)
 		IoMessage *m;
 		IoSymbol *errorString;
 
-          // Maybe the nil message could be used here. Or even a NULL.
-          IoSymbol *error = IoState_symbolWithCString_(state, "Error");
+		// Maybe the nil message could be used here. Or even a NULL.
+		IoSymbol *error = IoState_symbolWithCString_(state, "Error");
 		m = IoMessage_newWithName_returnsValue_(state, error, error);
 		errorString = IoState_symbolWithCString_((IoState *)state, IoLexer_errorDescription(lexer));
 		IoLexer_free(lexer); // hack for now - the caller should be responsible for this

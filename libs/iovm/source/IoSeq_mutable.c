@@ -131,35 +131,7 @@ IoObject *IoSeq_appendSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 
 	for (i = 0; i < IoMessage_argCount(m); i ++)
 	{
-		IoObject *other = IoMessage_locals_valueArgAt_(m, locals, i);
-
-		if (ISNUMBER(other))
-		{
-			double d = IoNumber_asDouble(other);
-			char s[24];
-			memset(s, 0, 24);
-
-			if (d == (long)d)
-			{
-				snprintf(s, 24, "%ld", (long)d);
-			}
-			else
-			{
-				snprintf(s, 24, "%g", d);
-			}
-
-			UArray_appendCString_(DATA(self), s);
-		}
-		else if (ISSEQ(other))
-		{
-			UArray_append_(DATA(self), DATA(other));
-		}
-		else if (!ISNIL(other))
-		{
-			IoState_error_(IOSTATE, m,
-						   "argument 0 to method '%s' must be a number, string or buffer, not a '%s'",
-								  CSTRING(IoMessage_name(m)), IoObject_name(other));
-		}
+		UArray_append_(DATA(self), DATA(IoMessage_locals_seqArgAt_(m, locals, i)));
 	}
 	return self;
 }
@@ -1046,6 +1018,9 @@ IoSeqMutateNoArgNoResultOp(bitwiseNot);
 IoSeqSeqArgNoResultOp(logicalOr_);
 IoSeqSeqArgNoResultOp(logicalAnd_);
 
+IoSeqSeqArgNoResultOp(Max);
+IoSeqSeqArgNoResultOp(Min);
+
 /*#io
 docSlot("removeOddIndexes",
 	   "Removes odd indexes in the receiver.
@@ -1150,6 +1125,8 @@ void IoSeq_addMutableMethods(IoSeq *self)
 	{"log10", IoSeq_log10},
 	{"negate", IoSeq_negate},
 	{"rangeFill", IoSeq_rangeFill},
+	{"Min", IoSeq_Min},
+	{"Max", IoSeq_Min},
 
 	{"sin", IoSeq_sin},
 	{"cos", IoSeq_cos},

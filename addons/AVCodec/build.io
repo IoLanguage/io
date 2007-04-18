@@ -1,4 +1,4 @@
-Binding clone do(
+AddonBuilder clone do(
 	if(platform == "darwin",
 		dependsOnFramework("CoreAudio")
 		dependsOnFramework("AudioToolbox")

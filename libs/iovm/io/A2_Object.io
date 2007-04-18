@@ -269,6 +269,7 @@ Object do(
         Lobby args := args
         Lobby launchPath :=  path pathComponent
         Directory setCurrentWorkingDirectory(Lobby launchPath)
+		System launchScript = path
         self doFile(path)
     )
     
@@ -389,9 +390,9 @@ Object do(
 	uniqueHexId := method("0x" .. getSlot("self") uniqueId asString toBase(16))
 	
 	lazySlot := method(name,
-		m := (("self setSlot(\"" .. name .. "\", " .. call message argAt(1) code .. ")") asMessage)
-        self setSlot(name, method(1) setMessage(m))
-        nil
+		m := ("self setSlot(\"" .. name .. "\", " .. call argAt(1) code .. ")") asMessage
+		self setSlot(name, method() setMessage(m))
+		nil
 	)
 	
 	foreachSlot := method(
@@ -426,6 +427,21 @@ Object do(
 		)
 		call relayStopStatus(call evalArgAt(call argCount - 1))
 	)
+
+	docSlot("isLaunchScript", "Returns true if the current file was run on the command line. Io's version of Python's __file__ == \"__main__\"")
+	isLaunchScript := method(
+		call message label == System launchScript
+	)
+
+	docSlot("doRelativeFile(pathString)",
+			"Evaluates the File in the context of the receiver. Returns the result. pathString is relative to the file calling doRelativeFile. (Duplicate of relativeDoFile)")
+	doRelativeFile := method(path,
+		self doFile(Path with(call message label pathComponent, path))
+	)
+
+	docSlot("relativeDoFile(pathString)",
+			"Evaluates the File in the context of the receiver. Returns the result. pathString is relative to the file calling doRelativeFile. (Duplicate of doRelativeFile)")
+	relativeDoFile := getSlot("doRelativeFile")
 )
 
 Lobby args := method(System args)

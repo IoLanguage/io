@@ -2,7 +2,6 @@ Project := Object clone do(
 	cc  := method(System getenv("CC")  ifNilEval(return "cc"))
 	cxx := method(System getenv("CXX") ifNilEval(return "g++"))
 	platform := System platform split at(0) asLowercase
-	platformVersion := System platformVersion
 
 	systemCall := method(s,
 		r := trySystemCall(s)
@@ -11,8 +10,6 @@ Project := Object clone do(
 	)
 
 	trySystemCall := method(s,
-		//if(folder path != ".", s := "cd " .. folder path .. "; " .. s)
-		//writeln(s, "\n")
 		result := System system("sh -c '" .. s .. "'")
 		result
 	)
@@ -32,6 +29,10 @@ Project := Object clone do(
 	addons := method(
 		self addons := modulesInFolder("addons") sortInPlaceBy(block(x, y, x name < y name))
 	)
+
+    buildAddon := method(name,
+        addons detect(addon, addon name == name) build
+    )
 
 	availableAddon := method(addon,
 		if(addon hasSlot("isAvailable"), return addon isAvailable)
@@ -66,18 +67,16 @@ Project := Object clone do(
 	)
 
 	options := method(
-                if (platform == "windows",
-                        "-MDd -DWIN32 -D_DEBUG -DIOBINDINGS"
-                ,
-                        "-Os -g -Wall -DSANE_POPEN -DIOBINDINGS"
-                )
+        if (platform == "windows",
+            "-MDd -DWIN32 -D_DEBUG -DIOBINDINGS"
+        ,
+            "-Os -g -Wall -DSANE_POPEN -DIOBINDINGS"
         )
+    )
 
 	build := method(
 		File clone with("errors") remove close
 		buildAddons
-		//buildServer
-		//buildDesktop
 		writeln("\n--- build complete ---\n")
 	)
 
@@ -94,41 +93,11 @@ Project := Object clone do(
 	buildAddons := method(
 		writeln("\n--- building addons ---\n")
 
-		//orderedAddons foreach(name println)
-
 		orderedAddons foreach(build(options))
 		self
 	)
 
-	generateAddonsInitFileFor := method(initAddons,
-		f := File with("IoAddonsInit.c") remove open
-		f write("\n")
-		f write("#include \"IoObject.h\"\n")
-		initAddons foreach(b, f write("void Io" .. b folder name .. "Init(void *context);\n"))
-		f write("\n")
-		f write("void IoAddonsInit(void *context)\n{\n")
-		//f write("void *self = ((IoObject *)context)->tag->state;\n")
-		initAddons foreach(b, f write("	Io" .. b folder name .. "Init(context);\n"))
-		f write("}\n\n")
-		f close
-	)
-
-	buildServer := method(
-		writeln("\n--- building ioServer ---\n")
-		buildExeWithAddons("_binaries/ioServer", availableAddons select(isServerBinding))
-	)
-
-	buildDesktop := method(
-		writeln("\n--- building ioDesktop ---\n")
-		buildExeWithAddons("_binaries/ioDesktop", availableAddons)
-	)
-
 	libPaths := Directory with("libs") folders map(path)
-
-	baseLinks := method(libtype,
-		baselibs := list("iovm", "coroutine", "garbagecollector", "skipdb", "basekit")
-		baselibs map(a, "-Llibs/" .. a .. "/" .. libtype .. " -l" .. a)
-	)
 
 	otherLibPaths := method(libtype,
 		if(libtype == nil, libtype = "_build/dll")
@@ -138,45 +107,8 @@ Project := Object clone do(
 		l unique
 	)
 
-	links := method(libtype,
-		if(libtype == nil, libtype = "_build/dll")
-
-		l := List clone
-		addons := availableAddons
-		if(list("darwin", "freebsd", "netbsd", "openbsd") contains(platform) not, l append("-lm"))
-		if(list("linux", "sunos", "syllable") contains(platform), l append("-ldl"))
-		if(platform == "darwin", l append("-L/opt/local/lib"))
-		
-		//l appendSeq(addons map(a, "-lIo" .. a name) flatten unique)
-
-		l appendSeq(addons map(depends libs) flatten unique map(k, " -l" .. k))
-		//l appendSeq(addons map(a, " -lIo" .. a name ))
-		l appendSeq(addons map(a, " addons/" .. a name .. "/_build/lib/libIo" .. a name .. ".a"))
-		
-
-		l appendSeq(addons map(depends frameworks) flatten unique map(k, "-framework " .. k))
-		//l appendSeq(addons map(depends linkOptions) flatten unique map(" " .. k .. " "))
-
-		l unique
-	)
-
 	includes := method(
 		libPaths map(s, "-I" .. s .. "/_build/headers")
-	)
-
-	buildExeWithAddons := method(exeName, inAddons,
-		generateAddonsInitFileFor(inAddons)
-		libPathsString := Sequence clone
-
-		s := cxx .. " " .. options .. " " .. includes join(" ") .. " " .. " -c -o IoAddonsInit.o IoAddonsInit.c "
-		systemCall(s)
-
-		//s := cxx .. " " .. options .. " -o " .. exeName .. " tools/_build/objs/main.o IoAddonsInit.o " .. otherLibPaths("_build/lib") join(" ") .. " " .. libPathsString  .. " ".. baseLinks("_build/lib") join(" ") .. " " .. links("_build/lib") join(" ") .. " "
-
-		ll := " " .. libPathsString  .. " ".. baseLinks("_build/lib") join(" ") .. " " .. links("_build/lib") join(" ") .. " "
-		s := cxx .. " " .. options .. " " .. ll .. " -o " .. exeName .. " tools/_build/objs/main.o IoAddonsInit.o "
-
-		systemCall(s)
 	)
 
 	cleanAddons := method(
@@ -204,14 +136,10 @@ Project := Object clone do(
 	)
 
 	runUnitTests := method(
-		//systemCall("cd tools; make test")
 		failures := 0
-		//maxName := availableAddons map(name size) max
-		//writeln("maxName = ", maxName)
 		
 		availableAddons foreach(addon,
 			path := Path with(addon folder path, "tests/run.io")
-			//writeln("path = ", path)
 			if(File clone setPath(path) exists,
 				write(addon name alignLeft(10), " - ")
 				File standardOutput flush

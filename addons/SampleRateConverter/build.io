@@ -1,4 +1,4 @@
-Binding clone do(
+AddonBuilder clone do(
 	dependsOnLib("samplerate")
 	dependsOnHeader("samplerate.h")
 

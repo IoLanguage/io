@@ -1,4 +1,4 @@
-Binding clone do(
+AddonBuilder clone do(
 	if(platform != "darwin",
 		GNUstepSystemRoot := System getenv("GNUSTEP_SYSTEM_ROOT") ifNilEval("/usr/GNUstep/System")
 		GNUstepLocalRoot := System getenv("GNUSTEP_LOCAL_ROOT") ifNilEval("/usr/GNUstep/Local")

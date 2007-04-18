@@ -1,4 +1,4 @@
-Binding clone do(
+AddonBuilder clone do(
 	dependsOnLib("freetype")
 	dependsOnHeader("ft2build.h")
 	dependsOnHeader("freetype/config/ftheader.h")
@@ -20,8 +20,6 @@ Binding clone do(
 	)
 
 	headerSearchPaths foreach(headerSearchPath, appendHeaderSearchPath(headerSearchPath .. "/freetype2"))
-
-	setIsServerBinding(false)
 
 	debs    atPut("freetype", "libfreetype6-dev")
 	ebuilds atPut("freetype", "freetype")

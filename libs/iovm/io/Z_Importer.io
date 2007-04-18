@@ -1,79 +1,76 @@
-
-Object relativeDoFile := method(path,
-	call sender doFile(Path with(call message label pathComponent, path))
-)
-
 Importer := Object clone do(
     docDescription("A simple search path based auto-importer.")
 
-    paths := List clone append("")
-    debug := false
-    
-    addSearchPath    := method(p, paths appendIfAbsent(p asSymbol))
-    removeSearchPath := method(p, paths remove(p asSymbol))
-    
-    extensions := list("io")
+    docSlot("paths", "List of paths the proto importer will check while searching for protos to load.")
+	paths := method(FileImporter folders)
 
-    executeString := method(name, s,
-		Lobby doString(s, name)
-		r := Lobby getSlot(name)
-		if(r, return r)
-		Exception raise("Importer slot '" .. name .. "' missing after file load")
-		nil    
-    )
-    
-	execute_io := method(path, name, extension,
-		p := Path with(path, name .. "." .. extension)
-		s := File clone setPath(p) contents
-		executeString(name, s)
+    docSlot("addSearchPath(path)", "Add a search path to the auto importer. Relative paths are made absolute before adding.")
+    addSearchPath    := method(p, paths appendIfAbsent(Path absolute(p) asSymbol))
+
+    docSlot("removeSearchPath(path)", "Removes a search path from the auto importer. Relative paths should be removed from the same working directory as they were added.")
+    removeSearchPath := method(p, paths remove(Path absolute(p) asSymbol))
+
+	FileImporter := Object clone do(
+		importsFrom := "file"
+
+		folders := list("")
+
+		import := method(protoName,
+			if(?launchPath, folders appendIfAbsent(launchPath))
+
+			folders foreach(folder,
+				path := Path with(folder, protoName .. ".io") asSymbol
+				if(File with(path) exists,
+					Lobby doFile(path)
+					return true
+				)
+			)
+			false
+		)
 	)
 
-    find := method(message, theObject,
-        name := message name
-                            
-		p := ?launchPath
-		if(debug, writeln("Importer find '", name, "' ", message label, " ", message lineNumber, "----"))
-		if(p and(paths contains(p) not), paths atInsert(0, p))  
-		
-		// add relative path first
-		//paths := paths clone atInsert(0, message label pathComponent)
-		
-		if(name at(0) isUppercase, 
-            paths foreach(p, 
-                extensions foreach(extension,
-                    if(Path isPathAbsolute(p)) then(
-                        fullPath := Path with(p, name .. "." .. extension) asSymbol
-                    ) else(
-                        fullPath := Path with(Directory currentWorkingDirectory, p, name .. "." .. extension) asSymbol
-                    )
-                    if(debug, 
-                        writeln("cwd:                  ", Directory currentWorkingDirectory)
-                        writeln("p:                    ", p)
-                        writeln("Importer looking for: ", fullPath)
-                    )
-                    if(File clone setPath(fullPath) exists, 
-                        r := self perform("execute_" .. extension, p, name, extension)
-                        if (r, return r)
-                    )
-                )
+	AddonImporter := Object clone do(
+		importsFrom := "dll"
+
+		import := method(protoName,
+			if(hasAddon := AddonLoader hasAddonNamed(protoName),
+                AddonLoader loadAddonNamed(protoName)
 			)
-			
-			if(AddonLoader hasAddonNamed(name),
-                b := AddonLoader loadAddonNamed(name)
-                if(b, return b)
-                Exception raise("Importer slot '" .. name .. "' missing after dll load")
-            )
+			hasAddon
 		)
-		
-		Exception raise(theObject type .. " does not respond to '" .. name .. "'")
+	)
+
+	importers := list(FileImporter, AddonImporter)
+
+    docSlot("import(protoName)", "Searches for and loads protoName. Should be used from a forward method.")
+    import := method(protoName,
+		if(protoName at(0) isUppercase and(importer := importers detect(import(protoName))),
+			if(Lobby hasSlot(protoName) not,
+				Exception raise("Importer slot '" .. protoName .. "' missing after " .. importer importsFrom .. " load")
+			)
+			Lobby getSlot(protoName)
+		,
+			Exception raise(call sender type .. " does not respond to '" .. protoName .. "'")
+		)
     )
 
-    docSlot("turnOn", "Turns on the Importer. Returns self.")    
-    turnOn := method(Lobby forward := method(Importer find(call message, self)); self)
+	autoImportingForward := method(
+		Importer import(call message name)
+	)
 
-    docSlot("turnOff", "Turns off the Importer. Returns self.")    
-    turnOff := method(Lobby removeSlot("forward"); self)
+    docSlot("turnOn", "Turns on the Importer. Returns self.")
+    turnOn := method(
+		Lobby forward := self getSlot("autoImportingForward")
+		self
+	)
+
+    docSlot("turnOff", "Turns off the Importer. Returns self.")
+    turnOff := method(
+		Lobby removeSlot("forward")
+		self
+	)
+
+	# Auto Importer is on by default
     turnOn
 )
 
-//Collector collect; Collector collect; System symbols select(size >50) println

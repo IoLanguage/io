@@ -14,6 +14,7 @@ extern "C" {
 #endif
 
 IoMessage *IoMessage_newFromText_label_(void *state, const char *text, const char *label);
+IoMessage *IoMessage_newFromText_labelSymbol_(void *state, const char *text, IoSymbol *label);
 IoMessage *IoMessage_newParse(void *state, IoLexer *lexer);
 
 #ifdef __cplusplus

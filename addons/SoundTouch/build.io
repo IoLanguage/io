@@ -1,4 +1,4 @@
-Binding clone do(
+AddonBuilder clone do(
 	dependsOnLib("stdc++")
 	dependsOnLib("SoundTouch")
 	dependsOnHeader("soundtouch/SoundTouch.h")

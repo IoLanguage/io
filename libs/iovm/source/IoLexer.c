@@ -1251,7 +1251,7 @@ int IoLexer_readExponent(IoLexer *self)
 {
 	if (IoLexer_readCharAnyCase_(self, 'e'))
 	{
-		IoLexer_readChar_(self, '-');
+		IoLexer_readChar_(self, '-') || IoLexer_readChar_(self, '+');
 
 		if (!IoLexer_readDigits(self))
 		{
