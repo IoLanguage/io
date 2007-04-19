@@ -83,11 +83,13 @@ HScroller do(
 		knob makeFirstResponder
 	)
 	
+	leftMouseUp := method(doAction)
+    	
 	leftMouseMotion := nil
 	
 	textures := TextureGroup clone loadGroupNamed("Scroller/Horizontal")
     
-    boxColor := Color clone set(0,0,0,1)
+    //boxColor := Color clone set(0,0,0,1)
 
 	draw := method(
         if(isTextured,

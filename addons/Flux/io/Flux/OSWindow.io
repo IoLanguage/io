@@ -191,8 +191,12 @@ OSWindow := Responder clone do(
     )
 	
     mouse := method(b, s, x, y,
-        hv := hitView	
-        if(hv, hv mouse)
+        if(s == 1 and firstResponder, 
+            firstResponder mouse
+        ,
+            hv := hitView	
+            if(hv, hv mouse)
+        )
 		glutPostRedisplay
     )
 

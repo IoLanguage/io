@@ -2,14 +2,15 @@
 HKnob := View clone 
 HKnob do(
 	outlineColor set(.5,.5,.5,1)
-	unselectedColor := Point clone set(.7,.7,.7,.5)
-	selectedColor   := Point clone set(1,1,1,.8)
+	unselectedColor := Point clone set(.2, .2, .2, 1)
+	selectedColor   := Point clone set(.3,.3,.3,1)
 	backgroundColor = unselectedColor
 	size set(30,20)
 	resizeWidth  := 010
     resizeHeight := 101
 	spacing := 1
 	clippingOff
+	isSelected ::= false
 	
 	axis         := "x"
 	setAxis      := "setX"
@@ -37,19 +38,22 @@ HKnob do(
 	)
 	
 	leftMouseDown := method(
-        writeln("HKnob ", self uniqueId, " leftMouseDown")
+        //writeln("HKnob ", self uniqueId, " leftMouseDown")
         backgroundColor = selectedColor
         makeFirstResponder
+        setIsSelected(true)
 	)
 	
 	leftMouseUp   := method(
-        writeln("HKnob ", self uniqueId, " leftMouseUp")
+        //writeln("HKnob ", self uniqueId, " leftMouseUp")
         backgroundColor = unselectedColor
         releaseFirstResponder
+		superview doAction
+        setIsSelected(false)
 	)
 	
 	leftMouseMotion := method(
-        writeln("HKnob ", self uniqueId, " leftMouseMotion")
+       //writeln("HKnob ", self uniqueId, " leftMouseMotion")
 		vp := superview screenToView(Mouse position clone)
 		dp := Mouse position - Mouse lastPosition
 		if (vp perform(axis) < 0 and dp perform(axis) > 0, return)
@@ -82,9 +86,9 @@ HKnob do(
         if(isTextured,
             textures draw(width, height)
         ,
-            glColor4d(.15,.15,.15,1)
+            if(isSelected, boxColor copy(selectedColor), boxColor copy(unselectedColor))
             drawRoundedBox
-            glColor4d(.18,.18,.18,1)
+            //glColor4d(.18,.18,.18,1)
             drawRoundedBoxOutline
 	    )
 	)

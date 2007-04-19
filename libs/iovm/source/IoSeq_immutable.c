@@ -1131,6 +1131,30 @@ IoObject *IoSeq_distanceTo(IoSeq *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(d);
 }
 
+IoObject *IoSeq_greaterThan_(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
+	return IOBOOL(self, UArray_greaterThan_(DATA(self), DATA(other)));
+}
+
+IoObject *IoSeq_lessThan_(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
+	return IOBOOL(self, UArray_lessThan_(DATA(self), DATA(other)));
+}
+
+IoObject *IoSeq_greaterThanOrEqualTo_(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
+	return IOBOOL(self, UArray_greaterThanOrEqualTo_(DATA(self), DATA(other)));
+}
+
+IoObject *IoSeq_lessThanOrEqualTo_(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
+	return IOBOOL(self, UArray_lessThanOrEqualTo_(DATA(self), DATA(other)));
+}
+
 void IoSeq_addImmutableMethods(IoSeq *self)
 {
 	IoMethodTable methodTable[] = {
@@ -1198,6 +1222,11 @@ void IoSeq_addImmutableMethods(IoSeq *self)
 	{"interpolate", IoSeq_interpolate},
 	{"distanceTo", IoSeq_distanceTo},
 
+	{">", IoSeq_greaterThan_},
+	{"<", IoSeq_lessThan_},
+	{">=", IoSeq_greaterThanOrEqualTo_},
+	{"<=", IoSeq_lessThanOrEqualTo_},
+	
 	{NULL, NULL},
 	};
 
