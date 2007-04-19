@@ -31,7 +31,7 @@ void IoODEBody_mark(IoODEBody *self);
 
 /* ----------------------------------------------------------- */
 
-void IoODEBody_worldDestoryed(IoODEBody *self);
+void IoODEBody_worldDestroyed(IoODEBody *self);
 
 /* ----------------------------------------------------------- */
 

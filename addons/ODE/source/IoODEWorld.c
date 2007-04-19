@@ -90,7 +90,7 @@ void IoODEWorld_free(IoODEWorld *self)
 	if(DATA(self)->bodies)
 	{
 		LIST_FOREACH(DATA(self)->bodies, i, body,
-			IoODEBody_worldDestoryed((IoODEBody*)body);
+			IoODEBody_worldDestroyed((IoODEBody*)body);
 	        )
 		List_free(DATA(self)->bodies);
 		DATA(self)->bodies = 0L;

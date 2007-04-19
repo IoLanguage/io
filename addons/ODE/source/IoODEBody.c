@@ -169,7 +169,7 @@ IoObject *IoODEBody_bodyFromId(void *state, dBodyID id)
 
 /* ----------------------------------------------------------- */
 
-void IoODEBody_worldDestoryed(IoODEBody *self)
+void IoODEBody_worldDestroyed(IoODEBody *self)
 {
 	WORLD = 0L;
 	BODYID = 0;
