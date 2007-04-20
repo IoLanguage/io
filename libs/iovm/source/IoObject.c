@@ -883,11 +883,6 @@ IoObject *IoObject_localsForward(IoObject *self, IoObject *locals, IoMessage *m)
 
 // name ------------------------------------------------------
 
-int IoObject_isObject(IoObject *self)
-{
-	return (strcmp(IoObject_name(self), "Object") == 0);
-}
-
 IoObject *IoObject_lobbyPrint(IoObject *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
@@ -1629,6 +1624,13 @@ IoObject *IoObject_locals(IoObject *self, IoObject *locals, IoMessage *m)
 
 const char *IoObject_name(IoObject *self)
 {
+	// If self has a type slot which is a string, then use that instead of the tag name
+	IoObject *type = IoObject_rawGetSlot_(self, IOSYMBOL("type"));
+	if (ISSEQ(type))
+	{
+		return CSTRING(type);
+	}
+
 	return IoTag_name(IoObject_tag(self));
 }
 
@@ -2032,7 +2034,7 @@ IoSeq *IoObject_asString_(IoObject *self, IoMessage *m)
 
 	if (!ISSEQ(result))
 	{
-		IoState_error_(IOSTATE, m, "%s asString has to return Sequences", IoObject_name(self));
+		IoState_error_(IOSTATE, m, "%s asString didn't return a Sequence", IoObject_name(self));
 	}
 
 	return result;
