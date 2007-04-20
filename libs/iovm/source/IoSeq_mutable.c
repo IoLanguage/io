@@ -120,8 +120,8 @@ IoObject *IoSeq_copy(IoSeq *self, IoObject *locals, IoMessage *m)
 IoObject *IoSeq_appendSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("appendSeq(aSequence1, aSequence2, ...)",
-		   "Appends aSequence arguments to the receiver. Returns self. ")
+	docSlot("appendSeq(object1, object2, ...)",
+		   "Calls asString on the arguments and appends the string to the receiver. Returns self. ")
 	*/
 
 	int i;
@@ -131,7 +131,7 @@ IoObject *IoSeq_appendSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 
 	for (i = 0; i < IoMessage_argCount(m); i ++)
 	{
-		UArray_append_(DATA(self), DATA(IoMessage_locals_seqArgAt_(m, locals, i)));
+		UArray_append_(DATA(self), DATA(IoMessage_locals_valueAsStringArgAt_(m, locals, i)));
 	}
 	return self;
 }
@@ -158,13 +158,12 @@ IoObject *IoSeq_append(IoSeq *self, IoObject *locals, IoMessage *m)
 IoObject *IoSeq_atInsertSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("atInsertSeq(indexNumber, aSequence)",
-		   "Returns a new Sequence with aSequence inserted at
-indexNumber in the receiver.  ")
+	docSlot("atInsertSeq(indexNumber, object)",
+		   "Calls asString on object and inserts the string at position indexNumber. Returns self.")
 	*/
 
 	size_t n = IoMessage_locals_sizetArgAt_(m, locals, 0);
-	IoSeq *otherSeq = IoMessage_locals_seqArgAt_(m, locals, 1);
+	IoSeq *otherSeq = IoMessage_locals_valueAsStringArgAt_(m, locals, 1);
 
 	IO_ASSERT_NOT_SYMBOL(self);
 

@@ -2018,3 +2018,22 @@ IOVM_API PID_TYPE IoObject_pid(IoObject *self)
 	return 0;
 }
 
+// asString helper
+
+IoSeq *IoObject_asString_(IoObject *self, IoMessage *m)
+{
+	IoSymbol *string = IOSYMBOL("asString");
+	IoSymbol *label = string;
+	IoSeq *result;
+
+	IoState_pushRetainPool(IOSTATE);
+	result = IoObject_rawDoString_label_(self, string, label);
+	IoState_popRetainPoolExceptFor_(IOSTATE, result);
+
+	if (!ISSEQ(result))
+	{
+		IoState_error_(IOSTATE, m, "%s asString has to return Sequences", IoObject_name(self));
+	}
+
+	return result;
+}

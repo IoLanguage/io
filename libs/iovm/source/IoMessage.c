@@ -620,19 +620,17 @@ IoObject *IoMessage_locals_seqArgAt_(IoMessage *self, IoObject *locals, int n)
 {
 	IoObject *v = IoMessage_locals_valueArgAt_(self, locals, n);
 
-	/*
-	 if (ISNUMBER(v))
-	 {
-		 return IoNumber_asString((IoNumber *)v, (IoObject *)locals, self);
-	 }
-	 */
-
 	if (!ISSEQ(v))
 	{
 		IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "Sequence");
 	}
 
 	return v;
+}
+
+IoObject *IoMessage_locals_valueAsStringArgAt_(IoMessage *self, IoObject *locals, int n)
+{
+	return IoObject_asString_(IoMessage_locals_valueArgAt_(self, locals, n), self);
 }
 
 IoObject *IoMessage_locals_symbolArgAt_(IoMessage *self, IoObject *locals, int n)

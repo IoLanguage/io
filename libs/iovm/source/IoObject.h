@@ -226,6 +226,9 @@ IOVM_API void IoObject_removeListener_(IoObject *self, void *listener);
 
 IOVM_API PID_TYPE IoObject_pid(IoObject *self);
 
+// asString helper
+
+IOVM_API IoSeq *IoObject_asString_(IoObject *self, IoMessage *m);
 
 #include "IoObject_flow.h"
 #include "IoObject_inline.h"

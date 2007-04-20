@@ -115,7 +115,7 @@ Sequence do(
             r
 	)
 
-	docSlot("prependSeq(aSequence1, aSequence2, ...)", "Prepends given sequences in reverse order to the receiver.  Returns self.")
+	docSlot("prependSeq(object1, object2, ...)", "Prepends given objects asString in reverse order to the receiver.  Returns self.")
 	prependSeq := method(self atInsertSeq(0, call evalArgs join); self)
 
 	sequenceSets := Map clone do(

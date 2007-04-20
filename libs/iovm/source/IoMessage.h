@@ -113,6 +113,7 @@ IOVM_API IoObject *IoMessage_locals_symbolArgAt_(IoMessage *self, IoObject *loca
 IOVM_API IoObject *IoMessage_locals_seqArgAt_(IoMessage *self, IoObject *locals, int n);
 IOVM_API IoObject *IoMessage_locals_mutableSeqArgAt_(IoMessage *self, IoObject *locals, int n);
 IOVM_API char *IoMessage_locals_cStringArgAt_(IoMessage *self, IoObject *locals, int n);
+IOVM_API IoObject *IoMessage_locals_valueAsStringArgAt_(IoMessage *self, IoObject *locals, int n);
 
 IOVM_API IoObject *IoMessage_locals_blockArgAt_(IoMessage *self, IoObject *locals, int n);
 IOVM_API IoObject *IoMessage_locals_dateArgAt_(IoMessage *self, IoObject *locals, int n);
