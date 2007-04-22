@@ -77,7 +77,7 @@ CLI := Object clone do(
 	)
 
 	writeCommandResult := method(result, 
-		writeln("\n", outPrompt, getSlot("result") asString)
+		writeln(outPrompt, getSlot("result") asString)
 	)
 	
 	handleInteractiveSingleLine := method(
