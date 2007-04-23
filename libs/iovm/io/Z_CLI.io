@@ -23,16 +23,19 @@ CLI := Object clone do(
 	)
 
 	runIorc := method(
-        if(?User,
-            context doFile(Path with(User homeDirectory path, ".iorc"))
-        )
+		if(try(User) == nil,
+			path := Path with(User homeDirectory path, ".iorc")
+			if(File with(path) exists,
+				context doFile(path)
+			)
+		)
 	)
 
 	run := method(
 		// Move Lobby launchPath to System launchPath?
 		Lobby launchPath := Directory currentWorkingDirectory
 		Importer addSearchPath(Lobby launchPath)
-        context exit := method(System exit)
+		context exit := method(System exit)
 
 		runIorc
 
@@ -71,7 +74,7 @@ CLI := Object clone do(
 	
 	interactive := method(
 		writeln("Io ", System version)
- 		while(isRunning,
+		while(isRunning,
 			handleInteractiveSingleLine
 		)
 	)
