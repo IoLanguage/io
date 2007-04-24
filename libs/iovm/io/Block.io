@@ -55,7 +55,9 @@ getSlot("Block") do(
 		formatBlock := method(theBlock,
 			msg := getSlot("theBlock") message
 
-			appendSeq("# " .. msg label .. ":" .. msg lineNumber, "\n")
+			if(msg label != CLI commandLineLabel,
+				appendSeq("# " .. msg label .. ":" .. msg lineNumber, "\n")
+			)
 			appendSeq("method(")
 			if(getSlot("theBlock") argumentNames size > 0,
 				getSlot("theBlock") argumentNames foreach(i, name,
