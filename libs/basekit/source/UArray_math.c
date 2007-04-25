@@ -125,7 +125,7 @@ void UArray_divide_(UArray *self, const UArray *other)
 
 double UArray_dotProduct_(const UArray *self, const UArray *other)
 {
-	return DUARRAY_OP(UARRAY_DOT, NULL, self, other);
+	DUARRAY_OP(UARRAY_DOT, NULL, self, other);
 }
 
 // basic scalar math
