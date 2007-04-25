@@ -64,6 +64,8 @@ IoSymbol *IoState_symbolWithUArray_copy_(IoState *self, UArray *ba, int copy)
 IoSymbol *IoState_symbolWithCString_length_(IoState *self, const char *s, size_t length)
 {
 	UArray *a = UArray_newWithData_type_size_copy_((char *)s, CTYPE_uint8_t, length, 1);
+	UArray_setEncoding_(a, CENCODING_UTF8);
+	UArray_convertToFixedSizeType(a);
 	return IoState_symbolWithUArray_copy_(self, a, 0);
 }
 

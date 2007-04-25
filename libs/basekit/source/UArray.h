@@ -70,7 +70,7 @@ typedef struct
     uintptr_t uintptr_t;
 } UArrayValueUnion;
 
-//#define UARRAY_DEBUG 1
+#define UARRAY_DEBUG 1
 
 typedef struct
 {
@@ -81,7 +81,7 @@ typedef struct
     uintptr_t hash;
     uint8_t encoding;
     #ifdef UARRAY_DEBUG
-    int cannotRealloc;
+    int stackAllocated;
     #endif
 } UArray;
 

@@ -24,12 +24,9 @@ ImageView := View clone do(
 		glColor4d(1,1,1,1)
 	)
 	
-	drawProportional := method(
-		glPushMatrix
-		
-		wr := width / image originalWidth
+	translateToPlacement := method(
+        wr := width / image originalWidth
 		hr := height / image originalHeight
-		
 		
 		if (wr < hr) then(
 			glTranslated(0, (height - (image originalHeight * wr))/2, 0)
@@ -39,30 +36,49 @@ ImageView := View clone do(
 			glScaled(hr, hr, 1)
 		)
 		
+	)
+	
+	drawProportional := method(
+		glPushMatrix
+		translateToPlacement
 		drawColor
+		glColor4d(1, 1, 1, .1)
 		image drawTexture
-		
-		//if(isSelected and superview isFirstResponder, drawBorder)
-
+		if(isSelected and superview isFirstResponder, drawBorder)
 		glPopMatrix
-
+		
+		//glColor4d(0,0,1,.2)
+		//glRectd(0, 0, width, height)
+        //drawBorder
 		self
 	)
 
-	newSlot("borderColor", Color clone set(1,1,1,.5))
-	newSlot("borderSize", 5)
-		
+	newSlot("borderColor", Color clone set(1,1,1,1))
+	newSlot("borderSize", 1)
+
+    setIsClipped(false)
+    
 	drawBorder := method(
+		glPushMatrix
+        //translateToPlacement
 		b := borderSize
 		w := image originalWidth
 		h := image originalHeight - b
 		
 		borderColor glColor
+		glBegin(GL_LINE_LOOP)
+		glVertex2d(0,0)
+		glVertex2d(0,h)
+		glVertex2d(w,h)
+		glVertex2d(w,0)
+        glEnd		
+		/*
 		glRecti(0, 0, w, b) // bottom
 		glRecti(0, h-b, w, h) // top
 		glRecti(0, b, b, h-b) // left
 		glRecti(w-b, b, w, h-b) // right
-
+		*/
+		glPopMatrix
 	)
 	
 	newSlot("isSelected", false)

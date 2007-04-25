@@ -278,7 +278,7 @@ UArray UArray_stackAllocedWithData_type_size_(void *data, CTYPE type, size_t siz
 	memset(&self, 0, sizeof(UArray));
 	
 #ifdef UARRAY_DEBUG
-	self.cannotRealloc = 1;
+	self.stackAllocated = 1;
 #endif
 	
 	self.itemType = type;
@@ -294,7 +294,7 @@ BASEKIT_API UArray UArray_stackAllocedEmptyUArray(void)
 	memset(&self, 0, sizeof(UArray));
 	
 #ifdef UARRAY_DEBUG
-	self.cannotRealloc = 1;
+	self.stackAllocated = 1;
 #endif
 
 	self.itemType = CTYPE_int32_t;
@@ -329,7 +329,7 @@ void UArray_setCString_(UArray *self, const char *s)
 #ifdef UARRAY_DEBUG
 void UArray_checkIfOkToRelloc(UArray *self)
 {
-	if(self->cannotRealloc)
+	if(self->stackAllocated)
 	{
 		printf("UArray debug error: attempt to io_realloc UArray data that this UArray does not own");
 		exit(-1);
@@ -455,17 +455,22 @@ void UArray_copy_(UArray *self, const UArray *other)
 }
 
 void UArray_copyItems_(UArray *self, const UArray *other)
-{	
+{
+	if(self->size != other->size)
+	{
+		printf("UArray_copyItems_ error - arrays not of same size\n");
+		exit(-1);
+	}
+	
 	if(self->itemType == other->itemType)
 	{
 		UArray_copyData_(self, other);
 	}
 	else
 	{
-		UArray_setSize_(self, other->size);
-		UArray_changed(self);
 		DUARRAY_OP(UARRAY_BASICOP_TYPES, =, self, other);
 	}
+	UArray_changed(self);
 }
 
 void UArray_copyData_(UArray *self, const UArray *other)
@@ -481,6 +486,7 @@ void UArray_convertToItemType_(UArray *self, CTYPE newItemType)
 		UArray *tmp = UArray_new();
 		UArray_setItemType_(tmp, newItemType);
 		UArray_setEncoding_(tmp, UArray_encoding(self));
+		UArray_setSize_(tmp, self->size);
 		UArray_copyItems_(tmp, self);
 		UArray_copy_(self, tmp);
 		UArray_free(tmp);
@@ -498,10 +504,10 @@ UArray UArray_stackRange(const UArray *self, size_t start, size_t size)
 	s.hash = 0;
 		
 #ifdef UARRAY_DEBUG
-	s.cannotRealloc = 1;
+	s.stackAllocated = 1;
 #endif
 
-	if(start < self->size)
+	if(start < self->size || start == 0)
 	{
 		s.data = self->data + self->itemSize * start;
 	}
@@ -723,6 +729,8 @@ void UArray_appendBytes_size_(UArray *self, uint8_t *bytes, size_t size)
 
 void UArray_at_putAll_(UArray *self, size_t pos, const UArray *other)
 {	
+	if (other->size == 0) return;
+	
 	if (pos > self->size)
 	{
 		UArray_setSize_(self, pos);
@@ -730,6 +738,7 @@ void UArray_at_putAll_(UArray *self, size_t pos, const UArray *other)
 	
 	{
 		size_t chunkSize = self->size - pos;
+		size_t originalSelfSize = self->size;
 		
 		UArray_setSize_(self, self->size + other->size);
 		
@@ -738,9 +747,31 @@ void UArray_at_putAll_(UArray *self, size_t pos, const UArray *other)
 			UArray newChunk = UArray_stackRange(self, pos + other->size, chunkSize);
 			UArray insertChunk = UArray_stackRange(self, pos, other->size);
 			
-			UArray_copy_(&newChunk, &oldChunk); // copy chunk to end
-			UArray_copy_(&insertChunk, other); // insert other
+			if (
+				//(&newChunk)->data == 0x0 ||
+				(&insertChunk)->data == 0x0)
+			{
+				printf("oldChunk.data     %p size %i\n", (void *)(&oldChunk)->data, oldChunk.size);
+				printf("newChunk.data     %p size %i\n", (void *)(&newChunk)->data, newChunk.size);
+				printf("insertChunk.data  %p size %i\n", (void *)(&insertChunk)->data, insertChunk.size);
+				printf("originalSelfSize = %i\n", originalSelfSize);
+				printf("self->size  = %i\n", self->size);
+				printf("other->size = %i\n", other->size);
+				printf("pos = %i\n", pos);
+				//exit(-1);
+
+				oldChunk = UArray_stackRange(self, pos, chunkSize);
+				newChunk = UArray_stackRange(self, pos + other->size, chunkSize);
+				insertChunk = UArray_stackRange(self, pos, other->size);
+				return;
+			}
+			
+			if (newChunk.size) //UArray_copy_(&newChunk, &oldChunk); // copy chunk to end
+			UArray_copyItems_(&newChunk, &oldChunk);
+			//UArray_copy_(&insertChunk, other); // insert other
+			UArray_copyItems_(&insertChunk, other);
 		}
+		
 		UArray_changed(self);
 	}
 }
@@ -818,7 +849,7 @@ int UArray_greaterThan_(const UArray *self, const UArray *other)
 	if(self->encoding == CENCODING_NUMBER)
 	{ DUARRAY_OP(UARRAY_GT_TYPES, NULL, self, other); }
 	
-	return UArray_compare_(self, other) > -1;
+	return UArray_compare_(self, other) > 0;
 }
 
 int UArray_lessThan_(const UArray *self, const UArray *other)
@@ -826,7 +857,7 @@ int UArray_lessThan_(const UArray *self, const UArray *other)
 	if(self->encoding == CENCODING_NUMBER)
 	{ DUARRAY_OP(UARRAY_LT_TYPES, NULL, self, other); }
 	
-	return UArray_compare_(self, other) > -1;
+	return UArray_compare_(self, other) < 0;
 }
 
 int UArray_greaterThanOrEqualTo_(const UArray *self, const UArray *other)
@@ -837,7 +868,7 @@ int UArray_greaterThanOrEqualTo_(const UArray *self, const UArray *other)
 		{ return 1; } else { return 0; }
 	}
 	
-	return UArray_compare_(self, other) > -1;
+	return UArray_compare_(self, other) >= 0;
 }
 
 int UArray_lessThanOrEqualTo_(const UArray *self, const UArray *other)
@@ -848,7 +879,7 @@ int UArray_lessThanOrEqualTo_(const UArray *self, const UArray *other)
 		{ return 1; } else { return 0; }
 	}
 	
-	return UArray_compare_(self, other) < 1;
+	return UArray_compare_(self, other) <= 0;
 }
 
 int UArray_isZero(const UArray *self)

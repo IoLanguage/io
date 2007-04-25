@@ -27,14 +27,14 @@ VectorCompareTest := UnitTest clone do(
         assertTrue( vector(1,0) != vector(0,1) )
         assertTrue( vector(0,1) != vector(1,0) )
 
-        assertTrue( vector(1, 3) < vector(2,2) )
+        assertFalse( vector(1, 3) < vector(2,2) )
         assertFalse( vector(3, 1) < vector(2,2) )
-        assertTrue( vector(1, 3) <= vector(2,2) )
+        assertFalse( vector(1, 3) <= vector(2,2) )
         assertFalse( vector(3, 1) <= vector(2,2) )
 
-        assertTrue( vector(3, 1) > vector(2,2) )
+        assertFalse( vector(3, 1) > vector(2,2) )
         assertFalse( vector(1, 3) > vector(2,2) )
-        assertTrue( vector(3, 1) >= vector(2,2) )
+        assertFalse( vector(3, 1) >= vector(2,2) )
         assertFalse( vector(1, 3) >= vector(2,2) )
 
         assertFalse( vector(1, 3) == vector(2,2) )
