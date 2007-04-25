@@ -111,12 +111,18 @@ getSlot("Block") do(
 
 					if(args first cachedResult,
 						appendSeq(args first cachedResult, " ")
-					)
-					appendSeq(reverseAssignOperators at(m name))
 
-					appendSeq(" ")
-					if(args at(1),
-						formatMessage(args at(1))
+						appendSeq(reverseAssignOperators at(m name))
+
+						appendSeq(" ")
+						if(args at(1),
+							formatMessage(args at(1))
+						)
+					,
+						appendSeq(m name)
+						if(m argCount > 0,
+							formatArguments(m)
+						)
 					)
 				) elseif(operators hasKey(m name)) then(
 					appendSeq(m name)
