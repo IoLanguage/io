@@ -42,20 +42,22 @@ Importer := Object clone do(
 
 	importers := list(FileImporter, AddonImporter)
 
-    docSlot("import(protoName)", "Searches for and loads protoName. Should be used from a forward method.")
-    import := method(protoName, targetType,
+    import := method(originalCall,
+		protoName := originalCall message name
+
 		if(protoName at(0) isUppercase and(importer := importers detect(import(protoName))),
 			if(Lobby hasSlot(protoName) not,
-				Exception raise("Importer slot '" .. protoName .. "' missing after " .. importer importsFrom .. " load")
+				Exception raiseFrom(originalCall, "Importer slot '" .. protoName .. "' missing after " .. importer importsFrom .. " load")
 			)
 			Lobby getSlot(protoName)
 		,
-			Exception raise(targetType .. " does not respond to '" .. protoName .. "'")
+			targetType := originalCall target type
+			Exception raiseFrom(originalCall, targetType .. " does not respond to '" .. protoName .. "'")
 		)
     )
 
 	autoImportingForward := method(
-		Importer import(call message name, call target type)
+		Importer import(call)
 	)
 
     docSlot("turnOn", "Turns on the Importer. Returns self.")
