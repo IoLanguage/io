@@ -4,5 +4,4 @@ AddonBuilder clone do(
 	dependsOnFramework("CoreFoundation")
 	dependsOnFramework("IOKit")
 	dependsOnFramework("Carbon")
-	dependsOnBinding("Vector")
 )

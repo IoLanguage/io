@@ -32,7 +32,7 @@ Socket do(
         self write := self getSlot("streamWrite")
 		self
 	)
-    
+
 	setHost := method(ip,
 		//writeln("ip = ", ip)
 		ip at(0) isDigit ifFalse(ip = DNSResolver ipForHostName(ip))
@@ -42,7 +42,11 @@ Socket do(
     
 	host := method(ipAddress host)
 
-	setPort := method(port, ipAddress setPort(port); self)
+	setPort := method(port,
+	   ipAddress setPort(port)
+	   self
+    )
+    
 	port := method(ipAddress port)
 
 	checkErrno := method(
@@ -159,9 +163,13 @@ Socket do(
 
 		while(readBuffer size < total, 
 			raiseExceptionIfInvalid
-		    asyncUdpRead(ipAddress, readBuffer, bytesPerRead) ifFalse(readCoro waitOnOrExcept(readTimeout))
+		    asyncUdpRead(ipAddress, readBuffer, bytesPerRead) ifFalse(
+                //readEvent waitOn(readTimeout)
+                //asyncUdpRead(ipAddress, readBuffer, bytesPerRead)
+                nil
+            )
 		    raiseExceptionIfInvalid
-		    checkErrno
+		    //checkErrno
 		)
 	)
 

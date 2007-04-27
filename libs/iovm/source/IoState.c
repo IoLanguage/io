@@ -398,13 +398,19 @@ void IoState_setLobby_(IoState *self, IoObject *obj)
 	self->lobby = obj;
 }
 
+void MissingProtoError(void)
+{
+	printf("missing proto\n");
+}
+
 IoObject *IoState_protoWithInitFunction_(IoState *self, IoStateProtoFunc *func)
 {
 	IoObject *proto = PHash_at_(self->primitives, (void *)func);
 
 	if (!proto)
 	{
-		IoState_fatalError_(self, "IoState_protoWithInitFunction_() Error: missing proto");
+		MissingProtoError();
+		IoState_fatalError_(self, "IoState_protoWithInitFunction_xxx() Error: missing proto");
 	}
 
 	return proto;

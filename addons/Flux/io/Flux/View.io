@@ -171,7 +171,9 @@ View := Responder clone do(
 
 	scissorOn := method(
         GLScissor push
-        if(GLScissor isOn, GLScissor unionWithViewRect(frame), GLScissor setViewRect(frame) on)
+        if(GLScissor isOn, 
+            GLScissor unionWithViewRect(frame), 
+            GLScissor setViewRect(frame) on)
 	)
 
 	scissorOff := method(if(GLScissor isOn, GLScissor pop))

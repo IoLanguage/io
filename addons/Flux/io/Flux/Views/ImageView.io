@@ -27,29 +27,27 @@ ImageView := View clone do(
 	translateToPlacement := method(
         wr := width / image originalWidth
 		hr := height / image originalHeight
-		
 		if (wr < hr) then(
-			glTranslated(0, (height - (image originalHeight * wr))/2, 0)
-			glScaled(wr, wr, 1)
+		    self tx := 0
+		    self ty := (height - (image originalHeight * wr))/2
+		    self tr := wr
 		) else(
-			glTranslated((width - (image originalWidth * hr)) / 2, 0, 0)
-			glScaled(hr, hr, 1)
+            self tx := (width - (image originalWidth * hr)) / 2
+		    self ty := 0
+		    self tr := hr
 		)
-		
+        glTranslated(tx, ty, 0)
+        glScaled(tr, tr, 1)
 	)
 	
 	drawProportional := method(
 		glPushMatrix
 		translateToPlacement
 		drawColor
-		glColor4d(1, 1, 1, .1)
+		//glColor4d(1, 1, 1, .2)
 		image drawTexture
 		if(isSelected and superview isFirstResponder, drawBorder)
 		glPopMatrix
-		
-		//glColor4d(0,0,1,.2)
-		//glRectd(0, 0, width, height)
-        //drawBorder
 		self
 	)
 
@@ -58,9 +56,9 @@ ImageView := View clone do(
 
     setIsClipped(false)
     
+   
 	drawBorder := method(
 		glPushMatrix
-        //translateToPlacement
 		b := borderSize
 		w := image originalWidth
 		h := image originalHeight - b
@@ -78,6 +76,7 @@ ImageView := View clone do(
 		glRecti(0, b, b, h-b) // left
 		glRecti(w-b, b, w, h-b) // right
 		*/
+
 		glPopMatrix
 	)
 	

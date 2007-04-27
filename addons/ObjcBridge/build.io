@@ -18,7 +18,6 @@ AddonBuilder clone do(
 		dependsOnFramework("AppKit")
 	)
 
-	dependsOnBinding("Vector")
 
 	debs    atPut("gnustep-gui", "libgnustep-gui-dev")
 	ebuilds atPut("gnustep-gui", "gnustep-gui")
