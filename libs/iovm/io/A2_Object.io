@@ -389,10 +389,23 @@ Object do(
 
 	uniqueHexId := method("0x" .. getSlot("self") uniqueId asString toBase(16))
 	
-	lazySlot := method(name,
-		m := ("self setSlot(\"" .. name .. "\", " .. call argAt(1) code .. ")") asMessage
-		self setSlot(name, method() setMessage(m))
-		nil
+	lazySlot := method(
+		if(call argCount == 1,
+			m := method(
+				self setSlot(call message name, nil)
+			)
+
+			args := getSlot("m") message next arguments
+			args atPut(1, call argAt(0) clone)
+			getSlot("m") message next setArguments(args)
+
+			getSlot("m")
+		,
+			name := call evalArgAt(0)
+			m := ("self setSlot(\"" .. name .. "\", " .. call argAt(1) code .. ")") asMessage
+			self setSlot(name, method() setMessage(m))
+			nil
+		)
 	)
 	
 	foreachSlot := method(

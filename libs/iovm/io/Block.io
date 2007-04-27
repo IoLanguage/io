@@ -55,7 +55,9 @@ getSlot("Block") do(
 		formatBlock := method(theBlock,
 			msg := getSlot("theBlock") message
 
-			appendSeq("# " .. msg label .. ":" .. msg lineNumber, "\n")
+			if(msg label != CLI commandLineLabel,
+				appendSeq("# " .. msg label .. ":" .. msg lineNumber, "\n")
+			)
 			appendSeq("method(")
 			if(getSlot("theBlock") argumentNames size > 0,
 				getSlot("theBlock") argumentNames foreach(i, name,
@@ -109,12 +111,18 @@ getSlot("Block") do(
 
 					if(args first cachedResult,
 						appendSeq(args first cachedResult, " ")
-					)
-					appendSeq(reverseAssignOperators at(m name))
 
-					appendSeq(" ")
-					if(args at(1),
-						formatMessage(args at(1))
+						appendSeq(reverseAssignOperators at(m name))
+
+						appendSeq(" ")
+						if(args at(1),
+							formatMessage(args at(1))
+						)
+					,
+						appendSeq(m name)
+						if(m argCount > 0,
+							formatArguments(m)
+						)
 					)
 				) elseif(operators hasKey(m name)) then(
 					appendSeq(m name)

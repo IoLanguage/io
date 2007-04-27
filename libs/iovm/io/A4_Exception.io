@@ -5,7 +5,7 @@ Call do(
 	description := method(
 		m := self message
 		s := self target type .. " " .. m name
-        s alignLeft(36) .. m label lastPathComponent .. " " .. m lineNumber
+        s alignLeft(36) .. " " .. m label lastPathComponent .. " " .. m lineNumber
 	)
 
 	delegateTo := method(target, altSender,
@@ -101,12 +101,15 @@ Coroutine do(
 
 	typeId := method(self type .. "_0x" .. self uniqueId asString toBase(16))
 
+	ignoredCoroutineMethodNames := list("setResult", "main", "pauseCurrentAndResumeSelf", "resumeParentCoroutine", "raiseException")
+
 	callStack := method(
 		stack := ioStack
 		stack selectInPlace(v, Object argIsCall(getSlot("v"))) reverse 
-		stack selectInPlace(v, (v target type == "Coroutine" and v message name == "setResult") not)  
-		stack selectInPlace(v, (v target type == "Coroutine" and v message name == "main") not)  
-		stack foreach(i, v, if(v target type == "Importer" and v message name == "find", stack sliceInPlace(i+1); break) )
+		stack selectInPlace(v,
+			(v target type == "Coroutine" and ignoredCoroutineMethodNames contains(v message name)) not
+		)
+		stack foreach(i, v, if(v target type == "Importer" and v message name == "import", stack sliceInPlace(i+1); break) )
 		stack := stack unique
 		stack
 	)
@@ -123,7 +126,6 @@ Coroutine do(
 		if(getSlot("CGI") != nil and CGI isInWebScript, buf appendSeq("<pre>"))
 		
 		if(exception, buf appendSeq("\n  ", exception type, ": ", exception error, "\n"))
-		//buf appendSeq("  ", self typeId, " stack trace")
 		
 		if(callStack size > 0) then(
 			buf appendSeq("  ---------\n")
@@ -131,11 +133,21 @@ Coroutine do(
 			if(exception and exception caughtMessage, 
 				buf appendSeq("  ", exception caughtMessage description, "\n")
 			)
-			
-			callStack foreach(v, buf appendSeq("  ", v description, "\n"))
+
+			frames := callStack
+
+			if(exception and exception originalCall,
+				index := frames indexOf(exception originalCall)
+				if(index,
+					frames sliceInPlace(index)
+				)
+			)
+
+			frames foreach(v,
+				buf appendSeq("  ", v description, "\n")
+			)
 			buf appendSeq("\n")
 		) else(
-			//buf appendSeq("    no call stack found\n")
 			buf appendSeq("\n")
 		)
 
@@ -230,10 +242,16 @@ Protos Exception do(
 	newSlot("coroutine")
 	newSlot("caughtMessage")
     newSlot("nestedException")
+	newSlot("originalCall")
 	
 	raise := method(error, nestedException,
 		coro := Scheduler currentCoroutine
 		coro raiseException(self clone setError(error) setCoroutine(coro) setNestedException(nestedException))
+	)
+
+	raiseFrom := method(originalCall, error, nestedException,
+		coro := Scheduler currentCoroutine
+		coro raiseException(self clone setError(error) setCoroutine(coro) setNestedException(nestedException) setOriginalCall(originalCall))
 	)
 	
 	catch := method(exceptionProto,

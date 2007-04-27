@@ -919,8 +919,7 @@ IoObject *IoSeq_dotProduct(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
 	IO_ASSERT_NOT_SYMBOL(self);
-	UArray_dotProduct_(DATA(self), DATA(other));
-	return self;
+	return IONUMBER(UArray_dotProduct_(DATA(self), DATA(other)));
 }
 
 IoObject *IoSeq_setItemsToLong_(IoSeq *self, IoObject *locals, IoMessage *m)
