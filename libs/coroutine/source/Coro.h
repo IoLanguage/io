@@ -1,4 +1,4 @@
-/*   
+/*
 */
 
 #ifndef CORO_DEFINED
@@ -66,7 +66,7 @@ extern "C" {
 typedef struct Coro Coro;
 
 struct Coro
-{        
+{
 	size_t requestedStackSize;
 	size_t allocatedStackSize;
 	void *stack;
