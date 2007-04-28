@@ -114,6 +114,7 @@ IoFile *IoFile_proto(void *state)
     {"rewind", IoFile_rewind},
     {"setPosition", IoFile_position_},
     {"position", IoFile_position},
+    {"positionAtEnd", IoFile_positionAtEnd},
     {"isAtEnd", IoFile_isAtEnd},
 
     // other
@@ -876,6 +877,22 @@ IoObject *IoFile_position(IoFile *self, IoObject *locals, IoMessage *m)
 
     IoFile_assertOpen(self, locals, m);
     return IONUMBER(ftell(DATA(self)->stream));
+}
+
+IoObject *IoFile_positionAtEnd(IoFile *self, IoObject *locals, IoMessage *m)
+{
+    /*#io
+    docSlot("positionAtEnd",
+			"Sets the file position pointer to the end of the file.")
+    */
+    IoFile_assertOpen(self, locals, m);
+
+    if (DATA(self)->stream)
+    {
+		fseek(DATA(self)->stream, 0, SEEK_END);
+    }
+
+    return self;
 }
 
 IoObject *IoFile_isAtEnd(IoFile *self, IoObject *locals, IoMessage *m)

@@ -171,8 +171,9 @@ void Collector_popPause(Collector *self)
 
 CollectorMarker *Collector_newMarker(Collector *self)
 {
+	CollectorMarker *m;
 	BEGIN_TIMER
-	CollectorMarker *m = self->freed->next;
+	m = self->freed->next;
 	
 	if (m->color != self->freed->color)
 	{

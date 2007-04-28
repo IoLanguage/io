@@ -158,7 +158,10 @@ BASEKIT_API UArray *UArray_slice(const UArray *self, long start, long end);
 
 BASEKIT_API int UArray_compare_(const UArray *self, const UArray *other);
 BASEKIT_API int UArray_equals_(const UArray *self, const UArray *other);
+BASEKIT_API int UArray_greaterThan_(const UArray *self, const UArray *other);
+BASEKIT_API int UArray_lessThan_(const UArray *self, const UArray *other);
 BASEKIT_API int UArray_greaterThanOrEqualTo_(const UArray *self, const UArray *other);
+BASEKIT_API int UArray_lessThanOrEqualTo_(const UArray *self, const UArray *other);
 BASEKIT_API int UArray_isZero(const UArray *self);
 
 // contains
