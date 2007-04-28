@@ -3,7 +3,7 @@ HKnob := View clone
 HKnob do(
 	outlineColor set(.5,.5,.5,1)
 	unselectedColor := Point clone set(.2, .2, .2, 1)
-	selectedColor   := Point clone set(.3,.3,.3,1)
+	selectedColor   := Point clone set(.5,.5,.5,1)
 	backgroundColor = unselectedColor
 	size set(30,20)
 	resizeWidth  := 010

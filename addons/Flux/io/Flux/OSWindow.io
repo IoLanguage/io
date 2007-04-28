@@ -62,6 +62,7 @@ OSWindow := Responder clone do(
 
     addTimerTargetWithDelay := method(target, delay,
 		id := target uniqueId 
+		//writeln("addTimerTargetWithDelay ", target type, " ", delay)
 		timers atPut(id asString, target)
 		glutTimerFunc(delay*1000, id)
     )
@@ -73,6 +74,7 @@ OSWindow := Responder clone do(
     timer := method(id,
 		idString := id asString
 		target := timers at(idString)
+		//writeln("OSWindow timer target = ", target type)
 		if(target,
 			timers removeAt(idString)
 			if(target == self, yieldTimer, target timer(self))

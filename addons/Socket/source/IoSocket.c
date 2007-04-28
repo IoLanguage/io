@@ -10,7 +10,7 @@ Reads are appended to the socket's read buffer which can be accessed using the r
 Example:
 
 <pre>
-socket := Socket clone setHostName("www.yahoo.com") setPort(80) connect 
+socket := Socket clone setHost("www.yahoo.com") setPort(80) connect 
 if(socket error) then( write(socket error, "\n"); exit) 
 
 socket write("GET /\n\n")
@@ -25,7 +25,7 @@ write("read ", socket readBuffer length, " bytes\n")
 
 
 /*#io
-docSlot("setHostName(hostName)", 
+docSlot("setHost(hostName)", 
 	   "Translates hostName to an IP using asynchronous DNS and sets the host attribute. Returns self.")
 */
 

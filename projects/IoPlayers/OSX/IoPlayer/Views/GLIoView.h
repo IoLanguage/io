@@ -1,5 +1,5 @@
 #import <Cocoa/Cocoa.h>
-#import "IoState.h"
+#include "IoState.h"
 #import "IoGLUT.h"
 
 @interface GLIoView : NSOpenGLView

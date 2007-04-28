@@ -47,7 +47,7 @@ IoGLUT *IoGLUT_proto(void *state)
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoGLUTData)));
 	
 	DATA(self)->coroutine = IoCoroutine_new(state);
-
+	printf("GLUT coro = %p\n", DATA(self)->coroutine);
 	
 	DATA(self)->eventTarget = NULL;
 	DATA(self)->entryMessage      = GLUTMESSAGE("entry");
@@ -550,7 +550,8 @@ IoObject *IoGLUT_tryCallback(IoGLUT *self, IoMessage *m)
 		//result = IoState_tryToPerform(state, t, t, m);
 		
 		
-		IoCoroutine_try(tryCoro, t, t, m);
+		//IoCoroutine_try(tryCoro, t, t, m);
+		IoMessage_locals_performOn_(m, t, t);
 
 		if (IoCoroutine_rawException(tryCoro) != state->ioNil)
 		{

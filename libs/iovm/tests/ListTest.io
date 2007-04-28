@@ -286,13 +286,14 @@ ListTest := UnitTest clone do(
     )
     
     testSortBy := method(
-        a := List clone append("a", "beta", "3")
+        a := List clone append("beta", "3", "alpha")
         assertRaisesException(a sortInPlaceBy)
         assertRaisesException(a sortInPlaceBy(nil))
-        a sortInPlaceBy(block(value1, value2, if(value1 < value2, return nil, return value2)))
-        assertEquals("beta", a at(0))
-        assertEquals("a", a at(1))
-        assertEquals("3", a at(2))
+        a sortInPlaceBy(block(v1, v2, if(v1 < v2, nil, v2)))
+        a println
+        assertEquals("3", a at(0))
+        assertEquals("alpha", a at(1))
+        assertEquals("beta", a at(2))
     )
     
     testForeach := method(

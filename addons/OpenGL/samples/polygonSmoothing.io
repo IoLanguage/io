@@ -74,6 +74,7 @@ Screen := Object clone do(
 	)
 	
 	draw1 := method(
+	   writeln("draw1")
 		glColor4d(1, 1, 1, 1)
 		drawPolygon(.2)
 		//glColor4d(1, 1, 1, 1/(jitter size))

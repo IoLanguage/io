@@ -15,6 +15,7 @@
 		AA6AC74D0BAF7EBD0049770F /* simd_cp_arm-iwmmx.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA6AC7420BAF7EBD0049770F /* simd_cp_arm-iwmmx.h */; };
 		AA6AC74E0BAF7EBD0049770F /* simd_cp_emu.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA6AC7430BAF7EBD0049770F /* simd_cp_emu.h */; };
 		AA6AC74F0BAF7EBD0049770F /* simd_cp_x86.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA6AC7440BAF7EBD0049770F /* simd_cp_x86.h */; };
+		AA8383A70BDFCE0100B4F003 /* IoVMApi.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA8383A60BDFCE0100B4F003 /* IoVMApi.h */; };
 		AAA3CAF50B186E2F004C257F /* IoMessage_opShuffle.c in Sources */ = {isa = PBXBuildFile; fileRef = AAA3CAF30B186E2F004C257F /* IoMessage_opShuffle.c */; };
 		AAA3CAF60B186E2F004C257F /* IoMessage_opShuffle.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAA3CAF40B186E2F004C257F /* IoMessage_opShuffle.h */; };
 		AABF81310B759BC8002DBAB5 /* UArray_character.c in Sources */ = {isa = PBXBuildFile; fileRef = AABF81230B759BC8002DBAB5 /* UArray_character.c */; };
@@ -281,6 +282,7 @@
 				AA6AC74D0BAF7EBD0049770F /* simd_cp_arm-iwmmx.h in CopyFiles */,
 				AA6AC74E0BAF7EBD0049770F /* simd_cp_emu.h in CopyFiles */,
 				AA6AC74F0BAF7EBD0049770F /* simd_cp_x86.h in CopyFiles */,
+				AA8383A70BDFCE0100B4F003 /* IoVMApi.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
@@ -296,6 +298,7 @@
 		AA6AC7420BAF7EBD0049770F /* simd_cp_arm-iwmmx.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "simd_cp_arm-iwmmx.h"; path = "../../libs/basekit/source/simd_cph/include/simd_cp_arm-iwmmx.h"; sourceTree = SOURCE_ROOT; };
 		AA6AC7430BAF7EBD0049770F /* simd_cp_emu.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = simd_cp_emu.h; path = ../../libs/basekit/source/simd_cph/include/simd_cp_emu.h; sourceTree = SOURCE_ROOT; };
 		AA6AC7440BAF7EBD0049770F /* simd_cp_x86.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = simd_cp_x86.h; path = ../../libs/basekit/source/simd_cph/include/simd_cp_x86.h; sourceTree = SOURCE_ROOT; };
+		AA8383A60BDFCE0100B4F003 /* IoVMApi.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoVMApi.h; path = ../../libs/iovm/source/IoVMApi.h; sourceTree = SOURCE_ROOT; };
 		AAA3CAF30B186E2F004C257F /* IoMessage_opShuffle.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = IoMessage_opShuffle.c; sourceTree = "<group>"; };
 		AAA3CAF40B186E2F004C257F /* IoMessage_opShuffle.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IoMessage_opShuffle.h; sourceTree = "<group>"; };
 		AABF81230B759BC8002DBAB5 /* UArray_character.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = UArray_character.c; sourceTree = "<group>"; };
@@ -671,6 +674,7 @@
 		AAE69EA70B110795006E309B /* source */ = {
 			isa = PBXGroup;
 			children = (
+				AA8383A60BDFCE0100B4F003 /* IoVMApi.h */,
 				AAA3CAF30B186E2F004C257F /* IoMessage_opShuffle.c */,
 				AAA3CAF40B186E2F004C257F /* IoMessage_opShuffle.h */,
 				AAE69EA80B110795006E309B /* IoBlock.c */,

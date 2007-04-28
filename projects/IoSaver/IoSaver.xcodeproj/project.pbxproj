@@ -371,6 +371,16 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		AA3E28CE0BD6FAFE004CBC79 /* Libs */ = {
+			isa = PBXGroup;
+			children = (
+				AA9E44FA0BBE225B009C4019 /* libIoOpenGL.dylib */,
+				AA9E43C40BBDE434009C4019 /* libiovmall.dylib */,
+				AA2766260543F96F0050D308 /* libz.1.dylib */,
+			);
+			name = Libs;
+			sourceTree = "<group>";
+		};
 		AA9E43C70BBDE469009C4019 /* headers */ = {
 			isa = PBXGroup;
 			children = (
@@ -510,15 +520,13 @@
 		F66C10DA01BF344A016ABFFF /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				AA9E44FA0BBE225B009C4019 /* libIoOpenGL.dylib */,
+				AA3E28CE0BD6FAFE004CBC79 /* Libs */,
 				AA9E44880BBDE5C2009C4019 /* headers */,
 				AA9E43C70BBDE469009C4019 /* headers */,
-				AA9E43C40BBDE434009C4019 /* libiovmall.dylib */,
 				F66C10DB01BF344A016ABFFF /* IoSaverView.h */,
 				F66C10DC01BF344A016ABFFF /* IoSaverView.m */,
 				AA27654F0543F5D40050D308 /* GLIoView.h */,
 				AA2765500543F5D40050D308 /* GLIoView.m */,
-				AA2766260543F96F0050D308 /* libz.1.dylib */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
