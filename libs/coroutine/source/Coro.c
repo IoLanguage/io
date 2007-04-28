@@ -71,7 +71,7 @@ Coro *Coro_new(void)
 	self->requestedStackSize = CORO_DEFAULT_STACK_SIZE;
 	self->allocatedStackSize = 0;
 	
-#ifdef HAS_FIBERS
+#ifdef USE_FIBERS
 	self->fiber = NULL;
 #else
 	self->stack = NULL;
@@ -99,7 +99,7 @@ void Coro_allocStackIfNeeded(Coro *self)
 
 void Coro_free(Coro *self)
 {
-#ifdef HAS_FIBERS
+#ifdef USE_FIBERS
 	// If this coro has a fiber, delete it.
 	// Don't delete the main fiber. We don't want to commit suicide.
 	if (self->fiber && !self->isMain) 
@@ -176,7 +176,7 @@ int Coro_stackSpaceAlmostGone(Coro *self)
 void Coro_initializeMainCoro(Coro *self)
 {
 	self->isMain = 1;
-#ifdef HAS_FIBERS	
+#ifdef USE_FIBERS
 	// We must convert the current thread into a fiber if it hasn't already been done.
 	if ((LPVOID) 0x1e00 == GetCurrentFiber()) // value returned when not a fiber
 	{
@@ -223,11 +223,11 @@ void Coro_switchTo_(Coro *self, Coro *next)
 {
 #if defined(__SYMBIAN32__)
 	ProcessUIEvent();
-#elif defined(HAS_FIBERS)
+#elif defined(USE_FIBERS)
 	SwitchToFiber(next->fiber);
-#elif defined(HAS_UCONTEXT) && !defined(__x86_64__)
+#elif defined(USE_UCONTEXT)
 	swapcontext(&self->env, &next->env);
-#else
+#elif defined(USE_SETJMP)
 	if (setjmp(self->env) == 0)
 	{
 		longjmp(next->env, 1);
@@ -237,7 +237,7 @@ void Coro_switchTo_(Coro *self, Coro *next)
 
 // ---- setup ------------------------------------------
 
-#if defined(__x86_64__)
+#if defined(USE_SETJMP) && defined(__x86_64__)
 
 void Coro_setup(Coro *self, void *arg)
 {	
@@ -285,7 +285,7 @@ void Coro_setup(Coro *self, void *arg)
 	makecontext(ucp, (makecontext_func)Coro_StartWithArg, 1, arg); }
 
 
-#elif defined(HAS_UCONTEXT)
+#elif defined(USE_UCONTEXT)
 
 typedef void (*makecontext_func)(void);
 
@@ -305,7 +305,7 @@ void Coro_setup(Coro *self, void *arg)
 	makecontext(ucp, (makecontext_func)Coro_StartWithArg, 1, arg); 
 }
 
-#elif defined(HAS_FIBERS)
+#elif defined(USE_FIBERS)
 
 void Coro_setup(Coro *self, void *arg)
 {
