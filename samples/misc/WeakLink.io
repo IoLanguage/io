@@ -1,16 +1,12 @@
+weakLink := WeakLink clone setLink(Object clone)
 
-monitor := Object clone do(
-    collectedWeakLink := method(wlink, 
-      write("collected weak link #", wlink identifier, "\n")
-    )
-)
+writeln("WeakLink to ", weakLink link asSimpleString)
 
-test := method(
-  a := Object clone
-
-  Lobby w := WeakLink clone setLink(a) 
-  w setDelegate(monitor) setIdentifier(w uniqueId)
-)
-
-test
+writeln("Collecting")
 Collector collect
+
+if(weakLink link == nil,
+	writeln("Success: Object gone")
+,
+	writeln("Error: Object not gone")
+)
