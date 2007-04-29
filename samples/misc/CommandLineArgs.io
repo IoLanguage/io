@@ -1,6 +1,5 @@
+// Try running this script with some command line arguments. Example:
+// ./io CommandLineArgs.io a b c d
 
-// Try running this script with some cli args. Example:
-// ./io test/CommandLineArgs.io a b c d
-
-"Command line arguments:\n" print
-Lobby args foreach(k, v, writeln("'", v))
+writeln("Command line arguments:")
+args foreach(println)
