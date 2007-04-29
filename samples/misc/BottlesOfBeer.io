@@ -5,7 +5,7 @@ bottle := method(i,
 	return i asString .. " bottles of beer"
 )
 
-for(i, 99, 1, 
+for(i, 99, 1, -1,
 	write(bottle(i), " on the wall, ", bottle(i), ",\n")
 	write("take one down, pass it around,\n")
 	write(bottle(i - 1), " on the wall.\n\n")
