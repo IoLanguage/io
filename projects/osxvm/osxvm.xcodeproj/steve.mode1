@@ -218,6 +218,8 @@
 			<key>Layout</key>
 			<array>
 				<dict>
+					<key>BecomeActive</key>
+					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -266,16 +268,16 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>8</integer>
-									<integer>7</integer>
-									<integer>6</integer>
+									<integer>45</integer>
+									<integer>24</integer>
+									<integer>23</integer>
 									<integer>4</integer>
 									<integer>3</integer>
 									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 0}, {292, 652}}</string>
+							<string>{{0, 587}, {292, 873}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -287,14 +289,14 @@
 					<key>GeometryConfiguration</key>
 					<dict>
 						<key>Frame</key>
-						<string>{{0, 0}, {309, 670}}</string>
+						<string>{{0, 0}, {309, 891}}</string>
 						<key>GroupTreeTableConfiguration</key>
 						<array>
 							<string>MainColumn</string>
 							<real>292</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>708 889 1072 711 0 0 2560 1600 </string>
+						<string>708 668 1131 932 0 0 2560 1600 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -305,14 +307,12 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>Coro.c</string>
+								<string>IoDirectory.c</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -320,11 +320,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>Coro.c</string>
+										<string>IoDirectory.c</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>AA9E46580BC729E3009C4019</string>
+										<string>AA9E47020BDF298C009C4019</string>
 										<key>history</key>
 										<array>
 											<string>AA89D0C50B11886100775BF6</string>
@@ -422,7 +422,8 @@
 											<string>AAE7C48C0BBDAE59005A3DF1</string>
 											<string>AACAC1A60BC5DA4700FB1C4A</string>
 											<string>AACAC1B20BC5DC4F00FB1C4A</string>
-											<string>AACAC1B50BC5DC4F00FB1C4A</string>
+											<string>AA9E46C80BD01EB0009C4019</string>
+											<string>AA9E46F60BD5487A009C4019</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -519,6 +520,7 @@
 											<string>AA7EC9030BB4BA1700BA645F</string>
 											<string>AAE7C47F0BBCC96E005A3DF1</string>
 											<string>AACAC1A80BC5DA4700FB1C4A</string>
+											<string>AA9E46CA0BD01EB0009C4019</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -530,14 +532,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {758, 665}}</string>
+								<string>{{0, 0}, {817, 886}}</string>
 								<key>RubberWindowFrame</key>
-								<string>708 889 1072 711 0 0 2560 1600 </string>
+								<string>708 668 1131 932 0 0 2560 1600 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>665pt</string>
+							<string>886pt</string>
 						</dict>
 						<dict>
 							<key>ContentConfiguration</key>
@@ -550,9 +552,9 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 670}, {758, 0}}</string>
+								<string>{{0, 891}, {817, 0}}</string>
 								<key>RubberWindowFrame</key>
-								<string>708 889 1072 711 0 0 2560 1600 </string>
+								<string>708 668 1131 932 0 0 2560 1600 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -561,7 +563,7 @@
 						</dict>
 					</array>
 					<key>Proportion</key>
-					<string>758pt</string>
+					<string>817pt</string>
 				</dict>
 			</array>
 			<key>Name</key>
@@ -576,9 +578,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>AA9E46590BC729E3009C4019</string>
+				<string>AA9E46CC0BD01EB0009C4019</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>AA9E465A0BC729E3009C4019</string>
+				<string>AA9E46CD0BD01EB0009C4019</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -715,7 +717,7 @@
 		<string>/Volumes/Internal500GB/Users/steve/IoProject/Io/projects/osxvm/osxvm.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>708 889 1072 711 0 0 2560 1600 </string>
+	<string>708 668 1131 932 0 0 2560 1600 </string>
 	<key>WindowTools</key>
 	<array>
 		<dict>
