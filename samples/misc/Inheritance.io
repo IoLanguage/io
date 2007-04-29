@@ -10,18 +10,18 @@ Dog bark := method(barkPhrase print)
 Chiwawa := Dog clone
 Chiwawa barkPhrase := "yip!"
 
-"Dog bark: " print
+write("Dog bark: ")
 Dog bark
-"\n" print
+writeln
 
-"Chiwawa bark: " print
+write("Chiwawa bark: ")
 Chiwawa bark
-"\n" print
+writeln
 
 // make an instance
-
 myChiwawa := Chiwawa clone
-myChiwawa barkPhrase := "Yo Quiero Taco Bell\n"
+myChiwawa barkPhrase := "Yo Quiero Taco Bell"
 
-"myChiwawa bark: " print
+write("myChiwawa bark: ")
 myChiwawa bark
+writeln
