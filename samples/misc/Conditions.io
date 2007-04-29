@@ -3,8 +3,6 @@
 a := "foobar"
 
 
-(a) case(b, 1) case(b, 2)
-
 writeln("test1: ",
 	if(a == "foobar", "OK", "FAILED")
 )
