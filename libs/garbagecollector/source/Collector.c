@@ -313,8 +313,8 @@ size_t Collector_sweepPhase(Collector *self)
 	if (self->debugOn)
 	{
 		printf("Collector_sweepPhase()\n");
-		//printf("  allocated %i\n", (int)self->allocated);
-		//printf("  allocatedSweepLevel %i\n", (int)self->allocatedSweepLevel);
+		printf("  allocated %i\n", (int)self->allocated);
+		printf("  allocatedSweepLevel %i\n", (int)self->allocatedSweepLevel);
 	}
 			
 	if (self->markBeforeSweepValue)

@@ -70,6 +70,13 @@ HScroller do(
 		//if(protoName == "VScroller", write(self uniqueId, " ", value, "\n"))
 	)
 	
+	resizeByVector := method(d,
+		resend
+		applyConstraints
+		doAction
+		//if(protoName == "VScroller", write(self uniqueId, " ", value, "\n"))
+	)
+	
 	leftMouseDown := method(
 		if(knobIsHidden, return)
 		p := screenToView(Mouse position clone) perform(axis)

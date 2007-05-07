@@ -224,6 +224,15 @@ IoObject *IoSeq_isEmpty(IoSeq *self, IoObject *locals, IoMessage *m)
 	return IOBOOL(self, UArray_size(DATA(self)) == 0);
 }
 
+IoObject *IoSeq_isZero(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("isZero", """Returns true if all elements are 0, false otherwise.""")
+	*/
+
+	return IOBOOL(self, UArray_isZero(DATA(self)));
+}
+
 IoObject *IoSeq_size(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
@@ -1176,11 +1185,12 @@ void IoSeq_addImmutableMethods(IoSeq *self)
 	{"print", IoSeq_print},
 	{"linePrint", IoSeq_linePrint},
 	{"size", IoSeq_size},
+	{"isZero", IoSeq_isZero},
 	{"isEmpty", IoSeq_isEmpty},
 	{"at", IoSeq_at},
 	{"slice", IoSeq_slice},
-     {"between", IoSeq_between},
-     {"betweenSeq", IoSeq_between},
+	{"between", IoSeq_between},
+	{"betweenSeq", IoSeq_between},
 	{"findSeqs", IoSeq_findSeqs},
 	{"findSeq", IoSeq_findSeq},
 	{"reverseFindSeq", IoSeq_reverseFindSeq},

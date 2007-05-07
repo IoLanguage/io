@@ -73,6 +73,7 @@ BASEKIT_API void UArray_sqrt(UArray *self);
 BASEKIT_API void UArray_ceil(UArray *self);
 BASEKIT_API void UArray_floor(UArray *self);
 BASEKIT_API void UArray_abs(UArray *self);
+BASEKIT_API void UArray_round(UArray *self);
 
 //void UArray_ldexp(UArray *self, const UArray *other);
 //void UArray_fmod(UArray *self, const UArray *other);

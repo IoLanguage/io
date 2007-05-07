@@ -29,11 +29,12 @@ View := Responder clone do(
     setWidth  := method(n, size setWidth(n))
 
     newSlot("maxSize", nil)
-    newSlot("minSize", nil)
+    newSlot("minSize",vector(0,0))
     newSlot("resizeWidth", 110)
     newSlot("resizeHeight", 110)
 
     newSlot("backgroundColor", Point clone set(1, 1, 1, 1))
+    newSlot("selectedColor", Point clone set(1, 1, 1, 1))
     newSlot("outlineColor", Point clone set(0, 0, 0, 1))
     newSlot("subviews", List clone)
     superview := nil
@@ -457,20 +458,20 @@ View := Responder clone do(
 
     resizeXFunc := method(id, dx, x,
 		// 1 := fixed, 0 := spring
-		if(id == 000, x = x + (dx/2); return x)
-		if(id == 001, x = x - dx; return x) 
-		if(id == 010, x = x + (dx/2); return x)
-		if(id == 011, x = x + dx; return x)
+		if(id == 000, return x + (dx/2))
+		if(id == 001, return x - dx)
+		if(id == 010, return x + (dx/2))
+		if(id == 011, return x + dx)
 		// 110, 111 nop
 		x
     )
 
     resizeWFunc := method(id, dx, w,
 		// 1 = fixed, 0 = spring
-		if(id == 000, w = w + (dx/2); return w)
-		if(id == 001, w = w + dx; return w)
-		if(id == 100, w = w + (dx/2); return w)
-		if(id == 101, w = w + dx; return w)
+		if(id == 000, return w + (dx/2))
+		if(id == 001, return w + dx)
+		if(id == 100, return w + (dx/2))
+		if(id == 101, return w + dx)
 		// 110, 111 nop
 		w
     )
@@ -484,32 +485,30 @@ View := Responder clone do(
 		h := self resizeWFunc(resizeHeight, dy, size height)
 	
 		if(minSize, w = w max(minSize width); h = h max(minSize height))
-		if(maxSize, w = win(maxSize width); h = h min(maxSize height))
+		if(maxSize, w = w min(maxSize width); h = h min(maxSize height))
 	
 		dx := w - size width
 		dy := h - size height
-		//write("change := ", dx, ", ", dy, "\n")
-	
 		sizeDidChange := dx != 0 or dy != 0
-		//didMove := x != position x or y != position y
-		//if(sizeDidChange or didMove, self requestRedisplay)
 	
 		position set(x, y)
 		size set(w, h)
 	
-		size set(size x round, size y round)
-		position set(position x round, position y round)
+	    size +=(.5) floor
+	    position +=(.5) floor
 	
-		//size floor
-		//position floor
-	
-		if(sizeDidChange, 	      
-            subviews foreach(v, v resizeBy(dx, dy))
-		)
-			
-		didChangeSize
+		if(sizeDidChange, subviews foreach(resizeBy(dx, dy)); didChangeSize)
     )
+ 
+    resizeBy := method(dx, dy, resizeByVector(vector(dx, dy)))
     
+    viewName := nil
+    
+    resizeByVector := method(d,
+        outd := frame resizeBy(d clone, resizeWidth, resizeHeight, minSize, maxSize)
+		if(outd isZero not, subviews foreach(resizeByVector(outd)); didChangeSize)
+    )
+        
     didChangeSize := method(
     	//notifiyListeners(notificationDidChangeSize(self))
      	if(?listeners, listeners foreach(?notificationDidChangeSize(self)))

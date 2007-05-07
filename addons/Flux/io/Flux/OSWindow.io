@@ -62,7 +62,7 @@ OSWindow := Responder clone do(
 
     addTimerTargetWithDelay := method(target, delay,
 		id := target uniqueId 
-		//writeln("addTimerTargetWithDelay ", target type, " ", delay)
+		//writeln("addTimerTargetWithDelay(", target type, ", ", delay, ")")
 		timers atPut(id asString, target)
 		glutTimerFunc(delay*1000, id)
     )
@@ -71,10 +71,48 @@ OSWindow := Responder clone do(
 		timers removeAt(target uniqueId asString)
     )
 
+    Timer := Object clone do(
+        target ::= nil
+        action ::= nil
+        delay  ::= 0
+        window ::= nil
+        run := method(window addTimerTargetWithDelay(self, delay))
+        timer := method(target perform(action))
+    )
+    
+    CountdownTimer := Object clone do(
+        target ::= nil
+        action ::= nil
+        delay  ::= 0
+        maxCount  ::= 10
+        window ::= nil
+        
+        run := method(
+            self count := maxCount
+            window addTimerTargetWithDelay(self, delay)
+        )
+        
+        timer := method(
+            //writeln("CountdownTimer timer ", count)
+            target perform(action, 1-count/maxCount)
+            count = count - 1
+            if(count != -1, window addTimerTargetWithDelay(self, delay)
+)
+        )
+    )
+
+    newCountdownTimer := method(
+        CountdownTimer clone setWindow(self)
+    )  
+      
+    newTimer := method(
+        Timer clone setWindow(self)
+    )
+    
     timer := method(id,
 		idString := id asString
 		target := timers at(idString)
-		//writeln("OSWindow timer target = ", target type)
+		//writeln("OSWindow timer id = ", id, " target = ", target type)
 		if(target,
 			timers removeAt(idString)
 			if(target == self, yieldTimer, target timer(self))
@@ -147,6 +185,8 @@ OSWindow := Responder clone do(
 		subviews foreach(v, v resizeBy(dx, dy))
     )
 
+    postRedisplay := getSlot("glutPostRedisplay")
+    
     display := method(
 		//glEnable(GL_TEXTURE_2D);
 		glLoadIdentity

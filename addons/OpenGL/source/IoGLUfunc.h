@@ -22,7 +22,9 @@ t_ioGLU_funcTable ioGLU_funcTable[] = {
 	{"gluGetString",IoGLU_gluGetString},
 	{"gluPickMatrix",IoGLU_gluPickMatrix},
 	{"gluProject",IoGLU_gluProject},	
+	{"gluProjectOrigin",IoGLU_gluProjectOrigin},	
 	{"gluUnProject",IoGLU_gluUnProject},	
+	{"gluUnProjectOrigin",IoGLU_gluUnProjectOrigin},	
 	{"gluScaleImage",IoGLU_gluScaleImage},
 	
 	{"gluNewQuadric",IoGLU_gluNewQuadric},

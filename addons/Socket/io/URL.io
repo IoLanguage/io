@@ -328,14 +328,14 @@ URL := Notifier clone do(
     openOnDesktop := method(
         platform := System platform
         if(platform == "Mac OS/X") then(
-            System system("open " .. url)
+            System system("open \"" .. url .. "\"")
         ) elseif(platform == "Windows NT") then(
             System system("cmd /c start " .. url)
         ) elseif(platform == "Windows 9X") then(
             System system("command /c start " .. url)
         ) else(
             // assume generic Unix?
-            System system("open " .. url)
+            System system("open \"" .. url .. "\"")
         )
     )
     
