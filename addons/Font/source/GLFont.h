@@ -12,6 +12,10 @@
 #include <OpenGL/glu.h>
 #include <OpenGL/gl.h>
 #else
+#ifdef WIN32
+#define WINDOWS_LEAN_AND_MEAN
+#include <windows.h>
+#endif
 #include <GL/gl.h>
 #endif
 

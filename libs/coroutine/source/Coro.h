@@ -1,4 +1,4 @@
-/*   
+/*
 */
 
 #ifndef CORO_DEFINED
@@ -34,12 +34,27 @@
 #endif
 */
 
+// Pick which coro implementation to use
+// The make file can set -DUSE_FIBERS, -DUSE_UCONTEXT or -DUSE_SETJMP to force this choice.
+#if !defined(USE_FIBERS) && !defined(USE_UCONTEXT) && !defined(USE_SETJMP)
+
 #if defined(WIN32) && defined(HAS_FIBERS)
+#define USE_FIBERS
+#elif defined(HAS_UCONTEXT)
+//#elif defined(HAS_UCONTEXT) && !defined(__x86_64__)
+#define USE_UCONTEXT
+#else
+#define USE_SETJMP
+#endif
+
+#endif
+
+#if defined(USE_FIBERS)
 	#define CORO_IMPLEMENTATION "fibers"
-#elif defined(HAS_UCONTEXT) && !defined(__x86_64__)
+#elif defined(USE_UCONTEXT)
 	#include <ucontext.h>
 	#define CORO_IMPLEMENTATION "ucontext"
-#else
+#elif defined(USE_SETJMP)
 	#include <setjmp.h>
 	#define CORO_IMPLEMENTATION "setjmp"
 #endif
@@ -51,7 +66,7 @@ extern "C" {
 typedef struct Coro Coro;
 
 struct Coro
-{        
+{
 	size_t requestedStackSize;
 	size_t allocatedStackSize;
 	void *stack;
@@ -60,14 +75,12 @@ struct Coro
 	unsigned int valgrindStackId;
 #endif
 
-#if defined(HAS_FIBERS)
+#if defined(USE_FIBERS)
     void *fiber;
-#else
-	#if defined(HAS_UCONTEXT) && !defined(__x86_64__)
-	    ucontext_t env;
-	#else
-	    jmp_buf env;
-	#endif
+#elif defined(USE_UCONTEXT)
+	ucontext_t env;
+#elif defined(USE_SETJMP)
+	jmp_buf env;
 #endif
 
 	unsigned char isMain;

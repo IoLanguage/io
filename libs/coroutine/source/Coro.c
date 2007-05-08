@@ -1,6 +1,6 @@
 /*
  Credits
- 
+
 	Originally based on Edgar Toernig's Minimalistic cooperative multitasking
 	http://www.goron.de/~froese/
 	reorg by Steve Dekorte and Chis Double
@@ -11,27 +11,27 @@
 	Visual C support by Daniel Vollmer
 	Solaris support by Manpreet Singh
 	Fibers support by Jonas Eschenburg
-	Ucontext arg support by Olivier Ansaldi  
- 
+	Ucontext arg support by Olivier Ansaldi
+
  Notes
- 
+
 	This is the system dependent coro code.
 	Setup a jmp_buf so when we longjmp, it will invoke 'func' using 'stack'.
 	Important: 'func' must not return!
- 
+
 	Usually done by setting the program counter and stack pointer of a new, empty stack.
-	If you're adding a new platform, look in the setjmp.h for PC and SP members 
+	If you're adding a new platform, look in the setjmp.h for PC and SP members
 	of the stack structure
- 
-	If you don't see those members, Kentaro suggests writting a simple 
-	test app that calls setjmp and dumps out the contents of the jmp_buf.  
-	(The PC and SP should be in jmp_buf->__jmpbuf).  
- 
-	Using something like GDB to be able to peek into register contents right 
+
+	If you don't see those members, Kentaro suggests writting a simple
+	test app that calls setjmp and dumps out the contents of the jmp_buf.
+	(The PC and SP should be in jmp_buf->__jmpbuf).
+
+	Using something like GDB to be able to peek into register contents right
 	before the setjmp occurs would be helpful also.
  */
 
-#include "Base.h" 
+#include "Base.h"
 #include "Coro.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -58,7 +58,7 @@ VALGRIND_STACK_DEREGISTER((coro)->valgrindStackId)
 #endif
 
 typedef struct CallbackBlock
-{        
+{
 	void *context;
 	CoroStartCallback *func;
 } CallbackBlock;
@@ -70,8 +70,8 @@ Coro *Coro_new(void)
 	Coro *self = (Coro *)io_calloc(1, sizeof(Coro));
 	self->requestedStackSize = CORO_DEFAULT_STACK_SIZE;
 	self->allocatedStackSize = 0;
-	
-#ifdef HAS_FIBERS
+
+#ifdef USE_FIBERS
 	self->fiber = NULL;
 #else
 	self->stack = NULL;
@@ -99,21 +99,21 @@ void Coro_allocStackIfNeeded(Coro *self)
 
 void Coro_free(Coro *self)
 {
-#ifdef HAS_FIBERS
+#ifdef USE_FIBERS
 	// If this coro has a fiber, delete it.
 	// Don't delete the main fiber. We don't want to commit suicide.
-	if (self->fiber && !self->isMain) 
+	if (self->fiber && !self->isMain)
 	{
 		DeleteFiber(self->fiber);
 	}
 #else
 	STACK_DEREGISTER(self);
 #endif
-	if (self->stack) 
+	if (self->stack)
 	{
 		io_free(self->stack);
 	}
-	
+
 	//printf("Coro_%p io_free\n", (void *)self);
 
 	io_free(self);
@@ -143,13 +143,13 @@ uint8_t *Coro_CurrentStackPointer(void) __attribute__ ((noinline));
 #endif
 
 uint8_t *Coro_CurrentStackPointer(void)
-{ 
+{
 	uint8_t a;
 	uint8_t *b = &a; // to avoid compiler warning about unused variables
-	return b; 
-} 
+	return b;
+}
 
-size_t Coro_bytesLeftOnStack(Coro *self) 
+size_t Coro_bytesLeftOnStack(Coro *self)
 {
 	unsigned char dummy;
 	ptrdiff_t p1 = (ptrdiff_t)(&dummy);
@@ -157,7 +157,7 @@ size_t Coro_bytesLeftOnStack(Coro *self)
 	int stackMovesUp = p2 > p1;
 	ptrdiff_t start = ((ptrdiff_t)self->stack);
 	ptrdiff_t end   = start + self->requestedStackSize;
-	
+
 	if (stackMovesUp) // like x86
 	{
 		return end - p1;
@@ -176,7 +176,7 @@ int Coro_stackSpaceAlmostGone(Coro *self)
 void Coro_initializeMainCoro(Coro *self)
 {
 	self->isMain = 1;
-#ifdef HAS_FIBERS	
+#ifdef USE_FIBERS
 	// We must convert the current thread into a fiber if it hasn't already been done.
 	if ((LPVOID) 0x1e00 == GetCurrentFiber()) // value returned when not a fiber
 	{
@@ -189,7 +189,7 @@ void Coro_initializeMainCoro(Coro *self)
 }
 
 void Coro_startCoro_(Coro *self, Coro *other, void *context, CoroStartCallback *callback)
-{	
+{
 	globalCallbackBlock.context = context;
 	globalCallbackBlock.func    = callback;
 	Coro_allocStackIfNeeded(other);
@@ -223,11 +223,11 @@ void Coro_switchTo_(Coro *self, Coro *next)
 {
 #if defined(__SYMBIAN32__)
 	ProcessUIEvent();
-#elif defined(HAS_FIBERS)
+#elif defined(USE_FIBERS)
 	SwitchToFiber(next->fiber);
-#elif defined(HAS_UCONTEXT) && !defined(__x86_64__)
+#elif defined(USE_UCONTEXT)
 	swapcontext(&self->env, &next->env);
-#else
+#elif defined(USE_SETJMP)
 	if (setjmp(self->env) == 0)
 	{
 		longjmp(next->env, 1);
@@ -237,12 +237,12 @@ void Coro_switchTo_(Coro *self, Coro *next)
 
 // ---- setup ------------------------------------------
 
-#if defined(__x86_64__)
+#if defined(USE_SETJMP) && defined(__x86_64__)
 
 void Coro_setup(Coro *self, void *arg)
-{	
+{
 	/* since ucontext seems to be broken on amg64 */
-	
+
 	setjmp(self->env);
 	/* This is probably not nice in that it deals directly with
 	* something with __ in front of it.
@@ -255,7 +255,7 @@ void Coro_setup(Coro *self, void *arg)
 	* the __jmp_buf array of longs, so I think it was supposed
 	* to work like he originally had it, but for some reason
 	* it didn't. I don't know why.
-	* - Bryce Schroeder, 16 December 2006 
+	* - Bryce Schroeder, 16 December 2006
 	*
 	*   Explaination of `magic' numbers: 6 is the stack pointer
 	*   (RSP, the 64 bit equivalent of ESP), 7 is the program counter.
@@ -272,53 +272,53 @@ void Coro_setup(Coro *self, void *arg)
 typedef void (*makecontext_func)(void);
 
 void Coro_setup(Coro *self, void *arg)
-{	
+{
 	ucontext_t *ucp = (ucontext_t *) &self->env;
-	
+
 	getcontext(ucp);
-	
+
 	ucp->uc_stack.ss_sp    = Coro_stack(self) + Coro_stackSize(self) - 8;
 	ucp->uc_stack.ss_size  = Coro_stackSize(self);
 	ucp->uc_stack.ss_flags = 0;
 	ucp->uc_link = NULL;
-	
+
 	makecontext(ucp, (makecontext_func)Coro_StartWithArg, 1, arg); }
 
 
-#elif defined(HAS_UCONTEXT)
+#elif defined(USE_UCONTEXT)
 
 typedef void (*makecontext_func)(void);
 
 void Coro_setup(Coro *self, void *arg)
-{	
+{
 	ucontext_t *ucp = (ucontext_t *) &self->env;
-	
+
 	getcontext(ucp);
-	
+
 	ucp->uc_stack.ss_sp    = Coro_stack(self);
 	ucp->uc_stack.ss_size  = Coro_stackSize(self);
 #if !defined(__APPLE__)
 	ucp->uc_stack.ss_flags = 0;
 	ucp->uc_link = NULL;
 #endif
-	
-	makecontext(ucp, (makecontext_func)Coro_StartWithArg, 1, arg); 
+
+	makecontext(ucp, (makecontext_func)Coro_StartWithArg, 1, arg);
 }
 
-#elif defined(HAS_FIBERS)
+#elif defined(USE_FIBERS)
 
 void Coro_setup(Coro *self, void *arg)
 {
 	// If this coro was recycled and already has a fiber, delete it.
 	// Don't delete the main fiber. We don't want to commit suicide.
-	
+
 	if (self->fiber && !self->isMain)
 	{
 		DeleteFiber(self->fiber);
 	}
-	
-	self->fiber = CreateFiber(Coro_stackSize(self), 
-						 (LPFIBER_START_ROUTINE)Coro_StartWithArg, 
+
+	self->fiber = CreateFiber(Coro_stackSize(self),
+						 (LPFIBER_START_ROUTINE)Coro_StartWithArg,
 						 (LPVOID)arg);
 	if (!self->fiber) {
 		DWORD err = GetLastError();
@@ -326,7 +326,7 @@ void Coro_setup(Coro *self, void *arg)
 	}
 }
 
-#elif defined(__CYGWIN__) 
+#elif defined(__CYGWIN__)
 
 #define buf (self->env)
 
@@ -340,13 +340,13 @@ void Coro_setup(Coro *self, void *arg)
 #elif defined(__SYMBIAN32__)
 
 void Coro_setup(Coro *self, void *arg)
-{	
-	/* 
-	setjmp/longjmp is flakey under Symbian. 
-	 If the setjmp is done inside the call then a crash occurs. 
-	 Inlining it here solves the problem 
+{
+	/*
+	setjmp/longjmp is flakey under Symbian.
+	 If the setjmp is done inside the call then a crash occurs.
+	 Inlining it here solves the problem
 	 */
-	
+
 	setjmp(self->env);
 	self->env[0] = 0;
 	self->env[1] = 0;
@@ -357,26 +357,26 @@ void Coro_setup(Coro *self, void *arg)
 	self->env[8] =  self->env[3] + 32;
 }
 
-#elif defined(_BSD_PPC_SETJMP_H_) 
+#elif defined(_BSD_PPC_SETJMP_H_)
 
 #define buf (self->env)
-#define setjmp  _setjmp 
+#define setjmp  _setjmp
 #define longjmp _longjmp
 
 void Coro_setup(Coro *self, void *arg)
 {
-	size_t *sp = (size_t *)(((intptr_t)Coro_stack(self) 
+	size_t *sp = (size_t *)(((intptr_t)Coro_stack(self)
 						+ Coro_stackSize(self) - 64 + 15) & ~15);
-	
+
 	setjmp(buf);
-	
+
 	//printf("self = %p\n", self);
 	//printf("sp = %p\n", sp);
 	buf[0]  = (long)sp;
 	buf[21] = (long)Coro_Start;
 	//sp[-4] = (size_t)self; // for G5 10.3
 	//sp[-6] = (size_t)self; // for G4 10.4
-	
+
 	//printf("self = %p\n", (void *)self);
 	//printf("sp = %p\n", sp);
 }
@@ -390,9 +390,9 @@ void Coro_setup(Coro *self, void *arg)
 	void *stack = Coro_stack(self);
 	size_t stacksize = Coro_stackSize(self);
 	void *func = (void *)Coro_Start;
-	
+
 	setjmp(buf);
-	
+
 	buf->_jb[2] = (long)(stack + stacksize);
 	buf->_jb[0] = (long)func;
 	return;
@@ -420,43 +420,43 @@ void Coro_setup(Coro *self, void *arg)
 // old code
 
 /*
- // APPLE coros are handled by PortableUContext now 
-#elif defined(_BSD_PPC_SETJMP_H_) 
- 
+ // APPLE coros are handled by PortableUContext now
+#elif defined(_BSD_PPC_SETJMP_H_)
+
 #define buf (self->env)
-#define setjmp  _setjmp 
+#define setjmp  _setjmp
 #define longjmp _longjmp
- 
+
  void Coro_setup(Coro *self, void *arg)
  {
 	 size_t *sp = (size_t *)(((intptr_t)Coro_stack(self) + Coro_stackSize(self) - 64 + 15) & ~15);
-	 
+
 	 setjmp(buf);
-	 
+
 	 //printf("self = %p\n", self);
 	 //printf("sp = %p\n", sp);
 	 buf[0]  = (int)sp;
 	 buf[21] = (int)Coro_Start;
 	 //sp[-4] = (size_t)self; // for G5 10.3
 	 //sp[-6] = (size_t)self; // for G4 10.4
-	 
+
 	 //printf("self = %p\n", (void *)self);
 	 //printf("sp = %p\n", sp);
  }
- 
-#elif defined(_BSD_I386_SETJMP_H) 
- 
+
+#elif defined(_BSD_I386_SETJMP_H)
+
 #define buf (self->env)
- 
+
  void Coro_setup(Coro *self, void *arg)
  {
 	 size_t *sp = (size_t *)((intptr_t)Coro_stack(self) + Coro_stackSize(self));
-	 
+
 	 setjmp(buf);
-	 
-	 buf[9] = (int)(sp); // esp 
-	 buf[12] = (int)Coro_Start; // eip 
-						   //buf[8] = 0; // ebp 
+
+	 buf[9] = (int)(sp); // esp
+	 buf[12] = (int)Coro_Start; // eip
+						   //buf[8] = 0; // ebp
  }
  */
 
@@ -465,7 +465,7 @@ void Coro_setup(Coro *self, void *arg)
 void Coro_setup(Coro *self, void *arg)
 {
 	// this bit goes before the setjmp call
-	// Solaris 9 Sparc with GCC 
+	// Solaris 9 Sparc with GCC
 #if defined(__SVR4) && defined (__sun)
 #if defined(_JBLEN) && (_JBLEN == 12) && defined(__sparc)
 #if defined(_LP64) || defined(_I32LPx)
@@ -476,11 +476,11 @@ void Coro_setup(Coro *self, void *arg)
 	JBTYPE x;
 	asm("ta 3"); // flush register window
 #endif
-	
+
 #define SUN_STACK_END_INDEX   1
 #define SUN_PROGRAM_COUNTER   2
-#define SUN_STACK_START_INDEX 3 
-	
+#define SUN_STACK_START_INDEX 3
+
 	// Solaris 9 i386 with GCC
 #elif defined(_JBLEN) && (_JBLEN == 10) && defined(__i386)
 #if defined(_LP64) || defined(_I32LPx)
@@ -491,7 +491,7 @@ void Coro_setup(Coro *self, void *arg)
 					JBTYPE x;
 #endif
 #define SUN_PROGRAM_COUNTER 5
-#define SUN_STACK_START_INDEX 3 
+#define SUN_STACK_START_INDEX 3
 #define SUN_STACK_END_INDEX 4
 #endif
 #endif
@@ -554,7 +554,7 @@ return;
 
 /* Windows supports fibers - so we don't need this stuff anymore
 
-#elif defined(__MINGW32__) 
+#elif defined(__MINGW32__)
 
 void Coro_setup(Coro *self, void *arg)
 {
@@ -623,7 +623,7 @@ void Coro_setup(Coro *self, void *arg)
 void Coro_setup(Coro *self, void *arg)
 {
 	// this bit goes before the setjmp call
-	// Solaris 9 Sparc with GCC 
+	// Solaris 9 Sparc with GCC
 #if defined(__SVR4) && defined (__sun)
 #if defined(_JBLEN) && (_JBLEN == 12) && defined(__sparc)
 #if defined(_LP64) || defined(_I32LPx)
@@ -634,11 +634,11 @@ void Coro_setup(Coro *self, void *arg)
 	JBTYPE x;
 	asm("ta 3"); // flush register window
 #endif
-	
+
 #define SUN_STACK_END_INDEX   1
 #define SUN_PROGRAM_COUNTER   2
-#define SUN_STACK_START_INDEX 3 
-	
+#define SUN_STACK_START_INDEX 3
+
 	// Solaris 9 i386 with GCC
 #elif defined(_JBLEN) && (_JBLEN == 10) && defined(__i386)
 #if defined(_LP64) || defined(_I32LPx)
@@ -649,25 +649,25 @@ void Coro_setup(Coro *self, void *arg)
 					JBTYPE x;
 #endif
 #define SUN_PROGRAM_COUNTER 5
-#define SUN_STACK_START_INDEX 3 
+#define SUN_STACK_START_INDEX 3
 #define SUN_STACK_END_INDEX 4
 #endif
 #endif
-					
-					
+
+
 #elif defined(__SVR4) && defined(__sun)
 					// Solaris
 #if defined(SUN_PROGRAM_COUNTER)
 					// SunOS 9
 					buf[SUN_PROGRAM_COUNTER] = (JBTYPE)Coro_Start;
-					
+
 					x = (JBTYPE)stack;
 					while ((x % 8) != 0) x --; // align on an even boundary
 					buf[SUN_STACK_START_INDEX] = (JBTYPE)x;
 					x = (JBTYPE)((JBTYPE)stack-stacksize / 2 + 15);
 					while ((x % 8) != 0) x ++; // align on an even boundary
 					buf[SUN_STACK_END_INDEX] = (JBTYPE)x;
-					
+
 					*/
 
 

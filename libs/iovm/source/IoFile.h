@@ -92,6 +92,7 @@ IoObject *IoFile_readBufferOfLength_(IoFile *self, IoObject *locals, IoMessage *
 IoObject *IoFile_rewind(IoFile *self, IoObject *locals, IoMessage *m);
 IoObject *IoFile_position_(IoFile *self, IoObject *locals, IoMessage *m);
 IoObject *IoFile_position(IoFile *self, IoObject *locals, IoMessage *m);
+IoObject *IoFile_positionAtEnd(IoFile *self, IoObject *locals, IoMessage *m);
 IoObject *IoFile_isAtEnd(IoFile *self, IoObject *locals, IoMessage *m);
 
 IoObject *IoFile_size(IoFile *self, IoObject *locals, IoMessage *m);
