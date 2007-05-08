@@ -1,12 +1,13 @@
-// example of implementing control structures with blocks
-// Note: if a block arg name begins with "_" 
-// the arg message is passed instead of being evaluated
+// example of implementing control structures
 
-myif := method(a, _b, _c,
-  if (a, sender doMessage(_b), sender doMessage(_c))
+myif := method(condition,
+	index := if(condition, 1, 2)
+	call evalArgAt(index)
 )
 
-
-myif(1, write("true\n"), write("false\n"))
-
+myif(19 > 5,
+	writeln("19 > 5. Correct.")
+,
+	writeln("19 > 5. Incorrect.")
+)
 

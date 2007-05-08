@@ -22,22 +22,11 @@ CLI := Object clone do(
 		try(context doFile(path)) ?showStack
 	)
 
-	runIorc := method(
-		if(try(User) == nil,
-			path := Path with(User homeDirectory path, ".iorc")
-			if(File with(path) exists,
-				context doFile(path)
-			)
-		)
-	)
-
 	run := method(
 		// Move Lobby launchPath to System launchPath?
 		Lobby launchPath := Directory currentWorkingDirectory
 		Importer addSearchPath(Lobby launchPath)
 		context exit := method(System exit)
-
-		runIorc
 
 		if(?args first == "-e", 
 			writeln(context doString(args slice(1) join(" ")))

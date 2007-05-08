@@ -1,16 +1,19 @@
 
 // evaluating a string
 
-"1 + 2 := " print
-"1 + 2 " doString print
-"\n" print
+writeln("1 + 2 ==> ", doString("1 + 2"))
 
+simpleDecompile := method(
+	// test of decompiling a method
+	Dog := Object clone
+	Dog bark := method("woof!" print)
 
-// test of decompiling a block
+	writeln("simple decompiled method: ", Dog getSlot("bark") code)
+)
 
-Dog := Object clone
-Dog bark := method("woof!" print)
+fancyDecompile := method(
+	writeln("fancy decompile: ", Lobby getSlot("simpleDecompile") asString)
+)
 
-"decompiled block: " print
-Dog get("bark") code print
-"\n" print
+simpleDecompile
+fancyDecompile
