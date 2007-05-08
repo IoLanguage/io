@@ -6,6 +6,8 @@
 #include "UArray.h"
 #include <portaudio.h>
 
+typedef double PaTimestamp;
+
 typedef struct AudioDevice AudioDevice;
 
 typedef void  (AudioDeviceCallback)(void *);
@@ -13,7 +15,7 @@ typedef void  (AudioDeviceCallback)(void *);
 struct AudioDevice
 {
     PaError err;
-    PortAudioStream *stream;
+    PaStream *stream;
 
     int isFreed;
     int locked;

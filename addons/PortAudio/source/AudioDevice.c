@@ -120,7 +120,7 @@ void AudioDevice_open(AudioDevice *self)
 								   paFloat32, 
 								   44100, /* sample rate */
 								   FRAMES_PER_BUFFER, /* frames per buffer */ 
-								   0, /* number of buffers, if zero then use default minimum */ 
+								   //0, /* number of buffers, if zero then use default minimum */ 
 								   /*AudioDevice_callbackInputTest, */
 								   AudioDevice_callback, 
 								   (void *)self 
@@ -189,17 +189,17 @@ void AudioDevice_stop(AudioDevice *self)
 
 int AudioDevice_isActive(AudioDevice *self)
 { 
-	return AudioDevice_isOpen(self) ? Pa_StreamActive( self->stream ) : 0; 
+	return AudioDevice_isOpen(self) ? Pa_IsStreamActive( self->stream ) : 0; 
 }
 
 int AudioDevice_streamTime(AudioDevice *self)
 { 
-	return AudioDevice_isOpen(self) ? Pa_StreamTime( self->stream ) : 0; 
+	return AudioDevice_isOpen(self) ? Pa_GetStreamTime( self->stream ) : 0; 
 }
 
 double AudioDevice_cpuLoad(AudioDevice *self)
 { 
-	return AudioDevice_isOpen(self) ? Pa_GetCPULoad( self->stream ) : 0; 
+	return AudioDevice_isOpen(self) ? Pa_GetStreamCpuLoad( self->stream ) : 0; 
 }
 
 int AudioDevice_callbackTest(

@@ -1,4 +1,3 @@
-
 AVCodec do(
 	newSlot("codecName", "mp2")
 	newSlot("inputCoro")
@@ -28,4 +27,3 @@ AVCodec do(
 		internalCoro resume // this will pause the current coro
 	)
 )
-
