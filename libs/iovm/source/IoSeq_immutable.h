@@ -31,6 +31,7 @@ IoObject *IoSeq_linePrint(IoSeq *self, IoObject *locals, IoMessage *m);
 
 IoObject *IoSeq_size(IoSeq *self, IoObject *locals, IoMessage *m);
 IoObject *IoSeq_isEmpty(IoSeq *self, IoObject *locals, IoMessage *m);
+IoObject *IoSeq_isZero(IoSeq *self, IoObject *locals, IoMessage *m);
 IoObject *IoSeq_at(IoSeq *self, IoObject *locals, IoMessage *m);
 IoObject *IoSeq_slice(IoSeq *self, IoObject *locals, IoMessage *m);
 

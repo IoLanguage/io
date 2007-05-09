@@ -153,6 +153,7 @@ struct IoState
 // setup
 
 IOVM_API IoState *IoState_new(void);
+IOVM_API void IoState_new_atAddress(void* address);
 IOVM_API void IoState_init(IoState *self);
 
 void IoState_setupQuickAccessSymbols(IoState *self);
@@ -165,6 +166,7 @@ IOVM_API void IoState_registerProtoWithFunc_(IoState *self, IoObject *proto, IoS
 IOVM_API IoObject *IoState_protoWithInitFunction_(IoState *self, IoStateProtoFunc *func);
 IOVM_API IoObject *IoState_protoWithName_(IoState *self, const char *name);
 
+IOVM_API void IoState_done(IoState *self);
 IOVM_API void IoState_free(IoState *self);
 
 // lobby

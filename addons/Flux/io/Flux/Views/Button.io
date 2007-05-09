@@ -65,10 +65,10 @@ Button := View clone do(
                 )
             ) 
 		) else(
-            if(isDisabled,
+            if(isDisabled) then(
                disabledColor glColor
             ) else(
-                if(isSelected,
+                if(isSelected) then(
                     selectedColor glColor
                 ) else(
                     boxColor glColor

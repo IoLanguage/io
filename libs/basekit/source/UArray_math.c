@@ -35,6 +35,11 @@ LLVEC_DUALARG_OP(div,  /=, float32);
 
 // set
 
+void UArray_round(UArray *self)
+{
+	UARRAY_FOREACHASSIGN(self, i, v, floor((double)(v+.5)));
+}
+
 void UArray_clear(UArray *self)
 {
 	UARRAY_FOREACHASSIGN(self, i, v, 0);

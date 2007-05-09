@@ -92,6 +92,6 @@ HKnob do(
             drawRoundedBoxOutline
 	    )
 	)
-	
+		
 	drawOutline := nil
 )

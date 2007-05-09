@@ -29,11 +29,12 @@ DNSServer := Object clone do(
     )
     */
     
-    ipForHostName := method(hostName,
+    ipForHostName := method(hostName, timeout,
+        if(timeout == nil, timeout = 10)
         //if(self hostNameIsIP(hostName), return hostName)
         for(tryNumber, 1, 3,
             debugWriteln("DNSServer ", host, " request: ", hostName)
-            socket := Socket clone setHost(host) setPort(53) setReadTimeout(10) 
+            socket := Socket clone setHost(host) setPort(53) setReadTimeout(timeout) 
             socket udpOpen
             ipAddress := socket ipAddress
             debugWriteln("DNSServer ipForHostName(", hostName, ") sending udp query packet to ipAddress: ", ipAddress ip, " on port ", ipAddress port)

@@ -37,46 +37,6 @@ IoTag *IoBox_newTag(void *state)
 	return tag;
 }
 
-IoBox *IoBox_proto(void *state)
-{
-	IoBox *self = IoObject_new(state);
-	IoObject_tag_(self, IoBox_newTag(state));
-	
-	IoObject_setDataPointer_(self, calloc(1, sizeof(IoBoxData)));
-	
-	DATA(self)->origin = IoSeq_newVec3f(state, (vec3f){0,0,0});
-	DATA(self)->size   = IoSeq_newVec3f(state, (vec3f){0,0,0});
-	
-	IoState_registerProtoWithFunc_(state, self, IoBox_proto);
-	
-	{
-		IoMethodTable methodTable[] = { 
-		{"set", IoBox_set},
-		{"origin", IoBox_origin},
-		{"size", IoBox_size},
-			
-		{"width", IoBox_width},
-		{"height", IoBox_height},
-		{"depth", IoBox_depth},
-			
-		{"setOrigin", IoBox_setOrigin},
-		{"setSize", IoBox_setSize},
-		{"Union", IoBox_Union},
-			
-		{"print", IoBox_print},
-		{"containsPoint", IoBox_containsPoint},
-		{"intersectsBox", IoBox_intersectsBox},
-		/*
-		{"asString", IoBox_asString},
-		{"Min", IoBox_Min},
-		{"Max", IoBox_Max},
-		*/
-		{NULL, NULL},
-		};
-		IoObject_addMethodTable_(self, methodTable);
-	}
-	return self;
-}
 
 IoBox *IoBox_rawClone(IoBox *proto) 
 { 
@@ -389,3 +349,151 @@ IoObject *IoBox_intersectsBox(IoBox *self, IoObject *locals, IoMessage *m)
 	 return self; 
  }
  */
+ 
+ // --- view resizing ------------------------
+ 
+static double resizeXFunc(int id, double dx, double x)
+{
+		switch(id)
+		{
+			// 1 := fixed, 0 := spring
+            case 0: return x + (dx/2);
+            case 1: return x - dx; 
+            case 10: return x + (dx/2);
+            case 11:  return x + dx; 
+		   // 110, 111 nop
+        }
+		
+		return x;
+}
+
+static double resizeWFunc(int id, double dx, double w)
+{
+		switch(id)
+		{
+			// 1 = fixed, 0 = spring
+            case 0: return w + (dx/2);
+            case 1: return w + dx; 
+            case 100: return w + (dx/2); 
+            case 101: return w + dx;
+            // 110, 111 nop
+		}
+		
+		return w;
+}
+
+#define min(a, b) (a < b ? a : b)
+#define max(a, b) (a > b ? a : b)
+
+static double UArray_x(UArray *self) { return UArray_doubleAt_(self, 0); }
+static double UArray_y(UArray *self) { return UArray_doubleAt_(self, 1); }
+
+static void UArray_setXY(UArray *self, double x, double y) 
+{
+	UArray_at_putDouble_(self, 0, x); 
+	UArray_at_putDouble_(self, 1, y); 
+}
+
+UArray *IoBox_rawResizeBy(IoBox *self, 
+	UArray *d, 
+	int resizeWidth, int resizeHeight, 
+	UArray *minSize, UArray *maxSize)
+{
+	UArray *position = IoSeq_rawUArray(IoBox_rawOrigin(self));
+	UArray *size     = IoSeq_rawUArray(IoBox_rawSize(self));
+	UArray *outd     = UArray_new();
+	
+	UArray_setItemType_(outd, CTYPE_float32_t);
+	UArray_setSize_(outd, 2);
+	
+	double x = resizeXFunc(resizeWidth, UArray_x(d), UArray_x(position));
+	double w = resizeWFunc(resizeWidth, UArray_x(d), UArray_x(size));
+	
+	double y = resizeXFunc(resizeHeight, UArray_y(d), UArray_y(position));
+	double h = resizeWFunc(resizeHeight, UArray_y(d), UArray_y(size));
+	
+	if (minSize)
+	{
+		w = max(w, UArray_x(minSize)); 
+		h = max(h, UArray_y(minSize));
+	}
+	
+	if (maxSize)
+	{
+		w = min(w, UArray_x(maxSize)); 
+		h = min(h, UArray_y(maxSize));
+	}
+
+	UArray_setXY(outd, w - UArray_x(size), h - UArray_y(size));
+	UArray_setXY(position, x, y);
+	UArray_setXY(size, w, h);
+	
+	UArray_round(position);
+	UArray_round(size);
+	
+	return outd;
+}
+    
+IoObject *IoBox_resizeBy(IoBox *self, IoObject *locals, IoMessage *m)
+{
+	IoSeq *d         = IoMessage_locals_pointArgAt_(m, locals, 0);
+	int resizeWidth  = IoMessage_locals_intArgAt_(m, locals, 1);
+	int resizeHeight = IoMessage_locals_intArgAt_(m, locals, 2);
+	IoSeq *minSize   = IoMessage_locals_valueArgAt_(m, locals, 3);
+	IoSeq *maxSize   = IoMessage_locals_valueArgAt_(m, locals, 4);
+
+	UArray *mins = ISNIL(minSize) ? 0x0 : IoSeq_rawUArray(minSize);
+	UArray *maxs = ISNIL(maxSize) ? 0x0 : IoSeq_rawUArray(maxSize);
+	
+	UArray *outd = IoBox_rawResizeBy(self, 
+		IoSeq_rawUArray(d), 
+		resizeWidth, resizeHeight, 
+		mins, maxs);
+
+	IoSeq *out = IoSeq_newWithUArray_copy_(IOSTATE, outd, 0);
+	
+	return out;
+}
+
+IoBox *IoBox_proto(void *state)
+{
+	IoBox *self = IoObject_new(state);
+	IoObject_tag_(self, IoBox_newTag(state));
+	
+	IoObject_setDataPointer_(self, calloc(1, sizeof(IoBoxData)));
+	
+	DATA(self)->origin = IoSeq_newVec3f(state, (vec3f){0,0,0});
+	DATA(self)->size   = IoSeq_newVec3f(state, (vec3f){0,0,0});
+	
+	IoState_registerProtoWithFunc_(state, self, IoBox_proto);
+	
+	{
+		IoMethodTable methodTable[] = { 
+		{"set", IoBox_set},
+		{"origin", IoBox_origin},
+		{"size", IoBox_size},
+			
+		{"width", IoBox_width},
+		{"height", IoBox_height},
+		{"depth", IoBox_depth},
+			
+		{"setOrigin", IoBox_setOrigin},
+		{"setSize", IoBox_setSize},
+		{"Union", IoBox_Union},
+			
+		{"print", IoBox_print},
+		{"containsPoint", IoBox_containsPoint},
+		{"intersectsBox", IoBox_intersectsBox},
+		/*
+		{"asString", IoBox_asString},
+		{"Min", IoBox_Min},
+		{"Max", IoBox_Max},
+		*/
+		
+		{"resizeBy", IoBox_resizeBy},
+		{NULL, NULL},
+		};
+		IoObject_addMethodTable_(self, methodTable);
+	}
+	return self;
+}

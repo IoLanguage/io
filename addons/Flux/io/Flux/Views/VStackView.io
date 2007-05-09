@@ -9,6 +9,7 @@ VStackView := View clone do(
 		
 		subviews foreach(v,
 			v resizeWidth = 101
+			//v resizeHeight = 110
 			if (last, v placeAbove(last, 0), v position set(0,0))
 			last = v
 		)
@@ -23,6 +24,7 @@ VStackView := View clone do(
 		
 		subviews foreach(v,
 			v resizeWidth = 101
+			//v resizeHeight = 011
 			if (last, v placeBelow(last, padding), v position set(0, height - v height))
 			last = v
 		)

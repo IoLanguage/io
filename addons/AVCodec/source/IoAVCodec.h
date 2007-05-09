@@ -22,6 +22,8 @@ typedef struct
 	uint8_t *inbuf;
 	uint8_t *outbuf;
 	uint8_t *outbufResampled;
+	
+	
 } IoAVCodecData;
 
 IoAVCodec *IoAVCodec_proto(void *state);

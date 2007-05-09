@@ -47,7 +47,7 @@ IoGLUT *IoGLUT_proto(void *state)
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoGLUTData)));
 	
 	DATA(self)->coroutine = IoCoroutine_new(state);
-	printf("GLUT coro = %p\n", DATA(self)->coroutine);
+	//printf("GLUT coro = %p\n", DATA(self)->coroutine);
 	
 	DATA(self)->eventTarget = NULL;
 	DATA(self)->entryMessage      = GLUTMESSAGE("entry");
@@ -530,8 +530,9 @@ void IoGlutTimerFunc(int vv)
 
 IoObject *IoGLUT_glutTimerFunc(IoGLUT *self, IoObject *locals, IoMessage *m)
 { 
-	int msecs = IoMessage_locals_intArgAt_(m, locals, 0);
+	unsigned int msecs = IoMessage_locals_longArgAt_(m, locals, 0);
 	int v = IoMessage_locals_intArgAt_(m, locals, 1);
+	//printf("IoGLUT_glutTimerFunc msecs %i v %i\n", msecs, v);
 	glutTimerFunc((unsigned int)msecs, IoGlutTimerFunc, v); 
 	return self; 
 }

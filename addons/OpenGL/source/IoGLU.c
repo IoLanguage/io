@@ -282,6 +282,72 @@ IoObject *IoGLU_gluUnProject(IoGLU *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(r);
 }
 
+IoObject *IoGLU_gluUnProjectOrigin(IoGLU *self, IoObject *locals, IoMessage *m)
+{	
+	GLdouble winX = 0;
+	GLdouble winY = 0;
+	GLdouble winZ = 0;
+
+	GLdouble model[16];
+	GLdouble proj[16];
+	GLint view[4];
+
+	GLdouble objX, objY, objZ;
+	GLint r;
+		
+	glGetDoublev(GL_MODELVIEW_MATRIX, model);
+	glGetDoublev(GL_PROJECTION_MATRIX, proj);
+	glGetIntegerv(GL_VIEWPORT, view);
+
+	r = gluUnProject(winX, winY, winZ, 
+					model, proj, view, 
+					&objX, &objY, &objZ);
+	
+	{
+		UArray *rv = UArray_new();
+		UArray_setSize_(rv, 3);
+		UArray_setEncoding_(rv, CENCODING_NUMBER);
+		UArray_setItemType_(rv, CTYPE_float64_t);
+		UArray_at_putDouble_(rv, 0, objX);
+		UArray_at_putDouble_(rv, 1, objY);
+		UArray_at_putDouble_(rv, 2, objZ);
+		return IoSeq_newWithUArray_copy_(IOSTATE, rv, 0);
+	}
+}
+
+IoObject *IoGLU_gluProjectOrigin(IoGLU *self, IoObject *locals, IoMessage *m)
+{	
+	GLdouble winX = 0;
+	GLdouble winY = 0;
+	GLdouble winZ = 0;
+
+	GLdouble model[16];
+	GLdouble proj[16];
+	GLint view[4];
+
+	GLdouble objX, objY, objZ;
+	GLint r;
+		
+	glGetDoublev(GL_MODELVIEW_MATRIX, model);
+	glGetDoublev(GL_PROJECTION_MATRIX, proj);
+	glGetIntegerv(GL_VIEWPORT, view);
+
+	r = gluProject(winX, winY, winZ, 
+					model, proj, view, 
+					&objX, &objY, &objZ);
+	
+	{
+		UArray *rv = UArray_new();
+		UArray_setSize_(rv, 3);
+		UArray_setEncoding_(rv, CENCODING_NUMBER);
+		UArray_setItemType_(rv, CTYPE_float64_t);
+		UArray_at_putDouble_(rv, 0, objX);
+		UArray_at_putDouble_(rv, 1, objY);
+		UArray_at_putDouble_(rv, 2, objZ);
+		return IoSeq_newWithUArray_copy_(IOSTATE, rv, 0);
+	}
+}
+
 IoObject *IoGLU_gluScaleImage(IoGLU *self, IoObject *locals, IoMessage *m)
 {
 	GLenum format = IoMessage_locals_intArgAt_(m, locals, 0);

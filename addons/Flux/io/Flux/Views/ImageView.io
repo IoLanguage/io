@@ -5,7 +5,6 @@ ImageView := View clone do(
 	newSlot("delegate")
 	newSlot("image")
 
-
 	init := method(
 		resend
 		image = Image clone
@@ -44,7 +43,7 @@ ImageView := View clone do(
 		glPushMatrix
 		translateToPlacement
 		drawColor
-		//glColor4d(1, 1, 1, .2)
+		//glColor4d(1, 1, 1, .05)
 		image drawTexture
 		if(isSelected and superview isFirstResponder, drawBorder)
 		glPopMatrix
@@ -55,7 +54,6 @@ ImageView := View clone do(
 	newSlot("borderSize", 1)
 
     setIsClipped(false)
-    
    
 	drawBorder := method(
 		glPushMatrix
@@ -76,7 +74,6 @@ ImageView := View clone do(
 		glRecti(0, b, b, h-b) // left
 		glRecti(w-b, b, w, h-b) // right
 		*/
-
 		glPopMatrix
 	)
 	
@@ -88,3 +85,5 @@ ImageView := View clone do(
 	
 	//drawBackground := nil
 )
+
+//Collector setDebug(true)

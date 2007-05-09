@@ -36,11 +36,11 @@
 
 void IoVMCodeInit(IoObject *context);
 
-IoState *IoState_new(void)
+void IoState_new_atAddress(void *address)
 {
+	IoState *self = (IoState *)address;
 	IoCFunction *cFunctionProto;
 	IoSeq *seqProto;
-	IoState *self = (IoState *)io_calloc(1, sizeof(IoState));
 
 	// collector
 
@@ -211,7 +211,12 @@ IoState *IoState_new(void)
 		Collector_collect(self->collector);
 		//io_show_mem("after IoState_clearRetainStack and Collector_collect");
 	}
+}
 
+IoState *IoState_new(void)
+{
+	IoState *self = (IoState *)io_calloc(1, sizeof(IoState));
+	IoState_new_atAddress(self);
 	return self;
 }
 
@@ -363,7 +368,7 @@ List *IoState_tagList(IoState *self) // caller must io_free returned List
 	return tags;
 }
 
-void IoState_free(IoState *self)
+void IoState_done(IoState *self)
 {
 	// this should only be called from the main coro from outside of Io
 
@@ -385,6 +390,11 @@ void IoState_free(IoState *self)
 	List_free(self->cachedNumbers);
 
 	MainArgs_free(self->mainArgs);
+}
+
+void IoState_free(IoState *self)
+{
+    IoState_done(self);
 	io_free(self);
 }
 
