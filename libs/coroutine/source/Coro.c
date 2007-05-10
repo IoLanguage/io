@@ -12,6 +12,7 @@
 	Solaris support by Manpreet Singh
 	Fibers support by Jonas Eschenburg
 	Ucontext arg support by Olivier Ansaldi
+	Ucontext x86-64 support by James Burgess and Jonathan Wright
 
  Notes
 
@@ -197,6 +198,23 @@ void Coro_startCoro_(Coro *self, Coro *other, void *context, CoroStartCallback *
 	Coro_switchTo_(self, other);
 }
 
+#if defined(USE_UCONTEXT) && defined(__x86_64__)
+void Coro_StartWithArg(unsigned int hiArg, unsigned int loArg)
+{
+	CallbackBlock *block = (CallbackBlock*)(((long long)hiArg << 32) | (long long)loArg);
+	(block->func)(block->context);
+	printf("Scheduler error: returned from coro start function\n");
+	exit(-1);
+}
+
+void Coro_Start(void)
+{
+	CallbackBlock block = globalCallbackBlock;
+	unsigned int hiArg = (unsigned int)(((long long)&block) >> 32);
+	unsigned int loArg = (unsigned int)(((long long)&block) & 0xFFFFFFFF);
+	Coro_StartWithArg(hiArg, loArg);
+}
+#else
 void Coro_StartWithArg(CallbackBlock *block)
 {
 	(block->func)(block->context);
@@ -209,6 +227,7 @@ void Coro_Start(void)
 	CallbackBlock block = globalCallbackBlock;
 	Coro_StartWithArg(&block);
 }
+#endif
 
 // --------------------------------------------------------------------
 
@@ -302,7 +321,13 @@ void Coro_setup(Coro *self, void *arg)
 	ucp->uc_link = NULL;
 #endif
 
+#if defined(__x86_64__)
+	unsigned int hiArg = (unsigned int)((long long)arg >> 32);
+	unsigned int loArg = (unsigned int)((long long)arg & 0xFFFFFFFF);
+	makecontext(ucp, (makecontext_func)Coro_StartWithArg, 2, hiArg, loArg);
+#else
 	makecontext(ucp, (makecontext_func)Coro_StartWithArg, 1, arg);
+#endif
 }
 
 #elif defined(USE_FIBERS)
