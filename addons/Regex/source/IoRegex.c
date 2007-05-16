@@ -470,7 +470,7 @@ IoObject *IoRegex_nextMatch(IoRegex *self, IoObject *locals, IoMessage *m)
 IoObject *IoRegex_currentMatch(IoRegex *self, IoObject *locals, IoMessage *m)
 {
 	IoObject *proto, *match;
-	IoMessage *addRangeMessage = DATA(self)->addCaptureRangeMessage;
+	IoMessage *addRangeMessage = IOREF(DATA(self)->addCaptureRangeMessage);
 	int i, matchGroupSize = DATA(self)->matchGroupSize;
 	int *ov = DATA(self)->outputVector, *range;
 	
@@ -494,7 +494,7 @@ IoObject *IoRegex_currentMatch(IoRegex *self, IoObject *locals, IoMessage *m)
 		range += 2; // Move past the start and end indices
 	}
 	
-	DATA(self)->currentMatch = match;
+	DATA(self)->currentMatch = IOREF(match);
 	return match;
 }
 
