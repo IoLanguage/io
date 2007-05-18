@@ -68,7 +68,7 @@ Project := Object clone do(
 
 	options := method(
         if (platform == "windows",
-            "-MDd -DWIN32 -D_DEBUG -DIOBINDINGS"
+            "-MD -DWIN32 -DNDEBUG -DIOBINDINGS"
         ,
             "-Os -g -Wall -DSANE_POPEN -DIOBINDINGS"
         )

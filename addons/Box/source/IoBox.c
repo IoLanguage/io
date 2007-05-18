@@ -70,8 +70,10 @@ void IoBox_rawSet(IoBox *self,
 			   NUM_TYPE h, 
 			   NUM_TYPE d)
 {
-	IoSeq_setVec3f_(DATA(self)->origin, (vec3f){x, y, z});
-	IoSeq_setVec3f_(DATA(self)->size,   (vec3f){w, h, d});
+        vec3f xyz = { x, y, z};
+        vec3f whd = { w, h, d};
+	IoSeq_setVec3f_(DATA(self)->origin, xyz);
+	IoSeq_setVec3f_(DATA(self)->size,   whd);
 }
 
 IoBox *IoBox_newSet(void *state, 
@@ -82,9 +84,11 @@ IoBox *IoBox_newSet(void *state,
 				NUM_TYPE h, 
 				NUM_TYPE d)
 {
+        vec3f xyz = { x, y, z};
+        vec3f whd = { w, h, d};
 	IoBox *self = IoBox_new(state);
-	IoSeq_setVec3f_(DATA(self)->origin, (vec3f){x, y, z});
-	IoSeq_setVec3f_(DATA(self)->size,   (vec3f){w, h, d});
+	IoSeq_setVec3f_(DATA(self)->origin, xyz);
+	IoSeq_setVec3f_(DATA(self)->size,   whd);
 	return self;
 }
 
@@ -226,20 +230,21 @@ IoObject *IoBox_Union(IoBox *self, IoObject *locals, IoMessage *m)
 
 void IoBox_rawUnion(IoBox *self, IoBox *other)
 {	
+        vec2f o1, o2;
 	vec2f v1 = IoSeq_vec2f(DATA(self)->origin);
 	vec2f v2 = IoSeq_vec2f(DATA(self)->size);
 	
 	v2.x += v1.x; 
 	v2.y += v1.y;
 	
-	vec2f o1 = IoSeq_vec2f(DATA(other)->origin);
-	vec2f o2 = IoSeq_vec2f(DATA(other)->size);
+	o1 = IoSeq_vec2f(DATA(other)->origin);
+	o2 = IoSeq_vec2f(DATA(other)->size);
 	
 	o2.x += o1.x; 
 	o2.y += o1.y;
 	
 	{
-		vec2f u1, u2;
+		vec2f u1, u2, us;
 		NUM_TYPE uw;
 		NUM_TYPE uh;
 		
@@ -252,7 +257,9 @@ void IoBox_rawUnion(IoBox *self, IoBox *other)
 		uh = u2.y - u1.y;
 		
 		IoSeq_setVec2f_(DATA(self)->origin, u1);
-		IoSeq_setVec2f_(DATA(self)->size, (vec2f){uw > 0 ? uw:0, uh > 0 ? uh:0 });
+		us.x = uw > 0 ? uw:0;
+                us.y = uh > 0 ? uh:0;
+		IoSeq_setVec2f_(DATA(self)->size, us);
 	}
 }
 
@@ -382,8 +389,10 @@ static double resizeWFunc(int id, double dx, double w)
 		return w;
 }
 
+#ifndef WIN32
 #define min(a, b) (a < b ? a : b)
 #define max(a, b) (a > b ? a : b)
+#endif
 
 static double UArray_x(UArray *self) { return UArray_doubleAt_(self, 0); }
 static double UArray_y(UArray *self) { return UArray_doubleAt_(self, 1); }
@@ -399,6 +408,7 @@ UArray *IoBox_rawResizeBy(IoBox *self,
 	int resizeWidth, int resizeHeight, 
 	UArray *minSize, UArray *maxSize)
 {
+        double x, w, y, h;
 	UArray *position = IoSeq_rawUArray(IoBox_rawOrigin(self));
 	UArray *size     = IoSeq_rawUArray(IoBox_rawSize(self));
 	UArray *outd     = UArray_new();
@@ -406,11 +416,11 @@ UArray *IoBox_rawResizeBy(IoBox *self,
 	UArray_setItemType_(outd, CTYPE_float32_t);
 	UArray_setSize_(outd, 2);
 	
-	double x = resizeXFunc(resizeWidth, UArray_x(d), UArray_x(position));
-	double w = resizeWFunc(resizeWidth, UArray_x(d), UArray_x(size));
+	x = resizeXFunc(resizeWidth, UArray_x(d), UArray_x(position));
+	w = resizeWFunc(resizeWidth, UArray_x(d), UArray_x(size));
 	
-	double y = resizeXFunc(resizeHeight, UArray_y(d), UArray_y(position));
-	double h = resizeWFunc(resizeHeight, UArray_y(d), UArray_y(size));
+	y = resizeXFunc(resizeHeight, UArray_y(d), UArray_y(position));
+	h = resizeWFunc(resizeHeight, UArray_y(d), UArray_y(size));
 	
 	if (minSize)
 	{
@@ -457,13 +467,14 @@ IoObject *IoBox_resizeBy(IoBox *self, IoObject *locals, IoMessage *m)
 
 IoBox *IoBox_proto(void *state)
 {
+        vec3f o = {0, 0, 0};
 	IoBox *self = IoObject_new(state);
 	IoObject_tag_(self, IoBox_newTag(state));
 	
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoBoxData)));
 	
-	DATA(self)->origin = IoSeq_newVec3f(state, (vec3f){0,0,0});
-	DATA(self)->size   = IoSeq_newVec3f(state, (vec3f){0,0,0});
+	DATA(self)->origin = IoSeq_newVec3f(state, o);
+	DATA(self)->size   = IoSeq_newVec3f(state, o);
 	
 	IoState_registerProtoWithFunc_(state, self, IoBox_proto);
 	
