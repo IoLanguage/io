@@ -195,13 +195,13 @@ void Collector_addValue_(Collector *self, void *v)
 	
 	if (self->pauseCount == 0)
 	{	
-		if (self->queuedMarks > 1.0) 
-		{
-			Collector_markPhase(self);
-		}
-		else if(self->allocated > self->allocatedSweepLevel)
+		if(self->allocated > self->allocatedSweepLevel)
 		{
 			Collector_sweepPhase(self);
+		}
+		else if (self->queuedMarks > 1.0)
+		{
+			Collector_markPhase(self);
 		}
 	}
 }

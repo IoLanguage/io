@@ -148,6 +148,9 @@ void GLImage_setData_width_height_componentCount_(GLImage *self, UArray *ba, int
 	self->width  = width;
 	self->height = height;
 	self->format = GLImage_formatForComponentCount_(self, componentCount);
+	self->originalWidth = self->width;
+	self->originalHeight = self->height;
+	GLImage_updateTexture(self); // needed?
 }
 
 void GLImage_load(GLImage *self) 
@@ -204,12 +207,12 @@ void GLImage_load(GLImage *self)
 	self->originalWidth = self->width;
 	self->originalHeight = self->height;
 	
-	GLImage_flipY(self);
+	//GLImage_flipY(self);
 }
 
 void GLImage_save(GLImage *self) 
 {
-	GLImage_flipY(self);
+	//GLImage_flipY(self);
 	
 	if (strcmp(self->fileType, "png")==0)
 	{
@@ -259,7 +262,7 @@ void GLImage_save(GLImage *self)
 		GLImage_error_(self, "unknown file type"); 
 	}
 	
-	GLImage_flipY(self);
+	//GLImage_flipY(self);
 }
 
 int GLImage_width(GLImage *self)  
@@ -364,6 +367,11 @@ void GLImage_draw(GLImage *self)
 		exit(1);
 	}
 	
+	glPushMatrix();
+	// flip the y axis since y=0 starts at first byte of image data
+	glTranslated(0, height, 0);
+	glScaled(1, -1, 1);
+	
 	switch (self->format)
 	{
 		case GL_RGB8:
@@ -383,6 +391,7 @@ void GLImage_draw(GLImage *self)
 		default:
 			GLImage_error_(self, "unrecognized image data format");
 	}
+	glPopMatrix();
 	
 	//glBitmap(0, 0, 0.0, 0.0, 0, -height, (const GLubyte *)0); /* only to move raster pos */
 	//glPixelZoom(1, 1);
@@ -760,50 +769,29 @@ void GLImage_drawTextureArea(GLImage *self, int w, int h)
 	wr = (float)w / (float)self->width;
 	hr = (float)h / (float)self->height;
 
+	// the y texture coords are flipped since the image data starts with y=0
 	
 	glBegin(GL_QUADS);
 
-	glTexCoord2f(0,  hr);
+	glTexCoord2f(0,  0);
 	glVertex2i(0, h);
 		
-	glTexCoord2f(0,  0);
+	glTexCoord2f(0,  hr);
 	glVertex2i(0, 0);
 	
-	glTexCoord2f(wr,  0);
+	glTexCoord2f(wr,  hr);
 	glVertex2i(w, 0);
 	
-	glTexCoord2f(wr, hr);
+	glTexCoord2f(wr, 0);
 	glVertex2i(w, h);
 	
 	glEnd();
+	
 	glPopAttrib();
 }
 
 void GLImage_drawTexture(GLImage *self)
 {
-/*
-	int w = self->originalWidth;
-	int h = self->originalHeight;
-	
-	GLImage_bindTexture(self);
-	
-	glBegin(GL_QUADS);
-
-	glTexCoord2i(0,  h);
-	glVertex2i(0, h);
-		
-	glTexCoord2i(0,  0);
-	glVertex2i(0, 0);
-	
-	glTexCoord2i(w,  0);
-	glVertex2i(w, 0);
-	
-	glTexCoord2i(w, h);
-	glVertex2i(w, h);
-	
-	glEnd();
-	glPopAttrib();
-*/
 	GLImage_drawTextureArea(self, self->originalWidth, self->originalHeight);
 }
 
@@ -844,6 +832,7 @@ int GLImage_originalHeight(GLImage *self)
 }
 
 /* --- extras --------------------------------------------------------- */
+
 void GLImage_encodingQuality_(GLImage *self, float q) 
 { 
 	self->encodingQuality = q; 

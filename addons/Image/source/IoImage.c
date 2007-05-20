@@ -50,7 +50,6 @@ IoImage *IoImage_proto(void *state)
 	{
 		IoMethodTable methodTable[] = {
 		{"setDataWidthHeightComponentCount", IoImage_setDataWidthHeightComponentCount},
-
 		{"setPath", IoImage_setPath},
 		{"open", IoImage_open},
 		{"save", IoImage_save},

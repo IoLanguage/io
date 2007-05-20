@@ -1011,6 +1011,7 @@
 		AA984A6A090478C9002242A2 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COPY_PHASE_STRIP = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 			};
 			name = Development;

@@ -75,6 +75,8 @@ IOVM_API IoObject *IoList_appendSeq(IoList *self, IoObject *locals, IoMessage *m
 IOVM_API IoObject *IoList_remove(IoList *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoList_push(IoList *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoList_pop(IoList *self, IoObject *locals, IoMessage *m);
+
+IoObject *IoList_setSize(IoList *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoList_removeAll(IoList *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoList_atInsert(IoList *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoList_removeAt(IoList *self, IoObject *locals, IoMessage *m);

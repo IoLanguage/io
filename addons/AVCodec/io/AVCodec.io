@@ -26,4 +26,12 @@ AVCodec do(
 		//writeln("AVCodec write - resuming internalCoro")
 		internalCoro resume // this will pause the current coro
 	)
+
+	newSlot("fileName")
+	setFileName := method(path, 
+	   self fileName := path
+	   setVideoCodecName(path pathExtension)
+    )
+    
+	newSlot("videoCodecName")
 )

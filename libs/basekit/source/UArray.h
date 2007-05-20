@@ -107,6 +107,7 @@ BASEKIT_API void UArray_error_(const UArray *self, char *e);
 
 BASEKIT_API UArray *UArray_new(void);
 BASEKIT_API UArray *UArray_newWithData_type_size_copy_(void *data, CTYPE type, size_t size, int copy);
+BASEKIT_API UArray *UArray_newWithData_type_encoding_size_copy_(void *bytes, CTYPE type, CENCODING encoding, size_t size, int copy);
 BASEKIT_API UArray *UArray_newWithCString_copy_(char *s, int copy);
 BASEKIT_API UArray *UArray_newWithCString_(const char *s);
 BASEKIT_API void UArray_setCString_(UArray *self, const char *s);

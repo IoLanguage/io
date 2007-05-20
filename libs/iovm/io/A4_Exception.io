@@ -162,7 +162,7 @@ Coroutine do(
 	)
 
 	main := method(
-		setResult(runTarget doMessage(runMessage, runLocals))
+		setResult(self getSlot("runTarget") doMessage(runMessage, self getSlot("runLocals")))
 		resumeParentCoroutine
 	    pause
 	)
@@ -225,6 +225,14 @@ Object do(
 		coro setRunLocals(call sender)
 		coro setRunMessage(call argAt(0)) 
 		Coroutine yieldingCoros atInsert(0, coro)
+		coro
+	)
+	
+    coroWith := method(
+		coro := Coroutine clone
+		coro setRunTarget(self) 
+		coro setRunLocals(call sender)
+		coro setRunMessage(call argAt(0)) 
 		coro
 	)
 	

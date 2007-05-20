@@ -416,11 +416,15 @@ void MissingProtoError(void)
 IoObject *IoState_protoWithInitFunction_(IoState *self, IoStateProtoFunc *func)
 {
 	IoObject *proto = PHash_at_(self->primitives, (void *)func);
-
+	
+	//printf("IoState_protoWithInitFunction_(self, %p)\n", (void *)func);
+	
 	if (!proto)
 	{
-		MissingProtoError();
-		IoState_fatalError_(self, "IoState_protoWithInitFunction_xxx() Error: missing proto");
+		//MissingProtoError();
+		printf("missing proto %p\n", (void *)func);
+
+		IoState_fatalError_(self, "IoState_protoWithInitFunction() Error: missing proto");
 	}
 
 	return proto;

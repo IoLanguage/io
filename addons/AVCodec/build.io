@@ -4,6 +4,7 @@ AddonBuilder clone do(
 		dependsOnFramework("AudioToolbox")
 	)
 
+	dependsOnLib("avformat")
 	dependsOnLib("avcodec")
 	dependsOnLib("avutil")
 

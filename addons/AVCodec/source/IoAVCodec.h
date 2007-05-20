@@ -7,22 +7,45 @@
 
 #include "IoObject.h"
 #include "IoSeq.h"
+#include "IoList.h"
 #include <ffmpeg/avcodec.h>
+#include <ffmpeg/avformat.h>
 
 typedef IoObject IoAVCodec;
 
 typedef struct
 {
 	int isRunning;
+	
 	IoMessage *willProcessMessage;
 	IoMessage *didProcessMessage;
-	IoSeq *inputBuffer;
-	IoSeq *outputBuffer;
-	AVCodecContext *codecContext;
-	uint8_t *inbuf;
-	uint8_t *outbuf;
-	uint8_t *outbufResampled;
 	
+	// both
+	
+	AVFormatContext *formatContext;
+	AVInputFormat *inputFormat;
+    //AVFormatParameters static_formatParams, *formatParams = &static_formatParams;
+	
+	int audioStreamIndex;
+	AVCodecContext *audioContext;
+	
+	int videoStreamIndex;
+	AVCodecContext *videoContext;
+		
+	AVPacket *packet;
+	
+	// audio 
+	
+	IoSeq *inputBuffer;
+	IoSeq *outputBuffer;	
+	
+	uint8_t *audioOutBuffer;
+	
+	// video
+	
+	AVFrame *decodedFrame;
+	AVPicture *rgbPicture;
+	IoList *frames;
 	
 } IoAVCodecData;
 
@@ -36,14 +59,23 @@ void IoAVCodec_free(IoAVCodec *self);
 
 IoObject *IoAVCodec_stop(IoAVCodec *self, IoObject *locals, IoMessage *m);
 
-IoObject *IoAVCodec_inputBuffer(IoAVCodec *self, IoObject *locals, IoMessage *m);
-IoObject *IoAVCodec_outputBuffer(IoAVCodec *self, IoObject *locals, IoMessage *m);
+IoObject *IoAVCodec_audioInputBuffer(IoAVCodec *self, IoObject *locals, IoMessage *m);
+IoObject *IoAVCodec_audioOutputBuffer(IoAVCodec *self, IoObject *locals, IoMessage *m);
 
 IoObject *IoAVCodec_decodeCodecNames(IoAVCodec *self, IoObject *locals, IoMessage *m);
 IoObject *IoAVCodec_encodeCodecNames(IoAVCodec *self, IoObject *locals, IoMessage *m);
 
-IoObject *IoAVCodec_startAudioDecoding(IoAVCodec *self, IoObject *locals, IoMessage *m);
-IoObject *IoAVCodec_startAudioEncoding(IoAVCodec *self, IoObject *locals, IoMessage *m);
+IoObject *IoAVCodec_open(IoAVCodec *self, IoObject *locals, IoMessage *m);
+IoObject *IoAVCodec_startDecoding(IoAVCodec *self, IoObject *locals, IoMessage *m);
+//IoObject *IoAVCodec_startEncoding(IoAVCodec *self, IoObject *locals, IoMessage *m);
 
+int IoAVCodec_openFile(IoAVCodec *self);
+int IoAVCodec_findStreams(IoAVCodec *self);
+int IoAVCodec_decodeStreams(IoAVCodec *self);
+
+int IoAVCodec_decodeAudioPacket(IoAVCodec *self, AVCodecContext *c, uint8_t *inbuf, size_t size);
+int IoAVCodec_decodeVideoPacket(IoAVCodec *self, AVCodecContext *c, uint8_t *inbuf, size_t size);
+
+IoSeq *IoAVCode_frameSeqForAVFrame_(IoAVCodec *self, AVFrame *avframe, int srcPixelFormat, int width, int height);
 
 #endif

@@ -73,6 +73,7 @@ IoList *IoList_proto(void *state)
 
 	// mutation
 
+	{"setSize",     IoList_setSize},
 	{"removeAll",   IoList_removeAll},
 	{"appendSeq",   IoList_appendSeq},
 	{"append",      IoList_append},
@@ -819,6 +820,33 @@ Raises an exception if the index is out of bounds. Returns self.")
 
 	IoList_checkIndex(self, m, 0, index, "Io List atPut");
 	IoList_rawAtPut(self, index, v);
+	return self;
+}
+
+IoObject *IoList_setSize(IoList *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("setSize", "Sets the size of the receiver by either removing excess items or adding nils as needed.")
+	*/
+	List *list = DATA(self);
+	size_t newSize = IoMessage_locals_sizetArgAt_(m, locals, 0);
+	size_t oldSize =  List_size(list);
+	
+	if(newSize < oldSize)
+	{
+		List_setSize_(list, newSize);
+	}
+	else
+	{
+		size_t i, max = newSize - oldSize;
+		IoObject *nilObject = IONIL(self);
+		
+		for(i = 0; i < max; i ++)
+		{
+			List_append_(list, nilObject);
+		}
+	}
+	
 	return self;
 }
 
