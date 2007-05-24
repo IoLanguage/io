@@ -1,5 +1,3 @@
-//Collector setDebug(true)
-
 List do(
 	qsort := method(
 		if(size < 2, return)
@@ -53,13 +51,16 @@ List do(
 	)
 )
 
+writeln("building list")
 a := list()
-for(i, 0, 10000, a append(i asString))
+10000 repeat(i, a append(i asString))
 a shuffle
-	
+
 testSort := method(
-	a clone doMessage(call message argAt(0))
+	a clone doMessage(call argAt(0))
 )
+
+writeln("Testing")
 
 for(i, 0, 3,
 	writeln("testQSort ", Date secondsToRun(testSort(qsort)))

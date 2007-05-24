@@ -5,9 +5,5 @@ ack := method(m, n,
   return ack(m - 1, ack(m, n - 1)) 
 ) 
 
-ack := method(m, n, 
-  ack(m, n)
-) 
-
 ack(3, 4) print 
 "\n" print

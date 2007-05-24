@@ -34,7 +34,7 @@ DLL_COMMAND := -shared
 FLAT_NAMESPACE :=
 dependson := $(shell cat depends)
 
-HEADERS  :=-I. -I/source
+HEADERS  :=-I. -I./source
 others := $(dependson)
 others := $(addprefix -I../,$(others))
 others := $(addsuffix /_build/headers,$(others))

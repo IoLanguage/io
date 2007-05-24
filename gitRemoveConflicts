@@ -1,0 +1,2 @@
+git ls-files -u | awk '{print $4}' | git update-index --stdin
+

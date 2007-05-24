@@ -30,6 +30,7 @@ getSlot("Block") do(
 			buffer = Sequence clone
 			operators = OperatorTable operators
 			reverseAssignOperators = OperatorTable reverseAssignOperators
+			reverseAssignOperators atPut("setSlotWithType", ":=")
 		)
 
 		appendSeq := method(
