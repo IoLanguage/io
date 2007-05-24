@@ -168,6 +168,12 @@ OSWindow := Responder clone do(
 		glLoadIdentity
     )
 
+    
+    reshapeToSize := method(size,
+        glutSetWindow(self windowId)
+		glutReshapeWindow(size x, size y)
+    )
+    
     reshape := method(w, h, 
 		//write("reshape(", w, ",", h, ")\n")
 		resizeTo(w, h)

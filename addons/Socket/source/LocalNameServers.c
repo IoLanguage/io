@@ -44,6 +44,78 @@ void LocalNameServers_addIPAddress_(LocalNameServers *self, const char *s)
 	List_append_(self->ips, newIPAddress);
 }
 
+// --- generic -----------------------------
+
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include "UArray.h"
+
+static char *stringDeleteHashComment(char *s) 
+{
+	char *commentBeginning = strchr(s, '#');
+	
+	if(!commentBeginning)
+	{
+		commentBeginning = s + strlen(s);
+	}
+	
+	while(!isdigit(*commentBeginning))
+	{
+		*commentBeginning-- = '\0';
+	}
+	
+	return s;
+}
+
+static char *lastWhiteSpaceInString(char *s)
+{
+	char *lastSpace = strrchr(s, ' ');
+	char *lastTab = strrchr(s, '\t');
+	char *lastWhiteSpace = lastSpace > lastTab ? lastSpace : lastTab;
+	return lastWhiteSpace;
+}
+
+static char *local_strdup(char *s) // because OSXs is buggy
+{ 
+	return strcpy(malloc(strlen(s)+1), s); 
+}
+
+void LocalNameServers_findIpsViaResolveConf(LocalNameServers *self)
+{
+	FILE *fp = fopen("/etc/resolv.conf", "r");
+	
+	if (fp) 
+	{
+		UArray *ba = UArray_new();
+		
+		while (UArray_readLineFromCStream_(ba, fp))
+		{
+			char *line = (char *)UArray_bytes(ba);
+			
+			/*printf("line = %s\n", line);*/
+			if (strstr(line, "nameserver") == line)
+			{
+				char *ip;
+				char *s = local_strdup(line);
+				
+				stringDeleteHashComment(s);
+				ip = lastWhiteSpaceInString(s) + 1;
+				
+				if (*ip)
+				{
+					//printf("LocalNameServers_findIps() found ip '%s'\n", ip);
+					LocalNameServers_addIPAddress_(self, ip);
+				}
+				
+				free(s);
+			}
+			UArray_setSize_(ba, 0);
+		}
+		UArray_free(ba);
+	}
+}
+
 
 #if defined(WIN32) || defined(__CYGWIN__)
 
@@ -100,7 +172,8 @@ void LocalNameServers_findIps(LocalNameServers *self)
 	
 	if (strlen(answer) < strlen(";; SERVER: "))
 	{
-		printf("LocalNameServers error: unable to find nameservers using 'dig | grep SERVER:'\n");
+		//printf("LocalNameServers warning: unable to find nameservers using 'dig | grep SERVER:'\nParsing resolve.conf instead.");
+		LocalNameServers_findIpsViaResolveConf(self);
 		goto done;
 	}
 	
@@ -123,74 +196,9 @@ void LocalNameServers_findIps(LocalNameServers *self)
 // Unix ----------------------------------------
 
 
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include "UArray.h"
-
-static char *stringDeleteHashComment(char *s) 
-{
-	char *commentBeginning = strchr(s, '#');
-	
-	if(!commentBeginning)
-	{
-		commentBeginning = s + strlen(s);
-	}
-	
-	while(!isdigit(*commentBeginning))
-	{
-		*commentBeginning-- = '\0';
-	}
-	
-	return s;
-}
-
-static char *lastWhiteSpaceInString(char *s)
-{
-	char *lastSpace = strrchr(s, ' ');
-	char *lastTab = strrchr(s, '\t');
-	char *lastWhiteSpace = lastSpace > lastTab ? lastSpace : lastTab;
-	return lastWhiteSpace;
-}
-
-static char *local_strdup(char *s) // because OSXs is buggy
-{ 
-	return strcpy(malloc(strlen(s)+1), s); 
-}
-
 void LocalNameServers_findIps(LocalNameServers *self)
 {
-	FILE *fp = fopen("/etc/resolv.conf", "r");
-	
-	if (fp) 
-	{
-		UArray *ba = UArray_new();
-		
-		while (UArray_readLineFromCStream_(ba, fp))
-		{
-			char *line = (char *)UArray_bytes(ba);
-			
-			/*printf("line = %s\n", line);*/
-			if (strstr(line, "nameserver") == line)
-			{
-				char *ip;
-				char *s = local_strdup(line);
-				
-				stringDeleteHashComment(s);
-				ip = lastWhiteSpaceInString(s) + 1;
-				
-				if (*ip)
-				{
-					//printf("LocalNameServers_findIps() found ip '%s'\n", ip);
-					LocalNameServers_addIPAddress_(self, ip);
-				}
-				
-				free(s);
-			}
-			UArray_setSize_(ba, 0);
-		}
-		UArray_free(ba);
-	}
+	LocalNameServers_findIpsViaResolveConf(self);
 }
 
 #endif

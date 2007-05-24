@@ -432,6 +432,11 @@ View := Responder clone do(
 		resizeHeightWithSuperview
 		self
     )
+    
+    resizeToFitSuperview := method(
+		setSize(superview size)
+		self
+    )
 
     doNotResize := method(
 		resizeWidth  = 110

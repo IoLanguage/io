@@ -150,7 +150,7 @@ void GLImage_setData_width_height_componentCount_(GLImage *self, UArray *ba, int
 	self->format = GLImage_formatForComponentCount_(self, componentCount);
 	self->originalWidth = self->width;
 	self->originalHeight = self->height;
-	GLImage_updateTexture(self); // needed?
+	//GLImage_updateTexture(self); // needed?
 }
 
 void GLImage_load(GLImage *self) 
@@ -369,8 +369,10 @@ void GLImage_draw(GLImage *self)
 	
 	glPushMatrix();
 	// flip the y axis since y=0 starts at first byte of image data
-	glTranslated(0, height, 0);
-	glScaled(1, -1, 1);
+	//glTranslated(0, height, 0);
+	glRasterPos2d(0, height);
+	glPixelZoom(1,-1);
+	//glScaled(1, -1, 1);
 	
 	switch (self->format)
 	{
@@ -391,6 +393,7 @@ void GLImage_draw(GLImage *self)
 		default:
 			GLImage_error_(self, "unrecognized image data format");
 	}
+	glPixelZoom(1,1);
 	glPopMatrix();
 	
 	//glBitmap(0, 0, 0.0, 0.0, 0, -height, (const GLubyte *)0); /* only to move raster pos */

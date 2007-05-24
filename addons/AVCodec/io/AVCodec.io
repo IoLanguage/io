@@ -3,6 +3,7 @@ AVCodec do(
 	newSlot("inputCoro")
 	newSlot("internalCoro")
 	newSlot("streamDestination", AudioDevice)
+	path ::= nil
 	
 	willProcess := method(
 		//writeln("AVCodec willProcess")

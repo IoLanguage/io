@@ -14,12 +14,7 @@
 typedef IoObject IoAVCodec;
 
 typedef struct
-{
-	int isRunning;
-	
-	IoMessage *willProcessMessage;
-	IoMessage *didProcessMessage;
-	
+{	
 	// both
 	
 	AVFormatContext *formatContext;
@@ -46,7 +41,7 @@ typedef struct
 	AVFrame *decodedFrame;
 	AVPicture *rgbPicture;
 	IoList *frames;
-	
+	int isAtEnd;
 } IoAVCodecData;
 
 IoAVCodec *IoAVCodec_proto(void *state);
@@ -57,8 +52,6 @@ void IoAVCodec_free(IoAVCodec *self);
 
 // ----------------------------------------------------------- 
 
-IoObject *IoAVCodec_stop(IoAVCodec *self, IoObject *locals, IoMessage *m);
-
 IoObject *IoAVCodec_audioInputBuffer(IoAVCodec *self, IoObject *locals, IoMessage *m);
 IoObject *IoAVCodec_audioOutputBuffer(IoAVCodec *self, IoObject *locals, IoMessage *m);
 
@@ -66,12 +59,12 @@ IoObject *IoAVCodec_decodeCodecNames(IoAVCodec *self, IoObject *locals, IoMessag
 IoObject *IoAVCodec_encodeCodecNames(IoAVCodec *self, IoObject *locals, IoMessage *m);
 
 IoObject *IoAVCodec_open(IoAVCodec *self, IoObject *locals, IoMessage *m);
-IoObject *IoAVCodec_startDecoding(IoAVCodec *self, IoObject *locals, IoMessage *m);
-//IoObject *IoAVCodec_startEncoding(IoAVCodec *self, IoObject *locals, IoMessage *m);
+IoObject *IoAVCodec_close(IoAVCodec *self, IoObject *locals, IoMessage *m);
+IoObject *IoAVCodec_decode(IoAVCodec *self, IoObject *locals, IoMessage *m);
+IoObject *IoAVCodec_isAtEnd(IoAVCodec *self, IoObject *locals, IoMessage *m);
 
 int IoAVCodec_openFile(IoAVCodec *self);
 int IoAVCodec_findStreams(IoAVCodec *self);
-int IoAVCodec_decodeStreams(IoAVCodec *self);
 
 int IoAVCodec_decodeAudioPacket(IoAVCodec *self, AVCodecContext *c, uint8_t *inbuf, size_t size);
 int IoAVCodec_decodeVideoPacket(IoAVCodec *self, AVCodecContext *c, uint8_t *inbuf, size_t size);

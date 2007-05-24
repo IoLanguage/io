@@ -14,6 +14,7 @@ Addon := Object clone do(
     addonPath := method(Path with(rootPath, name))
 
     dllPath := method(Path with(addonPath, "_build/dll", dllName))
+    sourcePath := method(Path with(addonPath, "source"))
 
     ioFiles := method(
         d := Directory with(addonPath) folderNamed("io")
@@ -43,7 +44,14 @@ Addon := Object clone do(
         Protos Addons setSlot(name, context)
         Protos appendProto(context)
         //writeln(dllPath)
-        if(File with(dllPath) exists, DynLib clone setPath(dllPath) open call("Io" .. name .. "Init", context))
+        if(File with(dllPath) exists, 
+            DynLib clone setPath(dllPath) open call("Io" .. name .. "Init", context)
+        ,
+            // check for C files, if found then addon didn't compile
+            if(Directory with(sourcePath) size > 1,
+                Exception raise("Failed to load Addon " .. name .. " - it appears that the addon exists but was not compiled. You might try running 'make " .. name .. "' in the Io source folder.")
+            )
+        )
         //ioFiles foreach(f, writeln("loading ", f path))
         ioFiles foreach(file, context doFile(file path))
         Lobby getSlot(name)

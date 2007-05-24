@@ -44,7 +44,7 @@ IoSampleRateConverter *IoSampleRateConverter_proto(void *state)
 		{"setEndOFInput",  IoSampleRateConverter_setEndOFInput},
 		{"inputBuffer",  IoSampleRateConverter_inputBuffer},
 		{"outputBuffer",  IoSampleRateConverter_outputBuffer},
-		
+		{"outputToInputRatio",  IoSampleRateConverter_outputToInputRatio},
 		{NULL, NULL},
 		};
 		IoObject_addMethodTable_(self, methodTable);
@@ -195,6 +195,12 @@ IoObject *IoSampleRateConverter_setOutputToInputRatio(IoSampleRateConverter *sel
 	IoNumber *r = IoMessage_locals_numberArgAt_(m, locals, 0);
 	srcData->src_ratio = CNUMBER(r);
 	return self; 
+}
+
+IoObject *IoSampleRateConverter_outputToInputRatio(IoSampleRateConverter *self, IoObject *locals, IoMessage *m)
+{ 
+	SRC_DATA *srcData = IoSampleRateConverter_srcData(self);
+	return IONUMBER(srcData->src_ratio); 
 }
 
 IoObject *IoSampleRateConverter_setEndOFInput(IoSampleRateConverter *self, IoObject *locals, IoMessage *m)

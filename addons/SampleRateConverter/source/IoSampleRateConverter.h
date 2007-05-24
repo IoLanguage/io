@@ -35,6 +35,7 @@ IoObject *IoSampleRateConverter_process(IoSampleRateConverter *self, IoObject *l
 IoObject *IoSampleRateConverter_stop(IoSampleRateConverter *self, IoObject *locals, IoMessage *m);
 
 IoObject *IoSampleRateConverter_setOutputToInputRatio(IoSampleRateConverter *self, IoObject *locals, IoMessage *m);
+IoObject *IoSampleRateConverter_outputToInputRatio(IoSampleRateConverter *self, IoObject *locals, IoMessage *m);
 IoObject *IoSampleRateConverter_setEndOFInput(IoSampleRateConverter *self, IoObject *locals, IoMessage *m);
 
 IoObject *IoSampleRateConverter_inputBuffer(IoSampleRateConverter *self, IoObject *locals, IoMessage *m);
