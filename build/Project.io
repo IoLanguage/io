@@ -36,6 +36,10 @@ Project := Object clone do(
 
 	availableAddon := method(addon,
 		if(addon hasSlot("isAvailable"), return addon isAvailable)
+		if(addon isDisabled,
+			addon isAvailable := false
+			return false
+		)
 		if(addon supportedOnPlatform(platform) not,
 			error := (addon name .. " is not supported on " .. platform .. "\n") print
 			File clone openForAppending("errors") write(error) close

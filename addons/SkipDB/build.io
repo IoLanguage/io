@@ -1,2 +1,3 @@
 AddonBuilder clone do(
+	disable
 )
