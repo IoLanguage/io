@@ -1,6 +1,9 @@
 Sequence prepend := method(s, s .. self)
 
 AddonBuilder := Object clone do(
+	isDisabled := false
+	disable := method(isDisabled = true)
+
 	platform := System platform split at(0) asLowercase
 	cflags := method(System getenv("CFLAGS") ifNilEval(""))
     if (platform == "windows",
@@ -78,13 +81,15 @@ AddonBuilder := Object clone do(
 		)
 	)
 
-    mkdir := method(path,
+    mkdir := method(relativePath,
         if (folder path != ".",
-            path := folder path .. "/" .. path
+            path := folder path .. "/" .. relativePath
         )
-        writeln("Mkdir " .. path )
-        dir :=  Directory with(".")
-        path split("/") foreach(x, dir := dir folderNamedCreateIfAbsent(x))
+		if(Directory exists(path) not,
+			writeln("mkdir -p ", relativePath)
+			dir :=  Directory with(".")
+			path split("/") foreach(x, dir := dir folderNamedCreateIfAbsent(x))
+		)
     )
 
 	pathForFramework := method(name,
@@ -187,16 +192,16 @@ AddonBuilder := Object clone do(
 	)
 
 	trySystemCall := method(s,
-		writeln("running ", s, " in ", folder path, "\n")
-                oldPath := nil
+		writeln(s)
+		oldPath := nil
 		if (folder path != ".",
-                    oldPath := Directory currentWorkingDirectory 
-                    Directory setCurrentWorkingDirectory(folder path)
-                )
+			oldPath := Directory currentWorkingDirectory 
+			Directory setCurrentWorkingDirectory(folder path)
+		)
 		result := System system(s)
-                if (oldPath != nil,
-                    Directory setCurrentWorkingDirectory(oldPath)
-                )
+		if (oldPath != nil,
+			Directory setCurrentWorkingDirectory(oldPath)
+		)
 		result
 	)
 
@@ -225,7 +230,8 @@ AddonBuilder := Object clone do(
 	)
 
 	build := method(options,
-		writeln("--- ", folder name, " ---")
+		writeln(("--- " .. folder name .. " ") alignLeft(79, "-"))
+		writeln("build.io: Entering directory `", folder path, "'")
 		mkdir("_build/headers")
 		if(Directory with(Path with(folder path, "source")) filesWithExtension(".h") size > 0,
 			trySystemCall("cp source/*.h _build/headers")
@@ -257,6 +263,8 @@ AddonBuilder := Object clone do(
 
 		buildLib
 		buildDynLib
+		writeln("build.io: Leaving directory `", folder path, "'")
+		writeln
 	)
 	
 	buildLib := method(
@@ -286,7 +294,6 @@ AddonBuilder := Object clone do(
         )
 
 	buildDynLib := method(
-		writeln("buildDynLib")
 		mkdir("_build/dll")
 
 		links := depends addons map(b, linkDirPathFlag .. "../" .. b .. "/_build/dll")
