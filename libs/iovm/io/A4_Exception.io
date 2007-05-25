@@ -116,16 +116,19 @@ Coroutine do(
 	
 	backTraceString := method(
 		if(Coroutine inException, 
-			writeln("\n", exception type, ": ", exception error, "\n\n")
-			writeln("Coroutine Exception loop detected"); 
-			System exit
+		   // writeln(self uniqueId, " inException")
+			//writeln("\n", exception type, ": ", exception ?error, "\n\n")
+			//writeln("Coroutine Exception loop detected"); 
+			//System exit
+			//return ""
+			nil
 		)
 		Coroutine setInException(true)
 		buf := Sequence clone
 		
 		if(getSlot("CGI") != nil and CGI isInWebScript, buf appendSeq("<pre>"))
 		
-		if(exception, buf appendSeq("\n  ", exception type, ": ", exception error, "\n"))
+		if(exception, buf appendSeq("\n  ", exception type, ": ", exception ?error, "\n"))
 		
 		if(callStack size > 0) then(
 			buf appendSeq("  ---------\n")
@@ -138,19 +141,21 @@ Coroutine do(
 
 			if(exception and exception originalCall,
 				index := frames indexOf(exception originalCall)
-				if(index,
-					frames sliceInPlace(index)
-				)
+				if(index, frames sliceInPlace(index))
 			)
 
-			frames foreach(v,
-				buf appendSeq("  ", v description, "\n")
-			)
-			buf appendSeq("\n")
-		) else(
-			buf appendSeq("\n")
+			frames foreach(v, buf appendSeq("  ", v description, "\n"))
 		)
+        buf appendSeq("\n")
 
+		if(parentCoroutine, 
+            //writeln("self = ", self uniqueId)
+            //writeln("parentCoroutine = ", parentCoroutine uniqueId)
+            //buf println
+            buf appendSeq(parentCoroutine backTraceString)
+            //buf appendSeq("--- parent coro ---\n")
+		)
+		
 		Coroutine setInException(false)
 		buf
 	)
