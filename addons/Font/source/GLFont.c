@@ -43,7 +43,11 @@ GLFont *GLFont_clone(GLFont *self)
 
 int GLFont_textureId(GLFont *self)
 { 
-	if (!self->texId) glGenTextures(1, &self->texId);
+	if (!self->texId) 
+	{
+		glGenTextures(1, &self->texId);
+	}
+	
 	return self->texId;
 }
 
@@ -52,6 +56,13 @@ void GLFont_free( GLFont *self )
 	/*printf("GLFont_free %p %p\n", (void *)self, (void *)self->face);*/
 	if (self->face && gFreeTypeLib) FT_Done_Face( self->face );
 	self->face = NULL;
+	
+	if (self->texId)
+	{
+		GLuint textureId = self->texId;
+		glDeleteTextures(1, &textureId);
+	}
+	
 	free(self);
 }
 

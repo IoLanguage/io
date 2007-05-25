@@ -33,6 +33,7 @@ GLImage *GLImage_new(void)
 	self->ownsUArray = 1;
 	self->format = GLImage_formatForComponentCount_(self, 4);
 	self->encodingQuality = 1.0;
+	self->textureId = 0;
 	return self;
 }
 
@@ -150,7 +151,11 @@ void GLImage_setData_width_height_componentCount_(GLImage *self, UArray *ba, int
 	self->format = GLImage_formatForComponentCount_(self, componentCount);
 	self->originalWidth = self->width;
 	self->originalHeight = self->height;
-	//GLImage_updateTexture(self); // needed?
+	
+	//if (self->textureId) 
+	{
+		GLImage_updateTexture(self);
+	}
 }
 
 void GLImage_load(GLImage *self) 
@@ -596,12 +601,13 @@ int GLImage_justTextureId(GLImage *self)
 		GLuint tid;
 		glGenTextures(1, &tid); 
 		self->textureId = tid; 
-		
+
 		glBindTexture(GL_TEXTURE_2D, self->textureId);
 		/*printf("self->textureId = %i w:%i h:%i\n", self->textureId, self->width, self->height);*/
 		
 		GLImage_setParameters(self);
 	}
+	
 	return self->textureId;
 }
 
@@ -644,10 +650,10 @@ GLenum GLImage_textureFormat(GLImage *self)
 
 void GLImage_updateTexture(GLImage *self)
 {
-	if (!self->textureId) 
+	//if (!self->textureId) 
 	{ 
 		GLImage_bindTexture(self); 
-		return; // return since GLImage_bindTexture will call this method 
+		//return; // return since GLImage_bindTexture will call this method 
 	} 
 	
 	GLImage_resizeToPowerOf2(self);

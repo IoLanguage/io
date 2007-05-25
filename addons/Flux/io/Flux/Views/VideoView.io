@@ -58,8 +58,12 @@ VideoView := View clone do(
         videoDecoder setFileName(path)
         videoDecoder open
         videoDecoder readNextFrame
-        topWindow addTimerTargetWithDelay(self, videoDecoder framePeriod)
+        play
 	)
+
+    play := method(
+            topWindow addTimerTargetWithDelay(self, videoDecoder framePeriod)
+    )
 
     timer := method(n,
         //writeln("VideoView timer")

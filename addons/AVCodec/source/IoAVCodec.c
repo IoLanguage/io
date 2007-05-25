@@ -314,6 +314,7 @@ IoObject *IoAVCodec_close(IoAVCodec *self, IoObject *locals, IoMessage *m)
 {
 	IoAVCodec_registerIfNeeded(self);
 	IoAVCodec_freeContextIfNeeded(self);
+	return self;
 }
 
 int IoAVCodec_openFile(IoAVCodec *self)

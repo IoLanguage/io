@@ -1,4 +1,4 @@
-INSTALL_PREFIX ?= c:/usr/local
+INSTALL_PREFIX ?= /usr/local
 
 SYS ?= $(shell uname -s)
 
