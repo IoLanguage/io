@@ -20,7 +20,9 @@ Sequence do(
     docSlot("alignLeftInPlace(width, [padding])", "Same as align left but operation is performed on the receiver.")
     alignLeftInPlace := method(width, padding,
         originalSize := size
-        padding = padding ifNilEval(" ")
+		if(padding isNil or padding size == 0,
+			padding = " "
+		)
         ((width - size) / padding size) ceil repeat(appendSeq(padding))
         setSize(width max(originalSize))
     )
