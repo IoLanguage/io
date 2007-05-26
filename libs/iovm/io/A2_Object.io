@@ -233,11 +233,14 @@ Object do(
         Map clone addKeysAndValues(slotNames, slotDescs) 
     )
     
-    slotSummary := method(
+    slotSummary := method(word,
         if(getSlot("self") type == "Block", return getSlot("self") asSimpleString)
         s := Sequence clone
         s appendSeq(" ", getSlot("self") asSimpleString, ":\n")
         slotDescriptions := slotDescriptionMap
+        if(word,
+            slotDescriptions = slotDescriptions select(k, v, k asMutable lowercase containsSeq(word))
+        )
         slotDescriptions keys sortInPlace foreach(k,
             s appendSeq("  ", k alignLeft(16), " = ", slotDescriptions at(k), "\n")
         )
