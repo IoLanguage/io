@@ -76,31 +76,6 @@ ObjectTest := UnitTest clone do(
 		assertEquals(a, b)
 	)
 
-	testSwitchInLoop := method(
-		# break and continue operate on the loop
-		r := list
-		10 repeat(i,
-			i switch(
-				1, r append("one")
-			,
-				2, r append("two")
-			,
-				3,
-				r append("three")
-				continue
-			,
-				4, r append("four")
-			,
-				5, break
-			,
-				r append(i)
-			)
-			r append(i)
-		)
-
-		assertEquals(r, list(0, 0, "one", 1, "two", 2, "three", "four", 4))
-	)
-
 	testForeachSlotStopStatus := method(
 		f := method(
 			r := list

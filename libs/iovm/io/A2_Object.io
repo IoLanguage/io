@@ -438,7 +438,11 @@ Object do(
 				return call relayStopStatus(call evalArgAt(couple + 1))
 			)
 		)
-		call relayStopStatus(call evalArgAt(call argCount - 1))
+		if(call argCount isOdd,
+			call relayStopStatus(call evalArgAt(call argCount - 1))
+		,
+			nil
+		)
 	)
 
 	docSlot("isLaunchScript", "Returns true if the current file was run on the command line. Io's version of Python's __file__ == \"__main__\"")
