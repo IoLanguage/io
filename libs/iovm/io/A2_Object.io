@@ -232,14 +232,31 @@ Object do(
         slotDescs := slotNames map(name, getSlot("self") getSlot(name) asSimpleString)
         Map clone addKeysAndValues(slotNames, slotDescs) 
     )
+
+    apropos := method(keyword,
+        Protos Core foreachSlot(name, p,
+            slotDescriptions := getSlot("p") slotDescriptionMap ?select(k, v, k asMutable lowercase containsSeq(keyword))
+
+            if(slotDescriptions and slotDescriptions size > 0,
+                s := Sequence clone
+                slotDescriptions keys sortInPlace foreach(k,
+                    s appendSeq("  ", k alignLeft(16), " = ", slotDescriptions at(k), "\n")
+                )
+
+                writeln(name)
+                writeln(s)
+            )
+        )
+        nil
+    )
     
-    slotSummary := method(word,
+    slotSummary := method(keyword,
         if(getSlot("self") type == "Block", return getSlot("self") asSimpleString)
         s := Sequence clone
         s appendSeq(" ", getSlot("self") asSimpleString, ":\n")
         slotDescriptions := slotDescriptionMap
         if(word,
-            slotDescriptions = slotDescriptions select(k, v, k asMutable lowercase containsSeq(word))
+            slotDescriptions = slotDescriptions select(k, v, k asMutable lowercase containsSeq(keyword))
         )
         slotDescriptions keys sortInPlace foreach(k,
             s appendSeq("  ", k alignLeft(16), " = ", slotDescriptions at(k), "\n")
