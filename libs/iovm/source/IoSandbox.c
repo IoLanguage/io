@@ -234,6 +234,11 @@ IoObject *IoSandbox_doSandboxString(IoSandbox *self, IoObject *locals, IoMessage
 		return IOSYMBOL(CSTRING(result));
 	}
 
+	if (ISSEQ(result))
+	{
+		return IOSEQ(IOSEQ_BYTES(result), IOSEQ_LENGTH(result));
+	}
+
 	if (ISNUMBER(result))
 	{
 		return IONUMBER(CNUMBER(result));
