@@ -256,8 +256,8 @@ WaveView := View clone do(
 	pixelsPerVolume := sound pixelsPerVolume
 	s1 := startDragX / pixelsPerVolume
 	s2 := viewMousePoint x / pixelsPerVolume
-	s1 = ((s1 - .5) roundDown)
-	s2 = ((s2 - .5) roundDown)
+	s1 = (s1 - .5) roundDown
+	s2 = (s2 - .5) roundDown
 	sound setVolumeFromTo(if(drawMode==1, 255, 0), s1, s2)
 	sound updateVolumeMaskDisplayList
 	needsRedraw = 1

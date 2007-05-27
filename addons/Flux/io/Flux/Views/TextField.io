@@ -76,7 +76,7 @@ TextField := View clone do(
 			glPopMatrix
 		)
 		
-		glTranslatei(0, 3 + (size y - font pixelHeight) / 2, 0)
+		glTranslatei(0, (3 + size y - font pixelHeight) / 2, 0)
 		textColor glColor
 		font drawString(renderString)
     )

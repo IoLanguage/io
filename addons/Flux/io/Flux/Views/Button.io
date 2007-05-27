@@ -82,8 +82,8 @@ Button := View clone do(
 		textColor glColor
 		//if(isSelected, textColorSelected glColor)
 		if(isDisabled, textColorDisabled glColor)
-		b := (((w - font widthOfString(title)) * .5) round)
-		glTranslatei(b, 3 + (size y - font pixelHeight) / 2, 0)
+		b := ((w - font widthOfString(title)) * .5) round
+		glTranslatei(b, (3 + size y - font pixelHeight) / 2, 0)
 		font drawString(title)
 		glPopMatrix
     )

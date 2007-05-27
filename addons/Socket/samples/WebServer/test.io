@@ -16,7 +16,7 @@ for (i, 1, requestCount,
 	socket write("GET /\r\n")
 	
 
-	dt := ((Date clone now - lastChunkTime) totalSeconds)
+	dt := (Date clone now - lastChunkTime) totalSeconds
 	//writeln(i)
 	if (dt > .1, 
 		writeln(i, " paused for ", dt asString(1, 5), " seconds, diff: ", i - lastPause)
@@ -27,6 +27,6 @@ for (i, 1, requestCount,
 	socket close
 )
 
-dt := ((Date clone now - t1) totalSeconds)
+dt := (Date clone now - t1) totalSeconds
 writeln(requestCount, " requests in ", dt , " seconds")
 writeln((requestCount / dt) floor, " requests per second")

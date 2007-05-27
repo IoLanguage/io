@@ -268,7 +268,7 @@ View := Responder clone do(
     
     directHit := method(p,	
     	p = p - position
-    	p <=(size) and(p >= zeroPoint)
+    	p <= size and p >= zeroPoint
     )
     
     Vector <= := method(other,
@@ -291,8 +291,8 @@ View := Responder clone do(
 		//write("size ", size, "\n"); 
 		//write("hit p - position ", p, "\n"); 
 		//write("p >= zeroPoint ", p >= zeroPoint, "\n"); 
-		//write("p <=(size) ", p <=(size), "\n"); 
-		if(p <=(size) and(p >= zeroPoint),
+		//write("p <= size ", p <= size, "\n"); 
+		if(p <= size and p >= zeroPoint,
 			subviews foreach(view, 
 				v := view hit(p)
 				if(v, 
@@ -463,9 +463,9 @@ View := Responder clone do(
 
     resizeXFunc := method(id, dx, x,
 		// 1 := fixed, 0 := spring
-		if(id == 000, return x + (dx/2))
+		if(id == 000, return x + dx/2)
 		if(id == 001, return x - dx)
-		if(id == 010, return x + (dx/2))
+		if(id == 010, return x + dx/2)
 		if(id == 011, return x + dx)
 		// 110, 111 nop
 		x
@@ -473,9 +473,9 @@ View := Responder clone do(
 
     resizeWFunc := method(id, dx, w,
 		// 1 = fixed, 0 = spring
-		if(id == 000, return w + (dx/2))
+		if(id == 000, return w + dx/2)
 		if(id == 001, return w + dx)
-		if(id == 100, return w + (dx/2))
+		if(id == 100, return w + dx/2)
 		if(id == 101, return w + dx)
 		// 110, 111 nop
 		w
@@ -499,8 +499,8 @@ View := Responder clone do(
 		position set(x, y)
 		size set(w, h)
 	
-	    size +=(.5) floor
-	    position +=(.5) floor
+	    (size += .5) floor
+	    (position += .5) floor
 	
 		if(sizeDidChange, subviews foreach(resizeBy(dx, dy)); didChangeSize)
     )

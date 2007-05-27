@@ -106,8 +106,8 @@ View do(
 	)
 	
 	resizeToSetTopLeft := method(vp,
-		sx := ((topRight - vp) x)
-		sy := ((vp - bottomRight) y)
+		sx := (topRight - vp) x
+		sy := (vp - bottomRight) y
 		setPositionInSelfCoords(vp clone setY(0))
 		didChangePosition
 		forceResizeTo(sx, sy)
@@ -115,26 +115,26 @@ View do(
 	
 	resizeToSetBottomRight := method(vp,
 		/*
-		sx := ((vp - bottomLeft) x)
-		sy := ((topRight - vp) y)		
+		sx := (vp - bottomLeft) x
+		sy := (topRight - vp) y		
 		setPositionInSelfCoords(vp clone setX(0))
 		didChangePosition
 		forceResizeTo(sx, sy)
 		*/
 		setPositionInSelfCoords(vp clone setX(0))
 		didChangePosition
-		s := ((topLeft - vp))
+		s := topLeft - vp
 		forceResizeTo(-s x, s y)		
 	)
 	
 	
 	resizeToSetMiddleRight := method(vp, 
-		sx := ((vp - bottomLeft) x)
+		sx := (vp - bottomLeft) x
 		forceResizeTo(sx, size y)
 	)
 	
 	resizeToSetMiddleLeft := method(vp, 
-		sx := ((topRight - vp) x)
+		sx := (topRight - vp) x
 		setPositionInSelfCoords(vp clone setY(0))
 		didChangePosition
 		forceResizeTo(sx, size y)
@@ -145,7 +145,7 @@ View do(
 	)
 	
 	resizeToSetMiddleBottom := method(vp, 
-		sy := ((topRight - vp) y)
+		sy := (topRight - vp) y
 		setPositionInSelfCoords(vp clone setX(0))
 		didChangePosition
 		forceResizeTo(size x, sy)

@@ -16,7 +16,7 @@ Ball := Object clone do(
     
     timeStep := method(
         AppleSensors smsVector(acceleration) 
-        acceleration *= (-.0005)
+        acceleration *= -.0005
         
         velocity += acceleration
         velocity *= friction

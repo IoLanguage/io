@@ -54,14 +54,14 @@ ScrollBar := View clone do(
 	)
 	
 	barY := method(
-		size height - (scrollVertCaps height) * value
+		(size height - scrollVertCaps height) * value
 	)
 	
 	mouse := method(
 		vy := screenToView(Mouse position) y
 		write("vy := ", vy, "\n")
 		write("barY := ", barY, "\n")
-		self downY := vy  -(barY) 
+		self downY := vy  - barY
 		write("downY := ", downY, "\n")
 	)
 	

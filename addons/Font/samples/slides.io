@@ -36,7 +36,7 @@ Slide := Object clone do(
 		drawBackground
 		glColor4d(1, 1, 1, 1)
 		drawTitle
-		glTranslatei(0, - (textFont pixelSize * spacerRatio), 0)
+		glTranslatei(0, - textFont pixelSize * spacerRatio, 0)
 		drawBulletPoints
     )
     

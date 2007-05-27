@@ -21,7 +21,7 @@ draw := method(
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT )
 
     # Calculate field of view as a function of time
-    fieldOfView := ( 0.5 * t ) sin * 30 + 50;
+    fieldOfView := (0.5 * t) sin * 30 + 50;
 
     # Set up projection matrix
     glMatrixMode( GL_PROJECTION )     # Select projection matrix

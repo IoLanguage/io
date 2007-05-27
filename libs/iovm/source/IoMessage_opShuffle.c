@@ -289,6 +289,18 @@ void Level_finish(Level *self)
 	if (self->message)
 	{
 		IoMessage_rawSetNext(self->message, NULL);
+
+		// Remove extra () we added in for operators, but don't need any more
+		if ( IoMessage_argCount(self->message) == 1 )
+		{
+			IoMessage *arg = IoMessage_rawArgAt_(self->message, 0);
+
+			if ( IoSeq_rawSize(IoMessage_name(arg)) == 0 && IoMessage_argCount(arg) == 1 && IoMessage_rawNext(arg) == NULL )
+			{
+				List_copy_(IoMessage_rawArgList(self->message), IoMessage_rawArgList(arg));
+				List_removeAll(IoMessage_rawArgList(arg));
+			}
+		}
 	}
 
 	self->type = UNUSED;
@@ -387,6 +399,7 @@ void Levels_attach(Levels *self, IoMessage *msg, List *expressions)
 {
 	// TODO clean up this method.
 
+	IoState *state = IoObject_state(msg);
 	IoSymbol *messageSymbol = IoMessage_name(msg);
 	char *messageName = CSTRING(messageSymbol);
 	int precedence = Levels_levelForOp(self, messageName, messageSymbol, msg);
@@ -401,7 +414,6 @@ void Levels_attach(Levels *self, IoMessage *msg, List *expressions)
 
 	if (Levels_isAssignOperator(self, messageSymbol))
 	{
-		IoState *state = IoObject_state(msg);
 		Level *currentLevel = Levels_currentLevel(self);
 		IoMessage *attaching = currentLevel->message;
 		IoSymbol *setSlotName;
@@ -518,13 +530,19 @@ void Levels_attach(Levels *self, IoMessage *msg, List *expressions)
 	{
 		if (msgArgCount > 0)
 		{
-			Level_setAlreadyHasArgs(Levels_currentLevel(self), msg);
+			// move arguments off to their own message to make () after operators behave like C's grouping ()
+			IoMessage *brackets = IoMessage_newWithName_(state, IoState_symbolWithCString_(state, ""));
+			
+			List_copy_(IoMessage_rawArgList(brackets), IoMessage_rawArgList(msg));
+			List_removeAll(IoMessage_rawArgList(msg));
+
+			// Insert the brackets message between msg and it's next message
+			IoMessage_rawSetNext(brackets, DATA(msg)->next);
+			IoMessage_rawSetNext(msg, brackets);
 		}
-		else
-		{
-			Levels_popDownTo(self, precedence);
-			Levels_attachToTopAndPush(self, msg, precedence);
-		}
+
+		Levels_popDownTo(self, precedence);
+		Levels_attachToTopAndPush(self, msg, precedence);
 	}
 	else
 	{

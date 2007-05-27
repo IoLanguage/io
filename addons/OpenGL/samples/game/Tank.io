@@ -38,8 +38,8 @@ Tank key := method(k,
 )
 
 Tank timestep := method(
-  position x += d * (angle) cos * (speed)
-  position y += d * (angle) sin * (speed)
+  position x += (d * angle) cos * speed
+  position y += (d * angle) sin * speed
 )
 
 Tank checkCollision := method(other,

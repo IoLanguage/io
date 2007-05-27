@@ -504,7 +504,7 @@ x86 do(
 		
 			if( spec beginsWithSeq("+r"),
 			//	icode atPut(icode size, icode at(icode size) ) 
-				byte := icode slice(icode size-2) fromBase(16) +(ops at(0) id) asString toBase(16) asUppercase alignRight(2,"0")
+				byte := (icode slice(icode size-2) fromBase(16) + ops at(0) id) asString toBase(16) asUppercase alignRight(2,"0")
 				icode := icode slice(0, icode size-2) .. byte
 				spec := spec slice(2)
 			)
@@ -513,7 +513,7 @@ x86 do(
 			
 			if( spec beginsWithSeq("+cc"),
 			//	icode atPut(icode size, icode at(icode size) ) 
-				byte := icode slice(icode size-2) fromBase(16) +(cc at(0)) asString toBase(16) asUppercase alignRight(2,"0")
+				byte := (icode slice(icode size-2) fromBase(16) + cc at(0)) asString toBase(16) asUppercase alignRight(2,"0")
 				icode := icode slice(0, icode size-2) .. byte
 				spec := spec slice(3)
 			)
@@ -544,7 +544,7 @@ x86 do(
 						// quite ugly .... (assuming we took r/m,reg variant) -> fucks up imul
 						spare = ops at(1) id
 						op = ops at(0)
-						fix := (mnops at(0) at(0) beginsWithSeq("reg")) // fix for reg,r/m (still ugly)
+						fix := mnops at(0) at(0) beginsWithSeq("reg") // fix for reg,r/m (still ugly)
 						fix = fix or (mnops at(0) at(0) beginsWithSeq("mm"))
 						fix = fix or (mnops at(0) at(0) beginsWithSeq("xmm"))
 						fix ifTrue( 
@@ -635,7 +635,7 @@ x86 do(
 					)
 					if(op index isKindOf(Register) and op base isKindOf(Register),
 						rm = 4
-						scale = op scale log10 /( 2 log10)
+						scale = op scale log10 / 2 log10
 						index = op index id
 						base = op base id
 					)
@@ -645,11 +645,11 @@ x86 do(
 				
 				if (rm isNil, Exception raise("x86 Instruction/encode/Internal error"))
 				
-				modrm_byte := rm + spare * 2**(3) + mod * 2**(6)
+				modrm_byte := rm + spare * 2**3 + mod * 2**6
 				icode := icode .. modrm_byte asString toBase(16) asUppercase alignRight(2,"0")
 				
 				if (base,
-					SIB_byte := base + index * 2**(3) + scale * 2**(6)
+					SIB_byte := base + index * 2**3 + scale * 2**6
 					icode := icode .. SIB_byte asString toBase(16) asUppercase alignRight(2,"0")
 				)
 				
@@ -672,7 +672,7 @@ x86 do(
 	/*		
 			if( spec beginsWithSeq("+r"),
 			//	icode atPut(icode size, icode at(icode size) ) 
-				byte := icode slice(icode size-2) fromBase(16) +(ops at(0) id) asString toBase(16) asUppercase alignRight(2,"0")
+				byte := (icode slice(icode size-2) fromBase(16) + ops at(0) id) asString toBase(16) asUppercase alignRight(2,"0")
 				icode := icode slice(0, icode size-2) .. byte
 				spec := spec slice(2)
 			)
@@ -680,7 +680,7 @@ x86 do(
 			bang := false
 			if( spec beginsWithSeq("+cc"),
 			//	icode atPut(icode size, icode at(icode size) ) 
-				byte := icode slice(icode size-2) fromBase(16) +(cc at(0)) asString toBase(16) asUppercase alignRight(2,"0")
+				byte := (icode slice(icode size-2) fromBase(16) + cc at(0)) asString toBase(16) asUppercase alignRight(2,"0")
 				icode := icode slice(0, icode size-2) .. byte
 				spec := spec slice(3)
 				
@@ -732,8 +732,8 @@ x86 do(
 				if (ops last isKindOf(Immediate)) then(
 		//			hexv := ops last value asString toBase(16) asUppercase alignRight(8,"0")
 			//		ops last value println
-					high := ops last value / (2**(16)) asString toBase(16) 
-					low := ops last value % (2**(16)) asString toBase(16) 
+					high := (ops last value / 2**16) asString toBase(16) 
+					low := (ops last value % 2**16) asString toBase(16) 
 					hexv := (high .. low) asUppercase alignRight(8,"0")
 			//		hexv println
 					0 to(3) foreach(n, icode := icode .. hexv slice((3-n)*2,(3-n)*2+2)  ) // bswap

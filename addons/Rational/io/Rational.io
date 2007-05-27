@@ -21,7 +21,7 @@ Rational := Object clone do(
 		self clone setNumerator(n asNumber) setDenominator(d asNumber) reduce
 	)
 	
-	docSlot("+(aNum)", "Returns the value of the receiver added to aNum.")
+	docSlot("+ aNum", "Returns the value of the receiver added to aNum.")
 	+ := method(b,
 		if(b isKindOf(Rational),
 			with(numerator * b denominator + b numerator * denominator, denominator * b denominator) reduce
@@ -30,7 +30,7 @@ Rational := Object clone do(
 		)
 	)
 	
-	docSlot("-(aNum)", "Returns the value of the receiver subtracted from aNum.")
+	docSlot("- aNum", "Returns the value of the receiver subtracted from aNum.")
 	- := method(b,
 		if(b isKindOf(Rational),
 			with(numerator * b denominator - b numerator * denominator, denominator * b denominator) reduce
@@ -39,7 +39,7 @@ Rational := Object clone do(
 		)
 	)
 	
-	docSlot("*(aNum)", "Returns the value of the receiver multiplied by aNum.")
+	docSlot("* aNum", "Returns the value of the receiver multiplied by aNum.")
 	* := method(b,
 		if(b isKindOf(Rational),
 			with(numerator * b numerator, denominator * b denominator) reduce
@@ -48,7 +48,7 @@ Rational := Object clone do(
 		)
 	)
 	
-	docSlot("/(aNum)", "Returns the value of the receiver divided by aNum.")
+	docSlot("/ aNum", "Returns the value of the receiver divided by aNum.")
 	/ := method(b,
 		if(b isKindOf(Rational),
 			with(numerator * b denominator, denominator * b numerator) reduce
@@ -91,7 +91,7 @@ Rational := Object clone do(
 	docSlot("negate", "Negates the Rational number.")
 	negate := method(Rational with(-numerator, denominator))
 	
-	docSlot("==(other)", "Compares two numbers against one another. Returns true if they are equal (represent the same number), false otherwise.")
+	docSlot("== other", "Compares two numbers against one another. Returns true if they are equal (represent the same number), false otherwise.")
 	== := method(b,
 		if(b isKindOf(Rational),
 			numerator == b numerator and denominator == b denominator
@@ -100,7 +100,7 @@ Rational := Object clone do(
 		)
 	)
 	
-	docSlot("!=(other)", "Compares two numbers against one another. Returns true if they are equal (represent the same number), false otherwise.")
+	docSlot("!= other", "Compares two numbers against one another. Returns true if they are equal (represent the same number), false otherwise.")
 	!= := method(b,
 		if(b isKindOf(Rational),
 			numerator != b numerator or denominator != b denominator

@@ -12,7 +12,7 @@ Screen reshape := method(w, h,
   glViewport(0,0,w,h)
   glLoadIdentity
   gluOrtho2D(0,w,0,h) 
-  //write(height/(4) min(263), "\n")
+  //write((height/4) min(263), "\n")
   sansFontBig setPixelSize((height * .3) min(263))
   sansFontMedium setPixelSize(height/15)
   glutPostRedisplay
@@ -20,7 +20,7 @@ Screen reshape := method(w, h,
 
 Screen drawCentered := method(text, font,
   glPushMatrix
-  glTranslated(- (font widthOfString(text))/2, 0, 0)
+  glTranslated(- font widthOfString(text)/2, 0, 0)
   font drawString(text)
   glPopMatrix
 )
@@ -30,7 +30,7 @@ Screen display := method(
   glClear(GL_COLOR_BUFFER_BIT)
 
   glPushMatrix
-  glTranslated(width/2, height/(2.3) , 0)
+  glTranslated(width/2, height/2.3, 0)
     glColor4d(0,0,0,1)
     self drawCentered("Io", sansFontBig)
   glTranslated(0, - height / 8, 0)

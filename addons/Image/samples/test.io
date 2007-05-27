@@ -47,10 +47,10 @@ Viewer := Object clone do(
 		hr := height / image originalHeight
 		
 		if (wr < hr) then(
-			glTranslated(0, (height - (image originalHeight * wr))/2, 0)
+			glTranslated(0, (height - image originalHeight * wr)/2, 0)
 			glScaled(wr, wr, 1)
 		) else(
-			glTranslated((width - (image originalWidth * hr)) / 2, 0, 0)
+			glTranslated((width - image originalWidth * hr) / 2, 0, 0)
 			glScaled(hr, hr, 1)
 		)
 

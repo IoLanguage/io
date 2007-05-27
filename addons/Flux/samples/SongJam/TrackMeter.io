@@ -29,14 +29,14 @@ TrackMeter := FlatButton clone do(
 	textColor glColor
 
 	for (bar, 0, bars,
-	    x := ((Sound pixelsPerBeat * bar * Sound beatsPerBar) + 1)
+	    x := (Sound pixelsPerBeat * bar * Sound beatsPerBar) + 1
 
 	    glBegin(GL_LINES)
 	    glVertex2i(x, 1)
 	    glVertex2i(x, 5)
 	    glEnd 
 
-	    title := ((bar + 1) asString)
+	    title := (bar + 1) asString
 	    glPushMatrix  
 	    glTranslated(x + 3, 7, 0)	       
 	    font drawString(title)

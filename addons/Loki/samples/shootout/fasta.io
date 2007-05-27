@@ -30,7 +30,7 @@ Fasta := Object clone do(
             line atPut(li, seq at(i))
             li = li + 1
             if (li == line size, line println; li = 0)
-            i = ((i+1) % seq size)
+            i = (i+1) % seq size
         )
         if (li != 0, line setSize(li) println)
     )
