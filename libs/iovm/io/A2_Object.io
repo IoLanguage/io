@@ -255,7 +255,7 @@ Object do(
         s := Sequence clone
         s appendSeq(" ", getSlot("self") asSimpleString, ":\n")
         slotDescriptions := slotDescriptionMap
-        if(word,
+        if(keyword,
             slotDescriptions = slotDescriptions select(k, v, k asMutable lowercase containsSeq(keyword))
         )
         slotDescriptions keys sortInPlace foreach(k,
