@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 
 /*
 MandlebrotApp := GLApp clone do(

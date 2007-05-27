@@ -1,3 +1,4 @@
+#!/usr/bin/env io
 // example of implementing control structures
 
 myif := method(condition,

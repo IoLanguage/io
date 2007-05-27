@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 
 CursesView := Object clone do(
     buffer := Buffer clone

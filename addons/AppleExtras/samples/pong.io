@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 
 AppleSensors do(
     lastLeft := 0

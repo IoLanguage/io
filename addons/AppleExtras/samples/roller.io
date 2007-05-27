@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 Ball := Object clone do(
     appendProto(OpenGL)
     position := vector(25,0)

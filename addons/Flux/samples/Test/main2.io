@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 Flux
 
 Controller := Object clone do(

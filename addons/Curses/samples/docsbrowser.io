@@ -1,4 +1,4 @@
-#!/usr/local/bin/ioServer
+#!/usr/bin/env io
 
 Curses do(
 	begin

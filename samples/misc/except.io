@@ -1,3 +1,4 @@
+#!/usr/bin/env io
 e := try(foo)
 e catch(
 	writeln

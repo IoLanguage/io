@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 // china.io
 // A program for playing Chinese Checkers
 // The program requires IoDesktop.

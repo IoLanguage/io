@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 Echo := Object clone do(
     handleSocketFromServer := method(socket, aServer,
 	writeln("[Got echo connection from ", socket ipAddress, "]")

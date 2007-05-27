@@ -1,3 +1,4 @@
+#!/usr/bin/env io
 
 Vector := Sequence clone setItemType("float32") setEncoding("number")
 

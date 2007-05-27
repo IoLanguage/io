@@ -1,3 +1,4 @@
+#!/usr/bin/env io
 // pythonish list and map syntax in Io
 
 Object squareBrackets := Object getSlot("list")

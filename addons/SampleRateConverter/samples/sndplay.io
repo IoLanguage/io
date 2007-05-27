@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 /*
 if (?args == nil, 
   write("requires name of sound file as argument")

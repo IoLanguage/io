@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 
 App := Object clone do(
 	display := method(

@@ -1,3 +1,4 @@
+#!/usr/bin/env io
 
 Account := Object clone
 Account balance := 0.0

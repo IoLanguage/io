@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 
 monoFont  := Font clone open("resources/library/fonts/Vera/Mono/Bold.ttf") setPixelSize(12)
 writeln("top1")

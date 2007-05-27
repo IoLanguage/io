@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 // an AudioPad inspired demo
 // Steve Dekorte, 2003
 

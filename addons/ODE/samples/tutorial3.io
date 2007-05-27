@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 # Port of http://pyode.sourceforge.net/tutorials/tutorial3.html
 
 appendProto(OpenGL)

@@ -1,3 +1,4 @@
+#!/usr/bin/env io
 // Try running this script with some command line arguments. Example:
 // ./io CommandLineArgs.io a b c d
 

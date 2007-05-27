@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 
 Server := Object clone do(
     socket := Socket clone setHostName("localhost") setPort(8080)

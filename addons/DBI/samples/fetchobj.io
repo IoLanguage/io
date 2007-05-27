@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 doFile("dummydata.io")
 
 c := DBI with("sqlite3")

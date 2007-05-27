@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 //Message useIoShuffle
 //Collector debugOn
 

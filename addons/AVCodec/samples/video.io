@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 VideoDecoder := AVCodec clone do(
 	newSlot("internalCoro")
 	newSlot("externalCoro")

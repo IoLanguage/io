@@ -1,3 +1,4 @@
+#!/usr/bin/env io
 
 
 a := "foobar"

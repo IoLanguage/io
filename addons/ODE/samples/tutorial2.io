@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 # Port of http://pyode.sourceforge.net/tutorials/tutorial2.html
 // (C) 2006 Jonathan Wright
 // Based on glballs.io - A simple program (C) 2002 Mike Austin

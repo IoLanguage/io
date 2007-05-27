@@ -1,4 +1,7 @@
+#!/usr/bin/env io
+
 /* Example usages of Contracts */
+Contracts
 
 /* This method only accepts numbers */
 onlyNumbers := contract(a, b,

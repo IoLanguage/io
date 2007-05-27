@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 // glballs.io - A simple program
 // (C) 2002 Mike Austin
 

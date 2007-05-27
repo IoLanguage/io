@@ -1,3 +1,4 @@
+#!/usr/bin/env io
 
 H := method(n, f, u, t,
     if (n < 2) then (

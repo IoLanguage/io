@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 //debugCollector := 1
 SocketManager setSelectTimeout(0.0)
 Scheduler setSleepInterval(0)

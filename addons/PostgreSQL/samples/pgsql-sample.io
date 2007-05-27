@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 conn := PostgreSQL Connection clone setDatabase("iotest") open
 excpt := try(
   try(

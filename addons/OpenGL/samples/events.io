@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 // A program to test OpenGL events
 // Steve Dekorte, 2002
 

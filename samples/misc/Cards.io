@@ -1,3 +1,4 @@
+#!/usr/bin/env io
 // By Jason Sackett
 
 Random setSeed(Date clone now asNumber)

@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 createDummyData := method(c, 
 	c execute("BEGIN TRANSACTION")
 	c execute("""CREATE TABLE people (id integer, first varchar(15),

@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 // [reg:~/IoProject/Io/binaries] steve% ./ioDesktop ../bindings/Font/_tests/slides.io 
 
 //doFile(Path with(launchPath, "GLApp.io"))
