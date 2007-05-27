@@ -446,24 +446,24 @@ void Levels_attach(Levels *self, IoMessage *msg, List *expressions)
 			// `b c`
 			IoMessage *arg = IoMessage_rawArgAt_(msg, 0);
 
-                        if (DATA(msg)->next == NULL || IoMessage_rawIsEOL(DATA(msg)->next))
-                        {
-                                IoMessage_addArg_(attaching, arg);
-                        }
-                        else
-                        {
-                                // `()`
-                                IoMessage *foo = IoMessage_newWithName_(state, IoState_symbolWithCString_(state, ""));
+			if (DATA(msg)->next == NULL || IoMessage_rawIsEOL(DATA(msg)->next))
+			{
+				IoMessage_addArg_(attaching, arg);
+			}
+			else
+			{
+				// `()`
+				IoMessage *foo = IoMessage_newWithName_(state, IoState_symbolWithCString_(state, ""));
 
-                                // `()`  ->  `(b c)`
-                                IoMessage_addArg_(foo, arg);
+				// `()`  ->  `(b c)`
+				IoMessage_addArg_(foo, arg);
 
-                                // `(b c)`  ->  `(b c) d e ;`
-                                IoMessage_rawSetNext(foo, DATA(msg)->next);
+				// `(b c)`  ->  `(b c) d e ;`
+				IoMessage_rawSetNext(foo, DATA(msg)->next);
 
-                                // `setSlot("a") :=(b c) d e ;`  ->  `setSlot("a", (b c) d e ;) :=(b c) d e ;`
-                                IoMessage_addArg_(attaching, foo);
-                        }
+				// `setSlot("a") :=(b c) d e ;`  ->  `setSlot("a", (b c) d e ;) :=(b c) d e ;`
+				IoMessage_addArg_(attaching, foo);
+			}
 		}
 		else // `setSlot("a") := b ;`
 		{
@@ -500,10 +500,10 @@ void Levels_attach(Levels *self, IoMessage *msg, List *expressions)
 			// Continue processing in IoMessage_opShuffle loop
 			IoMessage_rawSetNext(msg, DATA(last)->next);
 
-                        if (last != msg)
-                        {
-                                IoMessage_rawSetNext(last, NULL);
-                        }
+			if (last != msg)
+			{
+				IoMessage_rawSetNext(last, NULL);
+			}
 		}
 
 		// make sure b in `1 := b` gets executed
@@ -514,7 +514,7 @@ void Levels_attach(Levels *self, IoMessage *msg, List *expressions)
 		Levels_popDownTo(self, IO_OP_MAX_LEVEL-1);
 		Level_attachAndReplace(Levels_currentLevel(self), msg);
 	}
-	else if (precedence != -1)
+	else if (precedence != -1) // is an operator
 	{
 		if (msgArgCount > 0)
 		{
