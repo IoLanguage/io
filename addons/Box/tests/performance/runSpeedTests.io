@@ -82,7 +82,7 @@ Languages Io foreach(testName, testResult,
 
 		r := lang getSlot(testName) asNumber
 		//w := ((r/maxResult) * 400)
-		w := ((r) * 120)
+		w := r * 120
 
 		writeln("<table cellpadding=3 cellspacing=0 border=0>")
 		writeln("<tr><td width=50 align=right bgcolor=", bgcolor2, "><font color=", color , ">", langName asLowercase, "&nbsp;</td>")

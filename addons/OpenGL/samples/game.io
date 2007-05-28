@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 # game.io - A simple ship flying around a window
 # (C) 2002 Mike Austin
 # Updated by Steve Dekorte

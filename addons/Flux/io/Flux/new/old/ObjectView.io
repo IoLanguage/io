@@ -13,7 +13,7 @@ ObjectView setTarget = block(target,
 
   self subviews empty
   names = target slotNames sort reverse
-  self size setHeight(names size *(rowHeight) + rowHeight);
+  self size setHeight(names size * rowHeight + rowHeight);
   self size setWidth(300);
   
   y = 0

@@ -1,3 +1,4 @@
+#!/usr/bin/env io
 
 exampleBreak := method(
 	b := Sequence clone

@@ -23,7 +23,7 @@ NumberTest := UnitTest clone do(
     )
     
     testPrecedence := method(
-        knownBug(assertEquals(2 + (3 * 4) - (5 * 6) / 7, 2 + 3 * 4 - 5 * 6 / 7))
+        assertEquals(2 + (3 * 4) - (5 * 6) / 7, 2 + 3 * 4 - 5 * 6 / 7)
     )
     
     testFunctions := method(

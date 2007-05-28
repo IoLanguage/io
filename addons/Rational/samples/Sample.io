@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 /* Example usages of Rational Numbers */
 
 r1 := Rational with(1, 2) /* 1/2 */

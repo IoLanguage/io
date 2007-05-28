@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 
 IRCClient := Object clone do(
     socket := Socket clone

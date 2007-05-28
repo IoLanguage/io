@@ -21,7 +21,7 @@ SystemCall do(
         
         // replace this with something to watch the file streams?
         isRunning := true
-        while(isRunning ==(true) and((s := self status) > 255),
+        while(isRunning == true and (s := self status) > 255,
             if(aBlock, aBlock call)
             wait(.1)
         )

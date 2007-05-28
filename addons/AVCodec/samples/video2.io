@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 Flux
 
 VideoApp := Application clone do(

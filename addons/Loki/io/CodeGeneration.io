@@ -206,7 +206,7 @@ CodeGeneration do(
 			jump isNil ifFalse(
 				patchAt := (codeBytes size)/2 - 4
 				icode2 := codeBytes slice(0, patchAt*2)
-				hexv := ( jump ip - (ip + patchAt + 4)) asString toBase(16) asUppercase alignRight(8,"0")
+				hexv := (jump ip - (ip + patchAt + 4)) asString toBase(16) asUppercase alignRight(8,"0")
 				0 to(3) foreach(n, icode2 := icode2 .. hexv slice((3-n)*2,(3-n)*2+2) ) // bswap
 				codeBytes = icode2
 			)

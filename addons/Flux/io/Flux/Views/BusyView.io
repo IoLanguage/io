@@ -13,7 +13,7 @@ BusyView := View clone do(
         dlist = DisplayList clone
         dlist begin
         for(i, 0, max,
-            c := .5*(i/max)
+            c := .5 * i/max
             glColor4d(c,c,c, 1)
             gluQuadricDrawStyle(q, GLU_FILL)
             gluPartialDisk(q, r/2, r, d, 1,  i*360/max, 360/max) 

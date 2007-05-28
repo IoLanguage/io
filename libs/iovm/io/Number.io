@@ -11,10 +11,10 @@ Number do(
 	
   constants := Object clone do(
     docSlot("nan", "Returns a infinity constant.")    
-    nan := (0/0)
+    nan := 0/0
 
     docSlot("inf", "Returns a not-a-number constant.")    
-    inf := (1/0)
+    inf := 1/0
         
     docSlot("e", "Returns the constant e.")
     e  := 2.71828182845904523536028747135266249
@@ -35,10 +35,10 @@ Number do(
   asOctal := method(self asString toBase(8))
 
   docSlot("combinations(size)", "Returns the combinations where the receiver is the number of different objects and size is the number to be arranged.")
-  combinations := method(r, self factorial /(r factorial *(self -(r) factorial)))
+  combinations := method(r, self factorial /(r factorial *((self - r) factorial)))
 
   docSlot("permutations(size)", "Returns the permutations where the receiver is the number of different objects and size is the number to be arranged.")
-  permutations := method(r, self factorial /(self -(r) factorial))
+  permutations := method(r, self factorial /((self - r) factorial))
 
   docSlot("minMax(low, high)", "Returns a number between or equal to low and high. If the receiver is equal to or between low and high, the reciever is returned. If the reciever is less than low, low is returned. If the receiver is greater than high, high is returned.")
   minMax := method(low, high, min(high) max(low))

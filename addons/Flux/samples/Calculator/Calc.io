@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 /* Io Calculator - 2004 Mike Austin */
 
 Flux

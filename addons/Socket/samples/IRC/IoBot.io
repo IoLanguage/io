@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 Feed := Object clone do(
     init := method(
         self lastItemGuid := nil

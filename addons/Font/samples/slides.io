@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 // [reg:~/IoProject/Io/binaries] steve% ./ioDesktop ../bindings/Font/_tests/slides.io 
 
 //doFile(Path with(launchPath, "GLApp.io"))
@@ -36,7 +38,7 @@ Slide := Object clone do(
 		drawBackground
 		glColor4d(1, 1, 1, 1)
 		drawTitle
-		glTranslatei(0, - (textFont pixelSize * spacerRatio), 0)
+		glTranslatei(0, - textFont pixelSize * spacerRatio, 0)
 		drawBulletPoints
     )
     

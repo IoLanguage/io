@@ -28,4 +28,8 @@ AlignTest := UnitTest clone do(
         assertEquals("12[abc]123", "[abc]" alignCenter(10, "123"))
         assertEquals("12312[abc]", "[abc]" alignRight(10, "123"))
     )
+
+	testEmptyPaddingString := method(
+		assertEquals("  [abc]  ", "[abc]" alignCenter(9, ""))
+	)
 )

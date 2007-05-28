@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 
 // glcube.io - A simple Openprogram
 // (C) 2002 Mike Austin

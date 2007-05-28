@@ -1,3 +1,4 @@
+#!/usr/bin/env io
 
 bottle := method(i,
 	if(i==0, return "no more bottles of beer")

@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 ObjcBridge autoLookupClassNamesOn
 ObjcBridge debugOn
 

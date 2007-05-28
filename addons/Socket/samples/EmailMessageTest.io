@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 
 m := EmailMessage clone
 m setFrom("bar@bar.com")

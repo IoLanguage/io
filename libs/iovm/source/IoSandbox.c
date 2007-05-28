@@ -133,13 +133,15 @@ void IoSandbox_addPrintCallback(IoSandbox *self)
 {
 	IoState *boxState = IoSandbox_boxState(self);
 	IoState_callbackContext_(boxState, self);
-	IoState_printCallback_(boxState, (IoStatePrintCallback *)IoSandbox_printCallback);
+	IoState_printCallback_(boxState, IoSandbox_printCallback);
 }
 
-void IoSandbox_printCallback(IoSandbox *self, const char *s)
+void IoSandbox_printCallback(void *voidSelf, size_t count, const char *data)
 {
+	IoSandbox *self = voidSelf;
+
 	IoState *state = IOSTATE;
-	IoSeq *buf = IOSEQ((const unsigned char *)s, (unsigned int)strlen(s));
+	IoSeq *buf = IOSEQ(data, count);
 	IoMessage *m = IoMessage_newWithName_(state, IOSYMBOL("printCallback"));
 	IoMessage *arg = IoMessage_newWithName_returnsValue_(state, IOSYMBOL("buffer"), buf);
 	IoMessage_addArg_(m, arg);
@@ -232,6 +234,11 @@ IoObject *IoSandbox_doSandboxString(IoSandbox *self, IoObject *locals, IoMessage
 	if (ISSYMBOL(result))
 	{
 		return IOSYMBOL(CSTRING(result));
+	}
+
+	if (ISSEQ(result))
+	{
+		return IOSEQ(IOSEQ_BYTES(result), IOSEQ_LENGTH(result));
 	}
 
 	if (ISNUMBER(result))

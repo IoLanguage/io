@@ -23,13 +23,11 @@ CLI := Object clone do(
 	)
 
 	runIorc := method(
-		if(try(User) == nil,
-			home := System getenv("HOME")
-			if(home,
-				path := Path with(home, ".iorc")
-				if(File with(path) exists,
-					context doFile(path)
-				)
+		home := System getenv("HOME")
+		if(home,
+			path := Path with(home, ".iorc")
+			if(File with(path) exists,
+				context doFile(path)
 			)
 		)
 	)

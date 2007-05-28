@@ -43,7 +43,7 @@ ColumnView := VScrollArea clone do(
     )
     
 	selectIndex := method(index,
-	   if(index <(0) or (index > rows size - 1), return)
+	   if(index < 0 or index > rows size - 1, return)
 	   selectedItem ?unselect
 	   selectedItemAction(rows at(index))
 	   glutPostRedisplay

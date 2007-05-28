@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 # Port of http://pyode.sourceforge.net/tutorials/tutorial1.html
 
 r := DynLib clone setPath("/opt/local/lib/libode.dylib") open

@@ -356,7 +356,7 @@ Editor := View clone do(
 	setSize := method(x, y, size set(x, y); self)
 	
 	leftMouseDown := method(
-		h := viewMousePoint y - (height - lines totalHeight) 
+		h := viewMousePoint y - height - lines totalHeight
 		cursorLine = lines lineForY(h) 
 		cursorX = cursorLine boundX(viewMousePoint x)
 	)

@@ -1,3 +1,4 @@
+#!/usr/bin/env io
 
 File md5String := method(
 	digest := MD5 clone

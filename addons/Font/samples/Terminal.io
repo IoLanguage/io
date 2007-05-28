@@ -1,4 +1,4 @@
-
+#!/usr/bin/env io
 
 Terminal := GLApp clone 
 Terminal do(

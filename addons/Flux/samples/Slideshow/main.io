@@ -1,3 +1,4 @@
+#!/usr/bin/env io
 
 Flux 
 
@@ -35,12 +36,12 @@ Slide := Object clone do(
 		drawBackground
 		glColor4d(1, 1, 1, 1)
 		drawTitle
-		glTranslatei(0, - (textFont pixelSize * spacerRatio), 0)
+		glTranslatei(0, - textFont pixelSize * spacerRatio, 0)
 		drawBulletPoints
     )
     
     drawTitle := method(
-		glTranslatei(0, (height * titleRatio) - (titleFont pixelSize), 0)
+		glTranslatei(0, (height * titleRatio) - titleFont pixelSize, 0)
 		glPushMatrix
 		titleFont drawCenteredString(title, width) 
 		glPopMatrix
@@ -52,7 +53,7 @@ Slide := Object clone do(
 			glPushMatrix
 			drawBulletPoint(line)
 			glPopMatrix
-			glTranslatei(0, - (textFont pixelSize * 1.6), 0)
+			glTranslatei(0, - textFont pixelSize * 1.6, 0)
 		)    
     )
     
@@ -100,8 +101,8 @@ Slideshow := GLApp clone do(
     
     draw := method(slides at(slideNumber) draw)
     escapeKey      := method(toggleFullScreen)
-    specialUpKey   := method(slideNumber = ((slideNumber - 1) max(0)))
-    specialDownKey := method(slideNumber = ((slideNumber + 1) min(slides size - 1)))
+    specialUpKey   := method(slideNumber = (slideNumber - 1) max(0))
+    specialDownKey := method(slideNumber = (slideNumber + 1) min(slides size - 1))
 )
 
 //Slideshow open(if(args size > 0, args at(1), "slides.txt"))

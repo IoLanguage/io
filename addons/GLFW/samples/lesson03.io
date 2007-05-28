@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 # Port of http://glfw.sourceforge.net/tutorials/lesson03/lesson03.html
 
 appendProto(GLFW)

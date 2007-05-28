@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 
 WebRequest := Object clone do(
 	handleSocket := method(aSocket,

@@ -1,3 +1,4 @@
+#!/usr/bin/env io
 
 // Define a Dog object
 

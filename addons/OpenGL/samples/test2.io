@@ -1,4 +1,4 @@
-
+#!/usr/bin/env io
 
 b1 := Box clone set(Point clone set(0,0), Point clone set(100,100))
 b1 print

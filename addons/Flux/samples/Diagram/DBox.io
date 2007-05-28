@@ -25,7 +25,7 @@ DBox := View clone do(
 	setBackgroundColor(Point clone set(.2, .2, .2, 1))
 
 
-	center := method(size clone *=(.5) +=(position))
+	center := method((size clone *= .5) += position)
 	centerInScreenCoords := method(superview viewToScreen(center))
 	
 	topPoint    := method(center setY(position y + height))
@@ -127,8 +127,8 @@ DBox := View clone do(
 	
 	resizeTo := method(w, h,
 		gridSize := background gridSize
-		w = ((w / gridSize) roundDown * gridSize)
-		h = ((h / gridSize) roundDown * gridSize)
+		w = (w / gridSize) roundDown * gridSize
+		h = (h / gridSize) roundDown * gridSize
 		super(resizeTo(w, h))
 	)
     

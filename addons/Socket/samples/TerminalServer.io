@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 
 Terminal := Object clone
 Terminal handleSocketFromServer := method(aSocket, aServer,

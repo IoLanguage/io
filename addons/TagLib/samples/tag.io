@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 TagLib do(
 newSlot("path")
 newSlot("title")

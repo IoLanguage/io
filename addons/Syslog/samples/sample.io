@@ -1,4 +1,5 @@
-#!/usr/bin/env ioServer
+#!/usr/bin/env io
+
 # Test by Jeremy Tregunna <jtregunna@blurgle.ca>
 # Not all of these options are needed to log. Most basic you only need to call:
 # open(fac, opt, ident), log(pri, msg), close

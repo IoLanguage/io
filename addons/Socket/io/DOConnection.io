@@ -94,6 +94,7 @@ DOConnection := Object clone do(
 		socket write(m)
 		if(debug, write("waiting for result\n"))
 		socket readBuffer empty
+		result := nil
 		while(socket read, 
 			list := socket readBuffer splitNoEmpties(NULL)
 			if(debug, write("got result "); ShowMessage(socket readBuffer))

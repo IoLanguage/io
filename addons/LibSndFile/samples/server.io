@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 
 Server clone do(
 	setPort(8000)

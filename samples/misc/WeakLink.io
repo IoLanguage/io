@@ -1,3 +1,4 @@
+#!/usr/bin/env io
 weakLink := WeakLink clone setLink(Object clone)
 
 writeln("WeakLink to ", weakLink link asSimpleString)

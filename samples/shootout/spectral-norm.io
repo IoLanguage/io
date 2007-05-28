@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 /* The Computer Language Shootout
    http://shootout.alioth.debian.org
    contributed by Gavin Harrison */

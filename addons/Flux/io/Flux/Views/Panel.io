@@ -10,8 +10,8 @@ Panel := Window clone do(
     
     
     open := method(
-		x := ((Screen width - width) / 2)
-		y := ((Screen height - height) / 2)
+		x := (Screen width - width) / 2
+		y := (Screen height - height) / 2
 		position set(x, y)
 		resend
     )

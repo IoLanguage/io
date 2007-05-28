@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 
 doFile(Path with(launchPath, "Tank.io"))
 

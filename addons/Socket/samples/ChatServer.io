@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 // A simple chat server
 
 ChatClient := Object clone

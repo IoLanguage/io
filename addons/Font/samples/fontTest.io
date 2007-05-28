@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 // fontTest.io
 // Written by Jon Kleiser, 12-Dec-2006
 // Based on IoDesktop/FreeType/_tests/test.io

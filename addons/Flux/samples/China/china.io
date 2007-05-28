@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 // china.io
 // A program for playing Chinese Checkers
 // The program requires IoDesktop.
@@ -366,7 +368,7 @@ GameState := Object clone do(
 		posTrace := List clone
 		cellP at(m startPos) neighbors foreach(i, nc,
 			if (nc,
-				if (nc pos == (m destPos)) then(
+				if (nc pos == m destPos) then(
 					posTrace append(nc pos)			// reach by roll
 				) else (
 					p := if(shortJumps, traceJumpsShort(m startPos, m destPos, reach, posTrace),
@@ -400,14 +402,14 @@ GameState := Object clone do(
 					)
 				)
 				if (variations) then(
-					self possibleMoves sortInPlaceBy(method(m1, m2, m1 gain > (m2 gain)))
+					self possibleMoves sortInPlaceBy(method(m1, m2, m1 gain > m2 gain))
 				) else (
 					// Using bubble sort as long as I need full match with Java version ...
 					for(i, 0, self possibleMoves size - 2,
 						mi := self possibleMoves at(i)
 						for(j, i + 1, self possibleMoves size - 1,
 							mj := self possibleMoves at(j)
-							if (mj gain > (mi gain),
+							if (mj gain > mi gain,
 								self possibleMoves swapIndices(i, j)
 								mi = mj
 							)
@@ -431,7 +433,7 @@ GameState := Object clone do(
 		) else (
 			// All moves have negative gain. Some tweak is needed ...
 			worstRelBest := getPossibleMoves last gain - bestGain
-			reqGain := worstRelBest + ((bestGain - worstRelBest) * coef)
+			reqGain := worstRelBest + (bestGain - worstRelBest) * coef
 			//writeln("bestGain=", bestGain, ", worstRelBest=", worstRelBest, ", reqGain=", reqGain)
 		)
 		return getPossibleMoves select(i, move, move gain >= reqGain)
@@ -674,8 +676,8 @@ ChinaBoard := Object clone do(
 	paint := method(x0, y0, horInc, showPosEval,
 		cs := self currentState
 		slices := 6
-		cSize := horInc / (3 sqrt) ceil
-		pSize := cSize / (2) floor
+		cSize := (horInc / 3 sqrt) ceil
+		pSize := (cSize / 2) floor
 		vInc := vertInc(horInc)
 		//writeln("cSize=", cSize, ", pSize=", pSize, ", vertInc=", vInc)
 		grayLev := 0.25
@@ -750,7 +752,7 @@ ChinaBoard := Object clone do(
 			glBegin(GL_LINE_STRIP)
 			self moveTrace foreach(i, pos,
 				cell := self cellP at(pos)
-				glVertex2d(centerX(cell, horInc), -vInc * (cell row))
+				glVertex2d(centerX(cell, horInc), -vInc * cell row)
 			)
 			glEnd
 			mtLast := self moveTrace size - 1
@@ -759,7 +761,7 @@ ChinaBoard := Object clone do(
 			self moveTrace foreach(i, pos,
 				glPushMatrix	// 1.3
 				cell = self cellP at(pos)
-				glTranslated(centerX(cell, horInc), -vInc * (cell row), 0)
+				glTranslated(centerX(cell, horInc), -vInc * cell row, 0)
 				gluDisk(gluNewQuadric, if(i < mtLast, 0, endSize - 1),
 							if(0 < i < mtLast, tempSize, endSize), slices, 1)
 				glPopMatrix		// 1.3
@@ -802,8 +804,8 @@ ChinaBoard := Object clone do(
 	
 	paintMovingPiece := method(x, y, horInc,
 		cs := self currentState
-		cSize := horInc / (3 sqrt) ceil
-		pSize := cSize / (2) floor
+		cSize := (horInc / 3 sqrt) ceil
+		pSize := (cSize / 2) floor
 		glPushMatrix
 		glTranslated(x, y, 0)
 		self dir at(cs pieceType) drawPiece(gluNewQuadric, pSize)
@@ -826,8 +828,8 @@ ChinaBoard := Object clone do(
 	
 	clickedCell := method(x, y, horInc, btnState, devMode,
 		cs := self currentState
-		row := 0 + (y / vertInc(horInc) + 0.5) floor
-		col := 0 + ((x / horInc) - (row / 2) + 0.5) floor
+		row := (0 + y / vertInc(horInc) + 0.5) floor
+		col := (0 + (x / horInc) - (row / 2) + 0.5) floor
 		c := cellAtRowCol(row, col)
 		if (c,
 			pType := cs getBoard at(c pos)
@@ -1163,7 +1165,7 @@ ChinaApp configure := method(
 			self useAllColors = if(configMap at("useAllColors"), true, false)
 			self shortJumps = if(configMap at("shortJumps"), true, false)
 		) else (
-			status = ("No file '" .. configPath .. "'")
+			status = "No file '" .. configPath .. "'"
 		)
 	)
 	e catch (Exception,

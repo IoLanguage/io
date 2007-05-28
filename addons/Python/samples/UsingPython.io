@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 # Import a module
 sys := Python import("sys")
 

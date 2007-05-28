@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 
 SGMLTag do(
 	links := method(

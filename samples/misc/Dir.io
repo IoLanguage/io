@@ -1,3 +1,4 @@
+#!/usr/bin/env io
 //Directory folders := method(items select(item, item type ==("Directory") and(item name != ".") and(item name != "..")))
 
 writeln("")

@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 
 Screen := Object clone
 Screen appendProto(OpenGL)

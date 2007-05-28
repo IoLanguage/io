@@ -42,7 +42,7 @@ IoObject *IoSandbox_doSandboxString(IoSandbox *self, IoObject *locals, IoMessage
 
 void IoSandbox_cleanState(IoSandbox *self);
 void IoSandbox_addPrintCallback(IoSandbox *self);
-void IoSandbox_printCallback(IoSandbox *self, const char *s);
+void IoSandbox_printCallback(void *voidSelf, size_t count, const char *data);
 
 #ifdef __cplusplus
 }

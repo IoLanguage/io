@@ -82,8 +82,8 @@ HScroller do(
 		p := screenToView(Mouse position clone) perform(axis)
 		k := knob size perform(axis)
 		max := size perform(axis)
-		top := (p - (k/2))
-		bottom := (max - k)
+		top := p - k/2
+		bottom := max - k
 		v := top / bottom max(0.1)
 		setValue(v clip(0,1))
 		doAction

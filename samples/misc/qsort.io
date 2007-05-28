@@ -1,3 +1,4 @@
+#!/usr/bin/env io
 List do(
 	qsort := method(
 		if(size < 2, return)

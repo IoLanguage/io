@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 
 Socket write := Socket getSlot("streamWrite")
 

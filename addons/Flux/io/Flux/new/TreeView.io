@@ -70,8 +70,8 @@ TreeNode := Label clone do (
     if (isExpanded and nodes size > 0, 
       endy := nodes at(nodes size - 1) expanderPos y
       glBegin(GL_LINES)
-      glVertex2d( -5, (expanderPos y) - (end at(13)) )
-      glVertex2d( -5, endy - (end at(13)) )
+      glVertex2d( -5, expanderPos y - end at(13) )
+      glVertex2d( -5, endy - end at(13) )
       glEnd
     )
     glDisable(GL_LINE_STIPPLE)
@@ -115,7 +115,7 @@ TreeView := Responder clone do (
     drawBackground
     drawLineOutline
     if (root, 
-      glTranslated( 10, height - (root height), 0 )
+      glTranslated( 10, height - root height, 0 )
       root draw
     )
   )

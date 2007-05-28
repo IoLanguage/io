@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 Ball := Object clone do(
     appendProto(OpenGL)
     position := vector(25,0)
@@ -16,7 +18,7 @@ Ball := Object clone do(
     
     timeStep := method(
         AppleSensors smsVector(acceleration) 
-        acceleration *= (-.0005)
+        acceleration *= -.0005
         
         velocity += acceleration
         velocity *= friction

@@ -5,8 +5,9 @@ A decorate-sort-undecorate operation for Io
 
 Specify a key for each item, and control how the keys are compared.
 
-Io> 1 to(10) asList sortKey(x, -(1)^(x) * x) sort
-==> list(9, 7, 5, 3, 1, 2, 4, 6, 8, 10)
+Io> Range
+Io> 0 to(10) asList sortByKey(x, (-1)**x * x)
+==> list(9, 7, 5, 3, 1, 0, 2, 4, 6, 8, 10)
 
 Io> Directory with(".") files sortKey(lastInfoChangeDate) sort map(name)
 ==> ... listing of directory sorted by date

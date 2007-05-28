@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 showInfo := method(d,
 	("          Name: " .. d at(0)) println
 	("   Description: " .. d at(1)) println

@@ -29,10 +29,10 @@ VideoView := View clone do(
 		hr := height / image originalHeight
 		if (wr < hr) then(
 		    self tx := 0
-		    self ty := (height - (image originalHeight * wr))/2
+		    self ty := (height - image originalHeight * wr)/2
 		    self tr := wr
 		) else(
-            self tx := (width - (image originalWidth * hr)) / 2
+            self tx := (width - image originalWidth * hr) / 2
 		    self ty := 0
 		    self tr := hr
 		)

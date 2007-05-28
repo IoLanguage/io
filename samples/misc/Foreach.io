@@ -1,3 +1,4 @@
+#!/usr/bin/env io
 
 a := List clone append(1, 2, 3)
 

@@ -1,3 +1,4 @@
+#!/usr/bin/env io
 isDebugging := false
 
 objs := List clone

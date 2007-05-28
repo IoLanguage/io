@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 /* Example usages of ContinuedFraction */
 
 cf := ContinuedFraction with(2) + SQRT with(2) + SQRT with(3) + E

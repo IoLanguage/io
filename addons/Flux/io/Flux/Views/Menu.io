@@ -75,20 +75,20 @@ Menu := View clone do(
 	
 	motion := method(
 		p := viewMousePoint
-		index := size height - (p y) / (itemSize height)
+		index := (size height - p y) / itemSize height
 		index Floor
 		items foreach(item, item tmpUnselect)
 		if(p x < 0 or p x > size width, return)
 		if(index < items size and index > -1, items at(index) tmpSelect)
 		//write("Menu motion ", Mouse position y, "\n")
 		if(Mouse position y < 0 and viewToScreen(Point clone) y < 0,
-			position setY(position y + (itemSize height/2))
+			position setY(position y + itemSize height/2)
 		)
 		
 		//write("viewToScreen(Point clone) y ", viewToScreen(Point clone) y, "\n")
 		//write("viewToScreen(Point clone) y + size height ", viewToScreen(Point clone) y + size height, "\n")
 		if(Mouse position y > Screen height and viewToScreen(Point clone) y + size height > Screen height,
-			position setY(position y - (itemSize height/2))
+			position setY(position y - itemSize height/2)
 		)
 	)
 	

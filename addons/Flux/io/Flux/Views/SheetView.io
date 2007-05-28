@@ -36,7 +36,7 @@ SheetView := View clone do(
 		fontWidth := font widthOfString(title)
 		fontHeight := 32 //font pixelHeight 
 		
-		b := (((width - fontWidth) * .5) round)
+		b := ((width - fontWidth) * .5) round
 		glTranslatei(b, (height - fontHeight)/2, 0)
 		font drawString(title)
 		glPopMatrix

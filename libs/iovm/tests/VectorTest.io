@@ -8,6 +8,6 @@ VectorTest := UnitTest clone do(
 	)
 
 	testRootMeanSquare := method(
-		assertEquals(list(1,2,3,4,5) map(**2) sum /(5) sqrt, vector(1,2,3,4,5) rootMeanSquare)
+		assertEquals((list(1,2,3,4,5) map(**2) sum / 5) sqrt, vector(1,2,3,4,5) rootMeanSquare)
 	)
 )

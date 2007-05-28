@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 // an AudioPad inspired demo
 // Steve Dekorte, 2003
 
@@ -150,8 +152,8 @@ Mix run := method(
   glutInitDisplayMode( GLUT_DOUBLE | GLUT_RGBA)
   glutInitWindowSize(width, height)
   
-  Mix leftSpeaker  pos set(width/(2) -(width/15), height*.8)
-  Mix rightSpeaker pos set(width/(2) +(width/15), height*.8)
+  Mix leftSpeaker  pos set(width/2 - width/15, height*.8)
+  Mix rightSpeaker pos set(width/2 + width/15, height*.8)
 
   glutInit
   glutCreateWindow("Mix")

@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 
 template := """
 <table cellpadding=3 cellspacing=0 border=0>

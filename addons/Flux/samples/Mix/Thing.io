@@ -90,9 +90,9 @@ Loop sizeToIntegerMultipleOfLoop := method(otherLoop,
   a := s
   b := s
   otherCount := otherSound sampleCount
-  while ( a % (otherCount) != (0) and ( otherCount % (a) !=(0) ),  a = a +1 )
-  while ( b % (otherCount) != (0) and ( otherCount % (b) !=(0) ),  b = b +1 )
-  r := if(a-(s) abs < b-(s) abs, a, b)
+  while ( a % otherCount != 0 and otherCount % a != 0,  a = a +1 )
+  while ( b % otherCount != 0 and otherCount % b != 0,  b = b +1 )
+  r := if((a-s) abs < (b-s) abs, a, b)
   if (r == 0, r := a)
   if (r != s,
     write("resampling ", name, " from ", s, " to ", r, "...")
@@ -132,10 +132,10 @@ Loop draw := method(
   v = v * .5
   d := size * 2 + 80 * v
   //cAlpha := aveValue sqtr * (v * v) + 0.3;
-  alpha := v * (.45) + .4
+  alpha := v * .45 + .4
  
   glColor4d(1, 1, 0, alpha * 0.2)
-  angle := currentPosition /(sound sampleCount) * 360
+  angle := 360 * currentPosition / sound sampleCount
   glRotated(-angle, 0, 0, 1)
   jitterDraw(
     gluPartialDisk(q, d, d + 40*2*v, 64, 1, 0, 180) 
@@ -143,13 +143,13 @@ Loop draw := method(
 )
 
 Loop updateLeftSpeaker := method(speaker,
-  v := 1 - speaker distanceToPoint(pos)/(500)
+  v := 1 - speaker distanceToPoint(pos) / 500
   v = v clip(0,1)
   sound setChannelVolume(0, v)
 )
 
 Loop updateRightSpeaker := method(speaker,
-  v := 1 - speaker distanceToPoint(pos)/(500)
+  v := 1 - speaker distanceToPoint(pos) / 500
   v = v clip(0,1)
   sound setChannelVolume(1, v)
 )

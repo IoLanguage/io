@@ -12,7 +12,7 @@ Loki Implementation clone linkToAs( Sequence, "nsieveBits" ) DBG with(
 
 	appendProto(x86 symbols)
 
-//	one := (int <- 1)
+//	one := int <- 1
 	
 //	proxyBlock asm( movd mm1, one )
 //	proxyBlock asm( pxor mm0, mm0 )

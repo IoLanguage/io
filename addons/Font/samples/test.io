@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 
 monoFont  := Font clone open("resources/library/fonts/Vera/Mono/Bold.ttf") setPixelSize(12)
 writeln("top1")
@@ -27,8 +29,8 @@ Screen display := method(
   glClearColor(1, 1, 1, 1)
   glClear(GL_COLOR_BUFFER_BIT)
 
-  x := width/(2) -(monoFont widthOfString(string)/2)
-  y := height/(2) +(monoFont pixelSize*1.5)
+  x := width/2 - monoFont widthOfString(string) / 2
+  y := height/2 + monoFont pixelSize * 1.5
   x = x ceil
   y = y ceil
 

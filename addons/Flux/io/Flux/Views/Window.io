@@ -108,7 +108,7 @@ Window := View clone do(
 		p setY(- p y)
 		currentHeight := size height
 		resizeBy(p x, p y)
-		position setY(position y - (size height - currentHeight))
+		position setY(position y - size height - currentHeight)
 		glutPostRedisplay
     )
 

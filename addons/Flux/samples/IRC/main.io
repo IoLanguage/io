@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 //debugCollector := 1
 
 //write("launchPath = '", launchPath, "'\n")

@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 
 AudioMixer := Object clone do(
 	init := method(

@@ -1,3 +1,5 @@
+#!/usr/bin/env io
+
 ack := method(m, n, 
   //writeln("ack(", m, ",", n, ")")
   if (m < 1, return n + 1) 

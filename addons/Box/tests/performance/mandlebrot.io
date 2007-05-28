@@ -74,7 +74,7 @@ iterator := Object clone do(
                 zr2 := zr squared
                 zi2 := zi squared
                 zr := zr2 - zi2 + cr
-                zi := ((temp * 2) + ci)
+                zi := (temp * 2) + ci
                 if (zi2 + zr2 > bailout, return i)
         )
 	return 0

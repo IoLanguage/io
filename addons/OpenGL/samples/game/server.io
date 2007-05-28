@@ -1,3 +1,4 @@
+#!/usr/bin/env io
 
 // --- Model -------------------------------------------------------
 
@@ -61,7 +62,7 @@ Player receive := method(text,
     if (action == "k", object key(value))
   ) else (
     write("requestObjectForPlayer\n")
-    if (action ==("k") and (value == "n"), 
+    if (action == "k" and value == "n",
     write("requestObjectForPlayer2\n")
       self object := server requestObjectForPlayer(self)
     )

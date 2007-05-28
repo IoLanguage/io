@@ -1,4 +1,4 @@
-#!./ioServer
+#!/usr/bin/env io
 
 writebr := method(
     thisMessage arguments foreach(arg, write(sender doMessage(arg)))
