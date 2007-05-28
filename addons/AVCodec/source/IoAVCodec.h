@@ -23,6 +23,8 @@ typedef struct
 	
 	int audioStreamIndex;
 	AVCodecContext *audioContext;
+	ReSampleContext *resampleContext;
+	short *resampleOutputBuffer;
 	
 	int videoStreamIndex;
 	AVCodecContext *videoContext;

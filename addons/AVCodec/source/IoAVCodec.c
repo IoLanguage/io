@@ -24,6 +24,7 @@ void IoAVCodec_registerIfNeeded(IoAVCodec *self)
 	avcodec_init();
 	avcodec_register_all();
 	av_register_all();
+	av_log_set_level(AV_LOG_QUIET);
 }
 
 IoTag *IoAVCodec_newTag(void *state)
@@ -124,7 +125,7 @@ void IoAVCodec_createContextIfNeeded(IoAVCodec *self)
 	
 	if(!IVAR(audioOutBuffer))
 	{
-		IVAR(audioOutBuffer) = malloc(AVCODEC_MAX_AUDIO_FRAME_SIZE);
+		IVAR(audioOutBuffer) = malloc(AVCODEC_MAX_AUDIO_FRAME_SIZE + FF_INPUT_BUFFER_PADDING_SIZE);
 	}
 }
 
@@ -146,6 +147,14 @@ void IoAVCodec_freeContextIfNeeded(IoAVCodec *self)
 	
 	IVAR(audioContext) = NULL;
 	IVAR(videoContext) = NULL;
+	
+	if (IVAR(resampleContext))
+	{
+		audio_resample_close(IVAR(resampleContext));
+		IVAR(resampleContext) = NULL;
+		free(IVAR(resampleOutputBuffer));
+		IVAR(resampleOutputBuffer) = NULL;
+	}
 	
 	if (IVAR(audioContext))
 	{
@@ -379,6 +388,11 @@ int IoAVCodec_findStreams(IoAVCodec *self)
 						{
 							IVAR(audioContext) = codecContext;
 						}
+						else
+						{
+							printf("error finding audio decoder\n");
+						}
+
 					}
 				}
 				
@@ -388,6 +402,12 @@ int IoAVCodec_findStreams(IoAVCodec *self)
 				IoObject_setSlot_to_(self, IOSYMBOL("audioBitRate"),	IONUMBER(codecContext->bit_rate));
 				IoObject_setSlot_to_(self, IOSYMBOL("audioDuration"),	IONUMBER(stream->duration));
 				IoObject_setSlot_to_(self, IOSYMBOL("audioFrameCount"),	IONUMBER(stream->nb_frames));
+				
+				if(codecContext->channels != 2 || 44100 != codecContext->sample_rate)
+				{
+					IVAR(resampleContext) = audio_resample_init(2, codecContext->channels, 44100, codecContext->sample_rate);
+					IVAR(resampleOutputBuffer) = malloc(AVCODEC_MAX_AUDIO_FRAME_SIZE * 10 + FF_INPUT_BUFFER_PADDING_SIZE);
+				}
 				break;
 				
 			case CODEC_TYPE_VIDEO:
@@ -404,6 +424,10 @@ int IoAVCodec_findStreams(IoAVCodec *self)
 						if (err == 0)
 						{
 							IVAR(videoContext) = codecContext;
+						}
+						else
+						{
+							printf("error finding video decoder\n");
 						}
 					}
 				}
@@ -512,10 +536,18 @@ int IoAVCodec_decodeAudioPacket(IoAVCodec *self, AVCodecContext *c, uint8_t *inb
 			
 			size_t sampleCount = outSize / c->channels; 
 			size_t oldSize = UArray_size(outba);
-			//UArray_setSize_(outba, oldSize + sampleCount); // knows it's a float32 array
-			UArray_setSize_(outba, oldSize + sampleCount * sizeof(float)); // knows it's a float32 array
-										
-			IoAVCodec_ConvertShortToFloat((short *)outbuf, (float *)(UArray_bytes(outba) + oldSize), sampleCount);
+			UArray_setSize_(outba, oldSize + sampleCount * sizeof(float));
+			
+			if(IVAR(resampleContext))
+			{
+				//printf("resampling %i@%i\n", c->channels);
+				audio_resample(IVAR(resampleContext), IVAR(resampleOutputBuffer), (short *)outbuf, sampleCount * 2);
+				IoAVCodec_ConvertShortToFloat((short *)IVAR(resampleOutputBuffer), (float *)(UArray_bytes(outba) + oldSize), sampleCount);
+			}
+			else
+			{
+				IoAVCodec_ConvertShortToFloat((short *)outbuf, (float *)(UArray_bytes(outba) + oldSize), sampleCount);
+			}
 		}
 		
 		size -= len;

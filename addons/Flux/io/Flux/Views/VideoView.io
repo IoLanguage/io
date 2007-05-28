@@ -3,13 +3,14 @@ VideoView := View clone do(
 	position setX(0) setY(0)
 	size setWidth(640) setHeight(480)
 	newSlot("image")
-	newSlot("videoDecoder")
-
+	newSlot("video")
+    isRunning ::= false
+    
 	init := method(
 		resend
 		AVCodec
-		videoDecoder = Video clone
-		image = videoDecoder image
+		video = Video clone
+		image = video image
 	)
 
 	sizeToImage := method(
@@ -55,21 +56,25 @@ VideoView := View clone do(
 	
 	open := method(path,
 	    //writeln("videoView open")
-        videoDecoder setFileName(path)
-        videoDecoder open
-        videoDecoder readNextFrame
+        video setPath(path)
+        video open
+        video readNextFrame
         play
 	)
 
     play := method(
-            topWindow addTimerTargetWithDelay(self, videoDecoder framePeriod)
+        setIsRunning(true)
+        topWindow addTimerTargetWithDelay(self, video framePeriod)
     )
+    
+    stop := method(setIsRunning(false))
 
     timer := method(n,
         //writeln("VideoView timer")
-        topWindow addTimerTargetWithDelay(self, videoDecoder framePeriod)
-        videoDecoder readNextFrame
-        if(videoDecoder isDone, videoDecoder start)
+        isRunning ifFalse(return)
+        topWindow addTimerTargetWithDelay(self, video framePeriod)
+        video readNextFrame
+        if(video isDone, video start)
         glutPostRedisplay
     )
 )
