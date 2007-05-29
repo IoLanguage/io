@@ -354,7 +354,7 @@ void PNGImage_save(PNGImage *self)
 		* on read and must be written in accordance with the sRGB profile */
 	
 	/* Write the file header information.  REQUIRED */
-	/*png_write_info(png_ptr, info_ptr);*/
+	png_write_info(png_ptr, info_ptr);
 	
 	/* If you want, you can write the info in two steps, in case you need to
 		* write your private chunk ahead of PLTE:
@@ -419,8 +419,7 @@ void PNGImage_save(PNGImage *self)
 */
 	{
 		png_uint_32 k;
-		png_bytep *row_pointers;
-		row_pointers = malloc(self->height);  // JEFF DRAKE MOD: YOU CAN'T HAVE A NON-CONSTANT
+		png_bytep *row_pointers = malloc(self->height*sizeof(png_bytep *));  // JEFF DRAKE MOD: YOU CAN'T HAVE A NON-CONSTANT
 									   // ARRAY HERE!!!!
 		for (k = 0; k < (png_uint_32)self->height; k++)
 		{
