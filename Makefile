@@ -84,7 +84,7 @@ vm:
 
 addons: vm
 	./_build/binaries/io_static$(BINARY_SUFFIX) build.io
-	@if [ -f errors ]; then cat errors; rm errors; fi
+	@if [ -f errors ]; then cat errors; echo "Note: addons are expected not to build the libs or headers are missing"; rm errors; fi
 
 vmlib:
 	mkdir -p _build || true
