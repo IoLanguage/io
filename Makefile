@@ -161,14 +161,25 @@ test:
 	$(MAKE) testvm
 	$(MAKE) testaddons
 
-dist:
+dist_tar:
 	-rm -f Io-*.tar.gz
 	echo "#define IO_VERSION_NUMBER "$(shell date +'%Y%m%d') > libs/iovm/source/IoVersion.h
-	#git add libs/iovm/source/IoVersion.h 
-	#git commit -q --no-verify -m "setting version string for release"
+	git add libs/iovm/source/IoVersion.h 
+	git commit -q --no-verify -m "setting version string for release"
 	git archive --format=tar --prefix=Io-$(date)/ HEAD | gzip > Io-$(date).tar.gz
 	ls -al Io-$(date).tar.gz
+
+dist_zip:
+	-rm -f Io-*.zip
+	echo "#define IO_VERSION_NUMBER "$(shell date +'%Y%m%d') > libs/iovm/source/IoVersion.h
+	git add libs/iovm/source/IoVersion.h 
+	git commit -q --no-verify -m "setting version string for release"
+	git archive --format=zip --prefix=Io-$(date)/ HEAD > Io-$(date).zip
+	ls -al Io-$(date).zip
 	
+dist:
+	$(MAKE) dist_zip
+
 metrics:
 	ls -1 libs/iovm/source/*.c | io -e 'File standardInput readLines map(asFile contents occurancesOfSeq(";")) sum .. " iovm"'
 	ls -1 libs/basekit/source/*.c | io -e 'File standardInput readLines map(asFile contents occurancesOfSeq(";")) sum .. " basekit"'
