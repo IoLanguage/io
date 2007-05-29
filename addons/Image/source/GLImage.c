@@ -152,7 +152,7 @@ void GLImage_setData_width_height_componentCount_(GLImage *self, UArray *ba, int
 	self->originalWidth = self->width;
 	self->originalHeight = self->height;
 	
-	//if (self->textureId) 
+	if (self->textureId) 
 	{
 		GLImage_updateTexture(self);
 	}
