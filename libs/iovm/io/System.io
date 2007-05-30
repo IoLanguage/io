@@ -2,7 +2,7 @@ System do(
 	launchScript := nil
 	docSlot("launchScript", "Returns the path of the io file run on the command line. Returns nil if no file was run.")
 
-	ioPath := "/usr/local/lib/io"
+	ioPath := installPrefix .. "/lib/io"
 	docSlot("ioPath", "Returns the path of io installation. The default is /usr/local/lib/io.")
 	
 	docSlot("getOptions(args)", "
