@@ -1,6 +1,7 @@
 /*
  docCopyright("Steve Dekorte", 2002)
  docLicense("BSD revised")
+ see: http://itamarst.org/writings/win32sockets.html for windows socket gotchas
  */
 
 #include "Socket.h"
@@ -271,6 +272,7 @@ int Socket_connectTo(Socket *self, IPAddress *address)
 #ifdef WIN32	
 #define EINPROGRESS WSAEINPROGRESS
 #define EALREADY WSAEALREADY
+//note: WSAEINVAL is equivalent to WSAEWOULDBLOCK on windows
 #endif
 	eno = SocketErrorStatus();
 	if (result == 0 || eno == EISCONN) 
@@ -414,9 +416,22 @@ ssize_t Socket_streamWrite(Socket *self,
 
 	if (!Socket_isValid(self)) { Socket_close(self); return 0; }
 
+	/*
+	In Unix, socket.send(buf) will buffer as much of buf as it has space for, 
+	and then return how much it accepted. This could be 0 or up to something around 128K. 
+	If you send some data and then some more, it will append to the previous buffer.
+
+	In Windows, socket.send(buf) will either accept the entire buffer or raise ENOBUFS. 
+	Testing indicates that it will internally buffer any amount up to 50MB 
+	(this seems to be the total for either the process or the OS, I'm not sure). 
+	However, it will not incrementally accept more data to append to a socket's 
+	buffer until the big buffer has been completely emptied 
+	(seemingly down to the SO_SNDBUF length, which is 8192), but rather raises WSAEWOULDBLOCK instead.
+	*/
+
 	//printf("write %i -> %i of %i\n", start, start + writeSize, bufferSize);
 #ifdef WIN32
-	bytesSent = send(self->fd, UArray_bytes(buffer) + start, writeSize, 0);
+	bytesSent =  send(self->fd, UArray_bytes(buffer) + start, writeSize, 0);
 #else
 	bytesSent = write(self->fd, UArray_bytes(buffer) + start, writeSize);
 #endif

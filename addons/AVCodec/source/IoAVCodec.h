@@ -62,6 +62,10 @@ IoObject *IoAVCodec_encodeCodecNames(IoAVCodec *self, IoObject *locals, IoMessag
 
 IoObject *IoAVCodec_open(IoAVCodec *self, IoObject *locals, IoMessage *m);
 IoObject *IoAVCodec_close(IoAVCodec *self, IoObject *locals, IoMessage *m);
+
+IoObject *IoAVCodec_seekVideoFrame(IoAVCodec *self, IoObject *locals, IoMessage *m);
+IoObject *IoAVCodec_seekAudioFrame(IoAVCodec *self, IoObject *locals, IoMessage *m);
+
 IoObject *IoAVCodec_decode(IoAVCodec *self, IoObject *locals, IoMessage *m);
 IoObject *IoAVCodec_isAtEnd(IoAVCodec *self, IoObject *locals, IoMessage *m);
 

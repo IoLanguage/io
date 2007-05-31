@@ -67,12 +67,20 @@ VideoView := View clone do(
         topWindow addTimerTargetWithDelay(self, video framePeriod)
     )
     
-    stop := method(setIsRunning(false))
+    stop := method(
+        writeln("VideoView stop ")
+        setIsRunning(false)
+    )
 
+    lastTime := Date clone now second
+    
     timer := method(n,
-        //writeln("VideoView timer")
+        //writeln("VideoView timer ", isRunning)
         isRunning ifFalse(return)
-        topWindow addTimerTargetWithDelay(self, video framePeriod)
+        thisTime := Date clone now second
+        if(Random value(100) < 10, writeln((thisTime - lastTime) - video framePeriod))
+        lastTime = thisTime
+        topWindow addTimerTargetWithDelay(self, video framePeriod - .0003)
         video readNextFrame
         if(video isDone, video start)
         glutPostRedisplay

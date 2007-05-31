@@ -71,7 +71,7 @@
 					PBXFileDataSource_Target_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 199230574;
+			PBXPerProjectTemplateStateSaveDate = 202213122;
 			PBXPrepackagedSmartGroups_v2 = (
 				{
 					PBXTransientLocationAtTop = bottom;
@@ -411,17 +411,15 @@
 				Frame = "{{0, 0}, {745, 442}}";
 				WindowFrame = "{{427, 573}, {745, 464}}";
 			};
-			PBXWorkspaceStateSaveDate = 199230574;
+			PBXWorkspaceStateSaveDate = 202213122;
 		};
 		perUserProjectItems = {
 			AA2421BD0BD7205F00541BB3 /* PBXTextBookmark */ = AA2421BD0BD7205F00541BB3 /* PBXTextBookmark */;
-			AA8384D40BE0283600B4F003 /* PBXTextBookmark */ = AA8384D40BE0283600B4F003 /* PBXTextBookmark */;
 			AAE5DE570BD834BB0039F783 /* PBXTextBookmark */ = AAE5DE570BD834BB0039F783 /* PBXTextBookmark */;
 			AAE5DE580BD834BB0039F783 /* PBXTextBookmark */ = AAE5DE580BD834BB0039F783 /* PBXTextBookmark */;
 			AAE5DE590BD834BB0039F783 /* PBXTextBookmark */ = AAE5DE590BD834BB0039F783 /* PBXTextBookmark */;
 			AAE5DE5A0BD834BB0039F783 /* PBXTextBookmark */ = AAE5DE5A0BD834BB0039F783 /* PBXTextBookmark */;
 			AAE5DE970BD8382C0039F783 /* PBXTextBookmark */ = AAE5DE970BD8382C0039F783 /* PBXTextBookmark */;
-			AAEEA5DF0BDFC6DA00627958 /* PBXTextBookmark */ = AAEEA5DF0BDFC6DA00627958 /* PBXTextBookmark */;
 		};
 		sourceControlManager = AA6D9C77053237E000CE4742 /* Source Control */;
 		userBuildSettings = {
@@ -477,7 +475,7 @@
 		hitCount = 1;
 		lineNumber = 748;
 		location = libiovmall.dylib;
-		modificationTime = 199236560.892076;
+		modificationTime = 202213218.461724;
 		state = 2;
 	};
 	AA2420B10BD7012C00541BB3 /* UArray.c */ = {
@@ -498,7 +496,7 @@
 		functionName = "UArray_at_putAll_()";
 		hitCount = 1;
 		lineNumber = 754;
-		modificationTime = 199239722.599487;
+		modificationTime = 202213227.346186;
 		state = 1;
 	};
 	AA2421AC0BD71FC800541BB3 /* szone_error */ = {
@@ -510,7 +508,7 @@
 		delayBeforeContinue = 0;
 		hitCount = 1;
 		location = libSystem.B.dylib;
-		modificationTime = 199231254.067544;
+		modificationTime = 202213218.465334;
 		state = 1;
 		symbolName = szone_error;
 	};
@@ -523,7 +521,7 @@
 		delayBeforeContinue = 0;
 		hitCount = 1;
 		location = libSystem.B.dylib;
-		modificationTime = 199231254.067553;
+		modificationTime = 202213218.465346;
 		state = 1;
 		symbolName = szone_error;
 	};
@@ -556,22 +554,6 @@
 		isa = PBXCodeSenseManager;
 		indexTemplatePath = "";
 	};
-	AA8384D40BE0283600B4F003 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = AA8384D50BE0283600B4F003 /* IoGLUT.c */;
-		name = "";
-		rLen = 3;
-		rLoc = 15781;
-		rType = 0;
-		vrLen = 676;
-		vrLoc = 15419;
-	};
-	AA8384D50BE0283600B4F003 /* IoGLUT.c */ = {
-		isa = PBXFileReference;
-		name = IoGLUT.c;
-		path = /Users/steve/Sites/Io/addons/OpenGL/source/IoGLUT.c;
-		sourceTree = "<absolute>";
-	};
 	AAB21BE1053FF4D700E7E01B /* main.io */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {964, 3383}}";
@@ -592,7 +574,7 @@
 		hitCount = 1;
 		lineNumber = 81;
 		location = IoPlayer;
-		modificationTime = 199236560.892095;
+		modificationTime = 202213218.461742;
 		state = 2;
 	};
 	AAE5DE010BD82FB40039F783 /* GLIoView.m:121 */ = {
@@ -606,7 +588,8 @@
 		functionName = "-reshape";
 		hitCount = 1;
 		lineNumber = 121;
-		modificationTime = 199239722.59958;
+		location = IoPlayer;
+		modificationTime = 202213218.461747;
 		state = 1;
 	};
 	AAE5DE080BD82FF10039F783 /* IoGLUT.c */ = {
@@ -627,7 +610,7 @@
 		functionName = "IoGlutReshapeFunc()";
 		hitCount = 1;
 		lineNumber = 497;
-		modificationTime = 199239728.401961;
+		modificationTime = 202213227.346211;
 		state = 1;
 	};
 	AAE5DE0B0BD8300F0039F783 /* IoGLUT.c */ = {
@@ -649,7 +632,7 @@
 		hitCount = 1;
 		lineNumber = 556;
 		location = libIoOpenGL.dylib;
-		modificationTime = 199236560.89213;
+		modificationTime = 202213218.461757;
 		state = 2;
 	};
 	AAE5DE120BD830670039F783 /* IoCoroutine.c */ = {
@@ -671,7 +654,7 @@
 		hitCount = 1;
 		lineNumber = 337;
 		location = libiovmall.dylib;
-		modificationTime = 199236560.892139;
+		modificationTime = 202213218.461761;
 		state = 2;
 	};
 	AAE5DE330BD831FF0039F783 /* IoCoroutine.c */ = {
@@ -693,7 +676,7 @@
 		hitCount = 1;
 		lineNumber = 348;
 		location = libiovmall.dylib;
-		modificationTime = 199236560.892144;
+		modificationTime = 202213218.461766;
 		state = 2;
 	};
 	AAE5DE360BD8322E0039F783 /* szone_error */ = {
@@ -705,7 +688,7 @@
 		delayBeforeContinue = 0;
 		hitCount = 1;
 		location = libSystem.B.dylib;
-		modificationTime = 199231254.067559;
+		modificationTime = 202213218.465352;
 		state = 1;
 		symbolName = szone_error;
 	};
@@ -718,7 +701,7 @@
 		delayBeforeContinue = 0;
 		hitCount = 1;
 		location = libSystem.B.dylib;
-		modificationTime = 199231254.067564;
+		modificationTime = 202213218.465357;
 		state = 1;
 		symbolName = malloc_printf;
 	};
@@ -771,28 +754,6 @@
 		rType = 0;
 		vrLen = 1098;
 		vrLoc = 4410;
-	};
-	AAEEA5DF0BDFC6DA00627958 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = AAEEA5E00BDFC6DA00627958 /* IoGLUT.c */;
-		name = "";
-		rLen = 3;
-		rLoc = 15781;
-		rType = 0;
-		vrLen = 734;
-		vrLoc = 15361;
-	};
-	AAEEA5E00BDFC6DA00627958 /* IoGLUT.c */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = sourcecode.c.c;
-		name = IoGLUT.c;
-		path = /Users/steve/Sites/Io/addons/OpenGL/source/IoGLUT.c;
-		sourceTree = "<absolute>";
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1068, 19142}}";
-			sepNavSelRange = "{15781, 3}";
-			sepNavVisRect = "{{0, 9100}, {769, 551}}";
-		};
 	};
 	F6030E47036EB306017668DC /* IoPlayer */ = {
 		isa = PBXExecutable;
