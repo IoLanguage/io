@@ -136,7 +136,7 @@ void IoSandbox_addPrintCallback(IoSandbox *self)
 	IoState_printCallback_(boxState, IoSandbox_printCallback);
 }
 
-void IoSandbox_printCallback(void *voidSelf, size_t count, const char *data)
+void IoSandbox_printCallback(void *voidSelf, size_t count, const unsigned char *data)
 {
 	IoSandbox *self = voidSelf;
 
