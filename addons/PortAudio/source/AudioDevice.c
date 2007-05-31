@@ -140,6 +140,7 @@ void AudioDevice_close(AudioDevice *self)
 {
 	if (AudioDevice_isOpen(self))
 	{
+		AudioDevice_clearBuffers(self);
 		self->err = Pa_CloseStream( self->stream );
 		self->stream = NULL;
 		AudioDevice_checkForError(self);
@@ -426,7 +427,7 @@ void AudioDevice_writeData_length_(AudioDevice *self, uint8_t *data, size_t numB
 
 void AudioDevice_write_(AudioDevice *self, UArray *buf)
 {
-	AudioDevice_writeData_length_(self, UArray_bytes(buf), UArray_size(buf));
+	AudioDevice_writeData_length_(self, (unsigned char *)UArray_bytes(buf), UArray_size(buf));
 }
 
 UArray *AudioDevice_read(AudioDevice *self)

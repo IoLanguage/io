@@ -15,14 +15,13 @@ AVCodec ioDoc(
 #include <limits.h>
 //#include <math.h>
 
-
 #define DATA(self) ((IoAVCodecData *)IoObject_dataPointer(self))
 #define IVAR(name) (((IoAVCodecData *)IoObject_dataPointer(self))->name)
 
 void IoAVCodec_registerIfNeeded(IoAVCodec *self) 
 { 
-	avcodec_init();
-	avcodec_register_all();
+	//avcodec_init();
+	//avcodec_register_all();
 	av_register_all();
 	av_log_set_level(AV_LOG_QUIET);
 }
@@ -60,12 +59,15 @@ IoAVCodec *IoAVCodec_proto(void *state)
 		{"encodeCodecNames",  IoAVCodec_encodeCodecNames},
 		{"decodeCodecNames",  IoAVCodec_decodeCodecNames},
 		
-		{"open", IoAVCodec_open},
+		{"open",  IoAVCodec_open},
 		{"close", IoAVCodec_close},
 		
-		{"decode", IoAVCodec_decode},
+		{"seekAudioFrame", IoAVCodec_seekAudioFrame},
+		{"seekVideoFrame", IoAVCodec_seekVideoFrame},
+		
+		{"decode",  IoAVCodec_decode},
 		{"isAtEnd", IoAVCodec_isAtEnd},
-		//{"encode",     IoAVCodec_startEncoding},
+		//{"encode", IoAVCodec_startEncoding},
 		
 		{NULL, NULL},
 		};
@@ -460,6 +462,20 @@ int IoAVCodec_findStreams(IoAVCodec *self)
 IoObject *IoAVCodec_isAtEnd(IoAVCodec *self, IoObject *locals, IoMessage *m)
 {
 	return IOBOOL(self, IVAR(isAtEnd));
+}
+
+IoObject *IoAVCodec_seekVideoFrame(IoAVCodec *self, IoObject *locals, IoMessage *m)
+{
+	long timestamp =  IoMessage_locals_longArgAt_(m, locals, 0);
+	int result = av_seek_frame(IVAR(formatContext), IVAR(videoStreamIndex), timestamp, 0);
+	return self;
+}
+
+IoObject *IoAVCodec_seekAudioFrame(IoAVCodec *self, IoObject *locals, IoMessage *m)
+{
+	long timestamp =  IoMessage_locals_longArgAt_(m, locals, 0);
+	int result = av_seek_frame(IVAR(formatContext), IVAR(audioStreamIndex), timestamp, 0);
+	return self;
 }
 
 IoObject *IoAVCodec_decode(IoAVCodec *self, IoObject *locals, IoMessage *m)
