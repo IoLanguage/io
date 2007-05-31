@@ -72,6 +72,7 @@ false do(
 )
 
 nil do(
+	not := true
 	isNil := true
 	
 	ifNonNil := Object getSlot("thisContext")
