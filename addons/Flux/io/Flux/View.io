@@ -66,7 +66,7 @@ View := Responder clone do(
     doWithinDisplayList := method(
 		if(needsRedraw,
 			displayList begin
-			call sender doMessage(call message argAt(0))
+			sender doMessage(thisMessage argAt(0))
 			displayList end
 			needsRedraw = nil
 		)
@@ -121,9 +121,8 @@ View := Responder clone do(
     */
 
     // --- Display -------------------------------------------------
-    
+
     display := method(
-        //doWithinDisplayList(
     	//writeln(self type, "_", self uniqueId, " display")
 		if(isClipped, scissorOn)
 		glPushMatrix
@@ -141,7 +140,6 @@ View := Responder clone do(
                 size drawQuad
 			)
 		glPopMatrix
-		//)
 		setNeedsRedraw(false)
     )
     

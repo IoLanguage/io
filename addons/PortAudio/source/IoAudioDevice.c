@@ -127,6 +127,7 @@ IoObject *IoAudioDevice_close(IoAudioDevice *self, IoObject *locals, IoMessage *
 	/*#io
 	docSlot("close", "Close the audio stream.")
     */
+    
     AudioDevice_close(DATA(self)->audioDevice);
     return self; 
 }

@@ -14,10 +14,10 @@ Video := AVCodec clone do(
             if(decode == nil, writeln("breaking"); break)
 	    )
 	    
-        //if(audioOn and audioSampleRate == 44100 and audioChannels == 2,
+        if(audioOn and audioSampleRate == 44100 and audioChannels == 2,
             AudioDevice asyncWrite(audioOutputBuffer)
             audioOutputBuffer empty  
-        //)
+        )
 	    
         frameNumber = frameNumber + 1
         frame := frames removeFirst
