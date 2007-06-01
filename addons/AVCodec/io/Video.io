@@ -23,4 +23,6 @@ Video := AVCodec clone do(
         frame := frames removeFirst
         if(frame, image setDataWidthHeightComponentCount(frame, videoSize x, videoSize y, 3), nil)
 	)
+	
+	time := method(frameNumber * framePeriod)
 )

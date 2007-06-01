@@ -5,6 +5,7 @@ VideoView := View clone do(
 	newSlot("image")
 	newSlot("video")
     isRunning ::= false
+    tmpDate := Date clone
     
 	init := method(
 		resend
@@ -55,16 +56,19 @@ VideoView := View clone do(
 	acceptsFirstResponder := false
 	
 	open := method(path,
-	    //writeln("videoView open")
-        video setPath(path)
-        video open
-        video readNextFrame
-        play
+		video setPath(path)
+		video open
+		video readNextFrame
+		play
 	)
 
     play := method(
         setIsRunning(true)
+        if(topWindow == nil, writeln("VideoView can't play - topWindow = nil"); return)
+        3 repeat(video readNextFrame)
         topWindow addTimerTargetWithDelay(self, video framePeriod)
+        self startTime := Date clone now
+        //writeln("video framePeriod = ", video framePeriod)
     )
     
     stop := method(
@@ -77,11 +81,21 @@ VideoView := View clone do(
     timer := method(n,
         //writeln("VideoView timer ", isRunning)
         isRunning ifFalse(return)
-        thisTime := Date clone now second
-        if(Random value(100) < 10, writeln((thisTime - lastTime) - video framePeriod))
-        lastTime = thisTime
-        topWindow addTimerTargetWithDelay(self, video framePeriod - .0003)
+        //thisTime := Date clone now second
+        //if(Random value(100) < 10, writeln((thisTime - lastTime) - video framePeriod))
+        //lastTime = thisTime
+        
         video readNextFrame
+        timeSinceStart := (tmpDate now - startTime) seconds
+        
+        dt := if(timeSinceStart - video time > 0, 
+        	// we're behind and need to catch up
+        	0
+        ,
+	        video time + video framePeriod - timeSinceStart   	
+        )
+        
+		topWindow addTimerTargetWithDelay(self, dt)    	
         if(video isDone, video start)
         glutPostRedisplay
     )
