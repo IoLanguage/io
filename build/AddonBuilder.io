@@ -61,7 +61,6 @@ AddonBuilder := Object clone do(
 	libSearchPaths := List clone
 	appendLibSearchPath := method(v, if(File clone setPath(v) exists, libSearchPaths appendIfAbsent(v)))
 	searchPrefixes foreach(searchPrefix, appendLibSearchPath(searchPrefix .. "/lib"))
-	searchPrefixes foreach(searchPrefix, appendLibSearchPath(searchPrefix .. "/lib64"))
 
 	debs    := Map clone
 	ebuilds := Map clone

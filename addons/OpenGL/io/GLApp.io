@@ -66,7 +66,7 @@ GLApp := Object clone do(
 
     mouse := method(nil)
 
-    timer := method(writeln("GLApp timer"))
+    timer := method(nil)
     
     newSlot("appName", "io") 
 
@@ -119,7 +119,6 @@ GLApp := Object clone do(
     )
 
     initEvents := method(
-        writeln("initEvents")
 		glutEventTarget(self)
 		glutDisplayFunc
 		glutReshapeFunc

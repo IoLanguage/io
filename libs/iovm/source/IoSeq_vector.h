@@ -3,7 +3,7 @@ typedef float NUM_TYPE;
 
 //typedef IoSeq IoVector;
 #define IoVector IoSeq
-IOVM_API int ISVECTOR(IoObject *self);
+int ISVECTOR(IoObject *self);
 
 // ---------------------------------------
 

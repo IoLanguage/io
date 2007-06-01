@@ -21,8 +21,7 @@ OSWindow := Responder clone do(
     newSlot("isFullScreen", false)
 	newSlot("normalFrame", Box clone)
     newSlot("frameBeforeFullScreen", Box clone)
-    date ::= Date clone
-
+   
     init := method(
 		setFrame(frame clone)
 		setFrameBeforeFullScreen(frameBeforeFullScreen clone)
@@ -35,7 +34,6 @@ OSWindow := Responder clone do(
 		self contentView := View clone setSize(size) resizeWithSuperview
         //contentView leftMouseDown := method(makeFirstResponder)
         self addSubview(contentView)
-        date := Date clone
     )
 
     open := method(
@@ -185,22 +183,17 @@ OSWindow := Responder clone do(
     )
 
     resizeTo := method(w, h,
-        t1 := date now second
 		w = w round
 		h = h round
 		dx := w - width
 		dy := h - height 
 		size set(w, h)
 		subviews foreach(v, v resizeBy(dx, dy))
-		if(showTimes, writeln("size ", (((date now second - t1) * 1000) floor)))
     )
 
     postRedisplay := getSlot("glutPostRedisplay")
     
-    showTimes ::= false
-    
     display := method(
-        t1 := date now second
 		//glEnable(GL_TEXTURE_2D);
 		glLoadIdentity
 		glScissor(0, 0, width, height)
@@ -208,7 +201,6 @@ OSWindow := Responder clone do(
 		subviews foreach(v, v display)
 		glFlush
 		glutSwapBuffers
-		if(showTimes, writeln("disp ", (((date now second - t1) * 1000) floor)))
     )
 
     drawBackground := method(
