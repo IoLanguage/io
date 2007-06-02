@@ -109,6 +109,8 @@ CLI := Object clone do(
 	lazySlot("knownErrors",
 		m := Map clone
 		m atPut(compileErrorMessage("("), ")-> ")
+		m atPut(compileErrorMessage("["), "]-> ")
+		m atPut(compileErrorMessage("{"), "}-> ")
 		m atPut(compileErrorMessage("\"\"\""), "\"-> ")
 		m atPut(knownErrorMissingArgument, ")-> ")
 	)
