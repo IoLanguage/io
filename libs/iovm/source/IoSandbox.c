@@ -27,8 +27,6 @@ IoTag *IoSandbox_newTag(void *state)
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoSandbox_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoSandbox_free);
-	IoTag_writeToStreamFunc_(tag, (IoTagWriteToStreamFunc *)IoSandbox_writeToStream_);
-	IoTag_readFromStreamFunc_(tag, (IoTagReadFromStreamFunc *)IoSandbox_readFromStream_);
 	return tag;
 }
 
@@ -62,65 +60,6 @@ IoState *IoSandbox_boxState(IoSandbox *self)
 	}
 
 	return DATA(self);
-}
-
-void IoSandbox_addMakeSecureMethod(IoSandbox *self)
-{
-	/*#io
-	docSlot("makeSecure",
-		   "Removes Collector DynLib File Directory Debugger Store Sandbox objects.")
-	*/
-
-	char *s = "makeSecure := method("
-	"Object removeSlots := method(\n"
-	"    stackLoop := block(\n"
-	"        stackName := call argAt(0) name\n"
-	"        indexName := call argAt(1) name\n"
-	"        stack := list(call evalArgAt(2))\n"
-	"        body := call argAt(3)\n"
-	"\n"
-	"        call sender setSlot(stackName, stack)\n"
-	"        while(stack size > 0,\n"
-	"            call sender setSlot(indexName, stack pop)\n"
-	"            call sender doMessage(body)\n"
-	"        )\n"
-	"    ) setIsActivatable(true)\n"
-	"\n"
-	"    stackLoop(stack, m, call message arguments first,\n"
-	"        self removeSlot(m name)\n"
-	"        if (m next isNil not, stack append(m next))\n"
-	"        if (m attached isNil not, stack append(m attached))\n"
-	"    )\n"
-	")\n"
-	"\n"
-	"# Remove some of the Objects from IoVM\n"
-	"IoVM removeSlots(Collector DynLib File Directory Debugger Store Sandbox)\n"
-	"\n"
-	"# Remove the dangerous CFunctions\n"
-	"System removeSlots(getenv system exit)\n"
-	"Object removeSlots(doFile launchFile)\n"
-	"\n"
-//    "# Remove the printing CFunctions\n"
-//    "(?keepPrintingCFunctions) ifNil(\n"
-//    "    Number removeSlots(print linePrint)\n"
-//    "    Duration removeSlots(print)\n"
-//    "    String removeSlots(print linePrint)\n"
-//    "    Nil removeSlots(print)\n"
-//    "    Date removeSlots(print)\n"
-//    "    Buffer removeSlots(print)\n"
-//    "    Locals removeSlots(print write writeln)\n"
-//    "    Block removeSlots(print)\n"
-//    "    Object removeSlots(print write writeln)\n"
-//    ")\n"
-//    "\n"
-	"# Remove the Protos we don't need\n"
-	"#Protos removeSlots(IoServer IoDesktop)\n"
-	"\n"
-	"# Clean up\n"
-	"Object removeSlot(\"removeSlots\")\n"
-	")"
-	;
-	IoObject_rawDoString_label_(self, IOSYMBOL(s), IOSYMBOL("[Sandbox]"));
 }
 
 IoSandbox *IoSandbox_rawClone(IoSandbox *proto)
@@ -160,15 +99,6 @@ void IoSandbox_free(IoSandbox *self)
 	{
 		IoState_free(IoSandbox_boxState(self));
 	}
-}
-
-void IoSandbox_writeToStream_(IoSandbox *self, BStream *stream)
-{
-}
-
-void *IoSandbox_readFromStream_(IoSandbox *self, BStream *stream)
-{
-	return self;
 }
 
 /* ----------------------------------------------------------- */
