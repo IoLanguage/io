@@ -47,6 +47,11 @@ ifneq (,$(findstring $(SYS),$(NEEDS_M)))
 LFLAGS +=-lm
 endif
 
+hasEditLib := $(wildcard editlib_test/editlib_test)
+ifneq ($(strip $(hasEditLib)),)
+LFLAGS += -ledit
+endif
+
 #NEEDS_PTHREAD := FreeBSD Linux NetBSD
 #ifneq (,$(findstring $(SYS),$(NEEDS_PTHREAD)))
 #LFLAGS +=-lpthread
