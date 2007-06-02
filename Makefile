@@ -88,7 +88,7 @@ vm:
 addons: vm
 	./_build/binaries/io_static$(BINARY_SUFFIX) build.io
 	@$(MAKE) -s -C tools/editlib_test warn
-	@if [ -f errors ]; then cat errors; echo "Note: addons are expected not to build the libs or headers are missing"; rm errors; fi
+	@if [ -f errors ]; then cat errors; echo; echo "Note: addons do not to build when libs or headers are missing"; echo; rm errors; fi
 
 vmlib:
 	mkdir -p _build || true
