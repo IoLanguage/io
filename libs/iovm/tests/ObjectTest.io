@@ -121,4 +121,9 @@ ObjectTest := UnitTest clone do(
 		assertEquals(o bob, 19)
 		assertEquals(o bobCalcCount, 1)
 	)
+
+	testRemoveAllProtosAsString := method(
+		# shouldn't segfault
+		assertRaisesException(Object clone removeAllProtos asString)
+	)
 )

@@ -81,7 +81,13 @@ CLI := Object clone do(
 	)
 
 	writeCommandResult := method(result, 
-		writeln(outPrompt, getSlot("result") asString)
+		e := try(string := getSlot("result") asString)
+		if(e not,
+			writeln(outPrompt, string)
+		,
+			writeln(outPrompt, "<exception while dislaying result>")
+			e showStack
+		)
 	)
 	
 	handleInteractiveSingleLine := method(
