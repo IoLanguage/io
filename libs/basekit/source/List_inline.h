@@ -152,7 +152,7 @@ IOINLINE void List_removeIndex_(List *self, size_t index)
 	}
 }
 
-IOINLINE void List_removeIndex_toIndex_(List *self, long index1, long index2)
+IOINLINE void List_removeIndex_toIndex_(List *self, size_t index1, size_t index2)
 {
 	long length;
 	
@@ -193,7 +193,7 @@ IOINLINE void List_removeIndex_toIndex_(List *self, long index1, long index2)
 
 IOINLINE void List_remove_(List *self, void *item)
 {
-	int index;
+	size_t index;
 	
 	for (index = 0; index < self->size; index ++)
 	{
@@ -239,7 +239,7 @@ IOINLINE void List_removeItems_(List *self, List *other)
 	LIST_FOREACH(other, i, v, List_remove_(self, v));
 }
 
-IOINLINE void List_at_insert_(List *self, long index, void *item)
+IOINLINE void List_at_insert_(List *self, size_t index, void *item)
 {
 	if (index < 0) 
 	{ 
@@ -262,7 +262,7 @@ IOINLINE void List_at_insert_(List *self, long index, void *item)
 	self->size ++;
 }
 
-IOINLINE void List_at_put_(List *self, long index, void *item)
+IOINLINE void List_at_put_(List *self, size_t index, void *item)
 {
 	if (index < 0) 
 	{ 
@@ -349,8 +349,8 @@ IOINLINE void *List_top(const List *self)
 
 IOINLINE int List_removeTrueFor_(List *self, ListCollectCallback* callback)
 {
-	long getIndex = 0;
-	long putIndex = 0;
+	size_t getIndex = 0;
+	size_t putIndex = 0;
 	size_t count = self->size;
 	void **items = self->items;
 	

@@ -52,7 +52,7 @@ IOINLINE void Collector_makeGrayIfWhite_(Collector *self, void *v)
 {
 	if (Collector_markerIsWhite_(self, (CollectorMarker *)v)) 
 	{
-		Collector_makeGray_(self, v);
+		Collector_makeGray_(self, (CollectorMarker *) v);
 	}
 }
 
@@ -67,7 +67,7 @@ IOINLINE void *Collector_value_addingRefTo_(Collector *self, void *v, void *ref)
 {	 
 	if (Collector_markerIsBlack_(self, (CollectorMarker *)v) && Collector_markerIsWhite_(self, (CollectorMarker *)ref))
 	{
-		Collector_makeGray_(self, ref);
+		Collector_makeGray_(self, (CollectorMarker *) ref);
 	}
 	
 	return ref;

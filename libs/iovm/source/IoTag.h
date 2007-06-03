@@ -61,7 +61,7 @@ typedef struct
 } IoTag;
 
 IOVM_API IoTag *IoTag_new(void);
-IOVM_API IoTag *IoTag_newWithName_(char *name);
+IOVM_API IoTag *IoTag_newWithName_(const char *name);
 IOVM_API void IoTag_free(IoTag *self);
 
 IOVM_API void IoTag_name_(IoTag *self, const char *name);
