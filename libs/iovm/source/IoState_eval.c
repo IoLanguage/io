@@ -71,15 +71,6 @@ IoObject *IoState_on_doCString_withLabel_(IoState *self,
 	return result;
 }
 
-/*
-IoObject *IoState_on_doPackedCString_withLabel_(IoState *self, IoObject *target, const char *s, const char *label)
-{
-	IoMessage *const m = (IoMessage *)IoUnpack_unpack(self, s);
-	IoState_zeroSandboxCounts(self);
-	return IoState_tryToPerform(self, target, target, m);
-}
-*/
-
 IoObject *IoState_doCString_(IoState *self, const char *s)
 {
 	return IoState_on_doCString_withLabel_(self, self->lobby, s, "IoState_doCString");
