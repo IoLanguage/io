@@ -12,8 +12,6 @@
 #include "IoList.h"
 #include <ctype.h>
 
-#define BIVAR(self) ((UArray *)IoObject_dataPointer(self))
-
 #include <sys/types.h>
 #ifdef WIN32
 #include <winsock2.h>
