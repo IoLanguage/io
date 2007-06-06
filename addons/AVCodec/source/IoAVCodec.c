@@ -15,15 +15,14 @@ AVCodec ioDoc(
 #include <limits.h>
 //#include <math.h>
 
-#define DATA(self) ((IoAVCodecData *)IoObject_dataPointer(self))
-#define IVAR(name) (((IoAVCodecData *)IoObject_dataPointer(self))->name)
 
-void IoAVCodec_registerIfNeeded(IoAVCodec *self) 
-{ 
-	//avcodec_init();
-	//avcodec_register_all();
+#define DATA(self) ((IoAVCodecData *)IoObject_dataPointer(self))
+
+void IoAVCodec_registerIfNeeded(IoAVCodec *self)
+{
+	avcodec_init();
+	avcodec_register_all();
 	av_register_all();
-	av_log_set_level(AV_LOG_QUIET);
 }
 
 IoTag *IoAVCodec_newTag(void *state)
@@ -43,8 +42,8 @@ IoAVCodec *IoAVCodec_proto(void *state)
 	
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoAVCodecData)));
 	
-	IVAR(inputBuffer)  = IoSeq_new(state);
-	IVAR(outputBuffer) = IoSeq_new(state);
+	DATA(self)->inputBuffer  = IoSeq_new(state);
+	DATA(self)->outputBuffer = IoSeq_new(state);
 
 	IoState_registerProtoWithFunc_(state, self, IoAVCodec_proto);
 
@@ -59,15 +58,12 @@ IoAVCodec *IoAVCodec_proto(void *state)
 		{"encodeCodecNames",  IoAVCodec_encodeCodecNames},
 		{"decodeCodecNames",  IoAVCodec_decodeCodecNames},
 		
-		{"open",  IoAVCodec_open},
+		{"open", IoAVCodec_open},
 		{"close", IoAVCodec_close},
 		
-		{"seekAudioFrame", IoAVCodec_seekAudioFrame},
-		{"seekVideoFrame", IoAVCodec_seekVideoFrame},
-		
-		{"decode",  IoAVCodec_decode},
+		{"decode", IoAVCodec_decode},
 		{"isAtEnd", IoAVCodec_isAtEnd},
-		//{"encode", IoAVCodec_startEncoding},
+		//{"encode",     IoAVCodec_startEncoding},
 		
 		{NULL, NULL},
 		};
@@ -76,15 +72,15 @@ IoAVCodec *IoAVCodec_proto(void *state)
 	return self;
 }
 
-IoAVCodec *IoAVCodec_rawClone(IoAVCodec *proto) 
-{ 
+IoAVCodec *IoAVCodec_rawClone(IoAVCodec *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoAVCodecData)));
 	
-	IVAR(inputBuffer)        = IOCLONE(DATA(proto)->inputBuffer);
-	IVAR(outputBuffer)       = IOCLONE(DATA(proto)->outputBuffer);
+	DATA(self)->inputBuffer        = IOCLONE(DATA(proto)->inputBuffer);
+	DATA(self)->outputBuffer       = IOCLONE(DATA(proto)->outputBuffer);
 
-	return self; 
+	return self;
 }
 
 IoAVCodec *IoAVCodec_new(void *state)
@@ -93,22 +89,22 @@ IoAVCodec *IoAVCodec_new(void *state)
 	return IOCLONE(proto);
 }
 
-// ----------------------------------------------------------- 
+// -----------------------------------------------------------
 
-void IoAVCodec_createContextIfNeeded(IoAVCodec *self) 
+void IoAVCodec_createContextIfNeeded(IoAVCodec *self)
 {
-	if(!IVAR(packet))
+	if(!DATA(self)->packet)
 	{
-		IVAR(packet) = calloc(1, sizeof(AVPacket));
+		DATA(self)->packet = calloc(1, sizeof(AVPacket));
 	}
 	
 	// video
 	
 	// frames
-	if (!IVAR(frames))
+	if (!DATA(self)->frames)
 	{
-		IVAR(frames) = IoList_new(IOSTATE);
-		IoObject_setSlot_to_(self, IOSYMBOL("frames"), IVAR(frames));
+		DATA(self)->frames = IoList_new(IOSTATE);
+		IoObject_setSlot_to_(self, IOSYMBOL("frames"), DATA(self)->frames);
 	}
 	
 	// videoSize
@@ -118,110 +114,102 @@ void IoAVCodec_createContextIfNeeded(IoAVCodec *self)
 		IoObject_setSlot_to_(self, IOSYMBOL("videoSize"), sizeSeq);
 	}
 	
-	if (!IVAR(decodedFrame))
+	if (!DATA(self)->decodedFrame)
 	{
-		IVAR(decodedFrame) = avcodec_alloc_frame();
+		DATA(self)->decodedFrame = avcodec_alloc_frame();
 	}
 	
 	// audio
 	
-	if(!IVAR(audioOutBuffer))
+	if(!DATA(self)->audioOutBuffer)
 	{
-		IVAR(audioOutBuffer) = malloc(AVCODEC_MAX_AUDIO_FRAME_SIZE + FF_INPUT_BUFFER_PADDING_SIZE);
+		DATA(self)->audioOutBuffer = malloc(AVCODEC_MAX_AUDIO_FRAME_SIZE);
 	}
 }
 
 AVPicture *IoAVCode_allocDstPictureIfNeeded(IoAVCodec *self, int pix_fmt, int width, int height)
 {
-	if(!IVAR(rgbPicture))
+	if(!DATA(self)->rgbPicture)
 	{
-		IVAR(rgbPicture) = calloc(1, sizeof(AVPicture));
-		avpicture_alloc(IVAR(rgbPicture), PIX_FMT_RGB24, width, height);
+		DATA(self)->rgbPicture = calloc(1, sizeof(AVPicture));
+		avpicture_alloc(DATA(self)->rgbPicture, PIX_FMT_RGB24, width, height);
 	}
 	
-	return IVAR(rgbPicture);
+	return DATA(self)->rgbPicture;
 }
 
 
-void IoAVCodec_freeContextIfNeeded(IoAVCodec *self) 
-{ 
+void IoAVCodec_freeContextIfNeeded(IoAVCodec *self)
+{
 	//printf("IoAVCodec_freeContextIfNeeded\n");
 	
-	IVAR(audioContext) = NULL;
-	IVAR(videoContext) = NULL;
+	DATA(self)->audioContext = NULL;
+	DATA(self)->videoContext = NULL;
 	
-	if (IVAR(resampleContext))
+	if (DATA(self)->audioContext)
 	{
-		audio_resample_close(IVAR(resampleContext));
-		IVAR(resampleContext) = NULL;
-		free(IVAR(resampleOutputBuffer));
-		IVAR(resampleOutputBuffer) = NULL;
+		//avcodec_close(DATA(self)->audioContext);
+		//av_free(DATA(self)->audioContext);
+		DATA(self)->audioContext = NULL;
 	}
 	
-	if (IVAR(audioContext))
+	if (DATA(self)->videoContext)
 	{
-		//avcodec_close(IVAR(audioContext));
-		//av_free(IVAR(audioContext));
-		IVAR(audioContext) = NULL;
-	}
-	
-	if (IVAR(videoContext))
-	{
-		//avcodec_close(IVAR(audioContext));
-		//av_free(IVAR(audioContext));
-		IVAR(audioContext) = NULL;
+		//avcodec_close(DATA(self)->audioContext);
+		//av_free(DATA(self)->audioContext);
+		DATA(self)->audioContext = NULL;
 	}
 
-	if (IVAR(formatContext))
+	if (DATA(self)->formatContext)
 	{
-		av_close_input_file(IVAR(formatContext));
-		//av_free(IVAR(formatContext));
-		IVAR(formatContext) = NULL;
+		av_close_input_file(DATA(self)->formatContext);
+		//av_free(DATA(self)->formatContext);
+		DATA(self)->formatContext = NULL;
 	}	
 	
-	if(IVAR(packet))
+	if(DATA(self)->packet)
 	{
-		//free(IVAR(packet));
-		IVAR(packet) = NULL;
+		//free(DATA(self)->packet);
+		DATA(self)->packet = NULL;
 	}
 	
-	if (IVAR(audioOutBuffer))
+	if (DATA(self)->audioOutBuffer)
 	{
-		//free(IVAR(audioOutBuffer));
-		IVAR(audioOutBuffer) = NULL;
+		//free(DATA(self)->audioOutBuffer);
+		DATA(self)->audioOutBuffer = NULL;
 	}
 	
-	if(IVAR(decodedFrame))
+	if(DATA(self)->decodedFrame)
 	{
-		//av_free(IVAR(decodedFrame));
-		IVAR(decodedFrame) = NULL;
+		//av_free(DATA(self)->decodedFrame);
+		DATA(self)->decodedFrame = NULL;
 	}
 		
-	if(IVAR(rgbPicture)) 
-	{ 
-		avpicture_free(IVAR(rgbPicture));
-		//free(IVAR(rgbPicture));
-		IVAR(rgbPicture) = NULL; 
+	if(DATA(self)->rgbPicture)
+	{
+		avpicture_free(DATA(self)->rgbPicture);
+		//free(DATA(self)->rgbPicture);
+		DATA(self)->rgbPicture = NULL;
 	}
 	
 	//printf("IoAVCodec_freeContextIfNeeded done\n");
 }
 
-void IoAVCodec_free(IoAVCodec *self) 
-{ 
+void IoAVCodec_free(IoAVCodec *self)
+{
 	IoAVCodec_freeContextIfNeeded(self);
-	free(IoObject_dataPointer(self)); 
+	free(IoObject_dataPointer(self));
 }
 
 void IoAVCodec_mark(IoAVCodec *self)
 {
-	if(IVAR(frames)) IoObject_shouldMark(IVAR(frames));
+	if(DATA(self)->frames) IoObject_shouldMark(DATA(self)->frames);
 	
-	IoObject_shouldMark(IVAR(inputBuffer));
-	IoObject_shouldMark(IVAR(outputBuffer));
+	IoObject_shouldMark(DATA(self)->inputBuffer);
+	IoObject_shouldMark(DATA(self)->outputBuffer);
 }
 
-// ----------------------------------------------------------- 
+// -----------------------------------------------------------
 
 void IoAVCodec_error_(IoAVCodec *self, IoMessage *m, char *s)
 {
@@ -230,19 +218,19 @@ void IoAVCodec_error_(IoAVCodec *self, IoMessage *m, char *s)
 }
 
 IoObject *IoAVCodec_audioInputBuffer(IoAVCodec *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
 	docSlot("inputBuffer", "Returns the input buffer.")
 	*/
-	return IVAR(inputBuffer); 
+	return DATA(self)->inputBuffer;
 }
 
 IoObject *IoAVCodec_audioOutputBuffer(IoAVCodec *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
 	docSlot("outputBuffer", "Returns the output buffer.")
 	*/
-	return IVAR(outputBuffer); 
+	return DATA(self)->outputBuffer;
 }
 
 IoObject *IoAVCodec_decodeCodecNames(IoAVCodec *self, IoObject *locals, IoMessage *m)
@@ -254,7 +242,7 @@ IoObject *IoAVCodec_decodeCodecNames(IoAVCodec *self, IoObject *locals, IoMessag
 	AVCodec *p = first_avcodec;
 	IoList *names = IoList_new(IOSTATE);
 	
-	while (p) 
+	while (p)
 	{
 		if (p->decode)
 		{
@@ -276,7 +264,7 @@ IoObject *IoAVCodec_encodeCodecNames(IoAVCodec *self, IoObject *locals, IoMessag
 	AVCodec *p = first_avcodec;
 	IoList *names = IoList_new(IOSTATE);
 	
-	while (p) 
+	while (p)
 	{
 		if (p->encode)
 		{
@@ -315,7 +303,7 @@ void IoAVCodec_ConvertFloatToShort(float *f, short *s, size_t sampleCount)
 	}
 }
 
-// ----------------------------------------------------------- 
+// -----------------------------------------------------------
 
 #define INBUF_SIZE 4096
 
@@ -325,14 +313,13 @@ IoObject *IoAVCodec_close(IoAVCodec *self, IoObject *locals, IoMessage *m)
 {
 	IoAVCodec_registerIfNeeded(self);
 	IoAVCodec_freeContextIfNeeded(self);
-	return self;
 }
 
 int IoAVCodec_openFile(IoAVCodec *self)
 {
 	AVInputFormat *inputFormat;
 	IoObject *fileName = IoObject_symbolGetSlot_(self, IOSYMBOL("path"));
-    int err = av_open_input_file(&IVAR(formatContext), CSTRING(fileName), NULL, 0, NULL);
+    int err = av_open_input_file(&DATA(self)->formatContext, CSTRING(fileName), NULL, 0, NULL);
 	return err;
 }
 
@@ -344,7 +331,7 @@ IoObject *IoAVCodec_open(IoAVCodec *self, IoObject *locals, IoMessage *m)
 	IoAVCodec_freeContextIfNeeded(self);
 	IoAVCodec_createContextIfNeeded(self);
 
-	IVAR(isAtEnd) = 0;
+	DATA(self)->isAtEnd = 0;
 	
 	err = IoAVCodec_openFile(self);
 
@@ -356,21 +343,21 @@ IoObject *IoAVCodec_open(IoAVCodec *self, IoObject *locals, IoMessage *m)
 	}
 	
 	IoAVCodec_findStreams(self);
-	av_read_play(IVAR(formatContext));
+	av_read_play(DATA(self)->formatContext);
 
 	return self;
 }
 
 int IoAVCodec_findStreams(IoAVCodec *self)
 {
-    AVFormatContext *formatContext = IVAR(formatContext);
+    AVFormatContext *formatContext = DATA(self)->formatContext;
 	int i;
 	
 	av_find_stream_info(formatContext);
 	
 	//printf("formatContext = %p streams = %i\n", (void *)formatContext, formatContext->nb_streams);
 	
-    for(i = 0; i < formatContext->nb_streams; i++) 
+    for(i = 0; i < formatContext->nb_streams; i++)
 	{
 		AVStream *stream = formatContext->streams[i];
         AVCodecContext *codecContext = stream->codec;
@@ -378,63 +365,48 @@ int IoAVCodec_findStreams(IoAVCodec *self)
         switch(codecContext->codec_type)
 		{
 			case CODEC_TYPE_AUDIO:
-				IVAR(audioStreamIndex) = i;
+				DATA(self)->audioStreamIndex = i;
 				{
 					AVCodec *codec = avcodec_find_decoder(codecContext->codec_id);
 					
-					if (codec) 
+					if (codec)
 					{
 						int err = avcodec_open(codecContext, codec);
 				
 						if (err == 0)
 						{
-							IVAR(audioContext) = codecContext;
+							DATA(self)->audioContext = codecContext;
 						}
-						else
-						{
-							printf("error finding audio decoder\n");
-						}
-
 					}
 				}
 				
-				//printf("audioStreamIndex = %i\n", IVAR(audioStreamIndex));
+				//printf("audioStreamIndex = %i\n", DATA(self)->audioStreamIndex);
 				IoObject_setSlot_to_(self, IOSYMBOL("audioChannels"),   IONUMBER(codecContext->channels));
 				IoObject_setSlot_to_(self, IOSYMBOL("audioSampleRate"), IONUMBER(codecContext->sample_rate));
 				IoObject_setSlot_to_(self, IOSYMBOL("audioBitRate"),	IONUMBER(codecContext->bit_rate));
 				IoObject_setSlot_to_(self, IOSYMBOL("audioDuration"),	IONUMBER(stream->duration));
 				IoObject_setSlot_to_(self, IOSYMBOL("audioFrameCount"),	IONUMBER(stream->nb_frames));
-				
-				if(codecContext->channels != 2 || 44100 != codecContext->sample_rate)
-				{
-					IVAR(resampleContext) = audio_resample_init(2, codecContext->channels, 44100, codecContext->sample_rate);
-					IVAR(resampleOutputBuffer) = malloc(AVCODEC_MAX_AUDIO_FRAME_SIZE * 10 + FF_INPUT_BUFFER_PADDING_SIZE);
-				}
 				break;
 				
 			case CODEC_TYPE_VIDEO:
 				{
-				IVAR(videoStreamIndex) = i;
+				DATA(self)->videoStreamIndex = i;
 				
 				{
 					AVCodec *codec = avcodec_find_decoder(codecContext->codec_id);
 					
-					if (codec) 
+					if (codec)
 					{
 						int err = avcodec_open(codecContext, codec);
 				
 						if (err == 0)
 						{
-							IVAR(videoContext) = codecContext;
-						}
-						else
-						{
-							printf("error finding video decoder\n");
+							DATA(self)->videoContext = codecContext;
 						}
 					}
 				}
 				
-				//printf("videoStreamIndex = %i\n", IVAR(videoStreamIndex));
+				//printf("videoStreamIndex = %i\n", DATA(self)->videoStreamIndex);
 				{
 					float framePeriod = (((float)codecContext->time_base.num)/((float)codecContext->time_base.den));
 					UArray *sizeUArray = UArray_newWithData_type_encoding_size_copy_("", CTYPE_float32_t, CENCODING_NUMBER, 2, 1);
@@ -461,33 +433,19 @@ int IoAVCodec_findStreams(IoAVCodec *self)
 
 IoObject *IoAVCodec_isAtEnd(IoAVCodec *self, IoObject *locals, IoMessage *m)
 {
-	return IOBOOL(self, IVAR(isAtEnd));
-}
-
-IoObject *IoAVCodec_seekVideoFrame(IoAVCodec *self, IoObject *locals, IoMessage *m)
-{
-	long timestamp =  IoMessage_locals_longArgAt_(m, locals, 0);
-	int result = av_seek_frame(IVAR(formatContext), IVAR(videoStreamIndex), timestamp, 0);
-	return self;
-}
-
-IoObject *IoAVCodec_seekAudioFrame(IoAVCodec *self, IoObject *locals, IoMessage *m)
-{
-	long timestamp =  IoMessage_locals_longArgAt_(m, locals, 0);
-	int result = av_seek_frame(IVAR(formatContext), IVAR(audioStreamIndex), timestamp, 0);
-	return self;
+	return IOBOOL(self, DATA(self)->isAtEnd);
 }
 
 IoObject *IoAVCodec_decode(IoAVCodec *self, IoObject *locals, IoMessage *m)
 {
-	AVFormatContext *formatContext = IVAR(formatContext);
-	int audioStreamIndex = IVAR(audioStreamIndex);
-	int videoStreamIndex = IVAR(videoStreamIndex);
-    AVPacket *packet = IVAR(packet);
+	AVFormatContext *formatContext = DATA(self)->formatContext;
+	int audioStreamIndex = DATA(self)->audioStreamIndex;
+	int videoStreamIndex = DATA(self)->videoStreamIndex;
+    AVPacket *packet = DATA(self)->packet;
 	int ret;
 	
 	
-	if(IVAR(audioContext) == NULL && IVAR(videoContext) == NULL) 
+	if(DATA(self)->audioContext == NULL && DATA(self)->videoContext == NULL)
 	{
 		//printf("not open\n");
 		return IONIL(self);
@@ -495,31 +453,31 @@ IoObject *IoAVCodec_decode(IoAVCodec *self, IoObject *locals, IoMessage *m)
 
 	ret = av_read_frame(formatContext, packet);
 	
-	if (ret < 0) 
-	{ 
+	if (ret < 0)
+	{
 		//printf("av_read_frame ret = %i\n", ret);
 		
 		if(ret == AVERROR_IO)
 		{
-			IVAR(isAtEnd) = 1; 
+			DATA(self)->isAtEnd = 1;
 		}
 		
-		return IONIL(self); 
+		return IONIL(self);
 	}
 
-	if (packet->stream_index == audioStreamIndex && IVAR(audioContext)) 
+	if (packet->stream_index == audioStreamIndex && DATA(self)->audioContext)
 	{
-		IoAVCodec_decodeAudioPacket(self, 
-			formatContext->streams[audioStreamIndex]->codec, 
-			packet->data, packet->size);
-	} 
-	else if (packet->stream_index == videoStreamIndex && IVAR(videoContext)) 
-	{
-		IoAVCodec_decodeVideoPacket(self, 
-			formatContext->streams[videoStreamIndex]->codec, 
+		IoAVCodec_decodeAudioPacket(self,
+			formatContext->streams[audioStreamIndex]->codec,
 			packet->data, packet->size);
 	}
-	else 
+	else if (packet->stream_index == videoStreamIndex && DATA(self)->videoContext)
+	{
+		IoAVCodec_decodeVideoPacket(self,
+			formatContext->streams[videoStreamIndex]->codec,
+			packet->data, packet->size);
+	}
+	else
 	{
 		av_free_packet(packet);
 	}
@@ -529,17 +487,17 @@ IoObject *IoAVCodec_decode(IoAVCodec *self, IoObject *locals, IoMessage *m)
 
 int IoAVCodec_decodeAudioPacket(IoAVCodec *self, AVCodecContext *c, uint8_t *inbuf, size_t size)
 {
-	UArray  *outba  = IoSeq_rawUArray(IVAR(outputBuffer));
-	uint8_t *outbuf = IVAR(audioOutBuffer);
+	UArray  *outba  = IoSeq_rawUArray(DATA(self)->outputBuffer);
+	uint8_t *outbuf = DATA(self)->audioOutBuffer;
 	
 	//UArray_setItemType_(outba, CTYPE_float32_t);
 	
-	while (size > 0) 
+	while (size > 0)
 	{
 		int outSize;
 		int len = avcodec_decode_audio(c, (int16_t *)outbuf, &outSize, inbuf, size);
 		
-		if (len < 0) 
+		if (len < 0)
 		{
 			printf("Error while decoding audio packet\n");
 			return -1;
@@ -547,23 +505,15 @@ int IoAVCodec_decodeAudioPacket(IoAVCodec *self, AVCodecContext *c, uint8_t *inb
 		
 		if (outSize > 0)
 		{
-			// if a frame has been decoded, output it 
+			// if a frame has been decoded, output it
 			// convert short ints to floats
 			
-			size_t sampleCount = outSize / c->channels; 
+			size_t sampleCount = outSize / c->channels;
 			size_t oldSize = UArray_size(outba);
-			UArray_setSize_(outba, oldSize + sampleCount * sizeof(float));
-			
-			if(IVAR(resampleContext))
-			{
-				//printf("resampling %i@%i\n", c->channels);
-				audio_resample(IVAR(resampleContext), IVAR(resampleOutputBuffer), (short *)outbuf, sampleCount * 2);
-				IoAVCodec_ConvertShortToFloat((short *)IVAR(resampleOutputBuffer), (float *)(UArray_bytes(outba) + oldSize), sampleCount);
-			}
-			else
-			{
-				IoAVCodec_ConvertShortToFloat((short *)outbuf, (float *)(UArray_bytes(outba) + oldSize), sampleCount);
-			}
+			//UArray_setSize_(outba, oldSize + sampleCount); // knows it's a float32 array
+			UArray_setSize_(outba, oldSize + sampleCount * sizeof(float)); // knows it's a float32 array
+										
+			IoAVCodec_ConvertShortToFloat((short *)outbuf, (float *)(UArray_bytes(outba) + oldSize), sampleCount);
 		}
 		
 		size -= len;
@@ -575,22 +525,22 @@ int IoAVCodec_decodeAudioPacket(IoAVCodec *self, AVCodecContext *c, uint8_t *inb
 
 int IoAVCodec_decodeVideoPacket(IoAVCodec *self, AVCodecContext *c, uint8_t *inbuf, size_t size)
 {	
-    AVFrame *decodeFrame = IVAR(decodedFrame);
+    AVFrame *decodeFrame = DATA(self)->decodedFrame;
 
 	while (size > 0)
 	{
 		int got_picture;
-		size_t len = avcodec_decode_video(c, IVAR(decodedFrame), &got_picture, inbuf, size);
+		size_t len = avcodec_decode_video(c, DATA(self)->decodedFrame, &got_picture, inbuf, size);
 		
 		if (len < 0)
-		{ 
+		{
 			printf("Error while decoding video packet\n");
 			return -1;
 		}
 
-		if (got_picture) 
+		if (got_picture)
 		{
-			IoList_rawAppend_(IVAR(frames), IoAVCode_frameSeqForAVFrame_(self, decodeFrame, c->pix_fmt, c->width, c->height));
+			IoList_rawAppend_(DATA(self)->frames, IoAVCode_frameSeqForAVFrame_(self, decodeFrame, c->pix_fmt, c->width, c->height));
 		}
 		
 		size -= len;

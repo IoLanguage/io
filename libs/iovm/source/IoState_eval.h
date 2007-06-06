@@ -21,8 +21,6 @@ IOVM_API IoObject *IoState_on_doCString_withLabel_(IoState *self,
 								  const char *s,
 								  const char *label);
 
-//IoObject *IoState_on_doPackedCString_withLabel_(IoState *self, IoObject *target, const char *s, const char *label);
-
 // sandbox
 
 IOVM_API void IoState_zeroSandboxCounts(IoState *self);

@@ -176,7 +176,8 @@ SequenceTest := UnitTest clone do(
         assertRaisesException("abc" asMutable atInsertSeq)
         assertRaisesException("abc" asMutable atInsertSeq(nil))
         assertRaisesException("abc" asMutable atInsertSeq(nil, "def"))
-        assertRaisesException("abc" asMutable atInsertSeq(1, nil))
+        assertEquals("a123bc", "abc" asMutable atInsertSeq(1, 123))
+        assertEquals("anilbc", "abc" asMutable atInsertSeq(1, nil))
         string := "abc"
         assertNotSame(string, string asMutable atInsertSeq(1, "def"))
         assertEquals("abcdef", "abc" asMutable atInsertSeq(3, "def"))

@@ -24,7 +24,7 @@ IoTag *IoTag_new(void)
 	return self;
 }
 
-IoTag *IoTag_newWithName_(char *name)
+IoTag *IoTag_newWithName_(const char *name)
 {
 	IoTag *self = IoTag_new();
 	IoTag_name_(self, name);

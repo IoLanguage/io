@@ -1,5 +1,4 @@
 INSTALL_PREFIX ?= /usr/local
-INSTALL_LIBDIR ?= /usr/local/lib
 
 SYS ?= $(shell uname -s)
 
@@ -77,15 +76,19 @@ testaddon:
 	./_build/binaries/io_static$(BINARY_SUFFIX) addons/$(addon)/tests/run.io
 
 vm:
+	$(MAKE) -C tools/editlib_test clean
+	$(MAKE) -C tools/editlib_test || true
 	for dir in $(libs); do INSTALL_PREFIX=$(INSTALL_PREFIX) $(MAKE) -C libs/$$dir; done
 	$(MAKE) vmlib
 	cd tools; $(MAKE)
 	mkdir -p _build/binaries || true
 	cp tools/_build/binaries/* _build/binaries
+	@$(MAKE) -s -C tools/editlib_test warn
 
 addons: vm
 	./_build/binaries/io_static$(BINARY_SUFFIX) build.io
-	@if [ -f errors ]; then cat errors; rm errors; fi
+	@$(MAKE) -s -C tools/editlib_test warn
+	@if [ -f errors ]; then cat errors; echo; echo "Note: addons do not to build when libs or headers are missing"; echo; rm errors; fi
 
 vmlib:
 	mkdir -p _build || true
@@ -101,18 +104,18 @@ vmlib:
 install:
 	umask 022
 	mkdir -p $(INSTALL_PREFIX)/bin || true
-	mkdir -p $(INSTALL_LIBDIR) || true
+	mkdir -p $(INSTALL_PREFIX)/lib || true
 	rm -f $(INSTALL_PREFIX)/bin/io$(BINARY_SUFFIX)
 	cp _build/binaries/io$(BINARY_SUFFIX) $(INSTALL_PREFIX)/bin || true
 	chmod ugo+rx $(INSTALL_PREFIX)/bin/io$(BINARY_SUFFIX)
 	cp _build/binaries/io_static$(BINARY_SUFFIX) $(INSTALL_PREFIX)/bin
 	chmod ugo+rx $(INSTALL_PREFIX)/bin/io_static$(BINARY_SUFFIX)  || true
-	cp _build/dll/* $(INSTALL_LIBDIR)  || true
-	cp _build/lib/* $(INSTALL_LIBDIR)  || true
-	rm -rf $(INSTALL_LIBDIR)/io || true
-	mkdir -p $(INSTALL_LIBDIR)/io || true
-	cp -fR addons $(INSTALL_LIBDIR)/io
-	chmod -R ugo+rX $(INSTALL_LIBDIR)/io
+	cp _build/dll/* $(INSTALL_PREFIX)/lib  || true
+	cp _build/lib/* $(INSTALL_PREFIX)/lib  || true
+	rm -rf $(INSTALL_PREFIX)/lib/io || true
+	mkdir -p $(INSTALL_PREFIX)/lib/io || true
+	cp -fR addons $(INSTALL_PREFIX)/lib/io
+	chmod -R ugo+rX $(INSTALL_PREFIX)/lib/io
 
 linkInstall:
 	mkdir -p $(INSTALL_PREFIX)/bin || true
@@ -120,18 +123,18 @@ linkInstall:
 	chmod ugo+rx $(INSTALL_PREFIX)/bin/io
 	ln -sf `pwd`/_build/binaries/io_static$(BINARY_SUFFIX) $(INSTALL_PREFIX)/bin
 	chmod ugo+rx $(INSTALL_PREFIX)/bin/io_static$(BINARY_SUFFIX)
-	ln -sf `pwd`/_build/dll/* $(INSTALL_LIBDIR)
-	ln -sf `pwd`/_build/lib/* $(INSTALL_LIBDIR)
-	rm -rf $(INSTALL_LIBDIR)/io || true
-	mkdir -p $(INSTALL_LIBDIR)/io || true
-	ln -s `pwd`/addons $(INSTALL_LIBDIR)/io/addons
-	chmod -R ugo+rX $(INSTALL_LIBDIR)/io
+	ln -sf `pwd`/_build/dll/* $(INSTALL_PREFIX)/lib
+	ln -sf `pwd`/_build/lib/* $(INSTALL_PREFIX)/lib
+	rm -rf $(INSTALL_PREFIX)/lib/io || true
+	mkdir -p $(INSTALL_PREFIX)/lib/io || true
+	ln -s `pwd`/addons $(INSTALL_PREFIX)/lib/io/addons
+	chmod -R ugo+rX $(INSTALL_PREFIX)/lib/io
 
 uninstall:
-	rm -rf $(INSTALL_LIBDIR)/io
+	rm -rf $(INSTALL_PREFIX)/lib/io
 	rm $(INSTALL_PREFIX)/bin/io
 	rm $(INSTALL_PREFIX)/bin/io_static$(BINARY_SUFFIX)
-	rm $(INSTALL_LIBDIR)/libiovmall.*
+	rm $(INSTALL_PREFIX)/lib/libiovmall.*
 
 doc:
 	./_build/binaries/io_static$(BINARY_SUFFIX) build.io docs
@@ -150,7 +153,8 @@ clean:
 	-rm -rf _build
 	-rm -rf projects/osx/build
 	-rm -rf projects/osxvm/build
-	cd tools; $(MAKE) clean
+	$(MAKE) -C tools clean
+	$(MAKE) -C tools/editlib_test clean
 
 testvm:
 	cd tools; make test
@@ -162,25 +166,14 @@ test:
 	$(MAKE) testvm
 	$(MAKE) testaddons
 
-dist_tar:
+dist:
 	-rm -f Io-*.tar.gz
 	echo "#define IO_VERSION_NUMBER "$(shell date +'%Y%m%d') > libs/iovm/source/IoVersion.h
-	git add libs/iovm/source/IoVersion.h 
-	git commit -q --no-verify -m "setting version string for release"
+	#git add libs/iovm/source/IoVersion.h 
+	#git commit -q --no-verify -m "setting version string for release"
 	git archive --format=tar --prefix=Io-$(date)/ HEAD | gzip > Io-$(date).tar.gz
 	ls -al Io-$(date).tar.gz
-
-dist_zip:
-	-rm -f Io-*.zip
-	echo "#define IO_VERSION_NUMBER "$(shell date +'%Y%m%d') > libs/iovm/source/IoVersion.h
-	git add libs/iovm/source/IoVersion.h 
-	git commit -q --no-verify -m "setting version string for release"
-	git archive --format=zip --prefix=Io-$(date)/ HEAD > Io-$(date).zip
-	ls -al Io-$(date).zip
 	
-dist:
-	$(MAKE) dist_zip
-
 metrics:
 	ls -1 libs/iovm/source/*.c | io -e 'File standardInput readLines map(asFile contents occurancesOfSeq(";")) sum .. " iovm"'
 	ls -1 libs/basekit/source/*.c | io -e 'File standardInput readLines map(asFile contents occurancesOfSeq(";")) sum .. " basekit"'

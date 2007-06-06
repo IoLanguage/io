@@ -2,9 +2,6 @@ writeln("Executing config file")
 
 // In this script you can manipulate the objects created by china.io directly,
 // but preferrably you should pass config values via the chinaConfigMap.
-// This version requires the new true/false logic.
-
-//Collector debugOn
 
 // Put values (after the comma) to be interpreted by china.io into this Map:
 
@@ -22,8 +19,8 @@ chinaConfigMap := Map clone do(
 	atPut("winWidth", 800)
 	atPut("winHeight", 760)
 	
-	//atPut("useAllColors", true)	// if you want to play 3 colors against 3
-	atPut("shortJumps", true)	// false gives LONG jumps
+	//atPut("useAllColors", 1)	// if you want to play 3 colors against 3
+	atPut("shortJumps", 1)	// Nil gives LONG jumps
 )
 
 // Return the Map
