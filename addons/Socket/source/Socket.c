@@ -205,6 +205,12 @@ int Socket_isValid(Socket *self)
 	return 1;
 }
 
+int Socket_flush(Socket *self)
+{
+	//flush(self->fd);
+	return 0;
+}
+
 int Socket_close(Socket *self)
 {
 	int r = 0;
