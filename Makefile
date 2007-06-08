@@ -1,8 +1,6 @@
 INSTALL_PREFIX ?= /usr/local
-<<<<<<< HEAD:Makefile
 INSTALL_LIBDIR ?= /usr/lib
-=======
->>>>>>> aee61aef95fc02ffd1322619e420e570e6d3b3fd:Makefile
+
 
 SYS ?= $(shell uname -s)
 
@@ -115,7 +113,6 @@ install:
 	rm $(INSTALL_PREFIX)/bin/io_static$(BINARY_SUFFIX) || true
 	cp _build/binaries/io_static$(BINARY_SUFFIX) $(INSTALL_PREFIX)/bin
 	chmod ugo+rx $(INSTALL_PREFIX)/bin/io_static$(BINARY_SUFFIX)  || true
-<<<<<<< HEAD:Makefile
 	cp _build/dll/* $(INSTALL_LIBDIR)  || true
 	cp _build/lib/* $(INSTALL_LIBDIR)  || true
 	cp _build/dll/* $(INSTALL_PREFIX)/bin  || true
@@ -123,14 +120,7 @@ install:
 	mkdir -p $(INSTALL_LIBDIR)/io || true
 	cp -fR addons $(INSTALL_LIBDIR)/io
 	chmod -R ugo+rX $(INSTALL_LIBDIR)/io
-=======
-	cp _build/dll/* $(INSTALL_PREFIX)/lib  || true
-	cp _build/lib/* $(INSTALL_PREFIX)/lib  || true
-	rm -rf $(INSTALL_PREFIX)/lib/io || true
-	mkdir -p $(INSTALL_PREFIX)/lib/io || true
-	cp -fR addons $(INSTALL_PREFIX)/lib/io
-	chmod -R ugo+rX $(INSTALL_PREFIX)/lib/io
->>>>>>> aee61aef95fc02ffd1322619e420e570e6d3b3fd:Makefile
+
 
 linkInstall:
 	mkdir -p $(INSTALL_PREFIX)/bin || true
