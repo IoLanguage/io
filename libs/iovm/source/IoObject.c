@@ -222,7 +222,7 @@ IoObject *IoObject_protoFinish(void *state)
 
 	IoObject *self = IoState_protoWithInitFunction_((IoState *)state, IoObject_proto);
 
-	IoObject_addMethodTable_(self, methodTable);
+	IoObject_addTaglessMethodTable_(self, methodTable);
 	return self;
 }
 
@@ -252,11 +252,6 @@ IoObject *IoObject_addMethod_(IoObject *self, IoSymbol *slotName, IoMethodFunc *
 	IoObject *proto = IoState_protoWithInitFunction_(IOSTATE, IoObject_proto);
 	IoCFunction *f;
 
-	if (t == IoObject_tag(proto))
-	{
-		t = NULL;
-	}
-
 	f = IoCFunction_newWithFunctionPointer_tag_name_(IOSTATE, (IoUserFunction *)fp, t, CSTRING(slotName));
 	IoObject_setSlot_to_(self, slotName, f);
 	return f;
@@ -269,6 +264,27 @@ void IoObject_addMethodTable_(IoObject *self, IoMethodTable *methodTable)
 	while (entry->name)
 	{
 		IoObject_addMethod_(self, IOSYMBOL(entry->name), entry->func);
+		entry ++;
+	}
+}
+
+IoObject *IoObject_addTaglessMethod_(IoObject *self, IoSymbol *slotName, IoMethodFunc *fp)
+{
+	IoObject *proto = IoState_protoWithInitFunction_(IOSTATE, IoObject_proto);
+	IoCFunction *f;
+
+	f = IoCFunction_newWithFunctionPointer_tag_name_(IOSTATE, (IoUserFunction *)fp, NULL, CSTRING(slotName));
+	IoObject_setSlot_to_(self, slotName, f);
+	return f;
+}
+
+void IoObject_addTaglessMethodTable_(IoObject *self, IoMethodTable *methodTable)
+{
+	IoMethodTable *entry = methodTable;
+
+	while (entry->name)
+	{
+		IoObject_addTaglessMethod_(self, IOSYMBOL(entry->name), entry->func);
 		entry ++;
 	}
 }

@@ -40,6 +40,8 @@ IOVM_API IoObject *IoObject_new(void *state);
 
 IOVM_API IoObject *IoObject_addMethod_(IoObject *self, IoSymbol *slotName, IoMethodFunc *fp);
 IOVM_API void IoObject_addMethodTable_(IoObject *self, IoMethodTable *methodTable);
+IOVM_API IoObject *IoObject_addTaglessMethod_(IoObject *self, IoSymbol *slotName, IoMethodFunc *fp);
+IOVM_API void IoObject_addTaglessMethodTable_(IoObject *self, IoMethodTable *methodTable);
 
 IOVM_API void IoObject_dealloc(IoObject *self);
 IOVM_API void IoObject_willFree(IoObject *self);
