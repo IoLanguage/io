@@ -1,4 +1,6 @@
 INSTALL_PREFIX ?= /usr/local
+INSTALL_LIBDIR ?= /usr/lib
+
 
 SYS ?= $(shell uname -s)
 
@@ -109,14 +111,17 @@ install:
 	rm -f $(INSTALL_PREFIX)/bin/io$(BINARY_SUFFIX)
 	cp _build/binaries/io$(BINARY_SUFFIX) $(INSTALL_PREFIX)/bin || true
 	chmod ugo+rx $(INSTALL_PREFIX)/bin/io$(BINARY_SUFFIX)
+	rm $(INSTALL_PREFIX)/bin/io_static$(BINARY_SUFFIX) || true
 	cp _build/binaries/io_static$(BINARY_SUFFIX) $(INSTALL_PREFIX)/bin
 	chmod ugo+rx $(INSTALL_PREFIX)/bin/io_static$(BINARY_SUFFIX)  || true
-	cp _build/dll/* $(INSTALL_PREFIX)/lib  || true
-	cp _build/lib/* $(INSTALL_PREFIX)/lib  || true
-	rm -rf $(INSTALL_PREFIX)/lib/io || true
-	mkdir -p $(INSTALL_PREFIX)/lib/io || true
-	cp -fR addons $(INSTALL_PREFIX)/lib/io
-	chmod -R ugo+rX $(INSTALL_PREFIX)/lib/io
+	cp _build/dll/* $(INSTALL_LIBDIR)  || true
+	cp _build/lib/* $(INSTALL_LIBDIR)  || true
+	cp _build/dll/* $(INSTALL_PREFIX)/bin  || true
+	rm -rf $(INSTALL_LIBDIR)/io || true
+	mkdir -p $(INSTALL_LIBDIR)/io || true
+	cp -fR addons $(INSTALL_LIBDIR)/io
+	chmod -R ugo+rX $(INSTALL_LIBDIR)/io
+
 
 linkInstall:
 	mkdir -p $(INSTALL_PREFIX)/bin || true
