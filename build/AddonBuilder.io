@@ -61,7 +61,6 @@ AddonBuilder := Object clone do(
 	libSearchPaths := List clone
 	appendLibSearchPath := method(v, if(File clone setPath(v) exists, libSearchPaths appendIfAbsent(v)))
 	searchPrefixes foreach(searchPrefix, appendLibSearchPath(searchPrefix .. "/lib"))
-	searchPrefixes foreach(searchPrefix, appendLibSearchPath(searchPrefix .. "/lib64"))
 
 	debs    := Map clone
 	ebuilds := Map clone
@@ -346,7 +345,9 @@ AddonBuilder := Object clone do(
 
 		sourceFiles := folder folderNamed("source") files
 		iocFiles := sourceFiles select(f, f name beginsWithSeq("Io") and(f name endsWithSeq(".c")) and(f name containsSeq("Init") not) and(f name containsSeq("_") not))
+                iocppFiles := sourceFiles select(f, f name beginsWithSeq("Io") and(f name endsWithSeq(".cpp")) and(f name containsSeq("Init") not) and(f name containsSeq("_") not))
 
+                iocFiles appendSeq(iocppFiles)
 		extraFiles := sourceFiles select(f, f name beginsWithSeq("Io") and(f name endsWithSeq(".c")) and(f name containsSeq("Init") not) and(f name containsSeq("_")))
 
 		orderedFiles := List clone appendSeq(iocFiles)

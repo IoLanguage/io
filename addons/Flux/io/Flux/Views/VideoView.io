@@ -3,15 +3,13 @@ VideoView := View clone do(
 	position setX(0) setY(0)
 	size setWidth(640) setHeight(480)
 	newSlot("image")
-	newSlot("video")
-    isRunning ::= false
-    tmpDate := Date clone
-    
+	newSlot("videoDecoder")
+
 	init := method(
 		resend
 		AVCodec
-		video = Video clone
-		image = video image
+		videoDecoder = Video clone
+		image = videoDecoder image
 	)
 
 	sizeToImage := method(
@@ -56,47 +54,22 @@ VideoView := View clone do(
 	acceptsFirstResponder := false
 	
 	open := method(path,
-		video setPath(path)
-		video open
-		video readNextFrame
-		play
+	    //writeln("videoView open")
+        videoDecoder setFileName(path)
+        videoDecoder open
+        videoDecoder readNextFrame
+        play
 	)
 
     play := method(
-        setIsRunning(true)
-        if(topWindow == nil, writeln("VideoView can't play - topWindow = nil"); return)
-        3 repeat(video readNextFrame)
-        topWindow addTimerTargetWithDelay(self, video framePeriod)
-        self startTime := Date clone now
-        //writeln("video framePeriod = ", video framePeriod)
-    )
-    
-    stop := method(
-        writeln("VideoView stop ")
-        setIsRunning(false)
+            topWindow addTimerTargetWithDelay(self, videoDecoder framePeriod)
     )
 
-    lastTime := Date clone now second
-    
     timer := method(n,
-        //writeln("VideoView timer ", isRunning)
-        isRunning ifFalse(return)
-        //thisTime := Date clone now second
-        //if(Random value(100) < 10, writeln((thisTime - lastTime) - video framePeriod))
-        //lastTime = thisTime
-        
-        video readNextFrame
-        timeSinceStart := (tmpDate now - startTime) seconds
-        
-        dt := if(timeSinceStart - video time > 0, 
-        	// we're behind and need to catch up
-        	0
-        ,
-	        video time + video framePeriod - timeSinceStart   	
-        )
-        
-		topWindow addTimerTargetWithDelay(self, dt)    	
-        if(video isDone, video start)
+        //writeln("VideoView timer")
+        topWindow addTimerTargetWithDelay(self, videoDecoder framePeriod)
+        videoDecoder readNextFrame
+        if(videoDecoder isDone, videoDecoder start)
         glutPostRedisplay
     )
 )

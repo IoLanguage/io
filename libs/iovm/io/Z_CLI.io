@@ -81,17 +81,23 @@ CLI := Object clone do(
 	)
 
 	writeCommandResult := method(result, 
-		writeln(outPrompt, getSlot("result") asString)
+		e := try(string := getSlot("result") asString)
+		if(e not,
+			writeln(outPrompt, string)
+		,
+			writeln(outPrompt, "<exception while dislaying result>")
+			e showStack
+		)
 	)
 	
 	handleInteractiveSingleLine := method(
-		write(prompt)
-
-		line := File standardInput readLine
-		if(File standardInput isAtEnd,
+		line := EditLine readLine(prompt)
+		line ifNil(
 			writeln
 			context exit
 		)
+
+		EditLine addHistory(line)
 
 		e := try(result := context doMessage(line asMessage(commandLineLabel)))
 		if(e,
@@ -109,6 +115,8 @@ CLI := Object clone do(
 	lazySlot("knownErrors",
 		m := Map clone
 		m atPut(compileErrorMessage("("), ")-> ")
+		m atPut(compileErrorMessage("["), "]-> ")
+		m atPut(compileErrorMessage("{"), "}-> ")
 		m atPut(compileErrorMessage("\"\"\""), "\"-> ")
 		m atPut(knownErrorMissingArgument, ")-> ")
 	)
@@ -128,17 +136,20 @@ CLI := Object clone do(
 
 		# If there are unmatched ( or the command ends with a \ then we'll need to read multiple lines
 		loop(
-			# Write out prompt. 
-			write(nextPrompt)
-
-			# Read line
-			nextLine := File standardInput readLine
+			# Write out prompt and read line
+			nextLine := EditLine readLine(nextPrompt)
 			
 			# If there was no line, exit
 			nextLine ifNil(context exit)
 
 			# Add what we read to the line we've been building up
-			line := line .. "\n" .. nextLine
+			if(nextLine size > 0,
+				if(line size > 0,
+					line = line .. nextLine
+				,
+					line = nextLine
+				)
+			)
 
 			# If there is a \ on the end of the line, then keep building up the line
 			if(line endsWithSeq("""\\"""),
@@ -165,6 +176,8 @@ CLI := Object clone do(
 				compileError showStack
 				return
 			)
+
+			EditLine addHistory(line)
 
 			# Execute the line and report any exceptions which happen
 			executionError := try(result := context doMessage(lineAsMessage, context))

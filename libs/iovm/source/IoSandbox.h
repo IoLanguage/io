@@ -24,14 +24,9 @@ typedef IoObject IoSandbox;
 IoSandbox *IoSandbox_proto(void *state);
 IoSandbox *IoSandbox_rawClone(IoSandbox *self);
 IoSandbox *IoSandbox_new(void *state);
-IoSandbox *IoSandbox_newWithPath_(void *state, IoSymbol *path);
-IoSandbox *IoSandbox_cloneWithPath_(IoSandbox *self, IoSymbol *path);
 
 void IoSandbox_free(IoSandbox *self);
 void IoSandbox_mark(IoSandbox *self);
-
-void IoSandbox_writeToStream_(IoSandbox *self, BStream *stream);
-void *IoSandbox_readFromStream_(IoSandbox *self, BStream *stream);
 
 IoNumber *IoSandbox_messageCount(IoSandbox *self, IoObject *locals, IoMessage *m);
 IoObject *IoSandbox_setMessageCount(IoSandbox *self, IoObject *locals, IoMessage *m);
@@ -42,7 +37,7 @@ IoObject *IoSandbox_doSandboxString(IoSandbox *self, IoObject *locals, IoMessage
 
 void IoSandbox_cleanState(IoSandbox *self);
 void IoSandbox_addPrintCallback(IoSandbox *self);
-void IoSandbox_printCallback(void *voidSelf, size_t count, const char *data);
+void IoSandbox_printCallback(void *voidSelf, size_t count, const unsigned char *data);
 
 #ifdef __cplusplus
 }

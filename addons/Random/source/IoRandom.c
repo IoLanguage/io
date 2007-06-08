@@ -21,11 +21,11 @@ ACM Transactions on Modeling and Computer Simulation, Vol. 8, No. 1, January 199
 #include "RandomGen.h"
 #include "BStream.h"
 
-#define IVAR(self) ((RandomGen *)(IoObject_dataPointer(self)))
+#define DATA(self) ((RandomGen *)(IoObject_dataPointer(self)))
 
 void IoRandom_writeToStream_(IoRandom *self, BStream *stream)
 {
-	RandomGen *r = IVAR(self);
+	RandomGen *r = DATA(self);
 	int i;
 	
 	for (i = 0; i < RANDOMGEN_N; i ++)
@@ -38,7 +38,7 @@ void IoRandom_writeToStream_(IoRandom *self, BStream *stream)
 
 void *IoRandom_readFromStream(IoRandom *self, BStream *stream)
 {
-	RandomGen *r = IVAR(self);
+	RandomGen *r = DATA(self);
 	int i;
 	
 	for (i = 0; i < RANDOMGEN_N; i ++)
@@ -77,7 +77,7 @@ IoRandom *IoRandom_proto(void *state)
 	IoObject_tag_(self, IoRandom_newTag(state));
 	IoObject_setDataPointer_(self, RandomGen_new());
 	
-	RandomGen_chooseRandomSeed(IVAR(self));
+	RandomGen_chooseRandomSeed(DATA(self));
 	
 	IoState_registerProtoWithFunc_((IoState *)state, self, IoRandom_proto);
 	
@@ -89,18 +89,18 @@ IoNumber *IoRandom_rawClone(IoRandom *proto)
 {
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, RandomGen_new());
-	//RandomGen_chooseRandomSeed(IVAR(self));
+	//RandomGen_chooseRandomSeed(DATA(self));
 	return self;
 }
 
 void IoRandom_free(IoMessage *self) 
 {
-	RandomGen_free(IVAR(self));
+	RandomGen_free(DATA(self));
 }
 
 IoObject *IoRandom_flip(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	int r = RandomGen_randomInt(IVAR(self));
+	int r = RandomGen_randomInt(DATA(self));
 	return IOBOOL(self, r & 0x1);
 }
 
@@ -120,7 +120,7 @@ Number between optionalArg1 and optionalArg2.
 ")
 	*/
 	
-	double f = RandomGen_randomDouble(IVAR(self));
+	double f = RandomGen_randomDouble(DATA(self));
 	double result = 0;
 	
 	if (IoMessage_argCount(m) > 0)
@@ -168,7 +168,7 @@ IoObject *IoRandom_setSeed(IoObject *self, IoObject *locals, IoMessage *m)
 	*/
 	
 	unsigned long v = IoMessage_locals_longArgAt_(m, locals, 0);
-	RandomGen_setSeed(IVAR(self), v);
+	RandomGen_setSeed(DATA(self), v);
 	return self;
 }
 
@@ -192,7 +192,7 @@ IoObject *IoRandom_gaussian(IoObject *self, IoObject *locals, IoMessage *m)
 		standardDeviation = IoMessage_locals_doubleArgAt_(m, locals, 1);
 	}
 	
-	return IONUMBER(RandomGen_gaussian(IVAR(self), mean, standardDeviation));
+	return IONUMBER(RandomGen_gaussian(DATA(self), mean, standardDeviation));
 }
 
 IoObject *IoRandom_bytes(IoObject *self, IoObject *locals, IoMessage *m)
@@ -207,7 +207,7 @@ IoObject *IoRandom_bytes(IoObject *self, IoObject *locals, IoMessage *m)
 	
 	for(i = 0; i < count; i ++)
 	{
-		d[i] = (uint8_t)(RandomGen_randomInt(IVAR(self)) & 255);
+		d[i] = (uint8_t)(RandomGen_randomInt(DATA(self)) & 255);
 	}
 	
 	a = UArray_newWithData_type_size_copy_(d, CTYPE_uint8_t, count, 0);

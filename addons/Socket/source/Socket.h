@@ -108,6 +108,8 @@ ssize_t Socket_streamWrite(Socket *self, UArray *buffer, size_t start, size_t wr
 ssize_t Socket_udpRead(Socket *self, IPAddress *address, UArray *buffer, size_t readSize);
 ssize_t Socket_udpWrite(Socket *self, IPAddress *address, UArray *buffer, size_t start, size_t writeSize);
 
+int Socket_flush(Socket *self);
+
 int Socket_isStream(Socket *self);
 //size_t Socket_sendfile(Socket *self, int fd);
 

@@ -24,7 +24,7 @@ extern "C" {
 
 typedef size_t PID_TYPE;
 
-enum CTYPE 
+typedef enum
 { 
     CTYPE_uint8_t,
     CTYPE_uint16_t,
@@ -40,34 +40,30 @@ enum CTYPE
     CTYPE_float64_t,
 	
     CTYPE_uintptr_t
-};
+} CTYPE;
 
-typedef int CTYPE;
-
-enum CENCODING
+typedef enum
 { 
     CENCODING_ASCII,
     CENCODING_UTF8,
     CENCODING_UTF16,
     CENCODING_UTF32,
     CENCODING_NUMBER
-};
-
-typedef int CENCODING;
+} CENCODING;
 
 typedef struct
 {
-    uint8_t   uint8_t;
-    uint16_t  uint16_t;
-    uint32_t  uint32_t;
-    uint64_t  uint64_t;
-    int8_t    int8_t;
-    int16_t   int16_t;
-    int32_t   int32_t;
-    int64_t   int64_t;
-    float32_t float32_t;
-    float64_t float64_t;
-    uintptr_t uintptr_t;
+    uint8_t   uint8;
+    uint16_t  uint16;
+    uint32_t  uint32;
+    uint64_t  uint64;
+    int8_t    int8;
+    int16_t   int16;
+    int32_t   int32;
+    int64_t   int64;
+    float32_t float32;
+    float64_t float64;
+    uintptr_t uintptr;
 } UArrayValueUnion;
 
 #define UARRAY_DEBUG 1

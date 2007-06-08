@@ -376,13 +376,16 @@ IoObject *IoSocket_getSocketWriteLowWaterMark(IoSocket *self, IoObject *locals, 
 #include <sys/socket.h>
 #endif
 
+
+#include <netinet/tcp.h>
+
 IoObject *IoSocket_setNoDelay(IoSocket *self, IoObject *locals, IoMessage *m)
 {
 	int r = -1;
-	#ifdef TCP_NODELAY
+	//#ifdef TCP_NODELAY
 	int flag = 1;
 	r = setsockopt(SOCKET(self)->fd, IPPROTO_TCP, TCP_NODELAY, (char *) &flag, sizeof(int));
-	#endif
+	//#endif
 	return IONUMBER(r);
 }								 
 

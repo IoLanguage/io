@@ -177,7 +177,6 @@ IoObject *IoObject_protoFinish(void *state)
 	{"doMessage", IoObject_doMessage},
 	{"doString", IoObject_doString},
 	{"doFile", IoObject_doFile},
-	//{"unpack", IoObject_unpack},
 
      // reflection
 
@@ -230,18 +229,20 @@ IoObject *IoObject_protoFinish(void *state)
 IoObject *IoObject_localsProto(void *state)
 {
 	IoObject *self = IoObject_new(state);
-	IoObject *proto = IoObject_firstProto(self);
 
 	IoObject_createSlotsIfNeeded(self);
-	PHash_copy_(IoObject_slots(self), IoObject_slots(proto));
+	PHash_copy_(IoObject_slots(self), IoObject_slots(IoObject_firstProto(self)));
 
 	IoObject_rawRemoveAllProtos(self);
 
-	IoObject_removeSlot_(self, IOSYMBOL("delegate"));
-	IoObject_addMethod_(self, IOSYMBOL("forward"), IoObject_localsForward);
+	// Locals handles := and =
 	IoObject_addMethod_(self, IOSYMBOL("setSlot"), IoObject_protoSet_to_);
 	IoObject_addMethod_(self, IOSYMBOL("setSlotWithType"), IoObject_protoSetSlotWithType);
 	IoObject_addMethod_(self, IOSYMBOL("updateSlot"), IoObject_localsUpdateSlot);
+
+	// Everything else is forwareded to self
+	IoObject_addMethod_(self, IOSYMBOL("forward"), IoObject_localsForward);
+
 	return self;
 }
 
@@ -562,13 +563,6 @@ inline void IoObject_freeSlots(IoObject *self) // prepare for io_free and possib
 	IoObject_slots_(self, NULL);
 }
 
-/*
-void IoObject_listenNotification(IoObject *self, void *notification)
-{
-	IoObject_tag(self)->notificationFunc(self, notification);
-}
-*/
-
 void IoObject_willFree(IoObject *self)
 {
 	if (IoObject_sentWillFree(self) == 0)
@@ -862,15 +856,13 @@ IoObject *IoObject_rawGetSlot_target_(IoObject *self, IoSymbol *slotName, IoObje
 	return slotValue;
 }
 
-/*printf("%p %s\n",self,  CSTRING(IoMessage_name(m)));*/
-
 IoObject *IoObject_localsForward(IoObject *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("localsForward", "CFunction used by Locals prototype for forwarding.")
 	*/
-    //IoObject *selfDelegate = IoObject_rawGetSlot_(self, IOSTATE->selfSymbol);
 
+    //IoObject *selfDelegate = IoObject_rawGetSlot_(self, IOSTATE->selfSymbol);
 	IoObject *selfDelegate = PHash_at_(IoObject_slots(self), IOSTATE->selfSymbol); // cheating a bit here
 
 	if (selfDelegate && selfDelegate != self)
@@ -1124,8 +1116,6 @@ IoObject *IoObject_protoSet_to_(IoObject *self, IoObject *locals, IoMessage *m)
 hold valueObject. Returns valueObject.")
 	*/
 
-	//IoSymbol *slotName  = IoMessage_locals_firstStringArg(m, locals);
-	//IoObject *slotValue = IoMessage_locals_quickValueArgAt_(m, locals, 1);
 	IoSymbol *slotName  = IoMessage_locals_symbolArgAt_(m, locals, 0);
 	IoObject *slotValue = IoMessage_locals_valueArgAt_(m, locals, 1);
 	IoObject_inlineSetSlot_to_(self, slotName, slotValue);
@@ -1175,15 +1165,6 @@ IoObject *IoObject_localsUpdateSlot(IoObject *self, IoObject *locals, IoMessage 
 		if (theSelf)
 		{
 			return IoObject_perform(theSelf, locals, m);
-			/*
-			 obj = IoObject_rawGetSlot_(theSelf, slotName);
-			 if (obj)
-			 {
-
-				 IoObject_inlineSetSlot_to_(theSelf, slotName, slotValue);
-				 return slotValue;
-			 }
-			 */
 		}
 	}
 
@@ -1626,7 +1607,7 @@ const char *IoObject_name(IoObject *self)
 {
 	// If self has a type slot which is a string, then use that instead of the tag name
 	IoObject *type = IoObject_rawGetSlot_(self, IOSYMBOL("type"));
-	if (ISSEQ(type))
+	if (type && ISSEQ(type))
 	{
 		return CSTRING(type);
 	}
@@ -1959,15 +1940,6 @@ IoObject *IoObject_argIsCall(IoObject *self, IoObject *locals, IoMessage *m)
 	//printf("IoObject_tag(v)->name = '%s'\n", IoObject_tag(v)->name);
 	return IOBOOL(self, ISACTIVATIONCONTEXT(v));
 }
-
-
-/*
-IoObject *IoObject_unpack(IoObject *self, IoObject *locals, IoMessage *m)
-{
-    const char *const s = IoMessage_locals_cStringArgAt_(m, locals, 0);
-    return IoUnpack_unpack(IOSTATE, s);
-}
-*/
 
 IoObject *IoObject_become(IoObject *self, IoObject *locals, IoMessage *m)
 {

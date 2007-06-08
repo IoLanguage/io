@@ -41,7 +41,7 @@ void IoState_printCallback_(IoState *self, IoStatePrintCallback *callback)
     self->printCallback = callback;
 }
 
-void IoState_justPrint_(IoState *self, const size_t count, const char *s)
+void IoState_justPrint_(IoState *self, const size_t count, const unsigned char *s)
 {
     if (self->printCallback)
     {

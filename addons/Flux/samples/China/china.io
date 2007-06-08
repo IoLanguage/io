@@ -2,8 +2,8 @@
 
 // china.io
 // A program for playing Chinese Checkers
-// The program requires IoDesktop.
-// Version 1.5b5, 13-Dec-2006
+// The program requires OpenGL.
+// Version 1.5b7, 30-May-2007
 // Written by Jon Kleiser
 
 // This program is released in the public domain.
@@ -11,6 +11,8 @@
 
 /*
 	History:
+	1.5b7 Supporting new "C style" parsing.
+	1.5b6 Replaced repeatTimes with repeat.
 	1.5b4 Images
 	1.5b3 Changed font path.
 	1.5b2 Avoiding "x * -y" problem (20060327). Using new sortInPlaceBy.
@@ -166,7 +168,7 @@ Direction := Object clone do(
 	)
 	
 	drawPiece := method(quad, pSize,
-		if (image) then(
+		if (image) then (
 			if (image error, writeln("*** drawPiece: ", image error))
 			glPushMatrix
 			glTranslated(-pSize -2, -pSize, 0)
@@ -232,7 +234,7 @@ GameState := Object clone do(
 	
 	restoreBoardFromPrevious := method(boardToRestore, move,
 		prevState := move stateBefore
-		if (prevState board) then(
+		if (prevState board) then (
 			boardToRestore appendSeq(prevState board)
 		) else (
 			// Using try/catch here avoids stack overflow Exception:
@@ -300,7 +302,7 @@ GameState := Object clone do(
 		startCell := cellP at(start)
 		startCell neighbors foreach(i, nc,
 			if (nc,
-				if (self board at(nc pos) == 0) then(
+				if (self board at(nc pos) == 0) then (
 					reach atPut(nc pos, 1)		// reach by roll
 				) else (
 					if (shortJumps, findJumpablesShort(startCell, reach))
@@ -317,7 +319,7 @@ GameState := Object clone do(
 				n2 := n1 neighbors at(i)
 				if (n2 and (board at(n2 pos) == 0) and (reach at(n2 pos) isNil),
 					reach atPut(n2 pos, 1)		// reach by jump
-					if (n2 pos == dest) then(
+					if (n2 pos == dest) then (
 						return dest
 					) else (
 						p := traceJumpsShort(n2 pos, dest, reach, posTrace)	// look further
@@ -347,7 +349,7 @@ GameState := Object clone do(
 				)
 				if (nc and (board at(nc pos) == 0) and (reach at(nc pos) isNil),
 					reach atPut(nc pos, 1)						// reach by jump
-					if (nc pos == dest) then(
+					if (nc pos == dest) then (
 						return dest
 					) else (
 						p := traceJumpsLong(start, nc pos, dest, reach, posTrace)	// look further
@@ -368,7 +370,7 @@ GameState := Object clone do(
 		posTrace := List clone
 		cellP at(m startPos) neighbors foreach(i, nc,
 			if (nc,
-				if (nc pos == m destPos) then(
+				if (nc pos == (m destPos)) then (
 					posTrace append(nc pos)			// reach by roll
 				) else (
 					p := if(shortJumps, traceJumpsShort(m startPos, m destPos, reach, posTrace),
@@ -401,15 +403,15 @@ GameState := Object clone do(
 						)
 					)
 				)
-				if (variations) then(
-					self possibleMoves sortInPlaceBy(method(m1, m2, m1 gain > m2 gain))
+				if (variations) then (
+					self possibleMoves sortInPlaceBy(method(m1, m2, m1 gain > (m2 gain)))
 				) else (
 					// Using bubble sort as long as I need full match with Java version ...
 					for(i, 0, self possibleMoves size - 2,
 						mi := self possibleMoves at(i)
 						for(j, i + 1, self possibleMoves size - 1,
 							mj := self possibleMoves at(j)
-							if (mj gain > mi gain,
+							if (mj gain > (mi gain),
 								self possibleMoves swapIndices(i, j)
 								mi = mj
 							)
@@ -428,12 +430,12 @@ GameState := Object clone do(
 		// If we only want the moves with the highest gain, coef should be 1.
 		// If we accept lower gains, coef should be < 1.
 		bestGain := getPossibleMoves first gain
-		if (bestGain > 0) then(
+		if (bestGain > 0) then (
 			reqGain := bestGain * coef
 		) else (
 			// All moves have negative gain. Some tweak is needed ...
 			worstRelBest := getPossibleMoves last gain - bestGain
-			reqGain := worstRelBest + (bestGain - worstRelBest) * coef
+			reqGain := worstRelBest + ((bestGain - worstRelBest) * coef)
 			//writeln("bestGain=", bestGain, ", worstRelBest=", worstRelBest, ", reqGain=", reqGain)
 		)
 		return getPossibleMoves select(i, move, move gain >= reqGain)
@@ -552,7 +554,7 @@ ChinaBoard := Object clone do(
 	makeCellRow := method(pos, row, c,
 		self cellRC atInsert(row, List clone preallocateToSize(c size))
 		c foreach(col, t,
-			if (t <= 6) then(
+			if (t <= 6) then (
 				cell := Cell clone setup(pos, row, col)
 				self cellP atInsert(pos, cell)
 				self cellRC at(row) atInsert(col, cell)
@@ -629,7 +631,7 @@ ChinaBoard := Object clone do(
 		self evaluator = Evaluator new(self)
 		//self currentState = GameState initialState(self, -1)
 		
-		if (?Random) then(
+		if (?Random) then (
 			//writeln("Using new Random methods")
 			self random = Random clone setSeed(Date clone now asNumber)
 		) else (
@@ -668,7 +670,7 @@ ChinaBoard := Object clone do(
 		return self dir at(self currentState pieceType) colorName
 	)
 	
-	vertInc := method(horInc, horInc * (3 sqrt) / (2) ceil)
+	vertInc := method(horInc, (horInc * (3 sqrt) / 2) ceil)
 	
 	centerX := method(cell, horInc, horInc * (cell col + (cell row / 2)))
 	//centerY := method(cell, horInc, vertInc(horInc) * (cell row))
@@ -676,7 +678,7 @@ ChinaBoard := Object clone do(
 	paint := method(x0, y0, horInc, showPosEval,
 		cs := self currentState
 		slices := 6
-		cSize := (horInc / 3 sqrt) ceil
+		cSize := (horInc / (3 sqrt)) ceil
 		pSize := (cSize / 2) floor
 		vInc := vertInc(horInc)
 		//writeln("cSize=", cSize, ", pSize=", pSize, ", vertInc=", vInc)
@@ -688,7 +690,7 @@ ChinaBoard := Object clone do(
 		glPushMatrix	// 1.1
 		glTranslated(12 * horInc, -8 * vInc, 0)		// middle of board
 		glRotated(cs pieceType * (-60) + 30, 0, 0, 1)
-		if (cs hasRealMove) then(
+		if (cs hasRealMove) then (
 			self dir at(cs pieceType) arrowColor glColor
 		) else (
 			Colors at("gray") glColor
@@ -714,7 +716,7 @@ ChinaBoard := Object clone do(
 					pType := cs getBoard at(cell pos)
 					if (pType > 0,
 						// Draw piece ...
-						if (cell pos != self selectedPos) then(
+						if (cell pos != self selectedPos) then (
 							self dir at(pType) drawPiece(quad, pSize)
 						) else (
 							// Indicating where piece is moving from ...
@@ -752,7 +754,7 @@ ChinaBoard := Object clone do(
 			glBegin(GL_LINE_STRIP)
 			self moveTrace foreach(i, pos,
 				cell := self cellP at(pos)
-				glVertex2d(centerX(cell, horInc), -vInc * cell row)
+				glVertex2d(centerX(cell, horInc), -vInc * (cell row))
 			)
 			glEnd
 			mtLast := self moveTrace size - 1
@@ -761,7 +763,7 @@ ChinaBoard := Object clone do(
 			self moveTrace foreach(i, pos,
 				glPushMatrix	// 1.3
 				cell = self cellP at(pos)
-				glTranslated(centerX(cell, horInc), -vInc * cell row, 0)
+				glTranslated(centerX(cell, horInc), -vInc * (cell row), 0)
 				gluDisk(gluNewQuadric, if(i < mtLast, 0, endSize - 1),
 							if(0 < i < mtLast, tempSize, endSize), slices, 1)
 				glPopMatrix		// 1.3
@@ -804,8 +806,8 @@ ChinaBoard := Object clone do(
 	
 	paintMovingPiece := method(x, y, horInc,
 		cs := self currentState
-		cSize := (horInc / 3 sqrt) ceil
-		pSize := (cSize / 2) floor
+		cSize := horInc / (3 sqrt) ceil
+		pSize := cSize / (2) floor
 		glPushMatrix
 		glTranslated(x, y, 0)
 		self dir at(cs pieceType) drawPiece(gluNewQuadric, pSize)
@@ -828,19 +830,19 @@ ChinaBoard := Object clone do(
 	
 	clickedCell := method(x, y, horInc, btnState, devMode,
 		cs := self currentState
-		row := (0 + y / vertInc(horInc) + 0.5) floor
-		col := (0 + (x / horInc) - (row / 2) + 0.5) floor
+		row := 0 + (y / vertInc(horInc) + 0.5) floor
+		col := 0 + ((x / horInc) - (row / 2) + 0.5) floor
 		c := cellAtRowCol(row, col)
-		if (c,
+		if (c) then (
 			pType := cs getBoard at(c pos)
-			if (btnState == 0) then(
+			if (btnState == 0) then (
 				// Mouse button is pressed
 				//writeln("clickedCell: ", x, " ", y, " row=", row, " col=", col, " pType=", pType)
-				if ((devMode not) and (teamToMove == 1) and (pType > 0),
+				if ((devMode not) and (teamToMove == 1) and (pType > 0)) then (
 					return -1								// machine to move
 				)
-				if (pType == cs pieceType) then(
-					if (cs pieceTypeHasMadeIt) then(
+				if (pType == cs pieceType) then (
+					if (cs pieceTypeHasMadeIt) then (
 						return -2
 					) else (
 						self selectedPos = c pos
@@ -849,17 +851,17 @@ ChinaBoard := Object clone do(
 				) else (
 					return if(pType > 0, -3, nil)		// not the one to do a move, or empty
 				)
-			) elseif (btnState == 1,
+			) elseif (btnState == 1) then (
 				// Mouse button is released
 				if (self selectedPos < 0, return nil)
 				move := cs acceptableMove(self selectedPos, c pos)
-				if (move) then(
+				if (move) then (
 					self curRevealed = -1
 					self moveTrace = nil
 					self currentState = move getStateAfter(1)
 					self selectedPos = -1
 					return 1
-				) elseif (c pos == selectedPos,
+				) elseif (c pos == selectedPos) then (
 					self selectedPos = -1
 					return nil								// released at the same cell
 				) else (
@@ -870,7 +872,7 @@ ChinaBoard := Object clone do(
 					return if(pType > 0, -4, if(legalDestType(sType, c cType), -5, -6))
 				)
 			)
-		) elseif (self selectedPos >= 0,
+		) elseif (self selectedPos >= 0) then (
 			self selectedPos = -1
 			return -7
 		)
@@ -879,9 +881,9 @@ ChinaBoard := Object clone do(
 	automaticMove := method(showDetails,
 		cs := self currentState
 		move := nil
-		if ((self variations) and (cs getPossibleMoves size > 1),
+		if ((self variations) and (cs getPossibleMoves size > 1)) then (
 			bestMoves := cs movesWithRelGainAtLeast(0.95)
-			if (bestMoves first gain > 0,
+			if (bestMoves first gain > 0) then (
 				accumGain := 0
 				bestMoves foreach(i, mv, accumGain = accumGain + mv gain)
 				randGain := self random value(accumGain)
@@ -1008,7 +1010,7 @@ ChinaBoard := Object clone do(
 				mvList foreach(i, mv,
 					if (mv,
 						move := self currentState acceptableMove(mv first, mv last)
-						if (move,
+						if (move) then (
 							self currentState = move getStateAfter(1)
 						) else (
 							Exception raise("Bad Move", mv asString)	// Error ?
@@ -1070,13 +1072,13 @@ Dialog := Object clone do(
 	)
 	
 	handleSpecial := method(key,
-		if (key == GLUT_KEY_UP,
+		if (key == GLUT_KEY_UP) then (
 			self cursorPos = 0
-		) elseif (key == GLUT_KEY_DOWN,
+		) elseif (key == GLUT_KEY_DOWN) then (
 			self cursorPos = self inBuf size
-		) elseif (key == GLUT_KEY_LEFT,
+		) elseif (key == GLUT_KEY_LEFT) then (
 			if (self cursorPos > 0, self cursorPos = self cursorPos - 1)
-		) elseif (key == GLUT_KEY_RIGHT,
+		) elseif (key == GLUT_KEY_RIGHT) then (
 			if (self cursorPos < self inBuf size, self cursorPos = self cursorPos + 1)
 		)
 	)
@@ -1152,7 +1154,7 @@ ChinaApp configure := method(
 	status := nil
 	configPath := dataPath("chinaConfig.io")
 	e := try (
-		if (File clone setPath(configPath) exists,
+		if (File clone setPath(configPath) exists) then (
 			configMap := doFile(configPath)
 			self user = configMap at("user")
 			if (bg := configMap at("bkgndColor"),
@@ -1165,7 +1167,7 @@ ChinaApp configure := method(
 			self useAllColors = if(configMap at("useAllColors"), true, false)
 			self shortJumps = if(configMap at("shortJumps"), true, false)
 		) else (
-			status = "No file '" .. configPath .. "'"
+			status = ("No file '" .. configPath .. "'")
 		)
 	)
 	e catch (Exception,
@@ -1176,7 +1178,7 @@ ChinaApp configure := method(
 
 ChinaApp setupFont := method(
 	e := try (
-		if (Lobby ?Font,
+		if (Lobby ?Font) then (
 			self font := Font clone open("addons/Flux/resources/fonts/Vera/Sans/Normal.ttf")
 			self font setPixelSize(self fontSize)
 		) else (
@@ -1189,7 +1191,7 @@ ChinaApp setupFont := method(
 )
 
 ChinaApp drawString := method(string,
-	if (self ?font,
+	if (self ?font) then (
 		self font drawString(string)
 	) else (
 		glPushMatrix
@@ -1222,7 +1224,7 @@ ChinaApp drawMessageBox := method(
 			drawString(s)
 		)
 		if (self dialog and (self dialog showCursor),
-			if (self ?font,
+			if (self ?font) then (
 				glTranslated(self font widthOfString(self dialog inputLeft), 0, 0)
 				glColor4d(1, 0, 0, 1)
 				glBegin(GL_LINES)
@@ -1252,7 +1254,7 @@ ChinaApp display := method(
 	glClear(GL_COLOR_BUFFER_BIT)
 	glLoadIdentity
 /*
-	if (self paintList,
+	if (self paintList) then (
 		//writeln("paintList call")
 		self paintList call
 	) else (
@@ -1282,7 +1284,7 @@ ChinaApp msgAboutWhatsNext := method(
 		) .. (self board dir at(doneType) colorName)
 		setMsg(head .. " color has just completed.")
 	)
-	if (self board gameOver,
+	if (self board gameOver) then (
 		addMsg("GAME OVER. (Type G if you want to play again.)")
 	) else (
 		if (self board humanMustSkip, addMsg(self mustSkipMsg))
@@ -1291,7 +1293,7 @@ ChinaApp msgAboutWhatsNext := method(
 
 ChinaApp setDialog := method(prompt, input, actionBlock,
 	newDialog := Dialog new(prompt, input, getSlot("actionBlock"), self dialog)
-	if (self dialog,
+	if (self dialog) then (
 		self dialog nextDialog = newDialog
 	) else (
 		glutTimerFunc(self cursorInterval, 0)	// to get a blinking cursor
@@ -1304,12 +1306,12 @@ ChinaApp loadGameWithDialog := method(
 	setDialog("Load game from:", self gameFilename,
 		block(thisDialog,
 			res := self board loadGame(dataPath(thisDialog input))
-			if (res type == "File",
+			if (res type == "File") then (
 				self gameFilename = res name
 				fileDate := res lastDataChangeDate asString("%d-%b, %H:%M")
 				setMsg(Sequence clone appendSeq("Game loaded from file '", res name,
 							"' (", fileDate, ")"))
-			) elseif (res type == "Exception",
+			) elseif (res type == "Exception") then (
 				setMsg(res error)
 			) else (
 				setMsg("Loaded nothing (" .. (res type) .. ")")
@@ -1325,10 +1327,10 @@ ChinaApp saveGameWithDialog := method(
 	setDialog("Save game to:", self gameFilename,
 		block(thisDialog, approved,
 			file := File clone setPath(dataPath(thisDialog input))
-			if ((file exists) and (approved isNil),
+			if ((file exists) and (approved isNil)) then (
 				setDialog("This file exists. Replace? (y/n)", "",
 					block(thisDialog,
-						if (thisDialog input asUppercase beginsWithSeq("Y"),
+						if (thisDialog input asUppercase beginsWithSeq("Y")) then (
 							return thisDialog prevDialogActionApproved
 						) else (
 							return thisDialog prevDialog
@@ -1371,7 +1373,7 @@ ChinaApp keyboard := method(key, x, y,
 	)
 	if (kChar asUppercase == "B",
 		self team1 = self team1 negate
-		if (boardStateIsInitial,
+		if (boardStateIsInitial) then (
 			newGame
 			setMsg(if(self team1 == 1, "I'll begin. (Type M)",
 						"OK, " .. if(self user, user .. ", ", "") .. "you start."))
@@ -1381,7 +1383,7 @@ ChinaApp keyboard := method(key, x, y,
 	)
 	if (kChar asUppercase == "A",
 		self useAllColors = self useAllColors not
-		if (boardStateIsInitial, newGame) else (
+		if (boardStateIsInitial) then (newGame) else (
 			setMsg("In the next game (type G) the board will use " .. if(self useAllColors,
 						"ALL SIX colors.", "ONLY TWO colors."))
 		)
@@ -1389,7 +1391,7 @@ ChinaApp keyboard := method(key, x, y,
 	if (kChar asUppercase == "J",
 		self shortJumps = self shortJumps not
 		shortOrLong := if(self shortJumps, "SHORT jumps only.", "LONG jumps.")
-		if (boardStateIsInitial,
+		if (boardStateIsInitial) then (
 			newGame
 			setMsg("Now it's " .. shortOrLong)
 		) else (
@@ -1399,7 +1401,7 @@ ChinaApp keyboard := method(key, x, y,
 	if (kChar asUppercase == "G", newGame)
 	if (kChar asUppercase == "M",
 		showDetails := self developerMode and (kChar == "M")		// upper case
-		if ((self board teamToMove == 1) or (self board humanMustSkip) or (self developerMode),
+		if ((self board teamToMove == 1) or (self board humanMustSkip) or (self developerMode)) then (
 			info := self board automaticMove(showDetails)
 			msgAboutWhatsNext
 		) else (
@@ -1407,7 +1409,7 @@ ChinaApp keyboard := method(key, x, y,
 		)
 	)
 	if (kChar asUppercase == "Z",
-		if ((self board teamThatDidLastMove == 1) and (self developerMode not),
+		if ((self board teamThatDidLastMove == 1) and (self developerMode not)) then (
 			setMsg("You may only undo your own moves, not mine.")
 		) else (
 			self board undoLastMove
@@ -1417,7 +1419,7 @@ ChinaApp keyboard := method(key, x, y,
 	if (kChar asUppercase == "S", saveGameWithDialog)
 	if (kChar asUppercase == "D",
 		self developerMode = self developerMode not
-		if (self developerMode,
+		if (self developerMode) then (
 			setMsg("Beware: Developer mode! (Type D to get normal.)")
 		) else (
 			setMsg("You're now back in normal user mode.")
@@ -1431,7 +1433,7 @@ ChinaApp keyboard := method(key, x, y,
 		if (kChar == "$", testDialog)
 	)
 	if (kChar asUppercase == "C",
-		if (err := configure,
+		if (err := configure) then (
 			setMsg(err)
 		) else (
 			t := Date clone now asString("%H:%M:%S")
@@ -1443,19 +1445,19 @@ ChinaApp keyboard := method(key, x, y,
 )
 
 ChinaApp special := method(key, x, y,
-	if (self dialog,
+	if (self dialog) then (
 		self dialog handleSpecial(key)
 	) else (
-		if (key == GLUT_KEY_UP,
+		if (key == GLUT_KEY_UP) then (
 			self horInc = self horInc + 1
 			setMsg("horInc = " .. horInc)
-		) elseif (key == GLUT_KEY_DOWN,
+		) elseif (key == GLUT_KEY_DOWN) then (
 			self horInc = self horInc - 1
 			setMsg("horInc = " .. horInc)
-		) elseif (key == GLUT_KEY_LEFT,
+		) elseif (key == GLUT_KEY_LEFT) then (
 			self horInc = self horInc - 1
 			setMsg("horInc = " .. horInc)
-		) elseif (key == GLUT_KEY_RIGHT,
+		) elseif (key == GLUT_KEY_RIGHT) then (
 			self horInc = self horInc + 1
 			setMsg("horInc = " .. horInc)
 		)
@@ -1465,7 +1467,7 @@ ChinaApp special := method(key, x, y,
 )
 
 ChinaApp motion := method(x, y,
-	if (self board selectedPos >= 0,
+	if (self board selectedPos >= 0) then (
 		self motionX = x
 		self motionY = self winHeight - y
 		self display
@@ -1493,7 +1495,7 @@ ChinaApp negatives := list(
 )
 
 ChinaApp mouse := method(button, state, x, y,
-	if (self dialog,
+	if (self dialog) then (
 		if ((self dialog ?finalFlag) isNil,
 			setDialog("You cannot use the mouse while a dialog is active!", "",
 				block(thisDialog, return thisDialog prevDialog)
@@ -1502,9 +1504,9 @@ ChinaApp mouse := method(button, state, x, y,
 	) else (
 		res := self board clickedCell(x - (self boardLeft), y - boardTop,
 												self horInc, state, self developerMode)
-		if (res == 1,
+		if (res == 1) then (
 			msgAboutWhatsNext
-		) elseif (res < 0,
+		) elseif (res < 0) then (
 			setMsg(self negatives at(-1 - res))
 		) else (
 			setMsg(nil)
@@ -1570,12 +1572,12 @@ ChinaApp testDialog := method(
 	setDialog("Test:", "abc",
 		block(thisDialog, approved,
 			write("Test got Return, ")
-			if ((thisDialog input beginsWithSeq("ap")) and (approved isNil),
+			if ((thisDialog input beginsWithSeq("ap")) and (approved isNil)) then (
 				writeln("but we need to confirm ...")
 				setDialog("Really? (y/n)", "",
 					block(thisDialog,
 						write("Really got Return")
-						if (thisDialog input == "y",
+						if (thisDialog input == "y") then (
 							return thisDialog prevDialogActionApproved
 						) else (
 							return thisDialog prevDialog
