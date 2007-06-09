@@ -41,15 +41,15 @@ void IoState_printCallback_(IoState *self, IoStatePrintCallback *callback)
     self->printCallback = callback;
 }
 
-void IoState_justPrint_(IoState *self, const size_t count, const unsigned char *s)
+void IoState_justPrint_(IoState *self, const unsigned char *s, const size_t size)
 {
     if (self->printCallback)
     {
-        self->printCallback(self->callbackContext, count, s);
+        self->printCallback(self->callbackContext, s, size);
     }
     else
     {
-        fwrite(s, 1, count, stdout);
+        fwrite(s, 1, size, stdout);
     }
 }
 
@@ -57,7 +57,7 @@ void IoState_justPrintba_(IoState *self, UArray *ba)
 {
 	if (self->printCallback)
 	{
-		self->printCallback(self->callbackContext, UArray_sizeInBytes(ba), (const char *)UArray_bytes(ba));
+		self->printCallback(self->callbackContext, (const char *)UArray_bytes(ba), UArray_sizeInBytes(ba));
 	}
 	else
 	{
@@ -67,7 +67,7 @@ void IoState_justPrintba_(IoState *self, UArray *ba)
 
 void IoState_justPrintln_(IoState *self)
 {
-    IoState_justPrint_(self, sizeof("\n") - 1, "\n");
+    IoState_justPrint_(self, "\n", sizeof("\n") - 1);
 }
 
 

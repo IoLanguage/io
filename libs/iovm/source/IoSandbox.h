@@ -37,7 +37,7 @@ IoObject *IoSandbox_doSandboxString(IoSandbox *self, IoObject *locals, IoMessage
 
 void IoSandbox_cleanState(IoSandbox *self);
 void IoSandbox_addPrintCallback(IoSandbox *self);
-void IoSandbox_printCallback(void *voidSelf, size_t count, const unsigned char *data);
+void IoSandbox_printCallback(void *voidSelf, const unsigned char *data, size_t size);
 
 #ifdef __cplusplus
 }
