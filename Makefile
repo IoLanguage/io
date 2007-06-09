@@ -5,6 +5,7 @@ SYS ?= $(shell uname -s)
 NEEDS_DL := Darwin Linux SunOS syllable
 ifneq (,$(findstring $(SYS),$(NEEDS_DL)))
 LFLAGS +=-ldl
+LFLAGS += -ledit
 endif
 
 NEEDS_M := FreeBSD Linux NetBSD
