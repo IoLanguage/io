@@ -20,7 +20,6 @@ typedef struct
 {
   GLUquadricObj *q;
   IoImage *texture;
-  /* subclasses add extra members */
 } IoGLUQuadricData;
 
 IoObject *IoMessage_locals_gluQuadricArgAt_(IoMessage *self, IoObject *locals, int n);
@@ -33,29 +32,6 @@ void IoGLUQuadric_free(IoGLUQuadric *self);
 void IoGLUQuadric_mark(IoGLUQuadric *self);
 GLUquadricObj *IoGLUQuadric_quadric(IoGLUQuadric *self);
 
-/* ----------------------------------------------------------- */
 IoObject *IoGLUQuadric_clone(IoGLUQuadric *self, IoObject *locals, IoMessage *m);
-
-/* --- texture --- */
-IoObject *IoGLUQuadric_setTexture(IoGLUQuadric *self, IoObject *locals, IoMessage *m);
-IoObject *IoGLUQuadric_texture(IoGLUQuadric *self, IoObject *locals, IoMessage *m);
-
-/* --- draw style --- */
-IoObject *IoGLUQuadric_useFillStyle(IoGLUQuadric *self, IoObject *locals, IoMessage *m);
-IoObject *IoGLUQuadric_useLineStyle(IoGLUQuadric *self, IoObject *locals, IoMessage *m);
-IoObject *IoGLUQuadric_useSilhouetteStyle(IoGLUQuadric *self, IoObject *locals, IoMessage *m);
-IoObject *IoGLUQuadric_usePointStyle(IoGLUQuadric *self, IoObject *locals, IoMessage *m);
-
-/* --- normals --- */
-IoObject *IoGLUQuadric_useNoNormals(IoGLUQuadric *self, IoObject *locals, IoMessage *m);
-IoObject *IoGLUQuadric_useFlatNormals(IoGLUQuadric *self, IoObject *locals, IoMessage *m);
-IoObject *IoGLUQuadric_useSmoothNormals(IoGLUQuadric *self, IoObject *locals, IoMessage *m);
-
-/* --- orientation --- */
-IoObject *IoGLUQuadric_useOutsideOrientation(IoGLUQuadric *self, IoObject *locals, IoMessage *m);
-IoObject *IoGLUQuadric_useInsideOrientation(IoGLUQuadric *self, IoObject *locals, IoMessage *m);
-
-/* --- draw --- */
-IoObject *IoGLUQuadric_draw(IoGLUQuadric *self, IoObject *locals, IoMessage *m);
 
 #endif
