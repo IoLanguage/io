@@ -1,10 +1,11 @@
 
 #include "IoVMApi.h"
+#include "UArray.h"
 
 // Embedding callback function types
 
 typedef void (IoStateBindingsInitCallback)(void *, void *);
-typedef void (IoStatePrintCallback)(void *, const unsigned char *, size_t size);
+typedef void (IoStatePrintCallback)(void *, const UArray *);
 typedef void (IoStateExceptionCallback)(void *, IoObject *);
 typedef void (IoStateExitCallback)(void *, int);
 typedef void (IoStateActiveCoroCallback)(void *, int);

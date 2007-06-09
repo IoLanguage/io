@@ -75,12 +75,12 @@ void IoSandbox_addPrintCallback(IoSandbox *self)
 	IoState_printCallback_(boxState, IoSandbox_printCallback);
 }
 
-void IoSandbox_printCallback(void *voidSelf, const unsigned char *data, size_t size)
+void IoSandbox_printCallback(void *voidSelf, const UArray *ba)
 {
 	IoSandbox *self = voidSelf;
 
 	IoState *state = IOSTATE;
-	IoSeq *buf = IOSEQ(data, size);
+	IoSeq *buf = IoSeq_newWithUArray_copy_(IOSTATE, ba, 1);
 	IoMessage *m = IoMessage_newWithName_(state, IOSYMBOL("printCallback"));
 	IoMessage *arg = IoMessage_newWithName_returnsValue_(state, IOSYMBOL("buffer"), buf);
 	IoMessage_addArg_(m, arg);
