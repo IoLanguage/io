@@ -44,7 +44,7 @@ Image *Image_newWithPath_(char *path)
 	return self;
 }
 
-Image *Image_copyWithUArray(Image *self, UArray *ba)
+Image *Image_copyWithUArray_(Image *self, UArray *ba)
 {
 	Image *image = Image_new();
 

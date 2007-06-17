@@ -13,15 +13,16 @@ Viewer := Object clone do(
 	appendProto(OpenGL)
 	
 	setImagePath := method(path,
-		self image := Image clone open(path) 
+		image := Image clone open(path) 
 		if (image error, write("Error: ", image error, "\n"); System exit)
+		self texture := image asTexture
 		self windowName :=  path lastPathComponent .. " " .. image width .. " x " .. image height
 		glutSetWindowTitle(windowName)
 		update
 	)
 	
 	update := method(
-		if (isFullScreen, glutFullScreen, glutReshapeWindow(image originalWidth, image originalHeight))
+		if (isFullScreen, glutFullScreen, glutReshapeWindow(texture originalWidth, texture originalHeight))
 		display
 		//glutPostRedisplay
 		Collector collect
@@ -45,19 +46,19 @@ Viewer := Object clone do(
 		
 		glPushMatrix
 		
-		wr := width / image originalWidth
-		hr := height / image originalHeight
+		wr := width / texture originalWidth
+		hr := height / texture originalHeight
 		
 		if (wr < hr) then(
-			glTranslated(0, (height - image originalHeight * wr)/2, 0)
+			glTranslated(0, (height - texture originalHeight * wr)/2, 0)
 			glScaled(wr, wr, 1)
 		) else(
-			glTranslated((width - image originalWidth * hr) / 2, 0, 0)
+			glTranslated((width - texture originalWidth * hr) / 2, 0, 0)
 			glScaled(hr, hr, 1)
 		)
 
-		image drawTexture
-		if (image error, write("Error: ", image error, "\n"); System exit)
+		texture draw
+
 		glPopMatrix
 		
 		glFlush

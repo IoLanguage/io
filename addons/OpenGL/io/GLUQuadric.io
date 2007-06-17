@@ -3,9 +3,9 @@ GLUQuadric do(
 	
 	texture := nil
 
-	setTexture := method(anImage,
-		if (anImage isKindOf(Image),
-			self texture = anImage
+	setTexture := method(aTexture,
+		if (aTexture isKindOf(Texture),
+			self texture = aTexture
 			gluQuadricTexture(self, GL_TRUE)
 			,
 			self texture = nil

@@ -4,7 +4,7 @@ GLUSphere := GLUQuadric clone do(
 	slices ::= 0
 	
 	draw := method(
-		texture ifNonNil(texture bindTexture)
+		texture ifNonNil(texture bind)
 		gluSphere(self, radius, slices, stacks)
 		self
 	)

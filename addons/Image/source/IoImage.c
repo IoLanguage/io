@@ -90,7 +90,7 @@ IoImage *IoImage_rawClone(IoImage *proto)
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, cpalloc(IoObject_dataPointer(proto), sizeof(IoImageData)));
 	DATA(self)->buffer = IOCLONE(DATA(proto)->buffer);
-	DATA(self)->image = Image_copyWithUArray(DATA(proto)->image, IoSeq_rawUArray(DATA(self)->buffer));
+	DATA(self)->image = Image_copyWithUArray_(DATA(proto)->image, IoSeq_rawUArray(DATA(self)->buffer));
 	return self; 
 }
 
