@@ -31,6 +31,7 @@ IoObject *IoQDBM_open(IoObject *self, IoObject *locals, IoMessage *m);
 IoObject *IoQDBM_close(IoObject *self, IoObject *locals, IoMessage *m);
 IoObject *IoQDBM_atPut(IoObject *self, IoObject *locals, IoMessage *m);
 IoObject *IoQDBM_at(IoObject *self, IoObject *locals, IoMessage *m);
+IoObject *IoQDBM_sizeAt(IoObject *self, IoObject *locals, IoMessage *m);
 IoObject *IoQDBM_removeAt(IoObject *self, IoObject *locals, IoMessage *m);
 IoObject *IoQDBM_sync(IoObject *self, IoObject *locals, IoMessage *m);
 IoObject *IoQDBM_size(IoObject *self, IoObject *locals, IoMessage *m);

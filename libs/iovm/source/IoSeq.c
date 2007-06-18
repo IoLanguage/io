@@ -263,7 +263,7 @@ size_t IoSeq_rawSize(IoSeq *self)
 
 size_t IoSeq_rawSizeInBytes(IoSeq *self)
 {
-    return (size_t)(UArray_size(DATA(self)));
+    return (size_t)(UArray_sizeInBytes(DATA(self)) );
 }
 
 double IoSeq_asDouble(IoSeq *self)

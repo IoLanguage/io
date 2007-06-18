@@ -45,6 +45,7 @@ IoQDBM *IoQDBM_proto(void *state)
 	
 	{"atPut",     IoQDBM_atPut}, 
 	{"at",        IoQDBM_at},
+	{"sizeAt",    IoQDBM_sizeAt},
 	{"removeAt",  IoQDBM_removeAt},
 	//{"sync",      IoQDBM_sync},   
 	
@@ -118,6 +119,15 @@ IoObject *IoQDBM_open(IoObject *self, IoObject *locals, IoMessage *m)
 	*/
 	VILLA *villa;
 	IoSeq *path = IoMessage_locals_seqArgAt_(m, locals, 0);
+	VLCFUNC cf = compareFunc;
+	
+	if(IoMessage_argCount(m) > 1)
+	{
+		IoSeq *compareType = IoMessage_locals_seqArgAt_(m, locals, 1);
+		if(strcmp(CSTRING(compareType), "VL_CMPDEC") == 0) cf = VL_CMPDEC;
+		if(strcmp(CSTRING(compareType), "VL_CMPINT") == 0) cf = VL_CMPINT;
+		if(strcmp(CSTRING(compareType), "VL_CMPNUM") == 0) cf = VL_CMPNUM;
+	}
 	
 	if(!(villa = vlopen(CSTRING(path), VL_OWRITER | VL_OCREAT, compareFunc)))
 	{
@@ -157,7 +167,7 @@ IoObject *IoQDBM_atPut(IoObject *self, IoObject *locals, IoMessage *m)
 	
 	IOASSERT(QDBM(self), "invalid QDBM");
 	
-	result = vlput(QDBM(self), (const char *)IoSeq_rawBytes(key), IoSeq_rawSize(key), (const char *)IoSeq_rawBytes(value), IoSeq_rawSize(value), VL_DOVER);
+	result = vlput(QDBM(self), (const char *)IoSeq_rawBytes(key), IoSeq_rawSizeInBytes(key), (const char *)IoSeq_rawBytes(value), IoSeq_rawSizeInBytes(value), VL_DOVER);
 	
 	IOASSERT(result, dperrmsg(dpecode));
 	
@@ -175,7 +185,7 @@ IoObject *IoQDBM_at(IoObject *self, IoObject *locals, IoMessage *m)
 	
 	IOASSERT(QDBM(self), "invalid QDBM");
 	
-	value = vlget(QDBM(self), (const char *)IoSeq_rawBytes(key), IoSeq_rawSize(key), &size);
+	value = vlget(QDBM(self), (const char *)IoSeq_rawBytes(key), IoSeq_rawSizeInBytes(key), &size);
 	
 	if (value)
 	{
@@ -187,6 +197,26 @@ IoObject *IoQDBM_at(IoObject *self, IoObject *locals, IoMessage *m)
 	return IONIL(self);
 }
 
+IoObject *IoQDBM_sizeAt(IoObject *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("sizeAt(keySymbol)", "Returns the size of the value at the given key or nil if there is no such key.")
+	*/
+	IoSeq *key = IoMessage_locals_seqArgAt_(m, locals, 0);
+	int size;
+	
+	IOASSERT(QDBM(self), "invalid QDBM");
+	
+	size = vlvsiz(QDBM(self), (const char *)IoSeq_rawBytes(key), IoSeq_rawSizeInBytes(key));
+	
+	if (size == -1)
+	{
+		return IONIL(self);
+	}
+	
+	return IONUMBER(size);
+}
+
 IoObject *IoQDBM_removeAt(IoObject *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
@@ -195,7 +225,7 @@ IoObject *IoQDBM_removeAt(IoObject *self, IoObject *locals, IoMessage *m)
 	IoSeq *key = IoMessage_locals_seqArgAt_(m, locals, 0);
 	int result;
 	IOASSERT(QDBM(self), "invalid QDBM");
-	result = vloutlist(QDBM(self), (const char *)IoSeq_rawBytes(key), IoSeq_rawSize(key));
+	result = vloutlist(QDBM(self), (const char *)IoSeq_rawBytes(key), IoSeq_rawSizeInBytes(key));
 	//IOASSERT(result, dperrmsg(dpecode)); // commented to avoid 'no item found' exception
 	return self;
 }
@@ -327,8 +357,8 @@ IoObject *IoQDBM_cursorJumpForward(IoObject *self, IoObject *locals, IoMessage *
 	IoSeq *key = IoMessage_locals_seqArgAt_(m, locals, 0);
 	
 	IOASSERT(QDBM(self), "invalid QDBM");
-	//IOASSERT(vlcurjump(QDBM(self), (const char *)IoSeq_rawBytes(key), IoSeq_rawSize(key), VL_JFORWARD), dperrmsg(dpecode));
-	return IOBOOL(self, vlcurjump(QDBM(self), (const char *)IoSeq_rawBytes(key), IoSeq_rawSize(key), VL_JFORWARD));
+	//IOASSERT(vlcurjump(QDBM(self), (const char *)IoSeq_rawBytes(key), IoSeq_rawSizeInBytes(key), VL_JFORWARD), dperrmsg(dpecode));
+	return IOBOOL(self, vlcurjump(QDBM(self), (const char *)IoSeq_rawBytes(key), IoSeq_rawSizeInBytes(key), VL_JFORWARD));
 }
 
 IoObject *IoQDBM_cursorJumpBackward(IoObject *self, IoObject *locals, IoMessage *m)
@@ -339,8 +369,8 @@ IoObject *IoQDBM_cursorJumpBackward(IoObject *self, IoObject *locals, IoMessage 
 	IoSeq *key = IoMessage_locals_seqArgAt_(m, locals, 0);
 	
 	IOASSERT(QDBM(self), "invalid QDBM");
-	//IOASSERT(vlcurjump(QDBM(self), (const char *)IoSeq_rawBytes(key), IoSeq_rawSize(key), VL_JBACKWARD), dperrmsg(dpecode));
-	return IOBOOL(self, vlcurjump(QDBM(self), (const char *)IoSeq_rawBytes(key), IoSeq_rawSize(key), VL_JBACKWARD));
+	//IOASSERT(vlcurjump(QDBM(self), (const char *)IoSeq_rawBytes(key), IoSeq_rawSizeInBytes(key), VL_JBACKWARD), dperrmsg(dpecode));
+	return IOBOOL(self, vlcurjump(QDBM(self), (const char *)IoSeq_rawBytes(key), IoSeq_rawSizeInBytes(key), VL_JBACKWARD));
 }
 
 IoObject *IoQDBM_cursorKey(IoObject *self, IoObject *locals, IoMessage *m)
@@ -394,7 +424,7 @@ IoObject *IoQDBM_cursorPut(IoObject *self, IoObject *locals, IoMessage *m)
 
 	IOASSERT(QDBM(self), "invalid QDBM");
 
-	IOASSERT(vlcurput(QDBM(self), (const char *)IoSeq_rawBytes(value), IoSeq_rawSize(value), VL_CPCURRENT), dperrmsg(dpecode));
+	IOASSERT(vlcurput(QDBM(self), (const char *)IoSeq_rawBytes(value), IoSeq_rawSizeInBytes(value), VL_CPCURRENT), dperrmsg(dpecode));
 	
 	return self;
 }
