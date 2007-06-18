@@ -96,7 +96,7 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 203828886;
+			PBXPerProjectTemplateStateSaveDate = 203842332;
 			PBXPrepackagedSmartGroups_v2 = (
 				{
 					PBXTransientLocationAtTop = bottom;
@@ -273,7 +273,7 @@
 					};
 				},
 			);
-			PBXWorkspaceStateSaveDate = 203828886;
+			PBXWorkspaceStateSaveDate = 203842332;
 		};
 		perUserProjectItems = {
 			AA035D540BEA69CF0041F02C = AA035D540BEA69CF0041F02C /* PBXTextBookmark */;
@@ -438,7 +438,7 @@
 			AAB266050C2604C400FA7CD9 = AAB266050C2604C400FA7CD9 /* PBXTextBookmark */;
 			AAB266090C26098D00FA7CD9 = AAB266090C26098D00FA7CD9 /* PBXTextBookmark */;
 			AAB2660A0C26098D00FA7CD9 = AAB2660A0C26098D00FA7CD9 /* PBXTextBookmark */;
-			AAB266200C262E9900FA7CD9 /* PBXTextBookmark */ = AAB266200C262E9900FA7CD9 /* PBXTextBookmark */;
+			AAB266200C262E9900FA7CD9 = AAB266200C262E9900FA7CD9 /* PBXTextBookmark */;
 			AABF81EA0B75A461002DBAB5 = AABF81EA0B75A461002DBAB5 /* PBXTextBookmark */;
 			AABF81EB0B75A461002DBAB5 = AABF81EB0B75A461002DBAB5 /* PBXTextBookmark */;
 			AABF83880B76E40D002DBAB5 = AABF83880B76E40D002DBAB5 /* PBXTextBookmark */;
@@ -553,7 +553,7 @@
 		hitCount = 1;
 		lineNumber = 346;
 		location = osxvm;
-		modificationTime = 203805395.614013;
+		modificationTime = 203842346.08065;
 		state = 2;
 	};
 	AA2420E50BD7027E00541BB3 /* UArray.c:750 */ = {
@@ -568,7 +568,7 @@
 		hitCount = 1;
 		lineNumber = 750;
 		location = osxvm;
-		modificationTime = 203805395.614028;
+		modificationTime = 203842346.080668;
 		state = 2;
 	};
 	AA2421020BD7031600541BB3 /* PBXTextBookmark */ = {
@@ -623,7 +623,7 @@
 		hitCount = 1;
 		lineNumber = 750;
 		location = osxvm;
-		modificationTime = 203805395.614034;
+		modificationTime = 203842346.080675;
 		state = 2;
 	};
 	AA2421970BD71C3B00541BB3 /* UArray.c:750 */ = {
@@ -638,7 +638,7 @@
 		hitCount = 1;
 		lineNumber = 750;
 		location = osxvm;
-		modificationTime = 203805395.614038;
+		modificationTime = 203842346.080681;
 		state = 2;
 	};
 	AA2421990BD71C3F00541BB3 /* UArray.c:750 */ = {
@@ -653,7 +653,7 @@
 		hitCount = 1;
 		lineNumber = 750;
 		location = osxvm;
-		modificationTime = 203805395.6140431;
+		modificationTime = 203842346.080687;
 		state = 2;
 	};
 	AA248B760BA36F9D006365D4 /* PBXTextBookmark */ = {
@@ -2203,7 +2203,7 @@
 		hitCount = 1;
 		lineNumber = 282;
 		location = osxvm;
-		modificationTime = 203805395.61414;
+		modificationTime = 203842346.080719;
 		state = 2;
 	};
 	AAB265BA0C25D1FA00FA7CD9 /* IoSeq_immutable.c:291 */ = {
@@ -2217,8 +2217,8 @@
 		functionName = "IoSeq_slice()";
 		hitCount = 1;
 		lineNumber = 291;
-		location = osxvm;
-		modificationTime = 203805400.754451;
+		location = IoSeq_immutable.ob;
+		modificationTime = 203842363.186286;
 		state = 1;
 	};
 	AAB265BF0C25D40300FA7CD9 /* PBXTextBookmark */ = {
@@ -2270,9 +2270,10 @@
 		delayBeforeContinue = 0;
 		fileReference = AABF812F0B759BC8002DBAB5 /* UArray.c */;
 		functionName = "UArray_setItemType_()";
-		hitCount = 0;
+		hitCount = 2;
 		lineNumber = 155;
-		modificationTime = 203807501.008112;
+		location = UArray.ob;
+		modificationTime = 203842410.85148;
 		state = 1;
 	};
 	AAB265D10C25DB1000FA7CD9 /* IoQDBM.c */ = {
@@ -2281,11 +2282,6 @@
 		name = IoQDBM.c;
 		path = /Users/steve/Io/addons/QDBM/source/IoQDBM.c;
 		sourceTree = "<absolute>";
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1372, 7650}}";
-			sepNavSelRange = "{3390, 0}";
-			sepNavVisRect = "{{0, 2278}, {721, 536}}";
-		};
 	};
 	AAB266010C2604C400FA7CD9 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -2850,7 +2846,7 @@
 		hitCount = 1;
 		lineNumber = 424;
 		location = osxvm;
-		modificationTime = 203805395.614084;
+		modificationTime = 203842346.080712;
 		state = 2;
 	};
 	AAE57FED0BFA787700AC1225 /* IoState.c:418 */ = {
@@ -2865,7 +2861,7 @@
 		hitCount = 1;
 		lineNumber = 418;
 		location = osxvm;
-		modificationTime = 203805395.614088;
+		modificationTime = 203842346.080716;
 		state = 2;
 	};
 	AAE57FF20BFA78B400AC1225 /* PBXTextBookmark */ = {
@@ -3978,7 +3974,7 @@
 		hitCount = 1;
 		lineNumber = 413;
 		location = osxvm;
-		modificationTime = 203805395.614047;
+		modificationTime = 203842346.080692;
 		state = 2;
 	};
 	AAEEA60D0BDFC97C00627958 /* PBXTextBookmark */ = {
@@ -4033,7 +4029,7 @@
 		hitCount = 1;
 		lineNumber = 41;
 		location = osxvm;
-		modificationTime = 203805395.614064;
+		modificationTime = 203842346.080696;
 		state = 2;
 	};
 	AAEEA6270BDFCD0800627958 /* IoState.c:403 */ = {
@@ -4047,8 +4043,8 @@
 		functionName = "MissingProtoError()";
 		hitCount = 1;
 		lineNumber = 403;
-		location = osxvm;
-		modificationTime = 203805395.614071;
+		location = IoState.ob;
+		modificationTime = 203842347.909326;
 		state = 1;
 	};
 	AAEEA62B0BDFCD3900627958 /* IoState.c:408 */ = {
@@ -4063,7 +4059,7 @@
 		hitCount = 1;
 		lineNumber = 408;
 		location = osxvm;
-		modificationTime = 203805395.614076;
+		modificationTime = 203842346.080704;
 		state = 2;
 	};
 	AAEEA62E0BDFCD4E00627958 /* IoState.c:412 */ = {
@@ -4078,7 +4074,7 @@
 		hitCount = 1;
 		lineNumber = 412;
 		location = osxvm;
-		modificationTime = 203805395.61408;
+		modificationTime = 203842346.080708;
 		state = 2;
 	};
 	AAF099FA0B9567DD0014EFE4 /* PBXTextBookmark */ = {
