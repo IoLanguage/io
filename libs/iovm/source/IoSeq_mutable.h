@@ -18,6 +18,7 @@ IOVM_API IoObject *IoSeq_atInsertSeq(IoSeq *self, IoObject *locals, IoMessage *m
 
 // removing
 
+IOVM_API IoObject *IoSeq_removeAt(IoSeq *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoSeq_removeSlice(IoSeq *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoSeq_removeLast(IoSeq *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoSeq_setSize(IoSeq *self, IoObject *locals, IoMessage *m);
