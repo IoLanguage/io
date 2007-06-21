@@ -1164,6 +1164,104 @@ IoObject *IoSeq_lessThanOrEqualTo_(IoSeq *self, IoObject *locals, IoMessage *m)
 	return IOBOOL(self, UArray_lessThanOrEqualTo_(DATA(self), DATA(other)));
 }
 
+// -----------------------------------------------------------
+
+#define ASSTRUCT(type) if (!strcmp(mt, #type)) \
+{ \
+	int typeSize = sizeof(type ## _t); \
+	IOASSERT(offset + typeSize <= size, "not enough data for struct"); \
+	v = IONUMBER(*(type ## _t *)(data + offset)); \
+	offset += typeSize; \
+}
+
+IoObject *IoSeq_asStruct(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	IoObject *st = IoObject_new(IOSTATE);
+     const unsigned char *data = UArray_bytes(DATA(self));
+     size_t size = UArray_sizeInBytes(DATA(self));
+	size_t offset = 0;
+	List *members = IoList_rawList(IoMessage_locals_listArgAt_(m, locals, 0));
+	int memberIndex;
+	
+	IOASSERT(List_size(members) % 2 == 0, "members list must be even number");
+	
+	for (memberIndex = 0; memberIndex < List_size(members) / 2 && offset < size; memberIndex ++)
+	{
+		IoSeq *memberType = List_at_(members, memberIndex*2);
+		IoSeq *memberName = List_at_(members, memberIndex*2 + 1);
+		char *mt;
+		IoObject *v = NULL;
+		
+		IOASSERT(ISSEQ(memberType), "memberTypes must be strings");
+		IOASSERT(ISSEQ(memberName), "memberNames must be strings");
+		
+		mt = CSTRING(memberType);
+		
+		ASSTRUCT(int8);
+		ASSTRUCT(uint8);
+		ASSTRUCT(int16);
+		ASSTRUCT(uint16);
+		ASSTRUCT(int32);
+		ASSTRUCT(uint32);		
+		ASSTRUCT(int64);
+		ASSTRUCT(uint64);		
+		ASSTRUCT(float32);
+		ASSTRUCT(float64);
+			
+		IoObject_setSlot_to_(st, memberName, v);
+	}
+	
+	return st;
+}
+
+#define WITHSTRUCT(type) if (!strcmp(mt, #type)) \
+{ \
+	int typeSize = sizeof(type ## _t); \
+	*(type ## _t *)(data + offset) = CNUMBER(memberValue); \
+	offset += typeSize; \
+	continue; \
+}
+
+IoObject *IoSeq_withStruct(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	List *members = IoList_rawList(IoMessage_locals_listArgAt_(m, locals, 0));
+	int memberIndex;
+	size_t maxSize = List_size(members) * 8;
+	IoSeq *s = IoSeq_newWithData_length_(IOSTATE, malloc(maxSize), maxSize);
+	unsigned char *data = IoSeq_rawBytes(s);
+	size_t offset = 0;
+	
+	IOASSERT(List_size(members) % 2 == 0, "members list must be even number");
+	
+	for (memberIndex = 0; memberIndex < List_size(members) / 2 && offset < maxSize; memberIndex ++)
+	{
+		IoSeq *memberType = List_at_(members, memberIndex*2);
+		IoSeq *memberValue = List_at_(members, memberIndex*2 + 1);
+		char *mt;
+		IoObject *v = NULL;
+		
+		IOASSERT(ISSEQ(memberType), "memberTypes must be strings");
+		IOASSERT(ISNUMBER(memberValue), "memberValues must be strings");
+		
+		mt = CSTRING(memberType);
+		
+		WITHSTRUCT(int8);
+		WITHSTRUCT(uint8);
+		WITHSTRUCT(int16);
+		WITHSTRUCT(uint16);
+		WITHSTRUCT(int32);
+		WITHSTRUCT(uint32);		
+		WITHSTRUCT(int64);
+		WITHSTRUCT(uint64);		
+		WITHSTRUCT(float32);
+		WITHSTRUCT(float64);
+	}
+	
+	IoSeq_rawSetSize_(s, offset);
+	
+	return s;
+}
+
 void IoSeq_addImmutableMethods(IoSeq *self)
 {
 	IoMethodTable methodTable[] = {
@@ -1237,6 +1335,8 @@ void IoSeq_addImmutableMethods(IoSeq *self)
 	{">=", IoSeq_greaterThanOrEqualTo_},
 	{"<=", IoSeq_lessThanOrEqualTo_},
 	
+	{"asStruct", IoSeq_asStruct},
+	{"withStruct", IoSeq_withStruct},
 	{NULL, NULL},
 	};
 
