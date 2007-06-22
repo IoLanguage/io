@@ -157,10 +157,11 @@ IoObject *IoSeq_append(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_atInsertSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
+	/*
+	#io
 	docSlot("atInsertSeq(indexNumber, object)",
 		   "Calls asString on object and inserts the string at position indexNumber. Returns self.")
-	*/
+	*/	
 
 	size_t n = IoMessage_locals_sizetArgAt_(m, locals, 0);
 	IoSeq *otherSeq = IoMessage_locals_valueAsStringArgAt_(m, locals, 1);
@@ -170,16 +171,52 @@ IoObject *IoSeq_atInsertSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 	IOASSERT(n <= UArray_size(DATA(self)), "insert index out of sequence bounds");
 
 	UArray_at_putAll_(DATA(self), n, DATA(otherSeq));
+	
 	return self;
 }
 
+/*
+IoObject *IoSeq_atInsert(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	#io
+	docSlot("atInsert(indexNumber, valueNumber)",
+		   "Inserts valueNumber at position indexNumber. Returns self.")
+
+	size_t n = IoMessage_locals_sizetArgAt_(m, locals, 0);
+	IoNumber *value = IoMessage_locals_numberArgAt_(m, locals, 1);
+
+	IO_ASSERT_NOT_SYMBOL(self);
+
+
+	UArray_at_putAll_(DATA(self), n, DATA(otherSeq));
+	return self;
+}
+*/
+
 // removing ---------------------------------------
+
+IoObject *IoSeq_removeAt(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("removeAt(index)",
+		   "Removes the item at index. Returns self.")
+	*/
+
+	long i = IoMessage_locals_longArgAt_(m, locals, 0);
+
+	IO_ASSERT_NOT_SYMBOL(self);
+
+	i = UArray_wrapPos_(DATA(self), i);
+
+	UArray_removeRange(DATA(self), i, 1);
+	return self;
+}
 
 IoObject *IoSeq_removeSlice(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("removeSlice(startIndex, endIndex)",
-		   "Removes the bytes from startIndex to endIndex.
+		   "Removes the items from startIndex to endIndex.
 Returns self.")
 	*/
 
@@ -1056,6 +1093,7 @@ void IoSeq_addMutableMethods(IoSeq *self)
 	{"appendSeq", IoSeq_appendSeq},
 	{"append", IoSeq_append},
 	{"atInsertSeq", IoSeq_atInsertSeq},
+	{"removeAt", IoSeq_removeAt},
 	{"removeSlice", IoSeq_removeSlice},
 	{"removeLast", IoSeq_removeLast},
 	{"setSize", IoSeq_setSize},

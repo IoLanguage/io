@@ -152,9 +152,20 @@ void UArray_setItemType_(UArray *self, CTYPE type)
 	self->itemSize = itemSize;
 	self->size = q.quot;
 	
+	// ensure encoding is sane for type
+
 	if (UArray_isFloatType(self))
 	{
 		self->encoding = CENCODING_NUMBER;
+	}
+	else if (self->encoding == CENCODING_ASCII)
+	{
+		switch(self->itemSize)
+		{
+			case 2: self->encoding = CENCODING_UTF16; break;
+			case 4: self->encoding = CENCODING_UTF32; break;
+			case 8: self->encoding = CENCODING_NUMBER; break;
+		}
 	}
 }
 
