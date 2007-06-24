@@ -64,4 +64,4 @@ io2c
 ./addons/SGML/source/libsgml/Makefile*
 ./addons/SGML/source/libsgml/examples/Makefile*
 ./addons/SGML/source/libsgml/src/Makefile*
-
+tools/editlib_test/editlib_test
