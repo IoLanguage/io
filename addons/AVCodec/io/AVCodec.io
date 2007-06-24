@@ -28,11 +28,10 @@ AVCodec do(
 		internalCoro resume // this will pause the current coro
 	)
 
-	newSlot("fileName")
-	setFileName := method(path, 
-	   self fileName := path
-	   setVideoCodecName(path pathExtension)
-    )
+	setPath := method(path, 
+		self path := path
+		setVideoCodecName(path pathExtension)
+	)
     
 	newSlot("videoCodecName")
 )
