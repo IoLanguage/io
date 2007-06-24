@@ -1,3 +1,7 @@
+isPowerOf2 := method(x,
+	x != 0 and (x & (x - 1)) == 0
+)
+
 Image do(
 	appendProto(OpenGL)
 	
@@ -8,6 +12,8 @@ Image do(
 		if (componentCount == 4, return(GL_RGBA))
 		nil
 	)
+
+	sizeIsPowerOf2 := method(isPowerOf2(width) and isPowerOf2(height))
 	
 	asTexture := method(
 		Texture with(self)
@@ -24,41 +30,16 @@ Texture := Object clone do(
 	format := nil
 	
 	with := method(anImage,
-		clone setImage(anImage)
+		clone uploadImage(anImage)
 	)
 	
 	id := lazySlot(
 		ids := List clone
 		glGenTextures(1, ids)
-		ids at(0)
-	)
-	
-	bind := method(
-		glBindTexture(GL_TEXTURE_2D, id)
-		self
-	)
-	
-	setImage := method(anImage,
-		setDefaultParameters
+			
+		glBindTexture(GL_TEXTURE_2D, ids at(0))
 
-		self format = anImage glFormat
-		self originalWidth = anImage width
-		self originalHeight = anImage height
-
-		anImage = anImage resizedToPowerOf2
-		self width = anImage width
-		self height = anImage height
-		
-		# Upload the image into the OpenGL system.
-		glPixelStorei(GL_UNPACK_ROW_LENGTH, width)
-		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, anImage data)
-		
-		self
-	)
-
-	setDefaultParameters := method(
-		bind 
-		
+		# Set the default parameters.
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
 	
@@ -67,9 +48,49 @@ Texture := Object clone do(
 	
 		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE)
 
+		ids at(0)
+	)
+	
+	bind := method(
+		glBindTexture(GL_TEXTURE_2D, id)
 		self
 	)
 	
+	uploadImage := method(anImage,
+		bind
+	
+		self format = anImage glFormat
+		
+		sizeIsSame := anImage width == originalWidth and anImage height == originalHeight
+		if (sizeIsSame == false,
+			self width = self originalWidth = anImage width
+			self height = self originalHeight = anImage height
+		)
+
+		if (anImage sizeIsPowerOf2 == false,
+			if (sizeIsSame,
+				glPixelStorei(GL_UNPACK_ROW_LENGTH, originalWidth)
+				glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, originalWidth, originalHeight, anImage glFormat, GL_UNSIGNED_BYTE, anImage data)
+				return self
+			)
+			
+			anImage = anImage resizedToPowerOf2
+			self width = anImage width
+			self height = anImage height
+		)
+
+		glPixelStorei(GL_UNPACK_ROW_LENGTH, width)
+		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, anImage data)
+		
+		self
+	)
+	
+	uploadSubImage := method(anImage, x, y,
+		bind
+		glTexSubImage2D(GL_TEXTURE_2D, 0, x, y, anImage width, anImage height, anImage glFormat, GL_UNSIGNED_BYTE, anImage data)
+		self
+	)
+
 	setParameter := method(param, value,
 		bind
 		glTexParameteri(param, value)
