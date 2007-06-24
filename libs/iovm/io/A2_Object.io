@@ -420,7 +420,7 @@ Object do(
 			args atPut(1, call argAt(0) clone)
 			getSlot("m") message next setArguments(args)
 
-			getSlot("m")
+			getSlot("m") clone
 		,
 			name := call evalArgAt(0)
 			m := ("self setSlot(\"" .. name .. "\", " .. call argAt(1) code .. ")") asMessage
