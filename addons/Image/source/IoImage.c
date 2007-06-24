@@ -64,8 +64,8 @@ IoImage *IoImage_proto(void *state)
 		{"isRGB8", IoImage_isRGB8},
 		{"isRGBA8", IoImage_isRGBA8},
 		{"error", IoImage_error},
-		{"resizeTo", IoImage_resizeTo},
-		{"resizeToPowerOf2", IoImage_resizeToPowerOf2},
+		{"resizedTo", IoImage_resizedTo},
+		{"resizedToPowerOf2", IoImage_resizedToPowerOf2},
 		{"crop", IoImage_crop},
 			
 		// extras 
@@ -320,21 +320,23 @@ IoObject *IoImage_crop(IoImage *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoImage_resizeTo(IoImage *self, IoObject *locals, IoMessage *m)
+IoObject *IoImage_resizedTo(IoImage *self, IoObject *locals, IoMessage *m)
 {
 	int w = IoMessage_locals_intArgAt_(m, locals, 0);
 	int h = IoMessage_locals_intArgAt_(m, locals, 1);
 
-	Image_resizeTo(DATA(self)->image, w, h);
+	IoImage *outImage = IoImage_new(IOSTATE);
+	Image_resizeTo(DATA(self)->image, w, h, DATA(outImage)->image);
 	IoImage_checkError(self, locals, m);
-	return self;
+	return outImage;
 }
 
-IoObject *IoImage_resizeToPowerOf2(IoImage *self, IoObject *locals, IoMessage *m)
+IoObject *IoImage_resizedToPowerOf2(IoImage *self, IoObject *locals, IoMessage *m)
 {
-	Image_resizeToPowerOf2(DATA(self)->image);
+	IoImage *outImage = IoImage_new(IOSTATE);
+	Image_resizeToPowerOf2(DATA(self)->image, DATA(outImage)->image);
 	IoImage_checkError(self, locals, m);
-	return self;
+	return outImage;
 }
 
 

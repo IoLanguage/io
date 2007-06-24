@@ -323,47 +323,26 @@ void Image_flipY(Image *self)
 }
 
 
-void Image_resizeTo(Image *self, int w, int h)
+void Image_resizeTo(Image *self, int w, int h, Image *outImage)
 {  
-	if ( (self->width != w) || (self->height != h))
-	{
-		int x, y;
-		int componentCount = self->componentCount;
-		UArray *outUArray = UArray_new();
-		UArray_setSize_(outUArray, w*h*componentCount);
+	int componentCount = self->componentCount;
+
+	int inStride = self->width * componentCount;
+	uint8_t *inPtr = Image_data(self);
+
+	int outStride = w * componentCount;
+	UArray *outUArray = UArray_new();
+	UArray_setSize_(outUArray, h * outStride);
+	uint8_t *outPtr = (uint8_t *)UArray_bytes(outUArray);
+
+	int y;
+	for (y=0; y < self->height; y++, inPtr += inStride, outPtr += outStride)
+		memcpy(outPtr, inPtr, inStride);
 		
-		//memset(UArray_bytes(outUArray), 0, UArray_size(outUArray));
-		
-		{
-		
-		const uint8_t *selfData = UArray_bytes(self->byteArray);
-		uint8_t *otherData = UArray_mutableBytes(outUArray);
-		
-		for (y = 0; y < self->height; y ++)
-		{
-			if (y > h) break;
-			
-			for (x = 0; x < self->width; x ++)
-			{
-				if (x > w) break;
-				
-				{
-					const uint8_t *pi = selfData  + componentCount * (x + y * self->width);
-					uint8_t *po = otherData + componentCount * (x + y * w);
-					memcpy(po, pi, componentCount);
-				}
-			}
-		}
-		}
-		
-		self->width = w;
-		self->height = h;
-		Image_copyUArray_(self, outUArray);
-		UArray_free(outUArray);
-	}
+	Image_setData_width_height_componentCount_(outImage, outUArray, w, h, componentCount);
 }
 
-void Image_resizeToPowerOf2(Image *self)
+void Image_resizeToPowerOf2(Image *self, Image *outImage)
 {
 	int w, h;
 	int exp;
@@ -375,8 +354,7 @@ void Image_resizeToPowerOf2(Image *self)
 	
 	h = pow(2, exp - 1 + ceil(fraction - .5));
 	
-	Image_resizeTo(self, w, h);
-	//Image_scaleTo(self, w, h);
+	Image_resizeTo(self, w, h, outImage);
 }
 
 inline unsigned char *Image_pixelAt(Image *self, int x, int y)

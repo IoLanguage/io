@@ -45,7 +45,7 @@ Texture := Object clone do(
 		self originalWidth = anImage width
 		self originalHeight = anImage height
 
-		anImage = anImage clone resizeToPowerOf2
+		anImage = anImage resizedToPowerOf2
 		self width = anImage width
 		self height = anImage height
 		
