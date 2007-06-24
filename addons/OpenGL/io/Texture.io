@@ -1,25 +1,3 @@
-isPowerOf2 := method(x,
-	x != 0 and (x & (x - 1)) == 0
-)
-
-Image do(
-	appendProto(OpenGL)
-	
-	glFormat := method(
-		if (componentCount == 1, return(GL_LUMINANCE))
-		if (componentCount == 2, return(GL_LUMINANCE_ALPHA))
-		if (componentCount == 3, return(GL_RGB))
-		if (componentCount == 4, return(GL_RGBA))
-		nil
-	)
-
-	sizeIsPowerOf2 := method(isPowerOf2(width) and isPowerOf2(height))
-	
-	asTexture := method(
-		Texture with(self)
-	)
-)
-
 Texture := Object clone do(
 	appendProto(OpenGL)
 	
@@ -119,37 +97,13 @@ Texture := Object clone do(
 		self
 	)
 	
-	drawScaledArea := method(w, h,
+	draw := method(w, h,
 		glPushAttrib(GL_TEXTURE_BIT)
 		glEnable(GL_TEXTURE_2D)
 		bind
-
-		# the y texture coords are flipped since the image data starts with y=0
-		glBegin(GL_QUADS)
-
-		glTexCoord2f(0,  0)
-		glVertex2i(0, h)
-
-		glTexCoord2f(0,  1)
-		glVertex2i(0, 0)
-
-		glTexCoord2f(1,  1)
-		glVertex2i(w, 0)
-
-		glTexCoord2f(1, 0)
-		glVertex2i(w, h)
-
-		glEnd
-		glPopAttrib
-
-		self
-	)
 	
-	drawArea := method(w, h,
-		glPushAttrib(GL_TEXTURE_BIT)
-		glEnable(GL_TEXTURE_2D)
-		bind
-
+		w = w ifNilEval(originalWidth)
+		h = h ifNilEval(originalHeight)
 		wr := w / width
 		hr := h / height
 		
@@ -174,8 +128,33 @@ Texture := Object clone do(
 		self
 	)
 	
-	draw := method(
-		drawArea(originalWidth, originalHeight)
+	drawScaled := method(w, h,
+		glPushAttrib(GL_TEXTURE_BIT)
+		glEnable(GL_TEXTURE_2D)
+		bind
+
+		w = w ifNilEval(originalWidth)
+		h = h ifNilEval(originalHeight)
+
+		# the y texture coords are flipped since the image data starts with y=0
+		glBegin(GL_QUADS)
+
+		glTexCoord2f(0,  0)
+		glVertex2i(0, h)
+
+		glTexCoord2f(0,  1)
+		glVertex2i(0, 0)
+
+		glTexCoord2f(1,  1)
+		glVertex2i(w, 0)
+
+		glTexCoord2f(1, 0)
+		glVertex2i(w, h)
+
+		glEnd
+		glPopAttrib
+
+		self
 	)
 	
 	willFree := method(
