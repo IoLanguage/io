@@ -300,7 +300,7 @@ IoObject *IoSocket_udpRead(IoSocket *self, IoObject *locals, IoMessage *m)
 IoObject *IoSocket_udpWrite(IoSocket *self, IoObject *locals, IoMessage *m)
 {
 	IPAddress *address = IoMessage_locals_rawIPAddressArgAt_(m, locals, 0);
-	UArray *buffer = IoSeq_rawUArray(IoMessage_locals_mutableSeqArgAt_(m, locals, 1));
+	UArray *buffer = IoSeq_rawUArray(IoMessage_locals_seqArgAt_(m, locals, 1));
 	size_t start = IoMessage_locals_intArgAt_(m, locals, 2);
 	size_t writeSize = IoMessage_locals_intArgAt_(m, locals, 3);
 	ssize_t bytesWritten = Socket_udpWrite(SOCKET(self), address, buffer, start, writeSize);

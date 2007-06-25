@@ -101,6 +101,7 @@ Object do(
 			actorCoroutine setRunLocals(self)
 			actorCoroutine setRunMessage(message(actorProcessQueue))
 			Coroutine yieldingCoros atInsert(0, actorCoroutine)
+			//Coroutine yieldingCoros append(actorCoroutine)
         )
 	)
      

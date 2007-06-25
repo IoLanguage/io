@@ -262,7 +262,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>66</integer>
+									<integer>71</integer>
 									<integer>9</integer>
 									<integer>8</integer>
 									<integer>4</integer>
@@ -290,7 +290,7 @@
 							<real>230</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>257 47 1014 724 0 0 1440 900 </string>
+						<string>288 97 1014 724 0 0 1440 900 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -308,7 +308,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>IoQDBM.c</string>
+								<string>IoSeq_mutable.c</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -316,11 +316,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>IoQDBM.c</string>
+										<string>IoSeq_mutable.c</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>AAB266200C262E9900FA7CD9</string>
+										<string>AA7E69FC0C2E374A00CF0E1B</string>
 										<key>history</key>
 										<array>
 											<string>AA89D0C50B11886100775BF6</string>
@@ -420,16 +420,13 @@
 											<string>AAB265770C24B1AD00FA7CD9</string>
 											<string>AAB265970C25B51700FA7CD9</string>
 											<string>AAB265980C25B51700FA7CD9</string>
-											<string>AAB265A80C25C53200FA7CD9</string>
 											<string>AAB265BF0C25D40300FA7CD9</string>
 											<string>AAB265C00C25D40300FA7CD9</string>
 											<string>AAB266010C2604C400FA7CD9</string>
-											<string>AAB266020C2604C400FA7CD9</string>
-											<string>AAB2660A0C26098D00FA7CD9</string>
-										</array>
-										<key>nextStack</key>
-										<array>
-											<string>AAB266050C2604C400FA7CD9</string>
+											<string>AAB266290C26661500FA7CD9</string>
+											<string>AAB2662A0C26661500FA7CD9</string>
+											<string>AAB2662B0C26661500FA7CD9</string>
+											<string>AAB266310C26661500FA7CD9</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -533,6 +530,8 @@
 											<string>AA035D540BEA69CF0041F02C</string>
 											<string>AA035D700BEA6B240041F02C</string>
 											<string>AAB265C20C25D40300FA7CD9</string>
+											<string>AAB2662D0C26661500FA7CD9</string>
+											<string>AAB266300C26661500FA7CD9</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -546,7 +545,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {762, 568}}</string>
 								<key>RubberWindowFrame</key>
-								<string>257 47 1014 724 0 0 1440 900 </string>
+								<string>288 97 1014 724 0 0 1440 900 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -566,7 +565,7 @@
 								<key>Frame</key>
 								<string>{{0, 573}, {762, 110}}</string>
 								<key>RubberWindowFrame</key>
-								<string>257 47 1014 724 0 0 1440 900 </string>
+								<string>288 97 1014 724 0 0 1440 900 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -590,9 +589,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>AAB266210C262E9900FA7CD9</string>
+				<string>AA7E69FA0C2E2E7300CF0E1B</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>AAB266220C262E9900FA7CD9</string>
+				<string>AA7E69FB0C2E2E7300CF0E1B</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -726,10 +725,11 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>AA984A9809047DBD002242A2</string>
 		<string>/Users/steve/Io/projects/osxvm/osxvm.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>257 47 1014 724 0 0 1440 900 </string>
+	<string>288 97 1014 724 0 0 1440 900 </string>
 	<key>WindowTools</key>
 	<array>
 		<dict>
@@ -750,7 +750,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>IoSeq_mutable.c</string>
+								<string></string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -772,7 +772,7 @@
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXBuildLogShowsTranscriptDefaultKey</key>
-								<string>{{0, 165}, {1069, 11}}</string>
+								<string>{{0, 157}, {1069, 19}}</string>
 								<key>PBXProjectModuleGUID</key>
 								<string>XCMainBuildResultsModuleGUID</string>
 								<key>PBXProjectModuleLabel</key>
@@ -810,7 +810,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>AA984A9809047DBD002242A2</string>
-				<string>AAB265950C25B51600FA7CD9</string>
+				<string>AA7E69F80C2E2E7100CF0E1B</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
