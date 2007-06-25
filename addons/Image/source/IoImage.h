@@ -61,7 +61,6 @@ IOIMAGE_API IoObject *IoImage_isL8(IoImage *self, IoObject *locals, IoMessage *m
 IOIMAGE_API IoObject *IoImage_isLA8(IoImage *self, IoObject *locals, IoMessage *m);
 
 IOIMAGE_API IoObject *IoImage_resizedTo(IoImage *self, IoObject *locals, IoMessage *m);
-IOIMAGE_API IoObject *IoImage_resizedToPowerOf2(IoImage *self, IoObject *locals, IoMessage *m);
 IOIMAGE_API IoObject *IoImage_crop(IoImage *self, IoObject *locals, IoMessage *m);
 
 /* --- extras -------------------------------------------------------- */

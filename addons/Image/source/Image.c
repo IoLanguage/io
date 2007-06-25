@@ -342,21 +342,6 @@ void Image_resizeTo(Image *self, int w, int h, Image *outImage)
 	Image_setData_width_height_componentCount_(outImage, outUArray, w, h, componentCount);
 }
 
-void Image_resizeToPowerOf2(Image *self, Image *outImage)
-{
-	int w, h;
-	int exp;
-	float fraction = frexp(self->width, &exp);
-	
-	w = pow(2, exp - 1 + ceil(fraction - .5));
-	
-	fraction = frexp(self->height, &exp);
-	
-	h = pow(2, exp - 1 + ceil(fraction - .5));
-	
-	Image_resizeTo(self, w, h, outImage);
-}
-
 inline unsigned char *Image_pixelAt(Image *self, int x, int y)
 {
 	int bps = 8;

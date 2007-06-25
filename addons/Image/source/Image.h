@@ -85,7 +85,6 @@ IOIMAGE_API void Image_data_length_(Image *self, unsigned char *data, size_t len
 // manipulation
 
 IOIMAGE_API void Image_resizeTo(Image *self, int w, int h, Image *outImage);
-IOIMAGE_API void Image_resizeToPowerOf2(Image *self, Image *outImage);
 IOIMAGE_API void Image_flipY(Image *self);
 IOIMAGE_API void Image_crop(Image *self, int x, int y, int w, int h);
 
