@@ -1,3 +1,13 @@
+roundToPowerOf2 := method(v,
+	v = v - 1
+	v = v | (v shiftRight(1))
+	v = v | (v shiftRight(2))
+	v = v | (v shiftRight(4))
+	v = v | (v shiftRight(8))
+	v = v | (v shiftRight(16))
+	v = v + 1
+)
+	
 Texture := Object clone do(
 	appendProto(OpenGL)
 	
@@ -37,28 +47,27 @@ Texture := Object clone do(
 	uploadImage := method(anImage,
 		bind
 	
-		self format = anImage glFormat
-		
-		sizeIsSame := anImage width == originalWidth and anImage height == originalHeight
+		sizeIsSame := anImage width == originalWidth and anImage height == originalHeight and anImage glFormat == format
 		if (sizeIsSame == false,
 			self width = self originalWidth = anImage width
 			self height = self originalHeight = anImage height
+			self format = anImage glFormat
 		)
 
 		if (anImage sizeIsPowerOf2 == false,
-			if (sizeIsSame,
-				glPixelStorei(GL_UNPACK_ROW_LENGTH, originalWidth)
-				glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, originalWidth, originalHeight, anImage glFormat, GL_UNSIGNED_BYTE, anImage data)
-				return self
+			if (sizeIsSame == false,
+				self width := roundToPowerOf2(originalWidth)
+				self height := roundToPowerOf2(originalHeight)
+				glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, nil)
 			)
-			
-			anImage = anImage resizedToPowerOf2
-			self width = anImage width
-			self height = anImage height
-		)
 
-		glPixelStorei(GL_UNPACK_ROW_LENGTH, width)
-		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, anImage data)
+			glPixelStorei(GL_UNPACK_ROW_LENGTH, originalWidth)
+			glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, originalWidth, originalHeight, format, GL_UNSIGNED_BYTE, anImage data)
+			,
+
+			glPixelStorei(GL_UNPACK_ROW_LENGTH, width)
+			glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, anImage data)
+		)
 		
 		self
 	)
