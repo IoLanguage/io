@@ -158,8 +158,7 @@ void UArray_setItemType_(UArray *self, CTYPE type)
 	{
 		self->encoding = CENCODING_NUMBER;
 	}
-		
-	if (self->encoding == CENCODING_ASCII)
+	else if (self->encoding == CENCODING_ASCII)
 	{
 		switch(self->itemSize)
 		{

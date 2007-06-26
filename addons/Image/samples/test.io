@@ -21,7 +21,7 @@ Viewer := Object clone do(
 	)
 	
 	update := method(
-		if (isFullScreen, glutFullScreen, glutReshapeWindow(image originalWidth, image originalHeight))
+		if (isFullScreen, glutFullScreen, glutReshapeWindow(image width, image height))
 		display
 		//glutPostRedisplay
 		Collector collect
@@ -45,19 +45,19 @@ Viewer := Object clone do(
 		
 		glPushMatrix
 		
-		wr := width / image originalWidth
-		hr := height / image originalHeight
+		wr := width / image width
+		hr := height / image height
 		
 		if (wr < hr) then(
-			glTranslated(0, (height - image originalHeight * wr)/2, 0)
+			glTranslated(0, (height - image height * wr)/2, 0)
 			glScaled(wr, wr, 1)
 		) else(
-			glTranslated((width - image originalWidth * hr) / 2, 0, 0)
+			glTranslated((width - image width * hr) / 2, 0, 0)
 			glScaled(hr, hr, 1)
 		)
 
-		image drawTexture
-		if (image error, write("Error: ", image error, "\n"); System exit)
+		image drawScaledTexture
+
 		glPopMatrix
 		
 		glFlush

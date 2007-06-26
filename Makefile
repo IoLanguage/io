@@ -112,6 +112,7 @@ install:
 	cp _build/binaries/io_static$(BINARY_SUFFIX) $(INSTALL_PREFIX)/bin
 	chmod ugo+rx $(INSTALL_PREFIX)/bin/io_static$(BINARY_SUFFIX)  || true
 	cp _build/dll/* $(INSTALL_PREFIX)/lib  || true
+	cp _build/dll/* $(INSTALL_PREFIX)/bin  || true
 	cp _build/lib/* $(INSTALL_PREFIX)/lib  || true
 	rm -rf $(INSTALL_PREFIX)/lib/io || true
 	mkdir -p $(INSTALL_PREFIX)/lib/io || true
@@ -125,6 +126,7 @@ linkInstall:
 	ln -sf `pwd`/_build/binaries/io_static$(BINARY_SUFFIX) $(INSTALL_PREFIX)/bin
 	chmod ugo+rx $(INSTALL_PREFIX)/bin/io_static$(BINARY_SUFFIX)
 	ln -sf `pwd`/_build/dll/* $(INSTALL_PREFIX)/lib
+	ln -sf `pwd`/_build/dll/* $(INSTALL_PREFIX)/bin
 	ln -sf `pwd`/_build/lib/* $(INSTALL_PREFIX)/lib
 	rm -rf $(INSTALL_PREFIX)/lib/io || true
 	mkdir -p $(INSTALL_PREFIX)/lib/io || true
@@ -135,6 +137,7 @@ uninstall:
 	rm -rf $(INSTALL_PREFIX)/lib/io
 	rm $(INSTALL_PREFIX)/bin/io
 	rm $(INSTALL_PREFIX)/bin/io_static$(BINARY_SUFFIX)
+	rm $(INSTALL_PREFIX)/bin/libiovmall.*
 	rm $(INSTALL_PREFIX)/lib/libiovmall.*
 
 doc:

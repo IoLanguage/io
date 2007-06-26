@@ -166,7 +166,7 @@ IoObject *IoQDBM_atPut(IoObject *self, IoObject *locals, IoMessage *m)
 	int result;
 	
 	IOASSERT(QDBM(self), "invalid QDBM");
-	
+		
 	result = vlput(QDBM(self), (const char *)IoSeq_rawBytes(key), IoSeq_rawSizeInBytes(key), (const char *)IoSeq_rawBytes(value), IoSeq_rawSizeInBytes(value), VL_DOVER);
 	
 	IOASSERT(result, dperrmsg(dpecode));

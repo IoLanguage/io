@@ -11,7 +11,7 @@ docLicense("BSD revised")
 #include "IoObject.h"
 #include "IoSeq.h"
 #include "IoSeq.h"
-#include "GLImage.h"
+#include "Image.h"
 
 #define ISIMAGE(self) IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoImage_rawClone)
 
@@ -22,7 +22,7 @@ typedef struct
   int width;
   int height;
   IoSeq *buffer;
-  GLImage *glImage;
+  Image *image;
   int textureWidth;
   int textureHeight;
 } IoImageData;
@@ -34,8 +34,8 @@ IOIMAGE_API IoImage *IoImage_rawClone(IoImage *self);
 
 IOIMAGE_API void IoImage_free(IoImage *self);
 IOIMAGE_API void IoImage_mark(IoImage *self);
-IOIMAGE_API GLImage *IoImage_glImage(IoImage *self);
-IOIMAGE_API GLImage *IoImage_rawGLImage(IoImage *self);
+IOIMAGE_API Image *IoImage_image(IoImage *self);
+IOIMAGE_API Image *IoImage_rawImage(IoImage *self);
 
 /* ----------------------------------------------------------- */
 IOIMAGE_API IoObject *IoImage_setDataWidthHeightComponentCount(IoImage *self, IoObject *locals, IoMessage *m);
@@ -49,32 +49,20 @@ IOIMAGE_API IoObject *IoImage_save(IoImage *self, IoObject *locals, IoMessage *m
 IOIMAGE_API IoObject *IoImage_width(IoImage *self, IoObject *locals, IoMessage *m);
 IOIMAGE_API IoObject *IoImage_height(IoImage *self, IoObject *locals, IoMessage *m);
 
-IOIMAGE_API IoObject *IoImage_originalWidth(IoImage *self, IoObject *locals, IoMessage *m);
-IOIMAGE_API IoObject *IoImage_originalHeight(IoImage *self, IoObject *locals, IoMessage *m);
-
 IOIMAGE_API IoObject *IoImage_data(IoImage *self, IoObject *locals, IoMessage *m);
 IOIMAGE_API IoObject *IoImage_error(IoImage *self, IoObject *locals, IoMessage *m);
 
 IOIMAGE_API IoObject *IoImage_buffer(IoImage *self, IoObject *locals, IoMessage *m);
 
+IOIMAGE_API IoObject *IoImage_componentCount(IoImage *self, IoObject *locals, IoMessage *m);
 IOIMAGE_API IoObject *IoImage_isRGB8(IoImage *self, IoObject *locals, IoMessage *m);
 IOIMAGE_API IoObject *IoImage_isRGBA8(IoImage *self, IoObject *locals, IoMessage *m);
 IOIMAGE_API IoObject *IoImage_isL8(IoImage *self, IoObject *locals, IoMessage *m);
 IOIMAGE_API IoObject *IoImage_isLA8(IoImage *self, IoObject *locals, IoMessage *m);
 
-IOIMAGE_API IoObject *IoImage_draw(IoImage *self, IoObject *locals, IoMessage *m);
-IOIMAGE_API IoObject *IoImage_scaleTo(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_resizedTo(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_resizedToPowerOf2(IoImage *self, IoObject *locals, IoMessage *m);
 IOIMAGE_API IoObject *IoImage_crop(IoImage *self, IoObject *locals, IoMessage *m);
-IOIMAGE_API IoObject *IoImage_compositeTo(IoImage *self, IoObject *locals, IoMessage *m);
-IOIMAGE_API IoObject *IoImage_grab(IoImage *self, IoObject *locals, IoMessage *m);
-IOIMAGE_API IoObject *IoImage_grabTexture(IoImage *self, IoObject *locals, IoMessage *m);
-
-IOIMAGE_API IoObject *IoImage_textureId(IoImage *self, IoObject *locals, IoMessage *m);
-IOIMAGE_API IoObject *IoImage_bindTexture(IoImage *self, IoObject *locals, IoMessage *m);
-IOIMAGE_API IoObject *IoImage_updateTexture(IoImage *self, IoObject *locals, IoMessage *m);
-IOIMAGE_API IoObject *IoImage_closeTexture(IoImage *self, IoObject *locals, IoMessage *m);
-IOIMAGE_API IoObject *IoImage_drawTexture(IoImage *self, IoObject *locals, IoMessage *m);
-IoObject *IoImage_drawScaledTexture(IoImage *self, IoObject *locals, IoMessage *m);
 
 /* --- extras -------------------------------------------------------- */
 IOIMAGE_API IoObject *IoImage_setEncodingQuality(IoImage *self, IoObject *locals, IoMessage *m);
