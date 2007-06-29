@@ -441,9 +441,3 @@ IoObject *IoQDBM_cursorRemove(IoObject *self, IoObject *locals, IoMessage *m)
 	
 	return self;
 }
-
-
-
-
-
-

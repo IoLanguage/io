@@ -24,14 +24,14 @@ VideoView := View clone do(
 	)
 	
 	translateToPlacement := method(
-        wr := width  / image originalWidth
-		hr := height / image originalHeight
+        wr := width  / image width
+		hr := height / image height
 		if (wr < hr) then(
 		    self tx := 0
-		    self ty := (height - image originalHeight * wr)/2
+		    self ty := (height - image height * wr)/2
 		    self tr := wr
 		) else(
-            self tx := (width - image originalWidth * hr) / 2
+            self tx := (width - image width * hr) / 2
 		    self ty := 0
 		    self tr := hr
 		)
@@ -55,7 +55,7 @@ VideoView := View clone do(
 	
 	open := method(path,
 	    //writeln("videoView open")
-        videoDecoder setFileName(path)
+        videoDecoder setPath(path)
         videoDecoder open
         videoDecoder readNextFrame
         play

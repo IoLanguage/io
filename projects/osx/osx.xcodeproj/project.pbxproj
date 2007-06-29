@@ -523,8 +523,6 @@
 		AA86C2080B60520000495786 /* IoState_eval.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA86BF780B6051FF00495786 /* IoState_eval.h */; };
 		AA86C2090B60520000495786 /* IoState_exceptions.c in Sources */ = {isa = PBXBuildFile; fileRef = AA86BF790B6051FF00495786 /* IoState_exceptions.c */; };
 		AA86C20A0B60520000495786 /* IoState_exceptions.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA86BF7A0B6051FF00495786 /* IoState_exceptions.h */; };
-		AA86C20B0B60520000495786 /* IoState_flowControl.c in Sources */ = {isa = PBXBuildFile; fileRef = AA86BF7B0B6051FF00495786 /* IoState_flowControl.c */; };
-		AA86C20C0B60520000495786 /* IoState_flowControl.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA86BF7C0B6051FF00495786 /* IoState_flowControl.h */; };
 		AA86C20D0B60520000495786 /* IoState_inline.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA86BF7D0B6051FF00495786 /* IoState_inline.h */; };
 		AA86C20E0B60520000495786 /* IoState_symbols.c in Sources */ = {isa = PBXBuildFile; fileRef = AA86BF7E0B6051FF00495786 /* IoState_symbols.c */; };
 		AA86C20F0B60520000495786 /* IoState_symbols.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA86BF7F0B6051FF00495786 /* IoState_symbols.h */; };
@@ -828,7 +826,6 @@
 				AA86C2060B60520000495786 /* IoState_debug.h in CopyFiles */,
 				AA86C2080B60520000495786 /* IoState_eval.h in CopyFiles */,
 				AA86C20A0B60520000495786 /* IoState_exceptions.h in CopyFiles */,
-				AA86C20C0B60520000495786 /* IoState_flowControl.h in CopyFiles */,
 				AA86C20D0B60520000495786 /* IoState_inline.h in CopyFiles */,
 				AA86C20F0B60520000495786 /* IoState_symbols.h in CopyFiles */,
 				AA86C2130B60520000495786 /* IoSystem.h in CopyFiles */,
@@ -871,7 +868,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		8DD76FB20486AB0100D96B5E /* osx */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = osx; sourceTree = BUILT_PRODUCTS_DIR; };
+		8DD76FB20486AB0100D96B5E /* osx */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.executable"; path = osx; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA1C3FA00B7448B500334368 /* UArray_format.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = UArray_format.c; sourceTree = "<group>"; };
 		AA1C3FA10B7448B500334368 /* UArray_format.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = UArray_format.h; sourceTree = "<group>"; };
 		AA1C3FA20B7448B500334368 /* UArray_path.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = UArray_path.c; sourceTree = "<group>"; };
@@ -1387,8 +1384,6 @@
 		AA86BF780B6051FF00495786 /* IoState_eval.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IoState_eval.h; sourceTree = "<group>"; };
 		AA86BF790B6051FF00495786 /* IoState_exceptions.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = IoState_exceptions.c; sourceTree = "<group>"; };
 		AA86BF7A0B6051FF00495786 /* IoState_exceptions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IoState_exceptions.h; sourceTree = "<group>"; };
-		AA86BF7B0B6051FF00495786 /* IoState_flowControl.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = IoState_flowControl.c; sourceTree = "<group>"; };
-		AA86BF7C0B6051FF00495786 /* IoState_flowControl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IoState_flowControl.h; sourceTree = "<group>"; };
 		AA86BF7D0B6051FF00495786 /* IoState_inline.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IoState_inline.h; sourceTree = "<group>"; };
 		AA86BF7E0B6051FF00495786 /* IoState_symbols.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = IoState_symbols.c; sourceTree = "<group>"; };
 		AA86BF7F0B6051FF00495786 /* IoState_symbols.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IoState_symbols.h; sourceTree = "<group>"; };
@@ -2984,8 +2979,6 @@
 				AA86BF780B6051FF00495786 /* IoState_eval.h */,
 				AA86BF790B6051FF00495786 /* IoState_exceptions.c */,
 				AA86BF7A0B6051FF00495786 /* IoState_exceptions.h */,
-				AA86BF7B0B6051FF00495786 /* IoState_flowControl.c */,
-				AA86BF7C0B6051FF00495786 /* IoState_flowControl.h */,
 				AA86BF7D0B6051FF00495786 /* IoState_inline.h */,
 				AA86BF7E0B6051FF00495786 /* IoState_symbols.c */,
 				AA86BF7F0B6051FF00495786 /* IoState_symbols.h */,
@@ -3273,7 +3266,6 @@
 				AA86C2050B60520000495786 /* IoState_debug.c in Sources */,
 				AA86C2070B60520000495786 /* IoState_eval.c in Sources */,
 				AA86C2090B60520000495786 /* IoState_exceptions.c in Sources */,
-				AA86C20B0B60520000495786 /* IoState_flowControl.c in Sources */,
 				AA86C20E0B60520000495786 /* IoState_symbols.c in Sources */,
 				AA86C2120B60520000495786 /* IoSystem.c in Sources */,
 				AA86C2140B60520000495786 /* IoTag.c in Sources */,
