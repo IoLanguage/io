@@ -81,7 +81,7 @@ List sortKey := method(
                     args := list(nil)
                     pairs sortBy(
                         block(x, y,
-                            x performWithArgList(opName, args atPut(0, y))
+                            x key performWithArgList(opName, args atPut(0, y key))
                         )
                     )
                 ,
@@ -90,8 +90,8 @@ List sortKey := method(
                     yName := sortCall argAt(1) name
                     pairs sortBy(
                         block(x, y,
-                            sortCall sender setSlot(xName, x)
-                            sortCall sender setSlot(yName, y)
+                            sortCall sender setSlot(xName, x key)
+                            sortCall sender setSlot(yName, y key)
                             sortCall evalArgAt(2)
                         )
                     )
