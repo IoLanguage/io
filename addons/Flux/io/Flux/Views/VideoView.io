@@ -61,15 +61,23 @@ VideoView := View clone do(
         play
 	)
 
+    isPlaying ::= false
+    repeatOn ::= true
+    
     play := method(
-            topWindow addTimerTargetWithDelay(self, videoDecoder framePeriod)
+        setIsPlaying(true)
+        topWindow addTimerTargetWithDelay(self, videoDecoder framePeriod)
     )
+    
+    stop := method(setIsPlaying(false))
 
     timer := method(n,
         //writeln("VideoView timer")
-        topWindow addTimerTargetWithDelay(self, videoDecoder framePeriod)
-        videoDecoder readNextFrame
-        if(videoDecoder isDone, videoDecoder start)
-        glutPostRedisplay
+        if(isPlaying,
+            topWindow addTimerTargetWithDelay(self, videoDecoder framePeriod)
+            videoDecoder readNextFrame
+            if(videoDecoder isDone and repeatOn, videoDecoder start)
+            glutPostRedisplay
+        )
     )
 )

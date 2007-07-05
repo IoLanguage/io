@@ -8,7 +8,9 @@ VideoApp := Application clone do(
 		videoView resizeWithSuperview
 		mainWindow contentView addSubview(videoView)
 		videoView resizeToFitSuperview
-		videoView open("test2.mpg")
+		path := System args at(1)
+		writeln(" path = ", path)
+		videoView open(path)
 		mainWindow reshapeToSize(vector(videoView image width, videoView image height))
 	)
 )

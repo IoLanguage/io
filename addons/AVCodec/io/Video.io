@@ -1,6 +1,6 @@
 Video := AVCodec clone do(
 	newSlot("frameNumber", 0)
-	newSlot("audioOn", false)
+	newSlot("audioOn", true)
 	isDone ::= false
 	
 	init := method(
