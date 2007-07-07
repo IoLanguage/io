@@ -56,7 +56,7 @@ Viewer := Object clone do(
 			glScaled(hr, hr, 1)
 		)
 
-		image drawScaledTexture
+		image drawTexture
 
 		glPopMatrix
 		

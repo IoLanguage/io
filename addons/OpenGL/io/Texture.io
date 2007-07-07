@@ -54,11 +54,14 @@ Texture := Object clone do(
 			self format = anImage glFormat
 		)
 
+		glPixelStorei(GL_UNPACK_ALIGNMENT, 1)
+
 		if (anImage sizeIsPowerOf2 == false,
 			if (sizeIsSame == false,
 				self width := roundToPowerOf2(originalWidth)
 				self height := roundToPowerOf2(originalHeight)
-				glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, nil)
+				data := Sequence clone setSize(width * height * anImage componentCount)
+				glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data)
 			)
 
 			glPixelStorei(GL_UNPACK_ROW_LENGTH, originalWidth)
