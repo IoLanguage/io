@@ -24,6 +24,9 @@ TagDBTest := UnitTest clone do(
         assertEquals(tdb size, 1)
         keys := tdb keysForTags(list("lotus"))
         assertEquals(keys size, 0)
+        
+        tags := tdb tagsAt("lotus esprit")
+        assertEquals(tags, list("lotus", "esprit"))
        
 		tdb close
 		tdb delete

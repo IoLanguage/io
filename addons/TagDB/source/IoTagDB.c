@@ -115,15 +115,29 @@ IoObject *IoTagDB_tagsAt(IoTagDB *self, IoObject *locals, IoMessage *m)
 	TagIdArray *tags = TagDB_tagsAt_(tdb, keyid);
 	int i;
 	
+	//printf("IoTagDB_tagsAt self = %p\n", (void *)self);
+	
+	if (!tags) return IONIL(self);
+	
 	for (i = 0; i < TagIdArray_size(tags); i ++)
 	{
 		tagid_t tagid = TagIdArray_at_(tags, i);
 		Datum *name = TagDB_symbolForId_(tdb, tagid);
-		IoList_rawAppend_(tagNames, IOSYMBOL(name));
-		Datum_free(name);
+		//printf("tagid %i = %i\n", i, (int)tagid);
+		//printf("name '%s'\n", (char *)name->data);
+		
+		if (!name)
+		{
+			printf("IoTagDB_tagsAt: no datum returned for TagDB_symbolForId_\n");
+		}
+		else
+		{
+			IoList_rawAppend_(tagNames, IOSYMBOL(name));
+			Datum_free(name);
+		}
 	}
 	
-	TagIdArray_free(tags);
+	//TagIdArray_free(tags);
 
 	return tagNames;
 }
