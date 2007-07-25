@@ -166,6 +166,27 @@
     text-indent: 0pt;
     text-transform: none;
 }
+.Heading_3 {
+    color: #595959;
+    font-family: 'Arial-BoldMT', 'Arial', 'sans-serif';
+    font-size: 10pt;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 11pt;
+    margin-bottom: 0pt;
+    margin-left: 71.6pt;
+    margin-right: 0pt;
+    margin-top: 0pt;
+    opacity: 1.00;
+    padding-bottom: 11pt;
+    padding-top: 22pt;
+    text-align: left;
+    text-decoration: none;
+    text-indent: 0pt;
+    text-transform: none;
+}
 .PsuedoCode {
     color: #000000;
     font-family: 'Times-Italic', 'Times';

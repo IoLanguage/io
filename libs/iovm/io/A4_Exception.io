@@ -148,6 +148,9 @@ Coroutine do(
 			)
 			buf appendSeq("\n")
 		) else(
+			buf appendSeq("  ---------\n")
+		    m := exception caughtMessage
+			buf appendSeq("  message '" .. m name .. "' in '" .. m label .. "' on line " .. m lineNumber .. "\n")
 			buf appendSeq("\n")
 		)
 
