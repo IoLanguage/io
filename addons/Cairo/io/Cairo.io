@@ -3,7 +3,7 @@ Cairo := Object clone do(
 	Context := CairoContext
 	
 	Surface := Object clone do(
-		Image := CairoImageSurface
+		Image := CairoSurfaceImage
 	)
 	
 	Format := Object clone do(
@@ -40,10 +40,10 @@ Cairo := Object clone do(
 	)
 	
 	Pattern := CairoPattern do(
-		//Solid := CairoSolidPattern		
-		//Gradient := CairoGradientPattern do(
-		//	Linear := CairoLinearGradientPattern
-		//	Radial := CairoRadialGradientPattern
-		//)
+		Solid := CairoPatternSolid
+		Gradient := CairoPatternGradient do(
+			Linear := CairoPatternGradientLinear
+			Radial := CairoPatternGradientRadial
+		)
 	)
 )

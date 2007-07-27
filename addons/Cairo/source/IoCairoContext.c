@@ -8,7 +8,8 @@ Cairo ioDoc(
 		    */
 
 #include "IoCairoContext.h"
-#include "IoCairoImageSurface.h"
+#include "IoCairoSurfaceImage.h"
+#include "IoCairoPattern.h"
 #include "IoList.h"
 #include "IoMessage.h"
 #include "IoNumber.h"
@@ -45,13 +46,16 @@ IoCairoContext *IoCairoContext_proto(void *state)
 	
 	{
 		IoMethodTable methodTable[] = {
+			{"arc", IoCairoContext_arc},
 			{"closePath", IoCairoContext_closePath},
 			{"create", IoCairoContext_create},
 			{"fill", IoCairoContext_fill},		
 			{"lineTo", IoCairoContext_lineTo},
+			{"mask", IoCairoContext_mask},
 			{"moveTo", IoCairoContext_moveTo},
 			{"paintWithAlpha", IoCairoContext_paintWithAlpha},
 			{"rectangle", IoCairoContext_rectangle},
+			{"relativeCurveTo", IoCairoContext_relativeCurveTo},
 			{"relativeLineTo", IoCairoContext_relativeLineTo},
 			{"restore", IoCairoContext_restore},
 			{"save", IoCairoContext_save},
@@ -59,6 +63,7 @@ IoCairoContext *IoCairoContext_proto(void *state)
 			{"selectFontFace", IoCairoContext_selectFontFace},
 			{"setFontSize", IoCairoContext_setFontSize},
 			{"setLineWidth", IoCairoContext_setLineWidth},
+			{"setSource", IoCairoContext_setSource},
 			{"setSourceRGB", IoCairoContext_setSourceRGB},
 			{"setSourceRGBA", IoCairoContext_setSourceRGBA},
 			{"showText", IoCairoContext_showText},
@@ -78,13 +83,6 @@ IoCairoContext *IoCairoContext_rawClone(IoCairoContext *proto)
 	IoObject_setDataPointer_(self, cpalloc(IoObject_dataPointer(proto), sizeof(IoCairoContextData)));
 	if (CONTEXT(proto)) {
 		cairo_reference(CONTEXT(proto));
-	} else {/*
-		IoMethodTable methodTable[] = {
-
-			{NULL, NULL},
-		};
-		IoObject_addMethodTable_(self, methodTable);
-		IoObject_removeSlot_(self, IOSYMBOL("withSurface"));*/
 	}
 	
 	return self;
@@ -92,12 +90,12 @@ IoCairoContext *IoCairoContext_rawClone(IoCairoContext *proto)
 
 /* ----------------------------------------------------------- */
 
-IoCairoContext *IoCairoContext_newWithSurface_(void *state, IoCairoImageSurface *surface)
+IoCairoContext *IoCairoContext_newWithSurface_(void *state, IoCairoSurfaceImage *surface)
 {
 	IoObject *proto = IoState_protoWithInitFunction_(state, IoCairoContext_proto);
 	IoObject *self = IOCLONE(proto);
 	
-	CONTEXT(self) = cairo_create(IoCairoImageSurface_getRawSurface(surface));
+	CONTEXT(self) = cairo_create(IoCairoSurfaceImage_getRawSurface(surface));
 	return self;
 }
 
@@ -120,6 +118,19 @@ cairo_t *IoCairoContext_getRawContext(IoCairoContext *self)
 }
 
 /* ----------------------------------------------------------- */
+
+IoObject *IoCairoContext_arc(IoCairoContext *self, IoObject *locals, IoMessage *m)
+{
+	double xc = IoMessage_locals_doubleArgAt_(m, locals, 0);
+	double yc = IoMessage_locals_doubleArgAt_(m, locals, 1);
+	double radius = IoMessage_locals_doubleArgAt_(m, locals, 2);
+	double angle1 = IoMessage_locals_doubleArgAt_(m, locals, 3);
+	double angle2 = IoMessage_locals_doubleArgAt_(m, locals, 4);
+		
+	cairo_arc(CONTEXT(self), xc, yc, radius, angle1, angle2);
+	CHECK_STATUS(self);
+	return self;
+}
 
 IoObject *IoCairoContext_closePath(IoCairoContext *self, IoObject *locals, IoMessage *m)
 {
@@ -154,6 +165,15 @@ IoObject *IoCairoContext_lineTo(IoCairoContext *self, IoObject *locals, IoMessag
 	return self;
 }
 
+IoObject *IoCairoContext_mask(IoCairoContext *self, IoObject *locals, IoMessage *m)
+{
+	IoObject *pattern = IoMessage_locals_valueArgAt_(m, locals, 0);
+	
+	cairo_mask(CONTEXT(self), IoCairoPattern_getRawPattern(pattern));
+	CHECK_STATUS(self);
+	return self;
+}
+
 IoObject *IoCairoContext_moveTo(IoCairoContext *self, IoObject *locals, IoMessage *m)
 {
 	double x = IoMessage_locals_doubleArgAt_(m, locals, 0);
@@ -181,6 +201,20 @@ IoObject *IoCairoContext_rectangle(IoCairoContext *self, IoObject *locals, IoMes
 	double h = IoMessage_locals_doubleArgAt_(m, locals, 3);
 	
 	cairo_rectangle(CONTEXT(self), x, y, w, h);
+	CHECK_STATUS(self);
+	return self;
+}
+
+IoObject *IoCairoContext_relativeCurveTo(IoCairoContext *self, IoObject *locals, IoMessage *m)
+{
+	double dx1 = IoMessage_locals_doubleArgAt_(m, locals, 0);
+	double dy1 = IoMessage_locals_doubleArgAt_(m, locals, 1);
+	double dx2 = IoMessage_locals_doubleArgAt_(m, locals, 2);
+	double dy2 = IoMessage_locals_doubleArgAt_(m, locals, 3);
+	double dx3 = IoMessage_locals_doubleArgAt_(m, locals, 4);
+	double dy3 = IoMessage_locals_doubleArgAt_(m, locals, 5);
+	
+	cairo_rel_curve_to(CONTEXT(self), dx1, dy1, dx2, dy2, dx3, dy3);
 	CHECK_STATUS(self);
 	return self;
 }
@@ -244,6 +278,16 @@ IoObject *IoCairoContext_setLineWidth(IoCairoContext *self, IoObject *locals, Io
 	double width = IoMessage_locals_doubleArgAt_(m, locals, 0);
 	
 	cairo_set_line_width(CONTEXT(self), width);
+	CHECK_STATUS(self);
+	return self;
+}
+
+IoObject *IoCairoContext_setSource(IoCairoContext *self, IoObject *locals, IoMessage *m)
+{
+	IoObject *o = IoMessage_locals_valueArgAt_(m, locals, 0);
+	cairo_pattern_t *pattern = IoCairoPattern_getRawPattern(o);
+	
+	cairo_set_source(CONTEXT(self), pattern);
 	CHECK_STATUS(self);
 	return self;
 }
