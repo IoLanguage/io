@@ -69,6 +69,7 @@ IoCairoContext *IoCairoContext_proto(void *state)
 			{"showText", IoCairoContext_showText},
 			{"stroke", IoCairoContext_stroke},
 			{"textExtents", IoCairoContext_textExtents},
+			{"translate", IoCairoContext_translate},
 			{NULL, NULL},
 		};
 		IoObject_addMethodTable_(self, methodTable);
@@ -348,4 +349,14 @@ IoObject *IoCairoContext_textExtents(IoCairoContext *self, IoObject *locals, IoM
 	IoList_rawAppend_(list, IONUMBER(extents.x_advance));
 	
 	return IoState_on_doCString_withLabel_(IOSTATE, list, "asCairoTextExtents", "IoCairoContext_textExtents");
+}
+
+IoObject *IoCairoContext_translate(IoCairoContext *self, IoObject *locals, IoMessage *m)
+{
+	double tx = IoMessage_locals_doubleArgAt_(m, locals, 0);
+	double ty = IoMessage_locals_doubleArgAt_(m, locals, 1);
+	
+	cairo_translate(CONTEXT(self), tx, ty);
+	CHECK_STATUS(self);
+	return self;
 }

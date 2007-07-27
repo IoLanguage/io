@@ -57,5 +57,6 @@ IoObject *IoCairoContext_setSourceRGBA(IoCairoContext *self, IoObject *locals, I
 IoObject *IoCairoContext_showText(IoCairoContext *self, IoObject *locals, IoMessage *m);
 IoObject *IoCairoContext_stroke(IoCairoContext *self, IoObject *locals, IoMessage *m);
 IoObject *IoCairoContext_textExtents(IoCairoContext *self, IoObject *locals, IoMessage *m);
+IoObject *IoCairoContext_translate(IoCairoContext *self, IoObject *locals, IoMessage *m);
 
 #endif
