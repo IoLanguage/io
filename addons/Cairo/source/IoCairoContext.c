@@ -10,6 +10,7 @@ Cairo ioDoc(
 #include "IoCairoContext.h"
 #include "IoCairoSurfaceImage.h"
 #include "IoCairoPattern.h"
+#include "IoCairoTextExtents.h"
 #include "IoList.h"
 #include "IoMessage.h"
 #include "IoNumber.h"
@@ -338,17 +339,8 @@ IoObject *IoCairoContext_textExtents(IoCairoContext *self, IoObject *locals, IoM
 	cairo_text_extents_t extents;
 	
 	cairo_text_extents(CONTEXT(self), text, &extents);
-	CHECK_STATUS(self);
-	
-	IoList *list = IoList_new(IOSTATE);
-	IoList_rawAppend_(list, IONUMBER(extents.x_bearing));
-	IoList_rawAppend_(list, IONUMBER(extents.y_bearing));
-	IoList_rawAppend_(list, IONUMBER(extents.width));
-	IoList_rawAppend_(list, IONUMBER(extents.height));
-	IoList_rawAppend_(list, IONUMBER(extents.x_advance));
-	IoList_rawAppend_(list, IONUMBER(extents.x_advance));
-	
-	return IoState_on_doCString_withLabel_(IOSTATE, list, "asCairoTextExtents", "IoCairoContext_textExtents");
+	CHECK_STATUS(self);	
+	return IoCairoTextExtents_newWithRawTextExtents(IOSTATE, &extents);
 }
 
 IoObject *IoCairoContext_translate(IoCairoContext *self, IoObject *locals, IoMessage *m)

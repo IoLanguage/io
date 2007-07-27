@@ -30,14 +30,7 @@ Cairo := Object clone do(
 		)
 	)
 	
-	TextExtents := List clone do(
-		xBearing := method(at(0))
-		yBearing := method(at(1))
-		width    := method(at(2))
-		height   := method(at(3))
-		xAdvance := method(at(4))
-		xAdvance := method(at(5))
-	)
+	TextExtents := CairoTextExtents
 	
 	Pattern := CairoPattern do(
 		Solid := CairoPatternSolid
