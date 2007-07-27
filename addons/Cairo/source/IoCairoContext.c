@@ -10,6 +10,7 @@ Cairo ioDoc(
 #include "IoCairoContext.h"
 #include "IoCairoSurfaceImage.h"
 #include "IoCairoPattern.h"
+#include "IoCairoFontExtents.h"
 #include "IoCairoTextExtents.h"
 #include "IoList.h"
 #include "IoMessage.h"
@@ -50,7 +51,8 @@ IoCairoContext *IoCairoContext_proto(void *state)
 			{"arc", IoCairoContext_arc},
 			{"closePath", IoCairoContext_closePath},
 			{"create", IoCairoContext_create},
-			{"fill", IoCairoContext_fill},		
+			{"fill", IoCairoContext_fill},
+			{"fontExtents", IoCairoContext_fontExtents},
 			{"lineTo", IoCairoContext_lineTo},
 			{"mask", IoCairoContext_mask},
 			{"moveTo", IoCairoContext_moveTo},
@@ -155,6 +157,15 @@ IoObject *IoCairoContext_fill(IoCairoContext *self, IoObject *locals, IoMessage 
 	cairo_fill(CONTEXT(self));
 	CHECK_STATUS(self);
 	return self;
+}
+
+IoObject *IoCairoContext_fontExtents(IoCairoContext *self, IoObject *locals, IoMessage *m)
+{
+	cairo_font_extents_t extents;
+	
+	cairo_font_extents(CONTEXT(self), &extents);
+	CHECK_STATUS(self);
+	return IoCairoFontExtents_newWithRawFontExtents(IOSTATE, &extents);
 }
 
 IoObject *IoCairoContext_lineTo(IoCairoContext *self, IoObject *locals, IoMessage *m)

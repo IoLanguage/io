@@ -38,6 +38,7 @@ IoObject *IoCairoContext_arc(IoCairoContext *self, IoObject *locals, IoMessage *
 IoObject *IoCairoContext_closePath(IoCairoContext *self, IoObject *locals, IoMessage *m);
 IoObject *IoCairoContext_create(IoCairoContext *self, IoObject *locals, IoMessage *m);
 IoObject *IoCairoContext_fill(IoCairoContext *self, IoObject *locals, IoMessage *m);
+IoObject *IoCairoContext_fontExtents(IoCairoContext *self, IoObject *locals, IoMessage *m);
 IoObject *IoCairoContext_lineTo(IoCairoContext *self, IoObject *locals, IoMessage *m);
 IoObject *IoCairoContext_mask(IoCairoContext *self, IoObject *locals, IoMessage *m);
 IoObject *IoCairoContext_moveTo(IoCairoContext *self, IoObject *locals, IoMessage *m);
