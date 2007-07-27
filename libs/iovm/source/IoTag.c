@@ -19,6 +19,8 @@ IoTag *IoTag_new(void)
 #else
 	self->performFunc = (IoTagPerformFunc *)IoObject_perform;
 #endif
+	
+	self->referenceCount = 1;
 	//self->recyclableInstances = Stack_new();
 	//self->maxRecyclableInstances = 10000;
 	return self;
@@ -35,7 +37,10 @@ void IoTag_free(IoTag *self)
 {
 	//printf("io_free tag %p\n", (void *)self);
 	//printf("%s\n", self->name ? self->name : "NULL");
-
+	if (--self->referenceCount > 0) {
+		return;
+	}
+	
 	if (self->tagCleanupFunc)
 	{
 		(self->tagCleanupFunc)(self);
@@ -49,6 +54,11 @@ void IoTag_free(IoTag *self)
 
 	//Stack_free(self->recyclableInstances);
 	io_free(self);
+}
+
+int IoTag_reference(IoTag *self)
+{
+	return ++self->referenceCount;
 }
 
 void IoTag_name_(IoTag *self, const char *name)

@@ -126,6 +126,8 @@ HDB := HDBModule clone do(
         self root := HDBNode clone setPathList(list()) setDb(s)
     )
     
+    with := method(path, self clone setPath(path))
+    
     setPath := method(p, qdbm setPath(p); self)
     path    := method(qdbm path)
     open    := method(if(qdbm open, self, nil))
