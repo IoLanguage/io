@@ -3,7 +3,7 @@ Cairo := Object clone do(
 	Context := CairoContext
 	
 	Surface := Object clone do(
-		Image := CairoImageSurface
+		Image := CairoSurfaceImage
 	)
 	
 	Format := Object clone do(
@@ -30,20 +30,13 @@ Cairo := Object clone do(
 		)
 	)
 	
-	TextExtents := List clone do(
-		xBearing := method(at(0))
-		yBearing := method(at(1))
-		width    := method(at(2))
-		height   := method(at(3))
-		xAdvance := method(at(4))
-		xAdvance := method(at(5))
-	)
+	TextExtents := CairoTextExtents
 	
 	Pattern := CairoPattern do(
-		//Solid := CairoSolidPattern		
-		//Gradient := CairoGradientPattern do(
-		//	Linear := CairoLinearGradientPattern
-		//	Radial := CairoRadialGradientPattern
-		//)
+		Solid := CairoPatternSolid
+		Gradient := CairoPatternGradient do(
+			Linear := CairoPatternGradientLinear
+			Radial := CairoPatternGradientRadial
+		)
 	)
 )

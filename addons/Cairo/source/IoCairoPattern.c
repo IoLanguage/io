@@ -8,17 +8,9 @@ Cairo ioDoc(
 		    */
 
 #include "IoCairoPattern.h"
+#include "IoCairoPattern_inline.h"
 
 #define DATA(self) ((IoCairoPatternData *)IoObject_dataPointer(self))
-#define PATTERN(ctx) (DATA(ctx)->pattern)
-
-#define STATUS(cairo_type) (cairo_status_to_string(cairo_pattern_status(cairo_type)))
-#define CHECK_STATUS(obj) \
-				cairo_status_t status = cairo_status(PATTERN(obj)); \
-				if (status != CAIRO_STATUS_SUCCESS) { \
-					IoState_error_(IOSTATE, m, "%s: cairo: %s", __func__, STATUS(PATTERN(obj))); \
-				}
-
 
 IoTag *IoCairoPattern_newTag(void *state)
 {
@@ -41,6 +33,7 @@ IoCairoPattern *IoCairoPattern_proto(void *state)
 	
 	{
 		IoMethodTable methodTable[] = {
+			//{"create", IoCairoPattern_create},
 			{NULL, NULL},
 		};
 		IoObject_addMethodTable_(self, methodTable);
