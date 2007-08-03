@@ -3,5 +3,5 @@ AddonBuilder clone do(
 	dependsOnHeader("cairo.h")
 	
 	// cairo has its headers in /usr/local/lib/cairo on my system.  Is this not strange?
-	libSearchPaths foreach(path, appendHeaderSearchPath(path .. "/cairo"))
+	headerSearchPaths foreach(path, appendHeaderSearchPath(path .. "/cairo"))
 )
