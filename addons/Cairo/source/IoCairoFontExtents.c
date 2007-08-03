@@ -1,11 +1,11 @@
 /*#io
-Cairo ioDoc(
-		    docCopyright("Trevor Fancher", 2007)
-		    docLicense("BSD revised")
-		    docObject("Cairo")
-		    docDescription("Cairo is a 2D graphics library. http://cairographics.org/")
-		    docCategory("Graphics")
-		    */
+CairoFontExtents ioDoc(
+	docCopyright("Trevor Fancher", 2007)
+	docLicense("BSD revised")
+	docObject("Cairo")
+	docDescription("Cairo is a 2D graphics library. http://cairographics.org/")
+	docCategory("Graphics")
+*/
 
 #include "IoCairoFontExtents.h"
 #include "IoNumber.h"

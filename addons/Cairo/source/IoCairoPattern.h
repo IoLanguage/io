@@ -1,11 +1,7 @@
-/*#io
-Cairo ioDoc(
-		    docCopyright("Trevor Fancher", 2007)
-		    docLicense("BSD revised")
-		    docObject("Cairo")
-		    docDescription("Cairo is a 2D graphics library. http://cairographics.org/")
-		    docCategory("Graphics")
-		    */
+/*
+docCopyright("Trevor Fancher", 2007)
+docCopyright("Daniel Rosengren", 2007)
+*/
 
 #ifndef IOCAIROPATTERN_DEFINED
 #define IOCAIROPATTERN_DEFINED 1
@@ -17,19 +13,13 @@ Cairo ioDoc(
 
 typedef IoObject IoCairoPattern;
 
-typedef struct
-{
-	cairo_pattern_t *pattern;
-} IoCairoPatternData;
-
 IoCairoPattern *IoCairoPattern_rawClone(IoCairoPattern *self);
 IoCairoPattern *IoCairoPattern_proto(void *state);
+void IoCairoPattern_addMethods(IoCairoPattern *self);
 IoCairoPattern *IoCairoPattern_new(void *state);
-
 void IoCairoPattern_free(IoCairoPattern *self);
-void IoCairoPattern_mark(IoCairoPattern *self);
 
-cairo_pattern_t *IoCairoPattern_getRawPattern(IoCairoPattern *self);
+cairo_pattern_t *IoCairoPattern_rawPattern(IoCairoPattern *self);
 
 /* ----------------------------------------------------------- */
 

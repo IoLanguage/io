@@ -1,11 +1,6 @@
-/*#io
-Cairo ioDoc(
-		    docCopyright("Trevor Fancher", 2007)
-		    docLicense("BSD revised")
-		    docObject("Cairo")
-		    docDescription("Cairo is a 2D graphics library. http://cairographics.org/")
-		    docCategory("Graphics")
-		    */
+/*
+docCopyright("Trevor Fancher", 2007)
+*/
 
 #ifndef IOCAIROTEXTEXTENTS_DEFINED
 #define IOCAIROTEXTEXTENTS_DEFINED 1

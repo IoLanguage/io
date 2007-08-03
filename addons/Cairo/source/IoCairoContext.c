@@ -1,30 +1,29 @@
 /*#io
-Cairo ioDoc(
-		    docCopyright("Trevor Fancher", 2007)
-		    docLicense("BSD revised")
-		    docObject("Cairo")
-		    docDescription("Cairo is a 2D graphics library. http://cairographics.org/")
-		    docCategory("Graphics")
-		    */
+CairoContext ioDoc(
+	docCopyright("Trevor Fancher", 2007)
+	docCopyright("Daniel Rosengren", 2007)
+	docLicense("BSD revised")
+	docCategory("Graphics")
+*/
 
 #include "IoCairoContext.h"
-#include "IoCairoSurfaceImage.h"
+#include "IoCairoImageSurface.h"
 #include "IoCairoPattern.h"
 #include "IoCairoFontExtents.h"
 #include "IoCairoTextExtents.h"
 #include "IoList.h"
 #include "IoMessage.h"
 #include "IoNumber.h"
+#include <stdio.h>
 
-#define DATA(self) ((IoCairoContextData *)IoObject_dataPointer(self))
-#define CONTEXT(ctx) (DATA(ctx)->context)
+#define CONTEXT(self) ((cairo_t *)IoObject_dataPointer(self))
 
 #define STATUS(cairo_type) (cairo_status_to_string(cairo_status(cairo_type)))
 #define CHECK_STATUS(obj) \
-				cairo_status_t status = cairo_status(CONTEXT(obj)); \
-				if (status != CAIRO_STATUS_SUCCESS) { \
-					IoState_error_(IOSTATE, m, "%s: cairo: %s", __func__, STATUS(CONTEXT(obj))); \
-				}
+	cairo_status_t status = cairo_status(CONTEXT(obj)); \
+	if (status != CAIRO_STATUS_SUCCESS) { \
+		IoState_error_(IOSTATE, m, "%s: cairo: %s", __func__, STATUS(CONTEXT(obj))); \
+	}
 
 
 IoTag *IoCairoContext_newTag(void *state)
@@ -33,7 +32,6 @@ IoTag *IoCairoContext_newTag(void *state)
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCairoContext_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCairoContext_free);
-	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoCairoContext_mark);
 	return tag;
 }
 
@@ -41,8 +39,6 @@ IoCairoContext *IoCairoContext_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairoContext_newTag(state));
-	
-	IoObject_setDataPointer_(self, calloc(1, sizeof(IoCairoContextData)));
 	
 	IoState_registerProtoWithFunc_(state, self, IoCairoContext_proto);
 	
@@ -83,40 +79,29 @@ IoCairoContext *IoCairoContext_proto(void *state)
 IoCairoContext *IoCairoContext_rawClone(IoCairoContext *proto) 
 { 
 	IoObject *self = IoObject_rawClonePrimitive(proto);
-	
-	IoObject_setDataPointer_(self, cpalloc(IoObject_dataPointer(proto), sizeof(IoCairoContextData)));
-	if (CONTEXT(proto)) {
-		cairo_reference(CONTEXT(proto));
-	}
-	
+	if (CONTEXT(proto))
+		IoObject_setDataPointer_(self, cairo_reference(CONTEXT(proto)));
 	return self;
 }
 
-/* ----------------------------------------------------------- */
-
-IoCairoContext *IoCairoContext_newWithSurface_(void *state, IoCairoSurfaceImage *surface)
+IoCairoContext *IoCairoContext_newWithSurface_(void *state, IoCairoImageSurface *surface)
 {
 	IoObject *proto = IoState_protoWithInitFunction_(state, IoCairoContext_proto);
 	IoObject *self = IOCLONE(proto);
+	cairo_surface_t *rawSurface = IoCairoImageSurface_rawSurface(surface);
 	
-	CONTEXT(self) = cairo_create(IoCairoSurfaceImage_getRawSurface(surface));
+	IoObject_setDataPointer_(self, cairo_create(rawSurface));
 	return self;
 }
 
 void IoCairoContext_free(IoCairoContext *self) 
 {
-	if (CONTEXT(self)) {
+	if (CONTEXT(self))
 		cairo_destroy(CONTEXT(self));
-	}
-	
-	free(IoObject_dataPointer(self)); 
 }
 
-void IoCairoContext_mark(IoCairoContext *self) 
-{
-}
 
-cairo_t *IoCairoContext_getRawContext(IoCairoContext *self)
+cairo_t *IoCairoContext_rawContext(IoCairoContext *self)
 {
 	return CONTEXT(self);
 }
@@ -147,7 +132,7 @@ IoObject *IoCairoContext_create(IoCairoContext *self, IoObject *locals, IoMessag
 {
 	IoObject *surface = IoMessage_locals_valueArgAt_(m, locals, 0);
 	IoObject *context = IoCairoContext_newWithSurface_(IOSTATE, surface);
-	
+
 	CHECK_STATUS(context);
 	return context;
 }
@@ -182,7 +167,7 @@ IoObject *IoCairoContext_mask(IoCairoContext *self, IoObject *locals, IoMessage 
 {
 	IoObject *pattern = IoMessage_locals_valueArgAt_(m, locals, 0);
 	
-	cairo_mask(CONTEXT(self), IoCairoPattern_getRawPattern(pattern));
+	cairo_mask(CONTEXT(self), IoCairoPattern_rawPattern(pattern));
 	CHECK_STATUS(self);
 	return self;
 }
@@ -298,7 +283,7 @@ IoObject *IoCairoContext_setLineWidth(IoCairoContext *self, IoObject *locals, Io
 IoObject *IoCairoContext_setSource(IoCairoContext *self, IoObject *locals, IoMessage *m)
 {
 	IoObject *o = IoMessage_locals_valueArgAt_(m, locals, 0);
-	cairo_pattern_t *pattern = IoCairoPattern_getRawPattern(o);
+	cairo_pattern_t *pattern = IoCairoPattern_rawPattern(o);
 	
 	cairo_set_source(CONTEXT(self), pattern);
 	CHECK_STATUS(self);

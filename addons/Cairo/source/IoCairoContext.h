@@ -1,17 +1,13 @@
-/*#io
-Cairo ioDoc(
-		    docCopyright("Trevor Fancher", 2007)
-		    docLicense("BSD revised")
-		    docObject("Cairo")
-		    docDescription("Cairo is a 2D graphics library. http://cairographics.org/")
-		    docCategory("Graphics")
-		    */
+/*
+docCopyright("Trevor Fancher", 2007)
+docCopyright("Daniel Rosengren", 2007)
+*/
 
 #ifndef IOCAIROCONTEXT_DEFINED
 #define IOCAIROCONTEXT_DEFINED 1
 
 #include "IoObject.h"
-#include "IoCairoSurfaceImage.h"
+#include "IoCairoImageSurface.h"
 #include <cairo.h>
 
 #define ISCAIROCONTEXT(self) IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoCairoContext_rawClone)
@@ -25,12 +21,10 @@ typedef struct
 
 IoCairoContext *IoCairoContext_rawClone(IoCairoContext *self);
 IoCairoContext *IoCairoContext_proto(void *state);
-IoCairoContext *IoCairoContext_new(void *state);
-
+IoCairoContext *IoCairoContext_newWithSurface_(void *state, IoCairoImageSurface *surface);
 void IoCairoContext_free(IoCairoContext *self);
-void IoCairoContext_mark(IoCairoContext *self);
 
-cairo_t *IoCairoContext_getRawContext(IoCairoContext *self);
+cairo_t *IoCairoContext_rawContext(IoCairoContext *self);
 
 /* ----------------------------------------------------------- */
 
