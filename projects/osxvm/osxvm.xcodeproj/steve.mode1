@@ -204,7 +204,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>AAC5709E0C2A98BC00156DF0</string>
+						<string>AAC570A80C2B518A00156DF0</string>
 						<key>history</key>
 						<array>
 							<string>AAC570750C2A94E600156DF0</string>
@@ -331,7 +331,7 @@
 							<real>230</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>888 188 1255 1055 0 0 2560 1600 </string>
+						<string>1117 184 1255 1055 0 0 2560 1600 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -361,7 +361,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>AAC5709D0C2A98BC00156DF0</string>
+										<string>AAC570A70C2B518A00156DF0</string>
 										<key>history</key>
 										<array>
 											<string>AA89D0C50B11886100775BF6</string>
@@ -584,7 +584,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {1003, 899}}</string>
 								<key>RubberWindowFrame</key>
-								<string>888 188 1255 1055 0 0 2560 1600 </string>
+								<string>1117 184 1255 1055 0 0 2560 1600 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -604,7 +604,7 @@
 								<key>Frame</key>
 								<string>{{0, 904}, {1003, 110}}</string>
 								<key>RubberWindowFrame</key>
-								<string>888 188 1255 1055 0 0 2560 1600 </string>
+								<string>1117 184 1255 1055 0 0 2560 1600 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -768,13 +768,13 @@
 		<string>AAC570650C2A92EF00156DF0</string>
 		<string>AAC042850909B7C40057A9A9</string>
 		<string>1CD10A99069EF8BA00B06720</string>
+		<string>AA984A9809047DBD002242A2</string>
+		<string>AAC5707E0C2A94FA00156DF0</string>
 		<string>AAC570610C2A92EF00156DF0</string>
 		<string>/Volumes/Internal500GB/Users/steve/IoProject/Io/projects/osxvm/osxvm.xcodeproj</string>
-		<string>AAC5707E0C2A94FA00156DF0</string>
-		<string>AA984A9809047DBD002242A2</string>
 	</array>
 	<key>WindowString</key>
-	<string>888 188 1255 1055 0 0 2560 1600 </string>
+	<string>1117 184 1255 1055 0 0 2560 1600 </string>
 	<key>WindowTools</key>
 	<array>
 		<dict>
@@ -866,7 +866,7 @@
 			<key>WindowToolGUID</key>
 			<string>AA984A9809047DBD002242A2</string>
 			<key>WindowToolIsVisible</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>
