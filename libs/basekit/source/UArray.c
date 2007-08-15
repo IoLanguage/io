@@ -646,7 +646,7 @@ void UArray_removeRange(UArray *self, size_t start, size_t removeSize)
 			// need to copy end
 			size_t remainder = start + removeSize;
 			size_t remainderSize = self->size - remainder;
-			memmove(UARRAY_BYTESAT_(self, start), UARRAY_BYTESAT_(self, remainder), remainderSize);
+			memmove(UARRAY_BYTESAT_(self, start), UARRAY_BYTESAT_(self, remainder), self -> itemSize * remainderSize);
 		}
 		
 		UArray_setSize_(self, self->size - removeSize);

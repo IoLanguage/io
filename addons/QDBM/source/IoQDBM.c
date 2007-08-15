@@ -23,8 +23,13 @@ QDBM ioDoc(
 
 int compareFunc(const char *aptr, int asiz, const char *bptr, int bsiz)
 {
-	size_t max = asiz < bsiz ? asiz : bsiz;
-	return strncmp(aptr, bptr, max);
+	return strcmp(aptr, bptr);
+	/*
+	//int r = strncmp(aptr, bptr, max);
+	if (r > 0) return -1;
+	if (r < 0) return 1;
+	return 0;
+	*/
 }
 
 IoTag *IoQDBM_newTag(void *state)
@@ -119,7 +124,7 @@ IoObject *IoQDBM_open(IoObject *self, IoObject *locals, IoMessage *m)
 	*/
 	VILLA *villa;
 	IoSeq *path = IoMessage_locals_seqArgAt_(m, locals, 0);
-	VLCFUNC cf = compareFunc;
+	VLCFUNC cf = VL_CMPLEX;
 	
 	if(IoMessage_argCount(m) > 1)
 	{
@@ -127,6 +132,7 @@ IoObject *IoQDBM_open(IoObject *self, IoObject *locals, IoMessage *m)
 		if(strcmp(CSTRING(compareType), "VL_CMPDEC") == 0) cf = VL_CMPDEC;
 		if(strcmp(CSTRING(compareType), "VL_CMPINT") == 0) cf = VL_CMPINT;
 		if(strcmp(CSTRING(compareType), "VL_CMPNUM") == 0) cf = VL_CMPNUM;
+		if(strcmp(CSTRING(compareType), "VL_CMPLEX") == 0) cf = VL_CMPLEX;
 	}
 	
 	if(!(villa = vlopen(CSTRING(path), VL_OWRITER | VL_OCREAT, compareFunc)))
@@ -441,9 +447,3 @@ IoObject *IoQDBM_cursorRemove(IoObject *self, IoObject *locals, IoMessage *m)
 	
 	return self;
 }
-
-
-
-
-
-

@@ -203,6 +203,16 @@ SequenceTest := UnitTest clone do(
         assertEquals("a", "abc" asMutable removeSlice(1, 8))
         assertEquals("c", "abc" asMutable removeSlice(-8, 1))
     )
+
+		testRemoveAt := method(
+			assertRaisesException("abc" asMutable removeAt)
+			assertRaisesException("abc" asMutable removeAt(nil))
+			assertEquals("ab", "abc" asMutable removeAt(-1))
+			assertEquals("abc", "abc" asMutable removeAt(3))
+			assertEquals("bc", "abc" asMutable removeAt(0))
+			assertEquals("ac", "abc" asMutable removeAt(1))
+			assertEquals("ab", "abc" asMutable removeAt(2))
+		)
     
     testReplaceMap := method(
         assertRaisesException("abc" asMutable replaceMap)

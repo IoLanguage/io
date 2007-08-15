@@ -192,4 +192,7 @@ List do(
         self
     )
     */
+    
+    second := method(at(1))
+    third := method(at(2))
 )

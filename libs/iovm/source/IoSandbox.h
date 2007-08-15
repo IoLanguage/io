@@ -8,7 +8,7 @@ docLicense("BSD revised")
 
 #include "Common.h"
 #include "IoObject.h"
-//#include "UArray.h"
+#include "UArray.h"
 #include "IoNumber.h"
 //#include "IoSeq.h"
 
@@ -37,7 +37,7 @@ IoObject *IoSandbox_doSandboxString(IoSandbox *self, IoObject *locals, IoMessage
 
 void IoSandbox_cleanState(IoSandbox *self);
 void IoSandbox_addPrintCallback(IoSandbox *self);
-void IoSandbox_printCallback(void *voidSelf, size_t count, const unsigned char *data);
+void IoSandbox_printCallback(void *voidSelf, const UArray *ba);
 
 #ifdef __cplusplus
 }

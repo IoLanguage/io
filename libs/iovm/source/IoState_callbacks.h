@@ -1,10 +1,11 @@
 
 #include "IoVMApi.h"
+#include "UArray.h"
 
 // Embedding callback function types
 
 typedef void (IoStateBindingsInitCallback)(void *, void *);
-typedef void (IoStatePrintCallback)(void *, size_t count, const unsigned char *);
+typedef void (IoStatePrintCallback)(void *, const UArray *);
 typedef void (IoStateExceptionCallback)(void *, IoObject *);
 typedef void (IoStateExitCallback)(void *, int);
 typedef void (IoStateActiveCoroCallback)(void *, int);
@@ -32,7 +33,7 @@ IOVM_API void IoState_setBindingsInitCallback(IoState *self, IoStateBindingsInit
 // print
 
 IOVM_API void IoState_print_(IoState *self, const char *format, ...);
-IOVM_API void IoState_justPrint_(IoState *self, const size_t count, const unsigned char *s);
+IOVM_API void IoState_justPrint_(IoState *self, const unsigned char *s, const size_t size);
 IOVM_API void IoState_justPrintln_(IoState *self);
 IOVM_API void IoState_justPrintba_(IoState *self, UArray *ba);
 IOVM_API void IoState_printCallback_(IoState *self, IoStatePrintCallback *callback);

@@ -58,11 +58,13 @@ typedef struct
 
     // Stack *recyclableInstances;
     // int maxRecyclableInstances;
+	int referenceCount;
 } IoTag;
 
 IOVM_API IoTag *IoTag_new(void);
 IOVM_API IoTag *IoTag_newWithName_(const char *name);
 IOVM_API void IoTag_free(IoTag *self);
+IOVM_API int IoTag_reference(IoTag *self);
 
 IOVM_API void IoTag_name_(IoTag *self, const char *name);
 IOVM_API const char *IoTag_name(IoTag *self);
