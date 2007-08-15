@@ -1,16 +1,14 @@
 /*#io
-Cairo ioDoc(
-		    docCopyright("Trevor Fancher", 2007)
-		    docLicense("BSD revised")
-		    docObject("Cairo")
-		    docDescription("Cairo is a 2D graphics library. http://cairographics.org/")
-		    docCategory("Graphics")
-		    */
+CairoImageSurface ioDoc(
+	docCopyright("Trevor Fancher", 2007)
+	docCopyright("Daniel Rosengren", 2007)
+	docLicense("BSD revised")
+	docCategory("Graphics")
+*/
 
 #include "IoCairoImageSurface.h"
 
-#define DATA(self) ((IoCairoImageSurfaceData *)IoObject_dataPointer(self))
-#define SURFACE(srf) (DATA(srf)->surface)
+#define SURFACE(self) ((cairo_surface_t *)IoObject_dataPointer(self))
 #define STATUS(surface) (cairo_status_to_string(cairo_surface_status(surface)))
 
 IoTag *IoCairoImageSurface_newTag(void *state)
@@ -19,7 +17,6 @@ IoTag *IoCairoImageSurface_newTag(void *state)
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCairoImageSurface_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCairoImageSurface_free);
-	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoCairoImageSurface_mark);
 	return tag;
 }
 
@@ -27,8 +24,6 @@ IoCairoImageSurface *IoCairoImageSurface_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairoImageSurface_newTag(state));
-	
-	IoObject_setDataPointer_(self, calloc(1, sizeof(IoCairoImageSurfaceData)));	
 	
 	IoState_registerProtoWithFunc_(state, self, IoCairoImageSurface_proto);
 	
@@ -46,12 +41,8 @@ IoCairoImageSurface *IoCairoImageSurface_proto(void *state)
 IoCairoImageSurface *IoCairoImageSurface_rawClone(IoCairoImageSurface *proto) 
 { 
 	IoObject *self = IoObject_rawClonePrimitive(proto);
-	
-	IoObject_setDataPointer_(self, cpalloc(IoObject_dataPointer(proto), sizeof(IoCairoImageSurfaceData)));
-	if (SURFACE(proto)) {
-		cairo_surface_reference(SURFACE(proto));
-	}
-	
+	if (SURFACE(proto))
+		IoObject_setDataPointer_(self, cairo_surface_reference(SURFACE(proto)));
 	return self;
 }
 
@@ -62,25 +53,18 @@ IoCairoImageSurface *IoCairoImageSurface_newWithFormat_width_height_(void *state
 	IoObject *proto = IoState_protoWithInitFunction_(state, IoCairoImageSurface_proto);
 	IoObject *self = IOCLONE(proto);
 	
-	DATA(self)->surface = cairo_image_surface_create(format, width, height);
+	IoObject_setDataPointer_(self, cairo_image_surface_create(format, width, height));
 	
 	return self;
 }
 
 void IoCairoImageSurface_free(IoCairoImageSurface *self) 
 {
-	if (SURFACE(self)) {
+	if (SURFACE(self))
 		cairo_surface_destroy(SURFACE(self));
-	}
-		
-	free(IoObject_dataPointer(self)); 
 }
 
-void IoCairoImageSurface_mark(IoCairoImageSurface *self) 
-{
-}
-
-cairo_surface_t *IoCairoImageSurface_getRawSurface(IoCairoImageSurface *self)
+cairo_surface_t *IoCairoImageSurface_rawSurface(IoCairoImageSurface *self)
 {
 	return SURFACE(self);
 }

@@ -195,8 +195,8 @@ list(1, 2, 3, 4) detect(v, v > 2)
 		)
 		
 		
-		mapFromKey := method(
-		  e := call argAt(0)
+		mapFromKey := method(key,
+		  e := key asMessage
 		  m := Map clone
 		  self foreach(v,		      
 		      k := getSlot("v") doMessage(e) 

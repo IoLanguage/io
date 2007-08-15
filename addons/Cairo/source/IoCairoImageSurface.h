@@ -1,11 +1,7 @@
-/*#io
-Cairo ioDoc(
-		    docCopyright("Trevor Fancher", 2007)
-		    docLicense("BSD revised")
-		    docObject("Cairo")
-		    docDescription("Cairo is a 2D graphics library. http://cairographics.org/")
-		    docCategory("Graphics")
-		    */
+/*
+docCopyright("Trevor Fancher", 2007)
+docCopyright("Daniel Rosengren", 2007)
+*/
 
 #ifndef IOCAIROIMAGESURFACE_DEFINED
 #define IOCAIROIMAGESURFACE_DEFINED 1
@@ -25,11 +21,9 @@ typedef struct
 IoCairoImageSurface *IoCairoImageSurface_rawClone(IoCairoImageSurface *self);
 IoCairoImageSurface *IoCairoImageSurface_proto(void *state);
 IoCairoImageSurface *IoCairoImageSurface_new(void *state);
-
 void IoCairoImageSurface_free(IoCairoImageSurface *self);
-void IoCairoImageSurface_mark(IoCairoImageSurface *self);
 
-cairo_surface_t *IoCairoImageSurface_getRawSurface(IoCairoImageSurface *self);
+cairo_surface_t *IoCairoImageSurface_rawSurface(IoCairoImageSurface *self);
 
 /* ----------------------------------------------------------- */
 
