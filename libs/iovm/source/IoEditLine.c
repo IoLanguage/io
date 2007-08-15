@@ -5,7 +5,6 @@ EditLine ioDoc(
   docObject("EditLine")
   docDescription("Binding to libedit (BSD version of readline).")
   docCategory("Core")
-)
 */
 
 #include "IoEditLine.h"

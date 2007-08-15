@@ -32,6 +32,55 @@ int compareFunc(const char *aptr, int asiz, const char *bptr, int bsiz)
 	*/
 }
 
+/*
+int compareStrNumFunc(const char *a, int asize, const char *b, int bsize)
+{
+	long an = atol(a);
+	long bn = atol(b);
+	if (an > bn) return 1;
+	if (an < bn) return -1;
+
+	{
+	int smaller = (asize < bsize) ? asize : bsize;
+	return memcmp(a + smaller + 1, b + smaller + 1, smaller);
+	}
+}
+*/
+
+int compareStrNumFunc(const char *a, int asize, const char *b, int bsize)
+{
+	char *as = strchr((char *)a, '/');
+	char *bs = strchr((char *)b, '/');
+	long an;
+	long bn;
+	int r;
+	
+	if (as != NULL) *as = 0;
+	if (bs != NULL) *bs = 0;
+
+	an = atol(a);
+	bn = atol(b);
+	
+	//printf("%i cmp %i ", an, bn);
+	
+	if (as != NULL) *as = '/';
+	if (bs != NULL) *bs = '/';
+
+	
+	if (an > bn) { r = 1; }
+	else 
+	if (an < bn) { r = -1; }
+	else
+	{
+		// an and bn are the same, so just do a lex compare of the whole
+		r = strcmp(a, b);
+	}
+
+	//printf("%s %s %s\n", a, (r == 0) ? "==" : ((r == 1) ? ">" : "<"), b);
+
+	return r;
+}
+
 IoTag *IoQDBM_newTag(void *state)
 {
 	IoTag *tag = IoTag_newWithName_("QDBM");
@@ -129,13 +178,29 @@ IoObject *IoQDBM_open(IoObject *self, IoObject *locals, IoMessage *m)
 	if(IoMessage_argCount(m) > 1)
 	{
 		IoSeq *compareType = IoMessage_locals_seqArgAt_(m, locals, 1);
+		//printf("using compareType:%s\n", CSTRING(compareType));
+
 		if(strcmp(CSTRING(compareType), "VL_CMPDEC") == 0) cf = VL_CMPDEC;
+		else
 		if(strcmp(CSTRING(compareType), "VL_CMPINT") == 0) cf = VL_CMPINT;
+		else
 		if(strcmp(CSTRING(compareType), "VL_CMPNUM") == 0) cf = VL_CMPNUM;
+		else
 		if(strcmp(CSTRING(compareType), "VL_CMPLEX") == 0) cf = VL_CMPLEX;
+		else
+		if(strcmp(CSTRING(compareType), "VL_CMPSNM") == 0) 
+		{
+			cf = compareStrNumFunc;
+			//printf("using compareStrNumFunc\n");
+		}
+		else
+		{
+			fprintf(stderr, "ivalid compare function name\n");
+			return IONIL(self);
+		}
 	}
 	
-	if(!(villa = vlopen(CSTRING(path), VL_OWRITER | VL_OCREAT, compareFunc)))
+	if(!(villa = vlopen(CSTRING(path), VL_OWRITER | VL_OCREAT, cf)))
 	{
 		fprintf(stderr, "dpopen failed\n");
 		return IONIL(self);

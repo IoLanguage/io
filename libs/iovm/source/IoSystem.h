@@ -34,6 +34,7 @@ IoObject *IoObject_setMaxRecycledObjects(IoObject *self, IoObject *locals, IoMes
 IoObject *IoObject_recycledObjectCount(IoObject *self, IoObject *locals, IoMessage *m);
 
 IoObject *IoObject_symbols(IoObject *self, IoObject *locals, IoMessage *m);
+IoObject *IoObject_setLobby(IoObject *self, IoObject *locals, IoMessage *m);
 
 #ifdef __cplusplus
 }

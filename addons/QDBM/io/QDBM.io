@@ -3,9 +3,9 @@ QDBM do(
 	newSlot("path", "default.qdbm")
 	
 	_open := getSlot("open")
-	open := method(p,
+	open := method(p, opt,
 		if(p, setPath(p))
-		_open(path)
+		if(opt, _open(path, opt), _open(path))
 	)
 	
 	transactionalAtPut := method(k, v,
