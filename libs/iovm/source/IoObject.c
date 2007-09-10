@@ -649,7 +649,7 @@ void IoObject_dealloc(IoObject *self) // really io_free it
 	{
 		if (IoObject_listeners(self))
 		{
-			LIST_FOREACH(IoObject_listeners(self), i, v, IoObject_tag((IoObject *)v)->notificationFunc(v, NULL));
+			LIST_FOREACH(IoObject_listeners(self), i, v, IoObject_tag((IoObject *)v)->notificationFunc(v, self));
 			List_free(IoObject_listeners(self));
 			IoObject_listeners_(self, NULL);
 		}
