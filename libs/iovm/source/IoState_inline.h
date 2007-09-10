@@ -102,6 +102,15 @@ IOINLINE void IoState_addValue_(IoState *self, IoObject *v)
 	IoState_unreferencedStackRetain_(self, v);
 }
 
+IOINLINE void IoState_addValueIfNecessary_(IoState *self, IoObject *v)
+{
+	if (v->prev)
+	{
+		Collector_addValue_(self->collector, v);
+	}
+	IoState_unreferencedStackRetain_(self, v);
+}
+
 IOINLINE void IoState_pushCollectorPause(IoState *self)
 {
 	Collector_pushPause(self->collector);

@@ -1054,7 +1054,7 @@ IoObject *IOCLONE(IoObject *self)
 
 	IoState_pushCollectorPause(state);
 	newObject = IoObject_tag(self)->cloneFunc(self);
-	IoState_addValue_(state, newObject);
+	IoState_addValueIfNecessary_(state, newObject);
 	IoState_popCollectorPause(state);
 	return newObject;
 }
