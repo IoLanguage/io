@@ -114,6 +114,8 @@ IoObject *IoSystemCall_asyncRun(IoSystemCall *self, IoObject *locals, IoMessage 
     FILE *fchildin;
     FILE *fchildout;
     FILE *fchilderr;
+
+    IoSystemCall_rawClose(self);
 	
     /*open the filehandles as pipes*/
     callsystem_pipe(DATA(self)->stdin_child);
