@@ -102,6 +102,7 @@ IoNumber *IoNumber_proto(void *state)
 	{"factorial", IoNumber_factorial},
 	{"floor", IoNumber_floor},
 	{"log", IoNumber_log},
+	{"log2", IoNumber_log2},
 	{"log10", IoNumber_log10},
 	{"max", IoNumber_max},
 	{"min", IoNumber_min},
@@ -646,6 +647,15 @@ IoObject *IoNumber_log(IoNumber *self, IoObject *locals, IoMessage *m)
     */
 
     return IONUMBER(log(DATA(self)));
+}
+
+IoObject *IoNumber_log2(IoNumber *self, IoObject *locals, IoMessage *m)
+{
+    /*#io
+    docSlot("log2", "Returns the base 2 logarithm of the receiver.")
+    */
+
+    return IONUMBER(log2(DATA(self)));
 }
 
 IoObject *IoNumber_log10(IoNumber *self, IoObject *locals, IoMessage *m)

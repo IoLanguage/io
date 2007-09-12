@@ -64,11 +64,11 @@ IoObject *IoUUID_uuid(IoUUID *self, IoObject *locals, IoMessage *m)
 	docSlot("uuid", "Returns a new uuid in string format.")
 	*/
 
-        uuid_t buf;
-        char str[200];
+	uuid_t buf;
+	char str[200];
 
-        uuid_generate(buf);
-        uuid_unparse(buf, str);
+	uuid_generate(buf);
+	uuid_unparse(buf, str);
 
 	return IOSYMBOL(str);
 }
@@ -79,11 +79,11 @@ IoObject *IoUUID_uuidRandom(IoUUID *self, IoObject *locals, IoMessage *m)
 	docSlot("uuidRandom", "Returns a new random uuid (type 4) in string format.")
 	*/
 
-        uuid_t buf;
-        char str[200];
+	uuid_t buf;
+	char str[200];
 
-        uuid_generate_random(buf);
-        uuid_unparse(buf, str);
+	uuid_generate_random(buf);
+	uuid_unparse(buf, str);
 
 	return IOSYMBOL(str);
 }
@@ -94,11 +94,11 @@ IoObject *IoUUID_uuidTime(IoUUID *self, IoObject *locals, IoMessage *m)
 	docSlot("uuidTime", "Returns a new time and mac uuid (type 1) in string format.")
 	*/
 
-        uuid_t buf;
-        char str[200];
+	uuid_t buf;
+	char str[200];
 
-        uuid_generate_time(buf);
-        uuid_unparse(buf, str);
+	uuid_generate_time(buf);
+	uuid_unparse(buf, str);
 
 	return IOSYMBOL(str);
 }

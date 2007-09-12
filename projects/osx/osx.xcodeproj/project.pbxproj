@@ -19,6 +19,12 @@
 		AA1C3FB90B7448B500334368 /* SHash_inline.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA1C3FAB0B7448B500334368 /* SHash_inline.h */; };
 		AA1C3FBA0B7448B500334368 /* SHash.c in Sources */ = {isa = PBXBuildFile; fileRef = AA1C3FAC0B7448B500334368 /* SHash.c */; };
 		AA1C3FBB0B7448B500334368 /* SHash.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA1C3FAD0B7448B500334368 /* SHash.h */; };
+		AA2CDD130C9357A6004C45B9 /* IoDKDB.c in Sources */ = {isa = PBXBuildFile; fileRef = AA2CDD0D0C9357A6004C45B9 /* IoDKDB.c */; };
+		AA2CDD140C9357A6004C45B9 /* IoDKDB.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA2CDD0E0C9357A6004C45B9 /* IoDKDB.h */; };
+		AA2CDD150C9357A6004C45B9 /* IoDKFolder.c in Sources */ = {isa = PBXBuildFile; fileRef = AA2CDD0F0C9357A6004C45B9 /* IoDKFolder.c */; };
+		AA2CDD160C9357A6004C45B9 /* IoDKFolder.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA2CDD100C9357A6004C45B9 /* IoDKFolder.h */; };
+		AA2CDD170C9357A6004C45B9 /* IoDKFolderCursor.c in Sources */ = {isa = PBXBuildFile; fileRef = AA2CDD110C9357A6004C45B9 /* IoDKFolderCursor.c */; };
+		AA2CDD180C9357A6004C45B9 /* IoDKFolderCursor.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA2CDD120C9357A6004C45B9 /* IoDKFolderCursor.h */; };
 		AA6ABF8D0BA8012F0049770F /* build.io in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA6ABF760BA8012F0049770F /* build.io */; };
 		AA6ABF8E0BA8012F0049770F /* depends in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA6ABF770BA8012F0049770F /* depends */; };
 		AA6ABF8F0BA8012F0049770F /* frameworks in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA6ABF780BA8012F0049770F /* frameworks */; };
@@ -176,8 +182,6 @@
 		AA7D69490B60124200D7DEA9 /* GLIncludes.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5FF20B60123D00D7DEA9 /* GLIncludes.h */; };
 		AA7D694A0B60124200D7DEA9 /* IoBox_gl.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5FF30B60123D00D7DEA9 /* IoBox_gl.c */; };
 		AA7D694B0B60124200D7DEA9 /* IoBox_gl.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5FF40B60123D00D7DEA9 /* IoBox_gl.h */; };
-		AA7D694C0B60124200D7DEA9 /* IoDisplayList.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5FF50B60123D00D7DEA9 /* IoDisplayList.c */; };
-		AA7D694D0B60124200D7DEA9 /* IoDisplayList.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5FF60B60123D00D7DEA9 /* IoDisplayList.h */; };
 		AA7D694E0B60124200D7DEA9 /* IoGLconst.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5FF70B60123D00D7DEA9 /* IoGLconst.h */; };
 		AA7D694F0B60124200D7DEA9 /* IoGLEconst.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5FF80B60123D00D7DEA9 /* IoGLEconst.h */; };
 		AA7D69500B60124200D7DEA9 /* IoGLEfunc.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5FF90B60123D00D7DEA9 /* IoGLEfunc.h */; };
@@ -187,13 +191,9 @@
 		AA7D69540B60124200D7DEA9 /* IoGLU.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5FFD0B60123D00D7DEA9 /* IoGLU.c */; };
 		AA7D69550B60124200D7DEA9 /* IoGLU.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5FFE0B60123D00D7DEA9 /* IoGLU.h */; };
 		AA7D69560B60124200D7DEA9 /* IoGLUconst.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5FFF0B60123D00D7DEA9 /* IoGLUconst.h */; };
-		AA7D69570B60124200D7DEA9 /* IoGLUCylinder.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D60000B60123D00D7DEA9 /* IoGLUCylinder.c */; };
-		AA7D69580B60124200D7DEA9 /* IoGLUCylinder.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D60010B60123D00D7DEA9 /* IoGLUCylinder.h */; };
 		AA7D69590B60124200D7DEA9 /* IoGLUfunc.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D60020B60123D00D7DEA9 /* IoGLUfunc.h */; };
 		AA7D695A0B60124200D7DEA9 /* IoGLUQuadric.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D60030B60123D00D7DEA9 /* IoGLUQuadric.c */; };
 		AA7D695B0B60124200D7DEA9 /* IoGLUQuadric.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D60040B60123D00D7DEA9 /* IoGLUQuadric.h */; };
-		AA7D695C0B60124200D7DEA9 /* IoGLUSphere.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D60050B60123D00D7DEA9 /* IoGLUSphere.c */; };
-		AA7D695D0B60124200D7DEA9 /* IoGLUSphere.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D60060B60123D00D7DEA9 /* IoGLUSphere.h */; };
 		AA7D695E0B60124200D7DEA9 /* IoGLUT.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D60070B60123D00D7DEA9 /* IoGLUT.c */; };
 		AA7D695F0B60124200D7DEA9 /* IoGLUT.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D60080B60123D00D7DEA9 /* IoGLUT.h */; };
 		AA7D69600B60124200D7DEA9 /* IoGLUTconst.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D60090B60123D00D7DEA9 /* IoGLUTconst.h */; };
@@ -624,7 +624,6 @@
 				AA7D67CF0B60124200D7DEA9 /* IoVector_ode.h in CopyFiles */,
 				AA7D69490B60124200D7DEA9 /* GLIncludes.h in CopyFiles */,
 				AA7D694B0B60124200D7DEA9 /* IoBox_gl.h in CopyFiles */,
-				AA7D694D0B60124200D7DEA9 /* IoDisplayList.h in CopyFiles */,
 				AA7D694E0B60124200D7DEA9 /* IoGLconst.h in CopyFiles */,
 				AA7D694F0B60124200D7DEA9 /* IoGLEconst.h in CopyFiles */,
 				AA7D69500B60124200D7DEA9 /* IoGLEfunc.h in CopyFiles */,
@@ -632,10 +631,8 @@
 				AA7D69530B60124200D7DEA9 /* IoGLScissor.h in CopyFiles */,
 				AA7D69550B60124200D7DEA9 /* IoGLU.h in CopyFiles */,
 				AA7D69560B60124200D7DEA9 /* IoGLUconst.h in CopyFiles */,
-				AA7D69580B60124200D7DEA9 /* IoGLUCylinder.h in CopyFiles */,
 				AA7D69590B60124200D7DEA9 /* IoGLUfunc.h in CopyFiles */,
 				AA7D695B0B60124200D7DEA9 /* IoGLUQuadric.h in CopyFiles */,
-				AA7D695D0B60124200D7DEA9 /* IoGLUSphere.h in CopyFiles */,
 				AA7D695F0B60124200D7DEA9 /* IoGLUT.h in CopyFiles */,
 				AA7D69600B60124200D7DEA9 /* IoGLUTconst.h in CopyFiles */,
 				AA7D69610B60124200D7DEA9 /* IoGLUTfunc.h in CopyFiles */,
@@ -862,13 +859,16 @@
 				AA6ABF9C0BA8012F0049770F /* run.io in CopyFiles */,
 				AA6ABF9D0BA8012F0049770F /* VectorTest.io in CopyFiles */,
 				AA6ABFE40BA8D27E0049770F /* IoSeq_vector.h in CopyFiles */,
+				AA2CDD140C9357A6004C45B9 /* IoDKDB.h in CopyFiles */,
+				AA2CDD160C9357A6004C45B9 /* IoDKFolder.h in CopyFiles */,
+				AA2CDD180C9357A6004C45B9 /* IoDKFolderCursor.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		8DD76FB20486AB0100D96B5E /* osx */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.executable"; path = osx; sourceTree = BUILT_PRODUCTS_DIR; };
+		8DD76FB20486AB0100D96B5E /* osx */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = osx; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA1C3FA00B7448B500334368 /* UArray_format.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = UArray_format.c; sourceTree = "<group>"; };
 		AA1C3FA10B7448B500334368 /* UArray_format.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = UArray_format.h; sourceTree = "<group>"; };
 		AA1C3FA20B7448B500334368 /* UArray_path.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = UArray_path.c; sourceTree = "<group>"; };
@@ -880,6 +880,12 @@
 		AA1C3FAB0B7448B500334368 /* SHash_inline.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SHash_inline.h; sourceTree = "<group>"; };
 		AA1C3FAC0B7448B500334368 /* SHash.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = SHash.c; sourceTree = "<group>"; };
 		AA1C3FAD0B7448B500334368 /* SHash.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SHash.h; sourceTree = "<group>"; };
+		AA2CDD0D0C9357A6004C45B9 /* IoDKDB.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoDKDB.c; path = ../../addons/QDBM/source/IoDKDB.c; sourceTree = SOURCE_ROOT; };
+		AA2CDD0E0C9357A6004C45B9 /* IoDKDB.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoDKDB.h; path = ../../addons/QDBM/source/IoDKDB.h; sourceTree = SOURCE_ROOT; };
+		AA2CDD0F0C9357A6004C45B9 /* IoDKFolder.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoDKFolder.c; path = ../../addons/QDBM/source/IoDKFolder.c; sourceTree = SOURCE_ROOT; };
+		AA2CDD100C9357A6004C45B9 /* IoDKFolder.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoDKFolder.h; path = ../../addons/QDBM/source/IoDKFolder.h; sourceTree = SOURCE_ROOT; };
+		AA2CDD110C9357A6004C45B9 /* IoDKFolderCursor.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoDKFolderCursor.c; path = ../../addons/QDBM/source/IoDKFolderCursor.c; sourceTree = SOURCE_ROOT; };
+		AA2CDD120C9357A6004C45B9 /* IoDKFolderCursor.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoDKFolderCursor.h; path = ../../addons/QDBM/source/IoDKFolderCursor.h; sourceTree = SOURCE_ROOT; };
 		AA6ABF760BA8012F0049770F /* build.io */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = build.io; path = ../../addons/Box/build.io; sourceTree = SOURCE_ROOT; };
 		AA6ABF770BA8012F0049770F /* depends */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = depends; path = ../../addons/Box/depends; sourceTree = SOURCE_ROOT; };
 		AA6ABF780BA8012F0049770F /* frameworks */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = frameworks; path = ../../addons/Box/frameworks; sourceTree = SOURCE_ROOT; };
@@ -1037,8 +1043,6 @@
 		AA7D5FF20B60123D00D7DEA9 /* GLIncludes.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GLIncludes.h; path = ../../addons/OpenGL/source/GLIncludes.h; sourceTree = SOURCE_ROOT; };
 		AA7D5FF30B60123D00D7DEA9 /* IoBox_gl.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoBox_gl.c; path = ../../addons/OpenGL/source/IoBox_gl.c; sourceTree = SOURCE_ROOT; };
 		AA7D5FF40B60123D00D7DEA9 /* IoBox_gl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoBox_gl.h; path = ../../addons/OpenGL/source/IoBox_gl.h; sourceTree = SOURCE_ROOT; };
-		AA7D5FF50B60123D00D7DEA9 /* IoDisplayList.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoDisplayList.c; path = ../../addons/OpenGL/source/IoDisplayList.c; sourceTree = SOURCE_ROOT; };
-		AA7D5FF60B60123D00D7DEA9 /* IoDisplayList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoDisplayList.h; path = ../../addons/OpenGL/source/IoDisplayList.h; sourceTree = SOURCE_ROOT; };
 		AA7D5FF70B60123D00D7DEA9 /* IoGLconst.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoGLconst.h; path = ../../addons/OpenGL/source/IoGLconst.h; sourceTree = SOURCE_ROOT; };
 		AA7D5FF80B60123D00D7DEA9 /* IoGLEconst.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoGLEconst.h; path = ../../addons/OpenGL/source/IoGLEconst.h; sourceTree = SOURCE_ROOT; };
 		AA7D5FF90B60123D00D7DEA9 /* IoGLEfunc.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoGLEfunc.h; path = ../../addons/OpenGL/source/IoGLEfunc.h; sourceTree = SOURCE_ROOT; };
@@ -1048,13 +1052,9 @@
 		AA7D5FFD0B60123D00D7DEA9 /* IoGLU.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoGLU.c; path = ../../addons/OpenGL/source/IoGLU.c; sourceTree = SOURCE_ROOT; };
 		AA7D5FFE0B60123D00D7DEA9 /* IoGLU.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoGLU.h; path = ../../addons/OpenGL/source/IoGLU.h; sourceTree = SOURCE_ROOT; };
 		AA7D5FFF0B60123D00D7DEA9 /* IoGLUconst.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoGLUconst.h; path = ../../addons/OpenGL/source/IoGLUconst.h; sourceTree = SOURCE_ROOT; };
-		AA7D60000B60123D00D7DEA9 /* IoGLUCylinder.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoGLUCylinder.c; path = ../../addons/OpenGL/source/IoGLUCylinder.c; sourceTree = SOURCE_ROOT; };
-		AA7D60010B60123D00D7DEA9 /* IoGLUCylinder.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoGLUCylinder.h; path = ../../addons/OpenGL/source/IoGLUCylinder.h; sourceTree = SOURCE_ROOT; };
 		AA7D60020B60123D00D7DEA9 /* IoGLUfunc.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoGLUfunc.h; path = ../../addons/OpenGL/source/IoGLUfunc.h; sourceTree = SOURCE_ROOT; };
 		AA7D60030B60123D00D7DEA9 /* IoGLUQuadric.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoGLUQuadric.c; path = ../../addons/OpenGL/source/IoGLUQuadric.c; sourceTree = SOURCE_ROOT; };
 		AA7D60040B60123D00D7DEA9 /* IoGLUQuadric.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoGLUQuadric.h; path = ../../addons/OpenGL/source/IoGLUQuadric.h; sourceTree = SOURCE_ROOT; };
-		AA7D60050B60123D00D7DEA9 /* IoGLUSphere.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoGLUSphere.c; path = ../../addons/OpenGL/source/IoGLUSphere.c; sourceTree = SOURCE_ROOT; };
-		AA7D60060B60123D00D7DEA9 /* IoGLUSphere.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoGLUSphere.h; path = ../../addons/OpenGL/source/IoGLUSphere.h; sourceTree = SOURCE_ROOT; };
 		AA7D60070B60123D00D7DEA9 /* IoGLUT.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoGLUT.c; path = ../../addons/OpenGL/source/IoGLUT.c; sourceTree = SOURCE_ROOT; };
 		AA7D60080B60123D00D7DEA9 /* IoGLUT.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoGLUT.h; path = ../../addons/OpenGL/source/IoGLUT.h; sourceTree = SOURCE_ROOT; };
 		AA7D60090B60123D00D7DEA9 /* IoGLUTconst.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoGLUTconst.h; path = ../../addons/OpenGL/source/IoGLUTconst.h; sourceTree = SOURCE_ROOT; };
@@ -2082,8 +2082,6 @@
 				AA7D5FF20B60123D00D7DEA9 /* GLIncludes.h */,
 				AA7D5FF30B60123D00D7DEA9 /* IoBox_gl.c */,
 				AA7D5FF40B60123D00D7DEA9 /* IoBox_gl.h */,
-				AA7D5FF50B60123D00D7DEA9 /* IoDisplayList.c */,
-				AA7D5FF60B60123D00D7DEA9 /* IoDisplayList.h */,
 				AA7D5FF70B60123D00D7DEA9 /* IoGLconst.h */,
 				AA7D5FF80B60123D00D7DEA9 /* IoGLEconst.h */,
 				AA7D5FF90B60123D00D7DEA9 /* IoGLEfunc.h */,
@@ -2093,13 +2091,9 @@
 				AA7D5FFD0B60123D00D7DEA9 /* IoGLU.c */,
 				AA7D5FFE0B60123D00D7DEA9 /* IoGLU.h */,
 				AA7D5FFF0B60123D00D7DEA9 /* IoGLUconst.h */,
-				AA7D60000B60123D00D7DEA9 /* IoGLUCylinder.c */,
-				AA7D60010B60123D00D7DEA9 /* IoGLUCylinder.h */,
 				AA7D60020B60123D00D7DEA9 /* IoGLUfunc.h */,
 				AA7D60030B60123D00D7DEA9 /* IoGLUQuadric.c */,
 				AA7D60040B60123D00D7DEA9 /* IoGLUQuadric.h */,
-				AA7D60050B60123D00D7DEA9 /* IoGLUSphere.c */,
-				AA7D60060B60123D00D7DEA9 /* IoGLUSphere.h */,
 				AA7D60070B60123D00D7DEA9 /* IoGLUT.c */,
 				AA7D60080B60123D00D7DEA9 /* IoGLUT.h */,
 				AA7D60090B60123D00D7DEA9 /* IoGLUTconst.h */,
@@ -2216,6 +2210,12 @@
 		AA7D60690B60123D00D7DEA9 /* source */ = {
 			isa = PBXGroup;
 			children = (
+				AA2CDD0D0C9357A6004C45B9 /* IoDKDB.c */,
+				AA2CDD0E0C9357A6004C45B9 /* IoDKDB.h */,
+				AA2CDD0F0C9357A6004C45B9 /* IoDKFolder.c */,
+				AA2CDD100C9357A6004C45B9 /* IoDKFolder.h */,
+				AA2CDD110C9357A6004C45B9 /* IoDKFolderCursor.c */,
+				AA2CDD120C9357A6004C45B9 /* IoDKFolderCursor.h */,
 				AA7D606A0B60123D00D7DEA9 /* IoQDBM.c */,
 				AA7D606B0B60123D00D7DEA9 /* IoQDBM.h */,
 				AA7D606C0B60123D00D7DEA9 /* IoQDBMInit.c */,
@@ -3121,12 +3121,9 @@
 				AA7D67CC0B60124200D7DEA9 /* IoODEWorld.c in Sources */,
 				AA7D67CE0B60124200D7DEA9 /* IoVector_ode.c in Sources */,
 				AA7D694A0B60124200D7DEA9 /* IoBox_gl.c in Sources */,
-				AA7D694C0B60124200D7DEA9 /* IoDisplayList.c in Sources */,
 				AA7D69520B60124200D7DEA9 /* IoGLScissor.c in Sources */,
 				AA7D69540B60124200D7DEA9 /* IoGLU.c in Sources */,
-				AA7D69570B60124200D7DEA9 /* IoGLUCylinder.c in Sources */,
 				AA7D695A0B60124200D7DEA9 /* IoGLUQuadric.c in Sources */,
-				AA7D695C0B60124200D7DEA9 /* IoGLUSphere.c in Sources */,
 				AA7D695E0B60124200D7DEA9 /* IoGLUT.c in Sources */,
 				AA7D69620B60124200D7DEA9 /* IoOpenGL.c in Sources */,
 				AA7D69640B60124200D7DEA9 /* IoOpenGLInit.c in Sources */,
@@ -3286,6 +3283,9 @@
 				AA6ABF930BA8012F0049770F /* IoBox.c in Sources */,
 				AA6ABF950BA8012F0049770F /* mandlebrot.c in Sources */,
 				AA6ABFE30BA8D27E0049770F /* IoSeq_vector.c in Sources */,
+				AA2CDD130C9357A6004C45B9 /* IoDKDB.c in Sources */,
+				AA2CDD150C9357A6004C45B9 /* IoDKFolder.c in Sources */,
+				AA2CDD170C9357A6004C45B9 /* IoDKFolderCursor.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

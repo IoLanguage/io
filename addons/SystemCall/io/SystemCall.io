@@ -23,7 +23,7 @@ SystemCall do(
         isRunning := true
         while(isRunning == true and (s := self status) > 255,
             if(aBlock, aBlock call)
-            wait(.1)
+            wait(.02)
         )
         if(aBlock, aBlock call)
         

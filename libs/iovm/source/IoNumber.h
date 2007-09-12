@@ -76,6 +76,7 @@ IOVM_API IoObject *IoNumber_exp(IoNumber *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoNumber_factorial(IoNumber *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoNumber_floor(IoNumber *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoNumber_log(IoNumber *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoNumber_log2(IoNumber *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoNumber_log10(IoNumber *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoNumber_max(IoNumber *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoNumber_min(IoNumber *self, IoObject *locals, IoMessage *m);

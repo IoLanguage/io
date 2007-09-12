@@ -189,10 +189,15 @@ IoObject *IoSystemCall_close(IoSystemCall *self, IoObject *locals, IoMessage *m)
 
 void IoSystemCall_rawClose(IoSystemCall *self)
 {    
-    callsystem_close(DATA(self)->stdin_child);
-    callsystem_close(DATA(self)->stdout_child);
-    callsystem_close(DATA(self)->stderr_child);
-    callsystem_argv_clear(&DATA(self)->args);
-    callsystem_env_clear(&DATA(self)->env);
+	if (DATA(self)->pid)
+	{
+		callsystem_running(DATA(self)->pid);
+		callsystem_close(DATA(self)->stdin_child);
+		callsystem_close(DATA(self)->stdout_child);
+		callsystem_close(DATA(self)->stderr_child);
+		callsystem_argv_clear(&DATA(self)->args);
+		callsystem_env_clear(&DATA(self)->env);
+		DATA(self)->pid = 0;
+	}
 }
 
