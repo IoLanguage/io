@@ -185,52 +185,7 @@
 	<key>Notifications</key>
 	<array/>
 	<key>OpenEditors</key>
-<<<<<<< HEAD:projects/osxvm/osxvm.xcodeproj/steve.mode1
-	<array>
-		<dict>
-			<key>Content</key>
-			<dict>
-				<key>PBXProjectModuleGUID</key>
-				<string>AAC5707E0C2A94FA00156DF0</string>
-				<key>PBXProjectModuleLabel</key>
-				<string>IoSeq.h</string>
-				<key>PBXSplitModuleInNavigatorKey</key>
-				<dict>
-					<key>Split0</key>
-					<dict>
-						<key>PBXProjectModuleGUID</key>
-						<string>AAC5707F0C2A94FA00156DF0</string>
-						<key>PBXProjectModuleLabel</key>
-						<string>IoSeq.h</string>
-						<key>_historyCapacity</key>
-						<integer>0</integer>
-						<key>bookmark</key>
-						<string>AAC570A80C2B518A00156DF0</string>
-						<key>history</key>
-						<array>
-							<string>AAC570750C2A94E600156DF0</string>
-						</array>
-					</dict>
-					<key>SplitCount</key>
-					<string>1</string>
-				</dict>
-				<key>StatusBarVisibility</key>
-				<true/>
-			</dict>
-			<key>Geometry</key>
-			<dict>
-				<key>Frame</key>
-				<string>{{0, 20}, {1296, 974}}</string>
-				<key>PBXModuleWindowStatusBarHidden2</key>
-				<false/>
-				<key>RubberWindowFrame</key>
-				<string>78 184 1296 1015 0 0 2560 1600 </string>
-			</dict>
-		</dict>
-	</array>
-=======
 	<array/>
->>>>>>> 900bc943447f46056830a8ce325aa94095927325:projects/osxvm/osxvm.xcodeproj/steve.mode1
 	<key>PerspectiveWidths</key>
 	<array>
 		<integer>-1</integer>
@@ -309,7 +264,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>76</integer>
+									<integer>91</integer>
 									<integer>9</integer>
 									<integer>8</integer>
 									<integer>4</integer>
@@ -318,7 +273,7 @@
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 1002}, {275, 659}}</string>
+							<string>{{0, 1053}, {275, 659}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -337,11 +292,7 @@
 							<real>275</real>
 						</array>
 						<key>RubberWindowFrame</key>
-<<<<<<< HEAD:projects/osxvm/osxvm.xcodeproj/steve.mode1
-						<string>1117 184 1255 1055 0 0 2560 1600 </string>
-=======
-						<string>372 8 1080 718 0 0 1440 900 </string>
->>>>>>> 900bc943447f46056830a8ce325aa94095927325:projects/osxvm/osxvm.xcodeproj/steve.mode1
+						<string>168 182 1080 718 0 0 1440 900 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -359,7 +310,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>IoTagDB.c</string>
+								<string>IoQDBM.c</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -367,29 +318,26 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>IoTagDB.c</string>
+										<string>IoQDBM.c</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-<<<<<<< HEAD:projects/osxvm/osxvm.xcodeproj/steve.mode1
-										<string>AAC570A70C2B518A00156DF0</string>
-=======
-										<string>AAC3736B0C59743400A8FABB</string>
->>>>>>> 900bc943447f46056830a8ce325aa94095927325:projects/osxvm/osxvm.xcodeproj/steve.mode1
+										<string>AA344B5F0C72A60300464C3F</string>
 										<key>history</key>
 										<array>
 											<string>AA9349510C4EE76B0017FDA0</string>
 											<string>AA93496B0C4EEA640017FDA0</string>
-											<string>AAE216380C57374F0017F17D</string>
 											<string>AAE2167E0C5821670017F17D</string>
 											<string>AAE2167F0C5821670017F17D</string>
 											<string>AAE216810C5821670017F17D</string>
 											<string>AAE216830C5821670017F17D</string>
-											<string>AAE2168A0C5821670017F17D</string>
-										</array>
-										<key>nextStack</key>
-										<array>
-											<string>AAE216880C5821670017F17D</string>
+											<string>AAC373880C5E74D900A8FABB</string>
+											<string>AAC373890C5E74D900A8FABB</string>
+											<string>AAC3738A0C5E74D900A8FABB</string>
+											<string>AADE5DCF0C6814600026AE63</string>
+											<string>AADE5DD00C6814600026AE63</string>
+											<string>AA344B160C729DC400464C3F</string>
+											<string>AA344B170C729DC400464C3F</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -397,6 +345,12 @@
 											<string>AA9349550C4EE76B0017FDA0</string>
 											<string>AA93496C0C4EEA640017FDA0</string>
 											<string>AAE216870C5821670017F17D</string>
+											<string>AAC3738D0C5E74D900A8FABB</string>
+											<string>AAC3738E0C5E74D900A8FABB</string>
+											<string>AAC373900C5E74D900A8FABB</string>
+											<string>AADE5DD30C6814600026AE63</string>
+											<string>AADE5DD40C6814600026AE63</string>
+											<string>AA344B190C729DC400464C3F</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -410,11 +364,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {783, 672}}</string>
 								<key>RubberWindowFrame</key>
-<<<<<<< HEAD:projects/osxvm/osxvm.xcodeproj/steve.mode1
-								<string>1117 184 1255 1055 0 0 2560 1600 </string>
-=======
-								<string>372 8 1080 718 0 0 1440 900 </string>
->>>>>>> 900bc943447f46056830a8ce325aa94095927325:projects/osxvm/osxvm.xcodeproj/steve.mode1
+								<string>168 182 1080 718 0 0 1440 900 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -434,11 +384,7 @@
 								<key>Frame</key>
 								<string>{{0, 677}, {783, 0}}</string>
 								<key>RubberWindowFrame</key>
-<<<<<<< HEAD:projects/osxvm/osxvm.xcodeproj/steve.mode1
-								<string>1117 184 1255 1055 0 0 2560 1600 </string>
-=======
-								<string>372 8 1080 718 0 0 1440 900 </string>
->>>>>>> 900bc943447f46056830a8ce325aa94095927325:projects/osxvm/osxvm.xcodeproj/steve.mode1
+								<string>168 182 1080 718 0 0 1440 900 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -462,9 +408,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>AAC3736C0C59743400A8FABB</string>
+				<string>AA344B0E0C729D8F00464C3F</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>AAC3736D0C59743400A8FABB</string>
+				<string>AA344B0F0C729D8F00464C3F</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -598,23 +544,17 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>AAC373740C59743400A8FABB</string>
+		<string>AA344B240C729DC400464C3F</string>
+		<string>AA344B250C729DC400464C3F</string>
+		<string>AA9349640C4EE76B0017FDA0</string>
 		<string>1CD10A99069EF8BA00B06720</string>
-<<<<<<< HEAD:projects/osxvm/osxvm.xcodeproj/steve.mode1
-		<string>AA984A9809047DBD002242A2</string>
-		<string>AAC5707E0C2A94FA00156DF0</string>
-		<string>AAC570610C2A92EF00156DF0</string>
-		<string>/Volumes/Internal500GB/Users/steve/IoProject/Io/projects/osxvm/osxvm.xcodeproj</string>
-=======
+		<string>AA344B220C729DC400464C3F</string>
+		<string>AA9349590C4EE76B0017FDA0</string>
+		<string>1C0AD2B3069F1EA900FABCE6</string>
 		<string>/Users/steve/Io/projects/osxvm/osxvm.xcodeproj</string>
->>>>>>> 900bc943447f46056830a8ce325aa94095927325:projects/osxvm/osxvm.xcodeproj/steve.mode1
 	</array>
 	<key>WindowString</key>
-<<<<<<< HEAD:projects/osxvm/osxvm.xcodeproj/steve.mode1
-	<string>1117 184 1255 1055 0 0 2560 1600 </string>
-=======
-	<string>372 8 1080 718 0 0 1440 900 </string>
->>>>>>> 900bc943447f46056830a8ce325aa94095927325:projects/osxvm/osxvm.xcodeproj/steve.mode1
+	<string>168 182 1080 718 0 0 1440 900 </string>
 	<key>WindowTools</key>
 	<array>
 		<dict>
@@ -691,7 +631,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>AA9349590C4EE76B0017FDA0</string>
-				<string>AAE2163E0C57374F0017F17D</string>
+				<string>AA344B1B0C729DC400464C3F</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -733,8 +673,8 @@
 										<string>yes</string>
 										<key>sizes</key>
 										<array>
-											<string>{{0, 0}, {313, 196}}</string>
-											<string>{{313, 0}, {381, 196}}</string>
+											<string>{{0, 0}, {312, 199}}</string>
+											<string>{{312, 0}, {382, 199}}</string>
 										</array>
 									</dict>
 									<key>VerticalSplitView</key>
@@ -749,8 +689,8 @@
 										<string>yes</string>
 										<key>sizes</key>
 										<array>
-											<string>{{0, 0}, {694, 196}}</string>
-											<string>{{0, 196}, {694, 185}}</string>
+											<string>{{0, 0}, {694, 199}}</string>
+											<string>{{0, 199}, {694, 182}}</string>
 										</array>
 									</dict>
 								</dict>
@@ -797,14 +737,14 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1CD10A99069EF8BA00B06720</string>
-				<string>AAC3736E0C59743400A8FABB</string>
+				<string>AA344B1C0C729DC400464C3F</string>
 				<string>1C162984064C10D400B95A72</string>
-				<string>AAC3736F0C59743400A8FABB</string>
-				<string>AAC373700C59743400A8FABB</string>
-				<string>AAC373710C59743400A8FABB</string>
-				<string>AAC373720C59743400A8FABB</string>
-				<string>AAC373730C59743400A8FABB</string>
-				<string>AAC373740C59743400A8FABB</string>
+				<string>AA344B1D0C729DC400464C3F</string>
+				<string>AA344B1E0C729DC400464C3F</string>
+				<string>AA344B1F0C729DC400464C3F</string>
+				<string>AA344B200C729DC400464C3F</string>
+				<string>AA344B210C729DC400464C3F</string>
+				<string>AA344B220C729DC400464C3F</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debug</string>
@@ -813,7 +753,7 @@
 			<key>WindowToolGUID</key>
 			<string>1CD10A99069EF8BA00B06720</string>
 			<key>WindowToolIsVisible</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>
@@ -838,7 +778,7 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CDD528C0622207200134675</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>IoObject_inline.h</string>
+										<string>IoSystem.c</string>
 										<key>StatusBarVisibility</key>
 										<true/>
 									</dict>
@@ -894,8 +834,8 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C530D57069F1CE1000CFCEE</string>
-				<string>AA9349620C4EE76B0017FDA0</string>
-				<string>AA9349630C4EE76B0017FDA0</string>
+				<string>AADE5DCD0C68145F0026AE63</string>
+				<string>AADE5DCE0C68145F0026AE63</string>
 				<string>1CDD528C0622207200134675</string>
 				<string>1CD0528E0623707200166675</string>
 			</array>
@@ -904,7 +844,7 @@
 			<key>WindowToolGUID</key>
 			<string>1C530D57069F1CE1000CFCEE</string>
 			<key>WindowToolIsVisible</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>Identifier</key>
@@ -923,6 +863,8 @@
 					<key>Dock</key>
 					<array>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -958,7 +900,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>AA9349640C4EE76B0017FDA0</string>
-				<string>AAE2163F0C57374F0017F17D</string>
+				<string>AA344B230C729DC400464C3F</string>
 				<string>1C78EAAC065D492600B07095</string>
 			</array>
 			<key>WindowString</key>
@@ -969,8 +911,12 @@
 			<false/>
 		</dict>
 		<dict>
+			<key>FirstTimeWindowDisplayed</key>
+			<false/>
 			<key>Identifier</key>
 			<string>windowTool.run</string>
+			<key>IsVertical</key>
+			<true/>
 			<key>Layout</key>
 			<array>
 				<dict>
@@ -1024,9 +970,9 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {460, 159}}</string>
+								<string>{{0, 0}, {459, 159}}</string>
 								<key>RubberWindowFrame</key>
-								<string>316 696 459 200 0 0 1280 1002 </string>
+								<string>154 384 459 200 0 0 1440 900 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXRunSessionModule</string>
@@ -1045,22 +991,22 @@
 				<string>PBXRunSessionModule</string>
 			</array>
 			<key>StatusbarIsVisible</key>
-			<integer>1</integer>
+			<true/>
 			<key>TableOfContents</key>
 			<array>
 				<string>1C0AD2B3069F1EA900FABCE6</string>
-				<string>1C0AD2B4069F1EA900FABCE6</string>
+				<string>AA344B100C729D8F00464C3F</string>
 				<string>1CD0528B0623707200166675</string>
-				<string>1C0AD2B5069F1EA900FABCE6</string>
+				<string>AA344B110C729D8F00464C3F</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.run</string>
 			<key>WindowString</key>
-			<string>316 696 459 200 0 0 1280 1002 </string>
+			<string>154 384 459 200 0 0 1440 900 </string>
 			<key>WindowToolGUID</key>
 			<string>1C0AD2B3069F1EA900FABCE6</string>
 			<key>WindowToolIsVisible</key>
-			<integer>0</integer>
+			<true/>
 		</dict>
 		<dict>
 			<key>Identifier</key>

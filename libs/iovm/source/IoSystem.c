@@ -88,6 +88,7 @@ IoObject *IoSystem_proto(void *state)
 	{"maxRecycledObjects", IoObject_maxRecycledObjects},
 	{"setMaxRecycledObjects", IoObject_setMaxRecycledObjects},
 	{"symbols", IoObject_symbols},
+	{"setLobby", IoObject_setLobby},
 	{NULL, NULL},
 	};
 
@@ -417,6 +418,17 @@ IoObject *IoObject_symbols(IoObject *self, IoObject *locals, IoMessage *m)
 	IoList *list = IoList_new(IOSTATE);
 	SHASH_FOREACH(IOSTATE->symbols, i, v, IoList_rawAppend_(list, v));
 	return list;
+}
+
+IoObject *IoObject_setLobby(IoObject *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("setLobby", "Sets the root object of the garbage collector.")
+	*/
+	
+	IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 0);
+	IoState_setLobby_(self, v);
+	return self;
 }
 
 /*#io
