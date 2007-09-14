@@ -23,6 +23,7 @@ typedef struct
     callsystem_fd_t stderr_child[2];
     callsystem_pid_t pid;
     int status;
+	int needsClose;
 } IoSystemCallData;
 
 IoTag *IoSystemCall_newTag(void *state);
