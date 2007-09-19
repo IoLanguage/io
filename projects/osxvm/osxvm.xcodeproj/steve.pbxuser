@@ -36,8 +36,8 @@
 					PBXFileDataSource_Target_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 210902263;
-			PBXWorkspaceStateSaveDate = 210902263;
+			PBXPerProjectTemplateStateSaveDate = 211655837;
+			PBXWorkspaceStateSaveDate = 211655837;
 		};
 		perUserProjectItems = {
 			AA344B160C729DC400464C3F /* PBXTextBookmark */ = AA344B160C729DC400464C3F /* PBXTextBookmark */;
@@ -52,7 +52,6 @@
 			AA716BF10C93576E0008DB28 /* PBXTextBookmark */ = AA716BF10C93576E0008DB28 /* PBXTextBookmark */;
 			AA716BF30C93576E0008DB28 /* PBXTextBookmark */ = AA716BF30C93576E0008DB28 /* PBXTextBookmark */;
 			AA716BF50C93576E0008DB28 /* PBXTextBookmark */ = AA716BF50C93576E0008DB28 /* PBXTextBookmark */;
-			AA716BF70C93576E0008DB28 /* PBXTextBookmark */ = AA716BF70C93576E0008DB28 /* PBXTextBookmark */;
 			AA716BF90C93576E0008DB28 /* PBXTextBookmark */ = AA716BF90C93576E0008DB28 /* PBXTextBookmark */;
 			AA716BFA0C93576E0008DB28 /* PBXTextBookmark */ = AA716BFA0C93576E0008DB28 /* PBXTextBookmark */;
 			AA716BFB0C93576E0008DB28 /* PBXTextBookmark */ = AA716BFB0C93576E0008DB28 /* PBXTextBookmark */;
@@ -68,6 +67,7 @@
 			AA9349550C4EE76B0017FDA0 /* PBXTextBookmark */ = AA9349550C4EE76B0017FDA0 /* PBXTextBookmark */;
 			AA93496B0C4EEA640017FDA0 /* PBXTextBookmark */ = AA93496B0C4EEA640017FDA0 /* PBXTextBookmark */;
 			AA93496C0C4EEA640017FDA0 /* PBXTextBookmark */ = AA93496C0C4EEA640017FDA0 /* PBXTextBookmark */;
+			AAB2BA040C9DBECC000192E1 /* PBXTextBookmark */ = AAB2BA040C9DBECC000192E1 /* PBXTextBookmark */;
 			AAC373880C5E74D900A8FABB /* PBXTextBookmark */ = AAC373880C5E74D900A8FABB /* PBXTextBookmark */;
 			AAC373890C5E74D900A8FABB /* PBXTextBookmark */ = AAC373890C5E74D900A8FABB /* PBXTextBookmark */;
 			AAC3738A0C5E74D900A8FABB /* PBXTextBookmark */ = AAC3738A0C5E74D900A8FABB /* PBXTextBookmark */;
@@ -240,6 +240,7 @@
 	};
 	AA716BEB0C93576E0008DB28 /* uuid.h */ = {
 		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
 		name = uuid.h;
 		path = "/Users/steve/Downloads/uuid-1.5.1/uuid.h";
 		sourceTree = "<absolute>";
@@ -256,6 +257,7 @@
 	};
 	AA716BED0C93576E0008DB28 /* uuid.c */ = {
 		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.c;
 		name = uuid.c;
 		path = "/Users/steve/Downloads/uuid-1.5.1/uuid.c";
 		sourceTree = "<absolute>";
@@ -272,6 +274,7 @@
 	};
 	AA716BEF0C93576E0008DB28 /* IoUUID.c */ = {
 		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.c;
 		name = IoUUID.c;
 		path = /Users/steve/Io/addons/UUID/source/IoUUID.c;
 		sourceTree = "<absolute>";
@@ -298,6 +301,7 @@
 	};
 	AA716BF20C93576E0008DB28 /* IoDKDB.c */ = {
 		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.c;
 		name = IoDKDB.c;
 		path = /Users/steve/Io/addons/QDBM/source/IoDKDB.c;
 		sourceTree = "<absolute>";
@@ -314,6 +318,7 @@
 	};
 	AA716BF40C93576E0008DB28 /* IoDKFolderCursor.h */ = {
 		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
 		name = IoDKFolderCursor.h;
 		path = /Users/steve/Io/addons/QDBM/source/IoDKFolderCursor.h;
 		sourceTree = "<absolute>";
@@ -330,31 +335,10 @@
 	};
 	AA716BF60C93576E0008DB28 /* IoDKFolder.h */ = {
 		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
 		name = IoDKFolder.h;
 		path = /Users/steve/Io/addons/QDBM/source/IoDKFolder.h;
 		sourceTree = "<absolute>";
-	};
-	AA716BF70C93576E0008DB28 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = AA716BF80C93576E0008DB28 /* IoDKDB.h */;
-		name = "(null): 52";
-		rLen = 0;
-		rLoc = 1633;
-		rType = 0;
-		vrLen = 1355;
-		vrLoc = 314;
-	};
-	AA716BF80C93576E0008DB28 /* IoDKDB.h */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = sourcecode.c.h;
-		name = IoDKDB.h;
-		path = /Users/steve/Io/addons/QDBM/source/IoDKDB.h;
-		sourceTree = "<absolute>";
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {943, 969}}";
-			sepNavSelRange = "{1577, 0}";
-			sepNavVisRect = "{{0, 306}, {943, 638}}";
-		};
 	};
 	AA716BF90C93576E0008DB28 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -398,6 +382,7 @@
 	};
 	AA716BFD0C93576E0008DB28 /* uuid.h */ = {
 		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
 		name = uuid.h;
 		path = "/Users/steve/Downloads/uuid-1.5.1/uuid.h";
 		sourceTree = "<absolute>";
@@ -414,6 +399,7 @@
 	};
 	AA716BFF0C93576E0008DB28 /* uuid.c */ = {
 		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.c;
 		name = uuid.c;
 		path = "/Users/steve/Downloads/uuid-1.5.1/uuid.c";
 		sourceTree = "<absolute>";
@@ -430,6 +416,7 @@
 	};
 	AA716C010C93576E0008DB28 /* IoUUID.c */ = {
 		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.c;
 		name = IoUUID.c;
 		path = /Users/steve/Io/addons/UUID/source/IoUUID.c;
 		sourceTree = "<absolute>";
@@ -446,6 +433,7 @@
 	};
 	AA716C030C93576E0008DB28 /* IoDKDB.c */ = {
 		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.c;
 		name = IoDKDB.c;
 		path = /Users/steve/Io/addons/QDBM/source/IoDKDB.c;
 		sourceTree = "<absolute>";
@@ -462,6 +450,7 @@
 	};
 	AA716C050C93576E0008DB28 /* IoDKFolder.h */ = {
 		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
 		name = IoDKFolder.h;
 		path = /Users/steve/Io/addons/QDBM/source/IoDKFolder.h;
 		sourceTree = "<absolute>";
@@ -478,6 +467,7 @@
 	};
 	AA716C070C93576E0008DB28 /* IoDKFolder.h */ = {
 		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
 		name = IoDKFolder.h;
 		path = /Users/steve/Io/addons/QDBM/source/IoDKFolder.h;
 		sourceTree = "<absolute>";
@@ -494,6 +484,7 @@
 	};
 	AA716C090C93576E0008DB28 /* IoDKDB.h */ = {
 		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
 		name = IoDKDB.h;
 		path = /Users/steve/Io/addons/QDBM/source/IoDKDB.h;
 		sourceTree = "<absolute>";
@@ -569,6 +560,22 @@
 			sepNavSelRange = "{0, 0}";
 			sepNavVisRect = "{{0, 0}, {643, 590}}";
 		};
+	};
+	AAB2BA040C9DBECC000192E1 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AAB2BA050C9DBECC000192E1 /* IoDKDB.h */;
+		name = "(null): 50";
+		rLen = 0;
+		rLoc = 1577;
+		rType = 0;
+		vrLen = 1354;
+		vrLoc = 315;
+	};
+	AAB2BA050C9DBECC000192E1 /* IoDKDB.h */ = {
+		isa = PBXFileReference;
+		name = IoDKDB.h;
+		path = /Users/steve/Io/addons/QDBM/source/IoDKDB.h;
+		sourceTree = "<absolute>";
 	};
 	AAC373880C5E74D900A8FABB /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
