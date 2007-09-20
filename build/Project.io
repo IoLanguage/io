@@ -31,7 +31,7 @@ Project := Object clone do(
 	)
 
     buildAddon := method(name,
-        addons detect(addon, addon name == name) build
+        addons detect(addon, addon name == name) build(options)
     )
 
 	availableAddon := method(addon,
