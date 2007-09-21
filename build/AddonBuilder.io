@@ -263,6 +263,7 @@ AddonBuilder := Object clone do(
 
 		buildLib
 		buildDynLib
+		if(platform == "windows", embedManifest)
 		writeln("build.io: Leaving directory `", folder path, "'")
 		writeln
 	)
@@ -321,6 +322,14 @@ AddonBuilder := Object clone do(
 		)
 
 		systemCall(linkdll .. " " .. cflags .. " " .. dllCommand .. " " .. s .. " " .. linkOutFlag .. "_build/dll/" .. libname .. " _build/objs/*.o" .. " " .. links join(" "))
+	)
+
+	embedManifest := method(
+		dllFilePath := "_build/dll/" .. dllNameFor("Io" .. name)
+		manifestFilePath := dllFilePath .. ".manifest"
+	        systemCall("mt.exe -manifest " .. manifestFilePath .. " -outputresource:" .. dllFilePath .. ";2")
+		writeln("Removing manifest file: " .. manifestFilePath)
+		File with(folder path .. "/" .. manifestFilePath) remove
 	)
 
 	clean := method(
