@@ -275,7 +275,7 @@ Object do(
     newSlot("foo", 1) would create slot named foo with the value 1 as well as a setter method setFoo().""")
 
     newSlot := method(name, value, doc,
-		getSlot("self") setSlot(name, value)
+		getSlot("self") setSlot(name, getSlot("value"))
 		getSlot("self") setSlot("set" .. name asCapitalized, 
 			doString("method(" .. name .. " = call evalArgAt(0); self)"))
 			if(doc, getSlot("self") docSlot(name, doc))
