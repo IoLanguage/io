@@ -16,11 +16,14 @@ typedef IoObject IoCairoPattern;
 IoCairoPattern *IoCairoPattern_rawClone(IoCairoPattern *self);
 IoCairoPattern *IoCairoPattern_proto(void *state);
 void IoCairoPattern_addMethods(IoCairoPattern *self);
-IoCairoPattern *IoCairoPattern_new(void *state);
+IoCairoPattern *IoCairoPattern_newWithRawPattern_(void *state, IoMessage *m, cairo_pattern_t *pattern);
 void IoCairoPattern_free(IoCairoPattern *self);
 
 cairo_pattern_t *IoCairoPattern_rawPattern(IoCairoPattern *self);
 
-/* ----------------------------------------------------------- */
+/* ------------------------------------------------------------------------------------------------*/
+
+IoObject *IoCairoPattern_setMatrix(IoCairoPattern *self, IoObject *locals, IoMessage *m);
+IoObject *IoCairoPattern_getMatrix(IoCairoPattern *self, IoObject *locals, IoMessage *m);
 
 #endif

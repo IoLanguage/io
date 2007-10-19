@@ -12,18 +12,14 @@ docCopyright("Trevor Fancher", 2007)
 
 typedef IoObject IoCairoTextExtents;
 
-typedef cairo_text_extents_t IoCairoTextExtentsData;
-
-IoCairoTextExtents *IoCairoTextExtents_rawClone(IoCairoTextExtents *self);
 IoCairoTextExtents *IoCairoTextExtents_proto(void *state);
-IoCairoTextExtents *IoCairoTextExtents_newWithRawTextExtents(void *state, cairo_text_extents_t *te);
-
+IoCairoTextExtents *IoCairoTextExtents_rawClone(IoCairoTextExtents *self);
+IoCairoTextExtents *IoCairoTextExtents_newWithRawTextExtents(void *state, cairo_text_extents_t *extents);
 void IoCairoTextExtents_free(IoCairoTextExtents *self);
-void IoCairoTextExtents_mark(IoCairoTextExtents *self);
 
-cairo_text_extents_t *IoCairoTextExtents_getRawTextExtents(IoCairoTextExtents *self);
+cairo_text_extents_t *IoCairoTextExtents_rawTextExtents(IoCairoTextExtents *self);
 
-/* ----------------------------------------------------------- */
+/* ------------------------------------------------------------------------------------------------*/
 
 IoObject *IoCairoTextExtents_height(IoCairoTextExtents *self, IoObject *locals, IoMessage *m);
 IoObject *IoCairoTextExtents_width(IoCairoTextExtents *self, IoObject *locals, IoMessage *m);

@@ -10,11 +10,10 @@ CairoRadialGradient ioDoc(
 #include "IoCairoGradient.h"
 #include "IoCairoPattern.h"
 #include "IoCairoPattern_inline.h"
+#include "tools.h"
 
-#define DATA(self) ((IoCairoPatternData *)IoObject_dataPointer(self))
 
-
-IoTag *IoCairoRadialGradient_newTag(void *state)
+static IoTag *IoCairoRadialGradient_newTag(void *state)
 {
 	IoTag *tag = IoTag_newWithName_("RadialGradient");
 	IoTag_state_(tag, state);
@@ -34,6 +33,7 @@ IoCairoRadialGradient *IoCairoRadialGradient_proto(void *state)
 	{
 		IoMethodTable methodTable[] = {
 			{"create", IoCairoRadialGradient_create},
+			{"getRadialCircles", IoCairoRadialGradient_getRadialCircles},
 			{NULL, NULL},
 		};
 		IoObject_addMethodTable_(self, methodTable);
@@ -49,20 +49,25 @@ IoCairoRadialGradient *IoCairoRadialGradient_rawClone(IoCairoRadialGradient *pro
 	return self;
 }
 
-/* ----------------------------------------------------------- */
+
+/* ------------------------------------------------------------------------------------------------*/
 
 IoObject *IoCairoRadialGradient_create(IoCairoRadialGradient *self, IoObject *locals, IoMessage *m)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(IOSTATE, IoCairoRadialGradient_proto);
-	IoObject *pattern = IOCLONE(proto);
 	double cx0 = IoMessage_locals_doubleArgAt_(m, locals, 0);
 	double cy0 = IoMessage_locals_doubleArgAt_(m, locals, 1);
 	double radius0 = IoMessage_locals_doubleArgAt_(m, locals, 2);
 	double cx1 = IoMessage_locals_doubleArgAt_(m, locals, 3);
 	double cy1 = IoMessage_locals_doubleArgAt_(m, locals, 4);
 	double radius1 = IoMessage_locals_doubleArgAt_(m, locals, 5);
-	
-	IoObject_setDataPointer_(pattern, cairo_pattern_create_radial(cx0, cy0, radius0, cx1, cy1, radius1));
-	CHECK_STATUS(self);
-	return pattern;
+
+	cairo_pattern_t *pattern = cairo_pattern_create_radial(cx0, cy0, radius0, cx1, cy1, radius1);
+	return IoCairoPattern_newWithRawPattern_(IOSTATE, m, pattern);
+}
+
+IoObject *IoCairoRadialGradient_getRadialCircles(IoCairoRadialGradient *self, IoObject *locals, IoMessage *m)
+{
+	double data[6];
+	cairo_pattern_get_radial_circles(PATTERN(self), &data[0], &data[1], &data[2], &data[3], &data[4], &data[5]);
+	return IoSeq_newWithDoubles_count_(IOSTATE, data, 6);
 }

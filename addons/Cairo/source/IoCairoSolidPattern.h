@@ -13,14 +13,12 @@ docCopyright("Daniel Rosengren", 2007)
 
 typedef IoObject IoCairoSolidPattern;
 
-IoCairoSolidPattern *IoCairoSolidPattern_rawClone(IoCairoSolidPattern *self);
 IoCairoSolidPattern *IoCairoSolidPattern_proto(void *state);
-IoCairoSolidPattern *IoCairoSolidPattern_new(void *state);
+IoCairoSolidPattern *IoCairoSolidPattern_rawClone(IoCairoSolidPattern *self);
 
-void IoCairoSolidPattern_free(IoCairoSolidPattern *self);
-
-/* ----------------------------------------------------------- */
+/* ------------------------------------------------------------------------------------------------*/
 
 IoObject *IoCairoSolidPattern_create(IoCairoSolidPattern *self, IoObject *locals, IoMessage *m);
+IoObject *IoCairoSolidPattern_getRGBA(IoCairoSolidPattern *self, IoObject *locals, IoMessage *m);
 
 #endif

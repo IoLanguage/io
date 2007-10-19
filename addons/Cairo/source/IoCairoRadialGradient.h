@@ -13,12 +13,12 @@ docCopyright("Daniel Rosengren", 2007)
 
 typedef IoObject IoCairoRadialGradient;
 
-IoCairoRadialGradient *IoCairoRadialGradient_rawClone(IoCairoRadialGradient *self);
 IoCairoRadialGradient *IoCairoRadialGradient_proto(void *state);
-IoCairoRadialGradient *IoCairoRadialGradient_new(void *state);
+IoCairoRadialGradient *IoCairoRadialGradient_rawClone(IoCairoRadialGradient *self);
 
-/* ----------------------------------------------------------- */
+/* ------------------------------------------------------------------------------------------------*/
 
 IoObject *IoCairoRadialGradient_create(IoCairoRadialGradient *self, IoObject *locals, IoMessage *m);
+IoObject *IoCairoRadialGradient_getRadialCircles(IoCairoRadialGradient *self, IoObject *locals, IoMessage *m);
 
 #endif
