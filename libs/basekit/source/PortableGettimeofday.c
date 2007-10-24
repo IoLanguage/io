@@ -1,4 +1,6 @@
 #include <time.h>
+#include <sys/types.h>
+#include <sys/timeb.h>
 #include "PortableGettimeofday.h"
 
 #if defined(__WIN32__) || defined(WIN32) || defined(_WIN32) || defined(_MSC_VER)
@@ -11,10 +13,11 @@
 			{
 				TIME_ZONE_INFORMATION zoneInfo;
 
-				time_t rawtime;
-				time(&rawtime);
-				tv->tv_sec = (long)rawtime;
-				tv->tv_usec = 0;
+				struct _timeb timeb;
+				_ftime_s(&timeb);
+
+				tv->tv_sec = (long) timeb.time;
+				tv->tv_usec = (long) (timeb.millitm * 1000);
 
 				if (GetTimeZoneInformation(&zoneInfo) != TIME_ZONE_ID_INVALID) 
 				{

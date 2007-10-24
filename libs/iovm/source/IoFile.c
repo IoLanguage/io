@@ -645,7 +645,10 @@ nameString already exists.""")
 	
 	if( strcmp(fromPath, toPath) != 0)
 	{
-		int error = rename(fromPath, toPath);
+		int error;
+
+		remove(toPath); // to make sure we don't get a 
+		error = rename(fromPath, toPath);
 
 		if (error)
 		{

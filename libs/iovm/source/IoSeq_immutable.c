@@ -1012,6 +1012,18 @@ IoObject *IoSeq_pathComponent(IoSeq *self, IoObject *locals, IoMessage *m)
 	return IoState_symbolWithUArray_copy_(IOSTATE, ba, 0);
 }
 
+IoObject *IoSeq_asOSPath(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	return IoSeq_newSymbolWithUArray_copy_(IOSTATE, UArray_asOSPath(IoSeq_rawUArray(self)), 0);
+}
+
+IoObject *IoSeq_asIoPath(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	return IoSeq_newSymbolWithUArray_copy_(IOSTATE, UArray_asUnixPath(IoSeq_rawUArray(self)), 0);
+}
+
+// occurances
+
 IoObject *IoSeq_beforeSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
@@ -1318,6 +1330,8 @@ void IoSeq_addImmutableMethods(IoSeq *self)
 	{"lastPathComponent", IoSeq_lastPathComponent},
 	{"cloneAppendPath", IoSeq_cloneAppendPath},
 	{"pathComponent", IoSeq_pathComponent},
+	{"asOSPath", IoSeq_asOSPath},
+	{"asIoPath", IoSeq_asIoPath},
 
 	{"afterSeq",  IoSeq_afterSeq},
 	{"beforeSeq", IoSeq_beforeSeq},
