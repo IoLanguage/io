@@ -10,9 +10,10 @@ CairoLinearGradient ioDoc(
 #include "IoCairoGradient.h"
 #include "IoCairoPattern.h"
 #include "IoCairoPattern_inline.h"
+#include "tools.h"
 
 
-IoTag *IoCairoLinearGradient_newTag(void *state)
+static IoTag *IoCairoLinearGradient_newTag(void *state)
 {
 	IoTag *tag = IoTag_newWithName_("LinearGradient");
 	IoTag_state_(tag, state);
@@ -32,6 +33,7 @@ IoCairoLinearGradient *IoCairoLinearGradient_proto(void *state)
 	{
 		IoMethodTable methodTable[] = {
 			{"create", IoCairoLinearGradient_create},
+			{"getLinearPoints", IoCairoLinearGradient_getLinearPoints},
 			{NULL, NULL},
 		};
 		IoObject_addMethodTable_(self, methodTable);
@@ -49,18 +51,22 @@ IoCairoLinearGradient *IoCairoLinearGradient_rawClone(IoCairoLinearGradient *pro
 }
 
  
-/* ----------------------------------------------------------- */
+/* ------------------------------------------------------------------------------------------------*/
 
 IoObject *IoCairoLinearGradient_create(IoCairoLinearGradient *self, IoObject *locals, IoMessage *m)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(IOSTATE, IoCairoLinearGradient_proto);
-	IoObject *pattern = IOCLONE(proto);
 	double x0 = IoMessage_locals_doubleArgAt_(m, locals, 0);
 	double y0 = IoMessage_locals_doubleArgAt_(m, locals, 1);
 	double x1 = IoMessage_locals_doubleArgAt_(m, locals, 2);
 	double y1 = IoMessage_locals_doubleArgAt_(m, locals, 3);
-	
-	IoObject_setDataPointer_(pattern, cairo_pattern_create_linear(x0, y0, x1, y1));
-	CHECK_STATUS(pattern);
-	return pattern;
+
+	return IoCairoPattern_newWithRawPattern_(IOSTATE, m, cairo_pattern_create_linear(x0, y0, x1, y1));
 }
+
+IoObject *IoCairoLinearGradient_getLinearPoints(IoCairoLinearGradient *self, IoObject *locals, IoMessage *m)
+{
+	double data[4];
+	cairo_pattern_get_linear_points(PATTERN(self), &data[0], &data[1], &data[2], &data[3]);
+	return IoSeq_newWithDoubles_count_(IOSTATE, data, 4);
+}
+
