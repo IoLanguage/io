@@ -29,9 +29,10 @@ IoObject *IoState_replacePerformFunc_with_(IoState *self,
 	PHASH_FOREACH(self->primitives, k, v,
 		{
 		IoObject *proto = v;
-		if (IoObject_tag(proto)->performFunc == oldFunc)
+		IoTag *tag = IoObject_tag(proto);
+		if (tag->performFunc == oldFunc || !tag->performFunc)
 		{
-			IoObject_tag(proto)->performFunc = newFunc;
+			tag->performFunc = newFunc;
 		}
 		}
 	);
