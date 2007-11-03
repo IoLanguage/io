@@ -122,8 +122,10 @@ IoNumber *IoNumber_proto(void *state)
 	// logic operations
 
 	{"&", IoNumber_bitwiseAnd},
-	{"^", IoNumber_bitwiseXor},
 	{"|", IoNumber_bitwiseOr},
+	{"^", IoNumber_bitwiseXor},
+	{"<<", IoNumber_bitShiftLeft},
+	{">>", IoNumber_bitShiftRight},
 
 	{"bitwiseAnd", IoNumber_bitwiseAnd},
 	{"bitwiseOr", IoNumber_bitwiseOr},
