@@ -31,6 +31,14 @@ SequenceTest := UnitTest clone do(
 		assertEquals(list("one", "two", "three"), matches)
 	)
 	
+	testFindRegex := method(
+		s := "funkadelic"
+		assertEquals("funkadelic", s findRegex("\\w+") string)
+		assertEquals("funkadelic", s findRegex("\\w+" asRegex) string)
+		assertEquals("adelic", s findRegex("\\w+", 4) string)
+		assertEquals(nil, s findRegex("[0-9]+"))
+	)
+	
 	testSplitAtRegex := method(
 		s := "one!two!!three!!!"
 		assertEquals(list("one", "two", "three"), s splitAtRegex("!+"))

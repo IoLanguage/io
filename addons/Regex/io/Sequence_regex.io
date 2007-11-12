@@ -35,6 +35,18 @@ Sequence do(
 		matchesOfRegex(aRegexOrString) all
 	)
 	
+	docSlot("findRegex(aRegexOrString, [startIndex])",
+		"Returns the first match of the given regex in the receiver, after the given start index.
+		If you don't specify a start index, the search will start at the beginning of the receiver.
+		The method returns nil if no match is found."
+	)
+	findRegex := method(
+		regex := call evalArgAt(0)
+		startIndex := call evalArgAt(1)
+		if(startIndex isNil, startIndex = 0)
+		matchesOfRegex(regex) setPosition(startIndex) next
+	)
+	
 	docSlot("splitAtRegex(aRegexOrString)",
 		"""Splits the receiver into pieces using the given regex as the delimiter and
 		returns the pieces as a list of strings."""
