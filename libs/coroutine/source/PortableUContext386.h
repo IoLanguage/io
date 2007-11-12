@@ -1,5 +1,5 @@
 #include <stdarg.h>
-#include <ucontext.h>
+#include <sys/ucontext.h>
 
 #define	setcontext(u)	setmcontext(&(u)->uc_mcontext)
 #define	getcontext(u)	getmcontext(&(u)->uc_mcontext)

@@ -131,6 +131,7 @@ install:
 
 linkInstall:
 	mkdir -p $(INSTALL_PREFIX)/bin || true
+	mkdir -p $(INSTALL_PREFIX)/lib || true
 	ln -sf `pwd`/_build/binaries/io$(BINARY_SUFFIX) $(INSTALL_PREFIX)/bin
 	chmod ugo+rx $(INSTALL_PREFIX)/bin/io
 	ln -sf `pwd`/_build/binaries/io_static$(BINARY_SUFFIX) $(INSTALL_PREFIX)/bin
