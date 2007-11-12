@@ -33,7 +33,7 @@ if (!(value)) { IoState_error_(IOSTATE, m, "Io Assertion '%s'", message); }
 #define IOFAILURE(self) IOFALSE(self)
 #define ISFAILURE(self) ISFALSE(self)
 
-inline IoObject *IOBOOL(IoObject *self, int b);
+//inline IoObject *IOBOOL(IoObject *self, int b);
 
 #if !defined(IoObjectDataDefined)
 typedef struct IoObjectData IoObjectData;
@@ -99,6 +99,15 @@ IOINLINE void *IoState_stackRetain_(IoState *self, IoObject *v)
 IOINLINE void IoState_addValue_(IoState *self, IoObject *v)
 {
 	Collector_addValue_(self->collector, v);
+	IoState_unreferencedStackRetain_(self, v);
+}
+
+IOINLINE void IoState_addValueIfNecessary_(IoState *self, IoObject *v)
+{
+	if (v->prev)
+	{
+		Collector_addValue_(self->collector, v);
+	}
 	IoState_unreferencedStackRetain_(self, v);
 }
 

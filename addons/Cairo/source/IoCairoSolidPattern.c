@@ -9,11 +9,10 @@ CairoSolidPattern ioDoc(
 #include "IoCairoSolidPattern.h"
 #include "IoCairoPattern.h"
 #include "IoCairoPattern_inline.h"
+#include "tools.h"
 
-#define DATA(self) ((IoCairoPatternData *)IoObject_dataPointer(self))
 
-
-IoTag *IoCairoSolidPattern_newTag(void *state)
+static IoTag *IoCairoSolidPattern_newTag(void *state)
 {
 	IoTag *tag = IoTag_newWithName_("SolidPattern");
 	IoTag_state_(tag, state);
@@ -29,9 +28,11 @@ IoCairoSolidPattern *IoCairoSolidPattern_proto(void *state)
 	
 	IoState_registerProtoWithFunc_(state, self, IoCairoSolidPattern_proto);
 	
+	IoCairoPattern_addMethods(self);
 	{
 		IoMethodTable methodTable[] = {
 			{"create", IoCairoSolidPattern_create},
+			{"getRGBA", IoCairoSolidPattern_getRGBA},
 			{NULL, NULL},
 		};
 		IoObject_addMethodTable_(self, methodTable);
@@ -51,17 +52,19 @@ IoCairoSolidPattern *IoCairoSolidPattern_rawClone(IoCairoSolidPattern *proto)
 
 IoObject *IoCairoSolidPattern_create(IoCairoSolidPattern *self, IoObject *locals, IoMessage *m)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(IOSTATE, IoCairoSolidPattern_proto);
-	IoObject *pattern = IOCLONE(proto);
 	double r = IoMessage_locals_doubleArgAt_(m, locals, 0);
 	double g = IoMessage_locals_doubleArgAt_(m, locals, 1);
 	double b = IoMessage_locals_doubleArgAt_(m, locals, 2);
 	double a = 1.0;
-	
 	if (IoMessage_argCount(m) > 3)
 		a = IoMessage_locals_doubleArgAt_(m, locals, 3);
-	
-	IoObject_setDataPointer_(pattern, cairo_pattern_create_rgba(r, g, b, a));
-	CHECK_STATUS(pattern);
-	return pattern;	
+
+	return IoCairoPattern_newWithRawPattern_(IOSTATE, m, cairo_pattern_create_rgba(r, g, b, a));
+}
+
+IoObject *IoCairoSolidPattern_getRGBA(IoCairoSolidPattern *self, IoObject *locals, IoMessage *m)
+{
+	double color[4];
+	cairo_pattern_get_rgba(PATTERN(self), &color[0], &color[1], &color[2], &color[3]);
+	return IoSeq_newWithDoubles_count_(IOSTATE, color, 4);
 }

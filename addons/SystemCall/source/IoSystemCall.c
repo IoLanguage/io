@@ -114,6 +114,8 @@ IoObject *IoSystemCall_asyncRun(IoSystemCall *self, IoObject *locals, IoMessage 
     FILE *fchildin;
     FILE *fchildout;
     FILE *fchilderr;
+
+    IoSystemCall_rawClose(self);
 	
     /*open the filehandles as pipes*/
     callsystem_pipe(DATA(self)->stdin_child);
@@ -140,6 +142,7 @@ IoObject *IoSystemCall_asyncRun(IoSystemCall *self, IoObject *locals, IoMessage 
 		callsystem_argv_pushback(&DATA(self)->args, CSTRING(arg));
     );
     
+	
     err = callsystem(CSTRING(command),
 		DATA(self)->args, 
 		DATA(self)->env, 
@@ -149,6 +152,9 @@ IoObject *IoSystemCall_asyncRun(IoSystemCall *self, IoObject *locals, IoMessage 
 		NULL, 
 		0, 
 		&(DATA(self)->pid));
+		
+	//printf("callsystem %s pid %i\n", CSTRING(command), DATA(self)->pid);
+	DATA(self)->needsClose = 1;
 	
 	if (err != -1)
 	{
@@ -169,8 +175,10 @@ IoObject *IoSystemCall_asyncRun(IoSystemCall *self, IoObject *locals, IoMessage 
 
 IoObject *IoSystemCall_status(IoSystemCall *self, IoObject *locals, IoMessage *m)
 {    
-	int status = callsystem_running(&(DATA(self)->pid));
-   
+	int pid = DATA(self)->pid;
+	int status = callsystem_running(&pid);
+    DATA(self)->pid = pid;
+	
 	/*
 	if (status < 255)
 	{
@@ -189,10 +197,24 @@ IoObject *IoSystemCall_close(IoSystemCall *self, IoObject *locals, IoMessage *m)
 
 void IoSystemCall_rawClose(IoSystemCall *self)
 {    
-    callsystem_close(DATA(self)->stdin_child);
-    callsystem_close(DATA(self)->stdout_child);
-    callsystem_close(DATA(self)->stderr_child);
-    callsystem_argv_clear(&DATA(self)->args);
-    callsystem_env_clear(&DATA(self)->env);
+    //printf("IoSystemCall_rawClose(%p) 1\n", (void *)self);
+	
+	if (DATA(self)->needsClose)
+	{
+		//printf("IoSystemCall_rawClose(%p)\n", (void *)self);
+		callsystem_close(DATA(self)->stdin_child);
+		callsystem_close(DATA(self)->stdout_child);
+		callsystem_close(DATA(self)->stderr_child);
+		callsystem_argv_clear(&DATA(self)->args);
+		callsystem_env_clear(&DATA(self)->env);
+		//if (DATA(self)->pid) 
+		{
+			//printf("callsystem_finished(%i)\n", DATA(self)->pid);
+			callsystem_finished(&(DATA(self)->pid));
+			DATA(self)->pid = 0;
+		}
+		
+		DATA(self)->needsClose = 0;
+	}
 }
 

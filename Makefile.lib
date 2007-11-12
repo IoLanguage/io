@@ -179,6 +179,10 @@ endif
 
 $(DLL): $(objects)
 	$(LINKDLL) $(DLL_COMMAND) $(FLAT_NAMESPACE) $(DLL_L) _build/objs/*.o $(LINKDLLOUTFLAG)$(DLL) $(DLL_l) $(DLL_EXTRAS)
+ifneq (,$(findstring Windows,$(SYS)))
+	mt.exe -manifest $@.manifest -outputresource:$@
+	rm $@.manifest
+endif
 
 clean:
 	rm -rf _build

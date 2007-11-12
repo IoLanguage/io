@@ -102,6 +102,7 @@ IoNumber *IoNumber_proto(void *state)
 	{"factorial", IoNumber_factorial},
 	{"floor", IoNumber_floor},
 	{"log", IoNumber_log},
+	{"log2", IoNumber_log2},
 	{"log10", IoNumber_log10},
 	{"max", IoNumber_max},
 	{"min", IoNumber_min},
@@ -642,10 +643,28 @@ down to the nearest integer if it's fractional component is not 0.")
 IoObject *IoNumber_log(IoNumber *self, IoObject *locals, IoMessage *m)
 {
     /*#io
-    docSlot("log", "Returns the natural logarithm of the receiver.")
+    docSlot("log", "Returns the logarithm of the receiver.  The base 
+is taken as the value of the first argument or the constant e if
+the first argument is omitted.")
     */
 
-    return IONUMBER(log(DATA(self)));
+    float base;
+    if(IoMessage_argCount(m) > 0){
+      base = DATA(IoMessage_locals_numberArgAt_(m, locals, 0));
+    }
+    else{
+    	base = M_E;
+    }
+    return IONUMBER(log(DATA(self)) / log(base));
+}
+
+IoObject *IoNumber_log2(IoNumber *self, IoObject *locals, IoMessage *m)
+{
+    /*#io
+    docSlot("log2", "Returns the base 2 logarithm of the receiver.")
+    */
+
+    return IONUMBER(log(DATA(self)) / log(2));
 }
 
 IoObject *IoNumber_log10(IoNumber *self, IoObject *locals, IoMessage *m)

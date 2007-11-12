@@ -114,3 +114,25 @@ UArray *UArray_fileName(UArray *self)
 	
 	return UArray_range(self, extPos, dotPos - extPos);
 }
+
+// to/from os path - always returns a copy
+
+int UArray_OSPathSeparatorIsUnixSeparator(void)
+{
+	return strcmp(OS_PATH_SEPARATOR, "/") == 0;
+}
+
+UArray *UArray_asOSPath(UArray *self)
+{
+	UArray *a = UArray_clone(self);
+	UArray_replaceCString_withCString_(a, IO_PATH_SEPARATOR, OS_PATH_SEPARATOR);
+	return a;
+}
+
+UArray *UArray_asUnixPath(UArray *self)
+{
+	UArray *a = UArray_clone(self);
+	UArray_replaceCString_withCString_(a, OS_PATH_SEPARATOR, IO_PATH_SEPARATOR);
+	return a;
+}
+

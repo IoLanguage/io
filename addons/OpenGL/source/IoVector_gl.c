@@ -38,7 +38,7 @@ void IoVector_glInit(IoObject *context)
 			
 		{"red", IoSeq_x},
 		{"green", IoSeq_y},
-		{"blue", IoSeq_y},
+		{"blue", IoSeq_z},
 		{"alpha", IoSeq_w},
 			
 		{"setRed", IoSeq_setX},

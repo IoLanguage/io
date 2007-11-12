@@ -372,7 +372,7 @@ IoObject *IoObjcBridge_ioValueForCValue_ofType_error_(IoObjcBridge *self, void *
 			if (!strncmp(cType, "{_NSPoint=ff}", 13))
 			{
 				NSPoint p = *(NSPoint *)cValue;
-				vec2d v; 
+				vec2f v;
 				v.x = p.x;
 				v.y = p.y;
 				return IoSeq_newVec2f(IOSTATE, v);
@@ -380,7 +380,7 @@ IoObject *IoObjcBridge_ioValueForCValue_ofType_error_(IoObjcBridge *self, void *
 			else if (!strncmp(cType, "{_NSSize=ff}", 12))
 			{
 				NSSize s = *(NSSize *)cValue;
-				vec2d v; 
+				vec2f v;
 				v.x = s.width;
 				v.y = s.height;
 				return IoSeq_newVec2f(IOSTATE, v);

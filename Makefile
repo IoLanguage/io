@@ -82,6 +82,12 @@ vm:
 	for dir in $(libs); do INSTALL_PREFIX=$(INSTALL_PREFIX) $(MAKE) -C libs/$$dir; done
 	$(MAKE) vmlib
 	cd tools; $(MAKE)
+ifneq (,$(findstring Windows,$(SYS)))
+	mt.exe -manifest tools/_build/binaries/io.exe.manifest -outputresource:tools/_build/binaries/io.exe
+	rm tools/_build/binaries/io.exe.manifest
+	mt.exe -manifest tools/_build/binaries/io_static.exe.manifest -outputresource:tools/_build/binaries/io_static.exe
+	rm tools/_build/binaries/io_static.exe.manifest
+endif
 	mkdir -p _build/binaries || true
 	cp tools/_build/binaries/* _build/binaries
 	@$(MAKE) -s -C tools/editlib_test warn
@@ -95,6 +101,10 @@ vmlib:
 	mkdir -p _build || true
 	mkdir -p _build/dll || true
 	$(LINKDLL) $(DLL_COMMAND) $(LINKDLLOUTFLAG)_build/dll/libiovmall.$(DLL_SUFFIX) libs/*/_build/$(VMALL)objs/*.o $(LFLAGS) $(DLL_EXTRA_LIBS)
+ifneq (,$(findstring Windows,$(SYS)))
+	mt.exe -manifest _build/dll/libiovmall.dll.manifest -outputresource:_build/dll/libiovmall.dll
+	rm _build/dll/libiovmall.dll.manifest
+endif
 	mkdir -p _build/lib || true
 	$(AR) $(ARFLAGS) $(AROUTFLAG)_build/lib/libiovmall.a\
         libs/*/_build/$(VMALL)objs/*.o
@@ -121,6 +131,7 @@ install:
 
 linkInstall:
 	mkdir -p $(INSTALL_PREFIX)/bin || true
+	mkdir -p $(INSTALL_PREFIX)/lib || true
 	ln -sf `pwd`/_build/binaries/io$(BINARY_SUFFIX) $(INSTALL_PREFIX)/bin
 	chmod ugo+rx $(INSTALL_PREFIX)/bin/io
 	ln -sf `pwd`/_build/binaries/io_static$(BINARY_SUFFIX) $(INSTALL_PREFIX)/bin

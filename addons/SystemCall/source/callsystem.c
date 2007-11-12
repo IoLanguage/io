@@ -362,7 +362,7 @@ callsystem_running(callsystem_pid_t * pid)
  redo:
   if (waitpid(*pid, &status, WNOHANG) == -1)
     {
-      if ((errno = EINTR))
+      if ((errno == EINTR))
         {
           errno = 0;
           goto redo;
@@ -403,8 +403,7 @@ callsystem_running(callsystem_pid_t * pid)
   return -1 in case of error, else waits for the child
   finished and return its exit code
 */
-int
-callsystem_finished(callsystem_pid_t * pid)
+int callsystem_finished(callsystem_pid_t * pid)
 {
 #ifdef unix
   int status;

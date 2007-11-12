@@ -640,12 +640,22 @@ nameString already exists.""")
     */
 
     IoSymbol *newPath = IoMessage_locals_symbolArgAt_(m, locals, 0);
-    int error = rename(CSTRING(DATA(self)->path), CSTRING(newPath));
+	const char *fromPath = CSTRING(DATA(self)->path);
+	const char *toPath = CSTRING(newPath);
+	
+	if( strcmp(fromPath, toPath) != 0)
+	{
+		int error;
 
-    if (error)
-    {
-		IoState_error_(IOSTATE, m, "error moving file '%s' to '%s'", CSTRING(DATA(self)->path), CSTRING(newPath));
-    }
+		remove(toPath); // to make sure we don't get a 
+		error = rename(fromPath, toPath);
+
+		if (error)
+		{
+			IoState_error_(IOSTATE, m, "error moving file '%s' to '%s'", fromPath, toPath);
+		}
+	}
+	
     return self;
 }
 

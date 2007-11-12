@@ -66,6 +66,11 @@ Directory do(
 		if(f, return f)
 		return File clone setPath(Path with(path, name))
     )
+
+	moveTo := method(path,
+		File with(self path) moveTo(path)
+		self
+	)
 )
 
 

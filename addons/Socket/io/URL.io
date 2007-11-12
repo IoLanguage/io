@@ -325,20 +325,20 @@ URL := Notifier clone do(
         self
     )
 
-    openOnDesktop := method(
-        platform := System platform
-        if(platform == "Mac OS/X") then(
-            System system("open \"" .. url .. "\"")
-        ) elseif(platform == "Windows NT") then(
-            System system("cmd /c start " .. url)
-        ) elseif(platform == "Windows 9X") then(
-            System system("command /c start " .. url)
-        ) else(
-            // assume generic Unix?
-            System system("open \"" .. url .. "\"")
-        )
-    )
-    
+	openOnDesktop := method(
+			platform := System platform
+			quotedUrl := "\"" .. url .. "\""
+			if(platform == "Mac OS/X") then(
+				System system("open " .. quotedUrl)
+			) elseif(platform == "Windows 9X") then(
+				System system("command /c start \"\" " .. quotedUrl)
+			) elseif(platform containsSeq("Windows")) then(
+				System system("cmd /c \"start \"\" " .. quotedUrl)
+			) else(
+				// assume generic Unix?
+				System system("open " .. quotedUrl)
+			)
+		)
     
 	newSlot("streamDestination")
 	startStreaming := method(

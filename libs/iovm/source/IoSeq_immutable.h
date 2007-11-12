@@ -87,6 +87,10 @@ IOVM_API IoObject *IoSeq_fileName(IoSeq *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoSeq_cloneAppendPath(IoSeq *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoSeq_pathComponent(IoSeq *self, IoObject *locals, IoMessage *m);
 
+IOVM_API IoObject *IoSeq_asOSPath(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoSeq_asIoPath(IoSeq *self, IoObject *locals, IoMessage *m);
+
+// occurance
 
 IOVM_API IoObject *IoSeq_beforeSeq(IoSeq *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoSeq_afterSeq(IoSeq *self, IoObject *locals, IoMessage *m);

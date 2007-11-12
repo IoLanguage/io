@@ -21,10 +21,16 @@ SystemCall do(
         
         // replace this with something to watch the file streams?
         isRunning := true
-        while(isRunning == true and (s := self status) > 255,
-            if(aBlock, aBlock call)
-            wait(.1)
+        //writeln("self status = ", self status)
+		wait(.00001)
+		s := self status
+        while(isRunning == true and s > 255 and s != -1,
+        	//writeln("self status = ", s)
+            if(aBlock, if(aBlock call == false, return false))
+            wait(.02)
+            s := self status
         )
+        //writeln("self status = ", s)
         if(aBlock, aBlock call)
         
         isRunning := false
