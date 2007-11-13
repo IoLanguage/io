@@ -65,12 +65,12 @@ RegexMatchesTest := UnitTest clone do(
 		assertEquals("signals:37 things:43", matches replaceWith("$2:$1"))
 	)
 	
-	testNonMatches := method(
+	testSplitString := method(
 		matches := "one two three" matchesOfRegex(" ")
-		assertEquals(list("one", "two", "three"), matches nonMatches)
+		assertEquals(list("one", "two", "three"), matches splitString)
 
 		matches := "one!two!!three!!!" matchesOfRegex("!+")
-		assertEquals(list("one", "two", "three"), matches nonMatches)
+		assertEquals(list("one", "two", "three", ""), matches splitString)
 	)
 	
 	testSetPosition := method(	

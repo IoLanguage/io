@@ -41,7 +41,7 @@ SequenceTest := UnitTest clone do(
 	
 	testSplitAtRegex := method(
 		s := "one!two!!three!!!"
-		assertEquals(list("one", "two", "three"), s splitAtRegex("!+"))
+		assertEquals(list("one", "two", "three", ""), s splitAtRegex("!+"))
 	)
 
 	testEscapeRegexChars := method(

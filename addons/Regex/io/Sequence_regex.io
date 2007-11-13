@@ -52,7 +52,7 @@ Sequence do(
 		returns the pieces as a list of strings."""
 	)
 	splitAtRegex := method(aRegexOrString,
-		matchesOfRegex(aRegexOrString) nonMatches
+		matchesOfRegex(aRegexOrString) splitString
 	)
 	
 	docSlot("escapeRegexChars",
