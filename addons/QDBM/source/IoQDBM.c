@@ -21,6 +21,45 @@ QDBM ioDoc(
 
 #define QDBM(self) ((VILLA *)(IoObject_dataPointer(self)))
 
+int pathCompare(const char *p1, const char *p2, char sepChar)
+{
+	int i;
+	int len1 = strlen(p1);
+	int len2 = strlen(p2);
+	int len = len1 < len2 ? len1 : len2;
+
+	for (i = 0; i < len; i ++)
+	{
+		char c1 = p1[i];
+		char c2 = p2[i];
+
+		if (c1 == sepChar && c2 != sepChar)
+		{
+			return -1;
+		}
+
+
+		if (c2 == sepChar && c1 != sepChar)
+		{
+			return 1;
+		}
+
+		if (c1 > c2) return 1;
+		if (c1 < c2) return -1;
+	}
+	
+	if (len1 > len2) return 1;
+	if (len1 < len2) return -1;
+
+	return 0;
+}
+
+int pathCompareFunc(const char *aptr, int asiz, const char *bptr, int bsiz)
+{
+	return pathCompare(aptr, bptr, '/');
+}
+
+
 int compareFunc(const char *aptr, int asiz, const char *bptr, int bsiz)
 {
 	return strcmp(aptr, bptr);
@@ -193,6 +232,12 @@ IoObject *IoQDBM_open(IoObject *self, IoObject *locals, IoMessage *m)
 			cf = compareStrNumFunc;
 			//printf("using compareStrNumFunc\n");
 		}
+		else
+		if(strcmp(CSTRING(compareType), "VL_CMPPTH") == 0) 
+		{
+			cf = pathCompareFunc;
+			//printf("using pathCompareFunc\n");
+		}		
 		else
 		{
 			fprintf(stderr, "ivalid compare function name\n");
