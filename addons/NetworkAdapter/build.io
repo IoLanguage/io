@@ -8,7 +8,7 @@ AddonBuilder clone do(
 	)
 
 	if(platform == "darwin",
-		dependsOnFramework("IoKit")
+		dependsOnFramework("IOKit")
 		dependsOnFramework("Carbon")
 		dependsOnFramework("Foundation")
 	)
