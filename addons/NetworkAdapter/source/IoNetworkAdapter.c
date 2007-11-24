@@ -67,5 +67,4 @@ IoSeq *IoNetworkAdapter_mac(IoNetworkAdapter *self, IoObject *locals, IoMessage 
 #else
 	return IONIL(self);
 #endif
-
 }

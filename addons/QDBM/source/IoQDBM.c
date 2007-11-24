@@ -54,6 +54,47 @@ int pathCompare(const char *p1, const char *p2, char sepChar)
 	return 0;
 }
 
+/*
+int comparePathComponent(const char *p1, const char *p2, char sepChar, int *size)
+{
+	char *b1 = strchr(p1 + i, sepChar);
+	char *b2 = strchr(p2 + i, sepChar);
+	int len1 = b1 ? b1 - p1 : strlen(p1);
+	int len2 = b2 ? b2 - p2 : strlen(p2);
+	
+	if (len1 && isdigit(p1[0]))
+	{
+		return strtod(p1, p1 + len1) - 
+	}
+	
+	if (len1 > len2) return 1;
+	if (len1 < len2) return -1;
+	if (len1 == 0)   return 0;
+	
+	return strcmpn(p1, p2, len1);
+}
+
+int pathCompare(const char *p1, const char *p2, char sepChar)
+{
+	int i;
+	int len1 = strlen(p1);
+	int len2 = strlen(p2);
+	//int len = len1 < len2 ? len1 : len2;
+	
+	
+	char *b1 = strchr(p1 + i, '/');
+	char *b2 = strchr(p2 + i, '/');
+	
+	int blen1 = p1 - b1;
+	
+	
+	if (len1 > len2) return 1;
+	if (len1 < len2) return -1;
+
+	return 0;
+}
+*/
+
 int pathCompareFunc(const char *aptr, int asiz, const char *bptr, int bsiz)
 {
 	return pathCompare(aptr, bptr, '/');
