@@ -418,7 +418,8 @@ void UArray_unescape(UArray *self)
 		UArray_changed(self);
 		return;
 	}
-	printf("Error: UArray unescape unsupported on type size %i\n", self->itemSize);
+	//printf("Warning: UArray unescape unsupported on type size %i\n", self->itemSize);
+	// do we need to escape multibyte encodings?
 }
 
 void UArray_quote(UArray *self)
