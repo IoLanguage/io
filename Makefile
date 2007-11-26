@@ -185,7 +185,7 @@ dist:
 	-rm -f Io-*.tar.gz
 	echo "#define IO_VERSION_NUMBER "$(shell date +'%Y%m%d') > libs/iovm/source/IoVersion.h
 	#git add libs/iovm/source/IoVersion.h 
-	#git commit -q --no-verify -m "setting version string for release"
+	git commit -q --no-verify -m "setting version string for release"
 	git archive --format=tar --prefix=Io-$(date)/ HEAD | gzip > Io-$(date).tar.gz
 	ls -al Io-$(date).tar.gz
 	
