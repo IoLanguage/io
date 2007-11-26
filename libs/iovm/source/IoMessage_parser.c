@@ -30,7 +30,7 @@ void IoMessage_ifPossibleCacheToken_(IoMessage *self, IoToken *p)
 	switch ((int)IoToken_type(p))
 	{
 		case TRIQUOTE_TOKEN:
-			r =  IoState_symbolWithCString_length_(IOSTATE, IoSeq_asCString(method) + 3, IoSeq_rawSize(method) - 6);
+			r =  IoSeq_rawAsUntriquotedSymbol(method);
 			break;
 
 		case MONOQUOTE_TOKEN:

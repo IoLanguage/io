@@ -839,8 +839,6 @@ int IoLexer_readQuote(IoLexer *self)
 
 int IoLexer_readMonoQuote(IoLexer *self)
 {
-	int mbskip = 0; // multi-byte character length
-
 	IoLexer_pushPos(self);
 
 	if (IoLexer_nextChar(self) == '"')
@@ -848,16 +846,6 @@ int IoLexer_readMonoQuote(IoLexer *self)
 		for (;;)
 		{
 			uchar_t c = IoLexer_nextChar(self);
-
-			if (mbskip <= 0 && ismbchar(c))
-			{
-				mbskip = mbcharlen(c);
-			}
-
-			if (mbskip-- > 0)
-			{
-				continue;
-			}
 
 			if (c == '"')
 			{

@@ -53,6 +53,22 @@ int UArray_maxCharSize(const UArray *self)
 	return self->itemSize;
 }
 
+void UArray_truncateAfterConvertToEncoding_(UArray *self){
+	if(self->encoding == CENCODING_NUMBER)
+	{
+		return;
+	}
+
+	{
+		UArray tmp = UArray_stackAllocedWithData_type_size_("\0", CTYPE_uint8_t, 1);
+		long newSize = UArray_find_(self, &tmp);
+		if(newSize != -1)
+		{
+			UArray_setSize_(self, newSize);
+		}
+	}
+}
+
 int UArray_convertToFixedSizeType(UArray *self)
 {
 	if (self->encoding == CENCODING_UTF8)
@@ -173,6 +189,8 @@ UArray *UArray_asUTF16(const UArray *self)
 		}
 	}	
 	
+	UArray_truncateAfterConvertToEncoding_(out);
+
 	return out;
 }
 
@@ -210,6 +228,8 @@ UArray *UArray_asUTF32(const UArray *self)
 		}
 	}	
 		
+	UArray_truncateAfterConvertToEncoding_(out);
+
 	return out;
 }
 

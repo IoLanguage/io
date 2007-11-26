@@ -291,6 +291,15 @@ void IoSeq_compact(IoSeq *self)
 
 // -----------------------------------------------------------
 
+IoSymbol *IoSeq_rawAsUntriquotedSymbol(IoSeq *self)
+{
+	UArray *a = UArray_clone(DATA(self));
+	UArray_unquote(a);
+	UArray_unquote(a);
+	UArray_unquote(a);
+	return IoState_symbolWithUArray_copy_(IOSTATE, a, 0);
+}
+
 IoSymbol *IoSeq_rawAsUnquotedSymbol(IoSeq *self)
 {
 	UArray *a = UArray_clone(DATA(self));
