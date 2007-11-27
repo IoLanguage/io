@@ -43,7 +43,7 @@ CLI := Object clone do(
 		runIorc
 
 		if(?args first == "-e", 
-			writeln(context doString(args slice(1) join(" ")))
+			writeln(context doString(args slice(1) map(asUTF8) join(" ")))
 			return
 		)
         
