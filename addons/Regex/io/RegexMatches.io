@@ -90,14 +90,14 @@ RegexMatches do(
 		self
 	)
 
-	docSlot("replaceWith(templateString)",
+	docSlot("replaceAllWith(templateString)",
 		"Same as:
 			
 		<pre>
 		replace(match, match expandTo(templateString))
 		</pre>"
 	)
-	replaceWith := method(templateString,
+	replaceAllWith := method(templateString,
 		replace(m, m expandTo(templateString))
 	)
 

@@ -14,7 +14,7 @@ Regex ioDoc(
 	==> list("a", "a")
 	
 	Io> re := "(wom)(bat)" asRegex
-	Io> "wombats are cuddly" matchesOfRegex(re) replaceWith("$2$1!")
+	Io> "wombats are cuddly" matchesOfRegex(re) replaceAllWith("$2$1!")
 	==> batwom!s are cuddly
 	</pre>
 
