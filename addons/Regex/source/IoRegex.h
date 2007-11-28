@@ -24,7 +24,6 @@ typedef struct
 
 IoRegex *IoRegex_rawClone(IoRegex *self);
 IoRegex *IoRegex_proto(void *state);
-IoRegex *IoRegex_new(void *state);
 IoRegex *IoRegex_newWithPattern_(void *state, IoSymbol *pattern);
 void IoRegex_free(IoRegex *self);
 void IoRegex_mark(IoRegex *self);

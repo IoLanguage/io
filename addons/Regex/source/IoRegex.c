@@ -104,14 +104,9 @@ IoRegex *IoRegex_rawClone(IoRegex *proto)
 	return self;
 }
 
-IoRegex *IoRegex_new(void *state)
-{
-	return IOCLONE(IoState_protoWithInitFunction_(state, IoRegex_proto));
-}
-
 IoRegex *IoRegex_newWithPattern_(void *state, IoSymbol *pattern)
 {
-	IoRegex *self = IoRegex_new(state);
+	IoRegex *self = IOCLONE(IoState_protoWithInitFunction_(state, IoRegex_proto));
 	DATA(self)->pattern = IOREF(pattern);
 	return self;
 }
@@ -133,14 +128,22 @@ void IoRegex_mark(IoRegex *self)
 
 Regex *IoRegex_rawRegex(IoRegex *self)
 {
-	if (DATA(self)->regex)
-		return DATA(self)->regex;
+	Regex *regex = DATA(self)->regex;
+	char *error = 0;
+
+	if (regex)
+		return regex;
 	
-	DATA(self)->regex = Regex_newFromPattern_withOptions_(
+	DATA(self)->regex = regex = Regex_newFromPattern_withOptions_(
 		CSTRING(DATA(self)->pattern),
 		DATA(self)->options
 	);
-	return DATA(self)->regex;
+	
+	error = (char *)Regex_error(regex);
+	if(error)
+		IoState_error_(IOSTATE, 0, error);
+	
+	return regex;
 }
 
 
@@ -181,7 +184,6 @@ IoObject *IoRegex_nameToIndexMap(IoRegex *self, IoObject *locals, IoMessage *m)
 		"Returns a Map that maps capture names to capture indices.")
 	*/
 	IoMap *map = DATA(self)->nameToIndexMap;
-	Regex *regex = 0;
 	NamedCapture *namedCaptures = 0, *capture = 0;
 	
 	if (map)
