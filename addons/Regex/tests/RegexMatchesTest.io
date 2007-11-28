@@ -59,18 +59,18 @@ RegexMatchesTest := UnitTest clone do(
 		assertEquals("*** ** ***'* **!", matches replace(m, "*" repeated(m string size)))
 	)
 	
-	testReplaceWith := method(
+	testreplaceAllWith := method(
 		string := "37signals 43things"
 		matches := string matchesOfRegex("(\\d+)([a-z]+)")
-		assertEquals("signals:37 things:43", matches replaceWith("$2:$1"))
+		assertEquals("signals:37 things:43", matches replaceAllWith("$2:$1"))
 	)
 	
-	testNonMatches := method(
+	testSplitString := method(
 		matches := "one two three" matchesOfRegex(" ")
-		assertEquals(list("one", "two", "three"), matches nonMatches)
+		assertEquals(list("one", "two", "three"), matches splitString)
 
 		matches := "one!two!!three!!!" matchesOfRegex("!+")
-		assertEquals(list("one", "two", "three"), matches nonMatches)
+		assertEquals(list("one", "two", "three", ""), matches splitString)
 	)
 	
 	testSetPosition := method(	

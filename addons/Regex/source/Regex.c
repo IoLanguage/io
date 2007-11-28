@@ -19,12 +19,16 @@ Regex *Regex_newFromPattern_withOptions_(const char *pattern, int options)
 		0
 	);
 	
-	if (!self->code)
-		Regex_error_(self, "Unable to compile '%s' - %s", pattern, error);
+	if (!self->code) {
+		Regex_error_(self, "Unable to compile \"%s\" - %s", pattern, error);
+		return self;
+	}
 	
 	self->studyData = pcre_study(self->code, 0, &error);
-	if (error)
-		Regex_error_(self, "Unable to study '%s' - %s", pattern, error);
+	if (error) {
+		Regex_error_(self, "Unable to study \"%s\" - %s", pattern, error);
+		return self;
+	}
 	
 	Regex_put_in_(self, PCRE_INFO_CAPTURECOUNT, &self->captureCount);
 	return self;

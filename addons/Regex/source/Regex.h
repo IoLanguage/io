@@ -26,7 +26,7 @@ int Regex_search_from_to_withOptions_captureArray_(
 );
 
 NamedCapture *Regex_namedCaptures(Regex *self);
-
 const char *Regex_error(Regex *self);
+void Regex_free(Regex *self);
 
 #endif

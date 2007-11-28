@@ -90,14 +90,14 @@ RegexMatches do(
 		self
 	)
 
-	docSlot("replaceWith(templateString)",
+	docSlot("replaceAllWith(templateString)",
 		"Same as:
 			
 		<pre>
 		replace(match, match expandTo(templateString))
 		</pre>"
 	)
-	replaceWith := method(templateString,
+	replaceAllWith := method(templateString,
 		replace(m, m expandTo(templateString))
 	)
 
@@ -118,12 +118,20 @@ RegexMatches do(
 		parts join
 	)
 	
-	docSlot("nonMatches",
-		"Returns a list containing the parts of the string that are not included in any match."
+	docSlot("splitString",
+		"""Splits the string being matched against into pieces using the regex as the delimiter
+		and returns the piece as a list of strings."""
 	)
-	nonMatches := method(
+	splitString := method(
 		parts := list
-		foreachInterval(match, nil, parts append(match))
+		cursor := 0
+		foreach(match,
+			parts append(string slice(cursor, match start))
+			cursor = match end 
+		)
+		
+		s := string slice(cursor)
+		parts append(s)
 		parts
 	)
 )
