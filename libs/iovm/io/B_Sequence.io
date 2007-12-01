@@ -146,4 +146,9 @@ Sequence do(
 		self foreach(c, r appendSeq(c asHex alignRight(2, "00")))
 		r
 	)
+
+	cPrint := getSlot("print")
+	print := method(
+		self asUTF8 cPrint
+	)
 )
