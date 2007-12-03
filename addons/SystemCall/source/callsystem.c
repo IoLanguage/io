@@ -1748,7 +1748,7 @@ alloc_commandline(char * ptrs[])
     }
 	
 	/* trailing \0 overwrites the last space */
-	*blkcsr = '\0';
+	*(blkcsr - 1) = '\0';
 	return blk;
 }
 
