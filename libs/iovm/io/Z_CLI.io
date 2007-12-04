@@ -68,8 +68,14 @@ CLI := Object clone do(
 	
 	interactiveMultiline := method(
 		writeln("Io ", System version)
+		try(EditLine)
+
 		while(isRunning,
-			handleInteractiveMultiline
+			if(getSlot("EditLine"),
+				handleInteractiveMultiline
+			,
+				interactiveNoEditLine
+			)
 		)
 	)
 	
@@ -90,6 +96,7 @@ CLI := Object clone do(
 		)
 	)
 	
+	/*
 	handleInteractiveSingleLine := method(
 		line := EditLine readLine(prompt)
 		line ifNil(
@@ -98,6 +105,26 @@ CLI := Object clone do(
 		)
 
 		EditLine addHistory(line)
+
+		e := try(result := context doMessage(line asMessage(commandLineLabel)))
+		if(e,
+			e showStack
+		,
+			writeCommandResult(getSlot("result"))
+		)
+	)
+	*/
+	
+	interactiveNoEditLine := method(
+		write(prompt)
+		File standardOutput flush
+		
+		line := File standardInput readLine
+		
+		line ifNil(
+			writeln
+			context exit
+		)
 
 		e := try(result := context doMessage(line asMessage(commandLineLabel)))
 		if(e,
