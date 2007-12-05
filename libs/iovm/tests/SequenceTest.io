@@ -556,7 +556,7 @@ SequenceTest := UnitTest clone do(
 		assertEquals("abcd8", "abcd#{a+b}" interpolate(ctx))
 		assertEquals("ab8cd", "ab#{a+b}cd" interpolate(ctx))
 	)
-	
+
 	testInterpolateInPlace := method(
 		assertEquals("" asMutable interpolateInPlace type, Sequence type)
 		
@@ -575,7 +575,16 @@ SequenceTest := UnitTest clone do(
 		assertEquals("abcd8", "abcd#{1+7}" asMutable interpolateInPlace(ctx))
 		assertEquals("ab8cd", "ab#{1+7}cd" asMutable interpolateInPlace(ctx))
 	)
-	
+
+	testBadInterpolateInPlace := method(
+		try(
+			x := Object clone do( asString := nil )
+			"#{x}" interpolate
+			y := Object clone removeAllProtos
+			"#{y}" interpolate
+		)
+	)
+
 	_testNextInSequence := method(
 		assertEquals("b", "a" nextInSequence)
 		assertEquals("aa", "z" nextInSequence)

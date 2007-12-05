@@ -777,7 +777,7 @@ IoObject *IoSeq_interpolateInPlace(IoSeq *self, IoObject *locals, IoMessage *m)
 	UArray *string;
 	UArray *code;
 	IoObject *evaluatedCode;
-	UArray *evaluatedCodeAsString;
+	UArray *evaluatedCodeAsString = NULL;
 	const char *label;
 	int from, to;
 	UArray begin = UArray_stackAllocedWithCString_("#{");
@@ -814,10 +814,19 @@ IoObject *IoSeq_interpolateInPlace(IoSeq *self, IoObject *locals, IoMessage *m)
 		else
 		{
 			evaluatedCode = IoState_on_doCString_withLabel_(IOSTATE, context, (char *)UArray_bytes(code), label);
-			evaluatedCodeAsString = DATA(IoState_on_doCString_withLabel_(IOSTATE, evaluatedCode, "asString", label));
+			evaluatedCode = IoState_on_doCString_withLabel_(IOSTATE, evaluatedCode, "asString", label);
+			if (ISSEQ(evaluatedCode))
+			{
+				evaluatedCodeAsString = DATA(evaluatedCode);
+			}
 		}
 
 		UArray_free(code);
+
+		if (evaluatedCodeAsString == NULL)
+		{
+			break;
+		}
 
 		UArray_removeRange(string, from, to-from+1);
 		UArray_at_putAll_(string, from, evaluatedCodeAsString);
@@ -825,6 +834,11 @@ IoObject *IoSeq_interpolateInPlace(IoSeq *self, IoObject *locals, IoMessage *m)
 	}
 	
 	IoState_popRetainPool(IOSTATE);
+
+	if (from >= 0 && to >= 0)
+	{
+		IOASSERT(evaluatedCodeAsString != NULL, "bad asString results");
+	}
 
 	return self;
 }
