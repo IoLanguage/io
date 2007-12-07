@@ -35,11 +35,12 @@ IoReadLine *IoReadLine_proto(void *state)
 
 	IoObject_setSlot_to_(self, IOSYMBOL("prompt"), IOSYMBOL(""));
 	
+	/* Make sure readline returns characters in the multi-byte charset
+	   of the locale */
+	setlocale(LC_CTYPE, "");
 	/* Actually initialize GNU readly and history */
 	rl_initialize();
 	using_history();
-	/* Make sure readline returns characters in the MBCS of the locale */
-	setlocale(LC_CTYPE, "");
 	
 	IoState_registerProtoWithFunc_((IoState *)state, self, IoReadLine_proto);
 
