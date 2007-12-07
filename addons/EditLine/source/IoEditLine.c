@@ -7,6 +7,7 @@ EditLine ioDoc(
   docCategory("Core")
 */
 
+#include <locale.h>
 #include "IoEditLine.h"
 
 #define DATA(self) ((IoEditLineData *)IoObject_dataPointer(self))
@@ -34,6 +35,10 @@ IoEditLine *IoEditLine_proto(void *state)
 
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoEditLine_newTag(state));
+
+	/* Make sure editline returns characters in the multi-byte charset
+	   of the locale */
+	setlocale(LC_CTYPE, "");
 
 	IoObject_setDataPointer_(self, io_calloc(1, sizeof(IoEditLineData)));
 	DATA(self)->prompt  = IOSYMBOL("");
