@@ -9,10 +9,8 @@ EditLine ioDoc(
 
 #include "IoEditLine.h"
 
-#ifdef IO_HAS_EDITLIB
 #define DATA(self) ((IoEditLineData *)IoObject_dataPointer(self))
 static char *promptCallback(EditLine *e);
-#endif
 
 
 IoTag *IoEditLine_newTag(void *state)
@@ -29,17 +27,14 @@ IoEditLine *IoEditLine_proto(void *state)
 {
 	IoMethodTable methodTable[] = {
 		{"hasEditLib", IoEditLine_hasEditLib},
-#ifdef IO_HAS_EDITLIB
 		{"readLine", IoEditLine_readLine},
 		{"addHistory", IoEditLine_addHistory},
-#endif
 		{NULL, NULL},
 	};
 
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoEditLine_newTag(state));
 
-#ifdef IO_HAS_EDITLIB
 	IoObject_setDataPointer_(self, io_calloc(1, sizeof(IoEditLineData)));
 	DATA(self)->prompt  = IOSYMBOL("");
 	DATA(self)->editline = el_init("io", stdin, stdout, stderr);
@@ -57,7 +52,6 @@ IoEditLine *IoEditLine_proto(void *state)
 	}
 
 	el_source(DATA(self)->editline, NULL);
-#endif
 
 	IoState_registerProtoWithFunc_((IoState *)state, self, IoEditLine_proto);
 
@@ -74,19 +68,15 @@ IoEditLine *IoEditLine_rawClone(IoEditLine *proto)
 
 void IoEditLine_mark(IoEditLine *self)
 {
-#ifdef IO_HAS_EDITLIB
     IoObject_shouldMarkIfNonNull(DATA(self)->prompt);
-#endif
 }
 
 void IoEditLine_free(IoEditLine *self)
 {
 	if (IoObject_dataPointer(self))
 	{
-#ifdef IO_HAS_EDITLIB
 		el_end(DATA(self)->editline);
 		history_end(DATA(self)->history);
-#endif
 	}
 }
 
@@ -94,14 +84,9 @@ void IoEditLine_free(IoEditLine *self)
 
 IoObject *IoEditLine_hasEditLib(IoEditLine *self, IoObject *locals, IoMessage *m)
 {
-#ifdef IO_HAS_EDITLIB
 	return IOTRUE(self);
-#else
-	return IOFALSE(self);
-#endif
 }
 
-#ifdef IO_HAS_EDITLIB
 char *promptCallback(EditLine *e)
 {
 	IoEditLine *self;
@@ -133,4 +118,4 @@ IoObject *IoEditLine_addHistory(IoEditLine *self, IoObject *locals, IoMessage *m
 
 	return self;
 }
-#endif
+

@@ -9,9 +9,7 @@ docLicense("BSD revised")
 #include "Common.h"
 #include "IoObject.h"
 
-#ifdef IO_HAS_EDITLIB
 #include <histedit.h>
-#endif
 
 #ifdef __cplusplus
 extern "C" {
@@ -21,14 +19,12 @@ extern "C" {
 
 typedef IoObject IoEditLine;
 
-#ifdef IO_HAS_EDITLIB
 typedef struct
 {
 	EditLine *editline;
 	History *history;
 	IoSymbol *prompt;
 } IoEditLineData;
-#endif
 
 IoEditLine *IoEditLine_proto(void *state);
 IoEditLine *IoEditLine_rawClone(IoEditLine *self);
@@ -38,10 +34,8 @@ void IoEditLine_mark(IoEditLine *self);
 
 IoObject *IoEditLine_hasEditLib(IoEditLine *self, IoObject *locals, IoMessage *m);
 
-#ifdef IO_HAS_EDITLIB
 IoObject *IoEditLine_readLine(IoEditLine *self, IoObject *locals, IoMessage *m);
 IoObject *IoEditLine_addHistory(IoEditLine *self, IoObject *locals, IoMessage *m);
-#endif
 
 #ifdef __cplusplus
 }
