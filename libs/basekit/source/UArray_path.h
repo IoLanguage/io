@@ -42,3 +42,10 @@ BASEKIT_API UArray *UArray_pathExtension(UArray *self);
 // fileName
 
 BASEKIT_API UArray *UArray_fileName(UArray *self);
+
+// to/from os path - always returns a copy
+
+BASEKIT_API int UArray_OSPathSeparatorIsUnixSeparator(void);
+BASEKIT_API UArray *UArray_asOSPath(UArray *self);
+BASEKIT_API UArray *UArray_asUnixPath(UArray *self);
+

@@ -53,6 +53,22 @@ int UArray_maxCharSize(const UArray *self)
 	return self->itemSize;
 }
 
+void UArray_truncateAfterConvertToEncoding_(UArray *self){
+	if(self->encoding == CENCODING_NUMBER)
+	{
+		return;
+	}
+
+	{
+		UArray tmp = UArray_stackAllocedWithData_type_size_("\0", CTYPE_uint8_t, 1);
+		long newSize = UArray_find_(self, &tmp);
+		if(newSize != -1)
+		{
+			UArray_setSize_(self, newSize);
+		}
+	}
+}
+
 int UArray_convertToFixedSizeType(UArray *self)
 {
 	if (self->encoding == CENCODING_UTF8)
@@ -96,6 +112,31 @@ int UArray_isLegalUTF8(const UArray *self)
 	return isLegalUTF8Sequence(sourceStart, sourceEnd);
 }
 
+UArray *UArray_asNumberArrayString(const UArray *self)
+{
+	UArray *out = UArray_new();
+	UArray_setEncoding_(out, CENCODING_ASCII);
+
+	UARRAY_INTFOREACH(self, i, v, 
+		char s[128];
+		
+		if(UArray_isFloatType(self))
+		{
+			sprintf(s, "%f", v);
+		}
+		else
+		{
+			sprintf(s, "%i", v);
+		}
+		
+		if(i != UArray_size(self) -1 ) strcat(s, ", ");
+		UArray_appendBytes_size_(out, (unsigned char *)s, strlen(s));
+	);
+	
+	return out;
+}
+				
+
 UArray *UArray_asUTF8(const UArray *self)
 {
 	UArray *out = UArray_new();
@@ -128,6 +169,14 @@ UArray *UArray_asUTF8(const UArray *self)
 				r = ConvertUTF32toUTF8((const UTF32 **)&sourceStart, (const UTF32 *)sourceEnd, &targetStart, targetEnd, options);
 				//outSize = (targetStart - out->data) / out->itemSize;
 				break;
+			case CENCODING_NUMBER:
+				{
+					UArray *nas = UArray_asNumberArrayString(self);
+					UArray_free(out);
+					out = UArray_asUTF8(nas);
+					UArray_free(nas);
+					break;
+				}
 			default:
 				printf("UArray_asUTF8 - unknown source encoding\n");
 		}
@@ -168,11 +217,21 @@ UArray *UArray_asUTF16(const UArray *self)
 			case CENCODING_UTF32:
 				r = ConvertUTF32toUTF16((const UTF32 **)&sourceStart, (const UTF32 *)sourceEnd, &targetStart, targetEnd, options);
 				break;
+			case CENCODING_NUMBER:
+				{
+					UArray *nas = UArray_asNumberArrayString(self);
+					UArray_free(out);
+					out = UArray_asUTF16(nas);
+					UArray_free(nas);
+					break;
+				}
 			default:
 				printf("UArray_asUTF16 - unknown source encoding\n");
 		}
 	}	
 	
+	UArray_truncateAfterConvertToEncoding_(out);
+
 	return out;
 }
 
@@ -205,11 +264,21 @@ UArray *UArray_asUTF32(const UArray *self)
 			case CENCODING_UTF32:
 				UArray_copy_(out, self);
 				break;
+			case CENCODING_NUMBER:
+				{
+					UArray *nas = UArray_asNumberArrayString(self);
+					UArray_free(out);
+					out = UArray_asUTF32(nas);
+					UArray_free(nas);
+					break;
+				}
 			default:
 				printf("UArray_asUTF32 - unknown source encoding\n");
 		}
 	}	
 		
+	UArray_truncateAfterConvertToEncoding_(out);
+
 	return out;
 }
 

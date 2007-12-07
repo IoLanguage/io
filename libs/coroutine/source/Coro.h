@@ -52,7 +52,7 @@
 #if defined(USE_FIBERS)
 	#define CORO_IMPLEMENTATION "fibers"
 #elif defined(USE_UCONTEXT)
-	#include <ucontext.h>
+	#include <sys/ucontext.h>
 	#define CORO_IMPLEMENTATION "ucontext"
 #elif defined(USE_SETJMP)
 	#include <setjmp.h>

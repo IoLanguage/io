@@ -5,8 +5,13 @@
 #include <assert.h>
 #include <time.h>
 
+#ifdef COLLECTOR_TIMER_ON
 #define BEGIN_TIMER  self->clocksUsed -= clock();
 #define END_TIMER    self->clocksUsed += clock();
+#else
+#define BEGIN_TIMER  
+#define END_TIMER    
+#endif
 
 Collector *Collector_new(void)
 {

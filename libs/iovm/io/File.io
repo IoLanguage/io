@@ -17,6 +17,13 @@ File do(
 		)
 	)
 	
+	copyToPath := method(dstPath,
+		dst := File with(dstPath) open
+		self open streamTo(dst)
+		dst close
+		self close
+	)
+	
 	lockFile := method(File clone setPath(path .. ".lock"))
 	
 	lock := method(timeout,

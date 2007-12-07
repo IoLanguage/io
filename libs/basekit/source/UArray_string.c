@@ -357,68 +357,54 @@ void UArray_escape(UArray *self)
 
 void UArray_unescape(UArray *self)
 {
-	if (self->itemSize == 1)
+	size_t getIndex = 0;
+	size_t putIndex = 0;
+	
+	while (getIndex < self->size)
 	{
-		int mbskip = 0;  /* multi-byte character size */
-		size_t getIndex = 0;
-		size_t putIndex = 0;
-		char *s = (char *)self->data;
+		long c = UArray_longAt_(self, getIndex);
+		long nextChar = UArray_longAt_(self, getIndex + 1);
 		
-		while (getIndex < self->size)
+		if (c != '\\')
+		{				
+			if (getIndex != putIndex) 
+			{  
+				UArray_at_putLong_(self, putIndex, c); 
+			}
+			
+			putIndex ++;
+		}
+		else
 		{
-			int c = s[getIndex];
-			int nextChar = s[getIndex + 1];
+			c = nextChar;
 			
-			if (mbskip <= 0 && ismbchar(c)) 
-			{ 
-				mbskip = mbcharlen(c); 
-			}
-			
-			if (c != '\\' || mbskip > 0)
+			switch (c)
 			{
-				mbskip --;
-				
-				if (getIndex != putIndex) 
-				{  
-					s[putIndex] = c; 
-				}
-				
-				putIndex ++;
-			}
-			else
-			{
-				char c = nextChar;
-				
-				switch (c)
-				{
-					case  'a': c = '\a'; break;
-					case  'b': c = '\b'; break;
-					case  'f': c = '\f'; break;
-					case  'n': c = '\n'; break;
-					case  'r': c = '\r'; break;
-					case  't': c = '\t'; break;
-					case  'v': c = '\v'; break;
-					case '\0': c = '\\'; break;
-					default:
-						if (isdigit(c))
-						{
-							c -= 48; 
-						}
-				}
-				
-				s[putIndex] = c;
-				getIndex ++; 
-				putIndex ++;
+				case  'a': c = '\a'; break;
+				case  'b': c = '\b'; break;
+				case  'f': c = '\f'; break;
+				case  'n': c = '\n'; break;
+				case  'r': c = '\r'; break;
+				case  't': c = '\t'; break;
+				case  'v': c = '\v'; break;
+				case '\0': c = '\\'; break;
+				default:
+					if (isdigit(c))
+					{
+						c -= 48; 
+					}
 			}
 			
-			getIndex++;
+			UArray_at_putLong_(self, putIndex, c); 
+			getIndex ++; 
+			putIndex ++;
 		}
 		
-		UArray_setSize_(self, putIndex);
-		UArray_changed(self);
-		return;
+		getIndex ++;
 	}
-	printf("Error: UArray unescape unsupported on type size %i\n", self->itemSize);
+	
+	UArray_setSize_(self, putIndex);
+	UArray_changed(self);
 }
 
 void UArray_quote(UArray *self)

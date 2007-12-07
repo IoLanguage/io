@@ -30,7 +30,7 @@
 #include <signal.h>
 #include <sys/utsname.h>
 #include <inttypes.h>
-#include <ucontext.h>
+#include <sys/ucontext.h>
 typedef unsigned long ulong;
 
 #if defined(__FreeBSD__) && __FreeBSD__ < 5

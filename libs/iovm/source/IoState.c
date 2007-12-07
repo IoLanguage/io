@@ -31,7 +31,7 @@
 #include "IoCollector.h"
 #include "IoSandbox.h"
 #include "IoDirectory.h"
-#include "IoEditLine.h"
+//#include "IoEditLine.h"
 
 #include <stdlib.h>
 
@@ -178,7 +178,7 @@ void IoState_new_atAddress(void *address)
 		IoObject_setSlot_to_(core, SIOSYMBOL("Duration"),   IoDuration_proto(self));
 		IoObject_setSlot_to_(core, SIOSYMBOL("WeakLink"),   IoWeakLink_proto(self));
 		IoObject_setSlot_to_(core, SIOSYMBOL("Sandbox"),    IoSandbox_proto(self));
-		IoObject_setSlot_to_(core, SIOSYMBOL("EditLine"),   IoEditLine_proto(self));
+		//IoObject_setSlot_to_(core, SIOSYMBOL("EditLine"),   IoEditLine_proto(self));
 
 #if !defined(__SYMBIAN32__)
 		IoObject_setSlot_to_(core, SIOSYMBOL("DynLib"),     IoDynLib_proto(self));

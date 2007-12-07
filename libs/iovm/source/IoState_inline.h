@@ -33,7 +33,7 @@ if (!(value)) { IoState_error_(IOSTATE, m, "Io Assertion '%s'", message); }
 #define IOFAILURE(self) IOFALSE(self)
 #define ISFAILURE(self) ISFALSE(self)
 
-inline IoObject *IOBOOL(IoObject *self, int b);
+//inline IoObject *IOBOOL(IoObject *self, int b);
 
 #if !defined(IoObjectDataDefined)
 typedef struct IoObjectData IoObjectData;

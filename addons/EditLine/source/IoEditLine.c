@@ -42,7 +42,7 @@ IoEditLine *IoEditLine_proto(void *state)
 #ifdef IO_HAS_EDITLIB
 	IoObject_setDataPointer_(self, io_calloc(1, sizeof(IoEditLineData)));
 	DATA(self)->prompt  = IOSYMBOL("");
-	DATA(self)->editline = el_init("edittest", stdin, stdout, stderr);
+	DATA(self)->editline = el_init("io", stdin, stdout, stderr);
 	DATA(self)->history = history_init();
 
 	el_set(DATA(self)->editline, EL_CLIENTDATA, self);
@@ -55,6 +55,8 @@ IoEditLine *IoEditLine_proto(void *state)
 		HistEvent ev;
 		history(DATA(self)->history, &ev, H_SETSIZE, 300);
 	}
+
+	el_source(DATA(self)->editline, NULL);
 #endif
 
 	IoState_registerProtoWithFunc_((IoState *)state, self, IoEditLine_proto);

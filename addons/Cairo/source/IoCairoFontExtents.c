@@ -2,24 +2,21 @@
 CairoFontExtents ioDoc(
 	docCopyright("Trevor Fancher", 2007)
 	docLicense("BSD revised")
-	docObject("Cairo")
-	docDescription("Cairo is a 2D graphics library. http://cairographics.org/")
 	docCategory("Graphics")
 */
 
 #include "IoCairoFontExtents.h"
 #include "IoNumber.h"
 
-#define DATA(self) ((IoCairoFontExtentsData *)IoObject_dataPointer(self))
-#define FONTEXTENTS(ctx) (DATA(ctx))
+#define EXTENTS(self) ((cairo_font_extents_t *)IoObject_dataPointer(self))
 
-IoTag *IoCairoFontExtents_newTag(void *state)
+
+static IoTag *IoCairoFontExtents_newTag(void *state)
 {
 	IoTag *tag = IoTag_newWithName_("CairoFontExtents");
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCairoFontExtents_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCairoFontExtents_free);
-	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoCairoFontExtents_mark);
 	return tag;
 }
 
@@ -28,7 +25,7 @@ IoCairoFontExtents *IoCairoFontExtents_proto(void *state)
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairoFontExtents_newTag(state));
 	
-	IoObject_setDataPointer_(self, calloc(1, sizeof(IoCairoFontExtentsData)));
+	IoObject_setDataPointer_(self, calloc(1, sizeof(cairo_font_extents_t)));
 	
 	IoState_registerProtoWithFunc_(state, self, IoCairoFontExtents_proto);
 	
@@ -49,40 +46,34 @@ IoCairoFontExtents *IoCairoFontExtents_proto(void *state)
 IoCairoFontExtents *IoCairoFontExtents_rawClone(IoCairoFontExtents *proto) 
 { 
 	IoObject *self = IoObject_rawClonePrimitive(proto);	
-	IoObject_setDataPointer_(self, cpalloc(IoObject_dataPointer(proto), sizeof(IoCairoFontExtentsData)));	
+	IoObject_setDataPointer_(self, cpalloc(EXTENTS(proto), sizeof(cairo_font_extents_t)));	
 	return self;
 }
 
-IoCairoFontExtents *IoCairoFontExtents_newWithRawFontExtents(void *state, cairo_font_extents_t *te)
+IoCairoFontExtents *IoCairoFontExtents_newWithRawFontExtents(void *state, cairo_font_extents_t *extents)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoCairoFontExtents_proto);
-	IoObject *self = IoObject_rawClonePrimitive(proto);
-	IoObject_setDataPointer_(self, cpalloc(te, sizeof(IoCairoFontExtentsData)));
+	IoCairoFontExtents *self = IOCLONE(IoState_protoWithInitFunction_(state, IoCairoFontExtents_proto));
+	memcpy(EXTENTS(self), extents, sizeof(cairo_font_extents_t));
 	return self;
 }
-
-/* ----------------------------------------------------------- */
 
 void IoCairoFontExtents_free(IoCairoFontExtents *self) 
 {
-	free(IoObject_dataPointer(self)); 
+	free(EXTENTS(self));
 }
 
-void IoCairoFontExtents_mark(IoCairoFontExtents *self) 
+
+cairo_font_extents_t *IoCairoFontExtents_rawFontExtents(IoCairoFontExtents *self)
 {
+	return EXTENTS(self);
 }
 
-cairo_font_extents_t *IoCairoFontExtents_getRawFontExtents(IoCairoFontExtents *self)
-{
-	return FONTEXTENTS(self);
-}
+/* ------------------------------------------------------------------------------------------------*/
 
-/* ----------------------------------------------------------- */
-
-#define IoCairoFontExtents_make_get_func(funName, dataName) \
-	IoObject *IoCairoFontExtents_ ## funName (IoCairoFontExtents *self, IoObject *locals, IoMessage *m) \
+#define IoCairoFontExtents_make_get_func(funcName, dataName) \
+	IoObject *IoCairoFontExtents_ ## funcName (IoCairoFontExtents *self, IoObject *locals, IoMessage *m) \
 	{ \
-		return IONUMBER(DATA(self)->dataName); \
+		return IONUMBER(EXTENTS(self)->dataName); \
 	}
 
 IoCairoFontExtents_make_get_func(ascent, ascent)

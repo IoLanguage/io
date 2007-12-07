@@ -18,8 +18,6 @@
 		AA8383A70BDFCE0100B4F003 /* IoVMApi.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA8383A60BDFCE0100B4F003 /* IoVMApi.h */; };
 		AAA3CAF50B186E2F004C257F /* IoMessage_opShuffle.c in Sources */ = {isa = PBXBuildFile; fileRef = AAA3CAF30B186E2F004C257F /* IoMessage_opShuffle.c */; };
 		AAA3CAF60B186E2F004C257F /* IoMessage_opShuffle.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAA3CAF40B186E2F004C257F /* IoMessage_opShuffle.h */; };
-		AAB265A40C25C50100FA7CD9 /* IoEditLine.c in Sources */ = {isa = PBXBuildFile; fileRef = AAB265A20C25C50100FA7CD9 /* IoEditLine.c */; };
-		AAB265A50C25C50100FA7CD9 /* IoEditLine.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAB265A30C25C50100FA7CD9 /* IoEditLine.h */; };
 		AABF81310B759BC8002DBAB5 /* UArray_character.c in Sources */ = {isa = PBXBuildFile; fileRef = AABF81230B759BC8002DBAB5 /* UArray_character.c */; };
 		AABF81320B759BC8002DBAB5 /* UArray_character.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AABF81240B759BC8002DBAB5 /* UArray_character.h */; };
 		AABF81330B759BC8002DBAB5 /* UArray_format.c in Sources */ = {isa = PBXBuildFile; fileRef = AABF81250B759BC8002DBAB5 /* UArray_format.c */; };
@@ -285,7 +283,6 @@
 				AA6AC74E0BAF7EBD0049770F /* simd_cp_emu.h in CopyFiles */,
 				AA6AC74F0BAF7EBD0049770F /* simd_cp_x86.h in CopyFiles */,
 				AA8383A70BDFCE0100B4F003 /* IoVMApi.h in CopyFiles */,
-				AAB265A50C25C50100FA7CD9 /* IoEditLine.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
@@ -304,8 +301,6 @@
 		AA8383A60BDFCE0100B4F003 /* IoVMApi.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoVMApi.h; path = ../../libs/iovm/source/IoVMApi.h; sourceTree = SOURCE_ROOT; };
 		AAA3CAF30B186E2F004C257F /* IoMessage_opShuffle.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = IoMessage_opShuffle.c; sourceTree = "<group>"; };
 		AAA3CAF40B186E2F004C257F /* IoMessage_opShuffle.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IoMessage_opShuffle.h; sourceTree = "<group>"; };
-		AAB265A20C25C50100FA7CD9 /* IoEditLine.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoEditLine.c; path = ../../libs/iovm/source/IoEditLine.c; sourceTree = SOURCE_ROOT; };
-		AAB265A30C25C50100FA7CD9 /* IoEditLine.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoEditLine.h; path = ../../libs/iovm/source/IoEditLine.h; sourceTree = SOURCE_ROOT; };
 		AABF81230B759BC8002DBAB5 /* UArray_character.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = UArray_character.c; sourceTree = "<group>"; };
 		AABF81240B759BC8002DBAB5 /* UArray_character.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = UArray_character.h; sourceTree = "<group>"; };
 		AABF81250B759BC8002DBAB5 /* UArray_format.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = UArray_format.c; sourceTree = "<group>"; };
@@ -706,8 +701,6 @@
 				AAE69EBD0B110795006E309B /* IoDuration.h */,
 				AAE69EBE0B110795006E309B /* IoDynLib.c */,
 				AAE69EBF0B110795006E309B /* IoDynLib.h */,
-				AAB265A20C25C50100FA7CD9 /* IoEditLine.c */,
-				AAB265A30C25C50100FA7CD9 /* IoEditLine.h */,
 				AAE69EC00B110795006E309B /* IoFile.c */,
 				AAE69EC10B110795006E309B /* IoFile.h */,
 				AAE69EC30B110795006E309B /* IoFile_stat.h */,
@@ -803,9 +796,11 @@
 		08FB7793FE84155DC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = AA984A69090478C9002242A2 /* Build configuration list for PBXProject "osxvm" */;
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			mainGroup = 08FB7794FE84155DC02AAC07 /* osxvm */;
 			projectDirPath = "";
+			projectRoot = "";
 			targets = (
 				8DD76FA90486AB0100D96B5E /* osxvm */,
 			);
@@ -891,7 +886,6 @@
 				AABF813D0B759BC8002DBAB5 /* UArray.c in Sources */,
 				AABF83140B76D00A002DBAB5 /* UArray_stream.c in Sources */,
 				AA6AC0280BA8E5D10049770F /* IoSeq_vector.c in Sources */,
-				AAB265A40C25C50100FA7CD9 /* IoEditLine.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

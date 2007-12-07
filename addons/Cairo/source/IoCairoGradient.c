@@ -9,11 +9,11 @@ CairoGradient ioDoc(
 #include "IoCairoGradient.h"
 #include "IoCairoPattern.h"
 #include "IoCairoPattern_inline.h"
+#include "IoNumber.h"
+#include "tools.h"
 
-#define DATA(self) ((IoCairoPatternData *)IoObject_dataPointer(self))
 
-
-IoTag *IoCairoGradient_newTag(void *state)
+static IoTag *IoCairoGradient_newTag(void *state)
 {
 	IoTag *tag = IoTag_newWithName_("Gradient");
 	IoTag_state_(tag, state);
@@ -41,6 +41,9 @@ void IoCairoGradient_addMethods(IoCairoGradient *self)
 		IoMethodTable methodTable[] = {
 			{"addColorStopRGB", IoCairoGradient_addColorStopRGB},
 			{"addColorStopRGBA", IoCairoGradient_addColorStopRGBA},
+
+			{"getColorStopCount", IoCairoGradient_getColorStopCount},
+			{"getColorStopRGBA", IoCairoGradient_getColorStopRGBA},
 			{NULL, NULL},
 		};
 		IoObject_addMethodTable_(self, methodTable);
@@ -80,4 +83,21 @@ IoObject *IoCairoGradient_addColorStopRGBA(IoCairoGradient *self, IoObject *loca
 	cairo_pattern_add_color_stop_rgba(PATTERN(self), o, r, g, b, a);
 	CHECK_STATUS(self);
 	return self;
+}
+
+
+IoObject *IoCairoGradient_getColorStopCount(IoCairoGradient *self, IoObject *locals, IoMessage *m)
+{
+	int count = 0;
+	cairo_pattern_get_color_stop_count(PATTERN(self), &count);
+	return IONUMBER(count);
+}
+
+IoObject *IoCairoGradient_getColorStopRGBA(IoCairoGradient *self, IoObject *locals, IoMessage *m)
+{
+	int index = IoMessage_locals_intArgAt_(m, locals, 0);
+	double data[5];
+
+	cairo_pattern_get_color_stop_rgba(PATTERN(self), index, &data[0], &data[1], &data[2], &data[3], &data[4]);
+	return IoSeq_newWithDoubles_count_(IOSTATE, data, 5);
 }

@@ -548,7 +548,7 @@ IoObject *IoObject_setProtos(IoObject *self, IoObject *locals, IoMessage *m)
 
 	IoList *ioList = IoMessage_locals_listArgAt_(m, locals, 0);
 	IoObject_rawRemoveAllProtos(self);
-	LIST_FOREACH(IoList_rawList(ioList), i, v, IoObject_rawAppendProto_(ioList, (IoObject *)v));
+	LIST_FOREACH(IoList_rawList(ioList), i, v, IoObject_rawAppendProto_(self, (IoObject *)v));
 	return self;
 }
 

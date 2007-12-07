@@ -131,6 +131,7 @@ install:
 
 linkInstall:
 	mkdir -p $(INSTALL_PREFIX)/bin || true
+	mkdir -p $(INSTALL_PREFIX)/lib || true
 	ln -sf `pwd`/_build/binaries/io$(BINARY_SUFFIX) $(INSTALL_PREFIX)/bin
 	chmod ugo+rx $(INSTALL_PREFIX)/bin/io
 	ln -sf `pwd`/_build/binaries/io_static$(BINARY_SUFFIX) $(INSTALL_PREFIX)/bin
@@ -184,7 +185,7 @@ dist:
 	-rm -f Io-*.tar.gz
 	echo "#define IO_VERSION_NUMBER "$(shell date +'%Y%m%d') > libs/iovm/source/IoVersion.h
 	#git add libs/iovm/source/IoVersion.h 
-	#git commit -q --no-verify -m "setting version string for release"
+	git commit -q --no-verify -m "setting version string for release"
 	git archive --format=tar --prefix=Io-$(date)/ HEAD | gzip > Io-$(date).tar.gz
 	ls -al Io-$(date).tar.gz
 	

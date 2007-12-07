@@ -26,7 +26,7 @@ SystemCall do(
 		s := self status
         while(isRunning == true and s > 255 and s != -1,
         	//writeln("self status = ", s)
-            if(aBlock, aBlock call)
+            if(aBlock, if(aBlock call == false, return false))
             wait(.02)
             s := self status
         )

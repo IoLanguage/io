@@ -18,7 +18,7 @@ loop(
 			input append(c)
 			Curses writeCharacter(c)
 			Curses refresh
-		) else(yield)
+		) else(System sleep(0.05); yield)
 	)
 	
 	Curses clear

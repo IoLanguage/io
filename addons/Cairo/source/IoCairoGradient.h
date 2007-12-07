@@ -13,13 +13,16 @@ docCopyright("Daniel Rosengren", 2007)
 
 typedef IoObject IoCairoGradient;
 
-IoCairoGradient *IoCairoGradient_rawClone(IoCairoGradient *self);
 IoCairoGradient *IoCairoGradient_proto(void *state);
+IoCairoGradient *IoCairoGradient_rawClone(IoCairoGradient *self);
 void IoCairoGradient_addMethods(IoCairoGradient *self);
 
-/* ----------------------------------------------------------- */
+/* ------------------------------------------------------------------------------------------------*/
 
 IoObject *IoCairoGradient_addColorStopRGB(IoCairoGradient *self, IoObject *locals, IoMessage *m);
 IoObject *IoCairoGradient_addColorStopRGBA(IoCairoGradient *self, IoObject *locals, IoMessage *m);
+
+IoObject *IoCairoGradient_getColorStopCount(IoCairoGradient *self, IoObject *locals, IoMessage *m);
+IoObject *IoCairoGradient_getColorStopRGBA(IoCairoGradient *self, IoObject *locals, IoMessage *m);
 
 #endif
