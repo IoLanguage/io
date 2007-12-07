@@ -62,12 +62,6 @@ CFLAGS += -fPIC
 DLL_SUFFIX := dylib
 DLL_COMMAND := -dynamiclib
 FLAT_NAMESPACE := -flat_namespace
-
-hasEditLib := $(wildcard ../../tools/editlib_test/editlib_test)
-ifneq ($(strip $(hasEditLib)),)
-DLL_EXTRAS := -ledit
-endif
-
 endif
 
 ifeq ($(SYS),Linux)

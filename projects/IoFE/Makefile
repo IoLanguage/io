@@ -1,7 +1,7 @@
 CC=gcc
 IO_CFLAGS=-I../../IoVM/_include
 IO_LDFLAGS=-L../../IoVM/_libs -lIoVM -lm
-CFLAGS=-O2 -g -Wall -pedantic $(IO_CFLAGS) $(IO_LDFLAGS) -ledit -ltermcap
+CFLAGS=-O2 -g -Wall -pedantic $(IO_CFLAGS) $(IO_LDFLAGS) -ltermcap
 
 all: clean iofe
 
