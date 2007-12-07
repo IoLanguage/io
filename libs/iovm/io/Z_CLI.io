@@ -8,6 +8,8 @@ CLI := Object clone do(
 
 	newSlot("commandLineLabel", "Command Line")
 	
+	newSlot("lineReader" , nil)
+	
 	stop := method(setIsRunning(false))
 	
 	runFile := method(path,
@@ -68,13 +70,16 @@ CLI := Object clone do(
 	
 	interactiveMultiline := method(
 		writeln("Io ", System version)
-		try(EditLine)
+		
+		/* Use GNU Readline as the default line reader. Fall back to Editline */
+		try(setLineReader(ReadLine))
+		try(lineReader ifNil( setLineReader(EditLine)))
 
 		while(isRunning,
-			if(getSlot("EditLine"),
+			if(lineReader isNil not,
 				handleInteractiveMultiline
 			,
-				interactiveNoEditLine
+				interactiveNoLineReader
 			)
 		)
 	)
@@ -115,7 +120,7 @@ CLI := Object clone do(
 	)
 	*/
 	
-	interactiveNoEditLine := method(
+	interactiveNoLineReader := method(
 		write(prompt)
 		File standardOutput flush
 		
@@ -164,7 +169,7 @@ CLI := Object clone do(
 		# If there are unmatched ( or the command ends with a \ then we'll need to read multiple lines
 		loop(
 			# Write out prompt and read line
-			nextLine := EditLine readLine(nextPrompt)
+			nextLine := lineReader readLine(nextPrompt)
 			
 			# If there was no line, exit
 			nextLine ifNil(context exit)
@@ -204,7 +209,7 @@ CLI := Object clone do(
 				return
 			)
 
-			EditLine addHistory(line)
+			lineReader addHistory(line)
 
 			# Execute the line and report any exceptions which happen
 			executionError := try(result := context doMessage(lineAsMessage, context))
