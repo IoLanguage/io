@@ -217,13 +217,13 @@ URL := Notifier clone do(
         socket streamWrite(requestHeader)
         
     	b := socket readBuffer
-    
+    	b empty
+    	
     	// read and separate the header
 
         loop(
             more := socket streamReadNextChunk 
             match := b findSeqs(headerBreaks)
-						
 			if(match,
                     setReadHeader(b slice(0, match index))
                     b removeSlice(0, match index + match match size - 1)
@@ -247,16 +247,15 @@ URL := Notifier clone do(
 			if(getSlot("progressBlock"), progressBlock(b size, contentLength))
 		)
 
+
         if(headerFields at("Transfer-Encoding") == "chunked",
-        	index := b findSeq("\r\n")
         	newB := Sequence clone
-        	while(index, 
+        	while(index := b findSeq("\r\n"), 
         		n := b slice(0, index)
-        		b removeSlice(0, index + 2)
+        		b removeSlice(0, index + 1) 
         		length := ("0x" .. n) asNumber
         		newB appendSeq(b slice(0, length))
         		b removeSlice(0, length)
-        		index := b findSeq("\r\n")
         	)
         	b copy(newB)
         )

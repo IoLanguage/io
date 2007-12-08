@@ -1,10 +1,10 @@
 
 EmailMessage := Object clone do(
-	newSlot("from", "")
-	newSlot("to", nil)
-	newSlot("cc", nil)
-	newSlot("subject", "")
-	newSlot("content", "")
+	from ::= ""
+	to ::= nil
+	cc ::= nil
+	subject ::= nil
+	content ::= nil
 	
 	mailServerAddress := method(
 		host := to split("@") last
@@ -28,3 +28,9 @@ EmailMessage := Object clone do(
 	)
 )
 
+/*
+Example use:
+
+EmailMessage clone setTo("foo@bar.com") setFrom("up@down.com") setSubject("hi") setContent("hello world!") @send
+
+*/
