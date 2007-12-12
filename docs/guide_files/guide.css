@@ -1,361 +1,299 @@
-.Body {
+.TOC_Heading_2 {
     color: #000000;
-    font-family: 'Helvetica', 'Arial', 'sans-serif';
-    font-size: 10pt;
+    font-family: 'Helvetica', 'Helvetica';
+    font-size: 11.00pt;
     font-style: normal;
     font-variant: normal;
     font-weight: normal;
     letter-spacing: 0;
-    line-height: 12pt;
-    margin-bottom: 0pt;
-    margin-left: 72pt;
-    margin-right: 0pt;
-    margin-top: 0pt;
-    opacity: 1.00;
-    padding-bottom: 0pt;
-    padding-top: 0pt;
+    line-height: 1.18;
+    margin-bottom: 0.000000pt;
+    margin-left: 18.00pt;
+    margin-right: 0.00pt;
+    margin-top: 0.000000pt;
+    padding-bottom: 3.000000pt;
+    padding-top: 12.000000pt;
     text-align: left;
     text-decoration: none;
-    text-indent: 0pt;
+    text-indent: 0.00pt;
     text-transform: none;
+    vertical-align: 0.000000em;
 }
 .Body_Bullet {
     color: #000000;
-    font-family: 'Helvetica', 'Arial', 'sans-serif';
-    font-size: 10pt;
+    font-family: 'Helvetica', 'Helvetica';
+    font-size: 10.00pt;
     font-style: normal;
     font-variant: normal;
     font-weight: normal;
     letter-spacing: 0;
-    line-height: 14.4pt;
-    margin-bottom: 0pt;
-    margin-left: 0pt;
-    margin-right: 0pt;
-    margin-top: 0pt;
-    opacity: 1.00;
-    padding-bottom: 0pt;
-    padding-top: 0pt;
+    line-height: 1.44;
+    margin-bottom: 0.000000pt;
+    margin-left: 0.00pt;
+    margin-right: 0.00pt;
+    margin-top: 0.000000pt;
+    padding-bottom: 0.000000pt;
+    padding-top: 0.000000pt;
     text-align: left;
     text-decoration: none;
-    text-indent: 0pt;
+    text-indent: 0.00pt;
     text-transform: none;
+    vertical-align: 0.000000em;
 }
-.Code {
-    color: #000000;
-    font-family: 'Courier', 'serif';
-    font-size: 9pt;
-    font-style: normal;
+.Quote {
+    color: #616161;
+    font-family: 'Times-Roman', 'Times';
+    font-size: 11.00pt;
+    font-style: italic;
     font-variant: normal;
     font-weight: normal;
     letter-spacing: 0;
-    line-height: 11pt;
-    margin-bottom: 0pt;
-    margin-left: 94.5pt;
-    margin-right: 0pt;
-    margin-top: 0pt;
-    opacity: 1.00;
-    padding-bottom: 0pt;
-    padding-top: 0pt;
+    line-height: 1.18;
+    margin-bottom: 0.000000pt;
+    margin-left: 72.00pt;
+    margin-right: 0.00pt;
+    margin-top: 0.000000pt;
+    padding-bottom: 16.000000pt;
+    padding-top: 0.000000pt;
     text-align: left;
     text-decoration: none;
-    text-indent: 1pt;
+    text-indent: 0.00pt;
     text-transform: none;
-}
-.Copyright {
-    color: #7f7f7f;
-    font-family: 'Helvetica', 'Arial', 'sans-serif';
-    font-size: 8pt;
-    font-style: normal;
-    font-variant: normal;
-    font-weight: normal;
-    letter-spacing: 0;
-    line-height: 10pt;
-    margin-bottom: 0pt;
-    margin-left: 0pt;
-    margin-right: 0pt;
-    margin-top: 0pt;
-    opacity: 1.00;
-    padding-bottom: 0pt;
-    padding-top: 0pt;
-    text-align: right;
-    text-decoration: none;
-    text-indent: 0pt;
-    text-transform: none;
-}
-.Footnote_Text {
-    color: #000000;
-    font-family: 'Helvetica', 'Arial', 'sans-serif';
-    font-size: 10pt;
-    font-style: normal;
-    font-variant: normal;
-    font-weight: normal;
-    letter-spacing: 0;
-    line-height: 12pt;
-    margin-bottom: 0pt;
-    margin-left: 0pt;
-    margin-right: 0pt;
-    margin-top: 0pt;
-    opacity: 1.00;
-    padding-bottom: 10pt;
-    padding-top: 0pt;
-    text-align: left;
-    text-decoration: none;
-    text-indent: 0pt;
-    text-transform: none;
+    vertical-align: 0.000000em;
 }
 .Heading {
     color: #000000;
-    font-family: 'Helvetica-Bold', 'Helvetica', 'Arial', 'sans-serif';
-    font-size: 24pt;
+    font-family: 'Helvetica-Bold', 'Helvetica';
+    font-size: 24.00pt;
     font-style: normal;
     font-variant: normal;
     font-weight: bold;
     letter-spacing: 0;
-    line-height: 29pt;
-    margin-bottom: 0pt;
-    margin-left: 0pt;
-    margin-right: 0pt;
-    margin-top: 0pt;
-    opacity: 1.00;
-    padding-bottom: 16pt;
-    padding-top: 12pt;
+    line-height: 1.21;
+    margin-bottom: 0.000000pt;
+    margin-left: 0.00pt;
+    margin-right: 0.00pt;
+    margin-top: 0.000000pt;
+    padding-bottom: 16.000000pt;
+    padding-top: 12.000000pt;
     text-align: left;
     text-decoration: none;
-    text-indent: 0pt;
+    text-indent: 0.00pt;
     text-transform: none;
+    vertical-align: 0.000000em;
+}
+.Code {
+    color: #000000;
+    font-family: 'Courier', 'Courier';
+    font-size: 9.00pt;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    letter-spacing: 0;
+    line-height: 1.22;
+    margin-bottom: 0.000000pt;
+    margin-left: 94.50pt;
+    margin-right: 0.00pt;
+    margin-top: 0.000000pt;
+    padding-bottom: 0.000000pt;
+    padding-top: 0.000000pt;
+    text-align: left;
+    text-decoration: none;
+    text-indent: 0.00pt;
+    text-transform: none;
+    vertical-align: 0.000000em;
+}
+.TOC_Heading_3 {
+    color: #7f7f7f;
+    font-family: 'Helvetica', 'Helvetica';
+    font-size: 11.00pt;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    letter-spacing: 0;
+    line-height: 1.18;
+    margin-bottom: 0.000000pt;
+    margin-left: 0.00pt;
+    margin-right: 0.00pt;
+    margin-top: 0.000000pt;
+    padding-bottom: 0.000000pt;
+    padding-top: 5.000000pt;
+    text-align: left;
+    text-decoration: none;
+    text-indent: 72.00pt;
+    text-transform: none;
+    vertical-align: 0.000000em;
+}
+.Footnote_Text {
+    color: #000000;
+    font-family: 'Helvetica', 'Helvetica';
+    font-size: 10.00pt;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    letter-spacing: 0;
+    line-height: 1.20;
+    margin-bottom: 0.000000pt;
+    margin-left: 0.00pt;
+    margin-right: 0.00pt;
+    margin-top: 0.000000pt;
+    padding-bottom: 10.000000pt;
+    padding-top: 0.000000pt;
+    text-align: left;
+    text-decoration: none;
+    text-indent: 0.00pt;
+    text-transform: none;
+    vertical-align: 0.000000em;
 }
 .Heading_1 {
     color: #000000;
-    font-family: 'Helvetica', 'Arial', 'sans-serif';
-    font-size: 14pt;
+    font-family: 'Helvetica', 'Helvetica';
+    font-size: 14.00pt;
     font-style: normal;
     font-variant: normal;
     font-weight: bold;
     letter-spacing: 0;
-    line-height: 17pt;
-    margin-bottom: 0pt;
-    margin-left: 72pt;
-    margin-right: 0pt;
-    margin-top: 0pt;
-    opacity: 1.00;
-    padding-bottom: 7pt;
-    padding-top: 21pt;
+    line-height: 1.21;
+    margin-bottom: 0.000000pt;
+    margin-left: 72.00pt;
+    margin-right: 0.00pt;
+    margin-top: 0.000000pt;
+    padding-bottom: 7.000000pt;
+    padding-top: 21.000000pt;
     text-align: left;
     text-decoration: none;
-    text-indent: 0pt;
+    text-indent: 0.00pt;
     text-transform: none;
+    vertical-align: 0.000000em;
+}
+.Version {
+    color: #bfbfbf;
+    font-family: 'HelveticaNeue-Bold', 'Helvetica Neue';
+    font-size: 96.00pt;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 1.23;
+    margin-bottom: 0.000000pt;
+    margin-left: 71.65pt;
+    margin-right: 0.00pt;
+    margin-top: 0.000000pt;
+    padding-bottom: 0.000000pt;
+    padding-top: 0.000000pt;
+    text-align: right;
+    text-decoration: none;
+    text-indent: 0.00pt;
+    text-transform: none;
+    vertical-align: 0.000000em;
+}
+.Copyright {
+    color: #7f7f7f;
+    font-family: 'Helvetica', 'Helvetica';
+    font-size: 8.00pt;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    letter-spacing: 0;
+    line-height: 1.25;
+    margin-bottom: 0.000000pt;
+    margin-left: 0.00pt;
+    margin-right: 0.00pt;
+    margin-top: 0.000000pt;
+    padding-bottom: 0.000000pt;
+    padding-top: 0.000000pt;
+    text-align: right;
+    text-decoration: none;
+    text-indent: 0.00pt;
+    text-transform: none;
+    vertical-align: 0.000000em;
 }
 .Heading_2 {
     color: #5f5f5f;
-    font-family: 'Helvetica-Bold', 'Helvetica', 'Arial', 'sans-serif';
-    font-size: 11pt;
+    font-family: 'Helvetica-Bold', 'Helvetica';
+    font-size: 11.00pt;
     font-style: normal;
     font-variant: normal;
     font-weight: bold;
     letter-spacing: 0;
-    line-height: 13pt;
-    margin-bottom: 0pt;
-    margin-left: 71.6pt;
-    margin-right: 0pt;
-    margin-top: 0pt;
-    opacity: 1.00;
-    padding-bottom: 10pt;
-    padding-top: 17pt;
+    line-height: 1.18;
+    margin-bottom: 0.000000pt;
+    margin-left: 71.65pt;
+    margin-right: 0.00pt;
+    margin-top: 0.000000pt;
+    padding-bottom: 10.000000pt;
+    padding-top: 17.000000pt;
     text-align: left;
     text-decoration: none;
-    text-indent: 0pt;
+    text-indent: 0.00pt;
     text-transform: none;
-}
-.Heading_3 {
-    color: #595959;
-    font-family: 'Arial-BoldMT', 'Arial', 'sans-serif';
-    font-size: 10pt;
-    font-style: normal;
-    font-variant: normal;
-    font-weight: bold;
-    letter-spacing: 0;
-    line-height: 11pt;
-    margin-bottom: 0pt;
-    margin-left: 71.6pt;
-    margin-right: 0pt;
-    margin-top: 0pt;
-    opacity: 1.00;
-    padding-bottom: 11pt;
-    padding-top: 22pt;
-    text-align: left;
-    text-decoration: none;
-    text-indent: 0pt;
-    text-transform: none;
+    vertical-align: 0.000000em;
 }
 .PsuedoCode {
     color: #000000;
     font-family: 'Times-Italic', 'Times';
-    font-size: 11pt;
+    font-size: 11.00pt;
     font-style: italic;
     font-variant: normal;
     font-weight: normal;
     letter-spacing: 0;
-    line-height: 13pt;
-    margin-bottom: 0pt;
-    margin-left: 94.5pt;
-    margin-right: 0pt;
-    margin-top: 0pt;
-    opacity: 1.00;
-    padding-bottom: 0pt;
-    padding-top: 0pt;
+    line-height: 1.18;
+    margin-bottom: 0.000000pt;
+    margin-left: 94.50pt;
+    margin-right: 0.00pt;
+    margin-top: 0.000000pt;
+    padding-bottom: 0.000000pt;
+    padding-top: 0.000000pt;
     text-align: left;
     text-decoration: none;
-    text-indent: 0pt;
+    text-indent: 0.00pt;
     text-transform: none;
+    vertical-align: 0.000000em;
 }
-.Quote {
-    color: #616161;
-    font-family: 'Times-Roman', 'Times', 'Times New Roman', 'serif';
-    font-size: 11pt;
-    font-style: italic;
-    font-variant: normal;
-    font-weight: normal;
-    letter-spacing: 0;
-    line-height: 13pt;
-    margin-bottom: 0pt;
-    margin-left: 72pt;
-    margin-right: 0pt;
-    margin-top: 0pt;
-    opacity: 1.00;
-    padding-bottom: 16pt;
-    padding-top: 0pt;
-    text-align: left;
-    text-decoration: none;
-    text-indent: 0pt;
-    text-transform: none;
-}
-.TOC_Heading_2 {
+.Body {
     color: #000000;
-    font-family: 'Helvetica', 'Arial', 'sans-serif';
-    font-size: 11pt;
+    font-family: 'Helvetica', 'Helvetica';
+    font-size: 10.00pt;
     font-style: normal;
     font-variant: normal;
     font-weight: normal;
     letter-spacing: 0;
-    line-height: 13pt;
-    margin-bottom: 0pt;
-    margin-left: 18pt;
-    margin-right: 0pt;
-    margin-top: 0pt;
-    opacity: 1.00;
-    padding-bottom: 3pt;
-    padding-top: 12pt;
+    line-height: 1.20;
+    margin-bottom: 0.000000pt;
+    margin-left: 72.00pt;
+    margin-right: 0.00pt;
+    margin-top: 0.000000pt;
+    padding-bottom: 0.000000pt;
+    padding-top: 0.000000pt;
     text-align: left;
     text-decoration: none;
-    text-indent: 0pt;
+    text-indent: 0.00pt;
     text-transform: none;
+    vertical-align: 0.000000em;
 }
-.TOC_Heading_3 {
-    color: #7f7f7f;
-    font-family: 'Helvetica', 'Arial', 'sans-serif';
-    font-size: 11pt;
-    font-style: normal;
-    font-variant: normal;
-    font-weight: normal;
-    letter-spacing: 0;
-    line-height: 13pt;
-    margin-bottom: 0pt;
-    margin-left: 0pt;
-    margin-right: 0pt;
-    margin-top: 0pt;
-    opacity: 1.00;
-    padding-bottom: 0pt;
-    padding-top: 5pt;
-    text-align: left;
-    text-decoration: none;
-    text-indent: 72pt;
-    text-transform: none;
-}
-.Version {
-    color: #bfbfbf;
-    font-family: 'HelveticaNeue-Bold', 'Helvetica Neue', 'Arial', 'sans-serif';
-    font-size: 96pt;
-    font-style: normal;
-    font-variant: normal;
-    font-weight: bold;
-    letter-spacing: 0;
-    line-height: 118pt;
-    margin-bottom: 0pt;
-    margin-left: 71.6pt;
-    margin-right: 0pt;
-    margin-top: 0pt;
-    opacity: 1.00;
-    padding-bottom: 0pt;
-    padding-top: 0pt;
-    text-align: right;
-    text-decoration: none;
-    text-indent: 0pt;
-    text-transform: none;
-}
-.Normal, .layout_style_29, .layout_style_149, .layout_style_6, .layout_style_10, .layout_style_19, .layout_style_17, .layout_style_9, .layout_style_18, .layout_style_11, .layout_style_12, .layout_style_13, .layout_style_14 {
-    width: 485.6pt;
-}
-.layout_style_29 {
-    width: 485.6pt;
-}
-.layout_style_149 {
-    width: 485.6pt;
-}
-.layout_style_6 {
-    width: 485.6pt;
-}
-.layout_style_10 {
-    width: 485.6pt;
-}
-.layout_style_19 {
-    width: 485.6pt;
-}
-.layout_style_17 {
-    width: 485.6pt;
-}
-.layout_style_9 {
-    width: 485.6pt;
-}
-.layout_style_18 {
-    width: 485.6pt;
-}
-.layout_style_11 {
-    width: 485.6pt;
-}
-.layout_style_12 {
-    width: 485.6pt;
-}
-.layout_style_13 {
-    width: 485.6pt;
-}
-.layout_style_14 {
-    width: 485.6pt;
+.Bullet_6 {
+    list-style: disc;
+    margin-bottom: 0.000000pt;
+    margin-left: 108.000000pt;
+    margin-top: 0.000000pt;
+    padding-left: 6pt;
+    text-indent: 6.000000pt;
 }
 .Table {
-    background: transparent;
+    background-color: transparent;
     border-collapse: collapse;
 }
+.Normal {
+    vertical-align: top;
+}
 .table_cell_style_default {
-    background: transparent;
+    background-color: transparent;
 }
-.Spacer {display: inline; }
-.Spacer {display: inline-block; }
-ol {
-    list-style-image: none;
-    list-style-position: inside;
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    text-indent: 0;
-}
-.Bullet {    border: none;
-    text-decoration: none;
-}
-div {
-    overflow: visible;
-}
-img {
-    border: none;
-}
-.searchtext {
+.Bullet_5 {
+    list-style: disc;
+    margin-bottom: 0.000000pt;
+    margin-left: 90.000000pt;
+    margin-top: 0.000000pt;
+    padding-left: 6pt;
+    text-indent: 6.000000pt;
 }
