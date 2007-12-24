@@ -189,22 +189,19 @@ Object do(
     
     
     docSlot := method(k, v, 
-    /*
         entry := Object clone 
         entry description := v asSymbol
         if (k containsSeq("("), 
             entry args := k afterSeq("(") beforeSeq(")") split(",") map(strip)
         )	
         getSlot("self") docsSlot slots setSlot(k beforeSeq("("), entry)
-    */
-    nil
     )
         
     docCopyright := method(v, 
 	   k := call message name asMutable removePrefix("doc") makeFirstCharacterLowercase
 	   getSlot("self") docsSlot setSlot(k, v)
     )
-    docCopyright := nil //    turnOffDocs
+    //docCopyright := nil //    turnOffDocs
  
     docLicense := getSlot("docCopyright")
     docObject := getSlot("docCopyright")

@@ -7,7 +7,7 @@
 
 #include "IoObject.h"
 #include "IoSeq.h"
-#include "tagdb/tagdb.h"
+#include <tagdb/TagDB.h>
 
 typedef IoObject IoTagDB;
 

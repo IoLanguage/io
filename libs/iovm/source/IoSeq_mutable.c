@@ -113,6 +113,8 @@ IoObject *IoSeq_copy(IoSeq *self, IoObject *locals, IoMessage *m)
 	docSlot("copy(aSequence)", "Replaces the bytes of the receiver with a copy of those in aSequence. Returns self. ")
 	*/
 
+	IO_ASSERT_NOT_SYMBOL(self);
+
 	IoSeq_rawCopy_(self, IoMessage_locals_seqArgAt_(m, locals, 0));
 	return self;
 }
@@ -573,6 +575,8 @@ IoObject *IoSeq_reverse(IoSeq *self, IoObject *locals, IoMessage *m)
 	/*#io
 		   docSlot("reverse", "Reverses the bytes in the receiver, in-place.")
 	*/
+
+	IO_ASSERT_NOT_SYMBOL(self);
 
 	UArray_reverse(DATA(self));
 	return self;

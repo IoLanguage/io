@@ -620,6 +620,7 @@ SequenceTest := UnitTest clone do(
 		assertEquals("" asMutable, "" asMutable reverse)
 		assertEquals("a" asMutable, "a" asMutable reverse)
 		assertEquals("abc" asMutable, "cba" asMutable reverse)
+		assertRaisesException("abc" reverse)
 	)
 	
 	testPrependSeq := method(
@@ -630,5 +631,11 @@ SequenceTest := UnitTest clone do(
 		assertEquals("123a", "a" asMutable prependSeq("123"))
 		assertEquals("123a", "a" asMutable prependSeq("1", "2", "3"))
 		assertEquals("123", "" asMutable prependSeq("1", "2", "3"))
+	)
+
+	testCopy := method(
+		assertRaisesException("abc" copy("123"))
+		assertEquals("123", "abc" asMutable copy("123"))
+		assertEquals("123", "abc" asMutable do(copy("123")))
 	)
 )
