@@ -206,8 +206,8 @@ IOVM_API IoObject *IoObject_isActivatableMethod(IoObject *self, IoObject *locals
 IOVM_API IoObject *IoObject_rawDoMessage(IoObject *self, IoMessage *m);
 IOVM_API IoObject *IoObject_eval(IoObject *self, IoMessage *m, IoObject *locals);
 
-IOVM_API IoObject *IoObject_argIsActivationRecord(IoObject *self, IoMessage *m, IoObject *locals);
-IOVM_API IoObject *IoObject_argIsCall(IoObject *self, IoMessage *m, IoObject *locals);
+IOVM_API IoObject *IoObject_argIsActivationRecord(IoObject *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoObject_argIsCall(IoObject *self, IoObject *locals, IoMessage *m);
 
 IOVM_API UArray *IoObject_rawGetUArraySlot(IoObject *self,
 								IoObject *locals,
