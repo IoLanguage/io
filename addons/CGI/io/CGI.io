@@ -77,10 +77,8 @@ CGI := Object clone do(
 				form atPut("imageMapX", kv at(0))
 				form atPut("imageMapY", kv at(1))
 			)
-			e := try (
-				if(System getenv("REQUEST_METHOD") asLowercase == "post",
-					setPostData(File standardInput open contents)
-				)
+			if(System getenv("REQUEST_METHOD") ?asLowercase == "post",
+				setPostData(File standardInput open contents)
 			)
 		)
 		return form
