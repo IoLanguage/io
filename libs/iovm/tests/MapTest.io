@@ -112,4 +112,23 @@ MapTest := UnitTest clone do(
         assertEquals(1, exampleMap size)
         //assertFalse(exampleMap hasKey("a"))
     )
+
+    testAsList := method(
+        m := Map clone atPut("a", 1) atPut("b", 2) atPut("c", 3) atPut("d", 4)
+        l := m asList
+        assertEquals(4, l size)
+
+        l foreach(pair,
+            key := pair at(0)
+            value := pair at(1)
+            assertEquals(2, pair size)
+
+            assertTrue(m hasKey(key))
+            assertEquals(m at(key), value)
+
+            m removeAt(key)
+        )
+
+        assertEquals(0, m size)
+    )
 )

@@ -379,4 +379,23 @@ ListTest := UnitTest clone do(
         assertEquals("beta", a at(1))
         assertEquals("3", a at(2))
     )
+
+    testAsMap := method(
+        l := list(list("d", 4), list("c", 3), list("a", 1), list("b", 2))
+        m := l asMap
+
+        assertEquals(4, m size)
+
+        l foreach(pair,
+            key := pair at(0)
+            value := pair at(1)
+
+            assertTrue(m hasKey(key))
+            assertEquals(value, m at(key))
+
+            m removeAt(key)
+        )
+
+        assertEquals(0, m size)
+    )
 )

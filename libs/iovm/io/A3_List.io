@@ -154,6 +154,12 @@ list(1, 2, 3, 4) detect(v, v > 2)
     docSlot("unique", "Returns a new list containing all the values in the target, but no duplicates.")
     unique := method(a := list; self foreach(v, a appendIfAbsent(v)); a)
 
+	docSlot("asMap", "The reverse of Map asList: converts a list of lists (key-value pairs) into a Map. The first item of each pair list must be a sequence. The second item is the value.")
+	asMap := method(
+		m := Map clone
+		self foreach(pair, m atPut(pair at(0), pair at(1)))
+	)
+
 		docSlot("reduce", "Also known as foldl or inject. Combines values in target start on the left. reduce(+) or reduce(x, y, x + y).")
 		reduce := method(
 			accu := first
