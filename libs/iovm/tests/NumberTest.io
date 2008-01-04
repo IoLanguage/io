@@ -75,5 +75,35 @@ NumberTest := UnitTest clone do(
         knownBug("x = " .. (Number floatMax))
     )
     */
-    
+
+    testAsString := method(
+        # Test the no-argument form (try all the IoNumber_Double_intoCString_() paths)
+        assertEquals("1", 1 asString)
+        assertEquals("2147483647", 2147483647 asString)
+        assertEquals("2.147484e+09", 2147483648 asString)
+        assertEquals("1.1000000000000001", 1.1 asString)
+        assertEquals("1.2", 1.2 asString)
+
+        # Test the one argument form
+        assertEquals("1.000000", 1 asString(0))
+        assertEquals("1.000000", 1 asString(1))
+        assertEquals("  1.000000", 1 asString(10))
+        assertEquals("1.100000", 1.1 asString(0))
+        assertEquals("1.100000", 1.1 asString(1))
+        assertEquals("  1.100000", 1.1 asString(10))
+
+        assertEquals("2147483647.000000", 2147483647 asString(0))
+        assertEquals("2147483648.000000", 2147483648 asString(0))
+
+        # Test the two argument form
+        assertEquals("137846528820", 137846528820 asString(0, 0))
+        assertEquals("137846528820.0", 137846528820 asString(0, 1))
+        assertEquals("        137846528820", 137846528820 asString(20, 0))
+        assertEquals("      137846528820.0", 137846528820 asString(20, 1))
+
+        assertEquals("-137846528820", (-137846528820) asString(0, 0))
+        assertEquals("-137846528820.0", (-137846528820) asString(0, 1))
+        assertEquals("       -137846528820", (-137846528820) asString(20, 0))
+        assertEquals("     -137846528820.0", (-137846528820) asString(20, 1))
+    )
 )

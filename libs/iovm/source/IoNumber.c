@@ -494,27 +494,12 @@ would return:
         part  = abs(part);
         whole = abs(whole);
 
-        // make enough space for the number parts and any
-        // notation sprintf might add
-        length = part + whole + 8;
+        // If whole == 0, printf might need an arbitary size string. Instead of
+        // second guessing the size, pick a really big size: 1024.
+        length = 1024;
         s = io_calloc(1, length);
 
-        if (whole && part)
-        {
-            snprintf(s, length, "%*.*f", whole, part, DATA(self));
-        }
-        else if (whole)
-        {
-            snprintf(s, length, "%*d", whole, (int) DATA(self));
-        }
-        else if (part)
-        {
-            snprintf(s, length, "%.*f", part, DATA(self));
-        }
-        else
-        {
-            snprintf(s, length, "%d", (int) DATA(self));
-        }
+        snprintf(s, length, "%*.*f", whole, part, DATA(self));
 
         n = IOSEQ((unsigned char *)s, (size_t)strlen(s));
 
