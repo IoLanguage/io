@@ -76,8 +76,6 @@ testaddon:
 	./_build/binaries/io_static$(BINARY_SUFFIX) addons/$(addon)/tests/run.io
 
 vm:
-	$(MAKE) -C tools/editlib_test clean
-	$(MAKE) -C tools/editlib_test || true
 	for dir in $(libs); do INSTALL_PREFIX=$(INSTALL_PREFIX) $(MAKE) -C libs/$$dir; done
 	$(MAKE) vmlib
 	cd tools; $(MAKE)
@@ -89,11 +87,9 @@ ifneq (,$(findstring Windows,$(SYS)))
 endif
 	mkdir -p _build/binaries || true
 	cp tools/_build/binaries/* _build/binaries
-	@$(MAKE) -s -C tools/editlib_test warn
 
 addons: vm
 	./_build/binaries/io_static$(BINARY_SUFFIX) build.io
-	@$(MAKE) -s -C tools/editlib_test warn
 	@if [ -f errors ]; then cat errors; echo; echo "Note: addons do not to build when libs or headers are missing"; echo; rm errors; fi
 
 vmlib:
@@ -168,7 +164,6 @@ clean:
 	-rm -rf projects/osx/build
 	-rm -rf projects/osxvm/build
 	$(MAKE) -C tools clean
-	$(MAKE) -C tools/editlib_test clean
 
 testvm:
 	cd tools; make test
