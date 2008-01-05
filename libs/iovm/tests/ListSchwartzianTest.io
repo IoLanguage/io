@@ -1,5 +1,5 @@
 ListSchwartzianTest := UnitTest clone do(
-	
+
 	testSimpleOrdering := method(
 		assertEquals(list(1,2,3,4) sortByKey(x, x), list(1,2,3,4))
 		assertEquals(list(4,3,2,1) sortByKey(x, x), list(1,2,3,4))

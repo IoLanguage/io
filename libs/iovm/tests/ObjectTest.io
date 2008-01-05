@@ -1,54 +1,54 @@
 
 ObjectTest := UnitTest clone do(
-    setUp := method(
-        super(setUp)
-    )
-    
-    tearDown := method(
-        super(tearDown)
-    )
-    
-    testProto := method(
-        a := Object clone
-        b := a clone
-        assertSame(Object, a proto)
-        assertSame(a, b proto)
-    )
-    
-    testFor := method(
-        assertEquals(5, for(i, 1, 10, if(i == 5, break(i))))
-    )
+	setUp := method(
+		super(setUp)
+	)
 
-    testHasLocalSlot := method(
-        assertFalse(Object clone hasLocalSlot("clone"))
-        assertTrue(Object hasLocalSlot("clone"))
-    )
+	tearDown := method(
+		super(tearDown)
+	)
 
-    testHasSlot := method(
+	testProto := method(
+		a := Object clone
+		b := a clone
+		assertSame(Object, a proto)
+		assertSame(a, b proto)
+	)
+
+	testFor := method(
+		assertEquals(5, for(i, 1, 10, if(i == 5, break(i))))
+	)
+
+	testHasLocalSlot := method(
+		assertFalse(Object clone hasLocalSlot("clone"))
+		assertTrue(Object hasLocalSlot("clone"))
+	)
+
+	testHasSlot := method(
 		assertFalse(Object hasSlot("slotThatShouldNotExist"))
-        assertTrue(Object clone hasSlot("clone"))
+		assertTrue(Object clone hasSlot("clone"))
 		assertTrue(Object hasSlot("clone"))
-    )
+	)
 
-    testActor := method(
-        A := Object clone
-        A s := Sequence clone
-        A test := method(a, for(i, 1, 2, s appendSeq(a, i asString, "."); yield))
-        A clone @@test("a"); 
-        yield
-        A clone @@test("b")
-        yield; yield; yield; yield;
-        assertEquals("a1.b1.a2.b2.", A s asString)
-    )
-    
+	testActor := method(
+		A := Object clone
+		A s := Sequence clone
+		A test := method(a, for(i, 1, 2, s appendSeq(a, i asString, "."); yield))
+		A clone @@test("a");
+		yield
+		A clone @@test("b")
+		yield; yield; yield; yield;
+		assertEquals("a1.b1.a2.b2.", A s asString)
+	)
 
-    testFuture := method(
-        obj := Object clone
-        obj double := method(v, return v * 2)
-        future := obj @double(2)
-        assertEquals(future, 4)
-        // known bug - assertEquals(4, future)
-    )
+
+	testFuture := method(
+		obj := Object clone
+		obj double := method(v, return v * 2)
+		future := obj @double(2)
+		assertEquals(future, 4)
+		// known bug - assertEquals(4, future)
+	)
 
 	testQuestionMarkReturns := method(
 		a := method(x, x return "first"; "second")
@@ -95,15 +95,15 @@ ObjectTest := UnitTest clone do(
 
 		assertEquals(f, list("b", "c", "d", "a", "b", "c"))
 	)
-	
+
 	_willFree2 := method(
-        Lobby willFreeWorked := false
+		Lobby willFreeWorked := false
 		Object clone do(willFree := method(Lobby willFreeWorked := true))
 		nil
 	)
-	
+
 	testWillFree := method(
-        _willFree2
+		_willFree2
 		Collector collect
 		assertEquals(Lobby willFreeWorked, true)
 	)

@@ -4,11 +4,11 @@ BigSourceFileTest := UnitTest clone do(
 
 	testCollector := method(
 		//Collector debugOn
-		
+
 		Collector collect
 		Collector collect
 		Collector collect
-		
+
 		//writeln("done")
 	)
 )
@@ -10190,6 +10190,6 @@ a a a a a a a a a a a a a a a a a a a a a a a a a a a a a
 )
 */
 
-BigSourceFileTest 
+BigSourceFileTest
 
 

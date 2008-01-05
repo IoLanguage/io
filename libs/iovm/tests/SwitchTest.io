@@ -33,19 +33,19 @@ SwitchTest := UnitTest clone do(
 		)
 	)
 
-    testSingleArg := method(
+	testSingleArg := method(
 		assertEquals(nil switch(13), 13)
 		assertEquals(Object switch(13), 13)
 		assertEquals(1 switch(13), 13)
 		assertEquals("abc" switch(13), 13)
-    )
+	)
 
-    testNoArgs := method(
+	testNoArgs := method(
 		assertNil(nil switch)
 		assertNil(Object switch)
 		assertNil(1 switch)
 		assertNil("abc" switch)
-    )
+	)
 
 	testBreakAndContinueInsideSwitch := method(
 		# break and continue operate on the loop

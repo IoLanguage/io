@@ -1,109 +1,109 @@
 
 NumberTest := UnitTest clone do(
 
-    testClone := method(
-        number := 5
-        assertEquals(number, number clone)
-        assertSame(Number, number proto)
-    )
-    
-    testEquality := method(
-        a := 10
-        b := a
-        assertTrue(a == 10)
-        assertTrue(a == b)
-    )
-    
-    testPrecision := method(
-        assertEquals(2.2469135782469135, 2 * 1.123456789123456789)
-        assertFalse(2 * 1.123456789123456789 == 2.246913578246913)
-        assertEquals(10, 10.49 round)
-        assertEquals(11, 10.50 round)
-        assertEquals(11, 10.51 round)
-    )
-    
-    testPrecedence := method(
-        assertEquals(2 + (3 * 4) - (5 * 6) / 7, 2 + 3 * 4 - 5 * 6 / 7)
-    )
-    
-    testFunctions := method(
-        assertEquals("31.6227766017", 1000 sqrt asString(0, 10))
-        assertEqualsWithinDelta(31.6227766, 1000 sqrt, 0.00000001)
-        n := -10
-        assertEquals(10, n abs)
-        knownBug(assertEquals(10, -10 abs))
-        assertEquals(10, (-10) abs)
-        assertTrue(10 between(9.9999, 10.0001))
-        assertEquals(-0.5440211108893698, 10 sin)
-        assertEquals(-0.8390715290764524, 10 cos )
-    )
-    
-    testDirectAssignment := method(
-        a := 5
-        a = 10
-        assertEquals(10, a)
-        assertFalse(a < -10)
-        assertFalse(a <(-10))
-    )
-    
-    testBitwiseOperations := method(
-        assertEquals(4, 2 shiftLeft(1))
-        assertEquals(1, 2 shiftRight(1))
-        assertEquals(7, 3 | (4))
-        assertEquals(7, 3 bitwiseOr(4))
-        assertEquals(0, 3 & (4))
-        assertEquals(0, 3 bitwiseAnd(4))
-    )
-    
-    testCharacters := method(
-        assertTrue(65 isLetter)
-        assertFalse(30 isLetter)
-        assertFalse(47 isDigit)
-        assertTrue(48 isDigit)
-        assertTrue(57 isDigit)
-        assertFalse(58 isDigit)
-    )
-    
-    testPerform := method(
-        assertEquals(-0.5440211108893698, 10 perform("sin"))
-    )
-    
-    /*
-    what was this bug supposed to be?
-    testFloatMaxBug := method(
-        knownBug((Number floatMax) asString)
-        knownBug("x = " .. (Number floatMax))
-    )
-    */
+	testClone := method(
+		number := 5
+		assertEquals(number, number clone)
+		assertSame(Number, number proto)
+	)
 
-    testAsString := method(
-        # Test the no-argument form (try all the IoNumber_Double_intoCString_() paths)
-        assertEquals("1", 1 asString)
-        assertEquals("2147483647", 2147483647 asString)
-        assertEquals("2.147484e+09", 2147483648 asString)
-        assertEquals("1.1000000000000001", 1.1 asString)
-        assertEquals("1.2", 1.2 asString)
+	testEquality := method(
+		a := 10
+		b := a
+		assertTrue(a == 10)
+		assertTrue(a == b)
+	)
 
-        # Test the one argument form
-        assertEquals("1.000000", 1 asString(0))
-        assertEquals("1.000000", 1 asString(1))
-        assertEquals("  1.000000", 1 asString(10))
-        assertEquals("1.100000", 1.1 asString(0))
-        assertEquals("1.100000", 1.1 asString(1))
-        assertEquals("  1.100000", 1.1 asString(10))
+	testPrecision := method(
+		assertEquals(2.2469135782469135, 2 * 1.123456789123456789)
+		assertFalse(2 * 1.123456789123456789 == 2.246913578246913)
+		assertEquals(10, 10.49 round)
+		assertEquals(11, 10.50 round)
+		assertEquals(11, 10.51 round)
+	)
 
-        assertEquals("2147483647.000000", 2147483647 asString(0))
-        assertEquals("2147483648.000000", 2147483648 asString(0))
+	testPrecedence := method(
+		assertEquals(2 + (3 * 4) - (5 * 6) / 7, 2 + 3 * 4 - 5 * 6 / 7)
+	)
 
-        # Test the two argument form
-        assertEquals("137846528820", 137846528820 asString(0, 0))
-        assertEquals("137846528820.0", 137846528820 asString(0, 1))
-        assertEquals("        137846528820", 137846528820 asString(20, 0))
-        assertEquals("      137846528820.0", 137846528820 asString(20, 1))
+	testFunctions := method(
+		assertEquals("31.6227766017", 1000 sqrt asString(0, 10))
+		assertEqualsWithinDelta(31.6227766, 1000 sqrt, 0.00000001)
+		n := -10
+		assertEquals(10, n abs)
+		knownBug(assertEquals(10, -10 abs))
+		assertEquals(10, (-10) abs)
+		assertTrue(10 between(9.9999, 10.0001))
+		assertEquals(-0.5440211108893698, 10 sin)
+		assertEquals(-0.8390715290764524, 10 cos )
+	)
 
-        assertEquals("-137846528820", (-137846528820) asString(0, 0))
-        assertEquals("-137846528820.0", (-137846528820) asString(0, 1))
-        assertEquals("       -137846528820", (-137846528820) asString(20, 0))
-        assertEquals("     -137846528820.0", (-137846528820) asString(20, 1))
-    )
+	testDirectAssignment := method(
+		a := 5
+		a = 10
+		assertEquals(10, a)
+		assertFalse(a < -10)
+		assertFalse(a <(-10))
+	)
+
+	testBitwiseOperations := method(
+		assertEquals(4, 2 shiftLeft(1))
+		assertEquals(1, 2 shiftRight(1))
+		assertEquals(7, 3 | (4))
+		assertEquals(7, 3 bitwiseOr(4))
+		assertEquals(0, 3 & (4))
+		assertEquals(0, 3 bitwiseAnd(4))
+	)
+
+	testCharacters := method(
+		assertTrue(65 isLetter)
+		assertFalse(30 isLetter)
+		assertFalse(47 isDigit)
+		assertTrue(48 isDigit)
+		assertTrue(57 isDigit)
+		assertFalse(58 isDigit)
+	)
+
+	testPerform := method(
+		assertEquals(-0.5440211108893698, 10 perform("sin"))
+	)
+
+	/*
+	what was this bug supposed to be?
+	testFloatMaxBug := method(
+		knownBug((Number floatMax) asString)
+		knownBug("x = " .. (Number floatMax))
+	)
+	*/
+
+	testAsString := method(
+		# Test the no-argument form (try all the IoNumber_Double_intoCString_() paths)
+		assertEquals("1", 1 asString)
+		assertEquals("2147483647", 2147483647 asString)
+		assertEquals("2.147484e+09", 2147483648 asString)
+		assertEquals("1.1000000000000001", 1.1 asString)
+		assertEquals("1.2", 1.2 asString)
+
+		# Test the one argument form
+		assertEquals("1.000000", 1 asString(0))
+		assertEquals("1.000000", 1 asString(1))
+		assertEquals("  1.000000", 1 asString(10))
+		assertEquals("1.100000", 1.1 asString(0))
+		assertEquals("1.100000", 1.1 asString(1))
+		assertEquals("  1.100000", 1.1 asString(10))
+
+		assertEquals("2147483647.000000", 2147483647 asString(0))
+		assertEquals("2147483648.000000", 2147483648 asString(0))
+
+		# Test the two argument form
+		assertEquals("137846528820", 137846528820 asString(0, 0))
+		assertEquals("137846528820.0", 137846528820 asString(0, 1))
+		assertEquals("        137846528820", 137846528820 asString(20, 0))
+		assertEquals("      137846528820.0", 137846528820 asString(20, 1))
+
+		assertEquals("-137846528820", (-137846528820) asString(0, 0))
+		assertEquals("-137846528820.0", (-137846528820) asString(0, 1))
+		assertEquals("       -137846528820", (-137846528820) asString(20, 0))
+		assertEquals("     -137846528820.0", (-137846528820) asString(20, 1))
+	)
 )

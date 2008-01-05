@@ -51,19 +51,19 @@ list( 0.01, .1, 1, 2, 4, 16) foreach(mpa,
 
 	Collector setMarksPerAlloc(mpa)
 	Collector setAllocatedStep(as)
-	
+
 	time := Date clone cpuSecondsToRun(test)
-	mb := (Collector maxAllocatedBytes/1000000) asString(0,2) 
-	
-	writeln(Collector marksPerAlloc asString(0,2), "\t", 
-		Collector allocatedStep asString(0,2), "\t", 
-		mb, "\t", 
-		time asString(0,2) , "\t", 
-		(mb asNumber * time  ) asString(0,2), "\t", 
+	mb := (Collector maxAllocatedBytes/1000000) asString(0,2)
+
+	writeln(Collector marksPerAlloc asString(0,2), "\t",
+		Collector allocatedStep asString(0,2), "\t",
+		mb, "\t",
+		time asString(0,2) , "\t",
+		(mb asNumber * time  ) asString(0,2), "\t",
 		(100*(Collector timeUsed - lastTimeUsed)/time) asString(2, 1), "%")
-		
+
 	lastTimeUsed = Collector timeUsed
-	
+
 	Collector collect
 	Collector resetMaxAllocatedBytes
 
@@ -76,17 +76,17 @@ writeln("mpa	mps	spg	mb	time	mbt")
 
 list(16, 64, 128) foreach(spg,
 list(1, 10, 100) foreach(mpa,
-list(100, 10000) foreach(mps, 
+list(100, 10000) foreach(mps,
 
 	Collector setMarksPerAlloc(mpa)
 	Collector setMarksPerSweep(mps)
 	Collector setSweepsPerGeneration(spg)
-	
+
 	time := Date clone cpuSecondsToRun(r := TestSuite clone setPath(launchPath) run)
-	mb := (Collector maxAllocatedBytes/1000000) asString(0,1) 
-	
+	mb := (Collector maxAllocatedBytes/1000000) asString(0,1)
+
 	writeln(Collector marksPerAlloc asString(0,1), "\t", Collector marksPerSweep, "\t", Collector sweepsPerGeneration, "\t", mb, "\t", time asString(0,1) , "\t", (mb asNumber * time) asString(0,1) )
-	
+
 	30 repeat(Collector collect)
 	Collector resetMaxAllocatedBytes
 
