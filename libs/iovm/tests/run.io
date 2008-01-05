@@ -3,11 +3,33 @@
 //Message useIoShuffle
 //Collector debugOn
 
-test := method(TestSuite clone setPath(launchPath) run)
+if(args size > 1,
+	# Run specific tests
+	UnitTest verbose := getSlot("writeln")
 
-time := Date clone cpuSecondsToRun(r := test)
-writeln("time: ", time, " seconds")
-System exit(r)
+	time := Date clone cpuSecondsToRun(
+		args slice(1) foreach(name,
+			writeln(name, ":")
+			try(
+				if(name endsWithSeq(".io"),
+					doFile(name) run
+				,
+					doString(name) run
+				)
+			) ?showStack
+			writeln
+		)
+	)
+	writeln("time: ", time, " seconds")
+	System exit(0)
+,
+	# Run all tests
+	test := method(TestSuite clone setPath(launchPath) run)
+
+	time := Date clone cpuSecondsToRun(r := test)
+	writeln("time: ", time, " seconds")
+	System exit(r)
+)
 
 /*
 allocsPerMark
