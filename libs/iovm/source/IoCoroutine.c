@@ -1,10 +1,10 @@
 /*#io
 Map ioDoc(
-          docCopyright("Steve Dekorte", 2002)
-          docLicense("BSD revised")
-          docDescription("Object wrapper for an Io coroutine.")
-		docCategory("Core")
-         */
+	docCopyright("Steve Dekorte", 2002)
+	docLicense("BSD revised")
+	docDescription("Object wrapper for an Io coroutine.")
+	docCategory("Core")
+*/
 
 #include "IoCoroutine.h"
 #include "IoObject.h"
@@ -250,7 +250,7 @@ void IoCoroutine_rawReturnToParent(IoCoroutine *self)
 	}
 
 	printf("IoCoroutine error: unable to auto abort coro %p by resuming parent coro %s_%p\n",
-		  (void *)self, IoObject_name(parent), (void *)parent);
+			(void *)self, IoObject_name(parent), (void *)parent);
 	exit(-1);
 }
 
@@ -291,7 +291,7 @@ IoObject *IoCoroutine_freeStack(IoCoroutine *self, IoObject *locals, IoMessage *
 		Coro_free(DATA(self)->cid);
 		DATA(self)->cid = NULL;
 	}
-	
+
 	return self;
 }
 
@@ -320,7 +320,7 @@ Coro *IoCoroutine_rawCoro(IoCoroutine *self)
 
 void IoCoroutine_clearStack(IoCoroutine *self)
 {
-   Stack_clear(DATA(self)->ioStack);
+	Stack_clear(DATA(self)->ioStack);
 }
 
 void IoCoroutine_rawRun(IoCoroutine *self)
@@ -367,9 +367,9 @@ void IoCoroutine_try(IoCoroutine *self, IoObject *target, IoObject *locals, IoMe
 }
 
 IoCoroutine *IoCoroutine_newWithTry(void *state,
-							 IoObject *target,
-							 IoObject *locals,
-							 IoMessage *message)
+									IoObject *target,
+									IoObject *locals,
+									IoMessage *message)
 {
 	IoCoroutine *self = IoCoroutine_new(state);
 	IoCoroutine_try(self, target, locals, message);
@@ -450,9 +450,9 @@ void IoCoroutine_rawPrint(IoCoroutine *self)
 	if (coro)
 	{
 		printf("Coroutine_%p with cid %p ioStackSize %i\n",
-			  (void *)self,
-			  (void *)coro,
-			  (int)Stack_count(DATA(self)->ioStack));
+				(void *)self,
+				(void *)coro,
+				(int)Stack_count(DATA(self)->ioStack));
 	}
 }
 

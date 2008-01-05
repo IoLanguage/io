@@ -1,7 +1,7 @@
 /*
- docCopyright("Steve Dekorte", 2002)
- docLicense("BSD revised")
- */
+docCopyright("Steve Dekorte", 2002)
+docLicense("BSD revised")
+*/
 
 #define IOSTATE_C 1
 #include "IoState.h"
@@ -72,17 +72,17 @@ void IoState_new_atAddress(void *address)
 	SHash_setHashForKeyCallback(self->symbols, (SHashHashforKeyCallback *)UArray_hash);
 
 	/*
-     Problem:
-	 - there are some interdependencies here:
-	 - creating instances requires a retain stack
-	 - we need a Coroutine to use for our retainStack
-	 - defining any primitive methods requires Strings and CFunctions
+	Problem:
+	- there are some interdependencies here:
+	- creating instances requires a retain stack
+	- we need a Coroutine to use for our retainStack
+	- defining any primitive methods requires Strings and CFunctions
 
-	 Solution:
-	 - create a temporary fake stack
-	 - create Object, CFunction and String protos sans methods.
-	 - then add methods to Object, CFunction and String
-	 */
+	Solution:
+	- create a temporary fake stack
+	- create Object, CFunction and String protos sans methods.
+	- then add methods to Object, CFunction and String
+	*/
 
 	self->currentIoStack = Stack_new(); // temp retain stack until coro is up
 
@@ -103,8 +103,8 @@ void IoState_new_atAddress(void *address)
 
 	cFunctionProto = IoCFunction_proto(self);
 	self->localsUpdateSlotCFunc = IoState_retain_(self,
-										 IoCFunction_newWithFunctionPointer_tag_name_(self,
-										 IoObject_localsUpdateSlot, NULL, "localsUpdate"));
+												  IoCFunction_newWithFunctionPointer_tag_name_(self,
+												  IoObject_localsUpdateSlot, NULL, "localsUpdate"));
 
 	IoSeq_protoFinish(seqProto);
 	IoObject_protoFinish(self);
@@ -225,9 +225,9 @@ IoState *IoState_new(void)
 void IoState_setupQuickAccessSymbols(IoState *self)
 {
 	self->activateSymbol     = IoState_retain_(self, SIOSYMBOL("activate"));
-	self->forwardSymbol	     = IoState_retain_(self, SIOSYMBOL("forward"));
-	self->selfSymbol	     = IoState_retain_(self, SIOSYMBOL("self"));
-	self->setSlotSymbol	     = IoState_retain_(self, SIOSYMBOL("setSlot"));
+	self->forwardSymbol      = IoState_retain_(self, SIOSYMBOL("forward"));
+	self->selfSymbol         = IoState_retain_(self, SIOSYMBOL("self"));
+	self->setSlotSymbol      = IoState_retain_(self, SIOSYMBOL("setSlot"));
 	self->setSlotWithTypeSymbol  = IoState_retain_(self, SIOSYMBOL("setSlotWithType"));
 	self->updateSlotSymbol   = IoState_retain_(self, SIOSYMBOL("updateSlot"));
 	self->callSymbol         = IoState_retain_(self, SIOSYMBOL("call"));
@@ -402,7 +402,7 @@ void IoState_done(IoState *self)
 
 void IoState_free(IoState *self)
 {
-    IoState_done(self);
+	IoState_done(self);
 	io_free(self);
 }
 
@@ -424,9 +424,9 @@ void MissingProtoError(void)
 IoObject *IoState_protoWithInitFunction_(IoState *self, IoStateProtoFunc *func)
 {
 	IoObject *proto = PHash_at_(self->primitives, (void *)func);
-	
+
 	//printf("IoState_protoWithInitFunction_(self, %p)\n", (void *)func);
-	
+
 	if (!proto)
 	{
 		//MissingProtoError();

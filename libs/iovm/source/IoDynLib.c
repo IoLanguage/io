@@ -1,10 +1,10 @@
 /*#io
 DynLib ioDoc(
-		   docCopyright("Steve Dekorte", 2002)
-		   docLicense("BSD revised")
-		   docDescription("A DLL Loader by Kentaro A. Kurahone <kurahone@sigusr1.org>.")
-		   docCategory("Core")
-		   */
+	docCopyright("Steve Dekorte", 2002)
+	docLicense("BSD revised")
+	docDescription("A DLL Loader by Kentaro A. Kurahone <kurahone@sigusr1.org>.")
+	docCategory("Core")
+*/
 
 #include "IoObject.h"
 #include "IoState.h"
@@ -67,8 +67,8 @@ IoDynLib *IoDynLib_rawClone(IoDynLib *proto)
 {
 	/*
 	Note that due to the nature of this object, a clone will *NOT* inherit
-	 it's parent's dynamically loaded object.
-	 */
+	it's parent's dynamically loaded object.
+	*/
 
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, DynLib_new());
@@ -86,11 +86,11 @@ IoDynLib *IoDynLib_setPath(IoDynLib *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("setPath(aString)",
-		   "Sets the path to the dynamic library. Returns self.")
+			"Sets the path to the dynamic library. Returns self.")
 	*/
 
 	DynLib_setPath_(DATA(self),
-				 CSTRING(IoMessage_locals_symbolArgAt_(m, locals, 0)));
+					CSTRING(IoMessage_locals_symbolArgAt_(m, locals, 0)));
 	return self;
 }
 
@@ -107,11 +107,11 @@ IoDynLib *IoDynLib_setInitFuncName(IoDynLib *self, IoObject *locals, IoMessage *
 {
 	/*#io
 	docSlot("setInitFuncName(aString)",
-		   "Sets the initialization function name for the dynamic library. Returns self.")
+			"Sets the initialization function name for the dynamic library. Returns self.")
 	*/
 
 	DynLib_setInitFuncName_(DATA(self),
-					    CSTRING(IoMessage_locals_symbolArgAt_(m, locals, 0)));
+						CSTRING(IoMessage_locals_symbolArgAt_(m, locals, 0)));
 	return self;
 }
 
@@ -131,7 +131,7 @@ IoDynLib *IoDynLib_setFreeFuncName(IoDynLib *self, IoObject *locals, IoMessage *
 	*/
 
 	DynLib_setFreeFuncName_(DATA(self),
-					    CSTRING(IoMessage_locals_symbolArgAt_(m, locals, 0)));
+						CSTRING(IoMessage_locals_symbolArgAt_(m, locals, 0)));
 	return self;
 }
 
@@ -148,7 +148,7 @@ IoDynLib *IoDynLib_open(IoDynLib *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("open",
-		   "Opens the dynamic library and returns self or raises a DynLoad.open Error if there is an error. ")
+			"Opens the dynamic library and returns self or raises a DynLoad.open Error if there is an error. ")
 	*/
 
 	if (IoMessage_argCount(m))
@@ -171,7 +171,7 @@ IoDynLib *IoDynLib_close(IoDynLib *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("close",
-		   "Closes the library. Returns self.")
+			"Closes the library. Returns self.")
 	*/
 
 	DynLib_close(DATA(self));
@@ -426,8 +426,8 @@ IoDynLib *IoDynLib_justCall(IoDynLib *self, IoObject *locals, IoMessage *m, int 
 
 #if 0
 	printf("calling %s with %i arguments\n",
-		  CSTRING(IoMessage_locals_symbolArgAt_(m, locals, 0)),
-		  IoMessage_argCount(m) - 1);
+	CSTRING(IoMessage_locals_symbolArgAt_(m, locals, 0)),
+	IoMessage_argCount(m) - 1);
 #endif
 
 	IoState_pushCollectorPause(IOSTATE);
@@ -470,7 +470,7 @@ IoDynLib *IoDynLib_callPluginInitFunc(IoDynLib *self, IoObject *locals, IoMessag
 	int rc = 0;
 	intptr_t *params = NULL;
 	void *f = DynLib_pointerForSymbolName_(DATA(self),
-								    CSTRING(IoMessage_locals_symbolArgAt_(m, locals, 0)));
+									CSTRING(IoMessage_locals_symbolArgAt_(m, locals, 0)));
 	if (f == NULL)
 	{
 		IoState_error_(IOSTATE, m, "Error resolving call '%s'.",

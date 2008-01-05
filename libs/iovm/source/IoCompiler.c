@@ -1,10 +1,10 @@
 /*#io
 Compiler ioDoc(
-			docCopyright("Steve Dekorte", 2002)
-			docLicense("BSD revised")
-			docDescription("Contains methods related to the compiling code.")
-			docCategory("Core")
-			*/
+	docCopyright("Steve Dekorte", 2002)
+	docLicense("BSD revised")
+	docDescription("Contains methods related to the compiling code.")
+	docCategory("Core")
+*/
 
 #include "IoCompiler.h"
 #include "IoNumber.h"
@@ -34,7 +34,7 @@ IoObject *IoObject_tokensForString(IoObject *self, IoObject *locals, IoMessage *
 {
 	/*#io
 	docSlot("tokensForString(aString)",
-		   "Returns a list of token objects lexed from the input string.")
+			"Returns a list of token objects lexed from the input string.")
 	*/
 
 	IoSymbol *text = IoMessage_locals_seqArgAt_(m, locals, 0);
@@ -80,7 +80,7 @@ IoObject *IoObject_messageForTokens(IoObject *self, IoObject *locals, IoMessage 
 {
 	/*#io
 	docSlot("messageForTokens(aList)",
-		   "Returns the compiled message object for the given token list.")
+			"Returns the compiled message object for the given token list.")
 	*/
 
 	return m;
@@ -90,7 +90,7 @@ IoObject *IoObject_messageForString(IoObject *self, IoObject *locals, IoMessage 
 {
 	/*#io
 	docSlot("messageForString(aString, optionalLabelString)",
-		   "Returns the compiled message object for aString.")
+			"Returns the compiled message object for aString.")
 	*/
 
 	IoSymbol *string = IoMessage_locals_seqArgAt_(m, locals, 0);

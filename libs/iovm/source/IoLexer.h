@@ -19,17 +19,17 @@ typedef int uchar_t;
 
 typedef struct
 {
-    char *s;
-    char *current;
-    List *charLineIndex;
-    size_t lineHint;
-    size_t maxChar;
-    Stack *posStack;
-    Stack *tokenStack;
-    List *tokenStream;
-    size_t resultIndex;
-    IoToken *errorToken;
-    char *errorDescription;
+	char *s;
+	char *current;
+	List *charLineIndex;
+	size_t lineHint;
+	size_t maxChar;
+	Stack *posStack;
+	Stack *tokenStack;
+	List *tokenStream;
+	size_t resultIndex;
+	IoToken *errorToken;
+	char *errorDescription;
 } IoLexer;
 
 IoLexer *IoLexer_new(void);

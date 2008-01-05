@@ -14,10 +14,10 @@ extern "C" {
 
 typedef struct
 {
-    void *self;       // activationContext
-    void *locals;     // currentContext
-    void *message;
-    void *slotContext;
+	void *self;       // activationContext
+	void *locals;     // currentContext
+	void *message;
+	void *slotContext;
 } IoContext;
 
 #define IOCONTEXT(self, locals, message) ((IoContext *){self, locals, message})
@@ -30,11 +30,11 @@ typedef struct
 
 example:
 
-    IoObject *IoDuration_days(IoDuration *self, IoObject *locals, IoMessage *m);
+	IoObject *IoDuration_days(IoDuration *self, IoObject *locals, IoMessage *m);
 
 becomes:
 
-    IoObject *IoDuration_days(IoContext *context);
+	IoObject *IoDuration_days(IoContext *context);
 */
 
 #ifdef __cplusplus

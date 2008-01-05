@@ -26,8 +26,8 @@ extern "C" {
 #define ISMESSAGE(self) IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoMessage_rawClone)
 
 #if !defined(IoSymbol_DEFINED)
-  #define IoSymbol_DEFINED
-  typedef IoObject IoSymbol;
+	#define IoSymbol_DEFINED
+	typedef IoObject IoSymbol;
 #endif
 
 typedef IoObject IoMessage;
@@ -36,18 +36,18 @@ typedef IoObject IoMessage;
 
 typedef struct
 {
-    IoSymbol *name;
-    List *args;
-    #ifdef IOMESSAGE_HASPREV
-    IoMessage *previous; // unused for now
-    #endif
-    IoMessage *next;
-    IoObject *cachedResult;
+	IoSymbol *name;
+	List *args;
+	#ifdef IOMESSAGE_HASPREV
+	IoMessage *previous; // unused for now
+	#endif
+	IoMessage *next;
+	IoObject *cachedResult;
 
-    // debugging info
-    //int charNumber;
-    int lineNumber;
-    IoSymbol *label;
+	// debugging info
+	//int charNumber;
+	int lineNumber;
+	IoSymbol *label;
 } IoMessageData;
 
 #define IOMESSAGEDATA(self) ((IoMessageData *)IoObject_dataPointer(self))
@@ -183,10 +183,10 @@ IOVM_API IoObject *IoMessage_argsEvaluatedIn(IoMessage *self, IoObject *locals, 
 IOVM_API IoObject *IoMessage_evaluatedArgs(IoMessage *self, IoObject *locals, IoMessage *m);
 
 IOVM_API void IoMessage_foreachArgs(IoMessage *self,
-    IoObject *object,
-    IoSymbol **indexSlotName,
-    IoSymbol **valueSlotName,
-    IoMessage **doMessage);
+	IoObject *object,
+	IoSymbol **indexSlotName,
+	IoSymbol **valueSlotName,
+	IoMessage **doMessage);
 
 IOVM_API IoMessage *IoMessage_asMessageWithEvaluatedArgs(IoMessage *self, IoObject *locals, IoMessage *m);
 

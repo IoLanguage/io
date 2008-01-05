@@ -1,7 +1,7 @@
 /*
- docCopyright("Steve Dekorte", 2002)
- docLicense("BSD revised")
- */
+docCopyright("Steve Dekorte", 2002)
+docLicense("BSD revised")
+*/
 
 #include "IoState.h"
 #include "IoObject.h"

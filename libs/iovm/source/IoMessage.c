@@ -1,9 +1,9 @@
 /*#io
 Message ioDoc(
-              docCopyright("Steve Dekorte", 2002)
-              docLicense("BSD revised")
-              docObject("Message")
-              docDescription("""A Message object encapsulates the action of a message send. Blocks are composed of a Message and its children.
+	docCopyright("Steve Dekorte", 2002)
+	docLicense("BSD revised")
+	docObject("Message")
+	docDescription("""A Message object encapsulates the action of a message send. Blocks are composed of a Message and its children.
 
 Terminology
 
@@ -204,7 +204,7 @@ IoMessage *IoMessage_deepCopyOf_(IoMessage *self)
 	for (i = 0; i < IoMessage_argCount(self); i ++)
 	{
 		List_append_(DATA(child)->args,
-				   IOREF(IoMessage_deepCopyOf_(LIST_AT_(DATA(self)->args, i))));
+					 IOREF(IoMessage_deepCopyOf_(LIST_AT_(DATA(self)->args, i))));
 	}
 
 	DATA(child)->name = IOREF(DATA(self)->name);
@@ -378,7 +378,7 @@ IoObject *IoMessage_lineNumber(IoMessage *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("lineNumber",
-		   "Returns the line number of the message. The charcter number
+			"Returns the line number of the message. The charcter number
 is typically the line number in the source text from with the message was read. ")
 	*/
 
@@ -399,7 +399,7 @@ IoObject *IoMessage_characterNumber(IoMessage *self, IoObject *locals, IoMessage
 {
 	/*#io
 	docSlot("characterNumber",
-		   "Returns the message character number. The charcter number is typically
+			"Returns the message character number. The charcter number is typically
 the beggining character index in the source text from with the message was read. ")
 	*/
 
@@ -411,7 +411,7 @@ IoObject *IoMessage_setCharacterNumber(IoMessage *self, IoObject *locals, IoMess
 {
 	/*#io
 	docSlot("setCharacterNumber(aNumber)",
-		   "Sets the character number of the message. Returns self.")
+			"Sets the character number of the message. Returns self.")
 	*/
 
 	//DATA(self)->charNumber = IoMessage_locals_intArgAt_(m , locals, 0);
@@ -422,7 +422,7 @@ IoObject *IoMessage_label(IoMessage *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("label",
-		   "Returns the message label. The label is typically set the the
+			"Returns the message label. The label is typically set the the
 name of the file from which the source code for the message was read.")
 	*/
 
@@ -487,7 +487,7 @@ IoObject *IoMessage_locals_performOn_(IoMessage *self, IoObject *locals, IoObjec
 		{
 			result = md->cachedResult; // put it on the stack?
 			/*
-			if(state->debugOn) 
+			if(state->debugOn)
 			{
 				char *s = CSTRING(DATA(m)->name);
 				printf("%s\n", s);
@@ -497,7 +497,7 @@ IoObject *IoMessage_locals_performOn_(IoMessage *self, IoObject *locals, IoObjec
 				}
 			}
 			*/
-			
+
 			if (!result)
 			{
 				IoState_pushRetainPool(state);
@@ -552,18 +552,18 @@ void IoMessage_assertArgCount_receiver_(IoMessage *self, int n, IoObject *receiv
 	if (List_size(DATA(self)->args) < n)
 	{
 		IoState_error_(IOSTATE, self, "[%s %s] requires %i arguments\n",
-							  IoObject_name(receiver), CSTRING(DATA(self)->name), n);
+					   IoObject_name(receiver), CSTRING(DATA(self)->name), n);
 	}
 }
 
 void IoMessage_locals_numberArgAt_errorForType_(IoMessage *self,
-									   IoObject *locals,
-									   int n,
-									   const char *typeName)
+												IoObject *locals,
+												int n,
+												const char *typeName)
 {
 	IoObject *v = IoMessage_locals_valueArgAt_(self, locals, n);
 	IoState_error_(IOSTATE, self, "argument %i to method '%s' must be a %s, not a '%s'",
-						  n, CSTRING(DATA(self)->name), typeName, IoObject_name(v));
+				   n, CSTRING(DATA(self)->name), typeName, IoObject_name(v));
 }
 
 IoObject *IoMessage_locals_numberArgAt_(IoMessage *self, IoObject *locals, int n)
@@ -799,7 +799,7 @@ IoObject *IoMessage_protoSetName(IoMessage *self, IoObject *locals, IoMessage *m
 	*/
 
 	DATA(self)->name = IOREF(IoMessage_locals_symbolArgAt_(m, locals, 0));
-    //IoMessage_cacheIfPossible(self);
+	//IoMessage_cacheIfPossible(self);
 	return self;
 }
 
@@ -807,7 +807,7 @@ IoObject *IoMessage_descriptionString(IoMessage *self, IoObject *locals, IoMessa
 {
 	/*#io
 	docSlot("code",
-		   "Returns a String containing a decompiled code representation of the receiver.")
+			"Returns a String containing a decompiled code representation of the receiver.")
 	*/
 
 	UArray *ba = IoMessage_description(self); /* me must io_free the returned UArray */
@@ -821,7 +821,7 @@ IoObject *IoMessage_next(IoMessage *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("next",
-		   "Returns the next message in the message chain or nil if there is no next message. ")
+			"Returns the next message in the message chain or nil if there is no next message. ")
 	*/
 
 	return DATA(self)->next ? (IoObject *)DATA(self)->next : IONIL(self);
@@ -836,7 +836,7 @@ IoObject *IoMessage_setNext(IoMessage *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("setNextMessage(aMessageOrNil)",
-		   "Sets the next message in the message chain to a deep copy of
+			"Sets the next message in the message chain to a deep copy of
 aMessage or it removes the next message if aMessage is nil. ")
 	*/
 
@@ -876,7 +876,7 @@ IoObject *IoMessage_isEOL(IoMessage *self, IoObject *locals, IoMessage *m)
 
 int IoMessage_rawIsEOL(IoMessage *self)
 {
-    return IoMessage_name(self) == IOSTATE->semicolonSymbol;
+	return IoMessage_name(self) == IOSTATE->semicolonSymbol;
 }
 
 IoMessage *IoMessage_rawNextIgnoreEOLs(IoMessage *self)
@@ -895,7 +895,7 @@ IoObject *IoMessage_nextIgnoreEOLs(IoMessage *self, IoObject *locals, IoMessage 
 {
 	/*#io
 	docSlot("nextIgnoreEndOfLines",
-	   "Returns the next message in the message chain which is not an EndOfLine or nil if there is no next message. ")
+			"Returns the next message in the message chain which is not an EndOfLine or nil if there is no next message. ")
 	*/
 
 	IoMessage *next = IoMessage_rawNextIgnoreEOLs(self);
@@ -923,7 +923,7 @@ IoObject *IoMessage_lastBeforeEOL(IoMessage *self, IoObject *locals, IoMessage *
 {
 	/*#io
 	docSlot("lastBeforeEndOfLine",
-	   "Returns the last message in the chain before the EndOfLine or nil.")
+			"Returns the last message in the chain before the EndOfLine or nil.")
 	*/
 
 	return IoMessage_rawLastBeforeEOL(self);
@@ -946,7 +946,7 @@ IoObject *IoMessage_last(IoMessage *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("last",
-	   "Returns the last message in the chain.")
+			"Returns the last message in the chain.")
 	*/
 
 	return IoMessage_rawLast(self);
@@ -958,7 +958,7 @@ IoObject *IoMessage_previous(IoMessage *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("previous",
-		   "Returns the previous message in the message chain or Nil if there is no previous message. ")
+			"Returns the previous message in the message chain or Nil if there is no previous message. ")
 	*/
 #ifdef IOMESSAGE_HASPREV
 	return DATA(self)->previous ? (IoObject *)DATA(self)->previous : IONIL(self);
@@ -980,7 +980,7 @@ IoObject *IoMessage_setPrevious(IoMessage *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("setPrevious(aMessageOrNil)",
-		   "Sets the previous message in the message chain to a deep copy of
+			"Sets the previous message in the message chain to a deep copy of
 aMessage or it removes the previous message if aMessage is Nil. ")
 	*/
 
@@ -1015,7 +1015,7 @@ IoObject *IoMessage_argAt(IoMessage *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("argAt(indexNumber)",
-		   "Returns Message object for the specified argument or Nil if none exists.")
+			"Returns Message object for the specified argument or Nil if none exists.")
 	*/
 
 	int index =  IoNumber_asInt(IoMessage_locals_numberArgAt_(m , locals, 0));
@@ -1027,7 +1027,7 @@ IoObject *IoMessage_arguments(IoMessage *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("arguments",
-		   "Returns a list of the message objects that act as the
+			"Returns a list of the message objects that act as the
 receiver's arguments. Modifying this list will not alter the actual
 list of arguments. Use the arguments_() method to do that. ")
 	*/
@@ -1041,7 +1041,7 @@ IoObject *IoMessage_setArguments(IoMessage *self, IoObject *locals, IoMessage *m
 {
 	/*#io
 	docSlot("setArguments(aListOfMessages)",
-		   "Sets the arguments of the receiver to deep copies of
+			"Sets the arguments of the receiver to deep copies of
 those contained in aListOfMessages.  Returns self.")
 	*/
 
@@ -1067,14 +1067,14 @@ IoObject *IoMessage_appendArg(IoMessage *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("appendArg(aMessage)",
-		   """Adds aMessage to the argument list of receiver. Examples,
-		   <pre>
-		   Io> message(a) appendArg(message(b))
-		   ==> a(b)
+			"""Adds aMessage to the argument list of receiver. Examples,
+			<pre>
+			Io> message(a) appendArg(message(b))
+			==> a(b)
 
-		   Io> message(a(1,2)) appendArg(message(3))
-		   ==> a(1, 2, 3)
-		   </pre>""")
+			Io> message(a(1,2)) appendArg(message(3))
+			==> a(1, 2, 3)
+			</pre>""")
 	*/
 
 	IoMessage *msg = IoMessage_locals_messageArgAt_(m, locals, 0);
@@ -1086,7 +1086,7 @@ IoObject *IoMessage_appendCachedArg(IoMessage *self, IoObject *locals, IoMessage
 {
 	/*#io
 	docSlot("appendCachedArg(aValue)",
-		   """Adds aValue to the argument list of receiver as a cachedResult.""")
+			"""Adds aValue to the argument list of receiver as a cachedResult.""")
 	*/
 
 	IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 0);
@@ -1098,14 +1098,14 @@ IoObject *IoMessage_argCount_(IoMessage *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("argCount",
-		   """Returns the number of arguments this message has. A faster way to do, msg arguments size. Examples,
-		   <pre>
-		   Io> message(a(1,2,3)) argCount
-		   ==> 3
+			"""Returns the number of arguments this message has. A faster way to do, msg arguments size. Examples,
+			<pre>
+			Io> message(a(1,2,3)) argCount
+			==> 3
 
-		   Io> message(a) argCount
-		   ==> 0
-		   </pre>""")
+			Io> message(a) argCount
+			==> 0
+			</pre>""")
 	*/
 
 	return IONUMBER(IoMessage_argCount(self));
@@ -1115,7 +1115,7 @@ IoObject *IoMessage_fromString(IoMessage *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("fromString(aString)",
-		   "Returns a new Message object for the compiled(but not executed)
+			"Returns a new Message object for the compiled(but not executed)
 result of aString. ")
 	*/
 
@@ -1134,7 +1134,7 @@ IoObject *IoMessage_cachedResult(IoMessage *self, IoObject *locals, IoMessage *m
 {
 	/*#io
 	docSlot("cachedResult",
-		   "Returns the cached result of the Message or Nil if there is none.")
+			"Returns the cached result of the Message or Nil if there is none.")
 	*/
 
 	return (DATA(self)->cachedResult ? DATA(self)->cachedResult : IONIL(self));
@@ -1144,7 +1144,7 @@ IoObject *IoMessage_setCachedResult(IoMessage *self, IoObject *locals, IoMessage
 {
 	/*#io
 	docSlot("setCachedResult(anObject)",
-		   "Sets the cached result of the message. Returns self.")
+			"Sets the cached result of the message. Returns self.")
 	*/
 
 	DATA(self)->cachedResult = IOREF(IoMessage_locals_valueArgAt_(m , locals, 0));
@@ -1165,7 +1165,7 @@ IoObject *IoMessage_hasCachedResult(IoMessage *self, IoObject *locals, IoMessage
 {
 	/*#io
 	docSlot("hasCachedResult",
-		   "Returns true if there is a cached result. Nil is a valid cached result.")
+			"Returns true if there is a cached result. Nil is a valid cached result.")
 	*/
 
 	return IOBOOL(self, DATA(self)->cachedResult == NULL);
@@ -1175,7 +1175,7 @@ IoObject *IoMessage_argsEvaluatedIn(IoMessage *self, IoObject *locals, IoMessage
 {
 	/*#io
 	docSlot("argsEvaluatedIn(anObject)",
-		   "Returns a List containing the argument messages evaluated in the
+			"Returns a List containing the argument messages evaluated in the
 context of anObject. ")
 	*/
 
@@ -1194,9 +1194,9 @@ context of anObject. ")
 IoObject *IoMessage_evaluatedArgs(IoMessage *self, IoObject *locals, IoMessage *m)
 {
 	/*
-	 docSlot("evaluatedArgs",
-		    "Returns a List containing the argument messages evaluated in the context.")
-	 */
+	docSlot("evaluatedArgs",
+			"Returns a List containing the argument messages evaluated in the context.")
+	*/
 
 	IoList *args = IoList_new(IOSTATE);
 	int i;
@@ -1213,11 +1213,11 @@ IoObject *IoMessage_evaluatedArgs(IoMessage *self, IoObject *locals, IoMessage *
 // ------------------------------
 
 /*
- IoSymbol *IoMessage_name(IoMessage *self)
- {
-	 return DATA(self)->name;
- }
- */
+IoSymbol *IoMessage_name(IoMessage *self)
+{
+	return DATA(self)->name;
+}
+*/
 
 IoSymbol *IoMessage_rawLabel(IoMessage *self)
 {
@@ -1252,10 +1252,10 @@ UArray *IoMessage_asMinimalStackEntryDescription(IoMessage *self)
 }
 
 void IoMessage_foreachArgs(IoMessage *self,
-                           IoObject *receiver,
-                           IoSymbol **indexSlotName,
-                           IoSymbol **valueSlotName,
-                           IoMessage **doMessage)
+						   IoObject *receiver,
+						   IoSymbol **indexSlotName,
+						   IoSymbol **valueSlotName,
+						   IoMessage **doMessage)
 {
 	int offset;
 

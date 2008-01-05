@@ -1,7 +1,7 @@
 /*
- docCopyright("Jonathan Wright; Steve Dekorte (2002)", 2006)
- docLicense("BSD revised")
- */
+docCopyright("Jonathan Wright; Steve Dekorte (2002)", 2006)
+docLicense("BSD revised")
+*/
 
 #include "IoMessage_opShuffle.h"
 #include "IoMap.h"
@@ -243,7 +243,7 @@ Levels *Levels_new(IoMessage *msg)
 
 void Levels_free(Levels *self)
 {
-        List_free(self->stack);
+		List_free(self->stack);
 	io_free(self);
 }
 
@@ -532,7 +532,7 @@ void Levels_attach(Levels *self, IoMessage *msg, List *expressions)
 		{
 			// move arguments off to their own message to make () after operators behave like C's grouping ()
 			IoMessage *brackets = IoMessage_newWithName_(state, IoState_symbolWithCString_(state, ""));
-			
+
 			List_copy_(IoMessage_rawArgList(brackets), IoMessage_rawArgList(msg));
 			List_removeAll(IoMessage_rawArgList(msg));
 
@@ -590,7 +590,7 @@ IoMessage *IoMessage_opShuffle(IoMessage *self, IoObject *locals, IoMessage *m)
 		Levels_nextMessage(levels);
 	}
 
-    List_free(expressions);
+	List_free(expressions);
 	Levels_free(levels);
 
 	return self;

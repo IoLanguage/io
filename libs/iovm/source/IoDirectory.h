@@ -16,7 +16,7 @@ typedef IoObject IoDirectory;
 
 typedef struct
 {
-    IoSymbol *path;
+	IoSymbol *path;
 } IoDirectoryData;
 
 IOVM_API IoDirectory *IoDirectory_rawClone(IoDirectory *self);

@@ -1,14 +1,14 @@
 /*#io
 Collector ioDoc(
-			 docCopyright("Steve Dekorte", 2002)
-			 docLicense("BSD revised")
-			 docCategory("Core")
-			 docDescription("""Contains methods related to Io's garbage collector. Io currently uses a incremental, non-moving, generational collector based on the tri-color (black/gray/white) algorithm with a write-barrier.
+	docCopyright("Steve Dekorte", 2002)
+	docLicense("BSD revised")
+	docCategory("Core")
+	docDescription("""Contains methods related to Io's garbage collector. Io currently uses a incremental, non-moving, generational collector based on the tri-color (black/gray/white) algorithm with a write-barrier.
 <p>
 Every N number of object allocs, the collector will walk some of the objects marked as gray, marking their connected white objects as gray and turning themselves black. Every M allocs, it will pause for a sweep where it makes sure all grays are marked black and io_frees all whites.
 <p>
 If the sweepsPerGeneration is set to zero, it will immediately mark all blacks as white again and mark the root objects as gray. Otherwise, it will wait until the sweepsPerGeneration count is reached to do this. By adjusting the allocsPerSweep and sweepsPerGeneration appropriately, the collector can be tuned efficiently for various usage cases. Generally, the more objects in your heap, the larger you'll want this number.""")
-			 */
+*/
 
 #include "IoCollector.h"
 #include "IoNumber.h"
@@ -73,7 +73,7 @@ IoObject *IoCollector_marksPerAlloc(IoCollector *self, IoObject *locals, IoMessa
 {
 	/*#io
 	docSlot("allocsPerMark",
-		   "Return the number of allocations per collector mark pass.")
+			"Return the number of allocations per collector mark pass.")
 	*/
 
 	return IONUMBER(Collector_marksPerAlloc(IOSTATE->collector));
@@ -95,7 +95,7 @@ IoObject *IoCollector_allocatedStep(IoCollector *self, IoObject *locals, IoMessa
 {
 	/*#io
 	docSlot("allocatedStep",
-		   "Return the allocation step value as a Number.")
+			"Return the allocation step value as a Number.")
 	*/
 
 	return IONUMBER(Collector_allocatedStep(IOSTATE->collector));

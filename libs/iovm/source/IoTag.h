@@ -32,32 +32,32 @@ typedef void   (IoTagReadFromStreamFunc)(void *, BStream *);  // self, store, st
 
 typedef struct
 {
-    void *state;
-    char *name;
+	void *state;
+	char *name;
 
 	// memory management
 
-    IoTagCloneFunc *cloneFunc;
-    IoTagFreeFunc *freeFunc;
-    IoTagCleanupFunc *tagCleanupFunc;
-    IoTagMarkFunc *markFunc;
-    IoTagNotificationFunc *notificationFunc;
+	IoTagCloneFunc *cloneFunc;
+	IoTagFreeFunc *freeFunc;
+	IoTagCleanupFunc *tagCleanupFunc;
+	IoTagMarkFunc *markFunc;
+	IoTagNotificationFunc *notificationFunc;
 
 	// actions
 
-    //IoTagTouchFunc *touchFunc; // if present, call before type check
-    IoTagPerformFunc *performFunc; // lookup and activate, return result
-    IoTagActivateFunc *activateFunc; // return the receiver or compute and return a value
-    IoTagCompareFunc *compareFunc;
+	//IoTagTouchFunc *touchFunc; // if present, call before type check
+	IoTagPerformFunc *performFunc; // lookup and activate, return result
+	IoTagActivateFunc *activateFunc; // return the receiver or compute and return a value
+	IoTagCompareFunc *compareFunc;
 
 	// persistence
 
-    IoTagWriteToStreamFunc   *writeToStreamFunc;
-    IoTagAllocFromStreamFunc *allocFromStreamFunc;
-    IoTagReadFromStreamFunc  *readFromStreamFunc;
+	IoTagWriteToStreamFunc   *writeToStreamFunc;
+	IoTagAllocFromStreamFunc *allocFromStreamFunc;
+	IoTagReadFromStreamFunc  *readFromStreamFunc;
 
-    // Stack *recyclableInstances;
-    // int maxRecyclableInstances;
+	// Stack *recyclableInstances;
+	// int maxRecyclableInstances;
 	int referenceCount;
 } IoTag;
 

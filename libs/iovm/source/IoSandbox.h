@@ -17,7 +17,7 @@ extern "C" {
 #endif
 
 #define ISSANDBOX(self) \
-  IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoSandbox_rawClone)
+	IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoSandbox_rawClone)
 
 typedef IoObject IoSandbox;
 

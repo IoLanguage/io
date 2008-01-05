@@ -94,9 +94,9 @@ IOVM_API void IoCoroutine_clearStack(IoCoroutine *self);
 IOVM_API void IoCoroutine_try(IoCoroutine *self, IoObject *target, IoObject *locals, IoMessage *message);
 
 IOVM_API IoCoroutine *IoCoroutine_newWithTry(void *state,
-							 IoObject *target,
-							 IoObject *locals,
-							 IoMessage *message);
+											IoObject *target,
+											IoObject *locals,
+											IoMessage *message);
 
 IOVM_API void IoCoroutine_raiseError(IoCoroutine *self, IoSymbol *description, IoMessage *m);
 

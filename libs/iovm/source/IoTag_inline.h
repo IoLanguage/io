@@ -13,144 +13,144 @@ docLicense("BSD revised")
 
 IOINLINE void IoTag_state_(IoTag *self, void *state)
 {
-    self->state = state;
+	self->state = state;
 }
 
 IOINLINE void *IoTag_state(IoTag *self)
 {
-    return self->state;
+	return self->state;
 }
 
 // activate
 
 IOINLINE void IoTag_activateFunc_(IoTag *self, IoTagActivateFunc *func)
 {
-    self->activateFunc = func;
+	self->activateFunc = func;
 }
 
 IOINLINE IoTagActivateFunc *IoTag_activateFunc(IoTag *self)
 {
-    return self->activateFunc;
+	return self->activateFunc;
 }
 
 // clone
 
 IOINLINE void IoTag_cloneFunc_(IoTag *self, IoTagCloneFunc *func)
 {
-    self->cloneFunc = func;
+	self->cloneFunc = func;
 }
 
 IOINLINE IoTagCloneFunc *IoTag_cloneFunc(IoTag *self)
 {
-    return self->cloneFunc;
+	return self->cloneFunc;
 }
 
 // cleanup
 
 IOINLINE void IoTag_cleanupFunc_(IoTag *self, IoTagFreeFunc *func)
 {
-    self->tagCleanupFunc = func;
+	self->tagCleanupFunc = func;
 }
 
 IOINLINE IoTagCleanupFunc *IoTag_cleanupFunc(IoTag *self)
 {
-    return self->tagCleanupFunc;
+	return self->tagCleanupFunc;
 }
 
 // io_free
 
 IOINLINE void IoTag_freeFunc_(IoTag *self, IoTagFreeFunc *func)
 {
-    self->freeFunc = func;
+	self->freeFunc = func;
 }
 
 IOINLINE IoTagFreeFunc *IoTag_freeFunc(IoTag *self)
 {
-    return self->freeFunc;
+	return self->freeFunc;
 }
 
 // mark
 
 IOINLINE void IoTag_markFunc_(IoTag *self, IoTagMarkFunc *func)
 {
-    self->markFunc = func;
+	self->markFunc = func;
 }
 
 IOINLINE IoTagMarkFunc *IoTag_markFunc(IoTag *self)
 {
-    return self->markFunc;
+	return self->markFunc;
 }
 
 // compare
 
 IOINLINE void IoTag_compareFunc_(IoTag *self, IoTagCompareFunc *func)
 {
-    self->compareFunc = func;
+	self->compareFunc = func;
 }
 
 IOINLINE IoTagCompareFunc *IoTag_compareFunc(IoTag *self)
 {
-    return self->compareFunc;
+	return self->compareFunc;
 }
 
 // stream write
 
 IOINLINE void IoTag_writeToStreamFunc_(IoTag *self, IoTagWriteToStreamFunc *func)
 {
-    self->writeToStreamFunc = func;
+	self->writeToStreamFunc = func;
 }
 
 IOINLINE IoTagWriteToStreamFunc *IoTag_writeToStreamFunc(IoTag *self)
 {
-    return self->writeToStreamFunc;
+	return self->writeToStreamFunc;
 }
 
 // stream alloc
 
 IOINLINE void IoTag_allocFromStreamFunc_(IoTag *self, IoTagAllocFromStreamFunc *func)
 {
-    self->allocFromStreamFunc = func;
+	self->allocFromStreamFunc = func;
 }
 
 IOINLINE IoTagAllocFromStreamFunc *IoTag_allocFromStreamFunc(IoTag *self)
 {
-    return self->allocFromStreamFunc;
+	return self->allocFromStreamFunc;
 }
 
 // stream alloc
 
 IOINLINE void IoTag_readFromStreamFunc_(IoTag *self, IoTagReadFromStreamFunc *func)
 {
-    self->readFromStreamFunc = func;
+	self->readFromStreamFunc = func;
 }
 
 IOINLINE IoTagReadFromStreamFunc *IoTag_readFromStreamFunc(IoTag *self)
 {
-    return self->readFromStreamFunc;
+	return self->readFromStreamFunc;
 }
 
 // notification
 
 IOINLINE void IoTag_notificationFunc_(IoTag *self, IoTagNotificationFunc *func)
 {
-    self->notificationFunc = func;
+	self->notificationFunc = func;
 }
 
 IOINLINE IoTagNotificationFunc *IoTag_notificationFunc(IoTag *self)
 {
-    return self->notificationFunc;
+	return self->notificationFunc;
 }
 
 // perform
 
 IOINLINE void IoTag_performFunc_(IoTag *self, IoTagPerformFunc *func)
 {
-    self->performFunc = func;
+	self->performFunc = func;
 }
 
 IOINLINE IoTagPerformFunc *IoTag_performFunc(IoTag *self)
 {
-    return self->performFunc;
+	return self->performFunc;
 }
 
 #undef IO_IN_C_FILE

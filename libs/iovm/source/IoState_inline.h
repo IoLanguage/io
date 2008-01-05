@@ -24,8 +24,8 @@ if (!(value)) { IoState_error_(IOSTATE, m, "Io Assertion '%s'", message); }
 // booleans --------------------------------------------------------
 
 #define ISBOOL(self) (((self)==IOSTATE->ioFalse) \
-                   || ((self)==IOSTATE->ioNil)   \
-                   || ((self)==IOSTATE->ioTrue))
+				   || ((self)==IOSTATE->ioNil)   \
+				   || ((self)==IOSTATE->ioTrue))
 
 #define IOSUCCESS(self) IOTRUE(self)
 #define ISSUCCESS(self) ISTRUE(self)

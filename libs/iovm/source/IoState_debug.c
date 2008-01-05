@@ -6,18 +6,18 @@ void IoState_show(IoState *self)
 	printf("--- state ----------------------------------\n");
 	printf("State:\n");
 	/*
-	 printf("black:\n");
-	 IoObjectGroup_show(self->blackGroup);
-	 printf("\n");
+	printf("black:\n");
+	IoObjectGroup_show(self->blackGroup);
+	printf("\n");
 
-	 printf("gray:\n");
-	 IoObjectGroup_show(self->grayGroup);
-	 printf("\n");
+	printf("gray:\n");
+	IoObjectGroup_show(self->grayGroup);
+	printf("\n");
 
-	 printf("white:\n");
-	 IoObjectGroup_show(self->whiteGroup);
-	 printf("\n");
-	 */
+	printf("white:\n");
+	IoObjectGroup_show(self->whiteGroup);
+	printf("\n");
+	*/
 	printf("stacks:\n");
 	printf("\n");
 }

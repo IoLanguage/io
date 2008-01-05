@@ -1,11 +1,11 @@
 /*#io
 Sequence ioDoc(
-			docCopyright("Steve Dekorte", 2002)
-			docLicense("BSD revised")
-			docObject("ImmutableSequence")
-			docDescription("""A Sequence is a container for a list of data elements. Immutable Sequences are also called "Symbols". """)
-			docCategory("Core")
-			*/
+	docCopyright("Steve Dekorte", 2002)
+	docLicense("BSD revised")
+	docObject("ImmutableSequence")
+	docDescription("""A Sequence is a container for a list of data elements. Immutable Sequences are also called "Symbols". """)
+	docCategory("Core")
+*/
 
 #define _GNU_SOURCE // for NAN macro
 #include "IoSeq.h"
@@ -47,7 +47,7 @@ IoObject *IoSeq_with(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("with(aSequence, ...)",
-		   "Returns a new Sequence which is the concatination of the arguments.
+			"Returns a new Sequence which is the concatination of the arguments.
 The returned sequence will have the same mutability status as the receiver.")
 	*/
 
@@ -137,7 +137,7 @@ IoObject *IoSeq_asBinaryNumber(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("asBinaryNumber",
-		   "Returns a Number containing the first 8 bytes of the
+			"Returns a Number containing the first 8 bytes of the
 receiver without casting them to a double.")
 	*/
 
@@ -164,7 +164,7 @@ IoObject *IoSeq_asSymbol(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("asSymbol",
-		   "Returns a immutable Sequence (aka Symbol) version of the receiver.")
+			"Returns a immutable Sequence (aka Symbol) version of the receiver.")
 	*/
 
 	return IoSeq_rawAsSymbol(self);
@@ -174,7 +174,7 @@ IoObject *IoSeq_isSymbol(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("isSymbol",
-		   "Returns true if the receiver is a
+			"Returns true if the receiver is a
 immutable Sequence (aka, a Symbol) or false otherwise.")
 	*/
 
@@ -185,7 +185,7 @@ IoObject *IoSeq_isMutable(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("isMutable",
-		   "Returns true if the receiver is a mutable Sequence or false otherwise.")
+			"Returns true if the receiver is a mutable Sequence or false otherwise.")
 	*/
 
 	return IOBOOL(self, !ISSYMBOL(self));
@@ -196,7 +196,7 @@ IoObject *IoSeq_print(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("print",
-		   "Prints the receiver as a string. Returns self.")
+			"Prints the receiver as a string. Returns self.")
 	*/
 
 	IoState_justPrintba_(IOSTATE, DATA(self));
@@ -207,7 +207,7 @@ IoObject *IoSeq_linePrint(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("linePrint",
-		   "Prints the Sequence and a newline character.")
+			"Prints the Sequence and a newline character.")
 	*/
 
 	IoState_justPrintba_(IOSTATE, DATA(self));
@@ -250,7 +250,7 @@ IoObject *IoSeq_at(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("at(aNumber)",
-		   "Returns a value at the index specified by aNumber.
+			"Returns a value at the index specified by aNumber.
 Returns nil if the index is out of bounds.")
 	*/
 
@@ -274,7 +274,7 @@ IoObject *IoSeq_slice(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("slice(startIndex, endIndex)",
-		   "Returns a new string containing the subset of the
+			"Returns a new string containing the subset of the
 receiver from the startIndex to the endIndex. The endIndex argument
 is optional. If not given, it is assumed to be the end of the string. ")
 	*/
@@ -302,7 +302,7 @@ IoObject *IoSeq_between(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("between(aSequence, anotherSequence)",
-		   "Returns a new Sequence containing the bytes between the
+			"Returns a new Sequence containing the bytes between the
 occurance of aSequence and anotherSequence in the receiver.")
 	*/
 
@@ -361,7 +361,7 @@ IoObject *IoSeq_findSeqs(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("findSeqs(listOfSequences, optionalStartIndex)",
-		   "Returns a object with two slots - an "index" slot which contains the first occurrence of any of the sequences in listOfSequences found in the receiver after the startIndex, and a "match" slot, which contains a reference to the matching sequence from listOfSequences. If no startIndex is specified, the search starts at index 0. nil is returned if no occurences are found. ")
+			"Returns a object with two slots - an "index" slot which contains the first occurrence of any of the sequences in listOfSequences found in the receiver after the startIndex, and a "match" slot, which contains a reference to the matching sequence from listOfSequences. If no startIndex is specified, the search starts at index 0. nil is returned if no occurences are found. ")
 	*/
 
 	IoList *others = IoMessage_locals_listArgAt_(m, locals, 0);
@@ -379,16 +379,15 @@ IoObject *IoSeq_findSeqs(IoSeq *self, IoObject *locals, IoMessage *m)
 		int index;
 
 		LIST_FOREACH(delims, i, s,
-				   if (!ISSEQ((IoSeq *)s))
-				   {
-					   IoState_error_(IOSTATE, m, "requires Sequences as arguments, not %ss", IoObject_name((IoSeq *)s));
-				   }
+			if (!ISSEQ((IoSeq *)s))
+			{
+				IoState_error_(IOSTATE, m, "requires Sequences as arguments, not %ss", IoObject_name((IoSeq *)s));
+			}
 
-				   index = UArray_find_from_(DATA(self), DATA(((IoSeq *)s)), f);
+			index = UArray_find_from_(DATA(self), DATA(((IoSeq *)s)), f);
 
-				   if(index != -1 && (firstIndex == -1 || index < firstIndex)) { firstIndex = index; match = i; }
-
-				   );
+			if(index != -1 && (firstIndex == -1 || index < firstIndex)) { firstIndex = index; match = i; }
+		);
 	}
 
 	if (firstIndex == -1)
@@ -409,7 +408,7 @@ IoObject *IoSeq_findSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("findSeq(aSequence, optionalStartIndex)",
-		   "Returns a number with the first occurrence of aSequence in
+			"Returns a number with the first occurrence of aSequence in
 the receiver after the startIndex. If no startIndex is specified,
 the search starts at index 0.
 nil is returned if no occurences are found. ")
@@ -433,7 +432,7 @@ IoObject *IoSeq_reverseFindSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("reverseFindSeq(aSequence, startIndex)",
-		   "Returns a number with the first occurrence of aSequence in
+			"Returns a number with the first occurrence of aSequence in
 the receiver before the startIndex. The startIndex argument is optional.
 By default reverseFind starts at the end of the string. Nil is
 returned if no occurrences are found. ")
@@ -462,7 +461,7 @@ IoObject *IoSeq_beginsWithSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("beginsWithSeq(aSequence)",
-		   "Returns true if the receiver begins with aSequence, false otherwise.")
+			"Returns true if the receiver begins with aSequence, false otherwise.")
 	*/
 
 	IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
@@ -474,7 +473,7 @@ IoObject *IoSeq_endsWithSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("endsWithSeq(aSequence)",
-		   "Returns true if the receiver ends with aSequence, false otherwise. ")
+			"Returns true if the receiver ends with aSequence, false otherwise. ")
 	*/
 
 	IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
@@ -485,7 +484,7 @@ IoObject *IoSeq_contains(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("contains(aNumber)",
-		   "Returns true if the receiver contains an element equal in value to aNumber, false otherwise. ")
+			"Returns true if the receiver contains an element equal in value to aNumber, false otherwise. ")
 	*/
 
 	// will make this more efficient when Numbers are Arrays
@@ -500,7 +499,7 @@ IoObject *IoSeq_containsSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("containsSeq(aSequence)",
-		   "Returns true if the receiver contains the substring
+			"Returns true if the receiver contains the substring
 aSequence, false otherwise. ")
 	*/
 
@@ -513,7 +512,7 @@ IoObject *IoSeq_containsAnyCaseSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("containsAnyCaseSeq(aSequence)",
-		   "Returns true if the receiver contains the aSequence
+			"Returns true if the receiver contains the aSequence
 regardless of casing, false otherwise. ")
 	*/
 
@@ -525,7 +524,7 @@ IoObject *IoSeq_isLowercase(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("isLowercase",
-		   "Returns self if all the characters in the string are lower case.")
+			"Returns self if all the characters in the string are lower case.")
 	*/
 
 	return IOBOOL(self, UArray_isLowercase(DATA(self)));
@@ -535,7 +534,7 @@ IoObject *IoSeq_isUppercase(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("isUppercase",
-		   "Returns self if all the characters in the string are upper case.")
+			"Returns self if all the characters in the string are upper case.")
 	*/
 
 	return IOBOOL(self, UArray_isUppercase(DATA(self)));
@@ -545,7 +544,7 @@ IoObject *IoSeq_isEqualAnyCase(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("isEqualAnyCase(aSequence)",
-		   "Returns true if aSequence is equal to the receiver
+			"Returns true if aSequence is equal to the receiver
 ignoring case differences, false otherwise.")
 	*/
 
@@ -558,7 +557,7 @@ IoObject *IoSeq_asNumber(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("asNumber",
-		   "Returns the receiver converted to a number.
+			"Returns the receiver converted to a number.
 Initial whitespace is ignored.")
 	*/
 
@@ -584,7 +583,7 @@ IoList *IoSeq_whiteSpaceStrings(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("whiteSpaceStrings",
-		   "Returns a List of strings. Each string contains a different
+			"Returns a List of strings. Each string contains a different
 whitespace character.")
 	*/
 
@@ -613,24 +612,24 @@ List *IoSeq_byteArrayListForSeqList(IoSeq *self, IoObject *locals, IoMessage *m,
 	List *list = List_new();
 
 	LIST_FOREACH(args, i, s,
-			   if (!ISSEQ((IoSeq *)s))
-			   {
-				   List_free(list);
-				   IoState_error_(IOSTATE, m,
-							   "requires Sequences as arguments, not %ss",
-							   IoObject_name((IoSeq *)s));
-			   }
+		if (!ISSEQ((IoSeq *)s))
+		{
+			List_free(list);
+			IoState_error_(IOSTATE, m,
+							"requires Sequences as arguments, not %ss",
+							IoObject_name((IoSeq *)s));
+		}
 
-			   List_append_(list, DATA(((IoSeq *)s)));
-			   );
+		List_append_(list, DATA(((IoSeq *)s)));
+	);
 
 	return list;
 }
 
 IoObject *IoSeq_splitToFunction(IoSeq *self,
-						  IoObject *locals,
-						  IoMessage *m,
-						  IoSplitFunction *func)
+								IoObject *locals,
+								IoMessage *m,
+								IoSplitFunction *func)
 {
 	IoList *output = IoList_new(IOSTATE);
 	List *others = IoSeq_byteArrayListForSeqList(self, locals, m, IoSeq_stringListForArgs(self, locals, m));
@@ -704,7 +703,7 @@ IoObject *IoSeq_fromBase(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("fromBase(aNumber)",
-		   "Returns a number with a base 10 representation of the receiver
+			"Returns a number with a base 10 representation of the receiver
 converted from the specified base. Only base 2 through 32 are currently supported.")
 	*/
 
@@ -738,9 +737,9 @@ IoObject *IoSeq_toBase(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("toBase(aNumber)",
-		   "Returns a Sequence containing the receiver(which is
-											  assumed to be a base 10 number) converted to the specified base.
-Only base 8 and 16 are currently supported. ")
+			"Returns a Sequence containing the receiver(which is
+			assumed to be a base 10 number) converted to the specified base.
+			Only base 8 and 16 are currently supported. ")
 	*/
 
 	const char * const table = "0123456789abcdefghijklmnopqrstuvwxyz";
@@ -810,7 +809,7 @@ IoObject *IoSeq_foreach(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("foreach(optionalIndex, value, message)",
-		   """For each element, set index to the index of the
+			"""For each element, set index to the index of the
 element and value the element value and execute message. Example:
 <pre>
 aSequence foreach(i, v, writeln("value at index ", i, " is ", v))
@@ -868,7 +867,7 @@ IoObject *IoSeq_asMessage(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("asMessage(optionalLabel)",
-		   "Returns the compiled message object for the string.")
+			"Returns the compiled message object for the string.")
 	*/
 
 	IoSymbol *label;
@@ -917,7 +916,7 @@ IoObject *IoSeq_asMutable(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("asMutable",
-		   "Returns a mutable copy of the receiver. ")
+			"Returns a mutable copy of the receiver. ")
 	*/
 
 	return IoSeq_rawMutableCopy(self);
@@ -929,7 +928,7 @@ IoObject *IoSeq_asUppercase(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("asUppercase",
-		   "Returns a symbol containing the reveiver made uppercase. ")
+			"Returns a symbol containing the reveiver made uppercase. ")
 	*/
 
 	UArray *ba = UArray_clone(DATA(self));
@@ -941,7 +940,7 @@ IoObject *IoSeq_asLowercase(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("asLowercase",
-		   "Returns a symbol containing the reveiver made Lowercase. ")
+			"Returns a symbol containing the reveiver made Lowercase. ")
 	*/
 
 	UArray *ba = UArray_clone(DATA(self));
@@ -956,7 +955,7 @@ IoObject *IoSeq_lastPathComponent(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("lastPathComponent",
-		   "Returns a string containing the receiver clipped up
+			"Returns a string containing the receiver clipped up
 to the last path separator. ")
 	*/
 
@@ -968,7 +967,7 @@ IoObject *IoSeq_pathExtension(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("pathExtension",
-		   "Returns a string containing the receiver clipped up to the last period. ")
+			"Returns a string containing the receiver clipped up to the last period. ")
 	*/
 
 	UArray *path = UArray_pathExtension(DATA(self));
@@ -979,7 +978,7 @@ IoObject *IoSeq_fileName(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("fileName",
-		   "Returns the last path component sans the path extension.")
+			"Returns the last path component sans the path extension.")
 	*/
 
 	UArray *path = UArray_fileName(DATA(self));
@@ -990,7 +989,7 @@ IoObject *IoSeq_cloneAppendPath(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("cloneAppendPath(aSequence)",
-		   "Appends argument to a copy the receiver such that there is one
+			"Appends argument to a copy the receiver such that there is one
 and only one path separator between the two and returns the result.")
 	*/
 
@@ -1004,7 +1003,7 @@ IoObject *IoSeq_pathComponent(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("pathComponent",
-		   "Returns a slice of the receiver before the last path separator as a symbol. ")
+			"Returns a slice of the receiver before the last path separator as a symbol. ")
 	*/
 
 	UArray *ba = UArray_clone(DATA(self));
@@ -1028,7 +1027,7 @@ IoObject *IoSeq_beforeSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("beforeSeq(aSequence)",
-		   "Returns the slice of the receiver (as a Symbol) before
+			"Returns the slice of the receiver (as a Symbol) before
 aSequence or self if aSequence is not found.")
 	*/
 
@@ -1061,10 +1060,9 @@ IoObject *IoSeq_afterSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("afterSeq(aSequence)",
-		   "Returns the slice of the receiver (as a Symbol)
-after aSequence or Nil if aSequence is not found.
-If aSequence is empty, the receiver (or a copy of the
-							  receiver if it is mutable) is returned.")
+			"Returns the slice of the receiver (as a Symbol) after aSequence or
+			Nil if aSequence is not found. If aSequence is empty, the receiver
+			(or a copy of the receiver if it is mutable) is returned.")
 	*/
 
 	IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
@@ -1091,7 +1089,7 @@ IoObject *IoSeq_asCapitalized(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("asCapitalized",
-		   "Returns a copy of the receiver with the first charater made uppercase.")
+			"Returns a copy of the receiver with the first charater made uppercase.")
 	*/
 
 	/* need to fix for multi-byte characters */
@@ -1189,40 +1187,40 @@ IoObject *IoSeq_lessThanOrEqualTo_(IoSeq *self, IoObject *locals, IoMessage *m)
 IoObject *IoSeq_asStruct(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	IoObject *st = IoObject_new(IOSTATE);
-     const unsigned char *data = UArray_bytes(DATA(self));
-     size_t size = UArray_sizeInBytes(DATA(self));
+	const unsigned char *data = UArray_bytes(DATA(self));
+	size_t size = UArray_sizeInBytes(DATA(self));
 	size_t offset = 0;
 	List *members = IoList_rawList(IoMessage_locals_listArgAt_(m, locals, 0));
 	int memberIndex;
-	
+
 	IOASSERT(List_size(members) % 2 == 0, "members list must be even number");
-	
+
 	for (memberIndex = 0; memberIndex < List_size(members) / 2 && offset < size; memberIndex ++)
 	{
 		IoSeq *memberType = List_at_(members, memberIndex*2);
 		IoSeq *memberName = List_at_(members, memberIndex*2 + 1);
 		char *mt;
 		IoObject *v = NULL;
-		
+
 		IOASSERT(ISSEQ(memberType), "memberTypes must be strings");
 		IOASSERT(ISSEQ(memberName), "memberNames must be strings");
-		
+
 		mt = CSTRING(memberType);
-		
+
 		ASSTRUCT(int8);
 		ASSTRUCT(uint8);
 		ASSTRUCT(int16);
 		ASSTRUCT(uint16);
 		ASSTRUCT(int32);
-		ASSTRUCT(uint32);		
+		ASSTRUCT(uint32);
 		ASSTRUCT(int64);
-		ASSTRUCT(uint64);		
+		ASSTRUCT(uint64);
 		ASSTRUCT(float32);
 		ASSTRUCT(float64);
-			
+
 		IoObject_setSlot_to_(st, memberName, v);
 	}
-	
+
 	return st;
 }
 
@@ -1242,35 +1240,35 @@ IoObject *IoSeq_withStruct(IoSeq *self, IoObject *locals, IoMessage *m)
 	IoSeq *s = IoSeq_newWithData_length_(IOSTATE, malloc(maxSize), maxSize);
 	unsigned char *data = IoSeq_rawBytes(s);
 	size_t offset = 0;
-	
+
 	IOASSERT(List_size(members) % 2 == 0, "members list must be even number");
-	
+
 	for (memberIndex = 0; memberIndex < List_size(members) / 2 && offset < maxSize; memberIndex ++)
 	{
 		IoSeq *memberType = List_at_(members, memberIndex*2);
 		IoSeq *memberValue = List_at_(members, memberIndex*2 + 1);
 		char *mt;
 		IoObject *v = NULL;
-		
+
 		IOASSERT(ISSEQ(memberType), "memberTypes must be strings");
 		IOASSERT(ISNUMBER(memberValue), "memberValues must be strings");
-		
+
 		mt = CSTRING(memberType);
-		
+
 		WITHSTRUCT(int8);
 		WITHSTRUCT(uint8);
 		WITHSTRUCT(int16);
 		WITHSTRUCT(uint16);
 		WITHSTRUCT(int32);
-		WITHSTRUCT(uint32);		
+		WITHSTRUCT(uint32);
 		WITHSTRUCT(int64);
-		WITHSTRUCT(uint64);		
+		WITHSTRUCT(uint64);
 		WITHSTRUCT(float32);
 		WITHSTRUCT(float64);
 	}
-	
+
 	IoSeq_rawSetSize_(s, offset);
-	
+
 	return s;
 }
 
@@ -1318,8 +1316,8 @@ void IoSeq_addImmutableMethods(IoSeq *self)
 	{"toBase", IoSeq_toBase},
 	{"foreach", IoSeq_foreach},
 	{"asMessage", IoSeq_asMessage},
-     {"..", IoSeq_cloneAppendSeq},
-     {"cloneAppendSeq", IoSeq_cloneAppendSeq},
+	{"..", IoSeq_cloneAppendSeq},
+	{"cloneAppendSeq", IoSeq_cloneAppendSeq},
 	{"asMutable", IoSeq_asMutable},
 	{"asBuffer", IoSeq_asMutable},
 
@@ -1348,7 +1346,7 @@ void IoSeq_addImmutableMethods(IoSeq *self)
 	{"<", IoSeq_lessThan_},
 	{">=", IoSeq_greaterThanOrEqualTo_},
 	{"<=", IoSeq_lessThanOrEqualTo_},
-	
+
 	{"asStruct", IoSeq_asStruct},
 	{"withStruct", IoSeq_withStruct},
 	{NULL, NULL},

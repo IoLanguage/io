@@ -22,9 +22,9 @@ typedef IoObject IoBlock;
 
 typedef struct
 {
-    IoMessage *message;
-    List *argNames;
-    IoObject *scope; // if 0x0, then use target as the locals proto
+	IoMessage *message;
+	List *argNames;
+	IoObject *scope; // if 0x0, then use target as the locals proto
 #ifdef IO_BLOCK_USE_PHASH_SETTINGS
 	PHashSettings phashSettings;
 #endif

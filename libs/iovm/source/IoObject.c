@@ -1,15 +1,15 @@
 /*#io
 Object ioDoc(
-			 docCopyright("Steve Dekorte", 2002)
-			 docLicense("BSD revised")
-			 docObject("Object")
-			 docInclude("_ioCode/Object.io")
-			 docDescription("""An Object is a key/value dictionary with string keys and values of any type. The prototype Object contains a clone slot that is a CFuntion that creates new objects. When cloned, an Object will call it's init slot (with no arguments).
+	docCopyright("Steve Dekorte", 2002)
+	docLicense("BSD revised")
+	docObject("Object")
+	docInclude("_ioCode/Object.io")
+	docDescription("""An Object is a key/value dictionary with string keys and values of any type. The prototype Object contains a clone slot that is a CFuntion that creates new objects. When cloned, an Object will call it's init slot (with no arguments).
 
 <p><b>Important note:</b></p>
 <p>The data structure used for objects is optimized for objects with relatively few slots (less than 100). Objects become very memory inefficient (exponentially so) when they have a large number of slots. Objects should not be used as large hash tables or lists. Use a Hash or List primitive instead.</p>""")
-		   docCategory("Core")
-			 */
+	docCategory("Core")
+*/
 
 #include "IoState.h"
 #define IOOBJECT_C
@@ -141,7 +141,7 @@ IoObject *IoObject_protoFinish(void *state)
 	{"removeSlot", IoObject_protoRemoveSlot},
 	{"removeAllSlots", IoObject_protoRemoveAllSlots},
 	{"slotNames", IoObject_protoSlotNames},
-     {"slotValues", IoObject_protoSlotValues},
+	{"slotValues", IoObject_protoSlotValues},
 
 	// method invocation
 
@@ -178,17 +178,17 @@ IoObject *IoObject_protoFinish(void *state)
 	{"doString", IoObject_doString},
 	{"doFile", IoObject_doFile},
 
-     // reflection
+	// reflection
 
 	{"uniqueId", IoObject_uniqueId},
 
-    // memory utilities
+	// memory utilities
 
-    //{"compact", IoObject_compactMethod},
+	//{"compact", IoObject_compactMethod},
 
 	{"init", IoObject_self},
 
-    // enumeration
+	// enumeration
 
 	{"foreachSlot", IoObject_foreachSlot},
 	{"-", IoObject_subtract},
@@ -197,7 +197,7 @@ IoObject *IoObject_protoFinish(void *state)
 	{"thisMessage", IoObject_thisMessage},
 	{"thisLocalContext", IoObject_locals},
 
-    // protos
+	// protos
 
 	{"setProto", IoObject_setProto},
 	{"setProtos", IoObject_setProtos},
@@ -414,23 +414,23 @@ void IoObject_rawPrependProto_(IoObject *self, IoObject *p)
 
 void IoObject_rawRemoveProto_(IoObject *self, IoObject *p)
 {
-    IoObject **proto = IoObject_protos(self);
-    int count = IoObject_rawProtosCount(self);
-    int index = 0;
+	IoObject **proto = IoObject_protos(self);
+	int count = IoObject_rawProtosCount(self);
+	int index = 0;
 
-    while (*proto)
-    {
-        if (*proto == p)
-        {
-            memmove(proto, proto + 1, (count - index) * sizeof(IoObject *));
-        }
-        else
-        {
-            proto ++;
-        }
+	while (*proto)
+	{
+		if (*proto == p)
+		{
+			memmove(proto, proto + 1, (count - index) * sizeof(IoObject *));
+		}
+		else
+		{
+			proto ++;
+		}
 
-        index ++;
-    }
+		index ++;
+	}
 }
 
 /*
@@ -878,7 +878,7 @@ IoObject *IoObject_localsForward(IoObject *self, IoObject *locals, IoMessage *m)
 	docSlot("localsForward", "CFunction used by Locals prototype for forwarding.")
 	*/
 
-    //IoObject *selfDelegate = IoObject_rawGetSlot_(self, IOSTATE->selfSymbol);
+	//IoObject *selfDelegate = IoObject_rawGetSlot_(self, IOSTATE->selfSymbol);
 	IoObject *selfDelegate = PHash_at_(IoObject_slots(self), IOSTATE->selfSymbol); // cheating a bit here
 
 	if (selfDelegate && selfDelegate != self)
@@ -1185,8 +1185,8 @@ IoObject *IoObject_localsUpdateSlot(IoObject *self, IoObject *locals, IoMessage 
 	}
 
 	IoState_error_(IOSTATE, m,
-							   "updateSlot - slot with name `%s' not found in `%s'. Use := to create slots.",
-							   CSTRING(slotName), IoObject_name(self));
+				   "updateSlot - slot with name `%s' not found in `%s'. Use := to create slots.",
+				   CSTRING(slotName), IoObject_name(self));
 
 	return IONIL(self);
 }
@@ -1210,7 +1210,7 @@ already exist in the receiver's slot lookup path.")
 	else
 	{
 		IoState_error_(IOSTATE, m, "Slot %s not found. Must define slot using := operator before updating.",
-								   CSTRING(slotName));
+					   CSTRING(slotName));
 	}
 
 	return slotValue;
@@ -1220,7 +1220,7 @@ IoObject *IoObject_protoGetSlot_(IoObject *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("getSlot(slotNameString)",
-		   "Returns the value of the slot named slotNameString
+			"Returns the value of the slot named slotNameString
 (following the lookup path) or nil if no such slot is found.")
 	*/
 
@@ -1232,7 +1232,7 @@ IoObject *IoObject_protoGetLocalSlot_(IoObject *self, IoObject *locals, IoMessag
 {
 	/*#io
 	docSlot("getLocalSlot(slotNameString)",
-		   "Returns the value of the slot named slotNameString (not looking in the object's protos) or nil if no such slot is found.")
+			"Returns the value of the slot named slotNameString (not looking in the object's protos) or nil if no such slot is found.")
 	*/
 
 	IoSymbol *slotName = IoMessage_locals_symbolArgAt_(m, locals, 0);
@@ -1301,10 +1301,10 @@ slots in the receiver (but not in it's lookup path).")
 
 IoObject *IoObject_protoSlotValues(IoObject *self, IoObject *locals, IoMessage *m)
 {
-    /*#io
-    docSlot("slotValues",
-            "Returns a list of the values held in the slots of the receiver.")
-    */
+	/*#io
+	docSlot("slotValues",
+			"Returns a list of the values held in the slots of the receiver.")
+	*/
 
 	IoObject_createSlotsIfNeeded(self);
 
@@ -1318,30 +1318,30 @@ IoObject *IoObject_protoSlotValues(IoObject *self, IoObject *locals, IoMessage *
 
 
 /*
- docSlot("forward")
- docDescription("""Called when the receiver is sent a message it doesn't recognize.
- Default implementation raises an "Object doesNotRespond" exception.
- Subclasses can override this method to implement proxies or special error handling.""")
+docSlot("forward")
+docDescription("""Called when the receiver is sent a message it doesn't recognize.
+Default implementation raises an "Object doesNotRespond" exception.
+Subclasses can override this method to implement proxies or special error handling.""")
 
- Example:
+Example:
 
- <pre>
- myProxy forward = method(
-					 messageName := thisMessage name
-					 arguments := thisMessage arguments
-					 myObject doMessage(thisMessage)
-					 )
- </pre>
+<pre>
+myProxy forward = method(
+					messageName := thisMessage name
+					arguments := thisMessage arguments
+					myObject doMessage(thisMessage)
+					)
+</pre>
 
- */
+*/
 
- /*
+/*
 IoObject *IoObject_forward_(IoObject *self, IoObject *locals, IoMessage *m)
 {
 
 	IoState_error_(IOSTATE, m, "%s does not respond to message '%s'",
-							   IoObject_name(self),
-							   CSTRING(IoMessage_name(m)));
+				   IoObject_name(self),
+				   CSTRING(IoMessage_name(m)));
 	return IONIL(self);
 }
 */
@@ -1540,11 +1540,11 @@ IoObject *IoObject_foreachSlot(IoObject *self, IoObject *locals, IoMessage *m)
 name and value to the slot's value and execute message. Example:
 <pre>
 myObject foreach(n, v,
-				 writeln("slot ", n, " = ", v type)
-				 )
+				writeln("slot ", n, " = ", v type)
+				)
 myObject foreach(v,
-				 writeln("slot type ", v type)
-				 )
+				writeln("slot type ", v type)
+				)
 </pre>
 """)
 	*/
@@ -1651,7 +1651,7 @@ int IoObject_defaultCompare(IoObject *self, IoObject *v)
 
 	//IoState_error_(IOSTATE, NULL, "attempt to compare %s to %s", IoObject_name(self), IoObject_name(v));
 	//return 0;
-	
+
 	ptrdiff_t d = -((ptrdiff_t)IoObject_tag(self) - (ptrdiff_t)IoObject_tag(v));
 	//printf("warning: IoObject_defaultCompare attempt to compare %s to %s\n", IoObject_name(self), IoObject_name(v));
 
@@ -1685,16 +1685,16 @@ void IoObject_compact(IoObject *self)
 IoObject *IoObject_memorySizeMethod(IoObject *self, IoObject *locals, IoMessage *m)
 {
 	/*
-	 docSlot("memorySize", "Return the amount of memory used by the object.")
-	 */
+	docSlot("memorySize", "Return the amount of memory used by the object.")
+	*/
 	return IONUMBER(IoObject_memorySize(self));
 }
 
 IoObject *IoObject_compactMethod(IoObject *self, IoObject *locals, IoMessage *m)
 {
 	/*
-	 docSlot("compact", "Compact the memory for the object if possible. Returns self.")
-	 */
+	docSlot("compact", "Compact the memory for the object if possible. Returns self.")
+	*/
 
 	IoObject_compact(self);
 	return self;
@@ -1733,7 +1733,7 @@ void IoObject_defaultPrint(IoObject *self)
 void IoObject_print(IoObject *self)
 {
 	IoMessage_locals_performOn_(IOSTATE->printMessage, self, self);
-    // using self as locals hack
+	// using self as locals hack
 }
 
 IoObject *IoObject_evalArg(IoObject *self, IoObject *locals, IoMessage *m)
@@ -1854,12 +1854,12 @@ IoObject *IoObject_message(IoObject *self, IoObject *locals, IoMessage *m)
 
 int IoObject_hasCloneFunc_(IoObject *self, IoTagCloneFunc *func)
 {
-    /*
+	/*
 	if (ISWAITINGFUTURE(self))
 	{
 		IoFuture_rawWaitOnResult(self);
 	}
-    */
+	*/
 
 	return (IoObject_tag(self)->cloneFunc == func);
 }
@@ -1936,9 +1936,9 @@ UArray *IoObject_rawGetUArraySlot(IoObject *self,
 }
 
 UArray *IoObject_rawGetMutableUArraySlot(IoObject *self,
-									  IoObject *locals,
-									  IoMessage *m,
-									  IoSymbol *slotName)
+										 IoObject *locals,
+										 IoMessage *m,
+										 IoSymbol *slotName)
 {
 	IoSeq *seq  = IoObject_getSlot_(self, slotName);
 	IOASSERT(ISSEQ(seq), CSTRING(slotName));

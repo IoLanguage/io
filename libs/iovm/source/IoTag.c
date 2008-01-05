@@ -1,7 +1,7 @@
 /*
- docCopyright("Steve Dekorte", 2002)
- docLicense("BSD revised")
- */
+docCopyright("Steve Dekorte", 2002)
+docLicense("BSD revised")
+*/
 
 #define IOTAG_C 1
 #include "IoTag.h"
@@ -19,7 +19,7 @@ IoTag *IoTag_new(void)
 #else
 	self->performFunc = (IoTagPerformFunc *)IoObject_perform;
 #endif
-	
+
 	self->referenceCount = 1;
 	//self->recyclableInstances = Stack_new();
 	//self->maxRecyclableInstances = 10000;
@@ -40,7 +40,7 @@ void IoTag_free(IoTag *self)
 	if (--self->referenceCount > 0) {
 		return;
 	}
-	
+
 	if (self->tagCleanupFunc)
 	{
 		(self->tagCleanupFunc)(self);
@@ -74,10 +74,10 @@ const char *IoTag_name(IoTag *self)
 void IoTag_mark(IoTag *self)
 {
 	/*
-	 if (Stack_count(self->recyclableInstances))
-	 {
-		 Stack_do_(self->recyclableInstances, (StackDoCallback *)IoObject_shouldMark);
-	 }
-	 */
+	if (Stack_count(self->recyclableInstances))
+	{
+		Stack_do_(self->recyclableInstances, (StackDoCallback *)IoObject_shouldMark);
+	}
+	*/
 }
 

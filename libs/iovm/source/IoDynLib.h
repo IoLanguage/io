@@ -3,8 +3,8 @@ DynLib ioDoc(
 docCopyright("Steve Dekorte", 2002)
 docLicense("BSD revised")
 docDescription("
-    Contributed by Kentaro A. Kurahone <kurahone@sigusr1.org>
-    This object can dynamically load a shared library
+	Contributed by Kentaro A. Kurahone <kurahone@sigusr1.org>
+	This object can dynamically load a shared library
 ")
 */
 

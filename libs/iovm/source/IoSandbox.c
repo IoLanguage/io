@@ -1,11 +1,11 @@
 /*#io
 Sandbox ioDoc(
-		    docCopyright("Steve Dekorte", 2002)
-		    docLicense("BSD revised")
-		    docObject("Sandbox")
-		    docDescription("Sandbox can be used to run separate instances of Io within the same process.")
-		    docCategory("Core")
-		    */
+	docCopyright("Steve Dekorte", 2002)
+	docLicense("BSD revised")
+	docObject("Sandbox")
+	docDescription("Sandbox can be used to run separate instances of Io within the same process.")
+	docCategory("Core")
+*/
 
 #include "IoSandbox.h"
 #include "IoSeq.h"
@@ -107,7 +107,7 @@ IoNumber *IoSandbox_messageCount(IoSandbox *self, IoObject *locals, IoMessage *m
 {
 	/*#io
 	docSlot("messageCount",
-		   "Returns a number containing the messageCount limit of the Sandbox. ")
+			"Returns a number containing the messageCount limit of the Sandbox. ")
 	*/
 
 	IoState *boxState = IoSandbox_boxState(self);
@@ -118,7 +118,7 @@ IoObject *IoSandbox_setMessageCount(IoSandbox *self, IoObject *locals, IoMessage
 {
 	/*#io
 	docSlot("setMessageCount(anInteger)",
-		   "Sets the messageCount limit of the receiver. ")
+			"Sets the messageCount limit of the receiver. ")
 	*/
 
 	IoState *boxState = IoSandbox_boxState(self);
@@ -130,7 +130,7 @@ IoNumber *IoSandbox_timeLimit(IoSandbox *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("timeLimit",
-		   "Returns a number containing the time limit of calls made to the Sandbox. ")
+			"Returns a number containing the time limit of calls made to the Sandbox. ")
 	*/
 
 	IoState *boxState = IoSandbox_boxState(self);
@@ -141,7 +141,7 @@ IoObject *IoSandbox_setTimeLimit(IoSandbox *self, IoObject *locals, IoMessage *m
 {
 	/*#io
 	docSlot("setTimeLimit(aDouble)",
-		   "Sets the time limit of the Sandbox. ")
+			"Sets the time limit of the Sandbox. ")
 	*/
 
 	IoState *boxState = IoSandbox_boxState(self);
@@ -153,7 +153,7 @@ IoObject *IoSandbox_doSandboxString(IoSandbox *self, IoObject *locals, IoMessage
 {
 	/*#io
 	docSlot("doSandboxString(aString)",
-		   "Evaluate aString instead the Sandbox. ")
+			"Evaluate aString instead the Sandbox. ")
 	*/
 
 	IoState *boxState = IoSandbox_boxState(self);

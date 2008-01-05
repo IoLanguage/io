@@ -8,19 +8,19 @@
 
 void IoState_setBindingsInitCallback(IoState *self, IoStateBindingsInitCallback *callback)
 {
-    self->bindingsInitCallback = callback;
+	self->bindingsInitCallback = callback;
 }
 
 // context
 
 void IoState_callbackContext_(IoState *self, void *context)
 {
-    self->callbackContext = context;
+	self->callbackContext = context;
 }
 
 void *IoState_callbackContext(IoState *self)
 {
-    return self->callbackContext;
+	return self->callbackContext;
 }
 
 // print
@@ -38,14 +38,14 @@ void IoState_print_(IoState *self, const char *format, ...)
 
 void IoState_printCallback_(IoState *self, IoStatePrintCallback *callback)
 {
-    self->printCallback = callback;
+	self->printCallback = callback;
 }
 
 void IoState_justPrint_(IoState *self, const unsigned char *s, const size_t size)
 {
-    UArray *ba = UArray_newWithData_type_size_copy_((uint8_t *)s, CTYPE_uint8_t, size, 0);
-    IoState_justPrintba_(self, ba);
-    UArray_free(ba);
+	UArray *ba = UArray_newWithData_type_size_copy_((uint8_t *)s, CTYPE_uint8_t, size, 0);
+	IoState_justPrintba_(self, ba);
+	UArray_free(ba);
 }
 
 void IoState_justPrintba_(IoState *self, UArray *ba)
@@ -62,9 +62,9 @@ void IoState_justPrintba_(IoState *self, UArray *ba)
 
 void IoState_justPrintln_(IoState *self)
 {
-    UArray *ba = UArray_newWithCString_("\n");
-    IoState_justPrintba_(self, ba);
-    UArray_free(ba);
+	UArray *ba = UArray_newWithCString_("\n");
+	IoState_justPrintba_(self, ba);
+	UArray_free(ba);
 }
 
 
@@ -72,26 +72,26 @@ void IoState_justPrintln_(IoState *self)
 
 void IoState_exceptionCallback_(IoState *self, IoStateExceptionCallback *callback)
 {
-    self->exceptionCallback = callback;
+	self->exceptionCallback = callback;
 }
 
 void IoState_exception_(IoState *self, IoObject *coroutine)
 {
-    if (self->exceptionCallback)
-    {
+	if (self->exceptionCallback)
+	{
 		self->exceptionCallback(self->callbackContext, coroutine);
-    }
-    else
-    {
+	}
+	else
+	{
 		IoCoroutine_rawPrintBackTrace(coroutine);
-    }
+	}
 }
 
 // exit ---------------------------
 
 void IoState_exitCallback_(IoState *self, IoStateExitCallback *callback)
 {
-    self->exitCallback = callback;
+	self->exitCallback = callback;
 }
 
 void IoState_exit(IoState *self, int returnCode)
@@ -112,13 +112,13 @@ void IoState_exit(IoState *self, int returnCode)
 
 void IoState_activeCoroCallback_(IoState *self, IoStateActiveCoroCallback *callback)
 {
-    self->activeCoroCallback = callback;
+	self->activeCoroCallback = callback;
 }
 
 void IoState_schedulerUpdate(IoState *self, int count)
 {
-    if (self->activeCoroCallback)
-    {
+	if (self->activeCoroCallback)
+	{
 		self->activeCoroCallback(self->callbackContext, count);
-    }
+	}
 }

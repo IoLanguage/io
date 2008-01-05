@@ -121,31 +121,31 @@ IOINLINE IoObject *IoObject_addingRef_(IoObject *self, IoObject *ref)
 }
 
 IOINLINE void IoObject_inlineSetSlot_to_(IoObject *self,
-                                         IoSymbol *slotName,
-                                         IoObject *value)
+										 IoSymbol *slotName,
+										 IoObject *value)
 {
 	IoObject_createSlotsIfNeeded(self);
 	/*
-	 if (!slotName->isSymbol)
-	 {
-		 printf("Io System Error: setSlot slotName not symbol\n");
-		 exit(1);
-	 }
-	 */
+	if (!slotName->isSymbol)
+	{
+		printf("Io System Error: setSlot slotName not symbol\n");
+		exit(1);
+	}
+	*/
 
 	PHash_at_put_(IoObject_slots(self), IOREF(slotName), IOREF(value));
 
 	/*
-	 if(PHash_at_put_(IoObject_slots(self), IOREF(slotName), IOREF(value)))
-	 {
-		 IoObject_isDirty_(self, 1);
-	 }
-	 */
+	if(PHash_at_put_(IoObject_slots(self), IOREF(slotName), IOREF(value)))
+	{
+		IoObject_isDirty_(self, 1);
+	}
+	*/
 }
 
 IOINLINE IoObject *IoObject_rawGetSlot_context_(IoObject *self,
-                                                IoSymbol *slotName,
-                                                IoObject **context)
+												IoSymbol *slotName,
+												IoObject **context)
 {
 	register IoObject *v = (IoObject *)NULL;
 
@@ -261,10 +261,10 @@ IoObject *IoObject_addingRef_(IoObject *self, IoObject *ref);
 IOVM_API int IoObject_hasCloneFunc_(IoObject *self, IoTagCloneFunc *func);
 
 IOINLINE IoObject *IoObject_activate(IoObject *self,
-                                     IoObject *target,
-                                     IoObject *locals,
-                                     IoMessage *m,
-                                     IoObject *slotContext)
+									 IoObject *target,
+									 IoObject *locals,
+									 IoMessage *m,
+									 IoObject *slotContext)
 {
 	//TagActivateFunc *act = IoObject_tag(self)->activateFunc;
 	//return act ? (IoObject *)((*act)(self, target, locals, m, slotContext)) : self;

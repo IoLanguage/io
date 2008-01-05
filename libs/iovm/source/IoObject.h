@@ -22,7 +22,7 @@ extern "C" {
 #define IOOBJECT_ISTYPE(self, typeName) \
 	IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)Io ## typeName ## _rawClone)
 
-#define ISOBJECT(self)	   IOOBJECT_ISTYPE(self, Object)
+#define ISOBJECT(self) IOOBJECT_ISTYPE(self, Object)
 
 #include "IoObject_struct.h"
 #include "IoMessage.h"

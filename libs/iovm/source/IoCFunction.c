@@ -1,10 +1,10 @@
 /*#io
 getSlot("CFunction") ioDoc(
-                docCopyright("Steve Dekorte", 2002)
-                docLicense("BSD revised")
-                docDescription("A container for a pointer to a C function binding. CFunction's can only be defined from the C side and act like blocks in that when placed in a slot, are called when the slot is activated. The for, if, while and clone methods of the Lobby are examples of CFunctions. CFunctions are useful for implementing methods that require the speed of C or binding to a C library.")
-			 docCategory("Core")
-                */
+	docCopyright("Steve Dekorte", 2002)
+	docLicense("BSD revised")
+	docDescription("A container for a pointer to a C function binding. CFunction's can only be defined from the C side and act like blocks in that when placed in a slot, are called when the slot is activated. The for, if, while and clone methods of the Lobby are examples of CFunctions. CFunctions are useful for implementing methods that require the speed of C or binding to a C library.")
+	docCategory("Core")
+*/
 
 #include "IoCFunction.h"
 
@@ -89,9 +89,9 @@ void IoCFunction_print(IoCFunction *self)
 }
 
 IoCFunction *IoCFunction_newWithFunctionPointer_tag_name_(void *state,
-											   IoUserFunction *func,
-											   IoTag *typeTag,
-											   const char *funcName)
+												IoUserFunction *func,
+												IoTag *typeTag,
+												const char *funcName)
 {
 	IoCFunction *proto = IoState_protoWithInitFunction_((IoState *)state, IoCFunction_proto);
 	IoCFunction *self = IOCLONE(proto);

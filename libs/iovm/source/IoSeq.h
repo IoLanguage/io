@@ -19,7 +19,7 @@ extern "C" {
 #endif
 
 IOVM_API int ISMUTABLESEQ(IoObject *self);
-#define ISSEQ(self)	   IOOBJECT_ISTYPE(self, Seq)
+#define ISSEQ(self)    IOOBJECT_ISTYPE(self, Seq)
 #define ISSYMBOL(self) IoObject_isSymbol(self)
 #define ISBUFFER(self) ISMUTABLESEQ(self)
 
@@ -36,9 +36,9 @@ IOVM_API int ISMUTABLESEQ(IoObject *self);
 #define CSTRING(uString)    IoSeq_asCString(uString)
 
 #if !defined(IoSymbol_DEFINED)
-  #define IoSymbol_DEFINED
-  typedef IoObject IoSymbol;
-  typedef IoObject IoSeq;
+	#define IoSymbol_DEFINED
+	typedef IoObject IoSymbol;
+	typedef IoObject IoSeq;
 #endif
 
 #define IOSYMBOL_LENGTH(self)   UArray_size(((UArray *)(IoObject_dataPointer(self))))

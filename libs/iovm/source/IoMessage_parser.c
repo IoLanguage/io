@@ -1,7 +1,7 @@
 /*
- docCopyright("Steve Dekorte; Jonathan Wright (2006)", 2002)
- docLicense("BSD revised")
- */
+docCopyright("Steve Dekorte; Jonathan Wright (2006)", 2002)
+docLicense("BSD revised")
+*/
 
 #include "IoMessage_parser.h"
 #include "IoMessage_opShuffle.h"
@@ -145,9 +145,9 @@ IoMessage *IoMessage_coroNewParseNextMessageChain(ParseContext *context)
 
 IoMessage *IoMessage_newParseNextMessageChain(void *state, IoLexer *lexer)
 {
-        IoCoroutine *current = IoState_currentCoroutine(state);
-        Coro *coro = IoCoroutine_cid(current);
-        size_t left = Coro_bytesLeftOnStack(coro);
+		IoCoroutine *current = IoState_currentCoroutine(state);
+		Coro *coro = IoCoroutine_cid(current);
+		size_t left = Coro_bytesLeftOnStack(coro);
 
 		/*
 		if (Coro_stackSpaceAlmostGone(coro))

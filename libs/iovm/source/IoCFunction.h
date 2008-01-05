@@ -16,7 +16,7 @@ extern "C" {
 #endif
 
 #define ISCFUNCTION(self) \
-  IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoCFunction_rawClone)
+	IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoCFunction_rawClone)
 
 #define IOCFUNCTION(func, tag) IoCFunction_newWithFunctionPointer_tag_name_(IOSTATE, (IoUserFunction *)func, tag, "?")
 
@@ -25,9 +25,9 @@ typedef IoObject IoCFunction;
 
 typedef struct
 {
-    IoTag *typeTag; // pointer to tag of type excepted for self value to have as data
-    IoUserFunction *func;
-    IoSymbol *uniqueName;
+	IoTag *typeTag; // pointer to tag of type excepted for self value to have as data
+	IoUserFunction *func;
+	IoSymbol *uniqueName;
 } IoCFunctionData;
 
 IOVM_API IoCFunction *IoCFunction_proto(void *state);

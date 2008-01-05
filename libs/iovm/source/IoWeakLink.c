@@ -1,11 +1,11 @@
 /*#io
 WeakLink ioDoc(
-               docCopyright("Steve Dekorte", 2002)
-               docLicense("BSD revised")
-			docCategory("Core")
-               docDescription("""A WeakLink is a primitive that can hold a reference to an object without preventing the garbage collector from collecting it. The link reference is set with the setLink() method. After the garbage collector collects an object, it informs any (uncollected) WeakLink objects whose link value pointed to that object by calling their "collectedLink" method.
-""")
-               */
+	docCopyright("Steve Dekorte", 2002)
+	docLicense("BSD revised")
+	docCategory("Core")
+	docDescription("""A WeakLink is a primitive that can hold a reference to an object without preventing the garbage collector from collecting it. The link reference is set with the setLink() method. After the garbage collector collects an object, it informs any (uncollected) WeakLink objects whose link value pointed to that object by calling their "collectedLink" method.
+	""")
+*/
 
 #include "IoWeakLink.h"
 #include "IoSeq.h"

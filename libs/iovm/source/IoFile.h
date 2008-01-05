@@ -17,17 +17,17 @@ extern "C" {
 #endif
 
 #define ISFILE(self) \
-  IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoFile_rawClone)
+	IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoFile_rawClone)
 
 typedef IoObject IoFile;
 
 typedef struct
 {
-    FILE *stream;
-    IoSymbol *path;
-    IoSymbol *mode;
-    unsigned char flags;
-    void *info; /* reserved for use in OS specific extensions */
+	FILE *stream;
+	IoSymbol *path;
+	IoSymbol *mode;
+	unsigned char flags;
+	void *info; /* reserved for use in OS specific extensions */
 } IoFileData;
 
 #define IOFILE_FLAGS_NONE 0x0

@@ -21,7 +21,7 @@ typedef IoObject IoWeakLink;
 
 typedef struct
 {
-    IoObject *link;
+	IoObject *link;
 } IoWeakLinkData;
 
 IoObject *IoWeakLink_proto(void *state);

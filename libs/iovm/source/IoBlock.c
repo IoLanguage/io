@@ -1,9 +1,9 @@
 /*#io
 getSlot("Block") ioDoc(
-            docCopyright("Steve Dekorte", 2002)
-            docLicense("BSD revised")
-            docDescription("Blocks are anonymous functions (messages with their own locals object). They are typically used to represent object methods.")
-		  docCategory("Core")
+	docCopyright("Steve Dekorte", 2002)
+	docLicense("BSD revised")
+	docDescription("Blocks are anonymous functions (messages with their own locals object). They are typically used to represent object methods.")
+	docCategory("Core")
 */
 
 #include "IoBlock.h"
@@ -217,12 +217,12 @@ IoObject *IoBlock_activate(IoBlock *self, IoObject *target, IoObject *locals, Io
 	IoObject_createSlotsIfNeeded(blockLocals);
 
 	callObject = IoCall_with(state,
-							  locals,
-							  target,
-							  m,
-							  slotContext,
-							  self,
-							  state->currentCoroutine);
+							 locals,
+							 target,
+							 m,
+							 slotContext,
+							 self,
+							 state->currentCoroutine);
 
 	{
 		PHash *bslots = IoObject_slots(blockLocals);
@@ -423,7 +423,7 @@ IoObject *IoBlock_setMessage(IoBlock *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("setMessage(aMessage)",
-		   "Sets the root message of the receiver to aMessage. ")
+			"Sets the root message of the receiver to aMessage. ")
 	*/
 
 	IoMessage *message = IoMessage_locals_messageArgAt_(m, locals, 0);
@@ -435,7 +435,7 @@ IoObject *IoBlock_argumentNames(IoBlock *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("argumentNames",
-		   "Returns a List of strings containing the argument names of the receiver. ")
+			"Returns a List of strings containing the argument names of the receiver. ")
 	*/
 
 	IoList *argsList = IoList_new(IOSTATE);
@@ -449,7 +449,7 @@ IoObject *IoBlock_argumentNames_(IoBlock *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("setArgumentNames(aListOfStrings)",
-		   "Sets the receiver's argument names to those specified in
+			"Sets the receiver's argument names to those specified in
 aListOfStrings. Returns self.  ")
 	*/
 
@@ -457,7 +457,7 @@ aListOfStrings. Returns self.  ")
 	List *rawNewArgNames = IoList_rawList(newArgNames);
 
 	LIST_FOREACH(rawNewArgNames, i, v,
-			   IOASSERT(ISSYMBOL(((IoObject *)v)), "argument names must be Strings");
+				IOASSERT(ISSYMBOL(((IoObject *)v)), "argument names must be Strings");
 	);
 
 	List_copy_(DATA(self)->argNames, IoList_rawList(newArgNames));
@@ -468,7 +468,7 @@ IoObject *IoBlock_scope(IoBlock *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("scope",
-		   "Returns the scope used when the block is activated or
+			"Returns the scope used when the block is activated or
 Nil if the target of the message is the scope.   ")
 	*/
 
@@ -480,7 +480,7 @@ IoObject *IoBlock_setScope_(IoBlock *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("setScope(anObjectOrNil)",
-		   "If argument is an object, when the block is activated,
+			"If argument is an object, when the block is activated,
 it will set the proto and self slots of it's locals to the specified
 object. If Nil, it will set them to the target of the message. ")
 	*/
@@ -494,7 +494,7 @@ IoObject *IoBlock_performOn(IoBlock *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("performOn(anObject, optionalLocals, optionalMessage, optionalSlotContext)",
-		   "Activates the receiver in the target context of anObject.
+			"Activates the receiver in the target context of anObject.
 Returns the result.")
 	*/
 

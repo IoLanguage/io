@@ -1,11 +1,11 @@
 /*#io
 Map ioDoc(
-          docCopyright("Steve Dekorte", 2002)
-          docLicense("BSD revised")
-          docObject("Map")
-          docDescription("A key/value dictionary appropriate for holding large key/value collections.")
-		docCategory("DataStructures")
-          */
+	docCopyright("Steve Dekorte", 2002)
+	docLicense("BSD revised")
+	docObject("Map")
+	docDescription("A key/value dictionary appropriate for holding large key/value collections.")
+	docCategory("DataStructures")
+*/
 
 #include "IoMap.h"
 #include "IoObject.h"
@@ -79,15 +79,15 @@ IoMap *IoMap_proto(void *state)
 	{NULL, NULL},
 	};
 
-    IoObject *self = IoObject_new(state);
+	IoObject *self = IoObject_new(state);
 
-    IoObject_tag_(self, IoMap_newTag(state));
-    IoObject_setDataPointer_(self, PHash_new());
+	IoObject_tag_(self, IoMap_newTag(state));
+	IoObject_setDataPointer_(self, PHash_new());
 
-    IoState_registerProtoWithFunc_((IoState *)state, self, IoMap_proto);
+	IoState_registerProtoWithFunc_((IoState *)state, self, IoMap_proto);
 
-    IoObject_addMethodTable_(self, methodTable);
-    return self;
+	IoObject_addMethodTable_(self, methodTable);
+	return self;
 }
 
 IoMap *IoMap_rawClone(IoMap *proto)
@@ -145,7 +145,7 @@ IoObject *IoMap_at(IoMap *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("at(keyString, optionalDefaultValue)",
-		   "Returns the value for the key keyString. Returns nil if the key is absent. ")
+			"Returns the value for the key keyString. Returns nil if the key is absent. ")
 	*/
 
 	IoSymbol *k = IoMessage_locals_symbolArgAt_(m, locals, 0);
@@ -163,7 +163,7 @@ IoObject *IoMap_atPut(IoMap *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("atPut(keyString, aValue)",
-		   "Inserts/sets aValue with the key keyString. Returns self. ")
+			"Inserts/sets aValue with the key keyString. Returns self. ")
 	*/
 
 	IoSymbol *k = IoMessage_locals_symbolArgAt_(m, locals, 0);
@@ -176,7 +176,7 @@ IoObject *IoMap_atIfAbsentPut(IoMap *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("atIfAbsentPut(keyString, aValue)",
-		   "If a value is present at the specified key, the value is returned. Otherwise, inserts/sets aValue and returns aValue. ")
+			"If a value is present at the specified key, the value is returned. Otherwise, inserts/sets aValue and returns aValue. ")
 	*/
 
 	IoSymbol *k = IoMessage_locals_symbolArgAt_(m, locals, 0);
@@ -194,7 +194,7 @@ IoObject *IoMap_size(IoMap *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("size",
-		   "Returns the number of key/value pairs in the receiver.")
+			"Returns the number of key/value pairs in the receiver.")
 	*/
 
 	return IONUMBER(PHash_count(DATA(self)));
@@ -204,7 +204,7 @@ IoObject *IoMap_hasKey(IoMap *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("hasKey(keyString)",
-		   "Returns true if the key is present or false otherwise.")
+			"Returns true if the key is present or false otherwise.")
 	*/
 
 	IoSymbol *k = IoMessage_locals_symbolArgAt_(m, locals, 0);
@@ -215,7 +215,7 @@ IoObject *IoMap_removeAt(IoMap *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("removeAt(keyString)",
-		   "Removes the specified keyString if present. Returns self. ")
+			"Removes the specified keyString if present. Returns self. ")
 	*/
 
 	IoSymbol *k = IoMessage_locals_symbolArgAt_(m, locals, 0);
@@ -227,7 +227,7 @@ IoObject *IoMap_hasValue(IoMap *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("hasValue(aValue)",
-		   "Returns true if the value is one of the Map's values or false otherwise.")
+			"Returns true if the value is one of the Map's values or false otherwise.")
 	*/
 
 	// slow implementation
@@ -267,7 +267,7 @@ IoObject *IoMap_foreach(IoMap *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("foreach(optionalKey, value, message)",
-		   """For each key value pair, sets the locals key to
+			"""For each key value pair, sets the locals key to
 the key and value to the value and executes message.
 Example:
 <pre>aMap foreach(k, v, writeln(k, " = ", v))

@@ -151,8 +151,8 @@ typedef IoObject *(IoMethodFunc)(IoObject *, IoObject *, IoObject *);
 
 typedef struct
 {
-    const char *name;
-    IoMethodFunc *func;
+	const char *name;
+	IoMethodFunc *func;
 } IoMethodTable;
 
 #ifdef __cplusplus

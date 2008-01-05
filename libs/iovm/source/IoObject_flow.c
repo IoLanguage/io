@@ -1,6 +1,6 @@
 /*#io
 Object ioDoc(
-		   */
+*/
 #include "IoObject.h"
 #include "IoNumber.h"
 
@@ -10,7 +10,7 @@ IoObject *IoObject_while(IoObject *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("while(<condition>, expression)",
-		   "Keeps evaluating message until condition return Nil.
+			"Keeps evaluating message until condition return Nil.
 Returns the result of the last message evaluated or Nil if none were evaluated.")
 	*/
 
@@ -51,7 +51,7 @@ IoObject *IoObject_loop(IoObject *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("loop(expression)",
-		   "Keeps evaluating message until a break.")
+			"Keeps evaluating message until a break.")
 	*/
 
 	IoMessage_assertArgCount_receiver_(m, 1, self);
@@ -84,7 +84,7 @@ IoObject *IoObject_for(IoObject *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("for(<counter>, <start>, <end>, <do message>)",
-		   "See manual.html. ")
+			"See manual.html. ")
 	*/
 
 	IoMessage_assertArgCount_receiver_(m, 4, self);
@@ -201,7 +201,7 @@ IoObject *IoObject_continue(IoObject *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("continue",
-		   "Skip the rest of the current loop iteration and start on
+			"Skip the rest of the current loop iteration and start on
 the next, if any. ")
 	*/
 
@@ -229,7 +229,7 @@ IoObject *IoObject_if(IoObject *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("if(<condition>, <trueMessage>, <optionalFalseMessage>)",
-		   "Evaluates trueMessage if condition evaluates to a non-Nil.
+			"Evaluates trueMessage if condition evaluates to a non-Nil.
 Otherwise evaluates optionalFalseMessage if it is present.
 Returns the result of the evaluated message or Nil if none was evaluated.")
 	*/
@@ -248,13 +248,13 @@ IoObject *IoObject_tailCall(IoObject *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("tailCall(expression)",
-		   """Does a tailCall on the currently executing Block. Example:
+			"""Does a tailCall on the currently executing Block. Example:
 
 <pre>
 Io> a := method(x, x = x + 1; if(x > 10, return x); tailCall(x))
 ==> method(x, updateSlot("x", x +(1));
-		 if(x >(10), return(x));
-		 tailCall(x))
+		if(x >(10), return(x));
+		tailCall(x))
 Io> a(1)
 ==> 11
 </pre>

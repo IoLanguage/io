@@ -17,7 +17,7 @@ extern "C" {
 #endif
 
 #define ISLIST(self) \
-  IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoList_rawClone)
+	IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoList_rawClone)
 
 typedef IoObject IoList;
 

@@ -25,16 +25,16 @@ typedef struct
 	IoObject *slotContext;
 	IoObject *activated;
 	IoObject *coroutine;
-        int stopStatus;
+		int stopStatus;
 } IoCallData;
 
 IoCall *IoCall_with(void *state,
-									 IoObject *sender,
-									 IoObject *target,
-									 IoObject *message,
-									 IoObject *slotContext,
-									 IoObject *activated,
-									 IoObject *coroutine);
+					IoObject *sender,
+					IoObject *target,
+					IoObject *message,
+					IoObject *slotContext,
+					IoObject *activated,
+					IoObject *coroutine);
 
 IoCall *IoCall_proto(void *state);
 IoCall *IoCall_rawClone(IoCall *self);

@@ -1,9 +1,9 @@
 /*#io
 Call ioDoc(
-            docCopyright("Steve Dekorte", 2002)
-            docLicense("BSD revised")
-            docDescription("Call stores slots related to activation.")
-		  docCategory("Core")
+	docCopyright("Steve Dekorte", 2002)
+	docLicense("BSD revised")
+	docDescription("Call stores slots related to activation.")
+	docCategory("Core")
 */
 
 #include "IoCall.h"
@@ -94,12 +94,12 @@ IoCall *IoCall_new(IoState *state)
 }
 
 IoCall *IoCall_with(void *state,
-				 IoObject *sender,
-				 IoObject *target,
-				 IoObject *message,
-				 IoObject *slotContext,
-				 IoObject *activated,
-				 IoObject *coroutine)
+					IoObject *sender,
+					IoObject *target,
+					IoObject *message,
+					IoObject *slotContext,
+					IoObject *activated,
+					IoObject *coroutine)
 {
 	IoCall *self = IoCall_new(state);
 

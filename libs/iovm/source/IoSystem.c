@@ -1,11 +1,11 @@
 /*#io
 System ioDoc(
-		   docCopyright("Steve Dekorte", 2002)
-		   docLicense("BSD revised")
-		   docObject("System")
-		   docDescription("Contains methods related to the IoVM.")
-		   docCategory("Core")
-		   */
+	docCopyright("Steve Dekorte", 2002)
+	docLicense("BSD revised")
+	docObject("System")
+	docDescription("Contains methods related to the IoVM.")
+	docCategory("Core")
+*/
 
 #include "IoSystem.h"
 #include "IoNumber.h"
@@ -138,7 +138,7 @@ IoObject *IoObject_exit(IoObject *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("exit(optionalReturnCodeNumber)",
-		   "Shutdown the IoState (io_free all objects) and return
+			"Shutdown the IoState (io_free all objects) and return
 control to the calling program (if any). ")
 	*/
 
@@ -157,7 +157,7 @@ IoObject *IoObject_getenv(IoObject *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("getenv(nameString)",
-		   "Returns a string with the value of the environment
+			"Returns a string with the value of the environment
 variable whose name is specified by nameString.")
 	*/
 
@@ -176,7 +176,7 @@ IoObject *IoObject_system(IoObject *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("system(aString)",
-		   "Makes a system call and returns a Number for the return value.")
+			"Makes a system call and returns a Number for the return value.")
 	*/
 
 	IoSymbol *s = IoMessage_locals_symbolArgAt_(m, locals, 0);
@@ -188,10 +188,10 @@ IoObject *IoObject_system(IoObject *self, IoObject *locals, IoMessage *m)
 IoObject *IoObject_memorySizeOfState(IoObject *self, IoObject *locals, IoMessage *m)
 {
 	/*
-	 docSlot("memorySizeOfState",
-		    "Returns the number of bytes in the IoState
-	 (this may not include memory allocated by C libraries).")
-	 */
+	docSlot("memorySizeOfState",
+			"Returns the number of bytes in the IoState
+	(this may not include memory allocated by C libraries).")
+	*/
 
 	return IONUMBER(0);
 	//return IONUMBER(IoState_memorySize(IOSTATE));
@@ -200,9 +200,9 @@ IoObject *IoObject_memorySizeOfState(IoObject *self, IoObject *locals, IoMessage
 IoObject *IoObject_compactState(IoObject *self, IoObject *locals, IoMessage *m)
 {
 	/*
-	 docSlot("compactState",
-		    "Attempt to compact the memory of the IoState if possible.")
-	 */
+	docSlot("compactState",
+			"Attempt to compact the memory of the IoState if possible.")
+	*/
 
 	//IoState_compact(IOSTATE);
 	return self;
@@ -224,8 +224,8 @@ IoObject *IoObject_setenv(IoObject *self, IoObject *locals, IoMessage *m)
 IoObject *IoObject_platform(IoObject *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	 docSlot("platform", "Returns a string description of the platform.")
-	 */
+	docSlot("platform", "Returns a string description of the platform.")
+	*/
 
 	char *platform = "Unknown";
 
@@ -303,7 +303,7 @@ IoObject *IoObject_platform(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoObject_platformVersion(IoObject *self, IoObject *locals, IoMessage *m)
 {
-    char platformVersion[256];
+	char platformVersion[256];
 
 	/*#io
 	docSlot("platformVersion", "Returns the version id of the OS.")
@@ -336,8 +336,8 @@ IoObject *IoObject_platformVersion(IoObject *self, IoObject *locals, IoMessage *
 IoObject *IoObject_activeCpus(IoObject *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	 docSlot("activeCpus", "Returns the number of active CPUs.")
-	 */
+	docSlot("activeCpus", "Returns the number of active CPUs.")
+	*/
 	int cpus = 1;
 #if defined(CTL_HW)
 	int mib[2];
@@ -425,18 +425,18 @@ IoObject *IoObject_setLobby(IoObject *self, IoObject *locals, IoMessage *m)
 	/*#io
 	docSlot("setLobby", "Sets the root object of the garbage collector.")
 	*/
-	
+
 	IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 0);
 	IoState_setLobby_(self, v);
 	return self;
 }
 
 /*#io
- docSlot("version", "Returns a version number for Io.")
+docSlot("version", "Returns a version number for Io.")
 */
 
 /*#io
- docSlot("distribution", "Returns the Io distribution name as a string.")
+docSlot("distribution", "Returns the Io distribution name as a string.")
 */
 
 // save ----------------------
@@ -468,9 +468,9 @@ int IoState_syncState(IoState *self)
 	self->store->open();
 	Collector_collect(collect);
 	COLLECTOR_FOREACH(collector, v,
-				   if (!IoObject_persistentId(v) || IoObject_isDirty(v))
-				   IoState_storeObject_(state, v)
-				   );
+		if (!IoObject_persistentId(v) || IoObject_isDirty(v))
+		IoState_storeObject_(state, v)
+	);
 	self->store->close();
 	return 1;
 }
