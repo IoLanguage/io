@@ -8,7 +8,10 @@ UnitTest := Object clone do(
 	setUp := method(nil)
 	tearDown := method(nil)
 	init := method(self exceptions := List clone)
-	testSlotNames := method(self slotNames select(n, n beginsWithSeq("test")) sortInPlace)
+	testSlotNames := method(
+		names := self slotNames select(name, name beginsWithSeq("test"))
+		names sortByKey(name, self getSlot(name) message lineNumber)
+	)
 	
 	testCount := method(testSlotNames size)
 	
