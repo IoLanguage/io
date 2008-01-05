@@ -5,25 +5,25 @@ Map do(
 		foreach(k, v, l append(list(k, v)))
 		l
 	)
-	
+
 	map := method(
-        result := List clone
-        key := call argAt(0)
-        value := call argAt(1)
-        body := call argAt(2)
-        self foreach(k, v,
-            call sender setSlot(key name, k)
-            call sender setSlot(value name, v)
+		result := List clone
+		key := call argAt(0)
+		value := call argAt(1)
+		body := call argAt(2)
+		self foreach(k, v,
+			call sender setSlot(key name, k)
+			call sender setSlot(value name, v)
 			ss := stopStatus(r := call sender doMessage(body))
 			if(ss isReturn, call setStopStatus(ss); return getSlot("v"))
 			if(ss isBreak, break)
 			if(ss isContinue, continue)
-            result append(getSlot("r"))
-        )
-        result
-    )
+			result append(getSlot("r"))
+		)
+		result
+	)
 
-	
+
 	select := method(
 		result := Map clone
 		self keys foreach(key,

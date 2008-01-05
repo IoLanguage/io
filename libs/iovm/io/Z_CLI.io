@@ -7,11 +7,11 @@ CLI := Object clone do(
 	newSlot("isRunning", true)
 
 	newSlot("commandLineLabel", "Command Line")
-	
+
 	newSlot("lineReader" , nil)
-	
+
 	stop := method(setIsRunning(false))
-	
+
 	runFile := method(path,
 		Lobby launchPath := if(Path isPathAbsolute(path),
 			path
@@ -42,13 +42,13 @@ CLI := Object clone do(
 
 		runIorc
 
-		if(?args first == "-e", 
+		if(?args first == "-e",
 			writeln(context doString(args slice(1) map(asUTF8) join(" ")))
 			return
 		)
-        
+
 		if(?args and args size > 0,
-			
+
 			if(args first == "-i",
 				if(args size >= 2,
 					runFile(args at(1))
@@ -57,7 +57,7 @@ CLI := Object clone do(
 				)
 				return interactiveMultiline
 			)
-			
+
 			runFile(args first)
 		,
 			if(File clone setPath("main.io") exists,
@@ -67,10 +67,10 @@ CLI := Object clone do(
 			)
 		)
 	)
-	
+
 	interactiveMultiline := method(
 		writeln("Io ", System version)
-		
+
 		/* Use GNU Readline as the default line reader. Fall back to Editline */
 		try(setLineReader(ReadLine))
 		try(lineReader ifNil( setLineReader(EditLine)))
@@ -83,7 +83,7 @@ CLI := Object clone do(
 			)
 		)
 	)
-	
+
 	interactive := method(
 		writeln("Io ", System version)
 		while(isRunning,
@@ -91,7 +91,7 @@ CLI := Object clone do(
 		)
 	)
 
-	writeCommandResult := method(result, 
+	writeCommandResult := method(result,
 		e := try(string := getSlot("result") asString)
 		if(e not,
 			writeln(outPrompt, string)
@@ -100,7 +100,7 @@ CLI := Object clone do(
 			e showStack
 		)
 	)
-	
+
 	/*
 	handleInteractiveSingleLine := method(
 		line := EditLine readLine(prompt)
@@ -119,13 +119,13 @@ CLI := Object clone do(
 		)
 	)
 	*/
-	
+
 	interactiveNoLineReader := method(
 		write(prompt)
 		File standardOutput flush
-		
+
 		line := File standardInput readLine
-		
+
 		line ifNil(
 			writeln
 			context exit
@@ -170,7 +170,7 @@ CLI := Object clone do(
 		loop(
 			# Write out prompt and read line
 			nextLine := lineReader readLine(nextPrompt)
-			
+
 			# If there was no line, exit
 			nextLine ifNil(context exit)
 

@@ -5,26 +5,26 @@ Call do(
 	description := method(
 		m := self message
 		s := self target type .. " " .. m name
-        s alignLeft(36) .. " " .. m label lastPathComponent .. " " .. m lineNumber
+		s alignLeft(36) .. " " .. m label lastPathComponent .. " " .. m lineNumber
 	)
 
 	delegateTo := method(target, altSender,
 		call relayStopStatus(target doMessage(self message clone setNext, altSender ifNilEval(self sender)))
 	)
 
-    delegateToMethod := method(target, methodName,
-        call relayStopStatus(target doMessage(self message clone setNext setName(methodName), self sender))
-    )
+	delegateToMethod := method(target, methodName,
+		call relayStopStatus(target doMessage(self message clone setNext setName(methodName), self sender))
+	)
 
 	evalArgs := method(self message argsEvaluatedIn(sender))
-    hasArgs  := method(argCount > 0)
-    argCount := method(self message argCount)
+	hasArgs  := method(argCount > 0)
+	argCount := method(self message argCount)
 )
 
 Message description := method(
-	self name alignLeft(36) .. self label lastPathComponent .. " " .. self lineNumber	
+	self name alignLeft(36) .. self label lastPathComponent .. " " .. self lineNumber
 )
-	
+
 Scheduler := Object clone do(
 	newSlot("yieldingCoros", List clone)
 	newSlot("timers", List clone)
@@ -43,17 +43,17 @@ Coroutine do(
 	newSlot("inException", false)
 	newSlot("yieldingCoros", Scheduler yieldingCoros)
 	debugWriteln := nil
-	
+
 	label := method(self uniqueId)
 	setLabel := method(s, self label = s .. "_" .. self uniqueId)
-	
+
 	showYielding := method(s,
 		writeln("   ", label, " ", s)
 		yieldingCoros foreach(v, writeln("    ", v uniqueId))
 	)
 
-    isYielding := method(yieldingCoros contains(self))
-    
+	isYielding := method(yieldingCoros contains(self))
+
 	yield := method(
 		//showYielding("yield")
 		//writeln("Coro ", self uniqueId, " yielding - yieldingCoros = ", yieldingCoros size)
@@ -62,37 +62,37 @@ Coroutine do(
 		next := yieldingCoros removeFirst
 		if(next == self, return)
 		//writeln(Scheduler currentCoroutine label, " yield - ", next label, " resume")
-		if(next, next resume)	
+		if(next, next resume)
 	)
-	
-    resumeLater := method(
-        yieldingCoros remove(self)
+
+	resumeLater := method(
+		yieldingCoros remove(self)
 		yieldingCoros atInsert(0, self)
 		//writeln(self label, " resumeLater")
 	)
-		
+
 	pause := method(
 		yieldingCoros remove(self)
 		if(isCurrent,
-			next := yieldingCoros removeFirst 
-			if(next, 
-                next resume, 
+			next := yieldingCoros removeFirst
+			if(next,
+				next resume,
 				//Exception raise("Scheduler: nothing left to resume so we are exiting")
 				writeln("Scheduler: nothing left to resume so we are exiting")
-                self showStack
+				self showStack
 				System exit
 			)
 			,
 			yieldingCoros remove(self)
 		)
 	)
-		
+
 	yieldCurrentAndResumeSelf := method(
 		//showYielding("yieldCurrentAndResumeSelf")
 		yieldingCoros remove(self)
 		isCurrent ifFalse(resume)
 	)
-	
+
 	pauseCurrentAndResumeSelf := method(
 		//showYielding("pauseCurrentAndResumeSelf")
 		yieldingCoros remove(self)
@@ -105,7 +105,7 @@ Coroutine do(
 
 	callStack := method(
 		stack := ioStack
-		stack selectInPlace(v, Object argIsCall(getSlot("v"))) reverse 
+		stack selectInPlace(v, Object argIsCall(getSlot("v"))) reverse
 		stack selectInPlace(v,
 			(v target type == "Coroutine" and ignoredCoroutineMethodNames contains(v message name)) not
 		)
@@ -113,24 +113,24 @@ Coroutine do(
 		stack := stack unique
 		stack
 	)
-	
+
 	backTraceString := method(
-		if(Coroutine inException, 
+		if(Coroutine inException,
 			writeln("\n", exception type, ": ", exception error, "\n\n")
-			writeln("Coroutine Exception loop detected"); 
+			writeln("Coroutine Exception loop detected");
 			System exit
 		)
 		Coroutine setInException(true)
 		buf := Sequence clone
-		
+
 		if(getSlot("CGI") != nil and CGI isInWebScript, buf appendSeq("<pre>"))
-		
+
 		if(exception, buf appendSeq("\n  ", exception type, ": ", exception error, "\n"))
-		
+
 		if(callStack size > 0) then(
 			buf appendSeq("  ---------\n")
-			
-			if(exception and exception caughtMessage, 
+
+			if(exception and exception caughtMessage,
 				buf appendSeq("  ", exception caughtMessage description, "\n")
 			)
 
@@ -149,7 +149,7 @@ Coroutine do(
 			buf appendSeq("\n")
 		) else(
 			buf appendSeq("  ---------\n")
-		    m := exception caughtMessage
+			m := exception caughtMessage
 			buf appendSeq("  message '" .. m name .. "' in '" .. m label .. "' on line " .. m lineNumber .. "\n")
 			buf appendSeq("\n")
 		)
@@ -157,7 +157,7 @@ Coroutine do(
 		Coroutine setInException(false)
 		buf
 	)
-	
+
 	showStack := method(write(backTraceString))
 
 	resumeParentCoroutine := method(
@@ -167,16 +167,16 @@ Coroutine do(
 	main := method(
 		setResult(self getSlot("runTarget") doMessage(runMessage, self getSlot("runLocals")))
 		resumeParentCoroutine
-	    pause
+		pause
 	)
 
-	raiseException := method(e, 
+	raiseException := method(e,
 		self setException(e)
 		resumeParentCoroutine
 	)
 )
 
-Object wait := method(s, 
+Object wait := method(s,
 	endDate := Date clone now + Duration clone setSeconds(s)
 	loop(endDate isPast ifTrue(break); yield)
 )
@@ -189,56 +189,56 @@ Message do(
 
 	asStackEntry := method(
 		label := label lastPathComponent fileName
-        label alignLeft(19) .. lineNumber asString alignLeft(7) .. name
+		label alignLeft(19) .. lineNumber asString alignLeft(7) .. name
 	)
 )
 
 Object do(
 	try := method(
 		coro := Coroutine clone
-		coro setParentCoroutine(Scheduler currentCoroutine) 
-		coro setRunTarget(call sender) 
+		coro setParentCoroutine(Scheduler currentCoroutine)
+		coro setRunTarget(call sender)
 		coro setRunLocals(call sender)
-		coro setRunMessage(call argAt(0)) 
+		coro setRunMessage(call argAt(0))
 		coro run
 		if(coro exception, coro exception, nil)
 	)
 
 	coroFor := method(
 		coro := Coroutine clone
-		coro setRunTarget(call sender) 
+		coro setRunTarget(call sender)
 		coro setRunLocals(call sender)
-		coro setRunMessage(call argAt(0)) 
+		coro setRunMessage(call argAt(0))
 		coro
 	)
-		
+
 	coroDo := method(
 		coro := Coroutine clone
-		coro setRunTarget(call sender) 
+		coro setRunTarget(call sender)
 		coro setRunLocals(call sender)
-		coro setRunMessage(call argAt(0)) 
+		coro setRunMessage(call argAt(0))
 		Coroutine yieldingCoros atInsert(0, Scheduler currentCoroutine)
 		coro run
 		coro
 	)
-	
-    coroDoLater := method(
+
+	coroDoLater := method(
 		coro := Coroutine clone
-		coro setRunTarget(self) 
+		coro setRunTarget(self)
 		coro setRunLocals(call sender)
-		coro setRunMessage(call argAt(0)) 
+		coro setRunMessage(call argAt(0))
 		Coroutine yieldingCoros atInsert(0, coro)
 		coro
 	)
-	
-    coroWith := method(
+
+	coroWith := method(
 		coro := Coroutine clone
-		coro setRunTarget(self) 
+		coro setRunTarget(self)
 		coro setRunLocals(call sender)
-		coro setRunMessage(call argAt(0)) 
+		coro setRunMessage(call argAt(0))
 		coro
 	)
-	
+
 	currentCoro := method(Coroutine currentCoroutine)
 )
 
@@ -252,9 +252,9 @@ Protos Exception do(
 	newSlot("error")
 	newSlot("coroutine")
 	newSlot("caughtMessage")
-    newSlot("nestedException")
+	newSlot("nestedException")
 	newSlot("originalCall")
-	
+
 	raise := method(error, nestedException,
 		coro := Scheduler currentCoroutine
 		coro raiseException(self clone setError(error) setCoroutine(coro) setNestedException(nestedException))
@@ -264,18 +264,18 @@ Protos Exception do(
 		coro := Scheduler currentCoroutine
 		coro raiseException(self clone setError(error) setCoroutine(coro) setNestedException(nestedException) setOriginalCall(originalCall))
 	)
-	
+
 	catch := method(exceptionProto,
 		if (self isKindOf(exceptionProto), call evalArgAt(1); nil, self)
 	)
 
-	pass := method(Scheduler currentCoroutine raiseException(self)) 
+	pass := method(Scheduler currentCoroutine raiseException(self))
 
 	showStack := method(
-        coroutine showStack
-        if(nestedException,
-                writeln("Nested Exception: '", nestedException,  "'")
-                nestedException showStack
-        )
-    )
+		coroutine showStack
+		if(nestedException,
+				writeln("Nested Exception: '", nestedException,  "'")
+				nestedException showStack
+		)
+	)
 )

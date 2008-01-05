@@ -9,23 +9,23 @@ File do(
 	streamTo := method(streamDestination,
 		b := Sequence clone
 		self open
-		while(isAtEnd not, 
+		while(isAtEnd not,
 			b empty
 			readToBufferLength(b, streamReadSize)
 			streamDestination write(b)
 			yield
 		)
 	)
-	
+
 	copyToPath := method(dstPath,
 		dst := File with(dstPath) open
 		self open streamTo(dst)
 		dst close
 		self close
 	)
-	
+
 	lockFile := method(File clone setPath(path .. ".lock"))
-	
+
 	lock := method(timeout,
 		if(timeout == nil, timeout = 10)
 		lockFile := lockFile
@@ -38,7 +38,7 @@ File do(
 		)
 		lockFile open close
 	)
-	
+
 	unlock := method(lockFile remove)
 )
 

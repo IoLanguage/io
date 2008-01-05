@@ -1,13 +1,13 @@
 /*
 nil ioDoc(
-  docCopyright("Steve Dekorte", 2002)
-  docLicense("BSD revised")
-  docObject("nil")
-  docDescription("nil is a singleton object that is used as a placeholder and to mean false in Io.")
+	docCopyright("Steve Dekorte", 2002)
+	docLicense("BSD revised")
+	docObject("nil")
+	docDescription("nil is a singleton object that is used as a placeholder and to mean false in Io.")
 )
 
 nil do(
-    docSlot("clone", "returns self since nil is a singleton.")
+	docSlot("clone", "returns self since nil is a singleton.")
 	clone := nil
 
 	docSlot("and(expression)", "Returns nil without evaluating expression.")
@@ -34,7 +34,7 @@ nil do(
 	isNil := Lobby
 
 	docSlot("ifNil(expression)", "Evaluates message.")
-	ifNil := method(v, v)  
+	ifNil := method(v, v)
 )
 */
 
@@ -42,9 +42,9 @@ nil do(
 // (a == 1) ifTrue(b) ifFalse(c)
 
 true do(
-        then    := Object getSlot("evalArgAndReturnNil")
-        elseif  := true
-        else    := true
+	then    := Object getSlot("evalArgAndReturnNil")
+	elseif  := true
+	else    := true
 	ifTrue  := Object getSlot("evalArgAndReturnSelf")
 	ifFalse := true
 	setSlot("and", Object getSlot("evalArg"))
@@ -56,14 +56,14 @@ true do(
 )
 
 false do(
-        then    := false
+	then    := false
 	ifTrue  := false
 	ifFalse := Object getSlot("evalArgAndReturnSelf")
-        elseif  := Object getSlot("if")
-        else := Object getSlot("evalArgAndReturnNil")
+	elseif  := Object getSlot("if")
+	else    := Object getSlot("evalArgAndReturnNil")
 	setSlot("and", false)
 	setSlot("or", Object getSlot("evalArg"))
-	
+
 	type := "false"
 	asString := "false"
 	asSimpleString := "false"
@@ -74,22 +74,22 @@ false do(
 nil do(
 	not := true
 	isNil := true
-	
+
 	ifNonNil := Object getSlot("thisContext")
-    ifNil := Object getSlot("evalArgAndReturnSelf")
-	
+	ifNil := Object getSlot("evalArgAndReturnSelf")
+
 	ifNilEval    := Object getSlot("evalArg")
-	ifNonNilEval := Object getSlot("thisContext")	
-	
+	ifNonNilEval := Object getSlot("thisContext")
+
 	type := "nil"
 	asString := type
 	asSimpleString := type
-	
+
 	setSlot("and", false)
 	setSlot("or", Object getSlot("evalArg"))
-        then := nil
-        else := nil
-        elseif := nil
+	then := nil
+	else := nil
+	elseif := nil
 	clone := nil
 )
 
@@ -142,170 +142,170 @@ Object do(
 	not := nil
 
 	isNil := false
-	
+
 	ifNil := Object getSlot("thisContext")
-    ifNonNil := Object getSlot("evalArgAndReturnSelf")
-	
+	ifNonNil := Object getSlot("evalArgAndReturnSelf")
+
 	ifNonNilEval := Object getSlot("evalArg")
-	ifNilEval    := Object getSlot("thisContext")	
-		
+	ifNilEval    := Object getSlot("thisContext")
+
 	setSlot("and", Object getSlot("evalArg"))
 	setSlot("or", true)
 )
 
 Sequence do(
-    makeFirstCharacterLowercase := method(
-	   if(self size > 0, self atPut(0, self at(0) asLowercase))
-    )
+	makeFirstCharacterLowercase := method(
+		if(self size > 0, self atPut(0, self at(0) asLowercase))
+	)
 
-    makeFirstCharacterUppercase := method(
-	   if(self size > 0, self atPut(0, self at(0) asUppercase))
-    )
+	makeFirstCharacterUppercase := method(
+		if(self size > 0, self atPut(0, self at(0) asUppercase))
+	)
 
-    slicesBetween := method(startSeq, endSeq,
-        chunks := List clone
-        lastIndex := 0
-        while (startIndex := self findSeq(startSeq, lastIndex),
-            endIndex := self findSeq(endSeq, startIndex + startSeq size)
-            endIndex ifNil(break)
-            chunks append(self slice(startIndex + startSeq size, endIndex))
-            lastIndex := endIndex + endSeq size
-        )
-        chunks
-    )
+	slicesBetween := method(startSeq, endSeq,
+		chunks := List clone
+		lastIndex := 0
+		while (startIndex := self findSeq(startSeq, lastIndex),
+			endIndex := self findSeq(endSeq, startIndex + startSeq size)
+			endIndex ifNil(break)
+			chunks append(self slice(startIndex + startSeq size, endIndex))
+			lastIndex := endIndex + endSeq size
+		)
+		chunks
+	)
 )
 
 Object do(
-    hasSlot := method(n,
-        getSlot("self") hasLocalSlot(n) or(getSlot("self") ancestorWithSlot(n) != nil)
-    )
+	hasSlot := method(n,
+		getSlot("self") hasLocalSlot(n) or(getSlot("self") ancestorWithSlot(n) != nil)
+	)
 
-    docsSlot := method(
-	   if(getSlot("self") hasLocalSlot("docs"), 
-	   getSlot("self") docs, 
-	   getSlot("self") docs := Object clone do(slots := Object clone)
-	   )
-    )
-    
-    
-    docSlot := method(k, v, 
-        entry := Object clone 
-        entry description := v asSymbol
-        if (k containsSeq("("), 
-            entry args := k afterSeq("(") beforeSeq(")") split(",") map(strip)
-        )	
-        getSlot("self") docsSlot slots setSlot(k beforeSeq("("), entry)
-    )
-        
-    docCopyright := method(v, 
-	   k := call message name asMutable removePrefix("doc") makeFirstCharacterLowercase
-	   getSlot("self") docsSlot setSlot(k, v)
-    )
-    //docCopyright := nil //    turnOffDocs
- 
-    docLicense := getSlot("docCopyright")
-    docObject := getSlot("docCopyright")
-    docDescription := getSlot("docCopyright")
-    docCredits := getSlot("docCopyright")
-    docInclude := getSlot("docCopyright")
-    docDependsOn := getSlot("docCopyright")
-    docCategory := getSlot("docCopyright")
+	docsSlot := method(
+		if(getSlot("self") hasLocalSlot("docs"),
+			getSlot("self") docs,
+			getSlot("self") docs := Object clone do(slots := Object clone)
+		)
+	)
 
-    ioDoc := method(
-	   if(call argAt(0), getSlot("self") doMessage(call argAt(0)))
-    )
-    
-    ioDoc := nil
-    
-    docSlot("list(...)", "Returns a List containing the arguments.")
-    list := method(call message argsEvaluatedIn(call sender))
-    
-    docSlot("..(arg)", ".. is an alias for: method(arg, self asString append(arg asString))")
-    setSlot("..", method(arg, getSlot("self") asString .. arg asString))
-    
-    Map addKeysAndValues := method(keys, values, keys foreach(i, k, self atPut(k, values at(i))); self)
-    
-    slotDescriptionMap := method(
-        slotNames := getSlot("self") slotNames sort 
-        slotDescs := slotNames map(name, getSlot("self") getSlot(name) asSimpleString)
-        Map clone addKeysAndValues(slotNames, slotDescs) 
-    )
 
-    apropos := method(keyword,
-        Protos Core foreachSlot(name, p,
-            slotDescriptions := getSlot("p") slotDescriptionMap ?select(k, v, k asMutable lowercase containsSeq(keyword))
+	docSlot := method(k, v,
+		entry := Object clone
+		entry description := v asSymbol
+		if (k containsSeq("("),
+			entry args := k afterSeq("(") beforeSeq(")") split(",") map(strip)
+		)
+		getSlot("self") docsSlot slots setSlot(k beforeSeq("("), entry)
+	)
 
-            if(slotDescriptions and slotDescriptions size > 0,
-                s := Sequence clone
-                slotDescriptions keys sortInPlace foreach(k,
-                    s appendSeq("  ", k alignLeft(16), " = ", slotDescriptions at(k), "\n")
-                )
+	docCopyright := method(v,
+		k := call message name asMutable removePrefix("doc") makeFirstCharacterLowercase
+		getSlot("self") docsSlot setSlot(k, v)
+	)
+	//docCopyright := nil //    turnOffDocs
 
-                writeln(name)
-                writeln(s)
-            )
-        )
-        nil
-    )
-    
-    slotSummary := method(keyword,
-        if(getSlot("self") type == "Block" and getSlot("self") == getSlot("Block"),
-            return getSlot("self") asSimpleString
-        )
-        s := Sequence clone
-        s appendSeq(" ", getSlot("self") asSimpleString, ":\n")
-        slotDescriptions := slotDescriptionMap
-        if(keyword,
-            slotDescriptions = slotDescriptions select(k, v, k asMutable lowercase containsSeq(keyword))
-        )
-        slotDescriptions keys sortInPlace foreach(k,
-            s appendSeq("  ", k alignLeft(16), " = ", slotDescriptions at(k), "\n")
-        )
-        s
-    )
-    
-    asString := getSlot("slotSummary")
-    
-    asSimpleString := method(getSlot("self") type .. "_" .. getSlot("self") uniqueHexId)
-    
-    docSlot("newSlot(slotName, aValue)", 
-    """Creates a getter and setter for the slot with the name slotName 
-    and sets it's default the value aValue. Returns self. For example, 
-    newSlot("foo", 1) would create slot named foo with the value 1 as well as a setter method setFoo().""")
+	docLicense := getSlot("docCopyright")
+	docObject := getSlot("docCopyright")
+	docDescription := getSlot("docCopyright")
+	docCredits := getSlot("docCopyright")
+	docInclude := getSlot("docCopyright")
+	docDependsOn := getSlot("docCopyright")
+	docCategory := getSlot("docCopyright")
 
-    newSlot := method(name, value, doc,
+	ioDoc := method(
+		if(call argAt(0), getSlot("self") doMessage(call argAt(0)))
+	)
+
+	ioDoc := nil
+
+	docSlot("list(...)", "Returns a List containing the arguments.")
+	list := method(call message argsEvaluatedIn(call sender))
+
+	docSlot("..(arg)", ".. is an alias for: method(arg, self asString append(arg asString))")
+	setSlot("..", method(arg, getSlot("self") asString .. arg asString))
+
+	Map addKeysAndValues := method(keys, values, keys foreach(i, k, self atPut(k, values at(i))); self)
+
+	slotDescriptionMap := method(
+		slotNames := getSlot("self") slotNames sort
+		slotDescs := slotNames map(name, getSlot("self") getSlot(name) asSimpleString)
+		Map clone addKeysAndValues(slotNames, slotDescs)
+	)
+
+	apropos := method(keyword,
+		Protos Core foreachSlot(name, p,
+			slotDescriptions := getSlot("p") slotDescriptionMap ?select(k, v, k asMutable lowercase containsSeq(keyword))
+
+			if(slotDescriptions and slotDescriptions size > 0,
+				s := Sequence clone
+				slotDescriptions keys sortInPlace foreach(k,
+					s appendSeq("  ", k alignLeft(16), " = ", slotDescriptions at(k), "\n")
+				)
+
+				writeln(name)
+				writeln(s)
+			)
+		)
+		nil
+	)
+
+	slotSummary := method(keyword,
+		if(getSlot("self") type == "Block" and getSlot("self") == getSlot("Block"),
+			return getSlot("self") asSimpleString
+		)
+		s := Sequence clone
+		s appendSeq(" ", getSlot("self") asSimpleString, ":\n")
+		slotDescriptions := slotDescriptionMap
+		if(keyword,
+			slotDescriptions = slotDescriptions select(k, v, k asMutable lowercase containsSeq(keyword))
+		)
+		slotDescriptions keys sortInPlace foreach(k,
+			s appendSeq("  ", k alignLeft(16), " = ", slotDescriptions at(k), "\n")
+		)
+		s
+	)
+
+	asString := getSlot("slotSummary")
+
+	asSimpleString := method(getSlot("self") type .. "_" .. getSlot("self") uniqueHexId)
+
+	docSlot("newSlot(slotName, aValue)",
+	"""Creates a getter and setter for the slot with the name slotName
+	and sets it's default the value aValue. Returns self. For example,
+	newSlot("foo", 1) would create slot named foo with the value 1 as well as a setter method setFoo().""")
+
+	newSlot := method(name, value, doc,
 		getSlot("self") setSlot(name, getSlot("value"))
-		getSlot("self") setSlot("set" .. name asCapitalized, 
+		getSlot("self") setSlot("set" .. name asCapitalized,
 			doString("method(" .. name .. " = call evalArgAt(0); self)"))
 			if(doc, getSlot("self") docSlot(name, doc))
 		value
-    )
-    
-    docSlot("launchFile(pathString)", 
-    "Eval file at pathString as if from the command line in it's folder.")
-    
-    launchFile := method(path, args,
-        args ifNil(args = List clone)
-        Lobby args := args
-        Lobby launchPath :=  path pathComponent
-        Directory setCurrentWorkingDirectory(Lobby launchPath)
+	)
+
+	docSlot("launchFile(pathString)",
+	"Eval file at pathString as if from the command line in it's folder.")
+
+	launchFile := method(path, args,
+		args ifNil(args = List clone)
+		Lobby args := args
+		Lobby launchPath :=  path pathComponent
+		Directory setCurrentWorkingDirectory(Lobby launchPath)
 		System launchScript = path
-        self doFile(path)
-    )
-    
-    docSlot("println", "Same as print, but also prints a new line. Returns self.")
-    println := method(getSlot("self") print; write("\n"); self)
+		self doFile(path)
+	)
 
-    docSlot("?(aMessage)", """
-    description: Sends the message aMessage to the receiver if it can respond to it. Example:
-    <pre>
-    MyObject test // performs test
-    MyObject ?test // performs test if MyObject has a slot named test
-    </pre>
-    The search for the slot only follows the receivers proto chain. 
-    """)
+	docSlot("println", "Same as print, but also prints a new line. Returns self.")
+	println := method(getSlot("self") print; write("\n"); self)
 
-    setSlot("?",
+	docSlot("?(aMessage)", """
+	description: Sends the message aMessage to the receiver if it can respond to it. Example:
+	<pre>
+	MyObject test // performs test
+	MyObject ?test // performs test if MyObject has a slot named test
+	</pre>
+	The search for the slot only follows the receivers proto chain.
+	""")
+
+	setSlot("?",
 		method(
 			m := call argAt(0)
 			if (self getSlot(m name) != nil,
@@ -316,27 +316,27 @@ Object do(
 		)
 	)
 
-    docSlot("ancestors", 
-    "Returns a list of all of the receiver's ancestors as found by recursively following the protos links.") 
+	docSlot("ancestors",
+	"Returns a list of all of the receiver's ancestors as found by recursively following the protos links.")
 
-    ancestors := method(a, 
-        if(a, if(a detect(x, x isIdenticalTo(self)), return a), a = List clone)
-        a append(self)
-        self protos foreach(ancestors(a))
-        a
-    )
+	ancestors := method(a,
+		if(a, if(a detect(x, x isIdenticalTo(self)), return a), a = List clone)
+		a append(self)
+		self protos foreach(ancestors(a))
+		a
+	)
 
-    docSlot("isKindOf(anObject)", "Returns true if anObject is in the receiver's ancestors.") 
+	docSlot("isKindOf(anObject)", "Returns true if anObject is in the receiver's ancestors.")
 
-    isKindOf := method(anObject, getSlot("self") ancestors contains(getSlot("anObject")))
-    
-    docSlot("super(aMessage)", 
-    """Sends the message aMessage to the receiver's proto with the context of self. Example:
-    <pre>
-    self test(1, 2)   // performs test(1, 2) on self
-    super(test(1, 2)) // performs test(1, 2) on self proto but with the context of self
-    </pre>
-    """)
+	isKindOf := method(anObject, getSlot("self") ancestors contains(getSlot("anObject")))
+
+	docSlot("super(aMessage)",
+	"""Sends the message aMessage to the receiver's proto with the context of self. Example:
+	<pre>
+	self test(1, 2)   // performs test(1, 2) on self
+	super(test(1, 2)) // performs test(1, 2) on self proto but with the context of self
+	</pre>
+	""")
 
 	setSlot("super", method(
 		senderSlotContext := call sender call slotContext
@@ -351,25 +351,25 @@ Object do(
 		)
 		if(ancestor isIdenticalTo(senderSlotContext), Exception raise("Object super slot " .. slotName .. " not found"))
 		b := ancestor getSlot(slotName)
-		if(getSlot("b") isActivatable == false, 
+		if(getSlot("b") isActivatable == false,
 			b
-		, 
+		,
 			getSlot("b") performOn(call sender call target, call sender, m, ancestor)
 		)
 	))
 
-    docSlot("resend", 
-    """Send the message used to activate the current method to the Object's proto.
-    For example;
-    <pre>
-    Dog := Mammal clone do(
+	docSlot("resend",
+	"""Send the message used to activate the current method to the Object's proto.
+	For example;
+	<pre>
+	Dog := Mammal clone do(
 	init := method(
-	    resend
+		resend
 	)
-    )
-    </pre>
-    calling Dog init will send an init method to Mammal, but using the Dog's context.
-    """)
+	)
+	</pre>
+	calling Dog init will send an init method to Mammal, but using the Dog's context.
+	""")
 
 	setSlot("resend", method(
 		senderSlotContext := call sender call slotContext
@@ -377,38 +377,38 @@ Object do(
 		m := call sender call message
 		slotName := m name
 		ancestor := senderSlotContext ancestorWithSlot(slotName)
-		
-        if(ancestor isIdenticalTo(nil),
-            slotName = "forward"
-            ancestor = senderSlotContext ancestorWithSlot(slotName)
-        )
 
-        if(ancestor isIdenticalTo(senderSlotContext),
-            Exception raise("Object resend slot " .. slotName .. " not found")
-        )
-        
-        b := ancestor getSlot(slotName) 
-        if(getSlot("b") != nil, 
-            getSlot("b") performOn(call sender getSlot("self"), call sender call sender, m, ancestor)
-        , 
-            getSlot("b")
-        )
-    ))
+		if(ancestor isIdenticalTo(nil),
+			slotName = "forward"
+			ancestor = senderSlotContext ancestorWithSlot(slotName)
+		)
+
+		if(ancestor isIdenticalTo(senderSlotContext),
+			Exception raise("Object resend slot " .. slotName .. " not found")
+		)
+
+		b := ancestor getSlot(slotName)
+		if(getSlot("b") != nil,
+			getSlot("b") performOn(call sender getSlot("self"), call sender call sender, m, ancestor)
+		,
+			getSlot("b")
+		)
+	))
 
 
-    docSlot("list(...)", "Returns a List containing the arguments.")
-    list := method(call message argsEvaluatedIn(call sender))
+	docSlot("list(...)", "Returns a List containing the arguments.")
+	list := method(call message argsEvaluatedIn(call sender))
 
-    Object print := method(write(getSlot("self") asString); getSlot("self"))
+	Object print := method(write(getSlot("self") asString); getSlot("self"))
 
-    docSlot("println", "Same as print, but also prints a new line. Returns self.")
-    println := method(getSlot("self") print; write("\n"); getSlot("self"))
+	docSlot("println", "Same as print, but also prints a new line. Returns self.")
+	println := method(getSlot("self") print; write("\n"); getSlot("self"))
 
-    docSlot("in(aList)", "Same as: aList contains(self)")
-    in := method(aList, aList contains(self)) 
+	docSlot("in(aList)", "Same as: aList contains(self)")
+	in := method(aList, aList contains(self))
 
 	uniqueHexId := method("0x" .. getSlot("self") uniqueId asString toBase(16))
-	
+
 	lazySlot := method(
 		if(call argCount == 1,
 			m := method(
@@ -427,7 +427,7 @@ Object do(
 			nil
 		)
 	)
-	
+
 	foreachSlot := method(
 		self slotNames sort foreach(n,
 			call sender setSlot(call message argAt(0) name, n)
@@ -453,8 +453,8 @@ Object do(
 	</pre>
 	""")
 	switch := method(
-		for(couple, 0, call argCount - 2, 2, 
-			if(call evalArgAt(couple) == self, 
+		for(couple, 0, call argCount - 2, 2,
+			if(call evalArgAt(couple) == self,
 				return call relayStopStatus(call evalArgAt(couple + 1))
 			)
 		)

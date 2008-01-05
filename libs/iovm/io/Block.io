@@ -1,5 +1,5 @@
 getSlot("Block") do(
-	
+
 	docSlot("asSimpleString", "Returns a short description of the receiver.")
 	asSimpleString := method(
 		if(scope, "block", "method") .. "(" .. argumentNames append("...") join(", ") .. ")"

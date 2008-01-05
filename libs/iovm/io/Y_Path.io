@@ -6,26 +6,26 @@ Path := Object clone do(
 	with := method(
 		s := Sequence clone
 		call message arguments foreach(arg,
-            v := call sender doMessage(arg)
-            //writeln("appendPathSeq(", v type, ")")
-            if(v == nil, v = "")
-            s appendPathSeq(v)
+			v := call sender doMessage(arg)
+			//writeln("appendPathSeq(", v type, ")")
+			if(v == nil, v = "")
+			s appendPathSeq(v)
 		)
 		s asSymbol
 	)
 
-    isPathAbsolute := method(p,
-        absolute := false
-        try (
-            if (hasDriveLetters,
-                absolute = p at(0) isLetter and p at(1) asCharacter == ":" or p at(0) asCharacter == "/" or p at(0) asCharacter == "\\"
-            ,
-                absolute = p at(0) asCharacter == "/"
-            )
-        )
-        absolute
-    )        
-        
+	isPathAbsolute := method(p,
+		absolute := false
+		try (
+			if (hasDriveLetters,
+				absolute = p at(0) isLetter and p at(1) asCharacter == ":" or p at(0) asCharacter == "/" or p at(0) asCharacter == "\\"
+			,
+				absolute = p at(0) asCharacter == "/"
+			)
+		)
+		absolute
+	)
+
 	absolute := method(path,
 		if(isPathAbsolute(path),
 			path

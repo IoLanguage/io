@@ -4,10 +4,10 @@ System do(
 
 	ioPath := "/usr/local/lib/io"
 	docSlot("ioPath", "Returns the path of io installation. The default is /usr/local/lib/io.")
-	
+
 	docSlot("getOptions(args)", "
-	This primitive is used to get command line options similar to Cs getopt(). 
-	It returns a map in containing the left side of the argument, with the 
+	This primitive is used to get command line options similar to Cs getopt().
+	It returns a map in containing the left side of the argument, with the
 	value of the right side. (The key will not contain
 	the beginning dashes (--).
 	<p>
@@ -23,19 +23,19 @@ System do(
 	)
 	</pre>
 	")
-	
+
 	getOptions := method(arguments,
 		opts := Map clone
 		optname := Sequence clone
 		optvalue := Sequence clone
 		optsNoKey := List clone
-		
+
 		arguments foreach(i, arg,
 			if(arg beginsWithSeq("--") isNil,
 				optsNoKey append(arg)
 				continue
 			)
-			
+
 			if(arg containsSeq("=")) then(
 				optname := arg clone asMutable
 				optname clipAfterStartOfSeq("=")
@@ -49,9 +49,9 @@ System do(
 			)
 			opts atPut(optname, optvalue)
 		)
-		
+
 		if(optsNoKey last != nil, opts atPut("", optsNoKey))
 		opts
 	)
-	
+
 )

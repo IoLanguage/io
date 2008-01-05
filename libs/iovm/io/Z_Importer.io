@@ -1,14 +1,14 @@
 Importer := Object clone do(
-    docDescription("A simple search path based auto-importer.")
+	docDescription("A simple search path based auto-importer.")
 
-    docSlot("paths", "List of paths the proto importer will check while searching for protos to load.")
+	docSlot("paths", "List of paths the proto importer will check while searching for protos to load.")
 	paths := method(FileImporter folders)
 
-    docSlot("addSearchPath(path)", "Add a search path to the auto importer. Relative paths are made absolute before adding.")
-    addSearchPath    := method(p, paths appendIfAbsent(Path absolute(p) asSymbol))
+	docSlot("addSearchPath(path)", "Add a search path to the auto importer. Relative paths are made absolute before adding.")
+	addSearchPath    := method(p, paths appendIfAbsent(Path absolute(p) asSymbol))
 
-    docSlot("removeSearchPath(path)", "Removes a search path from the auto importer. Relative paths should be removed from the same working directory as they were added.")
-    removeSearchPath := method(p, paths remove(Path absolute(p) asSymbol))
+	docSlot("removeSearchPath(path)", "Removes a search path from the auto importer. Relative paths should be removed from the same working directory as they were added.")
+	removeSearchPath := method(p, paths remove(Path absolute(p) asSymbol))
 
 	FileImporter := Object clone do(
 		importsFrom := "file"
@@ -34,7 +34,7 @@ Importer := Object clone do(
 
 		import := method(protoName,
 			if(hasAddon := AddonLoader hasAddonNamed(protoName),
-                AddonLoader loadAddonNamed(protoName)
+				AddonLoader loadAddonNamed(protoName)
 			)
 			hasAddon
 		)
@@ -42,7 +42,7 @@ Importer := Object clone do(
 
 	importers := list(FileImporter, AddonImporter)
 
-    import := method(originalCall,
+	import := method(originalCall,
 		protoName := originalCall message name
 
 		if(protoName at(0) isUppercase and(importer := importers detect(import(protoName))),
@@ -54,25 +54,25 @@ Importer := Object clone do(
 			targetType := originalCall target type
 			Exception raiseFrom(originalCall, targetType .. " does not respond to '" .. protoName .. "'")
 		)
-    )
+	)
 
 	autoImportingForward := method(
 		Importer import(call)
 	)
 
-    docSlot("turnOn", "Turns on the Importer. Returns self.")
-    turnOn := method(
+	docSlot("turnOn", "Turns on the Importer. Returns self.")
+	turnOn := method(
 		Lobby forward := self getSlot("autoImportingForward")
 		self
 	)
 
-    docSlot("turnOff", "Turns off the Importer. Returns self.")
-    turnOff := method(
+	docSlot("turnOff", "Turns off the Importer. Returns self.")
+	turnOff := method(
 		Lobby removeSlot("forward")
 		self
 	)
 
 	# Auto Importer is on by default
-    turnOn
+	turnOn
 )
 

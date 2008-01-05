@@ -35,9 +35,9 @@ Block justSerialized := method(stream,
 SerializationStream := Object clone do(
 	init := method(
 		self seen := Map clone
-		self output := Sequence clone	
+		self output := Sequence clone
 	)
-	
+
 	write := method(
 		for(i, 0, call argCount - 1,
 			//super(writeln(i, call argAt(i)))
@@ -52,9 +52,9 @@ Object do(
 		justSerialized(stream)
 		stream output
 	)
-	
+
 	justSerialized := method(stream,
-		stream write(getSlot("self") type, " clone do(\n") 
+		stream write(getSlot("self") type, " clone do(\n")
 		self serializedSlots(stream)
 		stream write(")\n")
 	)
@@ -62,9 +62,9 @@ Object do(
 	serializedSlots := method(stream,
 		self serializedSlotsWithNames(self slotNames, stream)
 	)
-	
+
 	serializedSlotsWithNames := method(names, stream,
-		names foreach(slotName, 
+		names foreach(slotName,
 			stream write("\t", slotName, " := ")
 			self getSlot(slotName) serialized(stream)
 			stream write("\n")

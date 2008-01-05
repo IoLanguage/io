@@ -3,7 +3,7 @@ UnitTest := Object clone do(
 		nil
 		//writeln(s)
 	)
-	
+
 	docCategory("Testing")
 	setUp := method(nil)
 	tearDown := method(nil)
@@ -14,13 +14,13 @@ UnitTest := Object clone do(
 	)
 	
 	testCount := method(testSlotNames size)
-	
-	run := method(		
-		testSlotNames foreach(n, 
+
+	run := method(
+		testSlotNames foreach(n,
 			self setUp
 			verbose("    " .. n)
 			e := try(stopStatus(self doString(n)))
-			if(e, 
+			if(e,
 				write("    ", n, " - failed")
 				exceptions append(e)
 				write("\n")
@@ -33,9 +33,9 @@ UnitTest := Object clone do(
 		)
 		self ?cleanUp
 	)
-    
-    fail := method(Exception raise("fail"))
-    
+
+	fail := method(Exception raise("fail"))
+
 	assertEquals := method(a, b, m,
 		//writeln("assertEquals1 call message = ", call message type)
 		mm := call message
@@ -47,12 +47,12 @@ UnitTest := Object clone do(
 
 	assertNotEquals := method(a, b, if(a == b, Exception raise(a .. " == " .. b)))
 
-    assertSame    := method(a, b, assertEquals(a uniqueId, b uniqueId, call message))
-    assertNotSame := method(a, b, assertNotEquals(a uniqueId, b uniqueId, call message))
-    assertNil     := method(a, assertEquals(a, nil, call message))
-    assertNotNil  := method(a, assertNotEquals(a, nil, call message))
-    assertTrue    := method(a, assertEquals(a, true, call message))
-    assertFalse   := method(a, assertEquals(a, false, call message))
+	assertSame    := method(a, b, assertEquals(a uniqueId, b uniqueId, call message))
+	assertNotSame := method(a, b, assertNotEquals(a uniqueId, b uniqueId, call message))
+	assertNil     := method(a, assertEquals(a, nil, call message))
+	assertNotNil  := method(a, assertNotEquals(a, nil, call message))
+	assertTrue    := method(a, assertEquals(a, true, call message))
+	assertFalse   := method(a, assertEquals(a, false, call message))
 
 	assertRaisesException := method(
 		e := try(
@@ -61,11 +61,11 @@ UnitTest := Object clone do(
 		)
 		e ifNil(Exception raise("Should have raised Exception"))
 	)
-    
+
 	knownBug := method(
 		//writeln("  [known bug: ", call argAt(0) code, "]")
 	)
-  
+
 	assertEqualsWithinDelta := method(expected, actual, delta,
 		if(((expected - actual) abs > delta),
 			Exception raise("expected " .. expected .. " but was " .. actual .. " (allowed delta: " .. delta .. ")")
@@ -78,22 +78,22 @@ TestSuite := Object clone do(
 		nil
 		//writeln(s)
 	)
-	
+
 	docCategory("Testing")
-	
+
 	name := method(
 		path asMutable pathComponent lastPathComponent
 	)
-	
+
 	newSlot("path", ".")
-	
+
 	run := method(
 		verbose("\n" .. name)
 		unitTestFiles := Directory with(launchPath) files select(f, f name endsWithSeq("Test.io"))
 		exceptions := List clone
 		testCount := 0
-				
-		unitTestFiles foreach(f, 
+
+		unitTestFiles foreach(f,
 			1 repeat(
 				verbose("  " .. f name fileName)
 				test := Lobby doString(f contents, f path)
@@ -103,7 +103,7 @@ TestSuite := Object clone do(
 			testCount = testCount + test testCount
 			exceptions appendSeq(test exceptions)
 		)
-		
+
 		verbose("  ---------------")
 		//Collector collect
 		//if(testCount == 0, write("(no tests)"); File standardOutput flush; return(0))
