@@ -1,5 +1,3 @@
-#!/usr/bin/env io
-
 // current state that this test checks:
 // 1. io input files are utf-8
 // 2. strings parsed from io input files are ascii/utf16/utf32
@@ -9,7 +7,7 @@
 
 UnicodeTest := UnitTest clone do(
 
-	wdPath := method(Path with(call message label pathComponent)) call
+	wdPath := Path with(method(call message label pathComponent) call, "UnicodeTest-helper")
 	tempPath := Path with(wdPath, "UnicodeTest.tmp")
 	textPath := Path with(wdPath, "UnicodeTest.txt")
 
@@ -21,26 +19,14 @@ UnicodeTest := UnitTest clone do(
 """
 	monoQuoteString := "Hello, world!\nЗдравствуй, мир!\n"
 	monoQuoteString = monoQuoteString .. "この世界お。今日は！\n"
-)
 
-if(args at(1) == "--print",
-	UnicodeTest getSlot(args at(2)) print
-	exit
-)
-
-if(args at(1) == "--arg",
-	args at(2) print
-	exit
-)
-
-UnicodeTest do(
 
 	tempWrite := method(s,
 		File with(tempPath) openForUpdating truncateToSize(0) write(s) close
 	)
 
 	tempSystem := method(s,
-		code := (" " .. s) asMutable replaceSeq("$0", args at(0))
+		code := (" " .. s) asMutable replaceSeq("$0", Path with(wdPath, "printer.io"))
 		System system(code .. " > " .. tempPath)
 	)
 
