@@ -249,7 +249,9 @@ Object do(
     )
     
     slotSummary := method(keyword,
-        if(getSlot("self") type == "Block", return getSlot("self") asSimpleString)
+        if(getSlot("self") type == "Block" and getSlot("self") == getSlot("Block"),
+            return getSlot("self") asSimpleString
+        )
         s := Sequence clone
         s appendSeq(" ", getSlot("self") asSimpleString, ":\n")
         slotDescriptions := slotDescriptionMap
