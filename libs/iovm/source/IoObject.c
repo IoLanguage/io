@@ -1099,9 +1099,13 @@ IoObject *IoObject_shallowCopy(IoObject *self, IoObject *locals, IoMessage *m)
 	docSlot("shallowCopy", "Returns a shallow copy of the receiver.")
 	*/
 	
+	IOASSERT(ISOBJECT(self), "shallowCopy doesn't work on primitives");
+	
+	{
 	IoObject *newObject = IoObject_new(IOSTATE);
 	PHASH_FOREACH(IoObject_slots(self), k, v, IoObject_setSlot_to_(newObject, k, v) );
 	return newObject;
+	}
 }
 
 // lobby methods ----------------------------------------------
