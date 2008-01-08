@@ -1,4 +1,4 @@
-/* 
+/*
 This software was developed as part of a project at MIT.
 
 Copyright (c) 2005-2006 Russ Cox,
@@ -33,7 +33,7 @@ void makecontext(ucontext_t *ucp, void (*func)(void), int argc, ...)
 	va_list arg;
 
 	tos = (unsigned long*)ucp->uc_stack.ss_sp + ucp->uc_stack.ss_size / sizeof(unsigned long);
-	sp = tos - 16;	
+	sp = tos - 16;
 	ucp->mc.pc = (long)func;
 	ucp->mc.sp = (long)sp;
 	va_start(arg, argc);

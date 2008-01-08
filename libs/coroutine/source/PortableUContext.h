@@ -1,5 +1,5 @@
 
-#ifndef PORTABLEUCONTEXT_DEFINED 
+#ifndef PORTABLEUCONTEXT_DEFINED
 #define PORTABLEUCONTEXT_DEFINED 1
 
 //#if defined(__APPLE__) || defined(linux) || defined(__NetBSD__) || defined(__FreeBSD__) || (defined(__SVR4) && defined (__sun))
@@ -7,7 +7,7 @@
 #define HAS_UCONTEXT 1
 #endif
 
-#if defined(__APPLE__) 
+#if defined(__APPLE__)
 #if !defined(_BSD_PPC_SETJMP_H_)
 #include <setjmp.h>
 #define HAS_UCONTEXT 1
@@ -51,7 +51,7 @@ extern	void		makecontext(ucontext_t*, void(*)(), int, ...);
 #		include "PortableUContext386.h"
 #	else
 #		include "PortableUContextPPC.h"
-#	endif	
+#	endif
 #endif
 
 #if defined(__OpenBSD__)

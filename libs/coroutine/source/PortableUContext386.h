@@ -1,8 +1,8 @@
 #include <stdarg.h>
 #include <sys/ucontext.h>
 
-#define	setcontext(u)	setmcontext(&(u)->uc_mcontext)
-#define	getcontext(u)	getmcontext(&(u)->uc_mcontext)
+#define setcontext(u) setmcontext(&(u)->uc_mcontext)
+#define getcontext(u) getmcontext(&(u)->uc_mcontext)
 typedef struct mcontext mcontext_t;
 typedef struct ucontext ucontext_t;
 
@@ -22,7 +22,7 @@ typedef void (MakeContextCallback)(void);
  * modification, are permitted provided that the following conditions
  * are met:
  * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer 
+ *    notice, this list of conditions and the following disclaimer
  *    in this position and unchanged.
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in the
@@ -52,29 +52,29 @@ struct mcontext {
 	 * sigcontext. So that we can support sigcontext
 	 * and ucontext_t at the same time.
 	 */
-	long	mc_onstack;		/* XXX - sigcontext compat. */
-	long	mc_gs;
-	long	mc_fs;
-	long	mc_es;
-	long	mc_ds;
-	long	mc_edi;
-	long	mc_esi;
-	long	mc_ebp;
-	long	mc_isp;
-	long	mc_ebx;
-	long	mc_edx;
-	long	mc_ecx;
-	long	mc_eax;
-	long	mc_trapno;
-	long	mc_err;
-	long	mc_eip;
-	long	mc_cs;
-	long	mc_eflags;
-	long	mc_esp;			/* machine state */
-	long	mc_ss;
+	long mc_onstack; /* XXX - sigcontext compat. */
+	long mc_gs;
+	long mc_fs;
+	long mc_es;
+	long mc_ds;
+	long mc_edi;
+	long mc_esi;
+	long mc_ebp;
+	long mc_isp;
+	long mc_ebx;
+	long mc_edx;
+	long mc_ecx;
+	long mc_eax;
+	long mc_trapno;
+	long mc_err;
+	long mc_eip;
+	long mc_cs;
+	long mc_eflags;
+	long mc_esp; /* machine state */
+	long mc_ss;
 
-	long	mc_fpregs[28];		/* env87 + fpacc87 + u_long */
-	long	__spare__[17];
+	long mc_fpregs[28]; /* env87 + fpacc87 + u_long */
+	long __spare__[17];
 };
 
 struct ucontext {
@@ -86,12 +86,12 @@ struct ucontext {
 	 * support them both at the same time.
 	 * note: the union is not defined, though.
 	 */
-	sigset_t	uc_sigmask;
-	mcontext_t	uc_mcontext;
+	sigset_t    uc_sigmask;
+	mcontext_t  uc_mcontext;
 
 	struct __ucontext *uc_link;
-	stack_t		uc_stack;
-	long		__spare__[8];
+	stack_t            uc_stack;
+	long               __spare__[8];
 };
 
 

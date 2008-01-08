@@ -343,8 +343,8 @@ void Coro_setup(Coro *self, void *arg)
 	}
 
 	self->fiber = CreateFiber(Coro_stackSize(self),
-						 (LPFIBER_START_ROUTINE)Coro_StartWithArg,
-						 (LPVOID)arg);
+							  (LPFIBER_START_ROUTINE)Coro_StartWithArg,
+							 (LPVOID)arg);
 	if (!self->fiber) {
 		DWORD err = GetLastError();
 		exit(err);
@@ -368,9 +368,9 @@ void Coro_setup(Coro *self, void *arg)
 {
 	/*
 	setjmp/longjmp is flakey under Symbian.
-	 If the setjmp is done inside the call then a crash occurs.
-	 Inlining it here solves the problem
-	 */
+	If the setjmp is done inside the call then a crash occurs.
+	Inlining it here solves the problem
+	*/
 
 	setjmp(self->env);
 	self->env[0] = 0;

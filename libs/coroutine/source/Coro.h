@@ -11,8 +11,8 @@
 	#define CORO_STACK_SIZE     8192
 	#define CORO_STACK_SIZE_MIN 1024
 #else
-     //#define CORO_DEFAULT_STACK_SIZE     (65536/2)
-     #define CORO_DEFAULT_STACK_SIZE  (65536*4)
+	 //#define CORO_DEFAULT_STACK_SIZE     (65536/2)
+	 #define CORO_DEFAULT_STACK_SIZE  (65536*4)
 	//128k needed on PPC due to parser
 	#define CORO_STACK_SIZE_MIN 8192
 #endif
@@ -76,7 +76,7 @@ struct Coro
 #endif
 
 #if defined(USE_FIBERS)
-    void *fiber;
+	void *fiber;
 #elif defined(USE_UCONTEXT)
 	ucontext_t env;
 #elif defined(USE_SETJMP)
