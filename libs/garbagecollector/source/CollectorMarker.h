@@ -31,7 +31,7 @@ typedef struct CollectorMarker CollectorMarker;
 #define CollectorMarkerSansPointer \
 	CollectorMarker *prev; \
 	CollectorMarker *next; \
-	unsigned int color : 2; 
+	unsigned int color : 2;
 
 /*
 #if !defined(COLLECTOROBJECTTYPE)
@@ -55,8 +55,8 @@ typedef struct \
 	Type *object; \
 } Type ## Ref;
 
-#define CollectorMarker_setObject_(self, v) ((CollectorMarker *)self)->object = v; 
-#define CollectorMarker_object(self)       (((CollectorMarker *)self)->object) 
+#define CollectorMarker_setObject_(self, v) ((CollectorMarker *)self)->object = v;
+#define CollectorMarker_object(self)       (((CollectorMarker *)self)->object)
 
 COLLECTOR_API CollectorMarker *CollectorMarker_new(void);
 
@@ -74,11 +74,11 @@ void CollectorMarker_remove(CollectorMarker *self);
 int CollectorMarker_count(CollectorMarker *self);
 int CollectorMarker_colorSetIsEmpty(CollectorMarker *self);
 
-#define CollectorMarker_setColor_(self, c) ((CollectorMarker *)self)->color = c; 
-#define CollectorMarker_color(self)        ((CollectorMarker *)self)->color; 
+#define CollectorMarker_setColor_(self, c) ((CollectorMarker *)self)->color = c;
+#define CollectorMarker_color(self)        ((CollectorMarker *)self)->color;
 
 #define CollectorMarker_num(self)         (((CollectorMarker *)self)->num);
-#define CollectorMarker_setNext_(self, v) ((CollectorMarker *)self)->next = v; 
+#define CollectorMarker_setNext_(self, v) ((CollectorMarker *)self)->next = v;
 #define CollectorMarker_setPrev_(self, v) ((CollectorMarker *)self)->prev = v;
 
 #define MARKER(v) ((CollectorMarker *)v)
@@ -95,7 +95,7 @@ int CollectorMarker_colorSetIsEmpty(CollectorMarker *self);
 		code; \
 		v = _next;  \
 	} \
-} 
+}
 
 #include "CollectorMarker_inline.h"
 

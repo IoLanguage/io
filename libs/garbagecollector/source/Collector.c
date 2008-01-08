@@ -9,16 +9,16 @@
 #define BEGIN_TIMER  self->clocksUsed -= clock();
 #define END_TIMER    self->clocksUsed += clock();
 #else
-#define BEGIN_TIMER  
-#define END_TIMER    
+#define BEGIN_TIMER
+#define END_TIMER
 #endif
 
 Collector *Collector_new(void)
 {
 	Collector *self = (Collector *)io_calloc(1, sizeof(Collector));
-	
+
 	self->retainedValues = List_new();
-	
+
 	self->whites = CollectorMarker_new();
 	self->grays  = CollectorMarker_new();
 	self->blacks = CollectorMarker_new();
@@ -36,34 +36,34 @@ Collector *Collector_new(void)
 	CollectorMarker_setColor_(self->freed,  COLLECTOR_FREE);
 
 	self->allocated = 0;
-	
+
 	self->allocatedSweepLevel = 3000;
 	self->allocatedStep = 1.1;
 	self->marksPerAlloc = 2;
-	
+
 	self->clocksUsed = 0;
-	
+
 	Collector_check(self);
-	
+
 	return self;
 }
 
 void Collector_check(Collector *self)
-{ 	
+{
 	CollectorMarker *w = self->whites;
 	CollectorMarker *g = self->grays;
 	CollectorMarker *b = self->blacks;
-	
+
 	// colors are different
 	assert(w->color != g->color);
 	assert(w->color != b->color);
 	assert(g->color != b->color);
-	
+
 	// prev color is different
 	assert(w->prev->color != w->color);
 	assert(g->prev->color != g->color);
 	assert(b->prev->color != b->color);
-	
+
 	CollectorMarker_check(w);
 }
 
@@ -131,27 +131,27 @@ void Collector_setDebug_(Collector *self, int b)
 // retain/release --------------------------------------------
 
 void *Collector_retain_(Collector *self, void *v)
-{ 
-	List_append_(self->retainedValues, v); 
+{
+	List_append_(self->retainedValues, v);
 	CollectorMarker_removeIfNeededAndInsertAfter_(v, self->grays);
 	return v;
 }
 
 void Collector_stopRetaining_(Collector *self, void *v)
-{ 
+{
 	List_removeLast_(self->retainedValues, v);
 }
 
 void Collector_removeAllRetainedValues(Collector *self)
 {
-	List_removeAll(self->retainedValues); 
+	List_removeAll(self->retainedValues);
 }
 
 // pausing -------------------------------------------------------------------
 
 int Collector_isPaused(Collector *self)
-{ 
-	return (self->pauseCount != 0); 
+{
+	return (self->pauseCount != 0);
 }
 
 void Collector_pushPause(Collector *self)
@@ -162,14 +162,14 @@ void Collector_pushPause(Collector *self)
 void Collector_popPause(Collector *self)
 {
 	assert(self->pauseCount > 0);
-	
+
 	self->pauseCount --;
-	
-	if (self->pauseCount == 0 && self->queuedMarks > 1.0) 
+
+	if (self->pauseCount == 0 && self->queuedMarks > 1.0)
 	{
 		Collector_markPhase(self);
 	}
-	
+
 }
 
 // adding ------------------------------------------------
@@ -179,27 +179,27 @@ CollectorMarker *Collector_newMarker(Collector *self)
 	CollectorMarker *m;
 	BEGIN_TIMER
 	m = self->freed->next;
-	
+
 	if (m->color != self->freed->color)
 	{
 		m = CollectorMarker_new();
 	}
-	
+
 	self->allocated ++;
-	
+
 	Collector_addValue_(self, m);
 	END_TIMER
 	return m;
 }
 
 void Collector_addValue_(Collector *self, void *v)
-{ 
+{
 	CollectorMarker_removeIfNeededAndInsertAfter_(v, self->whites);
-	
+
 	self->queuedMarks += self->marksPerAlloc;
-	
+
 	if (self->pauseCount == 0)
-	{	
+	{
 		if(self->allocated > self->allocatedSweepLevel)
 		{
 			Collector_sweepPhase(self);
@@ -212,12 +212,12 @@ void Collector_addValue_(Collector *self, void *v)
 }
 
 // collection ------------------------------------------------
-	
+
 void Collector_markGrays(Collector *self)
 {
 	CollectorMarkFunc *markFunc = self->markFunc;
-	
-	COLLECTMARKER_FOREACH(self->grays, v, 
+
+	COLLECTMARKER_FOREACH(self->grays, v,
 					  //(*markFunc)(v); Collector_makeBlack_(self, v);
 					  if ((*markFunc)(v)) Collector_makeBlack_(self, v);
 					  //count ++;
@@ -228,10 +228,10 @@ void Collector_markGrays(Collector *self)
 void Collector_markGraysMax_(Collector *self, size_t max)
 {
 	CollectorMarkFunc *markFunc = self->markFunc;
-	
+
 	if (!max) return;
 
-	COLLECTMARKER_FOREACH(self->grays, v, 
+	COLLECTMARKER_FOREACH(self->grays, v,
 					  //(*markFunc)(v); Collector_makeBlack_(self, v);
 					  if ((*markFunc)(v)) Collector_makeBlack_(self, v);
 					  max --;
@@ -244,7 +244,7 @@ void Collector_markGraysMax_(Collector *self, size_t max)
 void Collector_sendWillFreeCallbacks(Collector *self)
 {
 	CollectorWillFreeFunc *willFreeFunc = self->willFreeFunc;
-	
+
 	if (willFreeFunc)
 	{
 		Collector_pushPause(self); // since the callback may create new objects
@@ -257,15 +257,15 @@ size_t Collector_freeWhites(Collector *self)
 {
 	size_t count = 0;
 	CollectorFreeFunc *freeFunc = self->freeFunc;
-	
-	COLLECTMARKER_FOREACH(self->whites, v, 
+
+	COLLECTMARKER_FOREACH(self->whites, v,
 					  (*freeFunc)(v);
 					  Collector_makeFree_(self, v);
 					  count ++;
 					  );
-	
+
 	self->allocated -= count;
-	
+
 	return count;
 }
 
@@ -279,23 +279,23 @@ void Collector_initPhase(Collector *self)
 void Collector_markForTimePeriod_(Collector *self, double seconds)
 {
 	clock_t until = clock() + seconds * CLOCKS_PER_SEC;
-	
+
 	for (;;)
 	{
 		if (until < clock()) return;
-		
+
 		if (CollectorMarker_colorSetIsEmpty(self->grays))
 		{
 			Collector_sweepPhase(self);
 			return;
 		}
-		
+
 		Collector_markGrays(self);
 	}
 }
 
 void Collector_markPhase(Collector *self)
-{	
+{
 	if(self->allocated > self->allocatedSweepLevel)
 	{
 		Collector_sweepPhase(self);
@@ -305,7 +305,7 @@ void Collector_markPhase(Collector *self)
 		Collector_markGraysMax_(self, self->queuedMarks);
 	}
 
-	if (CollectorMarker_isEmpty(self->grays)) 
+	if (CollectorMarker_isEmpty(self->grays))
 	{
 		Collector_freeWhites(self);
 		//Collector_sweepPhase(self);
@@ -315,29 +315,29 @@ void Collector_markPhase(Collector *self)
 size_t Collector_sweepPhase(Collector *self)
 {
 	size_t freedCount = 0;
-	
+
 	if (self->debugOn)
 	{
 		printf("Collector_sweepPhase()\n");
 		printf("  allocated %i\n", (int)self->allocated);
 		printf("  allocatedSweepLevel %i\n", (int)self->allocatedSweepLevel);
 	}
-			
+
 	if (self->markBeforeSweepValue)
 	{
 		Collector_makeGray_(self, self->markBeforeSweepValue);
 	}
-	
-	while (!CollectorMarker_isEmpty(self->grays)) 
+
+	while (!CollectorMarker_isEmpty(self->grays))
 	{
-		do 
+		do
 		{
 			Collector_markGrays(self);
 		} while (!CollectorMarker_isEmpty(self->grays));
-		
+
 		Collector_sendWillFreeCallbacks(self);
 	}
-	
+
 	freedCount = Collector_freeWhites(self);
 	self->sweepCount ++;
 	//printf("whites freed %i\n", (int)freedCount);
@@ -347,19 +347,19 @@ size_t Collector_sweepPhase(Collector *self)
 	self->blacks = self->whites;
 	self->whites = b;
 	}
-	
+
 	Collector_initPhase(self);
-	
+
 	self->allocatedSweepLevel = self->allocated * self->allocatedStep;
 	//printf("allocatedSweepLevel = %i\n", self->allocatedSweepLevel);
-			
+
 	return freedCount;
 }
 
 size_t Collector_collect(Collector *self)
 {
 	size_t result;
-	
+
 	BEGIN_TIMER
 	if (self->pauseCount)
 	{
@@ -388,7 +388,7 @@ size_t Collector_freeAllValues(Collector *self)
 // helpers ----------------------------------------------------------------------------
 
 void Collector_show(Collector *self)
-{		
+{
 	printf("black: %i\n", (int)CollectorMarker_count(self->blacks));
 	printf("gray:  %i\n", (int)CollectorMarker_count(self->grays));
 	printf("white: %i\n", (int)CollectorMarker_count(self->whites));

@@ -4,7 +4,7 @@ docLicense("BSD revised")
 docDescription("""A tricolor collector using a Baker treadmill.""")
 */
 
-#ifndef Collector_DEFINED 
+#ifndef Collector_DEFINED
 #define Collector_DEFINED 1
 
 #include "CollectorMarker.h"
@@ -34,9 +34,9 @@ typedef struct
 {
 	List *retainedValues;
 	void *markBeforeSweepValue;
-	
+
 	int pauseCount;
-	
+
 	CollectorMarker *blacks;
 	CollectorMarker *grays;
 	CollectorMarker *whites;
@@ -44,15 +44,15 @@ typedef struct
 
 	float marksPerAlloc;
 	float queuedMarks;
-		
+
 	size_t allocated;
 	size_t allocatedSweepLevel;
 	float allocatedStep;
-		
+
 	CollectorMarkFunc *markFunc;
 	CollectorWillFreeFunc *willFreeFunc;
 	CollectorFreeFunc *freeFunc;
-	
+
 	long clocksUsed;
 	size_t sweepCount;
 	int debugOn;
