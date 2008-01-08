@@ -16,11 +16,11 @@ typedef IoObject IoAudioDevice;
 
 typedef struct
 {
-  AudioDevice *audioDevice;
-  IoSeq *writeBuffer;
-  IoSeq *readBuffer;
-  IoObject *pausedActor;
-  //IoMessage *readyForInput;
+	AudioDevice *audioDevice;
+	IoSeq *writeBuffer;
+	IoSeq *readBuffer;
+	IoObject *pausedActor;
+	//IoMessage *readyForInput;
 } IoAudioDeviceData;
 
 IoAudioDevice *IoAudioDevice_proto(void *state);

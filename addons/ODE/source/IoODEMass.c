@@ -1,9 +1,9 @@
 /*#io
 ODEMass ioDoc(
-		 docCopyright("Jonathan Wright", 2006)
-		 docLicense("BSD revised")
-		 docDescription("ODEMass binding")
-		 */
+	docCopyright("Jonathan Wright", 2006)
+	docLicense("BSD revised")
+	docDescription("ODEMass binding")
+*/
 
 #include "IoODEMass.h"
 #include "IoState.h"
@@ -25,11 +25,11 @@ IoODEMass *IoODEMass_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoODEMass_newTag(state));
-	
+
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoODEMassData)));
 
 	IoState_registerProtoWithFunc_(state, self, IoODEMass_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
 		{"reset", IoODEMass_reset},
@@ -55,21 +55,21 @@ IoODEMass *IoODEMass_proto(void *state)
 	return self;
 }
 
-IoODEMass *IoODEMass_rawClone(IoODEMass *proto) 
-{ 
+IoODEMass *IoODEMass_rawClone(IoODEMass *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoODEMassData)));
 	memcpy(DATA(self), DATA(proto), sizeof(IoODEMassData));
-	return self; 
+	return self;
 }
 
-void IoODEMass_free(IoODEMass *self) 
-{ 
-	free(IoObject_dataPointer(self)); 
+void IoODEMass_free(IoODEMass *self)
+{
+	free(IoObject_dataPointer(self));
 }
 
-void IoODEMass_mark(IoODEMass *self) 
-{ 
+void IoODEMass_mark(IoODEMass *self)
+{
 }
 
 IoODEMass *IoODEMass_new(void *state)
@@ -84,12 +84,12 @@ IoODEMass *IoODEMass_new(void *state)
 IoODEMass *IoMessage_locals_odeMassArgAt_(IoMessage *self, void *locals, int n)
 {
 	IoObject *m = IoMessage_locals_valueArgAt_(self, locals, n);
-	
-	if (!ISODEMASS(m)) 
+
+	if (!ISODEMASS(m))
 	{
-		IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "ODEMass"); 
+		IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "ODEMass");
 	}
-	
+
 	return m;
 }
 
@@ -130,7 +130,7 @@ IoObject *IoODEMass_centerOfGravity(IoODEMass *self, IoObject *locals, IoMessage
 	v.x = DATA(self)->c[0];
 	v.y = DATA(self)->c[1];
 	v.z = DATA(self)->c[2];
-	
+
 	return IoSeq_newVec3f(IOSTATE, vector);
 }
 
@@ -150,13 +150,13 @@ IoObject *IoODEMass_inertiaTensor(IoODEMass *self, IoObject *locals, IoMessage *
 {
 	UArray *u = UArray_new();
 	int i, j;
-	
+
 	UArray_setItemType_(u, CTYPE_float32_t);
 	UArray_setSize_(vector, 9);
-	
+
 	// I == vector(I11, I12, I13, _, I12, I22, I23, _, I13, I23, I33, _)
 
-	
+
 	for(i = 0, j = 0; i < 12; i++)
 	{
 		if ((i + 1) % 4)
@@ -164,17 +164,17 @@ IoObject *IoODEMass_inertiaTensor(IoODEMass *self, IoObject *locals, IoMessage *
 			UArray_at_putDouble_(vector, j++, DATA(self)->I[i]);
 		}
 	}
-	
+
 	return IoSeq_newWithUArray_(IOSTATE, u);
 }
 
 IoObject *IoODEMass_parameters(IoODEMass *self, IoObject *locals, IoMessage *m)
 {
 	// vector(theMass, cgx, cgy, cgz, I11, I22, I33, I12, I13, I23)
-	
+
 	UArray *u = UArray_new();
 	int i, j = 0;
-	
+
 	UArray_setItemType_(u, CTYPE_float32_t);
 	UArray_setSize_(u, 10);
 

@@ -21,13 +21,13 @@ static IoTag *IoCairoSolidPattern_newTag(void *state)
 	return tag;
 }
 
-IoCairoSolidPattern *IoCairoSolidPattern_proto(void *state) 
+IoCairoSolidPattern *IoCairoSolidPattern_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairoSolidPattern_newTag(state));
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoCairoSolidPattern_proto);
-	
+
 	IoCairoPattern_addMethods(self);
 	{
 		IoMethodTable methodTable[] = {
@@ -40,8 +40,8 @@ IoCairoSolidPattern *IoCairoSolidPattern_proto(void *state)
 	return self;
 }
 
-IoCairoSolidPattern *IoCairoSolidPattern_rawClone(IoCairoSolidPattern *proto) 
-{ 
+IoCairoSolidPattern *IoCairoSolidPattern_rawClone(IoCairoSolidPattern *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	if (PATTERN(proto))
 		IoObject_setDataPointer_(self, cairo_pattern_reference(PATTERN(proto)));

@@ -1,6 +1,6 @@
 DisplayList := Object clone do(
 	appendProto(OpenGL)
-	
+
 	id := lazySlot(glGenLists(1))
 
 	begin := method(
@@ -17,7 +17,7 @@ DisplayList := Object clone do(
 		glCallList(id)
 		self
 	)
-	
+
 	willFree := method(
 		glDeleteLists(id, 1)
 	)

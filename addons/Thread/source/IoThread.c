@@ -33,11 +33,11 @@ IoThread *IoThread_proto(void *state)
 {
 	IoThread *self = IoObject_new(state);
 	IoObject_tag_(self, IoThread_newTag(state));
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoThread_proto);
-	
+
 	{
-		IoMethodTable methodTable[] = {    
+		IoMethodTable methodTable[] = {
 		{"threadCount", IoThread_threadCount},
 		{"createThread", IoThread_createThread},
 		//{"endCurrentThread", IoThread_endCurrentThread},
@@ -45,16 +45,16 @@ IoThread *IoThread_proto(void *state)
 		};
 		IoObject_addMethodTable_(self, methodTable);
 	}
-	
+
 	Thread_Init();
-	
+
 	return self;
 }
 
-IoThread *IoThread_rawClone(IoThread *proto) 
-{ 
+IoThread *IoThread_rawClone(IoThread *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
-	return self; 
+	return self;
 }
 
 IoThread *IoThread_new(void *state)
@@ -63,8 +63,8 @@ IoThread *IoThread_new(void *state)
 	return IOCLONE(proto);
 }
 
-void IoThread_free(IoThread *self) 
-{ 
+void IoThread_free(IoThread *self)
+{
 }
 
 // --------------------------------------------
@@ -76,13 +76,13 @@ typedef struct
 	char *evalString;
 } IoThreadInfo;
 
-IoThreadInfo *IoThreadInfo_new(void) 
+IoThreadInfo *IoThreadInfo_new(void)
 {
 	IoThreadInfo *self = (IoThreadInfo *)calloc(1, sizeof(IoThreadInfo));
 	return self;
 }
 
-void IoThreadInfo_free(IoThreadInfo *self) 
+void IoThreadInfo_free(IoThreadInfo *self)
 {
 	if(self->evalString) free(self->evalString);
 	free(self);
@@ -95,7 +95,7 @@ void IoThreadInfo_setState_(IoThreadInfo *self, IoState *state)
 
 IoState *IoThreadInfo_state(IoThreadInfo *self)
 {
-	return self->state; 
+	return self->state;
 }
 
 void IoThreadInfo_setThread_(IoThreadInfo *self, Thread *thread)
@@ -105,7 +105,7 @@ void IoThreadInfo_setThread_(IoThreadInfo *self, Thread *thread)
 
 Thread *IoThreadInfo_thread(IoThreadInfo *self)
 {
-	return self->thread; 
+	return self->thread;
 }
 
 void IoThreadInfo_setEvalString_(IoThreadInfo *self, char *s)
@@ -115,7 +115,7 @@ void IoThreadInfo_setEvalString_(IoThreadInfo *self, char *s)
 
 char *IoThreadInfo_evalString(IoThreadInfo *self)
 {
-	return self->evalString; 
+	return self->evalString;
 }
 
 // ----------------------------------------------------
@@ -125,7 +125,7 @@ void *IoThread_BeginThread(void *vti)
 	IoThreadInfo *ti = (IoThreadInfo *)vti;
 	Thread *t = IoThreadInfo_thread(ti);
 	IoState *state = IoThreadInfo_state(ti);
-	
+
 	Thread_setUserData_(t, state);
 	IoState_doCString_(state, IoThreadInfo_evalString(ti));
 	IoThreadInfo_free(ti);
@@ -139,20 +139,20 @@ IoObject *IoThread_createThread(IoObject *self, IoObject *locals, IoMessage *m)
 	IoSeq *s = IoMessage_locals_seqArgAt_(m, locals, 0);
 	IoState *newState = IoState_new();
 	Thread *t;
-	
+
 	Thread_Init();
-	
+
 	t = Thread_new();
-	
+
 	IoThreadInfo *ti = IoThreadInfo_new();
 	IoThreadInfo_setState_(ti, newState);
 	IoThreadInfo_setThread_(ti, t);
 	IoThreadInfo_setEvalString_(ti, CSTRING(s));
-	
+
 	Thread_setFunc_(t, IoThread_BeginThread);
 	Thread_setFuncArg_(t, (void *)ti);
 	Thread_start(t);
-	
+
 	return self;
 }
 
@@ -161,11 +161,11 @@ IoObject *IoThread_threadCount(IoObject *self, IoObject *locals, IoMessage *m)
 	Thread_Init();
 	List *threads;
 	size_t count;
-	
+
 	threads = Thread_Threads();
 	count = List_size(threads);
 	List_free(threads);
-	
+
 	return IONUMBER(count);
 }
 

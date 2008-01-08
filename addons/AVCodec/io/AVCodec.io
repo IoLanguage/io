@@ -4,10 +4,10 @@ AVCodec do(
 	newSlot("internalCoro")
 	newSlot("streamDestination", AudioDevice)
 	path ::= nil
-	
+
 	willProcess := method(
 		//writeln("AVCodec willProcess")
-		if(inputBuffer isEmpty, 
+		if(inputBuffer isEmpty,
 			//writeln("AVCodec inputBuffer empty - pausing internalCoro")
 			setInternalCoro(Coroutine currentCoroutine)
 			internalCoro pause
@@ -20,7 +20,7 @@ AVCodec do(
 		outputBuffer empty
 		inputCoro ?resumeLater
 	)
-	
+
 	write := method(data,
 		inputBuffer appendSeq(data)
 		setInputCoro(Coroutine currentCoroutine)
@@ -28,10 +28,10 @@ AVCodec do(
 		internalCoro resume // this will pause the current coro
 	)
 
-	setPath := method(path, 
+	setPath := method(path,
 		self path := path
 		setVideoCodecName(path pathExtension)
 	)
-    
+
 	newSlot("videoCodecName")
 )

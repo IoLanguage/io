@@ -14,30 +14,30 @@ typedef void  (AudioDeviceCallback)(void *);
 
 struct AudioDevice
 {
-    PaError err;
-    PaStream *stream;
+	PaError err;
+	PaStream *stream;
 
-    int isFreed;
-    int locked;
-    int needsData;
-    AudioDeviceCallback *needsDataCallback;
-    void *needsDataCallbackContext;
+	int isFreed;
+	int locked;
+	int needsData;
+	AudioDeviceCallback *needsDataCallback;
+	void *needsDataCallbackContext;
 
-    /* for speaker output */
-    unsigned long writeFrame;
-    UArray *writeBuffer;   
-    UArray *nextWriteBuffer;
+	/* for speaker output */
+	unsigned long writeFrame;
+	UArray *writeBuffer;
+	UArray *nextWriteBuffer;
 
-    /* for mic input */
-    unsigned long readFrame;
-    UArray *readBuffer; 
-    UArray *nextReadBuffer;
-    int isListening;
-    int maxReadFrame;
+	/* for mic input */
+	unsigned long readFrame;
+	UArray *readBuffer;
+	UArray *nextReadBuffer;
+	int isListening;
+	int maxReadFrame;
 
-    int showed;
-    int writeBufferIsEmpty;
-    unsigned int lockSleepMicroSeconds;
+	int showed;
+	int writeBufferIsEmpty;
+	unsigned int lockSleepMicroSeconds;
 };
 
 void AudioDevice_nanoSleep(AudioDevice *self);
@@ -70,26 +70,26 @@ double AudioDevice_cpuLoad(AudioDevice *self);
 
 
 int AudioDevice_callbackTest(
-  void *inputBuffer, 
-  void *outputBuffer,
-  unsigned long framesPerBuffer,
-  PaTimestamp outTime, 
-  void *userData);
-  
+	void *inputBuffer,
+	void *outputBuffer,
+	unsigned long framesPerBuffer,
+	PaTimestamp outTime,
+	void *userData);
+
 int AudioDevice_callbackInputTest(
-  void *inputBuffer, 
-  void *outputBuffer,
-  unsigned long framesPerBuffer,
-  PaTimestamp outTime, 
-  void *userData);
-  
+	void *inputBuffer,
+	void *outputBuffer,
+	unsigned long framesPerBuffer,
+	PaTimestamp outTime,
+	void *userData);
+
 int AudioDevice_callback(
-  void *inputBuffer, 
-  void *outputBuffer,
-  unsigned long framesPerBuffer,
-  PaTimestamp outTime, 
-  void *userData);
-  
+	void *inputBuffer,
+	void *outputBuffer,
+	unsigned long framesPerBuffer,
+	PaTimestamp outTime,
+	void *userData);
+
 
 int AudioDevice_swapWriteBuffers(AudioDevice *self);
 int AudioDevice_swapReadBuffers(AudioDevice *self);

@@ -35,25 +35,25 @@ DBIRecord := Object clone do(
 		self _map := Map clone
 	)
 
-	with := method(aMap, 
+	with := method(aMap,
 		obj := self clone
 		obj _map := aMap
 		obj
 	)
-	
+
 	forward := method(
 		m := call message
-		
+
 		if(m argCount == 1 and m name beginsWithSeq("set"),
 			k := m name afterSeq("set") asMutable makeFirstCharacterLowercase \
 						asSymbol
 
 			_map atPut(k, call evalArgAt(0))
 			? _changed append(k)
-			
-			return self 
+
+			return self
 		)
-		
+
 		_map at(call message name)
 	)
 )

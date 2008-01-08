@@ -36,7 +36,7 @@ IoRegexMatches *IoRegexMatches_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoRegexMatches_newTag(state));
-	
+
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoRegexMatchesData)));
 	DATA(self)->regex = IONIL(self);
 	DATA(self)->string = IOSYMBOL("");
@@ -45,7 +45,7 @@ IoRegexMatches *IoRegexMatches_proto(void *state)
 	UArray_setItemType_(DATA(self)->captureArray, CTYPE_uint32_t);
 
 	IoState_registerProtoWithFunc_(state, self, IoRegexMatches_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
 			{"setRegex", IoRegexMatches_setRegex},
@@ -61,17 +61,17 @@ IoRegexMatches *IoRegexMatches_proto(void *state)
 
 			{"next", IoRegexMatches_next},
 			{"anchored", IoRegexMatches_anchored},
-			
+
 			{"allowEmptyMatches", IoRegexMatches_allowEmptyMatches},
 			{"disallowEmptyMatches", IoRegexMatches_disallowEmptyMatches},
 			{"allowsEmptyMatches", IoRegexMatches_allowsEmptyMatches},
-			
+
 			{0, 0},
 		};
-		
+
 		IoObject_addMethodTable_(self, methodTable);
 	}
-	
+
 	return self;
 }
 
@@ -79,7 +79,7 @@ IoRegexMatches *IoRegexMatches_rawClone(IoRegexMatches *proto)
 {
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoRegexMatchesData)));
-	
+
 	if (!ISNIL(DATA(proto)->regex))
 		DATA(self)->regex = IOREF(DATA(proto)->regex);
 	else
@@ -194,7 +194,7 @@ IoObject *IoRegexMatches_setEndPosition(IoRegexMatches *self, IoObject *locals, 
 		"Sets the index in the string where the receiver should stop searching. It will be as
 		if the string ends at that index. If <em>index</em> is nil, the end position will be set
 		to the end of string.
-		
+
 		Example:
 		<pre>
 		Io> "funkadelic" matchesOfRegex("\\w+") setEndPosition(4) next string
@@ -203,18 +203,18 @@ IoObject *IoRegexMatches_setEndPosition(IoRegexMatches *self, IoObject *locals, 
 		Io> "funkadelic" matchesOfRegex("\\w+") setEndPosition(nil) next string
 		==> funkadelic
 		</pre>
-		
+
 		Returns self.")
 	*/
 	IoObject *arg = IoMessage_locals_valueArgAt_(m, locals, 0);
 	int stringLength = IoSeq_rawSize(DATA(self)->string);
 	int endPos = stringLength;
-	
+
 	if (ISNIL(arg)) {
 		DATA(self)->endPosition = endPos;
 		return self;
 	}
-	
+
 	if (!ISNUMBER(arg))
 		IoState_error_(IOSTATE, m, "The argument to setEndPosition must be either a Number or nil");
 
@@ -251,7 +251,7 @@ IoObject *IoRegexMatches_next(IoRegexMatches *self, IoObject *locals, IoMessage 
 
 	if (!DATA(self)->currentMatchIsEmpty)
 		/* The previous match was not a zero length match, so we can just continue searching
-		from the end of that match. */ 
+		from the end of that match. */
 		return IoRegexMatches_search(self, m);
 
 	/* The last match was a zero length match. If we just continue searching as normal,
@@ -261,7 +261,7 @@ IoObject *IoRegexMatches_next(IoRegexMatches *self, IoObject *locals, IoMessage 
 	match = IoRegexMatches_searchWithOptions_(self, m, PCRE_NOTEMPTY | PCRE_ANCHORED);
 	if (!ISNIL(match))
 		return match;
-		
+
 	/* No alternative match was found, so we do what Perl does: we advance our position
 	by one character, and continue searching from there: */
 	++DATA(self)->position;
@@ -338,10 +338,10 @@ static IoRegexMatch *IoRegexMatches_searchFrom_withOptions_(IoRegexMatches *self
 		options,
 		DATA(self)->captureArray
 	);
-	
+
 	if (Regex_error(regex))
 		IoState_error_(IOSTATE, m, Regex_error(regex));
-	
+
 	if (captureCount == 0)
 		return IONIL(self);
 
@@ -357,7 +357,7 @@ static IoRegexMatch *IoRegexMatches_searchFrom_withOptions_(IoRegexMatches *self
 	rangeList = IoList_new(IOSTATE);
 	for (i = 0; i < captureCount; i++) {
 		IoObject *element = 0;
-			
+
 		if (capture[0] == -1 && capture[1] == -1) {
 			/* This capture was not matched. */
 			element = IONIL(self);

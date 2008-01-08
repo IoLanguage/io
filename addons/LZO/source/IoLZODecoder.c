@@ -1,9 +1,9 @@
 /*#io
 LZODecoder ioDoc(
-		docCopyright("Steve Dekorte", 2004)
-		docLicense("BSD revised")
-		docCategory("Compression")
-		docDescription("""The LZO object can be used to Z compress and uncompress data.
+	docCopyright("Steve Dekorte", 2004)
+	docLicense("BSD revised")
+	docCategory("Compression")
+	docDescription("""The LZO object can be used to Z compress and uncompress data.
 Example use;
 <pre>
 bf = LZO clone
@@ -14,7 +14,7 @@ bf endProcess
 bf outputBuffer // this contains the encoded data
 </pre>
 """)
-		*/
+*/
 
 #include "IoLZODecoder.h"
 #include "IoState.h"
@@ -36,13 +36,13 @@ IoLZODecoder *IoLZODecoder_proto(void *state)
 {
 	IoLZODecoder *self = IoObject_new(state);
 	IoObject_tag_(self, IoLZODecoder_newTag(state));
-	
+
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoLZOData)));
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoLZODecoder_proto);
-	
+
 	{
-		IoMethodTable methodTable[] = {    
+		IoMethodTable methodTable[] = {
 		{"beginProcessing", IoLZODecoder_beginProcessing},
 		{"process", IoLZODecoder_process},
 		{"endProcessing", IoLZODecoder_endProcessing},
@@ -50,15 +50,15 @@ IoLZODecoder *IoLZODecoder_proto(void *state)
 		};
 		IoObject_addMethodTable_(self, methodTable);
 	}
-	
+
 	return self;
 }
 
-IoLZODecoder *IoLZODecoder_rawClone(IoLZODecoder *proto) 
-{ 
+IoLZODecoder *IoLZODecoder_rawClone(IoLZODecoder *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoLZOData)));
-	return self; 
+	return self;
 }
 
 IoLZODecoder *IoLZODecoder_new(void *state)
@@ -67,9 +67,9 @@ IoLZODecoder *IoLZODecoder_new(void *state)
 	return IOCLONE(proto);
 }
 
-void IoLZODecoder_free(IoLZODecoder *self) 
-{ 
-	free(DATA(self)); 
+void IoLZODecoder_free(IoLZODecoder *self)
+{
+	free(DATA(self));
 }
 
 // ----------------------------------------------------------- *
@@ -79,8 +79,8 @@ IoObject *IoLZODecoder_beginProcessing(IoLZODecoder *self, IoObject *locals, IoM
 	/*#io
 	docSlot("beginProcessing", "Initializes the algorithm.")
 	*/
-	
-	IOASSERT(lzo_init() == LZO_E_OK,  "Failed to init lzo"); 
+
+	IOASSERT(lzo_init() == LZO_E_OK,  "Failed to init lzo");
 	DATA(self)->isDone = 0;
 	return self;
 }
@@ -90,7 +90,7 @@ IoObject *IoLZODecoder_endProcessing(IoLZODecoder *self, IoObject *locals, IoMes
 	/*#io
 	docSlot("endProcessing", "Finish processing remaining bytes of inputBuffer.")
 	*/
-	
+
 	IoLZODecoder_process(self, locals, m); // process the full blocks first
 	DATA(self)->isDone = 1;
 	return self;
@@ -105,34 +105,34 @@ IoObject *IoLZODecoder_process(IoLZODecoder *self, IoObject *locals, IoMessage *
 The processed inputBuffer is empties except for the spare bytes at the end which don't fit into a cipher block.")
 	*/
 	lzo_align_t __LZO_MMODEL *wrkmem = DATA(self)->wrkmem;
-	
+
 	UArray *input  = IoObject_rawGetMutableUArraySlot(self, locals, m, IOSYMBOL("inputBuffer"));
 	UArray *output = IoObject_rawGetMutableUArraySlot(self, locals, m, IOSYMBOL("outputBuffer"));
-	
+
 	unsigned char *inputBytes  = (uint8_t *)UArray_bytes(input);
 	size_t inputSize           = UArray_sizeInBytes(input);
-	
+
 	if (inputSize)
 	{
 		int r;
 		size_t oldOutputSize   = UArray_size(output);
 		lzo_uint outputRoom    = (inputSize * 10);
 		unsigned char *outputBytes;
-		
+
 		UArray_setSize_(output, oldOutputSize + outputRoom);
 		outputBytes = (uint8_t *)UArray_bytes(output) + oldOutputSize;
-		
+
 		r = lzo1x_decompress(inputBytes, inputSize, outputBytes, &outputRoom, wrkmem);
-		
+
 		if (r != LZO_E_OK)
-		{ 
-			IoState_error_(IOSTATE,  m, "LZO compression failed: %d", r); 
+		{
+			IoState_error_(IOSTATE,  m, "LZO compression failed: %d", r);
 		}
-		
-		
-		UArray_setSize_(output, oldOutputSize + outputRoom); 
-		UArray_setSize_(input, 0); 
+
+
+		UArray_setSize_(output, oldOutputSize + outputRoom);
+		UArray_setSize_(input, 0);
 	}
-	
+
 	return self;
 }

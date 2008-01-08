@@ -5,7 +5,7 @@
 void IoCairo_fileSurfacesInit(IoObject *context)
 {
 	IoState *self = IoObject_state((IoObject *)context);
-	
+
 	#if CAIRO_HAS_PDF_SURFACE
 	IoObject_setSlot_to_(context, SIOSYMBOL("CairoPDFSurface"), IoCairoPDFSurface_proto(self));
 	#endif

@@ -31,13 +31,13 @@ IoODESimpleSpace *IoODESimpleSpace_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoODESimpleSpace_newTag(state));
-	
+
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoODESimpleSpaceData)));
 
 	SPACEID = 0;
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoODESimpleSpace_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
 		{"spaceId", IoODESimpleSpace_spaceId},
@@ -53,13 +53,13 @@ IoODESimpleSpace *IoODESimpleSpace_proto(void *state)
 	return self;
 }
 
-IoODESimpleSpace *IoODESimpleSpace_rawClone(IoODESimpleSpace *proto) 
-{ 
+IoODESimpleSpace *IoODESimpleSpace_rawClone(IoODESimpleSpace *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoODESimpleSpaceData)));
 	SPACEID = dSimpleSpaceCreate(0);
 	dSpaceSetCleanup(SPACEID, 0);
-	return self; 
+	return self;
 }
 
 IoODESimpleSpace *IoODESimpleSpace_new(void *state)
@@ -68,19 +68,19 @@ IoODESimpleSpace *IoODESimpleSpace_new(void *state)
 	return IOCLONE(proto);
 }
 
-void IoODESimpleSpace_free(IoODESimpleSpace *self) 
-{ 
+void IoODESimpleSpace_free(IoODESimpleSpace *self)
+{
 	if(SPACEID)
 	{
 		dSpaceDestroy(SPACEID);
 		SPACEID = 0;
 	}
 
-	free(IoObject_dataPointer(self)); 
+	free(IoObject_dataPointer(self));
 }
 
-void IoODESimpleSpace_mark(IoODESimpleSpace *self) 
-{ 
+void IoODESimpleSpace_mark(IoODESimpleSpace *self)
+{
 }
 
 /* ----------------------------------------------------------- */
@@ -113,7 +113,7 @@ IoObject *IoODESimpleSpace_plane(IoODESimpleSpace *self, IoObject *locals, IoMes
 
 	// Don't require a valid space. Plane can be used on the proto to create a plane without a space.
 	//IoODESimpleSpace_assertHasSimpleSpaceId(self, locals, m);
-	
+
 	geomId = dCreatePlane(SPACEID, a, b, c, d);
 
 	return IoODEPlane_new(IOSTATE, geomId);
@@ -129,7 +129,7 @@ IoObject *IoODESimpleSpace_box(IoODESimpleSpace *self, IoObject *locals, IoMessa
 
 	// Don't require a valid space. Box can be used on the proto to create a box without a space.
 	//IoODESimpleSpace_assertHasSimpleSpaceId(self, locals, m);
-	
+
 	geomId = dCreateBox(SPACEID, lx, ly, lz);
 
 	return IoODEBox_new(IOSTATE, geomId);

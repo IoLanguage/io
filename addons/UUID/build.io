@@ -1,7 +1,7 @@
 AddonBuilder clone do(
-    dependsOnHeader("uuid/uuid.h")
+	dependsOnHeader("uuid/uuid.h")
 
-    if(platform != "darwin",
-        dependsOnLib("uuid")
-    )
+	if(platform != "darwin",
+		dependsOnLib("uuid")
+	)
 )

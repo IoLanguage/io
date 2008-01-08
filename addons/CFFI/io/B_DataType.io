@@ -6,12 +6,12 @@
 CFFI do(
 	DataType do(
 		newSlot("typeString")
-		
+
 		init := method(
 			self ptr := method(
 				Pointer toType(self)
 			)
-			
+
 			self init := method(
 				self ptr := method(
 					self proto ptr clone setValue(self)
@@ -24,24 +24,24 @@ CFFI do(
 	Types := Object clone do(
 		SChar := Char := DataType clone setTypeString("c")
 		UChar := DataType clone setTypeString("C")
-	
+
 		SShort := Short := DataType clone setTypeString("s")
 		UShort := DataType clone setTypeString("S")
-	
+
 		SInt := Int := DataType clone setTypeString("i")
 		UInt := DataType clone setTypeString("I")
-	
+
 		SLong := Long := DataType clone setTypeString("l")
 		ULong := DataType clone setTypeString("L")
-	
+
 		Float := DataType clone setTypeString("f")
-	
+
 		Double := DataType clone setTypeString("d")
-	
+
 		Void := DataType clone setTypeString("v")
-		
+
 		CString := DataType clone setTypeString("*")
-	
+
 		types := method(
 			m := Map clone
 			self slotNames foreach(name,
@@ -50,7 +50,7 @@ CFFI do(
 			)
 			m
 		) call
-		
+
 		at := method(name,
 			name = name asMutable strip
 			if(name beginsWithSeq("unsigned "), name = name slice("unsigned " size) prependSeq("u"))

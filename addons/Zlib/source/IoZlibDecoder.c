@@ -37,14 +37,14 @@ IoZlibDecoder *IoZlibDecoder_proto(void *state)
 {
 	IoZlibDecoder *self = IoObject_new(state);
 	IoObject_tag_(self, IoZlibDecoder_newTag(state));
-	
+
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoZlibDecoderData)));
 	DATA(self)->strm = calloc(1, sizeof(z_stream));
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoZlibDecoder_proto);
-	
+
 	{
-		IoMethodTable methodTable[] = {    
+		IoMethodTable methodTable[] = {
 		{"beginProcessing", IoZlibDecoder_beginProcessing},
 		{"process", IoZlibDecoder_process},
 		{"endProcessing", IoZlibDecoder_endProcessing},
@@ -52,16 +52,16 @@ IoZlibDecoder *IoZlibDecoder_proto(void *state)
 		};
 		IoObject_addMethodTable_(self, methodTable);
 	}
-	
+
 	return self;
 }
 
-IoZlibDecoder *IoZlibDecoder_rawClone(IoZlibDecoder *proto) 
-{ 
+IoZlibDecoder *IoZlibDecoder_rawClone(IoZlibDecoder *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoZlibDecoderData)));
 	DATA(self)->strm = calloc(1, sizeof(z_stream));
-	return self; 
+	return self;
 }
 
 IoZlibDecoder *IoZlibDecoder_new(void *state)
@@ -70,9 +70,9 @@ IoZlibDecoder *IoZlibDecoder_new(void *state)
 	return IOCLONE(proto);
 }
 
-void IoZlibDecoder_free(IoZlibDecoder *self) 
-{ 
-	free(DATA(self)); 
+void IoZlibDecoder_free(IoZlibDecoder *self)
+{
+	free(DATA(self));
 }
 
 /* ----------------------------------------------------------- */
@@ -84,7 +84,7 @@ IoObject *IoZlibDecoder_beginProcessing(IoZlibDecoder *self, IoObject *locals, I
 	*/
 	z_stream *strm = DATA(self)->strm;
 	int ret;
-	
+
 	strm->zalloc = Z_NULL;
 	strm->zfree = Z_NULL;
 	strm->opaque = Z_NULL;
@@ -93,7 +93,7 @@ IoObject *IoZlibDecoder_beginProcessing(IoZlibDecoder *self, IoObject *locals, I
 	//ret = inflateInit(strm); // zlib format
 	ret = inflateInit2(strm, 15 + 32); // gz format
 	IOASSERT(ret == Z_OK, "unable to initialize zlib via inflateInit()");
-	
+
 	return self;
 }
 
@@ -103,10 +103,10 @@ IoObject *IoZlibDecoder_endProcessing(IoZlibDecoder *self, IoObject *locals, IoM
 	docSlot("endProcessing", "Finish processing remaining bytes of inputBuffer.")
 	*/
 	z_stream *strm = DATA(self)->strm;
-	
+
 	IoZlibDecoder_process(self, locals, m);
 	inflateEnd(strm);
-	
+
 	DATA(self)->isDone = 1;
 	return self;
 }
@@ -122,40 +122,40 @@ The processed inputBuffer is empties except for the spare bytes at the end which
 
 	UArray *input  = IoObject_rawGetMutableUArraySlot(self, locals, m, IOSYMBOL("inputBuffer"));
 	UArray *output = IoObject_rawGetMutableUArraySlot(self, locals, m, IOSYMBOL("outputBuffer"));
-	
+
 	uint8_t *inputBytes = (uint8_t *)UArray_bytes(input);
 	size_t inputSize = UArray_sizeInBytes(input);
-	
+
 	//printf("inputBytes = [%s]\n", inputBytes);
-	
+
 	if (inputSize)
 	{
 		int ret;
 		size_t oldOutputSize = UArray_size(output);
 		size_t outputRoom    = (inputSize * 10);
 		uint8_t *outputBytes;
-		
+
 		UArray_setSize_(output, oldOutputSize + outputRoom);
 		outputBytes = (uint8_t *)UArray_bytes(output) + oldOutputSize;
-		
+
 		strm->next_in   = inputBytes;
 		strm->avail_in  = inputSize;
-		
+
 		strm->next_out  = outputBytes;
 		strm->avail_out = outputRoom;
-		
+
 		errno = 0;
-		
+
 		ret = inflate(strm, Z_NO_FLUSH);
 
 		//printf("inputSize  = %i\n", (int)inputSize);
 		//printf("outputRoom = %i\n", (int)outputRoom);
-		
+
 		if (errno)
 		{
 			char *s = strerror(errno);
 			//printf("zlib error: %s\n", s);
-			IoState_error_(IOSTATE, m, "ZlibDecoder error: %s\n", s);     
+			IoState_error_(IOSTATE, m, "ZlibDecoder error: %s\n", s);
 			/*
 			printf("Z_STREAM_END = %i\n", Z_STREAM_END);
 			printf("Z_NEED_DICT = %i\n", Z_NEED_DICT);
@@ -165,18 +165,18 @@ The processed inputBuffer is empties except for the spare bytes at the end which
 			printf("Z_BUF_ERROR = %i\n", Z_BUF_ERROR);
 			*/
 		}
-		
-		//assert(ret != Z_STREAM_ERROR); 
+
+		//assert(ret != Z_STREAM_ERROR);
 		{
 		size_t outputSize = outputRoom - strm->avail_out;
 		//size_t outputSize = strm->avail_out;
 		//printf("outputSize = %i\n", (int)outputSize);
 		UArray_setSize_(output, oldOutputSize + outputSize);
 		}
-		
+
 		UArray_setSize_(input, 0);
 	}
-	
+
 	return self;
 }
 

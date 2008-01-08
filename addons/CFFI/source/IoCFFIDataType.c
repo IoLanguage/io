@@ -31,10 +31,10 @@ IoCFFIDataType *IoCFFIDataType_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCFFIDataType_newTag(state));
-	
+
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoCFFIDataTypeData)));
 	DATA(self)->needToFreeStr = 0;
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoCFFIDataType_proto);
 
 	{
@@ -45,15 +45,15 @@ IoCFFIDataType *IoCFFIDataType_proto(void *state)
 		};
 		IoObject_addMethodTable_(self, methodTable);
 	}
-	
+
 	return self;
 }
 
-IoCFFIDataType *IoCFFIDataType_rawClone(IoCFFIDataType *proto) 
-{ 
+IoCFFIDataType *IoCFFIDataType_rawClone(IoCFFIDataType *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoCFFIDataTypeData)));
-	return self; 
+	return self;
 }
 
 IoCFFIDataType *IoCFFIDataType_new(void *state)
@@ -62,10 +62,10 @@ IoCFFIDataType *IoCFFIDataType_new(void *state)
 	return IOCLONE(proto);
 }
 
-void IoCFFIDataType_free(IoCFFIDataType *self) 
+void IoCFFIDataType_free(IoCFFIDataType *self)
 {
 	IoCFFIDataTypeData *data;
-	
+
 	data = DATA(self);
 	if (data->needToFreeStr)
 	{
@@ -80,15 +80,15 @@ void IoCFFIDataType_free(IoCFFIDataType *self)
 void *IoCFFIDataType_ValuePointerFromObject_(IoObject *o)
 {
 	IoObject *self, *number;
-	
+
 	// this is a hack so macros relying on self will work
 	self = o;
-	
+
 	if (ISNUMBER(o))
 	{
 		number = IoState_doCString_(IoObject_state(o), "CFFI Types Double clone");
 		DATA(number)->type.d = IoObject_dataDouble(o);
-		
+
 		return IoCFFIDataType_ValuePointerFromObject_(number);
 	}
 	else if (ISSEQ(o))
@@ -121,14 +121,14 @@ IoCFFIDataType *IoCFFIDataType_setValue(IoCFFIDataType *self, IoObject *locals, 
 	char c, *cp;
 	IoCFFIDataTypeData *data;
 	void *value;
-	
-	data = DATA(self);	
+
+	data = DATA(self);
 	if (data->needToFreeStr)
 	{
 		free(data->type.str);
 		data->needToFreeStr = 0;
 	}
-	
+
 	value = IoCFFIDataType_ValuePointerFromObject_(IoMessage_locals_valueArgAt_(m, locals, 0));
 	switch (c = CSTRING(IoState_on_doCString_withLabel_(IOSTATE, self, "typeString", "IoCFFIDataType_setValue"))[0])
 	{
@@ -158,11 +158,11 @@ IoCFFIDataType *IoCFFIDataType_setValue(IoCFFIDataType *self, IoObject *locals, 
 			data->needToFreeStr = 1;
 			strcpy(data->type.str, cp);
 			break;
-		
+
 		case 'v':
 			IoState_error_(IOSTATE, NULL, "attempt to setValue on void DataType");
-			return IONIL(self);			
-		
+			return IONIL(self);
+
 		default:
 			IoState_error_(IOSTATE, NULL, "unknown character '%c' in typeString", c);
 			return IONIL(self);
@@ -174,7 +174,7 @@ IoObject *IoCFFIDataType_objectFromData_(IoCFFIDataType *self, void *data)
 {
 	char *typeString, c;
 	IoCFFIPointer *pointer;
-	
+
 	typeString = CSTRING(IoState_on_doCString_withLabel_(IOSTATE, self, "typeString", "IoCFFIDataType_objectFromData_"));
 	switch (c = typeString[0])
 	{
@@ -199,7 +199,7 @@ IoObject *IoCFFIDataType_objectFromData_(IoCFFIDataType *self, void *data)
 			return IONUMBER((*((double *)data)));
 		case 'v':
 			return IONIL(self);
-		
+
 		case '*':
 			if (*(char **)data)
 			{
@@ -209,17 +209,17 @@ IoObject *IoCFFIDataType_objectFromData_(IoCFFIDataType *self, void *data)
 			{
 				return IoSeq_new(IOSTATE);
 			}
-		
+
 		case '^':
 			pointer = IOCLONE(self);
 			((IoCFFIPointerData *)(IoObject_dataPointer(pointer)))->ptr = *(void **)data;
 			return pointer;
-			
+
 		case '{':
 		case '(':
 			IoState_error_(IOSTATE, NULL, "structs and unions are not yet supported by CFFI");
 			return IONIL(self);
-		
+
 		default:
 			IoState_error_(IOSTATE, NULL, "unknown character '%c' in typeString", c);
 			return IONIL(self);
@@ -229,24 +229,24 @@ IoObject *IoCFFIDataType_objectFromData_(IoCFFIDataType *self, void *data)
 ffi_type *IoCFFIDataType_ffiType(IoCFFIDataType *self)
 {
 	char *typeString, c;
-	
+
 	typeString = CSTRING(IoState_on_doCString_withLabel_(IOSTATE, self, "typeString", "IoCFFIDataType_ffiType"));
-	
+
 	if (strlen(typeString) < 1)
 	{
 		return NULL;
 	}
-	
+
 	switch (c = typeString[0])
 	{
 		case 'c':
-			return &ffi_type_schar;		
+			return &ffi_type_schar;
 		case 'C':
-			return &ffi_type_uchar;		
+			return &ffi_type_uchar;
 		case 's':
-			return &ffi_type_sshort;			
+			return &ffi_type_sshort;
 		case 'S':
-			return &ffi_type_ushort;		
+			return &ffi_type_ushort;
 		case 'i':
 			return &ffi_type_sint;
 		case 'I':
@@ -258,17 +258,17 @@ ffi_type *IoCFFIDataType_ffiType(IoCFFIDataType *self)
 		case 'f':
 			return &ffi_type_float;
 		case 'd':
-			return &ffi_type_double;			
+			return &ffi_type_double;
 		case 'v':
 			return &ffi_type_void;
-		
+
 		case '*':
 		case '^':
 			return &ffi_type_pointer;
-				
+
 		//case '{':
 		//	return IoCFFIStructure_ffiType(self);
-		
+
 		case '(':
 			IoState_error_(IOSTATE, NULL, "unions are not yet supported by CFFI");
 			return NULL;
@@ -283,10 +283,10 @@ void *IoCFFIDataType_valuePointer(IoCFFIDataType *self)
 {
 	char c, *typeString;
 	IoCFFIDataTypeData *data;
-	
+
 	typeString = CSTRING(IoState_on_doCString_withLabel_(IOSTATE, self, "typeString", "IoCFFIDataType_valuePointer"));
 	data = DATA(self);
-	
+
 	switch (c = typeString[0])
 	{
 		case 'c': return &(data->type.c);
@@ -304,7 +304,7 @@ void *IoCFFIDataType_valuePointer(IoCFFIDataType *self)
 		case 'v':
 			IoState_error_(IOSTATE, NULL, "atempt to get data pointer from Void type");
 			return NULL;
-		
+
 		default:
 			IoState_error_(IOSTATE, NULL, "unknown character '%c' in typeString", c);
 			return NULL;
@@ -329,7 +329,7 @@ switch (c)
 	case '^':
 	case '{':
 	case '(':
-	
+
 	default:
 		IoState_error_(IOSTATE, NULL, "unknown character '%c' in typeString", c);
 		return NULL;

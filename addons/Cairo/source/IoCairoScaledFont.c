@@ -1,8 +1,8 @@
 /*#io
 CairoScaledFont ioDoc(
-  docCopyright("Daniel Rosengren", 2007)
-  docLicense("BSD revised")
-  docCategory("Graphics")
+	docCopyright("Daniel Rosengren", 2007)
+	docLicense("BSD revised")
+	docCategory("Graphics")
 */
 
 #include "IoCairoScaledFont.h"
@@ -24,7 +24,7 @@ CairoScaledFont ioDoc(
 void *IoMessage_locals_cairoScaledFontArgAt_(IoMessage *self, void *locals, int n)
 {
 	IoObject *arg = IoMessage_locals_valueArgAt_(self, locals, n);
-	if (!ISCAIROSCALEDFONT(arg)) 
+	if (!ISCAIROSCALEDFONT(arg))
 		IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "CairoScaledFont");
 	return arg;
 }
@@ -45,7 +45,7 @@ IoCairoScaledFont *IoCairoScaledFont_proto(void *state)
 	IoObject_tag_(self, IoCairoScaledFont_newTag(state));
 
 	IoState_registerProtoWithFunc_(state, self, IoCairoScaledFont_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
 			{"create", IoCairoScaledFont_create},
@@ -61,7 +61,7 @@ IoCairoScaledFont *IoCairoScaledFont_proto(void *state)
 
 			{NULL, NULL},
 		};
-		
+
 		IoObject_addMethodTable_(self, methodTable);
 	}
 
@@ -104,7 +104,7 @@ IoObject *IoCairoScaledFont_create(IoCairoScaledFont *self, IoObject *locals, Io
 	IoCairoMatrix *matrix = IoMessage_locals_cairoMatrixArgAt_(m, locals, 1);
 	IoCairoMatrix *ctm = IoMessage_locals_cairoMatrixArgAt_(m, locals, 2);
 	IoCairoFontOptions *options = IoMessage_locals_cairoFontOptionsArgAt_(m, locals, 3);
-	
+
 	cairo_scaled_font_t *font = cairo_scaled_font_create(
 		IoCairoFontFace_rawFontFace(face),
 		IoCairoMatrix_rawMatrix(matrix),
@@ -128,7 +128,7 @@ IoObject *IoCairoScaledFont_textExtents(IoCairoScaledFont *self, IoObject *local
 	const char *text = IoMessage_locals_UTF8ArgAt_(m, locals, 0);
 	cairo_text_extents_t extents;
 	cairo_scaled_font_text_extents(FONT(self), text, &extents);
-	CHECK_STATUS(self);	
+	CHECK_STATUS(self);
 	return IoCairoTextExtents_newWithRawTextExtents(IOSTATE, &extents);
 }
 
@@ -141,7 +141,7 @@ IoObject *IoCairoScaledFont_glyphExtents(IoCairoScaledFont *self, IoObject *loca
 
 	if (!glyphs)
 		return IONIL(self);
-	
+
 	cairo_scaled_font_glyph_extents(FONT(self), glyphs, glyphCount, &extents);
 	free(glyphs);
 	CHECK_STATUS(self);

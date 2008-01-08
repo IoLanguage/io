@@ -31,12 +31,12 @@ IoODEFixed *IoODEFixed_proto(void *state)
 	IoObject_tag_(self, IoODEFixed_newTag(state));
 
 	IoODEJoint_protoCommon(self);
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoODEFixed_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
-                ODE_COMMON_JOINT_METHODS
+				ODE_COMMON_JOINT_METHODS
 
 		{"fix", IoODEFixed_fix},
 
@@ -47,8 +47,8 @@ IoODEFixed *IoODEFixed_proto(void *state)
 	return self;
 }
 
-IoODEFixed *IoODEFixed_rawClone(IoODEFixed *proto) 
-{ 
+IoODEFixed *IoODEFixed_rawClone(IoODEFixed *proto)
+{
 	IoObject *self = IoODEJoint_rawClone(proto);
 
 	if(DATA(proto)->jointGroup)
@@ -62,13 +62,13 @@ IoODEFixed *IoODEFixed_rawClone(IoODEFixed *proto)
 	return self;
 }
 
-void IoODEFixed_free(IoODEFixed *self) 
-{ 
+void IoODEFixed_free(IoODEFixed *self)
+{
 	IoODEJoint_free(self);
 }
 
-void IoODEFixed_mark(IoODEFixed *self) 
-{ 
+void IoODEFixed_mark(IoODEFixed *self)
+{
 	IoODEJoint_mark(self);
 }
 
@@ -83,7 +83,7 @@ IoODEJoint *IoODEFixed_newProto(void *state, IoODEJointGroup *jointGroup)
 IoObject *IoODEFixed_fix(IoODEFixed *self, IoObject *locals, IoMessage *m)
 {
 	IoODEJoint_assertValidJoint(self, locals, m);
-        dJointSetFixed(JOINTID);
-        return self;
+		dJointSetFixed(JOINTID);
+		return self;
 }
 

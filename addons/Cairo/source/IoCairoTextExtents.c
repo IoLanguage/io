@@ -20,21 +20,21 @@ static IoTag *IoCairoTextExtents_newTag(void *state)
 	return tag;
 }
 
-IoCairoTextExtents *IoCairoTextExtents_proto(void *state) 
+IoCairoTextExtents *IoCairoTextExtents_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairoTextExtents_newTag(state));
-	
+
 	IoObject_setDataPointer_(self, calloc(1, sizeof(cairo_text_extents_t)));
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoCairoTextExtents_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
 			{"height", IoCairoTextExtents_height},
 			{"width", IoCairoTextExtents_width},
 			{"xAdvance", IoCairoTextExtents_xAdvance},
-			{"xBearing", IoCairoTextExtents_xBearing},		
+			{"xBearing", IoCairoTextExtents_xBearing},
 			{"yAdvance", IoCairoTextExtents_yAdvance},
 			{"yBearing", IoCairoTextExtents_yBearing},
 			{NULL, NULL},
@@ -44,10 +44,10 @@ IoCairoTextExtents *IoCairoTextExtents_proto(void *state)
 	return self;
 }
 
-IoCairoTextExtents *IoCairoTextExtents_rawClone(IoCairoTextExtents *proto) 
-{ 
-	IoObject *self = IoObject_rawClonePrimitive(proto);	
-	IoObject_setDataPointer_(self, cpalloc(EXTENTS(proto), sizeof(cairo_text_extents_t)));	
+IoCairoTextExtents *IoCairoTextExtents_rawClone(IoCairoTextExtents *proto)
+{
+	IoObject *self = IoObject_rawClonePrimitive(proto);
+	IoObject_setDataPointer_(self, cpalloc(EXTENTS(proto), sizeof(cairo_text_extents_t)));
 	return self;
 }
 
@@ -58,9 +58,9 @@ IoCairoTextExtents *IoCairoTextExtents_newWithRawTextExtents(void *state, cairo_
 	return self;
 }
 
-void IoCairoTextExtents_free(IoCairoTextExtents *self) 
+void IoCairoTextExtents_free(IoCairoTextExtents *self)
 {
-	free(EXTENTS(self)); 
+	free(EXTENTS(self));
 }
 
 

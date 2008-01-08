@@ -1,9 +1,9 @@
 /*#io
 ODEJoint ioDoc(
-		 docCopyright("Jonathan Wright", 2006)
-		 docLicense("BSD revised")
-		 docDescription("ODEJoint binding")
-		 */
+	docCopyright("Jonathan Wright", 2006)
+	docLicense("BSD revised")
+	docDescription("ODEJoint binding")
+*/
 
 #include "IoODEJoint_internal.h"
 #include "IoODEUniversal.h"
@@ -31,12 +31,12 @@ IoODEUniversal *IoODEUniversal_proto(void *state)
 	IoObject_tag_(self, IoODEUniversal_newTag(state));
 
 	IoODEJoint_protoCommon(self);
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoODEUniversal_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
-                ODE_COMMON_JOINT_METHODS
+				ODE_COMMON_JOINT_METHODS
 #define PARAM(X, _N, _SETN) \
 		{#_N, IoODEUniversal_##_N}, \
 		{#_SETN, IoODEUniversal_##_SETN},
@@ -44,17 +44,17 @@ PARAMS
 #undef PARAM
 
 		{"anchor", IoODEUniversal_anchor},
-                {"setAnchor", IoODEUniversal_setAnchor},
+				{"setAnchor", IoODEUniversal_setAnchor},
 		{"anchor2", IoODEUniversal_anchor2},
 		{"axis1", IoODEUniversal_axis1},
-                {"setAxis1", IoODEUniversal_setAxis1},
+				{"setAxis1", IoODEUniversal_setAxis1},
 		{"axis2", IoODEUniversal_axis2},
-                {"setAxis2", IoODEUniversal_setAxis2},
+				{"setAxis2", IoODEUniversal_setAxis2},
 		{"angle1", IoODEUniversal_angle1},
 		{"angle2", IoODEUniversal_angle2},
 		{"angle1Rate", IoODEUniversal_angle1Rate},
 		{"angle2Rate", IoODEUniversal_angle2Rate},
-                {"addTorques", IoODEUniversal_addTorques},
+				{"addTorques", IoODEUniversal_addTorques},
 
 		{NULL, NULL},
 		};
@@ -63,8 +63,8 @@ PARAMS
 	return self;
 }
 
-IoODEUniversal *IoODEUniversal_rawClone(IoODEUniversal *proto) 
-{ 
+IoODEUniversal *IoODEUniversal_rawClone(IoODEUniversal *proto)
+{
 	IoObject *self = IoODEJoint_rawClone(proto);
 
 	if(DATA(proto)->jointGroup)
@@ -78,13 +78,13 @@ IoODEUniversal *IoODEUniversal_rawClone(IoODEUniversal *proto)
 	return self;
 }
 
-void IoODEUniversal_free(IoODEUniversal *self) 
-{ 
+void IoODEUniversal_free(IoODEUniversal *self)
+{
 	IoODEJoint_free(self);
 }
 
-void IoODEUniversal_mark(IoODEUniversal *self) 
-{ 
+void IoODEUniversal_mark(IoODEUniversal *self)
+{
 	IoODEJoint_mark(self);
 }
 

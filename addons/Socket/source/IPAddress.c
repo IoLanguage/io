@@ -3,14 +3,14 @@
 #include <string.h>
 
 IPAddress *IPAddress_new(void)
-{ 
+{
 	IPAddress *self = calloc(1, sizeof(IPAddress));
 	self->sockaddr = calloc(1, sizeof(struct sockaddr_in));
 	self->size = sizeof(struct sockaddr_in);
-	return self; 
+	return self;
 }
 
-IPAddress *IPAddress_setIPAddress_size_(IPAddress *self, 
+IPAddress *IPAddress_setIPAddress_size_(IPAddress *self,
 							   struct sockaddr *address,
 							   size_t size)
 {
@@ -23,10 +23,10 @@ IPAddress *IPAddress_setIPAddress_size_(IPAddress *self,
 void IPAddress_free(IPAddress *self)
 {
 	free(self->sockaddr);
-     free(self);
+	 free(self);
 }
 
-// access 
+// access
 
 struct sockaddr *IPAddress_sockaddr(IPAddress *self)
 {
@@ -46,7 +46,7 @@ void IPAddress_setSize_(IPAddress *self, socklen_t size)
 // ip
 
 void IPAddress_setIp_(IPAddress *self, char *ip)
-{		
+{
 	self->sockaddr->sin_family = AF_INET;
 	self->sockaddr->sin_addr.s_addr = inet_addr(ip);
 }
@@ -59,11 +59,11 @@ char *IPAddress_ip(IPAddress *self)
 // port
 
 void IPAddress_setPort_(IPAddress *self, uint16_t port)
-{	
+{
 	self->sockaddr->sin_port = htons(port);
 }
 
 uint16_t IPAddress_port(IPAddress *self)
-{	
+{
 	return ntohs(self->sockaddr->sin_port);
 }

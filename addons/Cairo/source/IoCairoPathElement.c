@@ -1,8 +1,8 @@
 /*#io
 CairoPathElement ioDoc(
-  docCopyright("Daniel Rosengren", 2007)
-  docLicense("BSD revised")
-  docCategory("Graphics")
+	docCopyright("Daniel Rosengren", 2007)
+	docLicense("BSD revised")
+	docCategory("Graphics")
 */
 
 #include "IoCairoPathElement.h"
@@ -31,7 +31,7 @@ IoCairoPathElement *IoCairoPathElement_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairoPathElement_newTag(state));
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoCairoPathElement_proto);
 
 	{
@@ -41,7 +41,7 @@ IoCairoPathElement *IoCairoPathElement_proto(void *state)
 
 			{NULL, NULL},
 		};
-		
+
 		IoObject_addMethodTable_(self, methodTable);
 	}
 
@@ -58,7 +58,7 @@ IoCairoPathElement *IoCairoPathElement_newWithPath_dataOffset_(void *state, IoOb
 {
 	IoCairoPathElement *self = IOCLONE(IoState_protoWithInitFunction_(state, IoCairoPathElement_proto));
 	cairo_path_t *rawPath = ((IoCairoPathData *)IoObject_dataPointer(path))->path;
-	
+
 	IoObject_setDataPointer_(self, malloc(sizeof(IoCairoPathElementData)));
 	DATA(self)->path = path;
 	PATH_DATA(self) = rawPath->data + offset;
@@ -90,7 +90,7 @@ IoObject *IoCairoPathElement_pointAt(IoCairoPathElement *self, IoObject *locals,
 	cairo_path_data_t *data = 0;
 	int pointCount = 0;
 	int i = 0;
-	
+
 	if (!DATA(self)) return IONIL(self);
 
 	i = IoMessage_locals_intArgAt_(m, locals, 0);
@@ -110,7 +110,7 @@ static int IoCairoPathElement_pointCount(IoCairoPathElement *self)
 	switch (PATH_DATA(self)->header.type)
 	{
 		case CAIRO_PATH_MOVE_TO:
-			return 1; 
+			return 1;
 		case CAIRO_PATH_LINE_TO:
 			return 1;
 		case CAIRO_PATH_CURVE_TO:

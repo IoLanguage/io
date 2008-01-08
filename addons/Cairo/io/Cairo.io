@@ -1,6 +1,6 @@
 Cairo do(
 	Context := CairoContext
-	
+
 	Path := CairoPath
 	PathElement := CairoPathElement
 
@@ -9,7 +9,7 @@ Cairo do(
 	if (HAS_PS_SURFACE, PSSurface := CairoPSSurface)
 	if (HAS_PDF_SURFACE, PDFSurface := CairoPDFSurface)
 	if (HAS_SVG_SURFACE, SVGSurface := CairoSVGSurface)
-	
+
 	FontFace := CairoFontFace
 	ScaledFont := CairoScaledFont
 	FontOptions := CairoFontOptions
@@ -26,6 +26,6 @@ Cairo do(
 	LinearGradient := CairoLinearGradient
 	RadialGradient := CairoRadialGradient
 	SurfacePattern := CairoSurfacePattern
-	
+
 	Matrix := CairoMatrix
 )

@@ -6,7 +6,7 @@
 CFFI do(
 	Pointer do(
 		init := method(nil)
-		
+
 		ptr := method(
 			if(self isType,
 				toType(self)
@@ -14,11 +14,11 @@ CFFI do(
 				self proto ptr
 			)
 		)
-		
+
 		isType := method(
 			self hasLocalSlot("pointedToType")
 		)
-		
+
 		typeString := method(
 			"^" .. self pointedToType typeString
 		)

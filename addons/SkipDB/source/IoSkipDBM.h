@@ -15,7 +15,7 @@ extern "C" {
 #endif
 
 #define ISSKIPDBM(self) \
-  IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoSkipDBM_rawClone)
+	IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoSkipDBM_rawClone)
 
 typedef IoObject IoSkipDBM;
 
@@ -28,7 +28,7 @@ void IoSkipDBM_mark(IoObject *self);
 //void IoSkipDBM_writeToStream_(IoObject *self, BStream *stream);
 //void IoSkipDBM_readFromStream_(IoObject *self, BStream *stream);
 
-// -------------------------------------------------------- 
+// --------------------------------------------------------
 
 IoObject *IoSkipDBM_setPath(IoObject *self, IoObject *locals, IoMessage *m);
 IoObject *IoSkipDBM_path(IoObject *self, IoObject *locals, IoMessage *m);

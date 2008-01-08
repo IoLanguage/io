@@ -6,7 +6,7 @@ Regex do(
 	matchesFor := method(aString,
 		RegexMatches clone setRegex(self) setString(aString)
 	)
-	
+
 	docSlot("asRegex",
 		"Returns self."
 	)

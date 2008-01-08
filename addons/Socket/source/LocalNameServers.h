@@ -3,14 +3,14 @@ docCopyright("Steve Dekorte", 2002)
 docLicense("BSD revised")
 */
 
-#ifndef LOCALNAMESERVERS_DEFINED 
+#ifndef LOCALNAMESERVERS_DEFINED
 #define LOCALNAMESERVERS_DEFINED 1
 
 #include "List.h"
 
-typedef struct LocalNameServers 
+typedef struct LocalNameServers
 {
-  List *ips;
+	List *ips;
 } LocalNameServers;
 
 LocalNameServers *LocalNameServers_new(void);
@@ -19,6 +19,6 @@ void LocalNameServers_free(LocalNameServers *self);
 void LocalNameServers_addIPAddress_(LocalNameServers *self, const char *s);
 
 /* returns List of char * strings contianing IPs */
-List *LocalNameServers_ips(LocalNameServers *self); 
+List *LocalNameServers_ips(LocalNameServers *self);
 
 #endif

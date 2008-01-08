@@ -13,15 +13,15 @@ typedef IoObject IoSGMLParser;
 
 typedef struct
 {
-    int isInitialized;
-    SGML_PARSER parser;
-    SGML_HANDLERS handlers;
-    char *tmpString;
-    
-    IoMessage *startElementMessage;
-    IoMessage *endElementMessage;
-    IoMessage *newAttributeMessage;
-    IoMessage *newTextMessage;
+	int isInitialized;
+	SGML_PARSER parser;
+	SGML_HANDLERS handlers;
+	char *tmpString;
+
+	IoMessage *startElementMessage;
+	IoMessage *endElementMessage;
+	IoMessage *newAttributeMessage;
+	IoMessage *newTextMessage;
 
 } IoSGMLParserData;
 
@@ -33,22 +33,22 @@ void IoSGMLParser_free(IoSGMLParser *self);
 
 /* --- callbacks ---------------------------------- */
 
-void IoSGMLParser_startElementHandler(SGML_PARSER *parser, 
-    void *userContext, 
-    const char *elementName);
-    
-void IoSGMLParser_endElementHandler(SGML_PARSER *parser, 
-    void *userContext, 
-    const char *elementName);
-    
-void IoSGMLParser_newAttributeHandler(SGML_PARSER *parser, 
-    void *userContext, 
-    const char *attributeName, 
-    const char *attributeValue);
-    
-void IoSGMLParser_characterDataHandler(SGML_PARSER *parser, 
-    void *userContext, 
-    const char *text);
+void IoSGMLParser_startElementHandler(SGML_PARSER *parser,
+	void *userContext,
+	const char *elementName);
+
+void IoSGMLParser_endElementHandler(SGML_PARSER *parser,
+	void *userContext,
+	const char *elementName);
+
+void IoSGMLParser_newAttributeHandler(SGML_PARSER *parser,
+	void *userContext,
+	const char *attributeName,
+	const char *attributeValue);
+
+void IoSGMLParser_characterDataHandler(SGML_PARSER *parser,
+	void *userContext,
+	const char *text);
 
 /* ------------------------------------------------ */
 

@@ -28,13 +28,13 @@ IoTag *IoCairoPattern_newTag(void *state)
 	return tag;
 }
 
-IoCairoPattern *IoCairoPattern_proto(void *state) 
+IoCairoPattern *IoCairoPattern_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairoPattern_newTag(state));
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoCairoPattern_proto);
-	
+
 	IoCairoPattern_addMethods(self);
 	return self;
 }
@@ -49,8 +49,8 @@ void IoCairoPattern_addMethods(IoCairoPattern *self)
 	IoObject_addMethodTable_(self, methodTable);
 }
 
-IoCairoPattern *IoCairoPattern_rawClone(IoCairoPattern *proto) 
-{ 
+IoCairoPattern *IoCairoPattern_rawClone(IoCairoPattern *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	if (PATTERN(proto))
 		IoObject_setDataPointer_(self, cairo_pattern_reference(PATTERN(proto)));
@@ -62,7 +62,7 @@ IoCairoPattern *IoCairoPattern_newWithRawPattern_(void *state, IoMessage *m, cai
 	IoObject *self = 0;
 	IoStateProtoFunc *initFunc = 0;
 
-	checkStatus_(state, m, cairo_pattern_status(pattern)); 
+	checkStatus_(state, m, cairo_pattern_status(pattern));
 
 	switch(cairo_pattern_get_type(pattern))
 	{
@@ -87,7 +87,7 @@ IoCairoPattern *IoCairoPattern_newWithRawPattern_(void *state, IoMessage *m, cai
 	return self;
 }
 
-void IoCairoPattern_free(IoCairoPattern *self) 
+void IoCairoPattern_free(IoCairoPattern *self)
 {
 	if (PATTERN(self))
 		cairo_pattern_destroy(PATTERN(self));

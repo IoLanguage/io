@@ -27,9 +27,9 @@ IoCFFIFunction *IoCFFIFunction_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCFFIFunction_newTag(state));
-	
+
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoCFFIFunctionData)));
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoCFFIFunction_proto);
 
 	{
@@ -39,18 +39,18 @@ IoCFFIFunction *IoCFFIFunction_proto(void *state)
 		};
 		IoObject_addMethodTable_(self, methodTable);
 	}
-	
+
 	return self;
 }
 
-IoCFFIFunction *IoCFFIFunction_rawClone(IoCFFIFunction *proto) 
-{ 
+IoCFFIFunction *IoCFFIFunction_rawClone(IoCFFIFunction *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoCFFIFunctionData)));
-	return self; 
+	return self;
 }
 
-void IoCFFIFunction_free(IoCFFIFunction *self) 
+void IoCFFIFunction_free(IoCFFIFunction *self)
 {
 	free(DATA(self));
 }
@@ -68,14 +68,14 @@ IoObject *IoCFFIFunction_call(IoCFFIFunction *self, IoObject *locals, IoMessage 
 	ffi_status status;
 	IoObject *returnValAsObj, *funRetTypeObject, *o;
 	List *funArgTypeObjects;
-	
+
 	library = IoObject_getSlot_(self, IOSYMBOL("library"));
 	funInterface = &(DATA(self)->interface);
 	funName = CSTRING(IoObject_getSlot_(self, IOSYMBOL("name")));
 	funPointer = IoCFFILibrary_rawGetFuctionPointer_(library, funName);
 	funArgTypeObjects = IoList_rawList(IoObject_getSlot_(self, IOSYMBOL("argumentTypes")));
 	funRetTypeObject = IoObject_getSlot_(self, IOSYMBOL("returnType"));
-	
+
 	funArgCount = (int)List_size(funArgTypeObjects);
 	funArgTypes = calloc(funArgCount, sizeof(ffi_type *));
 	for (i = 0; i < funArgCount; i++)
@@ -84,7 +84,7 @@ IoObject *IoCFFIFunction_call(IoCFFIFunction *self, IoObject *locals, IoMessage 
 		funArgTypes[i] = IoCFFIDataType_ffiType(o);
 	}
 	funRetType = IoCFFIDataType_ffiType(funRetTypeObject);
-	
+
 	status = ffi_prep_cif(funInterface, FFI_DEFAULT_ABI, funArgCount, funRetType, funArgTypes);
 	if (status != FFI_OK)
 	{
@@ -92,7 +92,7 @@ IoObject *IoCFFIFunction_call(IoCFFIFunction *self, IoObject *locals, IoMessage 
 		free(funArgTypes);
 		return IONIL(self);
 	}
-	
+
 	funArgVals = calloc(funArgCount, sizeof(void *));
 	funRetVal = calloc(1, funRetType->size);
 	IoState_pushCollectorPause(IOSTATE);
@@ -102,15 +102,15 @@ IoObject *IoCFFIFunction_call(IoCFFIFunction *self, IoObject *locals, IoMessage 
 			o = IoMessage_locals_valueArgAt_(m, locals, i);
 			funArgVals[i] = IoCFFIDataType_ValuePointerFromObject_(o);
 		}
-		
+
 		ffi_call(funInterface, funPointer, funRetVal, funArgVals);
 		returnValAsObj = IoCFFIDataType_objectFromData_(funRetTypeObject, funRetVal);
 	}
 	IoState_popCollectorPause(IOSTATE);
-	
+
 	free(funArgTypes);
 	free(funArgVals);
 	free(funRetVal);
-	
+
 	return returnValAsObj;
 }

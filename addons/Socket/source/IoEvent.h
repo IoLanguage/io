@@ -1,14 +1,14 @@
 /*
 docCopyright("Steve Dekorte", 2002)
 docLicense("BSD revised")
- 
+
  e := Event clone
  EventManager addEvent(e, fd, type, timeout)
- 
+
  Event handleReadEvent := method()
  Event handleWriteEvent := method()
  Event handleTimeoutEvent := method()
-  
+
 */
 
 #ifndef IOEVENT_DEFINED

@@ -22,11 +22,11 @@ static IoTag *IoCairoPDFSurface_newTag(void *state)
 	return tag;
 }
 
-IoCairoPDFSurface *IoCairoPDFSurface_proto(void *state) 
+IoCairoPDFSurface *IoCairoPDFSurface_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairoPDFSurface_newTag(state));
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoCairoPDFSurface_proto);
 
 	IoCairoSurface_addMethods(self);
@@ -41,8 +41,8 @@ IoCairoPDFSurface *IoCairoPDFSurface_proto(void *state)
 	return self;
 }
 
-IoCairoPDFSurface *IoCairoPDFSurface_rawClone(IoCairoPDFSurface *proto) 
-{ 
+IoCairoPDFSurface *IoCairoPDFSurface_rawClone(IoCairoPDFSurface *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	if (SURFACE(proto))
 		IoObject_setDataPointer_(self, cairo_surface_reference(SURFACE(proto)));
@@ -65,7 +65,7 @@ IoObject *IoCairoPDFSurface_setSize(IoCairoPDFSurface *self, IoObject *locals, I
 {
 	double w = IoMessage_locals_doubleArgAt_(m, locals, 0);
 	double h = IoMessage_locals_doubleArgAt_(m, locals, 1);
-	
+
 	cairo_ps_surface_set_size(SURFACE(self), w, h);
 	CHECK_STATUS(self);
 	return self;

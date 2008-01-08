@@ -15,9 +15,9 @@ typedef IoObject IoFont;
 
 typedef struct
 {
-  GLFont *font;
-  IoSymbol *path;
-  char isProto;
+	GLFont *font;
+	IoSymbol *path;
+	char isProto;
 } IoFontData;
 
 IoFont *IoFont_proto(void *state);

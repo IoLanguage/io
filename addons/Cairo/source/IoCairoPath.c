@@ -1,8 +1,8 @@
 /*#io
 CairoPath ioDoc(
-  docCopyright("Daniel Rosengren", 2007)
-  docLicense("BSD revised")
-  docCategory("Graphics")
+	docCopyright("Daniel Rosengren", 2007)
+	docLicense("BSD revised")
+	docCategory("Graphics")
 */
 
 #include "IoCairoPath.h"
@@ -18,7 +18,7 @@ CairoPath ioDoc(
 void *IoMessage_locals_cairoPathArgAt_(IoMessage *self, void *locals, int n)
 {
 	IoObject *arg = IoMessage_locals_valueArgAt_(self, locals, n);
-	if (!ISCAIROPATH(arg)) 
+	if (!ISCAIROPATH(arg))
 		IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "CairoPath");
 	return arg;
 }
@@ -37,18 +37,18 @@ IoCairoPath *IoCairoPath_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairoPath_newTag(state));
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoCairoPath_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
 			{"foreach", IoCairoPath_foreach},
-  		{NULL, NULL},
+		{NULL, NULL},
 		};
-		
+
 		IoObject_addMethodTable_(self, methodTable);
 	}
-	
+
 	return self;
 }
 
@@ -104,7 +104,7 @@ IoObject *IoCairoPath_foreach(IoCairoPath *self, IoObject *locals, IoMessage *m)
 	IoList *elementList = IoList_new(IOSTATE);
 	int i;
 
-  for (i = 0; i < path->num_data; i += path->data[i].header.length)
+	for (i = 0; i < path->num_data; i += path->data[i].header.length)
 		IoList_rawAppend_(elementList, IoCairoPathElement_newWithPath_dataOffset_(IOSTATE, self, i));
 
 	return IoList_foreach(elementList, locals, m);

@@ -1,9 +1,9 @@
 /*#io
 NetworkAdapter ioDoc(
-    docCopyright("Rich Collins", 2007)
-    docLicense("BSD revised")
-    docCategory("Networking")
-    docDescription("Interface to network adapter functionality")
+	docCopyright("Rich Collins", 2007)
+	docLicense("BSD revised")
+	docCategory("Networking")
+	docDescription("Interface to network adapter functionality")
 */
 
 #include "IoNetworkAdapter.h"
@@ -25,9 +25,9 @@ IoNetworkAdapter *IoNetworkAdapter_proto(void *state)
 {
 	IoNetworkAdapter *self = IoObject_new(state);
 	IoObject_tag_(self, IoNetworkAdapter_newTag(state));
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoNetworkAdapter_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
 			{"mac", IoNetworkAdapter_mac},
@@ -61,7 +61,7 @@ IoSeq *IoNetworkAdapter_mac(IoNetworkAdapter *self, IoObject *locals, IoMessage 
 	/*#io
 	docSlot("mac", "Returns the mac address for the primary network adapter")
 	*/
-	
+
 #if defined(WIN32) ||  defined(__APPLE__) || defined(MACOSX)
 	return IOSYMBOL(macAddress());
 #else

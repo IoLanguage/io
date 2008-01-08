@@ -25,11 +25,11 @@ extern "C" {
 
 // The various SMS hardware that unimotion supports
 enum sms_hardware {
-    unknown = 0,
-    powerbook = 1,
-    ibook = 2,
-    highrespb = 3,
-    macbookpro = 4
+	unknown = 0,
+	powerbook = 1,
+	ibook = 2,
+	highrespb = 3,
+	macbookpro = 4
 };
 
 // prototypes for the functions in unimotion.c

@@ -3,7 +3,7 @@ docCopyright("Steve Dekorte", 2002)
 docLicense("BSD revised")
 */
 
-#ifndef IoRandom_DEFINED 
+#ifndef IoRandom_DEFINED
 #define IoRandom_DEFINED 1
 
 #include "IoObject.h"

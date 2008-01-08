@@ -29,11 +29,11 @@ IoODEContact *IoODEContact_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoODEContact_newTag(state));
-	
+
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoODEContactData)));
 
 	IoState_registerProtoWithFunc_(state, self, IoODEContact_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
 		{"position", IoODEContact_position},
@@ -107,29 +107,29 @@ IoODEContact *IoODEContact_proto(void *state)
 	return self;
 }
 
-IoODEContact *IoODEContact_rawClone(IoODEContact *proto) 
-{ 
+IoODEContact *IoODEContact_rawClone(IoODEContact *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoODEContactData)));
 	memcpy(DATA(self), DATA(proto), sizeof(IoODEContactData));
-	return self; 
+	return self;
 }
 
-void IoODEContact_free(IoODEContact *self) 
-{ 
-	free(IoObject_dataPointer(self)); 
+void IoODEContact_free(IoODEContact *self)
+{
+	free(IoObject_dataPointer(self));
 }
 
-void IoODEContact_mark(IoODEContact *self) 
-{ 
+void IoODEContact_mark(IoODEContact *self)
+{
 	if (DATA(self)->geom.g1)
 	{
-		IoObject_shouldMark(IoODEGeom_geomFromId(IOSTATE, DATA(self)->geom.g1)); 
+		IoObject_shouldMark(IoODEGeom_geomFromId(IOSTATE, DATA(self)->geom.g1));
 	}
 
 	if (DATA(self)->geom.g2)
 	{
-		IoObject_shouldMark(IoODEGeom_geomFromId(IOSTATE, DATA(self)->geom.g2)); 
+		IoObject_shouldMark(IoODEGeom_geomFromId(IOSTATE, DATA(self)->geom.g2));
 	}
 }
 
@@ -154,12 +154,12 @@ IoODEContact *IoODEContact_newContactGeom(void *state, dContactGeom *contact)
 IoODEContact *IoMessage_locals_odeContactArgAt_(IoMessage *self, void *locals, int n)
 {
 	IoObject *m = IoMessage_locals_valueArgAt_(self, locals, n);
-	
-	if (!ISODECONTACT(m)) 
+
+	if (!ISODECONTACT(m))
 	{
-		IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "ODEContact"); 
+		IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "ODEContact");
 	}
-	
+
 	return m;
 }
 

@@ -27,7 +27,7 @@ IoSoundTouch *IoSoundTouch_rawClone(IoSoundTouch *self);
 void IoSoundTouch_mark(IoSoundTouch *self);
 void IoSoundTouch_free(IoSoundTouch *self);
 
-// --- processing -------------------------------------------------------- 
+// --- processing --------------------------------------------------------
 
 IoObject *IoSoundTouch_start(IoSoundTouch *self, IoObject *locals, IoMessage *m);
 IoObject *IoSoundTouch_process(IoSoundTouch *self, IoObject *locals, IoMessage *m);

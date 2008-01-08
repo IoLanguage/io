@@ -14,17 +14,17 @@ extern "C" {
 #endif
 
 #define ISRANGE(self) \
-    IoObject_hasCloneFunc_((self), (IoTagCloneFunc *)IoRange_rawClone)
+	IoObject_hasCloneFunc_((self), (IoTagCloneFunc *)IoRange_rawClone)
 
 typedef IoObject IoRange;
 
 typedef struct
 {
-    IoObject *start;
-    IoObject *curr;
-    IoObject *end;
-    IoObject *increment;
-    IoObject *index;
+	IoObject *start;
+	IoObject *curr;
+	IoObject *end;
+	IoObject *increment;
+	IoObject *index;
 } IoRangeData;
 
 IoRange *IoRange_rawClone(IoRange *self);

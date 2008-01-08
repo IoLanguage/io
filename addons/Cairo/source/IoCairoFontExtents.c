@@ -20,21 +20,21 @@ static IoTag *IoCairoFontExtents_newTag(void *state)
 	return tag;
 }
 
-IoCairoFontExtents *IoCairoFontExtents_proto(void *state) 
+IoCairoFontExtents *IoCairoFontExtents_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairoFontExtents_newTag(state));
-	
+
 	IoObject_setDataPointer_(self, calloc(1, sizeof(cairo_font_extents_t)));
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoCairoFontExtents_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
 			{"ascent", IoCairoFontExtents_ascent},
 			{"descent", IoCairoFontExtents_descent},
 			{"height", IoCairoFontExtents_height},
-			{"maxXAdvance", IoCairoFontExtents_maxXAdvance},		
+			{"maxXAdvance", IoCairoFontExtents_maxXAdvance},
 			{"maxYAdvance", IoCairoFontExtents_maxYAdvance},
 			{NULL, NULL},
 		};
@@ -43,10 +43,10 @@ IoCairoFontExtents *IoCairoFontExtents_proto(void *state)
 	return self;
 }
 
-IoCairoFontExtents *IoCairoFontExtents_rawClone(IoCairoFontExtents *proto) 
-{ 
-	IoObject *self = IoObject_rawClonePrimitive(proto);	
-	IoObject_setDataPointer_(self, cpalloc(EXTENTS(proto), sizeof(cairo_font_extents_t)));	
+IoCairoFontExtents *IoCairoFontExtents_rawClone(IoCairoFontExtents *proto)
+{
+	IoObject *self = IoObject_rawClonePrimitive(proto);
+	IoObject_setDataPointer_(self, cpalloc(EXTENTS(proto), sizeof(cairo_font_extents_t)));
 	return self;
 }
 
@@ -57,7 +57,7 @@ IoCairoFontExtents *IoCairoFontExtents_newWithRawFontExtents(void *state, cairo_
 	return self;
 }
 
-void IoCairoFontExtents_free(IoCairoFontExtents *self) 
+void IoCairoFontExtents_free(IoCairoFontExtents *self)
 {
 	free(EXTENTS(self));
 }

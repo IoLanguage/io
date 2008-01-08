@@ -40,7 +40,7 @@ typedef SSIZE_T ssize_t;
 typedef struct
 {
 	socklen_t size;
-	struct sockaddr_in *sockaddr; 
+	struct sockaddr_in *sockaddr;
 } IPAddress;
 
 IPAddress *IPAddress_new(void);

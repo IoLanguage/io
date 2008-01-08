@@ -1,9 +1,9 @@
 /*#io
 SkipDBCursor ioDoc(
-           docCopyright("Steve Dekorte", 2002)
-           docLicense("BSD revised")
-           docCategory("Databases")
-           docDescription("An interator object for a SkipDB.")
+		   docCopyright("Steve Dekorte", 2002)
+		   docLicense("BSD revised")
+		   docCategory("Databases")
+		   docDescription("An interator object for a SkipDB.")
 */
 
 #include "IoSkipDBCursor.h"
@@ -41,32 +41,32 @@ void IoSkipDBCursor_readFromStream_(IoObject *self, BStream *stream)
 IoSkipDBCursor *IoSkipDBCursor_proto(void *state)
 {
 	IoMethodTable methodTable[] = {
-	{"goto",     IoSkipDBCursor_goto},    
-	{"first",    IoSkipDBCursor_first}, 
+	{"goto",     IoSkipDBCursor_goto},
+	{"first",    IoSkipDBCursor_first},
 	{"last",     IoSkipDBCursor_last},
-	{"next",     IoSkipDBCursor_next},    
-	{"previous", IoSkipDBCursor_previous},   
+	{"next",     IoSkipDBCursor_next},
+	{"previous", IoSkipDBCursor_previous},
 	{"key",  IoSkipDBCursor_key},
 	{"value",  IoSkipDBCursor_value},
 	{NULL, NULL},
 	};
-	
+
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoSkipDBCursor_newTag(state));
-	
+
 	IoObject_setDataPointer_(self, NULL);
 	IoState_registerProtoWithFunc_((IoState *)state, self, IoSkipDBCursor_proto);
-	
+
 	IoObject_addMethodTable_(self, methodTable);
 	return self;
 }
 
-IoSkipDBCursor *IoSkipDBCursor_rawClone(IoSkipDBCursor *proto) 
-{ 
+IoSkipDBCursor *IoSkipDBCursor_rawClone(IoSkipDBCursor *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_tag_(self, IoObject_tag(proto));
 	IoObject_setDataPointer_(self, NULL);
-	return self; 
+	return self;
 }
 
 IoSkipDBCursor *IoSkipDBCursor_new(void *state)
@@ -80,28 +80,28 @@ IoSkipDBCursor *IoSkipDBCursor_newWithSDBCursor(void *state, SkipDBCursor *curso
 	IoSkipDBCursor *self = IoSkipDBCursor_new(state);
 	SkipDBCursor_retain(cursor);
 	IoObject_setDataPointer_(self, cursor);
-	return self;	
+	return self;
 }
 
-void IoSkipDBCursor_free(IoSkipDBCursor *self) 
-{	
+void IoSkipDBCursor_free(IoSkipDBCursor *self)
+{
 	if (CURSOR(self)) SkipDBCursor_release(CURSOR(self));
 }
 
 /*
-void IoSkipDBCursor_mark(IoSkipDBCursor *self) 
+void IoSkipDBCursor_mark(IoSkipDBCursor *self)
 {
 }
 */
 
-// -------------------------------------------------------- 
+// --------------------------------------------------------
 
 IoObject *IoSkipDBCursor_goto(IoObject *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("goto(aKey)", "Move cursor to the specified key or nearest preceeding key. Returns self")
 	*/
-	
+
 	IoSeq *key = IoMessage_locals_seqArgAt_(m, locals, 0);
 	IOASSERT(CURSOR(self), "SkipDBCursor invalid");
 	SkipDBCursor_goto_(CURSOR(self), IoSeq_asDatum(key));
@@ -113,7 +113,7 @@ IoObject *IoSkipDBCursor_first(IoObject *self, IoObject *locals, IoMessage *m)
 	/*#io
 	docSlot("first", "Move cursor to first item. Returns self.")
 	*/
-	
+
 	IOASSERT(CURSOR(self), "SkipDBCursor invalid");
 	SkipDBCursor_first(CURSOR(self));
 	return self;
@@ -146,7 +146,7 @@ IoObject *IoSkipDBCursor_previous(IoObject *self, IoObject *locals, IoMessage *m
 	/*#io
 	docSlot("previous", "Move cursor to previous item. Returns self.")
 	*/
-	
+
 	IOASSERT(CURSOR(self), "SkipDBCursor invalid");
 	SkipDBCursor_previous(CURSOR(self));
 	return self;
@@ -162,13 +162,13 @@ IoObject *IoSkipDBCursor_key(IoObject *self, IoObject *locals, IoMessage *m)
 
 	{
 	SkipDBRecord *r = SkipDBCursor_current(CURSOR(self));
-	
+
 	if (r)
 	{
 		Datum k = SkipDBRecord_keyDatum(r);
 		return IoSeq_newWithDatum_(IOSTATE, &k);
 	}
-	
+
 	return IONIL(self);
 	}
 }
@@ -178,7 +178,7 @@ IoObject *IoSkipDBCursor_value(IoObject *self, IoObject *locals, IoMessage *m)
 	/*#io
 	docSlot("value", "Returns the current cursor key, or nil if the cursor is out of range.")
 	*/
-	
+
 	IOASSERT(CURSOR(self), "SkipDBCursor invalid");
 
 	{
@@ -189,7 +189,7 @@ IoObject *IoSkipDBCursor_value(IoObject *self, IoObject *locals, IoMessage *m)
 		Datum v = SkipDBRecord_valueDatum(r);
 		return IoSeq_newWithDatum_(IOSTATE, &v);
 	}
-	
+
 	return IONIL(self);
 	}
 }

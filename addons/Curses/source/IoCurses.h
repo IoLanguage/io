@@ -14,9 +14,9 @@ typedef IoObject IoCurses;
 
 typedef struct
 {
-    int colorOn;
-    short fgColor;
-    short bgColor;
+	int colorOn;
+	short fgColor;
+	short bgColor;
 } IoCursesData;
 
 IoCurses *IoCurses_proto(void *state);

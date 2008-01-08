@@ -31,12 +31,12 @@ IoODEBall *IoODEBall_proto(void *state)
 	IoObject_tag_(self, IoODEBall_newTag(state));
 
 	IoODEJoint_protoCommon(self);
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoODEBall_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
-                ODE_COMMON_JOINT_METHODS
+				ODE_COMMON_JOINT_METHODS
 
 		{"anchor", IoODEBall_anchor},
 		{"anchor2", IoODEBall_anchor2},
@@ -50,8 +50,8 @@ IoODEBall *IoODEBall_proto(void *state)
 	return self;
 }
 
-IoODEBall *IoODEBall_rawClone(IoODEBall *proto) 
-{ 
+IoODEBall *IoODEBall_rawClone(IoODEBall *proto)
+{
 	IoObject *self = IoODEJoint_rawClone(proto);
 
 	if(DATA(proto)->jointGroup)
@@ -65,13 +65,13 @@ IoODEBall *IoODEBall_rawClone(IoODEBall *proto)
 	return self;
 }
 
-void IoODEBall_free(IoODEBall *self) 
-{ 
+void IoODEBall_free(IoODEBall *self)
+{
 	IoODEJoint_free(self);
 }
 
-void IoODEBall_mark(IoODEBall *self) 
-{ 
+void IoODEBall_mark(IoODEBall *self)
+{
 	IoODEJoint_mark(self);
 }
 

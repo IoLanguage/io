@@ -16,24 +16,24 @@ typedef IoObject IoGLFW;
 
 typedef struct
 {
-  IoCoroutine *coroutine;
- 
-  IoMessage *closeMessage;
-  IoObject *closeTarget;
-  IoMessage *sizeMessage;
-  IoObject *sizeTarget;
-  IoMessage *refreshMessage;
-  IoObject *refreshTarget;
-  IoMessage *keyMessage;
-  IoObject *keyTarget;
-  IoMessage *charMessage;
-  IoObject *charTarget;
-  IoMessage *mousebuttonMessage;
-  IoObject *mousebuttonTarget;
-  IoMessage *mouseposMessage;
-  IoObject *mouseposTarget;
-  IoMessage *mousewheelMessage;
-  IoObject *mousewheelTarget;
+	IoCoroutine *coroutine;
+
+	IoMessage *closeMessage;
+	IoObject *closeTarget;
+	IoMessage *sizeMessage;
+	IoObject *sizeTarget;
+	IoMessage *refreshMessage;
+	IoObject *refreshTarget;
+	IoMessage *keyMessage;
+	IoObject *keyTarget;
+	IoMessage *charMessage;
+	IoObject *charTarget;
+	IoMessage *mousebuttonMessage;
+	IoObject *mousebuttonTarget;
+	IoMessage *mouseposMessage;
+	IoObject *mouseposTarget;
+	IoMessage *mousewheelMessage;
+	IoObject *mousewheelTarget;
 } IoGLFWData;
 
 IoObject *IoGLFW_rawClone(IoGLFW *self);

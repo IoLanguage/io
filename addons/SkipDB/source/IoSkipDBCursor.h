@@ -15,7 +15,7 @@ extern "C" {
 #endif
 
 #define ISSKIPDBCURSOR(self) \
-  IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoSkipDBCursor_rawClone)
+	IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoSkipDBCursor_rawClone)
 
 typedef IoObject IoSkipDBCursor;
 
@@ -29,7 +29,7 @@ void IoSkipDBCursor_mark(IoObject *self);
 //void IoSkipDBCursor_writeToStream_(IoObject *self, BStream *stream);
 //void IoSkipDBCursor_readFromStream_(IoObject *self, BStream *stream);
 
-// -------------------------------------------------------- 
+// --------------------------------------------------------
 
 IoObject *IoSkipDBCursor_goto(IoObject *self, IoObject *locals, IoMessage *m);
 

@@ -1,5 +1,5 @@
-#ifndef IO_IMAGE_API_H 
-#define IO_IMAGE_API_H 
+#ifndef IO_IMAGE_API_H
+#define IO_IMAGE_API_H
 
 #ifdef WIN32
 #ifdef BUILDING_IMAGE_ADDON

@@ -31,7 +31,7 @@ void IoDBI_mark(IoDBI *self);
 /* ---------------------------------------------------------------- */
 
 IoObject *IoDBI_init(IoDBI *self, IoObject *locals, IoMessage *m);
-IoObject *IoDBI_initWithDriversPath(IoDBI *self, IoObject *locals, 
+IoObject *IoDBI_initWithDriversPath(IoDBI *self, IoObject *locals,
 			IoMessage *m);
 IoObject *IoDBI_version(IoDBI *self, IoObject *locals, IoMessage *m);
 IoObject *IoDBI_drivers(IoDBI *self, IoObject *locals, IoMessage *m);

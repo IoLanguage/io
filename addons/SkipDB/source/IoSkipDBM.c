@@ -1,10 +1,11 @@
 /*#io
 SkipDBM ioDoc(
-           docCopyright("Steve Dekorte", 2002)
-           docLicense("BSD revised")
-		 docCategory("Databases")
-           docDescription("SkipDB is a skip-list based key-value database. SkipDBM manages any number of skipdbs within the same file. The root skipdb can be accessed using the root method.")
-docObject           */
+	docCopyright("Steve Dekorte", 2002)
+	docLicense("BSD revised")
+	docCategory("Databases")
+	docDescription("SkipDB is a skip-list based key-value database. SkipDBM manages any number of skipdbs within the same file. The root skipdb can be accessed using the root method.")
+	docObject
+*/
 
 #include "IoSkipDBM.h"
 #include "IoSkipDB.h"
@@ -39,36 +40,36 @@ void IoSkipDBM_readFromStream_(IoObject *self, BStream *stream)
 IoSkipDBM *IoSkipDBM_proto(void *state)
 {
 	IoMethodTable methodTable[] = {
-	{"setPath",  IoSkipDBM_setPath},     
-	{"path",  IoSkipDBM_path},     
-	{"open",     IoSkipDBM_open},  
-	{"close",    IoSkipDBM_close}, 
-	{"isOpen",   IoSkipDBM_isOpen},     
-	{"delete",   IoSkipDBM_delete},     
-	{"root",     IoSkipDBM_root}, 
-	{"begin",     IoSkipDBM_beginTransaction}, 
-	{"commit",     IoSkipDBM_commitnTransaction}, 
-	//{"at",       IoSkipDBM_at},    
-	{"compact",  IoSkipDBM_compact},  
+	{"setPath",  IoSkipDBM_setPath},
+	{"path",  IoSkipDBM_path},
+	{"open",     IoSkipDBM_open},
+	{"close",    IoSkipDBM_close},
+	{"isOpen",   IoSkipDBM_isOpen},
+	{"delete",   IoSkipDBM_delete},
+	{"root",     IoSkipDBM_root},
+	{"begin",     IoSkipDBM_beginTransaction},
+	{"commit",     IoSkipDBM_commitnTransaction},
+	//{"at",       IoSkipDBM_at},
+	{"compact",  IoSkipDBM_compact},
 	{NULL, NULL},
 	};
-	
+
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoSkipDBM_newTag(state));
-	
+
 	IoObject_setDataPointer_(self, SkipDBM_new());
 	IoState_registerProtoWithFunc_((IoState *)state, self, IoSkipDBM_proto);
-	
+
 	IoObject_addMethodTable_(self, methodTable);
 	return self;
 }
 
-IoSkipDBM *IoSkipDBM_rawClone(IoSkipDBM *proto) 
-{ 
+IoSkipDBM *IoSkipDBM_rawClone(IoSkipDBM *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_tag_(self, IoObject_tag(proto));
 	IoObject_setDataPointer_(self, SkipDBM_new());
-	return self; 
+	return self;
 }
 
 IoSkipDBM *IoSkipDBM_new(void *state)
@@ -77,18 +78,18 @@ IoSkipDBM *IoSkipDBM_new(void *state)
 	return IOCLONE(proto);
 }
 
-void IoSkipDBM_free(IoSkipDBM *self) 
-{	
+void IoSkipDBM_free(IoSkipDBM *self)
+{
 	SkipDBM_free(SKIPDBM(self));
 }
 
 /*
-void IoSkipDBM_mark(IoSkipDBM *self) 
-{ 
+void IoSkipDBM_mark(IoSkipDBM *self)
+{
 }
 */
 
-// -------------------------------------------------------- 
+// --------------------------------------------------------
 
 IoObject *IoSkipDBM_setPath(IoObject *self, IoObject *locals, IoMessage *m)
 {
@@ -96,7 +97,7 @@ IoObject *IoSkipDBM_setPath(IoObject *self, IoObject *locals, IoMessage *m)
 	docSlot("setPath(aString)", "Sets the path to the dbm folder. Returns self.")
 	*/
 	IoSeq *v = IoMessage_locals_seqArgAt_(m, locals, 0);
-	
+
 	SkipDBM_setPath_(SKIPDBM(self), CSTRING(v));
 	return self;
 }
@@ -116,7 +117,7 @@ IoObject *IoSkipDBM_open(IoObject *self, IoObject *locals, IoMessage *m)
 	/*#io
 	docSlot("open", "Opens the dbm. Returns self.")
 	*/
-	
+
 	SkipDBM_open(SKIPDBM(self));
 	return self;
 }
@@ -126,7 +127,7 @@ IoObject *IoSkipDBM_close(IoObject *self, IoObject *locals, IoMessage *m)
 	/*#io
 	docSlot("close", "Closes the dbm.")
 	*/
-	
+
 	SkipDBM_close(SKIPDBM(self));
 	return self;
 }
@@ -136,7 +137,7 @@ IoObject *IoSkipDBM_isOpen(IoObject *self, IoObject *locals, IoMessage *m)
 	/*#io
 	docSlot("delete", "Deletes the db. Returns self.")
 	*/
-	
+
 	return IOBOOL(self, SkipDBM_isOpen(SKIPDBM(self)));
 }
 
@@ -145,7 +146,7 @@ IoObject *IoSkipDBM_delete(IoObject *self, IoObject *locals, IoMessage *m)
 	/*#io
 	docSlot("delete", "Deletes the db. Returns self.")
 	*/
-	
+
 	SkipDBM_delete(SKIPDBM(self));
 	return self;
 }
@@ -159,7 +160,7 @@ IoObject *IoSkipDBM_root(IoObject *self, IoObject *locals, IoMessage *m)
 
 	{
 	SkipDB *sdb = SkipDBM_rootSkipDB(SKIPDBM(self));
-	
+
 	return IoSkipDB_newWithSDB(IOSTATE, sdb);
 	//return self;
 	}
@@ -172,7 +173,7 @@ IoObject *IoSkipDBM_at(IoObject *self, IoObject *locals, IoMessage *m)
 	*/
 	/*
 	PID_TYPE pid = IoMessage_locals_intArgAt_(m, locals, 0);
-	
+
 	SkipDB *sdb = SkipDBM_skipdbAtPid_(SKIPDBM(self));
 	return IoSkipDB_newWithSDB(IOSTATE, sdb);
 	*/
@@ -185,7 +186,7 @@ IoObject *IoSkipDBM_compact(IoObject *self, IoObject *locals, IoMessage *m)
 	/*#io
 	docSlot("compact", "Compacts the database. Returns self.")
 	*/
-	
+
 	IOASSERT(SkipDBM_isOpen(SKIPDBM(self)), "skipdbm not open");
 	SkipDBM_compact(SKIPDBM(self));
 	return self;
@@ -196,7 +197,7 @@ IoObject *IoSkipDBM_beginTransaction(IoObject *self, IoObject *locals, IoMessage
 	/*#io
 	docSlot("beginTransaction", "Begin a transaction. Returns self.")
 	*/
-	
+
 	IOASSERT(SkipDBM_isOpen(SKIPDBM(self)), "skipdbm not open");
 	SkipDBM_beginTransaction(SKIPDBM(self));
 	return self;
@@ -207,7 +208,7 @@ IoObject *IoSkipDBM_commitnTransaction(IoObject *self, IoObject *locals, IoMessa
 	/*#io
 	docSlot("commitTransaction", "Commit a transaction. Returns self.")
 	*/
-	
+
 	IOASSERT(SkipDBM_isOpen(SKIPDBM(self)), "skipdbm not open");
 	SkipDBM_commitTransaction(SKIPDBM(self));
 	return self;

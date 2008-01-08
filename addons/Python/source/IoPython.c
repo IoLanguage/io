@@ -1,10 +1,10 @@
-/*#io 
+/*#io
 Python ioDoc(
-		 docCopyright("Aslak Gronflaten", 2006)
-		 docLicense("BSD revised")
-		 docDescription("This object provides access the world of python.")
-		 docCredits("Based on code by Steve Dekorte")
-		 docCategory("Server")
+	docCopyright("Aslak Gronflaten", 2006)
+	docLicense("BSD revised")
+	docDescription("This object provides access the world of python.")
+	docCredits("Based on code by Steve Dekorte")
+	docCategory("Server")
 */
 
 #include "IoPython.h"
@@ -34,7 +34,7 @@ IoPython *IoPython_proto(void *state)
 	IoObject_setDataPointer_(self, PythonData_new());
 	fflush(stdout);
 	IoState_registerProtoWithFunc_(state, self, IoPython_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
 		{"credits", IoPython_credits},
@@ -50,8 +50,8 @@ IoPython *IoPython_proto(void *state)
 	return self;
 }
 
-IoPython *IoPython_rawClone(IoPython *proto) 
-{ 
+IoPython *IoPython_rawClone(IoPython *proto)
+{
 	IoPython *self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, PythonData_new());
 	return self;
@@ -74,7 +74,7 @@ void IoPython_free(IoPython *self)
 IoObject *wrap(IoPython *self, PyObject *o) {
 	IoPython *ret = IoPython_new(IOSTATE);
 	DATA(ret)->data = o;
-	return ret; 
+	return ret;
 }
 
 IoObject *IoPython_credits(IoPython *self, IoObject *locals, IoMessage *m)
@@ -122,14 +122,14 @@ IoObject *convertPy(IoObject *self, PyObject *obj) {
 	//PyObject *pType = PyObject_Type(obj);
 	//PyObject_Print(pType, stdout, 0);
 	IoObject *ret;  // Return value
-	
+
 	if(PyString_Check(obj)) {
 		// Convert to Io sequence and return.
 		IoSeq *ret = IoSeq_newWithCString_(IOSTATE, PyString_AsString(obj));
 		// TODO:::: Memory management! Who's responsible here! (I am, that's who)
 		return ret;
 	}
-	
+
 	if(PyFloat_Check(obj)) {
 		ret = IoNumber_newWithDouble_(IOSTATE, PyFloat_AS_DOUBLE(obj));
 		//Py_DECREF(obj);
@@ -159,7 +159,7 @@ IoObject *convertPy(IoObject *self, PyObject *obj) {
 		// Would be better to build a good wrapper around the python dict.
 	}
 	if(PyCallable_Check(obj)) {
-		//ret = IoState_doString_(IOSTATE, "method(return self invoke(\"\")"); 
+		//ret = IoState_doString_(IOSTATE, "method(return self invoke(\"\")");
 		// TODO: We should return a callable object here... Don't know how though. Yet.
 	}
 	return wrap(self, obj);
@@ -167,10 +167,10 @@ IoObject *convertPy(IoObject *self, PyObject *obj) {
 
 
 
-IoObject *IoPython_call_int(IoPython *self, IoObject *locals, IoMessage *m, int argOffset, char *functionName) 
-{	
+IoObject *IoPython_call_int(IoPython *self, IoObject *locals, IoMessage *m, int argOffset, char *functionName)
+{
 	int argc = IoMessage_argCount(m);
-	
+
 	PyObject *pModule = DATA(self)->data;
 	if(!pModule) {
 		fprintf(stderr, "We have null pModule for function %s ", functionName);
@@ -180,35 +180,35 @@ IoObject *IoPython_call_int(IoPython *self, IoObject *locals, IoMessage *m, int 
 		fprintf(stderr, "Module has no function %s ", functionName);
 		return IONIL(self);
 	}
-	
+
 	PyObject *pFunc = PyObject_GetAttrString(pModule, functionName);
 	/* pFunc is a new reference */
 
 	if (pFunc && PyCallable_Check(pFunc)) {
-    	PyObject *pArgs = PyTuple_New(argc - argOffset); // argc
+		PyObject *pArgs = PyTuple_New(argc - argOffset); // argc
 		int i;
 		for(i = argOffset;i<argc;i++) {
 			IoObject *param = IoMessage_locals_valueArgAt_(m, locals, i);
 			PyObject *pyValue = convertIo(self, param);
 			PyTuple_SetItem(pArgs, i-argOffset, pyValue);
 		}
-    	PyObject *pValue = PyObject_CallObject(pFunc, pArgs);
-    	Py_DECREF(pArgs);
+		PyObject *pValue = PyObject_CallObject(pFunc, pArgs);
+		Py_DECREF(pArgs);
 		Py_XDECREF(pFunc);
-    	if (pValue != NULL) {
+		if (pValue != NULL) {
 			return convertPy(self, pValue);
-    	} else {
-	    	if (PyErr_Occurred())
-        		PyErr_Print();
-        	fprintf(stderr,"Call failed\n");
-    	}
+		} else {
+			if (PyErr_Occurred())
+				PyErr_Print();
+			fprintf(stderr,"Call failed\n");
+		}
 	} else {
-    	if (PyErr_Occurred())
-        	PyErr_Print();
+		if (PyErr_Occurred())
+			PyErr_Print();
 		else {
 			return convertPy(self, pFunc);
 		}
-    	fprintf(stderr, "Cannot find python function \"%s\"\n", functionName);
+		fprintf(stderr, "Cannot find python function \"%s\"\n", functionName);
 	}
 	return IONIL(self);
 }
@@ -235,12 +235,12 @@ IoObject *IoPython_import(IoPython *self, IoObject *locals, IoMessage *m)
 {
 	IoSeq *name = IoMessage_locals_seqArgAt_(m, locals, 0);
 	char *nameString = IoSeq_asCString(name);
-	
-    PyObject *pName, *pModule;
- 	pName = PyString_FromString(nameString);
-    /* Error checking of pName left out */
 
-    pModule = PyImport_Import(pName);
+	PyObject *pName, *pModule;
+	pName = PyString_FromString(nameString);
+	/* Error checking of pName left out */
+
+	pModule = PyImport_Import(pName);
 
 	if(!pModule) {
 		fprintf(stderr, "Could not find module %s\n", nameString);
@@ -263,7 +263,7 @@ IoObject *IoPython_import(IoPython *self, IoObject *locals, IoMessage *m)
 	*/
 	//
 
-    Py_DECREF(pName);	
+	Py_DECREF(pName);
 
 	// Now, we've got the module. Wrap it and return it.
 	return wrap(self, pModule);

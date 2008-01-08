@@ -40,11 +40,11 @@ IoTag* IoMySQL_newTag(void* state) {
 IoObject* IoMySQL_proto(void* state) {
 	IoObject* self = IoObject_new(state);
 	IoObject_tag_(self, IoMySQL_newTag(state));
-	
+
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoMySQLData)));
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoMySQL_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
 			{"establish", IoMySQL_establish},
@@ -64,7 +64,7 @@ IoObject* IoMySQL_proto(void* state) {
 IoObject* IoMySQL_rawClone(IoObject* proto) {
 	IoObject* self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoMySQLData)));
-	return self; 
+	return self;
 }
 
 IoObject* IoMySQL_new(void* state) {
@@ -75,14 +75,14 @@ IoObject* IoMySQL_new(void* state) {
 void IoMySQL_free(IoObject* self) {
 	if(DATA(self)->connected)
 		mysql_close(&DATA(self)->connection);
-	free(IoObject_dataPointer(self)); 
+	free(IoObject_dataPointer(self));
 }
 
 /* ----------------------------------------------------------- */
 
 IoObject* IoMySQL_establish(IoObject* self, IoObject* locals, IoMessage* m) {
 	/*#io
-	docSlot("establish", 
+	docSlot("establish",
 		   "Establish a connection to a MySQL database.")
 	*/
 	IoObject* result = IoMySQL_new(IOSTATE);
@@ -94,7 +94,7 @@ IoObject* IoMySQL_connect(IoObject* self, IoObject* locals, IoMessage* m) {
 	IoObject *host = NULL, *user = NULL, *password = NULL, *database = NULL, *port = NULL, *socket = NULL, *ssl = NULL;
 
 	/*#io
-	docSlot("connect(host, user, password, database, port, unixSocket, useSSL)", 
+	docSlot("connect(host, user, password, database, port, unixSocket, useSSL)",
 		   "Connect to a MySQL database.")
 	*/
 
@@ -106,7 +106,7 @@ IoObject* IoMySQL_connect(IoObject* self, IoObject* locals, IoMessage* m) {
 		case 3: password = IoMessage_locals_quickValueArgAt_(m, locals, 2);
 		case 2: user = IoMessage_locals_quickValueArgAt_(m, locals, 1);
 		case 1: host = IoMessage_locals_quickValueArgAt_(m, locals, 0);
-	}	
+	}
 
 	if(DATA(self)->connected)
 		mysql_close(&DATA(self)->connection);
@@ -143,7 +143,7 @@ IoObject* IoMySQL_connected(IoObject* self, IoObject* locals, IoMessage* m) {
 
 IoObject* IoMySQL_close(IoObject* self, IoObject* locals, IoMessage* m) {
 	/*#io
-	docSlot("close", 
+	docSlot("close",
 		   "Closes a previously opened connection.")
 	*/
 
@@ -181,10 +181,10 @@ IoObject* IoMySQL_query(IoObject* self, IoObject* locals, IoMessage* m) {
 
 	if(!DATA(self)->connected)
 		IoState_error_(IOSTATE, m, "not connected yet");
-	
+
 	if(mysql_real_query(conn, CSTRING(queryString), IOSEQ_LENGTH(queryString)))
 		IoState_error_(IOSTATE, m, "query error(%d): %s", mysql_errno(&DATA(self)->connection), mysql_error(&DATA(self)->connection));
-	
+
 	if((result = mysql_store_result(conn)) && (colLength = mysql_num_fields(result))) {
 		list = IoList_new(IOSTATE);
 

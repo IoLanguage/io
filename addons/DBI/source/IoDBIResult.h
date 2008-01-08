@@ -11,8 +11,8 @@ docLicense("BSD revised")
 #include "IoList.h"
 #include <dbi/dbi.h>
 
-/* 
-   This *is* defined in dbi/dbi.h but I continue to get " warning: 
+/*
+   This *is* defined in dbi/dbi.h but I continue to get " warning:
    implicit declaration of function 'dbi_result_get_int_idx'" which is driving
    me crazy, therefore I added this line in the .h.
 
@@ -60,9 +60,9 @@ IoObject *IoDBIResult_seek(
 IoObject *IoDBIResult_position(
 		IoDBIResult *self, IoObject *locals, IoMessage *m);
 IoObject *IoDBIResult_at(IoDBIResult *self, IoObject *locals, IoMessage *m);
-IoObject *IoDBIResult_populate(IoDBIResult *self, IoObject *locals, 
+IoObject *IoDBIResult_populate(IoDBIResult *self, IoObject *locals,
 			IoMessage *m);
-IoObject *IoDBIResult_foreach(IoDBIResult *self, IoObject *locals, 
+IoObject *IoDBIResult_foreach(IoDBIResult *self, IoObject *locals,
 			IoMessage *m);
 IoObject *IoDBIResult_done(IoDBIResult *self, IoObject *locals, IoMessage *m);
 

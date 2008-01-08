@@ -31,9 +31,9 @@ IoODEContactJoint *IoODEContactJoint_proto(void *state)
 	IoObject_tag_(self, IoODEContactJoint_newTag(state));
 
 	IoODEJoint_protoCommon(self);
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoODEContactJoint_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
 		ODE_COMMON_JOINT_METHODS
@@ -45,8 +45,8 @@ IoODEContactJoint *IoODEContactJoint_proto(void *state)
 	return self;
 }
 
-IoODEContactJoint *IoODEContactJoint_rawClone(IoODEContactJoint *proto) 
-{ 
+IoODEContactJoint *IoODEContactJoint_rawClone(IoODEContactJoint *proto)
+{
 	IoObject *self = IoODEJoint_rawClone(proto);
 
 	if(DATA(proto)->jointGroup)
@@ -58,13 +58,13 @@ IoODEContactJoint *IoODEContactJoint_rawClone(IoODEContactJoint *proto)
 	return self;
 }
 
-void IoODEContactJoint_free(IoODEContactJoint *self) 
-{ 
+void IoODEContactJoint_free(IoODEContactJoint *self)
+{
 	IoODEJoint_free(self);
 }
 
-void IoODEContactJoint_mark(IoODEContactJoint *self) 
-{ 
+void IoODEContactJoint_mark(IoODEContactJoint *self)
+{
 	IoODEJoint_mark(self);
 }
 

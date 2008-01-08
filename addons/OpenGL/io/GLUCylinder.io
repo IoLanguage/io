@@ -4,7 +4,7 @@ GLUCylinder := GLUQuadric clone do(
 	height ::= 0
 	stacks ::= 0
 	slices ::= 0
-	
+
 	draw := method(
 		texture ifNonNil(texture bind)
 		gluCylinder(self, baseRadius, topRadius, height, slices, stacks)

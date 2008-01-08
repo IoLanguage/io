@@ -5,25 +5,25 @@ Number do(
 		self + skipVal
 	)
 
-  docSlot("to", "Convenience constructor that returns a cursor object representing the range of numbers from the receiver to the 'endingPoint' parameter. Increments over each item in that range by 1.")
-  to := method(e,i,
-    i ifNil(i = if(self < e, 1, -1))
-    Range clone setRange( self, if( (e - self) abs < i abs, self, e ), i )
-  )
+	docSlot("to", "Convenience constructor that returns a cursor object representing the range of numbers from the receiver to the 'endingPoint' parameter. Increments over each item in that range by 1.")
+	to := method(e,i,
+		i ifNil(i = if(self < e, 1, -1))
+		Range clone setRange( self, if( (e - self) abs < i abs, self, e ), i )
+	)
 
-  docSlot("toBy(endingPoint, incrementValue)", "Convenience constructor that returns a cursor object representing the range of numbers from the receiver to the 'endingPoint' parameter. Increments over each item in that range by the 'incrementValue' parameter.")
-  toBy := getSlot("to")
+	docSlot("toBy(endingPoint, incrementValue)", "Convenience constructor that returns a cursor object representing the range of numbers from the receiver to the 'endingPoint' parameter. Increments over each item in that range by the 'incrementValue' parameter.")
+	toBy := getSlot("to")
 )
 
 
-Sequence do(	
+Sequence do(
 	docSlot("nextInSequence(skipVal)", "Returns the next item in the sequence.  The optional skipVal parameter allows you to skip ahead skipVal places.")
 	nextInSequence := method(skipVal,
 		str := self clone asMutable
 		skipVal ifNil(skipVal = 1)
-		
+
 		(size < 1) or (skipVal < 1) ifTrue(return str asSymbol)
-		
+
 		leadingNonNextableChars := 0
 		str foreach(char,
 			done := false
@@ -35,11 +35,11 @@ Sequence do(
 			if(done, break)
 		)
 		(leadingNonNextableChars == str size) ifTrue(return str asSymbol)
-		
+
 		str := str splitAt(leadingNonNextableChars)
 		leadingNonNextables := str at(0)
 		str := str at(1) asMutable
-		
+
 		0 to(str size - 1) asList reverseForeach(index,
 			done := false
 			sequenceSets foreach(setName, set,
@@ -63,7 +63,7 @@ Sequence do(
 			)
 			if(done, break)
 		)
-		
+
 		str = leadingNonNextables .. str
 		skipVal = skipVal - 1
 		if(skipVal < 1,
@@ -74,7 +74,7 @@ Sequence do(
 	)
 
 	docSlot("to(endpoint)", "Convenience constructor that returns a range of sequences from the receiver to the endpoint argument. Increments over each item in that range by 1.")
-	to := method(e, toBy(e, 1))   
+	to := method(e, toBy(e, 1))
 
 	docSlot("toBy(endpoint, increment)", "Convenience constructor that returns a range of sequences from the receiver to the endpoint argument. Increments over each item in that range by the value of the increment parameter. The increment parameter must be positive.")
 	toBy := method(e, i,
@@ -91,7 +91,7 @@ Sequence do(
 		)
 		removeLeadingZerosAfterLeadingSymbols := method(str,
 			if(str isMutable not, str = str asMutable)
-			
+
 			# skip over leading symbols
 			from := 0
 			str foreach(char,
@@ -102,7 +102,7 @@ Sequence do(
 			str slice(from) foreach(char, if(char == "0" at(0), to = to + 1, break))
 			if(from <= to, str removeSlice(from, to), str)
 		)
-		
+
 
 		from := removeLeadingZerosAfterLeadingSymbols(self asMutable strip)
 		to := removeLeadingZerosAfterLeadingSymbols(e asMutable strip)

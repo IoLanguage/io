@@ -10,18 +10,18 @@
 
 int ISODEGEOM(IoObject *self)
 {
-    return ISODEBOX(self) || ISODEPLANE(self);
+	return ISODEBOX(self) || ISODEPLANE(self);
 }
 
 IoObject *IoMessage_locals_odeGeomArgAt_(IoMessage *self, void *locals, int n)
 {
 	IoObject *g = IoMessage_locals_valueArgAt_(self, locals, n);
-	
+
 	if (!ISODEGEOM(g) && !ISNIL(g))
 	{
-		IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "ODEGeom"); 
+		IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "ODEGeom");
 	}
-	
+
 	return g;
 }
 
@@ -53,7 +53,7 @@ IoObject *IoODEGeom_geomFromId(void *state, dGeomID id)
 
 IoObject *IoODEGeom_collide(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	dGeomID g1 = DATA(self)->geomId; 
+	dGeomID g1 = DATA(self)->geomId;
 	dGeomID g2 = IoMessage_locals_odeGeomIdArgAt_(m, locals, 0);
 
 	int max = IoMessage_argCount(m) > 1 ? IoMessage_locals_doubleArgAt_(m, locals, 1) : 1;

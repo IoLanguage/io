@@ -16,7 +16,7 @@
 
 typedef IoObject IoEventManager;
 
-typedef struct 
+typedef struct
 {
 	void *eventBase;
 	IoMessage *handleEventMessage;

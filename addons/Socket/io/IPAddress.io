@@ -1,11 +1,11 @@
 IPAddress do(
-    asSimpleString := method(
-        ip .. ":" .. port
-    )
+	asSimpleString := method(
+		ip .. ":" .. port
+	)
 
-    asString := getSlot("asSimpleString")
+	asString := getSlot("asSimpleString")
 
-    slotDescriptionMap := method(
-         resend atPut("ip", ip) atPut("port", port asString)
-    )
+	slotDescriptionMap := method(
+		 resend atPut("ip", ip) atPut("port", port asString)
+	)
 )

@@ -21,42 +21,42 @@ typedef int (CopyCallback)(void *, const char *, const unsigned char *, long);
 
 typedef struct
 {
-  IoCoroutine *coroutine;
-  IoObject *eventTarget;
-  IoMessage *displayMessage;
-  IoMessage *entryMessage;
-  IoMessage *joystickMessage;
-  IoMessage *keyboardMessage;
-  IoMessage *keyboardUpMessage;
-  IoMessage *menuMessage;
-  IoMessage *motionMessage;
-  IoMessage *mouseMessage;
-  IoMessage *passiveMotionMessage;
-  IoMessage *reshapeMessage;
-  IoMessage *specialMessage;
-  IoMessage *timerMessage;
+	IoCoroutine *coroutine;
+	IoObject *eventTarget;
+	IoMessage *displayMessage;
+	IoMessage *entryMessage;
+	IoMessage *joystickMessage;
+	IoMessage *keyboardMessage;
+	IoMessage *keyboardUpMessage;
+	IoMessage *menuMessage;
+	IoMessage *motionMessage;
+	IoMessage *mouseMessage;
+	IoMessage *passiveMotionMessage;
+	IoMessage *reshapeMessage;
+	IoMessage *specialMessage;
+	IoMessage *timerMessage;
 
-  // extra in
-  IoMessage *acceptsDropMessage;
-  IoMessage *dropMessage;
-  IoMessage *pasteMessage;
-  IoMessage *deleteMessage;
-  
-  // extra out
-  IoMessage *dragMessage;
-  IoMessage *copyMessage;
-  
-  void *callbackContext;
-  DragCallback *dragCallback;
-  CopyCallback *copyCallback;
-  
-  long nanoSleepPeriod;
-  
-  // joystick calibration
-  
-  IoSeq *j;
-  UArray *lastJ;
-  unsigned int lastJoystickButton;
+	// extra in
+	IoMessage *acceptsDropMessage;
+	IoMessage *dropMessage;
+	IoMessage *pasteMessage;
+	IoMessage *deleteMessage;
+
+	// extra out
+	IoMessage *dragMessage;
+	IoMessage *copyMessage;
+
+	void *callbackContext;
+	DragCallback *dragCallback;
+	CopyCallback *copyCallback;
+
+	long nanoSleepPeriod;
+
+	// joystick calibration
+
+	IoSeq *j;
+	UArray *lastJ;
+	unsigned int lastJoystickButton;
 } IoGLUTData;
 
 IoObject *IoGLUT_rawClone(IoGLUT *self);
@@ -100,7 +100,7 @@ IoObject *IoGLUT_glutRemoveMenuItem(IoGLUT *self, IoObject *locals, IoMessage *m
 IoObject *IoGLUT_glutAttachMenu(IoGLUT *self, IoObject *locals, IoMessage *m);
 IoObject *IoGLUT_glutDetachMenu(IoGLUT *self, IoObject *locals, IoMessage *m);
 
-// Joystick 
+// Joystick
 
 //IoObject *IoGLUT_glutInitJoystick(IoGLUT *self, IoObject *locals, IoMessage *m);
 IoObject *IoGLUT_glutJoystickFunc(IoGLUT *self, IoObject *locals, IoMessage *m);
@@ -109,24 +109,24 @@ IoObject *IoGLUT_glutJoystickFunc(IoGLUT *self, IoObject *locals, IoMessage *m);
 // --- extra in --------------------------------------------------------------
 
 int IoGlutAcceptsDropFunc(
-    int x, 
-    int y, 
-    const char *type, 
-    const unsigned char *data, 
-    int dataLength);
-    
+	int x,
+	int y,
+	const char *type,
+	const unsigned char *data,
+	int dataLength);
+
 void IoGlutDropFunc(
-    int x, 
-    int y, 
-    const char *type, 
-    const unsigned char *data, 
-    int dataLength);
+	int x,
+	int y,
+	const char *type,
+	const unsigned char *data,
+	int dataLength);
 
 void IoGlutPasteFunc(
-    const char *type, 
-    const unsigned char *data, 
-    int dataLength);
-    
+	const char *type,
+	const unsigned char *data,
+	int dataLength);
+
 void IoGlutDeleteFunc(void);
 
 // --- extra out --------------------------------------------------------------

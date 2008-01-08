@@ -33,10 +33,10 @@ IoDBIConn *IoDBIConn_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoDBIConn_newTag(state));
-	
+
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoDBIConnData)));
 	DATA(self)->conn = NULL;
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoDBIConn_proto);
 
 	{
@@ -59,7 +59,7 @@ IoDBIConn *IoDBIConn_proto(void *state)
 		};
 		IoObject_addMethodTable_(self, methodTable);
 	}
-	
+
 	return self;
 }
 
@@ -78,7 +78,7 @@ void IoDBIConn_free(IoDBIConn *self)
 		dbi_conn_close(DATA(self)->conn);
 		DATA(self)->conn = NULL;
 	}
-	
+
 	free(DATA(self));
 }
 
@@ -112,28 +112,28 @@ connection.")
 	*/
 	IoObject *key = IoMessage_locals_valueArgAt_(m, locals, 0);
 	IoObject *val = IoMessage_locals_valueArgAt_(m, locals, 1);
-	
+
 	if (!ISSYMBOL(key))
 	{
-		IoState_error_(IOSTATE, m, 
+		IoState_error_(IOSTATE, m,
 				"argument 0 to method '%s' must be a Symbol, not a '%s'\n",
 				CSTRING(IoMessage_name(m)), IoObject_name(key));
 		return IOBOOL(self, 0);
 	}
-	
+
 	if (!ISSYMBOL(val))
 	{
-		IoState_error_(IOSTATE, m, 
+		IoState_error_(IOSTATE, m,
 				"argument 0 to method '%s' must be a Symbol, not a '%s'\n",
 				CSTRING(IoMessage_name(m)), IoObject_name(key));
 		return IOBOOL(self, 0);
 	}
-	
+
 	if (0 != dbi_conn_set_option(DATA(self)->conn, CSTRING(key), CSTRING(val)))
 	{
 		ReportDBIError(DATA(self)->conn, IOSTATE, m);
 	}
-	
+
 	return IOBOOL(self, 1);
 }
 
@@ -145,12 +145,12 @@ IoObject *IoDBIConn_option(IoDBIConn *self, IoObject *locals, IoMessage *m)
 	IoObject *key = IoMessage_locals_valueArgAt_(m, locals, 0);
 	if (!ISSYMBOL(key))
 	{
-		IoState_error_(IOSTATE, m, 
+		IoState_error_(IOSTATE, m,
 				"argument 0 to method '%s' must be a Symbol, not a '%s'\n",
 				CSTRING(IoMessage_name(m)), IoObject_name(key));
 		return IONIL(self);
 	}
-	
+
 	return IOSYMBOL(dbi_conn_get_option(DATA(self)->conn, CSTRING(key)));
 }
 
@@ -162,16 +162,16 @@ IoObject *IoDBIConn_options(IoDBIConn *self, IoObject *locals,
 	*/
 	IoList *list = IOREF(IoList_new(IOSTATE));
 	const char *option = NULL;
-	
+
 	while((option = dbi_conn_get_option_list(DATA(self)->conn, option)) != NULL)
 	{
 		IoList_rawAppend_(list, IOSYMBOL(option));
 	}
-	
+
 	return list;
 }
 
-IoObject *IoDBIConn_optionsClear(IoDBIConn *self, IoObject *locals, 
+IoObject *IoDBIConn_optionsClear(IoDBIConn *self, IoObject *locals,
 			IoMessage *m)
 {
 	/*#io
@@ -181,23 +181,23 @@ IoObject *IoDBIConn_optionsClear(IoDBIConn *self, IoObject *locals,
 	return IONIL(self);
 }
 
-IoObject *IoDBIConn_optionClear(IoDBIConn *self, IoObject *locals, 
+IoObject *IoDBIConn_optionClear(IoDBIConn *self, IoObject *locals,
 			IoMessage *m)
 {
 	/*#io
-	docSlot("optionClear(key)", "Clear a specific option associated with the 
+	docSlot("optionClear(key)", "Clear a specific option associated with the
 connection")
 	*/
 	IoObject *key = IoMessage_locals_valueArgAt_(m, locals, 0);
 	if (!ISSYMBOL(key))
 	{
-		IoState_error_(IOSTATE, m, 
+		IoState_error_(IOSTATE, m,
 				"argument 0 to method '%s' must be a Symbol, not a '%s'\n",
 				CSTRING(IoMessage_name(m)), IoObject_name(key));
 	}
-	
+
 	dbi_conn_clear_option(DATA(self)->conn, CSTRING(key));
-	
+
 	return IONIL(self);
 }
 
@@ -210,7 +210,7 @@ IoObject *IoDBIConn_connect(IoDBIConn *self, IoObject *locals, IoMessage *m)
 	{
 		ReportDBIError(DATA(self)->conn, IOSTATE, m);
 	}
-	
+
 	return IOBOOL(self, 1);
 }
 
@@ -242,31 +242,31 @@ server's specifications")
 	char *value = NULL, *v2;
 	size_t newLen;
 	IoObject *ret;
-	
+
 	IoObject *valueArg = IoMessage_locals_valueArgAt_(m, locals, 0);
 	if (!ISSYMBOL(valueArg))
 	{
-		IoState_error_(IOSTATE, m, 
+		IoState_error_(IOSTATE, m,
 				"argument 0 to method '%s' must be a Symbol, not a '%s'\n",
 				CSTRING(IoMessage_name(m)), IoObject_name(valueArg));
 	}
-	
+
 	value = CSTRING(valueArg);
-	
+
 	v2 = malloc(strlen(value) + 1);
 	strcpy(v2, value);
-	
+
 	newLen = dbi_conn_quote_string(DATA(self)->conn, &v2);
-	
+
 	if (0 == newLen)
 	{
 		ReportDBIError(DATA(self)->conn, IOSTATE, m);
 	}
-	
+
 	ret = IOSYMBOL(v2);
-	
+
 	free(v2);
-	
+
 	return ret;
 }
 
@@ -277,25 +277,25 @@ IoObject *IoDBIConn_query(IoDBIConn *self, IoObject *locals, IoMessage *m)
 object")
 	*/
 	dbi_result result;
-	
+
 	IoObject *sql = IoMessage_locals_valueArgAt_(m, locals, 0);
 	if (!ISSYMBOL(sql))
 	{
-		IoState_error_(IOSTATE, m, 
+		IoState_error_(IOSTATE, m,
 				"argument 0 to method '%s' must be a Symbol, not a '%s'\n",
 				CSTRING(IoMessage_name(m)), IoObject_name(sql));
 	}
-	
+
 	result = dbi_conn_query(DATA(self)->conn, CSTRING(sql));
 	if (result == NULL)
 	{
 		const char *error;
 		int errorCode = dbi_conn_error(DATA(self)->conn, &error);
-		
+
 		IoState_error_(IOSTATE, m, "Could not perform query '%s' "
 					"libdbi: %i: %s\n", CSTRING(sql), errorCode, error);
 	}
-	
+
 	return IoDBIResult_new(IOSTATE, result);
 }
 
@@ -307,29 +307,29 @@ results. Returns the number of rows affected.")
 	*/
 	dbi_result result;
 	unsigned long long affectedRows = 0;
-	
+
 	IoObject *sql = IoMessage_locals_valueArgAt_(m, locals, 0);
 	if (!ISSYMBOL(sql))
 	{
-		IoState_error_(IOSTATE, m, 
+		IoState_error_(IOSTATE, m,
 				"argument 0 to method '%s' must be a Symbol, not a '%s'\n",
 				CSTRING(IoMessage_name(m)), IoObject_name(sql));
 	}
-	
+
 	result = dbi_conn_query(DATA(self)->conn, CSTRING(sql));
 	if (result == NULL)
 	{
 		const char *error;
 		int errorCode = dbi_conn_error(DATA(self)->conn, &error);
-		
+
 		IoState_error_(IOSTATE, m, "Could not perform query '%s' "
 					"libdbi: %i: %s\n", CSTRING(sql), errorCode, error);
 	}
-	
+
 	affectedRows = dbi_result_get_numrows_affected(result);
-	
+
 	dbi_result_free(result);
-	
+
 	return IONUMBER(affectedRows);
 }
 
@@ -343,18 +343,18 @@ IoObject *IoDBIConn_lastSequence(IoDBIConn *self, IoObject *locals,
 	if (IoMessage_argCount(m) == 1)
 	{
 		IoObject *nameArg = IoMessage_locals_valueArgAt_(m, locals, 0);
-		
+
 		if (!ISSYMBOL(nameArg))
 		{
 			IoState_error_(IOSTATE, m,
 					"argument 0 to method '%s', if supplied, must be a Symbol, "
-					"not a '%s'", CSTRING(IoMessage_name(m)), 
+					"not a '%s'", CSTRING(IoMessage_name(m)),
 					IoObject_name(nameArg));
 		}
-		
+
 		name = CSTRING(nameArg);
 	}
-	
+
 	return IONUMBER(dbi_conn_sequence_last(DATA(self)->conn, name));
 }
 
@@ -369,15 +369,15 @@ during an INSERT query")
 	if (IoMessage_argCount(m) == 1)
 	{
 		IoObject *nameArg = IoMessage_locals_valueArgAt_(m, locals, 0);
-		
+
 		if (!ISSYMBOL(nameArg))
 		{
 			IoState_error_(IOSTATE, m,
 					"argument 0 to method '%s', if supplied, must be a Symbol, "
-					"not a '%s'", CSTRING(IoMessage_name(m)), 
+					"not a '%s'", CSTRING(IoMessage_name(m)),
 					IoObject_name(nameArg));
 		}
-		
+
 		name = CSTRING(nameArg);
 	}
 

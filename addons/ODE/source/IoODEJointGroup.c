@@ -41,15 +41,15 @@ IoODEJointGroup *IoODEJointGroup_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoODEJointGroup_newTag(state));
-	
+
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoODEJointGroupData)));
 
 	JOINTGROUPID = 0;
 	WORLD = 0L;
 	DATA(self)->joints = 0L;
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoODEJointGroup_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
 		{"jointGroupId", IoODEJointGroup_jointGroupId},
@@ -64,8 +64,8 @@ IoODEJointGroup *IoODEJointGroup_proto(void *state)
 	return self;
 }
 
-IoODEJointGroup *IoODEJointGroup_rawClone(IoODEJointGroup *proto) 
-{ 
+IoODEJointGroup *IoODEJointGroup_rawClone(IoODEJointGroup *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoODEJointGroupData)));
 
@@ -86,11 +86,11 @@ IoODEJointGroup *IoODEJointGroup_rawClone(IoODEJointGroup *proto)
 		//IoObject_inlineSetSlot_to_(self, IOSYMBOL("AMotor"), IoODEAMotor_newProto(IOSTATE, self));
 		//IoObject_inlineSetSlot_to_(self, IOSYMBOL("LMotor"), IoODELMotor_newProto(IOSTATE, self));
 	}
-	return self; 
+	return self;
 }
 
-void IoODEJointGroup_free(IoODEJointGroup *self) 
-{ 
+void IoODEJointGroup_free(IoODEJointGroup *self)
+{
 	if(JOINTGROUPID && WORLD)
 	{
 		IoODEWorld_removeJointGroup(WORLD, self);
@@ -103,14 +103,14 @@ void IoODEJointGroup_free(IoODEJointGroup *self)
 		)
 		List_free(DATA(self)->joints);
 	}
-	free(IoObject_dataPointer(self)); 
+	free(IoObject_dataPointer(self));
 }
 
-void IoODEJointGroup_mark(IoODEJointGroup *self) 
-{ 
+void IoODEJointGroup_mark(IoODEJointGroup *self)
+{
 	if(WORLD)
 	{
-		IoObject_shouldMark((IoObject *)WORLD); 
+		IoObject_shouldMark((IoObject *)WORLD);
 	}
 	if(DATA(self)->joints)
 	{

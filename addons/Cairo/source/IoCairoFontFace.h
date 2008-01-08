@@ -10,7 +10,7 @@ docCopyright("Daniel Rosengren", 2007)
 
 #define ISCAIROFONTFACE(self) IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoCairoFontFace_rawClone)
 void *IoMessage_locals_cairoFontFaceArgAt_(IoMessage *self, void *locals, int n);
-	
+
 typedef IoObject IoCairoFontFace;
 
 IoCairoFontFace *IoCairoFontFace_proto(void *state);

@@ -25,12 +25,12 @@ IoMD5 *IoMD5_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoMD5_newTag(state));
-	
+
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoMD5Data)));
 	io_md5_init(&(DATA(self)->mstate));
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoMD5_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
 		{"appendSeq", IoMD5_appendSeq},
@@ -43,12 +43,12 @@ IoMD5 *IoMD5_proto(void *state)
 	return self;
 }
 
-IoMD5 *IoMD5_rawClone(IoMD5 *proto) 
-{ 
+IoMD5 *IoMD5_rawClone(IoMD5 *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoMD5Data)));
 	io_md5_init(&(DATA(self)->mstate));
-	return self; 
+	return self;
 }
 
 IoMD5 *IoMD5_new(void *state)
@@ -57,9 +57,9 @@ IoMD5 *IoMD5_new(void *state)
 	return IOCLONE(proto);
 }
 
-void IoMD5_free(IoMD5 *self) 
-{ 
-	free(IoObject_dataPointer(self)); 
+void IoMD5_free(IoMD5 *self)
+{
+	free(IoObject_dataPointer(self));
 }
 
 /* ----------------------------------------------------------- */
@@ -67,33 +67,33 @@ void IoMD5_free(IoMD5 *self)
 IoObject *IoMD5_appendSeq(IoMD5 *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("appendSeq(aSequence)", 
+	docSlot("appendSeq(aSequence)",
 		   "Appends aSequence to the hash calculation. Returns self.")
 	*/
-	
+
 	IoSeq *buffer = IoMessage_locals_seqArgAt_(m, locals, 0);
 	IOASSERT(DATA(self)->isDone == 0, "cannot append to an already calculated md5");
-	io_md5_append(&(DATA(self)->mstate), 
-			    (unsigned char const *)IoSeq_rawBytes(buffer), 
-			    IoSeq_rawSize(buffer));
+	io_md5_append(&(DATA(self)->mstate),
+				(unsigned char const *)IoSeq_rawBytes(buffer),
+				IoSeq_rawSize(buffer));
 	return self;
 }
 
 UArray *IoMD5_md5UArray(IoMD5 *self)
 {
 	if (DATA(self)->isDone == 0)
-	{ 
-		io_md5_finish(&(DATA(self)->mstate), DATA(self)->digest); 
+	{
+		io_md5_finish(&(DATA(self)->mstate), DATA(self)->digest);
 		DATA(self)->isDone = 1;
 	}
-	
+
 	return UArray_newWithData_type_size_copy_(DATA(self)->digest, CTYPE_uint8_t, 16, 1);
 }
 
 IoObject *IoMD5_md5(IoMD5 *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("md5", 
+	docSlot("md5",
 		   "Completes the MD5 calculation and returns the hash as a Buffer. Once this method is called, append() should not be called again on the receiver or it will raise an exception.")
 	*/
 	return IoSeq_newWithUArray_copy_(IOSTATE, IoMD5_md5UArray(self), 0);
@@ -102,11 +102,11 @@ IoObject *IoMD5_md5(IoMD5 *self, IoObject *locals, IoMessage *m)
 IoObject *IoMD5_md5String(IoMD5 *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("md5String", 
+	docSlot("md5String",
 		   "Returns a string containing a hexadecimal representation of the md5 hash.")
 	*/
 	UArray *ba = IoMD5_md5UArray(self);
-	UArray *baString = UArray_asNewHexStringUArray(ba); 
+	UArray *baString = UArray_asNewHexStringUArray(ba);
 	UArray_free(ba);
 	return IoState_symbolWithUArray_copy_(IOSTATE, baString, 0);
 }

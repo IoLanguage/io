@@ -26,15 +26,15 @@ static IoTag *IoCairoSurface_newTag(void *state)
 	return tag;
 }
 
-IoCairoSurface *IoCairoSurface_proto(void *state) 
+IoCairoSurface *IoCairoSurface_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairoSurface_newTag(state));
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoCairoSurface_proto);
-	
+
 	IoCairoSurface_addMethods(self);
-	
+
 	return self;
 }
 
@@ -62,8 +62,8 @@ void IoCairoSurface_addMethods(IoCairoSurface *self)
 	IoObject_addMethodTable_(self, methodTable);
 }
 
-IoCairoSurface *IoCairoSurface_rawClone(IoCairoSurface *proto) 
-{ 
+IoCairoSurface *IoCairoSurface_rawClone(IoCairoSurface *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	if (SURFACE(proto))
 		IoObject_setDataPointer_(self, cairo_surface_reference(SURFACE(proto)));
@@ -74,8 +74,8 @@ IoCairoSurface *IoCairoSurface_newWithRawSurface_(void *state, IoMessage *m, cai
 {
 	IoObject *self = 0;
 	IoStateProtoFunc *initFunc = 0;
-	
-	checkStatus_(state, m, cairo_surface_status(surface)); 
+
+	checkStatus_(state, m, cairo_surface_status(surface));
 
 	switch(cairo_surface_get_type(surface))
 	{
@@ -100,7 +100,7 @@ IoCairoSurface *IoCairoSurface_newWithRawSurface_(void *state, IoMessage *m, cai
 	return self;
 }
 
-void IoCairoSurface_free(IoCairoSurface *self) 
+void IoCairoSurface_free(IoCairoSurface *self)
 {
 	if (SURFACE(self))
 		cairo_surface_destroy(SURFACE(self));
@@ -166,7 +166,7 @@ IoObject *IoCairoSurface_markDirtyRectangle(IoCairoSurface *self, IoObject *loca
 	double y = IoMessage_locals_doubleArgAt_(m, locals, 1);
 	double w = IoMessage_locals_doubleArgAt_(m, locals, 2);
 	double h = IoMessage_locals_doubleArgAt_(m, locals, 3);
-	
+
 	cairo_surface_mark_dirty_rectangle(SURFACE(self), x, y, w, h);
 	CHECK_STATUS(self);
 	return self;

@@ -45,15 +45,15 @@ IoCurses *IoCurses_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCurses_newTag(state));
-	
+
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoCursesData)));
 	IoState_registerProtoWithFunc_(state, self, IoCurses_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
 		{"begin", IoCurses_begin},
 		{"end",      IoCurses_end},
-			
+
 		//{"nodelay",  IoCurses_nodelay},
 		//{"cBreak",   IoCurses_cBreak},
 		//{"noCBreak", IoCurses_noCBreak},
@@ -74,12 +74,12 @@ IoCurses *IoCurses_proto(void *state)
 
 		{"x", IoCurses_x},
 		{"y", IoCurses_y},
-			
+
 		{"width",    IoCurses_width},
 		{"height",   IoCurses_height},
-			
+
 		{"hasColors", IoCurses_hasColors},
-			
+
 		{"setBackgroundBlack",   IoCurses_setBackgroundBlack},
 		{"setBackgroundBlue",    IoCurses_setBackgroundBlue},
 		{"setBackgroundGreen",   IoCurses_setBackgroundGreen},
@@ -88,7 +88,7 @@ IoCurses *IoCurses_proto(void *state)
 		{"setBackgroundMagenta", IoCurses_setBackgroundMagenta},
 		{"setBackgroundYellow",  IoCurses_setBackgroundYellow},
 		{"setBackgroundWhite",   IoCurses_setBackgroundWhite},
-			
+
 		{"setForegroundBlack",   IoCurses_setForegroundBlack},
 		{"setForegroundBlue",    IoCurses_setForegroundBlue},
 		{"setForegroundGreen",   IoCurses_setForegroundGreen},
@@ -99,7 +99,7 @@ IoCurses *IoCurses_proto(void *state)
 		{"setForegroundWhite",   IoCurses_setForegroundWhite},
 		{NULL, NULL},
 		};
-		
+
 		IoObject_addMethodTable_(self, methodTable);
 	}
 	return self;
@@ -120,22 +120,22 @@ IoCurses *IoCurses_new(void *state)
 	return IOCLONE(proto);
 }
 
-void IoCurses_free(IoCurses *self) 
-{ 
+void IoCurses_free(IoCurses *self)
+{
 	free(IoObject_dataPointer(self));
 }
 
 /* ----------------------------------------------------------- */
 
-void IoCurses_suspendCurses(IoCurses *self) 
-{ 
-	def_prog_mode();   
-	endwin(); 
+void IoCurses_suspendCurses(IoCurses *self)
+{
+	def_prog_mode();
+	endwin();
 	refresh();
 }
 
-void IoCurses_resumeCurses(IoCurses *self) 
-{ 
+void IoCurses_resumeCurses(IoCurses *self)
+{
 	refresh();
 }
 
@@ -154,7 +154,7 @@ IoObject *IoCurses_begin(IoCurses *self, IoObject *locals, IoMessage *m)
 	/*#io
 	docSlot("begin", "Sets the terminal to curses mode. This should be called before any other curses methods. Returns self. ")
 	*/
-	
+
 	initscr();
 	//start_color();
 	//DATA(self)->colorOn = 1;
@@ -162,7 +162,7 @@ IoObject *IoCurses_begin(IoCurses *self, IoObject *locals, IoMessage *m)
 	intrflush(stdscr, FALSE);
 	keypad(stdscr, TRUE);
 	nodelay(stdscr, TRUE);
-	
+
 	nonl();
 	noecho();
 	cbreak();
@@ -171,16 +171,16 @@ IoObject *IoCurses_begin(IoCurses *self, IoObject *locals, IoMessage *m)
 }
 
 IoObject *IoCurses_end(IoCurses *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
 	docSlot("end", "Ends curses mode. This should be called before standard io's read and write methods are used. Returs self. ")
 	*/
 	printf("IoCurses_end\n");
-	
+
 	//echo();
 	//nocbreak();
 	//nl();
-	
+
 	//clear();
 	//refresh();
 	//reset_shell_mode();
@@ -191,12 +191,12 @@ IoObject *IoCurses_end(IoCurses *self, IoObject *locals, IoMessage *m)
 
 
 IoObject *IoCurses_nodelay(IoCurses *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
-	docSlot("nodelay(aBoolean)", 
+	docSlot("nodelay(aBoolean)",
 		   "Enables or disables block during read. If aNumber is zero, nodelay is set to be false, otherwise it is set to be true. ")
 	*/
-	
+
 	int b = IoNumber_asInt(IoMessage_locals_numberArgAt_(m, locals, 0));
 	nodelay(stdscr, b);
 	return self;
@@ -206,10 +206,10 @@ IoObject *IoCurses_nodelay(IoCurses *self, IoObject *locals, IoMessage *m)
 IoObject *IoCurses_cBreak(IoCurses *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("cBreak(aString)", 
+	docSlot("cBreak(aString)",
 		   "Disables line buffering and erase/kill character-processing. cBreak should be on for most purposes. Returns self. ")
 	*/
-	
+
 	if (cbreak() == ERR)
 	{
 		IoCurses_showError(self, m, "Curses.cBreak", "Failed to enable cBreak.");
@@ -220,10 +220,10 @@ IoObject *IoCurses_cBreak(IoCurses *self, IoObject *locals, IoMessage *m)
 IoObject *IoCurses_noCBreak(IoCurses *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("noCBreak", 
+	docSlot("noCBreak",
 		   "Allows line buffering and erase/kill character-processing. cBreak should be on for most purposes. Returns self. ")
 	*/
-	
+
 	if (nocbreak() == ERR)
 	{
 		IoCurses_showError(self, m, "Curses.noCBreak", "Failed to disable cBreak.");
@@ -234,10 +234,10 @@ IoObject *IoCurses_noCBreak(IoCurses *self, IoObject *locals, IoMessage *m)
 IoObject *IoCurses_echo(IoCurses *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("echo", 
+	docSlot("echo",
 		   "Echoes user input to terminal. Returns self. ")
 	*/
-	
+
 	if (echo() == ERR)
 	{
 		IoCurses_showError(self, m, "Curses.echo", "Failed to enable echo.");
@@ -248,10 +248,10 @@ IoObject *IoCurses_echo(IoCurses *self, IoObject *locals, IoMessage *m)
 IoObject *IoCurses_noEcho(IoCurses *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("noEcho", 
-		   "Does not echo user input to terminal. Returns self.") 
+	docSlot("noEcho",
+		   "Does not echo user input to terminal. Returns self.")
 	*/
-	
+
 	if (noecho() == ERR)
 	{
 		IoCurses_showError(self, m, "Curses.noecho", "Failed to disable echo.");
@@ -260,33 +260,33 @@ IoObject *IoCurses_noEcho(IoCurses *self, IoObject *locals, IoMessage *m)
 }
 
 IoObject *IoCurses_move(IoCurses *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
-	docSlot("move(x, y)", 
+	docSlot("move(x, y)",
 		   "Moves the cursor to column y and row x on the terminal. (0, 0) is at the top-left of the terminal. Returns self. ")
 	*/
-	
+
 	int x = IoNumber_asInt(IoMessage_locals_numberArgAt_(m, locals, 0));
 	int y = IoNumber_asInt(IoMessage_locals_numberArgAt_(m, locals, 1));
-	
+
 	if (move(y, x) == ERR)
 	{
 		IoCurses_showError(self, m, "Curses.move", "Failed to move curser.");
 	}
-	
+
 	return self;
 }
 
 IoObject *IoCurses_writeCharacter(IoCurses *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
-	docSlot("writeCharacter(aCharacter)", 
+	docSlot("writeCharacter(aCharacter)",
 		   "Prints the aCharacter to the current position on the terminal, overwriting existing text on the terminal. Returns self. ")
 	*/
-	
-	
+
+
 	char c = IoMessage_locals_intArgAt_(m, locals, 0);
-	
+
 	if (addch(c) == ERR)
 	{
 		/* IoCurses_showError(self, m, "Curses.print", "Failed to print string.");*/
@@ -295,15 +295,15 @@ IoObject *IoCurses_writeCharacter(IoCurses *self, IoObject *locals, IoMessage *m
 }
 
 IoObject *IoCurses_print(IoCurses *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
-	docSlot("print(aString)", 
+	docSlot("print(aString)",
 		   "Prints the string to the current position on the terminal, overwriting existing text on the terminal. Returns self. ")
 	*/
-	
-	
+
+
 	char *string = IoSeq_asCString(IoMessage_locals_seqArgAt_(m, locals, 0));
-	
+
 	if (addstr(string) == ERR)
 	{
 		/* IoCurses_showError(self, m, "Curses.print", "Failed to print string.");*/
@@ -312,14 +312,14 @@ IoObject *IoCurses_print(IoCurses *self, IoObject *locals, IoMessage *m)
 }
 
 IoObject *IoCurses_insert(IoCurses *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
-	docSlot("insert(aString)", 
+	docSlot("insert(aString)",
 		   "Inserts the string at the current position on the terminal, pushing existing text to the right. Returns self. ")
 	*/
-	
+
 	char *string = IoSeq_asCString(IoMessage_locals_seqArgAt_(m, locals, 0));
-	
+
 	if (insstr(string) == ERR)
 	{
 		IoCurses_showError(self, m, "Curses.insert", "Failed to insert string.");
@@ -327,20 +327,20 @@ IoObject *IoCurses_insert(IoCurses *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoCurses_delete(IoCurses *self, IoObject *locals, IoMessage *m) 
+IoObject *IoCurses_delete(IoCurses *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("delete(n)", 
+	docSlot("delete(n)",
 		   "Deletes n characters at the current position. Text to the right is shifted left. n is optional and defaults to 1. Returns self. ")
 	*/
-	
+
 	int n = 1;
-	
+
 	if (IoMessage_argCount(m) > 0)
 	{
 		n = IoNumber_asInt(IoMessage_locals_numberArgAt_(m, locals, 0));
 	}
-	
+
 	for (n = n; n > 0; n--)
 	{
 		if (delch() == ERR)
@@ -354,24 +354,24 @@ IoObject *IoCurses_delete(IoCurses *self, IoObject *locals, IoMessage *m)
 IoObject *IoCurses_get(IoCurses *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("get(n)", 
+	docSlot("get(n)",
 		   "Returns n characters from the terminal. n is optional and defaults to 1. ")
 	*/
-	
+
 	int inputCharacterLimit = IO_CURSES_INPUT_BUFFER_LENGTH;
 	char string[inputCharacterLimit];
-	
+
 	if (IoMessage_argCount(m) > 0)
 	{
 		IoNumber *number = IoMessage_locals_numberArgAt_(m, locals, 0);
 		inputCharacterLimit = IoNumber_asInt(number);
 	}
-	
+
 	if (getnstr(string, inputCharacterLimit) == ERR)
-	{ 
-		return IONIL(self); 
+	{
+		return IONIL(self);
 	}
-	
+
 	return IoState_symbolWithCString_(IOSTATE, string);
 }
 
@@ -380,47 +380,47 @@ IoObject *IoCurses_getCh(IoCurses *self, IoObject *locals, IoMessage *m)
 	/*#io
 	docSlot("getCh", "Reads a single-byte character from the terminal associated with the current or specified window. Returns a Number containing the byte.")
 	*/
-	
+
 	int key = getch();
-	
+
 	if (key == ERR)
-	{ 
-		return IONIL(self); 
+	{
+		return IONIL(self);
 	}
-	
+
 	return IONUMBER((double)key);
 }
 
 IoObject *IoCurses_input(IoCurses *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("input(n)", 
+	docSlot("input(n)",
 		   "Returns user input up to a return, or a maximun of n characters. ")
 	*/
-	
+
 	int length = 1;
 	char string[length+1];
-	
+
 	if (IoMessage_argCount(m) > 0)
 	{
 		length = IoNumber_asInt(IoMessage_locals_numberArgAt_(m, locals, 0));
 	}
-	
+
 	if (innstr(string, length) == ERR)
-	{ 
-		return IONIL(self); 
+	{
+		return IONIL(self);
 	}
-	
+
 	return IoState_symbolWithCString_(IOSTATE, string);
 }
 
 IoObject *IoCurses_clear(IoCurses *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("clear", 
+	docSlot("clear",
 		   "Clears the terminal. Nicer than erase. Returns self. ")
 	*/
-	
+
 	clear();
 	return self;
 }
@@ -428,10 +428,10 @@ IoObject *IoCurses_clear(IoCurses *self, IoObject *locals, IoMessage *m)
 IoObject *IoCurses_clearToEndOfLine(IoCurses *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("clearToEndOfLine", 
+	docSlot("clearToEndOfLine",
 		   "Clears the text from the cursor to the end of the line. Returns self. ")
 	*/
-	
+
 	clrtoeol();
 	return self;
 }
@@ -439,10 +439,10 @@ IoObject *IoCurses_clearToEndOfLine(IoCurses *self, IoObject *locals, IoMessage 
 IoObject *IoCurses_refresh(IoCurses *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("refresh", 
+	docSlot("refresh",
 		   "Copies the current buffer to the screen. This must be called to make changes to the screen. Returns self. ")
 	*/
-	
+
 	if (refresh() == ERR)
 	{
 		IoCurses_showError(self, m, "Curses.refresh", "Failed to refresh screen.");
@@ -453,10 +453,10 @@ IoObject *IoCurses_refresh(IoCurses *self, IoObject *locals, IoMessage *m)
 IoObject *IoCurses_width(IoCurses *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("width", 
+	docSlot("width",
 		   "Returns a Number containing the width of the current screen.")
 	*/
-	
+
 	int w, h;
 	getmaxyx(stdscr, h, w);
 	return IONUMBER(w);
@@ -465,10 +465,10 @@ IoObject *IoCurses_width(IoCurses *self, IoObject *locals, IoMessage *m)
 IoObject *IoCurses_height(IoCurses *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("height", 
+	docSlot("height",
 		   "Returns a Number containing the height of the current screen.")
 	*/
-	
+
 	int w, h;
 	getmaxyx(stdscr, h, w);
 	return IONUMBER(h);
@@ -477,10 +477,10 @@ IoObject *IoCurses_height(IoCurses *self, IoObject *locals, IoMessage *m)
 IoObject *IoCurses_hasColors(IoCurses *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("hasColors", 
+	docSlot("hasColors",
 		   "Returns true if the terminal supports color, false otherwise.")
 	*/
-	
+
 	return IOBOOL(self, has_colors());
 }
 
@@ -503,122 +503,122 @@ void IoCurses_colorSet(IoCurses *self)
 /* --- Background --- */
 
 IoObject *IoCurses_setBackgroundBlack(IoCurses *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
-	docSlot("setBackgroundBlack", 
+	docSlot("setBackgroundBlack",
 		   "Sets the background color to black.")
 	*/
-	
-	DATA(self)->bgColor = COLOR_BLACK; 
-	IoCurses_colorSet(self); 
-	return self; 
+
+	DATA(self)->bgColor = COLOR_BLACK;
+	IoCurses_colorSet(self);
+	return self;
 }
 
 IoObject *IoCurses_setBackgroundBlue(IoCurses *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("setBackgroundBlue", 
+	docSlot("setBackgroundBlue",
 		   "Sets the background color to blue.")
 	*/
-     
-	DATA(self)->bgColor = COLOR_BLUE; 
-	IoCurses_colorSet(self); 
-	return self; 
+
+	DATA(self)->bgColor = COLOR_BLUE;
+	IoCurses_colorSet(self);
+	return self;
 }
 
 IoObject *IoCurses_setBackgroundGreen(IoCurses *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
-	docSlot("setBackgroundGreen", 
+	docSlot("setBackgroundGreen",
 		   "Sets the background color to green.")
 	*/
-	
-	DATA(self)->bgColor = COLOR_GREEN; 
-	IoCurses_colorSet(self); 
-	return self; 
+
+	DATA(self)->bgColor = COLOR_GREEN;
+	IoCurses_colorSet(self);
+	return self;
 }
 
 IoObject *IoCurses_setBackgroundCyan(IoCurses *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("setBackgroundCyan", 
+	docSlot("setBackgroundCyan",
 		   "Sets the background color to cyan.")
 	*/
-	
-	DATA(self)->bgColor = COLOR_CYAN; 
-	IoCurses_colorSet(self); 
-	return self; 
+
+	DATA(self)->bgColor = COLOR_CYAN;
+	IoCurses_colorSet(self);
+	return self;
 }
 
 IoObject *IoCurses_setBackgroundRed(IoCurses *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("setBackgroundRed", 
+	docSlot("setBackgroundRed",
 		   "Sets the background color to red.")
 	*/
-	
-	DATA(self)->bgColor = COLOR_RED; 
-	IoCurses_colorSet(self); 
-	return self; 
+
+	DATA(self)->bgColor = COLOR_RED;
+	IoCurses_colorSet(self);
+	return self;
 }
 
 IoObject *IoCurses_setBackgroundMagenta(IoCurses *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("setBackgroundMagenta", 
+	docSlot("setBackgroundMagenta",
 		   "Sets the background color to magenta.")
 	*/
-	
-	DATA(self)->bgColor = COLOR_MAGENTA; 
-	IoCurses_colorSet(self); 
-	return self; 
+
+	DATA(self)->bgColor = COLOR_MAGENTA;
+	IoCurses_colorSet(self);
+	return self;
 }
 
 IoObject *IoCurses_setBackgroundYellow(IoCurses *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("setBackgroundYellow", 
+	docSlot("setBackgroundYellow",
 		   "Sets the background color to yellow.")
 	*/
-	
-	DATA(self)->bgColor = COLOR_YELLOW; 
-	IoCurses_colorSet(self); 
-	return self; 
+
+	DATA(self)->bgColor = COLOR_YELLOW;
+	IoCurses_colorSet(self);
+	return self;
 }
 
 IoObject *IoCurses_setBackgroundWhite(IoCurses *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("setBackgroundWhite", 
+	docSlot("setBackgroundWhite",
 		   "Sets the background color to white.")
 	*/
-	
-	DATA(self)->bgColor = COLOR_WHITE; 
-	IoCurses_colorSet(self); 
-	return self; 
+
+	DATA(self)->bgColor = COLOR_WHITE;
+	IoCurses_colorSet(self);
+	return self;
 }
 
 /* --- Foreground --- */
 
 IoObject *IoCurses_setForegroundBlack(IoCurses *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
-	docSlot("setForegroundBlack", 
+	docSlot("setForegroundBlack",
 		   "Sets the foreground color to black.")
 	*/
-	
-	DATA(self)->fgColor = COLOR_BLACK; 
-	IoCurses_colorSet(self); 
-	return self; 
+
+	DATA(self)->fgColor = COLOR_BLACK;
+	IoCurses_colorSet(self);
+	return self;
 }
 
 IoObject *IoCurses_setForegroundBlue(IoCurses *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("setForegroundBlue", 
+	docSlot("setForegroundBlue",
 		   "Sets the foreground color to blue.")
 	*/
-	
+
 	DATA(self)->fgColor = COLOR_BLUE;
 	IoCurses_colorSet(self);
 	return self;
@@ -627,10 +627,10 @@ IoObject *IoCurses_setForegroundBlue(IoCurses *self, IoObject *locals, IoMessage
 IoObject *IoCurses_setForegroundGreen(IoCurses *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("setForegroundGreen", 
+	docSlot("setForegroundGreen",
 		   "Sets the foreground color to green.")
 	*/
-	
+
 	DATA(self)->fgColor = COLOR_GREEN;
 	IoCurses_colorSet(self);
 	return self;
@@ -639,22 +639,22 @@ IoObject *IoCurses_setForegroundGreen(IoCurses *self, IoObject *locals, IoMessag
 IoObject *IoCurses_setForegroundCyan(IoCurses *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("setForegroundCyan", 
+	docSlot("setForegroundCyan",
 		   "Sets the foreground color to cyan.")
 	*/
-	
+
 	DATA(self)->fgColor = COLOR_CYAN;
 	IoCurses_colorSet(self);
-	return self; 
+	return self;
 }
 
 IoObject *IoCurses_setForegroundRed(IoCurses *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("setForegroundRed", 
+	docSlot("setForegroundRed",
 		   "Sets the foreground color to red.")
 	*/
-	
+
 	DATA(self)->fgColor = COLOR_RED;
 	IoCurses_colorSet(self);
 	return self;
@@ -663,10 +663,10 @@ IoObject *IoCurses_setForegroundRed(IoCurses *self, IoObject *locals, IoMessage 
 IoObject *IoCurses_setForegroundMagenta(IoCurses *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("setForegroundMagenta", 
+	docSlot("setForegroundMagenta",
 		   "Sets the foreground color to magenta.")
 	*/
-	
+
 	DATA(self)->fgColor = COLOR_MAGENTA;
 	IoCurses_colorSet(self);
 	return self;
@@ -677,10 +677,10 @@ IoObject *IoCurses_setForegroundYellow(IoCurses *self, IoObject *locals, IoMessa
 	/*#io
 	docSlot("setForegroundYellow", "Sets the foreground color to yellow.")
 	*/
-	
+
 	DATA(self)->fgColor = COLOR_YELLOW;
 	IoCurses_colorSet(self);
-	return self; 
+	return self;
 }
 
 IoObject *IoCurses_setForegroundWhite(IoCurses *self, IoObject *locals, IoMessage *m)
@@ -688,10 +688,10 @@ IoObject *IoCurses_setForegroundWhite(IoCurses *self, IoObject *locals, IoMessag
 	/*#io
 	docSlot("setForegroundWhite", "Sets the foreground color to white.")
 	*/
-	
-	DATA(self)->fgColor = COLOR_WHITE; 
-	IoCurses_colorSet(self); 
-	return self; 
+
+	DATA(self)->fgColor = COLOR_WHITE;
+	IoCurses_colorSet(self);
+	return self;
 }
 
 IoObject *IoCurses_x(IoCurses *self, IoObject *locals, IoMessage *m)
@@ -700,10 +700,10 @@ IoObject *IoCurses_x(IoCurses *self, IoObject *locals, IoMessage *m)
 	docSlot("x", "Returns the cursor x position.")
 	*/
 	int x, y;
-	
+
 	getyx(stdscr, y, x);
-	
-	return IONUMBER(x); 
+
+	return IONUMBER(x);
 }
 
 IoObject *IoCurses_y(IoCurses *self, IoObject *locals, IoMessage *m)
@@ -714,6 +714,6 @@ IoObject *IoCurses_y(IoCurses *self, IoObject *locals, IoMessage *m)
 	int x, y;
 
 	getyx(stdscr, y, x);
-	
-	return IONUMBER(y); 
+
+	return IONUMBER(y);
 }

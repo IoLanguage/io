@@ -22,20 +22,20 @@ static IoTag *IoCairoSurfacePattern_newTag(void *state)
 	return tag;
 }
 
-IoCairoSurfacePattern *IoCairoSurfacePattern_proto(void *state) 
+IoCairoSurfacePattern *IoCairoSurfacePattern_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairoSurfacePattern_newTag(state));
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoCairoSurfacePattern_proto);
-	
+
 	IoCairoPattern_addMethods(self);
 	{
 		IoMethodTable methodTable[] = {
 			{"create", IoCairoSurfacePattern_create},
-				
+
 			{"getSurface", IoCairoSurfacePattern_getSurface},
-				
+
 			{"setExtend", IoCairoSurfacePattern_setExtend},
 			{"getExtend", IoCairoSurfacePattern_getExtend},
 
@@ -49,8 +49,8 @@ IoCairoSurfacePattern *IoCairoSurfacePattern_proto(void *state)
 	return self;
 }
 
-IoCairoSurfacePattern *IoCairoSurfacePattern_rawClone(IoCairoSurfacePattern *proto) 
-{ 
+IoCairoSurfacePattern *IoCairoSurfacePattern_rawClone(IoCairoSurfacePattern *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	if (PATTERN(proto))
 		IoObject_setDataPointer_(self, cairo_pattern_reference(PATTERN(proto)));

@@ -18,7 +18,7 @@ bf outputBuffer // this contains the encrypted data
 */
 
 #include "IoAppleSensors.h"
-#include "AppleSensors.h" 
+#include "AppleSensors.h"
 #include "IoState.h"
 #include "IoNumber.h"
 #include "IoSeq.h"
@@ -38,38 +38,38 @@ IoAppleSensors *IoAppleSensors_proto(void *state)
 {
 	IoAppleSensors *self = IoObject_new(state);
 	IoObject_tag_(self, IoAppleSensors_newTag(state));
-	
+
 	//IoObject_setDataPointer_(self, calloc(1, sizeof(IoAppleSensorsData)));
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoAppleSensors_proto);
-	
+
 	{
-		IoMethodTable methodTable[] = {    
+		IoMethodTable methodTable[] = {
 		{"getLeftLightSensor", IoAppleSensors_getLeftLightSensor},
 		{"getRightLightSensor", IoAppleSensors_getRightLightSensor},
-		
+
 		{"getDisplayBrightness", IoAppleSensors_getDisplayBrightness},
 		{"setDisplayBrightness", IoAppleSensors_setDisplayBrightness},
-		
+
 		{"getKeyboardBrightness", IoAppleSensors_getKeyboardBrightness},
 		{"setKeyboardBrightness", IoAppleSensors_setKeyboardBrightness},
 
 		//{"smsDetect", IoAppleSensors_smsDetect},
 		{"smsVector", IoAppleSensors_smsVector},
-		
+
 		{NULL, NULL},
 		};
 		IoObject_addMethodTable_(self, methodTable);
 	}
-	
+
 	return self;
 }
 
-IoAppleSensors *IoAppleSensors_rawClone(IoAppleSensors *proto) 
-{ 
+IoAppleSensors *IoAppleSensors_rawClone(IoAppleSensors *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	//IoObject_setDataPointer_(self, calloc(1, sizeof(IoAppleSensorsData)));
-	return self; 
+	return self;
 }
 
 IoAppleSensors *IoAppleSensors_new(void *state)
@@ -78,12 +78,12 @@ IoAppleSensors *IoAppleSensors_new(void *state)
 	return IOCLONE(proto);
 }
 
-void IoAppleSensors_free(IoAppleSensors *self) 
-{ 
-	//free(DATA(self)); 
+void IoAppleSensors_free(IoAppleSensors *self)
+{
+	//free(DATA(self));
 }
 
-// ----------------------------------------------------------- 
+// -----------------------------------------------------------
 
 IoObject *IoAppleSensors_getLeftLightSensor(IoAppleSensors *self, IoObject *locals, IoMessage *m)
 {
@@ -132,13 +132,13 @@ IoObject *IoAppleSensors_smsVector(IoAppleSensors *self, IoObject *locals, IoMes
 	IoSeq *v = IoMessage_locals_seqArgAt_(m, locals, 0);
 	float *f = IoSeq_makeFloatArrayOfSize_(v);
 	int err;
-	
-	if (smsType == -1) 
+
+	if (smsType == -1)
 	{
 		smsType = detect_sms();
 	}
-	
+
 	err = read_sms(smsType, f+0, f+1, f+2);
-	
+
 	return err ? IOTRUE(self) : IOFALSE(self);
 }

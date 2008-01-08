@@ -26,12 +26,12 @@ void IoODEBody_assertValidBody(IoODEBody *self, IoObject *locals, IoMessage *m)
 IoODEBody *IoMessage_locals_odeBodyArgAt_(IoMessage *self, void *locals, int n)
 {
 	IoObject *b = IoMessage_locals_valueArgAt_(self, locals, n);
-	
-	if (!ISODEBODY(b) && !ISNIL(b)) 
+
+	if (!ISODEBODY(b) && !ISNIL(b))
 	{
-		IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "ODEBody"); 
+		IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "ODEBody");
 	}
-	
+
 	return b;
 }
 
@@ -63,14 +63,14 @@ IoODEBody *IoODEBody_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoODEBody_newTag(state));
-	
+
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoODEBodyData)));
 
 	BODYID = 0;
 	WORLD = 0L;
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoODEBody_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
 		{"bodyId", IoODEBody_bodyId},
@@ -106,8 +106,8 @@ IoODEBody *IoODEBody_proto(void *state)
 	return self;
 }
 
-IoODEBody *IoODEBody_rawClone(IoODEBody *proto) 
-{ 
+IoODEBody *IoODEBody_rawClone(IoODEBody *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoODEBodyData)));
 
@@ -118,26 +118,26 @@ IoODEBody *IoODEBody_rawClone(IoODEBody *proto)
 		WORLD = world;
 		IoODEWorld_addBody(world, self);
 		BODYID = dBodyCreate(IoODEWorld_rawWorldId(world));
-                dBodySetData(BODYID, self);
+				dBodySetData(BODYID, self);
 	}
-	return self; 
+	return self;
 }
 
-void IoODEBody_free(IoODEBody *self) 
-{ 
+void IoODEBody_free(IoODEBody *self)
+{
 	if(BODYID && WORLD)
 	{
 		IoODEWorld_removeBody(WORLD, self);
 		dBodyDestroy(BODYID);
 	}
-	free(IoObject_dataPointer(self)); 
+	free(IoObject_dataPointer(self));
 }
 
-void IoODEBody_mark(IoODEBody *self) 
-{ 
+void IoODEBody_mark(IoODEBody *self)
+{
 	if(WORLD)
 	{
-		IoObject_shouldMark((IoObject *)WORLD); 
+		IoObject_shouldMark((IoObject *)WORLD);
 	}
 }
 
@@ -157,14 +157,14 @@ IoODEBody *IoODEBody_newBodyProtoWithWorld(void *state, IoODEWorld *world)
 
 IoObject *IoODEBody_bodyFromId(void *state, dBodyID id)
 {
-        if (id == 0)
-        {
-                return ((IoState*)state)->ioNil;
-        }
-        else
-        {
-                return (IoODEBody*)dBodyGetData(id);
-        }
+		if (id == 0)
+		{
+				return ((IoState*)state)->ioNil;
+		}
+		else
+		{
+				return (IoODEBody*)dBodyGetData(id);
+		}
 }
 
 /* ----------------------------------------------------------- */
@@ -346,7 +346,7 @@ IoObject *IoODEBody_rotation(IoODEBody *self, IoObject *locals, IoMessage *m)
 
 		IoSeq *v = IoSeq_makeFloatArrayOfSize_(IOSTATE, 9);
 		UArray *u = IoSeq_rawUArray(v);
-		
+
 		UArray_at_put_(u, 0, R[0]);
 		UArray_at_put_(u, 1, R[4]);
 		UArray_at_put_(u, 2, R[8]);
@@ -358,7 +358,7 @@ IoObject *IoODEBody_rotation(IoODEBody *self, IoObject *locals, IoMessage *m)
 		UArray_at_put_(u, 6, R[2]);
 		UArray_at_put_(u, 7, R[6]);
 		UArray_at_put_(u, 8, R[10]);
-		
+
 		return v;
 	}
 }
@@ -368,18 +368,18 @@ IoObject *IoODEBody_setRotation(IoODEBody *self, IoObject *locals, IoMessage *m)
 	IoODEBody_assertValidBody(self, locals, m);
 	{
 		dMatrix3 R;
-        R[0] = IoMessage_locals_doubleArgAt_(m, locals, 0);
-        R[1] = IoMessage_locals_doubleArgAt_(m, locals, 1);
-        R[2] = IoMessage_locals_doubleArgAt_(m, locals, 2);
-        R[3] = 0;
-        R[4] = IoMessage_locals_doubleArgAt_(m, locals, 3);
-        R[5] = IoMessage_locals_doubleArgAt_(m, locals, 4);
-        R[6] = IoMessage_locals_doubleArgAt_(m, locals, 5);
-        R[7] = 0;
-        R[8] = IoMessage_locals_doubleArgAt_(m, locals, 6);
-        R[9] = IoMessage_locals_doubleArgAt_(m, locals, 7);
-        R[10] = IoMessage_locals_doubleArgAt_(m, locals, 8);
-        R[11] = 0;
+		R[0] = IoMessage_locals_doubleArgAt_(m, locals, 0);
+		R[1] = IoMessage_locals_doubleArgAt_(m, locals, 1);
+		R[2] = IoMessage_locals_doubleArgAt_(m, locals, 2);
+		R[3] = 0;
+		R[4] = IoMessage_locals_doubleArgAt_(m, locals, 3);
+		R[5] = IoMessage_locals_doubleArgAt_(m, locals, 4);
+		R[6] = IoMessage_locals_doubleArgAt_(m, locals, 5);
+		R[7] = 0;
+		R[8] = IoMessage_locals_doubleArgAt_(m, locals, 6);
+		R[9] = IoMessage_locals_doubleArgAt_(m, locals, 7);
+		R[10] = IoMessage_locals_doubleArgAt_(m, locals, 8);
+		R[11] = 0;
 
 		dBodySetRotation(BODYID, R);
 		return self;

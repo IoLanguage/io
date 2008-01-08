@@ -159,9 +159,9 @@ t_ioGL_constTable ioGL_constTable[] = {
 	{"GL_LIGHT5",GL_LIGHT5},
 	{"GL_LIGHT6",GL_LIGHT6},
 	{"GL_LIGHT7",GL_LIGHT7},
-	#ifdef GL_LIGHT8 
+	#ifdef GL_LIGHT8
 	{"GL_LIGHT8",GL_LIGHT8},
-	#endif       
+	#endif
 	{"GL_SPOT_EXPONENT",GL_SPOT_EXPONENT},
 	{"GL_SPOT_CUTOFF",GL_SPOT_CUTOFF},
 	{"GL_CONSTANT_ATTENUATION",GL_CONSTANT_ATTENUATION},
@@ -617,11 +617,11 @@ t_ioGL_constTable ioGL_constTable[] = {
 	{"GL_CLIENT_PIXEL_STORE_BIT",GL_CLIENT_PIXEL_STORE_BIT},
 	{"GL_CLIENT_VERTEX_ARRAY_BIT",GL_CLIENT_VERTEX_ARRAY_BIT},
 	#ifdef GL_ALL_CLIENT_ATTRIB_BITS
-        {"GL_ALL_CLIENT_ATTRIB_BITS",GL_ALL_CLIENT_ATTRIB_BITS},
-        #else
+		{"GL_ALL_CLIENT_ATTRIB_BITS",GL_ALL_CLIENT_ATTRIB_BITS},
+		#else
 	{"GL_CLIENT_ALL_ATTRIB_BITS",GL_CLIENT_ALL_ATTRIB_BITS},
-        #endif
-        #endif
+		#endif
+		#endif
 
 	#ifdef GL_VERSION_1_2
 	{"GL_RESCALE_NORMAL",GL_RESCALE_NORMAL},
@@ -669,7 +669,7 @@ t_ioGL_constTable ioGL_constTable[] = {
 	{"GL_TEXTURE_BINDING_3D",GL_TEXTURE_BINDING_3D},
 	#endif
 	#endif
-        
+
 	#ifdef GL_BGR_EXT
 	{"GL_BGR_EXT",GL_BGR_EXT},
 	#endif

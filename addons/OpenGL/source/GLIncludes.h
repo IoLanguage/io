@@ -10,7 +10,7 @@ docLicense("BSD revised")
 	#include <GLUT/glut.h>
 	#include <OpenGL/glu.h>
 	#include <OpenGL/gl.h>
-#else 
+#else
 	#ifdef _WIN32
 		#include <windows.h>
 		#include <GL/gl.h>
@@ -21,7 +21,7 @@ docLicense("BSD revised")
 		#define GL_CONSTANT_ALPHA                 0x8003
 		#define GL_ONE_MINUS_CONSTANT_ALPHA       0x8004
 		#define GL_BLEND_COLOR                    0x8005
-	#else		
+	#else
 		#include <GL/glut.h>
 		#include <GL/glu.h>
 		#include <GL/gl.h>

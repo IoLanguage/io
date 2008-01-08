@@ -1,25 +1,25 @@
 /*#io
 Syslog ioDoc(
 docCopyright("Jeremy Tregunna", 2005)
- docLicense("BSD revised")
- docDescription("""Provides access to a Unix system's system logger.
- <pre>
- logger = Syslog clone do(
-					 identity("SyslogTest")
-					 facility(facilityMap at("LOG_USER"))
-					 options(List append(optionsMap at("LOG_PID"), optionsMap at("LOG_CONS")))
-					 priority(priorityMap at("LOG_INFO"))
-					 open(facility, options)
-					 mask(List append(maskMap at("LOG_PRIMASK")))
-					 log(priority, "*** Merely a test ***")
-					 close
-					 )
- </pre>
- 
- <p>
- Note: This is partially tested. Please let me know of any problems you happen to stumble across, or if it could be better. --Jeremy Tregunna
- <p>""")
- 		   docCategory("Server")
+docLicense("BSD revised")
+docDescription("""Provides access to a Unix system's system logger.
+<pre>
+logger = Syslog clone do(
+	identity("SyslogTest")
+	facility(facilityMap at("LOG_USER"))
+	options(List append(optionsMap at("LOG_PID"), optionsMap at("LOG_CONS")))
+	priority(priorityMap at("LOG_INFO"))
+	open(facility, options)
+	mask(List append(maskMap at("LOG_PRIMASK")))
+	log(priority, "*** Merely a test ***")
+	close
+)
+</pre>
+
+<p>
+Note: This is partially tested. Please let me know of any problems you happen to stumble across, or if it could be better. --Jeremy Tregunna
+<p>""")
+	docCategory("Server")
 */
 
 #include "IoSyslog.h"
@@ -57,10 +57,10 @@ void IoSyslog_mark(IoSyslog *self)
 IoSyslog *IoSyslog_proto(void *state)
 {
 	IoSyslog *self = IoObject_new(state);
-	
+
 	IoObject_tag_(self, IoSyslog_newTag(state));
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoSyslogData)));
-	
+
 	DATA(self)->syslog_opened = 0;
 	DATA(self)->priority = IONUMBER(LOG_INFO);
 	DATA(self)->facility = IONUMBER(LOG_LOCAL0);
@@ -70,9 +70,9 @@ IoSyslog *IoSyslog_proto(void *state)
 	DATA(self)->facilityMap = IoMap_new(IOSTATE);
 	DATA(self)->priorityMap = IoMap_new(IOSTATE);
 	DATA(self)->maskMap = IoMap_new(IOSTATE);
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoSyslog_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
 		{"open", IoSyslog_open},
@@ -93,15 +93,15 @@ IoSyslog *IoSyslog_proto(void *state)
 		};
 		IoObject_addMethodTable_(self, methodTable);
 	}
-	
+
 	return self;
 }
 
-IoSyslog *IoSyslog_rawClone(IoSyslog *proto) 
-{ 
+IoSyslog *IoSyslog_rawClone(IoSyslog *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, cpalloc(IoObject_dataPointer(proto), sizeof(IoSyslogData)));
-	return self; 
+	return self;
 }
 
 IoSyslog *IoSyslog_new(void *state)
@@ -130,13 +130,13 @@ IoObject *IoSyslog_open(IoSyslog *self, IoObject *locals, IoMessage *m)
 	int syslog_facility, syslog_options;
 	//int i, max;
 	char *syslog_ident;
-	
+
 	if (DATA(self)->syslog_opened)
 	{
 		IoState_error_(IOSTATE, m, "System log is already open");
 		return IONIL(self);
 	}
-	
+
 	{
 		DATA(self)->facility = IOREF(IoMessage_locals_numberArgAt_(m, locals, 0));
 		if (ISNIL(DATA(self)->facility))
@@ -147,7 +147,7 @@ IoObject *IoSyslog_open(IoSyslog *self, IoObject *locals, IoMessage *m)
 		{
 			syslog_facility = IoObject_dataUint32(DATA(self)->facility);
 		}
-		
+
 		DATA(self)->options = IOREF(IoMessage_locals_listArgAt_(m, locals, 1));
 		syslog_options = 0;
 		if (ISNIL(DATA(self)->options))
@@ -157,25 +157,25 @@ IoObject *IoSyslog_open(IoSyslog *self, IoObject *locals, IoMessage *m)
 		else
 		{
 			List *list = IoList_rawList(DATA(self)->options);
-			
+
 			LIST_FOREACH(list, i, v,
 				syslog_options |= (int)CNUMBER(v);
 			);
 		}
-		
+
 		syslog_ident = (char *)IOSYMBOL_BYTES(DATA(self)->ident);
 		if ((strlen(syslog_ident) == 0) || ISNIL(DATA(self)->ident))
 		{
 			char *s = CSTRING(IoState_doCString_(IOSTATE, "Lobby distribution"));
 			strncpy(syslog_ident, s, strlen(s));
 		}
-		
+
 		openlog(syslog_ident, syslog_options, syslog_facility);
 		DATA(self)->syslog_opened = 1;
 		DATA(self)->syslog_mask = setlogmask(0);
 		setlogmask(DATA(self)->syslog_mask);
 	}
-	
+
 	return self;
 }
 
@@ -212,10 +212,10 @@ IoObject *IoSyslog_close(IoSyslog *self, IoObject *locals, IoMessage *m)
 		IoState_error_(IOSTATE, m, "Log is not open");
 		return IONIL(self);
 	}
-	
+
 	closelog();
 	DATA(self)->syslog_opened = 0;
-	
+
 	return self;
 }
 
@@ -255,14 +255,14 @@ IoObject *IoSyslog_optionsMap(IoSyslog *self, IoObject *locals, IoMessage *m)
 	 <li>LOG_PERROR</li>")
 	 */
 	PHash *map = IoObject_dataPointer(DATA(self)->optionsMap);
-	
+
 	PHash_at_put_(map, IOSYMBOL("LOG_PID"), IONUMBER(1));
 	PHash_at_put_(map, IOSYMBOL("LOG_CONS"), IONUMBER(2));
 	PHash_at_put_(map, IOSYMBOL("LOG_ODELAY"), IONUMBER(4));
 	PHash_at_put_(map, IOSYMBOL("LOG_NDELAY"), IONUMBER(8));
 	PHash_at_put_(map, IOSYMBOL("LOG_NOWAIT"), IONUMBER(16));
 	PHash_at_put_(map, IOSYMBOL("LOG_PERROR"), IONUMBER(32));
-			   
+
 	return DATA(self)->optionsMap;
 }
 
@@ -308,7 +308,7 @@ IoObject *IoSyslog_facilityMap(IoSyslog *self, IoObject *locals, IoMessage *m)
 	 <li>LOG_LOCAL7</li>")
 	 */
 	PHash *map = IoObject_dataPointer(DATA(self)->facilityMap);
-	
+
 	PHash_at_put_(map, IOSYMBOL("LOG_KERN"), IONUMBER(0));
 	PHash_at_put_(map, IOSYMBOL("LOG_USER"), IONUMBER(8));
 	PHash_at_put_(map, IOSYMBOL("LOG_MAIL"), IONUMBER(16));
@@ -333,7 +333,7 @@ IoObject *IoSyslog_facilityMap(IoSyslog *self, IoObject *locals, IoMessage *m)
 	PHash_at_put_(map, IOSYMBOL("LOG_LOCAL5"), IONUMBER(168));
 	PHash_at_put_(map, IOSYMBOL("LOG_LOCAL6"), IONUMBER(176));
 	PHash_at_put_(map, IOSYMBOL("LOG_LOCAL7"), IONUMBER(184));
-	
+
 	return DATA(self)->facilityMap;
 }
 
@@ -342,12 +342,12 @@ IoObject *IoSyslog_priority(IoSyslog *self, IoObject *locals, IoMessage *m)
 	/*#io
 	 docSlot("priority(optionalPriority)", "If optionalPriority is specified, sets the value, and returns it. If no value is specified, will return the previously stored value if one has been set previously.")
 	 */
-	 
+
 	if (IoMessage_argCount(m) >= 1)
 	{
 		DATA(self)->priority = IOREF(IoMessage_locals_numberArgAt_(m, locals, 0));
 	}
-	
+
 	return DATA(self)->priority;
 }
 
@@ -389,20 +389,20 @@ IoObject *IoSyslog_mask(IoSyslog *self, IoObject *locals, IoMessage *m)
 			IoState_error_(IOSTATE, m, "Log must be opened before setting the logging mask");
 			return IONIL(self);
 		}
-		
+
 		DATA(self)->mask = IOREF(IoMessage_locals_listArgAt_(m, locals, 0));
-		
+
 		{
 			List *list = IoList_rawList(DATA(self)->mask);
-			
+
 			LIST_FOREACH(list, i, v,
 				DATA(self)->syslog_mask |= (int)CNUMBER(v);
 			);
-			
+
 			setlogmask(DATA(self)->syslog_mask);
 		}
 	}
-	
+
 	return DATA(self)->mask;
 }
 
@@ -414,10 +414,10 @@ IoObject *IoSyslog_maskMap(IoSyslog *self, IoObject *locals, IoMessage *m)
 	 <li>LOG_FACMASK</li>")
 	 */
 	PHash *map = IoObject_dataPointer(DATA(self)->maskMap);
-	
+
 	PHash_at_put_(map, IOSYMBOL("LOG_PRIMASK"), IONUMBER(0x07));
 	PHash_at_put_(map, IOSYMBOL("LOG_FACMASK"), IONUMBER(0x03f8));
-	
+
 	return DATA(self)->maskMap;
 }
 
@@ -429,17 +429,17 @@ IoObject *IoSyslog_log(IoSyslog *self, IoObject *locals, IoMessage *m)
 	 <li>Message to log</li>")
 	 */
 	char *str;
-	
+
 	DATA(self)->priority = IOREF(IoMessage_locals_numberArgAt_(m, locals, 0));
 	str = CSTRING(IoMessage_locals_symbolArgAt_(m, locals, 1));
-	
+
 	if (!DATA(self)->syslog_opened)
 	{
 		IoState_error_(IOSTATE, m, "Log is not opened. Run the open slot before log.");
 		return IONIL(self);
 	}
-	
+
 	syslog_write(CNUMBER((int)DATA(self)->priority), str);
-	
+
 	return self;
 }

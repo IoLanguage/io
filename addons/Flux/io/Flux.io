@@ -7,14 +7,14 @@ Flux := Object clone do(
 	Views := Object clone
 	Views type := "Object"
 	appendProto(Views)
-	
+
 	loadAll := method(
-		Directory with("/usr/local/lib/io/addons/Flux/io/Flux") files select(name endsWithSeq(".io")) foreach(f, 
+		Directory with("/usr/local/lib/io/addons/Flux/io/Flux") files select(name endsWithSeq(".io")) foreach(f,
 			//writeln(f path)
 			self doFile(f path)
 		)
-		
-		Directory with("/usr/local/lib/io/addons/Flux/io/Flux/Views") files select(name endsWithSeq(".io")) foreach(f, 
+
+		Directory with("/usr/local/lib/io/addons/Flux/io/Flux/Views") files select(name endsWithSeq(".io")) foreach(f,
 			//writeln(f path)
 			name := f name beforeSeq(".io")
 			Views setSlot(name, self getSlot(name))

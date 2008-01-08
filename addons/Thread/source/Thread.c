@@ -38,16 +38,16 @@ ThreadReturnCode Thread_Init(void)
 	{
 		return THREAD_SUCCESS; // already initialized
 	}
-	
+
 	threads = List_new();
 	threads_mutex = ThreadMutex_new();
-	
+
 	mainThread = Thread_new();
 	if (!mainThread)
 	{
 		return THREAD_FAILURE;
 	}
-	
+
 	mainThread->thread = rawMainThread;
 #ifdef WIN32
 	mainThread->id = GetCurrentThreadId();
@@ -60,7 +60,7 @@ void Thread_Shutdown(void)
 {
 	// need to shutdown threads
 	//if (List_size(threads) > 0)
-	
+
 	if (mainThread)
 	{
 		LOCK_THEN_UNLOCK(threads,
@@ -72,13 +72,13 @@ void Thread_Shutdown(void)
 	{
 		return;
 	}
-	
+
 	LOCK_THEN_UNLOCK(threads,
 		List_free(threads);
 	)
-	
+
 	ThreadMutex_destroy(threads_mutex);
-	
+
 	mainThread = NULL;
 	threads = NULL;
 	threads_mutex = NULL;
@@ -93,7 +93,7 @@ Thread *Thread_CurrentThread(void)
 	pthread_t rawCurrentThread = pthread_self();
 #endif
 	int isSameThread;
-	
+
 	Thread *currentThread = NULL;
 	#ifdef WIN32
 	LOCK_THEN_UNLOCK(threads,
@@ -127,7 +127,7 @@ Thread *Thread_CurrentThread(void)
 		fflush(stderr);
 		exit(EXIT_FAILURE);
 	}
-	
+
 	return currentThread;
 }
 

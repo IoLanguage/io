@@ -26,31 +26,31 @@
 
 /* Each character will have one of these */
 typedef struct {
-  int xpos;  int ypos;   /* the x and y offset into the texture */
-  int width; int height; /* the width and height of the bitmap */
-  int left;  int top;    /* the left and top bitmap offset */
-  int advance;           /* the x advnace between characters */
+	int xpos;  int ypos;   /* the x and y offset into the texture */
+	int width; int height; /* the width and height of the bitmap */
+	int left;  int top;    /* the left and top bitmap offset */
+	int advance;           /* the x advnace between characters */
 } GLFont_Symbol;
 
 /* Each character caches it's texture coordinates for speed */
 typedef struct {
-  float left; float right;  /* the left and right glTexCoordf() parameters */
-  float top;  float bottom; /* the top and bottom glTexCoordf() parameters */
+	float left; float right;  /* the left and right glTexCoordf() parameters */
+	float top;  float bottom; /* the top and bottom glTexCoordf() parameters */
 } GLFont_TexCoords;
 
 typedef struct GLFont_ {
-  FT_Face face;
-  int               maxWidth, maxHeight;  /* the max character width & height */
-  int               pixelSize;
-  char              isTextured;           /* boolean: is the font textured */
-  void              (*drawString)(struct GLFont_*, const char*, int, int);
-  GLFont_Symbol     symbol[256];          /* individual character information */
-  GLFont_TexCoords  texCoords[256];       /* texture coordinate for each */
-  GLuint            texId;
-  unsigned char texture[GLFONT_TEX_SIZE][GLFONT_TEX_SIZE][4];
-  unsigned char isLoaded;
-  unsigned char didInit;
-  FT_Error errorCode;
+	FT_Face face;
+	int               maxWidth, maxHeight;  /* the max character width & height */
+	int               pixelSize;
+	char              isTextured;           /* boolean: is the font textured */
+	void              (*drawString)(struct GLFont_*, const char*, int, int);
+	GLFont_Symbol     symbol[256];          /* individual character information */
+	GLFont_TexCoords  texCoords[256];       /* texture coordinate for each */
+	GLuint            texId;
+	unsigned char texture[GLFONT_TEX_SIZE][GLFONT_TEX_SIZE][4];
+	unsigned char isLoaded;
+	unsigned char didInit;
+	FT_Error errorCode;
 } GLFont;
 
 /* initialize the FreeType library */

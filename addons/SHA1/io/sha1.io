@@ -2,7 +2,7 @@
 File sha1String := method(
 	digest := SHA1 clone
 	buffer := Sequence clone
-	
+
 	openForReading
 	while(isAtEnd not,
 		readToBufferLength(buffer, 65536)

@@ -1,9 +1,9 @@
 /*#io
 SQLite ioDoc(
-		   docCopyright("Steve Dekorte", 2004)
-		   docLicense("BSD revised")
-		   docCategory("Databases")
-		   docDescription("""SQLite provides a embedded simple and fast (2x faster than PostgreSQL or MySQL) SQL database. See http://www.hwaci.com/sw/sqlite/ for details. It's SQL command set is described at http://www.hwaci.com/sw/sqlite/lang.html. SQLite was written by Dr. Richard Hipp who offers consulting services for custom modifications and support of SQLite. Example:
+	docCopyright("Steve Dekorte", 2004)
+	docLicense("BSD revised")
+	docCategory("Databases")
+	docDescription("""SQLite provides a embedded simple and fast (2x faster than PostgreSQL or MySQL) SQL database. See http://www.hwaci.com/sw/sqlite/ for details. It's SQL command set is described at http://www.hwaci.com/sw/sqlite/lang.html. SQLite was written by Dr. Richard Hipp who offers consulting services for custom modifications and support of SQLite. Example:
 <pre>
 db := SQLite clone
 db setPath("myDatabase.sqlite")
@@ -17,7 +17,7 @@ db exec("DELETE FROM Dbm WHERE key='a'")
 rows := db exec("SELECT key, value FROM Dbm WHERE key='a'")
 db close
 </pre>""")
-		   */
+*/
 
 #include "IoSQLite.h"
 #include "IoState.h"
@@ -44,17 +44,17 @@ IoTag *IoSQLite_newTag(void *state)
 	return tag;
 }
 
-IoSQLite *IoSQLite_proto(void *state) 
+IoSQLite *IoSQLite_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoSQLite_newTag(state));
-	
+
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoSQLiteData)));
 	DATA(self)->path = IOSYMBOL(".");
 	IoSQLite_error_(self, "");
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoSQLite_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
 		{"setPath", IoSQLite_setPath},
@@ -82,8 +82,8 @@ IoSQLite *IoSQLite_proto(void *state)
 	return self;
 }
 
-IoSQLite *IoSQLite_rawClone(IoSQLite *proto) 
-{ 
+IoSQLite *IoSQLite_rawClone(IoSQLite *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, cpalloc(IoObject_dataPointer(proto), sizeof(IoSQLiteData)));
 	DATA(self)->error = NULL;
@@ -106,36 +106,36 @@ IoSQLite *IoSQLite_newWithPath_(void *state, IoSymbol *path)
 	return self;
 }
 
-void IoSQLite_free(IoSQLite *self) 
-{ 
+void IoSQLite_free(IoSQLite *self)
+{
 	if (DATA(self)->db) sqlite_close(DATA(self)->db);
 	if (DATA(self)->error) free(DATA(self)->error);
-	free(IoObject_dataPointer(self)); 
+	free(IoObject_dataPointer(self));
 }
 
-void IoSQLite_mark(IoSQLite *self) 
-{ 
-	IoObject_shouldMark((IoObject *)DATA(self)->path); 
-	
-	if (DATA(self)->results) 
+void IoSQLite_mark(IoSQLite *self)
+{
+	IoObject_shouldMark((IoObject *)DATA(self)->path);
+
+	if (DATA(self)->results)
 	{
-		IoObject_shouldMark((IoObject *)DATA(self)->results); 
+		IoObject_shouldMark((IoObject *)DATA(self)->results);
 	}
 }
 
 void IoSQLite_error_(IoSQLite *self, char *error)
-{ 
+{
 	DATA(self)->error = strcpy((char *)realloc(DATA(self)->error, strlen(error)+1), error);
-	
-	if (strlen(DATA(self)->error) && DATA(self)->debugOn) 
-	{ 
-		IoState_print_(IOSTATE, "*** IoSQLite error '%s' ***\n", DATA(self)->error); 
+
+	if (strlen(DATA(self)->error) && DATA(self)->debugOn)
+	{
+		IoState_print_(IOSTATE, "*** IoSQLite error '%s' ***\n", DATA(self)->error);
 	}
 }
 
-char *IoSQLite_error(IoSQLite *self) 
-{ 
-	return DATA(self)->error; 
+char *IoSQLite_error(IoSQLite *self)
+{
+	return DATA(self)->error;
 }
 
 /* ----------------------------------------------------------- */
@@ -148,42 +148,42 @@ static int IoSQLite_busyHandler(void *context, const char *s, int n)
 }
 
 IoObject *IoSQLite_path(IoSQLite *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
-	docSlot("path", 
+	docSlot("path",
 		   "Returns the path to the database file. ")
 	*/
-	
-	return DATA(self)->path; 
+
+	return DATA(self)->path;
 }
 
 IoObject *IoSQLite_setPath(IoSQLite *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
-	docSlot("setPath", 
+	docSlot("setPath",
 		   "Sets the path to the database file. Returns self. ")
 	*/
-	
+
 	DATA(self)->path = IOREF(IoMessage_locals_symbolArgAt_(m, locals, 0));
 	return self;
 }
 
 IoObject *IoSQLite_timeoutSeconds(IoSQLite *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
-	docSlot("timeoutSeconds", 
+	docSlot("timeoutSeconds",
 		   "Returns the number of seconds to wait before timing out an open call. If the number is 0, an open call will never timeout. ")
 	*/
-	return IONUMBER(DATA(self)->timeoutSeconds); 
+	return IONUMBER(DATA(self)->timeoutSeconds);
 }
 
 IoObject *IoSQLite_setTimeoutSeconds(IoSQLite *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
-	docSlot("setTimeoutSeconds(aNumber)", 
+	docSlot("setTimeoutSeconds(aNumber)",
 		   "Sets the open timeout to aNumber. If aNumber is 0, an open call will never timeout. Returns self. ")
 	*/
-	
+
 	IoNumber *num = IoMessage_locals_numberArgAt_(m, locals, 0);
 	IOASSERT(IoNumber_asDouble(num) >= 0, "SQLite timeout must be a positive number");
 	DATA(self)->timeoutSeconds = IoNumber_asDouble(num);
@@ -193,58 +193,58 @@ IoObject *IoSQLite_setTimeoutSeconds(IoSQLite *self, IoObject *locals, IoMessage
 IoObject *IoSQLite_open(IoSQLite *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("open(optionalPathString)", 
+	docSlot("open(optionalPathString)",
 		   """Opens the database.Returns self on success or nil upon failure.
 
-If the databse is locked, "yield" will be called until it is accessable or timeoutSeconds has expired. 
+If the databse is locked, "yield" will be called until it is accessable or timeoutSeconds has expired.
 """)
 	*/
-	
+
 	char *zErrMsg;
-	
-	if (DATA(self)->debugOn) 
-	{ 
-		IoState_print_(IOSTATE, "IoSQLite opening '%s'\n", CSTRING(DATA(self)->path)); 
+
+	if (DATA(self)->debugOn)
+	{
+		IoState_print_(IOSTATE, "IoSQLite opening '%s'\n", CSTRING(DATA(self)->path));
 	}
-	
+
 	DATA(self)->db = sqlite_open(CSTRING(DATA(self)->path), 0, &zErrMsg);
-	
-	if (!DATA(self)->db) 
-	{ 
-		IoSQLite_error_(self, zErrMsg); 
-	} 
-	else 
-	{ 
-		IoSQLite_error_(self, ""); 
+
+	if (!DATA(self)->db)
+	{
+		IoSQLite_error_(self, zErrMsg);
 	}
-	
+	else
+	{
+		IoSQLite_error_(self, "");
+	}
+
 	sqlite_busy_handler(DATA(self)->db, IoSQLite_busyHandler, self);
 	sqlite_busy_timeout(DATA(self)->db, DATA(self)->timeoutSeconds*1000);
 	return self;
 }
 
 IoObject *IoSQLite_isOpen(IoSQLite *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
 	docSlot("isOpen", "Returns true if the database is open, false otherwise.")
 	*/
-	
+
 	return IOBOOL(self, DATA(self)->db != NULL);
 }
 
 IoObject *IoSQLite_close(IoSQLite *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("close", 
-		   "Closes the database if it is open. Returns self. If the database is open when the open is garbage collected, it will be automatically closed. ")
+	docSlot("close",
+			"Closes the database if it is open. Returns self. If the database is open when the open is garbage collected, it will be automatically closed. ")
 	*/
-	
-	if (DATA(self)->db) 
+
+	if (DATA(self)->db)
 	{
 		sqlite_close(DATA(self)->db);
 		DATA(self)->db = NULL;
 	}
-	
+
 	return self;
 }
 
@@ -253,16 +253,16 @@ static int IoSQLite_singleItemResultRow(void *context, int argc, char **argv, ch
 	IoSQLite *self = context;
 	int i = 0;
 	IoSymbol *value;
-	
-	if (argv[i]) 
-	{ 
-		value = IOSYMBOL(argv[i]); 
-	} 
-	else 
-	{ 
-		value = IOSYMBOL((char *)"NULL"); 
+
+	if (argv[i])
+	{
+		value = IOSYMBOL(argv[i]);
 	}
-	
+	else
+	{
+		value = IOSYMBOL((char *)"NULL");
+	}
+
 	IoList_rawAppend_(DATA(self)->results, value);
 
 	return 0;
@@ -272,9 +272,9 @@ static int IoSQLite_columnNamesResultRow(void *context, int argc, char **argv, c
 {
 	IoSQLite *self = context;
 	int i = 0;
-	
+
 	for (i= 0; i < argc; i ++)
-	{ 
+	{
 		if (!strcmp(azColName[i], "name"))
 		{
 			IoList_rawAppend_(DATA(self)->results, IOSYMBOL(argv[i]));
@@ -289,78 +289,78 @@ static int IoSQLite_resultRow(void *context, int argc, char **argv, char **azCol
 {
 	IoSQLite *self = context;
 	IoState_pushRetainPool(IOSTATE);
-	
+
 	{
 		IoMap *map = IoMap_new(IOSTATE);
 		PHash *hash = IoMap_rawHash(map);
 		int i;
 		IoSymbol *key, *value;
-		
+
 		for(i = 0; i < argc; i ++)
-		{ 
+		{
 			key = IOSYMBOL(azColName[i]);
-			
-			if (argv[i]) 
-			{ 
-				value = IOSYMBOL(argv[i]); 
-			} 
-			else 
-			{ 
-				value = IOSYMBOL((char *)"NULL"); 
+
+			if (argv[i])
+			{
+				value = IOSYMBOL(argv[i]);
 			}
-			
+			else
+			{
+				value = IOSYMBOL((char *)"NULL");
+			}
+
 			PHash_at_put_(hash, key, value);
 			/*printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL"); */
 		}
-		
+
 		IoList_rawAppend_(DATA(self)->results, map);
 	}
-	
+
 	IoState_popRetainPool(IOSTATE);
-	
+
 	return 0;
 }
 
-IoObject *IoSQLite_execWithCallback(IoSQLite *self, 
-							 IoObject *locals, 
-							 IoMessage *m, 
-							 IoSymbol *s, 
-							 ResultRowCallback *callback)
-{   
+IoObject *IoSQLite_execWithCallback(IoSQLite *self,
+									IoObject *locals,
+									IoMessage *m,
+									IoSymbol *s,
+									ResultRowCallback *callback)
+{
 	IoList *results;
-	
-	if (!DATA(self)->db) 
+
+	if (!DATA(self)->db)
 	{
 		IoSQLite_open(self, locals, m);
-		
-		if (!DATA(self)->db) 
+
+		if (!DATA(self)->db)
 		{
 			return IONIL(self);
 		}
 	}
-	
+
 	DATA(self)->results = IOREF(IoList_new(IOSTATE));
-	
-	if (DATA(self)->debugOn) 
-	{ 
-		IoState_print_(IOSTATE, "*** %s ***\n", CSTRING(s)); 
+
+	if (DATA(self)->debugOn)
+	{
+		IoState_print_(IOSTATE, "*** %s ***\n", CSTRING(s));
 	}
-	
+
 	{
 		char *zErrMsg;
 		int rc = sqlite_exec(DATA(self)->db, CSTRING(s), callback, self, &zErrMsg);
-		
-		if (rc != SQLITE_OK) 
-		{ 
-			IoSQLite_error_(self, zErrMsg); 
+
+		if (rc != SQLITE_OK)
+		{
+			IoSQLite_error_(self, zErrMsg);
 			IoState_error_(IOSTATE, m, zErrMsg);
-		} 
-		else 
-		{ 
-			IoSQLite_error_(self, ""); 
+		}
+		else
+		{
+			IoSQLite_error_(self, "");
 		}
 	}
-	
+
 	results = DATA(self)->results;
 	DATA(self)->results = NULL;
 	return results;
@@ -369,15 +369,15 @@ IoObject *IoSQLite_execWithCallback(IoSQLite *self,
 IoObject *IoSQLite_exec(IoSQLite *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("exec(aString)", 
-		   "Opens the database if it is not already open and executes 
-aString as an sql command. Results a List of Map objects or Nil if 
-there was an error. Each map holds the contents of a row. 
-The key/value pairs of the maps being column name/column value 
+	docSlot("exec(aString)",
+			"Opens the database if it is not already open and executes
+aString as an sql command. Results a List of Map objects or Nil if
+there was an error. Each map holds the contents of a row.
+The key/value pairs of the maps being column name/column value
 pairs for a row. ")
-	
+
 	*/
-	
+
 	IoSymbol *s = IoMessage_locals_seqArgAt_(m, locals, 0);
 	return IoSQLite_execWithCallback(self, locals, m, s, IoSQLite_resultRow);
 }
@@ -385,88 +385,88 @@ pairs for a row. ")
 IoObject *IoSQLite_errorMessage(IoSQLite *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("error", 
-		   "Results a string containing the current error. If there is no error, Nil is returned. ")
+	docSlot("error",
+			"Results a string containing the current error. If there is no error, Nil is returned. ")
 	*/
-	
-	if (strlen(DATA(self)->error)==0) 
+
+	if (strlen(DATA(self)->error)==0)
 	{
 		return IONIL(self);
 	}
-	
-	return IOSYMBOL(DATA(self)->error); 
+
+	return IOSYMBOL(DATA(self)->error);
 }
 
 IoObject *IoSQLite_version(IoSQLite *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("version", 
-		   "Results a string the version of SQLite being used. ")
+	docSlot("version",
+			"Results a string the version of SQLite being used. ")
 	*/
-	
-	return IOSYMBOL(SQLITE_VERSION); 
+
+	return IOSYMBOL(SQLITE_VERSION);
 }
 
 IoObject *IoSQLite_changes(IoSQLite *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("changes", 
-		   "Returns the number of rows that were changed by the most  recent SQL statement. Or Nil if the database is closed.")
+	docSlot("changes",
+			"Returns the number of rows that were changed by the most  recent SQL statement. Or Nil if the database is closed.")
 	*/
-	
-	if (!DATA(self)->db) 
+
+	if (!DATA(self)->db)
 	{
 		return IONUMBER(0);
 	}
-	
-	return IONUMBER(sqlite_changes(DATA(self)->db)); 
+
+	return IONUMBER(sqlite_changes(DATA(self)->db));
 }
 
 IoObject *IoSQLite_lastInsertRowId(IoSQLite *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("lastInsertRowId", 
-		   "Returns the number with the row id of the last row inserted. ")
+	docSlot("lastInsertRowId",
+			"Returns the number with the row id of the last row inserted. ")
 	*/
-	
-	if (!DATA(self)->db) 
+
+	if (!DATA(self)->db)
 	{
 		return IONIL(self);
 	}
-	
-	return IONUMBER(sqlite_last_insert_rowid(DATA(self)->db)); 
+
+	return IONUMBER(sqlite_last_insert_rowid(DATA(self)->db));
 }
 
 IoObject *IoSQLite_tableNames(IoSQLite *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("tableNames", 
-		   "Returns a list containing the names of all tables in the database.")
+	docSlot("tableNames",
+			"Returns a list containing the names of all tables in the database.")
 	*/
-	
+
 	IoSymbol *s = IOSYMBOL("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name");
 	return IoSQLite_execWithCallback(self, locals, m, s, IoSQLite_singleItemResultRow);
-}  
+}
 
 IoObject *IoSQLite_viewNames(IoSQLite *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("viewNames", 
-		   "Returns a list containing the names of all 
+	docSlot("viewNames",
+			"Returns a list containing the names of all
 views in the database.")
 	*/
-	
+
 	IoSymbol *s = IOSYMBOL("SELECT name FROM sqlite_master WHERE type='view' ORDER BY name");
 	return IoSQLite_execWithCallback(self, locals, m, s, IoSQLite_singleItemResultRow);
-}  
+}
 
 IoObject *IoSQLite_columnNamesOfTable(IoSQLite *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("columnNamesOfTable(tableName)", 
-		   "Returns a list containing the names of all columns in the specified table.")
+	docSlot("columnNamesOfTable(tableName)",
+			"Returns a list containing the names of all columns in the specified table.")
 	*/
-	
+
 	IoSymbol *tableName = IoMessage_locals_symbolArgAt_(m, locals, 0);
 	IoSymbol *s = IoSeq_newSymbolWithFormat_(IOSTATE, "PRAGMA TABLE_INFO(%s)", CSTRING(tableName));
 	return IoSQLite_execWithCallback(self, locals, m, s, IoSQLite_columnNamesResultRow);
@@ -475,32 +475,32 @@ IoObject *IoSQLite_columnNamesOfTable(IoSQLite *self, IoObject *locals, IoMessag
 IoObject *IoSQLite_debugOn(IoSQLite *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("debugOn", 
-		   "Turns on debugging.")
+	docSlot("debugOn",
+			"Turns on debugging.")
 	*/
-	
-	DATA(self)->debugOn = 1; 
-	return self; 
+
+	DATA(self)->debugOn = 1;
+	return self;
 }
 
 IoObject *IoSQLite_debugOff(IoSQLite *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("debugOff", 
-		   "Turns off debugging.")
+	docSlot("debugOff",
+			"Turns off debugging.")
 	*/
-	
-	DATA(self)->debugOn = 0; 
-	return self; 
+
+	DATA(self)->debugOn = 0;
+	return self;
 }
 
 IoObject *IoSQLite_escapeString(IoSQLite *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("escapeString(aString)", 
-		   "Returns a translated version of aString by making two copies of every single-quote (') character. This has the effect of escaping the end-of-string meaning of single-quote within a string literal.")
+	docSlot("escapeString(aString)",
+			"Returns a translated version of aString by making two copies of every single-quote (') character. This has the effect of escaping the end-of-string meaning of single-quote within a string literal.")
 	*/
-	
+
 	IoSymbol *s = IoMessage_locals_seqArgAt_(m, locals, 0);
 	char *newString = sqlite_mprintf("%q", CSTRING(s));
 	UArray *ba = UArray_newWithCString_(newString);

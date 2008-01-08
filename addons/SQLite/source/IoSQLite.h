@@ -17,12 +17,12 @@ typedef IoObject IoSQLite;
 
 typedef struct
 {
-    IoSymbol *path;
-    sqlite *db;
-    IoList *results; 
-    char *error;
-    double timeoutSeconds;
-    unsigned char debugOn;
+	IoSymbol *path;
+	sqlite *db;
+	IoList *results;
+	char *error;
+	double timeoutSeconds;
+	unsigned char debugOn;
 } IoSQLiteData;
 
 IoSQLite *IoSQLite_rawClone(IoSQLite *self);

@@ -5,14 +5,14 @@ Regex ioDoc(
 	docLicense("BSD revised")
 	docCategory("RegularExpressions")
 
-	docDescription("""The Regex addon adds support for Perl regular expressions 
+	docDescription("""The Regex addon adds support for Perl regular expressions
 	using the <a href=http://www.pcre.org/>PCRE</a> library by Philip Hazel.
 
 	Example use:
 	<pre>
 	Io> "11aabb" allMatchesOfRegex("aa*")
 	==> list("a", "a")
-	
+
 	Io> re := "(wom)(bat)" asRegex
 	Io> "wombats are cuddly" matchesOfRegex(re) replaceAllWith("$2$1!")
 	==> batwom!s are cuddly
@@ -53,7 +53,7 @@ IoRegex *IoRegex_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoRegex_newTag(state));
-	
+
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoRegexData)));
 	DATA(self)->pattern = IOSYMBOL("");
 
@@ -70,7 +70,7 @@ IoRegex *IoRegex_proto(void *state)
 			{"version", IoRegex_version},
 
 			/* Options */
-			
+
 			{"caseless", IoRegex_caseless},
 			{"notCaseless", IoRegex_notCaseless},
 			{"isCaseless", IoRegex_isCaseless},
@@ -89,7 +89,7 @@ IoRegex *IoRegex_proto(void *state)
 
 			{0, 0},
 		};
-		
+
 		IoObject_addMethodTable_(self, methodTable);
 	}
 
@@ -133,16 +133,16 @@ Regex *IoRegex_rawRegex(IoRegex *self)
 
 	if (regex)
 		return regex;
-	
+
 	DATA(self)->regex = regex = Regex_newFromPattern_withOptions_(
 		CSTRING(DATA(self)->pattern),
 		DATA(self)->options
 	);
-	
+
 	error = (char *)Regex_error(regex);
 	if(error)
 		IoState_error_(IOSTATE, 0, error);
-	
+
 	return regex;
 }
 
@@ -185,7 +185,7 @@ IoObject *IoRegex_nameToIndexMap(IoRegex *self, IoObject *locals, IoMessage *m)
 	*/
 	IoMap *map = DATA(self)->nameToIndexMap;
 	NamedCapture *namedCaptures = 0, *capture = 0;
-	
+
 	if (map)
 		return map;
 
@@ -194,7 +194,7 @@ IoObject *IoRegex_nameToIndexMap(IoRegex *self, IoObject *locals, IoMessage *m)
 	capture = namedCaptures = Regex_namedCaptures(IoRegex_rawRegex(self));
 	if (!namedCaptures)
 		return map;
-	
+
 	while (capture->name) {
 		IoMap_rawAtPut(map, IOSYMBOL(capture->name), IONUMBER(capture->index));
 		capture++;
@@ -223,12 +223,12 @@ IoObject *IoRegex_caseless(IoRegex *self, IoObject *locals, IoMessage *m)
 	docSlot("caseless",
 		"""Returns a case insensitive clone of the receiver, or self if the receiver itself is
 		case insensitive.
-		
+
 		Example:
 		<pre>
 		Io> "WORD" matchesRegex("[a-z]+")
 		==> false
-		
+
 		Io> "WORD" matchesRegex("[a-z]+" asRegex caseless)
 		==> true
 		</pre>""")
@@ -264,12 +264,12 @@ IoObject *IoRegex_dotAll(IoRegex *self, IoObject *locals, IoMessage *m)
 
 		In dotall mode, "." matches any character, including newline. By default
 		it matches any character <em>except</em> newline.
-		
+
 		Example:
 		<pre>
 		Io> "A\nB" matchesOfRegex(".+") next string
 		==> A
-		
+
 		Io> "A\nB" matchesOfRegex(".+" asRegex dotAll) next string
 		==> A\nB
 		</pre>""")
@@ -302,11 +302,11 @@ IoObject *IoRegex_extended(IoRegex *self, IoObject *locals, IoMessage *m)
 	docSlot("extended",
 		"""Returns a clone of the receiver with the extended option turned on,
 		or self if the receiver itself has the option turned on.
-		
+
 		In extended mode, a Regex ignores any whitespace character in the pattern	except
 		when escaped or inside a character class. This allows you to write clearer patterns
 		that may be broken up into several lines.
-		
+
 		Additionally, you can put comments in the pattern. A comment starts with a "#"
 		character and continues to the end of the line, unless the "#" is escaped or is
 		inside a character class.""")
@@ -339,18 +339,18 @@ IoObject *IoRegex_multiline(IoRegex *self, IoObject *locals, IoMessage *m)
 	docSlot("multiline",
 		"""Returns a clone of the receiver with the multiline option turned on,
 		or self if the receiver itself has the option turned on.
-		
+
 		In multiline mode, "^" matches at the beginning of the string and at
 		the beginning of each line; and "$" matches at the end of the string,
 		and at the end of each line.
 		By default "^" only matches at the beginning of the string, and "$"
 		only matches at the end of the string.
-		
+
 		Example:
 		<pre>
 		Io> "A\nB\nC" allMatchesForRegex("^.")
 		==> list("A")
-		
+
 		Io> "A\nB\nC" allMatchesForRegex("^." asRegex multiline)
 		==> list("A", "B", "C")
 		</pre>

@@ -1,4 +1,4 @@
-/*	
+/*
 docCopyright("Jeremy Tregunna", 2005)
 docLicense("BSD license")
 */
@@ -17,17 +17,17 @@ typedef IoObject IoSyslog;
 
 typedef struct
 {
-    IoNumber *priority;
-    IoNumber *facility;
-    IoNumber *options;
-    IoMap *priorityMap;
-    IoMap *facilityMap;
-    IoMap *optionsMap;
-    IoMap *maskMap;
-    IoList *mask;
-    int syslog_mask;
-    IoSymbol *ident;
-    int syslog_opened;
+	IoNumber *priority;
+	IoNumber *facility;
+	IoNumber *options;
+	IoMap *priorityMap;
+	IoMap *facilityMap;
+	IoMap *optionsMap;
+	IoMap *maskMap;
+	IoList *mask;
+	int syslog_mask;
+	IoSymbol *ident;
+	int syslog_opened;
 } IoSyslogData;
 
 IoSyslog *IoSyslog_rawClone(IoSyslog *self);

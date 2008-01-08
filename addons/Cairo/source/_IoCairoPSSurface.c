@@ -22,11 +22,11 @@ static IoTag *IoCairoPSSurface_newTag(void *state)
 	return tag;
 }
 
-IoCairoPSSurface *IoCairoPSSurface_proto(void *state) 
+IoCairoPSSurface *IoCairoPSSurface_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairoPSSurface_newTag(state));
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoCairoPSSurface_proto);
 
 	IoCairoSurface_addMethods(self);
@@ -46,8 +46,8 @@ IoCairoPSSurface *IoCairoPSSurface_proto(void *state)
 	return self;
 }
 
-IoCairoPSSurface *IoCairoPSSurface_rawClone(IoCairoPSSurface *proto) 
-{ 
+IoCairoPSSurface *IoCairoPSSurface_rawClone(IoCairoPSSurface *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	if (SURFACE(proto))
 		IoObject_setDataPointer_(self, cairo_surface_reference(SURFACE(proto)));
@@ -71,7 +71,7 @@ IoObject *IoCairoPSSurface_setSize(IoCairoPSSurface *self, IoObject *locals, IoM
 {
 	double w = IoMessage_locals_doubleArgAt_(m, locals, 0);
 	double h = IoMessage_locals_doubleArgAt_(m, locals, 1);
-	
+
 	cairo_ps_surface_set_size(SURFACE(self), w, h);
 	CHECK_STATUS(self);
 	return self;
@@ -95,7 +95,7 @@ IoObject *IoCairoPSSurface_dscBeginPageSetup(IoCairoPSSurface *self, IoObject *l
 IoObject *IoCairoPSSurface_dscComment(IoCairoPSSurface *self, IoObject *locals, IoMessage *m)
 {
 	char *comment = CSTRING(IoMessage_locals_symbolArgAt_(m, locals, 0));
-	
+
 	cairo_ps_surface_dsc_comment(SURFACE(self), comment);
 	CHECK_STATUS(self);
 	return self;

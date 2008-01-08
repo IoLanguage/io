@@ -14,30 +14,30 @@
 typedef IoObject IoAVCodec;
 
 typedef struct
-{	
+{
 	// both
-	
+
 	AVFormatContext *formatContext;
 	AVInputFormat *inputFormat;
-    //AVFormatParameters static_formatParams, *formatParams = &static_formatParams;
-	
+	//AVFormatParameters static_formatParams, *formatParams = &static_formatParams;
+
 	int audioStreamIndex;
 	AVCodecContext *audioContext;
-	
+
 	int videoStreamIndex;
 	AVCodecContext *videoContext;
-		
+
 	AVPacket *packet;
-	
-	// audio 
-	
+
+	// audio
+
 	IoSeq *inputBuffer;
-	IoSeq *outputBuffer;	
-	
+	IoSeq *outputBuffer;
+
 	uint8_t *audioOutBuffer;
-	
+
 	// video
-	
+
 	AVFrame *decodedFrame;
 	AVPicture *rgbPicture;
 	IoList *frames;
@@ -50,7 +50,7 @@ IoAVCodec *IoAVCodec_rawClone(IoAVCodec *self);
 void IoAVCodec_mark(IoAVCodec *self);
 void IoAVCodec_free(IoAVCodec *self);
 
-// ----------------------------------------------------------- 
+// -----------------------------------------------------------
 
 IoObject *IoAVCodec_audioInputBuffer(IoAVCodec *self, IoObject *locals, IoMessage *m);
 IoObject *IoAVCodec_audioOutputBuffer(IoAVCodec *self, IoObject *locals, IoMessage *m);

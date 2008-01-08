@@ -1,10 +1,10 @@
 /*#io
 EditLine ioDoc(
-  docCopyright("Jonathan Wright", 2007)
-  docLicense("BSD revised")
-  docObject("EditLine")
-  docDescription("Binding to libedit (BSD version of readline).")
-  docCategory("Core")
+	docCopyright("Jonathan Wright", 2007)
+	docLicense("BSD revised")
+	docObject("EditLine")
+	docDescription("Binding to libedit (BSD version of readline).")
+	docCategory("Core")
 */
 
 #include <locale.h>
@@ -73,7 +73,7 @@ IoEditLine *IoEditLine_rawClone(IoEditLine *proto)
 
 void IoEditLine_mark(IoEditLine *self)
 {
-    IoObject_shouldMarkIfNonNull(DATA(self)->prompt);
+	IoObject_shouldMarkIfNonNull(DATA(self)->prompt);
 }
 
 void IoEditLine_free(IoEditLine *self)

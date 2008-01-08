@@ -1,13 +1,13 @@
 /*  copyright: Steve Dekorte, 2002
  *  All rights reserved. See _BSDLicense.txt.
  *
- *  This is an object wrapper for libjpeg. 
+ *  This is an object wrapper for libjpeg.
  *
  *  It's possible to use an external UArray for loading by calling
- *  JPGImage_setExternalUArray_(), but be carefull not to use the 
+ *  JPGImage_setExternalUArray_(), but be carefull not to use the
  *  JPGImage instance after freeing it's external byte array.
  */
- 
+
 #ifndef JPGIMAGE_DEFINED
 #define JPGIMAGE_DEFINED 1
 
@@ -18,20 +18,20 @@
 
 typedef struct
 {
-  char *path;
-  int width;
-  int height;
-  int components;
-  UArray *byteArray;
-  unsigned char ownsUArray;
-  char *error;
-  float quality; /* 0.0 - 1.0 */
-  /*
-  struct jpeg_decompress_struct cinfo;
-  struct jpeg_error_mgr jerr;
-  */
-  int decodingWidthHint;
-  int decodingHeightHint;
+	char *path;
+	int width;
+	int height;
+	int components;
+	UArray *byteArray;
+	unsigned char ownsUArray;
+	char *error;
+	float quality; /* 0.0 - 1.0 */
+	/*
+	struct jpeg_decompress_struct cinfo;
+	struct jpeg_error_mgr jerr;
+	*/
+	int decodingWidthHint;
+	int decodingHeightHint;
 } JPGImage;
 
 IOIMAGE_API JPGImage *JPGImage_new(void);
@@ -71,10 +71,10 @@ IOIMAGE_API int JPGImage_components(JPGImage *self);
 
 IOIMAGE_API UArray *JPGImage_byteArray(JPGImage *self);
 
-/* Whomever calls JPGImage_setExternalUArray_ is responsible 
+/* Whomever calls JPGImage_setExternalUArray_ is responsible
  * for freeing "ba" and for making sure that this
  * JPGImage is not still using it after it is freed.
  */
-IOIMAGE_API void JPGImage_setExternalUArray_(JPGImage *self, UArray *ba); 
+IOIMAGE_API void JPGImage_setExternalUArray_(JPGImage *self, UArray *ba);
 
-#endif 
+#endif

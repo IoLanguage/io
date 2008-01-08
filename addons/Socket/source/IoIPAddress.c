@@ -4,12 +4,12 @@ IPAddress ioDoc(
 		   docLicense("BSD revised")
 		   docDescription("Object representation of an Internet Protocol Address.")
 		   docCategory("Networking")
-			 
+
 */
 
 
 /*#io
-docSlot("setHostName(hostName)", 
+docSlot("setHostName(hostName)",
 	   "Translates hostName to an IP using asynchronous DNS and sets the host attribute. Returns self.")
 */
 
@@ -23,12 +23,12 @@ docSlot("setHostName(hostName)",
 IoIPAddress *IoMessage_locals_addressArgAt_(IoMessage *self, IoObject *locals, int n)
 {
 	IoObject *v = IoMessage_locals_valueArgAt_(self, locals, n);
-	
-	if (!ISIPADDRESS(v)) 
+
+	if (!ISIPADDRESS(v))
 	{
 		IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "IPAddress");
 	}
-	
+
 	return v;
 }
 
@@ -54,17 +54,17 @@ IoTag *IoIPAddress_newTag(void *state)
 IoIPAddress *IoIPAddress_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
-	
+
 	IoObject_tag_(self, IoIPAddress_newTag(state));
-	IoObject_setDataPointer_(self, IPAddress_new());	
-	
+	IoObject_setDataPointer_(self, IPAddress_new());
+
 	IoState_registerProtoWithFunc_((IoState *)state, self, IoIPAddress_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
 		{"setIp", IoIPAddress_setIp},
 		{"ip", IoIPAddress_ip},
-			
+
 		{"setPort", IoIPAddress_setPort},
 		{"port", IoIPAddress_port},
 
@@ -72,15 +72,15 @@ IoIPAddress *IoIPAddress_proto(void *state)
 		};
 		IoObject_addMethodTable_(self, methodTable);
 	}
-	
+
 	return self;
 }
 
-IoIPAddress *IoIPAddress_rawClone(IoIPAddress *proto) 
-{ 
+IoIPAddress *IoIPAddress_rawClone(IoIPAddress *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, IPAddress_new());
-	return self; 
+	return self;
 }
 
 IoIPAddress *IoIPAddress_new(void *state)
@@ -94,10 +94,10 @@ void IoIPAddress_free(IoIPAddress *self)
 	IPAddress_free(IPADDRESS(self));
 }
 
-// ----------------------------------------------------------- 
+// -----------------------------------------------------------
 
 /*
-IoIPAddress *IoIPAddress_newWithIPAddress_size_(void *state, 
+IoIPAddress *IoIPAddress_newWithIPAddress_size_(void *state,
 								  struct sockaddr *address,
 								  size_t size)
 {
@@ -113,7 +113,7 @@ IoIPAddress *IoIPAddress_newWithIPAddress_size_(void *state,
 // ip
 
 IoObject *IoIPAddress_setIp(IoIPAddress *self, IoObject *locals, IoMessage *m)
-{	
+{
 	IoSeq *ip = IoMessage_locals_seqArgAt_(m, locals, 0);
 	char *ipString = IoSeq_asCString(ip);
 	IPAddress_setIp_(IPADDRESS(self), ipString);
@@ -129,14 +129,14 @@ IoObject *IoIPAddress_ip(IoIPAddress *self, IoObject *locals, IoMessage *m)
 // port
 
 IoObject *IoIPAddress_setPort(IoIPAddress *self, IoObject *locals, IoMessage *m)
-{	
+{
 	uint16_t port = IoMessage_locals_intArgAt_(m, locals, 0);
 	IPAddress_setPort_(IPADDRESS(self), port);
 	return self;
 }
 
 IoObject *IoIPAddress_port(IoIPAddress *self, IoObject *locals, IoMessage *m)
-{	
+{
 	int port = IPAddress_port(IPADDRESS(self));
 	return IONUMBER(port);
 }

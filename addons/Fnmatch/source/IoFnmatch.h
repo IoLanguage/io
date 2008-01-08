@@ -14,9 +14,9 @@ typedef IoObject IoFnmatch;
 
 typedef struct
 {
-    IoSymbol *pattern;
-    IoSymbol *string;
-    int flags;
+	IoSymbol *pattern;
+	IoSymbol *string;
+	int flags;
 } IoFnmatchData;
 
 IoFnmatch *IoFnmatch_rawClone(IoFnmatch *self);

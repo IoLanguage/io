@@ -13,10 +13,10 @@
 void AudioDevice_nanoSleep(AudioDevice *self)
 {
 	/*
-	 struct timespec rqtp;  
+	 struct timespec rqtp;
 	 struct timespec extra;
 	 rqtp.tv_sec = 0;
-	 rqtp.tv_nsec = 10; 
+	 rqtp.tv_nsec = 10;
 	 nanosleep(&rqtp, &extra);
 	 */
 	usleep(self->lockSleepMicroSeconds);
@@ -26,18 +26,18 @@ void AudioDevice_nanoSleep(AudioDevice *self)
 AudioDevice *AudioDevice_new(void)
 {
 	AudioDevice *self = calloc(1, sizeof(AudioDevice));
-	
+
 	self->writeBuffer = UArray_new();
 	self->nextWriteBuffer = UArray_new();
-	
+
 	self->readBuffer = UArray_new();
 	self->nextReadBuffer = UArray_new();
 	self->maxReadFrame = 4096 * 100;
 	self->lockSleepMicroSeconds = 10;
 	self->needsData = 1;
-	
+
 	AudioDevice_init(self);
-	return self; 
+	return self;
 }
 
 inline void AudioDevice_lock(AudioDevice *self)
@@ -61,17 +61,17 @@ void AudioDevice_free(AudioDevice *self)
 	self->isFreed = 1;
 	AudioDevice_lock(self);
 	/*
-	 while (self->locked) 
+	 while (self->locked)
 	 { printf("AudioDevice_free waiting on lock %i\n", self->locked); }
 	 */
 	AudioDevice_terminate(self);
-	
+
 	UArray_free(self->writeBuffer);
 	UArray_free(self->nextWriteBuffer);
-	
+
 	UArray_free(self->readBuffer);
 	UArray_free(self->nextReadBuffer);
-	
+
 	free(self);
 }
 
@@ -84,8 +84,8 @@ void AudioDevice_init(AudioDevice *self)
 }
 
 int AudioDevice_framesPerBuffer(AudioDevice *self)
-{ 
-	return FRAMES_PER_BUFFER; 
+{
+	return FRAMES_PER_BUFFER;
 }
 
 void AudioDevice_terminate(AudioDevice *self)
@@ -94,13 +94,13 @@ void AudioDevice_terminate(AudioDevice *self)
 }
 
 void AudioDevice_isListening_(AudioDevice *self, int v)
-{ 
-	self->isListening = v; 
+{
+	self->isListening = v;
 }
 
 int AudioDevice_isListening(AudioDevice *self)
-{ 
-	return self->isListening; 
+{
+	return self->isListening;
 }
 
 void AudioDevice_openForReadingAndWriting(AudioDevice *self)
@@ -117,13 +117,13 @@ void AudioDevice_open(AudioDevice *self)
 								   &(self->stream),
 								   self->isListening ? INPUT_CHANNELS : 0, /* input channels */
 								   2, /* stereo output */
-								   paFloat32, 
+								   paFloat32,
 								   44100, /* sample rate */
-								   FRAMES_PER_BUFFER, /* frames per buffer */ 
-								   //0, /* number of buffers, if zero then use default minimum */ 
+								   FRAMES_PER_BUFFER, /* frames per buffer */
+								   //0, /* number of buffers, if zero then use default minimum */
 								   /*AudioDevice_callbackInputTest, */
-								   AudioDevice_callback, 
-								   (void *)self 
+								   AudioDevice_callback,
+								   (void *)self
 								   ); /* pass our data through to callback */
 		AudioDevice_checkForError(self);
 		//printf("opening self->needsData = 1\n");
@@ -131,7 +131,7 @@ void AudioDevice_open(AudioDevice *self)
 	}
 }
 
-inline int AudioDevice_isOpen(AudioDevice *self) 
+inline int AudioDevice_isOpen(AudioDevice *self)
 {
 	return (self->stream != NULL);
 }
@@ -147,30 +147,30 @@ void AudioDevice_close(AudioDevice *self)
 }
 
 void AudioDevice_checkForError(AudioDevice *self)
-{ 
-	if (self->err != paNoError) 
-	{ 
-		AudioDevice_printError(self); 
+{
+	if (self->err != paNoError)
+	{
+		AudioDevice_printError(self);
 	}
 }
 
 const char *AudioDevice_error(AudioDevice *self)
-{ 
+{
 	return self->err ? Pa_GetErrorText(self->err) : NULL;
 }
 
 void AudioDevice_printError(AudioDevice *self)
-{ 
-	printf("AudioDevice error: %s\n", AudioDevice_error(self)); 
+{
+	printf("AudioDevice error: %s\n", AudioDevice_error(self));
 }
 
 void AudioDevice_start(AudioDevice *self)
-{  
-	if (!AudioDevice_isOpen(self)) 
+{
+	if (!AudioDevice_isOpen(self))
 	{
 		AudioDevice_open(self);
 	}
-	
+
 	if (AudioDevice_isOpen(self) && !AudioDevice_isActive(self))
 	{
 		self->err = Pa_StartStream( self->stream );
@@ -188,30 +188,30 @@ void AudioDevice_stop(AudioDevice *self)
 }
 
 int AudioDevice_isActive(AudioDevice *self)
-{ 
-	return AudioDevice_isOpen(self) ? Pa_IsStreamActive( self->stream ) : 0; 
+{
+	return AudioDevice_isOpen(self) ? Pa_IsStreamActive( self->stream ) : 0;
 }
 
 int AudioDevice_streamTime(AudioDevice *self)
-{ 
-	return AudioDevice_isOpen(self) ? Pa_GetStreamTime( self->stream ) : 0; 
+{
+	return AudioDevice_isOpen(self) ? Pa_GetStreamTime( self->stream ) : 0;
 }
 
 double AudioDevice_cpuLoad(AudioDevice *self)
-{ 
-	return AudioDevice_isOpen(self) ? Pa_GetStreamCpuLoad( self->stream ) : 0; 
+{
+	return AudioDevice_isOpen(self) ? Pa_GetStreamCpuLoad( self->stream ) : 0;
 }
 
 int AudioDevice_callbackTest(
-					    void *inputBuffer, 
-					    void *outputBuffer,
-					    unsigned long framesPerBuffer,
-					    PaTimestamp outTime, 
-					    void *userData)
+						void *inputBuffer,
+						void *outputBuffer,
+						unsigned long framesPerBuffer,
+						PaTimestamp outTime,
+						void *userData)
 {
 	unsigned long frame;
 	float *out = (float *)outputBuffer;
-	
+
 	for (frame = 0; frame < framesPerBuffer; frame++)
 	{
 		double k = frame + outTime;
@@ -219,33 +219,33 @@ int AudioDevice_callbackTest(
 		out[frame*2+0] = a;
 		out[frame*2+1] = 0.0;
 	}
-	
+
 	return 0;
 }
 
 int AudioDevice_callbackInputTest(
-						    void *inputBuffer, 
-						    void *outputBuffer,
-						    unsigned long framesPerBuffer,
-						    PaTimestamp outTime, 
-						    void *userData)
+							void *inputBuffer,
+							void *outputBuffer,
+							unsigned long framesPerBuffer,
+							PaTimestamp outTime,
+							void *userData)
 {
 	unsigned long frame;
 	float *in  = (float *)inputBuffer;
 	float *out = (float *)outputBuffer;
-	
+
 	for (frame = 0; frame < framesPerBuffer; frame++)
 	{
 		out[frame*2+0] = in[frame];
 		out[frame*2+1] = in[frame];
 	}
-	
+
 	return 0;
 }
 
 unsigned long AudioDevice_bytesPerFrame(AudioDevice *self)
-{ 
-	return sizeof(float)*2; 
+{
+	return sizeof(float)*2;
 }
 
 unsigned long AudioDevice_framesInWriteBuffer(AudioDevice *self)
@@ -254,112 +254,112 @@ unsigned long AudioDevice_framesInWriteBuffer(AudioDevice *self)
 }
 
 int AudioDevice_callback(
-					void *inputBuffer, 
+					void *inputBuffer,
 					void *outputBuffer,
 					unsigned long framesPerBuffer,
-					PaTimestamp outTime, 
+					PaTimestamp outTime,
 					void *userData)
 {
 	AudioDevice *self = (AudioDevice *)userData;
 	self->writeBufferIsEmpty = 0;
-	
+
 	//printf("AudioDevice_callback\n");
-	
-	if (self->isFreed) 
-	{ 
-		printf("AudioDevice: auto stop portaudio stream\n"); 
-		return -1; 
+
+	if (self->isFreed)
+	{
+		printf("AudioDevice: auto stop portaudio stream\n");
+		return -1;
 	} /* return non zero to stop stream */
 
-    memset(outputBuffer, 0, framesPerBuffer*2*4);
+	memset(outputBuffer, 0, framesPerBuffer*2*4);
 
-    AudioDevice_lock(self);
-    
-    /* --- speaker output ----------------------- */
+	AudioDevice_lock(self);
 
-    if (UArray_size(self->writeBuffer) == 0)
-    { 
-	    AudioDevice_swapWriteBuffers(self); 
-    }
+	/* --- speaker output ----------------------- */
 
-    if (UArray_size(self->writeBuffer))
-    {
-	    float *out = (float *)outputBuffer;
-	    /*int writeFrames = AudioDevice_framesInWriteBuffer(self);*/
-	    float *buf  = (float *)UArray_bytes(self->writeBuffer);
-	    int outFrame = 0;
-	    
-	    for (;;)
-	    {
-		    int outFramesLeft = framesPerBuffer - outFrame;
-		    int writeFramesLeft = AudioDevice_framesInWriteBuffer(self) - self->writeFrame;
-		    //printf("outFramesLeft = %i\n", outFramesLeft);
-		    
-		    if (writeFramesLeft < outFramesLeft) /* out > in */
-		    {
-			    memcpy(out + (outFrame*2), buf + (self->writeFrame*2), writeFramesLeft*2*4);
-			    
-			    AudioDevice_swapWriteBuffers(self);
-			    buf = (float *)UArray_bytes(self->writeBuffer);
-			    outFrame += writeFramesLeft;
-			    
-			    if (AudioDevice_framesInWriteBuffer(self) == 0) 
-			    { 
-				    //memset(out + (outFrame*2), 0, outFramesLeft*2*4); 
-				    //printf("AudioDevice warning: empty buffer ---------------------------------------\n");
-				    self->writeBufferIsEmpty = 1;
-				    break;
-			    }
-		    } 
-		    else /* in > out */
-		    {
-			    memcpy(out + (outFrame*2), buf + (self->writeFrame*2), outFramesLeft*2*4);
-			    self->writeFrame += outFramesLeft;
-			    break;
-		    }
-	    }
-    }
-    else
-    {
-	    self->writeBufferIsEmpty = 1;
-    }
+	if (UArray_size(self->writeBuffer) == 0)
+	{
+		AudioDevice_swapWriteBuffers(self);
+	}
+
+	if (UArray_size(self->writeBuffer))
+	{
+		float *out = (float *)outputBuffer;
+		/*int writeFrames = AudioDevice_framesInWriteBuffer(self);*/
+		float *buf  = (float *)UArray_bytes(self->writeBuffer);
+		int outFrame = 0;
+
+		for (;;)
+		{
+			int outFramesLeft = framesPerBuffer - outFrame;
+			int writeFramesLeft = AudioDevice_framesInWriteBuffer(self) - self->writeFrame;
+			//printf("outFramesLeft = %i\n", outFramesLeft);
+
+			if (writeFramesLeft < outFramesLeft) /* out > in */
+			{
+				memcpy(out + (outFrame*2), buf + (self->writeFrame*2), writeFramesLeft*2*4);
+
+				AudioDevice_swapWriteBuffers(self);
+				buf = (float *)UArray_bytes(self->writeBuffer);
+				outFrame += writeFramesLeft;
+
+				if (AudioDevice_framesInWriteBuffer(self) == 0)
+				{
+					//memset(out + (outFrame*2), 0, outFramesLeft*2*4);
+					//printf("AudioDevice warning: empty buffer ---------------------------------------\n");
+					self->writeBufferIsEmpty = 1;
+					break;
+				}
+			}
+			else /* in > out */
+			{
+				memcpy(out + (outFrame*2), buf + (self->writeFrame*2), outFramesLeft*2*4);
+				self->writeFrame += outFramesLeft;
+				break;
+			}
+		}
+	}
+	else
+	{
+		self->writeBufferIsEmpty = 1;
+	}
 
 
-    /* --- mic input ----------------------- */
+	/* --- mic input ----------------------- */
 
-    if (inputBuffer && self->isListening)
-    {
-	    unsigned long frame = framesPerBuffer;
-	    float *input = inputBuffer;
-	    float *buf;
-	    
-	    if (self->readFrame > self->maxReadFrame) 
-	    { 
-		    self->readFrame = 0; 
-	    }
-	    
-	    UArray_setSize_(self->readBuffer, 
+	if (inputBuffer && self->isListening)
+	{
+		unsigned long frame = framesPerBuffer;
+		float *input = inputBuffer;
+		float *buf;
+
+		if (self->readFrame > self->maxReadFrame)
+		{
+			self->readFrame = 0;
+		}
+
+		UArray_setSize_(self->readBuffer,
 					   (self->readFrame + framesPerBuffer) * sizeof(float) /*bytes */ * 2 /* channels */);
-	    
-	    buf  = (float *)UArray_bytes(self->readBuffer);
-	    
-	    buf += self->readFrame * 2;
-	    
-	    // map mono mic input to stereo output 
-	    
-	    while (frame)
-	    {
-		    *buf = *input; buf++;
-		    *buf = *input; buf++; 
-		    input++;
-		    frame--;
-	    }
-	    self->readFrame += framesPerBuffer;
-	    
-    }  
 
-    AudioDevice_unlock(self);
-    return 0;
+		buf  = (float *)UArray_bytes(self->readBuffer);
+
+		buf += self->readFrame * 2;
+
+		// map mono mic input to stereo output
+
+		while (frame)
+		{
+			*buf = *input; buf++;
+			*buf = *input; buf++;
+			input++;
+			frame--;
+		}
+		self->readFrame += framesPerBuffer;
+
+	}
+
+	AudioDevice_unlock(self);
+	return 0;
 }
 
 int AudioDevice_swapWriteBuffers(AudioDevice *self)
@@ -367,7 +367,7 @@ int AudioDevice_swapWriteBuffers(AudioDevice *self)
 	/* clear the current buffer */
 	UArray_setSize_(self->writeBuffer, 0);
 	self->writeFrame = 0;
-	
+
 	/* swap if the next one has data */
 	if (UArray_size(self->nextWriteBuffer))
 	{
@@ -377,20 +377,20 @@ int AudioDevice_swapWriteBuffers(AudioDevice *self)
 		//printf("swapping buffers self->needsData = 1\n");
 		self->needsData = 1;
 	}
-	
+
 	return 0;
 }
 
 int AudioDevice_swapReadBuffers(AudioDevice *self)
 {
 	int didSwap = 0;
-	
+
 	if (UArray_size(self->readBuffer))
 	{
 		/* clear the next buffer */
 		UArray_setSize_(self->nextReadBuffer, 0);
 		self->readFrame = 0;
-		
+
 		/* swap */
 		{
 			void *b = self->readBuffer;
@@ -399,7 +399,7 @@ int AudioDevice_swapReadBuffers(AudioDevice *self)
 		}
 		didSwap = 1;
 	}
-	
+
 	return didSwap;
 }
 

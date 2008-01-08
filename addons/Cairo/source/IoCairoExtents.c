@@ -20,15 +20,15 @@ static IoTag *IoCairoExtents_newTag(void *state)
 	return tag;
 }
 
-IoCairoExtents *IoCairoExtents_proto(void *state) 
+IoCairoExtents *IoCairoExtents_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairoExtents_newTag(state));
-	
+
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoCairoExtentsData)));
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoCairoExtents_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
 			{"x1", IoCairoExtents_x1},
@@ -42,10 +42,10 @@ IoCairoExtents *IoCairoExtents_proto(void *state)
 	return self;
 }
 
-IoCairoExtents *IoCairoExtents_rawClone(IoCairoExtents *proto) 
-{ 
-	IoObject *self = IoObject_rawClonePrimitive(proto);	
-	IoObject_setDataPointer_(self, cpalloc(DATA(proto), sizeof(IoCairoExtentsData)));	
+IoCairoExtents *IoCairoExtents_rawClone(IoCairoExtents *proto)
+{
+	IoObject *self = IoObject_rawClonePrimitive(proto);
+	IoObject_setDataPointer_(self, cpalloc(DATA(proto), sizeof(IoCairoExtentsData)));
 	return self;
 }
 
@@ -59,9 +59,9 @@ IoCairoExtents *IoCairoExtents_newSet(void *state, double x1, double y1, double 
 	return self;
 }
 
-void IoCairoExtents_free(IoCairoExtents *self) 
+void IoCairoExtents_free(IoCairoExtents *self)
 {
-	free(DATA(self)); 
+	free(DATA(self));
 }
 
 

@@ -1,10 +1,10 @@
 /*#io
 SkipDB ioDoc(
-           docCopyright("Steve Dekorte", 2002)
-           docLicense("BSD revised")
-           docDescription("A key/value database.")
-		 docCategory("Databases")
-           */
+	docCopyright("Steve Dekorte", 2002)
+	docLicense("BSD revised")
+	docDescription("A key/value database.")
+	docCategory("Databases")
+*/
 
 #include "IoSkipDB.h"
 #include "IoSkipDBCursor.h"
@@ -42,31 +42,31 @@ void IoSkipDB_readFromStream_(IoObject *self, BStream *stream)
 IoSkipDB *IoSkipDB_proto(void *state)
 {
 	IoMethodTable methodTable[] = {
-	{"headerPid", IoSkipDB_headerPid},    
-	{"atPut",     IoSkipDB_atPut}, 
+	{"headerPid", IoSkipDB_headerPid},
+	{"atPut",     IoSkipDB_atPut},
 	{"at",        IoSkipDB_at},
-	{"removeAt",  IoSkipDB_removeAt},    
-	{"size",      IoSkipDB_size},   
+	{"removeAt",  IoSkipDB_removeAt},
+	{"size",      IoSkipDB_size},
 	{"cursor",    IoSkipDB_cursor},
 	{NULL, NULL},
 	};
-	
+
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoSkipDB_newTag(state));
-	
+
 	IoObject_setDataPointer_(self, NULL);
 	IoState_registerProtoWithFunc_((IoState *)state, self, IoSkipDB_proto);
-	
+
 	IoObject_addMethodTable_(self, methodTable);
 	return self;
 }
 
-IoSkipDB *IoSkipDB_rawClone(IoSkipDB *proto) 
-{ 
+IoSkipDB *IoSkipDB_rawClone(IoSkipDB *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_tag_(self, IoObject_tag(proto));
 	IoObject_setDataPointer_(self, NULL);
-	return self; 
+	return self;
 }
 
 IoSkipDB *IoSkipDB_new(void *state)
@@ -80,28 +80,28 @@ IoSkipDB *IoSkipDB_newWithSDB(void *state, SkipDB *sdb)
 	IoSkipDB *self = IoSkipDB_new(state);
 	SkipDB_retain(sdb);
 	IoObject_setDataPointer_(self, sdb);
-	return self;	
+	return self;
 }
 
-void IoSkipDB_free(IoSkipDB *self) 
-{	
+void IoSkipDB_free(IoSkipDB *self)
+{
 	if (SKIPDB(self)) SkipDB_release(SKIPDB(self));
 }
 
 /*
-void IoSkipDB_mark(IoSkipDB *self) 
+void IoSkipDB_mark(IoSkipDB *self)
 {
 }
 */
 
-// -------------------------------------------------------- 
+// --------------------------------------------------------
 
 IoObject *IoSkipDB_headerPid(IoObject *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("headerPid", "Returns the headerPid number.")
 	*/
-	
+
 	return self;
 }
 
@@ -110,12 +110,12 @@ IoObject *IoSkipDB_atPut(IoObject *self, IoObject *locals, IoMessage *m)
 	/*#io
 	docSlot("atPut(keySymbol, valueSequence)", "Sets the value of valueSequence with the key keySymbol. Returns self.")
 	*/
-	
+
 	IoSeq *key = IoMessage_locals_seqArgAt_(m, locals, 0);
 	IoSeq *value = IoMessage_locals_seqArgAt_(m, locals, 1);
 
 	IOASSERT(SKIPDB(self) && SkipDB_isOpen(SKIPDB(self)), "invalid skipdb");
-	
+
 	SkipDB_at_put_(SKIPDB(self), IoSeq_asDatum(key), IoSeq_asDatum(value));
 	return self;
 }
@@ -127,16 +127,16 @@ IoObject *IoSkipDB_at(IoObject *self, IoObject *locals, IoMessage *m)
 	*/
 	IoSeq *key = IoMessage_locals_seqArgAt_(m, locals, 0);
 	Datum v;
-	
+
 	IOASSERT(SKIPDB(self) && SkipDB_isOpen(SKIPDB(self)), "invalid skipdb");
 
 	v = SkipDB_at_(SKIPDB(self), IoSeq_asDatum(key));
-	
-	if (Datum_size(&v)) 
+
+	if (Datum_size(&v))
 	{
 		return IoSeq_newWithDatum_(IOSTATE, &v);
 	}
-	
+
 	return IONIL(self);
 }
 
@@ -147,7 +147,7 @@ IoObject *IoSkipDB_removeAt(IoObject *self, IoObject *locals, IoMessage *m)
 	*/
 	IoSeq *key = IoMessage_locals_seqArgAt_(m, locals, 0);
 	IOASSERT(SKIPDB(self) && SkipDB_isOpen(SKIPDB(self)), "invalid skipdb");
-	SkipDB_removeAt_(SKIPDB(self), IoSeq_asDatum(key));	
+	SkipDB_removeAt_(SKIPDB(self), IoSeq_asDatum(key));
 	return self;
 }
 

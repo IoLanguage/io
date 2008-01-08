@@ -21,7 +21,7 @@ void ReportDBIError(dbi_conn conn, void *state, IoMessage *m)
 {
 	const char *error;
 	int errorCode = dbi_conn_error(conn, &error);
-	
+
 	IoState_error_(state, m, "libdbi: %i: %s\n", errorCode, error);
 }
 
@@ -39,10 +39,10 @@ IoDBI *IoDBI_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoDBI_newTag(state));
-	
+
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoDBIData)));
 	DATA(self)->driverCount = 0;
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoDBI_proto);
 
 	{
@@ -56,7 +56,7 @@ IoDBI *IoDBI_proto(void *state)
 		};
 		IoObject_addMethodTable_(self, methodTable);
 	}
-	
+
 	return self;
 }
 
@@ -100,11 +100,11 @@ IoObject *IoDBI_init(IoDBI *self, IoObject *locals, IoMessage *m)
 	{
 		DATA(self)->didInit = 1;
 	}
-	
+
 	return IONUMBER(DATA(self)->driverCount);
 }
 
-IoObject *IoDBI_initWithDriversPath(IoDBI *self, IoObject *locals, 
+IoObject *IoDBI_initWithDriversPath(IoDBI *self, IoObject *locals,
 			IoMessage *m)
 {
 	/*#io
@@ -112,7 +112,7 @@ IoObject *IoDBI_initWithDriversPath(IoDBI *self, IoObject *locals,
 	specified libdbi driver path")
 	*/
 	IoObject *dir = IoMessage_locals_valueArgAt_(m, locals, 0);
-	
+
 	if (ISSYMBOL(dir))
 	{
 		DATA(self)->driverCount = dbi_initialize(CSTRING(dir));
@@ -122,7 +122,7 @@ IoObject *IoDBI_initWithDriversPath(IoDBI *self, IoObject *locals,
 		IoState_error_(IOSTATE, m, "argument 0 to method '%s' must be a Symbol, not a '%s'\n",
 			CSTRING(IoMessage_name(m)), IoObject_name(dir));
 	}
-	
+
 	if (DATA(self)->driverCount == -1)
 	{
 		IoState_error_(IOSTATE, m, "*** IoDBI error during dbi_initialize\n");
@@ -131,7 +131,7 @@ IoObject *IoDBI_initWithDriversPath(IoDBI *self, IoObject *locals,
 	{
 		DATA(self)->didInit = 1;
 	}
-	
+
 	return IONUMBER(DATA(self)->driverCount);
 }
 
@@ -139,7 +139,7 @@ IoObject *IoDBI_drivers(IoDBI *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("drivers", "Get a list of drivers and it's associated information:
-  
+
 	<ol>
 		<li>name</li>
 		<li>description</li>
@@ -152,7 +152,7 @@ IoObject *IoDBI_drivers(IoDBI *self, IoObject *locals, IoMessage *m)
 	*/
 	IoList *list = IOREF(IoList_new(IOSTATE));
 	dbi_driver driver = NULL;
-	
+
 	while((driver = dbi_driver_list(driver)) != NULL)
 	{
 		IoList *dlist = IOREF(IoList_new(IOSTATE));
@@ -163,10 +163,10 @@ IoObject *IoDBI_drivers(IoDBI *self, IoObject *locals, IoMessage *m)
 		IoList_rawAppend_(dlist, IOSYMBOL(dbi_driver_get_date_compiled(driver)));
 		IoList_rawAppend_(dlist, IOSYMBOL(dbi_driver_get_maintainer(driver)));
 		IoList_rawAppend_(dlist, IOSYMBOL(dbi_driver_get_url(driver)));
-		
+
 		IoList_rawAppend_(list, dlist);
 	}
-	
+
 	return list;
 }
 
@@ -182,18 +182,18 @@ IoObject *IoDBI_with(IoDBI *self, IoObject *locals, IoMessage *m)
 			CSTRING(IoMessage_name(m)), IoObject_name(name));
 		return IONIL(self);
 	}
-	
+
 	if (DATA(self)->didInit != 1)
 	{
 		IoDBI_init(self, locals, m);
 	}
-	
+
 	dbi_conn c = dbi_conn_new(CSTRING(name));
 	if (c == NULL)
 	{
 		IoState_error_(IOSTATE, m, "libdbi error during dbi_conn_new\n");
 		return IONIL(self);
 	}
-	
+
 	return IoDBIConn_new(IOSTATE, c);
 }

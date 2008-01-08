@@ -16,7 +16,7 @@ ODEJoint ioDoc(
 
 IoTag *IoODEJoint_newTag(void *state)
 {
-        // TODO: Get rid of IoODEJoint as an IoObject. Can't be manipulated directly through Io.
+		// TODO: Get rid of IoODEJoint as an IoObject. Can't be manipulated directly through Io.
 	IoTag *tag = IoTag_newWithName_("ODEJoint");
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoODEJoint_free);
@@ -29,14 +29,14 @@ IoODEJoint *IoODEJoint_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoODEJoint_newTag(state));
-	
+
 	IoODEJoint_protoCommon(self);
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoODEJoint_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
-                ODE_COMMON_JOINT_METHODS
+				ODE_COMMON_JOINT_METHODS
 		{NULL, NULL},
 		};
 		IoObject_addMethodTable_(self, methodTable);
@@ -53,28 +53,28 @@ void IoODEJoint_protoCommon(IoODEJoint *self)
 }
 
 
-IoODEJoint *IoODEJoint_rawClone(IoODEJoint *proto) 
-{ 
+IoODEJoint *IoODEJoint_rawClone(IoODEJoint *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoODEJointData)));
-	return self; 
+	return self;
 }
 
-void IoODEJoint_free(IoODEJoint *self) 
-{ 
+void IoODEJoint_free(IoODEJoint *self)
+{
 	if(JOINTID && JOINTGROUP)
 	{
 		IoODEJointGroup_removeJoint(JOINTGROUP, self);
 		dJointDestroy(JOINTID);
 	}
-	free(IoObject_dataPointer(self)); 
+	free(IoObject_dataPointer(self));
 }
 
-void IoODEJoint_mark(IoODEJoint *self) 
-{ 
+void IoODEJoint_mark(IoODEJoint *self)
+{
 	if(JOINTGROUP)
 	{
-		IoObject_shouldMark((IoObject *)JOINTGROUP); 
+		IoObject_shouldMark((IoObject *)JOINTGROUP);
 	}
 }
 
@@ -126,13 +126,13 @@ IoObject *IoODEJoint_attach(IoODEJoint *self, IoObject *locals, IoMessage *m)
 IoObject *IoODEJoint_attachedBody1(IoODEJoint *self, IoObject *locals, IoMessage *m)
 {
 	IoODEJoint_assertValidJoint(self, locals, m);
-        return IoODEBody_bodyFromId(IOSTATE, dJointGetBody(JOINTID, 0));
+		return IoODEBody_bodyFromId(IOSTATE, dJointGetBody(JOINTID, 0));
 }
 
 IoObject *IoODEJoint_attachedBody2(IoODEJoint *self, IoObject *locals, IoMessage *m)
 {
 	IoODEJoint_assertValidJoint(self, locals, m);
-        return IoODEBody_bodyFromId(IOSTATE, dJointGetBody(JOINTID, 1));
+		return IoODEBody_bodyFromId(IOSTATE, dJointGetBody(JOINTID, 1));
 }
 
 IoObject *IoODEJoint_getParam(IoODEJoint *self, IoObject *locals, IoMessage *m, int parameter, IoODEJointGetParamFunc func)

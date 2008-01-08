@@ -1,9 +1,9 @@
 /*#io
 ODEJoint ioDoc(
-		 docCopyright("Jonathan Wright", 2006)
-		 docLicense("BSD revised")
-		 docDescription("ODEJoint binding")
-		 */
+	docCopyright("Jonathan Wright", 2006)
+	docLicense("BSD revised")
+	docDescription("ODEJoint binding")
+*/
 
 #include "IoODEJoint_internal.h"
 #include "IoODEHinge.h"
@@ -31,12 +31,12 @@ IoODEHinge *IoODEHinge_proto(void *state)
 	IoObject_tag_(self, IoODEHinge_newTag(state));
 
 	IoODEJoint_protoCommon(self);
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoODEHinge_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
-                ODE_COMMON_JOINT_METHODS
+				ODE_COMMON_JOINT_METHODS
 #define PARAM(X, _N, _SETN) \
 		{#_N, IoODEHinge_##_N}, \
 		{#_SETN, IoODEHinge_##_SETN},
@@ -50,7 +50,7 @@ PARAMS
 		{"setAxis", IoODEHinge_setAxis},
 		{"angle", IoODEHinge_angle},
 		{"angleRate", IoODEHinge_angleRate},
-                {"addTorque", IoODEHinge_addTorque},
+				{"addTorque", IoODEHinge_addTorque},
 
 		{NULL, NULL},
 		};
@@ -59,8 +59,8 @@ PARAMS
 	return self;
 }
 
-IoODEHinge *IoODEHinge_rawClone(IoODEHinge *proto) 
-{ 
+IoODEHinge *IoODEHinge_rawClone(IoODEHinge *proto)
+{
 	IoObject *self = IoODEJoint_rawClone(proto);
 
 	if(DATA(proto)->jointGroup)
@@ -74,13 +74,13 @@ IoODEHinge *IoODEHinge_rawClone(IoODEHinge *proto)
 	return self;
 }
 
-void IoODEHinge_free(IoODEHinge *self) 
-{ 
+void IoODEHinge_free(IoODEHinge *self)
+{
 	IoODEJoint_free(self);
 }
 
-void IoODEHinge_mark(IoODEHinge *self) 
-{ 
+void IoODEHinge_mark(IoODEHinge *self)
+{
 	IoODEJoint_mark(self);
 }
 

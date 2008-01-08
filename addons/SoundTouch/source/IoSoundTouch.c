@@ -1,9 +1,9 @@
 /*#io
 SoundTouch ioDoc(
-		    docCopyright("Steve Dekorte", 2004)
-		    docLicense("BSD revised")
-		    docCategory("Media")
-		    docDescription("""Used to change the tempo and/or pitch of an audio stream. Input and output are in 32 bit floats in 2 channels at a rate of 44100 samples per second.""")
+			docCopyright("Steve Dekorte", 2004)
+			docLicense("BSD revised")
+			docCategory("Media")
+			docDescription("""Used to change the tempo and/or pitch of an audio stream. Input and output are in 32 bit floats in 2 channels at a rate of 44100 samples per second.""")
 */
 
 #include "IoSoundTouch.h"
@@ -28,46 +28,46 @@ IoSoundTouch *IoSoundTouch_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoSoundTouch_newTag(state));
-	
+
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoSoundTouchData)));
-	
+
 	DATA(self)->inputBuffer  = IoSeq_new(state);
 	DATA(self)->outputBuffer = IoSeq_new(state);
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoSoundTouch_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
 		{"start", IoSoundTouch_start},
 		{"process", IoSoundTouch_process},
 		{"stop",  IoSoundTouch_stop},
-		
+
 		{"setSampleRate",  IoSoundTouch_setSampleRate},
 		{"setChannels",  IoSoundTouch_setChannels},
 		{"setTempoChange",  IoSoundTouch_setTempoChange},
 		{"setTempo",  IoSoundTouch_setTempo},
 		{"setPitchSemitones",  IoSoundTouch_setPitchSemitones},
-		
+
 		{"inputBuffer",  IoSoundTouch_inputBuffer},
 		{"outputBuffer",  IoSoundTouch_outputBuffer},
-		
+
 		{NULL, NULL},
 		};
 		IoObject_addMethodTable_(self, methodTable);
 	}
-	
+
 	return self;
 }
 
-IoSoundTouch *IoSoundTouch_rawClone(IoSoundTouch *proto) 
-{ 
+IoSoundTouch *IoSoundTouch_rawClone(IoSoundTouch *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoSoundTouchData)));
-	
+
 	DATA(self)->inputBuffer  = IoSeq_new(IOSTATE);
 	DATA(self)->outputBuffer = IoSeq_new(IOSTATE);
-		
-	return self; 
+
+	return self;
 }
 
 IoSoundTouch *IoSoundTouch_new(void *state)
@@ -79,12 +79,12 @@ IoSoundTouch *IoSoundTouch_new(void *state)
 /* ----------------------------------------------------------- */
 
 void *IoSoundTouch_soundTouch(IoSoundTouch *self)
-{ 		
+{
 	if (DATA(self)->soundTouch == NULL)
 	{
 		DATA(self)->soundTouch = SoundTouch_init();
 	}
-	
+
 	return DATA(self)->soundTouch;
 }
 
@@ -96,13 +96,13 @@ void IoSoundTouch_freeSoundTouchIfNeeded(IoSoundTouch *self)
 	}
 }
 
-void IoSoundTouch_free(IoSoundTouch *self) 
-{ 
+void IoSoundTouch_free(IoSoundTouch *self)
+{
 	IoSoundTouch_freeSoundTouchIfNeeded(self);
-	free(IoObject_dataPointer(self)); 
+	free(IoObject_dataPointer(self));
 }
 
-void IoSoundTouch_mark(IoSoundTouch *self) 
+void IoSoundTouch_mark(IoSoundTouch *self)
 {
 	IoObject_shouldMark(DATA(self)->inputBuffer);
 	IoObject_shouldMark(DATA(self)->outputBuffer);
@@ -112,34 +112,34 @@ void IoSoundTouch_mark(IoSoundTouch *self)
 
 
 IoObject *IoSoundTouch_process(IoSoundTouch *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
 	docSlot("process", "Processes a chunk of the inputBuffer and appends the results to the outputBuffer.")
 	*/
 	 void *soundTouch = IoSoundTouch_soundTouch(self);
-	 
+
 	 UArray *inba  = IoSeq_rawUArray(DATA(self)->inputBuffer);
 	 UArray *outba = IoSeq_rawUArray(DATA(self)->outputBuffer);
-	 
+
 	 size_t inSize = UArray_size(inba);
 	 size_t oldOutSize = UArray_size(outba);
 	 size_t sampleSize = 2 * sizeof(float);
 	 size_t inSamples = inSize / sampleSize;
 	 unsigned int outSamples;
-	 
+
 	 UArray_setSize_(outba, oldOutSize + inSize);
 
 	 SoundTouch_putSamples(soundTouch, (float *)(UArray_bytes(inba)), inSamples);
-	 outSamples = SoundTouch_receiveSamples(soundTouch, (float *)(UArray_bytes(inba) + oldOutSize), inSamples);	
-	  
+	 outSamples = SoundTouch_receiveSamples(soundTouch, (float *)(UArray_bytes(inba) + oldOutSize), inSamples);
+
 	 UArray_removeRange(inba, 0, outSamples * sampleSize);
 	 UArray_setSize_(outba, oldOutSize + (outSamples * sampleSize));
-	 
+
 	 return self;
 }
 
 IoObject *IoSoundTouch_start(IoSoundTouch *self, IoObject *locals, IoMessage *m)
-{ 	
+{
 	/*#io
 	docSlot("start", "Initializes SoundTouch.")
 	*/
@@ -153,81 +153,81 @@ IoObject *IoSoundTouch_stop(IoSoundTouch *self, IoObject *locals, IoMessage *m)
 	docSlot("start", "Cleans up SoundTouch.")
 	*/
 	IoSoundTouch_freeSoundTouchIfNeeded(self);
-	return self; 
+	return self;
 }
 
 // --- options -------------------------------------------------
 
 IoObject *IoSoundTouch_setSampleRate(IoSoundTouch *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
 	docSlot("setSampleRate(aNumber)", "Sets the input sample rate in Hz.")
 	*/
 	void *soundTouch = IoSoundTouch_soundTouch(self);
 	IoNumber *r = IoMessage_locals_numberArgAt_(m, locals, 0);
 	SoundTouch_setSampleRate(soundTouch, (unsigned int)CNUMBER(r));
-	return self; 
+	return self;
 }
 
 IoObject *IoSoundTouch_setChannels(IoSoundTouch *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
 	docSlot("setChannels(aNumber)", "Sets the number of input channels.")
 	*/
 	void *soundTouch = IoSoundTouch_soundTouch(self);
 	IoNumber *r = IoMessage_locals_numberArgAt_(m, locals, 0);
 	SoundTouch_setChannels(soundTouch, (unsigned int)CNUMBER(r));
-	return self; 
+	return self;
 }
 
 IoObject *IoSoundTouch_setTempoChange(IoSoundTouch *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
 	docSlot("setTempoChange(aNumber)", "Sets the tempo change amount.")
 	*/
 	void *soundTouch = IoSoundTouch_soundTouch(self);
 	IoNumber *r = IoMessage_locals_numberArgAt_(m, locals, 0);
 	SoundTouch_setTempoChange(soundTouch, CNUMBER(r));
-	return self; 
+	return self;
 }
 
 IoObject *IoSoundTouch_setTempo(IoSoundTouch *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
 	docSlot("setTempo(aNumber)", "Sets the tempo.")
 	*/
 	void *soundTouch = IoSoundTouch_soundTouch(self);
 	IoNumber *r = IoMessage_locals_numberArgAt_(m, locals, 0);
 	SoundTouch_setTempo(soundTouch, (float)CNUMBER(r));
-	return self; 
+	return self;
 }
 
 IoObject *IoSoundTouch_setPitchSemitones(IoSoundTouch *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
 	docSlot("setPitchSemitones(aNumber)", "Sets the output increase in pitch semitones.")
 	*/
 	void *soundTouch = IoSoundTouch_soundTouch(self);
 	IoNumber *r = IoMessage_locals_numberArgAt_(m, locals, 0);
 	SoundTouch_setPitchSemiTones(soundTouch, (float)CNUMBER(r));
-	return self; 
+	return self;
 }
 
 IoObject *IoSoundTouch_inputBuffer(IoSoundTouch *self, IoObject *locals, IoMessage *m)
-{	
+{
 	/*#io
 	docSlot("inputBuffer", "Returns the input buffer.")
 	*/
-	return DATA(self)->inputBuffer; 
+	return DATA(self)->inputBuffer;
 }
 
 // --- buffers -------------------------------------------------------
 
 
 IoObject *IoSoundTouch_outputBuffer(IoSoundTouch *self, IoObject *locals, IoMessage *m)
-{	
+{
 	/*#io
 	docSlot("outputBuffer", "Returns the output buffer.")
 	*/
-	return DATA(self)->outputBuffer; 
+	return DATA(self)->outputBuffer;
 }

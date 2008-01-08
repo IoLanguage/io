@@ -18,12 +18,12 @@ ODEMass do(
 	asSimpleString := method(
 		s := Sequence clone appendSeq("ODEMass mass(", mass asString, ") I(")
 		inertiaTensor := inertiaTensor
-		for(i, 0, 9, 
+		for(i, 0, 9,
 			if(i != 0, s appendSeq(", "))
 			s appendSeq(inertiaTensor at(i) asString)
 		)
 		s appendSeq(")")
-		
+
 		centerOfGravity := centerOfGravity
 		if(centerOfGravity isZero not,
 			s appendSeq(" centerOfGravity(", centerOfGravity at(0) asString, " ", centerOfGravity at(1) asString, " ", centerOfGravity at(2) asString, ")")
@@ -95,20 +95,20 @@ ODEPlane do(
 )
 
 addExtraSlotDescriptions := method(obj, idName, evalSlotList,
-        meth := call activated getSlot("slotDescriptionMapTemplate") clone
-        getSlot("meth") idName := idName
-        getSlot("meth") evalSlotList := evalSlotList append(idName)
-        obj slotDescriptionMap := getSlot("meth")
+		meth := call activated getSlot("slotDescriptionMapTemplate") clone
+		getSlot("meth") idName := idName
+		getSlot("meth") evalSlotList := evalSlotList append(idName)
+		obj slotDescriptionMap := getSlot("meth")
 ) do(
-        slotDescriptionMapTemplate := method(
-                m := super(slotDescriptionMap)
-                if(doString(call activated idName) != 0,
-                        call activated evalSlotList foreach(slot,
-                                m atPut(slot, doString(slot) asSimpleString)
-                        )
-                )
-                m
-        )
+		slotDescriptionMapTemplate := method(
+				m := super(slotDescriptionMap)
+				if(doString(call activated idName) != 0,
+						call activated evalSlotList foreach(slot,
+								m atPut(slot, doString(slot) asSimpleString)
+						)
+				)
+				m
+		)
 )
 
 addExtraSlotDescriptions(ODEWorld, "worldId", list("gravity", "erp", "cfm"))

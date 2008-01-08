@@ -34,11 +34,11 @@ IoDBIResult *IoDBIResult_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoDBIResult_newTag(state));
-	
+
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoDBIResultData)));
 	DATA(self)->conn = NULL;
 	DATA(self)->result = NULL;
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoDBIResult_proto);
 
 	{
@@ -59,7 +59,7 @@ IoDBIResult *IoDBIResult_proto(void *state)
 		};
 		IoObject_addMethodTable_(self, methodTable);
 	}
-	
+
 	return self;
 }
 
@@ -83,12 +83,12 @@ void IoDBIResult_free(IoDBIResult *self)
 
 IoDBIResult *IoDBIResult_new(void *state, dbi_result result)
 {
-	IoDBIResult *self = IOCLONE(IoState_protoWithInitFunction_(state, 
+	IoDBIResult *self = IOCLONE(IoState_protoWithInitFunction_(state,
 				IoDBIResult_proto));
-	
+
 	DATA(self)->result = result;
 	DATA(self)->conn = dbi_result_get_conn(result);
-	
+
 	return self;
 }
 
@@ -96,7 +96,7 @@ IoObject *IoDBIResult_getIoObjectFromResult_(IoObject *self, dbi_result res,
 			int index)
 {
 	const char *val = NULL;
-	
+
 	switch (dbi_result_get_field_type_idx(res, index))
 	{
 		case DBI_TYPE_INTEGER:
@@ -109,36 +109,36 @@ IoObject *IoDBIResult_getIoObjectFromResult_(IoObject *self, dbi_result res,
 			if (1 == dbi_result_field_is_null_idx(res, index) || val == NULL)
 				return IONIL(self);
 			else
-				return IOSYMBOL(dbi_result_get_string_idx(res, index)); 
+				return IOSYMBOL(dbi_result_get_string_idx(res, index));
 		case DBI_TYPE_BINARY:
-			return IOSYMBOL(dbi_result_get_binary_idx(res, index)); 
+			return IOSYMBOL(dbi_result_get_binary_idx(res, index));
 		case DBI_TYPE_DATETIME:
 			return IoDate_newWithTime_(IOSTATE, dbi_result_get_datetime_idx(
 					res, index));
 	}
-	
+
 	return IONIL(self);
 }
 
-IoObject *IoDBIResult_rowToMap_(void *state, IoDBIResult *self, 
+IoObject *IoDBIResult_rowToMap_(void *state, IoDBIResult *self,
 			dbi_result res)
 {
 	int fIdx, fCount = dbi_result_get_numfields(res);
 	IoMap *map = IoMap_new(state);
-	
+
 	for (fIdx = 1; fIdx <= fCount; fIdx++)
 	{
-		IoMap_rawAtPut(map, 
+		IoMap_rawAtPut(map,
 				IOSYMBOL(dbi_result_get_field_name(res, fIdx)),
 				IoDBIResult_getIoObjectFromResult_(self, res, fIdx));
 	}
-	
+
 	return map;
 }
 
 /* ---------------------------------------------------------------- */
 
-IoObject *IoDBIResult_size(IoDBIResult *self, IoObject *locals, 
+IoObject *IoDBIResult_size(IoDBIResult *self, IoObject *locals,
 			IoMessage *m)
 {
 	/*#io
@@ -147,7 +147,7 @@ IoObject *IoDBIResult_size(IoDBIResult *self, IoObject *locals,
 	return IONUMBER(dbi_result_get_numrows(DATA(self)->result));
 }
 
-IoObject *IoDBIResult_fields(IoDBIResult *self, IoObject *locals, 
+IoObject *IoDBIResult_fields(IoDBIResult *self, IoObject *locals,
 			IoMessage *m)
 {
 	/*#io
@@ -155,17 +155,17 @@ IoObject *IoDBIResult_fields(IoDBIResult *self, IoObject *locals,
 	*/
 	int idx;
 	IoList *list = IOREF(IoList_new(IOSTATE));
-	
+
 	for (idx = 1; idx <= dbi_result_get_numfields(DATA(self)->result); idx++)
 	{
 		IoList_rawAppend_(list, IOSYMBOL(dbi_result_get_field_name(
 				DATA(self)->result, idx)));
 	}
-	
+
 	return list;
 }
 
-IoObject *IoDBIResult_first(IoDBIResult *self, IoObject *locals, 
+IoObject *IoDBIResult_first(IoDBIResult *self, IoObject *locals,
 			IoMessage *m)
 {
 	/*#io
@@ -175,11 +175,11 @@ IoObject *IoDBIResult_first(IoDBIResult *self, IoObject *locals,
 	{
 		ReportDBIError(DATA(self)->conn, IOSTATE, m);
 	}
-	
+
 	return IOBOOL(self, 1);
 }
 
-IoObject *IoDBIResult_previous(IoDBIResult *self, IoObject *locals, 
+IoObject *IoDBIResult_previous(IoDBIResult *self, IoObject *locals,
 			IoMessage *m)
 {
 	/*#io
@@ -189,45 +189,45 @@ IoObject *IoDBIResult_previous(IoDBIResult *self, IoObject *locals,
 	{
 		ReportDBIError(DATA(self)->conn, IOSTATE, m);
 	}
-	
+
 	return IOBOOL(self, 1);
 }
 
-IoObject *IoDBIResult_next(IoDBIResult *self, IoObject *locals, 
+IoObject *IoDBIResult_next(IoDBIResult *self, IoObject *locals,
 			IoMessage *m)
 {
 	/*#io
 	docSlot("next", "Move the cursor to the next record.")
 	*/
 	dbi_result res = DATA(self)->result;
-	
+
 	if (0 == dbi_result_next_row(res))
 	{
 		ReportDBIError(DATA(self)->conn, IOSTATE, m);
 	}
 
-	return IOBOOL(self, 
+	return IOBOOL(self,
 				dbi_result_get_currow(res) < dbi_result_get_numrows(res));
 }
 
-IoObject *IoDBIResult_last(IoDBIResult *self, IoObject *locals, 
+IoObject *IoDBIResult_last(IoDBIResult *self, IoObject *locals,
 			IoMessage *m)
 {
 	/*#io
 	docSlot("last", "Move the cursor to the last record")
 	*/
 	dbi_result res = DATA(self)->result;
-	
+
 	if (0 == dbi_result_last_row(res))
 	{
 		ReportDBIError(DATA(self)->conn, IOSTATE, m);
 	}
-	
+
 	return IOBOOL(self, 1);
 }
 
 
-IoObject *IoDBIResult_seek(IoDBIResult *self, IoObject *locals, 
+IoObject *IoDBIResult_seek(IoDBIResult *self, IoObject *locals,
 			IoMessage *m)
 {
 	/*#io
@@ -236,21 +236,21 @@ IoObject *IoDBIResult_seek(IoDBIResult *self, IoObject *locals,
 	long rowIdx;
 	dbi_result res = DATA(self)->result;
 	IoObject *row = IoMessage_locals_valueArgAt_(m, locals, 0);
-	
+
 	if (!ISNUMBER(row))
 	{
-		IoState_error_(IOSTATE, m, 
+		IoState_error_(IOSTATE, m,
 				"argument 0 to method '%s' must be a Number, not a '%s'\n",
 				CSTRING(IoMessage_name(m)), IoObject_name(row));
 	}
-	
+
 	rowIdx = IoNumber_asLong(row);
 	if (1 != dbi_result_seek_row(res, rowIdx))
 	{
 		const char *error;
 		int errorCode = dbi_conn_error(DATA(self)->conn,
 					&error);
-		
+
 		if (errorCode == 0)
 		{
 			IoState_error_(IOSTATE, m, "row index %i out of range (1,%i)\n",
@@ -261,7 +261,7 @@ IoObject *IoDBIResult_seek(IoDBIResult *self, IoObject *locals,
 			IoState_error_(IOSTATE, m, "libdbi: %i: %s\n", errorCode, error);
 		}
 	}
-	
+
 	return IOBOOL(self, 1);
 }
 
@@ -272,12 +272,12 @@ IoObject *IoDBIResult_position(
 	docSlot("position", "Return the current row's position (or index).")
 	*/
 	unsigned long long rowNum = dbi_result_get_currow(DATA(self)->result);
-	
+
 	if (0 == rowNum)
 	{
 		ReportDBIError(DATA(self)->conn, IOSTATE, m);
 	}
-	
+
 	return IONUMBER(rowNum);
 }
 
@@ -305,15 +305,15 @@ parameter can be a field index or a field name.")
 	}
 	else
 	{
-		IoState_error_(IOSTATE, m, 
+		IoState_error_(IOSTATE, m,
 				"argument 0 to method '%s' must be a Number or Symbol, not a '%s'\n",
 				CSTRING(IoMessage_name(m)), IoObject_name(key));
 	}
-	
+
 	return IoDBIResult_getIoObjectFromResult_(self, res, idx);
 }
 
-IoObject *IoDBIResult_populate(IoDBIResult *self, IoObject *locals, 
+IoObject *IoDBIResult_populate(IoDBIResult *self, IoObject *locals,
 			IoMessage *m)
 {
 	/*#io
@@ -325,10 +325,10 @@ example.")
 	IoObject *baseObject = IoMessage_locals_valueArgAt_(m, locals, 0);
 	IoObject *o = IOCLONE(baseObject);
 	o = IoObject_initClone_(self, locals, m, o);
-	
-	IoObject_setSlot_to_(o, IOSYMBOL("_map"), 
+
+	IoObject_setSlot_to_(o, IOSYMBOL("_map"),
 			IoDBIResult_rowToMap_(IOSTATE, self, res));
-	
+
 	return o;
 }
 
@@ -337,7 +337,7 @@ IoObject *IoDBIResult_foreach(IoDBIResult *self, IoObject *locals,
 {
 	/*#io
 	docSlot("foreach([Object], value, message)", """Loops over the records in the
-result starting at either the first result (if the cursor has never been 
+result starting at either the first result (if the cursor has never been
 moved) or it's current location if moved. i.e.
 
 <pre>
@@ -357,8 +357,8 @@ r foreach(r, r at (1))
 
 The above would start at the record #4, not at the beginning.
 
-The optional Object parameter would cause a decendent of DBIRecord to be 
-populate instead of the index being set. This allows for advanced 
+The optional Object parameter would cause a decendent of DBIRecord to be
+populate instead of the index being set. This allows for advanced
 functionality. Please see `DBIRecord' for further information and an example.
 """)
 	*/
@@ -370,7 +370,7 @@ functionality. Please see `DBIRecord' for further information and an example.
 
 	unsigned int i, count = dbi_result_get_numrows(res);
 	unsigned int fIdx, fCount = dbi_result_get_numfields(res);
-	
+
 	if (IoMessage_argCount(m) == 2)
 	{
 		resSlotName = IoMessage_name(IoMessage_rawArgAt_(m, 0));
@@ -384,11 +384,11 @@ functionality. Please see `DBIRecord' for further information and an example.
 	}
 	else
 	{
-		IoState_error_(IOSTATE, m, 
+		IoState_error_(IOSTATE, m,
 				"method '%s' takes 2 or 3 parameters, you supplied %i\n",
 				IoMessage_argCount(m));
 	}
-	
+
 	IoState_pushRetainPool(IOSTATE);
 
 	if (0 == dbi_result_get_currow(res))
@@ -412,15 +412,15 @@ functionality. Please see `DBIRecord' for further information and an example.
 		{
 			IoObject *o = IOCLONE(baseObject);
 			o = IoObject_initClone_(self, locals, m, o);
-			
-			IoObject_setSlot_to_(o, IOSYMBOL("_map"), 
+
+			IoObject_setSlot_to_(o, IOSYMBOL("_map"),
 					IoDBIResult_rowToMap_(IOSTATE, self, res));
 			IoObject_setSlot_to_(locals, resSlotName, o);
 		}
 		else {
 			IoObject_setSlot_to_(locals, resSlotName, self);
 		}
-		
+
 		result = IoMessage_locals_performOn_(doMessage, locals, locals);
 
 		if (IoState_handleStatus(IOSTATE))
@@ -451,8 +451,8 @@ the database server.")
 	{
 		ReportDBIError(DATA(self)->conn, IOSTATE, m);
 	}
-	
+
 	DATA(self)->result = NULL;
-	
+
 	return IONIL(self);
 }

@@ -7,7 +7,7 @@ AddonBuilder clone do(
 		dependsOnLib("ws2_32")
 	)
 
-        if(platform == "windows",
+	if(platform == "windows",
 		dependsOnSysLib("iphlpapi")
 		dependsOnSysLib("ws2_32")
 	)

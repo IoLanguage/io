@@ -1,8 +1,8 @@
 /*#io
 CairoMatrix ioDoc(
-  docCopyright("Daniel Rosengren", 2007)
-  docLicense("BSD revised")
-  docCategory("Graphics")
+	docCopyright("Daniel Rosengren", 2007)
+	docLicense("BSD revised")
+	docCategory("Graphics")
 */
 
 #include "IoCairoMatrix.h"
@@ -15,7 +15,7 @@ CairoMatrix ioDoc(
 void *IoMessage_locals_cairoMatrixArgAt_(IoMessage *self, void *locals, int n)
 {
 	IoObject *arg = IoMessage_locals_valueArgAt_(self, locals, n);
-	if (!ISCAIROMATRIX(arg)) 
+	if (!ISCAIROMATRIX(arg))
 		IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "CairoMatrix");
 	return arg;
 }
@@ -39,7 +39,7 @@ IoCairoMatrix *IoCairoMatrix_proto(void *state)
 	cairo_matrix_init_identity(MATRIX(self));
 
 	IoState_registerProtoWithFunc_(state, self, IoCairoMatrix_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
 			{"identity", IoCairoMatrix_identity},
@@ -49,13 +49,13 @@ IoCairoMatrix *IoCairoMatrix_proto(void *state)
 			{"rotate", IoCairoMatrix_rotate},
 			{"invert", IoCairoMatrix_invert},
 			{"*", IoCairoMatrix_multiply},
-			
+
 			{"transformDistance", IoCairoMatrix_transformDistance},
 			{"transformPoint", IoCairoMatrix_transformPoint},
 
 			{NULL, NULL},
 		};
-		
+
 		IoObject_addMethodTable_(self, methodTable);
 	}
 
@@ -107,7 +107,7 @@ IoObject *IoCairoMatrix_translate(IoCairoMatrix *self, IoObject *locals, IoMessa
 	double ty = IoMessage_locals_doubleArgAt_(m, locals, 1);
 
 	cairo_matrix_translate(MATRIX(self), tx, ty);
-  return self;
+	return self;
 }
 
 IoObject *IoCairoMatrix_scale(IoCairoMatrix *self, IoObject *locals, IoMessage *m)
@@ -116,13 +116,13 @@ IoObject *IoCairoMatrix_scale(IoCairoMatrix *self, IoObject *locals, IoMessage *
 	double sy = IoMessage_locals_doubleArgAt_(m, locals, 1);
 
 	cairo_matrix_scale(MATRIX(self), sx, sy);
-  return self;
+	return self;
 }
 
 IoObject *IoCairoMatrix_rotate(IoCairoMatrix *self, IoObject *locals, IoMessage *m)
 {
 	cairo_matrix_rotate(MATRIX(self), IoMessage_locals_doubleArgAt_(m, locals, 0));
-  return self;
+	return self;
 }
 
 IoObject *IoCairoMatrix_invert(IoCairoMatrix *self, IoObject *locals, IoMessage *m)

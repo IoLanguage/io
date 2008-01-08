@@ -26,12 +26,12 @@
  */
 #if BYTE_ORDER == LITTLE_ENDIAN
 # define blk0(i) (block->l[i] = (rol(block->l[i],24)&0xFF00FF00) \
-    |(rol(block->l[i],8)&0x00FF00FF))
+	|(rol(block->l[i],8)&0x00FF00FF))
 #else
 # define blk0(i) block->l[i]
 #endif
 #define blk(i) (block->l[i&15] = rol(block->l[(i+13)&15]^block->l[(i+8)&15] \
-    ^block->l[(i+2)&15]^block->l[i&15],1))
+	^block->l[(i+2)&15]^block->l[i&15],1))
 
 /*
  * (R0+R1), R2, R3, R4 are the different operations (rounds) used in SHA1
@@ -150,7 +150,7 @@ SHA1Pad(SHA1_CTX *context)
 
 	for (i = 0; i < 8; i++) {
 		finalcount[i] = (u_int8_t)((context->count >>
-		    ((7 - (i & 7)) * 8)) & 255);	/* Endian independent */
+			((7 - (i & 7)) * 8)) & 255);	/* Endian independent */
 	}
 	SHA1Update(context, (u_int8_t *)"\200", 1);
 	while ((context->count & 504) != 448)

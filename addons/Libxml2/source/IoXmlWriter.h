@@ -17,7 +17,7 @@ typedef IoObject IoXmlWriter;
 
 typedef struct
 {
-    xmlBufferPtr buffer;
+	xmlBufferPtr buffer;
 	xmlTextWriterPtr writer;
 } IoXmlWriterData;
 

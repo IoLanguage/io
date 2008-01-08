@@ -41,24 +41,24 @@ struct Thread_
 };
 
 // --- class functions
-ThreadReturnCode 	Thread_Init(void);
-void             	Thread_Shutdown(void);
-Thread *         	Thread_CurrentThread(void);
-ThreadReturnCode 	Thread_WaitOnThread_(Thread *other);
-List *           	Thread_Threads(void);
+ThreadReturnCode	Thread_Init(void);
+void				Thread_Shutdown(void);
+Thread *			Thread_CurrentThread(void);
+ThreadReturnCode	Thread_WaitOnThread_(Thread *other);
+List *				Thread_Threads(void);
 
 // --- constructors
-Thread * 	Thread_new(void);
-Thread * 	Thread_newWithFunc_arg_(ThreadFunc func, void *funcArg);
+Thread *	Thread_new(void);
+Thread *	Thread_newWithFunc_arg_(ThreadFunc func, void *funcArg);
 
 // --- destructor
-void 	Thread_destroy(Thread* self);
+void	Thread_destroy(Thread* self);
 
 // --- member functions
 // -- getter functions
-ThreadFunc 	Thread_func(Thread *self);
-void *     	Thread_funcArg(Thread *self);
-void *     	Thread_userData(Thread *self);
+ThreadFunc	Thread_func(Thread *self);
+void *		Thread_funcArg(Thread *self);
+void *		Thread_userData(Thread *self);
 
 // -- setter functions
 void Thread_setFunc_(Thread *self, ThreadFunc func);
@@ -67,8 +67,8 @@ void Thread_setFunc_arg_(Thread *self, ThreadFunc, void *funcArg);
 void Thread_setUserData_(Thread *self, void *userData);
 
 // -- operational functions
-ThreadReturnCode 	Thread_start(Thread *self);
-ThreadReturnCode 	Thread_stop(Thread *self);
-void             	Thread_exitWithValue_(Thread *self, void *returnValue);
+ThreadReturnCode	Thread_start(Thread *self);
+ThreadReturnCode	Thread_stop(Thread *self);
+void				Thread_exitWithValue_(Thread *self, void *returnValue);
 
 #endif

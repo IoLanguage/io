@@ -16,13 +16,13 @@ typedef IoObject IoSystemCall;
 
 typedef struct
 {
-    char **env;
-    char **args;
-    callsystem_fd_t stdin_child[2];
-    callsystem_fd_t stdout_child[2];
-    callsystem_fd_t stderr_child[2];
-    callsystem_pid_t pid;
-    int status;
+	char **env;
+	char **args;
+	callsystem_fd_t stdin_child[2];
+	callsystem_fd_t stdout_child[2];
+	callsystem_fd_t stderr_child[2];
+	callsystem_pid_t pid;
+	int status;
 	int needsClose;
 } IoSystemCallData;
 

@@ -32,7 +32,7 @@ IoLibSndFile *IoLibSndFile_rawClone(IoLibSndFile *self);
 void IoLibSndFile_mark(IoLibSndFile *self);
 void IoLibSndFile_free(IoLibSndFile *self);
 
-// ----------------------------------------------------------- 
+// -----------------------------------------------------------
 
 IoObject *IoLibSndFile_outputBuffer(IoLibSndFile *self, IoObject *locals, IoMessage *m);
 

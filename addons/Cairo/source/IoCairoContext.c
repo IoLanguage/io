@@ -37,32 +37,32 @@ static IoTag *IoCairoContext_newTag(void *state)
 	return tag;
 }
 
-IoCairoContext *IoCairoContext_proto(void *state) 
+IoCairoContext *IoCairoContext_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairoContext_newTag(state));
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoCairoContext_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
 			{"create", IoCairoContext_create},
 
 			{"save", IoCairoContext_save},
 			{"restore", IoCairoContext_restore},
-			
+
 			{"getTarget", IoCairoContext_getTarget},
 
 			/* Groups */
-			
+
 			{"pushGroup", IoCairoContext_pushGroup},
 			{"pushGroupWithContent", IoCairoContext_pushGroupWithContent},
 			{"popGroup", IoCairoContext_popGroup},
 			{"popGroupToSource", IoCairoContext_popGroupToSource},
 			{"getGroupTarget", IoCairoContext_getGroupTarget},
-			
+
 			/* Source */
-		
+
 			{"setSource", IoCairoContext_setSource},
 			{"setSourceRGB", IoCairoContext_setSourceRGB},
 			{"setSourceRGBA", IoCairoContext_setSourceRGBA},
@@ -95,7 +95,7 @@ IoCairoContext *IoCairoContext_proto(void *state)
 
 			{"setOperator", IoCairoContext_setOperator},
 			{"getOperator", IoCairoContext_getOperator},
-			
+
 			{"setTolerance", IoCairoContext_setTolerance},
 			{"getTolerance", IoCairoContext_getTolerance},
 
@@ -130,7 +130,7 @@ IoCairoContext *IoCairoContext_proto(void *state)
 			{"clipExtents", IoCairoContext_clipExtents},
 			{"resetClip", IoCairoContext_resetClip},
 			{"copyClipRectangleList", IoCairoContext_copyClipRectangleList},
-			
+
 			/* Drawing */
 
 			{"fill", IoCairoContext_fill},
@@ -164,7 +164,7 @@ IoCairoContext *IoCairoContext_proto(void *state)
 			{"userToDeviceDistance", IoCairoContext_userToDeviceDistance},
 			{"deviceToUser", IoCairoContext_deviceToUser},
 			{"deviceToUserDistance", IoCairoContext_deviceToUserDistance},
-				
+
 			/* Text */
 
 			{"selectFontFace", IoCairoContext_selectFontFace},
@@ -179,13 +179,13 @@ IoCairoContext *IoCairoContext_proto(void *state)
 
 			{"showText", IoCairoContext_showText},
 			{"showGlyphs", IoCairoContext_showGlyphs},
-			
+
 			{"setScaledFont", IoCairoContext_setScaledFont},
 			{"getScaledFont", IoCairoContext_getScaledFont},
 
 			{"setFontOptions", IoCairoContext_setFontOptions},
 			{"getFontOptions", IoCairoContext_getFontOptions},
-			
+
 			/* Pages */
 
 			{"copyPage", IoCairoContext_copyPage},
@@ -198,8 +198,8 @@ IoCairoContext *IoCairoContext_proto(void *state)
 	return self;
 }
 
-IoCairoContext *IoCairoContext_rawClone(IoCairoContext *proto) 
-{ 
+IoCairoContext *IoCairoContext_rawClone(IoCairoContext *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	if (CONTEXT(proto)) {
 		IoObject_setDataPointer_(self, cairo_reference(CONTEXT(proto)));
@@ -216,7 +216,7 @@ IoCairoContext *IoCairoContext_newWithSurface_(void *state, IoCairoImageSurface 
 	return self;
 }
 
-void IoCairoContext_free(IoCairoContext *self) 
+void IoCairoContext_free(IoCairoContext *self)
 {
 	if (CONTEXT(self))
 		cairo_destroy(CONTEXT(self));
@@ -273,7 +273,7 @@ IoObject *IoCairoContext_setSourceRGB(IoCairoContext *self, IoObject *locals, Io
 	double r = IoMessage_locals_doubleArgAt_(m, locals, 0);
 	double g = IoMessage_locals_doubleArgAt_(m, locals, 1);
 	double b = IoMessage_locals_doubleArgAt_(m, locals, 2);
-	
+
 	cairo_set_source_rgb(CONTEXT(self), r, g, b);
 	CHECK_STATUS(self);
 	return self;
@@ -285,7 +285,7 @@ IoObject *IoCairoContext_setSourceRGBA(IoCairoContext *self, IoObject *locals, I
 	double g = IoMessage_locals_doubleArgAt_(m, locals, 1);
 	double b = IoMessage_locals_doubleArgAt_(m, locals, 2);
 	double a = IoMessage_locals_doubleArgAt_(m, locals, 3);
-	
+
 	cairo_set_source_rgba(CONTEXT(self), r, g, b, a);
 	CHECK_STATUS(self);
 	return self;
@@ -369,12 +369,12 @@ IoObject *IoCairoContext_setDash(IoCairoContext *self, IoObject *locals, IoMessa
 	List *list = 0;
 	int dashCount = 0;
 	double *dashes = 0;
-	
+
 	if (!ISNIL(dashList)) {
 		list = IoList_rawList(dashList);
 		dashCount = List_size(list);
 	}
-	
+
 	if (dashCount > 0)
 	{
 		dashes = malloc(sizeof(double) * dashCount);
@@ -382,7 +382,7 @@ IoObject *IoCairoContext_setDash(IoCairoContext *self, IoObject *locals, IoMessa
 			dashes[i] = IoNumber_asDouble(number);
 		);
 	}
-	
+
 	cairo_set_dash(CONTEXT(self), dashes, dashCount, offset);
 	if (dashes)
 		free(dashes);
@@ -399,21 +399,21 @@ IoObject *IoCairoContext_getDash(IoCairoContext *self, IoObject *locals, IoMessa
 	double *dashes = 0;
 	double offset = 0;
 	int i;
-	
+
 	IoList_rawAppend_(list, dashList);
-	
+
 	if (dashCount == 0)
 	{
 		IoList_rawAppend_(list, IONUMBER(0));
 		return list;
 	}
-	
+
 	dashes = malloc(sizeof(double) * dashCount);
 	cairo_get_dash(CONTEXT(self), dashes, &offset);
 	for (i = 0; i < dashCount; i++)
 		IoList_rawAppend_(dashList, IONUMBER(dashes[i]));
 	free(dashes);
-	
+
 	CHECK_STATUS(self);
 	IoList_rawAppend_(list, IONUMBER(offset));
 	return list;
@@ -570,7 +570,7 @@ IoObject *IoCairoContext_moveTo(IoCairoContext *self, IoObject *locals, IoMessag
 {
 	double x = IoMessage_locals_doubleArgAt_(m, locals, 0);
 	double y = IoMessage_locals_doubleArgAt_(m, locals, 1);
-	
+
 	cairo_move_to(CONTEXT(self), x, y);
 	CHECK_STATUS(self);
 	return self;
@@ -580,7 +580,7 @@ IoObject *IoCairoContext_lineTo(IoCairoContext *self, IoObject *locals, IoMessag
 {
 	double x = IoMessage_locals_doubleArgAt_(m, locals, 0);
 	double y = IoMessage_locals_doubleArgAt_(m, locals, 1);
-	
+
 	cairo_line_to(CONTEXT(self), x, y);
 	CHECK_STATUS(self);
 	return self;
@@ -604,7 +604,7 @@ IoObject *IoCairoContext_relMoveTo(IoCairoContext *self, IoObject *locals, IoMes
 {
 	double dx = IoMessage_locals_doubleArgAt_(m, locals, 0);
 	double dy = IoMessage_locals_doubleArgAt_(m, locals, 1);
-	
+
 	cairo_rel_move_to(CONTEXT(self), dx, dy);
 	CHECK_STATUS(self);
 	return self;
@@ -614,7 +614,7 @@ IoObject *IoCairoContext_relLineTo(IoCairoContext *self, IoObject *locals, IoMes
 {
 	double dx = IoMessage_locals_doubleArgAt_(m, locals, 0);
 	double dy = IoMessage_locals_doubleArgAt_(m, locals, 1);
-	
+
 	cairo_rel_line_to(CONTEXT(self), dx, dy);
 	CHECK_STATUS(self);
 	return self;
@@ -628,7 +628,7 @@ IoObject *IoCairoContext_relCurveTo(IoCairoContext *self, IoObject *locals, IoMe
 	double dy2 = IoMessage_locals_doubleArgAt_(m, locals, 3);
 	double dx3 = IoMessage_locals_doubleArgAt_(m, locals, 4);
 	double dy3 = IoMessage_locals_doubleArgAt_(m, locals, 5);
-	
+
 	cairo_rel_curve_to(CONTEXT(self), dx1, dy1, dx2, dy2, dx3, dy3);
 	CHECK_STATUS(self);
 	return self;
@@ -642,7 +642,7 @@ IoObject *IoCairoContext_arc(IoCairoContext *self, IoObject *locals, IoMessage *
 	double radius = IoMessage_locals_doubleArgAt_(m, locals, 2);
 	double angle1 = IoMessage_locals_doubleArgAt_(m, locals, 3);
 	double angle2 = IoMessage_locals_doubleArgAt_(m, locals, 4);
-		
+
 	cairo_arc(CONTEXT(self), xc, yc, radius, angle1, angle2);
 	CHECK_STATUS(self);
 	return self;
@@ -655,7 +655,7 @@ IoObject *IoCairoContext_arcNegative(IoCairoContext *self, IoObject *locals, IoM
 	double radius = IoMessage_locals_doubleArgAt_(m, locals, 2);
 	double angle1 = IoMessage_locals_doubleArgAt_(m, locals, 3);
 	double angle2 = IoMessage_locals_doubleArgAt_(m, locals, 4);
-		
+
 	cairo_arc_negative(CONTEXT(self), xc, yc, radius, angle1, angle2);
 	CHECK_STATUS(self);
 	return self;
@@ -667,7 +667,7 @@ IoObject *IoCairoContext_rectangle(IoCairoContext *self, IoObject *locals, IoMes
 	double y = IoMessage_locals_doubleArgAt_(m, locals, 1);
 	double w = IoMessage_locals_doubleArgAt_(m, locals, 2);
 	double h = IoMessage_locals_doubleArgAt_(m, locals, 3);
-	
+
 	cairo_rectangle(CONTEXT(self), x, y, w, h);
 	CHECK_STATUS(self);
 	return self;
@@ -688,7 +688,7 @@ IoObject *IoCairoContext_glyphPath(IoCairoContext *self, IoObject *locals, IoMes
 
 	if (!glyphs)
 		return self;
-	
+
 	cairo_glyph_path(CONTEXT(self), glyphs, glyphCount);
 	free(glyphs);
 	CHECK_STATUS(self);
@@ -733,10 +733,10 @@ IoObject *IoCairoContext_copyClipRectangleList(IoCairoContext *self, IoObject *l
 	cairo_rectangle_list_t *rectList = cairo_copy_clip_rectangle_list(CONTEXT(self));
 	cairo_rectangle_t *rect = 0;
 	int i;
-	
+
 	if (rectList->status != CAIRO_STATUS_SUCCESS)
 		IoState_error_(IOSTATE, m, "%s: cairo: %s", __func__, cairo_status_to_string(rectList->status));
-	
+
 	rect = rectList->rectangles;
 	for (i = 0; i < rectList->num_rectangles; i++)
 	{
@@ -777,7 +777,7 @@ IoObject *IoCairoContext_inFill(IoCairoContext *self, IoObject *locals, IoMessag
 {
 	double x = IoMessage_locals_doubleArgAt_(m, locals, 0);
 	double y = IoMessage_locals_doubleArgAt_(m, locals, 1);
-  return IOBOOL(self, cairo_in_fill(CONTEXT(self), x, y));
+	return IOBOOL(self, cairo_in_fill(CONTEXT(self), x, y));
 }
 
 
@@ -806,7 +806,7 @@ IoObject *IoCairoContext_inStroke(IoCairoContext *self, IoObject *locals, IoMess
 {
 	double x = IoMessage_locals_doubleArgAt_(m, locals, 0);
 	double y = IoMessage_locals_doubleArgAt_(m, locals, 1);
-  return IOBOOL(self, cairo_in_stroke(CONTEXT(self), x, y));
+	return IOBOOL(self, cairo_in_stroke(CONTEXT(self), x, y));
 }
 
 
@@ -852,7 +852,7 @@ IoObject *IoCairoContext_translate(IoCairoContext *self, IoObject *locals, IoMes
 {
 	double tx = IoMessage_locals_doubleArgAt_(m, locals, 0);
 	double ty = IoMessage_locals_doubleArgAt_(m, locals, 1);
-	
+
 	cairo_translate(CONTEXT(self), tx, ty);
 	CHECK_STATUS(self);
 	return self;
@@ -862,7 +862,7 @@ IoObject *IoCairoContext_scale(IoCairoContext *self, IoObject *locals, IoMessage
 {
 	double sx = IoMessage_locals_doubleArgAt_(m, locals, 0);
 	double sy = IoMessage_locals_doubleArgAt_(m, locals, 1);
-	
+
 	cairo_scale(CONTEXT(self), sx, sy);
 	CHECK_STATUS(self);
 	return self;
@@ -969,7 +969,7 @@ IoObject *IoCairoContext_textExtents(IoCairoContext *self, IoObject *locals, IoM
 {
 	const char *text = IoMessage_locals_UTF8ArgAt_(m, locals, 0);
 	cairo_text_extents_t extents;
-	
+
 	cairo_text_extents(CONTEXT(self), text, &extents);
 	CHECK_STATUS(self);
 	return IoCairoTextExtents_newWithRawTextExtents(IOSTATE, &extents);
@@ -984,7 +984,7 @@ IoObject *IoCairoContext_glyphExtents(IoCairoContext *self, IoObject *locals, Io
 
 	if (!glyphs)
 		return IONIL(self);
-	
+
 	cairo_glyph_extents(CONTEXT(self), glyphs, glyphCount, &extents);
 	free(glyphs);
 	CHECK_STATUS(self);
@@ -1007,7 +1007,7 @@ IoObject *IoCairoContext_showGlyphs(IoCairoContext *self, IoObject *locals, IoMe
 
 	if (!glyphs)
 		return self;
-	
+
 	cairo_show_glyphs(CONTEXT(self), glyphs, glyphCount);
 	free(glyphs);
 	CHECK_STATUS(self);
@@ -1020,10 +1020,10 @@ IoObject *IoCairoContext_selectFontFace(IoCairoContext *self, IoObject *locals, 
 	char *family = CSTRING(IoMessage_locals_symbolArgAt_(m, locals, 0));
 	cairo_font_slant_t slant = IoMessage_locals_intArgAt_(m, locals, 1);
 	cairo_font_weight_t weight = IoMessage_locals_intArgAt_(m, locals, 2);
-	
+
 	cairo_select_font_face(CONTEXT(self), family, slant, weight);
 	CHECK_STATUS(self);
-	return self;	
+	return self;
 }
 
 IoObject *IoCairoContext_setFontFace(IoCairoContext *self, IoObject *locals, IoMessage *m)

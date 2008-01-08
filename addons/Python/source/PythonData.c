@@ -3,10 +3,10 @@
 #include "PythonData.h"
 
 PythonData *PythonData_new(void)
-{ 
+{
 	PythonData *self = calloc(1, sizeof(PythonData));
 	self->data = NULL;
-	return self; 
+	return self;
 }
 
 void bug(char *s) {

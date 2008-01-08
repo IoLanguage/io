@@ -28,13 +28,13 @@ IoODEPlane *IoODEPlane_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoODEPlane_newTag(state));
-	
+
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoODEPlaneData)));
 
 	GEOMID = 0;
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoODEPlane_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
 		{"geomId", IoODEPlane_geomId},
@@ -49,11 +49,11 @@ IoODEPlane *IoODEPlane_proto(void *state)
 	return self;
 }
 
-IoODEPlane *IoODEPlane_rawClone(IoODEPlane *proto) 
-{ 
+IoODEPlane *IoODEPlane_rawClone(IoODEPlane *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoODEPlaneData)));
-	return self; 
+	return self;
 }
 
 IoODEPlane *IoODEPlane_new(void *state, dGeomID geomId)
@@ -65,19 +65,19 @@ IoODEPlane *IoODEPlane_new(void *state, dGeomID geomId)
 	return self;
 }
 
-void IoODEPlane_free(IoODEPlane *self) 
-{ 
+void IoODEPlane_free(IoODEPlane *self)
+{
 	if(GEOMID)
 	{
 		dGeomDestroy(GEOMID);
 		GEOMID = 0;
 	}
 
-	free(IoObject_dataPointer(self)); 
+	free(IoObject_dataPointer(self));
 }
 
-void IoODEPlane_mark(IoODEPlane *self) 
-{ 
+void IoODEPlane_mark(IoODEPlane *self)
+{
 }
 
 /* ----------------------------------------------------------- */

@@ -38,25 +38,25 @@ IoImage *IoImage_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoImage_newTag(state));
-	
+
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoImageData)));
-	
+
 	DATA(self)->buffer = IoSeq_newWithCString_(IOSTATE, "");
 	DATA(self)->image = Image_new();
 	Image_setExternalUArray_(DATA(self)->image, IoSeq_rawUArray(DATA(self)->buffer));
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoImage_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
 		{"setDataWidthHeightComponentCount", IoImage_setDataWidthHeightComponentCount},
 		{"setPath", IoImage_setPath},
 		{"open", IoImage_open},
 		{"save", IoImage_save},
-		
+
 		{"width", IoImage_width},
 		{"height", IoImage_height},
-		
+
 		{"data", IoImage_data},
 		{"componentCount", IoImage_componentCount},
 		{"isL8", IoImage_isL8},
@@ -66,31 +66,31 @@ IoImage *IoImage_proto(void *state)
 		{"error", IoImage_error},
 		{"resizedTo", IoImage_resizedTo},
 		{"crop", IoImage_crop},
-			
-		// extras 
-		
-		{"setEncodingQuality", IoImage_setEncodingQuality},  
-		{"encodingQuality", IoImage_encodingQuality},  
-			
-		{"setDecodingWidthHint", IoImage_setDecodingWidthHint},  
-		{"decodingWidthHint", IoImage_decodingWidthHint},  
-			
-		{"setDecodingHeightHint", IoImage_setDecodingHeightHint},  
-		{"decodingHeightHint", IoImage_decodingHeightHint},  
+
+		// extras
+
+		{"setEncodingQuality", IoImage_setEncodingQuality},
+		{"encodingQuality", IoImage_encodingQuality},
+
+		{"setDecodingWidthHint", IoImage_setDecodingWidthHint},
+		{"decodingWidthHint", IoImage_decodingWidthHint},
+
+		{"setDecodingHeightHint", IoImage_setDecodingHeightHint},
+		{"decodingHeightHint", IoImage_decodingHeightHint},
 		{NULL, NULL},
 		};
 		IoObject_addMethodTable_(self, methodTable);
-	}  
+	}
 	return self;
 }
 
-IoImage *IoImage_rawClone(IoImage *proto) 
-{ 
+IoImage *IoImage_rawClone(IoImage *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, cpalloc(IoObject_dataPointer(proto), sizeof(IoImageData)));
 	DATA(self)->buffer = IOCLONE(DATA(proto)->buffer);
 	DATA(self)->image = Image_copyWithUArray_(DATA(proto)->image, IoSeq_rawUArray(DATA(self)->buffer));
-	return self; 
+	return self;
 }
 
 IoImage *IoImage_new(void *state)
@@ -101,46 +101,46 @@ IoImage *IoImage_new(void *state)
 
 /* ----------------------------------------------------------- */
 
-void IoImage_free(IoImage *self) 
-{ 
+void IoImage_free(IoImage *self)
+{
 	Image_free(DATA(self)->image);
-	free(IoObject_dataPointer(self)); 
+	free(IoObject_dataPointer(self));
 }
 
-void IoImage_mark(IoImage *self) 
-{ 
+void IoImage_mark(IoImage *self)
+{
 	IoObject_shouldMark(DATA(self)->buffer);
 }
 
-Image *IoImage_image(IoImage *self) 
-{ 
-	return DATA(self)->image; 
+Image *IoImage_image(IoImage *self)
+{
+	return DATA(self)->image;
 }
 
 Image *IoImage_rawImage(IoImage *self)
-{ 
-	return DATA(self)->image; 
+{
+	return DATA(self)->image;
 }
 
 /* ----------------------------------------------------------- */
 
 IoObject *IoImage_path(IoImage *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
-	docSlot("path", 
+	docSlot("path",
 		   "Returns the image path. ")
 	*/
-	
-	return IOSYMBOL(Image_path(DATA(self)->image)); 
+
+	return IOSYMBOL(Image_path(DATA(self)->image));
 }
 
 IoObject *IoImage_setPath(IoImage *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
-	docSlot("setPath(aString)", 
+	docSlot("setPath(aString)",
 		   "Sets the image path. Returns self. ")
 	*/
-	
+
 	IoSymbol *s = IoMessage_locals_symbolArgAt_(m, locals, 0);
 	Image_path_(DATA(self)->image, CSTRING(s));
 	return self;
@@ -149,7 +149,7 @@ IoObject *IoImage_setPath(IoImage *self, IoObject *locals, IoMessage *m)
 void IoImage_checkError(IoImage *self, IoObject *locals, IoMessage *m)
 {
 	const char *e = Image_error(DATA(self)->image);
-	
+
 	if (e != NULL)
 	{
 		IoState_error_(IOSTATE, m, "Image %s on %s", e, Image_path(DATA(self)->image));
@@ -158,162 +158,162 @@ void IoImage_checkError(IoImage *self, IoObject *locals, IoMessage *m)
 
 
 IoObject *IoImage_setDataWidthHeightComponentCount(IoImage *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
-	docSlot("setDataWidthHeightComponentCount(aSequence, width, height, componentCount)", 
+	docSlot("setDataWidthHeightComponentCount(aSequence, width, height, componentCount)",
 		   "Sets the image data and it's parameters. Returns self.")
 	*/
-	
-	IoSeq *data = IoMessage_locals_seqArgAt_(m, locals, 0); 
-	int w = IoMessage_locals_intArgAt_(m, locals, 1); 
-	int h = IoMessage_locals_intArgAt_(m, locals, 2); 
-	int c = IoMessage_locals_intArgAt_(m, locals, 3); 
-	
+
+	IoSeq *data = IoMessage_locals_seqArgAt_(m, locals, 0);
+	int w = IoMessage_locals_intArgAt_(m, locals, 1);
+	int h = IoMessage_locals_intArgAt_(m, locals, 2);
+	int c = IoMessage_locals_intArgAt_(m, locals, 3);
+
 	Image_setData_width_height_componentCount_(DATA(self)->image, IoSeq_rawUArray(data), w, h, c);
-	
+
 	return self;
 }
 
 IoObject *IoImage_open(IoImage *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
-	docSlot("open(optionalPathString)", 
+	docSlot("open(optionalPathString)",
 		   "Sets the path to optionalPathString if provided and opens the image file. Returns self on success, Nil on failure. ")
 	*/
-	
+
 	/*printf("opening Image %p %s\n", self, Image_path(DATA(self)->image));*/
-	
+
 	if (IoMessage_argCount(m) > 0)
-	{ 
-		IoSymbol *path = IoMessage_locals_symbolArgAt_(m, locals, 0); 
+	{
+		IoSymbol *path = IoMessage_locals_symbolArgAt_(m, locals, 0);
 		Image_path_(DATA(self)->image, CSTRING(path));
 	}
-	
+
 	Image_load(DATA(self)->image);
 	IoImage_checkError(self, locals, m);
-	return self; 
+	return self;
 }
 
 IoObject *IoImage_save(IoImage *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
-	docSlot("save(optionalPathString)", 
+	docSlot("save(optionalPathString)",
 		   "Sets the path to optionalPathString if provided and saves the image in the format specified by the path extension. Returns self on success, Nil on failure. ")
 	*/
-	
+
 	if (IoMessage_argCount(m) > 0)
-	{ 
-		IoSymbol *path = IoMessage_locals_symbolArgAt_(m, locals, 0); 
+	{
+		IoSymbol *path = IoMessage_locals_symbolArgAt_(m, locals, 0);
 		Image_path_(DATA(self)->image, CSTRING(path));
 	}
-	
+
 	Image_save(DATA(self)->image);
 	IoImage_checkError(self, locals, m);
-	return self; 
+	return self;
 }
 
 IoObject *IoImage_width(IoImage *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
 	docSlot("width", "Returns the image width. ")
 	*/
-	
-	return IONUMBER(Image_width(DATA(self)->image)); 
+
+	return IONUMBER(Image_width(DATA(self)->image));
 }
 
 IoObject *IoImage_height(IoImage *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
 	docSlot("height", "Returns the image hieght. ")
 	*/
-	
-	return IONUMBER(Image_height(DATA(self)->image)); 
+
+	return IONUMBER(Image_height(DATA(self)->image));
 }
 
 IoObject *IoImage_data(IoImage *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
-	docSlot("data", 
+	docSlot("data",
 		   "Returns a Buffer primitive containing the image data(loading it first if needed). Manipulating this data will effect what is drawn when the receiver's draw method is called. ")
 	*/
-	
-	return DATA(self)->buffer; 
+
+	return DATA(self)->buffer;
 }
 
 IoObject *IoImage_componentCount(IoImage *self, IoObject *locals, IoMessage *m)
-{ 
-	return IONUMBER(Image_componentCount(DATA(self)->image)); 
+{
+	return IONUMBER(Image_componentCount(DATA(self)->image));
 }
 
 IoObject *IoImage_error(IoImage *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
-	docSlot("error", 
+	docSlot("error",
 		   "Returns a String containing the current error or Nil if there is no error. ")
 	*/
-	
+
 	char *s = (char *)Image_error(DATA(self)->image);
-	
-	if ((!s) || (!strlen(s))) 
+
+	if ((!s) || (!strlen(s)))
 	{
 		return IONIL(self);
 	}
-	
+
 	return IOSYMBOL(s);
 }
 
 IoObject *IoImage_isRGB8(IoImage *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
-	docSlot("isRGB8", 
+	docSlot("isRGB8",
 		   "Returns true if the receiver is in RGB8 format, false otherwise.")
 	*/
-	
+
 	return IOBOOL(self, Image_componentCount(DATA(self)->image) == 3);
 }
 
 IoObject *IoImage_isRGBA8(IoImage *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
-	docSlot("isRGBA8", 
+	docSlot("isRGBA8",
 		   "Returns true if the receiver is in RGBA8 format, false otherwise.")
 	*/
-	
+
 	return IOBOOL(self, Image_componentCount(DATA(self)->image) == 4);
 }
 
 IoObject *IoImage_isL8(IoImage *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
-	docSlot("isL8", 
+	docSlot("isL8",
 		   "Returns true if the receiver is in L8 (8bit Luminance) format, false otherwise.")
 	*/
-	
+
 	return IOBOOL(self, Image_componentCount(DATA(self)->image) == 1);
 }
 
 IoObject *IoImage_isLA8(IoImage *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
-	docSlot("isLA8", 
+	docSlot("isLA8",
 		   "Returns true if the receiver is in LA8 (8bit Luminance-Alpha) format, false otherwise.")
 	*/
-	
+
 	return IOBOOL(self, Image_componentCount(DATA(self)->image) == 2);
 }
 
 IoObject *IoImage_crop(IoImage *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("crop(x, y, width, height)", 
+	docSlot("crop(x, y, width, height)",
 		   "Crops the image to the specified values. Returns self.")
 	*/
-	
+
 	int cx = IoMessage_locals_intArgAt_(m, locals, 0);
 	int cy = IoMessage_locals_intArgAt_(m, locals, 1);
 	int width = IoMessage_locals_intArgAt_(m, locals, 2);
 	int height = IoMessage_locals_intArgAt_(m, locals, 3);
-	
+
 	Image_crop(DATA(self)->image, cx, cy, width, height);
 	IoImage_checkError(self, locals, m);
 	return self;
@@ -334,50 +334,50 @@ IoObject *IoImage_resizedTo(IoImage *self, IoObject *locals, IoMessage *m)
 /* --- extras -------------------------------------------------------- */
 
 IoObject *IoImage_setEncodingQuality(IoImage *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
-	docSlot("setEncodingQuality(aNumber)", 
+	docSlot("setEncodingQuality(aNumber)",
 		   "Sets the image encoding quality (range is 0.0 - 1.0, 1.0 with being the highest).")
 	*/
-	
+
 	Image_encodingQuality_(DATA(self)->image, IoMessage_locals_doubleArgAt_(m, locals, 0));
 	return self;
 }
 
 IoObject *IoImage_encodingQuality(IoImage *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	/*#io
-	docSlot("encodingQuality", 
+	docSlot("encodingQuality",
 		   "Returns the encodingQuality setting.")
 	*/
-	
-	return IONUMBER(Image_encodingQuality(DATA(self)->image)); 
+
+	return IONUMBER(Image_encodingQuality(DATA(self)->image));
 }
 
 IoObject *IoImage_setDecodingWidthHint(IoImage *self, IoObject *locals, IoMessage *m)
-{ 
-	
-	
+{
+
+
 	Image_decodingWidthHint_(DATA(self)->image, IoMessage_locals_intArgAt_(m, locals, 0));
 	return self;
 }
 
 IoObject *IoImage_decodingWidthHint(IoImage *self, IoObject *locals, IoMessage *m)
-{ 
-	
-	return IONUMBER(Image_decodingWidthHint(DATA(self)->image)); 
+{
+
+	return IONUMBER(Image_decodingWidthHint(DATA(self)->image));
 }
 
 IoObject *IoImage_setDecodingHeightHint(IoImage *self, IoObject *locals, IoMessage *m)
-{ 
-	
+{
+
 	Image_decodingHeightHint_(DATA(self)->image, IoMessage_locals_intArgAt_(m, locals, 0));
 	return self;
 }
 
 IoObject *IoImage_decodingHeightHint(IoImage *self, IoObject *locals, IoMessage *m)
-{ 
-	
-	return IONUMBER(Image_decodingHeightHint(DATA(self)->image)); 
+{
+
+	return IONUMBER(Image_decodingHeightHint(DATA(self)->image));
 }
 

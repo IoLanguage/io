@@ -27,11 +27,11 @@ static IoTag *IoCairoImageSurface_newTag(void *state)
 	return tag;
 }
 
-IoCairoImageSurface *IoCairoImageSurface_proto(void *state) 
+IoCairoImageSurface *IoCairoImageSurface_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairoImageSurface_newTag(state));
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoCairoImageSurface_proto);
 
 	IoCairoSurface_addMethods(self);
@@ -52,7 +52,7 @@ IoCairoImageSurface *IoCairoImageSurface_proto(void *state)
 			#if CAIRO_HAS_PNG_FUNCTIONS
 			{"writeToPNG", IoCairoImageSurface_writeToPNG},
 			#endif
-	
+
 			{NULL, NULL},
 		};
 		IoObject_addMethodTable_(self, methodTable);
@@ -60,8 +60,8 @@ IoCairoImageSurface *IoCairoImageSurface_proto(void *state)
 	return self;
 }
 
-IoCairoImageSurface *IoCairoImageSurface_rawClone(IoCairoImageSurface *proto) 
-{ 
+IoCairoImageSurface *IoCairoImageSurface_rawClone(IoCairoImageSurface *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	if (SURFACE(proto))
 		IoObject_setDataPointer_(self, cairo_surface_reference(SURFACE(proto)));
@@ -133,11 +133,11 @@ IoObject *IoCairoImageSurface_getStride(IoCairoImageSurface *self, IoObject *loc
 IoObject *IoCairoImageSurface_getData(IoCairoImageSurface *self, IoObject *locals, IoMessage *m)
 {
 	int h = 0, stride = 0;
-	
+
 	IoSeq *data = DATA_SEQ(self);
 	if (data)
 		return data;
-		
+
 	h = cairo_image_surface_get_height(SURFACE(self));
 	stride = cairo_image_surface_get_stride(SURFACE(self));
 	return IoSeq_newWithData_length_(IOSTATE, cairo_image_surface_get_data(SURFACE(self)), h * stride);

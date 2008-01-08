@@ -25,7 +25,7 @@ IoLinker *IoLinker_proto(void *state)
 	IoObject *self = IoObject_new(state);
 
 	IoState_registerProtoWithFunc_(state, self, IoLinker_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
 			{"makeCFunction", IoLinker_makeCFunction},
@@ -49,7 +49,7 @@ IoObject *IoLinker_makeCFunction(IoLinker *self, IoObject *locals, IoMessage *m)
 	IoObject *object = IoMessage_locals_valueArgAt_(m, locals, 2);
 	IoCFunction *f;
 	IoUserFunction* fp = (IoUserFunction*)IoSeq_rawBytes(buffer);
-	
+
 	f = IoCFunction_newWithFunctionPointer_tag_name_(IOSTATE, fp, IoObject_tag(object), CSTRING(slotName));
 	IoObject_setSlot_to_(f, IOSYMBOL("compiledCode"), buffer);
 	return f;
@@ -68,7 +68,7 @@ UArray *UArray_fromHexStringUArray(UArray *self)
 	size_t i, newSize = self->size / 2;
 	UArray *ba = UArray_new();
 	UArray_setSize_(ba, newSize);
-	
+
 	for(i = 0; i < newSize; i ++)
 	{
 		int h = self->data[i*2];
@@ -76,7 +76,7 @@ UArray *UArray_fromHexStringUArray(UArray *self)
 
 		ba->data[i] = (charFromHex(h)<<4) + charFromHex(l);
 	}
-	
+
 	return ba;
 }
 

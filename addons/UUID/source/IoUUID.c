@@ -1,9 +1,9 @@
 /*#io
 UUID ioDoc(
-    docCopyright("Jonathan Wright", 2006)
-    docLicense("BSD revised")
-    docCategory("Encryption")
-    docDescription("Generates UUIDs/GUIDs")
+	docCopyright("Jonathan Wright", 2006)
+	docLicense("BSD revised")
+	docCategory("Encryption")
+	docDescription("Generates UUIDs/GUIDs")
 */
 
 #include "IoUUID.h"
@@ -25,9 +25,9 @@ IoUUID *IoUUID_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoUUID_newTag(state));
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoUUID_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
 		{"uuid", IoUUID_uuid},
@@ -40,10 +40,10 @@ IoUUID *IoUUID_proto(void *state)
 	return self;
 }
 
-IoUUID *IoUUID_rawClone(IoUUID *proto) 
-{ 
+IoUUID *IoUUID_rawClone(IoUUID *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
-	return self; 
+	return self;
 }
 
 IoUUID *IoUUID_new(void *state)
@@ -52,8 +52,8 @@ IoUUID *IoUUID_new(void *state)
 	return IOCLONE(proto);
 }
 
-void IoUUID_free(IoUUID *self) 
-{ 
+void IoUUID_free(IoUUID *self)
+{
 }
 
 /* ----------------------------------------------------------- */

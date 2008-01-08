@@ -1,17 +1,17 @@
 /*  copyright: Steve Dekorte, 2002
  *  All rights reserved. See _BSDLicense.txt.
  *
- *  This is an object wrapper for libpng. 
+ *  This is an object wrapper for libpng.
  *
  *  It's currently only useful for decoding a libpng file
  *  to a byte array and providing info about the
  *  format, width, height and # of components.
  *
  *  It's possible to use an external UArray for loading by calling
- *  PNGImage_setExternalUArray_(), but be carefull not to use the 
+ *  PNGImage_setExternalUArray_(), but be carefull not to use the
  *  PNGImage instance after freeing it's external byte array.
  */
- 
+
 #ifndef PNGIMAGE_DEFINED
 #define PNGIMAGE_DEFINED 1
 
@@ -22,13 +22,13 @@
 
 typedef struct
 {
-  char *path;
-  int width;
-  int height;
-  int components;
-  UArray *byteArray;
-  unsigned char ownsBuffer;
-  char *error;
+	char *path;
+	int width;
+	int height;
+	int components;
+	UArray *byteArray;
+	unsigned char ownsBuffer;
+	char *error;
 } PNGImage;
 
 IOIMAGE_API PNGImage *PNGImage_new(void);
@@ -61,10 +61,10 @@ IOIMAGE_API int PNGImage_components(PNGImage *self);
 
 IOIMAGE_API UArray *PNGImage_byteArray(PNGImage *self);
 
-/* Whomever calls PNGImage_setExternalUArray_ is responsible 
+/* Whomever calls PNGImage_setExternalUArray_ is responsible
  * for freeing "ba" and for making sure that this
  * PNGImage is not still using it after it is freed.
  */
-IOIMAGE_API void PNGImage_setExternalUArray_(PNGImage *self, UArray *ba); 
+IOIMAGE_API void PNGImage_setExternalUArray_(PNGImage *self, UArray *ba);
 
-#endif 
+#endif

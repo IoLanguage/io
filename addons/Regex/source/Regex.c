@@ -10,7 +10,7 @@ Regex *Regex_newFromPattern_withOptions_(const char *pattern, int options)
 	Regex *self = calloc(1, sizeof(Regex));
 	const char *error = 0;
 	int errorOffset = 0;
-	
+
 	self->code = pcre_compile(
 		pattern,
 		options,
@@ -18,18 +18,18 @@ Regex *Regex_newFromPattern_withOptions_(const char *pattern, int options)
 		&errorOffset,
 		0
 	);
-	
+
 	if (!self->code) {
 		Regex_error_(self, "Unable to compile \"%s\" - %s", pattern, error);
 		return self;
 	}
-	
+
 	self->studyData = pcre_study(self->code, 0, &error);
 	if (error) {
 		Regex_error_(self, "Unable to study \"%s\" - %s", pattern, error);
 		return self;
 	}
-	
+
 	Regex_put_in_(self, PCRE_INFO_CAPTURECOUNT, &self->captureCount);
 	return self;
 }
@@ -37,10 +37,10 @@ Regex *Regex_newFromPattern_withOptions_(const char *pattern, int options)
 void Regex_free(Regex *self)
 {
 	pcre_free(self->code);
-	
+
 	if (self->error)
 		UArray_free(self->error);
-	
+
 	free(self);
 }
 
@@ -62,7 +62,7 @@ int Regex_search_from_to_withOptions_captureArray_(
 
 		(int *)UArray_data(captureArray),
 		UArray_size(captureArray)
-	); 
+	);
 
 	if (returnCode < 0) {
 		if (returnCode != PCRE_ERROR_NOMATCH)
@@ -86,17 +86,17 @@ NamedCapture *Regex_namedCaptures(Regex *self)
 	Regex_put_in_(self, PCRE_INFO_NAMECOUNT, &nameCount);
 	if (nameCount <= 0)
 		return 0;
-	
+
 	capture = namedCaptures = calloc(nameCount + 1, sizeof(NamedCapture));
 
 	Regex_put_in_(self, PCRE_INFO_NAMEENTRYSIZE, &entrySize);
 	Regex_put_in_(self, PCRE_INFO_NAMETABLE, &entry);
-	
+
 	for (i = 0; i < nameCount; i++) {
 		capture->name = (const char*)(entry + 2);
 		capture->index = (entry[0] << 8) | entry[1];
 		capture++;
-		
+
 		entry += entrySize;
 	}
 

@@ -2,7 +2,7 @@
 File md5String := method(
 	digest := MD5 clone
 	buffer := Buffer clone
-	
+
 	openForReading
 	while(isAtEnd == nil,
 		readToBufferLength(buffer, 65536)

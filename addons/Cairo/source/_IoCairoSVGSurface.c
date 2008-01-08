@@ -24,11 +24,11 @@ static IoTag *IoCairoSVGSurface_newTag(void *state)
 	return tag;
 }
 
-IoCairoSVGSurface *IoCairoSVGSurface_proto(void *state) 
+IoCairoSVGSurface *IoCairoSVGSurface_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairoSVGSurface_newTag(state));
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoCairoSVGSurface_proto);
 
 	IoCairoSurface_addMethods(self);
@@ -47,8 +47,8 @@ IoCairoSVGSurface *IoCairoSVGSurface_proto(void *state)
 	return self;
 }
 
-IoCairoSVGSurface *IoCairoSVGSurface_rawClone(IoCairoSVGSurface *proto) 
-{ 
+IoCairoSVGSurface *IoCairoSVGSurface_rawClone(IoCairoSVGSurface *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	if (SURFACE(proto))
 		IoObject_setDataPointer_(self, cairo_surface_reference(SURFACE(proto)));
@@ -81,7 +81,7 @@ IoObject *IoCairoSVGSurface_getVersions(IoCairoSVGSurface *self, IoObject *local
 	const cairo_svg_version_t *versions = 0;
 	int versionCount = 0;
 	int i = 0;
-	
+
 	cairo_svg_get_versions(&versions, &versionCount);
 	for (i = 0; i < versionCount; i++)
 		IoList_rawAppend_(versionList, IONUMBER(versions[i]));

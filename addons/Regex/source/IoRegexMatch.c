@@ -29,14 +29,14 @@ IoRegexMatch *IoRegexMatch_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoRegexMatch_newTag(state));
-	
+
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoRegexMatchData)));
 	DATA(self)->regex = IONIL(self);
 	DATA(self)->subject = IOSYMBOL("");
 	DATA(self)->ranges = IoList_new(state);
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoRegexMatch_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
 			{"regex", IoRegexMatch_regex},
@@ -44,7 +44,7 @@ IoRegexMatch *IoRegexMatch_proto(void *state)
 			{"ranges", IoRegexMatch_ranges},
 			{0, 0},
 		};
-		
+
 		IoObject_addMethodTable_(self, methodTable);
 	}
 

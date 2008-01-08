@@ -1,9 +1,9 @@
 /*#io
 ODEJoint ioDoc(
-		 docCopyright("Jonathan Wright", 2006)
-		 docLicense("BSD revised")
-		 docDescription("ODEJoint binding")
-		 */
+	docCopyright("Jonathan Wright", 2006)
+	docLicense("BSD revised")
+	docDescription("ODEJoint binding")
+*/
 
 #include "IoODEJoint_internal.h"
 #include "IoODEHinge2.h"
@@ -31,12 +31,12 @@ IoODEHinge2 *IoODEHinge2_proto(void *state)
 	IoObject_tag_(self, IoODEHinge2_newTag(state));
 
 	IoODEJoint_protoCommon(self);
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoODEHinge2_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
-                ODE_COMMON_JOINT_METHODS
+				ODE_COMMON_JOINT_METHODS
 #define PARAM(X, _N, _SETN) \
 		{#_N, IoODEHinge2_##_N}, \
 		{#_SETN, IoODEHinge2_##_SETN},
@@ -44,16 +44,16 @@ PARAMS
 #undef PARAM
 
 		{"anchor", IoODEHinge2_anchor},
-                {"setAnchor", IoODEHinge2_setAnchor},
+				{"setAnchor", IoODEHinge2_setAnchor},
 		{"anchor2", IoODEHinge2_anchor2},
 		{"axis1", IoODEHinge2_axis1},
-                {"setAxis1", IoODEHinge2_setAxis1},
+				{"setAxis1", IoODEHinge2_setAxis1},
 		{"axis2", IoODEHinge2_axis2},
-                {"setAxis2", IoODEHinge2_setAxis2},
+				{"setAxis2", IoODEHinge2_setAxis2},
 		{"angle1", IoODEHinge2_angle1},
 		{"angle1Rate", IoODEHinge2_angle1Rate},
 		{"angle2Rate", IoODEHinge2_angle2Rate},
-                {"addTorques", IoODEHinge2_addTorques},
+				{"addTorques", IoODEHinge2_addTorques},
 
 		{NULL, NULL},
 		};
@@ -62,8 +62,8 @@ PARAMS
 	return self;
 }
 
-IoODEHinge2 *IoODEHinge2_rawClone(IoODEHinge2 *proto) 
-{ 
+IoODEHinge2 *IoODEHinge2_rawClone(IoODEHinge2 *proto)
+{
 	IoObject *self = IoODEJoint_rawClone(proto);
 
 	if(DATA(proto)->jointGroup)
@@ -77,13 +77,13 @@ IoODEHinge2 *IoODEHinge2_rawClone(IoODEHinge2 *proto)
 	return self;
 }
 
-void IoODEHinge2_free(IoODEHinge2 *self) 
-{ 
+void IoODEHinge2_free(IoODEHinge2 *self)
+{
 	IoODEJoint_free(self);
 }
 
-void IoODEHinge2_mark(IoODEHinge2 *self) 
-{ 
+void IoODEHinge2_mark(IoODEHinge2 *self)
+{
 	IoODEJoint_mark(self);
 }
 

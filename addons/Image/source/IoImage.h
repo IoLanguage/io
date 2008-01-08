@@ -19,12 +19,12 @@ typedef IoObject IoImage;
 
 typedef struct
 {
-  int width;
-  int height;
-  IoSeq *buffer;
-  Image *image;
-  int textureWidth;
-  int textureHeight;
+	int width;
+	int height;
+	IoSeq *buffer;
+	Image *image;
+	int textureWidth;
+	int textureHeight;
 } IoImageData;
 
 IOIMAGE_API IoImage *IoImage_proto(void *state);

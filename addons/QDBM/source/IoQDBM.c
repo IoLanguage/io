@@ -1,10 +1,10 @@
 /*#io
 QDBM ioDoc(
-           docCopyright("Steve Dekorte", 2002)
-           docLicense("BSD revised")
-           docDescription("A key/value database.")
-		 docCategory("Databases")
-           */
+	docCopyright("Steve Dekorte", 2002)
+	docLicense("BSD revised")
+	docDescription("A key/value database.")
+	docCategory("Databases")
+*/
 
 #include "IoQDBM.h"
 
@@ -47,7 +47,7 @@ int pathCompare(const char *p1, const char *p2, char sepChar)
 		if (c1 > c2) return 1;
 		if (c1 < c2) return -1;
 	}
-	
+
 	if (len1 > len2) return 1;
 	if (len1 < len2) return -1;
 
@@ -61,16 +61,16 @@ int comparePathComponent(const char *p1, const char *p2, char sepChar, int *size
 	char *b2 = strchr(p2 + i, sepChar);
 	int len1 = b1 ? b1 - p1 : strlen(p1);
 	int len2 = b2 ? b2 - p2 : strlen(p2);
-	
+
 	if (len1 && isdigit(p1[0]))
 	{
-		return strtod(p1, p1 + len1) - 
+		return strtod(p1, p1 + len1) -
 	}
-	
+
 	if (len1 > len2) return 1;
 	if (len1 < len2) return -1;
 	if (len1 == 0)   return 0;
-	
+
 	return strcmpn(p1, p2, len1);
 }
 
@@ -80,14 +80,14 @@ int pathCompare(const char *p1, const char *p2, char sepChar)
 	int len1 = strlen(p1);
 	int len2 = strlen(p2);
 	//int len = len1 < len2 ? len1 : len2;
-	
-	
+
+
 	char *b1 = strchr(p1 + i, '/');
 	char *b2 = strchr(p2 + i, '/');
-	
+
 	int blen1 = p1 - b1;
-	
-	
+
+
 	if (len1 > len2) return 1;
 	if (len1 < len2) return -1;
 
@@ -134,21 +134,21 @@ int compareStrNumFunc(const char *a, int asize, const char *b, int bsize)
 	long an;
 	long bn;
 	int r;
-	
+
 	if (as != NULL) *as = 0;
 	if (bs != NULL) *bs = 0;
 
 	an = atol(a);
 	bn = atol(b);
-	
+
 	//printf("%i cmp %i ", an, bn);
-	
+
 	if (as != NULL) *as = '/';
 	if (bs != NULL) *bs = '/';
 
-	
+
 	if (an > bn) { r = 1; }
-	else 
+	else
 	if (an < bn) { r = -1; }
 	else
 	{
@@ -174,23 +174,23 @@ IoTag *IoQDBM_newTag(void *state)
 IoQDBM *IoQDBM_proto(void *state)
 {
 	IoMethodTable methodTable[] = {
-	{"open",      IoQDBM_open},    
-	{"close",     IoQDBM_close},    
-	
-	{"atPut",     IoQDBM_atPut}, 
+	{"open",      IoQDBM_open},
+	{"close",     IoQDBM_close},
+
+	{"atPut",     IoQDBM_atPut},
 	{"at",        IoQDBM_at},
 	{"sizeAt",    IoQDBM_sizeAt},
 	{"removeAt",  IoQDBM_removeAt},
-	//{"sync",      IoQDBM_sync},   
-	
-	{"size",      IoQDBM_size},   
-	{"optimize",  IoQDBM_optimize},  
-	{"name",      IoQDBM_name},  
-	 
+	//{"sync",      IoQDBM_sync},
+
+	{"size",      IoQDBM_size},
+	{"optimize",  IoQDBM_optimize},
+	{"name",      IoQDBM_name},
+
 	{"begin",  IoQDBM_begin},
 	{"commit",  IoQDBM_commit},
 	{"abort",  IoQDBM_abort},
-	
+
 	{"cursorFirst",  IoQDBM_cursorFirst},
 	{"cursorLast",  IoQDBM_cursorLast},
 	{"cursorPrevious",  IoQDBM_cursorPrevious},
@@ -201,26 +201,26 @@ IoQDBM *IoQDBM_proto(void *state)
 	{"cursorValue",  IoQDBM_cursorValue},
 	{"cursorPut",  IoQDBM_cursorPut},
 	{"cursorRemove",  IoQDBM_cursorRemove},
-		
+
 	{NULL, NULL},
 	};
-	
+
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoQDBM_newTag(state));
-	
+
 	IoObject_setDataPointer_(self, NULL);
 	IoState_registerProtoWithFunc_((IoState *)state, self, IoQDBM_proto);
-	
+
 	IoObject_addMethodTable_(self, methodTable);
 	return self;
 }
 
-IoQDBM *IoQDBM_rawClone(IoQDBM *proto) 
-{ 
+IoQDBM *IoQDBM_rawClone(IoQDBM *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_tag_(self, IoObject_tag(proto));
 	IoObject_setDataPointer_(self, NULL);
-	return self; 
+	return self;
 }
 
 IoQDBM *IoQDBM_new(void *state)
@@ -229,9 +229,9 @@ IoQDBM *IoQDBM_new(void *state)
 	return IOCLONE(proto);
 }
 
-void IoQDBM_free(IoQDBM *self) 
-{	
-	if(QDBM(self)) 
+void IoQDBM_free(IoQDBM *self)
+{
+	if(QDBM(self))
 	{
 		vlclose(QDBM(self));
 		IoObject_setDataPointer_(self, NULL);
@@ -239,12 +239,12 @@ void IoQDBM_free(IoQDBM *self)
 }
 
 /*
-void IoQDBM_mark(IoQDBM *self) 
+void IoQDBM_mark(IoQDBM *self)
 {
 }
 */
 
-// -------------------------------------------------------- 
+// --------------------------------------------------------
 
 IoObject *IoQDBM_open(IoObject *self, IoObject *locals, IoMessage *m)
 {
@@ -254,7 +254,7 @@ IoObject *IoQDBM_open(IoObject *self, IoObject *locals, IoMessage *m)
 	VILLA *villa;
 	IoSeq *path = IoMessage_locals_seqArgAt_(m, locals, 0);
 	VLCFUNC cf = VL_CMPLEX;
-	
+
 	if(IoMessage_argCount(m) > 1)
 	{
 		IoSeq *compareType = IoMessage_locals_seqArgAt_(m, locals, 1);
@@ -268,32 +268,32 @@ IoObject *IoQDBM_open(IoObject *self, IoObject *locals, IoMessage *m)
 		else
 		if(strcmp(CSTRING(compareType), "VL_CMPLEX") == 0) cf = VL_CMPLEX;
 		else
-		if(strcmp(CSTRING(compareType), "VL_CMPSNM") == 0) 
+		if(strcmp(CSTRING(compareType), "VL_CMPSNM") == 0)
 		{
 			cf = compareStrNumFunc;
 			//printf("using compareStrNumFunc\n");
 		}
 		else
-		if(strcmp(CSTRING(compareType), "VL_CMPPTH") == 0) 
+		if(strcmp(CSTRING(compareType), "VL_CMPPTH") == 0)
 		{
 			cf = pathCompareFunc;
 			//printf("using pathCompareFunc\n");
-		}		
+		}
 		else
 		{
 			fprintf(stderr, "ivalid compare function name\n");
 			return IONIL(self);
 		}
 	}
-	
+
 	if(!(villa = vlopen(CSTRING(path), VL_OWRITER | VL_OCREAT, cf)))
 	{
 		fprintf(stderr, "dpopen failed\n");
 		return IONIL(self);
 	}
-	
+
 	IoObject_setDataPointer_(self, villa);
-	
+
 	return self;
 }
 
@@ -302,13 +302,13 @@ IoObject *IoQDBM_close(IoObject *self, IoObject *locals, IoMessage *m)
 	/*#io
 	docSlot("close", "Closes the database.")
 	*/
-	
-	if(QDBM(self)) 
+
+	if(QDBM(self))
 	{
 		vlclose(QDBM(self));
 		IoObject_setDataPointer_(self, NULL);
 	}
-	
+
 	return self;
 }
 
@@ -340,7 +340,7 @@ IoObject *IoQDBM_optimize(IoObject *self, IoObject *locals, IoMessage *m)
 	/*#io
 	docSlot("optimize", "Optimizes the database. Returns self")
 	*/
-	
+
 	IOASSERT(QDBM(self), "invalid QDBM");
 	IOASSERT(vloptimize(QDBM(self)), dperrmsg(dpecode));
 	return self;
@@ -351,7 +351,7 @@ IoObject *IoQDBM_name(IoObject *self, IoObject *locals, IoMessage *m)
 	/*#io
 	docSlot("name", "Returns the name of the database.")
 	*/
-	
+
 	IOASSERT(QDBM(self), "invalid QDBM");
 	return IOSYMBOL(vlname(QDBM(self)));
 }
@@ -397,17 +397,17 @@ IoObject *IoQDBM_atPut(IoObject *self, IoObject *locals, IoMessage *m)
 	/*#io
 	docSlot("atPut(keySymbol, valueSequence)", "Sets the value of valueSequence with the key keySymbol. Returns self.")
 	*/
-	
+
 	IoSeq *key = IoMessage_locals_seqArgAt_(m, locals, 0);
 	IoSeq *value = IoMessage_locals_seqArgAt_(m, locals, 1);
 	int result;
-	
+
 	IOASSERT(QDBM(self), "invalid QDBM");
-		
+
 	result = vlput(QDBM(self), (const char *)IoSeq_rawBytes(key), IoSeq_rawSizeInBytes(key), (const char *)IoSeq_rawBytes(value), IoSeq_rawSizeInBytes(value), VL_DOVER);
-	
+
 	IOASSERT(result, dperrmsg(dpecode));
-	
+
 	return self;
 }
 
@@ -419,18 +419,18 @@ IoObject *IoQDBM_at(IoObject *self, IoObject *locals, IoMessage *m)
 	IoSeq *key = IoMessage_locals_seqArgAt_(m, locals, 0);
 	char *value;
 	int size;
-	
+
 	IOASSERT(QDBM(self), "invalid QDBM");
-	
+
 	value = vlget(QDBM(self), (const char *)IoSeq_rawBytes(key), IoSeq_rawSizeInBytes(key), &size);
-	
+
 	if (value)
 	{
 		IoSeq *v = IoSeq_newWithData_length_(IOSTATE, (unsigned char *)value, size);
 		free(value);
 		return v;
 	}
-	
+
 	return IONIL(self);
 }
 
@@ -441,16 +441,16 @@ IoObject *IoQDBM_sizeAt(IoObject *self, IoObject *locals, IoMessage *m)
 	*/
 	IoSeq *key = IoMessage_locals_seqArgAt_(m, locals, 0);
 	int size;
-	
+
 	IOASSERT(QDBM(self), "invalid QDBM");
-	
+
 	size = vlvsiz(QDBM(self), (const char *)IoSeq_rawBytes(key), IoSeq_rawSizeInBytes(key));
-	
+
 	if (size == -1)
 	{
 		return IONIL(self);
 	}
-	
+
 	return IONUMBER(size);
 }
 
@@ -492,7 +492,7 @@ IoObject *IoQDBM_cursorPrevious(IoObject *self, IoObject *locals, IoMessage *m)
 	/*#io
 	docSlot("cursorPrevious", "Move cursor to previous record. Returns true if there is another key, or false if there is no previous record.")
 	*/
-	
+
 	IOASSERT(QDBM(self), "invalid QDBM");
 	return IOBOOL(self, vlcurprev(QDBM(self)));
 }
@@ -502,7 +502,7 @@ IoObject *IoQDBM_cursorNext(IoObject *self, IoObject *locals, IoMessage *m)
 	/*#io
 	docSlot("cursorNext", "Move cursor to next record. Returns true if there is another key, or false if there is no next record.")
 	*/
-	
+
 	IOASSERT(QDBM(self), "invalid QDBM");
 	return IOBOOL(self, vlcurnext(QDBM(self)));
 }
@@ -513,7 +513,7 @@ IoObject *IoQDBM_cursorJumpForward(IoObject *self, IoObject *locals, IoMessage *
 	docSlot("cursorJumpForward(key)", "Move cursor to next record around key. Returns self")
 	*/
 	IoSeq *key = IoMessage_locals_seqArgAt_(m, locals, 0);
-	
+
 	IOASSERT(QDBM(self), "invalid QDBM");
 	//IOASSERT(vlcurjump(QDBM(self), (const char *)IoSeq_rawBytes(key), IoSeq_rawSizeInBytes(key), VL_JFORWARD), dperrmsg(dpecode));
 	return IOBOOL(self, vlcurjump(QDBM(self), (const char *)IoSeq_rawBytes(key), IoSeq_rawSizeInBytes(key), VL_JFORWARD));
@@ -525,7 +525,7 @@ IoObject *IoQDBM_cursorJumpBackward(IoObject *self, IoObject *locals, IoMessage 
 	docSlot("cursorJumpBackward(key)", "Move cursor to previous record around key. Returns self")
 	*/
 	IoSeq *key = IoMessage_locals_seqArgAt_(m, locals, 0);
-	
+
 	IOASSERT(QDBM(self), "invalid QDBM");
 	//IOASSERT(vlcurjump(QDBM(self), (const char *)IoSeq_rawBytes(key), IoSeq_rawSizeInBytes(key), VL_JBACKWARD), dperrmsg(dpecode));
 	return IOBOOL(self, vlcurjump(QDBM(self), (const char *)IoSeq_rawBytes(key), IoSeq_rawSizeInBytes(key), VL_JBACKWARD));
@@ -538,17 +538,17 @@ IoObject *IoQDBM_cursorKey(IoObject *self, IoObject *locals, IoMessage *m)
 	*/
 	int size;
 	char *value;
-	
+
 	IOASSERT(QDBM(self), "invalid QDBM");
 	value = vlcurkey(QDBM(self), &size);
-	
+
 	if (value)
 	{
 		IoSeq *s = IoSeq_newWithData_length_(IOSTATE, (unsigned char *)value, size);
 		free(value);
 		return s;
 	}
-	
+
 	return IONIL(self);
 }
 
@@ -559,17 +559,17 @@ IoObject *IoQDBM_cursorValue(IoObject *self, IoObject *locals, IoMessage *m)
 	*/
 	int size;
 	char *value;
-	
+
 	IOASSERT(QDBM(self), "invalid QDBM");
 	value = vlcurval(QDBM(self), &size);
-	
+
 	if (value)
 	{
 		IoSeq *s = IoSeq_newWithData_length_(IOSTATE, (unsigned char *)value, size);
 		free(value);
 		return s;
 	}
-	
+
 	return IONIL(self);
 }
 
@@ -583,7 +583,7 @@ IoObject *IoQDBM_cursorPut(IoObject *self, IoObject *locals, IoMessage *m)
 	IOASSERT(QDBM(self), "invalid QDBM");
 
 	IOASSERT(vlcurput(QDBM(self), (const char *)IoSeq_rawBytes(value), IoSeq_rawSizeInBytes(value), VL_CPCURRENT), dperrmsg(dpecode));
-	
+
 	return self;
 }
 
@@ -592,10 +592,10 @@ IoObject *IoQDBM_cursorRemove(IoObject *self, IoObject *locals, IoMessage *m)
 	/*#io
 	docSlot("cursorRemove", "Removes the current cursor postion. Returns self.")
 	*/
-	
+
 	IOASSERT(QDBM(self), "invalid QDBM");
-	
+
 	IOASSERT(vlcurout(QDBM(self)), dperrmsg(dpecode));
-	
+
 	return self;
 }

@@ -28,12 +28,12 @@ IoCFFIPointer *IoCFFIPointer_proto(void *state)
 {
 	IoObject *self = IoCFFIDataType_new(state);
 	IoObject_tag_(self, IoCFFIPointer_newTag(state));
-	
+
 	IoObject_setSlot_to_(self, IOSYMBOL("pointers"), IoMap_new(state));
-	
+
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoCFFIPointerData)));
 	DATA(self)->ptr = NULL;
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoCFFIPointer_proto);
 
 	{
@@ -50,11 +50,11 @@ IoCFFIPointer *IoCFFIPointer_proto(void *state)
 	return self;
 }
 
-IoCFFIPointer *IoCFFIPointer_rawClone(IoCFFIPointer *proto) 
-{ 
+IoCFFIPointer *IoCFFIPointer_rawClone(IoCFFIPointer *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoCFFIPointerData)));
-	return self; 
+	return self;
 }
 
 IoCFFIPointer *IoCFFIPointer_new(void *state)
@@ -63,10 +63,10 @@ IoCFFIPointer *IoCFFIPointer_new(void *state)
 	return IOCLONE(proto);
 }
 
-void IoCFFIPointer_free(IoCFFIPointer *self) 
+void IoCFFIPointer_free(IoCFFIPointer *self)
 {
 	IoCFFIPointerData *data = DATA(self);
-	
+
 	free(data);
 }
 
@@ -77,30 +77,30 @@ IoCFFIPointer *IoCFFIPointer_ToType_(IoObject *type)
 	IoObject *pointer, *self;
 	IoMap *pointers;
 	IoSymbol *key;
-	
+
 	// this is a hack so macros relying on self will work
 	self = type;
-	
+
 	pointers = IoObject_getSlot_(IoState_protoWithInitFunction_(IOSTATE, IoCFFIPointer_proto), IOSYMBOL("pointers"));
 	key = IoState_on_doCString_withLabel_(IOSTATE, type, "uniqueHexId", "IoCFFIPointer_ToType_");
-	
+
 	pointer = IoMap_rawAt(pointers, key);
 	if (!pointer)
 	{
 		// create new pointer and add to cache
 		pointer = IoCFFIPointer_new(IOSTATE);
 		IoObject_setSlot_to_(pointer, IOSYMBOL("pointedToType"), type);
-		
+
 		IoMap_rawAtPut(pointers, key, pointer);
 	}
-	
+
 	return pointer;
 }
 
 IoObject *IoCFFIPointer_address(IoCFFIPointer *self, IoObject *locals, IoMessage *m)
 {
 	char str[64] = {0};
-	
+
 	snprintf(str, 64, "%p", DATA(self)->ptr);
 	return IOSYMBOL(str);
 }
@@ -110,29 +110,29 @@ IoObject *IoCFFIPointer_value(IoCFFIPointer *self, IoObject *locals, IoMessage *
 	IoObject *pointedToType;
 	IoCFFIPointer *pointer;
 	char *typeString, *cp, c;
-	
+
 	if (DATA(self)->ptr == NULL)
 	{
 		IoState_error_(IOSTATE, m, "attempt to dereference NULL pointer");
 		return IONIL(self);
 	}
-	
+
 	typeString = CSTRING(IoState_on_doCString_withLabel_(IOSTATE, self, "typeString", "IoCFFIPointer_value"));
-	
+
 	pointedToType = IoObject_getSlot_(self, IOSYMBOL("pointedToType"));
 	if (ISCFFIPointer(pointedToType))
 	{
 		// we are a pointer to a pointer, so return a new Pointer
 		// that points to the address of our ptr dereferenced
-		
+
 		cp = strrchr(typeString, '^');
 		switch (c = *(++cp))
 		{
-			
+
 #define IoCFFIPointer_value_SET_DATA_PTR(cType) \
 	pointer = IOCLONE(IoCFFIPointer_ToType_(IoObject_getSlot_(pointedToType, IOSYMBOL("pointedToType")))); \
 	DATA(pointer)->ptr = *((cType **)(DATA(self)->ptr)); break
-	
+
 			case 'c':
 				IoCFFIPointer_value_SET_DATA_PTR(char);
 			case 'C':
@@ -153,9 +153,9 @@ IoObject *IoCFFIPointer_value(IoCFFIPointer *self, IoObject *locals, IoMessage *
 				IoCFFIPointer_value_SET_DATA_PTR(float);
 			case 'd':
 				IoCFFIPointer_value_SET_DATA_PTR(double);
-				
+
 #undef IoCFFIPointer_value_SET_DATA_PTR
-			
+
 			case 'v':
 				IoState_error_(IOSTATE, m, "attempt to dereference a void pointer");
 				return IONIL(self);
@@ -183,14 +183,14 @@ IoObject *IoCFFIPointer_value(IoCFFIPointer *self, IoObject *locals, IoMessage *
 IoObject *IoCFFIPointer_setValue(IoCFFIPointer *self, IoObject *locals, IoMessage *m)
 {
 	DATA(self)->ptr = IoCFFIDataType_ValuePointerFromObject_(IoMessage_locals_valueArgAt_(m, locals, 0));
-	
+
 	return self;
 }
 
 IoObject *IoCFFIPointer_toType(IoCFFIPointer *self, IoObject *locals, IoMessage *m)
 {
 	IoObject *type;
-	
+
 	type = IoMessage_locals_valueArgAt_(m, locals, 0);
 	return IoCFFIPointer_ToType_(type);
 }

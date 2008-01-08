@@ -22,13 +22,13 @@ static IoTag *IoCairoLinearGradient_newTag(void *state)
 	return tag;
 }
 
-IoCairoLinearGradient *IoCairoLinearGradient_proto(void *state) 
+IoCairoLinearGradient *IoCairoLinearGradient_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairoLinearGradient_newTag(state));
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoCairoLinearGradient_proto);
-	
+
 	IoCairoGradient_addMethods(self);
 	{
 		IoMethodTable methodTable[] = {
@@ -42,15 +42,15 @@ IoCairoLinearGradient *IoCairoLinearGradient_proto(void *state)
 	return self;
 }
 
-IoCairoLinearGradient *IoCairoLinearGradient_rawClone(IoCairoLinearGradient *proto) 
-{ 
+IoCairoLinearGradient *IoCairoLinearGradient_rawClone(IoCairoLinearGradient *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	if (PATTERN(proto))
 		IoObject_setDataPointer_(self, cairo_pattern_reference(PATTERN(proto)));
 	return self;
 }
 
- 
+
 /* ------------------------------------------------------------------------------------------------*/
 
 IoObject *IoCairoLinearGradient_create(IoCairoLinearGradient *self, IoObject *locals, IoMessage *m)

@@ -36,15 +36,15 @@ IoZlibEncoder *IoZlibEncoder_proto(void *state)
 {
 	IoZlibEncoder *self = IoObject_new(state);
 	IoObject_tag_(self, IoZlibEncoder_newTag(state));
-	
+
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoZlibEncoderData)));
 	DATA(self)->strm = calloc(1, sizeof(z_stream));
 	DATA(self)->level = 9;
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoZlibEncoder_proto);
-	
+
 	{
-		IoMethodTable methodTable[] = {    
+		IoMethodTable methodTable[] = {
 		{"beginProcessing", IoZlibEncoder_beginProcessing},
 		{"process", IoZlibEncoder_process},
 		{"endProcessing", IoZlibEncoder_endProcessing},
@@ -52,16 +52,16 @@ IoZlibEncoder *IoZlibEncoder_proto(void *state)
 		};
 		IoObject_addMethodTable_(self, methodTable);
 	}
-	
+
 	return self;
 }
 
-IoZlibEncoder *IoZlibEncoder_rawClone(IoZlibEncoder *proto) 
-{ 
+IoZlibEncoder *IoZlibEncoder_rawClone(IoZlibEncoder *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoZlibEncoderData)));
 	DATA(self)->strm = calloc(1, sizeof(z_stream));
-	return self; 
+	return self;
 }
 
 IoZlibEncoder *IoZlibEncoder_new(void *state)
@@ -70,12 +70,12 @@ IoZlibEncoder *IoZlibEncoder_new(void *state)
 	return IOCLONE(proto);
 }
 
-void IoZlibEncoder_free(IoZlibEncoder *self) 
-{ 
-	free(DATA(self)); 
+void IoZlibEncoder_free(IoZlibEncoder *self)
+{
+	free(DATA(self));
 }
 
-// ----------------------------------------------------------- 
+// -----------------------------------------------------------
 
 IoObject *IoZlibEncoder_beginProcessing(IoZlibEncoder *self, IoObject *locals, IoMessage *m)
 {
@@ -84,7 +84,7 @@ IoObject *IoZlibEncoder_beginProcessing(IoZlibEncoder *self, IoObject *locals, I
 	*/
 	z_stream *strm = DATA(self)->strm;
 	int ret;
-	
+
 	strm->zalloc = Z_NULL;
 	strm->zfree = Z_NULL;
 	strm->opaque = Z_NULL;
@@ -92,7 +92,7 @@ IoObject *IoZlibEncoder_beginProcessing(IoZlibEncoder *self, IoObject *locals, I
 	strm->next_in = Z_NULL;
 	ret = deflateInit(strm, DATA(self)->level);
 	IOASSERT(ret == Z_OK, "unable to initialize zlib via inflateInit()");
-	
+
 	return self;
 }
 
@@ -102,10 +102,10 @@ IoObject *IoZlibEncoder_endProcessing(IoZlibEncoder *self, IoObject *locals, IoM
 	docSlot("endProcessing", "Finish processing remaining bytes of inputBuffer.")
 	*/
 	z_stream *strm = DATA(self)->strm;
-	
+
 	IoZlibEncoder_process(self, locals, m);
 	deflateEnd(strm);
-	
+
 	DATA(self)->isDone = 1;
 	return self;
 }
@@ -117,39 +117,39 @@ IoObject *IoZlibEncoder_process(IoZlibEncoder *self, IoObject *locals, IoMessage
 The processed inputBuffer is empties except for the spare bytes at the end which don't fit into a cipher block.")
 	*/
 	z_stream *strm = DATA(self)->strm;
-	
+
 	UArray *input  = IoObject_rawGetMutableUArraySlot(self, locals, m, IOSYMBOL("inputBuffer"));
 	UArray *output = IoObject_rawGetMutableUArraySlot(self, locals, m, IOSYMBOL("outputBuffer"));
-	
+
 	uint8_t *inputBytes = (uint8_t *)UArray_bytes(input);
 	size_t inputSize = UArray_sizeInBytes(input);
-	
+
 	if (inputSize)
 	{
 		int ret;
 		size_t oldOutputSize = UArray_size(output);
 		size_t outputRoom = (inputSize * 2);
 		uint8_t *outputBytes;
-		
+
 		UArray_setSize_(output, oldOutputSize + outputRoom);
 		outputBytes = (uint8_t *)UArray_bytes(output) + oldOutputSize;
-		
+
 		strm->next_in   = inputBytes;
 		strm->avail_in  = inputSize;
-		
+
 		strm->next_out  = outputBytes;
 		strm->avail_out = outputRoom;
-		
+
 		ret = deflate(strm, Z_NO_FLUSH);
-		//assert(ret != Z_STREAM_ERROR); 
+		//assert(ret != Z_STREAM_ERROR);
 		{
 		size_t outputSize = outputRoom - strm->avail_out;
 		UArray_setSize_(output, oldOutputSize + outputSize);
 		}
-		
+
 		UArray_setSize_(input, 0);
 	}
-	
+
 	return self;
 }
 

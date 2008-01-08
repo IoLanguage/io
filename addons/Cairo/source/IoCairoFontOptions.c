@@ -1,8 +1,8 @@
 /*#io
 CairoFontOptions ioDoc(
-  docCopyright("Daniel Rosengren", 2007)
-  docLicense("BSD revised")
-  docCategory("Graphics")
+	docCopyright("Daniel Rosengren", 2007)
+	docLicense("BSD revised")
+	docCategory("Graphics")
 */
 
 #include "IoCairoFontOptions.h"
@@ -17,7 +17,7 @@ CairoFontOptions ioDoc(
 void *IoMessage_locals_cairoFontOptionsArgAt_(IoMessage *self, void *locals, int n)
 {
 	IoObject *arg = IoMessage_locals_valueArgAt_(self, locals, n);
-	if (!ISCAIROFONTOPTIONS(arg)) 
+	if (!ISCAIROFONTOPTIONS(arg))
 		IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "CairoFontOptions");
 	return arg;
 }
@@ -39,7 +39,7 @@ IoCairoFontOptions *IoCairoFontOptions_proto(void *state)
 	IoObject_tag_(self, IoCairoFontOptions_newTag(state));
 
 	IoState_registerProtoWithFunc_(state, self, IoCairoFontOptions_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
 			{"create", IoCairoFontOptions_create},
@@ -59,7 +59,7 @@ IoCairoFontOptions *IoCairoFontOptions_proto(void *state)
 
 			{NULL, NULL},
 		};
-		
+
 		IoObject_addMethodTable_(self, methodTable);
 	}
 

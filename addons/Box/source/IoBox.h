@@ -17,8 +17,8 @@ typedef IoObject IoBox;
 
 typedef struct
 {
-    IoSeq *origin;
-    IoSeq *size;
+	IoSeq *origin;
+	IoSeq *size;
 } IoBoxData;
 
 IOBOX_API IoBox *IoBox_rawClone(IoBox *self);
@@ -34,7 +34,7 @@ IOBOX_API IoSeq *IoBox_rawSize(IoBox *self);
 IOBOX_API void IoBox_free(IoBox *self);
 IOBOX_API void IoBox_mark(IoBox *self);
 
-// ----------------------------------------------------------- 
+// -----------------------------------------------------------
 
 IOBOX_API IoObject *IoBox_origin(IoBox *self, IoObject *locals, IoMessage *m);
 IOBOX_API IoObject *IoBox_size(IoBox *self, IoObject *locals, IoMessage *m);

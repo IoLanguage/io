@@ -28,15 +28,15 @@ IoODEWorld *IoODEWorld_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoODEWorld_newTag(state));
-	
+
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoODEWorldData)));
 
 	WORLDID = 0;
 	DATA(self)->bodies = 0L;
 	DATA(self)->jointGroups = 0L;
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoODEWorld_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
 		{"worldId", IoODEWorld_worldId},
@@ -60,8 +60,8 @@ IoODEWorld *IoODEWorld_proto(void *state)
 	return self;
 }
 
-IoODEWorld *IoODEWorld_rawClone(IoODEWorld *proto) 
-{ 
+IoODEWorld *IoODEWorld_rawClone(IoODEWorld *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoODEWorldData)));
 	WORLDID = dWorldCreate();
@@ -69,7 +69,7 @@ IoODEWorld *IoODEWorld_rawClone(IoODEWorld *proto)
 	DATA(self)->jointGroups = List_new();
 	IoObject_inlineSetSlot_to_(self, IOSYMBOL("Body"), IoODEBody_newBodyProtoWithWorld(IOSTATE, self));
 	IoObject_inlineSetSlot_to_(self, IOSYMBOL("JointGroup"), IoODEJointGroup_newJointGroupProtoWithWorld(IOSTATE, self));
-	return self; 
+	return self;
 }
 
 IoODEWorld *IoODEWorld_new(void *state)
@@ -78,8 +78,8 @@ IoODEWorld *IoODEWorld_new(void *state)
 	return IOCLONE(proto);
 }
 
-void IoODEWorld_free(IoODEWorld *self) 
-{ 
+void IoODEWorld_free(IoODEWorld *self)
+{
 	IoODEWorld_emptyJointGroups(self);
 
 	if(WORLDID)
@@ -91,7 +91,7 @@ void IoODEWorld_free(IoODEWorld *self)
 	{
 		LIST_FOREACH(DATA(self)->bodies, i, body,
 			IoODEBody_worldDestroyed((IoODEBody*)body);
-	        )
+			)
 		List_free(DATA(self)->bodies);
 		DATA(self)->bodies = 0L;
 	}
@@ -99,15 +99,15 @@ void IoODEWorld_free(IoODEWorld *self)
 	{
 		LIST_FOREACH(DATA(self)->jointGroups, i, jointGroup,
 			IoODEJointGroup_worldDestoryed((IoODEJointGroup*)jointGroup);
-	        )
+			)
 		List_free(DATA(self)->jointGroups);
 		DATA(self)->jointGroups = 0L;
 	}
-	free(IoObject_dataPointer(self)); 
+	free(IoObject_dataPointer(self));
 }
 
-void IoODEWorld_mark(IoODEWorld *self) 
-{ 
+void IoODEWorld_mark(IoODEWorld *self)
+{
 }
 
 /* ----------------------------------------------------------- */
@@ -143,7 +143,7 @@ void IoODEWorld_emptyJointGroups(IoODEWorld *self)
 	{
 		LIST_FOREACH(DATA(self)->jointGroups, i, jointGroup,
 			IoODEJointGroup_rawEmpty((IoODEJointGroup*)jointGroup);
-	        )
+			)
 	}
 }
 
@@ -173,7 +173,7 @@ IoObject *IoODEWorld_setGravity(IoODEWorld *self, IoObject *locals, IoMessage *m
 
 IoObject *IoODEWorld_gravity(IoODEWorld *self, IoObject *locals, IoMessage *m)
 {
-	dVector3 gravity;	
+	dVector3 gravity;
 	IoODEWorld_assertHasWorldId(self, locals, m);
 
 	dWorldGetGravity(WORLDID, gravity);

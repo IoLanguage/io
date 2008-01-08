@@ -4,7 +4,7 @@ Curses do(
 		inputBuffer empty
 		c := Curses asyncReadCharacter
 		if(c) then(
-			if(c == 13, break) 
+			if(c == 13, break)
 			inputBuffer append(c)
 			Curses writeCharacter(c)
 			Curses refresh

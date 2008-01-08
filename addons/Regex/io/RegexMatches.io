@@ -3,39 +3,39 @@ RegexMatches do(
 		"Resets the search position to the beginning of the string. Returns self."
 	)
 	reset := method(setPosition(0))
-	
+
 	docSlot("last",
 		"Returns the last match in the string."
 	)
 	last := method(
 		foreach(m, m)
 	)
-	
+
 	docSlot("all",
 		"Returns a list containing all matches in the string."
 	)
 	all := method(
 		map(m, m)
 	)
-	
+
 	docSlot("map(value, message)",
 		"Loops through the matches, assigns each match to <em>value</em>, and evaluates <em>message</em>.
 		Returns a list with the result of each evaluation."
 	)
 	map := method(
 		output := list
-	
+
 		# (name, message)
 		if (call argCount > 1,
 			name := call argAt(0) name
-		
+
 			foreach(m,
 				call sender setSlot(name, m)
 				output append(call evalArgAt(1))
 			)
 			return output
 		)
-	
+
 		# (message)
 		msg := call argAt(0)
 		foreach(m,
@@ -59,7 +59,7 @@ RegexMatches do(
 		)
 		result
 	)
-	
+
 	docSlot("foreachInterval(value, matchMessage, nonMatchMessage)",
 		"Like foreach, but takes an extra message that will be evaluated for the non-matching text before
 		each match, and the non-matching text after the last match."
@@ -92,7 +92,7 @@ RegexMatches do(
 
 	docSlot("replaceAllWith(templateString)",
 		"Same as:
-			
+
 		<pre>
 		replace(match, match expandTo(templateString))
 		</pre>"
@@ -117,7 +117,7 @@ RegexMatches do(
 		)
 		parts join
 	)
-	
+
 	docSlot("splitString",
 		"""Splits the string being matched against into pieces using the regex as the delimiter
 		and returns the piece as a list of strings."""
@@ -127,9 +127,9 @@ RegexMatches do(
 		cursor := 0
 		foreach(match,
 			parts append(string slice(cursor, match start))
-			cursor = match end 
+			cursor = match end
 		)
-		
+
 		s := string slice(cursor)
 		parts append(s)
 		parts

@@ -15,9 +15,9 @@ typedef IoObject IoMD5;
 
 typedef struct
 {
-    md5_state_t mstate;
-    md5_byte_t digest[16];
-    char isDone;
+	md5_state_t mstate;
+	md5_byte_t digest[16];
+	char isDone;
 } IoMD5Data;
 
 IoMD5 *IoMD5_rawClone(IoMD5 *self);

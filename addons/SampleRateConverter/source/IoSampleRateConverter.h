@@ -28,7 +28,7 @@ IoSampleRateConverter *IoSampleRateConverter_rawClone(IoSampleRateConverter *sel
 void IoSampleRateConverter_mark(IoSampleRateConverter *self);
 void IoSampleRateConverter_free(IoSampleRateConverter *self);
 
-// ----------------------------------------------------------- 
+// -----------------------------------------------------------
 
 IoObject *IoSampleRateConverter_start(IoSampleRateConverter *self, IoObject *locals, IoMessage *m);
 IoObject *IoSampleRateConverter_process(IoSampleRateConverter *self, IoObject *locals, IoMessage *m);

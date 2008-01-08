@@ -2,12 +2,12 @@
  *  All rights reserved. See _BSDLicense.txt.
  *
  *  An object for loading various image formats using
- *  image libraries. As well as manipulating and displaying 
+ *  image libraries. As well as manipulating and displaying
  *  the decoded image data using OpenGL.
  *
  *  It can use GL to scale, composite and convert the image format.
  */
- 
+
 #ifndef GLIMAGE_DEFINED
 #define GLIMAGE_DEFINED 1
 
@@ -35,18 +35,18 @@
 
 typedef struct
 {
-  char *path;
-  char *fileType;
-  UArray *byteArray;
-  unsigned char ownsUArray;
-  int width;
-  int height;
+	char *path;
+	char *fileType;
+	UArray *byteArray;
+	unsigned char ownsUArray;
+	int width;
+	int height;
 	int componentCount;
-  char *error;
-  
-  float encodingQuality;
-  int decodingWidthHint;
-  int decodingHeightHint;
+	char *error;
+
+	float encodingQuality;
+	int decodingWidthHint;
+	int decodingHeightHint;
 } Image;
 
 IOIMAGE_API Image *Image_new(void);
@@ -80,7 +80,7 @@ IOIMAGE_API int Image_componentCount(Image *self);
 
 IOIMAGE_API int Image_sizeInBytes(Image *self);
 IOIMAGE_API uint8_t *Image_data(Image *self);
-IOIMAGE_API void Image_data_length_(Image *self, unsigned char *data, size_t length); 
+IOIMAGE_API void Image_data_length_(Image *self, unsigned char *data, size_t length);
 
 // manipulation
 
@@ -88,7 +88,7 @@ IOIMAGE_API void Image_resizeTo(Image *self, int w, int h, Image *outImage);
 IOIMAGE_API void Image_flipY(Image *self);
 IOIMAGE_API void Image_crop(Image *self, int x, int y, int w, int h);
 
-//  extras 
+//  extras
 
 IOIMAGE_API void Image_encodingQuality_(Image *self, float q);
 IOIMAGE_API float Image_encodingQuality(Image *self);

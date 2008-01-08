@@ -15,7 +15,7 @@ typedef IoObject IoCFFIDataType;
 
 typedef struct IoCFFIDataType
 {
-	union 
+	union
 	{
 	          char c;
 	 unsigned char C;

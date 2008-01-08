@@ -10,7 +10,7 @@ CFFI do(
 	docCopyright("Trevor Fancher", 2006)
 	docCategory("Other")
 	docLicense("New BSD license")
-	
+
 	// Because of the way building addons works, our Protos are prefixed
 	// with CFFI.  Here we remove those prefixes.
 	method(
@@ -21,6 +21,6 @@ CFFI do(
 			)
 		)
 	) call
-	
+
 	removeSlot("type") // we are actually a namespace, not a type
 )

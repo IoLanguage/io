@@ -20,15 +20,15 @@ static IoTag *IoCairoRectangle_newTag(void *state)
 	return tag;
 }
 
-IoCairoRectangle *IoCairoRectangle_proto(void *state) 
+IoCairoRectangle *IoCairoRectangle_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairoRectangle_newTag(state));
-	
+
 	IoObject_setDataPointer_(self, calloc(1, sizeof(cairo_rectangle_t)));
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoCairoRectangle_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
 			{"x", IoCairoRectangle_x},
@@ -42,10 +42,10 @@ IoCairoRectangle *IoCairoRectangle_proto(void *state)
 	return self;
 }
 
-IoCairoRectangle *IoCairoRectangle_rawClone(IoCairoRectangle *proto) 
-{ 
-	IoObject *self = IoObject_rawClonePrimitive(proto);	
-	IoObject_setDataPointer_(self, cpalloc(IoObject_dataPointer(proto), sizeof(cairo_rectangle_t)));	
+IoCairoRectangle *IoCairoRectangle_rawClone(IoCairoRectangle *proto)
+{
+	IoObject *self = IoObject_rawClonePrimitive(proto);
+	IoObject_setDataPointer_(self, cpalloc(IoObject_dataPointer(proto), sizeof(cairo_rectangle_t)));
 	return self;
 }
 
@@ -56,7 +56,7 @@ IoCairoRectangle *IoCairoRectangle_newWithRawRectangle_(void *state, cairo_recta
 	return self;
 }
 
-void IoCairoRectangle_free(IoCairoRectangle *self) 
+void IoCairoRectangle_free(IoCairoRectangle *self)
 {
 	free(IoObject_dataPointer(self));
 }

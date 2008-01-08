@@ -8,7 +8,7 @@ Blowfish do(
 		self inputBuffer := self inputBuffer clone
 		self outputBuffer := self outputBuffer clone
 	)
-	
+
 	encrypt := method(s,
 		outputBuffer empty
 		setIsEncrypting(true)
@@ -18,7 +18,7 @@ Blowfish do(
 		endProcessing
 		outputBuffer
 	)
-	
+
 	decrypt := method(s,
 		outputBuffer empty
 		setIsEncrypting(false)

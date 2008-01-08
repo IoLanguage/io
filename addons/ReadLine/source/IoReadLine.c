@@ -1,10 +1,10 @@
 /*#io
 ReadLine ioDoc(
-  docCopyright("Jonas Eschenburg", 2007)
-  docLicense("BSD revised")
-  docObject("ReadLine")
-  docDescription("Binding to GNU readline.")
-  docCategory("Core")
+	docCopyright("Jonas Eschenburg", 2007)
+	docLicense("BSD revised")
+	docObject("ReadLine")
+	docDescription("Binding to GNU readline.")
+	docCategory("Core")
 */
 
 #include <locale.h>
@@ -35,14 +35,14 @@ IoReadLine *IoReadLine_proto(void *state)
 	IoObject_tag_(self, IoReadLine_newTag(state));
 
 	IoObject_setSlot_to_(self, IOSYMBOL("prompt"), IOSYMBOL(""));
-	
+
 	/* Make sure readline returns characters in the multi-byte charset
 	   of the locale */
 	setlocale(LC_CTYPE, "");
 	/* Actually initialize GNU readly and history */
 	rl_initialize();
 	using_history();
-	
+
 	IoState_registerProtoWithFunc_((IoState *)state, self, IoReadLine_proto);
 
 	IoObject_addMethodTable_(self, methodTable);
@@ -56,7 +56,7 @@ IoReadLine *IoReadLine_proto(void *state)
 IoObject *IoReadLine_readLine(IoReadLine *self, IoObject *locals, IoMessage *m)
 {
 	const char *prompt = NULL;
-	
+
 	if (IoMessage_argCount(m) == 0) {
 		IoObject *p = IoObject_rawGetSlot_(self, IOSYMBOL("prompt"));
 		if (p && ISSEQ(p)) {
@@ -67,9 +67,9 @@ IoObject *IoReadLine_readLine(IoReadLine *self, IoObject *locals, IoMessage *m)
 	} else {
 		prompt = IoMessage_locals_cStringArgAt_(m, locals, 0);
 	}
-	
+
 	const char *line = readline(prompt);
-	
+
 	if (line)
 		return IOSEQ((const unsigned char*)line, strlen(line));
 	else

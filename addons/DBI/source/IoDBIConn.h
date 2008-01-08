@@ -11,8 +11,8 @@ docLicense("BSD revised")
 #include "IoList.h"
 #include <dbi/dbi.h>
 
-/* 
-   This *is* defined in dbi/dbi.h but I continue to get " warning: 
+/*
+   This *is* defined in dbi/dbi.h but I continue to get " warning:
    implicit declaration of function 'dbi_conn_quote_string'" which is driving
    me crazy, therefore I added this line in the .h.
 
@@ -47,10 +47,10 @@ void IoDBIConn_removeResultObj(IoDBIConn *self, IoObject *r);
 IoObject *IoDBIConn_driver(IoDBIConn *self, IoObject *locals, IoMessage *m);
 IoObject *IoDBIConn_option(IoDBIConn *self, IoObject *locals, IoMessage *m);
 IoObject *IoDBIConn_optionPut(IoDBIConn *self, IoObject *locals, IoMessage *m);
-IoObject *IoDBIConn_optionClear(IoDBIConn *self, IoObject *locals, 
+IoObject *IoDBIConn_optionClear(IoDBIConn *self, IoObject *locals,
 			IoMessage *m);
 IoObject *IoDBIConn_options(IoDBIConn *self, IoObject *locals, IoMessage *m);
-IoObject *IoDBIConn_optionsClear(IoDBIConn *self, IoObject *locals, 
+IoObject *IoDBIConn_optionsClear(IoDBIConn *self, IoObject *locals,
 			IoMessage *m);
 IoObject *IoDBIConn_quote(IoDBIConn *self, IoObject *locals, IoMessage *m);
 IoObject *IoDBIConn_connect(IoDBIConn *self, IoObject *locals, IoMessage *m);

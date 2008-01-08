@@ -10,8 +10,8 @@
 
 typedef struct
 {
-  unsigned long   P[16 + 2];
-  unsigned long   S[4][256];
+	unsigned long   P[16 + 2];
+	unsigned long   S[4][256];
 } blowfish_ctx;
 
 

@@ -17,8 +17,8 @@ typedef IoObject IoGLScissor;
 
 typedef struct
 {
-  IoBox *rect;
-  IoBox *tmpRect;
+	IoBox *rect;
+	IoBox *tmpRect;
 } IoGLScissorData;
 
 IoGLScissor *IoGLScissor_rawClone(IoGLScissor *self);

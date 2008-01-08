@@ -31,14 +31,14 @@ struct ThreadMutex_
 };
 
 // --- constructor
-ThreadMutex * 	ThreadMutex_new(void);
+ThreadMutex *	ThreadMutex_new(void);
 
 // --- destructor
-void 	ThreadMutex_destroy(ThreadMutex* self);
+void	ThreadMutex_destroy(ThreadMutex* self);
 
 // --- member functions
 // -- operational functions
-ThreadMutexReturnCode 	ThreadMutex_lock(ThreadMutex *self);
-ThreadMutexReturnCode 	ThreadMutex_unlock(ThreadMutex *self);
+ThreadMutexReturnCode	ThreadMutex_lock(ThreadMutex *self);
+ThreadMutexReturnCode	ThreadMutex_unlock(ThreadMutex *self);
 
 #endif

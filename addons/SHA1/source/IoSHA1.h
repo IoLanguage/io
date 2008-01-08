@@ -15,9 +15,9 @@ typedef IoObject IoSHA1;
 
 typedef struct
 {
-    SHA1_CTX context;
-    u_int8_t digest[SHA1_DIGEST_LENGTH];
-    char isDone;
+	SHA1_CTX context;
+	u_int8_t digest[SHA1_DIGEST_LENGTH];
+	char isDone;
 } IoSHA1Data;
 
 IoSHA1 *IoSHA1_rawClone(IoSHA1 *self);

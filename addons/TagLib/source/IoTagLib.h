@@ -21,7 +21,7 @@ IoTagLib *IoTagLib_rawClone(IoTagLib *self);
 
 void IoTagLib_free(IoTagLib *self);
 
-// ----------------------------------------------------------- 
+// -----------------------------------------------------------
 
 IoObject *IoTagLib_load(IoTagLib *self, IoObject *locals, IoMessage *m);
 IoObject *IoTagLib_save(IoTagLib *self, IoObject *locals, IoMessage *m);

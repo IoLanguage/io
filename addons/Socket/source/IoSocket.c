@@ -1,32 +1,32 @@
 /*#io
 Socket ioDoc(
-		   docCopyright("Steve Dekorte", 2004)
-		   docLicense("BSD revised")
-		   docDependsOn("SocketManager")
-		   docDescription("""Interface to network communication. 
-Sockets will auto yields to other coroutines while waiting on a request. 
-All blocking operations use the timeout settings of the socket. 
-Reads are appended to the socket's read buffer which can be accessed using the readBuffer method. 
+	docCopyright("Steve Dekorte", 2004)
+	docLicense("BSD revised")
+	docDependsOn("SocketManager")
+	docDescription("""Interface to network communication.
+Sockets will auto yields to other coroutines while waiting on a request.
+All blocking operations use the timeout settings of the socket.
+Reads are appended to the socket's read buffer which can be accessed using the readBuffer method.
 Example:
 
 <pre>
-socket := Socket clone setHost("www.yahoo.com") setPort(80) connect 
-if(socket error) then( write(socket error, "\n"); exit) 
+socket := Socket clone setHost("www.yahoo.com") setPort(80) connect
+if(socket error) then( write(socket error, "\n"); exit)
 
 socket write("GET /\n\n")
 
 while(socket read, Nop)
-if(socket error) then(write(socket error, "\n"); exit) 
+if(socket error) then(write(socket error, "\n"); exit)
 
 write("read ", socket readBuffer length, " bytes\n")
 </pre>""")
-		   docCategory("Networking")
+	docCategory("Networking")
 */
 
 
 /*#io
-docSlot("setHost(hostName)", 
-	   "Translates hostName to an IP using asynchronous DNS and sets the host attribute. Returns self.")
+docSlot("setHost(hostName)",
+		"Translates hostName to an IP using asynchronous DNS and sets the host attribute. Returns self.")
 */
 
 #include "IoSocket.h"
@@ -40,19 +40,19 @@ docSlot("setHost(hostName)",
 IoSocket *IoMessage_locals_socketArgAt_(IoMessage *self, IoObject *locals, int n)
 {
 	IoObject *v = IoMessage_locals_valueArgAt_(self, locals, n);
-	
-	if (!ISSOCKET(v)) 
+
+	if (!ISSOCKET(v))
 	{
 		IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "Socket");
 	}
-	
+
 	return v;
 }
 
 #define SOCKET(self) ((Socket *)IoObject_dataPointer(self))
 
 void IoSocket_tagCleanup(IoTag *self)
-{  
+{
 	Socket_GlobalCleanup();
 }
 
@@ -70,49 +70,49 @@ IoTag *IoSocket_newTag(void *state)
 IoSocket *IoSocket_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
-	
+
 	IoObject_tag_(self, IoSocket_newTag(state));
 	IoObject_setDataPointer_(self, Socket_new());
-	
+
 	IoState_registerProtoWithFunc_((IoState *)state, self, IoSocket_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
 		//{"openFifo", IoSocket_openFifo_},
-		
+
 		{"asyncStreamOpen", IoSocket_asyncStreamOpen},
 		{"asyncUdpOpen", IoSocket_asyncUdpOpen},
 		{"isOpen", IoSocket_isOpen},
 		{"isValid", IoSocket_isValid},
 		{"isStream", IoSocket_isStream},
-		
+
 		{"asyncBind", IoSocket_asyncBind},
 		{"asyncListen", IoSocket_asyncListen},
 		{"asyncAccept", IoSocket_asyncAccept},
-		
+
 		{"asyncConnect", IoSocket_connectTo},
-			
+
 		{"asyncStreamRead", IoSocket_asyncStreamRead},
 		{"asyncStreamWrite", IoSocket_asyncStreamWrite},
-			
+
 		{"asyncUdpRead", IoSocket_udpRead},
 		{"asyncUdpWrite", IoSocket_udpWrite},
-			
+
 		{"close", IoSocket_close},
 		{"descriptorId", IoSocket_descriptorId},
-		
+
 		//{"sendfile", IoSocket_sendfile},
 		//{"sync", IoSocket_sync},
-		
+
 		{"setSocketReadBufferSize", IoSocket_setSocketReadBufferSize},
 		{"setSocketWriteBufferSize", IoSocket_setSocketWriteBufferSize},
-		
+
 		{"getSocketReadLowWaterMark", IoSocket_getSocketReadLowWaterMark},
 		{"getSocketWriteLowWaterMark", IoSocket_getSocketWriteLowWaterMark},
 
 		{"setSocketReadLowWaterMark", IoSocket_setSocketReadLowWaterMark},
 		{"setSocketWriteLowWaterMark", IoSocket_setSocketWriteLowWaterMark},
-		
+
 		{"setNoDelay", IoSocket_setNoDelay},
 		{"errno", IoSocket_errnoDescription},
 
@@ -120,15 +120,15 @@ IoSocket *IoSocket_proto(void *state)
 		};
 		IoObject_addMethodTable_(self, methodTable);
 	}
-	
+
 	return self;
 }
 
-IoSocket *IoSocket_rawClone(IoSocket *proto) 
-{ 
+IoSocket *IoSocket_rawClone(IoSocket *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
-	IoObject_setDataPointer_(self, Socket_new());	
-	return self; 
+	IoObject_setDataPointer_(self, Socket_new());
+	return self;
 }
 
 IoSocket *IoSocket_new(void *state)
@@ -137,7 +137,7 @@ IoSocket *IoSocket_new(void *state)
 	return IOCLONE(proto);
 }
 
-// ----------------------------------------------------------- 
+// -----------------------------------------------------------
 
 IoSocket *IoSocket_newWithSocket_(void *state, Socket *socket)
 {
@@ -147,7 +147,7 @@ IoSocket *IoSocket_newWithSocket_(void *state, Socket *socket)
 	return self;
 }
 
-void IoSocket_free(IoSocket *self) 
+void IoSocket_free(IoSocket *self)
 {
 	Socket_free(SOCKET(self));
 }
@@ -170,12 +170,12 @@ IoObject *IoSocket_asyncStreamOpen(IoSocket *self, IoObject *locals, IoMessage *
 {
 	Socket *socket = SOCKET(self);
 	SocketResetErrorStatus();
-	
+
 	if (Socket_streamOpen(socket) == -1) return IOFALSE(self);
 	if (Socket_isOpen(socket) != 1) return IOFALSE(self);
 	if (Socket_makeReusable(socket) != 0) return IOFALSE(self);
 	if (Socket_makeAsync(socket) != 0) return IOFALSE(self);
-		
+
 	return self;
 }
 
@@ -183,12 +183,12 @@ IoObject *IoSocket_asyncUdpOpen(IoSocket *self, IoObject *locals, IoMessage *m)
 {
 	Socket *socket = SOCKET(self);
 	SocketResetErrorStatus();
-	
+
 	if (Socket_udpOpen(socket) == -1) return IOFALSE(self);
 	if (Socket_isOpen(socket) != 1) return IOFALSE(self);
 	if (Socket_makeReusable(socket) != 0) return IOFALSE(self);
 	if (Socket_makeAsync(socket) != 0) return IOFALSE(self);
-	
+
 	return self;
 }
 
@@ -210,25 +210,25 @@ IoObject *IoSocket_isValid(IoSocket *self, IoObject *locals, IoMessage *m)
 }
 
 IoObject *IoSocket_connectTo(IoSocket *self, IoObject *locals, IoMessage *m)
-{	
+{
 	IPAddress *address = IoMessage_locals_rawIPAddressArgAt_(m, locals, 0);
 	int r = Socket_connectTo(SOCKET(self), address);
 	return IOBOOL(self, r == 0);
 }
 
 IoObject *IoSocket_close(IoSocket *self, IoObject *locals, IoMessage *m)
-{ 
-	Socket_close(SOCKET(self)); 
+{
+	Socket_close(SOCKET(self));
 	return IOTRUE(self);
 }
 
 // server -------------------------------
 
 IoObject *IoSocket_asyncBind(IoSocket *self, IoObject *locals, IoMessage *m)
-{	
+{
 	IPAddress *address = IoMessage_locals_rawIPAddressArgAt_(m, locals, 0);
 	return IOBOOL(self, Socket_bind(SOCKET(self), address) == 0);
-}	
+}
 
 IoObject *IoSocket_asyncListen(IoSocket *self, IoObject *locals, IoMessage *m)
 {
@@ -254,12 +254,12 @@ IoObject *IoSocket_asyncStreamRead(IoSocket *self, IoObject *locals, IoMessage *
 
 	//printf("bytesRead = %i\n", bytesRead);
 	//printf("eno == EAGAIN = %i\n", eno == EAGAIN);
-	if (bytesRead == -1 && (eno == EAGAIN || eno == EINTR)) 
+	if (bytesRead == -1 && (eno == EAGAIN || eno == EINTR))
 	{
 		SocketResetErrorStatus();
 		return IOFALSE(self);
 	}
-	
+
 	if (bytesRead == 0)
 	{
 		Socket_close(SOCKET(self));
@@ -279,7 +279,7 @@ IoObject *IoSocket_asyncStreamWrite(IoSocket *self, IoObject *locals, IoMessage 
 	ssize_t bytesWritten;
 
 	bytesWritten = Socket_streamWrite(SOCKET(self), buffer, start, writeSize);
-	
+
 	return IOBOOL(self, bytesWritten != 0);
 	//return IOBOOL(self, bytesWritten == writeSize);
 	//return IONUMBER(bytesWritten);
@@ -357,9 +357,9 @@ IoObject *IoSocket_getSocketReadLowWaterMark(IoSocket *self, IoObject *locals, I
 {
 	int size = 0;
 	socklen_t length = sizeof(int);
-	//int r = 
+	//int r =
 	getsockopt(SOCKET(self)->fd, SOL_SOCKET, SO_RCVLOWAT, &size, &length);
-	
+
 	return IONUMBER(size);
 }
 
@@ -367,7 +367,7 @@ IoObject *IoSocket_getSocketWriteLowWaterMark(IoSocket *self, IoObject *locals, 
 {
 	int size = 0;
 	socklen_t length = sizeof(int);
-	//int r = 
+	//int r =
 	getsockopt(SOCKET(self)->fd, SOL_SOCKET, SO_SNDLOWAT, &size, &length);
 	return IONUMBER(size);
 }
@@ -384,22 +384,22 @@ IoObject *IoSocket_setNoDelay(IoSocket *self, IoObject *locals, IoMessage *m)
 	r = setsockopt(SOCKET(self)->fd, IPPROTO_TCP, TCP_NODELAY, (char *) &flag, sizeof(int));
 	#endif
 	return IONUMBER(r);
-}								 
+}
 
 
 IoObject *IoSocket_errnoDescription(IoSocket *self, IoObject *locals, IoMessage *m)
 {
-     int err = SocketErrorStatus();
+	int err = SocketErrorStatus();
 #ifdef WIN32
-     if (err) {
-         char buf[128];
-         sprintf(buf, "WSA Error %d", err);
-         return IOSYMBOL(buf);
-     } else {
-         return IONIL(self);
-     }
+	if (err) {
+		char buf[128];
+		sprintf(buf, "WSA Error %d", err);
+		return IOSYMBOL(buf);
+	} else {
+		return IONIL(self);
+	}
 #else
-   return err ? IOSYMBOL(strerror(err)) : IONIL(self);
+	return err ? IOSYMBOL(strerror(err)) : IONIL(self);
 #endif
 }
 

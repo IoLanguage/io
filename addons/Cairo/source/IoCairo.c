@@ -19,13 +19,13 @@ static IoTag *IoCairo_newTag(void *state)
 	return tag;
 }
 
-IoCairo *IoCairo_proto(void *state) 
+IoCairo *IoCairo_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairo_newTag(state));
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoCairo_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
 			{"version", IoCairo_version},
@@ -116,13 +116,13 @@ IoCairo *IoCairo_proto(void *state)
 	CONSTANT(SUBPIXEL_ORDER_BGR);
 	CONSTANT(SUBPIXEL_ORDER_VRGB);
 	CONSTANT(SUBPIXEL_ORDER_VBGR);
-	
+
 	#if CAIRO_HAS_PNG_FUNCTIONS
 	FLAG(HAS_PNG_FUNCTIONS, 1);
 	#else
 	FLAG(HAS_PNG_FUNCTIONS, 0);
 	#endif
-	
+
 	#if CAIRO_HAS_PDF_SURFACE
 	FLAG(HAS_PDF_SURFACE, 1);
 	#else
@@ -134,7 +134,7 @@ IoCairo *IoCairo_proto(void *state)
 	#else
 	FLAG(HAS_PS_SURFACE, 0);
 	#endif
-	
+
 	#if CAIRO_HAS_SVG_SURFACE
 	FLAG(HAS_SVG_SURFACE, 1);
 	CONSTANT(SVG_VERSION_1_1);
@@ -149,8 +149,8 @@ IoCairo *IoCairo_proto(void *state)
 	return self;
 }
 
-IoCairo *IoCairo_rawClone(IoCairo *proto) 
-{ 
+IoCairo *IoCairo_rawClone(IoCairo *proto)
+{
 	/* Cairo is a singleton */
 	return proto;
 }

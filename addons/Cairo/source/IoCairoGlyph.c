@@ -20,15 +20,15 @@ static IoTag *IoCairoGlyph_newTag(void *state)
 	return tag;
 }
 
-IoCairoGlyph *IoCairoGlyph_proto(void *state) 
+IoCairoGlyph *IoCairoGlyph_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairoGlyph_newTag(state));
-	
+
 	IoObject_setDataPointer_(self, calloc(1, sizeof(cairo_glyph_t)));
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoCairoGlyph_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
 			{"setIndex", IoCairoGlyph_setIndex},
@@ -47,10 +47,10 @@ IoCairoGlyph *IoCairoGlyph_proto(void *state)
 	return self;
 }
 
-IoCairoGlyph *IoCairoGlyph_rawClone(IoCairoGlyph *proto) 
-{ 
-	IoObject *self = IoObject_rawClonePrimitive(proto);	
-	IoObject_setDataPointer_(self, cpalloc(IoObject_dataPointer(proto), sizeof(cairo_glyph_t)));	
+IoCairoGlyph *IoCairoGlyph_rawClone(IoCairoGlyph *proto)
+{
+	IoObject *self = IoObject_rawClonePrimitive(proto);
+	IoObject_setDataPointer_(self, cpalloc(IoObject_dataPointer(proto), sizeof(cairo_glyph_t)));
 	return self;
 }
 
@@ -61,7 +61,7 @@ IoCairoGlyph *IoCairoGlyph_newWithRawGlyph_(void *state, cairo_glyph_t *glyph)
 	return self;
 }
 
-void IoCairoGlyph_free(IoCairoGlyph *self) 
+void IoCairoGlyph_free(IoCairoGlyph *self)
 {
 	free(IoObject_dataPointer(self));
 }
@@ -118,19 +118,19 @@ cairo_glyph_t *rawGlyphsFromList_count_(IoList *glyphList, int *count)
 	int glyphCount = IoList_rawSize(glyphList);
 	cairo_glyph_t *glyphs = 0;
 	int i;
-	
+
 	if (count)
 		*count = glyphCount;
-	
+
 	if (glyphCount == 0)
 		return 0;
-	
+
 	glyphs = malloc(sizeof(cairo_glyph_t) * glyphCount);
 	for (i = 0; i < glyphCount; i++)
 	{
 		cairo_glyph_t *glyph = IoCairoGlyph_rawGlyph(IoList_rawAt_(glyphList, i));
 		memcpy(glyphs + i, glyph, sizeof(cairo_glyph_t));
 	}
-	
+
 	return glyphs;
 }

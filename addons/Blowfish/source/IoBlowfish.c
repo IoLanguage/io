@@ -37,13 +37,13 @@ IoBlowfish *IoBlowfish_proto(void *state)
 {
 	IoBlowfish *self = IoObject_new(state);
 	IoObject_tag_(self, IoBlowfish_newTag(state));
-	
+
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoBlowfishData)));
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoBlowfish_proto);
-	
+
 	{
-		IoMethodTable methodTable[] = {    
+		IoMethodTable methodTable[] = {
 		{"setIsEncrypting", IoBlowfish_setIsEncrypting},
 		{"beginProcessing", IoBlowfish_beginProcessing},
 		{"process", IoBlowfish_process},
@@ -52,15 +52,15 @@ IoBlowfish *IoBlowfish_proto(void *state)
 		};
 		IoObject_addMethodTable_(self, methodTable);
 	}
-	
+
 	return self;
 }
 
-IoBlowfish *IoBlowfish_rawClone(IoBlowfish *proto) 
-{ 
+IoBlowfish *IoBlowfish_rawClone(IoBlowfish *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoBlowfishData)));
-	return self; 
+	return self;
 }
 
 IoBlowfish *IoBlowfish_new(void *state)
@@ -69,19 +69,19 @@ IoBlowfish *IoBlowfish_new(void *state)
 	return IOCLONE(proto);
 }
 
-void IoBlowfish_free(IoBlowfish *self) 
-{ 
-	free(DATA(self)); 
+void IoBlowfish_free(IoBlowfish *self)
+{
+	free(DATA(self));
 }
 
-// ----------------------------------------------------------- 
+// -----------------------------------------------------------
 
 IoObject *IoBlowfish_setIsEncrypting(IoBlowfish *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("setIsEncrypting(aBool)", "If aBool is true, encrypting mode is on, otherwise, decrypting mode is on.")
 	*/
-	
+
 	IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 0);
 	IOASSERT(ISTRUE(v) || ISFALSE(v), "requires boolean argument");
 	DATA(self)->isEncrypting = ISTRUE(v);
@@ -93,7 +93,7 @@ IoObject *IoBlowfish_beginProcessing(IoObject *self, IoObject *locals, IoMessage
 	/*#io
 	docSlot("beginProcessing", "Sets the key from the key slot and initializes the cipher.")
 	*/
-	
+
 	UArray *key = IoObject_rawGetUArraySlot(self, locals, m, IOSYMBOL("key"));
 	blowfish_ctx *context = &(DATA(self)->context);
 
@@ -110,7 +110,7 @@ The processed inputBuffer is empties except for the spare bytes at the end which
 	*/
 	blowfish_ctx *context = &(DATA(self)->context);
 	int isEncrypting = DATA(self)->isEncrypting;
-	
+
 	UArray *input = IoObject_rawGetMutableUArraySlot(self, locals, m, IOSYMBOL("inputBuffer"));
 	UArray *output = IoObject_rawGetMutableUArraySlot(self, locals, m, IOSYMBOL("outputBuffer"));
 
@@ -119,13 +119,13 @@ The processed inputBuffer is empties except for the spare bytes at the end which
 
 	unsigned long lr[2];
 	size_t i, runs = inputSize / sizeof(lr);
-	
+
 	for (i = 0; i < runs; i ++)
 	{
 		memcpy(lr, inputBytes, sizeof(lr));
-		
+
 		inputBytes += sizeof(lr);
-		
+
 		if (isEncrypting)
 		{
 			blowfish_encrypt(context, &lr[0], &lr[1]);
@@ -134,10 +134,10 @@ The processed inputBuffer is empties except for the spare bytes at the end which
 		{
 			blowfish_decrypt(context, &lr[0], &lr[1]);
 		}
-		
+
 		UArray_appendBytes_size_(output, (unsigned char *)&lr, sizeof(lr));
 	}
-	
+
 	UArray_removeRange(input, 0, runs * sizeof(lr));
 	return self;
 }
@@ -147,16 +147,16 @@ IoObject *IoBlowfish_endProcessing(IoBlowfish *self, IoObject *locals, IoMessage
 	/*#io
 	docSlot("endProcessing", "Finish processing remaining bytes of inputBuffer.")
 	*/
-	
+
 	blowfish_ctx *context = &(DATA(self)->context);
 	unsigned long lr[2];
-	
+
 	IoBlowfish_process(self, locals, m); // process the full blocks first
-	
-	
+
+
 	{
 		int isEncrypting = DATA(self)->isEncrypting;
-		
+
 		UArray *input  = IoObject_rawGetMutableUArraySlot(self, locals, m, IOSYMBOL("inputBuffer"));
 		UArray *output = IoObject_rawGetMutableUArraySlot(self, locals, m, IOSYMBOL("outputBuffer"));
 
@@ -164,7 +164,7 @@ IoObject *IoBlowfish_endProcessing(IoBlowfish *self, IoObject *locals, IoMessage
 
 		memset(lr, 0, sizeof(lr));
 		memcpy(lr, (uint8_t *)UArray_bytes(input), UArray_sizeInBytes(input));
-			
+
 		if (isEncrypting)
 		{
 			blowfish_encrypt(context, &lr[0], &lr[1]);
@@ -173,9 +173,9 @@ IoObject *IoBlowfish_endProcessing(IoBlowfish *self, IoObject *locals, IoMessage
 		{
 			blowfish_decrypt(context, &lr[0], &lr[1]);
 		}
-		
+
 		UArray_appendBytes_size_(output, (unsigned char *)&lr, sizeof(lr));
-		
+
 		UArray_setSize_(input, 0);
 	}
 	return self;

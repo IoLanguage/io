@@ -1,9 +1,9 @@
 /*#io
 ODEJoint ioDoc(
-		 docCopyright("Jonathan Wright", 2006)
-		 docLicense("BSD revised")
-		 docDescription("ODEJoint binding")
-		 */
+	docCopyright("Jonathan Wright", 2006)
+	docLicense("BSD revised")
+	docDescription("ODEJoint binding")
+*/
 
 #include "IoODEJoint_internal.h"
 #include "IoODESlider.h"
@@ -31,12 +31,12 @@ IoODESlider *IoODESlider_proto(void *state)
 	IoObject_tag_(self, IoODESlider_newTag(state));
 
 	IoODEJoint_protoCommon(self);
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoODESlider_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
-                ODE_COMMON_JOINT_METHODS
+				ODE_COMMON_JOINT_METHODS
 #define PARAM(X, _N, _SETN) \
 		{#_N, IoODESlider_##_N}, \
 		{#_SETN, IoODESlider_##_SETN},
@@ -44,10 +44,10 @@ PARAMS
 #undef PARAM
 
 		{"axis", IoODESlider_axis},
-                {"setAxis", IoODESlider_setAxis},
+				{"setAxis", IoODESlider_setAxis},
 		{"position", IoODESlider_position},
 		{"positionRate", IoODESlider_positionRate},
-                {"addForce", IoODESlider_addForce},
+				{"addForce", IoODESlider_addForce},
 
 		{NULL, NULL},
 		};
@@ -56,8 +56,8 @@ PARAMS
 	return self;
 }
 
-IoODESlider *IoODESlider_rawClone(IoODESlider *proto) 
-{ 
+IoODESlider *IoODESlider_rawClone(IoODESlider *proto)
+{
 	IoObject *self = IoODEJoint_rawClone(proto);
 
 	if(DATA(proto)->jointGroup)
@@ -71,13 +71,13 @@ IoODESlider *IoODESlider_rawClone(IoODESlider *proto)
 	return self;
 }
 
-void IoODESlider_free(IoODESlider *self) 
-{ 
+void IoODESlider_free(IoODESlider *self)
+{
 	IoODEJoint_free(self);
 }
 
-void IoODESlider_mark(IoODESlider *self) 
-{ 
+void IoODESlider_mark(IoODESlider *self)
+{
 	IoODEJoint_mark(self);
 }
 

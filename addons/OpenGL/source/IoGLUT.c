@@ -1,9 +1,9 @@
 /*#io
 GLUT ioDoc(
-			 docCopyright("Steve Dekorte", 2002)
-			 docLicense("BSD revised")
-			 docCategory("Graphics")
- */
+	docCopyright("Steve Dekorte", 2002)
+	docLicense("BSD revised")
+	docCategory("Graphics")
+*/
 
 #include "IoGLUT.h"
 
@@ -26,7 +26,7 @@ static IoGLUT *proto = NULL;
 
 IoTag *IoGLUT_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("GLUT"); 
+	IoTag *tag = IoTag_newWithName_("GLUT");
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoGLUT_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoGLUT_free);
@@ -41,14 +41,14 @@ IoGLUT *IoGLUT_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	/*printf("state = %p proto = %p self = %p\n", state, proto, self); */
-	
+
 	proto = self;
 	IoObject_tag_(self, IoGLUT_newTag(state));
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoGLUTData)));
-	
+
 	DATA(self)->coroutine = IoCoroutine_new(state);
 	//printf("GLUT coro = %p\n", DATA(self)->coroutine);
-	
+
 	DATA(self)->eventTarget = NULL;
 	DATA(self)->entryMessage      = GLUTMESSAGE("entry");
 	DATA(self)->displayMessage    = GLUTMESSAGE("display");
@@ -62,7 +62,7 @@ IoGLUT *IoGLUT_proto(void *state)
 	DATA(self)->reshapeMessage = GLUTMESSAGE("reshape");
 	DATA(self)->specialMessage = GLUTMESSAGE("special");
 	DATA(self)->timerMessage   = GLUTMESSAGE("timer");
-	
+
 	DATA(self)->acceptsDropMessage = GLUTMESSAGE("acceptsDrop");
 	DATA(self)->dragMessage   = GLUTMESSAGE("drag");
 	DATA(self)->dropMessage   = GLUTMESSAGE("drop");
@@ -86,14 +86,14 @@ IoGLUT *IoGLUT_proto(void *state)
 	DATA(self)->j = IoSeq_newFloatArrayOfSize_(state, 0);
 	DATA(self)->lastJ = UArray_new();
 	UArray_setItemType_(DATA(self)->lastJ, CTYPE_float32_t);
-	
-	IoState_registerProtoWithFunc_(state, self, IoGLUT_proto);	
-	
-	
+
+	IoState_registerProtoWithFunc_(state, self, IoGLUT_proto);
+
+
 	//-----------------------------
-	
+
 	IoState_retain_(state, DATA(self)->j);
-	
+
 	IoState_retain_(state, DATA(self)->coroutine);
 	IoState_retain_(state, DATA(self)->entryMessage);
 	IoState_retain_(state, DATA(self)->displayMessage);
@@ -107,40 +107,40 @@ IoGLUT *IoGLUT_proto(void *state)
 	IoState_retain_(state, DATA(self)->reshapeMessage);
 	IoState_retain_(state, DATA(self)->specialMessage);
 	IoState_retain_(state, DATA(self)->timerMessage);
-	
+
 	IoState_retain_(state, DATA(self)->acceptsDropMessage);
 	IoState_retain_(state, DATA(self)->dragMessage);
 	IoState_retain_(state, DATA(self)->dropMessage);
 	IoState_retain_(state, DATA(self)->copyMessage);
 	IoState_retain_(state, DATA(self)->pasteMessage);
 	IoState_retain_(state, DATA(self)->deleteMessage);
-	
+
 	IoGLUT_protoInit(self);
 	return self;
 }
 
 IoGLUT *IoGLUT_new(void *state)
-{ 
-	return IoState_protoWithInitFunction_(state, IoGLUT_proto); 
+{
+	return IoState_protoWithInitFunction_(state, IoGLUT_proto);
 }
 
-void IoGLUT_free(IoGLUT *self) 
-{ 
+void IoGLUT_free(IoGLUT *self)
+{
 	/* add code to shut down GLUT */
-	free(IoObject_dataPointer(self)); 
+	free(IoObject_dataPointer(self));
 }
 
 void IoGLUT_mark(IoGLUT *self)
 {
 	//printf("IoGLUT_mark\n");
-	
-	if (DATA(self)->eventTarget) 
+
+	if (DATA(self)->eventTarget)
 	{
 		IoObject_shouldMark(DATA(self)->eventTarget);
 	}
-	
+
 	IoObject_shouldMark(DATA(self)->j);
-	
+
 	IoObject_shouldMark(DATA(self)->coroutine);
 	IoObject_shouldMark(DATA(self)->entryMessage);
 	IoObject_shouldMark(DATA(self)->displayMessage);
@@ -154,7 +154,7 @@ void IoGLUT_mark(IoGLUT *self)
 	IoObject_shouldMark(DATA(self)->reshapeMessage);
 	IoObject_shouldMark(DATA(self)->specialMessage);
 	IoObject_shouldMark(DATA(self)->timerMessage);
-	
+
 	IoObject_shouldMark(DATA(self)->acceptsDropMessage);
 	IoObject_shouldMark(DATA(self)->dragMessage);
 	IoObject_shouldMark(DATA(self)->dropMessage);
@@ -166,8 +166,8 @@ void IoGLUT_mark(IoGLUT *self)
 /* ----------------------------------------------------------- */
 
 IoObject *IoGLUT_rawClone(IoGLUT *self)
-{ 
-	return IoState_protoWithInitFunction_(IOSTATE, IoGLUT_proto); 
+{
+	return IoState_protoWithInitFunction_(IOSTATE, IoGLUT_proto);
 }
 
 /* ----------------------------------------------------------- */
@@ -180,39 +180,39 @@ IoObject *IoGLUT_glutInitDisplayMode(IoGLUT *self, IoObject *locals, IoMessage *
 }
 
 IoObject *IoGLUT_glutInitWindowSize(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	int w  = IoMessage_locals_intArgAt_(m, locals, 0);
 	int h = IoMessage_locals_intArgAt_(m, locals, 1);
 	//printf("glutInitWindowSize(%i, %i)\n", w, h);
 	glutInitWindowSize(w, h);
-	return self; 
+	return self;
 }
 
 IoObject *IoGLUT_glutInitWindowPosition(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	int x = IoMessage_locals_intArgAt_(m, locals, 0);
 	int y = IoMessage_locals_intArgAt_(m, locals, 1);
 	//printf("glutInitWindowPosition(%i, %i)\n", x, y);
 	glutInitWindowPosition(x, y);
-	return self; 
+	return self;
 }
 
-void IoGlutIdleFunc(void) 
-{ 
-	//IoState_yield(IoObject_state(proto)); 
+void IoGlutIdleFunc(void)
+{
+	//IoState_yield(IoObject_state(proto));
 }
 
 IoObject *IoGLUT_glutInit(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	IoState *state = IOSTATE;
 	int argc = state->mainArgs->argc;
 	UArray *ba = IoDirectory_CurrentWorkingDirectoryAsUArray();
 	glutInit(&argc, (char **)(state->mainArgs->argv));
 	IoDirectory_SetCurrentWorkingDirectory(UArray_asCString(ba));
 	UArray_free(ba);
-	
-    //glutIdleFunc(IoGlutIdleFunc);
-    //glutTimerFunc((unsigned int)10, IoGlutTimerFunc, -1); 
+
+	//glutIdleFunc(IoGlutIdleFunc);
+	//glutTimerFunc((unsigned int)10, IoGlutTimerFunc, -1);
 	return self;
 }
 
@@ -244,25 +244,25 @@ IoObject *IoGLUT_glutSetWindow(IoGLUT *self, IoObject *locals, IoMessage *m)
 {
 	int win = IoMessage_locals_intArgAt_(m, locals, 0);
 	glutSetWindow(win);
-	return self; 
+	return self;
 }
 
 IoObject *IoGLUT_glutGetWindow(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
-	return IONUMBER(glutGetWindow()); 
+{
+	return IONUMBER(glutGetWindow());
 }
 
 IoObject *IoGLUT_glutGet(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	GLenum n = IoMessage_locals_intArgAt_(m, locals, 0);
-	return IONUMBER(glutGet(n)); 
+	return IONUMBER(glutGet(n));
 }
 
 IoObject *IoGLUT_glutDestroyWindow(IoGLUT *self, IoObject *locals, IoMessage *m)
 {
 	int win = IoMessage_locals_intArgAt_(m, locals, 0);
 	glutDestroyWindow(win);
-	return self; 
+	return self;
 }
 
 IoObject *IoGLUT_glutPositionWindow(IoGLUT *self, IoObject *locals, IoMessage *m)
@@ -282,32 +282,32 @@ IoObject *IoGLUT_glutReshapeWindow(IoGLUT *self, IoObject *locals, IoMessage *m)
 }
 
 IoObject *IoGLUT_glutPopWindow(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
-	glutPopWindow(); return self; 
+{
+	glutPopWindow(); return self;
 }
 
 IoObject *IoGLUT_glutPushWindow(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
-	glutPushWindow(); 
-	return self; 
+{
+	glutPushWindow();
+	return self;
 }
 
 IoObject *IoGLUT_glutShowWindow(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
-	glutShowWindow(); 
-	return self; 
+{
+	glutShowWindow();
+	return self;
 }
 
 IoObject *IoGLUT_glutHideWindow(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
-	glutHideWindow(); 
-	return self; 
+{
+	glutHideWindow();
+	return self;
 }
 
 IoObject *IoGLUT_glutIconifyWindow(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
-	glutIconifyWindow(); 
-	return self; 
+{
+	glutIconifyWindow();
+	return self;
 }
 
 IoObject *IoGLUT_glutSetWindowTitle(IoGLUT *self, IoObject *locals, IoMessage *m)
@@ -322,15 +322,15 @@ IoObject *IoGLUT_glutSetIconTitle(IoGLUT *self, IoObject *locals, IoMessage *m)
 	IoSymbol *s = IoMessage_locals_symbolArgAt_(m, locals, 0);
 	glutSetIconTitle(CSTRING(s));
 	return self;
-}  
+}
 
 IoObject *IoGLUT_glutEventTarget_(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	DATA(proto)->eventTarget = IOREF(IoMessage_locals_valueArgAt_(m, locals, 0));
 	return self;
 }
 
-// events 
+// events
 
 void IoGlutDisplayFunc(void)
 {
@@ -338,14 +338,14 @@ void IoGlutDisplayFunc(void)
 	IoState_pushRetainPool(IoObject_state(proto));
 
 	IoGLUT_tryCallback(proto, DATA(proto)->displayMessage);
-	
+
 	IoState_popRetainPool(IoObject_state(proto));
 }
 
 IoObject *IoGLUT_glutDisplayFunc(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
-	glutDisplayFunc(IoGlutDisplayFunc); 
-	return self; 
+{
+	glutDisplayFunc(IoGlutDisplayFunc);
+	return self;
 }
 
 void IoGlutKeyboardFunc(unsigned char key, int xv, int yv)
@@ -354,16 +354,16 @@ void IoGlutKeyboardFunc(unsigned char key, int xv, int yv)
 	IoMessage_setCachedArg_toInt_(DATA(proto)->keyboardMessage, 0, (int)key);
 	IoMessage_setCachedArg_toInt_(DATA(proto)->keyboardMessage, 1, xv);
 	IoMessage_setCachedArg_toInt_(DATA(proto)->keyboardMessage, 2, yv);
-	
+
 	IoGLUT_tryCallback(proto, DATA(proto)->keyboardMessage);
 
 	IoState_popRetainPool(IoObject_state(proto));
 }
 
 IoObject *IoGLUT_glutKeyboardFunc(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
-	glutKeyboardFunc(IoGlutKeyboardFunc); 
-	return self; 
+{
+	glutKeyboardFunc(IoGlutKeyboardFunc);
+	return self;
 }
 
 void IoGlutSpecialFunc(int key, int xv, int yv)
@@ -372,16 +372,16 @@ void IoGlutSpecialFunc(int key, int xv, int yv)
 	IoMessage_setCachedArg_toInt_(DATA(proto)->specialMessage, 0, (int)key);
 	IoMessage_setCachedArg_toInt_(DATA(proto)->specialMessage, 1, xv);
 	IoMessage_setCachedArg_toInt_(DATA(proto)->specialMessage, 2, yv);
-	
+
 	IoGLUT_tryCallback(proto, DATA(proto)->specialMessage);
 
 	IoState_popRetainPool(IoObject_state(proto));
 }
 
 IoObject *IoGLUT_glutSpecialFunc(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
-	glutSpecialFunc(IoGlutSpecialFunc); 
-	return self; 
+{
+	glutSpecialFunc(IoGlutSpecialFunc);
+	return self;
 }
 
 void IoGlutKeyboardUpFunc(unsigned char key, int xv, int yv)
@@ -390,22 +390,22 @@ void IoGlutKeyboardUpFunc(unsigned char key, int xv, int yv)
 	IoMessage_setCachedArg_toInt_(DATA(proto)->keyboardUpMessage, 0, (int)key);
 	IoMessage_setCachedArg_toInt_(DATA(proto)->keyboardUpMessage, 1, xv);
 	IoMessage_setCachedArg_toInt_(DATA(proto)->keyboardUpMessage, 2, yv);
-	
+
 	IoGLUT_tryCallback(proto, DATA(proto)->keyboardUpMessage);
 
 	IoState_popRetainPool(IoObject_state(proto));
 }
 
 IoObject *IoGLUT_glutKeyboardUpFunc(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
+{
 #if (GLUT_API_VERSION >= 4 || GLUT_XLIB_IMPLEMENTATION >= 13)
-	glutKeyboardUpFunc(IoGlutKeyboardUpFunc); 
-	return self; 
+	glutKeyboardUpFunc(IoGlutKeyboardUpFunc);
+	return self;
 #endif
 }
 
 IoObject *IoGLUT_glutGetModifiers(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	return IONUMBER(glutGetModifiers());
 }
 
@@ -413,77 +413,77 @@ void IoGlutEntryFunc(int state)
 {
 	IoState_pushRetainPool(IoObject_state(proto));
 	IoMessage_setCachedArg_toInt_(DATA(proto)->entryMessage, 0, state);
-	
+
 	IoGLUT_tryCallback(proto, DATA(proto)->entryMessage);
-	
+
 	IoState_popRetainPool(IoObject_state(proto));
 }
 
 IoObject *IoGLUT_glutEntryFunc(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
-	glutEntryFunc(IoGlutEntryFunc); return self; 
+{
+	glutEntryFunc(IoGlutEntryFunc); return self;
 }
 
 void IoGlutMotionFunc(int xv, int yv)
 {
 	IoState_pushRetainPool(IoObject_state(proto));
-	
+
 	{
 		IoMessage_setCachedArg_toInt_(DATA(proto)->motionMessage, 0, xv);
 		IoMessage_setCachedArg_toInt_(DATA(proto)->motionMessage, 1, yv);
-		
+
 		IoGLUT_tryCallback(proto, DATA(proto)->motionMessage);
 	}
-	
+
 	IoState_popRetainPool(IoObject_state(proto));
 }
 
 IoObject *IoGLUT_glutMotionFunc(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
-	glutMotionFunc(IoGlutMotionFunc); 
-	return self; 
+{
+	glutMotionFunc(IoGlutMotionFunc);
+	return self;
 }
 
 void IoGlutPassiveMotionFunc(int xv, int yv)
 {
 	IoState_pushRetainPool(IoObject_state(proto));
-	
+
 	{
 		IoMessage_setCachedArg_toInt_(DATA(proto)->passiveMotionMessage, 0, xv);
 		IoMessage_setCachedArg_toInt_(DATA(proto)->passiveMotionMessage, 1, yv);
-		
+
 		IoGLUT_tryCallback(proto, DATA(proto)->passiveMotionMessage);
 	}
-	
+
 	IoState_popRetainPool(IoObject_state(proto));
 }
 
 IoObject *IoGLUT_glutPassiveMotionFunc(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
-	glutPassiveMotionFunc(IoGlutPassiveMotionFunc); 
-	return self; 
+{
+	glutPassiveMotionFunc(IoGlutPassiveMotionFunc);
+	return self;
 }
 
-void IoGlutMouseFunc(int button, int state, int xv, int yv) 
+void IoGlutMouseFunc(int button, int state, int xv, int yv)
 {
 	IoState_pushRetainPool(IoObject_state(proto));
-	
+
 	{
 		IoMessage_setCachedArg_toInt_(DATA(proto)->mouseMessage, 0, button);
 		IoMessage_setCachedArg_toInt_(DATA(proto)->mouseMessage, 1, state);
 		IoMessage_setCachedArg_toInt_(DATA(proto)->mouseMessage, 2, xv);
 		IoMessage_setCachedArg_toInt_(DATA(proto)->mouseMessage, 3, yv);
-		
+
 		IoGLUT_tryCallback(proto, DATA(proto)->mouseMessage);
 	}
-	
+
 	IoState_popRetainPool(IoObject_state(proto));
 }
 
 IoObject *IoGLUT_glutMouseFunc(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
-	glutMouseFunc(IoGlutMouseFunc); 
-	return self; 
+{
+	glutMouseFunc(IoGlutMouseFunc);
+	return self;
 }
 
 void IoGlutReshapeFunc(int width, int height)
@@ -496,14 +496,14 @@ void IoGlutReshapeFunc(int width, int height)
 
 		IoGLUT_tryCallback(proto, DATA(proto)->reshapeMessage);
 	}
-	
+
 	IoState_popRetainPool(IoObject_state(proto));
 }
 
 IoObject *IoGLUT_glutReshapeFunc(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
-	glutReshapeFunc(IoGlutReshapeFunc); 
-	return self; 
+{
+	glutReshapeFunc(IoGlutReshapeFunc);
+	return self;
 }
 
 void IoGlutTimerFunc(int vv)
@@ -513,11 +513,11 @@ void IoGlutTimerFunc(int vv)
 	//printf("IoGlutTimerFunc\n");
 
 	IoState_pushRetainPool(state);
-	
+
 	if (vv == -1)
 	{
-		//IoState_yield(IoObject_state(proto)); 
-		glutTimerFunc((unsigned int)100, IoGlutTimerFunc, -1); 
+		//IoState_yield(IoObject_state(proto));
+		glutTimerFunc((unsigned int)100, IoGlutTimerFunc, -1);
 	}
 	else
 	{
@@ -529,12 +529,12 @@ void IoGlutTimerFunc(int vv)
 }
 
 IoObject *IoGLUT_glutTimerFunc(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	unsigned int msecs = IoMessage_locals_longArgAt_(m, locals, 0);
 	int v = IoMessage_locals_intArgAt_(m, locals, 1);
 	//printf("IoGLUT_glutTimerFunc msecs %i v %i\n", msecs, v);
-	glutTimerFunc((unsigned int)msecs, IoGlutTimerFunc, v); 
-	return self; 
+	glutTimerFunc((unsigned int)msecs, IoGlutTimerFunc, v);
+	return self;
 }
 
 IoObject *IoGLUT_tryCallback(IoGLUT *self, IoMessage *m)
@@ -543,14 +543,14 @@ IoObject *IoGLUT_tryCallback(IoGLUT *self, IoMessage *m)
 	IoObject *tryCoro = DATA(self)->coroutine;
 	IoObject *t = DATA(proto)->eventTarget;
 	IoObject *result = state->ioNil;
-	
+
 	//printf("IoGLUT_tryCallback(self, %p)\n", (void *)m);
-	
+
 	if (t)
 	{
 		//result = IoState_tryToPerform(state, t, t, m);
-		
-		
+
+
 		//IoCoroutine_try(tryCoro, t, t, m);
 		IoMessage_locals_performOn_(m, t, t);
 
@@ -562,39 +562,39 @@ IoObject *IoGLUT_tryCallback(IoGLUT *self, IoMessage *m)
 		IoCoroutine_clearStack(tryCoro);
 		return IoCoroutine_rawResult(tryCoro);
 	}
-	
+
 	return result;
 }
 
 #ifdef GLUT_KEY_REPEAT_ON
 IoObject *IoGLUT_glutIgnoreKeyRepeat(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	int v = IoMessage_locals_intArgAt_(m, locals, 0);
-	glutIgnoreKeyRepeat(v); 
-	return self; 
+	glutIgnoreKeyRepeat(v);
+	return self;
 }
 #endif
 
 IoObject *IoGLUT_glutMainLoop(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
-	glutMainLoop(); 
-	return self; 
+{
+	glutMainLoop();
+	return self;
 }
 
 IoObject *IoGLUT_glutPostRedisplay(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
-	glutPostRedisplay(); 
-	return self; 
+{
+	glutPostRedisplay();
+	return self;
 }
 
 IoObject *IoGLUT_glutSwapBuffers(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
-	glutSwapBuffers(); 
-	return self; 
+{
+	glutSwapBuffers();
+	return self;
 }
 
 IoObject *IoGLUT_glutSolidCone(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	GLdouble radius = IoMessage_locals_doubleArgAt_(m, locals, 0);
 	GLdouble height = IoMessage_locals_intArgAt_(m, locals, 1);
 	GLint slices = IoMessage_locals_intArgAt_(m, locals, 2);
@@ -604,7 +604,7 @@ IoObject *IoGLUT_glutSolidCone(IoGLUT *self, IoObject *locals, IoMessage *m)
 }
 
 IoObject *IoGLUT_glutWireCone(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	GLdouble radius = IoMessage_locals_doubleArgAt_(m, locals, 0);
 	GLdouble height = IoMessage_locals_intArgAt_(m, locals, 1);
 	GLint slices = IoMessage_locals_intArgAt_(m, locals, 2);
@@ -614,7 +614,7 @@ IoObject *IoGLUT_glutWireCone(IoGLUT *self, IoObject *locals, IoMessage *m)
 }
 
 IoObject *IoGLUT_glutSolidSphere(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	GLdouble radius = IoMessage_locals_doubleArgAt_(m, locals, 0);
 	GLint slices = IoMessage_locals_intArgAt_(m, locals, 1);
 	GLint stacks = IoMessage_locals_intArgAt_(m, locals, 2);
@@ -623,7 +623,7 @@ IoObject *IoGLUT_glutSolidSphere(IoGLUT *self, IoObject *locals, IoMessage *m)
 }
 
 IoObject *IoGLUT_glutWireSphere(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	GLdouble radius = IoMessage_locals_doubleArgAt_(m, locals, 0);
 	GLint slices = IoMessage_locals_intArgAt_(m, locals, 1);
 	GLint stacks = IoMessage_locals_intArgAt_(m, locals, 2);
@@ -632,7 +632,7 @@ IoObject *IoGLUT_glutWireSphere(IoGLUT *self, IoObject *locals, IoMessage *m)
 }
 
 IoObject *IoGLUT_glutSolidTorus(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	GLdouble innerRadius = IoMessage_locals_doubleArgAt_(m, locals, 0);
 	GLdouble outerRadius = IoMessage_locals_doubleArgAt_(m, locals, 1);
 	GLint nsides = IoMessage_locals_intArgAt_(m, locals, 2);
@@ -642,7 +642,7 @@ IoObject *IoGLUT_glutSolidTorus(IoGLUT *self, IoObject *locals, IoMessage *m)
 }
 
 IoObject *IoGLUT_glutWireTorus(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	GLdouble innerRadius = IoMessage_locals_doubleArgAt_(m, locals, 0);
 	GLdouble outerRadius = IoMessage_locals_doubleArgAt_(m, locals, 1);
 	GLint nsides = IoMessage_locals_intArgAt_(m, locals, 2);
@@ -652,65 +652,65 @@ IoObject *IoGLUT_glutWireTorus(IoGLUT *self, IoObject *locals, IoMessage *m)
 }
 
 IoObject *IoGLUT_glutSolidDodecahedron(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
-	glutSolidDodecahedron(); 
-	return self; 
+{
+	glutSolidDodecahedron();
+	return self;
 }
 
 IoObject *IoGLUT_glutWireDodecahedron(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
-	glutWireDodecahedron(); 
-	return self; 
+{
+	glutWireDodecahedron();
+	return self;
 }
 
 IoObject *IoGLUT_glutSolidOctahedron(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
-	glutSolidOctahedron(); 
-	return self; 
+{
+	glutSolidOctahedron();
+	return self;
 }
 
 IoObject *IoGLUT_glutWireOctahedron(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
-	glutWireOctahedron(); 
-	return self; 
+{
+	glutWireOctahedron();
+	return self;
 }
 
 IoObject *IoGLUT_glutSolidTetrahedron(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
-	glutSolidTetrahedron(); 
-	return self; 
+{
+	glutSolidTetrahedron();
+	return self;
 }
 
 IoObject *IoGLUT_glutWireTetrahedron(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
-	glutWireTetrahedron(); 
-	return self; 
+{
+	glutWireTetrahedron();
+	return self;
 }
 
 IoObject *IoGLUT_glutSolidIcosahedron(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
-	glutSolidIcosahedron(); 
-	return self; 
+{
+	glutSolidIcosahedron();
+	return self;
 }
 
 IoObject *IoGLUT_glutWireIcosahedron(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
-	glutWireIcosahedron(); 
-	return self; 
+{
+	glutWireIcosahedron();
+	return self;
 }
 
 IoObject *IoGLUT_glutSolidTeapot(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	GLdouble r = IoMessage_locals_doubleArgAt_(m, locals, 0);
-	glutSolidTeapot(r); 
-	return self; 
+	glutSolidTeapot(r);
+	return self;
 }
 
 IoObject *IoGLUT_glutWireTeapot(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	GLdouble r = IoMessage_locals_doubleArgAt_(m, locals, 0);
-	glutWireTeapot(r); 
-	return self; 
+	glutWireTeapot(r);
+	return self;
 }
 
 IoObject *IoGLUT_glutSolidCube(IoGLUT *self, IoObject *locals, IoMessage *m)
@@ -728,7 +728,7 @@ IoObject *IoGLUT_glutWireCube(IoGLUT *self, IoObject *locals, IoMessage *m)
 }
 
 IoObject *IoGLUT_glutStrokeCharacter(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	int fontNum = IoMessage_locals_intArgAt_(m, locals, 0);
 	char c = IoMessage_locals_intArgAt_(m, locals, 1);
 	void *font = GLUT_STROKE_ROMAN;
@@ -738,28 +738,28 @@ IoObject *IoGLUT_glutStrokeCharacter(IoGLUT *self, IoObject *locals, IoMessage *
 }
 
 IoObject *IoGLUT_glutStrokeString(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
+{
 	int fontNum = IoMessage_locals_intArgAt_(m, locals, 0);
 	IoSymbol *string = IoMessage_locals_seqArgAt_(m, locals, 1);
 	char *s = CSTRING(string);
 	void *font = GLUT_STROKE_ROMAN;
 	if (fontNum) font = GLUT_STROKE_MONO_ROMAN;
-	
-	while (*s) 
+
+	while (*s)
 	{
 		glutStrokeCharacter(font, *s);
 		s++;
 	}
-	
+
 	return self;
 }
 
 /* --- GLUT game mode ----------------------------------------------------- */
 
 IoObject *IoGLUT_glutFullScreen(IoGLUT *self, IoObject *locals, IoMessage *m)
-{ 
-	glutFullScreen(); 
-	return self; 
+{
+	glutFullScreen();
+	return self;
 }
 
 #ifdef GLUT_GAME_MODE_ACTIVE
@@ -802,15 +802,15 @@ IoObject *IoGLUT_glutSetCursor(IoGLUT *self, IoObject *locals, IoMessage *m)
 
 // Menus --------------------------------------------------------------------
 
-void IoGlutMenuFunc(int menuId) 
+void IoGlutMenuFunc(int menuId)
 {
 	IoState_pushRetainPool(IoObject_state(proto));
-	
+
 	{
 		IoMessage_setCachedArg_toInt_(DATA(proto)->menuMessage, 0, menuId);
 		IoGLUT_tryCallback(proto, DATA(proto)->menuMessage);
 	}
-	
+
 	IoState_popRetainPool(IoObject_state(proto));
 }
 
@@ -903,7 +903,7 @@ void IoGlutJoystickFunc(unsigned int buttonMask, int x, int y, int z)
 	UArray *j = IoSeq_rawUArray(DATA(proto)->j);
 	UArray *lastJ = DATA(proto)->lastJ;
 	vec3f v = (vec3f){x, y, z};
-	
+
 	IoSeq_setVec3f_(DATA(proto)->j, v);
 	UArray_subtract_(lastJ, j);
 
@@ -912,15 +912,15 @@ void IoGlutJoystickFunc(unsigned int buttonMask, int x, int y, int z)
 		//printf("sum %f\n", (float)Vector_sum(lastJ));
 		//printf("b %i %i\n", (int)buttonMask, (int)DATA(proto)->lastJoystickButton);
 		IoState_pushRetainPool(IoObject_state(proto));
-		
+
 		{
 			IoMessage_setCachedArg_toInt_(DATA(proto)->joystickMessage, 0, (int)buttonMask);
 			IoMessage_setCachedArg_to_(DATA(proto)->joystickMessage, 1, DATA(proto)->j);
 			IoGLUT_tryCallback(proto, DATA(proto)->joystickMessage);
 		}
-		
+
 		DATA(proto)->lastJoystickButton = buttonMask;
-		
+
 		IoState_popRetainPool(IoObject_state(proto));
 	}
 
@@ -932,14 +932,14 @@ IoObject *IoGLUT_glutInitJoystick(IoGLUT *self, IoObject *locals, IoMessage *m)
 {
 	IoSymbol *deviceName = IoMessage_locals_symbolArgAt_(m, locals, 0);
 	// deviceName something like /dev/input/js0
-	glutInitJoystick(IoGlutJoystickFunc, CSTRING(deviceName)); 
+	glutInitJoystick(IoGlutJoystickFunc, CSTRING(deviceName));
 	return self;
 }
 */
 IoObject *IoGLUT_glutJoystickFunc(IoGLUT *self, IoObject *locals, IoMessage *m)
 {
 	int pollInterval = IoMessage_locals_intArgAt_(m, locals, 0);
-	glutJoystickFunc(IoGlutJoystickFunc, pollInterval); 
+	glutJoystickFunc(IoGlutJoystickFunc, pollInterval);
 	return self;
 }
 
@@ -952,27 +952,27 @@ IoObject *IoGLUT_glutJoystickFunc(IoGLUT *self, IoObject *locals, IoMessage *m)
 #include "IoGLUTconst.h"
 #include "IoGLUTfunc.h"
 
-void IoGLUT_protoInit(IoGLUT *self) 
-{     
+void IoGLUT_protoInit(IoGLUT *self)
+{
 	IoObject_setSlot_to_(self,IOSYMBOL("clone"), IOCFUNCTION_GLUT(IoObject_self));
-	
+
 	/* GLUT Constants */
 	{
 		t_ioGLUT_constTable *curpos=ioGLUT_constTable;
-		while (curpos->name) 
+		while (curpos->name)
 		{
-			IoObject_setSlot_to_(self, 
-							 IOSYMBOL(curpos->name), 
-							 IONUMBER(curpos->value));
+			IoObject_setSlot_to_(self,
+								 IOSYMBOL(curpos->name),
+								 IONUMBER(curpos->value));
 			curpos++;
 		}
 	}
-	
+
 	/* GLUT Functions */
 	{
 		t_ioGLUT_funcTable *curpos=ioGLUT_funcTable;
-		
-		while (curpos->name) 
+
+		while (curpos->name)
 		{
 			IoCFunction *f = IoCFunction_newWithFunctionPointer_tag_name_(IOSTATE, curpos->func, NULL, curpos->name);
 			IoObject_setSlot_to_(self, IOSYMBOL(curpos->name), f);
@@ -984,86 +984,86 @@ void IoGLUT_protoInit(IoGLUT *self)
 // --- Extra In --------------------------------------------------------------
 
 int IoGlutAcceptsDropFunc(
-					 int x, 
-					 int y, 
-					 const char *type, 
-					 const unsigned char *data, 
-					 int dataLength)
+						  int x,
+						  int y,
+						  const char *type,
+						  const unsigned char *data,
+						  int dataLength)
 {
 	int result = 0;
 	IoState *state = IoObject_state(proto);
 	IoState_pushRetainPool(state);
-	
+
 	{
 		IoMessage *m = DATA(proto)->acceptsDropMessage;
 		IoSymbol *typeString = IoState_symbolWithCString_(state, (char *)type);
 		IoSeq *dataBuffer = IoSeq_newWithData_length_(state, (unsigned char *)data, dataLength);
-		
+
 		IoMessage_setCachedArg_toInt_(m, 0, x);
 		IoMessage_setCachedArg_toInt_(m, 1, y);
 		IoMessage_setCachedArg_to_(m, 2, typeString);
 		IoMessage_setCachedArg_to_(m, 3, dataBuffer);
-		
-		if (DATA(proto)->eventTarget) 
-		{ 
+
+		if (DATA(proto)->eventTarget)
+		{
 			IoObject *r = IoGLUT_tryCallback(proto, m);
-; 
-			if (r && ISNUMBER(r)) 
+;
+			if (r && ISNUMBER(r))
 			{
 				result = CNUMBER(r);
 			}
 		}
 	}
-	
+
 	IoState_popRetainPool(state);
 	return result;
 }
 
 void IoGlutDropFunc(
-				int x, 
-				int y, 
-				const char *type, 
-				const unsigned char *data, 
+				int x,
+				int y,
+				const char *type,
+				const unsigned char *data,
 				int dataLength)
 {
 	IoState *state = IoObject_state(proto);
 	IoState_pushRetainPool(state);
-	
+
 	{
 		IoMessage *m = DATA(proto)->dropMessage;
 		IoSymbol *typeString = IoState_symbolWithCString_(state, (char *)type);
 		IoSeq *dataBuffer = IoSeq_newWithData_length_(state, (unsigned char *)data, dataLength);
-		
+
 		IoMessage_setCachedArg_toInt_(m, 0, x);
 		IoMessage_setCachedArg_toInt_(m, 1, y);
 		IoMessage_setCachedArg_to_(m, 2, typeString);
 		IoMessage_setCachedArg_to_(m, 3, dataBuffer);
-		
+
 		IoGLUT_tryCallback(proto, m);
 	}
-	
+
 	IoState_popRetainPool(state);
 }
 
 void IoGlutPasteFunc(
-				 const char *type, 
-				 const unsigned char *data, 
-				 int dataLength) 
+					 const char *type,
+					 const unsigned char *data,
+					 int dataLength)
 {
 	IoState *state = IoObject_state(proto);
 	IoState_pushRetainPool(state);
-	
+
 	{
 		IoMessage *m = DATA(proto)->pasteMessage;
 		IoSymbol *typeString = IoState_symbolWithCString_(state, (char *)type);
 		IoSeq *dataBuffer = IoSeq_newWithData_length_(state, (unsigned char *)data, dataLength);
-		
+
 		IoMessage_setCachedArg_to_(m, 0, typeString);
 		IoMessage_setCachedArg_to_(m, 1, dataBuffer);
-		
+
 		IoGLUT_tryCallback(proto, m);
 	}
-	
+
 	IoState_popRetainPool(IoObject_state(proto));
 }
 
@@ -1072,15 +1072,15 @@ void IoGlutDeleteFunc(void)
 	IoState *state = IoObject_state(proto);
 	IoState_pushRetainPool(state);
 	IoGLUT_tryCallback(proto, DATA(proto)->deleteMessage);
-	IoState_popRetainPool(state); 
+	IoState_popRetainPool(state);
 }
 
 
 // --- Extra Out --------------------------------------------------------------
 
 void IoGLUT_setDragCallback_(IoGLUT *self, DragCallback *func)
-{ 
-	DATA(self)->dragCallback = func; 
+{
+	DATA(self)->dragCallback = func;
 }
 
 IoObject *IoGLUT_drag(IoGLUT *self, IoObject *locals, IoMessage *m)
@@ -1089,38 +1089,38 @@ IoObject *IoGLUT_drag(IoGLUT *self, IoObject *locals, IoMessage *m)
 	int y = IoMessage_locals_intArgAt_(m, locals, 1);
 	IoSymbol *type = IoMessage_locals_symbolArgAt_(m, locals, 2);
 	IoSeq *buffer = IoMessage_locals_mutableSeqArgAt_(m, locals, 3);
-	
+
 	if (DATA(self)->dragCallback)
 	{
-		(DATA(self)->dragCallback)(DATA(self)->callbackContext, 
-							  x, 
-							  y, 
-							  CSTRING(type), 
-							  IoSeq_rawBytes(buffer), 
-							  IoSeq_rawSize(buffer));
+		(DATA(self)->dragCallback)(DATA(self)->callbackContext,
+								   x,
+								   y,
+								   CSTRING(type),
+								   IoSeq_rawBytes(buffer),
+								   IoSeq_rawSize(buffer));
 	}
-	
+
 	return IONIL(self);
 }
 
 void IoGLUT_setCopyCallback_(IoGLUT *self, CopyCallback *func)
-{ 
-	DATA(self)->copyCallback = func; 
+{
+	DATA(self)->copyCallback = func;
 }
 
 IoObject *IoGLUT_copy(IoGLUT *self, IoObject *locals, IoMessage *m)
 {
 	IoSymbol *type = IoMessage_locals_symbolArgAt_(m, locals, 0);
 	IoSeq *buffer = IoMessage_locals_mutableSeqArgAt_(m, locals, 1);
-	
+
 	if (DATA(self)->copyCallback)
 	{
-		(DATA(self)->copyCallback)(DATA(self)->callbackContext, 
-							  CSTRING(type), 
-							  IoSeq_rawBytes(buffer), 
-							  IoSeq_rawSize(buffer));
+		(DATA(self)->copyCallback)(DATA(self)->callbackContext,
+								   CSTRING(type),
+								   IoSeq_rawBytes(buffer),
+								   IoSeq_rawSize(buffer));
 	}
-	
+
 	return IONIL(self);
 }
 

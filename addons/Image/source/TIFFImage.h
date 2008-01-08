@@ -1,13 +1,13 @@
 /*  copyright: Steve Dekorte, 2002
  *  All rights reserved. See _BSDLicense.txt.
  *
- *  This is an object wrapper for libtiff. 
+ *  This is an object wrapper for libtiff.
  *
  *  It's possible to use an external UArray for loading by calling
- *  TIFFImage_setExternalUArray_(), but be carefull not to use the 
+ *  TIFFImage_setExternalUArray_(), but be carefull not to use the
  *  TIFFImage instance after freeing it's external byte array.
  */
- 
+
 #ifndef TIFFIMAGE_DEFINED
 #define TIFFIMAGE_DEFINED 1
 
@@ -16,13 +16,13 @@
 
 typedef struct
 {
-  char *path;
-  int width;
-  int height;
-  int components;
-  UArray *byteArray;
-  unsigned char ownsBuffer;
-  char *error;
+	char *path;
+	int width;
+	int height;
+	int components;
+	UArray *byteArray;
+	unsigned char ownsBuffer;
+	char *error;
 } TIFFImage;
 
 IOIMAGE_API TIFFImage *TIFFImage_new(void);
@@ -53,10 +53,10 @@ IOIMAGE_API int TIFFImage_components(TIFFImage *self);
 
 IOIMAGE_API UArray *TIFFImage_byteArray(TIFFImage *self);
 
-/* Whomever calls TIFFImage_setExternalUArray_ is responsible 
+/* Whomever calls TIFFImage_setExternalUArray_ is responsible
  * for freeing "ba" and for making sure that this
  * TIFFImage is not still using it after it is freed.
  */
-IOIMAGE_API void TIFFImage_setExternalUArray_(TIFFImage *self, UArray *ba); 
+IOIMAGE_API void TIFFImage_setExternalUArray_(TIFFImage *self, UArray *ba);
 
-#endif 
+#endif

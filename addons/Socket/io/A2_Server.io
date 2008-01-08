@@ -1,6 +1,6 @@
 
 Server := Object clone do(
-    type := "Server"
+	type := "Server"
 	docCategory("Networking")
 
 	docDescription("""The Server object provides a simple interface for running a server. You just need to set the port and define a handleSocket method. Here's an example of an echo server:
@@ -9,7 +9,7 @@ Server := Object clone do(
 Echo := Object clone
 Echo handleSocketFromServer := method(aSocket, aServer,
   write("[Got echo connection from ", aSocket host, "]\n")
-  while(aSocket isOpen, 
+  while(aSocket isOpen,
    if(aSocket read, aSocket write(aSocket readBuffer asString))
    aSocket readBuffer empty
   )
@@ -27,44 +27,44 @@ server start
 <b>Notes</b><p>
 
 Io's use of lightweight threading and select for dealing with sockets makes for servers that are much more efficient(both memory and cpu wise) than those written with kernel threads and socket polling. """)
-        
-    init := method(
-	   self socket := Socket clone setPort(80) setReadTimeout(356*24*60*60)
-	   self
-    )
 
-    docSlot("setHost(hostName)", "Sets the hostName. Returns self.")
-    
-    setHost := method(host, socket setHost(host); self)
-    
-    docSlot("setPort(aNumber)", "Sets the port on which the server will listen  for connections. Returns self.")
-    
-    setPort := method(port, socket setPort(port); self)
+	init := method(
+		self socket := Socket clone setPort(80) setReadTimeout(356*24*60*60)
+		self
+	)
 
-    docSlot("port", "Returns the port on which the server will listen for connections.")
+	docSlot("setHost(hostName)", "Sets the hostName. Returns self.")
 
-    port := method(socket port)
-    
-    docSlot("start", "Starts the server. This method will not return until server is stopped, so you may want to send the start message as an asynchronous message. Returns self.")
+	setHost := method(host, socket setHost(host); self)
 
-    start := method(
+	docSlot("setPort(aNumber)", "Sets the port on which the server will listen  for connections. Returns self.")
+
+	setPort := method(port, socket setPort(port); self)
+
+	docSlot("port", "Returns the port on which the server will listen for connections.")
+
+	port := method(socket port)
+
+	docSlot("start", "Starts the server. This method will not return until server is stopped, so you may want to send the start message as an asynchronous message. Returns self.")
+
+	start := method(
 		//writeln("Server start")
 		socket serverOpen
-        while(socket isOpen,
-        	//writeln("Server serverWaitForConnection")
-            newSocket := socket serverWaitForConnection
-            if(newSocket, 
-                //writeln("Server got socket"); 
-                handleSocket(newSocket)
-            )
-        )
-    )
+		while(socket isOpen,
+			//writeln("Server serverWaitForConnection")
+			newSocket := socket serverWaitForConnection
+			if(newSocket,
+				//writeln("Server got socket");
+				handleSocket(newSocket)
+			)
+		)
+	)
 
-    docSlot("stop", "Stops the server if it is running. Returns self.")
+	docSlot("stop", "Stops the server if it is running. Returns self.")
 
-    stop := method(socket close)
-    handleSocket := method(aSocket,
-    	Exception raise("need to override Server handleSocket in your subclass")
-    )
+	stop := method(socket close)
+	handleSocket := method(aSocket,
+		Exception raise("need to override Server handleSocket in your subclass")
+	)
 )
 

@@ -9,21 +9,21 @@ RegexMatch do(
 			if (range, subject slice(range first, range last), nil)
 		)
 	)
-	
+
 	docSlot("at(indexOrName)",
 		"Returns the capture with the given index or name. at(0) is the entire match."
 	)
 	at := method(indexOrName,
-		if (index := indexOf(indexOrName), captures at(index), nil) 
+		if (index := indexOf(indexOrName), captures at(index), nil)
 	)
-		
+
 	docSlot("indexOf(name)",
 		"Returns the index of the capture with the given name."
 	)
 	indexOf := method(name,
 		if (name isKindOf(Sequence), regex nameToIndexMap at(name), name)
 	)
-	
+
 
 	docSlot("names",
 		"Returns a list containing the name of each capture."
@@ -37,7 +37,7 @@ RegexMatch do(
 		"Returns the name of the capture with the given index."
 	)
 	nameOf := method(index,
-		names at(index)			
+		names at(index)
 	)
 
 	docSlot("string",
@@ -68,7 +68,7 @@ RegexMatch do(
 	rangeOf := method(indexOrName,
 		if (index := indexOf(indexOrName), ranges at(index), nil)
 	)
-	
+
 	docSlot("startOf(indexOrName)",
 		"Returns the index into the subject at which the capture with the given index or name starts."
 	)

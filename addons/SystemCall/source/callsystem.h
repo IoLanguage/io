@@ -14,11 +14,11 @@
   ALL IN A PORTABLE WAY!
 
   Pathnames:
-    /   seperates a path,
-    :   is used as device identifier when the path starts with / ("/C:" becomes "C:\")
-    .   is the current directory
-    ..  is the parent directory
-    ~   is the users home directory
+   /   seperates a path,
+   :   is used as device identifier when the path starts with / ("/C:" becomes "C:\")
+   .   is the current directory
+   ..  is the parent directory
+   ~   is the users home directory
 
   Environment variables:
     only ${KEY} syntax is substituted in one pass, trying to substitute a non existing env var yields an error
@@ -90,21 +90,21 @@ typedef HANDLE callsystem_fd_t;
 #endif
 
 
-
+
 /*
   INVOKING AND CONTROLLING CHILD PROGRAMS
  */
 
 int
 callsystem(const char * cmd,
-           char * argv[],
-           char * env[],
-           callsystem_fd_t in[2],
-           callsystem_fd_t out[2],
-           callsystem_fd_t err[2],
-           const char * wd,
-           const int pri,
-           callsystem_pid_t * const child);
+		   char * argv[],
+		   char * env[],
+		   callsystem_fd_t in[2],
+		   callsystem_fd_t out[2],
+		   callsystem_fd_t err[2],
+		   const char * wd,
+		   const int pri,
+		   callsystem_pid_t * const child);
 
 int
 callsystem_running(callsystem_pid_t * pid);
@@ -118,7 +118,7 @@ callsystem_terminate(callsystem_pid_t *);
 int
 callsystem_abort(callsystem_pid_t *);
 
-
+
 /*
   HANDLING FILE DESCRIPTORS AND PIPES
  */
@@ -131,18 +131,18 @@ callsystem_null(callsystem_fd_t null[2]);
 
 
 enum callsystem_filemode{
-  CALLSYSTEM_MODE_READ,
-  CALLSYSTEM_MODE_WRITE,
-  CALLSYSTEM_MODE_CREATE,
-  CALLSYSTEM_MODE_APPEND,
-  CALLSYSTEM_MODE_OVERWRITE,
-  CALLSYSTEM_MODE_BINARY=8
+	CALLSYSTEM_MODE_READ,
+	CALLSYSTEM_MODE_WRITE,
+	CALLSYSTEM_MODE_CREATE,
+	CALLSYSTEM_MODE_APPEND,
+	CALLSYSTEM_MODE_OVERWRITE,
+	CALLSYSTEM_MODE_BINARY=8
 };
 
 int
 callsystem_open(const char * filename,
-                enum callsystem_filemode mode,
-                callsystem_fd_t fd[2]);
+				enum callsystem_filemode mode,
+				callsystem_fd_t fd[2]);
 
 /* want sockets too? prolly not in the domain of this thing */
 
@@ -156,7 +156,7 @@ FILE *
 callsystem_fdopen(callsystem_fd_t fds[2], enum callsystem_filemode mode);
 
 
-
+
 /*
   ENVIRONMENT SETUP
  */
@@ -184,7 +184,7 @@ callsystem_env_clear(char ** env[]);
 
 
 
-
+
 /*
   SETUP OF THE ARGV
  */
@@ -198,7 +198,7 @@ callsystem_argv_pushfront(char ** argv[], const char * const arg);
 void
 callsystem_argv_clear(char ** argv[]);
 
-
+
 /*
   PORTABLE PATHNAME HANDLING
  */
@@ -219,7 +219,7 @@ callsystem_argv_clear(char ** argv[]);
    needs much to worked out (UNC?)
 
    callsystem_is_pathname()
-    check if some string could be a legal pathname on the actual host
+	check if some string could be a legal pathname on the actual host
  */
 
 

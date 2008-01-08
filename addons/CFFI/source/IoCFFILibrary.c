@@ -22,9 +22,9 @@ IoCFFILibrary *IoCFFILibrary_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCFFILibrary_newTag(state));
-	
+
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoCFFILibraryData)));
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoCFFILibrary_proto);
 
 	{
@@ -37,23 +37,23 @@ IoCFFILibrary *IoCFFILibrary_proto(void *state)
 	return self;
 }
 
-IoCFFILibrary *IoCFFILibrary_rawClone(IoCFFILibrary *proto) 
-{ 
+IoCFFILibrary *IoCFFILibrary_rawClone(IoCFFILibrary *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoCFFILibraryData)));
-	return self; 
+	return self;
 }
 
-void IoCFFILibrary_free(IoCFFILibrary *self) 
+void IoCFFILibrary_free(IoCFFILibrary *self)
 {
 	DynLib *library = DATA(self)->library;
-	
+
 	if (library && DynLib_isOpen(library))
 	{
 		DynLib_close(library);
 		DynLib_free(library);
 	}
-	
+
 	free(DATA(self));
 }
 
@@ -62,15 +62,15 @@ void IoCFFILibrary_free(IoCFFILibrary *self)
 void *IoCFFILibrary_rawGetFuctionPointer_(IoCFFILibrary *self, const char *name)
 {
 	DynLib *library = DATA(self)->library;
-	
+
 	if (!library)
 	{
 		const char *name = CSTRING(IoObject_getSlot_(self, IOSYMBOL("name")));
-		
+
 		library = DATA(self)->library = DynLib_new();
 		DynLib_setPath_(library, name);
 		DynLib_open(library);
 	}
-	
+
 	return DynLib_pointerForSymbolName_(library, name);
 }

@@ -15,7 +15,7 @@ extern "C" {
 #endif
 
 #define ISQDBM(self) \
-  IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoQDBM_rawClone)
+	IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoQDBM_rawClone)
 
 typedef IoObject IoQDBM;
 
@@ -25,7 +25,7 @@ IoQDBM *IoQDBM_new(void *state);
 void IoQDBM_free(IoObject *self);
 //void IoQDBM_mark(IoObject *self);
 
-// -------------------------------------------------------- 
+// --------------------------------------------------------
 
 IoObject *IoQDBM_open(IoObject *self, IoObject *locals, IoMessage *m);
 IoObject *IoQDBM_close(IoObject *self, IoObject *locals, IoMessage *m);

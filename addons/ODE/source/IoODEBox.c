@@ -29,13 +29,13 @@ IoODEBox *IoODEBox_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoODEBox_newTag(state));
-	
+
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoODEBoxData)));
 
 	GEOMID = 0;
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoODEBox_proto);
-	
+
 	{
 		IoMethodTable methodTable[] = {
 		{"geomId", IoODEBox_geomId},
@@ -53,11 +53,11 @@ IoODEBox *IoODEBox_proto(void *state)
 	return self;
 }
 
-IoODEBox *IoODEBox_rawClone(IoODEBox *proto) 
-{ 
+IoODEBox *IoODEBox_rawClone(IoODEBox *proto)
+{
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoODEBoxData)));
-	return self; 
+	return self;
 }
 
 IoODEBox *IoODEBox_new(void *state, dGeomID geomId)
@@ -69,25 +69,25 @@ IoODEBox *IoODEBox_new(void *state, dGeomID geomId)
 	return self;
 }
 
-void IoODEBox_free(IoODEBox *self) 
-{ 
+void IoODEBox_free(IoODEBox *self)
+{
 	if(GEOMID)
 	{
 		dGeomDestroy(GEOMID);
 		GEOMID = 0;
 	}
 
-	free(IoObject_dataPointer(self)); 
+	free(IoObject_dataPointer(self));
 }
 
-void IoODEBox_mark(IoODEBox *self) 
-{ 
+void IoODEBox_mark(IoODEBox *self)
+{
 	if (GEOMID)
 	{
 		dBodyID body = dGeomGetBody(GEOMID);
 		if (body)
 		{
-			IoObject_shouldMark(IoODEBody_bodyFromId(IOSTATE, body)); 
+			IoObject_shouldMark(IoODEBody_bodyFromId(IOSTATE, body));
 		}
 	}
 }

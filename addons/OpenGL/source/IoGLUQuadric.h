@@ -18,8 +18,8 @@ typedef IoObject IoGLUQuadric;
 
 typedef struct
 {
-  GLUquadricObj *q;
-  IoImage *texture;
+	GLUquadricObj *q;
+	IoImage *texture;
 } IoGLUQuadricData;
 
 IoObject *IoMessage_locals_gluQuadricArgAt_(IoMessage *self, IoObject *locals, int n);

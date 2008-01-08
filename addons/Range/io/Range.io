@@ -1,44 +1,44 @@
 Range do(
-  docSlot("asList", "Returns a list containing all the items within and including the ranges starting and ending points.")
-  asList := method(
-    lst := List clone
-    self foreach(v, lst append(v))
-    lst
-  )
+	docSlot("asList", "Returns a list containing all the items within and including the ranges starting and ending points.")
+	asList := method(
+		lst := List clone
+		self foreach(v, lst append(v))
+		lst
+	)
 
-  docSlot("contains", "Returns a boolean value if the range contains the argument. This works independant of any increment value.")
+	docSlot("contains", "Returns a boolean value if the range contains the argument. This works independant of any increment value.")
 	contains := method(v,
 		start := self clone first
 		end := self clone last
 		(start == v or (start compare(v) < 0)) and (v == end or (v compare(end) < 0))
 	)
 
-  docSlot("select", "Operates the same as 'List select'")
-  select := List getSlot("select")
+	docSlot("select", "Operates the same as 'List select'")
+	select := List getSlot("select")
 
-  docSlot("map([value], body)", "Returns a new list which contains the result of the 'body' for every element stepped over in the range, from the starting point to the ending point inclusive.")
-  map := method(
-    a1 := call argAt(0)
-    if(a1 isNil,
-      Exception raise("'map' requires at least 1 argument")
-      return
-    )
-    lst := List clone
-    body := call argAt(1)
-    if(body, valName := a1 name)
-    if(a1 and body isNil, body = call argAt(0))
-	target := if(call argAt(1) isNil, value, call sender)
-    loop(
-      if(getSlot("valName"), call sender setSlot(valName, value))
-	  ss := stopStatus(r := target doMessage(body, call sender))
-	  if(ss isReturn, call setStopStatus(ss); return getSlot("r"))
-	  if(ss isBreak, break)
-	  if(ss isContinue, continue)
-      lst append(getSlot("r"))
-      if(next, nil, break)
-    )
-    lst
-  )
+	docSlot("map([value], body)", "Returns a new list which contains the result of the 'body' for every element stepped over in the range, from the starting point to the ending point inclusive.")
+	map := method(
+		a1 := call argAt(0)
+		if(a1 isNil,
+			Exception raise("'map' requires at least 1 argument")
+			return
+		)
+		lst := List clone
+		body := call argAt(1)
+		if(body, valName := a1 name)
+		if(a1 and body isNil, body = call argAt(0))
+		target := if(call argAt(1) isNil, value, call sender)
+		loop(
+			if(getSlot("valName"), call sender setSlot(valName, value))
+			ss := stopStatus(r := target doMessage(body, call sender))
+			if(ss isReturn, call setStopStatus(ss); return getSlot("r"))
+			if(ss isBreak, break)
+			if(ss isContinue, continue)
+			lst append(getSlot("r"))
+			if(next, nil, break)
+		)
+		lst
+	)
 
 	docSlot("indexOf(aValue)", "Calculates each value, checking to see if it matches the aValue parameter. If so, return the position within the range. NOTE: This method rewinds the range before searching. If you need to revert back to your original position, make a duplicate of the range, and use indexOf on it instead.")
 	indexOf := method(aValue,
@@ -76,14 +76,14 @@ Range do(
 
 
 Number do(
-  docSlot("to", "Convenience constructor that returns a cursor object representing the range of numbers from the receiver to the 'endingPoint' parameter. Increments over each item in that range by 1.")
-  to := method(e, self toBy(e, 1))
+	docSlot("to", "Convenience constructor that returns a cursor object representing the range of numbers from the receiver to the 'endingPoint' parameter. Increments over each item in that range by 1.")
+	to := method(e, self toBy(e, 1))
 
-  docSlot("toBy(endingPoint, incrementValue)", "Convenience constructor that returns a cursor object representing the range of numbers from the receiver to the 'endingPoint' parameter. Increments over each item in that range by the 'incrementValue' parameter.")
-  toBy := method(e, i,
-    if(i < 0, Exception raise("increment value must be non-negative"))
+	docSlot("toBy(endingPoint, incrementValue)", "Convenience constructor that returns a cursor object representing the range of numbers from the receiver to the 'endingPoint' parameter. Increments over each item in that range by the 'incrementValue' parameter.")
+	toBy := method(e, i,
+		if(i < 0, Exception raise("increment value must be non-negative"))
 		if((e - self) < i, e = self)
 		if(self > e, i = 0 - i)
-    Range clone setRange(self, e, i)
-  )
+		Range clone setRange(self, e, i)
+	)
 )

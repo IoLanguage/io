@@ -14,7 +14,7 @@ CairoFontFace ioDoc(
 void *IoMessage_locals_cairoFontFaceArgAt_(IoMessage *self, void *locals, int n)
 {
 	IoObject *arg = IoMessage_locals_valueArgAt_(self, locals, n);
-	if (!ISCAIROFONTFACE(arg)) 
+	if (!ISCAIROFONTFACE(arg))
 		IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "CairoFontFace");
 	return arg;
 }
@@ -29,21 +29,21 @@ static IoTag *IoCairoFontFace_newTag(void *state)
 	return tag;
 }
 
-IoCairoFontFace *IoCairoFontFace_proto(void *state) 
+IoCairoFontFace *IoCairoFontFace_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairoFontFace_newTag(state));
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoCairoFontFace_proto);
-	
+
 	return self;
 }
 
-IoCairoFontFace *IoCairoFontFace_rawClone(IoCairoFontFace *proto) 
-{ 
-	IoObject *self = IoObject_rawClonePrimitive(proto);	
+IoCairoFontFace *IoCairoFontFace_rawClone(IoCairoFontFace *proto)
+{
+	IoObject *self = IoObject_rawClonePrimitive(proto);
 	if (FACE(proto))
-		IoObject_setDataPointer_(self, cairo_font_face_reference(FACE(proto)));	
+		IoObject_setDataPointer_(self, cairo_font_face_reference(FACE(proto)));
 	return self;
 }
 
@@ -54,7 +54,7 @@ IoCairoFontFace *IoCairoFontFace_newWithRawFontFace_(void *state, cairo_font_fac
 	return self;
 }
 
-void IoCairoFontFace_free(IoCairoFontFace *self) 
+void IoCairoFontFace_free(IoCairoFontFace *self)
 {
 	if (FACE(self))
 		cairo_font_face_destroy(FACE(self));

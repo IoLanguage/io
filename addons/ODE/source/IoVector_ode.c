@@ -1,6 +1,6 @@
 #include "IoVector_ode.h"
 
-void IoVector_odeInit(IoState *state, IoObject *context) 
+void IoVector_odeInit(IoState *state, IoObject *context)
 {
 }
 

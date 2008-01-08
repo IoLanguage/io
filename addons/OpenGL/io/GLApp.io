@@ -3,24 +3,24 @@ OpenGL appendProto(GLU) appendProto(GLUT)
 Font appendProto(OpenGL)
 
 Font drawCenteredString := method(text, width,
-    glTranslatei(((width - self widthOfString(text)) / 2), 0, 0)
-    drawString(text)
+	glTranslatei(((width - self widthOfString(text)) / 2), 0, 0)
+	drawString(text)
 )
-        
+
 Font drawOffsetString := method(text, offset,
-    glTranslatei(offset, 0, 0)
-    drawString(text)
+	glTranslatei(offset, 0, 0)
+	drawString(text)
 )
 
 GLApp := Object clone do(
 	docCategory("Graphics")
-    appendProto(OpenGL)
-    newSlot("width", 1024)
-    newSlot("height", 768)
-    
-    didReshape := nil
-    
-    reshape := method(w, h,
+	appendProto(OpenGL)
+	newSlot("width", 1024)
+	newSlot("height", 768)
+
+	didReshape := nil
+
+	reshape := method(w, h,
 		height = h
 		width = w
 		glViewport(0, 0, w, h)
@@ -28,68 +28,68 @@ GLApp := Object clone do(
 		gluOrtho2D(0, w, 0, h)
 		didReshape
 		glutPostRedisplay
-    )
-    
-    draw := nil
-    
-    backgroundColor := vector(0,0,0,1)
-    
-    appDidInit := nil
-    didInit := false
-    
-    display := method(
-        if(didInit not, appDidInit; didInit = true)
+	)
+
+	draw := nil
+
+	backgroundColor := vector(0,0,0,1)
+
+	appDidInit := nil
+	didInit := false
+
+	display := method(
+		if(didInit not, appDidInit; didInit = true)
 		backgroundColor glClearColor
 		glClear(GL_COLOR_BUFFER_BIT)
 		glPushMatrix
 		draw
-		glPopMatrix    
+		glPopMatrix
 		glFlush
 		glutSwapBuffers
-    )
+	)
 
-    keyboard := method(k, x, y,
+	keyboard := method(k, x, y,
 		GLUT_KEY_ESC := 27
 		if (k == GLUT_KEY_ESC,    self ?escapeKey)
 		if (k == GLUT_KEY_SPACE,  self ?spaceKey)
 		if (k == GLUT_KEY_RETURN, self ?returnKey)
 		display
-    )
+	)
 
-    special := method(c, x, y,
+	special := method(c, x, y,
 		if (c == GLUT_KEY_UP,   self ?specialUpKey)
 		if (c == GLUT_KEY_DOWN, self ?specialDownKey)
 		display
-    )
+	)
 
-    escapeKey := method(toggleFullScreen)
+	escapeKey := method(toggleFullScreen)
 
-    mouse := method(nil)
+	mouse := method(nil)
 
-    timer := method(nil)
-    
-    newSlot("appName", "io") 
+	timer := method(nil)
 
-    didToggleFullScreen := nil
-    
-    toggleFullScreen := method(
-    
+	newSlot("appName", "io")
+
+	didToggleFullScreen := nil
+
+	toggleFullScreen := method(
+
 		if(isFullScreen) then(
-            glutReshapeWindow(oldWidth, oldHeight)
-            glutPositionWindow(oldX, oldY)
-        ) else(
-            self oldX := glutGet(GLUT_WINDOW_X)
-            self oldY := glutGet(GLUT_WINDOW_Y)
-            self oldWidth := width
-            self oldHeight := height
-            glutFullScreen
+			glutReshapeWindow(oldWidth, oldHeight)
+			glutPositionWindow(oldX, oldY)
+		) else(
+			self oldX := glutGet(GLUT_WINDOW_X)
+			self oldY := glutGet(GLUT_WINDOW_Y)
+			self oldWidth := width
+			self oldHeight := height
+			glutFullScreen
 		)
-		
+
 		didToggleFullScreen
 		isFullScreen = isFullScreen not
-    )	
+	)
 
-    runFullScreen := method(
+	runFullScreen := method(
 		self isFullScreen := true
 		glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE);
 		glutInit
@@ -98,9 +98,9 @@ GLApp := Object clone do(
 		initEvents
 		initBlending
 		glutMainLoop
-    )
+	)
 
-    run := method(
+	run := method(
 		self isFullScreen := false
 		glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE);
 		glutInitWindowSize(width, height)
@@ -110,22 +110,22 @@ GLApp := Object clone do(
 		initEvents
 		initBlending
 		glutMainLoop
-    )
+	)
 
-    initBlending := method(
+	initBlending := method(
 		glColor4d(0, 0, 0, 1)
 		glEnable(GL_BLEND)
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-    )
+	)
 
-    initEvents := method(
+	initEvents := method(
 		glutEventTarget(self)
 		glutDisplayFunc
 		glutReshapeFunc
 		glutKeyboardFunc
 		glutSpecialFunc
 		glutMouseFunc
-		glutTimerFunc(0, 0)		
-    )
+		glutTimerFunc(0, 0)
+	)
 )
 

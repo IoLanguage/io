@@ -1,8 +1,8 @@
 /*#io
 GLFW ioDoc(
-			 docCopyright("Joel de Vahl", 2006)
-			 docLicense("BSD revised")
-			 docCategory("Graphics")
+	docCopyright("Joel de Vahl", 2006)
+	docLicense("BSD revised")
+	docCategory("Graphics")
  */
 
 #include "IoGLFW.h"
@@ -133,7 +133,7 @@ void IoGLFWMouseWheelCallback(int pos){
 // Initialization
 IoTag *IoGLFW_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("GLFW"); 
+	IoTag *tag = IoTag_newWithName_("GLFW");
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoGLFW_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoGLFW_free);
@@ -149,27 +149,27 @@ IoMessage_newWithName_label_(state, IOSYMBOL(name), IOSYMBOL("[GLFW]"))
 IoGLFW *IoGLFW_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
-	
+
 	proto = self;
 	IoObject_tag_(self, IoGLFW_newTag(state));
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoGLFWData)));
-	
+
 	DATA(self)->coroutine = IoCoroutine_new(state);
-	
+
 	IoState_registerProtoWithFunc_(state, self, IoGLFW_proto);
-	
+
 	IoGLFW_protoInit(self);
 	return self;
 }
 
 IoGLFW *IoGLFW_new(void *state)
-{ 
-	return IoState_protoWithInitFunction_(state, IoGLFW_proto); 
+{
+	return IoState_protoWithInitFunction_(state, IoGLFW_proto);
 }
 
-void IoGLFW_free(IoGLFW *self) 
-{ 
-	free(IoObject_dataPointer(self)); 
+void IoGLFW_free(IoGLFW *self)
+{
+	free(IoObject_dataPointer(self));
 }
 
 void IoGLFW_mark(IoGLFW *self)
@@ -195,8 +195,8 @@ void IoGLFW_mark(IoGLFW *self)
 }
 
 IoObject *IoGLFW_rawClone(IoGLFW *self)
-{ 
-	return IoState_protoWithInitFunction_(IOSTATE, IoGLFW_proto); 
+{
+	return IoState_protoWithInitFunction_(IOSTATE, IoGLFW_proto);
 }
 
 
@@ -243,7 +243,7 @@ IoObject *IoGLFW_glfwOpenWindow(IoGLFW *self, IoObject *locals, IoMessage *m)
 	int mode = IoMessage_locals_intArgAt_(m, locals, 8);
 
 	glfwOpenWindow(width, height, redbits, greenbits, bluebits, alphabits, depthbits, stencilbits, mode);
-	
+
 	return self;
 }
 
@@ -251,7 +251,7 @@ IoObject *IoGLFW_glfwOpenWindowHint(IoGLFW *self, IoObject *locals, IoMessage *m
 {
 	int target = IoMessage_locals_intArgAt_(m, locals, 0);
 	int hint = IoMessage_locals_intArgAt_(m, locals, 1);
-	
+
 	glfwOpenWindowHint(target, hint);
 
 	return self;
@@ -267,9 +267,9 @@ IoObject *IoGLFW_glfwCloseWindow(IoGLFW *self, IoObject *locals, IoMessage *m)
 IoObject *IoGLFW_glfwSetWindowTitle(IoGLFW *self, IoObject *locals, IoMessage *m)
 {
 	IoSymbol *s = IoMessage_locals_symbolArgAt_(m, locals, 0);
-	
+
 	glfwSetWindowTitle(CSTRING(s));
-	
+
 	return self;
 }
 
@@ -280,9 +280,9 @@ IoObject *IoGLFW_glfwGetWindowSize(IoGLFW *self, IoObject *locals, IoMessage *m)
 	vec2f v;
 	glfwGetWindowSize(&width, &height);
 
-	v.x = width; 
+	v.x = width;
 	v.y = height;
-	
+
 	return IoSeq_newVec2f(IOSTATE, v);
 }
 
@@ -440,7 +440,7 @@ IoObject *IoGLFW_glfwGetKey(IoGLFW *self, IoObject *locals, IoMessage *m)
 IoObject *IoGLFW_glfwGetMouseButton(IoGLFW *self, IoObject *locals, IoMessage *m)
 {
 	int button = IoMessage_locals_intArgAt_(m, locals, 0);
-	
+
 	return IONUMBER(glfwGetMouseButton(button));
 }
 
@@ -451,10 +451,10 @@ IoObject *IoGLFW_glfwGetMousePos(IoGLFW *self, IoObject *locals, IoMessage *m)
 	vec2f v;
 
 	glfwGetMousePos(&xpos, &ypos);
-	
-	v.x = xpos; 
+
+	v.x = xpos;
 	v.y = ypos;
-	
+
 	return IoSeq_newVec2f(IOSTATE, v);
 }
 
@@ -597,7 +597,7 @@ IoObject *IoGLFW_glfwGetTime(IoGLFW *self, IoObject *locals, IoMessage *m)
 IoObject *IoGLFW_glfwSetTime(IoGLFW *self, IoObject *locals, IoMessage *m)
 {
 	double time = IoMessage_locals_doubleArgAt_(m, locals, 0);
-	
+
 	glfwSetTime(time);
 
 	return self;
@@ -606,7 +606,7 @@ IoObject *IoGLFW_glfwSetTime(IoGLFW *self, IoObject *locals, IoMessage *m)
 IoObject *IoGLFW_glfwSleep(IoGLFW *self, IoObject *locals, IoMessage *m)
 {
 	double time = IoMessage_locals_doubleArgAt_(m, locals, 0);
-	
+
 	glfwSleep(time);
 
 	return self;
@@ -724,7 +724,7 @@ IoObject *IoGLFW_glfwLoadTexture(IoGLFW *self, IoObject *locals, IoMessage *m)
 #include "IoGLFWconst.h"
 #include "IoGLFWfunc.h"
 
-void IoGLFW_protoInit(IoGLFW *self) 
+void IoGLFW_protoInit(IoGLFW *self)
 {
 #if defined(__APPLE_CC__)
 	/* HACK */
@@ -736,24 +736,24 @@ void IoGLFW_protoInit(IoGLFW *self)
 #endif
 
 	IoObject_setSlot_to_(self,IOSYMBOL("clone"), IOCFUNCTION_GLFW(IoObject_self));
-	
+
 	/* GLFW Constants */
 	{
 		t_ioGLFW_constTable *curpos = ioGLFW_constTable;
-		while(curpos->name) 
+		while(curpos->name)
 		{
-			IoObject_setSlot_to_(self, 
-							 IOSYMBOL(curpos->name), 
-							 IONUMBER(curpos->value));
+			IoObject_setSlot_to_(self,
+								 IOSYMBOL(curpos->name),
+								 IONUMBER(curpos->value));
 			curpos++;
 		}
 	}
-	
+
 	/* GLFW Functions */
 	{
 		t_ioGLFW_funcTable *curpos=ioGLFW_funcTable;
-		
-		while(curpos->name) 
+
+		while(curpos->name)
 		{
 			IoCFunction *f = IoCFunction_newWithFunctionPointer_tag_name_(IOSTATE, curpos->func, NULL, curpos->name);
 			IoObject_setSlot_to_(self, IOSYMBOL(curpos->name), f);

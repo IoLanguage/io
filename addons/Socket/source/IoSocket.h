@@ -23,7 +23,7 @@ IoSocket *IoSocket_new(void *state);
 IoSocket *IoSocket_newWithSocket_(void *state, Socket *socket);
 void IoSocket_free(IoSocket *self);
 
-// ----------------------------------------------------------- 
+// -----------------------------------------------------------
 
 IoObject *IoSocket_descriptorId(IoSocket *self, IoObject *locals, IoMessage *m);
 SOCKET_DESCRIPTOR IoSocket_rawDescriptor(IoSocket *self);
@@ -44,14 +44,14 @@ IoObject *IoSocket_connectTo(IoSocket *self, IoObject *locals, IoMessage *m);
 IoObject *IoSocket_asyncStreamRead(IoSocket *self, IoObject *locals, IoMessage *m);
 IoObject *IoSocket_asyncStreamWrite(IoSocket *self, IoObject *locals, IoMessage *m);
 
-// udp 
+// udp
 
 IoObject *IoSocket_udpRead(IoSocket *self, IoObject *locals, IoMessage *m);
 IoObject *IoSocket_udpWrite(IoSocket *self, IoObject *locals, IoMessage *m);
 
 // server
 
-IoObject *IoSocket_asyncBind(IoSocket *self, IoObject *locals, IoMessage *m);	
+IoObject *IoSocket_asyncBind(IoSocket *self, IoObject *locals, IoMessage *m);
 IoObject *IoSocket_asyncListen(IoSocket *self, IoObject *locals, IoMessage *m);
 IoObject *IoSocket_asyncAccept(IoSocket *self, IoObject *locals, IoMessage *m);
 
