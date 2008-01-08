@@ -1963,7 +1963,8 @@ IoObject *IoObject_become(IoObject *self, IoObject *locals, IoMessage *m)
 
 	if(self == v || IoObject_deref(v) == IoObject_deref(self)) return self;
 
-	IOASSERT(!IoObject_isSymbol(self), "Symbols cannot become new values");
+	//IOASSERT(!IoObject_isSymbol(self), "Symbols cannot become new values");
+	IOASSERT(ISOBJECT(self), "Primitives cannot become new values");
 	//printf("IoObject_become(%p, %p) data %p\n", (void *)self, (void *)v, (void *)IoObject_deref(v));
 	IoObject_incrementMarkerCount(v);
 	IoObject_dealloc(self);
