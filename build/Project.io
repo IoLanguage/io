@@ -23,16 +23,16 @@ Project := Object clone do(
 			module := Lobby doString(f fileNamedOrNil("build.io") contents)
 			module folder setPath(f path)
 			module
-		)	
+		)
 	)
 
 	addons := method(
 		self addons := modulesInFolder("addons") sortInPlaceBy(block(x, y, x name < y name))
 	)
 
-    buildAddon := method(name,
-        addons detect(addon, addon name == name) build(options)
-    )
+	buildAddon := method(name,
+		addons detect(addon, addon name == name) build(options)
+	)
 
 	availableAddon := method(addon,
 		if(addon hasSlot("isAvailable"), return addon isAvailable)
@@ -71,12 +71,12 @@ Project := Object clone do(
 	)
 
 	options := method(
-        if (platform == "windows",
-            "-MD -DWIN32 -DNDEBUG -DIOBINDINGS"
-        ,
-            "-Os -g -Wall -DSANE_POPEN -DIOBINDINGS"
-        )
-    )
+		if (platform == "windows",
+			"-MD -DWIN32 -DNDEBUG -DIOBINDINGS"
+		,
+			"-Os -g -Wall -DSANE_POPEN -DIOBINDINGS"
+		)
+	)
 
 	build := method(
 		File clone with("errors") remove close
@@ -141,7 +141,7 @@ Project := Object clone do(
 
 	runUnitTests := method(
 		failures := 0
-		
+
 		availableAddons foreach(addon,
 			path := Path with(addon folder path, "tests/run.io")
 			if(File clone setPath(path) exists,

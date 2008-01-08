@@ -6,32 +6,32 @@ AddonBuilder := Object clone do(
 
 	platform := System platform split at(0) asLowercase
 	cflags := method(System getenv("CFLAGS") ifNilEval(""))
-    if (platform == "windows",
-        cc := method(System getenv("CC") ifNilEval(return "cl -nologo"))
-        cxx := method(System getenv("CXX") ifNilEval(return "cl -nologo"))
-        ccOutFlag := "-Fo"
-        linkdll := "link -link -nologo"
-        linkDirPathFlag := "-libpath:"
-        linkLibFlag := "lib"
-        linkOutFlag := "-out:"
-        linkLibSuffix := ".lib"
-        ar := "link -lib -nologo"
-        arFlags := "-out:"
-        ranlib := nil
-    ,
-        cc := method(System getenv("CC") ifNilEval(return "cc"))
-        cxx := method(System getenv("CXX") ifNilEval(return "g++"))
-        ccOutFlag := "-o "
-        linkdll := cc
-        linkDirPathFlag := "-L"
-        linkLibFlag := "-l"
-        linkLibSuffix := ""
-        linkOutFlag := "-o "
-        linkLibSuffix := ""
-        ar := method(System getenv("AR") ifNilEval(return "ar"))
-        arFlags := "rcu "
-        ranlib := method(System getenv("RANLIB") ifNilEval(return "ranlib"))
-    )
+	if (platform == "windows",
+		cc := method(System getenv("CC") ifNilEval(return "cl -nologo"))
+		cxx := method(System getenv("CXX") ifNilEval(return "cl -nologo"))
+		ccOutFlag := "-Fo"
+		linkdll := "link -link -nologo"
+		linkDirPathFlag := "-libpath:"
+		linkLibFlag := "lib"
+		linkOutFlag := "-out:"
+		linkLibSuffix := ".lib"
+		ar := "link -lib -nologo"
+		arFlags := "-out:"
+		ranlib := nil
+	,
+		cc := method(System getenv("CC") ifNilEval(return "cc"))
+		cxx := method(System getenv("CXX") ifNilEval(return "g++"))
+		ccOutFlag := "-o "
+		linkdll := cc
+		linkDirPathFlag := "-L"
+		linkLibFlag := "-l"
+		linkLibSuffix := ""
+		linkOutFlag := "-o "
+		linkLibSuffix := ""
+		ar := method(System getenv("AR") ifNilEval(return "ar"))
+		arFlags := "rcu "
+		ranlib := method(System getenv("RANLIB") ifNilEval(return "ranlib"))
+	)
 
 	supportedOnPlatform := true
 
@@ -52,8 +52,8 @@ AddonBuilder := Object clone do(
 	searchPrefixes append("/usr/pkg")
 	searchPrefixes append("/opt/local")
 	searchPrefixes append("/sw")
-    // on windows there is no such thing as a standard place
-    // to look for these things
+	// on windows there is no such thing as a standard place
+	// to look for these things
 	searchPrefixes append("i:/io/addonLibs")
 
 	headerSearchPaths := List clone
@@ -76,23 +76,23 @@ AddonBuilder := Object clone do(
 			headers := List clone
 			libs := List clone
 			frameworks := List clone
-                        syslibs := List clone
+						syslibs := List clone
 			includes := List clone
 			linkOptions := List clone
 			addons := List clone
 		)
 	)
 
-    mkdir := method(relativePath,
-        if (folder path != ".",
-            path := folder path .. "/" .. relativePath
-        )
+	mkdir := method(relativePath,
+		if (folder path != ".",
+			path := folder path .. "/" .. relativePath
+		)
 		if(Directory exists(path) not,
 			writeln("mkdir -p ", relativePath)
 			dir :=  Directory with(".")
 			path split("/") foreach(x, dir := dir folderNamedCreateIfAbsent(x))
 		)
-    )
+	)
 
 	pathForFramework := method(name,
 		frameworkname := name .. ".framework"
@@ -197,7 +197,7 @@ AddonBuilder := Object clone do(
 		writeln(s)
 		oldPath := nil
 		if (folder path != ".",
-			oldPath := Directory currentWorkingDirectory 
+			oldPath := Directory currentWorkingDirectory
 			Directory setCurrentWorkingDirectory(folder path)
 		)
 		result := System system(s)
@@ -211,7 +211,7 @@ AddonBuilder := Object clone do(
 
 	name := method(folder name)
 	oldDate := Date clone setYear(1970)
-	
+
 	libName := method("libIo" .. folder name ..  ".a")
 
 	libFile := method(folder fileNamedOrNil(libName))
@@ -252,12 +252,12 @@ AddonBuilder := Object clone do(
 
 				s := cc .. " " .. options .. " " .. depends includes join(" ") .. " " .. includes join(" ") .. " -I. "
 				if(list("cygwin", "mingw", "windows") contains(platform) not,
-                                    s = s .. "-fPIC "
-                                ,
-                                    s = s .. "-DBUILDING_"
-                                    s = s .. name asUppercase
-                                    s = s .. "_ADDON "
-                                )
+									s = s .. "-fPIC "
+								,
+									s = s .. "-DBUILDING_"
+									s = s .. name asUppercase
+									s = s .. "_ADDON "
+								)
 				s = s .. "-c " .. ccOutFlag .. "_build/objs/" .. obj .. " source/" .. f name
 				systemCall(s)
 			)
@@ -269,11 +269,11 @@ AddonBuilder := Object clone do(
 		writeln("build.io: Leaving directory `", folder path, "'")
 		writeln
 	)
-	
+
 	buildLib := method(
 		mkdir("_build/lib")
 		systemCall(ar .. " " .. arFlags ..  "_build/lib/" .. libName .. " _build/objs/*.o")
-                if (ranlib != nil, systemCall(ranlib .. " _build/lib/" .. libName))
+				if (ranlib != nil, systemCall(ranlib .. " _build/lib/" .. libName))
 	)
 
 	dllSuffix := method(
@@ -285,16 +285,16 @@ AddonBuilder := Object clone do(
 	dllNameFor := method(s, "lib" .. s .. "." .. dllSuffix)
 
 	dllCommand := method(
-            if(platform == "darwin",
-                "-dynamiclib -single_module -read_only_relocs suppress"
-            ,
-                if (platform == "windows",
-                    "-dll -debug"
-                ,
-                    "-shared"
-                )
-            )
-        )
+			if(platform == "darwin",
+				"-dynamiclib -single_module -read_only_relocs suppress"
+			,
+				if (platform == "windows",
+					"-dll -debug"
+				,
+					"-shared"
+				)
+			)
+		)
 
 	buildDynLib := method(
 		mkdir("_build/dll")
@@ -329,7 +329,7 @@ AddonBuilder := Object clone do(
 	embedManifest := method(
 		dllFilePath := "_build/dll/" .. dllNameFor("Io" .. name)
 		manifestFilePath := dllFilePath .. ".manifest"
-	        systemCall("mt.exe -manifest " .. manifestFilePath .. " -outputresource:" .. dllFilePath .. ";2")
+			systemCall("mt.exe -manifest " .. manifestFilePath .. " -outputresource:" .. dllFilePath .. ";2")
 		writeln("Removing manifest file: " .. manifestFilePath)
 		File with(folder path .. "/" .. manifestFilePath) remove
 	)
@@ -356,9 +356,9 @@ AddonBuilder := Object clone do(
 
 		sourceFiles := folder folderNamed("source") files
 		iocFiles := sourceFiles select(f, f name beginsWithSeq("Io") and(f name endsWithSeq(".c")) and(f name containsSeq("Init") not) and(f name containsSeq("_") not))
-                iocppFiles := sourceFiles select(f, f name beginsWithSeq("Io") and(f name endsWithSeq(".cpp")) and(f name containsSeq("Init") not) and(f name containsSeq("_") not))
+				iocppFiles := sourceFiles select(f, f name beginsWithSeq("Io") and(f name endsWithSeq(".cpp")) and(f name containsSeq("Init") not) and(f name containsSeq("_") not))
 
-                iocFiles appendSeq(iocppFiles)
+				iocFiles appendSeq(iocppFiles)
 		extraFiles := sourceFiles select(f, f name beginsWithSeq("Io") and(f name endsWithSeq(".c")) and(f name containsSeq("Init") not) and(f name containsSeq("_")))
 
 		orderedFiles := List clone appendSeq(iocFiles)
@@ -385,9 +385,9 @@ AddonBuilder := Object clone do(
 			initFile write("void " .. f name fileName .. "Init(void *context);\n")
 		)
 
-                if (platform == "windows",
-                    initFile write("__declspec(dllexport)\n")
-                )
+				if (platform == "windows",
+					initFile write("__declspec(dllexport)\n")
+				)
 		initFile write("\nvoid Io" .. folder name .. "Init(IoObject *context)\n")
 		initFile write("{\n")
 		if(iocFiles size > 0,
