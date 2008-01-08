@@ -1,8 +1,8 @@
 #include "IoState.h"
 
-void IoAddonsInit(IoObject *context); 
+void IoAddonsInit(IoObject *context);
 
-//#define IOBINDINGS 
+//#define IOBINDINGS
 
 #ifdef IO_CHECK_ALLOC
 #define IO_SHOW_STATS 1
@@ -32,7 +32,7 @@ int main(int argc, const char *argv[])
 	double collectorTime;
 	size_t sweepCount;
 #endif
-	
+
 
 	self = IoState_new();
 #ifdef IOBINDINGS
@@ -50,22 +50,22 @@ int main(int argc, const char *argv[])
 #endif
 
 	IoState_free(self);
-	
+
 #ifdef IO_SHOW_STATS
 	{
 		float totalTime = (clock()-t1)/(float)CLOCKS_PER_SEC;
-		printf("[ %.3fs user  %.3fs total  %.1f%% gc  %i sweeps  %i frees  %.3fmb max ]\n", 
-			  System_UserTime(), 
-			  totalTime, 
-			  100.0*collectorTime/totalTime,
-			  (int)sweepCount,
-			  (int)io_frees(),
-			  maxAllocatedBytes/1048576.0);
-			  
+		printf("[ %.3fs user  %.3fs total  %.1f%% gc  %i sweeps  %i frees  %.3fmb max ]\n",
+			   System_UserTime(),
+			   totalTime,
+			   100.0*collectorTime/totalTime,
+			   (int)sweepCount,
+			   (int)io_frees(),
+			   maxAllocatedBytes/1048576.0);
+
 		if(io_allocatedBytes() != 0)
 		{
-			printf("warning: %i bytes in %i blocks not freed:\n\n", 
-				(int)io_allocatedBytes(), (int)(io_allocs() - io_frees()));
+			printf("warning: %i bytes in %i blocks not freed:\n\n",
+				   (int)io_allocatedBytes(), (int)(io_allocs() - io_frees()));
 			io_showUnfreed();
 		}
 		else
