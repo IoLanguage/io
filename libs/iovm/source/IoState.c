@@ -300,17 +300,23 @@ void IoState_setupSingletons(IoState *self)
 
 void IoState_setupCachedMessages(IoState *self)
 {
-	self->collectedLinkMessage  = IoMessage_newWithName_(self, SIOSYMBOL("collectedLink"));
+	self->asStringMessage = IoMessage_newWithName_(self, SIOSYMBOL("asString"));
+	IoState_retain_(self, self->asStringMessage);
+	
+	self->collectedLinkMessage = IoMessage_newWithName_(self, SIOSYMBOL("collectedLink"));
 	IoState_retain_(self, self->collectedLinkMessage);
-
-	self->printMessage  = IoMessage_newWithName_(self, SIOSYMBOL("print"));
-	IoState_retain_(self, self->printMessage);
-
-	self->initMessage   = IoMessage_newWithName_(self, SIOSYMBOL("init"));
-	IoState_retain_(self, self->initMessage);
 
 	self->compareMessage = IoMessage_newWithName_(self, SIOSYMBOL("compare"));
 	IoState_retain_(self, self->compareMessage);
+	
+	//self->doStringMessage = IoMessage_newWithName_(self, SIOSYMBOL("doString"));
+	//IoState_retain_(self, self->doStringMessage);
+	
+	self->printMessage = IoMessage_newWithName_(self, SIOSYMBOL("print"));
+	IoState_retain_(self, self->printMessage);
+
+	self->initMessage = IoMessage_newWithName_(self, SIOSYMBOL("init"));
+	IoState_retain_(self, self->initMessage);
 
 	self->willFreeMessage = IoMessage_newWithName_(self, SIOSYMBOL("willFree"));
 	IoState_retain_(self, self->willFreeMessage);

@@ -781,6 +781,7 @@ IoObject *IoSeq_interpolateInPlace(IoSeq *self, IoObject *locals, IoMessage *m)
 	UArray *string;
 	UArray *code;
 	IoObject *evaluatedCode;
+	IoSeq *codeString;
 	UArray *evaluatedCodeAsString = NULL;
 	const char *label;
 	int from, to;
@@ -808,8 +809,9 @@ IoObject *IoSeq_interpolateInPlace(IoSeq *self, IoObject *locals, IoMessage *m)
 		to = UArray_find_from_(string, &end, from);
 		if (to == -1) break;
 
-		code = UArray_slice(string, from+2, to);
-
+		code = UArray_slice(string, from + 2, to);
+		codeString = IoSeq_newWithUArray_copy_(IOSTATE, code, 0);
+		
 		if (UArray_size(code) == 0)
 		{
 			// we don't want "#{}" to interpolate into "nil"
@@ -817,15 +819,17 @@ IoObject *IoSeq_interpolateInPlace(IoSeq *self, IoObject *locals, IoMessage *m)
 		}
 		else
 		{
-			evaluatedCode = IoState_on_doCString_withLabel_(IOSTATE, context, (char *)UArray_bytes(code), label);
-			evaluatedCode = IoState_on_doCString_withLabel_(IOSTATE, evaluatedCode, "asString", label);
+			IoMessage *em = IoMessage_newWithName_andCachedArg_(IOSTATE, IOSYMBOL("doString"), codeString);
+			evaluatedCode = IoObject_perform(context, context, em);
+			evaluatedCode = IoObject_perform(evaluatedCode, context, IOSTATE->asStringMessage);
+			
 			if (ISSEQ(evaluatedCode))
 			{
 				evaluatedCodeAsString = DATA(evaluatedCode);
 			}
 		}
 
-		UArray_free(code);
+		//UArray_free(code);
 
 		if (evaluatedCodeAsString == NULL)
 		{

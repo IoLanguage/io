@@ -69,8 +69,10 @@ struct IoState
 	IoObject *localsUpdateSlotCFunc;
 	IoObject *localsProto;
 
+	IoMessage *asStringMessage;
 	IoMessage *collectedLinkMessage;
 	IoMessage *compareMessage;
+	//IoMessage *doStringMessage;
 	IoMessage *willFreeMessage;
 	IoMessage *initMessage;
 	IoMessage *mainMessage;
