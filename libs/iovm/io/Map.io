@@ -65,4 +65,10 @@ Map do(
 	reverseMap := method(
 		Map clone addKeysAndValues(values, keys)
 	)
+	
+	asObject := method(
+		o := Object clone
+		self foreach(k, v, o setSlot(k, getSlot("v")))
+		o
+	)
 )

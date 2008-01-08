@@ -87,7 +87,7 @@ void *IoCFFIDataType_ValuePointerFromObject_(IoObject *o)
 	if (ISNUMBER(o))
 	{
 		number = IoState_doCString_(IoObject_state(o), "CFFI Types Double clone");
-		DATA(number)->type.d = o->data.d;
+		DATA(number)->type.d = IoObject_dataDouble(o);
 		
 		return IoCFFIDataType_ValuePointerFromObject_(number);
 	}
