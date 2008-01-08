@@ -2,7 +2,7 @@
 docCopyright("Steve Dekorte", 2002)
 docLicense("BSD revised")
 */
- 
+
 #include "Common.h"
 #include <stdio.h>
 
@@ -75,7 +75,7 @@ static Allocator *_globalAllocator;
 
 Allocator *globalAllocator(void)
 {
-	if(!_globalAllocator) Allocator_new();	
+	if(!_globalAllocator) Allocator_new();
 	return _globalAllocator;
 }
 */
@@ -92,7 +92,7 @@ struct MemoryBlock
 	int line;
 	MemoryBlock *next;
 	MemoryBlock *prev;
-	char padding[40 - (sizeof(size_t) + sizeof(size_t) + sizeof(char *) + sizeof(int) + sizeof(void *) + sizeof(void *))]; 
+	char padding[40 - (sizeof(size_t) + sizeof(size_t) + sizeof(char *) + sizeof(int) + sizeof(void *) + sizeof(void *))];
 };
 
 MemoryBlock *PtrToMemoryBlock(void *ptr)
@@ -105,11 +105,11 @@ void *MemoryBlockToPtr(MemoryBlock *self)
 	return (void *)(((char *)self) + sizeof(MemoryBlock));
 }
 
-static MemoryBlock *_baseblock = NULL; 
+static MemoryBlock *_baseblock = NULL;
 
 inline MemoryBlock *baseblock(void)
 {
-	if(!_baseblock) _baseblock = calloc(1, sizeof(MemoryBlock));	
+	if(!_baseblock) _baseblock = calloc(1, sizeof(MemoryBlock));
 	return _baseblock;
 }
 
@@ -135,7 +135,7 @@ MemoryBlock *MemoryBlock_newWithSize_file_line_(size_t size, char *file, int lin
 	self->file = file;
 	self->line = line;
 	MemoryBlock_insertAfter_(self, baseblock());
-	
+
 	allocs ++;
 	allocatedBytes += size;
 	if (allocatedBytes > maxAllocatedBytes) maxAllocatedBytes = allocatedBytes;
@@ -181,25 +181,25 @@ void MemoryBlock_show(MemoryBlock *self)
 
 // ----------------------------------------------------------------------------
 
-void *io_real_malloc(size_t size, char *file, int line) 
-{	
+void *io_real_malloc(size_t size, char *file, int line)
+{
 	MemoryBlock *m = MemoryBlock_newWithSize_file_line_(size, file, line);
 	return MemoryBlockToPtr(m);
 }
 
-void *io_real_calloc(size_t count, size_t size, char *file, int line) 
+void *io_real_calloc(size_t count, size_t size, char *file, int line)
 {
 	return io_real_malloc(count * size, file, line);
 }
 
 void *io_real_realloc(void *ptr, size_t size, char *file, int line)
-{	
+{
 	if (ptr)
 	{
 		MemoryBlock *m = MemoryBlock_reallocToSize_(PtrToMemoryBlock(ptr), size);
 		return MemoryBlockToPtr(m);
 	}
-	
+
 	return io_real_malloc(size, file, line);
 }
 
@@ -253,7 +253,7 @@ void io_showUnfreed(void)
 	MemoryBlock *m = baseblock()->next;
 	size_t sum = 0;
 	int n = 0;
-	
+
 	while (m)
 	{
 		MemoryBlock_show(m);
@@ -261,7 +261,7 @@ void io_showUnfreed(void)
 		n ++;
 		m = m->next;
 	}
-	
+
 	printf("\n  %i bytes in %i blocks\n", (int)sum, n);
 }
 
@@ -279,13 +279,13 @@ void *io_freerealloc(void *p, size_t size)
 	return realloc(p, size);
 	/*
 	void *n = io_malloc(size);
-	
-	if (p != NULL) 
+
+	if (p != NULL)
 	{
 		memcpy(n, p, size);
 		free(p);
 	}
-	
+
 	return n;
 	*/
 }

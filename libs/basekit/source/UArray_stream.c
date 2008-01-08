@@ -1,9 +1,9 @@
-/*   
+/*
 	copyright: Steve Dekorte, 2006. All rights reserved.
 	license: See _BSDLicense.txt.
 */
 
-#include "UArray.h" 
+#include "UArray.h"
 #include <string.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -25,22 +25,22 @@ long UArray_readFromCStream_(UArray *self, FILE *fp)
 	UArray *buffer = UArray_new();
 	UArray_setItemType_(buffer, self->itemType);
 	UArray_setSize_(buffer, itemsPerBuffer);
-	
+
 	if (!fp) { perror("UArray_readFromCStream_"); return -1; }
-	
+
 	while(!feof(fp) && !ferror(fp))
 	{
 		size_t itemsRead;
 		UArray_setSize_(buffer, itemsPerBuffer);
 		itemsRead = UArray_fread_(buffer, fp);
-		
+
 		totalItemsRead += itemsRead;
 		UArray_append_(self, buffer);
 		if (itemsRead != itemsPerBuffer) break;
 	}
-	
+
 	if (ferror(fp)) { perror("UArray_readFromCStream_"); return -1; }
-	
+
 	UArray_free(buffer);
 	return totalItemsRead;
 }
@@ -50,11 +50,11 @@ long UArray_readNumberOfItems_fromCStream_(UArray *self, size_t size, FILE *stre
 	size_t itemsRead;
 	UArray *buffer = UArray_new();
 	UArray_setItemType_(buffer, self->itemType);
-	UArray_setSize_(buffer, size);	
-	
+	UArray_setSize_(buffer, size);
+
 	itemsRead = UArray_fread_(buffer, stream);
 	UArray_append_(self, buffer);
-	
+
 	UArray_free(buffer);
 	return itemsRead;
 }
@@ -65,14 +65,14 @@ long UArray_readFromFilePath_(UArray *self, const UArray *path)
 	long itemsRead;
 	UArray *sysPath = (UArray_itemSize(path) == 1) ? (UArray *)path : UArray_asUTF8(path);
 	const char *p = UArray_asCString(sysPath);
-	
+
 	//printf("UArray_readFromFilePath_(\"%s\")\n", p);
-	
+
 	stream = fopen(p, "r");
 	if (!stream) return -1;
 	itemsRead = UArray_readFromCStream_(self, stream);
 	fclose(stream);
-	
+
 	if(sysPath != path) UArray_free(sysPath);
 	return itemsRead;
 }
@@ -83,35 +83,35 @@ long UArray_readFromFilePath_(UArray *self, const UArray *path)
 int UArray_readLineFromCStream_(UArray *self, FILE *stream)
 {
 	int readSomething = 0;
-	
+
 	if(self->itemSize == 1)
 	{
 		char *s = (char *)io_calloc(1, CHUNK_SIZE);
-		
+
 		while (fgets(s, CHUNK_SIZE, stream) != NULL)
 		{
 			char *eol1 = strchr(s, '\n');
 			char *eol2 = strchr(s, '\r');
-			
+
 			readSomething = 1;
-			
+
 			if (eol1) { *eol1 = 0; } // remove the \n return character
 			if (eol2) { *eol2 = 0; } // remove the \r return character
-			
+
 			if (*s)
 			{
 				UArray_appendCString_(self, s);
 			}
-			
+
 			if (eol1 || eol2)
 			{
 				break;
 			}
 		}
-		
+
 		io_free(s);
 	}
-	
+
 	return readSomething;
 }
 
@@ -134,13 +134,13 @@ long UArray_writeToFilePath_(const UArray *self, const UArray *path)
 	UArray *sysPath = (UArray_itemSize(path) == 1) ? (UArray *)path : UArray_asUTF8(path);
 	FILE *fp = fopen(UArray_asCString(sysPath), "w");
 	long itemsWritten = -1;
-	
-	if (fp) 
+
+	if (fp)
 	{
 		itemsWritten = UArray_writeToCStream_(self, fp);
 		fclose(fp);
 	}
-	
+
 	return itemsWritten;
 }
 

@@ -15,8 +15,8 @@ extern "C" {
 
 typedef struct
 {
-    int argc;
-    const char **argv;
+	int argc;
+	const char **argv;
 } MainArgs;
 
 BASEKIT_API MainArgs *MainArgs_new(void);

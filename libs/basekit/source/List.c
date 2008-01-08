@@ -33,18 +33,18 @@ static size_t indexWrap(long index, size_t size)
 	if (index < 0)
 	{
 		index = size - index;
-		
+
 		if (index < 0)
 		{
 			index = 0;
 		}
 	}
-	
+
 	if (index > (int)size)
 	{
 		index = size;
 	}
-	
+
 	return (size_t)index;
 }
 
@@ -54,12 +54,12 @@ void List_sliceInPlace(List* self, long startIndex, long endIndex)
 	List *tmp = List_new();
 	size_t start = indexWrap(startIndex, size);
 	size_t end   = indexWrap(endIndex, size);
-	
+
 	for (i = start; i < size && i < end + 1; i ++)
 	{
 		List_append_(tmp, List_at_(self, i));
 	}
-	
+
 	List_copy_(self, tmp);
 	List_free(tmp);
 }
@@ -93,19 +93,19 @@ size_t List_memorySize(const List *self)
 	return sizeof(List) + (self->size * sizeof(void *));
 }
 
-void List_removeAll(List *self) 
-{ 
-	self->size = 0; 
+void List_removeAll(List *self)
+{
+	self->size = 0;
 	List_compactIfNeeded(self);
 }
 
 void List_copy_(List *self, const List *otherList)
 {
-	if (self == otherList || (!otherList->size && !self->size)) 
-	{ 
-		return; 
+	if (self == otherList || (!otherList->size && !self->size))
+	{
+		return;
 	}
-	
+
 	List_preallocateToSize_(self, otherList->size);
 	memmove(self->items, otherList->items, sizeof(void *) * (otherList->size));
 	self->size = otherList->size;
@@ -120,25 +120,25 @@ int List_equals_(const List *self, const List *otherList)
 /* --- sizing ------------------------------------------------ */
 
 void List_setSize_(List *self, size_t index)
-{ 
+{
 	List_ifNeededSizeTo_(self, index);
-	self->size = index; 
+	self->size = index;
 }
 
 void List_preallocateToSize_(List *self, size_t index)
 {
 	size_t s = index * sizeof(void *);
-	
-	if (s >= self->memSize) 
+
+	if (s >= self->memSize)
 	{
 		size_t newSize = self->memSize * LIST_RESIZE_FACTOR;
-		
-		if (s > newSize) 
-		{ 
-			newSize = s; 
+
+		if (s > newSize)
+		{
+			newSize = s;
 		}
-		
-		self->items = (void **)io_realloc(self->items, newSize); 
+
+		self->items = (void **)io_realloc(self->items, newSize);
 		memset(self->items + self->size, 0, (newSize - (self->size*sizeof(void *))));
 		self->memSize = newSize;
 	}
@@ -147,22 +147,22 @@ void List_preallocateToSize_(List *self, size_t index)
 void List_compact(List *self)
 {
 	self->memSize = self->size * sizeof(void *);
-	self->items = (void **)io_realloc(self->items, self->memSize); 
+	self->items = (void **)io_realloc(self->items, self->memSize);
 }
 
-// ----------------------------------------------------------- 
+// -----------------------------------------------------------
 
 void List_print(const List *self)
 {
 	size_t i;
-	
+
 	printf("List <%p> [%i bytes]\n", (void *)self, (int)self->memSize);
-	
+
 	for (i = 0; i < self->size; i ++)
-	{ 
-		printf("%i: %p\n", i, (void *)self->items[i]); 
+	{
+		printf("%i: %p\n", i, (void *)self->items[i]);
 	}
-	
+
 	printf("\n");
 }
 
@@ -193,43 +193,43 @@ List *List_map_(List *self, ListCollectCallback *callback)
 
 List *List_select_(List *self, ListSelectCallback *callback)
 {
-	List *r = List_new();    
+	List *r = List_new();
 	LIST_FOREACH(self, i, v, if ((*callback)(v)) List_append_(r, v));
 	return r;
 }
 
 void *List_detect_(List *self, ListDetectCallback *callback)
-{    
+{
 	LIST_FOREACH(self, i, v, if (v && (*callback)(v)) return v; );
 	return NULL;
 }
 
 void *List_anyOne(const List *self)
-{ 
+{
 	size_t i;
-	
-	if (self->size == 0) 
+
+	if (self->size == 0)
 	{
 		return (void *)NULL;
 	}
-	
-	if (self->size == 1) 
+
+	if (self->size == 1)
 	{
 		return LIST_AT_(self, 0);
 	}
-	
-	i = (rand() >> 4) % (self->size); // without the shift, just get a sequence! 
-	
+
+	i = (rand() >> 4) % (self->size); // without the shift, just get a sequence!
+
 	return LIST_AT_(self, i);
 }
 
 void List_shuffle(List *self)
-{ 
+{
 	size_t i, j;
-	
+
 	for (i = 0; i < self->size - 1; i ++)
 	{
-		j = i + rand() % (self->size - i); 
+		j = i + rand() % (self->size - i);
 		List_swap_with_(self, i, j);
 	}
 }
@@ -237,13 +237,13 @@ void List_shuffle(List *self)
 void *List_removeLast(List *self)
 {
 	void *item = List_at_(self, self->size - 1);
-	
-	if (item) 
+
+	if (item)
 	{
 		self->size --;
 		List_compactIfNeeded(self);
 	}
-	    
+
 	return item;
 }
 

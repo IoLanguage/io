@@ -1,7 +1,7 @@
 /*
- docCopyright("Steve Dekorte", 2004)
- docLicense("BSD revised") 
- */
+docCopyright("Steve Dekorte", 2004)
+docLicense("BSD revised")
+*/
 
 #include "Base.h"
 
@@ -91,7 +91,7 @@ int BStream_isEmpty(BStream *self)
 	return UArray_size(self->ba) == 0;
 }
 
-// writing -------------------------------------- 
+// writing --------------------------------------
 
 void BStream_writeByte_(BStream *self, unsigned char v)
 {
@@ -108,11 +108,11 @@ static void reverseBytes(unsigned char *d, size_t length)
 {
 	size_t a = 0;
 	size_t b = length - 1;
-	
+
 	while ( a < b)
 	{
 		unsigned char c = d[a];
-		
+
 		d[a] = d[b];
 		d[b] = c;
 		a ++;
@@ -123,12 +123,12 @@ static void reverseBytes(unsigned char *d, size_t length)
 void BStream_writeNumber_size_(BStream *self, unsigned char *v, size_t length)
 {
 	memcpy(self->typeBuf, v, length);
-	
-	if (self->flipEndian) 
+
+	if (self->flipEndian)
 	{
 		reverseBytes(self->typeBuf, length);
 	}
-	
+
 	UArray_appendBytes_size_(self->ba, (unsigned char *)self->typeBuf, length);
 	self->index += length;
 }
@@ -175,7 +175,7 @@ void BStream_writeUArray_(BStream *self, UArray *ba)
 	self->index += UArray_size(ba);
 }
 
-// reading -------------------------------------- 
+// reading --------------------------------------
 
 unsigned char BStream_readByte(BStream *self)
 {
@@ -190,7 +190,7 @@ uint8_t BStream_readUint8(BStream *self)
 		self->index ++;
 		return b;
 	}
-	
+
 	return 0;
 }
 
@@ -200,16 +200,16 @@ void BStream_readNumber_size_(BStream *self, unsigned char *v, int size)
 	{
 		const uint8_t *b = UArray_bytes(self->ba);
 		memcpy(v, b + self->index, size);
-		
-		if (self->flipEndian) 
+
+		if (self->flipEndian)
 		{
 			reverseBytes(v, size);
 		}
-		
+
 		self->index += size;
 		return;
 	}
-	
+
 	while (size--)
 	{
 		*v = 0;
@@ -255,7 +255,7 @@ unsigned char *BStream_readDataOfLength_(BStream *self, size_t length)
 		self->index += length;
 		return b;
 	}
-	
+
 	return NULL;
 }
 
@@ -278,7 +278,7 @@ const char *BStream_readCString(BStream *self)
 	return (const char *)UArray_bytes(self->tmp);
 }
 
-// tagged writing -------------------------------------- 
+// tagged writing --------------------------------------
 
 void BStream_writeTag(BStream *self, unsigned int t, unsigned int b, unsigned int a)
 {
@@ -286,19 +286,19 @@ void BStream_writeTag(BStream *self, unsigned int t, unsigned int b, unsigned in
 	tag.isArray = a;
 	tag.type = t;
 	tag.byteCount = b;
-	
+
 	{
 		unsigned char c = BStreamTag_asUnsignedChar(&tag);
 		BStreamTag tag2 = BStreamTag_FromUnsignedChar(c);
-		
+
 		if (tag2.isArray != tag.isArray ||
-		    tag2.type != tag.type ||
-		    tag2.byteCount != tag.byteCount)
+			tag2.type != tag.type ||
+			tag2.byteCount != tag.byteCount)
 		{
 			printf("tags don't match\n");
 			exit(-1);
 		}
-		
+
 		BStream_writeUint8_(self, c);
 	}
 }
@@ -318,13 +318,13 @@ void BStream_writeTaggedUint32_(BStream *self, uint32_t v)
 void BStream_writeTaggedInt32_(BStream *self, int32_t v)
 {
 	/*
-	 if (v =< MAX_INT && v -128)
-	 {
-		 BStream_writeTag(self, BSTREAM_SIGNED_INT, 1, 0);
-		 BStream_writeInt8_(self, (int8_t)v);
-	 }
-	 else
-	 */
+	if (v =< MAX_INT && v -128)
+	{
+		BStream_writeTag(self, BSTREAM_SIGNED_INT, 1, 0);
+		BStream_writeInt8_(self, (int8_t)v);
+	}
+	else
+	*/
 {
 	BStream_writeTag(self, BSTREAM_SIGNED_INT, 4, 0);
 	BStream_writeInt32_(self, v);
@@ -342,7 +342,7 @@ void BStream_writeTaggedInt64_(BStream *self, int64_t v)
 #if sizeof(double) != 8
 #error BStream expects doubles to be 64bit
 #endif
- */
+*/
 
 void BStream_writeTaggedDouble_(BStream *self, double v)
 {
@@ -368,14 +368,14 @@ void BStream_writeTaggedUArray_(BStream *self, UArray *ba)
 	BStream_writeTaggedData_length_(self, UArray_bytes(ba), UArray_size(ba));
 }
 
-// reading -------------------------------------- 
+// reading --------------------------------------
 
 int BStream_readTag(BStream *self, unsigned int t, unsigned int b, unsigned int a)
 {
 	unsigned char c = BStream_readUint8(self);
 	BStreamTag readTag = BStreamTag_FromUnsignedChar(c);
 	BStreamTag expectedTag = BStreamTag_TagArray_type_byteCount_(a, t, b);
-	
+
 	if (!BStreamTag_isEqual_(&readTag, &expectedTag))
 	{
 		printf("BStream error: read:\n ");
@@ -387,23 +387,23 @@ int BStream_readTag(BStream *self, unsigned int t, unsigned int b, unsigned int 
 		printf("\n");
 		return -1;
 	}
-	
+
 	return 0;
 }
 
 /*
- unsigned char BStream_readTaggedByte(BStream *self)
- {
-	 BStream_readTag(self, BSTREAM_UNSIGNED_INT, 1, 0);
-	 return BStream_readByte(self);
- }
- 
- int BStream_readTaggedInt(BStream *self)
- {
-	 BStream_readTag(self, BSTREAM_SIGNED_INT, 4, 0);
-	 return BStream_readInt32(self);
- }
- */
+unsigned char BStream_readTaggedByte(BStream *self)
+{
+	BStream_readTag(self, BSTREAM_UNSIGNED_INT, 1, 0);
+	return BStream_readByte(self);
+}
+
+int BStream_readTaggedInt(BStream *self)
+{
+	BStream_readTag(self, BSTREAM_SIGNED_INT, 4, 0);
+	return BStream_readInt32(self);
+}
+*/
 
 uint8_t BStream_readTaggedUint8(BStream *self)
 {
@@ -414,13 +414,13 @@ uint32_t BStream_readTaggedUint32(BStream *self)
 {
 	unsigned char c = BStream_readByte(self);
 	BStreamTag t = BStreamTag_FromUnsignedChar(c);
-	
+
 	if (t.type == BSTREAM_UNSIGNED_INT && t.byteCount == 1)
 	{ return (uint32_t)BStream_readUint8(self); }
-	
+
 	if (t.type == BSTREAM_UNSIGNED_INT && t.byteCount == 4)
 	{ return (uint32_t)BStream_readUint32(self); }
-	
+
 	BStream_error_(self, "unhandled int type/size combination");
 	return 0;
 }
@@ -429,25 +429,25 @@ int32_t BStream_readTaggedInt32(BStream *self)
 {
 	unsigned char c = BStream_readByte(self);
 	BStreamTag t = BStreamTag_FromUnsignedChar(c);
-	
+
 	if (t.type == BSTREAM_UNSIGNED_INT && t.byteCount == 1)
-	{ 
-		return (int32_t)BStream_readUint8(self); 
+	{
+		return (int32_t)BStream_readUint8(self);
 	}
-	
+
 	if (t.type == BSTREAM_SIGNED_INT && t.byteCount == 4)
-	{ 
-		return (int32_t)BStream_readInt32(self); 
+	{
+		return (int32_t)BStream_readInt32(self);
 	}
 	/*
-	 if (t.type == BSTREAM_SIGNED_INT && t.byteCount == 8)
-	 { 
-		 return (int32_t)BStream_readInt64(self); 
-	 }
-	 */
-	
+	if (t.type == BSTREAM_SIGNED_INT && t.byteCount == 8)
+	{
+		return (int32_t)BStream_readInt64(self);
+	}
+	*/
+
 	BStream_error_(self, "unhandled int type/size combination");
-	
+
 	return 0;
 }
 
@@ -455,30 +455,30 @@ intptr_t BStream_readTaggedPointer(BStream *self)
 {
 	unsigned char c = BStream_readByte(self);
 	BStreamTag t = BStreamTag_FromUnsignedChar(c);
-	
+
 	if (t.type == BSTREAM_POINTER)
 	{
 		BStream_error_(self, "expected pointer");
 		return 0;
 	}
-	
+
 	if (t.byteCount == 1)
-	{ 
-		return (intptr_t)BStream_readUint8(self); 
+	{
+		return (intptr_t)BStream_readUint8(self);
 	}
-	
+
 	if (t.byteCount == 4)
-	{ 
-		return (intptr_t)BStream_readInt32(self); 
+	{
+		return (intptr_t)BStream_readInt32(self);
 	}
-	
+
 #if !defined(__SYMBIAN32__)
 	if (t.byteCount == 8)
-	{ 
-		return (intptr_t)BStream_readInt64(self); 
+	{
+		return (intptr_t)BStream_readInt64(self);
 	}
 #endif
-	
+
 	BStream_error_(self, "unhandled pointer size");
 	return 0;
 }
@@ -488,16 +488,16 @@ double BStream_readTaggedDouble(BStream *self)
 	unsigned char c = BStream_readByte(self);
 	BStreamTag t = BStreamTag_FromUnsignedChar(c);
 	/*
-	 if (t.type == BSTREAM_FLOAT && t.byteCount == 4)
-	 { 
-		 return BStream_readFloat(self); 
-	 }
-	 */
-	if (t.type == BSTREAM_FLOAT && t.byteCount == 8)
-	{ 
-		return BStream_readDouble(self); 
+	if (t.type == BSTREAM_FLOAT && t.byteCount == 4)
+	{
+		return BStream_readFloat(self);
 	}
-	
+	*/
+	if (t.type == BSTREAM_FLOAT && t.byteCount == 8)
+	{
+		return BStream_readDouble(self);
+	}
+
 	BStream_error_(self, "unhandled float type/size combination");
 	return 0;
 }
@@ -521,7 +521,7 @@ UArray *BStream_readTaggedUArray(BStream *self)
 const char *BStream_readTaggedCString(BStream *self)
 {
 	BStream_readTag(self, BSTREAM_UNSIGNED_INT, 1, 1);
-	
+
 	{
 		size_t size = BStream_readTaggedInt32(self);
 		return (char *)BStream_readDataOfLength_(self, size);
@@ -538,9 +538,9 @@ int BStream_showInt(BStream *self)
 	unsigned char c = BStream_readUint8(self);
 	BStreamTag t = BStreamTag_FromUnsignedChar(c);
 	int v = 0;
-	
+
 	printf("%s%i ", BStreamTag_typeName(&t), t.byteCount * 8);
-	
+
 	if (t.byteCount < 5)
 	{
 		BStream_readNumber_size_(self, (unsigned char *)(&v), t.byteCount);
@@ -550,7 +550,7 @@ int BStream_showInt(BStream *self)
 		printf("ERROR: byteCount out of range\n");
 		exit(-1);
 	}
-	
+
 	printf("%i", v);
 	return v;
 }
@@ -559,22 +559,22 @@ void BStream_show(BStream *self)
 {
 	int pos = self->index;
 	int v = 0;
-	
+
 	self->index = 0;
-	
+
 	while (!BStream_atEnd(self))
 	{
 		unsigned char c = BStream_readUint8(self);
 		BStreamTag t = BStreamTag_FromUnsignedChar(c);
-		
+
 		/*printf("isArray:%i type:%s byteCount:%i value:", t.isArray, BStreamTag_typeName(t), t.byteCount);*/
 		printf("  %s%i %s", BStreamTag_typeName(&t), t.byteCount * 8, t.isArray ? "array " : "");
 		fflush(stdout);
-		
+
 		if (t.isArray)
 		{
 			printf("[");
-			
+
 			if (t.byteCount == 1)
 			{
 				int size = BStream_showInt(self);
@@ -605,15 +605,15 @@ void BStream_show(BStream *self)
 				printf("ERROR: byteCount out of range\n");
 				exit(1);
 			}
-			
+
 			/*
-			 if (t.byteCount == 1)
-			 {
-				 printf("%c\n", v);
-			 }
-			 else
-			 {
-				 */
+			if (t.byteCount == 1)
+			{
+				printf("%c\n", v);
+			}
+			else
+			{
+				*/
 			printf("%i\n", v);
 			/*}*/
 		}

@@ -8,10 +8,10 @@
 	#if defined(__WIN32__) || defined(WIN32) || defined(_WIN32) || defined(_MSC_VER)
 		#if defined(_MSC_VER)
 			#include <winsock2.h>
-			/*struct timeval 
+			/*struct timeval
 			{
-				long tv_sec;   
-				long tv_usec; 
+				long tv_sec;
+				long tv_usec;
 			};*/
 		#else
 			/* for MingW */
@@ -20,13 +20,13 @@
 
 		#if defined(__MINGW32__) && (3 < __MINGW32_MAJOR_VERSION || 3 == __MINGW32_MAJOR_VERSION && 9 < __MINGW32_MINOR_VERSION)
 		#else
-			struct timezone 
+			struct timezone
 			{
 				int tz_minuteswest; /* of Greenwich */
 				int tz_dsttime;     /* type of dst correction to apply */
 			};
 
-                        #include "Common.h"
+						#include "Common.h"
 			BASEKIT_API extern void gettimeofday(struct timeval *tv, struct timezone *tz);
 		#endif
 

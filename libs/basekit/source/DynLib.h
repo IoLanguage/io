@@ -1,8 +1,8 @@
-/* based on DynLib.c contributed by Daniel A. Koepke 
+/* based on DynLib.c contributed by Daniel A. Koepke
  * Reorg, Steve Dekorte, 2003-08-30
  * See _BSDLicense.txt
  */
- 
+
 #ifndef DYNLIB_DEFINED
 #define DYNLIB_DEFINED 1
 

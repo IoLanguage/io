@@ -17,12 +17,12 @@ extern "C" {
 
 typedef struct
 {
-    unsigned int isArray   : 1; 
-    unsigned int type      : 2; // 0 = unsigned int, 1 = signed int, 2 = float, 3 = pointer 
-    unsigned int byteCount : 5; // number of bytes in data value(s) 
+	unsigned int isArray   : 1;
+	unsigned int type      : 2; // 0 = unsigned int, 1 = signed int, 2 = float, 3 = pointer
+	unsigned int byteCount : 5; // number of bytes in data value(s)
 } BStreamTag;
 
-// values in network byte order / big endian 
+// values in network byte order / big endian
 
 BStreamTag BStreamTag_FromUnsignedChar(unsigned char c);
 unsigned char BStreamTag_asUnsignedChar(BStreamTag *self);

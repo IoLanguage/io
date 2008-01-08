@@ -50,350 +50,350 @@
 
 /*#ifndef sun*/
 struct dtconv {
-        char    *abbrev_month_names[12];
-        char    *month_names[12];
-        char    *abbrev_weekday_names[7];
-        char    *weekday_names[7];
-        char    *time_format;
-        char    *sdate_format;
-        char    *dtime_format;
-        char    *am_string;
-        char    *pm_string;
-        char    *ldate_format;
+		char    *abbrev_month_names[12];
+		char    *month_names[12];
+		char    *abbrev_weekday_names[7];
+		char    *weekday_names[7];
+		char    *time_format;
+		char    *sdate_format;
+		char    *dtime_format;
+		char    *am_string;
+		char    *pm_string;
+		char    *ldate_format;
 };
 /*#endif*/
 
 #ifdef SUNOS4
-  extern int strncasecmp();
+	extern int strncasecmp();
 #endif
 
 #if defined(_MSC_VER) && !defined(__SYMBIAN32__)
-  #define strcasecmp _stricmp
-  #define strncasecmp _strnicmp
+	#define strcasecmp _stricmp
+	#define strncasecmp _strnicmp
 #endif
 
 int readndigits(char **const buf, const size_t count)
 {
-    int result = 0;
-    int i;
+	int result = 0;
+	int i;
 
-    for (i = 0; i < count; i++, (*buf)++) {
-        const char digit = **buf;
-        if (digit == 0 || !isdigit(digit)) {
-            break;
-        }
-        result *= 10;
-        result += digit - '0';
-    }
+	for (i = 0; i < count; i++, (*buf)++) {
+		const char digit = **buf;
+		if (digit == 0 || !isdigit(digit)) {
+			break;
+		}
+		result *= 10;
+		result += digit - '0';
+	}
 
-    return result;
+	return result;
 }
 
 // TODO rename function when I understand what this function does.
 void somethingToDoWithSpaces(const char *const buf, char **const ptr)
 {
-    if (*buf != 0 && isspace((int)*buf)) {
-        while (**ptr != 0 && !isspace((int)**ptr)) {
-            (*ptr)++;
-        }
-    }
+	if (*buf != 0 && isspace((int)*buf)) {
+		while (**ptr != 0 && !isspace((int)**ptr)) {
+			(*ptr)++;
+		}
+	}
 }
 
 char *io_strptime(char *buf, char *fmt, struct tm *tm)
 {
-        struct dtconv En_US = {
-        { "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-          "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" },
-        { "January", "February", "March", "April",
-          "May", "June", "July", "August",
-          "September", "October", "November", "December" },
-        { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" },
-        { "Sunday", "Monday", "Tuesday", "Wednesday",
-          "Thursday", "Friday", "Saturday" },
-        "%H:%M:%S",
-        "%m/%d/%y",
-        "%a %b %e %T %Z %Y",
-        "AM",
-        "PM",
-        "%A, %B, %e, %Y"
-         };
+		struct dtconv En_US = {
+		{ "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+		  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" },
+		{ "January", "February", "March", "April",
+		  "May", "June", "July", "August",
+		  "September", "October", "November", "December" },
+		{ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" },
+		{ "Sunday", "Monday", "Tuesday", "Wednesday",
+		  "Thursday", "Friday", "Saturday" },
+		"%H:%M:%S",
+		"%m/%d/%y",
+		"%a %b %e %T %Z %Y",
+		"AM",
+		"PM",
+		"%A, %B, %e, %Y"
+		 };
 
-        char    c,
-                *ptr;
-        int     i,
-                len;
+		char    c,
+				*ptr;
+		int     i,
+				len;
 
 	len = 0;
-        ptr = fmt;
-        while (*ptr != 0) {
-                if (*buf == 0)
-                        break;
+		ptr = fmt;
+		while (*ptr != 0) {
+				if (*buf == 0)
+						break;
 
-                c = *ptr++;
+				c = *ptr++;
 
-                if (c != '%') {
-                        if (isspace((int)c))
-                                while (*buf != 0 && isspace((int)*buf))
-                                        buf++;
-                        else if (c != *buf++)
-                                return NULL;
-                        continue;
-                }
+				if (c != '%') {
+						if (isspace((int)c))
+								while (*buf != 0 && isspace((int)*buf))
+										buf++;
+						else if (c != *buf++)
+								return NULL;
+						continue;
+				}
 
-                c = *ptr++;
-                switch (c) {
-                case 0:
-                        return NULL;
+				c = *ptr++;
+				switch (c) {
+				case 0:
+						return NULL;
 
-                case '%':
-                        if (*buf++ != '%')
-                                return NULL;
-                        break;
+				case '%':
+						if (*buf++ != '%')
+								return NULL;
+						break;
 
-                case 'C':
-                        buf = io_strptime(buf, En_US.ldate_format, tm);
-                        if (buf == 0)
-                                return NULL;
-                        break;
+				case 'C':
+						buf = io_strptime(buf, En_US.ldate_format, tm);
+						if (buf == 0)
+								return NULL;
+						break;
 
-                case 'c':
-                        buf = io_strptime(buf, "%x %X", tm);
-                        if (buf == 0)
-                                return NULL;
-                        break;
+				case 'c':
+						buf = io_strptime(buf, "%x %X", tm);
+						if (buf == 0)
+								return NULL;
+						break;
 
-                case 'D':
-                        buf = io_strptime(buf, "%m/%d/%y", tm);
-                        if (buf == 0)
-                                return NULL;
-                        break;
+				case 'D':
+						buf = io_strptime(buf, "%m/%d/%y", tm);
+						if (buf == 0)
+								return NULL;
+						break;
 
-                case 'R':
-                        buf = io_strptime(buf, "%H:%M", tm);
-                        if (buf == 0)
-                                return NULL;
-                        break;
+				case 'R':
+						buf = io_strptime(buf, "%H:%M", tm);
+						if (buf == 0)
+								return NULL;
+						break;
 
-                case 'r':
-                        buf = io_strptime(buf, "%I:%M:%S %p", tm);
-                        if (buf == 0)
-                                return NULL;
-                        break;
+				case 'r':
+						buf = io_strptime(buf, "%I:%M:%S %p", tm);
+						if (buf == 0)
+								return NULL;
+						break;
 
-                case 'T':
-                        buf = io_strptime(buf, "%H:%M:%S", tm);
-                        if (buf == 0)
-                                return NULL;
-                        break;
+				case 'T':
+						buf = io_strptime(buf, "%H:%M:%S", tm);
+						if (buf == 0)
+								return NULL;
+						break;
 
-                case 'X':
-                        buf = io_strptime(buf, En_US.time_format, tm);
-                        if (buf == 0)
-                                return NULL;
-                        break;
+				case 'X':
+						buf = io_strptime(buf, En_US.time_format, tm);
+						if (buf == 0)
+								return NULL;
+						break;
 
-                case 'x':
-                        buf = io_strptime(buf, En_US.sdate_format, tm);
-                        if (buf == 0)
-                                return NULL;
-                        break;
+				case 'x':
+						buf = io_strptime(buf, En_US.sdate_format, tm);
+						if (buf == 0)
+								return NULL;
+						break;
 
-                case 'j':
-                        if (*buf == 0 || isspace((int)*buf))
-                                break;
+				case 'j':
+						if (*buf == 0 || isspace((int)*buf))
+								break;
 
-                        i = readndigits(&buf, 3);
-                        if (i < 0 || i > 366)
-                                return NULL;
+						i = readndigits(&buf, 3);
+						if (i < 0 || i > 366)
+								return NULL;
 
-                        tm->tm_yday = i;
-                        break;
+						tm->tm_yday = i;
+						break;
 
-                case 'M':
-                        if (*buf == 0 || isspace((int)*buf))
-                                break;
+				case 'M':
+						if (*buf == 0 || isspace((int)*buf))
+								break;
 
-                        i = readndigits(&buf, 2);
-                        if (i < 0 || i > 59)
-                                return NULL;
+						i = readndigits(&buf, 2);
+						if (i < 0 || i > 59)
+								return NULL;
 
-                        tm->tm_min = i;
+						tm->tm_min = i;
 
-                        somethingToDoWithSpaces(buf, &ptr);
-                        break;
+						somethingToDoWithSpaces(buf, &ptr);
+						break;
 
-                case 'S':
-                        if (*buf == 0 || isspace((int)*buf))
-                                break;
+				case 'S':
+						if (*buf == 0 || isspace((int)*buf))
+								break;
 
-                        i = readndigits(&buf, 2);
-                        if (i < 0 || i > 60) // Earlier 61 was also allowed.
-                                return NULL;
+						i = readndigits(&buf, 2);
+						if (i < 0 || i > 60) // Earlier 61 was also allowed.
+								return NULL;
 
-                        tm->tm_sec = i;
+						tm->tm_sec = i;
 
-                        somethingToDoWithSpaces(buf, &ptr);
-                        break;
+						somethingToDoWithSpaces(buf, &ptr);
+						break;
 
-                case 'H':
-                case 'k':
-                        if (!isdigit((int)*buf))
-                                return NULL;
+				case 'H':
+				case 'k':
+						if (!isdigit((int)*buf))
+								return NULL;
 
-                        i = readndigits(&buf, 2);
-                        if (i < 0 || i > 23)
-                                return NULL;
+						i = readndigits(&buf, 2);
+						if (i < 0 || i > 23)
+								return NULL;
 
-                        tm->tm_hour = i;
+						tm->tm_hour = i;
 
-                        somethingToDoWithSpaces(buf, &ptr);
-                        break;
+						somethingToDoWithSpaces(buf, &ptr);
+						break;
 
-                case 'I':
-                case 'l':
-                        if (!isdigit((int)*buf))
-                                return NULL;
+				case 'I':
+				case 'l':
+						if (!isdigit((int)*buf))
+								return NULL;
 
-                        i = readndigits(&buf, 2);
-                        if (i < 1 || i > 12)
-                                return NULL;
+						i = readndigits(&buf, 2);
+						if (i < 1 || i > 12)
+								return NULL;
 
-                        tm->tm_hour = i;
+						tm->tm_hour = i;
 
-                        somethingToDoWithSpaces(buf, &ptr);
-                        break;
+						somethingToDoWithSpaces(buf, &ptr);
+						break;
 
-                case 'd':
-                case 'e':
-                        if (!isdigit((int)*buf))
-                                return NULL;
+				case 'd':
+				case 'e':
+						if (!isdigit((int)*buf))
+								return NULL;
 
-                        i = readndigits(&buf, 2);
-                        if (i < 1 || i > 31)
-                                return NULL;
+						i = readndigits(&buf, 2);
+						if (i < 1 || i > 31)
+								return NULL;
 
-                        tm->tm_mday = i;
+						tm->tm_mday = i;
 
-                        somethingToDoWithSpaces(buf, &ptr);
-                        break;
+						somethingToDoWithSpaces(buf, &ptr);
+						break;
 
-                case 'm':
-                        if (!isdigit((int)*buf))
-                                return NULL;
+				case 'm':
+						if (!isdigit((int)*buf))
+								return NULL;
 
-                        i = readndigits(&buf, 2);
-                        if (i < 1 || i > 12)
-                                return NULL;
+						i = readndigits(&buf, 2);
+						if (i < 1 || i > 12)
+								return NULL;
 
-                        tm->tm_mon = i - 1;
+						tm->tm_mon = i - 1;
 
-                        somethingToDoWithSpaces(buf, &ptr);
-                        break;
+						somethingToDoWithSpaces(buf, &ptr);
+						break;
 
-                case 'Y':
-                        if (*buf == 0 || isspace((int)*buf))
-                                break;
+				case 'Y':
+						if (*buf == 0 || isspace((int)*buf))
+								break;
 
-                        if (!isdigit((int)*buf))
-                                return NULL;
+						if (!isdigit((int)*buf))
+								return NULL;
 
-                        i = readndigits(&buf, 4);
-                        if (i < 0 || i > 9999)
-                                return NULL;
+						i = readndigits(&buf, 4);
+						if (i < 0 || i > 9999)
+								return NULL;
 
-                        tm->tm_year = i - 1900;
+						tm->tm_year = i - 1900;
 
-                        somethingToDoWithSpaces(buf, &ptr);
-                        break;
+						somethingToDoWithSpaces(buf, &ptr);
+						break;
 
-                case 'y':
-                        if (*buf == 0 || isspace((int)*buf))
-                                break;
+				case 'y':
+						if (*buf == 0 || isspace((int)*buf))
+								break;
 
-                        if (!isdigit((int)*buf))
-                                return NULL;
+						if (!isdigit((int)*buf))
+								return NULL;
 
-                        i = readndigits(&buf, 2);
-                        if (i < 0 || i > 99)
-                                return NULL;
+						i = readndigits(&buf, 2);
+						if (i < 0 || i > 99)
+								return NULL;
 
-                        tm->tm_year = i;
+						tm->tm_year = i;
 
-                        somethingToDoWithSpaces(buf, &ptr);
-                        break;
+						somethingToDoWithSpaces(buf, &ptr);
+						break;
 
-                case 'P':
-                case 'p':
-                        len = strlen(En_US.am_string);
-                        if (strncasecmp(buf, En_US.am_string, len) == 0) {
-                                if (tm->tm_hour > 12)
-                                        return NULL;
-                                if (tm->tm_hour == 12)
-                                        tm->tm_hour = 0;
-                                buf += len;
-                                break;
-                        }
+				case 'P':
+				case 'p':
+						len = strlen(En_US.am_string);
+						if (strncasecmp(buf, En_US.am_string, len) == 0) {
+								if (tm->tm_hour > 12)
+										return NULL;
+								if (tm->tm_hour == 12)
+										tm->tm_hour = 0;
+								buf += len;
+								break;
+						}
 
-                        len = strlen(En_US.pm_string);
-                        if (strncasecmp(buf, En_US.pm_string, len) == 0) {
-                                if (tm->tm_hour > 12)
-                                        return NULL;
-                                if (tm->tm_hour != 12)
-                                        tm->tm_hour += 12;
-                                buf += len;
-                                break;
-                        }
+						len = strlen(En_US.pm_string);
+						if (strncasecmp(buf, En_US.pm_string, len) == 0) {
+								if (tm->tm_hour > 12)
+										return NULL;
+								if (tm->tm_hour != 12)
+										tm->tm_hour += 12;
+								buf += len;
+								break;
+						}
 
-                        return NULL;
+						return NULL;
 
-                case 'A':
-                case 'a':
-                        for (i = 0; i < (int)asizeof(En_US.weekday_names); i ++) {
-                                len = strlen(En_US.weekday_names[i]);
-                                if (strncasecmp(buf,
-                                                En_US.weekday_names[i],
-                                                len) == 0)
-                                        break;
+				case 'A':
+				case 'a':
+						for (i = 0; i < (int)asizeof(En_US.weekday_names); i ++) {
+								len = strlen(En_US.weekday_names[i]);
+								if (strncasecmp(buf,
+												En_US.weekday_names[i],
+												len) == 0)
+										break;
 
-                                len = strlen(En_US.abbrev_weekday_names[i]);
-                                if (strncasecmp(buf,
-                                                En_US.abbrev_weekday_names[i],
-                                                len) == 0)
-                                        break;
-                        }
-                        if (i == asizeof(En_US.weekday_names))
-                                return NULL;
+								len = strlen(En_US.abbrev_weekday_names[i]);
+								if (strncasecmp(buf,
+												En_US.abbrev_weekday_names[i],
+												len) == 0)
+										break;
+						}
+						if (i == asizeof(En_US.weekday_names))
+								return NULL;
 
-                        tm->tm_wday = i;
-                        buf += len;
-                        break;
+						tm->tm_wday = i;
+						buf += len;
+						break;
 
-                case 'B':
-                case 'b':
-                case 'h':
-                        for (i = 0; i < (int)asizeof(En_US.month_names); i ++) {
-                                len = strlen(En_US.month_names[i]);
-                                if (strncasecmp(buf,
-                                                En_US.month_names[i],
-                                                len) == 0)
-                                        break;
+				case 'B':
+				case 'b':
+				case 'h':
+						for (i = 0; i < (int)asizeof(En_US.month_names); i ++) {
+								len = strlen(En_US.month_names[i]);
+								if (strncasecmp(buf,
+												En_US.month_names[i],
+												len) == 0)
+										break;
 
-                                len = strlen(En_US.abbrev_month_names[i]);
-                                if (strncasecmp(buf,
-                                                En_US.abbrev_month_names[i],
-                                                len) == 0)
-                                        break;
-                        }
-                        if (i == asizeof(En_US.month_names))
-                                return NULL;
+								len = strlen(En_US.abbrev_month_names[i]);
+								if (strncasecmp(buf,
+												En_US.abbrev_month_names[i],
+												len) == 0)
+										break;
+						}
+						if (i == asizeof(En_US.month_names))
+								return NULL;
 
-                        tm->tm_mon = i;
-                        buf += len;
-                        break;
-                }
-        }
+						tm->tm_mon = i;
+						buf += len;
+						break;
+				}
+		}
 
-        return buf;
+		return buf;
 }
 
 /*#endif*/

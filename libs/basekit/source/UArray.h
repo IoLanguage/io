@@ -1,9 +1,9 @@
-/*   
+/*
 	copyright: Steve Dekorte, 2006. All rights reserved.
 	license: See _BSDLicense.txt.
 	description: A mutable array of same-sized values.
 */
- 
+
 
 #ifndef UARRAY_DEFINED
 #define UARRAY_DEFINED 1
@@ -18,67 +18,67 @@ extern "C" {
 #endif
 
 #if !defined(float32_t)
-    typedef float  float32_t;
-    typedef double float64_t;
+	typedef float  float32_t;
+	typedef double float64_t;
 #endif
 
 typedef size_t PID_TYPE;
 
 typedef enum
-{ 
-    CTYPE_uint8_t,
-    CTYPE_uint16_t,
-    CTYPE_uint32_t,
-    CTYPE_uint64_t,
-    
-    CTYPE_int8_t, 
-    CTYPE_int16_t,
-    CTYPE_int32_t,
-    CTYPE_int64_t,
-    
-    CTYPE_float32_t, 
-    CTYPE_float64_t,
-	
-    CTYPE_uintptr_t
+{
+	CTYPE_uint8_t,
+	CTYPE_uint16_t,
+	CTYPE_uint32_t,
+	CTYPE_uint64_t,
+
+	CTYPE_int8_t,
+	CTYPE_int16_t,
+	CTYPE_int32_t,
+	CTYPE_int64_t,
+
+	CTYPE_float32_t,
+	CTYPE_float64_t,
+
+	CTYPE_uintptr_t
 } CTYPE;
 
 typedef enum
-{ 
-    CENCODING_ASCII,
-    CENCODING_UTF8,
-    CENCODING_UTF16,
-    CENCODING_UTF32,
-    CENCODING_NUMBER
+{
+	CENCODING_ASCII,
+	CENCODING_UTF8,
+	CENCODING_UTF16,
+	CENCODING_UTF32,
+	CENCODING_NUMBER
 } CENCODING;
 
 typedef struct
 {
-    uint8_t   uint8;
-    uint16_t  uint16;
-    uint32_t  uint32;
-    uint64_t  uint64;
-    int8_t    int8;
-    int16_t   int16;
-    int32_t   int32;
-    int64_t   int64;
-    float32_t float32;
-    float64_t float64;
-    uintptr_t uintptr;
+	uint8_t   uint8;
+	uint16_t  uint16;
+	uint32_t  uint32;
+	uint64_t  uint64;
+	int8_t    int8;
+	int16_t   int16;
+	int32_t   int32;
+	int64_t   int64;
+	float32_t float32;
+	float64_t float64;
+	uintptr_t uintptr;
 } UArrayValueUnion;
 
 #define UARRAY_DEBUG 1
 
 typedef struct
 {
-    uint8_t *data;  // memory for items
-    size_t size;    // number of items 
-    CTYPE itemType;
-    size_t itemSize;
-    uintptr_t hash;
-    uint8_t encoding;
-    #ifdef UARRAY_DEBUG
-    int stackAllocated;
-    #endif
+	uint8_t *data;  // memory for items
+	size_t size;    // number of items
+	CTYPE itemType;
+	size_t itemSize;
+	uintptr_t hash;
+	uint8_t encoding;
+	#ifdef UARRAY_DEBUG
+	int stackAllocated;
+	#endif
 } UArray;
 
 typedef  UArray CharUArray;
@@ -126,7 +126,7 @@ BASEKIT_API CENCODING UArray_encoding(const UArray *self);
 BASEKIT_API void UArray_setEncoding_(UArray *self, CENCODING encoding);
 BASEKIT_API void UArray_convertToEncoding_(UArray *self, CENCODING encoding);
 
-// copy 
+// copy
 
 BASEKIT_API void UArray_copyItems_(UArray *self, const UArray *other);
 BASEKIT_API void UArray_copy_(UArray *self, const UArray *other);
@@ -211,7 +211,7 @@ BASEKIT_API void UArray_removeLast(UArray *self);
 		case CTYPE_float64_t: return ((float64_t *)self->data)[i];\
 		case CTYPE_uintptr_t: return ((uintptr_t *)self->data)[i];\
 	}
-	
+
 // at, without bounds check
 
 BASEKIT_API void *UArray_rawPointerAt_(const UArray *self, size_t i);
@@ -305,15 +305,15 @@ BASEKIT_API void UArray_sortBy_(UArray *self, UArraySortCallback *cmp);
 		case CTYPE_float64_t: DUARRAY_OTHER(MACRO, OP, float64_t, self, other);\
 		case CTYPE_uintptr_t: DUARRAY_OTHER(MACRO, OP, uintptr_t, self, other);\
 	}
-	
+
 #define DUARRAY_OP(MACRO, OP, self, other)\
 	DUARRAY_SELF(MACRO, OP, self, other);\
 	UArray_unsupported_with_(self, #OP, other);
-	
+
 #define DUARRAY_INTOP(MACRO, OP, self, other)\
 	DUARRAY_INTSELF(MACRO, OP, self, other);\
-	UArray_unsupported_with_(self, #OP, other);	
-	
+	UArray_unsupported_with_(self, #OP, other);
+
 // two array primitive ops
 
 #define UARRAY_BASICOP_TYPES(OP2, TYPE1, self, TYPE2, other)\
@@ -344,7 +344,7 @@ BASEKIT_API void UArray_sortBy_(UArray *self, UArraySortCallback *cmp);
 
 #define UARRAY_FOREACH_CASETYPE_(self, i, v, code, TYPE)\
 		case CTYPE_ ## TYPE: UARRAY_FOREACHTYPE(self, i, v, code, TYPE); break;
-	
+
 #define UARRAY_FOREACH(self, i, v, code)\
 	switch(self->itemType)\
 	{\
@@ -376,7 +376,7 @@ BASEKIT_API void UArray_sortBy_(UArray *self, UArraySortCallback *cmp);
 		UARRAY_FOREACH_CASETYPE_(self, i, v, code, float64_t);\
 		UARRAY_FOREACH_CASETYPE_(self, i, v, code, uintptr_t);\
 	}
-		
+
 // rforeach --------------------------
 
 #define UARRAY_RFOREACHTYPE(self, i, v, code, TYPE)\
@@ -391,7 +391,7 @@ BASEKIT_API void UArray_sortBy_(UArray *self, UArraySortCallback *cmp);
 
 #define UARRAY_RFOREACH_CASETYPE_(self, i, v, code, TYPE)\
 		case CTYPE_ ## TYPE: UARRAY_RFOREACHTYPE(self, i, v, code, TYPE); break;
-	
+
 #define UARRAY_RFOREACH(self, i, v, code)\
 	switch(self->itemType)\
 	{\
@@ -407,7 +407,7 @@ BASEKIT_API void UArray_sortBy_(UArray *self, UArraySortCallback *cmp);
 		UARRAY_RFOREACH_CASETYPE_(self, i, v, code, float64_t);\
 		UARRAY_RFOREACH_CASETYPE_(self, i, v, code, uintptr_t);\
 	}
-	
+
 // foreach assign --------------------------
 
 #define UARRAY_FOREACHTYPEASSIGN(self, i, v, code, TYPE)\
@@ -434,16 +434,16 @@ BASEKIT_API void UArray_sortBy_(UArray *self, UArraySortCallback *cmp);
 		case CTYPE_float32_t: UARRAY_FOREACHTYPEASSIGN(self, i, v, code, float32_t); break;\
 		case CTYPE_float64_t: UARRAY_FOREACHTYPEASSIGN(self, i, v, code, float64_t); break;\
 	}
-	
+
 // ----------------------------
 
-#include "UArray_character.h" 
-#include "UArray_format.h" 
-#include "UArray_math.h" 
-#include "UArray_path.h" 
-#include "UArray_stream.h" 
-#include "UArray_string.h" 
-#include "UArray_utf.h" 
+#include "UArray_character.h"
+#include "UArray_format.h"
+#include "UArray_math.h"
+#include "UArray_path.h"
+#include "UArray_stream.h"
+#include "UArray_string.h"
+#include "UArray_utf.h"
 
 #ifdef __cplusplus
 }

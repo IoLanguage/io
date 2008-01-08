@@ -19,15 +19,15 @@
 				tv->tv_sec = (long) timeb.time;
 				tv->tv_usec = (long) (timeb.millitm * 1000);
 
-				if (GetTimeZoneInformation(&zoneInfo) != TIME_ZONE_ID_INVALID) 
+				if (GetTimeZoneInformation(&zoneInfo) != TIME_ZONE_ID_INVALID)
 				{
-				    tz->tz_minuteswest = zoneInfo.Bias;
-				    tz->tz_dsttime = 0;
+					tz->tz_minuteswest = zoneInfo.Bias;
+					tz->tz_dsttime = 0;
 				}
-				else 
+				else
 				{
-				    tz->tz_minuteswest = 0;
-				    tz->tz_dsttime = 0;
+					tz->tz_minuteswest = 0;
+					tz->tz_dsttime = 0;
 				}
 			}
 		#endif
@@ -35,7 +35,7 @@
 #else
 
 	/* just to make compiler happy */
-	void PortableGettimeOfday(void) 
+	void PortableGettimeOfday(void)
 	{
 	}
 

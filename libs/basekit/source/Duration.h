@@ -14,9 +14,9 @@ docLicense("BSD revised")
 extern "C" {
 #endif
 
-typedef struct 
+typedef struct
 {
-    double seconds;
+	double seconds;
 } Duration;
 
 BASEKIT_API Duration *Duration_new(void);
@@ -27,7 +27,7 @@ BASEKIT_API void Duration_copy_(Duration *self, const Duration *other);
 BASEKIT_API void Duration_free(Duration *self);
 BASEKIT_API int Duration_compare(const Duration *self, const Duration *other);
 
-// components 
+// components
 
 BASEKIT_API int Duration_years(const Duration *self);
 BASEKIT_API void Duration_setYears_(Duration *self, double y);
@@ -44,7 +44,7 @@ BASEKIT_API void Duration_setMinutes_(Duration *self, double m);
 BASEKIT_API double Duration_seconds(const Duration *self);
 BASEKIT_API void Duration_setSeconds_(Duration *self, double s);
 
-// total seconds 
+// total seconds
 
 BASEKIT_API double Duration_asSeconds(const Duration *self);
 BASEKIT_API void Duration_fromSeconds_(Duration *self, double s);

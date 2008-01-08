@@ -1,9 +1,9 @@
-/*   
+/*
 	copyright: Steve Dekorte, 2006. All rights reserved.
 	license: See _BSDLicense.txt.
 */
 
-#include "UArray.h" 
+#include "UArray.h"
 #include <string.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -36,13 +36,13 @@ UArray *UArray_fromFormat_(UArray *self, const char *format, ...)
 }
 
 void UArray_fromVargs_(UArray *self, const char *format, va_list ap)
-{  
+{
 	while (*format)
 	{
 		if (*format == '%')
 		{
 			format ++;
-			
+
 			if (*format == 's')
 			{
 				char *s = va_arg(ap, char *);
@@ -53,7 +53,7 @@ void UArray_fromVargs_(UArray *self, const char *format, va_list ap)
 			{
 				int i = va_arg(ap, int);
 				char s[100];
-				
+
 				snprintf(s, 100, "%i", i);
 				UArray_appendCString_(self, s);
 			}
@@ -61,7 +61,7 @@ void UArray_fromVargs_(UArray *self, const char *format, va_list ap)
 			{
 				double d = va_arg(ap, double);
 				char s[100];
-				
+
 				snprintf(s, 100, "%f", d);
 				UArray_appendCString_(self, s);
 			}
@@ -69,17 +69,17 @@ void UArray_fromVargs_(UArray *self, const char *format, va_list ap)
 			{
 				void *p = va_arg(ap, void *);
 				char s[100];
-				
+
 				snprintf(s, 100, "%p", p);
 				UArray_appendCString_(self, s);
 			}
 			// new format command for a given number adding spaces
-			else if (*format == '#')  
+			else if (*format == '#')
 			{
 				int n, i = va_arg(ap, int);
 				char *s = " ";
-				
-				for (n = 0; n < i; n ++) 
+
+				for (n = 0; n < i; n ++)
 				{
 					UArray_appendCString_(self, s);
 				}
@@ -88,11 +88,11 @@ void UArray_fromVargs_(UArray *self, const char *format, va_list ap)
 		else
 		{
 			char s[2];
-			
+
 			snprintf(s, 2, "%c", *format);
 			UArray_appendCString_(self, s);
 		}
-		
+
 		format ++;
 	}
 }
@@ -107,16 +107,16 @@ UArray *UArray_asNewHexStringUArray(UArray *self)
 	{
 		int v = UArray_longAt_(self, i);
 		char *s = (char *)(ba->data + i * 2);
-		
+
 		if (v < 16)
 		{
-			snprintf(s, newSize, "0%x", (int)v); 
+			snprintf(s, newSize, "0%x", (int)v);
 		}
-		else 
+		else
 		{
 			snprintf(s, newSize, "%x", (int)v);
 		}
 	}
-	
+
 	return ba;
 }

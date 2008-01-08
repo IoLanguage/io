@@ -10,7 +10,7 @@ docDescription("""
 """)
 */
 
-#ifdef SHASH_C 
+#ifdef SHASH_C
 #define IO_IN_C_FILE
 #endif
 #include "Common_inline.h"
@@ -34,7 +34,7 @@ IOINLINE void SHashRecord_swap(SHashRecord* r1, SHashRecord* r2)
 	*r2 = t;
 }
 
-IOINLINE unsigned int SHash_keysAreEqual_(SHash *self, void *key1, void *key2) 
+IOINLINE unsigned int SHash_keysAreEqual_(SHash *self, void *key1, void *key2)
 {
 	return key2 && self->keysEqual(key1, key2);
 }
@@ -42,7 +42,7 @@ IOINLINE unsigned int SHash_keysAreEqual_(SHash *self, void *key1, void *key2)
 // simple hash functions, should be enough for pointers
 
 IOINLINE unsigned int SHash_hash(SHash *self, void *key)
-{  
+{
 	intptr_t k = self->hashForKey(key);
 	return k ^ (k >> 4);
 }
@@ -52,31 +52,31 @@ IOINLINE unsigned int SHash_hash_more(SHash *self, unsigned int hash)
 	return hash ^ (hash >> self->log2tableSize);
 }
 
-// ----------------------------------- 
+// -----------------------------------
 
 IOINLINE void SHash_clean(SHash *self)
-{ 
-	memset(self->records, 0, sizeof(SHashRecord) * self->tableSize * 2); 
+{
+	memset(self->records, 0, sizeof(SHashRecord) * self->tableSize * 2);
 	self->numKeys = 0;
 }
 
 IOINLINE SHashRecord *SHash_recordAt_(SHash *self, void *key)
 {
-	unsigned int hash; 
-	SHashRecord *record; 
+	unsigned int hash;
+	SHashRecord *record;
 
 	// try first location
-	
+
 	hash = SHash_hash(self, key);
 	record = SHASH_RECORDS_AT_HASH_(self, 0, hash);
 	if (SHash_keysAreEqual_(self, key, record->key)) { return record; }
-	
+
 	// try second location
-	
+
 	hash = SHash_hash_more(self, hash);
 	record = SHASH_RECORDS_AT_HASH_(self, 1, hash);
 	if (SHash_keysAreEqual_(self, key, record->key)) { return record; }
-	
+
 	return &self->nullRecord;
 }
 
@@ -85,7 +85,7 @@ IOINLINE void *SHash_at_(SHash *self, void *key)
 	return SHash_recordAt_(self, key)->value;
 }
 
-IOINLINE int SHashKey_hasKey_(SHash *self, void *key) 
+IOINLINE int SHashKey_hasKey_(SHash *self, void *key)
 {
 	return SHash_at_(self, key) != NULL;
 }
@@ -97,7 +97,7 @@ IOINLINE void SHash_at_put_(SHash *self, void *key, void *value)
 
 	record = SHash_recordAt_(self, key);
 
-	// already a matching key, replace it 
+	// already a matching key, replace it
 	if (record != &self->nullRecord && SHash_keysAreEqual_(self, key, record->key))
 	{
 		record->value = value;
@@ -106,32 +106,32 @@ IOINLINE void SHash_at_put_(SHash *self, void *key, void *value)
 
 	thisRecord.key = key;
 	thisRecord.value = value;
-	
+
 	record = SHash_cuckoo_(self, &thisRecord);
-	
+
 	if (!record) // collision
 	{
 		SHash_growWithRecord(self, &thisRecord);
-		//printf("grow due to key collision: SHash_%p numKeys %i \ttableSize %i \tratio %f\n", (void *)self, self->numKeys, self->tableSize, (float) self->numKeys / (float) self->tableSize); 
-	} 
-	else 
+		//printf("grow due to key collision: SHash_%p numKeys %i \ttableSize %i \tratio %f\n", (void *)self, self->numKeys, self->tableSize, (float) self->numKeys / (float) self->tableSize);
+	}
+	else
 	{
 		*record = thisRecord;
 		self->numKeys ++;
 		if (self->numKeys > SHash_maxKeys(self))
 		{
 			SHash_grow(self);
-			//printf("grow due to full table: SHash_%p numKeys %i \ttableSize %i \tratio %f\n", (void *)self, self->numKeys, self->tableSize, (float) self->numKeys / (float) self->tableSize); 
+			//printf("grow due to full table: SHash_%p numKeys %i \ttableSize %i \tratio %f\n", (void *)self, self->numKeys, self->tableSize, (float) self->numKeys / (float) self->tableSize);
 		}
 	}
-	
+
 }
 
 IOINLINE void SHash_removeKey_(SHash *self, void *key)
 {
 	SHashRecord *record = SHash_recordAt_(self, key);
 	void *rkey = record->key;
-	
+
 	if (rkey && SHash_keysAreEqual_(self, rkey, key))
 	{
 		self->numKeys --;
@@ -139,7 +139,7 @@ IOINLINE void SHash_removeKey_(SHash *self, void *key)
 	}
 }
 
-// --- enumeration -------------------------------------------------- 
+// --- enumeration --------------------------------------------------
 
 #define SHASH_FOREACH(self, pkey, pvalue, code) \
 {\
@@ -162,7 +162,7 @@ IOINLINE void SHash_removeKey_(SHash *self, void *key)
 }
 
 /*
- typedef BASEKIT_API void (SHashDoCallback)(void *);
+typedef BASEKIT_API void (SHashDoCallback)(void *);
 IOINLINE void SHash_do_(SHash *self, SHashDoCallback *callback)
 { SHASH_FOREACH(self, k, v, (*callback)(v)); }
 

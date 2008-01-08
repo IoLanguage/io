@@ -8,11 +8,11 @@ extern "C" {
 #include "Common.h"
 
 BASEKIT_API    int truncate(const char *path, long length);
-    
+
 #else
 
-    #include <unistd.h>
-    
+	#include <unistd.h>
+
 #endif
 
 

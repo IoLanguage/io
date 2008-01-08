@@ -1,4 +1,4 @@
-/*   
+/*
 	copyright: Steve Dekorte, 2006. All rights reserved.
 	license: See _BSDLicense.txt.
 */
@@ -84,7 +84,7 @@ BASEKIT_API void UArray_normalize(UArray *self);
 BASEKIT_API void UArray_crossProduct_(UArray *self, const UArray *other);
 BASEKIT_API double UArray_distanceTo_(const UArray *self, const UArray *other);
 
-// extras 
+// extras
 
 BASEKIT_API double UArray_sumAsDouble(const UArray *self);
 BASEKIT_API double UArray_productAsDouble(const UArray *self);

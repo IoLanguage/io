@@ -3,18 +3,18 @@ docCopyright("Steve Dekorte", 2004)
 docLicense("BSD revised") *
 */
 
-#include "BStreamTag.h" 
+#include "BStreamTag.h"
 #include <stdio.h>
 
 /*
- unsigned int isArray   : 1; 
- unsigned int type      : 2; 
- unsigned int byteCount : 5;
- */ 
+unsigned int isArray   : 1;
+unsigned int type      : 2;
+unsigned int byteCount : 5;
+*/
 
 BStreamTag BStreamTag_FromUnsignedChar(unsigned char c)
 {
-	// we need to do this because bit fields are compiler dependent 
+	// we need to do this because bit fields are compiler dependent
 	BStreamTag t;
 	t.isArray = c >> 7;
 	t.type = ( c << 1) >> 6;
@@ -32,7 +32,7 @@ unsigned char BStreamTag_asUnsignedChar(BStreamTag *self)
 	return c;
 }
 
-// ----------------------------------------------------- 
+// -----------------------------------------------------
 
 BStreamTag BStreamTag_TagArray_type_byteCount_(unsigned int a, unsigned int t, unsigned int b)
 {
@@ -61,15 +61,15 @@ char *BStreamTag_typeName(BStreamTag *self)
 {
 	switch (self->type)
 	{
-		case BSTREAM_UNSIGNED_INT: 
+		case BSTREAM_UNSIGNED_INT:
 			return "uint";
-		case BSTREAM_SIGNED_INT: 
+		case BSTREAM_SIGNED_INT:
 			return "int";
-		case BSTREAM_FLOAT: 
+		case BSTREAM_FLOAT:
 			return "float";
-		case BSTREAM_POINTER: 
+		case BSTREAM_POINTER:
 			return "pointer";
 	}
-	
+
 	return "UNKNOWN TYPE";
 }

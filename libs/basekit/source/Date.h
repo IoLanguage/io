@@ -17,7 +17,7 @@ docLicense("BSD revised")
 extern "C" {
 #endif
 
-typedef struct 
+typedef struct
 {
 	struct timeval  tv;
 	struct timezone tz;

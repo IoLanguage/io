@@ -1,4 +1,4 @@
-/*   
+/*
 	copyright: Steve Dekorte, 2006. All rights reserved.
 	license: See _BSDLicense.txt.
 */
@@ -14,7 +14,7 @@
 #endif
 
 #define IO_PATH_SEPARATOR     "/"
-#define IO_PATH_SEPARATOR_DOT "." 
+#define IO_PATH_SEPARATOR_DOT "."
 
 
 #ifdef ON_WINDOWS

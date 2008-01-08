@@ -1,9 +1,9 @@
-/*   
+/*
 	copyright: Steve Dekorte, 2006. All rights reserved.
 	license: See _BSDLicense.txt.
 */
 
-/*   
+/*
 	copyright: Steve Dekorte, 2006. All rights reserved.
 	license: See _BSDLicense.txt.
 */
@@ -24,20 +24,20 @@ BASEKIT_API void UArray_replaceCString_withCString_(UArray *self, const char *s1
 BASEKIT_API void UArray_remove_(UArray *self, const UArray *a1);
 BASEKIT_API void UArray_removeAnyCase_(UArray *self, const UArray *a1);
 
-// clipping 
+// clipping
 
 BASEKIT_API int UArray_clipBefore_(UArray *self, const UArray *other);
 BASEKIT_API int UArray_clipBeforeEndOf_(UArray *self, const UArray *other);
 BASEKIT_API int UArray_clipAfter_(UArray *self, const UArray *other);
 BASEKIT_API int UArray_clipAfterStartOf_(UArray *self, const UArray *other);
 
-// strip 
+// strip
 
 BASEKIT_API void UArray_lstrip_(UArray *self, const UArray *other);
 BASEKIT_API void UArray_rstrip_(UArray *self, const UArray *other);
 BASEKIT_API void UArray_strip_(UArray *self, const UArray *other);
 
-// swap 
+// swap
 
 BASEKIT_API void UArray_swapIndex_withIndex_(UArray *self, size_t i, size_t j);
 
@@ -52,7 +52,7 @@ BASEKIT_API void UArray_reverse(UArray *self);
 BASEKIT_API PtrUArray *UArray_split_(const UArray *self, const PtrUArray *delims);
 BASEKIT_API size_t UArray_splitCount_(const UArray *self, const PtrUArray *delims);
 
-// find 
+// find
 
 BASEKIT_API int UArray_beginsWith_(UArray *self, const UArray *other);
 BASEKIT_API int UArray_endsWith_(UArray *self, const UArray *other);

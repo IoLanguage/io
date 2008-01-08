@@ -3,9 +3,9 @@ docCopyright("Steve Dekorte", 2002)
 docCopyright("Marc Fauconneau", 2007)
 docLicense("BSD revised")
 docDescription("""
-    SHash - Cuckoo Hash
-    keys and values are references (they are not copied or freed)
-    key pointers are assumed unique
+	SHash - Cuckoo Hash
+	keys and values are references (they are not copied or freed)
+	key pointers are assumed unique
 """)
 */
 
@@ -21,29 +21,29 @@ docDescription("""
 extern "C" {
 #endif
 
-typedef struct 
+typedef struct
 {
-    void *key;
-    void *value;
+	void *key;
+	void *value;
 } SHashRecord;
 
 typedef int (SHashKeysEqualCallback)(void *, void *);
 typedef intptr_t (SHashHashforKeyCallback)(void *);
 
-typedef struct 
+typedef struct
 {
-    SHashRecord *records;		// contains the two tables
-    
-    unsigned int log2tableSize;	// log2(tableSize)
-    unsigned int tableSize;		// total number of records per table
-    unsigned int numKeys;		// number of used records
+	SHashRecord *records;		// contains the two tables
 
-    unsigned int mask;		    // hash bit mask
-    SHashRecord nullRecord;		// for lookup misses
-    unsigned int balance;		// to balance tables
-    SHashKeysEqualCallback *keysEqual;
-    SHashHashforKeyCallback *hashForKey;
-	
+	unsigned int log2tableSize;	// log2(tableSize)
+	unsigned int tableSize;		// total number of records per table
+	unsigned int numKeys;		// number of used records
+
+	unsigned int mask;			// hash bit mask
+	SHashRecord nullRecord;		// for lookup misses
+	unsigned int balance;		// to balance tables
+	SHashKeysEqualCallback *keysEqual;
+	SHashHashforKeyCallback *hashForKey;
+
 } SHash;
 
 //#define SHash_mask(self) (self->tableSize-1)

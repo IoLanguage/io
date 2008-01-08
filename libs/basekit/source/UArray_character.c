@@ -1,9 +1,9 @@
-/*   
+/*
 	copyright: Steve Dekorte, 2006. All rights reserved.
 	license: See _BSDLicense.txt.
 */
 
-#include "UArray.h" 
+#include "UArray.h"
 #include <math.h>
 
 // set

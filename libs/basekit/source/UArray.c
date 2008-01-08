@@ -1,9 +1,9 @@
-/*   
+/*
 copyright: Steve Dekorte, 2006. All rights reserved.
 license: See _BSDLicense.txt.
 */
 
-#include "Base.h" 
+#include "Base.h"
 
 #define UArray_C
 #include "UArray.h"
@@ -22,15 +22,15 @@ size_t CTYPE_size(CTYPE type)
 		case CTYPE_uint16_t:  return sizeof(uint16_t);
 		case CTYPE_uint32_t:  return sizeof(uint32_t);
 		case CTYPE_uint64_t:  return sizeof(uint64_t);
-		
+
 		case CTYPE_int8_t:    return sizeof(int8_t);
 		case CTYPE_int16_t:   return sizeof(int16_t);
 		case CTYPE_int32_t:   return sizeof(int32_t);
 		case CTYPE_int64_t:   return sizeof(int64_t);
-			
+
 		case CTYPE_float32_t: return sizeof(float32_t);
 		case CTYPE_float64_t: return sizeof(float64_t);
-			
+
 		case CTYPE_uintptr_t: return sizeof(uintptr_t);
 	}
 	return 0;
@@ -44,15 +44,15 @@ const char *CTYPE_name(CTYPE type)
 		case CTYPE_uint16_t:  return "uint16";
 		case CTYPE_uint32_t:  return "uint32";
 		case CTYPE_uint64_t:  return "uint64";
-			
+
 		case CTYPE_int8_t:    return "int8";
 		case CTYPE_int16_t:   return "int16";
 		case CTYPE_int32_t:   return "int32";
 		case CTYPE_int64_t:   return "int64";
-			
+
 		case CTYPE_float32_t: return "float32";
 		case CTYPE_float64_t: return "float64";
-			
+
 		case CTYPE_uintptr_t: return "intptr";
 	}
 	return "unknown";
@@ -101,8 +101,8 @@ const char *CENCODING_name(CENCODING encoding)
 void UArray_unsupported_with_(const UArray *self, const char *methodName, const UArray *other)
 {
 	//UArray_error_(self, "Error: '%s' not supported between '%s' and '%s'\n");
-	printf("Error: '%s' not supported between '%s' and '%s'\n", 
-		  methodName, CTYPE_name(self->itemType), CTYPE_name(other->itemType));
+	printf("Error: '%s' not supported between '%s' and '%s'\n",
+		   methodName, CTYPE_name(self->itemType), CTYPE_name(other->itemType));
 	exit(-1);
 }
 
@@ -125,7 +125,7 @@ size_t UArray_itemSize(const UArray *self)
 }
 
 inline size_t UArray_sizeRequiredToContain_(const UArray *self, const UArray *other)
-{	
+{
 	return (UArray_sizeInBytes(other)  + self->itemSize - 1) / self->itemSize;
 }
 
@@ -140,18 +140,18 @@ void UArray_setItemType_(UArray *self, CTYPE type)
 {
 	size_t itemSize = CTYPE_size(type);
 	div_t q = div(UArray_sizeInBytes(self), itemSize);
-	
+
 	if (q.rem != 0)
 	{
 		q.quot += 1;
 		UArray_setSize_(self, (q.quot * itemSize) / self->itemSize);
 	}
-	
+
 	self->itemType = type;
 
 	self->itemSize = itemSize;
 	self->size = q.quot;
-	
+
 	// ensure encoding is sane for type
 
 	if (UArray_isFloatType(self))
@@ -175,9 +175,9 @@ CENCODING UArray_encoding(const UArray *self)
 }
 
 void UArray_setEncoding_(UArray *self, CENCODING encoding)
-{	
-	// ensure that size matches new encoding 
-	
+{
+	// ensure that size matches new encoding
+
 	switch(encoding)
 	{
 		case CENCODING_ASCII:
@@ -189,19 +189,19 @@ void UArray_setEncoding_(UArray *self, CENCODING encoding)
 			break;
 		case CENCODING_UTF32:
 			UArray_setItemType_(self, CTYPE_uint32_t);
-			break;			
+			break;
 		case CENCODING_NUMBER:
 			// Don't change itemType when setting raw encoding. Raw encoding
 			// used for vectors and numbers and the item type may have been set
 			// before this call.
 			break;
 	}
-	
+
 	self->encoding = encoding;
 }
 
 void UArray_convertToEncoding_(UArray *self, CENCODING encoding)
-{	
+{
 	switch(encoding)
 	{
 		case CENCODING_ASCII:
@@ -218,7 +218,7 @@ void UArray_convertToEncoding_(UArray *self, CENCODING encoding)
 			UArray_setItemType_(self, CTYPE_uint8_t);
 			break;
 	}
-	
+
 	self->encoding = encoding;
 	UArray_changed(self);
 }
@@ -286,8 +286,8 @@ void UArray_print(const UArray *self)
 		UARRAY_FOREACH(self, i, v,
 					printf("%i", (int)v);
 					if(i != self->size - 1) printf(", ");
-					);		
-		printf("]");	
+					);
+		printf("]");
 	}
 }
 
@@ -295,11 +295,11 @@ UArray UArray_stackAllocedWithData_type_size_(void *data, CTYPE type, size_t siz
 {
 	UArray self;
 	memset(&self, 0, sizeof(UArray));
-	
+
 #ifdef UARRAY_DEBUG
 	self.stackAllocated = 1;
 #endif
-	
+
 	self.itemType = type;
 	self.itemSize = CTYPE_size(type);
 	self.size = size;
@@ -311,7 +311,7 @@ BASEKIT_API UArray UArray_stackAllocedEmptyUArray(void)
 {
 	UArray self;
 	memset(&self, 0, sizeof(UArray));
-	
+
 #ifdef UARRAY_DEBUG
 	self.stackAllocated = 1;
 #endif
@@ -359,16 +359,16 @@ void UArray_checkIfOkToRelloc(UArray *self)
 void UArray_setData_type_size_copy_(UArray *self, void *data, CTYPE type, size_t size, int copy)
 {
 	size_t sizeInBytes;
-	
+
 	UArray_rawSetItemType_(self, type);
 	self->size = size;
-	
+
 	sizeInBytes = self->size * self->itemSize;
 
 #ifdef UARRAY_DEBUG
 	UArray_checkIfOkToRelloc(self);
 #endif
-	
+
 	if (copy)
 	{
 		self->data = io_realloc(self->data, sizeInBytes + 1);
@@ -420,7 +420,7 @@ void UArray_free(UArray *self)
 	io_free(self);
 }
 
-// size 
+// size
 
 void UArray_setSize_(UArray *self, size_t size)
 {
@@ -428,21 +428,21 @@ void UArray_setSize_(UArray *self, size_t size)
 	{
 		size_t oldSizeInBytes = UArray_sizeInBytes(self);
 		size_t newSizeInBytes = self->itemSize * size;
-			
+
 #ifdef UARRAY_DEBUG
 			UArray_checkIfOkToRelloc(self);
 #endif
 		self->data = io_realloc(self->data, newSizeInBytes + 1);
 
-		
+
 		self->data[newSizeInBytes] = 0x0;
 		self->size = size;
-		
+
 		if (newSizeInBytes > oldSizeInBytes)
 		{
 			memset(self->data + oldSizeInBytes, 0, newSizeInBytes - oldSizeInBytes);
 		}
-		
+
 		UArray_changed(self);
 	}
 }
@@ -463,7 +463,7 @@ void UArray_sizeTo_(UArray *self, size_t size)
 }
 
 
-// copy 
+// copy
 
 void UArray_copy_(UArray *self, const UArray *other)
 {
@@ -480,7 +480,7 @@ void UArray_copyItems_(UArray *self, const UArray *other)
 		printf("UArray_copyItems_ error - arrays not of same size\n");
 		exit(-1);
 	}
-	
+
 	if(self->itemType == other->itemType)
 	{
 		UArray_copyData_(self, other);
@@ -521,7 +521,7 @@ UArray UArray_stackRange(const UArray *self, size_t start, size_t size)
 
 	memcpy(&s, self, sizeof(UArray));
 	s.hash = 0;
-		
+
 #ifdef UARRAY_DEBUG
 	s.stackAllocated = 1;
 #endif
@@ -534,16 +534,16 @@ UArray UArray_stackRange(const UArray *self, size_t start, size_t size)
 	{
 		s.data = 0x0;
 	}
-	
+
 	if(start + size <= self->size)
 	{
-		s.size = size;  
+		s.size = size;
 	}
 	else
 	{
 		s.size = 0;
 	}
-	
+
 	return s;
 }
 
@@ -564,7 +564,7 @@ UArray UArray_stackSlice(const UArray *self, long start, long end)
 BASEKIT_API UArray *UArray_slice(const UArray *self, long start, long end)
 {
 	UArray out = UArray_stackSlice(self, start, end);
-	return UArray_clone(&out);	
+	return UArray_clone(&out);
 }
 
 // at, without bounds check
@@ -575,7 +575,7 @@ void *UArray_rawPointerAt_(const UArray *self, size_t i)
 	{
 		return ((void **)self->data)[i];
 	}
-	
+
 	UArray_error_(self, "UArray_rawPointerAt_ not supported on this type");
 	return NULL;
 }
@@ -623,11 +623,11 @@ long UArray_firstLong(const UArray *self)
 
 long UArray_lastLong(const UArray *self)
 {
-	if (!self->size) 
+	if (!self->size)
 	{
 		return 0;
 	}
-	
+
 	return UArray_rawLongAt_(self, self->size - 1);
 }
 
@@ -639,7 +639,7 @@ void UArray_removeRange(UArray *self, size_t start, size_t removeSize)
 	{
 		if (start + removeSize > self->size)
 		{
-			removeSize = self->size - start; 
+			removeSize = self->size - start;
 		}
 		else if (start + removeSize < self->size)
 		{
@@ -648,7 +648,7 @@ void UArray_removeRange(UArray *self, size_t start, size_t removeSize)
 			size_t remainderSize = self->size - remainder;
 			memmove(UARRAY_BYTESAT_(self, start), UARRAY_BYTESAT_(self, remainder), self -> itemSize * remainderSize);
 		}
-		
+
 		UArray_setSize_(self, self->size - removeSize);
 	}
 	UArray_changed(self);
@@ -688,7 +688,7 @@ switch (self->itemType)\
 void UArray_at_putLong_(UArray *self, size_t pos, long v)
 {
 	if(pos >= self->size) UArray_setSize_(self, pos + 1);
-	
+
 	//if(UArray_longAt_(self, pos) != v)
 	{
 		UARRAY_RAWAT_PUT_(self, pos, v);
@@ -699,7 +699,7 @@ void UArray_at_putLong_(UArray *self, size_t pos, long v)
 void UArray_at_putDouble_(UArray *self, size_t pos, double v)
 {
 	if(pos >= self->size) UArray_setSize_(self, pos + 1);
-	
+
 	//if(UArray_doubleAt_(self, pos) != v)
 	{
 		UARRAY_RAWAT_PUT_(self, pos, v);
@@ -710,18 +710,18 @@ void UArray_at_putDouble_(UArray *self, size_t pos, double v)
 void UArray_at_putPointer_(UArray *self, size_t pos, void *v)
 {
 	if (pos >= self->size) UArray_setSize_(self, pos + 1);
-	
+
 	switch (self->itemType)
-	{	
-		case CTYPE_uintptr_t: 
+	{
+		case CTYPE_uintptr_t:
 			if(((void **)self->data)[pos] != v)
 			{
-				((void **)self->data)[pos] = v; 
+				((void **)self->data)[pos] = v;
 				UArray_changed(self);
 			}
-			return;	
+			return;
 	}
-	
+
 	UArray_error_(self, "UArray_at_putPointer_ not supported with this type");
 }
 
@@ -747,25 +747,25 @@ void UArray_appendBytes_size_(UArray *self, uint8_t *bytes, size_t size)
 }
 
 void UArray_at_putAll_(UArray *self, size_t pos, const UArray *other)
-{	
+{
 	if (other->size == 0) return;
-	
+
 	if (pos > self->size)
 	{
 		UArray_setSize_(self, pos);
 	}
-	
+
 	{
 		size_t chunkSize = self->size - pos;
 		size_t originalSelfSize = self->size;
-		
+
 		UArray_setSize_(self, self->size + other->size);
-		
+
 		{
 			UArray oldChunk = UArray_stackRange(self, pos, chunkSize);
 			UArray newChunk = UArray_stackRange(self, pos + other->size, chunkSize);
 			UArray insertChunk = UArray_stackRange(self, pos, other->size);
-			
+
 			if (
 				//(&newChunk)->data == 0x0 ||
 				(&insertChunk)->data == 0x0)
@@ -784,13 +784,13 @@ void UArray_at_putAll_(UArray *self, size_t pos, const UArray *other)
 				insertChunk = UArray_stackRange(self, pos, other->size);
 				return;
 			}
-			
+
 			if (newChunk.size) //UArray_copy_(&newChunk, &oldChunk); // copy chunk to end
 			UArray_copyItems_(&newChunk, &oldChunk);
 			//UArray_copy_(&insertChunk, other); // insert other
 			UArray_copyItems_(&insertChunk, other);
 		}
-		
+
 		UArray_changed(self);
 	}
 }
@@ -851,7 +851,7 @@ void UArray_at_putAll_(UArray *self, size_t pos, const UArray *other)
 }
 
 int UArray_compare_(const UArray *self, const UArray *other)
-{	
+{
 	DUARRAY_OP(UARRAY_COMPARE_TYPES, NULL, self, other);
 	return 0;
 }
@@ -867,7 +867,7 @@ int UArray_greaterThan_(const UArray *self, const UArray *other)
 {
 	if(self->encoding == CENCODING_NUMBER)
 	{ DUARRAY_OP(UARRAY_GT_TYPES, NULL, self, other); }
-	
+
 	return UArray_compare_(self, other) > 0;
 }
 
@@ -875,7 +875,7 @@ int UArray_lessThan_(const UArray *self, const UArray *other)
 {
 	if(self->encoding == CENCODING_NUMBER)
 	{ DUARRAY_OP(UARRAY_LT_TYPES, NULL, self, other); }
-	
+
 	return UArray_compare_(self, other) < 0;
 }
 
@@ -886,7 +886,7 @@ int UArray_greaterThanOrEqualTo_(const UArray *self, const UArray *other)
 		if (UArray_greaterThan_(self, other) | UArray_equals_(self, other))
 		{ return 1; } else { return 0; }
 	}
-	
+
 	return UArray_compare_(self, other) >= 0;
 }
 
@@ -897,14 +897,14 @@ int UArray_lessThanOrEqualTo_(const UArray *self, const UArray *other)
 		if (UArray_lessThan_(self, other) | UArray_equals_(self, other))
 		{ return 1; } else { return 0; }
 	}
-	
+
 	return UArray_compare_(self, other) <= 0;
 }
 
 int UArray_isZero(const UArray *self)
 {
-    UARRAY_FOREACH(self, i, v, if (v) return 0;)
-    return 1;
+	UARRAY_FOREACH(self, i, v, if (v) return 0;)
+	return 1;
 }
 
 // find
@@ -946,7 +946,7 @@ long UArray_find_from_(const UArray *self, const UArray *other, size_t from)
 {
 	UArray s = UArray_stackRange(self, from, self->size - from);
 	long i = UArray_find_(&s, other);
-	
+
 	return i == -1 ? -1 : from + i;
 }
 
@@ -1098,9 +1098,9 @@ int UArray_isSignedType(const UArray *self)
 		case CTYPE_int8_t:    return 1;
 		case CTYPE_int16_t:   return 1;
 		case CTYPE_int32_t:   return 1;
-		case CTYPE_int64_t:   return 1;	
-		case CTYPE_float32_t: return 1;	
-		case CTYPE_float64_t: return 1;	
+		case CTYPE_int64_t:   return 1;
+		case CTYPE_float32_t: return 1;
+		case CTYPE_float64_t: return 1;
 	}
 	return 0;
 }
@@ -1108,22 +1108,22 @@ int UArray_isSignedType(const UArray *self)
 size_t UArray_wrapPos_(const UArray *self, long pos)
 {
 	long size = self->size;
-	
-	if (pos > size - 1) 
+
+	if (pos > size - 1)
 	{
 		return size;
 	}
-	
-	if (pos < 0) 
+
+	if (pos < 0)
 	{
-		pos = size + pos; 
-		
-		if (pos < 0) 
+		pos = size + pos;
+
+		if (pos < 0)
 		{
 			pos = 0;
 		}
 	}
-	
+
 	return pos;
 }
 
@@ -1145,9 +1145,9 @@ void UArray_sort(UArray *self)
 {
 	void *base = self->data;
 	size_t size = self->size;
-	
+
 	UArray_changed(self);
-	
+
 	switch(self->itemType)
 	{
 		case CTYPE_uint8_t:   qsort(base, size,  sizeof(uint8_t),  (UArraySortCallback *)cmp_uint8_t);   return;
@@ -1172,19 +1172,19 @@ void UArray_sortBy_(UArray *self, UArraySortCallback *cmp)
 	size_t size = self->size;
 
 	UArray_changed(self);
-	
+
 	switch(self->itemType)
 	{
 		case CTYPE_uint8_t:   qsort(base, size,  sizeof(uint8_t),  cmp); return;
 		case CTYPE_uint16_t:  qsort(base, size, sizeof(uint16_t),  cmp); return;
 		case CTYPE_uint32_t:  qsort(base, size, sizeof(uint32_t),  cmp); return;
 		case CTYPE_uint64_t:  qsort(base, size, sizeof(uint64_t),  cmp); return;
-			
+
 		case CTYPE_int8_t:    qsort(base, size,  sizeof(int8_t),   cmp); return;
 		case CTYPE_int16_t:   qsort(base, size, sizeof(int16_t),   cmp); return;
 		case CTYPE_int32_t:   qsort(base, size, sizeof(int32_t),   cmp); return;
 		case CTYPE_int64_t:   qsort(base, size, sizeof(int64_t),   cmp); return;
-			
+
 		case CTYPE_float32_t: qsort(base, size, sizeof(float32_t), cmp); return;
 		case CTYPE_float64_t: qsort(base, size, sizeof(float64_t), cmp); return;
 		case CTYPE_uintptr_t: qsort(base, size, sizeof(uintptr_t), cmp); return;

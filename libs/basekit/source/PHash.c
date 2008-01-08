@@ -14,13 +14,13 @@ docLicense("BSD revised")
 void PHash_print(PHash* self)
 {
 	printf("self->log2tableSize = %d\n", self->log2tableSize);
-    printf("self->tableSize = %d\n", self->tableSize);
-    printf("self->numKeys = %d\n", self->numKeys);
+	printf("self->tableSize = %d\n", self->tableSize);
+	printf("self->numKeys = %d\n", self->numKeys);
 
-    printf("self->mask = %d\n", self->mask);
-    printf("self->balance = %d\n", self->balance);
-    printf("self->maxLoops = %d\n", PHash_maxLoops(self));
-    printf("self->maxKeys = %d\n", PHash_maxKeys(self));
+	printf("self->mask = %d\n", self->mask);
+	printf("self->balance = %d\n", self->balance);
+	printf("self->maxLoops = %d\n", PHash_maxLoops(self));
+	printf("self->maxKeys = %d\n", PHash_maxKeys(self));
 
 	printf("self->nullRecord.key = %d\n", self->nullRecord.key);
 	printf("self->nullRecord.value = %d\n", self->nullRecord.value);
@@ -31,7 +31,7 @@ void PHash_print(PHash* self)
 	{
 		unsigned int i,j;
 		int count[2] = {0,0};
-		
+
 		for (j = 0; j < 2; j ++)
 		{
 			for (i = 0; i < self->tableSize; i ++)
@@ -44,7 +44,7 @@ void PHash_print(PHash* self)
 					else
 						printf("!");
 				}
-				else 
+				else
 				{
 					printf("x");
 					count[j]++;
@@ -56,7 +56,7 @@ void PHash_print(PHash* self)
 	}
 }
 
-void PHash_tableInit_(PHash* self, int log2tableSize) 
+void PHash_tableInit_(PHash* self, int log2tableSize)
 {
 	if (log2tableSize > 20)
 		printf("ouuups");
@@ -67,14 +67,14 @@ void PHash_tableInit_(PHash* self, int log2tableSize)
 	self->mask = self->tableSize-1;
 }
 
-PHash *PHash_new(void) 
+PHash *PHash_new(void)
 {
 	PHash *self = (PHash *)io_calloc(1, sizeof(PHash));
-	memset(self, 0x0, sizeof(PHash)); 
+	memset(self, 0x0, sizeof(PHash));
 	self->numKeys = 0;
 	PHash_tableInit_(self, 1);
 	//printf("ok");
-	return self; 
+	return self;
 }
 
 PHash *PHash_clone(PHash *self)
@@ -91,13 +91,13 @@ void PHash_free(PHash *self)
 }
 
 size_t PHash_memorySize(PHash *self)
-{ 
+{
 	return sizeof(PHash) + (self->tableSize * 2 * sizeof(PHashRecord));
 }
 
 void PHash_compact(PHash *self)
-{ 
-	printf("need to implement PHash_compact\n"); 
+{
+	printf("need to implement PHash_compact\n");
 }
 
 void PHash_copy_(PHash *self, PHash *other)
@@ -110,7 +110,7 @@ void PHash_copy_(PHash *self, PHash *other)
 
 /*	this is where our cuckoo acts :
 	it kicks records out of nests until it finds an empty nest or gets tired
-	returns the empty nest if found, or NULL if it is too tired 
+	returns the empty nest if found, or NULL if it is too tired
 */
 PHashRecord *PHash_cuckoo_(PHash *self, PHashRecord* thisRecord)
 {
@@ -136,7 +136,7 @@ PHashRecord *PHash_cuckoo_(PHash *self, PHashRecord* thisRecord)
 
 				hash = PHash_hash_more(self, PHash_hash(self, thisRecord->key));
 				record = PHASH_RECORDS_AT_HASH_(self, 1, hash);
-				if (NULL == record->key) 
+				if (NULL == record->key)
 					return record;
 				else
 					PHashRecord_swap(record, thisRecord);
@@ -150,7 +150,7 @@ PHashRecord *PHash_cuckoo_(PHash *self, PHashRecord* thisRecord)
 			{
 				hash = PHash_hash(self, thisRecord->key);
 				record = PHASH_RECORDS_AT_HASH_(self, 0, hash);
-				if (NULL == record->key) 
+				if (NULL == record->key)
 					return record;
 				else
 					PHashRecord_swap(record, thisRecord);
@@ -160,7 +160,7 @@ PHashRecord *PHash_cuckoo_(PHash *self, PHashRecord* thisRecord)
 
 				hash = PHash_hash_more(self, PHash_hash(self, thisRecord->key));
 				record = PHASH_RECORDS_AT_HASH_(self, 1, hash);
-				if (NULL == record->key) 
+				if (NULL == record->key)
 					return record;
 				else
 					PHashRecord_swap(record, thisRecord);
@@ -196,7 +196,7 @@ void PHash_grow(PHash *self)
 		{
 			PHashRecord thisRecord = oldRecords[i];
 			i++;
-			
+
 			if (thisRecord.key)
 			{
 				PHashRecord *record = PHash_cuckoo_(self, &thisRecord);
@@ -217,13 +217,13 @@ void PHash_growWithRecord(PHash *self, PHashRecord* thisRecord)
 {
 	// put the value anywhere, PHash_grow will rehash
 	unsigned int i,j;
-	
+
 	for (j = 0; j < 2; j ++)
 	for (i = 0; i < self->tableSize; i ++)
 	{
 		PHashRecord *record = PHASH_RECORDS_AT_(self, j, i);
 
-		if (record != &self->nullRecord && NULL == record->key) 
+		if (record != &self->nullRecord && NULL == record->key)
 		{
 			*record = *thisRecord;
 			self->numKeys ++;
@@ -240,12 +240,12 @@ void PHash_removeValue_(PHash *self, void *value)
 {
 	PHashRecord *record;
 	int index = 0;
-	
+
 	while (index < self->tableSize*2)
 	{
 		record = self->records + index;
 		index ++;
-		
+
 		if (record->key && record->value == value)
 		{
 			self->numKeys --;
@@ -258,14 +258,14 @@ void PHash_removeValue_(PHash *self, void *value)
 void *PHash_firstKeyForValue_(PHash *self, void *v)
 {
 	unsigned int i,j;
-	
+
 	for (j = 0; j < 2; j ++)
 	for (i = 0; i < self->tableSize; i ++)
 	{
 		PHashRecord *record = PHASH_RECORDS_AT_(self, j, i);
 
 		if (record->key && record->value == v)
-			return record->key; 
+			return record->key;
 	}
 	return NULL;
 }

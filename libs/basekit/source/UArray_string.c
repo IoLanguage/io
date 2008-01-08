@@ -1,9 +1,9 @@
-/*   
+/*
 	copyright: Steve Dekorte, 2006. All rights reserved.
 	license: See _BSDLicense.txt.
 */
 
-#include "UArray.h" 
+#include "UArray.h"
 #include <string.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -34,16 +34,16 @@ int UArray_equalsAnyCase_(const UArray *self, const UArray *other)
 	{
 		return UArray_findAnyCase_(self, other) == 0;
 	}
-	
+
 	return 0;
 }
 
 void UArray_replace_with_(UArray *self, const UArray *a1, const UArray *a2)
-{	
+{
 	long i;
 	size_t start = 0;
 	UArray visible = UArray_stackRange(self, start, self->size);
-	
+
 	while ((i = UArray_find_(&visible, a1)) != -1)
 	{
 		size_t index = start + i;
@@ -63,11 +63,11 @@ BASEKIT_API void UArray_replaceCString_withCString_(UArray *self, const char *s1
 }
 
 void UArray_replaceAnyCase_with_(UArray *self, const UArray *a1, const UArray *a2)
-{	
+{
 	long i;
 	size_t start = 0;
 	UArray visible = UArray_stackRange(self, start, self->size);
-	
+
 	while ((i = UArray_findAnyCase_(&visible, a1)) != -1)
 	{
 		size_t index = start + i;
@@ -76,7 +76,7 @@ void UArray_replaceAnyCase_with_(UArray *self, const UArray *a1, const UArray *a
 		start = index + a2->size;
 		visible = UArray_stackRange(self, start, self->size - start);
 	}
-	
+
 	UArray_changed(self);
 }
 
@@ -92,66 +92,66 @@ BASEKIT_API void UArray_removeAnyCase_(UArray *self, const UArray *a1)
 	UArray_replaceAnyCase_with_(self, a1, &blank);
 }
 
-// clipping 
+// clipping
 
 BASEKIT_API int UArray_clipBefore_(UArray *self, const UArray *other)
 {
 	long index = UArray_find_(self, other);
-	
+
 	if (index > -1)
 	{
 		UArray_removeRange(self, 0, index);
 		return 1;
 	}
-	
+
 	return 0;
 }
 
 BASEKIT_API int UArray_clipBeforeEndOf_(UArray *self, const UArray *other)
 {
 	long index = UArray_find_(self, other);
-	
+
 	if (index > -1)
 	{
 		UArray_removeRange(self, 0, index + other->size);
 		return 1;
 	}
-	
+
 	return 0;
 }
 
 BASEKIT_API int UArray_clipAfter_(UArray *self, const UArray *other)
 {
 	long index = UArray_find_(self, other);
-	
+
 	if (index > -1)
 	{
 		UArray_removeRange(self, index + other->size, self->size);
 		return 1;
 	}
-	
+
 	return 0;
 }
 
 BASEKIT_API int UArray_clipAfterStartOf_(UArray *self, const UArray *other)
 {
 	long index = UArray_find_(self, other);
-	
+
 	if (index > -1)
 	{
 		UArray_removeRange(self, index, self->size);
 		return 1;
 	}
-	
+
 	return 0;
 }
 
-// strip 
+// strip
 
 void UArray_lstrip_(UArray *self, const UArray *other)
 {
 	size_t index = 0;
-	
+
 	if (UArray_isFloatType(self))
 	{
 		UARRAY_FOREACH(self, i, v, index = i; if (!UArray_containsDouble_(other, v)) break; )
@@ -160,16 +160,16 @@ void UArray_lstrip_(UArray *self, const UArray *other)
 	{
 		UARRAY_FOREACH(self, i, v, index = i; if (!UArray_containsLong_(other, v)) break; )
 	}
-	
+
 	UArray_removeRange(self, 0, index);
 }
 
 void UArray_rstrip_(UArray *self, const UArray *other)
 {
 	if (self->size)
-	{	
+	{
 		size_t index = self->size - 1;
-		
+
 		if (UArray_isFloatType(self))
 		{
 			UARRAY_RFOREACH(self, i, v, index = i; if (!UArray_containsDouble_(other, v)) break; )
@@ -178,7 +178,7 @@ void UArray_rstrip_(UArray *self, const UArray *other)
 		{
 			UARRAY_RFOREACH(self, i, v, index = i; if (!UArray_containsLong_(other, v)) break; )
 		}
-		
+
 		UArray_removeRange(self, index + 1, self->size);
 	}
 }
@@ -189,7 +189,7 @@ BASEKIT_API void UArray_strip_(UArray *self, const UArray *other)
 	UArray_rstrip_(self, other);
 }
 
-// swap 
+// swap
 
 BASEKIT_API void UArray_swapIndex_withIndex_(UArray *self, size_t i, size_t j)
 {
@@ -198,7 +198,7 @@ BASEKIT_API void UArray_swapIndex_withIndex_(UArray *self, size_t i, size_t j)
 	void *ip = data + i * itemSize;
 	void *jp = data + j * itemSize;
 	UArrayValueUnion b;
-	
+
 	memcpy(&b, ip, sizeof(UArray));
 	memcpy(ip, jp, sizeof(UArray));
 	memcpy(jp, &b, sizeof(UArray));
@@ -214,12 +214,12 @@ BASEKIT_API void UArray_reverse(UArray *self)
 	UArrayValueUnion b;
 	int itemSize = self->itemSize;
 	uint8_t *data = self->data;
-	
+
 	while (j > i)
 	{
 		void *ip = data + i * itemSize;
 		void *jp = data + j * itemSize;
-		
+
 		memcpy(&b, ip, itemSize);
 		memcpy(ip, jp, itemSize);
 		memcpy(jp, &b, itemSize);
@@ -227,7 +227,7 @@ BASEKIT_API void UArray_reverse(UArray *self)
 		j --;
 		i ++;
 	}
-	
+
 	UArray_changed(self);
 }
 
@@ -257,32 +257,32 @@ PtrUArray *UArray_split_(const UArray *self, const PtrUArray *delims)
 	PtrUArray *results = UArray_new();
 	size_t i, last = 0;
 	UArray_setItemType_(results, CTYPE_uintptr_t);
-	
+
 	for (i = 0; i < self->size; i ++)
 	{
 		UArray slice = UArray_stackRange(self, i, self->size - i);
-		size_t j; 
-		
+		size_t j;
+
 		for (j = 0; j < delims->size; j ++)
 		{
 			UArray *delim = UArray_rawPointerAt_(delims, j);
-			
+
 			if (UArray_beginsWith_(&slice, delim))
 			{
 				UArray_appendPointer_(results, UArray_range(self, last, i - last));
-				
+
 				last = i + delim->size;
-				i = last - 1; // since for() will increment it 
+				i = last - 1; // since for() will increment it
 				break;
 			}
 		}
 	}
-	
+
 	if (last != self->size)
 	{
 		UArray_appendPointer_(results, UArray_range(self, last, self->size - last));
 	}
-	
+
 	return results;
 }
 
@@ -294,7 +294,7 @@ size_t UArray_splitCount_(const UArray *self, const PtrUArray *delims)
 	return count;
 }
 
-// find 
+// find
 
 BASEKIT_API int UArray_beginsWith_(UArray *self, const UArray *other)
 {
@@ -303,7 +303,7 @@ BASEKIT_API int UArray_beginsWith_(UArray *self, const UArray *other)
 		UArray tmp = UArray_stackRange(self, 0, other->size);
 		return UArray_find_(&tmp, other) != -1;
 	}
-	
+
 	return 0;
 }
 
@@ -314,7 +314,7 @@ BASEKIT_API int UArray_endsWith_(UArray *self, const UArray *other)
 		UArray tmp = UArray_stackRange(self, self->size - other->size, other->size);
 		return UArray_find_(&tmp, other) != -1;
 	}
-	
+
 	return 0;
 }
 
@@ -333,10 +333,10 @@ void UArray_escape(UArray *self)
 {
 	UArray *out = UArray_new();
 	out->itemType = self->itemType;
-	
-	UARRAY_FOREACH(self, i, v, 
+
+	UARRAY_FOREACH(self, i, v,
 		switch ((int)v)
-		{ 
+		{
 			case '"':  UArray_appendCString_(out, "\\\""); break;
 			case '\a': UArray_appendCString_(out, "\\a"); break;
 			case '\b': UArray_appendCString_(out, "\\b"); break;
@@ -348,7 +348,7 @@ void UArray_escape(UArray *self)
 			case '\\': UArray_appendCString_(out, "\\\\"); break;
 			default:   UArray_appendLong_(out, v);
 		}
-    );
+	);
 
 	UArray_swapWith_(self, out);
 	UArray_free(out);
@@ -359,25 +359,25 @@ void UArray_unescape(UArray *self)
 {
 	size_t getIndex = 0;
 	size_t putIndex = 0;
-	
+
 	while (getIndex < self->size)
 	{
 		long c = UArray_longAt_(self, getIndex);
 		long nextChar = UArray_longAt_(self, getIndex + 1);
-		
+
 		if (c != '\\')
-		{				
-			if (getIndex != putIndex) 
-			{  
-				UArray_at_putLong_(self, putIndex, c); 
+		{
+			if (getIndex != putIndex)
+			{
+				UArray_at_putLong_(self, putIndex, c);
 			}
-			
+
 			putIndex ++;
 		}
 		else
 		{
 			c = nextChar;
-			
+
 			switch (c)
 			{
 				case  'a': c = '\a'; break;
@@ -391,18 +391,18 @@ void UArray_unescape(UArray *self)
 				default:
 					if (isdigit(c))
 					{
-						c -= 48; 
+						c -= 48;
 					}
 			}
-			
-			UArray_at_putLong_(self, putIndex, c); 
-			getIndex ++; 
+
+			UArray_at_putLong_(self, putIndex, c);
+			getIndex ++;
 			putIndex ++;
 		}
-		
+
 		getIndex ++;
 	}
-	
+
 	UArray_setSize_(self, putIndex);
 	UArray_changed(self);
 }
@@ -418,7 +418,7 @@ void UArray_quote(UArray *self)
 void UArray_unquote(UArray *self)
 {
 	UArray q = UArray_stackAllocedWithCString_("\"");
-	
+
 	if(UArray_beginsWith_(self, &q) && UArray_endsWith_(self, &q))
 	{
 		UArray_removeFirst(self);
@@ -432,45 +432,45 @@ void UArray_translate(UArray *self, UArray *fromChars, UArray *toChars)
 	size_t max = 4096;
 	long fromMax = UArray_maxAsDouble(fromChars);
 	long toMax   = UArray_maxAsDouble(toChars);
-	
+
 	if (UArray_size(fromChars) != UArray_size(toChars))
 	{
 		printf("UArray_translate: translation strings must be of the same length");
 		return;
 	}
-	
+
 	if ((0 < fromMax && fromMax < max) && (0 < toMax && toMax < 256))
 	{
 		size_t i;
-		uint8_t *map = io_calloc(1, fromMax); 
+		uint8_t *map = io_calloc(1, fromMax);
 		memset(map, 0x0, fromMax);
-		
+
 		for(i = 0; i < UArray_size(fromChars); i ++)
 		{
 			map[UArray_longAt_(fromChars, i)] = UArray_longAt_(toChars, i);
 		}
-		
+
 		for(i = 0; i < UArray_size(self); i ++)
 		{
 			self->data[i] = map[self->data[i]];
-		}		
-		
+		}
+
 		io_free(map);
 		return;
 	}
 
 	/*
 	 UARRAY_FOREACH(self, i, currChar,
-				 UARRAY_FOREACH(fromChars, j, fromChar, 
-							 if(currChar == fromChar) 
-							 { 
-								 UARRAY_RAWAT_PUT_(self, i, UARRAY_RAWAT_(toChars, j)); 
-								 break; 
+				 UARRAY_FOREACH(fromChars, j, fromChar,
+							 if(currChar == fromChar)
+							 {
+								 UARRAY_RAWAT_PUT_(self, i, UARRAY_RAWAT_(toChars, j));
+								 break;
 							 }
 							 );
 				 );
 	 */
-	 	
+
 	UArray_error_(self, "UArray_translate unimplemented for this type");
 }
 
@@ -478,7 +478,7 @@ size_t UArray_count_(const UArray *self, const UArray *other)
 {
 	long i = 0;
 	size_t count = 0;
-	
+
 	while ((i = UArray_find_from_(self, other, i)) != -1)
 	{
 		i += UArray_size(other);

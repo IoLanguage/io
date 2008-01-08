@@ -2,12 +2,12 @@
 docCopyright("Steve Dekorte", 2002)
 docLicense("BSD revised")
 docDescription("""
-    Stack - array of void pointers
-    supports setting marks - when a mark is popped,
-    all stack items above it are popped as well 
-    
-    Designed to optimize push, pushMark and popMark 
-    at the expense of pop (since pop requires a mark check)
+	Stack - array of void pointers
+	supports setting marks - when a mark is popped,
+	all stack items above it are popped as well
+
+	Designed to optimize push, pushMark and popMark
+	at the expense of pop (since pop requires a mark check)
 """)
 */
 
@@ -26,11 +26,11 @@ extern "C" {
 #endif
 
 #ifdef LOW_MEMORY_SYSTEM
-  #define STACK_START_SIZE 512
-  #define STACK_RESIZE_FACTOR 2
+	#define STACK_START_SIZE 512
+	#define STACK_RESIZE_FACTOR 2
 #else
-  #define STACK_START_SIZE 512
-  #define STACK_RESIZE_FACTOR 2
+	#define STACK_START_SIZE 512
+	#define STACK_RESIZE_FACTOR 2
 #endif
 
 typedef void (StackDoCallback)(void *);
@@ -68,7 +68,7 @@ BASEKIT_API void Stack_resize(Stack *self);
 
 BASEKIT_API void Stack_popToMark_(Stack *self, intptr_t mark);
 
-// not high performance 
+// not high performance
 
 BASEKIT_API void Stack_makeMarksNull(Stack *self);
 BASEKIT_API Stack *Stack_newCopyWithNullMarks(const Stack *self);

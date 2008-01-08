@@ -29,26 +29,26 @@ typedef struct
 } BStream;
 
 /*
-#define BStream_ba_(self, v) self->ba = v; 
-#define BStream_ba(self) (self->ba) 
+#define BStream_ba_(self, v) self->ba = v;
+#define BStream_ba(self) (self->ba)
 
-#define BStream_index_(self, v) self->index = v; 
-#define BStream_index(self) (self->index) 
+#define BStream_index_(self, v) self->index = v;
+#define BStream_index(self) (self->index)
 
-#define BStream_ownsUArray_(self, v) self->ownsUArray = v; 
-#define BStream_ownsUArray(self) (self->ownsUArray) 
+#define BStream_ownsUArray_(self, v) self->ownsUArray = v;
+#define BStream_ownsUArray(self) (self->ownsUArray)
 
-#define BStream_tmp_(self, v) self->tmp = v; 
-#define BStream_tmp(self) (self->tmp) 
+#define BStream_tmp_(self, v) self->tmp = v;
+#define BStream_tmp(self) (self->tmp)
 
-#define BStream_errorBa_(self, v) self->errorBa = v; 
-#define BStream_errorBa(self) (self->errorBa) 
+#define BStream_errorBa_(self, v) self->errorBa = v;
+#define BStream_errorBa(self) (self->errorBa)
 
-#define BStream_flipEndian_(self, v) self->flipEndian = v; 
-#define BStream_flipEndian(self) (self->flipEndian) 
+#define BStream_flipEndian_(self, v) self->flipEndian = v;
+#define BStream_flipEndian(self) (self->flipEndian)
 
-#define BStream_typeBuf_(self, v) self->typeBuf = v; 
-#define BStream_typeBufs(self) (self->typeBuf) 
+#define BStream_typeBuf_(self, v) self->typeBuf = v;
+#define BStream_typeBufs(self) (self->typeBuf)
 */
 
 BASEKIT_API BStream *BStream_new(void);
@@ -62,7 +62,7 @@ BASEKIT_API UArray *BStream_byteArray(BStream *self);
 BASEKIT_API void BStream_empty(BStream *self);
 BASEKIT_API int BStream_isEmpty(BStream *self);
 
-// writing -------------------------------------- 
+// writing --------------------------------------
 
 BASEKIT_API void BStream_writeByte_(BStream *self, unsigned char v);
 
@@ -77,7 +77,7 @@ BASEKIT_API void BStream_writeData_length_(BStream *self, const unsigned char *d
 BASEKIT_API void BStream_writeCString_(BStream *self, const char *s);
 BASEKIT_API void BStream_writeUArray_(BStream *self, UArray *ba);
 
-// reading -------------------------------------- 
+// reading --------------------------------------
 
 BASEKIT_API unsigned char BStream_readByte(BStream *self);
 
@@ -93,7 +93,7 @@ BASEKIT_API void BStream_readUArray_(BStream *self, UArray *b);
 BASEKIT_API UArray *BStream_readUArray(BStream *self);
 BASEKIT_API const char *BStream_readCString(BStream *self);
 
-// tagged writing -------------------------------------- 
+// tagged writing --------------------------------------
 
 BASEKIT_API void BStream_writeTaggedUint8_(BStream *self, uint8_t v);
 BASEKIT_API void BStream_writeTaggedUint32_(BStream *self, uint32_t v);

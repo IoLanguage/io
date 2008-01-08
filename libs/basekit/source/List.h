@@ -2,12 +2,12 @@
 docCopyright("Steve Dekorte", 2002)
 docLicense("BSD revised")
 docDescription("""
-    List - an array of void pointers
-    User is responsible for io_freeing items
+	List - an array of void pointers
+	User is responsible for io_freeing items
 """)
 */
 
-#ifndef LIST_DEFINED 
+#ifndef LIST_DEFINED
 #define LIST_DEFINED 1
 
 #include "Common.h"
@@ -20,15 +20,15 @@ extern "C" {
 #endif
 
 #ifdef LOW_MEMORY_SYSTEM
-  #define LIST_START_SIZE 1
-  #define LIST_RESIZE_FACTOR 2
+	#define LIST_START_SIZE 1
+	#define LIST_RESIZE_FACTOR 2
 #else
-  #define LIST_START_SIZE 1
-  #define LIST_RESIZE_FACTOR 2
+	#define LIST_START_SIZE 1
+	#define LIST_RESIZE_FACTOR 2
 #endif
 
 #define LIST_AT_(self, n) self->items[n]
-				 
+
 
 typedef void  (ListDoCallback)(void *);
 typedef void  (ListDoWithCallback)(void *, void *);
@@ -40,13 +40,13 @@ typedef int   (ListCompareFunc)(const void *, const void *);
 
 typedef struct
 {
-    void **items;
-    size_t size;
-    size_t memSize;
+	void **items;
+	size_t size;
+	size_t memSize;
 } List;
 
-typedef struct 
-{	
+typedef struct
+{
 	List *list;
 	size_t index;
 } ListCursor;
@@ -65,7 +65,7 @@ BASEKIT_API size_t List_memorySize(const List *self);
 
 BASEKIT_API UArray List_asStackAllocatedUArray(List *self);
 
-// sizing  
+// sizing
 
 BASEKIT_API void List_preallocateToSize_(List *self, size_t index);
 BASEKIT_API void List_setSize_(List *self, size_t index);
