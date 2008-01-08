@@ -108,7 +108,6 @@ IoObject *IoObject_protoFinish(void *state)
 	{"clone", IoObject_clone},
 	{"cloneWithoutInit", IoObject_cloneWithoutInit},
 	{"shallowCopy", IoObject_shallowCopy},
-	{"duplicate", IoObject_duplicate},
 	//{"print", IoObject_protoPrint},
 	{"write", IoObject_protoWrite},
 	{"writeln", IoObject_protoWriteLn},
@@ -1099,26 +1098,9 @@ IoObject *IoObject_shallowCopy(IoObject *self, IoObject *locals, IoMessage *m)
 	/*#io
 	docSlot("shallowCopy", "Returns a shallow copy of the receiver.")
 	*/
-
+	
 	IoObject *newObject = IoObject_new(IOSTATE);
 	PHASH_FOREACH(IoObject_slots(self), k, v, IoObject_setSlot_to_(newObject, k, v) );
-	return newObject;
-}
-
-IoObject *IoObject_duplicate(IoObject *self, IoObject *locals, IoMessage *m)
-{
-	/*#io
-	docSlot("duplicate", "Creates a new copy of the receiver, including its proto list.")
-	*/
-
-	IoObject *newObject;
-	IoState *state = IOSTATE;
-
-	IoState_pushCollectorPause(state);
-	newObject = IoObject_new(state);
-	memmove(newObject, self, sizeof(*self));
-	IoState_addValue_(state, newObject);
-	IoState_popCollectorPause(state);
 	return newObject;
 }
 

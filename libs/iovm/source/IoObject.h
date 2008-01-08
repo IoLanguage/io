@@ -107,7 +107,6 @@ IOVM_API void IoObject_show(IoObject *self);
 IOVM_API IoObject *IoObject_clone(IoObject *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoObject_cloneWithoutInit(IoObject *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoObject_shallowCopy(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_duplicate(IoObject *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoObject_initClone_(IoObject *self, IoObject *locals, IoMessage *m, IoObject *newObject);
 
 // printing
