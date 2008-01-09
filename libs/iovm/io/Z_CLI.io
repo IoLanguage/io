@@ -206,6 +206,7 @@ CLI := Object clone do(
 
 				# If the error can't be fixed by continuing the line, report the error.
 				compileError showStack
+				lineReader addHistory(line)
 				return
 			)
 
