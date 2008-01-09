@@ -138,6 +138,8 @@ Socket do(
 
 	streamReadNextChunk := method(
 		self setSocketReadLowWaterMark(1)
+		while(asyncStreamRead(readBuffer, bytesPerRead), nil)
+		if(self isOpen == false, return(isOpen))
 		readEvent waitOn(readTimeout) ifFalse(return false)
 		while(asyncStreamRead(readBuffer, bytesPerRead), nil)
 		//writeln("streamReadNextChunk readBuffer size = ", readBuffer size)
