@@ -9,6 +9,8 @@ docLicense("BSD revised")
 
 #define DATA(self) ((IoMessageData *)IoObject_dataPointer(self))
 
+#define IO_OP_MAX_LEVEL 32
+
 IoMap *IoState_createOperatorTable(IoState *state)
 {
 	typedef struct OpTable {
@@ -99,11 +101,6 @@ IoMap *IoState_createAssignOperatorTable(IoState *state)
 	return self;
 }
 
-
-// TODO move the IO_OP_MAX_LEVEL define to be adjacent to the op table.
-// TODO Set IO_OP_MAX_LEVEL to max-1 or something massive otherwise people playing with custom operators don't have many levels available
-#define IO_OP_MAX_LEVEL 17
-
 enum LevelType {ATTACH, ARG, NEW, UNUSED};
 
 typedef struct {
@@ -172,6 +169,7 @@ Levels *Levels_new(IoMessage *msg)
 		{
 			opTable = IoObject_new(state);
 			IoObject_setSlot_to_(state->core, operatorTableSymbol, opTable);
+			IoObject_setSlot_to_(opTable, IoState_symbolWithCString_(state, "precedenceLevelCount"), IoState_numberWithDouble_(state, IO_OP_MAX_LEVEL));
 		}
 	}
 
@@ -335,7 +333,13 @@ int Levels_levelForOp(Levels *self, char *messageName, IoSymbol *messageSymbol, 
 
 	if (ISNUMBER(value))
 	{
-		return IoNumber_asInt((IoNumber*)value);
+		int precedence = IoNumber_asInt((IoNumber*)value);
+		if (precedence < 0 || precedence >= IO_OP_MAX_LEVEL)
+		{
+			IoState_error_(IoObject_state(msg), msg, "compile error: Precedence for operators must be between 0 and %d. Precedence was %d.", IO_OP_MAX_LEVEL - 1, precedence);
+		}
+
+		return precedence;
 	}
 	else
 	{
