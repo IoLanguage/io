@@ -3,4 +3,4 @@
 // ./io CommandLineArgs.io a b c d
 
 writeln("Command line arguments:")
-args foreach(println)
+System args foreach(println)

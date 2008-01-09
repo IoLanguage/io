@@ -104,4 +104,4 @@ Slideshow := GLApp clone do(
     specialDownKey := method(slideNumber = ((slideNumber + 1) min(slides size - 1)))
 )
 
-Slideshow open(args at(0))
+Slideshow open(System args at(0))

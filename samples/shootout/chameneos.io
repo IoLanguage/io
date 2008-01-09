@@ -5,7 +5,7 @@
 
    Contributed by Gavin Harrison */
 
-n := args at(1) asNumber
+n := System args at(1) asNumber
 meetings := 0
 first := second := Nil
 

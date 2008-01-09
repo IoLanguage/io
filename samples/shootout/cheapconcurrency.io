@@ -4,7 +4,7 @@
    http://shootout.alioth.debian.org
    Contributed by Gavin Harrison */
 
-times := args at(1) asNumber
+times := System args at(1) asNumber
 
 Coroutine setStackSize(30000)
 
@@ -25,14 +25,14 @@ last := nil
 )
 
 first := t
-args at(1) asNumber repeat(first @@foo(0))
+System args at(1) asNumber repeat(first @@foo(0))
 
 while(Coroutine yieldingCoros size > 0, yield)
 
 writeln(sum)
 
 /*
-times := args at(1) asNumber
+times := System args at(1) asNumber
 
 sum := 0
 
@@ -71,13 +71,13 @@ mainCoro := Coroutine currentCoroutine
 //Collector setDebug(true)
 
 first := t
-args at(1) asNumber repeat(first receive(0))
+System args at(1) asNumber repeat(first receive(0))
 writeln(sum)
 */
 
 
 /*
-times := args at(1) asNumber
+times := System args at(1) asNumber
 sum := 0
 n := 0
 
@@ -93,7 +93,7 @@ send := method(
 )
 mainCoro := Coroutine currentCoroutine
 
-iters := args at(1) asNumber 
+iters := System args at(1) asNumber
 for(i, 1, iters,
 	n = 500
 	send

@@ -123,8 +123,8 @@ GameClient update := method(id, x, y, angle,
 ServerConnection := Object clone
 ServerConnection setDelegate := method(d, self delegate := d; self)
 ServerConnection setup := method(
-  ip := if(args at(0), args at(0), "67.118.104.220")
-  port := if(args at(1), args at(1), 8888)
+  ip := if(System args at(0), System args at(0), "67.118.104.220")
+  port := if(System args at(1), System args at(1), 8888)
   self socket := Socket clone setHost(ip) setPort(port) connect 
   if (socket == nil, write("Unable to connect to ", ip, " on port ", port, "\n"); exit)
 )

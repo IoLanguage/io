@@ -105,7 +105,7 @@ Slideshow := GLApp clone do(
     specialDownKey := method(slideNumber = (slideNumber + 1) min(slides size - 1))
 )
 
-//Slideshow open(if(args size > 0, args at(1), "slides.txt"))
+//Slideshow open(if(System args size > 0, System args at(1), "slides.txt"))
 path := Path with(launchPath, "slides.txt")
 Slideshow open(path)
 

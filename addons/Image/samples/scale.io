@@ -3,6 +3,7 @@
 
 App := Object clone do(
 	display := method(
+		args := System args
 		e := try(
 			inFile  := args at(0)
 			outFile := args at(1)

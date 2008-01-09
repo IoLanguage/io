@@ -9,7 +9,7 @@
 /* Contributed by Anthony Borla                                       */
 /* ------------------------------------------------------------------ */
 
-n := args at(1) asNumber
+n := System args at(1) asNumber
 
 s0 := 0 ; s1 := 0 ; s2 := 0 ; s3 := 0 ; s4 := 0 ; s5 := 0 ; s6 := 0
 s7 := 0 ; s8 := 0 ; d2 := 0 ; d3 := 0 ; ds := 0 ; dc := 0 ; alt := 1

@@ -105,6 +105,6 @@ Sim := Object clone do(
 //Collector setDebug(true)
 
 Sim energy asString(0,17) println
-Sim advance(args at(1) asNumber, 0.01)
+Sim advance(System args at(1) asNumber, 0.01)
 Sim energy asString(0,9) println
 

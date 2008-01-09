@@ -286,7 +286,6 @@ Object do(
 
 	launchFile := method(path, args,
 		args ifNil(args = List clone)
-		Lobby args := args
 		Lobby launchPath :=  path pathComponent
 		Directory setCurrentWorkingDirectory(Lobby launchPath)
 		System launchScript = path
@@ -480,5 +479,3 @@ Object do(
 			"Evaluates the File in the context of the receiver. Returns the result. pathString is relative to the file calling doRelativeFile. (Duplicate of doRelativeFile)")
 	relativeDoFile := getSlot("doRelativeFile")
 )
-
-Lobby args := method(System args)
