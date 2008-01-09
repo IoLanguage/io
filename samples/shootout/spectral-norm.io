@@ -29,5 +29,5 @@ SNorm:=Object clone do(
       n repeatTimes(u append(0))
       MAv(n,v,u)
       MAtv(n,u,AtAv)))
-n:=args at(1) asNumber
+n:= System args at(1) asNumber
 SNorm App(n) asString(0,9) println

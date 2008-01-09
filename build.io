@@ -8,6 +8,7 @@ Directory fileNamedOrNil := method(path,
 Directory setCurrentWorkingDirectory(launchPath)
 
 project := Project clone
+args := System args clone
 if(args at(1) == "-a") then(
 	project buildAddon(args at(2))
 ) elseif (args at(1)) then(

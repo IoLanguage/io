@@ -30,7 +30,7 @@ GoogleSearch := Object clone do(
     )
 )
 
-GoogleSearch clone find(args at(1)) links foreach(println)
+GoogleSearch clone find(System args at(1)) links foreach(println)
 
 while(Coroutine yieldingCoros size > 1, yield)
 

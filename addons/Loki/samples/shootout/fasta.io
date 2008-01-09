@@ -49,7 +49,7 @@ Fasta := Object clone do(
     )
 )
 
-n := args at(1) asNumber
+n := System args at(1) asNumber
 
 ">ONE Homo sapiens alu" println
 Fasta repeat(2*n, ALU)

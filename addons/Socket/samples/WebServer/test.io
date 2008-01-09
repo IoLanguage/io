@@ -4,7 +4,7 @@
 SocketManager setSelectTimeout(0.0)
 Scheduler setSleepInterval(0)
 
-requestCount := if(args at(0), args at(0) asNumber, 10000) 
+requestCount := if(System args at(0), System args at(0) asNumber, 10000)
 
 t1 := Date clone now
 lastChunkTime := Date clone now

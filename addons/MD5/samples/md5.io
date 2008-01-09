@@ -13,12 +13,12 @@ File md5String := method(
 	digest md5String
 )
 
-if (?args == nil or args size == 0,
+if (System ?args == nil or System args size == 0,
 	write("requires a file name as an argument\n")
 	exit
 )
 
-f := File clone setPath(args at(0))
+f := File clone setPath(System args at(0))
 m1 := f md5String
 m2 := f asBuffer md5String
 write("md5 = ", m1, "\n")
