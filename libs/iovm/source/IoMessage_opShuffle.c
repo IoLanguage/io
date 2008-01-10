@@ -130,6 +130,27 @@ void Levels_reset(Levels *self)
 
 // --- Levels ----------------------------------------------------------
 
+IoMap *getOpTable(IoObject *self, const char *slotName, IoMap *create(IoState *state))
+{
+	IoSymbol *symbol = IoState_symbolWithCString_(IOSTATE, slotName);
+	IoObject *operators = IoObject_rawGetSlot_(self, symbol);
+
+	if (operators && ISMAP(operators))
+	{
+		return operators;
+	}
+	else
+	{
+		// Not strictly correct as if the message has it's own empty
+		// OperatorTable slot, we'll create one for it instead of using
+		// Core Message OperatorTable operators. Oh well.
+
+		IoMap *result = create(IOSTATE);
+		IoObject_setSlot_to_(self, symbol, result);
+		return result;
+	}
+}
+
 Levels *Levels_new(IoMessage *msg)
 {
 	Levels *self = io_calloc(1, sizeof(Levels));
@@ -157,43 +178,8 @@ Levels *Levels_new(IoMessage *msg)
 		}
 	}
 
-	{
-		IoSymbol *operatorsSymbol = IoState_symbolWithCString_(state, "operators");
-		IoObject *operators = IoObject_rawGetSlot_(opTable, operatorsSymbol);
-
-		if (operators && ISMAP(operators))
-		{
-			self->operatorTable = operators;
-		}
-		else
-		{
-			// Not strictly correct as if the message has it's own empty
-			// OperatorTable slot, we'll create one for it instead of using
-			// Core Message OperatorTable operators. Oh well.
-
-			self->operatorTable = IoState_createOperatorTable(state);
-			IoObject_setSlot_to_(opTable, operatorsSymbol, self->operatorTable);
-		}
-	}
-
-	{
-		IoSymbol *assignOperatorsSymbol = IoState_symbolWithCString_(state, "assignOperators");
-		IoObject *assignOperators = IoObject_rawGetSlot_(opTable, assignOperatorsSymbol);
-
-		if (assignOperators && ISMAP(assignOperators))
-		{
-			self->assignOperatorTable = assignOperators;
-		}
-		else
-		{
-			// Not strictly correct as if the message has it's own empty
-			// OperatorTable slot, we'll create one for it instead of using
-			// Core Message OperatorTable operators. Oh well.
-
-			self->assignOperatorTable = IoState_createAssignOperatorTable(state);
-			IoObject_setSlot_to_(opTable, assignOperatorsSymbol, self->assignOperatorTable);
-		}
-	}
+	self->operatorTable = getOpTable(opTable, "operators", IoState_createOperatorTable);
+	self->assignOperatorTable = getOpTable(opTable, "assignOperators", IoState_createAssignOperatorTable);
 
 	self->stack = List_new();
 	Levels_reset(self);
