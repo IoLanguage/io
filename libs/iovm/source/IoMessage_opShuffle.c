@@ -418,6 +418,8 @@ void Levels_attach(Levels *self, IoMessage *msg, List *expressions)
 			IoSymbol *quotedSlotName = IoSeq_newSymbolWithFormat_(state, "\"%s\"", CSTRING(slotName));
 			IoMessage *slotNameMessage = IoMessage_newWithName_returnsValue_(state, quotedSlotName, slotName);
 
+			IoMessage_rawCopySourceLocation(slotNameMessage, attaching);
+
 			// `a := b ;`  ->  `a("a") := b ;`
 			IoMessage_addArg_(attaching, slotNameMessage);
 
@@ -447,6 +449,8 @@ void Levels_attach(Levels *self, IoMessage *msg, List *expressions)
 			{
 				// `()`
 				IoMessage *foo = IoMessage_newWithName_(state, IoState_symbolWithCString_(state, ""));
+
+				IoMessage_rawCopySourceLocation(foo, attaching);
 
 				// `()`  ->  `(b c)`
 				IoMessage_addArg_(foo, arg);
@@ -513,6 +517,8 @@ void Levels_attach(Levels *self, IoMessage *msg, List *expressions)
 		{
 			// move arguments off to their own message to make () after operators behave like C's grouping ()
 			IoMessage *brackets = IoMessage_newWithName_(state, IoState_symbolWithCString_(state, ""));
+
+			IoMessage_rawCopySourceLocation(brackets, msg);
 
 			List_copy_(IoMessage_rawArgList(brackets), IoMessage_rawArgList(msg));
 			List_removeAll(IoMessage_rawArgList(msg));

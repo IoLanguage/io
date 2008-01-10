@@ -181,13 +181,17 @@ void IoMessage_copy_(IoMessage *self, IoMessage *other)
 		}
 	}
 
-
 	if (DATA(other)->next) IOREF(DATA(other)->next);
 	DATA(self)->next = DATA(other)->next;
 
 	if (DATA(other)->cachedResult) IOREF(DATA(other)->cachedResult);
 	DATA(self)->cachedResult = DATA(other)->cachedResult;
 
+	IoMessage_rawCopySourceLocation(self, other);
+}
+
+void IoMessage_rawCopySourceLocation(IoMessage *self, IoMessage *other)
+{
 	//DATA(self)->charNumber = DATA(other)->charNumber;
 	DATA(self)->lineNumber = DATA(other)->lineNumber;
 

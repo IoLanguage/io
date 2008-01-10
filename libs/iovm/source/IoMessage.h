@@ -67,11 +67,13 @@ IOVM_API IoMessage *IoMessage_newWithName_andCachedArg_(void *state, IoSymbol *s
 IOVM_API void IoMessage_mark(IoMessage *self);
 IOVM_API void IoMessage_free(IoMessage *self);
 
-IOVM_API void IoMessage_label_(IoMessage *self, IoSymbol *ioSymbol); // sets label for children too
+IOVM_API IoSymbol *IoMessage_rawLabel(IoMessage *self);
 IOVM_API int IoMessage_rawLineNumber(IoMessage *self);
 IOVM_API int IoMessage_rawCharNumber(IoMessage *self);
+IOVM_API void IoMessage_label_(IoMessage *self, IoSymbol *ioSymbol); // sets label for children too
 IOVM_API void IoMessage_rawSetLineNumber_(IoMessage *self, int n);
 IOVM_API void IoMessage_rawSetCharNumber_(IoMessage *self, int n);
+IOVM_API void IoMessage_rawCopySourceLocation(IoMessage *self, IoMessage *other);
 IOVM_API List *IoMessage_rawArgList(IoMessage *self);
 IOVM_API unsigned char IoMessage_needsEvaluation(IoMessage *self);
 
@@ -202,7 +204,6 @@ IOVM_API IoMessage *IoMessage_asMessageWithEvaluatedArgs(IoMessage *self, IoObje
 
 IOVM_API void IoMessage_addArg_(IoMessage *self, IoMessage *m);
 IOVM_API IoMessage *IoMessage_rawArgAt_(IoMessage *self, int n);
-IOVM_API IoSymbol *IoMessage_rawLabel(IoMessage *self);
 IOVM_API List *IoMessage_rawArgs(IoMessage *self);
 
 IOVM_API UArray *IoMessage_asMinimalStackEntryDescription(IoMessage *self);
