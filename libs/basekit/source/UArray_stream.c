@@ -68,7 +68,7 @@ long UArray_readFromFilePath_(UArray *self, const UArray *path)
 
 	//printf("UArray_readFromFilePath_(\"%s\")\n", p);
 
-	stream = fopen(p, "r");
+	stream = fopen(p, "rb");
 	if (!stream) return -1;
 	itemsRead = UArray_readFromCStream_(self, stream);
 	fclose(stream);
