@@ -22,14 +22,14 @@ CGI := Object clone do(
 	docSlot("parse", "Parses the QUERY_STRING environment variable (or standard input if there is no QUERY_STRING environment variable) and returns a Map containing key/value query value pairs.")
 
 	isInWebScript := method(
-		System getenv("QUERY_STRING") != nil
+		System getEnvironmentVariable("QUERY_STRING") != nil
 	)
 
 	newSlot("postData")
 
 	parse := method(
-		q := System getenv("QUERY_STRING")
-		contentLength := System getenv("CONTENT_LENGTH")
+		q := System getEnvironmentVariable("QUERY_STRING")
+		contentLength := System getEnvironmentVariable("CONTENT_LENGTH")
 		if (q == nil, return Map clone)
 
 		if (contentLength,
@@ -77,7 +77,7 @@ CGI := Object clone do(
 				form atPut("imageMapX", kv at(0))
 				form atPut("imageMapY", kv at(1))
 			)
-			if(System getenv("REQUEST_METHOD") ?asLowercase == "post",
+			if(System getEnvironmentVariable("REQUEST_METHOD") ?asLowercase == "post",
 				setPostData(File standardInput open contents)
 			)
 		)

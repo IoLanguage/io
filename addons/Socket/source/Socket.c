@@ -285,7 +285,7 @@ int Socket_connectTo(Socket *self, IPAddress *address)
 		return 1;
 	}
 
-	//Socket_checkErrno(self);
+	//Socket_checkErrorNumber(self);
 
 	return result;
 }
@@ -298,7 +298,7 @@ int Socket_bind(Socket *self, IPAddress *address)
 
 	// returns 0 of ok, -1 on error
 	r = bind(self->fd, IPAddress_sockaddr(address), IPAddress_size(address));
-	//if (r == -1) Socket_checkErrno(self);
+	//if (r == -1) Socket_checkErrorNumber(self);
 	return r;
 }
 
@@ -310,7 +310,7 @@ int Socket_listen(Socket *self)
 
 	// returns 0 of ok, -1 on error
 	r = listen(self->fd, SOMAXCONN);
-	//if (r == -1) Socket_checkErrno(self);
+	//if (r == -1) Socket_checkErrorNumber(self);
 	return r;
 }
 
@@ -335,7 +335,7 @@ Socket *Socket_accept(Socket *self, IPAddress *address)
 		return socket;
 	}
 
-	//Socket_checkErrno(self);
+	//Socket_checkErrorNumber(self);
 
 	return NULL;
 }
@@ -369,7 +369,7 @@ ssize_t Socket_streamRead(Socket *self, UArray *buffer, size_t readSize)
 		UArray_setSize_(buffer, originalSize);
 	}
 
-	//if (bytesRead == -1) Socket_checkErrno(self);
+	//if (bytesRead == -1) Socket_checkErrorNumber(self);
 	if ((bytesRead == 0 || SocketErrorStatus()) &&
 		(SocketErrorStatus() != EINTR &&
 		SocketErrorStatus() != EAGAIN &&
@@ -425,7 +425,7 @@ ssize_t Socket_streamWrite(Socket *self,
 	{
 		//printf("Socket_streamWrite() bytesSent %i errno %i - closing\n", bytesSent, errno);
 		Socket_close(self);
-		//Socket_checkErrno(self);
+		//Socket_checkErrorNumber(self);
 	}
 
 	return bytesSent;
@@ -492,7 +492,7 @@ ssize_t Socket_udpWrite(Socket *self,
 				IPAddress_sockaddr(address),
 				IPAddress_size(address));
 
-	//if (bytesWritten < 0) Socket_checkErrno(self);
+	//if (bytesWritten < 0) Socket_checkErrorNumber(self);
 
 	return bytesWritten;
 }

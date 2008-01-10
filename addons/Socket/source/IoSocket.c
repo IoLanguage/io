@@ -114,7 +114,7 @@ IoSocket *IoSocket_proto(void *state)
 		{"setSocketWriteLowWaterMark", IoSocket_setSocketWriteLowWaterMark},
 
 		{"setNoDelay", IoSocket_setNoDelay},
-		{"errno", IoSocket_errnoDescription},
+		{"errorNumber", IoSocket_errorNumberDescription},
 
 		{NULL, NULL}
 		};
@@ -387,7 +387,7 @@ IoObject *IoSocket_setNoDelay(IoSocket *self, IoObject *locals, IoMessage *m)
 }
 
 
-IoObject *IoSocket_errnoDescription(IoSocket *self, IoObject *locals, IoMessage *m)
+IoObject *IoSocket_errorNumberDescription(IoSocket *self, IoObject *locals, IoMessage *m)
 {
 	int err = SocketErrorStatus();
 #ifdef WIN32

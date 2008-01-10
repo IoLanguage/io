@@ -68,6 +68,6 @@ IoObject *IoSocket_getSocketReadLowWaterMark(IoSocket *self, IoObject *locals, I
 IoObject *IoSocket_getSocketWriteLowWaterMark(IoSocket *self, IoObject *locals, IoMessage *m);
 
 IoObject *IoSocket_setNoDelay(IoSocket *self, IoObject *locals, IoMessage *m);
-IoObject *IoSocket_errnoDescription(IoSocket *self, IoObject *locals, IoMessage *m);
+IoObject *IoSocket_errorNumberDescription(IoSocket *self, IoObject *locals, IoMessage *m);
 
 #endif

@@ -3,8 +3,8 @@ AddonBuilder clone do(
 	dependsOnBinding( "Box" )
 
 	if(platform != "darwin",
-		GNUstepSystemRoot := System getenv("GNUSTEP_SYSTEM_ROOT") ifNilEval("/usr/GNUstep/System")
-		GNUstepLocalRoot := System getenv("GNUSTEP_LOCAL_ROOT") ifNilEval("/usr/GNUstep/Local")
+		GNUstepSystemRoot := System getEnvironmentVariable("GNUSTEP_SYSTEM_ROOT") ifNilEval("/usr/GNUstep/System")
+		GNUstepLocalRoot := System getEnvironmentVariable("GNUSTEP_LOCAL_ROOT") ifNilEval("/usr/GNUstep/Local")
 		appendHeaderSearchPath(GNUstepSystemRoot .. "/Library/Headers")
 		appendHeaderSearchPath(GNUstepLocalRoot .. "/Library/Headers")
 		appendLibSearchPath(GNUstepSystemRoot .. "/Library/Libraries")

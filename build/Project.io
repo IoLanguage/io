@@ -1,6 +1,6 @@
 Project := Object clone do(
-	cc  := method(System getenv("CC")  ifNilEval(return "cc"))
-	cxx := method(System getenv("CXX") ifNilEval(return "g++"))
+	cc  := method(System getEnvironmentVariable("CC")  ifNilEval(return "cc"))
+	cxx := method(System getEnvironmentVariable("CXX") ifNilEval(return "g++"))
 	platform := System platform split at(0) asLowercase
 
 	systemCall := method(s,

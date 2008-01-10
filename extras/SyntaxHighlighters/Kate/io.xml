@@ -91,7 +91,7 @@
 			<item> doString </item>
 			<item> forward </item>
 			<item> getSlot </item>
-			<item> getenv </item>
+			<item> getEnvironmentVariable </item>
 			<item> hasSlot </item>
 			<item> isActive </item>
 			<item> isNil </item>
