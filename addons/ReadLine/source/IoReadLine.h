@@ -22,6 +22,8 @@ IoReadLine *IoReadLine_rawClone(IoReadLine *self);
 
 IoObject *IoReadLine_readLine(IoReadLine *self, IoObject *locals, IoMessage *m);
 IoObject *IoReadLine_addHistory(IoReadLine *self, IoObject *locals, IoMessage *m);
+IoObject *IoReadLine_loadHistory(IoReadLine *self, IoObject *locals, IoMessage *m);
+IoObject *IoReadLine_saveHistory(IoReadLine *self, IoObject *locals, IoMessage *m);
 
 #ifdef __cplusplus
 }

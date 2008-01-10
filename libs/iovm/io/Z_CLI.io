@@ -34,11 +34,26 @@ CLI := Object clone do(
 		)
 	)
 
+	ioHistoryFile := method(
+		Path with(System getenv("HOME"), ".io_history")
+	)
+
+	saveHistory := method(
+		lineReader ?saveHistory(ioHistoryFile)
+	)
+
+	loadHistory := method(
+		lineReader ?loadHistory(ioHistoryFile)
+	)
+
 	run := method(
 		// Move Lobby launchPath to System launchPath?
 		Lobby launchPath := Directory currentWorkingDirectory
 		Importer addSearchPath(Lobby launchPath)
-		context exit := method(System exit)
+		context exit := method(
+			CLI saveHistory
+			System exit
+		)
 
 		runIorc
 
@@ -75,6 +90,8 @@ CLI := Object clone do(
 		try(setLineReader(ReadLine))
 		try(lineReader ifNil( setLineReader(EditLine)))
 
+		loadHistory
+
 		while(isRunning,
 			if(lineReader isNil not,
 				handleInteractiveMultiline
@@ -82,6 +99,8 @@ CLI := Object clone do(
 				interactiveNoLineReader
 			)
 		)
+
+		saveHistory
 	)
 
 	interactive := method(

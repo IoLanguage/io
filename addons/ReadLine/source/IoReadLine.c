@@ -28,6 +28,8 @@ IoReadLine *IoReadLine_proto(void *state)
 	IoMethodTable methodTable[] = {
 		{"readLine", IoReadLine_readLine},
 		{"addHistory", IoReadLine_addHistory},
+		{"loadHistory", IoReadLine_loadHistory},
+		{"saveHistory", IoReadLine_saveHistory},
 		{NULL, NULL},
 	};
 
@@ -85,3 +87,24 @@ IoObject *IoReadLine_addHistory(IoReadLine *self, IoObject *locals, IoMessage *m
 	return self;
 }
 
+IoObject *IoReadLine_loadHistory(IoReadLine *self, IoObject *locals, IoMessage *m)
+{
+	char *filename = IoMessage_argCount(m) >= 1 ? IoMessage_locals_cStringArgAt_(m, locals, 0) : NULL;
+	int errno = read_history(filename);
+
+	if (errno != 0)
+		IoState_error_(IOSTATE, m, "while loading history file '%s', reason: %s", filename, strerror(errno));
+
+	return self;
+}
+
+IoObject *IoReadLine_saveHistory(IoReadLine *self, IoObject *locals, IoMessage *m)
+{
+	char *filename = IoMessage_argCount(m) >= 1 ? IoMessage_locals_cStringArgAt_(m, locals, 0) : NULL;
+	int errno = write_history(filename);
+
+	if (errno != 0)
+		IoState_error_(IOSTATE, m, "while saving history file '%s', reason: %s", filename, strerror(errno));
+
+	return self;
+}
