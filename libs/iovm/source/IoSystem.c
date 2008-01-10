@@ -104,12 +104,12 @@ IoObject *IoSystem_proto(void *state)
 	IoObject_setSlot_to_(self, IOSYMBOL("type"), IOSYMBOL("System"));
 
 	#ifndef INSTALL_PREFIX
-	#define INSTALL_PREFIX "/usr/local/"
+	#define INSTALL_PREFIX "/usr/local"
 	#endif
 
 
 	/*#io
-		docSlot("installPrefix", "Returns the root path where io was install. The default is /usr/local/.")
+		docSlot("installPrefix", "Returns the root path where io was install. The default is /usr/local.")
 	*/
 	IoObject_setSlot_to_(self, IOSYMBOL("installPrefix"), IOSYMBOL(INSTALL_PREFIX));
 
