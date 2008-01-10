@@ -76,27 +76,11 @@ IoMap *IoState_createOperatorTable(IoState *state)
 
 IoMap *IoState_createAssignOperatorTable(IoState *state)
 {
-	typedef struct {
-		char *symbol;
-		char *name;
-	} OpTable;
-
-	OpTable ops[] = {
-		{":=", "setSlot"},
-		{"=",  "updateSlot"},
-		{"::=", "newSlot"},
-
-		{NULL, 0},
-	};
-
 	IoMap *self = IoMap_new(state);
-	OpTable *op = ops;
 
-	while (op->symbol)
-	{
-		IoMap_rawAtPut(self, IOSYMBOL(op->symbol), IOSYMBOL(op->name));
-		op ++;
-	}
+	IoMap_rawAtPut(self, IOSYMBOL(":="), IOSYMBOL("setSlot"));
+	IoMap_rawAtPut(self, IOSYMBOL("="), IOSYMBOL("updateSlot"));
+	IoMap_rawAtPut(self, IOSYMBOL("::="), IOSYMBOL("newSlot"));
 
 	return self;
 }
@@ -153,7 +137,7 @@ Levels *Levels_new(IoMessage *msg)
 	IoState *state = IoObject_state(msg);
 	IoSymbol *operatorTableSymbol = IoState_symbolWithCString_(state, "OperatorTable");
 
-	// Lets be ultra flexable, and try to use the first message's operator table.
+	// Be ultra flexable, and try to use the first message's operator table.
 	IoObject *opTable = IoObject_rawGetSlot_(msg, operatorTableSymbol);
 
 	// Otherwise, use Core OperatorTable, and if that doesn't exist, create it.
@@ -164,7 +148,7 @@ Levels *Levels_new(IoMessage *msg)
 		// Message's OperatorTable
 		opTable = IoObject_rawGetSlot_(state->core, operatorTableSymbol);
 
-		// If Core doesn't have an OperatorTable, lets create it.
+		// If Core doesn't have an OperatorTable, then create it.
 		if (opTable == NULL)
 		{
 			opTable = IoObject_new(state);
@@ -218,7 +202,7 @@ Levels *Levels_new(IoMessage *msg)
 
 void Levels_free(Levels *self)
 {
-		List_free(self->stack);
+	List_free(self->stack);
 	io_free(self);
 }
 
@@ -344,7 +328,7 @@ int Levels_levelForOp(Levels *self, char *messageName, IoSymbol *messageSymbol, 
 	else
 	{
 		IoState_error_(IoObject_state(msg), msg, "compile error: Value for '%s' in Message OperatorTable operators is not a number. Values in the OperatorTable operators are numbers which indicate the precedence of the operator.", messageName);
-		return -1; // To keep the compiler happy.
+		return -1; // The C compiler doesn't know that IoState_error_() will never return.
 	}
 }
 
@@ -411,6 +395,11 @@ void Levels_attach(Levels *self, IoMessage *msg, List *expressions)
 			IoState_error_(state, msg, "compile error: The symbol to the left of %s cannot have arguments.", messageName);
 		}
 
+		if (msgArgCount > 1) // `setSlot("a") :=(b, c, d) e ;`
+		{
+			IoState_error_(state, msg, "compile error: Assign operator passed multiple arguments, e.g., a := (b, c).", messageName);
+		}
+
 
 		{
 			// `a := b ;`
@@ -430,11 +419,6 @@ void Levels_attach(Levels *self, IoMessage *msg, List *expressions)
 		DATA(attaching)->name = IoObject_addingRef_(attaching, setSlotName);
 
 		currentLevel->type = ATTACH;
-
-		if (msgArgCount > 1) // `setSlot("a") :=(b, c, d) e ;`
-		{
-			IoState_error_(state, msg, "compile error: Assign operator passed multiple arguments, e.g., a := (b, c).", messageName);
-		}
 
 		if (msgArgCount > 0) // `setSlot("a") :=(b c) d e ;`
 		{
