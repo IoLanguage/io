@@ -216,6 +216,10 @@ URL := Notifier clone do(
 		//writeln("request = [", request, "]")
 		socket streamWrite(requestHeader)
 
+		processHttpResponse(progressBlock)
+	)
+	
+	processHttpResponse := method(progressBlock,
 		b := socket readBuffer
 		b empty
 
@@ -284,6 +288,7 @@ URL := Notifier clone do(
 	docSlot("post(data)", "Sends an http post message. If data is a Map, it's key/value pairs are send as the post parameters. If data is a Sequence or String, it is sent directly. Returns self on success or nil on error.")
 
 	post := method(postdata,
+		postdata ifNil(postdata = "")
 		ip := Host clone setName(host) address
 
 		header := Sequence clone
@@ -318,10 +323,7 @@ URL := Notifier clone do(
 		)
 
 		socket streamWrite(header)
-		while (socket streamReadNextChunk, socket readBuffer empty)
-		socket close
-		if(socket error, self setError(socket error); return nil)
-		self
+		processHttpResponse
 	)
 
 	openOnDesktop := method(
