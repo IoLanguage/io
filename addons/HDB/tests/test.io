@@ -1,3 +1,4 @@
+#!/usr/bin/env io
 
 assert := method(t, if(t, nil, Exception raise("assertion failed: " .. call argAt(0))))
 

@@ -1,3 +1,4 @@
+#!/usr/bin/env io
 
 root := HDB with("test.hdb") rootProxy
 

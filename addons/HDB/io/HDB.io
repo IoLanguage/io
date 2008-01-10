@@ -1,4 +1,3 @@
-#!/usr/local/bin/io
 
 HDBModule := Object clone do(
 	pathSeparator := "/" //0 asCharacter

@@ -1,4 +1,4 @@
-#!./ioServer
+#!/usr/bin/env io
 
 doFile("ODB.io")
 

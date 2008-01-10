@@ -4,7 +4,7 @@ CGI := Object clone do(
 	docDescription("
 	CGI supports accessing CGI parameters passed in environment variable or standard input by a web servers like Apache.Example use;
 	<pre>
-	#!./ioServer
+	#!/usr/bin/env io
 
 	write(\"Content-type:text/html\n\n\")
 	write(\"&lt;!doctype html public \"-//W3C/DTD HTML 4.0/EN\"&gt;\n\")

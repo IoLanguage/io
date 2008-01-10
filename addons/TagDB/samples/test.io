@@ -1,4 +1,4 @@
-
+#!/usr/bin/env io
 
 tdb := TagDB clone
 

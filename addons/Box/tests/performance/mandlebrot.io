@@ -1,4 +1,4 @@
-#!/usr/local/bin/ioServer
+#!/usr/bin/env io
 
 MandlebrotSet := Object clone do(
     max_iterations := 1000
