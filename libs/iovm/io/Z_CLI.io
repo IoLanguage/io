@@ -43,7 +43,9 @@ CLI := Object clone do(
 	)
 
 	loadHistory := method(
-		lineReader ?loadHistory(ioHistoryFile)
+		if(File with(ioHistoryFile) exists,
+			lineReader ?loadHistory(ioHistoryFile)
+		)
 	)
 
 	run := method(
