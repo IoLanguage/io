@@ -144,6 +144,8 @@ IoFile *IoFile_rawClone(IoFile *proto)
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, cpalloc(IoObject_dataPointer(proto), sizeof(IoFileData)));
 	DATA(self)->info = NULL;
+	DATA(self)->stream = (FILE *)NULL;
+	DATA(self)->flags = IOFILE_FLAGS_NONE;
 	return self;
 }
 
@@ -261,10 +263,17 @@ int IoFile_create(IoFile *self)
 IoObject *IoFile_descriptor(IoFile *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("escriptor", "Returns the file's descriptor as a number.")
+	docSlot("descriptor", "Returns the file's descriptor as a number.")
 	*/
 
-	return IONUMBER(fileno(DATA(self)->stream));
+	if (DATA(self)->stream)
+	{
+		return IONUMBER(fileno(DATA(self)->stream));
+	}
+	else
+	{
+		return IONIL(self);
+	}
 
 }
 
