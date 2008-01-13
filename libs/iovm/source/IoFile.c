@@ -1031,6 +1031,7 @@ aFile foreach(v, writeln("byte ", v))
 </pre>
 """)
 	*/
+	IoFile_assertOpen(self, locals, m);
 
 	IoObject *result = IONIL(self);
 
