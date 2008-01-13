@@ -181,10 +181,10 @@ Object do(
 	)
 
 	docsSlot := method(
-		if(getSlot("self") hasLocalSlot("docs"),
-			getSlot("self") docs,
+		if(getSlot("self") hasLocalSlot("docs") not,
 			getSlot("self") docs := Object clone do(slots := Object clone)
 		)
+		getSlot("self") docs
 	)
 
 
@@ -212,10 +212,12 @@ Object do(
 	docCategory := getSlot("docCopyright")
 
 	ioDoc := method(
-		if(call argAt(0), getSlot("self") doMessage(call argAt(0)))
+		if(call argAt(0), 
+			getSlot("self") doMessage(call argAt(0))
+		)
 	)
 
-	ioDoc := nil
+	//ioDoc := nil
 
 	docSlot("list(...)", "Returns a List containing the arguments.")
 	list := method(call message argsEvaluatedIn(call sender))
