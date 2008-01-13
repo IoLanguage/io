@@ -103,6 +103,7 @@ IoObject *IoFile_assertWrite(IoFile *self, IoObject *locals, IoMessage *m);
 IoObject *IoFile_at(IoFile *self, IoObject *locals, IoMessage *m);
 IoObject *IoFile_atPut(IoFile *self, IoObject *locals, IoMessage *m);
 IoObject *IoFile_foreach(IoFile *self, IoObject *locals, IoMessage *m);
+IoObject *IoFile_foreachLine(IoFile *self, IoObject *locals, IoMessage *m);
 
 //IoObject *IoFile_rawDo(IoFile *self, IoObject *context);
 //IoObject *IoFile_do(IoFile *self, IoObject *locals, IoMessage *m);
