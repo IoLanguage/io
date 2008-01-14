@@ -43,7 +43,9 @@ CLI := Object clone do(
 	)
 
 	loadHistory := method(
-		lineReader ?loadHistory(ioHistoryFile)
+		if(File with(ioHistoryFile) exists,
+			lineReader ?loadHistory(ioHistoryFile)
+		)
 	)
 
 	run := method(
@@ -57,23 +59,23 @@ CLI := Object clone do(
 
 		runIorc
 
-		if(?args first == "-e",
-			writeln(context doString(args slice(1) map(asUTF8) join(" ")))
+		if(System ?args first == "-e",
+			writeln(context doString(System args slice(1) map(asUTF8) join(" ")))
 			return
 		)
 
-		if(?args and args size > 0,
+		if(System ?args and System args size > 0,
 
-			if(args first == "-i",
-				if(args size >= 2,
-					runFile(args at(1))
+			if(System args first == "-i",
+				if(System args size >= 2,
+					runFile(System args at(1))
 				,
 					if(File clone setPath("main.io") exists, runFile("main.io"))
 				)
 				return interactiveMultiline
 			)
 
-			runFile(args first)
+			runFile(System args first)
 		,
 			if(File clone setPath("main.io") exists,
 				runFile("main.io")

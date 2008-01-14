@@ -84,6 +84,7 @@ IOVM_API int IoSeq_compare(IoSeq *self, IoSeq *v);
 IOVM_API char *IoSeq_asCString(IoSeq *self);
 IOVM_API unsigned char *IoSeq_rawBytes(IoSeq *self);
 IOVM_API UArray *IoSeq_rawUArray(IoSeq *self);
+IOVM_API IoSymbol *IoSeq_rawAsUntriquotedSymbol(IoSeq *self);
 
 IOVM_API size_t IoSeq_rawSize(IoSeq *self);
 IOVM_API size_t IoSeq_rawSizeInBytes(IoSeq *self);

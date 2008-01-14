@@ -239,7 +239,7 @@ IoObject *IoSeq_size(IoSeq *self, IoObject *locals, IoMessage *m)
 	docSlot("size", """Returns the length in bytes of the receiver. For example,
 <pre>
 "abc" size == 3
-<pre>
+</pre>
 """)
 	*/
 
@@ -361,7 +361,7 @@ IoObject *IoSeq_findSeqs(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
 	docSlot("findSeqs(listOfSequences, optionalStartIndex)",
-			"Returns a object with two slots - an "index" slot which contains the first occurrence of any of the sequences in listOfSequences found in the receiver after the startIndex, and a "match" slot, which contains a reference to the matching sequence from listOfSequences. If no startIndex is specified, the search starts at index 0. nil is returned if no occurences are found. ")
+			"Returns a object with two slots - an \"index\" slot which contains the first occurrence of any of the sequences in listOfSequences found in the receiver after the startIndex, and a \"match\" slot, which contains a reference to the matching sequence from listOfSequences. If no startIndex is specified, the search starts at index 0. nil is returned if no occurences are found. ")
 	*/
 
 	IoList *others = IoMessage_locals_listArgAt_(m, locals, 0);

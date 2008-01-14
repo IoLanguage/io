@@ -1,6 +1,6 @@
 #!/usr/bin/env io
 
-recCount := if(args at(1), args at(1) asNumber, 50000)
+recCount := if(System args at(1), System args at(1) asNumber, 50000)
 
 c := DBI with("sqlite3")
 c optionPut("dbname", "test.db")

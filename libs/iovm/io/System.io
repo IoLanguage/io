@@ -2,8 +2,8 @@ System do(
 	launchScript := nil
 	docSlot("launchScript", "Returns the path of the io file run on the command line. Returns nil if no file was run.")
 
-	ioPath := "/usr/local/lib/io"
-	docSlot("ioPath", "Returns the path of io installation. The default is /usr/local/lib/io.")
+	ioPath := installPrefix asMutable appendPathSeq("lib") appendPathSeq("io")
+	docSlot("ioPath", "Returns the path of io installation. The default is $INSTALL_PREFIX/lib/io.")
 
 	docSlot("getOptions(args)", "
 	This primitive is used to get command line options similar to Cs getopt().

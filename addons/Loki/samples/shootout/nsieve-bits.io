@@ -25,7 +25,7 @@ sieve := Object clone do(
     )
 )
 
-n := args at(1) asNumber
+n := System args at(1) asNumber
 sieve show(10000 shiftLeft(n))
 sieve show(10000 shiftLeft(n-1))
 sieve show(10000 shiftLeft(n-2))

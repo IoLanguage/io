@@ -1,7 +1,7 @@
 #include "Regex.h"
 
 static int Regex_put_in_(Regex *self, int what, void *where);
-static void Regex_createOutputVector(Regex *self);
+//static void Regex_createOutputVector(Regex *self);
 static void Regex_error_(Regex *self, char *format, ...);
 
 

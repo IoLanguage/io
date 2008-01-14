@@ -3,12 +3,12 @@
 //Message useIoShuffle
 //Collector debugOn
 
-if(args size > 1,
+if(System args size > 1,
 	# Run specific tests
 	UnitTest verbose := getSlot("writeln")
 
 	time := Date clone cpuSecondsToRun(
-		args slice(1) foreach(name,
+		System args slice(1) foreach(name,
 			writeln(name, ":")
 			try(
 				if(name endsWithSeq(".io"),

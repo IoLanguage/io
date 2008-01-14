@@ -7,7 +7,7 @@ if(isLaunchScript,
 
     writeln("System launchPath: ", System launchPath)
     writeln("System launchScript: ", System launchScript)
-    writeln("args: ", args)
+    writeln("System args: ", System args)
 ,
     # Loaded using doFile("MainFile.io")
     writeln("Was included from another file")

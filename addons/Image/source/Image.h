@@ -51,6 +51,7 @@ typedef struct
 
 IOIMAGE_API Image *Image_new(void);
 IOIMAGE_API Image *Image_newWithPath_(char *fname);
+IOIMAGE_API Image *Image_copyWithUArray_(Image *self, UArray *ba);
 IOIMAGE_API Image *Image_copyWithUArray(Image *self, UArray *ba);
 IOIMAGE_API void Image_free(Image *self);
 

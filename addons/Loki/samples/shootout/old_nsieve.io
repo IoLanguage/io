@@ -31,7 +31,7 @@ Object clone do(
 	)
 	
 	clk := chrono(
-	//n := args at(1) asNumber
+	//n := System args at(1) asNumber
 	nsieve( (2**(n))*10000 )
 	nsieve( (2**(n-1))*10000 )
 	nsieve( (2**(n-2))*10000 )
