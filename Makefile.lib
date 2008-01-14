@@ -64,6 +64,10 @@ DLL_COMMAND := -dynamiclib
 FLAT_NAMESPACE := -flat_namespace
 endif
 
+ifeq ($(SYS),DragonFly)
+LFLAGS += -lm
+endif
+
 ifeq ($(SYS),Linux)
 CFLAGS += -falign-loops=16
 CFLAGS += -fPIC

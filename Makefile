@@ -7,7 +7,7 @@ ifneq (,$(findstring $(SYS),$(NEEDS_DL)))
 LFLAGS +=-ldl
 endif
 
-NEEDS_M := FreeBSD Linux NetBSD
+NEEDS_M := FreeBSD Linux NetBSD DragonFly
 ifneq (,$(findstring $(SYS),$(NEEDS_M)))
 LFLAGS +=-lm
 endif
