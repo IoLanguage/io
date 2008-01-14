@@ -427,7 +427,7 @@ IoObject *IoObject_setLobby(IoObject *self, IoObject *locals, IoMessage *m)
 	*/
 
 	IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 0);
-	IoState_setLobby_(self, v);
+	IoState_setLobby_(IOSTATE, v);
 	return self;
 }
 

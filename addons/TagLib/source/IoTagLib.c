@@ -74,7 +74,7 @@ IoObject *IoTagLib_load(IoTagLib *self, IoObject *locals, IoMessage *m)
 
 	IOASSERT(file, "unable to open file");
 
-	tag = taglib_file_newTag(file);
+	tag = (TagLib_Tag *)taglib_file_newTag(file);
 	properties = taglib_file_audioproperties(file);
 
 	IoObject_setSlot_to_(self, IOSYMBOL("title"), IOSYMBOL(taglib_tag_title(tag)));
@@ -115,7 +115,7 @@ IoObject *IoTagLib_save(IoTagLib *self, IoObject *locals, IoMessage *m)
 
 	IOASSERT(file, "unable to open file");
 
-	tag = taglib_file_newTag(file);
+	tag = (TagLib_Tag *)taglib_file_newTag(file);
 
 	taglib_tag_set_title(tag, CSTRING(IoObject_seqGetSlot_(self, IOSYMBOL("title"))));
 	taglib_tag_set_album(tag, CSTRING(IoObject_seqGetSlot_(self, IOSYMBOL("album"))));

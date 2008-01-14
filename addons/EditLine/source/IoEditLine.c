@@ -109,7 +109,7 @@ IoObject *IoEditLine_readLine(IoEditLine *self, IoObject *locals, IoMessage *m)
 	line = el_gets(DATA(self)->editline, &count);
 
 	if (line && count >= 0)
-		return IOSEQ(line, count);
+		return IOSEQ(line, (size_t)count);
 	else
 		return IONIL(self);
 }

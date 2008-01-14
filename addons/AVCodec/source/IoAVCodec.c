@@ -313,11 +313,12 @@ IoObject *IoAVCodec_close(IoAVCodec *self, IoObject *locals, IoMessage *m)
 {
 	IoAVCodec_registerIfNeeded(self);
 	IoAVCodec_freeContextIfNeeded(self);
+	return self;
 }
 
 int IoAVCodec_openFile(IoAVCodec *self)
 {
-	AVInputFormat *inputFormat;
+	//AVInputFormat *inputFormat;
 	IoObject *fileName = IoObject_symbolGetSlot_(self, IOSYMBOL("path"));
 	int err = av_open_input_file(&DATA(self)->formatContext, CSTRING(fileName), NULL, 0, NULL);
 	return err;
@@ -409,7 +410,7 @@ int IoAVCodec_findStreams(IoAVCodec *self)
 				//printf("videoStreamIndex = %i\n", DATA(self)->videoStreamIndex);
 				{
 					float framePeriod = (((float)codecContext->time_base.num)/((float)codecContext->time_base.den));
-					UArray *sizeUArray = UArray_newWithData_type_encoding_size_copy_("", CTYPE_float32_t, CENCODING_NUMBER, 2, 1);
+					//UArray *sizeUArray = UArray_newWithData_type_encoding_size_copy_("", CTYPE_float32_t, CENCODING_NUMBER, 2, 1);
 					IoObject_setSlot_to_(self, IOSYMBOL("framePeriod"),     IONUMBER(framePeriod));
 					IoObject_setSlot_to_(self, IOSYMBOL("videoDuration"),   IONUMBER(stream->duration));
 					IoObject_setSlot_to_(self, IOSYMBOL("videoFrameCount"), IONUMBER(stream->nb_frames));
@@ -425,6 +426,11 @@ int IoAVCodec_findStreams(IoAVCodec *self)
 
 				break;
 				}
+			case CODEC_TYPE_UNKNOWN:
+			case CODEC_TYPE_DATA:
+			case CODEC_TYPE_SUBTITLE:
+			case CODEC_TYPE_NB:
+			case default:
 		}
 	}
 

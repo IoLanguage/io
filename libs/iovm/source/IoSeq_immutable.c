@@ -239,7 +239,7 @@ IoObject *IoSeq_size(IoSeq *self, IoObject *locals, IoMessage *m)
 	docSlot("size", """Returns the length in bytes of the receiver. For example,
 <pre>
 "abc" size == 3
-<pre>
+</pre>
 """)
 	*/
 

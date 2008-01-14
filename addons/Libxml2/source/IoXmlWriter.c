@@ -11,7 +11,7 @@
 #define ISOPEN(self) (DATA(self)->writer)
 #define DATA(self) ((IoXmlWriterData*)IoObject_dataPointer(self))
 
-IoXmlWriter_raiseErrors_(IoXmlWriter *self, IoMessage *m, int rc)
+void IoXmlWriter_raiseErrors_(IoXmlWriter *self, IoMessage *m, int rc)
 {
 	if ( rc < 0 )
 	{
