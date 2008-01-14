@@ -4,18 +4,13 @@ Socket do(
 	type := "Socket"
 	docCategory("Networking")
 
-	newSlot("bytesPerRead", 4096)
-	newSlot("bytesPerWrite", 1024)
-	newSlot("readTimeout", 60)
-	newSlot("writeTimeout", 60)
-	newSlot("connectTimeout", 60)
-	newSlot("acceptTimeout", 365*24*60*60)
-	newSlot("error", nil)
-	newSlot("ipAddress", IPAddress clone)
-
-	debugWriteln := nil
-	debugOff := method(self debugWriteln := nil)
-	debugOn := method(self debugWriteln := getSlot("writeln"))
+	bytesPerRead ::= 4096
+	bytesPerWrite ::= 1024
+	readTimeout ::= 60
+	writeTimeout ::= 60
+	connectTimeout ::= 60
+	acceptTimeout ::= 365*24*60*60
+	ipAddress ::= IPAddress clone
 
 	init := method(
 		resend
@@ -35,7 +30,7 @@ Socket do(
 
 	setHost := method(ip,
 		//writeln("ip = ", ip)
-		ip at(0) isDigit ifFalse(ip = DNSResolver ipForHostName(ip))
+		ip at(0) isDigit ifFalse(DNSResolver raiseOnError(ip = DNSResolver ipForHostName(ip)))
 		ipAddress setIp(ip)
 		self
 	)
@@ -51,7 +46,7 @@ Socket do(
 
 	checkErrno := method(
 		//writeln("System errno = ", System errno)
-		Socket errno ifNonNil(Exception raise("Socket errno: " .. System errno))
+		Socket errno ifNonNil(setError("Socket errno: " .. System errno))
 	)
 
 	setupEvents := method(
@@ -61,7 +56,7 @@ Socket do(
 
 	streamOpen := method(
 		asyncStreamOpen
-		checkErrno
+		raiseOnError(checkErrno)
 		setupEvents
 		true
 	)
@@ -73,8 +68,9 @@ Socket do(
 		true
 	)
 
-	raiseExceptionIfInvalid := method(
-		if(self isValid == false, Exception raise("invalid socket"); writeln("invalid socket"); System exit)
+	setErrorIfInvalid := method(
+		if(isValid == false, setError("Socket is invalid"))
+		isValid not
 	)
 
 	connect := method(
@@ -82,15 +78,28 @@ Socket do(
 		isOpen ifFalse(streamOpen)
 		didConnect := asyncConnect(ipAddress)
 		didConnect ifFalse(
-			writeEvent waitOn(connectTimeout) ifFalse(Exception raise("connection timeout"))
-			raiseExceptionIfInvalid
+			writeEvent waitOn(connectTimeout) ifFalse(
+				setError("Connection timeout")
+				return(false)
+			)
+			if(setErrorIfInvalid,
+				return(false)
+			)
 			didConnect = asyncConnect(ipAddress)
 			//checkErrno
 		)
-		//writeln("didConnect = ", didConnect)
-		didConnect ifTrue(return true)
+		if(didConnect not and errno == "WSA Error 10022",
+			writeEvent waitOn(connectTimeout) ifFalse(
+				setError("Connection timeout")
+				return(false)
+			)
+			if(setErrorIfInvalid,
+				return(false)
+			)
+			didConnect = asyncConnect(ipAddress)
+		)
+		didConnect ifTrue(return(true))
 		checkErrno
-		Exception raise("unable to connect to " .. ipAddress ip .. " on port " .. ipAddress port)
 		false
 	)
 
@@ -117,30 +126,41 @@ Socket do(
 
 		if(buffer size <= bytesPerWrite,
 			//writeln("writing all ", 0, " ", buffer size)
-			if(self isOpen not, Exception raise("attempt to write to closed socket"))
-			writeEvent waitOn(writeTimeout)
+			if(self isOpen not,
+				setError("Attempted to write to closed socket")
+				return(false)
+			)
+			writeEvent waitOn(writeTimeout) ifFalse(
+				setError("Write timeout")
+				return(false)
+			)
 			asyncStreamWrite(buffer, 0, buffer size)
-			return
+			return(true)
 		)
 
 		startIndex := 0
 		bytesRemaining := buffer size
 		while(startIndex <= bytesRemaining,
 			//writeln(startIndex)
-			if(self isOpen not, Exception raise("attempt to write to closed socket"))
-			writeEvent waitOn(writeTimeout) ifFalse(break)
+			if(self isOpen not,
+				setError("Attempted to write to closed socket")
+				return(false)
+			)
+			writeEvent waitOn(writeTimeout) ifFalse(
+				setError("Write timeout")
+				return(false)
+			)
 			asyncStreamWrite(buffer, startIndex, bytesPerWrite)
 			startIndex = startIndex + bytesPerWrite
 		)
-		//writeEvent waitOn(writeTimeout)
-		//write("."); File standardOutput flush
+		true
 	)
 
 	streamReadNextChunk := method(
 		self setSocketReadLowWaterMark(1)
 		while(asyncStreamRead(readBuffer, bytesPerRead), nil)
-		if(self isOpen == false, return(isOpen))
-		readEvent waitOn(readTimeout) ifFalse(return false)
+		if(self isOpen not, return(false))
+		readEvent waitOn(readTimeout) ifFalse(return(false))
 		while(asyncStreamRead(readBuffer, bytesPerRead), nil)
 		//writeln("streamReadNextChunk readBuffer size = ", readBuffer size)
 		isOpen
@@ -152,11 +172,10 @@ Socket do(
 	)
 
 	udpReadNextChunk := method(ipAddress,
-		raiseExceptionIfInvalid
-		readEvent waitOnOrExcept(readTimeout)
-		if(readEvent isTimeout, write("udpReadNextChunk readTimeout"))
-		raiseExceptionIfInvalid
-		while(asyncUdpRead(ipAddress, readBuffer, bytesPerRead), raiseExceptionIfInvalid; nil)
+		setErrorIfInvalid ifTrue(return(false))
+		readEvent waitOn(readTimeout) ifFalse(return(false))
+		setErrorIfInvalid ifTrue(return(false))
+		while(asyncUdpRead(ipAddress, readBuffer, bytesPerRead), setErrorIfInvalid ifTrue(return(false)))
 		true
 	)
 
@@ -164,15 +183,16 @@ Socket do(
 		total := readBuffer size + numBytes
 
 		while(readBuffer size < total,
-			raiseExceptionIfInvalid
-			asyncUdpRead(ipAddress, readBuffer, bytesPerRead) ifFalse(
+			setErrorIfInvalid ifTrue(return(false))
+			asyncUdpRead(ipAddress, readBuffer, bytesPerRead) //ifFalse(
 				//readEvent waitOn(readTimeout)
 				//asyncUdpRead(ipAddress, readBuffer, bytesPerRead)
-				nil
-			)
-			raiseExceptionIfInvalid
+				//nil
+			//)
+			setErrorIfInvalid ifTrue(return(false))
 			//checkErrno
 		)
+		true
 	)
 
 	udpWrite := getSlot("asyncUdpWrite")

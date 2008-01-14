@@ -15,6 +15,9 @@ extern "C" {
 
 IoObject *IoSystem_proto(void *state);
 
+#if defined(_WIN32)
+IoObject *IoObject_shellExecute(IoObject *self, IoObject *locals, IoMessage *m);
+#endif
 IoObject *IoObject_errno(IoObject *self, IoObject *locals, IoMessage *m);
 IoObject *IoObject_errnoDescription(IoObject *self, IoObject *locals, IoMessage *m);
 IoObject *IoObject_exit(IoObject *self, IoObject *locals, IoMessage *m);

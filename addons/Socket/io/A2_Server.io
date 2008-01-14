@@ -1,4 +1,3 @@
-
 Server := Object clone do(
 	type := "Server"
 	docCategory("Networking")

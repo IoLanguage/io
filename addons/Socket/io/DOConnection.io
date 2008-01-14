@@ -1,4 +1,3 @@
-
 Object NULL := Sequence clone
 Object NULL append(0x0)
 
@@ -41,10 +40,9 @@ DOConnection := Object clone do(
 
 	type := "DOConnection"
 
-	newSlot("localObjects", nil)
-	newSlot("proxies", nil)
-	newSlot("socket", nil)
-	newSlot("debug", false)
+	localObjects ::= nil
+	proxies ::= nil
+	socket ::= nil
 
 	init := method(
 		setLocalObjects(Map clone)
@@ -53,10 +51,10 @@ DOConnection := Object clone do(
 	)
 
 	handleSocket := method(aSocket, /* Called to when starting a server */
-		if(debug, write("Got connection\n"))
+		debugWriteln("Got connection")
 		setSocket(aSocket)
 		while(socket isOpen, self readMessage)
-		if(debug, write("Closed connection\n"))
+		debugWriteln("Closed connection")
 	)
 
 	docSlot("close", "Close the connection, if it is open. Returns self.")
@@ -82,7 +80,7 @@ DOConnection := Object clone do(
 
 	connect := method(
 		self error := nil
-		socket connect
+		socket raiseOnError(socket connect)
 		self serverObject := DOProxy clone setProxyId(0) setConnection(self)
 		self
 	)
@@ -90,23 +88,23 @@ DOConnection := Object clone do(
 	docSlot("serverObject", "A handle to the remote DOServer's root object.")
 
 	sendMessage := method(m,
-		if(debug, write("sending message "); ShowMessage(m))
-		socket write(m)
-		if(debug, write("waiting for result\n"))
+		ifDebug(write("sending message "); ShowMessage(m))
+		raiseOnError(socket write(m))
+		debugWriteln("waiting for result")
 		socket readBuffer empty
 		result := nil
 		while(socket read,
 			list := socket readBuffer splitNoEmpties(NULL)
-			if(debug, write("got result "); ShowMessage(socket readBuffer))
+			ifDebug(write("got result "); ShowMessage(socket readBuffer))
 			type := list at(0) asString
 
 			if(type == "r") then( /* if it's a result */
 				argType  := list at(1) asString
 				argValue := list at(2) asString
 				result := self decode(argType, argValue)
-			break
+				break
 			) else(
-				performMessage(m)
+				raiseOnError(performMessage(m))
 			)
 		)
 		return result
@@ -116,7 +114,7 @@ DOConnection := Object clone do(
 		socket readBuffer empty
 		if(socket read,
 			m := socket readBuffer
-			if(debug, write("read message "); ShowMessage(m))
+			ifDebug(write("read message "); ShowMessage(m))
 			self performMessage(m)
 		)
 	)
@@ -139,12 +137,12 @@ DOConnection := Object clone do(
 			i = i + 2
 		)
 
-		if(debug, write("performing ", methodName, " on a ", target type, "\n"))
+		debugWriteln("performing ", methodName, " on a ", target type, "\n")
 		result := target performWithArgList(methodName, args)
 		b := Sequence clone
 		b appendSeq("r", NULL)
 		self encode(b, result, localObjects)
-		if(debug, write("returning result "); ShowMessage(b))
+		ifDebug(write("returning result "); ShowMessage(b))
 		socket write(b)
 	)
 
@@ -164,7 +162,7 @@ DOConnection := Object clone do(
 		)
 
 		localObjects atPut(arg uniqueId asString, arg)
-		if(debug, write("adding localObject ", arg uniqueId asString, " ", arg type, "\n"))
+		debugWriteln("adding localObject ", arg uniqueId asString, " ", arg type, "\n")
 		b appendSeq("RemoteObject", NULL, arg uniqueId asString, NULL)
 	)
 
@@ -204,8 +202,8 @@ DOConnection := Object clone do(
 
 DOProxy := Object clone do(
 	docCategory("Networking")
-	newSlot("proxyId", nil)
-	newSlot("connection", nil)
+	proxyId ::= nil
+	connection ::= nil
 
 	forward := method(
 		methodName := call message name
@@ -221,6 +219,6 @@ DOProxy := Object clone do(
 		b appendSeq(NULL)
 
 		args foreach(v, connection encode(b, v))
-		return connection sendMessage(b)
+		return(connection sendMessage(b))
 	)
 )

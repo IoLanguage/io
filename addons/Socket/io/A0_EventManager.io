@@ -1,16 +1,10 @@
-
 Event do(
 	docCategory("Networking")
-	newSlot("descriptorId", -1)
-	newSlot("eventType", nil)
-	newSlot("timeout", 10)
-	newSlot("coro", nil) // internal
-	setSlot("EV_TIMER", 0)
-
-	debugWriteln := nil
-	debugOff := method(self debugWriteln := nil)
-	debugOn := method(self debugWriteln := getSlot("writeln"))
-	//debugOn
+	descriptorId ::= -1
+	eventType ::= nil
+	timeout ::= 10
+	coro ::= nil // internal
+	EV_TIMER ::= 0
 
 	eventTypeName := method(
 		if(eventType == EV_READ,   return "EV_READ")
@@ -72,9 +66,9 @@ Object wait := method(t, TimerEvent clone setTimeout(t) waitOn)
 
 EventManager do(
 	docCategory("Networking")
-	newSlot("isRunning", false)
-	newSlot("coro", nil)
-	debugWriteln := nil
+	isRunning ::= false
+	coro ::= nil
+	
 	realAddEvent := getSlot("addEvent")
 
 	addEvent := method(e, descriptorId, eventType, timeout,

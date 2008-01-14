@@ -1,7 +1,8 @@
 
 DNSQuery := Object clone do(
 	docCategory("Networking")
-	newSlot("hostName")
+	hostName ::= nil
+
 	init := method(self coros := List clone)
 	addCoro := method(coro, coros append(coro); self)
 	resumeCoros := method(coros foreach(resume); self)
@@ -15,9 +16,7 @@ DNSQuery := Object clone do(
 
 DNSServer := Object clone do(
 	docCategory("Networking")
-	newSlot("host", nil)
-	//debugWriteln := getSlot("writeln")
-	debugWriteln := nil
+	host ::= nil
 
 	/*
 	hostNameIsIP := method(hostName,
@@ -44,7 +43,7 @@ DNSServer := Object clone do(
 
 			coroId := Scheduler currentCoroutine label
 			debugWriteln(coroId, " reading DNS packet")
-			socket udpReadNextChunk(ipAddress)
+			socket udpReadNextChunk(ipAddress) ifFalse(continue)
 			debugWriteln(coroId, " got DNS packet")
 
 			socket close
@@ -76,9 +75,6 @@ DNSResolver := Object clone do(
 
 	init
 
-	//debugWriteln := getSlot("writeln")
-	debugWriteln := nil
-
 	docSlot("dnsServers", "Returns list of DNSServer objects used for lookups.")
 	docSlot("queries", "Returns list of active DNSQuery objects.")
 	docSlot("cache", "Returns Map containing lookup cache.")
@@ -91,15 +87,15 @@ DNSResolver := Object clone do(
 
 	setupServerListIfNeeded := method(
 		if(dnsServers size > 0, return)
-		DNS localNameServersIPs foreach(ip, addDNSServerIp(ip))
+		DNS localNameServersIPs select(isEmpty not) foreach(ip, addDNSServerIp(ip))
 	)
 
-	docSlot("ipForHostName(hostName)", "Returns a String containing the IP for the hostName or 'failed', if an error occurs.")
+	docSlot("ipForHostName(hostName)", "Returns a String containing the IP for the hostName or nil, if an error occurs.")
 
 	ipForHostName := method(hostName,
 		setupServerListIfNeeded
 		ip := cache at(hostName)
-		if(ip, return ip)
+		if(ip, return(ip))
 
 		q := queries at(hostName)
 
@@ -116,12 +112,13 @@ DNSResolver := Object clone do(
 			)
 			debugWriteln("sending query done ip = ", ip)
 
-			ip ifNil(ip = false)
 			cache atPut(hostName, ip)
 			queries removeAt(hostName)
 			q resumeCoros
 		)
 
-		cache at(hostName)
+		cache at(hostName) ifNil(
+			setError("Failed to resolve " .. hostName)
+		)
 	)
 )

@@ -1,5 +1,3 @@
-
-
 DOServer := Server clone do(
 	type := "DOServer"
 	docCategory("Networking")
@@ -17,7 +15,7 @@ DOServer := Server clone do(
 	""")
 
 	docSlot("setRootObject(anObject)", "Sets the root object which incoming messages will be send to.")
-	newSlot("rootObject", nil)
+	rootObject ::= nil
 	handleSocket := method(aSocket,
 		con := DOConnection clone
 		con localObjects atPut("0", rootObject)

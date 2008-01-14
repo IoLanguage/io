@@ -73,6 +73,9 @@ static void setenv(const char *varName, const char* value, int force)
 IoObject *IoSystem_proto(void *state)
 {
 	IoMethodTable methodTable[] = {
+#if defined(_WIN32)
+	{"shellExecute", IoObject_shellExecute},
+#endif
 	{"errno", IoObject_errnoDescription},
 	{"exit", IoObject_exit},
 	{"getenv", IoObject_getenv},
@@ -125,6 +128,14 @@ IoObject *IoObject_errno(IoObject *self, IoObject *locals, IoMessage *m)
 
 #include <stdio.h>
 #include <errno.h>
+
+#if defined(_WIN32)
+#include <shellapi.h>
+IoObject *IoObject_shellExecute(IoObject *self, IoObject *locals, IoMessage *m)
+{
+	return IONUMBER((int) ShellExecute(NULL, "open", CSTRING(IoMessage_locals_symbolArgAt_(m, locals, 0)), NULL, NULL, SW_SHOWNORMAL));
+}
+#endif
 
 IoObject *IoObject_errnoDescription(IoObject *self, IoObject *locals, IoMessage *m)
 {

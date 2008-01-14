@@ -1,4 +1,3 @@
-
 URL := Notifier clone do(
 	docCategory("Networking")
 	docCopyright("Steve Dekorte", 2004)
@@ -14,8 +13,8 @@ URL := Notifier clone do(
 	docSlot("setURL(urlString)",
 	"Sets the url string and parses into the protocol, host, port path, and query slots. Returns self.")
 
-	newSlot("socketProto", Socket clone)
-	newSlot("readHeader")
+	socketProto ::= Socket clone
+	readHeader ::= nil
 
 	init := method(
 		self socket := socketProto clone
@@ -28,10 +27,8 @@ URL := Notifier clone do(
 		self
 	)
 
-	docSlot("error", "Returns error string if it has been set or nil otherwise.")
-	newSlot("error")
-	newSlot("host")
-	newSlot("protocol")
+	host ::= nil
+	protocol ::= nil
 
 	unparse := method(
 		if(host) then(
@@ -90,7 +87,7 @@ URL := Notifier clone do(
 
 	docSlot("referer", "Returns the referer String or nil if not set.")
 	docSlot("setReferer(aString)", "Sets the referer. Returns self.")
-	newSlot("referer", nil)
+	referer ::= nil
 
 	clear := method(
 		self do(
@@ -145,19 +142,21 @@ URL := Notifier clone do(
 		u
 	)
 
-	docSlot("fetch", "Fetches the url and returns the result as a Sequence. Raises an exception if an error occurs.")
+	docSlot("fetch", "Fetches the url and returns the result as a Sequence. Sets error and returns nil if an error occurs.")
 
 	fetch := method(url,
 		if(url, setURL(url))
-		if(protocol == "http", return fetchHttp)
-		Exception raise("protocol '" .. protocol .. "' unsupported")
+		if(protocol == "http", return(fetchHttp))
+		setError("protocol '" .. protocol .. "' unsupported")
+		nil
 	)
 
-	docSlot("fetchWithProgress(progressBlock)", "Same as fetch, but with each read, progressBlock is called with the readBuffer and the content size as parameters.")
+	docSlot("fetchWithProgress(progressBlock)", "Same as fetch, but with each read, progressBlock is called with the readBuffer and the content size as parameters.  Sets error and returns nil if an error occurs.")
 
 	fetchWithProgress := method(progressBlock,
-		if(protocol == "http", return fetch(getSlot("progressBlock")))
-		Exception raise("protocol '" .. protocol .. "' unsupported")
+		if(protocol == "http", return(fetch(getSlot("progressBlock"))))
+		setError("protocol '" .. protocol .. "' unsupported")
+		nil
 	)
 
 	docSlot("stopFetch", "Stops the fetch, if there is one. Returns self.")
@@ -187,9 +186,10 @@ URL := Notifier clone do(
 	fourCharheaderBreaks := list("\r\n\r\n", "\n\r\n\r")
 
 	fetchRaw := method(
-		socket setHost(host) setPort(port) connect
-		if(socket error, error := socket error; return nil)
-		socket streamWrite(requestHeader)
+		(socket setHost(host) setPort(port) connect and socket streamWrite(requestHeader)) ifFalse(
+			setError(socket error)
+			return
+		)
 		while(socket streamReadNextChunk, nil)
 		socket readBuffer
 	)
@@ -210,12 +210,10 @@ URL := Notifier clone do(
 	fetchHttp := method(progressBlock,
 		if(host == nil, Exception raise("no host set"))
 		//writeln("host = '", host, "'")
-		socket setHost(host) setPort(port) connect
-		if(socket error, error := socket error; return nil)
-
-		//writeln("request = [", request, "]")
-		socket streamWrite(requestHeader)
-
+		(socket setHost(host) setPort(port) connect and socket streamWrite(requestHeader)) ifFalse(
+			setError(socket error)
+			return
+		)
 		processHttpResponse(progressBlock)
 	)
 	
@@ -264,7 +262,10 @@ URL := Notifier clone do(
 			b copy(newB)
 		)
 
-		if(socket error, writeln(socket error); return)
+		if(socket error,
+			setError(socket error)
+			return
+		)
 		socket close
 		//writeln("b = ", b)
 		if(headerFields at("Content-Encoding") == "gzip", Zlib; b unzip)
@@ -274,7 +275,7 @@ URL := Notifier clone do(
 	docSlot("fetchToFile(aFile)", "fetch the url and save the result to the specified File object. Saving is done as the data is read, which help minimize memory usage. Returns self on success or nil on error.")
 
 	fetchToFile := method(file,
-		fetchHttp(block(file write(socket readBuffer); socket readBuffer empty))
+		fetchHttp(block(file write(socket readBuffer); socket readBuffer empty)) ifNil(return)
 		self
 	)
 
@@ -285,7 +286,7 @@ URL := Notifier clone do(
 		URL clone setURL(u) setReferer(url)
 	)
 
-	docSlot("post(data)", "Sends an http post message. If data is a Map, it's key/value pairs are send as the post parameters. If data is a Sequence or String, it is sent directly. Returns self on success or nil on error.")
+	docSlot("post(data)", "Sends an http post message. If data is a Map, it's key/value pairs are send as the post parameters. If data is a Sequence or String, it is sent directly. Returns a sequence containing the response on success or nil on error.")
 
 	post := method(postdata,
 		postdata ifNil(postdata = "")
@@ -314,37 +315,32 @@ URL := Notifier clone do(
 
 		header appendSeq("Content-Length: ", content size, "\r\n\r\n", content)
 
-		socket setHost(ip) setPort(port)
-		socket connect
-
-		if(socket error,
-			error = socket error
-			return nil
+		
+		(socket setHost(host) setPort(port) connect and socket streamWrite(header)) ifFalse(
+			setError(socket error)
+			return
 		)
-
-		socket streamWrite(header)
+		
 		processHttpResponse
 	)
 
 	openOnDesktop := method(
-			platform := System platform
-			quotedUrl := "\"" .. url .. "\""
-			if(platform == "Mac OS/X") then(
-				System system("open " .. quotedUrl)
-			) elseif(platform == "Windows 9X") then(
-				System system("command /c start \"\" " .. quotedUrl)
-			) elseif(platform containsSeq("Windows")) then(
-				System system("cmd /c \"start \"\" " .. quotedUrl)
-			) else(
-				// assume generic Unix?
-				System system("open " .. quotedUrl)
-			)
+		platform := System platform
+		quotedUrl := "\"" .. url .. "\""
+		if(platform == "Mac OS/X") then(
+			System system("open " .. quotedUrl)
+		) elseif(platform containsSeq("Windows")) then(
+			System shellExecute(url)
+		) else(
+			// assume generic Unix?
+			System system("open " .. quotedUrl)
 		)
+	)
 
-	newSlot("streamDestination")
+	streamDestination ::= nil
 	startStreaming := method(
 		fetchHttp(block(
-			streamDestination write(socket readBuffer)
+			streamDestination raiseOnError(streamDestination write(socket readBuffer))
 			socket readBuffer empty
 		))
 	)
