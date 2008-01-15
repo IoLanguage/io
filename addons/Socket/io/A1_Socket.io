@@ -44,7 +44,7 @@ Socket do(
 
 	port := method(ipAddress port)
 
-	checkErrno := method(
+	checkErrorNumber := method(
 		//writeln("System errorNumber = ", System errorNumber)
 		Socket errorNumber ifNonNil(setError("Socket errorNumber: " .. System errorNumber))
 	)
