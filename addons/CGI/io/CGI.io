@@ -44,10 +44,10 @@ CGI := Object clone do(
 
 
 
-	docSlot("isInWebScript", """Checks to see if this is being called within a CGI request or from the command-line (testing).  Simply checks for System getEnviromentVariable("GATEWAY_INTERFACE")""")
+	docSlot("isInWebScript", """Checks to see if this is being called within a CGI request or from the command-line (testing).  Simply checks for System getEnvironmentVariable("GATEWAY_INTERFACE")""")
 
 	isInWebScript := method(
-		System getEnviromentVariable("GATEWAY_INTERFACE") != nil
+		System getEnvironmentVariable("GATEWAY_INTERFACE") != nil
 	)
 
 
@@ -56,14 +56,14 @@ CGI := Object clone do(
 	newSlot("maxPostSize")
 
 
-	docSlot("postData", """The raw post data sent to the script.  Only set if getEnviromentVariable("REQUEST_METHOD") asLowercase == "post".""")
+	docSlot("postData", """The raw post data sent to the script.  Only set if getEnvironmentVariable("REQUEST_METHOD") asLowercase == "post".""")
 	_memoized := Map clone
 	postData := method(
 		if (_memoized hasKey("postData"), return _memoized at("postData"))
 
 		data := nil
 		if(requestMethod == "POST",
-			sz := System getEnviromentVariable("CONTENT_LENGTH") ?asNumber
+			sz := System getEnvironmentVariable("CONTENT_LENGTH") ?asNumber
 			if(maxPostSize ?asNumber ?isNan or sz < maxPostSize,
 				data = (File standardInput open contents)
 			)
@@ -77,7 +77,7 @@ CGI := Object clone do(
 	docSlot("maxPostSizeExceeded", "Returns true if the POST data exceeds a set maxPostSize")
 
 	maxPostSizeExceeded := method(
-			sz := System getEnviromentVariable("CONTENT_LENGTH") ?asNumber
+			sz := System getEnvironmentVariable("CONTENT_LENGTH") ?asNumber
 			if(maxPostSize ?asNumber ?isNan or sz < maxPostSize,
 				return false,
 				return true
@@ -210,35 +210,35 @@ CGI := Object clone do(
 
 
 	docSlot("queryString", "QUERY_STRING from web server")
-	queryString := method( return System getEnviromentVariable("QUERY_STRING"))
+	queryString := method( return System getEnvironmentVariable("QUERY_STRING"))
 
 	docSlot("pathInfo", "PATH_INFO from web server")
-	pathInfo := method( return System getEnviromentVariable("PATH_INFO"))
+	pathInfo := method( return System getEnvironmentVariable("PATH_INFO"))
 
 	docSlot("pathTranslated", "PATH_TRANSLATED from web server")
-	pathTranslated := method( return System getEnviromentVariable("PATH_TRANSLATED"))
+	pathTranslated := method( return System getEnvironmentVariable("PATH_TRANSLATED"))
 
 	docSlot("scriptName", "SCRIPT_NAME from web server")
-	scriptName := method( return System getEnviromentVariable("SCRIPT_NAME"))
+	scriptName := method( return System getEnvironmentVariable("SCRIPT_NAME"))
 
 	docSlot("contentType", "CONTENT_TYPE from web server")
-	contentType := method( return System getEnviromentVariable("CONTENT_TYPE"))
+	contentType := method( return System getEnvironmentVariable("CONTENT_TYPE"))
 
 	docSlot("remoteHost", "REMOTE_HOST from web server - User's host (often blank)")
-	remoteHost := method( return System getEnviromentVariable("REMOTE_HOST"))
+	remoteHost := method( return System getEnvironmentVariable("REMOTE_HOST"))
 
 	docSlot("remoteAddress", "REMOTE_ADDR from web server - User's IP")
-	remoteAddress := method( return System getEnviromentVariable("REMOTE_ADDR"))
+	remoteAddress := method( return System getEnvironmentVariable("REMOTE_ADDR"))
 
 	docSlot("contentLength", "CONTENT_LENGTH from web server - Size of POST Data")
-	contentLength := method( return System getEnviromentVariable("CONTENT_LENGTH") ?asNumber)
+	contentLength := method( return System getEnvironmentVariable("CONTENT_LENGTH") ?asNumber)
 
 	docSlot("httpHeader(name)", "Fetch a header supplied by the client, such as 'referer'")
-	httpHeader := method(name, return System getEnviromentVariable("HTTP_" .. name asUppercase))
+	httpHeader := method(name, return System getEnvironmentVariable("HTTP_" .. name asUppercase))
 
 	docSlot("requestMethod", "GET, POST, PUT, etc")
 	requestMethod := method(
-		m := System getEnviromentVariable("REQUEST_METHOD") ?asUppercase
+		m := System getEnvironmentVariable("REQUEST_METHOD") ?asUppercase
 		if(m == nil or m == "", m = "GET")
 		return m
 	)
