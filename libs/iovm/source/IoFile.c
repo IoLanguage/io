@@ -104,6 +104,7 @@ IoFile *IoFile_proto(void *state)
 	{"readToBufferLength", IoFile_readToBufferLength},
 	{"at", IoFile_at},
 	{"foreach", IoFile_foreach},
+	{"foreachLine", IoFile_foreachLine},
 
 	// writing
 	{"write", IoFile_write},
@@ -1073,5 +1074,62 @@ aFile foreach(v, writeln("byte ", v))
 
 		i ++;
 	}
+	return result;
+}
+
+
+IoObject *IoFile_foreachLine(IoFile *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("foreachLine(optionalLineNumber, line, message)",
+			"""For each line, set index to the line number of the line
+and line and execute aMessage.
+Example usage:
+<pre>
+aFile foreachLine(i, v, writeln("Line ", i, ": ", v))
+aFile foreach(v, writeln("Line: ", v))
+</pre>
+""")
+	*/
+
+	IoObject *result = IONIL(self);
+
+	IoSymbol *indexSlotName, *lineSlotName;
+	IoMessage *doMessage;
+	IoObject *newLine;
+	int i = 0;
+
+	IoMessage_foreachArgs(m, self, &indexSlotName, &lineSlotName, &doMessage);
+	IoState *state = IOSTATE;
+
+	IoFile_assertOpen(self, locals, m);
+
+	IoState_pushRetainPool(state);
+
+	for (;;)
+	{
+		IoState_clearTopPool(state);
+		newLine = IoFile_readLine(self, locals, m);
+
+		if (ISNIL(newLine))
+		{
+			break;
+		}
+
+		if (indexSlotName)
+		{
+			IoObject_setSlot_to_(locals, indexSlotName, IONUMBER(i));
+		}
+		IoObject_setSlot_to_(locals, lineSlotName, newLine);
+
+		result = IoMessage_locals_performOn_(doMessage, locals, locals);
+		if (IoState_handleStatus(IOSTATE))
+		{
+			break;
+		}
+		i ++;
+	}
+
+	IoState_popRetainPool(state);
 	return result;
 }
