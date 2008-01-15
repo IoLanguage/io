@@ -18,12 +18,12 @@ IoObject *IoSystem_proto(void *state);
 #if defined(_WIN32)
 IoObject *IoObject_shellExecute(IoObject *self, IoObject *locals, IoMessage *m);
 #endif
-IoObject *IoObject_errno(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoObject_errnoDescription(IoObject *self, IoObject *locals, IoMessage *m);
+IoObject *IoObject_errorNumber(IoObject *self, IoObject *locals, IoMessage *m);
+IoObject *IoObject_errorNumberDescription(IoObject *self, IoObject *locals, IoMessage *m);
 IoObject *IoObject_exit(IoObject *self, IoObject *locals, IoMessage *m);
 IoObject *IoObject_compileString(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoObject_getenv(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoObject_setenv(IoObject *self, IoObject *locals, IoMessage *m);
+IoObject *IoObject_getEnvironmentVariable(IoObject *self, IoObject *locals, IoMessage *m);
+IoObject *IoObject_setEnvironmentVariable(IoObject *self, IoObject *locals, IoMessage *m);
 IoObject *IoObject_system(IoObject *self, IoObject *locals, IoMessage *m);
 IoObject *IoObject_memorySizeOfState(IoObject *self, IoObject *locals, IoMessage *m);
 IoObject *IoObject_compactState(IoObject *self, IoObject *locals, IoMessage *m);

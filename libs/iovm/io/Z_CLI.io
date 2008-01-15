@@ -25,7 +25,7 @@ CLI := Object clone do(
 	)
 
 	runIorc := method(
-		home := System getenv("HOME")
+		home := System getEnvironmentVariable("HOME")
 		if(home,
 			path := Path with(home, ".iorc")
 			if(File with(path) exists,
@@ -35,7 +35,7 @@ CLI := Object clone do(
 	)
 
 	ioHistoryFile := method(
-		Path with(System getenv("HOME"), ".io_history")
+		Path with(System getEnvironmentVariable("HOME"), ".io_history")
 	)
 
 	saveHistory := method(

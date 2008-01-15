@@ -45,8 +45,8 @@ Socket do(
 	port := method(ipAddress port)
 
 	checkErrno := method(
-		//writeln("System errno = ", System errno)
-		Socket errno ifNonNil(setError("Socket errno: " .. System errno))
+		//writeln("System errorNumber = ", System errorNumber)
+		Socket errorNumber ifNonNil(setError("Socket errorNumber: " .. System errorNumber))
 	)
 
 	setupEvents := method(
@@ -56,14 +56,14 @@ Socket do(
 
 	streamOpen := method(
 		asyncStreamOpen
-		raiseOnError(checkErrno)
+		raiseOnError(checkErrorNumber)
 		setupEvents
 		true
 	)
 
 	udpOpen := method(
 		asyncUdpOpen
-		checkErrno
+		checkErrorNumber
 		setupEvents
 		true
 	)
@@ -86,9 +86,9 @@ Socket do(
 				return(false)
 			)
 			didConnect = asyncConnect(ipAddress)
-			//checkErrno
+			//checkErrorNumber
 		)
-		if(didConnect not and errno == "WSA Error 10022",
+		if(didConnect not and errorNumber == "WSA Error 10022",
 			writeEvent waitOn(connectTimeout) ifFalse(
 				setError("Connection timeout")
 				return(false)
@@ -99,7 +99,7 @@ Socket do(
 			didConnect = asyncConnect(ipAddress)
 		)
 		didConnect ifTrue(return(true))
-		checkErrno
+		checkErrorNumber
 		false
 	)
 
@@ -190,7 +190,7 @@ Socket do(
 				//nil
 			//)
 			setErrorIfInvalid ifTrue(return(false))
-			//checkErrno
+			//checkErrorNumber
 		)
 		true
 	)

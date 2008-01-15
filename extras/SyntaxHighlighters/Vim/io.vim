@@ -32,7 +32,7 @@ syntax keyword xType true false nil Random BigNum Sequence
 syntax keyword xKeyword activate activeCoroCount and asString block break
 syntax keyword xKeyword catch clone collectGarbage compileString continue
 syntax keyword xKeyword do doFile doMessage doString else elseif exit for
-syntax keyword xKeyword foreach forward getSlot getenv hasSlot if ifFalse
+syntax keyword xKeyword foreach forward getSlot getEnvironmentVariable hasSlot if ifFalse
 syntax keyword xKeyword ifNil ifNilEval ifTrue isActive isNil isResumable list message
 syntax keyword xKeyword method or parent pass pause perform
 syntax keyword xKeyword performWithArgList print println proto raise raiseResumable

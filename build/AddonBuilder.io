@@ -5,10 +5,10 @@ AddonBuilder := Object clone do(
 	disable := method(isDisabled = true)
 
 	platform := System platform split at(0) asLowercase
-	cflags := method(System getenv("CFLAGS") ifNilEval(""))
+	cflags := method(System getEnvironmentVariable("CFLAGS") ifNilEval(""))
 	if (platform == "windows",
-		cc := method(System getenv("CC") ifNilEval(return "cl -nologo"))
-		cxx := method(System getenv("CXX") ifNilEval(return "cl -nologo"))
+		cc := method(System getEnvironmentVariable("CC") ifNilEval(return "cl -nologo"))
+		cxx := method(System getEnvironmentVariable("CXX") ifNilEval(return "cl -nologo"))
 		ccOutFlag := "-Fo"
 		linkdll := "link -link -nologo"
 		linkDirPathFlag := "-libpath:"
@@ -19,8 +19,8 @@ AddonBuilder := Object clone do(
 		arFlags := "-out:"
 		ranlib := nil
 	,
-		cc := method(System getenv("CC") ifNilEval(return "cc"))
-		cxx := method(System getenv("CXX") ifNilEval(return "g++"))
+		cc := method(System getEnvironmentVariable("CC") ifNilEval(return "cc"))
+		cxx := method(System getEnvironmentVariable("CXX") ifNilEval(return "g++"))
 		ccOutFlag := "-o "
 		linkdll := cc
 		linkDirPathFlag := "-L"
@@ -28,9 +28,9 @@ AddonBuilder := Object clone do(
 		linkLibSuffix := ""
 		linkOutFlag := "-o "
 		linkLibSuffix := ""
-		ar := method(System getenv("AR") ifNilEval(return "ar"))
+		ar := method(System getEnvironmentVariable("AR") ifNilEval(return "ar"))
 		arFlags := "rcu "
-		ranlib := method(System getenv("RANLIB") ifNilEval(return "ranlib"))
+		ranlib := method(System getEnvironmentVariable("RANLIB") ifNilEval(return "ranlib"))
 	)
 
 	supportedOnPlatform := true

@@ -28,7 +28,7 @@ System ioDoc(
 #ifdef WIN32
 #include <windows.h>
 
-static void setenv(const char *varName, const char* value, int force)
+static void setEnvironmentVariable(const char *varName, const char* value, int force)
 {
 	const char *safeValue;
 	char *buf;
@@ -76,10 +76,10 @@ IoObject *IoSystem_proto(void *state)
 #if defined(_WIN32)
 	{"shellExecute", IoObject_shellExecute},
 #endif
-	{"errno", IoObject_errnoDescription},
+	{"errorNumber", IoObject_errorNumberDescription},
 	{"exit", IoObject_exit},
-	{"getenv", IoObject_getenv},
-	{"setenv", IoObject_setenv},
+	{"getEnvironmentVariable", IoObject_getEnvironmentVariable},
+	{"setEnvironmentVariable", IoObject_setEnvironmentVariable},
 	{"system", IoObject_system},
 	//{"memorySizeOfState", IoObject_memorySizeOfState},
 	//{"compactState", IoObject_compactState},
@@ -120,7 +120,7 @@ IoObject *IoSystem_proto(void *state)
 }
 
 /*
-IoObject *IoObject_errno(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoObject_errorNumber(IoObject *self, IoObject *locals, IoMessage *m)
 {
 	return IONUMBER(errno);
 }
@@ -137,10 +137,10 @@ IoObject *IoObject_shellExecute(IoObject *self, IoObject *locals, IoMessage *m)
 }
 #endif
 
-IoObject *IoObject_errnoDescription(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoObject_errorNumberDescription(IoObject *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("errno", "Returns the C errno string.")
+	docSlot("errorNumber", "Returns the C errno string.")
 	*/
 	return errno ? IOSYMBOL(strerror(errno)) : IONIL(self);
 }
@@ -164,12 +164,11 @@ control to the calling program (if any). ")
 	return self;
 }
 
-IoObject *IoObject_getenv(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoObject_getEnvironmentVariable(IoObject *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("getenv(nameString)",
-			"Returns a string with the value of the environment
-variable whose name is specified by nameString.")
+	docSlot("getEnvironmentVariable(nameString)",
+		   "Returns a string with the value of the environment variable whose name is specified by nameString.")
 	*/
 
 	IoSymbol *key = IoMessage_locals_symbolArgAt_(m, locals, 0);
@@ -219,10 +218,10 @@ IoObject *IoObject_compactState(IoObject *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoObject_setenv(IoObject *self, IoObject *locals, IoMessage *m)
+IoObject *IoObject_setEnvironmentVariable(IoObject *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("setenv(keyString, valueString)", "Sets the environment variable keyString to the value valueString.")
+	docSlot("setEnvironmentVariable(keyString, valueString)", "Sets the environment variable keyString to the value valueString.")
 	*/
 
 	// setenv() takes different args in different implementations

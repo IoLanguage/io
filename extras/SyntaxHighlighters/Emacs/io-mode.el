@@ -251,7 +251,7 @@
 				  "foreach"
 				  "forward"
 				  "getSlot"
-				  "getenv"
+				  "getEnvironmentVariable"
 				  "hasSlot"
 				  "if"
 				  "ifFalse"
