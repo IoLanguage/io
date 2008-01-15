@@ -87,6 +87,8 @@ CGI := Object clone do(
 
 	docSlot("getParameters", "Parses the QUERY_STRING environment variable and returns a Map containing key/value query value pairs.  For testing, a QUERY_STRING can be passed to standard in, one line will be read")
 
+	parse := method(getParameters) // for compatibility
+	
 	getParameters := method(
 		if (_memoized hasKey("getParameters"), return _memoized at("getParameters"))
 		if (isInWebScript,
