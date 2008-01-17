@@ -61,6 +61,7 @@ IoGLUT *IoGLUT_proto(void *state)
 	DATA(self)->passiveMotionMessage = GLUTMESSAGE("passiveMotion");
 	DATA(self)->reshapeMessage = GLUTMESSAGE("reshape");
 	DATA(self)->specialMessage = GLUTMESSAGE("special");
+	DATA(self)->specialUpMessage = GLUTMESSAGE("specialUp");
 	DATA(self)->timerMessage   = GLUTMESSAGE("timer");
 
 	DATA(self)->acceptsDropMessage = GLUTMESSAGE("acceptsDrop");
@@ -106,6 +107,7 @@ IoGLUT *IoGLUT_proto(void *state)
 	IoState_retain_(state, DATA(self)->passiveMotionMessage);
 	IoState_retain_(state, DATA(self)->reshapeMessage);
 	IoState_retain_(state, DATA(self)->specialMessage);
+	IoState_retain_(state, DATA(self)->specialUpMessage);
 	IoState_retain_(state, DATA(self)->timerMessage);
 
 	IoState_retain_(state, DATA(self)->acceptsDropMessage);
@@ -153,6 +155,7 @@ void IoGLUT_mark(IoGLUT *self)
 	IoObject_shouldMark(DATA(self)->passiveMotionMessage);
 	IoObject_shouldMark(DATA(self)->reshapeMessage);
 	IoObject_shouldMark(DATA(self)->specialMessage);
+	IoObject_shouldMark(DATA(self)->specialUpMessage);
 	IoObject_shouldMark(DATA(self)->timerMessage);
 
 	IoObject_shouldMark(DATA(self)->acceptsDropMessage);
@@ -400,6 +403,26 @@ IoObject *IoGLUT_glutKeyboardUpFunc(IoGLUT *self, IoObject *locals, IoMessage *m
 {
 #if (GLUT_API_VERSION >= 4 || GLUT_XLIB_IMPLEMENTATION >= 13)
 	glutKeyboardUpFunc(IoGlutKeyboardUpFunc);
+	return self;
+#endif
+}
+
+void IoGlutSpecialUpFunc(int key, int xv, int yv)
+{
+	IoState_pushRetainPool(IoObject_state(proto));
+	IoMessage_setCachedArg_toInt_(DATA(proto)->specialUpMessage, 0, (int)key);
+	IoMessage_setCachedArg_toInt_(DATA(proto)->specialUpMessage, 1, xv);
+	IoMessage_setCachedArg_toInt_(DATA(proto)->specialUpMessage, 2, yv);
+
+	IoGLUT_tryCallback(proto, DATA(proto)->specialUpMessage);
+
+	IoState_popRetainPool(IoObject_state(proto));
+}
+
+IoObject *IoGLUT_glutSpecialUpFunc(IoGLUT *self, IoObject *locals, IoMessage *m)
+{
+#if (GLUT_API_VERSION >= 4 || GLUT_XLIB_IMPLEMENTATION >= 13)
+	glutSpecialUpFunc(IoGlutSpecialUpFunc);
 	return self;
 #endif
 }

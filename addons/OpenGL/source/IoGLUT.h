@@ -34,6 +34,7 @@ typedef struct
 	IoMessage *passiveMotionMessage;
 	IoMessage *reshapeMessage;
 	IoMessage *specialMessage;
+	IoMessage *specialUpMessage;
 	IoMessage *timerMessage;
 
 	// extra in
@@ -76,6 +77,7 @@ IoObject *IoGLUT_tryCallback(IoGLUT *self, IoMessage *m);
 void IoGlutKeyboardFunc(unsigned char key, int xv, int yv);
 void IoGlutSpecialFunc(int key, int xv, int yv);
 void IoGlutKeyboardUpFunc(unsigned char key, int xv, int yv);
+void IoGlutSpecialUpFunc(int key, int xv, int yv);
 
 void IoGlutEntryFunc(int state);
 void IoGlutMotionFunc(int xv, int yv);

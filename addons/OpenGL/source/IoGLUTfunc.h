@@ -53,6 +53,7 @@ t_ioGLUT_funcTable ioGLUT_funcTable[] = {
 	{"glutSolidSphere", IoGLUT_glutSolidSphere},
 	{"glutSolidTorus", IoGLUT_glutSolidTorus},
 	{"glutSpecialFunc", IoGLUT_glutSpecialFunc},
+	{"glutSpecialUpFunc", IoGLUT_glutSpecialUpFunc},
 	{"glutStrokeCharacter", IoGLUT_glutStrokeCharacter},
 	{"glutStrokeString", IoGLUT_glutStrokeString},
 	{"glutSwapBuffers", IoGLUT_glutSwapBuffers},
