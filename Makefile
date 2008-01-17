@@ -114,7 +114,7 @@ install:
 	rm -f $(INSTALL_PREFIX)/bin/io$(BINARY_SUFFIX)
 	cp _build/binaries/io$(BINARY_SUFFIX) $(INSTALL_PREFIX)/bin || true
 	chmod ugo+rx $(INSTALL_PREFIX)/bin/io$(BINARY_SUFFIX)
-	cp _build/binaries/io_static$(BINARY_SUFFIX) $(INSTALL_PREFIX)/bin
+	cp _build/binaries/io_static$(BINARY_SUFFIX) $(INSTALL_PREFIX)/bin || true
 	chmod ugo+rx $(INSTALL_PREFIX)/bin/io_static$(BINARY_SUFFIX)  || true
 	cp _build/dll/* $(INSTALL_PREFIX)/lib  || true
 	cp _build/dll/* $(INSTALL_PREFIX)/bin  || true
@@ -178,7 +178,7 @@ test:
 dist:
 	-rm -f Io-*.tar.gz
 	echo "#define IO_VERSION_NUMBER "$(shell date +'%Y%m%d') > libs/iovm/source/IoVersion.h
-	#git add libs/iovm/source/IoVersion.h 
+	git add libs/iovm/source/IoVersion.h 
 	git commit -q --no-verify -m "setting version string for release"
 	git archive --format=tar --prefix=Io-$(date)/ HEAD | gzip > Io-$(date).tar.gz
 	ls -al Io-$(date).tar.gz
