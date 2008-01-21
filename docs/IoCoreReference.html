@@ -192,6 +192,7 @@ h3 {
 </ul>
 <h2><a name=Addon><font color=black>Addon</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object
 <h3>Slot Index</h3>
 <div style="width:40em; margin-left:2em">
 <b><a href=#Addon-addonPath >addonPath</a></b><br>
@@ -316,6 +317,7 @@ h3 {
 <br>
 <h2><a name=AddonLoader><font color=black>AddonLoader</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object
 <h3>Slot Index</h3>
 <div style="width:40em; margin-left:2em">
 <b><a href=#AddonLoader-addonFor >addonFor</a></b><br>
@@ -370,6 +372,7 @@ h3 {
 <br>
 <h2><a name=Block><font color=black>Block</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object
 <h3>Description</h3>
 Blocks are anonymous functions (messages with their own locals object). They are typically used to represent object methods.
 </font>
@@ -502,6 +505,7 @@ object. If Nil, it will set them to the target of the message.
 <br>
 <h2><a name=Break><font color=black>Break</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object, Normal
 <h3>Slot Index</h3>
 <div style="width:40em; margin-left:2em">
 <b><a href=#Break-isBreak >isBreak</a></b><br>
@@ -528,6 +532,7 @@ object. If Nil, it will set them to the target of the message.
 <br>
 <h2><a name=Call><font color=black>Call</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object
 <h3>Description</h3>
 Call stores slots related to activation.
 </font>
@@ -664,6 +669,7 @@ Returns the target value.
 <br>
 <h2><a name=CFunction><font color=black>CFunction</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object
 <h3>Description</h3>
 A container for a pointer to a C function binding. CFunction's can only be defined from the C side and act like blocks in that when placed in a slot, are called when the slot is activated. The for, if, while and clone methods of the Lobby are examples of CFunctions. CFunctions are useful for implementing methods that require the speed of C or binding to a C library.
 </font>
@@ -744,6 +750,7 @@ Returns the name given to the CFunction.
 <br>
 <h2><a name=CLI><font color=black>CLI</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object
 <h3>Slot Index</h3>
 <div style="width:40em; margin-left:2em">
 <b><a href=#CLI-commandLineLabel >commandLineLabel</a></b><br>
@@ -966,6 +973,7 @@ Returns the name given to the CFunction.
 <br>
 <h2><a name=Collector><font color=black>Collector</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object
 <h3>Description</h3>
 Contains methods related to Io's garbage collector. Io currently uses a incremental, non-moving, generational collector based on the tri-color (black/gray/white) algorithm with a write-barrier.
 <p>
@@ -1072,6 +1080,7 @@ Return the time used so far by the collector in seconds.
 <br>
 <h2><a name=Compiler><font color=black>Compiler</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object
 <h3>Description</h3>
 Contains methods related to the compiling code.
 </font>
@@ -1118,6 +1127,7 @@ Returns a list of token objects lexed from the input string.
 <br>
 <h2><a name=Continue><font color=black>Continue</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object, Normal
 <h3>Slot Index</h3>
 <div style="width:40em; margin-left:2em">
 <b><a href=#Continue-isContinue >isContinue</a></b><br>
@@ -1137,6 +1147,7 @@ Returns a list of token objects lexed from the input string.
 <br>
 <h2><a name=Coroutine><font color=black>Coroutine</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object
 <h3>Slot Index</h3>
 <div style="width:40em; margin-left:2em">
 <b><a href=#Coroutine-backTraceString >backTraceString</a></b><br>
@@ -1443,6 +1454,7 @@ Returns a list of token objects lexed from the input string.
 <br>
 <h2><a name=Date><font color=black>Date</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object
 <h3>Description</h3>
 A container for a date and time information.
 credits: fromString method by Sean Perry
@@ -1778,6 +1790,7 @@ Returns a string containing the system's time zone code.
 <br>
 <h2><a name=Debugger><font color=black>Debugger</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object
 <h3>Description</h3>
 Contains methods related to the IoVM debugger.
 </font>
@@ -1814,6 +1827,7 @@ Override this method to implement your own debugging mechanisms.
 <br>
 <h2><a name=Directory><font color=black>Directory</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object
 <h3>Description</h3>
 The Directory object supports accessing filesystem directories. A note on paths;
 if a path begins with a "/" it's the root,
@@ -2032,6 +2046,7 @@ Returns a new instance with the provided path.
 <br>
 <h2><a name=Duration><font color=black>Duration</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object
 <h3>Description</h3>
 A container for a duration of time.
 </font>
@@ -2204,6 +2219,7 @@ Returns a number containing the year of the receiver.
 <br>
 <h2><a name=DynLib><font color=black>DynLib</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object
 <h3>Description</h3>
 A DLL Loader by Kentaro A. Kurahone <kurahone@sigusr1.org>.
 </font>
@@ -2313,6 +2329,7 @@ Sets the path to the dynamic library. Returns self.
 <br>
 <h2><a name=Eol><font color=black>Eol</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object, Normal
 <h3>Slot Index</h3>
 <div style="width:40em; margin-left:2em">
 </div>
@@ -2325,6 +2342,7 @@ Sets the path to the dynamic library. Returns self.
 <br>
 <h2><a name=Exception><font color=black>Exception</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object
 <h3>Slot Index</h3>
 <div style="width:40em; margin-left:2em">
 <b><a href=#Exception-catch >catch</a></b><br>
@@ -2442,6 +2460,7 @@ Sets the path to the dynamic library. Returns self.
 <br>
 <h2><a name=false><font color=black>false</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object
 <h3>Slot Index</h3>
 <div style="width:40em; margin-left:2em">
 <b><a href=#false-else >else</a></b><br>
@@ -2496,6 +2515,7 @@ Sets the path to the dynamic library. Returns self.
 <br>
 <h2><a name=File><font color=black>File</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object
 <h3>Description</h3>
 Encapsulates file i/o. Here's an example of opening a file, and reversing it's lines:
 
@@ -3035,6 +3055,7 @@ Writes the arguments to the receiver file. Returns self.
 <br>
 <h2><a name=Future><font color=black>Future</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object
 <h3>Slot Index</h3>
 <div style="width:40em; margin-left:2em">
 <b><a href=#Future-futureProxy >futureProxy</a></b><br>
@@ -3110,6 +3131,7 @@ Writes the arguments to the receiver file. Returns self.
 <br>
 <h2><a name=FutureProxy><font color=black>FutureProxy</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object
 <h3>Slot Index</h3>
 <div style="width:40em; margin-left:2em">
 <b><a href=#FutureProxy-_forward >_forward</a></b><br>
@@ -3136,6 +3158,7 @@ Writes the arguments to the receiver file. Returns self.
 <br>
 <h2><a name=Importer><font color=black>Importer</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object
 <h3>Description</h3>
 A simple search path based auto-importer.
 </font>
@@ -3223,6 +3246,7 @@ Turns on the Importer. Returns self.
 <br>
 <h2><a name=Map><font color=black>Map</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object
 <h3>Description</h3>
 A key/value dictionary appropriate for holding large key/value collections.
 </font>
@@ -3398,6 +3422,7 @@ Returns a List of the receivers values.
 <br>
 <h2><a name=Message><font color=black>Message</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object
 <h3>Description</h3>
 A Message object encapsulates the action of a message send. Blocks are composed of a Message and its children.
 
@@ -3745,6 +3770,7 @@ Creates a union of the receiver and the other parameter. Returns a new message o
 <br>
 <h2><a name=Normal><font color=black>Normal</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object
 <h3>Slot Index</h3>
 <div style="width:40em; margin-left:2em">
 <b><a href=#Normal-isBreak >isBreak</a></b><br>
@@ -3785,6 +3811,7 @@ Creates a union of the receiver and the other parameter. Returns a new message o
 <br>
 <h2><a name=Notifier><font color=black>Notifier</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object
 <h3>Slot Index</h3>
 <div style="width:40em; margin-left:2em">
 <b><a href=#Notifier-addListener >addListener</a></b><br>
@@ -3818,6 +3845,7 @@ Creates a union of the receiver and the other parameter. Returns a new message o
 <br>
 <h2><a name=Number><font color=black>Number</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object
 <h3>Description</h3>
 A container for a double (a 64bit floating point number on most platforms).
 </font>
@@ -3830,8 +3858,8 @@ A container for a double (a 64bit floating point number on most platforms).
 <b><a href=#Number-+ >+()</a></b><br>
 <b><a href=#Number-- >-()</a></b><br>
 <b><a href=#Number-/ >/()</a></b><br>
-<b><a href=#Number-<< ><<</a></b><br>
-<b><a href=#Number->> >>></a></b><br>
+<b><a href=#Number-&lt;&lt; >&lt;&lt;</a></b><br>
+<b><a href=#Number-&gt;&gt; >&gt;&gt;</a></b><br>
 <b><a href=#Number-^ >^()</a></b><br>
 <b><a href=#Number-abs >abs</a></b><br>
 <b><a href=#Number-acos >acos</a></b><br>
@@ -3970,13 +3998,13 @@ Returns a new number with the value of the receiver diveded by aNumber.
 </font>
 </div>
 <p><br>
-<b><a name=Number-<<><font color=black><<</font></a></b><p>
+<b><a name=Number-&lt;&lt;><font color=black>&lt;&lt;</font></a></b><p>
 <div style="width:40em; margin-left:2em">
 <font color=red>undocumented</font>
 </font>
 </div>
 <p><br>
-<b><a name=Number->>><font color=black>>></font></a></b><p>
+<b><a name=Number-&gt;&gt;><font color=black>&gt;&gt;</font></a></b><p>
 <div style="width:40em; margin-left:2em">
 <font color=red>undocumented</font>
 </font>
@@ -4569,6 +4597,7 @@ Returns a new number with the bitwise OR of the receiver and aNumber.
 <br>
 <h2><a name=Object><font color=black>Object</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object
 <h3>Description</h3>
 An Object is a key/value dictionary with string keys and values of any type. The prototype Object contains a clone slot that is a CFuntion that creates new objects. When cloned, an Object will call it's init slot (with no arguments).
 
@@ -4732,7 +4761,7 @@ Creates a getter and setter for the slot with the name slotName
 </font>
 </div>
 <p><br>
-<b><a name=Object-perform><font color=black>perform(</b><i>methodName, <arg1>, <arg2>, ...</i><b>)
+<b><a name=Object-perform><font color=black>perform(</b><i>methodName, &lt;arg1&gt;, &lt;arg2&gt;, ...</i><b>)
 </font></a></b><p>
 <div style="width:40em; margin-left:2em">
 Performs the method corresponding to methodName with the arguments supplied.
@@ -4871,14 +4900,14 @@ Sends the message aMessage to the receiver's proto with the context of self. Exa
 </font>
 </div>
 <p><br>
-<b><a name=Object-write><font color=black>write(</b><i><any number of arguments></i><b>)
+<b><a name=Object-write><font color=black>write(</b><i>&lt;any number of arguments&gt;</i><b>)
 </font></a></b><p>
 <div style="width:40em; margin-left:2em">
 Sends a print message to the evaluated result of each argument. Returns Nil.
 </font>
 </div>
 <p><br>
-<b><a name=Object-writeln><font color=black>writeln(</b><i><any number of arguments></i><b>)
+<b><a name=Object-writeln><font color=black>writeln(</b><i>&lt;any number of arguments&gt;</i><b>)
 </font></a></b><p>
 <div style="width:40em; margin-left:2em">
 Same as write() but also writes a return character at the end. Returns Nil.
@@ -4891,6 +4920,7 @@ Same as write() but also writes a return character at the end. Returns Nil.
 <br>
 <h2><a name=Object><font color=black>Object</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> 
 <h3>Slot Index</h3>
 <div style="width:40em; margin-left:2em">
 </div>
@@ -4903,6 +4933,7 @@ Same as write() but also writes a return character at the end. Returns Nil.
 <br>
 <h2><a name=OperatorTable><font color=black>OperatorTable</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object
 <h3>Slot Index</h3>
 <div style="width:40em; margin-left:2em">
 <b><a href=#OperatorTable-addAssignOperator >addAssignOperator</a></b><br>
@@ -4957,6 +4988,7 @@ Same as write() but also writes a return character at the end. Returns Nil.
 <br>
 <h2><a name=Path><font color=black>Path</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object
 <h3>Slot Index</h3>
 <div style="width:40em; margin-left:2em">
 <b><a href=#Path-absolute >absolute</a></b><br>
@@ -4997,6 +5029,7 @@ Same as write() but also writes a return character at the end. Returns Nil.
 <br>
 <h2><a name=Return><font color=black>Return</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object, Normal
 <h3>Slot Index</h3>
 <div style="width:40em; margin-left:2em">
 <b><a href=#Return-isReturn >isReturn</a></b><br>
@@ -5023,6 +5056,7 @@ Same as write() but also writes a return character at the end. Returns Nil.
 <br>
 <h2><a name=Sandbox><font color=black>Sandbox</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object
 <h3>Description</h3>
 Sandbox can be used to run separate instances of Io within the same process.
 </font>
@@ -5084,6 +5118,7 @@ Returns a number containing the time limit of calls made to the Sandbox.
 <br>
 <h2><a name=Scheduler><font color=black>Scheduler</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object
 <h3>Slot Index</h3>
 <div style="width:40em; margin-left:2em">
 <b><a href=#Scheduler-currentCoroutine >currentCoroutine</a></b><br>
@@ -5131,6 +5166,7 @@ Returns a number containing the time limit of calls made to the Sandbox.
 <br>
 <h2><a name=SerializationStream><font color=black>SerializationStream</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object
 <h3>Slot Index</h3>
 <div style="width:40em; margin-left:2em">
 </div>
@@ -5143,6 +5179,7 @@ Returns a number containing the time limit of calls made to the Sandbox.
 <br>
 <h2><a name=System><font color=black>System</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object
 <h3>Description</h3>
 Contains methods related to the IoVM.
 </font>
@@ -5330,6 +5367,7 @@ Returns a version number for Io.
 <br>
 <h2><a name=TestSuite><font color=black>TestSuite</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object
 <h3>Slot Index</h3>
 <div style="width:40em; margin-left:2em">
 <b><a href=#TestSuite-name >name</a></b><br>
@@ -5377,6 +5415,7 @@ Returns a version number for Io.
 <br>
 <h2><a name=true><font color=black>true</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object
 <h3>Slot Index</h3>
 <div style="width:40em; margin-left:2em">
 <b><a href=#true-else >else</a></b><br>
@@ -5431,6 +5470,7 @@ Returns a version number for Io.
 <br>
 <h2><a name=UnitTest><font color=black>UnitTest</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object
 <h3>Slot Index</h3>
 <div style="width:40em; margin-left:2em">
 <b><a href=#UnitTest-assertEquals >assertEquals</a></b><br>
@@ -5569,6 +5609,7 @@ Returns a version number for Io.
 <br>
 <h2><a name=Vector><font color=black>Vector</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Vector
 <h3>Slot Index</h3>
 <div style="width:40em; margin-left:2em">
 </div>
@@ -5581,6 +5622,7 @@ Returns a version number for Io.
 <br>
 <h2><a name=WeakLink><font color=black>WeakLink</font></a></h2>
 <ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object
 <h3>Description</h3>
 A WeakLink is a primitive that can hold a reference to an object without preventing the garbage collector from collecting it. The link reference is set with the setLink() method. After the garbage collector collects an object, it informs any (uncollected) WeakLink objects whose link value pointed to that object by calling their "collectedLink" method.
 	
