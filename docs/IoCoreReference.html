@@ -182,12 +182,12 @@ h3 {
 <a href=#Return style="color: #555;">Return</a><br>
 <a href=#Sandbox style="color: #555;">Sandbox</a><br>
 <a href=#Scheduler style="color: #555;">Scheduler</a><br>
+<a href=#Sequence style="color: #555;">Sequence</a><br>
 <a href=#SerializationStream style="color: #555;">SerializationStream</a><br>
 <a href=#System style="color: #555;">System</a><br>
 <a href=#TestSuite style="color: #555;">TestSuite</a><br>
 <a href=#true style="color: #555;">true</a><br>
 <a href=#UnitTest style="color: #555;">UnitTest</a><br>
-<a href=#Vector style="color: #555;">Vector</a><br>
 <a href=#WeakLink style="color: #555;">WeakLink</a><br>
 </ul>
 <h2><a name=Addon><font color=black>Addon</font></a></h2>
@@ -386,12 +386,14 @@ Blocks are anonymous functions (messages with their own locals object). They are
 <b><a href=#Block-code >code</a></b><br>
 <b><a href=#Block-justSerialized >justSerialized()</a></b><br>
 <b><a href=#Block-message >message</a></b><br>
+<b><a href=#Block-passStops >passStops</a></b><br>
 <b><a href=#Block-performOn >performOn()</a></b><br>
 <b><a href=#Block-print >print</a></b><br>
 <b><a href=#Block-scope >scope</a></b><br>
 <b><a href=#Block-setArgumentNames >setArgumentNames()</a></b><br>
 <b><a href=#Block-setCode >setCode()</a></b><br>
 <b><a href=#Block-setMessage >setMessage()</a></b><br>
+<b><a href=#Block-setPassStops >setPassStops()</a></b><br>
 <b><a href=#Block-setScope >setScope()</a></b><br>
 </div>
 <br>
@@ -447,6 +449,12 @@ Returns the root message of the receiver.
 </font>
 </div>
 <p><br>
+<b><a name=Block-passStops><font color=black>passStops</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns whether or not the receiver passes return/continue/break to caller. 
+</font>
+</div>
+<p><br>
 <b><a name=Block-performOn><font color=black>performOn(</b><i>anObject, optionalLocals, optionalMessage, optionalSlotContext</i><b>)
 </font></a></b><p>
 <div style="width:40em; margin-left:2em">
@@ -487,6 +495,13 @@ Set's the reciever's message to a compiled version of aString. Returns self
 </font></a></b><p>
 <div style="width:40em; margin-left:2em">
 Sets the root message of the receiver to aMessage. 
+</font>
+</div>
+<p><br>
+<b><a name=Block-setPassStops><font color=black>setPassStops(</b><i>aBool</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Sets whether the receiver passes return/continue/break to caller. 
 </font>
 </div>
 <p><br>
@@ -5164,6 +5179,1419 @@ Returns a number containing the time limit of calls made to the Sandbox.
 <br>
 <hr align=left>
 <br>
+<h2><a name=Sequence><font color=black>Sequence</font></a></h2>
+<ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Object
+<h3>Description</h3>
+A Sequence is a container for a list of data elements. Typically these elements are each 1 byte in size. A Sequence can be either mutable or immutable. When immutable, only the read-only methods can be used.
+<p>
+Terminology
+<ul>
+<li> Buffer: A mutable Sequence of single byte elements, typically in a binary encoding
+<li> Symbol or String: A unique immutable Sequence, typically in a character encoding
+</ul>
+
+</font>
+<h3>Slot Index</h3>
+<div style="width:40em; margin-left:2em">
+<b><a href=#Sequence-* >*</a></b><br>
+<b><a href=#Sequence-*= >*=</a></b><br>
+<b><a href=#Sequence-+ >+</a></b><br>
+<b><a href=#Sequence-+= >+=</a></b><br>
+<b><a href=#Sequence--= >-=</a></b><br>
+<b><a href=#Sequence-.. >..()</a></b><br>
+<b><a href=#Sequence-/ >/</a></b><br>
+<b><a href=#Sequence-/= >/=</a></b><br>
+<b><a href=#Sequence-Lowercase >Lowercase</a></b><br>
+<b><a href=#Sequence-Max >Max</a></b><br>
+<b><a href=#Sequence-Min >Min</a></b><br>
+<b><a href=#Sequence-abs >abs</a></b><br>
+<b><a href=#Sequence-acos >acos</a></b><br>
+<b><a href=#Sequence-afterSeq >afterSeq()</a></b><br>
+<b><a href=#Sequence-alignCenter >alignCenter()</a></b><br>
+<b><a href=#Sequence-alignLeft >alignLeft()</a></b><br>
+<b><a href=#Sequence-alignLeftInPlace >alignLeftInPlace()</a></b><br>
+<b><a href=#Sequence-alignRight >alignRight()</a></b><br>
+<b><a href=#Sequence-append >append()</a></b><br>
+<b><a href=#Sequence-appendPathSeq >appendPathSeq()</a></b><br>
+<b><a href=#Sequence-appendSeq >appendSeq()</a></b><br>
+<b><a href=#Sequence-asBinaryNumber >asBinaryNumber</a></b><br>
+<b><a href=#Sequence-asBuffer >asBuffer</a></b><br>
+<b><a href=#Sequence-asCapitalized >asCapitalized</a></b><br>
+<b><a href=#Sequence-asFile >asFile</a></b><br>
+<b><a href=#Sequence-asFixedSizeType >asFixedSizeType</a></b><br>
+<b><a href=#Sequence-asHex >asHex</a></b><br>
+<b><a href=#Sequence-asIoPath >asIoPath</a></b><br>
+<b><a href=#Sequence-asLowercase >asLowercase</a></b><br>
+<b><a href=#Sequence-asMessage >asMessage()</a></b><br>
+<b><a href=#Sequence-asMutable >asMutable</a></b><br>
+<b><a href=#Sequence-asNumber >asNumber</a></b><br>
+<b><a href=#Sequence-asOSPath >asOSPath</a></b><br>
+<b><a href=#Sequence-asStruct >asStruct</a></b><br>
+<b><a href=#Sequence-asSymbol >asSymbol</a></b><br>
+<b><a href=#Sequence-asUTF16 >asUTF16</a></b><br>
+<b><a href=#Sequence-asUTF32 >asUTF32</a></b><br>
+<b><a href=#Sequence-asUTF8 >asUTF8</a></b><br>
+<b><a href=#Sequence-asUppercase >asUppercase</a></b><br>
+<b><a href=#Sequence-asin >asin</a></b><br>
+<b><a href=#Sequence-at >at()</a></b><br>
+<b><a href=#Sequence-atInsertSeq >atInsertSeq</a></b><br>
+<b><a href=#Sequence-atPut >atPut()</a></b><br>
+<b><a href=#Sequence-atan >atan</a></b><br>
+<b><a href=#Sequence-beforeSeq >beforeSeq()</a></b><br>
+<b><a href=#Sequence-beginsWithSeq >beginsWithSeq()</a></b><br>
+<b><a href=#Sequence-between >between()</a></b><br>
+<b><a href=#Sequence-betweenSeq >betweenSeq</a></b><br>
+<b><a href=#Sequence-bitAt >bitAt</a></b><br>
+<b><a href=#Sequence-bitCount >bitCount</a></b><br>
+<b><a href=#Sequence-bitwiseAnd >bitwiseAnd</a></b><br>
+<b><a href=#Sequence-bitwiseNot >bitwiseNot</a></b><br>
+<b><a href=#Sequence-bitwiseOr >bitwiseOr</a></b><br>
+<b><a href=#Sequence-bitwiseXor >bitwiseXor</a></b><br>
+<b><a href=#Sequence-byteAt >byteAt</a></b><br>
+<b><a href=#Sequence-cPrint >cPrint</a></b><br>
+<b><a href=#Sequence-capitalize >capitalize</a></b><br>
+<b><a href=#Sequence-ceil >ceil</a></b><br>
+<b><a href=#Sequence-clear >clear</a></b><br>
+<b><a href=#Sequence-clipAfterSeq >clipAfterSeq()</a></b><br>
+<b><a href=#Sequence-clipAfterStartOfSeq >clipAfterStartOfSeq()</a></b><br>
+<b><a href=#Sequence-clipBeforeEndOfSeq >clipBeforeEndOfSeq()</a></b><br>
+<b><a href=#Sequence-clipBeforeSeq >clipBeforeSeq()</a></b><br>
+<b><a href=#Sequence-cloneAppendPath >cloneAppendPath()</a></b><br>
+<b><a href=#Sequence-cloneAppendSeq >cloneAppendSeq</a></b><br>
+<b><a href=#Sequence-contains >contains()</a></b><br>
+<b><a href=#Sequence-containsAnyCaseSeq >containsAnyCaseSeq()</a></b><br>
+<b><a href=#Sequence-containsSeq >containsSeq()</a></b><br>
+<b><a href=#Sequence-convertToFixedSizeType >convertToFixedSizeType</a></b><br>
+<b><a href=#Sequence-convertToItemType >convertToItemType</a></b><br>
+<b><a href=#Sequence-copy >copy()</a></b><br>
+<b><a href=#Sequence-cos >cos</a></b><br>
+<b><a href=#Sequence-cosh >cosh</a></b><br>
+<b><a href=#Sequence-distanceTo >distanceTo()</a></b><br>
+<b><a href=#Sequence-dotProduct >dotProduct</a></b><br>
+<b><a href=#Sequence-duplicateIndexes >duplicateIndexes</a></b><br>
+<b><a href=#Sequence-empty >empty</a></b><br>
+<b><a href=#Sequence-encoding >encoding</a></b><br>
+<b><a href=#Sequence-endsWithSeq >endsWithSeq()</a></b><br>
+<b><a href=#Sequence-escape >escape</a></b><br>
+<b><a href=#Sequence-fileName >fileName</a></b><br>
+<b><a href=#Sequence-findNthSeq >findNthSeq()</a></b><br>
+<b><a href=#Sequence-findSeq >findSeq()</a></b><br>
+<b><a href=#Sequence-findSeqs >findSeqs()</a></b><br>
+<b><a href=#Sequence-floor >floor</a></b><br>
+<b><a href=#Sequence-foreach >foreach()</a></b><br>
+<b><a href=#Sequence-fromBase >fromBase()</a></b><br>
+<b><a href=#Sequence-hash >hash</a></b><br>
+<b><a href=#Sequence-interpolate >interpolate()</a></b><br>
+<b><a href=#Sequence-interpolateInPlace >interpolateInPlace()</a></b><br>
+<b><a href=#Sequence-isEmpty >isEmpty</a></b><br>
+<b><a href=#Sequence-isEqualAnyCase >isEqualAnyCase()</a></b><br>
+<b><a href=#Sequence-isLowercase >isLowercase</a></b><br>
+<b><a href=#Sequence-isMutable >isMutable</a></b><br>
+<b><a href=#Sequence-isSymbol >isSymbol</a></b><br>
+<b><a href=#Sequence-isUppercase >isUppercase</a></b><br>
+<b><a href=#Sequence-isZero >isZero</a></b><br>
+<b><a href=#Sequence-itemSize >itemSize</a></b><br>
+<b><a href=#Sequence-itemType >itemType</a></b><br>
+<b><a href=#Sequence-lastPathComponent >lastPathComponent</a></b><br>
+<b><a href=#Sequence-linePrint >linePrint</a></b><br>
+<b><a href=#Sequence-log >log</a></b><br>
+<b><a href=#Sequence-log10 >log10</a></b><br>
+<b><a href=#Sequence-logicalOr >logicalOr</a></b><br>
+<b><a href=#Sequence-lowercase >lowercase</a></b><br>
+<b><a href=#Sequence-lstrip >lstrip()</a></b><br>
+<b><a href=#Sequence-makeFirstCharacterLowercase >makeFirstCharacterLowercase</a></b><br>
+<b><a href=#Sequence-makeFirstCharacterUppercase >makeFirstCharacterUppercase</a></b><br>
+<b><a href=#Sequence-max >max</a></b><br>
+<b><a href=#Sequence-mean >mean</a></b><br>
+<b><a href=#Sequence-meanSquare >meanSquare</a></b><br>
+<b><a href=#Sequence-min >min</a></b><br>
+<b><a href=#Sequence-negate >negate</a></b><br>
+<b><a href=#Sequence-normalize >normalize</a></b><br>
+<b><a href=#Sequence-occurancesOfSeq >occurancesOfSeq()</a></b><br>
+<b><a href=#Sequence-orderedSplit >orderedSplit</a></b><br>
+<b><a href=#Sequence-pathComponent >pathComponent</a></b><br>
+<b><a href=#Sequence-pathExtension >pathExtension</a></b><br>
+<b><a href=#Sequence-preallocateToSize >preallocateToSize()</a></b><br>
+<b><a href=#Sequence-prependSeq >prependSeq()</a></b><br>
+<b><a href=#Sequence-print >print</a></b><br>
+<b><a href=#Sequence-product >product</a></b><br>
+<b><a href=#Sequence-rangeFill >rangeFill</a></b><br>
+<b><a href=#Sequence-removeAt >removeAt()</a></b><br>
+<b><a href=#Sequence-removeEvenIndexes >removeEvenIndexes</a></b><br>
+<b><a href=#Sequence-removeLast >removeLast</a></b><br>
+<b><a href=#Sequence-removeOddIndexes >removeOddIndexes</a></b><br>
+<b><a href=#Sequence-removePrefix >removePrefix()</a></b><br>
+<b><a href=#Sequence-removeSeq >removeSeq()</a></b><br>
+<b><a href=#Sequence-removeSlice >removeSlice()</a></b><br>
+<b><a href=#Sequence-removeSuffix >removeSuffix()</a></b><br>
+<b><a href=#Sequence-repeated >repeated()</a></b><br>
+<b><a href=#Sequence-replaceFirstSeq >replaceFirstSeq()</a></b><br>
+<b><a href=#Sequence-replaceMap >replaceMap()</a></b><br>
+<b><a href=#Sequence-replaceSeq >replaceSeq()</a></b><br>
+<b><a href=#Sequence-reverse >reverse</a></b><br>
+<b><a href=#Sequence-reverseFindSeq >reverseFindSeq()</a></b><br>
+<b><a href=#Sequence-rootMeanSquare >rootMeanSquare</a></b><br>
+<b><a href=#Sequence-rstrip >rstrip()</a></b><br>
+<b><a href=#Sequence-sequenceSets >sequenceSets</a></b><br>
+<b><a href=#Sequence-set >set</a></b><br>
+<b><a href=#Sequence-setEncoding >setEncoding()</a></b><br>
+<b><a href=#Sequence-setItemType >setItemType()</a></b><br>
+<b><a href=#Sequence-setItemsToDouble >setItemsToDouble</a></b><br>
+<b><a href=#Sequence-setItemsToLong >setItemsToLong</a></b><br>
+<b><a href=#Sequence-setSize >setSize()</a></b><br>
+<b><a href=#Sequence-setX >setX</a></b><br>
+<b><a href=#Sequence-setY >setY</a></b><br>
+<b><a href=#Sequence-setZ >setZ</a></b><br>
+<b><a href=#Sequence-sin >sin</a></b><br>
+<b><a href=#Sequence-sinh >sinh</a></b><br>
+<b><a href=#Sequence-size >size</a></b><br>
+<b><a href=#Sequence-slice >slice()</a></b><br>
+<b><a href=#Sequence-slicesBetween >slicesBetween</a></b><br>
+<b><a href=#Sequence-sort >sort</a></b><br>
+<b><a href=#Sequence-split >split()</a></b><br>
+<b><a href=#Sequence-splitAt >splitAt</a></b><br>
+<b><a href=#Sequence-splitNoEmpties >splitNoEmpties</a></b><br>
+<b><a href=#Sequence-sqrt >sqrt</a></b><br>
+<b><a href=#Sequence-square >square</a></b><br>
+<b><a href=#Sequence-strip >strip()</a></b><br>
+<b><a href=#Sequence-sum >sum</a></b><br>
+<b><a href=#Sequence-tan >tan</a></b><br>
+<b><a href=#Sequence-tanh >tanh</a></b><br>
+<b><a href=#Sequence-toBase >toBase()</a></b><br>
+<b><a href=#Sequence-translate >translate()</a></b><br>
+<b><a href=#Sequence-unescape >unescape</a></b><br>
+<b><a href=#Sequence-uppercase >uppercase</a></b><br>
+<b><a href=#Sequence-whiteSpaceStrings >whiteSpaceStrings</a></b><br>
+<b><a href=#Sequence-with >with()</a></b><br>
+<b><a href=#Sequence-withStruct >withStruct</a></b><br>
+<b><a href=#Sequence-x >x</a></b><br>
+<b><a href=#Sequence-y >y</a></b><br>
+<b><a href=#Sequence-z >z</a></b><br>
+<b><a href=#Sequence-zero >zero</a></b><br>
+</div>
+<br>
+<h3>Slots</h3>
+<br>
+<b><a name=Sequence-*><font color=black>*</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-*=><font color=black>*=</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-+><font color=black>+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-+=><font color=black>+=</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence--=><font color=black>-=</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-..><font color=black>..(</b><i>aSequence</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns a copy of the receiver with aSequence appended to it. 
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-/><font color=black>/</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-/=><font color=black>/=</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-Lowercase><font color=black>Lowercase</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns a copy of the receiver with all characters made Lowercase. 
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-Max><font color=black>Max</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-Min><font color=black>Min</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-abs><font color=black>abs</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-acos><font color=black>acos</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-afterSeq><font color=black>afterSeq(</b><i>aSequence</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns the slice of the receiver (as a Symbol) after aSequence or
+			Nil if aSequence is not found. If aSequence is empty, the receiver
+			(or a copy of the receiver if it is mutable) is returned.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-alignCenter><font color=black>alignCenter(</b><i>width, [padding]</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+
+	Example:
+	<pre>
+	Io> "abc" alignCenter(10, "-")
+	==> ---abc----
+	Io> "abc" alignCenter(10, "-=")
+	==> -=-abc-=-=
+	</pre>
+	
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-alignLeft><font color=black>alignLeft(</b><i>width, [padding]</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+
+	Example:
+	<pre>
+	Io> "abc" alignLeft(10, "-")
+	==> abc-------
+	Io> "abc" alignLeft(10, "-=")
+	==> abc-=-=-=-
+	</pre>
+	
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-alignLeftInPlace><font color=black>alignLeftInPlace(</b><i>width, [padding]</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Same as align left but operation is performed on the receiver.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-alignRight><font color=black>alignRight(</b><i>width, [padding]</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+
+	Example:
+	<pre>
+	Io> "abc" alignRight(10, "-")
+	==> -------abc
+	Io> "abc" alignRight(10, "-=")
+	==> -=-=-=-abc
+	</pre>
+	
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-append><font color=black>append(</b><i>aNumber</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Appends aNumber (cast to a byte) to the receiver. Returns self. 
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-appendPathSeq><font color=black>appendPathSeq(</b><i>aSeq</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Appends argument to the receiver such that there is one
+and only one path separator between the two. Returns self.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-appendSeq><font color=black>appendSeq(</b><i>object1, object2, ...</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Calls asString on the arguments and appends the string to the receiver. Returns self. 
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-asBinaryNumber><font color=black>asBinaryNumber</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns a Number containing the first 8 bytes of the
+receiver without casting them to a double.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-asBuffer><font color=black>asBuffer</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-asCapitalized><font color=black>asCapitalized</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns a copy of the receiver with the first charater made uppercase.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-asFile><font color=black>asFile</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-asFixedSizeType><font color=black>asFixedSizeType</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns a new sequence with the receiver encoded in the minimal fixed width text encoding that it's characters can fit into (either, ascii, utf8, utf16 or utf32). 
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-asHex><font color=black>asHex</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns a hex string for the receiving sequence, e.g., "abc" asHex -> "616263".
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-asIoPath><font color=black>asIoPath</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-asLowercase><font color=black>asLowercase</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns a symbol containing the reveiver made Lowercase. 
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-asMessage><font color=black>asMessage(</b><i>optionalLabel</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns the compiled message object for the string.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-asMutable><font color=black>asMutable</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns a mutable copy of the receiver. 
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-asNumber><font color=black>asNumber</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns the receiver converted to a number.
+Initial whitespace is ignored.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-asOSPath><font color=black>asOSPath</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-asStruct><font color=black>asStruct</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-asSymbol><font color=black>asSymbol</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns a immutable Sequence (aka Symbol) version of the receiver.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-asUTF16><font color=black>asUTF16</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns a new copy of the receiver converted to utf16 encoding. 
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-asUTF32><font color=black>asUTF32</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns a new copy of the receiver converted to utf32 encoding. 
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-asUTF8><font color=black>asUTF8</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns a new copy of the receiver converted to utf8 encoding. 
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-asUppercase><font color=black>asUppercase</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns a symbol containing the reveiver made uppercase. 
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-asin><font color=black>asin</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-at><font color=black>at(</b><i>aNumber</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns a value at the index specified by aNumber.
+Returns nil if the index is out of bounds.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-atInsertSeq><font color=black>atInsertSeq</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-atPut><font color=black>atPut(</b><i>aNumberIndex, aNumber</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Sets the value at the index specified by aNumberIndex to aNumber. Returns self. 
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-atan><font color=black>atan</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-beforeSeq><font color=black>beforeSeq(</b><i>aSequence</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns the slice of the receiver (as a Symbol) before
+aSequence or self if aSequence is not found.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-beginsWithSeq><font color=black>beginsWithSeq(</b><i>aSequence</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns true if the receiver begins with aSequence, false otherwise.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-between><font color=black>between(</b><i>aSequence, anotherSequence</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns a new Sequence containing the bytes between the
+occurance of aSequence and anotherSequence in the receiver.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-betweenSeq><font color=black>betweenSeq</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-bitAt><font color=black>bitAt</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-bitCount><font color=black>bitCount</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-bitwiseAnd><font color=black>bitwiseAnd</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-bitwiseNot><font color=black>bitwiseNot</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-bitwiseOr><font color=black>bitwiseOr</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-bitwiseXor><font color=black>bitwiseXor</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-byteAt><font color=black>byteAt</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-cPrint><font color=black>cPrint</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-capitalize><font color=black>capitalize</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+First charater of the receiver is made uppercase.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-ceil><font color=black>ceil</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-clear><font color=black>clear</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Sets all bytes in the receiver to 0x0 and sets
+it's length to 0. Returns self.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-clipAfterSeq><font color=black>clipAfterSeq(</b><i>aSequence</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Removes the contents of the receiver after the end of
+the first occurance of aSequence. Returns true if anything was
+removed, or false otherwise.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-clipAfterStartOfSeq><font color=black>clipAfterStartOfSeq(</b><i>aSequence</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Removes the contents of the receiver after the beginning of
+the first occurance of aSequence. Returns true if anything was
+removed, or false otherwise.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-clipBeforeEndOfSeq><font color=black>clipBeforeEndOfSeq(</b><i>aSequence</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Removes the contents of the receiver before the end of
+the first occurance of aSequence. Returns true if anything was
+removed, or false otherwise.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-clipBeforeSeq><font color=black>clipBeforeSeq(</b><i>aSequence</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Clips receiver before aSequence.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-cloneAppendPath><font color=black>cloneAppendPath(</b><i>aSequence</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Appends argument to a copy the receiver such that there is one
+and only one path separator between the two and returns the result.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-cloneAppendSeq><font color=black>cloneAppendSeq</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-contains><font color=black>contains(</b><i>aNumber</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns true if the receiver contains an element equal in value to aNumber, false otherwise. 
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-containsAnyCaseSeq><font color=black>containsAnyCaseSeq(</b><i>aSequence</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns true if the receiver contains the aSequence
+regardless of casing, false otherwise. 
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-containsSeq><font color=black>containsSeq(</b><i>aSequence</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns true if the receiver contains the substring
+aSequence, false otherwise. 
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-convertToFixedSizeType><font color=black>convertToFixedSizeType</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-convertToItemType><font color=black>convertToItemType</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-copy><font color=black>copy(</b><i>aSequence</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Replaces the bytes of the receiver with a copy of those in aSequence. Returns self. 
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-cos><font color=black>cos</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-cosh><font color=black>cosh</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-distanceTo><font color=black>distanceTo(</b><i>aSeq</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns a number with the square root of the sum of the square of the differences of the items between the sequences.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-dotProduct><font color=black>dotProduct</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-duplicateIndexes><font color=black>duplicateIndexes</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Duplicates all indexes in the receiver.
+For example, list(1,2,3) duplicateIndexes == list(1,1,2,2,3,3). Returns self.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-empty><font color=black>empty</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-encoding><font color=black>encoding</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns the encoding of the elements. 
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-endsWithSeq><font color=black>endsWithSeq(</b><i>aSequence</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns true if the receiver ends with aSequence, false otherwise. 
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-escape><font color=black>escape</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Escape characters in the receiver are replaced with escape codes.
+For example a string containing a single return character would contain the
+following 2 characters after being escaped: "\n". Returns self.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-fileName><font color=black>fileName</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns the last path component sans the path extension.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-findNthSeq><font color=black>findNthSeq(</b><i>aSequence, n</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns a number with the nth occurence of aSequence
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-findSeq><font color=black>findSeq(</b><i>aSequence, optionalStartIndex</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns a number with the first occurrence of aSequence in
+the receiver after the startIndex. If no startIndex is specified,
+the search starts at index 0.
+nil is returned if no occurences are found. 
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-findSeqs><font color=black>findSeqs(</b><i>listOfSequences, optionalStartIndex</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns a object with two slots - an "index" slot which contains the first occurrence of any of the sequences in listOfSequences found in the receiver after the startIndex, and a "match" slot, which contains a reference to the matching sequence from listOfSequences. If no startIndex is specified, the search starts at index 0. nil is returned if no occurences are found. 
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-floor><font color=black>floor</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-foreach><font color=black>foreach(</b><i>optionalIndex, value, message</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+For each element, set index to the index of the
+element and value the element value and execute message. Example:
+<pre>
+aSequence foreach(i, v, writeln("value at index ", i, " is ", v))
+aSequence foreach(v, writeln("value ", v))
+</pre>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-fromBase><font color=black>fromBase(</b><i>aNumber</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns a number with a base 10 representation of the receiver
+converted from the specified base. Only base 2 through 32 are currently supported.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-hash><font color=black>hash</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-interpolate><font color=black>interpolate(</b><i>ctx</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns immutable copy of self with interpolateInPlace(ctx) passed to the copy.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-interpolateInPlace><font color=black>interpolateInPlace(</b><i>ctx</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+If ctx not given the current context is used.  Returns self.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-isEmpty><font color=black>isEmpty</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns true if the size of the receiver is 0, false otherwise.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-isEqualAnyCase><font color=black>isEqualAnyCase(</b><i>aSequence</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns true if aSequence is equal to the receiver
+ignoring case differences, false otherwise.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-isLowercase><font color=black>isLowercase</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns self if all the characters in the string are lower case.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-isMutable><font color=black>isMutable</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns true if the receiver is a mutable Sequence or false otherwise.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-isSymbol><font color=black>isSymbol</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns true if the receiver is a
+immutable Sequence (aka, a Symbol) or false otherwise.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-isUppercase><font color=black>isUppercase</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns self if all the characters in the string are upper case.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-isZero><font color=black>isZero</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns true if all elements are 0, false otherwise.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-itemSize><font color=black>itemSize</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns number of bytes in each element. 
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-itemType><font color=black>itemType</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns machine type of elements. 
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-lastPathComponent><font color=black>lastPathComponent</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns a string containing the receiver clipped up
+to the last path separator. 
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-linePrint><font color=black>linePrint</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Prints the Sequence and a newline character.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-log><font color=black>log</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-log10><font color=black>log10</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-logicalOr><font color=black>logicalOr</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-lowercase><font color=black>lowercase</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-lstrip><font color=black>lstrip(</b><i>aSequence</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Strips the characters in aSequence
+stripped from the beginning of the receiver. Example:
+<pre>
+"Keep the tail" lstrip(" eKp")
+==> "the tail"
+</pre>
+
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-makeFirstCharacterLowercase><font color=black>makeFirstCharacterLowercase</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-makeFirstCharacterUppercase><font color=black>makeFirstCharacterUppercase</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-max><font color=black>max</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-mean><font color=black>mean</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-meanSquare><font color=black>meanSquare</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-min><font color=black>min</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-negate><font color=black>negate</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-normalize><font color=black>normalize</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-occurancesOfSeq><font color=black>occurancesOfSeq(</b><i>aSeq</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns count of aSeq in the receiver.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-orderedSplit><font color=black>orderedSplit</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-pathComponent><font color=black>pathComponent</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns a slice of the receiver before the last path separator as a symbol. 
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-pathExtension><font color=black>pathExtension</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns a string containing the receiver clipped up to the last period. 
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-preallocateToSize><font color=black>preallocateToSize(</b><i>aNumber</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+If needed, resize the memory alloced for the receivers
+byte array to be large enough to fit the number of bytes specified by
+aNumber. This is useful for pio_reallocating the memory so it doesn't
+keep getting allocated as the Sequence is appended to. This operation
+will not change the Sequence's length or contents. Returns self.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-prependSeq><font color=black>prependSeq(</b><i>object1, object2, ...</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Prepends given objects asString in reverse order to the receiver.  Returns self.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-print><font color=black>print</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Prints the receiver as a string. Returns self.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-product><font color=black>product</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-rangeFill><font color=black>rangeFill</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-removeAt><font color=black>removeAt(</b><i>index</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Removes the item at index. Returns self.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-removeEvenIndexes><font color=black>removeEvenIndexes</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Removes even indexes in the receiver.
+For example, list(1,2,3) removeEvenIndexes == list(1, 3). Returns self.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-removeLast><font color=black>removeLast</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Removes the last element from the receiver. Returns self.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-removeOddIndexes><font color=black>removeOddIndexes</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Removes odd indexes in the receiver.
+For example, list(1,2,3) removeOddIndexes == list(2). Returns self.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-removePrefix><font color=black>removePrefix(</b><i>aSequence</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+If the receiver begins with aSequence, it is removed. Returns self.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-removeSeq><font color=black>removeSeq(</b><i>aSequence</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Removes occurances of aSequence from the receiver.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-removeSlice><font color=black>removeSlice(</b><i>startIndex, endIndex</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Removes the items from startIndex to endIndex.
+Returns self.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-removeSuffix><font color=black>removeSuffix(</b><i>aSequence</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+If the receiver end with aSequence, it is removed. Returns self.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-repeated><font color=black>repeated(</b><i>n</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns a new sequence containing the receiver repeated n number of times.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-replaceFirstSeq><font color=black>replaceFirstSeq(</b><i>aSequence, anotherSequence, optionalStartIndex</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns a new Sequence with the first occurance of aSequence
+replaced with anotherSequence in the receiver. If optionalStartIndex is
+provided, the search for aSequence begins at that index. Returns self.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-replaceMap><font color=black>replaceMap(</b><i>aMap</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+In the receiver, the keys of aMap replaced with it's values. Returns self.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-replaceSeq><font color=black>replaceSeq(</b><i>aSequence, anotherSequence</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns a new Sequence with all occurances of aSequence
+replaced with anotherSequence in the receiver. Returns self.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-reverse><font color=black>reverse</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Reverses the bytes in the receiver, in-place.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-reverseFindSeq><font color=black>reverseFindSeq(</b><i>aSequence, startIndex</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns a number with the first occurrence of aSequence in
+the receiver before the startIndex. The startIndex argument is optional.
+By default reverseFind starts at the end of the string. Nil is
+returned if no occurrences are found. 
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-rootMeanSquare><font color=black>rootMeanSquare</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-rstrip><font color=black>rstrip(</b><i>aSequence</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Strips the characters in
+aSequence stripped from the end of the receiver. Example:
+<pre>
+"Cut the tail off" rstrip(" afilot")
+==> "Cut the"
+</pre>
+
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-sequenceSets><font color=black>sequenceSets</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-set><font color=black>set</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-setEncoding><font color=black>setEncoding(</b><i>encodingName</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Sets the encoding flag of the receiver (only the encoding flag, itemSize and itemType will change, no conversion is done between utf encodings - you can use convertToUTF8, etc methods for conversions). Valid encodings are number, utf8, utf16, and utf32. Returns self. 
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-setItemType><font color=black>setItemType(</b><i>aTypeName</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Sets the underlying machine type for the elements. Valid names are uint8, uint16, uint32, uint64, int8, int16, int32, int64, float32, and float64. Note that 64 bit types are only available on platforms that support such types. Returns self. 
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-setItemsToDouble><font color=black>setItemsToDouble</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-setItemsToLong><font color=black>setItemsToLong</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-setSize><font color=black>setSize(</b><i>aNumber</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Sets the length in bytes of the receiver to aNumber. Return self.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-setX><font color=black>setX</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-setY><font color=black>setY</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-setZ><font color=black>setZ</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-sin><font color=black>sin</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-sinh><font color=black>sinh</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-size><font color=black>size</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns the length in bytes of the receiver. For example,
+<pre>
+"abc" size == 3
+</pre>
+
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-slice><font color=black>slice(</b><i>startIndex, endIndex</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns a new string containing the subset of the
+receiver from the startIndex to the endIndex. The endIndex argument
+is optional. If not given, it is assumed to be the end of the string. 
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-slicesBetween><font color=black>slicesBetween</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-sort><font color=black>sort</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-split><font color=black>split(</b><i>optionalArg1, optionalArg2, ...</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+
+Returns a list containing the sub-sequences of the receiver divided by the given arguments.
+If no arguments are given the sequence is split on white space.
+Examples:
+<pre>
+"a b c d" split == list("a", "b", "c", "d")
+"a*b*c*d" split("*") == list("a", "b", "c", "d")
+"a*b|c,d" split("*", "|", ",") == list("a", "b", "c", "d")
+"a   b  c d" split == list("a", "", "", "", "b", "", "", "c", "", "d")
+</pre>
+
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-splitAt><font color=black>splitAt</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-splitNoEmpties><font color=black>splitNoEmpties</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-sqrt><font color=black>sqrt</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-square><font color=black>square</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-strip><font color=black>strip(</b><i>optionalSequence</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Trims the whitespace (or optionalSequence) off both ends:
+<pre>
+"   Trim this string   \r\n" strip
+==> "Trim this string"
+</pre>
+
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-sum><font color=black>sum</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-tan><font color=black>tan</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-tanh><font color=black>tanh</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-toBase><font color=black>toBase(</b><i>aNumber</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns a Sequence containing the receiver(which is
+			assumed to be a base 10 number) converted to the specified base.
+			Only base 8 and 16 are currently supported. 
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-translate><font color=black>translate(</b><i>fromChars, toChars</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+In the receiver, the characters in fromChars are replaced with those in the same positions in toChars. Returns self.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-unescape><font color=black>unescape</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Escape codes replaced with escape characters. Returns self.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-uppercase><font color=black>uppercase</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Makes all characters of the receiver uppercase. 
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-whiteSpaceStrings><font color=black>whiteSpaceStrings</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns a List of strings. Each string contains a different
+whitespace character.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-with><font color=black>with(</b><i>aSequence, ...</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Returns a new Sequence which is the concatination of the arguments.
+The returned sequence will have the same mutability status as the receiver.
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-withStruct><font color=black>withStruct</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-x><font color=black>x</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-y><font color=black>y</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-z><font color=black>z</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-zero><font color=black>zero</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+</ul>
+<br>
+<hr align=left>
+<br>
 <h2><a name=SerializationStream><font color=black>SerializationStream</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Protos:</font></b> Object
@@ -5607,19 +7035,6 @@ Returns a version number for Io.
 <br>
 <hr align=left>
 <br>
-<h2><a name=Vector><font color=black>Vector</font></a></h2>
-<ul style="width:40em">
-<b><font color=#000>Protos:</font></b> Vector
-<h3>Slot Index</h3>
-<div style="width:40em; margin-left:2em">
-</div>
-<br>
-<h3>Slots</h3>
-<br>
-</ul>
-<br>
-<hr align=left>
-<br>
 <h2><a name=WeakLink><font color=black>WeakLink</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Protos:</font></b> Object
@@ -5653,11 +7068,6 @@ Sets the link pointer. Returns self.
 <hr align=left>
 <br>
 </ul>
-<br>
-<br>
-<br>
-<br>
-<br>
 <br>
 <br>
 <br>
