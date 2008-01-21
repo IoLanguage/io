@@ -1,5 +1,16 @@
 protos := Protos slotValues map(slotValues) flatten unique select(!=nil) sortByKey(type asLowercase)
 
+protos foreach(p,
+	if(p hasLocalSlot("docs") not, p docs := Object clone do(slots := Object clone))
+	p foreachSlot(k, v, 
+		if(p docs slots getSlot(k) == nil, 
+			p docs slots setSlot(k, Object clone do(description := "<font color=red>undocumented</font>"))
+			if(getSlot("v") type == Block, p docs slots getSlot("k") args := v argumentNames)
+		) 
+	)
+)
+
+
 writeln("""
 <html>
 <head>
