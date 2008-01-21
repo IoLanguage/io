@@ -168,11 +168,20 @@ protos map(v,
 
 writeln("</ul>")
 
+Sequence do(
+	asHtml := method(
+		self asMutable replaceSeq(">", "&gt;") replaceSeq("<", "&lt;")
+	)
+)
+
 protos map(v, 
 	write("<h2>")
 	write("<a name=" .. v type .. "><font color=black>", v type, "</font></a>")
 	writeln("</h2>")
 	writeln("<ul style=\"width:40em\">")
+	
+	writeln("<b><font color=#000>Protos:</font></b> ", v protos map(type) join(", "))
+	
 	if (v hasLocalSlot("docs"),
 		if (v docs ?description,
 			writeln("<h3>Description</h3>")
@@ -183,13 +192,11 @@ protos map(v,
 		
 		
 		if (v docs ?slots,
-
 			writeln("<h3>Slot Index</h3>")
 			writeln("<div style=\"width:40em; margin-left:2em\">")
 			v docs slots foreachSlot(k, s, 
-				write("<b>")
-				write("<a href=#" .. v type .. "-" .. k .. " >")
-				write(k)
+				write("<b><a href=#" .. v type .. "-" .. k asHtml .. " >")
+				write(k asHtml)
 				if(s ?args, write("()"))
 				//if(s ?args, write("(" .. s args join(",") .. ")"))
 				writeln("</a></b><br>")
@@ -202,9 +209,9 @@ protos map(v,
 			writeln("<br>")
 			v docs slots foreachSlot(k, s, 
 				write("<b>")
-				write("<a name=" .. v type .. "-" .. k .. "><font color=black>")
-				write(k)
-				if(s ?args, writeln("(</b><i>" .. s args join(", ") .. "</i><b>)"))
+				write("<a name=" .. v type .. "-" .. k asHtml .. "><font color=black>")
+				write(k asHtml)
+				if(s ?args, writeln("(</b><i>" .. s args map(asHtml) join(", ") .. "</i><b>)"))
 				write("</font></a></b>")
 				writeln("<p>")
 				writeln("<div style=\"width:40em; margin-left:2em\">")
@@ -223,6 +230,5 @@ protos map(v,
 	writeln("<br>")
 )
 writeln("</ul>")
-
-10 repeat(writeln("<br>"))
+5 repeat(writeln("<br>"))
 

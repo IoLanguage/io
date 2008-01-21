@@ -28,6 +28,7 @@ typedef struct
 #ifdef IO_BLOCK_USE_PHASH_SETTINGS
 	PHashSettings phashSettings;
 #endif
+	int passStops;
 } IoBlockData;
 
 IoBlock *IoBlock_proto(void *state);
@@ -57,6 +58,9 @@ IoObject *IoBlock_argumentNames_(IoBlock *self, IoObject *locals, IoMessage *m);
 
 IoObject *IoBlock_setScope_(IoBlock *self, IoObject *locals, IoMessage *m);
 IoObject *IoBlock_scope(IoBlock *self, IoObject *locals, IoMessage *m);
+
+IoObject *IoBlock_setPassStops_(IoBlock *self, IoObject *locals, IoMessage *m);
+IoObject *IoBlock_passStops(IoBlock *self, IoObject *locals, IoMessage *m);
 
 // lobby methods
 

@@ -108,6 +108,8 @@ IoBlock *IoBlock_proto(void *vState)
 	{"scope", IoBlock_scope},
 	{"performOn", IoBlock_performOn},
 	{"call", IoBlock_call},
+	{"setPassStops", IoBlock_setPassStops_},
+	{"passStops", IoBlock_passStops},
 	{NULL, NULL},
 	};
 
@@ -140,6 +142,7 @@ IoBlock *IoBlock_rawClone(IoBlock *proto)
 #ifdef IO_BLOCK_USE_PHASH_SETTINGS
 	DATA(self)->phashSettings.tableSize = 2;
 #endif
+	DATA(self)->passStops = DATA(proto)->passStops;
 	return self;
 }
 
@@ -264,9 +267,12 @@ IoObject *IoBlock_activate(IoBlock *self, IoObject *target, IoObject *locals, Io
 		result = IoMessage_locals_performOn_(selfData->message, blockLocals, blockLocals);
 	}
 
-	state->returnValue = result;
-	state->stopStatus = IoCall_rawStopStatus(callObject);
-
+	if (DATA(self)->passStops == 0)
+	{
+		state->returnValue = result;
+		state->stopStatus = IoCall_rawStopStatus(callObject);
+	}
+	
 #ifdef IO_BLOCK_USE_PHASH_SETTINGS
 	DATA(self)->phashSettings = PHash_settings(IoObject_slots(blockLocals));
 #endif
@@ -487,6 +493,25 @@ object. If Nil, it will set them to the target of the message. ")
 
 	IoObject *scope = IoMessage_locals_valueArgAt_(m, locals, 0);
 	DATA(self)->scope = ISNIL(scope) ? NULL : IOREF(scope);
+	return self;
+}
+
+IoObject *IoBlock_passStops(IoBlock *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("passStops", "Returns whether or not the receiver passes return/continue/break to caller. ")
+	*/
+
+	return IOBOOL(self, DATA(self)->passStops);
+}
+
+IoObject *IoBlock_setPassStops_(IoBlock *self, IoObject *locals, IoMessage *m)
+{
+	/*#io
+	docSlot("setPassStops(aBool)", "Sets whether the receiver passes return/continue/break to caller. ")
+	*/
+
+	DATA(self)->passStops = ISTRUE(IoMessage_locals_valueArgAt_(m, locals, 0));
 	return self;
 }
 
