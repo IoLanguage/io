@@ -40,6 +40,8 @@ File do(
 	)
 
 	unlock := method(lockFile remove)
+	
+	setContents := method(d, self open write(d) close)
 )
 
 Sequence asFile := method(File with(self))

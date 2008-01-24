@@ -63,6 +63,16 @@ BlockTest := UnitTest clone do(
 		getSlot("selfBlock") setScope
 		assertNil(getSlot("selfBlock") scope)
 	)
+	
+	testPassStops := method(
+		b := block(return "block")
+		a := method(b call; return "method")
+		assertEquals(a, "method")
+
+		b := block(return "block") setPassStops(true)
+		a := method(b call; return "method")		
+		assertEquals(a, "block")
+	)
 
 /*
 	testIfTrue := method(
