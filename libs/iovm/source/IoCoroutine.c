@@ -82,6 +82,7 @@ void IoCoroutine_protoFinish(IoCoroutine *self)
 	{"implementation", IoCoroutine_implementation},
 	{"setMessageDebugging", IoCoroutine_setMessageDebugging},
 	{"freeStack", IoCoroutine_freeStack},
+	{"setErrorDescription", IoCoroutine_setErrorDescription},
 	{NULL, NULL},
 	};
 
@@ -540,3 +541,23 @@ void IoCoroutine_rawPrintBackTrace(IoCoroutine *self)
 	}
 }
 
+IoObject *IoCoroutine_rawSetErrorDescription_(IoCoroutine *self, IoSymbol *description)
+{
+	IoSymbol *errorSlotName = IOSYMBOL("error");
+	IoObject *error = IoObject_rawGetSlot_(self, errorSlotName);
+	if(!error || ISNIL(error))
+	{
+		error = IoObject_rawGetSlot_(self, IOSYMBOL("Error"));
+		error = IOCLONE(error);
+		IoObject_setSlot_to_(self, errorSlotName, error);
+	}
+	IoObject_setSlot_to_(error, IOSYMBOL("description"), description);
+	return error;
+}
+
+IoObject *IoCoroutine_setErrorDescription(IoCoroutine *self, IoObject *locals, IoMessage *m)
+{
+	IoMessage_assertArgCount_receiver_(m, 1, self);
+	IoSymbol *description = IoMessage_locals_symbolArgAt_(m, locals, 0);
+	return IoCoroutine_rawSetErrorDescription_(self, description);
+}

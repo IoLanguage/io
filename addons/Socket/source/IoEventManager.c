@@ -202,8 +202,7 @@ IoObject *IoEventManager_addEvent(IoEventManager *self, IoObject *locals, IoMess
 
 	if (eventType != 0 && !RawDescriptor_isValid(fd))
 	{
-		IoState_error_(IOSTATE, m, "IoEventManager_addEvent: attempt to add bad file descriptor %i", fd);
-		return IOFALSE(self);
+		return IoState_setErrorDescription_(IOSTATE, "IoEventManager_addEvent: attempt to add bad file descriptor %i", fd);
 	}
 
 	List_append_(DATA(self)->activeEvents, IOREF(event));
@@ -220,7 +219,7 @@ IoObject *IoEventManager_addEvent(IoEventManager *self, IoObject *locals, IoMess
 		event_add(ev, &tv);
 	}
 
-	return IOTRUE(self);
+	return self;
 }
 
 IoObject *IoEventManager_removeEvent(IoEventManager *self, IoObject *locals, IoMessage *m)
@@ -243,7 +242,13 @@ IoObject *IoEventManager_setListenTimeout(IoEventManager *self, IoObject *locals
 IoObject *IoEventManager_listen(IoEventManager *self, IoObject *locals, IoMessage *m)
 {
 	int hadEvents = event_base_loop(DATA(self)->eventBase, EVLOOP_NONBLOCK);
-	return IONUMBER(hadEvents);
+	
+	if (hadEvents == -1)
+	{
+		return IoState_setErrorDescription_(IOSTATE, "EventManager: error in event_base_loop");
+	}
+	
+	return self;
 }
 
 IoObject *IoEventManager_listenUntilEvent(IoEventManager *self, IoObject *locals, IoMessage *m)
@@ -252,12 +257,10 @@ IoObject *IoEventManager_listenUntilEvent(IoEventManager *self, IoObject *locals
 
 	if (hadEvents == -1)
 	{
-		//printf("hadEvents == -1\n");
-		IoState_error_(IOSTATE, m, "EventManager: error in event_base_loop");
-		//printf("EventManager: error in event_base_loop");
+		return IoState_setErrorDescription_(IOSTATE, "EventManager: error in event_base_loop");
 	}
 
-	return IONUMBER(hadEvents);
+	return self;
 }
 
 IoObject *IoEventManager_hasActiveEvents(IoEventManager *self, IoObject *locals, IoMessage *m)

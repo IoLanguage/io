@@ -8,6 +8,8 @@ docLicense("BSD revised")
 
 #include "IoSeq.h"
 
+#define DNSERROR(reason) IoState_setErrorDescription_(IOSTATE, "DNS Error: %s", reason)
+
 IoObject *IoDNS_proto(void *state);
 
 IoObject *IoObject_dnsQueryPacketForHostName(IoObject *self, IoObject *locals, IoMessage *m);

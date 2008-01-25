@@ -14,7 +14,6 @@ Socket do(
 
 	init := method(
 		resend
-		//writeln("Socket init ", self uniqueId)
 		self ipAddress   := ipAddress clone
 
 		self readBuffer  := Sequence clone
@@ -29,8 +28,10 @@ Socket do(
 	)
 
 	setHost := method(ip,
-		//writeln("ip = ", ip)
-		ip at(0) isDigit ifFalse(DNSResolver raiseOnError(ip = DNSResolver ipForHostName(ip)))
+		ip at(0) isDigit ifFalse(
+			ip = DNSResolver ipForHostName(ip)
+			ip ifNil(return(Error with("Could not resolve " .. ip)))
+		)
 		ipAddress setIp(ip)
 		self
 	)
@@ -44,174 +45,113 @@ Socket do(
 
 	port := method(ipAddress port)
 
-	checkErrorNumber := method(
-		//writeln("System errorNumber = ", System errorNumber)
-		Socket errorNumber ifNonNil(setError("Socket errorNumber: " .. System errorNumber))
-	)
-
-	setupEvents := method(
-		readEvent setDescriptorId(descriptorId)
-		writeEvent setDescriptorId(descriptorId)
-	)
-
 	streamOpen := method(
-		asyncStreamOpen
-		raiseOnError(checkErrorNumber)
-		setupEvents
-		true
+		asyncStreamOpen returnIfError
+		self
 	)
 
 	udpOpen := method(
-		asyncUdpOpen
-		checkErrorNumber
-		setupEvents
-		true
-	)
-
-	setErrorIfInvalid := method(
-		if(isValid == false, setError("Socket is invalid"))
-		isValid not
+		asyncUdpOpen returnIfError
+		self
 	)
 
 	connect := method(
 		debugWriteln("Socket connect isOpen = ", isOpen)
-		isOpen ifFalse(streamOpen)
-		didConnect := asyncConnect(ipAddress)
-		didConnect ifFalse(
-			writeEvent waitOn(connectTimeout) ifFalse(
-				setError("Connection timeout")
-				return(false)
-			)
-			if(setErrorIfInvalid,
-				return(false)
-			)
-			didConnect = asyncConnect(ipAddress)
-			//checkErrorNumber
+		isOpen ifFalse(streamOpen returnIfError)
+		asyncConnect(ipAddress) returnIfError ifNil(
+			writeEvent waitOn(connectTimeout) returnIfError
+			asyncConnect(ipAddress) returnIfError ifNil(return(Error with("Failed to connect")))
 		)
-		if(didConnect not and errorNumber == "WSA Error 10022",
-			writeEvent waitOn(connectTimeout) ifFalse(
-				setError("Connection timeout")
-				return(false)
-			)
-			if(setErrorIfInvalid,
-				return(false)
-			)
-			didConnect = asyncConnect(ipAddress)
-		)
-		didConnect ifTrue(return(true))
-		checkErrorNumber
-		false
+		self
 	)
 
 	streamRead := method(numBytes,
 		total := readBuffer size + numBytes
-		//readEvent setDescriptorId(descriptorId)
 
 		while(readBuffer size < total,
-			readEvent waitOn(readTimeout) ifFalse(return false)
-			while(asyncStreamRead(readBuffer, bytesPerRead), nil)
+			readEvent waitOn(readTimeout) returnIfError
+			streamReadNextChunk returnIfError
+			isClosed ifTrue(
+				return(Error with("Socket closed before " .. numBytes .. " bytes could be read"))
+			)
 		)
-
-		isOpen
+		self
 	)
 
-	streamWrite := method(buffer,
+	streamWrite := method(buffer, writeCallback,
+		appendToWriteBuffer(buffer) writeFromBuffer
+	)
+	
+	writeFromBuffer := method(writeCallback,
 		n := 225280
 		self setBytesPerWrite(n/2)
 		self setSocketWriteBufferSize(n)
 		self setSocketWriteLowWaterMark(bytesPerWrite)
-		//writeln("getSocketReadLowWaterMark = ", getSocketReadLowWaterMark)
-		//writeln("getSocketWriteLowWaterMark = ", getSocketWriteLowWaterMark)
-		//writeEvent waitOn(writeTimeout)
 
-		if(buffer size <= bytesPerWrite,
-			//writeln("writing all ", 0, " ", buffer size)
-			if(self isOpen not,
-				setError("Attempted to write to closed socket")
-				return(false)
+		while(writeBuffer isEmpty not,
+			writeEvent waitOn(writeTimeout) returnIfError
+			if(writeCallback,
+				sizeBefore = writeBuffer size
+				asyncStreamWrite(writeBuffer, 0, bytesPerWrite) returnIfError
+				writeCallback call(writeBuffer size - sizeBefore)
+			,
+				asyncStreamWrite(writeBuffer, 0, bytesPerWrite) returnIfError
 			)
-			writeEvent waitOn(writeTimeout) ifFalse(
-				setError("Write timeout")
-				return(false)
-			)
-			asyncStreamWrite(buffer, 0, buffer size)
-			return(true)
 		)
-
-		startIndex := 0
-		bytesRemaining := buffer size
-		while(startIndex <= bytesRemaining,
-			//writeln(startIndex)
-			if(self isOpen not,
-				setError("Attempted to write to closed socket")
-				return(false)
-			)
-			writeEvent waitOn(writeTimeout) ifFalse(
-				setError("Write timeout")
-				return(false)
-			)
-			asyncStreamWrite(buffer, startIndex, bytesPerWrite)
-			startIndex = startIndex + bytesPerWrite
-		)
-		true
+		self
 	)
 
 	streamReadNextChunk := method(
 		self setSocketReadLowWaterMark(1)
-		while(asyncStreamRead(readBuffer, bytesPerRead), nil)
-		if(self isOpen not, return(false))
-		readEvent waitOn(readTimeout) ifFalse(return(false))
-		while(asyncStreamRead(readBuffer, bytesPerRead), nil)
-		//writeln("streamReadNextChunk readBuffer size = ", readBuffer size)
-		isOpen
+		while(isOpen and e := asyncStreamRead(readBuffer, bytesPerRead), e returnIfError)
+		readEvent waitOn(readTimeout) returnIfError
+		while(isOpen and e := asyncStreamRead(readBuffer, bytesPerRead), e returnIfError)
+		self
 	)
-
-	streamWriteCopy := method(buffer,
-		writeBuffer copy(buffer)
-		streamWrite(writeBuffer)
+	
+	streamReadWhileOpen := method(
+		while(isOpen,
+			streamReadNextChunk returnIfError
+		)
+		self
 	)
 
 	udpReadNextChunk := method(ipAddress,
-		setErrorIfInvalid ifTrue(return(false))
-		readEvent waitOn(readTimeout) ifFalse(return(false))
-		setErrorIfInvalid ifTrue(return(false))
-		while(asyncUdpRead(ipAddress, readBuffer, bytesPerRead), setErrorIfInvalid ifTrue(return(false)))
-		true
+		readEvent waitOn(readTimeout) returnIfError
+		while(e := asyncUdpRead(ipAddress, readBuffer, bytesPerRead), e returnIfError)
+		self
 	)
 
 	udpRead := method(ipAddress, numBytes,
 		total := readBuffer size + numBytes
 
 		while(readBuffer size < total,
-			setErrorIfInvalid ifTrue(return(false))
-			asyncUdpRead(ipAddress, readBuffer, bytesPerRead) //ifFalse(
-				//readEvent waitOn(readTimeout)
-				//asyncUdpRead(ipAddress, readBuffer, bytesPerRead)
-				//nil
-			//)
-			setErrorIfInvalid ifTrue(return(false))
-			//checkErrorNumber
+			asyncUdpRead(ipAddress, readBuffer, bytesPerRead) returnIfError
 		)
-		true
+		self
 	)
 
 	udpWrite := getSlot("asyncUdpWrite")
 
 	serverOpen := method(
-	   streamOpen
-	   asyncBind(ipAddress)
-	   asyncListen
+	   streamOpen returnIfError
+	   asyncBind(ipAddress) returnIfError
+	   asyncListen returnIfError
 	)
 
 	serverWaitForConnection := method(
 		newAddress := IPAddress clone
-		readEvent waitOn(acceptTimeout)
-		socket := asyncAccept(newAddress)
+		readEvent waitOn(acceptTimeout) returnIfError
+		socket := asyncAccept(newAddress) returnIfError
 		if(socket,
-			socket init
-			socket setupEvents
 			socket setIpAddress(newAddress)
+		,
+			Error with("Timeout")
 		)
-		socket
+	)
+	
+	appendToWriteBuffer := method(buffer,
+		writeBuffer appendSeq(buffer)
+		self
 	)
 )

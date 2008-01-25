@@ -22,10 +22,6 @@
 #include <sys/time.h>
 #else
 #include <winsock2.h>
-#ifndef EISCONN
-#define EISCONN WSAEISCONN
-#define ENOTCONN WSAENOTCONN
-#endif
 
 // for dog4
 #ifndef IO_WINSOCK_COMPAT
@@ -67,7 +63,6 @@ typedef int SOCKET_DESCRIPTOR;
 typedef struct
 {
 	SOCKET_DESCRIPTOR fd;
-	//char *error;
 } Socket;
 
 void Socket_GlobalInit(void);
@@ -83,24 +78,26 @@ void Socket_free(Socket *self);
 void Socket_setDescriptor_(Socket *self, SOCKET_DESCRIPTOR fd);
 SOCKET_DESCRIPTOR Socket_descriptor(Socket *self);;
 
-int Socket_streamOpen(Socket *self);
-int Socket_udpOpen(Socket *self);
-//int Socket_openFifo(Socket *self, const char *path);
-//int Socket_openReadOnlyNonBlockingAtPath_(Socket *self, char *path);
+int Socket_isStream(Socket *self);
 int Socket_isOpen(Socket *self);
-
 int RawDescriptor_isValid(int fd);
-
 int Socket_isValid(Socket *self);
-int Socket_close(Socket *self);
 
 int Socket_makeReusable(Socket *self);
 int Socket_makeAsync(Socket *self);
 
+int Socket_streamOpen(Socket *self);
+int Socket_udpOpen(Socket *self);
+
 int Socket_connectTo(Socket *self, IPAddress *address);
-Socket *Socket_accept(Socket *self, IPAddress *address);
+int Socket_connectToFailed(void);
+int Socket_close(Socket *self);
+int Socket_closeFailed(void);
+
 int Socket_bind(Socket *self, IPAddress *address);
 int Socket_listen(Socket *self);
+int Socket_asyncFailed(void);
+Socket *Socket_accept(Socket *self, IPAddress *address);
 
 ssize_t Socket_streamRead(Socket *self, UArray *buffer, size_t readSize);
 ssize_t Socket_streamWrite(Socket *self, UArray *buffer, size_t start, size_t writeSize);
@@ -108,7 +105,5 @@ ssize_t Socket_streamWrite(Socket *self, UArray *buffer, size_t start, size_t wr
 ssize_t Socket_udpRead(Socket *self, IPAddress *address, UArray *buffer, size_t readSize);
 ssize_t Socket_udpWrite(Socket *self, IPAddress *address, UArray *buffer, size_t start, size_t writeSize);
 
-int Socket_isStream(Socket *self);
-//size_t Socket_sendfile(Socket *self, int fd);
-
+char *Socket_errorDescription(void);
 #endif

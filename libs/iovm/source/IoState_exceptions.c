@@ -36,3 +36,17 @@ void IoState_error_(IoState *self, IoMessage *m, const char *format, ...)
 	}
 }
 
+IoObject *IoState_setErrorDescription_(IoState *self, const char *format, ...)
+{
+	IoSymbol *description;
+	
+	va_list ap;
+	va_start(ap, format);
+	description = IoState_symbolWithUArray_copy_(self, UArray_newWithVargs_(format, ap), 0);
+	va_end(ap);
+	
+	{
+		IoCoroutine *coroutine = IoState_currentCoroutine(self);
+		return IoCoroutine_rawSetErrorDescription_(coroutine, description);
+	}
+}

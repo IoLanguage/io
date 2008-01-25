@@ -12,6 +12,7 @@ docLicense("BSD revised")
 #include "Socket.h"
 
 #define ISSOCKET(self) IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoSocket_rawClone)
+#define SOCKETERROR(leadingErrorDescription) IoState_setErrorDescription_(IOSTATE, "%s: %s", leadingErrorDescription, Socket_errorDescription())
 
 typedef IoObject IoSocket;
 
@@ -38,6 +39,7 @@ IoObject *IoSocket_close(IoSocket *self, IoObject *locals, IoMessage *m);
 // client
 
 IoObject *IoSocket_connectTo(IoSocket *self, IoObject *locals, IoMessage *m);
+IoObject *IoSocket_didConnect(IoSocket *self, IoObject *locals, IoMessage *m);
 
 // stream
 
@@ -68,6 +70,8 @@ IoObject *IoSocket_getSocketReadLowWaterMark(IoSocket *self, IoObject *locals, I
 IoObject *IoSocket_getSocketWriteLowWaterMark(IoSocket *self, IoObject *locals, IoMessage *m);
 
 IoObject *IoSocket_setNoDelay(IoSocket *self, IoObject *locals, IoMessage *m);
-IoObject *IoSocket_errorNumberDescription(IoSocket *self, IoObject *locals, IoMessage *m);
+
+IoObject *IoSocket_errorNumber(IoSocket *self, IoObject *locals, IoMessage *m);
+IoObject *IoSocket_errorDescription(IoSocket *self, IoObject *locals, IoMessage *m);
 
 #endif
