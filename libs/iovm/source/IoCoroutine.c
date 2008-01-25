@@ -557,7 +557,9 @@ IoObject *IoCoroutine_rawSetErrorDescription_(IoCoroutine *self, IoSymbol *descr
 
 IoObject *IoCoroutine_setErrorDescription(IoCoroutine *self, IoObject *locals, IoMessage *m)
 {
+	IoSymbol *description;
+
 	IoMessage_assertArgCount_receiver_(m, 1, self);
-	IoSymbol *description = IoMessage_locals_symbolArgAt_(m, locals, 0);
+	description = IoMessage_locals_symbolArgAt_(m, locals, 0);
 	return IoCoroutine_rawSetErrorDescription_(self, description);
 }

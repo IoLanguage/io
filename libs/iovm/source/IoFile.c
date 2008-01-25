@@ -1040,13 +1040,15 @@ aFile foreach(v, writeln("byte ", v))
 </pre>
 """)
 	*/
-	IoFile_assertOpen(self, locals, m);
-
-	IoObject *result = IONIL(self);
+	IoObject *result;
 
 	IoSymbol *indexSlotName, *characterSlotName;
 	IoMessage *doMessage;
 	int i = 0;
+
+	IoFile_assertOpen(self, locals, m);
+
+	result = IONIL(self);
 
 	IoMessage_foreachArgs(m, self, &indexSlotName, &characterSlotName, &doMessage);
 
@@ -1092,17 +1094,21 @@ aFile foreach(v, writeln("Line: ", v))
 """)
 	*/
 
-	IoObject *result = IONIL(self);
+	IoObject *result;
 
 	IoSymbol *indexSlotName, *lineSlotName;
 	IoMessage *doMessage;
 	IoObject *newLine;
 	int i = 0;
 
-	IoMessage_foreachArgs(m, self, &indexSlotName, &lineSlotName, &doMessage);
-	IoState *state = IOSTATE;
+	IoState *state;
 
 	IoFile_assertOpen(self, locals, m);
+
+	IoMessage_foreachArgs(m, self, &indexSlotName, &lineSlotName, &doMessage);
+
+	result = IONIL(self);
+	state = IOSTATE;
 
 	IoState_pushRetainPool(state);
 
