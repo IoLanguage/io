@@ -146,6 +146,9 @@ SequenceTest := UnitTest clone do(
 		assertEquals("abc", "	abc" asMutable strip("	"))
 		assertEquals("bc", "   abc" asMutable strip("a "))
 		assertEquals("ab", "   abc" asMutable strip("c "))
+		assertEquals("", "  \r\t\n  " asMutable strip)
+		assertEquals("", "  \r\t\n  " asMutable lstrip)
+		assertEquals("", "  \r\t\n  " asMutable rstrip)
 	)
 
 	testRStrip := method(
