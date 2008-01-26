@@ -223,7 +223,7 @@ AddonBuilder := Object clone do(
 	cFiles := method(
 		files := sourceFolder filesWithExtension("cpp") appendSeq(sourceFolder filesWithExtension("c"))
 		if(platform != "windows", files appendSeq(sourceFolder filesWithExtension("m")))
-		files
+		files select(f, f name beginsWithSeq("._") not)
 	)
 
 	libsFolder   := method(Directory with("libs"))
