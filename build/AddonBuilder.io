@@ -44,10 +44,8 @@ AddonBuilder := Object clone do(
 	searchPrefixes := List clone
 	searchPrefixes append(System installPrefix)
 	searchPrefixes append("/usr")
-	if(platform != "darwin",
-		searchPrefixes append("/mingw")
-		searchPrefixes append("/usr/X11R6")
-	)
+	if(platform != "darwin", searchPrefixes append("/usr/X11R6"))
+	if(platform == "mingw", searchPrefixes append("/mingw"))
 	searchPrefixes append("/usr/local")
 	searchPrefixes append("/usr/pkg")
 	searchPrefixes append("/opt/local")
