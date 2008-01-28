@@ -33,7 +33,6 @@ Event do(
 		if(coro, return(Error with("Already waiting on this event")))
 		coro = Scheduler currentCoroutine
 		debugWriteln(coro label, " Event waitOn(", t, ") - pausing")
-
 		EventManager addEvent(self, descriptorId, eventType, timeout) ifError(e, coro = nil; return(e))
 		coro pause
 		debugWriteln(Scheduler currentCoroutine label, " Event waitOn(", t, ") - resumed")

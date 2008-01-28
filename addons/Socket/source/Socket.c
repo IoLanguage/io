@@ -102,7 +102,11 @@ long Socket_SetDescriptorLimitToMax(void)
 Socket *Socket_new(void)
 {
 	Socket *self = (Socket *)calloc(1, sizeof(Socket));
+#ifdef WIN32
+	self->fd = INVALID_SOCKET;
+#else
 	self->fd = -1;
+#endif
 	return self;
 }
 
@@ -184,7 +188,7 @@ int Socket_isStream(Socket *self)
 int Socket_isOpen(Socket *self)
 {
 #ifdef WIN32
-	return self->fd != INVALID_SOCKET
+	return self->fd != INVALID_SOCKET;
 #else
 	return self->fd != -1;
 #endif
@@ -196,7 +200,7 @@ int RawDescriptor_isValid(int fd)
 	// ask how many bytes there are to read. Not because we
 	// want to know that but just if the socket is ok.
 	u_long iToRead = 0;
-	if (ioctlsocket(fd, FIONREAD, &iToRead) == WSAENOTSOCK)
+	if (ioctlsocket((SOCKET_DESCRIPTOR) fd, FIONREAD, &iToRead) == SOCKET_ERROR && SocketErrorStatus() == WSAENOTSOCK)
 #else
 	if (fcntl(fd, F_GETFL, NULL) == -1)
 #endif
@@ -208,15 +212,7 @@ int RawDescriptor_isValid(int fd)
 
 int Socket_isValid(Socket *self)
 {
-	int fd = self->fd;
-
-	if (!RawDescriptor_isValid(fd))
-	{
-		Socket_close(self);
-		return 0;
-	}
-
-	return 1;
+	return RawDescriptor_isValid(self->fd);
 }
 
 // ----------------------------------------
@@ -271,13 +267,14 @@ int Socket_close(Socket *self)
 	{
 		result = closesocket(self->fd);
 	}
+	self->fd = INVALID_SOCKET;
 #else
 	if (self->fd != -1)
 	{
 		result = close(self->fd);
 	}
-#endif
 	self->fd = -1;
+#endif
 	return result == 0;
 }
 
@@ -464,11 +461,13 @@ char *Socket_errorDescription(void)
 #ifdef WIN32
 	if (err)
 	{
-		char[65536] inputBuffer;
-		inputBuffer[65535] = '\0';
-		int bufferSize = FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, err, 0, inputBuffer, 65536) + 1;
-		char *messageBuffer = malloc(bufferSize * sizeOf(char));
-		FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, err, 0, messageBuffer, bufferSize);
+		char *tmpBuffer;
+		char *messageBuffer;
+
+		FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_ALLOCATE_BUFFER, NULL, err, 0, &tmpBuffer, 0, NULL);
+		messageBuffer = calloc(strlen(tmpBuffer) + 1, 1);
+		strcpy(messageBuffer, tmpBuffer);
+		LocalFree(tmpBuffer);
 		return messageBuffer;
 	}
 	else 

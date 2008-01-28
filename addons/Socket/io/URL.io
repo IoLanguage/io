@@ -20,6 +20,13 @@ URL := Notifier clone do(
 		self socket := socketProto clone
 	)
 
+	setTimeout := method(timeout,
+		s := if(getSlot("socket"), socket, socketProto)
+		s setReadTimeout(timeout)
+		s setWriteTimeout(timeout)
+		s setConnectTimeout(timeout)
+	)
+
 	setURL := method(s,
 		//if(s lastPathComponent pathExtension == "" and s containsSeq("?") == false and s endsWithSeq("/") == false, s = s .. "/")
 		url = s asString

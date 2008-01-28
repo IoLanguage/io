@@ -60,7 +60,17 @@ Socket do(
 		isOpen ifFalse(streamOpen returnIfError)
 		asyncConnect(ipAddress) returnIfError ifNil(
 			writeEvent waitOn(connectTimeout) returnIfError
-			asyncConnect(ipAddress) returnIfError ifNil(return(Error with("Failed to connect")))
+			asyncConnect(ipAddress) returnIfError ifNil(
+				if(System platform containsAnyCaseSeq("windows"),
+					//Some versions of WinSock return an event for select() prematurely
+					writeEvent waitOn(connectTimeout) returnIfError
+					asyncConnect(ipAddress) returnIfError ifNil(
+						return(Error with("Failed to connect"))
+					)
+				,
+					return(Error with("Failed to connect"))
+				)
+			)
 		)
 		self
 	)
@@ -79,7 +89,7 @@ Socket do(
 	)
 
 	streamWrite := method(buffer, writeCallback,
-		appendToWriteBuffer(buffer) writeFromBuffer
+		appendToWriteBuffer(buffer) writeFromBuffer(writeCallback)
 	)
 	
 	writeFromBuffer := method(writeCallback,
@@ -91,9 +101,9 @@ Socket do(
 		while(writeBuffer isEmpty not,
 			writeEvent waitOn(writeTimeout) returnIfError
 			if(writeCallback,
-				sizeBefore = writeBuffer size
+				sizeBefore := writeBuffer size
 				asyncStreamWrite(writeBuffer, 0, bytesPerWrite) returnIfError
-				writeCallback call(writeBuffer size - sizeBefore)
+				writeCallback call(sizeBefore - writeBuffer size)
 			,
 				asyncStreamWrite(writeBuffer, 0, bytesPerWrite) returnIfError
 			)

@@ -161,7 +161,7 @@ IoSocket *IoSocket_rawSetupEvent_(IoSocket *self, IoObject *locals, IoMessage *m
 	}
 	else
 	{
-		IoObject_setSlot_to_(event, IOSYMBOL("descriptorId"), IONUMBER(Socket_descriptor(SOCKET(self))));
+		IoObject_setSlot_to_(event, IOSYMBOL("descriptorId"), IoSocket_descriptorId(self, locals, m));
 		return self;
 	}
 }
@@ -175,7 +175,7 @@ IoSocket *IoSocket_rawSetupEvents(IoSocket *self, IoObject *locals, IoMessage *m
 
 IoObject *IoSocket_descriptorId(IoSocket *self, IoObject *locals, IoMessage *m)
 {
-	return IONUMBER(Socket_descriptor(SOCKET(self)));
+	return IONUMBER((int) Socket_descriptor(SOCKET(self)));
 }
 
 SOCKET_DESCRIPTOR IoSocket_rawDescriptor(IoSocket *self)
@@ -197,7 +197,12 @@ IoObject *IoSocket_isOpen(IoSocket *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSocket_isValid(IoSocket *self, IoObject *locals, IoMessage *m)
 {
-	return IOBOOL(self, Socket_isValid(SOCKET(self)));
+	int isValid = Socket_isValid(SOCKET(self));
+
+	if (!isValid)
+		IoSocket_close(self, locals, m);
+
+	return IOBOOL(self, isValid);
 }
 
 // ----------------------------------------
@@ -318,9 +323,17 @@ IoObject *IoSocket_asyncStreamRead(IoSocket *self, IoObject *locals, IoMessage *
 	else
 	{
 		if (Socket_asyncFailed())
+		{
+			IoSocket_close(self, locals, m);
 			return SOCKETERROR("Socket stream read failed");
+		}
 		else
+		{
+			if (SocketErrorStatus() == 0)
+			// 0 bytes means the other end disconnected
+				IoSocket_close(self, locals, m);
 			return IONIL(self);
+		}
 	}
 }
 
@@ -340,9 +353,17 @@ IoObject *IoSocket_asyncStreamWrite(IoSocket *self, IoObject *locals, IoMessage 
 	else
 	{
 		if (Socket_asyncFailed())
+		{
+			IoSocket_close(self, locals, m);
 			return SOCKETERROR("Socket stream write failed");
+		}
 		else
+		{
+			if (IoSocket_errorNumber(self, locals, m) == 0)
+			// 0 bytes means the other end disconnected
+				IoSocket_close(self, locals, m);
 			return IONIL(self);
+		}
 	}
 }
 
