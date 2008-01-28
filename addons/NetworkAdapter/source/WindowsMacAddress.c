@@ -1,40 +1,54 @@
-
 #ifdef WIN32
 
+#ifndef _INC_WINDOWS
+#include <windows.h>
+#endif
 #include <iphlpapi.h>
+
+
+char *String_asHex(char *in, size_t len) // caller must free result
+{
+	char *out = (char *) malloc(len * 2 + 1);
+	int i;
+
+	for(i = 0; i < len; i++)
+	{
+		BYTE c = in[i];
+
+		if (c < 16)
+		{
+			sprintf(out + (i * 2), "0%x", c);
+		}
+		else
+		{
+			sprintf(out + (i * 2), "%x", c);
+		}
+	}
+
+	out[len * 2] = 0x0;
+	return out;
+}
 
 char *macAddress(void)
 {
-	PIP_ADAPTER_INFO adapterInfo;
-	ULONG adapterInfoSize;
-	DWORD errorCode;
-	LPSTR errorCodeMessage = NULL;
-	IoSeq *mac;
+	IP_ADAPTER_INFO *adapterInfo;
+	ULONG adapterInfoSize = 0;
 
-	adapterInfoSize = 0;
-	errorCode = GetAdaptersInfo(NULL, &adapterInfoSize);
-	if(errorCode == ERROR_BUFFER_OVERFLOW){
+	if (GetAdaptersInfo(NULL, &adapterInfoSize) != ERROR_SUCCESS)
+	{
 		adapterInfo = (IP_ADAPTER_INFO *) malloc(adapterInfoSize);
-		if(adapterInfo == NULL)
-			IoState_error_(IOSTATE, m, "error allocating memory while retrieving adapter info");
 	}
-	errorCode = GetAdaptersInfo(adapterInfo, &adapterInfoSize);
-	if(errorCode != ERROR_SUCCESS){
+
+	if (GetAdaptersInfo(adapterInfo, &adapterInfoSize) != ERROR_SUCCESS)
+	{
+		return NULL;
+	}
+
+	{
+		char *mac = String_asHex(adapterInfo->Address, adapterInfo->AddressLength);
 		free(adapterInfo);
-		FormatMessage(
-			FORMAT_MESSAGE_ALLOCATE_BUFFER,
-			NULL,
-			errorCode,
-			MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-			errorCodeMessage,
-			0,
-			NULL
-		);
-		IoState_error_(IOSTATE, m, "error retrieving network adapter info: '%s'", errorCodeMessage);
+		return mac;
 	}
-	mac = IoSeq_newWithData_length_(IOSTATE, adapterInfo->Address, adapterInfo->AddressLength);
-	free(adapterInfo);
-	return mac;
 }
 
 #endif

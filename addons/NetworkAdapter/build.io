@@ -4,11 +4,11 @@ AddonBuilder clone do(
 	)
 
 	if(platform == "windows",
-		nil
+		dependsOnSysLib("Iphlpapi")
 	)
 
 	if(platform == "darwin",
-		dependsOnFramework("IOKit")
+		dependsOnFramework("IoKit")
 		dependsOnFramework("Carbon")
 		dependsOnFramework("Foundation")
 	)

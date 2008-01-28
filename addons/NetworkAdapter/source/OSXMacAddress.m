@@ -200,11 +200,11 @@ char *macAddress(void)
 			
             if (c < 16)
             {
-			    sprintf(s + (i*2), "0%x", c);
+			    sprintf(s + (i*2), "0%x ", c);
             }
 			else
             {
-			    sprintf(s + (i*2), "%x", c);
+			    sprintf(s + (i*2), "%x ", c);
 			}
 		}
         
