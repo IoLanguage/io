@@ -93,6 +93,8 @@ nil do(
 	clone := nil
 )
 
+// I think non-local returns can eliminate all this stopStatus stuff 
+
 Call do(
 	relayStopStatus := method(
 		ss := stopStatus(r := call evalArgAt(0))

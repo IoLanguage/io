@@ -1,3 +1,11 @@
+Directory with("addons") folders foreach(folder,
+	write(folder name)
+	e := try(
+		Lobby perform(folder name asSymbol)
+	)
+	if(e, writeln(""), writeln(" (error)"))
+)
+
 protos := Protos slotValues map(slotValues) flatten unique select(!=nil) sortByKey(type asLowercase)
 
 protos foreach(p,
@@ -9,7 +17,6 @@ protos foreach(p,
 		) 
 	)
 )
-
 
 writeln("""
 <html>
@@ -190,7 +197,6 @@ protos map(v,
 			writeln("</font>")
 		)
 		
-		
 		if (v docs ?slots,
 			writeln("<h3>Slot Index</h3>")
 			writeln("<div style=\"width:40em; margin-left:2em\">")
@@ -224,11 +230,13 @@ protos map(v,
 			//writeln("</ul>")
 		)
 	)
+	
 	writeln("</ul>")
-		writeln("<br>")
-		writeln("<hr align=left>")
+	writeln("<br>")
+	writeln("<hr align=left>")
 	writeln("<br>")
 )
+
 writeln("</ul>")
 5 repeat(writeln("<br>"))
 
