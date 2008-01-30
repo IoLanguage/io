@@ -294,6 +294,11 @@ IoObject *IoDuration_printDuration(IoDuration *self, IoObject *locals, IoMessage
 	return self;
 }
 
+	/*#io
+	docSlot("totalSeconds",
+	"Same as a asNumber.")
+	*/
+	
 IoObject *IoDuration_asNumber(IoDuration *self, IoObject *locals, IoMessage *m)
 {
 	/*#io

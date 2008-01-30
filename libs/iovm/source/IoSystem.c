@@ -119,6 +119,10 @@ IoObject *IoSystem_proto(void *state)
 	return self;
 }
 
+/*#io
+	docSlot("args", "Returns the list of command line argument strings the program was run with.")
+*/
+	
 /*
 IoObject *IoObject_errorNumber(IoObject *self, IoObject *locals, IoMessage *m)
 {

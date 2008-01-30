@@ -10,6 +10,7 @@ Importer := Object clone do(
 	docSlot("removeSearchPath(path)", "Removes a search path from the auto importer. Relative paths should be removed from the same working directory as they were added.")
 	removeSearchPath := method(p, paths remove(Path absolute(p) asSymbol))
 
+	docSlot("FileImporter", "An Importer for local source files.")
 	FileImporter := Object clone do(
 		importsFrom := "file"
 
@@ -29,6 +30,7 @@ Importer := Object clone do(
 		)
 	)
 
+	docSlot("AddonImporter", "An Importer for addon modules.")
 	AddonImporter := Object clone do(
 		importsFrom := "dll"
 
@@ -40,8 +42,10 @@ Importer := Object clone do(
 		)
 	)
 
+	docSlot("importers", "List of Importer objects.")
 	importers := list(FileImporter, AddonImporter)
 
+	docSlot("import(originalCallMessage)", "Imports an object or addon for the given Message.")
 	import := method(originalCall,
 		protoName := originalCall message name
 
@@ -56,6 +60,7 @@ Importer := Object clone do(
 		)
 	)
 
+	docSlot("autoImportingForward", "A forward method implementation placed in the Lobby when Importing is turned on.")
 	autoImportingForward := method(
 		Importer import(call)
 	)
