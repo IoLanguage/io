@@ -111,21 +111,25 @@ IoObject *IoSystemCall_asyncRun(IoSystemCall *self, IoObject *locals, IoMessage 
 	int err;
 
 	/*if you want C FILE streams*/
+	/* STREAMING THESE TO A SEQUENCE CAN CAUSE DEADLOCK!!!
+	 * WE NEED TO FIND A WORKAROUND
 	FILE *fchildin;
 	FILE *fchildout;
 	FILE *fchilderr;
+	*/
 
 	IoSystemCall_rawClose(self);
 
 	/*open the filehandles as pipes*/
-	callsystem_pipe(DATA(self)->stdin_child);
-	callsystem_pipe(DATA(self)->stdout_child);
-	callsystem_pipe(DATA(self)->stderr_child);
+	//callsystem_pipe(DATA(self)->stdin_child);
+	//callsystem_pipe(DATA(self)->stdout_child);
+	//callsystem_pipe(DATA(self)->stderr_child);
 
 	/*initialize the C FILE streams*/
-	fchildin  = callsystem_fdopen(DATA(self)->stdin_child,  CALLSYSTEM_MODE_WRITE); /* the parent process wants to WRITE to stdin of the child */
-	fchildout = callsystem_fdopen(DATA(self)->stdout_child, CALLSYSTEM_MODE_READ); /* the parent process wants to READ stdout of the child */
-	fchilderr = callsystem_fdopen(DATA(self)->stderr_child, CALLSYSTEM_MODE_READ); /* the parent process wants to READ from stderr of the child */
+	//fchildin  = callsystem_fdopen(DATA(self)->stdin_child,  CALLSYSTEM_MODE_WRITE); /* the parent process wants to WRITE to stdin of the child */
+	//fchildout = callsystem_fdopen(DATA(self)->stdout_child, CALLSYSTEM_MODE_READ); /* the parent process wants to READ stdout of the child */
+	//fchilderr = callsystem_fdopen(DATA(self)->stderr_child, CALLSYSTEM_MODE_READ); /* the parent process wants to READ from stderr of the child */
+
 
 	DATA(self)->pid = CALLSYSTEM_ILG_PID;
 
@@ -146,9 +150,9 @@ IoObject *IoSystemCall_asyncRun(IoSystemCall *self, IoObject *locals, IoMessage 
 	err = callsystem(CSTRING(command),
 		DATA(self)->args,
 		DATA(self)->env,
-		DATA(self)->stdin_child,
-		DATA(self)->stdout_child,
-		DATA(self)->stderr_child,
+		NULL,//DATA(self)->stdin_child,
+		NULL,//DATA(self)->stdout_child,
+		NULL,//DATA(self)->stderr_child,
 		NULL,
 		0,
 		&(DATA(self)->pid));
@@ -158,16 +162,16 @@ IoObject *IoSystemCall_asyncRun(IoSystemCall *self, IoObject *locals, IoMessage 
 
 	if (err != -1)
 	{
-		IoObject_setSlot_to_(self, IOSYMBOL("stdin"), IoFile_newWithStream_(IOSTATE, fchildin));
-		IoObject_setSlot_to_(self, IOSYMBOL("stdout"), IoFile_newWithStream_(IOSTATE, fchildout));
-		IoObject_setSlot_to_(self, IOSYMBOL("stderr"), IoFile_newWithStream_(IOSTATE, fchilderr));
+		//IoObject_setSlot_to_(self, IOSYMBOL("stdin"), IoFile_newWithStream_(IOSTATE, fchildin));
+		//IoObject_setSlot_to_(self, IOSYMBOL("stdout"), IoFile_newWithStream_(IOSTATE, fchildout));
+		//IoObject_setSlot_to_(self, IOSYMBOL("stderr"), IoFile_newWithStream_(IOSTATE, fchilderr));
 
 				/*
 				 * Now that we've handed the C FILE* over to the Io File
 				 * Objects they are responsible for closing the file.
 				 * So we must forget the "descriptors"
 				 */
-				IoSystemCall_clearPipeDescriptors(self);
+				//IoSystemCall_clearPipeDescriptors(self);
 	}
 
 	return IONUMBER(err);

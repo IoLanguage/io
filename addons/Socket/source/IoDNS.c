@@ -348,17 +348,17 @@ IoObject *IoObject_hostNameAndIPforDNSResponsePacket(IoObject *self, IoObject *l
 
 	if (disassemble(buf, len, &msg))
 	{
-		IoState_error_(IOSTATE, m, "malformed packet");
+		return DNSERROR("Malformed packet");
 	}
 
 	if ((msg.flags & 0xf980) != 0x8180) // QR|RD|RA
 	{
-		IoState_error_(IOSTATE, m, "wrong flags (not a reply etc)");
+		return DNSERROR("Wrong flags (not a reply etc)");
 	}
 
 	if (msg.qdcount != 1 || msg.qd[0].type != 1 || msg.qd[0].class != 1)
 	{
-		IoState_error_(IOSTATE, m, "bad dns packet from server");
+		return DNSERROR("Bad packet from server");
 	}
 
 	// hostName
@@ -389,24 +389,24 @@ IoObject *IoObject_hostNameAndIPforDNSResponsePacket(IoObject *self, IoObject *l
 			}
 			break;
 		case 1: // formerr
-			IoState_error_(IOSTATE, m, "formerr");
+			return DNSERROR("formerr");
 			break;
 		case 2: // servfail (temporary)
 			//h->query->nextt = io_time;
-			IoState_error_(IOSTATE, m, "servfail (temporary)");
+			return DNSERROR("servfail (temporary)");
 			break;
 		case 3:	// nxdomain
-			IoState_error_(IOSTATE, m,  "nxdomain");
+			return DNSERROR("nxdomain");
 			// h->expire = io_time + IOSEC(DNS_NXDOM_EXPIRE,1);
 			break;
 		case 4: // notimpl
-			IoState_error_(IOSTATE, m, "notimpl");
+			return DNSERROR("notimpl");
 			break;
 		case 5: // refused
-			IoState_error_(IOSTATE, m, "refused");
+			DNSERROR("refused");
 			break;
 		default:
-			IoState_error_(IOSTATE, m, "bad server");
+			DNSERROR("bad server");
 			break;
 	}
 

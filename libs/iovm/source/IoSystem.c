@@ -28,7 +28,7 @@ System ioDoc(
 #ifdef WIN32
 #include <windows.h>
 
-static void setEnvironmentVariable(const char *varName, const char* value, int force)
+static void setenv(const char *varName, const char* value, int force)
 {
 	const char *safeValue;
 	char *buf;

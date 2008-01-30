@@ -1,9 +1,9 @@
 /*#io
 NetworkAdapter ioDoc(
-	docCopyright("Rich Collins", 2007)
-	docLicense("BSD revised")
-	docCategory("Networking")
-	docDescription("Interface to network adapter functionality")
+    docCopyright("Rich Collins", 2007)
+    docLicense("BSD revised")
+    docCategory("Networking")
+    docDescription("Interface to network adapter functionality")
 */
 
 #include "IoNetworkAdapter.h"
@@ -16,7 +16,6 @@ IoTag *IoNetworkAdapter_newTag(void *state)
 {
 	IoTag *tag = IoTag_newWithName_("NetworkAdapter");
 	IoTag_state_(tag, state);
-	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoNetworkAdapter_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoNetworkAdapter_rawClone);
 	return tag;
 }
@@ -30,7 +29,7 @@ IoNetworkAdapter *IoNetworkAdapter_proto(void *state)
 
 	{
 		IoMethodTable methodTable[] = {
-			{"mac", IoNetworkAdapter_mac},
+			{"macAddress", IoNetworkAdapter_macAddress},
 			{NULL, NULL},
 		};
 		IoObject_addMethodTable_(self, methodTable);
@@ -50,21 +49,19 @@ IoNetworkAdapter *IoNetworkAdapter_new(void *state)
 	return IOCLONE(proto);
 }
 
-void IoNetworkAdapter_free(IoNetworkAdapter *self)
-{
-}
-
 /* ----------------------------------------------------------- */
 
-IoSeq *IoNetworkAdapter_mac(IoNetworkAdapter *self, IoObject *locals, IoMessage *m)
+IoSeq *IoNetworkAdapter_macAddress(IoNetworkAdapter *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("mac", "Returns the mac address for the primary network adapter")
+	docSlot("macAddress", "Returns the MAC address for the primary network adapter in a Hex string.")
 	*/
 
 #if defined(WIN32) ||  defined(__APPLE__) || defined(MACOSX)
-	return IOSYMBOL(macAddress());
+	char * mac = macAddress();
+	return mac ? IOSYMBOL(mac) : IONIL(self);
 #else
 	return IONIL(self);
 #endif
+
 }

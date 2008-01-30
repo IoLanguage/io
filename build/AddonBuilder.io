@@ -44,17 +44,15 @@ AddonBuilder := Object clone do(
 	searchPrefixes := List clone
 	searchPrefixes append(System installPrefix)
 	searchPrefixes append("/usr")
-	if(platform != "darwin",
-		searchPrefixes append("/mingw")
-		searchPrefixes append("/usr/X11R6")
-	)
+	if(platform != "darwin", searchPrefixes append("/usr/X11R6"))
+	if(platform == "mingw", searchPrefixes append("/mingw"))
 	searchPrefixes append("/usr/local")
 	searchPrefixes append("/usr/pkg")
 	searchPrefixes append("/opt/local")
 	searchPrefixes append("/sw")
 	// on windows there is no such thing as a standard place
 	// to look for these things
-	searchPrefixes append("i:/io/addonLibs")
+	searchPrefixes append("i:/io/addonLibs", "C:/io/addonLibs")
 
 	headerSearchPaths := List clone
 	appendHeaderSearchPath := method(v, if(File clone setPath(v) exists, headerSearchPaths appendIfAbsent(v)))
@@ -76,7 +74,7 @@ AddonBuilder := Object clone do(
 			headers := List clone
 			libs := List clone
 			frameworks := List clone
-						syslibs := List clone
+			syslibs := List clone
 			includes := List clone
 			linkOptions := List clone
 			addons := List clone
@@ -120,13 +118,18 @@ AddonBuilder := Object clone do(
 		path
 	)
 
-	dependsOnBinding    := method(v, depends addons appendIfAbsent(v))
-	dependsOnHeader     := method(v, depends headers appendIfAbsent(v))
-	dependsOnLib        := method(v, depends libs appendIfAbsent(v))
-	dependsOnFramework  := method(v, depends frameworks appendIfAbsent(v))
-	dependsOnInclude    := method(v, depends includes appendIfAbsent(v))
+	dependsOnBinding := method(v, depends addons appendIfAbsent(v))
+	dependsOnHeader := method(v, depends headers appendIfAbsent(v))
+	dependsOnLib := method(v,
+		depends libs contains(v) ifFalse(
+			depends libs append(v)
+			searchPrefixes appendIfAbsent(v)
+		)
+	)
+	dependsOnFramework := method(v, depends frameworks appendIfAbsent(v))
+	dependsOnInclude := method(v, depends includes appendIfAbsent(v))
 	dependsOnLinkOption := method(v, depends linkOptions appendIfAbsent(v))
-	dependsOnSysLib     := method(v, depends syslibs appendIfAbsent(v))
+	dependsOnSysLib := method(v, depends syslibs appendIfAbsent(v))
 
 	dependsOnFrameworkOrLib := method(v, w,
 		path := pathForFramework(v)
@@ -175,10 +178,10 @@ AddonBuilder := Object clone do(
 	installCommands := method(
 		commands := Map clone
 		missingLibs foreach(p,
-				if(debs at(p),    commands atPut("aptget", "apt-get install " .. debs at(p) .. " && ldconfig"))
-				if(ebuilds at(p), commands atPut("emerge",  "emerge -DN1 " .. ebuilds at(p)))
-				if(pkgs at(p),    commands atPut("port",    "port install " .. pkgs at(p)))
-				if(rpms at(p),    commands atPut("urpmi",   "urpmi " .. rpms at(p) .. " && ldconfig"))
+			if(debs at(p), commands atPut("aptget", "apt-get install " .. debs at(p) .. " && ldconfig"))
+			if(ebuilds at(p), commands atPut("emerge", "emerge -DN1 " .. ebuilds at(p)))
+			if(pkgs at(p), commands atPut("port", "port install " .. pkgs at(p)))
+			if(rpms at(p), commands atPut("urpmi", "urpmi " .. rpms at(p) .. " && ldconfig"))
 		)
 		commands
 	)
@@ -218,7 +221,9 @@ AddonBuilder := Object clone do(
 	objsFolder := method(self objsFolder := folder createSubdirectory("_build/objs"))
 	sourceFolder := method(folder folderNamed("source"))
 	cFiles := method(
-		sourceFolder filesWithExtension("cpp") appendSeq(sourceFolder filesWithExtension("c")) appendSeq(sourceFolder filesWithExtension("m"))
+		files := sourceFolder filesWithExtension("cpp") appendSeq(sourceFolder filesWithExtension("c"))
+		if(platform != "windows", files appendSeq(sourceFolder filesWithExtension("m")))
+		files select(f, f name beginsWithSeq("._") not)
 	)
 
 	libsFolder   := method(Directory with("libs"))
@@ -252,12 +257,12 @@ AddonBuilder := Object clone do(
 
 				s := cc .. " " .. options .. " " .. depends includes join(" ") .. " " .. includes join(" ") .. " -I. "
 				if(list("cygwin", "mingw", "windows") contains(platform) not,
-									s = s .. "-fPIC "
-								,
-									s = s .. "-DBUILDING_"
-									s = s .. name asUppercase
-									s = s .. "_ADDON "
-								)
+					s = s .. "-fPIC "
+				,
+					s = s .. "-DBUILDING_"
+					s = s .. name asUppercase
+					s = s .. "_ADDON "
+				)
 				s = s .. "-c " .. ccOutFlag .. "_build/objs/" .. obj .. " source/" .. f name
 				systemCall(s)
 			)
@@ -285,16 +290,16 @@ AddonBuilder := Object clone do(
 	dllNameFor := method(s, "lib" .. s .. "." .. dllSuffix)
 
 	dllCommand := method(
-			if(platform == "darwin",
-				"-dynamiclib -single_module -read_only_relocs suppress"
+		if(platform == "darwin",
+			"-dynamiclib -single_module -read_only_relocs suppress"
+		,
+			if (platform == "windows",
+				"-dll -debug"
 			,
-				if (platform == "windows",
-					"-dll -debug"
-				,
-					"-shared"
-				)
+				"-shared"
 			)
 		)
+	)
 
 	buildDynLib := method(
 		mkdir("_build/dll")
@@ -329,7 +334,7 @@ AddonBuilder := Object clone do(
 	embedManifest := method(
 		dllFilePath := "_build/dll/" .. dllNameFor("Io" .. name)
 		manifestFilePath := dllFilePath .. ".manifest"
-			systemCall("mt.exe -manifest " .. manifestFilePath .. " -outputresource:" .. dllFilePath .. ";2")
+			systemCall("mt.exe -manifest " .. manifestFilePath .. " -outputresource:" .. dllFilePath)
 		writeln("Removing manifest file: " .. manifestFilePath)
 		File with(folder path .. "/" .. manifestFilePath) remove
 	)
@@ -348,7 +353,7 @@ AddonBuilder := Object clone do(
 	isStatic := false
 
 	generateInitFile := method(
-		if(folder folderNamed("source") filesWithExtension("m") size != 0, return)
+		if(platform != "windows" and folder folderNamed("source") filesWithExtension("m") size != 0, return)
 		initFile := folder createFileNamed(initFileName)
 		initFile remove open
 		initFile write("#include \"IoState.h\"\n")
@@ -356,9 +361,9 @@ AddonBuilder := Object clone do(
 
 		sourceFiles := folder folderNamed("source") files
 		iocFiles := sourceFiles select(f, f name beginsWithSeq("Io") and(f name endsWithSeq(".c")) and(f name containsSeq("Init") not) and(f name containsSeq("_") not))
-				iocppFiles := sourceFiles select(f, f name beginsWithSeq("Io") and(f name endsWithSeq(".cpp")) and(f name containsSeq("Init") not) and(f name containsSeq("_") not))
+		iocppFiles := sourceFiles select(f, f name beginsWithSeq("Io") and(f name endsWithSeq(".cpp")) and(f name containsSeq("Init") not) and(f name containsSeq("_") not))
 
-				iocFiles appendSeq(iocppFiles)
+		iocFiles appendSeq(iocppFiles)
 		extraFiles := sourceFiles select(f, f name beginsWithSeq("Io") and(f name endsWithSeq(".c")) and(f name containsSeq("Init") not) and(f name containsSeq("_")))
 
 		orderedFiles := List clone appendSeq(iocFiles)
@@ -385,13 +390,13 @@ AddonBuilder := Object clone do(
 			initFile write("void " .. f name fileName .. "Init(void *context);\n")
 		)
 
-				if (platform == "windows",
-					initFile write("__declspec(dllexport)\n")
-				)
+		if (platform == "windows",
+			initFile write("__declspec(dllexport)\n")
+		)
 		initFile write("\nvoid Io" .. folder name .. "Init(IoObject *context)\n")
 		initFile write("{\n")
 		if(iocFiles size > 0,
-		initFile write("\tIoState *self = IoObject_state((IoObject *)context);\n\n")
+			initFile write("\tIoState *self = IoObject_state((IoObject *)context);\n\n")
 		)
 
 		iocFiles foreach(f,

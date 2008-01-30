@@ -20,6 +20,13 @@ URL := Notifier clone do(
 		self socket := socketProto clone
 	)
 
+	setTimeout := method(timeout,
+		s := if(getSlot("socket"), socket, socketProto)
+		s setReadTimeout(timeout)
+		s setWriteTimeout(timeout)
+		s setConnectTimeout(timeout)
+	)
+
 	setURL := method(s,
 		//if(s lastPathComponent pathExtension == "" and s containsSeq("?") == false and s endsWithSeq("/") == false, s = s .. "/")
 		url = s asString
@@ -142,21 +149,19 @@ URL := Notifier clone do(
 		u
 	)
 
-	docSlot("fetch", "Fetches the url and returns the result as a Sequence. Sets error and returns nil if an error occurs.")
+	docSlot("fetch", "Fetches the url and returns the result as a Sequence. Returns an Error, if one occurs.")
 
 	fetch := method(url,
 		if(url, setURL(url))
 		if(protocol == "http", return(fetchHttp))
-		setError("protocol '" .. protocol .. "' unsupported")
-		nil
+		Error with("Protocol '" .. protocol .. "' unsupported")
 	)
 
-	docSlot("fetchWithProgress(progressBlock)", "Same as fetch, but with each read, progressBlock is called with the readBuffer and the content size as parameters.  Sets error and returns nil if an error occurs.")
+	docSlot("fetchWithProgress(progressBlock)", "Same as fetch, but with each read, progressBlock is called with the readBuffer and the content size as parameters.")
 
 	fetchWithProgress := method(progressBlock,
 		if(protocol == "http", return(fetch(getSlot("progressBlock"))))
-		setError("protocol '" .. protocol .. "' unsupported")
-		nil
+		Error with("Protocol '" .. protocol .. "' unsupported")
 	)
 
 	docSlot("stopFetch", "Stops the fetch, if there is one. Returns self.")
@@ -185,12 +190,15 @@ URL := Notifier clone do(
 	twoCharheaderBreaks := list("\r\r", "\n\n")
 	fourCharheaderBreaks := list("\r\n\r\n", "\n\r\n\r")
 
+	connectAndWriteHeader := method(
+		if(host == nil, return(Error with("No host set")))
+		socket setHost(host) returnIfError setPort(port) connect returnIfError
+		socket appendToWriteBuffer(requestHeader) write returnIfError
+	)
+
 	fetchRaw := method(
-		(socket setHost(host) setPort(port) connect and socket streamWrite(requestHeader)) ifFalse(
-			setError(socket error)
-			return
-		)
-		while(socket streamReadNextChunk, nil)
+		connectAndWriteHeader returnIfError
+		socket streamReadWhileOpen returnIfError
 		socket readBuffer
 	)
 
@@ -201,19 +209,13 @@ URL := Notifier clone do(
 		//lines println
 		lines removeAt(0)
 		lines foreach(line,
-			//writeln(line)
 			headerFields atPut(line beforeSeq(":"), line afterSeq(":") strip)
 		)
 		self
 	)
 
 	fetchHttp := method(progressBlock,
-		if(host == nil, Exception raise("no host set"))
-		//writeln("host = '", host, "'")
-		(socket setHost(host) setPort(port) connect and socket streamWrite(requestHeader)) ifFalse(
-			setError(socket error)
-			return
-		)
+		connectAndWriteHeader returnIfError
 		processHttpResponse(progressBlock)
 	)
 	
@@ -223,32 +225,27 @@ URL := Notifier clone do(
 
 		// read and separate the header
 
-		loop(
-			more := socket streamReadNextChunk
+		while(socket isOpen,
+			socket streamReadNextChunk returnIfError
 			match := b findSeqs(headerBreaks)
 			if(match,
-					setReadHeader(b slice(0, match index))
-					b removeSlice(0, match index + match match size - 1)
-					more := false
-					break
+				setReadHeader(b slice(0, match index))
+				b removeSlice(0, match index + match match size - 1)
+				break
 			)
-
-			if(more not, break)
 		)
 
-		// writeln("URL got header [", readHeader, "]")
-
-		if(readHeader == nil, Exception raise("didn't find read header in [", b, "]"))
+		if(readHeader == nil, return(Error with("didn't find read header in [" .. b .. "]")))
 
 		contentLength := headerFields at("Content-Length")
 		if(contentLength, contentLength = contentLength asNumber)
-		//writeln("URL contentLength = ", contentLength)
 
-		while(socket isOpen and socket streamReadNextChunk,
-			if(contentLength and b size >= contentLength, writeln("break"); break)
+		while(socket isOpen,
+			socket streamReadNextChunk returnIfError
+			if(contentLength and b size >= contentLength, break)
 			if(getSlot("progressBlock"), progressBlock(b size, contentLength))
 		)
-
+		socket close
 
 		if(headerFields at("Transfer-Encoding") == "chunked",
 			newB := Sequence clone
@@ -262,12 +259,6 @@ URL := Notifier clone do(
 			b copy(newB)
 		)
 
-		if(socket error,
-			setError(socket error)
-			return
-		)
-		socket close
-		//writeln("b = ", b)
 		if(headerFields at("Content-Encoding") == "gzip", Zlib; b unzip)
 		b
 	)
@@ -275,7 +266,7 @@ URL := Notifier clone do(
 	docSlot("fetchToFile(aFile)", "fetch the url and save the result to the specified File object. Saving is done as the data is read, which help minimize memory usage. Returns self on success or nil on error.")
 
 	fetchToFile := method(file,
-		fetchHttp(block(file write(socket readBuffer); socket readBuffer empty)) ifNil(return)
+		fetchHttp(block(file write(socket readBuffer); socket readBuffer empty)) returnIfError
 		self
 	)
 
@@ -286,11 +277,11 @@ URL := Notifier clone do(
 		URL clone setURL(u) setReferer(url)
 	)
 
-	docSlot("post(data)", "Sends an http post message. If data is a Map, it's key/value pairs are send as the post parameters. If data is a Sequence or String, it is sent directly. Returns a sequence containing the response on success or nil on error.")
+	docSlot("post(data)", "Sends an http post message. If data is a Map, it's key/value pairs are send as the post parameters. If data is a Sequence or String, it is sent directly. Returns a sequence containing the response on success or an Error, if one occurs.")
 
 	post := method(postdata,
 		postdata ifNil(postdata = "")
-		ip := Host clone setName(host) address
+		ip := Host clone setName(host) address returnIfError
 
 		header := Sequence clone
 		header appendSeq(
@@ -315,12 +306,7 @@ URL := Notifier clone do(
 
 		header appendSeq("Content-Length: ", content size, "\r\n\r\n", content)
 
-		
-		(socket setHost(host) setPort(port) connect and socket streamWrite(header)) ifFalse(
-			setError(socket error)
-			return
-		)
-		
+		connectAndWriteHeader returnIfError
 		processHttpResponse
 	)
 
@@ -340,14 +326,13 @@ URL := Notifier clone do(
 	streamDestination ::= nil
 	startStreaming := method(
 		fetchHttp(block(
-			streamDestination raiseOnError(streamDestination write(socket readBuffer))
+			streamDestination write(socket readBuffer) returnIfError
 			socket readBuffer empty
 		))
 	)
 
 	test := method(
 		data := URL with("http://www.yahoo.com/") fetch
-		//writeln("URL test fetched ", data size, " bytes")
 	)
 )
 

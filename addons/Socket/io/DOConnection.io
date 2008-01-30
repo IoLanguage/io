@@ -53,7 +53,12 @@ DOConnection := Object clone do(
 	handleSocket := method(aSocket, /* Called to when starting a server */
 		debugWriteln("Got connection")
 		setSocket(aSocket)
-		while(socket isOpen, self readMessage)
+		while(socket isOpen,
+			self readMessage ifError(e,
+				debugWriteln("Error reading message: ", e description)
+				socket close
+			)
+		)
 		debugWriteln("Closed connection")
 	)
 
@@ -64,10 +69,10 @@ DOConnection := Object clone do(
 		self
 	)
 
-	docSlot("setHost(ipString)", "Sets the host ip to connect to. Returns self.")
+	docSlot("setHost(ipString)", "Sets the host ip to connect to. Returns self or an Error, if one occurs.")
 	docSlot("host", "Returns the host ip.")
 
-	setHost := method(aString, socket setHost(aString); self)
+	setHost := method(aString, socket setHost(aString) returnIfError; self)
 	host := method(socket host)
 
 	docSlot("setPort(portNumber)", "Sets the port number to connect to. Returns self.")
@@ -76,24 +81,24 @@ DOConnection := Object clone do(
 	setPort := method(aString, socket setPort(aString); self)
 	port := method(socket port)
 
-	docSlot("connect", "Connect to the remote DOServer. Returns self. Raises an exception on error.")
+	docSlot("connect", "Connect to the remote DOServer. Returns self or an Error, if one occurs.")
 
 	connect := method(
-		self error := nil
-		socket raiseOnError(socket connect)
+		socket connect returnIfError
 		self serverObject := DOProxy clone setProxyId(0) setConnection(self)
 		self
 	)
 
-	docSlot("serverObject", "A handle to the remote DOServer's root object.")
+	docSlot("serverObject", "A handle to the remote DOServer's root object. Returns result from server or an Error, if one occurs.")
 
 	sendMessage := method(m,
 		ifDebug(write("sending message "); ShowMessage(m))
-		raiseOnError(socket write(m))
+		socket appendToWriteBuffer(m) writeFromBuffer returnIfError
 		debugWriteln("waiting for result")
 		socket readBuffer empty
 		result := nil
-		while(socket read,
+		loop(
+			socket read returnIfError
 			list := socket readBuffer splitNoEmpties(NULL)
 			ifDebug(write("got result "); ShowMessage(socket readBuffer))
 			type := list at(0) asString
@@ -104,7 +109,7 @@ DOConnection := Object clone do(
 				result := self decode(argType, argValue)
 				break
 			) else(
-				raiseOnError(performMessage(m))
+				performMessage(m) returnIfError
 			)
 		)
 		return result
@@ -112,11 +117,10 @@ DOConnection := Object clone do(
 
 	readMessage := method(
 		socket readBuffer empty
-		if(socket read,
-			m := socket readBuffer
-			ifDebug(write("read message "); ShowMessage(m))
-			self performMessage(m)
-		)
+		socket read returnIfError
+		m := socket readBuffer
+		ifDebug(write("read message "); ShowMessage(m))
+		performMessage(m)
 	)
 
 	performMessage := method(m,
@@ -143,7 +147,7 @@ DOConnection := Object clone do(
 		b appendSeq("r", NULL)
 		self encode(b, result, localObjects)
 		ifDebug(write("returning result "); ShowMessage(b))
-		socket write(b)
+		socket appendToWriteBuffer(b) writeFromBuffer
 	)
 
 	NULL := 0 asCharacter
@@ -219,6 +223,6 @@ DOProxy := Object clone do(
 		b appendSeq(NULL)
 
 		args foreach(v, connection encode(b, v))
-		return(connection sendMessage(b))
+		connection sendMessage(b)
 	)
 )

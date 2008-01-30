@@ -472,6 +472,7 @@ IoObject *IoMessage_locals_performOn_(IoMessage *self, IoObject *locals, IoObjec
 	IoState *state = IOSTATE;
 	IoMessage *m = self;
 	IoObject *result = target;
+	IoObject *cachedTarget = target;
 	//IoObject *semicolonSymbol = state->semicolonSymbol;
 	//IoMessageData *md;
 	IoMessageData *md;
@@ -485,7 +486,7 @@ IoObject *IoMessage_locals_performOn_(IoMessage *self, IoObject *locals, IoObjec
 
 		if(md->name == state->semicolonSymbol)
 		{
-			target = locals;
+			target = cachedTarget;
 		}
 		else
 		{

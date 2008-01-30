@@ -4,7 +4,7 @@ Socket ioDoc(
 	docLicense("BSD revised")
 	docDependsOn("SocketManager")
 	docDescription("""Interface to network communication.
-Sockets will auto yields to other coroutines while waiting on a request.
+Sockets will auto yield to other coroutines while waiting on a request.
 All blocking operations use the timeout settings of the socket.
 Reads are appended to the socket's read buffer which can be accessed using the readBuffer method.
 Example:
@@ -78,8 +78,6 @@ IoSocket *IoSocket_proto(void *state)
 
 	{
 		IoMethodTable methodTable[] = {
-		//{"openFifo", IoSocket_openFifo_},
-
 		{"asyncStreamOpen", IoSocket_asyncStreamOpen},
 		{"asyncUdpOpen", IoSocket_asyncUdpOpen},
 		{"isOpen", IoSocket_isOpen},
@@ -101,9 +99,6 @@ IoSocket *IoSocket_proto(void *state)
 		{"close", IoSocket_close},
 		{"descriptorId", IoSocket_descriptorId},
 
-		//{"sendfile", IoSocket_sendfile},
-		//{"sync", IoSocket_sync},
-
 		{"setSocketReadBufferSize", IoSocket_setSocketReadBufferSize},
 		{"setSocketWriteBufferSize", IoSocket_setSocketWriteBufferSize},
 
@@ -114,7 +109,9 @@ IoSocket *IoSocket_proto(void *state)
 		{"setSocketWriteLowWaterMark", IoSocket_setSocketWriteLowWaterMark},
 
 		{"setNoDelay", IoSocket_setNoDelay},
-		{"errorNumber", IoSocket_errorNumberDescription},
+		
+		{"errorNumber", IoSocket_errorNumber},
+		{"errorDescription", IoSocket_errorDescription},
 
 		{NULL, NULL}
 		};
@@ -154,42 +151,36 @@ void IoSocket_free(IoSocket *self)
 
 // ----------------------------------------
 
+IoSocket *IoSocket_rawSetupEvent_(IoSocket *self, IoObject *locals, IoMessage *m, char *eventSlotName)
+{
+	IoObject *event = IoObject_rawGetSlot_(self, IOSYMBOL(eventSlotName));
+	if(!event || ISNIL(event))
+	{
+		IoState_error_(IOSTATE, m, "Expected %s slot to be set!", eventSlotName);
+		return IONIL(self);
+	}
+	else
+	{
+		IoObject_setSlot_to_(event, IOSYMBOL("descriptorId"), IoSocket_descriptorId(self, locals, m));
+		return self;
+	}
+}
+
+IoSocket *IoSocket_rawSetupEvents(IoSocket *self, IoObject *locals, IoMessage *m)
+{
+	IoSocket_rawSetupEvent_(self, locals, m, "readEvent");
+	IoSocket_rawSetupEvent_(self, locals, m, "writeEvent");
+	return self;
+}
+
 IoObject *IoSocket_descriptorId(IoSocket *self, IoObject *locals, IoMessage *m)
 {
-	return IONUMBER(Socket_descriptor(SOCKET(self)));
+	return IONUMBER((int) Socket_descriptor(SOCKET(self)));
 }
 
 SOCKET_DESCRIPTOR IoSocket_rawDescriptor(IoSocket *self)
 {
 	return Socket_descriptor(SOCKET(self));
-}
-
-// ----------------------------------------
-
-IoObject *IoSocket_asyncStreamOpen(IoSocket *self, IoObject *locals, IoMessage *m)
-{
-	Socket *socket = SOCKET(self);
-	SocketResetErrorStatus();
-
-	if (Socket_streamOpen(socket) == -1) return IOFALSE(self);
-	if (Socket_isOpen(socket) != 1) return IOFALSE(self);
-	if (Socket_makeReusable(socket) != 0) return IOFALSE(self);
-	if (Socket_makeAsync(socket) != 0) return IOFALSE(self);
-
-	return self;
-}
-
-IoObject *IoSocket_asyncUdpOpen(IoSocket *self, IoObject *locals, IoMessage *m)
-{
-	Socket *socket = SOCKET(self);
-	SocketResetErrorStatus();
-
-	if (Socket_udpOpen(socket) == -1) return IOFALSE(self);
-	if (Socket_isOpen(socket) != 1) return IOFALSE(self);
-	if (Socket_makeReusable(socket) != 0) return IOFALSE(self);
-	if (Socket_makeAsync(socket) != 0) return IOFALSE(self);
-
-	return self;
 }
 
 // ----------------------------------------
@@ -206,20 +197,77 @@ IoObject *IoSocket_isOpen(IoSocket *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSocket_isValid(IoSocket *self, IoObject *locals, IoMessage *m)
 {
-	return IOBOOL(self, Socket_isValid(SOCKET(self)));
+	int isValid = Socket_isValid(SOCKET(self));
+
+	if (!isValid)
+		IoSocket_close(self, locals, m);
+
+	return IOBOOL(self, isValid);
 }
+
+// ----------------------------------------
+
+IoObject *IoSocket_asyncStreamOpen(IoSocket *self, IoObject *locals, IoMessage *m)
+{
+	Socket *socket = SOCKET(self);
+	SocketResetErrorStatus();
+
+	if (Socket_streamOpen(socket) && Socket_isOpen(socket) && Socket_makeReusable(socket) && Socket_makeAsync(socket))
+	{
+		IoSocket_rawSetupEvents(self, locals, m);
+		return self;
+	}
+	else
+	{
+		return SOCKETERROR("Failed to create stream socket");
+	}
+}
+
+IoObject *IoSocket_asyncUdpOpen(IoSocket *self, IoObject *locals, IoMessage *m)
+{
+	Socket *socket = SOCKET(self);
+
+	if (Socket_udpOpen(socket) && Socket_isOpen(socket) && Socket_makeReusable(socket) && Socket_makeAsync(socket))
+	{
+		IoSocket_rawSetupEvents(self, locals, m);
+		return self;
+	}
+	else
+	{
+		return SOCKETERROR("Failed to create udp socket");
+	}
+}
+
+// ----------------------------------------
 
 IoObject *IoSocket_connectTo(IoSocket *self, IoObject *locals, IoMessage *m)
 {
 	IPAddress *address = IoMessage_locals_rawIPAddressArgAt_(m, locals, 0);
-	int r = Socket_connectTo(SOCKET(self), address);
-	return IOBOOL(self, r == 0);
+	if (Socket_connectTo(SOCKET(self), address))
+		return self;
+	else
+	{
+		if (Socket_connectToFailed())
+			return SOCKETERROR("Socket connect failed");
+		else
+			return IONIL(self);
+	}
 }
 
 IoObject *IoSocket_close(IoSocket *self, IoObject *locals, IoMessage *m)
 {
-	Socket_close(SOCKET(self));
-	return IOTRUE(self);
+	if (Socket_close(SOCKET(self)))
+	{
+		IoSocket_rawSetupEvents(self, locals, m);
+		return self;
+	}
+	else
+	{
+		if (Socket_closeFailed())
+			return SOCKETERROR("Failed to close socket");
+		else
+			return IONIL(self);
+	}
 }
 
 // server -------------------------------
@@ -227,19 +275,37 @@ IoObject *IoSocket_close(IoSocket *self, IoObject *locals, IoMessage *m)
 IoObject *IoSocket_asyncBind(IoSocket *self, IoObject *locals, IoMessage *m)
 {
 	IPAddress *address = IoMessage_locals_rawIPAddressArgAt_(m, locals, 0);
-	return IOBOOL(self, Socket_bind(SOCKET(self), address) == 0);
+	if (Socket_bind(SOCKET(self), address))
+		return self;
+	else
+		return SOCKETERROR("Failed to bind socket");
 }
 
 IoObject *IoSocket_asyncListen(IoSocket *self, IoObject *locals, IoMessage *m)
 {
-	return IOBOOL(self, Socket_listen(SOCKET(self)) == 0);
+	if (Socket_listen(SOCKET(self)))
+		return self;
+	else
+		return SOCKETERROR("Socket listen failed");
 }
 
 IoObject *IoSocket_asyncAccept(IoSocket *self, IoObject *locals, IoMessage *m)
 {
 	IPAddress *address = IoMessage_locals_rawIPAddressArgAt_(m, locals, 0);
 	Socket *socket = Socket_accept(SOCKET(self), address);
-	return (socket) ? IoSocket_newWithSocket_(IOSTATE, socket) : IONIL(self);
+	if (socket)
+	{
+		IoObject *newSocket = IoSocket_newWithSocket_(IOSTATE, socket);
+		newSocket = IoObject_initClone_(self, locals, m, newSocket);
+		return IoSocket_rawSetupEvents(newSocket, locals, m);
+	}
+	else
+	{
+		if (Socket_asyncFailed())
+			return SOCKETERROR("Socket accept failed");
+		else
+			return IONIL(self);
+	}
 }
 
 // stream -------------------------------
@@ -249,40 +315,56 @@ IoObject *IoSocket_asyncStreamRead(IoSocket *self, IoObject *locals, IoMessage *
 	IoSeq *bufferSeq = IoMessage_locals_mutableSeqArgAt_(m, locals, 0);
 	UArray *buffer = IoSeq_rawUArray(bufferSeq);
 	size_t readSize = IoMessage_locals_intArgAt_(m, locals, 1);
-	ssize_t bytesRead = Socket_streamRead(SOCKET(self), buffer, readSize);
-	int eno = SocketErrorStatus();
 
-	//printf("bytesRead = %i\n", bytesRead);
-	//printf("eno == EAGAIN = %i\n", eno == EAGAIN);
-	if (bytesRead == -1 && (eno == EAGAIN || eno == EINTR))
+	if (Socket_streamRead(SOCKET(self), buffer, readSize))
 	{
-		SocketResetErrorStatus();
-		return IOFALSE(self);
+		return self;
 	}
-
-	if (bytesRead == 0)
+	else
 	{
-		Socket_close(SOCKET(self));
-		return IOFALSE(self);
+		if (Socket_asyncFailed())
+		{
+			IoSocket_close(self, locals, m);
+			return SOCKETERROR("Socket stream read failed");
+		}
+		else
+		{
+			if (SocketErrorStatus() == 0)
+			// 0 bytes means the other end disconnected
+				IoSocket_close(self, locals, m);
+			return IONIL(self);
+		}
 	}
-
-	return IOBOOL(self, bytesRead > 0);
 }
 
 IoObject *IoSocket_asyncStreamWrite(IoSocket *self, IoObject *locals, IoMessage *m)
 {
 	IoSeq *bufferSeq = IoMessage_locals_seqArgAt_(m, locals, 0);
 	UArray *buffer = IoSeq_rawUArray(bufferSeq);
-	//size_t bufSize = UArray_size(buffer);
 	size_t start = IoMessage_locals_intArgAt_(m, locals, 1);
 	size_t writeSize = IoMessage_locals_intArgAt_(m, locals, 2);
-	ssize_t bytesWritten;
-
-	bytesWritten = Socket_streamWrite(SOCKET(self), buffer, start, writeSize);
-
-	return IOBOOL(self, bytesWritten != 0);
-	//return IOBOOL(self, bytesWritten == writeSize);
-	//return IONUMBER(bytesWritten);
+	size_t bytesWritten = Socket_streamWrite(SOCKET(self), buffer, start, writeSize);
+	
+	if (bytesWritten)
+	{
+		UArray_removeRange(buffer, start, bytesWritten);
+		return self;
+	}
+	else
+	{
+		if (Socket_asyncFailed())
+		{
+			IoSocket_close(self, locals, m);
+			return SOCKETERROR("Socket stream write failed");
+		}
+		else
+		{
+			if (IoSocket_errorNumber(self, locals, m) == 0)
+			// 0 bytes means the other end disconnected
+				IoSocket_close(self, locals, m);
+			return IONIL(self);
+		}
+	}
 }
 
 // udp ------------------------------
@@ -292,9 +374,18 @@ IoObject *IoSocket_udpRead(IoSocket *self, IoObject *locals, IoMessage *m)
 	IPAddress *address = IoMessage_locals_rawIPAddressArgAt_(m, locals, 0);
 	UArray *buffer = IoSeq_rawUArray(IoMessage_locals_mutableSeqArgAt_(m, locals, 1));
 	size_t readSize = IoMessage_locals_sizetArgAt_(m, locals, 2);
-	ssize_t bytesRead = Socket_udpRead(SOCKET(self), address, buffer, readSize);
-	return IOBOOL(self, bytesRead > 0);
-	//return IONUMBER(bytesRead);
+	
+	if (Socket_udpRead(SOCKET(self), address, buffer, readSize))
+	{
+		return self;
+	}
+	else
+	{
+		if (Socket_asyncFailed())
+			return SOCKETERROR("Socket udp read failed");
+		else
+			return IONIL(self);
+	}
 }
 
 IoObject *IoSocket_udpWrite(IoSocket *self, IoObject *locals, IoMessage *m)
@@ -303,27 +394,30 @@ IoObject *IoSocket_udpWrite(IoSocket *self, IoObject *locals, IoMessage *m)
 	UArray *buffer = IoSeq_rawUArray(IoMessage_locals_seqArgAt_(m, locals, 1));
 	size_t start = IoMessage_locals_intArgAt_(m, locals, 2);
 	size_t writeSize = IoMessage_locals_intArgAt_(m, locals, 3);
-	ssize_t bytesWritten = Socket_udpWrite(SOCKET(self), address, buffer, start, writeSize);
-	//return IOBOOL(self, bytesWritten == UArray_size(buffer));
-	return IONUMBER(bytesWritten);
+	size_t bytesWritten = Socket_udpWrite(SOCKET(self), address, buffer, start, writeSize);
+	
+	if (bytesWritten)
+	{
+		if (bytesWritten < writeSize)
+		{
+			return SOCKETERROR("Socket udp write failed");
+		}
+		else
+		{
+			UArray_removeRange(buffer, start, bytesWritten);
+			return self;
+		}
+	}
+	else
+	{
+		if (Socket_asyncFailed())
+			return SOCKETERROR("Socket udp write failed");
+		else
+			return IONIL(self);
+	}
 }
 
-/*
-IoObject *IoSocket_sendfile(IoSocket *self, IoObject *locals, IoMessage *m)
-{
-	int fd = IoMessage_locals_intArgAt_(m, locals, 0);
-	size_t bytesSent = Socket_sendfile(SOCKET(self), fd);
-	return IONUMBER(bytesSent);
-}
-*/
-/*
-IoObject *IoSocket_sync(IoSocket *self, IoObject *locals, IoMessage *m)
-{
-	int r = fcntl(SOCKET(self)->fd, F_FULLFSYNC, 0);
-	//fsync(SOCKET(self)->fd);
-	return IONUMBER(r);
-}
-*/
+// ----------------------------------
 
 IoObject *IoSocket_setSocketReadBufferSize(IoSocket *self, IoObject *locals, IoMessage *m)
 {
@@ -386,20 +480,12 @@ IoObject *IoSocket_setNoDelay(IoSocket *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(r);
 }
 
-
-IoObject *IoSocket_errorNumberDescription(IoSocket *self, IoObject *locals, IoMessage *m)
+IoObject *IoSocket_errorNumber(IoSocket *self, IoObject *locals, IoMessage *m)
 {
-	int err = SocketErrorStatus();
-#ifdef WIN32
-	if (err) {
-		char buf[128];
-		sprintf(buf, "WSA Error %d", err);
-		return IOSYMBOL(buf);
-	} else {
-		return IONIL(self);
-	}
-#else
-	return err ? IOSYMBOL(strerror(err)) : IONIL(self);
-#endif
+	return IONUMBER(SocketErrorStatus());
 }
 
+IoObject *IoSocket_errorDescription(IoSocket *self, IoObject *locals, IoMessage *m)
+{
+	return IOSYMBOL(Socket_errorDescription());
+}

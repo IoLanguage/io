@@ -44,26 +44,21 @@ Io's use of lightweight threading and select for dealing with sockets makes for 
 
 	port := method(socket port)
 
-	docSlot("start", "Starts the server. This method will not return until server is stopped, so you may want to send the start message as an asynchronous message. Returns self.")
+	docSlot("start", "Starts the server. This method will not return until server is stopped, so you may want to send the start message as an asynchronous message. Returns self or an Error, if one occurs.")
 
 	start := method(
-		//writeln("Server start")
-		socket serverOpen
+		socket serverOpen returnIfError
 		while(socket isOpen,
-			//writeln("Server serverWaitForConnection")
-			newSocket := socket serverWaitForConnection
-			if(newSocket,
-				//writeln("Server got socket");
-				handleSocket(newSocket)
-			)
+			handleSocket(socket serverWaitForConnection ifError(continue))
 		)
 	)
 
 	docSlot("stop", "Stops the server if it is running. Returns self.")
 
 	stop := method(socket close)
+	
 	handleSocket := method(aSocket,
-		Exception raise("need to override Server handleSocket in your subclass")
+		Exception raise("You must override Server handleSocket in your subclass")
 	)
 )
 

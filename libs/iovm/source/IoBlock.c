@@ -120,9 +120,6 @@ IoBlock *IoBlock_proto(void *vState)
 	DATA(self)->message  = IOSTATE->nilMessage;
 	DATA(self)->argNames = List_new();
 	DATA(self)->scope    = NULL;
-#ifdef IO_BLOCK_USE_PHASH_SETTINGS
-	DATA(self)->phashSettings.tableSize = 2;
-#endif
 	IoState_registerProtoWithFunc_((IoState *)state, self, IoBlock_proto);
 
 	IoObject_addMethodTable_(self, methodTable);
@@ -139,9 +136,6 @@ IoBlock *IoBlock_rawClone(IoBlock *proto)
 	DATA(self)->argNames = List_clone(protoData->argNames);
 	DATA(self)->scope    = protoData->scope;
 	IoObject_isActivatable_(self, IoObject_isActivatable(proto));
-#ifdef IO_BLOCK_USE_PHASH_SETTINGS
-	DATA(self)->phashSettings.tableSize = 2;
-#endif
 	DATA(self)->passStops = DATA(proto)->passStops;
 	return self;
 }
@@ -191,24 +185,6 @@ IoObject *IoBlock_activate(IoBlock *self, IoObject *target, IoObject *locals, Io
 	IoObject *blockLocals = IOCLONE(state->localsProto);
 	IoObject *result;
 	IoObject *callObject;
-
-#ifdef IO_BLOCK_USE_PHASH_SETTINGS
-	if(DATA(self)->phashSettings.tableSize /*&& IoObject_slots(blockLocals)->numKeys == 0 && IoObject_ownsSlots(blockLocals)*/)
-	{
-		/*
-		if (IoObject_slots(blockLocals)->numKeys)
-		{
-			printf("numKeys = %i\n", IoObject_slots(blockLocals)->numKeys);
-		}
-		if (!IoObject_ownsSlots(blockLocals))
-		{
-			printf("ownsSlots = %i\n", IoObject_ownsSlots(blockLocals));
-		}
-		*/
-		PHash_useSettings_(IoObject_slots(blockLocals), DATA(self)->phashSettings);
-		PHash_clean(IoObject_slots(blockLocals));
-	}
-#endif
 
 	IoObject_isLocals_(blockLocals, 1);
 
@@ -273,10 +249,6 @@ IoObject *IoBlock_activate(IoBlock *self, IoObject *target, IoObject *locals, Io
 		state->stopStatus = IoCall_rawStopStatus(callObject);
 	}
 	
-#ifdef IO_BLOCK_USE_PHASH_SETTINGS
-	DATA(self)->phashSettings = PHash_settings(IoObject_slots(blockLocals));
-#endif
-
 	IoState_popRetainPool_(state, poolMark);
 
 	/*

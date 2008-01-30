@@ -150,37 +150,54 @@ BASEKIT_API int UArray_clipAfterStartOf_(UArray *self, const UArray *other)
 
 void UArray_lstrip_(UArray *self, const UArray *other)
 {
-	size_t index = 0;
+	size_t amount = 0;
 
 	if (UArray_isFloatType(self))
 	{
-		UARRAY_FOREACH(self, i, v, index = i; if (!UArray_containsDouble_(other, v)) break; )
+		UARRAY_FOREACH(self, i, v,
+			amount = i+1;
+			if (!UArray_containsDouble_(other, v))
+			{
+				amount --;
+				break;
+			}
+		)
 	}
 	else
 	{
-		UARRAY_FOREACH(self, i, v, index = i; if (!UArray_containsLong_(other, v)) break; )
+		UARRAY_FOREACH(self, i, v,
+			amount = i+1;
+			if (!UArray_containsLong_(other, v))
+			{
+				amount --;
+				break;
+			}
+		)
 	}
 
-	UArray_removeRange(self, 0, index);
+	UArray_removeRange(self, 0, amount);
 }
 
 void UArray_rstrip_(UArray *self, const UArray *other)
 {
-	if (self->size)
+	size_t index = 0; // initial value is only needed when FOREACHes don't work
+
+	if (UArray_isFloatType(self))
 	{
-		size_t index = self->size - 1;
-
-		if (UArray_isFloatType(self))
-		{
-			UARRAY_RFOREACH(self, i, v, index = i; if (!UArray_containsDouble_(other, v)) break; )
-		}
-		else
-		{
-			UARRAY_RFOREACH(self, i, v, index = i; if (!UArray_containsLong_(other, v)) break; )
-		}
-
-		UArray_removeRange(self, index + 1, self->size);
+		UARRAY_RFOREACH(self, i, v,
+			index = i;
+			if (!UArray_containsDouble_(other, v)) { index++; break; }
+		)
 	}
+	else
+	{
+		UARRAY_RFOREACH(self, i, v,
+			index = i;
+			if (!UArray_containsLong_(other, v)) { index++; break; }
+		)
+	}
+
+	UArray_removeRange(self, index, self->size);
 }
 
 BASEKIT_API void UArray_strip_(UArray *self, const UArray *other)

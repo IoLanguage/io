@@ -18,44 +18,37 @@ DNSServer := Object clone do(
 	docCategory("Networking")
 	host ::= nil
 
-	/*
-	hostNameIsIP := method(hostName,
-		if(hostName occurancesOfSeq(".") == 3,
-			hostName foreach(c, if(c isLetter, return false))
-			return true
-		)
-		false
-	)
-	*/
-
 	ipForHostName := method(hostName, timeout,
 		if(timeout == nil, timeout = 10)
-		//if(self hostNameIsIP(hostName), return hostName)
+		response := nil
 		for(tryNumber, 1, 3,
 			debugWriteln("DNSServer ", host, " request: ", hostName)
-			socket := Socket clone setHost(host) setPort(53) setReadTimeout(timeout)
-			socket udpOpen
+			socket := Socket clone setHost(host) ifError(continue) setPort(53) setReadTimeout(timeout)
+			socket udpOpen ifError(continue)
 			ipAddress := socket ipAddress
 			debugWriteln("DNSServer ipForHostName(", hostName, ") sending udp query packet to ipAddress: ", ipAddress ip, " on port ", ipAddress port)
 			packet := DNS dnsQueryPacketForHostName(hostName)
 			debugWriteln("writing packet")
-			socket udpWrite(ipAddress, packet, 0, packet size)
+			socket udpWrite(ipAddress, packet, 0, packet size) ifError(continue)
 
 			coroId := Scheduler currentCoroutine label
 			debugWriteln(coroId, " reading DNS packet")
-			socket udpReadNextChunk(ipAddress) ifFalse(continue)
+			socket udpReadNextChunk(ipAddress) ifError(continue)
 			debugWriteln(coroId, " got DNS packet")
 
-			socket close
-			e := try(
-				list := DNS hostNameAndIPforDNSResponsePacket(socket readBuffer)
-			)
-			if(e == nil, break)
-			//e coroutine backTraceString println
-			writeln("trying dns resolve '", hostName, "' again")
+			socket close //Don't care about errors here
+			response = DNS hostNameAndIPforDNSResponsePacket(socket readBuffer)
+			response isError ifTrue(continue)
+			ifNonNil(break)
+			debugWriteln("trying dns resolve '", hostName, "' again")
 		)
-		debugWriteln(host, " response: ", list at(0), " -> ", list at(1))
-		list at(1)
+		debugWriteln(host, " response: ", response at(0), " -> ", response at(1))
+		response returnIfError
+		if(response,
+			response at(1)
+		,
+			Error with("Failed to resolve " .. hostName)
+		)
 	)
 )
 
@@ -90,35 +83,33 @@ DNSResolver := Object clone do(
 		DNS localNameServersIPs select(isEmpty not) foreach(ip, addDNSServerIp(ip))
 	)
 
-	docSlot("ipForHostName(hostName)", "Returns a String containing the IP for the hostName or nil, if an error occurs.")
+	docSlot("ipForHostName(hostName)", "Returns a String containing the IP for the hostName or an error if hostName could not be resolved.")
 
 	ipForHostName := method(hostName,
 		setupServerListIfNeeded
 		ip := cache at(hostName)
-		if(ip, return(ip))
+		if(ip and ip isError not, return(ip))
 
 		q := queries at(hostName)
 
 		if(q) then(q waitOn) else(
 			q := DNSQuery clone setHostName(hostName)
 			queries atPut(hostName, q)
-			ip := nil
+			ip = nil
 
 			dnsServers foreach(dnsServer,
 				debugWriteln("sending query")
 				//try(ip = dnsServer ipForHostName(hostName))
 				ip = dnsServer ipForHostName(hostName)
-				if(ip, break)
+				ip isError ifTrue(continue)
+				ip ifNonNil(break)
 			)
 			debugWriteln("sending query done ip = ", ip)
-
 			cache atPut(hostName, ip)
 			queries removeAt(hostName)
 			q resumeCoros
 		)
 
-		cache at(hostName) ifNil(
-			setError("Failed to resolve " .. hostName)
-		)
+		cache at(hostName)
 	)
 )

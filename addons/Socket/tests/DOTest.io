@@ -5,16 +5,18 @@ DOTest := UnitTest clone do(
 		Root := Object clone
 		Root test := method(v, return list(1))
 
-		doServer := DOServer clone
+		doServer := DOServer clone debugOn
 		doServer setRootObject(Root)
 		doServer setPort(8456)
 		doServer @@start
 		//doServer coroDo(start)
 		yield
+		DOConnection
 		con := DOConnection clone setHost("127.0.0.1") setPort(8456) connect
+		assertFalse(con isError)
 		
-		con ifNil(Exception raise("Error: unable to connect\n"))
 		result := con serverObject test(1)
+		assertFalse(result isError)
 		assertEquals(result type, "DOProxy")
 		
 		r := result at(0)

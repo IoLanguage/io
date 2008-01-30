@@ -24,7 +24,7 @@ void IoNetworkAdapter_mark(IoNetworkAdapter *self);
 
 /* ----------------------------------------------------------- */
 
-IoObject *IoNetworkAdapter_mac(IoNetworkAdapter *self, IoObject *locals, IoMessage *m);
+IoObject *IoNetworkAdapter_macAddress(IoNetworkAdapter *self, IoObject *locals, IoMessage *m);
 
 #ifdef __cplusplus
 }

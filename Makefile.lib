@@ -100,7 +100,7 @@ LINKLIBFLAG := lib
 DLL_LIB_SUFFIX := .lib
 DLL_COMMAND := -link /INCREMENTAL:NO -subsystem:WINDOWS -machine:X86 -DLL $(DEF_FILE)
 DLL_SUFFIX := dll
-DLL_EXTRAS := ws2_32.lib
+DLL_EXTRAS := ws2_32.lib shell32.lib
 FLAT_NAMESPACE :=
 RANLIB := echo no ranlib
 endif

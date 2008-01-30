@@ -43,8 +43,8 @@ SocketTest := UnitTest clone do(
 		coro := Scheduler currentCoroutine 
 		coro setLabel("C_" .. coro uniqueId)
 		client := Socket clone setHost("127.0.0.1") setConnectTimeout(1) setReadTimeout(1) setPort(port)
-		client streamOpen ifFalse(Exception raise("client could not open"))
-		client connect ifFalse(Exception raise("client did not connect"))
+		assertFalse(client streamOpen isError)
+		assertFalse(client connect isError)
 		debugWriteln("client write")
 		client streamWrite("test")
 		debugWriteln("client read")
