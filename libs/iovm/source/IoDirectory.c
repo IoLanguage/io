@@ -10,6 +10,29 @@ if not specified, "./" is assumed.""")
 	docCategory("FileSystem")
 */
 
+/*metadoc Directory copyright 
+Steve Dekorte, 2002
+*/
+/*metadoc Directory license
+BSD revised
+*/
+
+/*metadoc Directory description
+The Directory object supports accessing filesystem directories. A note on paths;
+if a path begins with a "/" it's the root,
+if it beings with a "./" it's the launch path,
+if not specified, "./" is assumed.
+*/
+
+/*metadoc Directory credits
+Cygwin code by Mike Austin. WIN32 code by Daniel Vollmer.
+*/
+
+/*metadoc Directory category
+FileSystem
+*/
+
+
 #include "IoDirectory.h"
 #include "IoState.h"
 #include "IoNumber.h"
@@ -233,6 +256,9 @@ IoObject *IoDirectory_path(IoDirectory *self, IoObject *locals, IoMessage *m)
 	docSlot("path", "Returns the directory path. The default path is '.'.")
 	*/
 
+	/*doc Directory path
+	Returns the directory path. The default path is '.'.
+	*/
 	return DATA(self)->path;
 }
 

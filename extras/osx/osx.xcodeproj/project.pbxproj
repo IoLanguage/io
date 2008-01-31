@@ -19,12 +19,6 @@
 		AA1C3FB90B7448B500334368 /* SHash_inline.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA1C3FAB0B7448B500334368 /* SHash_inline.h */; };
 		AA1C3FBA0B7448B500334368 /* SHash.c in Sources */ = {isa = PBXBuildFile; fileRef = AA1C3FAC0B7448B500334368 /* SHash.c */; };
 		AA1C3FBB0B7448B500334368 /* SHash.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA1C3FAD0B7448B500334368 /* SHash.h */; };
-		AA2CDD130C9357A6004C45B9 /* IoDKDB.c in Sources */ = {isa = PBXBuildFile; fileRef = AA2CDD0D0C9357A6004C45B9 /* IoDKDB.c */; };
-		AA2CDD140C9357A6004C45B9 /* IoDKDB.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA2CDD0E0C9357A6004C45B9 /* IoDKDB.h */; };
-		AA2CDD150C9357A6004C45B9 /* IoDKFolder.c in Sources */ = {isa = PBXBuildFile; fileRef = AA2CDD0F0C9357A6004C45B9 /* IoDKFolder.c */; };
-		AA2CDD160C9357A6004C45B9 /* IoDKFolder.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA2CDD100C9357A6004C45B9 /* IoDKFolder.h */; };
-		AA2CDD170C9357A6004C45B9 /* IoDKFolderCursor.c in Sources */ = {isa = PBXBuildFile; fileRef = AA2CDD110C9357A6004C45B9 /* IoDKFolderCursor.c */; };
-		AA2CDD180C9357A6004C45B9 /* IoDKFolderCursor.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA2CDD120C9357A6004C45B9 /* IoDKFolderCursor.h */; };
 		AA6ABF8D0BA8012F0049770F /* build.io in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA6ABF760BA8012F0049770F /* build.io */; };
 		AA6ABF8E0BA8012F0049770F /* depends in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA6ABF770BA8012F0049770F /* depends */; };
 		AA6ABF8F0BA8012F0049770F /* frameworks in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA6ABF780BA8012F0049770F /* frameworks */; };
@@ -859,9 +853,6 @@
 				AA6ABF9C0BA8012F0049770F /* run.io in CopyFiles */,
 				AA6ABF9D0BA8012F0049770F /* VectorTest.io in CopyFiles */,
 				AA6ABFE40BA8D27E0049770F /* IoSeq_vector.h in CopyFiles */,
-				AA2CDD140C9357A6004C45B9 /* IoDKDB.h in CopyFiles */,
-				AA2CDD160C9357A6004C45B9 /* IoDKFolder.h in CopyFiles */,
-				AA2CDD180C9357A6004C45B9 /* IoDKFolderCursor.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
@@ -880,12 +871,6 @@
 		AA1C3FAB0B7448B500334368 /* SHash_inline.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SHash_inline.h; sourceTree = "<group>"; };
 		AA1C3FAC0B7448B500334368 /* SHash.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = SHash.c; sourceTree = "<group>"; };
 		AA1C3FAD0B7448B500334368 /* SHash.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SHash.h; sourceTree = "<group>"; };
-		AA2CDD0D0C9357A6004C45B9 /* IoDKDB.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoDKDB.c; path = ../../addons/QDBM/source/IoDKDB.c; sourceTree = SOURCE_ROOT; };
-		AA2CDD0E0C9357A6004C45B9 /* IoDKDB.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoDKDB.h; path = ../../addons/QDBM/source/IoDKDB.h; sourceTree = SOURCE_ROOT; };
-		AA2CDD0F0C9357A6004C45B9 /* IoDKFolder.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoDKFolder.c; path = ../../addons/QDBM/source/IoDKFolder.c; sourceTree = SOURCE_ROOT; };
-		AA2CDD100C9357A6004C45B9 /* IoDKFolder.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoDKFolder.h; path = ../../addons/QDBM/source/IoDKFolder.h; sourceTree = SOURCE_ROOT; };
-		AA2CDD110C9357A6004C45B9 /* IoDKFolderCursor.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoDKFolderCursor.c; path = ../../addons/QDBM/source/IoDKFolderCursor.c; sourceTree = SOURCE_ROOT; };
-		AA2CDD120C9357A6004C45B9 /* IoDKFolderCursor.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoDKFolderCursor.h; path = ../../addons/QDBM/source/IoDKFolderCursor.h; sourceTree = SOURCE_ROOT; };
 		AA6ABF760BA8012F0049770F /* build.io */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = build.io; path = ../../addons/Box/build.io; sourceTree = SOURCE_ROOT; };
 		AA6ABF770BA8012F0049770F /* depends */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = depends; path = ../../addons/Box/depends; sourceTree = SOURCE_ROOT; };
 		AA6ABF780BA8012F0049770F /* frameworks */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = frameworks; path = ../../addons/Box/frameworks; sourceTree = SOURCE_ROOT; };
@@ -2210,12 +2195,6 @@
 		AA7D60690B60123D00D7DEA9 /* source */ = {
 			isa = PBXGroup;
 			children = (
-				AA2CDD0D0C9357A6004C45B9 /* IoDKDB.c */,
-				AA2CDD0E0C9357A6004C45B9 /* IoDKDB.h */,
-				AA2CDD0F0C9357A6004C45B9 /* IoDKFolder.c */,
-				AA2CDD100C9357A6004C45B9 /* IoDKFolder.h */,
-				AA2CDD110C9357A6004C45B9 /* IoDKFolderCursor.c */,
-				AA2CDD120C9357A6004C45B9 /* IoDKFolderCursor.h */,
 				AA7D606A0B60123D00D7DEA9 /* IoQDBM.c */,
 				AA7D606B0B60123D00D7DEA9 /* IoQDBM.h */,
 				AA7D606C0B60123D00D7DEA9 /* IoQDBMInit.c */,
@@ -3285,9 +3264,6 @@
 				AA6ABF930BA8012F0049770F /* IoBox.c in Sources */,
 				AA6ABF950BA8012F0049770F /* mandlebrot.c in Sources */,
 				AA6ABFE30BA8D27E0049770F /* IoSeq_vector.c in Sources */,
-				AA2CDD130C9357A6004C45B9 /* IoDKDB.c in Sources */,
-				AA2CDD150C9357A6004C45B9 /* IoDKFolder.c in Sources */,
-				AA2CDD170C9357A6004C45B9 /* IoDKFolderCursor.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

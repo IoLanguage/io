@@ -2,7 +2,7 @@
 DynLib ioDoc(
 	docCopyright("Steve Dekorte", 2002)
 	docLicense("BSD revised")
-	docDescription("A DLL Loader by Kentaro A. Kurahone <kurahone@sigusr1.org>.")
+	docDescription("A DLL Loader by Kentaro A. Kurahone.")
 	docCategory("Core")
 */
 
@@ -42,7 +42,7 @@ IoObject *IoDynLib_proto(void *state)
 	{"call", IoDynLib_call},
 	{"voidCall", IoDynLib_voidCall},
 	{"callPluginInit", IoDynLib_callPluginInitFunc},
-	{"returnsString", IoDynLib_returnsString},
+	//{"returnsString", IoDynLib_returnsString},
 	{NULL, NULL},
 	};
 
@@ -458,19 +458,28 @@ IoDynLib *IoDynLib_justCall(IoDynLib *self, IoObject *locals, IoMessage *m, int 
 IoDynLib *IoDynLib_call(IoDynLib *self, IoObject *locals, IoMessage *m)
 {
 	/*#io
-	docSlot("call(...)",
-			"Call the ...")
+	docSlot("call(functionName, <arg1>, <arg2>, ...)",
+			"Call's the dll function of the specified name with the arguments provided. Returns the a Number with the result value.")
 	*/
 	return IoDynLib_justCall(self, locals, m, 0);
 }
 
 IoDynLib *IoDynLib_voidCall(IoDynLib *self, IoObject *locals, IoMessage *m)
 {
+	/*#io
+	docSlot("voidCall(functionName, <arg1>, <arg2>, ...)",
+			"Same as call but for functions with no return value. Returns nil.")
+	*/
 	return IoDynLib_justCall(self, locals, m, 1);
 }
 
 IoDynLib *IoDynLib_callPluginInitFunc(IoDynLib *self, IoObject *locals, IoMessage *m)
 {
+	/*#io
+	docSlot("callPluginInit(functionName)",
+			"Call's the dll function of the specified name. Returns the result as a Number or raises an exception on error.")
+	*/
+	
 	int rc = 0;
 	intptr_t *params = NULL;
 	void *f = DynLib_pointerForSymbolName_(DATA(self),
@@ -498,8 +507,9 @@ IoDynLib *IoDynLib_callPluginInitFunc(IoDynLib *self, IoObject *locals, IoMessag
 	return IONUMBER(rc);
 }
 
+/*
 IoSeq *IoDynLib_returnsString(IoDynLib *self, IoObject *locals, IoMessage *m)
-{
+{	
 	intptr_t n = IoNumber_asInt(IoMessage_locals_numberArgAt_(m, locals, 0));
 
 	if (n == 0)
@@ -509,4 +519,5 @@ IoSeq *IoDynLib_returnsString(IoDynLib *self, IoObject *locals, IoMessage *m)
 
 	return IOSYMBOL((char *)n);
 }
+*/
 
