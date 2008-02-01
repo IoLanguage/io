@@ -1,11 +1,9 @@
-/*#io
-System ioDoc(
-	docCopyright("Steve Dekorte", 2002)
-	docLicense("BSD revised")
-	docObject("System")
-	docDescription("Contains methods related to the IoVM.")
-	docCategory("Core")
+/*metadoc System copyright Steve Dekorte, 2002
+//metadoc System license BSD revised
+/*metadoc System description
+Contains methods related to the IoVM.
 */
+//metadoc System category Core
 
 #include "IoSystem.h"
 #include "IoNumber.h"
@@ -98,8 +96,8 @@ IoObject *IoSystem_proto(void *state)
 	IoObject *self = IoObject_new(state);
 	IoObject_addMethodTable_(self, methodTable);
 
-	/*#io
-		docSlot("version", "Returns the Io version number.")
+	/*doc System version
+	Returns the Io version number.
 	*/
 	IoObject_setSlot_to_(self, IOSYMBOL("version"), IONUMBER(IO_VERSION_NUMBER));
 
@@ -111,16 +109,17 @@ IoObject *IoSystem_proto(void *state)
 	#endif
 
 
-	/*#io
-		docSlot("installPrefix", "Returns the root path where io was install. The default is /usr/local.")
+	/*doc System installPrefix
+	Returns the root path where io was install. The default is /usr/local.
 	*/
+	
 	IoObject_setSlot_to_(self, IOSYMBOL("installPrefix"), IOSYMBOL(INSTALL_PREFIX));
 
 	return self;
 }
 
-/*#io
-	docSlot("args", "Returns the list of command line argument strings the program was run with.")
+/*doc System args
+	Returns the list of command line argument strings the program was run with.")
 */
 	
 /*
@@ -143,19 +142,18 @@ IoObject *IoObject_shellExecute(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoObject_errorNumberDescription(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("errorNumber", "Returns the C errno string.")
+	/*doc System errorNumber
+	Returns the C errno string.
 	*/
 	return errno ? IOSYMBOL(strerror(errno)) : IONIL(self);
 }
 
 IoObject *IoObject_exit(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("exit(optionalReturnCodeNumber)",
-			"Shutdown the IoState (io_free all objects) and return
-control to the calling program (if any). ")
-	*/
+	/*doc System exit(optionalReturnCodeNumber)
+	Shutdown the IoState (io_free all objects) and return
+control to the calling program (if any). 
+*/
 
 	int returnCode = 0;
 
@@ -170,9 +168,9 @@ control to the calling program (if any). ")
 
 IoObject *IoObject_getEnvironmentVariable(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("getEnvironmentVariable(nameString)",
-		   "Returns a string with the value of the environment variable whose name is specified by nameString.")
+	/*doc System getEnvironmentVariable(nameString)
+	Returns a string with the value of the environment 
+	variable whose name is specified by nameString.
 	*/
 
 	IoSymbol *key = IoMessage_locals_symbolArgAt_(m, locals, 0);
@@ -188,9 +186,8 @@ IoObject *IoObject_getEnvironmentVariable(IoObject *self, IoObject *locals, IoMe
 
 IoObject *IoObject_system(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("system(aString)",
-			"Makes a system call and returns a Number for the return value.")
+	/*doc System system(aString)
+	Makes a system call and returns a Number for the return value.
 	*/
 
 	IoSymbol *s = IoMessage_locals_symbolArgAt_(m, locals, 0);
@@ -201,10 +198,9 @@ IoObject *IoObject_system(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoObject_memorySizeOfState(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*
-	docSlot("memorySizeOfState",
-			"Returns the number of bytes in the IoState
-	(this may not include memory allocated by C libraries).")
+	/*doc Object memorySizeOfState
+	Returns the number of bytes in the IoState
+	(this may not include memory allocated by C libraries).
 	*/
 
 	return IONUMBER(0);
@@ -213,9 +209,8 @@ IoObject *IoObject_memorySizeOfState(IoObject *self, IoObject *locals, IoMessage
 
 IoObject *IoObject_compactState(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*
-	docSlot("compactState",
-			"Attempt to compact the memory of the IoState if possible.")
+	/*doc Object compactState
+	Attempt to compact the memory of the IoState if possible.
 	*/
 
 	//IoState_compact(IOSTATE);
@@ -224,9 +219,9 @@ IoObject *IoObject_compactState(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoObject_setEnvironmentVariable(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setEnvironmentVariable(keyString, valueString)", "Sets the environment variable keyString to the value valueString.")
-	*/
+	/*doc System setEnvironmentVariable(keyString, valueString)
+	Sets the environment variable keyString to the value valueString.
+*/
 
 	// setenv() takes different args in different implementations
 	IoSymbol *key = IoMessage_locals_symbolArgAt_(m, locals, 0);
@@ -237,8 +232,8 @@ IoObject *IoObject_setEnvironmentVariable(IoObject *self, IoObject *locals, IoMe
 
 IoObject *IoObject_platform(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("platform", "Returns a string description of the platform.")
+	/*doc System platform
+	Returns a string description of the platform.
 	*/
 
 	char *platform = "Unknown";
@@ -325,8 +320,8 @@ IoObject *IoObject_platformVersion(IoObject *self, IoObject *locals, IoMessage *
 {
 	char platformVersion[256];
 
-	/*#io
-	docSlot("platformVersion", "Returns the version id of the OS.")
+	/*doc System platformVersion
+	Returns the version id of the OS.
 	*/
 
 #if defined(_WIN32)
@@ -355,9 +350,10 @@ IoObject *IoObject_platformVersion(IoObject *self, IoObject *locals, IoMessage *
 
 IoObject *IoObject_activeCpus(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("activeCpus", "Returns the number of active CPUs.")
+	/*doc System activeCpus
+	Returns the number of active CPUs.
 	*/
+	
 	int cpus = 1;
 #if defined(CTL_HW)
 	int mib[2];
@@ -389,8 +385,8 @@ IoObject *IoObject_activeCpus(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoObject_sleep(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("sleep(secondsNumber)", "Performs a *blocking* sleep call for specified number of seconds.")
+	/*doc System sleep(secondsNumber)
+	Performs a *blocking* sleep call for specified number of seconds.
 	*/
 
 	double seconds = IoMessage_locals_doubleArgAt_(m, locals, 0);
@@ -401,8 +397,8 @@ IoObject *IoObject_sleep(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoObject_maxRecycledObjects(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("maxRecycledObjects", "Returns the max number of recycled objects used.")
+	/*doc System maxRecycledObjects
+	Returns the max number of recycled objects used.
 	*/
 
 	return IONUMBER(IOSTATE->maxRecycledObjects);
@@ -410,8 +406,8 @@ IoObject *IoObject_maxRecycledObjects(IoObject *self, IoObject *locals, IoMessag
 
 IoObject *IoObject_setMaxRecycledObjects(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setMaxRecycledObjects(aNumber)", "Sets the max number of recycled objects used.")
+	/*doc System setMaxRecycledObjects(aNumber)
+	Sets the max number of recycled objects used.
 	*/
 
 	size_t max = IoMessage_locals_sizetArgAt_(m, locals, 0);
@@ -421,8 +417,8 @@ IoObject *IoObject_setMaxRecycledObjects(IoObject *self, IoObject *locals, IoMes
 
 IoObject *IoObject_recycledObjectCount(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("recycledObjectCount", "Returns the current number of objects being held for recycling.")
+	/*doc System recycledObjectCount
+	Returns the current number of objects being held for recycling.
 	*/
 
 	return IONUMBER(List_size(IOSTATE->recycledObjects));
@@ -432,9 +428,10 @@ IoObject *IoObject_recycledObjectCount(IoObject *self, IoObject *locals, IoMessa
 
 IoObject *IoObject_symbols(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("symbols", "Returns a List containing all Symbols currently in the system.")
+	/*doc System symbols
+	Returns a List containing all Symbols currently in the system.
 	*/
+	
 	IoList *list = IoList_new(IOSTATE);
 	SHASH_FOREACH(IOSTATE->symbols, i, v, IoList_rawAppend_(list, v));
 	return list;
@@ -442,8 +439,8 @@ IoObject *IoObject_symbols(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoObject_setLobby(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setLobby", "Sets the root object of the garbage collector.")
+	/*doc System setLobby(anObject)
+	Sets the root object of the garbage collector.
 	*/
 
 	IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 0);
@@ -451,12 +448,12 @@ IoObject *IoObject_setLobby(IoObject *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-/*#io
-docSlot("version", "Returns a version number for Io.")
+/*doc System version
+	Returns a version number for Io.
 */
 
-/*#io
-docSlot("distribution", "Returns the Io distribution name as a string.")
+/*doc System distribution
+	Returns the Io distribution name as a string.
 */
 
 // save ----------------------

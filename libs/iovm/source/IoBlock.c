@@ -1,10 +1,10 @@
-/*#io
-getSlot("Block") ioDoc(
-	docCopyright("Steve Dekorte", 2002)
-	docLicense("BSD revised")
-	docDescription("Blocks are anonymous functions (messages with their own locals object). They are typically used to represent object methods.")
-	docCategory("Core")
+//metadoc Block copyright Steve Dekorte 2002
+//metadoc Block license BSD revised
+/*metadoc Block description
+Blocks are anonymous functions (messages with their own locals object). 
+They are typically used to represent object methods.
 */
+//metadoc Block category Core
 
 #include "IoBlock.h"
 #include "IoMessage.h"
@@ -320,8 +320,8 @@ IoObject *IoObject_block(IoObject *target, IoObject *locals, IoMessage *m)
 
 IoObject *IoBlock_print(IoBlock *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("print", "prints an Io source code representation of the block/method")
+	/*doc Block print
+	prints an Io source code representation of the block/method
 	*/
 
 	UArray *ba = IoBlock_justCode(self);
@@ -359,8 +359,8 @@ UArray *IoBlock_justCode(IoBlock *self)
 
 IoObject *IoBlock_code(IoBlock *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("code", "Returns a string containing the decompiled code of the receiver. ")
+	/*doc Block code
+	Returns a string containing the decompiled code of the receiver. 
 	*/
 
 	return IoState_symbolWithUArray_copy_(IOSTATE, IoBlock_justCode(self), 0);
@@ -368,8 +368,8 @@ IoObject *IoBlock_code(IoBlock *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoBlock_code_(IoBlock *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setCode(aString)", "Set's the reciever's message to a compiled version of aString. Returns self")
+	/*doc Block setCode(aString)
+	Set's the reciever's message to a compiled version of aString. Returns self
 	*/
 
 	IoSymbol *string = IoMessage_locals_symbolArgAt_(m, locals, 0);
@@ -390,8 +390,8 @@ IoObject *IoBlock_code_(IoBlock *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoBlock_message(IoBlock *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("message", "Returns the root message of the receiver. ")
+	/*doc Block message
+	Returns the root message of the receiver. 
 	*/
 
 	return DATA(self)->message ? (IoObject *)DATA(self)->message : IONIL(self);
@@ -399,9 +399,8 @@ IoObject *IoBlock_message(IoBlock *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoBlock_setMessage(IoBlock *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setMessage(aMessage)",
-			"Sets the root message of the receiver to aMessage. ")
+	/*doc Block setMessage(aMessage)
+	Sets the root message of the receiver to aMessage. 
 	*/
 
 	IoMessage *message = IoMessage_locals_messageArgAt_(m, locals, 0);
@@ -411,9 +410,8 @@ IoObject *IoBlock_setMessage(IoBlock *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoBlock_argumentNames(IoBlock *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("argumentNames",
-			"Returns a List of strings containing the argument names of the receiver. ")
+	/*doc Block argumentNames
+	Returns a List of strings containing the argument names of the receiver. 
 	*/
 
 	IoList *argsList = IoList_new(IOSTATE);
@@ -425,10 +423,9 @@ IoObject *IoBlock_argumentNames(IoBlock *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoBlock_argumentNames_(IoBlock *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setArgumentNames(aListOfStrings)",
-			"Sets the receiver's argument names to those specified in
-aListOfStrings. Returns self.  ")
+	/*doc Block setArgumentNames(aListOfStrings)
+	Sets the receiver's argument names to those specified in
+	aListOfStrings. Returns self.  
 	*/
 
 	IoList *newArgNames = IoMessage_locals_listArgAt_(m, locals, 0);
@@ -444,10 +441,9 @@ aListOfStrings. Returns self.  ")
 
 IoObject *IoBlock_scope(IoBlock *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("scope",
-			"Returns the scope used when the block is activated or
-Nil if the target of the message is the scope.   ")
+	/*doc Block scope
+	Returns the scope used when the block is activated or
+	Nil if the target of the message is the scope.   
 	*/
 
 	IoObject *scope = DATA(self)->scope;
@@ -456,11 +452,10 @@ Nil if the target of the message is the scope.   ")
 
 IoObject *IoBlock_setScope_(IoBlock *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setScope(anObjectOrNil)",
-			"If argument is an object, when the block is activated,
-it will set the proto and self slots of it's locals to the specified
-object. If Nil, it will set them to the target of the message. ")
+	/*doc Block setScope(anObjectOrNil)
+	If argument is an object, when the block is activated,
+	it will set the proto and self slots of it's locals to the specified
+	object. If Nil, it will set them to the target of the message. 
 	*/
 
 	IoObject *scope = IoMessage_locals_valueArgAt_(m, locals, 0);
@@ -470,8 +465,8 @@ object. If Nil, it will set them to the target of the message. ")
 
 IoObject *IoBlock_passStops(IoBlock *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("passStops", "Returns whether or not the receiver passes return/continue/break to caller. ")
+	/*doc Block passStops
+	Returns whether or not the receiver passes return/continue/break to caller. 
 	*/
 
 	return IOBOOL(self, DATA(self)->passStops);
@@ -479,8 +474,8 @@ IoObject *IoBlock_passStops(IoBlock *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoBlock_setPassStops_(IoBlock *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setPassStops(aBool)", "Sets whether the receiver passes return/continue/break to caller. ")
+	/*doc Block setPassStops(aBool)
+	Sets whether the receiver passes return/continue/break to caller. 
 	*/
 
 	DATA(self)->passStops = ISTRUE(IoMessage_locals_valueArgAt_(m, locals, 0));
@@ -489,10 +484,9 @@ IoObject *IoBlock_setPassStops_(IoBlock *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoBlock_performOn(IoBlock *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("performOn(anObject, optionalLocals, optionalMessage, optionalSlotContext)",
-			"Activates the receiver in the target context of anObject.
-Returns the result.")
+	/*doc Block performOn(anObject, optionalLocals, optionalMessage, optionalSlotContext)
+	Activates the receiver in the target context of anObject.
+	Returns the result.
 	*/
 
 	IoObject *bTarget = IoMessage_locals_valueArgAt_(m, locals, 0);
@@ -521,8 +515,8 @@ Returns the result.")
 
 IoObject *IoBlock_call(IoBlock *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("call(arg0, arg1, ...)", "Activates the receiver with the provided arguments.")
+	/*doc Block call(arg0, arg1, ...)
+	Activates the receiver with the provided arguments.
 	*/
 
 	return IoBlock_activate(self, locals, locals, m, locals);

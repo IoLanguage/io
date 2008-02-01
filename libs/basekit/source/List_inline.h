@@ -1,9 +1,8 @@
-/*#io
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-docDescription("List is an array of void pointers.
+//metadoc List copyright Steve Dekorte 2002
+//metadoc List license BSD revised
+/*metadoc List description
+List is an array of void pointers.
 The List is not responsible for io_freeing it's elements.
-")
 */
 
 #ifdef LIST_C

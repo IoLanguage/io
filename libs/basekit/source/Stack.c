@@ -1,9 +1,7 @@
-/*#io
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-docDescription("""
+//metadoc Stack copyright Steve Dekorte 2002
+//metadoc Stack license BSD revised
+/*metadoc Stack description
 Notes: first element of items is always 0x0.
-""")
 */
 
 #define STACK_C

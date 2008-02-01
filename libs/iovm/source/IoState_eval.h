@@ -1,7 +1,7 @@
-/*#io
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+
+//metadoc State copyright Steve Dekorte 2002
+//metadoc State license BSD revised
+
 #include "IoVMApi.h"
 
 IOVM_API IoObject *IoState_tryToPerform(IoState *self,

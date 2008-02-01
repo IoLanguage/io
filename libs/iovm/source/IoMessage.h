@@ -1,7 +1,6 @@
-/*#io
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+
+//metadoc Message copyright Steve Dekorte 2002
+//metadoc Message license BSD revised
 
 #ifndef IOMESSAGE_DEFINED
 #define IOMESSAGE_DEFINED 1

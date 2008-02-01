@@ -1,10 +1,10 @@
 Path := Object clone do(
-	docCategory("FileSystem")
+	//metadoc Path category FileSystem
 
-	docSlot("hasDriveLetters", "returns true if the platform requires DOS C: style drive letters.")
+	//doc Path hasDriveLetters returns true if the platform requires DOS C: style drive letters.
 	hasDriveLetters := System platform containsAnyCaseSeq("Windows") or System platform containsAnyCaseSeq("Cygwin")
 
-	docSlot("with(aSequence)", "Returns a new Path object for the given Sequence.")
+	//doc Path with(aSequence) Returns a new Path object for the given Sequence.
 	with := method(
 		s := Sequence clone
 		call message arguments foreach(arg,
@@ -16,7 +16,7 @@ Path := Object clone do(
 		s asSymbol
 	)
 
-	docSlot("isPathAbsolute", "Returns true if path is absolute, false if it is relative.")
+	//doc Path isPathAbsolute Returns true if path is absolute, false if it is relative.
 	isPathAbsolute := method(p,
 		absolute := false
 		try (
@@ -29,7 +29,7 @@ Path := Object clone do(
 		absolute
 	)
 
-	docSlot("absolute", "Returns an absolute version of the path.")
+	//doc Path absolute Returns an absolute version of the path.
 	absolute := method(path,
 		if(isPathAbsolute(path),
 			path

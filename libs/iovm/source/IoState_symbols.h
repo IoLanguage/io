@@ -1,7 +1,6 @@
-/*#io
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+
+//metadoc State copyright Steve Dekorte 2002
+//metadoc State license BSD revised
 
 IOVM_API void IoState_setupCachedNumbers(IoState *self);
 IOVM_API IoObject *IoState_numberWithDouble_(IoState *self, double n);

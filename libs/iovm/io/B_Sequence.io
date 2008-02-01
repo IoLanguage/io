@@ -10,14 +10,14 @@ Lobby Protos Core do(
 Sequence do(
 	setSlot("..", method(arg, self asString cloneAppendSeq(arg asString)))
 
-	docSlot("repeated(n)", "Returns a new sequence containing the receiver repeated n number of times.")
+	//doc Sequence repeated(n) Returns a new sequence containing the receiver repeated n number of times.")
 	repeated := method(n,
 		s := Sequence clone
 		n repeat(s appendSeq(self))
 		s
 	)
 
-	docSlot("alignLeftInPlace(width, [padding])", "Same as align left but operation is performed on the receiver.")
+	//doc Sequence alignLeftInPlace(width, [padding]) Same as align left but operation is performed on the receiver.")
 	alignLeftInPlace := method(width, padding,
 		originalSize := size
 		if(padding isNil or padding size == 0,
@@ -27,7 +27,7 @@ Sequence do(
 		setSize(width max(originalSize))
 	)
 
-	docSlot("alignLeft(width, [padding])", """
+	//doc Sequence alignLeft(width, [padding]) ""
 	Example:
 	<pre>
 	Io> "abc" alignLeft(10, "-")
@@ -38,7 +38,7 @@ Sequence do(
 	""")
 	alignLeft := method(width, padding, asMutable alignLeftInPlace(width, padding))
 
-	docSlot("alignRight(width, [padding])", """
+	//doc Sequence alignRight(width, [padding]) ""
 	Example:
 	<pre>
 	Io> "abc" alignRight(10, "-")
@@ -51,7 +51,7 @@ Sequence do(
 		Sequence clone alignLeftInPlace(width - size, padding) appendSeq(self)
 	)
 
-	docSlot("alignCenter(width, [padding])", """
+	//doc Sequence alignCenter(width, [padding]) ""
 	Example:
 	<pre>
 	Io> "abc" alignCenter(10, "-")
@@ -66,7 +66,7 @@ Sequence do(
 
 	asSimpleString := method("\"" .. self asString .. "\"")
 
-	docSlot("split(optionalArg1, optionalArg2, ...)", """
+	//doc Sequence split(optionalArg1, optionalArg2, ...) ""
 		Returns a list containing the non-empty sub-sequences of the receiver divided by the given arguments.
 		If no arguments are given the sequence is split on white space.
 		Examples:
@@ -81,7 +81,7 @@ Sequence do(
 		self performWithArgList("split", call evalArgs) selectInPlace(size != 0)
 	)
 
-	docSlot("findNthSeq(aSequence, n)", "Returns a number with the nth occurence of aSequence")
+	//doc Sequence findNthSeq(aSequence, n) Returns a number with the nth occurence of aSequence")
 	findNthSeq := method(str, n,
 		num := self findSeq(str)
 		if(num isNil, return nil)
@@ -117,7 +117,7 @@ Sequence do(
 			r
 	)
 
-	docSlot("prependSeq(object1, object2, ...)", "Prepends given objects asString in reverse order to the receiver.  Returns self.")
+	//doc Sequence prependSeq(object1, object2, ...) Prepends given objects asString in reverse order to the receiver.  Returns self.")
 	prependSeq := method(self atInsertSeq(0, call evalArgs join); self)
 
 	sequenceSets := Map clone do(
@@ -140,7 +140,7 @@ Sequence do(
 		removeSlot("v")
 	)
 
-	docSlot("asHex", "Returns a hex string for the receiving sequence, e.g., \"abc\" asHex -> \"616263\".")
+	//doc Sequence asHex Returns a hex string for the receiving sequence, e.g., \"abc\" asHex -> \"616263\".")
 	asHex := method(
 		r := Sequence clone
 		self foreach(c, r appendSeq(c asHex alignRight(2, "00")))

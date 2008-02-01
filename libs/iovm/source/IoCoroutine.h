@@ -1,7 +1,6 @@
-/*#io
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+
+//metadoc Coroutine copyright Steve Dekorte 2002
+//metadoc Coroutine license BSD revised
 
 #ifndef IoCoroutine_DEFINED
 #define IoCoroutine_DEFINED 1

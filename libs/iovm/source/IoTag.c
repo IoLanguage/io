@@ -1,7 +1,6 @@
-/*
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+
+//metadoc Tag copyright Steve Dekorte 2002
+//metadoc Tag license BSD revised
 
 #define IOTAG_C 1
 #include "IoTag.h"

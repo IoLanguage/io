@@ -1,14 +1,12 @@
-/*#io
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-docDescription("""
+//metadoc Stack copyright Steve Dekorte 2002
+//metadoc Stack license BSD revised
+/*metadoc Stack description
 	Stack - array of void pointers
 	supports setting marks - when a mark is popped,
 	all stack items above it are popped as well
 
 	Designed to optimize push, pushMark and popMark
 	at the expense of pop (since pop requires a mark check)
-""")
 */
 
 #ifndef STACK_DEFINED

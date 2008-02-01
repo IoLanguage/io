@@ -1,30 +1,33 @@
 
 List do(
-	docSlot("sum", "Returns the sum of the items.")
+	//doc List sum Returns the sum of the items.
 	sum := method(s := 0; self foreach(v, s = s + v); s)
 
-	docSlot("average", "Returns the average of the items.")
+	//doc List average Returns the average of the items.
 	average := method(self sum / self size)
 
-	docSlot("shuffle", "Randomizes the order of the elements in the receiver. Returns self.")
+	//doc List shuffle Randomizes the order of the elements in the receiver. Returns self.
 	shuffle := method(for(i, 0, size - 1, swapIndices(i, Random value(i, size) floor)))
 
-	docSlot("anyOne", "Returns a random element of the receiver or nil if the receiver is empty.")
+	//doc List anyOne Returns a random element of the receiver or nil if the receiver is empty.
 	anyOne := method(at(Random value(0, size) floor))
 
-	docSlot("removeFirst", "Returns the first item and removes it from the list. nil is returned if the list is empty.")
+	//doc List removeFirst Returns the first item and removes it from the list. nil is returned if the list is empty.
 	removeFirst := method(if(self size != 0, removeAt(0), nil))
 
-	docSlot("removeLast", "Returns the last item and removes it from the list. nil is returned if the list is empty.")
+	//doc List removeLast Returns the last item and removes it from the list. nil is returned if the list is empty.
 	removeLast := method(self pop)
 
-	docSlot("removeSeq", "Removes each of the items from the current list which are contained in the sequence passed in.")
+	//doc List removeSeq Removes each of the items from the current list which are contained in the sequence passed in.
 	removeSeq := method(seq,
 		seq foreach(x, self remove(x))
 		self
 	)
 
-	docSlot("join(optionalString)", "Returns a Sequence of the concatenated items with optionalString between each item or simply the concatenation of the items if no optionalString is supplied.")
+	/*doc List join(optionalString) Returns a Sequence of the concatenated items with 
+		optionalString between each item or simply the concatenation of the items if no optionalString is supplied.
+	*/
+		
 	join := method(arg,
 		s := if(self first type == "List", List clone, Sequence clone)
 
@@ -38,21 +41,23 @@ List do(
 		s
 	)
 
-	docSlot("insertAfter(item, afterItem)", "Inserts item after first occurance of afterItem and returns self. If afterItem is not found, item is appended to the end of the list.")
+	/*doc List insertAfter(item, afterItem) Inserts item after first occurance of afterItem and returns self. 
+	If afterItem is not found, item is appended to the end of the list.
+	*/
 	insertAfter := method(item, afterItem,
 		i := self indexOf(afterItem)
 		if(i, self atInsert(i + 1, item), self append(item))
 		self
 	)
 
-	docSlot("insertBefore(item, beforeItem)", "Inserts item before first occurance of beforeItem or to the end of the list if beforeItem is not found. Returns self.")
+	//doc List insertBefore(item, beforeItem) Inserts item before first occurance of beforeItem or to the end of the list if beforeItem is not found. Returns self.
 	insertBefore := method(item, beforeItem,
 		i := self indexOf(beforeItem)
 		if(i, self atInsert(i, item), self append(item))
 		self
 	)
 
-	docSlot("insertAt(item, index)", "Inserts item at the specified index. Raises an exception if the index is out of bounds. Returns self.")
+	//doc List insertAt(item, index) Inserts item at the specified index. Raises an exception if the index is out of bounds. Returns self.
 	insertAt := method(item, index, self atInsert(index, item))
 
 	asString := method(
@@ -86,12 +91,14 @@ List do(
 		obj
 	)
 
-	docSlot("flatten", """Creates a new list, with all contained lists flattened into the new list. For example:
+	/*doc List flatten 
+	Creates a new list, with all contained lists flattened into the new list. For example:
 <pre>
 list(1,2,list(3,4,list(5))) flatten
 ==> list(1, 2, 3, 4, 5)
 </pre>
-	""")
+	*/
+	
 	List flatten := method(
 		l := List clone
 		self foreach(v,
@@ -103,7 +110,11 @@ list(1,2,list(3,4,list(5))) flatten
 		l
 	)
 
-	docSlot("asMessage", "Converts each element in the list to unnamed messages with their cached result set to the value of the element (without activating). Returns an unnamed message whose arguments map 1:1 with the elements (after being converted to messages themselves).")
+	/*doc List asMessage Converts each element in the list to unnamed messages 
+	with their cached result set to the value of the element (without activating). 
+	Returns an unnamed message whose arguments map 1:1 with the elements (after being converted to messages themselves).
+	*/
+	
 	asMessage := method(
 		m := Message clone
 		foreach(elem,
@@ -114,53 +125,55 @@ list(1,2,list(3,4,list(5))) flatten
 		m
 	)
 
-	docSlot("select(optionalIndex, value, message)",
+	/*doc List select(optionalIndex, value, message)",
 		"Like foreach, but the values for which the result of
 message are non-nil are returned in a new List. Example:
 <pre>list(1, 5, 7, 2) select(i, v, v > 3) print
 ==> 5, 7
 
 list(1, 5, 7, 2) select(v, v > 3) print
-==> 5, 7</pre>")
+==> 5, 7</pre>
+*/
 
-	docSlot("detect(optionalIndex, value, message)",
-		"Returns the first value for which the message evaluates to a non-nil. Example:
+	/*doc List detect(optionalIndex, value, message)
+	Returns the first value for which the message evaluates to a non-nil. Example:
 <pre>list(1, 2, 3, 4) detect(i, v, v > 2)
 ==> 3
 
 list(1, 2, 3, 4) detect(v, v > 2)
-==> 3</pre>")
+==> 3</pre>
+*/
 
-	docSlot("map(optionalIndex, value, message)", "Same as calling mapInPlace() on a clone of the receiver, but more efficient.")
+	//doc List map(optionalIndex, value, message) Same as calling mapInPlace() on a clone of the receiver, but more efficient.
 
-	docSlot("cusor", "Returns a ListCursor for the receiver.")
+	//doc List cusor Returns a ListCursor for the receiver.
 	cursor := method(ListCursor clone setCollection(self))
 
-	docSlot("containsAll(list)", "Returns true the target contains all of the items in the argument list.")
+	//doc List containsAll(list) Returns true the target contains all of the items in the argument list.
 	containsAll := method(c, c detect(i, contains(i) not) == nil)
 
-	docSlot("containsAny(list)", "Returns true the target contains any of the items in the argument list.")
+	//doc List containsAny(list) Returns true the target contains any of the items in the argument list.
 	containsAny := method(c, c detect(i, contains(i)) != nil)
 
-	docSlot("intersect(list)", "Returns a new list containing the common values from the target and argument lists.")
+	//doc List intersect(list) Returns a new list containing the common values from the target and argument lists.
 	intersect := method(c, c select(i, contains(i)))
 
-	docSlot("difference(list)", "Returns a new list containing items from the target list which aren't in the argument list.")
+	//doc List difference(list) Returns a new list containing items from the target list which aren't in the argument list.
 	difference := method(c, select(i, c contains(i) not))
 
-	docSlot("union(list)", "Returns a new list containing items from the target and items which are only in the argument list.")
+	//doc List union(list) Returns a new list containing items from the target and items which are only in the argument list.
 	union := method(c, self clone appendSeq(c difference(self)))
 
-	docSlot("unique", "Returns a new list containing all the values in the target, but no duplicates.")
+	//doc List unique Returns a new list containing all the values in the target, but no duplicates.
 	unique := method(a := list; self foreach(v, a appendIfAbsent(v)); a)
 
-	docSlot("asMap", "The reverse of Map asList: converts a list of lists (key-value pairs) into a Map. The first item of each pair list must be a sequence. The second item is the value.")
+	//doc List asMap The reverse of Map asList: converts a list of lists (key-value pairs) into a Map. The first item of each pair list must be a sequence. The second item is the value.
 	asMap := method(
 		m := Map clone
 		self foreach(pair, m atPut(pair at(0), pair at(1)))
 	)
 
-		docSlot("reduce", "Also known as foldl or inject. Combines values in target start on the left. reduce(+) or reduce(x, y, x + y).")
+		//doc List reduce Also known as foldl or inject. Combines values in target start on the left. reduce(+) or reduce(x, y, x + y).
 		reduce := method(
 			accu := first
 			if(call message arguments size == 1,
@@ -180,7 +193,7 @@ list(1, 2, 3, 4) detect(v, v > 2)
 			accu
 		)
 
-		docSlot("reverseReduce", "Also known as foldr and inject. Combines values in target starting on the right. reverseReduce(+) or reverseReduce(x, y, x + y).")
+		//doc List reverseReduce Also known as foldr and inject. Combines values in target starting on the right. reverseReduce(+) or reverseReduce(x, y, x + y).
 		reverseReduce := method(
 			accu := last
 			if(call message arguments size == 1,
@@ -212,7 +225,7 @@ list(1, 2, 3, 4) detect(v, v > 2)
 			m
 		)
 
-		docSlot("uniqueCount", "Returns a list of list(value, count) for each unique value in self.")
+		//doc List uniqueCount Returns a list of list(value, count) for each unique value in self.
 		uniqueCount := method(self unique map(item, list(item, self select(== item) size)))
 )
 

@@ -1,11 +1,10 @@
-/*#io
-Sandbox ioDoc(
-	docCopyright("Steve Dekorte", 2002)
-	docLicense("BSD revised")
-	docObject("Sandbox")
-	docDescription("Sandbox can be used to run separate instances of Io within the same process.")
-	docCategory("Core")
+
+//metadoc Sandbox copyright Steve Dekorte 2002
+//metadoc Sandbox license BSD revised
+/*metadoc Sandbox description
+Sandbox can be used to run separate instances of Io within the same process.
 */
+//metadoc Sandbox category Core
 
 #include "IoSandbox.h"
 #include "IoSeq.h"
@@ -105,9 +104,8 @@ void IoSandbox_free(IoSandbox *self)
 
 IoNumber *IoSandbox_messageCount(IoSandbox *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("messageCount",
-			"Returns a number containing the messageCount limit of the Sandbox. ")
+	/*doc Sandbox messageCount
+	Returns a number containing the messageCount limit of the Sandbox. 
 	*/
 
 	IoState *boxState = IoSandbox_boxState(self);
@@ -116,9 +114,8 @@ IoNumber *IoSandbox_messageCount(IoSandbox *self, IoObject *locals, IoMessage *m
 
 IoObject *IoSandbox_setMessageCount(IoSandbox *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setMessageCount(anInteger)",
-			"Sets the messageCount limit of the receiver. ")
+	/*doc Sandbox setMessageCount(anInteger)
+	Sets the messageCount limit of the receiver. 
 	*/
 
 	IoState *boxState = IoSandbox_boxState(self);
@@ -128,9 +125,8 @@ IoObject *IoSandbox_setMessageCount(IoSandbox *self, IoObject *locals, IoMessage
 
 IoNumber *IoSandbox_timeLimit(IoSandbox *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("timeLimit",
-			"Returns a number containing the time limit of calls made to the Sandbox. ")
+	/*doc Sandbox timeLimit
+	Returns a number containing the time limit of calls made to the Sandbox. 
 	*/
 
 	IoState *boxState = IoSandbox_boxState(self);
@@ -139,9 +135,8 @@ IoNumber *IoSandbox_timeLimit(IoSandbox *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSandbox_setTimeLimit(IoSandbox *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setTimeLimit(aDouble)",
-			"Sets the time limit of the Sandbox. ")
+	/*doc Sandbox setTimeLimit(aDouble)
+	Sets the time limit of the Sandbox. 
 	*/
 
 	IoState *boxState = IoSandbox_boxState(self);
@@ -151,9 +146,8 @@ IoObject *IoSandbox_setTimeLimit(IoSandbox *self, IoObject *locals, IoMessage *m
 
 IoObject *IoSandbox_doSandboxString(IoSandbox *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("doSandboxString(aString)",
-			"Evaluate aString inside the Sandbox. ")
+	/*doc Sandbox doSandboxString(aString)
+	Evaluate aString inside the Sandbox. 
 	*/
 
 	IoState *boxState = IoSandbox_boxState(self);

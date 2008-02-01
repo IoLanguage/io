@@ -1,9 +1,7 @@
-/*#io
-File ioDoc(
-	docCopyright("Steve Dekorte", 2002)
-	docLicense("BSD revised")
-	docCredits("Initial version contributed by Miles Egan.")
-*/
+
+//metadoc File copyright Steve Dekorte 2002
+//metadoc File license BSD revised
+//metadoc File docCredits("Initial version contributed by Miles Egan.
 
 #include "IoFile_stat.h"
 #include "IoState.h"
@@ -78,9 +76,8 @@ struct stat *IoFile_statPointer(IoFile *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFile_stat(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("stat",
-			"Updates the receiver's meta info cache.")
+	/*doc File stat
+	Updates the receiver's meta info cache.
 	*/
 
 	struct stat *statInfo;
@@ -106,10 +103,9 @@ IoObject *IoFile_stat(IoFile *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFile_protectionMode(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("protectionMode",
-			"Returns a Number containing the protection mode
-associated with the file's path.")
+	/*doc File protectionMode
+	Returns a Number containing the protection mode
+	associated with the file's path.
 	*/
 
 	return IONUMBER(IoFile_statPointer(self, locals, m)->st_mode);
@@ -135,10 +131,9 @@ struct timeval time_t2timeval(time_t ts)
 
 IoObject *IoFile_lastAccessDate(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("lastAccessDate",
-			"Returns a Date object containing the last date and
-time the file was accessed.")
+	/*doc File lastAccessDate
+	Returns a Date object containing the last date and
+	time the file was accessed.
 	*/
 
 	struct stat *s = IoFile_statPointer(self, locals, m);
@@ -154,10 +149,9 @@ time the file was accessed.")
 
 IoObject *IoFile_lastInfoChangeDate(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("lastInfoChangeDate",
-			"Returns a Date object containing the last date and
-time the file's meta info was changed.")
+	/*doc File lastInfoChangeDate
+	Returns a Date object containing the last date and
+	time the file's meta info was changed.
 	*/
 
 	struct stat *s = IoFile_statPointer(self, locals, m);
@@ -174,10 +168,9 @@ time the file's meta info was changed.")
 
 IoObject *IoFile_lastDataChangeDate(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("lastDataChangeDate",
-			"Returns a Date object containing the last date and
-time the file's contents were changed.")
+	/*doc File lastDataChangeDate
+	Returns a Date object containing the last date and
+	time the file's contents were changed.
 	*/
 
 	struct stat *s = IoFile_statPointer(self, locals, m);
@@ -199,9 +192,8 @@ time the file's contents were changed.")
 
 IoObject *IoFile_userId(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("userId",
-			"Returns a Number containing the user id associated with the file's path.")
+	/*doc File userId
+	Returns a Number containing the user id associated with the file's path.
 	*/
 
 	return IONUMBER(IoFile_statPointer(self, locals, m)->st_uid);
@@ -209,9 +201,8 @@ IoObject *IoFile_userId(IoFile *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFile_groupId(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("groupId",
-			"Returns a Number containing the group id associated with the file's path.")
+	/*doc File groupId
+	Returns a Number containing the group id associated with the file's path.
 	*/
 
 	return IONUMBER(IoFile_statPointer(self, locals, m)->st_gid);
@@ -219,9 +210,8 @@ IoObject *IoFile_groupId(IoFile *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFile_statSize(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("statSize",
-			"Returns the file's size in bytes as a Number.")
+	/*doc File statSize
+	Returns the file's size in bytes as a Number.
 	*/
 
 	return IONUMBER(IoFile_statPointer(self, locals, m)->st_size);
@@ -231,9 +221,8 @@ IoObject *IoFile_statSize(IoFile *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFile_isDirectory(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("isDirectory",
-			"Returns true if the receiver's path points to a directory, false otherwise.")
+	/*doc File isDirectory
+	Returns true if the receiver's path points to a directory, false otherwise.
 	*/
 
 	return IOBOOL(self, S_ISDIR(IoFile_statPointer(self, locals, m)->st_mode));
@@ -241,9 +230,8 @@ IoObject *IoFile_isDirectory(IoFile *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFile_isPipe(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("isPipe",
-			"Returns true if the receiver is a pipe, false otherwise.")
+	/*doc File isPipe
+	Returns true if the receiver is a pipe, false otherwise.
 	*/
 
 	return IOBOOL(self, S_ISFIFO(IoFile_statPointer(self, locals, m)->st_mode));
@@ -251,9 +239,8 @@ IoObject *IoFile_isPipe(IoFile *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFile_isLink(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("isLink",
-			"Returns true if the receiver's path points to a link, false otherwise.")
+	/*doc File isLink
+	Returns true if the receiver's path points to a link, false otherwise.
 	*/
 
 	struct stat buf;
@@ -270,9 +257,8 @@ IoObject *IoFile_isLink(IoFile *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFile_isRegularFile(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("isRegularFile",
-			"Returns true if the receiver's file descriptor is a regular file, false otherwise.")
+	/*doc File isRegularFile
+	Returns true if the receiver's file descriptor is a regular file, false otherwise.
 	*/
 
 	return IOBOOL(self, S_ISREG(IoFile_statPointer(self, locals, m)->st_mode));
@@ -280,9 +266,8 @@ IoObject *IoFile_isRegularFile(IoFile *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFile_isSocket(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("isSocket",
-			"Returns true if the receiver's file descriptor is a Socket, false otherwise.")
+	/*doc File isSocket
+	Returns true if the receiver's file descriptor is a Socket, false otherwise.
 	*/
 
 	return IOBOOL(self, S_ISSOCK(IoFile_statPointer(self, locals, m)->st_mode));
@@ -290,10 +275,10 @@ IoObject *IoFile_isSocket(IoFile *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFile_isUserExecutable(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("isUserExecutable",
-			"Returns true if the receiver is user group executable, false otherwise.")
+	/*doc File isUserExecutable
+	Returns true if the receiver is user group executable, false otherwise.
 	*/
+	
 #ifdef ON_WINDOWS
 	return IOFALSE(self);
 #else

@@ -1,8 +1,6 @@
-/*#io
-docCopyright("Steve Dekorte", 2002)
-docCopyright("Marc Fauconneau", 2007)
-docLicense("BSD revised")
-*/
+
+//metadoc PHash copyright Steve Dekorte 2002, Marc Fauconneau 2007
+//metadoc PHash license BSD revised
 
 #define PHASH_C
 #include "PHash.h"

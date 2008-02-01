@@ -1,10 +1,10 @@
-/*#io
-Debugger ioDoc(
-	docCopyright("Steve Dekorte", 2002)
-	docLicense("BSD revised")
-	docDescription("Contains methods related to the IoVM debugger.")
-	docCategory("Core")
+
+//metadoc Debugger copyright Steve Dekorte 2002
+//metadoc Debugger license BSD revised
+/*metadoc Debugger description
+Contains methods related to the IoVM debugger.
 */
+//metadoc Debugger category Core
 
 #include "IoDebugger.h"
 #include "IoMessage_parser.h"

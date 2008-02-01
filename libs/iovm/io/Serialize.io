@@ -25,7 +25,7 @@ Map justSerialized := method(stream,
 	stream write(");")
 )
 
-Block docSlot("justSerialized(stream)", "Write's the receivers code into the stream.")
+//doc Block justSerialized(stream) Write's the receivers code into the stream.
 
 
 Block justSerialized := method(stream,

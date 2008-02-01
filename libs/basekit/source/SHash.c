@@ -1,8 +1,6 @@
-/*#io
-docCopyright("Steve Dekorte", 2002)
-docCopyright("Marc Fauconneau", 2007)
-docLicense("BSD revised")
-*/
+
+//metadoc SHash copyright Steve Dekorte 2002, Marc Fauconneau 2007
+//metadoc SHash license BSD revised
 
 #define SHASH_C
 #include "SHash.h"

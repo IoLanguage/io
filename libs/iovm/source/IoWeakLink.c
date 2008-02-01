@@ -1,10 +1,22 @@
-/*#io
-WeakLink ioDoc(
-	docCopyright("Steve Dekorte", 2002)
-	docLicense("BSD revised")
-	docCategory("Core")
-	docDescription("""A WeakLink is a primitive that can hold a reference to an object without preventing the garbage collector from collecting it. The link reference is set with the setLink() method. After the garbage collector collects an object, it informs any (uncollected) WeakLink objects whose link value pointed to that object by calling their "collectedLink" method.
-	""")
+/*metadoc WeakLink copyright
+	Steve Dekorte, 2002
+*/
+
+/*metadoc WeakLink license
+	BSD revised
+*/
+
+/*metadoc WeakLink category
+	Core
+*/
+
+/*metadoc WeakLink description
+	A WeakLink is a primitive that can hold a reference to 
+	an object without preventing the garbage collector from 
+	collecting it. The link reference is set with the setLink() method. 
+	After the garbage collector collects an object, it informs any 
+	(uncollected) WeakLink objects whose link value pointed to that 
+	object by calling their "collectedLink" method.
 */
 
 #include "IoWeakLink.h"
@@ -111,8 +123,8 @@ void IoWeakLink_notification(IoWeakLink *self, void *notification) // called whe
 
 IoObject *IoWeakLink_setLink(IoWeakLink *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setLink(aValue)", "Sets the link pointer. Returns self.")
+	/*doc WeakLink setLink(aValue)
+	Sets the link pointer. Returns self.
 	*/
 
 	IoWeakLink_rawSetLink(self, IoMessage_locals_valueArgAt_(m, locals, 0));
@@ -136,9 +148,9 @@ void IoWeakLink_rawSetLink(IoWeakLink *self, IoObject *v)
 
 IoObject *IoWeakLink_link(IoWeakLink *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("link", "Returns the link pointer or Nil if none is set.")
-	*/
+	/*doc WeakLink link
+	Returns the link pointer or Nil if none is set.
+*/
 
 	IoObject *v = DATA(self)->link;
 	return v ? v : IONIL(self);

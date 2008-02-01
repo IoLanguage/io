@@ -1,18 +1,18 @@
-/*#io
-File ioDoc(
-	docCopyright("Steve Dekorte", 2002)
-	docLicense("BSD revised")
-	docDescription("""Encapsulates file i/o. Here's an example of opening a file, and reversing it's lines:
 
-<pre>
+//metadoc File copyright Steve Dekorte 2002
+//metadoc File license BSD revised
+/*metadoc File description
+Encapsulates file i/o. Here's an example of opening a file, 
+and reversing it's lines:
+<code>	
 file = File clone openForUpdating("/tmp/test")
 lines = file readLines reverse
 file rewind
 lines foreach(i, line, file write(line, "\n"))
-file close</pre>
-""")
-	docCategory("FileSystem")
+file close
+</code>	
 */
+//metadoc File category FileSystem
 
 #include "IoDate.h"
 #include "IoFile.h"
@@ -263,8 +263,8 @@ int IoFile_create(IoFile *self)
 
 IoObject *IoFile_descriptor(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("descriptor", "Returns the file's descriptor as a number.")
+	/*doc File descriptor
+	Returns the file's descriptor as a number.
 	*/
 
 	if (DATA(self)->stream)
@@ -280,9 +280,8 @@ IoObject *IoFile_descriptor(IoFile *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFile_standardInput(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("standardInput",
-			"Returns a new File whose stream is set to the standard input stream.")
+	/*doc File standardInput
+	Returns a new File whose stream is set to the standard input stream.
 	*/
 
 	IoFile *newFile = IoFile_new(IOSTATE);
@@ -295,9 +294,8 @@ IoObject *IoFile_standardInput(IoFile *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFile_standardOutput(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("standardOutput",
-			"Returns a new File whose stream is set to the standard output stream.")
+	/*doc File standardOutput
+	Returns a new File whose stream is set to the standard output stream.
 	*/
 
 	IoFile *newFile = IoFile_new(IOSTATE);
@@ -310,9 +308,8 @@ IoObject *IoFile_standardOutput(IoFile *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFile_standardError(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("standardError",
-			"Returns a new File whose stream is set to the standard error stream.")
+	/*doc File standardError
+	Returns a new File whose stream is set to the standard error stream.
 	*/
 
 	IoFile *newFile = IoFile_new(IOSTATE);
@@ -326,10 +323,9 @@ IoObject *IoFile_standardError(IoFile *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFile_setPath(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setPath(aString)",
-			"Sets the file path of the receiver to pathString.
-The default path is an empty string. Returns self.")
+	/*doc File setPath(aString)
+	Sets the file path of the receiver to pathString.
+	The default path is an empty string. Returns self.
 	*/
 
 	DATA(self)->path = IOREF(IoMessage_locals_symbolArgAt_(m, locals, 0));
@@ -338,9 +334,8 @@ The default path is an empty string. Returns self.")
 
 IoObject *IoFile_path(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("path",
-			"Returns the file path of the receiver.")
+	/*doc File path
+	Returns the file path of the receiver.
 	*/
 
 	return DATA(self)->path;
@@ -348,9 +343,8 @@ IoObject *IoFile_path(IoFile *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFile_lastPathComponent(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("name",
-			"Returns the last path component of the file path.")
+	/*doc File name
+	Returns the last path component of the file path.
 	*/
 
 	return IoSeq_lastPathComponent(DATA(self)->path, locals, m);
@@ -358,9 +352,8 @@ IoObject *IoFile_lastPathComponent(IoFile *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFile_mode(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("mode",
-			"Returns the open mode of the file(either read, update or append).")
+	/*doc File mode
+	Returns the open mode of the file(either read, update or append).
 	*/
 
 	char *mode = IoSeq_asCString(DATA(self)->mode);
@@ -374,10 +367,9 @@ IoObject *IoFile_mode(IoFile *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFile_temporaryFile(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("temporaryFile",
-			"Returns a new File object with an open temporary file. The file is
-automatically deleted when the returned File object is closed or garbage collected. ")
+	/*doc File temporaryFile
+	Returns a new File object with an open temporary file. The file is
+	automatically deleted when the returned File object is closed or garbage collected. 
 	*/
 
 	IoFile *newFile = IoFile_new(IOSTATE);
@@ -387,21 +379,20 @@ automatically deleted when the returned File object is closed or garbage collect
 
 IoObject *IoFile_openForReading(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("openForReading(optionalPathString)",
-			"Sets the file mode to read (reading only) and calls open(optionalPathString). ")
+	/*doc File openForReading(optionalPathString)
+	Sets the file mode to read (reading only) and calls open(optionalPathString). 
 	*/
+	
 	DATA(self)->mode = IOREF(IOSYMBOL("r"));
 	return IoFile_open(self, locals, m);
 }
 
 IoObject *IoFile_openForUpdating(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("openForUpdating(optionalPathString)",
-			"Sets the file mode to update (reading and writing) and calls
-open(optionalPathString). This will not delete the file if it already exists.
-Use the remove method first if you need to delete an existing file before opening a new one.")
+	/*doc File openForUpdating(optionalPathString)
+	Sets the file mode to update (reading and writing) and calls
+	open(optionalPathString). This will not delete the file if it already exists.
+	Use the remove method first if you need to delete an existing file before opening a new one.
 	*/
 
 	DATA(self)->mode = IOREF(IOSYMBOL("r+"));
@@ -410,10 +401,9 @@ Use the remove method first if you need to delete an existing file before openin
 
 IoObject *IoFile_openForAppending(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("openForAppending(optionalPathString)",
-			"Sets the file mode to append (writing to the end of the file)
-and calls open(optionalPathString).")
+	/*doc File openForAppending(optionalPathString)
+	Sets the file mode to append (writing to the end of the file)
+	and calls open(optionalPathString).
 	*/
 
 	DATA(self)->mode = IOREF(IOSYMBOL("a+"));
@@ -422,11 +412,10 @@ and calls open(optionalPathString).")
 
 IoObject *IoFile_open(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("open(optionalPathString)",
-			"Opens the file. Creates one if it does not exist.
-If the optionalPathString argument is provided, the path is set to it before
-opening. Returns self or raises an File exception on error.")
+	/*doc File open(optionalPathString)
+	Opens the file. Creates one if it does not exist.
+	If the optionalPathString argument is provided, the path is set to it before
+	opening. Returns self or raises an File exception on error.
 	*/
 
 	char *mode = CSTRING(DATA(self)->mode);
@@ -463,9 +452,8 @@ opening. Returns self or raises an File exception on error.")
 
 IoObject *IoFile_popen(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("popen",
-			"open as a pipe")
+	/*doc File popen
+	Open the file as a pipe. Return self.
 	*/
 
 	DATA(self)->flags = IOFILE_FLAGS_PIPE;
@@ -504,9 +492,8 @@ IoObject *IoFile_popen(IoFile *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFile_close(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("close",
-			"Closes the receiver if open, otherwise does nothing. Returns self.")
+	/*doc File close
+	Closes the receiver if open, otherwise does nothing. Returns self.
 	*/
 
 	IoFile_justClose(self);
@@ -515,9 +502,8 @@ IoObject *IoFile_close(IoFile *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFile_flush(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("flush",
-			"Forces any buffered data to be written to disk. Returns self.")
+	/*doc File flush
+	Forces any buffered data to be written to disk. Returns self.
 	*/
 
 	fflush(DATA(self)->stream);
@@ -543,8 +529,8 @@ IoObject *IoFile_rawAsString(IoFile *self)
 
 IoObject *IoFile_contents(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("contents", "Returns contents of the file as a mutable Sequence of bytes.")
+	/*doc File contents
+	Returns contents of the file as a mutable Sequence of bytes.
 	*/
 
 	UArray *ba = UArray_new();
@@ -574,9 +560,9 @@ IoObject *IoFile_contents(IoFile *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFile_asBuffer(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("asBuffer", "Opens the receiver in read only mode, reads the whole
-contents of the file into a buffer object, closes the file and returns the buffer.")
+	/*doc File asBuffer
+	Opens the receiver in read only mode, reads the whole
+	contents of the file into a buffer object, closes the file and returns the buffer.
 	*/
 
 	UArray *ba = UArray_new();
@@ -596,9 +582,9 @@ contents of the file into a buffer object, closes the file and returns the buffe
 
 IoObject *IoFile_exists(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("exists", "Returns true if the file specified by the receiver's
-path exists, false otherwise.")
+	/*doc File exists
+	Returns true if the file specified by the receiver's
+	path exists, false otherwise.
 	*/
 
 	return IOBOOL(self, IoFile_justExists(self));
@@ -606,10 +592,9 @@ path exists, false otherwise.")
 
 IoObject *IoFile_remove(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("remove",
-			"Removes the file specified by the receiver's path.
-Raises an error if the file exists but is not removed. Returns self.")
+	/*doc File remove
+	Removes the file specified by the receiver's path.
+	Raises an error if the file exists but is not removed. Returns self.
 	*/
 
 	int error;
@@ -629,9 +614,8 @@ Raises an error if the file exists but is not removed. Returns self.")
 
 IoObject *IoFile_truncateToSize(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("truncateToSize(numberOfBytes)",
-			"Trunctates the file's size to the numberOfBytes. Returns self.")
+	/*doc File truncateToSize(numberOfBytes)
+	Trunctates the file's size to the numberOfBytes. Returns self.
 	*/
 
 	long newSize = IoMessage_locals_longArgAt_(m, locals, 0);
@@ -641,12 +625,11 @@ IoObject *IoFile_truncateToSize(IoFile *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFile_moveTo_(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("moveTo(pathString)",
-			"""Moves the file specified by the receiver's path to the
-new path pathString. Raises an File doesNotExist exception if the
-file does not exist or a File nameConflict exception if the file
-nameString already exists.""")
+	/*doc File moveTo(pathString)
+	Moves the file specified by the receiver's path to the
+	new path pathString. Raises an File doesNotExist exception if the
+	file does not exist or a File nameConflict exception if the file
+	nameString already exists.
 	*/
 
 	IoSymbol *newPath = IoMessage_locals_symbolArgAt_(m, locals, 0);
@@ -671,9 +654,8 @@ nameString already exists.""")
 
 IoObject *IoFile_write(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("write(aSequence1, aSequence2, ...)",
-			"Writes the arguments to the receiver file. Returns self.")
+	/*doc File write(aSequence1, aSequence2, ...)
+	Writes the arguments to the receiver file. Returns self.
 	*/
 
 	int i;
@@ -698,9 +680,8 @@ IoObject *IoFile_write(IoFile *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFile_readLines(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("readLines",
-			"Returns list containing all lines in the file.")
+	/*doc File readLines
+	Returns list containing all lines in the file.
 	*/
 
 	IoState *state = IOSTATE;
@@ -738,10 +719,12 @@ IoObject *IoFile_readLines(IoFile *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFile_readLine(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("readLine", "Reads the next line of the file and returns it as a
-string without the return character. Returns Nil if the end of the file has been reached.")
+	/*doc File readLine
+	Reads the next line of the file and returns it as a
+	string without the return character. Returns Nil if the 
+	end of the file has been reached.
 	*/
+
 	//char *path = CSTRING(DATA(self)->path); // tmp for debugging
 
 	IoFile_assertOpen(self, locals, m);
@@ -804,10 +787,9 @@ UArray *IoFile_readUArrayOfLength_(IoFile *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFile_readToBufferLength(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("readToBufferOfLength(aBuffer, aNumber)",
-			"Reads at most aNumber number of items and appends them to aBuffer.
-Returns number of items read.")
+	/*doc File readToBufferOfLength(aBuffer, aNumber)
+	Reads at most aNumber number of items and appends them to aBuffer.
+	Returns number of items read.
 	*/
 
 	IoSeq *buffer = IoMessage_locals_mutableSeqArgAt_(m, locals, 0);
@@ -819,10 +801,9 @@ Returns number of items read.")
 
 IoObject *IoFile_readBufferOfLength_(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("readBufferOfLength(aNumber)",
-			"Reads a Buffer of the specified length and returns it.
-Returns Nil if the end of the file has been reached.")
+	/*doc File readBufferOfLength(aNumber)
+	Reads a Buffer of the specified length and returns it.
+	Returns Nil if the end of the file has been reached.
 	*/
 
 	UArray *ba = IoFile_readUArrayOfLength_(self, locals, m);
@@ -837,10 +818,9 @@ Returns Nil if the end of the file has been reached.")
 
 IoObject *IoFile_readStringOfLength_(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("readStringOfLength(aNumber)",
-			"Reads a String of the specified length and returns it.
-Returns Nil if the end of the file has been reached.")
+	/*doc File readStringOfLength(aNumber)
+	Reads a String of the specified length and returns it.
+	Returns Nil if the end of the file has been reached.
 	*/
 
 	UArray *ba = IoFile_readUArrayOfLength_(self, locals, m);
@@ -855,10 +835,10 @@ Returns Nil if the end of the file has been reached.")
 
 IoObject *IoFile_rewind(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("rewind",
-			"Sets the file position pointer to the beginning of the file.")
+	/*doc File rewind
+	Sets the file position pointer to the beginning of the file.
 	*/
+	
 	IoFile_assertOpen(self, locals, m);
 
 	if (DATA(self)->stream)
@@ -871,9 +851,8 @@ IoObject *IoFile_rewind(IoFile *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFile_position_(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setPosition(aNumber)",
-			"Sets the file position pointer to the byte specified by aNumber. Returns self.")
+	/*doc File setPosition(aNumber)
+	Sets the file position pointer to the byte specified by aNumber. Returns self.
 	*/
 
 	long pos = IoMessage_locals_longArgAt_(m, locals, 0);
@@ -890,9 +869,8 @@ IoObject *IoFile_position_(IoFile *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFile_position(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("position",
-			"Returns the current file pointer byte position as a Number.")
+	/*doc File position
+	Returns the current file pointer byte position as a Number.
 	*/
 
 	IoFile_assertOpen(self, locals, m);
@@ -901,10 +879,10 @@ IoObject *IoFile_position(IoFile *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFile_positionAtEnd(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("positionAtEnd",
-			"Sets the file position pointer to the end of the file.")
+	/*doc File positionAtEnd
+	Sets the file position pointer to the end of the file.
 	*/
+	
 	IoFile_assertOpen(self, locals, m);
 
 	if (DATA(self)->stream)
@@ -917,9 +895,8 @@ IoObject *IoFile_positionAtEnd(IoFile *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFile_isAtEnd(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("isAtEnd",
-			"Returns true if the file is at it's end. Otherwise returns false.")
+	/*doc File isAtEnd
+	Returns true if the file is at it's end. Otherwise returns false.
 	*/
 
 	IoFile_assertOpen(self, locals, m);
@@ -928,9 +905,8 @@ IoObject *IoFile_isAtEnd(IoFile *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFile_size(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("size",
-			"Returns the file size in bytes.")
+	/*doc File size
+	Returns the file size in bytes.
 	*/
 
 	FILE *fp = fopen(CSTRING(DATA(self)->path), "r");
@@ -953,9 +929,8 @@ IoObject *IoFile_size(IoFile *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFile_isOpen(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("isOpen",
-			"Returns self if the file is open. Otherwise returns Nil.")
+	/*doc File isOpen
+	Returns self if the file is open. Otherwise returns Nil.
 	*/
 
 	return IOBOOL(self, DATA(self)->stream != 0);
@@ -984,10 +959,9 @@ IoObject *IoFile_assertWrite(IoFile *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFile_at(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("at(aNumber)",
-			"Returns a Number containing the byte at the specified
-byte index or Nil if the index is out of bounds.")
+	/*doc File at(aNumber)
+	Returns a Number containing the byte at the specified
+	byte index or Nil if the index is out of bounds.
 	*/
 
 	int byte;
@@ -1006,10 +980,9 @@ byte index or Nil if the index is out of bounds.")
 
 IoObject *IoFile_atPut(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("atPut(positionNumber, byteNumber)",
-			"Writes the byte value of byteNumber to the file position
-positionNumber. Returns self.")
+	/*doc File atPut(positionNumber, byteNumber)
+	Writes the byte value of byteNumber to the file position
+	positionNumber. Returns self.
 	*/
 
 	int c = IoMessage_locals_intArgAt_(m, locals, 1);
@@ -1029,17 +1002,15 @@ positionNumber. Returns self.")
 
 IoObject *IoFile_foreach(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("foreach(optionalIndex, value, message)",
-			"""For each byte, set index to the index of the byte
+	/*doc File foreach(optionalIndex, value, message)
+	For each byte, set index to the index of the byte
 and value to the number containing the byte value and execute aMessage.
 Example usage:
-<pre>
+<code>	
 aFile foreach(i, v, writeln("byte at ", i, " is ", v))
 aFile foreach(v, writeln("byte ", v))
-</pre>
-""")
-	*/
+</code>	
+*/
 	IoObject *result;
 
 	IoSymbol *indexSlotName, *characterSlotName;
@@ -1082,17 +1053,15 @@ aFile foreach(v, writeln("byte ", v))
 
 IoObject *IoFile_foreachLine(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("foreachLine(optionalLineNumber, line, message)",
-			"""For each line, set index to the line number of the line
+	/*doc File foreachLine(optionalLineNumber, line, message)
+	For each line, set index to the line number of the line
 and line and execute aMessage.
 Example usage:
-<pre>
+<code>	
 aFile foreachLine(i, v, writeln("Line ", i, ": ", v))
 aFile foreach(v, writeln("Line: ", v))
-</pre>
-""")
-	*/
+</code>	
+*/
 
 	IoObject *result;
 

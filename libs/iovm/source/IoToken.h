@@ -1,6 +1,4 @@
-/*   Copyright (c) 2003, Steve Dekorte
-docLicense("BSD revised")
-*/
+//metadoc Token license BSD revised
 
 #ifndef IOTOKEN_DEFINED
 #define IOTOKEN_DEFINED 1

@@ -1,7 +1,6 @@
-/*#io
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+
+//metadoc CFunction copyright Steve Dekorte 2002
+//metadoc CFunction license BSD revised
 
 #ifndef IOCFUNCTION_DEFINED
 #define IOCFUNCTION_DEFINED 1

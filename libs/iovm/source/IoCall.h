@@ -1,7 +1,6 @@
-/*#io
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+
+//metadoc Call copyright Steve Dekorte 2002
+//metadoc Call license BSD revised
 
 #ifndef IoCall_DEFINED
 #define IoCall_DEFINED 1

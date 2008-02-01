@@ -1,7 +1,8 @@
-/*#io
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-docDescription("You may need to add an entry for your C compiler.")
+
+//metadoc Common copyright Steve Dekorte 2002
+//metadoc Common license BSD revised
+/*metadoc Common description
+You may need to add an entry for your C compiler.
 */
 
 /*

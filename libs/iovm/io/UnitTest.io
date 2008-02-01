@@ -4,7 +4,7 @@ UnitTest := Object clone do(
 		//writeln(s)
 	)
 
-	docCategory("Testing")
+	//doc UnitTest category Testing
 	setUp := method(nil)
 	tearDown := method(nil)
 	init := method(self exceptions := List clone)
@@ -79,7 +79,7 @@ TestSuite := Object clone do(
 		//writeln(s)
 	)
 
-	docCategory("Testing")
+	//doc UnitTest category Testing
 
 	name := method(
 		path asMutable pathComponent lastPathComponent

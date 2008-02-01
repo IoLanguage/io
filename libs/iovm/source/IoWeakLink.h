@@ -1,7 +1,5 @@
-/*#io
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+//metadoc WeakLink copyright Steve Dekorte 2002
+//metadoc WeakLink license BSD revised
 
 #ifndef IOWEAKLINK_DEFINED
 #define IOWEAKLINK_DEFINED 1

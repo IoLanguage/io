@@ -1,7 +1,5 @@
-/*#io
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+//metadoc Map copyright Steve Dekorte 2002
+//metadoc Map license BSD revised
 
 #ifndef IoMap_DEFINED
 #define IoMap_DEFINED 1

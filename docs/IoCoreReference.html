@@ -170,6 +170,7 @@ h3 {
 <a href=#File style="color: #555;">File</a><br>
 <a href=#Future style="color: #555;">Future</a><br>
 <a href=#FutureProxy style="color: #555;">FutureProxy</a><br>
+<a href=#ImmutableSequence style="color: #555;">ImmutableSequence</a><br>
 <a href=#Importer style="color: #555;">Importer</a><br>
 <a href=#Map style="color: #555;">Map</a><br>
 <a href=#Message style="color: #555;">Message</a><br>
@@ -187,7 +188,6 @@ h3 {
 <a href=#TestSuite style="color: #555;">TestSuite</a><br>
 <a href=#true style="color: #555;">true</a><br>
 <a href=#UnitTest style="color: #555;">UnitTest</a><br>
-<a href=#Vector style="color: #555;">Vector</a><br>
 <a href=#WeakLink style="color: #555;">WeakLink</a><br>
 </ul>
 <h2><a name=Addon><font color=black>Addon</font></a></h2>
@@ -2231,7 +2231,7 @@ Sets the year of the receiver. Returns self.
 <p><br>
 <b><a name=Duration-totalSeconds><font color=black>totalSeconds</font></a></b><p>
 <div style="width:40em; margin-left:2em">
-<font color=red>undocumented</font>
+Same as a asNumber.
 </font>
 </div>
 <p><br>
@@ -2253,15 +2253,15 @@ A DLL Loader by Kentaro A. Kurahone <kurahone@sigusr1.org>.
 </font>
 <h3>Slot Index</h3>
 <div style="width:40em; margin-left:2em">
-<b><a href=#DynLib-call >call</a></b><br>
+<b><a href=#DynLib-call >call()</a></b><br>
 <b><a href=#DynLib-callPluginInit >callPluginInit</a></b><br>
+<b><a href=#DynLib-callPluginInitFunc >callPluginInitFunc()</a></b><br>
 <b><a href=#DynLib-close >close</a></b><br>
 <b><a href=#DynLib-freeFuncName >freeFuncName</a></b><br>
 <b><a href=#DynLib-initFuncName >initFuncName</a></b><br>
 <b><a href=#DynLib-isOpen >isOpen</a></b><br>
 <b><a href=#DynLib-open >open</a></b><br>
 <b><a href=#DynLib-path >path</a></b><br>
-<b><a href=#DynLib-returnsString >returnsString</a></b><br>
 <b><a href=#DynLib-setFreeFuncName >setFreeFuncName()</a></b><br>
 <b><a href=#DynLib-setInitFuncName >setInitFuncName()</a></b><br>
 <b><a href=#DynLib-setPath >setPath()</a></b><br>
@@ -2270,15 +2270,23 @@ A DLL Loader by Kentaro A. Kurahone <kurahone@sigusr1.org>.
 <br>
 <h3>Slots</h3>
 <br>
-<b><a name=DynLib-call><font color=black>call</font></a></b><p>
+<b><a name=DynLib-call><font color=black>call(</b><i>functionName, &lt;arg1&gt;, &lt;arg2&gt;, ...</i><b>)
+</font></a></b><p>
 <div style="width:40em; margin-left:2em">
-<font color=red>undocumented</font>
+Call's the dll function of the specified name with the arguments provided. Returns the result (either a Number or nil).
 </font>
 </div>
 <p><br>
 <b><a name=DynLib-callPluginInit><font color=black>callPluginInit</font></a></b><p>
 <div style="width:40em; margin-left:2em">
 <font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=DynLib-callPluginInitFunc><font color=black>callPluginInitFunc(</b><i>functionName</i><b>)
+</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+Call's the dll function of the specified name. Returns the result as a Number or raises an exception on error.
 </font>
 </div>
 <p><br>
@@ -2315,12 +2323,6 @@ Opens the dynamic library and returns self or raises a DynLoad.open Error if the
 <b><a name=DynLib-path><font color=black>path</font></a></b><p>
 <div style="width:40em; margin-left:2em">
 Returns the path to the dynamic library.
-</font>
-</div>
-<p><br>
-<b><a name=DynLib-returnsString><font color=black>returnsString</font></a></b><p>
-<div style="width:40em; margin-left:2em">
-<font color=red>undocumented</font>
 </font>
 </div>
 <p><br>
@@ -3200,6 +3202,19 @@ Writes the arguments to the receiver file. Returns self.
 </font>
 </div>
 <p><br>
+</ul>
+<br>
+<hr align=left>
+<br>
+<h2><a name=ImmutableSequence><font color=black>ImmutableSequence</font></a></h2>
+<ul style="width:40em">
+<b><font color=#000>Protos:</font></b> Sequence
+<h3>Slot Index</h3>
+<div style="width:40em; margin-left:2em">
+</div>
+<br>
+<h3>Slots</h3>
+<br>
 </ul>
 <br>
 <hr align=left>
@@ -5643,19 +5658,6 @@ Returns a version number for Io.
 </font>
 </div>
 <p><br>
-</ul>
-<br>
-<hr align=left>
-<br>
-<h2><a name=Vector><font color=black>Vector</font></a></h2>
-<ul style="width:40em">
-<b><font color=#000>Protos:</font></b> Vector
-<h3>Slot Index</h3>
-<div style="width:40em; margin-left:2em">
-</div>
-<br>
-<h3>Slots</h3>
-<br>
 </ul>
 <br>
 <hr align=left>

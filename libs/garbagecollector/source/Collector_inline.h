@@ -1,7 +1,5 @@
-/*#io
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+//metadoc Collector copyright Steve Dekorte 2002
+//metadoc Collector license BSD revised
 
 #ifdef COLLECTOR_C
 #define IO_IN_C_FILE

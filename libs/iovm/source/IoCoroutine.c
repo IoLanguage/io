@@ -1,10 +1,10 @@
-/*#io
-Map ioDoc(
-	docCopyright("Steve Dekorte", 2002)
-	docLicense("BSD revised")
-	docDescription("Object wrapper for an Io coroutine.")
-	docCategory("Core")
+
+//metadoc Coroutine copyright Steve Dekorte 2002
+//metadoc Coroutine license BSD revised
+/*metadoc Coroutine description
+Object wrapper for an Io coroutine.
 */
+//metadoc Coroutine category Core
 
 #include "IoCoroutine.h"
 #include "IoObject.h"
@@ -221,9 +221,9 @@ IoObject *IoCoroutine_rawException(IoCoroutine *self)
 
 IoObject *IoCoroutine_ioStack(IoCoroutine *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("ioStack", "Returns List of values on this coroutine's stack.")
-	*/
+	/*doc Coroutine ioStack
+	Returns List of values on this coroutine's stack.
+*/
 
 	return IoList_newWithList_(IOSTATE, Stack_asList(DATA(self)->ioStack));
 }
@@ -466,12 +466,12 @@ int IoCoroutine_rawDebuggingOn(IoCoroutine *self)
 
 IoObject *IoCoroutine_setMessageDebugging(IoCoroutine *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setMessageDebugging(aBoolean)", "Turns on message level debugging for this coro. When on, this
+	/*doc Coroutine setMessageDebugging(aBoolean)
+	Turns on message level debugging for this coro. When on, this
 coro will send a vmWillSendMessage message to the Debugger object before
 each message send and pause itself. See the Debugger object documentation
-for more information. ")
-	*/
+for more information. 
+*/
 	IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 0);
 
 	DATA(self)->debuggingOn = ISTRUE(v);

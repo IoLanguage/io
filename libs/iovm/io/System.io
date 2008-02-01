@@ -1,11 +1,11 @@
 System do(
 	launchScript := nil
-	docSlot("launchScript", "Returns the path of the io file run on the command line. Returns nil if no file was run.")
+	//doc System launchScript Returns the path of the io file run on the command line. Returns nil if no file was run.
 
 	ioPath := installPrefix asMutable appendPathSeq("lib") appendPathSeq("io")
-	docSlot("ioPath", "Returns the path of io installation. The default is $INSTALL_PREFIX/lib/io.")
+	//doc System ioPath Returns the path of io installation. The default is $INSTALL_PREFIX/lib/io.
 
-	docSlot("getOptions(args)", "
+	/*doc System getOptions(args) 
 	This primitive is used to get command line options similar to Cs getopt().
 	It returns a map in containing the left side of the argument, with the
 	value of the right side. (The key will not contain
@@ -22,7 +22,7 @@ System do(
 	  writeln(\"Got option: \" .. k .. \" with value: \" .. v)
 	)
 	</pre>
-	")
+	*/
 
 	getOptions := method(arguments,
 		opts := Map clone

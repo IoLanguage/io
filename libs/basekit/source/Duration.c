@@ -1,7 +1,5 @@
-/*#io
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+//metadoc Duration copyright Steve Dekorte 2002
+//metadoc Duration license BSD revised
 
 #define DURATION_C
 #include "Duration.h"

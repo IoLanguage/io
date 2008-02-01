@@ -1,7 +1,5 @@
-/*#io
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+//metadoc Common copyright Steve Dekorte 2002
+//metadoc Common license BSD revised
 
 #include "Common.h"
 #include <stdio.h>

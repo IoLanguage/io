@@ -1,8 +1,6 @@
-/*#io
-Duration ioDoc(
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+
+//metadoc Duration copyright Steve Dekorte 2002
+//metadoc Duration license BSD revised
 
 #ifndef IODURATION_DEFINED
 #define IODURATION_DEFINED 1

@@ -1,10 +1,10 @@
-/*#io
-Compiler ioDoc(
-	docCopyright("Steve Dekorte", 2002)
-	docLicense("BSD revised")
-	docDescription("Contains methods related to the compiling code.")
-	docCategory("Core")
+
+//metadoc Compiler copyright Steve Dekorte 2002
+//metadoc Compiler license BSD revised
+/*metadoc Compiler description
+Contains methods related to the compiling code.
 */
+//metadoc Compiler category Core
 
 #include "IoCompiler.h"
 #include "IoNumber.h"
@@ -32,10 +32,9 @@ IoObject *IoCompiler_proto(void *state)
 
 IoObject *IoObject_tokensForString(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("tokensForString(aString)",
-			"Returns a list of token objects lexed from the input string.")
-	*/
+	/*doc Compiler tokensForString(aString)
+	Returns a list of token objects lexed from the input string.
+*/
 
 	IoSymbol *text = IoMessage_locals_seqArgAt_(m, locals, 0);
 	IoList *tokensList = IoList_new(IOSTATE);
@@ -78,9 +77,8 @@ IoObject *IoObject_tokensForString(IoObject *self, IoObject *locals, IoMessage *
 
 IoObject *IoObject_messageForTokens(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("messageForTokens(aList)",
-			"Returns the compiled message object for the given token list.")
+	/*doc Compiler messageForTokens(aList)
+	Returns the compiled message object for the given token list.
 	*/
 
 	return m;
@@ -88,9 +86,8 @@ IoObject *IoObject_messageForTokens(IoObject *self, IoObject *locals, IoMessage 
 
 IoObject *IoObject_messageForString(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("messageForString(aString, optionalLabelString)",
-			"Returns the compiled message object for aString.")
+	/*doc Compiler messageForString(aString, optionalLabelString)
+	Returns the compiled message object for aString.
 	*/
 
 	IoSymbol *string = IoMessage_locals_seqArgAt_(m, locals, 0);

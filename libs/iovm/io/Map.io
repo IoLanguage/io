@@ -1,5 +1,5 @@
 Map do(
-	docSlot("asList", "Converts a Map to a list of lists. Each element in the returned list will be a list of two elements: the key, and the value.")
+	//doc Map asList Converts a Map to a list of lists. Each element in the returned list will be a list of two elements: the key, and the value.
 	asList := method(
 		l := list
 		foreach(k, v, l append(list(k, v)))

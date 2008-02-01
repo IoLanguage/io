@@ -1,7 +1,6 @@
-/*#io
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+
+//metadoc Sandbox copyright Steve Dekorte 2002
+//metadoc Sandbox license BSD revised
 
 #ifndef IoSandbox_DEFINED
 #define IoSandbox_DEFINED 1

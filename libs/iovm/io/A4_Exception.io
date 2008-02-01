@@ -1,6 +1,6 @@
 
 Call do(
-	docSlot("description", "Returns a description of the receiver as a String.")
+	//doc Call description Returns a description of the receiver as a String.
 
 	description := method(
 		m := self message
@@ -26,47 +26,47 @@ Message description := method(
 )
 
 Scheduler := Object clone do(
-	docSlot("yieldingCoros", "The List of yielding Coroutine objects.")
-	docSlot("setYieldingCoros(aListOfCoros)", "Sets the list of yielding Coroutine objects.")
+	//doc Scheduler yieldingCoros The List of yielding Coroutine objects.
+	//doc Scheduler setYieldingCoros(aListOfCoros) Sets the list of yielding Coroutine objects.
 	newSlot("yieldingCoros", List clone)
 	
-	docSlot("timers", "The List of active timers.")
-	docSlot("setTimers(aListOfTimers)", "Sets the list of active timers.")
+	//doc Scheduler timers The List of active timers.
+	//doc Scheduler setTimers(aListOfTimers) Sets the list of active timers.
 	newSlot("timers", List clone)
 	
-	docSlot("currentCoroutine", "Returns the currently running coroutine.")
+	//doc Scheduler currentCoroutine Returns the currently running coroutine.
 	currentCoroutine := method(Coroutine currentCoroutine)
 )
 
 Coroutine do(
-	docSlot("stackSize", "Stack size allocated for each new coroutine. Coroutines will automatically chain themselves as need if more stack space is required.")
+	//doc Coroutine stackSize Stack size allocated for each new coroutine. Coroutines will automatically chain themselves as need if more stack space is required.
 	newSlot("stackSize", 128000) // PPC needs 128k for current parser
 	
-	docSlot("exception", "Returns the current exception or nil if there is none.")
+	//doc Coroutine exception Returns the current exception or nil if there is none.
 	newSlot("exception")
 	
-	docSlot("parentCoroutine", "Returns the parent coroutine this one was chained from or nil if it wasn't chained. When a Coroutine ends, it will attempt to resume it's parent.")
+	//doc Coroutine parentCoroutine Returns the parent coroutine this one was chained from or nil if it wasn't chained. When a Coroutine ends, it will attempt to resume it's parent.
 	newSlot("parentCoroutine")
 	
-	docSlot("runTarget", "The object which the coroutine will send a message to when it starts.")
+	//doc Coroutine runTarget The object which the coroutine will send a message to when it starts.
 	newSlot("runTarget")
 
-	docSlot("runLocals", "The locals object in whose context the coroutine will send it's run message.")
+	//doc Coroutine runLocals The locals object in whose context the coroutine will send it's run message.
 	newSlot("runLocals")
 
-	docSlot("runMessage", "The message to send to the runTarget when the coroutine starts.")
+	//doc Coroutine runMessage The message to send to the runTarget when the coroutine starts.
 	newSlot("runMessage")
 
-	docSlot("result", "The result set when the coroutine ends.")
+	//doc Coroutine result The result set when the coroutine ends.
 	newSlot("result")
 	
-	docSlot("label", "A label slot useful for debugging purposes.")
+	//doc Coroutine label A label slot useful for debugging purposes.
 	newSlot("label", "")
 
-	docSlot("inException", "Set to true when processing an exception in the coroutine.")
+	//doc Coroutine inException Set to true when processing an exception in the coroutine.
 	newSlot("inException", false)
 	
-	docSlot("yieldingCoros", "Reference to Scheduler yieldingCoros.")
+	//doc Coroutine yieldingCoros Reference to Scheduler yieldingCoros.
 	newSlot("yieldingCoros", Scheduler yieldingCoros)
 	debugWriteln := nil
 

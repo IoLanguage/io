@@ -1,7 +1,6 @@
-/*#io
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+
+//metadoc List copyright Steve Dekorte 2002
+//metadoc List license BSD revised
 
 #ifndef IOLIST_DEFINED
 #define IOLIST_DEFINED 1

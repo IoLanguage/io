@@ -1,7 +1,5 @@
-/*#io
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+//metadoc MainArgs copyright Steve Dekorte 2002
+//metadoc MainArgs license BSD revised
 
 #include "Base.h"
 #include <stdio.h>

@@ -1,7 +1,9 @@
-/*#io
-System ioDoc(
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
+/*metadoc System copyright 
+	Steve Dekorte 2002
+*/
+
+/*metadoc System license 
+	BSD revised
 */
 
 #ifndef IoSystem_DEFINED
