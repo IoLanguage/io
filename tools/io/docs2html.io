@@ -1,12 +1,12 @@
+/*
 Directory with("addons") folders foreach(folder,
-	write(folder name)
-	e := try(
-		Lobby perform(folder name asSymbol)
-	)
-	if(e, writeln(""), writeln(" (error)"))
+	//write(folder name)
+	e := try(Lobby perform(folder name asSymbol))
+	//if(e, writeln(""), writeln(" (error)"))
 )
+*/
 
-protos := Protos slotValues map(slotValues) flatten unique select(!=nil) sortByKey(type asLowercase)
+protos := Protos slotValues map(slotValues) flatten unique select(!=nil) select(v, if(v type == "Object" and v docs ?slots == nil, false, true)) sortByKey(type asLowercase)
 
 protos foreach(p,
 	if(p hasLocalSlot("docs") not, p docs := Object clone do(slots := Object clone))

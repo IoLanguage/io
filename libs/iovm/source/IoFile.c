@@ -653,11 +653,11 @@ nameString already exists.""")
 	const char *fromPath = CSTRING(DATA(self)->path);
 	const char *toPath = CSTRING(newPath);
 
-	if( strcmp(fromPath, toPath) != 0)
+	if(strcmp(fromPath, toPath) != 0)
 	{
 		int error;
 
-		remove(toPath); // to make sure we don't get a
+		remove(toPath); // to make sure we don't get an error
 		error = rename(fromPath, toPath);
 
 		if (error)

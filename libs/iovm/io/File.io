@@ -44,4 +44,9 @@ File do(
 	setContents := method(d, self open write(d) close)
 )
 
-Sequence asFile := method(File with(self))
+Sequence do(
+	docSlot("asFile", "Returns a new File object with the receiver as it's path.")
+	asFile := method(
+		File with(self)
+	)
+)

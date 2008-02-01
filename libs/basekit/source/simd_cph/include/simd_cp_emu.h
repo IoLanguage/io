@@ -75,6 +75,8 @@ THE AUTHOR'S WRITTEN PERMISSION, WITH THE FOLLOWING EXCEPTIONS:
 
 #ifdef __UNK__EMU__  /* Unknown System/Emulation */
 
+#warning "using SIMD Emulation"
+
    /* v0 = v1 {mask} v2, where mask controlls which packed values are copied */
    #define simd_copy(v1,v2,m,v0)  v0.i[0]=( m & 0x01 ? v2.i[0] : v1.i[0] ); \
    				  v0.i[1]=( m & 0x02 ? v2.i[1] : v1.i[1] ); \

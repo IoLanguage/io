@@ -457,6 +457,10 @@ IoDynLib *IoDynLib_justCall(IoDynLib *self, IoObject *locals, IoMessage *m, int 
 
 IoDynLib *IoDynLib_call(IoDynLib *self, IoObject *locals, IoMessage *m)
 {
+	/*#io
+	docSlot("call(...)",
+			"Call the ...")
+	*/
 	return IoDynLib_justCall(self, locals, m, 0);
 }
 

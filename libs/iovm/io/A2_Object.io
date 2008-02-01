@@ -42,16 +42,37 @@ nil do(
 // (a == 1) ifTrue(b) ifFalse(c)
 
 true do(
+//	docSlot("then", "Evaluates the argument and returns nil.")
 	then    := Object getSlot("evalArgAndReturnNil")
+
+//	docSlot("elseif", "Does not eval argument and returns true.")
 	elseif  := true
+
+//	docSlot("else", "Does not eval argument and returns true.")
 	else    := true
+
+//	docSlot("ifTrue", "Evaluates the argument and returns self.")
 	ifTrue  := Object getSlot("evalArgAndReturnSelf")
+	
+//	docSlot("ifFalse", "Does not eval argument and returns true.")
 	ifFalse := true
+	
+//	docSlot("and", "Evaluates the argument and returns the result.")
 	setSlot("and", Object getSlot("evalArg"))
+	
+//	docSlot("or", "Does not eval argument and returns true.")
 	setSlot("or", true)
+
+//	docSlot("asString", "Returns true.")
 	asString := "true"
+
+//	docSlot("asSimpleString", "Returns true.")
 	asSimpleString := "true"
+
+//	docSlot("not", "Does not eval argument and returns false.")
 	not := false
+	
+//	docSlot("clone", "Returns self.")
 	clone := true
 )
 
@@ -444,7 +465,7 @@ Object do(
 		)
 	)
 
-	docSlot("switch", """
+	docSlot("switch(<key1>, <expression1>, <key2>, <expression2>, ...)", """
 	Execute an expression depending on the value of the caller. (This is an equivalent to C switch/case)
 	<pre>
 	hour := Date hour switch(

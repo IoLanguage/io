@@ -153,7 +153,7 @@ IoObject *IoSandbox_doSandboxString(IoSandbox *self, IoObject *locals, IoMessage
 {
 	/*#io
 	docSlot("doSandboxString(aString)",
-			"Evaluate aString instead the Sandbox. ")
+			"Evaluate aString inside the Sandbox. ")
 	*/
 
 	IoState *boxState = IoSandbox_boxState(self);
