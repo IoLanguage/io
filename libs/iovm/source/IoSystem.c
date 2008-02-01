@@ -294,7 +294,13 @@ IoObject *IoObject_platform(IoObject *self, IoObject *locals, IoMessage *m)
 						break;
 				}
 			}
+			else
+			{
+				platform = "Windows";
+			}
 			break;
+
+		default: platform = "Windows";
 	}
 
 #elif defined(unix) || defined(__APPLE__) || defined(__NetBSD__)

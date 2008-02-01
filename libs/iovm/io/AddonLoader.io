@@ -2,9 +2,10 @@ Addon := Object clone do(
 	newSlot("rootPath")
 	newSlot("name")
 
-	platform := System platform split at(0) asLowercase
+	platform := System platform asLowercase
+
 	dllSuffix := method(
-	  if(list("cygwin", "mingw", "windows") contains(platform), return "dll")
+	  list("cygwin", "mingw", "windows") detect(dllPlatform, platform containsSeq(dllPlatform)) ifNonNil(return("dll"))
 	  if(platform == "darwin", return "dylib")
 	  "so"
 	)
