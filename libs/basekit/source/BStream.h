@@ -1,7 +1,10 @@
 /*
-docCopyright("Steve Dekorte", 2004)
-docLicense("BSD revised")
-docDescription("A Binary Stream, supports tagged items.")
+copyright 
+	Steve Dekorte, 2004
+license
+	BSD revised
+description
+	A Binary Stream that supports tagged items.
 */
 
 #ifndef BSTREAM_DEFINED

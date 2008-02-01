@@ -1,15 +1,12 @@
-/*#io
-Object ioDoc(
-	docCopyright("Steve Dekorte", 2002)
-	docLicense("BSD revised")
-	docObject("Object")
-	docInclude("_ioCode/Object.io")
-	docDescription("""An Object is a key/value dictionary with string keys and values of any type. The prototype Object contains a clone slot that is a CFuntion that creates new objects. When cloned, an Object will call it's init slot (with no arguments).
 
-<p><b>Important note:</b></p>
-<p>The data structure used for objects is optimized for objects with relatively few slots (less than 100). Objects become very memory inefficient (exponentially so) when they have a large number of slots. Objects should not be used as large hash tables or lists. Use a Hash or List primitive instead.</p>""")
-	docCategory("Core")
+//metadoc Object copyright Steve Dekorte 2002
+//metadoc Object license BSD revised
+/*metadoc Object description
+An Object is a key/value dictionary with string keys and values of any type. 
+The prototype Object contains a clone slot that is a CFuntion that creates new objects. 
+When cloned, an Object will call it's init slot (with no arguments).
 */
+//metadoc Object category Core
 
 #include "IoState.h"
 #define IOOBJECT_C
@@ -470,20 +467,19 @@ void IoObject_rawSetProto_(IoObject *self, IoObject *proto)
 
 IoObject *IoObject_objectProto(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("proto", "Same as; method(self protos first)")
+	/*doc Object proto
+	Same as; method(self protos first)
 	*/
-
+	
 	IoObject *proto = IoObject_firstProto(self);
 	return proto ? proto : IONIL(self);
 }
 
 IoObject *IoObject_setProto(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setProto(anObject)",
-			"Sets the first proto of the receiver to anObject, replacing the
-current one, if any. Returns self.")
+	/*doc Object setProto(anObject)
+	Sets the first proto of the receiver to anObject, replacing the
+	current one, if any. Returns self.
 	*/
 
 	IoObject_rawSetProto_(self, IoMessage_locals_valueArgAt_(m, locals, 0));
@@ -492,9 +488,8 @@ current one, if any. Returns self.")
 
 IoObject *IoObject_appendProto(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("appendProto(anObject)",
-			"Appends anObject to the receiver's proto list. Returns self.")
+	/*doc Object appendProto(anObject)
+	Appends anObject to the receiver's proto list. Returns self.
 	*/
 
 	IoObject *proto = IoMessage_locals_valueArgAt_(m, locals, 0);
@@ -504,9 +499,8 @@ IoObject *IoObject_appendProto(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoObject_prependProto(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("prependProto(anObject)",
-			"Prepends anObject to the receiver's proto list. Returns self.")
+	/*doc Object prependProto(anObject)
+	Prepends anObject to the receiver's proto list. Returns self.
 	*/
 
 	IoObject *proto = IoMessage_locals_valueArgAt_(m, locals, 0);
@@ -516,10 +510,9 @@ IoObject *IoObject_prependProto(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoObject_removeProto(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("removeProto(anObject)",
-			"Removes anObject from the receiver's proto list if it
-is present. Returns self.")
+	/*doc Object removeProto(anObject)
+	Removes anObject from the receiver's proto list if it
+	is present. Returns self.
 	*/
 
 	IoObject *proto = IoMessage_locals_valueArgAt_(m, locals, 0);
@@ -529,9 +522,8 @@ is present. Returns self.")
 
 IoObject *IoObject_removeAllProtos(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("removeAllProtos",
-			"Removes all of the receiver's protos. Returns self. ")
+	/*doc Object removeAllProtos
+	Removes all of the receiver's protos. Returns self. 
 	*/
 
 	IoObject_rawRemoveAllProtos(self);
@@ -540,9 +532,8 @@ IoObject *IoObject_removeAllProtos(IoObject *self, IoObject *locals, IoMessage *
 
 IoObject *IoObject_setProtos(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setProtos(aList)",
-			"Replaces the receiver's protos with a copy of aList. Returns self.")
+	/*doc Object setProtos(aList)
+	Replaces the receiver's protos with a copy of aList. Returns self.
 	*/
 
 	IoList *ioList = IoMessage_locals_listArgAt_(m, locals, 0);
@@ -554,8 +545,8 @@ IoObject *IoObject_setProtos(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoObject_protosMethod(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("protos", "Returns a copy of the receiver's protos list.")
+	/*doc Object protos
+	Returns a copy of the receiver's protos list.
 	*/
 
 	IoList *ioList = IoList_new(IOSTATE);
@@ -691,10 +682,10 @@ void IoObject_dealloc(IoObject *self) // really io_free it
 
 IoObject *IoObject_protoCompare(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("compare(anObject)",
-			"Returns a number containing the comparison value of the target with anObject.")
+	/*doc Object compare(anObject)
+	Returns a number containing the comparison value of the target with anObject.
 	*/
+	
 	IOASSERT(IoMessage_argCount(m), "compare requires argument");
 
 	{
@@ -740,9 +731,8 @@ unsigned int IoObject_rawHasProto_(IoObject *self, IoObject *p)
 
 IoObject *IoObject_protoHasProto_(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("hasProto(anObject)",
-			"Returns true if anObject is found in the proto path of the target, false otherwise.")
+	/*doc Object hasProto(anObject)
+	Returns true if anObject is found in the proto path of the target, false otherwise.
 	*/
 
 	IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 0);
@@ -873,8 +863,8 @@ IoObject *IoObject_rawGetSlot_target_(IoObject *self, IoSymbol *slotName, IoObje
 
 IoObject *IoObject_localsForward(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("localsForward", "CFunction used by Locals prototype for forwarding.")
+	/*doc Object localsForward
+	CFunction used by Locals prototype for forwarding.
 	*/
 
 	//IoObject *selfDelegate = IoObject_rawGetSlot_(self, IOSTATE->selfSymbol);
@@ -892,8 +882,8 @@ IoObject *IoObject_localsForward(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoObject_lobbyPrint(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("print", "Prints a string representation of the object. Returns Nil.")
+	/*doc Object print
+	Prints a string representation of the object. Returns Nil.
 	*/
 
 	IoState *state = IOSTATE;
@@ -949,9 +939,8 @@ void IoObject_compactFunc(IoObject *self)
 
 IoObject *IoObject_protoPerform(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("perform(methodName, <arg1>, <arg2>, ...)",
-			"Performs the method corresponding to methodName with the arguments supplied.")
+	/*doc Object perform(methodName, <arg1>, <arg2>, ...)
+	Performs the method corresponding to methodName with the arguments supplied.
 	*/
 
 	IoObject *slotName = IoMessage_locals_valueArgAt_(m, locals, 0);
@@ -990,9 +979,8 @@ IoObject *IoObject_protoPerform(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoObject_protoPerformWithArgList(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("performWithArgList(methodName, argList)",
-			"Performs the method corresponding to methodName with the arguments in the argList. ")
+	/*doc Object performWithArgList(methodName, argList)
+	Performs the method corresponding to methodName with the arguments in the argList. 
 	*/
 
 	IoSymbol *slotName = IoMessage_locals_symbolArgAt_(m, locals, 0);
@@ -1019,9 +1007,8 @@ IoObject *IoObject_protoPerformWithArgList(IoObject *self, IoObject *locals, IoM
 
 IoObject *IoObject_protoWrite(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("write(<any number of arguments>)",
-			"Sends a print message to the evaluated result of each argument. Returns Nil.")
+	/*doc Object write(<any number of arguments>)
+	Sends a print message to the evaluated result of each argument. Returns Nil.
 	*/
 
 	int n, max = IoMessage_argCount(m);
@@ -1038,9 +1025,8 @@ IoObject *IoObject_protoWrite(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoObject_protoWriteLn(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("writeln(<any number of arguments>)",
-			"Same as write() but also writes a return character at the end. Returns Nil.")
+	/*doc Object writeln(<any number of arguments>)
+	Same as write() but also writes a return character at the end. Returns Nil.
 	*/
 
 	IoObject_protoWrite(self, locals, m);
@@ -1076,8 +1062,8 @@ IoObject *IOCLONE(IoObject *self)
 
 IoObject *IoObject_clone(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("clone", "Returns a clone of the receiver.")
+	/*doc Object clone
+	Returns a clone of the receiver.
 	*/
 
 	IoObject *newObject = IOCLONE(self);
@@ -1086,8 +1072,8 @@ IoObject *IoObject_clone(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoObject_cloneWithoutInit(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("cloneWithoutInit", "Returns a clone of the receiver but does not call init.")
+	/*doc Object cloneWithoutInit
+	Returns a clone of the receiver but does not call init.
 	*/
 
 	return IOCLONE(self);
@@ -1095,8 +1081,8 @@ IoObject *IoObject_cloneWithoutInit(IoObject *self, IoObject *locals, IoMessage 
 
 IoObject *IoObject_shallowCopy(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("shallowCopy", "Returns a shallow copy of the receiver.")
+	/*doc Object shallowCopy
+	Returns a shallow copy of the receiver.
 	*/
 	
 	IOASSERT(ISOBJECT(self), "shallowCopy doesn't work on primitives");
@@ -1112,10 +1098,9 @@ IoObject *IoObject_shallowCopy(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoObject_protoSet_to_(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setSlot(slotNameString, valueObject)",
-			"Sets the slot slotNameString in the receiver to
-hold valueObject. Returns valueObject.")
+	/*doc Object setSlot(slotNameString, valueObject)
+	Sets the slot slotNameString in the receiver to
+	hold valueObject. Returns valueObject.
 	*/
 
 	IoSymbol *slotName  = IoMessage_locals_symbolArgAt_(m, locals, 0);
@@ -1126,10 +1111,10 @@ hold valueObject. Returns valueObject.")
 
 IoObject *IoObject_protoSetSlotWithType(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setSlotWithType(slotNameString, valueObject)",
-			"Sets the slot slotNameString in the receiver to
-hold valueObject and sets the type slot of valueObject to be slotNameString. Returns valueObject.")
+	/*doc Object setSlotWithType(slotNameString, valueObject)
+	Sets the slot slotNameString in the receiver to
+	hold valueObject and sets the type slot of valueObject 
+	to be slotNameString. Returns valueObject.
 	*/
 
 	IoSymbol *slotName  = IoMessage_locals_symbolArgAt_(m, locals, 0);
@@ -1145,8 +1130,8 @@ hold valueObject and sets the type slot of valueObject to be slotNameString. Ret
 
 IoObject *IoObject_localsUpdateSlot(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("updateLocalSlot(slotNameString, valueObject)", "")
+	/*doc Object localsUpdateSlot(slotNameString, valueObject)
+	Local's version of updateSlot mthod.
 	*/
 
 	IoSymbol *slotName  = IoMessage_locals_firstStringArg(m, locals);
@@ -1179,10 +1164,9 @@ IoObject *IoObject_localsUpdateSlot(IoObject *self, IoObject *locals, IoMessage 
 
 IoObject *IoObject_protoUpdateSlot_to_(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("updateSlot(slotNameString, valueObject)",
-			"Same as setSlot(), but raises an error if the slot does not
-already exist in the receiver's slot lookup path.")
+	/*doc Object updateSlot(slotNameString, valueObject)
+	Same as setSlot(), but raises an error if the slot does not
+	already exist in the receiver's slot lookup path.
 	*/
 
 	IoSymbol *slotName  = IoMessage_locals_firstStringArg(m, locals);
@@ -1204,10 +1188,9 @@ already exist in the receiver's slot lookup path.")
 
 IoObject *IoObject_protoGetSlot_(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("getSlot(slotNameString)",
-			"Returns the value of the slot named slotNameString
-(following the lookup path) or nil if no such slot is found.")
+	/*doc Object getSlot(slotNameString)
+	Returns the value of the slot named slotNameString
+	(following the lookup path) or nil if no such slot is found.
 	*/
 
 	IoSymbol *slotName = IoMessage_locals_symbolArgAt_(m, locals, 0);
@@ -1216,9 +1199,9 @@ IoObject *IoObject_protoGetSlot_(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoObject_protoGetLocalSlot_(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("getLocalSlot(slotNameString)",
-			"Returns the value of the slot named slotNameString (not looking in the object's protos) or nil if no such slot is found.")
+	/*doc Object getLocalSlot(slotNameString)
+	Returns the value of the slot named slotNameString 
+	(not looking in the object's protos) or nil if no such slot is found.
 	*/
 
 	IoSymbol *slotName = IoMessage_locals_symbolArgAt_(m, locals, 0);
@@ -1234,9 +1217,8 @@ IoObject *IoObject_protoGetLocalSlot_(IoObject *self, IoObject *locals, IoMessag
 
 IoObject *IoObject_protoHasLocalSlot(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("hasLocalSlot(slotNameString)",
-			"Returns true if the slot exists in the receiver or false otherwise.")
+	/*doc Object hasLocalSlot(slotNameString)
+	Returns true if the slot exists in the receiver or false otherwise.
 	*/
 
 	IoSymbol *slotName = IoMessage_locals_symbolArgAt_(m, locals, 0);
@@ -1246,9 +1228,8 @@ IoObject *IoObject_protoHasLocalSlot(IoObject *self, IoObject *locals, IoMessage
 
 IoObject *IoObject_protoRemoveSlot(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("removeSlot(slotNameString)",
-			"Removes the specified slot (only) in the receiver if it exists. Returns self.")
+	/*doc Object removeSlot(slotNameString)
+	Removes the specified slot (only) in the receiver if it exists. Returns self.
 	*/
 
 	IoSymbol *slotName = IoMessage_locals_symbolArgAt_(m, locals, 0);
@@ -1259,9 +1240,8 @@ IoObject *IoObject_protoRemoveSlot(IoObject *self, IoObject *locals, IoMessage *
 
 IoObject *IoObject_protoRemoveAllSlots(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("removeAllSlots",
-			"Removes all of the receiver's slots. Returns self. ")
+	/*doc Object removeAllSlots
+	Removes all of the receiver's slots. Returns self. 
 	*/
 
 	PHash_clean(IoObject_slots(self));
@@ -1270,10 +1250,9 @@ IoObject *IoObject_protoRemoveAllSlots(IoObject *self, IoObject *locals, IoMessa
 
 IoObject *IoObject_protoSlotNames(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("slotNames",
-			"Returns a list of strings containing the names of the
-slots in the receiver (but not in it's lookup path).")
+	/*doc Object slotNames
+	Returns a list of strings containing the names of the
+	slots in the receiver (but not in it's lookup path).
 	*/
 
 	IoObject_createSlotsIfNeeded(self);
@@ -1287,9 +1266,8 @@ slots in the receiver (but not in it's lookup path).")
 
 IoObject *IoObject_protoSlotValues(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("slotValues",
-			"Returns a list of the values held in the slots of the receiver.")
+	/*doc Object slotValues
+	Returns a list of the values held in the slots of the receiver.
 	*/
 
 	IoObject_createSlotsIfNeeded(self);
@@ -1303,22 +1281,20 @@ IoObject *IoObject_protoSlotValues(IoObject *self, IoObject *locals, IoMessage *
 }
 
 
-/*
-docSlot("forward")
-docDescription("""Called when the receiver is sent a message it doesn't recognize.
+/*doc Object forward
+Called when the receiver is sent a message it doesn't recognize.
 Default implementation raises an "Object doesNotRespond" exception.
-Subclasses can override this method to implement proxies or special error handling.""")
-
+Subclasses can override this method to implement proxies or special error handling.
+<p>
 Example:
-
-<pre>
+<p>
+<code>	
 myProxy forward = method(
-					messageName := thisMessage name
-					arguments := thisMessage arguments
-					myObject doMessage(thisMessage)
-					)
-</pre>
-
+	messageName := thisMessage name
+	arguments := thisMessage arguments
+	myObject doMessage(thisMessage)
+)
+</code>	
 */
 
 /*
@@ -1334,10 +1310,9 @@ IoObject *IoObject_forward_(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoObject_ancestorWithSlot(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("ancestorWithSlot(slotName)",
-			"Returns the first ancestor of the receiver that contains
-a slot of the specified name or Nil if none is found.")
+	/*doc Object ancestorWithSlot(slotName)
+	Returns the first ancestor of the receiver that contains
+	a slot of the specified name or Nil if none is found.
 	*/
 
 	IoObject *slotName = IoMessage_locals_symbolArgAt_(m, locals, 0);
@@ -1361,10 +1336,9 @@ a slot of the specified name or Nil if none is found.")
 
 IoObject *IoObject_contextWithSlot(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("contextWithSlot(slotName)",
-			"Returns the first context (starting with the receiver and following the lookup path)
-that contains a slot of the specified name or Nil if none is found.")
+	/*doc Object contextWithSlot(slotName)
+	Returns the first context (starting with the receiver and following the lookup path)
+	that contains a slot of the specified name or Nil if none is found.
 	*/
 
 	IoObject *slotName = IoMessage_locals_symbolArgAt_(m, locals, 0);
@@ -1416,11 +1390,10 @@ IoObject *IoObject_rawDoString_label_(IoObject *self, IoSymbol *string, IoSymbol
 
 IoObject *IoObject_doMessage(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("doMessage(aMessage, optionalContext)",
-			"Evaluates the message object in the context of the receiver.
-Returns the result. optionalContext can be used to specific the locals
-context in which the message is evaluated.")
+	/*doc Object doMessage(aMessage, optionalContext)
+	Evaluates the message object in the context of the receiver.
+	Returns the result. optionalContext can be used to specific the locals
+	context in which the message is evaluated.
 	*/
 
 	IoMessage *aMessage = IoMessage_locals_messageArgAt_(m, locals, 0);
@@ -1436,9 +1409,8 @@ context in which the message is evaluated.")
 
 IoObject *IoObject_doString(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("doString(aString)",
-			"Evaluates the string in the context of the receiver. Returns the result. ")
+	/*doc Object doString(aString)
+	Evaluates the string in the context of the receiver. Returns the result. 
 	*/
 
 	IoSymbol *string = IoMessage_locals_seqArgAt_(m, locals, 0);
@@ -1462,9 +1434,9 @@ IoObject *IoObject_doString(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoObject_doFile(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("doFile(pathString)",
-			"Evaluates the File in the context of the receiver. Returns the result. pathString is relative to the current working directory.")
+	/*doc Object doFile(pathString)
+	Evaluates the File in the context of the receiver. Returns the result. 
+	pathString is relative to the current working directory.
 	*/
 
 	IoSymbol *path = IoMessage_locals_symbolArgAt_(m, locals, 0);
@@ -1483,9 +1455,8 @@ IoObject *IoObject_doFile(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoObject_isIdenticalTo(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("isIdenticalTo(aValue)",
-			"Returns true if the receiver is identical to aValue, false otherwise. ")
+	/*doc Object isIdenticalTo(aValue)
+	Returns true if the receiver is identical to aValue, false otherwise. 
 	*/
 
 	IoObject *other = IoMessage_locals_valueArgAt_(m, locals, 0);
@@ -1494,10 +1465,9 @@ IoObject *IoObject_isIdenticalTo(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoObject_equals(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("==(aValue)",
-			"Returns true if receiver and aValue are equal, false otherwise. ")
-	*/
+	/*doc Object ==(aValue)
+	Returns true if receiver and aValue are equal, false otherwise. 
+*/
 
 	IOASSERT(IoMessage_argCount(m), "compare requires argument");
 
@@ -1509,9 +1479,8 @@ IoObject *IoObject_equals(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoObject_notEquals(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("!=(aValue)",
-			"Returns true the receiver is not equal to aValue, false otherwise. ")
+	/*doc Object !=(aValue)
+	Returns true the receiver is not equal to aValue, false otherwise. 
 	*/
 
 	IoObject *other = IoMessage_locals_valueArgAt_(m, locals, 0);
@@ -1520,20 +1489,20 @@ IoObject *IoObject_notEquals(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoObject_foreachSlot(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("foreach([name,] value, message)",
-			"""For each slot, set name to the slot's
-name and value to the slot's value and execute message. Example:
-<pre>
+/*doc Object foreach([name,] value, message)
+For each slot, set name to the slot's
+name and value to the slot's value and execute message. Examples:
+<p>
+<code>	
 myObject foreach(n, v,
-				writeln("slot ", n, " = ", v type)
-				)
+	writeln("slot ", n, " = ", v type)
+)
+
 myObject foreach(v,
-				writeln("slot type ", v type)
-				)
-</pre>
-""")
-	*/
+	writeln("slot type ", v type)
+)
+</code>	
+*/
 
 	IoSymbol *keyName;
 	IoSymbol *valueName;
@@ -1566,10 +1535,9 @@ done:
 
 IoObject *IoObject_subtract(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("-(aNumber)",
-			"Returns the negative version of aNumber.
-Raises an exception if argument is not a number.")
+	/*doc Object -(aNumber)
+	Returns the negative version of aNumber.
+	Raises an exception if argument is not a number.
 	*/
 
 	IoNumber *num = IoMessage_locals_numberArgAt_(m, locals, 0);
@@ -1578,8 +1546,8 @@ Raises an exception if argument is not a number.")
 
 IoObject *IoObject_self(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("self", "Returns self.")
+	/*doc Object self
+	Returns self.
 	*/
 
 	return self;
@@ -1587,17 +1555,18 @@ IoObject *IoObject_self(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoObject_thisMessage(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("thisMessage", "Returns the calling message.")
+	/*doc Object thisMessage
+	Returns the calling message.
 	*/
+	
 	return m;
 }
 
 
 IoObject *IoObject_locals(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("thisLocalContext", "Returns current locals.")
+	/*doc Object thisLocalContext
+	Returns current locals.
 	*/
 
 	return locals;
@@ -1670,16 +1639,17 @@ void IoObject_compact(IoObject *self)
 
 IoObject *IoObject_memorySizeMethod(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*
-	docSlot("memorySize", "Return the amount of memory used by the object.")
+	/*doc Object memorySize
+	Return the amount of memory used by the object.
 	*/
+	
 	return IONUMBER(IoObject_memorySize(self));
 }
 
 IoObject *IoObject_compactMethod(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*
-	docSlot("compact", "Compact the memory for the object if possible. Returns self.")
+	/*doc Object compact
+	Compact the memory for the object if possible. Returns self.
 	*/
 
 	IoObject_compact(self);
@@ -1688,8 +1658,8 @@ IoObject *IoObject_compactMethod(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoObject_type(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("type", "Returns a string containing the name of the type of Object (Number, String, etc).")
+	/*doc Object type
+	Returns a string containing the name of the type of Object (Number, String, etc).
 	*/
 
 	return IOSYMBOL((char *)IoObject_name(self));
@@ -1724,12 +1694,14 @@ void IoObject_print(IoObject *self)
 
 IoObject *IoObject_evalArg(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("(expression)", "The '' method evaluates the argument and returns the result.")
+	/*doc Object (expression)
+	The '' method evaluates the argument and returns the result.
 	*/
-	/*#io
-	docSlot("evalArg(expression)", "The '' method evaluates the argument and returns the result.")
+	
+	/*doc Object evalArg(expression)
+	The '' method evaluates the argument and returns the result.
 	*/
+	
 	IOASSERT(IoMessage_argCount(m) > 0, "argument required");
 	/* eval the arg and return a non-Nil so an attached else() won't get performed */
 	return IoMessage_locals_valueArgAt_(m, locals, 0);
@@ -1737,8 +1709,8 @@ IoObject *IoObject_evalArg(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoObject_evalArgAndReturnSelf(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("evalArgAndReturnSelf(expression)", "Evaluates the argument and returns the target.")
+	/*doc Object evalArgAndReturnSelf(expression)
+	Evaluates the argument and returns the target.
 	*/
 
 	IoObject_evalArg(self, locals, m);
@@ -1747,8 +1719,8 @@ IoObject *IoObject_evalArgAndReturnSelf(IoObject *self, IoObject *locals, IoMess
 
 IoObject *IoObject_evalArgAndReturnNil(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("evalArgAndReturnNil(expression)", "Evaluates the argument and returns nil.")
+	/*doc Object evalArgAndReturnNil(expression)
+	Evaluates the argument and returns nil.
 	*/
 
 	IoObject_evalArg(self, locals, m);
@@ -1757,8 +1729,8 @@ IoObject *IoObject_evalArgAndReturnNil(IoObject *self, IoObject *locals, IoMessa
 
 IoObject *IoObject_isLessThan_(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("<(expression)", "Evaluates argument and returns self if self is less or Nil if not.")
+	/*doc Object <(expression)
+	Evaluates argument and returns self if self is less or Nil if not.
 	*/
 
 	IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 0);
@@ -1767,10 +1739,9 @@ IoObject *IoObject_isLessThan_(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoObject_isLessThanOrEqualTo_(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("<=(expression)",
-			"Evaluates argument and returns self if self is less
-than or equal to it, or Nil if not.")
+	/*doc Object <=(expression)
+	Evaluates argument and returns self if self is less
+	than or equal to it, or Nil if not.
 	*/
 
 	IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 0);
@@ -1779,9 +1750,8 @@ than or equal to it, or Nil if not.")
 
 IoObject *IoObject_isGreaterThan_(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot(">(expression)",
-			"Evaluates argument and returns self if self is greater than it, or Nil if not.")
+	/*doc Object >(expression)
+	Evaluates argument and returns self if self is greater than it, or Nil if not.
 	*/
 
 	IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 0);
@@ -1790,10 +1760,9 @@ IoObject *IoObject_isGreaterThan_(IoObject *self, IoObject *locals, IoMessage *m
 
 IoObject *IoObject_isGreaterThanOrEqualTo_(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot(">=(expression)",
-			"Evaluates argument and returns self if self is greater
-than or equal to it, or Nil if not.")
+	/*doc Object >=(expression)
+	Evaluates argument and returns self if self is greater
+	than or equal to it, or Nil if not.
 	*/
 
 	IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 0);
@@ -1802,8 +1771,8 @@ than or equal to it, or Nil if not.")
 
 IoObject *IoObject_uniqueId(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("uniqueId", "Returns a Number containing a unique id for the receiver.")
+	/*doc Object uniqueId
+	Returns a Number containing a unique id for the receiver.
 	*/
 
 	return IONUMBER((double)((size_t)IoObject_deref(self)));
@@ -1811,9 +1780,8 @@ IoObject *IoObject_uniqueId(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoObject_do(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("do(expression)",
-			"Evaluates the message in the context of the receiver. Returns self.")
+	/*doc Object do(expression)
+	Evaluates the message in the context of the receiver. Returns self.
 	*/
 
 	if (IoMessage_argCount(m) != 0)
@@ -1827,9 +1795,8 @@ IoObject *IoObject_do(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoObject_message(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("message(expression)",
-			"Return the message object for the argument or Nil if there is no argument.")
+	/*doc Object message(expression)
+	Return the message object for the argument or Nil if there is no argument.
 	*/
 
 	return IoMessage_argCount(m) ? IoMessage_rawArgAt_(m, 0) : IONIL(self);
@@ -1871,12 +1838,11 @@ void IoObject_show(IoObject *self)
 
 IoObject *IoObject_setIsActivatableMethod(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setIsActivatable(aValue)",
-			"When called with a non-Nil aValue, sets the object
-to call it's activate slot when accessed as a value. Turns this behavior
-off if aValue is Nil. Only works on Objects which are not Activatable
-Primitives (such as CFunction or Block). Returns self.")
+	/*doc Object setIsActivatable(aValue)
+	When called with a non-Nil aValue, sets the object
+	to call it's activate slot when accessed as a value. Turns this behavior
+	off if aValue is Nil. Only works on Objects which are not Activatable
+	Primitives (such as CFunction or Block). Returns self.
 	*/
 
 	IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 0);
@@ -1890,9 +1856,8 @@ Primitives (such as CFunction or Block). Returns self.")
 
 IoObject *IoObject_isActivatableMethod(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("isActivatable",
-			"Returns true if the receiver is activatable, false otherwise.")
+	/*doc Object isActivatable
+	Returns true if the receiver is activatable, false otherwise.
 	*/
 
 	return IoObject_isActivatable(self) ? IOTRUE(self) : IOFALSE(self);

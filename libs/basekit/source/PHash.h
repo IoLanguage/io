@@ -1,12 +1,9 @@
-/*#io
-docCopyright("Steve Dekorte", 2002)
-docCopyright("Marc Fauconneau", 2007)
-docLicense("BSD revised")
-docDescription("""
+//metadoc PHash copyright Steve Dekorte 2002, Marc Fauconneau 2007
+//metadoc PHash license BSD revised
+/*metadoc PHash description
 	PHash - Cuckoo Hash
 	keys and values are references (they are not copied or freed)
 	key pointers are assumed unique
-""")
 */
 
 #ifndef PHASH_DEFINED

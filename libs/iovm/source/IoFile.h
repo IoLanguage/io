@@ -1,7 +1,6 @@
-/*#io
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+
+//metadoc File copyright Steve Dekorte 2002
+//metadoc File license BSD revised
 
 #ifndef IOFILE_DEFINED
 #define IOFILE_DEFINED 1

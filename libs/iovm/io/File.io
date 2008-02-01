@@ -1,5 +1,5 @@
 File do(
-	docSlot("with(aPath)", "Returns a new instance with the provided path.")
+	//doc File with(aPath) Returns a new instance with the provided path.
 	with := method(path, self clone setPath(path))
 
 	newSlot("streamDestination")
@@ -45,7 +45,7 @@ File do(
 )
 
 Sequence do(
-	docSlot("asFile", "Returns a new File object with the receiver as it's path.")
+	//doc Sequence asFile Returns a new File object with the receiver as it's path.
 	asFile := method(
 		File with(self)
 	)

@@ -1,7 +1,6 @@
-/*
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+
+//metadoc Context copyright Steve Dekorte 2002
+//metadoc Context license BSD revised
 
 #ifndef IOCONTEXT_DEFINED
 #define IOCONTEXT_DEFINED 1

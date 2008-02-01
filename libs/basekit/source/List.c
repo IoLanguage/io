@@ -1,7 +1,5 @@
-/*#io
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+//metadoc List copyright Steve Dekorte 2002
+//metadoc List license BSD revised
 
 #define LIST_C
 #include "List.h"

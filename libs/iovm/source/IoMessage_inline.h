@@ -1,7 +1,6 @@
-/*
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+
+//metadoc Message copyright Steve Dekorte 2002
+//metadoc Message license BSD revised
 
 #ifdef IOMESSAGE_C
 #define IO_IN_C_FILE

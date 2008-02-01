@@ -1,6 +1,5 @@
-/*
-docCopyright("Steve Dekorte", 2002)
-*/
+
+//metadoc Directory copyright Steve Dekorte 2002
 
 #ifndef IODIRECTORY_DEFINED
 #define IODIRECTORY_DEFINED 1

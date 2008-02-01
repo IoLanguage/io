@@ -1,16 +1,16 @@
 Importer := Object clone do(
-	docDescription("A simple search path based auto-importer.")
+	//metadoc Importer description A simple search path based auto-importer.
 
-	docSlot("paths", "List of paths the proto importer will check while searching for protos to load.")
+	//doc Importer paths List of paths the proto importer will check while searching for protos to load.
 	paths := method(FileImporter folders)
 
-	docSlot("addSearchPath(path)", "Add a search path to the auto importer. Relative paths are made absolute before adding.")
+	//doc Importer addSearchPath(path) Add a search path to the auto importer. Relative paths are made absolute before adding.
 	addSearchPath    := method(p, paths appendIfAbsent(Path absolute(p) asSymbol))
 
-	docSlot("removeSearchPath(path)", "Removes a search path from the auto importer. Relative paths should be removed from the same working directory as they were added.")
+	//doc Importer removeSearchPath(path) Removes a search path from the auto importer. Relative paths should be removed from the same working directory as they were added.
 	removeSearchPath := method(p, paths remove(Path absolute(p) asSymbol))
 
-	docSlot("FileImporter", "An Importer for local source files.")
+	//doc Importer FileImporter An Importer for local source files.
 	FileImporter := Object clone do(
 		importsFrom := "file"
 
@@ -30,7 +30,7 @@ Importer := Object clone do(
 		)
 	)
 
-	docSlot("AddonImporter", "An Importer for addon modules.")
+	//doc Importer AddonImporter An Importer for addon modules.
 	AddonImporter := Object clone do(
 		importsFrom := "dll"
 
@@ -42,10 +42,10 @@ Importer := Object clone do(
 		)
 	)
 
-	docSlot("importers", "List of Importer objects.")
+	//doc Importer importers List of Importer objects.
 	importers := list(FileImporter, AddonImporter)
 
-	docSlot("import(originalCallMessage)", "Imports an object or addon for the given Message.")
+	//doc Importer import(originalCallMessage) Imports an object or addon for the given Message.
 	import := method(originalCall,
 		protoName := originalCall message name
 
@@ -60,24 +60,24 @@ Importer := Object clone do(
 		)
 	)
 
-	docSlot("autoImportingForward", "A forward method implementation placed in the Lobby when Importing is turned on.")
+	//doc Importer autoImportingForward A forward method implementation placed in the Lobby when Importing is turned on.
 	autoImportingForward := method(
 		Importer import(call)
 	)
 
-	docSlot("turnOn", "Turns on the Importer. Returns self.")
+	//doc Importer turnOn Turns on the Importer. Returns self.
 	turnOn := method(
 		Lobby forward := self getSlot("autoImportingForward")
 		self
 	)
 
-	docSlot("turnOff", "Turns off the Importer. Returns self.")
+	//doc Importer turnOff Turns off the Importer. Returns self.
 	turnOff := method(
 		Lobby removeSlot("forward")
 		self
 	)
 
-	# Auto Importer is on by default
+	// Auto Importer is on by default
 	turnOn
 )
 

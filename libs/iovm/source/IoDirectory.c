@@ -1,37 +1,16 @@
-/*#io
-Directory ioDoc(
-	docCopyright("Steve Dekorte", 2002)
-	docLicense("BSD revised")
-	docDescription("""The Directory object supports accessing filesystem directories. A note on paths;
-if a path begins with a "/" it's the root,
-if it beings with a "./" it's the launch path,
-if not specified, "./" is assumed.""")
-	docCredits("""Cygwin code by Mike Austin. WIN32 code by Daniel Vollmer.""")
-	docCategory("FileSystem")
-*/
 
-/*metadoc Directory copyright 
-Steve Dekorte, 2002
-*/
-/*metadoc Directory license
-BSD revised
-*/
-
+//metadoc Directory copyright Steve Dekorte 2002
+//metadoc Directory license BSD revised
 /*metadoc Directory description
 The Directory object supports accessing filesystem directories. A note on paths;
 if a path begins with a "/" it's the root,
 if it beings with a "./" it's the launch path,
-if not specified, "./" is assumed.
+if not specified, "./" is assumed.""")
 */
-
+//metadoc Directory category FileSystem
 /*metadoc Directory credits
 Cygwin code by Mike Austin. WIN32 code by Daniel Vollmer.
 */
-
-/*metadoc Directory category
-FileSystem
-*/
-
 
 #include "IoDirectory.h"
 #include "IoState.h"
@@ -252,20 +231,21 @@ void IoDirectory_mark(IoDirectory *self)
 
 IoObject *IoDirectory_path(IoDirectory *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("path", "Returns the directory path. The default path is '.'.")
+	/*doc Directory path
+	Returns the directory path. The default path is '.'.
 	*/
 
 	/*doc Directory path
 	Returns the directory path. The default path is '.'.
 	*/
+	
 	return DATA(self)->path;
 }
 
 IoObject *IoDirectory_setPath(IoDirectory *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setPath(aString)", "Sets the directory path. Returns self. ")
+	/*doc Directory setPath(aString)
+	Sets the directory path. Returns self. 
 	*/
 
 	DATA(self)->path = IOREF(IoMessage_locals_symbolArgAt_(m, locals, 0));
@@ -281,8 +261,8 @@ IoObject *IoDirectory_setPath(IoDirectory *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoDirectory_name(IoDirectory *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("name", "Returns the receiver's last path component.  ")
+	/*doc Directory name
+	Returns the receiver's last path component.  
 	*/
 
 	return IoSeq_lastPathComponent(DATA(self)->path, locals, m);
@@ -319,10 +299,9 @@ IoObject *IoDirectory_itemForDirent_(IoDirectory *self, struct dirent *dp)
 
 IoObject *IoDirectory_exists(IoDirectory *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("exists(optionalPath)",
-			"Returns true if the Directory path exists, and false otherwise.
-If optionalPath string is provided, it tests the existance of that path instead. ")
+	/*doc Directory exists(optionalPath)
+	Returns true if the Directory path exists, and false otherwise.
+	If optionalPath string is provided, it tests the existance of that path instead. 
 	*/
 
 	IoSymbol *path = DATA(self)->path;
@@ -346,10 +325,9 @@ If optionalPath string is provided, it tests the existance of that path instead.
 
 IoObject *IoDirectory_items(IoDirectory *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("items",
-			"Returns a list object containing File and Directory objects
-for the files and directories of the receiver's path. ")
+	/*doc Directory items
+	Returns a list object containing File and Directory objects
+	for the files and directories of the receiver's path. 
 	*/
 
 	IoList *items = IoList_new(IOSTATE);
@@ -403,10 +381,9 @@ IoObject *IoDirectory_justAt(IoDirectory *self, IoSymbol *name)
 
 IoObject *IoDirectory_at(IoDirectory *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("at(aString)",
-			"Returns a File or Directory object matching the name specified
-by aString or Nil if no such file or directory exists. ")
+	/*doc Directory at(aString)
+	Returns a File or Directory object matching the name specified
+	by aString or Nil if no such file or directory exists. 
 	*/
 
 	IoSymbol *name = IoMessage_locals_symbolArgAt_(m, locals, 0);
@@ -462,9 +439,8 @@ IoObject *IoDirectory_itemNamed(IoDirectory *self, IoObject *locals, IoMessage *
 
 IoObject *IoDirectory_createSubdirectory(IoDirectory *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("createSubdirectory(name)",
-			"Create a subdirectory with the specified name.")
+	/*doc Directory createSubdirectory(name)
+	Create a subdirectory with the specified name.
 	*/
 
 	IoState *state = IOSTATE;
@@ -495,9 +471,8 @@ IoObject *IoDirectory_createSubdirectory(IoDirectory *self, IoObject *locals, Io
 
 IoObject *IoDirectory_create(IoDirectory *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("create",
-			"Create the directory if it doesn't exist.")
+	/*doc Directory create
+	Create the directory if it doesn't exist.
 	*/
 
 	int r = MKDIR(CSTRING(DATA(self)->path), S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
@@ -506,10 +481,9 @@ IoObject *IoDirectory_create(IoDirectory *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoDirectory_size(IoDirectory *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("size",
-			"Returns a Number containing the number of file and directory
-object at the receiver's path. ")
+	/*doc Directory size
+	Returns a Number containing the number of file and directory
+	object at the receiver's path. 
 	*/
 
 	int count = 0;
@@ -563,9 +537,8 @@ int IoDirectory_SetCurrentWorkingDirectory(const char *path)
 
 IoObject *IoDirectory_currentWorkingDirectory(IoDirectory *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("currentWorkingDirectory",
-			"Returns the current working directory path.")
+	/*doc Directory currentWorkingDirectory
+	Returns the current working directory path.
 	*/
 
 	return IoState_symbolWithUArray_copy_(IOSTATE,
@@ -581,10 +554,9 @@ int IoDirectory_SetCurrentWorkingDirectory(char *p)
 
 IoObject *IoDirectory_setCurrentWorkingDirectory(IoDirectory *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setCurrentWorkingDirectory(pathString)",
-			"Set's the current working directory path.
-Returns true on success or false on error.")
+	/*doc Directory setCurrentWorkingDirectory(pathString)
+	Set's the current working directory path.
+	Returns true on success or false on error.
 	*/
 
 	IoSymbol *path = IoMessage_locals_symbolArgAt_(m, locals, 0);

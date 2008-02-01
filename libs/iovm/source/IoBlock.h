@@ -1,7 +1,5 @@
-/*#io
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+//metadoc Block copyright Steve Dekorte 2002
+//metadoc Block license BSD revised
 
 #ifndef IOBLOCK_DEFINED
 #define IOBLOCK_DEFINED 1

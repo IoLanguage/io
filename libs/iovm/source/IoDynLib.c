@@ -1,10 +1,11 @@
-/*#io
-DynLib ioDoc(
-	docCopyright("Steve Dekorte", 2002)
-	docLicense("BSD revised")
-	docDescription("A DLL Loader by Kentaro A. Kurahone.")
-	docCategory("Core")
+
+//metadoc DynLib copyright Steve Dekorte 2002
+//metadoc DynLib license BSD revised
+/*metadoc DynLib description
+A DLL Loader by Kentaro A. Kurahone.
 */
+//metadoc DynLib category Core
+
 
 #include "IoObject.h"
 #include "IoState.h"
@@ -84,9 +85,8 @@ void IoDynLib_free(IoDynLib *self)
 
 IoDynLib *IoDynLib_setPath(IoDynLib *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setPath(aString)",
-			"Sets the path to the dynamic library. Returns self.")
+	/*doc DynLib setPath(aString)
+	Sets the path to the dynamic library. Returns self.
 	*/
 
 	DynLib_setPath_(DATA(self),
@@ -96,8 +96,8 @@ IoDynLib *IoDynLib_setPath(IoDynLib *self, IoObject *locals, IoMessage *m)
 
 IoDynLib *IoDynLib_path(IoDynLib *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("path", "Returns the path to the dynamic library.")
+	/*doc DynLib path
+	Returns the path to the dynamic library.
 	*/
 
 	return IOSYMBOL(DynLib_path(DATA(self)));
@@ -105,9 +105,8 @@ IoDynLib *IoDynLib_path(IoDynLib *self, IoObject *locals, IoMessage *m)
 
 IoDynLib *IoDynLib_setInitFuncName(IoDynLib *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setInitFuncName(aString)",
-			"Sets the initialization function name for the dynamic library. Returns self.")
+	/*doc DynLib setInitFuncName(aString)
+	Sets the initialization function name for the dynamic library. Returns self.
 	*/
 
 	DynLib_setInitFuncName_(DATA(self),
@@ -117,8 +116,8 @@ IoDynLib *IoDynLib_setInitFuncName(IoDynLib *self, IoObject *locals, IoMessage *
 
 IoDynLib *IoDynLib_initFuncName(IoDynLib *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("initFuncName", "Returns the initialization function name.")
+	/*doc DynLib initFuncName
+	Returns the initialization function name.
 	*/
 
 	return IOSYMBOL(DynLib_initFuncName(DATA(self)));
@@ -126,8 +125,8 @@ IoDynLib *IoDynLib_initFuncName(IoDynLib *self, IoObject *locals, IoMessage *m)
 
 IoDynLib *IoDynLib_setFreeFuncName(IoDynLib *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setFreeFuncName(aString)", "Sets the io_free function name. Returns self.")
+	/*doc DynLib setFreeFuncName(aString)
+	Sets the io_free function name. Returns self.
 	*/
 
 	DynLib_setFreeFuncName_(DATA(self),
@@ -137,8 +136,8 @@ IoDynLib *IoDynLib_setFreeFuncName(IoDynLib *self, IoObject *locals, IoMessage *
 
 IoDynLib *IoDynLib_freeFuncName(IoDynLib *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("freeFuncName", "Returns the io_free function name.")
+	/*doc DynLib freeFuncName
+	Returns the io_free function name.
 	*/
 
 	return IOSYMBOL(DynLib_freeFuncName(DATA(self)));
@@ -146,9 +145,8 @@ IoDynLib *IoDynLib_freeFuncName(IoDynLib *self, IoObject *locals, IoMessage *m)
 
 IoDynLib *IoDynLib_open(IoDynLib *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("open",
-			"Opens the dynamic library and returns self or raises a DynLoad.open Error if there is an error. ")
+	/*doc DynLib open
+	Opens the dynamic library and returns self or raises a DynLoad.open Error if there is an error. 
 	*/
 
 	if (IoMessage_argCount(m))
@@ -169,9 +167,8 @@ IoDynLib *IoDynLib_open(IoDynLib *self, IoObject *locals, IoMessage *m)
 
 IoDynLib *IoDynLib_close(IoDynLib *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("close",
-			"Closes the library. Returns self.")
+	/*doc DynLib close
+	Closes the library. Returns self.
 	*/
 
 	DynLib_close(DATA(self));
@@ -180,8 +177,8 @@ IoDynLib *IoDynLib_close(IoDynLib *self, IoObject *locals, IoMessage *m)
 
 IoDynLib *IoDynLib_isOpen(IoDynLib *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("isOpen", "Returns true if the library is open, or false otherwise.")
+	/*doc DynLib isOpen
+	Returns true if the library is open, or false otherwise.
 	*/
 
 	return IOBOOL(self, DynLib_isOpen(DATA(self)));
@@ -457,27 +454,27 @@ IoDynLib *IoDynLib_justCall(IoDynLib *self, IoObject *locals, IoMessage *m, int 
 
 IoDynLib *IoDynLib_call(IoDynLib *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("call(functionName, <arg1>, <arg2>, ...)",
-			"Call's the dll function of the specified name with the arguments provided. Returns the a Number with the result value.")
+	/*doc DynLib call(functionName, <arg1>, <arg2>, ...)
+	Call's the dll function of the specified name with the arguments provided. 
+	Returns the a Number with the result value.
 	*/
 	return IoDynLib_justCall(self, locals, m, 0);
 }
 
 IoDynLib *IoDynLib_voidCall(IoDynLib *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("voidCall(functionName, <arg1>, <arg2>, ...)",
-			"Same as call but for functions with no return value. Returns nil.")
+	/*doc DynLib voidCall(functionName, <arg1>, <arg2>, ...)
+	Same as call but for functions with no return value. Returns nil.
 	*/
+	
 	return IoDynLib_justCall(self, locals, m, 1);
 }
 
 IoDynLib *IoDynLib_callPluginInitFunc(IoDynLib *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("callPluginInit(functionName)",
-			"Call's the dll function of the specified name. Returns the result as a Number or raises an exception on error.")
+	/*doc DynLib callPluginInit(functionName)
+	Call's the dll function of the specified name. 
+	Returns the result as a Number or raises an exception on error.
 	*/
 	
 	int rc = 0;

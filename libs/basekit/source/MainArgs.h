@@ -1,7 +1,7 @@
-/*#io
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-docDescription("Structure for copying and storing command line arguments.")
+//metadoc MainArgs copyright Steve Dekorte 2002
+//metadoc MainArgs license BSD revised
+/*metadoc MainArgs description
+Structure for copying and storing command line arguments.")
 */
 
 #ifndef MAINARGS_DEFINED

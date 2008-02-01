@@ -1,8 +1,7 @@
-/*   Copyright (c) 2003, Steve Dekorte
-docLicense("BSD revised")
- *
- *   The lexer takes source code and produces a token stream.
- */
+
+//metadoc Lexer copyrigth Steve Dekorte, 2003
+//metadoc Lexer license BSD revised
+//metadoc Lexer description The lexer takes source code and produces a token stream.
 
 #ifndef IOLEXER_DEFINED
 #define IOLEXER_DEFINED 1

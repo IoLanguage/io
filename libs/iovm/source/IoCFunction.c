@@ -1,10 +1,14 @@
-/*#io
-getSlot("CFunction") ioDoc(
-	docCopyright("Steve Dekorte", 2002)
-	docLicense("BSD revised")
-	docDescription("A container for a pointer to a C function binding. CFunction's can only be defined from the C side and act like blocks in that when placed in a slot, are called when the slot is activated. The for, if, while and clone methods of the Lobby are examples of CFunctions. CFunctions are useful for implementing methods that require the speed of C or binding to a C library.")
-	docCategory("Core")
+//metadoc CFunction copyright Steve Dekorte 2002
+//metadoc CFunction license BSD revised
+/*metadoc CFunction description
+A container for a pointer to a C function binding. 
+CFunction's can only be defined from the C side and act 
+like blocks in that when placed in a slot, are called when the 
+slot is activated. The for, if, while and clone methods of the Lobby 
+are examples of CFunctions. CFunctions are useful for implementing 
+methods that require the speed of C or binding to a C library.
 */
+//metadoc CFunction category Core")
 
 #include "IoCFunction.h"
 
@@ -50,8 +54,8 @@ void IoCFunction_protoFinish(void *state)
 
 	IoObject *self = IoState_protoWithInitFunction_((IoState *)state, IoCFunction_proto);
 	IoObject_setSlot_to_(self, IOSYMBOL("type"), IOSYMBOL("CFunction"));
-	/*#io
-	docSlot("type", "Returns \"Cfunction\".")
+	/*doc CFunction type
+	Returns "Cfunction".
 	*/
 	IoObject_addMethodTable_(self, methodTable);
 }
@@ -103,8 +107,8 @@ IoCFunction *IoCFunction_newWithFunctionPointer_tag_name_(void *state,
 
 IoObject *IoCFunction_id(IoCFunction *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("id", "Returns a number containing a unique id for the receiver's internal C function. ")
+	/*doc CFunction id
+	Returns a number containing a unique id for the receiver's internal C function. 
 	*/
 
 	return IONUMBER(((uintptr_t)self));
@@ -112,8 +116,8 @@ IoObject *IoCFunction_id(IoCFunction *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoCFunction_uniqueName(IoCFunction *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("uniqueName", "Returns the name given to the CFunction.")
+	/*doc CFunction uniqueName
+	Returns the name given to the CFunction.
 	*/
 
 	if (DATA(self)->uniqueName)
@@ -126,8 +130,8 @@ IoObject *IoCFunction_uniqueName(IoCFunction *self, IoObject *locals, IoMessage 
 
 IoObject *IoCFunction_typeName(IoCFunction *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("typeName", "Returns the owning type of the CFunction or nil if the CFunction can be called on any object.")
+	/*doc CFunction typeName
+	Returns the owning type of the CFunction or nil if the CFunction can be called on any object.
 	*/
 
 	if (DATA(self)->typeTag)
@@ -140,8 +144,8 @@ IoObject *IoCFunction_typeName(IoCFunction *self, IoObject *locals, IoMessage *m
 
 IoObject *IoCFunction_equals(IoCFunction *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("==(anObject)", "Returns self if the argument is a CFunction with the same internal C function pointer. ")
+	/*doc CFunction ==(anObject)
+	Returns self if the argument is a CFunction with the same internal C function pointer. 
 	*/
 
 	IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 0);
@@ -171,8 +175,8 @@ IoObject *IoCFunction_activate(IoCFunction *self, IoObject *target, IoObject *lo
 
 IoObject *IoCFunction_performOn(IoCFunction *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("performOn(target, blockLocals, optionalMessage, optionalContext)", "Activates the CFunctions with the supplied settings.")
+	/*doc CFunction performOn(target, blockLocals, optionalMessage, optionalContext)
+	Activates the CFunctions with the supplied settings.
 	*/
 
 	IoObject *bTarget = IoMessage_locals_valueArgAt_(m, locals, 0);

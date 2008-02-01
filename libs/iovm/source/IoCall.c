@@ -1,10 +1,10 @@
-/*#io
-Call ioDoc(
-	docCopyright("Steve Dekorte", 2002)
-	docLicense("BSD revised")
-	docDescription("Call stores slots related to activation.")
-	docCategory("Core")
+
+//metadoc Call copyright Steve Dekorte 2002
+//metadoc Call license BSD revised
+/*metadoc Call description
+Call stores slots related to activation.
 */
+//metadoc Call category Core
 
 #include "IoCall.h"
 #include "IoState.h"
@@ -133,57 +133,64 @@ void IoCall_free(IoCall *self)
 
 IoObject *IoCall_sender(IoCall *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("sender", "Returns the sender value.")
+	/*doc Call sender
+	Returns the sender value.
 	*/
+	
 	return DATA(self)->sender;
 }
 
 IoObject *IoCall_message(IoCall *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("message", "Returns the message value.")
+	/*doc Call message
+	Returns the message value.
 	*/
+	
 	return DATA(self)->message;
 }
 
 IoObject *IoCall_target(IoCall *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("target", "Returns the target value.")
+	/*doc Call target
+	Returns the target value.
 	*/
+	
 	return DATA(self)->target;
 }
 
 IoObject *IoCall_slotContext(IoCall *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("slotContext", "Returns the slotContext value.")
+	/*doc Call slotContext
+	Returns the slotContext value.
 	*/
+	
 	return DATA(self)->slotContext;
 }
 
 IoObject *IoCall_activated(IoCall *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("activated", "Returns the activated value.")
+	/*doc Call activated
+	Returns the activated value.
 	*/
+	
 	return DATA(self)->activated;
 }
 
 IoObject *IoCall_coroutine(IoCall *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("activated", "Returns the coroutine in which the message was sent.")
+	/*doc Call activated
+	Returns the coroutine in which the message was sent.
 	*/
+	
 	return DATA(self)->coroutine;
 }
 
 IoObject *IoCall_evalArgAt(IoCall *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("evalArgAt(argNumber)", "Evaluates the specified argument of the Call's message in the context of it's sender.")
+	/*doc Call evalArgAt(argNumber)
+	Evaluates the specified argument of the Call's message in the context of it's sender.
 	*/
+	
 	int n = IoMessage_locals_intArgAt_(m, locals, 0);
 	IoCallData *data = DATA(self);
 	return IoMessage_locals_valueArgAt_(data->message, data->sender, n);
@@ -191,9 +198,10 @@ IoObject *IoCall_evalArgAt(IoCall *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoCall_argAt(IoCall *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("argAt(argNumber)", "Returns the message's argNumber arg. Shorthand for same as call message argAt(argNumber).")
+	/*doc Call argAt(argNumber)
+	Returns the message's argNumber arg. Shorthand for same as call message argAt(argNumber).
 	*/
+	
 	return IoMessage_argAt(DATA(self)->message, locals, m);
 }
 

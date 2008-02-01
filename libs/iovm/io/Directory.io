@@ -1,6 +1,6 @@
 
 Directory do(
-	docSlot("with(aPath)", "Returns a new instance with the provided path.")
+	//doc Directory with(aPath) Returns a new instance with the provided path.")
 	with := method(path, self clone setPath(path))
 
 	createIfAbsent := method(if(self exists not, self create); self)

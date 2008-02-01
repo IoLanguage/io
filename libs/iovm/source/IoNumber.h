@@ -1,7 +1,6 @@
-/*#io
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+
+//metadoc Number copyright Steve Dekorte 2002
+//metadoc Number license BSD revised
 
 #ifndef IONUMBER_DEFINED
 #define IONUMBER_DEFINED 1

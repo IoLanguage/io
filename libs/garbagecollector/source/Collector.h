@@ -1,8 +1,6 @@
-/*#io
-docCopyright("Steve Dekorte", 2006)
-docLicense("BSD revised")
-docDescription("""A tricolor collector using a Baker treadmill.""")
-*/
+//metadoc Collector copyright Steve Dekorte, 2006
+//metadoc Collector license BSD revised
+//metadoc Collector description A tricolor collector using a Baker treadmill.
 
 #ifndef Collector_DEFINED
 #define Collector_DEFINED 1

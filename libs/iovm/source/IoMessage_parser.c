@@ -1,6 +1,9 @@
-/*
-docCopyright("Steve Dekorte; Jonathan Wright (2006)", 2002)
-docLicense("BSD revised")
+/*metadoc Message copyright
+	Steve Dekorte; Jonathan Wright, 2002, 2006
+*/
+
+/*metadoc Message license
+	BSD revised
 */
 
 #include "IoMessage_parser.h"

@@ -1,7 +1,6 @@
-/*
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+
+//metadoc Token copyright Steve Dekorte 2002
+//metadoc Token license BSD revised
 
 #include "IoToken.h"
 #include <stdlib.h>

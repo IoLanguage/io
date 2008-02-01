@@ -1,7 +1,6 @@
-/*
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+
+//metadoc Sequence copyright Steve Dekorte 2002
+//metadoc Sequence license BSD revised
 
 #ifdef IOSEQ_C
 #define IO_IN_C_FILE

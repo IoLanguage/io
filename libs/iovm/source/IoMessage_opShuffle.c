@@ -1,6 +1,8 @@
 /*
-docCopyright("Jonathan Wright; Steve Dekorte (2002)", 2006)
-docLicense("BSD revised")
+copyright 
+	Jonathan Wright; Steve Dekorte 2002, 2006
+license
+	BSD revised
 */
 
 #include "IoMessage_opShuffle.h"

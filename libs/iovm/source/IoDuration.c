@@ -1,10 +1,10 @@
-/*#io
-Duration ioDoc(
-			docCopyright("Steve Dekorte", 2002)
-			docLicense("BSD revised")
-			docDescription("A container for a duration of time.")
-			docCategory("Time")
+
+//metadoc Duration copyright Steve Dekorte 2002
+//metadoc Duration license BSD revised
+/*metadoc Duration description
+A container for a duration of time.
 */
+//metadoc Duration category Time
 
 #include "IoDuration.h"
 #include "IoState.h"
@@ -144,8 +144,8 @@ double IoDuration_asSeconds(IoDuration *self)
 
 IoObject *IoDuration_years(IoDuration *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("years", "Returns a number containing the year of the receiver. ")
+	/*doc Duration years
+	Returns a number containing the year of the receiver. 
 	*/
 
 	return IONUMBER(Duration_years(DATA(self)));
@@ -153,8 +153,8 @@ IoObject *IoDuration_years(IoDuration *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoDuration_setYears(IoDuration *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setYears(aNumber)", "Sets the year of the receiver. Returns self.")
+	/*doc Duration setYears(aNumber)
+	Sets the year of the receiver. Returns self.
 	*/
 
 	Duration_setYears_(DATA(self), IoMessage_locals_doubleArgAt_(m, locals, 0));
@@ -165,9 +165,8 @@ IoObject *IoDuration_setYears(IoDuration *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoDuration_days(IoDuration *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("days",
-	"Returns a number containing the day of the month of the receiver. ")
+	/*doc Duration days
+	Returns a number containing the day of the month of the receiver. 
 	*/
 
 	return IONUMBER(Duration_days(DATA(self)));
@@ -175,8 +174,8 @@ IoObject *IoDuration_days(IoDuration *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoDuration_setDays(IoDuration *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setDays(aNumber)", "Sets the day of the receiver. Returns self.")
+	/*doc Duration setDays(aNumber)
+	Sets the day of the receiver. Returns self.
 	*/
 
 	Duration_setDays_(DATA(self), IoMessage_locals_doubleArgAt_(m, locals, 0));
@@ -187,9 +186,8 @@ IoObject *IoDuration_setDays(IoDuration *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoDuration_hours(IoDuration *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("hours",
-	"Returns a number containing the hour of the day(0-23) of the receiver. ")
+	/*doc Duration hours
+	Returns a number containing the hour of the day(0-23) of the receiver. 
 	*/
 
 	return IONUMBER(Duration_hours(DATA(self)));
@@ -197,8 +195,8 @@ IoObject *IoDuration_hours(IoDuration *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoDuration_setHours(IoDuration *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setHours(aNumber)", "Sets the hour of the receiver. Returns self.")
+	/*doc Duration setHours(aNumber)
+	Sets the hour of the receiver. Returns self.
 	*/
 
 	Duration_setHours_(DATA(self), IoMessage_locals_doubleArgAt_(m, locals, 0));
@@ -209,9 +207,8 @@ IoObject *IoDuration_setHours(IoDuration *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoDuration_minutes(IoDuration *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("minutes",
-	"Returns a number containing the minute of the hour(0-59) of the receiver. ")
+	/*doc Duration minutes
+	Returns a number containing the minute of the hour(0-59) of the receiver. 
 	*/
 
 	return IONUMBER(Duration_minutes(DATA(self)));
@@ -219,9 +216,8 @@ IoObject *IoDuration_minutes(IoDuration *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoDuration_setMinutes(IoDuration *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setMinutes(aNumber)",
-	"Sets the minute of the receiver. Returns self.")
+	/*doc Duration setMinutes(aNumber)
+	Sets the minute of the receiver. Returns self.
 	*/
 
 	Duration_setMinutes_(DATA(self), IoMessage_locals_doubleArgAt_(m, locals, 0));
@@ -232,10 +228,9 @@ IoObject *IoDuration_setMinutes(IoDuration *self, IoObject *locals, IoMessage *m
 
 IoObject *IoDuration_seconds(IoDuration *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("seconds",
-	"Returns a number containing the seconds of the minute(0-59) of the receiver.
-	This number may contain fractions of seconds. ")
+	/*doc Duration seconds
+	Returns a number containing the seconds of the minute(0-59) of the receiver.
+	This number may contain fractions of seconds. 
 	*/
 
 	return IONUMBER(Duration_seconds(DATA(self)));
@@ -243,9 +238,8 @@ IoObject *IoDuration_seconds(IoDuration *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoDuration_setSeconds(IoDuration *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setSeconds(aNumber)",
-	"Sets the second of the receiver. Return self.")
+	/*doc Duration setSeconds(aNumber)
+	Sets the second of the receiver. Return self.
 	*/
 
 	Duration_setSeconds_(DATA(self), IoMessage_locals_doubleArgAt_(m, locals, 0));
@@ -256,11 +250,10 @@ IoObject *IoDuration_setSeconds(IoDuration *self, IoObject *locals, IoMessage *m
 
 IoObject *IoDuration_asString(IoDuration *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("asString(formatString)",
-	"""Returns a string representation of the receiver. The formatString argument is optional. If present, the returned string will be formatted according to ANSI C date formating rules.
-
-	<pre>
+	/*doc Duration asString(formatString)
+	Returns a string representation of the receiver. The formatString argument is optional. If present, the returned string will be formatted according to ANSI C date formating rules.
+	<p>
+	<code>	
 	%y years without century as two-digit decimal number (00-99)
 	%Y year with century as four-digit decimal number
 
@@ -270,14 +263,14 @@ IoObject *IoDuration_asString(IoDuration *self, IoObject *locals, IoMessage *m)
 	%S second as a two-digit decimal integer (00-59)
 
 	The default format is "%Y %d %H:%M:%S".
-	""")
-	*/
+	</code>
+*/
 	UArray *ba;
 	char *format = NULL;
 
 	if (IoMessage_argCount(m) == 1)
 	{
-	format = CSTRING(IoMessage_locals_symbolArgAt_(m, locals, 0));
+		format = CSTRING(IoMessage_locals_symbolArgAt_(m, locals, 0));
 	}
 
 	ba = Duration_asUArrayWithFormat_(DATA(self), format);
@@ -286,25 +279,23 @@ IoObject *IoDuration_asString(IoDuration *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoDuration_printDuration(IoDuration *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("print", "Prints the receiver. Returns self.")
+	/*doc Duration print
+	Prints the receiver. Returns self.
 	*/
 
 	Duration_print(DATA(self));
 	return self;
 }
 
-	/*#io
-	docSlot("totalSeconds",
-	"Same as a asNumber.")
-	*/
+/*doc Duration totalSeconds
+Same as a asNumber.
+*/
 	
 IoObject *IoDuration_asNumber(IoDuration *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("asNumber",
-	"Returns a number representation of the receiver.
-	(where 1 is equal to one second) ")
+	/*doc Duration asNumber
+	Returns a number representation of the receiver.
+	(where 1 is equal to one second) 
 	*/
 
 	return IONUMBER(Duration_asSeconds(DATA(self)));
@@ -312,10 +303,9 @@ IoObject *IoDuration_asNumber(IoDuration *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoDuration_fromNumber(IoDuration *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("fromNumber(aNumber)",
-	"Sets the receiver to the Duration specified by
-	aNumber(same format number as returned by Duration asNumber). Returns self. ")
+	/*doc Duration fromNumber(aNumber)
+	Sets the receiver to the Duration specified by
+	aNumber(same format number as returned by Duration asNumber). Returns self. 
 	*/
 
 	Duration_fromSeconds_(DATA(self), IoMessage_locals_doubleArgAt_(m, locals, 0));
@@ -326,8 +316,8 @@ IoObject *IoDuration_fromNumber(IoDuration *self, IoObject *locals, IoMessage *m
 
 IoObject *IoDuration_add(IoDuration *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("+=(aDuration)", "Add aDuration to the receiver. Returns self. ")
+	/*doc Duration +=(aDuration)
+	Add aDuration to the receiver. Returns self. 
 	*/
 
 	IoDuration *d = IoMessage_locals_durationArgAt_(m, locals, 0);
@@ -337,8 +327,8 @@ IoObject *IoDuration_add(IoDuration *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoDuration_subtract(IoDuration *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("-=(aDuration)", "Subtract aDuration to the receiver. Returns self. ")
+	/*doc Duration -=(aDuration)
+	Subtract aDuration to the receiver. Returns self. 
 	*/
 
 	IoDuration *d = IoMessage_locals_durationArgAt_(m, locals, 0);

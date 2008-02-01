@@ -1,7 +1,5 @@
-/*#io
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+//metadoc Object copyright Steve Dekorte 2002
+//metadoc Object license BSD revised
 
 #ifndef OBJECT_STRUCT_DEFINED
 #define OBJECT_STRUCT_DEFINED 1

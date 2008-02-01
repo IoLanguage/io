@@ -1,6 +1,8 @@
 /*
-docCopyright("Jonathan Wright", 2006)
-docLicense("BSD revised")
+copyright 
+	Jonathan Wright, 2006
+licence 
+	BSD revised
 */
 
 #ifndef IOMESSAGE_OPSHUFFLE_DEFINED

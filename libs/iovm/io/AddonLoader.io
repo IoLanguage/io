@@ -1,35 +1,35 @@
 Addon := Object clone do(
-	docSlot("rootPath", "Returns the rootPath of the addon's folder.")
-	docSlot("setRootPath(aSequence)", "Sets rootPath of the addon's folder. Returns self.")
+	//doc Addon rootPath Returns the rootPath of the addon's folder.
+	//doc Addon setRootPath(aSequence) Sets rootPath of the addon's folder. Returns self.
 	newSlot("rootPath")
 	
-	docSlot("name", "Returns the name of the addon.")
-	docSlot("setName(aSequence)", "Sets the name of the addon. Returns self.")
+	//doc Addon name Returns the name of the addon.
+	//doc Addon setName(aSequence) Sets the name of the addon. Returns self.
 	newSlot("name")
 
-	docSlot("platform", "Implemented as method(System platform split at(0) asLowercase).")
+	//doc Addon platform Implemented as method(System platform split at(0) asLowercase).
 	platform := System platform split at(0) asLowercase
 	
-	docSlot("dllSuffix", "Returns the platform specific dll suffix.")
+	//doc Addon dllSuffix Returns the platform specific dll suffix.
 	dllSuffix := method(
 		if(list("cygwin", "mingw", "windows") contains(platform), return "dll")
 		if(platform == "darwin", return "dylib")
 		"so"
 	)
 
-	docSlot("dllName", "Return the name of the dll for the addon.")
+	//doc Addon dllName Return the name of the dll for the addon.
 	dllName := method("libIo" .. name .. "." .. dllSuffix)
 
-	docSlot("addonPath", "Implemented as Path with(rootPath, name).")
+	//doc Addon addonPath Implemented as Path with(rootPath, name).
 	addonPath := method(Path with(rootPath, name))
 
-	docSlot("dllPath", "Returns the path to the dll for the addon. Note: not all addons have dlls - some just contain io files.")
+	//doc Addon dllPath Returns the path to the dll for the addon. Note: not all addons have dlls - some just contain io files.
 	dllPath := method(Path with(addonPath, "_build/dll", dllName))
 
-	docSlot("sourcePath", "Returns the path of the source folder for the addon.")
+	//doc Addon sourcePath Returns the path of the source folder for the addon.
 	sourcePath := method(Path with(addonPath, "source"))
 
-	docSlot("ioFiles", "Return list of io File objects for the io files in the io folder of the addon.")
+	//doc Addon ioFiles Return list of io File objects for the io files in the io folder of the addon.
 	ioFiles := method(
 		d := Directory with(addonPath) folderNamed("io")
 		if(d == nil, return list())
@@ -37,12 +37,12 @@ Addon := Object clone do(
 		files map(name) sort map(name, d fileNamed(name))
 	)
 
-	docSlot("dependencies", "Returns the list of dependencies from the addon's depends file.")
+	//doc Addon dependencies Returns the list of dependencies from the addon's depends file.
 	dependencies := method(
 		File with(Path with(addonPath, "depends")) contents split(" ")
 	)
 
-	docSlot("loadDependencies", "Loads the addon's dependencies. Called from the load method.")
+	//doc Addon loadDependencies Loads the addon's dependencies. Called from the load method.
 	loadDependencies := method(
 		//writeln(name, " depends on ", dependencies)
 		dependencies foreach(d,
@@ -53,7 +53,7 @@ Addon := Object clone do(
 		)
 	)
 
-	docSlot("load", "Loads the addon.")
+	//doc Addon load Loads the addon.
 	load := method(
 		//writeln("Addon ", name, " loading from ", addonPath)
 		loadDependencies
@@ -74,10 +74,10 @@ Addon := Object clone do(
 		Lobby getSlot(name)
 	)
 
-	docSlot("exists", "Returns true if the addonPath exists, false otherwise.")
+	//doc Addon exists Returns true if the addonPath exists, false otherwise.
 	exists := method(Directory with(addonPath) exists)
 
-	docSlot("addonProtos", "Returns names of protos defined in the addon from the addon's protos file.")
+	//doc Addon addonProtos Returns names of protos defined in the addon from the addon's protos file.
 	addonProtos := method(
 		f := File with(Path with(addonPath, "protos"))
 		if(f exists, f contents split, list())
@@ -85,13 +85,13 @@ Addon := Object clone do(
 )
 
 AddonLoader := Object clone do(
-	docSlot("searchPaths", "Returns the list of paths to search for addons.")
+	//doc Addon searchPaths Returns the list of paths to search for addons.
 	searchPaths := list("io/addons", System installPrefix .. "/lib/io/addons")
 
-	docSlot("appendSearchPath(aSequence)", "Appends the argument to the list of search paths.")
+	//doc Addon appendSearchPath(aSequence) Appends the argument to the list of search paths.
 	appendSearchPath := method(p, searchPaths appendIfAbsent(p); self)
 
-	docSlot("addons", "Looks for all addons which can be found and returns them as a list of Addon objects. Caches the result the first time it is called.")
+	//doc Addon addons Looks for all addons which can be found and returns them as a list of Addon objects. Caches the result the first time it is called.
 	addons := method(
 		searchFolders := searchPaths map(path, Directory with(path)) select(exists)
 		addonFolders := searchFolders map(folders) flatten select(isAccessible) select(fileNames contains("build.io"))
@@ -99,17 +99,17 @@ AddonLoader := Object clone do(
 		addons
 	)
 
-	docSlot("addonFor(aName)", "Returns the Addon with the given name if it can be found or nil otherwise.")
+	//doc Addon addonFor(aName) Returns the Addon with the given name if it can be found or nil otherwise.
 	addonFor := method(name,
 		r := addons detect(name == name)
 		if(r, return r)
 		addons detect(addonProtos contains(name))
 	)
 
-	docSlot("hasAddonNamed(aName)", "Returns true if the named addon can be found, false otherwise.")
+	//doc Addon hasAddonNamed(aName) Returns true if the named addon can be found, false otherwise.
 	hasAddonNamed := method(name, addonFor(name) != nil)
 
-	docSlot("loadAddonNamed(aName)", "Loads the Addon with the given name if it can be found or nil otherwise.")
+	//doc Addon loadAddonNamed(aName) Loads the Addon with the given name if it can be found or nil otherwise.
 	loadAddonNamed := method(name,
 		//writeln("loadAddonNamed(", name, ")")
 		addon := addonFor(name)

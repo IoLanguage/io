@@ -1,7 +1,6 @@
-/*#io
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+
+//metadoc Object copyright Steve Dekorte 2002
+//metadoc Object license BSD revised
 
 #ifndef IOOBJECT_PERSISTENCE_DEFINED
 #define IOOBJECT_PERSISTENCE_DEFINED 1

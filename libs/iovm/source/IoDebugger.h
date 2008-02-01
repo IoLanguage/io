@@ -1,8 +1,6 @@
-/*#io
-Debugger ioDoc(
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+
+//metadoc Debugger copyright Steve Dekorte 2002
+//metadoc Debugger license BSD revised
 
 #ifndef IoDebugger_DEFINED
 #define IoDebugger_DEFINED 1

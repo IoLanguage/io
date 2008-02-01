@@ -1,6 +1,4 @@
-/*#io
-Object ioDoc(
-*/
+
 #include "IoObject.h"
 #include "IoNumber.h"
 
@@ -8,10 +6,9 @@ Object ioDoc(
 
 IoObject *IoObject_while(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("while(<condition>, expression)",
-			"Keeps evaluating message until condition return Nil.
-Returns the result of the last message evaluated or Nil if none were evaluated.")
+	/*doc Object while(<condition>, expression)
+	Keeps evaluating message until condition return Nil.
+	Returns the result of the last message evaluated or Nil if none were evaluated.
 	*/
 
 	IoMessage_assertArgCount_receiver_(m, 2, self);
@@ -49,9 +46,8 @@ done:
 
 IoObject *IoObject_loop(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("loop(expression)",
-			"Keeps evaluating message until a break.")
+	/*doc Object loop(expression)
+	Keeps evaluating message until a break.
 	*/
 
 	IoMessage_assertArgCount_receiver_(m, 1, self);
@@ -82,9 +78,8 @@ done:
 
 IoObject *IoObject_for(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("for(<counter>, <start>, <end>, <do message>)",
-			"See manual.html. ")
+	/*doc Object for(<counter>, <start>, <end>, <do message>)
+	A for-loop control structure. See the io Programming Guide for a full description. 
 	*/
 
 	IoMessage_assertArgCount_receiver_(m, 4, self);
@@ -157,8 +152,8 @@ done:
 
 IoObject *IoObject_return(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("return(anObject)", "Return anObject from the current execution block.")
+	/*doc Object return(anObject)
+	Return anObject from the current execution block.
 	*/
 
 	IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 0);
@@ -168,8 +163,9 @@ IoObject *IoObject_return(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoObject_returnIfNonNil(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("returnIfNonNil", "Returns the receiver from the current execution block if it is non nil. Otherwise returns the receiver locally.")
+	/*doc Object returnIfNonNil
+	Returns the receiver from the current execution block if it is non nil. 
+	Otherwise returns the receiver locally.
 	*/
 
 	if(!ISNIL(self))
@@ -182,8 +178,8 @@ IoObject *IoObject_returnIfNonNil(IoObject *self, IoObject *locals, IoMessage *m
 
 IoObject *IoObject_break(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("break(optionalReturnValue)", "Break the current loop, if any. ")
+	/*doc Object break(optionalReturnValue)
+	Break the current loop, if any. 
 	*/
 
 	IoObject *v = IONIL(self);
@@ -199,10 +195,9 @@ IoObject *IoObject_break(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoObject_continue(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("continue",
-			"Skip the rest of the current loop iteration and start on
-the next, if any. ")
+	/*doc Object continue
+	Skip the rest of the current loop iteration and start on
+	the next, if any. 
 	*/
 
 	IoState_continue(IOSTATE);
@@ -211,8 +206,8 @@ the next, if any. ")
 
 IoObject *IoObject_stopStatus(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("stopStatus", "Returns the internal IoState->stopStatus.")
+	/*doc Object stopStatus
+	Returns the internal IoState->stopStatus.
 	*/
 
 	int stopStatus;
@@ -227,11 +222,10 @@ IoObject *IoObject_stopStatus(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoObject_if(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("if(<condition>, <trueMessage>, <optionalFalseMessage>)",
-			"Evaluates trueMessage if condition evaluates to a non-Nil.
-Otherwise evaluates optionalFalseMessage if it is present.
-Returns the result of the evaluated message or Nil if none was evaluated.")
+	/*doc Object if(<condition>, <trueMessage>, <optionalFalseMessage>)
+	Evaluates trueMessage if condition evaluates to a non-Nil.
+	Otherwise evaluates optionalFalseMessage if it is present.
+	Returns the result of the evaluated message or Nil if none was evaluated.
 	*/
 
 	const IoObject *const r = IoMessage_locals_valueArgAt_(m, locals, 0);
@@ -246,19 +240,16 @@ Returns the result of the evaluated message or Nil if none was evaluated.")
 
 IoObject *IoObject_tailCall(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("tailCall(expression)",
-			"""Does a tailCall on the currently executing Block. Example:
-
-<pre>
-Io> a := method(x, x = x + 1; if(x > 10, return x); tailCall(x))
-==> method(x, updateSlot("x", x +(1));
-		if(x >(10), return(x));
-		tailCall(x))
-Io> a(1)
-==> 11
-</pre>
-""")
+	/*doc Object tailCall(expression)
+	Does a tailCall on the currently executing Block. Example:
+	<code>	
+	Io> a := method(x, x = x + 1; if(x > 10, return x); tailCall(x))
+	==> method(x, updateSlot("x", x +(1));
+			if(x >(10), return(x));
+			tailCall(x))
+	Io> a(1)
+	==> 11
+	</code>	
 	*/
 
 	IOSTATE->tailCallMessage = m;

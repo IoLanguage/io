@@ -1,6 +1,8 @@
-/*#io
-docCopyright("Steve Dekorte", 2004)
-docLicense("BSD revised") *
+/*
+copyright
+	Steve Dekorte, 2004
+license
+	BSD revised
 */
 
 #ifndef BSTREAMTAG_DEFINED

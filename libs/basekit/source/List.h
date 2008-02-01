@@ -1,10 +1,8 @@
-/*#io
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-docDescription("""
+//metadoc List copyright Steve Dekorte 2002
+//metadoc List license BSD revised
+/*metadoc List description
 	List - an array of void pointers
 	User is responsible for io_freeing items
-""")
 */
 
 #ifndef LIST_DEFINED

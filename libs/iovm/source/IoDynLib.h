@@ -1,11 +1,9 @@
-/*#io
-DynLib ioDoc(
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-docDescription("
+
+//metadoc DynLib copyright Steve Dekorte 2002
+//metadoc DynLib license BSD revised
+/*metadoc DynLib description
 	Contributed by Kentaro A. Kurahone <kurahone@sigusr1.org>
 	This object can dynamically load a shared library
-")
 */
 
 #ifndef IODYNLIB_DEFINED

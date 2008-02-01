@@ -1,7 +1,5 @@
-/*#io
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+//metadoc Date copyright Steve Dekorte 2002
+//metadoc Date license BSD revised
 
 #include "Base.h"
 

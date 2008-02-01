@@ -1,7 +1,5 @@
-/*#io
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+//metadoc Tag copyright Steve Dekorte 2002
+//metadoc Tag license BSD revised
 
 #ifdef IOTAG_C
 #define IO_IN_C_FILE

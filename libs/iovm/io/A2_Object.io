@@ -1,39 +1,34 @@
 /*
-nil ioDoc(
-	docCopyright("Steve Dekorte", 2002)
-	docLicense("BSD revised")
-	docObject("nil")
-	docDescription("nil is a singleton object that is used as a placeholder and to mean false in Io.")
-)
+//metadoc nil description nil is a singleton object that is used as a placeholder and to mean false in Io.")
 
 nil do(
-	docSlot("clone", "returns self since nil is a singleton.")
+	//doc nil clone returns self since nil is a singleton.
 	clone := nil
 
-	docSlot("and(expression)", "Returns nil without evaluating expression.")
+	//doc nil and(expression) Returns nil without evaluating expression.
 	setSlot("and", nil)
 
 	elseif := Object getSlot("if")
 
-	docSlot("then(expression)", "Returns nil without evaluating expression.")
+	//doc nil then(expression) Returns nil without evaluating expression.
 	setSlot("then", nil)
 
-	docSlot("else(expression)", "Returns nil without evaluating expression.")
+	//doc nil else(expression) Returns nil without evaluating expression.
 	setSlot("else", method(v, v))
 
-	docSlot("or(anObject)", "Returns anObject if anObject is not nil. Otherwise returns nil.")
+	//doc nil or(anObject) Returns anObject if anObject is not nil. Otherwise returns nil.
 	setSlot("or", method(v, if(v, v, nil)))
 
-	docSlot("print", "Prints 'nil'. Returns self.")
+	//doc nil print Prints 'nil'. Returns self.
 	print := method(write("nil"))
 
 	setSlot("==", method(v, self isIdenticalTo(v)))
 	setSlot("!=", method(v, self isIdenticalTo(v) not))
 
-	docSlot("isNil", "Returns Lobby.")
+	//doc nil isNil Returns Lobby.
 	isNil := Lobby
 
-	docSlot("ifNil(expression)", "Evaluates message.")
+	//doc nil ifNil(expression) Evaluates message.
 	ifNil := method(v, v)
 )
 */
@@ -42,37 +37,37 @@ nil do(
 // (a == 1) ifTrue(b) ifFalse(c)
 
 true do(
-//	docSlot("then", "Evaluates the argument and returns nil.")
+	//doc true then Evaluates the argument and returns nil.
 	then    := Object getSlot("evalArgAndReturnNil")
 
-//	docSlot("elseif", "Does not eval argument and returns true.")
+	//doc true elseif Does not eval argument and returns true.
 	elseif  := true
 
-//	docSlot("else", "Does not eval argument and returns true.")
+	//doc true else Does not eval argument and returns true.
 	else    := true
 
-//	docSlot("ifTrue", "Evaluates the argument and returns self.")
+	//doc true ifTrue Evaluates the argument and returns self.
 	ifTrue  := Object getSlot("evalArgAndReturnSelf")
 	
-//	docSlot("ifFalse", "Does not eval argument and returns true.")
+	//doc true ifFalse Does not eval argument and returns true.
 	ifFalse := true
 	
-//	docSlot("and", "Evaluates the argument and returns the result.")
+	//doc true and Evaluates the argument and returns the result.
 	setSlot("and", Object getSlot("evalArg"))
 	
-//	docSlot("or", "Does not eval argument and returns true.")
+	//doc true or Does not eval argument and returns true.
 	setSlot("or", true)
 
-//	docSlot("asString", "Returns true.")
+	//doc true asString Returns true.
 	asString := "true"
 
-//	docSlot("asSimpleString", "Returns true.")
+	//doc true asSimpleString Returns true.
 	asSimpleString := "true"
 
-//	docSlot("not", "Does not eval argument and returns false.")
+	//doc true not Does not eval argument and returns false.
 	not := false
 	
-//	docSlot("clone", "Returns self.")
+	//doc true clone Returns self.
 	clone := true
 )
 
@@ -203,49 +198,10 @@ Object do(
 		getSlot("self") hasLocalSlot(n) or(getSlot("self") ancestorWithSlot(n) != nil)
 	)
 
-	docsSlot := method(
-		if(getSlot("self") hasLocalSlot("docs") not,
-			getSlot("self") docs := Object clone do(slots := Object clone)
-		)
-		getSlot("self") docs
-	)
-
-
-	docSlot := method(k, v,
-		entry := Object clone
-		entry description := v asSymbol
-		if (k containsSeq("("),
-			entry args := k afterSeq("(") beforeSeq(")") split(",") map(strip)
-		)
-		getSlot("self") docsSlot slots setSlot(k beforeSeq("("), entry)
-	)
-
-	docCopyright := method(v,
-		k := call message name asMutable removePrefix("doc") makeFirstCharacterLowercase
-		getSlot("self") docsSlot setSlot(k, v)
-	)
-	//docCopyright := nil //    turnOffDocs
-
-	docLicense := getSlot("docCopyright")
-	docObject := getSlot("docCopyright")
-	docDescription := getSlot("docCopyright")
-	docCredits := getSlot("docCopyright")
-	docInclude := getSlot("docCopyright")
-	docDependsOn := getSlot("docCopyright")
-	docCategory := getSlot("docCopyright")
-
-	ioDoc := method(
-		if(call argAt(0), 
-			getSlot("self") doMessage(call argAt(0))
-		)
-	)
-
-	//ioDoc := nil
-
-	docSlot("list(...)", "Returns a List containing the arguments.")
+	//doc Object list(...) Returns a List containing the arguments.
 	list := method(call message argsEvaluatedIn(call sender))
 
-	docSlot("..(arg)", ".. is an alias for: method(arg, self asString append(arg asString))")
+	//doc Object ..(arg) .. is an alias for: method(arg, self asString append(arg asString))
 	setSlot("..", method(arg, getSlot("self") asString .. arg asString))
 
 	Map addKeysAndValues := method(keys, values, keys foreach(i, k, self atPut(k, values at(i))); self)
@@ -293,10 +249,11 @@ Object do(
 
 	asSimpleString := method(getSlot("self") type .. "_" .. getSlot("self") uniqueHexId)
 
-	docSlot("newSlot(slotName, aValue)",
-	"""Creates a getter and setter for the slot with the name slotName
+	/*doc Object newSlot(slotName, aValue)
+	Creates a getter and setter for the slot with the name slotName
 	and sets it's default the value aValue. Returns self. For example,
-	newSlot("foo", 1) would create slot named foo with the value 1 as well as a setter method setFoo().""")
+	newSlot("foo", 1) would create slot named foo with the value 1 as well as a setter method setFoo().
+	*/
 
 	newSlot := method(name, value, doc,
 		getSlot("self") setSlot(name, getSlot("value"))
@@ -306,8 +263,7 @@ Object do(
 		value
 	)
 
-	docSlot("launchFile(pathString)",
-	"Eval file at pathString as if from the command line in it's folder.")
+	//doc Object launchFile(pathString) Eval file at pathString as if from the command line in it's folder.
 
 	launchFile := method(path, args,
 		args ifNil(args = List clone)
@@ -317,17 +273,17 @@ Object do(
 		self doFile(path)
 	)
 
-	docSlot("println", "Same as print, but also prints a new line. Returns self.")
+	//doc Object println Same as print, but also prints a new line. Returns self.
 	println := method(getSlot("self") print; write("\n"); self)
 
-	docSlot("?(aMessage)", """
+	/*doc Object ?(aMessage)
 	description: Sends the message aMessage to the receiver if it can respond to it. Example:
 	<pre>
 	MyObject test // performs test
 	MyObject ?test // performs test if MyObject has a slot named test
 	</pre>
 	The search for the slot only follows the receivers proto chain.
-	""")
+	*/
 
 	setSlot("?",
 		method(
@@ -340,8 +296,7 @@ Object do(
 		)
 	)
 
-	docSlot("ancestors",
-	"Returns a list of all of the receiver's ancestors as found by recursively following the protos links.")
+	//doc Object ancestors Returns a list of all of the receiver's ancestors as found by recursively following the protos links.
 
 	ancestors := method(a,
 		if(a, if(a detect(x, x isIdenticalTo(self)), return a), a = List clone)
@@ -350,17 +305,17 @@ Object do(
 		a
 	)
 
-	docSlot("isKindOf(anObject)", "Returns true if anObject is in the receiver's ancestors.")
+	//doc Object isKindOf(anObject) Returns true if anObject is in the receiver's ancestors.
 
 	isKindOf := method(anObject, getSlot("self") ancestors contains(getSlot("anObject")))
 
-	docSlot("super(aMessage)",
-	"""Sends the message aMessage to the receiver's proto with the context of self. Example:
+	/*doc Object super(aMessage)
+	Sends the message aMessage to the receiver's proto with the context of self. Example:
 	<pre>
 	self test(1, 2)   // performs test(1, 2) on self
 	super(test(1, 2)) // performs test(1, 2) on self proto but with the context of self
 	</pre>
-	""")
+	*/
 
 	setSlot("super", method(
 		senderSlotContext := call sender call slotContext
@@ -382,8 +337,8 @@ Object do(
 		)
 	))
 
-	docSlot("resend",
-	"""Send the message used to activate the current method to the Object's proto.
+	/*doc Object resend
+	Send the message used to activate the current method to the Object's proto.
 	For example;
 	<pre>
 	Dog := Mammal clone do(
@@ -393,7 +348,7 @@ Object do(
 	)
 	</pre>
 	calling Dog init will send an init method to Mammal, but using the Dog's context.
-	""")
+	*/
 
 	setSlot("resend", method(
 		senderSlotContext := call sender call slotContext
@@ -420,15 +375,15 @@ Object do(
 	))
 
 
-	docSlot("list(...)", "Returns a List containing the arguments.")
+	//doc Object list(...) Returns a List containing the arguments.
 	list := method(call message argsEvaluatedIn(call sender))
 
 	Object print := method(write(getSlot("self") asString); getSlot("self"))
 
-	docSlot("println", "Same as print, but also prints a new line. Returns self.")
+	//doc Object println Same as print, but also prints a new line. Returns self.
 	println := method(getSlot("self") print; write("\n"); getSlot("self"))
 
-	docSlot("in(aList)", "Same as: aList contains(self)")
+	//doc Object in(aList) Same as: aList contains(self)
 	in := method(aList, aList contains(self))
 
 	uniqueHexId := method("0x" .. getSlot("self") uniqueId asString toBase(16))
@@ -465,7 +420,7 @@ Object do(
 		)
 	)
 
-	docSlot("switch(<key1>, <expression1>, <key2>, <expression2>, ...)", """
+	/*doc Object switch(<key1>, <expression1>, <key2>, <expression2>, ...) 
 	Execute an expression depending on the value of the caller. (This is an equivalent to C switch/case)
 	<pre>
 	hour := Date hour switch(
@@ -475,7 +430,8 @@ Object do(
 		Date hour asString
 	)
 	</pre>
-	""")
+	*/
+	
 	switch := method(
 		for(couple, 0, call argCount - 2, 2,
 			if(call evalArgAt(couple) == self,
@@ -489,18 +445,22 @@ Object do(
 		)
 	)
 
-	docSlot("isLaunchScript", "Returns true if the current file was run on the command line. Io's version of Python's __file__ == \"__main__\"")
+	//doc Object isLaunchScript Returns true if the current file was run on the command line. Io's version of Python's __file__ == "__main__"
 	isLaunchScript := method(
 		call message label == System launchScript
 	)
 
-	docSlot("doRelativeFile(pathString)",
-			"Evaluates the File in the context of the receiver. Returns the result. pathString is relative to the file calling doRelativeFile. (Duplicate of relativeDoFile)")
+	/*doc Object doRelativeFile(pathString)
+		Evaluates the File in the context of the receiver. Returns the result. 
+		pathString is relative to the file calling doRelativeFile. (Duplicate of relativeDoFile)
+	*/
 	doRelativeFile := method(path,
 		self doFile(Path with(call message label pathComponent, path))
 	)
 
-	docSlot("relativeDoFile(pathString)",
-			"Evaluates the File in the context of the receiver. Returns the result. pathString is relative to the file calling doRelativeFile. (Duplicate of doRelativeFile)")
+	/*doc Object relativeDoFile(pathString)
+		Evaluates the File in the context of the receiver. Returns the result. 
+		pathString is relative to the file calling doRelativeFile. (Duplicate of doRelativeFile)
+	*/
 	relativeDoFile := getSlot("doRelativeFile")
 )

@@ -1,7 +1,3 @@
-/*#io
-Object ioDoc(
-
-*/
 
 #include "IoObject_persistence.h"
 #include "IoObject.h"

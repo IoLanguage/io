@@ -1,11 +1,11 @@
 getSlot("Block") do(
 
-	docSlot("asSimpleString", "Returns a short description of the receiver.")
+	//doc Block asSimpleString Returns a short description of the receiver.
 	asSimpleString := method(
 		if(scope, "block", "method") .. "(" .. argumentNames append("...") join(", ") .. ")"
 	)
 
-	docSlot("asString", "Returns a full description of the receiver with decompiled code.")
+	//doc Block asString Returns a full description of the receiver with decompiled code.
 	asString := method(
 		Formatter clone formatBlock(getSlot("self")) buffer
 	)

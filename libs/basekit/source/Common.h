@@ -1,17 +1,14 @@
 
-/*
- docCopyright("Steve Dekorte", 2002)
- docLicense("BSD revised")
- docDescription("This is a header that all other source files should include.")
+//metadoc Common copyright Steve Dekorte 2002
+//metadoc Common license BSD revised
+/*metadoc Common description
+This is a header that all other source files should include.
+These defines are helpful for doing OS specific checks in the code.
  */
-
-/*
- These defines are helpful for doing OS specific checks in the code
- */
+ 
 
 #ifndef IOCOMMON_DEFINED
 #define IOCOMMON_DEFINED 1
-
 
 /*#define LOW_MEMORY_SYSTEM 1*/
 #include <stdlib.h>

@@ -1,8 +1,6 @@
-/*#io
-Sequence ioDoc(
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+
+//metadoc Sequence copyright Steve Dekorte 2002
+//metadoc Sequence license BSD revised
 
 #ifndef IOSEQ_DEFINED
 #define IOSEQ_DEFINED 1
