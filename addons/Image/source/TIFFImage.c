@@ -1,7 +1,6 @@
-/*
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+
+//metadoc TIFFImage copyright Steve Dekorte 2002
+//metadoc TIFFImage license BSD revised
 
 #include "TIFFImage.h"
 #include <tiff.h>

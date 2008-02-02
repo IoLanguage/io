@@ -1,7 +1,5 @@
-/*#io
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+//metadoc SkipDBCursor copyright Steve Dekorte 2002
+//metadoc SkipDBCursor license BSD revised
 
 #ifndef IoSkipDBCursor_DEFINED
 #define IoSkipDBCursor_DEFINED 1

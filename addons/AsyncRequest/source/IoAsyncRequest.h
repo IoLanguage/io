@@ -1,5 +1,6 @@
 /*
-docCopyright("Steve Dekorte", 2002)
+//metadoc AsyncRequest copyright Steve Dekorte 2002
+*/
 */
 
 #ifndef IoAsyncRequest_DEFINED

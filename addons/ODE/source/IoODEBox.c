@@ -1,9 +1,8 @@
-/*#io
-ODEBox ioDoc(
-		 docCopyright("Jonathan Wright", 2006)
-		 docLicense("BSD revised")
-		 docDescription("ODEBox binding")
-		 */
+//metadoc ODEBox copyright Jonathan Wright, 2006
+//metadoc ODEBox license BSD revised
+/*metadoc ODEBox description
+ODEBox binding
+*/
 
 #include "IoODEBox.h"
 #include "IoODEBody.h"

@@ -253,7 +253,7 @@ IoObject *IoDuration_asString(IoDuration *self, IoObject *locals, IoMessage *m)
 	/*doc Duration asString(formatString)
 	Returns a string representation of the receiver. The formatString argument is optional. If present, the returned string will be formatted according to ANSI C date formating rules.
 	<p>
-	<code>	
+	<pre>	
 	%y years without century as two-digit decimal number (00-99)
 	%Y year with century as four-digit decimal number
 
@@ -263,7 +263,7 @@ IoObject *IoDuration_asString(IoDuration *self, IoObject *locals, IoMessage *m)
 	%S second as a two-digit decimal integer (00-59)
 
 	The default format is "%Y %d %H:%M:%S".
-	</code>
+	</pre>
 */
 	UArray *ba;
 	char *format = NULL;

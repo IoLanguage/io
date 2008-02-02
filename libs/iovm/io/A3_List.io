@@ -24,7 +24,8 @@ List do(
 		self
 	)
 
-	/*doc List join(optionalString) Returns a Sequence of the concatenated items with 
+	/*doc List join(optionalString) 
+		Returns a Sequence of the concatenated items with 
 		optionalString between each item or simply the concatenation of the items if no optionalString is supplied.
 	*/
 		
@@ -41,7 +42,8 @@ List do(
 		s
 	)
 
-	/*doc List insertAfter(item, afterItem) Inserts item after first occurance of afterItem and returns self. 
+	/*doc List insertAfter(item, afterItem) 
+	Inserts item after first occurance of afterItem and returns self. 
 	If afterItem is not found, item is appended to the end of the list.
 	*/
 	insertAfter := method(item, afterItem,
@@ -93,10 +95,10 @@ List do(
 
 	/*doc List flatten 
 	Creates a new list, with all contained lists flattened into the new list. For example:
-<pre>
+<code>
 list(1,2,list(3,4,list(5))) flatten
 ==> list(1, 2, 3, 4, 5)
-</pre>
+</code>
 	*/
 	
 	List flatten := method(
@@ -128,20 +130,20 @@ list(1,2,list(3,4,list(5))) flatten
 	/*doc List select(optionalIndex, value, message)",
 		"Like foreach, but the values for which the result of
 message are non-nil are returned in a new List. Example:
-<pre>list(1, 5, 7, 2) select(i, v, v > 3) print
+<code>list(1, 5, 7, 2) select(i, v, v > 3) print
 ==> 5, 7
 
 list(1, 5, 7, 2) select(v, v > 3) print
-==> 5, 7</pre>
+==> 5, 7</code>
 */
 
 	/*doc List detect(optionalIndex, value, message)
 	Returns the first value for which the message evaluates to a non-nil. Example:
-<pre>list(1, 2, 3, 4) detect(i, v, v > 2)
+<code>list(1, 2, 3, 4) detect(i, v, v > 2)
 ==> 3
 
 list(1, 2, 3, 4) detect(v, v > 2)
-==> 3</pre>
+==> 3</code>
 */
 
 	//doc List map(optionalIndex, value, message) Same as calling mapInPlace() on a clone of the receiver, but more efficient.

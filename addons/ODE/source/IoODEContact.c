@@ -1,9 +1,9 @@
-/*#io
-ODEContact ioDoc(
-		 docCopyright("Jonathan Wright", 2006)
-		 docLicense("BSD revised")
-		 docDescription("ODEContact binding")
-		 */
+
+//metadoc ODEContact copyright Jonathan Wright, 2006
+//metadoc ODEContact license BSD revised
+/*metadoc ODEContact description
+ODEContact binding
+*/
 
 #include "IoODEContact.h"
 #include "IoState.h"

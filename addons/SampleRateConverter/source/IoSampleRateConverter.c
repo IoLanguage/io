@@ -1,9 +1,10 @@
-/*#io
-SampleRateConverter ioDoc(
-			   docCopyright("Steve Dekorte", 2004)
-			   docLicense("BSD revised")
-			   docCategory("Media")
-			   docDescription("""A binding for lib sample rate.""")
+
+//metadoc SampleRateConverter copyright Steve Dekorte, 2004
+//metadoc SampleRateConverter license BSD revised
+//metadoc SampleRateConverter category Media
+/*metadoc SampleRateConverter description
+	A binding for lib sample rate.
+*/
 			   */
 #include "IoSampleRateConverter.h"
 #include "List.h"

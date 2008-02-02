@@ -1,4 +1,30 @@
 
+File do(
+	docSlicesFor := method(name,
+		contents slicesBetween("//" .. name .. " ", "\n") map(strip) map(s,
+			i := s findSeq(" ") + 1
+			i1 := s findSeq("(", i) 
+			i2 := s findSeq(" ", i) 
+			if(i1 and i1 < i2, i2 := s findSeq(")", i))
+			if(i2, s atInsertSeq(i2 + 1, "\n"))
+		) appendSeq(contents slicesBetween("/*" .. name .. " ", "*/"))		
+	)
+	
+	docSlices := method(
+		contents slicesBetween("//doc ", "\n") map(strip) map(s,
+			i := s findSeq(" ") + 1
+			i1 := s findSeq("(", i) 
+			i2 := s findSeq(" ", i) 
+			if(i1 and i1 < i2, i2 := s findSeq(")", i))
+			if(i2, s atInsertSeq(i2 + 1, "\n"))
+		) appendSeq(contents slicesBetween("/*doc ", "*/"))
+	)
+	
+	metadocSlices := method(
+		contents slicesBetween("/*metadoc ", "*/") appendSeq(contents slicesBetween("//metadoc ", "\n"))
+	)
+)
+
 DocsExtractor := Object clone do(
 	init := method(
 		self folder := Directory clone
@@ -6,10 +32,8 @@ DocsExtractor := Object clone do(
 	)
 
 	setPath := method(path,
-		folder setPath(Path with(path, "source"))
-		l := launchPath asMutable clipAfterStartOfSeq("/../../")
-		try(Lobby doString(l lastPathComponent))
-		outFile setPath(Path with(path, "io/zzz_docs.io"))
+		folder setPath(path) createSubdirectory("docs")
+		outFile setPath(Path with(path, "docs/docs.txt"))
 	)
 
 	clean := method(
@@ -17,34 +41,44 @@ DocsExtractor := Object clone do(
 	)
 
 	extract := method(
-		writeln("extracting io comment code from:")
+		//writeln("\n", folder path)
 		outFile remove open
 		sourceFiles foreach(file,
-			writeln("  ", file name, " ")
-			slices := file contents slicesBetween("/*#io", "*/")
-			code := slices join("\n") .. "\n)\n"
-			if (code containsSeq("("),
-
-				Lobby doString(code)
+			//writeln("	", file name, " ")
+			file docSlices foreach(d,
 				/*
-				e := try(Lobby doString(code))
-				e ifNonNil(
-					writeln("Error: in docs strings of ", file name)
-					System exit
-				)
+				header := d beforeSeq("\n") strip
+				protoName := header beforeSeq(" ")
+				slotName := header afterSeq(" ")
+				comment := d afterSeq("\n")
 				*/
-				outFile write(code)
+				outFile write("doc ", d strip, "\n------\n")
+			)
+			
+			file metadocSlices foreach(d,
+				outFile write("metadoc ", d strip, "\n------\n")
 			)
 		)
 		outFile close
 	)
+	
+	sourceFiles := method(cFiles appendSeq(ioFiles))
+	//sourceFiles := method(ioFiles)
 
-	sourceFiles := method(
-		folder files select(file,
-			file name beginsWithSeq("Io") and(
-			file name containsSeq("Init") not) and(
-			file name pathExtension == "c")
+	cFiles := method(
+		if(folder folderNamed("source"),
+			folder folderNamed("source") files select(file,
+				file name beginsWithSeq("Io") and(
+				file name containsSeq("Init") not) and(
+				file name pathExtension == "c")
+			)
+		,
+			list()
 		)
+	)
+	
+	ioFiles := method(
+		if(folder folderNamed("io"), folder folderNamed("io") filesWithExtension("io"), list())
 	)
 )
 

@@ -1,7 +1,6 @@
-/*
- docCopyright("Steve Dekorte", 2002)
- docLicense("BSD revised")
- */
+//metadoc JPGImage copyright Steve Dekorte 2002
+//metadoc JPGImage license BSD revised
+
 #include "JPGImage.h"
 #include <jpeglib.h>
 

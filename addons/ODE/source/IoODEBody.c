@@ -1,9 +1,9 @@
-/*#io
-ODEBody ioDoc(
-		 docCopyright("Jonathan Wright", 2006)
-		 docLicense("BSD revised")
-		 docDescription("ODEBody binding")
-		 */
+
+//metadoc ODEBody copyright Jonathan Wright, 2006
+//metadoc ODEBody license BSD revised
+/*metadoc ODEBody description
+ODEBody binding
+*/
 
 #include "IoODEBody.h"
 #include "IoODEMass.h"

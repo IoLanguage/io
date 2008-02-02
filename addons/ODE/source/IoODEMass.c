@@ -1,8 +1,8 @@
-/*#io
-ODEMass ioDoc(
-	docCopyright("Jonathan Wright", 2006)
-	docLicense("BSD revised")
-	docDescription("ODEMass binding")
+
+//metadoc ODEMass copyright Jonathan Wright, 2006
+//metadoc ODEMass license BSD revised
+/*metadoc ODEMass description
+ODEMass binding
 */
 
 #include "IoODEMass.h"

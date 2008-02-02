@@ -1,9 +1,5 @@
-/*
-copyright 
-	Jonathan Wright; Steve Dekorte 2002, 2006
-license
-	BSD revised
-*/
+//metadoc Message copyright Jonathan Wright; Steve Dekorte 2002, 2006
+//metadoc Message license BSD revised
 
 #include "IoMessage_opShuffle.h"
 #include "IoMap.h"

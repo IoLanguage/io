@@ -1,11 +1,9 @@
-/*#io
-Box ioDoc(
-		docCopyright("Steve Dekorte", 2002)
-		docLicense("BSD revised")
-		docDependsOn("Vector")
-		docCategory("Math")
-		docDescription("A primitive for fast operations on rectangles.")
-		*/
+//metadoc Box copyright Steve Dekorte 2002
+//metadoc Box license BSD revised
+//metadoc Box category Math
+/*metadoc Box description
+A primitive for fast operations on rectangles.
+*/
 
 #include "IoBox.h"
 #include "IoState.h"
@@ -117,8 +115,8 @@ IoSeq *IoBox_rawSize(IoBox *self)
 
 IoObject *IoBox_origin(IoBox *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("origin", "Returns the point object for the origin of the box.")
+	/*doc Box origin
+	Returns the point object for the origin of the box.
 	*/
 
 	return DATA(self)->origin;
@@ -126,8 +124,8 @@ IoObject *IoBox_origin(IoBox *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoBox_size(IoBox *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("size", "Returns the point object for the size of the box. ")
+	/*doc Box size
+	Returns the point object for the size of the box.
 	*/
 
 	return DATA(self)->size;
@@ -135,8 +133,8 @@ IoObject *IoBox_size(IoBox *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoBox_width(IoBox *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("width", "Same as; size x")
+	/*doc Box width
+	Same as; size x
 	*/
 
 	return IoSeq_x(DATA(self)->size, locals, m);
@@ -144,8 +142,8 @@ IoObject *IoBox_width(IoBox *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoBox_height(IoBox *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("height", "Same as; size y")
+	/*doc Box height
+	Same as; size y
 	*/
 
 	return IoSeq_y(DATA(self)->size, locals, m);
@@ -153,8 +151,8 @@ IoObject *IoBox_height(IoBox *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoBox_depth(IoBox *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("depth", "Same as; size z")
+	/*doc Box depth 
+	Same as; size z
 	*/
 
 	return IoSeq_z(DATA(self)->size, locals, m);
@@ -162,8 +160,8 @@ IoObject *IoBox_depth(IoBox *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoBox_set(IoBox *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("set(origin, size)", "Copies the values in origin and size to set the box's origin and size.")
+	/*doc Box set(origin, size)
+	Copies the values in origin and size to set the box's origin and size.
 	*/
 
 	IoSeq_rawCopy_(DATA(self)->origin, IoMessage_locals_pointArgAt_(m, locals, 0));
@@ -173,8 +171,8 @@ IoObject *IoBox_set(IoBox *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoBox_setOrigin(IoBox *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setOrigin(aPoint)", "Copies the values in aPoint to the box's origin point. ")
+	/*doc Box setOrigin(aPoint)
+	Copies the values in aPoint to the box's origin point.
 	*/
 
 	IoSeq_rawCopy_(DATA(self)->origin, IoMessage_locals_pointArgAt_(m, locals, 0));
@@ -183,8 +181,8 @@ IoObject *IoBox_setOrigin(IoBox *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoBox_setSize(IoBox *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setSize(aPoint)", "Copies the values in aPoint to the box's size point.  ")
+	/*doc Box setSize(aPoint)
+	Copies the values in aPoint to the box's size point.
 	*/
 
 	IoSeq_rawCopy_(DATA(self)->size, IoMessage_locals_pointArgAt_(m, locals, 0));
@@ -193,8 +191,8 @@ IoObject *IoBox_setSize(IoBox *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoBox_copy(IoBox *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("copy(aBox)", "Copies the values of aBox to the receiver.")
+	/*doc Box copy(aBox)
+	Copies the values of aBox to the receiver.
 	*/
 
 	IoBox *other = IoMessage_locals_boxArgAt_(m, locals, 0);
@@ -205,8 +203,8 @@ IoObject *IoBox_copy(IoBox *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoBox_print(IoBox *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("print", "Prints a string representation of the receiver to the standard output.")
+	/*doc Box print
+	Prints a string representation of the receiver to the standard output.
 	*/
 
 	IoState_print_(IOSTATE, "Box clone set(");
@@ -219,8 +217,8 @@ IoObject *IoBox_print(IoBox *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoBox_Union(IoBox *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("Union(aBox)", "Returns a new box containing the 2d union of the receiver and aBox.")
+	/*doc Box Union(aBox)
+	Returns a new box containing the 2d union of the receiver and aBox.
 	*/
 
 	IoBox *other = IoMessage_locals_boxArgAt_(m, locals, 0);
@@ -292,8 +290,8 @@ int IoBox_rawContains3dPoint(IoBox *self, IoVector *otherPoint)
 
 IoObject *IoBox_containsPoint(IoBox *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("containsPoint(aPoint)", "Returns true if aPoint is within the receiver's bounds, false otherwise.")
+	/*doc Box containsPoint(aPoint)
+	Returns true if aPoint is within the receiver's bounds, false otherwise.
 	*/
 
 	int result;
@@ -328,8 +326,8 @@ IoObject *IoBox_containsPoint(IoBox *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoBox_intersectsBox(IoBox *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("intersectsBox(aBox)", "Returns true if aBox is within the receiver's bounds, false otherwise.")
+	/*doc Box intersectsBox(aBox)
+	Returns true if aBox is within the receiver's bounds, false otherwise.
 	*/
 
 	int result = 0;

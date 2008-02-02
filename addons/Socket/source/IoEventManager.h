@@ -1,8 +1,8 @@
-/*
- docCopyright("Steve Dekorte", 2002)
- docLicense("BSD revised")
- docDescription("Selects on sockets and checks for timeouts.")
- */
+//metadoc EventManager copyright Steve Dekorte 2002
+//metadoc EventManager license BSD revised
+/*metadoc EventManager description
+Selects on sockets and checks for timeouts.
+*/
 
 #ifndef IOEVENTMANAGER_DEFINED
 #define IOEVENTMANAGER_DEFINED 1

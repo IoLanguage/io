@@ -1,10 +1,10 @@
-/*#io
-SkipDB ioDoc(
-	docCopyright("Steve Dekorte", 2002)
-	docLicense("BSD revised")
-	docDescription("A key/value database.")
-	docCategory("Databases")
+
+//metadoc SkipDB copyright Steve Dekorte 2002
+//metadoc SkipDB license BSD revised
+/*metadoc SkipDB description
+A key/value database.
 */
+//metadoc SkipDB category Databases
 
 #include "IoSkipDB.h"
 #include "IoSkipDBCursor.h"
@@ -98,8 +98,8 @@ void IoSkipDB_mark(IoSkipDB *self)
 
 IoObject *IoSkipDB_headerPid(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("headerPid", "Returns the headerPid number.")
+	/*doc SkipDB headerPid
+	Returns the headerPid number.
 	*/
 
 	return self;
@@ -107,8 +107,8 @@ IoObject *IoSkipDB_headerPid(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSkipDB_atPut(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("atPut(keySymbol, valueSequence)", "Sets the value of valueSequence with the key keySymbol. Returns self.")
+	/*doc SkipDB atPut(keySymbol, valueSequence)
+	Sets the value of valueSequence with the key keySymbol. Returns self.
 	*/
 
 	IoSeq *key = IoMessage_locals_seqArgAt_(m, locals, 0);
@@ -122,9 +122,10 @@ IoObject *IoSkipDB_atPut(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSkipDB_at(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("at(keySymbol)", "Returns a Sequence for the value at the given key or nil if there is no such key.")
+	/*doc SkipDB at(keySymbol)
+	Returns a Sequence for the value at the given key or nil if there is no such key.
 	*/
+	
 	IoSeq *key = IoMessage_locals_seqArgAt_(m, locals, 0);
 	Datum v;
 
@@ -142,9 +143,10 @@ IoObject *IoSkipDB_at(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSkipDB_removeAt(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("atRemove(keySymbol)", "Removes the specified key. Returns self")
+	/*doc SkipDB atRemove(keySymbol)
+	Removes the specified key. Returns self
 	*/
+	
 	IoSeq *key = IoMessage_locals_seqArgAt_(m, locals, 0);
 	IOASSERT(SKIPDB(self) && SkipDB_isOpen(SKIPDB(self)), "invalid skipdb");
 	SkipDB_removeAt_(SKIPDB(self), IoSeq_asDatum(key));
@@ -153,8 +155,8 @@ IoObject *IoSkipDB_removeAt(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSkipDB_size(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("size", "Returns the number of keys in the receiver.")
+	/*doc SkipDB size
+	Returns the number of keys in the receiver.
 	*/
 
 	IOASSERT(SKIPDB(self) && SkipDB_isOpen(SKIPDB(self)), "invalid skipdb");
@@ -164,8 +166,8 @@ IoObject *IoSkipDB_size(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSkipDB_cursor(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("cursor", "Returns a new cursor to enumerate the receiver.")
+	/*doc SkipDB cursor
+	Returns a new cursor to enumerate the receiver.
 	*/
 
 	IOASSERT(SKIPDB(self) && SkipDB_isOpen(SKIPDB(self)), "invalid skipdb");

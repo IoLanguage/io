@@ -1,10 +1,10 @@
-/*#io
-QDBM ioDoc(
-	docCopyright("Steve Dekorte", 2002)
-	docLicense("BSD revised")
-	docDescription("A key/value database.")
-	docCategory("Databases")
+
+//metadoc QDBM copyright Steve Dekorte 2002
+//metadoc QDBM license BSD revised
+/*metadoc QDBM description
+A key/value database.
 */
+//metadoc QDBM category Databases
 
 #include "IoQDBM.h"
 
@@ -248,9 +248,10 @@ void IoQDBM_mark(IoQDBM *self)
 
 IoObject *IoQDBM_open(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("open(path)", "Opens the database.")
+	/*doc QDBM open(path)
+	Opens the database.
 	*/
+	
 	VILLA *villa;
 	IoSeq *path = IoMessage_locals_seqArgAt_(m, locals, 0);
 	VLCFUNC cf = VL_CMPLEX;
@@ -299,8 +300,8 @@ IoObject *IoQDBM_open(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoQDBM_close(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("close", "Closes the database.")
+	/*doc QDBM close
+	Closes the database.
 	*/
 
 	if(QDBM(self))
@@ -314,9 +315,10 @@ IoObject *IoQDBM_close(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoQDBM_sync(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("sync", "Syncs the database. Returns self")
+	/*doc QDBM sync
+	Syncs the database. Returns self
 	*/
+	
 	int result;
 	IOASSERT(QDBM(self), "invalid QDBM");
 	result = vlsync(QDBM(self));
@@ -326,9 +328,10 @@ IoObject *IoQDBM_sync(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoQDBM_size(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("size", "Returns number of records in database. Returns self")
+	/*doc QDBM size
+	Returns number of records in database. Returns self
 	*/
+	
 	int result;
 	IOASSERT(QDBM(self), "invalid QDBM");
 	result = vlrnum(QDBM(self));
@@ -337,8 +340,8 @@ IoObject *IoQDBM_size(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoQDBM_optimize(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("optimize", "Optimizes the database. Returns self")
+	/*doc QDBM optimize
+	Optimizes the database. Returns self
 	*/
 
 	IOASSERT(QDBM(self), "invalid QDBM");
@@ -348,8 +351,8 @@ IoObject *IoQDBM_optimize(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoQDBM_name(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("name", "Returns the name of the database.")
+	/*doc QDBM name
+	Returns the name of the database.
 	*/
 
 	IOASSERT(QDBM(self), "invalid QDBM");
@@ -358,8 +361,8 @@ IoObject *IoQDBM_name(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoQDBM_begin(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("begin", "Begin transaction. Returns self")
+	/*doc QDBM begin
+	Begin transaction. Returns self
 	*/
 
 	IOASSERT(QDBM(self), "invalid QDBM");
@@ -369,8 +372,8 @@ IoObject *IoQDBM_begin(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoQDBM_commit(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("commit", "Commit transaction. Returns self")
+	/*doc QDBM commit
+	Commit transaction. Returns self
 	*/
 
 	IOASSERT(QDBM(self), "invalid QDBM");
@@ -380,9 +383,10 @@ IoObject *IoQDBM_commit(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoQDBM_abort(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("abort", "Abort transaction. Returns self")
+	/*doc QDBM abort
+	Abort transaction. Returns self
 	*/
+	
 	int result;
 	IOASSERT(QDBM(self), "invalid QDBM");
 	result = vltranabort(QDBM(self));
@@ -394,8 +398,8 @@ IoObject *IoQDBM_abort(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoQDBM_atPut(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("atPut(keySymbol, valueSequence)", "Sets the value of valueSequence with the key keySymbol. Returns self.")
+	/*doc QDBM atPut(keySymbol, valueSequence)
+	Sets the value of valueSequence with the key keySymbol. Returns self.
 	*/
 
 	IoSeq *key = IoMessage_locals_seqArgAt_(m, locals, 0);
@@ -413,9 +417,10 @@ IoObject *IoQDBM_atPut(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoQDBM_at(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("at(keySymbol)", "Returns a Sequence for the value at the given key or nil if there is no such key.")
+	/*doc QDBM at(keySymbol)
+	Returns a Sequence for the value at the given key or nil if there is no such key.
 	*/
+	
 	IoSeq *key = IoMessage_locals_seqArgAt_(m, locals, 0);
 	char *value;
 	int size;
@@ -436,9 +441,10 @@ IoObject *IoQDBM_at(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoQDBM_sizeAt(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("sizeAt(keySymbol)", "Returns the size of the value at the given key or nil if there is no such key.")
+	/*doc QDBM sizeAt(keySymbol)
+	Returns the size of the value at the given key or nil if there is no such key.
 	*/
+	
 	IoSeq *key = IoMessage_locals_seqArgAt_(m, locals, 0);
 	int size;
 
@@ -456,9 +462,10 @@ IoObject *IoQDBM_sizeAt(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoQDBM_removeAt(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("atRemove(keySymbol)", "Removes the specified key. Returns self")
+	/*doc QDBM atRemove(keySymbol)
+	Removes the specified key. Returns self
 	*/
+	
 	IoSeq *key = IoMessage_locals_seqArgAt_(m, locals, 0);
 	int result;
 	IOASSERT(QDBM(self), "invalid QDBM");
@@ -469,8 +476,8 @@ IoObject *IoQDBM_removeAt(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoQDBM_cursorFirst(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("cursorFirst", "Move cursor to first record. Returns self")
+	/*doc QDBM cursorFirst
+	Move cursor to first record. Returns self
 	*/
 
 	IOASSERT(QDBM(self), "invalid QDBM");
@@ -479,8 +486,8 @@ IoObject *IoQDBM_cursorFirst(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoQDBM_cursorLast(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("cursorLast", "Move cursor to last record. Returns self")
+	/*doc QDBM cursorLast
+	Move cursor to last record. Returns self
 	*/
 
 	IOASSERT(QDBM(self), "invalid QDBM");
@@ -489,8 +496,9 @@ IoObject *IoQDBM_cursorLast(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoQDBM_cursorPrevious(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("cursorPrevious", "Move cursor to previous record. Returns true if there is another key, or false if there is no previous record.")
+	/*doc QDBM cursorPrevious
+	Move cursor to previous record. Returns true if there is another key, 
+	or false if there is no previous record.
 	*/
 
 	IOASSERT(QDBM(self), "invalid QDBM");
@@ -499,8 +507,9 @@ IoObject *IoQDBM_cursorPrevious(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoQDBM_cursorNext(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("cursorNext", "Move cursor to next record. Returns true if there is another key, or false if there is no next record.")
+	/*doc QDBM cursorNext
+	Move cursor to next record. Returns true if there is another key, 
+	or false if there is no next record.
 	*/
 
 	IOASSERT(QDBM(self), "invalid QDBM");
@@ -509,9 +518,10 @@ IoObject *IoQDBM_cursorNext(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoQDBM_cursorJumpForward(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("cursorJumpForward(key)", "Move cursor to next record around key. Returns self")
+	/*doc QDBM cursorJumpForward(key)
+	Move cursor to next record around key. Returns self
 	*/
+	
 	IoSeq *key = IoMessage_locals_seqArgAt_(m, locals, 0);
 
 	IOASSERT(QDBM(self), "invalid QDBM");
@@ -521,9 +531,10 @@ IoObject *IoQDBM_cursorJumpForward(IoObject *self, IoObject *locals, IoMessage *
 
 IoObject *IoQDBM_cursorJumpBackward(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("cursorJumpBackward(key)", "Move cursor to previous record around key. Returns self")
+	/*doc QDBM cursorJumpBackward(key)
+	Move cursor to previous record around key. Returns self
 	*/
+	
 	IoSeq *key = IoMessage_locals_seqArgAt_(m, locals, 0);
 
 	IOASSERT(QDBM(self), "invalid QDBM");
@@ -533,9 +544,10 @@ IoObject *IoQDBM_cursorJumpBackward(IoObject *self, IoObject *locals, IoMessage 
 
 IoObject *IoQDBM_cursorKey(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("cursorKey", "Returns current cursor key or nil.")
+	/*doc QDBM cursorKey
+	Returns current cursor key or nil.
 	*/
+	
 	int size;
 	char *value;
 
@@ -554,9 +566,10 @@ IoObject *IoQDBM_cursorKey(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoQDBM_cursorValue(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("cursorValue", "Returns current cursor value or nil.")
+	/*doc QDBM cursorValue
+	Returns current cursor value or nil.
 	*/
+	
 	int size;
 	char *value;
 
@@ -575,9 +588,10 @@ IoObject *IoQDBM_cursorValue(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoQDBM_cursorPut(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("cursorPut(value)", "Sets the value at the current cursor postion. Returns self.")
+	/*doc QDBM cursorPut(value)
+	Sets the value at the current cursor postion. Returns self.
 	*/
+	
 	IoSeq *value = IoMessage_locals_seqArgAt_(m, locals, 0);
 
 	IOASSERT(QDBM(self), "invalid QDBM");
@@ -589,8 +603,8 @@ IoObject *IoQDBM_cursorPut(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoQDBM_cursorRemove(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("cursorRemove", "Removes the current cursor postion. Returns self.")
+	/*doc QDBM cursorRemove
+	Removes the current cursor postion. Returns self.
 	*/
 
 	IOASSERT(QDBM(self), "invalid QDBM");

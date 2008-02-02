@@ -1,18 +1,20 @@
-/*#io
-Image ioDoc(
-		  docCopyright("Steve Dekorte", 2004)
-		  docLicense("BSD revised")
-		  docCategory("Graphics")
-		  docDescription("The Image object can read and draw images and provide the image data as a buffer. Example use;
-<pre>
-image = Image clone open(\"curly.png\")
+
+//metadoc Image copyright Steve Dekorte, 2004
+//metadoc Image license BSD revised
+//metadoc Image category Graphics
+/*metadoc Image description
+The Image object can read and draw images and provide the image 
+data as a buffer. Example use;
+<pre>	
+image = Image clone open("curly.png")
 image draw
 image scaleTo(image width / 2, image height / 2)
-image save(\"curly.tiff\")
-</pre>
-When loading an attempt will be made to convert the image into whichever of the following formats it is closest to: L8, LA8, RGB8, RGBA8.
+image save("curly.tiff")
+</pre>	
+When loading an attempt will be made to convert the image into whichever 
+of the following formats it is closest to: L8, LA8, RGB8, RGBA8.
 <p>
-Currently supported formats include PNG(which supports alpha), JPG and TIFF. ")
+Currently supported formats include PNG(which supports alpha), JPG and TIFF.
 */
 
 #include "IoImage.h"
@@ -126,9 +128,8 @@ Image *IoImage_rawImage(IoImage *self)
 
 IoObject *IoImage_path(IoImage *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("path",
-		   "Returns the image path. ")
+	/*doc Image path
+	Returns the image path.
 	*/
 
 	return IOSYMBOL(Image_path(DATA(self)->image));
@@ -136,9 +137,8 @@ IoObject *IoImage_path(IoImage *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoImage_setPath(IoImage *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setPath(aString)",
-		   "Sets the image path. Returns self. ")
+	/*doc Image setPath(aString)
+	Sets the image path. Returns self.
 	*/
 
 	IoSymbol *s = IoMessage_locals_symbolArgAt_(m, locals, 0);
@@ -159,9 +159,8 @@ void IoImage_checkError(IoImage *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoImage_setDataWidthHeightComponentCount(IoImage *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setDataWidthHeightComponentCount(aSequence, width, height, componentCount)",
-		   "Sets the image data and it's parameters. Returns self.")
+	/*doc Image setDataWidthHeightComponentCount(aSequence, width, height, componentCount)
+	Sets the image data and it's parameters. Returns self.
 	*/
 
 	IoSeq *data = IoMessage_locals_seqArgAt_(m, locals, 0);
@@ -176,9 +175,9 @@ IoObject *IoImage_setDataWidthHeightComponentCount(IoImage *self, IoObject *loca
 
 IoObject *IoImage_open(IoImage *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("open(optionalPathString)",
-		   "Sets the path to optionalPathString if provided and opens the image file. Returns self on success, Nil on failure. ")
+	/*doc Image open(optionalPathString)
+	Sets the path to optionalPathString if provided and opens the image file. 
+	Returns self on success, Nil on failure.
 	*/
 
 	/*printf("opening Image %p %s\n", self, Image_path(DATA(self)->image));*/
@@ -196,9 +195,9 @@ IoObject *IoImage_open(IoImage *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoImage_save(IoImage *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("save(optionalPathString)",
-		   "Sets the path to optionalPathString if provided and saves the image in the format specified by the path extension. Returns self on success, Nil on failure. ")
+	/*doc Image save(optionalPathString)
+	Sets the path to optionalPathString if provided and saves the image 
+	in the format specified by the path extension. Returns self on success, nil on failure.
 	*/
 
 	if (IoMessage_argCount(m) > 0)
@@ -214,8 +213,8 @@ IoObject *IoImage_save(IoImage *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoImage_width(IoImage *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("width", "Returns the image width. ")
+	/*doc Image width
+	Returns the image width.
 	*/
 
 	return IONUMBER(Image_width(DATA(self)->image));
@@ -223,8 +222,8 @@ IoObject *IoImage_width(IoImage *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoImage_height(IoImage *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("height", "Returns the image hieght. ")
+	/*doc Image height
+	Returns the image hieght.
 	*/
 
 	return IONUMBER(Image_height(DATA(self)->image));
@@ -232,9 +231,9 @@ IoObject *IoImage_height(IoImage *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoImage_data(IoImage *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("data",
-		   "Returns a Buffer primitive containing the image data(loading it first if needed). Manipulating this data will effect what is drawn when the receiver's draw method is called. ")
+	/*doc Image data
+	Returns a Buffer primitive containing the image data (loading it first if needed). 
+	Manipulating this data will effect what is drawn when the receiver's draw method is called.
 	*/
 
 	return DATA(self)->buffer;
@@ -247,9 +246,8 @@ IoObject *IoImage_componentCount(IoImage *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoImage_error(IoImage *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("error",
-		   "Returns a String containing the current error or Nil if there is no error. ")
+	/*doc Image error
+	Returns a String containing the current error or nil if there is no error.
 	*/
 
 	char *s = (char *)Image_error(DATA(self)->image);
@@ -264,9 +262,8 @@ IoObject *IoImage_error(IoImage *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoImage_isRGB8(IoImage *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("isRGB8",
-		   "Returns true if the receiver is in RGB8 format, false otherwise.")
+	/*doc Image isRGB8
+	Returns true if the receiver is in RGB8 format, false otherwise.
 	*/
 
 	return IOBOOL(self, Image_componentCount(DATA(self)->image) == 3);
@@ -274,9 +271,8 @@ IoObject *IoImage_isRGB8(IoImage *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoImage_isRGBA8(IoImage *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("isRGBA8",
-		   "Returns true if the receiver is in RGBA8 format, false otherwise.")
+	/*doc Image isRGBA8
+	Returns true if the receiver is in RGBA8 format, false otherwise.
 	*/
 
 	return IOBOOL(self, Image_componentCount(DATA(self)->image) == 4);
@@ -284,9 +280,8 @@ IoObject *IoImage_isRGBA8(IoImage *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoImage_isL8(IoImage *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("isL8",
-		   "Returns true if the receiver is in L8 (8bit Luminance) format, false otherwise.")
+	/*doc Image isL8
+	Returns true if the receiver is in L8 (8bit Luminance) format, false otherwise.
 	*/
 
 	return IOBOOL(self, Image_componentCount(DATA(self)->image) == 1);
@@ -294,9 +289,8 @@ IoObject *IoImage_isL8(IoImage *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoImage_isLA8(IoImage *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("isLA8",
-		   "Returns true if the receiver is in LA8 (8bit Luminance-Alpha) format, false otherwise.")
+	/*doc Image isLA8
+	Returns true if the receiver is in LA8 (8bit Luminance-Alpha) format, false otherwise.
 	*/
 
 	return IOBOOL(self, Image_componentCount(DATA(self)->image) == 2);
@@ -304,9 +298,8 @@ IoObject *IoImage_isLA8(IoImage *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoImage_crop(IoImage *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("crop(x, y, width, height)",
-		   "Crops the image to the specified values. Returns self.")
+	/*doc Image crop(x, y, width, height)
+	Crops the image to the specified values. Returns self.
 	*/
 
 	int cx = IoMessage_locals_intArgAt_(m, locals, 0);
@@ -335,9 +328,8 @@ IoObject *IoImage_resizedTo(IoImage *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoImage_setEncodingQuality(IoImage *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setEncodingQuality(aNumber)",
-		   "Sets the image encoding quality (range is 0.0 - 1.0, 1.0 with being the highest).")
+	/*doc Image setEncodingQuality(aNumber)
+	Sets the image encoding quality (range is 0.0 - 1.0, 1.0 with being the highest).
 	*/
 
 	Image_encodingQuality_(DATA(self)->image, IoMessage_locals_doubleArgAt_(m, locals, 0));
@@ -346,9 +338,8 @@ IoObject *IoImage_setEncodingQuality(IoImage *self, IoObject *locals, IoMessage 
 
 IoObject *IoImage_encodingQuality(IoImage *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("encodingQuality",
-		   "Returns the encodingQuality setting.")
+	/*doc Image encodingQuality
+	Returns the encodingQuality setting.
 	*/
 
 	return IONUMBER(Image_encodingQuality(DATA(self)->image));

@@ -1,9 +1,8 @@
-/*#io
-ODEJointGroup ioDoc(
-		 docCopyright("Jonathan Wright", 2006)
-		 docLicense("BSD revised")
-		 docDescription("ODEJointGroup binding")
-		 */
+//metadoc ODEJointGroup copyright Jonathan Wright, 2006
+//metadoc ODEJointGroup license BSD revised
+/*metadoc ODEJointGroup description
+ODEJointGroup binding
+*/
 
 #include "IoODEJointGroup.h"
 #include "IoODEJoint.h"

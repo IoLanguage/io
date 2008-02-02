@@ -1,8 +1,8 @@
-/*   Copyright (c) 2003, Steve Dekorte
-docLicense("BSD revised")
- *
- *   An Io proxy to an Objective-C object or class
- */
+//metadoc Io2Objc copyright 2003, Steve Dekorte
+//metadoc Io2Objc license BSD revised
+/*metadoc Io2Objc description
+An Io proxy to an Objective-C object or class
+*/
 
 #ifndef IOOBJECTIVEC_DEFINED
 #define IOOBJECTIVEC_DEFINED 1

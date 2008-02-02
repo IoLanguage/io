@@ -1,10 +1,10 @@
-/*
-EventManager ioDoc(
-	docCopyright("Steve Dekorte", 2002)
-	docLicense("BSD revised")
-	docDescription("A binding for libevent.")
-	docCategory("Networking")
+
+//metadoc EventManager copyright Steve Dekorte 2002
+//metadoc EventManager license BSD revised
+/*metadoc EventManager description
+A binding for libevent.
 */
+//metadoc EventManager category Networking
 
 #include "IoEventManager.h"
 #include "IoNumber.h"

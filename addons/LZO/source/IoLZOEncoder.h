@@ -1,6 +1,5 @@
-/*
-docCopyright("Steve Dekorte", 2002)
-*/
+
+//metadoc LZOEncoder copyright Steve Dekorte 2002
 
 #ifndef IoLZOEncoder_DEFINED
 #define IoLZOEncoder_DEFINED 1

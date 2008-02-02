@@ -1,10 +1,10 @@
-/*#io
-DNS ioDoc(
-	docCopyright("Steve Dekorte", 2002)
-	docLicense("BSD revised")
-	docDescription("Utility methods related to Domain Name Service lookups.")
-	docCategory("Networking")
+
+//metadoc DNS copyright Steve Dekorte 2002
+//metadoc DNS license BSD revised
+/*metadoc DNS description
+Utility methods related to Domain Name Service lookups.
 */
+//metadoc DNS category Networking
 
 #include "IoDNS.h"
 #include "IoState.h"

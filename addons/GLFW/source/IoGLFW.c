@@ -1,9 +1,6 @@
-/*#io
-GLFW ioDoc(
-	docCopyright("Joel de Vahl", 2006)
-	docLicense("BSD revised")
-	docCategory("Graphics")
- */
+/*metadoc GLFW copyright Joel de Vahl, 2006
+//metadoc GLFW license BSD revised
+//metadoc GLFW category Graphics
 
 #include "IoGLFW.h"
 

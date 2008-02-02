@@ -81,8 +81,6 @@
 		AA7D66A10B60124100D7DEA9 /* IoGLFW.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5CB80B60123B00D7DEA9 /* IoGLFW.h */; };
 		AA7D66A20B60124100D7DEA9 /* IoGLFWconst.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5CB90B60123B00D7DEA9 /* IoGLFWconst.h */; };
 		AA7D66A30B60124100D7DEA9 /* IoGLFWfunc.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5CBA0B60123B00D7DEA9 /* IoGLFWfunc.h */; };
-		AA7D66BC0B60124100D7DEA9 /* GLImage.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5CDE0B60123B00D7DEA9 /* GLImage.c */; };
-		AA7D66BD0B60124100D7DEA9 /* GLImage.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5CDF0B60123B00D7DEA9 /* GLImage.h */; };
 		AA7D66BE0B60124100D7DEA9 /* IoImage.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5CE00B60123B00D7DEA9 /* IoImage.c */; };
 		AA7D66BF0B60124100D7DEA9 /* IoImage.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5CE10B60123B00D7DEA9 /* IoImage.h */; };
 		AA7D66C00B60124100D7DEA9 /* IoImageApi.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5CE20B60123B00D7DEA9 /* IoImageApi.h */; };
@@ -91,8 +89,6 @@
 		AA7D66C30B60124100D7DEA9 /* JPGImage.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5CE50B60123B00D7DEA9 /* JPGImage.h */; };
 		AA7D66C60B60124100D7DEA9 /* PNGImage.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5CE90B60123B00D7DEA9 /* PNGImage.c */; };
 		AA7D66C70B60124100D7DEA9 /* PNGImage.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5CEA0B60123B00D7DEA9 /* PNGImage.h */; };
-		AA7D66C80B60124100D7DEA9 /* SDImage.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5CEB0B60123B00D7DEA9 /* SDImage.c */; };
-		AA7D66C90B60124100D7DEA9 /* SDImage.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5CEC0B60123B00D7DEA9 /* SDImage.h */; };
 		AA7D66CA0B60124100D7DEA9 /* TIFFImage.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5CED0B60123B00D7DEA9 /* TIFFImage.c */; };
 		AA7D66CB0B60124100D7DEA9 /* TIFFImage.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5CEE0B60123B00D7DEA9 /* TIFFImage.h */; };
 		AA7D66DA0B60124100D7DEA9 /* IoLibSndFile.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5D090B60123B00D7DEA9 /* IoLibSndFile.c */; };
@@ -570,12 +566,10 @@
 				AA7D66A10B60124100D7DEA9 /* IoGLFW.h in CopyFiles */,
 				AA7D66A20B60124100D7DEA9 /* IoGLFWconst.h in CopyFiles */,
 				AA7D66A30B60124100D7DEA9 /* IoGLFWfunc.h in CopyFiles */,
-				AA7D66BD0B60124100D7DEA9 /* GLImage.h in CopyFiles */,
 				AA7D66BF0B60124100D7DEA9 /* IoImage.h in CopyFiles */,
 				AA7D66C00B60124100D7DEA9 /* IoImageApi.h in CopyFiles */,
 				AA7D66C30B60124100D7DEA9 /* JPGImage.h in CopyFiles */,
 				AA7D66C70B60124100D7DEA9 /* PNGImage.h in CopyFiles */,
-				AA7D66C90B60124100D7DEA9 /* SDImage.h in CopyFiles */,
 				AA7D66CB0B60124100D7DEA9 /* TIFFImage.h in CopyFiles */,
 				AA7D66DB0B60124100D7DEA9 /* IoLibSndFile.h in CopyFiles */,
 				AA7D66EA0B60124100D7DEA9 /* IoXmlReader.h in CopyFiles */,
@@ -933,8 +927,6 @@
 		AA7D5CB80B60123B00D7DEA9 /* IoGLFW.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoGLFW.h; path = ../../addons/GLFW/source/IoGLFW.h; sourceTree = SOURCE_ROOT; };
 		AA7D5CB90B60123B00D7DEA9 /* IoGLFWconst.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoGLFWconst.h; path = ../../addons/GLFW/source/IoGLFWconst.h; sourceTree = SOURCE_ROOT; };
 		AA7D5CBA0B60123B00D7DEA9 /* IoGLFWfunc.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoGLFWfunc.h; path = ../../addons/GLFW/source/IoGLFWfunc.h; sourceTree = SOURCE_ROOT; };
-		AA7D5CDE0B60123B00D7DEA9 /* GLImage.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = GLImage.c; path = ../../addons/Image/source/GLImage.c; sourceTree = SOURCE_ROOT; };
-		AA7D5CDF0B60123B00D7DEA9 /* GLImage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GLImage.h; path = ../../addons/Image/source/GLImage.h; sourceTree = SOURCE_ROOT; };
 		AA7D5CE00B60123B00D7DEA9 /* IoImage.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoImage.c; path = ../../addons/Image/source/IoImage.c; sourceTree = SOURCE_ROOT; };
 		AA7D5CE10B60123B00D7DEA9 /* IoImage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoImage.h; path = ../../addons/Image/source/IoImage.h; sourceTree = SOURCE_ROOT; };
 		AA7D5CE20B60123B00D7DEA9 /* IoImageApi.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoImageApi.h; path = ../../addons/Image/source/IoImageApi.h; sourceTree = SOURCE_ROOT; };
@@ -943,8 +935,6 @@
 		AA7D5CE50B60123B00D7DEA9 /* JPGImage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = JPGImage.h; path = ../../addons/Image/source/JPGImage.h; sourceTree = SOURCE_ROOT; };
 		AA7D5CE90B60123B00D7DEA9 /* PNGImage.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = PNGImage.c; path = ../../addons/Image/source/PNGImage.c; sourceTree = SOURCE_ROOT; };
 		AA7D5CEA0B60123B00D7DEA9 /* PNGImage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PNGImage.h; path = ../../addons/Image/source/PNGImage.h; sourceTree = SOURCE_ROOT; };
-		AA7D5CEB0B60123B00D7DEA9 /* SDImage.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = SDImage.c; path = ../../addons/Image/source/SDImage.c; sourceTree = SOURCE_ROOT; };
-		AA7D5CEC0B60123B00D7DEA9 /* SDImage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SDImage.h; path = ../../addons/Image/source/SDImage.h; sourceTree = SOURCE_ROOT; };
 		AA7D5CED0B60123B00D7DEA9 /* TIFFImage.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = TIFFImage.c; path = ../../addons/Image/source/TIFFImage.c; sourceTree = SOURCE_ROOT; };
 		AA7D5CEE0B60123B00D7DEA9 /* TIFFImage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TIFFImage.h; path = ../../addons/Image/source/TIFFImage.h; sourceTree = SOURCE_ROOT; };
 		AA7D5D090B60123B00D7DEA9 /* IoLibSndFile.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoLibSndFile.c; path = ../../addons/LibSndFile/source/IoLibSndFile.c; sourceTree = SOURCE_ROOT; };
@@ -1836,8 +1826,6 @@
 		AA7D5CDD0B60123B00D7DEA9 /* source */ = {
 			isa = PBXGroup;
 			children = (
-				AA7D5CDE0B60123B00D7DEA9 /* GLImage.c */,
-				AA7D5CDF0B60123B00D7DEA9 /* GLImage.h */,
 				AA7D5CE00B60123B00D7DEA9 /* IoImage.c */,
 				AA7D5CE10B60123B00D7DEA9 /* IoImage.h */,
 				AA7D5CE20B60123B00D7DEA9 /* IoImageApi.h */,
@@ -1846,8 +1834,6 @@
 				AA7D5CE50B60123B00D7DEA9 /* JPGImage.h */,
 				AA7D5CE90B60123B00D7DEA9 /* PNGImage.c */,
 				AA7D5CEA0B60123B00D7DEA9 /* PNGImage.h */,
-				AA7D5CEB0B60123B00D7DEA9 /* SDImage.c */,
-				AA7D5CEC0B60123B00D7DEA9 /* SDImage.h */,
 				AA7D5CED0B60123B00D7DEA9 /* TIFFImage.c */,
 				AA7D5CEE0B60123B00D7DEA9 /* TIFFImage.h */,
 			);
@@ -3055,12 +3041,10 @@
 				AA7D66920B60124100D7DEA9 /* IoFont.c in Sources */,
 				AA7D66940B60124100D7DEA9 /* IoFontInit.c in Sources */,
 				AA7D66A00B60124100D7DEA9 /* IoGLFW.c in Sources */,
-				AA7D66BC0B60124100D7DEA9 /* GLImage.c in Sources */,
 				AA7D66BE0B60124100D7DEA9 /* IoImage.c in Sources */,
 				AA7D66C10B60124100D7DEA9 /* IoImageInit.c in Sources */,
 				AA7D66C20B60124100D7DEA9 /* JPGImage.c in Sources */,
 				AA7D66C60B60124100D7DEA9 /* PNGImage.c in Sources */,
-				AA7D66C80B60124100D7DEA9 /* SDImage.c in Sources */,
 				AA7D66CA0B60124100D7DEA9 /* TIFFImage.c in Sources */,
 				AA7D66DA0B60124100D7DEA9 /* IoLibSndFile.c in Sources */,
 				AA7D66DC0B60124100D7DEA9 /* IoLibSndFileInit.c in Sources */,

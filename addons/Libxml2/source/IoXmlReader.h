@@ -1,7 +1,6 @@
-/*
-docCopyright("Brian Luczkiewicz", 2006)
-docLicense("BSD revised")
-*/
+
+//metadoc XmlReader copyright Brian Luczkiewicz, 2006
+//metadoc XmlReader license BSD revised
 
 #ifndef IOXML_READER_H
 #define IOXML_READER_H 1

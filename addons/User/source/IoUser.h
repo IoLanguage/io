@@ -1,7 +1,6 @@
-/*
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+
+//metadoc User copyright Steve Dekorte 2002
+//metadoc User license BSD revised
 
 #ifndef IOUSER_DEFINED
 #define IOUSER_DEFINED 1

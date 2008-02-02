@@ -1,5 +1,8 @@
 /*
-docCopyright("Jonathan Wright", 2006)
+copyright
+	Jonathan Wright, 2006
+license
+	BSD Revised
 */
 
 #ifndef IOUUID_DEFINED

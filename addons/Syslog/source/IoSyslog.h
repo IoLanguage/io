@@ -1,6 +1,9 @@
-/*
-docCopyright("Jeremy Tregunna", 2005)
-docLicense("BSD license")
+/*metadoc Syslog copyright
+	Jeremy Tregunna, 2005
+*/
+
+/*metadoc Syslog license
+	BSD license
 */
 
 #ifndef IOSYSLOG_DEFINED

@@ -4,13 +4,13 @@
 /*metadoc File description
 Encapsulates file i/o. Here's an example of opening a file, 
 and reversing it's lines:
-<code>	
+<pre>	
 file = File clone openForUpdating("/tmp/test")
 lines = file readLines reverse
 file rewind
 lines foreach(i, line, file write(line, "\n"))
 file close
-</code>	
+</pre>	
 */
 //metadoc File category FileSystem
 
@@ -1006,10 +1006,11 @@ IoObject *IoFile_foreach(IoFile *self, IoObject *locals, IoMessage *m)
 	For each byte, set index to the index of the byte
 and value to the number containing the byte value and execute aMessage.
 Example usage:
-<code>	
+<p>
+<pre>	
 aFile foreach(i, v, writeln("byte at ", i, " is ", v))
 aFile foreach(v, writeln("byte ", v))
-</code>	
+</pre>	
 */
 	IoObject *result;
 
@@ -1057,10 +1058,10 @@ IoObject *IoFile_foreachLine(IoFile *self, IoObject *locals, IoMessage *m)
 	For each line, set index to the line number of the line
 and line and execute aMessage.
 Example usage:
-<code>	
+<pre>	
 aFile foreachLine(i, v, writeln("Line ", i, ": ", v))
 aFile foreach(v, writeln("Line: ", v))
-</code>	
+</pre>	
 */
 
 	IoObject *result;

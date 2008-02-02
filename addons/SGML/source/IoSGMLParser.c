@@ -1,10 +1,9 @@
-/*#io
-SGMLParser ioDoc(
-			  docCopyright("Steve Dekorte", 2004)
-			  docLicense("BSD revised")
-			  docDescription("This object can be used to parse SGML / HTML / XML. ")
-			  docCategory("XML")
-			  */
+//metadoc SGMLParser copyright Steve Dekorte, 2004
+//metadoc SGMLParser license BSD revised
+/*metadoc SGMLParser description
+This object can be used to parse SGML / HTML / XML.
+*/
+//metadoc SGMLParser category XML
 
 #include "IoSGMLParser.h"
 #include "IoState.h"
@@ -225,24 +224,22 @@ void IoSGMLParser_characterDataHandler(SGML_PARSER *parser,
 
 /* ------------------------------------------------ */
 
-/*#io
-docSlot("tagForString(aSequence)",
-	   "Parses aSequence and returns an SGMLTag object. ")
+/*doc SGMLParser tagForString(aSequence)
+Parses aSequence and returns an SGMLTag object.
 */
 
 IoObject *IoSGMLParser_parse(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("parse(aSequence)",
-		   "Parses aSequence and calls the following methods on self;
-<pre>
+	/*doc SGMLParser parse(aSequence)
+	Parses aSequence and calls the following methods on self;
+<pre>	
 startElement(name)
 endElement(name)
 newAttribute(key, value)
 newText(text)
-</pre>
-for each of the items it finds. Returns self.")
-	*/
+</pre>	
+for each of the items it finds. Returns self.
+*/
 
 	IoSeq *buffer = IoMessage_locals_seqArgAt_(m, locals, 0);
 	int ret;

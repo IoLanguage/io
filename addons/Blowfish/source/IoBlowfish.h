@@ -1,5 +1,6 @@
 /*
-docCopyright("Steve Dekorte", 2002)
+//metadoc Blowfish copyright Steve Dekorte 2002
+*/
 */
 
 #ifndef IoBlowfish_DEFINED

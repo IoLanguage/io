@@ -242,14 +242,14 @@ IoObject *IoObject_tailCall(IoObject *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Object tailCall(expression)
 	Does a tailCall on the currently executing Block. Example:
-	<code>	
+	<pre>	
 	Io> a := method(x, x = x + 1; if(x > 10, return x); tailCall(x))
 	==> method(x, updateSlot("x", x +(1));
 			if(x >(10), return(x));
 			tailCall(x))
 	Io> a(1)
 	==> 11
-	</code>	
+	</pre>	
 	*/
 
 	IOSTATE->tailCallMessage = m;

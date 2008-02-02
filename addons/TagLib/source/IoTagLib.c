@@ -1,9 +1,21 @@
-/*#io
-TagLib ioDoc(
-	docCopyright("Steve Dekorte", 2004)
-	docLicense("BSD revised")
-	docCategory("Media")
-	docDescription("""Used to set tags on ape, flac, mp3, mpc, mpeg, and ogg files. The title, artist, album, year, track, genre slots can be written, and those plus the bitRate, sampleRate, channels and length slots can be read. To read, set the path slot and call the load method. To write, set the path and other slots and call the save method.""")
+/*metadoc TagLib copyright
+	Steve Dekorte, 2004
+*/
+
+/*metadoc TagLib license
+	BSD revised
+*/
+
+/*metadoc TagLib category
+	Media
+*/
+
+/*metadoc TagLib description
+	Used to set tags on ape, flac, mp3, mpc, mpeg, and ogg files. 
+	The title, artist, album, year, track, genre slots can be written, 
+	and those plus the bitRate, sampleRate, channels and length slots 
+	can be read. To read, set the path slot and call the load method. 
+	To write, set the path and other slots and call the save method.
 */
 
 #include "IoTagLib.h"
@@ -58,8 +70,8 @@ IoTagLib *IoTagLib_new(void *state)
 
 IoObject *IoTagLib_load(IoTagLib *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("load", "Loads tag data from the file specified in the path slot. Returns self.")
+	/*doc TagLib load
+	Loads tag data from the file specified in the path slot. Returns self.
 	*/
 
 	TagLib_File *file;
@@ -99,8 +111,8 @@ IoObject *IoTagLib_load(IoTagLib *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoTagLib_save(IoTagLib *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("save", "Saves the tag settings and returns self.")
+	/*doc TagLib save
+	Saves the tag settings and returns self.
 	*/
 
 	TagLib_File *file;

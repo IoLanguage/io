@@ -1,15 +1,12 @@
-/*#io
-Thread ioDoc(
-			docCopyright("Steve Dekorte", 2006)
-			docLicense("BSD revised")
-			docCategory("Compression")
-			docDescription("""For native threads.
+//metadoc Thread copyright Steve Dekorte, 2006
+//metadoc Thread license BSD revised
+//metadoc Thread category Concurrency
+/*metadoc Thread description
+	For native threads.
 Example use;
-<pre>
+<pre>	
 Thread createThread()
-
 </pre>
-""")
 */
 
 #include "IoThread.h"

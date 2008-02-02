@@ -1,6 +1,5 @@
-/*   copyright: Steve Dekorte, 2002
- *   All rights reserved. See _BSDLicense.txt.
- */
+//metadoc GLE copyright: Steve Dekorte, 2002
+//metadoc GLE license BSD Revised
 
 #ifndef IOGLE_DEFINED
 #define IOGLE_DEFINED 1

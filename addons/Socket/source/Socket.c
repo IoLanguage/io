@@ -1,7 +1,6 @@
-/*
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+
+//metadoc Socket copyright Steve Dekorte 2002
+//metadoc Socket license BSD revised
 
 #include "Socket.h"
 #include <stdlib.h>

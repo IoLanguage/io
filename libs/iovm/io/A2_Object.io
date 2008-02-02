@@ -259,7 +259,7 @@ Object do(
 		getSlot("self") setSlot(name, getSlot("value"))
 		getSlot("self") setSlot("set" .. name asCapitalized,
 			doString("method(" .. name .. " = call evalArgAt(0); self)"))
-			if(doc, getSlot("self") docSlot(name, doc))
+			//if(doc, getSlot("self") docSlot(name, doc))
 		value
 	)
 
@@ -278,10 +278,10 @@ Object do(
 
 	/*doc Object ?(aMessage)
 	description: Sends the message aMessage to the receiver if it can respond to it. Example:
-	<pre>
+	<code>
 	MyObject test // performs test
 	MyObject ?test // performs test if MyObject has a slot named test
-	</pre>
+	</code>
 	The search for the slot only follows the receivers proto chain.
 	*/
 
@@ -311,10 +311,10 @@ Object do(
 
 	/*doc Object super(aMessage)
 	Sends the message aMessage to the receiver's proto with the context of self. Example:
-	<pre>
+	<code>
 	self test(1, 2)   // performs test(1, 2) on self
 	super(test(1, 2)) // performs test(1, 2) on self proto but with the context of self
-	</pre>
+	</code>
 	*/
 
 	setSlot("super", method(
@@ -340,13 +340,13 @@ Object do(
 	/*doc Object resend
 	Send the message used to activate the current method to the Object's proto.
 	For example;
-	<pre>
+	<code>
 	Dog := Mammal clone do(
 	init := method(
 		resend
 	)
 	)
-	</pre>
+	</code>
 	calling Dog init will send an init method to Mammal, but using the Dog's context.
 	*/
 
@@ -422,14 +422,14 @@ Object do(
 
 	/*doc Object switch(<key1>, <expression1>, <key2>, <expression2>, ...) 
 	Execute an expression depending on the value of the caller. (This is an equivalent to C switch/case)
-	<pre>
+	<code>
 	hour := Date hour switch(
 		12, "midday",
 		0, "midnight",
 		17, "teatime",
 		Date hour asString
 	)
-	</pre>
+	</code>
 	*/
 	
 	switch := method(

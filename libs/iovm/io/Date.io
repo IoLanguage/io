@@ -1,6 +1,9 @@
 Date do(
-	//doc Date today Set the receiver to the current date, no time information
-is included. See `now' for the current date and time.
+	/*doc Date today 
+	Set the receiver to the current date, no time information
+	is included. See `now' for the current date and time.
+	*/
+	
 	today := method(Date now setHour(0) setMinute(0) setSecond(0))
 
 	//doc Date isToday Returns true if the receiver's date is today's date.
@@ -37,20 +40,20 @@ Number do(
 	/*doc Number years Returns Duration of receiver's years.
 
 Example:
-<pre>
+<code>
 Io> 1 years
 ==> 1 years 00 days 00:00:0.000000
 Io> 20 years
 ==> 20 years 00 days 00:00:0.000000
-</pre>
+</code>
 
 With this, you can do things such as:
-<pre>
+<code>
 Io> Date clone now + 5 years
 ==> 2011-11-14 18:44:33 EST
 Io> Date clone now + 2 years + 3 days + 22 minutes
 ==> 2008-11-17 19:06:54 EST
-</pre>
+</code>
 */
 	years := method(Duration clone setYears(self))
 

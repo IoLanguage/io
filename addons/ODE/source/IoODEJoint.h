@@ -1,6 +1,5 @@
-/*   copyright: Jonathan Wright, 2006
- *   All rights reserved. See _BSDLicense.txt.
- */
+//metadoc ODEJoint copyright Jonathan Wright, 2006
+//metadoc ODEJoint license All rights reserved. See _BSDLicense.txt.
 
 #ifndef IOODEJoint_DEFINED
 #define IOODEJoint_DEFINED 1

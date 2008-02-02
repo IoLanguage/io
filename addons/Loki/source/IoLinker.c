@@ -1,9 +1,8 @@
-/*#io
-Linker ioDoc(
-		docCopyright("Marc Fauconneau", 2006)
-		docLicense("BSD revised")
-		docDescription("An object that enables low level introspection into a running Io VM.")
-		*/
+//metadoc Linker copyright Marc Fauconneau, 2006
+//metadoc Linker license BSD revised
+/*metadoc Linker description
+	An object that enables low level introspection into a running Io VM.")
+*/
 
 #include "IoLinker.h"
 #include "IoState.h"

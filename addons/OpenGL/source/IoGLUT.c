@@ -1,9 +1,7 @@
-/*#io
-GLUT ioDoc(
-	docCopyright("Steve Dekorte", 2002)
-	docLicense("BSD revised")
-	docCategory("Graphics")
-*/
+
+//metadoc GLUT copyright Steve Dekorte 2002
+//metadoc GLUT license BSD revised
+//metadoc GLUT category Graphics
 
 #include "IoGLUT.h"
 

@@ -1,8 +1,7 @@
-/*#io
-ODEJoint ioDoc(
-	docCopyright("Jonathan Wright", 2006)
-	docLicense("BSD revised")
-	docDescription("ODEJoint binding")
+//metadoc ODEJoint copyright Jonathan Wright, 2006
+//metadoc ODEJoint license BSD revised
+/*metadoc ODEJoint description
+ODEJoint binding
 */
 
 #include "IoODEJoint_internal.h"

@@ -1,5 +1,5 @@
 /*   Copyright (c) 2003, Steve Dekorte
-docLicense("BSD revised")
+//metadoc license BSD revised
  *
  *  An Objective-C proxy to an Io value
  */

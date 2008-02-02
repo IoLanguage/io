@@ -1,7 +1,7 @@
-/*
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+
+//metadoc Vector copyright Steve Dekorte 2002
+//metadoc Vector license BSD revised
+
 
 #ifndef IOPOINT_GL_DEFINED
 #define IOPOINT_GL_DEFINED 1

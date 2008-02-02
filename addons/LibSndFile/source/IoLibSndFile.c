@@ -1,9 +1,9 @@
-/*#io
-LibSndFile ioDoc(
-	docCopyright("Steve Dekorte", 2004)
-	docLicense("BSD revised")
-	docCategory("Media")
-	docDescription("""An object for encoding and decoding audio and video streams.""")
+
+//metadoc LibSndFile copyright Steve Dekorte, 2004
+//metadoc LibSndFile license BSD revised
+//metadoc LibSndFile category Media
+/*metadoc LibSndFile description
+An object for encoding and decoding audio and video streams.
 */
 
 #include "IoLibSndFile.h"
@@ -88,34 +88,37 @@ void IoLibSndFile_mark(IoLibSndFile *self)
 
 IoObject *IoLibSndFile_outputBuffer(IoLibSndFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("outputBuffer", "Returns the output buffer.")
+	/*doc LibSndFile outputBuffer
+	Returns the output buffer.
 	*/
 	return DATA(self)->outputBuffer;
 }
 
 IoObject *IoLibSndFile_stop(IoLibSndFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("stop", "Stops processing data.")
+	/*doc LibSndFile stop
+	Stops processing data.
 	*/
+	
 	DATA(self)->isRunning = 0;
 	return self;
 }
 
 IoObject *IoLibSndFile_isRunning(IoLibSndFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("isRunning", "Returns true if it's running, false otherwise.")
+	/*doc LibSndFile isRunning
+	Returns true if it's running, false otherwise.
 	*/
+	
 	return IOBOOL(self, DATA(self)->isRunning);
 }
 
 IoObject *IoLibSndFile_formatNames(IoLibSndFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("formatNames", "Returns a list of strings with the names of the supported codecs.")
+	/*doc LibSndFile formatNames
+	Returns a list of strings with the names of the supported codecs.")
 	*/
+	
 	IoList *names = IoList_new(IOSTATE);
 
 	/*
@@ -215,8 +218,8 @@ IoObject *IoLibSndFile_close(IoLibSndFile *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoLibSndFile_read(IoLibSndFile *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("read(numberOfFrames)", "Read a given number of frames (sample pairs).")
+	/*doc LibSndFile read(numberOfFrames)
+	Read a given number of frames (sample pairs).")
 	*/
 
 	sf_count_t framesToRead = IoMessage_locals_intArgAt_(m, locals, 0);

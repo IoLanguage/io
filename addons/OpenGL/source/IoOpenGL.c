@@ -1,9 +1,7 @@
-/*#io
-OpenGL ioDoc(
-	docCopyright("Steve Dekorte", 2002)
-	docLicense("BSD revised")
-	docCategory("Graphics")
-*/
+
+//metadoc OpenGL copyright Steve Dekorte 2002
+//metadoc OpenGL license BSD revised
+//metadoc OpenGL category Graphics
 
 #include "IoOpenGL.h"
 

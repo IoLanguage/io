@@ -1,30 +1,19 @@
-/*#io
-Regex ioDoc(
-	docCopyright("Steve Dekorte", 2005)
-	docCopyright("Daniel Rosengren", 2007)
-	docLicense("BSD revised")
-	docCategory("RegularExpressions")
+//metadoc Regex copyright Steve Dekorte 2005, Daniel Rosengren 2007
+//metadoc Regex license BSD revised
+//metadoc Regex category RegularExpressions")
+/*metadoc Regex description
+The Regex addon adds support for Perl regular expressions
+using the <a href=http://www.pcre.org/>PCRE</a> library by Philip Hazel.
 
-	docDescription("""The Regex addon adds support for Perl regular expressions
-	using the <a href=http://www.pcre.org/>PCRE</a> library by Philip Hazel.
+Example use:
+<pre>	
+Io> "11aabb" allMatchesOfRegex("aa*")
+==> list("a", "a")
 
-	Example use:
-	<pre>
-	Io> "11aabb" allMatchesOfRegex("aa*")
-	==> list("a", "a")
-
-	Io> re := "(wom)(bat)" asRegex
-	Io> "wombats are cuddly" matchesOfRegex(re) replaceAllWith("$2$1!")
-	==> batwom!s are cuddly
-	</pre>
-
-	<blockquote>
-	Some people, when confronted with a problem, think
-	"I know, I'll use regular expressions."
-	Now they have two problems.
-	</blockquote>
-	<strong>Jamie Zawinski</strong>
-	""")
+Io> re := "(wom)(bat)" asRegex
+Io> "wombats are cuddly" matchesOfRegex(re) replaceAllWith("$2$1!")
+==> batwom!s are cuddly
+</pre>
 */
 
 #include "IoRegex.h"
@@ -37,7 +26,6 @@ Regex ioDoc(
 #define DATA(self) ((IoRegexData *)IoObject_dataPointer(self))
 
 static IoRegex *IoRegex_cloneWithOptions_(IoRegex *self, int options);
-
 
 IoTag *IoRegex_newTag(void *state)
 {
@@ -151,38 +139,38 @@ Regex *IoRegex_rawRegex(IoRegex *self)
 
 IoObject *IoRegex_with(IoRegex *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("with(pattern)",
-		"Returns a new Regex created from the given pattern string.")
+	/*doc Regex with(pattern)
+	Returns a new Regex created from the given pattern string.
 	*/
+	
 	return IoRegex_newWithPattern_(IOSTATE, IoMessage_locals_symbolArgAt_(m, locals, 0));
 }
 
 
 IoObject *IoRegex_pattern(IoRegex *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("pattern",
-		"Returns the pattern string that the receiver was created from.")
+	/*doc Regex pattern
+	Returns the pattern string that the receiver was created from.
 	*/
+	
 	return DATA(self)->pattern;
 }
 
 IoObject *IoRegex_captureCount(IoRegex *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("captureCount",
-		"Returns the number of captures defined by the pattern.")
+	/*doc Regex captureCount
+	Returns the number of captures defined by the pattern.
 	*/
+	
 	return IONUMBER(IoRegex_rawRegex(self)->captureCount);
 }
 
 IoObject *IoRegex_nameToIndexMap(IoRegex *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("nameToIndexMap",
-		"Returns a Map that maps capture names to capture indices.")
+	/*doc Regex nameToIndexMap
+	Returns a Map that maps capture names to capture indices.
 	*/
+	
 	IoMap *map = DATA(self)->nameToIndexMap;
 	NamedCapture *namedCaptures = 0, *capture = 0;
 
@@ -192,13 +180,16 @@ IoObject *IoRegex_nameToIndexMap(IoRegex *self, IoObject *locals, IoMessage *m)
 	map = DATA(self)->nameToIndexMap = IOREF(IoMap_new(IOSTATE));
 
 	capture = namedCaptures = Regex_namedCaptures(IoRegex_rawRegex(self));
+	
 	if (!namedCaptures)
 		return map;
 
-	while (capture->name) {
+	while (capture->name) 
+	{
 		IoMap_rawAtPut(map, IOSYMBOL(capture->name), IONUMBER(capture->index));
 		capture++;
 	}
+	
 	free(namedCaptures);
 	return map;
 }
@@ -206,10 +197,10 @@ IoObject *IoRegex_nameToIndexMap(IoRegex *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoRegex_version(IoRegex *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("version",
-		"Returns a string with PCRE version information.")
+	/*doc Regex version
+	Returns a string with PCRE version information.
 	*/
+	
 	return IOSYMBOL(pcre_version());
 }
 
@@ -219,88 +210,86 @@ IoObject *IoRegex_version(IoRegex *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoRegex_caseless(IoRegex *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("caseless",
-		"""Returns a case insensitive clone of the receiver, or self if the receiver itself is
-		case insensitive.
+/*doc Regex caseless
+Returns a case insensitive clone of the receiver, or self if the receiver itself is
+case insensitive.
 
-		Example:
-		<pre>
-		Io> "WORD" matchesRegex("[a-z]+")
-		==> false
+Example:
+<pre>	
+Io> "WORD" matchesRegex("[a-z]+")
+==> false
 
-		Io> "WORD" matchesRegex("[a-z]+" asRegex caseless)
-		==> true
-		</pre>""")
-	*/
+Io> "WORD" matchesRegex("[a-z]+" asRegex caseless)
+==> true
+</pre>	
+*/
+	
 	return IoRegex_cloneWithOptions_(self, DATA(self)->options | PCRE_CASELESS);
 }
 
 IoObject *IoRegex_notCaseless(IoRegex *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("notCaseless",
-		"The reverse of caseless.")
+	/*doc Regex notCaseless
+	The reverse of caseless.
 	*/
+	
 	return IoRegex_cloneWithOptions_(self, DATA(self)->options & ~PCRE_CASELESS);
 }
 
 IoObject *IoRegex_isCaseless(IoRegex *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("isCaseless",
-		"Returns true if the receiver is case insensitive, false if not.")
+	/*doc Regex isCaseless
+	Returns true if the receiver is case insensitive, false if not.
 	*/
+	
 	return IOBOOL(self, DATA(self)->options & PCRE_CASELESS);
 }
 
 
 IoObject *IoRegex_dotAll(IoRegex *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("dotAll",
-		"""Returns a clone of the receiver with the dotall option turned on,
-		or self if the receiver itself has the option turned on.
+/*doc Regex dotAll
+Returns a clone of the receiver with the dotall option turned on,
+or self if the receiver itself has the option turned on.
 
-		In dotall mode, "." matches any character, including newline. By default
-		it matches any character <em>except</em> newline.
+In dotall mode, "." matches any character, including newline. By default
+it matches any character <em>except</em> newline.
 
-		Example:
-		<pre>
-		Io> "A\nB" matchesOfRegex(".+") next string
-		==> A
+Example:
+<pre>	
+Io> "A\nB" matchesOfRegex(".+") next string
+==> A
 
-		Io> "A\nB" matchesOfRegex(".+" asRegex dotAll) next string
-		==> A\nB
-		</pre>""")
-	*/
+Io> "A\nB" matchesOfRegex(".+" asRegex dotAll) next string
+==> A\nB
+</pre>	
+*/
 	return IoRegex_cloneWithOptions_(self, DATA(self)->options | PCRE_DOTALL);
 }
 
 IoObject *IoRegex_notDotAll(IoRegex *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("notDotAll",
-		"The reverse of dotAll.")
+	/*doc Regex notDotAll
+	The reverse of dotAll.
 	*/
+	
 	return IoRegex_cloneWithOptions_(self, DATA(self)->options & ~PCRE_DOTALL);
 }
 
 IoObject *IoRegex_isDotAll(IoRegex *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("isDotAll",
-		"Returns true if the receiver is in dotall mode, false if not.")
+	/*doc Regex isDotAll
+	Returns true if the receiver is in dotall mode, false if not.
 	*/
+	
 	return IOBOOL(self, DATA(self)->options & PCRE_DOTALL);
 }
 
 
 IoObject *IoRegex_extended(IoRegex *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("extended",
-		"""Returns a clone of the receiver with the extended option turned on,
+	/*doc Regex extended
+		Returns a clone of the receiver with the extended option turned on,
 		or self if the receiver itself has the option turned on.
 
 		In extended mode, a Regex ignores any whitespace character in the pattern	except
@@ -309,25 +298,25 @@ IoObject *IoRegex_extended(IoRegex *self, IoObject *locals, IoMessage *m)
 
 		Additionally, you can put comments in the pattern. A comment starts with a "#"
 		character and continues to the end of the line, unless the "#" is escaped or is
-		inside a character class.""")
+		inside a character class.""
 	*/
+	
 	return IoRegex_cloneWithOptions_(self, DATA(self)->options | PCRE_EXTENDED);
 }
 
 IoObject *IoRegex_notExtended(IoRegex *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("notExtended",
-		"The reverse of extended.")
+	/*doc Regex notExtended
+	The reverse of extended.
 	*/
+	
 	return IoRegex_cloneWithOptions_(self, DATA(self)->options & ~PCRE_EXTENDED);
 }
 
 IoObject *IoRegex_isExtended(IoRegex *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("isExtended",
-		"Returns true if the receiver is in extended mode, false if not.")
+	/*doc Regex isExtended
+	Returns true if the receiver is in extended mode, false if not.
 	*/
 	return IOBOOL(self, DATA(self)->options & PCRE_EXTENDED);
 }
@@ -335,50 +324,47 @@ IoObject *IoRegex_isExtended(IoRegex *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoRegex_multiline(IoRegex *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("multiline",
-		"""Returns a clone of the receiver with the multiline option turned on,
-		or self if the receiver itself has the option turned on.
+/*doc Regex multiline
+Returns a clone of the receiver with the multiline option turned on,
+or self if the receiver itself has the option turned on.
 
-		In multiline mode, "^" matches at the beginning of the string and at
-		the beginning of each line; and "$" matches at the end of the string,
-		and at the end of each line.
-		By default "^" only matches at the beginning of the string, and "$"
-		only matches at the end of the string.
+In multiline mode, "^" matches at the beginning of the string and at
+the beginning of each line; and "$" matches at the end of the string,
+and at the end of each line.
+By default "^" only matches at the beginning of the string, and "$"
+only matches at the end of the string.
 
-		Example:
-		<pre>
-		Io> "A\nB\nC" allMatchesForRegex("^.")
-		==> list("A")
+Example:
+<pre>	
+Io> "A\nB\nC" allMatchesForRegex("^.")
+==> list("A")
 
-		Io> "A\nB\nC" allMatchesForRegex("^." asRegex multiline)
-		==> list("A", "B", "C")
-		</pre>
-		""")
-	*/
+Io> "A\nB\nC" allMatchesForRegex("^." asRegex multiline)
+==> list("A", "B", "C")
+</pre>	
+*/
+	
 	return IoRegex_cloneWithOptions_(self, DATA(self)->options | PCRE_MULTILINE);
 }
 
 IoObject *IoRegex_notMultiline(IoRegex *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("notMultiline",
-		"The reverse of multiline.")
+	/*doc Regex notMultiline
+	The reverse of multiline.
 	*/
+	
 	return IoRegex_cloneWithOptions_(self, DATA(self)->options & ~PCRE_MULTILINE);
 }
 
 IoObject *IoRegex_isMultiline(IoRegex *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("isMultiline",
-		"Returns true if the receiver is in multiline mode, false if not.")
+	/*doc Regex isMultiline
+	Returns true if the receiver is in multiline mode, false if not.
 	*/
+	
 	return IOBOOL(self, DATA(self)->options & PCRE_MULTILINE);
 }
 
-
-/* ------------------------------------------------------------------------------------------------*/
 /* Private */
 
 static IoRegex *IoRegex_cloneWithOptions_(IoRegex *self, int options)

@@ -1,8 +1,14 @@
-/*#io
-Syslog ioDoc(
-docCopyright("Jeremy Tregunna", 2005)
-docLicense("BSD revised")
-docDescription("""Provides access to a Unix system's system logger.
+/*metadoc Syslog copyright
+	Jeremy Tregunna, 2005
+*/
+
+/*metadoc Syslog license
+	Revised BSD Revised
+*/
+
+/*metadoc Syslog description
+Provides access to a Unix system's system logger.
+<p>
 <pre>
 logger = Syslog clone do(
 	identity("SyslogTest")
@@ -14,13 +20,15 @@ logger = Syslog clone do(
 	log(priority, "*** Merely a test ***")
 	close
 )
-</pre>
+</pre>	
 
 <p>
 Note: This is partially tested. Please let me know of any problems you happen to stumble across, or if it could be better. --Jeremy Tregunna
-<p>""")
-	docCategory("Server")
+<p>
 */
+
+//metadoc Syslog category Server
+
 
 #include "IoSyslog.h"
 #include "IoState.h"
@@ -124,9 +132,13 @@ void syslog_write(int pri, char *msg)
 
 IoObject *IoSyslog_open(IoSyslog *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	 docSlot("open(aPriority, someOptions, optionalIdentity)", """Opens the syslog for writing. optionaIdentity need not be entered and will default to the name of the distribution of Io you are running (i.e., "IoVM", "IoServer", "IoDesktop" or if you have embedded Io into your application and set Lobby distribution = "foo", it will be set to "foo".""")
-	 */
+	/*doc Syslog open(aPriority, someOptions, optionalIdentity)
+	Opens the syslog for writing. optionalIdentity need not be entered 
+	and will default to the name of the distribution of Io you are running 
+	or if you have embedded Io into your application and set 
+	Lobby distribution = "foo", it will be set to "foo".
+	*/
+	 
 	int syslog_facility, syslog_options;
 	//int i, max;
 	char *syslog_ident;
@@ -181,9 +193,12 @@ IoObject *IoSyslog_open(IoSyslog *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSyslog_reopen(IoSyslog *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	 docSlot("reopen(aFacility, someOptions, optionalIdentity) ", "Reopens an already open log session. This is useful if you wish to change the facility you are logging to, the options you are logging with, or the identity of the session. Takes the same options as the open slot.")
-	 */
+	/*doc Syslog reopen(aFacility, someOptions, optionalIdentity) 
+	Reopens an already open log session. This is useful if you wish to 
+	change the facility you are logging to, the options you are logging 
+	with, or the identity of the session. Takes the same options as the open slot.
+	*/
+	
 	/* If the log is already opened, close it, if not, no big deal. */
 	if (DATA(self)->syslog_opened)
 	{
@@ -196,17 +211,19 @@ IoObject *IoSyslog_reopen(IoSyslog *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSyslog_isOpen(IoSyslog *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	 docSlot("isOpen", "Returns self if the log is opened for writing. Otherwise, returns Nil.")
-	 */
+	/*doc Syslog isOpen
+	Returns self if the log is opened for writing. Otherwise, returns Nil.")
+	*/
+	
 	return IOBOOL(self, DATA(self)->syslog_opened);
 }
 
 IoObject *IoSyslog_close(IoSyslog *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	 docSlot("close", "Closes a log that has previously been opened for writing.")
-	 */
+	/*doc Syslog close
+	Closes a log that has previously been opened for writing.")
+	*/
+	
 	if (!DATA(self)->syslog_opened)
 	{
 		IoState_error_(IOSTATE, m, "Log is not open");
@@ -221,9 +238,10 @@ IoObject *IoSyslog_close(IoSyslog *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSyslog_identity(IoSyslog *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	 docSlot("identity(optionalIdentity)", "If optionalIdentity is specified, provides an identity for all of the messages you will be sending to the syslog daemon. Returns the identity.")
-	 */
+	/*doc Syslog identity(optionalIdentity)
+	If optionalIdentity is specified, provides an identity for all of the messages you will be sending to the syslog daemon. Returns the identity.")
+	*/
+	
 	if (IoMessage_argCount(m) >= 1)
 	{
 		DATA(self)->ident = IOREF(IoMessage_locals_symbolArgAt_(m, locals, 0));
@@ -233,9 +251,13 @@ IoObject *IoSyslog_identity(IoSyslog *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSyslog_options(IoSyslog *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	 docSlot("options(optionalOptions)", "If optionalOptions is specified, it should represent a list of the logging options you can find in the optionsMap slot. All the values in the supplied aList will be OR'd together when you call the open or reopen slots. Returns the list of options if optionalFacility is omitted.")
-	 */
+	/*doc Syslog options(optionalOptions)
+	If optionalOptions is specified, it should represent a list of the logging 
+	options you can find in the optionsMap slot. All the values in the supplied 
+	aList will be OR'd together when you call the open or reopen slots. 
+	Returns the list of options if optionalFacility is omitted.
+	*/
+	
 	if (IoMessage_argCount(m) >= 1)
 	{
 		DATA(self)->options = IOREF(IoMessage_locals_listArgAt_(m, locals, 0));
@@ -245,15 +267,19 @@ IoObject *IoSyslog_options(IoSyslog *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSyslog_optionsMap(IoSyslog *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	 docSlot("optionsMap", "A map containing key/value pairs holding all available options. These include:
-	 <li>LOG_PID</li>
-	 <li>LOG_CONS</li>
-	 <li>LOG_ODELAY</li>
-	 <li>LOG_NDELAY</li>
-	 <li>LOG_NOWAIT</li>
-	 <li>LOG_PERROR</li>")
-	 */
+	/*doc Syslog optionsMap
+	A map containing key/value pairs holding all available options. These include:
+	<p>
+	<ul>
+	<li>LOG_PID</li>
+	<li>LOG_CONS</li>
+	<li>LOG_ODELAY</li>
+	<li>LOG_NDELAY</li>
+	<li>LOG_NOWAIT</li>
+	<li>LOG_PERROR</li>
+	</ul>
+	*/
+	
 	PHash *map = IoObject_dataPointer(DATA(self)->optionsMap);
 
 	PHash_at_put_(map, IOSYMBOL("LOG_PID"), IONUMBER(1));
@@ -268,9 +294,11 @@ IoObject *IoSyslog_optionsMap(IoSyslog *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSyslog_facility(IoSyslog *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	 docSlot("facility(optionalFacility)", "Specifies the logging facility, which can be one of any of the values found in the facilityMap map. If optionalFacility is omitted, returns the currently set facility.")
-	 */
+	/*doc Syslog facility(optionalFacility)
+	Specifies the logging facility, which can be one of any of the values 
+	found in the facilityMap map. If optionalFacility is omitted, returns 
+	the currently set facility.
+	*/
 	if (IoMessage_argCount(m) >= 1)
 	{
 		DATA(self)->facility = IOREF(IoMessage_locals_numberArgAt_(m, locals, 0));
@@ -280,8 +308,10 @@ IoObject *IoSyslog_facility(IoSyslog *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSyslog_facilityMap(IoSyslog *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	 docSlot("facilityMap", "Contains the following keys, which represent numbers that can be used when opening a log:
+	/*doc Syslog facilityMap
+	Contains the following keys, which represent numbers that can be used when opening a log:
+	<p>
+	<ul>
 	 <li>LOG_KERN</li>
 	 <li>LOG_USER</li>
 	 <li>LOG_MAIL</li>
@@ -305,8 +335,10 @@ IoObject *IoSyslog_facilityMap(IoSyslog *self, IoObject *locals, IoMessage *m)
 	 <li>LOG_LOCAL4</li>
 	 <li>LOG_LOCAL5</li>
 	 <li>LOG_LOCAL6</li>
-	 <li>LOG_LOCAL7</li>")
+	 <li>LOG_LOCAL7</li>
+	</ul>
 	 */
+	 
 	PHash *map = IoObject_dataPointer(DATA(self)->facilityMap);
 
 	PHash_at_put_(map, IOSYMBOL("LOG_KERN"), IONUMBER(0));
@@ -339,9 +371,11 @@ IoObject *IoSyslog_facilityMap(IoSyslog *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSyslog_priority(IoSyslog *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	 docSlot("priority(optionalPriority)", "If optionalPriority is specified, sets the value, and returns it. If no value is specified, will return the previously stored value if one has been set previously.")
-	 */
+	/*doc Syslog priority(optionalPriority)
+	If optionalPriority is specified, sets the value, and returns it. 
+	If no value is specified, will return the previously stored value if 
+	one has been set previously.
+	*/
 
 	if (IoMessage_argCount(m) >= 1)
 	{
@@ -353,17 +387,21 @@ IoObject *IoSyslog_priority(IoSyslog *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSyslog_priorityMap(IoSyslog *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	 docSlot("priorityMap", "Contains key/value pairs for logging priorities for use when calling the log() method. These include:
-	 <li>LOG_EMERG</li>
-	 <li>LOG_ALERT</li>
-	 <li>LOG_CRIT</li>
-	 <li>LOG_ERR</li>
-	 <li>LOG_WARNING</li>
-	 <li>LOG_NOTICE</li>
-	 <li>LOG_INFO</li>
-	 <li>LOG_DEBUG</li>")
-	 */
+	/*doc Syslog  priorityMap
+	Contains key/value pairs for logging priorities for use when calling the log() method. These include:
+	<p>
+	<ul>
+	<li>LOG_EMERG</li>
+	<li>LOG_ALERT</li>
+	<li>LOG_CRIT</li>
+	<li>LOG_ERR</li>
+	<li>LOG_WARNING</li>
+	<li>LOG_NOTICE</li>
+	<li>LOG_INFO</li>
+	<li>LOG_DEBUG</li>
+	</ul>
+	*/
+	 
 	PHash *map = IoObject_dataPointer(DATA(self)->priorityMap);
 	PHash_at_put_(map, IOSYMBOL("LOG_EMERG"), IONUMBER(0));
 	PHash_at_put_(map, IOSYMBOL("LOG_ALERT"), IONUMBER(1));
@@ -379,9 +417,12 @@ IoObject *IoSyslog_priorityMap(IoSyslog *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSyslog_mask(IoSyslog *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	 docSlot("mask(optionalMask)", "If optionalMask is specified, optionalMask is a list which contains any one or more values stored in the maskMap hash that will be OR'd together, to provide the proper mask. Returns the logging mask (as a List).")
-	 */
+	/*doc Syslog mask(optionalMask)
+	If optionalMask is specified, optionalMask is a list which contains 
+	any one or more values stored in the maskMap hash that will be OR'd 
+	together, to provide the proper mask. Returns the logging mask (as a List).
+	*/
+	 
 	if (IoMessage_argCount(m) >= 1)
 	{
 		if (!DATA(self)->syslog_opened)
@@ -408,11 +449,16 @@ IoObject *IoSyslog_mask(IoSyslog *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSyslog_maskMap(IoSyslog *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	 docSlot("maskMap", "Contains keys/value pairs which represent numbers that specify the logging mask. These values may be any one (or more) of the following:
-	 <li>LOG_PRIMASK</li>
-	 <li>LOG_FACMASK</li>")
-	 */
+	/*doc Syslog maskMap
+	Contains keys/value pairs which represent numbers that specify the 
+	logging mask. These values may be any one (or more) of the following:
+	<p>
+	<ul>
+	<li>LOG_PRIMASK</li>
+	<li>LOG_FACMASK</li>
+	</ul>
+	*/
+	 
 	PHash *map = IoObject_dataPointer(DATA(self)->maskMap);
 
 	PHash_at_put_(map, IOSYMBOL("LOG_PRIMASK"), IONUMBER(0x07));
@@ -423,11 +469,15 @@ IoObject *IoSyslog_maskMap(IoSyslog *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSyslog_log(IoSyslog *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	 docSlot("log", "Writes the supplied data to the log. Requires 2 arguments:
-	 <li>Logging Priority</li>
-	 <li>Message to log</li>")
-	 */
+	/*doc Syslog log
+	Writes the supplied data to the log. Requires 2 arguments:
+	<p>
+	<ul>
+	<li>Logging Priority</li>
+	<li>Message to log</li>
+	</ul>
+	*/
+	 
 	char *str;
 
 	DATA(self)->priority = IOREF(IoMessage_locals_numberArgAt_(m, locals, 0));

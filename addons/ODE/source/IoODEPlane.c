@@ -1,9 +1,8 @@
-/*#io
-ODEPlane ioDoc(
-		 docCopyright("Jonathan Wright", 2006)
-		 docLicense("BSD revised")
-		 docDescription("ODEPlane binding")
-		 */
+//metadoc ODEPlane copyrigth Jonathan Wright, 2006
+//metadoc ODEPlane license BSD revised
+/*metadoc ODEPlane description
+ODEPlane binding
+*/
 
 #include "IoODEPlane.h"
 #include "IoState.h"

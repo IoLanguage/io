@@ -1,9 +1,8 @@
-/*#io
-ODESimpleSpace ioDoc(
-		 docCopyright("Jonathan Wright", 2006)
-		 docLicense("BSD revised")
-		 docDescription("ODESimpleSpace binding")
-		 */
+//metadoc ODESimpleSpace copyright Jonathan Wright, 2006
+//metadoc ODESimpleSpace license BSD revised
+/*metadoc ODESimpleSpace description
+ODESimpleSpace binding
+*/
 
 #include "IoODESimpleSpace.h"
 #include "IoODEPlane.h"

@@ -1,6 +1,6 @@
-/*
-docCopyright("Steve Dekorte", 2002)
-*/
+
+//metadoc MD5 copyright Steve Dekorte 2002
+
 
 #ifndef IOMD5_DEFINED
 #define IOMD5_DEFINED 1

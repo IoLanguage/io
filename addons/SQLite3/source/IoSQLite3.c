@@ -1,10 +1,16 @@
-/*#io
-SQLite3 ioDoc(
-	docCopyright("Steve Dekorte", 2004)
-	docLicense("BSD revised")
-	docObject("SQLite3")
-	docDescription("""SQLite provides a embedded simple and fast (2x faster than PostgreSQL or MySQL) SQL database. See http://www.hwaci.com/sw/sqlite/ for details. It's SQL command set is described at http://www.hwaci.com/sw/sqlite/lang.html. SQLite was written by Dr. Richard Hipp who offers consulting services for custom modifications and support of SQLite. Example:
-<pre>
+//metadoc SQLite3 copyright Steve Dekorte, 2004
+//metadoc SQLite3 license BSD revised
+
+/*metadoc SQLite3 description
+	SQLite provides a embedded simple and fast 
+	(2x faster than PostgreSQL or MySQL) SQL database. 
+	See http://www.hwaci.com/sw/sqlite/ for details. 
+	It's SQL command set is described 
+	at http://www.hwaci.com/sw/sqlite/lang.html. 
+	SQLite was written by Dr. Richard Hipp who offers consulting 
+	services for custom modifications and support of SQLite. Example:
+	<p>
+<pre>	
 db := SQLite clone
 db setPath("myDatabase.sqlite")
 db open
@@ -16,8 +22,11 @@ rows := db exec("SELECT key, value FROM Dbm WHERE key='a'")
 db exec("DELETE FROM Dbm WHERE key='a'")
 rows := db exec("SELECT key, value FROM Dbm WHERE key='a'")
 db close
-</pre>""")
-	docCategory("Databases")
+</pre>
+*/
+
+/*metadoc SQLite3 category
+	Databases
 */
 
 #include "IoSQLite3.h"
@@ -152,19 +161,17 @@ static int IoSQLite3_busyHandler(void *context, int n)
 
 IoObject *IoSQLite3_path(IoSQLite3 *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("path",
-			"Returns the path to the database file. ")
+	/*doc SQLite3 path
+	Returns the path to the database file. 
 	*/
-
+	
 	return DATA(self)->path;
 }
 
 IoObject *IoSQLite3_setPath(IoSQLite3 *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setPath",
-			"Sets the path to the database file. Returns self. ")
+	/*doc SQLite3 setPath
+	Sets the path to the database file. Returns self. 
 	*/
 
 	DATA(self)->path = IOREF(IoMessage_locals_symbolArgAt_(m, locals, 0));
@@ -173,20 +180,19 @@ IoObject *IoSQLite3_setPath(IoSQLite3 *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSQLite3_timeoutSeconds(IoSQLite3 *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("timeoutSeconds",
-			"Returns the number of seconds to wait before timing out an
-open call. If the number is 0, an open call will never timeout. ")
+	/*doc SQLite3 timeoutSeconds
+	Returns the number of seconds to wait before timing out an
+	open call. If the number is 0, an open call will never timeout. 
 	*/
+	
 	return IONUMBER(DATA(self)->timeoutSeconds);
 }
 
 IoObject *IoSQLite3_setTimeoutSeconds(IoSQLite3 *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setTimeoutSeconds(aNumber)",
-			"Sets the open timeout to aNumber. If aNumber is 0, an open
-call will never timeout. Returns self. ")
+	/*doc SQLite3 setTimeoutSeconds(aNumber)
+	Sets the open timeout to aNumber. If aNumber is 0, an open
+	call will never timeout. Returns self. 
 	*/
 
 	IoNumber *num = IoMessage_locals_numberArgAt_(m, locals, 0);
@@ -197,15 +203,14 @@ call will never timeout. Returns self. ")
 
 IoObject *IoSQLite3_open(IoSQLite3 *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("open(optionalPathString)",
-			"""Opens the database. If there is an optionalPathString argument,
-the path is set to it's value before opening the database. If path is "" or ":memory:"
-a database will be created in-memory, otherwise the file specified by path is opened.
-Returns self or Nil upon failure.
+	/*doc SQLite3 open(optionalPathString)
+	Opens the database. If there is an optionalPathString argument,
+	the path is set to it's value before opening the database. If path is "" or ":memory:"
+	a database will be created in-memory, otherwise the file specified by path is opened.
+	Returns self or Nil upon failure.
 
-If the databse is locked, "yield" will be called until it is accessable or
-timeoutSeconds has expired. """)
+	If the databse is locked, "yield" will be called until it is accessable or
+	timeoutSeconds has expired. ""
 	*/
 
 	if (IoMessage_argCount(m) > 0)
@@ -224,8 +229,8 @@ timeoutSeconds has expired. """)
 
 IoObject *IoSQLite3_isOpen(IoSQLite3 *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("isOpen", "Returns true if the database is open, false otherwise.")
+	/*doc SQLite3 isOpen
+	Returns true if the database is open, false otherwise.
 	*/
 
 	return IOBOOL(self, DATA(self)->db != NULL);
@@ -233,9 +238,8 @@ IoObject *IoSQLite3_isOpen(IoSQLite3 *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSQLite3_close(IoSQLite3 *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("close",
-			"Closes the database if it is open. Returns self. If the database is open when the open is garbage collected, it will be automatically closed. ")
+	/*doc SQLite3 close
+	Closes the database if it is open. Returns self. If the database is open when the open is garbage collected, it will be automatically closed. 
 	*/
 
 	if (DATA(self)->db)
@@ -354,14 +358,12 @@ IoObject *IoSQLite3_execWithCallback(IoSQLite3 *self,
 
 IoObject *IoSQLite3_exec(IoSQLite3 *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("exec(aString)",
-			"Opens the database if it is not already open and executes
-aString as an sql command. Results a List of Map objects or Nil if
-there was an error. Each map holds the contents of a row.
-The key/value pairs of the maps being column name/column value
-pairs for a row. ")
-
+	/*doc SQLite3 exec(aString)
+	Opens the database if it is not already open and executes
+	aString as an sql command. Results a List of Map objects or Nil if
+	there was an error. Each map holds the contents of a row.
+	The key/value pairs of the maps being column name/column value
+	pairs for a row.
 	*/
 
 	IoSymbol *s = IoMessage_locals_seqArgAt_(m, locals, 0);
@@ -370,9 +372,8 @@ pairs for a row. ")
 
 IoObject *IoSQLite3_errorMessage(IoSQLite3 *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("error",
-			"Results a string containing the current error. If there is no error, Nil is returned. ")
+	/*doc SQLite3  error
+	Results a string containing the current error. If there is no error, Nil is returned. 
 	*/
 
 	if (sqlite3_errcode(DATA(self)->db) == SQLITE_OK)
@@ -385,9 +386,8 @@ IoObject *IoSQLite3_errorMessage(IoSQLite3 *self, IoObject *locals, IoMessage *m
 
 IoObject *IoSQLite3_version(IoSQLite3 *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("version",
-			"Results a string the version of SQLite being used. ")
+	/*doc SQLite3 version
+	Results a string the version of SQLite being used. 
 	*/
 
 	return IOSYMBOL(SQLITE_VERSION);
@@ -395,10 +395,9 @@ IoObject *IoSQLite3_version(IoSQLite3 *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSQLite3_changes(IoSQLite3 *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("changes",
-			"Returns the number of rows that were changed by the most
-recent SQL statement. Or Nil if the database is closed.")
+	/*doc SQLite3 changes
+	Returns the number of rows that were changed by the most
+	recent SQL statement. Or Nil if the database is closed.
 	*/
 
 	if (!DATA(self)->db)
@@ -411,9 +410,8 @@ recent SQL statement. Or Nil if the database is closed.")
 
 IoObject *IoSQLite3_lastInsertRowId(IoSQLite3 *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("lastInsertRowId",
-			"Returns the number with the row id of the last row inserted. ")
+	/*doc SQLite3 lastInsertRowId
+	Returns the number with the row id of the last row inserted. 
 	*/
 
 	if (!DATA(self)->db)
@@ -426,9 +424,8 @@ IoObject *IoSQLite3_lastInsertRowId(IoSQLite3 *self, IoObject *locals, IoMessage
 
 IoObject *IoSQLite3_tableNames(IoSQLite3 *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("tableNames",
-			"Returns a list containing the names of all tables in the database.")
+	/*doc SQLite3 tableNames
+	Returns a list containing the names of all tables in the database.
 	*/
 
 	IoSymbol *s = IOSYMBOL("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name");
@@ -437,10 +434,9 @@ IoObject *IoSQLite3_tableNames(IoSQLite3 *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSQLite3_viewNames(IoSQLite3 *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("viewNames",
-			"Returns a list containing the names of all
-views in the database.")
+	/*doc SQLite3 viewNames
+	Returns a list containing the names of all
+	views in the database.
 	*/
 
 	IoSymbol *s = IOSYMBOL("SELECT name FROM sqlite_master WHERE type='view' ORDER BY name");
@@ -449,9 +445,8 @@ views in the database.")
 
 IoObject *IoSQLite3_columnNamesOfTable(IoSQLite3 *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("columnNamesOfTable(tableName)",
-			"Returns a list containing the names of all columns in the specified table.")
+	/*doc SQLite3 columnNamesOfTable(tableName)
+	Returns a list containing the names of all columns in the specified table.
 	*/
 
 	IoSymbol *tableName = IoMessage_locals_symbolArgAt_(m, locals, 0);
@@ -461,9 +456,8 @@ IoObject *IoSQLite3_columnNamesOfTable(IoSQLite3 *self, IoObject *locals, IoMess
 
 IoObject *IoSQLite3_debugOn(IoSQLite3 *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("debugOn",
-			"Turns on debugging.")
+	/*doc SQLite3 debugOn
+	Turns on debugging.
 	*/
 
 	DATA(self)->debugOn = 1;
@@ -472,9 +466,8 @@ IoObject *IoSQLite3_debugOn(IoSQLite3 *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSQLite3_debugOff(IoSQLite3 *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("debugOff",
-			"Turns off debugging.")
+	/*doc SQLite3 debugOff
+	Turns off debugging.
 	*/
 
 	DATA(self)->debugOn = 0;
@@ -483,9 +476,10 @@ IoObject *IoSQLite3_debugOff(IoSQLite3 *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSQLite3_escapeString(IoSQLite3 *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("escapeString(aString)",
-			"Returns a translated version of aString by making two copies of every single-quote (') character. This has the effect of escaping the end-of-string meaning of single-quote within a string literal.")
+	/*doc SQLite3 escapeString(aString)
+	Returns a translated version of aString by making two copies of 
+	every single-quote (') character. This has the effect of escaping the 
+	end-of-string meaning of single-quote within a string literal.
 	*/
 
 	IoSymbol *s = IoMessage_locals_seqArgAt_(m, locals, 0);

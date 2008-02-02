@@ -1,7 +1,6 @@
-/*
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+
+//metadoc GLUQuadric copyright Steve Dekorte 2002
+//metadoc GLUQuadric license BSD revised
 
 #ifndef IOGLUQUADRIC_DEFINED
 #define IOGLUQUADRIC_DEFINED 1

@@ -1,7 +1,6 @@
-/*#io
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+
+//metadoc SkipDB copyright Steve Dekorte 2002
+//metadoc SkipDB license BSD revised
 
 #ifndef IoSkipDBM_DEFINED
 #define IoSkipDBM_DEFINED 1

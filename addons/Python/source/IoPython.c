@@ -1,11 +1,10 @@
-/*#io
-Python ioDoc(
-	docCopyright("Aslak Gronflaten", 2006)
-	docLicense("BSD revised")
-	docDescription("This object provides access the world of python.")
-	docCredits("Based on code by Steve Dekorte")
-	docCategory("Server")
+//metadoc Python copyrigth Aslak Gronflaten, 2006
+//metadoc Python license BSD revised
+/*metadoc Python description
+This object provides access the world of python.
 */
+//metadoc Python credit Based on code by Steve Dekorte
+//metadoc Python category Server
 
 #include "IoPython.h"
 #include "IoState.h"

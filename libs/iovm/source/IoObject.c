@@ -1288,13 +1288,13 @@ Subclasses can override this method to implement proxies or special error handli
 <p>
 Example:
 <p>
-<code>	
+<pre>	
 myProxy forward = method(
 	messageName := thisMessage name
 	arguments := thisMessage arguments
 	myObject doMessage(thisMessage)
 )
-</code>	
+</pre>	
 */
 
 /*
@@ -1493,7 +1493,7 @@ IoObject *IoObject_foreachSlot(IoObject *self, IoObject *locals, IoMessage *m)
 For each slot, set name to the slot's
 name and value to the slot's value and execute message. Examples:
 <p>
-<code>	
+<pre>	
 myObject foreach(n, v,
 	writeln("slot ", n, " = ", v type)
 )
@@ -1501,7 +1501,7 @@ myObject foreach(n, v,
 myObject foreach(v,
 	writeln("slot type ", v type)
 )
-</code>	
+</pre>	
 */
 
 	IoSymbol *keyName;

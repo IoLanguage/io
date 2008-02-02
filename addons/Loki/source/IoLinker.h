@@ -1,6 +1,5 @@
-/*
-docCopyright("Marc Fauconneau", 2006)
-*/
+
+//metadoc Linker copyright Marc Fauconneau, 2006
 
 #ifndef IOLINKER_DEFINED
 #define IOLINKER_DEFINED 1

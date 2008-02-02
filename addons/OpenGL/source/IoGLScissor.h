@@ -1,7 +1,5 @@
-/*
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+//metadoc GLScissor copyright Steve Dekorte 2002
+//metadoc GLScissor license BSD revised
 
 #ifndef IOGLSCISSOR_DEFINED
 #define IOGLSCISSOR_DEFINED 1

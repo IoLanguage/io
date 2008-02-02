@@ -17,9 +17,9 @@ description:  A binding for "callsystem - system() on steorids"
 </UL>
 
 Example use;
-<pre>
+<pre>	
 sc = SystemCall clone
-</pre>
+</pre>	
 */
 
 #include "IoSystemCall.h"
@@ -100,8 +100,8 @@ void IoSystemCall_free(IoSystemCall *self)
 
 IoObject *IoSystemCall_asyncRun(IoSystemCall *self, IoObject *locals, IoMessage *m)
 {
-	/*
-	 docSlot("asyncRun(command, argList, envMap)", "Run the system call.")
+	/*doc SystemCall asyncRun(command, argList, envMap)
+	Run the system call.")
 	 */
 
 	IoSymbol *command = IoMessage_locals_symbolArgAt_(m, locals, 0);

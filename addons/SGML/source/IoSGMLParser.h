@@ -1,7 +1,5 @@
-/*
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+//metadoc SGMLParser copyright Steve Dekorte 2002
+//metadoc SGMLParser license BSD revised
 
 #ifndef IOSGMLPARSER_DEFINED
 #define IOSGMLPARSER_DEFINED 1
