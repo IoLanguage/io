@@ -10,14 +10,14 @@ Lobby Protos Core do(
 Sequence do(
 	setSlot("..", method(arg, self asString cloneAppendSeq(arg asString)))
 
-	//doc Sequence repeated(n) Returns a new sequence containing the receiver repeated n number of times.")
+	//doc Sequence repeated(n) Returns a new sequence containing the receiver repeated n number of times.
 	repeated := method(n,
 		s := Sequence clone
 		n repeat(s appendSeq(self))
 		s
 	)
 
-	//doc Sequence alignLeftInPlace(width, [padding]) Same as align left but operation is performed on the receiver.")
+	//doc Sequence alignLeftInPlace(width, [padding]) Same as align left but operation is performed on the receiver.
 	alignLeftInPlace := method(width, padding,
 		originalSize := size
 		if(padding isNil or padding size == 0,
@@ -29,9 +29,10 @@ Sequence do(
 
 	/*doc Sequence alignLeft(width, [padding]) 
 	Example:
+	<p>
 	<code>
-	Io> "abc" alignLeft(10, "-")
-	==> abc-------
+	Io> "abc" alignLeft(10, "+")
+	==> abc+++++++
 	Io> "abc" alignLeft(10, "-=")
 	==> abc-=-=-=-
 	</code>
@@ -41,6 +42,7 @@ Sequence do(
 
 	/*doc Sequence alignRight(width, [padding]) 
 	Example:
+	<p>
 	<code>
 	Io> "abc" alignRight(10, "-")
 	==> -------abc

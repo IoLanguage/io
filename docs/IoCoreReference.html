@@ -148,7 +148,6 @@ h3 {
 <div class=Version>Version 20080120</div>
 <h2>Prototypes</h2>
 <ul>
-<a href=#"abc" style="color: #555;">"abc"</a><br>
 <a href=#Addon style="color: #555;">Addon</a><br>
 <a href=#Block style="color: #555;">Block</a><br>
 <a href=#CFunction style="color: #555;">CFunction</a><br>
@@ -183,19 +182,6 @@ h3 {
 <a href=#nil style="color: #555;">nil</a><br>
 <a href=#true style="color: #555;">true</a><br>
 </ul>
-<h2><a name="abc"><font color=black>"abc"</font></a></h2>
-<ul style="width:40em">
-<b><font color=#000>Protos:</font></b> Object
-<h3>Slot Index</h3>
-<div style="width:40em; margin-left:2em">
-</div>
-<br>
-<h3>Slots</h3>
-<br>
-</ul>
-<br>
-<hr align=left>
-<br>
 <h2><a name=Addon><font color=black>Addon</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Protos:</font></b> Object
@@ -6054,15 +6040,20 @@ Terminology
 <b><a name=Sequence-alignLeft(width, [padding]) ><font color=black>alignLeft(width, [padding]) </font></a></b><p>
 <div style="width:40em; margin-left:2em">
 	Example:
+	<p>
 	<code>
-	Io> "abc" alignLeft(10, "-")
-	==> abc-
+	Io> "abc" alignLeft(10, "+")
+	==> abc+++++++
+	Io> "abc" alignLeft(10, "-=")
+	==> abc-=-=-=-
+	</code>
+
 </font>
 </div>
 <p><br>
 <b><a name=Sequence-alignLeftInPlace(width, [padding])><font color=black>alignLeftInPlace(width, [padding])</font></a></b><p>
 <div style="width:40em; margin-left:2em">
- Same as align left but operation is performed on the receiver.")
+ Same as align left but operation is performed on the receiver.
 
 </font>
 </div>
@@ -6070,6 +6061,7 @@ Terminology
 <b><a name=Sequence-alignRight(width, [padding]) ><font color=black>alignRight(width, [padding]) </font></a></b><p>
 <div style="width:40em; margin-left:2em">
 	Example:
+	<p>
 	<code>
 	Io> "abc" alignRight(10, "-")
 	==> -------abc
@@ -6110,7 +6102,7 @@ Returns a hex string for the receiving sequence, e.g., \"abc\" asHex -> \"616263
 <p><br>
 <b><a name=Sequence-repeated(n)><font color=black>repeated(n)</font></a></b><p>
 <div style="width:40em; margin-left:2em">
- Returns a new sequence containing the receiver repeated n number of times.")
+ Returns a new sequence containing the receiver repeated n number of times.
 
 </font>
 </div>

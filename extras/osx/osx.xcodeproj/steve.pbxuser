@@ -23,7 +23,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					576,
+					800,
 					20,
 					48,
 					43,
@@ -215,6 +215,13 @@
 			AA51B0030D53EB5C00D391C0 /* PBXTextBookmark */ = AA51B0030D53EB5C00D391C0 /* PBXTextBookmark */;
 			AA51B0040D53EB5C00D391C0 /* PBXTextBookmark */ = AA51B0040D53EB5C00D391C0 /* PBXTextBookmark */;
 			AA51B0050D53EB5C00D391C0 /* PBXTextBookmark */ = AA51B0050D53EB5C00D391C0 /* PBXTextBookmark */;
+			AA51B0060D53EE8E00D391C0 /* PBXTextBookmark */ = AA51B0060D53EE8E00D391C0 /* PBXTextBookmark */;
+			AA51B0070D53EE9000D391C0 /* PBXTextBookmark */ = AA51B0070D53EE9000D391C0 /* PBXTextBookmark */;
+			AA51B0080D53EE9000D391C0 /* PBXTextBookmark */ = AA51B0080D53EE9000D391C0 /* PBXTextBookmark */;
+			AA51B00A0D53EE9000D391C0 /* PBXTextBookmark */ = AA51B00A0D53EE9000D391C0 /* PBXTextBookmark */;
+			AA51B00B0D53EE9000D391C0 /* PBXTextBookmark */ = AA51B00B0D53EE9000D391C0 /* PBXTextBookmark */;
+			AA51B00D0D53EFF300D391C0 /* PBXTextBookmark */ = AA51B00D0D53EFF300D391C0 /* PBXTextBookmark */;
+			AA51B00E0D53EFF500D391C0 /* PBXTextBookmark */ = AA51B00E0D53EFF500D391C0 /* PBXTextBookmark */;
 			AA6AC7770BAF80830049770F = AA6AC7770BAF80830049770F /* PBXTextBookmark */;
 			AA7059880B63364E00C32711 = AA7059880B63364E00C32711 /* PBXTextBookmark */;
 			AA7059890B63364E00C32711 = AA7059890B63364E00C32711 /* PBXTextBookmark */;
@@ -1887,6 +1894,91 @@
 		vrLen = 637;
 		vrLoc = 12224;
 	};
+	AA51B0060D53EE8E00D391C0 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AA86BF480B6051FF00495786 /* IoFile.c */;
+		name = "IoFile.c: 1009";
+		rLen = 0;
+		rLoc = 23970;
+		rType = 0;
+		vrLen = 696;
+		vrLoc = 23477;
+	};
+	AA51B0070D53EE9000D391C0 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AA86BF520B6051FF00495786 /* IoMessage.c */;
+		name = "IoMessage.c: 469";
+		rLen = 6;
+		rLoc = 12446;
+		rType = 0;
+		vrLen = 637;
+		vrLoc = 12224;
+	};
+	AA51B0080D53EE9000D391C0 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AA51B0090D53EE9000D391C0 /* io2c.c */;
+		rLen = 0;
+		rLoc = 2147483777;
+		rType = 0;
+	};
+	AA51B0090D53EE9000D391C0 /* io2c.c */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.c;
+		name = io2c.c;
+		path = /Users/steve/Io/libs/iovm/tools/io2c.c;
+		sourceTree = "<absolute>";
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1064, 1664}}";
+			sepNavSelRange = "{1435, 1}";
+			sepNavVisRange = "{840, 837}";
+		};
+	};
+	AA51B00A0D53EE9000D391C0 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AA86BF520B6051FF00495786 /* IoMessage.c */;
+		name = "IoMessage.c: 469";
+		rLen = 6;
+		rLoc = 12446;
+		rType = 0;
+		vrLen = 637;
+		vrLoc = 12224;
+	};
+	AA51B00B0D53EE9000D391C0 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AA51B00C0D53EE9000D391C0 /* io2c.c */;
+		name = "io2c.c: 68";
+		rLen = 1;
+		rLoc = 1435;
+		rType = 0;
+		vrLen = 837;
+		vrLoc = 840;
+	};
+	AA51B00C0D53EE9000D391C0 /* io2c.c */ = {
+		isa = PBXFileReference;
+		name = io2c.c;
+		path = /Users/steve/Io/libs/iovm/tools/io2c.c;
+		sourceTree = "<absolute>";
+	};
+	AA51B00D0D53EFF300D391C0 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AA86BF480B6051FF00495786 /* IoFile.c */;
+		name = "IoFile.c: 1009";
+		rLen = 0;
+		rLoc = 23970;
+		rType = 0;
+		vrLen = 696;
+		vrLoc = 23477;
+	};
+	AA51B00E0D53EFF500D391C0 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AA51B0090D53EE9000D391C0 /* io2c.c */;
+		name = "io2c.c: 68";
+		rLen = 1;
+		rLoc = 1435;
+		rType = 0;
+		vrLen = 837;
+		vrLoc = 840;
+	};
 	AA6ABF7B0BA8012F0049770F /* Makefile */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {649, 408}}";
@@ -3364,7 +3456,7 @@
 	};
 	AA86BF480B6051FF00495786 /* IoFile.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {904, 17536}}";
+			sepNavIntBoundsRect = "{{0, 0}, {904, 17968}}";
 			sepNavSelRange = "{23970, 0}";
 			sepNavVisRange = "{23477, 696}";
 			sepNavVisRect = "{{0, 2324}, {703, 464}}";
