@@ -925,7 +925,7 @@ void IoGlutJoystickFunc(unsigned int buttonMask, int x, int y, int z)
 {
 	UArray *j = IoSeq_rawUArray(DATA(proto)->j);
 	UArray *lastJ = DATA(proto)->lastJ;
-	vec3f v = (vec3f){x, y, z};
+	vec3f v = {x, y, z};
 
 	IoSeq_setVec3f_(DATA(proto)->j, v);
 	UArray_subtract_(lastJ, j);
