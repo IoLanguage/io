@@ -149,7 +149,7 @@ Coroutine do(
 		Coroutine setInException(true)
 		buf := Sequence clone
 
-		if(getSlot("CGI") != nil and CGI isInWebScript, buf appendSeq("<pre>"))
+		if(getSlot("CGI") != nil and CGI isInWebScript, buf appendSeq("<code>"))
 
 		if(exception, buf appendSeq("\n  ", exception type, ": ", exception error, "\n"))
 

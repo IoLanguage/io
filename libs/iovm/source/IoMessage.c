@@ -476,6 +476,7 @@ IoObject *IoMessage_locals_performOn_(IoMessage *self, IoObject *locals, IoObjec
 		//md = DATA(m);
 		//printf("%s %i\n", CSTRING(IoMessage_name(m)), state->stopStatus);
 		//printf("%s\n", CSTRING(IoMessage_name(m)));
+		
 		md = DATA(m);
 
 		if(md->name == state->semicolonSymbol)

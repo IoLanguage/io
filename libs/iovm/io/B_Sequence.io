@@ -27,55 +27,58 @@ Sequence do(
 		setSize(width max(originalSize))
 	)
 
-	//doc Sequence alignLeft(width, [padding]) ""
+	/*doc Sequence alignLeft(width, [padding]) 
 	Example:
-	<pre>
+	<code>
 	Io> "abc" alignLeft(10, "-")
 	==> abc-------
 	Io> "abc" alignLeft(10, "-=")
 	==> abc-=-=-=-
-	</pre>
-	""")
+	</code>
+	*/
+	
 	alignLeft := method(width, padding, asMutable alignLeftInPlace(width, padding))
 
-	//doc Sequence alignRight(width, [padding]) ""
+	/*doc Sequence alignRight(width, [padding]) 
 	Example:
-	<pre>
+	<code>
 	Io> "abc" alignRight(10, "-")
 	==> -------abc
 	Io> "abc" alignRight(10, "-=")
 	==> -=-=-=-abc
-	</pre>
-	""")
+	</code>
+	*/
+	
 	alignRight := method(width, padding,
 		Sequence clone alignLeftInPlace(width - size, padding) appendSeq(self)
 	)
 
-	//doc Sequence alignCenter(width, [padding]) ""
+	/*doc Sequence alignCenter(width, [padding]) ""
 	Example:
-	<pre>
+	<code>
 	Io> "abc" alignCenter(10, "-")
 	==> ---abc----
 	Io> "abc" alignCenter(10, "-=")
 	==> -=-abc-=-=
-	</pre>
-	""")
+	</code>
+	*/
+	
 	alignCenter := method(width, padding,
 		alignRight(((size + width) / 2) floor, padding) alignLeftInPlace(width, padding)
 	)
 
 	asSimpleString := method("\"" .. self asString .. "\"")
 
-	//doc Sequence split(optionalArg1, optionalArg2, ...) ""
+	/*doc Sequence split(optionalArg1, optionalArg2, ...)
 		Returns a list containing the non-empty sub-sequences of the receiver divided by the given arguments.
 		If no arguments are given the sequence is split on white space.
 		Examples:
-		<pre>
+		<code>
 		"a   b  c d" splitNoEmpties => list("a", "b", "c", "d")
 		"a***b**c*d" splitNoEmpties("*") => list("a", "b", "c", "d")
 		"a***b||c,d" splitNoEmpties("*", "|", ",") => list("a", "b", "c", "d")
-		</pre>
-		""")
+		</code>
+	*/
 
 	splitNoEmpties := method(
 		self performWithArgList("split", call evalArgs) selectInPlace(size != 0)

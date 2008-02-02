@@ -509,10 +509,12 @@ done:
 IoObject *IoList_foreach(IoList *self, IoObject *locals, IoMessage *m)
 {
 	/*doc List foreach(optionalIndex, value, message)
-	Loops over the list values setting the specified index and
+Loops over the list values setting the specified index and
 value slots and executing the message. Returns the result of the last
 execution of the message. Example:
-<code>	list(1, 2, 3) foreach(i, v, writeln(i, " = ", v))
+<p>
+<code>
+list(1, 2, 3) foreach(i, v, writeln(i, " = ", v))
 list(1, 2, 3) foreach(v, writeln(v))</code>	
 */
 

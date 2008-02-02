@@ -1,9 +1,9 @@
 Debugger do(
 	/*doc Debugger description
 	To start debugging a coroutine, call
-	<pre>
+	<code>
 	Coroutine currentCoroutine setMessageDebugging(true)
-	</pre>
+	</code>
 	Then each message sent within that coroutine will cause the Debugger 
 	vmWillSendMessage slot to be activated and the Debugger slots: 
 	messageCoroutine, messageSelf, messageLocals, and message will be set with the 

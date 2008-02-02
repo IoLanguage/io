@@ -63,6 +63,7 @@ void processFile(const char *objectName, const char *fileName, const char *parse
 	fputs("\ts = ", out);
 	quoteStream(in, out);
 	//fprintf(out, "\t%s(self, context, s, \"%s\");\n\n", parseFunctionName, fileName);
+	//fprintf(out, "\tIoState_rawOn_doCString_withLabel_(self, context, \"writeln(\\\"%s\\\")\", \"%s\");\n\n", fileName, fileName);
 	fprintf(out, "\tIoState_rawOn_doCString_withLabel_(self, context, s, \"%s\");\n\n", fileName);
 
 	fclose(in);	

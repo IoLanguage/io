@@ -791,14 +791,14 @@ done:
 
 IoObject *IoSeq_foreach(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc ImmutableSequence foreach(optionalIndex, value, message)
-	For each element, set index to the index of the
-	element and value the element value and execute message. Example:
-	<code>	
-	aSequence foreach(i, v, writeln("value at index ", i, " is ", v))
-	aSequence foreach(v, writeln("value ", v))
-	</code>	
-	*/
+/*doc ImmutableSequence foreach(optionalIndex, value, message)
+For each element, set index to the index of the
+element and value the element value and execute message. Example:
+<code>	
+aSequence foreach(i, v, writeln("value at index ", i, " is ", v))
+aSequence foreach(v, writeln("value ", v))
+</code>	
+*/
 
 	IoObject *result = IONIL(self);
 	IoMessage *doMessage;
