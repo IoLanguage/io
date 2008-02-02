@@ -1,16 +1,18 @@
 
 //metadoc Image copyright Steve Dekorte, 2004
 //metadoc Image license BSD revised
-//metadoc Image category Graphics")
+//metadoc Image category Graphics
 /*metadoc Image description
-The Image object can read and draw images and provide the image data as a buffer. Example use;
-<code>	
-image = Image clone open(\"curly.png\")
+The Image object can read and draw images and provide the image 
+data as a buffer. Example use;
+<pre>	
+image = Image clone open("curly.png")
 image draw
 image scaleTo(image width / 2, image height / 2)
-image save(\"curly.tiff\")
-</code>	
-When loading an attempt will be made to convert the image into whichever of the following formats it is closest to: L8, LA8, RGB8, RGBA8.
+image save("curly.tiff")
+</pre>	
+When loading an attempt will be made to convert the image into whichever 
+of the following formats it is closest to: L8, LA8, RGB8, RGBA8.
 <p>
 Currently supported formats include PNG(which supports alpha), JPG and TIFF.
 */

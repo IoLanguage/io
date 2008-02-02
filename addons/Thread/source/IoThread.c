@@ -1,22 +1,12 @@
-/*metadoc Thread copyright
-	Steve Dekorte, 2006
-*/
-
-/*metadoc Thread license
-	BSD revised
-*/
-
-/*metadoc Thread category
-	Compression
-*/
-
+//metadoc Thread copyright Steve Dekorte, 2006
+//metadoc Thread license BSD revised
+//metadoc Thread category Concurrency
 /*metadoc Thread description
 	For native threads.
 Example use;
-<code>	
+<pre>	
 Thread createThread()
-</code>	
-""")
+</pre>
 */
 
 #include "IoThread.h"

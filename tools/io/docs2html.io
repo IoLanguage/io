@@ -1,28 +1,40 @@
-/*
-Directory with("addons") folders foreach(folder,
-	//write(folder name)
-	e := try(Lobby perform(folder name asSymbol))
-	//if(e, writeln(""), writeln(" (error)"))
+
+addonFolders := Directory with("addons") folders
+addonFolders foreach(folder,
+	System system("io tools/io/DocsExtractor.io " .. folder path)
 )
-*/
 
-protos := Map clone
+prototypes := Map clone
+modules := Map clone
 
-File with("libs/iovm/docs/docs.txt") contents split("------\n") foreach(e,
-	isSlot := e beginsWithSeq("doc")
-	h := e beforeSeq("\n") afterSeq(" ")
-	protoName := h beforeSeq(" ")
-	slotName := h afterSeq(" ")
-	description := e afterSeq("\n")
-	//list(protoName, slotName, description) println
-	p := protos atIfAbsentPut(protoName, Map clone atPut("slots", Map clone))
-	if(protoName == nil or slotName == nil, writeln("ERROR: ", e))
-	if(isSlot, 
-		p at("slots") atPut(slotName, description)
-	,
-		p atPut(slotName, description)
+readFolder := method(path,
+	File with(Path with(path, "/docs/docs.txt")) contents split("------\n") foreach(e,
+		isSlot := e beginsWithSeq("doc")
+		h := e beforeSeq("\n") afterSeq(" ")
+		protoName := h beforeSeq(" ")
+		slotName := h afterSeq(" ")
+		description := e afterSeq("\n")
+		p := prototypes atIfAbsentPut(protoName, Map clone atPut("slots", Map clone))
+		
+		moduleName := path lastPathComponent
+		if(moduleName == "iovm", moduleName = "Core")
+		p atPut("module", moduleName)
+		m := modules atIfAbsentPut(moduleName, Map clone)
+		modules atPut(moduleName, m)
+		m atPut(protoName, p)
+		
+		if(protoName == nil or slotName == nil, writeln("ERROR: ", e))
+		if(isSlot, 
+			p at("slots") atPut(slotName, description)
+		,
+			p atPut(slotName, description)
+		)
+		
 	)
 )
+
+addonFolders foreach(f, readFolder(f path))
+readFolder("libs/iovm")
 
 writeln("""
 <html>
@@ -76,27 +88,29 @@ h1 {
     vertical-align: 0.000000em;
 }
 
-code {
+pre {
 	white-space: pre;
-    color: #000000;
+    color: #333;
     font-family: 'Courier', 'Courier';
-    font-size: .88em;
+    font-size: .9em;
     font-style: normal;
     font-variant: normal;
     font-weight: normal;
     letter-spacing: 0;
     line-height: 1.22;
-    margin-bottom: 1em;
-    margin-left: 8em;
+
+    margin-bottom: 1.5em;
+    margin-left: 3em;
     margin-right: 0em;
-    margin-top: 0em;
+    margin-top: .5em;
     padding-bottom: 0em;
     padding-top: 0em;
+
     text-align: left;
     text-decoration: none;
-    text-indent: 0.00em;
+    text-indent: 0em;
     text-transform: none;
-    vertical-align: 0.000000em;
+    vertical-align: 0em;
 }
 
 h2 {
@@ -171,15 +185,21 @@ h3 {
 """)
 
 writeln("<ul>")
-writeln("<h1>Io Core Reference Manual</h1>")
+writeln("<h1>Io Reference Manual</h1>")
 writeln("<div class=Version>Version " .. System version .. "</div>")
-writeln("<h2>Prototypes</h2>")
+writeln("<h2>Modules</h2>")
 writeln("<ul>")
 
-protoNames := protos keys sort
+protoNames := prototypes keys sort
+moduleNames := modules keys sort 
 
-protoNames map(k,
-	writeln("<a href=#", k, " style=\"color: #555;\">", k, "</a><br>")	
+moduleNames foreach(moduleName,
+	writeln("<b>",moduleName, "</b><br>")
+	writeln("<ul>")
+	modules at(moduleName) keys foreach(protoName,
+		writeln("<a href=#", protoName, " style=\"color: #555;\">", protoName, "</a><br>")
+	)
+	writeln("""<br style="width:.5em"></ul>""")
 )
 
 writeln("</ul>")
@@ -191,13 +211,21 @@ Sequence do(
 )
 
 protoNames foreach(protoName,
-	p := protos at(protoName)
+	p := prototypes at(protoName)
 	write("<h2>")
 	write("<a name=" .. protoName .. "><font color=black>", protoName, "</font></a>")
 	writeln("</h2>")
 	writeln("<ul style=\"width:40em\">")
 	
-	writeln("<b><font color=#000>Protos:</font></b> ", getSlot(protoName) protos map(type) join(", "))
+	//writeln("<b><font color=#000>Protos:</font></b> ", getSlot(protoName) ?prototypes ?map(type) ?join(", "))
+
+	if(p at("category"), 
+		writeln("<b><font color=#000>Category:</font></b> ", p at("category"))
+	)
+	
+	if(p at("module"), 
+		writeln("<b><font color=#000>Module:</font></b> ", p at("module"))
+	)
 
 	if (p at("description"),
 		writeln("<h3>Description</h3>")
@@ -233,7 +261,6 @@ protoNames foreach(protoName,
 			write("</font></a></b>")
 			writeln("<p>")
 			writeln("<div style=\"width:40em; margin-left:2em\">")
-			//writeln("<font face=\"Times\">")
 			writeln(s)
 			writeln("</font>")
 			writeln("</div>")

@@ -1,8 +1,5 @@
-/*
-//metadoc copyright Steve Dekorte 2002
-*/
+//metadoc Socket copyright Steve Dekorte 2002
 //metadoc license BSD revised
-*/
 
 #ifndef IOSOCKET_DEFINED
 #define IOSOCKET_DEFINED 1

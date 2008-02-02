@@ -1,10 +1,8 @@
-/*
- //metadoc copyright Steve Dekorte 2002
+//metadoc EventManager copyright Steve Dekorte 2002
+//metadoc EventManager license BSD revised
+/*metadoc EventManager description
+Selects on sockets and checks for timeouts.
 */
-//metadoc license BSD revised
- /*metadoc description
-Selects on sockets and checks for timeouts.")
- */
 
 #ifndef IOEVENTMANAGER_DEFINED
 #define IOEVENTMANAGER_DEFINED 1

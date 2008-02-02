@@ -2,7 +2,7 @@
 //metadoc SampleRateConverter copyright Steve Dekorte, 2004
 //metadoc SampleRateConverter license BSD revised
 //metadoc SampleRateConverter category Media
-/*metadoc description
+/*metadoc SampleRateConverter description
 	A binding for lib sample rate.
 */
 			   */

@@ -87,7 +87,7 @@ IoDate *IoDate_proto(void *state)
 	IoObject_setDataPointer_(self, Date_new());
 
 	/*doc Date format
-	Returns the format string for the receiver. Tthe default is \"%Y-%m-%d %H:%M:%S %Z\".
+	Returns the format string for the receiver. The default is "%Y-%m-%d %H:%M:%S %Z".
 	*/
 	
 	IoObject_setSlot_to_(self, IOSYMBOL("format"), IOSYMBOL("%Y-%m-%d %H:%M:%S %Z"));
@@ -473,7 +473,7 @@ receivers format. If the optionalFormatString argument is present, the
 receiver's format is set to it first. Formatting is according to ANSI C
 date formating rules.
 <p>
-<code>	
+<pre>	
 %a abbreviated weekday name (Sun, Mon, etc.)
 %A full weekday name (Sunday, Monday, etc.)
 %b abbreviated month name (Jan, Feb, etc.)
@@ -498,7 +498,7 @@ to "%m/%d/%y".
 %Z time zone name (e.g. EST);
 null string if no time zone can be obtained
 %% stands for '%' character in output string.
-</code>	
+</pre>	
 */
 
 	char *format = "%Y-%m-%d %H:%M:%S %Z";

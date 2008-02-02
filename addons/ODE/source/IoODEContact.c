@@ -1,7 +1,7 @@
 
 //metadoc ODEContact copyright Jonathan Wright, 2006
 //metadoc ODEContact license BSD revised
-/*metadoc description
+/*metadoc ODEContact description
 ODEContact binding
 */
 

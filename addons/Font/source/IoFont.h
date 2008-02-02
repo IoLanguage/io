@@ -1,5 +1,5 @@
 /*
-docCopyright("Steve Dekorte", 2002, "Mike Austin (Modified for textures)", 2003)
+//metadoc copyright Steve Dekorte", 2002, "Mike Austin (Modified for textures)", 2003)
 */
 
 #ifndef IOFONT_DEFINED

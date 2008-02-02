@@ -2,16 +2,17 @@
 //metadoc ZlibEncoder license BSD revised
 //metadoc ZlibEncoder category Compression
 /*metadoc ZlibEncoder description
-""For Zlib compression.
-Example use;
-<code>	
+For Zlib compression.
+Example use:
+<p>
+<pre>	
 bf = ZlibEncoder clone
 bf beginProcessing
 bf inputBuffer appendSeq("this is a message")
 bf process
 bf endProcess
 bf outputBuffer // this contains the result data
-</code>	
+</pre>	
 */
 
 #include "IoZlibEncoder.h"

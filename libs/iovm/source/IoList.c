@@ -513,9 +513,9 @@ Loops over the list values setting the specified index and
 value slots and executing the message. Returns the result of the last
 execution of the message. Example:
 <p>
-<code>
+<pre>
 list(1, 2, 3) foreach(i, v, writeln(i, " = ", v))
-list(1, 2, 3) foreach(v, writeln(v))</code>	
+list(1, 2, 3) foreach(v, writeln(v))</pre>	
 */
 
 	IoState *state = IOSTATE;

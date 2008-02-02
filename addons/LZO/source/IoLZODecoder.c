@@ -1,17 +1,17 @@
 //metadoc LZODecoder copyright Steve Dekorte, 2004
 //metadoc LZODecoder license BSD revised
-//metadoc LZODecoder category Compression")
+//metadoc LZODecoder category Compression
 /*metadoc LZODecoder description
 The LZO object can be used to Z compress and uncompress data.
 Example use;
-<code>	
+<pre>	
 bf = LZO clone
 bf beginProcessing
 bf inputBuffer appendSeq("this is a message")
 bf process
 bf endProcess
 bf outputBuffer // this contains the encoded data
-</code>	
+</pre>	
 */
 
 #include "IoLZODecoder.h"

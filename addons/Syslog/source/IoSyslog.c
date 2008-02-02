@@ -8,7 +8,8 @@
 
 /*metadoc Syslog description
 Provides access to a Unix system's system logger.
-<code>	
+<p>
+<pre>
 logger = Syslog clone do(
 	identity("SyslogTest")
 	facility(facilityMap at("LOG_USER"))
@@ -19,16 +20,15 @@ logger = Syslog clone do(
 	log(priority, "*** Merely a test ***")
 	close
 )
-</code>	
+</pre>	
 
 <p>
 Note: This is partially tested. Please let me know of any problems you happen to stumble across, or if it could be better. --Jeremy Tregunna
 <p>
 */
 
-/*metadoc Syslog category
-	Server
-*/
+//metadoc Syslog category Server
+
 
 #include "IoSyslog.h"
 #include "IoState.h"
@@ -269,13 +269,17 @@ IoObject *IoSyslog_optionsMap(IoSyslog *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Syslog optionsMap
 	A map containing key/value pairs holding all available options. These include:
-	 <li>LOG_PID</li>
-	 <li>LOG_CONS</li>
-	 <li>LOG_ODELAY</li>
-	 <li>LOG_NDELAY</li>
-	 <li>LOG_NOWAIT</li>
-	 <li>LOG_PERROR</li>
-	 */
+	<p>
+	<ul>
+	<li>LOG_PID</li>
+	<li>LOG_CONS</li>
+	<li>LOG_ODELAY</li>
+	<li>LOG_NDELAY</li>
+	<li>LOG_NOWAIT</li>
+	<li>LOG_PERROR</li>
+	</ul>
+	*/
+	
 	PHash *map = IoObject_dataPointer(DATA(self)->optionsMap);
 
 	PHash_at_put_(map, IOSYMBOL("LOG_PID"), IONUMBER(1));
@@ -306,6 +310,8 @@ IoObject *IoSyslog_facilityMap(IoSyslog *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Syslog facilityMap
 	Contains the following keys, which represent numbers that can be used when opening a log:
+	<p>
+	<ul>
 	 <li>LOG_KERN</li>
 	 <li>LOG_USER</li>
 	 <li>LOG_MAIL</li>
@@ -330,6 +336,7 @@ IoObject *IoSyslog_facilityMap(IoSyslog *self, IoObject *locals, IoMessage *m)
 	 <li>LOG_LOCAL5</li>
 	 <li>LOG_LOCAL6</li>
 	 <li>LOG_LOCAL7</li>
+	</ul>
 	 */
 	 
 	PHash *map = IoObject_dataPointer(DATA(self)->facilityMap);
@@ -382,15 +389,18 @@ IoObject *IoSyslog_priorityMap(IoSyslog *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Syslog  priorityMap
 	Contains key/value pairs for logging priorities for use when calling the log() method. These include:
-	 <li>LOG_EMERG</li>
-	 <li>LOG_ALERT</li>
-	 <li>LOG_CRIT</li>
-	 <li>LOG_ERR</li>
-	 <li>LOG_WARNING</li>
-	 <li>LOG_NOTICE</li>
-	 <li>LOG_INFO</li>
-	 <li>LOG_DEBUG</li>
-	 */
+	<p>
+	<ul>
+	<li>LOG_EMERG</li>
+	<li>LOG_ALERT</li>
+	<li>LOG_CRIT</li>
+	<li>LOG_ERR</li>
+	<li>LOG_WARNING</li>
+	<li>LOG_NOTICE</li>
+	<li>LOG_INFO</li>
+	<li>LOG_DEBUG</li>
+	</ul>
+	*/
 	 
 	PHash *map = IoObject_dataPointer(DATA(self)->priorityMap);
 	PHash_at_put_(map, IOSYMBOL("LOG_EMERG"), IONUMBER(0));
@@ -442,8 +452,11 @@ IoObject *IoSyslog_maskMap(IoSyslog *self, IoObject *locals, IoMessage *m)
 	/*doc Syslog maskMap
 	Contains keys/value pairs which represent numbers that specify the 
 	logging mask. These values may be any one (or more) of the following:
+	<p>
+	<ul>
 	<li>LOG_PRIMASK</li>
 	<li>LOG_FACMASK</li>
+	</ul>
 	*/
 	 
 	PHash *map = IoObject_dataPointer(DATA(self)->maskMap);
@@ -458,8 +471,11 @@ IoObject *IoSyslog_log(IoSyslog *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Syslog log
 	Writes the supplied data to the log. Requires 2 arguments:
+	<p>
+	<ul>
 	<li>Logging Priority</li>
 	<li>Message to log</li>
+	</ul>
 	*/
 	 
 	char *str;

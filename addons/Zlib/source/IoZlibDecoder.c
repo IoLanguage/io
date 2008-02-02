@@ -4,14 +4,14 @@
 /*metadoc ZlibDecoder description
 For Zlib uncompression.
 Example use;
-<code>	
+<pre>	
 bf = ZlibDecoder clone
 bf beginProcessing
 bf inputBuffer appendSeq(inputData)
 bf process
 bf endProcess
 bf outputBuffer // this contains the output data
-</code>	
+</pre>	
 */
 
 #include "IoZlibDecoder.h"

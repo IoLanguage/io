@@ -4,7 +4,7 @@
 //metadoc Font category Graphics
 /*metadoc Font description
 The Font object can be used to load and render TypeTrype fonts. Example use;
-<code>	
+<pre>	
 // within a GLUT display callback...
 
 timesFont = Font clone open(\"times.ttf\")
@@ -12,7 +12,7 @@ if (timesFont error, write(\"Error loading font: \", timesFont error, \"\n\"); r
 timesFont setPointSize(16)
 glColor(0,0,0,1)
 timesFont draw(\"This is a test.\")
-</code>	
+</pre>	
 
 <b>Rendering fonts using OpenGL textures</b>
 <p>
@@ -253,10 +253,10 @@ IoObject *IoFont_drawString(IoFont *self, IoObject *locals, IoMessage *m)
 	Draws aString using the optional start and end indexes, if supplied. Returns self.
 <p>
 Note; Fonts are draw as RGBA pixel maps. These blending options are recommended:
-<code>	
+<pre>	
 glEnable(GL_BLEND)
 glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-</code>	
+</pre>	
 	*/
 
 	IoSymbol *textString = IoMessage_locals_seqArgAt_(m, locals, 0);

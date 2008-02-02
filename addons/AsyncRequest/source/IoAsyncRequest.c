@@ -4,9 +4,9 @@
 /*metadoc AsyncRequest description
 Used for doing asynchronous file i/o.
 Example use;
-<code>	
+<pre>	
 
-</code>	
+</pre>	
 */
 
 #include "IoAsyncRequest.h"

@@ -1,8 +1,5 @@
-/*
-//metadoc copyright Steve Dekorte 2002
-*/
-//metadoc license BSD revised
-*/
+//metadoc GLUT copyright Steve Dekorte 2002
+//metadoc GLUT license BSD revised
 
 #ifndef IOGLUT_DEFINED
 #define IOGLUT_DEFINED 1

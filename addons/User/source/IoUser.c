@@ -1,22 +1,13 @@
-/*metadoc User copyright
-	Steve Dekorte, 2004
-*/
-
-/*metadoc User license
-	BSD revised
-*/
+//metadoc User copyright Steve Dekorte, 2004
+//metadoc User license BSD revised
 
 /*metadoc User description
 	This object provides access to the local operating system's information about the current user.")
 */
 
-/*metadoc User credits 
-	Windows code by Mike Austin
-*/
+//metadoc User credits Windows code by Mike Austin
+//metadoc User category Server
 
-/*metadoc User category
-	Server
-*/
 
 #include "IoUser.h"
 #include "IoState.h"
@@ -120,12 +111,10 @@ IoObject *IoUser_homeDirectory(IoUser *self, IoObject *locals, IoMessage *m)
 {
 	/*doc User homeDirectory
 	Returns the current user's home directory as a Directory object.
-*	/
+*/
 
 	char *login = (char *)getlogin();
-	/*
-	 IoSymbol *homePath;
-	 */
+	//IoSymbol *homePath;
 
 	if (login)
 	{

@@ -5,7 +5,7 @@
 /*metadoc Blowfish description
 The Blowfish object can be used to do encryption and decryption using the blowfish algorithm.
 Example use;
-<code>	
+<pre>	
 bf = Blowfish clone
 bf setKey("secret")
 bf beginProcessing
@@ -13,7 +13,7 @@ bf inputBuffer appendSeq("this is a message")
 bf process
 bf endProcess
 bf outputBuffer // this contains the encrypted data
-</code>	
+</pre>	
 */
 
 #include "IoBlowfish.h"

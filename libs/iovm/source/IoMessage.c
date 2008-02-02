@@ -6,12 +6,12 @@ A Message object encapsulates the action of a message send.
 Blocks are composed of a Message and its children.
 <p>
 Terminology
-<code>
+<pre>
 Example;
 A B(C D); E F
 In the above example:
 ...
-</code>
+</pre>
 Important; Modifying the message tree of a block currently in use may cause
 a crash if a garbage collection cycle occurs. If the implementation were
 changed to retain every called message, this could be avoided.
@@ -1058,13 +1058,13 @@ IoObject *IoMessage_appendArg(IoMessage *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Message appendArg(aMessage)
 	Adds aMessage to the argument list of receiver. Examples,
-	<code>	
+	<pre>	
 	Io> message(a) appendArg(message(b))
 	==> a(b)
 
 	Io> message(a(1,2)) appendArg(message(3))
 	==> a(1, 2, 3)
-	</code>	
+	</pre>	
 	*/
 
 	IoMessage *msg = IoMessage_locals_messageArgAt_(m, locals, 0);
@@ -1087,13 +1087,13 @@ IoObject *IoMessage_argCount_(IoMessage *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Message argCount
 	Returns the number of arguments this message has. A faster way to do, msg arguments size. Examples,
-	<code>	
+	<pre>	
 	Io> message(a(1,2,3)) argCount
 	==> 3
 
 	Io> message(a) argCount
 	==> 0
-	</code>	
+	</pre>	
 	*/
 
 	return IONUMBER(IoMessage_argCount(self));

@@ -1,14 +1,5 @@
-/*metadoc Socket copyright
-	Steve Dekorte, 2004
-*/
-
-/*metadoc Socket license
-	BSD revised
-*/
-
-/*metadoc Socket dependsOn
-	SocketManager
-*/
+/*metadoc Socket copyright Steve Dekorte, 2004
+//metadoc Socket license BSD revised
 
 /*metadoc Socket description
 Interface to network communication.
@@ -19,7 +10,7 @@ be accessed using the readBuffer method.
 
 Example:
 
-<code>	
+<pre>	
 socket := Socket clone setHost("www.yahoo.com") setPort(80) connect
 if(socket error) then( write(socket error, "\n"); exit)
 
@@ -29,9 +20,10 @@ while(socket read, Nop)
 if(socket error) then(write(socket error, "\n"); exit)
 
 write("read ", socket readBuffer length, " bytes\n")
-</code>	""")
-//metadoc category Networking")
+</pre>
 */
+
+//metadoc Socket category Networking
 
 
 /*doc Socket setHost(hostName)

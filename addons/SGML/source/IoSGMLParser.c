@@ -3,7 +3,7 @@
 /*metadoc SGMLParser description
 This object can be used to parse SGML / HTML / XML.
 */
-//metadoc category XML
+//metadoc SGMLParser category XML
 
 #include "IoSGMLParser.h"
 #include "IoState.h"
@@ -232,12 +232,12 @@ IoObject *IoSGMLParser_parse(IoObject *self, IoObject *locals, IoMessage *m)
 {
 	/*doc SGMLParser parse(aSequence)
 	Parses aSequence and calls the following methods on self;
-<code>	
+<pre>	
 startElement(name)
 endElement(name)
 newAttribute(key, value)
 newText(text)
-</code>	
+</pre>	
 for each of the items it finds. Returns self.
 */
 

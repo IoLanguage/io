@@ -1,8 +1,5 @@
-/*
-//metadoc copyright Steve Dekorte 2002
-*/
-//metadoc license BSD revised
-*/
+//metadoc IPAddress copyright Steve Dekorte 2002
+//metadoc IPAddress license BSD revised
 
 #ifndef IOADDRESS_DEFINED
 #define IOADDRESS_DEFINED 1

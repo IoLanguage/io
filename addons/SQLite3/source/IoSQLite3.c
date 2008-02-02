@@ -1,10 +1,5 @@
-/*metadoc SQLite3 copyright
-	Steve Dekorte, 2004
-*/
-
-/*metadoc SQLite3 license
-	BSD revised
-*/
+//metadoc SQLite3 copyright Steve Dekorte, 2004
+//metadoc SQLite3 license BSD revised
 
 /*metadoc SQLite3 description
 	SQLite provides a embedded simple and fast 
@@ -14,7 +9,8 @@
 	at http://www.hwaci.com/sw/sqlite/lang.html. 
 	SQLite was written by Dr. Richard Hipp who offers consulting 
 	services for custom modifications and support of SQLite. Example:
-<code>	
+	<p>
+<pre>	
 db := SQLite clone
 db setPath("myDatabase.sqlite")
 db open
@@ -26,7 +22,7 @@ rows := db exec("SELECT key, value FROM Dbm WHERE key='a'")
 db exec("DELETE FROM Dbm WHERE key='a'")
 rows := db exec("SELECT key, value FROM Dbm WHERE key='a'")
 db close
-</code>
+</pre>
 */
 
 /*metadoc SQLite3 category
@@ -362,7 +358,7 @@ IoObject *IoSQLite3_execWithCallback(IoSQLite3 *self,
 
 IoObject *IoSQLite3_exec(IoSQLite3 *self, IoObject *locals, IoMessage *m)
 {
-	/*doc exec(aString)
+	/*doc SQLite3 exec(aString)
 	Opens the database if it is not already open and executes
 	aString as an sql command. Results a List of Map objects or Nil if
 	there was an error. Each map holds the contents of a row.

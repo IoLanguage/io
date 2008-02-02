@@ -17,9 +17,9 @@ description:  A binding for "callsystem - system() on steorids"
 </UL>
 
 Example use;
-<code>	
+<pre>	
 sc = SystemCall clone
-</code>	
+</pre>	
 */
 
 #include "IoSystemCall.h"

@@ -574,10 +574,10 @@ IoObject *IoSeq_strip(IoSeq *self, IoObject *locals, IoMessage *m)
 	/*doc MutableSequence strip(optionalSequence)
 	Trims the whitespace (or optionalSequence) off both ends:
 	<p>
-	<code>	
+	<pre>	
 	"   Trim this string   \r\n" strip
 	==> "Trim this string"
-	</code>	
+	</pre>	
 	*/
 
 	IO_ASSERT_NOT_SYMBOL(self);
@@ -601,10 +601,11 @@ IoObject *IoSeq_lstrip(IoSeq *self, IoObject *locals, IoMessage *m)
 	/*doc MutableSequence lstrip(aSequence)
 	Strips the characters in aSequence
 	stripped from the beginning of the receiver. Example:
-	<code>	
+	<p>
+	<pre>	
 	"Keep the tail" lstrip(" eKp")
 	==> "the tail"
-	</code>	
+	</pre>	
 	*/
 
 	IO_ASSERT_NOT_SYMBOL(self);
@@ -628,10 +629,10 @@ IoObject *IoSeq_rstrip(IoSeq *self, IoObject *locals, IoMessage *m)
 	/*doc MutableSequence rstrip(aSequence)
 	Strips the characters in
 	aSequence stripped from the end of the receiver. Example:
-	<code>	
+	<pre>	
 	"Cut the tail off" rstrip(" afilot")
 	==> "Cut the"
-	</code>	
+	</pre>	
 	*/
 
 	IO_ASSERT_NOT_SYMBOL(self);

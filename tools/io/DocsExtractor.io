@@ -41,10 +41,10 @@ DocsExtractor := Object clone do(
 	)
 
 	extract := method(
-		writeln("extracting io comment code from:")
+		//writeln("\n", folder path)
 		outFile remove open
 		sourceFiles foreach(file,
-			writeln("  ", file name, " ")
+			//writeln("	", file name, " ")
 			file docSlices foreach(d,
 				/*
 				header := d beforeSeq("\n") strip
@@ -66,14 +66,20 @@ DocsExtractor := Object clone do(
 	//sourceFiles := method(ioFiles)
 
 	cFiles := method(
-		folder folderNamed("source") files select(file,
-			file name beginsWithSeq("Io") and(
-			file name containsSeq("Init") not) and(
-			file name pathExtension == "c")
+		if(folder folderNamed("source"),
+			folder folderNamed("source") files select(file,
+				file name beginsWithSeq("Io") and(
+				file name containsSeq("Init") not) and(
+				file name pathExtension == "c")
+			)
+		,
+			list()
 		)
 	)
 	
-	ioFiles := method(folder folderNamed("io") filesWithExtension("io"))
+	ioFiles := method(
+		if(folder folderNamed("io"), folder folderNamed("io") filesWithExtension("io"), list())
+	)
 )
 
 de := DocsExtractor clone

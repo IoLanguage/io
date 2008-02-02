@@ -1,8 +1,5 @@
-/*
-//metadoc copyright Steve Dekorte 2002
-*/
-//metadoc license BSD revised
-*/
+//metadoc DNS copyright Steve Dekorte 2002
+//metadoc DNS license BSD revised
 
 #ifndef IOSEQ_DNS_DEFINED
 #define IOSEQ_DNS_DEFINED 1

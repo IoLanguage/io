@@ -1,26 +1,19 @@
 //metadoc Regex copyright Steve Dekorte 2005, Daniel Rosengren 2007
 //metadoc Regex license BSD revised
 //metadoc Regex category RegularExpressions")
-/*metadoc description
+/*metadoc Regex description
 The Regex addon adds support for Perl regular expressions
-	using the <a href=http://www.pcre.org/>PCRE</a> library by Philip Hazel.
+using the <a href=http://www.pcre.org/>PCRE</a> library by Philip Hazel.
 
-	Example use:
-	<code>	
-	Io> "11aabb" allMatchesOfRegex("aa*")
-	==> list("a", "a")
+Example use:
+<pre>	
+Io> "11aabb" allMatchesOfRegex("aa*")
+==> list("a", "a")
 
-	Io> re := "(wom)(bat)" asRegex
-	Io> "wombats are cuddly" matchesOfRegex(re) replaceAllWith("$2$1!")
-	==> batwom!s are cuddly
-	</code>	
-
-	<blockquote>
-	Some people, when confronted with a problem, think
-	"I know, I'll use regular expressions."
-	Now they have two problems.
-	</blockquote>
-	<strong>Jamie Zawinski</strong>
+Io> re := "(wom)(bat)" asRegex
+Io> "wombats are cuddly" matchesOfRegex(re) replaceAllWith("$2$1!")
+==> batwom!s are cuddly
+</pre>
 */
 
 #include "IoRegex.h"
@@ -33,7 +26,6 @@ The Regex addon adds support for Perl regular expressions
 #define DATA(self) ((IoRegexData *)IoObject_dataPointer(self))
 
 static IoRegex *IoRegex_cloneWithOptions_(IoRegex *self, int options);
-
 
 IoTag *IoRegex_newTag(void *state)
 {
@@ -218,19 +210,19 @@ IoObject *IoRegex_version(IoRegex *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoRegex_caseless(IoRegex *self, IoObject *locals, IoMessage *m)
 {
-	/*doc Regex caseless
-		Returns a case insensitive clone of the receiver, or self if the receiver itself is
-		case insensitive.
+/*doc Regex caseless
+Returns a case insensitive clone of the receiver, or self if the receiver itself is
+case insensitive.
 
-		Example:
-		<code>	
-		Io> "WORD" matchesRegex("[a-z]+")
-		==> false
+Example:
+<pre>	
+Io> "WORD" matchesRegex("[a-z]+")
+==> false
 
-		Io> "WORD" matchesRegex("[a-z]+" asRegex caseless)
-		==> true
-		</code>	
-	*/
+Io> "WORD" matchesRegex("[a-z]+" asRegex caseless)
+==> true
+</pre>	
+*/
 	
 	return IoRegex_cloneWithOptions_(self, DATA(self)->options | PCRE_CASELESS);
 }
@@ -256,21 +248,21 @@ IoObject *IoRegex_isCaseless(IoRegex *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoRegex_dotAll(IoRegex *self, IoObject *locals, IoMessage *m)
 {
-	/*doc Regex dotAll
-		Returns a clone of the receiver with the dotall option turned on,
-		or self if the receiver itself has the option turned on.
+/*doc Regex dotAll
+Returns a clone of the receiver with the dotall option turned on,
+or self if the receiver itself has the option turned on.
 
-		In dotall mode, "." matches any character, including newline. By default
-		it matches any character <em>except</em> newline.
+In dotall mode, "." matches any character, including newline. By default
+it matches any character <em>except</em> newline.
 
-		Example:
-		<code>	
-		Io> "A\nB" matchesOfRegex(".+") next string
-		==> A
+Example:
+<pre>	
+Io> "A\nB" matchesOfRegex(".+") next string
+==> A
 
-		Io> "A\nB" matchesOfRegex(".+" asRegex dotAll) next string
-		==> A\nB
-		</code>	
+Io> "A\nB" matchesOfRegex(".+" asRegex dotAll) next string
+==> A\nB
+</pre>	
 */
 	return IoRegex_cloneWithOptions_(self, DATA(self)->options | PCRE_DOTALL);
 }
@@ -332,25 +324,25 @@ IoObject *IoRegex_isExtended(IoRegex *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoRegex_multiline(IoRegex *self, IoObject *locals, IoMessage *m)
 {
-	/*doc Regex multiline
-		Returns a clone of the receiver with the multiline option turned on,
-		or self if the receiver itself has the option turned on.
+/*doc Regex multiline
+Returns a clone of the receiver with the multiline option turned on,
+or self if the receiver itself has the option turned on.
 
-		In multiline mode, "^" matches at the beginning of the string and at
-		the beginning of each line; and "$" matches at the end of the string,
-		and at the end of each line.
-		By default "^" only matches at the beginning of the string, and "$"
-		only matches at the end of the string.
+In multiline mode, "^" matches at the beginning of the string and at
+the beginning of each line; and "$" matches at the end of the string,
+and at the end of each line.
+By default "^" only matches at the beginning of the string, and "$"
+only matches at the end of the string.
 
-		Example:
-		<code>	
-		Io> "A\nB\nC" allMatchesForRegex("^.")
-		==> list("A")
+Example:
+<pre>	
+Io> "A\nB\nC" allMatchesForRegex("^.")
+==> list("A")
 
-		Io> "A\nB\nC" allMatchesForRegex("^." asRegex multiline)
-		==> list("A", "B", "C")
-		</code>	
-	*/
+Io> "A\nB\nC" allMatchesForRegex("^." asRegex multiline)
+==> list("A", "B", "C")
+</pre>	
+*/
 	
 	return IoRegex_cloneWithOptions_(self, DATA(self)->options | PCRE_MULTILINE);
 }
@@ -373,8 +365,6 @@ IoObject *IoRegex_isMultiline(IoRegex *self, IoObject *locals, IoMessage *m)
 	return IOBOOL(self, DATA(self)->options & PCRE_MULTILINE);
 }
 
-
-/* ------------------------------------------------------------------------------------------------*/
 /* Private */
 
 static IoRegex *IoRegex_cloneWithOptions_(IoRegex *self, int options)

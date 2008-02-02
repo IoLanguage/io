@@ -1,7 +1,5 @@
-/*
-//metadoc copyright Steve Dekorte 2002
-*/
-//metadoc license BSD revised
+//metadoc Event copyright Steve Dekorte 2002
+//metadoc Event license BSD revised
 
  e := Event clone
  EventManager addEvent(e, fd, type, timeout)

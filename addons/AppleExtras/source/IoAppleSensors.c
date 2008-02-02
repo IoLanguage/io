@@ -4,7 +4,7 @@
 /*metadoc AppleSensors description
 The AppleSensors object can be used to do encryption and decryption using the AppleSensors algorithm.
 Example use;
-<code>	
+<pre>	
 bf = AppleSensors clone
 bf setKey("secret")
 bf beginProcessing
@@ -12,7 +12,7 @@ bf inputBuffer appendSeq("this is a message")
 bf process
 bf endProcess
 bf outputBuffer // this contains the encrypted data
-</code>	
+</pre>	
 */
 
 #include "IoAppleSensors.h"

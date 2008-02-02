@@ -262,13 +262,13 @@ IoObject *IoMap_foreach(IoMap *self, IoObject *locals, IoMessage *m)
 	For each key value pair, sets the locals key to
 the key and value to the value and executes message.
 Example:
-<code>	aMap foreach(k, v, writeln(k, " = ", v))
-aMap foreach(v, write(v))</code>	
+<pre>	aMap foreach(k, v, writeln(k, " = ", v))
+aMap foreach(v, write(v))</pre>	
 
 Example use with a block:
 
-<code>	myBlock = block(k, v, write(k, " = ", v, "\n"))
-aMap foreach(k, v, myBlock(k, v))</code>	
+<pre>	myBlock = block(k, v, write(k, " = ", v, "\n"))
+aMap foreach(k, v, myBlock(k, v))</pre>	
 */
 
 	IoState *state = IOSTATE;

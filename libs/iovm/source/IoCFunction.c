@@ -8,7 +8,7 @@ slot is activated. The for, if, while and clone methods of the Lobby
 are examples of CFunctions. CFunctions are useful for implementing 
 methods that require the speed of C or binding to a C library.
 */
-//metadoc CFunction category Core")
+//metadoc CFunction category Core
 
 #include "IoCFunction.h"
 

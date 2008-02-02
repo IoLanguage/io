@@ -1,7 +1,7 @@
 //metadoc IPAddress copyright Steve Dekorte, 2004
 //metadoc IPAddress license BSD revised
 //metadoc IPAddress description Object representation of an Internet Protocol Address.
-//metadoc IPAddress category Networking")
+//metadoc IPAddress category Networking
 
 /*doc IPAddress setHostName(hostName)
 	Translates hostName to an IP using asynchronous DNS and 

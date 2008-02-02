@@ -2,7 +2,7 @@
 //metadoc SkipDBCursor copyright Steve Dekorte 2002
 //metadoc SkipDBCursor license BSD revised
 //metadoc SkipDBCursor category Databases")
-/*metadoc description
+/*metadoc SkipDBCursor description
 An interator object for a SkipDB.
 */
 

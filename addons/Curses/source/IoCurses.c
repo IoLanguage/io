@@ -7,12 +7,13 @@
 Curses allows writing and reading at arbitrary positions on the terminal. You have to call init to set the terminal to curses mode and end to end curses mode. The terminal is not updated until refresh is called. It is a bad idea to use the standard io's read and write methods when the terminal is in curses mode. The Curses primitive was written by Edwin Zacharias.
 <BR><BR>
 Here's an example that prints Hello at column 5 and row 7;
-<PRE>
+<p>
+<pre>
 Curses init
 Curses move(5, 7) print(\"Hello\")
 Curses refresh
 Curses end
-<PRE>
+</pre>
 */
 
 #include "IoCurses.h"

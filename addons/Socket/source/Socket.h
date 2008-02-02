@@ -1,10 +1,8 @@
-/*
- //metadoc copyright Steve Dekorte 2002
+//metadoc Socket copyright Steve Dekorte 2002
+//metadoc Socket license BSD revised
+/*metadoc description
+See the release notes for a list of folks that helped with this code.
 */
-//metadoc license BSD revised
- /*metadoc description
-See the release notes for a list of folks that helped with this code.")
- */
 
 #ifndef PORTABLESOCKET_DEFINED
 #define PORTABLESOCKET_DEFINED 1
