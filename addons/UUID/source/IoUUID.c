@@ -1,9 +1,17 @@
-/*#io
-UUID ioDoc(
-	docCopyright("Jonathan Wright", 2006)
-	docLicense("BSD revised")
-	docCategory("Encryption")
-	docDescription("Generates UUIDs/GUIDs")
+/*metadoc UUID copyright
+	Jonathan Wright, 2006
+*/
+
+/*metadoc UUID license
+	BSD revised
+*/
+
+/*metadoc UUID category
+	Encryption
+*/
+
+/*metadoc UUID description
+	Generates UUIDs/GUIDs.
 */
 
 #include "IoUUID.h"
@@ -60,8 +68,8 @@ void IoUUID_free(IoUUID *self)
 
 IoObject *IoUUID_uuid(IoUUID *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("uuid", "Returns a new uuid in string format.")
+	/*doc UUID uuid
+	Returns a new uuid in string format.
 	*/
 
 	uuid_t buf;
@@ -75,8 +83,8 @@ IoObject *IoUUID_uuid(IoUUID *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoUUID_uuidRandom(IoUUID *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("uuidRandom", "Returns a new random uuid (type 4) in string format.")
+	/*doc UUID uuidRandom
+	Returns a new random uuid (type 4) in string format.
 	*/
 
 	uuid_t buf;
@@ -90,8 +98,8 @@ IoObject *IoUUID_uuidRandom(IoUUID *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoUUID_uuidTime(IoUUID *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("uuidTime", "Returns a new time and mac uuid (type 1) in string format.")
+	/*doc UUID uuidTime
+	Returns a new time and mac uuid (type 1) in string format.
 	*/
 
 	uuid_t buf;

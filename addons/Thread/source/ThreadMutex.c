@@ -1,6 +1,8 @@
-/*#io
-docCopyright("Trevor Fancher", 2006)
-docLicense("BSD revised")
+/*
+copyright
+	Trevor Fancher, 2006
+license
+	BSD revised
 */
 
 #include "ThreadMutex.h"

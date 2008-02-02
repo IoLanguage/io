@@ -1,5 +1,6 @@
 /*
-docCopyright("Steve Dekorte", 2002)
+//metadoc copyright Steve Dekorte 2002
+*/
 */
 
 #ifndef IOZlibEncoder_DEFINED

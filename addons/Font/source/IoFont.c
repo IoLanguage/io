@@ -1,10 +1,10 @@
-/*#io
-Font ioDoc(
-		 docCopyright("Steve Dekorte", 2004)
-		 docLicense("BSD revised")
-		 docCategory("Graphics")
-		 docDescription("The Font object can be used to load and render TypeTrype fonts. Example use;
-<pre>
+
+//metadoc Font copyright Steve Dekorte, 2004
+//metadoc Font license BSD revised
+//metadoc Font category Graphics
+/*metadoc Font description
+The Font object can be used to load and render TypeTrype fonts. Example use;
+<code>	
 // within a GLUT display callback...
 
 timesFont = Font clone open(\"times.ttf\")
@@ -12,12 +12,11 @@ if (timesFont error, write(\"Error loading font: \", timesFont error, \"\n\"); r
 timesFont setPointSize(16)
 glColor(0,0,0,1)
 timesFont draw(\"This is a test.\")
-</pre>
+</code>	
 
 <b>Rendering fonts using OpenGL textures</b>
 <p>
 Smaller fonts (those having a point size around 30 or smaller, depending on the font) will automatically be cached in and rendered from a texture. This technique is very fast and should support rendering speeds as fast (or faster than) those of typical desktop font rendering systems. Larger font sizes(due to texture memory constraints) will be rendered to a pixelmap when displayed. Thanks to Mike Austin for implementing the font texturing system.
-")
 */
 
 
@@ -121,9 +120,8 @@ IoObject *IoFont_clone(IoFont *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFont_setPath(IoFont *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setPath(aString)",
-		   "Sets the Font path. Returns self. ")
+	/*doc Font setPath(aString)
+	Sets the Font path. Returns self.
 	*/
 
 	DATA(self)->path = IOREF(IoMessage_locals_seqArgAt_(m, locals, 0));
@@ -132,17 +130,16 @@ IoObject *IoFont_setPath(IoFont *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFont_path(IoFont *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("path",
-		   "Returns the Font path. ")
+	/*doc Font path
+	Returns the Font path.
 	*/
 	return DATA(self)->path;
 }
 
 IoObject *IoFont_setPixelSize(IoFont *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setPixelSize(aNumber)", "Sets the size of the font in pixels. Returns self.")
+	/*doc Font setPixelSize(aNumber)
+	Sets the size of the font in pixels. Returns self.
 	*/
 
 	int size = IoMessage_locals_intArgAt_(m, locals, 0);
@@ -152,8 +149,8 @@ IoObject *IoFont_setPixelSize(IoFont *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFont_pixelSize(IoFont *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("pixelSize", "Returns the font's pixelSize.")
+	/*doc Font pixelSize
+	Returns the font's pixelSize.
 	*/
 
 	return IONUMBER(GLFont_pixelSize( DATA(self)->font));
@@ -171,9 +168,8 @@ void IoFont_checkError(IoFont *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFont_open(IoFont *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("open(optionalPath)",
-		   "Opens the font. Sets path using optionalPath if supplied. Returns self.")
+	/*doc Font open(optionalPath)
+	Opens the font. Sets path using optionalPath if supplied. Returns self.
 	*/
 
 	if (IoMessage_argCount(m) > 0)
@@ -188,9 +184,9 @@ IoObject *IoFont_open(IoFont *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFont_lengthOfString(IoFont *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("widthOfString(aString)",
-		   "Returns a Number with the width that aString would render to with the receiver's current settings. ")
+	/*doc Font widthOfString(aString)
+	Returns a Number with the width that aString would render 
+	to with the receiver's current settings.
 	*/
 
 	IoSymbol *text = IoMessage_locals_seqArgAt_(m, locals, 0);
@@ -215,9 +211,8 @@ IoObject *IoFont_lengthOfString(IoFont *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFont_lengthOfCharacter(IoFont *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("lengthOfCharacter(aNumber)",
-		   "Returns the width of the character specified by aNumber in the receiver's font.")
+	/*doc Font lengthOfCharacter(aNumber)
+	Returns the width of the character specified by aNumber in the receiver's font.
 	*/
 
 	unsigned char c = IoNumber_asInt(IoMessage_locals_numberArgAt_(m, locals, 0));
@@ -226,9 +221,8 @@ IoObject *IoFont_lengthOfCharacter(IoFont *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFont_fontHeight(IoFont *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("fontHeight",
-		   "Returns the height of the font measured in pixels. ")
+	/*doc Font fontHeight
+	Returns the height of the font measured in pixels.
 	*/
 
 	return (IoObject*)IONUMBER( GLFont_fontHeight( DATA(self)->font ) );
@@ -236,9 +230,9 @@ IoObject *IoFont_fontHeight(IoFont *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFont_stringIndexAtWidth(IoFont *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("stringIndexAtWidth(aString, startIndex, width)",
-		   "Returns the max index of the character in String (starting at startIndex) that fits within width.")
+	/*doc Font stringIndexAtWidth(aString, startIndex, width)
+	Returns the max index of the character in String (starting at startIndex) 
+	that fits within width.
 	*/
 
 	IoSymbol *text = IoMessage_locals_seqArgAt_(m, locals, 0);
@@ -255,15 +249,14 @@ IoObject *IoFont_stringIndexAtWidth(IoFont *self, IoObject *locals, IoMessage *m
 
 IoObject *IoFont_drawString(IoFont *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("drawString(aString, optionalStartIndex, optionalEndIndex)",
-		   "Draws aString using the optional start and end indexes, if supplied. Returns self.
+	/*doc Font drawString(aString, optionalStartIndex, optionalEndIndex)
+	Draws aString using the optional start and end indexes, if supplied. Returns self.
 <p>
 Note; Fonts are draw as RGBA pixel maps. These blending options are recommended:
-<pre>
+<code>	
 glEnable(GL_BLEND)
 glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-</pre>")
+</code>	
 	*/
 
 	IoSymbol *textString = IoMessage_locals_seqArgAt_(m, locals, 0);
@@ -290,11 +283,10 @@ glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 	return self;
 }
 
-IoObject *IoFont_isTextured( IoFont *self, IoObject *locals, IoMessage *m )
+IoObject *IoFont_isTextured(IoFont *self, IoObject *locals, IoMessage *m )
 {
-	/*#io
-	docSlot("isTextured",
-		   "Returns true if the font is being cached in and rendered from a texture, false otherwise. ")
+	/*doc Font isTextured
+	Returns true if the font is being cached in and rendered from a texture, false otherwise.
 	*/
 
 	return IOBOOL(self, GLFont_isTextured(DATA(self)->font));
@@ -302,8 +294,8 @@ IoObject *IoFont_isTextured( IoFont *self, IoObject *locals, IoMessage *m )
 
 IoObject *IoFont_error(IoFont *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("error", "Returns the current error string or nil if there is no error. ")
+	/*doc Font error
+	Returns the current error string or nil if there is no error.
 	*/
 
 	const char *e = GLFont_error(DATA(self)->font);

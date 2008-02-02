@@ -1,10 +1,7 @@
-/*#io
-Event ioDoc(
-	docCopyright("Steve Dekorte", 2004)
-	docLicense("BSD revised")
-	docDescription("""Networking Event.""")
-	docCategory("Networking")
-*/
+//metadoc Event copyright Steve Dekorte, 2004
+//metadoc Event license BSD revised
+//metadoc Event description Networking Event.
+//metadoc category Networking
 
 #include "IoEvent.h"
 #include "IoState.h"

@@ -1,9 +1,9 @@
-/*#io
-AVCodec ioDoc(
-			docCopyright("Steve Dekorte", 2004)
-			docLicense("BSD revised")
-			docCategory("Media")
-			docDescription("""An object for encoding and decoding audio and video streams.""")
+
+//metadoc AVCodec copyright Steve Dekorte, 2004
+//metadoc AVCodec license BSD revised
+//metadoc AVCodec category Media
+/*metadoc AVCodec description
+An object for encoding and decoding audio and video streams.
 */
 
 #include "IoAVCodec.h"
@@ -219,24 +219,24 @@ void IoAVCodec_error_(IoAVCodec *self, IoMessage *m, char *s)
 
 IoObject *IoAVCodec_audioInputBuffer(IoAVCodec *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("inputBuffer", "Returns the input buffer.")
+	/*doc AVCodec inputBuffer
+	Returns the input buffer.
 	*/
 	return DATA(self)->inputBuffer;
 }
 
 IoObject *IoAVCodec_audioOutputBuffer(IoAVCodec *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("outputBuffer", "Returns the output buffer.")
+	/*doc AVCodec outputBuffer
+	Returns the output buffer.
 	*/
 	return DATA(self)->outputBuffer;
 }
 
 IoObject *IoAVCodec_decodeCodecNames(IoAVCodec *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("decodeCodecNames", "Returns a list of strings with the names of the decode codecs.")
+	/*doc AVCodec decodeCodecNames
+	Returns a list of strings with the names of the decode codecs.
 	*/
 
 	AVCodec *p = first_avcodec;
@@ -257,8 +257,8 @@ IoObject *IoAVCodec_decodeCodecNames(IoAVCodec *self, IoObject *locals, IoMessag
 
 IoObject *IoAVCodec_encodeCodecNames(IoAVCodec *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("encodeCodecNames", "Returns a list of strings with the names of the encode codecs.")
+	/*doc AVCodec encodeCodecNames
+	Returns a list of strings with the names of the encode codecs.
 	*/
 
 	AVCodec *p = first_avcodec;

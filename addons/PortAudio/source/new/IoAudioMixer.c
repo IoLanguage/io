@@ -1,6 +1,5 @@
-/*   copyright: Steve Dekorte, 2002
-*   All rights reserved. See _BSDLicense.txt.
-*/
+//metadoc AudioMixer copyright Steve Dekorte, 2002
+//metadoc AudioMixer license All rights reserved. See _BSDLicense.txt.
 
 #include "IoAudioMixer.h"
 #include "IoAudioDevice.h"

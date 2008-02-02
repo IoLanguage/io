@@ -1,9 +1,10 @@
-/*#io
-Random ioDoc(
-			 docCopyright("Steve Dekorte", 2002)
-			 docLicense("BSD revised")
-			 docObject("Random")
-			 docDescription("""A high quality and reasonably fast random number generator based on Makoto Matsumoto, Takuji Nishimura, and Eric Landry's implementation of the Mersenne Twister algorithm. The default seed is and xor of the ANSI C time() and clock() return values.
+//metadoc Random copyright Steve Dekorte 2002
+//metadoc Random license BSD revised
+/*metadoc Random description
+A high quality and reasonably fast random number generator based on 
+Makoto Matsumoto, Takuji Nishimura, and Eric Landry's implementation 
+of the Mersenne Twister algorithm. The default seed is and xor of 
+the ANSI C time() and clock() return values.
 <p>
 Reference:
 <p>
@@ -12,9 +13,9 @@ M. Matsumoto and T. Nishimura, <br>
 "Mersenne Twister: A 623-Dimensionally Equidistributed Uniform Pseudo-RandomGen Number
 							Generator", <br>
 ACM Transactions on Modeling and Computer Simulation, Vol. 8, No. 1, January 1998, pp 3--30.
-</i>""")
-		   docCategory("Math")
-			 */
+</i>
+*/
+//metadoc Random category Math")
 
 #include "IoRandom.h"
 #include "IoNumber.h"
@@ -106,18 +107,16 @@ IoObject *IoRandom_flip(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoRandom_value(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("value(optionalArg1, optionalArg2)",
-		   "If called with:
-<ul>
-<li> no arguments, it returns a floating point
-random Number between 0 and 1.
-<li> one argument, it returns a floating point random
-Number between 0 and optionalArg1.
-<li> two arguments, it returns a floating point random
-Number between optionalArg1 and optionalArg2.
-</ul>
-")
+	/*doc Random value(optionalArg1, optionalArg2)
+	If called with:
+	<ul>
+	<li> no arguments, it returns a floating point
+	random Number between 0 and 1.
+	<li> one argument, it returns a floating point random
+	Number between 0 and optionalArg1.
+	<li> two arguments, it returns a floating point random
+	Number between optionalArg1 and optionalArg2.
+	</ul>
 	*/
 
 	double f = RandomGen_randomDouble(DATA(self));
@@ -162,9 +161,8 @@ Number between optionalArg1 and optionalArg2.
 
 IoObject *IoRandom_setSeed(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setSeed(aNumber)",
-		   "Sets the random number generator seed to the unsign int version of aNumber.")
+	/*doc Random setSeed(aNumber)
+	Sets the random number generator seed to the unsign int version of aNumber.
 	*/
 
 	unsigned long v = IoMessage_locals_longArgAt_(m, locals, 0);
@@ -174,9 +172,8 @@ IoObject *IoRandom_setSeed(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoRandom_gaussian(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("gaussian(optionalMean, optionalStandardDeviation)",
-		   "Returns a pseudo random number between 0 and 1 with a gaussian distribution.")
+	/*doc Random gaussian(optionalMean, optionalStandardDeviation)
+	Returns a pseudo random number between 0 and 1 with a gaussian distribution.
 	*/
 
 	double mean = 0;
@@ -197,8 +194,8 @@ IoObject *IoRandom_gaussian(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoRandom_bytes(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("bytes(count)", "Returns a Sequence of size count containing random bytes.")
+	/*doc Random bytes(count)
+	Returns a Sequence of size count containing random bytes.
 	*/
 
 	size_t i, count = IoMessage_locals_sizetArgAt_(m, locals, 0);

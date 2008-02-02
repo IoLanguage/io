@@ -1,9 +1,7 @@
-/*#io
-GLU ioDoc(
-	docCopyright("Steve Dekorte", 2002)
-	docLicense("BSD revised")
-	docCategory("Graphics")
-*/
+
+//metadoc GLU copyright Steve Dekorte 2002
+//metadoc GLU license BSD revised
+//metadoc GLU category Graphics
 
 #include "IoGLU.h"
 

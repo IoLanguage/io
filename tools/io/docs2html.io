@@ -6,15 +6,21 @@ Directory with("addons") folders foreach(folder,
 )
 */
 
-protos := Protos slotValues map(slotValues) flatten unique select(!=nil) select(v, if(v type == "Object" and v docs ?slots == nil, false, true)) sortByKey(type asLowercase)
+protos := Map clone
 
-protos foreach(p,
-	if(p hasLocalSlot("docs") not, p docs := Object clone do(slots := Object clone))
-	p foreachSlot(k, v, 
-		if(p docs slots getSlot(k) == nil, 
-			p docs slots setSlot(k, Object clone do(description := "<font color=red>undocumented</font>"))
-			if(getSlot("v") type == Block, p docs slots getSlot("k") args := v argumentNames)
-		) 
+File with("libs/iovm/docs/docs.txt") contents split("------\n") foreach(e,
+	isSlot := e beginsWithSeq("doc")
+	h := e beforeSeq("\n") afterSeq(" ")
+	protoName := h beforeSeq(" ")
+	slotName := h afterSeq(" ")
+	description := e afterSeq("\n")
+	//list(protoName, slotName, description) println
+	p := protos atIfAbsentPut(protoName, Map clone atPut("slots", Map clone))
+	if(protoName == nil or slotName == nil, writeln("ERROR: ", e))
+	if(isSlot, 
+		p at("slots") atPut(slotName, description)
+	,
+		p atPut(slotName, description)
 	)
 )
 
@@ -70,21 +76,22 @@ h1 {
     vertical-align: 0.000000em;
 }
 
-pre {
+code {
+	white-space: pre;
     color: #000000;
     font-family: 'Courier', 'Courier';
-    font-size: .85em;
+    font-size: .88em;
     font-style: normal;
     font-variant: normal;
     font-weight: normal;
     letter-spacing: 0;
     line-height: 1.22;
     margin-bottom: 1em;
-    margin-left: 2em;
-    margin-right: 0.00em;
-    margin-top: 1em;
-    padding-bottom: 0.000000em;
-    padding-top: 0.000000em;
+    margin-left: 8em;
+    margin-right: 0em;
+    margin-top: 0em;
+    padding-bottom: 0em;
+    padding-top: 0em;
     text-align: left;
     text-decoration: none;
     text-indent: 0.00em;
@@ -169,8 +176,10 @@ writeln("<div class=Version>Version " .. System version .. "</div>")
 writeln("<h2>Prototypes</h2>")
 writeln("<ul>")
 
-protos map(v,
-	writeln("<a href=#", v type, " style=\"color: #555;\">", v type, "</a><br>")	
+protoNames := protos keys sort
+
+protoNames map(k,
+	writeln("<a href=#", k, " style=\"color: #555;\">", k, "</a><br>")	
 )
 
 writeln("</ul>")
@@ -181,54 +190,56 @@ Sequence do(
 	)
 )
 
-protos map(v, 
+protoNames foreach(protoName,
+	p := protos at(protoName)
 	write("<h2>")
-	write("<a name=" .. v type .. "><font color=black>", v type, "</font></a>")
+	write("<a name=" .. protoName .. "><font color=black>", protoName, "</font></a>")
 	writeln("</h2>")
 	writeln("<ul style=\"width:40em\">")
 	
-	writeln("<b><font color=#000>Protos:</font></b> ", v protos map(type) join(", "))
-	
-	if (v hasLocalSlot("docs"),
-		if (v docs ?description,
-			writeln("<h3>Description</h3>")
-			//writeln("<font face=\"Times\">")
-			v docs description println
-			writeln("</font>")
-		)
-		
-		if (v docs ?slots,
-			writeln("<h3>Slot Index</h3>")
-			writeln("<div style=\"width:40em; margin-left:2em\">")
-			v docs slots foreachSlot(k, s, 
-				write("<b><a href=#" .. v type .. "-" .. k asHtml .. " >")
-				write(k asHtml)
-				if(s ?args, write("()"))
-				//if(s ?args, write("(" .. s args join(",") .. ")"))
-				writeln("</a></b><br>")
-			)
-			writeln("</div>")
+	writeln("<b><font color=#000>Protos:</font></b> ", getSlot(protoName) protos map(type) join(", "))
 
-			writeln("<br>")
-			writeln("<h3>Slots</h3>")
-			//writeln("<ul>")
-			writeln("<br>")
-			v docs slots foreachSlot(k, s, 
-				write("<b>")
-				write("<a name=" .. v type .. "-" .. k asHtml .. "><font color=black>")
-				write(k asHtml)
-				if(s ?args, writeln("(</b><i>" .. s args map(asHtml) join(", ") .. "</i><b>)"))
-				write("</font></a></b>")
-				writeln("<p>")
-				writeln("<div style=\"width:40em; margin-left:2em\">")
-				//writeln("<font face=\"Times\">")
-				writeln(s description)
-				writeln("</font>")
-				writeln("</div>")
-				writeln("<p><br>")
-			)
-			//writeln("</ul>")
+	if (p at("description"),
+		writeln("<h3>Description</h3>")
+		p at("description") println
+		writeln("</font>")
+	)
+
+	slots := p at("slots")
+	if (slots,
+		writeln("<h3>Slot Index</h3>")
+		writeln("<div style=\"width:40em; margin-left:2em\">")
+		
+		slotNames := slots keys sort
+		slotNames sort foreach(k,
+			s := slots at(k)
+			write("<b><a href=#" .. protoName .. "-" .. k asHtml .. " >")
+			write(k asHtml)
+			if(s ?args, write("()"))
+			writeln("</a></b><br>")
 		)
+		writeln("</div>")
+
+		writeln("<br>")
+		writeln("<h3>Slots</h3>")
+		//writeln("<ul>")
+		writeln("<br>")
+		slotNames foreach(k,
+			s := slots at(k)
+			write("<b>")
+			write("<a name=" .. protoName .. "-" .. k asHtml .. "><font color=black>")
+			write(k asHtml)
+			//if(s ?args, writeln("(</b><i>" .. s args map(asHtml) join(", ") .. "</i><b>)"))
+			write("</font></a></b>")
+			writeln("<p>")
+			writeln("<div style=\"width:40em; margin-left:2em\">")
+			//writeln("<font face=\"Times\">")
+			writeln(s)
+			writeln("</font>")
+			writeln("</div>")
+			writeln("<p><br>")
+		)
+		//writeln("</ul>")
 	)
 	
 	writeln("</ul>")

@@ -1,7 +1,6 @@
-/*
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+
+//metadoc LocalNameServers copyright Steve Dekorte 2002
+//metadoc LocalNameServers license BSD revised
 
 #ifndef LOCALNAMESERVERS_DEFINED
 #define LOCALNAMESERVERS_DEFINED 1

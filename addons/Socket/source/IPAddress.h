@@ -1,7 +1,6 @@
-/*
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+
+//metadoc IPAddress copyright Steve Dekorte 2002
+//metadoc IPAddress license BSD revised
 
 #ifndef IPADDRESS_DEFINED
 #define IPADDRESS_DEFINED 1

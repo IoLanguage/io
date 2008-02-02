@@ -1,5 +1,6 @@
 /*
-docCopyright("Steve Dekorte", 2002)
+//metadoc FreeTypeErrorCodes copyright Steve Dekorte 2002
+*/
 */
 
 const char *FreeTypeErrorStringForCode(int code);

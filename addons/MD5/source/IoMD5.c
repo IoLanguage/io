@@ -1,10 +1,10 @@
-/*#io
-MD5 ioDoc(
-		docCopyright("Steve Dekorte", 2002)
-		docLicense("BSD revised")
-		docCategory("Digests")
-		docDescription("An object for calculating MD5 hashes. Each has calculation should instiate it's own MD5 instance.")
-		*/
+
+//metadoc MD5 copyright Steve Dekorte 2002
+//metadoc MD5 license BSD revised
+//metadoc MD5 category Digests
+/*metadoc MD5 description
+An object for calculating MD5 hashes. Each has calculation should instiate it's own MD5 instance.
+*/
 
 #include "IoMD5.h"
 #include "IoState.h"
@@ -66,9 +66,8 @@ void IoMD5_free(IoMD5 *self)
 
 IoObject *IoMD5_appendSeq(IoMD5 *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("appendSeq(aSequence)",
-		   "Appends aSequence to the hash calculation. Returns self.")
+	/*doc MD5 appendSeq(aSequence)
+	Appends aSequence to the hash calculation. Returns self.
 	*/
 
 	IoSeq *buffer = IoMessage_locals_seqArgAt_(m, locals, 0);
@@ -92,23 +91,21 @@ UArray *IoMD5_md5UArray(IoMD5 *self)
 
 IoObject *IoMD5_md5(IoMD5 *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("md5",
-		   "Completes the MD5 calculation and returns the hash as a Buffer. Once this method is called, append() should not be called again on the receiver or it will raise an exception.")
+	/*doc MD5 md5
+	Completes the MD5 calculation and returns the hash as a Buffer. Once this method is called, append() should not be called again on the receiver or it will raise an exception.
 	*/
+	
 	return IoSeq_newWithUArray_copy_(IOSTATE, IoMD5_md5UArray(self), 0);
 }
 
 IoObject *IoMD5_md5String(IoMD5 *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("md5String",
-		   "Returns a string containing a hexadecimal representation of the md5 hash.")
+	/*doc MD5 md5String
+	Returns a string containing a hexadecimal representation of the md5 hash.
 	*/
+	
 	UArray *ba = IoMD5_md5UArray(self);
 	UArray *baString = UArray_asNewHexStringUArray(ba);
 	UArray_free(ba);
 	return IoState_symbolWithUArray_copy_(IOSTATE, baString, 0);
 }
-
-

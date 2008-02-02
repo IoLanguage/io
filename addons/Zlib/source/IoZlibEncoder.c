@@ -1,19 +1,17 @@
-/*#io
-ZlibEncoder ioDoc(
-			docCopyright("Steve Dekorte", 2004)
-			docLicense("BSD revised")
-			docCategory("Compression")
-			docDescription("""For Zlib compression.
+//metadoc ZlibEncoder copyright Steve Dekorte, 2004
+//metadoc ZlibEncoder license BSD revised
+//metadoc ZlibEncoder category Compression
+/*metadoc ZlibEncoder description
+""For Zlib compression.
 Example use;
-<pre>
+<code>	
 bf = ZlibEncoder clone
 bf beginProcessing
 bf inputBuffer appendSeq("this is a message")
 bf process
 bf endProcess
 bf outputBuffer // this contains the result data
-</pre>
-""")
+</code>	
 */
 
 #include "IoZlibEncoder.h"
@@ -79,9 +77,10 @@ void IoZlibEncoder_free(IoZlibEncoder *self)
 
 IoObject *IoZlibEncoder_beginProcessing(IoZlibEncoder *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("beginProcessing", "Initializes the algorithm.")
+	/*doc ZlibEncoder beginProcessing
+	Initializes the algorithm.
 	*/
+	
 	z_stream *strm = DATA(self)->strm;
 	int ret;
 
@@ -98,9 +97,10 @@ IoObject *IoZlibEncoder_beginProcessing(IoZlibEncoder *self, IoObject *locals, I
 
 IoObject *IoZlibEncoder_endProcessing(IoZlibEncoder *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("endProcessing", "Finish processing remaining bytes of inputBuffer.")
+	/*doc ZlibEncoder endProcessing
+	Finish processing remaining bytes of inputBuffer.
 	*/
+	
 	z_stream *strm = DATA(self)->strm;
 
 	IoZlibEncoder_process(self, locals, m);
@@ -112,10 +112,12 @@ IoObject *IoZlibEncoder_endProcessing(IoZlibEncoder *self, IoObject *locals, IoM
 
 IoObject *IoZlibEncoder_process(IoZlibEncoder *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("process", "Process the inputBuffer and appends the result to the outputBuffer.
-The processed inputBuffer is empties except for the spare bytes at the end which don't fit into a cipher block.")
+	/*doc ZlibEncoder process
+	Process the inputBuffer and appends the result to the outputBuffer.
+	The processed inputBuffer is empties except for the spare bytes at 
+	the end which don't fit into a cipher block.
 	*/
+	
 	z_stream *strm = DATA(self)->strm;
 
 	UArray *input  = IoObject_rawGetMutableUArraySlot(self, locals, m, IOSYMBOL("inputBuffer"));

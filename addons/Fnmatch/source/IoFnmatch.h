@@ -1,6 +1,3 @@
-/*   Copyright (c) 2003, Steve Dekorte
-docLicense("BSD revised")
- */
 
 #ifndef IOFNMATCH_DEFINED
 #define IOFNMATCH_DEFINED 1

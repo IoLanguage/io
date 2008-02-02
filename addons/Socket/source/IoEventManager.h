@@ -1,7 +1,9 @@
 /*
- docCopyright("Steve Dekorte", 2002)
- docLicense("BSD revised")
- docDescription("Selects on sockets and checks for timeouts.")
+ //metadoc copyright Steve Dekorte 2002
+*/
+//metadoc license BSD revised
+ /*metadoc description
+Selects on sockets and checks for timeouts.")
  */
 
 #ifndef IOEVENTMANAGER_DEFINED

@@ -1,6 +1,7 @@
 /*
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
+//metadoc copyright Steve Dekorte 2002
+*/
+//metadoc license BSD revised
 */
 
 #ifndef IOSOCKET_DEFINED

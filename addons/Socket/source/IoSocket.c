@@ -1,15 +1,25 @@
-/*#io
-Socket ioDoc(
-	docCopyright("Steve Dekorte", 2004)
-	docLicense("BSD revised")
-	docDependsOn("SocketManager")
-	docDescription("""Interface to network communication.
+/*metadoc Socket copyright
+	Steve Dekorte, 2004
+*/
+
+/*metadoc Socket license
+	BSD revised
+*/
+
+/*metadoc Socket dependsOn
+	SocketManager
+*/
+
+/*metadoc Socket description
+Interface to network communication.
 Sockets will auto yield to other coroutines while waiting on a request.
 All blocking operations use the timeout settings of the socket.
-Reads are appended to the socket's read buffer which can be accessed using the readBuffer method.
+Reads are appended to the socket's read buffer which can 
+be accessed using the readBuffer method.
+
 Example:
 
-<pre>
+<code>	
 socket := Socket clone setHost("www.yahoo.com") setPort(80) connect
 if(socket error) then( write(socket error, "\n"); exit)
 
@@ -19,14 +29,14 @@ while(socket read, Nop)
 if(socket error) then(write(socket error, "\n"); exit)
 
 write("read ", socket readBuffer length, " bytes\n")
-</pre>""")
-	docCategory("Networking")
+</code>	""")
+//metadoc category Networking")
 */
 
 
-/*#io
-docSlot("setHost(hostName)",
-		"Translates hostName to an IP using asynchronous DNS and sets the host attribute. Returns self.")
+/*doc Socket setHost(hostName)
+Translates hostName to an IP using asynchronous DNS and sets 
+the host attribute. Returns self.
 */
 
 #include "IoSocket.h"

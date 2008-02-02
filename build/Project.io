@@ -128,11 +128,11 @@ Project := Object clone do(
 	)
 
 	docs := method(
-		writeln("--- Project generate embedded docs ---")
+		writeln("--- Project generate docs from source file comments ---")
 		systemCall("cd libs/iovm; ../../_build/binaries/io ../../tools/io/DocsExtractor.io .")
 		addons foreach(generateDocs)
-		build
-		systemCall("_build/binaries/io tools/io/docs2html.io > docs/IoCoreReference.html")
+		//build
+		systemCall("_build/binaries/io tools/io/docs2html.io > docs/Reference.html")
 	)
 
 	cleanDocs := method(

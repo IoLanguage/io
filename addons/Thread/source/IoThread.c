@@ -1,14 +1,21 @@
-/*#io
-Thread ioDoc(
-			docCopyright("Steve Dekorte", 2006)
-			docLicense("BSD revised")
-			docCategory("Compression")
-			docDescription("""For native threads.
-Example use;
-<pre>
-Thread createThread()
+/*metadoc Thread copyright
+	Steve Dekorte, 2006
+*/
 
-</pre>
+/*metadoc Thread license
+	BSD revised
+*/
+
+/*metadoc Thread category
+	Compression
+*/
+
+/*metadoc Thread description
+	For native threads.
+Example use;
+<code>	
+Thread createThread()
+</code>	
 """)
 */
 

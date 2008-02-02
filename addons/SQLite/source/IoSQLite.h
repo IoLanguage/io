@@ -1,7 +1,6 @@
-/*
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+
+//metadoc SQLite copyright Steve Dekorte 2002
+//metadoc SQLite license BSD revised
 
 #ifndef IOSQLITE_DEFINED
 #define IOSQLITE_DEFINED 1

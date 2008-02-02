@@ -1,7 +1,5 @@
-/*
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+//metadoc GLIncludes copyright Steve Dekorte 2002
+//metadoc GLIncludes license BSD revised
 
 #ifndef GLINCLUDES_DEFINED
 #define GLINCLUDES_DEFINED 1

@@ -1,5 +1,5 @@
 /*   Copyright (c) 2003, Steve Dekorte
-docLicense("BSD revised")
+//metadoc license BSD revised
  */
 
 #include "Objc2Io.h"

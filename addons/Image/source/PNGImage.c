@@ -1,7 +1,6 @@
-/*
- docCopyright("Steve Dekorte", 2002)
- docLicense("BSD revised")
- */
+//metadoc PNGImage copyright Steve Dekorte 2002
+//metadoc PNGImage license BSD revised
+
 #include "PNGImage.h"
 #include <png.h>
 

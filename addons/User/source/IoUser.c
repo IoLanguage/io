@@ -1,10 +1,21 @@
-/*#io
-User ioDoc(
-		 docCopyright("Steve Dekorte", 2004)
-		 docLicense("BSD revised")
-		 docDescription("This object provides access to the local operating system's information about the current user.")
-		 //docCredits("Windows code by Mike Austin")
-		 docCategory("Server")
+/*metadoc User copyright
+	Steve Dekorte, 2004
+*/
+
+/*metadoc User license
+	BSD revised
+*/
+
+/*metadoc User description
+	This object provides access to the local operating system's information about the current user.")
+*/
+
+/*metadoc User credits 
+	Windows code by Mike Austin
+*/
+
+/*metadoc User category
+	Server
 */
 
 #include "IoUser.h"
@@ -84,8 +95,8 @@ IoObject *IoUser_homeDirectory(IoUser *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoUser_protoName(IoUser *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("name", "Returns the current user's name.")
+	/*doc User name
+	Returns the current user's name.
 	*/
 
 	char *userName = (char *)getlogin();
@@ -107,9 +118,9 @@ IoObject *IoUser_protoName(IoUser *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoUser_homeDirectory(IoUser *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("homeDirectory", "Returns the current user's home directory as a Directory object.")
-	*/
+	/*doc User homeDirectory
+	Returns the current user's home directory as a Directory object.
+*	/
 
 	char *login = (char *)getlogin();
 	/*

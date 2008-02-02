@@ -1,10 +1,11 @@
-/*#io
-SHA1 ioDoc(
-		 docCopyright("Steve Dekorte", 2002)
-		 docLicense("BSD revised")
-		 docDescription("An object for calculating SHA1 hashes. Each has calculation should instiate it's own SHA1 instance.")
-		 docCategory("Digests")
-		 */
+
+//metadoc SHA1 copyright Steve Dekorte 2002
+//metadoc SHA1 license BSD revised
+/*metadoc SHA1 description
+An object for calculating SHA1 hashes. Each has calculation 
+should instiate it's own SHA1 instance.
+*/
+//metadoc SHA1 category Digests
 
 #include "IoSHA1.h"
 #include "IoState.h"
@@ -66,9 +67,8 @@ void IoSHA1_free(IoSHA1 *self)
 
 IoObject *IoSHA1_appendSeq(IoSHA1 *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	 docSlot("appendSeq(aSequence)",
-			"Appends aSequence to the hash calculation. Returns self.")
+	/*doc SHA1 appendSeq(aSequence)
+	Appends aSequence to the hash calculation. Returns self.")
 	 */
 
 	IoSeq *buffer = IoMessage_locals_seqArgAt_(m, locals, 0);
@@ -92,19 +92,20 @@ UArray *IoSHA1_sha1UArray(IoSHA1 *self)
 
 IoObject *IoSHA1_sha1(IoSHA1 *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	 docSlot("sha1",
-			"Completes the SHA1 calculation and returns the hash as a Buffer.
-	 Once this method is called, append() should not be called again on the receiver or it will raise an exception.")
-	 */
+	/*doc SHA1 sha1
+	Completes the SHA1 calculation and returns the hash as a Buffer.
+	Once this method is called, append() should not be called again on the receiver or it will raise an exception.")
+	*/
+	
 	return IoSeq_newWithUArray_copy_(IOSTATE, IoSHA1_sha1UArray(self), 0);
 }
 
 IoObject *IoSHA1_sha1String(IoSHA1 *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	 docSlot("sha1String", " description: Returns a string containing a hexadecimal representation of the sha1 hash.")
-	 */
+	/*doc SHA1 sha1String
+	Returns a string containing a hexadecimal representation of the sha1 hash.")
+	*/
+	
 	UArray *ba = IoSHA1_sha1UArray(self);
 	UArray *baString = UArray_asNewHexStringUArray(ba);
 	UArray_free(ba);

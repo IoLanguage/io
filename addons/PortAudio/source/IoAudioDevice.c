@@ -1,9 +1,9 @@
-/*#io
-AudioDevice ioDoc(
-			docCopyright("Steve Dekorte", 2004)
-			docLicense("BSD revised")
-			docCategory("Media")
-			docDescription("""The AudioDevice object can used to write audio data as if directly to the audio buffer.""")
+
+//metadoc AudioDevice copyright Steve Dekorte, 2004
+//metadoc AudioDevice license BSD revised
+//metadoc AudioDevice category Media")
+/*metadoc AudioDevice description
+The AudioDevice object can used to write audio data as if directly to the audio buffer.
 */
 
 #include "IoAudioDevice.h"
@@ -102,8 +102,8 @@ void IoAudioDevice_clearBuffers(IoAudioDevice *self)
 
 IoObject *IoAudioDevice_openForReadingAndWriting(IoAudioDevice *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("openForReadingAndWriting", "Open audio output and input streams.")
+	/*doc AudioDevice openForReadingAndWriting
+	Open audio output and input streams.
 	*/
 
 	AudioDevice_openForReadingAndWriting(DATA(self)->audioDevice);
@@ -113,8 +113,8 @@ IoObject *IoAudioDevice_openForReadingAndWriting(IoAudioDevice *self, IoObject *
 
 IoObject *IoAudioDevice_open(IoAudioDevice *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("open", "Open an audio output stream.")
+	/*doc AudioDevice open
+	Open an audio output stream.
 	*/
 
 	AudioDevice_open(DATA(self)->audioDevice);
@@ -124,8 +124,8 @@ IoObject *IoAudioDevice_open(IoAudioDevice *self, IoObject *locals, IoMessage *m
 
 IoObject *IoAudioDevice_close(IoAudioDevice *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("close", "Close the audio stream.")
+	/*doc AudioDevice close
+	Close the audio stream.
 	*/
 
 	AudioDevice_close(DATA(self)->audioDevice);
@@ -134,13 +134,17 @@ IoObject *IoAudioDevice_close(IoAudioDevice *self, IoObject *locals, IoMessage *
 
 IoObject *IoAudioDevice_needsData(IoAudioDevice *self, IoObject *locals, IoMessage *m)
 {
+	/*doc AudioDevice needsData
+	Returns true if the receiver can read more data.
+	*/
+	
 	return IOBOOL(self, DATA(self)->audioDevice->needsData == 1);
 }
 
 IoObject *IoAudioDevice_asyncWrite(IoAudioDevice *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("nonBlockingWrite(aBuffer)", "Writes aBuffer to the audio output buffer and returns immediately.")
+	/*doc AudioDevice nonBlockingWrite(aBuffer)
+	Writes aBuffer to the audio output buffer and returns immediately.
 	*/
 
 	IoSeq *buf = IoMessage_locals_seqArgAt_(m, locals, 0);
@@ -157,8 +161,8 @@ IoObject *IoAudioDevice_asyncWrite(IoAudioDevice *self, IoObject *locals, IoMess
 
 IoObject *IoAudioDevice_read(IoAudioDevice *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("read", "Returns the audio read buffer.")
+	/*doc AudioDevice read
+	Returns the audio read buffer.
 	*/
 
 	AudioDevice *device = DATA(self)->audioDevice;
@@ -178,8 +182,8 @@ IoObject *IoAudioDevice_read(IoAudioDevice *self, IoObject *locals, IoMessage *m
 
 IoObject *IoAudioDevice_error(IoAudioDevice *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("error", "Returns an error string if an error has occured, Nil otherwise.")
+	/*doc AudioDevice error
+	Returns an error string if an error has occured, Nil otherwise.
 	*/
 
 	const char *e = AudioDevice_error(DATA(self)->audioDevice);
@@ -188,8 +192,8 @@ IoObject *IoAudioDevice_error(IoAudioDevice *self, IoObject *locals, IoMessage *
 
 IoObject *IoAudioDevice_isActive(IoAudioDevice *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("isActive", "Returns self if the receiver is active, Nil otherwise.")
+	/*doc AudioDevice isActive
+	Returns self if the receiver is active, Nil otherwise.
 	*/
 
 	return AudioDevice_isActive(DATA(self)->audioDevice) ? self : IONIL(self);
@@ -197,8 +201,8 @@ IoObject *IoAudioDevice_isActive(IoAudioDevice *self, IoObject *locals, IoMessag
 
 IoObject *IoAudioDevice_streamTime(IoAudioDevice *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("streamTime", "Returns the audio stream time as a number.")
+	/*doc AudioDevice streamTime
+	Returns the audio stream time as a number.
 	*/
 
 	return IONUMBER(AudioDevice_streamTime(DATA(self)->audioDevice));
@@ -206,9 +210,10 @@ IoObject *IoAudioDevice_streamTime(IoAudioDevice *self, IoObject *locals, IoMess
 
 IoObject *IoAudioDevice_writeBufferIsEmpty(IoAudioDevice *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("writeBufferIsEmpty", "Returns the true if the audio buffer is empty, false otherwise.")
+	/*doc AudioDevice writeBufferIsEmpty
+	Returns the true if the audio buffer is empty, false otherwise.
 	*/
+	
 	return IOBOOL(self, DATA(self)->audioDevice->writeBufferIsEmpty);
 }
 

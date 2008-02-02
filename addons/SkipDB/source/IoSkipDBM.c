@@ -1,9 +1,8 @@
-/*#io
-SkipDBM ioDoc(
-	docCopyright("Steve Dekorte", 2002)
-	docLicense("BSD revised")
-	docCategory("Databases")
-	docDescription("SkipDB is a skip-list based key-value database. SkipDBM manages any number of skipdbs within the same file. The root skipdb can be accessed using the root method.")
+//metadoc SkipDBM copyright Steve Dekorte 2002
+//metadoc SkipDBM license BSD revised
+//metadoc SkipDBM category Databases")
+/*metadoc SkipDBM description
+SkipDB is a skip-list based key-value database. SkipDBM manages any number of skipdbs within the same file. The root skipdb can be accessed using the root method.")
 	docObject
 */
 
@@ -93,8 +92,8 @@ void IoSkipDBM_mark(IoSkipDBM *self)
 
 IoObject *IoSkipDBM_setPath(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setPath(aString)", "Sets the path to the dbm folder. Returns self.")
+	/*doc SkipDBM setPath(aString)
+	Sets the path to the dbm folder. Returns self.
 	*/
 	IoSeq *v = IoMessage_locals_seqArgAt_(m, locals, 0);
 
@@ -105,8 +104,8 @@ IoObject *IoSkipDBM_setPath(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSkipDBM_path(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("path", "Returns the path to the dbm. Returns self.")
+	/*doc SkipDBM path
+	Returns the path to the dbm. Returns self.
 	*/
 
 	return IOSYMBOL(SkipDBM_path(SKIPDBM(self)));
@@ -114,8 +113,8 @@ IoObject *IoSkipDBM_path(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSkipDBM_open(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("open", "Opens the dbm. Returns self.")
+	/*doc SkipDBM open
+	Opens the dbm. Returns self.
 	*/
 
 	SkipDBM_open(SKIPDBM(self));
@@ -124,8 +123,8 @@ IoObject *IoSkipDBM_open(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSkipDBM_close(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("close", "Closes the dbm.")
+	/*doc SkipDBM close
+	Closes the dbm.
 	*/
 
 	SkipDBM_close(SKIPDBM(self));
@@ -134,8 +133,8 @@ IoObject *IoSkipDBM_close(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSkipDBM_isOpen(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("delete", "Deletes the db. Returns self.")
+	/*doc SkipDBM delete
+	Deletes the db. Returns self.
 	*/
 
 	return IOBOOL(self, SkipDBM_isOpen(SKIPDBM(self)));
@@ -143,8 +142,8 @@ IoObject *IoSkipDBM_isOpen(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSkipDBM_delete(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("delete", "Deletes the db. Returns self.")
+	/*doc SkipDBM delete
+	Deletes the db. Returns self.
 	*/
 
 	SkipDBM_delete(SKIPDBM(self));
@@ -153,8 +152,8 @@ IoObject *IoSkipDBM_delete(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSkipDBM_root(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("root", "Returns the root SkipDB.")
+	/*doc SkipDBM root
+	Returns the root SkipDB.
 	*/
 	IOASSERT(SkipDBM_isOpen(SKIPDBM(self)), "skipdbm not open");
 
@@ -168,8 +167,8 @@ IoObject *IoSkipDBM_root(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSkipDBM_at(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("at(pidNumber)", "Returns the SkipDB at the specified persistent ID or nil if it is not found.")
+	/*doc SkipDBM at(pidNumber)
+	Returns the SkipDB at the specified persistent ID or nil if it is not found.
 	*/
 	/*
 	PID_TYPE pid = IoMessage_locals_intArgAt_(m, locals, 0);
@@ -183,8 +182,8 @@ IoObject *IoSkipDBM_at(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSkipDBM_compact(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("compact", "Compacts the database. Returns self.")
+	/*doc SkipDBM compact
+	Compacts the database. Returns self.
 	*/
 
 	IOASSERT(SkipDBM_isOpen(SKIPDBM(self)), "skipdbm not open");
@@ -194,8 +193,8 @@ IoObject *IoSkipDBM_compact(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSkipDBM_beginTransaction(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("beginTransaction", "Begin a transaction. Returns self.")
+	/*doc SkipDBM beginTransaction
+	Begin a transaction. Returns self.
 	*/
 
 	IOASSERT(SkipDBM_isOpen(SKIPDBM(self)), "skipdbm not open");
@@ -205,8 +204,8 @@ IoObject *IoSkipDBM_beginTransaction(IoObject *self, IoObject *locals, IoMessage
 
 IoObject *IoSkipDBM_commitnTransaction(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("commitTransaction", "Commit a transaction. Returns self.")
+	/*doc SkipDBM commitTransaction
+	Commit a transaction. Returns self.
 	*/
 
 	IOASSERT(SkipDBM_isOpen(SKIPDBM(self)), "skipdbm not open");

@@ -1,19 +1,17 @@
-/*#io
-LZOEncoder ioDoc(
-			docCopyright("Steve Dekorte", 2004)
-			docLicense("BSD revised")
-			docCategory("Compression")
-			docDescription("""The LZO object can be used to Z compress and uncompress data.
+//metadoc LZOEncoder copyright Steve Dekorte, 2004
+//metadoc LZOEncoder license BSD revised
+//metadoc LZOEncoder category Compression
+/*metadoc LZOEncoder description
+""The LZO object can be used to Z compress and uncompress data.
 Example use;
-<pre>
+<code>	
 bf = LZO clone
 bf beginProcessing
 bf inputBuffer appendSeq("this is a message")
 bf process
 bf endProcess
 bf outputBuffer // this contains the encoded data
-</pre>
-""")
+</code>	
 */
 
 #include "IoLZOEncoder.h"
@@ -76,8 +74,8 @@ void IoLZOEncoder_free(IoLZOEncoder *self)
 
 IoObject *IoLZOEncoder_beginProcessing(IoLZOEncoder *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("beginProcessing", "Initializes the algorithm.")
+	/*doc LZOEncoder beginProcessing
+	Initializes the algorithm.
 	*/
 
 	IOASSERT(lzo_init() == LZO_E_OK,  "Failed to init lzo");
@@ -87,8 +85,8 @@ IoObject *IoLZOEncoder_beginProcessing(IoLZOEncoder *self, IoObject *locals, IoM
 
 IoObject *IoLZOEncoder_endProcessing(IoLZOEncoder *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("endProcessing", "Finish processing remaining bytes of inputBuffer.")
+	/*doc LZOEncoder endProcessing
+	Finish processing remaining bytes of inputBuffer.
 	*/
 
 	IoLZOEncoder_process(self, locals, m); // process the full blocks first
@@ -100,10 +98,12 @@ IoObject *IoLZOEncoder_endProcessing(IoLZOEncoder *self, IoObject *locals, IoMes
 
 IoObject *IoLZOEncoder_process(IoLZOEncoder *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("process", "Process the inputBuffer and appends the result to the outputBuffer.
-The processed inputBuffer is empties except for the spare bytes at the end which don't fit into a cipher block.")
+	/*doc LZOEncoder process
+	Process the inputBuffer and appends the result to the outputBuffer.
+	The processed inputBuffer is empties except for the spare bytes at 
+	the end which don't fit into a cipher block.
 	*/
+	
 	lzo_align_t __LZO_MMODEL *wrkmem = DATA(self)->wrkmem;
 
 	UArray *input  = IoObject_rawGetMutableUArraySlot(self, locals, m, IOSYMBOL("inputBuffer"));

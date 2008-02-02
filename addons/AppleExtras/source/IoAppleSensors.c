@@ -1,11 +1,10 @@
-/*#io
-AppleSensors ioDoc(
-			docCopyright("Steve Dekorte", 2004)
-			docLicense("BSD revised")
-			docCategory("Encryption")
-			docDescription("""The AppleSensors object can be used to do encryption and decryption using the AppleSensors algorithm.
+//metadoc AppleSensors copyright Steve Dekorte, 2004
+//metadoc AppleSensors license BSD revised
+//metadoc AppleSensors category Encryption
+/*metadoc AppleSensors description
+The AppleSensors object can be used to do encryption and decryption using the AppleSensors algorithm.
 Example use;
-<pre>
+<code>	
 bf = AppleSensors clone
 bf setKey("secret")
 bf beginProcessing
@@ -13,8 +12,7 @@ bf inputBuffer appendSeq("this is a message")
 bf process
 bf endProcess
 bf outputBuffer // this contains the encrypted data
-</pre>
-""")
+</code>	
 */
 
 #include "IoAppleSensors.h"

@@ -1,11 +1,11 @@
-/*#io
-Blowfish ioDoc(
-			docCopyright("Steve Dekorte", 2004)
-			docLicense("BSD revised")
-			docCategory("Encryption")
-			docDescription("""The Blowfish object can be used to do encryption and decryption using the blowfish algorithm.
+
+//metadoc Blowfish copyright Steve Dekorte, 2004
+//metadoc Blowfish license BSD revised
+//metadoc Blowfish category Encryption
+/*metadoc Blowfish description
+The Blowfish object can be used to do encryption and decryption using the blowfish algorithm.
 Example use;
-<pre>
+<code>	
 bf = Blowfish clone
 bf setKey("secret")
 bf beginProcessing
@@ -13,8 +13,7 @@ bf inputBuffer appendSeq("this is a message")
 bf process
 bf endProcess
 bf outputBuffer // this contains the encrypted data
-</pre>
-""")
+</code>	
 */
 
 #include "IoBlowfish.h"
@@ -78,8 +77,8 @@ void IoBlowfish_free(IoBlowfish *self)
 
 IoObject *IoBlowfish_setIsEncrypting(IoBlowfish *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setIsEncrypting(aBool)", "If aBool is true, encrypting mode is on, otherwise, decrypting mode is on.")
+	/*doc Blowfish setIsEncrypting(aBool)
+	If aBool is true, encrypting mode is on, otherwise, decrypting mode is on.
 	*/
 
 	IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 0);
@@ -90,8 +89,8 @@ IoObject *IoBlowfish_setIsEncrypting(IoBlowfish *self, IoObject *locals, IoMessa
 
 IoObject *IoBlowfish_beginProcessing(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("beginProcessing", "Sets the key from the key slot and initializes the cipher.")
+	/*doc Blowfish beginProcessing
+	Sets the key from the key slot and initializes the cipher.
 	*/
 
 	UArray *key = IoObject_rawGetUArraySlot(self, locals, m, IOSYMBOL("key"));
@@ -104,9 +103,10 @@ IoObject *IoBlowfish_beginProcessing(IoObject *self, IoObject *locals, IoMessage
 
 IoObject *IoBlowfish_process(IoBlowfish *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("process", "Process the inputBuffer and appends the result to the outputBuffer.
-The processed inputBuffer is empties except for the spare bytes at the end which don't fit into a cipher block.")
+	/*doc Blowfish process
+	Process the inputBuffer and appends the result to the outputBuffer.
+	The processed inputBuffer is empties except for the spare 
+	bytes at the end which don't fit into a cipher block.
 	*/
 	blowfish_ctx *context = &(DATA(self)->context);
 	int isEncrypting = DATA(self)->isEncrypting;
@@ -144,8 +144,8 @@ The processed inputBuffer is empties except for the spare bytes at the end which
 
 IoObject *IoBlowfish_endProcessing(IoBlowfish *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("endProcessing", "Finish processing remaining bytes of inputBuffer.")
+	/*doc Blowfish endProcessing
+	Finish processing remaining bytes of inputBuffer.
 	*/
 
 	blowfish_ctx *context = &(DATA(self)->context);

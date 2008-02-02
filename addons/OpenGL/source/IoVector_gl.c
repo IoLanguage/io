@@ -1,7 +1,8 @@
 /*
 Sequence ioDoc(
-	docCopyright("Steve Dekorte", 2002)
-	docLicense("BSD revised")
+//metadoc copyright Steve Dekorte 2002
+*/
+//metadoc license BSD revised
 */
 
 #include "IoVector_gl.h"

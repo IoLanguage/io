@@ -1,7 +1,5 @@
-/*#io
-docCopyright("Steve Dekorte and Edwin Zacharias", 2002)
-docLicense("BSD revised")
-*/
+//metadoc Curses Steve Dekorte and Edwin Zacharias, 2002
+//metadoc Curses license BSD revised
 
 #ifndef IOCURSES_DEFINED
 #define IOCURSES_DEFINED 1

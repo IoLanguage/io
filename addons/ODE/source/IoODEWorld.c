@@ -1,9 +1,8 @@
-/*#io
-ODEWorld ioDoc(
-		 docCopyright("Jonathan Wright", 2006)
-		 docLicense("BSD revised")
-		 docDescription("ODEWorld binding")
-		 */
+//metadoc ODEWorld copyright Jonathan Wright, 2006
+//metadoc ODEWorld license BSD revised
+/*metadoc ODEWorld description
+ODEWorld binding
+*/
 
 #include "IoODEWorld.h"
 #include "IoODEBody.h"

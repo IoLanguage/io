@@ -1,7 +1,5 @@
-/*#io
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+//metadoc QDBM copyright Steve Dekorte 2002
+//metadoc QDBM license BSD revised
 
 #ifndef IoQDBM_DEFINED
 #define IoQDBM_DEFINED 1

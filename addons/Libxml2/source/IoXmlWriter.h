@@ -1,7 +1,6 @@
-/*
-docCopyright("Jonathan Wright", 2006)
-docLicense("BSD revised")
-*/
+
+//metadoc XmlReader copyright Jonathan Wright", 2006)
+//metadoc XmlReader license BSD revised
 
 #ifndef IOXML_WRITER_H
 #define IOXML_WRITER_H 1

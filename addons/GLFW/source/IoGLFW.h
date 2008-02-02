@@ -1,7 +1,5 @@
-/*
-docCopyright("Joel de Vahl", 2006)
-docLicense("BSD revised")
-*/
+//metadoc GLFW copyright Joel de Vahl, 2006
+//metadoc GLFW license BSD revised
 
 #ifndef IOGLFW_DEFINED
 #define IOGLFW_DEFINED 1

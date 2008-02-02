@@ -1,10 +1,13 @@
-/*#io
-Fnmatch ioDoc(
-			docCopyright("Steve Dekorte", 2004)
-			docLicense("BSD revised")
-			docDescription("The fnmatch add on adds support for the unix fnmatch function. (See fnmatch man page for details). Note: not all options are supported on all platforms.")
-			docCategory("RegularExpressions")
+
+//metadoc Fnmatch copyright Steve Dekorte, 2004
+//metadoc Fnmatch license BSD revised
+/*metadoc Fnmatch description
+The fnmatch add on adds support for the unix fnmatch function. 
+(See fnmatch man page for details). 
+Note: not all options are supported on all platforms.
 */
+
+//metadoc Fnmatch category RegularExpressions
 
 #include "IoFnmatch.h"
 #include "IoState.h"
@@ -109,9 +112,8 @@ void IoFnmatch_mark(IoFnmatch *self)
 
 IoObject *IoFnmatch_pattern(IoFnmatch *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("pattern",
-	"Returns the pattern string.")
+	/*doc Fnmatch pattern
+	Returns the pattern string.
 	*/
 
 	return DATA(self)->pattern;
@@ -119,9 +121,8 @@ IoObject *IoFnmatch_pattern(IoFnmatch *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFnmatch_setPattern(IoFnmatch *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setPattern(aString)",
-	"Sets the pattern string. Returns self. ")
+	/*doc Fnmatch setPattern(aString)
+	Sets the pattern string. Returns self.
 	*/
 
 	DATA(self)->pattern = IOREF(IoMessage_locals_symbolArgAt_(m, locals, 0));
@@ -130,9 +131,8 @@ IoObject *IoFnmatch_setPattern(IoFnmatch *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFnmatch_string(IoFnmatch *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("string",
-	"The string to do matching on.")
+	/*doc Fnmatch string
+	The string to do matching on.
 	*/
 
 	return DATA(self)->string;
@@ -140,9 +140,8 @@ IoObject *IoFnmatch_string(IoFnmatch *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFnmatch_setString(IoFnmatch *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setString(aString)",
-	"Sets the string to do matching on.")
+	/*doc Fnmatch setString(aString)
+	Sets the string to do matching on.
 	*/
 
 	DATA(self)->string = IOREF(IoMessage_locals_symbolArgAt_(m, locals, 0));
@@ -151,8 +150,8 @@ IoObject *IoFnmatch_setString(IoFnmatch *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFnmatch_hasMatch(IoFnmatch *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("hasMatch", "Returns true if a match is found, false otherwise.")
+	/*doc Fnmatch hasMatch
+	Returns true if a match is found, false otherwise.
 	*/
 
 	char *pattern = IoSeq_asCString(DATA(self)->pattern);
@@ -164,9 +163,8 @@ IoObject *IoFnmatch_hasMatch(IoFnmatch *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFnmatch_matchFor(IoFnmatch *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("matchFor(aString)",
-	"Returns self if aString matches the pattern, otherwise returns Nil. ")
+	/*doc Fnmatch matchFor(aString)
+	Returns self if aString matches the pattern, otherwise returns nil.
 	*/
 
 	IoFnmatch_setString(self, locals, m);
@@ -176,10 +174,11 @@ IoObject *IoFnmatch_matchFor(IoFnmatch *self, IoObject *locals, IoMessage *m)
 #ifdef FNM_NOESCAPE
 IoObject *IoFnmatch_noEscapeOn(IoFnmatch *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("noEscapeOn",
-	"If not set, a backslash character (\) in pattern followed by any other character will match that second character in string. In particular, "\\" will match a backslash in string. If set, a backslash character will be treated as an ordinary character. ")
-
+	/*doc Fnmatch noEscapeOn
+	If not set, a backslash character (\) in pattern followed by any other 
+	character will match that second character in string. 
+	In particular, "\\" will match a backslash in string. 
+	If set, a backslash character will be treated as an ordinary character.
 	*/
 
 	DATA(self)->flags |= FNM_NOESCAPE;
@@ -188,9 +187,8 @@ IoObject *IoFnmatch_noEscapeOn(IoFnmatch *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFnmatch_noEscapeOff(IoFnmatch *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("noEscapeOff",
-	"See noEscapeOn. ")
+	/*doc Fnmatch noEscapeOff
+	See noEscapeOn.
 	*/
 
 	DATA(self)->flags &= ~FNM_NOESCAPE;
@@ -202,10 +200,11 @@ IoObject *IoFnmatch_noEscapeOff(IoFnmatch *self, IoObject *locals, IoMessage *m)
 #ifdef FNM_PATHNAME
 IoObject *IoFnmatch_pathNameOn(IoFnmatch *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("pathNameOn",
-	"If set, a slash (/) character in string will be explicitly matched by a slash in pattern; it will not be matched by either the asterisk (*) or question-mark (?) special characters, nor by a bracket ([]) expression. If not set, the slash character is treated as an ordinary character. ")
-
+	/*doc Fnmatch pathNameOn
+	If set, a slash (/) character in string will be explicitly matched 
+	by a slash in pattern; it will not be matched by either the asterisk (*) 
+	or question-mark (?) special characters, nor by a bracket ([]) expression. 
+	If not set, the slash character is treated as an ordinary character.
 	*/
 
 	DATA(self)->flags |= FNM_PATHNAME;
@@ -214,9 +213,8 @@ IoObject *IoFnmatch_pathNameOn(IoFnmatch *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFnmatch_pathNameOff(IoFnmatch *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("pathNameOff",
-	"See pathNameOn. ")
+	/*doc Fnmatch pathNameOff
+	See pathNameOn.
 	*/
 
 	DATA(self)->flags &= ~FNM_PATHNAME;
@@ -227,16 +225,15 @@ IoObject *IoFnmatch_pathNameOff(IoFnmatch *self, IoObject *locals, IoMessage *m)
 #ifdef FNM_PERIOD
 IoObject *IoFnmatch_periodOn(IoFnmatch *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("periodOn",
-	"If set, a leading period in string will match a period in pattern; where the location of ``leading'' is indicated by the value of FNM_PATHNAME:
+	/*doc Fnmatch periodOn
+	If set, a leading period in string will match a period in pattern; where the location of ``leading'' is indicated by the value of FNM_PATHNAME:
 <UL>
 <LI>If FNM_PATHNAME is set, a period is ``leading'' if it is the first character in string or if it immediately follows a slash.
 
 <LI>If FNM_PATHNAME is not set, a period is ``leading'' only if it is the first character of string.
 </UL>
 <p>
-If not set, no special restrictions are placed on matching a period.")
+If not set, no special restrictions are placed on matching a period.
 	*/
 
 	DATA(self)->flags |= FNM_PERIOD;
@@ -245,9 +242,8 @@ If not set, no special restrictions are placed on matching a period.")
 
 IoObject *IoFnmatch_periodOff(IoFnmatch *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("periodOff",
-	"See periodOn. ")
+	/*doc Fnmatch periodOff
+	"See periodOn.
 	*/
 
 	DATA(self)->flags &= ~FNM_PERIOD;
@@ -258,9 +254,8 @@ IoObject *IoFnmatch_periodOff(IoFnmatch *self, IoObject *locals, IoMessage *m)
 #ifdef FNM_LEADING_DIR
 IoObject *IoFnmatch_leadingDirOn(IoFnmatch *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("leadingDirOn",
-	"Ignore rest after successful pattern matching. ")
+	/*doc Fnmatch leadingDirOn
+	Ignore rest after successful pattern matching.
 	*/
 
 	DATA(self)->flags |= FNM_LEADING_DIR;
@@ -269,9 +264,8 @@ IoObject *IoFnmatch_leadingDirOn(IoFnmatch *self, IoObject *locals, IoMessage *m
 
 IoObject *IoFnmatch_leadingDirOff(IoFnmatch *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("leadingDirOff",
-	"See leadingDirOn. ")
+	/*doc Fnmatch leadingDirOff
+	See leadingDirOn.
 	*/
 
 	DATA(self)->flags &= ~FNM_LEADING_DIR;
@@ -282,9 +276,8 @@ IoObject *IoFnmatch_leadingDirOff(IoFnmatch *self, IoObject *locals, IoMessage *
 #ifdef FNM_CASEFOLD
 IoObject *IoFnmatch_caseFoldOn(IoFnmatch *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("caseFoldOn",
-	"Ignore case distinctions in both the pattern and the string. ")
+	/*doc Fnmatch caseFoldOn
+	Ignore case distinctions in both the pattern and the string.
 	*/
 
 	DATA(self)->flags |= FNM_CASEFOLD;
@@ -293,14 +286,14 @@ IoObject *IoFnmatch_caseFoldOn(IoFnmatch *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFnmatch_caseFoldOff(IoFnmatch *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("caseFoldOff",
-	"See caseFoldOn. ")
+	/*doc Fnmatch caseFoldOff
+	See caseFoldOn.
 	*/
 
 	DATA(self)->flags &= ~FNM_CASEFOLD;
 	return self;
 }
+
 #endif
 
 

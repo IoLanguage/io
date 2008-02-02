@@ -1,5 +1,6 @@
 /*
-docCopyright("Steve Dekorte", 2002)
+//metadoc AppleSensors copyright Steve Dekorte 2002
+*/
 */
 
 #ifndef IoAppleSensors_DEFINED

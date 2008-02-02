@@ -1,7 +1,5 @@
-/*#io
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+//metadoc Random copyright Steve Dekorte 2002
+//metadoc Random license BSD revised
 
 #ifndef IoRandom_DEFINED
 #define IoRandom_DEFINED 1

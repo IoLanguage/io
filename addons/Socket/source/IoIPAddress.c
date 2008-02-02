@@ -1,16 +1,11 @@
-/*#io
-IPAddress ioDoc(
-		   docCopyright("Steve Dekorte", 2004)
-		   docLicense("BSD revised")
-		   docDescription("Object representation of an Internet Protocol Address.")
-		   docCategory("Networking")
+//metadoc IPAddress copyright Steve Dekorte, 2004
+//metadoc IPAddress license BSD revised
+//metadoc IPAddress description Object representation of an Internet Protocol Address.
+//metadoc IPAddress category Networking")
 
-*/
-
-
-/*#io
-docSlot("setHostName(hostName)",
-	   "Translates hostName to an IP using asynchronous DNS and sets the host attribute. Returns self.")
+/*doc IPAddress setHostName(hostName)
+	Translates hostName to an IP using asynchronous DNS and 
+	sets the host attribute. Returns self.
 */
 
 #include "IoIPAddress.h"

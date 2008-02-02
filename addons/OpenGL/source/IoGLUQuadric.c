@@ -1,9 +1,7 @@
-/*#io
-GLUQuadric ioDoc(
-			  docCopyright("Steve Dekorte", 2002)
-			  docLicense("BSD revised")
-			  docCategory("Graphics")
-*/
+
+//metadoc GLUQuadric copyright Steve Dekorte 2002
+//metadoc GLUQuadric license BSD revised
+//metadoc GLUQuadric category Graphics
 
 #include "IoGLUQuadric.h"
 #include "List.h"

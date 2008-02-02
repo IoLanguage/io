@@ -1,9 +1,9 @@
-/*#io
-SkipDBCursor ioDoc(
-		   docCopyright("Steve Dekorte", 2002)
-		   docLicense("BSD revised")
-		   docCategory("Databases")
-		   docDescription("An interator object for a SkipDB.")
+
+//metadoc SkipDBCursor copyright Steve Dekorte 2002
+//metadoc SkipDBCursor license BSD revised
+//metadoc SkipDBCursor category Databases")
+/*metadoc description
+An interator object for a SkipDB.
 */
 
 #include "IoSkipDBCursor.h"
@@ -98,8 +98,8 @@ void IoSkipDBCursor_mark(IoSkipDBCursor *self)
 
 IoObject *IoSkipDBCursor_goto(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("goto(aKey)", "Move cursor to the specified key or nearest preceeding key. Returns self")
+	/*doc SkipDBCursor goto(aKey)
+	Move cursor to the specified key or nearest preceeding key. Returns self
 	*/
 
 	IoSeq *key = IoMessage_locals_seqArgAt_(m, locals, 0);
@@ -110,8 +110,8 @@ IoObject *IoSkipDBCursor_goto(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSkipDBCursor_first(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("first", "Move cursor to first item. Returns self.")
+	/*doc SkipDBCursor first
+	Move cursor to first item. Returns self.
 	*/
 
 	IOASSERT(CURSOR(self), "SkipDBCursor invalid");
@@ -121,8 +121,8 @@ IoObject *IoSkipDBCursor_first(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSkipDBCursor_last(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("last", "Move cursor to last item. Returns self.")
+	/*doc SkipDBCursor last
+	Move cursor to last item. Returns self.
 	*/
 
 	IOASSERT(CURSOR(self), "SkipDBCursor invalid");
@@ -132,8 +132,8 @@ IoObject *IoSkipDBCursor_last(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSkipDBCursor_next(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("next", "Move cursor to next item. Returns self.")
+	/*doc SkipDBCursor next
+	Move cursor to next item. Returns self.
 	*/
 
 	IOASSERT(CURSOR(self), "SkipDBCursor invalid");
@@ -143,8 +143,8 @@ IoObject *IoSkipDBCursor_next(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSkipDBCursor_previous(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("previous", "Move cursor to previous item. Returns self.")
+	/*doc SkipDBCursor previous
+	Move cursor to previous item. Returns self.
 	*/
 
 	IOASSERT(CURSOR(self), "SkipDBCursor invalid");
@@ -154,8 +154,8 @@ IoObject *IoSkipDBCursor_previous(IoObject *self, IoObject *locals, IoMessage *m
 
 IoObject *IoSkipDBCursor_key(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("key", "Returns the current cursor key, or nil if the cursor is out of range.")
+	/*doc SkipDBCursor key
+	Returns the current cursor key, or nil if the cursor is out of range.
 	*/
 
 	IOASSERT(CURSOR(self), "SkipDBCursor invalid");
@@ -175,8 +175,8 @@ IoObject *IoSkipDBCursor_key(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSkipDBCursor_value(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("value", "Returns the current cursor key, or nil if the cursor is out of range.")
+	/*doc SkipDBCursor value
+	Returns the current cursor key, or nil if the cursor is out of range.
 	*/
 
 	IOASSERT(CURSOR(self), "SkipDBCursor invalid");

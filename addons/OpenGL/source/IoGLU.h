@@ -1,7 +1,5 @@
-/*
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+//metadoc GLU copyright Steve Dekorte 2002
+//metadoc GLU license BSD revised
 
 #ifndef IOGLU_DEFINED
 #define IOGLU_DEFINED 1

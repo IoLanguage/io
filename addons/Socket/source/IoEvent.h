@@ -1,6 +1,7 @@
 /*
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
+//metadoc copyright Steve Dekorte 2002
+*/
+//metadoc license BSD revised
 
  e := Event clone
  EventManager addEvent(e, fd, type, timeout)

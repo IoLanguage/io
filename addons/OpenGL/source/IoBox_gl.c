@@ -1,8 +1,6 @@
-/*#io
-Box ioDoc(
-	docCopyright("Steve Dekorte", 2002)
-	docLicense("BSD revised")
-*/
+
+//metadoc Box copyright Steve Dekorte 2002
+//metadoc Box license BSD revised
 
 #include "IoBox_gl.h"
 #include "IoState.h"

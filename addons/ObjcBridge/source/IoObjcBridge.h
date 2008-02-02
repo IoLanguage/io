@@ -1,5 +1,5 @@
 /*   Copyright (c) 2003, Steve Dekorte
-docLicense("BSD revised")
+//metadoc license BSD revised
  *
  *   A bridge between Io and Objective-C
  *   This object is a singleton that tracks

@@ -1,9 +1,10 @@
-/*
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-docDescription("Windows code by Mike Austin.")
-docCategory("Networking")
+
+//metadoc LocalNameServers copyright Steve Dekorte 2002
+//metadoc LocalNameServers license BSD revised
+/*metadoc LocalNameServers description
+Windows code by Mike Austin.
 */
+//metadoc LocalNameServers category Networking
 
 #include "LocalNameServers.h"
 #include <ctype.h>

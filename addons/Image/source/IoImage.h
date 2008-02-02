@@ -1,7 +1,5 @@
-/*
-docCopyright("Steve Dekorte", 2002)
-docLicense("BSD revised")
-*/
+//metadoc Image copyright Steve Dekorte 2002
+//metadoc Image license BSD revised
 
 #ifndef IOIMAGE_DEFINED
 #define IOIMAGE_DEFINED 1

@@ -1,9 +1,11 @@
 /*
 EventManager ioDoc(
-	docCopyright("Steve Dekorte", 2002)
-	docLicense("BSD revised")
-	docDescription("A binding for libevent.")
-	docCategory("Networking")
+//metadoc copyright Steve Dekorte 2002
+*/
+//metadoc license BSD revised
+	/*metadoc description
+A binding for libevent.")
+//metadoc category Networking")
 */
 
 #include "IoEventManager.h"

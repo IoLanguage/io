@@ -1,14 +1,12 @@
-/*#io
-AsyncRequest ioDoc(
-			docCopyright("Steve Dekorte", 2004)
-			docLicense("BSD revised")
-			docCategory("Filesystem")
-			docDescription("""Used for doing asynchronous file i/o.
+//metadoc AsyncRequest copyright Steve Dekorte, 2004
+//metadoc AsyncRequest license BSD revised
+//metadoc AsyncRequest category Filesystem
+/*metadoc AsyncRequest description
+Used for doing asynchronous file i/o.
 Example use;
-<pre>
+<code>	
 
-</pre>
-""")
+</code>	
 */
 
 #include "IoAsyncRequest.h"

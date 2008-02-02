@@ -1,9 +1,7 @@
-/*#io
-GLScissor ioDoc(
-			 docCopyright("Steve Dekorte", 2002)
-			 docLicense("BSD revised")
-			 docCategory("Graphics")
-*/
+
+//metadoc GLScissor copyright Steve Dekorte 2002
+//metadoc GLScissor license BSD revised
+//metadoc GLScissor category Graphics
 
 #include "IoGLScissor.h"
 #include "IoState.h"

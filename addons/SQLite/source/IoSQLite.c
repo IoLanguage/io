@@ -1,10 +1,18 @@
-/*#io
-SQLite ioDoc(
-	docCopyright("Steve Dekorte", 2004)
-	docLicense("BSD revised")
-	docCategory("Databases")
-	docDescription("""SQLite provides a embedded simple and fast (2x faster than PostgreSQL or MySQL) SQL database. See http://www.hwaci.com/sw/sqlite/ for details. It's SQL command set is described at http://www.hwaci.com/sw/sqlite/lang.html. SQLite was written by Dr. Richard Hipp who offers consulting services for custom modifications and support of SQLite. Example:
-<pre>
+/*metadoc SQLite copyright 
+	Steve Dekorte, 2004
+*/
+
+/*metadoc SQLite license 
+	BSD revised
+*/
+
+/*metadoc SQLite category
+	Databases
+*/
+
+/*metadoc SQLite description 
+SQLite provides a embedded simple and fast (2x faster than PostgreSQL or MySQL) SQL database. See http://www.hwaci.com/sw/sqlite/ for details. It's SQL command set is described at http://www.hwaci.com/sw/sqlite/lang.html. SQLite was written by Dr. Richard Hipp who offers consulting services for custom modifications and support of SQLite. Example:
+<code>	
 db := SQLite clone
 db setPath("myDatabase.sqlite")
 db open
@@ -16,7 +24,7 @@ rows := db exec("SELECT key, value FROM Dbm WHERE key='a'")
 db exec("DELETE FROM Dbm WHERE key='a'")
 rows := db exec("SELECT key, value FROM Dbm WHERE key='a'")
 db close
-</pre>""")
+</code>
 */
 
 #include "IoSQLite.h"
@@ -149,19 +157,17 @@ static int IoSQLite_busyHandler(void *context, const char *s, int n)
 
 IoObject *IoSQLite_path(IoSQLite *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("path",
-		   "Returns the path to the database file. ")
+	/*doc SQLite path
+	Returns the path to the database file. 
 	*/
-
+	
 	return DATA(self)->path;
 }
 
 IoObject *IoSQLite_setPath(IoSQLite *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setPath",
-		   "Sets the path to the database file. Returns self. ")
+	/*doc SQLite setPath(aSeq)
+	Sets the path to the database file. Returns self. 
 	*/
 
 	DATA(self)->path = IOREF(IoMessage_locals_symbolArgAt_(m, locals, 0));
@@ -170,18 +176,19 @@ IoObject *IoSQLite_setPath(IoSQLite *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSQLite_timeoutSeconds(IoSQLite *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("timeoutSeconds",
-		   "Returns the number of seconds to wait before timing out an open call. If the number is 0, an open call will never timeout. ")
+	/*doc SQLite timeoutSeconds
+	Returns the number of seconds to wait before timing out an open call. 
+	If the number is 0, an open call will never timeout. 
 	*/
+	
 	return IONUMBER(DATA(self)->timeoutSeconds);
 }
 
 IoObject *IoSQLite_setTimeoutSeconds(IoSQLite *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setTimeoutSeconds(aNumber)",
-		   "Sets the open timeout to aNumber. If aNumber is 0, an open call will never timeout. Returns self. ")
+	/*doc SQLite setTimeoutSeconds(aNumber)
+	Sets the open timeout to aNumber. If aNumber is 0, an open 
+	call will never timeout. Returns self. 
 	*/
 
 	IoNumber *num = IoMessage_locals_numberArgAt_(m, locals, 0);
@@ -192,12 +199,10 @@ IoObject *IoSQLite_setTimeoutSeconds(IoSQLite *self, IoObject *locals, IoMessage
 
 IoObject *IoSQLite_open(IoSQLite *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("open(optionalPathString)",
-		   """Opens the database.Returns self on success or nil upon failure.
-
-If the databse is locked, "yield" will be called until it is accessable or timeoutSeconds has expired.
-""")
+	/*doc SQLite open(optionalPathString)
+	Opens the database.Returns self on success or nil upon failure.
+	If the databse is locked, "yield" will be called until it is 
+	accessable or timeoutSeconds has expired.
 	*/
 
 	char *zErrMsg;
@@ -225,8 +230,8 @@ If the databse is locked, "yield" will be called until it is accessable or timeo
 
 IoObject *IoSQLite_isOpen(IoSQLite *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("isOpen", "Returns true if the database is open, false otherwise.")
+	/*doc SQLite isOpen
+	Returns true if the database is open, false otherwise.
 	*/
 
 	return IOBOOL(self, DATA(self)->db != NULL);
@@ -234,9 +239,10 @@ IoObject *IoSQLite_isOpen(IoSQLite *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSQLite_close(IoSQLite *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("close",
-			"Closes the database if it is open. Returns self. If the database is open when the open is garbage collected, it will be automatically closed. ")
+	/*doc SQLite close
+	Closes the database if it is open. Returns self. 
+	If the database is open when the open is garbage collected, 
+	it will be automatically closed. 
 	*/
 
 	if (DATA(self)->db)
@@ -368,14 +374,12 @@ IoObject *IoSQLite_execWithCallback(IoSQLite *self,
 
 IoObject *IoSQLite_exec(IoSQLite *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("exec(aString)",
-			"Opens the database if it is not already open and executes
-aString as an sql command. Results a List of Map objects or Nil if
-there was an error. Each map holds the contents of a row.
-The key/value pairs of the maps being column name/column value
-pairs for a row. ")
-
+	/*doc SQLite exec(aString)
+	Opens the database if it is not already open and executes
+	aString as an sql command. Results a List of Map objects or Nil if
+	there was an error. Each map holds the contents of a row.
+	The key/value pairs of the maps being column name/column value
+	pairs for a row. ")
 	*/
 
 	IoSymbol *s = IoMessage_locals_seqArgAt_(m, locals, 0);
@@ -384,9 +388,9 @@ pairs for a row. ")
 
 IoObject *IoSQLite_errorMessage(IoSQLite *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("error",
-			"Results a string containing the current error. If there is no error, Nil is returned. ")
+	/*doc SQLite error
+	Results a string containing the current error. 
+	If there is no error, Nil is returned. 
 	*/
 
 	if (strlen(DATA(self)->error)==0)
@@ -399,9 +403,8 @@ IoObject *IoSQLite_errorMessage(IoSQLite *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSQLite_version(IoSQLite *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("version",
-			"Results a string the version of SQLite being used. ")
+	/*doc SQLite version
+	Results a string the version of SQLite being used. 
 	*/
 
 	return IOSYMBOL(SQLITE_VERSION);
@@ -409,9 +412,9 @@ IoObject *IoSQLite_version(IoSQLite *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSQLite_changes(IoSQLite *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("changes",
-			"Returns the number of rows that were changed by the most  recent SQL statement. Or Nil if the database is closed.")
+	/*doc SQLite changes
+	Returns the number of rows that were changed by the most 
+	recent SQL statement. Or Nil if the database is closed.
 	*/
 
 	if (!DATA(self)->db)
@@ -424,9 +427,8 @@ IoObject *IoSQLite_changes(IoSQLite *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSQLite_lastInsertRowId(IoSQLite *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("lastInsertRowId",
-			"Returns the number with the row id of the last row inserted. ")
+	/*doc SQLite lastInsertRowId
+	Returns the number with the row id of the last row inserted. 
 	*/
 
 	if (!DATA(self)->db)
@@ -439,9 +441,8 @@ IoObject *IoSQLite_lastInsertRowId(IoSQLite *self, IoObject *locals, IoMessage *
 
 IoObject *IoSQLite_tableNames(IoSQLite *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("tableNames",
-			"Returns a list containing the names of all tables in the database.")
+	/*doc SQLite tableNames
+	Returns a list containing the names of all tables in the database.
 	*/
 
 	IoSymbol *s = IOSYMBOL("SELECT name FROM sqlite_master WHERE type='table' ORDER BY name");
@@ -450,10 +451,8 @@ IoObject *IoSQLite_tableNames(IoSQLite *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSQLite_viewNames(IoSQLite *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("viewNames",
-			"Returns a list containing the names of all
-views in the database.")
+	/*doc SQLite viewNames
+	Returns a list containing the names of all views in the database.
 	*/
 
 	IoSymbol *s = IOSYMBOL("SELECT name FROM sqlite_master WHERE type='view' ORDER BY name");
@@ -462,9 +461,8 @@ views in the database.")
 
 IoObject *IoSQLite_columnNamesOfTable(IoSQLite *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("columnNamesOfTable(tableName)",
-			"Returns a list containing the names of all columns in the specified table.")
+	/*doc SQLite columnNamesOfTable(tableName)
+	Returns a list containing the names of all columns in the specified table.
 	*/
 
 	IoSymbol *tableName = IoMessage_locals_symbolArgAt_(m, locals, 0);
@@ -474,9 +472,8 @@ IoObject *IoSQLite_columnNamesOfTable(IoSQLite *self, IoObject *locals, IoMessag
 
 IoObject *IoSQLite_debugOn(IoSQLite *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("debugOn",
-			"Turns on debugging.")
+	/*doc SQLite debugOn
+	Turns on debugging.
 	*/
 
 	DATA(self)->debugOn = 1;
@@ -485,9 +482,8 @@ IoObject *IoSQLite_debugOn(IoSQLite *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSQLite_debugOff(IoSQLite *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("debugOff",
-			"Turns off debugging.")
+	/*doc SQLite debugOff
+	Turns off debugging.
 	*/
 
 	DATA(self)->debugOn = 0;
@@ -496,9 +492,10 @@ IoObject *IoSQLite_debugOff(IoSQLite *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSQLite_escapeString(IoSQLite *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("escapeString(aString)",
-			"Returns a translated version of aString by making two copies of every single-quote (') character. This has the effect of escaping the end-of-string meaning of single-quote within a string literal.")
+	/*doc SQLite escapeString(aString)
+	Returns a translated version of aString by making two 
+	copies of every single-quote (') character. This has the effect 
+	of escaping the end-of-string meaning of single-quote within a string literal.
 	*/
 
 	IoSymbol *s = IoMessage_locals_seqArgAt_(m, locals, 0);
