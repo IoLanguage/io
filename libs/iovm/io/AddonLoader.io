@@ -8,7 +8,7 @@ Addon := Object clone do(
 	newSlot("name")
 
 	//doc Addon platform Implemented as method(System platform split at(0) asLowercase).
-	platform := System platform
+	platform := System platform asLowercase
 	
 	//doc Addon dllSuffix Returns the platform specific dll suffix.
 	dllSuffix := method(
