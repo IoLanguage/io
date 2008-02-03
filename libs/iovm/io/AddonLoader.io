@@ -2,14 +2,14 @@ Addon := Object clone do(
 	//doc Addon rootPath Returns the rootPath of the addon's folder.
 	//doc Addon setRootPath(aSequence) Sets rootPath of the addon's folder. Returns self.
 	newSlot("rootPath")
-	
+
 	//doc Addon name Returns the name of the addon.
 	//doc Addon setName(aSequence) Sets the name of the addon. Returns self.
 	newSlot("name")
 
-	//doc Addon platform Implemented as method(System platform split at(0) asLowercase).
-	platform := System platform
-	
+	//doc Addon platform Implemented as method(System platform asLowercase).
+	platform := System platform asLowercase
+
 	//doc Addon dllSuffix Returns the platform specific dll suffix.
 	dllSuffix := method(
 	  list("cygwin", "mingw", "windows") detect(dllPlatform, platform containsSeq(dllPlatform)) ifNonNil(return("dll"))
