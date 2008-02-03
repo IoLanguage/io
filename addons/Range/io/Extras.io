@@ -1,23 +1,23 @@
 Number do(
-	docSlot("nextInSequence(skipVal)", "Returns the next item in the sequence counting away from zero. The optional skipVal parameter allows you to skip the number specified and get that value (the next value after self + skipVal).")
+		//doc Range nextInSequence(skipVal) Returns the next item in the sequence counting away from zero. The optional skipVal parameter allows you to skip the number specified and get that value (the next value after self + skipVal).
 	nextInSequence := method(skipVal,
 		if(skipVal isNil, skipVal = 1)
 		self + skipVal
 	)
 
-	docSlot("to", "Convenience constructor that returns a cursor object representing the range of numbers from the receiver to the 'endingPoint' parameter. Increments over each item in that range by 1.")
+		//doc Range to Convenience constructor that returns a cursor object representing the range of numbers from the receiver to the 'endingPoint' parameter. Increments over each item in that range by 1.
 	to := method(e,i,
 		i ifNil(i = if(self < e, 1, -1))
 		Range clone setRange( self, if( (e - self) abs < i abs, self, e ), i )
 	)
 
-	docSlot("toBy(endingPoint, incrementValue)", "Convenience constructor that returns a cursor object representing the range of numbers from the receiver to the 'endingPoint' parameter. Increments over each item in that range by the 'incrementValue' parameter.")
+		//doc Range toBy(endingPoint, incrementValue) Convenience constructor that returns a cursor object representing the range of numbers from the receiver to the 'endingPoint' parameter. Increments over each item in that range by the 'incrementValue' parameter.
 	toBy := getSlot("to")
 )
 
 
 Sequence do(
-	docSlot("nextInSequence(skipVal)", "Returns the next item in the sequence.  The optional skipVal parameter allows you to skip ahead skipVal places.")
+		//doc Range nextInSequence(skipVal) Returns the next item in the sequence.  The optional skipVal parameter allows you to skip ahead skipVal places.
 	nextInSequence := method(skipVal,
 		str := self clone asMutable
 		skipVal ifNil(skipVal = 1)
@@ -73,10 +73,10 @@ Sequence do(
 		)
 	)
 
-	docSlot("to(endpoint)", "Convenience constructor that returns a range of sequences from the receiver to the endpoint argument. Increments over each item in that range by 1.")
+		//doc Range to(endpoint) Convenience constructor that returns a range of sequences from the receiver to the endpoint argument. Increments over each item in that range by 1.
 	to := method(e, toBy(e, 1))
 
-	docSlot("toBy(endpoint, increment)", "Convenience constructor that returns a range of sequences from the receiver to the endpoint argument. Increments over each item in that range by the value of the increment parameter. The increment parameter must be positive.")
+		//doc Range toBy(endpoint, increment) Convenience constructor that returns a range of sequences from the receiver to the endpoint argument. Increments over each item in that range by the value of the increment parameter. The increment parameter must be positive.
 	toBy := method(e, i,
 		toByCompare := method(a, b,
 			(a size == b size) ifTrue(return a compare(b))
@@ -141,7 +141,7 @@ Sequence do(
 		Range clone setRange(from, to, i)
 	)
 
-	docSlot("levenshtein(other)", "Returns the levenshtein distance to other.")
+		//doc Range levenshtein(other) Returns the levenshtein distance to other.
 	levenshtein := method(other,
 		if(other size < self size, return other levenshtein(self))
 		current := 0 to(self size) asList

@@ -1,8 +1,7 @@
 DOServer := Server clone do(
-	type := "DOServer"
-	docCategory("Networking")
-
-	docDescription("""The DOServer object is usefull for fetching web pages and parsing DOServers. Example;
+	//metadoc DOServer category Networking
+	/*metadoc DOServer 
+	The DOServer object is usefull for fetching web pages and parsing DOServers. Example;
 	<pre>
 	Test := Object clone
 	Test test := method(v, write("got test '", v, "'\n"); return List clone append(1))
@@ -12,9 +11,9 @@ DOServer := Server clone do(
 	doServer setPort(8456)
 	doServer start
 	</pre>
-	""")
+	*/
 
-	docSlot("setRootObject(anObject)", "Sets the root object which incoming messages will be send to.")
+	//doc DOServer setRootObject(anObject) Sets the root object which incoming messages will be send to.
 	rootObject ::= nil
 	handleSocket := method(aSocket,
 		con := DOConnection clone

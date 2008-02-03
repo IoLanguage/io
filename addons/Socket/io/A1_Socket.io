@@ -1,8 +1,7 @@
 Sockets := Object clone
 
 Socket do(
-	type := "Socket"
-	docCategory("Networking")
+	//metadoc Socket category Networking
 
 	bytesPerRead ::= 4096
 	bytesPerWrite ::= 1024

@@ -1,5 +1,5 @@
 Event do(
-	docCategory("Networking")
+	//doc Event category Networking
 	descriptorId ::= -1
 	eventType ::= nil
 	timeout ::= 10
@@ -47,25 +47,29 @@ Event do(
 )
 
 ReadEvent := Event clone setEventType(Event EV_READ) do(
-	docCategory("Networking")
+	//doc ReadEvent category Networking
+	nil
 )
 
 WriteEvent  := Event clone setEventType(Event EV_WRITE) do(
-	docCategory("Networking")
+	//doc WriteEvent category Networking
+	nil
 )
 
 SignalEvent := Event clone setEventType(Event EV_SIGNAL) do(
-	docCategory("Networking")
+	//doc SignalEvent category Networking
+	nil
 )
 
 TimerEvent  := Event clone setEventType(Event EV_TIMER) do(
-	docCategory("Networking")
+	//doc TimerEvent category Networking
+	nil
 )
 
 Object wait := method(t, TimerEvent clone setTimeout(t) waitOn)
 
 EventManager do(
-	docCategory("Networking")
+	//metadoc EventManager category Networking
 	isRunning ::= false
 	coro ::= nil
 	

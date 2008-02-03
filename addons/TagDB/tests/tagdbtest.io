@@ -28,6 +28,7 @@ TagDBTest := UnitTest clone do(
         tags := tdb tagsAt("lotus esprit")
         assertEquals(tags, list("lotus", "esprit"))
        
+		writeln("ok")
 		tdb close
 		tdb delete
 	)

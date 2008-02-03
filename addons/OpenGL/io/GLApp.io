@@ -13,7 +13,7 @@ Font drawOffsetString := method(text, offset,
 )
 
 GLApp := Object clone do(
-	docCategory("Graphics")
+	//metadoc GLApp category Graphics
 	appendProto(OpenGL)
 	newSlot("width", 1024)
 	newSlot("height", 768)

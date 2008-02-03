@@ -1,7 +1,7 @@
 // A somewhat NewtonScript-like Soup database
 
 Soup := Object clone do(
-	docCategory("Databases")
+	//metadoc Soup category Databases
 	newSlot("sqliteProto", SQLite)
 	newSlot("debug", false)
 

@@ -1,8 +1,7 @@
 
 DBM := Object clone do(
-	type := "DBM"
-	docDescription("A simple DBM style key/value database.")
-	docCategory("Databases")
+	//metadoc DBM description A simple DBM style key/value database.
+	//metadoc DBM category Databases
 
 	newSlot("sqliteProto", SQLite)
 

@@ -1,8 +1,8 @@
-docCopyright("Jeremy Cowgar", 2006)
-docLicense("BSD revised")
-docCategory("Databases")
-docObject("DBIRecord")
-docDescription("""A DBI Record. When utilizing `foreach' or `populate' methods
+//metadoc DBIRecord copyrigth Jeremy Cowgar, 2006
+//metadoc DBIRecord license BSD revised
+//metadoc DBIRecord category Databases
+/*metadoc DBIRecord description
+A DBI Record. When utilizing `foreach' or `populate' methods
 of a DBIResult object, you can pass an optional Object cloned from DBIRecord.
 This object will be populated with the row contents making it possible to
 write objects that represent your SQL results. A simple example would be:
@@ -28,7 +28,8 @@ o setFirstName("John") // would update the object's firstName value to be John
 
 Do not confuse the above example as updating the actual database. The call
 to setFirstName <i>only</i> updates the objects representation of firstName.
-""")
+*/
+
 DBIRecord := Object clone do(
 	init := method(
 		resend

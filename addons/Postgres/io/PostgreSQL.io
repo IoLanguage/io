@@ -2,8 +2,7 @@
 
 Postgres := Object clone
 Postgres do(
-	type := "Postgres"
-	docCategory("Databases")
+	//metadoc Postgres category Databases
 
 	enum := method(
 		i := 0

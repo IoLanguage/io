@@ -1,6 +1,6 @@
 
 DNSQuery := Object clone do(
-	docCategory("Networking")
+	//metadoc DNSServer Networking
 	hostName ::= nil
 
 	init := method(self coros := List clone)
@@ -15,7 +15,7 @@ DNSQuery := Object clone do(
 )
 
 DNSServer := Object clone do(
-	docCategory("Networking")
+	//metadoc DNSServer category Networking
 	host ::= nil
 
 	ipForHostName := method(hostName, timeout,
@@ -53,12 +53,13 @@ DNSServer := Object clone do(
 )
 
 DNSResolver := Object clone do(
-	docCategory("Networking")
-	docDescription("""With the DNSResolver you can set the DNS servers to be used for DNS lookups. Example;<pre>
-  DNSResolver addDNSServerIp("128.105.2.10")
-  ipForYahoo := DNSResolver ipForHostName("yahoo.com")
+//metadoc DNSResolver Networking
+/*metadoc DNSResolver description 
+With the DNSResolver you can set the DNS servers to be used for DNS lookups. Example;<pre>
+DNSResolver addDNSServerIp("128.105.2.10")
+ipForYahoo := DNSResolver ipForHostName("yahoo.com")
 </pre>
-""")
+*/
 
 	init := method(
 		self dnsServers := List clone
@@ -68,14 +69,14 @@ DNSResolver := Object clone do(
 
 	init
 
-	docSlot("dnsServers", "Returns list of DNSServer objects used for lookups.")
-	docSlot("queries", "Returns list of active DNSQuery objects.")
-	docSlot("cache", "Returns Map containing lookup cache.")
-	docSlot("emptyCache", "Empties the lookup cache. Returns self.")
+	//doc DNSResolver dnsServers Returns list of DNSServer objects used for lookups.
+	//doc DNSResolver queries Returns list of active DNSQuery objects.
+	//doc DNSResolver cache Returns Map containing lookup cache.
+	//doc DNSResolver emptyCache Empties the lookup cache. Returns self.
 
 	emptyCache := method(cache empty; self)
 
-	docSlot("addDNSServerIp(ipString)", "Adds a new DNSServer for the specified IP.")
+	//doc DNSResolver addDNSServerIp(ipString) Adds a new DNSServer for the specified IP.
 	addDNSServerIp := method(ip, dnsServers append(DNSServer clone setHost(ip)))
 
 	setupServerListIfNeeded := method(
@@ -83,7 +84,9 @@ DNSResolver := Object clone do(
 		DNS localNameServersIPs select(isEmpty not) foreach(ip, addDNSServerIp(ip))
 	)
 
-	docSlot("ipForHostName(hostName)", "Returns a String containing the IP for the hostName or an error if hostName could not be resolved.")
+	/*doc DNSResolver ipForHostName(hostName)
+	Returns a String containing the IP for the hostName or an error if hostName could not be resolved.
+	*/
 
 	ipForHostName := method(hostName,
 		setupServerListIfNeeded

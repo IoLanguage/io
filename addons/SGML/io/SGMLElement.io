@@ -1,12 +1,12 @@
 Sequence writeToStream := method(b, b appendSeq(self))
 
 SGMLElement := Object clone do(
-	docDescription("Representation of an SGML / HTML / XML tag.")
-	docSlot("setName(aString)", "Sets the tag name. Returns self.")
-	docSlot("name", "Returns the tag name")
-	docSlot("attributes", "Returns a Map containing the tag's attributes.")
-	docSlot("subitems", "Returns a List containing the tag's subitems.")
-	docSlot("asString", "Returns a String representation of the tag and all of it's subitems.")
+	//metadoc SGMLElement Representation of an SGML / HTML / XML tag.
+	//doc SGMLElement setName(aString)Sets the tag name. Returns self.
+	//doc SGMLElement name Returns the tag name
+	//doc SGMLElement attributes Returns a Map containing the tag's attributes.
+	//doc SGMLElement subitems Returns a List containing the tag's subitems.
+	//doc SGMLElement asString Returns a String representation of the tag and all of it's subitems.
 
 	newSlot("name")
 	newSlot("attributes", Map clone)
@@ -121,7 +121,6 @@ SGMLElement := Object clone do(
 
 
 SGMLParser do(
-	type := "SGMLParser"
 	elementProto := SGMLElement
 
 	init := method(

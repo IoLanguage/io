@@ -40,11 +40,14 @@ DBIConn do (
 		return self execute(sql asString)
 	)
 
-	docSlot("queryOne([object], sql)", """Perform a query and return the first
-		result.
+	/*doc DBIConn queryOne([object], sql) 
+	Perform a query and return the first
+	result.
 
-		If [object] is supplied, the object is populated with the contents of the
-		result, the result is marked done and the object is returned.""")
+	If [object] is supplied, the object is populated with the contents of the
+	result, the result is marked done and the object is returned.
+	*/
+		
 	queryOne := method(
 		first := call evalArgAt(0)
 		obj := if (first isKindOf(Sequence) == false, first, nil)

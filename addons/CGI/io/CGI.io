@@ -1,9 +1,9 @@
 CGI := Object clone do(
-	docCopyright("Steve Dekorte", 2004)
-	docLicense("BSD revised")
-	docCategory("Networking")
+	//metadoc CGI Steve Dekorte, 2004
+	//metadoc CGI license BSD revised
+	//metadoc CGI category Networking
 
-	docDescription("""
+	/*metadoc CGI description
 	CGI supports accessing CGI parameters passed in environment variable or standard input by a web servers like Apache.Example use:
 	#!./ioServer
 
@@ -38,25 +38,19 @@ CGI := Object clone do(
 	)
 	cgi write("</ul>")
 	cgi write("</body></html>")
+	*/
 
-	""")
-
-
-
-
-	docSlot("isInWebScript", """Checks to see if this is being called within a CGI request or from the command-line (testing).  Simply checks for System getEnvironmentVariable("GATEWAY_INTERFACE")""")
-
+	//doc CGI isInWebScript Checks to see if this is being called within a CGI request or from the command-line (testing).  Simply checks for System getEnvironmentVariable("GATEWAY_INTERFACE")
 	isInWebScript := method(
 		System getEnvironmentVariable("GATEWAY_INTERFACE") != nil
 	)
 
 
-	docSlot("maxPostSize", "Maximum size in bytes, to process from user submitted data.  Data greater than this will result in a nil postData slot")
-
+	//doc CGI maxPostSize Maximum size in bytes, to process from user submitted data.  Data greater than this will result in a nil postData slot
 	newSlot("maxPostSize")
 
 
-	docSlot("postData", """The raw post data sent to the script.  Only set if getEnvironmentVariable("REQUEST_METHOD") asLowercase == "post".""")
+	//doc CGI postData The raw post data sent to the script.  Only set if getEnvironmentVariable("REQUEST_METHOD") asLowercase == "post".
 	_memoized := Map clone
 	postData := method(
 		if (_memoized hasKey("postData"), return _memoized at("postData"))
@@ -74,8 +68,7 @@ CGI := Object clone do(
 	)
 
 
-	docSlot("maxPostSizeExceeded", "Returns true if the POST data exceeds a set maxPostSize")
-
+	//doc CGI maxPostSizeExceeded Returns true if the POST data exceeds a set maxPostSize
 	maxPostSizeExceeded := method(
 			sz := System getEnvironmentVariable("CONTENT_LENGTH") ?asNumber
 			if(maxPostSize ?asNumber ?isNan or sz < maxPostSize,
@@ -85,8 +78,7 @@ CGI := Object clone do(
 	)
 
 
-	docSlot("getParameters", "Parses the QUERY_STRING environment variable and returns a Map containing key/value query value pairs.  For testing, a QUERY_STRING can be passed to standard in, one line will be read")
-
+	//doc CGI getParameters Parses the QUERY_STRING environment variable and returns a Map containing key/value query value pairs.  For testing, a QUERY_STRING can be passed to standard in, one line will be read
 	parse := method(getParameters) // for compatibility
 	
 	getParameters := method(
@@ -101,15 +93,18 @@ CGI := Object clone do(
 		return _memoized at("getParameters")
 	)
 
-	docSlot("postParameters", """Parses the POST data, multipart and urlencoded.  Returns a map of submitted variables.
+	/*doc CGI postParameters 
+		Parses the POST data, multipart and urlencoded.  Returns a map of submitted variables.
 		For uploaded files, an Object is returned with these slots:
-		  fileName
-		  content (raw content of file as Sequence)
-		  contentType
-		  contentEncoding
-		  size (in characters/bytes)
-		  asString (pretty string of name, type, size)
-	""")
+		<pre>
+		fileName
+		content (raw content of file as Sequence)
+		contentType
+		contentEncoding
+		size (in characters/bytes)
+		asString (pretty string of name, type, size)
+		</pre>
+	*/
 
 	postParameters := method(
 		if (_memoized hasKey("postParameters"), return _memoized at("postParameters"))
@@ -156,7 +151,7 @@ CGI := Object clone do(
 	)
 
 
-	docSlot("cookies", "Returns a Map of cookies provided by the client")
+	//doc CGI cookies Returns a Map of cookies provided by the client
 
 	cookies := method(
 		raw := httpHeader("cookie")
@@ -171,7 +166,10 @@ CGI := Object clone do(
 	)
 
 
-	docSlot("setCookie(name, value, expiresDate, domain, path, secureBool)", "Sets a cookie, keep in mind this will not be available in cookies() until they next visit the site.  Parameters other than name and value are optional")
+	/*doc CGI setCookie(name, value, expiresDate, domain, path, secureBool) 
+	Sets a cookie, keep in mind this will not be available in cookies() until they next visit the site.  
+	Parameters other than name and value are optional.
+	*/
 
 	setCookie := method(name, value, expiresDate, domain, path, secureBool,
 		if (name == nil, return false)
@@ -200,7 +198,7 @@ CGI := Object clone do(
 		return string
 	)
 
-	docSlot("requestParameter(name)", "Lazy developer's helper funtion. Retrieves a value from GET or POST, POST first")
+	//doc CGI requestParameter(name) Lazy developer's helper funtion. Retrieves a value from GET or POST, POST first
 
 	requestParameter := method(name,
 		if(postParameters hasKey(name),
@@ -211,49 +209,47 @@ CGI := Object clone do(
 
 
 
-	docSlot("queryString", "QUERY_STRING from web server")
+	//doc CGI queryString QUERY_STRING from web server
 	queryString := method( return System getEnvironmentVariable("QUERY_STRING"))
 
-	docSlot("pathInfo", "PATH_INFO from web server")
+	//doc CGI pathInfo PATH_INFO from web server
 	pathInfo := method( return System getEnvironmentVariable("PATH_INFO"))
 
-	docSlot("pathTranslated", "PATH_TRANSLATED from web server")
+	//doc CGI pathTranslated PATH_TRANSLATED from web server
 	pathTranslated := method( return System getEnvironmentVariable("PATH_TRANSLATED"))
 
-	docSlot("scriptName", "SCRIPT_NAME from web server")
+	//doc CGI scriptName SCRIPT_NAME from web server
 	scriptName := method( return System getEnvironmentVariable("SCRIPT_NAME"))
 
-	docSlot("contentType", "CONTENT_TYPE from web server")
+	//doc CGI contentType CONTENT_TYPE from web server
 	contentType := method( return System getEnvironmentVariable("CONTENT_TYPE"))
 
-	docSlot("remoteHost", "REMOTE_HOST from web server - User's host (often blank)")
+	//doc CGI remoteHost REMOTE_HOST from web server - User's host (often blank)
 	remoteHost := method( return System getEnvironmentVariable("REMOTE_HOST"))
 
-	docSlot("remoteAddress", "REMOTE_ADDR from web server - User's IP")
+	//doc CGI remoteAddress REMOTE_ADDR from web server - User's IP
 	remoteAddress := method( return System getEnvironmentVariable("REMOTE_ADDR"))
 
-	docSlot("contentLength", "CONTENT_LENGTH from web server - Size of POST Data")
+	//doc CGI contentLength CONTENT_LENGTH from web server - Size of POST Data
 	contentLength := method( return System getEnvironmentVariable("CONTENT_LENGTH") ?asNumber)
 
-	docSlot("httpHeader(name)", "Fetch a header supplied by the client, such as 'referer'")
+	//doc CGI httpHeader(name) Fetch a header supplied by the client, such as 'referer'
 	httpHeader := method(name, return System getEnvironmentVariable("HTTP_" .. name asUppercase))
 
-	docSlot("requestMethod", "GET, POST, PUT, etc")
+	//doc CGI requestMethod GET, POST, PUT, etc
 	requestMethod := method(
 		m := System getEnvironmentVariable("REQUEST_METHOD") ?asUppercase
 		if(m == nil or m == "", m = "GET")
 		return m
 	)
 
-	docSlot("encodeUrlParam(aString)", "Returns a URL encoded version of aString.")
-
+	//doc CGI encodeUrlParam(aString) Returns a URL encoded version of aString.
 	encodeUrlParam := method(s,
 		s = s asUTF8 asMutable
 		s replaceSeq("%", "%25") replaceMap(urlChar2Code) replaceSeq(" ", "+")
 	)
 
-	docSlot("decodeUrlParam(aString)", "Returns a URL decoded version of aString.")
-
+	//doc CGI decodeUrlParam(aString) Returns a URL decoded version of aString.
 	decodeUrlParam := method(s,
 		t := s asUTF8 asMutable
 		t replaceSeq("+", " ") replaceMap(urlCode2Char) replaceSeq("%25", "%")
@@ -272,8 +268,7 @@ CGI := Object clone do(
 	)
 
 
-	docSlot("write(string, [string...])", "Send content for the body of the response")
-
+	//doc CGI write(string, [string...]) Send content for the body of the response
 	write := method(
 		if (_headersSent == false,
 			sendHeaders
@@ -284,8 +279,10 @@ CGI := Object clone do(
 
 
 
-	docSlot("header(name, value, sendMultiple)", "Add a header to the output, may only be called before write() is called.  One of each header will be send unless sendMultiple is true")
-
+	/*doc CGI header(name, value, sendMultiple) 
+	Add a header to the output, may only be called before write() is called.  
+	One of each header will be send unless sendMultiple is true
+	*/
 	header := method(name, value, sendMultiple,
 		if(_headersSent, Exception raise("Content already sent, no more headers may be transmitted"))
 		if(sendMultiple,
@@ -297,8 +294,7 @@ CGI := Object clone do(
 	_headersToSend := Map clone atPut("content-type", "text/html")
 
 
-	docSlot("redirect(url)", "Send a location: and redirect the user.  May only be called before write() is called.  It is left to the caller to stop any further processing.")
-
+	//doc CGI redirect(url) Send a location: and redirect the user.  May only be called before write() is called.  It is left to the caller to stop any further processing.")
 	redirect := method(url,
 		if(_headersSent, Exception raise("Content already sent, too late to redirect"))
 
@@ -306,7 +302,10 @@ CGI := Object clone do(
 	)
 
 
-	docSlot("status(statusCode)", "Numeric status code to send to the client.  Normally, the server will figure this out on its own, but this allows handling 404s and such.")
+	/*doc CGI status(statusCode) 
+	Numeric status code to send to the client.  
+	Normally, the server will figure this out on its own, but this allows handling 404s and such.
+	*/
 
 	status := method(status,
 		header("Status", status ?asNumber)
@@ -387,6 +386,4 @@ CGI := Object clone do(
 		)
 		urlCode2Char removeAt("%25")
 	) call
-
-
 )

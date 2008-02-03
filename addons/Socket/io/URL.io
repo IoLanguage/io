@@ -1,18 +1,20 @@
 URL := Notifier clone do(
-	docCategory("Networking")
-	docCopyright("Steve Dekorte", 2004)
-	docLicense("BSD revised")
-	docDescription("The URL object is usefull for fetching web pages and parsing URLs. Example;
+	//metadoc URL category Networking
+	//metadoc URL copyright Steve Dekorte, 2004
+	//metadoc URL license BSD revised
+	/*metadoc URL description The URL object is usefull for fetching web pages and parsing URLs. Example;
 	<pre>
 	page := URL clone setURL(\"http://www.google.com/\") fetch
-	</pre>")
+	</pre>
+	*/
 
-	docSlot("url", "Returns url string.")
+	//doc URL url Returns url string.
 	url := ""
 
-	docSlot("setURL(urlString)",
-	"Sets the url string and parses into the protocol, host, port path, and query slots. Returns self.")
-
+	/*doc URL setURL(urlString)
+	Sets the url string and parses into the protocol, host, port path, and query slots. Returns self.
+	*/
+	
 	socketProto ::= Socket clone
 	readHeader ::= nil
 
@@ -47,7 +49,9 @@ URL := Notifier clone do(
 		url
 	)
 
-	docSlot("escapeString(aString)", "Returns a new String that is aString with the appropriate characters replaced by their URL escape codes.")
+	/*doc URL escapeString(aString)
+	Returns a new String that is aString with the appropriate characters replaced by their URL escape codes.
+	*/
 
 	escapeString := method(u,
 		u := u clone asMutable
@@ -56,7 +60,9 @@ URL := Notifier clone do(
 		u asString
 	)
 
-	docSlot("unescapeString(aString)", "Returns a new String that is aString with the URL escape codes replaced by the appropriate characters.")
+	/*doc URL unescapeString(aString)
+	Returns a new String that is aString with the URL escape codes replaced by the appropriate characters.
+	*/
 
 	unescapeString := method(u,
 		u := u clone asMutable
@@ -65,7 +71,9 @@ URL := Notifier clone do(
 		u asString
 	)
 
-	docSlot("escapeCodes", "Returns a Map whose key/value pairs are special characters and their URL escape codes.")
+	/*doc URL escapeCodes
+	Returns a Map whose key/value pairs are special characters and their URL escape codes.
+	*/
 
 	escapeCodes := Map clone do(
 		atPut(" ","%20")
@@ -92,8 +100,8 @@ URL := Notifier clone do(
 		atPut("$","%24")
 	)
 
-	docSlot("referer", "Returns the referer String or nil if not set.")
-	docSlot("setReferer(aString)", "Sets the referer. Returns self.")
+	//doc URL referer Returns the referer String or nil if not set.
+	//doc URL setReferer(aString) Sets the referer. Returns self.
 	referer ::= nil
 
 	clear := method(
@@ -149,26 +157,29 @@ URL := Notifier clone do(
 		u
 	)
 
-	docSlot("fetch", "Fetches the url and returns the result as a Sequence. Returns an Error, if one occurs.")
-
+	//doc URL fetch Fetches the url and returns the result as a Sequence. Returns an Error, if one occurs.
 	fetch := method(url,
 		if(url, setURL(url))
 		if(protocol == "http", return(fetchHttp))
 		Error with("Protocol '" .. protocol .. "' unsupported")
 	)
 
-	docSlot("fetchWithProgress(progressBlock)", "Same as fetch, but with each read, progressBlock is called with the readBuffer and the content size as parameters.")
-
+	/*doc URL fetchWithProgress(progressBlock)
+	Same as fetch, but with each read, progressBlock is called with the readBuffer 
+	and the content size as parameters.
+	*/
 	fetchWithProgress := method(progressBlock,
 		if(protocol == "http", return(fetch(getSlot("progressBlock"))))
 		Error with("Protocol '" .. protocol .. "' unsupported")
 	)
 
-	docSlot("stopFetch", "Stops the fetch, if there is one. Returns self.")
+	/*doc URL stopFetch
+	Stops the fetch, if there is one. Returns self.
+	*/
 
 	stopFetch := method(socket close; self)
 
-	docSlot("requestHeader", "Returns a Sequence containing the request header that will be sent.")
+	/*doc URL requestHeader Returns a Sequence containing the request header that will be sent.*/
 
 	requestHeader := method(
 		header := Sequence clone
@@ -263,8 +274,11 @@ URL := Notifier clone do(
 		b
 	)
 
-	docSlot("fetchToFile(aFile)", "fetch the url and save the result to the specified File object. Saving is done as the data is read, which help minimize memory usage. Returns self on success or nil on error.")
-
+	/*doc URL fetchToFile(aFile)
+	Fetch the url and save the result to the specified File object. 
+	Saving is done as the data is read, which help minimize memory usage. 
+	Returns self on success or nil on error.
+	*/
 	fetchToFile := method(file,
 		fetchHttp(block(file write(socket readBuffer); socket readBuffer empty)) returnIfError
 		self
@@ -277,7 +291,11 @@ URL := Notifier clone do(
 		URL clone setURL(u) setReferer(url)
 	)
 
-	docSlot("post(data)", "Sends an http post message. If data is a Map, it's key/value pairs are send as the post parameters. If data is a Sequence or String, it is sent directly. Returns a sequence containing the response on success or an Error, if one occurs.")
+	/*doc URL post(data)
+	Sends an http post message. If data is a Map, it's key/value pairs are 
+	send as the post parameters. If data is a Sequence or String, it is sent directly. 
+	Returns a sequence containing the response on success or an Error, if one occurs.
+	*/
 
 	post := method(postdata,
 		postdata ifNil(postdata = "")

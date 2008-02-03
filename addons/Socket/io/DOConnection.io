@@ -2,10 +2,10 @@ Object NULL := Sequence clone
 Object NULL append(0x0)
 
 DOConnection := Object clone do(
-	type := "DOConnection"
-	docCategory("Networking")
+	//metadoc DOConnection Networking
 
-	docDescription("The DOConnection object is usefull for communicating with remote servers in a way that makes it look just like the sending of local messages. Proxies are automatically created on either side for passed objects, with the exception of strings and numbers, which are passed by value. Example:
+	/*metadoc DOConnection description 
+	The DOConnection object is usefull for communicating with remote servers in a way that makes it look just like the sending of local messages. Proxies are automatically created on either side for passed objects, with the exception of strings and numbers, which are passed by value. Example:
 	<pre>
 	con := DOConnection clone setHost("127.0.0.1") setPort(8456) connect
 	result := con serverObject test(1)
@@ -36,9 +36,7 @@ DOConnection := Object clone do(
 
 	  This isn't optimized yet.
 	  </pre>
-	")
-
-	type := "DOConnection"
+	*/
 
 	localObjects ::= nil
 	proxies ::= nil
@@ -62,26 +60,26 @@ DOConnection := Object clone do(
 		debugWriteln("Closed connection")
 	)
 
-	docSlot("close", "Close the connection, if it is open. Returns self.")
+	//doc DOConnection close Close the connection, if it is open. Returns self.
 
 	close := method(
 		socket close
 		self
 	)
 
-	docSlot("setHost(ipString)", "Sets the host ip to connect to. Returns self or an Error, if one occurs.")
-	docSlot("host", "Returns the host ip.")
+	//doc DOConnection setHost(ipString) Sets the host ip to connect to. Returns self or an Error, if one occurs.
+	//doc DOConnection host Returns the host ip.
 
 	setHost := method(aString, socket setHost(aString) returnIfError; self)
 	host := method(socket host)
 
-	docSlot("setPort(portNumber)", "Sets the port number to connect to. Returns self.")
-	docSlot("port", "Returns the port.")
+	//doc DOConnection setPort(portNumber) Sets the port number to connect to. Returns self.
+	//doc DOConnection port Returns the port.
 
 	setPort := method(aString, socket setPort(aString); self)
 	port := method(socket port)
 
-	docSlot("connect", "Connect to the remote DOServer. Returns self or an Error, if one occurs.")
+	//doc DOConnection connect Connect to the remote DOServer. Returns self or an Error, if one occurs.
 
 	connect := method(
 		socket connect returnIfError
@@ -89,7 +87,9 @@ DOConnection := Object clone do(
 		self
 	)
 
-	docSlot("serverObject", "A handle to the remote DOServer's root object. Returns result from server or an Error, if one occurs.")
+	/*doc DOConnection serverObject
+	A handle to the remote DOServer's root object. Returns result from server or an Error, if one occurs.
+	*/
 
 	sendMessage := method(m,
 		ifDebug(write("sending message "); ShowMessage(m))
@@ -205,7 +205,7 @@ DOConnection := Object clone do(
 
 
 DOProxy := Object clone do(
-	docCategory("Networking")
+	//metadoc DOProxy category Networking
 	proxyId ::= nil
 	connection ::= nil
 
