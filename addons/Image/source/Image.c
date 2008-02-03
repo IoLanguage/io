@@ -331,11 +331,13 @@ void Image_resizeTo(Image *self, int w, int h, Image *outImage)
 	uint8_t *inPtr = Image_data(self);
 
 	int outStride = w * componentCount;
+	uint8_t *outPtr;
+	int y;
+	
 	UArray *outUArray = UArray_new();
 	UArray_setSize_(outUArray, h * outStride);
-	uint8_t *outPtr = (uint8_t *)UArray_bytes(outUArray);
+	outPtr = (uint8_t *)UArray_bytes(outUArray);
 
-	int y;
 	for (y=0; y < self->height; y++, inPtr += inStride, outPtr += outStride)
 		memcpy(outPtr, inPtr, inStride);
 

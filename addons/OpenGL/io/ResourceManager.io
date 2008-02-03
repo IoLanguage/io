@@ -1,7 +1,8 @@
 
 ResourceManager := Object clone do(
 	newSlot("type", "ResourceManager")
-	newSlot("resourcesPath", Path with(System ioPath, "addons/Flux/resources"))
+	
+	newSlot("resourcesPath", Path with(Flux fluxPath, "resources"))
 	newSlot("interfaceToolkit", "Flux")
 
 	/*
