@@ -12,7 +12,7 @@ readFolder := method(path,
 		isSlot := e beginsWithSeq("doc")
 		h := e beforeSeq("\n") afterSeq(" ")
 		protoName := h beforeSeq(" ")
-		slotName := h afterSeq(" ")
+		slotName := h afterSeq(" ") asMutable strip asSymbol
 		description := e afterSeq("\n")
 		p := prototypes atIfAbsentPut(protoName, Map clone atPut("slots", Map clone))
 		
@@ -252,10 +252,16 @@ protoNames foreach(protoName,
 		writeln("<h3>Slots</h3>")
 		//writeln("<ul>")
 		writeln("<br>")
+		//slotNames = slotNames map(asMutable strip asSymbol)
 		if(getSlot(protoName),
-			slotNames := getSlot(protoName) slotNames appendSeq(slotNames) sort
+			names := getSlot(protoName) slotNames
+			slotNames foreach(slotName,
+				n := slotName beforeSeq("(") asSymbol 
+				if(names contains(n), names remove(n))
+			)
+			slotNames appendSeq(names)
 		)
-		slotNames foreach(k,
+		slotNames sort foreach(k,
 			s := slots at(k)
 			write("<b>")
 			write("<a name=" .. protoName .. "-" .. k asHtml .. "><font color=black>")

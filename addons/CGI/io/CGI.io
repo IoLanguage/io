@@ -5,40 +5,38 @@ CGI := Object clone do(
 
 	/*metadoc CGI description
 	CGI supports accessing CGI parameters passed in environment variable or standard input by a web servers like Apache.Example use:
-	#!./ioServer
+<pre>
+#!./ioServer
 
-	cgi = CGI clone
+cgi = CGI clone
 
-	redirect = cgi getParameters at("redirurl")
-	if (redirect and redirect != "",
-		redirect clipAfterStartOfSeq("\r")
-		redirect clipAfterStartOfSeq("\n")
-		cgi redirect(redirect)
-		System exit(0)
-	 )
+redirect = cgi getParameters at("redirurl")
+if (redirect and redirect != "",
+	redirect clipAfterStartOfSeq("\r")
+	redirect clipAfterStartOfSeq("\n")
+	cgi redirect(redirect)
+	System exit(0)
+ )
 
-	cgi header("Content-type", "text/html")
+cgi header("Content-type", "text/html")
 
-	cgi write("<html><head><title>test</title><body>")
-	cgi write("GET Parameters: <ul>")
-	cgi getParameters foreach(k, v,
-		cgi write("<li>" .. k .. " = " .. v .. "</li>" )
-	)
-	cgi write("</ul>")
+cgi write("&lt;html&gt;&lt;head&gt;&lt;title&gt;test&lt;/title&gt;&lt;body&gt;")
+cgi write("GET Parameters:")
+cgi getParameters foreach(k, v,
+	cgi write(k .. " = " .. v .. ","))
+)
 
-	cgi write("POST Parameters: <ul>")
-	cgi postParameters foreach(k, v,
-		cgi write("<li>" .. k .. " = " .. v .. "</li>" )
-	)
-	cgi write("</ul>")
+cgi write("POST Parameters:")
+cgi postParameters foreach(k, v,
+	cgi write(k .. " = " .. v .. ","))
+)
 
-	cgi write("COOKIES: <ul>")
-	cgi cookies foreach(k, v,
-		cgi write("<li>" .. k .. " = " .. v .. "</li>" )
-	)
-	cgi write("</ul>")
-	cgi write("</body></html>")
-	*/
+cgi write("COOKIES:")
+cgi cookies foreach(k, v,
+	cgi write(k .. " = " .. v .. ",")
+)
+</pre>
+*/
 
 	//doc CGI isInWebScript Checks to see if this is being called within a CGI request or from the command-line (testing).  Simply checks for System getEnvironmentVariable("GATEWAY_INTERFACE")
 	isInWebScript := method(
