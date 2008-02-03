@@ -3,8 +3,12 @@ AddonBuilder clone do(
 	dependsOnHeader("ft2build.h")
 	dependsOnHeader("freetype/config/ftheader.h")
 
-	if(list("cygwin", "mingw", "windows") contains(platform),
+	if(list("cygwin", "mingw") contains(platform),
 		dependsOnLib("opengl32")
+	)
+
+	if(platform == "windows",
+		dependsOnSysLib("opengl32")
 	)
 
 	if(platform == "darwin",

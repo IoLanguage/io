@@ -196,7 +196,7 @@ moduleNames := modules keys sort
 moduleNames foreach(moduleName,
 	writeln("<b>",moduleName, "</b><br>")
 	writeln("<ul>")
-	modules at(moduleName) keys foreach(protoName,
+	modules at(moduleName) keys sort foreach(protoName,
 		writeln("<a href=#", protoName, " style=\"color: #555;\">", protoName, "</a><br>")
 	)
 	writeln("""<br style="width:.5em"></ul>""")
