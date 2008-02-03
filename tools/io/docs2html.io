@@ -219,7 +219,7 @@ protoNames foreach(protoName,
 	
 	//writeln("<b><font color=#000>Protos:</font></b> ", getSlot(protoName) ?prototypes ?map(type) ?join(", "))
 
-	if(p at("category"), 
+	if(p at("category"),
 		writeln("<b><font color=#000>Category:</font></b> ", p at("category"))
 	)
 	
@@ -252,6 +252,9 @@ protoNames foreach(protoName,
 		writeln("<h3>Slots</h3>")
 		//writeln("<ul>")
 		writeln("<br>")
+		if(getSlot(protoName),
+			slotNames := getSlot(protoName) slotNames appendSeq(slotNames) sort
+		)
 		slotNames foreach(k,
 			s := slots at(k)
 			write("<b>")
@@ -261,7 +264,7 @@ protoNames foreach(protoName,
 			write("</font></a></b>")
 			writeln("<p>")
 			writeln("<div style=\"width:40em; margin-left:2em\">")
-			writeln(s)
+			if(s, writeln(s), writeln("<font color=red>undocumented</font>"))
 			writeln("</font>")
 			writeln("</div>")
 			writeln("<p><br>")
