@@ -1,0 +1,278 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8DD76FB00486AB0100D96B5E /* tagdb.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C6A0FF2C0290799A04C91782 /* tagdb.1 */; };
+		AA081CB90C2CAE8700C42EC3 /* KeyIdArray.c in Sources */ = {isa = PBXBuildFile; fileRef = AA081CB50C2CAE8700C42EC3 /* KeyIdArray.c */; };
+		AA081CBA0C2CAE8700C42EC3 /* KeyIdArray.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA081CB60C2CAE8700C42EC3 /* KeyIdArray.h */; };
+		AA081CBB0C2CAE8700C42EC3 /* TagIdArray.c in Sources */ = {isa = PBXBuildFile; fileRef = AA081CB70C2CAE8700C42EC3 /* TagIdArray.c */; };
+		AA081CBC0C2CAE8700C42EC3 /* TagIdArray.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA081CB80C2CAE8700C42EC3 /* TagIdArray.h */; };
+		AA240FA00C28A1860059DCB0 /* TagDB.c in Sources */ = {isa = PBXBuildFile; fileRef = AA240F9E0C28A1860059DCB0 /* TagDB.c */; };
+		AA240FA10C28A1860059DCB0 /* TagDB.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA240F9F0C28A1860059DCB0 /* TagDB.h */; };
+		AA240FDD0C28AE140059DCB0 /* TagDBItem.c in Sources */ = {isa = PBXBuildFile; fileRef = AA240FDB0C28AE140059DCB0 /* TagDBItem.c */; };
+		AA240FDE0C28AE140059DCB0 /* TagDBItem.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA240FDC0C28AE140059DCB0 /* TagDBItem.h */; };
+		AA24134A0C28F7FA0059DCB0 /* libz.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA2413490C28F7FA0059DCB0 /* libz.a */; };
+		AA24134C0C28F8060059DCB0 /* libqdbm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA24134B0C28F8060059DCB0 /* libqdbm.a */; };
+		AA24134E0C28F8100059DCB0 /* libiconv.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA24134D0C28F8100059DCB0 /* libiconv.a */; };
+		AA4281680C30A51B00EB9991 /* villa_extras.c in Sources */ = {isa = PBXBuildFile; fileRef = AA4281660C30A51B00EB9991 /* villa_extras.c */; };
+		AA4281690C30A51B00EB9991 /* villa_extras.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA4281670C30A51B00EB9991 /* villa_extras.h */; };
+		AA7E69200C2E024200CF0E1B /* Datum.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7E691C0C2E024200CF0E1B /* Datum.c */; };
+		AA7E69210C2E024200CF0E1B /* Datum.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7E691D0C2E024200CF0E1B /* Datum.h */; };
+		AA888C530C2F193C0010A411 /* SymbolDB.c in Sources */ = {isa = PBXBuildFile; fileRef = AA888C510C2F193C0010A411 /* SymbolDB.c */; };
+		AA888C540C2F193C0010A411 /* SymbolDB.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA888C520C2F193C0010A411 /* SymbolDB.h */; };
+		AA888F240C2F83C60010A411 /* correctness.c in Sources */ = {isa = PBXBuildFile; fileRef = AA888F230C2F83C60010A411 /* correctness.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8DD76FAF0486AB0100D96B5E /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 8;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				8DD76FB00486AB0100D96B5E /* tagdb.1 in CopyFiles */,
+				AA240FA10C28A1860059DCB0 /* TagDB.h in CopyFiles */,
+				AA240FDE0C28AE140059DCB0 /* TagDBItem.h in CopyFiles */,
+				AA081CBA0C2CAE8700C42EC3 /* KeyIdArray.h in CopyFiles */,
+				AA081CBC0C2CAE8700C42EC3 /* TagIdArray.h in CopyFiles */,
+				AA7E69210C2E024200CF0E1B /* Datum.h in CopyFiles */,
+				AA888C540C2F193C0010A411 /* SymbolDB.h in CopyFiles */,
+				AA4281690C30A51B00EB9991 /* villa_extras.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		8DD76FB20486AB0100D96B5E /* tagdb */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = tagdb; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA081CB50C2CAE8700C42EC3 /* KeyIdArray.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = KeyIdArray.c; sourceTree = SOURCE_ROOT; };
+		AA081CB60C2CAE8700C42EC3 /* KeyIdArray.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = KeyIdArray.h; sourceTree = SOURCE_ROOT; };
+		AA081CB70C2CAE8700C42EC3 /* TagIdArray.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = TagIdArray.c; sourceTree = SOURCE_ROOT; };
+		AA081CB80C2CAE8700C42EC3 /* TagIdArray.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TagIdArray.h; sourceTree = SOURCE_ROOT; };
+		AA240F9E0C28A1860059DCB0 /* TagDB.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = TagDB.c; sourceTree = SOURCE_ROOT; };
+		AA240F9F0C28A1860059DCB0 /* TagDB.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TagDB.h; sourceTree = SOURCE_ROOT; };
+		AA240FDB0C28AE140059DCB0 /* TagDBItem.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = TagDBItem.c; sourceTree = SOURCE_ROOT; };
+		AA240FDC0C28AE140059DCB0 /* TagDBItem.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TagDBItem.h; sourceTree = SOURCE_ROOT; };
+		AA2413490C28F7FA0059DCB0 /* libz.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libz.a; path = /usr/local/lib/libz.a; sourceTree = "<absolute>"; };
+		AA24134B0C28F8060059DCB0 /* libqdbm.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libqdbm.a; path = /usr/local/lib/libqdbm.a; sourceTree = "<absolute>"; };
+		AA24134D0C28F8100059DCB0 /* libiconv.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libiconv.a; path = /usr/local/lib/libiconv.a; sourceTree = "<absolute>"; };
+		AA4281660C30A51B00EB9991 /* villa_extras.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = villa_extras.c; sourceTree = SOURCE_ROOT; };
+		AA4281670C30A51B00EB9991 /* villa_extras.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = villa_extras.h; sourceTree = SOURCE_ROOT; };
+		AA7E691C0C2E024200CF0E1B /* Datum.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = Datum.c; sourceTree = SOURCE_ROOT; };
+		AA7E691D0C2E024200CF0E1B /* Datum.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Datum.h; sourceTree = SOURCE_ROOT; };
+		AA888C510C2F193C0010A411 /* SymbolDB.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = SymbolDB.c; sourceTree = SOURCE_ROOT; };
+		AA888C520C2F193C0010A411 /* SymbolDB.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SymbolDB.h; sourceTree = SOURCE_ROOT; };
+		AA888F230C2F83C60010A411 /* correctness.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = correctness.c; path = _tests/correctness.c; sourceTree = SOURCE_ROOT; };
+		C6A0FF2C0290799A04C91782 /* tagdb.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = tagdb.1; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8DD76FAD0486AB0100D96B5E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA24134A0C28F7FA0059DCB0 /* libz.a in Frameworks */,
+				AA24134C0C28F8060059DCB0 /* libqdbm.a in Frameworks */,
+				AA24134E0C28F8100059DCB0 /* libiconv.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		08FB7794FE84155DC02AAC07 /* tagdb */ = {
+			isa = PBXGroup;
+			children = (
+				08FB7795FE84155DC02AAC07 /* Source */,
+				C6A0FF2B0290797F04C91782 /* Documentation */,
+				1AB674ADFE9D54B511CA2CBB /* Products */,
+			);
+			name = tagdb;
+			sourceTree = "<group>";
+		};
+		08FB7795FE84155DC02AAC07 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				AA4281660C30A51B00EB9991 /* villa_extras.c */,
+				AA4281670C30A51B00EB9991 /* villa_extras.h */,
+				AA888F230C2F83C60010A411 /* correctness.c */,
+				AA888C510C2F193C0010A411 /* SymbolDB.c */,
+				AA888C520C2F193C0010A411 /* SymbolDB.h */,
+				AA7E691C0C2E024200CF0E1B /* Datum.c */,
+				AA7E691D0C2E024200CF0E1B /* Datum.h */,
+				AA081CB50C2CAE8700C42EC3 /* KeyIdArray.c */,
+				AA081CB60C2CAE8700C42EC3 /* KeyIdArray.h */,
+				AA081CB70C2CAE8700C42EC3 /* TagIdArray.c */,
+				AA081CB80C2CAE8700C42EC3 /* TagIdArray.h */,
+				AA240FDB0C28AE140059DCB0 /* TagDBItem.c */,
+				AA240FDC0C28AE140059DCB0 /* TagDBItem.h */,
+				AA240F9E0C28A1860059DCB0 /* TagDB.c */,
+				AA240F9F0C28A1860059DCB0 /* TagDB.h */,
+				AA2413490C28F7FA0059DCB0 /* libz.a */,
+				AA24134B0C28F8060059DCB0 /* libqdbm.a */,
+				AA24134D0C28F8100059DCB0 /* libiconv.a */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		1AB674ADFE9D54B511CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8DD76FB20486AB0100D96B5E /* tagdb */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C6A0FF2B0290797F04C91782 /* Documentation */ = {
+			isa = PBXGroup;
+			children = (
+				C6A0FF2C0290799A04C91782 /* tagdb.1 */,
+			);
+			name = Documentation;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8DD76FA90486AB0100D96B5E /* tagdb */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB928508733DD80010E9CD /* Build configuration list for PBXNativeTarget "tagdb" */;
+			buildPhases = (
+				8DD76FAB0486AB0100D96B5E /* Sources */,
+				8DD76FAD0486AB0100D96B5E /* Frameworks */,
+				8DD76FAF0486AB0100D96B5E /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = tagdb;
+			productInstallPath = "$(HOME)/bin";
+			productName = tagdb;
+			productReference = 8DD76FB20486AB0100D96B5E /* tagdb */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		08FB7793FE84155DC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "tagdb" */;
+			hasScannedForEncodings = 1;
+			mainGroup = 08FB7794FE84155DC02AAC07 /* tagdb */;
+			projectDirPath = "";
+			targets = (
+				8DD76FA90486AB0100D96B5E /* tagdb */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8DD76FAB0486AB0100D96B5E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA240FA00C28A1860059DCB0 /* TagDB.c in Sources */,
+				AA240FDD0C28AE140059DCB0 /* TagDBItem.c in Sources */,
+				AA081CB90C2CAE8700C42EC3 /* KeyIdArray.c in Sources */,
+				AA081CBB0C2CAE8700C42EC3 /* TagIdArray.c in Sources */,
+				AA7E69200C2E024200CF0E1B /* Datum.c in Sources */,
+				AA888C530C2F193C0010A411 /* SymbolDB.c in Sources */,
+				AA888F240C2F83C60010A411 /* correctness.c in Sources */,
+				AA4281680C30A51B00EB9991 /* villa_extras.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB928608733DD80010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INSTALL_PATH = "$(HOME)/bin";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/lib,
+				);
+				PRODUCT_NAME = tagdb;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		1DEB928708733DD80010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = i386;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = "$(HOME)/bin";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/local/lib,
+				);
+				PRODUCT_NAME = tagdb;
+			};
+			name = Release;
+		};
+		1DEB928A08733DD80010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = i386;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				LIBRARY_SEARCH_PATHS = /usr/local/lib/;
+				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Debug;
+		};
+		1DEB928B08733DD80010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = i386;
+				GCC_MODEL_TUNING = "";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				LIBRARY_SEARCH_PATHS = /usr/local/lib/;
+				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB928508733DD80010E9CD /* Build configuration list for PBXNativeTarget "tagdb" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB928608733DD80010E9CD /* Debug */,
+				1DEB928708733DD80010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB928908733DD80010E9CD /* Build configuration list for PBXProject "tagdb" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB928A08733DD80010E9CD /* Debug */,
+				1DEB928B08733DD80010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 08FB7793FE84155DC02AAC07 /* Project object */;
+}
