@@ -193,6 +193,8 @@ writeln("<ul>")
 protoNames := prototypes keys sort
 moduleNames := modules keys sort 
 
+moduleNames remove("Core") prepend("Core")
+
 moduleNames foreach(moduleName,
 	writeln("<b>",moduleName, "</b><br>")
 	writeln("<ul>")
@@ -212,6 +214,8 @@ Sequence do(
 
 protoNames foreach(protoName,
 	p := prototypes at(protoName)
+	writeln("<hr align=left>")
+	write("<br>")
 	write("<h2>")
 	write("<a name=" .. protoName .. "><font color=black>", protoName, "</font></a>")
 	writeln("</h2>")
@@ -226,6 +230,10 @@ protoNames foreach(protoName,
 	if(p at("module"), 
 		writeln("<b><font color=#000>Module:</font></b> ", p at("module"))
 	)
+	
+	if(p at("category"), 
+		writeln("<b><font color=#000>Category:</font></b> ", p at("category"))
+	)
 
 	if (p at("description"),
 		writeln("<h3>Description</h3>")
@@ -238,8 +246,8 @@ protoNames foreach(protoName,
 		writeln("<h3>Slot Index</h3>")
 		writeln("<div style=\"width:40em; margin-left:2em\">")
 		
-		slotNames := slots keys sort
-		slotNames sort foreach(k,
+		slotNames := slots keys remove("type") sort
+		slotNames foreach(k,
 			s := slots at(k)
 			write("<b><a href=#" .. protoName .. "-" .. k asHtml .. " >")
 			write(k asHtml)
@@ -253,14 +261,17 @@ protoNames foreach(protoName,
 		//writeln("<ul>")
 		writeln("<br>")
 		//slotNames = slotNames map(asMutable strip asSymbol)
-		if(getSlot(protoName),
-			names := getSlot(protoName) slotNames
-			slotNames foreach(slotName,
-				n := slotName beforeSeq("(") asSymbol 
-				if(names contains(n), names remove(n))
+		try(
+			if(Lobby perform(protoName),
+				names := getSlot(protoName) slotNames remove("type")
+				slotNames foreach(slotName,
+					n := slotName beforeSeq("(") asSymbol 
+					if(names contains(n), names remove(n))
+				)
+				slotNames appendSeq(names)
 			)
-			slotNames appendSeq(names)
 		)
+		
 		slotNames sort foreach(k,
 			s := slots at(k)
 			write("<b>")
@@ -279,8 +290,6 @@ protoNames foreach(protoName,
 	)
 	
 	writeln("</ul>")
-	writeln("<br>")
-	writeln("<hr align=left>")
 	writeln("<br>")
 )
 

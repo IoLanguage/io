@@ -303,8 +303,6 @@ IOINLINE IoObject *IoObject_perform(IoObject *self, IoObject *locals, IoMessage 
 	IoObject *context;
 	IoObject *slotValue = IoObject_rawGetSlot_context_(self, IoMessage_name(m), &context);
 
-	// note: coro chaining was moved to IoBlock.c
-
 	if (slotValue)
 	{
 		return IoObject_activate(slotValue, self, locals, m, context);

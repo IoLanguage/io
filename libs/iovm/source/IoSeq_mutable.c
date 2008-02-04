@@ -183,7 +183,7 @@ IoObject *IoSeq_atInsertSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 IoObject *IoSeq_atInsert(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	doc MutableSequence atInsert(indexNumber, valueNumber)
-	Inserts valueNumber at position indexNumber. Returns self.")
+	Inserts valueNumber at position indexNumber. Returns self.
 
 	size_t n = IoMessage_locals_sizetArgAt_(m, locals, 0);
 	IoNumber *value = IoMessage_locals_numberArgAt_(m, locals, 1);
@@ -369,8 +369,8 @@ IoObject *IoSeq_atPut(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_lowercase(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc MutableSequence Lowercase
-	Returns a copy of the receiver with all characters made Lowercase. 
+	/*doc MutableSequence lowercase
+	Makes all the uppercase characters in the receiver lowercase. Returns self. 
 	*/
 
 	IO_ASSERT_NOT_SYMBOL(self);
@@ -571,14 +571,14 @@ IoObject *IoSeq_reverse(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_strip(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc MutableSequence strip(optionalSequence)
-	Trims the whitespace (or optionalSequence) off both ends:
-	<p>
-	<pre>	
-	"   Trim this string   \r\n" strip
-	==> "Trim this string"
-	</pre>	
-	*/
+/*doc MutableSequence strip(optionalSequence)
+Trims the whitespace (or optionalSequence) off both ends:
+<p>
+<pre>	
+"   Trim this string   \r\n" strip
+==> "Trim this string"
+</pre>	
+*/
 
 	IO_ASSERT_NOT_SYMBOL(self);
 
@@ -598,15 +598,15 @@ IoObject *IoSeq_strip(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_lstrip(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc MutableSequence lstrip(aSequence)
-	Strips the characters in aSequence
-	stripped from the beginning of the receiver. Example:
-	<p>
-	<pre>	
-	"Keep the tail" lstrip(" eKp")
-	==> "the tail"
-	</pre>	
-	*/
+/*doc MutableSequence lstrip(aSequence)
+Strips the characters in aSequence
+stripped from the beginning of the receiver. Example:
+<p>
+<pre>	
+"Keep the tail" lstrip(" eKp")
+==> "the tail"
+</pre>	
+*/
 
 	IO_ASSERT_NOT_SYMBOL(self);
 
@@ -626,14 +626,14 @@ IoObject *IoSeq_lstrip(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_rstrip(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc MutableSequence rstrip(aSequence)
-	Strips the characters in
-	aSequence stripped from the end of the receiver. Example:
-	<pre>	
-	"Cut the tail off" rstrip(" afilot")
-	==> "Cut the"
-	</pre>	
-	*/
+/*doc MutableSequence rstrip(aSequence)
+Strips the characters in
+aSequence stripped from the end of the receiver. Example:
+<pre>	
+"Cut the tail off" rstrip(" afilot")
+==> "Cut the"
+</pre>	
+*/
 
 	IO_ASSERT_NOT_SYMBOL(self);
 
@@ -1063,7 +1063,7 @@ IoSeqSeqArgNoResultOp(Min);
 
 	/*doc MutableSequence duplicateIndexes
 	Duplicates all indexes in the receiver.
-	For example, list(1,2,3) duplicateIndexes == list(1,1,2,2,3,3). Returns self.")
+	For example, list(1,2,3) duplicateIndexes == list(1,1,2,2,3,3). Returns self.
 	*/
 
 IoSeqMutateNoArgNoResultOp(duplicateIndexes);
