@@ -202,14 +202,14 @@ moduleNames remove("Core") prepend("Core")
 
 moduleNames foreach(moduleName,
 	writeln("<b>",moduleName, "</b><br>")
-	writeln("<ul>")
+	writeln("""<div style="margin-left:1.5em">""")
 	modules at(moduleName) keys sort foreach(protoName,
 		writeln("<a href=#", protoName, " style=\"color: #555;\">", protoName, "</a><br>")
 	)
-	writeln("""<br style="width:.5em"></ul>""")
+	writeln("""<br style="width:.5em"></div>""")
 )
 
-writeln("</ul>")
+writeln("</ul><br><br>")
 
 Sequence do(
 	asHtml := method(
