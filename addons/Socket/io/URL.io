@@ -1,12 +1,12 @@
 URL := Notifier clone do(
-	//metadoc URL category Networking
-	//metadoc URL copyright Steve Dekorte, 2004
-	//metadoc URL license BSD revised
-	/*metadoc URL description The URL object is usefull for fetching web pages and parsing URLs. Example;
-	<pre>
-	page := URL clone setURL(\"http://www.google.com/\") fetch
-	</pre>
-	*/
+//metadoc URL category Networking
+//metadoc URL copyright Steve Dekorte, 2004
+//metadoc URL license BSD revised
+/*metadoc URL description The URL object is usefull for fetching web pages and parsing URLs. Example;
+<pre>
+page := URL clone setURL(\"http://www.google.com/\") fetch
+</pre>
+*/
 
 	//doc URL url Returns url string.
 	url := ""

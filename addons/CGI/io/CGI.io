@@ -1,10 +1,10 @@
 CGI := Object clone do(
-	//metadoc CGI Steve Dekorte, 2004
-	//metadoc CGI license BSD revised
-	//metadoc CGI category Networking
+//metadoc CGI Steve Dekorte, 2004
+//metadoc CGI license BSD revised
+//metadoc CGI category Networking
 
-	/*metadoc CGI description
-	CGI supports accessing CGI parameters passed in environment variable or standard input by a web servers like Apache.Example use:
+/*metadoc CGI description
+CGI supports accessing CGI parameters passed in environment variable or standard input by a web servers like Apache.Example use:
 <pre>
 #!./ioServer
 
@@ -91,18 +91,18 @@ cgi cookies foreach(k, v,
 		return _memoized at("getParameters")
 	)
 
-	/*doc CGI postParameters 
-		Parses the POST data, multipart and urlencoded.  Returns a map of submitted variables.
-		For uploaded files, an Object is returned with these slots:
-		<pre>
-		fileName
-		content (raw content of file as Sequence)
-		contentType
-		contentEncoding
-		size (in characters/bytes)
-		asString (pretty string of name, type, size)
-		</pre>
-	*/
+/*doc CGI postParameters 
+Parses the POST data, multipart and urlencoded.  Returns a map of submitted variables.
+For uploaded files, an Object is returned with these slots:
+<pre>
+fileName
+content (raw content of file as Sequence)
+contentType
+contentEncoding
+size (in characters/bytes)
+asString (pretty string of name, type, size)
+</pre>
+*/
 
 	postParameters := method(
 		if (_memoized hasKey("postParameters"), return _memoized at("postParameters"))

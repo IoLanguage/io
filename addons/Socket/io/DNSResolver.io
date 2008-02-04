@@ -55,7 +55,8 @@ DNSServer := Object clone do(
 DNSResolver := Object clone do(
 //metadoc DNSResolver Networking
 /*metadoc DNSResolver description 
-With the DNSResolver you can set the DNS servers to be used for DNS lookups. Example;<pre>
+With the DNSResolver you can set the DNS servers to be used for DNS lookups. Example;
+<pre>
 DNSResolver addDNSServerIp("128.105.2.10")
 ipForYahoo := DNSResolver ipForHostName("yahoo.com")
 </pre>

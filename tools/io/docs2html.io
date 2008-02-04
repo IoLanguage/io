@@ -10,24 +10,29 @@ modules := Map clone
 readFolder := method(path,
 	File with(Path with(path, "/docs/docs.txt")) contents split("------\n") foreach(e,
 		isSlot := e beginsWithSeq("doc")
-		h := e beforeSeq("\n") afterSeq(" ")
-		protoName := h beforeSeq(" ")
-		slotName := h afterSeq(" ") asMutable strip asSymbol
-		description := e afterSeq("\n")
-		p := prototypes atIfAbsentPut(protoName, Map clone atPut("slots", Map clone))
+		h := e beforeSeq("\n") afterSeq(" ") 
+		if(h,
+			h = h asMutable strip asSymbol
+			protoName := h beforeSeq(" ") ?asMutable ?strip ?asSymbol
+			slotName := h afterSeq(" ") ?asMutable ?strip ?asSymbol
+			description := e afterSeq("\n")
+			p := prototypes atIfAbsentPut(protoName, Map clone atPut("slots", Map clone))
 		
-		moduleName := path lastPathComponent
-		if(moduleName == "iovm", moduleName = "Core")
-		p atPut("module", moduleName)
-		m := modules atIfAbsentPut(moduleName, Map clone)
-		modules atPut(moduleName, m)
-		m atPut(protoName, p)
+			moduleName := path lastPathComponent
+			if(moduleName == "iovm", moduleName = "Core")
+			p atPut("module", moduleName)
+			m := modules atIfAbsentPut(moduleName, Map clone)
+			modules atPut(moduleName, m)
+			m atPut(protoName, p)
 		
-		if(protoName == nil or slotName == nil, writeln("ERROR: ", e))
-		if(isSlot, 
-			p at("slots") atPut(slotName, description)
+			if(protoName == nil or slotName == nil, writeln("ERROR: ", e))
+			if(isSlot, 
+				p at("slots") atPut(slotName, description)
+			,
+				p atPut(slotName, description)
+			)
 		,
-			p atPut(slotName, description)
+			if(protoName == nil or slotName == nil, writeln("ERROR: ", e))
 		)
 		
 	)
@@ -100,9 +105,9 @@ pre {
     line-height: 1.22;
 
     margin-bottom: 1.5em;
-    margin-left: 3em;
+    margin-left: 2em;
     margin-right: 0em;
-    margin-top: .5em;
+    margin-top: 1.5em;
     padding-bottom: 0em;
     padding-top: 0em;
 
@@ -223,17 +228,16 @@ protoNames foreach(protoName,
 	
 	//writeln("<b><font color=#000>Protos:</font></b> ", getSlot(protoName) ?prototypes ?map(type) ?join(", "))
 
-	if(p at("category"),
-		writeln("<b><font color=#000>Category:</font></b> ", p at("category"))
-	)
-	
 	if(p at("module"), 
-		writeln("<b><font color=#000>Module:</font></b> ", p at("module"))
+		writeln("<b><font color=#000>Module:</font></b> ", p at("module"), "<br>")
 	)
 	
-	if(p at("category"), 
-		writeln("<b><font color=#000>Category:</font></b> ", p at("category"))
+	if(p at("category"),
+		writeln("<b><font color=#000>Category:</font></b> ", p at("category"), "<br>")
 	)
+	
+
+	//p keys map(s, "[" .. s .. "]") println
 
 	if (p at("description"),
 		writeln("<h3>Description</h3>")
@@ -246,10 +250,25 @@ protoNames foreach(protoName,
 		writeln("<h3>Slot Index</h3>")
 		writeln("<div style=\"width:40em; margin-left:2em\">")
 		
-		slotNames := slots keys remove("type") sort
+		slotNames := slots keys sort
+		
+		try(
+			if(Lobby perform(protoName),
+				names := getSlot(protoName) slotNames remove("type") select(beginsWithSeq("_") not)
+				slotNames foreach(slotName,
+					n := slotName beforeSeq("(") asSymbol 
+					if(names contains(n), names remove(n))
+				)
+				slotNames appendSeq(names)
+			)
+		)
+		
+		slotNames = slotNames sort
+		
 		slotNames foreach(k,
 			s := slots at(k)
 			write("<b><a href=#" .. protoName .. "-" .. k asHtml .. " >")
+			if(k containsSeq("("), k = k beforeSeq("(") .. "()")
 			write(k asHtml)
 			if(s ?args, write("()"))
 			writeln("</a></b><br>")
@@ -258,19 +277,8 @@ protoNames foreach(protoName,
 
 		writeln("<br>")
 		writeln("<h3>Slots</h3>")
-		//writeln("<ul>")
 		writeln("<br>")
 		//slotNames = slotNames map(asMutable strip asSymbol)
-		try(
-			if(Lobby perform(protoName),
-				names := getSlot(protoName) slotNames remove("type")
-				slotNames foreach(slotName,
-					n := slotName beforeSeq("(") asSymbol 
-					if(names contains(n), names remove(n))
-				)
-				slotNames appendSeq(names)
-			)
-		)
 		
 		slotNames sort foreach(k,
 			s := slots at(k)
