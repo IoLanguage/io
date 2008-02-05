@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Strict//EN">
 
 <html>
 
@@ -122,8 +122,7 @@
 
 <p>
 
-<a name="Introduction"></a>
-<h2>Introduction</h2>
+<h2>Introduction<a name="Introduction"></a></h2>
 <div class=indent>
 
 <div class=quote>
@@ -169,7 +168,8 @@ practical
 </ul>
 
 </div>
-<h2>Getting Started</h2>
+
+<h2>Getting Started<a name="Introduction-Getting-Started"></a></h2>
 <div class=indent> 
 
 <a name="Introduction-Downloading"></a>
@@ -188,7 +188,7 @@ Io distributions are available at:
 Some of Io's addons require libraries that may not be installed on your system already. To install these automatically, type either:
 
 <pre>
-su -c " sudo make aptget"
+su -c "sudo make aptget"
 </pre>
 
 or:
@@ -365,8 +365,7 @@ args foreach(k, v, write("'", v, "'\n"))
 The Lobby "launchPath" slot is set to the location on the initial source file that is executed.
 
 </div>
-<a name="Syntax"></a>
-<h2>Syntax</h2>
+<h2>Syntax<a name="Syntax"></a></h2>
 <div class=indent>
 
 <div class=quote>
@@ -560,8 +559,7 @@ That's it! You now know everything there is to know about Io's syntax. Control f
 
 
 </div>
-<a name="Objects"></a>
-<h2>Objects</h2>
+<h2>Objects<a name="Objects"></a></h2>
 <div class=indent>
 
 <div class=quote>
@@ -891,8 +889,7 @@ Io> method(a, a * 2) code
 </pre>
 
 </div>
-<a name="Control-Flow"></a>
-<h2>Control Flow</h2>
+<h2>Control Flow<a name="Control-Flow"></a></h2>
 <div class=indent>
 
 <a name="Control-Flow-true-false-and-nil"></a>
@@ -1079,15 +1076,13 @@ Io> test
 </pre>
 
 </div>
-<a name="Importing"></a>
-<h2>Importing</h2>
+<h2>Importing<a name="Importing"></a></h2>
 <div class=indent>
 
 The Importer proto implements Io's built-in auto importer feature. If you put each of your proto's in their own file, and give the file the same name with and ".io" extension, the Importer will automatically import that file when the proto is first referenced. The Importer's default search path is the current working directory, but can add search paths using it's addSearchPath() method. 
 
 </div>
-<a name="Concurrency"></a>
-<h2>Concurrency</h2>
+<h2>Concurrency<a name="Concurrency"></a></h2>
 <div class=indent>
 
 <a name="Concurrency-Coroutines"></a>
@@ -1185,8 +1180,7 @@ An object will automatically yield between processing each of its asynchronous m
 It's also possible to pause and resume an object. See the concurrency methods of the Object primitive for details and related methods.
 
 </div>
-<a name="Exceptions"></a>
-<h2>Exceptions</h2>
+<h2>Exceptions<a name="Exceptions"></a></h2>
 <div class=indent>
 
 <a name="Exceptions-Raise"></a>
@@ -1258,8 +1252,7 @@ MyErrorType := Error clone
 </pre>
 
 </div>
-<a name="Primitives"></a>
-<h2>Primitives</h2>
+<h2>Primitives<a name="Primitives"></a></h2>
 <div class=indent>
 
 Primitives are objects built into Io whose methods are typically implemented in C and store some hidden data in their instances. For example, the Number primitive has a double precision floating point number as it's hidden data and it's methods that do arithmetic operations are C functions. All Io primitives inherit from the Object prototype and are mutable. That is, their methods can be changed. The reference docs contain more info on primitives.
@@ -1764,8 +1757,7 @@ So for this example, Io is about three times faster than plain C.
 
 <!--
 </div>
-<a name="Metaprogramming"></a>
-<h2>Metaprogramming</h2>
+<h2>Metaprogramming<a name="Metaprogramming"></a></h2>
 <div class=indent>
 
 </i>forthcoming...
@@ -1795,8 +1787,7 @@ precedence ordering
 -->
 
 </div>
-<a name="Unicode"></a>
-<h2>Unicode</h2>
+<h2>Unicode<a name="Unicode"></a></h2>
 <div class=indent>
 
 <a name="Unicode-Sequences"></a>
@@ -1866,8 +1857,7 @@ asUCS4
 
 
 </div>
-<a name="Embedding"></a>
-<h2>Embedding</h2>
+<h2>Embedding<a name="Embedding"></a></h2>
 <div class=indent>
 
 <a name="Embedding-Conventions"></a>
@@ -1974,14 +1964,14 @@ else if(ISLIST(v))
 
 Note that return values are always proper Io objects (as all values are objects in Io). You can find the C level methods (functions like IoList_rawSize()) for these objects in the header files in the folder Io/libs/iovm/source. 
 
-<a name="Bindings"></a>
-<h2>Bindings</h2>
+</div>
+<h2>Bindings<a name="Bindings"></a></h2>
+<div class=indent>
 
 Documentation on how to write bindings/addons forthcoming..
 
 </div>
-<a name="Appendix"></a>
-<h2>Appendix</h2>
+<h2>Appendix<a name="Appendix"></a></h2>
 <div class=indent>
 
 <a name="Appendix-Grammar"></a>
