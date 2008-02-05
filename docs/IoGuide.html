@@ -343,7 +343,7 @@ Io is a dynamic prototype-based programming language. The ideas in Io are mostly
 
 <h4>Why Another Language?</h4>
 
-The focus of programming language research for the last thirty years has been to combine the expressive power of high level languages like Smalltalk and the performance of low level language like C with little attention paid to advancing expressive power itself. The result has been a series of languages which are neither as fast as C or as expressive as Smalltalk. Io’s purpose is to refocus attention on expressiveness by exploring higher level dynamic programming features with greater levels of runtime flexibility and simplified programming syntax and semantics.
+The focus of programming language research for the last thirty years has been to combine the expressive power of high level languages like Smalltalk and the performance of low level language like C with little attention paid to advancing expressive power itself. The result has been a series of languages which are neither as fast as C or as expressive as Smalltalk. Io's purpose is to refocus attention on expressiveness by exploring higher level dynamic programming features with greater levels of runtime flexibility and simplified programming syntax and semantics.
 
 <p>
 
@@ -389,7 +389,7 @@ Io distributions are available at:
 
 <h4>Addons</h4>
 
-Some of Io’s addons require libraries that may not be installed on your system already. To install these automatically, type either:
+Some of Io's addons require libraries that may not be installed on your system already. To install these automatically, type either:
 
 <pre>
 su -c " sudo make aptget”
@@ -424,7 +424,7 @@ Binaries will be placed in the _build/binaries subfolder. To install:
 sudo make install 
 </pre>
 
-or, if you’d like the install to simply link to your development folder:
+or, if you'd like the install to simply link to your development folder:
 
 <pre>
 sudo make linkInstall
@@ -436,7 +436,7 @@ and to run the unit tests:
 make test
 </pre>
 
-Don’t worry if some of the addons won’t build unless it’s a particular addon that you need. Addons are just optional libraries.
+Don't worry if some of the addons won't build unless it's a particular addon that you need. Addons are just optional libraries.
 
 <h4>Notes</h4>
 
@@ -633,7 +633,7 @@ account deposit(10.00)
 account balance println
 </pre>
 
-Like Self[2], Io’s syntax does not distinguish between accessing a slot containing a method from one containing a variable.
+Like Self[2], Io's syntax does not distinguish between accessing a slot containing a method from one containing a variable.
 
 <a name=Syntax-Operators></a>
 <h3>Operators</h3>
@@ -775,7 +775,7 @@ In all other languages we've considered [Fortran, Algol60, Lisp, APL, Cobol, Pas
 <a name=Objects-Overview></a>
 <h3>Overview</h3>
 
-Io’s guiding design principle is simplicity and power through conceptual unification. 
+Io's guiding design principle is simplicity and power through conceptual unification. 
 <p>
 
 <table cellpadding=2 cellspacing=0 border=0 style="margin-left:1em">
@@ -819,10 +819,10 @@ Io’s guiding design principle is simplicity and power through conceptual unifi
 <a name=Objects-Prototypes></a>
 <h3>Prototypes</h3>
 
-In Io, everything is an object (including the locals storage of a block and the namespace itself) and all actions are messages (including assignment). Objects are composed of a list of key/value pairs called slots, and an internal list of objects from which it inherits called protos. A slot’s key is a symbol (a unique immutable sequence) and it’s value can be any type of object.
+In Io, everything is an object (including the locals storage of a block and the namespace itself) and all actions are messages (including assignment). Objects are composed of a list of key/value pairs called slots, and an internal list of objects from which it inherits called protos. A slot's key is a symbol (a unique immutable sequence) and it's value can be any type of object.
  
 clone and init
-New objects are made by cloning existing ones. A clone is an empty object that has the parent in it’s list of protos. A new instance’s init slot will be activated which gives the object a chance to initialize itself. Like NewtonScript[3], slots in Io are create-on-write.
+New objects are made by cloning existing ones. A clone is an empty object that has the parent in it's list of protos. A new instance's init slot will be activated which gives the object a chance to initialize itself. Like NewtonScript[3], slots in Io are create-on-write.
 
 <pre>
 me := Person clone
@@ -842,7 +842,7 @@ When an object is cloned, its "init" slot will be called if it has one.
 
 When an object receives a message it looks for a matching slot, if not found, the lookup continues depth first recursively in its protos. Lookup loops are detected (at runtime) and avoided. If the matching slot contains an activatable object, such as a Block or CFunction, it is activated, if it contains any other type of value it returns the value. Io has no globals and the root object in the Io namespace is called the Lobby.
 <p>
-Since there are no classes, there's no difference between a subclass and an instance. Here’s an example of creating a the equivalent of a subclass: 
+Since there are no classes, there's no difference between a subclass and an instance. Here's an example of creating a the equivalent of a subclass: 
 
 <pre>
 Io> Dog := Object clone
@@ -865,7 +865,7 @@ You can add any number of protos to an object's protos list. When responding to 
 <a name=Objects-Methods></a>
 <h3>Methods</h3>
 
-A method is an anonymous function which, when called, creates an object to store it's locals and sets the local’s proto pointer and it’s self slot to the target of the message. The Object method method() can be used to create methods. Example:
+A method is an anonymous function which, when called, creates an object to store it's locals and sets the local's proto pointer and it's self slot to the target of the message. The Object method method() can be used to create methods. Example:
 
 <pre>
 method((2 + 2) print)
@@ -913,7 +913,7 @@ This is sometimes a source of confusion so it's worth explaining in detail. Both
 
 <h4>call and self slots</h4>
 
-When a locals object is created, it’s self slot is set (to the target of the message, in the case of a method, or to the creation context, in the case of a block) and it’s call slot is set to a Call object that can be used to access information about the block activation:
+When a locals object is created, it's self slot is set (to the target of the message, in the case of a method, or to the creation context, in the case of a block) and it's call slot is set to a Call object that can be used to access information about the block activation:
 
 <p>
 <table cellpadding=2 cellspacing=0 border=0 style="margin-left:1em">
@@ -991,7 +991,7 @@ myif(foo == bar, write("true\n"), write("false\n"))
 <a name=Objects-Forward></a>
 <h3>Forward</h3>
 
-If an object doesn't respond to a message, it will invoke its "forward" method if it has one. Here’s an example of how to print the information related lookup that failed:
+If an object doesn't respond to a message, it will invoke its "forward" method if it has one. Here's an example of how to print the information related lookup that failed:
 
 <pre>
 MyObject forward := method(
@@ -1049,7 +1049,7 @@ Using the following methods you can introspect the entire Io namespace. There ar
 
 <h4>slotNames</h4>
 
-The slotNames method returns a list of the names of an object’s slots:
+The slotNames method returns a list of the names of an object's slots:
 
 <pre>
 Io> Dog slotNames
@@ -1073,7 +1073,7 @@ The "getSlot" method can be used to get the value of a block in a slot without a
 myMethod := Dog getSlot("bark")
 </pre>
 
-Above, we've set the locals object’s "myMethod" slot to the bark method. It's important to remember that if you then want use the myMethod without activating it, you'll need to use the getSlot method: 
+Above, we've set the locals object's "myMethod" slot to the bark method. It's important to remember that if you then want use the myMethod without activating it, you'll need to use the getSlot method: 
 
 <pre>
 otherObject newMethod := getSlot("myMethod")
@@ -1242,7 +1242,7 @@ for(i, 1, 10, test(i))
 
 <h4>repeat</h4>
 
-The Number repeat method is simpler and more efficient when a counter isn’t needed.
+The Number repeat method is simpler and more efficient when a counter isn't needed.
 
 <pre>
 3 repeat(“foo” print)
@@ -1283,7 +1283,7 @@ Io> test
 <h2>Importing</h2>
 <div class=indent>
 
-The Importer proto implements Io’s built-in auto importer feature. If you put each of your proto’s in their own file, and give the file the same name with and “.io” extension, the Importer will automatically import that file when the proto is first referenced. The Importer’s default search path is the current working directory, but can add search paths using it’s addSearchPath() method. 
+The Importer proto implements Io's built-in auto importer feature. If you put each of your proto's in their own file, and give the file the same name with and “.io” extension, the Importer will automatically import that file when the proto is first referenced. The Importer's default search path is the current working directory, but can add search paths using it's addSearchPath() method. 
 
 </div>
 <a name=Concurrency></a>
@@ -1303,7 +1303,7 @@ The Scheduler object is responsible for resuming coroutines that are yielding. T
 <a name=Concurrency-Actors></a>
 <h3>Actors</h3>
 
-An actor is an object with it's own thread (in our case, it’s own coroutine) which it uses to process it's queue of asynchronous messages. Any object in Io can be sent an asynchronous message by placing a @ or @@ before the message name. (think of the "a" in @ as standing for "asynchronous") 
+An actor is an object with it's own thread (in our case, it's own coroutine) which it uses to process it's queue of asynchronous messages. Any object in Io can be sent an asynchronous message by placing a @ or @@ before the message name. (think of the "a" in @ as standing for "asynchronous") 
 <p>
 Example:
 
@@ -1367,7 +1367,7 @@ Io> @q
 ==> nil
 </pre>
 
-To avoid this, just make sure the Future isn’t the result. Example:
+To avoid this, just make sure the Future isn't the result. Example:
 
 <pre>
 Io> @q; nil
@@ -1462,7 +1462,7 @@ MyErrorType := Error clone
 <h2>Primitives</h2>
 <div class=indent>
 
-Primitives are objects built into Io whose methods are typically implemented in C and store some hidden data in their instances. For example, the Number primitive has a double precision floating point number as it's hidden data and it’s methods that do arithmetic operations are C functions. All Io primitives inherit from the Object prototype and are mutable. That is, their methods can be changed. The reference docs contain more info on primitives.
+Primitives are objects built into Io whose methods are typically implemented in C and store some hidden data in their instances. For example, the Number primitive has a double precision floating point number as it's hidden data and it's methods that do arithmetic operations are C functions. All Io primitives inherit from the Object prototype and are mutable. That is, their methods can be changed. The reference docs contain more info on primitives.
 <p>
 
 This document is not meant as a reference manual, but an overview of the base primitives and bindings is provided here to give the user a jump start and a feel for what is available and where to look in the reference documentation for further details.
@@ -1522,7 +1522,7 @@ a at(1)
 ==> "a"
 </pre>
 
-Note: List indexes begin at zero and nil is returned if the accessed index doesn’t exist.
+Note: List indexes begin at zero and nil is returned if the accessed index doesn't exist.
 <p>
 Set the item at a given index:
 
@@ -1612,7 +1612,7 @@ The map and select methods return new lists. To do the same operations in-place,
 <a name=Primitives-Sequence></a>
 <h3>Sequence</h3>
 
-In Io, an immutable Sequence is called a Symbol and a mutable Sequence is the equivalent of a Buffer or String. Literal strings(ones that appear in source code surrounded by quotes) are Symbols. Mutable operations cannot be performed on Symbols, but one can make mutable copy of a Symbol calling it’s asMutable method and then perform the mutation operations on the copy.
+In Io, an immutable Sequence is called a Symbol and a mutable Sequence is the equivalent of a Buffer or String. Literal strings(ones that appear in source code surrounded by quotes) are Symbols. Mutable operations cannot be performed on Symbols, but one can make mutable copy of a Symbol calling it's asMutable method and then perform the mutation operations on the copy.
 Common string operations
 Getting the length of a string:
 
@@ -1721,7 +1721,7 @@ Number nextInSequence := method(skipVal,
 )
 </pre>
 
-With this method on Number (it’s already there in the standard libraries), you can then use Numbers in Ranges, as demonstrated below:
+With this method on Number (it's already there in the standard libraries), you can then use Numbers in Ranges, as demonstrated below:
 
 <pre>
 1 to(5) foreach(v, v println)
@@ -1855,7 +1855,7 @@ Date cpuSecondsToRun(100000 repeat(1+1))
 <a name=Primitives-Networking></a>
 <h3>Networking</h3>
 
-All of Io’s networking is done with asynchronous sockets underneath, but operations like reading and writing to a socket appear to be synchronous since the calling coroutine is unscheduled until the socket has completed the operation, or a timeout occurs. Note that you’ll need to first reference the associated addon in order to cause it to load before using it’s objects. In these examples, you’ll have to reference “Socket” to get the Socket addon to load first.
+All of Io's networking is done with asynchronous sockets underneath, but operations like reading and writing to a socket appear to be synchronous since the calling coroutine is unscheduled until the socket has completed the operation, or a timeout occurs. Note that you'll need to first reference the associated addon in order to cause it to load before using it's objects. In these examples, you'll have to reference “Socket” to get the Socket addon to load first.
 <p>
 Creating a URL object:
 
@@ -1923,7 +1923,7 @@ links := xml elementsWithName("a") map(attributes at("href"))
 <a name=Primitives-Vector></a>
 <h3>Vector</h3>
 
-Io’s Vectors are built on it’s Sequence primitive and are defined as:
+Io's Vectors are built on it's Sequence primitive and are defined as:
 
 <pre>
 Vector := Sequence clone setItemType(“float32”)
@@ -1931,7 +1931,7 @@ Vector := Sequence clone setItemType(“float32”)
 
 The Sequence primitive supports SIMD acceleration on a number of float32 operations. Currently these include add, subtract, multiple and divide but in the future can be extended to support most math, logic and string manipulation related operations.
 
-Here’s a small example:
+Here's a small example:
 
 <pre>
 iters := 1000
@@ -2073,7 +2073,7 @@ asUCS4
 <a name=Embedding-Conventions></a>
 <h3>Conventions</h3>
 
-Io’s C code is written using object oriented style conventions where structures are treated as objects and functions as methods. Familiarity with these may help make the embedding APIs easier to understand.
+Io's C code is written using object oriented style conventions where structures are treated as objects and functions as methods. Familiarity with these may help make the embedding APIs easier to understand.
 
 <h4>Structures</h4>
 
@@ -2126,7 +2126,7 @@ An IoState can be thought of as an instance of an Io “virtual machine”, alth
 Io is multi-state, meaning that it is designed to support multiple state instances within the same process. These instances are isolated and share no memory so they can be safely accessed simultaneously by different os threads, though a given state should only be accessed by one os thread at a time.
 
 <h4>Creating a state</h4>
-Here’s a simple example of creating a state, evaluating a string in it, and freeing the state:
+Here's a simple example of creating a state, evaluating a string in it, and freeing the state:
 
 <pre>
 #include "IoState.h"
@@ -2149,7 +2149,7 @@ We can also get return values and look at their types and print them:
 <pre>
 IoObject *v = IoState_doCString_(self, someString);
 char *name = IoObject_name(v);
-printf(“return type is a ‘%s’, name);
+printf(“return type is a ‘%s', name);
 IoObject_print(v);
 </pre>
 
