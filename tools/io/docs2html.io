@@ -96,20 +96,18 @@ Sequence do(
 
 protoNames foreach(protoName,
 	p := prototypes at(protoName)
-	writeln("<div align=left><hr></div>")
-	write("<h2>")
-	write("<a name=\"" .. protoName .. "\"></a><font color=black>", protoName, "</font>")
-	writeln("</h2>")
+	writeln("<div style=\"align:left\"><hr></div>")
+	writeln("<h2><a name=\"" .. protoName .. "\"></a>", protoName, "</h2>")
 	writeln("<div class=indent>")
 	
-	//writeln("<b><font color=\"#000\">Protos:</font></b> ", getSlot(protoName) ?prototypes ?map(type) ?join(", "))
+	//writeln("<b>Protos:</b> ", getSlot(protoName) ?prototypes ?map(type) ?join(", "))
 
 	if(p at("module"), 
-		writeln("<b><font color=\"#000\">Module:</font></b> ", p at("module"), "<br>")
+		writeln("<b>>Module:</b> ", p at("module"), "<br>")
 	)
 	
 	if(p at("category"),
-		writeln("<b><font color=\"#000\">Category:</font></b> ", p at("category"), "<br>")
+		writeln("<b>Category:</b> ", p at("category"), "<br>")
 	)
 	
 
