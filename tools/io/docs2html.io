@@ -118,7 +118,6 @@ protoNames foreach(protoName,
 	if (p at("description"),
 		writeln("<h3>Description</h3>")
 		p at("description") println
-		writeln("</font>")
 	)
 
 	slots := p at("slots")
@@ -158,11 +157,10 @@ protoNames foreach(protoName,
 		
 		slotNames sort foreach(k,
 			s := slots at(k)
-			write("<b>")
-			write("<a name=\" .. protoName .. "-" .. k asHtml .. "\"><font color=black>")
+			write("<a name=\" .. protoName .. "-" .. k asHtml .. "\"></a><b>")
 			write(k asHtml)
 			//if(s ?args, writeln("(</b><i>" .. s args map(asHtml) join(", ") .. "</i><b>)"))
-			write("</font></a></b>")
+			write("</b>")
 			writeln("<p>")
 			writeln("<div style=\"width:40em; margin-left:2em\">")
 			if(s, writeln(s), writeln("<font color=red>undocumented</font>"))
