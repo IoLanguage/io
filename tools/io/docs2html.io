@@ -55,7 +55,7 @@ writeln("""<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 
 writeln("<h1>The Io Reference Manual</h1>")
 writeln("<div class=Version>Version " .. System version asString asMutable atInsertSeq(4, " ") atInsertSeq(7, " ") .. "</div>")
-writeln("<br><br>")
+writeln("<p><br>")
 //writeln("<h2>Modules</h2>")
 
 protoNames := prototypes keys sort
@@ -86,7 +86,7 @@ moduleNames foreach(moduleName,
 )
 
 writeln("</td></tr></table>")
-writeln("<br><br>")
+writeln("<p><br>")
 
 Sequence do(
 	asHtml := method(
@@ -96,9 +96,9 @@ Sequence do(
 
 protoNames foreach(protoName,
 	p := prototypes at(protoName)
-	writeln("<hr align=left>")
+	writeln("<div align=left><hr></div>")
 	write("<h2>")
-	write("<a name=\"" .. protoName .. "\"><font color=black>", protoName, "</font></a>")
+	write("<a name=\"" .. protoName .. "\"></a><font color=black>", protoName, "</font>")
 	writeln("</h2>")
 	writeln("<div class=indent>")
 	
