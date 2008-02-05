@@ -44,7 +44,7 @@ readFolder("libs/iovm")
 writeln("""
 <html>
 <head>
-<title>io - core reference</title>
+<title>Io Reference Manual</title>
 <META HTTP-EQUIV="EXPIRES" CONTENT=0>
 <style>
 a 

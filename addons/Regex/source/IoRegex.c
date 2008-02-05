@@ -5,7 +5,14 @@
 The Regex addon adds support for Perl regular expressions
 using the <a href=http://www.pcre.org/>PCRE</a> library by Philip Hazel.
 
-Example use:
+Example 1:
+<pre>	
+Io> re := "is.*a" asRegex
+Io> "This is a test. This is also a test." allMatchesOfRegex("is.*a") replaceAllWith("is not a")
+==> "This is not a test. This is not a test.
+</pre>
+
+Example 2:
 <pre>	
 Io> "11aabb" allMatchesOfRegex("aa*")
 ==> list("a", "a")
