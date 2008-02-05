@@ -392,13 +392,13 @@ Io distributions are available at:
 Some of Io's addons require libraries that may not be installed on your system already. To install these automatically, type either:
 
 <pre>
-su -c " sudo make aptget”
+su -c " sudo make aptget"
 </pre>
 
 or:
 
 <pre>
-su -c "make emerge”
+su -c "make emerge"
 </pre>
 
 or:
@@ -534,26 +534,26 @@ Io> someObject slotNames sort
 A script can be run from the interactive mode using the doFile method:
 
 <pre>
-doFile(“scriptName.io”)
+doFile(“scriptName.io")
 </pre>
 
 The evaluation context of doFile is the receiver, which in this case would be the lobby. To evaluate the script in the context of some other object, simply send the doFile message to it:
 
 <pre>
-someObject doFile(“scriptName.io”)
+someObject doFile(“scriptName.io")
 </pre>
 
 The doString method can be used to evaluate a string:
 
 <pre>
-Io> doString(“1+1”)
+Io> doString(“1+1")
 ==> 2
 </pre>
 
 And to evaluate a string in the context of a particular object:
 
 <pre>
-someObject doString(“1 + 1”)
+someObject doString(“1 + 1")
 </pre>
 
 <h4>Command Line Arguments</h4>
@@ -585,9 +585,9 @@ Io has no keywords or statements. Everything is an expression composed entirely 
 <pre>
 exp        ::= { message | terminator }
 message    ::= symbol [arguments]
-arguments  ::= “(“ [exp [ { “,” exp } ]] “)”
+arguments  ::= “(“ [exp [ { “," exp } ]] “)"
 symbol     ::= identifier | number | string
-terminator ::= “\n” | “;”
+terminator ::= “\n" | “;"
 </pre>
 
 For performance reasons, String and Number literal messages have their results cached in their message objects.
@@ -602,7 +602,7 @@ for(i, 1, 10, i println)
 a := if(b == 0, c + 1, d)
 </pre>
 
-In the above code, “for” and “if” are just normal messages, not special forms or keywords.
+In the above code, “for" and “if" are just normal messages, not special forms or keywords.
 <p>
 
 Likewise, dynamic evaluation can be used with enumeration without the need to wrap the expression in a block. Examples:
@@ -673,7 +673,7 @@ User defined operators (that don't have a standard operator name) are performed 
 <a name=Syntax-Assignment></a>
 <h3>Assignment</h3>
 
-Io has two assignment messages, “:=” and “=”. 
+Io has two assignment messages, “:=" and “=". 
 
 <pre>
 a := 1 
@@ -682,7 +682,7 @@ a := 1
 which compiles to:
 
 <pre>
-setSlot(“a”, 1)
+setSlot(“a", 1)
 </pre>
 
 which creates the slot in the current context. And:
@@ -694,7 +694,7 @@ a = 1
 which compiles to:
 
 <pre>
-updateSlot(“a”, 1)
+updateSlot(“a", 1)
 </pre>
 
 which sets the slot if it is found in the lookup path or raises an exception otherwise. By overloading updateSlot and forward in the Locals prototype, self is made implicit in methods.
@@ -963,7 +963,7 @@ When a locals object is created, it's self slot is set (to the target of the mes
 
 <h4>Variable Arguments</h4>
 
-The “call message” slot in locals can be used to access the unevaluated argument messages. Example of implementing if() within Io: 
+The “call message" slot in locals can be used to access the unevaluated argument messages. Example of implementing if() within Io: 
 
 <pre>
 myif := method(
@@ -1053,7 +1053,7 @@ The slotNames method returns a list of the names of an object's slots:
 
 <pre>
 Io> Dog slotNames
-==> list(“bark”)
+==> list(“bark")
 </pre>
 
 <h4>protos</h4>
@@ -1062,7 +1062,7 @@ The protos method returns a list of the objects which an object inherits from:
 
 <pre>
 Io> Dog protos
-==> list(“Object”)
+==> list(“Object")
 </pre>
 
 <h4>getSlot</h4>
@@ -1083,11 +1083,11 @@ Here, the target of the getSlot method is the locals object.
 
 <h4>code</h4>
 
-The arguments and expressions of methods are open to introspection. A useful convenience method is “code”, which returns a string representation of the source code of the method in a normalized form.
+The arguments and expressions of methods are open to introspection. A useful convenience method is “code", which returns a string representation of the source code of the method in a normalized form.
 
 <pre>
 Io> method(a, a * 2) code
-==> “method(a, a *(2))”
+==> “method(a, a *(2))"
 </pre>
 
 </div>
@@ -1168,10 +1168,10 @@ Notice that the condition expression must have parenthesis surrounding it.
 
 <h4>loop</h4>
 
-The loop method can be used for “infinite” loops:
+The loop method can be used for “infinite" loops:
 
 <pre>
-loop(“foo” println)
+loop(“foo" println)
 </pre>
 
 <h4>while</h4>
@@ -1245,7 +1245,7 @@ for(i, 1, 10, test(i))
 The Number repeat method is simpler and more efficient when a counter isn't needed.
 
 <pre>
-3 repeat(“foo” print)
+3 repeat(“foo" print)
 ==> foofoofoo
 </pre>
 
@@ -1283,7 +1283,7 @@ Io> test
 <h2>Importing</h2>
 <div class=indent>
 
-The Importer proto implements Io's built-in auto importer feature. If you put each of your proto's in their own file, and give the file the same name with and “.io” extension, the Importer will automatically import that file when the proto is first referenced. The Importer's default search path is the current working directory, but can add search paths using it's addSearchPath() method. 
+The Importer proto implements Io's built-in auto importer feature. If you put each of your proto's in their own file, and give the file the same name with and “.io" extension, the Importer will automatically import that file when the proto is first referenced. The Importer's default search path is the current working directory, but can add search paths using it's addSearchPath() method. 
 
 </div>
 <a name=Concurrency></a>
@@ -1504,8 +1504,8 @@ a := list(33, "a")
 Append an item:
 
 <pre>
-a append(“b”)
-==> list(33, “a”, “b”)
+a append(“b")
+==> list(33, “a", “b")
 </pre>
 
 Get the list size:
@@ -1537,7 +1537,7 @@ a atPut(6, "Fred")
 Remove an item at a given index:
 
 <pre>
-a remove(“foo”)
+a remove(“foo")
 ==> list(33, "a", "b")
 </pre>
 
@@ -1559,7 +1559,7 @@ Io> a := list(65, 21, 122)
 In the first form, the first argument is used as an index variable, the second as a value variable and the 3rd as the expression to evaluate for each value.
 
 <pre>
-Io> a foreach(i, v, write(i, “:”, v, “, ”))
+Io> a foreach(i, v, write(i, “:", v, “, "))
 ==> 0:65, 1:21, 2:122,
 </pre>
 
@@ -1738,7 +1738,7 @@ The methods openForAppending, openForReading, or openForUpdating are used for op
 f := File with(“foo.txt)
 f remove
 f openForUpdating
-f write(“hello world!”)
+f write(“hello world!")
 f close
 </pre>
 
@@ -1748,7 +1748,7 @@ f close
 Creating a directory object:
 
 <pre>
-dir := Directory with(“/Users/steve/”)
+dir := Directory with(“/Users/steve/")
 </pre>
 
 Get a list of file objects for all the files in a directory:
@@ -1789,7 +1789,7 @@ Getthing the current working directory:
 
 <pre>
 Directory currentWorkingDirectory
-==> “/cygdrive/c/lang/IoFull-Cygwin-2006-04-20”
+==> “/cygdrive/c/lang/IoFull-Cygwin-2006-04-20"
 </pre>
 
 <a name=Primitives-Date></a>
@@ -1855,7 +1855,7 @@ Date cpuSecondsToRun(100000 repeat(1+1))
 <a name=Primitives-Networking></a>
 <h3>Networking</h3>
 
-All of Io's networking is done with asynchronous sockets underneath, but operations like reading and writing to a socket appear to be synchronous since the calling coroutine is unscheduled until the socket has completed the operation, or a timeout occurs. Note that you'll need to first reference the associated addon in order to cause it to load before using it's objects. In these examples, you'll have to reference “Socket” to get the Socket addon to load first.
+All of Io's networking is done with asynchronous sockets underneath, but operations like reading and writing to a socket appear to be synchronous since the calling coroutine is unscheduled until the socket has completed the operation, or a timeout occurs. Note that you'll need to first reference the associated addon in order to cause it to load before using it's objects. In these examples, you'll have to reference “Socket" to get the Socket addon to load first.
 <p>
 Creating a URL object:
 
@@ -1926,7 +1926,7 @@ links := xml elementsWithName("a") map(attributes at("href"))
 Io's Vectors are built on it's Sequence primitive and are defined as:
 
 <pre>
-Vector := Sequence clone setItemType(“float32”)
+Vector := Sequence clone setItemType(“float32")
 </pre>
 
 The Sequence primitive supports SIMD acceleration on a number of float32 operations. Currently these include add, subtract, multiple and divide but in the future can be extended to support most math, logic and string manipulation related operations.
@@ -2119,7 +2119,7 @@ Each structure has it's own separate .h and .c files. The names of the files are
 <a name=Embedding-IoState></a>
 <h3>IoState</h3>
 
-An IoState can be thought of as an instance of an Io “virtual machine”, although “virtual machine” is a less appropriate term because it implies a particular type of implementation. 
+An IoState can be thought of as an instance of an Io “virtual machine", although “virtual machine" is a less appropriate term because it implies a particular type of implementation. 
 
 <h4>Multiple states</h4>
 
@@ -2135,7 +2135,7 @@ int main(int argc, const char *argv[])
 {
     IoState *self = IoState_new();
     IoState_init(self);
-    IoState_doCString_(self, “writeln(\”hello world!\””);
+    IoState_doCString_(self, “writeln(\"hello world!\"");
     IoState_free(self);
     return 0;
 }
@@ -2160,15 +2160,15 @@ There are some macro short cuts to help with quick type checks:
 <pre>
 if (ISNUMBER(v))
 {
-    printf(“result is the number %f”, IoNumber_asFloat(v));
+    printf(“result is the number %f", IoNumber_asFloat(v));
 } 
 else if(ISSEQ(v))
 {
-    printf(“result is the string %s”, IoSeq_asCString(v));
+    printf(“result is the string %s", IoSeq_asCString(v));
 }
 else if(ISLIST(v))
 {
-    printf(“result is a list with %i elements”, IoList_rawSize(v));
+    printf(“result is a list with %i elements", IoList_rawSize(v));
 }
 </pre>
 
@@ -2196,7 +2196,7 @@ argument ::= [wcpad] expression [wcpad]
 symbols
 symbol ::= Identifier | number | Operator | quote
 Identifier ::= { letter | digit | "_" }
-Operator ::= { “:” | "." | "'" | "~" | "!" | "@" | "$" | 
+Operator ::= { “:" | "." | "'" | "~" | "!" | "@" | "$" | 
 "%" | "^" | "&" | "*" | "-" | "+" | "/" | "=" | "{" | "}" | 
 "[" | "]" | "|" | "\" | "<" | ">" | "?" }
 </pre>
