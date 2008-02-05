@@ -1,7 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
-
 <html>
-
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 <title>Io Programming Guide</title>
@@ -916,9 +914,9 @@ The compare() method is used to implement the compare methods and returns -1, 0 
 
 The Lobby contains the condition and loop methods. A condition looks like: 
 
-<pre>
+<pre><i>
 if(&lt;condition&gt;, &lt;do message&gt;, &lt;else do message&gt;)
-</pre>
+</i></pre>
 
 Example: 
 
@@ -975,9 +973,9 @@ loop("foo" println)
 
 Like conditions, loops are just messages. while() takes the arguments: 
 
-<pre>
+<pre><i>
 while(&lt;condition&gt;, &lt;do message&gt;)
-</pre>
+</i></pre>
 
 Example: 
 
@@ -993,9 +991,9 @@ while(a < 10,
 
 for() takes the arguments: 
 
-<pre>
+<pre><i>
 for(&lt;counter&gt;, &lt;start&gt;, &lt;end&gt;, &lt;optional step&gt;, &lt;do message&gt;)
-</pre>
+</i></pre>
 
 The start and end messages are only evaluated once, when the loop starts.
 
@@ -1188,9 +1186,9 @@ It's also possible to pause and resume an object. See the concurrency methods of
 
 An exception can be raised by calling raise() on an exception proto. 
 
-<pre>
+<pre><i>
 exceptionProto raise(&lt;description&gt;)
-</pre>
+</i></pre>
 
 There are three predefined children of the Exception proto: Error, Warning and Notification. Examples: 
 
@@ -1205,9 +1203,9 @@ Error raise("Not enough memory")
 
 To catch an exception, the try() method of the Object proto is used. try() will catch any exceptions that occur within it and return the caught exception or nil if no exception is caught. 
 
-<pre>
+<pre><i>
 e := try(&lt;doMessage&gt;)
-</pre>
+</i></pre>
 
 To catch a particular exception, the Exception catch() method can be used. Example:
 
