@@ -42,9 +42,10 @@ readFolder := method(path,
 addonFolders foreach(f, readFolder(f path))
 readFolder("libs/iovm")
 
-writeln("""<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+writeln("""<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 <title>Io Reference Manual</title>
 <META HTTP-EQUIV="EXPIRES" CONTENT=0>
 <link rel="stylesheet" href="docs.css">
@@ -97,7 +98,7 @@ protoNames foreach(protoName,
 	p := prototypes at(protoName)
 	writeln("<hr align=left>")
 	write("<h2>")
-	write("<a name=" .. protoName .. "><font color=black>", protoName, "</font></a>")
+	write("<a name=\"" .. protoName .. "\"><font color=black>", protoName, "</font></a>")
 	writeln("</h2>")
 	writeln("<div class=indent>")
 	
@@ -158,7 +159,7 @@ protoNames foreach(protoName,
 		slotNames sort foreach(k,
 			s := slots at(k)
 			write("<b>")
-			write("<a name=" .. protoName .. "-" .. k asHtml .. "><font color=black>")
+			write("<a name=\" .. protoName .. "-" .. k asHtml .. "\"><font color=black>")
 			write(k asHtml)
 			//if(s ?args, writeln("(</b><i>" .. s args map(asHtml) join(", ") .. "</i><b>)"))
 			write("</font></a></b>")
