@@ -1,404 +1,152 @@
-
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
 <html>
 <head>
-<title>io - core reference</title>
+<title>Io Reference Manual</title>
 <META HTTP-EQUIV="EXPIRES" CONTENT=0>
-<style>
-a 
-{
-	color : #aaa;
-	text-decoration : none;
-}
-
-body {
-    font-family: 'Serif', 'Helvetica Neue', 'Helvetica', 'Sans';
-}
-
-ul {
-	padding: 0em 0em 0em 3.1em;
-}
-
-hr {
-	width:50em;
-	height:0em;
-}
-
-.Version {
-    color: #bbb;
-    text-align: left;
-}
-
-h1 {
-    color: #000000;
-    font-family: 'Helvetica-Bold', 'Helvetica';
-    font-size: 3em;
-    font-style: normal;
-    font-variant: normal;
-    font-weight: bold;
-    letter-spacing: 0;
-    line-height: 1.3;
-    margin-bottom: 0em;
-    margin-left: 0em;
-    margin-right: 0em;
-    margin-top: 0em;
-    padding-bottom: 0em;
-    padding-top: 2em;
-    text-align: left;
-    text-decoration: none;
-    text-indent: 0.00em;
-    text-transform: none;
-    vertical-align: 0.000000em;
-}
-
-pre {
-	white-space: pre;
-    color: #333;
-    font-family: 'Courier', 'Courier';
-    font-size: .9em;
-    font-style: normal;
-    font-variant: normal;
-    font-weight: normal;
-    letter-spacing: 0;
-    line-height: 1.22;
-
-    margin-bottom: 1.5em;
-    margin-left: 2em;
-    margin-right: 0em;
-    margin-top: 1.5em;
-    padding-bottom: 0em;
-    padding-top: 0em;
-
-    text-align: left;
-    text-decoration: none;
-    text-indent: 0em;
-    text-transform: none;
-    vertical-align: 0em;
-}
-
-h2 {
-    color: #000000;
-    font-family: 'Helvetica', 'Helvetica';
-    font-size: 1.8em;
-    font-style: normal;
-    font-variant: normal;
-    font-weight: bold;
-    letter-spacing: 0;
-    line-height: 1.21;
-    margin-bottom: .5em;
-    margin-left: 0em;
-    margin-right: 0.00em;
-    margin-top: 0.000000em;
-    padding-bottom: 7.000000pt;
-    padding-top: 21.000000pt;
-    text-align: left;
-    text-decoration: none;
-    text-indent: 0.00em;
-    text-transform: none;
-    vertical-align: 0.000000em;
-}
-
-h3 {
-    color: #777;
-    font-family: 'Helvetica-Bold', 'Helvetica';
-    font-size: 1.3em;
-    font-style: normal;
-    font-variant: normal;
-    font-weight: bold;
-    letter-spacing: 0;
-    line-height: 1.18em;
-    margin-bottom: 0em;
-    margin-left: 0em;
-    margin-right: 0em;
-    margin-top: 0em;
-    padding-bottom: 1em;
-    padding-top: 1em;
-    text-align: left;
-    text-decoration: none;
-    text-indent: 0.00em;
-    text-transform: none;
-    vertical-align: 0.000000em;
-}
-
-.PsuedoCode {
-    color: #000000;
-    font-family: 'Times-Italic', 'Times';
-    font-size: 11.00pt;
-    font-style: italic;
-    font-variant: normal;
-    font-weight: normal;
-    letter-spacing: 0;
-    line-height: 1.18;
-    margin-bottom: 0.000000em;
-    margin-left: 0em;
-    margin-right: 0.00em;
-    margin-top: 0.000000em;
-    padding-bottom: 0.000000em;
-    padding-top: 0.000000em;
-    text-align: left;
-    text-decoration: none;
-    text-indent: 0.00em;
-    text-transform: none;
-    vertical-align: 0.000000em;
-}
-
-</style>
+<link rel="stylesheet" href="docs.css">
 </head>
 <body>
 
-<ul>
-<h1>Io Reference Manual</h1>
-<div class=Version>Version 20080120</div>
-<h2>Modules</h2>
-<ul>
-<b>Core</b><br>
-<div style="margin-left:1.5em">
-<a href=#Addon style="color: #555;">Addon</a><br>
-<a href=#Block style="color: #555;">Block</a><br>
-<a href=#CFunction style="color: #555;">CFunction</a><br>
-<a href=#Call style="color: #555;">Call</a><br>
-<a href=#Collector style="color: #555;">Collector</a><br>
-<a href=#Compiler style="color: #555;">Compiler</a><br>
-<a href=#Coroutine style="color: #555;">Coroutine</a><br>
-<a href=#Date style="color: #555;">Date</a><br>
-<a href=#Debugger style="color: #555;">Debugger</a><br>
-<a href=#Directory style="color: #555;">Directory</a><br>
-<a href=#Duration style="color: #555;">Duration</a><br>
-<a href=#DynLib style="color: #555;">DynLib</a><br>
-<a href=#File style="color: #555;">File</a><br>
-<a href=#ImmutableSequence style="color: #555;">ImmutableSequence</a><br>
-<a href=#Importer style="color: #555;">Importer</a><br>
-<a href=#List style="color: #555;">List</a><br>
-<a href=#Map style="color: #555;">Map</a><br>
-<a href=#Message style="color: #555;">Message</a><br>
-<a href=#MutableSequence style="color: #555;">MutableSequence</a><br>
-<a href=#Number style="color: #555;">Number</a><br>
-<a href=#Object style="color: #555;">Object</a><br>
-<a href=#Path style="color: #555;">Path</a><br>
-<a href=#Sandbox style="color: #555;">Sandbox</a><br>
-<a href=#Scheduler style="color: #555;">Scheduler</a><br>
-<a href=#Sequence style="color: #555;">Sequence</a><br>
-<a href=#State style="color: #555;">State</a><br>
-<a href=#System style="color: #555;">System</a><br>
-<a href=#Tag style="color: #555;">Tag</a><br>
-<a href=#Token style="color: #555;">Token</a><br>
-<a href=#UnitTest style="color: #555;">UnitTest</a><br>
-<a href=#WeakLink style="color: #555;">WeakLink</a><br>
-<a href=#nil style="color: #555;">nil</a><br>
-<a href=#true style="color: #555;">true</a><br>
-<br style="width:.5em"></div>
-<b>AVCodec</b><br>
-<div style="margin-left:1.5em">
-<a href=#AVCodec style="color: #555;">AVCodec</a><br>
-<br style="width:.5em"></div>
-<b>AppleExtras</b><br>
-<div style="margin-left:1.5em">
-<a href=#AppleSensors style="color: #555;">AppleSensors</a><br>
-<br style="width:.5em"></div>
-<b>AsyncRequest</b><br>
-<div style="margin-left:1.5em">
-<a href=#AsyncRequest style="color: #555;">AsyncRequest</a><br>
-<br style="width:.5em"></div>
-<b>Blowfish</b><br>
-<div style="margin-left:1.5em">
-<a href=#Blowfish style="color: #555;">Blowfish</a><br>
-<br style="width:.5em"></div>
-<b>Box</b><br>
-<div style="margin-left:1.5em">
-<a href=#Box style="color: #555;">Box</a><br>
-<br style="width:.5em"></div>
-<b>CFFI</b><br>
-<div style="margin-left:1.5em">
-<a href=#CFFI style="color: #555;">CFFI</a><br>
-<br style="width:.5em"></div>
-<b>CGI</b><br>
-<div style="margin-left:1.5em">
-<a href=#CGI style="color: #555;">CGI</a><br>
-<br style="width:.5em"></div>
-<b>Curses</b><br>
-<div style="margin-left:1.5em">
-<a href=#Curses style="color: #555;">Curses</a><br>
-<br style="width:.5em"></div>
-<b>DBI</b><br>
-<div style="margin-left:1.5em">
-<a href=#DBIConn style="color: #555;">DBIConn</a><br>
-<a href=#DBIRecord style="color: #555;">DBIRecord</a><br>
-<br style="width:.5em"></div>
-<b>Fnmatch</b><br>
-<div style="margin-left:1.5em">
-<a href=#Fnmatch style="color: #555;">Fnmatch</a><br>
-<br style="width:.5em"></div>
-<b>Font</b><br>
-<div style="margin-left:1.5em">
-<a href=#Font style="color: #555;">Font</a><br>
-<br style="width:.5em"></div>
-<b>GLFW</b><br>
-<div style="margin-left:1.5em">
-<a href=#GLFW style="color: #555;">GLFW</a><br>
-<br style="width:.5em"></div>
-<b>Image</b><br>
-<div style="margin-left:1.5em">
-<a href=#Image style="color: #555;">Image</a><br>
-<br style="width:.5em"></div>
-<b>LZO</b><br>
-<div style="margin-left:1.5em">
-<a href=#LZODecoder style="color: #555;">LZODecoder</a><br>
-<a href=#LZOEncoder style="color: #555;">LZOEncoder</a><br>
-<br style="width:.5em"></div>
-<b>LibSndFile</b><br>
-<div style="margin-left:1.5em">
-<a href=#LibSndFile style="color: #555;">LibSndFile</a><br>
-<br style="width:.5em"></div>
-<b>Loki</b><br>
-<div style="margin-left:1.5em">
-<a href=#Linker style="color: #555;">Linker</a><br>
-<br style="width:.5em"></div>
-<b>MD5</b><br>
-<div style="margin-left:1.5em">
-<a href=#MD5 style="color: #555;">MD5</a><br>
-<br style="width:.5em"></div>
-<b>ODE</b><br>
-<div style="margin-left:1.5em">
-<a href=#ODEBody style="color: #555;">ODEBody</a><br>
-<a href=#ODEBox style="color: #555;">ODEBox</a><br>
-<a href=#ODEContact style="color: #555;">ODEContact</a><br>
-<a href=#ODEJoint style="color: #555;">ODEJoint</a><br>
-<a href=#ODEJointGroup style="color: #555;">ODEJointGroup</a><br>
-<a href=#ODEMass style="color: #555;">ODEMass</a><br>
-<a href=#ODEPlane style="color: #555;">ODEPlane</a><br>
-<a href=#ODESimpleSpace style="color: #555;">ODESimpleSpace</a><br>
-<a href=#ODEWorld style="color: #555;">ODEWorld</a><br>
-<br style="width:.5em"></div>
-<b>OpenGL</b><br>
-<div style="margin-left:1.5em">
-<a href=#Box style="color: #555;">Box</a><br>
-<a href=#GLApp style="color: #555;">GLApp</a><br>
-<a href=#GLScissor style="color: #555;">GLScissor</a><br>
-<a href=#GLU style="color: #555;">GLU</a><br>
-<a href=#GLUQuadric style="color: #555;">GLUQuadric</a><br>
-<a href=#GLUT style="color: #555;">GLUT</a><br>
-<a href=#OpenGL style="color: #555;">OpenGL</a><br>
-<a href=#Vector style="color: #555;">Vector</a><br>
-<br style="width:.5em"></div>
-<b>PortAudio</b><br>
-<div style="margin-left:1.5em">
-<a href=#AudioDevice style="color: #555;">AudioDevice</a><br>
-<br style="width:.5em"></div>
-<b>Postgres</b><br>
-<div style="margin-left:1.5em">
-<a href=#Postgres style="color: #555;">Postgres</a><br>
-<br style="width:.5em"></div>
-<b>Python</b><br>
-<div style="margin-left:1.5em">
-<a href=#Python style="color: #555;">Python</a><br>
-<br style="width:.5em"></div>
-<b>QDBM</b><br>
-<div style="margin-left:1.5em">
-<a href=#QDBM style="color: #555;">QDBM</a><br>
-<br style="width:.5em"></div>
-<b>Random</b><br>
-<div style="margin-left:1.5em">
-<a href=#Random style="color: #555;">Random</a><br>
-<br style="width:.5em"></div>
-<b>Range</b><br>
-<div style="margin-left:1.5em">
-<a href=#Range style="color: #555;">Range</a><br>
-<br style="width:.5em"></div>
-<b>Rational</b><br>
-<div style="margin-left:1.5em">
-<a href=#Rational style="color: #555;">Rational</a><br>
-<br style="width:.5em"></div>
-<b>Regex</b><br>
-<div style="margin-left:1.5em">
-<a href=#Regex style="color: #555;">Regex</a><br>
-<a href=#RegexMatch style="color: #555;">RegexMatch</a><br>
-<a href=#RegexMatches style="color: #555;">RegexMatches</a><br>
-<a href=#Sequence style="color: #555;">Sequence</a><br>
-<br style="width:.5em"></div>
-<b>SGML</b><br>
-<div style="margin-left:1.5em">
-<a href=#SGMLElement style="color: #555;">SGMLElement</a><br>
-<a href=#SGMLParser style="color: #555;">SGMLParser</a><br>
-<br style="width:.5em"></div>
-<b>SHA1</b><br>
-<div style="margin-left:1.5em">
-<a href=#SHA1 style="color: #555;">SHA1</a><br>
-<br style="width:.5em"></div>
-<b>SQLite</b><br>
-<div style="margin-left:1.5em">
-<a href=#DBM style="color: #555;">DBM</a><br>
-<a href=#SQLite style="color: #555;">SQLite</a><br>
-<a href=#Soup style="color: #555;">Soup</a><br>
-<br style="width:.5em"></div>
-<b>SQLite3</b><br>
-<div style="margin-left:1.5em">
-<a href=#SQLite3 style="color: #555;">SQLite3</a><br>
-<br style="width:.5em"></div>
-<b>SampleRateConverter</b><br>
-<div style="margin-left:1.5em">
-<a href=#SampleRateConverter style="color: #555;">SampleRateConverter</a><br>
-<br style="width:.5em"></div>
-<b>SkipDB</b><br>
-<div style="margin-left:1.5em">
-<a href=#SkipDB style="color: #555;">SkipDB</a><br>
-<a href=#SkipDBCursor style="color: #555;">SkipDBCursor</a><br>
-<a href=#SkipDBM style="color: #555;">SkipDBM</a><br>
-<br style="width:.5em"></div>
-<b>Socket</b><br>
-<div style="margin-left:1.5em">
-<a href=#DNS style="color: #555;">DNS</a><br>
-<a href=#DNSResolver style="color: #555;">DNSResolver</a><br>
-<a href=#DNSServer style="color: #555;">DNSServer</a><br>
-<a href=#DOConnection style="color: #555;">DOConnection</a><br>
-<a href=#DOProxy style="color: #555;">DOProxy</a><br>
-<a href=#DOServer style="color: #555;">DOServer</a><br>
-<a href=#Event style="color: #555;">Event</a><br>
-<a href=#EventManager style="color: #555;">EventManager</a><br>
-<a href=#Host style="color: #555;">Host</a><br>
-<a href=#IPAddress style="color: #555;">IPAddress</a><br>
-<a href=#ReadEvent style="color: #555;">ReadEvent</a><br>
-<a href=#Server style="color: #555;">Server</a><br>
-<a href=#SignalEvent style="color: #555;">SignalEvent</a><br>
-<a href=#Socket style="color: #555;">Socket</a><br>
-<a href=#TimerEvent style="color: #555;">TimerEvent</a><br>
-<a href=#URL style="color: #555;">URL</a><br>
-<a href=#WriteEvent style="color: #555;">WriteEvent</a><br>
-<br style="width:.5em"></div>
-<b>SoundTouch</b><br>
-<div style="margin-left:1.5em">
-<a href=#SoundTouch style="color: #555;">SoundTouch</a><br>
-<br style="width:.5em"></div>
-<b>Syslog</b><br>
-<div style="margin-left:1.5em">
-<a href=#Syslog style="color: #555;">Syslog</a><br>
-<br style="width:.5em"></div>
-<b>SystemCall</b><br>
-<div style="margin-left:1.5em">
-<a href=#SystemCall style="color: #555;">SystemCall</a><br>
-<br style="width:.5em"></div>
-<b>TagLib</b><br>
-<div style="margin-left:1.5em">
-<a href=#TagLib style="color: #555;">TagLib</a><br>
-<br style="width:.5em"></div>
-<b>Thread</b><br>
-<div style="margin-left:1.5em">
-<a href=#Thread style="color: #555;">Thread</a><br>
-<br style="width:.5em"></div>
-<b>UUID</b><br>
-<div style="margin-left:1.5em">
-<a href=#UUID style="color: #555;">UUID</a><br>
-<br style="width:.5em"></div>
-<b>User</b><br>
-<div style="margin-left:1.5em">
-<a href=#User style="color: #555;">User</a><br>
-<br style="width:.5em"></div>
-<b>Zlib</b><br>
-<div style="margin-left:1.5em">
-<a href=#ZlibDecoder style="color: #555;">ZlibDecoder</a><br>
-<a href=#ZlibEncoder style="color: #555;">ZlibEncoder</a><br>
-<br style="width:.5em"></div>
-</ul><br><br>
+<h1>The Io Reference Manual</h1>
+<div class=Version>Version 2008 01 20</div>
+<br><br>
+<table cellpadding=0 cellspacing=0 border=0>
+<tr><td valign=top>
+<div class=indexSection><a href=#Core>Core</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#Addon>Addon</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#Block>Block</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#CFunction>CFunction</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#Call>Call</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#Collector>Collector</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#Compiler>Compiler</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#Coroutine>Coroutine</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#Date>Date</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#Debugger>Debugger</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#Directory>Directory</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#Duration>Duration</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#DynLib>DynLib</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#File>File</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#ImmutableSequence>ImmutableSequence</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#Importer>Importer</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#List>List</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#Map>Map</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#Message>Message</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#MutableSequence>MutableSequence</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#Number>Number</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#Object>Object</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#Path>Path</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#Sandbox>Sandbox</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#Scheduler>Scheduler</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#Sequence>Sequence</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#State>State</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#System>System</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#Tag>Tag</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#Token>Token</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#UnitTest>UnitTest</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#WeakLink>WeakLink</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#nil>nil</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#true>true</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#AVCodec>AVCodec</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#AppleExtras>AppleExtras</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#AsyncRequest>AsyncRequest</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#Blowfish>Blowfish</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#Box>Box</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#CFFI>CFFI</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#CGI>CGI</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#Curses>Curses</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+</td><td valign=top>
+<div class=indexSection><a href=#DBI>DBI</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#DBIConn>DBIConn</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#DBIRecord>DBIRecord</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#Fnmatch>Fnmatch</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#Font>Font</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#GLFW>GLFW</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#Image>Image</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#LZO>LZO</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#LZODecoder>LZODecoder</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#LZOEncoder>LZOEncoder</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#LibSndFile>LibSndFile</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#Loki>Loki</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#MD5>MD5</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#ODE>ODE</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#ODEBody>ODEBody</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#ODEBox>ODEBox</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#ODEContact>ODEContact</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#ODEJoint>ODEJoint</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#ODEJointGroup>ODEJointGroup</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#ODEMass>ODEMass</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#ODEPlane>ODEPlane</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#ODESimpleSpace>ODESimpleSpace</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#ODEWorld>ODEWorld</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#OpenGL>OpenGL</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#Box>Box</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#GLApp>GLApp</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#GLScissor>GLScissor</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#GLU>GLU</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#GLUQuadric>GLUQuadric</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#GLUT>GLUT</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#OpenGL>OpenGL</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#Vector>Vector</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#PortAudio>PortAudio</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#Postgres>Postgres</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#Python>Python</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#QDBM>QDBM</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+</td><td valign=top>
+<div class=indexSection><a href=#Random>Random</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#Range>Range</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#Rational>Rational</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#Regex>Regex</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#Regex>Regex</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#RegexMatch>RegexMatch</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#RegexMatches>RegexMatches</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#Sequence>Sequence</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#SGML>SGML</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#SGMLElement>SGMLElement</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#SGMLParser>SGMLParser</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#SHA1>SHA1</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#SQLite>SQLite</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#DBM>DBM</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#SQLite>SQLite</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#Soup>Soup</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#SQLite3>SQLite3</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#SampleRateConverter>SampleRateConverter</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#SkipDB>SkipDB</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#SkipDB>SkipDB</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#SkipDBCursor>SkipDBCursor</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#SkipDBM>SkipDBM</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#Socket>Socket</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#DNS>DNS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#DNSResolver>DNSResolver</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#DNSServer>DNSServer</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#DOConnection>DOConnection</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#DOProxy>DOProxy</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#DOServer>DOServer</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#Event>Event</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#EventManager>EventManager</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#Host>Host</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#IPAddress>IPAddress</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#ReadEvent>ReadEvent</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#Server>Server</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#SignalEvent>SignalEvent</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#Socket>Socket</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#TimerEvent>TimerEvent</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#URL>URL</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#WriteEvent>WriteEvent</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+</td><td valign=top>
+<div class=indexSection><a href=#SoundTouch>SoundTouch</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#Syslog>Syslog</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#SystemCall>SystemCall</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#TagLib>TagLib</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#Thread>Thread</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#UUID>UUID</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#User>User</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href=#Zlib>Zlib</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#ZlibDecoder>ZlibDecoder</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href=#ZlibEncoder>ZlibEncoder</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+</td></tr></table>
+<br><br>
 <hr align=left>
-<br><h2><a name=AVCodec><font color=black>AVCodec</font></a></h2>
+<h2><a name=AVCodec><font color=black>AVCodec</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> AVCodec<br>
 <b><font color=#000>Category:</font></b> Media
@@ -448,7 +196,7 @@ An object for encoding and decoding audio and video streams.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Addon><font color=black>Addon</font></a></h2>
+<h2><a name=Addon><font color=black>Addon</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Core<br>
 <h3>Slot Index</h3>
@@ -636,7 +384,7 @@ Returns the path of the source folder for the addon.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=AppleSensors><font color=black>AppleSensors</font></a></h2>
+<h2><a name=AppleSensors><font color=black>AppleSensors</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> AppleExtras<br>
 <b><font color=#000>Category:</font></b> Encryption
@@ -664,7 +412,7 @@ bf outputBuffer // this contains the encrypted data
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=AsyncRequest><font color=black>AsyncRequest</font></a></h2>
+<h2><a name=AsyncRequest><font color=black>AsyncRequest</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> AsyncRequest<br>
 <b><font color=#000>Category:</font></b> Filesystem
@@ -686,7 +434,7 @@ Example use;
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=AudioDevice><font color=black>AudioDevice</font></a></h2>
+<h2><a name=AudioDevice><font color=black>AudioDevice</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> PortAudio<br>
 <b><font color=#000>Category:</font></b> Media")
@@ -784,7 +532,7 @@ The AudioDevice object can used to write audio data as if directly to the audio 
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Block><font color=black>Block</font></a></h2>
+<h2><a name=Block><font color=black>Block</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Core<br>
 <b><font color=#000>Category:</font></b> Core
@@ -950,7 +698,7 @@ Returns a full description of the receiver with decompiled code.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Blowfish><font color=black>Blowfish</font></a></h2>
+<h2><a name=Blowfish><font color=black>Blowfish</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Blowfish<br>
 <b><font color=#000>Category:</font></b> Encryption
@@ -1012,7 +760,7 @@ bf outputBuffer // this contains the encrypted data
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Box><font color=black>Box</font></a></h2>
+<h2><a name=Box><font color=black>Box</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> OpenGL<br>
 <b><font color=#000>Category:</font></b> Math
@@ -1155,7 +903,7 @@ A primitive for fast operations on rectangles.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=CFFI><font color=black>CFFI</font></a></h2>
+<h2><a name=CFFI><font color=black>CFFI</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> CFFI<br>
 <b><font color=#000>Category:</font></b> binding
@@ -1169,7 +917,7 @@ A primitive for fast operations on rectangles.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=CFunction><font color=black>CFunction</font></a></h2>
+<h2><a name=CFunction><font color=black>CFunction</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Core<br>
 <b><font color=#000>Category:</font></b> Core
@@ -1264,7 +1012,7 @@ Returns the CFunction name in the form CFunction_Pointer.")
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=CGI><font color=black>CGI</font></a></h2>
+<h2><a name=CGI><font color=black>CGI</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> CGI<br>
 <b><font color=#000>Category:</font></b> Networking
@@ -1581,7 +1329,7 @@ SCRIPT_NAME from web server
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Call><font color=black>Call</font></a></h2>
+<h2><a name=Call><font color=black>Call</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Core<br>
 <b><font color=#000>Category:</font></b> Core
@@ -1733,7 +1481,7 @@ Returns a description of the receiver as a String.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Collector><font color=black>Collector</font></a></h2>
+<h2><a name=Collector><font color=black>Collector</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Core<br>
 <b><font color=#000>Category:</font></b> Core
@@ -1865,7 +1613,7 @@ Generally, the more objects in your heap, the larger you'll want this number.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Compiler><font color=black>Compiler</font></a></h2>
+<h2><a name=Compiler><font color=black>Compiler</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Core<br>
 <b><font color=#000>Category:</font></b> Core
@@ -1914,7 +1662,7 @@ Contains methods related to the compiling code.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Coroutine><font color=black>Coroutine</font></a></h2>
+<h2><a name=Coroutine><font color=black>Coroutine</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Core<br>
 <b><font color=#000>Category:</font></b> Core
@@ -2262,7 +2010,7 @@ Reference to Scheduler yieldingCoros.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Curses><font color=black>Curses</font></a></h2>
+<h2><a name=Curses><font color=black>Curses</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Curses<br>
 <b><font color=#000>Category:</font></b> Server
@@ -2642,7 +2390,7 @@ Curses end
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=DBIConn><font color=black>DBIConn</font></a></h2>
+<h2><a name=DBIConn><font color=black>DBIConn</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> DBI<br>
 <h3>Slot Index</h3>
@@ -2666,7 +2414,7 @@ Curses end
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=DBIRecord><font color=black>DBIRecord</font></a></h2>
+<h2><a name=DBIRecord><font color=black>DBIRecord</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> DBI<br>
 <b><font color=#000>Category:</font></b> Databases
@@ -2709,7 +2457,7 @@ to setFirstName <i>only</i> updates the objects representation of firstName.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=DBM><font color=black>DBM</font></a></h2>
+<h2><a name=DBM><font color=black>DBM</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> SQLite<br>
 <b><font color=#000>Category:</font></b> Databases
@@ -2727,7 +2475,7 @@ A simple DBM style key/value database.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=DNS><font color=black>DNS</font></a></h2>
+<h2><a name=DNS><font color=black>DNS</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Socket<br>
 <b><font color=#000>Category:</font></b> Networking
@@ -2745,7 +2493,7 @@ Utility methods related to Domain Name Service lookups.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=DNSResolver><font color=black>DNSResolver</font></a></h2>
+<h2><a name=DNSResolver><font color=black>DNSResolver</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Socket<br>
 <h3>Description</h3>
@@ -2813,7 +2561,7 @@ Returns list of active DNSQuery objects.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=DNSServer><font color=black>DNSServer</font></a></h2>
+<h2><a name=DNSServer><font color=black>DNSServer</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Socket<br>
 <b><font color=#000>Category:</font></b> Networking
@@ -2827,7 +2575,7 @@ Returns list of active DNSQuery objects.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=DOConnection><font color=black>DOConnection</font></a></h2>
+<h2><a name=DOConnection><font color=black>DOConnection</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Socket<br>
 <h3>Description</h3>
@@ -2932,7 +2680,7 @@ Returns the port.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=DOProxy><font color=black>DOProxy</font></a></h2>
+<h2><a name=DOProxy><font color=black>DOProxy</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Socket<br>
 <b><font color=#000>Category:</font></b> Networking
@@ -2946,7 +2694,7 @@ Returns the port.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=DOServer><font color=black>DOServer</font></a></h2>
+<h2><a name=DOServer><font color=black>DOServer</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Socket<br>
 <b><font color=#000>Category:</font></b> Networking
@@ -2984,7 +2732,7 @@ doServer start
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Date><font color=black>Date</font></a></h2>
+<h2><a name=Date><font color=black>Date</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Core<br>
 <b><font color=#000>Category:</font></b> Time
@@ -3350,7 +3098,7 @@ Returns true if the receiver's date is today's date.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Debugger><font color=black>Debugger</font></a></h2>
+<h2><a name=Debugger><font color=black>Debugger</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Core<br>
 <b><font color=#000>Category:</font></b> Core
@@ -3408,7 +3156,7 @@ Override this method to implement your own debugging mechanisms. Default behavio
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Directory><font color=black>Directory</font></a></h2>
+<h2><a name=Directory><font color=black>Directory</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Core<br>
 <b><font color=#000>Category:</font></b> FileSystem
@@ -3635,7 +3383,7 @@ if not specified, "./" is assumed.""")
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Duration><font color=black>Duration</font></a></h2>
+<h2><a name=Duration><font color=black>Duration</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Core<br>
 <b><font color=#000>Category:</font></b> Time
@@ -3820,7 +3568,7 @@ Same as a asNumber.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=DynLib><font color=black>DynLib</font></a></h2>
+<h2><a name=DynLib><font color=black>DynLib</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Core<br>
 <b><font color=#000>Category:</font></b> Core
@@ -3943,7 +3691,7 @@ A DLL Loader by Kentaro A. Kurahone.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Event><font color=black>Event</font></a></h2>
+<h2><a name=Event><font color=black>Event</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Socket<br>
 <b><font color=#000>Category:</font></b> Networking
@@ -3969,7 +3717,7 @@ Networking
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=EventManager><font color=black>EventManager</font></a></h2>
+<h2><a name=EventManager><font color=black>EventManager</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Socket<br>
 <b><font color=#000>Category:</font></b> Networking
@@ -3987,7 +3735,7 @@ A binding for libevent.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=File><font color=black>File</font></a></h2>
+<h2><a name=File><font color=black>File</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Core<br>
 <b><font color=#000>Category:</font></b> FileSystem
@@ -4566,7 +4314,7 @@ aFile foreach(v, writeln("Line: ", v))
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Fnmatch><font color=black>Fnmatch</font></a></h2>
+<h2><a name=Fnmatch><font color=black>Fnmatch</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Fnmatch<br>
 <b><font color=#000>Category:</font></b> RegularExpressions
@@ -4727,7 +4475,7 @@ If not set, no special restrictions are placed on matching a period.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Font><font color=black>Font</font></a></h2>
+<h2><a name=Font><font color=black>Font</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Font<br>
 <b><font color=#000>Category:</font></b> Graphics
@@ -4876,7 +4624,7 @@ glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=GLApp><font color=black>GLApp</font></a></h2>
+<h2><a name=GLApp><font color=black>GLApp</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> OpenGL<br>
 <b><font color=#000>Category:</font></b> Graphics
@@ -4890,7 +4638,7 @@ glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=GLFW><font color=black>GLFW</font></a></h2>
+<h2><a name=GLFW><font color=black>GLFW</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> GLFW<br>
 <b><font color=#000>Category:</font></b> Graphics
@@ -4904,7 +4652,7 @@ glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=GLScissor><font color=black>GLScissor</font></a></h2>
+<h2><a name=GLScissor><font color=black>GLScissor</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> OpenGL<br>
 <b><font color=#000>Category:</font></b> Graphics
@@ -5009,7 +4757,7 @@ glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=GLU><font color=black>GLU</font></a></h2>
+<h2><a name=GLU><font color=black>GLU</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> OpenGL<br>
 <b><font color=#000>Category:</font></b> Graphics
@@ -6262,7 +6010,7 @@ glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=GLUQuadric><font color=black>GLUQuadric</font></a></h2>
+<h2><a name=GLUQuadric><font color=black>GLUQuadric</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> OpenGL<br>
 <b><font color=#000>Category:</font></b> Graphics
@@ -6353,7 +6101,7 @@ glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=GLUT><font color=black>GLUT</font></a></h2>
+<h2><a name=GLUT><font color=black>GLUT</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> OpenGL<br>
 <b><font color=#000>Category:</font></b> Graphics
@@ -8201,7 +7949,7 @@ glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Host><font color=black>Host</font></a></h2>
+<h2><a name=Host><font color=black>Host</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Socket<br>
 <b><font color=#000>Category:</font></b> Networking
@@ -8240,7 +7988,7 @@ Returns name.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=IPAddress><font color=black>IPAddress</font></a></h2>
+<h2><a name=IPAddress><font color=black>IPAddress</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Socket<br>
 <b><font color=#000>Category:</font></b> Networking
@@ -8267,7 +8015,7 @@ Object representation of an Internet Protocol Address.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Image><font color=black>Image</font></a></h2>
+<h2><a name=Image><font color=black>Image</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Image<br>
 <b><font color=#000>Category:</font></b> Graphics
@@ -8539,7 +8287,7 @@ Currently supported formats include PNG(which supports alpha), JPG and TIFF.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=ImmutableSequence><font color=black>ImmutableSequence</font></a></h2>
+<h2><a name=ImmutableSequence><font color=black>ImmutableSequence</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Core<br>
 <b><font color=#000>Category:</font></b> Core
@@ -9042,7 +8790,7 @@ aSequence foreach(v, writeln("value ", v))
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Importer><font color=black>Importer</font></a></h2>
+<h2><a name=Importer><font color=black>Importer</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Core<br>
 <h3>Description</h3>
@@ -9138,7 +8886,7 @@ Turns on the Importer. Returns self.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=LZODecoder><font color=black>LZODecoder</font></a></h2>
+<h2><a name=LZODecoder><font color=black>LZODecoder</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> LZO<br>
 <b><font color=#000>Category:</font></b> Compression
@@ -9226,7 +8974,7 @@ bf outputBuffer // this contains the encoded data
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=LZOEncoder><font color=black>LZOEncoder</font></a></h2>
+<h2><a name=LZOEncoder><font color=black>LZOEncoder</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> LZO<br>
 <b><font color=#000>Category:</font></b> Compression
@@ -9314,7 +9062,7 @@ bf outputBuffer // this contains the encoded data
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=LibSndFile><font color=black>LibSndFile</font></a></h2>
+<h2><a name=LibSndFile><font color=black>LibSndFile</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> LibSndFile<br>
 <b><font color=#000>Category:</font></b> Media
@@ -9456,7 +9204,7 @@ An object for encoding and decoding audio and video streams.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Linker><font color=black>Linker</font></a></h2>
+<h2><a name=Linker><font color=black>Linker</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Loki<br>
 <h3>Description</h3>
@@ -9472,7 +9220,7 @@ An object for encoding and decoding audio and video streams.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=List><font color=black>List</font></a></h2>
+<h2><a name=List><font color=black>List</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Core<br>
 <b><font color=#000>Category:</font></b> DataStructures
@@ -10139,7 +9887,7 @@ Returns a list of list(value, count) for each unique value in self.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=MD5><font color=black>MD5</font></a></h2>
+<h2><a name=MD5><font color=black>MD5</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> MD5<br>
 <b><font color=#000>Category:</font></b> Digests
@@ -10181,7 +9929,7 @@ An object for calculating MD5 hashes. Each has calculation should instiate it's 
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Map><font color=black>Map</font></a></h2>
+<h2><a name=Map><font color=black>Map</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Core<br>
 <b><font color=#000>Category:</font></b> DataStructures
@@ -10361,7 +10109,7 @@ aMap foreach(k, v, myBlock(k, v))</pre>
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Message><font color=black>Message</font></a></h2>
+<h2><a name=Message><font color=black>Message</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Core<br>
 <b><font color=#000>Category:</font></b> Core
@@ -10753,7 +10501,7 @@ But the cost to performance seems to outweigh the need to cover this case for no
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=MutableSequence><font color=black>MutableSequence</font></a></h2>
+<h2><a name=MutableSequence><font color=black>MutableSequence</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Core<br>
 <h3>Slot Index</h3>
@@ -11113,7 +10861,7 @@ Trims the whitespace (or optionalSequence) off both ends:
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Number><font color=black>Number</font></a></h2>
+<h2><a name=Number><font color=black>Number</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Core<br>
 <b><font color=#000>Category:</font></b> Core
@@ -11981,7 +11729,7 @@ Io> Date clone now + 2 years + 3 days + 22 minutes
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=ODEBody><font color=black>ODEBody</font></a></h2>
+<h2><a name=ODEBody><font color=black>ODEBody</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> ODE<br>
 <h3>Description</h3>
@@ -11997,7 +11745,7 @@ ODEBody binding
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=ODEBox><font color=black>ODEBox</font></a></h2>
+<h2><a name=ODEBox><font color=black>ODEBox</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> ODE<br>
 <h3>Description</h3>
@@ -12013,7 +11761,7 @@ ODEBox binding
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=ODEContact><font color=black>ODEContact</font></a></h2>
+<h2><a name=ODEContact><font color=black>ODEContact</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> ODE<br>
 <h3>Description</h3>
@@ -12029,7 +11777,7 @@ ODEContact binding
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=ODEJoint><font color=black>ODEJoint</font></a></h2>
+<h2><a name=ODEJoint><font color=black>ODEJoint</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> ODE<br>
 <h3>Description</h3>
@@ -12045,7 +11793,7 @@ ODEJoint binding
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=ODEJointGroup><font color=black>ODEJointGroup</font></a></h2>
+<h2><a name=ODEJointGroup><font color=black>ODEJointGroup</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> ODE<br>
 <h3>Description</h3>
@@ -12061,7 +11809,7 @@ ODEJointGroup binding
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=ODEMass><font color=black>ODEMass</font></a></h2>
+<h2><a name=ODEMass><font color=black>ODEMass</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> ODE<br>
 <h3>Description</h3>
@@ -12077,7 +11825,7 @@ ODEMass binding
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=ODEPlane><font color=black>ODEPlane</font></a></h2>
+<h2><a name=ODEPlane><font color=black>ODEPlane</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> ODE<br>
 <h3>Description</h3>
@@ -12093,7 +11841,7 @@ ODEPlane binding
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=ODESimpleSpace><font color=black>ODESimpleSpace</font></a></h2>
+<h2><a name=ODESimpleSpace><font color=black>ODESimpleSpace</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> ODE<br>
 <h3>Description</h3>
@@ -12109,7 +11857,7 @@ ODESimpleSpace binding
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=ODEWorld><font color=black>ODEWorld</font></a></h2>
+<h2><a name=ODEWorld><font color=black>ODEWorld</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> ODE<br>
 <h3>Description</h3>
@@ -12125,7 +11873,7 @@ ODEWorld binding
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Object><font color=black>Object</font></a></h2>
+<h2><a name=Object><font color=black>Object</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Core<br>
 <b><font color=#000>Category:</font></b> Core
@@ -13257,7 +13005,7 @@ Io> a(1)
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=OpenGL><font color=black>OpenGL</font></a></h2>
+<h2><a name=OpenGL><font color=black>OpenGL</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> OpenGL<br>
 <b><font color=#000>Category:</font></b> Graphics
@@ -14104,7 +13852,7 @@ Io> a(1)
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Path><font color=black>Path</font></a></h2>
+<h2><a name=Path><font color=black>Path</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Core<br>
 <b><font color=#000>Category:</font></b> FileSystem
@@ -14150,7 +13898,7 @@ Returns true if path is absolute, false if it is relative.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Postgres><font color=black>Postgres</font></a></h2>
+<h2><a name=Postgres><font color=black>Postgres</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Postgres<br>
 <b><font color=#000>Category:</font></b> Databases
@@ -14164,7 +13912,7 @@ Returns true if path is absolute, false if it is relative.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Python><font color=black>Python</font></a></h2>
+<h2><a name=Python><font color=black>Python</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Python<br>
 <b><font color=#000>Category:</font></b> Server
@@ -14182,7 +13930,7 @@ This object provides access the world of python.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=QDBM><font color=black>QDBM</font></a></h2>
+<h2><a name=QDBM><font color=black>QDBM</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> QDBM<br>
 <b><font color=#000>Category:</font></b> Databases
@@ -14428,7 +14176,7 @@ A key/value database.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Random><font color=black>Random</font></a></h2>
+<h2><a name=Random><font color=black>Random</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Random<br>
 <b><font color=#000>Category:</font></b> Math")
@@ -14505,7 +14253,7 @@ ACM Transactions on Modeling and Computer Simulation, Vol. 8, No. 1, January 199
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Range><font color=black>Range</font></a></h2>
+<h2><a name=Range><font color=black>Range</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Range<br>
 <b><font color=#000>Category:</font></b> BSD
@@ -14722,7 +14470,7 @@ Convenience constructor that returns a cursor object representing the range of n
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Rational><font color=black>Rational</font></a></h2>
+<h2><a name=Rational><font color=black>Rational</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Rational<br>
 <b><font color=#000>Category:</font></b> Math
@@ -14916,7 +14664,7 @@ Returns a bit of code which can be used to serialize the Rational number.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=ReadEvent><font color=black>ReadEvent</font></a></h2>
+<h2><a name=ReadEvent><font color=black>ReadEvent</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Socket<br>
 <h3>Slot Index</h3>
@@ -14936,7 +14684,7 @@ Networking
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Regex><font color=black>Regex</font></a></h2>
+<h2><a name=Regex><font color=black>Regex</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Regex<br>
 <b><font color=#000>Category:</font></b> RegularExpressions")
@@ -14945,7 +14693,14 @@ Networking
 The Regex addon adds support for Perl regular expressions
 using the <a href=http://www.pcre.org/>PCRE</a> library by Philip Hazel.
 
-Example use:
+Example 1:
+<pre>	
+Io> re := "is.*a" asRegex
+Io> "This is a test. This is also a test." allMatchesOfRegex("is.*a") replaceAllWith("is not a")
+==> "This is not a test. This is not a test.
+</pre>
+
+Example 2:
 <pre>	
 Io> "11aabb" allMatchesOfRegex("aa*")
 ==> list("a", "a")
@@ -15166,11 +14921,13 @@ Io> "A\nB\nC" allMatchesForRegex("^." asRegex multiline)
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=RegexMatch><font color=black>RegexMatch</font></a></h2>
+<h2><a name=RegexMatch><font color=black>RegexMatch</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Regex<br>
 <h3>Slot Index</h3>
 <div style="width:40em; margin-left:2em">
+<b><a href=#RegexMatch-ExpansionRegex >ExpansionRegex</a></b><br>
+<b><a href=#RegexMatch-asString >asString</a></b><br>
 <b><a href=#RegexMatch-at(indexOrName) >at()</a></b><br>
 <b><a href=#RegexMatch-captures >captures</a></b><br>
 <b><a href=#RegexMatch-end >end</a></b><br>
@@ -15181,13 +14938,28 @@ Io> "A\nB\nC" allMatchesForRegex("^." asRegex multiline)
 <b><a href=#RegexMatch-names >names</a></b><br>
 <b><a href=#RegexMatch-range >range</a></b><br>
 <b><a href=#RegexMatch-rangeOf(indexOrName) >rangeOf()</a></b><br>
+<b><a href=#RegexMatch-ranges >ranges</a></b><br>
+<b><a href=#RegexMatch-regex >regex</a></b><br>
 <b><a href=#RegexMatch-start >start</a></b><br>
 <b><a href=#RegexMatch-startOf(indexOrName) >startOf()</a></b><br>
 <b><a href=#RegexMatch-string >string</a></b><br>
+<b><a href=#RegexMatch-subject >subject</a></b><br>
 </div>
 <br>
 <h3>Slots</h3>
 <br>
+<b><a name=RegexMatch-ExpansionRegex><font color=black>ExpansionRegex</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=RegexMatch-asString><font color=black>asString</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
 <b><a name=RegexMatch-at(indexOrName)><font color=black>at(indexOrName)</font></a></b><p>
 <div style="width:40em; margin-left:2em">
  Returns the capture with the given index or name. at(0) is the entire match.
@@ -15260,6 +15032,18 @@ Returns the range of the match in the subject.
 </font>
 </div>
 <p><br>
+<b><a name=RegexMatch-ranges><font color=black>ranges</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=RegexMatch-regex><font color=black>regex</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
 <b><a name=RegexMatch-start><font color=black>start</font></a></b><p>
 <div style="width:40em; margin-left:2em">
 Returns the index into the subject at which the match starts.
@@ -15281,23 +15065,42 @@ Returns the matched string.
 </font>
 </div>
 <p><br>
+<b><a name=RegexMatch-subject><font color=black>subject</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=RegexMatches><font color=black>RegexMatches</font></a></h2>
+<h2><a name=RegexMatches><font color=black>RegexMatches</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Regex<br>
 <h3>Slot Index</h3>
 <div style="width:40em; margin-left:2em">
 <b><a href=#RegexMatches-all >all</a></b><br>
+<b><a href=#RegexMatches-allowEmptyMatches >allowEmptyMatches</a></b><br>
+<b><a href=#RegexMatches-allowsEmptyMatches >allowsEmptyMatches</a></b><br>
+<b><a href=#RegexMatches-anchored >anchored</a></b><br>
+<b><a href=#RegexMatches-disallowEmptyMatches >disallowEmptyMatches</a></b><br>
+<b><a href=#RegexMatches-endPosition >endPosition</a></b><br>
 <b><a href=#RegexMatches-foreach(value, message) >foreach()</a></b><br>
 <b><a href=#RegexMatches-foreachInterval(value, matchMessage, nonMatchMessage) >foreachInterval()</a></b><br>
 <b><a href=#RegexMatches-last >last</a></b><br>
 <b><a href=#RegexMatches-map(value, message) >map()</a></b><br>
+<b><a href=#RegexMatches-next >next</a></b><br>
+<b><a href=#RegexMatches-position >position</a></b><br>
+<b><a href=#RegexMatches-regex >regex</a></b><br>
 <b><a href=#RegexMatches-replace(name, message) >replace()</a></b><br>
 <b><a href=#RegexMatches-replaceAllWith(templateString) >replaceAllWith()</a></b><br>
 <b><a href=#RegexMatches-reset >reset</a></b><br>
+<b><a href=#RegexMatches-setEndPosition >setEndPosition</a></b><br>
+<b><a href=#RegexMatches-setPosition >setPosition</a></b><br>
+<b><a href=#RegexMatches-setRegex >setRegex</a></b><br>
+<b><a href=#RegexMatches-setString >setString</a></b><br>
 <b><a href=#RegexMatches-splitString >splitString</a></b><br>
+<b><a href=#RegexMatches-string >string</a></b><br>
 </div>
 <br>
 <h3>Slots</h3>
@@ -15306,6 +15109,36 @@ Returns the matched string.
 <div style="width:40em; margin-left:2em">
 Returns a list containing all matches in the string.
 
+</font>
+</div>
+<p><br>
+<b><a name=RegexMatches-allowEmptyMatches><font color=black>allowEmptyMatches</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=RegexMatches-allowsEmptyMatches><font color=black>allowsEmptyMatches</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=RegexMatches-anchored><font color=black>anchored</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=RegexMatches-disallowEmptyMatches><font color=black>disallowEmptyMatches</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=RegexMatches-endPosition><font color=black>endPosition</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
 </font>
 </div>
 <p><br>
@@ -15340,6 +15173,24 @@ Returns the last match in the string.
 </font>
 </div>
 <p><br>
+<b><a name=RegexMatches-next><font color=black>next</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=RegexMatches-position><font color=black>position</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=RegexMatches-regex><font color=black>regex</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
 <b><a name=RegexMatches-replace(name, message)><font color=black>replace(name, message)</font></a></b><p>
 <div style="width:40em; margin-left:2em">
 		Replaces each match in the string with the result of <em>message</em> and returns
@@ -15366,6 +15217,30 @@ replace(match, match expandTo(templateString))
 </font>
 </div>
 <p><br>
+<b><a name=RegexMatches-setEndPosition><font color=black>setEndPosition</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=RegexMatches-setPosition><font color=black>setPosition</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=RegexMatches-setRegex><font color=black>setRegex</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=RegexMatches-setString><font color=black>setString</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
 <b><a name=RegexMatches-splitString><font color=black>splitString</font></a></b><p>
 <div style="width:40em; margin-left:2em">
 		Splits the string being matched against into pieces using the regex as the delimiter
@@ -15374,10 +15249,16 @@ replace(match, match expandTo(templateString))
 </font>
 </div>
 <p><br>
+<b><a name=RegexMatches-string><font color=black>string</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=SGMLElement><font color=black>SGMLElement</font></a></h2>
+<h2><a name=SGMLElement><font color=black>SGMLElement</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> SGML<br>
 <h3>Slot Index</h3>
@@ -15555,7 +15436,7 @@ Returns a List containing the tag's subitems.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=SGMLParser><font color=black>SGMLParser</font></a></h2>
+<h2><a name=SGMLParser><font color=black>SGMLParser</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> SGML<br>
 <b><font color=#000>Category:</font></b> XML
@@ -15652,7 +15533,7 @@ Parses aSequence and returns an SGMLTag object.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=SHA1><font color=black>SHA1</font></a></h2>
+<h2><a name=SHA1><font color=black>SHA1</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> SHA1<br>
 <b><font color=#000>Category:</font></b> Digests
@@ -15696,7 +15577,7 @@ should instiate it's own SHA1 instance.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=SQLite><font color=black>SQLite</font></a></h2>
+<h2><a name=SQLite><font color=black>SQLite</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> SQLite<br>
 <b><font color=#000>Category:</font></b> 	Databases
@@ -15906,7 +15787,7 @@ db close
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=SQLite3><font color=black>SQLite3</font></a></h2>
+<h2><a name=SQLite3><font color=black>SQLite3</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> SQLite3<br>
 <b><font color=#000>Category:</font></b> 	Databases
@@ -16125,7 +16006,7 @@ db close
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=SampleRateConverter><font color=black>SampleRateConverter</font></a></h2>
+<h2><a name=SampleRateConverter><font color=black>SampleRateConverter</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> SampleRateConverter<br>
 <b><font color=#000>Category:</font></b> Media
@@ -16143,7 +16024,7 @@ db close
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Sandbox><font color=black>Sandbox</font></a></h2>
+<h2><a name=Sandbox><font color=black>Sandbox</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Core<br>
 <b><font color=#000>Category:</font></b> Core
@@ -16209,7 +16090,7 @@ Sandbox can be used to run separate instances of Io within the same process.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Scheduler><font color=black>Scheduler</font></a></h2>
+<h2><a name=Scheduler><font color=black>Scheduler</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Core<br>
 <h3>Slot Index</h3>
@@ -16261,7 +16142,7 @@ The List of yielding Coroutine objects.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Sequence><font color=black>Sequence</font></a></h2>
+<h2><a name=Sequence><font color=black>Sequence</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Core<br>
 <b><font color=#000>Category:</font></b> Core
@@ -16291,6 +16172,7 @@ Terminology
 <b><a href=#Sequence-&lt;= >&lt;=</a></b><br>
 <b><a href=#Sequence-&gt; >&gt;</a></b><br>
 <b><a href=#Sequence-&gt;= >&gt;=</a></b><br>
+<b><a href=#Sequence-EscapeRegex >EscapeRegex</a></b><br>
 <b><a href=#Sequence-Max >Max</a></b><br>
 <b><a href=#Sequence-Min >Min</a></b><br>
 <b><a href=#Sequence-abs >abs</a></b><br>
@@ -16589,6 +16471,12 @@ Terminology
 </div>
 <p><br>
 <b><a name=Sequence-&gt;=><font color=black>&gt;=</font></a></b><p>
+<div style="width:40em; margin-left:2em">
+<font color=red>undocumented</font>
+</font>
+</div>
+<p><br>
+<b><a name=Sequence-EscapeRegex><font color=black>EscapeRegex</font></a></b><p>
 <div style="width:40em; margin-left:2em">
 <font color=red>undocumented</font>
 </font>
@@ -17973,7 +17861,7 @@ Returns a hex string for the receiving sequence, e.g., \"abc\" asHex -> \"616263
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Server><font color=black>Server</font></a></h2>
+<h2><a name=Server><font color=black>Server</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Socket<br>
 <b><font color=#000>Category:</font></b> Networking
@@ -18057,7 +17945,7 @@ Stops the server if it is running. Returns self.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=SignalEvent><font color=black>SignalEvent</font></a></h2>
+<h2><a name=SignalEvent><font color=black>SignalEvent</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Socket<br>
 <h3>Slot Index</h3>
@@ -18077,7 +17965,7 @@ Networking
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=SkipDB><font color=black>SkipDB</font></a></h2>
+<h2><a name=SkipDB><font color=black>SkipDB</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> SkipDB<br>
 <b><font color=#000>Category:</font></b> Databases
@@ -18143,7 +18031,7 @@ A key/value database.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=SkipDBCursor><font color=black>SkipDBCursor</font></a></h2>
+<h2><a name=SkipDBCursor><font color=black>SkipDBCursor</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> SkipDB<br>
 <b><font color=#000>Category:</font></b> Databases")
@@ -18217,7 +18105,7 @@ An interator object for a SkipDB.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=SkipDBM><font color=black>SkipDBM</font></a></h2>
+<h2><a name=SkipDBM><font color=black>SkipDBM</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> SkipDB<br>
 <b><font color=#000>Category:</font></b> Databases")
@@ -18316,7 +18204,7 @@ SkipDB is a skip-list based key-value database. SkipDBM manages any number of sk
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Socket><font color=black>Socket</font></a></h2>
+<h2><a name=Socket><font color=black>Socket</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Socket<br>
 <b><font color=#000>Category:</font></b> Networking
@@ -18339,7 +18227,7 @@ the host attribute. Returns self.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=SoundTouch><font color=black>SoundTouch</font></a></h2>
+<h2><a name=SoundTouch><font color=black>SoundTouch</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> SoundTouch<br>
 <b><font color=#000>Category:</font></b> 	Media
@@ -18431,7 +18319,7 @@ the host attribute. Returns self.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Soup><font color=black>Soup</font></a></h2>
+<h2><a name=Soup><font color=black>Soup</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> SQLite<br>
 <b><font color=#000>Category:</font></b> Databases
@@ -18634,7 +18522,7 @@ the host attribute. Returns self.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=State><font color=black>State</font></a></h2>
+<h2><a name=State><font color=black>State</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Core<br>
 <h3>Slot Index</h3>
@@ -18646,7 +18534,7 @@ the host attribute. Returns self.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Syslog><font color=black>Syslog</font></a></h2>
+<h2><a name=Syslog><font color=black>Syslog</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Syslog<br>
 <b><font color=#000>Category:</font></b> Server
@@ -18865,7 +18753,7 @@ Note: This is partially tested. Please let me know of any problems you happen to
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=System><font color=black>System</font></a></h2>
+<h2><a name=System><font color=black>System</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Core<br>
 <b><font color=#000>Category:</font></b> Core
@@ -19064,7 +18952,7 @@ Returns the path of the io file run on the command line. Returns nil if no file 
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=SystemCall><font color=black>SystemCall</font></a></h2>
+<h2><a name=SystemCall><font color=black>SystemCall</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> SystemCall<br>
 <h3>Slot Index</h3>
@@ -19238,7 +19126,7 @@ Returns the path of the io file run on the command line. Returns nil if no file 
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Tag><font color=black>Tag</font></a></h2>
+<h2><a name=Tag><font color=black>Tag</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Core<br>
 <h3>Slot Index</h3>
@@ -19250,7 +19138,7 @@ Returns the path of the io file run on the command line. Returns nil if no file 
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=TagLib><font color=black>TagLib</font></a></h2>
+<h2><a name=TagLib><font color=black>TagLib</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> TagLib<br>
 <b><font color=#000>Category:</font></b> 	Media
@@ -19288,7 +19176,7 @@ Returns the path of the io file run on the command line. Returns nil if no file 
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Thread><font color=black>Thread</font></a></h2>
+<h2><a name=Thread><font color=black>Thread</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Thread<br>
 <b><font color=#000>Category:</font></b> Concurrency
@@ -19310,7 +19198,7 @@ Thread createThread()
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=TimerEvent><font color=black>TimerEvent</font></a></h2>
+<h2><a name=TimerEvent><font color=black>TimerEvent</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Socket<br>
 <h3>Slot Index</h3>
@@ -19330,7 +19218,7 @@ Networking
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Token><font color=black>Token</font></a></h2>
+<h2><a name=Token><font color=black>Token</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Core<br>
 <h3>Slot Index</h3>
@@ -19342,7 +19230,7 @@ Networking
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=URL><font color=black>URL</font></a></h2>
+<h2><a name=URL><font color=black>URL</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Socket<br>
 <b><font color=#000>Category:</font></b> Networking
@@ -19464,7 +19352,7 @@ Returns url string.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=UUID><font color=black>UUID</font></a></h2>
+<h2><a name=UUID><font color=black>UUID</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> UUID<br>
 <b><font color=#000>Category:</font></b> 	Encryption
@@ -19513,7 +19401,7 @@ Returns url string.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=UnitTest><font color=black>UnitTest</font></a></h2>
+<h2><a name=UnitTest><font color=black>UnitTest</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Core<br>
 <h3>Slot Index</h3>
@@ -19666,7 +19554,7 @@ Testing
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=User><font color=black>User</font></a></h2>
+<h2><a name=User><font color=black>User</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> User<br>
 <b><font color=#000>Category:</font></b> Server
@@ -19700,7 +19588,7 @@ Testing
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=Vector><font color=black>Vector</font></a></h2>
+<h2><a name=Vector><font color=black>Vector</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> OpenGL<br>
 <h3>Slot Index</h3>
@@ -19726,7 +19614,7 @@ Testing
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=WeakLink><font color=black>WeakLink</font></a></h2>
+<h2><a name=WeakLink><font color=black>WeakLink</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Core<br>
 <b><font color=#000>Category:</font></b> 	Core
@@ -19765,7 +19653,7 @@ Testing
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=WriteEvent><font color=black>WriteEvent</font></a></h2>
+<h2><a name=WriteEvent><font color=black>WriteEvent</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Socket<br>
 <h3>Slot Index</h3>
@@ -19785,7 +19673,7 @@ Networking
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=ZlibDecoder><font color=black>ZlibDecoder</font></a></h2>
+<h2><a name=ZlibDecoder><font color=black>ZlibDecoder</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Zlib<br>
 <b><font color=#000>Category:</font></b> Compression
@@ -19837,7 +19725,7 @@ bf outputBuffer // this contains the output data
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=ZlibEncoder><font color=black>ZlibEncoder</font></a></h2>
+<h2><a name=ZlibEncoder><font color=black>ZlibEncoder</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Zlib<br>
 <b><font color=#000>Category:</font></b> Compression
@@ -19891,7 +19779,7 @@ bf outputBuffer // this contains the result data
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=nil><font color=black>nil</font></a></h2>
+<h2><a name=nil><font color=black>nil</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Core<br>
 <h3>Description</h3>
@@ -19971,7 +19859,7 @@ Prints 'nil'. Returns self.
 </ul>
 <br>
 <hr align=left>
-<br><h2><a name=true><font color=black>true</font></a></h2>
+<h2><a name=true><font color=black>true</font></a></h2>
 <ul style="width:40em">
 <b><font color=#000>Module:</font></b> Core<br>
 <h3>Slot Index</h3>
@@ -20077,7 +19965,6 @@ Evaluates the argument and returns nil.
 <p><br>
 </ul>
 <br>
-</ul>
 <br>
 <br>
 <br>

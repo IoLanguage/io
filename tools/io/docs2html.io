@@ -1,3 +1,4 @@
+#!/usr/local/bin/io
 
 addonFolders := Directory with("addons") folders
 addonFolders foreach(folder,
@@ -41,175 +42,50 @@ readFolder := method(path,
 addonFolders foreach(f, readFolder(f path))
 readFolder("libs/iovm")
 
-writeln("""
+writeln("""<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
 <html>
 <head>
 <title>Io Reference Manual</title>
 <META HTTP-EQUIV="EXPIRES" CONTENT=0>
-<style>
-a 
-{
-	color : #aaa;
-	text-decoration : none;
-}
-
-body {
-    font-family: 'Serif', 'Helvetica Neue', 'Helvetica', 'Sans';
-}
-
-ul {
-	padding: 0em 0em 0em 3.1em;
-}
-
-hr {
-	width:50em;
-	height:0em;
-}
-
-.Version {
-    color: #bbb;
-    text-align: left;
-}
-
-h1 {
-    color: #000000;
-    font-family: 'Helvetica-Bold', 'Helvetica';
-    font-size: 3em;
-    font-style: normal;
-    font-variant: normal;
-    font-weight: bold;
-    letter-spacing: 0;
-    line-height: 1.3;
-    margin-bottom: 0em;
-    margin-left: 0em;
-    margin-right: 0em;
-    margin-top: 0em;
-    padding-bottom: 0em;
-    padding-top: 2em;
-    text-align: left;
-    text-decoration: none;
-    text-indent: 0.00em;
-    text-transform: none;
-    vertical-align: 0.000000em;
-}
-
-pre {
-	white-space: pre;
-    color: #333;
-    font-family: 'Courier', 'Courier';
-    font-size: .9em;
-    font-style: normal;
-    font-variant: normal;
-    font-weight: normal;
-    letter-spacing: 0;
-    line-height: 1.22;
-
-    margin-bottom: 1.5em;
-    margin-left: 2em;
-    margin-right: 0em;
-    margin-top: 1.5em;
-    padding-bottom: 0em;
-    padding-top: 0em;
-
-    text-align: left;
-    text-decoration: none;
-    text-indent: 0em;
-    text-transform: none;
-    vertical-align: 0em;
-}
-
-h2 {
-    color: #000000;
-    font-family: 'Helvetica', 'Helvetica';
-    font-size: 1.8em;
-    font-style: normal;
-    font-variant: normal;
-    font-weight: bold;
-    letter-spacing: 0;
-    line-height: 1.21;
-    margin-bottom: .5em;
-    margin-left: 0em;
-    margin-right: 0.00em;
-    margin-top: 0.000000em;
-    padding-bottom: 7.000000pt;
-    padding-top: 21.000000pt;
-    text-align: left;
-    text-decoration: none;
-    text-indent: 0.00em;
-    text-transform: none;
-    vertical-align: 0.000000em;
-}
-
-h3 {
-    color: #777;
-    font-family: 'Helvetica-Bold', 'Helvetica';
-    font-size: 1.3em;
-    font-style: normal;
-    font-variant: normal;
-    font-weight: bold;
-    letter-spacing: 0;
-    line-height: 1.18em;
-    margin-bottom: 0em;
-    margin-left: 0em;
-    margin-right: 0em;
-    margin-top: 0em;
-    padding-bottom: 1em;
-    padding-top: 1em;
-    text-align: left;
-    text-decoration: none;
-    text-indent: 0.00em;
-    text-transform: none;
-    vertical-align: 0.000000em;
-}
-
-.PsuedoCode {
-    color: #000000;
-    font-family: 'Times-Italic', 'Times';
-    font-size: 11.00pt;
-    font-style: italic;
-    font-variant: normal;
-    font-weight: normal;
-    letter-spacing: 0;
-    line-height: 1.18;
-    margin-bottom: 0.000000em;
-    margin-left: 0em;
-    margin-right: 0.00em;
-    margin-top: 0.000000em;
-    padding-bottom: 0.000000em;
-    padding-top: 0.000000em;
-    text-align: left;
-    text-decoration: none;
-    text-indent: 0.00em;
-    text-transform: none;
-    vertical-align: 0.000000em;
-}
-
-</style>
+<link rel="stylesheet" href="docs.css">
 </head>
 <body>
 """)
 
-writeln("<ul>")
-writeln("<h1>Io Reference Manual</h1>")
-writeln("<div class=Version>Version " .. System version .. "</div>")
-writeln("<h2>Modules</h2>")
-writeln("<ul>")
+writeln("<h1>The Io Reference Manual</h1>")
+writeln("<div class=Version>Version " .. System version asString asMutable atInsertSeq(4, " ") atInsertSeq(7, " ") .. "</div>")
+writeln("<br><br>")
+//writeln("<h2>Modules</h2>")
 
 protoNames := prototypes keys sort
 moduleNames := modules keys sort 
 
 moduleNames remove("Core") prepend("Core")
 
+// 	<div class=indexSection><a href=#Objects>Objects</a></div>
+
+writeln("<table cellpadding=0 cellspacing=0 border=0>")
+writeln("<tr><td valign=top>")
+count := 0
 moduleNames foreach(moduleName,
-	writeln("<b>",moduleName, "</b><br>")
-	writeln("""<div style="margin-left:1.5em">""")
-	modules at(moduleName) keys sort foreach(protoName,
-		writeln("<a href=#", protoName, " style=\"color: #555;\">", protoName, "</a><br>")
+	writeln("<div class=indexSection><a href=#", moduleName, ">", moduleName, "</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>")
+	keys := modules at(moduleName) keys sort 
+	if(keys size > 1,
+		keys foreach(protoName,
+			writeln("<div class=indexItem><a href=#", protoName, ">", protoName, "</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>")
+			count = count + 1
+		)
 	)
-	writeln("""<br style="width:.5em"></div>""")
+	count = count + 2
+	if(count > 50,
+		writeln("</td><td valign=top>")
+		count = 0
+	)
+	//writeln("""<br style="width:.5em"></div>""")
 )
 
-writeln("</ul><br><br>")
+writeln("</td></tr></table>")
+writeln("<br><br>")
 
 Sequence do(
 	asHtml := method(
@@ -220,7 +96,6 @@ Sequence do(
 protoNames foreach(protoName,
 	p := prototypes at(protoName)
 	writeln("<hr align=left>")
-	write("<br>")
 	write("<h2>")
 	write("<a name=" .. protoName .. "><font color=black>", protoName, "</font></a>")
 	writeln("</h2>")
@@ -294,13 +169,11 @@ protoNames foreach(protoName,
 			writeln("</div>")
 			writeln("<p><br>")
 		)
-		//writeln("</ul>")
 	)
 	
 	writeln("</ul>")
 	writeln("<br>")
 )
 
-writeln("</ul>")
 5 repeat(writeln("<br>"))
 
