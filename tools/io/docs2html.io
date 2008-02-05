@@ -62,17 +62,17 @@ moduleNames := modules keys sort
 
 moduleNames remove("Core") prepend("Core")
 
-// 	<div class=indexSection><a href=#Objects>Objects</a></div>
+// 	<div class=indexSection><a href=""#Objects"">Objects</a></div>
 
 writeln("<table cellpadding=0 cellspacing=0 border=0>")
 writeln("<tr><td valign=top>")
 count := 0
 moduleNames foreach(moduleName,
-	writeln("<div class=indexSection><a href=#", moduleName, ">", moduleName, "</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>")
+	writeln("<div class=indexSection><a href=\"#", moduleName, "\">", moduleName, "</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>")
 	keys := modules at(moduleName) keys sort 
 	if(keys size > 1,
 		keys foreach(protoName,
-			writeln("<div class=indexItem><a href=#", protoName, ">", protoName, "</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>")
+			writeln("<div class=indexItem><a href=\"#", protoName, "\">", protoName, "</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>")
 			count = count + 1
 		)
 	)
@@ -99,16 +99,16 @@ protoNames foreach(protoName,
 	write("<h2>")
 	write("<a name=" .. protoName .. "><font color=black>", protoName, "</font></a>")
 	writeln("</h2>")
-	writeln("<ul style=\"width:40em\">")
+	writeln("<div class=indent>")
 	
-	//writeln("<b><font color=#000>Protos:</font></b> ", getSlot(protoName) ?prototypes ?map(type) ?join(", "))
+	//writeln("<b><font color=\"#000\">Protos:</font></b> ", getSlot(protoName) ?prototypes ?map(type) ?join(", "))
 
 	if(p at("module"), 
-		writeln("<b><font color=#000>Module:</font></b> ", p at("module"), "<br>")
+		writeln("<b><font color=\"#000\">Module:</font></b> ", p at("module"), "<br>")
 	)
 	
 	if(p at("category"),
-		writeln("<b><font color=#000>Category:</font></b> ", p at("category"), "<br>")
+		writeln("<b><font color=\"#000\">Category:</font></b> ", p at("category"), "<br>")
 	)
 	
 
@@ -142,11 +142,11 @@ protoNames foreach(protoName,
 		
 		slotNames foreach(k,
 			s := slots at(k)
-			write("<b><a href=#" .. protoName .. "-" .. k asHtml .. " >")
+			write("<a href=\"#" .. protoName .. "-" .. k asHtml .. "\">")
 			if(k containsSeq("("), k = k beforeSeq("(") .. "()")
 			write(k asHtml)
 			if(s ?args, write("()"))
-			writeln("</a></b><br>")
+			writeln("</a><br>")
 		)
 		writeln("</div>")
 
@@ -171,7 +171,7 @@ protoNames foreach(protoName,
 		)
 	)
 	
-	writeln("</ul>")
+	writeln("</div>")
 	writeln("<br>")
 )
 

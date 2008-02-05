@@ -1,7 +1,7 @@
 html 
 {
 	background : #fff;
-	color: #000;
+	color:       #000;
 	font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
 	padding:       0em;
     margin-bottom: 0em;
@@ -12,7 +12,7 @@ html
 
 a 
 {
-	color : #aaa;
+	color : #777;
 	text-decoration : none;
 }
 

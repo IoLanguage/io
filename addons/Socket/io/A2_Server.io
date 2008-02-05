@@ -25,7 +25,9 @@ server start
 
 <b>Notes</b><p>
 
-Io's use of lightweight threading and select for dealing with sockets makes for servers that are much more efficient(both memory and cpu wise) than those written with kernel threads and socket polling. """)
+Io's use of lightweight threading and select for dealing with sockets makes for 
+servers that are much more efficient(both memory and cpu wise) than those written 
+with kernel threads and socket polling.
 */
 
 	init := method(
