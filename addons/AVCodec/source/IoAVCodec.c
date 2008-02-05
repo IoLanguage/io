@@ -427,10 +427,15 @@ int IoAVCodec_findStreams(IoAVCodec *self)
 				break;
 				}
 			case CODEC_TYPE_UNKNOWN:
+				continue;
 			case CODEC_TYPE_DATA:
+				continue;
 			case CODEC_TYPE_SUBTITLE:
+				continue;
 			case CODEC_TYPE_NB:
-			case default:
+				continue;
+			default:
+				continue;
 		}
 	}
 
