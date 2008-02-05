@@ -5,7 +5,7 @@
 <style>
 a 
 {
-	color : blue;
+	color : #aaa;
 	text-decoration : none;
 }
 
@@ -123,6 +123,16 @@ h4 {
 }
 
 .indexSection {
+    margin-top: 1em;
+    margin-bottom: 0em;
+    margin-left: 0em;
+    margin-right: 0em;
+    text-align: left;
+    text-indent: 0.00em;
+    text-transform: none;
+    vertical-align: 0.000000em;
+}
+.indexSection a {
     color: #000;
     font-family: 'Helvetica-Bold', 'Helvetica';
     font-size: 1em;
@@ -131,18 +141,23 @@ h4 {
     font-weight: bold;
     letter-spacing: 0;
     line-height: 1.4em;
-    margin-top: 1em;
+    text-decoration: none;
+}
+
+.indexItem {
+    letter-spacing: 0;
+    line-height: 1.4em;
+    margin-top: 0em;
     margin-bottom: 0em;
-    margin-left: 0em;
+    margin-left: 1.5em;
     margin-right: 0em;
     text-align: left;
-    text-decoration: none;
     text-indent: 0.00em;
     text-transform: none;
     vertical-align: 0.000000em;
 }
 
-.indexItem {
+.indexItem a {
     color: #777;
     font-family: 'Helvetica';
     font-size: 1em;
@@ -151,15 +166,7 @@ h4 {
     font-weight: normal;
     letter-spacing: 0;
     line-height: 1.4em;
-    margin-top: 0em;
-    margin-bottom: 0em;
-    margin-left: 1.5em;
-    margin-right: 0em;
-    text-align: left;
     text-decoration: none;
-    text-indent: 0.00em;
-    text-transform: none;
-    vertical-align: 0.000000em;
 }
 
 pre {
@@ -221,103 +228,103 @@ pre {
 <tr>
 <td valign=top width=33%>
 
-<a href=#Introduction><div class=indexSection>Introduction</div></a>
-<a href=#Introduction-Perspective><div class=indexItem>Perspective</div></a>
-<a href=#Introduction-Getting-Started><div class=indexItem>Getting Started</div></a>
-<a href=#Introduction-Downloading><div class=indexItem>Downloading</div></a>
-<a href=#Introduction-Installing><div class=indexItem>Installing</div></a>
-<a href=#Introduction-Binaries><div class=indexItem>Binaries</div></a>
-<a href=#Introduction-Running-Scripts><div class=indexItem>Running Scripts</div></a>
-<a href=#Introduction-Interactive-Mode><div class=indexItem>Interactive Mode</div></a>
+<div class=indexSection><a href=#Introduction>Introduction</a></div>
+<div class=indexItem><a href=#Introduction-Perspective>Perspective</a></div>
+<div class=indexItem><a href=#Introduction-Getting-Started>Getting Started</a></div>
+<div class=indexItem><a href=#Introduction-Downloading>Downloading</a></div>
+<div class=indexItem><a href=#Introduction-Installing>Installing</a></div>
+<div class=indexItem><a href=#Introduction-Binaries>Binaries</a></div>
+<div class=indexItem><a href=#Introduction-Running-Scripts>Running Scripts</a></div>
+<div class=indexItem><a href=#Introduction-Interactive-Mode>Interactive Mode</a></div>
 
-<a href=#Syntax><div class=indexSection>Syntax</div></a>
-<a href=#Syntax-Expressions><div class=indexItem>Expressions</div></a>
-<a href=#Syntax-Messages><div class=indexItem>Messages</div></a>
-<a href=#Syntax-Operators><div class=indexItem>Operators</div></a>
-<a href=#Syntax-Assignment><div class=indexItem>Assignment</div></a>
-<a href=#Syntax-Numbers><div class=indexItem>Numbers</div></a>
-<a href=#Syntax-Strings><div class=indexItem>Strings</div></a>
-<a href=#Syntax-Comments><div class=indexItem>Comments</div></a>
+<div class=indexSection><a href=#Syntax>Syntax</a></div>
+<div class=indexItem><a href=#Syntax-Expressions>Expressions</a></div>
+<div class=indexItem><a href=#Syntax-Messages>Messages</a></div>
+<div class=indexItem><a href=#Syntax-Operators>Operators</a></div>
+<div class=indexItem><a href=#Syntax-Assignment>Assignment</a></div>
+<div class=indexItem><a href=#Syntax-Numbers>Numbers</a></div>
+<div class=indexItem><a href=#Syntax-Strings>Strings</a></div>
+<div class=indexItem><a href=#Syntax-Comments>Comments</a></div>
 
 
-<a href=#Objects><div class=indexSection>Objects</div></a>
-<a href=#Objects-Overview><div class=indexItem>Overview</div></a>
-<a href=#Objects-Prototypes><div class=indexItem>Prototypes</div></a>
-<a href=#Objects-Inheritance><div class=indexItem>Inheritance</div></a>
-<a href=#Objects-Methods><div class=indexItem>Methods</div></a>
-<a href=#Objects-Blocks><div class=indexItem>Blocks</div></a>
-<a href=#Objects-Forward><div class=indexItem>Forward</div></a>
-<a href=#Objects-Resend><div class=indexItem>Resend</div></a>
-<a href=#Objects-Super><div class=indexItem>Super</div></a>
-<a href=#Objects-Introspection><div class=indexItem>Introspection</div></a>
+<div class=indexSection><a href=#Objects>Objects</a></div>
+<div class=indexItem><a href=#Objects-Overview>Overview</a></div>
+<div class=indexItem><a href=#Objects-Prototypes>Prototypes</a></div>
+<div class=indexItem><a href=#Objects-Inheritance>Inheritance</a></div>
+<div class=indexItem><a href=#Objects-Methods>Methods</a></div>
+<div class=indexItem><a href=#Objects-Blocks>Blocks</a></div>
+<div class=indexItem><a href=#Objects-Forward>Forward</a></div>
+<div class=indexItem><a href=#Objects-Resend>Resend</a></div>
+<div class=indexItem><a href=#Objects-Super>Super</a></div>
+<div class=indexItem><a href=#Objects-Introspection>Introspection</a></div>
 
 
 </td>
 <td valign=top width=33%>
 
-<a href=#Control-Flow><div class=indexSection>Control Flow</div></a>
-<a href=#Control-Flow-true-false-and-nil><div class=indexItem>true, false and nil</div></a>
-<a href=#Control-Flow-Comparison><div class=indexItem>Comparison</div></a>
-<a href=#Control-Flow-Conditions><div class=indexItem>Conditions</div></a>
-<a href=#Control-Flow-Loops><div class=indexItem>Loops</div></a>
+<div class=indexSection><a href=#Control-Flow>Control Flow</a></div>
+<div class=indexItem><a href=#Control-Flow-true-false-and-nil>true, false and nil</a></div>
+<div class=indexItem><a href=#Control-Flow-Comparison>Comparison</a></div>
+<div class=indexItem><a href=#Control-Flow-Conditions>Conditions</a></div>
+<div class=indexItem><a href=#Control-Flow-Loops>Loops</a></div>
 
 
-<a href=#Importing><div class=indexSection>Importing</div></a></a>
+<div class=indexSection><a href=#Importing>Importing</a></div></a>
 
-<a href=#Concurrency><div class=indexSection>Concurrency</div></a>
-<a href=#Concurrency-Coroutines><div class=indexItem>Coroutines</div></a>
-<a href=#Concurrency-Scheduler><div class=indexItem>Scheduler</div></a>
-<a href=#Concurrency-Actors><div class=indexItem>Actors</div></a>
-<a href=#Concurrency-Futures><div class=indexItem>Futures</div></a>
-<a href=#Concurrency-Yield><div class=indexItem>Yield</div></a>
-<a href=#Concurrency-Pause and Resume><div class=indexItem>Pause and Resume</div></a>
+<div class=indexSection><a href=#Concurrency>Concurrency</a></div>
+<div class=indexItem><a href=#Concurrency-Coroutines>Coroutines</a></div>
+<div class=indexItem><a href=#Concurrency-Scheduler>Scheduler</a></div>
+<div class=indexItem><a href=#Concurrency-Actors>Actors</a></div>
+<div class=indexItem><a href=#Concurrency-Futures>Futures</a></div>
+<div class=indexItem><a href=#Concurrency-Yield>Yield</a></div>
+<div class=indexItem><a href=#Concurrency-Pause and Resume>Pause and Resume</a></div>
 
-<a href=#Exceptions><div class=indexSection>Exceptions</div></a>
-<a href=#Exceptions-Raise><div class=indexItem>Raise</div></a>
-<a href=#ExceptionsTry-and-Catch-><div class=indexItem>Try and Catch</div></a>
-<a href=#Exceptions-Pass><div class=indexItem>Pass</div></a>
-<a href=#Exceptions-Custom-Exceptions><div class=indexItem>Custom Exceptions</div></a>
+<div class=indexSection><a href=#Exceptions>Exceptions</a></div>
+<div class=indexItem><a href=#Exceptions-Raise>Raise</a></div>
+<div class=indexItem><a href=#ExceptionsTry-and-Catch->Try and Catch</a></div>
+<div class=indexItem><a href=#Exceptions-Pass>Pass</a></div>
+<div class=indexItem><a href=#Exceptions-Custom-Exceptions>Custom Exceptions</a></div>
 
-<a href=#Unicode><div class=indexSection>Unicode</div></a>
-<a href=#Unicode-Sequences><div class=indexItem>Sequences</div></a>
-<a href=#Unicode-Source><div class=indexItem>Source</div></a>
-<a href=#Unicode-Conversion><div class=indexItem>Conversion</div></a>
+<div class=indexSection><a href=#Unicode>Unicode</a></div>
+<div class=indexItem><a href=#Unicode-Sequences>Sequences</a></div>
+<div class=indexItem><a href=#Unicode-Source>Source</a></div>
+<div class=indexItem><a href=#Unicode-Conversion>Conversion</a></div>
 
 </td>
 <td valign=top width=33%>
 
 <!--
 <div class=indexSection>Metaprogramming</div>
-<a href=><div class=indexItem>Object</div></a>
-<a href=><div class=indexItem>Block</div></a>
-<a href=><div class=indexItem>Message</div></a>
-<a href=><div class=indexItem>Syntax</div></a>
+<div class=indexItem><a href=>Object</a></div>
+<div class=indexItem><a href=>Block</a></div>
+<div class=indexItem><a href=>Message</a></div>
+<div class=indexItem><a href=>Syntax</a></div>
 -->
 
-<a href=#Primitives><div class=indexSection>Primitives</div></a>
-<a href=#Primitives-Object><div class=indexItem>Object</div></a>
-<a href=#Primitives-List><div class=indexItem>List</div></a>
-<a href=#Primitives-Sequence><div class=indexItem>Sequence</div></a>
-<a href=#Primitives-Ranges><div class=indexItem>Ranges</div></a>
-<a href=#Primitives-File><div class=indexItem>File</div></a>
-<a href=#Primitives-Directory><div class=indexItem>Directory</div></a>
-<a href=#Primitives-Date><div class=indexItem>Date</div></a>
-<a href=#Primitives-Networking><div class=indexItem>Networking</div></a>
-<a href=#Primitives-XML><div class=indexItem>XML</div></a>
-<a href=#Primitives-Vector><div class=indexItem>Vector</div></a>
+<div class=indexSection><a href=#Primitives>Primitives</a></div>
+<div class=indexItem><a href=#Primitives-Object>Object</a></div>
+<div class=indexItem><a href=#Primitives-List>List</a></div>
+<div class=indexItem><a href=#Primitives-Sequence>Sequence</a></div>
+<div class=indexItem><a href=#Primitives-Ranges>Ranges</a></div>
+<div class=indexItem><a href=#Primitives-File>File</a></div>
+<div class=indexItem><a href=#Primitives-Directory>Directory</a></div>
+<div class=indexItem><a href=#Primitives-Date>Date</a></div>
+<div class=indexItem><a href=#Primitives-Networking>Networking</a></div>
+<div class=indexItem><a href=#Primitives-XML>XML</a></div>
+<div class=indexItem><a href=#Primitives-Vector>Vector</a></div>
 
-<a href=#Embedding><div class=indexSection>Embedding</div></a>
-<a href=#Embedding-Conventions><div class=indexItem>Conventions</div></a>
-<a href=#Embedding-IoState><div class=indexItem>IoState</div></a>
-<a href=#Embedding-Values><div class=indexItem>Values</div></a>
+<div class=indexSection><a href=#Embedding>Embedding</a></div>
+<div class=indexItem><a href=#Embedding-Conventions>Conventions</a></div>
+<div class=indexItem><a href=#Embedding-IoState>IoState</a></div>
+<div class=indexItem><a href=#Embedding-Values>Values</a></div>
 
-<a href=#Bindings><div class=indexSection>Bindings</div></a>
+<div class=indexSection><a href=#Bindings>Bindings</a></div>
 
-<a href=#Appendix><div class=indexSection>Appendix</div></a>
-<a href=#Appendix-Grammar><div class=indexItem>Grammar</div></a>
-<a href=#Appendix-Credits><div class=indexItem>Credits</div></a>
-<a href=#Appendix-References><div class=indexItem>References</div></a>
-<a href=#Appendix-License><div class=indexItem>License</div></a>
+<div class=indexSection><a href=#Appendix>Appendix</a></div>
+<div class=indexItem><a href=#Appendix-Grammar>Grammar</a></div>
+<div class=indexItem><a href=#Appendix-Credits>Credits</a></div>
+<div class=indexItem><a href=#Appendix-References>References</a></div>
+<div class=indexItem><a href=#Appendix-License>License</a></div>
 
 </td>
 </tr>
@@ -534,26 +541,26 @@ Io> someObject slotNames sort
 A script can be run from the interactive mode using the doFile method:
 
 <pre>
-doFile(“scriptName.io")
+doFile("scriptName.io")
 </pre>
 
 The evaluation context of doFile is the receiver, which in this case would be the lobby. To evaluate the script in the context of some other object, simply send the doFile message to it:
 
 <pre>
-someObject doFile(“scriptName.io")
+someObject doFile("scriptName.io")
 </pre>
 
 The doString method can be used to evaluate a string:
 
 <pre>
-Io> doString(“1+1")
+Io> doString("1+1")
 ==> 2
 </pre>
 
 And to evaluate a string in the context of a particular object:
 
 <pre>
-someObject doString(“1 + 1")
+someObject doString("1 + 1")
 </pre>
 
 <h4>Command Line Arguments</h4>
@@ -586,9 +593,9 @@ Io has no keywords or statements. Everything is an expression composed entirely 
 <pre>
 exp        ::= { message | terminator }
 message    ::= symbol [arguments]
-arguments  ::= “(“ [exp [ { “," exp } ]] “)"
+arguments  ::= "(" [exp [ { "," exp } ]] ")"
 symbol     ::= identifier | number | string
-terminator ::= “\n" | “;"
+terminator ::= "\n" | ";"
 </pre>
 
 For performance reasons, String and Number literal messages have their results cached in their message objects.
@@ -603,7 +610,7 @@ for(i, 1, 10, i println)
 a := if(b == 0, c + 1, d)
 </pre>
 
-In the above code, “for" and “if" are just normal messages, not special forms or keywords.
+In the above code, "for" and "if" are just normal messages, not special forms or keywords.
 <p>
 
 Likewise, dynamic evaluation can be used with enumeration without the need to wrap the expression in a block. Examples:
@@ -674,7 +681,7 @@ User defined operators (that don't have a standard operator name) are performed 
 <a name=Syntax-Assignment></a>
 <h3>Assignment</h3>
 
-Io has two assignment messages, “:=" and “=". 
+Io has two assignment messages, ":=" and "=". 
 
 <pre>
 a := 1 
@@ -683,7 +690,7 @@ a := 1
 which compiles to:
 
 <pre>
-setSlot(“a", 1)
+setSlot("a", 1)
 </pre>
 
 which creates the slot in the current context. And:
@@ -695,7 +702,7 @@ a = 1
 which compiles to:
 
 <pre>
-updateSlot(“a", 1)
+updateSlot("a", 1)
 </pre>
 
 which sets the slot if it is found in the lookup path or raises an exception otherwise. By overloading updateSlot and forward in the Locals prototype, self is made implicit in methods.
@@ -886,7 +893,10 @@ Dog bark
 </pre>
 
 The default return value of a block is the  result of the last expression.
-Arguments
+
+
+<h4>Arguments<>/h4>
+
 Methods can also be defined to take arguments. Example: 
 
 <pre>
@@ -964,7 +974,7 @@ When a locals object is created, it's self slot is set (to the target of the mes
 
 <h4>Variable Arguments</h4>
 
-The “call message" slot in locals can be used to access the unevaluated argument messages. Example of implementing if() within Io: 
+The "call message" slot in locals can be used to access the unevaluated argument messages. Example of implementing if() within Io: 
 
 <pre>
 myif := method(
@@ -1054,7 +1064,7 @@ The slotNames method returns a list of the names of an object's slots:
 
 <pre>
 Io> Dog slotNames
-==> list(“bark")
+==> list("bark")
 </pre>
 
 <h4>protos</h4>
@@ -1063,7 +1073,7 @@ The protos method returns a list of the objects which an object inherits from:
 
 <pre>
 Io> Dog protos
-==> list(“Object")
+==> list("Object")
 </pre>
 
 <h4>getSlot</h4>
@@ -1084,11 +1094,11 @@ Here, the target of the getSlot method is the locals object.
 
 <h4>code</h4>
 
-The arguments and expressions of methods are open to introspection. A useful convenience method is “code", which returns a string representation of the source code of the method in a normalized form.
+The arguments and expressions of methods are open to introspection. A useful convenience method is "code", which returns a string representation of the source code of the method in a normalized form.
 
 <pre>
 Io> method(a, a * 2) code
-==> “method(a, a *(2))"
+==> "method(a, a *(2))"
 </pre>
 
 </div>
@@ -1169,10 +1179,10 @@ Notice that the condition expression must have parenthesis surrounding it.
 
 <h4>loop</h4>
 
-The loop method can be used for “infinite" loops:
+The loop method can be used for "infinite" loops:
 
 <pre>
-loop(“foo" println)
+loop("foo" println)
 </pre>
 
 <h4>while</h4>
@@ -1246,7 +1256,7 @@ for(i, 1, 10, test(i))
 The Number repeat method is simpler and more efficient when a counter isn't needed.
 
 <pre>
-3 repeat(“foo" print)
+3 repeat("foo" print)
 ==> foofoofoo
 </pre>
 
@@ -1284,7 +1294,7 @@ Io> test
 <h2>Importing</h2>
 <div class=indent>
 
-The Importer proto implements Io's built-in auto importer feature. If you put each of your proto's in their own file, and give the file the same name with and “.io" extension, the Importer will automatically import that file when the proto is first referenced. The Importer's default search path is the current working directory, but can add search paths using it's addSearchPath() method. 
+The Importer proto implements Io's built-in auto importer feature. If you put each of your proto's in their own file, and give the file the same name with and ".io" extension, the Importer will automatically import that file when the proto is first referenced. The Importer's default search path is the current working directory, but can add search paths using it's addSearchPath() method. 
 
 </div>
 <a name=Concurrency></a>
@@ -1505,8 +1515,8 @@ a := list(33, "a")
 Append an item:
 
 <pre>
-a append(“b")
-==> list(33, “a", “b")
+a append("b")
+==> list(33, "a", "b")
 </pre>
 
 Get the list size:
@@ -1538,7 +1548,7 @@ a atPut(6, "Fred")
 Remove an item at a given index:
 
 <pre>
-a remove(“foo")
+a remove("foo")
 ==> list(33, "a", "b")
 </pre>
 
@@ -1560,7 +1570,7 @@ Io> a := list(65, 21, 122)
 In the first form, the first argument is used as an index variable, the second as a value variable and the 3rd as the expression to evaluate for each value.
 
 <pre>
-Io> a foreach(i, v, write(i, “:", v, “, "))
+Io> a foreach(i, v, write(i, ":", v, ", "))
 ==> 0:65, 1:21, 2:122,
 </pre>
 
@@ -1736,10 +1746,10 @@ The above will print 1 through 5, each on its own line.
 The methods openForAppending, openForReading, or openForUpdating are used for opening files. To erase an existing file before opening a new open, the remove method can be used. Example:
 
 <pre>
-f := File with(“foo.txt)
+f := File with("foo.txt)
 f remove
 f openForUpdating
-f write(“hello world!")
+f write("hello world!")
 f close
 </pre>
 
@@ -1749,7 +1759,7 @@ f close
 Creating a directory object:
 
 <pre>
-dir := Directory with(“/Users/steve/")
+dir := Directory with("/Users/steve/")
 </pre>
 
 Get a list of file objects for all the files in a directory:
@@ -1790,7 +1800,7 @@ Getthing the current working directory:
 
 <pre>
 Directory currentWorkingDirectory
-==> “/cygdrive/c/lang/IoFull-Cygwin-2006-04-20"
+==> "/cygdrive/c/lang/IoFull-Cygwin-2006-04-20"
 </pre>
 
 <a name=Primitives-Date></a>
@@ -1856,7 +1866,7 @@ Date cpuSecondsToRun(100000 repeat(1+1))
 <a name=Primitives-Networking></a>
 <h3>Networking</h3>
 
-All of Io's networking is done with asynchronous sockets underneath, but operations like reading and writing to a socket appear to be synchronous since the calling coroutine is unscheduled until the socket has completed the operation, or a timeout occurs. Note that you'll need to first reference the associated addon in order to cause it to load before using it's objects. In these examples, you'll have to reference “Socket" to get the Socket addon to load first.
+All of Io's networking is done with asynchronous sockets underneath, but operations like reading and writing to a socket appear to be synchronous since the calling coroutine is unscheduled until the socket has completed the operation, or a timeout occurs. Note that you'll need to first reference the associated addon in order to cause it to load before using it's objects. In these examples, you'll have to reference "Socket" to get the Socket addon to load first.
 <p>
 Creating a URL object:
 
@@ -1927,7 +1937,7 @@ links := xml elementsWithName("a") map(attributes at("href"))
 Io's Vectors are built on it's Sequence primitive and are defined as:
 
 <pre>
-Vector := Sequence clone setItemType(“float32")
+Vector := Sequence clone setItemType("float32")
 </pre>
 
 The Sequence primitive supports SIMD acceleration on a number of float32 operations. Currently these include add, subtract, multiple and divide but in the future can be extended to support most math, logic and string manipulation related operations.
@@ -2120,7 +2130,7 @@ Each structure has it's own separate .h and .c files. The names of the files are
 <a name=Embedding-IoState></a>
 <h3>IoState</h3>
 
-An IoState can be thought of as an instance of an Io “virtual machine", although “virtual machine" is a less appropriate term because it implies a particular type of implementation. 
+An IoState can be thought of as an instance of an Io "virtual machine", although "virtual machine" is a less appropriate term because it implies a particular type of implementation. 
 
 <h4>Multiple states</h4>
 
@@ -2136,7 +2146,7 @@ int main(int argc, const char *argv[])
 {
     IoState *self = IoState_new();
     IoState_init(self);
-    IoState_doCString_(self, “writeln(\"hello world!\"");
+    IoState_doCString_(self, "writeln(\"hello world!\"");
     IoState_free(self);
     return 0;
 }
@@ -2150,7 +2160,7 @@ We can also get return values and look at their types and print them:
 <pre>
 IoObject *v = IoState_doCString_(self, someString);
 char *name = IoObject_name(v);
-printf(“return type is a ‘%s', name);
+printf("return type is a ‘%s', name);
 IoObject_print(v);
 </pre>
 
@@ -2161,15 +2171,15 @@ There are some macro short cuts to help with quick type checks:
 <pre>
 if (ISNUMBER(v))
 {
-    printf(“result is the number %f", IoNumber_asFloat(v));
+    printf("result is the number %f", IoNumber_asFloat(v));
 } 
 else if(ISSEQ(v))
 {
-    printf(“result is the string %s", IoSeq_asCString(v));
+    printf("result is the string %s", IoSeq_asCString(v));
 }
 else if(ISLIST(v))
 {
-    printf(“result is a list with %i elements", IoList_rawSize(v));
+    printf("result is a list with %i elements", IoList_rawSize(v));
 }
 </pre>
 
@@ -2197,7 +2207,7 @@ argument ::= [wcpad] expression [wcpad]
 symbols
 symbol ::= Identifier | number | Operator | quote
 Identifier ::= { letter | digit | "_" }
-Operator ::= { “:" | "." | "'" | "~" | "!" | "@" | "$" | 
+Operator ::= { ":" | "." | "'" | "~" | "!" | "@" | "$" | 
 "%" | "^" | "&" | "*" | "-" | "+" | "/" | "=" | "{" | "}" | 
 "[" | "]" | "|" | "\" | "<" | ">" | "?" }
 </pre>
