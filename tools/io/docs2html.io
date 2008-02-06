@@ -140,7 +140,7 @@ protoNames foreach(protoName,
 		
 		slotNames foreach(k,
 			s := slots at(k)
-			write("<a href=\"#" .. protoName .. "-" .. k asHtml .. "\">")
+			write("<a href=\"#" .. protoName .. "-" .. k beforeSeq("(") asHtml .. "\">")
 			if(k containsSeq("("), k = k beforeSeq("(") .. "()")
 			write(k asHtml)
 			if(s ?args, write("()"))
@@ -155,13 +155,13 @@ protoNames foreach(protoName,
 		
 		slotNames sort foreach(k,
 			s := slots at(k)
-			write("<a name=\"" .. protoName .. "-" .. k asHtml .. "\"></a><b>")
+			write("<a name=\"" .. protoName .. "-" .. k beforeSeq("(") asHtml .. "\"></a><b>")
 			write(k asHtml)
 			//if(s ?args, writeln("(</b><i>" .. s args map(asHtml) join(", ") .. "</i><b>)"))
 			write("</b>")
 			writeln("<p>")
 			writeln("<div style=\"width:40em; margin-left:2em\">")
-			if(s, writeln(s), writeln("<font color=red>undocumented</font>"))
+			if(s, writeln(s), writeln("<div class=error>undocumented</div>"))
 			writeln("</font>")
 			writeln("</div>")
 			writeln("<p><br>")
