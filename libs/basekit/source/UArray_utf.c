@@ -44,6 +44,7 @@ int UArray_maxCharSize(const UArray *self)
 		{
 			int charSize = UArray_SizeOfUTFChar(self->data + i);
 			if (charSize > maxCharSize)  maxCharSize = charSize;
+			if (charSize == -1) return -1;
 			i += charSize;
 		}
 

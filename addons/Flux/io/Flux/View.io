@@ -1,7 +1,6 @@
 
 View := Responder clone do(
 	appendProto(Notifier)
-    type := "View"
     superview := nil
     frame := Box clone
     frame size set(100,100)
@@ -66,7 +65,7 @@ View := Responder clone do(
     doWithinDisplayList := method(
 		if(needsRedraw,
 			displayList begin
-			sender doMessage(thisMessage argAt(0))
+			call evalArgAt(0)
 			displayList end
 			needsRedraw = nil
 		)
