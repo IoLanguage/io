@@ -103,7 +103,7 @@ protoNames foreach(protoName,
 	//writeln("<b>Protos:</b> ", getSlot(protoName) ?prototypes ?map(type) ?join(", "))
 
 	if(p at("module"), 
-		writeln("<b>>Module:</b> ", p at("module"), "<br>")
+		writeln("<b>Module:</b> ", p at("module"), "<br>")
 	)
 	
 	if(p at("category"),
@@ -155,7 +155,7 @@ protoNames foreach(protoName,
 		
 		slotNames sort foreach(k,
 			s := slots at(k)
-			write("<a name=\" .. protoName .. "-" .. k asHtml .. "\"></a><b>")
+			write("<a name=\"" .. protoName .. "-" .. k asHtml .. "\"></a><b>")
 			write(k asHtml)
 			//if(s ?args, writeln("(</b><i>" .. s args map(asHtml) join(", ") .. "</i><b>)"))
 			write("</b>")
