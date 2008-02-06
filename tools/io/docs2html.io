@@ -148,9 +148,9 @@ protoNames foreach(protoName,
 		)
 		writeln("</div>")
 
-		writeln("<br>")
+		writeln("<p>")
 		writeln("<h3>Slots</h3>")
-		writeln("<br>")
+		writeln("<p>")
 		//slotNames = slotNames map(asMutable strip asSymbol)
 		
 		slotNames sort foreach(k,
