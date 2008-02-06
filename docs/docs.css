@@ -22,16 +22,19 @@ body
     margin-left: 4em;
 }
 
-ul {
+ul 
+{
 	padding: 0em 0em 0em 3.1em;
 }
 
-hr {
+hr 
+{
 	width:50em;
 	height:0em;
 }
 
-.Version {
+.Version 
+{
     color: #bbb;
     text-align: left;
 }
@@ -63,7 +66,8 @@ h1
     vertical-align: 0.000000em;
 }
 
-h2 {
+h2 
+{
     color: #000;
     font-family: 'Helvetica', 'Helvetica';
     font-size: 1.8em;
@@ -85,7 +89,8 @@ h2 {
     vertical-align: 0em;
 }
 
-h3 {
+h3 
+{
     color: #000;
     font-family: 'Helvetica-Bold', 'Helvetica';
     font-size: 1.3em;
@@ -107,7 +112,8 @@ h3 {
     vertical-align: 0.000000em;
 }
 
-h4 {
+h4 
+{
     color: #666;
     font-family: 'Helvetica-Bold', 'Helvetica';
     font-size: 1.1em;
@@ -129,7 +135,8 @@ h4 {
     vertical-align: 0.000000em;
 }
 
-.indexSection {
+.indexSection 
+{
     margin-top: 1em;
     margin-bottom: 0em;
     margin-left: 0em;
@@ -139,7 +146,9 @@ h4 {
     text-transform: none;
     vertical-align: 0.000000em;
 }
-.indexSection a {
+
+.indexSection a 
+{
     color: #000;
     font-family: 'Helvetica-Bold', 'Helvetica';
     font-size: 1em;
@@ -151,7 +160,8 @@ h4 {
     text-decoration: none;
 }
 
-.indexItem {
+.indexItem 
+{
     letter-spacing: 0;
     line-height: 1.4em;
     margin-top: 0em;
@@ -164,7 +174,8 @@ h4 {
     vertical-align: 0.000000em;
 }
 
-.indexItem a {
+.indexItem a 
+{
     color: #777;
     font-family: 'Helvetica';
     font-size: 1em;
@@ -176,7 +187,8 @@ h4 {
     text-decoration: none;
 }
 
-pre {
+pre 
+{
     white-space: pre;
     color: #333;
     font-family: 'Courier', 'Courier';
@@ -199,7 +211,8 @@ pre {
     vertical-align: 0em;
 }
 
-.quote {
+.quote 
+{
     color: #777;
     font-family: 'Helvetica';
     font-size: 1em;
@@ -227,3 +240,42 @@ error
 }
 
 
+.slotIndex 
+{
+    width: 40em;
+
+    margin-top:    1em;
+    margin-bottom: 2em;
+    margin-left:   2em;
+    margin-right:  0em;
+}
+
+.protoDescription 
+{
+    width: 40em;
+
+    margin-top:    1em;
+    margin-bottom: 2.5em;
+    margin-left:   0em;
+    margin-right:  0em;
+}
+
+.slots
+{
+    width: 40em;
+
+    margin-top:    0em;
+    margin-bottom: 4em;
+    margin-left:   0em;
+    margin-right:  0em;
+}
+
+.slotDescription 
+{
+    width: 40em;
+
+    margin-top:    1em;
+    margin-bottom: 2em;
+    margin-left:   2em;
+    margin-right:  0em;
+}

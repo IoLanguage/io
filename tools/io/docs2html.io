@@ -96,7 +96,7 @@ Sequence do(
 
 protoNames foreach(protoName,
 	p := prototypes at(protoName)
-	writeln("<div style=\"align:left\"><hr></div>")
+	writeln("<hr align=left>")
 	writeln("<h2><a name=\"" .. protoName .. "\"></a>", protoName, "</h2>")
 	writeln("<div class=indent>")
 	
@@ -115,13 +115,16 @@ protoNames foreach(protoName,
 
 	if (p at("description"),
 		writeln("<h3>Description</h3>")
+		writeln("<div class=protoDescription>")
 		p at("description") println
+		writeln("</div>")
 	)
 
 	slots := p at("slots")
 	if (slots,
+		writeln("<div class=slots>")
 		writeln("<h3>Slot Index</h3>")
-		writeln("<div style=\"width:40em; margin-left:2em\">")
+		writeln("<div class=slotIndex>")
 		
 		slotNames := slots keys sort
 		
@@ -160,16 +163,15 @@ protoNames foreach(protoName,
 			//if(s ?args, writeln("(</b><i>" .. s args map(asHtml) join(", ") .. "</i><b>)"))
 			write("</b>")
 			writeln("<p>")
-			writeln("<div style=\"width:40em; margin-left:2em\">")
+			writeln("<div class=slotDescription>")
 			if(s, writeln(s), writeln("<div class=error>undocumented</div>"))
 			writeln("</font>")
 			writeln("</div>")
-			writeln("<p><br>")
 		)
+		writeln("</div>")
 	)
 	
 	writeln("</div>")
-	writeln("<br>")
 )
 
 5 repeat(writeln("<br>"))
