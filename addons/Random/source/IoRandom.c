@@ -15,7 +15,7 @@ M. Matsumoto and T. Nishimura, <br>
 ACM Transactions on Modeling and Computer Simulation, Vol. 8, No. 1, January 1998, pp 3--30.
 </i>
 */
-//metadoc Random category Math")
+//metadoc Random category Math
 
 #include "IoRandom.h"
 #include "IoNumber.h"

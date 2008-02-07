@@ -20,13 +20,25 @@ ReferenceDoc := Object clone do(
 
 ProtoDoc := Object clone do(
 	init := method(self slots := List clone)
-	print := method(
+	printIndex := method(
 		
+	)
+	print := method(
+		printIndex
+		slots foreach(print)
 	)	
 )
 
 SlotDoc := Object clone do(
+	name ::= nil
+	value ::= nil
 	
+	printIndex := method(
+		
+	)
+	print := method(
+		
+	)
 )
 */
 
@@ -100,7 +112,7 @@ moduleNames foreach(moduleName,
 		)
 	)
 	count = count + 2
-	if(count > 50,
+	if(count > 53,
 		writeln("</td><td valign=top>")
 		count = 0
 	)
@@ -124,15 +136,22 @@ protoNames foreach(protoName,
 	
 	//writeln("<b>Protos:</b> ", getSlot(protoName) ?prototypes ?map(type) ?join(", "))
 
-	if(p at("module"), 
-		writeln("<b>Module:</b> ", p at("module"), "<br>")
+	showMeta := method(name,
+		if(p at(name),
+			writeln("<b>", name asCapitalized, ":</b> ", p at(name), "<br>")
+		)
 	)
 	
-	if(p at("category"),
-		writeln("<b>Category:</b> ", p at("category"), "<br>")
-	)
+	writeln("""<div style="line-height:1.3em">""")
+	showMeta("module")
+	showMeta("category")
+	writeln("<font color=#bbb>")
+	//showMeta("copyright")
+	//showMeta("license")
+	showMeta("credits")
+	writeln("</font>")
+	writeln("</div>")
 	
-
 	//p keys map(s, "[" .. s .. "]") println
 
 	if (p at("description"),

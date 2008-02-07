@@ -2951,6 +2951,13 @@
 			sepNavVisRect = "{{0, 0}, {912, 747}}";
 		};
 	};
+	AA86BF8C0B6051FF00495786 /* IoVMInit.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1208, 50672}}";
+			sepNavSelRange = "{107236, 0}";
+			sepNavVisRange = "{96493, 947}";
+		};
+	};
 	AA86BF8D0B6051FF00495786 /* IoWeakLink.c */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {728, 2400}}";
@@ -2965,6 +2972,41 @@
 			sepNavSelRange = "{40, 0}";
 			sepNavVisRange = "{0, 350}";
 			sepNavVisRect = "{{0, 171}, {912, 747}}";
+		};
+	};
+	AA9150D20D5B30EB00CBBF14 /* DBIConn.io */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {796, 1088}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{796, 894}";
+		};
+	};
+	AA9150D30D5B30EB00CBBF14 /* DBIRecord.io */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {796, 1008}}";
+			sepNavSelRange = "{1454, 0}";
+			sepNavVisRange = "{932, 940}";
+		};
+	};
+	AA9150DD0D5B30EB00CBBF14 /* IoDBI.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {845, 3152}}";
+			sepNavSelRange = "{4306, 0}";
+			sepNavVisRange = "{4109, 521}";
+		};
+	};
+	AA9150DF0D5B30EB00CBBF14 /* IoDBIConn.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {796, 5984}}";
+			sepNavSelRange = "{195, 0}";
+			sepNavVisRange = "{1875, 921}";
+		};
+	};
+	AA9150E10D5B30EB00CBBF14 /* IoDBIResult.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {796, 6944}}";
+			sepNavSelRange = "{149, 0}";
+			sepNavVisRange = "{0, 1044}";
 		};
 	};
 	AA915DFB0B6DC115004720A5 /* PBXTextBookmark */ = {
@@ -5119,7 +5161,7 @@
 		fRef = AA7D60830B60123D00D7DEA9 /* IoRandom.c */;
 		name = "IoRandom.c: 199";
 		rLen = 0;
-		rLoc = 4744;
+		rLoc = 4742;
 		rType = 0;
 		vrLen = 669;
 		vrLoc = 4370;
@@ -5129,7 +5171,7 @@
 		fRef = AA7D60830B60123D00D7DEA9 /* IoRandom.c */;
 		name = "IoRandom.c: 199";
 		rLen = 0;
-		rLoc = 4744;
+		rLoc = 4742;
 		rType = 0;
 		vrLen = 669;
 		vrLoc = 4370;

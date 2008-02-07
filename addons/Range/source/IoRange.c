@@ -1,6 +1,6 @@
 //metadoc Range category DataStructures
 //metadoc Range category Jeremy Tregunna, 2006
-//metadoc Range category BSD
+//metadoc Range license BSD
 //metadoc Range description Simple datastructure representing the items at and between two specific points.
 
 #include "IoState.h"

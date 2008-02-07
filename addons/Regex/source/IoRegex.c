@@ -1,6 +1,6 @@
 //metadoc Regex copyright Steve Dekorte 2005, Daniel Rosengren 2007
 //metadoc Regex license BSD revised
-//metadoc Regex category RegularExpressions")
+//metadoc Regex category Parsers
 /*metadoc Regex description
 The Regex addon adds support for Perl regular expressions
 using the <a href=http://www.pcre.org/>PCRE</a> library by Philip Hazel.
