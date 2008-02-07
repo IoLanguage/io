@@ -8,6 +8,20 @@ addonFolders foreach(folder,
 prototypes := Map clone
 modules := Map clone
 
+
+/*
+ReferenceDoc := Object clone do(
+	protos :: = List clone
+	html := method(
+		
+	)
+)
+
+ProtoDoc := Object clone
+SlotDoc := Object clone
+
+*/
+
 readFolder := method(path,
 	File with(Path with(path, "/docs/docs.txt")) contents split("------\n") foreach(e,
 		isSlot := e beginsWithSeq("doc")
@@ -139,7 +153,7 @@ protoNames foreach(protoName,
 			)
 		)
 		
-		slotNames = slotNames sort
+		slotNames = slotNames sort remove("init")
 		
 		slotNames foreach(k,
 			s := slots at(k)

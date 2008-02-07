@@ -4,6 +4,25 @@
 //metadoc AVCodec category Media
 /*metadoc AVCodec description
 An object for encoding and decoding audio and video streams.
+
+<p>
+When an input stream containing audio data is opened, the following slots will be set:
+<pre>
+audioChannels
+audioSampleRate
+audioBitRate
+audioDuration
+audioFrameCount
+</pre>
+
+When an input stream containing video data is opened, the following slots will be set:
+
+<pre>
+framePeriod
+videoDuration
+ideoFrameCount
+</pre>
+
 */
 
 #include "IoAVCodec.h"
@@ -219,7 +238,7 @@ void IoAVCodec_error_(IoAVCodec *self, IoMessage *m, char *s)
 
 IoObject *IoAVCodec_audioInputBuffer(IoAVCodec *self, IoObject *locals, IoMessage *m)
 {
-	/*doc AVCodec inputBuffer
+	/*doc AVCodec audioInputBuffer
 	Returns the input buffer.
 	*/
 	return DATA(self)->inputBuffer;
@@ -227,7 +246,7 @@ IoObject *IoAVCodec_audioInputBuffer(IoAVCodec *self, IoObject *locals, IoMessag
 
 IoObject *IoAVCodec_audioOutputBuffer(IoAVCodec *self, IoObject *locals, IoMessage *m)
 {
-	/*doc AVCodec outputBuffer
+	/*doc AVCodec audioOutputBuffer
 	Returns the output buffer.
 	*/
 	return DATA(self)->outputBuffer;
@@ -311,6 +330,10 @@ void IoAVCodec_ConvertFloatToShort(float *f, short *s, size_t sampleCount)
 
 IoObject *IoAVCodec_close(IoAVCodec *self, IoObject *locals, IoMessage *m)
 {
+	/*doc AVCodec close
+	Closes the input file if it's open. Returns self.
+	*/
+	
 	IoAVCodec_registerIfNeeded(self);
 	IoAVCodec_freeContextIfNeeded(self);
 	return self;
@@ -326,6 +349,10 @@ int IoAVCodec_openFile(IoAVCodec *self)
 
 IoObject *IoAVCodec_open(IoAVCodec *self, IoObject *locals, IoMessage *m)
 {
+	/*doc AVCodec open
+	Opens the input file. Return self on success or raises an exception on error.
+	*/
+	
 	int err;
 
 	IoAVCodec_registerIfNeeded(self);
@@ -444,11 +471,21 @@ int IoAVCodec_findStreams(IoAVCodec *self)
 
 IoObject *IoAVCodec_isAtEnd(IoAVCodec *self, IoObject *locals, IoMessage *m)
 {
+	/*doc AVCodec isAtEnd
+	Returns true if the stream is at it's end, false otherwise.
+	*/
+	
 	return IOBOOL(self, DATA(self)->isAtEnd);
 }
 
 IoObject *IoAVCodec_decode(IoAVCodec *self, IoObject *locals, IoMessage *m)
 {
+	/*doc AVCodec decode
+	Decodes the next chunk of input data. 
+	Output (if any) is placed in the outputBuffers. 
+	Returns self.
+	*/
+	
 	AVFormatContext *formatContext = DATA(self)->formatContext;
 	int audioStreamIndex = DATA(self)->audioStreamIndex;
 	int videoStreamIndex = DATA(self)->videoStreamIndex;

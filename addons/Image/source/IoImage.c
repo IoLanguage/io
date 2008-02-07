@@ -168,8 +168,9 @@ IoObject *IoImage_setDataWidthHeightComponentCount(IoImage *self, IoObject *loca
 	int h = IoMessage_locals_intArgAt_(m, locals, 2);
 	int c = IoMessage_locals_intArgAt_(m, locals, 3);
 
+	printf("Image Image_setData_width_height_componentCount_\n");
 	Image_setData_width_height_componentCount_(DATA(self)->image, IoSeq_rawUArray(data), w, h, c);
-
+	printf("Image returning self\n");
 	return self;
 }
 
@@ -241,6 +242,10 @@ IoObject *IoImage_data(IoImage *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoImage_componentCount(IoImage *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Image componentCount
+	Returns the number of color components in the receiver as a Number.
+	*/
+	
 	return IONUMBER(Image_componentCount(DATA(self)->image));
 }
 
@@ -300,6 +305,7 @@ IoObject *IoImage_crop(IoImage *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Image crop(x, y, width, height)
 	Crops the image to the specified values. Returns self.
+	Raises an exception on error.
 	*/
 
 	int cx = IoMessage_locals_intArgAt_(m, locals, 0);
@@ -314,10 +320,17 @@ IoObject *IoImage_crop(IoImage *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoImage_resizedTo(IoImage *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Image resizedTo(width, height)
+	Returns a new image of the receiver resized to the given width and height.
+	Raises an exception on error.
+	*/
 	int w = IoMessage_locals_intArgAt_(m, locals, 0);
 	int h = IoMessage_locals_intArgAt_(m, locals, 1);
 
 	IoImage *outImage = IoImage_new(IOSTATE);
+
+	IoState_error_(IOSTATE, m, "Image resizeTo");
+
 	Image_resizeTo(DATA(self)->image, w, h, DATA(outImage)->image);
 	IoImage_checkError(self, locals, m);
 	return outImage;
@@ -347,7 +360,9 @@ IoObject *IoImage_encodingQuality(IoImage *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoImage_setDecodingWidthHint(IoImage *self, IoObject *locals, IoMessage *m)
 {
-
+	/*doc Image setDecodingWidthHint(width)
+	Sets the decoding width hint. Returns self.
+	*/
 
 	Image_decodingWidthHint_(DATA(self)->image, IoMessage_locals_intArgAt_(m, locals, 0));
 	return self;
@@ -355,20 +370,28 @@ IoObject *IoImage_setDecodingWidthHint(IoImage *self, IoObject *locals, IoMessag
 
 IoObject *IoImage_decodingWidthHint(IoImage *self, IoObject *locals, IoMessage *m)
 {
-
+	/*doc Image decodingWidthHint
+	Returns the decoding width hint.
+	*/
+	
 	return IONUMBER(Image_decodingWidthHint(DATA(self)->image));
 }
 
 IoObject *IoImage_setDecodingHeightHint(IoImage *self, IoObject *locals, IoMessage *m)
 {
-
+	/*doc Image setDecodingHeightHint(width)
+	Sets the decoding height hint. Returns self.
+	*/
+	
 	Image_decodingHeightHint_(DATA(self)->image, IoMessage_locals_intArgAt_(m, locals, 0));
 	return self;
 }
 
 IoObject *IoImage_decodingHeightHint(IoImage *self, IoObject *locals, IoMessage *m)
 {
-
+	/*doc Image decodingHeightHint
+	Returns the decoding height hint.
+	*/
 	return IONUMBER(Image_decodingHeightHint(DATA(self)->image));
 }
 

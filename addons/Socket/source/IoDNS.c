@@ -1,8 +1,9 @@
 
 //metadoc DNS copyright Steve Dekorte 2002
 //metadoc DNS license BSD revised
+/*metadoc DNS category Networking
 /*metadoc DNS description
-Utility methods related to Domain Name Service lookups.
+Utility methods related to Domain Name Service lookups. 
 */
 //metadoc DNS category Networking
 
@@ -170,6 +171,9 @@ int assemble(unsigned char *packetData, uint32_t packetDataSize, uint16_t id, co
 
 IoObject *IoObject_dnsQueryPacketForHostName(IoObject *self, IoObject *locals, IoMessage *m)
 {
+/*doc DNS dnsQueryPacketForHostName(hostNameSeq)
+Assembles a DNS query packet for the given host name and returns it in a Sequence.
+*/
 	IoSeq *hostName = IoMessage_locals_seqArgAt_(m, locals, 0);
 	IoSeq *packet = IoSeq_new(IOSTATE);
 	int packetLength;
@@ -337,6 +341,10 @@ static int disassemble(unsigned char *buf, int len, struct msg *msg)
 
 IoObject *IoObject_hostNameAndIPforDNSResponsePacket(IoObject *self, IoObject *locals, IoMessage *m)
 {
+/*doc DNS hostNameAndIPforDNSResponsePacket(dnsResponsePacketSeq)
+Dissasembles the given dnsResponsePacketSeq and returns a list object containing
+the hostName and IP or an error string on error.
+*/
 	IoSeq *packet = IoMessage_locals_seqArgAt_(m, locals, 0);
 	IoList *list = IoList_new(IOSTATE);
 
@@ -417,6 +425,9 @@ IoObject *IoObject_hostNameAndIPforDNSResponsePacket(IoObject *self, IoObject *l
 
 IoObject *IoObject_localNameServersIPs(IoObject *self, IoObject *locals, IoMessage *m)
 {
+/*doc DNS localNameServersIPs
+Returns a list of local name server IPs as a list of Sequences. Works on OSX, Unix, Windows.
+*/
 	IoList *list = IoList_new(IOSTATE);
 	LocalNameServers *lns = LocalNameServers_new();
 	List *ips = LocalNameServers_ips(lns);

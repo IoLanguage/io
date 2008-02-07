@@ -539,6 +539,7 @@
 		AABA46120B6DB7CD00446661 /* UArray.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AABA460A0B6DB7CC00446661 /* UArray.h */; };
 		AABF82E50B76B45F002DBAB5 /* UArray_stream.c in Sources */ = {isa = PBXBuildFile; fileRef = AABF82E30B76B45F002DBAB5 /* UArray_stream.c */; };
 		AABF82E60B76B45F002DBAB5 /* UArray_stream.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AABF82E40B76B45F002DBAB5 /* UArray_stream.h */; };
+		AABFA2B90D59800D00FE7A84 /* Image.c in Sources */ = {isa = PBXBuildFile; fileRef = AABFA2B70D59800C00FE7A84 /* Image.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -1385,6 +1386,8 @@
 		AABA460A0B6DB7CC00446661 /* UArray.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = UArray.h; sourceTree = "<group>"; };
 		AABF82E30B76B45F002DBAB5 /* UArray_stream.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = UArray_stream.c; sourceTree = "<group>"; };
 		AABF82E40B76B45F002DBAB5 /* UArray_stream.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = UArray_stream.h; sourceTree = "<group>"; };
+		AABFA2B70D59800C00FE7A84 /* Image.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Image.c; sourceTree = "<group>"; };
+		AABFA2B80D59800D00FE7A84 /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
 		C6A0FF2C0290799A04C91782 /* osx.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = osx.1; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1826,6 +1829,8 @@
 		AA7D5CDD0B60123B00D7DEA9 /* source */ = {
 			isa = PBXGroup;
 			children = (
+				AABFA2B70D59800C00FE7A84 /* Image.c */,
+				AABFA2B80D59800D00FE7A84 /* Image.h */,
 				AA7D5CE00B60123B00D7DEA9 /* IoImage.c */,
 				AA7D5CE10B60123B00D7DEA9 /* IoImage.h */,
 				AA7D5CE20B60123B00D7DEA9 /* IoImageApi.h */,
@@ -3248,6 +3253,7 @@
 				AA6ABF930BA8012F0049770F /* IoBox.c in Sources */,
 				AA6ABF950BA8012F0049770F /* mandlebrot.c in Sources */,
 				AA6ABFE30BA8D27E0049770F /* IoSeq_vector.c in Sources */,
+				AABFA2B90D59800D00FE7A84 /* Image.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

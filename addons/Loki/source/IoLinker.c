@@ -1,7 +1,8 @@
 //metadoc Linker copyright Marc Fauconneau, 2006
 //metadoc Linker license BSD revised
+//metadoc Linker category Compilers
 /*metadoc Linker description
-	An object that enables low level introspection into a running Io VM.")
+	An object that enables low level introspection into a running Io VM. 
 */
 
 #include "IoLinker.h"
@@ -17,7 +18,6 @@ double fptrToDouble(void* fptr)
 	x = y;
 	return x;
 }
-
 
 IoLinker *IoLinker_proto(void *state)
 {
@@ -43,6 +43,10 @@ IoLinker *IoLinker_proto(void *state)
 
 IoObject *IoLinker_makeCFunction(IoLinker *self, IoObject *locals, IoMessage *m)
 {
+/*doc Linker makeCFunction(aSeq, slotName, object)
+Creates a CFunction which users the beginning address of the data in aSeq as it's function pointer and 
+adds the CFunction to the given object on slot slotName.
+*/
 	IoSeq *buffer = IoMessage_locals_seqArgAt_(m, locals, 0);
 	IoSeq *slotName = IoMessage_locals_seqArgAt_(m, locals, 1);
 	IoObject *object = IoMessage_locals_valueArgAt_(m, locals, 2);
@@ -81,6 +85,10 @@ UArray *UArray_fromHexStringUArray(UArray *self)
 
 IoObject *IoLinker_bytesToHexSeq(IoLinker *self, IoObject *locals, IoMessage *m)
 {
+/*doc Linker bytesToHexSeq(aSeq)
+Returns a Sequence containing a hex representation of aSeq. 
+*/
+	
 	IoSeq *buffer = IoMessage_locals_seqArgAt_(m, locals, 0);
 	UArray *ba = IoSeq_rawUArray(buffer);
 	return IoSeq_newWithUArray_copy_(IOSTATE, UArray_asNewHexStringUArray(ba), 0);
@@ -88,6 +96,9 @@ IoObject *IoLinker_bytesToHexSeq(IoLinker *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoLinker_hexSeqToBytes(IoLinker *self, IoObject *locals, IoMessage *m)
 {
+/*doc Linker hexSeqToBytes(aSeq)
+Returns a Sequence containing a binary representation of the hex data in aSeq. 
+*/
 	IoSeq *buffer = IoMessage_locals_seqArgAt_(m, locals, 0);
 	UArray *ba = IoSeq_rawUArray(buffer);
 	return IoSeq_newWithUArray_copy_(IOSTATE, UArray_fromHexStringUArray(ba), 0);

@@ -348,6 +348,10 @@ IoObject *IoGLU_gluProjectOrigin(IoGLU *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoGLU_gluScaleImage(IoGLU *self, IoObject *locals, IoMessage *m)
 {
+	/*doc GLU gluScaleImage(formatIn, widthIn, heightIn, typeIn, dataSeqIn, widthOut, heightOut, typeOut, dataSeqOut)
+	Scales the image data in dataSeqIn and outputs the result to dataSeqOut.
+	Returns error code as a Number.
+	*/
 	GLenum format = IoMessage_locals_intArgAt_(m, locals, 0);
 	GLsizei wIn = IoMessage_locals_intArgAt_(m, locals, 1);
 	GLsizei hIn = IoMessage_locals_intArgAt_(m, locals, 2);

@@ -1,5 +1,13 @@
-/* Rational Number
-   Copyright (c) 2006 Jeremy Tregunna. All rights reserved.
+/*metadoc Rational Number description
+Example use:
+<pre>
+r1 := Rational with(1, 2) /* 1/2 */
+r1 + r1 == Rational with(1, 1) /* true */
+Rational with(1, 1) == Rational with(4, 4) /* true */
+
+r2 := Rational with(1, 4)
+r1 + r2 == 0.75 asRational
+</pre>
  */
 
 Rational := Object clone do(
@@ -7,7 +15,12 @@ Rational := Object clone do(
 	//metadoc Rational copyright Jeremy Tregunna, 2006
 	//metadoc Rational license BSD
 
+	//doc Rational numerator Returns the numerator.
+	//doc Rational setNumerator(aNumber) Sets the numerator. Returns self.
 	newSlot("numerator", 0)
+	
+	//doc Rational denominator Returns the denominator.
+	//doc Rational setDenominator(aNumber) Sets the denominator. Returns self.	
 	newSlot("denominator", 0)
 
 	//doc Rational with(aNumerator, aDenominator) Convenience constructor. Returns a new Rational number whose numerator and denominator are represented by the arguments aNumerator and aDenominator respectively.")

@@ -322,7 +322,6 @@ void Image_flipY(Image *self)
 	}
 }
 
-
 void Image_resizeTo(Image *self, int w, int h, Image *outImage)
 {
 	int componentCount = self->componentCount;

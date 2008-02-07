@@ -1,11 +1,7 @@
-/*#io
-DBIConn ioDoc(
-	docCopyright("Jeremy Cowgar", 2006)
-	docLicense("BSD revised")
-	docCategory("Databases")
-	docObject("DBIConn")
-	docDescription("A DBI Connection.")
-*/
+//metadoc DBIConn copyright Jeremy Cowgar 2006
+//metadoc DBIConn license BSD revised
+//metadoc DBIConn category Databases
+//metadoc DBIConn description An object that represents a DBI Connection.
 
 #include <dbi/dbi.h>
 

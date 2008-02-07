@@ -48,14 +48,16 @@
 <div class=indexItem><a href="#nil">nil</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#true">true</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#AVCodec">AVCodec</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href="#AVCodec">AVCodec</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href="#Video">Video</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#AppleExtras">AppleExtras</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#AsyncRequest">AsyncRequest</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#Blowfish">Blowfish</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#Box">Box</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#CFFI">CFFI</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#CGI">CGI</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-<div class=indexSection><a href="#Curses">Curses</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 </td><td valign=top>
+<div class=indexSection><a href="#Curses">Curses</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#DBI">DBI</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#DBIConn">DBIConn</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#DBIRecord">DBIRecord</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -89,10 +91,12 @@
 <div class=indexItem><a href="#OpenGL">OpenGL</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#Vector">Vector</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#PortAudio">PortAudio</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href="#AudioDevice">AudioDevice</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href="#AudioMixer">AudioMixer</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#Postgres">Postgres</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+</td><td valign=top>
 <div class=indexSection><a href="#Python">Python</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#QDBM">QDBM</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-</td><td valign=top>
 <div class=indexSection><a href="#Random">Random</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#Range">Range</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#Rational">Rational</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -156,6 +160,24 @@
 <div class=protoDescription>
 An object for encoding and decoding audio and video streams.
 
+<p>
+When an input stream containing audio data is opened, the following slots will be set:
+<pre>
+audioChannels
+audioSampleRate
+audioBitRate
+audioDuration
+audioFrameCount
+</pre>
+
+When an input stream containing video data is opened, the following slots will be set:
+
+<pre>
+framePeriod
+videoDuration
+ideoFrameCount
+</pre>
+
 </div>
 <div class=slots>
 <h3>Slot Index</h3>
@@ -168,50 +190,54 @@ An object for encoding and decoding audio and video streams.
 <a href="#AVCodec-decodeCodecNames">decodeCodecNames</a><br>
 <a href="#AVCodec-didProcess">didProcess</a><br>
 <a href="#AVCodec-encodeCodecNames">encodeCodecNames</a><br>
-<a href="#AVCodec-inputBuffer">inputBuffer</a><br>
 <a href="#AVCodec-inputCoro">inputCoro</a><br>
 <a href="#AVCodec-internalCoro">internalCoro</a><br>
 <a href="#AVCodec-isAtEnd">isAtEnd</a><br>
 <a href="#AVCodec-open">open</a><br>
-<a href="#AVCodec-outputBuffer">outputBuffer</a><br>
 <a href="#AVCodec-path">path</a><br>
-<a href="#AVCodec-setCodecName">setCodecName</a><br>
-<a href="#AVCodec-setInputCoro">setInputCoro</a><br>
-<a href="#AVCodec-setInternalCoro">setInternalCoro</a><br>
-<a href="#AVCodec-setPath">setPath</a><br>
-<a href="#AVCodec-setStreamDestination">setStreamDestination</a><br>
-<a href="#AVCodec-setVideoCodecName">setVideoCodecName</a><br>
+<a href="#AVCodec-setCodecName">setCodecName()</a><br>
+<a href="#AVCodec-setInputCoro">setInputCoro()</a><br>
+<a href="#AVCodec-setInternalCoro">setInternalCoro()</a><br>
+<a href="#AVCodec-setPath">setPath()</a><br>
+<a href="#AVCodec-setStreamDestination">setStreamDestination()</a><br>
 <a href="#AVCodec-streamDestination">streamDestination</a><br>
 <a href="#AVCodec-videoCodecName">videoCodecName</a><br>
 <a href="#AVCodec-willProcess">willProcess</a><br>
-<a href="#AVCodec-write">write</a><br>
+<a href="#AVCodec-write">write()</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
 <a name="AVCodec-audioInputBuffer"></a><b>audioInputBuffer</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+	Returns the input buffer.
+
 </font>
 </div>
 <a name="AVCodec-audioOutputBuffer"></a><b>audioOutputBuffer</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+	Returns the output buffer.
+
 </font>
 </div>
 <a name="AVCodec-close"></a><b>close</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+	Closes the input file if it's open. Returns self.
+
 </font>
 </div>
 <a name="AVCodec-codecName"></a><b>codecName</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns name of audio or video codec.
+
 </font>
 </div>
 <a name="AVCodec-decode"></a><b>decode</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+	Decodes the next chunk of input data. 
+	Output (if any) is placed in the outputBuffers. 
+	Returns self.
+
 </font>
 </div>
 <a name="AVCodec-decodeCodecNames"></a><b>decodeCodecNames</b><p>
@@ -222,7 +248,8 @@ An object for encoding and decoding audio and video streams.
 </div>
 <a name="AVCodec-didProcess"></a><b>didProcess</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+	Called after the receiver processes some more of the input buffer.
+
 </font>
 </div>
 <a name="AVCodec-encodeCodecNames"></a><b>encodeCodecNames</b><p>
@@ -231,91 +258,94 @@ An object for encoding and decoding audio and video streams.
 
 </font>
 </div>
-<a name="AVCodec-inputBuffer"></a><b>inputBuffer</b><p>
-<div class=slotDescription>
-	Returns the input buffer.
-
-</font>
-</div>
 <a name="AVCodec-inputCoro"></a><b>inputCoro</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns coroutine currently writing to the receiver.
+
 </font>
 </div>
 <a name="AVCodec-internalCoro"></a><b>internalCoro</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns coroutine used for the AVCodec to process data...
+
 </font>
 </div>
 <a name="AVCodec-isAtEnd"></a><b>isAtEnd</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+	Returns true if the stream is at it's end, false otherwise.
+
 </font>
 </div>
 <a name="AVCodec-open"></a><b>open</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
-</font>
-</div>
-<a name="AVCodec-outputBuffer"></a><b>outputBuffer</b><p>
-<div class=slotDescription>
-	Returns the output buffer.
+	Opens the input file. Return self on success or raises an exception on error.
 
 </font>
 </div>
 <a name="AVCodec-path"></a><b>path</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns path to file the receiver is reading or writing to.
+
 </font>
 </div>
-<a name="AVCodec-setCodecName"></a><b>setCodecName</b><p>
+<a name="AVCodec-setCodecName"></a><b>setCodecName(aSeq)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+ Sets the codec name. Returns self. See: encodeCodecNames and decodeCodecNames
+
 </font>
 </div>
-<a name="AVCodec-setInputCoro"></a><b>setInputCoro</b><p>
+<a name="AVCodec-setInputCoro"></a><b>setInputCoro(aCoro)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+ Private method for setting inputCoro. Returns self.
+
 </font>
 </div>
-<a name="AVCodec-setInternalCoro"></a><b>setInternalCoro</b><p>
+<a name="AVCodec-setInternalCoro"></a><b>setInternalCoro(aCoro)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+ Private method for setting internalCoro. Returns self.
+
 </font>
 </div>
-<a name="AVCodec-setPath"></a><b>setPath</b><p>
+<a name="AVCodec-setPath"></a><b>setPath(aSeq)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+ Sets the path to file the receiver is reading or writing to. Returns self.
+
 </font>
 </div>
-<a name="AVCodec-setStreamDestination"></a><b>setStreamDestination</b><p>
+<a name="AVCodec-setStreamDestination"></a><b>setStreamDestination(anObject)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
-</font>
-</div>
-<a name="AVCodec-setVideoCodecName"></a><b>setVideoCodecName</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the streamDestination to anObject. The didProcess method will call:
+<pre>
+if(streamDestination, streamDestination write(outputBuffer))
+outputBuffer empty
+</pre>
+
 </font>
 </div>
 <a name="AVCodec-streamDestination"></a><b>streamDestination</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+ Returns the streamDestination.
+
 </font>
 </div>
 <a name="AVCodec-videoCodecName"></a><b>videoCodecName</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the name of the video codec.
+
 </font>
 </div>
 <a name="AVCodec-willProcess"></a><b>willProcess</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+	Called before the receiver will process more of the input buffer. 
+	If inputBuffer is empty, it pauses the receiver's coro.
+
 </font>
 </div>
-<a name="AVCodec-write"></a><b>write</b><p>
+<a name="AVCodec-write"></a><b>write(aSequence)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+	Appends aSequence to the input buffer and resumes the receiver's coroutine in order to process it.
+	The calling coroutine (inputCoroutine) will be scheduled to resume when didProcess is called.
+
 </font>
 </div>
 </div>
@@ -491,30 +521,80 @@ Returns the path of the source folder for the addon.
 <h2><a name="AppleSensors"></a>AppleSensors</h2>
 <div class=indent>
 <b>Module:</b> AppleExtras<br>
-<b>Category:</b> Encryption
+<b>Category:</b> Other
 <br>
 <h3>Description</h3>
 <div class=protoDescription>
-The AppleSensors object can be used to do encryption and decryption using the AppleSensors algorithm.
+A singleton which on Apple computers can:
+<ul>
+<li> get and set display and keyboard brightness
+<li> read left and right ambient light sensors (laptops only)
+<li> read accelerometer sensor (laptops only)
+</ul>
 Example use;
 <pre>	
-bf = AppleSensors clone
-bf setKey("secret")
-bf beginProcessing
-bf inputBuffer appendSeq("this is a message")
-bf process
-bf endProcess
-bf outputBuffer // this contains the encrypted data
+sensors = AppleSensors clone
+value := sensors getRightLightSensor
 </pre>
 
 </div>
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
+<a href="#AppleSensors-getDisplayBrightness">getDisplayBrightness</a><br>
+<a href="#AppleSensors-getKeyboardBrightness">getKeyboardBrightness</a><br>
+<a href="#AppleSensors-getLeftLightSensor">getLeftLightSensor</a><br>
+<a href="#AppleSensors-getRightLightSensor">getRightLightSensor</a><br>
+<a href="#AppleSensors-setDisplayBrightness">setDisplayBrightness()</a><br>
+<a href="#AppleSensors-setKeyboardBrightness">setKeyboardBrightness()</a><br>
+<a href="#AppleSensors-smsVector">smsVector()</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
+<a name="AppleSensors-getDisplayBrightness"></a><b>getDisplayBrightness</b><p>
+<div class=slotDescription>
+		Returns a number for the display brightness.
+
+</font>
+</div>
+<a name="AppleSensors-getKeyboardBrightness"></a><b>getKeyboardBrightness</b><p>
+<div class=slotDescription>
+		Returns a number for the keyboard brightness.
+
+</font>
+</div>
+<a name="AppleSensors-getLeftLightSensor"></a><b>getLeftLightSensor</b><p>
+<div class=slotDescription>
+		Returns a number for the left ambient light sensor.
+
+</font>
+</div>
+<a name="AppleSensors-getRightLightSensor"></a><b>getRightLightSensor</b><p>
+<div class=slotDescription>
+		Returns a number for the right ambient light sensor.
+
+</font>
+</div>
+<a name="AppleSensors-setDisplayBrightness"></a><b>setDisplayBrightness(aNumber)</b><p>
+<div class=slotDescription>
+		Sets the display brightness. Returns self.
+
+</font>
+</div>
+<a name="AppleSensors-setKeyboardBrightness"></a><b>setKeyboardBrightness(aNumber)</b><p>
+<div class=slotDescription>
+		Sets the keyboard brightness. Returns self.
+
+</font>
+</div>
+<a name="AppleSensors-smsVector"></a><b>smsVector(aVector)</b><p>
+<div class=slotDescription>
+		Sets aVector to the current x, y and z accelerometer values. 
+		Returns true on success and false on failure.
+
+</font>
+</div>
 </div>
 </div>
 <hr align=left>
@@ -525,27 +605,106 @@ bf outputBuffer // this contains the encrypted data
 <br>
 <h3>Description</h3>
 <div class=protoDescription>
-Used for doing asynchronous file i/o.
-Example use;
-<pre>	
-
-</pre>
+Used for doing asynchronous file i/o. When this addon is loaded, it will override
+the File proto's readToBufferLength, readBufferOfLength and write methods to 
+automatically use AsyncRequests. 
+<p>
+Note: This addon is only needed for async file request - all socket ops are already
+asynchronous in Io.
 
 </div>
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
+<a href="#AsyncRequest-cancel">cancel</a><br>
+<a href="#AsyncRequest-copyBufferto">copyBufferto()</a><br>
+<a href="#AsyncRequest-descriptor">descriptor</a><br>
+<a href="#AsyncRequest-error">error</a><br>
+<a href="#AsyncRequest-isDone">isDone</a><br>
+<a href="#AsyncRequest-numberOfBytes">numberOfBytes</a><br>
+<a href="#AsyncRequest-position">position</a><br>
+<a href="#AsyncRequest-read">read()</a><br>
+<a href="#AsyncRequest-setDescriptor">setDescriptor()</a><br>
+<a href="#AsyncRequest-sync">sync</a><br>
+<a href="#AsyncRequest-write">write()</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
+<a name="AsyncRequest-cancel"></a><b>cancel</b><p>
+<div class=slotDescription>
+	Cancels the request. Returns nil on error or self otherwise.
+
+</font>
+</div>
+<a name="AsyncRequest-copyBufferto"></a><b>copyBufferto(aSeq)</b><p>
+<div class=slotDescription>
+	Copies the request buffer's data to aSeq.
+	Returns nil on error or self otherwise.
+
+</font>
+</div>
+<a name="AsyncRequest-descriptor"></a><b>descriptor</b><p>
+<div class=slotDescription>
+	Returns the descriptor for the request.
+
+</font>
+</div>
+<a name="AsyncRequest-error"></a><b>error</b><p>
+<div class=slotDescription>
+	Returns sequence containing the last error or nil otherwise.
+
+</font>
+</div>
+<a name="AsyncRequest-isDone"></a><b>isDone</b><p>
+<div class=slotDescription>
+	Returns true if the request is done, false otherwise.
+
+</font>
+</div>
+<a name="AsyncRequest-numberOfBytes"></a><b>numberOfBytes</b><p>
+<div class=slotDescription>
+	Returns the number of bytes associated with the request.
+
+</font>
+</div>
+<a name="AsyncRequest-position"></a><b>position</b><p>
+<div class=slotDescription>
+	Returns a Number for the position of the descriptor.
+
+</font>
+</div>
+<a name="AsyncRequest-read"></a><b>read(aSeq, numberOfBytes)</b><p>
+<div class=slotDescription>
+	Submits an async read request. Returns nil on error, self otherwise.
+
+</font>
+</div>
+<a name="AsyncRequest-setDescriptor"></a><b>setDescriptor(aDescriptorNumber)</b><p>
+<div class=slotDescription>
+	Sets the descriptor for the receiver. Returns self.
+
+</font>
+</div>
+<a name="AsyncRequest-sync"></a><b>sync</b><p>
+<div class=slotDescription>
+	Waits for the request to complete. Returns nil on error or self otherwise.
+
+</font>
+</div>
+<a name="AsyncRequest-write"></a><b>write(fileOffset, aSeq, bufferOffset, numberOfBytesToWrite)</b><p>
+<div class=slotDescription>
+	Submits an async write request. Returns nil on error, self otherwise.
+
+</font>
+</div>
 </div>
 </div>
 <hr align=left>
 <h2><a name="AudioDevice"></a>AudioDevice</h2>
 <div class=indent>
 <b>Module:</b> PortAudio<br>
-<b>Category:</b> Media")
+<b>Category:</b> Media
 <br>
 <h3>Description</h3>
 <div class=protoDescription>
@@ -556,17 +715,15 @@ The AudioDevice object can used to write audio data as if directly to the audio 
 <h3>Slot Index</h3>
 <div class=slotIndex>
 <a href="#AudioDevice-asyncRead">asyncRead</a><br>
-<a href="#AudioDevice-asyncWrite">asyncWrite</a><br>
+<a href="#AudioDevice-asyncWrite">asyncWrite()</a><br>
 <a href="#AudioDevice-close">close</a><br>
 <a href="#AudioDevice-error">error</a><br>
 <a href="#AudioDevice-isActive">isActive</a><br>
 <a href="#AudioDevice-needsData">needsData</a><br>
-<a href="#AudioDevice-nonBlockingWrite">nonBlockingWrite()</a><br>
 <a href="#AudioDevice-open">open</a><br>
 <a href="#AudioDevice-openForReadingAndWriting">openForReadingAndWriting</a><br>
-<a href="#AudioDevice-read">read</a><br>
 <a href="#AudioDevice-streamTime">streamTime</a><br>
-<a href="#AudioDevice-write">write</a><br>
+<a href="#AudioDevice-write">write()</a><br>
 <a href="#AudioDevice-writeBufferIsEmpty">writeBufferIsEmpty</a><br>
 </div>
 <p>
@@ -574,12 +731,14 @@ The AudioDevice object can used to write audio data as if directly to the audio 
 <p>
 <a name="AudioDevice-asyncRead"></a><b>asyncRead</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+	Returns the audio read buffer.
+
 </font>
 </div>
-<a name="AudioDevice-asyncWrite"></a><b>asyncWrite</b><p>
+<a name="AudioDevice-asyncWrite"></a><b>asyncWrite(aBuffer)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+	Writes aBuffer to the audio output buffer and returns immediately.
+
 </font>
 </div>
 <a name="AudioDevice-close"></a><b>close</b><p>
@@ -606,12 +765,6 @@ The AudioDevice object can used to write audio data as if directly to the audio 
 
 </font>
 </div>
-<a name="AudioDevice-nonBlockingWrite"></a><b>nonBlockingWrite(aBuffer)</b><p>
-<div class=slotDescription>
-	Writes aBuffer to the audio output buffer and returns immediately.
-
-</font>
-</div>
 <a name="AudioDevice-open"></a><b>open</b><p>
 <div class=slotDescription>
 	Open an audio output stream.
@@ -624,27 +777,118 @@ The AudioDevice object can used to write audio data as if directly to the audio 
 
 </font>
 </div>
-<a name="AudioDevice-read"></a><b>read</b><p>
-<div class=slotDescription>
-	Returns the audio read buffer.
-
-</font>
-</div>
 <a name="AudioDevice-streamTime"></a><b>streamTime</b><p>
 <div class=slotDescription>
 	Returns the audio stream time as a number.
 
 </font>
 </div>
-<a name="AudioDevice-write"></a><b>write</b><p>
+<a name="AudioDevice-write"></a><b>write(aSeq) Writes aSeq to the inputBuffer and yields until the</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+	receiver is ready for more input data. Returns self.
+
 </font>
 </div>
 <a name="AudioDevice-writeBufferIsEmpty"></a><b>writeBufferIsEmpty</b><p>
 <div class=slotDescription>
 	Returns the true if the audio buffer is empty, false otherwise.
 
+</font>
+</div>
+</div>
+</div>
+<hr align=left>
+<h2><a name="AudioMixer"></a>AudioMixer</h2>
+<div class=indent>
+<b>Module:</b> PortAudio<br>
+<b>Category:</b> Media
+<br>
+<h3>Description</h3>
+<div class=protoDescription>
+A minimal audio mixer.
+
+</div>
+<div class=slots>
+<h3>Slot Index</h3>
+<div class=slotIndex>
+<a href="#AudioMixer-appendSource">appendSource</a><br>
+<a href="#AudioMixer-isRunning">isRunning</a><br>
+<a href="#AudioMixer-process">process()</a><br>
+<a href="#AudioMixer-processedSamples">processedSamples</a><br>
+<a href="#AudioMixer-removeSource">removeSource</a><br>
+<a href="#AudioMixer-setIsRunning">setIsRunning</a><br>
+<a href="#AudioMixer-setProcessedSamples">setProcessedSamples</a><br>
+<a href="#AudioMixer-setStreamDestination">setStreamDestination</a><br>
+<a href="#AudioMixer-start">start</a><br>
+<a href="#AudioMixer-start Start the mixer loop processing 1/64th of a second chunks">start Start the mixer loop processing 1/64th of a second chunks</a><br>
+<a href="#AudioMixer-stop">stop</a><br>
+<a href="#AudioMixer-streamDestination">streamDestination</a><br>
+</div>
+<p>
+<h3>Slots</h3>
+<p>
+<a name="AudioMixer-appendSource"></a><b>appendSource</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</font>
+</div>
+<a name="AudioMixer-isRunning"></a><b>isRunning</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</font>
+</div>
+<a name="AudioMixer-process"></a><b>process(sampleCount)</b><p>
+<div class=slotDescription>
+ Internal method used for processing a chunk of the input sources. Returns self.
+
+</font>
+</div>
+<a name="AudioMixer-processedSamples"></a><b>processedSamples</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</font>
+</div>
+<a name="AudioMixer-removeSource"></a><b>removeSource</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</font>
+</div>
+<a name="AudioMixer-setIsRunning"></a><b>setIsRunning</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</font>
+</div>
+<a name="AudioMixer-setProcessedSamples"></a><b>setProcessedSamples</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</font>
+</div>
+<a name="AudioMixer-setStreamDestination"></a><b>setStreamDestination</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</font>
+</div>
+<a name="AudioMixer-start"></a><b>start</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</font>
+</div>
+<a name="AudioMixer-start Start the mixer loop processing 1/64th of a second chunks"></a><b>start Start the mixer loop processing 1/64th of a second chunks</b><p>
+<div class=slotDescription>
+		by calling process(22050) in a loop.
+		Will not return until stop is called. Returns self.
+
+</font>
+</div>
+<a name="AudioMixer-stop"></a><b>stop</b><p>
+<div class=slotDescription>
+Stops the mixer if it is running.
+
+</font>
+</div>
+<a name="AudioMixer-streamDestination"></a><b>streamDestination</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </font>
 </div>
 </div>
@@ -1381,8 +1625,6 @@ SCRIPT_NAME from web server
 <h2><a name="Call"></a>Call</h2>
 <div class=indent>
 <b>Module:</b> Core<br>
-<b>Category:</b> Core
-<br>
 <h3>Description</h3>
 <div class=protoDescription>
 Call stores slots related to activation.
@@ -1395,8 +1637,8 @@ Call stores slots related to activation.
 <a href="#Call-argAt">argAt()</a><br>
 <a href="#Call-argCount">argCount</a><br>
 <a href="#Call-coroutine">coroutine</a><br>
-<a href="#Call-delegateTo">delegateTo</a><br>
-<a href="#Call-delegateToMethod">delegateToMethod</a><br>
+<a href="#Call-delegateTo">delegateTo()</a><br>
+<a href="#Call-delegateToMethod">delegateToMethod()</a><br>
 <a href="#Call-description">description</a><br>
 <a href="#Call-evalArgAt">evalArgAt()</a><br>
 <a href="#Call-evalArgs">evalArgs</a><br>
@@ -1405,7 +1647,7 @@ Call stores slots related to activation.
 <a href="#Call-relayStopStatus">relayStopStatus</a><br>
 <a href="#Call-resetStopStatus">resetStopStatus</a><br>
 <a href="#Call-sender">sender</a><br>
-<a href="#Call-setStopStatus">setStopStatus</a><br>
+<a href="#Call-setStopStatus">setStopStatus()</a><br>
 <a href="#Call-slotContext">slotContext</a><br>
 <a href="#Call-stopStatus">stopStatus</a><br>
 <a href="#Call-target">target</a><br>
@@ -1415,7 +1657,7 @@ Call stores slots related to activation.
 <p>
 <a name="Call-activated"></a><b>activated</b><p>
 <div class=slotDescription>
-	Returns the coroutine in which the message was sent.
+	Returns the activated value.
 
 </font>
 </div>
@@ -1427,22 +1669,29 @@ Call stores slots related to activation.
 </div>
 <a name="Call-argCount"></a><b>argCount</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+	Returns the number of arguments for the call. Same as call message argCount.
+
 </font>
 </div>
 <a name="Call-coroutine"></a><b>coroutine</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+	Returns the coroutine in which the message was sent.
+
 </font>
 </div>
-<a name="Call-delegateTo"></a><b>delegateTo</b><p>
+<a name="Call-delegateTo"></a><b>delegateTo(target, altSender)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+	Sends the call's message to target (and relays it's stop status). 
+	The sender is set to altSender, if it is supplied.
+	Returns the result of the message.
+
 </font>
 </div>
-<a name="Call-delegateToMethod"></a><b>delegateToMethod</b><p>
+<a name="Call-delegateToMethod"></a><b>delegateToMethod(target, methodName)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+	Sends the call's message to target via the method specified by methodName. 
+	Returns the result of the message.
+
 </font>
 </div>
 <a name="Call-description"></a><b>description</b><p>
@@ -1459,12 +1708,14 @@ Returns a description of the receiver as a String.
 </div>
 <a name="Call-evalArgs"></a><b>evalArgs</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+	Returns a list containing the call message arguments evaluated in the context of the sender.
+
 </font>
 </div>
 <a name="Call-hasArgs"></a><b>hasArgs</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+	Returns true if the call was passed arguments.
+
 </font>
 </div>
 <a name="Call-message"></a><b>message</b><p>
@@ -1489,9 +1740,10 @@ Returns a description of the receiver as a String.
 
 </font>
 </div>
-<a name="Call-setStopStatus"></a><b>setStopStatus</b><p>
+<a name="Call-setStopStatus"></a><b>setStopStatus(aStatusObject)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+	Sets the stop status on the call.
+
 </font>
 </div>
 <a name="Call-slotContext"></a><b>slotContext</b><p>
@@ -1502,7 +1754,9 @@ Returns a description of the receiver as a String.
 </div>
 <a name="Call-stopStatus"></a><b>stopStatus</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+	Returns the stop status on the call. (description of stopStatus will 
+	be added once we decide whether or not to keep it)
+
 </font>
 </div>
 <a name="Call-target"></a><b>target</b><p>
@@ -1521,7 +1775,7 @@ Returns a description of the receiver as a String.
 <br>
 <h3>Description</h3>
 <div class=protoDescription>
-Contains methods related to Io's garbage collector. 
+A singleton containing methods related to Io's garbage collector. 
 Io currently uses a incremental, non-moving, generational 
 collector based on the tri-color (black/gray/white) 
 algorithm with a write-barrier.
@@ -1546,7 +1800,6 @@ Generally, the more objects in your heap, the larger you'll want this number.
 <div class=slotIndex>
 <a href="#Collector-allObjects">allObjects</a><br>
 <a href="#Collector-allocatedStep">allocatedStep</a><br>
-<a href="#Collector-allocsPerMark">allocsPerMark</a><br>
 <a href="#Collector-collect">collect</a><br>
 <a href="#Collector-marksPerAlloc">marksPerAlloc</a><br>
 <a href="#Collector-maxAllocatedBytes">maxAllocatedBytes</a><br>
@@ -1572,12 +1825,6 @@ Generally, the more objects in your heap, the larger you'll want this number.
 
 </font>
 </div>
-<a name="Collector-allocsPerMark"></a><b>allocsPerMark</b><p>
-<div class=slotDescription>
-	Return the number of allocations per collector mark pass.
-
-</font>
-</div>
 <a name="Collector-collect"></a><b>collect</b><p>
 <div class=slotDescription>
 	Runs garbage collector. Returns the number of items collected.
@@ -1586,17 +1833,20 @@ Generally, the more objects in your heap, the larger you'll want this number.
 </div>
 <a name="Collector-marksPerAlloc"></a><b>marksPerAlloc</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+	Return the number of allocations per collector mark pass.
+
 </font>
 </div>
 <a name="Collector-maxAllocatedBytes"></a><b>maxAllocatedBytes</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+	Returns the maximum number of bytes allocated by the collector.
+
 </font>
 </div>
 <a name="Collector-resetMaxAllocatedBytes"></a><b>resetMaxAllocatedBytes</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+	Resets maximum number of bytes allocated by the collector. Returns self.
+
 </font>
 </div>
 <a name="Collector-setAllocatedStep"></a><b>setAllocatedStep(aNumber)</b><p>
@@ -1624,7 +1874,8 @@ Generally, the more objects in your heap, the larger you'll want this number.
 </div>
 <a name="Collector-showStats"></a><b>showStats</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+	Prints the collector's stats to standard output.
+
 </font>
 </div>
 <a name="Collector-timeUsed"></a><b>timeUsed</b><p>
@@ -2330,6 +2581,13 @@ Curses end
 <h2><a name="DBIConn"></a>DBIConn</h2>
 <div class=indent>
 <b>Module:</b> DBI<br>
+<b>Category:</b> Databases
+<br>
+<h3>Description</h3>
+<div class=protoDescription>
+An object that represents a DBI Connection.
+
+</div>
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
@@ -2421,18 +2679,35 @@ A simple DBM style key/value database.
 <b>Module:</b> Socket<br>
 <b>Category:</b> Networking
 <br>
-<h3>Description</h3>
-<div class=protoDescription>
-Utility methods related to Domain Name Service lookups.
-
-</div>
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
+<a href="#DNS-dnsQueryPacketForHostName">dnsQueryPacketForHostName()</a><br>
+<a href="#DNS-hostNameAndIPforDNSResponsePacket">hostNameAndIPforDNSResponsePacket()</a><br>
+<a href="#DNS-localNameServersIPs">localNameServersIPs</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
+<a name="DNS-dnsQueryPacketForHostName"></a><b>dnsQueryPacketForHostName(hostNameSeq)</b><p>
+<div class=slotDescription>
+Assembles a DNS query packet for the given host name and returns it in a Sequence.
+
+</font>
+</div>
+<a name="DNS-hostNameAndIPforDNSResponsePacket"></a><b>hostNameAndIPforDNSResponsePacket(dnsResponsePacketSeq)</b><p>
+<div class=slotDescription>
+Dissasembles the given dnsResponsePacketSeq and returns a list object containing
+the hostName and IP or an error string on error.
+
+</font>
+</div>
+<a name="DNS-localNameServersIPs"></a><b>localNameServersIPs</b><p>
+<div class=slotDescription>
+Returns a list of local name server IPs as a list of Sequences. Works on OSX, Unix, Windows.
+
+</font>
+</div>
 </div>
 </div>
 <hr align=left>
@@ -2455,7 +2730,6 @@ ipForYahoo := DNSResolver ipForHostName("yahoo.com")
 <a href="#DNSResolver-cache">cache</a><br>
 <a href="#DNSResolver-dnsServers">dnsServers</a><br>
 <a href="#DNSResolver-emptyCache">emptyCache</a><br>
-<a href="#DNSResolver-init">init</a><br>
 <a href="#DNSResolver-ipForHostName">ipForHostName()</a><br>
 <a href="#DNSResolver-queries">queries</a><br>
 <a href="#DNSResolver-setupServerListIfNeeded">setupServerListIfNeeded</a><br>
@@ -2485,11 +2759,6 @@ Returns list of DNSServer objects used for lookups.
 <div class=slotDescription>
 Empties the lookup cache. Returns self.
 
-</font>
-</div>
-<a name="DNSResolver-init"></a><b>init</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </font>
 </div>
 <a name="DNSResolver-ipForHostName"></a><b>ipForHostName(hostName)</b><p>
@@ -2597,7 +2866,6 @@ This isn't optimized yet.
 <a href="#DOConnection-encode">encode</a><br>
 <a href="#DOConnection-handleSocket">handleSocket</a><br>
 <a href="#DOConnection-host">host</a><br>
-<a href="#DOConnection-init">init</a><br>
 <a href="#DOConnection-localObjects">localObjects</a><br>
 <a href="#DOConnection-performMessage">performMessage</a><br>
 <a href="#DOConnection-port">port</a><br>
@@ -2656,11 +2924,6 @@ Connect to the remote DOServer. Returns self or an Error, if one occurs.
 <div class=slotDescription>
 Returns the host ip.
 
-</font>
-</div>
-<a name="DOConnection-init"></a><b>init</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </font>
 </div>
 <a name="DOConnection-localObjects"></a><b>localObjects</b><p>
@@ -3609,7 +3872,6 @@ A DLL Loader by Kentaro A. Kurahone.
 <a href="#DynLib-callPluginInit">callPluginInit()</a><br>
 <a href="#DynLib-close">close</a><br>
 <a href="#DynLib-freeFuncName">freeFuncName</a><br>
-<a href="#DynLib-init">init</a><br>
 <a href="#DynLib-initFuncName">initFuncName</a><br>
 <a href="#DynLib-isOpen">isOpen</a><br>
 <a href="#DynLib-open">open</a><br>
@@ -3646,11 +3908,6 @@ A DLL Loader by Kentaro A. Kurahone.
 <div class=slotDescription>
 	Returns the io_free function name.
 
-</font>
-</div>
-<a name="DynLib-init"></a><b>init</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </font>
 </div>
 <a name="DynLib-initFuncName"></a><b>initFuncName</b><p>
@@ -4633,9 +4890,7 @@ Smaller fonts (those having a point size around 30 or smaller, depending on the 
 <div class=slotIndex>
 <a href="#Font-drawString">drawString()</a><br>
 <a href="#Font-error">error</a><br>
-<a href="#Font-fontHeight">fontHeight</a><br>
 <a href="#Font-isTextured">isTextured</a><br>
-<a href="#Font-lengthOfCharacter">lengthOfCharacter()</a><br>
 <a href="#Font-open">open()</a><br>
 <a href="#Font-path">path</a><br>
 <a href="#Font-pixelHeight">pixelHeight</a><br>
@@ -4643,7 +4898,7 @@ Smaller fonts (those having a point size around 30 or smaller, depending on the 
 <a href="#Font-setPath">setPath()</a><br>
 <a href="#Font-setPixelSize">setPixelSize()</a><br>
 <a href="#Font-stringIndexAtWidth">stringIndexAtWidth()</a><br>
-<a href="#Font-widthOfCharacter">widthOfCharacter</a><br>
+<a href="#Font-widthOfCharacter">widthOfCharacter()</a><br>
 <a href="#Font-widthOfString">widthOfString()</a><br>
 </div>
 <p>
@@ -4667,21 +4922,9 @@ glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
 </font>
 </div>
-<a name="Font-fontHeight"></a><b>fontHeight</b><p>
-<div class=slotDescription>
-	Returns the height of the font measured in pixels.
-
-</font>
-</div>
 <a name="Font-isTextured"></a><b>isTextured</b><p>
 <div class=slotDescription>
 	Returns true if the font is being cached in and rendered from a texture, false otherwise.
-
-</font>
-</div>
-<a name="Font-lengthOfCharacter"></a><b>lengthOfCharacter(aNumber)</b><p>
-<div class=slotDescription>
-	Returns the width of the character specified by aNumber in the receiver's font.
 
 </font>
 </div>
@@ -4699,7 +4942,8 @@ glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 </div>
 <a name="Font-pixelHeight"></a><b>pixelHeight</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+	Returns the height of the font measured in pixels.
+
 </font>
 </div>
 <a name="Font-pixelSize"></a><b>pixelSize</b><p>
@@ -4727,9 +4971,10 @@ glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 
 </font>
 </div>
-<a name="Font-widthOfCharacter"></a><b>widthOfCharacter</b><p>
+<a name="Font-widthOfCharacter"></a><b>widthOfCharacter(aNumber)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+	Returns the width of the character specified by aNumber in the receiver's font.
+
 </font>
 </div>
 <a name="Font-widthOfString"></a><b>widthOfString(aString)</b><p>
@@ -5046,7 +5291,7 @@ glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 <a href="#GLU-gluQuadricTexture">gluQuadricTexture</a><br>
 <a href="#GLU-gluRoundedBox">gluRoundedBox</a><br>
 <a href="#GLU-gluRoundedBoxOutline">gluRoundedBoxOutline</a><br>
-<a href="#GLU-gluScaleImage">gluScaleImage</a><br>
+<a href="#GLU-gluScaleImage">gluScaleImage()</a><br>
 <a href="#GLU-gluSphere">gluSphere</a><br>
 <a href="#GLU-gluUnProject">gluUnProject</a><br>
 <a href="#GLU-gluUnProjectOrigin">gluUnProjectOrigin</a><br>
@@ -5919,9 +6164,11 @@ glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
 <div class=error>undocumented</div>
 </font>
 </div>
-<a name="GLU-gluScaleImage"></a><b>gluScaleImage</b><p>
+<a name="GLU-gluScaleImage"></a><b>gluScaleImage(formatIn, widthIn, heightIn, typeIn, dataSeqIn, widthOut, heightOut, typeOut, dataSeqOut)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+	Scales the image data in dataSeqIn and outputs the result to dataSeqOut.
+	Returns error code as a Number.
+
 </font>
 </div>
 <a name="GLU-gluSphere"></a><b>gluSphere</b><p>
@@ -7753,6 +8000,7 @@ Currently supported formats include PNG(which supports alpha), JPG and TIFF.
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
+<a href="#Image-IsPowerOf2">IsPowerOf2</a><br>
 <a href="#Image-changed">changed</a><br>
 <a href="#Image-componentCount">componentCount</a><br>
 <a href="#Image-crop">crop()</a><br>
@@ -7772,11 +8020,12 @@ Currently supported formats include PNG(which supports alpha), JPG and TIFF.
 <a href="#Image-isRGBA8">isRGBA8</a><br>
 <a href="#Image-open">open()</a><br>
 <a href="#Image-path">path</a><br>
-<a href="#Image-resizedTo">resizedTo</a><br>
+<a href="#Image-resizedTo">resizedTo()</a><br>
 <a href="#Image-save">save()</a><br>
+<a href="#Image-scaledTo">scaledTo</a><br>
 <a href="#Image-setDataWidthHeightComponentCount">setDataWidthHeightComponentCount()</a><br>
-<a href="#Image-setDecodingHeightHint">setDecodingHeightHint</a><br>
-<a href="#Image-setDecodingWidthHint">setDecodingWidthHint</a><br>
+<a href="#Image-setDecodingHeightHint">setDecodingHeightHint()</a><br>
+<a href="#Image-setDecodingWidthHint">setDecodingWidthHint()</a><br>
 <a href="#Image-setEncodingQuality">setEncodingQuality()</a><br>
 <a href="#Image-setPath">setPath()</a><br>
 <a href="#Image-sizeIsPowerOf2">sizeIsPowerOf2</a><br>
@@ -7789,6 +8038,11 @@ Currently supported formats include PNG(which supports alpha), JPG and TIFF.
 <p>
 <h3>Slots</h3>
 <p>
+<a name="Image-IsPowerOf2"></a><b>IsPowerOf2</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</font>
+</div>
 <a name="Image-changed"></a><b>changed</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
@@ -7796,12 +8050,14 @@ Currently supported formats include PNG(which supports alpha), JPG and TIFF.
 </div>
 <a name="Image-componentCount"></a><b>componentCount</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+	Returns the number of color components in the receiver as a Number.
+
 </font>
 </div>
 <a name="Image-crop"></a><b>crop(x, y, width, height)</b><p>
 <div class=slotDescription>
 	Crops the image to the specified values. Returns self.
+	Raises an exception on error.
 
 </font>
 </div>
@@ -7814,12 +8070,14 @@ Currently supported formats include PNG(which supports alpha), JPG and TIFF.
 </div>
 <a name="Image-decodingHeightHint"></a><b>decodingHeightHint</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+	Returns the decoding height hint.
+
 </font>
 </div>
 <a name="Image-decodingWidthHint"></a><b>decodingWidthHint</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+	Returns the decoding width hint.
+
 </font>
 </div>
 <a name="Image-draw"></a><b>draw</b><p>
@@ -7897,9 +8155,11 @@ Currently supported formats include PNG(which supports alpha), JPG and TIFF.
 
 </font>
 </div>
-<a name="Image-resizedTo"></a><b>resizedTo</b><p>
+<a name="Image-resizedTo"></a><b>resizedTo(width, height)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+	Returns a new image of the receiver resized to the given width and height.
+	Raises an exception on error.
+
 </font>
 </div>
 <a name="Image-save"></a><b>save(optionalPathString)</b><p>
@@ -7909,20 +8169,27 @@ Currently supported formats include PNG(which supports alpha), JPG and TIFF.
 
 </font>
 </div>
+<a name="Image-scaledTo"></a><b>scaledTo</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</font>
+</div>
 <a name="Image-setDataWidthHeightComponentCount"></a><b>setDataWidthHeightComponentCount(aSequence, width, height, componentCount)</b><p>
 <div class=slotDescription>
 	Sets the image data and it's parameters. Returns self.
 
 </font>
 </div>
-<a name="Image-setDecodingHeightHint"></a><b>setDecodingHeightHint</b><p>
+<a name="Image-setDecodingHeightHint"></a><b>setDecodingHeightHint(width)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+	Sets the decoding height hint. Returns self.
+
 </font>
 </div>
-<a name="Image-setDecodingWidthHint"></a><b>setDecodingWidthHint</b><p>
+<a name="Image-setDecodingWidthHint"></a><b>setDecodingWidthHint(width)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+	Sets the decoding width hint. Returns self.
+
 </font>
 </div>
 <a name="Image-setEncodingQuality"></a><b>setEncodingQuality(aNumber)</b><p>
@@ -8534,7 +8801,6 @@ bf outputBuffer // this contains the encoded data
 <div class=slotIndex>
 <a href="#LZODecoder-beginProcessing">beginProcessing</a><br>
 <a href="#LZODecoder-endProcessing">endProcessing</a><br>
-<a href="#LZODecoder-init">init</a><br>
 <a href="#LZODecoder-inputBuffer">inputBuffer</a><br>
 <a href="#LZODecoder-outputBuffer">outputBuffer</a><br>
 <a href="#LZODecoder-process">process</a><br>
@@ -8554,11 +8820,6 @@ bf outputBuffer // this contains the encoded data
 <div class=slotDescription>
 	Finish processing remaining bytes of inputBuffer.
 
-</font>
-</div>
-<a name="LZODecoder-init"></a><b>init</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </font>
 </div>
 <a name="LZODecoder-inputBuffer"></a><b>inputBuffer</b><p>
@@ -8616,7 +8877,6 @@ bf outputBuffer // this contains the encoded data
 <div class=slotIndex>
 <a href="#LZOEncoder-beginProcessing">beginProcessing</a><br>
 <a href="#LZOEncoder-endProcessing">endProcessing</a><br>
-<a href="#LZOEncoder-init">init</a><br>
 <a href="#LZOEncoder-inputBuffer">inputBuffer</a><br>
 <a href="#LZOEncoder-outputBuffer">outputBuffer</a><br>
 <a href="#LZOEncoder-process">process</a><br>
@@ -8636,11 +8896,6 @@ bf outputBuffer // this contains the encoded data
 <div class=slotDescription>
 	Finish processing remaining bytes of inputBuffer.
 
-</font>
-</div>
-<a name="LZOEncoder-init"></a><b>init</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </font>
 </div>
 <a name="LZOEncoder-inputBuffer"></a><b>inputBuffer</b><p>
@@ -8804,18 +9059,42 @@ An object for encoding and decoding audio and video streams.
 <h2><a name="Linker"></a>Linker</h2>
 <div class=indent>
 <b>Module:</b> Loki<br>
+<b>Category:</b> Compilers
+<br>
 <h3>Description</h3>
 <div class=protoDescription>
-	An object that enables low level introspection into a running Io VM.")
+	An object that enables low level introspection into a running Io VM.
 
 </div>
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
+<a href="#Linker-bytesToHexSeq">bytesToHexSeq()</a><br>
+<a href="#Linker-hexSeqToBytes">hexSeqToBytes()</a><br>
+<a href="#Linker-makeCFunction">makeCFunction()</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
+<a name="Linker-bytesToHexSeq"></a><b>bytesToHexSeq(aSeq)</b><p>
+<div class=slotDescription>
+Returns a Sequence containing a hex representation of aSeq.
+
+</font>
+</div>
+<a name="Linker-hexSeqToBytes"></a><b>hexSeqToBytes(aSeq)</b><p>
+<div class=slotDescription>
+Returns a Sequence containing a binary representation of the hex data in aSeq.
+
+</font>
+</div>
+<a name="Linker-makeCFunction"></a><b>makeCFunction(aSeq, slotName, object)</b><p>
+<div class=slotDescription>
+Creates a CFunction which users the beginning address of the data in aSeq as it's function pointer and 
+adds the CFunction to the given object on slot slotName.
+
+</font>
+</div>
 </div>
 </div>
 <hr align=left>
@@ -9796,7 +10075,8 @@ Io> message(a) argCount
 </div>
 <a name="Message-description"></a><b>description</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a string containing a short description of the method.
+
 </font>
 </div>
 <a name="Message-doInContext"></a><b>doInContext(anObject, locals)</b><p>
@@ -10306,8 +10586,8 @@ A container for a double (a 64bit floating point number on most platforms).
 <a href="#Number-+">+()</a><br>
 <a href="#Number--">-()</a><br>
 <a href="#Number-/">/()</a><br>
-<a href="#Number-&lt;&lt;">&lt;&lt;</a><br>
-<a href="#Number-&gt;&gt;">&gt;&gt;</a><br>
+<a href="#Number-&lt;&lt;">&lt;&lt;()</a><br>
+<a href="#Number-&gt;&gt;">&gt;&gt;()</a><br>
 <a href="#Number-^">^()</a><br>
 <a href="#Number-abs">abs</a><br>
 <a href="#Number-acos">acos</a><br>
@@ -10385,8 +10665,8 @@ A container for a double (a 64bit floating point number on most platforms).
 <a href="#Number-round">round</a><br>
 <a href="#Number-roundDown">roundDown</a><br>
 <a href="#Number-seconds">seconds</a><br>
-<a href="#Number-shiftLeft">shiftLeft()</a><br>
-<a href="#Number-shiftRight">shiftRight()</a><br>
+<a href="#Number-shiftLeft">shiftLeft</a><br>
+<a href="#Number-shiftRight">shiftRight</a><br>
 <a href="#Number-shortMax">shortMax</a><br>
 <a href="#Number-shortMin">shortMin</a><br>
 <a href="#Number-sin">sin</a><br>
@@ -10446,14 +10726,16 @@ A container for a double (a 64bit floating point number on most platforms).
 
 </font>
 </div>
-<a name="Number-&lt;&lt;"></a><b>&lt;&lt;</b><p>
+<a name="Number-&lt;&lt;"></a><b>&lt;&lt;(aNumber)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+	Shifts the bits of the receiver left by the number of places specified by aNumber.
+
 </font>
 </div>
-<a name="Number-&gt;&gt;"></a><b>&gt;&gt;</b><p>
+<a name="Number-&gt;&gt;"></a><b>&gt;&gt;(aNumber)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+	Shifts the bits of the receiver right by the number of places specified by aNumber.
+
 </font>
 </div>
 <a name="Number-^"></a><b>^(aNumber)</b><p>
@@ -10948,16 +11230,14 @@ Returns Duration of receiver's seconds. See `years' for a few examples.
 
 </font>
 </div>
-<a name="Number-shiftLeft"></a><b>shiftLeft(aNumber)</b><p>
+<a name="Number-shiftLeft"></a><b>shiftLeft</b><p>
 <div class=slotDescription>
-	Shifts the bits of the receiver left by the number of places specified by aNumber.
-
+<div class=error>undocumented</div>
 </font>
 </div>
-<a name="Number-shiftRight"></a><b>shiftRight(aNumber)</b><p>
+<a name="Number-shiftRight"></a><b>shiftRight</b><p>
 <div class=slotDescription>
-	Shifts the bits of the receiver right by the number of places specified by aNumber.
-
+<div class=error>undocumented</div>
 </font>
 </div>
 <a name="Number-shortMax"></a><b>shortMax</b><p>
@@ -11301,7 +11581,6 @@ When cloned, an Object will call it's init slot (with no arguments).
 <a href="#Object-ifNonNil">ifNonNil</a><br>
 <a href="#Object-ifNonNilEval">ifNonNilEval</a><br>
 <a href="#Object-in">in()</a><br>
-<a href="#Object-init">init</a><br>
 <a href="#Object-inlineMethod">inlineMethod</a><br>
 <a href="#Object-isActivatable">isActivatable</a><br>
 <a href="#Object-isError">isError</a><br>
@@ -11799,11 +12078,6 @@ myProxy forward = method(
 <div class=slotDescription>
  Same as: aList contains(self)
 
-</font>
-</div>
-<a name="Object-init"></a><b>init</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </font>
 </div>
 <a name="Object-inlineMethod"></a><b>inlineMethod</b><p>
@@ -13321,7 +13595,8 @@ ACM Transactions on Modeling and Computer Simulation, Vol. 8, No. 1, January 199
 </div>
 <a name="Random-flip"></a><b>flip</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+	Returns a random bit as a true or false object.
+
 </font>
 </div>
 <a name="Random-gaussian"></a><b>gaussian(optionalMean, optionalStandardDeviation)</b><p>
@@ -13578,8 +13853,8 @@ Convenience constructor that returns a cursor object representing the range of n
 <a href="#Rational-pow">pow()</a><br>
 <a href="#Rational-reduce">reduce</a><br>
 <a href="#Rational-serialized">serialized</a><br>
-<a href="#Rational-setDenominator">setDenominator</a><br>
-<a href="#Rational-setNumerator">setNumerator</a><br>
+<a href="#Rational-setDenominator">setDenominator()</a><br>
+<a href="#Rational-setNumerator">setNumerator()</a><br>
 <a href="#Rational-with">with()</a><br>
 </div>
 <p>
@@ -13659,7 +13934,8 @@ Returns a text string representing the Rational number.
 </div>
 <a name="Rational-denominator"></a><b>denominator</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the denominator.
+
 </font>
 </div>
 <a name="Rational-divmod"></a><b>divmod(aNum)</b><p>
@@ -13682,7 +13958,8 @@ Negates the Rational number.
 </div>
 <a name="Rational-numerator"></a><b>numerator</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the numerator.
+
 </font>
 </div>
 <a name="Rational-pow"></a><b>pow(aNum)</b><p>
@@ -13703,14 +13980,16 @@ Returns a bit of code which can be used to serialize the Rational number.
 
 </font>
 </div>
-<a name="Rational-setDenominator"></a><b>setDenominator</b><p>
+<a name="Rational-setDenominator"></a><b>setDenominator(aNumber)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+ Sets the denominator. Returns self.
+
 </font>
 </div>
-<a name="Rational-setNumerator"></a><b>setNumerator</b><p>
+<a name="Rational-setNumerator"></a><b>setNumerator(aNumber)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+ Sets the numerator. Returns self.
+
 </font>
 </div>
 <a name="Rational-with"></a><b>with(aNumerator, aDenominator)</b><p>
@@ -14280,7 +14559,6 @@ replace(match, match expandTo(templateString))
 <a href="#SGMLElement-elementWithName">elementWithName</a><br>
 <a href="#SGMLElement-elementsWithName">elementsWithName</a><br>
 <a href="#SGMLElement-endTag">endTag</a><br>
-<a href="#SGMLElement-init">init</a><br>
 <a href="#SGMLElement-linkStrings">linkStrings</a><br>
 <a href="#SGMLElement-name">name</a><br>
 <a href="#SGMLElement-parent">parent</a><br>
@@ -14333,11 +14611,6 @@ Returns a Map containing the tag's attributes.
 </font>
 </div>
 <a name="SGMLElement-endTag"></a><b>endTag</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</font>
-</div>
-<a name="SGMLElement-init"></a><b>init</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </font>
@@ -14439,7 +14712,6 @@ This object can be used to parse SGML / HTML / XML.
 <a href="#SGMLParser-elementForString">elementForString</a><br>
 <a href="#SGMLParser-elementProto">elementProto</a><br>
 <a href="#SGMLParser-endElement">endElement</a><br>
-<a href="#SGMLParser-init">init</a><br>
 <a href="#SGMLParser-newAttribute">newAttribute</a><br>
 <a href="#SGMLParser-newText">newText</a><br>
 <a href="#SGMLParser-parse">parse()</a><br>
@@ -14461,11 +14733,6 @@ This object can be used to parse SGML / HTML / XML.
 </font>
 </div>
 <a name="SGMLParser-endElement"></a><b>endElement</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</font>
-</div>
-<a name="SGMLParser-init"></a><b>init</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </font>
@@ -16608,7 +16875,6 @@ with kernel threads and socket polling.
 <h3>Slot Index</h3>
 <div class=slotIndex>
 <a href="#Server-handleSocket">handleSocket</a><br>
-<a href="#Server-init">init</a><br>
 <a href="#Server-port">port</a><br>
 <a href="#Server-setHost">setHost()</a><br>
 <a href="#Server-setPort">setPort()</a><br>
@@ -16619,11 +16885,6 @@ with kernel threads and socket polling.
 <h3>Slots</h3>
 <p>
 <a name="Server-handleSocket"></a><b>handleSocket</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</font>
-</div>
-<a name="Server-init"></a><b>init</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </font>
@@ -16942,7 +17203,6 @@ SkipDB is a skip-list based key-value database. SkipDBM manages any number of sk
 <a href="#Socket-getSocketReadLowWaterMark">getSocketReadLowWaterMark</a><br>
 <a href="#Socket-getSocketWriteLowWaterMark">getSocketWriteLowWaterMark</a><br>
 <a href="#Socket-host">host</a><br>
-<a href="#Socket-init">init</a><br>
 <a href="#Socket-ipAddress">ipAddress</a><br>
 <a href="#Socket-isOpen">isOpen</a><br>
 <a href="#Socket-isStream">isStream</a><br>
@@ -17091,11 +17351,6 @@ SkipDB is a skip-list based key-value database. SkipDBM manages any number of sk
 </font>
 </div>
 <a name="Socket-host"></a><b>host</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</font>
-</div>
-<a name="Socket-init"></a><b>init</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </font>
@@ -17374,7 +17629,6 @@ the host attribute. Returns self.
 <a href="#Soup-firstId">firstId</a><br>
 <a href="#Soup-getIndexes">getIndexes</a><br>
 <a href="#Soup-indexesString">indexesString</a><br>
-<a href="#Soup-init">init</a><br>
 <a href="#Soup-isOpen">isOpen</a><br>
 <a href="#Soup-itemWithId">itemWithId</a><br>
 <a href="#Soup-itemsForQuery">itemsForQuery</a><br>
@@ -17445,11 +17699,6 @@ the host attribute. Returns self.
 </font>
 </div>
 <a name="Soup-indexesString"></a><b>indexesString</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</font>
-</div>
-<a name="Soup-init"></a><b>init</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </font>
@@ -17942,7 +18191,6 @@ Returns the path of the io file run on the command line. Returns nil if no file 
 <a href="#SystemCall-close">close</a><br>
 <a href="#SystemCall-command">command</a><br>
 <a href="#SystemCall-environment">environment</a><br>
-<a href="#SystemCall-init">init</a><br>
 <a href="#SystemCall-isRunning">isRunning</a><br>
 <a href="#SystemCall-returnCode">returnCode</a><br>
 <a href="#SystemCall-run">run</a><br>
@@ -17986,11 +18234,6 @@ Returns the path of the io file run on the command line. Returns nil if no file 
 </font>
 </div>
 <a name="SystemCall-environment"></a><b>environment</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</font>
-</div>
-<a name="SystemCall-init"></a><b>init</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </font>
@@ -18218,7 +18461,6 @@ Networking
 <a href="#URL-fourCharheaderBreaks">fourCharheaderBreaks</a><br>
 <a href="#URL-headerBreaks">headerBreaks</a><br>
 <a href="#URL-host">host</a><br>
-<a href="#URL-init">init</a><br>
 <a href="#URL-openOnDesktop">openOnDesktop</a><br>
 <a href="#URL-parse">parse</a><br>
 <a href="#URL-post">post()</a><br>
@@ -18320,11 +18562,6 @@ Fetches the url and returns the result as a Sequence. Returns an Error, if one o
 </font>
 </div>
 <a name="URL-host"></a><b>host</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</font>
-</div>
-<a name="URL-init"></a><b>init</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </font>
@@ -18546,7 +18783,6 @@ Returns url string.
 <a href="#UnitTest-assertTrue">assertTrue</a><br>
 <a href="#UnitTest-category">category</a><br>
 <a href="#UnitTest-fail">fail</a><br>
-<a href="#UnitTest-init">init</a><br>
 <a href="#UnitTest-knownBug">knownBug</a><br>
 <a href="#UnitTest-run">run</a><br>
 <a href="#UnitTest-setUp">setUp</a><br>
@@ -18615,11 +18851,6 @@ Testing
 </font>
 </div>
 <a name="UnitTest-fail"></a><b>fail</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</font>
-</div>
-<a name="UnitTest-init"></a><b>init</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </font>
@@ -18714,6 +18945,72 @@ Testing
 </font>
 </div>
 <a name="Vector-derivative"></a><b>derivative</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</font>
+</div>
+</div>
+</div>
+<hr align=left>
+<h2><a name="Video"></a>Video</h2>
+<div class=indent>
+<b>Module:</b> AVCodec<br>
+<div class=slots>
+<h3>Slot Index</h3>
+<div class=slotIndex>
+<a href="#Video-audioOn">audioOn</a><br>
+<a href="#Video-frameNumber">frameNumber</a><br>
+<a href="#Video-isDone">isDone</a><br>
+<a href="#Video-readNextFrame">readNextFrame</a><br>
+<a href="#Video-readNextFrame Decodes the next video frame into the receiver's image object.">readNextFrame Decodes the next video frame into the receiver's image object.</a><br>
+<a href="#Video-setAudioOn">setAudioOn()</a><br>
+<a href="#Video-setFrameNumber">setFrameNumber()</a><br>
+<a href="#Video-setIsDone">setIsDone</a><br>
+</div>
+<p>
+<h3>Slots</h3>
+<p>
+<a name="Video-audioOn"></a><b>audioOn</b><p>
+<div class=slotDescription>
+Whether or not the decoded audio is directed to the AudioDevice.
+
+</font>
+</div>
+<a name="Video-frameNumber"></a><b>frameNumber</b><p>
+<div class=slotDescription>
+The current frame number.
+
+</font>
+</div>
+<a name="Video-isDone"></a><b>isDone</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</font>
+</div>
+<a name="Video-readNextFrame"></a><b>readNextFrame</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</font>
+</div>
+<a name="Video-readNextFrame Decodes the next video frame into the receiver's image object."></a><b>readNextFrame Decodes the next video frame into the receiver's image object.</b><p>
+<div class=slotDescription>
+	Returns the image object if successful or nil otherwise.
+
+</font>
+</div>
+<a name="Video-setAudioOn"></a><b>setAudioOn(aBool)</b><p>
+<div class=slotDescription>
+ Sets whether or not the decoded audio is directed to the AudioDevice. Returns self.
+
+</font>
+</div>
+<a name="Video-setFrameNumber"></a><b>setFrameNumber(aNumber)</b><p>
+<div class=slotDescription>
+ Private setter for frameNumber. Returns self.
+
+</font>
+</div>
+<a name="Video-setIsDone"></a><b>setIsDone</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </font>

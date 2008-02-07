@@ -467,31 +467,94 @@ User defined operators (that don't have a standard operator name) are performed 
 <a name="Syntax-Assignment"></a>
 <h3>Assignment</h3>
 
-Io has two assignment messages, ":=" and "=". 
+Io has three assignment operators:
 
-<pre>
-a := 1 
-</pre>
+<p>
+<table cellpadding=2 cellspacing=0 border=0 style="margin-left:1em">
+<tr>
+<td style="width:5em">
+<b><i>operator</i></b>	
+</td>
+<td>
+<b><i>action</i></b>
+</td>
+</tr>
 
-which compiles to:
+<tr>
+<td>
+<i>::=</i>
+</td>
+<td>
+<i>Creates slot, creates setter, assigns value</i>
+</td>
+</tr>
 
-<pre>
-setSlot("a", 1)
-</pre>
+<tr>
+<td>
+<i>:=</i>
+</td>
+<td>
+<i>Creates slot, assigns value</i>
+</td>
+</tr>
 
-which creates the slot in the current context. And:
+<tr>
+<td>
+<i>=</i>
+</td>
+<td>
+<i>Assigns value to slot if it exists, otherwise raises exception</i>
+</td>
+</tr>
 
-<pre>
-a = 1 
-</pre>
+</table>
+<p>
 
-which compiles to:
+These operators are compiled to normal messages whose methods can be overridden. For example:
 
-<pre>
-updateSlot("a", 1)
-</pre>
 
-which sets the slot if it is found in the lookup path or raises an exception otherwise. By overloading updateSlot and forward in the Locals prototype, self is made implicit in methods.
+<p>
+<table cellpadding=2 cellspacing=0 border=0 style="margin-left:1em">
+<tr>
+<td style="width:5em">
+<b><i>source</i></b>	
+</td>
+<td>
+<b><i>compiles to</i></b>
+</td>
+</tr>
+
+<tr>
+<td>
+<i>a ::= 1</i>
+</td>
+<td>
+<i>newSlot("a", 1)</i>
+</td>
+</tr>
+
+<tr>
+<td>
+<i>a := 1</i>
+</td>
+<td>
+<i>setSlot("a", 1)</i>
+</td>
+</tr>
+
+<tr>
+<td>
+<i>a = 1</i>
+</td>
+<td>
+<i>updateSlot("a", 1)</i>
+</td>
+</tr>
+
+</table>
+<p>
+	
+On Locals objects, updateSlot is overridden so it will update the slot in the object in which the method was activated if the slot is not found the locals. This is done so update assignments in methods don't require self to be an explicit target.
 
 <a name="Syntax-Numbers"></a>
 <h3>Numbers</h3>
@@ -1817,7 +1880,7 @@ Except for input and output, all strings should be kept in a fixed character wid
 <a name="Unicode-Source"></a>
 <h3>Source</h3>
 
-All Io source files are assumed to be in UTF8 (of which ASCII is a subset). When a source file is read, it s symbols and strings are stored in Sequences in their minimal fixed character width encoding. Examples:
+Io source files are assumed to be in UTF8 (of which ASCII is a subset). When a source file is read, it s symbols and strings are stored in Sequences in their minimal fixed character width encoding. Examples:
 
 <pre>
 Io> "hello" encoding

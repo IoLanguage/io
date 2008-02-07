@@ -1,15 +1,16 @@
-roundToPowerOf2 := method(v,
-	v = v - 1
-	v = v | (v shiftRight(1))
-	v = v | (v shiftRight(2))
-	v = v | (v shiftRight(4))
-	v = v | (v shiftRight(8))
-	v = v | (v shiftRight(16))
-	v = v + 1
-)
 
 Texture := Object clone do(
 	appendProto(OpenGL)
+	
+	roundToPowerOf2 := method(v,
+		v = v - 1
+		v = v | (v shiftRight(1))
+		v = v | (v shiftRight(2))
+		v = v | (v shiftRight(4))
+		v = v | (v shiftRight(8))
+		v = v | (v shiftRight(16))
+		v = v + 1
+	)
 
 	originalWidth := 0
 	originalHeight := 0

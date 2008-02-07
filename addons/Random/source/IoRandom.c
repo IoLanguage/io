@@ -101,6 +101,9 @@ void IoRandom_free(IoMessage *self)
 
 IoObject *IoRandom_flip(IoObject *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Random flip
+	Returns a random bit as a true or false object.
+	*/
 	int r = RandomGen_randomInt(DATA(self));
 	return IOBOOL(self, r & 0x1);
 }

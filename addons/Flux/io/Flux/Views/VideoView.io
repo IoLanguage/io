@@ -2,8 +2,8 @@
 VideoView := View clone do(
 	position setX(0) setY(0)
 	size setWidth(640) setHeight(480)
-	newSlot("image")
-	newSlot("videoDecoder")
+	image ::= nil
+	videoDecoder ::= nil
 
 	init := method(
 		resend

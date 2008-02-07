@@ -2,11 +2,12 @@
 //metadoc AsyncRequest license BSD revised
 //metadoc AsyncRequest category Filesystem
 /*metadoc AsyncRequest description
-Used for doing asynchronous file i/o.
-Example use;
-<pre>	
-
-</pre>	
+Used for doing asynchronous file i/o. When this addon is loaded, it will override
+the File proto's readToBufferLength, readBufferOfLength and write methods to 
+automatically use AsyncRequests. 
+<p>
+Note: This addon is only needed for async file request - all socket ops are already
+asynchronous in Io.
 */
 
 #include "IoAsyncRequest.h"
@@ -89,27 +90,42 @@ void IoAsyncRequest_free(IoAsyncRequest *self)
 
 IoObject *IoAsyncRequest_setDescriptor(IoAsyncRequest *self, IoObject *locals, IoMessage *m)
 {
+	/*doc AsyncRequest setDescriptor(aDescriptorNumber)
+	Sets the descriptor for the receiver. Returns self.
+	*/
 	IOCB(self)->aio_fildes = IoMessage_locals_intArgAt_(m, locals, 0);
 	return self;
 }
 
 IoObject *IoAsyncRequest_descriptor(IoAsyncRequest *self, IoObject *locals, IoMessage *m)
 {
+	/*doc AsyncRequest descriptor
+	Returns the descriptor for the request.
+	*/
 	return IONUMBER(IOCB(self)->aio_fildes);
 }
 
 IoObject *IoAsyncRequest_numberOfBytes(IoAsyncRequest *self, IoObject *locals, IoMessage *m)
 {
+	/*doc AsyncRequest numberOfBytes
+	Returns the number of bytes associated with the request.
+	*/
 	return IONUMBER(IOCB(self)->aio_nbytes);
 }
 
 IoObject *IoAsyncRequest_position(IoAsyncRequest *self, IoObject *locals, IoMessage *m)
 {
+	/*doc AsyncRequest position
+	Returns a Number for the position of the descriptor.
+	*/
 	return IONUMBER(IOCB(self)->aio_offset);
 }
 
 IoObject *IoAsyncRequest_read(IoAsyncRequest *self, IoObject *locals, IoMessage *m)
 {
+	/*doc AsyncRequest read(aSeq, numberOfBytes)
+	Submits an async read request. Returns nil on error, self otherwise. 
+	*/
 	int r;
 
 	IOCB(self)->aio_offset = (size_t)CNUMBER(IoMessage_locals_numberArgAt_(m, locals, 0));
@@ -131,6 +147,10 @@ IoObject *IoAsyncRequest_read(IoAsyncRequest *self, IoObject *locals, IoMessage 
 
 IoObject *IoAsyncRequest_write(IoAsyncRequest *self, IoObject *locals, IoMessage *m)
 {
+	/*doc AsyncRequest write(fileOffset, aSeq, bufferOffset, numberOfBytesToWrite)
+	Submits an async write request. Returns nil on error, self otherwise. 
+	*/
+	
 	int r;
 	IoSeq *data;
 	UArray *ba;
@@ -161,6 +181,9 @@ IoObject *IoAsyncRequest_write(IoAsyncRequest *self, IoObject *locals, IoMessage
 
 IoObject *IoAsyncRequest_isDone(IoAsyncRequest *self, IoObject *locals, IoMessage *m)
 {
+	/*doc AsyncRequest isDone
+	Returns true if the request is done, false otherwise. 
+	*/
 	int r = aio_error(IOCB(self));
 	return (r == 0 || r != EINPROGRESS) ? IOTRUE(self) : IOFALSE(self);
 }
@@ -169,6 +192,9 @@ IoObject *IoAsyncRequest_isDone(IoAsyncRequest *self, IoObject *locals, IoMessag
 
 IoObject *IoAsyncRequest_error(IoAsyncRequest *self, IoObject *locals, IoMessage *m)
 {
+	/*doc AsyncRequest error
+	Returns sequence containing the last error or nil otherwise. 
+	*/
 	int r;
 
 	errno = 0;
@@ -203,18 +229,28 @@ IoObject *IoAsyncRequest_error(IoAsyncRequest *self, IoObject *locals, IoMessage
 
 IoObject *IoAsyncRequest_cancel(IoAsyncRequest *self, IoObject *locals, IoMessage *m)
 {
+	/*doc AsyncRequest cancel
+	Cancels the request. Returns nil on error or self otherwise.
+	*/
 	int r = aio_cancel(IOCB(self)->aio_fildes, IOCB(self));
 	return r == 0 ? self : IONIL(self);
 }
 
 IoObject *IoAsyncRequest_sync(IoAsyncRequest *self, IoObject *locals, IoMessage *m)
 {
+	/*doc AsyncRequest sync
+	Waits for the request to complete. Returns nil on error or self otherwise.
+	*/
 	int r = aio_fsync(O_SYNC, IOCB(self));
 	return r == 0 ? self : IONIL(self);
 }
 
 IoObject *IoAsyncRequest_copyBufferTo(IoAsyncRequest *self, IoObject *locals, IoMessage *m)
 {
+	/*doc AsyncRequest copyBufferto(aSeq)
+	Copies the request buffer's data to aSeq.
+	Returns nil on error or self otherwise.
+	*/
 	if (IOCB_BUFFER(self))
 	{
 		IoSeq *data = IoMessage_locals_mutableSeqArgAt_(m, locals, 0);

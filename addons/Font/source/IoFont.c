@@ -211,7 +211,7 @@ IoObject *IoFont_lengthOfString(IoFont *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFont_lengthOfCharacter(IoFont *self, IoObject *locals, IoMessage *m)
 {
-	/*doc Font lengthOfCharacter(aNumber)
+	/*doc Font widthOfCharacter(aNumber)
 	Returns the width of the character specified by aNumber in the receiver's font.
 	*/
 
@@ -221,7 +221,7 @@ IoObject *IoFont_lengthOfCharacter(IoFont *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFont_fontHeight(IoFont *self, IoObject *locals, IoMessage *m)
 {
-	/*doc Font fontHeight
+	/*doc Font pixelHeight
 	Returns the height of the font measured in pixels.
 	*/
 

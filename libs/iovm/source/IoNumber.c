@@ -873,7 +873,7 @@ IoObject *IoNumber_bitwiseComplement(IoNumber *self, IoObject *locals, IoMessage
 
 IoObject *IoNumber_bitShiftLeft(IoNumber *self, IoObject *locals, IoMessage *m)
 {
-	/*doc Number shiftLeft(aNumber)
+	/*doc Number <<(aNumber)
 	Shifts the bits of the receiver left by the number of places specified by aNumber.
 	*/
 
@@ -884,7 +884,7 @@ IoObject *IoNumber_bitShiftLeft(IoNumber *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoNumber_bitShiftRight(IoNumber *self, IoObject *locals, IoMessage *m)
 {
-	/*doc Number shiftRight(aNumber)
+	/*doc Number >>(aNumber)
 	Shifts the bits of the receiver right by the number of places specified by aNumber.
 	*/
 

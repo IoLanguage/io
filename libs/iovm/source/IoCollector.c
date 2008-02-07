@@ -3,7 +3,7 @@
 //metadoc Collector license BSD revised
 //metadoc Collector category Core
 /*metadoc Collector description
-Contains methods related to Io's garbage collector. 
+A singleton containing methods related to Io's garbage collector. 
 Io currently uses a incremental, non-moving, generational 
 collector based on the tri-color (black/gray/white) 
 algorithm with a write-barrier.
@@ -42,6 +42,9 @@ IoObject *IoCollector_collect(IoCollector *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoCollector_showStats(IoCollector *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Collector showStats
+	Prints the collector's stats to standard output.
+	*/
 	io_show_mem("IoCollector_showStats");
 	printf("marksPerAlloc       %i\n", Collector_marksPerAlloc(IOSTATE->collector));
 	printf("allocatedStep       %i\n", Collector_allocatedStep(IOSTATE->collector));
@@ -50,11 +53,17 @@ IoObject *IoCollector_showStats(IoCollector *self, IoObject *locals, IoMessage *
 
 IoObject *IoCollector_maxAllocatedBytes(IoCollector *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Collector maxAllocatedBytes
+	Returns the maximum number of bytes allocated by the collector.
+	*/
 	return IONUMBER(io_maxAllocatedBytes());
 }
 
 IoObject *IoCollector_resetMaxAllocatedBytes(IoCollector *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Collector resetMaxAllocatedBytes
+	Resets maximum number of bytes allocated by the collector. Returns self.
+	*/
 	io_resetMaxAllocatedBytes();
 	return self;
 }
@@ -86,7 +95,7 @@ IoObject *IoCollector_setMarksPerAlloc(IoCollector *self, IoObject *locals, IoMe
 
 IoObject *IoCollector_marksPerAlloc(IoCollector *self, IoObject *locals, IoMessage *m)
 {
-	/*doc Collector allocsPerMark
+	/*doc Collector marksPerAlloc
 	Return the number of allocations per collector mark pass.
 	*/
 
