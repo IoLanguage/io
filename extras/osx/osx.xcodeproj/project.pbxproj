@@ -529,6 +529,9 @@
 		AA86C21C0B60520000495786 /* IoVMInit.c in Sources */ = {isa = PBXBuildFile; fileRef = AA86BF8C0B6051FF00495786 /* IoVMInit.c */; };
 		AA86C21D0B60520000495786 /* IoWeakLink.c in Sources */ = {isa = PBXBuildFile; fileRef = AA86BF8D0B6051FF00495786 /* IoWeakLink.c */; };
 		AA86C21E0B60520000495786 /* IoWeakLink.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA86BF8E0B6051FF00495786 /* IoWeakLink.h */; };
+		AA9150E30D5B30EB00CBBF14 /* IoDBI.c in Sources */ = {isa = PBXBuildFile; fileRef = AA9150DD0D5B30EB00CBBF14 /* IoDBI.c */; };
+		AA9150E40D5B30EB00CBBF14 /* IoDBIConn.c in Sources */ = {isa = PBXBuildFile; fileRef = AA9150DF0D5B30EB00CBBF14 /* IoDBIConn.c */; };
+		AA9150E50D5B30EB00CBBF14 /* IoDBIResult.c in Sources */ = {isa = PBXBuildFile; fileRef = AA9150E10D5B30EB00CBBF14 /* IoDBIResult.c */; };
 		AABA460B0B6DB7CD00446661 /* UArray_character.c in Sources */ = {isa = PBXBuildFile; fileRef = AABA46030B6DB7CC00446661 /* UArray_character.c */; };
 		AABA460C0B6DB7CD00446661 /* UArray_character.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AABA46040B6DB7CC00446661 /* UArray_character.h */; };
 		AABA460D0B6DB7CD00446661 /* UArray_math.c in Sources */ = {isa = PBXBuildFile; fileRef = AABA46050B6DB7CC00446661 /* UArray_math.c */; };
@@ -1376,6 +1379,14 @@
 		AA86BF8C0B6051FF00495786 /* IoVMInit.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = IoVMInit.c; sourceTree = "<group>"; };
 		AA86BF8D0B6051FF00495786 /* IoWeakLink.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = IoWeakLink.c; sourceTree = "<group>"; };
 		AA86BF8E0B6051FF00495786 /* IoWeakLink.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IoWeakLink.h; sourceTree = "<group>"; };
+		AA9150D20D5B30EB00CBBF14 /* DBIConn.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = DBIConn.io; sourceTree = "<group>"; };
+		AA9150D30D5B30EB00CBBF14 /* DBIRecord.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = DBIRecord.io; sourceTree = "<group>"; };
+		AA9150DD0D5B30EB00CBBF14 /* IoDBI.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoDBI.c; sourceTree = "<group>"; };
+		AA9150DE0D5B30EB00CBBF14 /* IoDBI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoDBI.h; sourceTree = "<group>"; };
+		AA9150DF0D5B30EB00CBBF14 /* IoDBIConn.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoDBIConn.c; sourceTree = "<group>"; };
+		AA9150E00D5B30EB00CBBF14 /* IoDBIConn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoDBIConn.h; sourceTree = "<group>"; };
+		AA9150E10D5B30EB00CBBF14 /* IoDBIResult.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoDBIResult.c; sourceTree = "<group>"; };
+		AA9150E20D5B30EB00CBBF14 /* IoDBIResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoDBIResult.h; sourceTree = "<group>"; };
 		AABA46030B6DB7CC00446661 /* UArray_character.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = UArray_character.c; sourceTree = "<group>"; };
 		AABA46040B6DB7CC00446661 /* UArray_character.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = UArray_character.h; sourceTree = "<group>"; };
 		AABA46050B6DB7CC00446661 /* UArray_math.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = UArray_math.c; sourceTree = "<group>"; };
@@ -1504,6 +1515,7 @@
 				AA7D583A0B60123900D7DEA9 /* ContinuedFraction */,
 				AA7D584C0B60123900D7DEA9 /* Contracts */,
 				AA7D585F0B60123900D7DEA9 /* Curses */,
+				AA9150CC0D5B30EB00CBBF14 /* DBI */,
 				AA7D588F0B60123900D7DEA9 /* Flux */,
 				AA7D5C6E0B60123B00D7DEA9 /* Fnmatch */,
 				AA7D5C850B60123B00D7DEA9 /* Font */,
@@ -2969,6 +2981,37 @@
 			path = source;
 			sourceTree = "<group>";
 		};
+		AA9150CC0D5B30EB00CBBF14 /* DBI */ = {
+			isa = PBXGroup;
+			children = (
+				AA9150D10D5B30EB00CBBF14 /* io */,
+				AA9150DC0D5B30EB00CBBF14 /* source */,
+			);
+			path = DBI;
+			sourceTree = "<group>";
+		};
+		AA9150D10D5B30EB00CBBF14 /* io */ = {
+			isa = PBXGroup;
+			children = (
+				AA9150D20D5B30EB00CBBF14 /* DBIConn.io */,
+				AA9150D30D5B30EB00CBBF14 /* DBIRecord.io */,
+			);
+			path = io;
+			sourceTree = "<group>";
+		};
+		AA9150DC0D5B30EB00CBBF14 /* source */ = {
+			isa = PBXGroup;
+			children = (
+				AA9150DD0D5B30EB00CBBF14 /* IoDBI.c */,
+				AA9150DE0D5B30EB00CBBF14 /* IoDBI.h */,
+				AA9150DF0D5B30EB00CBBF14 /* IoDBIConn.c */,
+				AA9150E00D5B30EB00CBBF14 /* IoDBIConn.h */,
+				AA9150E10D5B30EB00CBBF14 /* IoDBIResult.c */,
+				AA9150E20D5B30EB00CBBF14 /* IoDBIResult.h */,
+			);
+			path = source;
+			sourceTree = "<group>";
+		};
 		C6A0FF2B0290797F04C91782 /* Documentation */ = {
 			isa = PBXGroup;
 			children = (
@@ -3254,6 +3297,9 @@
 				AA6ABF950BA8012F0049770F /* mandlebrot.c in Sources */,
 				AA6ABFE30BA8D27E0049770F /* IoSeq_vector.c in Sources */,
 				AABFA2B90D59800D00FE7A84 /* Image.c in Sources */,
+				AA9150E30D5B30EB00CBBF14 /* IoDBI.c in Sources */,
+				AA9150E40D5B30EB00CBBF14 /* IoDBIConn.c in Sources */,
+				AA9150E50D5B30EB00CBBF14 /* IoDBIResult.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

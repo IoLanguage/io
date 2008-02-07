@@ -1,11 +1,7 @@
-/*#io
-DBIResult ioDoc(
-	docCopyright("Jeremy Cowgar", 2006)
-	docLicense("BSD revised")
-	docCategory("Databases")
-	docObject("DBIResult")
-	docDescription("A DBI Result created by a call to DBIConn query.")
-*/
+//metadoc DBIResult copyright Jeremy Cowgar, 2006
+//metadoc DBIResult license BSD revised
+//metadoc DBIResult category Databases
+//metadoc DBIResult description A DBI Result created by a call to DBIConn query.
 
 #include "IoMessage.h"
 #include "IoState.h"
@@ -141,18 +137,16 @@ IoObject *IoDBIResult_rowToMap_(void *state, IoDBIResult *self,
 IoObject *IoDBIResult_size(IoDBIResult *self, IoObject *locals,
 			IoMessage *m)
 {
-	/*#io
-	docSlot("size", "Returns the number of rows available")
-	*/
+	//doc DBIResult size Returns the number of rows available.
+
 	return IONUMBER(dbi_result_get_numrows(DATA(self)->result));
 }
 
 IoObject *IoDBIResult_fields(IoDBIResult *self, IoObject *locals,
 			IoMessage *m)
 {
-	/*#io
-	docSlot("fields", "Returns a list of field names in the result")
-	*/
+	//doc DBIResult fields Returns a list of field names in the result.
+
 	int idx;
 	IoList *list = IOREF(IoList_new(IOSTATE));
 
@@ -168,9 +162,8 @@ IoObject *IoDBIResult_fields(IoDBIResult *self, IoObject *locals,
 IoObject *IoDBIResult_first(IoDBIResult *self, IoObject *locals,
 			IoMessage *m)
 {
-	/*#io
-	docSlot("first", "Move the cursor to the first record")
-	*/
+	//doc DBIResult first Move the cursor to the first record.
+	
 	if (1 != dbi_result_first_row(DATA(self)->result))
 	{
 		ReportDBIError(DATA(self)->conn, IOSTATE, m);
@@ -182,9 +175,8 @@ IoObject *IoDBIResult_first(IoDBIResult *self, IoObject *locals,
 IoObject *IoDBIResult_previous(IoDBIResult *self, IoObject *locals,
 			IoMessage *m)
 {
-	/*#io
-	docSlot("previous", "Move the cursor to the previous record")
-	*/
+	//doc DBIResult previous Move the cursor to the previous record.
+	
 	if (1 != dbi_result_prev_row(DATA(self)->result))
 	{
 		ReportDBIError(DATA(self)->conn, IOSTATE, m);
@@ -196,9 +188,8 @@ IoObject *IoDBIResult_previous(IoDBIResult *self, IoObject *locals,
 IoObject *IoDBIResult_next(IoDBIResult *self, IoObject *locals,
 			IoMessage *m)
 {
-	/*#io
-	docSlot("next", "Move the cursor to the next record.")
-	*/
+	//doc DBIResult next Move the cursor to the next record.
+	
 	dbi_result res = DATA(self)->result;
 
 	if (0 == dbi_result_next_row(res))
@@ -213,9 +204,8 @@ IoObject *IoDBIResult_next(IoDBIResult *self, IoObject *locals,
 IoObject *IoDBIResult_last(IoDBIResult *self, IoObject *locals,
 			IoMessage *m)
 {
-	/*#io
-	docSlot("last", "Move the cursor to the last record")
-	*/
+	//doc DBIResult last Move the cursor to the last record.
+	
 	dbi_result res = DATA(self)->result;
 
 	if (0 == dbi_result_last_row(res))
@@ -230,9 +220,8 @@ IoObject *IoDBIResult_last(IoDBIResult *self, IoObject *locals,
 IoObject *IoDBIResult_seek(IoDBIResult *self, IoObject *locals,
 			IoMessage *m)
 {
-	/*#io
-	docSlot("seek(row_number)", "Move the cursor to the nth record")
-	*/
+	//doc DBIResult seek(row_number) Move the cursor to the nth record.
+
 	long rowIdx;
 	dbi_result res = DATA(self)->result;
 	IoObject *row = IoMessage_locals_valueArgAt_(m, locals, 0);
@@ -245,11 +234,12 @@ IoObject *IoDBIResult_seek(IoDBIResult *self, IoObject *locals,
 	}
 
 	rowIdx = IoNumber_asLong(row);
+	
 	if (1 != dbi_result_seek_row(res, rowIdx))
 	{
 		const char *error;
-		int errorCode = dbi_conn_error(DATA(self)->conn,
-					&error);
+		
+		int errorCode = dbi_conn_error(DATA(self)->conn, &error);
 
 		if (errorCode == 0)
 		{
@@ -265,12 +255,10 @@ IoObject *IoDBIResult_seek(IoDBIResult *self, IoObject *locals,
 	return IOBOOL(self, 1);
 }
 
-IoObject *IoDBIResult_position(
-		IoDBIResult *self, IoObject *locals, IoMessage *m)
+IoObject *IoDBIResult_position(IoDBIResult *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("position", "Return the current row's position (or index).")
-	*/
+	//doc DBIResult position Return the current row's position (or index).
+
 	unsigned long long rowNum = dbi_result_get_currow(DATA(self)->result);
 
 	if (0 == rowNum)
@@ -283,9 +271,9 @@ IoObject *IoDBIResult_position(
 
 IoObject *IoDBIResult_at(IoDBIResult *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("at(index_or_name)", "Return the contents of the given field. The
-parameter can be a field index or a field name.")
+	/*doc DBIResult at(index_or_name)
+	 Returns the contents of the given field. 
+	 The parameter can be a field index or a field name.
 	*/
 	unsigned int idx = 0;
 	dbi_result res = DATA(self)->result;
@@ -316,11 +304,11 @@ parameter can be a field index or a field name.")
 IoObject *IoDBIResult_populate(IoDBIResult *self, IoObject *locals,
 			IoMessage *m)
 {
-	/*#io
-	docSlot("populate(object)", "Populate a decendent of DBIRecord with the
-current record's contents. See `DBIRecord' for further explanation and an
-example.")
+	/*doc DBIResult populate(object)
+	Populates a decendent of DBIRecord with the current record's contents. 
+	See `DBIRecord' for further explanation and an example.
 	*/
+	
 	dbi_result res = DATA(self)->result;
 	IoObject *baseObject = IoMessage_locals_valueArgAt_(m, locals, 0);
 	IoObject *o = IOCLONE(baseObject);
@@ -335,10 +323,9 @@ example.")
 IoObject *IoDBIResult_foreach(IoDBIResult *self, IoObject *locals,
 			IoMessage *m)
 {
-	/*#io
-	docSlot("foreach([Object], value, message)", """Loops over the records in the
-result starting at either the first result (if the cursor has never been
-moved) or it's current location if moved. i.e.
+/*doc DBIResult foreach([Object], value, message)
+Loops over the records in the result starting at either the first result 
+(if the cursor has never been moved) or it's current location if moved. i.e.
 
 <pre>
 r := conn query("SELECT * FROM people")
@@ -360,8 +347,8 @@ The above would start at the record #4, not at the beginning.
 The optional Object parameter would cause a decendent of DBIRecord to be
 populate instead of the index being set. This allows for advanced
 functionality. Please see `DBIRecord' for further information and an example.
-""")
-	*/
+*/
+	
 	dbi_result res = DATA(self)->result;
 	IoObject *result = IONIL(self);
 	IoMessage *doMessage;
@@ -442,11 +429,12 @@ done:
 
 IoObject *IoDBIResult_done(IoDBIResult *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("done", "Close and free the result. This <b>must</b> be called on
+	/*doc DBIResult done
+	Close and free the result. This <b>must</b> be called on
 each result. Failure to do so will cause memory leaks and open queries with
-the database server.")
+the database server.
 	*/
+	
 	if (0 != dbi_result_free(DATA(self)->result))
 	{
 		ReportDBIError(DATA(self)->conn, IOSTATE, m);

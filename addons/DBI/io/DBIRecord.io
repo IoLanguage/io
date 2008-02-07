@@ -36,12 +36,14 @@ DBIRecord := Object clone do(
 		self _map := Map clone
 	)
 
+	//doc DBIRecord with(aMap) Returns a new DBIRecord instance for the given value map.
 	with := method(aMap,
 		obj := self clone
 		obj _map := aMap
 		obj
 	)
 
+	//doc DBIRecord forward Private method that implements getting and setting values.
 	forward := method(
 		m := call message
 
