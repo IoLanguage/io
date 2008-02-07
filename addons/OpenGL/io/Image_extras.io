@@ -1,9 +1,10 @@
-isPowerOf2 := method(x,
-	x != 0 and (x & (x - 1)) == 0
-)
 
 Image do(
 	appendProto(OpenGL)
+
+	IsPowerOf2 := method(x,
+		x != 0 and (x & (x - 1)) == 0
+	)
 
 	changed := true
 
@@ -21,7 +22,7 @@ Image do(
 		nil
 	)
 
-	sizeIsPowerOf2 := method(isPowerOf2(width) and isPowerOf2(height))
+	sizeIsPowerOf2 := method(IsPowerOf2(width) and IsPowerOf2(height))
 
 	draw := method(
 		# Draw the image as a pixmap.
@@ -68,5 +69,14 @@ Image do(
 	drawScaledTexture := method(w, h,
 		texture drawScaled(w, h)
 		self
+	)
+	
+	scaledTo := method(widthOut, heightOut,
+		dataSeqOut := Sequence clone setSize(widthOut * heightOut * componentCount)
+		OpenGL gluScaleImage(self glFormat, width, height, self glFormat, data, widthOut, heightOut, self glFormat, dataSeqOut)
+		out := Image clone 
+		out setDataWidthHeightComponentCount(dataSeqOut, widthOut, heightOut, self componentCount)
+		writeln("out = ", out type)
+		out
 	)
 )

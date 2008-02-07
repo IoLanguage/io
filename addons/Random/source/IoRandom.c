@@ -3,19 +3,10 @@
 /*metadoc Random description
 A high quality and reasonably fast random number generator based on 
 Makoto Matsumoto, Takuji Nishimura, and Eric Landry's implementation 
-of the Mersenne Twister algorithm. The default seed is and xor of 
+of the <a href=http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/emt.html>Mersenne Twister</a> algorithm. The default seed is and xor of 
 the ANSI C time() and clock() return values.
-<p>
-Reference:
-<p>
-<i>
-M. Matsumoto and T. Nishimura, <br>
-"Mersenne Twister: A 623-Dimensionally Equidistributed Uniform Pseudo-RandomGen Number
-							Generator", <br>
-ACM Transactions on Modeling and Computer Simulation, Vol. 8, No. 1, January 1998, pp 3--30.
-</i>
 */
-//metadoc Random category Math")
+//metadoc Random category Math
 
 #include "IoRandom.h"
 #include "IoNumber.h"
@@ -101,6 +92,9 @@ void IoRandom_free(IoMessage *self)
 
 IoObject *IoRandom_flip(IoObject *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Random flip
+	Returns a random bit as a true or false object.
+	*/
 	int r = RandomGen_randomInt(DATA(self));
 	return IOBOOL(self, r & 0x1);
 }

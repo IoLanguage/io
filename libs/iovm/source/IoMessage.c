@@ -1056,16 +1056,16 @@ IoObject *IoMessage_setArguments(IoMessage *self, IoObject *locals, IoMessage *m
 
 IoObject *IoMessage_appendArg(IoMessage *self, IoObject *locals, IoMessage *m)
 {
-	/*doc Message appendArg(aMessage)
-	Adds aMessage to the argument list of receiver. Examples,
-	<pre>	
-	Io> message(a) appendArg(message(b))
-	==> a(b)
+/*doc Message appendArg(aMessage)
+Adds aMessage to the argument list of receiver. Examples,
+<pre>	
+Io> message(a) appendArg(message(b))
+==> a(b)
 
-	Io> message(a(1,2)) appendArg(message(3))
-	==> a(1, 2, 3)
-	</pre>	
-	*/
+Io> message(a(1,2)) appendArg(message(3))
+==> a(1, 2, 3)
+</pre>	
+*/
 
 	IoMessage *msg = IoMessage_locals_messageArgAt_(m, locals, 0);
 	IoMessage_addArg_(self, msg);
@@ -1085,16 +1085,16 @@ IoObject *IoMessage_appendCachedArg(IoMessage *self, IoObject *locals, IoMessage
 
 IoObject *IoMessage_argCount_(IoMessage *self, IoObject *locals, IoMessage *m)
 {
-	/*doc Message argCount
-	Returns the number of arguments this message has. A faster way to do, msg arguments size. Examples,
-	<pre>	
-	Io> message(a(1,2,3)) argCount
-	==> 3
+/*doc Message argCount
+Returns the number of arguments this message has. A faster way to do, msg arguments size. Examples,
+<pre>	
+Io> message(a(1,2,3)) argCount
+==> 3
 
-	Io> message(a) argCount
-	==> 0
-	</pre>	
-	*/
+Io> message(a) argCount
+==> 0
+</pre>	
+*/
 
 	return IONUMBER(IoMessage_argCount(self));
 }

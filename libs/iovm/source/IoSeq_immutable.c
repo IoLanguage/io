@@ -231,13 +231,13 @@ IoObject *IoSeq_isZero(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_size(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc ImmutableSequence size
-	Returns the length in bytes of the receiver. For example,
-	<p>
-	<pre>	
-	"abc" size == 3
-	</pre>	
-	*/
+/*doc ImmutableSequence size
+Returns the length in bytes of the receiver. For example,
+<p>
+<pre>	
+"abc" size == 3
+</pre>	
+*/
 
 	return IONUMBER(UArray_size(DATA(self)));
 }
@@ -648,18 +648,17 @@ IoObject *IoSeq_splitToFunction(IoSeq *self,
 
 IoObject *IoSeq_split(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc ImmutableSequence split(optionalArg1, optionalArg2, ...)
-	Returns a list containing the sub-sequences of the receiver divided by the given arguments.
-	If no arguments are given the sequence is split on white space.
-	Examples:
-	<p>
-	<pre>	
-	"a b c d" split == list("a", "b", "c", "d")
-	"a*b*c*d" split("*") == list("a", "b", "c", "d")
-	"a*b|c,d" split("*", "|", ",") == list("a", "b", "c", "d")
-	"a   b  c d" split == list("a", "", "", "", "b", "", "", "c", "", "d")
-	</pre>	
-	*/
+/*doc ImmutableSequence split(optionalArg1, optionalArg2, ...)
+Returns a list containing the sub-sequences of the receiver divided by the given arguments.
+If no arguments are given the sequence is split on white space.
+Examples:
+<pre>	
+"a b c d" split == list("a", "b", "c", "d")
+"a*b*c*d" split("*") == list("a", "b", "c", "d")
+"a*b|c,d" split("*", "|", ",") == list("a", "b", "c", "d")
+"a   b  c d" split == list("a", "", "", "", "b", "", "", "c", "", "d")
+</pre>	
+*/
 
 	return IoSeq_splitToFunction(self, locals, m, IoSeq_newWithUArray_copy_);
 }
@@ -795,7 +794,8 @@ IoObject *IoSeq_foreach(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 /*doc ImmutableSequence foreach(optionalIndex, value, message)
 For each element, set index to the index of the
-element and value the element value and execute message. Example:
+element and value the element value and execute message. 
+Example:
 <pre>	
 aSequence foreach(i, v, writeln("value at index ", i, " is ", v))
 aSequence foreach(v, writeln("value ", v))

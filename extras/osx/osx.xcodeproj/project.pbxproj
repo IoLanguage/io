@@ -529,6 +529,11 @@
 		AA86C21C0B60520000495786 /* IoVMInit.c in Sources */ = {isa = PBXBuildFile; fileRef = AA86BF8C0B6051FF00495786 /* IoVMInit.c */; };
 		AA86C21D0B60520000495786 /* IoWeakLink.c in Sources */ = {isa = PBXBuildFile; fileRef = AA86BF8D0B6051FF00495786 /* IoWeakLink.c */; };
 		AA86C21E0B60520000495786 /* IoWeakLink.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA86BF8E0B6051FF00495786 /* IoWeakLink.h */; };
+		AA9150E30D5B30EB00CBBF14 /* IoDBI.c in Sources */ = {isa = PBXBuildFile; fileRef = AA9150DD0D5B30EB00CBBF14 /* IoDBI.c */; };
+		AA9150E40D5B30EB00CBBF14 /* IoDBIConn.c in Sources */ = {isa = PBXBuildFile; fileRef = AA9150DF0D5B30EB00CBBF14 /* IoDBIConn.c */; };
+		AA9150E50D5B30EB00CBBF14 /* IoDBIResult.c in Sources */ = {isa = PBXBuildFile; fileRef = AA9150E10D5B30EB00CBBF14 /* IoDBIResult.c */; };
+		AA9151050D5B35DB00CBBF14 /* IoRange.c in Sources */ = {isa = PBXBuildFile; fileRef = AA9150FB0D5B35DB00CBBF14 /* IoRange.c */; };
+		AA9151060D5B35DB00CBBF14 /* IoRangeInit.c in Sources */ = {isa = PBXBuildFile; fileRef = AA9150FD0D5B35DB00CBBF14 /* IoRangeInit.c */; };
 		AABA460B0B6DB7CD00446661 /* UArray_character.c in Sources */ = {isa = PBXBuildFile; fileRef = AABA46030B6DB7CC00446661 /* UArray_character.c */; };
 		AABA460C0B6DB7CD00446661 /* UArray_character.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AABA46040B6DB7CC00446661 /* UArray_character.h */; };
 		AABA460D0B6DB7CD00446661 /* UArray_math.c in Sources */ = {isa = PBXBuildFile; fileRef = AABA46050B6DB7CC00446661 /* UArray_math.c */; };
@@ -539,6 +544,7 @@
 		AABA46120B6DB7CD00446661 /* UArray.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AABA460A0B6DB7CC00446661 /* UArray.h */; };
 		AABF82E50B76B45F002DBAB5 /* UArray_stream.c in Sources */ = {isa = PBXBuildFile; fileRef = AABF82E30B76B45F002DBAB5 /* UArray_stream.c */; };
 		AABF82E60B76B45F002DBAB5 /* UArray_stream.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AABF82E40B76B45F002DBAB5 /* UArray_stream.h */; };
+		AABFA2B90D59800D00FE7A84 /* Image.c in Sources */ = {isa = PBXBuildFile; fileRef = AABFA2B70D59800C00FE7A84 /* Image.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -1375,6 +1381,20 @@
 		AA86BF8C0B6051FF00495786 /* IoVMInit.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = IoVMInit.c; sourceTree = "<group>"; };
 		AA86BF8D0B6051FF00495786 /* IoWeakLink.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = IoWeakLink.c; sourceTree = "<group>"; };
 		AA86BF8E0B6051FF00495786 /* IoWeakLink.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IoWeakLink.h; sourceTree = "<group>"; };
+		AA9150D20D5B30EB00CBBF14 /* DBIConn.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = DBIConn.io; sourceTree = "<group>"; };
+		AA9150D30D5B30EB00CBBF14 /* DBIRecord.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = DBIRecord.io; sourceTree = "<group>"; };
+		AA9150DD0D5B30EB00CBBF14 /* IoDBI.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoDBI.c; sourceTree = "<group>"; };
+		AA9150DE0D5B30EB00CBBF14 /* IoDBI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoDBI.h; sourceTree = "<group>"; };
+		AA9150DF0D5B30EB00CBBF14 /* IoDBIConn.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoDBIConn.c; sourceTree = "<group>"; };
+		AA9150E00D5B30EB00CBBF14 /* IoDBIConn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoDBIConn.h; sourceTree = "<group>"; };
+		AA9150E10D5B30EB00CBBF14 /* IoDBIResult.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoDBIResult.c; sourceTree = "<group>"; };
+		AA9150E20D5B30EB00CBBF14 /* IoDBIResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoDBIResult.h; sourceTree = "<group>"; };
+		AA9150F80D5B35DB00CBBF14 /* Extras.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Extras.io; sourceTree = "<group>"; };
+		AA9150F90D5B35DB00CBBF14 /* Range.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Range.io; sourceTree = "<group>"; };
+		AA9150FB0D5B35DB00CBBF14 /* IoRange.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoRange.c; sourceTree = "<group>"; };
+		AA9150FC0D5B35DB00CBBF14 /* IoRange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoRange.h; sourceTree = "<group>"; };
+		AA9150FD0D5B35DB00CBBF14 /* IoRangeInit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoRangeInit.c; sourceTree = "<group>"; };
+		AA9150FE0D5B35DB00CBBF14 /* IoRange_inline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoRange_inline.h; sourceTree = "<group>"; };
 		AABA46030B6DB7CC00446661 /* UArray_character.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = UArray_character.c; sourceTree = "<group>"; };
 		AABA46040B6DB7CC00446661 /* UArray_character.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = UArray_character.h; sourceTree = "<group>"; };
 		AABA46050B6DB7CC00446661 /* UArray_math.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = UArray_math.c; sourceTree = "<group>"; };
@@ -1385,6 +1405,8 @@
 		AABA460A0B6DB7CC00446661 /* UArray.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = UArray.h; sourceTree = "<group>"; };
 		AABF82E30B76B45F002DBAB5 /* UArray_stream.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = UArray_stream.c; sourceTree = "<group>"; };
 		AABF82E40B76B45F002DBAB5 /* UArray_stream.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = UArray_stream.h; sourceTree = "<group>"; };
+		AABFA2B70D59800C00FE7A84 /* Image.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Image.c; sourceTree = "<group>"; };
+		AABFA2B80D59800D00FE7A84 /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
 		C6A0FF2C0290799A04C91782 /* osx.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = osx.1; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1490,17 +1512,18 @@
 		AA7D57800B60123800D7DEA9 /* addons */ = {
 			isa = PBXGroup;
 			children = (
-				AA6ABF750BA8012F0049770F /* Box */,
 				AA7D57810B60123800D7DEA9 /* AppleExtras */,
 				AA7D57A50B60123800D7DEA9 /* AsyncRequest */,
 				AA7D57BC0B60123800D7DEA9 /* AVCodec */,
 				AA7D57DA0B60123800D7DEA9 /* BigNum */,
 				AA7D57F00B60123800D7DEA9 /* Blowfish */,
+				AA6ABF750BA8012F0049770F /* Box */,
 				AA7D580C0B60123900D7DEA9 /* CFFI */,
 				AA7D58260B60123900D7DEA9 /* CGI */,
 				AA7D583A0B60123900D7DEA9 /* ContinuedFraction */,
 				AA7D584C0B60123900D7DEA9 /* Contracts */,
 				AA7D585F0B60123900D7DEA9 /* Curses */,
+				AA9150CC0D5B30EB00CBBF14 /* DBI */,
 				AA7D588F0B60123900D7DEA9 /* Flux */,
 				AA7D5C6E0B60123B00D7DEA9 /* Fnmatch */,
 				AA7D5C850B60123B00D7DEA9 /* Font */,
@@ -1519,6 +1542,7 @@
 				AA7D603B0B60123D00D7DEA9 /* Python */,
 				AA7D60570B60123D00D7DEA9 /* QDBM */,
 				AA7D60720B60123D00D7DEA9 /* Random */,
+				AA9150E70D5B35DB00CBBF14 /* Range */,
 				AA7D60890B60123D00D7DEA9 /* Rational */,
 				AA7D609D0B60123E00D7DEA9 /* Regex */,
 				AA7D60BB0B60123E00D7DEA9 /* SampleRateConverter */,
@@ -1826,6 +1850,8 @@
 		AA7D5CDD0B60123B00D7DEA9 /* source */ = {
 			isa = PBXGroup;
 			children = (
+				AABFA2B70D59800C00FE7A84 /* Image.c */,
+				AABFA2B80D59800D00FE7A84 /* Image.h */,
 				AA7D5CE00B60123B00D7DEA9 /* IoImage.c */,
 				AA7D5CE10B60123B00D7DEA9 /* IoImage.h */,
 				AA7D5CE20B60123B00D7DEA9 /* IoImageApi.h */,
@@ -2964,6 +2990,66 @@
 			path = source;
 			sourceTree = "<group>";
 		};
+		AA9150CC0D5B30EB00CBBF14 /* DBI */ = {
+			isa = PBXGroup;
+			children = (
+				AA9150D10D5B30EB00CBBF14 /* io */,
+				AA9150DC0D5B30EB00CBBF14 /* source */,
+			);
+			path = DBI;
+			sourceTree = "<group>";
+		};
+		AA9150D10D5B30EB00CBBF14 /* io */ = {
+			isa = PBXGroup;
+			children = (
+				AA9150D20D5B30EB00CBBF14 /* DBIConn.io */,
+				AA9150D30D5B30EB00CBBF14 /* DBIRecord.io */,
+			);
+			path = io;
+			sourceTree = "<group>";
+		};
+		AA9150DC0D5B30EB00CBBF14 /* source */ = {
+			isa = PBXGroup;
+			children = (
+				AA9150DD0D5B30EB00CBBF14 /* IoDBI.c */,
+				AA9150DE0D5B30EB00CBBF14 /* IoDBI.h */,
+				AA9150DF0D5B30EB00CBBF14 /* IoDBIConn.c */,
+				AA9150E00D5B30EB00CBBF14 /* IoDBIConn.h */,
+				AA9150E10D5B30EB00CBBF14 /* IoDBIResult.c */,
+				AA9150E20D5B30EB00CBBF14 /* IoDBIResult.h */,
+			);
+			path = source;
+			sourceTree = "<group>";
+		};
+		AA9150E70D5B35DB00CBBF14 /* Range */ = {
+			isa = PBXGroup;
+			children = (
+				AA9150F70D5B35DB00CBBF14 /* io */,
+				AA9150FA0D5B35DB00CBBF14 /* source */,
+			);
+			path = Range;
+			sourceTree = "<group>";
+		};
+		AA9150F70D5B35DB00CBBF14 /* io */ = {
+			isa = PBXGroup;
+			children = (
+				AA9150F80D5B35DB00CBBF14 /* Extras.io */,
+				AA9150F90D5B35DB00CBBF14 /* Range.io */,
+			);
+			path = io;
+			sourceTree = "<group>";
+		};
+		AA9150FA0D5B35DB00CBBF14 /* source */ = {
+			isa = PBXGroup;
+			children = (
+				AA9150FB0D5B35DB00CBBF14 /* IoRange.c */,
+				AA9150FC0D5B35DB00CBBF14 /* IoRange.h */,
+				AA9150FD0D5B35DB00CBBF14 /* IoRangeInit.c */,
+				AA9150FE0D5B35DB00CBBF14 /* IoRange_inline.h */,
+			);
+			path = source;
+			sourceTree = "<group>";
+		};
 		C6A0FF2B0290797F04C91782 /* Documentation */ = {
 			isa = PBXGroup;
 			children = (
@@ -3248,6 +3334,12 @@
 				AA6ABF930BA8012F0049770F /* IoBox.c in Sources */,
 				AA6ABF950BA8012F0049770F /* mandlebrot.c in Sources */,
 				AA6ABFE30BA8D27E0049770F /* IoSeq_vector.c in Sources */,
+				AABFA2B90D59800D00FE7A84 /* Image.c in Sources */,
+				AA9150E30D5B30EB00CBBF14 /* IoDBI.c in Sources */,
+				AA9150E40D5B30EB00CBBF14 /* IoDBIConn.c in Sources */,
+				AA9150E50D5B30EB00CBBF14 /* IoDBIResult.c in Sources */,
+				AA9151050D5B35DB00CBBF14 /* IoRange.c in Sources */,
+				AA9151060D5B35DB00CBBF14 /* IoRangeInit.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3357,6 +3449,8 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_90)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_91)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_92)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../addons/AppleExtras/_build/dll\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_10 = "\"$(SRCROOT)/../../addons/Blowfish/_build/lib\"";
@@ -3450,6 +3544,8 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_90 = "\"$(SRCROOT)/../../libs/iovm/_build/lib\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_91 = "\"$(SRCROOT)/../../libs/skipdb/_build/dll\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_92 = "\"$(SRCROOT)/../../libs/skipdb/_build/lib\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../addons/Range/_build/dll\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../../addons/Range/_build/lib\"";
 				PRODUCT_NAME = osx;
 				ZERO_LINK = YES;
 			};
@@ -3559,6 +3655,8 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_90)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_91)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_92)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_93)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_94)",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../addons/AppleExtras/_build/dll\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_10 = "\"$(SRCROOT)/../../addons/Blowfish/_build/lib\"";
@@ -3652,6 +3750,8 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_90 = "\"$(SRCROOT)/../../libs/iovm/_build/lib\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_91 = "\"$(SRCROOT)/../../libs/skipdb/_build/dll\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_92 = "\"$(SRCROOT)/../../libs/skipdb/_build/lib\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_93 = "\"$(SRCROOT)/../../addons/Range/_build/dll\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_94 = "\"$(SRCROOT)/../../addons/Range/_build/lib\"";
 				PRODUCT_NAME = osx;
 			};
 			name = Release;

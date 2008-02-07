@@ -1,26 +1,46 @@
 
 Call do(
 	//doc Call description Returns a description of the receiver as a String.
-
 	description := method(
 		m := self message
 		s := self target type .. " " .. m name
 		s alignLeft(36) .. " " .. m label lastPathComponent .. " " .. m lineNumber
 	)
 
+	/*doc Call delegateTo(target, altSender)
+	Sends the call's message to target (and relays it's stop status). 
+	The sender is set to altSender, if it is supplied.
+	Returns the result of the message.
+	*/
 	delegateTo := method(target, altSender,
 		call relayStopStatus(target doMessage(self message clone setNext, altSender ifNilEval(self sender)))
 	)
 
+	/*doc Call delegateToMethod(target, methodName)
+	Sends the call's message to target via the method specified by methodName. 
+	Returns the result of the message.
+	*/
 	delegateToMethod := method(target, methodName,
 		call relayStopStatus(target doMessage(self message clone setNext setName(methodName), self sender))
 	)
 
+	/*doc Call evalArgs
+	Returns a list containing the call message arguments evaluated in the context of the sender.
+	*/
 	evalArgs := method(self message argsEvaluatedIn(sender))
+	
+	/*doc Call hasArgs
+	Returns true if the call was passed arguments.
+	*/
 	hasArgs  := method(argCount > 0)
+	
+	/*doc Call argCount
+	Returns the number of arguments for the call. Same as call message argCount.
+	*/
 	argCount := method(self message argCount)
 )
 
+//doc Message description Returns a string containing a short description of the method.
 Message description := method(
 	self name alignLeft(36) .. self label lastPathComponent .. " " .. self lineNumber
 )

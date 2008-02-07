@@ -907,19 +907,8 @@ IoObject *IoObject_lobbyPrint(IoObject *self, IoObject *locals, IoMessage *m)
 				IoState_print_(state, ", ");
 			}
 		}
-
 	}
-	IoState_print_(state, ")\n");
-	/*
-	PHASH_FOREACH(IoObject_slots(self), k, v,
-		//IoState_print_(state, "  %s := ", CSTRING(key));
-		//if (ISSYMBOL(value)) IoState_print_(state, "\"");
-		//IoObject_defaultPrint(value);
-		//if (ISSYMBOL(value)) IoState_print_(state, "\"");
-		IoState_print_(state, "\n");
-	);
-	*/
-
+	
 	IoState_print_(state, ")\n");
 
 	return state->ioNil;

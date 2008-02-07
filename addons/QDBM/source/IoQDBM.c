@@ -1,10 +1,10 @@
 
+//metadoc QDBM category Databases
 //metadoc QDBM copyright Steve Dekorte 2002
 //metadoc QDBM license BSD revised
 /*metadoc QDBM description
-A key/value database.
+An ordered key/value database that supports transactions and arbitrary kay and value sizes.
 */
-//metadoc QDBM category Databases
 
 #include "IoQDBM.h"
 

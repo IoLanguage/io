@@ -68,7 +68,7 @@ void IoSHA1_free(IoSHA1 *self)
 IoObject *IoSHA1_appendSeq(IoSHA1 *self, IoObject *locals, IoMessage *m)
 {
 	/*doc SHA1 appendSeq(aSequence)
-	Appends aSequence to the hash calculation. Returns self.")
+	Appends aSequence to the hash calculation. Returns self.
 	 */
 
 	IoSeq *buffer = IoMessage_locals_seqArgAt_(m, locals, 0);

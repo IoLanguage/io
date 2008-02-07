@@ -1,3 +1,4 @@
+#!/usr/local/bin/io
 
 addonFolders := Directory with("addons") folders
 addonFolders foreach(folder,
@@ -7,27 +8,66 @@ addonFolders foreach(folder,
 prototypes := Map clone
 modules := Map clone
 
+
+/*
+ReferenceDoc := Object clone do(
+	protos :: = List clone
+	print := method(
+		protos foreach(printIndex)
+		protos foreach(print)
+	)
+)
+
+ProtoDoc := Object clone do(
+	init := method(self slots := List clone)
+	printIndex := method(
+		
+	)
+	print := method(
+		printIndex
+		slots foreach(print)
+	)	
+)
+
+SlotDoc := Object clone do(
+	name ::= nil
+	value ::= nil
+	
+	printIndex := method(
+		
+	)
+	print := method(
+		
+	)
+)
+*/
+
 readFolder := method(path,
 	File with(Path with(path, "/docs/docs.txt")) contents split("------\n") foreach(e,
 		isSlot := e beginsWithSeq("doc")
-		h := e beforeSeq("\n") afterSeq(" ")
-		protoName := h beforeSeq(" ")
-		slotName := h afterSeq(" ") asMutable strip asSymbol
-		description := e afterSeq("\n")
-		p := prototypes atIfAbsentPut(protoName, Map clone atPut("slots", Map clone))
+		h := e beforeSeq("\n") afterSeq(" ") 
+		if(h,
+			h = h asMutable strip asSymbol
+			protoName := h beforeSeq(" ") ?asMutable ?strip ?asSymbol
+			slotName := h afterSeq(" ") ?asMutable ?strip ?asSymbol
+			description := e afterSeq("\n")
+			p := prototypes atIfAbsentPut(protoName, Map clone atPut("slots", Map clone))
 		
-		moduleName := path lastPathComponent
-		if(moduleName == "iovm", moduleName = "Core")
-		p atPut("module", moduleName)
-		m := modules atIfAbsentPut(moduleName, Map clone)
-		modules atPut(moduleName, m)
-		m atPut(protoName, p)
+			moduleName := path lastPathComponent
+			if(moduleName == "iovm", moduleName = "Core")
+			p atPut("module", moduleName)
+			m := modules atIfAbsentPut(moduleName, Map clone)
+			modules atPut(moduleName, m)
+			m atPut(protoName, p)
 		
-		if(protoName == nil or slotName == nil, writeln("ERROR: ", e))
-		if(isSlot, 
-			p at("slots") atPut(slotName, description)
+			if(protoName == nil or slotName == nil, writeln("ERROR: ", e))
+			if(isSlot, 
+				p at("slots") atPut(slotName, description)
+			,
+				p atPut(slotName, description)
+			)
 		,
-			p atPut(slotName, description)
+			if(protoName == nil or slotName == nil, writeln("ERROR: ", e))
 		)
 		
 	)
@@ -36,173 +76,51 @@ readFolder := method(path,
 addonFolders foreach(f, readFolder(f path))
 readFolder("libs/iovm")
 
-writeln("""
+writeln("""<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html>
 <head>
-<title>io - core reference</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<title>Io Reference Manual</title>
 <META HTTP-EQUIV="EXPIRES" CONTENT=0>
-<style>
-a 
-{
-	color : #aaa;
-	text-decoration : none;
-}
-
-body {
-    font-family: 'Serif', 'Helvetica Neue', 'Helvetica', 'Sans';
-}
-
-ul {
-	padding: 0em 0em 0em 3.1em;
-}
-
-hr {
-	width:50em;
-	height:0em;
-}
-
-.Version {
-    color: #bbb;
-    text-align: left;
-}
-
-h1 {
-    color: #000000;
-    font-family: 'Helvetica-Bold', 'Helvetica';
-    font-size: 3em;
-    font-style: normal;
-    font-variant: normal;
-    font-weight: bold;
-    letter-spacing: 0;
-    line-height: 1.3;
-    margin-bottom: 0em;
-    margin-left: 0em;
-    margin-right: 0em;
-    margin-top: 0em;
-    padding-bottom: 0em;
-    padding-top: 2em;
-    text-align: left;
-    text-decoration: none;
-    text-indent: 0.00em;
-    text-transform: none;
-    vertical-align: 0.000000em;
-}
-
-pre {
-	white-space: pre;
-    color: #333;
-    font-family: 'Courier', 'Courier';
-    font-size: .9em;
-    font-style: normal;
-    font-variant: normal;
-    font-weight: normal;
-    letter-spacing: 0;
-    line-height: 1.22;
-
-    margin-bottom: 1.5em;
-    margin-left: 3em;
-    margin-right: 0em;
-    margin-top: .5em;
-    padding-bottom: 0em;
-    padding-top: 0em;
-
-    text-align: left;
-    text-decoration: none;
-    text-indent: 0em;
-    text-transform: none;
-    vertical-align: 0em;
-}
-
-h2 {
-    color: #000000;
-    font-family: 'Helvetica', 'Helvetica';
-    font-size: 1.8em;
-    font-style: normal;
-    font-variant: normal;
-    font-weight: bold;
-    letter-spacing: 0;
-    line-height: 1.21;
-    margin-bottom: .5em;
-    margin-left: 0em;
-    margin-right: 0.00em;
-    margin-top: 0.000000em;
-    padding-bottom: 7.000000pt;
-    padding-top: 21.000000pt;
-    text-align: left;
-    text-decoration: none;
-    text-indent: 0.00em;
-    text-transform: none;
-    vertical-align: 0.000000em;
-}
-
-h3 {
-    color: #777;
-    font-family: 'Helvetica-Bold', 'Helvetica';
-    font-size: 1.3em;
-    font-style: normal;
-    font-variant: normal;
-    font-weight: bold;
-    letter-spacing: 0;
-    line-height: 1.18em;
-    margin-bottom: 0em;
-    margin-left: 0em;
-    margin-right: 0em;
-    margin-top: 0em;
-    padding-bottom: 1em;
-    padding-top: 1em;
-    text-align: left;
-    text-decoration: none;
-    text-indent: 0.00em;
-    text-transform: none;
-    vertical-align: 0.000000em;
-}
-
-.PsuedoCode {
-    color: #000000;
-    font-family: 'Times-Italic', 'Times';
-    font-size: 11.00pt;
-    font-style: italic;
-    font-variant: normal;
-    font-weight: normal;
-    letter-spacing: 0;
-    line-height: 1.18;
-    margin-bottom: 0.000000em;
-    margin-left: 0em;
-    margin-right: 0.00em;
-    margin-top: 0.000000em;
-    padding-bottom: 0.000000em;
-    padding-top: 0.000000em;
-    text-align: left;
-    text-decoration: none;
-    text-indent: 0.00em;
-    text-transform: none;
-    vertical-align: 0.000000em;
-}
-
-</style>
+<link rel="stylesheet" href="docs.css">
 </head>
 <body>
 """)
 
-writeln("<ul>")
-writeln("<h1>Io Reference Manual</h1>")
-writeln("<div class=Version>Version " .. System version .. "</div>")
-writeln("<h2>Modules</h2>")
-writeln("<ul>")
+writeln("<h1>The Io Reference Manual</h1>")
+writeln("<div class=Version>Version " .. System version asString asMutable atInsertSeq(4, " ") atInsertSeq(7, " ") .. "</div>")
+writeln("<p><br>")
+//writeln("<h2>Modules</h2>")
 
 protoNames := prototypes keys sort
 moduleNames := modules keys sort 
 
+moduleNames remove("Core") prepend("Core")
+
+// 	<div class=indexSection><a href=""#Objects"">Objects</a></div>
+
+writeln("<table cellpadding=0 cellspacing=0 border=0>")
+writeln("<tr><td valign=top>")
+count := 0
 moduleNames foreach(moduleName,
-	writeln("<b>",moduleName, "</b><br>")
-	writeln("<ul>")
-	modules at(moduleName) keys sort foreach(protoName,
-		writeln("<a href=#", protoName, " style=\"color: #555;\">", protoName, "</a><br>")
+	writeln("<div class=indexSection><a href=\"#", moduleName, "\">", moduleName, "</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>")
+	keys := modules at(moduleName) keys sort 
+	if(keys size > 1,
+		keys foreach(protoName,
+			writeln("<div class=indexItem><a href=\"#", protoName, "\">", protoName, "</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>")
+			count = count + 1
+		)
 	)
-	writeln("""<br style="width:.5em"></ul>""")
+	count = count + 2
+	if(count > 53,
+		writeln("</td><td valign=top>")
+		count = 0
+	)
+	//writeln("""<br style="width:.5em"></div>""")
 )
 
-writeln("</ul>")
+writeln("</td></tr></table>")
+writeln("<p><br>")
 
 Sequence do(
 	asHtml := method(
@@ -212,78 +130,93 @@ Sequence do(
 
 protoNames foreach(protoName,
 	p := prototypes at(protoName)
-	write("<h2>")
-	write("<a name=" .. protoName .. "><font color=black>", protoName, "</font></a>")
-	writeln("</h2>")
-	writeln("<ul style=\"width:40em\">")
+	writeln("<hr align=left>")
+	writeln("<h2><a name=\"" .. protoName .. "\"></a>", protoName, "</h2>")
+	writeln("<div class=indent>")
 	
-	//writeln("<b><font color=#000>Protos:</font></b> ", getSlot(protoName) ?prototypes ?map(type) ?join(", "))
+	//writeln("<b>Protos:</b> ", getSlot(protoName) ?prototypes ?map(type) ?join(", "))
 
-	if(p at("category"),
-		writeln("<b><font color=#000>Category:</font></b> ", p at("category"))
+	showMeta := method(name,
+		if(p at(name),
+			writeln("<b>", name asCapitalized, ":</b> ", p at(name), "<br>")
+		)
 	)
 	
-	if(p at("module"), 
-		writeln("<b><font color=#000>Module:</font></b> ", p at("module"))
-	)
+	writeln("""<div style="line-height:1.3em">""")
+	showMeta("module")
+	showMeta("category")
+	writeln("<font color=#bbb>")
+	//showMeta("copyright")
+	//showMeta("license")
+	showMeta("credits")
+	writeln("</font>")
+	writeln("</div>")
+	
+	//p keys map(s, "[" .. s .. "]") println
 
 	if (p at("description"),
 		writeln("<h3>Description</h3>")
+		writeln("<div class=protoDescription>")
 		p at("description") println
-		writeln("</font>")
+		writeln("</div>")
 	)
 
 	slots := p at("slots")
 	if (slots,
+		writeln("<div class=slots>")
 		writeln("<h3>Slot Index</h3>")
-		writeln("<div style=\"width:40em; margin-left:2em\">")
+		writeln("<div class=slotIndex>")
 		
 		slotNames := slots keys sort
-		slotNames sort foreach(k,
+		
+		try(
+			if(Lobby perform(protoName),
+				names := getSlot(protoName) slotNames remove("type") select(beginsWithSeq("_") not)
+				slotNames foreach(slotName,
+					n := slotName beforeSeq("(") asSymbol 
+					if(names contains(n), names remove(n))
+				)
+				slotNames appendSeq(names)
+			)
+		)
+		
+		slotNames = slotNames sort remove("init")
+		
+		slotNames foreach(k,
 			s := slots at(k)
-			write("<b><a href=#" .. protoName .. "-" .. k asHtml .. " >")
+			write("<a href=\"#" .. protoName .. "-" .. k beforeSeq("(") asHtml .. "\">")
+			if(k containsSeq("("), k = k beforeSeq("(") .. "()")
 			write(k asHtml)
 			if(s ?args, write("()"))
-			writeln("</a></b><br>")
+			writeln("</a><br>")
 		)
 		writeln("</div>")
 
-		writeln("<br>")
+		writeln("<p>")
 		writeln("<h3>Slots</h3>")
-		//writeln("<ul>")
-		writeln("<br>")
+		writeln("<p>")
 		//slotNames = slotNames map(asMutable strip asSymbol)
-		if(getSlot(protoName),
-			names := getSlot(protoName) slotNames
-			slotNames foreach(slotName,
-				n := slotName beforeSeq("(") asSymbol 
-				if(names contains(n), names remove(n))
-			)
-			slotNames appendSeq(names)
-		)
+		
 		slotNames sort foreach(k,
 			s := slots at(k)
-			write("<b>")
-			write("<a name=" .. protoName .. "-" .. k asHtml .. "><font color=black>")
+			if(s, s = s strip)
+			isPrivate := s ?beginsWithSeq("Private")
+			if(isPrivate, writeln("<font color=#888>"))
+			write("<a name=\"" .. protoName .. "-" .. k beforeSeq("(") asHtml .. "\"></a><b>")
 			write(k asHtml)
 			//if(s ?args, writeln("(</b><i>" .. s args map(asHtml) join(", ") .. "</i><b>)"))
-			write("</font></a></b>")
+			write("</b>")
 			writeln("<p>")
-			writeln("<div style=\"width:40em; margin-left:2em\">")
-			if(s, writeln(s), writeln("<font color=red>undocumented</font>"))
-			writeln("</font>")
+			writeln("<div class=slotDescription>")
+			if(s, writeln(s), writeln("<div class=error>undocumented</div>"))
+			if(isPrivate, writeln("</font>"))
 			writeln("</div>")
-			writeln("<p><br>")
 		)
-		//writeln("</ul>")
+		writeln("</div>")
 	)
 	
-	writeln("</ul>")
-	writeln("<br>")
-	writeln("<hr align=left>")
-	writeln("<br>")
+	writeln("</div>")
 )
 
-writeln("</ul>")
 5 repeat(writeln("<br>"))
 

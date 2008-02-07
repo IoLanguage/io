@@ -466,12 +466,16 @@ IoObject *IoNumber_asBuffer(IoNumber *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoNumber_asString(IoNumber *self, IoObject *locals, IoMessage *m)
 {
-	/*doc Number asString(optionalIntegerDigits, optionalFactionDigits)
-	Returns a string representation of the receiver. For example:
-	<pre>	1234.5678 asString(0, 2)</pre>	
-	would return:
-	<pre>	$1234.56</pre>	
-	*/
+/*doc Number asString(optionalIntegerDigits, optionalFactionDigits)
+Returns a string representation of the receiver. For example:
+<pre>
+1234.5678 asString(0, 2)
+</pre>	
+would return:
+<pre>
+$1234.56
+</pre>	
+*/
 	
 	if (IoMessage_argCount(m) >= 1)
 	{
@@ -869,7 +873,7 @@ IoObject *IoNumber_bitwiseComplement(IoNumber *self, IoObject *locals, IoMessage
 
 IoObject *IoNumber_bitShiftLeft(IoNumber *self, IoObject *locals, IoMessage *m)
 {
-	/*doc Number shiftLeft(aNumber)
+	/*doc Number <<(aNumber)
 	Shifts the bits of the receiver left by the number of places specified by aNumber.
 	*/
 
@@ -880,7 +884,7 @@ IoObject *IoNumber_bitShiftLeft(IoNumber *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoNumber_bitShiftRight(IoNumber *self, IoObject *locals, IoMessage *m)
 {
-	/*doc Number shiftRight(aNumber)
+	/*doc Number >>(aNumber)
 	Shifts the bits of the receiver right by the number of places specified by aNumber.
 	*/
 

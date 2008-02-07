@@ -1,13 +1,13 @@
+//metadoc Flux description AutoImporter for the Flux Io UI framework.
+
 Flux := Object clone do(
-	type := "Object"
 	Views := Object clone
 	Views type := "Object"
 	appendProto(Views)
-
 	
 	fluxPath := if(Directory with("io/addons/Flux") exists, "io/addons/Flux", "/usr/local/lib/io/addons/Flux")
 	fluxSource := fluxPath .. "/io/Flux"
-	fluxViews := fluxPath .. "/io/Flux/Views"
+	fluxViews  := fluxPath .. "/io/Flux/Views"
 	
 	Importer addSearchPath(fluxSource)
 	Importer addSearchPath(fluxViews)

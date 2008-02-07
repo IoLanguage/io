@@ -1,11 +1,7 @@
-/*#io
-DBIConn ioDoc(
-	docCopyright("Jeremy Cowgar", 2006)
-	docLicense("BSD revised")
-	docCategory("Databases")
-	docObject("DBIConn")
-	docDescription("A DBI Connection.")
-*/
+//metadoc DBIConn copyright Jeremy Cowgar 2006
+//metadoc DBIConn license BSD revised
+//metadoc DBIConn category Databases
+//metadoc DBIConn description An object that represents a DBI Connection.
 
 #include <dbi/dbi.h>
 
@@ -97,19 +93,16 @@ IoDBIConn *IoDBIConn_new(void *state, dbi_conn conn)
 
 IoObject *IoDBIConn_driver(IoDBIConn *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("driver", "Return database driver name.")
-	*/
+	//doc DBIConn driver Return database driver name.
+	
 	dbi_driver d = dbi_conn_get_driver(DATA(self)->conn);
 	return IOSYMBOL(dbi_driver_get_name(d));
 }
 
 IoObject *IoDBIConn_optionPut(IoDBIConn *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("optionPut(key,value)", "Add an option key, value pair to the
-connection.")
-	*/
+	//doc DBIConn optionPut(key,value) Add an option key, value pair to the connection.
+
 	IoObject *key = IoMessage_locals_valueArgAt_(m, locals, 0);
 	IoObject *val = IoMessage_locals_valueArgAt_(m, locals, 1);
 
@@ -139,9 +132,8 @@ connection.")
 
 IoObject *IoDBIConn_option(IoDBIConn *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("option(key)", "Retrieve an option value for the connection.")
-	*/
+	//doc DBIConn option(key) Retrieve an option value for the connection.
+	
 	IoObject *key = IoMessage_locals_valueArgAt_(m, locals, 0);
 	if (!ISSYMBOL(key))
 	{
@@ -157,9 +149,8 @@ IoObject *IoDBIConn_option(IoDBIConn *self, IoObject *locals, IoMessage *m)
 IoObject *IoDBIConn_options(IoDBIConn *self, IoObject *locals,
 			IoMessage *m)
 {
-	/*#io
-	docSlot("options", "Retrieve an option list of the connection.")
-	*/
+	//doc DBIConn options Retrieve an option list of the connection.
+	
 	IoList *list = IOREF(IoList_new(IOSTATE));
 	const char *option = NULL;
 
@@ -174,9 +165,8 @@ IoObject *IoDBIConn_options(IoDBIConn *self, IoObject *locals,
 IoObject *IoDBIConn_optionsClear(IoDBIConn *self, IoObject *locals,
 			IoMessage *m)
 {
-	/*#io
-	docSlot("optionsClear", "Clear all options associated with the connection")
-	*/
+	//doc DBIConn optionsClear Clear all options associated with the connection
+	
 	dbi_conn_clear_options(DATA(self)->conn);
 	return IONIL(self);
 }
@@ -184,11 +174,10 @@ IoObject *IoDBIConn_optionsClear(IoDBIConn *self, IoObject *locals,
 IoObject *IoDBIConn_optionClear(IoDBIConn *self, IoObject *locals,
 			IoMessage *m)
 {
-	/*#io
-	docSlot("optionClear(key)", "Clear a specific option associated with the
-connection")
-	*/
+	//doc DBIConn optionClear(key) Clear a specific option associated with the connection.
+
 	IoObject *key = IoMessage_locals_valueArgAt_(m, locals, 0);
+	
 	if (!ISSYMBOL(key))
 	{
 		IoState_error_(IOSTATE, m,
@@ -203,9 +192,8 @@ connection")
 
 IoObject *IoDBIConn_connect(IoDBIConn *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("connect", "Connect to the database server")
-	*/
+	//doc DBIConn connect Connect to the database server.
+	
 	if (0 != dbi_conn_connect(DATA(self)->conn))
 	{
 		ReportDBIError(DATA(self)->conn, IOSTATE, m);
@@ -216,9 +204,8 @@ IoObject *IoDBIConn_connect(IoDBIConn *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoDBIConn_close(IoDBIConn *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("close", "Close the connection to the database")
-	*/
+	//doc DBIConn close Close the connection to the database.
+	
 	if (DATA(self)->conn) dbi_conn_close(DATA(self)->conn);
 	DATA(self)->conn = NULL;
 	return IONIL(self);
@@ -226,19 +213,20 @@ IoObject *IoDBIConn_close(IoDBIConn *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoDBIConn_ping(IoDBIConn *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("ping", "Ping the database to see if it's alive. Will return
-true if it is, otherwise false.")
+	/*doc DBIConn ping 
+	Ping the database to see if it's alive. 
+	Will return true if it is, otherwise false.
 	*/
+	
 	return IOBOOL(self, dbi_conn_ping(DATA(self)->conn) == 1);
 }
 
 IoObject *IoDBIConn_quote(IoDBIConn *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("quote(value)", "Quote a string value according to the database
-server's specifications")
+	/*doc DBIConn quote(value)
+	Quote a string value according to the database server's specifications.
 	*/
+	
 	char *value = NULL, *v2;
 	size_t newLen;
 	IoObject *ret;
@@ -272,13 +260,14 @@ server's specifications")
 
 IoObject *IoDBIConn_query(IoDBIConn *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("query(sql_query)", "Perform a database query returning a DBIResult
-object")
+	/*doc DBIConn query(sql_query)
+	Perform a database query returning a DBIResult object.
 	*/
+	
 	dbi_result result;
 
 	IoObject *sql = IoMessage_locals_valueArgAt_(m, locals, 0);
+	
 	if (!ISSYMBOL(sql))
 	{
 		IoState_error_(IOSTATE, m,
@@ -287,9 +276,11 @@ object")
 	}
 
 	result = dbi_conn_query(DATA(self)->conn, CSTRING(sql));
+	
 	if (result == NULL)
 	{
 		const char *error;
+		
 		int errorCode = dbi_conn_error(DATA(self)->conn, &error);
 
 		IoState_error_(IOSTATE, m, "Could not perform query '%s' "
@@ -301,10 +292,11 @@ object")
 
 IoObject *IoDBIConn_execute(IoDBIConn *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("execute(sql_query)", "Perform a database query that expects no
-results. Returns the number of rows affected.")
+	/*doc DBIConn execute(sql_query)
+	Perform a database query that expects no results. 
+	Returns the number of rows affected.
 	*/
+	
 	dbi_result result;
 	unsigned long long affectedRows = 0;
 
@@ -336,10 +328,12 @@ results. Returns the number of rows affected.")
 IoObject *IoDBIConn_lastSequence(IoDBIConn *self, IoObject *locals,
 			IoMessage *m)
 {
-	/*#io
-	docSlot("sequenceLast([name])", "Return the last inserted sequence value.")
+	/*doc DBIConn sequenceLast([name])
+	Return the last inserted sequence value.
 	*/
+	
 	char *name = NULL;
+	
 	if (IoMessage_argCount(m) == 1)
 	{
 		IoObject *nameArg = IoMessage_locals_valueArgAt_(m, locals, 0);
@@ -361,11 +355,12 @@ IoObject *IoDBIConn_lastSequence(IoDBIConn *self, IoObject *locals,
 IoObject *IoDBIConn_nextSequence(IoDBIConn *self, IoObject *locals,
 			IoMessage *m)
 {
-	/*#io
-	docSlot("sequenceNext([name])", "Return the next sequence that will be used
-during an INSERT query")
+	/*doc DBIConn sequenceNext([name])
+	Return the next sequence that will be used during an INSERT query.
 	*/
+	
 	char *name = NULL;
+	
 	if (IoMessage_argCount(m) == 1)
 	{
 		IoObject *nameArg = IoMessage_locals_valueArgAt_(m, locals, 0);

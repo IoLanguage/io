@@ -82,13 +82,13 @@ RegexMatches do(
 		self
 	)
 
-	/*doc RegexMatches replaceAllWith(templateString)
-		Same as:
-		<pre>
-		replace(match, match expandTo(templateString))
-		</pre>
-	)
-	*/
+/*doc RegexMatches replaceAllWith(templateString)
+Same as:
+<pre>
+replace(match, match expandTo(templateString))
+</pre>
+)
+*/
 	replaceAllWith := method(templateString,
 		replace(m, m expandTo(templateString))
 	)

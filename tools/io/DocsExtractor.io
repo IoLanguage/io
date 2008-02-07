@@ -2,26 +2,21 @@
 File do(
 	docSlicesFor := method(name,
 		contents slicesBetween("//" .. name .. " ", "\n") map(strip) map(s,
-			i := s findSeq(" ") + 1
-			i1 := s findSeq("(", i) 
-			i2 := s findSeq(" ", i) 
+			i := s findSeq(" ") + 1 // after doc
+			i1 := s findSeq("(", i)  // (
+			i2 := s findSeq(" ", i) // 
 			if(i1 and i1 < i2, i2 := s findSeq(")", i))
 			if(i2, s atInsertSeq(i2 + 1, "\n"))
+			s
 		) appendSeq(contents slicesBetween("/*" .. name .. " ", "*/"))		
 	)
 	
 	docSlices := method(
-		contents slicesBetween("//doc ", "\n") map(strip) map(s,
-			i := s findSeq(" ") + 1
-			i1 := s findSeq("(", i) 
-			i2 := s findSeq(" ", i) 
-			if(i1 and i1 < i2, i2 := s findSeq(")", i))
-			if(i2, s atInsertSeq(i2 + 1, "\n"))
-		) appendSeq(contents slicesBetween("/*doc ", "*/"))
+		docSlicesFor("doc")
 	)
 	
 	metadocSlices := method(
-		contents slicesBetween("/*metadoc ", "*/") appendSeq(contents slicesBetween("//metadoc ", "\n"))
+		docSlicesFor("metadoc")
 	)
 )
 

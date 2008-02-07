@@ -1,17 +1,17 @@
 //metadoc AppleSensors copyright Steve Dekorte, 2004
 //metadoc AppleSensors license BSD revised
-//metadoc AppleSensors category Encryption
+//metadoc AppleSensors category Other
 /*metadoc AppleSensors description
-The AppleSensors object can be used to do encryption and decryption using the AppleSensors algorithm.
+A singleton which on Apple computers can:
+<ul>
+<li> get and set display and keyboard brightness
+<li> read left and right ambient light sensors (laptops only)
+<li> read accelerometer sensor (laptops only)
+</ul>
 Example use;
 <pre>	
-bf = AppleSensors clone
-bf setKey("secret")
-bf beginProcessing
-bf inputBuffer appendSeq("this is a message")
-bf process
-bf endProcess
-bf outputBuffer // this contains the encrypted data
+sensors = AppleSensors clone
+value := sensors getRightLightSensor
 </pre>	
 */
 
@@ -85,6 +85,9 @@ void IoAppleSensors_free(IoAppleSensors *self)
 
 IoObject *IoAppleSensors_getLeftLightSensor(IoAppleSensors *self, IoObject *locals, IoMessage *m)
 {
+	/*doc AppleSensors getLeftLightSensor
+		Returns a number for the left ambient light sensor.
+	*/
 	float left = -1, right = -1;
 	getLightSensors(&left, &right);
 	return IONUMBER(left);
@@ -92,6 +95,9 @@ IoObject *IoAppleSensors_getLeftLightSensor(IoAppleSensors *self, IoObject *loca
 
 IoObject *IoAppleSensors_getRightLightSensor(IoAppleSensors *self, IoObject *locals, IoMessage *m)
 {
+	/*doc AppleSensors getRightLightSensor
+		Returns a number for the right ambient light sensor.
+	*/
 	float left = -1, right = -1;
 	getLightSensors(&left, &right);
 	return IONUMBER(right);
@@ -99,11 +105,17 @@ IoObject *IoAppleSensors_getRightLightSensor(IoAppleSensors *self, IoObject *loc
 
 IoObject *IoAppleSensors_getDisplayBrightness(IoAppleSensors *self, IoObject *locals, IoMessage *m)
 {
+	/*doc AppleSensors getDisplayBrightness
+		Returns a number for the display brightness.
+	*/
 	return IONUMBER(getDisplayBrightness());
 }
 
 IoObject *IoAppleSensors_setDisplayBrightness(IoAppleSensors *self, IoObject *locals, IoMessage *m)
 {
+	/*doc AppleSensors setDisplayBrightness(aNumber)
+		Sets the display brightness. Returns self.
+	*/
 	float v = IoMessage_locals_floatArgAt_(m, locals, 0);
 	setDisplayBrightness(v);
 	return self;
@@ -111,11 +123,17 @@ IoObject *IoAppleSensors_setDisplayBrightness(IoAppleSensors *self, IoObject *lo
 
 IoObject *IoAppleSensors_getKeyboardBrightness(IoAppleSensors *self, IoObject *locals, IoMessage *m)
 {
+	/*doc AppleSensors getKeyboardBrightness
+		Returns a number for the keyboard brightness.
+	*/
 	return IONUMBER(getKeyboardBrightness());
 }
 
 IoObject *IoAppleSensors_setKeyboardBrightness(IoAppleSensors *self, IoObject *locals, IoMessage *m)
 {
+	/*doc AppleSensors setKeyboardBrightness(aNumber)
+		Sets the keyboard brightness. Returns self.
+	*/
 	float v = IoMessage_locals_floatArgAt_(m, locals, 0);
 	setKeyboardBrightness(v);
 	return self;
@@ -127,6 +145,10 @@ static int smsType = -1;
 
 IoObject *IoAppleSensors_smsVector(IoAppleSensors *self, IoObject *locals, IoMessage *m)
 {
+	/*doc AppleSensors smsVector(aVector)
+		Sets aVector to the current x, y and z accelerometer values. 
+		Returns true on success and false on failure.
+	*/
 	IoSeq *v = IoMessage_locals_seqArgAt_(m, locals, 0);
 	float *f = IoSeq_makeFloatArrayOfSize_(v);
 	int err;

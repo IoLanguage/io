@@ -1,11 +1,7 @@
-/*#io
-Range ioDoc(
-		 docCategory("DataStructures")
-		 docCopyright("Jeremy Tregunna", 2006)
-		 docLicense("BSD")
-		 docInclude("_ioCode/RangeCursor.io")
-		 docDescription("Simple datastructure representing the items at and between two specific points.")
-		 */
+//metadoc Range category DataStructures
+//metadoc Range category Jeremy Tregunna, 2006
+//metadoc Range license BSD
+//metadoc Range description Simple datastructure representing the items at and between two specific points.
 
 #include "IoState.h"
 #define IORANGE_C
@@ -97,8 +93,8 @@ void IoRange_mark(IoRange *self)
 
 IoObject *IoRange_first(IoRange *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	 docSlot("first", "Moves the current cursor to the beginning of the range, and returns it.")
+	/*doc Range first
+	Moves the current cursor to the beginning of the range, and returns it.
 	 */
 
 	IoRangeData *rd = DATA(self);
@@ -108,8 +104,8 @@ IoObject *IoRange_first(IoRange *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoRange_last(IoRange *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	 docSlot("last", "Moves the current cursor to the end of the range, and returns it.")
+	/*doc Range last
+	Moves the current cursor to the end of the range, and returns it.
 	 */
 
 	IoRangeData *rd = DATA(self);
@@ -119,8 +115,9 @@ IoObject *IoRange_last(IoRange *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoRange_next(IoRange *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	 docSlot("next", "Sets the current item in the range to the next item in the range, and returns a boolean value indicating whether it is not at the end of the range.")
+		/*doc Range next
+		Sets the current item in the range to the next item in the range, 
+		and returns a boolean value indicating whether it is not at the end of the range.
 	 */
 
 	IoRangeData *rd = DATA(self);
@@ -151,8 +148,9 @@ IoObject *IoRange_next(IoRange *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoRange_previous(IoRange *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	 docSlot("previous", "Sets the current item in the range to the previous item in the range, and returns a boolean value indicating whether it is not at the beginning of the range.")
+	/*doc Range previous
+	Sets the current item in the range to the previous item in the range, 
+	and returns a boolean value indicating whether it is not at the beginning of the range.
 	 */
 
 	IoRangeData *rd = DATA(self);
@@ -175,17 +173,18 @@ IoObject *IoRange_previous(IoRange *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoRange_index(IoRange *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	 docSlot("index", "Returns the current index number starting from zero and extending outward up to the maximum number of items in the range.")
-	 */
+/*doc Range index
+Returns the current index number starting from zero and extending 
+outward up to the maximum number of items in the range.
+*/
 
 	return DATA(self)->index;
 }
 
 IoObject *IoRange_value(IoRange *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	 docSlot("value", "Returns the value of the current item in the range.")
+	/*doc Range value
+	Returns the value of the current item in the range.
 	 */
 
 	return DATA(self)->curr;
@@ -195,8 +194,12 @@ IoObject *IoRange_value(IoRange *self, IoObject *locals, IoMessage *m)
 
 IoRange *IoRange_setRange(IoRange *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	 docSlot("setRange(start, end, increment)", "Has several modes of operation. First, if only two parameters are specified, the increment value is set to 1 by default, while the first parameter represents the point to start from, and the second parameter represents the point to end at. If the second parameter is smaller than the first, the range will operate backwards. If the third parameter is specified, a custom iteration value will be used instead of 1.")
+	/*doc Range setRange(start, end, increment)
+	Has several modes of operation. First, if only two parameters are specified, 
+	the increment value is set to 1 by default, while the first parameter represents
+	the point to start from, and the second parameter represents the point to end at. 
+	If the second parameter is smaller than the first, the range will operate backwards. 
+	If the third parameter is specified, a custom iteration value will be used instead of 1.
 	 */
 
 	IoObject *start = IoMessage_locals_valueArgAt_(m, locals, 0);
@@ -219,8 +222,8 @@ IoRange *IoRange_setRange(IoRange *self, IoObject *locals, IoMessage *m)
 
 IoRange *IoRange_rewind(IoRange *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("rewind", "Sets the current item and the index to the values the receiver started out with.")
+	/*doc Range rewind
+	Sets the current item and the index to the values the receiver started out with.
 	*/
 	IoRange_setCurrent(self, RANGEDATA(self)->start);
 	IoRange_setIndex(self, IONUMBER(0));
@@ -250,17 +253,24 @@ IoObject *IoRange_each(IoRange *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoRange_foreach(IoRange *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	 docSlot("foreach(optionalIndex, value, message)", """Iterates over each item beginning with the starting point, and finishing at the ending point inclusive. This method can operate several ways; these include: (1) Takes one argument, the message tree to be executed during each iteration; (2) Takes two arguments, the first argument is the name of the current value being iterated over, and the second is the message tree to be executed during each iteration; (3) Takes three arguments: the first is the current index within the range, the second is the name of the current value being iterated over, and the third is the message tree to be executed during each iteration. For example:
+	/*doc Range foreach(optionalIndex, value, message)
+	Iterates over each item beginning with the starting point, and finishing at 
+	the ending point inclusive. This method can operate several ways; these include: 
+	(1) Takes one argument, the message tree to be executed during each iteration; (2) 
+	Takes two arguments, the first argument is the name of the current value being 
+	iterated over, and the second is the message tree to be executed during each 
+	iteration; (3) Takes three arguments: the first is the current index within the 
+	range, the second is the name of the current value being iterated over, and the 
+	third is the message tree to be executed during each iteration. 
+	For example:
 <pre>
-	// First method (operating on numbers)
-	1 to(10) foreach("iterating" print) // prints "iterating" 10 times
-	// Second method (operating on numbers)
-	1 to(10) foreach(v, v print) // prints each value
-	// Third method (operating on numbers)
-	1 to(10) foreach(i, v, writeln(i .. ": " .. v)) // prints "index: value"
+// First method (operating on numbers)
+1 to(10) foreach("iterating" print) // prints "iterating" 10 times
+// Second method (operating on numbers)
+1 to(10) foreach(v, v print) // prints each value
+// Third method (operating on numbers)
+1 to(10) foreach(i, v, writeln(i .. ": " .. v)) // prints "index: value"
 </pre>
-	 """)
 	 */
 
 	IoState *state = IOSTATE;

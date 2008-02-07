@@ -13,7 +13,7 @@ CLI := Object clone do(
 	stop := method(setIsRunning(false))
 
 	runFile := method(path,
-		Lobby launchPath := if(Path isPathAbsolute(path),
+		System launchPath := if(Path isPathAbsolute(path),
 			path
 		,
 			Directory currentWorkingDirectory asMutable appendPathSeq(path)
@@ -49,9 +49,8 @@ CLI := Object clone do(
 	)
 
 	run := method(
-		// Move Lobby launchPath to System launchPath?
-		Lobby launchPath := Directory currentWorkingDirectory
-		Importer addSearchPath(Lobby launchPath)
+		System launchPath := Directory currentWorkingDirectory
+		Importer addSearchPath(System launchPath)
 		context exit := method(
 			CLI saveHistory
 			System exit

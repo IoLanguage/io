@@ -1,13 +1,12 @@
 //metadoc Event copyright Steve Dekorte 2002
 //metadoc Event license BSD revised
-
+/*metadoc Event description
  e := Event clone
  EventManager addEvent(e, fd, type, timeout)
 
  Event handleReadEvent := method()
  Event handleWriteEvent := method()
  Event handleTimeoutEvent := method()
-
 */
 
 #ifndef IOEVENT_DEFINED

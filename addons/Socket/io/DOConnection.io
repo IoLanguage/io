@@ -2,41 +2,44 @@ Object NULL := Sequence clone
 Object NULL append(0x0)
 
 DOConnection := Object clone do(
-	//metadoc DOConnection Networking
+//metadoc DOConnection Networking
 
-	/*metadoc DOConnection description 
-	The DOConnection object is usefull for communicating with remote servers in a way that makes it look just like the sending of local messages. Proxies are automatically created on either side for passed objects, with the exception of strings and numbers, which are passed by value. Example:
-	<pre>
-	con := DOConnection clone setHost("127.0.0.1") setPort(8456) connect
-	result := con serverObject test(1)
-	writeln(result)
-	r := result at(0)
-	writeln(r)
-	r := result at(1)
-	writeln(r)
-	</pre>
+/*metadoc DOConnection description 
+The DOConnection object is usefull for communicating with remote servers in a way that makes it look just like the sending of local messages. Proxies are automatically created on either side for passed objects, with the exception of strings and numbers, which are passed by value. Example:
+<pre>
+con := DOConnection clone setHost("127.0.0.1") setPort(8456) connect
+result := con serverObject test(1)
+writeln(result)
+r := result at(0)
+writeln(r)
+r := result at(1)
+writeln(r)
+</pre>
 
-	Implementation Notes:
+Implementation Notes:
+<p>
 
-	<pre>
-	  The format of the Distributed Objects message is a list of null
-	  terminated strings in one of these two formats:
+The format of the Distributed Objects message is a list of null
+terminated strings in one of these two formats:
+<p>
+Send message format:
 
-	  Send message format:
+<pre>
+s NULL targetId NULL messageName NULL argCount NULL argType NULL argValue NULL (next arg type and value, etc)
+</pre>
 
-		s NULL targetId NULL messageName NULL argCount NULL argType NULL argValue NULL (next arg type and value, etc)
+Reply message format:
 
-	  Reply message format:
+<pre>
+r NULL argType NULL argvalue NULL
+</pre>
 
-		r NULL argType NULL argvalue NULL
+If the argument is not a String, Number or nil then:
+If it is local to the sender, the type is RemoteObject.
+If it is a proxy to a remote object, the type is LocalObject.
 
-	  If the argument is not a String, Number or nil then:
-		If it is local to the sender, the type is RemoteObject
-		If it is a proxy to a remote object, the type is LocalObject
-
-	  This isn't optimized yet.
-	  </pre>
-	*/
+This isn't optimized yet.
+*/
 
 	localObjects ::= nil
 	proxies ::= nil

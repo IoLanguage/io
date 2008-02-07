@@ -1,7 +1,8 @@
 
 //metadoc AudioDevice copyright Steve Dekorte, 2004
 //metadoc AudioDevice license BSD revised
-//metadoc AudioDevice category Media")
+//metadoc AudioDevice category Media
+//metadoc AudioDevice module PortAudio
 /*metadoc AudioDevice description
 The AudioDevice object can used to write audio data as if directly to the audio buffer.
 */
@@ -143,7 +144,7 @@ IoObject *IoAudioDevice_needsData(IoAudioDevice *self, IoObject *locals, IoMessa
 
 IoObject *IoAudioDevice_asyncWrite(IoAudioDevice *self, IoObject *locals, IoMessage *m)
 {
-	/*doc AudioDevice nonBlockingWrite(aBuffer)
+	/*doc AudioDevice asyncWrite(aBuffer)
 	Writes aBuffer to the audio output buffer and returns immediately.
 	*/
 
@@ -161,7 +162,7 @@ IoObject *IoAudioDevice_asyncWrite(IoAudioDevice *self, IoObject *locals, IoMess
 
 IoObject *IoAudioDevice_read(IoAudioDevice *self, IoObject *locals, IoMessage *m)
 {
-	/*doc AudioDevice read
+	/*doc AudioDevice asyncRead
 	Returns the audio read buffer.
 	*/
 

@@ -1,0 +1,2232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+<title>Io Programming Guide</title>
+<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+<link rel="stylesheet" href="docs.css">
+</head>
+<body>
+
+<h1>The Io Programming Guide</h1>
+<p>
+<br>
+
+<table style="width:47em">
+<tr>
+<td valign=top style="width:33%">
+
+<div class=indexSection><a href="#Introduction">Introduction</a></div>
+<div class=indexItem><a href="#Introduction-Perspective">Perspective</a></div>
+<div class=indexItem><a href="#Introduction-Getting-Started">Getting Started</a></div>
+<div class=indexItem><a href="#Introduction-Downloading">Downloading</a></div>
+<div class=indexItem><a href="#Introduction-Installing">Installing</a></div>
+<div class=indexItem><a href="#Introduction-Binaries">Binaries</a></div>
+<div class=indexItem><a href="#Introduction-Running-Scripts">Running Scripts</a></div>
+<div class=indexItem><a href="#Introduction-Interactive-Mode">Interactive Mode</a></div>
+
+<div class=indexSection><a href="#Syntax">Syntax</a></div>
+<div class=indexItem><a href="#Syntax-Expressions">Expressions</a></div>
+<div class=indexItem><a href="#Syntax-Messages">Messages</a></div>
+<div class=indexItem><a href="#Syntax-Operators">Operators</a></div>
+<div class=indexItem><a href="#Syntax-Assignment">Assignment</a></div>
+<div class=indexItem><a href="#Syntax-Numbers">Numbers</a></div>
+<div class=indexItem><a href="#Syntax-Strings">Strings</a></div>
+<div class=indexItem><a href="#Syntax-Comments">Comments</a></div>
+
+
+<div class=indexSection><a href="#Objects">Objects</a></div>
+<div class=indexItem><a href="#Objects-Overview">Overview</a></div>
+<div class=indexItem><a href="#Objects-Prototypes">Prototypes</a></div>
+<div class=indexItem><a href="#Objects-Inheritance">Inheritance</a></div>
+<div class=indexItem><a href="#Objects-Methods">Methods</a></div>
+<div class=indexItem><a href="#Objects-Blocks">Blocks</a></div>
+<div class=indexItem><a href="#Objects-Forward">Forward</a></div>
+<div class=indexItem><a href="#Objects-Resend">Resend</a></div>
+<div class=indexItem><a href="#Objects-Super">Super</a></div>
+<div class=indexItem><a href="#Objects-Introspection">Introspection</a></div>
+
+
+</td>
+<td valign=top style="width:33%">
+
+<div class=indexSection><a href="#Control-Flow">Control Flow</a></div>
+<div class=indexItem><a href="#Control-Flow-true-false-and-nil">true, false and nil</a></div>
+<div class=indexItem><a href="#Control-Flow-Comparison">Comparison</a></div>
+<div class=indexItem><a href="#Control-Flow-Conditions">Conditions</a></div>
+<div class=indexItem><a href="#Control-Flow-Loops">Loops</a></div>
+
+
+<div class=indexSection><a href="#Importing">Importing</a></div>
+
+<div class=indexSection><a href="#Concurrency">Concurrency</a></div>
+<div class=indexItem><a href="#Concurrency-Coroutines">Coroutines</a></div>
+<div class=indexItem><a href="#Concurrency-Scheduler">Scheduler</a></div>
+<div class=indexItem><a href="#Concurrency-Actors">Actors</a></div>
+<div class=indexItem><a href="#Concurrency-Futures">Futures</a></div>
+<div class=indexItem><a href="#Concurrency-Yield">Yield</a></div>
+<div class=indexItem><a href="#Concurrency-Pause and Resume">Pause and Resume</a></div>
+
+<div class=indexSection><a href="#Exceptions">Exceptions</a></div>
+<div class=indexItem><a href="#Exceptions-Raise">Raise</a></div>
+<div class=indexItem><a href="#ExceptionsTry-and-Catch">Try and Catch</a></div>
+<div class=indexItem><a href="#Exceptions-Pass">Pass</a></div>
+<div class=indexItem><a href="#Exceptions-Custom-Exceptions">Custom Exceptions</a></div>
+
+<div class=indexSection><a href="#Unicode">Unicode</a></div>
+<div class=indexItem><a href="#Unicode-Sequences">Sequences</a></div>
+<div class=indexItem><a href="#Unicode-Source">Source</a></div>
+<div class=indexItem><a href="#Unicode-Conversion">Conversion</a></div>
+
+</td>
+<td valign=top style="width:33%">
+
+<!--
+<div class=indexSection>Metaprogramming</div>
+<div class=indexItem><a href=>Object</a></div>
+<div class=indexItem><a href=>Block</a></div>
+<div class=indexItem><a href=>Message</a></div>
+<div class=indexItem><a href=>Syntax</a></div>
+-->
+
+<div class=indexSection><a href="#Primitives">Primitives</a></div>
+<div class=indexItem><a href="#Primitives-Object">Object</a></div>
+<div class=indexItem><a href="#Primitives-List">List</a></div>
+<div class=indexItem><a href="#Primitives-Sequence">Sequence</a></div>
+<div class=indexItem><a href="#Primitives-Ranges">Ranges</a></div>
+<div class=indexItem><a href="#Primitives-File">File</a></div>
+<div class=indexItem><a href="#Primitives-Directory">Directory</a></div>
+<div class=indexItem><a href="#Primitives-Date">Date</a></div>
+<div class=indexItem><a href="#Primitives-Networking">Networking</a></div>
+<div class=indexItem><a href="#Primitives-XML">XML</a></div>
+<div class=indexItem><a href="#Primitives-Vector">Vector</a></div>
+
+<div class=indexSection><a href="#Embedding">Embedding</a></div>
+<div class=indexItem><a href="#Embedding-Conventions">Conventions</a></div>
+<div class=indexItem><a href="#Embedding-IoState">IoState</a></div>
+<div class=indexItem><a href="#Embedding-Values">Values</a></div>
+
+<div class=indexSection><a href="#Bindings">Bindings</a></div>
+
+<div class=indexSection><a href="#Appendix">Appendix</a></div>
+<div class=indexItem><a href="#Appendix-Grammar">Grammar</a></div>
+<div class=indexItem><a href="#Appendix-Credits">Credits</a></div>
+<div class=indexItem><a href="#Appendix-References">References</a></div>
+<div class=indexItem><a href="#Appendix-License">License</a></div>
+
+</td>
+</tr>
+</table>
+
+<p>
+
+<h2>Introduction<a name="Introduction"></a></h2>
+<div class=indent>
+
+<div class=quote>
+Simplicity is the essence of happiness.<br>
+- Cedric Bledsoe
+</div>
+
+Io is a dynamic prototype-based programming language. The ideas in Io are mostly inspired by Smalltalk[1] (all values are objects), Self[2] (prototype-based), NewtonScript[3] (differential inheritance), Act1[4] (actors and futures for concurrency), Lisp[5] (code is a runtime inspectable / modifiable tree) and Lua[6] (small, embeddable).
+
+<a name="Introduction-Perspective"></a>
+<h3>Perspective</h3>
+
+
+<h4>Why Another Language?</h4>
+
+The focus of programming language research for the last thirty years has been to combine the expressive power of high level languages like Smalltalk and the performance of low level language like C with little attention paid to advancing expressive power itself. The result has been a series of languages which are neither as fast as C or as expressive as Smalltalk. Io's purpose is to refocus attention on expressiveness by exploring higher level dynamic programming features with greater levels of runtime flexibility and simplified programming syntax and semantics.
+
+<p>
+
+In Io, all values are objects (of which, anything can change at runtime, including slots, methods and inheritance), all code is made up of expressions (which are runtime inspectable and modifiable) and all expressions are made up of dynamic message sends (including assignment and control structures). Execution contexts themselves are objects and activatable objects such as methods/blocks and functions are unified into blocks with assignable scope. Concurrency is made more easily manageable through actors and implemented using coroutines for scalability.
+
+<h4>Goals</h4>
+
+To be a language that is:
+<p>
+
+simple
+<ul>
+<li>conceptually simple and consistent
+<li>easily embedded and extended
+</ul>
+powerful
+<ul>
+<li>highly dynamic and introspective
+<li>highly concurrent (via coroutines and async i/o)
+</ul>
+practical
+<ul>
+<li>fast enough
+<li>multi-platform
+<li>unrestrictive BSD/MIT license
+<li>comprehensive standard packages in distro
+</ul>
+
+</div>
+
+<h2>Getting Started<a name="Introduction-Getting-Started"></a></h2>
+<div class=indent> 
+
+<a name="Introduction-Downloading"></a>
+<h3>Downloading</h3>
+
+Io distributions are available at:
+<pre>
+<a href="http://iolanguage.com">http://iolanguage.com</a>
+</pre>
+
+<a name="Introduction-Installing"></a>
+<h3>Installing</h3>
+
+<h4>Addons</h4>
+
+Some of Io's addons require libraries that may not be installed on your system already. To install these automatically, type either:
+
+<pre>
+su -c "sudo make aptget"
+</pre>
+
+or:
+
+<pre>
+su -c "make emerge"
+</pre>
+
+or:
+
+<pre>
+sudo make port
+</pre>
+
+Depending on which package installer you use. 
+(<a href="http://macports.org">port</a> is for OSX) 
+
+<h4>VM</h4>
+
+To build, from the top folder, run:
+
+<pre>
+make 
+</pre>
+
+Binaries will be placed in the _build/binaries subfolder. To install:
+
+<pre>
+sudo make install 
+</pre>
+
+or, if you'd like the install to simply link to your development folder:
+
+<pre>
+sudo make linkInstall
+</pre>
+
+and to run the unit tests:
+
+<pre>
+make test
+</pre>
+
+Don't worry if some of the addons won't build unless it's a particular addon that you need. Addons are just optional libraries.
+
+<h4>Notes</h4>
+
+To make a particular addon, you can do:
+
+<pre>
+make AddonName
+</pre>
+
+After doing a pull from the source control repo, be sure to do:
+
+<pre>
+make clean; make
+</pre>
+
+To test just the vm:
+
+<pre>
+make testvm
+</pre>
+
+
+<h4>Binaries</h4>
+
+Io builds two executables and places them in the binaries folder. They are: 
+
+<pre>
+io_static
+io
+</pre>
+
+The io_static executable contains the vm with a minimal set of primitives all statically linked into the executable. The io executable contains just enough to load the iovm dynamically linked library and is able to dynamically load io addons when they are referenced.
+
+
+<a name="Introduction-Running-Scripts"></a>
+<h3>Running Scripts</h3>
+
+An example of running a script: 
+
+<pre>
+io samples/HelloWorld.io
+</pre>
+
+There is no main() function or object that gets executed first in Io. Scripts are executed when compiled.
+
+<a name="Introduction-Interactive-Mode"></a>
+<h3>Interactive Mode</h3>
+
+Running: 
+
+<pre>
+./_build/binaries/io
+</pre>
+
+Or, if Io is installed, running:
+
+<pre>
+io
+</pre>
+
+will open the Io interpreter prompt. 
+<p>
+You can evaluate code by entering it directly. Example:
+
+<pre>
+Io> "Hello world!" println
+==> Hello world!
+</pre>
+
+Expressions are evaluated in the context of the Lobby: 
+
+<pre>
+Io> print
+[printout of lobby contents]
+</pre>
+
+If you have a .iorc file in your home folder, it will be evaled before the interactive prompt starts.
+
+<h4>Inspecting objects</h4>
+
+You can get a list of the slots of an object like this:
+
+<pre>
+Io> someObject slotNames
+</pre>
+
+To show them in sorted order:
+
+<pre>
+Io> someObject slotNames sort
+</pre>
+
+For a nicely formatted description of an object, the slotSummary method is handy:
+
+<pre>
+Io> slotSummary
+==>  Object_0x20c4e0:
+  Lobby            = Object_0x20c4e0
+  Protos           = Object_0x20bff0
+  exit             = method(...)
+  forward          = method(...)
+</pre>
+
+Exploring further:
+
+<pre>
+Io> Protos
+==>  Object_0x20bff0:
+  Addons           = Object_0x20c6f0
+  Core             = Object_0x20c4b0
+
+Io> Protos Addons
+==>  Object_0x20c6f0:
+  ReadLine         = Object_0x366a10
+</pre>
+
+Only ReadLine is seen in the Addons since no other Addons have been loaded yet.
+<p>
+Inspecting a method will print a decompiled version of it:
+
+<pre>
+Io> Lobby getSlot("forward")
+==> # io/Z_Importer.io:65
+method(
+    Importer import(call)
+)
+</pre>
+
+<h4>doFile and doString</h4>
+
+A script can be run from the interactive mode using the doFile method:
+
+<pre>
+doFile("scriptName.io")
+</pre>
+
+The evaluation context of doFile is the receiver, which in this case would be the lobby. To evaluate the script in the context of some other object, simply send the doFile message to it:
+
+<pre>
+someObject doFile("scriptName.io")
+</pre>
+
+The doString method can be used to evaluate a string:
+
+<pre>
+Io> doString("1+1")
+==> 2
+</pre>
+
+And to evaluate a string in the context of a particular object:
+
+<pre>
+someObject doString("1 + 1")
+</pre>
+
+<h4>Command Line Arguments</h4>
+
+Example of printing out command line arguments:
+
+<pre>
+args foreach(k, v, write("'", v, "'\n"))
+</pre>
+
+<h4>launchPath</h4>
+
+The System "launchPath" slot is set to the location on the initial source file that is executed.
+
+</div>
+<h2>Syntax<a name="Syntax"></a></h2>
+<div class=indent>
+
+<div class=quote>
+Less is more.<br>
+- Ludwig Mies van der Rohe
+</div>
+
+<a name="Syntax-Expressions"></a>
+<h3>Expressions</h3>
+
+Io has no keywords or statements. Everything is an expression composed entirely of messages, each of which is a runtime accessible object. The informal BNF description:
+
+<pre>
+exp        ::= { message | terminator }
+message    ::= symbol [arguments]
+arguments  ::= "(" [exp [ { "," exp } ]] ")"
+symbol     ::= identifier | number | string
+terminator ::= "\n" | ";"
+</pre>
+
+For performance reasons, String and Number literal messages have their results cached in their message objects.
+
+<a name="Syntax-Messages"></a>
+<h3>Messages</h3>
+
+Message arguments are passed as expressions and evaluated by the receiver. Selective evaluation of arguments can be used to implement control flow. Examples:
+
+<pre>
+for(i, 1, 10, i println)
+a := if(b == 0, c + 1, d)
+</pre>
+
+In the above code, "for" and "if" are just normal messages, not special forms or keywords.
+<p>
+
+Likewise, dynamic evaluation can be used with enumeration without the need to wrap the expression in a block. Examples:
+
+<pre>
+people select(person, person age < 30)
+names := people map(person, person name)
+</pre>
+
+Methods like map and select will typically apply the expression directly to the values if only the expression is provided:
+
+<pre>
+people select(age < 30)
+names := people map(name)
+</pre>
+
+There is also some syntax sugar for operators (including assignment), which are handled by an Io macro executed on the expression after it is compiled into a message tree. Some sample source code:
+
+<pre>
+Account := Object clone
+Account balance := 0
+Account deposit := method(amount,
+    balance = balance + amount
+)
+
+account := Account clone
+account deposit(10.00)
+account balance println
+</pre>
+
+Like Self[2], Io's syntax does not distinguish between accessing a slot containing a method from one containing a variable.
+
+<a name="Syntax-Operators"></a>
+<h3>Operators</h3>
+
+An operator is just a message whose name contains no alphanumeric characters (other than ":", "_", '"' or ".") or is one of the following words: or, and, return. Example: 
+
+<pre>
+1 + 2
+</pre>
+
+This just gets compiled into the normal message: 
+
+<pre>
+1 +(2)
+</pre>
+
+Which is the form you can use if you need to do grouping: 
+
+<pre>
+1 +(2 * 4)
+</pre>
+
+Standard operators follow C's precedence order, so: 
+
+<pre>
+1 + 2 * 3 + 4
+</pre>
+
+Is parsed as: 
+
+<pre>
+1 +(2 *(3)) +(4)
+</pre>
+
+User defined operators (that don't have a standard operator name) are performed left to right.
+
+<a name="Syntax-Assignment"></a>
+<h3>Assignment</h3>
+
+Io has three assignment operators:
+
+<p>
+<table cellpadding=2 cellspacing=0 border=0 style="margin-left:1em">
+<tr>
+<td style="width:5em">
+<b><i>operator</i></b>	
+</td>
+<td>
+<b><i>action</i></b>
+</td>
+</tr>
+
+<tr>
+<td>
+<i>::=</i>
+</td>
+<td>
+<i>Creates slot, creates setter, assigns value</i>
+</td>
+</tr>
+
+<tr>
+<td>
+<i>:=</i>
+</td>
+<td>
+<i>Creates slot, assigns value</i>
+</td>
+</tr>
+
+<tr>
+<td>
+<i>=</i>
+</td>
+<td>
+<i>Assigns value to slot if it exists, otherwise raises exception</i>
+</td>
+</tr>
+
+</table>
+<p>
+
+These operators are compiled to normal messages whose methods can be overridden. For example:
+
+
+<p>
+<table cellpadding=2 cellspacing=0 border=0 style="margin-left:1em">
+<tr>
+<td style="width:5em">
+<b><i>source</i></b>	
+</td>
+<td>
+<b><i>compiles to</i></b>
+</td>
+</tr>
+
+<tr>
+<td>
+<i>a ::= 1</i>
+</td>
+<td>
+<i>newSlot("a", 1)</i>
+</td>
+</tr>
+
+<tr>
+<td>
+<i>a := 1</i>
+</td>
+<td>
+<i>setSlot("a", 1)</i>
+</td>
+</tr>
+
+<tr>
+<td>
+<i>a = 1</i>
+</td>
+<td>
+<i>updateSlot("a", 1)</i>
+</td>
+</tr>
+
+</table>
+<p>
+	
+On Locals objects, updateSlot is overridden so it will update the slot in the object in which the method was activated if the slot is not found the locals. This is done so update assignments in methods don't require self to be an explicit target.
+
+<a name="Syntax-Numbers"></a>
+<h3>Numbers</h3>
+
+The following are examples of valid number formats: 
+
+<pre>
+123
+123.456
+0.456
+.456
+123e-4
+123e4
+123.456e-7
+123.456e2
+</pre>
+
+Hex numbers are also supported (in any casing): 
+
+<pre>
+0x0
+0x0F
+0XeE
+</pre>
+
+<a name="Syntax-Strings"></a>
+<h3>Strings</h3>
+
+Strings can be defined surrounded by a single set of double quotes with escaped quotes (and other escape characters) within. 
+
+<pre>
+s := "this is a \"test\".\nThis is only a test."
+</pre>
+
+Or for strings with non-escaped characters and/or spanning many lines, triple quotes can be used. 
+
+<pre>
+s := """this is a "test".
+This is only a test."""
+</pre>
+
+<a name="Syntax-Comments"></a>
+<h3>Comments</h3>
+
+Comments of the //, /**/ and # style are supported. Examples: 
+
+<pre>
+a := b // add a comment to a line
+
+/* comment out a group
+a := 1
+b := 2
+*/
+</pre>
+
+The "#" style is useful for unix scripts: 
+
+<pre>
+#!/usr/local/bin/io
+</pre>
+
+That's it! You now know everything there is to know about Io's syntax. Control flow, objects, methods, exceptions are expressed with the syntax and semantics described above. 
+
+
+</div>
+<h2>Objects<a name="Objects"></a></h2>
+<div class=indent>
+
+<div class=quote>
+In all other languages we've considered [Fortran, Algol60, Lisp, APL, Cobol, Pascal], a program consists of passive data-objects on the one hand and the executable program that manipulates these passive objects on the other. Object-oriented programs replace this bipartite structure with a homogeneous one: they consist of a set of data systems, each of which is capable of operating on itself. <br>
+- David Gelernter and Suresh J Jag
+</div>
+
+<a name="Objects-Overview"></a>
+<h3>Overview</h3>
+
+Io's guiding design principle is simplicity and power through conceptual unification. 
+<p>
+
+<table cellpadding=2 cellspacing=0 border=0 style="margin-left:1em">
+<tr>
+<td style="width:15em">
+<b><i>concept</i></b>	
+</td>
+<td>
+<b><i>unifies</i></b>
+</td>
+</tr>
+
+<tr>
+<td>
+<i>blocks with assignable scope	</i>
+</td>
+<td>
+<i>functions, methods, closures, functions</i>
+</td>
+</tr>
+
+<tr>
+<td>
+<i>prototypes</i>
+</td>
+<td>
+<i>objects, classes, namespaces, locals</i>
+</td>
+</tr>
+ 
+<tr>
+<td valign=top>
+<i>messages</i>
+</td>
+<td>
+<i>operators, calls, assignment, variable accesses</i>
+</td>
+</tr>
+</table>
+
+<a name="Objects-Prototypes"></a>
+<h3>Prototypes</h3>
+
+In Io, everything is an object (including the locals storage of a block and the namespace itself) and all actions are messages (including assignment). Objects are composed of a list of key/value pairs called slots, and an internal list of objects from which it inherits called protos. A slot's key is a symbol (a unique immutable sequence) and it's value can be any type of object.
+ 
+clone and init
+New objects are made by cloning existing ones. A clone is an empty object that has the parent in it's list of protos. A new instance's init slot will be activated which gives the object a chance to initialize itself. Like NewtonScript[3], slots in Io are create-on-write.
+
+<pre>
+me := Person clone
+</pre>
+
+To add an instance variable or method, simply set it: 
+
+<pre>
+myDog name := "rover"
+myDog sit := method("I'm sitting\n" print)
+</pre>
+
+When an object is cloned, its "init" slot will be called if it has one.
+
+<a name="Objects-Inheritance"></a>
+<h3>Inheritance</h3>
+
+When an object receives a message it looks for a matching slot, if not found, the lookup continues depth first recursively in its protos. Lookup loops are detected (at runtime) and avoided. If the matching slot contains an activatable object, such as a Block or CFunction, it is activated, if it contains any other type of value it returns the value. Io has no globals and the root object in the Io namespace is called the Lobby.
+<p>
+Since there are no classes, there's no difference between a subclass and an instance. Here's an example of creating a the equivalent of a subclass: 
+
+<pre>
+Io> Dog := Object clone
+==> Object_0x4a7c0 
+</pre>
+
+The above code sets the Lobby slot "Dog" to a clone of the Object object. Notice it only contains a protos list contains a reference to Object. Dog is now essentially a subclass of Object. Instance variables and methods are inherited from the proto. If a slot is set, it creates a new slot in our object instead of changing the proto: 
+
+<pre>
+  Io> Dog color := "red"
+  Io> Dog
+  ==> Object_0x4a7c0:
+    color := "red"
+</pre>
+
+<h4>Multiple Inheritance</h4>
+
+You can add any number of protos to an object's protos list. When responding to a message, the lookup mechanism does a depth first search of the proto chain.
+
+<a name="Objects-Methods"></a>
+<h3>Methods</h3>
+
+A method is an anonymous function which, when called, creates an object to store it's locals and sets the local's proto pointer and it's self slot to the target of the message. The Object method method() can be used to create methods. Example:
+
+<pre>
+method((2 + 2) print)
+</pre>
+
+An example of using a method in an object: 
+
+<pre>
+Dog := Object clone
+Dog bark := method("woof!" print)
+</pre>
+
+The above code creates a new "subclass" of object named Dog and adds a bark slot containing a block that prints "woof!". Example of calling this method:
+
+<pre>
+Dog bark
+</pre>
+
+The default return value of a block is the  result of the last expression.
+
+<h4>Arguments</h4>
+
+Methods can also be defined to take arguments. Example: 
+
+<pre>
+add := method(a, b, a + b)
+</pre>
+
+The general form is: 
+
+<pre><i>
+method(&lt;arg name 0&gt;, &lt;arg name 1&gt;, ..., &lt;do message&gt;)
+</i></pre>
+
+<a name="Objects-Blocks"></a>
+<h3>Blocks</h3>
+
+A block is the same as a method except it is lexically scoped. That is, variable lookups continue in the context of where the block was created instead of the target of the message which activated the block. A block can be created using the Object method block(). Example of creating a block:
+
+<pre>
+b := block(a, a + b)
+</pre>
+
+<h4>Blocks vs. Methods</h4>
+
+This is sometimes a source of confusion so it's worth explaining in detail. Both methods and blocks create an object to hold their locals when they are called. The difference is what the "proto" and "self" slots of that locals object are set to. In a method, those slots are set to the target of the message. In a block, they're set to the locals object where the block was created. So a failed variable lookup in a block's locals continue in the locals where it was created. And a failed variable lookup in a method's locals continue in the object to which the message that activated it was sent.
+
+<h4>call and self slots</h4>
+
+When a locals object is created, it's self slot is set (to the target of the message, in the case of a method, or to the creation context, in the case of a block) and it's call slot is set to a Call object that can be used to access information about the block activation:
+
+<p>
+<table cellpadding=2 cellspacing=0 border=0 style="margin-left:1em">
+<tr>
+<td style="width:10em">
+<b><i>slot</i></b>
+</td><td>
+<b><i>returns</i></b>
+</td>
+</tr>
+<tr>
+<td>
+<i>call sender </i>
+</td><td>
+<i>locals object of caller</i>
+</td>
+</tr>
+<tr>
+<td>
+<i>call message </i>
+</td><td>
+<i>message used to call this method/block</i>
+</td>
+</tr>
+<tr>
+<td>
+<i>call activated</i>
+</td><td>
+<i>the activated method/block</i>
+</td>
+</tr>
+<tr>
+<td>
+<i>call slotContext</i>
+</td><td>
+<i>context in which slot was found</i>
+</td>
+</tr>
+<tr>
+<td>
+<i>call target</i>
+</td><td>
+<i>current object</i>
+</td>
+</tr>
+</table>
+
+<h4>Variable Arguments</h4>
+
+The "call message" slot in locals can be used to access the unevaluated argument messages. Example of implementing if() within Io: 
+
+<pre>
+myif := method(
+    (call sender doMessage(call message argAt(0))) ifTrue( 
+    call sender doMessage(call message argAt(1))) ifFalse( 
+    call sender doMessage(call message argAt(2)))
+)
+
+myif(foo == bar, write("true\n"), write("false\n"))
+</pre>
+
+The doMessage() method evaluates the argument in the context of the receiver.
+
+A shorter way to express this is to use the evalArgAt() method on the call object:
+
+<pre>
+myif := method(
+    call evalArgAt(0) ifTrue(
+    call evalArgAt(1)) ifFalse( 
+    call evalArgAt(2))
+)
+
+myif(foo == bar, write("true\n"), write("false\n"))
+</pre>
+
+<a name="Objects-Forward"></a>
+<h3>Forward</h3>
+
+If an object doesn't respond to a message, it will invoke its "forward" method if it has one. Here's an example of how to print the information related lookup that failed:
+
+<pre>
+MyObject forward := method(
+    write("sender = ", call sender, "\n")
+    write("message name = ", call message name, "\n")
+    args := call message argsEvaluatedIn(call sender)
+    args foreach(i, v, write("arg", i, " = ", v, "\n") )
+)
+</pre>
+
+<a name="Objects-Forward"></a>
+<h3>Resend</h3>
+
+Sends the current message to the receiver's proto with the context of self. Example: 
+
+<pre>
+A := Object clone
+A m := method(write("in A\n"))
+B := A clone
+B m := method(write("in B\n"); resend)
+B m
+</pre>
+
+will print: 
+
+<pre>
+in B
+in A
+</pre>
+
+For sending other messages to the receiver's proto, super is used.
+
+<a name="Objects-Super"></a>
+<h3>Super</h3>
+
+Sometimes it's necessary to send a message directly to a proto. Example: 
+
+<pre>
+Dog := Object clone
+Dog bark := method(writeln("woof!"))
+
+fido := Dog clone
+fido bark := method(
+    writeln("ruf!")
+    super(bark)
+)
+</pre>
+
+Both resend and super are implemented in Io.
+
+<a name="Objects-Introspection"></a>
+<h3>Introspection</h3>
+
+Using the following methods you can introspect the entire Io namespace. There are also methods for modifying any and all of these attributes at runtime.
+
+<h4>slotNames</h4>
+
+The slotNames method returns a list of the names of an object's slots:
+
+<pre>
+Io> Dog slotNames
+==> list("bark")
+</pre>
+
+<h4>protos</h4>
+
+The protos method returns a list of the objects which an object inherits from:
+
+<pre>
+Io> Dog protos
+==> list("Object")
+</pre>
+
+<h4>getSlot</h4>
+
+The "getSlot" method can be used to get the value of a block in a slot without activating it: 
+
+<pre>
+myMethod := Dog getSlot("bark")
+</pre>
+
+Above, we've set the locals object's "myMethod" slot to the bark method. It's important to remember that if you then want use the myMethod without activating it, you'll need to use the getSlot method: 
+
+<pre>
+otherObject newMethod := getSlot("myMethod")
+</pre>
+
+Here, the target of the getSlot method is the locals object.
+
+<h4>code</h4>
+
+The arguments and expressions of methods are open to introspection. A useful convenience method is "code", which returns a string representation of the source code of the method in a normalized form.
+
+<pre>
+Io> method(a, a * 2) code
+==> "method(a, a *(2))"
+</pre>
+
+</div>
+<h2>Control Flow<a name="Control-Flow"></a></h2>
+<div class=indent>
+
+<a name="Control-Flow-true-false-and-nil"></a>
+<h3>true, false and nil</h3>
+
+Io has predefined singletons for true, false and nil. true and false are used for boolean truth values and nil is typically used to indicate an unset or missing or unavailable value.
+
+<a name="Control-Flow-Comparison"></a>
+<h3>Comparison</h3>
+
+The standard comparison operations (==, !=, >=, <=, >, <) return either the true or false.
+
+<pre>
+Io> 1 < 2
+==> true
+</pre>
+
+The compare() method is used to implement the compare methods and returns -1, 0 or 1.
+
+<a name="Control-Flow-Conditions"></a>
+<h3>Conditions</h3>
+
+<h4>if</h4>
+
+The Lobby contains the condition and loop methods. A condition looks like: 
+
+<pre><i>
+if(&lt;condition&gt;, &lt;do message&gt;, &lt;else do message&gt;)
+</i></pre>
+
+Example: 
+
+<pre>
+if(a == 10, "a is 10" print)
+</pre>
+
+The else argument is optional. The condition is considered false if the condition expression evaluates to false or nil, and is considered true otherwise.
+<p>
+The result of the evaluated message is returned, so: 
+
+<pre>
+if(y < 10, x := y, x := 0)
+</pre>
+
+is the same as: 
+
+<pre>
+x := if(y < 10, y, 0)
+</pre>
+
+Conditions can also be used in this form (though not as efficiently): 
+
+<pre>
+if(y < 10) then(x := y) else(x := 2)
+</pre>
+
+Else-if is supported: 
+
+<pre>
+if(y < 10) then(x := y) elseif(y == 11) then(x := 0) else(x := 2)
+</pre>
+
+As well as Smalltalk style ifTrue, ifFalse, ifNil and ifNonNil methods:
+
+<pre>
+(y < 10) ifTrue(x := y) ifFalse(x := 2)
+</pre>
+
+Notice that the condition expression must have parenthesis surrounding it.
+
+<a name="Control-Flow-Loops"></a>
+<h3>Loops</h3>
+
+<h4>loop</h4>
+
+The loop method can be used for "infinite" loops:
+
+<pre>
+loop("foo" println)
+</pre>
+
+<h4>while</h4>
+
+Like conditions, loops are just messages. while() takes the arguments: 
+
+<pre><i>
+while(&lt;condition&gt;, &lt;do message&gt;)
+</i></pre>
+
+Example: 
+
+<pre>
+a := 1
+while(a < 10, 
+    a print
+    a = a + 1
+)
+</pre>
+
+<h4>for</h4>
+
+for() takes the arguments: 
+
+<pre><i>
+for(&lt;counter&gt;, &lt;start&gt;, &lt;end&gt;, &lt;optional step&gt;, &lt;do message&gt;)
+</i></pre>
+
+The start and end messages are only evaluated once, when the loop starts.
+
+Example: 
+
+<pre>
+for(a, 0, 10, 
+    a println
+)
+</pre>
+
+Example with a step:
+
+<pre>
+for(x, 0, 10, 3, x println)
+</pre>
+
+Which would print:
+
+<pre>
+0
+3
+6
+9
+</pre>
+
+To reverse the order of the loop, add a negative step: 
+
+<pre>
+for(a, 10, 0, -1, a println)
+</pre>
+
+Note: the first value will be the first value of the loop variable and the last will be the last value on the final pass through the loop. So a loop of 1 to 10 will loop 10 times and a loop of 0 to 10 will loop 11 times.
+
+Example of using a block in a loop: 
+
+<pre>
+test := method(v, v print)
+for(i, 1, 10, test(i))
+</pre>
+
+<h4>repeat</h4>
+
+The Number repeat method is simpler and more efficient when a counter isn't needed.
+
+<pre>
+3 repeat("foo" print)
+==> foofoofoo
+</pre>
+
+<h4>break and continue</h4>
+
+The flow control operations break and continue are supported in loops. For example: 
+
+<pre>
+for(i, 1, 10, 
+    if(i == 3, continue)
+    if(i == 7, break)
+    i print
+)
+</pre>
+
+Would print: 
+
+<pre>
+12456
+</pre>
+
+<h4>return</h4>
+
+Any part of a block can return immediately using the return method. Example: 
+
+<pre>
+Io> test := method(123 print; return "abc"; 456 print)
+Io> test
+123
+==> abc
+</pre>
+
+</div>
+<h2>Importing<a name="Importing"></a></h2>
+<div class=indent>
+
+The Importer proto implements Io's built-in auto importer feature. If you put each of your proto's in their own file, and give the file the same name with and ".io" extension, the Importer will automatically import that file when the proto is first referenced. The Importer's default search path is the current working directory, but can add search paths using it's addSearchPath() method. 
+
+</div>
+<h2>Concurrency<a name="Concurrency"></a></h2>
+<div class=indent>
+
+<a name="Concurrency-Coroutines"></a>
+<h3>Coroutines</h3>
+
+Io uses coroutines (user level cooperative threads), instead of preemptive OS level threads to implement concurrency. This avoids the substantial costs (memory, system calls, locking, caching issues, etc) associated with native threads and allows Io to support a very high level of concurrency with thousands of active threads.
+
+<a name="Concurrency-Scheduler"></a>
+<h3>Scheduler</h3>
+
+The Scheduler object is responsible for resuming coroutines that are yielding. The current scheduling system uses a simple first-in-first-out policy with no priorities.
+
+<a name="Concurrency-Actors"></a>
+<h3>Actors</h3>
+
+An actor is an object with it's own thread (in our case, it's own coroutine) which it uses to process it's queue of asynchronous messages. Any object in Io can be sent an asynchronous message by placing a @ or @@ before the message name. (think of the "a" in @ as standing for "asynchronous") 
+<p>
+Example:
+
+<pre>
+result := self foo // synchronous 
+futureResult := self @foo // async, immediately returns a Future
+self @@foo // async, immediately returns nil
+</pre>
+
+When an object receives an asynchronous message it puts the message in its queue and, if it doesn't already have one, starts a coroutine to process the messages in its queue. Queued messages are processed sequentially in a first-in-first-out order. Control can be yielded to other coroutines by calling "yield". Example: 
+
+<pre>
+obj1 := Object clone
+obj1 test := method(for(n, 1, 3, n print; yield))
+obj2 := obj1 clone
+obj1 @@test; obj2 @@test
+while(Scheduler activeActorCount > 1, yield)
+</pre>
+
+This would print "112233".
+
+Here's a more real world example: 
+
+<pre>
+HttpServer handleRequest := method(aSocket,
+    HttpRequestHandler clone @@handleRequest(aSocket)
+)
+</pre>
+
+<a name="Concurrency-Futures"></a>
+<h3>Futures</h3>
+
+Io's futures are transparent. That is, when the result is ready, they become the result. If a message is sent to a future (besides the two methods it implements), it waits until it turns into the result before processing the message. Transparent futures are powerful because they allow programs minimize blocking while also freeing the programmer from managing the fine details of synchronization.
+
+<h4>Auto Deadlock Detection</h4>
+
+An advantage of using futures is that when a future requires a wait, it will check to see if pausing to wait for the result would cause a deadlock and if so, avoid the deadlock and raise an exception. It performs this check by traversing the list of connected futures.
+
+<h4>The @ and @@ Operators</h4>
+
+The @ or @@ before an asynchronous message is just a normal operator message. So: 
+
+<pre>
+self @test
+</pre>
+
+Gets parsed as(and can be written as): 
+
+<pre>
+self @(test)
+</pre>
+
+<h4>Futures and the Command Line Interface</h4>
+
+The command line will attempt to print the result of expressions evaluated in it, so if the result is a Future, it will attempt to print it and this will wait on the result of Future. Example:
+
+<pre>
+Io> q := method(wait(1))
+Io> @q
+[1-second delay]
+==> nil
+</pre>
+
+To avoid this, just make sure the Future isn't the result. Example:
+
+<pre>
+Io> @q; nil
+[no delay]
+==> nil
+</pre>
+
+<a name="Concurrency-Yield"></a>
+<h3>Yield</h3>
+
+An object will automatically yield between processing each of its asynchronous messages. The yield method only needs to be called if a yield is required during an asynchronous message execution. 
+
+<h4>Pause and Resume</h4>
+
+It's also possible to pause and resume an object. See the concurrency methods of the Object primitive for details and related methods.
+
+</div>
+<h2>Exceptions<a name="Exceptions"></a></h2>
+<div class=indent>
+
+<a name="Exceptions-Raise"></a>
+<h3>Raise</h3>
+
+An exception can be raised by calling raise() on an exception proto. 
+
+<pre><i>
+exceptionProto raise(&lt;description&gt;)
+</i></pre>
+
+There are three predefined children of the Exception proto: Error, Warning and Notification. Examples: 
+
+<pre>
+Exception raise("generic foo exception")
+Warning raise("No defaults found, creating them")
+Error raise("Not enough memory")
+</pre>
+
+<a name="Exceptions-Try-and-Catch"></a>
+<h3>Try and Catch</h3>
+
+To catch an exception, the try() method of the Object proto is used. try() will catch any exceptions that occur within it and return the caught exception or nil if no exception is caught. 
+
+<pre><i>
+e := try(&lt;doMessage&gt;)
+</i></pre>
+
+To catch a particular exception, the Exception catch() method can be used. Example:
+
+<pre>
+e := try(
+    // ...
+) 
+
+e catch(Exception,
+    writeln(e coroutine backtraceString)
+)
+</pre>
+
+
+The first argument to catch indicates which types of exceptions will be caught. catch() returns the exception if it doesn't match and nil if it does.
+
+<a name="Exceptions-Pass"></a>
+<h3>Pass</h3>
+
+To re-raise an exception caught by try(), use the pass method. This is useful to pass the exception up to the next outer exception handler, usually after all catches failed to match the type of the current exception: 
+
+<pre>
+e := try(
+    // ...
+) 
+
+e catch(Error,
+    // ...
+) catch(Exception,
+    // ...
+) pass
+</pre>
+
+
+<a name="Exceptions-Custom"></a>
+<h3>Custom Exceptions</h3>
+
+Custom exception types can be implemented by simply cloning an existing Exception type: 
+
+<pre>
+MyErrorType := Error clone
+</pre>
+
+</div>
+<h2>Primitives<a name="Primitives"></a></h2>
+<div class=indent>
+
+Primitives are objects built into Io whose methods are typically implemented in C and store some hidden data in their instances. For example, the Number primitive has a double precision floating point number as it's hidden data and it's methods that do arithmetic operations are C functions. All Io primitives inherit from the Object prototype and are mutable. That is, their methods can be changed. The reference docs contain more info on primitives.
+<p>
+
+This document is not meant as a reference manual, but an overview of the base primitives and bindings is provided here to give the user a jump start and a feel for what is available and where to look in the reference documentation for further details.
+
+<a name="Primitives-Object"></a>
+<h3>Object</h3>
+
+<h4>The ? Operator</h4>
+
+Sometimes it's desirable to conditionally call a method only if it exists (to avoid raising an exception). Example: 
+
+<pre>
+if(obj getSlot("foo"), obj foo)
+</pre>
+
+Putting a "?" before a message has the same effect: 
+
+<pre>
+obj ?foo
+</pre>
+
+<a name="Primitives-List"></a>
+<h3>List</h3>
+
+A List is an array of references and supports all the standard array manipulation and enumeration methods. Examples:
+<p>
+Create an empty list:
+
+<pre>
+a := List clone
+</pre>
+
+Create a list of arbitrary objects using the list() method: 
+
+<pre>
+a := list(33, "a")
+</pre>
+
+Append an item:
+
+<pre>
+a append("b")
+==> list(33, "a", "b")
+</pre>
+
+Get the list size:
+
+<pre>
+a size
+==> 3
+</pre>
+
+Get the item at a given index (List indexes begin at zero):
+
+<pre>
+a at(1)
+==> "a"
+</pre>
+
+Note: List indexes begin at zero and nil is returned if the accessed index doesn't exist.
+<p>
+Set the item at a given index:
+
+<pre>
+a atPut(2, "foo")
+==> list(33, "a", "foo", "b")
+
+a atPut(6, "Fred")
+==> Exception: index out of bounds
+</pre>
+
+Remove an item at a given index:
+
+<pre>
+a remove("foo")
+==> list(33, "a", "b")
+</pre>
+
+Inserting an item at a given index:
+
+<pre>
+a atPut(2, "foo")
+==> list(33, "a", "foo", "56")
+</pre>
+
+<h4>foreach</h4>
+
+The foreach, map and select methods can be used in three forms:
+
+<pre>
+Io> a := list(65, 21, 122)
+</pre>
+
+In the first form, the first argument is used as an index variable, the second as a value variable and the 3rd as the expression to evaluate for each value.
+
+<pre>
+Io> a foreach(i, v, write(i, ":", v, ", "))
+==> 0:65, 1:21, 2:122,
+</pre>
+
+The second form removes the index argument:
+
+<pre>
+Io> a foreach(v, v println)
+==> 65
+21
+122
+</pre>
+
+The third form removes the value argument and simply sends the expression as a message to each value:
+
+<pre>
+Io> a foreach(println)
+==> 65
+21
+122
+</pre>
+
+<h4>map and select</h4>
+
+Io's map and select (known as filter in some other languages) methods allow arbitrary expressions as the map/select predicates.
+
+<pre>
+Io> numbers := list(1, 2, 3, 4, 5, 6)
+
+Io> numbers select(isOdd)
+==> list(1, 3, 5)
+
+Io> numbers select(x, x isOdd)
+==> list(1, 3, 5)
+
+Io> numbers select(i, x, x isOdd)
+==> list(1, 3, 5)
+
+Io> numbers map(x, x*2)
+==> list(2, 4, 6, 8, 10, 12)
+
+Io> numbers map(i, x, x+i)
+==> list(1, 3, 5, 7, 9, 11)
+
+Io> numbers map(*3)
+==> list(3, 6, 9, 12, 15, 18)
+</pre>
+
+The map and select methods return new lists. To do the same operations in-place, you can use selectInPlace() and mapInPlace() methods.
+
+<a name="Primitives-Sequence"></a>
+<h3>Sequence</h3>
+
+In Io, an immutable Sequence is called a Symbol and a mutable Sequence is the equivalent of a Buffer or String. Literal strings(ones that appear in source code surrounded by quotes) are Symbols. Mutable operations cannot be performed on Symbols, but one can make mutable copy of a Symbol calling it's asMutable method and then perform the mutation operations on the copy.
+Common string operations
+Getting the length of a string:
+
+<pre>
+"abc" size
+==> 3
+</pre>
+
+Checking if a string contains a substring:
+
+<pre>
+"apples" containsSeq("ppl")
+==> true
+</pre>
+
+Getting the character (byte) at position N:
+
+<pre>
+"Kavi" at(1)
+==> 97
+</pre>
+
+Slicing:
+
+<pre>
+"Kirikuro" slice(0, 2)
+==> "Ki"
+
+"Kirikuro" slice(-2)  # NOT: slice(-2, 0)!
+==> "ro"
+
+Io> "Kirikuro" slice(0, -2)
+# "Kiriku"
+</pre>
+
+Stripping whitespace:
+
+<pre>
+"  abc  " adMutable strip
+==> "abc"
+
+"  abc  " asMutable lstrip
+==> "abc  "
+
+"  abc  " asMutable rstrip
+==> "  abc"
+</pre>
+
+Converting to upper/lowercase:
+
+<pre>
+"Kavi" asUppercase
+==> "KAVI"
+"Kavi" asLowercase
+==> "kavi"
+</pre>
+
+Splitting a string:
+
+<pre>
+"the quick brown fox" split
+==> list("the", "quick", "brown", "fox")
+</pre>
+
+Splitting by others character is possible as well.
+
+<pre>
+"a few good men" split("e")
+==> list("a f", "w good m", "n")
+</pre>
+
+Converting to number:
+
+<pre>
+"13" asNumber
+==> 13
+
+"a13" asNumber
+==> nil
+</pre>
+
+String interpolation:
+
+<pre>
+name := "Fred"
+==> Fred
+"My name is #{name}" interpolate
+==> My name is Fred
+ </pre>
+
+Interpolate will eval anything with #{} as Io code in the local context. The code may include loops or anything else but needs to return an object that responds to asString.
+
+<a name="Primitives-Ranges"></a>
+<h3>Ranges</h3>
+
+A range is a container containing a start and an end point, and instructions on how to get from the start, to the end. Using Ranges is often convenient when creating large lists of sequential data as they can be easily converted to lists, or as a replacement for the for() method.
+
+<h4>The Range protocol</h4>
+
+Each object that can be used in Ranges needs to implement a "nextInSequence" method which takes a single optional argument (the number of items to skip in the sequence of objects), and return the next item after that skip value. The default skip value is 1. The skip value of 0 is undefined. An example:
+
+<pre>
+Number nextInSequence := method(skipVal,
+    if(skipVal isNil, skipVal = 1)
+    self + skipVal
+)
+</pre>
+
+With this method on Number (it's already there in the standard libraries), you can then use Numbers in Ranges, as demonstrated below:
+
+<pre>
+1 to(5) foreach(v, v println)
+</pre>
+
+The above will print 1 through 5, each on its own line.
+
+<a name="Primitives-File"></a>
+<h3>File</h3>
+
+The methods openForAppending, openForReading, or openForUpdating are used for opening files. To erase an existing file before opening a new open, the remove method can be used. Example:
+
+<pre>
+f := File with("foo.txt)
+f remove
+f openForUpdating
+f write("hello world!")
+f close
+</pre>
+
+<a name="Primitives-Directory"></a>
+<h3>Directory</h3>
+
+Creating a directory object:
+
+<pre>
+dir := Directory with("/Users/steve/")
+</pre>
+
+Get a list of file objects for all the files in a directory:
+
+<pre>
+files := dir files
+==> list(File_0x820c40, File_0x820c40, ...)
+</pre>
+
+Get a list of both the file and directory objects in a directory:
+
+<pre>
+items := Directory items
+==> list(Directory_0x8446b0, File_0x820c40, ...)
+
+items at(4) name
+==> DarkSide-0.0.1 # a directory name
+</pre>
+
+Setting a Directory object to a certain directory and using it:
+
+<pre>
+root := Directory clone setPath("c:/")
+==> Directory_0x8637b8
+
+root fileNames
+==> list("AUTOEXEC.BAT", "boot.ini", "CONFIG.SYS", ...)
+</pre>
+
+Testing for existence:
+
+<pre>
+Directory clone setPath("q:/") exists
+==> false
+</pre>
+
+Getthing the current working directory:
+
+<pre>
+Directory currentWorkingDirectory
+==> "/cygdrive/c/lang/IoFull-Cygwin-2006-04-20"
+</pre>
+
+<a name="Primitives-Date"></a>
+<h3>Date</h3>
+
+Creating a new date instance:
+
+<pre>
+d := Date clone
+</pre>
+
+Setting it to the current date/time:
+
+<pre>
+d now
+</pre>
+
+Getting the date/time as a number, in seconds:
+
+<pre>
+Date now asNumber
+==> 1147198509.417114
+
+Date now asNumber
+==> 1147198512.33313
+</pre>
+
+Getting individual parts of a Date object:
+
+<pre>
+d := Date now
+==> 2006-05-09 21:53:03 EST
+
+d
+==> 2006-05-09 21:53:03 EST
+
+d year
+==> 2006
+
+d month
+==> 5
+
+d day
+==> 9
+
+d hour
+==> 21
+
+d minute
+==> 53
+
+d second
+==> 3.747125
+</pre>
+
+Find how long it takes to execute some code:
+
+<pre>
+Date cpuSecondsToRun(100000 repeat(1+1))
+==> 0.02
+</pre>
+
+<a name="Primitives-Networking"></a>
+<h3>Networking</h3>
+
+All of Io's networking is done with asynchronous sockets underneath, but operations like reading and writing to a socket appear to be synchronous since the calling coroutine is unscheduled until the socket has completed the operation, or a timeout occurs. Note that you'll need to first reference the associated addon in order to cause it to load before using it's objects. In these examples, you'll have to reference "Socket" to get the Socket addon to load first.
+<p>
+Creating a URL object:
+
+<pre>
+url := URL with("http://example.com/")
+</pre>
+
+Fetching an URL:
+
+<pre>
+data := url fetch  
+</pre>
+
+Streaming a URL to a file:
+
+<pre>
+url streamTo(File with("out.txt"))
+</pre>
+
+A simple whois client:
+
+<pre>
+whois := method(host,
+    socket := Socket clone setHostName("rs.internic.net") setPort(43) 
+    socket connect streamWrite(host, "\n")
+    while(socket streamReadNextChunk, nil)
+    return socket readBuffer
+)
+</pre>
+
+A minimal web server:
+
+<pre>
+WebRequest := Object clone do(
+    handleSocket := method(aSocket,
+        aSocket streamReadNextChunk
+        request := aSocket readBuffer betweenSeq("GET ", " HTTP")
+        f := File with(request) 
+        if(f exists, f streamTo(aSocket), aSocket streamWrite("not found"))
+        aSocket close
+    )
+)
+
+WebServer := Server clone do(
+    setPort(8000)
+    handleSocket := method(aSocket, 
+        WebRequest clone @handleSocket(aSocket)
+    )
+)
+
+WebServer start
+</pre>
+
+<a name="Primitives-XML"></a>
+<h3>XML</h3>
+
+Using the XML parser to find the links in a web page:
+
+<pre>
+SGML // reference this to load the SGML addon
+xml := URL with("http://www.yahoo.com/") fetch asXML
+links := xml elementsWithName("a") map(attributes at("href"))
+</pre>
+
+<a name="Primitives-Vector"></a>
+<h3>Vector</h3>
+
+Io's Vectors are built on it's Sequence primitive and are defined as:
+
+<pre>
+Vector := Sequence clone setItemType("float32")
+</pre>
+
+The Sequence primitive supports SIMD acceleration on a number of float32 operations. Currently these include add, subtract, multiple and divide but in the future can be extended to support most math, logic and string manipulation related operations.
+
+Here's a small example:
+
+<pre>
+iters := 1000
+size := 1024
+ops := iters * size
+
+v1 := Vector clone setSize(size) rangeFill
+v2 := Vector clone setSize(size) rangeFill
+
+dt := Date secondsToRun(
+    iters repeat(v1 *= v2)
+)
+
+writeln((ops/(dt*1000000000)) asString(1, 3), " GFLOPS")
+</pre>
+
+Which when run on 2Ghz Mac Laptop, outputs:
+
+<pre>
+1.255 GFLOPS
+</pre>
+
+A similar bit of C code (without SIMD acceleration) outputs:
+
+<pre>
+0.479 GFLOPS
+</pre>
+
+So for this example, Io is about three times faster than plain C.
+
+<!--
+</div>
+<h2>Metaprogramming<a name="Metaprogramming"></a></h2>
+<div class=indent>
+
+</i>forthcoming...
+
+Object
+setIsActivatable
+forward
+introspection 
+getSlot, slotSummary, docs, namespaces
+Block 
+setScope()
+setPassStops()
+setDoesCatchStops()
+doesCatchStops
+setMessage()
+Message
+Manipulating Message Trees
+setNext()
+setArgumentNames()
+setCachedResult()
+Syntax
+squareBrackets()
+curlyBrackets()
+operators
+adding
+precedence ordering
+-->
+
+</div>
+<h2>Unicode<a name="Unicode"></a></h2>
+<div class=indent>
+
+<a name="Unicode-Sequences"></a>
+<h3>Sequences</h3>
+
+In Io, symbols, strings, and vectors are unified into a single Sequence prototype which is an array of any available hardware data type such as:
+ 
+<pre>
+uint8, uint16, uint32, uint64
+int8, int16, int32, int64
+float32, float64
+</pre>
+
+<a name="Unicode-Supported-Encodings"></a>
+<h3>Supported Encodings</h3>
+
+Also, a Sequence has a encoding attribute, which can be:
+
+<pre>
+number, ascii, ucs2, ucs4, utf8
+</pre>
+
+UCS-2 and UCS-4 are the fixed character width versions of UTF-16 and UTF-32, respectively. A String is just a Sequence with a text encoding, a Symbol is an immutable String and a Vector is a Sequence with a number encoding.
+<p>
+UTF encodings are assumed to be big endian.
+<p>
+Except for input and output, all strings should be kept in a fixed character width encoding. This design allows for a simpler implementation, code sharing between vector and string ops, fast index-based access, and SIMD acceleration of Sequence operations. All Sequence methods will do automatic type conversions as needed.
+
+<a name="Unicode-Source"></a>
+<h3>Source</h3>
+
+Io source files are assumed to be in UTF8 (of which ASCII is a subset). When a source file is read, it s symbols and strings are stored in Sequences in their minimal fixed character width encoding. Examples:
+
+<pre>
+Io> "hello" encoding
+==> ascii
+
+Io> "π" encoding
+==> ucs2
+
+Io> "∞" encoding
+==> ucs2
+</pre>
+
+
+
+We can also inspect the internal representation:
+
+<pre>
+Io> "π" itemType
+==> uint16
+
+Io> "π" itemSize
+==> 2
+</pre>
+
+<a name="Unicode-Conversion"></a>
+<h3>Conversion</h3>
+
+The Sequence object has a number of conversion methods:
+
+<pre>
+asUTF8
+asUCS2
+asUCS4
+</pre>
+
+
+</div>
+<h2>Embedding<a name="Embedding"></a></h2>
+<div class=indent>
+
+<a name="Embedding-Conventions"></a>
+<h3>Conventions</h3>
+
+Io's C code is written using object oriented style conventions where structures are treated as objects and functions as methods. Familiarity with these may help make the embedding APIs easier to understand.
+
+<h4>Structures</h4>
+
+Member names are words that begin with a lower case character with successive words each having their first character upper cased. Acronyms are capitalized. Structure names are words with their first character capitalized.
+
+Example:
+
+<pre>
+typdef struct 
+{
+    char *firstName;
+    char *lastName;
+    char *address;
+} Person;
+</pre>
+
+<h4>Functions</h4>
+
+Function names begin with the name of structure they operate on followed by an underscore and the method name. Each structure has a new and free function.
+<p>
+
+Example:
+
+<pre>
+List *List_new(void);
+void List_free(List *self);
+</pre>
+
+All methods (except new) have the structure (the "object") as the first argument the variable is named "self". Method names are in keyword format. That is, for each argument, the method name has a description followed by an underscore. The casing of the descriptions follow that of structure member names.
+<p>
+Examples:
+
+<pre>
+int List_count(List *self); /* no argument */
+void List_add_(List *self, void *item); /* one argument */
+void Dictionary_key_value_(Dictionary *self, char *key, char *value); 
+</pre>
+
+<h4>File Names</h4>
+
+Each structure has it's own separate .h and .c files. The names of the files are the same as the name of the structure. These files contain all the functions(methods) that operate on the given structure.
+
+<a name="Embedding-IoState"></a>
+<h3>IoState</h3>
+
+An IoState can be thought of as an instance of an Io "virtual machine", although "virtual machine" is a less appropriate term because it implies a particular type of implementation. 
+
+<h4>Multiple states</h4>
+
+Io is multi-state, meaning that it is designed to support multiple state instances within the same process. These instances are isolated and share no memory so they can be safely accessed simultaneously by different os threads, though a given state should only be accessed by one os thread at a time.
+
+<h4>Creating a state</h4>
+Here's a simple example of creating a state, evaluating a string in it, and freeing the state:
+
+<pre>
+#include "IoState.h"
+
+int main(int argc, const char *argv[])
+{
+    IoState *self = IoState_new();
+    IoState_init(self);
+    IoState_doCString_(self, "writeln(\"hello world!\"");
+    IoState_free(self);
+    return 0;
+}
+</pre>
+
+<a name="Embedding-Values"></a>
+<h3>Values</h3>
+
+We can also get return values and look at their types and print them:
+
+<pre>
+IoObject *v = IoState_doCString_(self, someString);
+char *name = IoObject_name(v);
+printf("return type is a ‘%s', name);
+IoObject_print(v);
+</pre>
+
+<h4>Checking value types</h4>
+
+There are some macro short cuts to help with quick type checks:
+
+<pre>
+if (ISNUMBER(v))
+{
+    printf("result is the number %f", IoNumber_asFloat(v));
+} 
+else if(ISSEQ(v))
+{
+    printf("result is the string %s", IoSeq_asCString(v));
+}
+else if(ISLIST(v))
+{
+    printf("result is a list with %i elements", IoList_rawSize(v));
+}
+</pre>
+
+Note that return values are always proper Io objects (as all values are objects in Io). You can find the C level methods (functions like IoList_rawSize()) for these objects in the header files in the folder Io/libs/iovm/source. 
+
+</div>
+<h2>Bindings<a name="Bindings"></a></h2>
+<div class=indent>
+
+Documentation on how to write bindings/addons forthcoming..
+
+</div>
+<h2>Appendix<a name="Appendix"></a></h2>
+<div class=indent>
+
+<a name="Appendix-Grammar"></a>
+<h3>Grammar</h3>
+
+<h4>messages</h4>
+<pre>
+expression ::= { message | sctpad }
+message ::= [wcpad] symbol [scpad] [arguments]
+arguments ::= Open [argument [ { Comma argument } ]] Close
+argument ::= [wcpad] expression [wcpad]
+symbols
+symbol ::= Identifier | number | Operator | quote
+Identifier ::= { letter | digit | "_" }
+Operator ::= { ":" | "." | "'" | "~" | "!" | "@" | "$" | 
+"%" | "^" | "&" | "*" | "-" | "+" | "/" | "=" | "{" | "}" | 
+"[" | "]" | "|" | "\" | "<" | ">" | "?" }
+</pre>
+
+<h4>quotes</h4>
+<pre>
+quote ::= MonoQuote | TriQuote
+MonoQuote ::= """ [ "\"" | not(""")] """
+TriQuote ::= """"" [ not(""""")] """""
+</pre>
+
+<h4>spans</h4>
+<pre>
+Terminator ::= { [separator] ";" | "\n" | "\r" [separator] }
+separator ::= { " " | "\f" | "\t" | "\v" }
+whitespace ::= { " " | "\f" | "\r" | "\t" | "\v" | "\n" }
+sctpad ::= { separator | Comment | Terminator }
+scpad ::= { separator | Comment }
+wcpad ::= { whitespace | Comment }
+</pre>
+
+<h4>comments</h4>
+<pre>
+Comment ::= slashStarComment | slashSlashComment | poundComment
+slashStarComment ::= "/*" [not("*/")] "*/"
+slashSlashComment ::= "//" [not("\n")] "\n"
+poundComment ::= "#" [not("\n")] "\n"
+</pre>
+
+<h4>numbers</h4>
+<pre>
+number ::= HexNumber | Decimal
+HexNumber ::= "0" anyCase("x") { [ digit | hexLetter ] }
+hexLetter ::= "a" | "b" | "c" | "d" | "e" | "f"
+Decimal ::= digits | "." digits | digits "." digits ["e" [-] digits]
+</pre>
+
+<h4>characters</h4>
+<pre>
+Comma ::= ","
+Open ::= "(" | "[" | "{"
+Close ::= ")" | "]" | "}"
+letter ::= "a" ... "z" | "A" ... "Z"
+digit ::= "0" ... "9"
+digits ::= { digit }
+</pre>
+
+<a name="Appendix-Credits"></a>
+<h3>Credits</h3>
+
+Io is the product of all the talented folks who taken the time and interest to make a contribution. The complete list of contributors is difficult to keep track of, but some of the recent major contributors include; Jonathan Wright, Jeremy Tregunna, Mike Austin, Chris Double, Rich Collins, Oliver Ansaldi, James Burgess, Baptist Heyman, Ken Kerahone, Christian Thater, Brian Mitchell, Zachary Bir and many more. The mailing list archives, repo inventory and release history are probably the best sources for a more complete record of individual contributions.
+
+
+<a name="Appendix-References"></a>
+<h3>References</h3>
+
+
+<table cellpadding=0 cellspacing=0 border=0>
+<tr>
+<td style="width:3em" valign=top>
+1
+</td>
+<td>	
+Goldberg, A et al. <br>
+Smalltalk-80: The Language and Its Implementation<br>
+Addison-Wesley, 1983<br>
+</td>
+</tr>
+
+<tr><td colspan=2 style="height:1em"></td></tr>
+
+<tr>
+<td valign=top>
+2
+</td>
+<td>
+Ungar, D and Smith, <br>
+RB. Self: The Power of Simplicity<br>
+OOPSLA, 1987<br>
+</td>
+</tr>
+
+<tr><td colspan=2 style="height:1em"></td></tr>
+
+<tr>
+<td valign=top>
+3
+</td>
+<td>
+Smith, W. <br>
+Class-based NewtonScript Programming<br>
+PIE Developers magazine, Jan 1994<br>
+</td>
+</tr>
+
+<tr><td colspan=2 style="height:1em"></td></tr>
+
+<tr>
+<td valign=top>
+4
+</td>
+<td>
+Lieberman <br>
+H. Concurrent Object-Oriented Programming in Act 1<br>
+MIT AI Lab, 1987<br>
+</td>
+</tr>
+
+<tr><td colspan=2 style="height:1em"></td></tr>
+
+<tr>
+<td valign=top>
+5
+</td>
+<td>
+McCarthy, J et al. <br>
+LISP I programmer's manual <br>
+MIT Press, 1960 <br>
+</td>
+</tr>
+
+<tr><td colspan=2 style="height:1em"></td></tr>
+
+<tr>
+<td valign=top>
+6
+</td>
+<td>
+Ierusalimschy, R, et al. <br>	
+Lua: an extensible extension language <br>
+John Wiley & Sons, 1996 <br>
+</td>
+</tr>
+</table>
+
+<a name="Appendix-License"></a>
+<h3>License</h3>
+
+Copyright 2006, 2007, 2008 Steve Dekorte. All rights reserved.
+<p>
+Redistribution and use of this document with or without modification, are permitted provided that the copies reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+<p>
+This documentation is provided "as is" and any express or implied warranties, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose are disclaimed. In no event shall the authors be liable for any direct, indirect, incidental, special, exemplary, or consequential damages (including, but not limited to, procurement of substitute goods or services; loss of use, data, or profits; or business interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort (including negligence or otherwise) arising in any way out of the use of this documentation, even if advised of the possibility of such damage.
+
+</div>
+<p><br><br><br>

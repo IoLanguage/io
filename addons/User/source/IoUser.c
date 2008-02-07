@@ -2,7 +2,8 @@
 //metadoc User license BSD revised
 
 /*metadoc User description
-	This object provides access to the local operating system's information about the current user.")
+	This object provides access to the local operating system's information 
+	about the current user.
 */
 
 //metadoc User credits Windows code by Mike Austin

@@ -4,7 +4,6 @@
 /*metadoc Call description
 Call stores slots related to activation.
 */
-//metadoc Call category Core
 
 #include "IoCall.h"
 #include "IoState.h"
@@ -178,7 +177,7 @@ IoObject *IoCall_activated(IoCall *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoCall_coroutine(IoCall *self, IoObject *locals, IoMessage *m)
 {
-	/*doc Call activated
+	/*doc Call coroutine
 	Returns the coroutine in which the message was sent.
 	*/
 	
@@ -212,11 +211,18 @@ int IoCall_rawStopStatus(IoCall *self)
 
 IoObject *IoCall_stopStatus(IoCall *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Call stopStatus
+	Returns the stop status on the call. (description of stopStatus will 
+	be added once we decide whether or not to keep it)
+	*/
 	return IoState_stopStatusObject(IOSTATE, DATA(self)->stopStatus);
 }
 
 IoObject *IoCall_setStopStatus(IoCall *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Call setStopStatus(aStatusObject)
+	Sets the stop status on the call.
+	*/
 	IoObject *status = IoMessage_locals_valueArgAt_(m, locals, 0);
 	DATA(self)->stopStatus = IoState_stopStatusNumber(IOSTATE, status);
 	return self;

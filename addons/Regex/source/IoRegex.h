@@ -1,8 +1,5 @@
-/*
-//metadoc copyright Steve Dekorte 2002
-*/
-//metadoc license BSD revised
-*/
+//metadoc Regex copyright Steve Dekorte 2002
+//metadoc Regex license BSD revised
 
 #ifndef IOREGEX_DEFINED
 #define IOREGEX_DEFINED 1

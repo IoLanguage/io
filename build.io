@@ -5,7 +5,7 @@ Directory fileNamedOrNil := method(path,
 	if(f exists, f, nil)
 )
 
-Directory setCurrentWorkingDirectory(launchPath)
+Directory setCurrentWorkingDirectory(System launchPath)
 
 project := Project clone
 args := System args clone

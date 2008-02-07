@@ -80,17 +80,15 @@ void IoDBI_free(IoDBI *self)
 
 IoObject *IoDBI_version(IoDBI *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("version", "Return string version of libdbi being used")
-	*/
+	//doc DBI version Return string version of libdbi being used.
+	
 	return IOSYMBOL(dbi_version());
 }
 
 IoObject *IoDBI_init(IoDBI *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("init", "Initialize the DBI environment with the default driver path")
-	*/
+	//doc DBI init Initialize the DBI environment with the default driver path.
+	
 	DATA(self)->driverCount = dbi_initialize(NULL);
 	if (DATA(self)->driverCount == -1)
 	{
@@ -107,9 +105,8 @@ IoObject *IoDBI_init(IoDBI *self, IoObject *locals, IoMessage *m)
 IoObject *IoDBI_initWithDriversPath(IoDBI *self, IoObject *locals,
 			IoMessage *m)
 {
-	/*#io
-	docSlot("initWithDriversPath", "Initialize the DBI environment with the
-	specified libdbi driver path")
+	/*doc DBI initWithDriversPath 
+	Initialize the DBI environment with the specified libdbi driver path.
 	*/
 	IoObject *dir = IoMessage_locals_valueArgAt_(m, locals, 0);
 
@@ -137,8 +134,8 @@ IoObject *IoDBI_initWithDriversPath(IoDBI *self, IoObject *locals,
 
 IoObject *IoDBI_drivers(IoDBI *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("drivers", "Get a list of drivers and it's associated information:
+	/*doc DBI drivers
+	Get a list of drivers and it's associated information:
 
 	<ol>
 		<li>name</li>
@@ -148,7 +145,7 @@ IoObject *IoDBI_drivers(IoDBI *self, IoObject *locals, IoMessage *m)
 		<li>date compiled</li>
 		<li>maintainer</li>
 		<li>url</li>
-	</ol>")
+	</ol>
 	*/
 	IoList *list = IOREF(IoList_new(IOSTATE));
 	dbi_driver driver = NULL;
@@ -172,9 +169,8 @@ IoObject *IoDBI_drivers(IoDBI *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoDBI_with(IoDBI *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-		docSlot("with(driverName)", "Get a new connection with the given driver")
-	*/
+	//doc DBI with(driverName) Get a new connection with the given driver.
+	
 	IoObject *name = IoMessage_locals_valueArgAt_(m, locals, 0);
 	if (!ISSYMBOL(name))
 	{
