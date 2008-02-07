@@ -20,6 +20,9 @@
  */
 #ifndef _LIBSGML_VARIANT_H
 #define _LIBSGML_VARIANT_H
+#define snprintf _snprintf
+
+#include "SGMLApi.h"
 
 /**
  * The variable type enumeration.
@@ -126,7 +129,7 @@ typedef struct _variant_value {
  * @param  userParam [in] The user parameter passed in as the first argument to 'setter'.
  * @param  setter    [in] The callback used to do the actual 'setting' of the converted type.
  */
-void variantSet(enum VariantType type, void *value, unsigned long valueSize, void *userParam, void (*setter)(void *userParam, const char *string));
+SGML_API void variantSet(enum VariantType type, void *value, unsigned long valueSize, void *userParam, void (*setter)(void *userParam, const char *string));
 /**
  * Returns the variant value associated with the string.
  *
@@ -157,7 +160,7 @@ void variantSet(enum VariantType type, void *value, unsigned long valueSize, voi
  * @param  string [in] The null terminated string.
  * @return The return value is arbitrary and dependent on the type.
  */
-void *variantGet(enum VariantType type, const char *string);
+SGML_API void *variantGet(enum VariantType type, const char *string);
 
 /**
  * Deallocates the variant value passed in.
@@ -166,7 +169,7 @@ void *variantGet(enum VariantType type, const char *string);
  *
  * @param  value [in] The variant value to destroy.
  */
-void variantFree(VARIANT_VALUE *value);
+SGML_API void variantFree(VARIANT_VALUE *value);
 
 /**
  * @}

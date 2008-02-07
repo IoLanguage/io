@@ -18,6 +18,8 @@
 #ifndef _LIBSGML_DOMNODELIST_H
 #define _LIBSGML_DOMNODELIST_H
 
+#include "SGMLApi.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif 
@@ -67,13 +69,13 @@ typedef struct _dom_node_list {
  *
  * @return On success, an empty node list is returned.  Otherwise, NULL is returned.
  */
-DOM_NODE_LIST *domNodeListNew();
+SGML_API DOM_NODE_LIST *domNodeListNew();
 /**
  * Destroys a node list.
  *
  * @param  nodeList [in] The node list to be destroyed.
  */
-void domNodeListDestroy(DOM_NODE_LIST *nodeList);
+SGML_API void domNodeListDestroy(DOM_NODE_LIST *nodeList);
 
 /**
  * Adds a node to a node list.
@@ -81,14 +83,14 @@ void domNodeListDestroy(DOM_NODE_LIST *nodeList);
  * @param  nodeList [in] The node list context.
  * @param  node     [in] The node to be added.
  */
-void domNodeListAddNode(DOM_NODE_LIST *nodeList, DOM_NODE *node);
+SGML_API void domNodeListAddNode(DOM_NODE_LIST *nodeList, DOM_NODE *node);
 /**
  * Removes a node from a node list.
  *
  * @param  nodeList [in] The node list context.
  * @param  node     [in] The node to be removed.
  */
-void domNodeListRemoveNode(DOM_NODE_LIST *nodeList, DOM_NODE *node);
+SGML_API void domNodeListRemoveNode(DOM_NODE_LIST *nodeList, DOM_NODE *node);
 
 /**
  * Get the number of nodes in the list.
@@ -96,14 +98,14 @@ void domNodeListRemoveNode(DOM_NODE_LIST *nodeList, DOM_NODE *node);
  * @param  nodeList [in] The node list context.
  * @return The number of nodes in the list.
  */
-unsigned long domNodeListGetNumEntries(DOM_NODE_LIST *nodeList);
+SGML_API unsigned long domNodeListGetNumEntries(DOM_NODE_LIST *nodeList);
 /**
  * Get the first node list node in the node list.
  *
  * @param  nodeList [in] The node list context.
  * @return A valid node list node will be returned if any nodes are in the list.  Otherwise, NULL is returned.
  */
-DOM_NODE_LIST_NODE *domNodeListGetFirstNode(DOM_NODE_LIST *nodeList);
+SGML_API DOM_NODE_LIST_NODE *domNodeListGetFirstNode(DOM_NODE_LIST *nodeList);
 
 #ifdef __cplusplus
 }

@@ -18,6 +18,8 @@
 #ifndef _LIBSGML_DOMDOCUMENT_H
 #define _LIBSGML_DOMDOCUMENT_H
 
+#include "SGMLApi.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -36,13 +38,13 @@ extern "C" {
  *
  * @return An empty DOM document node.
  */
-DOM_DOCUMENT *domDocumentNew();
+SGML_API DOM_DOCUMENT *domDocumentNew();
 /**
  * Recursively destroys a DOM document.
  *
  * @param  doc [in] The document to be destroyed.
  */
-void domDocumentDestroy(DOM_DOCUMENT *doc);
+SGML_API void domDocumentDestroy(DOM_DOCUMENT *doc);
 
 /**
  * @}

@@ -1,4 +1,4 @@
-#CC		:= gcc
+CC		:= gcc
 RANLIB		:= ranlib
 AR		:= ar rcu
 SED		:= sed
@@ -22,6 +22,27 @@ LIBS		:= -lm -ltagdb -lqdbm
 
 ifeq ($(PLATFORM), Darwin) 
   CFLAGS += -falign-loops=16
+	DLL_SUFFIX := dylib
+	DLL_COMMAND := -dynamiclib
+	FLAT_NAMESPACE := -flat_namespace
+	SINGLE_MODULE := -single_module
+	READ_ONLY_RELOCS := -read_only_relocs
+endif
+
+ifneq (,$(findstring Windows,$(SYS)))
+CC := cl -nologo
+LINKDLL := link
+LINKDLLOUTFLAG :=-out:
+DLL_SUFFIX := dll
+DLL_COMMAND := -dll -debug /INCREMENTAL:NO -subsystem:CONSOLE
+FLAT_NAMESPACE :=
+SINGLE_MODULE :=
+READ_ONLY_RELOCS :=
+AR := link -lib
+ARFLAGS :=
+AROUTFLAG := -out:
+VMALL := vmall_
+BINARY_SUFFIX := .exe
 endif
 
 ### PLATFORM #################################################################
@@ -84,7 +105,7 @@ all:
 	$(MAKE) dll
 
 dll:
-	cc  -dynamiclib -single_module -read_only_relocs suppress  -install_name /usr/local/lib/io/libtagdb.dylib -o _libs/libtagdb.dylib _objs/*.o -L/usr/local/lib -L/usr/lib -L/opt/local/lib -lqdbm -flat_namespace
+	$(CC) $(DLL_COMMAND) $(FLAT_NAMESPACE) $(SINGLE_MODULE) $(READ_ONLY_RELOCS) suppress -install_name /usr/local/lib/io/libtagdb.dylib -o _libs/libtagdb.dylib _objs/*.o -L/usr/local/lib -L/usr/lib -L/opt/local/lib -lqdbm
 	
 
 
