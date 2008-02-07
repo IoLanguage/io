@@ -3,12 +3,11 @@
 // unfinished
 
 GoogleTranslate := Object clone do(
-    type := "GoogleTranslate"
-
     translate := method(text, lang,
-	u := "http://translate.google.com/translate_t"
-
-    )
+		u := URL with("http://translate.google.com/translate_t")
+		m := Map clone atPut("text", text)  atPut("lang", lang)
+		u post(m)
+	)
 )
 
 gs := GoogleTranslate clone 

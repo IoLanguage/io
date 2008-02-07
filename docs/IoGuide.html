@@ -323,6 +323,49 @@ To show them in sorted order:
 Io> someObject slotNames sort
 </pre>
 
+For a nicely formatted description of an object, the slotSummary method is handy:
+
+<pre>
+Io> slotSummary
+==>  Object_0x20c4e0:
+  Lobby            = Object_0x20c4e0
+  Protos           = Object_0x20bff0
+  exit             = method(...)
+  forward          = method(...)
+</pre>
+
+Exploring further:
+
+<pre>
+Io> slotSummary
+==>  Object_0x20c4e0:
+  Lobby            = Object_0x20c4e0
+  Protos           = Object_0x20bff0
+  exit             = method(...)
+  forward          = method(...)
+
+Io> Protos
+==>  Object_0x20bff0:
+  Addons           = Object_0x20c6f0
+  Core             = Object_0x20c4b0
+
+Io> Protos Addons
+==>  Object_0x20c6f0:
+  ReadLine         = Object_0x366a10
+</pre>
+
+Only ReadLine is seen in the Addons since no other Addons have been loaded yet.
+<p>
+Inspecting a method will print a decompiled version of it:
+
+<pre>
+Io> Lobby getSlot("forward")
+==> # io/Z_Importer.io:65
+method(
+    Importer import(call)
+)
+</pre>
+
 <h4>doFile and doString</h4>
 
 A script can be run from the interactive mode using the doFile method:
@@ -360,7 +403,7 @@ args foreach(k, v, write("'", v, "'\n"))
 
 <h4>launchPath</h4>
 
-The Lobby "launchPath" slot is set to the location on the initial source file that is executed.
+The System "launchPath" slot is set to the location on the initial source file that is executed.
 
 </div>
 <h2>Syntax<a name="Syntax"></a></h2>

@@ -1,3 +1,4 @@
+
 URL := Notifier clone do(
 //metadoc URL category Networking
 //metadoc URL copyright Steve Dekorte, 2004
@@ -104,6 +105,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 	//doc URL setReferer(aString) Sets the referer. Returns self.
 	referer ::= nil
 
+	//doc URL clear Private method to clear the URL's parsed attributes.
 	clear := method(
 		self do(
 			protocol := nil
@@ -116,6 +118,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		)
 	)
 
+	//doc URL parse Private method to parse the url.
 	parse := method(
 		clear
 
@@ -139,12 +142,14 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		request = if(query, path .. "?" .. query, path)
 	)
 
+	//doc URL setRequest(requestString) Private method to set the url request.
 	setRequest := method(r,
 		request = r
 		path = request
 		query = if(request, request afterSeq("?"), nil)
 	)
 
+	//doc URL with(urlString) Returns a new URL instance for the url in the urlString.
 	with := method(s, fromURL,
 		u := self clone setURL(s)
 		if(fromURL,
@@ -176,11 +181,11 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 	/*doc URL stopFetch
 	Stops the fetch, if there is one. Returns self.
 	*/
-
 	stopFetch := method(socket close; self)
 
-	/*doc URL requestHeader Returns a Sequence containing the request header that will be sent.*/
-
+	/*doc URL requestHeader 
+	Returns a Sequence containing the request header that will be sent.
+	*/
 	requestHeader := method(
 		header := Sequence clone
 		//write("request = [", request, "]\n")
@@ -197,22 +202,30 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		header
 	)
 
+	//doc URL headerBreaks Private list of valid header break character sequences.
 	headerBreaks := list("\r\r", "\n\n", "\r\n\r\n", "\n\r\n\r")
+	
+	//doc URL headerBreaks Private list of 2 character valid header break character sequences.
 	twoCharheaderBreaks := list("\r\r", "\n\n")
+	
+	//doc URL headerBreaks Private list of 4 character valid header break character sequences.
 	fourCharheaderBreaks := list("\r\n\r\n", "\n\r\n\r")
 
+	//doc URL headerBreaks Private method to connect to the host and write the header.
 	connectAndWriteHeader := method(
 		if(host == nil, return(Error with("No host set")))
 		socket setHost(host) returnIfError setPort(port) connect returnIfError
 		socket appendToWriteBuffer(requestHeader) write returnIfError
 	)
 
+	//doc URL fetchRaw Fetch and return the entire response. Note: This may have problems for some request times.
 	fetchRaw := method(
 		connectAndWriteHeader returnIfError
 		socket streamReadWhileOpen returnIfError
 		socket readBuffer
 	)
 
+	//doc URL setReadHeader(headerString) Private method that parses the headerFields.
 	setReadHeader := method(header,
 		readHeader = header
 		lines := header split("\r\n")
@@ -225,11 +238,13 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		self
 	)
 
+	//doc URL fetchHttp(optionalProgressBlock) Private method that fetches an http url.
 	fetchHttp := method(progressBlock,
 		connectAndWriteHeader returnIfError
 		processHttpResponse(progressBlock)
 	)
 	
+	//doc URL processHttpResponse(optionalProgressBlock) Private method that processes http response.
 	processHttpResponse := method(progressBlock,
 		b := socket readBuffer
 		b empty
@@ -296,7 +311,6 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 	send as the post parameters. If data is a Sequence or String, it is sent directly. 
 	Returns a sequence containing the response on success or an Error, if one occurs.
 	*/
-
 	post := method(postdata,
 		postdata ifNil(postdata = "")
 		ip := Host clone setName(host) address returnIfError
@@ -328,6 +342,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		processHttpResponse
 	)
 
+	//doc URL openOnDesktop Opens the URL in the local default browser. Supports OSX, Windows and (perhaps) other Unixes.
 	openOnDesktop := method(
 		platform := System platform
 		quotedUrl := "\"" .. url .. "\""
@@ -349,11 +364,15 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		))
 	)
 
+	//doc URL test Private test method.
 	test := method(
 		data := URL with("http://www.yahoo.com/") fetch
 	)
 )
 
+//doc Object doURL(urlString) Fetches the URL and evals it in the context of the receiver.
 Object doURL := method(url, self doString(URL clone setURL(url) fetch))
+
+//doc Sequence asURL Returns a new URL object instance with the receiver as it's url string.
 Sequence asURL := method(URL with(self))
 

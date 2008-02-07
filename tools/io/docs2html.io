@@ -12,14 +12,22 @@ modules := Map clone
 /*
 ReferenceDoc := Object clone do(
 	protos :: = List clone
-	html := method(
-		
+	print := method(
+		protos foreach(printIndex)
+		protos foreach(print)
 	)
 )
 
-ProtoDoc := Object clone
-SlotDoc := Object clone
+ProtoDoc := Object clone do(
+	init := method(self slots := List clone)
+	print := method(
+		
+	)	
+)
 
+SlotDoc := Object clone do(
+	
+)
 */
 
 readFolder := method(path,
@@ -172,6 +180,9 @@ protoNames foreach(protoName,
 		
 		slotNames sort foreach(k,
 			s := slots at(k)
+			if(s, s = s strip)
+			isPrivate := s ?beginsWithSeq("Private")
+			if(isPrivate, writeln("<font color=#888>"))
 			write("<a name=\"" .. protoName .. "-" .. k beforeSeq("(") asHtml .. "\"></a><b>")
 			write(k asHtml)
 			//if(s ?args, writeln("(</b><i>" .. s args map(asHtml) join(", ") .. "</i><b>)"))
@@ -179,7 +190,7 @@ protoNames foreach(protoName,
 			writeln("<p>")
 			writeln("<div class=slotDescription>")
 			if(s, writeln(s), writeln("<div class=error>undocumented</div>"))
-			writeln("</font>")
+			if(isPrivate, writeln("</font>"))
 			writeln("</div>")
 		)
 		writeln("</div>")
