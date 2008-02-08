@@ -1,7 +1,4 @@
-/*
 //metadoc Blowfish copyright Steve Dekorte 2002
-*/
-*/
 
 #ifndef IoBlowfish_DEFINED
 #define IoBlowfish_DEFINED 1

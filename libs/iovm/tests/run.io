@@ -24,7 +24,7 @@ if(System args size > 1,
 	System exit(0)
 ,
 	# Run all tests
-	test := method(TestSuite clone setPath(launchPath) run)
+	test := method(TestSuite clone setPath(System launchPath) run)
 
 	time := Date clone cpuSecondsToRun(r := test)
 	writeln("time: ", time, " seconds")
@@ -82,7 +82,7 @@ list(100, 10000) foreach(mps,
 	Collector setMarksPerSweep(mps)
 	Collector setSweepsPerGeneration(spg)
 
-	time := Date clone cpuSecondsToRun(r := TestSuite clone setPath(launchPath) run)
+	time := Date clone cpuSecondsToRun(r := TestSuite clone setPath(System launchPath) run)
 	mb := (Collector maxAllocatedBytes/1000000) asString(0,1)
 
 	writeln(Collector marksPerAlloc asString(0,1), "\t", Collector marksPerSweep, "\t", Collector sweepsPerGeneration, "\t", mb, "\t", time asString(0,1) , "\t", (mb asNumber * time) asString(0,1) )

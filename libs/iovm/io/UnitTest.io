@@ -89,7 +89,7 @@ TestSuite := Object clone do(
 
 	run := method(
 		verbose("\n" .. name)
-		unitTestFiles := Directory with(launchPath) files select(f, f name endsWithSeq("Test.io"))
+		unitTestFiles := Directory with(System launchPath) files select(f, f name endsWithSeq("Test.io"))
 		exceptions := List clone
 		testCount := 0
 
