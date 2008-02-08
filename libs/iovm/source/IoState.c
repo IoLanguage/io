@@ -211,7 +211,7 @@ void IoState_new_atAddress(void *address)
 
 		Collector_collect(self->collector);
 		//io_show_mem("after IoState_clearRetainStack and Collector_collect");
-		IoState_catchControlC(self);
+		IoState_setupToCatchControlC(self);
 	}
 }
 
