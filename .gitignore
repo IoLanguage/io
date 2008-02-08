@@ -1,3 +1,9 @@
+*.lib
+*.dll
+*.manifest
+*.obj
+*.exp
+*.ilk
 ._*
 *.pdb
 *.hi

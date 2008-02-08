@@ -11,11 +11,6 @@
 
 typedef IoObject IoTagDB;
 
-typedef struct
-{
-
-} IoTagDBData;
-
 IoTagDB *IoTagDB_proto(void *state);
 IoTagDB *IoTagDB_new(void *state);
 IoTagDB *IoTagDB_rawClone(IoTagDB *self);

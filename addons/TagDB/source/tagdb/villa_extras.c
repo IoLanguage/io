@@ -1,6 +1,6 @@
 #include <villa_extras.h>
 #include <stdio.h>
-#include <stdint.h>
+#include "portable_stdint.h"
 
 VILLA *vlopen_andRepairIfNeeded(char *path, int options, VLCFUNC func)
 {

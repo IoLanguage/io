@@ -6,22 +6,24 @@
 extern "C" {
 #endif
 
-#include <stdint.h>
+#include "TagDBAPI.h"
+#include "portable_stdint.h"
 #include <stdio.h>
-	
+#include "TagDBAPI.h"
+
 typedef struct
 {
   uint8_t *data;
   size_t size;
 } Datum;
 
-Datum *Datum_new(void);
-Datum *Datum_newData_size_copy_(uint8_t *data, size_t size, int copy);
-void Datum_free(Datum *self);
-void Datum_setData_size_(Datum *self, uint8_t *data, size_t size);
-size_t Datum_size(Datum *self);
-uint8_t *Datum_data(Datum *self);
-void Datum_show(Datum *self);
+TAGDB_API Datum *Datum_new(void);
+TAGDB_API Datum *Datum_newData_size_copy_(uint8_t *data, size_t size, int copy);
+TAGDB_API void Datum_free(Datum *self);
+TAGDB_API void Datum_setData_size_(Datum *self, uint8_t *data, size_t size);
+TAGDB_API size_t Datum_size(Datum *self);
+TAGDB_API uint8_t *Datum_data(Datum *self);
+TAGDB_API void Datum_show(Datum *self);
 
 #ifdef __cplusplus
 }

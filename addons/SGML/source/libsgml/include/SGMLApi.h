@@ -4,7 +4,7 @@
 #ifdef LIBSGML_EXPORTS
 #define SGML_API __declspec(dllexport)
 #else
-#define SGML_API __declspec(dllexport)
+#define SGML_API __declspec(dllimport)
 #endif
 #else
 #define SGML_API
