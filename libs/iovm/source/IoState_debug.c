@@ -70,3 +70,30 @@ void IoState_updateDebuggingMode(IoState *self)
 		IoState_debuggingOff(self);
 	}
 }
+
+
+#include <signal.h>
+
+static IoState *stateToReceiveControlC = NULL;
+
+void IoState_ControlC(int sig) 
+{
+	printf("\nIoState interrupted - attempting to print stack trace...\n\n");
+	{
+	IoState *self = stateToReceiveControlC;
+	IoObject *system = IoState_doCString_(self, "System");
+	IoMessage *m = IoMessage_newWithName_(self, SIOSYMBOL("controlC"));
+	IoMessage_locals_performOn_(m, system, system); 
+	}
+	printf("\nIoState exiting...\n");
+	exit(sig);
+}
+
+void IoState_catchControlC(IoState *self)
+{
+	stateToReceiveControlC = self;
+	signal(SIGINT, IoState_ControlC);
+}
+
+
+
