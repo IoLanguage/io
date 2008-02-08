@@ -11,11 +11,12 @@ LFLAGS		:= -L. -L./_libs -L/usr/local/lib -L/usr/lib
 #LFLAGS		+= -lMallocDebug
 LIBS		:= -lm -ltagdb -lqdbm
 DLL_LIBS := -lqdbm
-CCOUTFLAG := -o
+CCOUTFLAG := -o 
 DLL_LIB_SUFFIX := a
-LINK_DLL := $(CC)
+LINKDLL := $(CC)
 AROUTFLAG :=
 STATIC_SUFFIX :=
+LINKDLLOUTFLAG :=$(CCOUTFLAG)
 
 ifeq ($(CC),gcc)
 DFLAGS		:= -MM
@@ -30,7 +31,7 @@ ifeq ($(PLATFORM), Darwin)
 	FLAT_NAMESPACE := -flat_namespace
 	SINGLE_MODULE := -single_module
 	READ_ONLY_RELOCS := -read_only_relocs
-	LFLAGS := $(LFLAGS) -L/opt/local/lib
+	LFLAGS += -L/opt/local/lib
 	INSTALL_DIR := /usr/local/lib/io/
 	INSTALL_NAME := -install_name $(INSTALL_DIR)libtagdb.$(DLL_SUFFIX)
 	SUPPRESS := suppress
