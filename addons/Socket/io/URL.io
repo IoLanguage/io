@@ -214,7 +214,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 	//doc URL headerBreaks Private method to connect to the host and write the header.
 	connectAndWriteHeader := method(
 		if(host == nil, return(Error with("No host set")))
-		socket setHost(host) returnIfError setPort(port) connect returnIfError
+		socket returnIfError setHost(host) returnIfError setPort(port) connect returnIfError
 		socket appendToWriteBuffer(requestHeader) write returnIfError
 	)
 

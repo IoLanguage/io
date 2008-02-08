@@ -28,7 +28,7 @@ Socket do(
 
 	setHost := method(ip,
 		ip at(0) isDigit ifFalse(
-			ip = DNSResolver ipForHostName(ip)
+			ip = DNSResolver ipForHostName(ip) returnIfError
 			ip ifNil(return(Error with("Could not resolve " .. ip)))
 		)
 		ipAddress setIp(ip)
