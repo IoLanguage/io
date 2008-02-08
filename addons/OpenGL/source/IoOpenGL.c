@@ -1618,7 +1618,13 @@ size_t IoGL_BitsPerPixelForFormat_(GLenum sourceFormat)
 	return 0;
 }
 
+#include "IoGLUT.h"
+
+#define CHECKGLINIT() IOASSERT(IoGLUT_HasInitialized(), "OpenGL context not set up yet");
+
 IoObject *IoGL_glTexImage2D(IoGL *self, IoObject *locals, IoMessage *m)
+{
+	CHECKGLINIT();
 {
 	GLenum target = IoMessage_locals_intArgAt_(m, locals, 0);
 	GLint level  = IoMessage_locals_intArgAt_(m, locals, 1);
@@ -1641,6 +1647,17 @@ IoObject *IoGL_glTexImage2D(IoGL *self, IoObject *locals, IoMessage *m)
 		bytes = IoSeq_rawBytes(data);
 	}
 
+	printf("glTexImage2D(target %i, level %i, internalFormat %i, width %i, height %i, border %i, sourceFormat %i, type %i, bytes %p)\n",
+		target,
+		level,
+		internalFormat,
+		width, height,
+		border,
+		sourceFormat,
+		type,
+		(GLvoid*) bytes
+	);
+	
 	glTexImage2D(target,
 				 level,
 				 internalFormat,
@@ -1649,7 +1666,7 @@ IoObject *IoGL_glTexImage2D(IoGL *self, IoObject *locals, IoMessage *m)
 				 sourceFormat,
 				 type,
 				 (GLvoid*) bytes);
-
+}
 	return self;
 }
 

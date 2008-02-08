@@ -267,8 +267,8 @@ Object do(
 
 	launchFile := method(path, args,
 		args ifNil(args = List clone)
-		Lobby launchPath :=  path pathComponent
-		Directory setCurrentWorkingDirectory(Lobby launchPath)
+		System launchPath :=  path pathComponent
+		Directory setCurrentWorkingDirectory(System launchPath)
 		System launchScript = path
 		self doFile(path)
 	)

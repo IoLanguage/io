@@ -17,7 +17,7 @@ Importer := Object clone do(
 		folders := list("")
 
 		import := method(protoName,
-			if(?launchPath, folders appendIfAbsent(launchPath))
+			if(System ?launchPath, folders appendIfAbsent(System launchPath))
 
 			folders foreach(folder,
 				path := Path with(folder, protoName .. ".io") asSymbol

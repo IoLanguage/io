@@ -203,6 +203,13 @@ void IoGlutIdleFunc(void)
 	//IoState_yield(IoObject_state(proto));
 }
 
+static int glutHasInitialized = 0;
+
+int IoGLUT_HasInitialized(void)
+{
+	return glutHasInitialized;
+}
+
 IoObject *IoGLUT_glutInit(IoGLUT *self, IoObject *locals, IoMessage *m)
 {
 	IoState *state = IOSTATE;
@@ -211,7 +218,7 @@ IoObject *IoGLUT_glutInit(IoGLUT *self, IoObject *locals, IoMessage *m)
 	glutInit(&argc, (char **)(state->mainArgs->argv));
 	IoDirectory_SetCurrentWorkingDirectory(UArray_asCString(ba));
 	UArray_free(ba);
-
+	//glutHasInitialized = 1;
 	//glutIdleFunc(IoGlutIdleFunc);
 	//glutTimerFunc((unsigned int)10, IoGlutTimerFunc, -1);
 	return self;
@@ -598,6 +605,7 @@ IoObject *IoGLUT_glutIgnoreKeyRepeat(IoGLUT *self, IoObject *locals, IoMessage *
 
 IoObject *IoGLUT_glutMainLoop(IoGLUT *self, IoObject *locals, IoMessage *m)
 {
+	glutHasInitialized = 1;
 	glutMainLoop();
 	return self;
 }

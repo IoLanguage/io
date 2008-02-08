@@ -70,3 +70,40 @@ void IoState_updateDebuggingMode(IoState *self)
 		IoState_debuggingOff(self);
 	}
 }
+
+#include <signal.h>
+
+static IoState *stateToReceiveControlC = NULL;
+static int multipleIoStates = 0;
+
+void IoState_ControlC(int sig) 
+{
+	printf("\nIoState interrupted - attempting to print stack trace...\n\n");
+	
+	if(multipleIoStates)
+	{
+		printf("Unable to print stack trace - due to multiple IoStates in use.\n");
+	}
+	else
+	{
+		IoState *self = stateToReceiveControlC;
+		IoObject *system = IoState_doCString_(self, "System");
+		IoMessage *m = IoMessage_newWithName_(self, SIOSYMBOL("controlC"));
+		IoMessage_locals_performOn_(m, system, system); 
+	}
+	
+	printf("\nIoState exiting...\n");
+	exit(sig);
+}
+
+void IoState_setupToCatchControlC(IoState *self)
+{
+	if(stateToReceiveControlC) 
+	{ 
+		multipleIoStates = 1;
+	}
+	stateToReceiveControlC = self;
+	signal(SIGINT, IoState_ControlC);
+}
+
+

@@ -58,6 +58,8 @@ typedef struct
 	unsigned int lastJoystickButton;
 } IoGLUTData;
 
+int IoGLUT_HasInitialized(void);
+
 IoObject *IoGLUT_rawClone(IoGLUT *self);
 IoGLUT *IoGLUT_proto(void *state);
 IoGLUT *IoGLUT_new(void *state);

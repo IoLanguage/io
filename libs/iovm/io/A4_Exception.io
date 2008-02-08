@@ -325,3 +325,5 @@ Protos Exception do(
 		)
 	)
 )
+
+System controlC := method(Scheduler currentCoroutine showStack)

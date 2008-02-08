@@ -48,7 +48,7 @@ VideoView := View clone do(
 		self
 	)
 	
-	newSlot("isSelected", false)
+	isSelected ::= false
 	select := method(setIsSelected(true))
 	unselect := method(setIsSelected(false))
 	acceptsFirstResponder := false
@@ -65,6 +65,7 @@ VideoView := View clone do(
     repeatOn ::= true
     
     play := method(
+        writeln("VideoView play")
         setIsPlaying(true)
         topWindow addTimerTargetWithDelay(self, videoDecoder framePeriod)
     )
@@ -72,7 +73,7 @@ VideoView := View clone do(
     stop := method(setIsPlaying(false))
 
     timer := method(n,
-        //writeln("VideoView timer")
+        writeln("VideoView timer")
         if(isPlaying,
             topWindow addTimerTargetWithDelay(self, videoDecoder framePeriod)
             videoDecoder readNextFrame

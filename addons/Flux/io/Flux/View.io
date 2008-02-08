@@ -74,11 +74,32 @@ View := Responder clone do(
     
     // --- Subviews -------------------------------------------------
 
-    setSuperview := method(view, superview = view)
+	Object uniqueName := method(
+		self type .. "_" .. self uniqueId
+	)
+	
+    setSuperview := method(view, 
+		//writeln(self uniqueName, " setSuperview(", self uniqueName, ")")
+		self superview := view; self
+	)
+	
     topView := method(if(superview, superview topView, self))
 
-    newSlot("topWindow", nil)
-    topWindow := method(if(superview, superview topWindow, nil))
+    setTopWindow := method(window, 
+		//writeln(self uniqueName, " setTopWindow(", window uniqueName, ")")
+		topWindow = window
+		self
+	)
+	
+    topWindow := method(
+		//writeln("topWindow")
+		if(superview, 
+			//writeln(self uniqueId, " superview topWindow")
+			superview topWindow, 
+			//writeln(self uniqueName, " no superview")
+			nil
+		)
+	)
     
     addSubview := method(view, 
 		subviews append(view)
