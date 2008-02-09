@@ -76,9 +76,9 @@ void IoState_updateDebuggingMode(IoState *self)
 static IoState *stateToReceiveControlC = NULL;
 static int multipleIoStates = 0;
 
-void IoState_ControlC(int sig) 
+void IoState_UserInterruptHandler(int sig) 
 {
-	printf("\nIo received user interrupt. Calling System userInteruptHandler.\n");
+	printf("\nIo received user interrupt. Calling System userInterruptHandler.\n");
 	
 	if(multipleIoStates)
 	{
@@ -90,7 +90,7 @@ void IoState_ControlC(int sig)
 	{
 		IoState *self = stateToReceiveControlC;
 		IoObject *system = IoState_doCString_(self, "System");
-		IoMessage *m = IoMessage_newWithName_(self, SIOSYMBOL("userInteruptHandler"));
+		IoMessage *m = IoMessage_newWithName_(self, SIOSYMBOL("userInterruptHandler"));
 		IoMessage_locals_performOn_(m, system, system); 
 	}
 	
@@ -98,14 +98,14 @@ void IoState_ControlC(int sig)
 	//exit(sig);
 }
 
-void IoState_setupToCatchControlC(IoState *self)
+void IoState_setupUserInterruptHandler(IoState *self)
 {
 	if(stateToReceiveControlC) 
 	{ 
 		multipleIoStates = 1;
 	}
 	stateToReceiveControlC = self;
-	signal(SIGINT, IoState_ControlC);
+	signal(SIGINT, IoState_UserInterruptHandler);
 }
 
 

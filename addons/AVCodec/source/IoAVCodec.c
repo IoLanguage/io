@@ -20,7 +20,7 @@ When an input stream containing video data is opened, the following slots will b
 <pre>
 framePeriod
 videoDuration
-ideoFrameCount
+videoFrameCount
 </pre>
 
 */

@@ -182,7 +182,7 @@ When an input stream containing video data is opened, the following slots will b
 <pre>
 framePeriod
 videoDuration
-ideoFrameCount
+videoFrameCount
 </pre>
 
 </div>
@@ -912,9 +912,17 @@ bf outputBuffer // this contains the encrypted data
 <h3>Slot Index</h3>
 <div class=slotIndex>
 <a href="#Blowfish-beginProcessing">beginProcessing</a><br>
+<a href="#Blowfish-decrypt">decrypt</a><br>
+<a href="#Blowfish-encrypt">encrypt</a><br>
 <a href="#Blowfish-endProcessing">endProcessing</a><br>
+<a href="#Blowfish-inputBuffer">inputBuffer</a><br>
+<a href="#Blowfish-key">key</a><br>
+<a href="#Blowfish-outputBuffer">outputBuffer</a><br>
 <a href="#Blowfish-process">process</a><br>
+<a href="#Blowfish-setInputBuffer">setInputBuffer</a><br>
 <a href="#Blowfish-setIsEncrypting">setIsEncrypting()</a><br>
+<a href="#Blowfish-setKey">setKey</a><br>
+<a href="#Blowfish-setOutputBuffer">setOutputBuffer</a><br>
 </div>
 <p>
 <h3>Slots</h3>
@@ -923,9 +931,29 @@ bf outputBuffer // this contains the encrypted data
 <div class=slotDescription>
 Sets the key from the key slot and initializes the cipher.
 </div>
+<a name="Blowfish-decrypt"></a><b>decrypt</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Blowfish-encrypt"></a><b>encrypt</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="Blowfish-endProcessing"></a><b>endProcessing</b><p>
 <div class=slotDescription>
 Finish processing remaining bytes of inputBuffer.
+</div>
+<a name="Blowfish-inputBuffer"></a><b>inputBuffer</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Blowfish-key"></a><b>key</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Blowfish-outputBuffer"></a><b>outputBuffer</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 <a name="Blowfish-process"></a><b>process</b><p>
 <div class=slotDescription>
@@ -933,9 +961,21 @@ Process the inputBuffer and appends the result to the outputBuffer.
 	The processed inputBuffer is empties except for the spare 
 	bytes at the end which don't fit into a cipher block.
 </div>
+<a name="Blowfish-setInputBuffer"></a><b>setInputBuffer</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="Blowfish-setIsEncrypting"></a><b>setIsEncrypting(aBool)</b><p>
 <div class=slotDescription>
 If aBool is true, encrypting mode is on, otherwise, decrypting mode is on.
+</div>
+<a name="Blowfish-setKey"></a><b>setKey</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Blowfish-setOutputBuffer"></a><b>setOutputBuffer</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 </div>
 </div>
@@ -15338,6 +15378,7 @@ Reopens an already open log session. This is useful if you wish to
 <a href="#System-sleep">sleep()</a><br>
 <a href="#System-symbols">symbols</a><br>
 <a href="#System-system">system()</a><br>
+<a href="#System-userInteruptHandler">userInteruptHandler</a><br>
 <a href="#System-version">version</a><br>
 </div>
 <p>
@@ -15443,6 +15484,10 @@ Returns a List containing all Symbols currently in the system.
 <a name="System-system"></a><b>system(aString)</b><p>
 <div class=slotDescription>
 Makes a system call and returns a Number for the return value.
+</div>
+<a name="System-userInteruptHandler"></a><b>userInteruptHandler</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 <a name="System-version"></a><b>version</b><p>
 <div class=slotDescription>

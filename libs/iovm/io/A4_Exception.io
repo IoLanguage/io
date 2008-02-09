@@ -48,11 +48,11 @@ Message description := method(
 Scheduler := Object clone do(
 	//doc Scheduler yieldingCoros The List of yielding Coroutine objects.
 	//doc Scheduler setYieldingCoros(aListOfCoros) Sets the list of yielding Coroutine objects.
-	newSlot("yieldingCoros", List clone)
+	yieldingCoros ::= List clone
 	
 	//doc Scheduler timers The List of active timers.
 	//doc Scheduler setTimers(aListOfTimers) Sets the list of active timers.
-	newSlot("timers", List clone)
+	timers ::= List clone
 	
 	//doc Scheduler currentCoroutine Returns the currently running coroutine.
 	currentCoroutine := method(Coroutine currentCoroutine)
