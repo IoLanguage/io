@@ -3688,7 +3688,7 @@ Networking Event.
 <a href="#Event-descriptorId">descriptorId</a><br>
 <a href="#Event-eventType">eventType</a><br>
 <a href="#Event-eventTypeName">eventTypeName</a><br>
-<a href="#Event-handleEvent">handleEvent</a><br>
+<a href="#Event-handleEvent">handleEvent()</a><br>
 <a href="#Event-isPending">isPending</a><br>
 <a href="#Event-isValid">isValid</a><br>
 <a href="#Event-setCoro">setCoro</a><br>
@@ -3698,7 +3698,7 @@ Networking Event.
 <a href="#Event-setTimeout">setTimeout</a><br>
 <a href="#Event-timeout">timeout</a><br>
 <a href="#Event-waitOn">waitOn</a><br>
-<a href="#Event-waitOnOrExcept">waitOnOrExcept</a><br>
+<a href="#Event-waitOnOrExcept">waitOnOrExcept()</a><br>
 </div>
 <p>
 <h3>Slots</h3>
@@ -3739,9 +3739,9 @@ Networking
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="Event-handleEvent"></a><b>handleEvent</b><p>
+<a name="Event-handleEvent"></a><b>handleEvent(timeout)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+
 </div>
 <a name="Event-isPending"></a><b>isPending</b><p>
 <div class=slotDescription>
@@ -3779,9 +3779,9 @@ Networking
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="Event-waitOnOrExcept"></a><b>waitOnOrExcept</b><p>
+<a name="Event-waitOnOrExcept"></a><b>waitOnOrExcept(timeout)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+
 </div>
 </div>
 </div>
@@ -3797,14 +3797,17 @@ Networking
 </div>
 <h3>Description</h3>
 <div class=protoDescription>
-A binding for libevent.
+	Object for libevent (kqueue/epoll/poll/select) library. 
+	Usefull for getting notifications for descriptor (a socket or file) events.
+	Events include read (the descriptor has unread data or timeout) and write (the descriptor wrote some data or timeout).
+	Also, timer and signal events are supported.
 
 </div>
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
 <a href="#EventManager-activeEvents">activeEvents</a><br>
-<a href="#EventManager-addEvent">addEvent</a><br>
+<a href="#EventManager-addEvent">addEvent()</a><br>
 <a href="#EventManager-coro">coro</a><br>
 <a href="#EventManager-hasActiveEvents">hasActiveEvents</a><br>
 <a href="#EventManager-isRunning">isRunning</a><br>
@@ -3824,9 +3827,9 @@ A binding for libevent.
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="EventManager-addEvent"></a><b>addEvent</b><p>
+<a name="EventManager-addEvent"></a><b>addEvent(event, descriptor, eventType, timeout)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+
 </div>
 <a name="EventManager-coro"></a><b>coro</b><p>
 <div class=slotDescription>
@@ -3858,7 +3861,7 @@ A binding for libevent.
 </div>
 <a name="EventManager-run"></a><b>run</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Runs the EventManger loop. Does not return.
 </div>
 <a name="EventManager-setCoro"></a><b>setCoro</b><p>
 <div class=slotDescription>
@@ -12096,22 +12099,24 @@ Convenience constructor. Returns a new Rational number whose numerator and denom
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> Socket<br>
+<b>Category:</b> Networking
+<br>
 <font color=#bbb>
 </font>
+</div>
+<h3>Description</h3>
+<div class=protoDescription>
+Object for read events.
+
 </div>
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#ReadEvent-category">category</a><br>
 <a href="#ReadEvent-eventType">eventType</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
-<a name="ReadEvent-category"></a><b>category</b><p>
-<div class=slotDescription>
-Networking
-</div>
 <a name="ReadEvent-eventType"></a><b>eventType</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
@@ -14563,22 +14568,24 @@ Stops the server if it is running. Returns self.
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> Socket<br>
+<b>Category:</b> Networking
+<br>
 <font color=#bbb>
 </font>
+</div>
+<h3>Description</h3>
+<div class=protoDescription>
+Object for signal events.
+
 </div>
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#SignalEvent-category">category</a><br>
 <a href="#SignalEvent-eventType">eventType</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
-<a name="SignalEvent-category"></a><b>category</b><p>
-<div class=slotDescription>
-Networking
-</div>
 <a name="SignalEvent-eventType"></a><b>eventType</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
@@ -15710,22 +15717,24 @@ Thread createThread()
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> Socket<br>
+<b>Category:</b> Networking
+<br>
 <font color=#bbb>
 </font>
+</div>
+<h3>Description</h3>
+<div class=protoDescription>
+Object for timer events.
+
 </div>
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#TimerEvent-category">category</a><br>
 <a href="#TimerEvent-eventType">eventType</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
-<a name="TimerEvent-category"></a><b>category</b><p>
-<div class=slotDescription>
-Networking
-</div>
 <a name="TimerEvent-eventType"></a><b>eventType</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
@@ -16312,22 +16321,24 @@ Sets the link pointer. Returns self.
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> Socket<br>
+<b>Category:</b> Networking
+<br>
 <font color=#bbb>
 </font>
+</div>
+<h3>Description</h3>
+<div class=protoDescription>
+Object for write events.
+
 </div>
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#WriteEvent-category">category</a><br>
 <a href="#WriteEvent-eventType">eventType</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
-<a name="WriteEvent-category"></a><b>category</b><p>
-<div class=slotDescription>
-Networking
-</div>
 <a name="WriteEvent-eventType"></a><b>eventType</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
