@@ -64,7 +64,7 @@ SampleRateConverter withDestination := method(dest,
 
 path1 := "/Users/steve/Downloads/Hp\ lovecraft/HP\ Lovecraft\ -\ The\ Fungi\ From\ Yuggoth/HP\ Lovecraft\ -\ Fungi\ From\ Yuggoth.mp3"
 path1 := "/Users/steve/Music/Unnatural\ History\ III/Baby\ Food\ \(1994\).mp3"
-//path2 := Path with(launchPath, "sounds/max.mp3")
+//path2 := Path with(System launchPath, "sounds/max.mp3")
 
 File streamTo := method(dest,
 	setStreamDestination(dest)
