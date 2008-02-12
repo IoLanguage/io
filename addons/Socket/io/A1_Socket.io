@@ -28,8 +28,10 @@ Socket do(
 
 	setHost := method(ip,
 		ip at(0) isDigit ifFalse(
+			//writeln("lookup = ", ip)
 			ip = DNSResolver ipForHostName(ip) returnIfError
 			ip ifNil(return(Error with("Could not resolve " .. ip)))
+			//writeln("host ip = ", ip)
 		)
 		ipAddress setIp(ip)
 		self
@@ -160,7 +162,7 @@ Socket do(
 	)
 	
 	appendToWriteBuffer := method(buffer,
-		writeBuffer appendSeq(buffer)
+		if(buffer, writeBuffer appendSeq(buffer))
 		self
 	)
 )

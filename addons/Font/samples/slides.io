@@ -2,7 +2,7 @@
 
 // [reg:~/IoProject/Io/binaries] steve% ./ioDesktop ../bindings/Font/_tests/slides.io 
 
-//doFile(Path with(launchPath, "GLApp.io"))
+//doFile(Path with(System launchPath, "GLApp.io"))
 
 Slide := Object clone do(
     bigFont    := Font clone open("../resources/library/fonts/Free/Sans/Bold.ttf")   setPixelSize(200)

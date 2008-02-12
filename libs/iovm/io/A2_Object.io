@@ -230,15 +230,18 @@ Object do(
 	)
 
 	slotSummary := method(keyword,
-		if(getSlot("self") type == "Block" and getSlot("self") == getSlot("Block"),
+		if(getSlot("self") type == "Block",
 			return getSlot("self") asSimpleString
 		)
+		
 		s := Sequence clone
 		s appendSeq(" ", getSlot("self") asSimpleString, ":\n")
 		slotDescriptions := slotDescriptionMap
+		
 		if(keyword,
 			slotDescriptions = slotDescriptions select(k, v, k asMutable lowercase containsSeq(keyword))
 		)
+		
 		slotDescriptions keys sortInPlace foreach(k,
 			s appendSeq("  ", k alignLeft(16), " = ", slotDescriptions at(k), "\n")
 		)

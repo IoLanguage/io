@@ -1,7 +1,7 @@
 #!/usr/bin/env io
 
-//doFile(Path with(launchPath, "../_ioCode/DOConnection.io"))
-//doFile(Path with(launchPath, "../_ioCode/DOServer.io"))
+//doFile(Path with(System launchPath, "../_ioCode/DOConnection.io"))
+//doFile(Path with(System launchPath, "../_ioCode/DOServer.io"))
 
 //ip := Host setName("localhost") address
 //ip := "127.0.0.1" 

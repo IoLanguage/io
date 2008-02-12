@@ -6,7 +6,7 @@ if (System ?args == nil,
 )
 */
 
-s := Sound clone setPath(Path with(launchPath, "sounds/max.wav")) load
+s := Sound clone setPath(Path with(System launchPath, "sounds/max.wav")) load
 
 AudioDevice open 
 //AudioDevice asyncWrite(s buffer)

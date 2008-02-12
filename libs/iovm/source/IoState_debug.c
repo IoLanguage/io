@@ -95,7 +95,7 @@ void IoState_UserInterruptHandler(int sig)
 	}
 	
 	//printf("\nIo exiting.\n");
-	//exit(sig);
+	exit(sig);
 }
 
 void IoState_setupUserInterruptHandler(IoState *self)

@@ -17,7 +17,7 @@ Viewer := Object clone do(
 		if (image error, write("Error: ", image error, "\n"); System exit)
 		self windowName :=  path lastPathComponent .. " " .. image width .. " x " .. image height
 		glutSetWindowTitle(windowName)
-		update
+		//update
 	)
 	
 	update := method(
@@ -78,7 +78,7 @@ Viewer := Object clone do(
 		glutReshapeFunc
 		//glutKeyboardFunc
 		glutSpecialFunc
-		self setImagePath(Path with(launchPath, "images/lotus.png"))
+		self setImagePath(Path with(System launchPath, "images/lotus.png"))
 		glutMainLoop
 	)
 )
