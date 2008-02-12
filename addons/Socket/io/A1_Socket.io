@@ -90,7 +90,9 @@ Socket do(
 	)
 
 	streamWrite := method(buffer, writeCallback,
-		appendToWriteBuffer(buffer) writeFromBuffer(writeCallback)
+		appendToWriteBuffer(buffer) 
+		debugWriteln("socket writing [", buffer, "]")
+		writeFromBuffer(writeCallback)
 	)
 	
 	writeFromBuffer := method(writeCallback,
@@ -114,7 +116,7 @@ Socket do(
 
 	streamReadNextChunk := method(
 		self setSocketReadLowWaterMark(1)
-		while(isOpen and e := asyncStreamRead(readBuffer, bytesPerRead), e returnIfError)
+		//while(isOpen and e := asyncStreamRead(readBuffer, bytesPerRead), e returnIfError)
 		readEvent waitOn(readTimeout) returnIfError
 		while(isOpen and e := asyncStreamRead(readBuffer, bytesPerRead), e returnIfError)
 		self
