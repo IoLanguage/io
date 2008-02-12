@@ -14,6 +14,9 @@ Event do(
 		"?"
 	)
 
+	/*doc Event handleEvent(timeout) 
+	
+	*/
 	handleEvent := method(isTimeout,
 		debugWriteln("Event ", eventTypeName, " handleEvent(", isTimeout, ")")
 		//debugWriteln(coro label, " resuming - got ", eventTypeName)
@@ -27,6 +30,9 @@ Event do(
 		)
 	)
 
+	/*doc Event waitOnOrExcept(timeout) 
+	
+	*/
 	waitOn := method(t,
 		if(t, timeout = t)
 
@@ -36,9 +42,10 @@ Event do(
 		EventManager addEvent(self, descriptorId, eventType, timeout) ifError(e, coro = nil; return(e))
 		coro pause
 		debugWriteln(Scheduler currentCoroutine label, " Event waitOn(", t, ") - resumed")
-	  if(isTimeout, Error with("Timeout"), self)
+		if(isTimeout, Error with("Timeout"), self)
 	)
 
+	//doc Event waitOnOrExcept(timeout) Same as waitOn() but an exception is raised if a timeout occurs. Returns self.
 	waitOnOrExcept := method(t,
 		waitOn(t)
 		isTimeout ifTrue(Exception raise("timeout"))
@@ -47,22 +54,26 @@ Event do(
 )
 
 ReadEvent := Event clone setEventType(Event EV_READ) do(
-	//doc ReadEvent category Networking
+	//metadoc ReadEvent category Networking
+	//metadoc ReadEvent description Object for read events.
 	nil
 )
 
 WriteEvent  := Event clone setEventType(Event EV_WRITE) do(
-	//doc WriteEvent category Networking
+	//metadoc WriteEvent category Networking
+	//metadoc WriteEvent description Object for write events.
 	nil
 )
 
 SignalEvent := Event clone setEventType(Event EV_SIGNAL) do(
-	//doc SignalEvent category Networking
+	//metadoc SignalEvent category Networking
+	//metadoc SignalEvent description Object for signal events.
 	nil
 )
 
 TimerEvent  := Event clone setEventType(Event EV_TIMER) do(
-	//doc TimerEvent category Networking
+	//metadoc TimerEvent category Networking
+	//metadoc TimerEvent description Object for timer events.
 	nil
 )
 
@@ -70,21 +81,30 @@ Object wait := method(t, TimerEvent clone setTimeout(t) waitOn)
 
 EventManager do(
 	//metadoc EventManager category Networking
+	/*metadoc EventManager description 
+	Object for libevent (kqueue/epoll/poll/select) library. 
+	Usefull for getting notifications for descriptor (a socket or file) events.
+	Events include read (the descriptor has unread data or timeout) and write (the descriptor wrote some data or timeout).
+	Also, timer and signal events are supported.
+	*/
 	isRunning ::= false
 	coro ::= nil
 	
 	realAddEvent := getSlot("addEvent")
 
+	/*doc EventManager addEvent(event, descriptor, eventType, timeout) 
+	
+	*/
 	addEvent := method(e, descriptorId, eventType, timeout,
 		debugWriteln("EventManager addEvent - begin")
 		r := self realAddEvent(e, descriptorId, eventType, timeout)
 		r returnIfError
 		if(coro, coro resumeLater, self coro := coroFor(run); coro setLabel("EventManager"); coro resumeLater)
 		debugWriteln("EventManager addEvent - done")
-		//Coroutine showYieldingCoros
 		r
 	)
 
+	//doc EventManager run Runs the EventManger loop. Does not return.
 	run := method(
 		//Scheduler currentCoroutine setLabel("EventManager")
 		debugWriteln("EventManager run")
@@ -92,7 +112,8 @@ EventManager do(
 			setIsRunning(true)
 			while(hasActiveEvents,
 				debugWriteln("EventManager run - listening")
-				if(Coroutine yieldingCoros first, listen, listenUntilEvent) ifError(e, Exception raise("Unrecoverable Error in EventManager: " .. e description))
+				if(Coroutine yieldingCoros first, listen, listenUntilEvent) ifError(e, 
+					Exception raise("Unrecoverable Error in EventManager: " .. e description))
 				yield
 			)
 			debugWriteln("EventManager run - no active events")

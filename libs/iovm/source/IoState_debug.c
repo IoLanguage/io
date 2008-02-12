@@ -76,34 +76,36 @@ void IoState_updateDebuggingMode(IoState *self)
 static IoState *stateToReceiveControlC = NULL;
 static int multipleIoStates = 0;
 
-void IoState_ControlC(int sig) 
+void IoState_UserInterruptHandler(int sig) 
 {
-	printf("\nIoState interrupted - attempting to print stack trace...\n\n");
+	printf("\nIo received user interrupt. Calling System userInterruptHandler.\n");
 	
 	if(multipleIoStates)
 	{
-		printf("Unable to print stack trace - due to multiple IoStates in use.\n");
+		// what could we do here to tell which IoState we are in?
+		// maybe look 
+		printf("Unable to print stack trace since multiple IoStates are in use.\n");
 	}
 	else
 	{
 		IoState *self = stateToReceiveControlC;
 		IoObject *system = IoState_doCString_(self, "System");
-		IoMessage *m = IoMessage_newWithName_(self, SIOSYMBOL("controlC"));
+		IoMessage *m = IoMessage_newWithName_(self, SIOSYMBOL("userInterruptHandler"));
 		IoMessage_locals_performOn_(m, system, system); 
 	}
 	
-	printf("\nIoState exiting...\n");
-	exit(sig);
+	//printf("\nIo exiting.\n");
+	//exit(sig);
 }
 
-void IoState_setupToCatchControlC(IoState *self)
+void IoState_setupUserInterruptHandler(IoState *self)
 {
 	if(stateToReceiveControlC) 
 	{ 
 		multipleIoStates = 1;
 	}
 	stateToReceiveControlC = self;
-	signal(SIGINT, IoState_ControlC);
+	signal(SIGINT, IoState_UserInterruptHandler);
 }
 
 
