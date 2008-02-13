@@ -1,20 +1,26 @@
 #!/usr/bin/env io
 
-
 App := Object clone do(
 	display := method(
 		args := System args
 		e := try(
-			inFile  := args at(0)
-			outFile := args at(1)
-			w := args at(2) asNumber
-			h := args at(3) asNumber
+			inFile  := args at(1)
+			outFile := args at(2)
+			w := args at(3) asNumber
+			h := args at(4) asNumber
 		)
 		e catch(Exception,
-			writeln("Usage: ioDesktop infile outfile width height")
+			writeln("Usage: io script.io infile outfile width height")
 			System exit
 		)
-		Image clone open(inFile) scaleTo(w, h) save(outFile)
+		//Image clone open(inFile) resizedTo(w, h) save(outFile)
+		img := Image clone open(inFile) 
+		
+		w = (img width) floor 
+		h = (img height) floor
+
+		img resizedTo(w, h) save(outFile) 
+
 		System exit
 	)
 
