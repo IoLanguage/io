@@ -427,13 +427,14 @@ IoObject *IoNumber_asCharacter(IoNumber *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Number asCharacter
 	Returns a String containing a single character whose
-	value is the ascii value of the first byte of the receiver.
+	value is the  value of the first byte of the receiver.
 	*/
 	
-	char s[2];
-	s[0] = (char)DATA(self);
+	unsigned char s[2];
+	s[0] = (unsigned char)DATA(self);
 	s[1] = 0;
-	return IoState_symbolWithCString_length_((IoState *)IOSTATE, s, 1);
+	//return IoState_symbolWithCString_length_((IoState *)IOSTATE, s, 1);
+	return IoSeq_newWithData_length_(IOSTATE, (unsigned char *)s, 1);
 }
 
 IoObject *IoNumber_asUint32Buffer(IoNumber *self, IoObject *locals, IoMessage *m)
