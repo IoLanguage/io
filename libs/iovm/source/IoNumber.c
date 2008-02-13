@@ -473,7 +473,7 @@ Returns a string representation of the receiver. For example:
 </pre>	
 would return:
 <pre>
-$1234.56
+1234.57
 </pre>	
 */
 	
