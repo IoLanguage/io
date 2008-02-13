@@ -1,7 +1,5 @@
 #!/usr/bin/env io
 
-
-
 Viewer := Object clone do(
 	init := method(
 		self width := 100
@@ -78,7 +76,8 @@ Viewer := Object clone do(
 		glutReshapeFunc
 		//glutKeyboardFunc
 		glutSpecialFunc
-		self setImagePath(Path with(System launchPath, "images/lotus.png"))
+		//self setImagePath(Path with(System launchPath, "images/lotus.png"))
+			self setImagePath(Path with(System launchPath, "t.jpg"))
 		glutMainLoop
 	)
 )
