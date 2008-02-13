@@ -430,11 +430,44 @@ IoObject *IoNumber_asCharacter(IoNumber *self, IoObject *locals, IoMessage *m)
 	value is the  value of the first byte of the receiver.
 	*/
 	
-	unsigned char s[2];
-	s[0] = (unsigned char)DATA(self);
-	s[1] = 0;
-	//return IoState_symbolWithCString_length_((IoState *)IOSTATE, s, 1);
-	return IoSeq_newWithData_length_(IOSTATE, (unsigned char *)s, 1);
+	double d = DATA(self);
+	uint32_t i = io_uint32InBigEndian((uint32_t)d);
+	int bytes = log2(d) / 8;
+	IoSeq *s;
+		
+	if (bytes == 0) 
+	{ 
+		bytes = 1;
+	}
+	
+	if (bytes == 3) 
+	{ 
+		bytes = 4;
+	}
+	
+	if (bytes > 4) 
+	{
+		// no valid UCS encoding for this value
+		return IONIL(self);
+	}
+	
+	s = IoSeq_newWithData_length_(IOSTATE, (unsigned char *)&i, bytes);
+	
+	{
+		UArray *u = IoSeq_rawUArray(s);
+		int e = CENCODING_ASCII;
+		
+		switch (bytes)
+		{
+			case 1: e = CENCODING_ASCII; break;
+			case 2: e = CENCODING_UTF16; break;
+			case 4: e = CENCODING_UTF32; break;
+		}
+		
+		UArray_setEncoding_(u, e);
+	}
+	
+	return s;
 }
 
 IoObject *IoNumber_asUint32Buffer(IoNumber *self, IoObject *locals, IoMessage *m)
