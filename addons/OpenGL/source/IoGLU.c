@@ -362,10 +362,17 @@ IoObject *IoGLU_gluScaleImage(IoGLU *self, IoObject *locals, IoMessage *m)
 	GLenum typeOut = IoMessage_locals_intArgAt_(m, locals, 7);
 	IoSeq *dataOut = IoMessage_locals_seqArgAt_(m, locals, 8);
 	GLvoid  *pointerIn = (GLvoid *)IoSeq_rawBytes(dataIn);
-	GLvoid  *pointerOut = (GLvoid *)IoSeq_rawBytes(dataOut);
+	GLvoid  *pointerOut;
+	int componentCount = (format == GL_RGB) ? 3 : 4;
 	GLint r;
+	
+	printf("componentCount = %i\n", componentCount);
+	
+	UArray_setSize_(IoSeq_rawUArray(dataOut), wOut*hOut*componentCount);
+	pointerOut = (GLvoid *)IoSeq_rawBytes(dataOut);
 
-	r = gluScaleImage(format,wIn,hIn,typeIn,pointerIn,wOut,hOut,typeOut,pointerOut);
+	r = gluScaleImage(format, wIn, hIn, typeIn, pointerIn, wOut, hOut, typeOut, pointerOut);
+	
 	return IONUMBER(r);
 }
 
