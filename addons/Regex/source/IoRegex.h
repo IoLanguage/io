@@ -16,7 +16,7 @@ typedef struct
 {
 	IoSymbol *pattern;
 	int options;
-	IoMap *nameToIndexMap;
+	IoMap *namedCaptures;
 	Regex *regex;
 } IoRegexData;
 
@@ -34,7 +34,7 @@ IoObject *IoRegex_with(IoRegex *self, IoObject *locals, IoMessage *m);
 
 IoObject *IoRegex_pattern(IoRegex *self, IoObject *locals, IoMessage *m);
 IoObject *IoRegex_captureCount(IoRegex *self, IoObject *locals, IoMessage *m);
-IoObject *IoRegex_nameToIndexMap(IoRegex *self, IoObject *locals, IoMessage *m);
+IoObject *IoRegex_namedCaptures(IoRegex *self, IoObject *locals, IoMessage *m);
 
 IoObject *IoRegex_version(IoRegex *self, IoObject *locals, IoMessage *m);
 

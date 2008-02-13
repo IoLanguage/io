@@ -23,6 +23,8 @@ RegexMatchTest := UnitTest clone do(
 	)
 	
 	testNamedCaptures := method(
+		assertEquals(list("number", "word"), match names)
+		
 		assertEquals("37", match at("number"))
 		assertEquals("signals", match at("word"))
 		assertEquals(nil, match at("humbug"))

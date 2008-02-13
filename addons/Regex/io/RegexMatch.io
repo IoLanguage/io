@@ -13,21 +13,22 @@ RegexMatch do(
 		if (index := indexOf(indexOrName), captures at(index), nil)
 	)
 
+	/* doc RegexMatch names
+	Returns a list of the name of each named capture.
+	If there are no named captures, the list will be empty.
+	*/
+	names := lazySlot(
+		regex captureNames select(isNil not)
+	)
+
 	//doc RegexMatch indexOf(name) Returns the index of the capture with the given name.
 	indexOf := method(name,
-		if (name isKindOf(Sequence), regex nameToIndexMap at(name), name)
+		if (name isKindOf(Sequence), regex namedCaptures at(name), name)
 	)
-
-
-	//doc RegexMatch names Returns a list containing the name of each capture.
-	names := lazySlot(
-		names := List clone setSize(captures size)
-		regex nameToIndexMap asList foreach(l, names atPut(l at(1), l at(0)))
-		names
-	)
+	
 	//doc RegexMatch nameOf(index) Returns the name of the capture with the given index.
 	nameOf := method(index,
-		names at(index)
+		regex captureNames at(index)
 	)
 
 	//doc RegexMatch string Returns the matched string.

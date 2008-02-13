@@ -60,7 +60,7 @@ IoRegex *IoRegex_proto(void *state)
 
 			{"pattern", IoRegex_pattern},
 			{"captureCount", IoRegex_captureCount},
-			{"nameToIndexMap", IoRegex_nameToIndexMap},
+			{"namedCaptures", IoRegex_namedCaptures},
 
 			{"version", IoRegex_version},
 
@@ -116,8 +116,8 @@ void IoRegex_free(IoRegex *self)
 void IoRegex_mark(IoRegex *self)
 {
 	IoObject_shouldMark(DATA(self)->pattern);
-	if (DATA(self)->nameToIndexMap)
-		IoObject_shouldMark(DATA(self)->nameToIndexMap);
+	if (DATA(self)->namedCaptures)
+		IoObject_shouldMark(DATA(self)->namedCaptures);
 }
 
 
@@ -172,19 +172,19 @@ IoObject *IoRegex_captureCount(IoRegex *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(IoRegex_rawRegex(self)->captureCount);
 }
 
-IoObject *IoRegex_nameToIndexMap(IoRegex *self, IoObject *locals, IoMessage *m)
+IoObject *IoRegex_namedCaptures(IoRegex *self, IoObject *locals, IoMessage *m)
 {
-	/*doc Regex nameToIndexMap
-	Returns a Map that maps capture names to capture indices.
+	/*doc Regex namedCaptures
+	Returns a Map that contains the index of each named group.
 	*/
 	
-	IoMap *map = DATA(self)->nameToIndexMap;
+	IoMap *map = DATA(self)->namedCaptures;
 	NamedCapture *namedCaptures = 0, *capture = 0;
 
 	if (map)
 		return map;
 
-	map = DATA(self)->nameToIndexMap = IOREF(IoMap_new(IOSTATE));
+	map = DATA(self)->namedCaptures = IOREF(IoMap_new(IOSTATE));
 
 	capture = namedCaptures = Regex_namedCaptures(IoRegex_rawRegex(self));
 	
