@@ -427,47 +427,57 @@ IoObject *IoNumber_asCharacter(IoNumber *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Number asCharacter
 	Returns a String containing a single character whose
-	value is the  value of the first byte of the receiver.
+	value is the value of the first byte of the receiver.
+	Returns nil if the number has no valid UCS mapping.
 	*/
 	
-	double d = DATA(self);
-	uint32_t i = io_uint32InBigEndian((uint32_t)d);
-	int bytes = log2(d) / 8;
-	IoSeq *s;
-		
-	if (bytes == 0) 
-	{ 
-		bytes = 1;
-	}
+	double d =DATA(self);
+	long ld = d;
 	
-	if (bytes == 3) 
-	{ 
-		bytes = 4;
-	}
-	
-	if (bytes > 4) 
+	if (d < 0 || d != ld)
 	{
-		// no valid UCS encoding for this value
 		return IONIL(self);
 	}
-	
-	s = IoSeq_newWithData_length_(IOSTATE, (unsigned char *)&i, bytes);
-	
-	{
-		UArray *u = IoSeq_rawUArray(s);
-		int e = CENCODING_ASCII;
+	else
+	{	
+		uint32_t i = io_uint32InBigEndian((uint32_t)d);
+		int bytes = d > 0 ? log2(d) / 8 : 1;
+		IoSeq *s;
 		
-		switch (bytes)
-		{
-			case 1: e = CENCODING_ASCII; break;
-			case 2: e = CENCODING_UTF16; break;
-			case 4: e = CENCODING_UTF32; break;
+		if (bytes == 0) 
+		{ 
+			bytes = 1;
 		}
 		
-		UArray_setEncoding_(u, e);
+		if (bytes == 3) 
+		{ 
+			bytes = 4;
+		}
+		
+		if (bytes > 4) 
+		{
+			// no valid UCS encoding for this value
+			return IONIL(self);
+		}
+		
+		s = IoSeq_newWithData_length_(IOSTATE, (unsigned char *)&i, bytes);
+		
+		{
+			UArray *u = IoSeq_rawUArray(s);
+			int e = CENCODING_ASCII;
+			
+			switch (bytes)
+			{
+				case 1: e = CENCODING_ASCII; break;
+				case 2: e = CENCODING_UTF16; break;
+				case 4: e = CENCODING_UTF32; break;
+			}
+			
+			UArray_setEncoding_(u, e);
+		}
+		
+		return s;
 	}
-	
-	return s;
 }
 
 IoObject *IoNumber_asUint32Buffer(IoNumber *self, IoObject *locals, IoMessage *m)
