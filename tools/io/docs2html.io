@@ -167,7 +167,7 @@ protoNames foreach(protoName,
 		writeln("<h3>Slot Index</h3>")
 		writeln("<div class=slotIndex>")
 		
-		slotNames := slots keys sort
+		slotNames := slots keys //sort
 		
 		try(
 			if(Lobby perform(protoName),

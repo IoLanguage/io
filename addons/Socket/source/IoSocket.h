@@ -46,8 +46,8 @@ IoObject *IoSocket_asyncStreamWrite(IoSocket *self, IoObject *locals, IoMessage 
 
 // udp
 
-IoObject *IoSocket_udpRead(IoSocket *self, IoObject *locals, IoMessage *m);
-IoObject *IoSocket_udpWrite(IoSocket *self, IoObject *locals, IoMessage *m);
+IoObject *IoSocket_asyncUdpRead(IoSocket *self, IoObject *locals, IoMessage *m);
+IoObject *IoSocket_asyncUdpWrite(IoSocket *self, IoObject *locals, IoMessage *m);
 
 // server
 

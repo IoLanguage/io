@@ -2726,19 +2726,19 @@ writeln(r)
 Implementation Notes:
 <p>
 
-The format of the Distributed Objects message is a list of null
+The format of the Distributed Objects message is a list of NullCharacter
 terminated strings in one of these two formats:
 <p>
 Send message format:
 
 <pre>
-s NULL targetId NULL messageName NULL argCount NULL argType NULL argValue NULL (next arg type and value, etc)
+s NullCharacter targetId NullCharacter messageName NullCharacter argCount NullCharacter argType NullCharacter argValue NullCharacter (next arg type and value, etc)
 </pre>
 
 Reply message format:
 
 <pre>
-r NULL argType NULL argvalue NULL
+r NullCharacter argType NullCharacter argvalue NullCharacter
 </pre>
 
 If the argument is not a String, Number or nil then:
@@ -2751,7 +2751,7 @@ This isn't optimized yet.
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#DOConnection-NULL">NULL</a><br>
+<a href="#DOConnection-NullCharacter">NullCharacter</a><br>
 <a href="#DOConnection-ShowMessage">ShowMessage</a><br>
 <a href="#DOConnection-close">close</a><br>
 <a href="#DOConnection-connect">connect</a><br>
@@ -2776,7 +2776,7 @@ This isn't optimized yet.
 <p>
 <h3>Slots</h3>
 <p>
-<a name="DOConnection-NULL"></a><b>NULL</b><p>
+<a name="DOConnection-NullCharacter"></a><b>NullCharacter</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
@@ -7251,6 +7251,7 @@ Currently supported formats include PNG(which supports alpha), JPG and TIFF.
 <a href="#Image-componentCount">componentCount</a><br>
 <a href="#Image-crop">crop()</a><br>
 <a href="#Image-data">data</a><br>
+<a href="#Image-dataType">dataType</a><br>
 <a href="#Image-decodingHeightHint">decodingHeightHint</a><br>
 <a href="#Image-decodingWidthHint">decodingWidthHint</a><br>
 <a href="#Image-draw">draw</a><br>
@@ -7305,6 +7306,10 @@ Crops the image to the specified values. Returns self.
 <div class=slotDescription>
 Returns a Buffer primitive containing the image data (loading it first if needed). 
 	Manipulating this data will effect what is drawn when the receiver's draw method is called.
+</div>
+<a name="Image-dataType"></a><b>dataType</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 <a name="Image-decodingHeightHint"></a><b>decodingHeightHint</b><p>
 <div class=slotDescription>
@@ -9398,6 +9403,7 @@ A container for a double (a 64bit floating point number on most platforms).
 <a href="#Number-repeat">repeat()</a><br>
 <a href="#Number-round">round</a><br>
 <a href="#Number-roundDown">roundDown</a><br>
+<a href="#Number-roundedUpToPowerOf2">roundedUpToPowerOf2</a><br>
 <a href="#Number-seconds">seconds</a><br>
 <a href="#Number-shiftLeft">shiftLeft</a><br>
 <a href="#Number-shiftRight">shiftRight</a><br>
@@ -9480,7 +9486,8 @@ Returns a Buffer containing a the number of bytes specified by
 <a name="Number-asCharacter"></a><b>asCharacter</b><p>
 <div class=slotDescription>
 Returns a String containing a single character whose
-	value is the ascii value of the first byte of the receiver.
+	value is the value of the first byte of the receiver.
+	Returns nil if the number has no valid UCS mapping.
 </div>
 <a name="Number-asHex"></a><b>asHex</b><p>
 <div class=slotDescription>
@@ -9510,7 +9517,7 @@ Returns a string representation of the receiver. For example:
 </pre>	
 would return:
 <pre>
-$1234.56
+1234.57
 </pre>
 </div>
 <a name="Number-asUint32Buffer"></a><b>asUint32Buffer</b><p>
@@ -9789,6 +9796,10 @@ Returns the a number with the receiver's value rounded up to
 <div class=slotDescription>
 Returns the a number with the receiver's value rounded down to
 	the nearest integer if it's fraction component is <= .5.
+</div>
+<a name="Number-roundedUpToPowerOf2"></a><b>roundedUpToPowerOf2</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 <a name="Number-seconds"></a><b>seconds</b><p>
 <div class=slotDescription>
@@ -10100,7 +10111,7 @@ When cloned, an Object will call it's init slot (with no arguments).
 <a href="#Object-?">?()</a><br>
 <a href="#Object-@">@</a><br>
 <a href="#Object-@@">@@</a><br>
-<a href="#Object-NULL">NULL</a><br>
+<a href="#Object-NullCharacter">NullCharacter</a><br>
 <a href="#Object-actorProcessQueue">actorProcessQueue</a><br>
 <a href="#Object-actorRun">actorRun</a><br>
 <a href="#Object-ancestorWithSlot">ancestorWithSlot()</a><br>
@@ -10287,7 +10298,7 @@ description: Sends the message aMessage to the receiver if it can respond to it.
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="Object-NULL"></a><b>NULL</b><p>
+<a name="Object-NullCharacter"></a><b>NullCharacter</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
@@ -14799,17 +14810,20 @@ Sets the path to the dbm folder. Returns self.
 <a href="#Socket-asyncBind">asyncBind</a><br>
 <a href="#Socket-asyncConnect">asyncConnect</a><br>
 <a href="#Socket-asyncListen">asyncListen</a><br>
+<a href="#Socket-asyncListen">asyncListen()</a><br>
 <a href="#Socket-asyncStreamOpen">asyncStreamOpen</a><br>
-<a href="#Socket-asyncStreamRead">asyncStreamRead</a><br>
+<a href="#Socket-asyncStreamRead">asyncStreamRead()</a><br>
+<a href="#Socket-asyncStreamRead">asyncStreamRead()</a><br>
 <a href="#Socket-asyncStreamWrite">asyncStreamWrite</a><br>
 <a href="#Socket-asyncUdpOpen">asyncUdpOpen</a><br>
 <a href="#Socket-asyncUdpRead">asyncUdpRead</a><br>
-<a href="#Socket-asyncUdpWrite">asyncUdpWrite</a><br>
+<a href="#Socket-asyncUdpWrite">asyncUdpWrite()</a><br>
 <a href="#Socket-bytesPerRead">bytesPerRead</a><br>
 <a href="#Socket-bytesPerWrite">bytesPerWrite</a><br>
 <a href="#Socket-close">close</a><br>
 <a href="#Socket-connect">connect</a><br>
 <a href="#Socket-connectTimeout">connectTimeout</a><br>
+<a href="#Socket-connectTo">connectTo()</a><br>
 <a href="#Socket-descriptorId">descriptorId</a><br>
 <a href="#Socket-errorDescription">errorDescription</a><br>
 <a href="#Socket-errorNumber">errorNumber</a><br>
@@ -14833,9 +14847,10 @@ Sets the path to the dbm folder. Returns self.
 <a href="#Socket-setNoDelay">setNoDelay</a><br>
 <a href="#Socket-setPort">setPort</a><br>
 <a href="#Socket-setReadTimeout">setReadTimeout</a><br>
-<a href="#Socket-setSocketReadBufferSize">setSocketReadBufferSize</a><br>
-<a href="#Socket-setSocketReadLowWaterMark">setSocketReadLowWaterMark</a><br>
-<a href="#Socket-setSocketWriteBufferSize">setSocketWriteBufferSize</a><br>
+<a href="#Socket-setSocketReadBufferSize">setSocketReadBufferSize()</a><br>
+<a href="#Socket-setSocketReadLowWaterMark">setSocketReadLowWaterMark()</a><br>
+<a href="#Socket-setSocketWriteBufferSize">setSocketWriteBufferSize()</a><br>
+<a href="#Socket-setSocketWriteLowWaterMar">setSocketWriteLowWaterMar()</a><br>
 <a href="#Socket-setSocketWriteLowWaterMark">setSocketWriteLowWaterMark</a><br>
 <a href="#Socket-setWriteTimeout">setWriteTimeout</a><br>
 <a href="#Socket-streamOpen">streamOpen</a><br>
@@ -14867,7 +14882,7 @@ Sets the path to the dbm folder. Returns self.
 </div>
 <a name="Socket-asyncBind"></a><b>asyncBind</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Binds the socket and returns self immediately or an Error object on error.
 </div>
 <a name="Socket-asyncConnect"></a><b>asyncConnect</b><p>
 <div class=slotDescription>
@@ -14875,15 +14890,25 @@ Sets the path to the dbm folder. Returns self.
 </div>
 <a name="Socket-asyncListen"></a><b>asyncListen</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Listens to the socket and returns self immediately or an Error object on error.
+</div>
+<a name="Socket-asyncListen"></a><b>asyncListen(ipAddressObject)</b><p>
+<div class=slotDescription>
+Immediately returns a socket for an connection if one is available or nil otherwise. Returns an Error object on error.
 </div>
 <a name="Socket-asyncStreamOpen"></a><b>asyncStreamOpen</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Submits an async request to open the socket in stream mode and returns self immediately or an Error object on error.
 </div>
-<a name="Socket-asyncStreamRead"></a><b>asyncStreamRead</b><p>
+<a name="Socket-asyncStreamRead"></a><b>asyncStreamRead(aSeq, readSize)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Reads up to readSize number of bytes into aSeq if data is available. 
+	Returns self immediately if successful. Returns an error object on Error. Returns nil if the socket is disconnected.
+</div>
+<a name="Socket-asyncStreamRead"></a><b>asyncStreamRead(ipAddress, aSeq, readSize)</b><p>
+<div class=slotDescription>
+Reads up to readSize number of bytes from ipAddress into aSeq if data is available. 
+	Returns self immediately if successful. Returns an error object on Error. Returns nil if the socket is disconnected.
 </div>
 <a name="Socket-asyncStreamWrite"></a><b>asyncStreamWrite</b><p>
 <div class=slotDescription>
@@ -14891,15 +14916,16 @@ Sets the path to the dbm folder. Returns self.
 </div>
 <a name="Socket-asyncUdpOpen"></a><b>asyncUdpOpen</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Submits an async request to open the socket in UDP mode and returns self immediately or an Error object on error.
 </div>
 <a name="Socket-asyncUdpRead"></a><b>asyncUdpRead</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="Socket-asyncUdpWrite"></a><b>asyncUdpWrite</b><p>
+<a name="Socket-asyncUdpWrite"></a><b>asyncUdpWrite(ipAddress, aSeq, startIndex, readSize)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Writes readsize bytes from aSeq starting at startIndex to ipAddress. 
+	Returns self immediately if successful. Returns an error object on Error. Returns nil if the socket is disconnected.
 </div>
 <a name="Socket-bytesPerRead"></a><b>bytesPerRead</b><p>
 <div class=slotDescription>
@@ -14911,7 +14937,7 @@ Sets the path to the dbm folder. Returns self.
 </div>
 <a name="Socket-close"></a><b>close</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Closes the socket and returns self. Returns nil on error.
 </div>
 <a name="Socket-connect"></a><b>connect</b><p>
 <div class=slotDescription>
@@ -14921,25 +14947,29 @@ Sets the path to the dbm folder. Returns self.
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
+<a name="Socket-connectTo"></a><b>connectTo(ipAddressObject)</b><p>
+<div class=slotDescription>
+Connects ti the given IPAddress and returns self or an Error object on error.
+</div>
 <a name="Socket-descriptorId"></a><b>descriptorId</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the socket's file descriptor id as a Number.
 </div>
 <a name="Socket-errorDescription"></a><b>errorDescription</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a description of the last error on the socket as a string.
 </div>
 <a name="Socket-errorNumber"></a><b>errorNumber</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the socket error number for the last error.
 </div>
 <a name="Socket-getSocketReadLowWaterMark"></a><b>getSocketReadLowWaterMark</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the read low water mark for the socket on success or nil on error.
 </div>
 <a name="Socket-getSocketWriteLowWaterMark"></a><b>getSocketWriteLowWaterMark</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the write low water mark for the socket on success or nil on error.
 </div>
 <a name="Socket-host"></a><b>host</b><p>
 <div class=slotDescription>
@@ -14951,15 +14981,15 @@ Sets the path to the dbm folder. Returns self.
 </div>
 <a name="Socket-isOpen"></a><b>isOpen</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if the socket is open, false otherwise.
 </div>
 <a name="Socket-isStream"></a><b>isStream</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if the socket is a stream, false otherwise.
 </div>
 <a name="Socket-isValid"></a><b>isValid</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if the socket is in valid state, closes the socket and returns false otherwise.
 </div>
 <a name="Socket-port"></a><b>port</b><p>
 <div class=slotDescription>
@@ -15004,7 +15034,7 @@ the host attribute. Returns self.
 </div>
 <a name="Socket-setNoDelay"></a><b>setNoDelay</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the socket to be no-delay. Returns self on success or nil on error.
 </div>
 <a name="Socket-setPort"></a><b>setPort</b><p>
 <div class=slotDescription>
@@ -15014,17 +15044,21 @@ the host attribute. Returns self.
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="Socket-setSocketReadBufferSize"></a><b>setSocketReadBufferSize</b><p>
+<a name="Socket-setSocketReadBufferSize"></a><b>setSocketReadBufferSize(numberOfBytes)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the read buffer size for the socket. Returns self on success or nil on error.
 </div>
-<a name="Socket-setSocketReadLowWaterMark"></a><b>setSocketReadLowWaterMark</b><p>
+<a name="Socket-setSocketReadLowWaterMark"></a><b>setSocketReadLowWaterMark(numberOfBytes)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the read low water mark for the socket. Returns self on success or nil on error.
 </div>
-<a name="Socket-setSocketWriteBufferSize"></a><b>setSocketWriteBufferSize</b><p>
+<a name="Socket-setSocketWriteBufferSize"></a><b>setSocketWriteBufferSize(numberOfBytes)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the write buffer size for the socket. Returns self on success or nil on error.
+</div>
+<a name="Socket-setSocketWriteLowWaterMar"></a><b>setSocketWriteLowWaterMar(numberOfBytes)</b><p>
+<div class=slotDescription>
+Sets the write low water mark for the socket. Returns self on success or nil on error.
 </div>
 <a name="Socket-setSocketWriteLowWaterMark"></a><b>setSocketWriteLowWaterMark</b><p>
 <div class=slotDescription>
@@ -15385,6 +15419,7 @@ Reopens an already open log session. This is useful if you wish to
 <a href="#System-sleep">sleep()</a><br>
 <a href="#System-symbols">symbols</a><br>
 <a href="#System-system">system()</a><br>
+<a href="#System-userInterruptHandler">userInterruptHandler</a><br>
 <a href="#System-userInteruptHandler">userInteruptHandler</a><br>
 <a href="#System-version">version</a><br>
 </div>
@@ -15491,6 +15526,10 @@ Returns a List containing all Symbols currently in the system.
 <a name="System-system"></a><b>system(aString)</b><p>
 <div class=slotDescription>
 Makes a system call and returns a Number for the return value.
+</div>
+<a name="System-userInterruptHandler"></a><b>userInterruptHandler</b><p>
+<div class=slotDescription>
+Called when control-c is hit. Override to add custom behavior. Returns self.
 </div>
 <a name="System-userInteruptHandler"></a><b>userInteruptHandler</b><p>
 <div class=slotDescription>
