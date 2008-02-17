@@ -36,7 +36,7 @@ IoObject *IoSocket_close(IoSocket *self, IoObject *locals, IoMessage *m);
 
 // client
 
-IoObject *IoSocket_connectTo(IoSocket *self, IoObject *locals, IoMessage *m);
+IoObject *IoSocket_asyncConnect(IoSocket *self, IoObject *locals, IoMessage *m);
 IoObject *IoSocket_didConnect(IoSocket *self, IoObject *locals, IoMessage *m);
 
 // stream

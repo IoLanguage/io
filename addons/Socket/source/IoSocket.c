@@ -90,7 +90,7 @@ IoSocket *IoSocket_proto(void *state)
 		{"asyncListen", IoSocket_asyncListen},
 		{"asyncAccept", IoSocket_asyncAccept},
 
-		{"asyncConnect", IoSocket_connectTo},
+		{"asyncConnect", IoSocket_asyncConnect},
 
 		{"asyncStreamRead", IoSocket_asyncStreamRead},
 		{"asyncStreamWrite", IoSocket_asyncStreamWrite},
@@ -250,9 +250,9 @@ IoObject *IoSocket_asyncUdpOpen(IoSocket *self, IoObject *locals, IoMessage *m)
 
 // ----------------------------------------
 
-IoObject *IoSocket_connectTo(IoSocket *self, IoObject *locals, IoMessage *m)
+IoObject *IoSocket_asyncConnect(IoSocket *self, IoObject *locals, IoMessage *m)
 {
-	//doc Socket connectTo(ipAddressObject) Connects ti the given IPAddress and returns self or an Error object on error.
+	//doc Socket asyncConnect(ipAddressObject) Connects ti the given IPAddress and returns self or an Error object on error.
 	
 	IPAddress *address = IoMessage_locals_rawIPAddressArgAt_(m, locals, 0);
 	
@@ -329,7 +329,7 @@ IoObject *IoSocket_asyncListen(IoSocket *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSocket_asyncAccept(IoSocket *self, IoObject *locals, IoMessage *m)
 {
-	//doc Socket asyncListen(ipAddressObject) Immediately returns a socket for an connection if one is available or nil otherwise. Returns an Error object on error.
+	//doc Socket asyncAccept(ipAddressObject) Immediately returns a socket for an connection if one is available or nil otherwise. Returns an Error object on error.
 
 	IPAddress *address = IoMessage_locals_rawIPAddressArgAt_(m, locals, 0);
 	Socket *socket = Socket_accept(SOCKET(self), address);
@@ -389,9 +389,11 @@ IoObject *IoSocket_asyncStreamRead(IoSocket *self, IoObject *locals, IoMessage *
 
 IoObject *IoSocket_asyncStreamWrite(IoSocket *self, IoObject *locals, IoMessage *m)
 {
-	/*doc Socket asyncStreamRead(aSeq, readSize) 
-	Reads up to readSize number of bytes into aSeq if data is available. 
-	Returns self immediately if successful. Returns an error object on Error. Returns nil if the socket is disconnected.
+	/*doc Socket asyncStreamWrite(aSeq, start, writeSize) 
+	Writes the slice of aSeq from start to start + writeSize to the socket.
+	Returns self immediately if successful, otherwise closes the socket. 
+	Returns an error object on Error. 
+	Returns nil if the socket is disconnected.
 	*/
 	
 	IoSeq *bufferSeq = IoMessage_locals_seqArgAt_(m, locals, 0);
@@ -426,7 +428,7 @@ IoObject *IoSocket_asyncStreamWrite(IoSocket *self, IoObject *locals, IoMessage 
 
 IoObject *IoSocket_asyncUdpRead(IoSocket *self, IoObject *locals, IoMessage *m)
 {
-	/*doc Socket asyncStreamRead(ipAddress, aSeq, readSize) 
+	/*doc Socket asyncUdpRead(ipAddress, aSeq, readSize) 
 	Reads up to readSize number of bytes from ipAddress into aSeq if data is available. 
 	Returns self immediately if successful. Returns an error object on Error. Returns nil if the socket is disconnected.
 	*/
@@ -523,7 +525,7 @@ IoObject *IoSocket_setSocketReadLowWaterMark(IoSocket *self, IoObject *locals, I
 
 IoObject *IoSocket_setSocketWriteLowWaterMark(IoSocket *self, IoObject *locals, IoMessage *m)
 {
-	/*doc Socket setSocketWriteLowWaterMar(numberOfBytes) 
+	/*doc Socket setSocketWriteLowWaterMark(numberOfBytes) 
 	Sets the write low water mark for the socket. Returns self on success or nil on error.
 	*/
 	
