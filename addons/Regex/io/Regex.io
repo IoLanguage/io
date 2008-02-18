@@ -24,11 +24,11 @@ Io> "wombats are cuddly" matchesOfRegex(re) replaceAllWith("$2$1!")
 */
 
 Regex do(
-	/*doc Regex matchesFor(aString) 
+	/*doc Regex matchesIn(aString) 
 	Returns a RegexMatches object that enumerates the matches of the receiver
 	in the given string.
 	*/
-	matchesFor := method(aString,
+	matchesIn := method(aString,
 		RegexMatches clone setRegex(self) setString(aString)
 	)
 
