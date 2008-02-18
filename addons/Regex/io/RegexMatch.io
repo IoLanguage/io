@@ -46,23 +46,21 @@ RegexMatch do(
 	If there are no named captures, the list will be empty.
 	*/
 	names := method(
-		if(regex isNil, return list)
-		names = regex captureNames select(isNil not)
-		names
+		regex ?names
 	)
 
 	/*doc RegexMatch indexOf(name)
 	Returns the index of the capture with the given name.
 	*/
 	indexOf := method(name,
-		if (name isKindOf(Sequence), regex namedCaptures at(name), name)
+		if (name isKindOf(Sequence), regex ?namedCaptures at(name), name)
 	)
 	
 	/*doc RegexMatch nameOf(index)
 	Returns the name of the capture with the given index.
 	*/
 	nameOf := method(index,
-		regex captureNames at(index)
+		regex ?nameTable at(index)
 	)
 
 	/*doc RegexMatch foreach([index], capture, message)
