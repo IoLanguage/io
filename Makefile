@@ -127,17 +127,19 @@ install:
 linkInstall:
 	mkdir -p $(INSTALL_PREFIX)/bin || true
 	mkdir -p $(INSTALL_PREFIX)/lib || true
+	mkdir -p $(INSTALL_PREFIX)/include || true
 	ln -sf `pwd`/_build/binaries/io$(BINARY_SUFFIX) $(INSTALL_PREFIX)/bin
 	chmod ugo+rx $(INSTALL_PREFIX)/bin/io
 	ln -sf `pwd`/_build/binaries/io_static$(BINARY_SUFFIX) $(INSTALL_PREFIX)/bin
 	chmod ugo+rx $(INSTALL_PREFIX)/bin/io_static$(BINARY_SUFFIX)
 	ln -sf `pwd`/_build/dll/* $(INSTALL_PREFIX)/lib
 	ln -sf `pwd`/_build/dll/* $(INSTALL_PREFIX)/bin
-	ln -sf `pwd`/_build/lib/* $(INSTALL_PREFIX)/lib
 	rm -rf $(INSTALL_PREFIX)/lib/io || true
 	mkdir -p $(INSTALL_PREFIX)/lib/io || true
 	ln -s `pwd`/addons $(INSTALL_PREFIX)/lib/io/addons
 	chmod -R ugo+rX $(INSTALL_PREFIX)/lib/io
+	rm -rf $(INSTALL_PREFIX)/include/io || true
+	ln -sf `pwd`/_build/headers $(INSTALL_PREFIX)/include/io
 
 uninstall:
 	rm -rf $(INSTALL_PREFIX)/lib/io

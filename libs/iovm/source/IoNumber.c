@@ -427,13 +427,57 @@ IoObject *IoNumber_asCharacter(IoNumber *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Number asCharacter
 	Returns a String containing a single character whose
-	value is the ascii value of the first byte of the receiver.
+	value is the value of the first byte of the receiver.
+	Returns nil if the number has no valid UCS mapping.
 	*/
 	
-	char s[2];
-	s[0] = (char)DATA(self);
-	s[1] = 0;
-	return IoState_symbolWithCString_length_((IoState *)IOSTATE, s, 1);
+	double d =DATA(self);
+	long ld = d;
+	
+	if (d < 0 || d != ld)
+	{
+		return IONIL(self);
+	}
+	else
+	{	
+		uint32_t i = io_uint32InBigEndian((uint32_t)d);
+		int bytes = d > 0 ? log2(d) / 8 : 1;
+		IoSeq *s;
+		
+		if (bytes == 0) 
+		{ 
+			bytes = 1;
+		}
+		
+		if (bytes == 3) 
+		{ 
+			bytes = 4;
+		}
+		
+		if (bytes > 4) 
+		{
+			// no valid UCS encoding for this value
+			return IONIL(self);
+		}
+		
+		s = IoSeq_newWithData_length_(IOSTATE, (unsigned char *)&i, bytes);
+		
+		{
+			UArray *u = IoSeq_rawUArray(s);
+			int e = CENCODING_ASCII;
+			
+			switch (bytes)
+			{
+				case 1: e = CENCODING_ASCII; break;
+				case 2: e = CENCODING_UTF16; break;
+				case 4: e = CENCODING_UTF32; break;
+			}
+			
+			UArray_setEncoding_(u, e);
+		}
+		
+		return s;
+	}
 }
 
 IoObject *IoNumber_asUint32Buffer(IoNumber *self, IoObject *locals, IoMessage *m)
@@ -473,7 +517,7 @@ Returns a string representation of the receiver. For example:
 </pre>	
 would return:
 <pre>
-$1234.56
+1234.57
 </pre>	
 */
 	

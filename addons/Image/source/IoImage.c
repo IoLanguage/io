@@ -329,7 +329,7 @@ IoObject *IoImage_resizedTo(IoImage *self, IoObject *locals, IoMessage *m)
 
 	IoImage *outImage = IoImage_new(IOSTATE);
 
-	IoState_error_(IOSTATE, m, "Image resizeTo");
+	IoState_error_(IOSTATE, m, "Image resizedTo is broken - use Texture for scaling");
 
 	Image_resizeTo(DATA(self)->image, w, h, DATA(outImage)->image);
 	IoImage_checkError(self, locals, m);

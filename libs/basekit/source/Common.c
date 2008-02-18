@@ -288,3 +288,23 @@ void *io_freerealloc(void *p, size_t size)
 	*/
 }
 
+int io_isBigEndian(void)
+{
+	int i = 0x1;
+	uint8_t *s = (uint8_t *)(&i);
+	return s[0];
+}
+
+uint32_t io_uint32InBigEndian(uint32_t i)
+{
+	uint32_t o;
+	uint8_t *os = (uint8_t *)&o;
+	uint8_t *is = (uint8_t *)&i;
+	if (io_isBigEndian()) return i;
+	os[0] = is[3];
+	os[1] = is[2];
+	os[2] = is[1];
+	os[3] = is[0];
+	return o;
+}
+

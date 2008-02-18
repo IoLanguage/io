@@ -90,13 +90,13 @@ IoSocket *IoSocket_proto(void *state)
 		{"asyncListen", IoSocket_asyncListen},
 		{"asyncAccept", IoSocket_asyncAccept},
 
-		{"asyncConnect", IoSocket_connectTo},
+		{"asyncConnect", IoSocket_asyncConnect},
 
 		{"asyncStreamRead", IoSocket_asyncStreamRead},
 		{"asyncStreamWrite", IoSocket_asyncStreamWrite},
 
-		{"asyncUdpRead", IoSocket_udpRead},
-		{"asyncUdpWrite", IoSocket_udpWrite},
+		{"asyncUdpRead", IoSocket_asyncUdpRead},
+		{"asyncUdpWrite", IoSocket_asyncUdpWrite},
 
 		{"close", IoSocket_close},
 		{"descriptorId", IoSocket_descriptorId},
@@ -177,6 +177,7 @@ IoSocket *IoSocket_rawSetupEvents(IoSocket *self, IoObject *locals, IoMessage *m
 
 IoObject *IoSocket_descriptorId(IoSocket *self, IoObject *locals, IoMessage *m)
 {
+	//doc Socket descriptorId Returns the socket's file descriptor id as a Number.
 	return IONUMBER((int) Socket_descriptor(SOCKET(self)));
 }
 
@@ -189,16 +190,19 @@ SOCKET_DESCRIPTOR IoSocket_rawDescriptor(IoSocket *self)
 
 IoObject *IoSocket_isStream(IoSocket *self, IoObject *locals, IoMessage *m)
 {
+	//doc Socket isStream Returns true if the socket is a stream, false otherwise.
 	return IOBOOL(self, Socket_isStream(SOCKET(self)));
 }
 
 IoObject *IoSocket_isOpen(IoSocket *self, IoObject *locals, IoMessage *m)
 {
+	//doc Socket isOpen Returns true if the socket is open, false otherwise.
 	return IOBOOL(self, Socket_isOpen(SOCKET(self)));
 }
 
 IoObject *IoSocket_isValid(IoSocket *self, IoObject *locals, IoMessage *m)
 {
+	//doc Socket isValid Returns true if the socket is in valid state, closes the socket and returns false otherwise.
 	int isValid = Socket_isValid(SOCKET(self));
 
 	if (!isValid)
@@ -211,6 +215,8 @@ IoObject *IoSocket_isValid(IoSocket *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSocket_asyncStreamOpen(IoSocket *self, IoObject *locals, IoMessage *m)
 {
+	//doc Socket asyncStreamOpen Submits an async request to open the socket in stream mode and returns self immediately or an Error object on error.
+	
 	Socket *socket = SOCKET(self);
 	SocketResetErrorStatus();
 
@@ -227,6 +233,8 @@ IoObject *IoSocket_asyncStreamOpen(IoSocket *self, IoObject *locals, IoMessage *
 
 IoObject *IoSocket_asyncUdpOpen(IoSocket *self, IoObject *locals, IoMessage *m)
 {
+	//doc Socket asyncUdpOpen Submits an async request to open the socket in UDP mode and returns self immediately or an Error object on error.
+	
 	Socket *socket = SOCKET(self);
 
 	if (Socket_udpOpen(socket) && Socket_isOpen(socket) && Socket_makeReusable(socket) && Socket_makeAsync(socket))
@@ -242,22 +250,33 @@ IoObject *IoSocket_asyncUdpOpen(IoSocket *self, IoObject *locals, IoMessage *m)
 
 // ----------------------------------------
 
-IoObject *IoSocket_connectTo(IoSocket *self, IoObject *locals, IoMessage *m)
+IoObject *IoSocket_asyncConnect(IoSocket *self, IoObject *locals, IoMessage *m)
 {
+	//doc Socket asyncConnect(ipAddressObject) Connects ti the given IPAddress and returns self or an Error object on error.
+	
 	IPAddress *address = IoMessage_locals_rawIPAddressArgAt_(m, locals, 0);
+	
 	if (Socket_connectTo(SOCKET(self), address))
+	{
 		return self;
+	}
 	else
 	{
 		if (Socket_connectToFailed())
+		{
 			return SOCKETERROR("Socket connect failed");
+		}
 		else
+		{
 			return IONIL(self);
+		}
 	}
 }
 
 IoObject *IoSocket_close(IoSocket *self, IoObject *locals, IoMessage *m)
 {
+	//doc Socket close Closes the socket and returns self. Returns nil on error.
+	
 	if (Socket_close(SOCKET(self)))
 	{
 		IoSocket_rawSetupEvents(self, locals, m);
@@ -266,9 +285,13 @@ IoObject *IoSocket_close(IoSocket *self, IoObject *locals, IoMessage *m)
 	else
 	{
 		if (Socket_closeFailed())
+		{
 			return SOCKETERROR("Failed to close socket");
+		}
 		else
+		{
 			return IONIL(self);
+		}
 	}
 }
 
@@ -276,25 +299,41 @@ IoObject *IoSocket_close(IoSocket *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSocket_asyncBind(IoSocket *self, IoObject *locals, IoMessage *m)
 {
+	//doc Socket asyncBind Binds the socket and returns self immediately or an Error object on error.
+
 	IPAddress *address = IoMessage_locals_rawIPAddressArgAt_(m, locals, 0);
+	
 	if (Socket_bind(SOCKET(self), address))
+	{
 		return self;
+	}
 	else
+	{
 		return SOCKETERROR("Failed to bind socket");
+	}
 }
 
 IoObject *IoSocket_asyncListen(IoSocket *self, IoObject *locals, IoMessage *m)
 {
+	//doc Socket asyncListen Listens to the socket and returns self immediately or an Error object on error.
+	
 	if (Socket_listen(SOCKET(self)))
+	{
 		return self;
+	}
 	else
+	{
 		return SOCKETERROR("Socket listen failed");
+	}
 }
 
 IoObject *IoSocket_asyncAccept(IoSocket *self, IoObject *locals, IoMessage *m)
 {
+	//doc Socket asyncAccept(ipAddressObject) Immediately returns a socket for an connection if one is available or nil otherwise. Returns an Error object on error.
+
 	IPAddress *address = IoMessage_locals_rawIPAddressArgAt_(m, locals, 0);
 	Socket *socket = Socket_accept(SOCKET(self), address);
+	
 	if (socket)
 	{
 		IoObject *newSocket = IoSocket_newWithSocket_(IOSTATE, socket);
@@ -304,9 +343,13 @@ IoObject *IoSocket_asyncAccept(IoSocket *self, IoObject *locals, IoMessage *m)
 	else
 	{
 		if (Socket_asyncFailed())
+		{
 			return SOCKETERROR("Socket accept failed");
+		}
 		else
+		{
 			return IONIL(self);
+		}
 	}
 }
 
@@ -314,6 +357,11 @@ IoObject *IoSocket_asyncAccept(IoSocket *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSocket_asyncStreamRead(IoSocket *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Socket asyncStreamRead(aSeq, readSize) 
+	Reads up to readSize number of bytes into aSeq if data is available. 
+	Returns self immediately if successful. Returns an error object on Error. Returns nil if the socket is disconnected.
+	*/
+	
 	IoSeq *bufferSeq = IoMessage_locals_mutableSeqArgAt_(m, locals, 0);
 	UArray *buffer = IoSeq_rawUArray(bufferSeq);
 	size_t readSize = IoMessage_locals_intArgAt_(m, locals, 1);
@@ -341,6 +389,13 @@ IoObject *IoSocket_asyncStreamRead(IoSocket *self, IoObject *locals, IoMessage *
 
 IoObject *IoSocket_asyncStreamWrite(IoSocket *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Socket asyncStreamWrite(aSeq, start, writeSize) 
+	Writes the slice of aSeq from start to start + writeSize to the socket.
+	Returns self immediately if successful, otherwise closes the socket. 
+	Returns an error object on Error. 
+	Returns nil if the socket is disconnected.
+	*/
+	
 	IoSeq *bufferSeq = IoMessage_locals_seqArgAt_(m, locals, 0);
 	UArray *buffer = IoSeq_rawUArray(bufferSeq);
 	size_t start = IoMessage_locals_intArgAt_(m, locals, 1);
@@ -371,8 +426,13 @@ IoObject *IoSocket_asyncStreamWrite(IoSocket *self, IoObject *locals, IoMessage 
 
 // udp ------------------------------
 
-IoObject *IoSocket_udpRead(IoSocket *self, IoObject *locals, IoMessage *m)
+IoObject *IoSocket_asyncUdpRead(IoSocket *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Socket asyncUdpRead(ipAddress, aSeq, readSize) 
+	Reads up to readSize number of bytes from ipAddress into aSeq if data is available. 
+	Returns self immediately if successful. Returns an error object on Error. Returns nil if the socket is disconnected.
+	*/
+	
 	IPAddress *address = IoMessage_locals_rawIPAddressArgAt_(m, locals, 0);
 	UArray *buffer = IoSeq_rawUArray(IoMessage_locals_mutableSeqArgAt_(m, locals, 1));
 	size_t readSize = IoMessage_locals_sizetArgAt_(m, locals, 2);
@@ -384,14 +444,23 @@ IoObject *IoSocket_udpRead(IoSocket *self, IoObject *locals, IoMessage *m)
 	else
 	{
 		if (Socket_asyncFailed())
+		{
 			return SOCKETERROR("Socket udp read failed");
+		}
 		else
+		{
 			return IONIL(self);
+		}
 	}
 }
 
-IoObject *IoSocket_udpWrite(IoSocket *self, IoObject *locals, IoMessage *m)
+IoObject *IoSocket_asyncUdpWrite(IoSocket *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Socket asyncUdpWrite(ipAddress, aSeq, startIndex, readSize) 
+	Writes readsize bytes from aSeq starting at startIndex to ipAddress. 
+	Returns self immediately if successful. Returns an error object on Error. Returns nil if the socket is disconnected.
+	*/
+	
 	IPAddress *address = IoMessage_locals_rawIPAddressArgAt_(m, locals, 0);
 	UArray *buffer = IoSeq_rawUArray(IoMessage_locals_seqArgAt_(m, locals, 1));
 	size_t start = IoMessage_locals_intArgAt_(m, locals, 2);
@@ -413,9 +482,13 @@ IoObject *IoSocket_udpWrite(IoSocket *self, IoObject *locals, IoMessage *m)
 	else
 	{
 		if (Socket_asyncFailed())
+		{
 			return SOCKETERROR("Socket udp write failed");
+		}
 		else
+		{
 			return IONIL(self);
+		}
 	}
 }
 
@@ -423,48 +496,69 @@ IoObject *IoSocket_udpWrite(IoSocket *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSocket_setSocketReadBufferSize(IoSocket *self, IoObject *locals, IoMessage *m)
 {
+	//doc Socket setSocketReadBufferSize(numberOfBytes) Sets the read buffer size for the socket. Returns self on success or nil on error.
+	
 	int size = IoMessage_locals_intArgAt_(m, locals, 0);
 	int r = setsockopt(SOCKET(self)->fd, SOL_SOCKET, SO_RCVBUF, &size, sizeof(int));
-	return IONUMBER(r);
+	return (r == 0) ? self : IONIL(self);
 }
 
 IoObject *IoSocket_setSocketWriteBufferSize(IoSocket *self, IoObject *locals, IoMessage *m)
 {
+	//doc Socket setSocketWriteBufferSize(numberOfBytes) Sets the write buffer size for the socket. Returns self on success or nil on error.
+
 	int size = IoMessage_locals_intArgAt_(m, locals, 0);
 	int r = setsockopt(SOCKET(self)->fd, SOL_SOCKET, SO_SNDBUF, &size, sizeof(int));
-	return IONUMBER(r);
+	return (r == 0) ? self : IONIL(self);
 }
 
 IoObject *IoSocket_setSocketReadLowWaterMark(IoSocket *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Socket setSocketReadLowWaterMark(numberOfBytes) 
+	Sets the read low water mark for the socket. Returns self on success or nil on error.
+	*/
+	
 	int size = IoMessage_locals_intArgAt_(m, locals, 0);
 	int r = setsockopt(SOCKET(self)->fd, SOL_SOCKET, SO_RCVLOWAT, &size, sizeof(int));
-	return IONUMBER(r);
+	return (r == 0) ? self : IONIL(self);
 }
 
 IoObject *IoSocket_setSocketWriteLowWaterMark(IoSocket *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Socket setSocketWriteLowWaterMark(numberOfBytes) 
+	Sets the write low water mark for the socket. Returns self on success or nil on error.
+	*/
+	
 	int size = IoMessage_locals_intArgAt_(m, locals, 0);
 	int r = setsockopt(SOCKET(self)->fd, SOL_SOCKET, SO_SNDLOWAT, &size, sizeof(int));
-	return IONUMBER(r);
+	return (r == 0) ? self : IONIL(self);
 }
 
 IoObject *IoSocket_getSocketReadLowWaterMark(IoSocket *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Socket getSocketReadLowWaterMark
+	Returns the read low water mark for the socket on success or nil on error.
+	*/
+	
 	int size = 0;
 	socklen_t length = sizeof(int);
 	//int r =
 	getsockopt(SOCKET(self)->fd, SOL_SOCKET, SO_RCVLOWAT, &size, &length);
-
+	// return (r == 0) ? IONUMBER(size) : IONIL(self);
 	return IONUMBER(size);
 }
 
 IoObject *IoSocket_getSocketWriteLowWaterMark(IoSocket *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Socket getSocketWriteLowWaterMark
+	Returns the write low water mark for the socket on success or nil on error.
+	*/
+	
 	int size = 0;
 	socklen_t length = sizeof(int);
 	//int r =
 	getsockopt(SOCKET(self)->fd, SOL_SOCKET, SO_SNDLOWAT, &size, &length);
+	// return (r == 0) ? IONUMBER(size) : IONIL(self);
 	return IONUMBER(size);
 }
 
@@ -474,20 +568,29 @@ IoObject *IoSocket_getSocketWriteLowWaterMark(IoSocket *self, IoObject *locals, 
 
 IoObject *IoSocket_setNoDelay(IoSocket *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Socket setNoDelay
+	Sets the socket to be no-delay. Returns self on success or nil on error.
+	*/
+	
 	int r = -1;
 	#ifdef TCP_NODELAY
 	int flag = 1;
 	r = setsockopt(SOCKET(self)->fd, IPPROTO_TCP, TCP_NODELAY, (char *) &flag, sizeof(int));
 	#endif
-	return IONUMBER(r);
+	
+	return (r == 0) ? self : IONIL(self);
 }
 
 IoObject *IoSocket_errorNumber(IoSocket *self, IoObject *locals, IoMessage *m)
 {
+	//doc Socket errorNumber Returns the socket error number for the last error.
+	
 	return IONUMBER(SocketErrorStatus());
 }
 
 IoObject *IoSocket_errorDescription(IoSocket *self, IoObject *locals, IoMessage *m)
 {
+	//doc Socket errorDescription Returns a description of the last error on the socket as a string.
+
 	return IOSYMBOL(Socket_errorDescription());
 }

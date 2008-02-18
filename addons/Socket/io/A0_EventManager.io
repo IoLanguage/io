@@ -26,7 +26,7 @@ Event do(
 			debugWriteln("Event handleEvent - resuming ", coro label)
 			setCoro(nil)
 			tmpCoro resumeLater
-			yield
+			//yield
 		)
 	)
 
@@ -96,11 +96,11 @@ EventManager do(
 	
 	*/
 	addEvent := method(e, descriptorId, eventType, timeout,
-		debugWriteln("EventManager addEvent - begin")
+		debugWriteln("EventManager addEvent " .. e eventTypeName .. " - begin")
 		r := self realAddEvent(e, descriptorId, eventType, timeout)
 		r returnIfError
 		if(coro, coro resumeLater, self coro := coroFor(run); coro setLabel("EventManager"); coro resumeLater)
-		debugWriteln("EventManager addEvent - done")
+		debugWriteln("EventManager addEvent " .. e eventTypeName .. " - done")
 		r
 	)
 

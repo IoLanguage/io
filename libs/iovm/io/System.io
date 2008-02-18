@@ -54,4 +54,9 @@ System do(
 		opts
 	)
 
+	//doc System userInterruptHandler Called when control-c is hit. Override to add custom behavior. Returns self.
+	userInterruptHandler := method(
+		Scheduler currentCoroutine showStack
+		self
+	)
 )
