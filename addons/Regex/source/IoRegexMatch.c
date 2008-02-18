@@ -1,9 +1,6 @@
-/*#io
-RegexMatch ioDoc(
-	docCopyright("Daniel Rosengren", 2007)
-	docLicense("BSD revised")
-	docCategory("RegularExpressions")
-	docDescription("RegexMatch holds information about a match and its captures.")
+/*
+	Written by Daniel Rosengren
+	danne.rosengren@gmail.com
 */
 
 #include "IoRegexMatch.h"
@@ -87,27 +84,24 @@ void IoRegexMatch_mark(IoRegexMatch *self)
 
 IoObject *IoRegexMatch_regex(IoRegexMatch *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("regex",
-		"Returns the Regex that was used to find this match.")
+	/*doc RegexMatch regex
+	Returns the Regex that was used to find this match.
 	*/
 	return DATA(self)->regex;
 }
 
 IoObject *IoRegexMatch_subject(IoRegexMatch *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("subject",
-		"Returns the string that this match was found in.")
+	/*doc RegexMatch subject
+	Returns the string that this match was found in.
 	*/
 	return DATA(self)->subject;
 }
 
 IoObject *IoRegexMatch_ranges(IoRegexMatch *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("ranges",
-		"Returns a list containing the range of each capture.")
+	/*doc RegexMatch ranges
+	Returns a list containing the range of each capture.
 	*/
 	return DATA(self)->ranges;
 }

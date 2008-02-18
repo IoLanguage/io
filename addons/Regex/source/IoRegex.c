@@ -1,26 +1,6 @@
-//metadoc Regex copyright Steve Dekorte 2005, Daniel Rosengren 2007
-//metadoc Regex license BSD revised
-//metadoc Regex category Parsers
-/*metadoc Regex description
-The Regex addon adds support for Perl regular expressions
-using the <a href=http://www.pcre.org/>PCRE</a> library by Philip Hazel.
-
-Example 1:
-<pre>	
-Io> re := "is.*a" asRegex
-Io> "This is a test. This is also a test." allMatchesOfRegex("is.*a") replaceAllWith("is not a")
-==> "This is not a test. This is not a test.
-</pre>
-
-Example 2:
-<pre>	
-Io> "11aabb" allMatchesOfRegex("aa*")
-==> list("a", "a")
-
-Io> re := "(wom)(bat)" asRegex
-Io> "wombats are cuddly" matchesOfRegex(re) replaceAllWith("$2$1!")
-==> batwom!s are cuddly
-</pre>
+/*
+	Written by Daniel Rosengren
+	danne.rosengren@gmail.com
 */
 
 #include "IoRegex.h"
@@ -217,18 +197,17 @@ IoObject *IoRegex_version(IoRegex *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoRegex_caseless(IoRegex *self, IoObject *locals, IoMessage *m)
 {
-/*doc Regex caseless
-Returns a case insensitive clone of the receiver, or self if the receiver itself is
-case insensitive.
+	/*doc Regex caseless
+	Returns a case insensitive clone of the receiver, or self if the receiver itself is
+	case insensitive:
 
-Example:
-<pre>	
-Io> "WORD" matchesRegex("[a-z]+")
-==> false
+	<pre>	
+	Io> "WORD" matchesRegex("[a-z]+")
+	==> false
 
-Io> "WORD" matchesRegex("[a-z]+" asRegex caseless)
-==> true
-</pre>	
+	Io> "WORD" matchesRegex("[a-z]+" asRegex caseless)
+	==> true
+	</pre>	
 */
 	
 	return IoRegex_cloneWithOptions_(self, DATA(self)->options | PCRE_CASELESS);
@@ -255,21 +234,20 @@ IoObject *IoRegex_isCaseless(IoRegex *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoRegex_dotAll(IoRegex *self, IoObject *locals, IoMessage *m)
 {
-/*doc Regex dotAll
-Returns a clone of the receiver with the dotall option turned on,
-or self if the receiver itself has the option turned on.
+	/*doc Regex dotAll
+	<p>Returns a clone of the receiver with the dotall option turned on,
+	or self if the receiver itself has the option turned on.</p>
 
-In dotall mode, "." matches any character, including newline. By default
-it matches any character <em>except</em> newline.
+	<p>In dotall mode, "." matches any character, including newline. By default
+	it matches any character <em>except</em> newline.</p>
 
-Example:
-<pre>	
-Io> "A\nB" matchesOfRegex(".+") next string
-==> A
+	<pre>	
+	Io> "A\nB" matchesOfRegex(".+") next string
+	==> A
 
-Io> "A\nB" matchesOfRegex(".+" asRegex dotAll) next string
-==> A\nB
-</pre>	
+	Io> "A\nB" matchesOfRegex(".+" asRegex dotAll) next string
+	==> A\nB
+	</pre>	
 */
 	return IoRegex_cloneWithOptions_(self, DATA(self)->options | PCRE_DOTALL);
 }
@@ -296,16 +274,16 @@ IoObject *IoRegex_isDotAll(IoRegex *self, IoObject *locals, IoMessage *m)
 IoObject *IoRegex_extended(IoRegex *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Regex extended
-		Returns a clone of the receiver with the extended option turned on,
-		or self if the receiver itself has the option turned on.
+	<p>Returns a clone of the receiver with the extended option turned on,
+	or self if the receiver itself has the option turned on.</p>
 
-		In extended mode, a Regex ignores any whitespace character in the pattern	except
-		when escaped or inside a character class. This allows you to write clearer patterns
-		that may be broken up into several lines.
+	<p>In extended mode, a Regex ignores any whitespace character in the pattern	except
+	when escaped or inside a character class. This allows you to write clearer patterns
+	that may be broken up into several lines.</p>
 
-		Additionally, you can put comments in the pattern. A comment starts with a "#"
-		character and continues to the end of the line, unless the "#" is escaped or is
-		inside a character class.""
+	<p>Additionally, you can put comments in the pattern. A comment starts with a "#"
+	character and continues to the end of the line, unless the "#" is escaped or is
+	inside a character class.</p>
 	*/
 	
 	return IoRegex_cloneWithOptions_(self, DATA(self)->options | PCRE_EXTENDED);
@@ -331,24 +309,23 @@ IoObject *IoRegex_isExtended(IoRegex *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoRegex_multiline(IoRegex *self, IoObject *locals, IoMessage *m)
 {
-/*doc Regex multiline
-Returns a clone of the receiver with the multiline option turned on,
-or self if the receiver itself has the option turned on.
+	/*doc Regex multiline
+	<p>Returns a clone of the receiver with the multiline option turned on,
+	or self if the receiver itself has the option turned on.</p>
 
-In multiline mode, "^" matches at the beginning of the string and at
-the beginning of each line; and "$" matches at the end of the string,
-and at the end of each line.
-By default "^" only matches at the beginning of the string, and "$"
-only matches at the end of the string.
+	<p>In multiline mode, "^" matches at the beginning of the string and at
+	the beginning of each line; and "$" matches at the end of the string,
+	and at the end of each line.
+	By default "^" only matches at the beginning of the string, and "$"
+	only matches at the end of the string.</p>
 
-Example:
-<pre>	
-Io> "A\nB\nC" allMatchesForRegex("^.")
-==> list("A")
+	<pre>	
+	Io> "A\nB\nC" allMatchesForRegex("^.")
+	==> list("A")
 
-Io> "A\nB\nC" allMatchesForRegex("^." asRegex multiline)
-==> list("A", "B", "C")
-</pre>	
+	Io> "A\nB\nC" allMatchesForRegex("^." asRegex multiline)
+	==> list("A", "B", "C")
+	</pre>	
 */
 	
 	return IoRegex_cloneWithOptions_(self, DATA(self)->options | PCRE_MULTILINE);
@@ -371,6 +348,7 @@ IoObject *IoRegex_isMultiline(IoRegex *self, IoObject *locals, IoMessage *m)
 	
 	return IOBOOL(self, DATA(self)->options & PCRE_MULTILINE);
 }
+
 
 /* Private */
 
