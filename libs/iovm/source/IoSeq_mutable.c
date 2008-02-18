@@ -323,7 +323,7 @@ IoObject *IoSeq_replaceFirstSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 
 	if (IoMessage_argCount(m) > 2)
 	{
-		IoMessage_locals_longArgAt_(m, locals, 1);
+		startIndex = IoMessage_locals_longArgAt_(m, locals, 2);
 	}
 
 	IO_ASSERT_NOT_SYMBOL(self);
@@ -335,8 +335,8 @@ IoObject *IoSeq_replaceFirstSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 		long i = UArray_find_from_(a, b, startIndex);
 		if(i != -1)
 		{
-			UArray_removeRange(a, startIndex, UArray_size(b));
-			UArray_at_putAll_(a, startIndex, c);
+			UArray_removeRange(a, i, UArray_size(b));
+			UArray_at_putAll_(a, i, c);
 		}
 	}
 	return self;
