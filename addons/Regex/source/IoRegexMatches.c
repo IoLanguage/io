@@ -1,9 +1,6 @@
-/*#io
-RegexMatch ioDoc(
-	docCopyright("Daniel Rosengren", 2007)
-	docLicense("BSD revised")
-	docCategory("RegularExpressions")
-	docDescription("RegexMatches enumerates all matches of a regex in a string.")
+/*
+	Written by Daniel Rosengren
+	danne.rosengren@gmail.com
 */
 
 #include "IoRegexMatches.h"
@@ -113,9 +110,8 @@ void IoRegexMatches_mark(IoRegexMatches *self)
 
 IoObject *IoRegexMatches_setRegex(IoRegexMatches *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setRegex(aRegexOrString)",
-		"Sets the regex to find matches in. Returns self.")
+	/*doc RegexMatches setRegex(aRegexOrString)
+	Sets the regex to find matches in. Returns self.
 	*/
 	IoObject *arg = IoMessage_locals_valueArgAt_(m, locals, 0);
 	if (ISREGEX(arg))
@@ -138,9 +134,8 @@ IoObject *IoRegexMatches_setRegex(IoRegexMatches *self, IoObject *locals, IoMess
 
 IoObject *IoRegexMatches_regex(IoRegexMatches *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("regex",
-		"Returns the Regex that the receiver uses for finding matching.")
+	/*doc RegexMatches regex
+	Returns the Regex that the receiver uses for finding matching.
 	*/
 	return DATA(self)->regex;
 }
@@ -148,9 +143,8 @@ IoObject *IoRegexMatches_regex(IoRegexMatches *self, IoObject *locals, IoMessage
 
 IoObject *IoRegexMatches_setString(IoRegexMatches *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setString(aString)",
-		"Sets the string to find matches in. Returns self.")
+	/*doc RegexMatches setString(aString)
+	Sets the string to find matches in. Returns self.
 	*/
 	DATA(self)->string = IOREF(IoMessage_locals_symbolArgAt_(m, locals, 0));
 	DATA(self)->endPosition = IoSeq_rawSize(DATA(self)->string);
@@ -160,9 +154,8 @@ IoObject *IoRegexMatches_setString(IoRegexMatches *self, IoObject *locals, IoMes
 
 IoObject *IoRegexMatches_string(IoRegexMatches *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("string",
-		"Returns the string that the receiver finds matches in.")
+	/*doc RegexMatches string
+	Returns the string that the receiver finds matches in.
 	*/
 	return DATA(self)->string;
 }
@@ -170,9 +163,8 @@ IoObject *IoRegexMatches_string(IoRegexMatches *self, IoObject *locals, IoMessag
 
 IoObject *IoRegexMatches_setPosition(IoRegexMatches *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setPosition(index)",
-		"Sets the search position to the given index in the string. Returns self.")
+	/*doc RegexMatches setPosition(aRegexOrString)
+	Sets the search position to the given index in the string. Returns self.
 	*/
 	IoRegexMatches_rawsetPosition_(self, IoMessage_locals_intArgAt_(m, locals, 0));
 	return self;
@@ -180,31 +172,27 @@ IoObject *IoRegexMatches_setPosition(IoRegexMatches *self, IoObject *locals, IoM
 
 IoObject *IoRegexMatches_position(IoRegexMatches *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("position",
-		"Returns the search position as an index in the string.")
+	/*doc RegexMatches position
+	Returns the search position as an index in the string.
 	*/
 	return IONUMBER(DATA(self)->position);
 }
 
 IoObject *IoRegexMatches_setEndPosition(IoRegexMatches *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setEndPosition(index)",
-		"Sets the index in the string where the receiver should stop searching. It will be as
-		if the string ends at that index. If <em>index</em> is nil, the end position will be set
-		to the end of string.
+	/*doc RegexMatches setEndPosition(anIndex)
+	Sets the index in the string where the receiver should stop searching. It will be as
+	if the string ends at that index. If <em>index</em> is nil, the end position will be set
+	to the end of string.
+	Returns self.
 
-		Example:
-		<pre>
-		Io> "funkadelic" matchesOfRegex("\\w+") setEndPosition(4) next string
-		==> funk
+	<pre>
+	Io> "funkadelic" matchesOfRegex("\\w+") setEndPosition(4) next string
+	==> funk
 
-		Io> "funkadelic" matchesOfRegex("\\w+") setEndPosition(nil) next string
-		==> funkadelic
-		</pre>
-
-		Returns self.")
+	Io> "funkadelic" matchesOfRegex("\\w+") setEndPosition(nil) next string
+	==> funkadelic
+	</pre>
 	*/
 	IoObject *arg = IoMessage_locals_valueArgAt_(m, locals, 0);
 	int stringLength = IoSeq_rawSize(DATA(self)->string);
@@ -229,9 +217,8 @@ IoObject *IoRegexMatches_setEndPosition(IoRegexMatches *self, IoObject *locals, 
 
 IoObject *IoRegexMatches_endPosition(IoRegexMatches *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("endPosition",
-		"Returns the index in the string where the receiver stops searching.")
+	/*doc RegexMatches endPosition
+	Returns the index in the string where the receiver stops searching.
 	*/
 	return IONUMBER(DATA(self)->endPosition);
 }
@@ -239,9 +226,8 @@ IoObject *IoRegexMatches_endPosition(IoRegexMatches *self, IoObject *locals, IoM
 
 IoObject *IoRegexMatches_next(IoRegexMatches *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("next",
-		"Returns the next match, or nil if there is none.")
+	/*doc RegexMatches next
+	Returns the next match, or nil if there is none.
 	*/
 	IoRegexMatch *match = 0;
 
@@ -270,9 +256,8 @@ IoObject *IoRegexMatches_next(IoRegexMatches *self, IoObject *locals, IoMessage 
 
 IoObject *IoRegexMatches_anchored(IoRegexMatches *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("anchored",
-		"Like NextMatch, but will only match at the current search position.")
+	/*doc RegexMatches anchored
+	Like <code>next</code>, but will only match at the current search position.
 	*/
 	return IoRegexMatches_searchWithOptions_(self, m, DATA(self)->options | PCRE_ANCHORED);
 }
@@ -280,10 +265,9 @@ IoObject *IoRegexMatches_anchored(IoRegexMatches *self, IoObject *locals, IoMess
 
 IoObject *IoRegexMatches_allowEmptyMatches(IoRegexMatches *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("allowEmptyMatches",
-		"Tells the receiver to allow zero length matches. Empty matches are allowed by default.
-		Returns self.")
+	/*doc RegexMatches allowEmptyMatches
+	Tells the receiver to allow zero length matches. Empty matches are allowed by default.
+	Returns self.
 	*/
 	DATA(self)->options &= ~PCRE_NOTEMPTY;
 	return self;
@@ -291,9 +275,8 @@ IoObject *IoRegexMatches_allowEmptyMatches(IoRegexMatches *self, IoObject *local
 
 IoObject *IoRegexMatches_disallowEmptyMatches(IoRegexMatches *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("disallowEmptyMatches",
-		"Tells the receiver not to allow zero length matches. Returns self.")
+	/*doc RegexMatches disallowEmptyMatches
+	Tells the receiver not to allow zero length matches. Returns self.
 	*/
 	DATA(self)->options |= PCRE_NOTEMPTY;
 	return self;
@@ -301,9 +284,8 @@ IoObject *IoRegexMatches_disallowEmptyMatches(IoRegexMatches *self, IoObject *lo
 
 IoObject *IoRegexMatches_allowsEmptyMatches(IoRegexMatches *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("allowsEmptyMatches",
-		"Returns true if the receiver allows empty matches, false if not.")
+	/*doc RegexMatches allowsEmptyMatches
+	Returns true if the receiver allows empty matches, false if not.
 	*/
 	return IOBOOL(self, DATA(self)->options & PCRE_NOTEMPTY);
 }

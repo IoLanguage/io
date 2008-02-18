@@ -1096,10 +1096,40 @@ Same as; size x
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
+<a href="#CFFI-CFFI">CFFI</a><br>
+<a href="#CFFI-DataType">DataType</a><br>
+<a href="#CFFI-Function">Function</a><br>
+<a href="#CFFI-Library">Library</a><br>
+<a href="#CFFI-Pointer">Pointer</a><br>
+<a href="#CFFI-Types">Types</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
+<a name="CFFI-CFFI"></a><b>CFFI</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="CFFI-DataType"></a><b>DataType</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="CFFI-Function"></a><b>Function</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="CFFI-Library"></a><b>Library</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="CFFI-Pointer"></a><b>Pointer</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="CFFI-Types"></a><b>Types</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 </div>
 </div>
 <hr align=left>
@@ -12419,17 +12449,17 @@ Object for read events.
 </div>
 <h3>Description</h3>
 <div class=protoDescription>
-The Regex addon adds support for Perl regular expressions
-using the <a href=http://www.pcre.org/>PCRE</a> library by Philip Hazel.
+<p>The Regex addon adds support for Perl regular expressions
+using the <a href=http://www.pcre.org/>PCRE</a> library by Philip Hazel.</p>
 
-Example 1:
+<h4>Example 1</h4>
 <pre>	
 Io> re := "is.*a" asRegex
 Io> "This is a test. This is also a test." allMatchesOfRegex("is.*a") replaceAllWith("is not a")
 ==> "This is not a test. This is not a test.
 </pre>
 
-Example 2:
+<h4>Example 2</h4>
 <pre>	
 Io> "11aabb" allMatchesOfRegex("aa*")
 ==> list("a", "a")
@@ -12444,6 +12474,7 @@ Io> "wombats are cuddly" matchesOfRegex(re) replaceAllWith("$2$1!")
 <h3>Slot Index</h3>
 <div class=slotIndex>
 <a href="#Regex-asRegex">asRegex</a><br>
+<a href="#Regex-asString">asString</a><br>
 <a href="#Regex-captureCount">captureCount</a><br>
 <a href="#Regex-caseless">caseless</a><br>
 <a href="#Regex-dotAll">dotAll</a><br>
@@ -12452,9 +12483,11 @@ Io> "wombats are cuddly" matchesOfRegex(re) replaceAllWith("$2$1!")
 <a href="#Regex-isDotAll">isDotAll</a><br>
 <a href="#Regex-isExtended">isExtended</a><br>
 <a href="#Regex-isMultiline">isMultiline</a><br>
-<a href="#Regex-matchesFor">matchesFor()</a><br>
+<a href="#Regex-matchesIn">matchesIn()</a><br>
 <a href="#Regex-multiline">multiline</a><br>
-<a href="#Regex-nameToIndexMap">nameToIndexMap</a><br>
+<a href="#Regex-nameTable">nameTable</a><br>
+<a href="#Regex-namedCaptures">namedCaptures</a><br>
+<a href="#Regex-names">names</a><br>
 <a href="#Regex-notCaseless">notCaseless</a><br>
 <a href="#Regex-notDotAll">notDotAll</a><br>
 <a href="#Regex-notExtended">notExtended</a><br>
@@ -12470,6 +12503,10 @@ Io> "wombats are cuddly" matchesOfRegex(re) replaceAllWith("$2$1!")
 <div class=slotDescription>
 Returns self.
 </div>
+<a name="Regex-asString"></a><b>asString</b><p>
+<div class=slotDescription>
+Returns a string containing a textual representation of the receiver.
+</div>
 <a name="Regex-captureCount"></a><b>captureCount</b><p>
 <div class=slotDescription>
 Returns the number of captures defined by the pattern.
@@ -12477,46 +12514,44 @@ Returns the number of captures defined by the pattern.
 <a name="Regex-caseless"></a><b>caseless</b><p>
 <div class=slotDescription>
 Returns a case insensitive clone of the receiver, or self if the receiver itself is
-case insensitive.
+	case insensitive:
 
-Example:
-<pre>	
-Io> "WORD" matchesRegex("[a-z]+")
-==> false
+	<pre>	
+	Io> "WORD" matchesRegex("[a-z]+")
+	==> false
 
-Io> "WORD" matchesRegex("[a-z]+" asRegex caseless)
-==> true
-</pre>
+	Io> "WORD" matchesRegex("[a-z]+" asRegex caseless)
+	==> true
+	</pre>
 </div>
 <a name="Regex-dotAll"></a><b>dotAll</b><p>
 <div class=slotDescription>
-Returns a clone of the receiver with the dotall option turned on,
-or self if the receiver itself has the option turned on.
+<p>Returns a clone of the receiver with the dotall option turned on,
+	or self if the receiver itself has the option turned on.</p>
 
-In dotall mode, "." matches any character, including newline. By default
-it matches any character <em>except</em> newline.
+	<p>In dotall mode, "." matches any character, including newline. By default
+	it matches any character <em>except</em> newline.</p>
 
-Example:
-<pre>	
-Io> "A\nB" matchesOfRegex(".+") next string
-==> A
+	<pre>	
+	Io> "A\nB" matchesOfRegex(".+") next string
+	==> A
 
-Io> "A\nB" matchesOfRegex(".+" asRegex dotAll) next string
-==> A\nB
-</pre>
+	Io> "A\nB" matchesOfRegex(".+" asRegex dotAll) next string
+	==> A\nB
+	</pre>
 </div>
 <a name="Regex-extended"></a><b>extended</b><p>
 <div class=slotDescription>
-Returns a clone of the receiver with the extended option turned on,
-		or self if the receiver itself has the option turned on.
+<p>Returns a clone of the receiver with the extended option turned on,
+	or self if the receiver itself has the option turned on.</p>
 
-		In extended mode, a Regex ignores any whitespace character in the pattern	except
-		when escaped or inside a character class. This allows you to write clearer patterns
-		that may be broken up into several lines.
+	<p>In extended mode, a Regex ignores any whitespace character in the pattern	except
+	when escaped or inside a character class. This allows you to write clearer patterns
+	that may be broken up into several lines.</p>
 
-		Additionally, you can put comments in the pattern. A comment starts with a "#"
-		character and continues to the end of the line, unless the "#" is escaped or is
-		inside a character class.""
+	<p>Additionally, you can put comments in the pattern. A comment starts with a "#"
+	character and continues to the end of the line, unless the "#" is escaped or is
+	inside a character class.</p>
 </div>
 <a name="Regex-isCaseless"></a><b>isCaseless</b><p>
 <div class=slotDescription>
@@ -12534,34 +12569,46 @@ Returns true if the receiver is in extended mode, false if not.
 <div class=slotDescription>
 Returns true if the receiver is in multiline mode, false if not.
 </div>
-<a name="Regex-matchesFor"></a><b>matchesFor(aString)</b><p>
+<a name="Regex-matchesIn"></a><b>matchesIn(aString)</b><p>
 <div class=slotDescription>
 Returns a RegexMatches object that enumerates the matches of the receiver
-		in the given string.
+	in the given string.
 </div>
 <a name="Regex-multiline"></a><b>multiline</b><p>
 <div class=slotDescription>
-Returns a clone of the receiver with the multiline option turned on,
-or self if the receiver itself has the option turned on.
+<p>Returns a clone of the receiver with the multiline option turned on,
+	or self if the receiver itself has the option turned on.</p>
 
-In multiline mode, "^" matches at the beginning of the string and at
-the beginning of each line; and "$" matches at the end of the string,
-and at the end of each line.
-By default "^" only matches at the beginning of the string, and "$"
-only matches at the end of the string.
+	<p>In multiline mode, "^" matches at the beginning of the string and at
+	the beginning of each line; and "$" matches at the end of the string,
+	and at the end of each line.
+	By default "^" only matches at the beginning of the string, and "$"
+	only matches at the end of the string.</p>
 
-Example:
-<pre>	
-Io> "A\nB\nC" allMatchesForRegex("^.")
-==> list("A")
+	<pre>	
+	Io> "A\nB\nC" allMatchesForRegex("^.")
+	==> list("A")
 
-Io> "A\nB\nC" allMatchesForRegex("^." asRegex multiline)
-==> list("A", "B", "C")
-</pre>
+	Io> "A\nB\nC" allMatchesForRegex("^." asRegex multiline)
+	==> list("A", "B", "C")
+	</pre>
 </div>
-<a name="Regex-nameToIndexMap"></a><b>nameToIndexMap</b><p>
+<a name="Regex-nameTable"></a><b>nameTable</b><p>
 <div class=slotDescription>
-Returns a Map that maps capture names to capture indices.
+Returns a list with the name of each capture.
+	The first element will always be nil, because it corresponds to the whole match.
+	The second element will contain the name of the first capture, or nil if the first
+	capture has no name.
+	And so on.
+</div>
+<a name="Regex-namedCaptures"></a><b>namedCaptures</b><p>
+<div class=slotDescription>
+Returns a Map that contains the index of each named group.
+</div>
+<a name="Regex-names"></a><b>names</b><p>
+<div class=slotDescription>
+Returns a list of the name of each named capture.
+	If there are no named captures, the list will be empty.
 </div>
 <a name="Regex-notCaseless"></a><b>notCaseless</b><p>
 <div class=slotDescription>
@@ -12598,26 +12645,71 @@ Returns a new Regex created from the given pattern string.
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> Regex<br>
+<b>Category:</b> Parsers
+<br>
 <font color=#bbb>
 </font>
+</div>
+<h3>Description</h3>
+<div class=protoDescription>
+Contains the result of a regular expression match operation.
+It acts as a read-only list of captured strings.
+The first item is the entire matched string.
+Each item after that is a captured sub pattern (anything inbetween
+parenthesis in the pattern).
+
+<pre>
+Io> match := "37signals" findRegex("([0-9]+)([a-z]+)(!!)?")
+==> RegexMatch: "37signals" 
+
+# Item 0 is the entire matched string:
+Io> match at(0)
+==> 37signals
+
+# Item 1 is the first capture ("[0-9]+"):
+Io> match at(1)
+==> 37
+
+# Item 2 is the second capture ("[a-z]+"):
+Io> match at(2)
+==> signals
+
+# The third sub pattern wasn't part of the match, so item 3 is nil:
+Io> match at(3)
+==> nil
+
+# You can access captures by name:
+Io> match at("number")
+==> 37
+Io> match at("word")
+==> signals
+</pre>
+
 </div>
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#RegexMatch-ExpansionRegex">ExpansionRegex</a><br>
 <a href="#RegexMatch-asString">asString</a><br>
 <a href="#RegexMatch-at">at()</a><br>
 <a href="#RegexMatch-captures">captures</a><br>
 <a href="#RegexMatch-end">end</a><br>
 <a href="#RegexMatch-endOf">endOf()</a><br>
 <a href="#RegexMatch-expandTo">expandTo()</a><br>
+<a href="#RegexMatch-foreach">foreach()</a><br>
 <a href="#RegexMatch-indexOf">indexOf()</a><br>
+<a href="#RegexMatch-map">map()</a><br>
 <a href="#RegexMatch-nameOf">nameOf()</a><br>
 <a href="#RegexMatch-names">names</a><br>
+<a href="#RegexMatch-postfix">postfix</a><br>
+<a href="#RegexMatch-prefix">prefix</a><br>
 <a href="#RegexMatch-range">range</a><br>
 <a href="#RegexMatch-rangeOf">rangeOf()</a><br>
 <a href="#RegexMatch-ranges">ranges</a><br>
 <a href="#RegexMatch-regex">regex</a><br>
+<a href="#RegexMatch-select">select()</a><br>
+<a href="#RegexMatch-size">size</a><br>
+<a href="#RegexMatch-sizeInChars">sizeInChars</a><br>
+<a href="#RegexMatch-slice">slice()</a><br>
 <a href="#RegexMatch-start">start</a><br>
 <a href="#RegexMatch-startOf">startOf()</a><br>
 <a href="#RegexMatch-string">string</a><br>
@@ -12626,17 +12718,13 @@ Returns a new Regex created from the given pattern string.
 <p>
 <h3>Slots</h3>
 <p>
-<a name="RegexMatch-ExpansionRegex"></a><b>ExpansionRegex</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="RegexMatch-asString"></a><b>asString</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a string containing a textual representation of the receiver.
 </div>
 <a name="RegexMatch-at"></a><b>at(indexOrName)</b><p>
 <div class=slotDescription>
-Returns the capture with the given index or name. at(0) is the entire match.
+Returns the capture with the given index or name. <code>at(0)</code> is the entire match.
 </div>
 <a name="RegexMatch-captures"></a><b>captures</b><p>
 <div class=slotDescription>
@@ -12648,17 +12736,26 @@ Returns the index into the subject at which the match ends.
 </div>
 <a name="RegexMatch-endOf"></a><b>endOf(indexOrName)</b><p>
 <div class=slotDescription>
-Returns the index into the subject at which the capture with the given index or name ends."
+Returns the index into the subject at which the capture with the given index or name ends.
 </div>
 <a name="RegexMatch-expandTo"></a><b>expandTo(templateString)</b><p>
 <div class=slotDescription>
 Returns <em>templateString</em> with capture placeholders replaced with what they represent.
-	code>$0</code> is replaced with the whole match, <code>$1</code> is replaced with the first
+	<code>$0</code> is replaced with the whole match, <code>$1</code> is replaced with the first
 	sub capture, etc. <code>${name}</code> is replaced with the capture of that name.
+</div>
+<a name="RegexMatch-foreach"></a><b>foreach([index], capture, message)</b><p>
+<div class=slotDescription>
+Loops through the captures, assigns each capture to <em>capture</em>, and evaluates <em>message</em>.
+	Returns a list with the result of each evaluation.
 </div>
 <a name="RegexMatch-indexOf"></a><b>indexOf(name)</b><p>
 <div class=slotDescription>
 Returns the index of the capture with the given name.
+</div>
+<a name="RegexMatch-map"></a><b>map([index], capture, message)</b><p>
+<div class=slotDescription>
+Like <code>foreach</code>, but the result of each evaluation of <em>message</em> is returned in a list.
 </div>
 <a name="RegexMatch-nameOf"></a><b>nameOf(index)</b><p>
 <div class=slotDescription>
@@ -12666,7 +12763,24 @@ Returns the name of the capture with the given index.
 </div>
 <a name="RegexMatch-names"></a><b>names</b><p>
 <div class=slotDescription>
-Returns a list containing the name of each capture.
+Returns a list of the name of each named capture.
+	If there are no named captures, the list will be empty.
+</div>
+<a name="RegexMatch-postfix"></a><b>postfix</b><p>
+<div class=slotDescription>
+Returns a slice of the subject string that contains all text after this match.
+	Equivalent to:
+	<pre>
+	match subject slice(match end)
+	</pre>
+</div>
+<a name="RegexMatch-prefix"></a><b>prefix</b><p>
+<div class=slotDescription>
+Returns a slice of the subject string that contains all text before this match.
+	Equivalent to:
+	<pre>
+	match subject slice(0, match start)
+	</pre>
 </div>
 <a name="RegexMatch-range"></a><b>range</b><p>
 <div class=slotDescription>
@@ -12678,11 +12792,29 @@ Returns the range of the capture with the given index or name.
 </div>
 <a name="RegexMatch-ranges"></a><b>ranges</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a list containing the range of each capture.
 </div>
 <a name="RegexMatch-regex"></a><b>regex</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the Regex that was used to find this match.
+</div>
+<a name="RegexMatch-select"></a><b>select([index], capture, message)</b><p>
+<div class=slotDescription>
+Like <code>foreach</code>, but the values for which the result of evaluating <em>message</em> are non-nil are returned
+	in a list.
+</div>
+<a name="RegexMatch-size"></a><b>size</b><p>
+<div class=slotDescription>
+Returns the number of captures.
+</div>
+<a name="RegexMatch-sizeInChars"></a><b>sizeInChars</b><p>
+<div class=slotDescription>
+Returns the length of the match, in characters.
+</div>
+<a name="RegexMatch-slice"></a><b>slice(startIndex, [endIndex])</b><p>
+<div class=slotDescription>
+Returns a new list containing the subset of the receiver from the <em>startIndex</em> to the <em>endIndex</em>.
+	The <em>endIndex</em> argument is optional. If not given, it is assumed to be the end of the capture list.
 </div>
 <a name="RegexMatch-start"></a><b>start</b><p>
 <div class=slotDescription>
@@ -12698,7 +12830,7 @@ Returns the matched string.
 </div>
 <a name="RegexMatch-subject"></a><b>subject</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the string that this match was found in.
 </div>
 </div>
 </div>
@@ -12707,8 +12839,15 @@ Returns the matched string.
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> Regex<br>
+<b>Category:</b> Parsers
+<br>
 <font color=#bbb>
 </font>
+</div>
+<h3>Description</h3>
+<div class=protoDescription>
+A regular expression match iterator.
+
 </div>
 <div class=slots>
 <h3>Slot Index</h3>
@@ -12729,10 +12868,10 @@ Returns the matched string.
 <a href="#RegexMatches-replace">replace()</a><br>
 <a href="#RegexMatches-replaceAllWith">replaceAllWith()</a><br>
 <a href="#RegexMatches-reset">reset</a><br>
-<a href="#RegexMatches-setEndPosition">setEndPosition</a><br>
-<a href="#RegexMatches-setPosition">setPosition</a><br>
-<a href="#RegexMatches-setRegex">setRegex</a><br>
-<a href="#RegexMatches-setString">setString</a><br>
+<a href="#RegexMatches-setEndPosition">setEndPosition()</a><br>
+<a href="#RegexMatches-setPosition">setPosition()</a><br>
+<a href="#RegexMatches-setRegex">setRegex()</a><br>
+<a href="#RegexMatches-setString">setString()</a><br>
 <a href="#RegexMatches-splitString">splitString</a><br>
 <a href="#RegexMatches-string">string</a><br>
 </div>
@@ -12745,23 +12884,24 @@ Returns a list containing all matches in the string.
 </div>
 <a name="RegexMatches-allowEmptyMatches"></a><b>allowEmptyMatches</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Tells the receiver to allow zero length matches. Empty matches are allowed by default.
+	Returns self.
 </div>
 <a name="RegexMatches-allowsEmptyMatches"></a><b>allowsEmptyMatches</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if the receiver allows empty matches, false if not.
 </div>
 <a name="RegexMatches-anchored"></a><b>anchored</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Like <code>next</code>, but will only match at the current search position.
 </div>
 <a name="RegexMatches-disallowEmptyMatches"></a><b>disallowEmptyMatches</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Tells the receiver not to allow zero length matches. Returns self.
 </div>
 <a name="RegexMatches-endPosition"></a><b>endPosition</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the index in the string where the receiver stops searching.
 </div>
 <a name="RegexMatches-foreach"></a><b>foreach(value, message)</b><p>
 <div class=slotDescription>
@@ -12770,8 +12910,8 @@ Loops through the matches, assigns each match to <em>value</em>, and evaluates <
 </div>
 <a name="RegexMatches-foreachInterval"></a><b>foreachInterval(value, matchMessage, nonMatchMessage)</b><p>
 <div class=slotDescription>
-Like foreach, but takes an extra message that will be evaluated for the non-matching text before
-		each match, and the non-matching text after the last match.
+Like <code>foreach</code>, but takes an extra message that will be evaluated for the non-matching
+	text before each match, and the non-matching text after the last match.
 </div>
 <a name="RegexMatches-last"></a><b>last</b><p>
 <div class=slotDescription>
@@ -12779,62 +12919,72 @@ Returns the last match in the string.
 </div>
 <a name="RegexMatches-map"></a><b>map(value, message)</b><p>
 <div class=slotDescription>
-Loops through the matches, assigns each match to <em>value</em>, and evaluates <em>message</em>.
-	Returns a list with the result of each evaluation.
+Like <code>foreach</code>, but the result of each evaluation of <em>message</em> is returned
+	in a list.
 </div>
 <a name="RegexMatches-next"></a><b>next</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the next match, or nil if there is none.
 </div>
 <a name="RegexMatches-position"></a><b>position</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the search position as an index in the string.
 </div>
 <a name="RegexMatches-regex"></a><b>regex</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the Regex that the receiver uses for finding matching.
 </div>
 <a name="RegexMatches-replace"></a><b>replace(name, message)</b><p>
 <div class=slotDescription>
 Replaces each match in the string with the result of <em>message</em> and returns
-		the resulting string."
+	the resulting string.
 </div>
 <a name="RegexMatches-replaceAllWith"></a><b>replaceAllWith(templateString)</b><p>
 <div class=slotDescription>
 Same as:
-<pre>
-replace(match, match expandTo(templateString))
-</pre>
-)
+	<pre>
+	replace(match, match expandTo(templateString))
+	</pre>
 </div>
 <a name="RegexMatches-reset"></a><b>reset</b><p>
 <div class=slotDescription>
 Resets the search position to the beginning of the string. Returns self.
 </div>
-<a name="RegexMatches-setEndPosition"></a><b>setEndPosition</b><p>
+<a name="RegexMatches-setEndPosition"></a><b>setEndPosition(anIndex)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the index in the string where the receiver should stop searching. It will be as
+	if the string ends at that index. If <em>index</em> is nil, the end position will be set
+	to the end of string.
+	Returns self.
+
+	<pre>
+	Io> "funkadelic" matchesOfRegex("\\w+") setEndPosition(4) next string
+	==> funk
+
+	Io> "funkadelic" matchesOfRegex("\\w+") setEndPosition(nil) next string
+	==> funkadelic
+	</pre>
 </div>
-<a name="RegexMatches-setPosition"></a><b>setPosition</b><p>
+<a name="RegexMatches-setPosition"></a><b>setPosition(aRegexOrString)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the search position to the given index in the string. Returns self.
 </div>
-<a name="RegexMatches-setRegex"></a><b>setRegex</b><p>
+<a name="RegexMatches-setRegex"></a><b>setRegex(aRegexOrString)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the regex to find matches in. Returns self.
 </div>
-<a name="RegexMatches-setString"></a><b>setString</b><p>
+<a name="RegexMatches-setString"></a><b>setString(aString)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the string to find matches in. Returns self.
 </div>
 <a name="RegexMatches-splitString"></a><b>splitString</b><p>
 <div class=slotDescription>
 Splits the string being matched against into pieces using the regex as the delimiter
-		and returns the piece as a list of strings.
+	and returns the piece as a list of strings.
 </div>
 <a name="RegexMatches-string"></a><b>string</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the string that the receiver finds matches in.
 </div>
 </div>
 </div>
@@ -12849,36 +12999,15 @@ Splits the string being matched against into pieces using the regex as the delim
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#SGMLElement-asObject">asObject</a><br>
 <a href="#SGMLElement-asString">asString</a><br>
 <a href="#SGMLElement-attributes">attributes</a><br>
-<a href="#SGMLElement-beginTag">beginTag</a><br>
-<a href="#SGMLElement-elementWithName">elementWithName</a><br>
-<a href="#SGMLElement-elementsWithName">elementsWithName</a><br>
-<a href="#SGMLElement-endTag">endTag</a><br>
-<a href="#SGMLElement-linkStrings">linkStrings</a><br>
 <a href="#SGMLElement-name">name</a><br>
-<a href="#SGMLElement-parent">parent</a><br>
-<a href="#SGMLElement-redirectStrings">redirectStrings</a><br>
-<a href="#SGMLElement-search">search</a><br>
-<a href="#SGMLElement-setAttributes">setAttributes</a><br>
 <a href="#SGMLElement-setName">setName()</a><br>
-<a href="#SGMLElement-setParent">setParent</a><br>
-<a href="#SGMLElement-setSubitems">setSubitems</a><br>
-<a href="#SGMLElement-setText">setText</a><br>
 <a href="#SGMLElement-subitems">subitems</a><br>
-<a href="#SGMLElement-tableData">tableData</a><br>
-<a href="#SGMLElement-text">text</a><br>
-<a href="#SGMLElement-withText">withText</a><br>
-<a href="#SGMLElement-writeToStream">writeToStream</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
-<a name="SGMLElement-asObject"></a><b>asObject</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="SGMLElement-asString"></a><b>asString</b><p>
 <div class=slotDescription>
 Returns a String representation of the tag and all of it's subitems.
@@ -12887,81 +13016,17 @@ Returns a String representation of the tag and all of it's subitems.
 <div class=slotDescription>
 Returns a Map containing the tag's attributes.
 </div>
-<a name="SGMLElement-beginTag"></a><b>beginTag</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SGMLElement-elementWithName"></a><b>elementWithName</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SGMLElement-elementsWithName"></a><b>elementsWithName</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SGMLElement-endTag"></a><b>endTag</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SGMLElement-linkStrings"></a><b>linkStrings</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="SGMLElement-name"></a><b>name</b><p>
 <div class=slotDescription>
 Returns the tag name
-</div>
-<a name="SGMLElement-parent"></a><b>parent</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SGMLElement-redirectStrings"></a><b>redirectStrings</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SGMLElement-search"></a><b>search</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SGMLElement-setAttributes"></a><b>setAttributes</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="SGMLElement-setName"></a><b>setName(aString)</b><p>
 <div class=slotDescription>
 Sets the tag name. Returns self.
 </div>
-<a name="SGMLElement-setParent"></a><b>setParent</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SGMLElement-setSubitems"></a><b>setSubitems</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SGMLElement-setText"></a><b>setText</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="SGMLElement-subitems"></a><b>subitems</b><p>
 <div class=slotDescription>
 Returns a List containing the tag's subitems.
-</div>
-<a name="SGMLElement-tableData"></a><b>tableData</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SGMLElement-text"></a><b>text</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SGMLElement-withText"></a><b>withText</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SGMLElement-writeToStream"></a><b>writeToStream</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 </div>
 </div>
@@ -12983,39 +13048,12 @@ This object can be used to parse SGML / HTML / XML.
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#SGMLParser-elementForString">elementForString</a><br>
-<a href="#SGMLParser-elementProto">elementProto</a><br>
-<a href="#SGMLParser-endElement">endElement</a><br>
-<a href="#SGMLParser-newAttribute">newAttribute</a><br>
-<a href="#SGMLParser-newText">newText</a><br>
 <a href="#SGMLParser-parse">parse()</a><br>
-<a href="#SGMLParser-startElement">startElement</a><br>
 <a href="#SGMLParser-tagForString">tagForString()</a><br>
-<a href="#SGMLParser-top">top</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
-<a name="SGMLParser-elementForString"></a><b>elementForString</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SGMLParser-elementProto"></a><b>elementProto</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SGMLParser-endElement"></a><b>endElement</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SGMLParser-newAttribute"></a><b>newAttribute</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SGMLParser-newText"></a><b>newText</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="SGMLParser-parse"></a><b>parse(aSequence)</b><p>
 <div class=slotDescription>
 Parses aSequence and calls the following methods on self;
@@ -13027,17 +13065,9 @@ newText(text)
 </pre>	
 for each of the items it finds. Returns self.
 </div>
-<a name="SGMLParser-startElement"></a><b>startElement</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="SGMLParser-tagForString"></a><b>tagForString(aSequence)</b><p>
 <div class=slotDescription>
 Parses aSequence and returns an SGMLTag object.
-</div>
-<a name="SGMLParser-top"></a><b>top</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 </div>
 </div>
@@ -13118,16 +13148,13 @@ db close
 <a href="#SQLite-columnNamesOfTable">columnNamesOfTable()</a><br>
 <a href="#SQLite-debugOff">debugOff</a><br>
 <a href="#SQLite-debugOn">debugOn</a><br>
-<a href="#SQLite-delete">delete</a><br>
 <a href="#SQLite-error">error</a><br>
 <a href="#SQLite-escapeString">escapeString()</a><br>
 <a href="#SQLite-exec">exec()</a><br>
-<a href="#SQLite-exists">exists</a><br>
 <a href="#SQLite-isOpen">isOpen</a><br>
 <a href="#SQLite-lastInsertRowId">lastInsertRowId</a><br>
 <a href="#SQLite-open">open()</a><br>
 <a href="#SQLite-path">path</a><br>
-<a href="#SQLite-rowsChangedCount">rowsChangedCount</a><br>
 <a href="#SQLite-setPath">setPath()</a><br>
 <a href="#SQLite-setTimeoutSeconds">setTimeoutSeconds()</a><br>
 <a href="#SQLite-tableNames">tableNames</a><br>
@@ -13161,10 +13188,6 @@ Turns off debugging.
 <div class=slotDescription>
 Turns on debugging.
 </div>
-<a name="SQLite-delete"></a><b>delete</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="SQLite-error"></a><b>error</b><p>
 <div class=slotDescription>
 Results a string containing the current error. 
@@ -13184,10 +13207,6 @@ Opens the database if it is not already open and executes
 	The key/value pairs of the maps being column name/column value
 	pairs for a row. ")
 </div>
-<a name="SQLite-exists"></a><b>exists</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="SQLite-isOpen"></a><b>isOpen</b><p>
 <div class=slotDescription>
 Returns true if the database is open, false otherwise.
@@ -13205,10 +13224,6 @@ Opens the database.Returns self on success or nil upon failure.
 <a name="SQLite-path"></a><b>path</b><p>
 <div class=slotDescription>
 Returns the path to the database file.
-</div>
-<a name="SQLite-rowsChangedCount"></a><b>rowsChangedCount</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="SQLite-setPath"></a><b>setPath(aSeq)</b><p>
 <div class=slotDescription>
@@ -13580,7 +13595,6 @@ Terminology
 <a href="#Sequence-asCapitalized">asCapitalized</a><br>
 <a href="#Sequence-asFile">asFile</a><br>
 <a href="#Sequence-asFixedSizeType">asFixedSizeType</a><br>
-<a href="#Sequence-asHTML">asHTML</a><br>
 <a href="#Sequence-asHex">asHex</a><br>
 <a href="#Sequence-asHtml">asHtml</a><br>
 <a href="#Sequence-asIoPath">asIoPath</a><br>
@@ -13590,7 +13604,6 @@ Terminology
 <a href="#Sequence-asNumber">asNumber</a><br>
 <a href="#Sequence-asOSPath">asOSPath</a><br>
 <a href="#Sequence-asRegex">asRegex</a><br>
-<a href="#Sequence-asSGML">asSGML</a><br>
 <a href="#Sequence-asSimpleString">asSimpleString</a><br>
 <a href="#Sequence-asString">asString</a><br>
 <a href="#Sequence-asStruct">asStruct</a><br>
@@ -13600,7 +13613,6 @@ Terminology
 <a href="#Sequence-asUTF32">asUTF32</a><br>
 <a href="#Sequence-asUTF8">asUTF8</a><br>
 <a href="#Sequence-asUppercase">asUppercase</a><br>
-<a href="#Sequence-asXML">asXML</a><br>
 <a href="#Sequence-asin">asin</a><br>
 <a href="#Sequence-at">at</a><br>
 <a href="#Sequence-atInsertSeq">atInsertSeq</a><br>
@@ -13776,7 +13788,6 @@ Terminology
 <a href="#Sequence-width">width</a><br>
 <a href="#Sequence-with">with</a><br>
 <a href="#Sequence-withStruct">withStruct</a><br>
-<a href="#Sequence-writeToStream">writeToStream</a><br>
 <a href="#Sequence-x">x</a><br>
 <a href="#Sequence-y">y</a><br>
 <a href="#Sequence-z">z</a><br>
@@ -13945,10 +13956,6 @@ Returns a new File object with the receiver as it's path.
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="Sequence-asHTML"></a><b>asHTML</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="Sequence-asHex"></a><b>asHex</b><p>
 <div class=slotDescription>
 Returns a hex string for the receiving sequence, e.g., \"abc\" asHex -> \"616263\".")
@@ -13985,10 +13992,6 @@ Returns a hex string for the receiving sequence, e.g., \"abc\" asHex -> \"616263
 <div class=slotDescription>
 Returns a new Regex created from the receiver.
 </div>
-<a name="Sequence-asSGML"></a><b>asSGML</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="Sequence-asSimpleString"></a><b>asSimpleString</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
@@ -14022,10 +14025,6 @@ Returns a new URL object instance with the receiver as it's url string.
 <div class=error>undocumented</div>
 </div>
 <a name="Sequence-asUppercase"></a><b>asUppercase</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Sequence-asXML"></a><b>asXML</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
@@ -14738,10 +14737,6 @@ Splits the receiver into pieces using the given regex as the delimiter and
 <div class=error>undocumented</div>
 </div>
 <a name="Sequence-withStruct"></a><b>withStruct</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Sequence-writeToStream"></a><b>writeToStream</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
@@ -16550,12 +16545,9 @@ Returns the current user's name.
 <div class=slotIndex>
 <a href="#Video-audioOn">audioOn</a><br>
 <a href="#Video-frameNumber">frameNumber</a><br>
-<a href="#Video-isDone">isDone</a><br>
-<a href="#Video-readNextFrame">readNextFrame</a><br>
 <a href="#Video-readNextFrame Decodes the next video frame into the receiver's image object.">readNextFrame Decodes the next video frame into the receiver's image object.</a><br>
 <a href="#Video-setAudioOn">setAudioOn()</a><br>
 <a href="#Video-setFrameNumber">setFrameNumber()</a><br>
-<a href="#Video-setIsDone">setIsDone</a><br>
 </div>
 <p>
 <h3>Slots</h3>
@@ -16567,14 +16559,6 @@ Whether or not the decoded audio is directed to the AudioDevice.
 <a name="Video-frameNumber"></a><b>frameNumber</b><p>
 <div class=slotDescription>
 The current frame number.
-</div>
-<a name="Video-isDone"></a><b>isDone</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Video-readNextFrame"></a><b>readNextFrame</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="Video-readNextFrame Decodes the next video frame into the receiver's image object."></a><b>readNextFrame Decodes the next video frame into the receiver's image object.</b><p>
 <div class=slotDescription>
@@ -16589,10 +16573,6 @@ Sets whether or not the decoded audio is directed to the AudioDevice. Returns se
 <div class=slotDescription>
 Private setter for frameNumber. Returns self.
 </font>
-</div>
-<a name="Video-setIsDone"></a><b>setIsDone</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 </div>
 </div>

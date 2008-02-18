@@ -13,6 +13,8 @@ RegexMatchTest := UnitTest clone do(
 	)
 
 	testCaptures := method(
+		assertEquals(4, match size)
+		
 		assertEquals("37signals", match at(0))
 		assertEquals("37", match at(1))
 		assertEquals(nil, match at(2))
@@ -23,6 +25,8 @@ RegexMatchTest := UnitTest clone do(
 	)
 	
 	testNamedCaptures := method(
+		assertEquals(list("number", "word"), match names)
+		
 		assertEquals("37", match at("number"))
 		assertEquals("signals", match at("word"))
 		assertEquals(nil, match at("humbug"))
@@ -61,11 +65,38 @@ RegexMatchTest := UnitTest clone do(
 		assertEquals(nil, match endOf("humbug"))
 	)
 	
+	testSlice := method(
+		assertEquals(list("37", nil, "signals"), match slice(1))
+		assertEquals(list("37signals", "37"), match slice(0, 2))
+	)
+
+	testForeach := method(
+		out := list
+		match foreach(capture, out append(capture))
+		assertEquals(list("37signals", "37", nil, "signals"), out)	
+	)
+
+	testMap := method(
+		out := match map(capture, capture)
+		assertEquals(list("37signals", "37", nil, "signals"), out)	
+	)
+
+	testSelect := method(
+		out := match select(capture, capture ?containsSeq("37"))
+		assertEquals(list("37signals", "37"), out)	
+	)
+
 	testExpandTo := method(
 		s := match expandTo("number of $3: ${number}") 
 		assertEquals("number of signals: 37", s)
 
 		s := match expandTo("number of $999: ${humbug}") 
 		assertEquals("number of : ", s)
+	)
+
+	testPrefixAndPostfix := method(
+		match := "A B C" allMatchesOfRegex("[A-Z]") at(1)
+		assertEquals("A ", match prefix)
+		assertEquals(" C", match postfix)
 	)
 )
