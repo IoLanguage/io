@@ -582,15 +582,18 @@ IoList *IoSeq_whiteSpaceStrings(IoSeq *self, IoObject *locals, IoMessage *m)
 
 // split ---------------------------------------------------------------------
 
+// this method is only used from split
 IoList *IoSeq_stringListForArgs(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	if (IoMessage_argCount(m) == 0)
 	{
 		return IoSeq_whiteSpaceStrings(self, locals, m);
 	}
+	
 	return IoMessage_evaluatedArgs(m, locals, m);
 }
 
+// this method is only used from split
 List *IoSeq_byteArrayListForSeqList(IoSeq *self, IoObject *locals, IoMessage *m, IoList *seqs)
 {
 	List *args = IoList_rawList(seqs);
@@ -756,6 +759,7 @@ IoObject *IoSeq_toBase(IoSeq *self, IoObject *locals, IoMessage *m)
 	return IoSeq_newWithCString_(IOSTATE, ptr);
 }
 
+// this function only called by IoSeq_foreach()
 IoObject *IoSeq_each(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	IoState *state = IOSTATE;
@@ -989,11 +993,13 @@ IoObject *IoSeq_pathComponent(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_asOSPath(IoSeq *self, IoObject *locals, IoMessage *m)
 {
+	//doc ImmutableSequence asOSPath Returns a OS style path for an Io style path.
 	return IoSeq_newSymbolWithUArray_copy_(IOSTATE, UArray_asOSPath(IoSeq_rawUArray(self)), 0);
 }
 
 IoObject *IoSeq_asIoPath(IoSeq *self, IoObject *locals, IoMessage *m)
 {
+	//doc ImmutableSequence asIoPath Returns a Io style path for an OS style path.
 	return IoSeq_newSymbolWithUArray_copy_(IOSTATE, UArray_asUnixPath(IoSeq_rawUArray(self)), 0);
 }
 
@@ -1126,24 +1132,40 @@ IoObject *IoSeq_distanceTo(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_greaterThan_(IoSeq *self, IoObject *locals, IoMessage *m)
 {
+	/*doc ImmutableSequence greaterThan(aSeq) 
+	Returns true if the receiver is greater than aSeq, false otherwise.
+	*/
+	
 	IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
 	return IOBOOL(self, UArray_greaterThan_(DATA(self), DATA(other)));
 }
 
 IoObject *IoSeq_lessThan_(IoSeq *self, IoObject *locals, IoMessage *m)
 {
+	/*doc ImmutableSequence lessThan(aSeq) 
+	Returns true if the receiver is lass than aSeq, false otherwise.
+	*/
+	
 	IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
 	return IOBOOL(self, UArray_lessThan_(DATA(self), DATA(other)));
 }
 
 IoObject *IoSeq_greaterThanOrEqualTo_(IoSeq *self, IoObject *locals, IoMessage *m)
 {
+	/*doc ImmutableSequence greaterThanOrEqualTo(aSeq) 
+	Returns true if the receiver is greater than or equal to aSeq, false otherwise.
+	*/
+	
 	IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
 	return IOBOOL(self, UArray_greaterThanOrEqualTo_(DATA(self), DATA(other)));
 }
 
 IoObject *IoSeq_lessThanOrEqualTo_(IoSeq *self, IoObject *locals, IoMessage *m)
 {
+	/*doc ImmutableSequence lessThanOrEqualTo(aSeq) 
+	Returns true if the receiver is lass than or equal to aSeq, false otherwise.
+	*/
+	
 	IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
 	return IOBOOL(self, UArray_lessThanOrEqualTo_(DATA(self), DATA(other)));
 }
@@ -1160,6 +1182,26 @@ IoObject *IoSeq_lessThanOrEqualTo_(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_asStruct(IoSeq *self, IoObject *locals, IoMessage *m)
 {
+/*doc ImmutableSequence asStruct(memberList) 
+For a sequence that contains the data for a raw memory data structure (as used in C),
+this method can be used to extract it's members into an Object. The memberList argument
+specifies the layout of the datastructure. It's form is:
+<p>
+list(memberType1, memberName1, memberType2, memberName2, ...)
+<p>
+Member types include: 
+<pre>
+int8, int16, int32, int64
+uint8, uint16, uint32, uint64
+float32, float64 
+</pre>
+Example:
+<pre>
+pointObject := structPointSeq asStruct(list("float32", "x", "float32", "y"))
+</pre>
+The output pointObject would contain x and y slots with Number objects.
+*/
+	
 	IoObject *st = IoObject_new(IOSTATE);
 	const unsigned char *data = UArray_bytes(DATA(self));
 	size_t size = UArray_sizeInBytes(DATA(self));
@@ -1208,6 +1250,25 @@ IoObject *IoSeq_asStruct(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_withStruct(IoSeq *self, IoObject *locals, IoMessage *m)
 {
+/*doc ImmutableSequence withStruct(memberList) 
+This method is useful for producing a Sequence containing a raw datastructure with
+the specified types and values. The memberList format is:
+<p>
+list(memberType1, memberName1, memberType2, memberName2, ...)
+<p>
+Member types include: 
+<pre>
+int8, int16, int32, int64
+uint8, uint16, uint32, uint64
+float32, float64 
+</pre>
+Example:
+<pre>
+pointStructSeq := Sequence withStruct(list("float32", 1.2, "float32", 3.5))
+</pre>
+The output pointStructSeq would contain 2 raw 32 bit floats.
+*/
+	
 	List *members = IoList_rawList(IoMessage_locals_listArgAt_(m, locals, 0));
 	int memberIndex;
 	size_t maxSize = List_size(members) * 8;

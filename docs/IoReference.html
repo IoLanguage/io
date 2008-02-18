@@ -7456,10 +7456,13 @@ Immutable Sequences are also called "Symbols".
 <a href="#ImmutableSequence-asBinaryNumber">asBinaryNumber</a><br>
 <a href="#ImmutableSequence-asCapitalized">asCapitalized</a><br>
 <a href="#ImmutableSequence-asFixedSizeType">asFixedSizeType</a><br>
+<a href="#ImmutableSequence-asIoPath">asIoPath</a><br>
 <a href="#ImmutableSequence-asLowercase">asLowercase</a><br>
 <a href="#ImmutableSequence-asMessage">asMessage()</a><br>
 <a href="#ImmutableSequence-asMutable">asMutable</a><br>
 <a href="#ImmutableSequence-asNumber">asNumber</a><br>
+<a href="#ImmutableSequence-asOSPath">asOSPath</a><br>
+<a href="#ImmutableSequence-asStruct">asStruct()</a><br>
 <a href="#ImmutableSequence-asSymbol">asSymbol</a><br>
 <a href="#ImmutableSequence-asUTF16">asUTF16</a><br>
 <a href="#ImmutableSequence-asUTF32">asUTF32</a><br>
@@ -7481,6 +7484,8 @@ Immutable Sequences are also called "Symbols".
 <a href="#ImmutableSequence-findSeqs">findSeqs()</a><br>
 <a href="#ImmutableSequence-foreach">foreach()</a><br>
 <a href="#ImmutableSequence-fromBase">fromBase()</a><br>
+<a href="#ImmutableSequence-greaterThan">greaterThan()</a><br>
+<a href="#ImmutableSequence-greaterThanOrEqualTo">greaterThanOrEqualTo()</a><br>
 <a href="#ImmutableSequence-interpolate">interpolate()</a><br>
 <a href="#ImmutableSequence-isEmpty">isEmpty</a><br>
 <a href="#ImmutableSequence-isEqualAnyCase">isEqualAnyCase()</a><br>
@@ -7492,6 +7497,8 @@ Immutable Sequences are also called "Symbols".
 <a href="#ImmutableSequence-itemSize">itemSize</a><br>
 <a href="#ImmutableSequence-itemType">itemType</a><br>
 <a href="#ImmutableSequence-lastPathComponent">lastPathComponent</a><br>
+<a href="#ImmutableSequence-lessThan">lessThan()</a><br>
+<a href="#ImmutableSequence-lessThanOrEqualTo">lessThanOrEqualTo()</a><br>
 <a href="#ImmutableSequence-linePrint">linePrint</a><br>
 <a href="#ImmutableSequence-occurancesOfSeq">occurancesOfSeq()</a><br>
 <a href="#ImmutableSequence-pathComponent">pathComponent</a><br>
@@ -7505,6 +7512,7 @@ Immutable Sequences are also called "Symbols".
 <a href="#ImmutableSequence-toBase">toBase()</a><br>
 <a href="#ImmutableSequence-whiteSpaceStrings">whiteSpaceStrings</a><br>
 <a href="#ImmutableSequence-with">with()</a><br>
+<a href="#ImmutableSequence-withStruct">withStruct()</a><br>
 </div>
 <p>
 <h3>Slots</h3>
@@ -7534,6 +7542,10 @@ Returns a new sequence with the receiver encoded in the
 	minimal fixed width text encoding that it's characters can fit 
 	into (either, ascii, utf8, utf16 or utf32).
 </div>
+<a name="ImmutableSequence-asIoPath"></a><b>asIoPath</b><p>
+<div class=slotDescription>
+Returns a Io style path for an OS style path.
+</div>
 <a name="ImmutableSequence-asLowercase"></a><b>asLowercase</b><p>
 <div class=slotDescription>
 Returns a symbol containing the reveiver made Lowercase.
@@ -7550,6 +7562,30 @@ Returns a mutable copy of the receiver.
 <div class=slotDescription>
 Returns the receiver converted to a number.
 	Initial whitespace is ignored.
+</div>
+<a name="ImmutableSequence-asOSPath"></a><b>asOSPath</b><p>
+<div class=slotDescription>
+Returns a OS style path for an Io style path.
+</div>
+<a name="ImmutableSequence-asStruct"></a><b>asStruct(memberList)</b><p>
+<div class=slotDescription>
+For a sequence that contains the data for a raw memory data structure (as used in C),
+this method can be used to extract it's members into an Object. The memberList argument
+specifies the layout of the datastructure. It's form is:
+<p>
+list(memberType1, memberName1, memberType2, memberName2, ...)
+<p>
+Member types include: 
+<pre>
+int8, int16, int32, int64
+uint8, uint16, uint32, uint64
+float32, float64 
+</pre>
+Example:
+<pre>
+pointObject := structPointSeq asStruct(list("float32", "x", "float32", "y"))
+</pre>
+The output pointObject would contain x and y slots with Number objects.
 </div>
 <a name="ImmutableSequence-asSymbol"></a><b>asSymbol</b><p>
 <div class=slotDescription>
@@ -7657,6 +7693,14 @@ aSequence foreach(v, writeln("value ", v))
 Returns a number with a base 10 representation of the receiver
 	converted from the specified base. Only base 2 through 32 are currently supported.
 </div>
+<a name="ImmutableSequence-greaterThan"></a><b>greaterThan(aSeq)</b><p>
+<div class=slotDescription>
+Returns true if the receiver is greater than aSeq, false otherwise.
+</div>
+<a name="ImmutableSequence-greaterThanOrEqualTo"></a><b>greaterThanOrEqualTo(aSeq)</b><p>
+<div class=slotDescription>
+Returns true if the receiver is greater than or equal to aSeq, false otherwise.
+</div>
 <a name="ImmutableSequence-interpolate"></a><b>interpolate(ctx)</b><p>
 <div class=slotDescription>
 Returns immutable copy of self with interpolateInPlace(ctx) passed to the copy.
@@ -7703,6 +7747,14 @@ Returns machine type of elements.
 <div class=slotDescription>
 Returns a string containing the receiver clipped up
 	to the last path separator.
+</div>
+<a name="ImmutableSequence-lessThan"></a><b>lessThan(aSeq)</b><p>
+<div class=slotDescription>
+Returns true if the receiver is lass than aSeq, false otherwise.
+</div>
+<a name="ImmutableSequence-lessThanOrEqualTo"></a><b>lessThanOrEqualTo(aSeq)</b><p>
+<div class=slotDescription>
+Returns true if the receiver is lass than or equal to aSeq, false otherwise.
 </div>
 <a name="ImmutableSequence-linePrint"></a><b>linePrint</b><p>
 <div class=slotDescription>
@@ -7776,6 +7828,25 @@ Returns a List of strings. Each string contains a different
 <div class=slotDescription>
 Returns a new Sequence which is the concatination of the arguments.
 	The returned sequence will have the same mutability status as the receiver.
+</div>
+<a name="ImmutableSequence-withStruct"></a><b>withStruct(memberList)</b><p>
+<div class=slotDescription>
+This method is useful for producing a Sequence containing a raw datastructure with
+the specified types and values. The memberList format is:
+<p>
+list(memberType1, memberName1, memberType2, memberName2, ...)
+<p>
+Member types include: 
+<pre>
+int8, int16, int32, int64
+uint8, uint16, uint32, uint64
+float32, float64 
+</pre>
+Example:
+<pre>
+pointStructSeq := Sequence withStruct(list("float32", 1.2, "float32", 3.5))
+</pre>
+The output pointStructSeq would contain 2 raw 32 bit floats.
 </div>
 </div>
 </div>
@@ -9060,24 +9131,46 @@ Returns a new message object with the receivers message as the first argument of
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
+<a href="#MutableSequence-*=">*=()</a><br>
+<a href="#MutableSequence-+=">+=()</a><br>
+<a href="#MutableSequence--=">-=()</a><br>
+<a href="#MutableSequence-/=">/=()</a><br>
+<a href="#MutableSequence-abs">abs</a><br>
+<a href="#MutableSequence-acos">acos</a><br>
 <a href="#MutableSequence-append">append()</a><br>
 <a href="#MutableSequence-appendPathSeq">appendPathSeq()</a><br>
 <a href="#MutableSequence-appendSeq">appendSeq()</a><br>
+<a href="#MutableSequence-asin">asin</a><br>
 <a href="#MutableSequence-atInsertSeq">atInsertSeq()</a><br>
 <a href="#MutableSequence-atPut">atPut()</a><br>
+<a href="#MutableSequence-atan">atan</a><br>
+<a href="#MutableSequence-byteAt">byteAt()</a><br>
+<a href="#MutableSequence-byteAt">byteAt()</a><br>
 <a href="#MutableSequence-capitalize">capitalize</a><br>
+<a href="#MutableSequence-ceil">ceil</a><br>
 <a href="#MutableSequence-clear">clear</a><br>
 <a href="#MutableSequence-clipAfterSeq">clipAfterSeq()</a><br>
 <a href="#MutableSequence-clipAfterStartOfSeq">clipAfterStartOfSeq()</a><br>
 <a href="#MutableSequence-clipBeforeEndOfSeq">clipBeforeEndOfSeq()</a><br>
 <a href="#MutableSequence-clipBeforeSeq">clipBeforeSeq()</a><br>
+<a href="#MutableSequence-convertToItemType">convertToItemType()</a><br>
 <a href="#MutableSequence-copy">copy()</a><br>
+<a href="#MutableSequence-cosh">cosh</a><br>
 <a href="#MutableSequence-duplicateIndexes">duplicateIndexes</a><br>
 <a href="#MutableSequence-escape">escape</a><br>
+<a href="#MutableSequence-exp">exp</a><br>
+<a href="#MutableSequence-floor">floor</a><br>
+<a href="#MutableSequence-hash">hash</a><br>
 <a href="#MutableSequence-interpolateInPlace">interpolateInPlace()</a><br>
 <a href="#MutableSequence-lowercase">lowercase</a><br>
 <a href="#MutableSequence-lstrip">lstrip()</a><br>
+<a href="#MutableSequence-mean">mean</a><br>
+<a href="#MutableSequence-min">min</a><br>
+<a href="#MutableSequence-negate">negate</a><br>
+<a href="#MutableSequence-normalize">normalize</a><br>
 <a href="#MutableSequence-preallocateToSize">preallocateToSize()</a><br>
+<a href="#MutableSequence-product">product</a><br>
+<a href="#MutableSequence-rangeFill">rangeFill</a><br>
 <a href="#MutableSequence-removeAt">removeAt()</a><br>
 <a href="#MutableSequence-removeEvenIndexes">removeEvenIndexes</a><br>
 <a href="#MutableSequence-removeLast">removeLast</a><br>
@@ -9091,10 +9184,20 @@ Returns a new message object with the receivers message as the first argument of
 <a href="#MutableSequence-replaceSeq">replaceSeq()</a><br>
 <a href="#MutableSequence-reverse">reverse</a><br>
 <a href="#MutableSequence-rstrip">rstrip()</a><br>
+<a href="#MutableSequence-set">set()</a><br>
 <a href="#MutableSequence-setEncoding">setEncoding()</a><br>
 <a href="#MutableSequence-setItemType">setItemType()</a><br>
+<a href="#MutableSequence-setItemsToDouble">setItemsToDouble()</a><br>
+<a href="#MutableSequence-setItemsToLong">setItemsToLong()</a><br>
 <a href="#MutableSequence-setSize">setSize()</a><br>
+<a href="#MutableSequence-sinh">sinh</a><br>
+<a href="#MutableSequence-sort">sort</a><br>
+<a href="#MutableSequence-sqrt">sqrt</a><br>
+<a href="#MutableSequence-square">square</a><br>
 <a href="#MutableSequence-strip">strip()</a><br>
+<a href="#MutableSequence-sum">sum</a><br>
+<a href="#MutableSequence-tan">tan</a><br>
+<a href="#MutableSequence-tanh">tanh</a><br>
 <a href="#MutableSequence-translate">translate()</a><br>
 <a href="#MutableSequence-unescape">unescape</a><br>
 <a href="#MutableSequence-uppercase">uppercase</a><br>
@@ -9102,6 +9205,36 @@ Returns a new message object with the receivers message as the first argument of
 <p>
 <h3>Slots</h3>
 <p>
+<a name="MutableSequence-*="></a><b>*=(aSeq)</b><p>
+<div class=slotDescription>
+Multiplies the values of aSeq to the corresponding values of the receiver.
+	Only works on Sequences whose item type is numeric. Returns self.
+</div>
+<a name="MutableSequence-+="></a><b>+=(aSeq)</b><p>
+<div class=slotDescription>
+Vector addition - adds the values of aSeq to those of the receiver.
+	Only works on Sequences whose item type is numeric. Returns self.
+</div>
+<a name="MutableSequence--="></a><b>-=(aSeq)</b><p>
+<div class=slotDescription>
+Vector subtraction - subtracts the values of aSeq to those of the receiver.
+	Only works on Sequences whose item type is numeric. Returns self.
+</div>
+<a name="MutableSequence-/="></a><b>/=(aSeq)</b><p>
+<div class=slotDescription>
+Divides the values of aSeq to the corresponding values of the receiver.
+	Only works on Sequences whose item type is numeric. Returns self.
+</div>
+<a name="MutableSequence-abs"></a><b>abs</b><p>
+<div class=slotDescription>
+Sets each value of the Sequence to it's absolute value.
+Returns self.
+</div>
+<a name="MutableSequence-acos"></a><b>acos</b><p>
+<div class=slotDescription>
+Sets each value of the Sequence to the trigomentic arcsine of it's value.
+Returns self.
+</div>
 <a name="MutableSequence-append"></a><b>append(aNumber)</b><p>
 <div class=slotDescription>
 Appends aNumber (cast to a byte) to the receiver. Returns self.
@@ -9115,6 +9248,11 @@ Appends argument to the receiver such that there is one
 <div class=slotDescription>
 Calls asString on the arguments and appends the string to the receiver. Returns self.
 </div>
+<a name="MutableSequence-asin"></a><b>asin</b><p>
+<div class=slotDescription>
+Sets each value of the Sequence to the trigomentic arcsine of it's value.
+Returns self.
+</div>
 <a name="MutableSequence-atInsertSeq"></a><b>atInsertSeq(indexNumber, object)</b><p>
 <div class=slotDescription>
 Calls asString on object and inserts the string at position indexNumber. Returns self.
@@ -9123,9 +9261,27 @@ Calls asString on object and inserts the string at position indexNumber. Returns
 <div class=slotDescription>
 Sets the value at the index specified by aNumberIndex to aNumber. Returns self.
 </div>
+<a name="MutableSequence-atan"></a><b>atan</b><p>
+<div class=slotDescription>
+Sets each value of the Sequence to the trigomentic arctangent of it's value.
+Returns self.
+</div>
+<a name="MutableSequence-byteAt"></a><b>byteAt(byteIndex)</b><p>
+<div class=slotDescription>
+Returns a Number containing the byte at the byte index value.
+</div>
+<a name="MutableSequence-byteAt"></a><b>byteAt(rawIndex)</b><p>
+<div class=slotDescription>
+Returns a Number containing the byte at the raw index value.
+</div>
 <a name="MutableSequence-capitalize"></a><b>capitalize</b><p>
 <div class=slotDescription>
 First charater of the receiver is made uppercase.
+</div>
+<a name="MutableSequence-ceil"></a><b>ceil</b><p>
+<div class=slotDescription>
+Round each value to smallest integral value not less than x.
+Returns self.
 </div>
 <a name="MutableSequence-clear"></a><b>clear</b><p>
 <div class=slotDescription>
@@ -9154,9 +9310,22 @@ Removes the contents of the receiver before the end of
 <div class=slotDescription>
 Clips receiver before aSequence.
 </div>
+<a name="MutableSequence-convertToItemType"></a><b>convertToItemType(aTypeName)</b><p>
+<div class=slotDescription>
+Converts the underlying machine type for the elements, expanding or contracting
+	the size of the Sequence as needed. 
+	Valid names are uint8, uint16, uint32, uint64, int8, int16, int32, 
+	int64, float32, and float64. Note that 64 bit types are only available 
+	on platforms that support such types. Returns self.
+</div>
 <a name="MutableSequence-copy"></a><b>copy(aSequence)</b><p>
 <div class=slotDescription>
 Replaces the bytes of the receiver with a copy of those in aSequence. Returns self.
+</div>
+<a name="MutableSequence-cosh"></a><b>cosh</b><p>
+<div class=slotDescription>
+Sets each value of the Sequence to the hyperbolic cosine of it's value.
+Returns self.
 </div>
 <a name="MutableSequence-duplicateIndexes"></a><b>duplicateIndexes</b><p>
 <div class=slotDescription>
@@ -9168,6 +9337,20 @@ Duplicates all indexes in the receiver.
 Escape characters in the receiver are replaced with escape codes.
 	For example a string containing a single return character would contain the
 	following 2 characters after being escaped: "\n". Returns self.
+</div>
+<a name="MutableSequence-exp"></a><b>exp</b><p>
+<div class=slotDescription>
+Sets each value of the Sequence to the base 10 log of it's value.
+Returns self.
+</div>
+<a name="MutableSequence-floor"></a><b>floor</b><p>
+<div class=slotDescription>
+Round each value to largest integral value not greater than x.
+Returns self.
+</div>
+<a name="MutableSequence-hash"></a><b>hash</b><p>
+<div class=slotDescription>
+Returns a Number containing a hash of the Sequence.
 </div>
 <a name="MutableSequence-interpolateInPlace"></a><b>interpolateInPlace(optionalContext)</b><p>
 <div class=slotDescription>
@@ -9188,6 +9371,24 @@ stripped from the beginning of the receiver. Example:
 ==> "the tail"
 </pre>
 </div>
+<a name="MutableSequence-mean"></a><b>mean</b><p>
+<div class=slotDescription>
+Returns the arithmetic mean of the sequence's values after they have been squared.
+</div>
+<a name="MutableSequence-min"></a><b>min</b><p>
+<div class=slotDescription>
+Returns the maximum value of the Sequence.
+</div>
+<a name="MutableSequence-negate"></a><b>negate</b><p>
+<div class=slotDescription>
+Negates the values of the receiver.
+Returns self.
+</div>
+<a name="MutableSequence-normalize"></a><b>normalize</b><p>
+<div class=slotDescription>
+Divides each value of the Sequence by the sum of the sequence divided by the number of elements.
+Returns self.
+</div>
 <a name="MutableSequence-preallocateToSize"></a><b>preallocateToSize(aNumber)</b><p>
 <div class=slotDescription>
 If needed, resize the memory alloced for the receivers
@@ -9195,6 +9396,15 @@ If needed, resize the memory alloced for the receivers
 	aNumber. This is useful for pio_reallocating the memory so it doesn't
 	keep getting allocated as the Sequence is appended to. This operation
 	will not change the Sequence's length or contents. Returns self.
+</div>
+<a name="MutableSequence-product"></a><b>product</b><p>
+<div class=slotDescription>
+Returns the product of all the sequence's values multipled together.
+</div>
+<a name="MutableSequence-rangeFill"></a><b>rangeFill</b><p>
+<div class=slotDescription>
+Sets each value of the Sequence to the trigomentic cosine of it's value.
+Returns self.
 </div>
 <a name="MutableSequence-removeAt"></a><b>removeAt(index)</b><p>
 <div class=slotDescription>
@@ -9259,6 +9469,12 @@ aSequence stripped from the end of the receiver. Example:
 ==> "Cut the"
 </pre>
 </div>
+<a name="MutableSequence-set"></a><b>set(aNumber1, aNumber2, ...)</b><p>
+<div class=slotDescription>
+Sets the values of the receiver to the sequences of numbers in the arguments.
+	Unset values will remain unchanged.
+	Returns self.
+</div>
 <a name="MutableSequence-setEncoding"></a><b>setEncoding(encodingName)</b><p>
 <div class=slotDescription>
 Sets the encoding flag of the receiver (only the encoding flag, 
@@ -9273,9 +9489,36 @@ Sets the underlying machine type for the elements.
 	int64, float32, and float64. Note that 64 bit types are only available 
 	on platforms that support such types. Returns self.
 </div>
+<a name="MutableSequence-setItemsToDouble"></a><b>setItemsToDouble(aNumber)</b><p>
+<div class=slotDescription>
+Sets all items in the Sequence to the double floating point value of aNumber.
+</div>
+<a name="MutableSequence-setItemsToLong"></a><b>setItemsToLong(aNumber)</b><p>
+<div class=slotDescription>
+Sets all items in the Sequence to the long integer value of aNumber.
+</div>
 <a name="MutableSequence-setSize"></a><b>setSize(aNumber)</b><p>
 <div class=slotDescription>
 Sets the length in bytes of the receiver to aNumber. Return self.
+</div>
+<a name="MutableSequence-sinh"></a><b>sinh</b><p>
+<div class=slotDescription>
+Sets each value of the Sequence to the hyperbolic sine of it's value.
+Returns self.
+</div>
+<a name="MutableSequence-sort"></a><b>sort</b><p>
+<div class=slotDescription>
+Sorts the characters/numbers the array. Returns self.
+</div>
+<a name="MutableSequence-sqrt"></a><b>sqrt</b><p>
+<div class=slotDescription>
+Sets each value of the Sequence to the square root of it's value.
+Returns self.
+</div>
+<a name="MutableSequence-square"></a><b>square</b><p>
+<div class=slotDescription>
+Sets each value of the Sequence to the square of it's value.
+Returns self.
 </div>
 <a name="MutableSequence-strip"></a><b>strip(optionalSequence)</b><p>
 <div class=slotDescription>
@@ -9285,6 +9528,20 @@ Trims the whitespace (or optionalSequence) off both ends:
 "   Trim this string   \r\n" strip
 ==> "Trim this string"
 </pre>
+</div>
+<a name="MutableSequence-sum"></a><b>sum</b><p>
+<div class=slotDescription>
+Returns the sum of the Sequence.
+</div>
+<a name="MutableSequence-tan"></a><b>tan</b><p>
+<div class=slotDescription>
+Sets each value of the Sequence to the trigomentic tangent of it's value.
+Returns self.
+</div>
+<a name="MutableSequence-tanh"></a><b>tanh</b><p>
+<div class=slotDescription>
+Sets each value of the Sequence to the hyperbolic tangent of it's value.
+Returns self.
 </div>
 <a name="MutableSequence-translate"></a><b>translate(fromChars, toChars)</b><p>
 <div class=slotDescription>
@@ -9644,32 +9901,39 @@ Returns the minimum integer value.
 </div>
 <a name="Number-isAlphaNumeric"></a><b>isAlphaNumeric</b><p>
 <div class=slotDescription>
-Returns self if the receiver is an alphanumeric
-	character value. Otherwise returns Nil.
+Returns true if 
+	receiver is an alphanumeric character value
+	, false otherwise.
 </div>
 <a name="Number-isControlCharacter"></a><b>isControlCharacter</b><p>
 <div class=slotDescription>
-Returns self if the receiver is an control
-	character value. Otherwise returns Nil.
+Returns true if 
+	receiver is a control character value
+	, false otherwise.
 </div>
 <a name="Number-isDigit"></a><b>isDigit</b><p>
 <div class=slotDescription>
-Returns self if the receiver is an numeric
-	digit character value. Otherwise returns Nil.
+Returns true if 
+	receiver is a numeric digit value
+	, false otherwise.
 </div>
 <a name="Number-isEven"></a><b>isEven</b><p>
 <div class=slotDescription>
-Returns self if integer form of the receiver is even. Otherwise returns Nil.
+Returns true if 
+	integer form of the receiver is even
+	, false otherwise.
 </div>
 <a name="Number-isGraph"></a><b>isGraph</b><p>
 <div class=slotDescription>
-Returns self if the receiver is a printing character
-	value except space. Otherwise returns Nil.
+Returns true if 
+	the receiver is a printing character value except space
+	, false otherwise.
 </div>
 <a name="Number-isHexDigit"></a><b>isHexDigit</b><p>
 <div class=slotDescription>
-Returns self if the receiver is hexidecimal digit
-	character value. Otherwise returns Nil.
+Returns true if 
+	the receiver is a hexadecimal character value
+	, false otherwise.
 </div>
 <a name="Number-isInASequenceSet"></a><b>isInASequenceSet</b><p>
 <div class=slotDescription>
@@ -9677,12 +9941,15 @@ Return true if receiver is in one of the Sequence sequenceSets, otherwise false.
 </div>
 <a name="Number-isLetter"></a><b>isLetter</b><p>
 <div class=slotDescription>
-Returns self if the receiver is an alphanetic character value. Otherwise returns Nil.
+Returns true if 
+	receiver is a letter character value
+	, false otherwise.
 </div>
 <a name="Number-isLowercase"></a><b>isLowercase</b><p>
 <div class=slotDescription>
-Returns self if the receiver is an lower case
-	character value. Otherwise returns Nil.
+Returns true if 
+	the receiver is a lowercase character value
+	, false otherwise.
 </div>
 <a name="Number-isNan"></a><b>isNan</b><p>
 <div class=slotDescription>
@@ -9690,27 +9957,33 @@ Returns true if the receiver is not a number. Otherwise returns false.
 </div>
 <a name="Number-isOdd"></a><b>isOdd</b><p>
 <div class=slotDescription>
-Returns self if integer form of the receiver is even. Otherwise returns Nil.
+Returns true if 
+	integer form of the receiver is odd
+	, false otherwise.
 </div>
 <a name="Number-isPrint"></a><b>isPrint</b><p>
 <div class=slotDescription>
-Returns self if the receiver is an printing character
-	value, including space. Otherwise returns Nil.
+Returns true if 
+	the receiver is a printing character value, including space
+	, false otherwise.
 </div>
 <a name="Number-isPunctuation"></a><b>isPunctuation</b><p>
 <div class=slotDescription>
-Returns self if the receiver is an printing character
-	value, except space letter or digit. Otherwise returns Nil.
+Returns true if 
+	the receiver is a punctuation character value
+	, false otherwise.
 </div>
 <a name="Number-isSpace"></a><b>isSpace</b><p>
 <div class=slotDescription>
-Returns self if the receiver is a space, formfeed,
-	newline carriage return, tab or vertical tab character value. Otherwise returns Nil.
+Returns true if 
+	the receiver is a space, formfeed, newline carriage return, tab or vertical tab character value
+	, false otherwise.
 </div>
 <a name="Number-isUppercase"></a><b>isUppercase</b><p>
 <div class=slotDescription>
-Returns self if the receiver is an upper case
-	character value. Otherwise returns Nil.
+Returns true if 
+	the receiver is a uppercase character value
+	, false otherwise.
 </div>
 <a name="Number-justSerialized"></a><b>justSerialized</b><p>
 <div class=slotDescription>
@@ -13274,14 +13547,14 @@ Terminology
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#Sequence-*">*</a><br>
+<a href="#Sequence-*">*()</a><br>
 <a href="#Sequence-*=">*=</a><br>
-<a href="#Sequence-+">+</a><br>
+<a href="#Sequence-+">+()</a><br>
 <a href="#Sequence-+=">+=</a><br>
 <a href="#Sequence--">-</a><br>
 <a href="#Sequence--=">-=</a><br>
 <a href="#Sequence-..">..</a><br>
-<a href="#Sequence-/">/</a><br>
+<a href="#Sequence-/">/()</a><br>
 <a href="#Sequence-/=">/=</a><br>
 <a href="#Sequence-&lt;">&lt;</a><br>
 <a href="#Sequence-&lt;=">&lt;=</a><br>
@@ -13364,7 +13637,7 @@ Terminology
 <a href="#Sequence-cosh">cosh</a><br>
 <a href="#Sequence-depth">depth</a><br>
 <a href="#Sequence-distanceTo">distanceTo</a><br>
-<a href="#Sequence-dotProduct">dotProduct</a><br>
+<a href="#Sequence-dotProduct">dotProduct()</a><br>
 <a href="#Sequence-drawAsLine">drawAsLine</a><br>
 <a href="#Sequence-drawFilled">drawFilled</a><br>
 <a href="#Sequence-drawLineLoop">drawLineLoop</a><br>
@@ -13514,17 +13787,21 @@ Terminology
 <p>
 <h3>Slots</h3>
 <p>
-<a name="Sequence-*"></a><b>*</b><p>
+<a name="Sequence-*"></a><b>*(aSeq)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Multiplies the values of aSeq to the corresponding values of the receiver 
+	returning a new vector with the result.
+	Only works on Sequences whose item type is numeric.
 </div>
 <a name="Sequence-*="></a><b>*=</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="Sequence-+"></a><b>+</b><p>
+<a name="Sequence-+"></a><b>+(aSeq)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Vector addition - Adds the values of aSeq to the corresponding values of the receiver 
+	returning a new vector with the result.
+	Only works on Sequences whose item type is numeric.
 </div>
 <a name="Sequence-+="></a><b>+=</b><p>
 <div class=slotDescription>
@@ -13542,9 +13819,11 @@ Terminology
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="Sequence-/"></a><b>/</b><p>
+<a name="Sequence-/"></a><b>/(aSeq)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Divides the values of aSeq to the corresponding values of the receiver 
+	returning a new vector with the result.
+	Only works on Sequences whose item type is numeric.
 </div>
 <a name="Sequence-/="></a><b>/=</b><p>
 <div class=slotDescription>
@@ -13894,9 +14173,9 @@ Returns a new URL object instance with the receiver as it's url string.
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="Sequence-dotProduct"></a><b>dotProduct</b><p>
+<a name="Sequence-dotProduct"></a><b>dotProduct(aSeq)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a new Sequence containing the dot product of the receiver with aSeq.
 </div>
 <a name="Sequence-drawAsLine"></a><b>drawAsLine</b><p>
 <div class=slotDescription>

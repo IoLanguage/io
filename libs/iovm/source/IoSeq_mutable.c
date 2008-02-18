@@ -64,6 +64,13 @@ IoObject *IoSeq_setItemType(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_convertToItemType(IoSeq *self, IoObject *locals, IoMessage *m)
 {
+	/*doc MutableSequence convertToItemType(aTypeName)
+	Converts the underlying machine type for the elements, expanding or contracting
+	the size of the Sequence as needed. 
+	Valid names are uint8, uint16, uint32, uint64, int8, int16, int32, 
+	int64, float32, and float64. Note that 64 bit types are only available 
+	on platforms that support such types. Returns self. 
+	*/
 	IoSymbol *typeName = IoMessage_locals_symbolArgAt_(m, locals, 0);
 	CTYPE itemType = CTYPE_forName(CSTRING(typeName));
 
@@ -162,7 +169,6 @@ IoObject *IoSeq_append(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_atInsertSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*
 	/*doc MutableSequence atInsertSeq(indexNumber, object)
 	Calls asString on object and inserts the string at position indexNumber. Returns self.
 	*/
@@ -481,6 +487,8 @@ int IoSeq_byteCompare(const void *a, const void *b)
 
 IoObject *IoSeq_sort(IoSeq *self, IoObject *locals, IoMessage *m)
 {
+	//doc MutableSequence sort Sorts the characters/numbers the array. Returns self.
+	
 	UArray *a = DATA(self);
 	IO_ASSERT_NOT_SYMBOL(self);
 
@@ -828,6 +836,11 @@ IoObject *IoSeq_interpolateInPlace(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_addEquals(IoSeq *self, IoObject *locals, IoMessage *m)
 {
+	/*doc MutableSequence +=(aSeq)
+	Vector addition - adds the values of aSeq to those of the receiver.
+	Only works on Sequences whose item type is numeric. Returns self.
+	*/
+	
 	IoObject *other = IoMessage_locals_valueArgAt_(m, locals, 0);
 
 	IO_ASSERT_NOT_SYMBOL(self);
@@ -852,6 +865,11 @@ IoObject *IoSeq_addEquals(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_subtractEquals(IoSeq *self, IoObject *locals, IoMessage *m)
 {
+	/*doc MutableSequence -=(aSeq)
+	Vector subtraction - subtracts the values of aSeq to those of the receiver.
+	Only works on Sequences whose item type is numeric. Returns self.
+	*/
+	
 	IoObject *other = IoMessage_locals_valueArgAt_(m, locals, 0);
 
 	IO_ASSERT_NOT_SYMBOL(self);
@@ -876,6 +894,11 @@ IoObject *IoSeq_subtractEquals(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_multiplyEquals(IoSeq *self, IoObject *locals, IoMessage *m)
 {
+	/*doc MutableSequence *=(aSeq)
+	Multiplies the values of aSeq to the corresponding values of the receiver.
+	Only works on Sequences whose item type is numeric. Returns self.
+	*/
+	
 	IoObject *other = IoMessage_locals_valueArgAt_(m, locals, 0);
 
 	IO_ASSERT_NOT_SYMBOL(self);
@@ -900,6 +923,11 @@ IoObject *IoSeq_multiplyEquals(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_divideEquals(IoSeq *self, IoObject *locals, IoMessage *m)
 {
+	/*doc MutableSequence /=(aSeq)
+	Divides the values of aSeq to the corresponding values of the receiver.
+	Only works on Sequences whose item type is numeric. Returns self.
+	*/
+	
 	IoObject *other = IoMessage_locals_valueArgAt_(m, locals, 0);
 
 	IO_ASSERT_NOT_SYMBOL(self);
@@ -929,26 +957,54 @@ IoObject *IoSeq_clone(IoSeq *self)
 
 IoObject *IoSeq_add(IoSeq *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Sequence +(aSeq)
+	Vector addition - Adds the values of aSeq to the corresponding values of the receiver 
+	returning a new vector with the result.
+	Only works on Sequences whose item type is numeric.
+	*/
+	
 	return IoSeq_addEquals(IoSeq_clone(self), locals, m);
 }
 
 IoObject *IoSeq_subtract(IoSeq *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Sequence +(aSeq)
+	Vector addition - Adds the values of aSeq to the corresponding values of the receiver 
+	returning a new vector with the result.
+	Only works on Sequences whose item type is numeric.
+	*/
+	
 	return IoSeq_subtractEquals(IoSeq_clone(self), locals, m);
 }
 
 IoObject *IoSeq_multiply(IoSeq *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Sequence *(aSeq)
+	Multiplies the values of aSeq to the corresponding values of the receiver 
+	returning a new vector with the result.
+	Only works on Sequences whose item type is numeric.
+	*/
+	
 	return IoSeq_multiplyEquals(IoSeq_clone(self), locals, m);
 }
 
 IoObject *IoSeq_divide(IoSeq *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Sequence /(aSeq)
+	Divides the values of aSeq to the corresponding values of the receiver 
+	returning a new vector with the result.
+	Only works on Sequences whose item type is numeric. 
+	*/
+	
 	return IoSeq_divideEquals(IoSeq_clone(self), locals, m);
 }
 
 IoObject *IoSeq_dotProduct(IoSeq *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Sequence dotProduct(aSeq)
+	Returns a new Sequence containing the dot product of the receiver with aSeq.
+	*/
+	
 	IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
 	IO_ASSERT_NOT_SYMBOL(self);
 	return IONUMBER(UArray_dotProduct_(DATA(self), DATA(other)));
@@ -956,6 +1012,10 @@ IoObject *IoSeq_dotProduct(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_setItemsToLong_(IoSeq *self, IoObject *locals, IoMessage *m)
 {
+	/*doc MutableSequence setItemsToLong(aNumber)
+	Sets all items in the Sequence to the long integer value of aNumber.
+	*/
+	
 	long v = IoMessage_locals_longArgAt_(m, locals, 0);
 	IO_ASSERT_NOT_SYMBOL(self);
 	UArray_setItemsToLong_(DATA(self), v);
@@ -964,6 +1024,10 @@ IoObject *IoSeq_setItemsToLong_(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_setItemsToDouble_(IoSeq *self, IoObject *locals, IoMessage *m)
 {
+	/*doc MutableSequence setItemsToDouble(aNumber)
+	Sets all items in the Sequence to the double floating point value of aNumber.
+	*/
+	
 	double v = IoMessage_locals_doubleArgAt_(m, locals, 0);
 	IO_ASSERT_NOT_SYMBOL(self);
 	UArray_setItemsToLong_(DATA(self), v);
@@ -972,6 +1036,12 @@ IoObject *IoSeq_setItemsToDouble_(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_set_(IoSeq *self, IoObject *locals, IoMessage *m)
 {
+	/*doc MutableSequence set(aNumber1, aNumber2, ...)
+	Sets the values of the receiver to the sequences of numbers in the arguments.
+	Unset values will remain unchanged.
+	Returns self.
+	*/
+	
 	double i, max = IoMessage_argCount(m);
 	IO_ASSERT_NOT_SYMBOL(self);
 
@@ -988,43 +1058,163 @@ IoObject *IoSeq_set_(IoSeq *self, IoObject *locals, IoMessage *m)
 IoObject *IoSeq_ ## name (IoSeq *self, IoObject *locals, IoMessage *m) \
 { IO_ASSERT_NOT_SYMBOL(self); UArray_ ## name (DATA(self)); return self; }
 
+/*doc MutableSequence negate
+Negates the values of the receiver.
+Returns self.
+*/	
 IoSeqMutateNoArgNoResultOp(negate);
+
+/*doc MutableSequence rangeFill
+Sets the values of the Sequence to their index values.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(rangeFill);
 
+/*doc MutableSequence rangeFill
+Sets each value of the Sequence to the trigomentic sine of it's value.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(sin);
+
+/*doc MutableSequence rangeFill
+Sets each value of the Sequence to the trigomentic cosine of it's value.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(cos);
+
+/*doc MutableSequence tan
+Sets each value of the Sequence to the trigomentic tangent of it's value.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(tan);
 
+/*doc MutableSequence asin
+Sets each value of the Sequence to the trigomentic arcsine of it's value.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(asin);
+
+/*doc MutableSequence acos
+Sets each value of the Sequence to the trigomentic arcsine of it's value.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(acos);
+
+/*doc MutableSequence atan
+Sets each value of the Sequence to the trigomentic arctangent of it's value.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(atan);
 
+/*doc MutableSequence sinh
+Sets each value of the Sequence to the hyperbolic sine of it's value.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(sinh);
+
+/*doc MutableSequence cosh
+Sets each value of the Sequence to the hyperbolic cosine of it's value.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(cosh);
+
+/*doc MutableSequence tanh
+Sets each value of the Sequence to the hyperbolic tangent of it's value.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(tanh);
 
+/*doc MutableSequence exp
+Sets each value of the Sequence to e**value.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(exp);
+
+/*doc MutableSequence exp
+Sets each value of the Sequence to the natural log of it's value.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(log);
+
+/*doc MutableSequence exp
+Sets each value of the Sequence to the base 10 log of it's value.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(log10);
 
+/*doc MutableSequence ceil
+Round each value to smallest integral value not less than x.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(ceil);
+
+/*doc MutableSequence floor
+Round each value to largest integral value not greater than x.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(floor);
+
+/*doc MutableSequence abs
+Sets each value of the Sequence to it's absolute value.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(abs);
 
+/*doc MutableSequence square
+Sets each value of the Sequence to the square of it's value.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(square);
+
+/*doc MutableSequence sqrt
+Sets each value of the Sequence to the square root of it's value.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(sqrt);
+
+/*doc MutableSequence normalize
+Divides each value of the Sequence by the sum of the sequence divided by the number of elements.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(normalize);
 
 #define IoSeqNoArgNumberResultOp(name) \
 IoObject *IoSeq_ ## name (IoSeq *self, IoObject *locals, IoMessage *m) \
 { return IONUMBER(UArray_ ## name (DATA(self))); }
 
+/*doc MutableSequence sum
+Returns the sum of the Sequence.
+*/
 IoSeqNoArgNumberResultOp(sumAsDouble);
+
+/*doc MutableSequence product
+Returns the product of all the sequence's values multipled together.
+*/
 IoSeqNoArgNumberResultOp(productAsDouble);
+
+/*doc MutableSequence min
+Returns the minimum value of the Sequence.
+*/
 IoSeqNoArgNumberResultOp(minAsDouble);
+
+/*doc MutableSequence min
+Returns the maximum value of the Sequence.
+*/
 IoSeqNoArgNumberResultOp(maxAsDouble);
+
+/*doc MutableSequence mean
+Returns the arithmetic mean of the sequence.
+*/
 IoSeqNoArgNumberResultOp(arithmeticMeanAsDouble);
+
+/*doc MutableSequence mean
+Returns the arithmetic mean of the sequence's values after they have been squared.
+*/
 IoSeqNoArgNumberResultOp(arithmeticMeanSquareAsDouble);
+
+/*doc MutableSequence hash
+Returns a Number containing a hash of the Sequence.
+*/
 IoSeqNoArgNumberResultOp(hash);
 
 #define IoSeqLongArgNumberResultOp(name) \
@@ -1032,7 +1222,15 @@ IoObject *IoSeq_ ## name (IoSeq *self, IoObject *locals, IoMessage *m) \
 { return IONUMBER(UArray_ ## name (DATA(self), IoMessage_locals_longArgAt_(m, locals, 0))); }
 
 //IoSeqLongArgNumberResultOp(setAllBitsTo_);
+
+/*doc MutableSequence byteAt(byteIndex)
+Returns a Number containing the byte at the byte index value.
+*/
 IoSeqLongArgNumberResultOp(byteAt_);
+
+/*doc MutableSequence byteAt(rawIndex)
+Returns a Number containing the byte at the raw index value.
+*/
 IoSeqLongArgNumberResultOp(bitAt_);
 IoSeqNoArgNumberResultOp(bitCount);
 
