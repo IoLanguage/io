@@ -4,10 +4,12 @@ RegexMatch do(
 	/* doc RegexMatch captures
 	Returns a list of captured strings. The first element is the whole match.
 	*/
-	captures := lazySlot(
-		ranges map(range,
+	captures := method(
+		if(regex isNil, return list)
+		captures = ranges map(range,
 			if (range, subject slice(range first, range last), nil)
 		)
+		captures
 	)
 
 	/*doc RegexMatch size
@@ -43,8 +45,10 @@ RegexMatch do(
 	Returns a list of the name of each named capture.
 	If there are no named captures, the list will be empty.
 	*/
-	names := lazySlot(
-		regex captureNames select(isNil not)
+	names := method(
+		if(regex isNil, return list)
+		names = regex captureNames select(isNil not)
+		names
 	)
 
 	/*doc RegexMatch indexOf(name)
@@ -82,9 +86,8 @@ RegexMatch do(
 	/*doc RegexMatch string
 	Returns the matched string.
 	*/
-	asString := string := method(captures first)
-
-
+	string := method(captures first)
+		
 	/*doc RegexMatch range
 	Returns the range of the match in the subject.
 	*/
@@ -134,5 +137,11 @@ RegexMatch do(
 			cap := if(m at(1), m at(1) asNumber, m at(2))
 			if(string := at(cap), string, "")
 		)
+	)
+
+
+	asString := method(
+		if(regex isNil, return resend)
+		"RegexMatch: #{string}" interpolate
 	)
 )

@@ -62,6 +62,6 @@ Sequence do(
 	*/
 	EscapeRegex := Regex with("""[-*+?|.()\[\]\{\}\\]""")
 	escapeRegexChars := method(
-		matchesOfRegex(EscapeRegex) replace(m, "\\" .. m)
+		matchesOfRegex(EscapeRegex) replace(m, "\\" .. m string)
 	)
 )
