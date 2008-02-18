@@ -103,6 +103,7 @@ endif
 	mkdir -p _build/lib || true
 	$(AR) $(ARFLAGS) $(AROUTFLAG)_build/lib/libiovmall.a\
         libs/*/_build/$(VMALL)objs/*.o
+	$(RANLIB) _build/lib/libiovmall.a
 	mkdir -p _build/headers || true
 	cp libs/*/_build/headers/* _build/headers
 
