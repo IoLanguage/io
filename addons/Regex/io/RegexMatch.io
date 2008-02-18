@@ -16,13 +16,17 @@ Io> match := "37signals" findRegex("([0-9]+)([a-z]+)(!!)?")
 Io> match at(0)
 ==> 37signals
 
-# Item 1 is the second capture:
+# Item 1 is the first capture ("[0-9]+"):
 Io> match at(1)
 ==> 37
 
-# Item 2 is the first capture:
+# Item 2 is the second capture ("[a-z]+"):
 Io> match at(2)
 ==> signals
+
+# The third sub pattern wasn't part of the match, so item 3 is nil:
+Io> match at(3)
+==> nil
 
 # You can access captures by name:
 Io> match at("number")
