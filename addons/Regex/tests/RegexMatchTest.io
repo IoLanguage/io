@@ -93,4 +93,10 @@ RegexMatchTest := UnitTest clone do(
 		s := match expandTo("number of $999: ${humbug}") 
 		assertEquals("number of : ", s)
 	)
+
+	testPrefixAndPostfix := method(
+		match := "A B C" allMatchesOfRegex("[A-Z]") at(1)
+		assertEquals("A ", match prefix)
+		assertEquals(" C", match postfix)
+	)
 )

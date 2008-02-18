@@ -12412,6 +12412,8 @@ Io> match at("word")
 <a href="#RegexMatch-map">map()</a><br>
 <a href="#RegexMatch-nameOf">nameOf()</a><br>
 <a href="#RegexMatch-names">names</a><br>
+<a href="#RegexMatch-postfix">postfix</a><br>
+<a href="#RegexMatch-prefix">prefix</a><br>
 <a href="#RegexMatch-range">range</a><br>
 <a href="#RegexMatch-rangeOf">rangeOf()</a><br>
 <a href="#RegexMatch-ranges">ranges</a><br>
@@ -12475,6 +12477,22 @@ Returns the name of the capture with the given index.
 <div class=slotDescription>
 Returns a list of the name of each named capture.
 	If there are no named captures, the list will be empty.
+</div>
+<a name="RegexMatch-postfix"></a><b>postfix</b><p>
+<div class=slotDescription>
+Returns a slice of the subject string that contains all text after this match.
+	Equivalent to:
+	<pre>
+	match subject slice(match end)
+	</pre>
+</div>
+<a name="RegexMatch-prefix"></a><b>prefix</b><p>
+<div class=slotDescription>
+Returns a slice of the subject string that contains all text before this match.
+	Equivalent to:
+	<pre>
+	match subject slice(0, match start)
+	</pre>
 </div>
 <a name="RegexMatch-range"></a><b>range</b><p>
 <div class=slotDescription>

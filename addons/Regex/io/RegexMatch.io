@@ -112,12 +112,34 @@ RegexMatch do(
 		call delegateTo(captures)
 	)
 
-
+	
 	/*doc RegexMatch string
 	Returns the matched string.
 	*/
 	string := method(captures first)
 		
+	/*doc RegexMatch prefix
+	Returns a slice of the subject string that contains all text before this match.
+	Equivalent to:
+	<pre>
+	match subject slice(0, match start)
+	</pre>
+	*/
+	prefix := method(
+		subject slice(0, start)
+	)
+
+	/*doc RegexMatch postfix
+	Returns a slice of the subject string that contains all text after this match.
+	Equivalent to:
+	<pre>
+	match subject slice(match end)
+	</pre>
+	*/
+	postfix := method(
+		subject slice(end)
+	)
+	
 	/*doc RegexMatch range
 	Returns the range of the match in the subject.
 	*/
