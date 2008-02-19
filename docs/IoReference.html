@@ -27,12 +27,10 @@
 <div class=indexItem><a href="#Duration">Duration</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#DynLib">DynLib</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#File">File</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-<div class=indexItem><a href="#ImmutableSequence">ImmutableSequence</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#Importer">Importer</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#List">List</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#Map">Map</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#Message">Message</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-<div class=indexItem><a href="#MutableSequence">MutableSequence</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#Number">Number</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#Object">Object</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#Path">Path</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -1096,40 +1094,10 @@ Same as; size x
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#CFFI-CFFI">CFFI</a><br>
-<a href="#CFFI-DataType">DataType</a><br>
-<a href="#CFFI-Function">Function</a><br>
-<a href="#CFFI-Library">Library</a><br>
-<a href="#CFFI-Pointer">Pointer</a><br>
-<a href="#CFFI-Types">Types</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
-<a name="CFFI-CFFI"></a><b>CFFI</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CFFI-DataType"></a><b>DataType</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CFFI-Function"></a><b>Function</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CFFI-Library"></a><b>Library</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CFFI-Pointer"></a><b>Pointer</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CFFI-Types"></a><b>Types</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 </div>
 </div>
 <hr align=left>
@@ -3325,19 +3293,22 @@ if not specified, "./" is assumed.""")
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
+<a href="#Directory-accessibleAncestors">accessibleAncestors</a><br>
 <a href="#Directory-accessibleParents">accessibleParents</a><br>
+<a href="#Directory-ancestorDirectories">ancestorDirectories</a><br>
 <a href="#Directory-at">at()</a><br>
 <a href="#Directory-create">create</a><br>
 <a href="#Directory-createFileNamed">createFileNamed</a><br>
 <a href="#Directory-createIfAbsent">createIfAbsent</a><br>
 <a href="#Directory-createSubdirectory">createSubdirectory()</a><br>
 <a href="#Directory-currentWorkingDirectory">currentWorkingDirectory</a><br>
+<a href="#Directory-directoryNamed">directoryNamed()</a><br>
 <a href="#Directory-exists">exists()</a><br>
-<a href="#Directory-fileNamed">fileNamed</a><br>
+<a href="#Directory-fileNamed">fileNamed()</a><br>
 <a href="#Directory-fileNames">fileNames</a><br>
 <a href="#Directory-files">files</a><br>
-<a href="#Directory-filesWithExtension">filesWithExtension</a><br>
-<a href="#Directory-folderNamed">folderNamed</a><br>
+<a href="#Directory-filesWithExtension">filesWithExtension()</a><br>
+<a href="#Directory-folderNamed">folderNamed()</a><br>
 <a href="#Directory-folderNamedCreateIfAbsent">folderNamedCreateIfAbsent</a><br>
 <a href="#Directory-folders">folders</a><br>
 <a href="#Directory-isAccessible">isAccessible</a><br>
@@ -3356,9 +3327,19 @@ if not specified, "./" is assumed.""")
 <p>
 <h3>Slots</h3>
 <p>
+<a name="Directory-accessibleAncestors"></a><b>accessibleAncestors</b><p>
+<div class=slotDescription>
+Returns a list of accessizble ancestor directories.
+</div>
+<font color=#55a>
 <a name="Directory-accessibleParents"></a><b>accessibleParents</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Deprecated. Replaced by accessibleAncestors.
+</font>
+</div>
+<a name="Directory-ancestorDirectories"></a><b>ancestorDirectories</b><p>
+<div class=slotDescription>
+Returns a list of ancestor directories.
 </div>
 <a name="Directory-at"></a><b>at(aString)</b><p>
 <div class=slotDescription>
@@ -3375,7 +3356,7 @@ Create the directory if it doesn't exist.
 </div>
 <a name="Directory-createIfAbsent"></a><b>createIfAbsent</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Creates the directory folder (and any missing ancestor folders) if they don't exist. Returns self.
 </div>
 <a name="Directory-createSubdirectory"></a><b>createSubdirectory(name)</b><p>
 <div class=slotDescription>
@@ -3385,30 +3366,36 @@ Create a subdirectory with the specified name.
 <div class=slotDescription>
 Returns the current working directory path.
 </div>
+<a name="Directory-directoryNamed"></a><b>directoryNamed(aName)</b><p>
+<div class=slotDescription>
+Returns a Directory object for the specified file name whether it exists or not.
+</div>
 <a name="Directory-exists"></a><b>exists(optionalPath)</b><p>
 <div class=slotDescription>
 Returns true if the Directory path exists, and false otherwise.
 	If optionalPath string is provided, it tests the existance of that path instead.
 </div>
-<a name="Directory-fileNamed"></a><b>fileNamed</b><p>
+<a name="Directory-fileNamed"></a><b>fileNamed(aName)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a File object for the specified file name whether it exists or not.
 </div>
 <a name="Directory-fileNames"></a><b>fileNames</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a list of strings for the names of the files (no subdirectories) in the directory.
 </div>
 <a name="Directory-files"></a><b>files</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a list of File objects for the files in the Directory (no directories).
 </div>
-<a name="Directory-filesWithExtension"></a><b>filesWithExtension</b><p>
+<a name="Directory-filesWithExtension"></a><b>filesWithExtension(aString)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a list of File objects for the files in the Directory (no directories) with the specified file extension.
 </div>
-<a name="Directory-folderNamed"></a><b>folderNamed</b><p>
+<font color=#55a>
+<a name="Directory-folderNamed"></a><b>folderNamed(aName)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Deprecated. Replaced by directoryNamed().
+</font>
 </div>
 <a name="Directory-folderNamedCreateIfAbsent"></a><b>folderNamedCreateIfAbsent</b><p>
 <div class=slotDescription>
@@ -3416,11 +3403,11 @@ Returns true if the Directory path exists, and false otherwise.
 </div>
 <a name="Directory-folders"></a><b>folders</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a list of subdirectories for the receiver.
 </div>
 <a name="Directory-isAccessible"></a><b>isAccessible</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if the directory can be accessed, false otherwise.
 </div>
 <a name="Directory-items"></a><b>items</b><p>
 <div class=slotDescription>
@@ -3437,11 +3424,13 @@ Returns the receiver's last path component.
 </div>
 <a name="Directory-parentDirectory"></a><b>parentDirectory</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the parent directory object or nil if there is no parent directory.
 </div>
+<font color=#55a>
 <a name="Directory-parents"></a><b>parents</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Deprecated. Replaced by ancestorDirectories.
+</font>
 </div>
 <a name="Directory-path"></a><b>path</b><p>
 <div class=slotDescription>
@@ -3467,7 +3456,7 @@ Returns a Number containing the number of file and directory
 </div>
 <a name="Directory-with"></a><b>with(aPath)</b><p>
 <div class=slotDescription>
-Returns a new instance with the provided path.")
+Returns a new instance with the provided path.
 </div>
 </div>
 </div>
@@ -7463,424 +7452,6 @@ Returns the image width.
 </div>
 </div>
 <hr align=left>
-<h2><a name="ImmutableSequence"></a>ImmutableSequence</h2>
-<div class=indent>
-<div style="line-height:1.3em">
-<b>Module:</b> Core<br>
-<b>Category:</b> Core
-<br>
-<font color=#bbb>
-</font>
-</div>
-<h3>Description</h3>
-<div class=protoDescription>
-A Sequence is a container for a list of data elements. 
-Immutable Sequences are also called "Symbols".
-
-</div>
-<div class=slots>
-<h3>Slot Index</h3>
-<div class=slotIndex>
-<a href="#ImmutableSequence-..">..()</a><br>
-<a href="#ImmutableSequence-afterSeq">afterSeq()</a><br>
-<a href="#ImmutableSequence-asBinaryNumber">asBinaryNumber</a><br>
-<a href="#ImmutableSequence-asCapitalized">asCapitalized</a><br>
-<a href="#ImmutableSequence-asFixedSizeType">asFixedSizeType</a><br>
-<a href="#ImmutableSequence-asIoPath">asIoPath</a><br>
-<a href="#ImmutableSequence-asLowercase">asLowercase</a><br>
-<a href="#ImmutableSequence-asMessage">asMessage()</a><br>
-<a href="#ImmutableSequence-asMutable">asMutable</a><br>
-<a href="#ImmutableSequence-asNumber">asNumber</a><br>
-<a href="#ImmutableSequence-asOSPath">asOSPath</a><br>
-<a href="#ImmutableSequence-asStruct">asStruct()</a><br>
-<a href="#ImmutableSequence-asSymbol">asSymbol</a><br>
-<a href="#ImmutableSequence-asUTF16">asUTF16</a><br>
-<a href="#ImmutableSequence-asUTF32">asUTF32</a><br>
-<a href="#ImmutableSequence-asUTF8">asUTF8</a><br>
-<a href="#ImmutableSequence-asUppercase">asUppercase</a><br>
-<a href="#ImmutableSequence-at">at()</a><br>
-<a href="#ImmutableSequence-beforeSeq">beforeSeq()</a><br>
-<a href="#ImmutableSequence-beginsWithSeq">beginsWithSeq()</a><br>
-<a href="#ImmutableSequence-between">between()</a><br>
-<a href="#ImmutableSequence-cloneAppendPath">cloneAppendPath()</a><br>
-<a href="#ImmutableSequence-contains">contains()</a><br>
-<a href="#ImmutableSequence-containsAnyCaseSeq">containsAnyCaseSeq()</a><br>
-<a href="#ImmutableSequence-containsSeq">containsSeq()</a><br>
-<a href="#ImmutableSequence-distanceTo">distanceTo()</a><br>
-<a href="#ImmutableSequence-encoding">encoding</a><br>
-<a href="#ImmutableSequence-endsWithSeq">endsWithSeq()</a><br>
-<a href="#ImmutableSequence-fileName">fileName</a><br>
-<a href="#ImmutableSequence-findSeq">findSeq()</a><br>
-<a href="#ImmutableSequence-findSeqs">findSeqs()</a><br>
-<a href="#ImmutableSequence-foreach">foreach()</a><br>
-<a href="#ImmutableSequence-fromBase">fromBase()</a><br>
-<a href="#ImmutableSequence-greaterThan">greaterThan()</a><br>
-<a href="#ImmutableSequence-greaterThanOrEqualTo">greaterThanOrEqualTo()</a><br>
-<a href="#ImmutableSequence-interpolate">interpolate()</a><br>
-<a href="#ImmutableSequence-isEmpty">isEmpty</a><br>
-<a href="#ImmutableSequence-isEqualAnyCase">isEqualAnyCase()</a><br>
-<a href="#ImmutableSequence-isLowercase">isLowercase</a><br>
-<a href="#ImmutableSequence-isMutable">isMutable</a><br>
-<a href="#ImmutableSequence-isSymbol">isSymbol</a><br>
-<a href="#ImmutableSequence-isUppercase">isUppercase</a><br>
-<a href="#ImmutableSequence-isZero">isZero</a><br>
-<a href="#ImmutableSequence-itemSize">itemSize</a><br>
-<a href="#ImmutableSequence-itemType">itemType</a><br>
-<a href="#ImmutableSequence-lastPathComponent">lastPathComponent</a><br>
-<a href="#ImmutableSequence-lessThan">lessThan()</a><br>
-<a href="#ImmutableSequence-lessThanOrEqualTo">lessThanOrEqualTo()</a><br>
-<a href="#ImmutableSequence-linePrint">linePrint</a><br>
-<a href="#ImmutableSequence-occurancesOfSeq">occurancesOfSeq()</a><br>
-<a href="#ImmutableSequence-pathComponent">pathComponent</a><br>
-<a href="#ImmutableSequence-pathExtension">pathExtension</a><br>
-<a href="#ImmutableSequence-print">print</a><br>
-<a href="#ImmutableSequence-reverseFindSeq">reverseFindSeq()</a><br>
-<a href="#ImmutableSequence-size">size</a><br>
-<a href="#ImmutableSequence-slice">slice()</a><br>
-<a href="#ImmutableSequence-split">split()</a><br>
-<a href="#ImmutableSequence-splitAt">splitAt()</a><br>
-<a href="#ImmutableSequence-toBase">toBase()</a><br>
-<a href="#ImmutableSequence-whiteSpaceStrings">whiteSpaceStrings</a><br>
-<a href="#ImmutableSequence-with">with()</a><br>
-<a href="#ImmutableSequence-withStruct">withStruct()</a><br>
-</div>
-<p>
-<h3>Slots</h3>
-<p>
-<a name="ImmutableSequence-.."></a><b>..(aSequence)</b><p>
-<div class=slotDescription>
-Returns a copy of the receiver with aSequence appended to it.
-</div>
-<a name="ImmutableSequence-afterSeq"></a><b>afterSeq(aSequence)</b><p>
-<div class=slotDescription>
-Returns the slice of the receiver (as a Symbol) after aSequence or
-	nil if aSequence is not found. If aSequence is empty, the receiver
-	(or a copy of the receiver if it is mutable) is returned.
-</div>
-<a name="ImmutableSequence-asBinaryNumber"></a><b>asBinaryNumber</b><p>
-<div class=slotDescription>
-Returns a Number containing the first 8 bytes of the
-	receiver without casting them to a double.
-</div>
-<a name="ImmutableSequence-asCapitalized"></a><b>asCapitalized</b><p>
-<div class=slotDescription>
-Returns a copy of the receiver with the first charater made uppercase.
-</div>
-<a name="ImmutableSequence-asFixedSizeType"></a><b>asFixedSizeType</b><p>
-<div class=slotDescription>
-Returns a new sequence with the receiver encoded in the 
-	minimal fixed width text encoding that it's characters can fit 
-	into (either, ascii, utf8, utf16 or utf32).
-</div>
-<a name="ImmutableSequence-asIoPath"></a><b>asIoPath</b><p>
-<div class=slotDescription>
-Returns a Io style path for an OS style path.
-</div>
-<a name="ImmutableSequence-asLowercase"></a><b>asLowercase</b><p>
-<div class=slotDescription>
-Returns a symbol containing the reveiver made Lowercase.
-</div>
-<a name="ImmutableSequence-asMessage"></a><b>asMessage(optionalLabel)</b><p>
-<div class=slotDescription>
-Returns the compiled message object for the string.
-</div>
-<a name="ImmutableSequence-asMutable"></a><b>asMutable</b><p>
-<div class=slotDescription>
-Returns a mutable copy of the receiver.
-</div>
-<a name="ImmutableSequence-asNumber"></a><b>asNumber</b><p>
-<div class=slotDescription>
-Returns the receiver converted to a number.
-	Initial whitespace is ignored.
-</div>
-<a name="ImmutableSequence-asOSPath"></a><b>asOSPath</b><p>
-<div class=slotDescription>
-Returns a OS style path for an Io style path.
-</div>
-<a name="ImmutableSequence-asStruct"></a><b>asStruct(memberList)</b><p>
-<div class=slotDescription>
-For a sequence that contains the data for a raw memory data structure (as used in C),
-this method can be used to extract it's members into an Object. The memberList argument
-specifies the layout of the datastructure. It's form is:
-<p>
-list(memberType1, memberName1, memberType2, memberName2, ...)
-<p>
-Member types include: 
-<pre>
-int8, int16, int32, int64
-uint8, uint16, uint32, uint64
-float32, float64 
-</pre>
-Example:
-<pre>
-pointObject := structPointSeq asStruct(list("float32", "x", "float32", "y"))
-</pre>
-The output pointObject would contain x and y slots with Number objects.
-</div>
-<a name="ImmutableSequence-asSymbol"></a><b>asSymbol</b><p>
-<div class=slotDescription>
-Returns a immutable Sequence (aka Symbol) version of the receiver.
-</div>
-<a name="ImmutableSequence-asUTF16"></a><b>asUTF16</b><p>
-<div class=slotDescription>
-Returns a new copy of the receiver converted to utf16 encoding.
-</div>
-<a name="ImmutableSequence-asUTF32"></a><b>asUTF32</b><p>
-<div class=slotDescription>
-Returns a new copy of the receiver converted to utf32 encoding.
-</div>
-<a name="ImmutableSequence-asUTF8"></a><b>asUTF8</b><p>
-<div class=slotDescription>
-Returns a new copy of the receiver converted to utf8 encoding.
-</div>
-<a name="ImmutableSequence-asUppercase"></a><b>asUppercase</b><p>
-<div class=slotDescription>
-Returns a symbol containing the reveiver made uppercase.
-</div>
-<a name="ImmutableSequence-at"></a><b>at(aNumber)</b><p>
-<div class=slotDescription>
-Returns a value at the index specified by aNumber.
-	Returns nil if the index is out of bounds.
-</div>
-<a name="ImmutableSequence-beforeSeq"></a><b>beforeSeq(aSequence)</b><p>
-<div class=slotDescription>
-Returns the slice of the receiver (as a Symbol) before
-	aSequence or self if aSequence is not found.
-</div>
-<a name="ImmutableSequence-beginsWithSeq"></a><b>beginsWithSeq(aSequence)</b><p>
-<div class=slotDescription>
-Returns true if the receiver begins with aSequence, false otherwise.
-</div>
-<a name="ImmutableSequence-between"></a><b>between(aSequence, anotherSequence)</b><p>
-<div class=slotDescription>
-Returns a new Sequence containing the bytes between the
-	occurance of aSequence and anotherSequence in the receiver.
-</div>
-<a name="ImmutableSequence-cloneAppendPath"></a><b>cloneAppendPath(aSequence)</b><p>
-<div class=slotDescription>
-Appends argument to a copy the receiver such that there is one
-	and only one path separator between the two and returns the result.
-</div>
-<a name="ImmutableSequence-contains"></a><b>contains(aNumber)</b><p>
-<div class=slotDescription>
-Returns true if the receiver contains an element equal in value to aNumber, false otherwise.
-</div>
-<a name="ImmutableSequence-containsAnyCaseSeq"></a><b>containsAnyCaseSeq(aSequence)</b><p>
-<div class=slotDescription>
-Returns true if the receiver contains the aSequence
-	regardless of casing, false otherwise.
-</div>
-<a name="ImmutableSequence-containsSeq"></a><b>containsSeq(aSequence)</b><p>
-<div class=slotDescription>
-Returns true if the receiver contains the substring
-	aSequence, false otherwise.
-</div>
-<a name="ImmutableSequence-distanceTo"></a><b>distanceTo(aSeq)</b><p>
-<div class=slotDescription>
-Returns a number with the square root of the sum of the square 
-	of the differences of the items between the sequences.
-</div>
-<a name="ImmutableSequence-encoding"></a><b>encoding</b><p>
-<div class=slotDescription>
-Returns the encoding of the elements.
-</div>
-<a name="ImmutableSequence-endsWithSeq"></a><b>endsWithSeq(aSequence)</b><p>
-<div class=slotDescription>
-Returns true if the receiver ends with aSequence, false otherwise.
-</div>
-<a name="ImmutableSequence-fileName"></a><b>fileName</b><p>
-<div class=slotDescription>
-Returns the last path component sans the path extension.
-</div>
-<a name="ImmutableSequence-findSeq"></a><b>findSeq(aSequence, optionalStartIndex)</b><p>
-<div class=slotDescription>
-Returns a number with the first occurrence of aSequence in
-	the receiver after the startIndex. If no startIndex is specified,
-	the search starts at index 0.
-	nil is returned if no occurences are found.
-</div>
-<a name="ImmutableSequence-findSeqs"></a><b>findSeqs(listOfSequences, optionalStartIndex)</b><p>
-<div class=slotDescription>
-Returns a object with two slots - an \"index\" slot which contains 
-	the first occurrence of any of the sequences in listOfSequences found 
-	in the receiver after the startIndex, and a \"match\" slot, which 
-	contains a reference to the matching sequence from listOfSequences. 
-	If no startIndex is specified, the search starts at index 0. 
-	nil is returned if no occurences are found.
-</div>
-<a name="ImmutableSequence-foreach"></a><b>foreach(optionalIndex, value, message)</b><p>
-<div class=slotDescription>
-For each element, set index to the index of the
-element and value the element value and execute message. 
-Example:
-<pre>	
-aSequence foreach(i, v, writeln("value at index ", i, " is ", v))
-aSequence foreach(v, writeln("value ", v))
-</pre>
-</div>
-<a name="ImmutableSequence-fromBase"></a><b>fromBase(aNumber)</b><p>
-<div class=slotDescription>
-Returns a number with a base 10 representation of the receiver
-	converted from the specified base. Only base 2 through 32 are currently supported.
-</div>
-<a name="ImmutableSequence-greaterThan"></a><b>greaterThan(aSeq)</b><p>
-<div class=slotDescription>
-Returns true if the receiver is greater than aSeq, false otherwise.
-</div>
-<a name="ImmutableSequence-greaterThanOrEqualTo"></a><b>greaterThanOrEqualTo(aSeq)</b><p>
-<div class=slotDescription>
-Returns true if the receiver is greater than or equal to aSeq, false otherwise.
-</div>
-<a name="ImmutableSequence-interpolate"></a><b>interpolate(ctx)</b><p>
-<div class=slotDescription>
-Returns immutable copy of self with interpolateInPlace(ctx) passed to the copy.
-</div>
-<a name="ImmutableSequence-isEmpty"></a><b>isEmpty</b><p>
-<div class=slotDescription>
-Returns true if the size of the receiver is 0, false otherwise.
-</div>
-<a name="ImmutableSequence-isEqualAnyCase"></a><b>isEqualAnyCase(aSequence)</b><p>
-<div class=slotDescription>
-Returns true if aSequence is equal to the receiver
-	ignoring case differences, false otherwise.
-</div>
-<a name="ImmutableSequence-isLowercase"></a><b>isLowercase</b><p>
-<div class=slotDescription>
-Returns self if all the characters in the string are lower case.
-</div>
-<a name="ImmutableSequence-isMutable"></a><b>isMutable</b><p>
-<div class=slotDescription>
-Returns true if the receiver is a mutable Sequence or false otherwise.
-</div>
-<a name="ImmutableSequence-isSymbol"></a><b>isSymbol</b><p>
-<div class=slotDescription>
-Returns true if the receiver is a
-	immutable Sequence (aka, a Symbol) or false otherwise.
-</div>
-<a name="ImmutableSequence-isUppercase"></a><b>isUppercase</b><p>
-<div class=slotDescription>
-Returns self if all the characters in the string are upper case.
-</div>
-<a name="ImmutableSequence-isZero"></a><b>isZero</b><p>
-<div class=slotDescription>
-Returns true if all elements are 0, false otherwise.
-</div>
-<a name="ImmutableSequence-itemSize"></a><b>itemSize</b><p>
-<div class=slotDescription>
-Returns number of bytes in each element.
-</div>
-<a name="ImmutableSequence-itemType"></a><b>itemType</b><p>
-<div class=slotDescription>
-Returns machine type of elements.
-</div>
-<a name="ImmutableSequence-lastPathComponent"></a><b>lastPathComponent</b><p>
-<div class=slotDescription>
-Returns a string containing the receiver clipped up
-	to the last path separator.
-</div>
-<a name="ImmutableSequence-lessThan"></a><b>lessThan(aSeq)</b><p>
-<div class=slotDescription>
-Returns true if the receiver is lass than aSeq, false otherwise.
-</div>
-<a name="ImmutableSequence-lessThanOrEqualTo"></a><b>lessThanOrEqualTo(aSeq)</b><p>
-<div class=slotDescription>
-Returns true if the receiver is lass than or equal to aSeq, false otherwise.
-</div>
-<a name="ImmutableSequence-linePrint"></a><b>linePrint</b><p>
-<div class=slotDescription>
-Prints the Sequence and a newline character.
-</div>
-<a name="ImmutableSequence-occurancesOfSeq"></a><b>occurancesOfSeq(aSeq)</b><p>
-<div class=slotDescription>
-Returns count of aSeq in the receiver.
-</div>
-<a name="ImmutableSequence-pathComponent"></a><b>pathComponent</b><p>
-<div class=slotDescription>
-Returns a slice of the receiver before the last path separator as a symbol.
-</div>
-<a name="ImmutableSequence-pathExtension"></a><b>pathExtension</b><p>
-<div class=slotDescription>
-Returns a string containing the receiver clipped up to the last period.
-</div>
-<a name="ImmutableSequence-print"></a><b>print</b><p>
-<div class=slotDescription>
-Prints the receiver as a string. Returns self.
-</div>
-<a name="ImmutableSequence-reverseFindSeq"></a><b>reverseFindSeq(aSequence, startIndex)</b><p>
-<div class=slotDescription>
-Returns a number with the first occurrence of aSequence in
-	the receiver before the startIndex. The startIndex argument is optional.
-	By default reverseFind starts at the end of the string. Nil is
-	returned if no occurrences are found.
-</div>
-<a name="ImmutableSequence-size"></a><b>size</b><p>
-<div class=slotDescription>
-Returns the length in bytes of the receiver. For example,
-<p>
-<pre>	
-"abc" size == 3
-</pre>
-</div>
-<a name="ImmutableSequence-slice"></a><b>slice(startIndex, endIndex)</b><p>
-<div class=slotDescription>
-Returns a new string containing the subset of the
-	receiver from the startIndex to the endIndex. The endIndex argument
-	is optional. If not given, it is assumed to be the end of the string.
-</div>
-<a name="ImmutableSequence-split"></a><b>split(optionalArg1, optionalArg2, ...)</b><p>
-<div class=slotDescription>
-Returns a list containing the sub-sequences of the receiver divided by the given arguments.
-If no arguments are given the sequence is split on white space.
-Examples:
-<pre>	
-"a b c d" split == list("a", "b", "c", "d")
-"a*b*c*d" split("*") == list("a", "b", "c", "d")
-"a*b|c,d" split("*", "|", ",") == list("a", "b", "c", "d")
-"a   b  c d" split == list("a", "", "", "", "b", "", "", "c", "", "d")
-</pre>
-</div>
-<a name="ImmutableSequence-splitAt"></a><b>splitAt(indexNumber)</b><p>
-<div class=slotDescription>
-Returns a list containing the two parts of the receiver as split at the given index.
-</div>
-<a name="ImmutableSequence-toBase"></a><b>toBase(aNumber)</b><p>
-<div class=slotDescription>
-Returns a Sequence containing the receiver(which is
-	assumed to be a base 10 number) converted to the specified base.
-	Only base 8 and 16 are currently supported.
-</div>
-<a name="ImmutableSequence-whiteSpaceStrings"></a><b>whiteSpaceStrings</b><p>
-<div class=slotDescription>
-Returns a List of strings. Each string contains a different
-	whitespace character.
-</div>
-<a name="ImmutableSequence-with"></a><b>with(aSequence, ...)</b><p>
-<div class=slotDescription>
-Returns a new Sequence which is the concatination of the arguments.
-	The returned sequence will have the same mutability status as the receiver.
-</div>
-<a name="ImmutableSequence-withStruct"></a><b>withStruct(memberList)</b><p>
-<div class=slotDescription>
-This method is useful for producing a Sequence containing a raw datastructure with
-the specified types and values. The memberList format is:
-<p>
-list(memberType1, memberName1, memberType2, memberName2, ...)
-<p>
-Member types include: 
-<pre>
-int8, int16, int32, int64
-uint8, uint16, uint32, uint64
-float32, float64 
-</pre>
-Example:
-<pre>
-pointStructSeq := Sequence withStruct(list("float32", 1.2, "float32", 3.5))
-</pre>
-The output pointStructSeq would contain 2 raw 32 bit floats.
-</div>
-</div>
-</div>
-<hr align=left>
 <h2><a name="Importer"></a>Importer</h2>
 <div class=indent>
 <div style="line-height:1.3em">
@@ -9147,443 +8718,6 @@ Sets the previous message in the message chain to a deep copy of
 <div class=slotDescription>
 Returns a new message object with the receivers message as the first argument of the returned message, 
 	and the other parameter's arguments as each successive argument to the new message.
-</div>
-</div>
-</div>
-<hr align=left>
-<h2><a name="MutableSequence"></a>MutableSequence</h2>
-<div class=indent>
-<div style="line-height:1.3em">
-<b>Module:</b> Core<br>
-<font color=#bbb>
-</font>
-</div>
-<div class=slots>
-<h3>Slot Index</h3>
-<div class=slotIndex>
-<a href="#MutableSequence-*=">*=()</a><br>
-<a href="#MutableSequence-+=">+=()</a><br>
-<a href="#MutableSequence--=">-=()</a><br>
-<a href="#MutableSequence-/=">/=()</a><br>
-<a href="#MutableSequence-abs">abs</a><br>
-<a href="#MutableSequence-acos">acos</a><br>
-<a href="#MutableSequence-append">append()</a><br>
-<a href="#MutableSequence-appendPathSeq">appendPathSeq()</a><br>
-<a href="#MutableSequence-appendSeq">appendSeq()</a><br>
-<a href="#MutableSequence-asin">asin</a><br>
-<a href="#MutableSequence-atInsertSeq">atInsertSeq()</a><br>
-<a href="#MutableSequence-atPut">atPut()</a><br>
-<a href="#MutableSequence-atan">atan</a><br>
-<a href="#MutableSequence-byteAt">byteAt()</a><br>
-<a href="#MutableSequence-byteAt">byteAt()</a><br>
-<a href="#MutableSequence-capitalize">capitalize</a><br>
-<a href="#MutableSequence-ceil">ceil</a><br>
-<a href="#MutableSequence-clear">clear</a><br>
-<a href="#MutableSequence-clipAfterSeq">clipAfterSeq()</a><br>
-<a href="#MutableSequence-clipAfterStartOfSeq">clipAfterStartOfSeq()</a><br>
-<a href="#MutableSequence-clipBeforeEndOfSeq">clipBeforeEndOfSeq()</a><br>
-<a href="#MutableSequence-clipBeforeSeq">clipBeforeSeq()</a><br>
-<a href="#MutableSequence-convertToItemType">convertToItemType()</a><br>
-<a href="#MutableSequence-copy">copy()</a><br>
-<a href="#MutableSequence-cosh">cosh</a><br>
-<a href="#MutableSequence-duplicateIndexes">duplicateIndexes</a><br>
-<a href="#MutableSequence-escape">escape</a><br>
-<a href="#MutableSequence-exp">exp</a><br>
-<a href="#MutableSequence-floor">floor</a><br>
-<a href="#MutableSequence-hash">hash</a><br>
-<a href="#MutableSequence-interpolateInPlace">interpolateInPlace()</a><br>
-<a href="#MutableSequence-lowercase">lowercase</a><br>
-<a href="#MutableSequence-lstrip">lstrip()</a><br>
-<a href="#MutableSequence-mean">mean</a><br>
-<a href="#MutableSequence-min">min</a><br>
-<a href="#MutableSequence-negate">negate</a><br>
-<a href="#MutableSequence-normalize">normalize</a><br>
-<a href="#MutableSequence-preallocateToSize">preallocateToSize()</a><br>
-<a href="#MutableSequence-product">product</a><br>
-<a href="#MutableSequence-rangeFill">rangeFill</a><br>
-<a href="#MutableSequence-removeAt">removeAt()</a><br>
-<a href="#MutableSequence-removeEvenIndexes">removeEvenIndexes</a><br>
-<a href="#MutableSequence-removeLast">removeLast</a><br>
-<a href="#MutableSequence-removeOddIndexes">removeOddIndexes</a><br>
-<a href="#MutableSequence-removePrefix">removePrefix()</a><br>
-<a href="#MutableSequence-removeSeq">removeSeq()</a><br>
-<a href="#MutableSequence-removeSlice">removeSlice()</a><br>
-<a href="#MutableSequence-removeSuffix">removeSuffix()</a><br>
-<a href="#MutableSequence-replaceFirstSeq">replaceFirstSeq()</a><br>
-<a href="#MutableSequence-replaceMap">replaceMap()</a><br>
-<a href="#MutableSequence-replaceSeq">replaceSeq()</a><br>
-<a href="#MutableSequence-reverse">reverse</a><br>
-<a href="#MutableSequence-rstrip">rstrip()</a><br>
-<a href="#MutableSequence-set">set()</a><br>
-<a href="#MutableSequence-setEncoding">setEncoding()</a><br>
-<a href="#MutableSequence-setItemType">setItemType()</a><br>
-<a href="#MutableSequence-setItemsToDouble">setItemsToDouble()</a><br>
-<a href="#MutableSequence-setItemsToLong">setItemsToLong()</a><br>
-<a href="#MutableSequence-setSize">setSize()</a><br>
-<a href="#MutableSequence-sinh">sinh</a><br>
-<a href="#MutableSequence-sort">sort</a><br>
-<a href="#MutableSequence-sqrt">sqrt</a><br>
-<a href="#MutableSequence-square">square</a><br>
-<a href="#MutableSequence-strip">strip()</a><br>
-<a href="#MutableSequence-sum">sum</a><br>
-<a href="#MutableSequence-tan">tan</a><br>
-<a href="#MutableSequence-tanh">tanh</a><br>
-<a href="#MutableSequence-translate">translate()</a><br>
-<a href="#MutableSequence-unescape">unescape</a><br>
-<a href="#MutableSequence-uppercase">uppercase</a><br>
-</div>
-<p>
-<h3>Slots</h3>
-<p>
-<a name="MutableSequence-*="></a><b>*=(aSeq)</b><p>
-<div class=slotDescription>
-Multiplies the values of aSeq to the corresponding values of the receiver.
-	Only works on Sequences whose item type is numeric. Returns self.
-</div>
-<a name="MutableSequence-+="></a><b>+=(aSeq)</b><p>
-<div class=slotDescription>
-Vector addition - adds the values of aSeq to those of the receiver.
-	Only works on Sequences whose item type is numeric. Returns self.
-</div>
-<a name="MutableSequence--="></a><b>-=(aSeq)</b><p>
-<div class=slotDescription>
-Vector subtraction - subtracts the values of aSeq to those of the receiver.
-	Only works on Sequences whose item type is numeric. Returns self.
-</div>
-<a name="MutableSequence-/="></a><b>/=(aSeq)</b><p>
-<div class=slotDescription>
-Divides the values of aSeq to the corresponding values of the receiver.
-	Only works on Sequences whose item type is numeric. Returns self.
-</div>
-<a name="MutableSequence-abs"></a><b>abs</b><p>
-<div class=slotDescription>
-Sets each value of the Sequence to it's absolute value.
-Returns self.
-</div>
-<a name="MutableSequence-acos"></a><b>acos</b><p>
-<div class=slotDescription>
-Sets each value of the Sequence to the trigomentic arcsine of it's value.
-Returns self.
-</div>
-<a name="MutableSequence-append"></a><b>append(aNumber)</b><p>
-<div class=slotDescription>
-Appends aNumber (cast to a byte) to the receiver. Returns self.
-</div>
-<a name="MutableSequence-appendPathSeq"></a><b>appendPathSeq(aSeq)</b><p>
-<div class=slotDescription>
-Appends argument to the receiver such that there is one
-	and only one path separator between the two. Returns self.
-</div>
-<a name="MutableSequence-appendSeq"></a><b>appendSeq(object1, object2, ...)</b><p>
-<div class=slotDescription>
-Calls asString on the arguments and appends the string to the receiver. Returns self.
-</div>
-<a name="MutableSequence-asin"></a><b>asin</b><p>
-<div class=slotDescription>
-Sets each value of the Sequence to the trigomentic arcsine of it's value.
-Returns self.
-</div>
-<a name="MutableSequence-atInsertSeq"></a><b>atInsertSeq(indexNumber, object)</b><p>
-<div class=slotDescription>
-Calls asString on object and inserts the string at position indexNumber. Returns self.
-</div>
-<a name="MutableSequence-atPut"></a><b>atPut(aNumberIndex, aNumber)</b><p>
-<div class=slotDescription>
-Sets the value at the index specified by aNumberIndex to aNumber. Returns self.
-</div>
-<a name="MutableSequence-atan"></a><b>atan</b><p>
-<div class=slotDescription>
-Sets each value of the Sequence to the trigomentic arctangent of it's value.
-Returns self.
-</div>
-<a name="MutableSequence-byteAt"></a><b>byteAt(byteIndex)</b><p>
-<div class=slotDescription>
-Returns a Number containing the byte at the byte index value.
-</div>
-<a name="MutableSequence-byteAt"></a><b>byteAt(rawIndex)</b><p>
-<div class=slotDescription>
-Returns a Number containing the byte at the raw index value.
-</div>
-<a name="MutableSequence-capitalize"></a><b>capitalize</b><p>
-<div class=slotDescription>
-First charater of the receiver is made uppercase.
-</div>
-<a name="MutableSequence-ceil"></a><b>ceil</b><p>
-<div class=slotDescription>
-Round each value to smallest integral value not less than x.
-Returns self.
-</div>
-<a name="MutableSequence-clear"></a><b>clear</b><p>
-<div class=slotDescription>
-Sets all bytes in the receiver to 0x0 and sets
-	it's length to 0. Returns self.
-</div>
-<a name="MutableSequence-clipAfterSeq"></a><b>clipAfterSeq(aSequence)</b><p>
-<div class=slotDescription>
-Removes the contents of the receiver after the end of
-	the first occurance of aSequence. Returns true if anything was
-	removed, or false otherwise.
-</div>
-<a name="MutableSequence-clipAfterStartOfSeq"></a><b>clipAfterStartOfSeq(aSequence)</b><p>
-<div class=slotDescription>
-Removes the contents of the receiver after the beginning of
-	the first occurance of aSequence. Returns true if anything was
-	removed, or false otherwise.
-</div>
-<a name="MutableSequence-clipBeforeEndOfSeq"></a><b>clipBeforeEndOfSeq(aSequence)</b><p>
-<div class=slotDescription>
-Removes the contents of the receiver before the end of
-	the first occurance of aSequence. Returns true if anything was
-	removed, or false otherwise.
-</div>
-<a name="MutableSequence-clipBeforeSeq"></a><b>clipBeforeSeq(aSequence)</b><p>
-<div class=slotDescription>
-Clips receiver before aSequence.
-</div>
-<a name="MutableSequence-convertToItemType"></a><b>convertToItemType(aTypeName)</b><p>
-<div class=slotDescription>
-Converts the underlying machine type for the elements, expanding or contracting
-	the size of the Sequence as needed. 
-	Valid names are uint8, uint16, uint32, uint64, int8, int16, int32, 
-	int64, float32, and float64. Note that 64 bit types are only available 
-	on platforms that support such types. Returns self.
-</div>
-<a name="MutableSequence-copy"></a><b>copy(aSequence)</b><p>
-<div class=slotDescription>
-Replaces the bytes of the receiver with a copy of those in aSequence. Returns self.
-</div>
-<a name="MutableSequence-cosh"></a><b>cosh</b><p>
-<div class=slotDescription>
-Sets each value of the Sequence to the hyperbolic cosine of it's value.
-Returns self.
-</div>
-<a name="MutableSequence-duplicateIndexes"></a><b>duplicateIndexes</b><p>
-<div class=slotDescription>
-Duplicates all indexes in the receiver.
-	For example, list(1,2,3) duplicateIndexes == list(1,1,2,2,3,3). Returns self.
-</div>
-<a name="MutableSequence-escape"></a><b>escape</b><p>
-<div class=slotDescription>
-Escape characters in the receiver are replaced with escape codes.
-	For example a string containing a single return character would contain the
-	following 2 characters after being escaped: "\n". Returns self.
-</div>
-<a name="MutableSequence-exp"></a><b>exp</b><p>
-<div class=slotDescription>
-Sets each value of the Sequence to the base 10 log of it's value.
-Returns self.
-</div>
-<a name="MutableSequence-floor"></a><b>floor</b><p>
-<div class=slotDescription>
-Round each value to largest integral value not greater than x.
-Returns self.
-</div>
-<a name="MutableSequence-hash"></a><b>hash</b><p>
-<div class=slotDescription>
-Returns a Number containing a hash of the Sequence.
-</div>
-<a name="MutableSequence-interpolateInPlace"></a><b>interpolateInPlace(optionalContext)</b><p>
-<div class=slotDescription>
-Replaces all #{expression} with expression evaluated in the optionalContext. 
-	If optionalContext not given, the current context is used.  Returns self.
-</div>
-<a name="MutableSequence-lowercase"></a><b>lowercase</b><p>
-<div class=slotDescription>
-Makes all the uppercase characters in the receiver lowercase. Returns self.
-</div>
-<a name="MutableSequence-lstrip"></a><b>lstrip(aSequence)</b><p>
-<div class=slotDescription>
-Strips the characters in aSequence
-stripped from the beginning of the receiver. Example:
-<p>
-<pre>	
-"Keep the tail" lstrip(" eKp")
-==> "the tail"
-</pre>
-</div>
-<a name="MutableSequence-mean"></a><b>mean</b><p>
-<div class=slotDescription>
-Returns the arithmetic mean of the sequence's values after they have been squared.
-</div>
-<a name="MutableSequence-min"></a><b>min</b><p>
-<div class=slotDescription>
-Returns the maximum value of the Sequence.
-</div>
-<a name="MutableSequence-negate"></a><b>negate</b><p>
-<div class=slotDescription>
-Negates the values of the receiver.
-Returns self.
-</div>
-<a name="MutableSequence-normalize"></a><b>normalize</b><p>
-<div class=slotDescription>
-Divides each value of the Sequence by the sum of the sequence divided by the number of elements.
-Returns self.
-</div>
-<a name="MutableSequence-preallocateToSize"></a><b>preallocateToSize(aNumber)</b><p>
-<div class=slotDescription>
-If needed, resize the memory alloced for the receivers
-	byte array to be large enough to fit the number of bytes specified by
-	aNumber. This is useful for pio_reallocating the memory so it doesn't
-	keep getting allocated as the Sequence is appended to. This operation
-	will not change the Sequence's length or contents. Returns self.
-</div>
-<a name="MutableSequence-product"></a><b>product</b><p>
-<div class=slotDescription>
-Returns the product of all the sequence's values multipled together.
-</div>
-<a name="MutableSequence-rangeFill"></a><b>rangeFill</b><p>
-<div class=slotDescription>
-Sets each value of the Sequence to the trigomentic cosine of it's value.
-Returns self.
-</div>
-<a name="MutableSequence-removeAt"></a><b>removeAt(index)</b><p>
-<div class=slotDescription>
-Removes the item at index. Returns self.
-</div>
-<a name="MutableSequence-removeEvenIndexes"></a><b>removeEvenIndexes</b><p>
-<div class=slotDescription>
-Removes even indexes in the receiver.
-	For example, list(1,2,3) removeEvenIndexes == list(1, 3). Returns self.
-</div>
-<a name="MutableSequence-removeLast"></a><b>removeLast</b><p>
-<div class=slotDescription>
-Removes the last element from the receiver. Returns self.
-</div>
-<a name="MutableSequence-removeOddIndexes"></a><b>removeOddIndexes</b><p>
-<div class=slotDescription>
-Removes odd indexes in the receiver.
-	For example, list(1,2,3) removeOddIndexes == list(2). Returns self.
-</div>
-<a name="MutableSequence-removePrefix"></a><b>removePrefix(aSequence)</b><p>
-<div class=slotDescription>
-If the receiver begins with aSequence, it is removed. Returns self.
-</div>
-<a name="MutableSequence-removeSeq"></a><b>removeSeq(aSequence)</b><p>
-<div class=slotDescription>
-Removes occurances of aSequence from the receiver.
-</div>
-<a name="MutableSequence-removeSlice"></a><b>removeSlice(startIndex, endIndex)</b><p>
-<div class=slotDescription>
-Removes the items from startIndex to endIndex.
-	Returns self.
-</div>
-<a name="MutableSequence-removeSuffix"></a><b>removeSuffix(aSequence)</b><p>
-<div class=slotDescription>
-If the receiver end with aSequence, it is removed. Returns self.
-</div>
-<a name="MutableSequence-replaceFirstSeq"></a><b>replaceFirstSeq(aSequence, anotherSequence, optionalStartIndex)</b><p>
-<div class=slotDescription>
-Returns a new Sequence with the first occurance of aSequence
-	replaced with anotherSequence in the receiver. If optionalStartIndex is
-	provided, the search for aSequence begins at that index. Returns self.
-</div>
-<a name="MutableSequence-replaceMap"></a><b>replaceMap(aMap)</b><p>
-<div class=slotDescription>
-In the receiver, the keys of aMap replaced with it's values. Returns self.
-</div>
-<a name="MutableSequence-replaceSeq"></a><b>replaceSeq(aSequence, anotherSequence)</b><p>
-<div class=slotDescription>
-Returns a new Sequence with all occurances of aSequence
-	replaced with anotherSequence in the receiver. Returns self.
-</div>
-<a name="MutableSequence-reverse"></a><b>reverse</b><p>
-<div class=slotDescription>
-Reverses the bytes in the receiver, in-place.
-</div>
-<a name="MutableSequence-rstrip"></a><b>rstrip(aSequence)</b><p>
-<div class=slotDescription>
-Strips the characters in
-aSequence stripped from the end of the receiver. Example:
-<pre>	
-"Cut the tail off" rstrip(" afilot")
-==> "Cut the"
-</pre>
-</div>
-<a name="MutableSequence-set"></a><b>set(aNumber1, aNumber2, ...)</b><p>
-<div class=slotDescription>
-Sets the values of the receiver to the sequences of numbers in the arguments.
-	Unset values will remain unchanged.
-	Returns self.
-</div>
-<a name="MutableSequence-setEncoding"></a><b>setEncoding(encodingName)</b><p>
-<div class=slotDescription>
-Sets the encoding flag of the receiver (only the encoding flag, 
-	itemSize and itemType will change, no conversion is done between UTF
-	encodings - you can use convertToUTF8, etc methods for conversions). 
-	Valid encodings are number, utf8, utf16, and utf32. Returns self.
-</div>
-<a name="MutableSequence-setItemType"></a><b>setItemType(aTypeName)</b><p>
-<div class=slotDescription>
-Sets the underlying machine type for the elements. 
-	Valid names are uint8, uint16, uint32, uint64, int8, int16, int32, 
-	int64, float32, and float64. Note that 64 bit types are only available 
-	on platforms that support such types. Returns self.
-</div>
-<a name="MutableSequence-setItemsToDouble"></a><b>setItemsToDouble(aNumber)</b><p>
-<div class=slotDescription>
-Sets all items in the Sequence to the double floating point value of aNumber.
-</div>
-<a name="MutableSequence-setItemsToLong"></a><b>setItemsToLong(aNumber)</b><p>
-<div class=slotDescription>
-Sets all items in the Sequence to the long integer value of aNumber.
-</div>
-<a name="MutableSequence-setSize"></a><b>setSize(aNumber)</b><p>
-<div class=slotDescription>
-Sets the length in bytes of the receiver to aNumber. Return self.
-</div>
-<a name="MutableSequence-sinh"></a><b>sinh</b><p>
-<div class=slotDescription>
-Sets each value of the Sequence to the hyperbolic sine of it's value.
-Returns self.
-</div>
-<a name="MutableSequence-sort"></a><b>sort</b><p>
-<div class=slotDescription>
-Sorts the characters/numbers the array. Returns self.
-</div>
-<a name="MutableSequence-sqrt"></a><b>sqrt</b><p>
-<div class=slotDescription>
-Sets each value of the Sequence to the square root of it's value.
-Returns self.
-</div>
-<a name="MutableSequence-square"></a><b>square</b><p>
-<div class=slotDescription>
-Sets each value of the Sequence to the square of it's value.
-Returns self.
-</div>
-<a name="MutableSequence-strip"></a><b>strip(optionalSequence)</b><p>
-<div class=slotDescription>
-Trims the whitespace (or optionalSequence) off both ends:
-<p>
-<pre>	
-"   Trim this string   \r\n" strip
-==> "Trim this string"
-</pre>
-</div>
-<a name="MutableSequence-sum"></a><b>sum</b><p>
-<div class=slotDescription>
-Returns the sum of the Sequence.
-</div>
-<a name="MutableSequence-tan"></a><b>tan</b><p>
-<div class=slotDescription>
-Sets each value of the Sequence to the trigomentic tangent of it's value.
-Returns self.
-</div>
-<a name="MutableSequence-tanh"></a><b>tanh</b><p>
-<div class=slotDescription>
-Sets each value of the Sequence to the hyperbolic tangent of it's value.
-Returns self.
-</div>
-<a name="MutableSequence-translate"></a><b>translate(fromChars, toChars)</b><p>
-<div class=slotDescription>
-In the receiver, the characters in fromChars are replaced with those in the same positions in toChars. Returns self.
-</div>
-<a name="MutableSequence-unescape"></a><b>unescape</b><p>
-<div class=slotDescription>
-Escape codes replaced with escape characters. Returns self.
-</div>
-<a name="MutableSequence-uppercase"></a><b>uppercase</b><p>
-<div class=slotDescription>
-Makes all characters of the receiver uppercase.
 </div>
 </div>
 </div>
@@ -12999,15 +12133,36 @@ Returns the string that the receiver finds matches in.
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
+<a href="#SGMLElement-asObject">asObject</a><br>
 <a href="#SGMLElement-asString">asString</a><br>
 <a href="#SGMLElement-attributes">attributes</a><br>
+<a href="#SGMLElement-beginTag">beginTag</a><br>
+<a href="#SGMLElement-elementWithName">elementWithName</a><br>
+<a href="#SGMLElement-elementsWithName">elementsWithName</a><br>
+<a href="#SGMLElement-endTag">endTag</a><br>
+<a href="#SGMLElement-linkStrings">linkStrings</a><br>
 <a href="#SGMLElement-name">name</a><br>
+<a href="#SGMLElement-parent">parent</a><br>
+<a href="#SGMLElement-redirectStrings">redirectStrings</a><br>
+<a href="#SGMLElement-search">search</a><br>
+<a href="#SGMLElement-setAttributes">setAttributes</a><br>
 <a href="#SGMLElement-setName">setName()</a><br>
+<a href="#SGMLElement-setParent">setParent</a><br>
+<a href="#SGMLElement-setSubitems">setSubitems</a><br>
+<a href="#SGMLElement-setText">setText</a><br>
 <a href="#SGMLElement-subitems">subitems</a><br>
+<a href="#SGMLElement-tableData">tableData</a><br>
+<a href="#SGMLElement-text">text</a><br>
+<a href="#SGMLElement-withText">withText</a><br>
+<a href="#SGMLElement-writeToStream">writeToStream</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
+<a name="SGMLElement-asObject"></a><b>asObject</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="SGMLElement-asString"></a><b>asString</b><p>
 <div class=slotDescription>
 Returns a String representation of the tag and all of it's subitems.
@@ -13016,17 +12171,81 @@ Returns a String representation of the tag and all of it's subitems.
 <div class=slotDescription>
 Returns a Map containing the tag's attributes.
 </div>
+<a name="SGMLElement-beginTag"></a><b>beginTag</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-elementWithName"></a><b>elementWithName</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-elementsWithName"></a><b>elementsWithName</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-endTag"></a><b>endTag</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-linkStrings"></a><b>linkStrings</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="SGMLElement-name"></a><b>name</b><p>
 <div class=slotDescription>
 Returns the tag name
+</div>
+<a name="SGMLElement-parent"></a><b>parent</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-redirectStrings"></a><b>redirectStrings</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-search"></a><b>search</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-setAttributes"></a><b>setAttributes</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 <a name="SGMLElement-setName"></a><b>setName(aString)</b><p>
 <div class=slotDescription>
 Sets the tag name. Returns self.
 </div>
+<a name="SGMLElement-setParent"></a><b>setParent</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-setSubitems"></a><b>setSubitems</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-setText"></a><b>setText</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="SGMLElement-subitems"></a><b>subitems</b><p>
 <div class=slotDescription>
 Returns a List containing the tag's subitems.
+</div>
+<a name="SGMLElement-tableData"></a><b>tableData</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-text"></a><b>text</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-withText"></a><b>withText</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-writeToStream"></a><b>writeToStream</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 </div>
 </div>
@@ -13048,12 +12267,39 @@ This object can be used to parse SGML / HTML / XML.
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
+<a href="#SGMLParser-elementForString">elementForString</a><br>
+<a href="#SGMLParser-elementProto">elementProto</a><br>
+<a href="#SGMLParser-endElement">endElement</a><br>
+<a href="#SGMLParser-newAttribute">newAttribute</a><br>
+<a href="#SGMLParser-newText">newText</a><br>
 <a href="#SGMLParser-parse">parse()</a><br>
+<a href="#SGMLParser-startElement">startElement</a><br>
 <a href="#SGMLParser-tagForString">tagForString()</a><br>
+<a href="#SGMLParser-top">top</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
+<a name="SGMLParser-elementForString"></a><b>elementForString</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLParser-elementProto"></a><b>elementProto</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLParser-endElement"></a><b>endElement</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLParser-newAttribute"></a><b>newAttribute</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLParser-newText"></a><b>newText</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="SGMLParser-parse"></a><b>parse(aSequence)</b><p>
 <div class=slotDescription>
 Parses aSequence and calls the following methods on self;
@@ -13065,9 +12311,17 @@ newText(text)
 </pre>	
 for each of the items it finds. Returns self.
 </div>
+<a name="SGMLParser-startElement"></a><b>startElement</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="SGMLParser-tagForString"></a><b>tagForString(aSequence)</b><p>
 <div class=slotDescription>
 Parses aSequence and returns an SGMLTag object.
+</div>
+<a name="SGMLParser-top"></a><b>top</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 </div>
 </div>
@@ -13148,13 +12402,16 @@ db close
 <a href="#SQLite-columnNamesOfTable">columnNamesOfTable()</a><br>
 <a href="#SQLite-debugOff">debugOff</a><br>
 <a href="#SQLite-debugOn">debugOn</a><br>
+<a href="#SQLite-delete">delete</a><br>
 <a href="#SQLite-error">error</a><br>
 <a href="#SQLite-escapeString">escapeString()</a><br>
 <a href="#SQLite-exec">exec()</a><br>
+<a href="#SQLite-exists">exists</a><br>
 <a href="#SQLite-isOpen">isOpen</a><br>
 <a href="#SQLite-lastInsertRowId">lastInsertRowId</a><br>
 <a href="#SQLite-open">open()</a><br>
 <a href="#SQLite-path">path</a><br>
+<a href="#SQLite-rowsChangedCount">rowsChangedCount</a><br>
 <a href="#SQLite-setPath">setPath()</a><br>
 <a href="#SQLite-setTimeoutSeconds">setTimeoutSeconds()</a><br>
 <a href="#SQLite-tableNames">tableNames</a><br>
@@ -13188,6 +12445,10 @@ Turns off debugging.
 <div class=slotDescription>
 Turns on debugging.
 </div>
+<a name="SQLite-delete"></a><b>delete</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="SQLite-error"></a><b>error</b><p>
 <div class=slotDescription>
 Results a string containing the current error. 
@@ -13207,6 +12468,10 @@ Opens the database if it is not already open and executes
 	The key/value pairs of the maps being column name/column value
 	pairs for a row. ")
 </div>
+<a name="SQLite-exists"></a><b>exists</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="SQLite-isOpen"></a><b>isOpen</b><p>
 <div class=slotDescription>
 Returns true if the database is open, false otherwise.
@@ -13224,6 +12489,10 @@ Opens the database.Returns self on success or nil upon failure.
 <a name="SQLite-path"></a><b>path</b><p>
 <div class=slotDescription>
 Returns the path to the database file.
+</div>
+<a name="SQLite-rowsChangedCount"></a><b>rowsChangedCount</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 <a name="SQLite-setPath"></a><b>setPath(aSeq)</b><p>
 <div class=slotDescription>
@@ -13563,14 +12832,14 @@ Terminology
 <h3>Slot Index</h3>
 <div class=slotIndex>
 <a href="#Sequence-*">*()</a><br>
-<a href="#Sequence-*=">*=</a><br>
+<a href="#Sequence-*=">*=()</a><br>
 <a href="#Sequence-+">+()</a><br>
-<a href="#Sequence-+=">+=</a><br>
+<a href="#Sequence-+=">+=()</a><br>
 <a href="#Sequence--">-</a><br>
-<a href="#Sequence--=">-=</a><br>
-<a href="#Sequence-..">..</a><br>
+<a href="#Sequence--=">-=()</a><br>
+<a href="#Sequence-..">..()</a><br>
 <a href="#Sequence-/">/()</a><br>
-<a href="#Sequence-/=">/=</a><br>
+<a href="#Sequence-/=">/=()</a><br>
 <a href="#Sequence-&lt;">&lt;</a><br>
 <a href="#Sequence-&lt;=">&lt;=</a><br>
 <a href="#Sequence-&gt;">&gt;</a><br>
@@ -13580,75 +12849,79 @@ Terminology
 <a href="#Sequence-Min">Min</a><br>
 <a href="#Sequence-abs">abs</a><br>
 <a href="#Sequence-acos">acos</a><br>
-<a href="#Sequence-afterSeq">afterSeq</a><br>
+<a href="#Sequence-afterSeq">afterSeq()</a><br>
 <a href="#Sequence-alignCenter">alignCenter()</a><br>
 <a href="#Sequence-alignLeft">alignLeft()</a><br>
 <a href="#Sequence-alignLeftInPlace">alignLeftInPlace()</a><br>
 <a href="#Sequence-alignRight">alignRight()</a><br>
 <a href="#Sequence-allMatchesOfRegex">allMatchesOfRegex()</a><br>
 <a href="#Sequence-alpha">alpha</a><br>
-<a href="#Sequence-append">append</a><br>
-<a href="#Sequence-appendPathSeq">appendPathSeq</a><br>
-<a href="#Sequence-appendSeq">appendSeq</a><br>
+<a href="#Sequence-append">append()</a><br>
+<a href="#Sequence-appendPathSeq">appendPathSeq()</a><br>
+<a href="#Sequence-appendSeq">appendSeq()</a><br>
 <a href="#Sequence-asBinaryNumber">asBinaryNumber</a><br>
 <a href="#Sequence-asBuffer">asBuffer</a><br>
 <a href="#Sequence-asCapitalized">asCapitalized</a><br>
 <a href="#Sequence-asFile">asFile</a><br>
 <a href="#Sequence-asFixedSizeType">asFixedSizeType</a><br>
+<a href="#Sequence-asHTML">asHTML</a><br>
 <a href="#Sequence-asHex">asHex</a><br>
 <a href="#Sequence-asHtml">asHtml</a><br>
 <a href="#Sequence-asIoPath">asIoPath</a><br>
 <a href="#Sequence-asLowercase">asLowercase</a><br>
-<a href="#Sequence-asMessage">asMessage</a><br>
+<a href="#Sequence-asMessage">asMessage()</a><br>
 <a href="#Sequence-asMutable">asMutable</a><br>
 <a href="#Sequence-asNumber">asNumber</a><br>
 <a href="#Sequence-asOSPath">asOSPath</a><br>
 <a href="#Sequence-asRegex">asRegex</a><br>
+<a href="#Sequence-asSGML">asSGML</a><br>
 <a href="#Sequence-asSimpleString">asSimpleString</a><br>
 <a href="#Sequence-asString">asString</a><br>
-<a href="#Sequence-asStruct">asStruct</a><br>
+<a href="#Sequence-asStruct">asStruct()</a><br>
 <a href="#Sequence-asSymbol">asSymbol</a><br>
 <a href="#Sequence-asURL">asURL</a><br>
 <a href="#Sequence-asUTF16">asUTF16</a><br>
 <a href="#Sequence-asUTF32">asUTF32</a><br>
 <a href="#Sequence-asUTF8">asUTF8</a><br>
 <a href="#Sequence-asUppercase">asUppercase</a><br>
+<a href="#Sequence-asXML">asXML</a><br>
 <a href="#Sequence-asin">asin</a><br>
-<a href="#Sequence-at">at</a><br>
-<a href="#Sequence-atInsertSeq">atInsertSeq</a><br>
-<a href="#Sequence-atPut">atPut</a><br>
+<a href="#Sequence-at">at()</a><br>
+<a href="#Sequence-atInsertSeq">atInsertSeq()</a><br>
+<a href="#Sequence-atPut">atPut()</a><br>
 <a href="#Sequence-atan">atan</a><br>
-<a href="#Sequence-beforeSeq">beforeSeq</a><br>
-<a href="#Sequence-beginsWithSeq">beginsWithSeq</a><br>
-<a href="#Sequence-between">between</a><br>
+<a href="#Sequence-beforeSeq">beforeSeq()</a><br>
+<a href="#Sequence-beginsWithSeq">beginsWithSeq()</a><br>
+<a href="#Sequence-between">between()</a><br>
 <a href="#Sequence-betweenSeq">betweenSeq</a><br>
-<a href="#Sequence-bitAt">bitAt</a><br>
+<a href="#Sequence-bitAt">bitAt()</a><br>
 <a href="#Sequence-bitCount">bitCount</a><br>
-<a href="#Sequence-bitwiseAnd">bitwiseAnd</a><br>
-<a href="#Sequence-bitwiseNot">bitwiseNot</a><br>
-<a href="#Sequence-bitwiseOr">bitwiseOr</a><br>
-<a href="#Sequence-bitwiseXor">bitwiseXor</a><br>
+<a href="#Sequence-bitwiseAnd">bitwiseAnd()</a><br>
+<a href="#Sequence-bitwiseNot">bitwiseNot()</a><br>
+<a href="#Sequence-bitwiseOr">bitwiseOr()</a><br>
+<a href="#Sequence-bitwiseXor">bitwiseXor()</a><br>
 <a href="#Sequence-blue">blue</a><br>
-<a href="#Sequence-byteAt">byteAt</a><br>
+<a href="#Sequence-byteAt">byteAt()</a><br>
 <a href="#Sequence-cPrint">cPrint</a><br>
 <a href="#Sequence-capitalize">capitalize</a><br>
 <a href="#Sequence-ceil">ceil</a><br>
-<a href="#Sequence-clipAfterSeq">clipAfterSeq</a><br>
-<a href="#Sequence-clipAfterStartOfSeq">clipAfterStartOfSeq</a><br>
-<a href="#Sequence-clipBeforeEndOfSeq">clipBeforeEndOfSeq</a><br>
-<a href="#Sequence-clipBeforeSeq">clipBeforeSeq</a><br>
-<a href="#Sequence-cloneAppendPath">cloneAppendPath</a><br>
+<a href="#Sequence-clear">clear</a><br>
+<a href="#Sequence-clipAfterSeq">clipAfterSeq()</a><br>
+<a href="#Sequence-clipAfterStartOfSeq">clipAfterStartOfSeq()</a><br>
+<a href="#Sequence-clipBeforeEndOfSeq">clipBeforeEndOfSeq()</a><br>
+<a href="#Sequence-clipBeforeSeq">clipBeforeSeq()</a><br>
+<a href="#Sequence-cloneAppendPath">cloneAppendPath()</a><br>
 <a href="#Sequence-cloneAppendSeq">cloneAppendSeq</a><br>
-<a href="#Sequence-contains">contains</a><br>
-<a href="#Sequence-containsAnyCaseSeq">containsAnyCaseSeq</a><br>
-<a href="#Sequence-containsSeq">containsSeq</a><br>
+<a href="#Sequence-contains">contains()</a><br>
+<a href="#Sequence-containsAnyCaseSeq">containsAnyCaseSeq()</a><br>
+<a href="#Sequence-containsSeq">containsSeq()</a><br>
 <a href="#Sequence-convertToFixedSizeType">convertToFixedSizeType</a><br>
-<a href="#Sequence-convertToItemType">convertToItemType</a><br>
-<a href="#Sequence-copy">copy</a><br>
+<a href="#Sequence-convertToItemType">convertToItemType()</a><br>
+<a href="#Sequence-copy">copy()</a><br>
 <a href="#Sequence-cos">cos</a><br>
 <a href="#Sequence-cosh">cosh</a><br>
 <a href="#Sequence-depth">depth</a><br>
-<a href="#Sequence-distanceTo">distanceTo</a><br>
+<a href="#Sequence-distanceTo">distanceTo()</a><br>
 <a href="#Sequence-dotProduct">dotProduct()</a><br>
 <a href="#Sequence-drawAsLine">drawAsLine</a><br>
 <a href="#Sequence-drawFilled">drawFilled</a><br>
@@ -13659,17 +12932,18 @@ Terminology
 <a href="#Sequence-duplicateIndexes">duplicateIndexes</a><br>
 <a href="#Sequence-empty">empty</a><br>
 <a href="#Sequence-encoding">encoding</a><br>
-<a href="#Sequence-endsWithSeq">endsWithSeq</a><br>
+<a href="#Sequence-endsWithSeq">endsWithSeq()</a><br>
 <a href="#Sequence-escape">escape</a><br>
 <a href="#Sequence-escapeRegexChars">escapeRegexChars</a><br>
+<a href="#Sequence-exp">exp</a><br>
 <a href="#Sequence-fileName">fileName</a><br>
 <a href="#Sequence-findNthSeq">findNthSeq()</a><br>
 <a href="#Sequence-findRegex">findRegex()</a><br>
-<a href="#Sequence-findSeq">findSeq</a><br>
-<a href="#Sequence-findSeqs">findSeqs</a><br>
+<a href="#Sequence-findSeq">findSeq()</a><br>
+<a href="#Sequence-findSeqs">findSeqs()</a><br>
 <a href="#Sequence-floor">floor</a><br>
-<a href="#Sequence-foreach">foreach</a><br>
-<a href="#Sequence-fromBase">fromBase</a><br>
+<a href="#Sequence-foreach">foreach()</a><br>
+<a href="#Sequence-fromBase">fromBase()</a><br>
 <a href="#Sequence-glClearColor">glClearColor</a><br>
 <a href="#Sequence-glColor">glColor</a><br>
 <a href="#Sequence-glNormal">glNormal</a><br>
@@ -13680,14 +12954,16 @@ Terminology
 <a href="#Sequence-glTranslatei">glTranslatei</a><br>
 <a href="#Sequence-glUnproject">glUnproject</a><br>
 <a href="#Sequence-glVertex">glVertex</a><br>
+<a href="#Sequence-greaterThan">greaterThan()</a><br>
+<a href="#Sequence-greaterThanOrEqualTo">greaterThanOrEqualTo()</a><br>
 <a href="#Sequence-green">green</a><br>
 <a href="#Sequence-hasMatchOfRegex">hasMatchOfRegex()</a><br>
 <a href="#Sequence-hash">hash</a><br>
 <a href="#Sequence-height">height</a><br>
-<a href="#Sequence-interpolate">interpolate</a><br>
-<a href="#Sequence-interpolateInPlace">interpolateInPlace</a><br>
+<a href="#Sequence-interpolate">interpolate()</a><br>
+<a href="#Sequence-interpolateInPlace">interpolateInPlace()</a><br>
 <a href="#Sequence-isEmpty">isEmpty</a><br>
-<a href="#Sequence-isEqualAnyCase">isEqualAnyCase</a><br>
+<a href="#Sequence-isEqualAnyCase">isEqualAnyCase()</a><br>
 <a href="#Sequence-isLowercase">isLowercase</a><br>
 <a href="#Sequence-isMutable">isMutable</a><br>
 <a href="#Sequence-isSymbol">isSymbol</a><br>
@@ -13697,13 +12973,16 @@ Terminology
 <a href="#Sequence-itemType">itemType</a><br>
 <a href="#Sequence-justSerialized">justSerialized</a><br>
 <a href="#Sequence-lastPathComponent">lastPathComponent</a><br>
+<a href="#Sequence-lessThan">lessThan()</a><br>
+<a href="#Sequence-lessThanOrEqualTo">lessThanOrEqualTo()</a><br>
 <a href="#Sequence-levenshtein">levenshtein</a><br>
 <a href="#Sequence-linePrint">linePrint</a><br>
 <a href="#Sequence-log">log</a><br>
 <a href="#Sequence-log10">log10</a><br>
-<a href="#Sequence-logicalOr">logicalOr</a><br>
+<a href="#Sequence-logicalAnd">logicalAnd()</a><br>
+<a href="#Sequence-logicalOr">logicalOr()</a><br>
 <a href="#Sequence-lowercase">lowercase</a><br>
-<a href="#Sequence-lstrip">lstrip</a><br>
+<a href="#Sequence-lstrip">lstrip()</a><br>
 <a href="#Sequence-makeFirstCharacterLowercase">makeFirstCharacterLowercase</a><br>
 <a href="#Sequence-makeFirstCharacterUppercase">makeFirstCharacterUppercase</a><br>
 <a href="#Sequence-matchesOfRegex">matchesOfRegex()</a><br>
@@ -13717,45 +12996,45 @@ Terminology
 <a href="#Sequence-negate">negate</a><br>
 <a href="#Sequence-nextInSequence">nextInSequence</a><br>
 <a href="#Sequence-normalize">normalize</a><br>
-<a href="#Sequence-occurancesOfSeq">occurancesOfSeq</a><br>
+<a href="#Sequence-occurancesOfSeq">occurancesOfSeq()</a><br>
 <a href="#Sequence-orderedSplit">orderedSplit</a><br>
 <a href="#Sequence-pathComponent">pathComponent</a><br>
 <a href="#Sequence-pathExtension">pathExtension</a><br>
-<a href="#Sequence-preallocateToSize">preallocateToSize</a><br>
+<a href="#Sequence-preallocateToSize">preallocateToSize()</a><br>
 <a href="#Sequence-prependSeq">prependSeq()</a><br>
 <a href="#Sequence-print">print</a><br>
 <a href="#Sequence-product">product</a><br>
 <a href="#Sequence-rangeFill">rangeFill</a><br>
 <a href="#Sequence-red">red</a><br>
-<a href="#Sequence-removeAt">removeAt</a><br>
+<a href="#Sequence-removeAt">removeAt()</a><br>
 <a href="#Sequence-removeEvenIndexes">removeEvenIndexes</a><br>
 <a href="#Sequence-removeLast">removeLast</a><br>
 <a href="#Sequence-removeOddIndexes">removeOddIndexes</a><br>
-<a href="#Sequence-removePrefix">removePrefix</a><br>
-<a href="#Sequence-removeSeq">removeSeq</a><br>
-<a href="#Sequence-removeSlice">removeSlice</a><br>
-<a href="#Sequence-removeSuffix">removeSuffix</a><br>
+<a href="#Sequence-removePrefix">removePrefix()</a><br>
+<a href="#Sequence-removeSeq">removeSeq()</a><br>
+<a href="#Sequence-removeSlice">removeSlice()</a><br>
+<a href="#Sequence-removeSuffix">removeSuffix()</a><br>
 <a href="#Sequence-repeated">repeated()</a><br>
-<a href="#Sequence-replaceFirstSeq">replaceFirstSeq</a><br>
-<a href="#Sequence-replaceMap">replaceMap</a><br>
-<a href="#Sequence-replaceSeq">replaceSeq</a><br>
+<a href="#Sequence-replaceFirstSeq">replaceFirstSeq()</a><br>
+<a href="#Sequence-replaceMap">replaceMap()</a><br>
+<a href="#Sequence-replaceSeq">replaceSeq()</a><br>
 <a href="#Sequence-reverse">reverse</a><br>
-<a href="#Sequence-reverseFindSeq">reverseFindSeq</a><br>
+<a href="#Sequence-reverseFindSeq">reverseFindSeq()</a><br>
 <a href="#Sequence-rootMeanSquare">rootMeanSquare</a><br>
-<a href="#Sequence-rstrip">rstrip</a><br>
+<a href="#Sequence-rstrip">rstrip()</a><br>
 <a href="#Sequence-sequenceSets">sequenceSets</a><br>
-<a href="#Sequence-set">set</a><br>
+<a href="#Sequence-set">set()</a><br>
 <a href="#Sequence-setAlpha">setAlpha</a><br>
 <a href="#Sequence-setBlue">setBlue</a><br>
 <a href="#Sequence-setDepth">setDepth</a><br>
-<a href="#Sequence-setEncoding">setEncoding</a><br>
+<a href="#Sequence-setEncoding">setEncoding()</a><br>
 <a href="#Sequence-setGreen">setGreen</a><br>
 <a href="#Sequence-setHeight">setHeight</a><br>
-<a href="#Sequence-setItemType">setItemType</a><br>
-<a href="#Sequence-setItemsToDouble">setItemsToDouble</a><br>
-<a href="#Sequence-setItemsToLong">setItemsToLong</a><br>
+<a href="#Sequence-setItemType">setItemType()</a><br>
+<a href="#Sequence-setItemsToDouble">setItemsToDouble()</a><br>
+<a href="#Sequence-setItemsToLong">setItemsToLong()</a><br>
 <a href="#Sequence-setRed">setRed</a><br>
-<a href="#Sequence-setSize">setSize</a><br>
+<a href="#Sequence-setSize">setSize()</a><br>
 <a href="#Sequence-setWidth">setWidth</a><br>
 <a href="#Sequence-setX">setX</a><br>
 <a href="#Sequence-setY">setY</a><br>
@@ -13765,29 +13044,30 @@ Terminology
 <a href="#Sequence-sin">sin</a><br>
 <a href="#Sequence-sinh">sinh</a><br>
 <a href="#Sequence-size">size</a><br>
-<a href="#Sequence-slice">slice</a><br>
+<a href="#Sequence-slice">slice()</a><br>
 <a href="#Sequence-slicesBetween">slicesBetween</a><br>
 <a href="#Sequence-sort">sort</a><br>
 <a href="#Sequence-split">split()</a><br>
-<a href="#Sequence-splitAt">splitAt</a><br>
+<a href="#Sequence-splitAt">splitAt()</a><br>
 <a href="#Sequence-splitAtRegex">splitAtRegex()</a><br>
 <a href="#Sequence-splitNoEmpties">splitNoEmpties</a><br>
 <a href="#Sequence-sqrt">sqrt</a><br>
 <a href="#Sequence-square">square</a><br>
-<a href="#Sequence-strip">strip</a><br>
+<a href="#Sequence-strip">strip()</a><br>
 <a href="#Sequence-sum">sum</a><br>
 <a href="#Sequence-tan">tan</a><br>
 <a href="#Sequence-tanh">tanh</a><br>
 <a href="#Sequence-to">to</a><br>
-<a href="#Sequence-toBase">toBase</a><br>
+<a href="#Sequence-toBase">toBase()</a><br>
 <a href="#Sequence-toBy">toBy</a><br>
-<a href="#Sequence-translate">translate</a><br>
+<a href="#Sequence-translate">translate()</a><br>
 <a href="#Sequence-unescape">unescape</a><br>
 <a href="#Sequence-uppercase">uppercase</a><br>
 <a href="#Sequence-whiteSpaceStrings">whiteSpaceStrings</a><br>
 <a href="#Sequence-width">width</a><br>
-<a href="#Sequence-with">with</a><br>
-<a href="#Sequence-withStruct">withStruct</a><br>
+<a href="#Sequence-with">with()</a><br>
+<a href="#Sequence-withStruct">withStruct()</a><br>
+<a href="#Sequence-writeToStream">writeToStream</a><br>
 <a href="#Sequence-x">x</a><br>
 <a href="#Sequence-y">y</a><br>
 <a href="#Sequence-z">z</a><br>
@@ -13804,9 +13084,10 @@ Multiplies the values of aSeq to the corresponding values of the receiver
 	returning a new vector with the result.
 	Only works on Sequences whose item type is numeric.
 </div>
-<a name="Sequence-*="></a><b>*=</b><p>
+<a name="Sequence-*="></a><b>*=(aSeq)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Multiplies the values of aSeq to the corresponding values of the receiver.
+	Only works on Sequences whose item type is numeric. Returns self.
 </div>
 <a name="Sequence-+"></a><b>+(aSeq)</b><p>
 <div class=slotDescription>
@@ -13814,21 +13095,23 @@ Vector addition - Adds the values of aSeq to the corresponding values of the rec
 	returning a new vector with the result.
 	Only works on Sequences whose item type is numeric.
 </div>
-<a name="Sequence-+="></a><b>+=</b><p>
+<a name="Sequence-+="></a><b>+=(aSeq)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Vector addition - adds the values of aSeq to those of the receiver.
+	Only works on Sequences whose item type is numeric. Returns self.
 </div>
 <a name="Sequence--"></a><b>-</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="Sequence--="></a><b>-=</b><p>
+<a name="Sequence--="></a><b>-=(aSeq)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Vector subtraction - subtracts the values of aSeq to those of the receiver.
+	Only works on Sequences whose item type is numeric. Returns self.
 </div>
-<a name="Sequence-.."></a><b>..</b><p>
+<a name="Sequence-.."></a><b>..(aSequence)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a copy of the receiver with aSequence appended to it.
 </div>
 <a name="Sequence-/"></a><b>/(aSeq)</b><p>
 <div class=slotDescription>
@@ -13836,9 +13119,10 @@ Divides the values of aSeq to the corresponding values of the receiver
 	returning a new vector with the result.
 	Only works on Sequences whose item type is numeric.
 </div>
-<a name="Sequence-/="></a><b>/=</b><p>
+<a name="Sequence-/="></a><b>/=(aSeq)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Divides the values of aSeq to the corresponding values of the receiver.
+	Only works on Sequences whose item type is numeric. Returns self.
 </div>
 <a name="Sequence-&lt;"></a><b>&lt;</b><p>
 <div class=slotDescription>
@@ -13862,23 +13146,27 @@ Divides the values of aSeq to the corresponding values of the receiver
 </div>
 <a name="Sequence-Max"></a><b>Max</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the maximum value in the sequence.
 </div>
 <a name="Sequence-Min"></a><b>Min</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the minimum value in the sequence.
 </div>
 <a name="Sequence-abs"></a><b>abs</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets each value of the Sequence to it's absolute value.
+Returns self.
 </div>
 <a name="Sequence-acos"></a><b>acos</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets each value of the Sequence to the trigomentic arcsine of it's value.
+Returns self.
 </div>
-<a name="Sequence-afterSeq"></a><b>afterSeq</b><p>
+<a name="Sequence-afterSeq"></a><b>afterSeq(aSequence)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the slice of the receiver (as a Symbol) after aSequence or
+	nil if aSequence is not found. If aSequence is empty, the receiver
+	(or a copy of the receiver if it is mutable) is returned.
 </div>
 <a name="Sequence-alignCenter"></a><b>alignCenter(width, [padding]) ""</b><p>
 <div class=slotDescription>
@@ -13924,21 +13212,23 @@ Returns a List containing all matches of the given regex found in the receiver.
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="Sequence-append"></a><b>append</b><p>
+<a name="Sequence-append"></a><b>append(aNumber)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Appends aNumber (cast to a byte) to the receiver. Returns self.
 </div>
-<a name="Sequence-appendPathSeq"></a><b>appendPathSeq</b><p>
+<a name="Sequence-appendPathSeq"></a><b>appendPathSeq(aSeq)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Appends argument to the receiver such that there is one
+	and only one path separator between the two. Returns self.
 </div>
-<a name="Sequence-appendSeq"></a><b>appendSeq</b><p>
+<a name="Sequence-appendSeq"></a><b>appendSeq(object1, object2, ...)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Calls asString on the arguments and appends the string to the receiver. Returns self.
 </div>
 <a name="Sequence-asBinaryNumber"></a><b>asBinaryNumber</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a Number containing the first 8 bytes of the
+	receiver without casting them to a double.
 </div>
 <a name="Sequence-asBuffer"></a><b>asBuffer</b><p>
 <div class=slotDescription>
@@ -13946,13 +13236,19 @@ Returns a List containing all matches of the given regex found in the receiver.
 </div>
 <a name="Sequence-asCapitalized"></a><b>asCapitalized</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a copy of the receiver with the first charater made uppercase.
 </div>
 <a name="Sequence-asFile"></a><b>asFile</b><p>
 <div class=slotDescription>
 Returns a new File object with the receiver as it's path.
 </div>
 <a name="Sequence-asFixedSizeType"></a><b>asFixedSizeType</b><p>
+<div class=slotDescription>
+Returns a new sequence with the receiver encoded in the 
+	minimal fixed width text encoding that it's characters can fit 
+	into (either, ascii, utf8, utf16 or utf32).
+</div>
+<a name="Sequence-asHTML"></a><b>asHTML</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
@@ -13966,31 +13262,36 @@ Returns a hex string for the receiving sequence, e.g., \"abc\" asHex -> \"616263
 </div>
 <a name="Sequence-asIoPath"></a><b>asIoPath</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a Io style path for an OS style path.
 </div>
 <a name="Sequence-asLowercase"></a><b>asLowercase</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a symbol containing the reveiver made Lowercase.
 </div>
-<a name="Sequence-asMessage"></a><b>asMessage</b><p>
+<a name="Sequence-asMessage"></a><b>asMessage(optionalLabel)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the compiled message object for the string.
 </div>
 <a name="Sequence-asMutable"></a><b>asMutable</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a mutable copy of the receiver.
 </div>
 <a name="Sequence-asNumber"></a><b>asNumber</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the receiver converted to a number.
+	Initial whitespace is ignored.
 </div>
 <a name="Sequence-asOSPath"></a><b>asOSPath</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a OS style path for an Io style path.
 </div>
 <a name="Sequence-asRegex"></a><b>asRegex</b><p>
 <div class=slotDescription>
 Returns a new Regex created from the receiver.
+</div>
+<a name="Sequence-asSGML"></a><b>asSGML</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 <a name="Sequence-asSimpleString"></a><b>asSimpleString</b><p>
 <div class=slotDescription>
@@ -14000,13 +13301,29 @@ Returns a new Regex created from the receiver.
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="Sequence-asStruct"></a><b>asStruct</b><p>
+<a name="Sequence-asStruct"></a><b>asStruct(memberList)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+For a sequence that contains the data for a raw memory data structure (as used in C),
+this method can be used to extract it's members into an Object. The memberList argument
+specifies the layout of the datastructure. It's form is:
+<p>
+list(memberType1, memberName1, memberType2, memberName2, ...)
+<p>
+Member types include: 
+<pre>
+int8, int16, int32, int64
+uint8, uint16, uint32, uint64
+float32, float64 
+</pre>
+Example:
+<pre>
+pointObject := structPointSeq asStruct(list("float32", "x", "float32", "y"))
+</pre>
+The output pointObject would contain x and y slots with Number objects.
 </div>
 <a name="Sequence-asSymbol"></a><b>asSymbol</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a immutable Sequence (aka Symbol) version of the receiver.
 </div>
 <a name="Sequence-asURL"></a><b>asURL</b><p>
 <div class=slotDescription>
@@ -14014,87 +13331,96 @@ Returns a new URL object instance with the receiver as it's url string.
 </div>
 <a name="Sequence-asUTF16"></a><b>asUTF16</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a new copy of the receiver converted to utf16 encoding.
 </div>
 <a name="Sequence-asUTF32"></a><b>asUTF32</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a new copy of the receiver converted to utf32 encoding.
 </div>
 <a name="Sequence-asUTF8"></a><b>asUTF8</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a new copy of the receiver converted to utf8 encoding.
 </div>
 <a name="Sequence-asUppercase"></a><b>asUppercase</b><p>
+<div class=slotDescription>
+Returns a symbol containing the reveiver made uppercase.
+</div>
+<a name="Sequence-asXML"></a><b>asXML</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
 <a name="Sequence-asin"></a><b>asin</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets each value of the Sequence to the trigomentic arcsine of it's value.
+Returns self.
 </div>
-<a name="Sequence-at"></a><b>at</b><p>
+<a name="Sequence-at"></a><b>at(aNumber)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a value at the index specified by aNumber.
+	Returns nil if the index is out of bounds.
 </div>
-<a name="Sequence-atInsertSeq"></a><b>atInsertSeq</b><p>
+<a name="Sequence-atInsertSeq"></a><b>atInsertSeq(indexNumber, object)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Calls asString on object and inserts the string at position indexNumber. Returns self.
 </div>
-<a name="Sequence-atPut"></a><b>atPut</b><p>
+<a name="Sequence-atPut"></a><b>atPut(aNumberIndex, aNumber)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the value at the index specified by aNumberIndex to aNumber. Returns self.
 </div>
 <a name="Sequence-atan"></a><b>atan</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets each value of the Sequence to the trigomentic arctangent of it's value.
+Returns self.
 </div>
-<a name="Sequence-beforeSeq"></a><b>beforeSeq</b><p>
+<a name="Sequence-beforeSeq"></a><b>beforeSeq(aSequence)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the slice of the receiver (as a Symbol) before
+	aSequence or self if aSequence is not found.
 </div>
-<a name="Sequence-beginsWithSeq"></a><b>beginsWithSeq</b><p>
+<a name="Sequence-beginsWithSeq"></a><b>beginsWithSeq(aSequence)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if the receiver begins with aSequence, false otherwise.
 </div>
-<a name="Sequence-between"></a><b>between</b><p>
+<a name="Sequence-between"></a><b>between(aSequence, anotherSequence)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a new Sequence containing the bytes between the
+	occurance of aSequence and anotherSequence in the receiver.
 </div>
 <a name="Sequence-betweenSeq"></a><b>betweenSeq</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="Sequence-bitAt"></a><b>bitAt</b><p>
+<a name="Sequence-bitAt"></a><b>bitAt(bitIndex)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a Number containing the bit at the bit index value.
 </div>
 <a name="Sequence-bitCount"></a><b>bitCount</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the number of bits in the sequence.
 </div>
-<a name="Sequence-bitwiseAnd"></a><b>bitwiseAnd</b><p>
+<a name="Sequence-bitwiseAnd"></a><b>bitwiseAnd(aSequence)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Updates the receiver to be the result of a bitwiseAnd with aSequence. Returns self.
 </div>
-<a name="Sequence-bitwiseNot"></a><b>bitwiseNot</b><p>
+<a name="Sequence-bitwiseNot"></a><b>bitwiseNot(aSequence)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Updates the receiver to be the result of a bitwiseNot with aSequence. Returns self.
 </div>
-<a name="Sequence-bitwiseOr"></a><b>bitwiseOr</b><p>
+<a name="Sequence-bitwiseOr"></a><b>bitwiseOr(aSequence)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Updates the receiver to be the result of a bitwiseOr with aSequence. Returns self.
 </div>
-<a name="Sequence-bitwiseXor"></a><b>bitwiseXor</b><p>
+<a name="Sequence-bitwiseXor"></a><b>bitwiseXor(aSequence)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Updates the receiver to be the result of a bitwiseXor with aSequence. Returns self.
 </div>
 <a name="Sequence-blue"></a><b>blue</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="Sequence-byteAt"></a><b>byteAt</b><p>
+<a name="Sequence-byteAt"></a><b>byteAt(byteIndex)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a Number containing the byte at the byte index value.
 </div>
 <a name="Sequence-cPrint"></a><b>cPrint</b><p>
 <div class=slotDescription>
@@ -14102,59 +13428,77 @@ Returns a new URL object instance with the receiver as it's url string.
 </div>
 <a name="Sequence-capitalize"></a><b>capitalize</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+First charater of the receiver is made uppercase.
 </div>
 <a name="Sequence-ceil"></a><b>ceil</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Round each value to smallest integral value not less than x.
+Returns self.
 </div>
-<a name="Sequence-clipAfterSeq"></a><b>clipAfterSeq</b><p>
+<a name="Sequence-clear"></a><b>clear</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Set all values in the sequence to 0. Returns self.
 </div>
-<a name="Sequence-clipAfterStartOfSeq"></a><b>clipAfterStartOfSeq</b><p>
+<a name="Sequence-clipAfterSeq"></a><b>clipAfterSeq(aSequence)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Removes the contents of the receiver after the end of
+	the first occurance of aSequence. Returns true if anything was
+	removed, or false otherwise.
 </div>
-<a name="Sequence-clipBeforeEndOfSeq"></a><b>clipBeforeEndOfSeq</b><p>
+<a name="Sequence-clipAfterStartOfSeq"></a><b>clipAfterStartOfSeq(aSequence)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Removes the contents of the receiver after the beginning of
+	the first occurance of aSequence. Returns true if anything was
+	removed, or false otherwise.
 </div>
-<a name="Sequence-clipBeforeSeq"></a><b>clipBeforeSeq</b><p>
+<a name="Sequence-clipBeforeEndOfSeq"></a><b>clipBeforeEndOfSeq(aSequence)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Removes the contents of the receiver before the end of
+	the first occurance of aSequence. Returns true if anything was
+	removed, or false otherwise.
 </div>
-<a name="Sequence-cloneAppendPath"></a><b>cloneAppendPath</b><p>
+<a name="Sequence-clipBeforeSeq"></a><b>clipBeforeSeq(aSequence)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Clips receiver before aSequence.
+</div>
+<a name="Sequence-cloneAppendPath"></a><b>cloneAppendPath(aSequence)</b><p>
+<div class=slotDescription>
+Appends argument to a copy the receiver such that there is one
+	and only one path separator between the two and returns the result.
 </div>
 <a name="Sequence-cloneAppendSeq"></a><b>cloneAppendSeq</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="Sequence-contains"></a><b>contains</b><p>
+<a name="Sequence-contains"></a><b>contains(aNumber)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if the receiver contains an element equal in value to aNumber, false otherwise.
 </div>
-<a name="Sequence-containsAnyCaseSeq"></a><b>containsAnyCaseSeq</b><p>
+<a name="Sequence-containsAnyCaseSeq"></a><b>containsAnyCaseSeq(aSequence)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if the receiver contains the aSequence
+	regardless of casing, false otherwise.
 </div>
-<a name="Sequence-containsSeq"></a><b>containsSeq</b><p>
+<a name="Sequence-containsSeq"></a><b>containsSeq(aSequence)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if the receiver contains the substring
+	aSequence, false otherwise.
 </div>
 <a name="Sequence-convertToFixedSizeType"></a><b>convertToFixedSizeType</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="Sequence-convertToItemType"></a><b>convertToItemType</b><p>
+<a name="Sequence-convertToItemType"></a><b>convertToItemType(aTypeName)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Converts the underlying machine type for the elements, expanding or contracting
+	the size of the Sequence as needed. 
+	Valid names are uint8, uint16, uint32, uint64, int8, int16, int32, 
+	int64, float32, and float64. Note that 64 bit types are only available 
+	on platforms that support such types. Returns self.
 </div>
-<a name="Sequence-copy"></a><b>copy</b><p>
+<a name="Sequence-copy"></a><b>copy(aSequence)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Replaces the bytes of the receiver with a copy of those in aSequence. Returns self.
 </div>
 <a name="Sequence-cos"></a><b>cos</b><p>
 <div class=slotDescription>
@@ -14162,15 +13506,17 @@ Returns a new URL object instance with the receiver as it's url string.
 </div>
 <a name="Sequence-cosh"></a><b>cosh</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets each value of the Sequence to the hyperbolic cosine of it's value.
+Returns self.
 </div>
 <a name="Sequence-depth"></a><b>depth</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="Sequence-distanceTo"></a><b>distanceTo</b><p>
+<a name="Sequence-distanceTo"></a><b>distanceTo(aSeq)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a number with the square root of the sum of the square 
+	of the differences of the items between the sequences.
 </div>
 <a name="Sequence-dotProduct"></a><b>dotProduct(aSeq)</b><p>
 <div class=slotDescription>
@@ -14202,7 +13548,8 @@ Returns a new Sequence containing the dot product of the receiver with aSeq.
 </div>
 <a name="Sequence-duplicateIndexes"></a><b>duplicateIndexes</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Duplicates all indexes in the receiver.
+For example, list(1,2,3) duplicateIndexes == list(1,1,2,2,3,3). Returns self.
 </div>
 <a name="Sequence-empty"></a><b>empty</b><p>
 <div class=slotDescription>
@@ -14210,15 +13557,17 @@ Returns a new Sequence containing the dot product of the receiver with aSeq.
 </div>
 <a name="Sequence-encoding"></a><b>encoding</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the encoding of the elements.
 </div>
-<a name="Sequence-endsWithSeq"></a><b>endsWithSeq</b><p>
+<a name="Sequence-endsWithSeq"></a><b>endsWithSeq(aSequence)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if the receiver ends with aSequence, false otherwise.
 </div>
 <a name="Sequence-escape"></a><b>escape</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Escape characters in the receiver are replaced with escape codes.
+	For example a string containing a single return character would contain the
+	following 2 characters after being escaped: "\n". Returns self.
 </div>
 <a name="Sequence-escapeRegexChars"></a><b>escapeRegexChars</b><p>
 <div class=slotDescription>
@@ -14226,9 +13575,14 @@ Returns a clone of the receiver with all special regular expression characters
 		("^", "$", etc) backslashed. Useful if you have a string that contains such characters,
 		but want it to be treated as a literal string.
 </div>
+<a name="Sequence-exp"></a><b>exp</b><p>
+<div class=slotDescription>
+Sets each value of the Sequence to the base 10 log of it's value.
+Returns self.
+</div>
 <a name="Sequence-fileName"></a><b>fileName</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the last path component sans the path extension.
 </div>
 <a name="Sequence-findNthSeq"></a><b>findNthSeq(aSequence, n)</b><p>
 <div class=slotDescription>
@@ -14240,25 +13594,41 @@ Returns the first match of the given regex in the receiver, after the given star
 		If you don't specify a start index, the search will start at the beginning of the receiver.
 		The method returns nil if no match is found.
 </div>
-<a name="Sequence-findSeq"></a><b>findSeq</b><p>
+<a name="Sequence-findSeq"></a><b>findSeq(aSequence, optionalStartIndex)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a number with the first occurrence of aSequence in
+	the receiver after the startIndex. If no startIndex is specified,
+	the search starts at index 0.
+	nil is returned if no occurences are found.
 </div>
-<a name="Sequence-findSeqs"></a><b>findSeqs</b><p>
+<a name="Sequence-findSeqs"></a><b>findSeqs(listOfSequences, optionalStartIndex)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a object with two slots - an \"index\" slot which contains 
+	the first occurrence of any of the sequences in listOfSequences found 
+	in the receiver after the startIndex, and a \"match\" slot, which 
+	contains a reference to the matching sequence from listOfSequences. 
+	If no startIndex is specified, the search starts at index 0. 
+	nil is returned if no occurences are found.
 </div>
 <a name="Sequence-floor"></a><b>floor</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Round each value to largest integral value not greater than x.
+Returns self.
 </div>
-<a name="Sequence-foreach"></a><b>foreach</b><p>
+<a name="Sequence-foreach"></a><b>foreach(optionalIndex, value, message)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+For each element, set index to the index of the
+element and value the element value and execute message. 
+Example:
+<pre>	
+aSequence foreach(i, v, writeln("value at index ", i, " is ", v))
+aSequence foreach(v, writeln("value ", v))
+</pre>
 </div>
-<a name="Sequence-fromBase"></a><b>fromBase</b><p>
+<a name="Sequence-fromBase"></a><b>fromBase(aNumber)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a number with a base 10 representation of the receiver
+	converted from the specified base. Only base 2 through 32 are currently supported.
 </div>
 <a name="Sequence-glClearColor"></a><b>glClearColor</b><p>
 <div class=slotDescription>
@@ -14300,6 +13670,14 @@ Returns the first match of the given regex in the receiver, after the given star
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
+<a name="Sequence-greaterThan"></a><b>greaterThan(aSeq)</b><p>
+<div class=slotDescription>
+Returns true if the receiver is greater than aSeq, false otherwise.
+</div>
+<a name="Sequence-greaterThanOrEqualTo"></a><b>greaterThanOrEqualTo(aSeq)</b><p>
+<div class=slotDescription>
+Returns true if the receiver is greater than or equal to aSeq, false otherwise.
+</div>
 <a name="Sequence-green"></a><b>green</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
@@ -14310,55 +13688,58 @@ Returns true if the string contains one or more matches of the given regex.
 </div>
 <a name="Sequence-hash"></a><b>hash</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a Number containing a hash of the Sequence.
 </div>
 <a name="Sequence-height"></a><b>height</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="Sequence-interpolate"></a><b>interpolate</b><p>
+<a name="Sequence-interpolate"></a><b>interpolate(ctx)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns immutable copy of self with interpolateInPlace(ctx) passed to the copy.
 </div>
-<a name="Sequence-interpolateInPlace"></a><b>interpolateInPlace</b><p>
+<a name="Sequence-interpolateInPlace"></a><b>interpolateInPlace(optionalContext)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Replaces all #{expression} with expression evaluated in the optionalContext. 
+	If optionalContext not given, the current context is used.  Returns self.
 </div>
 <a name="Sequence-isEmpty"></a><b>isEmpty</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if the size of the receiver is 0, false otherwise.
 </div>
-<a name="Sequence-isEqualAnyCase"></a><b>isEqualAnyCase</b><p>
+<a name="Sequence-isEqualAnyCase"></a><b>isEqualAnyCase(aSequence)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if aSequence is equal to the receiver
+	ignoring case differences, false otherwise.
 </div>
 <a name="Sequence-isLowercase"></a><b>isLowercase</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns self if all the characters in the string are lower case.
 </div>
 <a name="Sequence-isMutable"></a><b>isMutable</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if the receiver is a mutable Sequence or false otherwise.
 </div>
 <a name="Sequence-isSymbol"></a><b>isSymbol</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if the receiver is a
+	immutable Sequence (aka, a Symbol) or false otherwise.
 </div>
 <a name="Sequence-isUppercase"></a><b>isUppercase</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns self if all the characters in the string are upper case.
 </div>
 <a name="Sequence-isZero"></a><b>isZero</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if all elements are 0, false otherwise.
 </div>
 <a name="Sequence-itemSize"></a><b>itemSize</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns number of bytes in each element.
 </div>
 <a name="Sequence-itemType"></a><b>itemType</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns machine type of elements.
 </div>
 <a name="Sequence-justSerialized"></a><b>justSerialized</b><p>
 <div class=slotDescription>
@@ -14366,7 +13747,16 @@ Returns true if the string contains one or more matches of the given regex.
 </div>
 <a name="Sequence-lastPathComponent"></a><b>lastPathComponent</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a string containing the receiver clipped up
+	to the last path separator.
+</div>
+<a name="Sequence-lessThan"></a><b>lessThan(aSeq)</b><p>
+<div class=slotDescription>
+Returns true if the receiver is lass than aSeq, false otherwise.
+</div>
+<a name="Sequence-lessThanOrEqualTo"></a><b>lessThanOrEqualTo(aSeq)</b><p>
+<div class=slotDescription>
+Returns true if the receiver is lass than or equal to aSeq, false otherwise.
 </div>
 <a name="Sequence-levenshtein"></a><b>levenshtein</b><p>
 <div class=slotDescription>
@@ -14374,7 +13764,7 @@ Returns true if the string contains one or more matches of the given regex.
 </div>
 <a name="Sequence-linePrint"></a><b>linePrint</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Prints the Sequence and a newline character.
 </div>
 <a name="Sequence-log"></a><b>log</b><p>
 <div class=slotDescription>
@@ -14384,17 +13774,27 @@ Returns true if the string contains one or more matches of the given regex.
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="Sequence-logicalOr"></a><b>logicalOr</b><p>
+<a name="Sequence-logicalAnd"></a><b>logicalAnd(aSequence)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Updates the receive's values to be the result of a logical OR operatiosn with the values of aSequence. Returns self.
+</div>
+<a name="Sequence-logicalOr"></a><b>logicalOr(aSequence)</b><p>
+<div class=slotDescription>
+Updates the receive's values to be the result of a logical OR operatiosn with the values of aSequence. Returns self.
 </div>
 <a name="Sequence-lowercase"></a><b>lowercase</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Makes all the uppercase characters in the receiver lowercase. Returns self.
 </div>
-<a name="Sequence-lstrip"></a><b>lstrip</b><p>
+<a name="Sequence-lstrip"></a><b>lstrip(aSequence)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Strips the characters in aSequence
+stripped from the beginning of the receiver. Example:
+<p>
+<pre>	
+"Keep the tail" lstrip(" eKp")
+==> "the tail"
+</pre>
 </div>
 <a name="Sequence-makeFirstCharacterLowercase"></a><b>makeFirstCharacterLowercase</b><p>
 <div class=slotDescription>
@@ -14426,7 +13826,7 @@ Returns true if the receiver matches the given regex, false if not.
 </div>
 <a name="Sequence-mean"></a><b>mean</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the arithmetic mean of the sequence's values after they have been squared.
 </div>
 <a name="Sequence-meanSquare"></a><b>meanSquare</b><p>
 <div class=slotDescription>
@@ -14434,11 +13834,12 @@ Returns true if the receiver matches the given regex, false if not.
 </div>
 <a name="Sequence-min"></a><b>min</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the maximum value of the Sequence.
 </div>
 <a name="Sequence-negate"></a><b>negate</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Negates the values of the receiver.
+Returns self.
 </div>
 <a name="Sequence-nextInSequence"></a><b>nextInSequence</b><p>
 <div class=slotDescription>
@@ -14446,11 +13847,12 @@ Returns true if the receiver matches the given regex, false if not.
 </div>
 <a name="Sequence-normalize"></a><b>normalize</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Divides each value of the Sequence by the max value of the sequence.
+Returns self.
 </div>
-<a name="Sequence-occurancesOfSeq"></a><b>occurancesOfSeq</b><p>
+<a name="Sequence-occurancesOfSeq"></a><b>occurancesOfSeq(aSeq)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns count of aSeq in the receiver.
 </div>
 <a name="Sequence-orderedSplit"></a><b>orderedSplit</b><p>
 <div class=slotDescription>
@@ -14458,15 +13860,19 @@ Returns true if the receiver matches the given regex, false if not.
 </div>
 <a name="Sequence-pathComponent"></a><b>pathComponent</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a slice of the receiver before the last path separator as a symbol.
 </div>
 <a name="Sequence-pathExtension"></a><b>pathExtension</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a string containing the receiver clipped up to the last period.
 </div>
-<a name="Sequence-preallocateToSize"></a><b>preallocateToSize</b><p>
+<a name="Sequence-preallocateToSize"></a><b>preallocateToSize(aNumber)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+If needed, resize the memory alloced for the receivers
+	byte array to be large enough to fit the number of bytes specified by
+	aNumber. This is useful for pio_reallocating the memory so it doesn't
+	keep getting allocated as the Sequence is appended to. This operation
+	will not change the Sequence's length or contents. Returns self.
 </div>
 <a name="Sequence-prependSeq"></a><b>prependSeq(object1, object2, ...)</b><p>
 <div class=slotDescription>
@@ -14474,91 +13880,108 @@ Prepends given objects asString in reverse order to the receiver.  Returns self.
 </div>
 <a name="Sequence-print"></a><b>print</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Prints the receiver as a string. Returns self.
 </div>
 <a name="Sequence-product"></a><b>product</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the product of all the sequence's values multipled together.
 </div>
 <a name="Sequence-rangeFill"></a><b>rangeFill</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets each value of the Sequence to the trigomentic cosine of it's value.
+Returns self.
 </div>
 <a name="Sequence-red"></a><b>red</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="Sequence-removeAt"></a><b>removeAt</b><p>
+<a name="Sequence-removeAt"></a><b>removeAt(index)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Removes the item at index. Returns self.
 </div>
 <a name="Sequence-removeEvenIndexes"></a><b>removeEvenIndexes</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Removes even indexes in the receiver.
+For example, list(1,2,3) removeEvenIndexes == list(1, 3). Returns self.
 </div>
 <a name="Sequence-removeLast"></a><b>removeLast</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Removes the last element from the receiver. Returns self.
 </div>
 <a name="Sequence-removeOddIndexes"></a><b>removeOddIndexes</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Removes odd indexes in the receiver.
+For example, list(1,2,3) removeOddIndexes == list(2). Returns self.
 </div>
-<a name="Sequence-removePrefix"></a><b>removePrefix</b><p>
+<a name="Sequence-removePrefix"></a><b>removePrefix(aSequence)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+If the receiver begins with aSequence, it is removed. Returns self.
 </div>
-<a name="Sequence-removeSeq"></a><b>removeSeq</b><p>
+<a name="Sequence-removeSeq"></a><b>removeSeq(aSequence)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Removes occurances of aSequence from the receiver.
 </div>
-<a name="Sequence-removeSlice"></a><b>removeSlice</b><p>
+<a name="Sequence-removeSlice"></a><b>removeSlice(startIndex, endIndex)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Removes the items from startIndex to endIndex.
+	Returns self.
 </div>
-<a name="Sequence-removeSuffix"></a><b>removeSuffix</b><p>
+<a name="Sequence-removeSuffix"></a><b>removeSuffix(aSequence)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+If the receiver end with aSequence, it is removed. Returns self.
 </div>
 <a name="Sequence-repeated"></a><b>repeated(n)</b><p>
 <div class=slotDescription>
 Returns a new sequence containing the receiver repeated n number of times.
 </div>
-<a name="Sequence-replaceFirstSeq"></a><b>replaceFirstSeq</b><p>
+<a name="Sequence-replaceFirstSeq"></a><b>replaceFirstSeq(aSequence, anotherSequence, optionalStartIndex)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a new Sequence with the first occurance of aSequence
+	replaced with anotherSequence in the receiver. If optionalStartIndex is
+	provided, the search for aSequence begins at that index. Returns self.
 </div>
-<a name="Sequence-replaceMap"></a><b>replaceMap</b><p>
+<a name="Sequence-replaceMap"></a><b>replaceMap(aMap)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+In the receiver, the keys of aMap replaced with it's values. Returns self.
 </div>
-<a name="Sequence-replaceSeq"></a><b>replaceSeq</b><p>
+<a name="Sequence-replaceSeq"></a><b>replaceSeq(aSequence, anotherSequence)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a new Sequence with all occurances of aSequence
+	replaced with anotherSequence in the receiver. Returns self.
 </div>
 <a name="Sequence-reverse"></a><b>reverse</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Reverses the bytes in the receiver, in-place.
 </div>
-<a name="Sequence-reverseFindSeq"></a><b>reverseFindSeq</b><p>
+<a name="Sequence-reverseFindSeq"></a><b>reverseFindSeq(aSequence, startIndex)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a number with the first occurrence of aSequence in
+	the receiver before the startIndex. The startIndex argument is optional.
+	By default reverseFind starts at the end of the string. Nil is
+	returned if no occurrences are found.
 </div>
 <a name="Sequence-rootMeanSquare"></a><b>rootMeanSquare</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="Sequence-rstrip"></a><b>rstrip</b><p>
+<a name="Sequence-rstrip"></a><b>rstrip(aSequence)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Strips the characters in
+aSequence stripped from the end of the receiver. Example:
+<pre>	
+"Cut the tail off" rstrip(" afilot")
+==> "Cut the"
+</pre>
 </div>
 <a name="Sequence-sequenceSets"></a><b>sequenceSets</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="Sequence-set"></a><b>set</b><p>
+<a name="Sequence-set"></a><b>set(aNumber1, aNumber2, ...)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the values of the receiver to the sequences of numbers in the arguments.
+	Unset values will remain unchanged.
+	Returns self.
 </div>
 <a name="Sequence-setAlpha"></a><b>setAlpha</b><p>
 <div class=slotDescription>
@@ -14572,9 +13995,12 @@ Returns a new sequence containing the receiver repeated n number of times.
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="Sequence-setEncoding"></a><b>setEncoding</b><p>
+<a name="Sequence-setEncoding"></a><b>setEncoding(encodingName)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the encoding flag of the receiver (only the encoding flag, 
+	itemSize and itemType will change, no conversion is done between UTF
+	encodings - you can use convertToUTF8, etc methods for conversions). 
+	Valid encodings are number, utf8, utf16, and utf32. Returns self.
 </div>
 <a name="Sequence-setGreen"></a><b>setGreen</b><p>
 <div class=slotDescription>
@@ -14584,25 +14010,28 @@ Returns a new sequence containing the receiver repeated n number of times.
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="Sequence-setItemType"></a><b>setItemType</b><p>
+<a name="Sequence-setItemType"></a><b>setItemType(aTypeName)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the underlying machine type for the elements. 
+	Valid names are uint8, uint16, uint32, uint64, int8, int16, int32, 
+	int64, float32, and float64. Note that 64 bit types are only available 
+	on platforms that support such types. Returns self.
 </div>
-<a name="Sequence-setItemsToDouble"></a><b>setItemsToDouble</b><p>
+<a name="Sequence-setItemsToDouble"></a><b>setItemsToDouble(aNumber)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets all items in the Sequence to the double floating point value of aNumber.
 </div>
-<a name="Sequence-setItemsToLong"></a><b>setItemsToLong</b><p>
+<a name="Sequence-setItemsToLong"></a><b>setItemsToLong(aNumber)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets all items in the Sequence to the long integer value of aNumber.
 </div>
 <a name="Sequence-setRed"></a><b>setRed</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="Sequence-setSize"></a><b>setSize</b><p>
+<a name="Sequence-setSize"></a><b>setSize(aNumber)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the length in bytes of the receiver to aNumber. Return self.
 </div>
 <a name="Sequence-setWidth"></a><b>setWidth</b><p>
 <div class=slotDescription>
@@ -14634,15 +14063,22 @@ Returns a new sequence containing the receiver repeated n number of times.
 </div>
 <a name="Sequence-sinh"></a><b>sinh</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets each value of the Sequence to the hyperbolic sine of it's value.
+Returns self.
 </div>
 <a name="Sequence-size"></a><b>size</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the length in bytes of the receiver. For example,
+<p>
+<pre>	
+"abc" size == 3
+</pre>
 </div>
-<a name="Sequence-slice"></a><b>slice</b><p>
+<a name="Sequence-slice"></a><b>slice(startIndex, endIndex)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a new string containing the subset of the
+	receiver from the startIndex to the endIndex. The endIndex argument
+	is optional. If not given, it is assumed to be the end of the string.
 </div>
 <a name="Sequence-slicesBetween"></a><b>slicesBetween</b><p>
 <div class=slotDescription>
@@ -14650,7 +14086,7 @@ Returns a new sequence containing the receiver repeated n number of times.
 </div>
 <a name="Sequence-sort"></a><b>sort</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sorts the characters/numbers the array. Returns self.
 </div>
 <a name="Sequence-split"></a><b>split(optionalArg1, optionalArg2, ...)</b><p>
 <div class=slotDescription>
@@ -14663,9 +14099,9 @@ Returns a list containing the non-empty sub-sequences of the receiver divided by
 		"a***b||c,d" splitNoEmpties("*", "|", ",") => list("a", "b", "c", "d")
 		</code>
 </div>
-<a name="Sequence-splitAt"></a><b>splitAt</b><p>
+<a name="Sequence-splitAt"></a><b>splitAt(indexNumber)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a list containing the two parts of the receiver as split at the given index.
 </div>
 <a name="Sequence-splitAtRegex"></a><b>splitAtRegex(aRegexOrString)</b><p>
 <div class=slotDescription>
@@ -14678,65 +14114,97 @@ Splits the receiver into pieces using the given regex as the delimiter and
 </div>
 <a name="Sequence-sqrt"></a><b>sqrt</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets each value of the Sequence to the square root of it's value.
+Returns self.
 </div>
 <a name="Sequence-square"></a><b>square</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets each value of the Sequence to the square of it's value.
+Returns self.
 </div>
-<a name="Sequence-strip"></a><b>strip</b><p>
+<a name="Sequence-strip"></a><b>strip(optionalSequence)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Trims the whitespace (or optionalSequence) off both ends:
+<p>
+<pre>	
+"   Trim this string   \r\n" strip
+==> "Trim this string"
+</pre>
 </div>
 <a name="Sequence-sum"></a><b>sum</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the sum of the Sequence.
 </div>
 <a name="Sequence-tan"></a><b>tan</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets each value of the Sequence to the trigomentic tangent of it's value.
+Returns self.
 </div>
 <a name="Sequence-tanh"></a><b>tanh</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets each value of the Sequence to the hyperbolic tangent of it's value.
+Returns self.
 </div>
 <a name="Sequence-to"></a><b>to</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="Sequence-toBase"></a><b>toBase</b><p>
+<a name="Sequence-toBase"></a><b>toBase(aNumber)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a Sequence containing the receiver(which is
+	assumed to be a base 10 number) converted to the specified base.
+	Only base 8 and 16 are currently supported.
 </div>
 <a name="Sequence-toBy"></a><b>toBy</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="Sequence-translate"></a><b>translate</b><p>
+<a name="Sequence-translate"></a><b>translate(fromChars, toChars)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+In the receiver, the characters in fromChars are replaced with those in the same positions in toChars. Returns self.
 </div>
 <a name="Sequence-unescape"></a><b>unescape</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Escape codes replaced with escape characters. Returns self.
 </div>
 <a name="Sequence-uppercase"></a><b>uppercase</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Makes all characters of the receiver uppercase.
 </div>
 <a name="Sequence-whiteSpaceStrings"></a><b>whiteSpaceStrings</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a List of strings. Each string contains a different
+	whitespace character.
 </div>
 <a name="Sequence-width"></a><b>width</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="Sequence-with"></a><b>with</b><p>
+<a name="Sequence-with"></a><b>with(aSequence, ...)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a new Sequence which is the concatination of the arguments.
+	The returned sequence will have the same mutability status as the receiver.
 </div>
-<a name="Sequence-withStruct"></a><b>withStruct</b><p>
+<a name="Sequence-withStruct"></a><b>withStruct(memberList)</b><p>
+<div class=slotDescription>
+This method is useful for producing a Sequence containing a raw datastructure with
+the specified types and values. The memberList format is:
+<p>
+list(memberType1, memberName1, memberType2, memberName2, ...)
+<p>
+Member types include: 
+<pre>
+int8, int16, int32, int64
+uint8, uint16, uint32, uint64
+float32, float64 
+</pre>
+Example:
+<pre>
+pointStructSeq := Sequence withStruct(list("float32", 1.2, "float32", 3.5))
+</pre>
+The output pointStructSeq would contain 2 raw 32 bit floats.
+</div>
+<a name="Sequence-writeToStream"></a><b>writeToStream</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
@@ -16545,9 +16013,12 @@ Returns the current user's name.
 <div class=slotIndex>
 <a href="#Video-audioOn">audioOn</a><br>
 <a href="#Video-frameNumber">frameNumber</a><br>
+<a href="#Video-isDone">isDone</a><br>
+<a href="#Video-readNextFrame">readNextFrame</a><br>
 <a href="#Video-readNextFrame Decodes the next video frame into the receiver's image object.">readNextFrame Decodes the next video frame into the receiver's image object.</a><br>
 <a href="#Video-setAudioOn">setAudioOn()</a><br>
 <a href="#Video-setFrameNumber">setFrameNumber()</a><br>
+<a href="#Video-setIsDone">setIsDone</a><br>
 </div>
 <p>
 <h3>Slots</h3>
@@ -16559,6 +16030,14 @@ Whether or not the decoded audio is directed to the AudioDevice.
 <a name="Video-frameNumber"></a><b>frameNumber</b><p>
 <div class=slotDescription>
 The current frame number.
+</div>
+<a name="Video-isDone"></a><b>isDone</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Video-readNextFrame"></a><b>readNextFrame</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 <a name="Video-readNextFrame Decodes the next video frame into the receiver's image object."></a><b>readNextFrame Decodes the next video frame into the receiver's image object.</b><p>
 <div class=slotDescription>
@@ -16573,6 +16052,10 @@ Sets whether or not the decoded audio is directed to the AudioDevice. Returns se
 <div class=slotDescription>
 Private setter for frameNumber. Returns self.
 </font>
+</div>
+<a name="Video-setIsDone"></a><b>setIsDone</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 </div>
 </div>
