@@ -65,7 +65,7 @@ Addon := Object clone do(
 			DynLib clone setPath(dllPath) open call("Io" .. name .. "Init", context)
 		,
 			// check for C files, if found then addon didn't compile
-			if(Directory with(sourcePath) size > 1,
+			if(Directory with(sourcePath) files size > 1,
 				Exception raise("Failed to load Addon " .. name .. " - it appears that the addon exists but was not compiled. You might try running 'make " .. name .. "' in the Io source folder.")
 			)
 		)
