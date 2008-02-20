@@ -3313,7 +3313,7 @@ if not specified, "./" is assumed.""")
 <a href="#Directory-folders">folders</a><br>
 <a href="#Directory-isAccessible">isAccessible</a><br>
 <a href="#Directory-items">items</a><br>
-<a href="#Directory-moveTo">moveTo</a><br>
+<a href="#Directory-moveTo">moveTo()</a><br>
 <a href="#Directory-name">name</a><br>
 <a href="#Directory-parentDirectory">parentDirectory</a><br>
 <a href="#Directory-parents">parents</a><br>
@@ -3368,7 +3368,7 @@ Returns the current working directory path.
 </div>
 <a name="Directory-directoryNamed"></a><b>directoryNamed(aName)</b><p>
 <div class=slotDescription>
-Returns a Directory object for the specified file name whether it exists or not.
+Returns a Directory object for the specified file name or nil if it doesn't exist.
 </div>
 <a name="Directory-exists"></a><b>exists(optionalPath)</b><p>
 <div class=slotDescription>
@@ -3414,9 +3414,9 @@ Returns true if the directory can be accessed, false otherwise.
 Returns a list object containing File and Directory objects
 	for the files and directories of the receiver's path.
 </div>
-<a name="Directory-moveTo"></a><b>moveTo</b><p>
+<a name="Directory-moveTo"></a><b>moveTo(aPath)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Moves the directory to the specified path.
 </div>
 <a name="Directory-name"></a><b>name</b><p>
 <div class=slotDescription>
@@ -3438,7 +3438,7 @@ Returns the directory path. The default path is '.'.
 </div>
 <a name="Directory-remove"></a><b>remove</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Removes the directory.
 </div>
 <a name="Directory-setCurrentWorkingDirectory"></a><b>setCurrentWorkingDirectory(pathString)</b><p>
 <div class=slotDescription>
@@ -16156,7 +16156,11 @@ bf outputBuffer // this contains the output data
 <div class=slotIndex>
 <a href="#ZlibDecoder-beginProcessing">beginProcessing</a><br>
 <a href="#ZlibDecoder-endProcessing">endProcessing</a><br>
+<a href="#ZlibDecoder-inputBuffer">inputBuffer</a><br>
+<a href="#ZlibDecoder-outputBuffer">outputBuffer</a><br>
 <a href="#ZlibDecoder-process">process</a><br>
+<a href="#ZlibDecoder-setInputBuffer">setInputBuffer</a><br>
+<a href="#ZlibDecoder-setOutputBuffer">setOutputBuffer</a><br>
 </div>
 <p>
 <h3>Slots</h3>
@@ -16169,10 +16173,26 @@ Initializes the algorithm.
 <div class=slotDescription>
 Finish processing remaining bytes of inputBuffer.
 </div>
+<a name="ZlibDecoder-inputBuffer"></a><b>inputBuffer</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ZlibDecoder-outputBuffer"></a><b>outputBuffer</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="ZlibDecoder-process"></a><b>process</b><p>
 <div class=slotDescription>
 Process the inputBuffer and appends the result to the outputBuffer.
 	The processed inputBuffer is empties except for the spare bytes at the end which don't fit into a cipher block.
+</div>
+<a name="ZlibDecoder-setInputBuffer"></a><b>setInputBuffer</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ZlibDecoder-setOutputBuffer"></a><b>setOutputBuffer</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 </div>
 </div>
