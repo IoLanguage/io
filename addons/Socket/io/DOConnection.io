@@ -1,5 +1,5 @@
-Object NULL := Sequence clone
-Object NULL append(0x0)
+Object NullCharacter := Sequence clone
+Object NullCharacter append(0x0)
 
 DOConnection := Object clone do(
 //metadoc DOConnection Networking
@@ -19,19 +19,19 @@ writeln(r)
 Implementation Notes:
 <p>
 
-The format of the Distributed Objects message is a list of null
+The format of the Distributed Objects message is a list of NullCharacter
 terminated strings in one of these two formats:
 <p>
 Send message format:
 
 <pre>
-s NULL targetId NULL messageName NULL argCount NULL argType NULL argValue NULL (next arg type and value, etc)
+s NullCharacter targetId NullCharacter messageName NullCharacter argCount NullCharacter argType NullCharacter argValue NullCharacter (next arg type and value, etc)
 </pre>
 
 Reply message format:
 
 <pre>
-r NULL argType NULL argvalue NULL
+r NullCharacter argType NullCharacter argvalue NullCharacter
 </pre>
 
 If the argument is not a String, Number or nil then:
@@ -102,7 +102,7 @@ This isn't optimized yet.
 		result := nil
 		loop(
 			socket read returnIfError
-			list := socket readBuffer splitNoEmpties(NULL)
+			list := socket readBuffer splitNoEmpties(NullCharacter)
 			ifDebug(write("got result "); ShowMessage(socket readBuffer))
 			type := list at(0) asString
 
@@ -147,30 +147,30 @@ This isn't optimized yet.
 		debugWriteln("performing ", methodName, " on a ", target type, "\n")
 		result := target performWithArgList(methodName, args)
 		b := Sequence clone
-		b appendSeq("r", NULL)
+		b appendSeq("r", NullCharacter)
 		self encode(b, result, localObjects)
 		ifDebug(write("returning result "); ShowMessage(b))
 		socket appendToWriteBuffer(b) writeFromBuffer
 	)
 
-	NULL := 0 asCharacter
-
+	NullCharacter := 0 asCharacter
+	
 	encode := method(b, arg,
-		if(arg == nil, b appendSeq("nil", NULL, " ", NULL); return)
+		if(arg == nil, b appendSeq("nil", NullCharacter, " ", NullCharacter); return)
 
 		if(arg type ==("Sequence") or(arg type == "Number"),
-			b appendSeq(arg type, NULL, arg asString, NULL)
+			b appendSeq(arg type, NullCharacter, arg asString, NullCharacter)
 			return
 		)
 
 		if(arg type ==("Object") and(arg hasSlot("proxyId")),
-			b appendSeq("LocalObject", NULL, arg proxyId, NULL)
+			b appendSeq("LocalObject", NullCharacter, arg proxyId, NullCharacter)
 			return
 		)
 
 		localObjects atPut(arg uniqueId asString, arg)
 		debugWriteln("adding localObject ", arg uniqueId asString, " ", arg type, "\n")
-		b appendSeq("RemoteObject", NULL, arg uniqueId asString, NULL)
+		//b appendSeq("RemoteObject", NullCharacter, arg uniqueId asString, NullCharacter)
 	)
 
 	decode := method(argType, argValue,
@@ -196,7 +196,7 @@ This isn't optimized yet.
 	)
 
 	ShowMessage := method(b,
-		list := b splitNoEmpties(NULL)
+		list := b splitNoEmpties(NullCharacter)
 		write("[")
 		list foreach(i, v,
 			write("'", v asString, "'")
@@ -205,7 +205,6 @@ This isn't optimized yet.
 		write("]\n")
 	)
 )
-
 
 DOProxy := Object clone do(
 	//metadoc DOProxy category Networking
@@ -217,13 +216,13 @@ DOProxy := Object clone do(
 		args := call message argsEvaluatedIn(call sender)
 
 		b := Sequence clone
-		b appendSeq("s", NULL)
+		b appendSeq("s", NullCharacter)
 		b appendSeq(self proxyId)
-		b appendSeq(NULL)
+		b appendSeq(NullCharacter)
 		b appendSeq(methodName)
-		b appendSeq(NULL)
+		b appendSeq(NullCharacter)
 		b appendSeq(call message argCount)
-		b appendSeq(NULL)
+		b appendSeq(NullCharacter)
 
 		args foreach(v, connection encode(b, v))
 		connection sendMessage(b)

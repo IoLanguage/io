@@ -36,15 +36,12 @@ with kernel threads and socket polling.
 	)
 
 	//doc Server setHost(hostName) Sets the hostName. Returns self.
-
 	setHost := method(host, socket setHost(host); self)
 
 	//doc Server setPort(aNumber) Sets the port on which the server will listen  for connections. Returns self.
-
 	setPort := method(port, socket setPort(port); self)
 
 	//doc Server port Returns the port on which the server will listen for connections.
-
 	port := method(socket port)
 
 	/*doc Server start
@@ -61,9 +58,12 @@ with kernel threads and socket polling.
 	)
 
 	//doc Server stop Stops the server if it is running. Returns self.
-
 	stop := method(socket close)
 	
+	/*doc Server handleSocket(aSocket) 
+	This method is called when the server accepts a new socket. The new sockets is passed as the argument.
+	Override this method in your own server subclass. The default implementation raises an exception.
+	*/
 	handleSocket := method(aSocket,
 		Exception raise("You must override Server handleSocket in your subclass")
 	)

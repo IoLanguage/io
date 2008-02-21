@@ -1,3 +1,8 @@
+/*
+	Written by Daniel Rosengren
+	danne.rosengren@gmail.com
+*/
+
 #include "Regex.h"
 
 static int Regex_put_in_(Regex *self, int what, void *where);

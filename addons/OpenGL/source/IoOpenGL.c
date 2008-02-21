@@ -1625,7 +1625,7 @@ size_t IoGL_BitsPerPixelForFormat_(GLenum sourceFormat)
 IoObject *IoGL_glTexImage2D(IoGL *self, IoObject *locals, IoMessage *m)
 {
 	CHECKGLINIT();
-{
+	{
 	GLenum target = IoMessage_locals_intArgAt_(m, locals, 0);
 	GLint level  = IoMessage_locals_intArgAt_(m, locals, 1);
 	GLint internalFormat = IoMessage_locals_intArgAt_(m, locals, 2);
@@ -1635,19 +1635,23 @@ IoObject *IoGL_glTexImage2D(IoGL *self, IoObject *locals, IoMessage *m)
 	GLenum sourceFormat = IoMessage_locals_intArgAt_(m, locals, 6);
 	GLenum type = IoMessage_locals_intArgAt_(m, locals, 7);
 	IoObject *data = IoMessage_locals_valueArgAt_(m, locals, 8);
-	GLvoid *bytes = (GLvoid *)NULL;
+	GLvoid *bytes = IoSeq_rawBytes(data);
+
 
 	IOASSERT(ISBUFFER(data) || ISNIL(data), "data must be a Buffer or Nil");
 	IOASSERT(IoGL_AcceptedPixelForFormat_(sourceFormat), "unacceptable pixel format");
 
-	if (ISBUFFER(data))
 	{
-		size_t requiredSizeInBits = width * height * IoGL_BitsPerPixelForFormat_(sourceFormat);
-		IoSeq_rawSetSize_(data, requiredSizeInBits / 8);
-		bytes = IoSeq_rawBytes(data);
+		size_t requiredSize = (width * height * IoGL_BitsPerPixelForFormat_(sourceFormat)) / 8;
+		printf("bytes per pixel = %i\n", (int)IoGL_BitsPerPixelForFormat_(sourceFormat)/8);
+		printf("w %i h %i\n", width, height);
+		printf("size = %i\n", (int)requiredSize);
+		IOASSERT(IoSeq_rawSize(data) == requiredSize, "data not of correct size for width, height and depth");
+		bytes = malloc(requiredSize*2);
+
 	}
 
-	printf("glTexImage2D(target %i, level %i, internalFormat %i, width %i, height %i, border %i, sourceFormat %i, type %i, bytes %p)\n",
+	printf("--- glTexImage2D(target %i, level %i, internalFormat %i, width %i, height %i, border %i, sourceFormat %i, type %i, bytes %p)\n",
 		target,
 		level,
 		internalFormat,
@@ -1657,7 +1661,16 @@ IoObject *IoGL_glTexImage2D(IoGL *self, IoObject *locals, IoMessage *m)
 		type,
 		(GLvoid*) bytes
 	);
-	
+/*	
+	glTexImage2D(GL_TEXTURE_2D,
+				 0,
+				 GL_RGB,
+				 width, height,
+				 0,
+				 GL_RGB,
+				 GL_UNSIGNED_BYTE,
+				 (GLvoid*) bytes);
+*/
 	glTexImage2D(target,
 				 level,
 				 internalFormat,
@@ -1666,7 +1679,8 @@ IoObject *IoGL_glTexImage2D(IoGL *self, IoObject *locals, IoMessage *m)
 				 sourceFormat,
 				 type,
 				 (GLvoid*) bytes);
-}
+	}
+	printf("glTexImage2D() done\n");
 	return self;
 }
 

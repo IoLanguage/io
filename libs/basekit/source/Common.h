@@ -176,6 +176,8 @@ extern "C" {
 BASEKIT_API void *cpalloc(const void *p, size_t size);
 BASEKIT_API void *io_freerealloc(void *p, size_t size);
 
+int io_isBigEndian(void);
+
 #ifdef __cplusplus
 }
 #endif

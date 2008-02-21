@@ -1,5 +1,3 @@
-
-
 #define IOSEQ_C
 #include "IoSeq.h"
 #undef IOSEQ_C

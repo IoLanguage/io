@@ -1,5 +1,7 @@
-//metadoc Regex copyright Steve Dekorte 2002
-//metadoc Regex license BSD revised
+/*
+	Written by Daniel Rosengren
+	danne.rosengren@gmail.com
+*/
 
 #ifndef IOREGEX_DEFINED
 #define IOREGEX_DEFINED 1
@@ -16,7 +18,7 @@ typedef struct
 {
 	IoSymbol *pattern;
 	int options;
-	IoMap *nameToIndexMap;
+	IoMap *namedCaptures;
 	Regex *regex;
 } IoRegexData;
 
@@ -34,7 +36,7 @@ IoObject *IoRegex_with(IoRegex *self, IoObject *locals, IoMessage *m);
 
 IoObject *IoRegex_pattern(IoRegex *self, IoObject *locals, IoMessage *m);
 IoObject *IoRegex_captureCount(IoRegex *self, IoObject *locals, IoMessage *m);
-IoObject *IoRegex_nameToIndexMap(IoRegex *self, IoObject *locals, IoMessage *m);
+IoObject *IoRegex_namedCaptures(IoRegex *self, IoObject *locals, IoMessage *m);
 
 IoObject *IoRegex_version(IoRegex *self, IoObject *locals, IoMessage *m);
 

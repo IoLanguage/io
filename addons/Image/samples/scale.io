@@ -16,10 +16,10 @@ App := Object clone do(
 		//Image clone open(inFile) resizedTo(w, h) save(outFile)
 		img := Image clone open(inFile) 
 		
-		w = (img width) floor 
-		h = (img height) floor
+		w = (img width) //floor 
+		h = (img height) //floor
 
-		img resizedTo(w, h) save(outFile) 
+		img resizedTo(w*4, h*4) save(outFile) 
 
 		System exit
 	)

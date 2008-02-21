@@ -427,13 +427,57 @@ IoObject *IoNumber_asCharacter(IoNumber *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Number asCharacter
 	Returns a String containing a single character whose
-	value is the ascii value of the first byte of the receiver.
+	value is the value of the first byte of the receiver.
+	Returns nil if the number has no valid UCS mapping.
 	*/
 	
-	char s[2];
-	s[0] = (char)DATA(self);
-	s[1] = 0;
-	return IoState_symbolWithCString_length_((IoState *)IOSTATE, s, 1);
+	double d =DATA(self);
+	long ld = d;
+	
+	if (d < 0 || d != ld)
+	{
+		return IONIL(self);
+	}
+	else
+	{	
+		uint32_t i = io_uint32InBigEndian((uint32_t)d);
+		int bytes = d > 0 ? log2(d) / 8 : 1;
+		IoSeq *s;
+		
+		if (bytes == 0) 
+		{ 
+			bytes = 1;
+		}
+		
+		if (bytes == 3) 
+		{ 
+			bytes = 4;
+		}
+		
+		if (bytes > 4) 
+		{
+			// no valid UCS encoding for this value
+			return IONIL(self);
+		}
+		
+		s = IoSeq_newWithData_length_(IOSTATE, (unsigned char *)&i, bytes);
+		
+		{
+			UArray *u = IoSeq_rawUArray(s);
+			int e = CENCODING_ASCII;
+			
+			switch (bytes)
+			{
+				case 1: e = CENCODING_ASCII; break;
+				case 2: e = CENCODING_UTF16; break;
+				case 4: e = CENCODING_UTF32; break;
+			}
+			
+			UArray_setEncoding_(u, e);
+		}
+		
+		return s;
+	}
 }
 
 IoObject *IoNumber_asUint32Buffer(IoNumber *self, IoObject *locals, IoMessage *m)
@@ -473,7 +517,7 @@ Returns a string representation of the receiver. For example:
 </pre>	
 would return:
 <pre>
-$1234.56
+1234.57
 </pre>	
 */
 	
@@ -898,7 +942,9 @@ IoObject *IoNumber_bitShiftRight(IoNumber *self, IoObject *locals, IoMessage *m)
 IoObject *IoNumber_isEven(IoNumber *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Number isEven
-	Returns self if integer form of the receiver is even. Otherwise returns Nil.
+	Returns true if 
+	integer form of the receiver is even
+	, false otherwise.
 	*/
 
 	int n = DATA(self);
@@ -908,7 +954,9 @@ IoObject *IoNumber_isEven(IoNumber *self, IoObject *locals, IoMessage *m)
 IoObject *IoNumber_isOdd(IoNumber *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Number isOdd
-	Returns self if integer form of the receiver is even. Otherwise returns Nil.
+	Returns true if 
+	integer form of the receiver is odd
+	, false otherwise.
 	*/
 
 	int n = DATA(self);
@@ -920,8 +968,9 @@ IoObject *IoNumber_isOdd(IoNumber *self, IoObject *locals, IoMessage *m)
 IoObject *IoNumber_isAlphaNumeric(IoNumber *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Number isAlphaNumeric
-	Returns self if the receiver is an alphanumeric
-	character value. Otherwise returns Nil.
+	Returns true if 
+	receiver is an alphanumeric character value
+	, false otherwise.
 	*/
 
 	return IOBOOL(self, isalnum((int)DATA(self)));
@@ -930,7 +979,9 @@ IoObject *IoNumber_isAlphaNumeric(IoNumber *self, IoObject *locals, IoMessage *m
 IoObject *IoNumber_isLetter(IoNumber *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Number isLetter
-	Returns self if the receiver is an alphanetic character value. Otherwise returns Nil.
+	Returns true if 
+	receiver is a letter character value
+	, false otherwise.
 	*/
 
 	return IOBOOL(self, isalpha((int)DATA(self)));
@@ -939,8 +990,9 @@ IoObject *IoNumber_isLetter(IoNumber *self, IoObject *locals, IoMessage *m)
 IoObject *IoNumber_isControlCharacter(IoNumber *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Number isControlCharacter
-	Returns self if the receiver is an control
-	character value. Otherwise returns Nil.
+	Returns true if 
+	receiver is a control character value
+	, false otherwise.
 	*/
 
 	return IOBOOL(self, iscntrl((int)DATA(self)));
@@ -949,8 +1001,9 @@ IoObject *IoNumber_isControlCharacter(IoNumber *self, IoObject *locals, IoMessag
 IoObject *IoNumber_isDigit(IoNumber *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Number isDigit
-	Returns self if the receiver is an numeric
-	digit character value. Otherwise returns Nil.
+	Returns true if 
+	receiver is a numeric digit value
+	, false otherwise.
 	*/
 
 	return IOBOOL(self, isdigit((int)DATA(self)));
@@ -959,8 +1012,9 @@ IoObject *IoNumber_isDigit(IoNumber *self, IoObject *locals, IoMessage *m)
 IoObject *IoNumber_isGraph(IoNumber *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Number isGraph
-	Returns self if the receiver is a printing character
-	value except space. Otherwise returns Nil.
+	Returns true if 
+	the receiver is a printing character value except space
+	, false otherwise.
 	*/
 
 	return IOBOOL(self, isgraph((int)DATA(self)));
@@ -969,8 +1023,9 @@ IoObject *IoNumber_isGraph(IoNumber *self, IoObject *locals, IoMessage *m)
 IoObject *IoNumber_isLowercase(IoNumber *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Number isLowercase
-	Returns self if the receiver is an lower case
-	character value. Otherwise returns Nil.
+	Returns true if 
+	the receiver is a lowercase character value
+	, false otherwise.
 	*/
 
 	return IOBOOL(self, islower((int)DATA(self)));
@@ -979,8 +1034,9 @@ IoObject *IoNumber_isLowercase(IoNumber *self, IoObject *locals, IoMessage *m)
 IoObject *IoNumber_isUppercase(IoNumber *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Number isUppercase
-	Returns self if the receiver is an upper case
-	character value. Otherwise returns Nil.
+	Returns true if 
+	the receiver is a uppercase character value
+	, false otherwise.
 	*/
 
 	return IOBOOL(self, isupper((int)DATA(self)));
@@ -989,8 +1045,9 @@ IoObject *IoNumber_isUppercase(IoNumber *self, IoObject *locals, IoMessage *m)
 IoObject *IoNumber_isPrint(IoNumber *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Number isPrint
-	Returns self if the receiver is an printing character
-	value, including space. Otherwise returns Nil.
+	Returns true if 
+	the receiver is a printing character value, including space
+	, false otherwise.
 	*/
 
 	return IOBOOL(self, isprint((int)DATA(self)));
@@ -999,8 +1056,10 @@ IoObject *IoNumber_isPrint(IoNumber *self, IoObject *locals, IoMessage *m)
 IoObject *IoNumber_isPunctuation(IoNumber *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Number isPunctuation
-	Returns self if the receiver is an printing character
-	value, except space letter or digit. Otherwise returns Nil.
+	Returns true if 
+	the receiver is a punctuation character value
+	, false otherwise.
+
 	*/
 
 	return IOBOOL(self, ispunct((int)DATA(self)));
@@ -1009,8 +1068,9 @@ IoObject *IoNumber_isPunctuation(IoNumber *self, IoObject *locals, IoMessage *m)
 IoObject *IoNumber_isSpace(IoNumber *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Number isSpace
-	Returns self if the receiver is a space, formfeed,
-	newline carriage return, tab or vertical tab character value. Otherwise returns Nil.
+	Returns true if 
+	the receiver is a space, formfeed, newline carriage return, tab or vertical tab character value
+	, false otherwise.
 	*/
 
 	return IOBOOL(self, isspace((int)DATA(self)));
@@ -1019,8 +1079,9 @@ IoObject *IoNumber_isSpace(IoNumber *self, IoObject *locals, IoMessage *m)
 IoObject *IoNumber_isHexDigit(IoNumber *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Number isHexDigit
-	Returns self if the receiver is hexidecimal digit
-	character value. Otherwise returns Nil.
+	Returns true if 
+	the receiver is a hexadecimal character value
+	, false otherwise.
 	*/
 
 	return IOBOOL(self, isxdigit((int)DATA(self)));

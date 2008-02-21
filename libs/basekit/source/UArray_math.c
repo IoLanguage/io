@@ -7,7 +7,8 @@
 #include <math.h>
 #include <float.h>
 
-#define IO_USE_SIMD 1
+#warning Uncomment the IO_USE_SIMD define to turn on SIMD acceleration
+//#define IO_USE_SIMD 1
 
 #ifdef IO_USE_SIMD
 #include "simd_cp.h"

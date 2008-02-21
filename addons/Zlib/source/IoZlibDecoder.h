@@ -1,7 +1,4 @@
-/*
 //metadoc copyright Steve Dekorte 2002
-*/
-*/
 
 #ifndef IOZlibDecoder_DEFINED
 #define IOZlibDecoder_DEFINED 1

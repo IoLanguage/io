@@ -1,6 +1,6 @@
 /*
-docCopyright("Daniel Rosengren", 2007)
-docLicense("BSD revised")
+	Written by Daniel Rosengren
+	danne.rosengren@gmail.com
 */
 
 #ifndef IOREGEXMATCHES_DEFINED

@@ -40,7 +40,7 @@ static void IoAssertNotSymbol(IoSeq *self, IoMessage *m)
 
 IoObject *IoSeq_setItemType(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc MutableSequence setItemType(aTypeName)
+	/*doc Sequence setItemType(aTypeName)
 	Sets the underlying machine type for the elements. 
 	Valid names are uint8, uint16, uint32, uint64, int8, int16, int32, 
 	int64, float32, and float64. Note that 64 bit types are only available 
@@ -64,6 +64,13 @@ IoObject *IoSeq_setItemType(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_convertToItemType(IoSeq *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Sequence convertToItemType(aTypeName)
+	Converts the underlying machine type for the elements, expanding or contracting
+	the size of the Sequence as needed. 
+	Valid names are uint8, uint16, uint32, uint64, int8, int16, int32, 
+	int64, float32, and float64. Note that 64 bit types are only available 
+	on platforms that support such types. Returns self. 
+	*/
 	IoSymbol *typeName = IoMessage_locals_symbolArgAt_(m, locals, 0);
 	CTYPE itemType = CTYPE_forName(CSTRING(typeName));
 
@@ -84,7 +91,7 @@ IoObject *IoSeq_convertToFixedSizeType(IoSeq *self, IoObject *locals, IoMessage 
 
 IoObject *IoSeq_setEncoding(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc MutableSequence setEncoding(encodingName)
+	/*doc Sequence setEncoding(encodingName)
 	Sets the encoding flag of the receiver (only the encoding flag, 
 	itemSize and itemType will change, no conversion is done between UTF
 	encodings - you can use convertToUTF8, etc methods for conversions). 
@@ -113,7 +120,7 @@ void IoSeq_rawCopy_(IoSeq *self, IoSeq *other)
 
 IoObject *IoSeq_copy(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc MutableSequence copy(aSequence)
+	/*doc Sequence copy(aSequence)
 	Replaces the bytes of the receiver with a copy of those in aSequence. Returns self. 
 	*/
 
@@ -125,7 +132,7 @@ IoObject *IoSeq_copy(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_appendSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc MutableSequence appendSeq(object1, object2, ...)
+	/*doc Sequence appendSeq(object1, object2, ...)
 	Calls asString on the arguments and appends the string to the receiver. Returns self. 
 	*/
 
@@ -143,7 +150,7 @@ IoObject *IoSeq_appendSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_append(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc MutableSequence append(aNumber)
+	/*doc Sequence append(aNumber)
 	Appends aNumber (cast to a byte) to the receiver. Returns self. 
 	*/
 
@@ -162,8 +169,7 @@ IoObject *IoSeq_append(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_atInsertSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*
-	/*doc MutableSequence atInsertSeq(indexNumber, object)
+	/*doc Sequence atInsertSeq(indexNumber, object)
 	Calls asString on object and inserts the string at position indexNumber. Returns self.
 	*/
 
@@ -202,7 +208,7 @@ IoObject *IoSeq_insertSeqEvery(IoSeq *self, IoObject *locals, IoMessage *m)
 /*
 IoObject *IoSeq_atInsert(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	doc MutableSequence atInsert(indexNumber, valueNumber)
+	doc Sequence atInsert(indexNumber, valueNumber)
 	Inserts valueNumber at position indexNumber. Returns self.
 
 	size_t n = IoMessage_locals_sizetArgAt_(m, locals, 0);
@@ -220,7 +226,7 @@ IoObject *IoSeq_atInsert(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_removeAt(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc MutableSequence removeAt(index)
+	/*doc Sequence removeAt(index)
 	Removes the item at index. Returns self.
 	*/
 
@@ -236,7 +242,7 @@ IoObject *IoSeq_removeAt(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_removeSlice(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc MutableSequence removeSlice(startIndex, endIndex)
+	/*doc Sequence removeSlice(startIndex, endIndex)
 	Removes the items from startIndex to endIndex.
 	Returns self.
 	*/
@@ -255,7 +261,7 @@ IoObject *IoSeq_removeSlice(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_removeLast(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc MutableSequence removeLast
+	/*doc Sequence removeLast
 	Removes the last element from the receiver. Returns self.
 	*/
 
@@ -285,7 +291,7 @@ IoObject *IoSeq_leaveThenRemove(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_setSize(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc MutableSequence setSize(aNumber)
+	/*doc Sequence setSize(aNumber)
 	Sets the length in bytes of the receiver to aNumber. Return self.
 	*/
 
@@ -307,7 +313,7 @@ void IoSeq_rawPio_reallocateToSize_(IoSeq *self, size_t size)
 
 IoObject *IoSeq_preallocateToSize(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc MutableSequence preallocateToSize(aNumber)
+	/*doc Sequence preallocateToSize(aNumber)
 	If needed, resize the memory alloced for the receivers
 	byte array to be large enough to fit the number of bytes specified by
 	aNumber. This is useful for pio_reallocating the memory so it doesn't
@@ -323,7 +329,7 @@ IoObject *IoSeq_preallocateToSize(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_replaceSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc MutableSequence replaceSeq(aSequence, anotherSequence)
+	/*doc Sequence replaceSeq(aSequence, anotherSequence)
 	Returns a new Sequence with all occurances of aSequence
 	replaced with anotherSequence in the receiver. Returns self.
 	*/
@@ -337,7 +343,7 @@ IoObject *IoSeq_replaceSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_removeSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc MutableSequence removeSeq(aSequence)
+	/*doc Sequence removeSeq(aSequence)
 	Removes occurances of aSequence from the receiver.
 	*/
 
@@ -350,7 +356,7 @@ IoObject *IoSeq_removeSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_replaceFirstSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc MutableSequence replaceFirstSeq(aSequence, anotherSequence, optionalStartIndex)
+	/*doc Sequence replaceFirstSeq(aSequence, anotherSequence, optionalStartIndex)
 	Returns a new Sequence with the first occurance of aSequence
 	replaced with anotherSequence in the receiver. If optionalStartIndex is
 	provided, the search for aSequence begins at that index. Returns self.
@@ -362,7 +368,7 @@ IoObject *IoSeq_replaceFirstSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 
 	if (IoMessage_argCount(m) > 2)
 	{
-		IoMessage_locals_longArgAt_(m, locals, 1);
+		startIndex = IoMessage_locals_longArgAt_(m, locals, 2);
 	}
 
 	IO_ASSERT_NOT_SYMBOL(self);
@@ -374,8 +380,8 @@ IoObject *IoSeq_replaceFirstSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 		long i = UArray_find_from_(a, b, startIndex);
 		if(i != -1)
 		{
-			UArray_removeRange(a, startIndex, UArray_size(b));
-			UArray_at_putAll_(a, startIndex, c);
+			UArray_removeRange(a, i, UArray_size(b));
+			UArray_at_putAll_(a, i, c);
 		}
 	}
 	return self;
@@ -383,7 +389,7 @@ IoObject *IoSeq_replaceFirstSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_atPut(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc MutableSequence atPut(aNumberIndex, aNumber)
+	/*doc Sequence atPut(aNumberIndex, aNumber)
 	Sets the value at the index specified by aNumberIndex to aNumber. Returns self. 
 	*/
 
@@ -408,7 +414,7 @@ IoObject *IoSeq_atPut(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_lowercase(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc MutableSequence lowercase
+	/*doc Sequence lowercase
 	Makes all the uppercase characters in the receiver lowercase. Returns self. 
 	*/
 
@@ -419,7 +425,7 @@ IoObject *IoSeq_lowercase(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_uppercase(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc MutableSequence uppercase
+	/*doc Sequence uppercase
 	Makes all characters of the receiver uppercase. 
 	*/
 
@@ -432,7 +438,7 @@ IoObject *IoSeq_uppercase(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_clipBeforeSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc MutableSequence clipBeforeSeq(aSequence)
+	/*doc Sequence clipBeforeSeq(aSequence)
 	Clips receiver before aSequence.
 	*/
 
@@ -444,7 +450,7 @@ IoObject *IoSeq_clipBeforeSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_clipAfterSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc MutableSequence clipAfterSeq(aSequence)
+	/*doc Sequence clipAfterSeq(aSequence)
 	Removes the contents of the receiver after the end of
 	the first occurance of aSequence. Returns true if anything was
 	removed, or false otherwise.
@@ -459,7 +465,7 @@ IoObject *IoSeq_clipAfterSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_clipBeforeEndOfSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc MutableSequence clipBeforeEndOfSeq(aSequence)
+	/*doc Sequence clipBeforeEndOfSeq(aSequence)
 	Removes the contents of the receiver before the end of
 	the first occurance of aSequence. Returns true if anything was
 	removed, or false otherwise.
@@ -473,7 +479,7 @@ IoObject *IoSeq_clipBeforeEndOfSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_clipAfterStartOfSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc MutableSequence clipAfterStartOfSeq(aSequence)
+	/*doc Sequence clipAfterStartOfSeq(aSequence)
 	Removes the contents of the receiver after the beginning of
 	the first occurance of aSequence. Returns true if anything was
 	removed, or false otherwise.
@@ -489,7 +495,7 @@ IoObject *IoSeq_clipAfterStartOfSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_empty(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc MutableSequence clear
+	/*doc Sequence clear
 	Sets all bytes in the receiver to 0x0 and sets
 	it's length to 0. Returns self.
 	*/
@@ -520,6 +526,8 @@ int IoSeq_byteCompare(const void *a, const void *b)
 
 IoObject *IoSeq_sort(IoSeq *self, IoObject *locals, IoMessage *m)
 {
+	//doc Sequence sort Sorts the characters/numbers the array. Returns self.
+	
 	UArray *a = DATA(self);
 	IO_ASSERT_NOT_SYMBOL(self);
 
@@ -537,7 +545,7 @@ IoObject *IoSeq_sort(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_replaceMap(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc MutableSequence replaceMap(aMap)
+	/*doc Sequence replaceMap(aMap)
 	In the receiver, the keys of aMap replaced with it's values. Returns self.
 	*/
 
@@ -571,7 +579,7 @@ IoObject *IoSeq_replaceMap(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_translate(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc MutableSequence translate(fromChars, toChars)
+	/*doc Sequence translate(fromChars, toChars)
 	In the receiver, the characters in fromChars are replaced with those in the same positions in toChars. Returns self.
 	*/
 
@@ -595,7 +603,7 @@ IoObject *IoSeq_translate(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_reverse(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc MutableSequence reverse
+	/*doc Sequence reverse
 	Reverses the bytes in the receiver, in-place.
 	*/
 
@@ -610,7 +618,7 @@ IoObject *IoSeq_reverse(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_strip(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-/*doc MutableSequence strip(optionalSequence)
+/*doc Sequence strip(optionalSequence)
 Trims the whitespace (or optionalSequence) off both ends:
 <p>
 <pre>	
@@ -637,7 +645,7 @@ Trims the whitespace (or optionalSequence) off both ends:
 
 IoObject *IoSeq_lstrip(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-/*doc MutableSequence lstrip(aSequence)
+/*doc Sequence lstrip(aSequence)
 Strips the characters in aSequence
 stripped from the beginning of the receiver. Example:
 <p>
@@ -665,7 +673,7 @@ stripped from the beginning of the receiver. Example:
 
 IoObject *IoSeq_rstrip(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-/*doc MutableSequence rstrip(aSequence)
+/*doc Sequence rstrip(aSequence)
 Strips the characters in
 aSequence stripped from the end of the receiver. Example:
 <pre>	
@@ -694,7 +702,7 @@ aSequence stripped from the end of the receiver. Example:
 
 IoObject *IoSeq_escape(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc MutableSequence escape
+	/*doc Sequence escape
 	Escape characters in the receiver are replaced with escape codes.
 	For example a string containing a single return character would contain the
 	following 2 characters after being escaped: "\n". Returns self.
@@ -707,7 +715,7 @@ IoObject *IoSeq_escape(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_unescape(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc MutableSequence unescape
+	/*doc Sequence unescape
 	Escape codes replaced with escape characters. Returns self.
 	*/
 
@@ -718,7 +726,7 @@ IoObject *IoSeq_unescape(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_removePrefix(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc MutableSequence removePrefix(aSequence)
+	/*doc Sequence removePrefix(aSequence)
 	If the receiver begins with aSequence, it is removed. Returns self.
 	*/
 
@@ -736,7 +744,7 @@ IoObject *IoSeq_removePrefix(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_removeSuffix(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc MutableSequence removeSuffix(aSequence)
+	/*doc Sequence removeSuffix(aSequence)
 	If the receiver end with aSequence, it is removed. Returns self.
 	*/
 
@@ -757,7 +765,7 @@ IoObject *IoSeq_removeSuffix(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_capitalize(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc MutableSequence capitalize
+	/*doc Sequence capitalize
 	First charater of the receiver is made uppercase.
 	*/
 
@@ -770,7 +778,7 @@ IoObject *IoSeq_capitalize(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_appendPathSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc MutableSequence appendPathSeq(aSeq)
+	/*doc Sequence appendPathSeq(aSeq)
 	Appends argument to the receiver such that there is one
 	and only one path separator between the two. Returns self.
 	*/
@@ -784,7 +792,7 @@ IoObject *IoSeq_appendPathSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_interpolateInPlace(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc MutableSequence interpolateInPlace(optionalContext)
+	/*doc Sequence interpolateInPlace(optionalContext)
 	Replaces all #{expression} with expression evaluated in the optionalContext. 
 	If optionalContext not given, the current context is used.  Returns self.
 	*/
@@ -867,6 +875,11 @@ IoObject *IoSeq_interpolateInPlace(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_addEquals(IoSeq *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Sequence +=(aSeq)
+	Vector addition - adds the values of aSeq to those of the receiver.
+	Only works on Sequences whose item type is numeric. Returns self.
+	*/
+	
 	IoObject *other = IoMessage_locals_valueArgAt_(m, locals, 0);
 
 	IO_ASSERT_NOT_SYMBOL(self);
@@ -891,6 +904,11 @@ IoObject *IoSeq_addEquals(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_subtractEquals(IoSeq *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Sequence -=(aSeq)
+	Vector subtraction - subtracts the values of aSeq to those of the receiver.
+	Only works on Sequences whose item type is numeric. Returns self.
+	*/
+	
 	IoObject *other = IoMessage_locals_valueArgAt_(m, locals, 0);
 
 	IO_ASSERT_NOT_SYMBOL(self);
@@ -915,6 +933,11 @@ IoObject *IoSeq_subtractEquals(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_multiplyEquals(IoSeq *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Sequence *=(aSeq)
+	Multiplies the values of aSeq to the corresponding values of the receiver.
+	Only works on Sequences whose item type is numeric. Returns self.
+	*/
+	
 	IoObject *other = IoMessage_locals_valueArgAt_(m, locals, 0);
 
 	IO_ASSERT_NOT_SYMBOL(self);
@@ -939,6 +962,11 @@ IoObject *IoSeq_multiplyEquals(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_divideEquals(IoSeq *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Sequence /=(aSeq)
+	Divides the values of aSeq to the corresponding values of the receiver.
+	Only works on Sequences whose item type is numeric. Returns self.
+	*/
+	
 	IoObject *other = IoMessage_locals_valueArgAt_(m, locals, 0);
 
 	IO_ASSERT_NOT_SYMBOL(self);
@@ -968,26 +996,54 @@ IoObject *IoSeq_clone(IoSeq *self)
 
 IoObject *IoSeq_add(IoSeq *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Sequence +(aSeq)
+	Vector addition - Adds the values of aSeq to the corresponding values of the receiver 
+	returning a new vector with the result.
+	Only works on Sequences whose item type is numeric.
+	*/
+	
 	return IoSeq_addEquals(IoSeq_clone(self), locals, m);
 }
 
 IoObject *IoSeq_subtract(IoSeq *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Sequence +(aSeq)
+	Vector addition - Adds the values of aSeq to the corresponding values of the receiver 
+	returning a new vector with the result.
+	Only works on Sequences whose item type is numeric.
+	*/
+	
 	return IoSeq_subtractEquals(IoSeq_clone(self), locals, m);
 }
 
 IoObject *IoSeq_multiply(IoSeq *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Sequence *(aSeq)
+	Multiplies the values of aSeq to the corresponding values of the receiver 
+	returning a new vector with the result.
+	Only works on Sequences whose item type is numeric.
+	*/
+	
 	return IoSeq_multiplyEquals(IoSeq_clone(self), locals, m);
 }
 
 IoObject *IoSeq_divide(IoSeq *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Sequence /(aSeq)
+	Divides the values of aSeq to the corresponding values of the receiver 
+	returning a new vector with the result.
+	Only works on Sequences whose item type is numeric. 
+	*/
+	
 	return IoSeq_divideEquals(IoSeq_clone(self), locals, m);
 }
 
 IoObject *IoSeq_dotProduct(IoSeq *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Sequence dotProduct(aSeq)
+	Returns a new Sequence containing the dot product of the receiver with aSeq.
+	*/
+	
 	IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
 	IO_ASSERT_NOT_SYMBOL(self);
 	return IONUMBER(UArray_dotProduct_(DATA(self), DATA(other)));
@@ -995,6 +1051,10 @@ IoObject *IoSeq_dotProduct(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_setItemsToLong_(IoSeq *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Sequence setItemsToLong(aNumber)
+	Sets all items in the Sequence to the long integer value of aNumber.
+	*/
+	
 	long v = IoMessage_locals_longArgAt_(m, locals, 0);
 	IO_ASSERT_NOT_SYMBOL(self);
 	UArray_setItemsToLong_(DATA(self), v);
@@ -1003,6 +1063,10 @@ IoObject *IoSeq_setItemsToLong_(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_setItemsToDouble_(IoSeq *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Sequence setItemsToDouble(aNumber)
+	Sets all items in the Sequence to the double floating point value of aNumber.
+	*/
+	
 	double v = IoMessage_locals_doubleArgAt_(m, locals, 0);
 	IO_ASSERT_NOT_SYMBOL(self);
 	UArray_setItemsToLong_(DATA(self), v);
@@ -1011,6 +1075,12 @@ IoObject *IoSeq_setItemsToDouble_(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_set_(IoSeq *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Sequence set(aNumber1, aNumber2, ...)
+	Sets the values of the receiver to the sequences of numbers in the arguments.
+	Unset values will remain unchanged.
+	Returns self.
+	*/
+	
 	double i, max = IoMessage_argCount(m);
 	IO_ASSERT_NOT_SYMBOL(self);
 
@@ -1027,43 +1097,163 @@ IoObject *IoSeq_set_(IoSeq *self, IoObject *locals, IoMessage *m)
 IoObject *IoSeq_ ## name (IoSeq *self, IoObject *locals, IoMessage *m) \
 { IO_ASSERT_NOT_SYMBOL(self); UArray_ ## name (DATA(self)); return self; }
 
+/*doc Sequence negate
+Negates the values of the receiver.
+Returns self.
+*/	
 IoSeqMutateNoArgNoResultOp(negate);
+
+/*doc Sequence rangeFill
+Sets the values of the Sequence to their index values.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(rangeFill);
 
+/*doc Sequence rangeFill
+Sets each value of the Sequence to the trigomentic sine of it's value.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(sin);
+
+/*doc Sequence rangeFill
+Sets each value of the Sequence to the trigomentic cosine of it's value.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(cos);
+
+/*doc Sequence tan
+Sets each value of the Sequence to the trigomentic tangent of it's value.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(tan);
 
+/*doc Sequence asin
+Sets each value of the Sequence to the trigomentic arcsine of it's value.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(asin);
+
+/*doc Sequence acos
+Sets each value of the Sequence to the trigomentic arcsine of it's value.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(acos);
+
+/*doc Sequence atan
+Sets each value of the Sequence to the trigomentic arctangent of it's value.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(atan);
 
+/*doc Sequence sinh
+Sets each value of the Sequence to the hyperbolic sine of it's value.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(sinh);
+
+/*doc Sequence cosh
+Sets each value of the Sequence to the hyperbolic cosine of it's value.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(cosh);
+
+/*doc Sequence tanh
+Sets each value of the Sequence to the hyperbolic tangent of it's value.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(tanh);
 
+/*doc Sequence exp
+Sets each value of the Sequence to e**value.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(exp);
+
+/*doc Sequence exp
+Sets each value of the Sequence to the natural log of it's value.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(log);
+
+/*doc Sequence exp
+Sets each value of the Sequence to the base 10 log of it's value.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(log10);
 
+/*doc Sequence ceil
+Round each value to smallest integral value not less than x.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(ceil);
+
+/*doc Sequence floor
+Round each value to largest integral value not greater than x.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(floor);
+
+/*doc Sequence abs
+Sets each value of the Sequence to it's absolute value.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(abs);
 
+/*doc Sequence square
+Sets each value of the Sequence to the square of it's value.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(square);
+
+/*doc Sequence sqrt
+Sets each value of the Sequence to the square root of it's value.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(sqrt);
+
+/*doc Sequence normalize
+Divides each value of the Sequence by the max value of the sequence.
+Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(normalize);
 
 #define IoSeqNoArgNumberResultOp(name) \
 IoObject *IoSeq_ ## name (IoSeq *self, IoObject *locals, IoMessage *m) \
 { return IONUMBER(UArray_ ## name (DATA(self))); }
 
+/*doc Sequence sum
+Returns the sum of the Sequence.
+*/
 IoSeqNoArgNumberResultOp(sumAsDouble);
+
+/*doc Sequence product
+Returns the product of all the sequence's values multipled together.
+*/
 IoSeqNoArgNumberResultOp(productAsDouble);
+
+/*doc Sequence min
+Returns the minimum value of the Sequence.
+*/
 IoSeqNoArgNumberResultOp(minAsDouble);
+
+/*doc Sequence min
+Returns the maximum value of the Sequence.
+*/
 IoSeqNoArgNumberResultOp(maxAsDouble);
+
+/*doc Sequence mean
+Returns the arithmetic mean of the sequence.
+*/
 IoSeqNoArgNumberResultOp(arithmeticMeanAsDouble);
+
+/*doc Sequence mean
+Returns the arithmetic mean of the sequence's values after they have been squared.
+*/
 IoSeqNoArgNumberResultOp(arithmeticMeanSquareAsDouble);
+
+/*doc Sequence hash
+Returns a Number containing a hash of the Sequence.
+*/
 IoSeqNoArgNumberResultOp(hash);
 
 #define IoSeqLongArgNumberResultOp(name) \
@@ -1071,44 +1261,87 @@ IoObject *IoSeq_ ## name (IoSeq *self, IoObject *locals, IoMessage *m) \
 { return IONUMBER(UArray_ ## name (DATA(self), IoMessage_locals_longArgAt_(m, locals, 0))); }
 
 //IoSeqLongArgNumberResultOp(setAllBitsTo_);
+
+/*doc Sequence byteAt(byteIndex)
+Returns a Number containing the byte at the byte index value.
+*/
 IoSeqLongArgNumberResultOp(byteAt_);
+
+/*doc Sequence bitAt(bitIndex)
+Returns a Number containing the bit at the bit index value.
+*/
 IoSeqLongArgNumberResultOp(bitAt_);
+
+/*doc Sequence bitCount
+Returns the number of bits in the sequence.
+*/
 IoSeqNoArgNumberResultOp(bitCount);
 
 #define IoSeqSeqArgNoResultOp(name) \
 IoObject *IoSeq_ ## name (IoSeq *self, IoObject *locals, IoMessage *m) \
 { IO_ASSERT_NOT_SYMBOL(self); UArray_ ## name (DATA(self), DATA(IoMessage_locals_seqArgAt_(m, locals, 0))); return self; }
 
+/*doc Sequence bitwiseOr(aSequence)
+Updates the receiver to be the result of a bitwiseOr with aSequence. Returns self.
+*/
 IoSeqSeqArgNoResultOp(bitwiseOr_);
+
+/*doc Sequence bitwiseAnd(aSequence)
+Updates the receiver to be the result of a bitwiseAnd with aSequence. Returns self.
+*/
 IoSeqSeqArgNoResultOp(bitwiseAnd_);
+
+/*doc Sequence bitwiseXor(aSequence)
+Updates the receiver to be the result of a bitwiseXor with aSequence. Returns self.
+*/
 IoSeqSeqArgNoResultOp(bitwiseXor_);
+
+/*doc Sequence bitwiseNot(aSequence)
+Updates the receiver to be the result of a bitwiseNot with aSequence. Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(bitwiseNot);
 
+/*doc Sequence logicalOr(aSequence)
+Updates the receive's values to be the result of a logical OR operatiosn with the values of aSequence. Returns self.
+*/
 IoSeqSeqArgNoResultOp(logicalOr_);
+
+/*doc Sequence logicalAnd(aSequence)
+Updates the receive's values to be the result of a logical OR operatiosn with the values of aSequence. Returns self.
+*/
 IoSeqSeqArgNoResultOp(logicalAnd_);
 
+/*doc Sequence Max
+Returns the maximum value in the sequence.
+*/
 IoSeqSeqArgNoResultOp(Max);
+
+/*doc Sequence Min
+Returns the minimum value in the sequence.
+*/
 IoSeqSeqArgNoResultOp(Min);
 
-	/*doc MutableSequence removeOddIndexes
-	Removes odd indexes in the receiver.
-	For example, list(1,2,3) removeOddIndexes == list(2). Returns self.
-	*/
-
-	/*doc MutableSequence removeEvenIndexes
-	Removes even indexes in the receiver.
-	For example, list(1,2,3) removeEvenIndexes == list(1, 3). Returns self.
-	*/
-
-	/*doc MutableSequence duplicateIndexes
-	Duplicates all indexes in the receiver.
-	For example, list(1,2,3) duplicateIndexes == list(1,1,2,2,3,3). Returns self.
-	*/
-
+/*doc Sequence duplicateIndexes
+Duplicates all indexes in the receiver.
+For example, list(1,2,3) duplicateIndexes == list(1,1,2,2,3,3). Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(duplicateIndexes);
+
+/*doc Sequence removeOddIndexes
+Removes odd indexes in the receiver.
+For example, list(1,2,3) removeOddIndexes == list(2). Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(removeOddIndexes);
+
+/*doc Sequence removeEvenIndexes
+Removes even indexes in the receiver.
+For example, list(1,2,3) removeEvenIndexes == list(1, 3). Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(removeEvenIndexes);
 
+/*doc Sequence clear
+Set all values in the sequence to 0. Returns self.
+*/
 IoSeqMutateNoArgNoResultOp(clear);
 
 

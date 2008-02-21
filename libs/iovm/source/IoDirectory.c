@@ -234,10 +234,6 @@ IoObject *IoDirectory_path(IoDirectory *self, IoObject *locals, IoMessage *m)
 	/*doc Directory path
 	Returns the directory path. The default path is '.'.
 	*/
-
-	/*doc Directory path
-	Returns the directory path. The default path is '.'.
-	*/
 	
 	return DATA(self)->path;
 }
@@ -568,4 +564,3 @@ IoObject *IoDirectory_setCurrentWorkingDirectory(IoDirectory *self, IoObject *lo
 
 	return IOFAILURE(self);
 }
-

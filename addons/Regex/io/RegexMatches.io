@@ -1,18 +1,27 @@
+//metadoc RegexMatches category Parsers
+/*metadoc RegexMatches description
+A regular expression match iterator.
+*/
+
 RegexMatches do(
 	/*doc RegexMatches reset
-		Resets the search position to the beginning of the string. Returns self.
+	Resets the search position to the beginning of the string. Returns self.
 	*/
 	reset := method(setPosition(0))
 
-	//doc RegexMatches last Returns the last match in the string.
+	/*doc RegexMatches last
+	Returns the last match in the string.
+	*/
 	last := method(foreach(m, m))
 
-	//doc RegexMatches all Returns a list containing all matches in the string.
+	/*doc RegexMatches all
+	Returns a list containing all matches in the string.
+	*/
 	all := method(map(m, m))
 
 	/*doc RegexMatches map(value, message)
-	Loops through the matches, assigns each match to <em>value</em>, and evaluates <em>message</em>.
-	Returns a list with the result of each evaluation.
+	Like <code>foreach</code>, but the result of each evaluation of <em>message</em> is returned
+	in a list.
 	*/
 	map := method(
 		output := list
@@ -53,8 +62,8 @@ RegexMatches do(
 	)
 
 	/*doc RegexMatches foreachInterval(value, matchMessage, nonMatchMessage)
-		Like foreach, but takes an extra message that will be evaluated for the non-matching text before
-		each match, and the non-matching text after the last match.
+	Like <code>foreach</code>, but takes an extra message that will be evaluated for the non-matching
+	text before each match, and the non-matching text after the last match.
 	*/
 	foreachInterval := method(
 		name := call message argAt(0) name
@@ -82,20 +91,19 @@ RegexMatches do(
 		self
 	)
 
-/*doc RegexMatches replaceAllWith(templateString)
-Same as:
-<pre>
-replace(match, match expandTo(templateString))
-</pre>
-)
-*/
+	/*doc RegexMatches replaceAllWith(templateString)
+	Same as:
+	<pre>
+	replace(match, match expandTo(templateString))
+	</pre>
+	*/
 	replaceAllWith := method(templateString,
 		replace(m, m expandTo(templateString))
 	)
 
 	/*doc RegexMatches replace(name, message)
-		Replaces each match in the string with the result of <em>message</em> and returns
-		the resulting string."
+	Replaces each match in the string with the result of <em>message</em> and returns
+	the resulting string.
 	*/
 	replace := method(
 		name := call argAt(0) name
@@ -111,8 +119,8 @@ replace(match, match expandTo(templateString))
 	)
 
 	/*doc RegexMatches splitString
-		Splits the string being matched against into pieces using the regex as the delimiter
-		and returns the piece as a list of strings.
+	Splits the string being matched against into pieces using the regex as the delimiter
+	and returns the piece as a list of strings.
 	*/
 	splitString := method(
 		parts := list

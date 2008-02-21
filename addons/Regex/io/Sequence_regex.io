@@ -10,10 +10,10 @@ Sequence do(
 		Returns a RegexMatches object that enumerates all matches of the given regex in the receiver.
 	*/
 	matchesOfRegex := method(aRegexOrString,
-		aRegexOrString asRegex matchesFor(self)
+		aRegexOrString asRegex matchesIn(self)
 	)
 
-	/*doc Sequence  matchesRegex(aRegexOrString)
+	/*doc Sequence matchesRegex(aRegexOrString)
 		Returns true if the receiver matches the given regex, false if not.
 	*/
 	matchesRegex := method(aRegexOrString,
@@ -62,6 +62,6 @@ Sequence do(
 	*/
 	EscapeRegex := Regex with("""[-*+?|.()\[\]\{\}\\]""")
 	escapeRegexChars := method(
-		matchesOfRegex(EscapeRegex) replace(m, "\\" .. m)
+		matchesOfRegex(EscapeRegex) replace(m, "\\" .. m string)
 	)
 )

@@ -1,3 +1,8 @@
+/*
+	Written by Daniel Rosengren
+	danne.rosengren@gmail.com
+*/
+
 #ifndef REGEX_DEFINED
 #define REGEX_DEFINED 1
 
