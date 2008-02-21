@@ -1,5 +1,6 @@
-
 Image do(
+	appendProto(Cairo)
+
 	newSlot("path")
 
 	_open := getSlot("open")
@@ -7,15 +8,21 @@ Image do(
 		if(p, setPath(p))
 		_open(path)
 	)
-	
+
+/*
 	glFormat := method(if(componentCount == 4, GL_RGBA, GL_RGB))
 	dataType := method(GL_UNSIGNED_BYTE)
-	
+*/
+
+	//doc Image resizedTo(newWidth, newHeight) Scales the image up to newWidth x newHeight.  Returns the newly scaled image.
 	resizedTo := method(w, h,
-		dataOut := Sequence clone 
-		gluScaleImage(glFormat, width, height, dataType, data, w, h, dataType, dataOut)
-		imgOut := Image clone 
-		imgOut setDataWidthHeightComponentCount(dataOut, w, h, self componentCount)		
+		addAlpha
+		inputSurface := ImageSurface createForData(data, FORMAT_ARGB32, width, height, width * componentCount)
+		outputSurface := ImageSurface create(FORMAT_ARGB32, w, h)
+		Context create(outputSurface) scale(w / width, h / height) setSourceSurface(inputSurface, 0, 0) paint
+
+		imgOut := Image clone
+		imgOut setDataWidthHeightComponentCount(outputSurface getData, outputSurface getWidth, outputSurface getHeight, self componentCount)
 		imgOut
 	)
 )
