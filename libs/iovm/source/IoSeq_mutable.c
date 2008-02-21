@@ -179,6 +179,26 @@ IoObject *IoSeq_atInsertSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
+IoObject *IoSeq_insertSeqEvery(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	/*
+	/*doc MutableSequence IoSeq_insertSeqEvery(aSequence, aNumberOfItems)
+	Inserts aSequence every aNumberOfItems.  Returns self.
+	*/
+
+	IoSeq *otherSeq = IoMessage_locals_valueAsStringArgAt_(m, locals, 0);
+	size_t itemCount = IoMessage_locals_sizetArgAt_(m, locals, 1);
+
+	IO_ASSERT_NOT_SYMBOL(self);
+
+	IOASSERT(itemCount > 0, "aNumberOfItems must be > 0");
+	IOASSERT(itemCount <= UArray_size(DATA(self)), "aNumberOfItems out of sequence bounds");
+	
+	UArray_insert_every_(DATA(self), DATA(otherSeq), itemCount);
+
+	return self;
+}
+
 /*
 IoObject *IoSeq_atInsert(IoSeq *self, IoObject *locals, IoMessage *m)
 {
@@ -241,6 +261,25 @@ IoObject *IoSeq_removeLast(IoSeq *self, IoObject *locals, IoMessage *m)
 
 	IO_ASSERT_NOT_SYMBOL(self);
 	UArray_removeLast(DATA(self));
+	return self;
+}
+
+IoObject *IoSeq_leaveThenRemove(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	/*
+	/*doc MutableSequence IoSeq_leaveThenRemove(aNumberToLeave, aNumberToRemove)
+	Leaves aNumberToLeave items then removes aNumberToRemove items.  Returns self.
+	*/
+
+	size_t itemsToLeave = IoMessage_locals_sizetArgAt_(m, locals, 0);
+	size_t itemsToRemove = IoMessage_locals_sizetArgAt_(m, locals, 1);
+
+	IO_ASSERT_NOT_SYMBOL(self);
+
+	IOASSERT(itemsToLeave > 0 || itemsToRemove > 0, "either aNumberToLeave or aNumberToRemove must be > 0");
+	
+	UArray_leave_thenRemove_(DATA(self), itemsToLeave, itemsToRemove);
+
 	return self;
 }
 
@@ -1084,9 +1123,11 @@ void IoSeq_addMutableMethods(IoSeq *self)
 	{"appendSeq", IoSeq_appendSeq},
 	{"append", IoSeq_append},
 	{"atInsertSeq", IoSeq_atInsertSeq},
+	{"insertSeqEvery", IoSeq_insertSeqEvery},
 	{"removeAt", IoSeq_removeAt},
 	{"removeSlice", IoSeq_removeSlice},
 	{"removeLast", IoSeq_removeLast},
+	{"leaveThenRemove", IoSeq_leaveThenRemove},
 	{"setSize", IoSeq_setSize},
 	{"preallocateToSize", IoSeq_preallocateToSize},
 	{"replaceSeq", IoSeq_replaceSeq},
