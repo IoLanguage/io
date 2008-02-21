@@ -92,12 +92,12 @@ IoObject *IoCairoImageSurface_createForData(IoCairoImageSurface *self, IoObject 
 	cairo_format_t format = (cairo_format_t)IoMessage_locals_intArgAt_(m, locals, 1);
 	int w = IoMessage_locals_intArgAt_(m, locals, 2);
 	int h = IoMessage_locals_intArgAt_(m, locals, 3);
-	int stride = IoMessage_locals_intArgAt_(m, locals, stride);
+	int stride = IoMessage_locals_intArgAt_(m, locals, 4);
+	
 	cairo_surface_t *surface = cairo_image_surface_create_for_data(IoSeq_rawBytes(data), format, w, h, stride);
-
 	IoCairoImageSurface *new = IoCairoSurface_newWithRawSurface_(IOSTATE, m, surface);
-	cairo_surface_set_user_data(SURFACE(new), &dataKey, data, 0);
-	CHECK_STATUS(self);
+	//cairo_surface_set_user_data(SURFACE(new), &dataKey, data, 0);
+	CHECK_STATUS(new);
 	return new;
 }
 

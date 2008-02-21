@@ -1,6 +1,7 @@
 #ifndef TOOLS_DEFINED
 #define TOOLS_DEFINED 1
 
+#include "IoState.h"
 #include "IoSeq.h"
 #include <cairo.h>
 
