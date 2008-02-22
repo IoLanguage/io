@@ -260,6 +260,9 @@ size_t TagDB_size(TagDB *self)
 	return self->itemCount;
 }
 
+#ifdef WIN32
+#define inline __inline
+#endif
 inline static int TagDBItem_matches_(TagDBItem *self, TagIdArray *tags)
 {
 	tagid_t *a = tags->ids;

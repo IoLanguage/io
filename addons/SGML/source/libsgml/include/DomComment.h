@@ -18,6 +18,7 @@
 #ifndef _LIBSGML_DOMCOMMENT_H
 #define _LIBSGML_DOMCOMMENT_H
 
+#include "SGMLApi.h"
 #include "DomNode.h"
 
 #ifdef __cplusplus
@@ -37,7 +38,7 @@ extern "C" {
  * @param  comment [in] The text value for the comment.
  * @return The constructed DOM comment node.
  */
-DOM_COMMENT *domCommentNew(const char *comment);
+SGML_API DOM_COMMENT *domCommentNew(const char *comment);
 
 /**
  * @}

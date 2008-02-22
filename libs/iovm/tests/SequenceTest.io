@@ -641,4 +641,25 @@ SequenceTest := UnitTest clone do(
 		assertEquals("123", "abc" asMutable copy("123"))
 		assertEquals("123", "abc" asMutable do(copy("123")))
 	)
+	
+	testInsertSeqEvery := method(
+		assertRaisesException("abc" insertSeqEvery(".", 1))
+		assertRaisesException("abc" asMutable insertSeqEvery(".", 0))
+		assertRaisesException("abc" asMutable insertSeqEvery(".", 4))
+		assertEquals("a.b.c.", "abc" asMutable insertSeqEvery(".", 1))
+		assertEquals("a..b..c..", "abc" asMutable insertSeqEvery("..", 1))
+		assertEquals("ab.c", "abc" asMutable insertSeqEvery(".", 2))
+		assertEquals("abc.", "abc" asMutable insertSeqEvery(".", 3))
+	)
+	
+	testLeaveThenRemove := method(
+		assertRaisesException("abc" leaveThenRemove(1, 1))
+		assertRaisesException("abc" asMutable leaveThenRemove(0, 0))
+		assertEquals("", "abc" asMutable leaveThenRemove(0, 1))
+		assertEquals("abc", "abc" asMutable leaveThenRemove(1, 0))
+		assertEquals("ac", "abc" asMutable leaveThenRemove(1, 1))
+		assertEquals("ad", "abcd" asMutable leaveThenRemove(1, 2))
+		assertEquals("a", "abcd" asMutable leaveThenRemove(1, 4))
+		assertEquals("abe", "abcde" asMutable leaveThenRemove(2, 2))
+	)
 )

@@ -188,9 +188,12 @@ BASEKIT_API void UArray_appendPointer_(UArray *self, void *v);
 
 BASEKIT_API void UArray_appendBytes_size_(UArray *self, uint8_t *bytes, size_t size);
 
+BASEKIT_API void UArray_insert_every_(UArray *self, UArray *other, size_t itemCount);
+
 // remove
 
 BASEKIT_API void UArray_removeRange(UArray *self, size_t start, size_t size);
+BASEKIT_API void UArray_leave_thenRemove_(UArray *self, size_t itemsToLeave, size_t itemsToRemove);
 BASEKIT_API void UArray_removeFirst(UArray *self);
 BASEKIT_API void UArray_removeLast(UArray *self);
 

@@ -68,6 +68,8 @@ IoImage *IoImage_proto(void *state)
 		{"error", IoImage_error},
 		{"resizedTo", IoImage_resizedTo},
 		{"crop", IoImage_crop},
+		{"addAlpha", IoImage_addAlpha},
+		{"removeAlpha", IoImage_removeAlpha},
 
 		// extras
 
@@ -168,9 +170,9 @@ IoObject *IoImage_setDataWidthHeightComponentCount(IoImage *self, IoObject *loca
 	int h = IoMessage_locals_intArgAt_(m, locals, 2);
 	int c = IoMessage_locals_intArgAt_(m, locals, 3);
 
-	printf("Image Image_setData_width_height_componentCount_\n");
+	//printf("Image Image_setData_width_height_componentCount_\n");
 	Image_setData_width_height_componentCount_(DATA(self)->image, IoSeq_rawUArray(data), w, h, c);
-	printf("Image returning self\n");
+	//printf("Image returning self\n");
 	return self;
 }
 
@@ -271,7 +273,7 @@ IoObject *IoImage_isRGB8(IoImage *self, IoObject *locals, IoMessage *m)
 	Returns true if the receiver is in RGB8 format, false otherwise.
 	*/
 
-	return IOBOOL(self, Image_componentCount(DATA(self)->image) == 3);
+	return IOBOOL(self, Image_isRGB8(DATA(self)->image));
 }
 
 IoObject *IoImage_isRGBA8(IoImage *self, IoObject *locals, IoMessage *m)
@@ -280,7 +282,7 @@ IoObject *IoImage_isRGBA8(IoImage *self, IoObject *locals, IoMessage *m)
 	Returns true if the receiver is in RGBA8 format, false otherwise.
 	*/
 
-	return IOBOOL(self, Image_componentCount(DATA(self)->image) == 4);
+	return IOBOOL(self, Image_isRGBA8(DATA(self)->image));
 }
 
 IoObject *IoImage_isL8(IoImage *self, IoObject *locals, IoMessage *m)
@@ -315,6 +317,26 @@ IoObject *IoImage_crop(IoImage *self, IoObject *locals, IoMessage *m)
 
 	Image_crop(DATA(self)->image, cx, cy, width, height);
 	IoImage_checkError(self, locals, m);
+	return self;
+}
+
+IoObject *IoImage_addAlpha(IoImage *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Image addAlpha
+	Adds an opaque alpha component if the image is in RGB format and does not already contain one.  Returns self.
+	*/
+
+	Image_addAlpha(DATA(self)->image);
+	return self;
+}
+
+IoObject *IoImage_removeAlpha(IoImage *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Image removeAlpha
+	Removes the alpha component if the image contains one.  Returns self.
+	*/
+
+	Image_removeAlpha(DATA(self)->image);
 	return self;
 }
 

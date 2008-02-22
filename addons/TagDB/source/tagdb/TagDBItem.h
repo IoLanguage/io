@@ -6,6 +6,7 @@
 extern "C" {
 #endif
 
+#include "TagDBAPI.h"
 #include "TagIdArray.h"
 #include "KeyIdArray.h"
 
@@ -15,14 +16,14 @@ typedef struct
 	TagIdArray tags;
 } TagDBItem;
 
-TagDBItem *TagDBItem_new(keyid_t key, tagid_t *tags, size_t numTags);
-void TagDBItem_free(TagDBItem *self);
+TAGDB_API TagDBItem *TagDBItem_new(keyid_t key, tagid_t *tags, size_t numTags);
+TAGDB_API void TagDBItem_free(TagDBItem *self);
 
-int TagDBItem_compareByKeyWith_(TagDBItem *self, TagDBItem *other);
-void TagDBItem_sortTags(TagDBItem *self);
-void TagDBItem_setTags_(TagDBItem *self, TagIdArray *tags);
+TAGDB_API int TagDBItem_compareByKeyWith_(TagDBItem *self, TagDBItem *other);
+TAGDB_API void TagDBItem_sortTags(TagDBItem *self);
+TAGDB_API void TagDBItem_setTags_(TagDBItem *self, TagIdArray *tags);
 
-void TagDBItem_show(TagDBItem *self);
+TAGDB_API void TagDBItem_show(TagDBItem *self);
 
 #ifdef __cplusplus
 }

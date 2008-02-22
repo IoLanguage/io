@@ -5,7 +5,8 @@
 extern "C" {
 #endif
 
-#include <stdint.h>
+#include "TagDBAPI.h"
+#include "portable_stdint.h"
 #include <stdio.h>
 
 typedef uint64_t keyid_t;
@@ -16,14 +17,14 @@ typedef struct
 	size_t size;
 } KeyIdArray;
 
-KeyIdArray *KeyIdArray_new(void);
-KeyIdArray *KeyIdArray_clone(KeyIdArray *self);
-void KeyIdArray_copy_(KeyIdArray *self, KeyIdArray *other);
-void KeyIdArray_free(KeyIdArray *self);
-keyid_t *KeyIdArray_data(KeyIdArray *self);
-size_t KeyIdArray_size(KeyIdArray *self);
-keyid_t KeyIdArray_at_(KeyIdArray *self, size_t index);
-void KeyIdArray_show(KeyIdArray *self);
+TAGDB_API KeyIdArray *KeyIdArray_new(void);
+TAGDB_API KeyIdArray *KeyIdArray_clone(KeyIdArray *self);
+TAGDB_API void KeyIdArray_copy_(KeyIdArray *self, KeyIdArray *other);
+TAGDB_API void KeyIdArray_free(KeyIdArray *self);
+TAGDB_API keyid_t *KeyIdArray_data(KeyIdArray *self);
+TAGDB_API size_t KeyIdArray_size(KeyIdArray *self);
+TAGDB_API keyid_t KeyIdArray_at_(KeyIdArray *self, size_t index);
+TAGDB_API void KeyIdArray_show(KeyIdArray *self);
 
 #ifdef __cplusplus
 }

@@ -239,8 +239,13 @@ void Image_save(Image *self)
 		JPGImage_quality_(image, self->encodingQuality);
 		JPGImage_width_(image, self->width);
 		JPGImage_height_(image, self->height);
-		/* TODO - convert image to RGB first */
-		if (Image_componentCount(self) != 3)
+		
+		if (Image_isRGBA8(self))
+		{
+			Image_removeAlpha(self);
+		}
+		
+		if (!Image_isRGB8(self))
 		{
 			Image_error_(self, "can only save RGB images to JPEG");
 			return;
@@ -283,6 +288,16 @@ int Image_height(Image *self)
 int Image_componentCount(Image *self)
 {
 	return self->componentCount;
+}
+
+int Image_isRGB8(Image *self)
+{
+	return self->componentCount == 3;
+}
+
+int Image_isRGBA8(Image *self)
+{
+	return self->componentCount == 4;
 }
 
 int Image_sizeInBytes(Image *self)
@@ -380,6 +395,30 @@ void Image_crop(Image *self, int cx, int cy, int w, int h)
 	self->height = h;
 }
 
+void Image_addAlpha(Image *self)
+{
+	if (Image_isRGB8(self))
+	{
+		uint8_t opaqueAlphaValue[1];
+		UArray opaqueAlpha;
+
+		opaqueAlphaValue[0] = 255;
+		opaqueAlpha = UArray_stackAllocedWithData_type_size_(opaqueAlphaValue, CTYPE_uint8_t, 1);
+		UArray_insert_every_(self->byteArray, &opaqueAlpha, 3);
+		//UArray_stackFree(&opaqueAlpha);
+
+		self->componentCount = 4;
+	}
+}
+
+void Image_removeAlpha(Image *self)
+{
+	if (Image_isRGBA8(self))
+	{
+		UArray_leave_thenRemove_(self->byteArray, 3, 1);
+		self->componentCount = 3;
+	}
+}
 
 /* --- extras --------------------------------------------------------- */
 

@@ -78,6 +78,8 @@ IOIMAGE_API int Image_height(Image *self);
 IOIMAGE_API void Image_height_(Image *self, int h);
 
 IOIMAGE_API int Image_componentCount(Image *self);
+IOIMAGE_API int Image_isRGBA8(Image *self);
+IOIMAGE_API int Image_isRGB8(Image *self);
 
 IOIMAGE_API int Image_sizeInBytes(Image *self);
 IOIMAGE_API uint8_t *Image_data(Image *self);
@@ -88,6 +90,8 @@ IOIMAGE_API void Image_data_length_(Image *self, unsigned char *data, size_t len
 IOIMAGE_API void Image_resizeTo(Image *self, int w, int h, Image *outImage);
 IOIMAGE_API void Image_flipY(Image *self);
 IOIMAGE_API void Image_crop(Image *self, int x, int y, int w, int h);
+IOIMAGE_API void Image_addAlpha(Image *self);
+IOIMAGE_API void Image_removeAlpha(Image *self);
 
 //  extras
 

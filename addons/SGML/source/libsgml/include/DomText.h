@@ -18,6 +18,7 @@
 #ifndef _LIBSGML_DOMTEXT_H
 #define _LIBSGML_DOMTEXT_H
 
+#include "SGMLApi.h"
 #include "DomNode.h"
 
 /**

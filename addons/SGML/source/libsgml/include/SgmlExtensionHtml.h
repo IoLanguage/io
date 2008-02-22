@@ -18,6 +18,8 @@
 #ifndef _LIBSGML_SGMLEXTENSIONHTML_H
 #define _LIBSGML_SGMLEXTENSIONHTML_H
 
+#include "SGMLApi.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif 
@@ -108,16 +110,16 @@ typedef struct _sgml_extension_html {
 
 } SGML_EXTENSION_HTML;
 
-SGML_EXTENSION_HTML *sgmlExtensionHtmlNew(SGML_PARSER *parser);
-void sgmlExtensionHtmlDestroy(SGML_PARSER *parser, SGML_EXTENSION_HTML *ext);
+SGML_API SGML_EXTENSION_HTML *sgmlExtensionHtmlNew(SGML_PARSER *parser);
+SGML_API void sgmlExtensionHtmlDestroy(SGML_PARSER *parser, SGML_EXTENSION_HTML *ext);
 
-void sgmlExtensionHtmlInitialize(SGML_PARSER *parser, void *userContext);
-void sgmlExtensionHtmlElementBegin(SGML_PARSER *parser, void *userContext, const char *elementName);
-void sgmlExtensionHtmlElementEnd(SGML_PARSER *parser, void *userContext, const char *elementName);
-void sgmlExtensionHtmlAttributeNew(SGML_PARSER *parser, void *userContext, const char *attributeName, const char *attributeValue);
-void sgmlExtensionHtmlTextNew(SGML_PARSER *parser, void *userContext, const char *text);
-void sgmlExtensionHtmlCommentNew(SGML_PARSER *parser, void *userContext, const char *comment);
-void sgmlExtensionHtmlDeinitialize(SGML_PARSER *parser, void *userContext);
+SGML_API void sgmlExtensionHtmlInitialize(SGML_PARSER *parser, void *userContext);
+SGML_API void sgmlExtensionHtmlElementBegin(SGML_PARSER *parser, void *userContext, const char *elementName);
+SGML_API void sgmlExtensionHtmlElementEnd(SGML_PARSER *parser, void *userContext, const char *elementName);
+SGML_API void sgmlExtensionHtmlAttributeNew(SGML_PARSER *parser, void *userContext, const char *attributeName, const char *attributeValue);
+SGML_API void sgmlExtensionHtmlTextNew(SGML_PARSER *parser, void *userContext, const char *text);
+SGML_API void sgmlExtensionHtmlCommentNew(SGML_PARSER *parser, void *userContext, const char *comment);
+SGML_API void sgmlExtensionHtmlDeinitialize(SGML_PARSER *parser, void *userContext);
 
 /**
  * @addtogroup SGMLExtensionHtml
@@ -143,7 +145,7 @@ void sgmlExtensionHtmlDeinitialize(SGML_PARSER *parser, void *userContext);
  * @param  param            [in] An arbitrary parameter identifier.
  * @param  value            [in] The value to set the parameter to.
  */
-void sgmlExtensionHtmlSetParam(SGML_PARSER *parser, void *extensionContext, unsigned long param, void *value);
+SGML_API void sgmlExtensionHtmlSetParam(SGML_PARSER *parser, void *extensionContext, unsigned long param, void *value);
 /**
  * Gets the value of a given parameter on the HTML extension.  See sgmlExtensionHtmlGetParam for a list of parameters.
  *
@@ -152,14 +154,14 @@ void sgmlExtensionHtmlSetParam(SGML_PARSER *parser, void *extensionContext, unsi
  * @param  param            [in]  An arbitrary parameter identifier.
  * @param  value            [out] The value to set the parameter to.
  */
-void sgmlExtensionHtmlGetParam(SGML_PARSER *parser, void *extensionContext, unsigned long param, void *value);
+SGML_API void sgmlExtensionHtmlGetParam(SGML_PARSER *parser, void *extensionContext, unsigned long param, void *value);
 
 /**
  * Get the 'root' document node that was parsed in by the parser.
  *
  * @return The document node.
  */
-DOM_DOCUMENT *sgmlExtensionHtmlGetDocument(SGML_PARSER *parser);
+SGML_API DOM_DOCUMENT *sgmlExtensionHtmlGetDocument(SGML_PARSER *parser);
 
 /**
  * @}

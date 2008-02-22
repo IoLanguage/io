@@ -15,12 +15,14 @@ IOVM_API IoObject *IoSeq_copy(IoSeq *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoSeq_appendSeq(IoSeq *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoSeq_append(IoSeq *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoSeq_atInsertSeq(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoSeq_insertSeqEvery(IoSeq *self, IoObject *locals, IoMessage *m);
 
 // removing
 
 IOVM_API IoObject *IoSeq_removeAt(IoSeq *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoSeq_removeSlice(IoSeq *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoSeq_removeLast(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoSeq_leaveThenRemove(IoSeq *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoSeq_setSize(IoSeq *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoSeq_preallocateToSize(IoSeq *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoSeq_replaceSeq(IoSeq *self, IoObject *locals, IoMessage *m);

@@ -20,6 +20,8 @@
 #ifndef _LIBHTTP_SGMLPARSER_H
 #define _LIBHTTP_SGMLPARSER_H
 
+#include "SGMLApi.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -185,7 +187,7 @@ typedef struct _sgml_parser {
  *
  * @return On success, an initialized SGML_PARSER instance is returned.  Otherwise, NULL is returned.
  */
-SGML_PARSER *sgmlParserNew();
+SGML_API SGML_PARSER *sgmlParserNew();
 /**
  * Initializes an SGML_PARSER.
  *
@@ -204,14 +206,14 @@ SGML_PARSER *sgmlParserNew();
  * @param  userContext [in] The arbitrary user context that is passed into the handlers.
  * @return On success, one is returned.
  */
-unsigned long sgmlParserInitialize(SGML_PARSER *parser, enum SgmlExtensionType type, SGML_HANDLERS *handlers, void *userContext);
+SGML_API unsigned long sgmlParserInitialize(SGML_PARSER *parser, enum SgmlExtensionType type, SGML_HANDLERS *handlers, void *userContext);
 /**
  * Destroys and deinitializes an SGML_PARSER.  If the destroyParser parameter is 1, the pointer passed in is deallocated by free().
  *
  * @param  parser        [in] The parser context.
  * @param  destroyParser [in] 1 if the parser should be destroyed by free(), 0 if not.
  */
-void sgmlParserDestroy(SGML_PARSER *parser, unsigned char destroyParser);
+SGML_API void sgmlParserDestroy(SGML_PARSER *parser, unsigned char destroyParser);
 
 /**
  * Parses a given string.
@@ -221,7 +223,7 @@ void sgmlParserDestroy(SGML_PARSER *parser, unsigned char destroyParser);
  * @param  stringLength [in] The length of the string to be parsed.
  * @return On success, one is returned.  Otherwise, 0 is returned.
  */
-unsigned long sgmlParserParseString(SGML_PARSER *parser, const char *string, const unsigned long stringLength);
+SGML_API unsigned long sgmlParserParseString(SGML_PARSER *parser, const char *string, const unsigned long stringLength);
 /**
  * Parser a given file.
  *
@@ -229,7 +231,7 @@ unsigned long sgmlParserParseString(SGML_PARSER *parser, const char *string, con
  * @param  file   [in] The name of the file to parse.
  * @return On success, one is returned.  Otherwise, 0 is returned.
  */
-unsigned long sgmlParserParseFile(SGML_PARSER *parser, const char *file);
+SGML_API unsigned long sgmlParserParseFile(SGML_PARSER *parser, const char *file);
 
 /**
  * Sets a parameter on a given SGML parser extension.
@@ -243,7 +245,7 @@ unsigned long sgmlParserParseFile(SGML_PARSER *parser, const char *file);
  * @li SGML_PARSER_TYPE_CUSTOM
  * 		This method has no use.
  */
-void sgmlParserExtensionSetParam(SGML_PARSER *parser, unsigned long param, void *value);
+SGML_API void sgmlParserExtensionSetParam(SGML_PARSER *parser, unsigned long param, void *value);
 /**
  * Gets a parameter on a given SGML parser extension.
  *
@@ -256,7 +258,7 @@ void sgmlParserExtensionSetParam(SGML_PARSER *parser, unsigned long param, void 
  * @li SGML_PARSER_TYPE_CUSTOM
  * 		This method has no use.
  */
-void sgmlParserExtensionGetParam(SGML_PARSER *parser, unsigned long param, void *value);
+SGML_API void sgmlParserExtensionGetParam(SGML_PARSER *parser, unsigned long param, void *value);
 
 #define sgmlParserGetExtensionContext(parser) parser->internal.extensionContext
 #define sgmlParserGetUserContext(parser) parser->internal.userContext
@@ -265,15 +267,15 @@ void sgmlParserExtensionGetParam(SGML_PARSER *parser, unsigned long param, void 
  * @}
  */
 
-void _sgmlParserInitializeStateTable(SGML_PARSER *parser);
-void _sgmlParserInitializeStateTableRules(SGML_PARSER *parser);
+SGML_API void _sgmlParserInitializeStateTable(SGML_PARSER *parser);
+SGML_API void _sgmlParserInitializeStateTableRules(SGML_PARSER *parser);
 
-unsigned long _sgmlParseChunk(SGML_PARSER *parser, const char *chunk, const unsigned long chunkSize);
-void _sgmlParserAppendBuffer(SGML_PARSER *parser, const char *chunk, unsigned long startOffset, unsigned long length);
-void _sgmlParserResetBuffer(SGML_PARSER *parser);
+SGML_API unsigned long _sgmlParseChunk(SGML_PARSER *parser, const char *chunk, const unsigned long chunkSize);
+SGML_API void _sgmlParserAppendBuffer(SGML_PARSER *parser, const char *chunk, unsigned long startOffset, unsigned long length);
+SGML_API void _sgmlParserResetBuffer(SGML_PARSER *parser);
 
-void _sgmlOnStateChange(SGML_PARSER *parser, unsigned long oldState, unsigned long newState);
-void _sgmlOnDivert(SGML_PARSER *parser, unsigned long newIndex, unsigned long oldState, unsigned long newState, const char *lastBuffer, unsigned long lastBufferSize);
+SGML_API void _sgmlOnStateChange(SGML_PARSER *parser, unsigned long oldState, unsigned long newState);
+SGML_API void _sgmlOnDivert(SGML_PARSER *parser, unsigned long newIndex, unsigned long oldState, unsigned long newState, const char *lastBuffer, unsigned long lastBufferSize);
 
 #ifdef __cplusplus
 }
