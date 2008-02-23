@@ -108,13 +108,13 @@ void IoHTTPParser_setHTTPField_withName_givenSize_value_givenSize_(void *data, c
 	}
 
 	{
-		UArray *fieldName = UArray_newWithData_type_size_copy_(fieldNameBuffer, CTYPE_uint8_t, fieldNameSize, TRUE);
+		UArray *fieldName = UArray_newWithData_type_size_copy_(fieldNameBuffer, CTYPE_uint8_t, fieldNameSize, 1);
 		IoSeq *fieldValue = IOSEQ(fieldValueBuffer, fieldValueSize);
 
 		UArray_toupper(fieldName);
 		UArray_replaceCString_withCString_(fieldName, "-", "_");
 
-		IoObject_setSlot_to_(self, IoState_symbolWithUArray_copy_((IoState*)IOSTATE, fieldName, FALSE), fieldValue);
+		IoObject_setSlot_to_(self, IoState_symbolWithUArray_copy_((IoState*)IOSTATE, fieldName, 0), fieldValue);
 	}
 }
 
