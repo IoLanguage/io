@@ -466,4 +466,14 @@ Object do(
 		pathString is relative to the file calling doRelativeFile. (Duplicate of doRelativeFile)
 	*/
 	relativeDoFile := getSlot("doRelativeFile")
+	
+	/*doc Object deprecatedWarning(optionalNewName) 
+	Prints a warning message that the current method is deprecated.
+	If optionalNewName is supplied, the warning will suggest using that instead.
+	Returns self.
+	*/
+	deprecatedWarning := method(newName,
+		writeln("Warning: ", sender call message name, " is deprecated. ", if(name, "use " .. newName .. " instead.", ""))
+		self
+	)
 )

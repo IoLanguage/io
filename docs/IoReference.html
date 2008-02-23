@@ -31,6 +31,7 @@
 <div class=indexItem><a href="#List">List</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#Map">Map</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#Message">Message</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href="#MutableSequence">MutableSequence</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#Number">Number</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#Object">Object</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#Path">Path</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -146,6 +147,7 @@
 <div class=indexSection><a href="#Thread">Thread</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#UUID">UUID</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#User">User</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href="#Volcano">Volcano</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#Zlib">Zlib</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#ZlibDecoder">ZlibDecoder</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#ZlibEncoder">ZlibEncoder</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -3298,7 +3300,7 @@ if not specified, "./" is assumed.""")
 <a href="#Directory-ancestorDirectories">ancestorDirectories</a><br>
 <a href="#Directory-at">at()</a><br>
 <a href="#Directory-create">create</a><br>
-<a href="#Directory-createFileNamed">createFileNamed</a><br>
+<a href="#Directory-createFileNamed">createFileNamed()</a><br>
 <a href="#Directory-createIfAbsent">createIfAbsent</a><br>
 <a href="#Directory-createSubdirectory">createSubdirectory()</a><br>
 <a href="#Directory-currentWorkingDirectory">currentWorkingDirectory</a><br>
@@ -3309,7 +3311,7 @@ if not specified, "./" is assumed.""")
 <a href="#Directory-files">files</a><br>
 <a href="#Directory-filesWithExtension">filesWithExtension()</a><br>
 <a href="#Directory-folderNamed">folderNamed()</a><br>
-<a href="#Directory-folderNamedCreateIfAbsent">folderNamedCreateIfAbsent</a><br>
+<a href="#Directory-folderNamedCreateIfAbsent">folderNamedCreateIfAbsent()</a><br>
 <a href="#Directory-folders">folders</a><br>
 <a href="#Directory-isAccessible">isAccessible</a><br>
 <a href="#Directory-items">items</a><br>
@@ -3350,9 +3352,9 @@ Returns a File or Directory object matching the name specified
 <div class=slotDescription>
 Create the directory if it doesn't exist.
 </div>
-<a name="Directory-createFileNamed"></a><b>createFileNamed</b><p>
+<a name="Directory-createFileNamed"></a><b>createFileNamed(name)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Depracted. Returns a new file object in the directory with the specified name.
 </div>
 <a name="Directory-createIfAbsent"></a><b>createIfAbsent</b><p>
 <div class=slotDescription>
@@ -3397,9 +3399,11 @@ Returns a list of File objects for the files in the Directory (no directories) w
 Deprecated. Replaced by directoryNamed().
 </font>
 </div>
-<a name="Directory-folderNamedCreateIfAbsent"></a><b>folderNamedCreateIfAbsent</b><p>
+<font color=#55a>
+<a name="Directory-folderNamedCreateIfAbsent"></a><b>folderNamedCreateIfAbsent(name)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Deprecated. Returns a new Directory object in the directory with the specified name.
+</font>
 </div>
 <a name="Directory-folders"></a><b>folders</b><p>
 <div class=slotDescription>
@@ -7127,6 +7131,28 @@ Scales the image data in dataSeqIn and outputs the result to dataSeqOut.
 </div>
 </div>
 <hr align=left>
+<h2><a name="HTTPParser"></a>HTTPParser</h2>
+<div class=indent>
+<div style="line-height:1.3em">
+<b>Module:</b> Volcano<br>
+<font color=#bbb>
+</font>
+</div>
+<div class=slots>
+<h3>Slot Index</h3>
+<div class=slotIndex>
+<a href="#HTTPParser-parse">parse</a><br>
+</div>
+<p>
+<h3>Slots</h3>
+<p>
+<a name="HTTPParser-parse"></a><b>parse</b><p>
+<div class=slotDescription>
+Parsers the HTTP request stored in the parseBuffer slot.  Sets slots on self using the values parsed.  Returns self if successful or an Error if the parse fails.
+</div>
+</div>
+</div>
+<hr align=left>
 <h2><a name="Host"></a>Host</h2>
 <div class=indent>
 <div style="line-height:1.3em">
@@ -7266,11 +7292,11 @@ Currently supported formats include PNG(which supports alpha), JPG and TIFF.
 <h3>Slot Index</h3>
 <div class=slotIndex>
 <a href="#Image-IsPowerOf2">IsPowerOf2</a><br>
+<a href="#Image-addAlpha">addAlpha</a><br>
 <a href="#Image-changed">changed</a><br>
 <a href="#Image-componentCount">componentCount</a><br>
 <a href="#Image-crop">crop()</a><br>
 <a href="#Image-data">data</a><br>
-<a href="#Image-dataType">dataType</a><br>
 <a href="#Image-decodingHeightHint">decodingHeightHint</a><br>
 <a href="#Image-decodingWidthHint">decodingWidthHint</a><br>
 <a href="#Image-draw">draw</a><br>
@@ -7286,6 +7312,8 @@ Currently supported formats include PNG(which supports alpha), JPG and TIFF.
 <a href="#Image-isRGBA8">isRGBA8</a><br>
 <a href="#Image-open">open()</a><br>
 <a href="#Image-path">path</a><br>
+<a href="#Image-removeAlpha">removeAlpha</a><br>
+<a href="#Image-resizedTo">resizedTo()</a><br>
 <a href="#Image-resizedTo">resizedTo()</a><br>
 <a href="#Image-save">save()</a><br>
 <a href="#Image-scaledTo">scaledTo</a><br>
@@ -7308,6 +7336,10 @@ Currently supported formats include PNG(which supports alpha), JPG and TIFF.
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
+<a name="Image-addAlpha"></a><b>addAlpha</b><p>
+<div class=slotDescription>
+Adds an opaque alpha component if the image is in RGB format and does not already contain one.  Returns self.
+</div>
 <a name="Image-changed"></a><b>changed</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
@@ -7325,10 +7357,6 @@ Crops the image to the specified values. Returns self.
 <div class=slotDescription>
 Returns a Buffer primitive containing the image data (loading it first if needed). 
 	Manipulating this data will effect what is drawn when the receiver's draw method is called.
-</div>
-<a name="Image-dataType"></a><b>dataType</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="Image-decodingHeightHint"></a><b>decodingHeightHint</b><p>
 <div class=slotDescription>
@@ -7390,6 +7418,14 @@ Sets the path to optionalPathString if provided and opens the image file.
 <a name="Image-path"></a><b>path</b><p>
 <div class=slotDescription>
 Returns the image path.
+</div>
+<a name="Image-removeAlpha"></a><b>removeAlpha</b><p>
+<div class=slotDescription>
+Removes the alpha component if the image contains one.  Returns self.
+</div>
+<a name="Image-resizedTo"></a><b>resizedTo(newWidth, newHeight)</b><p>
+<div class=slotDescription>
+Scales the image up to newWidth x newHeight.  Returns the newly scaled image.
 </div>
 <a name="Image-resizedTo"></a><b>resizedTo(width, height)</b><p>
 <div class=slotDescription>
@@ -8722,6 +8758,33 @@ Returns a new message object with the receivers message as the first argument of
 </div>
 </div>
 <hr align=left>
+<h2><a name="MutableSequence"></a>MutableSequence</h2>
+<div class=indent>
+<div style="line-height:1.3em">
+<b>Module:</b> Core<br>
+<font color=#bbb>
+</font>
+</div>
+<div class=slots>
+<h3>Slot Index</h3>
+<div class=slotIndex>
+<a href="#MutableSequence-IoSeq_insertSeqEvery">IoSeq_insertSeqEvery()</a><br>
+<a href="#MutableSequence-IoSeq_leaveThenRemove">IoSeq_leaveThenRemove()</a><br>
+</div>
+<p>
+<h3>Slots</h3>
+<p>
+<a name="MutableSequence-IoSeq_insertSeqEvery"></a><b>IoSeq_insertSeqEvery(aSequence, aNumberOfItems)</b><p>
+<div class=slotDescription>
+Inserts aSequence every aNumberOfItems.  Returns self.
+</div>
+<a name="MutableSequence-IoSeq_leaveThenRemove"></a><b>IoSeq_leaveThenRemove(aNumberToLeave, aNumberToRemove)</b><p>
+<div class=slotDescription>
+Leaves aNumberToLeave items then removes aNumberToRemove items.  Returns self.
+</div>
+</div>
+</div>
+<hr align=left>
 <h2><a name="Number"></a>Number</h2>
 <div class=indent>
 <div style="line-height:1.3em">
@@ -9578,6 +9641,7 @@ When cloned, an Object will call it's init slot (with no arguments).
 <a href="#Object-debugOff">debugOff</a><br>
 <a href="#Object-debugOn">debugOn</a><br>
 <a href="#Object-debugWriteln">debugWriteln</a><br>
+<a href="#Object-deprecatedWarning">deprecatedWarning()</a><br>
 <a href="#Object-do">do()</a><br>
 <a href="#Object-doFile">doFile()</a><br>
 <a href="#Object-doMessage">doMessage()</a><br>
@@ -9857,6 +9921,12 @@ Skip the rest of the current loop iteration and start on
 <a name="Object-debugWriteln"></a><b>debugWriteln</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
+</div>
+<a name="Object-deprecatedWarning"></a><b>deprecatedWarning(optionalNewName)</b><p>
+<div class=slotDescription>
+Prints a warning message that the current method is deprecated.
+	If optionalNewName is supplied, the warning will suggest using that instead.
+	Returns self.
 </div>
 <a name="Object-do"></a><b>do(expression)</b><p>
 <div class=slotDescription>
