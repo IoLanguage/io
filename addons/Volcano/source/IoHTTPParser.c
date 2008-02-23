@@ -108,7 +108,7 @@ void IoHTTPParser_setHTTPField_withName_givenSize_value_givenSize_(void *data, c
 	}
 
 	{
-		UArray *fieldName = UArray_newWithData_type_size_copy_(fieldNameBuffer, CTYPE_uint8_t, fieldNameSize, 1);
+		UArray *fieldName = UArray_newWithData_type_size_copy_((char *)fieldNameBuffer, CTYPE_uint8_t, fieldNameSize, 1);
 		IoSeq *fieldValue = IOSEQ(fieldValueBuffer, fieldValueSize);
 
 		UArray_toupper(fieldName);
