@@ -89,7 +89,7 @@ void HTTPParser_parse_fromBuffer_givenLength_(HTTPParser *self, void *listener, 
 {
 	HTTPParser_clearParseError(self);
 	self->parser->data = listener;
-	http_parser_execute(self->parser, parseBuffer, parseBufferSize, 0);
+	http_parser_execute(self->parser, parseBuffer, parseBufferSize, HTTPParser_bytesParsed(self));
 }
 
 size_t HTTPParser_bytesParsed(HTTPParser *self)
@@ -100,4 +100,9 @@ size_t HTTPParser_bytesParsed(HTTPParser *self)
 int HTTPParser_parseErrorOccured(HTTPParser *self)
 {
 	return http_parser_has_error(self->parser);
+}
+
+int HTTPParser_isFinished(HTTPParser *self)
+{
+	return http_parser_is_finished(self->parser);
 }

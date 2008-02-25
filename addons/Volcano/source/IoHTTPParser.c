@@ -17,25 +17,17 @@ IoTag *IoHTTPParser_newTag(void *state)
 IoHTTPParser *IoHTTPParser_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
-	HTTPParser *parser = HTTPParser_new();
 
 	IoObject_tag_(self, IoHTTPParser_newTag(state));
 
-	HTTPParser_setHTTPFieldCallback_(parser, (field_cb) IoHTTPParser_setHTTPField_withName_givenSize_value_givenSize_);
-	HTTPParser_setRequestURICallback_(parser, (element_cb) IoHTTPParser_setRequestURI_givenSize_);
-	HTTPParser_setFragmentCallback_(parser, (element_cb) IoHTTPParser_setFragment_givenSize_);
-	HTTPParser_setRequestPathCallback_(parser, (element_cb) IoHTTPParser_setRequestPath_givenSize_);
-	HTTPParser_setQueryStringCallback_(parser, (element_cb) IoHTTPParser_setQueryString_givenSize_);
-	HTTPParser_setHTTPVersionCallback_(parser, (element_cb) IoHTTPParser_setHTTPVersion_givenSize_);
-	IoObject_setDataPointer_(self, parser);
-
-	IoObject_setSlot_to_(self, IOSYMBOL("httpFields"), IoMap_new(state));
-
 	IoState_registerProtoWithFunc_(state, self, IoHTTPParser_proto);
+	
+	IoHTTPParser_initState(self);
 
 	{
 		IoMethodTable methodTable[] = {
 		{"parse", IoHTTPParser_parse},
+		{"isFinished", IoHTTPParser_isFinished},
 		{NULL, NULL},
 		};
 		IoObject_addMethodTable_(self, methodTable);
@@ -46,6 +38,9 @@ IoHTTPParser *IoHTTPParser_proto(void *state)
 IoHTTPParser *IoHTTPParser_rawClone(IoHTTPParser *proto)
 {
 	IoObject *self = IoObject_rawClonePrimitive(proto);
+
+	IoHTTPParser_initState(self);
+
 	return self;
 }
 
@@ -58,6 +53,21 @@ IoHTTPParser *IoHTTPParser_new(void *state)
 void IoHTTPParser_free(IoHTTPParser *self)
 {
 	HTTPParser_free(PARSER(self));
+}
+
+void IoHTTPParser_initState(IoHTTPParser *self)
+{
+	HTTPParser *parser = HTTPParser_new();
+
+	HTTPParser_setHTTPFieldCallback_(parser, (field_cb) IoHTTPParser_setHTTPField_withName_givenSize_value_givenSize_);
+	HTTPParser_setRequestURICallback_(parser, (element_cb) IoHTTPParser_setRequestURI_givenSize_);
+	HTTPParser_setFragmentCallback_(parser, (element_cb) IoHTTPParser_setFragment_givenSize_);
+	HTTPParser_setRequestPathCallback_(parser, (element_cb) IoHTTPParser_setRequestPath_givenSize_);
+	HTTPParser_setQueryStringCallback_(parser, (element_cb) IoHTTPParser_setQueryString_givenSize_);
+	HTTPParser_setHTTPVersionCallback_(parser, (element_cb) IoHTTPParser_setHTTPVersion_givenSize_);
+	IoObject_setDataPointer_(self, parser);
+
+	IoObject_setSlot_to_(self, IOSYMBOL("httpFields"), IoMap_new(IOSTATE));
 }
 
 /* ----------------------------------------------------------- */
@@ -73,7 +83,7 @@ IoHTTPParser *IoHTTPParser_parse(IoHTTPParser *self, IoObject *locals, IoMessage
 	IOASSERT(IoSeq_rawSize(parseBuffer) > 0, "The parseBuffer can't be empty when parse is called.");
 	
 	IOASSERT(ISMAP(httpFields), "httpFields should be set to a Map before parse is called.");
-	
+
 	HTTPParser_parse_fromBuffer_givenLength_(parser, self, IoSeq_asCString(parseBuffer), IoSeq_rawSizeInBytes(parseBuffer));
 	
 	if (HTTPParser_bytesParsed(parser) > MAX_HEADER_LENGTH)
@@ -97,6 +107,13 @@ IoHTTPParser *IoHTTPParser_parse(IoHTTPParser *self, IoObject *locals, IoMessage
 	return self;
 }
 
+IoHTTPParser *IoHTTPParser_isFinished(IoHTTPParser *self, IoObject *locals, IoMessage *m)
+{
+	//doc HTTPParser isFinished Returns true if the parser has fully completed parsing of the content in the parse buffer and false if it hasn't.
+	HTTPParser *parser = PARSER(self);
+
+	return IOBOOL(self, HTTPParser_isFinished(parser));
+}
 /* ----------------------------------------------------------- */
 
 void IoHTTPParser_setHTTPField_withName_givenSize_value_givenSize_(void *data, const unsigned char *fieldNameBuffer, size_t fieldNameSize, const unsigned char *fieldValueBuffer, size_t fieldValueSize)
@@ -164,7 +181,7 @@ void IoHTTPParser_setRequestPath_givenSize_(void *data, const unsigned char * bu
 	if(bufferSize > MAX_REQUEST_PATH_LENGTH)
 	{
 		HTTPParser *parser = PARSER(self);
-		HTTPParser_setParseError_(parser, "REQUEST_PATH is longer than the allowed length of %d bytes.", MAX_REQUEST_PATH_LENGTH);
+		HTTPParser_setParseError_(parser, "requestPath is longer than the allowed length of %d bytes.", MAX_REQUEST_PATH_LENGTH);
 		return;
 	}
 	IoObject_setSlot_to_(self, IOSYMBOL("requestPath"), IOSEQ(buffer, bufferSize));

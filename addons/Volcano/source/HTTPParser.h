@@ -26,5 +26,6 @@ void HTTPParser_setHeaderDoneCallback_(HTTPParser *self, element_cb callback);
 void HTTPParser_parse_fromBuffer_givenLength_(HTTPParser *self, void *listener, const char *parseBuffer, size_t parseBufferSize);
 size_t HTTPParser_bytesParsed(HTTPParser *self);
 int HTTPParser_parseErrorOccured(HTTPParser *self);
+int HTTPParser_isFinished(HTTPParser *self);
 
 #endif
