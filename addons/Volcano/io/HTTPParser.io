@@ -1,3 +1,3 @@
 HTTPParser do(
-	parseBuffer ::= nil
+	parseBuffer ::= ""
 )

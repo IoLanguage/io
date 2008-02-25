@@ -87,6 +87,7 @@ void HTTPParser_setHeaderDoneCallback_(HTTPParser *self, element_cb callback)
 
 void HTTPParser_parse_fromBuffer_givenLength_(HTTPParser *self, void *listener, const char *parseBuffer, size_t parseBufferSize)
 {
+	HTTPParser_clearParseError(self);
 	self->parser->data = listener;
 	http_parser_execute(self->parser, parseBuffer, parseBufferSize, 0);
 }
