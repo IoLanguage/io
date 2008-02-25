@@ -72,8 +72,8 @@ Texture := Object clone do(
 		writeln(" GL_RGB = ", GL_RGB)
 		writeln(" GL_RGBA = ", GL_RGBA)
 		writeln(" rgbFormat = ", rgbFormat)
+		*/
 		rgbFormat := if(dataImage componentCount == 3, GL_RGB, GL_RGBA)
-*/
 		glPixelStorei(GL_UNPACK_ROW_LENGTH, width)
 		glTexImage2D(GL_TEXTURE_2D, 0, rgbFormat, width, height, 0, rgbFormat, GL_UNSIGNED_BYTE, dataImage data)
 
