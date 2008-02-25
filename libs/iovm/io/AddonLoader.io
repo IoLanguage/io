@@ -31,7 +31,7 @@ Addon := Object clone do(
 
 	//doc Addon ioFiles Return list of io File objects for the io files in the io folder of the addon.
 	ioFiles := method(
-		d := Directory with(addonPath) folderNamed("io")
+		d := Directory with(addonPath) directoryNamed("io")
 		if(d == nil, return list())
 		files := d files select(path endsWithSeq(".io"))
 		files map(name) sort map(name, d fileNamed(name))

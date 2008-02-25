@@ -808,24 +808,42 @@ void UArray_appendBytes_size_(UArray *self, uint8_t *bytes, size_t size)
 
 void UArray_insert_every_(UArray *self, UArray *other, size_t itemCount)
 {
-	size_t sizeBefore = UArray_size(self);
-	int insertionPos = itemCount;
-	int posIncrement = 0;
+	UArray *out = UArray_new();
+	UArray *convertedOther = other;
 	
-	if (itemCount <= 0)
+	if (itemCount == 0)
 	{
 		UArray_error_(self, "UArray_insert_every_: itemCount must be > 0");
+		return;
 	}
 	
-	while(insertionPos <= UArray_size(self))
+	if(UArray_itemType(self) != UArray_itemType(other))
 	{
-		UArray_at_putAll_(self, insertionPos, other);
-		if(!posIncrement)
-		{
-			posIncrement = UArray_size(self) - sizeBefore + itemCount;
-		}
-		insertionPos += posIncrement;
+		UArray *convertedOther = UArray_clone(other);
+		UArray_convertToItemType_(convertedOther, UArray_itemType(self));
 	}
+		
+	{
+		size_t selfSizeInBytes  = UArray_sizeInBytes(self);
+		size_t otherSize = UArray_size(convertedOther);
+		size_t chunkSize  = itemCount * UArray_itemSize(self);
+		size_t i;
+		
+		for(i = 0; i < selfSizeInBytes; i += chunkSize)
+		{
+			//printf("%i <= %i\n", insertionPos, UArray_size(self));
+			UArray_appendBytes_size_(out, self->data + i, chunkSize);
+			UArray_appendBytes_size_(out, convertedOther->data, otherSize);
+		}
+	}
+	
+	if(UArray_itemType(self) != UArray_itemType(other))
+	{
+		UArray_free(convertedOther);
+	}
+	
+	UArray_copy_(self, out);
+	UArray_free(out);
 }
 
 void UArray_at_putAll_(UArray *self, size_t pos, const UArray *other)
@@ -1209,12 +1227,12 @@ size_t UArray_wrapPos_(const UArray *self, long pos)
 	return pos;
 }
 
-int  cmp_uint8_t(const uint8_t  *a, const uint8_t *b)     { return *a == *b ? 0 : (*a < *b ? -1 : 1); }
+int cmp_uint8_t (const uint8_t  *a, const uint8_t *b)     { return *a == *b ? 0 : (*a < *b ? -1 : 1); }
 int cmp_uint16_t(const uint16_t *a, const uint16_t *b)    { return *a == *b ? 0 : (*a < *b ? -1 : 1); }
 int cmp_uint32_t(const uint32_t *a, const uint32_t *b)    { return *a == *b ? 0 : (*a < *b ? -1 : 1); }
 int cmp_uint64_t(const uint64_t *a, const uint64_t *b)    { return *a == *b ? 0 : (*a < *b ? -1 : 1); }
 
-int  cmp_int8_t(const int8_t  *a, const int8_t  *b)       { return *a == *b ? 0 : (*a < *b ? -1 : 1); }
+int cmp_int8_t (const int8_t  *a, const int8_t  *b)       { return *a == *b ? 0 : (*a < *b ? -1 : 1); }
 int cmp_int16_t(const int16_t *a, const int16_t *b)       { return *a == *b ? 0 : (*a < *b ? -1 : 1); }
 int cmp_int32_t(const int32_t *a, const int32_t *b)       { return *a == *b ? 0 : (*a < *b ? -1 : 1); }
 int cmp_int64_t(const int64_t *a, const int64_t *b)       { return *a == *b ? 0 : (*a < *b ? -1 : 1); }

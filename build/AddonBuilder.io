@@ -88,7 +88,7 @@ AddonBuilder := Object clone do(
 		if(Directory exists(path) not,
 			writeln("mkdir -p ", relativePath)
 			dir :=  Directory with(".")
-			path split("/") foreach(x, dir := dir folderNamedCreateIfAbsent(x))
+			path split("/") foreach(x, dir := dir directoryNamed(x) create)
 		)
 	)
 
@@ -219,7 +219,7 @@ AddonBuilder := Object clone do(
 
 	libFile := method(folder fileNamedOrNil(libName))
 	objsFolder := method(self objsFolder := folder createSubdirectory("_build/objs"))
-	sourceFolder := method(folder folderNamed("source"))
+	sourceFolder := method(folder directoryNamed("source"))
 	cFiles := method(
 		files := sourceFolder filesWithExtension("cpp") appendSeq(sourceFolder filesWithExtension("c"))
 		if(platform != "windows", files appendSeq(sourceFolder filesWithExtension("m")))
@@ -346,20 +346,20 @@ AddonBuilder := Object clone do(
 		self removeSlot("objsFolder")
 	)
 
-	ioCodeFolder := method(folder folderNamed("io"))
+	ioCodeFolder := method(folder directoryNamed("io"))
 	ioFiles      := method(ioCodeFolder filesWithExtension("io"))
 	initFileName := method("source/Io" .. folder name .. "Init.c")
 
 	isStatic := false
 
 	generateInitFile := method(
-		if(platform != "windows" and folder folderNamed("source") filesWithExtension("m") size != 0, return)
-		initFile := folder createFileNamed(initFileName)
+		if(platform != "windows" and folder directoryNamed("source") filesWithExtension("m") size != 0, return)
+		initFile := folder fileNamed(initFileName) create
 		initFile remove open
 		initFile write("#include \"IoState.h\"\n")
 		initFile write("#include \"IoObject.h\"\n\n")
 
-		sourceFiles := folder folderNamed("source") files
+		sourceFiles := folder directoryNamed("source") files
 		iocFiles := sourceFiles select(f, f name beginsWithSeq("Io") and(f name endsWithSeq(".c")) and(f name containsSeq("Init") not) and(f name containsSeq("_") not))
 		iocppFiles := sourceFiles select(f, f name beginsWithSeq("Io") and(f name endsWithSeq(".cpp")) and(f name containsSeq("Init") not) and(f name containsSeq("_") not))
 

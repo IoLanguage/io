@@ -468,18 +468,25 @@ IoObject *IoDirectory_createSubdirectory(IoDirectory *self, IoObject *locals, Io
 IoObject *IoDirectory_create(IoDirectory *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Directory create
-	Create the directory if it doesn't exist.
+	Create the directory if it doesn't exist. 
+	Returns self on success (or if the directory already exists), nil on failure.
 	*/
-
-	int r = MKDIR(CSTRING(DATA(self)->path), S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
-	return IOBOOL(self, r == 0);
+	
+	if (!opendir(CSTRING(DATA(self)->path)))
+	{
+		// doesn't exist, so make it
+		int r = MKDIR(CSTRING(DATA(self)->path), S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
+		return (r == 0) ? self : IONIL(self);
+	}
+	
+	return self;
 }
 
 IoObject *IoDirectory_size(IoDirectory *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Directory size
 	Returns a Number containing the number of file and directory
-	object at the receiver's path. 
+	objects at the receiver's path. 
 	*/
 
 	int count = 0;
