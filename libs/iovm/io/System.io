@@ -56,7 +56,12 @@ System do(
 
 	//doc System userInterruptHandler Called when control-c is hit. Override to add custom behavior. Returns self.
 	userInterruptHandler := method(
+		writeln("\n  current coroutine")
 		Scheduler currentCoroutine showStack
+		Scheduler yieldingCoros foreach(coro,
+			writeln("  coroutine ", coro label)
+			coro showStack
+		)
 		self
 	)
 )
