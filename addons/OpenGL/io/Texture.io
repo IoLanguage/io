@@ -58,36 +58,27 @@ Texture := Object clone do(
 		)
 
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1)
-
-		/*
-		if (anImage sizeIsPowerOf2 == false,
-			if (sizeIsSame == false,
-				self width  := originalWidth roundedUpToPowerOf2
-				self height := originalHeight roundedUpToPowerOf2
-				anImage scaledTo(width, height)
-				data := Sequence clone setSize(width * height * anImage componentCount)
-				glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data)
-			)
-
-			glPixelStorei(GL_UNPACK_ROW_LENGTH, originalWidth)
-			glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, originalWidth, originalHeight, format, GL_UNSIGNED_BYTE, anImage data)
-			,
-
-			glPixelStorei(GL_UNPACK_ROW_LENGTH, width)
-			glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, anImage data)
-		)
-		*/
 		
 		self width  := originalWidth roundedUpToPowerOf2
 		self height := originalHeight roundedUpToPowerOf2
+
 		self dataImage := anImage resizedTo(width, height)
 
+/*
+		writeln("dataImage componentCount = ", dataImage componentCount)
+		writeln("dataImage width = ", dataImage width)
+		writeln("dataImage height = ", dataImage height)
+		writeln("dataImage data size = ", dataImage data size)
+		writeln(" GL_RGB = ", GL_RGB)
+		writeln(" GL_RGBA = ", GL_RGBA)
+		writeln(" rgbFormat = ", rgbFormat)
+		rgbFormat := if(dataImage componentCount == 3, GL_RGB, GL_RGBA)
+*/
 		glPixelStorei(GL_UNPACK_ROW_LENGTH, width)
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, dataImage data)
-		
-		// why is this bit needed?
+		glTexImage2D(GL_TEXTURE_2D, 0, rgbFormat, width, height, 0, rgbFormat, GL_UNSIGNED_BYTE, dataImage data)
+
 		glPixelStorei(GL_UNPACK_ROW_LENGTH, originalWidth)
-		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, originalWidth, originalHeight, format, GL_UNSIGNED_BYTE, anImage data)
+		glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, originalWidth, originalHeight, rgbFormat, GL_UNSIGNED_BYTE, anImage data)
 
 		self
 	)

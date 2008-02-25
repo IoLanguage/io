@@ -1606,9 +1606,9 @@ size_t IoGL_BitsPerPixelForFormat_(GLenum sourceFormat)
 		case GL_RGB10: return 10+10+10;
 		case GL_RGB12: return 12+12+12;
 		case GL_RGB16: return 16+16+16;
-		case GL_RGBA: return 8+8+8;
-		case GL_RGBA2: return 2+2+2;
-		case GL_RGBA4: return 4+4+4;
+		case GL_RGBA: return 8+8+8+8;
+		case GL_RGBA2: return 2+2+2+2;
+		case GL_RGBA4: return 4+4+4+4;
 		case GL_RGB5_A1: return 5+5+5+1;
 		case GL_RGBA8: return 8+8+8+8;
 		case GL_RGB10_A2: return 10+10+10+2;
@@ -1643,6 +1643,7 @@ IoObject *IoGL_glTexImage2D(IoGL *self, IoObject *locals, IoMessage *m)
 
 	{
 		size_t requiredSize = (width * height * IoGL_BitsPerPixelForFormat_(sourceFormat)) / 8;
+		printf("sourceFormat = %i GL_RGB = %i GL_RGBA = %i\n", sourceFormat, GL_RGB, GL_RGBA);
 		printf("bytes per pixel = %i\n", (int)IoGL_BitsPerPixelForFormat_(sourceFormat)/8);
 		printf("w %i h %i\n", width, height);
 		printf("size = %i\n", (int)requiredSize);
