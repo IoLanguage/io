@@ -1,6 +1,6 @@
 
 Number roundedUpToPowerOf2 := method(
-	v = self
+	v := self
 	v = v - 1
 	v = v | (v shiftRight(1))
 	v = v | (v shiftRight(2))

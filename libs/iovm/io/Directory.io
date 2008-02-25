@@ -82,7 +82,7 @@ Directory do(
 	
 	//doc Directory folderNamed(aName) Deprecated. Replaced by directoryNamed().
 	folderNamed := method(name,
-		deprecatedWarning("directoryNamed(name) create")
+		deprecatedWarning("directoryNamed(name)")
 		directoryNamed(name)
 	)
 	
