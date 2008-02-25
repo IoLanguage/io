@@ -42,6 +42,10 @@ File do(
 	unlock := method(lockFile remove)
 	
 	setContents := method(d, self open write(d) close)
+	
+	create := method(
+		if(open, close; self, nil)
+	)
 )
 
 Sequence do(
