@@ -837,6 +837,11 @@ void UArray_insert_every_(UArray *self, UArray *other, size_t itemCount)
 		}
 	}
 	
+	if(UArray_itemType(self) != UArray_itemType(other))
+	{
+		UArray_free(convertedOther);
+	}
+	
 	UArray_copy_(self, out);
 	UArray_free(out);
 }
