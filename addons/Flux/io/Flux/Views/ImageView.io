@@ -44,7 +44,7 @@ ImageView := View clone do(
 		translateToPlacement
 		drawColor
 		//glColor4d(1, 1, 1, .05)
-		writeln("image drawTexture")
+		//writeln("image drawTexture")
 		image drawTexture
 		if(isSelected and superview isFirstResponder, drawBorder)
 		glPopMatrix

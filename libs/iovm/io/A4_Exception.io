@@ -176,7 +176,7 @@ Coroutine do(
 		if(callStack size > 0) then(
 			buf appendSeq("  ---------\n")
 
-			if(exception and exception caughtMessage,
+			if(exception and exception ?caughtMessage,
 				buf appendSeq("  ", exception caughtMessage description, "\n")
 			)
 
@@ -195,9 +195,13 @@ Coroutine do(
 			buf appendSeq("\n")
 		) else(
 			buf appendSeq("  ---------\n")
-			m := exception caughtMessage
-			buf appendSeq("  message '" .. m name .. "' in '" .. m label .. "' on line " .. m lineNumber .. "\n")
-			buf appendSeq("\n")
+			if(exception and exception caughtMessage,
+				m := exception caughtMessage
+				buf appendSeq("  message '" .. m name .. "' in '" .. m label .. "' on line " .. m lineNumber .. "\n")
+				buf appendSeq("\n")
+			,
+				buf appendSeq("  nothing on stack\n")
+			)
 		)
 
 		Coroutine setInException(false)
