@@ -61,8 +61,8 @@ DocsExtractor := Object clone do(
 	//sourceFiles := method(ioFiles)
 
 	cFiles := method(
-		if(folder folderNamed("source"),
-			folder folderNamed("source") files select(file,
+		if(folder directoryNamed("source") exists,
+			folder directoryNamed("source") files select(file,
 				file name beginsWithSeq("Io") and(
 				file name containsSeq("Init") not) and(
 				file name pathExtension == "c")
@@ -73,7 +73,7 @@ DocsExtractor := Object clone do(
 	)
 	
 	ioFiles := method(
-		if(folder folderNamed("io"), folder folderNamed("io") filesWithExtension("io"), list())
+		if(folder directoryNamed("io") exists, folder directoryNamed("io") filesWithExtension("io"), list())
 	)
 )
 
