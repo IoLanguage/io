@@ -75,9 +75,10 @@ Directory do(
 		files select(f, f name endsWithSeq(ext))
 	)
 
-	//doc Directory directoryNamed(aName) Returns a Directory object for the specified file name or nil if it doesn't exist.
+	//doc Directory directoryNamed(aName) Returns a Directory object for the specified file name whether or not it exists.
 	directoryNamed := method(name,
-		folders detect(i, v, v name == name)
+		Directory with(Path with(path, name))
+		//folders detect(i, v, v name == name)
 	)
 	
 	//doc Directory folderNamed(aName) Deprecated. Replaced by directoryNamed().
