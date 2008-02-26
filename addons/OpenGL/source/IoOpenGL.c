@@ -1643,15 +1643,17 @@ IoObject *IoGL_glTexImage2D(IoGL *self, IoObject *locals, IoMessage *m)
 
 	{
 		size_t requiredSize = (width * height * IoGL_BitsPerPixelForFormat_(sourceFormat)) / 8;
+		/*
 		printf("sourceFormat = %i GL_RGB = %i GL_RGBA = %i\n", sourceFormat, GL_RGB, GL_RGBA);
 		printf("bytes per pixel = %i\n", (int)IoGL_BitsPerPixelForFormat_(sourceFormat)/8);
 		printf("w %i h %i\n", width, height);
 		printf("size = %i\n", (int)requiredSize);
+		*/
 		IOASSERT(IoSeq_rawSize(data) == requiredSize, "data not of correct size for width, height and depth");
-		bytes = malloc(requiredSize*2);
-
+		//bytes = malloc(requiredSize);
 	}
 
+/*
 	printf("--- glTexImage2D(target %i, level %i, internalFormat %i, width %i, height %i, border %i, sourceFormat %i, type %i, bytes %p)\n",
 		target,
 		level,
@@ -1662,6 +1664,8 @@ IoObject *IoGL_glTexImage2D(IoGL *self, IoObject *locals, IoMessage *m)
 		type,
 		(GLvoid*) bytes
 	);
+	*/
+	
 /*	
 	glTexImage2D(GL_TEXTURE_2D,
 				 0,
@@ -1681,7 +1685,7 @@ IoObject *IoGL_glTexImage2D(IoGL *self, IoObject *locals, IoMessage *m)
 				 type,
 				 (GLvoid*) bytes);
 	}
-	printf("glTexImage2D() done\n");
+	//printf("glTexImage2D() done\n");
 	return self;
 }
 
