@@ -3350,7 +3350,8 @@ Returns a File or Directory object matching the name specified
 </div>
 <a name="Directory-create"></a><b>create</b><p>
 <div class=slotDescription>
-Create the directory if it doesn't exist.
+Create the directory if it doesn't exist. 
+	Returns self on success (or if the directory already exists), nil on failure.
 </div>
 <a name="Directory-createFileNamed"></a><b>createFileNamed(name)</b><p>
 <div class=slotDescription>
@@ -3370,7 +3371,7 @@ Returns the current working directory path.
 </div>
 <a name="Directory-directoryNamed"></a><b>directoryNamed(aName)</b><p>
 <div class=slotDescription>
-Returns a Directory object for the specified file name or nil if it doesn't exist.
+Returns a Directory object for the specified file name whether or not it exists.
 </div>
 <a name="Directory-exists"></a><b>exists(optionalPath)</b><p>
 <div class=slotDescription>
@@ -3456,7 +3457,7 @@ Sets the directory path. Returns self.
 <a name="Directory-size"></a><b>size</b><p>
 <div class=slotDescription>
 Returns a Number containing the number of file and directory
-	object at the receiver's path.
+	objects at the receiver's path.
 </div>
 <a name="Directory-with"></a><b>with(aPath)</b><p>
 <div class=slotDescription>
@@ -3931,7 +3932,8 @@ file close
 <a href="#File-atPut">atPut()</a><br>
 <a href="#File-close">close</a><br>
 <a href="#File-contents">contents</a><br>
-<a href="#File-copyToPath">copyToPath</a><br>
+<a href="#File-copyToPath">copyToPath()</a><br>
+<a href="#File-create">create</a><br>
 <a href="#File-descriptor">descriptor</a><br>
 <a href="#File-exists">exists</a><br>
 <a href="#File-flush">flush</a><br>
@@ -3971,11 +3973,10 @@ file close
 <a href="#File-readToBufferOfLength">readToBufferOfLength()</a><br>
 <a href="#File-remove">remove</a><br>
 <a href="#File-rewind">rewind</a><br>
-<a href="#File-setContents">setContents</a><br>
+<a href="#File-setContents">setContents()</a><br>
 <a href="#File-setPath">setPath()</a><br>
 <a href="#File-setPosition">setPosition()</a><br>
 <a href="#File-setStreamDestination">setStreamDestination</a><br>
-<a href="#File-setStreamReadSize">setStreamReadSize</a><br>
 <a href="#File-size">size</a><br>
 <a href="#File-standardError">standardError</a><br>
 <a href="#File-standardInput">standardInput</a><br>
@@ -3988,7 +3989,6 @@ file close
 <a href="#File-streamTo">streamTo</a><br>
 <a href="#File-temporaryFile">temporaryFile</a><br>
 <a href="#File-truncateToSize">truncateToSize()</a><br>
-<a href="#File-unlock">unlock</a><br>
 <a href="#File-userId">userId</a><br>
 <a href="#File-with">with()</a><br>
 <a href="#File-write">write()</a><br>
@@ -4019,9 +4019,13 @@ Closes the receiver if open, otherwise does nothing. Returns self.
 <div class=slotDescription>
 Returns contents of the file as a mutable Sequence of bytes.
 </div>
-<a name="File-copyToPath"></a><b>copyToPath</b><p>
+<a name="File-copyToPath"></a><b>copyToPath(destinationPath)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Copies the file to the specified path.
+</div>
+<a name="File-create"></a><b>create</b><p>
+<div class=slotDescription>
+Creates an empty file at the file's path. Returns self on success, nil on failure.
 </div>
 <a name="File-descriptor"></a><b>descriptor</b><p>
 <div class=slotDescription>
@@ -4110,11 +4114,13 @@ Returns a Date object containing the last date and
 </div>
 <a name="File-lock"></a><b>lock</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Creates a path.lock file if it does not exist. If it does exist, it waits for it be removed by the process that created it first. Returns self.
 </div>
+<font color=#55a>
 <a name="File-lockFile"></a><b>lockFile</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Deprecated. The .lock file used for File locking.
+</font>
 </div>
 <a name="File-mode"></a><b>mode</b><p>
 <div class=slotDescription>
@@ -4211,9 +4217,9 @@ Removes the file specified by the receiver's path.
 <div class=slotDescription>
 Sets the file position pointer to the beginning of the file.
 </div>
-<a name="File-setContents"></a><b>setContents</b><p>
+<a name="File-setContents"></a><b>setContents(aSeq)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Replaces the contents for the file with aSeq. Returns self.
 </div>
 <a name="File-setPath"></a><b>setPath(aString)</b><p>
 <div class=slotDescription>
@@ -4225,10 +4231,6 @@ Sets the file path of the receiver to pathString.
 Sets the file position pointer to the byte specified by aNumber. Returns self.
 </div>
 <a name="File-setStreamDestination"></a><b>setStreamDestination</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="File-setStreamReadSize"></a><b>setStreamReadSize</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
@@ -4281,10 +4283,6 @@ Returns a new File object with an open temporary file. The file is
 <div class=slotDescription>
 Trunctates the file's size to the numberOfBytes. Returns self.
 </div>
-<a name="File-unlock"></a><b>unlock</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="File-userId"></a><b>userId</b><p>
 <div class=slotDescription>
 Returns a Number containing the user id associated with the file's path.
@@ -4315,35 +4313,10 @@ AutoImporter for the Flux Io UI framework.
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#Flux-Views">Views</a><br>
-<a href="#Flux-fluxPath">fluxPath</a><br>
-<a href="#Flux-fluxSource">fluxSource</a><br>
-<a href="#Flux-fluxViews">fluxViews</a><br>
-<a href="#Flux-loadAll">loadAll</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
-<a name="Flux-Views"></a><b>Views</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Flux-fluxPath"></a><b>fluxPath</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Flux-fluxSource"></a><b>fluxSource</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Flux-fluxViews"></a><b>fluxViews</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Flux-loadAll"></a><b>loadAll</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 </div>
 </div>
 <hr align=left>
@@ -4496,8 +4469,6 @@ Smaller fonts (those having a point size around 30 or smaller, depending on the 
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#Font-drawCenteredString">drawCenteredString</a><br>
-<a href="#Font-drawOffsetString">drawOffsetString</a><br>
 <a href="#Font-drawString">drawString()</a><br>
 <a href="#Font-error">error</a><br>
 <a href="#Font-isTextured">isTextured</a><br>
@@ -4514,14 +4485,6 @@ Smaller fonts (those having a point size around 30 or smaller, depending on the 
 <p>
 <h3>Slots</h3>
 <p>
-<a name="Font-drawCenteredString"></a><b>drawCenteredString</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Font-drawOffsetString"></a><b>drawOffsetString</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="Font-drawString"></a><b>drawString(aString, optionalStartIndex, optionalEndIndex)</b><p>
 <div class=slotDescription>
 Draws aString using the optional start and end indexes, if supplied. Returns self.
@@ -4593,130 +4556,10 @@ Returns a Number with the width that aString would render
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#GLApp-appDidInit">appDidInit</a><br>
-<a href="#GLApp-appName">appName</a><br>
-<a href="#GLApp-backgroundColor">backgroundColor</a><br>
-<a href="#GLApp-didInit">didInit</a><br>
-<a href="#GLApp-didReshape">didReshape</a><br>
-<a href="#GLApp-didToggleFullScreen">didToggleFullScreen</a><br>
-<a href="#GLApp-display">display</a><br>
-<a href="#GLApp-draw">draw</a><br>
-<a href="#GLApp-escapeKey">escapeKey</a><br>
-<a href="#GLApp-height">height</a><br>
-<a href="#GLApp-initBlending">initBlending</a><br>
-<a href="#GLApp-initEvents">initEvents</a><br>
-<a href="#GLApp-keyboard">keyboard</a><br>
-<a href="#GLApp-mouse">mouse</a><br>
-<a href="#GLApp-reshape">reshape</a><br>
-<a href="#GLApp-run">run</a><br>
-<a href="#GLApp-runFullScreen">runFullScreen</a><br>
-<a href="#GLApp-setAppName">setAppName</a><br>
-<a href="#GLApp-setHeight">setHeight</a><br>
-<a href="#GLApp-setWidth">setWidth</a><br>
-<a href="#GLApp-special">special</a><br>
-<a href="#GLApp-timer">timer</a><br>
-<a href="#GLApp-toggleFullScreen">toggleFullScreen</a><br>
-<a href="#GLApp-width">width</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
-<a name="GLApp-appDidInit"></a><b>appDidInit</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="GLApp-appName"></a><b>appName</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="GLApp-backgroundColor"></a><b>backgroundColor</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="GLApp-didInit"></a><b>didInit</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="GLApp-didReshape"></a><b>didReshape</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="GLApp-didToggleFullScreen"></a><b>didToggleFullScreen</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="GLApp-display"></a><b>display</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="GLApp-draw"></a><b>draw</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="GLApp-escapeKey"></a><b>escapeKey</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="GLApp-height"></a><b>height</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="GLApp-initBlending"></a><b>initBlending</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="GLApp-initEvents"></a><b>initEvents</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="GLApp-keyboard"></a><b>keyboard</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="GLApp-mouse"></a><b>mouse</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="GLApp-reshape"></a><b>reshape</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="GLApp-run"></a><b>run</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="GLApp-runFullScreen"></a><b>runFullScreen</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="GLApp-setAppName"></a><b>setAppName</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="GLApp-setHeight"></a><b>setHeight</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="GLApp-setWidth"></a><b>setWidth</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="GLApp-special"></a><b>special</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="GLApp-timer"></a><b>timer</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="GLApp-toggleFullScreen"></a><b>toggleFullScreen</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="GLApp-width"></a><b>width</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 </div>
 </div>
 <hr align=left>
@@ -5740,65 +5583,10 @@ Scales the image data in dataSeqIn and outputs the result to dataSeqOut.
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#GLUQuadric-setTexture">setTexture</a><br>
-<a href="#GLUQuadric-texture">texture</a><br>
-<a href="#GLUQuadric-useFillStyle">useFillStyle</a><br>
-<a href="#GLUQuadric-useFlatNormals">useFlatNormals</a><br>
-<a href="#GLUQuadric-useInsideOrientation">useInsideOrientation</a><br>
-<a href="#GLUQuadric-useLineStyle">useLineStyle</a><br>
-<a href="#GLUQuadric-useNoNormals">useNoNormals</a><br>
-<a href="#GLUQuadric-useOutsideOrientation">useOutsideOrientation</a><br>
-<a href="#GLUQuadric-usePointStyle">usePointStyle</a><br>
-<a href="#GLUQuadric-useSilhoutteStyle">useSilhoutteStyle</a><br>
-<a href="#GLUQuadric-useSmoothNormals">useSmoothNormals</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
-<a name="GLUQuadric-setTexture"></a><b>setTexture</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="GLUQuadric-texture"></a><b>texture</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="GLUQuadric-useFillStyle"></a><b>useFillStyle</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="GLUQuadric-useFlatNormals"></a><b>useFlatNormals</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="GLUQuadric-useInsideOrientation"></a><b>useInsideOrientation</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="GLUQuadric-useLineStyle"></a><b>useLineStyle</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="GLUQuadric-useNoNormals"></a><b>useNoNormals</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="GLUQuadric-useOutsideOrientation"></a><b>useOutsideOrientation</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="GLUQuadric-usePointStyle"></a><b>usePointStyle</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="GLUQuadric-useSilhoutteStyle"></a><b>useSilhoutteStyle</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="GLUQuadric-useSmoothNormals"></a><b>useSmoothNormals</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 </div>
 </div>
 <hr align=left>
@@ -7291,20 +7079,14 @@ Currently supported formats include PNG(which supports alpha), JPG and TIFF.
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#Image-IsPowerOf2">IsPowerOf2</a><br>
 <a href="#Image-addAlpha">addAlpha</a><br>
-<a href="#Image-changed">changed</a><br>
 <a href="#Image-componentCount">componentCount</a><br>
 <a href="#Image-crop">crop()</a><br>
 <a href="#Image-data">data</a><br>
 <a href="#Image-decodingHeightHint">decodingHeightHint</a><br>
 <a href="#Image-decodingWidthHint">decodingWidthHint</a><br>
-<a href="#Image-draw">draw</a><br>
-<a href="#Image-drawScaledTexture">drawScaledTexture</a><br>
-<a href="#Image-drawTexture">drawTexture</a><br>
 <a href="#Image-encodingQuality">encodingQuality</a><br>
 <a href="#Image-error">error</a><br>
-<a href="#Image-glFormat">glFormat</a><br>
 <a href="#Image-height">height</a><br>
 <a href="#Image-isL8">isL8</a><br>
 <a href="#Image-isLA8">isLA8</a><br>
@@ -7316,33 +7098,19 @@ Currently supported formats include PNG(which supports alpha), JPG and TIFF.
 <a href="#Image-resizedTo">resizedTo()</a><br>
 <a href="#Image-resizedTo">resizedTo()</a><br>
 <a href="#Image-save">save()</a><br>
-<a href="#Image-scaledTo">scaledTo</a><br>
 <a href="#Image-setDataWidthHeightComponentCount">setDataWidthHeightComponentCount()</a><br>
 <a href="#Image-setDecodingHeightHint">setDecodingHeightHint()</a><br>
 <a href="#Image-setDecodingWidthHint">setDecodingWidthHint()</a><br>
 <a href="#Image-setEncodingQuality">setEncodingQuality()</a><br>
 <a href="#Image-setPath">setPath()</a><br>
-<a href="#Image-sizeIsPowerOf2">sizeIsPowerOf2</a><br>
-<a href="#Image-texture">texture</a><br>
-<a href="#Image-textureHeight">textureHeight</a><br>
-<a href="#Image-textureWidth">textureWidth</a><br>
-<a href="#Image-updateTexture">updateTexture</a><br>
 <a href="#Image-width">width</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
-<a name="Image-IsPowerOf2"></a><b>IsPowerOf2</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="Image-addAlpha"></a><b>addAlpha</b><p>
 <div class=slotDescription>
 Adds an opaque alpha component if the image is in RGB format and does not already contain one.  Returns self.
-</div>
-<a name="Image-changed"></a><b>changed</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="Image-componentCount"></a><b>componentCount</b><p>
 <div class=slotDescription>
@@ -7366,18 +7134,6 @@ Returns the decoding height hint.
 <div class=slotDescription>
 Returns the decoding width hint.
 </div>
-<a name="Image-draw"></a><b>draw</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Image-drawScaledTexture"></a><b>drawScaledTexture</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Image-drawTexture"></a><b>drawTexture</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="Image-encodingQuality"></a><b>encodingQuality</b><p>
 <div class=slotDescription>
 Returns the encodingQuality setting.
@@ -7385,10 +7141,6 @@ Returns the encodingQuality setting.
 <a name="Image-error"></a><b>error</b><p>
 <div class=slotDescription>
 Returns a String containing the current error or nil if there is no error.
-</div>
-<a name="Image-glFormat"></a><b>glFormat</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="Image-height"></a><b>height</b><p>
 <div class=slotDescription>
@@ -7437,10 +7189,6 @@ Returns a new image of the receiver resized to the given width and height.
 Sets the path to optionalPathString if provided and saves the image 
 	in the format specified by the path extension. Returns self on success, nil on failure.
 </div>
-<a name="Image-scaledTo"></a><b>scaledTo</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="Image-setDataWidthHeightComponentCount"></a><b>setDataWidthHeightComponentCount(aSequence, width, height, componentCount)</b><p>
 <div class=slotDescription>
 Sets the image data and it's parameters. Returns self.
@@ -7460,26 +7208,6 @@ Sets the image encoding quality (range is 0.0 - 1.0, 1.0 with being the highest)
 <a name="Image-setPath"></a><b>setPath(aString)</b><p>
 <div class=slotDescription>
 Sets the image path. Returns self.
-</div>
-<a name="Image-sizeIsPowerOf2"></a><b>sizeIsPowerOf2</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Image-texture"></a><b>texture</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Image-textureHeight"></a><b>textureHeight</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Image-textureWidth"></a><b>textureWidth</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Image-updateTexture"></a><b>updateTexture</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="Image-width"></a><b>width</b><p>
 <div class=slotDescription>
@@ -8887,7 +8615,6 @@ A container for a double (a 64bit floating point number on most platforms).
 <a href="#Number-repeat">repeat()</a><br>
 <a href="#Number-round">round</a><br>
 <a href="#Number-roundDown">roundDown</a><br>
-<a href="#Number-roundedUpToPowerOf2">roundedUpToPowerOf2</a><br>
 <a href="#Number-seconds">seconds</a><br>
 <a href="#Number-shiftLeft">shiftLeft</a><br>
 <a href="#Number-shiftRight">shiftRight</a><br>
@@ -9296,10 +9023,6 @@ Returns the a number with the receiver's value rounded up to
 <div class=slotDescription>
 Returns the a number with the receiver's value rounded down to
 	the nearest integer if it's fraction component is <= .5.
-</div>
-<a name="Number-roundedUpToPowerOf2"></a><b>roundedUpToPowerOf2</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="Number-seconds"></a><b>seconds</b><p>
 <div class=slotDescription>
@@ -11060,10 +10783,95 @@ Returns a new Path object for the given Sequence.
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
+<a href="#Postgres-ConnStatusType">ConnStatusType</a><br>
+<a href="#Postgres-ExecStatusType">ExecStatusType</a><br>
+<a href="#Postgres-PGTransactionStatusType">PGTransactionStatusType</a><br>
+<a href="#Postgres-PGVerbosity">PGVerbosity</a><br>
+<a href="#Postgres-PGconn">PGconn</a><br>
+<a href="#Postgres-PGnumber">PGnumber</a><br>
+<a href="#Postgres-PGresult">PGresult</a><br>
+<a href="#Postgres-PGstring">PGstring</a><br>
+<a href="#Postgres-PostgresPollingStatusType">PostgresPollingStatusType</a><br>
+<a href="#Postgres-convert">convert</a><br>
+<a href="#Postgres-enum">enum</a><br>
+<a href="#Postgres-forward">forward</a><br>
+<a href="#Postgres-fromPostgres">fromPostgres</a><br>
+<a href="#Postgres-libpq">libpq</a><br>
+<a href="#Postgres-map">map</a><br>
+<a href="#Postgres-returns">returns</a><br>
+<a href="#Postgres-void">void</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
+<a name="Postgres-ConnStatusType"></a><b>ConnStatusType</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Postgres-ExecStatusType"></a><b>ExecStatusType</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Postgres-PGTransactionStatusType"></a><b>PGTransactionStatusType</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Postgres-PGVerbosity"></a><b>PGVerbosity</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Postgres-PGconn"></a><b>PGconn</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Postgres-PGnumber"></a><b>PGnumber</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Postgres-PGresult"></a><b>PGresult</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Postgres-PGstring"></a><b>PGstring</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Postgres-PostgresPollingStatusType"></a><b>PostgresPollingStatusType</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Postgres-convert"></a><b>convert</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Postgres-enum"></a><b>enum</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Postgres-forward"></a><b>forward</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Postgres-fromPostgres"></a><b>fromPostgres</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Postgres-libpq"></a><b>libpq</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Postgres-map"></a><b>map</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Postgres-returns"></a><b>returns</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Postgres-void"></a><b>void</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 </div>
 </div>
 <hr align=left>
@@ -13030,6 +12838,7 @@ Terminology
 <a href="#Sequence-hasMatchOfRegex">hasMatchOfRegex()</a><br>
 <a href="#Sequence-hash">hash</a><br>
 <a href="#Sequence-height">height</a><br>
+<a href="#Sequence-insertSeqEvery">insertSeqEvery</a><br>
 <a href="#Sequence-interpolate">interpolate()</a><br>
 <a href="#Sequence-interpolateInPlace">interpolateInPlace()</a><br>
 <a href="#Sequence-isEmpty">isEmpty</a><br>
@@ -13043,6 +12852,7 @@ Terminology
 <a href="#Sequence-itemType">itemType</a><br>
 <a href="#Sequence-justSerialized">justSerialized</a><br>
 <a href="#Sequence-lastPathComponent">lastPathComponent</a><br>
+<a href="#Sequence-leaveThenRemove">leaveThenRemove</a><br>
 <a href="#Sequence-lessThan">lessThan()</a><br>
 <a href="#Sequence-lessThanOrEqualTo">lessThanOrEqualTo()</a><br>
 <a href="#Sequence-levenshtein">levenshtein</a><br>
@@ -13764,6 +13574,10 @@ Returns a Number containing a hash of the Sequence.
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
+<a name="Sequence-insertSeqEvery"></a><b>insertSeqEvery</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="Sequence-interpolate"></a><b>interpolate(ctx)</b><p>
 <div class=slotDescription>
 Returns immutable copy of self with interpolateInPlace(ctx) passed to the copy.
@@ -13819,6 +13633,10 @@ Returns machine type of elements.
 <div class=slotDescription>
 Returns a string containing the receiver clipped up
 	to the last path separator.
+</div>
+<a name="Sequence-leaveThenRemove"></a><b>leaveThenRemove</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 <a name="Sequence-lessThan"></a><b>lessThan(aSeq)</b><p>
 <div class=slotDescription>
