@@ -20,12 +20,11 @@ HTTPServer := Server clone do(
 				return
 			)
 		)
-		socket write("HTTP/1.x 200 OK
-Content-Type: text/html
-
-<html>")
-	socket write("<pre>" .. parser ?body .. "</pre>")
-	socket write("</html>")
+		streamResponse(socket, parser asRequest)
 		socket close
+	)
+	
+	streamResponse := method(socket, request,
+		HTTPResponse withSocket(socket) setBody("<html>Hello</html>") send
 	)
 )
