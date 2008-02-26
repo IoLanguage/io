@@ -23,7 +23,9 @@ HTTPServer := Server clone do(
 		socket write("HTTP/1.x 200 OK
 Content-Type: text/html
 
-<html>HELLO</html>")
+<html>")
+	socket write("<pre>" .. parser ?body .. "</pre>")
+	socket write("</html>")
 		socket close
 	)
 )

@@ -65,6 +65,7 @@ void IoHTTPParser_initState(IoHTTPParser *self)
 	HTTPParser_setRequestPathCallback_(parser, (element_cb) IoHTTPParser_setRequestPath_givenSize_);
 	HTTPParser_setQueryStringCallback_(parser, (element_cb) IoHTTPParser_setQueryString_givenSize_);
 	HTTPParser_setHTTPVersionCallback_(parser, (element_cb) IoHTTPParser_setHTTPVersion_givenSize_);
+	HTTPParser_setHeaderDoneCallback_(parser, (element_cb) IoHTTPParser_setBody_givenSize_);
 	IoObject_setDataPointer_(self, parser);
 
 	IoObject_setSlot_to_(self, IOSYMBOL("httpFields"), IoMap_new(IOSTATE));
@@ -205,4 +206,11 @@ void IoHTTPParser_setHTTPVersion_givenSize_(void *data, const unsigned char * bu
 	IoHTTPParser *self = (IoHTTPParser *)data;
 	
 	IoObject_setSlot_to_(self, IOSYMBOL("httpVersion"), IOSEQ(buffer, bufferSize));
+}
+
+void IoHTTPParser_setBody_givenSize_(void *data, const unsigned char * buffer, size_t bufferSize)
+{
+	IoHTTPParser *self = (IoHTTPParser *)data;
+	
+	IoObject_setSlot_to_(self, IOSYMBOL("body"), IOSEQ(buffer, bufferSize));
 }

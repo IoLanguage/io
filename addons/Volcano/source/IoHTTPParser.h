@@ -30,5 +30,6 @@ void IoHTTPParser_setRequestURI_givenSize_(void *data, const unsigned char * buf
 void IoHTTPParser_setFragment_givenSize_(void *data, const unsigned char * buffer, size_t bufferSize);
 void IoHTTPParser_setRequestPath_givenSize_(void *data, const unsigned char * buffer, size_t bufferSize);
 void IoHTTPParser_setQueryString_givenSize_(void *data, const unsigned char * buffer, size_t bufferSize);
-void IoHTTPParser_setHTTPVersion_givenSize_(void *data, const unsigned char * versionBuffer, size_t versionBufferSize);
+void IoHTTPParser_setHTTPVersion_givenSize_(void *data, const unsigned char * buffer, size_t bufferSize);
+void IoHTTPParser_setBody_givenSize_(void *data, const unsigned char * buffer, size_t bufferSize);
 #endif
