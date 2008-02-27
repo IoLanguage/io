@@ -8,40 +8,6 @@ addonFolders foreach(folder,
 prototypes := Map clone
 modules := Map clone
 
-
-/*
-ReferenceDoc := Object clone do(
-	protos :: = List clone
-	print := method(
-		protos foreach(printIndex)
-		protos foreach(print)
-	)
-)
-
-ProtoDoc := Object clone do(
-	init := method(self slots := List clone)
-	printIndex := method(
-		
-	)
-	print := method(
-		printIndex
-		slots foreach(print)
-	)	
-)
-
-SlotDoc := Object clone do(
-	name ::= nil
-	value ::= nil
-	
-	printIndex := method(
-		
-	)
-	print := method(
-		
-	)
-)
-*/
-
 readFolder := method(path,
 	File with(Path with(path, "/docs/docs.txt")) contents split("------\n") foreach(e,
 		isSlot := e beginsWithSeq("doc")
@@ -75,6 +41,72 @@ readFolder := method(path,
 
 addonFolders foreach(f, readFolder(f path))
 readFolder("libs/iovm")
+
+// ------------------------------
+
+ReferenceDoc := Object clone do(
+	modules :: = List clone
+	print := method(
+		modules foreach(printIndex)
+		modules foreach(print)
+	)
+)
+
+ModuleDoc := Object clone do(
+	refProtos :: = Map clone
+	path ::= nil
+	
+	refProtoNamed := method(name,
+		refProtos atIfAbsentPut(name, ProtoDoc clone setName(name))
+	)
+	
+	read := method(
+		File with(Path with(path, "/docs/docs.txt")) contents split("------\n") foreach(e,
+			isSlot := e beginsWithSeq("doc")
+			h := e beforeSeq("\n") afterSeq(" ") 
+			if(h,
+				h = h asMutable strip asSymbol
+				protoName := h beforeSeq(" ") ?asMutable ?strip ?asSymbol
+				slotName  := h afterSeq(" ") ?asMutable ?strip ?asSymbol
+				description := e afterSeq("\n")
+				
+				if(isSlot,
+					refProtoNamed(protoName) addSlot(slotName, description)
+				,
+					refProtoNamed(protoName) addMetaSlot(slotName, description)
+				)
+		)
+	)
+
+	print := method(
+		refProtos foreach(printIndex)
+		refProtos foreach(print)
+	)
+)
+
+ProtoDoc := Object clone do(
+	init := method(self slots := List clone)
+	printIndex := method(
+		nil
+	)
+	print := method(
+		printIndex
+		slots foreach(print)
+	)	
+)
+
+SlotDoc := Object clone do(
+	name ::= nil
+	value ::= nil
+	
+	printIndex := method(
+		nil
+	)
+	print := method(
+		nil
+	)
+)
+
 
 writeln("""<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html>

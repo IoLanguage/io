@@ -20,6 +20,8 @@ GLCubeApp := Object clone do(
 		gluPerspective(45, w / h, 1.0, 10.0)
 		glMatrixMode(GL_MODELVIEW)
 		glViewport(0, 0, w, h)
+		self width := w
+		self height := h
 	)
 	
 	display := method(
@@ -43,6 +45,7 @@ GLCubeApp := Object clone do(
 	mouse := method(button, state, x, y,
 		lastX = x
 		lastY = y
+		
 	)
 
 	motion := method(x, y,
@@ -53,6 +56,18 @@ GLCubeApp := Object clone do(
 		glutPostRedisplay
 	)
 
+    keyboard := method(key, mx, my,
+            if(key asCharacter == " ",
+				data := Sequence clone 
+				glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, data)
+				image := Image clone 
+				image setDataWidthHeightComponentCount(data, width, height, 4)
+				image save("screenshot.jpg")
+				writeln("saved screenshot.jpg")
+			)
+            display
+    )
+
 	run := method(
 		glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH)
 		glutInitWindowSize(512, 512)
@@ -62,6 +77,7 @@ GLCubeApp := Object clone do(
 		glutDisplayFunc
 		glutMouseFunc
 		glutMotionFunc
+		glutKeyboardFunc
 		
 		glClearColor(1, 1, 1, 1)
 		glEnable(GL_DEPTH_TEST)

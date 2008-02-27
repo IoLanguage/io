@@ -2028,7 +2028,16 @@ IoObject *IoGL_glReadPixels(IoGL *self, IoObject *locals, IoMessage *m)
 	GLenum format = IoMessage_locals_intArgAt_(m, locals, 4);
 	GLenum type = IoMessage_locals_intArgAt_(m, locals, 5);
 	IoSeq *pixels = IoMessage_locals_seqArgAt_(m, locals, 6);
-	glReadPixels(x,y,width,height,format,type, (GLvoid*)IoSeq_rawBytes(pixels));
+	
+	IOASSERT(IoGL_AcceptedPixelForFormat_(format), "unacceptable pixel format");
+
+	{
+		size_t requiredSize = (width * height * IoGL_BitsPerPixelForFormat_(format)) / 8;
+		UArray *u = IoSeq_rawUArray(pixels);
+		UArray_setSize_(u, requiredSize);
+	}
+	
+	glReadPixels(x, y, width, height, format, type, (GLvoid*)IoSeq_rawBytes(pixels));
 	return self;
 }
 
@@ -2041,6 +2050,13 @@ IoObject *IoGL_glDrawPixels(IoGL *self, IoObject *locals, IoMessage *m)
 	IoSeq *data = IoMessage_locals_seqArgAt_(m, locals, 4);
 	GLvoid  *pixels = (GLvoid *)IoSeq_rawBytes(data);
 
+	IOASSERT(IoGL_AcceptedPixelForFormat_(format), "unacceptable pixel format");
+	
+	{
+		size_t requiredSize = (width * height * IoGL_BitsPerPixelForFormat_(format)) / 8;
+		IOASSERT(IoSeq_rawSize(pixels) == requiredSize, "pixels data not correct size");
+	}
+		
 	glDrawPixels(width,height,format,type,pixels);
 	return self;
 }
