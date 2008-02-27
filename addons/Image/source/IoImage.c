@@ -81,6 +81,10 @@ IoImage *IoImage_proto(void *state)
 
 		{"setDecodingHeightHint", IoImage_setDecodingHeightHint},
 		{"decodingHeightHint", IoImage_decodingHeightHint},
+
+		{"flipX", IoImage_flipX},
+		{"flipY", IoImage_flipY},
+
 		{NULL, NULL},
 		};
 		IoObject_addMethodTable_(self, methodTable);
@@ -415,5 +419,26 @@ IoObject *IoImage_decodingHeightHint(IoImage *self, IoObject *locals, IoMessage 
 	Returns the decoding height hint.
 	*/
 	return IONUMBER(Image_decodingHeightHint(DATA(self)->image));
+}
+
+
+IoObject *IoImage_flipX(IoImage *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Image flipX
+	Flips the image on the horizonal plane (left/right mirror). Returns self.
+	*/
+	
+	Image_flipX(DATA(self)->image);
+	return self;
+}
+
+IoObject *IoImage_flipY(IoImage *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Image flipY
+	Flips the image on the vertical plane (top/bottom mirror). Returns self.
+	*/
+	
+	Image_flipY(DATA(self)->image);
+	return self;
 }
 

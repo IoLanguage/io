@@ -62,6 +62,7 @@ GLCubeApp := Object clone do(
 				glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, data)
 				image := Image clone 
 				image setDataWidthHeightComponentCount(data, width, height, 4)
+				image flipY
 				image save("screenshot.jpg")
 				writeln("saved screenshot.jpg")
 			)

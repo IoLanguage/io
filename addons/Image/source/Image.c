@@ -316,17 +316,41 @@ void Image_data_length_(Image *self, unsigned char *data, size_t length)
 }
 
 
-void Image_flipY(Image *self)
+void Image_flipX(Image *self)
 {
-	int y;
-	int w = self->width;
-	int h = self->height;
+	size_t y;
+	size_t w = self->width;
+	size_t h = self->height;
 	int componentCount = self->componentCount;
 	uint8_t *bytes = UArray_mutableBytes(self->byteArray);
-	int bytesPerLine = componentCount * w;
+	uint8_t buf[4];
+
+	for (y = 0; y < h; y ++)
+	{
+		size_t x;
+		for (x = 0; x < w/2; x ++)
+		{
+			uint8_t *a = bytes + componentCount * (y * w) + x * componentCount;
+			uint8_t *b = bytes + componentCount * (y * w) + (w - x) * componentCount;
+
+			memcpy(buf, a, componentCount);
+			memcpy(a,   b, componentCount);
+			memcpy(b,   buf, componentCount);
+		}
+	}
+}
+
+void Image_flipY(Image *self)
+{
+	size_t y;
+	size_t w = self->width;
+	size_t h = self->height;
+	int componentCount = self->componentCount;
+	uint8_t *bytes = UArray_mutableBytes(self->byteArray);
+	size_t bytesPerLine = componentCount * w;
 	unsigned char *buf = malloc(bytesPerLine);
 
-	for (y = 0; y < self->height/2; y ++)
+	for (y = 0; y < h/2; y ++)
 	{
 		uint8_t *a = bytes + componentCount * (y * w);
 		uint8_t *b = bytes + componentCount * ((h-1-y) * w);
@@ -335,6 +359,8 @@ void Image_flipY(Image *self)
 		memcpy(a,   b, bytesPerLine);
 		memcpy(b,   buf, bytesPerLine);
 	}
+	
+	free(buf);
 }
 
 void Image_resizeTo(Image *self, int w, int h, Image *outImage)

@@ -64,11 +64,15 @@ IOIMAGE_API IoObject *IoImage_addAlpha(IoImage *self, IoObject *locals, IoMessag
 IOIMAGE_API IoObject *IoImage_removeAlpha(IoImage *self, IoObject *locals, IoMessage *m);
 
 /* --- extras -------------------------------------------------------- */
+
 IOIMAGE_API IoObject *IoImage_setEncodingQuality(IoImage *self, IoObject *locals, IoMessage *m);
 IOIMAGE_API IoObject *IoImage_encodingQuality(IoImage *self, IoObject *locals, IoMessage *m);
 IOIMAGE_API IoObject *IoImage_setDecodingWidthHint(IoImage *self, IoObject *locals, IoMessage *m);
 IOIMAGE_API IoObject *IoImage_decodingWidthHint(IoImage *self, IoObject *locals, IoMessage *m);
 IOIMAGE_API IoObject *IoImage_setDecodingHeightHint(IoImage *self, IoObject *locals, IoMessage *m);
 IOIMAGE_API IoObject *IoImage_decodingHeightHint(IoImage *self, IoObject *locals, IoMessage *m);
+
+IOIMAGE_API IoObject *IoImage_flipX(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_flipY(IoImage *self, IoObject *locals, IoMessage *m);
 
 #endif
