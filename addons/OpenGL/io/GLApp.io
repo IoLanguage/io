@@ -127,5 +127,10 @@ GLApp := Object clone do(
 		glutMouseFunc
 		glutTimerFunc(0, 0)
 	)
+	
+	takeScreenShot := method(path,
+		if(path == nil, path = "screenshot.jpg")
+		Image clone grabScreen save(path)
+	)
 )
 

@@ -26,4 +26,13 @@ Image do(
 		imgOut setDataWidthHeightComponentCount(outputSurface getData, outputSurface getWidth, outputSurface getHeight, self componentCount)
 		imgOut
 	)
+	
+	grabScreen := method(
+		data := Sequence clone 
+		width  := glutGet(GLUT_WINDOW_WIDTH)
+		height := glutGet(GLUT_WINDOW_HEIGHT)
+		glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, data)	
+		self setDataWidthHeightComponentCount(data, width, height, 4)
+		self flipY
+	)
 )

@@ -20,8 +20,8 @@ GLCubeApp := Object clone do(
 		gluPerspective(45, w / h, 1.0, 10.0)
 		glMatrixMode(GL_MODELVIEW)
 		glViewport(0, 0, w, h)
-		self width := w
-		self height := h
+		//self width := w
+		//self height := h
 	)
 	
 	display := method(
@@ -59,6 +59,9 @@ GLCubeApp := Object clone do(
     keyboard := method(key, mx, my,
             if(key asCharacter == " ",
 				data := Sequence clone 
+				width := glutGet(GLUT_WINDOW_WIDTH)
+				height := glutGet(GLUT_WINDOW_HEIGHT)
+				//GLUT_WINDOW_ALPHA_SIZE
 				glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, data)
 				image := Image clone 
 				image setDataWidthHeightComponentCount(data, width, height, 4)
@@ -72,7 +75,8 @@ GLCubeApp := Object clone do(
 	run := method(
 		glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH)
 		glutInitWindowSize(512, 512)
-		glutInit; glutCreateWindow("Io Cube")
+		glutInit
+		glutCreateWindow("Io Cube")
 		glutEventTarget(self)
 		glutReshapeFunc
 		glutDisplayFunc
