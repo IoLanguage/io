@@ -44,6 +44,7 @@ readFolder("libs/iovm")
 
 // ------------------------------
 
+/*
 ReferenceDoc := Object clone do(
 	modules :: = List clone
 	print := method(
@@ -107,6 +108,7 @@ SlotDoc := Object clone do(
 	)
 )
 
+*/
 
 writeln("""<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html>
