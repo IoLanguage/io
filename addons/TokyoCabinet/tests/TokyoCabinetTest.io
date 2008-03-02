@@ -1,7 +1,6 @@
 TokyoCabinet
 
 TokyoCabinet := UnitTest clone do(
-	
 	cleanUp := method(
 		File with("test.db") remove
 	)

@@ -28,6 +28,7 @@ void IoTokyoCabinet_free(IoObject *self);
 IoObject *IoTokyoCabinet_open(IoObject *self, IoObject *locals, IoMessage *m);
 IoObject *IoTokyoCabinet_close(IoObject *self, IoObject *locals, IoMessage *m);
 IoObject *IoTokyoCabinet_atPut(IoObject *self, IoObject *locals, IoMessage *m);
+IoObject *IoTokyoCabinet_atAppend(IoObject *self, IoObject *locals, IoMessage *m);
 IoObject *IoTokyoCabinet_at(IoObject *self, IoObject *locals, IoMessage *m);
 IoObject *IoTokyoCabinet_sizeAt(IoObject *self, IoObject *locals, IoMessage *m);
 IoObject *IoTokyoCabinet_removeAt(IoObject *self, IoObject *locals, IoMessage *m);

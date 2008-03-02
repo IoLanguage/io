@@ -1,7 +1,6 @@
-/*
-//metadoc copyright Steve Dekorte 2002
-*/
-*/
+
+//metadoc Thread copyright Steve Dekorte 2002
+
 
 #ifndef IOTHREAD_DEFINED
 #define IOTHREAD_DEFINED 1

@@ -9,7 +9,6 @@ ZlibDecoderTest := UnitTest clone do(
         z beginProcessing
         z process
         z endProcessing
-        //z outputBuffer println
         s := "TestSuite clone setPath(System launchPath) run"
         assertTrue(z outputBuffer containsSeq(s))
 	)

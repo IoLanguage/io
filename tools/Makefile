@@ -131,7 +131,7 @@ clean:
 	-rm -rf _build
 
 test:
-	./_build/binaries/io_static$(BINARY_SUFFIX) ../libs/iovm/tests/run.io
+	./_build/binaries/io_static$(BINARY_SUFFIX) ../libs/iovm/tests/run.io || true
 
 docs:
 	./io_static$(BINARY_SUFFIX) _docgen/DocsExtractor.io .

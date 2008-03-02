@@ -431,6 +431,6 @@ AddonBuilder := Object clone do(
 	)
 
 	cleanDocs := method(
-		systemCall("rm -f io/zzz_docs.io")
+		systemCall("rm -f docs/docs.txt")
 	)
 )

@@ -177,6 +177,7 @@ IoTokyoCabinet *IoTokyoCabinet_proto(void *state)
 	{"close",     IoTokyoCabinet_close},
 
 	{"atPut",     IoTokyoCabinet_atPut},
+	{"atAppend",  IoTokyoCabinet_atAppend},
 	{"at",        IoTokyoCabinet_at},
 	{"sizeAt",    IoTokyoCabinet_sizeAt},
 	{"removeAt",  IoTokyoCabinet_removeAt},
@@ -245,6 +246,8 @@ IoObject *IoTokyoCabinet_open(IoObject *self, IoObject *locals, IoMessage *m)
 	IoSeq *path = IoMessage_locals_seqArgAt_(m, locals, 0);
 	BDBCMP cf = pathCompareFunc;
 
+	IoTokyoCabinet_close(self, locals, m);
+	
 	if(IoMessage_argCount(m) > 1)
 	{
 		IoSeq *compareType = IoMessage_locals_seqArgAt_(m, locals, 1);
@@ -262,7 +265,9 @@ IoObject *IoTokyoCabinet_open(IoObject *self, IoObject *locals, IoMessage *m)
 		}
 	}
 
-	tcbdbsetcmpfunc(TokyoCabinet(self), cf, NULL);
+	//tcbdbsetcmpfunc(TokyoCabinet(self), cf, NULL);
+	
+	IoObject_setDataPointer_(self, tcbdbnew());
 	
 	if(!tcbdbopen(TokyoCabinet(self), CSTRING(path), BDBOWRITER | BDBOCREAT | BDBOLCKNB))
 	{
@@ -385,6 +390,27 @@ IoObject *IoTokyoCabinet_atPut(IoObject *self, IoObject *locals, IoMessage *m)
 	IOASSERT(TokyoCabinet(self), "invalid TokyoCabinet");
 
 	result = tcbdbput(TokyoCabinet(self), 
+		(const void *)IoSeq_rawBytes(key),  (int)IoSeq_rawSizeInBytes(key), 
+		(const void *)IoSeq_rawBytes(value), (int)IoSeq_rawSizeInBytes(value));
+
+	IOASSERT(result, tcbdberrmsg(tcbdbecode(TokyoCabinet(self))));
+
+	return self;
+}
+
+IoObject *IoTokyoCabinet_atAppend(IoObject *self, IoObject *locals, IoMessage *m)
+{
+	/*doc TokyoCabinet atApple(keySymbol, valueSequence)
+	Appends valueSequence to the current value at keySymbol. Returns self.
+	*/
+
+	IoSeq *key = IoMessage_locals_seqArgAt_(m, locals, 0);
+	IoSeq *value = IoMessage_locals_seqArgAt_(m, locals, 1);
+	int result;
+
+	IOASSERT(TokyoCabinet(self), "invalid TokyoCabinet");
+
+	result = tcbdbputcat(TokyoCabinet(self), 
 		(const void *)IoSeq_rawBytes(key),  (int)IoSeq_rawSizeInBytes(key), 
 		(const void *)IoSeq_rawBytes(value), (int)IoSeq_rawSizeInBytes(value));
 
