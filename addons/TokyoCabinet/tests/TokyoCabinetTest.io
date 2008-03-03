@@ -1,15 +1,13 @@
 TokyoCabinet
 
-TokyoCabinet := UnitTest clone do(
+TokyoCabinetTest := UnitTest clone do(
 	cleanUp := method(
 		File with("test.db") remove
 	)
 	
 	testBasic := method(
 		db := TokyoCabinet clone
-
-		File with("test.db") remove
-		
+		File with("test.db") remove		
 		db open("test.db")
 		
 		assertEquals(nil, db at("foo"))
@@ -40,6 +38,7 @@ TokyoCabinet := UnitTest clone do(
 		assertEquals("3", db at("c"))
 		
 		c := db cursor
+		c first
 		assertEquals("a", c key)
 		assertEquals("1", c value)
 		

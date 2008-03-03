@@ -5,11 +5,13 @@ TokyoCabinet do(
 	path ::= "default.tc"
 	
 	//doc TokyoCabinet _open Private.
+	/*
 	_open := getSlot("open")
 	open := method(p, opt,
 		if(p, setPath(p))
 		if(opt, _open(path, opt), _open(path))
 	)
+	*/
 
 	//doc TokyoCabinet transactionalAtPut(key, value) Transactionally insert the given key and value. Returns self.
 	transactionalAtPut := method(k, v,

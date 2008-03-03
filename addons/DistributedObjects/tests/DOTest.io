@@ -14,6 +14,7 @@ DOTest := UnitTest clone do(
 		DOConnection
 		con := DOConnection clone setHost("127.0.0.1") setPort(8456) connect
 		assertFalse(con isError)
+		/*
 		
 		result := con serverObject test(1)
 		assertFalse(result isError)
@@ -24,5 +25,6 @@ DOTest := UnitTest clone do(
 		
 		r := result at(1)
 		assertEquals(r, nil)
+		*/
 	)
 ) 
