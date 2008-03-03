@@ -483,8 +483,19 @@ IoObject *IoTokyoCabinet_removeAt(IoObject *self, IoObject *locals, IoMessage *m
 IoObject *IoTokyoCabinet_cursor(IoObject *self, IoObject *locals, IoMessage *m)
 {
 	/*doc TokyoCabinet cursor
-	Removes the a new cursor object.
+	Returns a new cursor object.
 	*/
 	
 	return IoTokyoCabinetCursor_newWithDB_(IOSTATE, TokyoCabinet(self));
+}
+
+#include "IoTokyoCabinetPrefixCursor.h"
+
+IoObject *IoTokyoCabinet_prefixCursor(IoObject *self, IoObject *locals, IoMessage *m)
+{
+	/*doc TokyoCabinet prefixCursor
+	Returns a new prefix cursor object.
+	*/
+	
+	return IoTokyoCabinetPrefixCursor_newWithDB_(IOSTATE, TokyoCabinet(self));
 }

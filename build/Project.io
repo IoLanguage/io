@@ -144,10 +144,12 @@ Project := Object clone do(
 	runUnitTests := method(
 		failures := 0
 
+		maxNameSize := availableAddons max(name size) name size
 		availableAddons foreach(addon,
 			path := Path with(addon folder path, "tests/run.io")
+			
 			if(File clone setPath(path) exists,
-				write(addon name alignLeft(10), " - ")
+				write(addon name alignLeft(maxNameSize), " - ")
 				File standardOutput flush
 				r := System system("./_build/binaries/io " .. path)
 				if(r == 0, writeln("PASSED"), writeln("FAILED ", r, " TESTS"))
