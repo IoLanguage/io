@@ -800,11 +800,19 @@ void UArray_appendPointer_(UArray *self, void *v)
 	UArray_at_putPointer_(self, self->size, v);
 }
 
-void UArray_appendBytes_size_(UArray *self, uint8_t *bytes, size_t size)
+void UArray_appendBytes_size_(UArray *self, const uint8_t *bytes, size_t size)
 {
-	UArray a = UArray_stackAllocedWithData_type_size_(bytes, CTYPE_uint8_t, size);
+	UArray a = UArray_stackAllocedWithData_type_size_((uint8_t *)bytes, CTYPE_uint8_t, size);
 	UArray_append_(self, &a);
 }
+
+/*
+void UArray_appendByte_(UArray *self, uint8_t byte)
+{
+	UArray a = UArray_stackAllocedWithData_type_size_(&byte, CTYPE_uint8_t, 1);
+	UArray_append_(self, &a);	
+}
+*/
 
 void UArray_insert_every_(UArray *self, UArray *other, size_t itemCount)
 {

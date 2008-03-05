@@ -186,7 +186,8 @@ BASEKIT_API void UArray_appendLong_(UArray *self, long v);
 BASEKIT_API void UArray_appendDouble_(UArray *self, double v);
 BASEKIT_API void UArray_appendPointer_(UArray *self, void *v);
 
-BASEKIT_API void UArray_appendBytes_size_(UArray *self, uint8_t *bytes, size_t size);
+BASEKIT_API void UArray_appendBytes_size_(UArray *self, const uint8_t *bytes, size_t size);
+//BASEKIT_API void UArray_appendByte_(UArray *self, uint8_t byte);
 
 BASEKIT_API void UArray_insert_every_(UArray *self, UArray *other, size_t itemCount);
 

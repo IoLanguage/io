@@ -232,7 +232,8 @@ IoObject *IoSeq_isZero(IoSeq *self, IoObject *locals, IoMessage *m)
 IoObject *IoSeq_size(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 /*doc Sequence size
-Returns the length in bytes of the receiver. For example,
+Returns the length in number of items (which may or may not
+be the number of bytes, depending on the item type) of the receiver. For example,
 <p>
 <pre>	
 "abc" size == 3
@@ -241,6 +242,16 @@ Returns the length in bytes of the receiver. For example,
 
 	return IONUMBER(UArray_size(DATA(self)));
 }
+
+IoObject *IoSeq_sizeInBytes(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Sequence sizeInBytes
+	Returns the length in bytes of the receiver.
+	*/
+
+	return IONUMBER(UArray_sizeInBytes(DATA(self)));
+}
+
 
 IoObject *IoSeq_at(IoSeq *self, IoObject *locals, IoMessage *m)
 {
@@ -1328,6 +1339,7 @@ void IoSeq_addImmutableMethods(IoSeq *self)
 	{"print", IoSeq_print},
 	{"linePrint", IoSeq_linePrint},
 	{"size", IoSeq_size},
+	{"sizeInBytes", IoSeq_sizeInBytes},
 	{"isZero", IoSeq_isZero},
 	{"isEmpty", IoSeq_isEmpty},
 	{"at", IoSeq_at},

@@ -30,6 +30,7 @@ IOVM_API IoObject *IoSeq_linePrint(IoSeq *self, IoObject *locals, IoMessage *m);
 // access
 
 IOVM_API IoObject *IoSeq_size(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoSeq_sizeInBytes(IoSeq *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoSeq_isEmpty(IoSeq *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoSeq_isZero(IoSeq *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoSeq_at(IoSeq *self, IoObject *locals, IoMessage *m);

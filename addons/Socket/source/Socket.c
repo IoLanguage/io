@@ -353,13 +353,13 @@ ssize_t Socket_streamRead(Socket *self, UArray *buffer, size_t readSize)
 	UArray_sizeTo_(buffer, originalSize + readSize + 1);
 
 	SocketResetErrorStatus();
-
+	
 #ifdef WIN32
 	bytesRead = (size_t)recv(self->fd, (uint8_t *)UArray_bytes(buffer) + originalSize, readSize, 0);
 #else
 	bytesRead = (size_t)read(self->fd, (uint8_t *)UArray_bytes(buffer) + originalSize, readSize);
 #endif
-
+	
 	if (bytesRead > 0)
 	{
 		UArray_setSize_(buffer, originalSize + bytesRead);

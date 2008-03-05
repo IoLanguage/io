@@ -398,4 +398,15 @@ ListTest := UnitTest clone do(
 
 		assertEquals(0, m size)
 	)
+
+	testEncodedList := method(
+		t := list(123)
+		assertEquals(t, List fromEncodedList(t toEncodedList))
+		t := list(1, 2, 3)
+		assertEquals(t, List fromEncodedList(t toEncodedList))
+		t := list(1, "test", 3)
+		assertEquals(t, List fromEncodedList(t toEncodedList))
+		t := list("foo")
+		assertEquals(t, List fromEncodedList(t toEncodedList))
+	)
 )

@@ -112,7 +112,7 @@ Socket do(
 
 		while(readBuffer size < total,
 			readEvent waitOn(readTimeout) returnIfError
-			streamReadNextChunk returnIfError
+			asyncStreamRead(readBuffer, total - readBuffer size) returnIfError
 			isClosed ifTrue(
 				return(Error with("Socket closed before " .. numBytes .. " bytes could be read"))
 			)
@@ -238,5 +238,52 @@ Socket do(
 	appendToWriteBuffer := method(buffer,
 		if(buffer, writeBuffer appendSeq(buffer))
 		self
+	)
+
+	
+	/*doc Socket readUntilSeq(aSequence)
+	Reads the socket until it's readBuffer contains aSequence, then returns a Sequence
+	containing the readBuffer's contents up to (but not including) aSequence and clips that section from the readBuffer.
+	*/	
+	readUntilSeq := method(aSeq,
+		while(readBuffer containsSeq(aSeq) not, self read)
+		s := readBuffer beforeSeq(aSeq)
+		readBuffer clipBeforeEndOfSeq(aSeq)
+		s
+	)
+
+
+	/*doc Socket writeMessage(aSeq)
+	Writes a 4 byte uint32 in network byte order containing the size of aSeq. 
+	Then writes the bytes in aSeq and returns self.
+	*/
+	writeMessage := method(aSeq,
+		s := Sequence clone setItemType("uint32") append(aSeq size)
+		s setItemType("uint8")
+		s setEncoding("number")
+		//writeln("writeMessage write [", s ,"]")
+		streamWrite(s)
+		//writeln("writeMessage write [", aSeq ,"]")
+		streamWrite(aSeq)
+		self
+	)
+		
+	/*doc Socket readMessage
+	Empties the readBuffer and reads a 4 byte uint32 in network byte order. 
+	This number is the number of bytes in the message payload which are 
+	then read into the socket's readBuffer. The readBuffer is returned.
+	*/
+	readMessage := method(
+		readBuffer empty
+		//writeln("before streamRead readBuffer size = ", readBuffer size)
+		streamRead(4) 
+		//writeln("after  streamRead readBuffer size = ", readBuffer size)
+		//writeln("[", readBuffer, "]")
+		requestSize := readBuffer clone setItemType("uint32") at(0)
+		readBuffer empty
+		//writeln("requestSize = ", requestSize)
+		readBuffer empty
+		streamRead(requestSize)
+		readBuffer
 	)
 )

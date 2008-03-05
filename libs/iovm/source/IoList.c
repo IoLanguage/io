@@ -92,17 +92,20 @@ IoList *IoList_proto(void *state)
 
 	{"preallocateToSize", IoList_preallocateToSize},
 
-	{"first",          IoList_first},
-	{"last",           IoList_last},
-	{"slice",          IoList_slice},
-	{"sliceInPlace",   IoList_sliceInPlace},
+	{"first",           IoList_first},
+	{"last",            IoList_last},
+	{"slice",           IoList_slice},
+	{"sliceInPlace",    IoList_sliceInPlace},
 
 
-	{"sortInPlace",           IoList_sortInPlace},
-	{"sortInPlaceBy",         IoList_sortInPlaceBy},
-	{"foreach",        IoList_foreach},
-	{"reverse",        IoList_reverse},
-	{"reverseForeach", IoList_reverseForeach},
+	{"sortInPlace",     IoList_sortInPlace},
+	{"sortInPlaceBy",   IoList_sortInPlaceBy},
+	{"foreach",         IoList_foreach},
+	{"reverse",         IoList_reverse},
+	{"reverseForeach",  IoList_reverseForeach},
+	
+	{"toEncodedList",   IoList_toEncodedList},
+	{"fromEncodedList", IoList_fromEncodedList},
 	{NULL, NULL},
 	};
 
@@ -998,4 +1001,107 @@ IoObject *IoList_sortInPlaceBy(IoList *self, IoObject *locals, IoMessage *m)
 									List_size(DATA(self)), SDQuickSort);
 
 	return self;
+}
+
+
+IoObject *IoList_toEncodedList(IoList *self, IoObject *locals, IoMessage *m)
+{
+	/*doc List asEncodedList
+	The list should contain only Sequence or Number objects
+	Returns a Sequence with the raw array encoding of the list.
+	Also see: List fromEncodedList.
+	*/
+
+	UArray *u = UArray_new();
+	List *list = IoList_rawList(self);
+	size_t i, max = List_size(list);
+	
+	UArray_setItemType_(u, CTYPE_uint8_t); 
+	UArray_setEncoding_(u, CENCODING_NUMBER);
+
+	//UArray_appendBytes_size_(u, "    ", 4); // placeholder until we know the size
+	
+	for(i = 0; i < max; i ++)
+	{
+		IoObject *item = List_at_(list, i);
+		
+		if(ISNUMBER(item))
+		{
+			float32_t f = CNUMBER(item);
+			UArray_appendLong_(u, 0);
+			UArray_appendLong_(u, CENCODING_NUMBER);
+			UArray_appendLong_(u, CTYPE_float32_t);
+			UArray_appendBytes_size_(u, (const uint8_t *)(&f), sizeof(float32_t));
+		}
+		else 
+		if(ISSEQ(item))
+		{
+			UArray *s = IoSeq_rawUArray(item);
+			uint32_t size = UArray_size(s);
+			UArray_appendLong_(u, 1);
+			UArray_appendLong_(u, UArray_encoding(s));
+			UArray_appendLong_(u, UArray_itemType(s));
+			UArray_appendBytes_size_(u, (const uint8_t *)(&size), sizeof(uint32_t));		
+			UArray_appendBytes_size_(u, (const uint8_t *)UArray_bytes(s), UArray_sizeInBytes(s));		
+		}
+		else
+		{
+			UArray_free(u);
+			return IONIL(self);
+		}
+	}
+	
+	return IoSeq_newWithUArray_copy_(IOSTATE, u, 0);
+}
+
+IoObject *IoList_fromEncodedList(IoList *self, IoObject *locals, IoMessage *m)
+{
+	/*doc List fromEncodedList(aSeq)
+	Returns a List with the decoded Sequences and Numbers from the input raw array. 
+	Also see: List toEncodedList.
+	*/
+
+	IoSeq *s = IoMessage_locals_seqArgAt_(m, locals, 0);
+	UArray *u = IoSeq_rawUArray(s);
+	List *list = List_new();
+	const uint8_t *d = UArray_bytes(u);
+	size_t uSize = UArray_sizeInBytes(u);
+	size_t index = 0;
+	
+	while (index <= uSize - 7)
+	{
+		uint8_t isArray  = d[index];
+		uint8_t encoding = d[index + 1];
+		uint8_t itemType = d[index + 2];
+		index += 3;
+		
+		if(!isArray)
+		{
+			float32_t f = *((float32_t *)(d + index));
+			
+			index += sizeof(float32_t);
+			List_append_(list, IONUMBER(f));
+		}
+		else
+		{
+			uint32_t size = *((uint32_t *)(d + index));
+			UArray *o;
+			
+			index += sizeof(uint32_t);
+			
+			if (index + size > uSize)
+			{
+				List_free(list);
+				return IONIL(self);
+			}
+
+			o = UArray_newWithData_type_size_copy_((void *)(d + index), itemType, size, 1);
+			UArray_setEncoding_(o, encoding);
+			List_append_(list, IoSeq_newWithUArray_copy_(IOSTATE, o, 0));
+			
+			index += size;
+		}
+	}
+	
+	return IoList_newWithList_(IOSTATE, list);
 }

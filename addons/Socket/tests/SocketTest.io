@@ -13,7 +13,7 @@ SocketTest := UnitTest clone do(
 		assertTrue(s readBuffer size > 0)
 	)	
 	
-	
+	//debugWriteln := getSlot("writeln")
 	port := 5000
 	
 	runServer := method(
@@ -34,6 +34,9 @@ SocketTest := UnitTest clone do(
 		debugWriteln("server write: '", s readBuffer, "'")
 		debugWriteln("server isOpen: ", s isOpen)
 		s streamWrite(s readBuffer)
+		in := s readMessage
+		debugWriteln("s readMessage = ", in)
+		assertEquals(in, "this is a test message")
 		debugWriteln("server close")
 		s close
 	)
@@ -52,6 +55,9 @@ SocketTest := UnitTest clone do(
 		debugWriteln("client read: '", client readBuffer, "'")
 		debugWriteln("client got: '", client readBuffer, "'")
 		assertEquals(client readBuffer, "test")
+		debugWriteln("client writeMessage")
+		client writeMessage("this is a test message")
+		debugWriteln("client close")
 		client close
 	)
 		
@@ -61,6 +67,7 @@ SocketTest := UnitTest clone do(
 		self coroDo(runServer)
 		yield
 		runClient
+		while(Scheduler yieldingCoros size > 1, yield)
 	)
 	
 )

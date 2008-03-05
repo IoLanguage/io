@@ -380,8 +380,11 @@ IoObject *IoSocket_asyncStreamRead(IoSocket *self, IoObject *locals, IoMessage *
 		else
 		{
 			if (SocketErrorStatus() == 0)
-			// 0 bytes means the other end disconnected
+			{
+				// 0 bytes means the other end disconnected
 				IoSocket_close(self, locals, m);
+			}
+			
 			return IONIL(self);
 		}
 	}

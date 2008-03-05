@@ -495,7 +495,7 @@ IoObject *IoSeq_clipAfterStartOfSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_empty(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc Sequence clear
+	/*doc Sequence empty
 	Sets all bytes in the receiver to 0x0 and sets
 	it's length to 0. Returns self.
 	*/

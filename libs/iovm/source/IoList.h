@@ -87,6 +87,10 @@ IOVM_API IoObject *IoList_sortInPlace(IoList *self, IoObject *locals, IoMessage 
 IOVM_API IoObject *IoList_sortInPlaceBy(IoList *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoList_selectInPlace(IoList *self, IoObject *locals, IoMessage *m);\
 
+IOVM_API IoObject *IoList_toEncodedList(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoList_fromEncodedList(IoList *self, IoObject *locals, IoMessage *m);
+
+
 #ifdef __cplusplus
 }
 #endif
