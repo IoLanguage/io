@@ -300,4 +300,15 @@ Socket do(
 		streamRead(requestSize)
 		readBuffer
 	)
+	
+	//doc Socket writeListMessage(aList) A shortcut for writeMessage(aList asEncodedList).
+	writeListMessage := method(aList,
+		writeMessage(aList asEncodedList)
+	)
+	
+	//doc Socket readListMessage A shortcut for List fromEncodedList(socket readMessage).
+	readListMessage := method(aList,
+		s := readMessage returnIfError
+		List fromEncodedList(s)
+	)
 )
