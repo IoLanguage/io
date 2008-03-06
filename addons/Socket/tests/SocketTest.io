@@ -34,6 +34,8 @@ SocketTest := UnitTest clone do(
 		debugWriteln("server write: '", s readBuffer, "'")
 		debugWriteln("server isOpen: ", s isOpen)
 		s streamWrite(s readBuffer)
+		assertEquals(s streamRead(3) size, 3)
+		assertEquals(s streamRead(2) size, 2)
 		in := s readMessage
 		debugWriteln("s readMessage = ", in)
 		assertEquals(in, "this is a test message")
@@ -55,6 +57,7 @@ SocketTest := UnitTest clone do(
 		debugWriteln("client read: '", client readBuffer, "'")
 		debugWriteln("client got: '", client readBuffer, "'")
 		assertEquals(client readBuffer, "test")
+		client streamWrite("12345")
 		debugWriteln("client writeMessage")
 		client writeMessage("this is a test message")
 		debugWriteln("client close")

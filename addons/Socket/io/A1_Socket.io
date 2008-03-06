@@ -48,11 +48,15 @@ Socket do(
 
 	//doc Socket setHost(hostNameOrIpString) Set the host for the socket. Returns self on success, an Error object otherwise.
 	setHost := method(ip,
-		ip at(0) isDigit ifFalse(
-			//writeln("lookup = ", ip)
-			ip = DNSResolver ipForHostName(ip) returnIfError
-			ip ifNil(return(Error with("Could not resolve " .. ip)))
-			//writeln("host ip = ", ip)
+		if(ip == "localhost") then(
+			ip = "127.0.0.1"
+		) else (
+			ip at(0) isDigit ifFalse(
+				//writeln("lookup = ", ip)
+				ip = DNSResolver ipForHostName(ip) returnIfError
+				ip ifNil(return(Error with("Could not resolve " .. ip)))
+				//writeln("host ip = ", ip)
+			)
 		)
 		ipAddress setIp(ip)
 		self
@@ -110,10 +114,20 @@ Socket do(
 	streamRead := method(numBytes,
 		total := readBuffer size + numBytes
 
+		isOpen ifFalse(
+			return(Error with("Socket closed before " .. numBytes .. " bytes could be read"))
+		)
+	
 		while(readBuffer size < total,
 			readEvent waitOn(readTimeout) returnIfError
-			asyncStreamRead(readBuffer, total - readBuffer size) returnIfError
-			isClosed ifTrue(
+			error := asyncStreamRead(readBuffer, total - readBuffer size) 
+			/*
+			writeln("error = ", error type)
+			writeln("isOpen  = ", isOpen)
+			writeln("isValid = ", isValid)
+			*/
+			isOpen ifFalse(
+				Exception raise("Socket is closed")
 				return(Error with("Socket closed before " .. numBytes .. " bytes could be read"))
 			)
 		)
@@ -276,8 +290,8 @@ Socket do(
 	readMessage := method(
 		readBuffer empty
 		//writeln("before streamRead readBuffer size = ", readBuffer size)
-		streamRead(4) 
-		//writeln("after  streamRead readBuffer size = ", readBuffer size)
+		streamRead(4) raiseIfError("error in stream read")
+		//writeln("after streamRead readBuffer size = ", readBuffer size)
 		//writeln("[", readBuffer, "]")
 		requestSize := readBuffer clone setItemType("uint32") at(0)
 		readBuffer empty

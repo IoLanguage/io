@@ -370,24 +370,21 @@ IoObject *IoSocket_asyncStreamRead(IoSocket *self, IoObject *locals, IoMessage *
 	{
 		return self;
 	}
-	else
+
+	if (Socket_asyncFailed())
 	{
-		if (Socket_asyncFailed())
-		{
-			IoSocket_close(self, locals, m);
-			return SOCKETERROR("Socket stream read failed");
-		}
-		else
-		{
-			if (SocketErrorStatus() == 0)
-			{
-				// 0 bytes means the other end disconnected
-				IoSocket_close(self, locals, m);
-			}
-			
-			return IONIL(self);
-		}
+		IoSocket_close(self, locals, m);
+		return SOCKETERROR("Socket stream read failed");
 	}
+
+	if (readSize == 0) //SocketErrorStatus() == 0)
+	{
+		// 0 bytes means the other end disconnected
+		//printf("SocketErrorStatus() == 0, closing\n");
+		IoSocket_close(self, locals, m);
+	}
+	
+	return IONIL(self);
 }
 
 IoObject *IoSocket_asyncStreamWrite(IoSocket *self, IoObject *locals, IoMessage *m)

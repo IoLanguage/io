@@ -125,4 +125,4 @@ EventManager do(
 )
 
 Scheduler currentCoroutine setLabel("main")
-EventManager setListenTimeout(0)
+EventManager setListenTimeout(.1)

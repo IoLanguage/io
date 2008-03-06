@@ -1,6 +1,7 @@
 Object do(
 	ifError := method(self)
 	returnIfError := getSlot("ifError")
+	raiseIfError := getSlot("ifError")
 	isError := false
 )
 
@@ -20,8 +21,13 @@ Error := Object clone do(
 		call sender return(self)
 	) setPassStops(true)
 	
+	raiseIfError := method( //message,
+		Exception raise(message)
+	)
+	
 	with := method(message,
-		Coroutine currentCoroutine setErrorDescription(message);
+		self message := message
+		//Coroutine currentCoroutine setErrorDescription(message);
 	)
 	
 	isError := true

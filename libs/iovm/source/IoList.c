@@ -104,7 +104,7 @@ IoList *IoList_proto(void *state)
 	{"reverse",         IoList_reverse},
 	{"reverseForeach",  IoList_reverseForeach},
 	
-	{"toEncodedList",   IoList_toEncodedList},
+	{"asEncodedList",   IoList_asEncodedList},
 	{"fromEncodedList", IoList_fromEncodedList},
 	{NULL, NULL},
 	};
@@ -1004,7 +1004,7 @@ IoObject *IoList_sortInPlaceBy(IoList *self, IoObject *locals, IoMessage *m)
 }
 
 
-IoObject *IoList_toEncodedList(IoList *self, IoObject *locals, IoMessage *m)
+IoObject *IoList_asEncodedList(IoList *self, IoObject *locals, IoMessage *m)
 {
 	/*doc List asEncodedList
 	The list should contain only Sequence or Number objects
