@@ -181,7 +181,17 @@ Io distributions are available at:
 <a name="Introduction-Installing"></a>
 <h3>Installing</h3>
 
-<h4>Addons</h4>
+<h4>VM</h4>
+
+First compile the Io vm:
+
+<pre>
+make vm
+sudo make install 
+</pre>
+
+
+<h4>Installing Addon Dependencies</h4>
 
 Some of Io's addons require libraries that may not be installed on your system already. To install these automatically, type either:
 
@@ -204,7 +214,7 @@ sudo make port
 Depending on which package installer you use. 
 (<a href="http://macports.org">port</a> is for OSX) 
 
-<h4>VM</h4>
+<h4>Compiling Addons</h4>
 
 To build, from the top folder, run:
 
@@ -224,7 +234,7 @@ or, if you'd like the install to simply link to your development folder:
 sudo make linkInstall
 </pre>
 
-and to run the unit tests:
+and to run all unit tests:
 
 <pre>
 make test
