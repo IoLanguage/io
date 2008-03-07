@@ -34,8 +34,7 @@ NumberTest := UnitTest clone do(
 		knownBug(assertEquals(10, -10 abs))
 		assertEquals(10, (-10) abs)
 		assertTrue(10 between(9.9999, 10.0001))
-		assertEquals(-0.5440211108893698, 10 sin)
-		assertEquals(-0.8390715290764524, 10 cos )
+		assertEquals(1, 10 log10)
 	)
 
 	testDirectAssignment := method(
@@ -65,7 +64,7 @@ NumberTest := UnitTest clone do(
 	)
 
 	testPerform := method(
-		assertEquals(-0.5440211108893698, 10 perform("sin"))
+		assertEquals(1, 10 perform("log10"))
 	)
 
 	/*

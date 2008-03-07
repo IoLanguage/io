@@ -51,17 +51,18 @@ struct IoState
 	// quick access objects
 
 	IoSymbol *activateSymbol;
+	IoSymbol *callSymbol;
 	IoSymbol *forwardSymbol;
+	IoSymbol *noShufflingSymbol;
+	IoSymbol *opShuffleSymbol;
+	//IoSymbol *referenceIdSymbol;
+	IoSymbol *semicolonSymbol;
 	IoSymbol *selfSymbol;
 	IoSymbol *setSlotSymbol;
 	IoSymbol *setSlotWithTypeSymbol;
-	IoSymbol *callSymbol;
-	IoSymbol *updateSlotSymbol;
-	IoSymbol *typeSymbol;
-	IoSymbol *opShuffleSymbol;
-	IoSymbol *noShufflingSymbol;
-	IoSymbol *semicolonSymbol;
 	IoSymbol *stackSizeSymbol;
+	IoSymbol *typeSymbol;
+	IoSymbol *updateSlotSymbol;
 
 	IoObject *setSlotBlock;
 	IoObject *localsUpdateSlotCFunc;
@@ -71,13 +72,15 @@ struct IoState
 	IoMessage *collectedLinkMessage;
 	IoMessage *compareMessage;
 	//IoMessage *doStringMessage;
-	IoMessage *willFreeMessage;
 	IoMessage *initMessage;
 	IoMessage *mainMessage;
 	IoMessage *nilMessage;
-	IoMessage *runMessage;
-	IoMessage *printMessage;
 	IoMessage *opShuffleMessage;
+	IoMessage *printMessage;
+	IoMessage *referenceIdForObjectMessage;
+	IoMessage *objectForReferenceIdMessage;
+	IoMessage *runMessage;
+	IoMessage *willFreeMessage;
 	IoMessage *yieldMessage;
 
 	List *cachedNumbers;

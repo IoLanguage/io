@@ -476,4 +476,7 @@ Object do(
 		writeln("Warning: '", call sender call message name, "' is deprecated. ", if(name, "use '" .. newName .. "' instead.", ""))
 		self
 	)
+	
+	referenceIdForObject := method(obj, getSlot("obj") unqiueId)
+	objectForReferenceId := method(id, Collector objectWithUniqueId(id))
 )

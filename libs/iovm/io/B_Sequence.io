@@ -156,4 +156,6 @@ Sequence do(
 	print := method(
 		self asUTF8 cPrint
 	)
+	
+	asDecodedList := method(List fromEncodedList(self))
 )

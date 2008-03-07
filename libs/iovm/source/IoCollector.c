@@ -144,8 +144,27 @@ IoObject *IoCollector_allObjects(IoCollector *self, IoObject *locals, IoMessage 
 
 	IoList *allObjects = IoList_new(IOSTATE);
 	Collector *collector = IOSTATE->collector;
+
 	COLLECTOR_FOREACH(collector, v, IoList_rawAppend_(allObjects, (void *)v));
 	return allObjects;
+}
+
+IoObject *IoCollector_objectWithUniqueId(IoCollector *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Collector objectWithUniqueId(aNumber)
+	Returns an object whose uniqueId is aNumber or nil if no match is found. 
+	Warning: This lookup currently scans all objects, so it is not efficient, 
+	though it should handle thousands of lookups per second.
+	*/
+	
+	double n = IoMessage_locals_doubleArgAt_(m, locals, 0);
+	Collector *collector = IOSTATE->collector;
+	
+	COLLECTOR_FOREACH(collector, v,
+		if(n == ((double)((size_t)IoObject_deref((IoObject *)v)))) { return (IoObject *)v; }
+	);
+	
+	return IONIL(self);
 }
 
 IoObject *IoCollector_proto(void *state)
@@ -165,6 +184,8 @@ IoObject *IoCollector_proto(void *state)
 	{"maxAllocatedBytes", IoCollector_maxAllocatedBytes},
 	{"resetMaxAllocatedBytes", IoCollector_resetMaxAllocatedBytes},
 	{"timeUsed", IoCollector_timeUsed},
+	
+	{"objectWithUniqueId", IoCollector_objectWithUniqueId},
 	{NULL, NULL},
 	};
 

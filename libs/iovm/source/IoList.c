@@ -1003,19 +1003,32 @@ IoObject *IoList_sortInPlaceBy(IoList *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
+typedef enum
+{
+	IOLIST_ENCODING_TYPE_NIL,
+	IOLIST_ENCODING_TYPE_NUMBER,
+	IOLIST_ENCODING_TYPE_SYMBOL,
+	IOLIST_ENCODING_TYPE_REFERENCE,
+
+} IOLIST_ENCODING_TYPE;
+
 
 IoObject *IoList_asEncodedList(IoList *self, IoObject *locals, IoMessage *m)
 {
 	/*doc List asEncodedList
-	The list should contain only Sequence or Number objects
-	Returns a Sequence with the raw array encoding of the list.
+	Returns a Sequence with an encoding of the list. 
+	Nil, Number and Symbol objects are copied into the encoding, for other object
+	types, referenceIdForObject(item) will be called to request a reference id for 
+	the object.
+	
 	Also see: List fromEncodedList.
 	*/
 
 	UArray *u = UArray_new();
 	List *list = IoList_rawList(self);
 	size_t i, max = List_size(list);
-	
+	IoMessage *rm = IOSTATE->referenceIdForObjectMessage;
+		
 	UArray_setItemType_(u, CTYPE_uint8_t); 
 	UArray_setEncoding_(u, CENCODING_NUMBER);
 
@@ -1024,21 +1037,28 @@ IoObject *IoList_asEncodedList(IoList *self, IoObject *locals, IoMessage *m)
 	for(i = 0; i < max; i ++)
 	{
 		IoObject *item = List_at_(list, i);
-		
-		if(ISNUMBER(item))
+
+		if(ISNIL(item))
+		{
+			UArray_appendLong_(u, IOLIST_ENCODING_TYPE_NIL);
+			UArray_appendLong_(u, 0);
+			UArray_appendLong_(u, 0);
+		}
+		else if(ISNUMBER(item))
 		{
 			float32_t f = CNUMBER(item);
-			UArray_appendLong_(u, 0);
+			
+			UArray_appendLong_(u, IOLIST_ENCODING_TYPE_NUMBER);
 			UArray_appendLong_(u, CENCODING_NUMBER);
 			UArray_appendLong_(u, CTYPE_float32_t);
 			UArray_appendBytes_size_(u, (const uint8_t *)(&f), sizeof(float32_t));
 		}
-		else 
-		if(ISSEQ(item))
+		else if(ISSEQ(item))
 		{
 			UArray *s = IoSeq_rawUArray(item);
 			uint32_t size = UArray_size(s);
-			UArray_appendLong_(u, 1);
+
+			UArray_appendLong_(u, IOLIST_ENCODING_TYPE_SYMBOL);
 			UArray_appendLong_(u, UArray_encoding(s));
 			UArray_appendLong_(u, UArray_itemType(s));
 			UArray_appendBytes_size_(u, (const uint8_t *)(&size), sizeof(uint32_t));		
@@ -1046,10 +1066,25 @@ IoObject *IoList_asEncodedList(IoList *self, IoObject *locals, IoMessage *m)
 		}
 		else
 		{
-			UArray_free(u);
-			return IONIL(self);
+			IoObject *result;
+			
+			IoMessage_setCachedArg_to_(rm, 0, item);
+			result = IoObject_perform(locals, locals, rm);
+			IoMessage_setCachedArg_to_(rm, 0, IONIL(self));
+			
+			IOASSERT(ISNUMBER(result), "referenceIdForObject() must return a Number");
+			 
+			{
+				uint32_t id = CNUMBER(result);
+				
+				UArray_appendLong_(u, IOLIST_ENCODING_TYPE_REFERENCE);
+				UArray_appendLong_(u, 0);
+				UArray_appendLong_(u, 0);
+				UArray_appendBytes_size_(u, (const uint8_t *)(&id), sizeof(uint32_t));
+			}
 		}
 	}
+
 	
 	return IoSeq_newWithUArray_copy_(IOSTATE, u, 0);
 }
@@ -1057,10 +1092,14 @@ IoObject *IoList_asEncodedList(IoList *self, IoObject *locals, IoMessage *m)
 IoObject *IoList_fromEncodedList(IoList *self, IoObject *locals, IoMessage *m)
 {
 	/*doc List fromEncodedList(aSeq)
-	Returns a List with the decoded Sequences and Numbers from the input raw array. 
-	Also see: List toEncodedList.
+	Returns a List with the decoded Nils, Symbols and Numbers from the input raw array. 
+	For each object reference encounters, objectForReferenceId(id) will be called to 
+	allow the reference to be resolved. 
+	
+	Also see: List asEncodedList.
 	*/
 
+	IoMessage *rm = IOSTATE->objectForReferenceIdMessage;
 	IoSeq *s = IoMessage_locals_seqArgAt_(m, locals, 0);
 	UArray *u = IoSeq_rawUArray(s);
 	List *list = List_new();
@@ -1068,21 +1107,27 @@ IoObject *IoList_fromEncodedList(IoList *self, IoObject *locals, IoMessage *m)
 	size_t uSize = UArray_sizeInBytes(u);
 	size_t index = 0;
 	
+	// add bounds checks 
+	
 	while (index <= uSize - 7)
 	{
-		uint8_t isArray  = d[index];
+		uint8_t type     = d[index + 0];
 		uint8_t encoding = d[index + 1];
 		uint8_t itemType = d[index + 2];
 		index += 3;
-		
-		if(!isArray)
+
+		if(type == IOLIST_ENCODING_TYPE_NIL)
+		{
+			List_append_(list, IONIL(self));
+		}
+		else if(type == IOLIST_ENCODING_TYPE_NUMBER)
 		{
 			float32_t f = *((float32_t *)(d + index));
 			
 			index += sizeof(float32_t);
 			List_append_(list, IONUMBER(f));
 		}
-		else
+		else if(type == IOLIST_ENCODING_TYPE_SYMBOL)
 		{
 			uint32_t size = *((uint32_t *)(d + index));
 			UArray *o;
@@ -1100,6 +1145,24 @@ IoObject *IoList_fromEncodedList(IoList *self, IoObject *locals, IoMessage *m)
 			List_append_(list, IoSeq_newWithUArray_copy_(IOSTATE, o, 0));
 			
 			index += size;
+		}
+		else if(type == IOLIST_ENCODING_TYPE_REFERENCE)
+		{
+			// should we have a Number reference encoding?
+			uint32_t id = *((uint32_t *)(d + index));
+			IoMessage_setCachedArg_to_(rm, 0, IONUMBER(id));
+			IoMessage_setCachedArg_to_(rm, 0, IONIL(self));
+			
+			index += sizeof(uint32_t);
+			
+			{
+				IoObject *result = IoObject_perform(locals, locals, rm);
+				List_append_(list, result);
+			}
+		}
+		else
+		{
+			IOASSERT(0, "unrecognized encoded type");
 		}
 	}
 	

@@ -225,17 +225,18 @@ IoState *IoState_new(void)
 void IoState_setupQuickAccessSymbols(IoState *self)
 {
 	self->activateSymbol     = IoState_retain_(self, SIOSYMBOL("activate"));
+	self->callSymbol         = IoState_retain_(self, SIOSYMBOL("call"));
 	self->forwardSymbol      = IoState_retain_(self, SIOSYMBOL("forward"));
+	self->noShufflingSymbol  = IoState_retain_(self, SIOSYMBOL("__noShuffling__"));
+	self->opShuffleSymbol    = IoState_retain_(self, SIOSYMBOL("opShuffle"));
+	//self->referenceIdSymbol    = IoState_retain_(self, SIOSYMBOL("referenceId"));
+	self->semicolonSymbol    = IoState_retain_(self, SIOSYMBOL(";"));
 	self->selfSymbol         = IoState_retain_(self, SIOSYMBOL("self"));
 	self->setSlotSymbol      = IoState_retain_(self, SIOSYMBOL("setSlot"));
 	self->setSlotWithTypeSymbol  = IoState_retain_(self, SIOSYMBOL("setSlotWithType"));
-	self->updateSlotSymbol   = IoState_retain_(self, SIOSYMBOL("updateSlot"));
-	self->callSymbol         = IoState_retain_(self, SIOSYMBOL("call"));
-	self->typeSymbol         = IoState_retain_(self, SIOSYMBOL("type"));
-	self->opShuffleSymbol    = IoState_retain_(self, SIOSYMBOL("opShuffle"));
-	self->noShufflingSymbol  = IoState_retain_(self, SIOSYMBOL("__noShuffling__"));
-	self->semicolonSymbol    = IoState_retain_(self, SIOSYMBOL(";"));
 	self->stackSizeSymbol    = IoState_retain_(self, SIOSYMBOL("stackSize"));
+	self->typeSymbol         = IoState_retain_(self, SIOSYMBOL("type"));
+	self->updateSlotSymbol   = IoState_retain_(self, SIOSYMBOL("updateSlot"));
 }
 
 void IoState_setupSingletons(IoState *self)
@@ -308,27 +309,33 @@ void IoState_setupCachedMessages(IoState *self)
 
 	self->compareMessage = IoMessage_newWithName_(self, SIOSYMBOL("compare"));
 	IoState_retain_(self, self->compareMessage);
-	
+
 	//self->doStringMessage = IoMessage_newWithName_(self, SIOSYMBOL("doString"));
 	//IoState_retain_(self, self->doStringMessage);
 	
-	self->printMessage = IoMessage_newWithName_(self, SIOSYMBOL("print"));
-	IoState_retain_(self, self->printMessage);
-
 	self->initMessage = IoMessage_newWithName_(self, SIOSYMBOL("init"));
 	IoState_retain_(self, self->initMessage);
-
-	self->willFreeMessage = IoMessage_newWithName_(self, SIOSYMBOL("willFree"));
-	IoState_retain_(self, self->willFreeMessage);
-
-	self->runMessage = IoMessage_newWithName_(self, SIOSYMBOL("run"));
-	IoState_retain_(self, self->runMessage);
-
+	
 	self->mainMessage = IoMessage_newWithName_(self, SIOSYMBOL("main"));
 	IoState_retain_(self, self->mainMessage);
 
 	self->opShuffleMessage = IoMessage_newWithName_(self, self->opShuffleSymbol);
 	IoState_retain_(self, self->opShuffleMessage);
+
+	self->printMessage = IoMessage_newWithName_(self, SIOSYMBOL("print"));
+	IoState_retain_(self, self->printMessage);
+
+	self->referenceIdForObjectMessage = IoMessage_newWithName_(self, SIOSYMBOL("referenceIdForObject"));
+	IoState_retain_(self, self->referenceIdForObjectMessage);
+
+	self->objectForReferenceIdMessage = IoMessage_newWithName_(self, SIOSYMBOL("objectForReferenceId"));
+	IoState_retain_(self, self->objectForReferenceIdMessage);
+			
+	self->runMessage = IoMessage_newWithName_(self, SIOSYMBOL("run"));
+	IoState_retain_(self, self->runMessage);
+
+	self->willFreeMessage = IoMessage_newWithName_(self, SIOSYMBOL("willFree"));
+	IoState_retain_(self, self->willFreeMessage);
 
 	self->yieldMessage = IoMessage_newWithName_(self, SIOSYMBOL("yield"));
 	IoState_retain_(self, self->yieldMessage);

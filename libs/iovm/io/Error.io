@@ -1,7 +1,7 @@
 Object do(
 	ifError := method(self)
 	returnIfError := getSlot("ifError")
-	raiseIfError := getSlot("ifError")
+	raiseIfError  := getSlot("ifError")
 	isError := false
 )
 

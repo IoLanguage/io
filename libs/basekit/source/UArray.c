@@ -839,9 +839,15 @@ void UArray_insert_every_(UArray *self, UArray *other, size_t itemCount)
 		
 		for(i = 0; i < selfSizeInBytes; i += chunkSize)
 		{
-			//printf("%i <= %i\n", insertionPos, UArray_size(self));
-			UArray_appendBytes_size_(out, self->data + i, chunkSize);
-			UArray_appendBytes_size_(out, convertedOther->data, otherSize);
+			if (i + chunkSize > selfSizeInBytes) 
+			{ 
+				UArray_appendBytes_size_(out, self->data + i, selfSizeInBytes - i);
+			}
+			else
+			{
+				UArray_appendBytes_size_(out, self->data + i, chunkSize);
+				UArray_appendBytes_size_(out, convertedOther->data, otherSize);
+			}
 		}
 	}
 	
