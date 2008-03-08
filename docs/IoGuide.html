@@ -721,10 +721,10 @@ Io's guiding design principle is simplicity and power through conceptual unifica
 <a name="Objects-Prototypes"></a>
 <h3>Prototypes</h3>
 
-In Io, everything is an object (including the locals storage of a block and the namespace itself) and all actions are messages (including assignment). Objects are composed of a list of key/value pairs called slots, and an internal list of objects from which it inherits called protos. A slot's key is a symbol (a unique immutable sequence) and it's value can be any type of object.
+In Io, everything is an object (including the locals storage of a block and the namespace itself) and all actions are messages (including assignment). Objects are composed of a list of key/value pairs called slots, and an internal list of objects from which it inherits called protos. A slot's key is a symbol (a unique immutable sequence) and its value can be any type of object.
  
 clone and init
-New objects are made by cloning existing ones. A clone is an empty object that has the parent in it's list of protos. A new instance's init slot will be activated which gives the object a chance to initialize itself. Like NewtonScript[3], slots in Io are create-on-write.
+New objects are made by cloning existing ones. A clone is an empty object that has the parent in its list of protos. A new instance's init slot will be activated which gives the object a chance to initialize itself. Like NewtonScript[3], slots in Io are create-on-write.
 
 <pre>
 me := Person clone
@@ -767,7 +767,7 @@ You can add any number of protos to an object's protos list. When responding to 
 <a name="Objects-Methods"></a>
 <h3>Methods</h3>
 
-A method is an anonymous function which, when called, creates an object to store it's locals and sets the local's proto pointer and it's self slot to the target of the message. The Object method method() can be used to create methods. Example:
+A method is an anonymous function which, when called, creates an object to store its locals and sets the local's proto pointer and its self slot to the target of the message. The Object method method() can be used to create methods. Example:
 
 <pre>
 method((2 + 2) print)
@@ -817,7 +817,7 @@ This is sometimes a source of confusion so it's worth explaining in detail. Both
 
 <h4>call and self slots</h4>
 
-When a locals object is created, it's self slot is set (to the target of the message, in the case of a method, or to the creation context, in the case of a block) and it's call slot is set to a Call object that can be used to access information about the block activation:
+When a locals object is created, its self slot is set (to the target of the message, in the case of a method, or to the creation context, in the case of a block) and its call slot is set to a Call object that can be used to access information about the block activation:
 
 <p>
 <table cellpadding=2 cellspacing=0 border=0 style="margin-left:1em">
@@ -1186,7 +1186,7 @@ Io> test
 <h2>Importing<a name="Importing"></a></h2>
 <div class=indent>
 
-The Importer proto implements Io's built-in auto importer feature. If you put each of your proto's in their own file, and give the file the same name with and ".io" extension, the Importer will automatically import that file when the proto is first referenced. The Importer's default search path is the current working directory, but can add search paths using it's addSearchPath() method. 
+The Importer proto implements Io's built-in auto importer feature. If you put each of your proto's in their own file, and give the file the same name with and ".io" extension, the Importer will automatically import that file when the proto is first referenced. The Importer's default search path is the current working directory, but can add search paths using its addSearchPath() method. 
 
 </div>
 <h2>Concurrency<a name="Concurrency"></a></h2>
@@ -1205,7 +1205,7 @@ The Scheduler object is responsible for resuming coroutines that are yielding. T
 <a name="Concurrency-Actors"></a>
 <h3>Actors</h3>
 
-An actor is an object with it's own thread (in our case, it's own coroutine) which it uses to process it's queue of asynchronous messages. Any object in Io can be sent an asynchronous message by placing a @ or @@ before the message name. (think of the "a" in @ as standing for "asynchronous") 
+An actor is an object with its own thread (in our case, its own coroutine) which it uses to process its queue of asynchronous messages. Any object in Io can be sent an asynchronous message by placing a @ or @@ before the message name. (think of the "a" in @ as standing for "asynchronous") 
 <p>
 Example:
 
@@ -1368,7 +1368,7 @@ MyErrorType := Error clone
 <h2>Primitives<a name="Primitives"></a></h2>
 <div class=indent>
 
-Primitives are objects built into Io whose methods are typically implemented in C and store some hidden data in their instances. For example, the Number primitive has a double precision floating point number as it's hidden data and it's methods that do arithmetic operations are C functions. All Io primitives inherit from the Object prototype and are mutable. That is, their methods can be changed. The reference docs contain more info on primitives.
+Primitives are objects built into Io whose methods are typically implemented in C and store some hidden data in their instances. For example, the Number primitive has a double precision floating point number as its hidden data and its methods that do arithmetic operations are C functions. All Io primitives inherit from the Object prototype and are mutable. That is, their methods can be changed. The reference docs contain more info on primitives.
 <p>
 
 This document is not meant as a reference manual, but an overview of the base primitives and bindings is provided here to give the user a jump start and a feel for what is available and where to look in the reference documentation for further details.
@@ -1518,7 +1518,7 @@ The map and select methods return new lists. To do the same operations in-place,
 <a name="Primitives-Sequence"></a>
 <h3>Sequence</h3>
 
-In Io, an immutable Sequence is called a Symbol and a mutable Sequence is the equivalent of a Buffer or String. Literal strings(ones that appear in source code surrounded by quotes) are Symbols. Mutable operations cannot be performed on Symbols, but one can make mutable copy of a Symbol calling it's asMutable method and then perform the mutation operations on the copy.
+In Io, an immutable Sequence is called a Symbol and a mutable Sequence is the equivalent of a Buffer or String. Literal strings(ones that appear in source code surrounded by quotes) are Symbols. Mutable operations cannot be performed on Symbols, but one can make mutable copy of a Symbol calling its asMutable method and then perform the mutation operations on the copy.
 Common string operations
 Getting the length of a string:
 
@@ -1761,7 +1761,7 @@ Date cpuSecondsToRun(100000 repeat(1+1))
 <a name="Primitives-Networking"></a>
 <h3>Networking</h3>
 
-All of Io's networking is done with asynchronous sockets underneath, but operations like reading and writing to a socket appear to be synchronous since the calling coroutine is unscheduled until the socket has completed the operation, or a timeout occurs. Note that you'll need to first reference the associated addon in order to cause it to load before using it's objects. In these examples, you'll have to reference "Socket" to get the Socket addon to load first.
+All of Io's networking is done with asynchronous sockets underneath, but operations like reading and writing to a socket appear to be synchronous since the calling coroutine is unscheduled until the socket has completed the operation, or a timeout occurs. Note that you'll need to first reference the associated addon in order to cause it to load before using its objects. In these examples, you'll have to reference "Socket" to get the Socket addon to load first.
 <p>
 Creating a URL object:
 
@@ -1829,7 +1829,7 @@ links := xml elementsWithName("a") map(attributes at("href"))
 <a name="Primitives-Vector"></a>
 <h3>Vector</h3>
 
-Io's Vectors are built on it's Sequence primitive and are defined as:
+Io's Vectors are built on its Sequence primitive and are defined as:
 
 <pre>
 Vector := Sequence clone setItemType("float32")
@@ -2017,7 +2017,7 @@ void Dictionary_key_value_(Dictionary *self, char *key, char *value);
 
 <h4>File Names</h4>
 
-Each structure has it's own separate .h and .c files. The names of the files are the same as the name of the structure. These files contain all the functions(methods) that operate on the given structure.
+Each structure has its own separate .h and .c files. The names of the files are the same as the name of the structure. These files contain all the functions(methods) that operate on the given structure.
 
 <a name="Embedding-IoState"></a>
 <h3>IoState</h3>
