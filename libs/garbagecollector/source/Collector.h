@@ -106,19 +106,19 @@ COLLECTOR_API size_t Collector_freeAllValues(Collector *self);
 // changing colors
 
 #define Collector_shouldMark_(self, v) Collector_makeGrayIfWhite_(self, v)
-void Collector_makeGrayIfWhite_(Collector *self, void *v);
+//void Collector_makeGrayIfWhite_(Collector *self, void *v);
 
-void Collector_makeWhite_(Collector *self, CollectorMarker *v);
-void Collector_makeGray_(Collector *self, CollectorMarker *v);
-void Collector_makeBlack_(Collector *self, CollectorMarker *v);
+//void Collector_makeWhite_(Collector *self, CollectorMarker *v);
+//void Collector_makeGray_(Collector *self, CollectorMarker *v);
+//void Collector_makeBlack_(Collector *self, CollectorMarker *v);
 
-int Collector_markerIsWhite_(Collector *self, CollectorMarker *m);
-int Collector_markerIsGray_(Collector *self, CollectorMarker *m);
-int Collector_markerIsBlack_(Collector *self, CollectorMarker *m);
+//int Collector_markerIsWhite_(Collector *self, CollectorMarker *m);
+//int Collector_markerIsGray_(Collector *self, CollectorMarker *m);
+//int Collector_markerIsBlack_(Collector *self, CollectorMarker *m);
 
 COLLECTOR_API char *Collector_colorNameFor_(Collector *self, void *v);
 
-void *Collector_value_addingRefTo_(Collector *self, void *v, void *ref);
+//void *Collector_value_addingRefTo_(Collector *self, void *v, void *ref);
 
 // pause/resume stack
 

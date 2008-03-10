@@ -105,7 +105,8 @@ void *MemoryBlockToPtr(MemoryBlock *self)
 
 static MemoryBlock *_baseblock = NULL;
 
-inline MemoryBlock *baseblock(void)
+//inline 
+MemoryBlock *baseblock(void)
 {
 	if(!_baseblock) _baseblock = calloc(1, sizeof(MemoryBlock));
 	return _baseblock;

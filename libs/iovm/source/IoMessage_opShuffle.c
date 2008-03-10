@@ -201,7 +201,7 @@ void Levels_free(Levels *self)
 	io_free(self);
 }
 
-inline Level *Levels_currentLevel(Levels *self)
+Level *Levels_currentLevel(Levels *self)
 {
 	return List_top(self->stack);
 }

@@ -124,7 +124,8 @@ size_t UArray_itemSize(const UArray *self)
 	return self->itemSize;
 }
 
-inline size_t UArray_sizeRequiredToContain_(const UArray *self, const UArray *other)
+//inline 
+size_t UArray_sizeRequiredToContain_(const UArray *self, const UArray *other)
 {
 	return (UArray_sizeInBytes(other)  + self->itemSize - 1) / self->itemSize;
 }

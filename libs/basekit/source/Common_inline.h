@@ -22,15 +22,35 @@ Kudos to Daniel A. Koepke
 	#endif
 #else
 */
+
+/*
+#if defined __GNUC__ && __GNUC__ >= 4
+
 #ifdef IO_IN_C_FILE
-	/* in .c */
+	// in .c 
+	#define IO_DECLARE_INLINES
+	#define IOINLINE 
+#else
+	// in .h 
+	#define IO_DECLARE_INLINES
+	#define IOINLINE inline
+#endif 
+
+#else
+*/
+
+#ifdef IO_IN_C_FILE
+	// in .c 
 	#define IO_DECLARE_INLINES
 	#define IOINLINE inline
 #else
-	/* in .h */
+	// in .h 
 	#define IO_DECLARE_INLINES
 	#define IOINLINE extern inline
-#endif
+#endif 
+
+//#endif
+
 /*
 #endif
 */

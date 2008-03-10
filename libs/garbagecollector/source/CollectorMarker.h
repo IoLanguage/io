@@ -65,11 +65,11 @@ COLLECTOR_API void CollectorMarker_free(CollectorMarker *self);
 void CollectorMarker_loop(CollectorMarker *self);
 void CollectorMarker_check(CollectorMarker *self);
 
-void CollectorMarker_removeAndInsertAfter_(CollectorMarker *self, CollectorMarker *other);
+//void CollectorMarker_removeAndInsertAfter_(CollectorMarker *self, CollectorMarker *other);
 void CollectorMarker_removeAndInsertBefore_(CollectorMarker *self, CollectorMarker *other);
-void CollectorMarker_removeIfNeededAndInsertAfter_(CollectorMarker *self, CollectorMarker *other);
+//void CollectorMarker_removeIfNeededAndInsertAfter_(CollectorMarker *self, CollectorMarker *other);
 
-void CollectorMarker_remove(CollectorMarker *self);
+//void CollectorMarker_remove(CollectorMarker *self);
 int CollectorMarker_count(CollectorMarker *self);
 int CollectorMarker_colorSetIsEmpty(CollectorMarker *self);
 

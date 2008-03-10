@@ -92,7 +92,7 @@ IOVM_API IoObject *IoMessage_locals_performOn_(IoMessage *self, IoObject *locals
 
 // args
 
-IOVM_API IoObject *IoMessage_locals_valueArgAt_(IoMessage *self, IoObject *locals, int n);
+//IOVM_API IoObject *IoMessage_locals_valueArgAt_(IoMessage *self, IoObject *locals, int n);
 IOVM_API IoObject *IoMessage_locals_valueOrEvalArgAt_(IoMessage *self, IoObject *locals, int n);
 IOVM_API void IoMessage_assertArgCount_receiver_(IoMessage *self, int n, IoObject *receiver);
 IOVM_API int IoMessage_argCount(IoMessage *self);

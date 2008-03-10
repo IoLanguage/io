@@ -477,6 +477,6 @@ Object do(
 		self
 	)
 	
-	referenceIdForObject := method(obj, getSlot("obj") unqiueId)
-	objectForReferenceId := method(id, Collector objectWithUniqueId(id))
+	//referenceIdForObject := method(obj, getSlot("obj") unqiueId)
+	//objectForReferenceId := method(id, Collector objectWithUniqueId(id))
 )

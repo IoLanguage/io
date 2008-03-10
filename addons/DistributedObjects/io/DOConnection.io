@@ -96,7 +96,7 @@ This isn't optimized yet.
 
 	sendMessage := method(m,
 		ifDebug(write("sending message "); ShowMessage(m))
-		socket appendToWriteBuffer(m) writeFromBuffer returnIfError
+		socket streamWrite(m) returnIfError
 		debugWriteln("waiting for result")
 		socket readBuffer empty
 		result := nil

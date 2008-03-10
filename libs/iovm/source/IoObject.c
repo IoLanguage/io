@@ -43,7 +43,7 @@ IoTag *IoObject_newTag(void *state)
 	return tag;
 }
 
-inline IoObject *IoObject_justAlloc(IoState *state)
+IoObject *IoObject_justAlloc(IoState *state)
 {
 	IoObject *child = Collector_newMarker(state->collector);
 	CollectorMarker_setObject_(child, io_calloc(1, sizeof(IoObjectData)));
@@ -51,7 +51,7 @@ inline IoObject *IoObject_justAlloc(IoState *state)
 	return child;
 }
 
-inline IoObject *IoObject_alloc(IoObject *self)
+IoObject *IoObject_alloc(IoObject *self)
 {
 	IoObject *child = List_pop(IOSTATE->recycledObjects);
 
@@ -303,7 +303,8 @@ void IoObject_createSlots(IoObject *self)
 	IoObject_ownsSlots_(self, 1);
 }
 
-inline void IoObject_freeData(IoObject *self)
+//inline
+void IoObject_freeData(IoObject *self)
 {
 	IoTagFreeFunc *func = IoTag_freeFunc(IoObject_tag(self));
 
@@ -319,7 +320,8 @@ inline void IoObject_freeData(IoObject *self)
 	IoObject_setDataPointer_(self, NULL);
 }
 
-inline void IoObject_setProtoTo_(IoObject *self, IoObject *proto)
+//inline 
+void IoObject_setProtoTo_(IoObject *self, IoObject *proto)
 {
 	IoObject_rawSetProto_(self, proto);
 
@@ -558,7 +560,8 @@ IoObject *IoObject_protosMethod(IoObject *self, IoObject *locals, IoMessage *m)
 
 // --------------------------------------------------------
 
-inline void IoObject_freeSlots(IoObject *self) // prepare for io_free and possibly recycle
+//inline 
+void IoObject_freeSlots(IoObject *self) // prepare for io_free and possibly recycle
 {
 	if (IoObject_ownsSlots(self))
 	{
@@ -1024,7 +1027,8 @@ IoObject *IoObject_protoWriteLn(IoObject *self, IoObject *locals, IoMessage *m)
 	return IONIL(self);
 }
 
-inline IoObject *IoObject_initClone_(IoObject *self, IoObject *locals, IoMessage *m, IoObject *newObject)
+//inline 
+IoObject *IoObject_initClone_(IoObject *self, IoObject *locals, IoMessage *m, IoObject *newObject)
 {
 	IoState *state = IOSTATE;
 	IoObject *context;

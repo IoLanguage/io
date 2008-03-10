@@ -56,7 +56,7 @@ BASEKIT_API void PHash_growWithRecord(PHash *self, PHashRecord* record);
 BASEKIT_API size_t PHash_memorySize(PHash *self);
 BASEKIT_API void PHash_compact(PHash *self);
 
-BASEKIT_API unsigned int PHash_count(PHash *self);
+//BASEKIT_API unsigned int PHash_count(PHash *self);
 BASEKIT_API unsigned int PHash_countRecords_size_(unsigned char *records, unsigned int size);
 
 BASEKIT_API void *PHash_firstKeyForValue_(PHash *self, void *v);

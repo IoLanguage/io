@@ -64,7 +64,7 @@ BASEKIT_API void SHash_growWithRecord(SHash *self, SHashRecord* record);
 BASEKIT_API size_t SHash_memorySize(SHash *self);
 BASEKIT_API void SHash_compact(SHash *self);
 
-BASEKIT_API unsigned int SHash_count(SHash *self);
+//BASEKIT_API unsigned int SHash_count(SHash *self);
 BASEKIT_API unsigned int SHash_countRecords_size_(unsigned char *records, unsigned int size);
 
 BASEKIT_API void *SHash_firstKeyForValue_(SHash *self, void *v);

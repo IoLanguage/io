@@ -53,7 +53,7 @@ IOVM_API int IoObject_rawProtosCount(IoObject *self);
 IOVM_API void IoObject_rawAppendProto_(IoObject *self, IoObject *p);
 IOVM_API void IoObject_rawPrependProto_(IoObject *self, IoObject *p);
 IOVM_API void IoObject_rawRemoveProto_(IoObject *self, IoObject *p);
-IOVM_API void IoObject_rawRemoveAllProtos(IoObject *self);
+//IOVM_API void IoObject_rawRemoveAllProtos(IoObject *self);
 IOVM_API void IoObject_rawSetProto_(IoObject *self, IoObject *proto);
 
 IOVM_API IoObject *IoObject_objectProto(IoObject *self, IoObject *locals, IoMessage *m);
@@ -81,8 +81,8 @@ IOVM_API void IoObject_removeSlot_(IoObject *self, IoSymbol *slotName);
 
 // perform and activate
 
-IOVM_API IoObject *IoObject_activate(IoObject *self, IoObject *target, IoObject *locals, IoMessage *m, IoObject *slotContext);
-IOVM_API IoObject *IoObject_perform(IoObject *self, IoObject *locals, IoMessage *m);
+//IOVM_API IoObject *IoObject_activate(IoObject *self, IoObject *target, IoObject *locals, IoMessage *m, IoObject *slotContext);
+//IOVM_API IoObject *IoObject_perform(IoObject *self, IoObject *locals, IoMessage *m);
 //IoObject *IoObject_forward(IoObject *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoObject_localsForward(IoObject *self, IoObject *locals, IoMessage *m);
 
