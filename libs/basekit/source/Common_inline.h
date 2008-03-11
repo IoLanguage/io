@@ -28,8 +28,7 @@ Kudos to Daniel A. Koepke
 #endif
 
 //#if defined __GNUC__ && __GNUC__ >= 4
-#if defined TARGET_ASPEN_SIMULATOR || TARGET_OS_ASPEN // need to replace this with an iphone specific define
-
+#if defined TARGET_ASPEN_SIMULATOR || TARGET_OS_ASPEN 
 
 #ifdef IO_IN_C_FILE
 	// in .c 
