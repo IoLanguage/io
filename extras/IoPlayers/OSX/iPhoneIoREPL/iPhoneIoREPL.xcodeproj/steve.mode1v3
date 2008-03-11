@@ -300,7 +300,7 @@
 							<real>323</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>266 96 1135 782 0 0 1440 878 </string>
+						<string>73 39 1135 782 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -318,7 +318,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>iPhoneIoREPL.m</string>
+								<string>iPhoneIoREPL.h</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -326,17 +326,17 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>iPhoneIoREPL.m</string>
+										<string>iPhoneIoREPL.h</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>AAA55F710D867FCA002B8EE9</string>
+										<string>AAA55F800D868384002B8EE9</string>
 										<key>history</key>
 										<array>
 											<string>AAA55F400D867C1A002B8EE9</string>
 											<string>AAA55F670D867FCA002B8EE9</string>
-											<string>AAA55F680D867FCA002B8EE9</string>
-											<string>AAA55F610D867FB4002B8EE9</string>
+											<string>AAA55F7B0D868384002B8EE9</string>
+											<string>AAA55F7C0D868384002B8EE9</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -356,6 +356,9 @@
 											<string>AAA55F6E0D867FCA002B8EE9</string>
 											<string>AAA55F6F0D867FCA002B8EE9</string>
 											<string>AAA55F700D867FCA002B8EE9</string>
+											<string>AAA55F7D0D868384002B8EE9</string>
+											<string>AAA55F7E0D868384002B8EE9</string>
+											<string>AAA55F7F0D868384002B8EE9</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -369,7 +372,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {790, 588}}</string>
 								<key>RubberWindowFrame</key>
-								<string>266 96 1135 782 0 0 1440 878 </string>
+								<string>73 39 1135 782 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -389,7 +392,7 @@
 								<key>Frame</key>
 								<string>{{0, 593}, {790, 148}}</string>
 								<key>RubberWindowFrame</key>
-								<string>266 96 1135 782 0 0 1440 878 </string>
+								<string>73 39 1135 782 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -550,14 +553,14 @@
 	<key>WindowOrderList</key>
 	<array>
 		<string>1C530D57069F1CE1000CFCEE</string>
-		<string>1C78EAAD065D492600B07095</string>
 		<string>AAA55F530D867C1A002B8EE9</string>
+		<string>1C78EAAD065D492600B07095</string>
 		<string>1CD10A99069EF8BA00B06720</string>
 		<string>AAA55C630D867A9D002B8EE9</string>
 		<string>/Users/steve/Io/extras/IoPlayers/OSX/iPhoneIoREPL/iPhoneIoREPL.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>266 96 1135 782 0 0 1440 878 </string>
+	<string>73 39 1135 782 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
@@ -647,7 +650,7 @@
 			<key>WindowToolGUID</key>
 			<string>AAA55C630D867A9D002B8EE9</string>
 			<key>WindowToolIsVisible</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>
@@ -771,7 +774,7 @@
 			<key>WindowToolGUID</key>
 			<string>1CD10A99069EF8BA00B06720</string>
 			<key>WindowToolIsVisible</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>
@@ -1279,7 +1282,7 @@
 			<key>WindowToolGUID</key>
 			<string>AAA55F530D867C1A002B8EE9</string>
 			<key>WindowToolIsVisible</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>Identifier</key>

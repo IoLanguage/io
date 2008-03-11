@@ -5,7 +5,6 @@
 @implementation iPhoneIoREPL
 
 @synthesize window;
-@synthesize contentView;
 
 void MyIoStatePrintCallback(void *state, const UArray *u)
 {
@@ -50,6 +49,7 @@ void MyIoStateExceptionCallback(void *state, IoObject *o)
 - (void)setupInput
 {
 	CGRect inputFrame = [[UIScreen mainScreen] applicationFrame];
+	
 	inputFrame.origin.y = 25;
 	inputFrame.size.height = 25;
 	input = [[[UITextField alloc] initWithFrame:inputFrame] autorelease];
@@ -63,10 +63,10 @@ void MyIoStateExceptionCallback(void *state, IoObject *o)
 {
 	CGRect outputFrame = [[UIScreen mainScreen] applicationFrame];
 	int h = 60;
+	
 	outputFrame.origin.y = h;
 	outputFrame.size.height -= h;
 	output = [[[UITextView alloc] initWithFrame:outputFrame] autorelease]; 
-
 	[output setFont:[UIFont fontWithName:@"Courier" size:10]];
 	[output setEditable:NO];
 	[window addSubview:output];
@@ -85,7 +85,6 @@ void MyIoStateExceptionCallback(void *state, IoObject *o)
 - (void)dealloc 
 {
 	IoState_free(ioState);
-	[contentView release];
 	[window release];
 	[super dealloc];
 }
