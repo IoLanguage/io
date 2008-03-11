@@ -23,8 +23,13 @@ Kudos to Daniel A. Koepke
 #else
 */
 
-/*
-#if defined __GNUC__ && __GNUC__ >= 4
+#if defined(__APPLE__)
+	#include "TargetConditionals.h"
+#endif
+
+//#if defined __GNUC__ && __GNUC__ >= 4
+#if defined TARGET_ASPEN_SIMULATOR || TARGET_OS_ASPEN // need to replace this with an iphone specific define
+
 
 #ifdef IO_IN_C_FILE
 	// in .c 
@@ -37,7 +42,6 @@ Kudos to Daniel A. Koepke
 #endif 
 
 #else
-*/
 
 #ifdef IO_IN_C_FILE
 	// in .c 
@@ -49,7 +53,7 @@ Kudos to Daniel A. Koepke
 	#define IOINLINE extern inline
 #endif 
 
-//#endif
+#endif
 
 /*
 #endif
