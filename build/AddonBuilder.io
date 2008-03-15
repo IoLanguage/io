@@ -240,6 +240,7 @@ AddonBuilder := Object clone do(
 		writeln(("--- " .. folder name .. " ") alignLeft(79, "-"))
 		writeln("build.io: Entering directory `", folder path, "'")
 		mkdir("_build/headers")
+		mkdir("source")
 		if(Directory with(Path with(folder path, "source")) filesWithExtension(".h") size > 0,
 			trySystemCall("cp source/*.h _build/headers")
 		)

@@ -1,8 +1,9 @@
 #!/usr/bin/env io
 
-Importer addSearchPath(Path with(method(call message label pathComponent) call, ".."))
+scriptPath := method(call message label pathComponent) call
+Importer addSearchPath(Path with(scriptPath, ".."))
 
-args := System
+args := System args
 if(args at(1) == "--print",
 	UnicodeTest getSlot(args at(2)) print
 	exit
