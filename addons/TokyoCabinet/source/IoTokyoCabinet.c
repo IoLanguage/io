@@ -192,6 +192,7 @@ IoTokyoCabinet *IoTokyoCabinet_proto(void *state)
 	{"abort",  IoTokyoCabinet_abort},
 
 	{"cursor",  IoTokyoCabinet_cursor},
+	{"prefixCursor",  IoTokyoCabinet_prefixCursor},
 
 	{NULL, NULL},
 	};
