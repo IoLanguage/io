@@ -20,13 +20,16 @@ IoHTTPParser *IoHTTPParser_proto(void *state);
 IoHTTPParser *IoHTTPParser_rawClone(IoHTTPParser *proto);
 IoHTTPParser *IoHTTPParser_new(void *state);
 void IoHTTPParser_free(IoHTTPParser *self);
+void IoHTTPParser_initState(IoHTTPParser *self);
 
 IoHTTPParser *IoHTTPParser_parse(IoHTTPParser *self, IoObject *locals, IoMessage *m);
+IoHTTPParser *IoHTTPParser_isFinished(IoHTTPParser *self, IoObject *locals, IoMessage *m);
 
 void IoHTTPParser_setHTTPField_withName_givenSize_value_givenSize_(void *data, const unsigned char *fieldNameBuffer, size_t fieldNameLength, const unsigned char *fieldValueBuffer, size_t fieldValueLength);
 void IoHTTPParser_setRequestURI_givenSize_(void *data, const unsigned char * buffer, size_t bufferSize);
 void IoHTTPParser_setFragment_givenSize_(void *data, const unsigned char * buffer, size_t bufferSize);
 void IoHTTPParser_setRequestPath_givenSize_(void *data, const unsigned char * buffer, size_t bufferSize);
 void IoHTTPParser_setQueryString_givenSize_(void *data, const unsigned char * buffer, size_t bufferSize);
-void IoHTTPParser_setHTTPVersion_givenSize_(void *data, const unsigned char * versionBuffer, size_t versionBufferSize);
+void IoHTTPParser_setHTTPVersion_givenSize_(void *data, const unsigned char * buffer, size_t bufferSize);
+void IoHTTPParser_setBody_givenSize_(void *data, const unsigned char * buffer, size_t bufferSize);
 #endif

@@ -29,8 +29,13 @@
 
   action start_value { MARK(mark, fpc); }
   action write_value { 
-    if(parser->http_field != NULL) {
+    if(parser->http_field != NULL)
+		{
       parser->http_field(parser->data, PTR_TO(field_start), parser->field_len, PTR_TO(mark), LEN(mark, fpc));
+			if(parser->cs == http_parser_error)
+			{
+				goto st0;
+			}
     }
   }
   action request_method { 
@@ -39,17 +44,35 @@
   }
   action request_uri { 
     if(parser->request_uri != NULL)
-      parser->request_uri(parser->data, PTR_TO(mark), LEN(mark, fpc));
+		{
+			parser->request_uri(parser->data, PTR_TO(mark), LEN(mark, fpc));
+			if(parser->cs == http_parser_error)
+			{
+				goto st0;
+			}
+		}
   }
   action fragment { 
     if(parser->fragment != NULL)
-      parser->fragment(parser->data, PTR_TO(mark), LEN(mark, fpc));
+		{
+			parser->fragment(parser->data, PTR_TO(mark), LEN(mark, fpc));
+			if(parser->cs == http_parser_error)
+			{
+				goto st0;
+			}
+		}
   }
 
   action start_query {MARK(query_start, fpc); }
   action query_string { 
     if(parser->query_string != NULL)
-      parser->query_string(parser->data, PTR_TO(query_start), LEN(query_start, fpc));
+		{
+			parser->query_string(parser->data, PTR_TO(query_start), LEN(query_start, fpc));
+			if(parser->cs == http_parser_error)
+			{
+				goto st0;
+			}
+		}
   }
 
   action http_version {	
@@ -59,7 +82,13 @@
 
   action request_path {
     if(parser->request_path != NULL)
-      parser->request_path(parser->data, PTR_TO(mark), LEN(mark,fpc));
+		{
+			parser->request_path(parser->data, PTR_TO(mark), LEN(mark,fpc));
+			if(parser->cs == http_parser_error)
+			{
+				goto st0;
+			}
+		}
   }
 
   action done { 
