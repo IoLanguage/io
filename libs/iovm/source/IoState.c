@@ -171,6 +171,7 @@ void IoState_new_atAddress(void *address)
 		IoObject_setSlot_to_(core, SIOSYMBOL("Map"),        IoMap_proto(self));
 		//IoObject_setSlot_to_(core, SIOSYMBOL("Range"),      IoRange_proto(self));
 		IoObject_setSlot_to_(core, SIOSYMBOL("Coroutine"),  self->mainCoroutine);
+		IoObject_setSlot_to_(core, SIOSYMBOL("Error"),      IoError_proto(self));
 		IoObject_setSlot_to_(core, SIOSYMBOL("File"),       IoFile_proto(self));
 		IoObject_setSlot_to_(core, SIOSYMBOL("Directory"),  IoDirectory_proto(self));
 		IoObject_setSlot_to_(core, SIOSYMBOL("Date"),       IoDate_proto(self));

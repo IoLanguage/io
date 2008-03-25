@@ -5,8 +5,9 @@
 #define IOSEQ_DNS_DEFINED 1
 
 #include "IoSeq.h"
+#include "IoError.h"
 
-#define DNSERROR(reason) IoState_setErrorDescription_(IOSTATE, "DNS Error: %s", reason)
+#define DNSERROR(reason) IoError_newWithMessageFormat_(IOSTATE, "DNS Error: %s", reason)
 
 IoObject *IoDNS_proto(void *state);
 

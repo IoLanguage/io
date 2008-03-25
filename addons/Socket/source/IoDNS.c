@@ -1,7 +1,7 @@
 
 //metadoc DNS copyright Steve Dekorte 2002
 //metadoc DNS license BSD revised
-/*metadoc DNS category Networking
+//metadoc DNS category Networking
 /*metadoc DNS description
 Utility methods related to Domain Name Service lookups. 
 */

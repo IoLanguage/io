@@ -202,7 +202,7 @@ IoObject *IoEventManager_addEvent(IoEventManager *self, IoObject *locals, IoMess
 
 	if (eventType != 0 && !RawDescriptor_isValid(fd))
 	{
-		return IoState_setErrorDescription_(IOSTATE, "IoEventManager_addEvent: attempt to add bad file descriptor %i", fd);
+		return IoError_newWithMessageFormat_(IOSTATE, "IoEventManager_addEvent: attempt to add bad file descriptor %i", fd);
 	}
 
 	List_append_(DATA(self)->activeEvents, IOREF(event));
@@ -245,7 +245,7 @@ IoObject *IoEventManager_listen(IoEventManager *self, IoObject *locals, IoMessag
 	
 	if (hadEvents == -1)
 	{
-		return IoState_setErrorDescription_(IOSTATE, "EventManager: error in event_base_loop");
+		return IoError_newWithMessageFormat_(IOSTATE, "EventManager: error in event_base_loop");
 	}
 	
 	return self;
@@ -257,7 +257,7 @@ IoObject *IoEventManager_listenUntilEvent(IoEventManager *self, IoObject *locals
 
 	if (hadEvents == -1)
 	{
-		return IoState_setErrorDescription_(IOSTATE, "EventManager: error in event_base_loop");
+		return IoError_newWithMessageFormat_(IOSTATE, "EventManager: error in event_base_loop");
 	}
 
 	return self;

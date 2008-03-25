@@ -5,7 +5,7 @@ Object do(
 	isError := false
 )
 
-Error := Object clone do(
+Error do(
 	ifError := method(
 		if(call message arguments size == 1) then(
 			return(call evalArgAt(0))
@@ -28,7 +28,6 @@ Error := Object clone do(
 	with := method(message,
 		self message := message
 		self
-		//Coroutine currentCoroutine setErrorDescription(message);
 	)
 	
 	isError := true
