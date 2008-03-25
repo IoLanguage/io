@@ -377,7 +377,8 @@ IoObject *IoSocket_asyncStreamRead(IoSocket *self, IoObject *locals, IoMessage *
 		return SOCKETERROR("Socket stream read failed");
 	}
 
-	if (readSize == 0) //SocketErrorStatus() == 0)
+	//if (readSize == 0) //SocketErrorStatus() == 0)
+	if (SocketErrorStatus() == 0)
 	{
 		// 0 bytes means the other end disconnected
 		//printf("SocketErrorStatus() == 0, closing\n");
