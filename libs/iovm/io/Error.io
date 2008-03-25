@@ -27,6 +27,7 @@ Error := Object clone do(
 	
 	with := method(message,
 		self message := message
+		self
 		//Coroutine currentCoroutine setErrorDescription(message);
 	)
 	

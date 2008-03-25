@@ -44,6 +44,7 @@ IoObject *IoTokyoCabinet_commit(IoObject *self, IoObject *locals, IoMessage *m);
 IoObject *IoTokyoCabinet_abort(IoObject *self, IoObject *locals, IoMessage *m);
 
 IoObject *IoTokyoCabinet_cursor(IoObject *self, IoObject *locals, IoMessage *m);
+IoObject *IoTokyoCabinet_prefixCursor(IoObject *self, IoObject *locals, IoMessage *m);
 
 #ifdef __cplusplus
 }

@@ -1,4 +1,4 @@
-/*metadoc Socket copyright Steve Dekorte, 2004
+//metadoc Socket copyright Steve Dekorte, 2004
 //metadoc Socket license BSD revised
 
 /*metadoc Socket description

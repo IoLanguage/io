@@ -1,6 +1,7 @@
 // !$*UTF8*$!
 {
 	29B97313FDCFA39411CA2CEA /* Project object */ = {
+		activeArchitecture = i386;
 		activeBuildConfigurationName = Development;
 		activeExecutable = F6030E47036EB306017668DC /* IoPlayer */;
 		activeTarget = 29B97326FDCFA39411CA2CEA /* IoPlayer */;
@@ -21,7 +22,6 @@
 			AAE5DE360BD8322E0039F783 /* szone_error */,
 			AAE5DE370BD832380039F783 /* malloc_printf */,
 		);
-		breakpointsGroup = AA24207F0BD6FF0200541BB3 /* XCBreakpointsBucket */;
 		codeSenseManager = AA6D9C78053237E000CE4742 /* Code sense */;
 		executables = (
 			F6030E47036EB306017668DC /* IoPlayer */,
@@ -71,7 +71,7 @@
 					PBXFileDataSource_Target_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 199230574;
+			PBXPerProjectTemplateStateSaveDate = 227483632;
 			PBXPrepackagedSmartGroups_v2 = (
 				{
 					PBXTransientLocationAtTop = bottom;
@@ -411,17 +411,19 @@
 				Frame = "{{0, 0}, {745, 442}}";
 				WindowFrame = "{{427, 573}, {745, 464}}";
 			};
-			PBXWorkspaceStateSaveDate = 199230574;
+			PBXWorkspaceStateSaveDate = 227483632;
 		};
 		perUserProjectItems = {
+			AA1A14F10D8F26EF0045DFFF /* PBXTextBookmark */ = AA1A14F10D8F26EF0045DFFF /* PBXTextBookmark */;
+			AA1A14F20D8F26EF0045DFFF /* PBXTextBookmark */ = AA1A14F20D8F26EF0045DFFF /* PBXTextBookmark */;
+			AA1A14F30D8F26EF0045DFFF /* PBXTextBookmark */ = AA1A14F30D8F26EF0045DFFF /* PBXTextBookmark */;
+			AA1A14F40D8F26EF0045DFFF /* PBXTextBookmark */ = AA1A14F40D8F26EF0045DFFF /* PBXTextBookmark */;
+			AA1A14F50D8F26EF0045DFFF /* PBXTextBookmark */ = AA1A14F50D8F26EF0045DFFF /* PBXTextBookmark */;
+			AA1A14F60D8F26EF0045DFFF /* PBXTextBookmark */ = AA1A14F60D8F26EF0045DFFF /* PBXTextBookmark */;
 			AA2421BD0BD7205F00541BB3 /* PBXTextBookmark */ = AA2421BD0BD7205F00541BB3 /* PBXTextBookmark */;
-			AA8384D40BE0283600B4F003 /* PBXTextBookmark */ = AA8384D40BE0283600B4F003 /* PBXTextBookmark */;
-			AAE5DE570BD834BB0039F783 /* PBXTextBookmark */ = AAE5DE570BD834BB0039F783 /* PBXTextBookmark */;
-			AAE5DE580BD834BB0039F783 /* PBXTextBookmark */ = AAE5DE580BD834BB0039F783 /* PBXTextBookmark */;
 			AAE5DE590BD834BB0039F783 /* PBXTextBookmark */ = AAE5DE590BD834BB0039F783 /* PBXTextBookmark */;
 			AAE5DE5A0BD834BB0039F783 /* PBXTextBookmark */ = AAE5DE5A0BD834BB0039F783 /* PBXTextBookmark */;
 			AAE5DE970BD8382C0039F783 /* PBXTextBookmark */ = AAE5DE970BD8382C0039F783 /* PBXTextBookmark */;
-			AAEEA5DF0BDFC6DA00627958 /* PBXTextBookmark */ = AAEEA5DF0BDFC6DA00627958 /* PBXTextBookmark */;
 		};
 		sourceControlManager = AA6D9C77053237E000CE4742 /* Source Control */;
 		userBuildSettings = {
@@ -429,8 +431,9 @@
 	};
 	29B97316FDCFA39411CA2CEA /* main.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {959, 596}}";
+			sepNavIntBoundsRect = "{{0, 0}, {749, 551}}";
 			sepNavSelRange = "{30, 49}";
+			sepNavVisRange = "{0, 256}";
 			sepNavVisRect = "{{0, 0}, {959, 596}}";
 		};
 	};
@@ -440,23 +443,65 @@
 			F6030E47036EB306017668DC /* IoPlayer */,
 		);
 	};
-	AA24207F0BD6FF0200541BB3 /* XCBreakpointsBucket */ = {
-		isa = XCBreakpointsBucket;
-		name = IoPlayer;
-		objects = (
-			AA2420820BD6FF6600541BB3 /* UArray.c:748 */,
-			AA2420B30BD7012C00541BB3 /* UArray.c:754 */,
-			AA2421AC0BD71FC800541BB3 /* szone_error */,
-			AA2421B10BD71FDD00541BB3 /* szone_error */,
-			AAE5DDC90BD757AC0039F783 /* GLIoView.m:81 */,
-			AAE5DE010BD82FB40039F783 /* GLIoView.m:121 */,
-			AAE5DE0A0BD82FF10039F783 /* IoGLUT.c:497 */,
-			AAE5DE0D0BD8300F0039F783 /* IoGLUT.c:556 */,
-			AAE5DE140BD830670039F783 /* IoCoroutine.c:337 */,
-			AAE5DE350BD831FF0039F783 /* IoCoroutine.c:348 */,
-			AAE5DE360BD8322E0039F783 /* szone_error */,
-			AAE5DE370BD832380039F783 /* malloc_printf */,
-		);
+	AA1A14F10D8F26EF0045DFFF /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 29B97316FDCFA39411CA2CEA /* main.m */;
+		name = "main.m: 5";
+		rLen = 49;
+		rLoc = 30;
+		rType = 0;
+		vrLen = 256;
+		vrLoc = 0;
+	};
+	AA1A14F20D8F26EF0045DFFF /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F6030E57036EB36F017668DC /* GLIoView.m */;
+		name = "GLIoView.m: 13";
+		rLen = 22;
+		rLoc = 217;
+		rType = 0;
+		vrLen = 1233;
+		vrLoc = 42;
+	};
+	AA1A14F30D8F26EF0045DFFF /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F6030E56036EB36F017668DC /* GLIoView.h */;
+		name = "GLIoView.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 625;
+		vrLoc = 0;
+	};
+	AA1A14F40D8F26EF0045DFFF /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 29B97316FDCFA39411CA2CEA /* main.m */;
+		name = "main.m: 5";
+		rLen = 49;
+		rLoc = 30;
+		rType = 0;
+		vrLen = 256;
+		vrLoc = 0;
+	};
+	AA1A14F50D8F26EF0045DFFF /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F6030E57036EB36F017668DC /* GLIoView.m */;
+		name = "GLIoView.m: 13";
+		rLen = 22;
+		rLoc = 217;
+		rType = 0;
+		vrLen = 1233;
+		vrLoc = 42;
+	};
+	AA1A14F60D8F26EF0045DFFF /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F6030E56036EB36F017668DC /* GLIoView.h */;
+		name = "GLIoView.h: 13";
+		rLen = 0;
+		rLoc = 248;
+		rType = 0;
+		vrLen = 625;
+		vrLoc = 0;
 	};
 	AA2420800BD6FF6600541BB3 /* UArray.c */ = {
 		isa = PBXFileReference;
@@ -471,10 +516,12 @@
 		);
 		breakpointStyle = 0;
 		continueAfterActions = 0;
+		countType = 0;
 		delayBeforeContinue = 0;
 		fileReference = AA2420800BD6FF6600541BB3 /* UArray.c */;
 		functionName = "UArray_at_putAll_()";
 		hitCount = 1;
+		ignoreCount = 0;
 		lineNumber = 748;
 		location = libiovmall.dylib;
 		modificationTime = 199236560.892076;
@@ -493,10 +540,12 @@
 		);
 		breakpointStyle = 0;
 		continueAfterActions = 0;
+		countType = 0;
 		delayBeforeContinue = 0;
 		fileReference = AA2420B10BD7012C00541BB3 /* UArray.c */;
 		functionName = "UArray_at_putAll_()";
 		hitCount = 1;
+		ignoreCount = 0;
 		lineNumber = 754;
 		modificationTime = 199239722.599487;
 		state = 1;
@@ -507,8 +556,10 @@
 		);
 		breakpointStyle = 1;
 		continueAfterActions = 0;
+		countType = 0;
 		delayBeforeContinue = 0;
 		hitCount = 1;
+		ignoreCount = 0;
 		location = libSystem.B.dylib;
 		modificationTime = 199231254.067544;
 		state = 1;
@@ -520,8 +571,10 @@
 		);
 		breakpointStyle = 1;
 		continueAfterActions = 0;
+		countType = 0;
 		delayBeforeContinue = 0;
 		hitCount = 1;
+		ignoreCount = 0;
 		location = libSystem.B.dylib;
 		modificationTime = 199231254.067553;
 		state = 1;
@@ -556,22 +609,6 @@
 		isa = PBXCodeSenseManager;
 		indexTemplatePath = "";
 	};
-	AA8384D40BE0283600B4F003 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = AA8384D50BE0283600B4F003 /* IoGLUT.c */;
-		name = "";
-		rLen = 3;
-		rLoc = 15781;
-		rType = 0;
-		vrLen = 676;
-		vrLoc = 15419;
-	};
-	AA8384D50BE0283600B4F003 /* IoGLUT.c */ = {
-		isa = PBXFileReference;
-		name = IoGLUT.c;
-		path = /Users/steve/Sites/Io/addons/OpenGL/source/IoGLUT.c;
-		sourceTree = "<absolute>";
-	};
 	AAB21BE1053FF4D700E7E01B /* main.io */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {964, 3383}}";
@@ -586,10 +623,12 @@
 		);
 		breakpointStyle = 0;
 		continueAfterActions = 0;
+		countType = 0;
 		delayBeforeContinue = 0;
 		fileReference = F6030E57036EB36F017668DC /* GLIoView.m */;
 		functionName = "-runMain";
 		hitCount = 1;
+		ignoreCount = 0;
 		lineNumber = 81;
 		location = IoPlayer;
 		modificationTime = 199236560.892095;
@@ -601,10 +640,12 @@
 		);
 		breakpointStyle = 0;
 		continueAfterActions = 0;
+		countType = 0;
 		delayBeforeContinue = 0;
 		fileReference = F6030E57036EB36F017668DC /* GLIoView.m */;
 		functionName = "-reshape";
 		hitCount = 1;
+		ignoreCount = 0;
 		lineNumber = 121;
 		modificationTime = 199239722.59958;
 		state = 1;
@@ -622,10 +663,12 @@
 		);
 		breakpointStyle = 0;
 		continueAfterActions = 0;
+		countType = 0;
 		delayBeforeContinue = 0;
 		fileReference = AAE5DE080BD82FF10039F783 /* IoGLUT.c */;
 		functionName = "IoGlutReshapeFunc()";
 		hitCount = 1;
+		ignoreCount = 0;
 		lineNumber = 497;
 		modificationTime = 199239728.401961;
 		state = 1;
@@ -643,10 +686,12 @@
 		);
 		breakpointStyle = 0;
 		continueAfterActions = 0;
+		countType = 0;
 		delayBeforeContinue = 0;
 		fileReference = AAE5DE0B0BD8300F0039F783 /* IoGLUT.c */;
 		functionName = "IoGLUT_tryCallback()";
 		hitCount = 1;
+		ignoreCount = 0;
 		lineNumber = 556;
 		location = libIoOpenGL.dylib;
 		modificationTime = 199236560.89213;
@@ -665,10 +710,12 @@
 		);
 		breakpointStyle = 0;
 		continueAfterActions = 0;
+		countType = 0;
 		delayBeforeContinue = 0;
 		fileReference = AAE5DE120BD830670039F783 /* IoCoroutine.c */;
 		functionName = "IoCoroutine_rawRun()";
 		hitCount = 1;
+		ignoreCount = 0;
 		lineNumber = 337;
 		location = libiovmall.dylib;
 		modificationTime = 199236560.892139;
@@ -687,10 +734,12 @@
 		);
 		breakpointStyle = 0;
 		continueAfterActions = 0;
+		countType = 0;
 		delayBeforeContinue = 0;
 		fileReference = AAE5DE330BD831FF0039F783 /* IoCoroutine.c */;
 		functionName = "IoCoroutine_rawRun()";
 		hitCount = 1;
+		ignoreCount = 0;
 		lineNumber = 348;
 		location = libiovmall.dylib;
 		modificationTime = 199236560.892144;
@@ -702,8 +751,10 @@
 		);
 		breakpointStyle = 1;
 		continueAfterActions = 0;
+		countType = 0;
 		delayBeforeContinue = 0;
 		hitCount = 1;
+		ignoreCount = 0;
 		location = libSystem.B.dylib;
 		modificationTime = 199231254.067559;
 		state = 1;
@@ -715,32 +766,14 @@
 		);
 		breakpointStyle = 1;
 		continueAfterActions = 0;
+		countType = 0;
 		delayBeforeContinue = 0;
 		hitCount = 1;
+		ignoreCount = 0;
 		location = libSystem.B.dylib;
 		modificationTime = 199231254.067564;
 		state = 1;
 		symbolName = malloc_printf;
-	};
-	AAE5DE570BD834BB0039F783 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 29B97316FDCFA39411CA2CEA /* main.m */;
-		name = "//  Created by Steve Dekorte on Tue Oct 29 2002.";
-		rLen = 49;
-		rLoc = 30;
-		rType = 0;
-		vrLen = 256;
-		vrLoc = 0;
-	};
-	AAE5DE580BD834BB0039F783 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = F6030E57036EB36F017668DC /* GLIoView.m */;
-		name = "GLIoView.m: 79";
-		rLen = 0;
-		rLoc = 2381;
-		rType = 0;
-		vrLen = 689;
-		vrLoc = 2113;
 	};
 	AAE5DE590BD834BB0039F783 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -772,36 +805,14 @@
 		vrLen = 1098;
 		vrLoc = 4410;
 	};
-	AAEEA5DF0BDFC6DA00627958 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = AAEEA5E00BDFC6DA00627958 /* IoGLUT.c */;
-		name = "";
-		rLen = 3;
-		rLoc = 15781;
-		rType = 0;
-		vrLen = 734;
-		vrLoc = 15361;
-	};
-	AAEEA5E00BDFC6DA00627958 /* IoGLUT.c */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = sourcecode.c.c;
-		name = IoGLUT.c;
-		path = /Users/steve/Sites/Io/addons/OpenGL/source/IoGLUT.c;
-		sourceTree = "<absolute>";
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1068, 19142}}";
-			sepNavSelRange = "{15781, 3}";
-			sepNavVisRect = "{{0, 9100}, {769, 551}}";
-		};
-	};
 	F6030E47036EB306017668DC /* IoPlayer */ = {
 		isa = PBXExecutable;
-		activeArgIndex = 2147483647;
 		activeArgIndices = (
 		);
 		argumentStrings = (
 		);
 		autoAttachOnCrash = 1;
+		breakpointsEnabled = 1;
 		configStateDict = {
 		};
 		customDataFormattersEnabled = 1;
@@ -824,15 +835,17 @@
 	};
 	F6030E56036EB36F017668DC /* GLIoView.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {459, 935}}";
-			sepNavSelRange = "{36, 0}";
+			sepNavIntBoundsRect = "{{0, 0}, {749, 896}}";
+			sepNavSelRange = "{248, 0}";
+			sepNavVisRange = "{0, 625}";
 			sepNavVisRect = "{{0, 0}, {459, 186}}";
 		};
 	};
 	F6030E57036EB36F017668DC /* GLIoView.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {868, 7531}}";
-			sepNavSelRange = "{3231, 0}";
+			sepNavIntBoundsRect = "{{0, 0}, {749, 7312}}";
+			sepNavSelRange = "{217, 22}";
+			sepNavVisRange = "{42, 1233}";
 			sepNavVisRect = "{{0, 1904}, {815, 289}}";
 		};
 	};

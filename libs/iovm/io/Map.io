@@ -6,6 +6,10 @@ Map do(
 		l
 	)
 
+	/*doc Map map(key, value, message)
+		Create a List of results of message applied to self's items in a random
+		order.
+	*/
 	map := method(
 		result := List clone
 		key := call argAt(0)
@@ -23,7 +27,10 @@ Map do(
 		result
 	)
 
-
+	/*doc Map select(optionalIndex, optionalValue, message)
+		Create a new Map with keys,values of self for which message evaluated
+		to non-nil.
+	*/
 	select := method(
 		result := Map clone
 		self keys foreach(key,
@@ -44,6 +51,9 @@ Map do(
 		result
 	)
 
+	/*doc Map detect(optionalIndex, optionalValue, message)
+		Returns a random value for which message evals to non-nil.
+	*/
 	detect := method(
 		self keys foreach(key,
 			if(call argCount > 1,
@@ -62,10 +72,12 @@ Map do(
 		)
 	)
 
+	//doc Map reverseMap Create a new Map using values as keys and keys as values
 	reverseMap := method(
 		Map clone addKeysAndValues(values, keys)
 	)
 	
+	//doc Map asObject Create a new Object whose slotDescriptionMap will be equal to self
 	asObject := method(
 		o := Object clone
 		self foreach(k, v, o setSlot(k, getSlot("v")))

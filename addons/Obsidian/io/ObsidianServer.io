@@ -20,8 +20,57 @@ ObsidianChannel := Object clone do(
 				aSocket writeMessage(list(rid, db at(objId .. arg1)) asEncodedList)
 			) elseif(rtype == "remove") then(
 				db transactionalRemoveAt(objId .. arg1)
-				aSocket writeMessage(list(rid) asEncodedList)				
+				aSocket writeMessage(list(rid) asEncodedList)		
+			) elseif(rtype == "first") then(
+				c := db prefixCursor setPrefix(objId asString)
+				c first
+				keys := list()
+				arg1 asNumber repeat(
+					k := c key
+					if(k == nil, break)
+					keys append(k)
+					c next
+				)
+				c close
+				aSocket writeMessage(list(rid) appendSeq(keys) asEncodedList)				
+			) elseif(rtype == "last") then(
+				c := db prefixCursor setPrefix(objId)
+				c last
+				keys := list()
+				arg1 asNumber repeat(
+					k := c key
+					if(k == nil, break)
+					keys append(k)
+					c previous
+				)
+				c close
+				aSocket writeMessage(list(rid) appendSeq(keys) asEncodedList)				
+			) elseif(rtype == "after") then(
+				c := db prefixCursor setPrefix(objId)
+				c goto(arg1)
+				keys := list()
+				arg2 asNumber repeat(
+					k := c key
+					if(k == nil, break)
+					keys append(k)
+					c next
+				)
+				c close
+				aSocket writeMessage(list(rid) appendSeq(keys) asEncodedList)		
+			) elseif(rtype == "before") then(
+				c := db prefixCursor setPrefix(objId)
+				c goto(arg1)
+				keys := list()
+				arg2 asNumber repeat(
+					k := c key
+					if(k == nil, break)
+					keys append(k)
+					c previous
+				)
+				c close
+				aSocket writeMessage(list(rid) appendSeq(keys) asEncodedList)			
 			)
+
 			yield
 		)
 	)

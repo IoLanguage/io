@@ -784,7 +784,27 @@ int IoLexer_readSlashStarComment(IoLexer *self)
 				nesting--;
 			}
 			else
-				IoLexer_nextChar(self);
+			{
+				uchar_t c = IoLexer_nextChar(self);
+				if(c == 0)
+				{
+					self->errorToken = IoLexer_currentToken(self);
+
+					if (!self->errorToken)
+					{
+						IoLexer_grabTokenType_(self, NO_TOKEN);
+						self->errorToken = IoLexer_currentToken(self);
+					}
+
+					if (self->errorToken)
+					{
+						IoToken_error_(self->errorToken, "unterminated comment");
+					}
+
+					IoLexer_popPosBack(self);
+					return 0;
+				}
+			}
 		}
 		IoLexer_popPos(self);
 		return 1;

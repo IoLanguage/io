@@ -74,7 +74,7 @@ void TIFFImage_load(TIFFImage *self)
 
 	if (in == NULL)
 	{
-	TIFFImage_error_(self, "error opeing file");
+	TIFFImage_error_(self, "error opening file");
 	return;
 	}
 
