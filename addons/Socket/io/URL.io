@@ -28,6 +28,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		s setReadTimeout(timeout)
 		s setWriteTimeout(timeout)
 		s setConnectTimeout(timeout)
+		self
 	)
 
 	setURL := method(s,
