@@ -88,7 +88,10 @@ AddonBuilder := Object clone do(
 		if(Directory exists(path) not,
 			writeln("mkdir -p ", relativePath)
 			dir :=  Directory with(".")
-			path split("/") foreach(x, dir := dir directoryNamed(x) create)
+			path split("/") foreach(x,
+				dir := dir directoryNamed(x)
+				dir create
+			)
 		)
 	)
 

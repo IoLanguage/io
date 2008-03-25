@@ -11,6 +11,9 @@ docCopyright("Daniel Rosengren", 2007)
 #include <cairo.h>
 
 #define ISCAIROCONTEXT(self) IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoCairoContext_rawClone)
+#ifdef WIN32
+#define __func__ __FUNCTION__
+#endif
 
 typedef IoObject IoCairoContext;
 

@@ -19,6 +19,10 @@ extern "C" {
 #define IONUMBER(num) IoState_numberWithDouble_((IoState*)IOSTATE, (double)num)
 #define CNUMBER(self) IoObject_dataDouble((IoNumber *)self)
 
+#ifdef WIN32
+#define log2(num) log(num) / log(2)
+#endif
+
 typedef IoObject IoNumber;
 
 IOVM_API IoNumber *IoNumber_proto(void *state);

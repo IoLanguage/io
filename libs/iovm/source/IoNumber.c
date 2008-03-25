@@ -693,7 +693,7 @@ IoObject *IoNumber_log2(IoNumber *self, IoObject *locals, IoMessage *m)
 	Returns the base 2 logarithm of the receiver.
 	*/
 
-	return IONUMBER(log(DATA(self)) / log(2));
+	return IONUMBER(log2(DATA(self)));
 }
 
 IoObject *IoNumber_log10(IoNumber *self, IoObject *locals, IoMessage *m)
