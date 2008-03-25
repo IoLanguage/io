@@ -271,7 +271,7 @@ IoObject *IoCurses_move(IoCurses *self, IoObject *locals, IoMessage *m)
 
 	if (move(y, x) == ERR)
 	{
-		IoCurses_showError(self, m, "Curses.move", "Failed to move curser.");
+		IoCurses_showError(self, m, "Curses.move", "Failed to move cursor.");
 	}
 
 	return self;
