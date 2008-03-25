@@ -151,11 +151,6 @@ IOVM_API IoObject *IoObject_performWithDebugger(IoCoroutine *self, IoObject *loc
 IOVM_API IoObject *IoCoroutine_callStack(IoCoroutine *self, IoObject *locals, IoMessage *m);
 
 IOVM_API void IoCoroutine_rawPrintBackTrace(IoCoroutine *self);
-
-//error
-
-IOVM_API IoObject *IoCoroutine_rawSetErrorDescription_(IoCoroutine *self, IoSymbol *description);
-IOVM_API IoObject *IoCoroutine_setErrorDescription(IoCoroutine *self, IoObject *locals, IoMessage *m);
 #ifdef __cplusplus
 }
 #endif

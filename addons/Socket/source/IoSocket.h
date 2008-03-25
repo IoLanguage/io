@@ -8,9 +8,10 @@
 #include "IoSeq.h"
 #include "IoMessage.h"
 #include "Socket.h"
+#include "IoError.h"
 
 #define ISSOCKET(self) IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoSocket_rawClone)
-#define SOCKETERROR(leadingErrorDescription) IoState_setErrorDescription_(IOSTATE, "%s: %s", leadingErrorDescription, Socket_errorDescription())
+#define SOCKETERROR(leadingErrorDescription) IoError_newWithMessageFormat_(IOSTATE, "%s: %s", leadingErrorDescription, Socket_errorDescription())
 
 typedef IoObject IoSocket;
 
