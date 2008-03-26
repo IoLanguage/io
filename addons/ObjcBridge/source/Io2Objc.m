@@ -290,10 +290,10 @@ Io2Objc *Io2Objc_newSubclassNamed(Io2Objc *self, IoObject *locals, IoMessage *m)
 {
 	Class class = objc_makeClass(IoMessage_locals_cStringArgAt_(m, locals, 0), DATA(self)->object->isa->name, NO);
 	objc_addClass(class);
-	class_addMethod(class, sel_getUid("forwardInvocation:"), "v12@0:4@8", (IMP)forwardInvocation, NO);
-	class_addMethod(class, sel_getUid("forwardInvocation:"), "v12@0:4@8", (IMP)forwardInvocation, YES);
-	class_addMethod(class, sel_getUid("respondsToSelector:"), "C12@0:4:8", (IMP)respondsToSelector, YES);
-	class_addMethod(class, sel_getUid("methodSignatureForSelector:"), "@12@0:4:8", (IMP)methodSignatureForSelector, YES);
+	Io_class_addMethod(class, sel_getUid("forwardInvocation:"), "v12@0:4@8", (IMP)forwardInvocation, NO);
+	Io_class_addMethod(class, sel_getUid("forwardInvocation:"), "v12@0:4@8", (IMP)forwardInvocation, YES);
+	Io_class_addMethod(class, sel_getUid("respondsToSelector:"), "C12@0:4:8", (IMP)respondsToSelector, YES);
+	Io_class_addMethod(class, sel_getUid("methodSignatureForSelector:"), "@12@0:4:8", (IMP)methodSignatureForSelector, YES);
 	((IoObjcBridgeData *)DATA(DATA(self)->bridge))->allClasses = NULL;
 	return IoObjcBridge_proxyForId_(DATA(self)->bridge, class);
 }
@@ -326,7 +326,7 @@ IoObject *Io2Objc_setSlot(Io2Objc *self, IoObject *locals, IoMessage *m)
 		{
 			SEL selector = sel_get_typed_uid(CSTRING(slotName), method->method_types);
 			if (!selector) selector = sel_register_typed_name(CSTRING(slotName), method->method_types);
-			class_addMethod(class, selector, method->method_types, __objc_get_forward_imp(selector), YES);
+			Io_class_addMethod(class, selector, method->method_types, __objc_get_forward_imp(selector), YES);
 		}
 		else
 		{
@@ -335,7 +335,7 @@ IoObject *Io2Objc_setSlot(Io2Objc *self, IoObject *locals, IoMessage *m)
 			{
 				SEL selector = sel_get_typed_uid(CSTRING(slotName), encoding);
 				if (!selector) selector = sel_register_typed_name(CSTRING(slotName), encoding);
-				class_addMethod(class, selector, encoding, __objc_get_forward_imp(selector), YES);
+				Io_class_addMethod(class, selector, encoding, __objc_get_forward_imp(selector), YES);
 			}
 			else
 			{
@@ -345,7 +345,7 @@ IoObject *Io2Objc_setSlot(Io2Objc *self, IoObject *locals, IoMessage *m)
 				types[2] = ':';
 				SEL selector = sel_get_typed_uid(CSTRING(slotName), types);
 				if (!selector) selector = sel_register_typed_name(CSTRING(slotName), types);
-				class_addMethod(class, selector, types, __objc_get_forward_imp(selector), YES);
+				Io_class_addMethod(class, selector, types, __objc_get_forward_imp(selector), YES);
 				objc_free(types);
 			}
 		}
