@@ -4,7 +4,7 @@ Directory do(
 	with := method(path, self clone setPath(path))
 
 
-	//doc Directory createIfAbsent Creates the directory folder (and any missing ancestor folders) if they don't exist. Returns self.
+	//doc Directory createIfAbsent Creates the directory (and any missing ancestor directories) if they don't exist. Returns self.
 	createIfAbsent := method(
 		if(self exists not, 
 			if(parentDirectory and parentDirectory exists not, parentDirectory createIfAbsent)
@@ -21,9 +21,15 @@ Directory do(
 		Directory clone setPath(p)
 	)
 
-	//doc Directory folders Returns a list of subdirectories for the receiver.
-	folders := method(
+	//doc Directory directories Returns a list of subdirectories in the receiver.
+	directories := method(
 		items select(item, item type ==("Directory") and(item name != ".") and(item name != ".."))
+	)
+	
+	//doc Directory folders Deprecated. Replaced by directories().
+	folders := method(
+		deprecatedWarning("directoryNamed(name)")
+		directories
 	)
 
 	//doc Directory isAccessible Returns true if the directory can be accessed, false otherwise.
@@ -78,7 +84,7 @@ Directory do(
 	//doc Directory directoryNamed(aName) Returns a Directory object for the specified file name whether or not it exists.
 	directoryNamed := method(name,
 		Directory with(Path with(path, name))
-		//folders detect(i, v, v name == name)
+		//directories detect(i, v, v name == name)
 	)
 	
 	//doc Directory folderNamed(aName) Deprecated. Replaced by directoryNamed().
@@ -101,7 +107,7 @@ Directory do(
 		folderNamed(name)
 	)
 
-	//doc Directory createFileNamed(name) Depracted. Returns a new file object in the directory with the specified name.
+	//doc Directory createFileNamed(name) Deprecated. Returns a new file object in the directory with the specified name.
 	createFileNamed := method(name,
 		deprecatedWarning("fileNamed(name) create")
 		f := fileNamed(name)
