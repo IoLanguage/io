@@ -235,9 +235,9 @@ IoObject *IoObject_localsProto(void *state)
 	IoObject_addMethod_(self, IOSYMBOL("setSlot"), IoObject_protoSet_to_);
 	IoObject_addMethod_(self, IOSYMBOL("setSlotWithType"), IoObject_protoSetSlotWithType);
 	IoObject_addMethod_(self, IOSYMBOL("updateSlot"), IoObject_localsUpdateSlot);
-	IoObject_addMethod_(self, IOSYMBOL("thisLocalsContext"), IoObject_locals);
+	IoObject_addMethod_(self, IOSYMBOL("thisLocalContext"), IoObject_locals);
 
-	// Everything else is forwareded to self
+	// Everything else is forwarded to self
 	IoObject_addMethod_(self, IOSYMBOL("forward"), IoObject_localsForward);
 
 	return self;
