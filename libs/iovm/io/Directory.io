@@ -28,7 +28,7 @@ Directory do(
 	
 	//doc Directory folders Deprecated. Replaced by directories().
 	folders := method(
-		deprecatedWarning("directoryNamed(name)")
+		deprecatedWarning("directories()")
 		directories
 	)
 
