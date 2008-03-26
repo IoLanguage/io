@@ -86,6 +86,8 @@ ipForYahoo := DNSResolver ipForHostName("yahoo.com")
 </pre>
 */
 
+	readTimeout ::= 10
+
 	init := method(
 		//doc DNSResolver dnsServers Returns list of DNSServer objects used for lookups.
 		self dnsServers := List clone
@@ -130,7 +132,7 @@ ipForYahoo := DNSResolver ipForHostName("yahoo.com")
 			dnsServers foreach(dnsServer,
 				debugWriteln("sending query")
 				//try(ip = dnsServer ipForHostName(hostName))
-				ip = dnsServer ipForHostName(hostName)
+				ip = dnsServer ipForHostName(hostName, readTimeout)
 				ip isError ifTrue(continue)
 				ip ifNonNil(break)
 			)
