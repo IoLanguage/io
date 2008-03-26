@@ -1,7 +1,4 @@
-/*
 //metadoc AppleSensors copyright Steve Dekorte 2002
-*/
-*/
 
 #ifndef IoAppleSensors_DEFINED
 #define IoAppleSensors_DEFINED 1
