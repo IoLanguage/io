@@ -259,7 +259,7 @@ IOINLINE int IoObject_mark(IoObject *self)
 //IoObject *IoObject_addingRef_(IoObject *self, IoObject *ref);
 IOVM_API IOINLINE int IoObject_hasCloneFunc_(IoObject *self, IoTagCloneFunc *func);
 
-IOINLINE IoObject *IoObject_activate(IoObject *self,
+IOVM_API IOINLINE IoObject *IoObject_activate(IoObject *self,
 									 IoObject *target,
 									 IoObject *locals,
 									 IoMessage *m,
