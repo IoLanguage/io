@@ -94,7 +94,7 @@ AddonLoader := Object clone do(
 	//doc Addon addons Looks for all addons which can be found and returns them as a list of Addon objects. Caches the result the first time it is called.
 	addons := method(
 		searchFolders := searchPaths map(path, Directory with(path)) select(exists)
-		addonFolders := searchFolders map(folders) flatten select(isAccessible) select(fileNames contains("build.io"))
+		addonFolders := searchFolders map(directories) flatten select(isAccessible) select(fileNames contains("build.io"))
 		addons := addonFolders map(f, Addon clone setRootPath(f path pathComponent) setName(f path lastPathComponent))
 		addons
 	)

@@ -8,13 +8,14 @@ Object do(
 Error do(
 	ifError := method(
 		if(call message arguments size == 1) then(
-			return(call evalArgAt(0))
+			result := call evalArgAt(0)
 		) elseif(call message arguments size > 1) then(
 			call sender setSlot(call message argAt(0) name, self)
-			return(call evalArgAt(1))
+			result := call evalArgAt(1)
 		) else(
 			Exception raise("ifError requires at least 1 argument")
 		)
+		result
 	) setPassStops(true)
 	
 	returnIfError := method(

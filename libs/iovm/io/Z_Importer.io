@@ -2,7 +2,7 @@ Importer := Object clone do(
 	//metadoc Importer description A simple search path based auto-importer.
 
 	//doc Importer paths List of paths the proto importer will check while searching for protos to load.
-	paths := method(FileImporter folders)
+	paths := method(FileImporter directories)
 
 	//doc Importer addSearchPath(path) Add a search path to the auto importer. Relative paths are made absolute before adding.
 	addSearchPath    := method(p, paths appendIfAbsent(Path absolute(p) asSymbol))
@@ -14,12 +14,12 @@ Importer := Object clone do(
 	FileImporter := Object clone do(
 		importsFrom := "file"
 
-		folders := list("")
+		directories := list("")
 
 		import := method(protoName,
-			if(System ?launchPath, folders appendIfAbsent(System launchPath))
+			if(System ?launchPath, directories appendIfAbsent(System launchPath))
 
-			folders foreach(folder,
+			directories foreach(folder,
 				path := Path with(folder, protoName .. ".io") asSymbol
 				if(File with(path) exists,
 					Lobby doFile(path)
