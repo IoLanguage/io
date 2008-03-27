@@ -24,7 +24,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="cd $(OutDir)\..\io&#x0D;&#x0A;cmd /c &quot;dir /B *.io&quot; | cscript //Nologo $(ProjectDir)\scripts\microsed.js &quot;\r\n&quot; &quot; &quot; | cscript //Nologo $(ProjectDir)\scripts\microxargs.js ..\tools\io2c.exe VMCode IoState_doString_ &gt;..\source\IOVMInit.c"
+				CommandLine="cd $(OutDir)\..\io&#x0D;&#x0A;cmd /c &quot;dir /B *.io&quot; | cscript //Nologo $(ProjectDir)\scripts\microsed.js &quot;\r\n&quot; &quot; &quot; | cscript //Nologo $(ProjectDir)\scripts\microxargs.js ..\tools\io2c.exe VMCode IoState_doString_ &gt;..\source\IOVMInit.c&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -64,7 +64,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(OutDir)\dll\libiovmall.dll"
+				OutputFile="$(OutDir)\dll\iovm.dll"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -93,7 +93,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="mkdir $(OutDir)\headers&#x0D;&#x0A;xcopy /Y /Q $(OutDir)\..\source\*.h $(OutDir)\headers\"
+				CommandLine="mkdir $(OutDir)\headers&#x0D;&#x0A;xcopy /Y /Q $(OutDir)\..\source\*.h $(OutDir)\headers\&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -106,7 +106,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="cd $(OutDir)\..\io&#x0D;&#x0A;cmd /c &quot;dir /B *.io&quot; | cscript //Nologo $(ProjectDir)\scripts\microsed.js &quot;\r\n&quot; &quot; &quot; | cscript //Nologo $(ProjectDir)\scripts\microxargs.js ..\tools\io2c.exe VMCode IoState_doString_ &gt;..\source\IOVMInit.c"
+				CommandLine="cd $(OutDir)\..\io&#x0D;&#x0A;cmd /c &quot;dir /B *.io&quot; | cscript //Nologo $(ProjectDir)\scripts\microsed.js &quot;\r\n&quot; &quot; &quot; | cscript //Nologo $(ProjectDir)\scripts\microxargs.js ..\tools\io2c.exe VMCode IoState_doString_ &gt;..\source\IOVMInit.c&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -173,7 +173,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="mkdir $(OutDir)\headers&#x0D;&#x0A;xcopy /Y /Q $(OutDir)\..\source\*.h $(OutDir)\headers\"
+				CommandLine="mkdir $(OutDir)\headers&#x0D;&#x0A;xcopy /Y /Q $(OutDir)\..\source\*.h $(OutDir)\headers\&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -186,7 +186,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="cd $(OutDir)\..\io&#x0D;&#x0A;cmd /c &quot;dir /B *.io&quot; | cscript //Nologo $(ProjectDir)\scripts\microsed.js &quot;\r\n&quot; &quot; &quot; | cscript //Nologo $(ProjectDir)\scripts\microxargs.js ..\tools\io2c.exe VMCode IoState_doString_ &gt;..\source\IOVMInit.c"
+				CommandLine="cd $(OutDir)\..\io&#x0D;&#x0A;cmd /c &quot;dir /B *.io&quot; | cscript //Nologo $(ProjectDir)\scripts\microsed.js &quot;\r\n&quot; &quot; &quot; | cscript //Nologo $(ProjectDir)\scripts\microxargs.js ..\tools\io2c.exe VMCode IoState_doString_ &gt;..\source\IOVMInit.c&#x0D;&#x0A;"
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -222,7 +222,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="$(OutDir)\libiovmall.dll"
+				OutputFile="$(OutDir)\dll\libiovmall.dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -253,7 +253,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="mkdir $(OutDir)\headers&#x0D;&#x0A;xcopy /Y /Q $(OutDir)\..\source\*.h $(OutDir)\headers\"
+				CommandLine="mkdir $(OutDir)\headers&#x0D;&#x0A;xcopy /Y /Q $(OutDir)\..\source\*.h $(OutDir)\headers\&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>

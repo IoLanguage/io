@@ -92,7 +92,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="mkdir $(OutDir)\headers&#x0D;&#x0A;xcopy /Y /Q $(OutDir)\..\source\*.h $(OutDir)\headers\"
+				CommandLine="mkdir $(OutDir)\headers&#x0D;&#x0A;xcopy /Y /Q $(OutDir)\..\source\*.h $(OutDir)\headers\&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -171,7 +171,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="mkdir $(OutDir)\headers&#x0D;&#x0A;xcopy /Y /Q $(OutDir)\..\source\*.h $(OutDir)\headers\"
+				CommandLine="mkdir $(OutDir)\headers&#x0D;&#x0A;xcopy /Y /Q $(OutDir)\..\source\*.h $(OutDir)\headers\&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -219,6 +219,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)\lib\$(ProjectName).lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -234,7 +235,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="mkdir $(OutDir)\headers&#x0D;&#x0A;xcopy /Y /Q $(OutDir)\..\source\*.h $(OutDir)\headers\"
+				CommandLine="mkdir $(OutDir)\headers&#x0D;&#x0A;xcopy /Y /Q $(OutDir)\..\source\*.h $(OutDir)\headers\&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>
