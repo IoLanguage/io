@@ -4,23 +4,29 @@ ObsidianChannel := Object clone do(
 	
 	debugWriteln := getSlot("writeln")
 	
+	sendList := method(aList,
+		debugWriteln("ObsidianChannel ", socket descriptorId, " send ", aList)
+		socket writeMessage(aList asEncodedList)
+	)
+	
 	handleSocket := method(aSocket,
+		self socket := aSocket
 		while(aSocket isOpen,
 		 	request := List fromEncodedList(aSocket readMessage)
-			debugWriteln("ObsidianChannel got message ", request)
+			debugWriteln("ObsidianChannel ", socket descriptorId, " recv ", request)
 			rid   := request at(0)
 			rtype := request at(1)
 			objId := request at(2)
 			arg1  := request at(3)
 			arg2  := request at(4)
 			if(rtype == "set") then(
-				db transactionalAtPut(objId .. arg1, arg2)
-				aSocket writeMessage(list(rid) asEncodedList)
+				db transactionalAtPut(objId .. "/" .. arg1, arg2)
+				sendList(list(rid))
 			) elseif(rtype == "get") then(
-				aSocket writeMessage(list(rid, db at(objId .. arg1)) asEncodedList)
+				sendList(list(rid, db at(objId .. "/" .. arg1)))
 			) elseif(rtype == "remove") then(
-				db transactionalRemoveAt(objId .. arg1)
-				aSocket writeMessage(list(rid) asEncodedList)		
+				db transactionalRemoveAt(objId .. "/" .. arg1)
+				sendList(list(rid))		
 			) elseif(rtype == "first") then(
 				c := db prefixCursor setPrefix(objId asString)
 				c first
@@ -32,7 +38,7 @@ ObsidianChannel := Object clone do(
 					c next
 				)
 				c close
-				aSocket writeMessage(list(rid) appendSeq(keys) asEncodedList)				
+				sendList(list(rid) appendSeq(keys))				
 			) elseif(rtype == "last") then(
 				c := db prefixCursor setPrefix(objId)
 				c last
@@ -44,7 +50,7 @@ ObsidianChannel := Object clone do(
 					c previous
 				)
 				c close
-				aSocket writeMessage(list(rid) appendSeq(keys) asEncodedList)				
+				sendList(list(rid) appendSeq(keys))				
 			) elseif(rtype == "after") then(
 				c := db prefixCursor setPrefix(objId)
 				c goto(arg1)
@@ -56,7 +62,7 @@ ObsidianChannel := Object clone do(
 					c next
 				)
 				c close
-				aSocket writeMessage(list(rid) appendSeq(keys) asEncodedList)		
+				sendList(list(rid) appendSeq(keys))		
 			) elseif(rtype == "before") then(
 				c := db prefixCursor setPrefix(objId)
 				c goto(arg1)
@@ -68,7 +74,7 @@ ObsidianChannel := Object clone do(
 					c previous
 				)
 				c close
-				aSocket writeMessage(list(rid) appendSeq(keys) asEncodedList)			
+				sendList(list(rid) appendSeq(keys))			
 			)
 
 			yield
