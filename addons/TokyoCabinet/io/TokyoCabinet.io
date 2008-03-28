@@ -28,3 +28,4 @@ TokyoCabinet do(
 	)
 )
 
+TokyoCabinetPrefixCursor prefix ::= nil
