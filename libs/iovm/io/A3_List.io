@@ -148,7 +148,7 @@ list(1, 2, 3, 4) detect(v, v > 2)
 
 	//doc List map(optionalIndex, value, message) Same as calling mapInPlace() on a clone of the receiver, but more efficient.
 
-	//doc List cusor Returns a ListCursor for the receiver.
+	//doc List cursor Returns a ListCursor for the receiver.
 	cursor := method(ListCursor clone setCollection(self))
 
 	//doc List containsAll(list) Returns true the target contains all of the items in the argument list.

@@ -330,7 +330,7 @@ Protos Exception do(
 	)
 )
 
-System userInteruptHandler := method(
+System userInterruptHandler := method(
 	writeln("\nStack trace:\n")
 	Scheduler currentCoroutine showStack
 	exit
