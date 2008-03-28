@@ -1,0 +1,51 @@
+-- internal -----------------------------------
+
+begin
+commit
+
+obj.s.key = type pointer, number, sequence
+obj.m.key = value
+obj.i.key = value
+
+get 	[obj.x.key] 
+set 	[obj.x.key] value
+append 	[obj.x.key] value
+size 	[obj.x.key] 
+
+cursor 
+	setPrefix [obj.x]
+	first
+	last
+	jump [key]
+	key
+	value
+	remove
+
+--- messages -----------------------------------
+
+id set		obj.x slot value   -> id
+id get		obj.x slot	   -> id value
+id remove	obj.x slot         -> id
+
+id first	obj.x count	   -> id slot/value pairs hasMore
+id last		obj.x count	   -> id slot/value pairs hasMore
+id after	obj.x slot count   -> id slot/value pairs hasMore
+id before	obj.x slot count   -> id slot/value pairs hasMore
+
+id detect 		obj.x expression
+id reduce		obj.x expression
+id select		obj.x expression
+id selectInPlace	obj.x expression
+id mapInPlace		obj.x expression
+id send			obj.x message args
+
+control:
+id count	obj -> count
+id collect	
+id removeObj	obj -> id   PRIVATE?
+
+-----------------------------------------------
+get list of servers
+when doing a lookup, map hash(objId) to nearest hash(serverId)
+
+
