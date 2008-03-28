@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="C:\1\io\libs\garbagecollector\_build\headers\;..\..\..\..\libs\coroutine\_build\headers;..\..\..\..\libs\basekit\_build\headers\"
+				AdditionalIncludeDirectories="..\..\..\..\libs\garbagecollector\_build\headers\;..\..\..\..\libs\coroutine\_build\headers;..\..\..\..\libs\basekit\_build\headers\"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;BUILDING_IOVM_DLL;BUILDING_BASEKIT_DLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
