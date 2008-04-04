@@ -151,8 +151,10 @@ IoObject *Io2Objc_perform(Io2Objc *self, IoObject *locals, IoMessage *m)
 
 	if (debug)
 	{
-		char *cType = (char *)[methodSignature methodReturnType];
-		IoState_print_(IOSTATE, "Io -> Objc (%s)", IoObjcBridge_nameForTypeChar_(DATA(self)->bridge, *cType));
+		const char *cType = [methodSignature methodReturnType];
+		IoState_print_(IOSTATE, "Io -> Objc: %s (%s)",
+					   [[object className] cString],
+					   IoObjcBridge_nameForTypeChar_(DATA(self)->bridge, *cType));
 		IoState_print_(IOSTATE, "%s(", methodName);
 	}
 
@@ -162,7 +164,7 @@ IoObject *Io2Objc_perform(Io2Objc *self, IoObject *locals, IoMessage *m)
 		for (n = 2; n < max; n++)
 		{
 			char *error;
-			char *cType = (char *)[methodSignature getArgumentTypeAtIndex:n];
+			const char *cType = [methodSignature getArgumentTypeAtIndex:n];
 			IoObject *ioValue = IoMessage_locals_valueArgAt_(m, locals, n-2);
 			void *cValue = IoObjcBridge_cValueForIoObject_ofType_error_(DATA(self)->bridge, ioValue, cType, &error);
 			if (debug)
@@ -192,7 +194,7 @@ IoObject *Io2Objc_perform(Io2Objc *self, IoObject *locals, IoMessage *m)
 	/* --- return result --------------------------- */
 	{
 		char *error;
-		char *cType = (char *)[methodSignature methodReturnType];
+		const char *cType = [methodSignature methodReturnType];
 		unsigned int length = [methodSignature methodReturnLength];
 
 		if (*cType == 'v')
@@ -247,7 +249,7 @@ void forwardInvocation(id self, SEL sel, NSInvocation *invocation)
 		if (*returnType != 'v')
 		{
 			char *error;
-			void *cResult = IoObjcBridge_cValueForIoObject_ofType_error_(bridge, result, (char *)returnType, &error);
+			void *cResult = IoObjcBridge_cValueForIoObject_ofType_error_(bridge, result, returnType, &error);
 			if (error)
 				IoState_error_(IoObject_state(bridge), message, "Io Io2Objc forwardInvocation %s - return type:'%s'", error, returnType);
 			[invocation setReturnValue:cResult];
