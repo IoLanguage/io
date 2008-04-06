@@ -27,6 +27,7 @@ void IoObjcBridgeInit(IoObject *context)
 	}
 }
 
+/*
 @implementation NSBundle(Io)
 static NSBundle *_mainBundle;
 + (NSBundle *)mainBundle
@@ -39,3 +40,4 @@ static NSBundle *_mainBundle;
 	return _mainBundle;
 }
 @end
+*/
