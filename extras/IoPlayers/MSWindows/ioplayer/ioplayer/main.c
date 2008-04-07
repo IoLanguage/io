@@ -1,7 +1,19 @@
+#include <winsock2.h>
 #include <windows.h>		
-#include <tchar.h>
 #include <gl\gl.h>			
-#include <gl\glu.h>				
+#include <gl\glu.h>			
+#include <gl\glut.h>			
+#include "IoState.h"
+#include "IoOpenGL.h"
+#include "IoGLUT.h"
+
+#include "IoCFunction.h"
+
+#include <tchar.h>
+
+#include <stdio.h>
+#include <fcntl.h>
+#include <io.h>
 
 HDC			hDC=NULL;		
 HGLRC		hRC=NULL;		
@@ -11,6 +23,8 @@ HINSTANCE	hInstance;
 BOOL	keys[256];			
 BOOL	active=TRUE;		
 BOOL	fullscreen=FALSE;	
+IoState *ioState;
+
 
 LRESULT	CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);	
 
@@ -333,19 +347,171 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,
 	return DefWindowProc(hWnd,uMsg,wParam,lParam);
 }
 
-int WINAPI WinMain(	HINSTANCE	hInstance,			
-					HINSTANCE	hPrevInstance,		
-					LPSTR		lpCmdLine,			
-					int			nCmdShow)			
+void CreateConsole()
+{
+	int hConHandle;
+	long lStdHandle;
+
+	CONSOLE_SCREEN_BUFFER_INFO coninfo;
+	FILE *fp;
+	// allocate a console for this app
+	AllocConsole();
+
+	// redirect unbuffered STDOUT to the console
+	lStdHandle = (long)GetStdHandle(STD_OUTPUT_HANDLE);
+	hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
+	fp = _fdopen( hConHandle, "w" );
+	*stdout = *fp;
+	setvbuf( stdout, NULL, _IONBF, 0 );
+
+	// redirect unbuffered STDIN to the console
+	lStdHandle = (long)GetStdHandle(STD_INPUT_HANDLE);
+	hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
+	fp = _fdopen( hConHandle, "r" );
+	*stdin = *fp;
+	setvbuf( stdin, NULL, _IONBF, 0 );
+
+	// redirect unbuffered STDERR to the console
+	lStdHandle = (long)GetStdHandle(STD_ERROR_HANDLE);
+	hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
+	fp = _fdopen( hConHandle, "w" );
+	*stderr = *fp;
+	setvbuf( stderr, NULL, _IONBF, 0 );
+
+}
+
+	char buf[100] = {"boo"};
+	char *pbuf[] = {&buf};
+
+void StartIO(LPCTSTR aScriptName)
+{
+	CreateConsole();
+	ioState = IoState_new();	
+	IoState_init(ioState);
+	
+	IoState_argc_argv_(ioState, 1, pbuf);
+	IoState_runCLI(ioState);
+//	IoState_doFile_(ioState, aScriptName);
+}
+
+void StopIO()
+{
+	if (ioState) IoState_free(ioState);
+	FreeConsole();
+}
+
+void GLIoView_postRedisplay(IoGL *self, IoObject *locals, IoMessage *m)
+{
+}
+
+void GLIoView_glutReshapeFunc(IoGL *self, IoObject *locals, IoMessage *m)
+{
+}
+
+void GLIoView_glutDisplayFunc(IoGL *self, IoObject *locals, IoMessage *m)
+{
+}
+
+void GLIoView_glutEntryFunc(IoGL *self, IoObject *locals, IoMessage *m)
+{
+}
+
+void GLIoView_glutMouseFunc(IoGL *self, IoObject *locals, IoMessage *m)
+{
+}
+
+void GLIoView_glutMotionFunc(IoGL *self, IoObject *locals, IoMessage *m)
+{
+}
+
+void GLIoView_glutKeyboardFunc(IoGL *self, IoObject *locals, IoMessage *m)
+{
+}
+
+void GLIoView_glutPassiveMotionFunc(IoGL *self, IoObject *locals, IoMessage *m)
+{
+}
+
+void GLIoView_registerTimer(IoGL *self, IoObject *locals, IoMessage *m)
+{
+}
+
+void GLIoView_noop(IoGL *self, IoObject *locals, IoMessage *m) 
+{
+}
+
+#define IOCFUNCTION_GL(func) IoCFunction_newWithFunctionPointer_tag_name_(ioState, (void *)func, NULL, "")
+
+void overrideIoGLMethods()
+{
+	IoObject *cxt = IoState_doCString_(ioState, "GLUT");
+	IoCFunction *noopfunc = IOCFUNCTION_GL(GLIoView_noop);
+	
+	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutDisplayFunc"),
+						 IOCFUNCTION_GL(GLIoView_glutDisplayFunc));
+	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutReshapeFunc"), 
+						 IOCFUNCTION_GL(GLIoView_glutReshapeFunc));
+	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutKeyboardFunc"), 
+						 IOCFUNCTION_GL(GLIoView_glutKeyboardFunc));
+	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutKeyboardUpFunc"), 
+						 IOCFUNCTION_GL(GLIoView_glutKeyboardFunc));
+	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutMouseFunc"),
+						 IOCFUNCTION_GL(GLIoView_glutMouseFunc));
+	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutMotionFunc"), 
+						 IOCFUNCTION_GL(GLIoView_glutMotionFunc));
+	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutPassiveMotionFunc"), 
+						 IOCFUNCTION_GL(GLIoView_glutPassiveMotionFunc));
+	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutEntryFunc"), 
+						 IOCFUNCTION_GL(GLIoView_glutEntryFunc));
+    
+	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutVisibilityFunc"), noopfunc);
+	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutTimerFunc"), 
+						 IOCFUNCTION_GL(GLIoView_registerTimer));
+    
+	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutIdleFunc"), noopfunc);
+	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutPostRedisplay"), 
+						 IOCFUNCTION_GL(GLIoView_postRedisplay));
+	
+	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutInit"), noopfunc);
+	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutMainLoop"), noopfunc);
+	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutInitDisplayMode"), noopfunc);
+	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutInitWindowSize"), noopfunc);
+	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutCreateWindow"), noopfunc);
+	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutInitWindowPosition"), noopfunc);
+	
+	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutEventTarget"), 
+						 IOCFUNCTION_GL(IoGLUT_glutEventTarget_));  
+    
+	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutInitDisplayMode"), noopfunc);
+	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutSwapBuffers"), 
+						 IOCFUNCTION_GL(GLIoView_postRedisplay));
+}
+
+int main(int argc, char **argv)
+{
+	ioState = IoState_new();	
+	IoState_init(ioState);
+	
+//	IoState_argc_argv_(ioState, argc, argv);
+//	IoState_runCLI(ioState);
+//	IoState_doFile_(ioState, "main.io");
+	StartGL();
+	if (ioState) IoState_free(ioState);
+}
+
+int StartGL()
 {
 	MSG		msg;									
 	BOOL	done=FALSE;								
+
+	StartIO(_T("main.io"));
 
 	// Create Our OpenGL Window
 	if (!CreateGLWindow(_T("NeHe's OpenGL Framework"),640,480,32,fullscreen))
 	{
 		return 0;									
 	}
+
 
 	while(!done)									
 	{
@@ -391,6 +557,15 @@ int WINAPI WinMain(	HINSTANCE	hInstance,
 	}
 
 	// Shutdown
+	StopIO();
 	KillGLWindow();									
 	return (msg.wParam);							
+}
+
+int WINAPI WinMain(	HINSTANCE	hInstance,			
+					HINSTANCE	hPrevInstance,		
+					LPSTR		lpCmdLine,			
+					int			nCmdShow)			
+{
+	return StartGL();
 }
