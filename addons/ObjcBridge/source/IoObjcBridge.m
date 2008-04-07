@@ -495,7 +495,13 @@ void *IoObjcBridge_cValueForIoObject_ofType_error_(IoObjcBridge *self, IoObject 
 			break;
 		//case 'b':
 		//case 'v':
-		//case 'r':
+		case 'r': // const qualifier
+			if (0 != strncmp(cType, "r*", 2)) // strings do not equal
+			{
+				*error = "no match for argument type";
+				break;
+			}
+			// fall through to '*' if strings are equal
 		case '*':
 			if (ISSYMBOL(value))
 				DATA(self)->cValue.cp = CSTRING(value);
@@ -637,6 +643,9 @@ char *IoObjcBridge_nameForTypeChar_(IoObjcBridge *self, char type)
 		case ')': return "union E";
 		case '{': return "struct B";
 		case '}': return "struct A";
+		case 'r': // const qualifier
+			if (strncmp(&type, "r*", 2))
+				return "const char *";
 	}
 	return "?";
 }
