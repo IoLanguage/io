@@ -25,7 +25,52 @@ BOOL	active=TRUE;
 BOOL	fullscreen=FALSE;	
 IoState *ioState;
 
+struct glutOptions {
+	BOOL doesReshape;
+	BOOL doesDisplay;
+	BOOL doesMouse;
+	BOOL doesMotion;
+	BOOL doesKeyboard;
+	BOOL doesPassiveMotion;
+	BOOL doesEntry;
+} glutOptions = {0};
 
+struct ioGlutFuncs {
+IoObject * (__cdecl *IoGLUT_glutEventTarget_)(IoGLUT *, IoObject *, IoMessage *);
+void (__cdecl *IoGlutKeyboardFunc)(unsigned char key, int xv, int yv);
+void (__cdecl *IoGlutSpecialFunc)(int key, int xv, int yv);
+void (__cdecl *IoGlutKeyboardUpFunc)(unsigned char key, int xv, int yv);
+void (__cdecl *IoGlutSpecialUpFunc)(int key, int xv, int yv);
+void (__cdecl *IoGlutEntryFunc)(int state);
+void (__cdecl *IoGlutMotionFunc)(int xv, int yv);
+void (__cdecl *IoGlutPassiveMotionFunc)(int xv, int yv);
+void (__cdecl *IoGlutMouseFunc)(int button, int state, int xv, int yv);
+void (__cdecl *IoGlutDisplayFunc)(void);
+void (__cdecl *IoGlutReshapeFunc)(int width, int height);
+void (__cdecl *IoGlutTimerFunc)(int vv);
+} ioGlutFuncs;
+
+BOOL loadIoGlutDll()
+{
+	if (ioGlutFuncs.IoGLUT_glutEventTarget_ == NULL)
+	{
+		HMODULE hLib = LoadLibrary(_T("\\usr\\local\\lib\\io\\addons\\OpenGL\\_build\\dll\\libioopengl.dll"));
+		if (hLib == 0)
+			return FALSE;
+		ioGlutFuncs.IoGLUT_glutEventTarget_ = (void *)GetProcAddress(hLib, "IoGLUT_glutEventTarget_");
+		ioGlutFuncs.IoGlutSpecialFunc = (void *)GetProcAddress(hLib, "IoGlutSpecialFunc");
+		ioGlutFuncs.IoGlutKeyboardUpFunc = (void *)GetProcAddress(hLib, "IoGlutKeyboardUpFunc");
+		ioGlutFuncs.IoGlutEntryFunc = (void *)GetProcAddress(hLib, "IoGlutEntryFunc");
+		ioGlutFuncs.IoGlutMotionFunc = (void *)GetProcAddress(hLib, "IoGlutMotionFunc");
+		ioGlutFuncs.IoGlutPassiveMotionFunc = (void *)GetProcAddress(hLib, "IoGlutPassiveMotionFunc");
+		ioGlutFuncs.IoGlutMouseFunc = (void *)GetProcAddress(hLib, "IoGlutMouseFunc");
+		ioGlutFuncs.IoGlutDisplayFunc = (void *)GetProcAddress(hLib, "IoGlutDisplayFunc");
+		ioGlutFuncs.IoGlutReshapeFunc = (void *)GetProcAddress(hLib, "IoGlutReshapeFunc");
+		ioGlutFuncs.IoGlutTimerFunc = (void *)GetProcAddress(hLib, "IoGlutTimerFunc");
+		return TRUE;
+	} else
+		return TRUE;
+}
 LRESULT	CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);	
 
 void ReSizeGLScene(GLsizei width, GLsizei height)		
@@ -54,6 +99,9 @@ int InitGL()
 
 int DrawGLScene()									
 {
+	if (glutOptions.doesDisplay)
+		if (loadIoGlutDll()) ioGlutFuncs.IoGlutDisplayFunc();
+	/*
 	static float t = 0;
 	t+=0.1f;
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
@@ -72,6 +120,7 @@ int DrawGLScene()
 	glVertex2f(1, 1);
 	glVertex2f(-1, 1);
 	glEnd();
+	*/
 	return TRUE;										
 }
 
@@ -303,7 +352,6 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,
 			{
 				active=FALSE;						
 			}
-
 			return 0;								
 		}
 
@@ -317,7 +365,72 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,
 			}
 			break;									
 		}
+		case WM_MOUSEMOVE:
+		{			
+			int x = LOWORD(lParam);
+			int y = HIWORD(lParam);
+			if (wParam & (MK_LBUTTON | MK_RBUTTON | MK_MBUTTON))
+				if (glutOptions.doesMotion)
+					if (loadIoGlutDll()) ioGlutFuncs.IoGlutMotionFunc(x, y);
+			else
+				if (glutOptions.doesPassiveMotion)
+					if (loadIoGlutDll()) ioGlutFuncs.IoGlutPassiveMotionFunc(x, y);
+			break;
+		}
+		case WM_LBUTTONDOWN:
+		{
+			int x = LOWORD(lParam);
+			int y = HIWORD(lParam);
 
+			if (glutOptions.doesMouse)
+				if (loadIoGlutDll()) ioGlutFuncs.IoGlutMouseFunc(GLUT_LEFT_BUTTON, GLUT_DOWN, x, y);
+			break;
+		}
+		case WM_RBUTTONDOWN:
+		{
+			int x = LOWORD(lParam);
+			int y = HIWORD(lParam);
+			
+			if (glutOptions.doesMouse)
+				if (loadIoGlutDll()) ioGlutFuncs.IoGlutMouseFunc(GLUT_RIGHT_BUTTON, GLUT_DOWN, x, y);
+			break;
+		}
+		case WM_MBUTTONDOWN:
+		{
+			int x = LOWORD(lParam);
+			int y = HIWORD(lParam);
+
+			if (glutOptions.doesMouse)
+				if (loadIoGlutDll()) ioGlutFuncs.IoGlutMouseFunc(GLUT_MIDDLE_BUTTON, GLUT_DOWN, x, y);
+			break;
+		}
+		case WM_LBUTTONUP:
+		{
+			int x = LOWORD(lParam);
+			int y = HIWORD(lParam);
+
+			if (glutOptions.doesMouse)
+				if (loadIoGlutDll()) ioGlutFuncs.IoGlutMouseFunc(GLUT_LEFT_BUTTON, GLUT_UP, x, y);
+			break;
+		}
+		case WM_RBUTTONUP:
+		{
+			int x = LOWORD(lParam);
+			int y = HIWORD(lParam);
+
+			if (glutOptions.doesMouse)
+				if (loadIoGlutDll()) ioGlutFuncs.IoGlutMouseFunc(GLUT_RIGHT_BUTTON, GLUT_UP, x, y);
+			break;
+		}
+		case WM_MBUTTONUP:
+		{
+			int x = LOWORD(lParam);
+			int y = HIWORD(lParam);
+
+			if (glutOptions.doesMouse)
+				if (loadIoGlutDll()) ioGlutFuncs.IoGlutMouseFunc(GLUT_MIDDLE_BUTTON, GLUT_UP, x, y);
+			break;
+		}
 		case WM_CLOSE:								
 		{
 			PostQuitMessage(0);						
@@ -338,7 +451,8 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,
 
 		case WM_SIZE:								
 		{
-			ReSizeGLScene(LOWORD(lParam),HIWORD(lParam));
+			if (glutOptions.doesReshape)
+				if (loadIoGlutDll()) ioGlutFuncs.IoGlutReshapeFunc(LOWORD(lParam),HIWORD(lParam));
 			return 0;								
 		}
 	}
@@ -402,38 +516,58 @@ void StopIO()
 
 void GLIoView_postRedisplay(IoGL *self, IoObject *locals, IoMessage *m)
 {
+//	glutOptions.doesDisplay = TRUE; !
 }
 
 void GLIoView_glutReshapeFunc(IoGL *self, IoObject *locals, IoMessage *m)
 {
+	glutOptions.doesReshape = TRUE;
 }
 
 void GLIoView_glutDisplayFunc(IoGL *self, IoObject *locals, IoMessage *m)
 {
+	glutOptions.doesDisplay = TRUE;
 }
 
 void GLIoView_glutEntryFunc(IoGL *self, IoObject *locals, IoMessage *m)
 {
+	glutOptions.doesEntry = TRUE;
 }
 
 void GLIoView_glutMouseFunc(IoGL *self, IoObject *locals, IoMessage *m)
 {
+	glutOptions.doesMouse = TRUE;
 }
 
 void GLIoView_glutMotionFunc(IoGL *self, IoObject *locals, IoMessage *m)
 {
+	glutOptions.doesMotion = TRUE;
 }
 
 void GLIoView_glutKeyboardFunc(IoGL *self, IoObject *locals, IoMessage *m)
 {
+	glutOptions.doesKeyboard = TRUE;
 }
 
 void GLIoView_glutPassiveMotionFunc(IoGL *self, IoObject *locals, IoMessage *m)
 {
+	glutOptions.doesPassiveMotion = TRUE;
+}
+
+int g_timerVal;
+
+void CALLBACK timerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+{
+	if (loadIoGlutDll()) ioGlutFuncs.IoGlutTimerFunc(g_timerVal);
 }
 
 void GLIoView_registerTimer(IoGL *self, IoObject *locals, IoMessage *m)
 {
+	int millisecs = IoMessage_locals_intArgAt_(m, locals, 0);
+	int val = IoMessage_locals_intArgAt_(m, locals, 1);
+
+	g_timerVal = val;
+	SetTimer(NULL, 1, millisecs, timerProc);
 }
 
 void GLIoView_noop(IoGL *self, IoObject *locals, IoMessage *m) 
@@ -445,6 +579,7 @@ void GLIoView_noop(IoGL *self, IoObject *locals, IoMessage *m)
 void overrideIoGLMethods()
 {
 	IoObject *cxt = IoState_doCString_(ioState, "GLUT");
+
 	IoCFunction *noopfunc = IOCFUNCTION_GL(GLIoView_noop);
 	
 	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutDisplayFunc"),
@@ -478,10 +613,10 @@ void overrideIoGLMethods()
 	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutInitWindowSize"), noopfunc);
 	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutCreateWindow"), noopfunc);
 	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutInitWindowPosition"), noopfunc);
-	
+	/*
 	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutEventTarget"), 
 						 IOCFUNCTION_GL(IoGLUT_glutEventTarget_));  
-    
+    */
 	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutInitDisplayMode"), noopfunc);
 	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutSwapBuffers"), 
 						 IOCFUNCTION_GL(GLIoView_postRedisplay));
@@ -491,10 +626,10 @@ int main(int argc, char **argv)
 {
 	ioState = IoState_new();	
 	IoState_init(ioState);
-	
-//	IoState_argc_argv_(ioState, argc, argv);
-//	IoState_runCLI(ioState);
+	overrideIoGLMethods();
 //	IoState_doFile_(ioState, "main.io");
+	IoState_argc_argv_(ioState, argc, argv);
+	IoState_runCLI(ioState);
 	StartGL();
 	if (ioState) IoState_free(ioState);
 }
@@ -504,7 +639,8 @@ int StartGL()
 	MSG		msg;									
 	BOOL	done=FALSE;								
 
-	StartIO(_T("main.io"));
+//	StartIO(_T("main.io"));
+//	IoState_doFile_(ioState, "main.io");
 
 	// Create Our OpenGL Window
 	if (!CreateGLWindow(_T("NeHe's OpenGL Framework"),640,480,32,fullscreen))
@@ -512,6 +648,8 @@ int StartGL()
 		return 0;									
 	}
 
+	if (glutOptions.doesReshape)
+		if (loadIoGlutDll()) ioGlutFuncs.IoGlutReshapeFunc(640,480);
 
 	while(!done)									
 	{
