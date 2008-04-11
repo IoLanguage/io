@@ -282,6 +282,7 @@ void IoObjcBridge_removeValue_(IoObjcBridge *self, IoObject *v)
 void IoObjcBridge_addValue_(IoObjcBridge *self, IoObject *v, id obj)
 {
 	/* Called by Objc2Io instance when alloced */
+	[obj retain];
 	PHash_at_put_(DATA(self)->objc2ios, IOREF(v), obj);
 }
 
