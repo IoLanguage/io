@@ -73,7 +73,9 @@ static PHash *classProtos = NULL;
 - (void)setProto
 {
 	const char *s = [[self className] cString];
-	printf("classname = %s state = %p\n", s, state);
+
+	if(IoObjcBridge_rawDebugOn(IoObjcBridge_sharedBridge()))
+		printf("classname = %s state = %p\n", s, state);
 
 	if (state)
 	{
