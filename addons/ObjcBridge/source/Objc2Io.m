@@ -24,9 +24,6 @@
 - (void)setIoObject:(IoObject *)v
 {
 	ioValue = v;
-
-	IoTag* tag = IoObject_tag(ioValue);
-	IoTag_performFunc_(tag, (IoTagPerformFunc *)IoObject_perform);
 }
 
 - (IoObject *)ioValue
@@ -103,9 +100,12 @@
 	IoMessage *message = IoObjcBridge_ioMessageForNSInvocation_(bridge, invocation);
 	const char *returnType = [[invocation methodSignature] methodReturnType];
 	IoTag* tag = IoObject_tag(ioValue);
-	if (!IoTag_performFunc(tag))
-		IoState_error_(IoObject_state(ioValue), message, "Io Objc2Io forwardInvocation: no performFunc set on object: %s", IoObject_name(ioValue));
-	IoObject *result = tag->performFunc(ioValue, ioValue, message);
+	IoObject *result;
+	
+	if (IoTag_performFunc(tag))
+		result = tag->performFunc(ioValue, ioValue, message);
+	else
+		result = IoObject_perform(ioValue, ioValue, message);
 
 	// convert and return result if not void
 
