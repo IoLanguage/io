@@ -27,8 +27,6 @@
 
 	IoTag* tag = IoObject_tag(ioValue);
 	IoTag_performFunc_(tag, (IoTagPerformFunc *)IoObject_perform);
-	
-	IoObjcBridge_addValue_(bridge, ioValue, self);
 }
 
 - (IoObject *)ioValue

@@ -21,7 +21,7 @@ static PHash *classProtos = NULL;
 
 @implementation ObjcSubclass
 
-+ new
++ (id)new
 {
 	return [[self alloc] init];
 }
@@ -62,7 +62,7 @@ static PHash *classProtos = NULL;
 	return v;
 }
 
-+ alloc
++ (id)alloc
 {
 	id v = [super alloc];
 	//printf("[ObjcSubclass alloc]\n");
@@ -80,8 +80,8 @@ static PHash *classProtos = NULL;
 		IoSymbol *className = IoState_symbolWithCString_(state, (char *)s);
 		IoObject *proto = (IoObject *)PHash_at_((void *)[[self class] classProtos], className);
 		[super init];
-		ioValue = (IoObject *)IOCLONE(proto);
-		bridge = IoObjcBridge_sharedBridge();
+		[self setIoObject: (IoObject *)IOCLONE(proto)];
+		[self setBridge: IoObjcBridge_sharedBridge()];
 		IoObjcBridge_addValue_(bridge, ioValue, self);
 	}
 }
