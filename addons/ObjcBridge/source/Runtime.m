@@ -48,7 +48,7 @@ Class objc_makeClass(const char *name, const char *superName, BOOL isMetaClass)
 	return class;
 }
 
-void class_addMethod(Class class, SEL sel, const char *types, IMP imp, BOOL toInstanceMethods)
+void Io_class_addMethod(Class class, SEL sel, const char *types, IMP imp, BOOL toInstanceMethods)
 {
 	if (class == 0) return;
 	if (toInstanceMethods == NO) class = class->isa;

@@ -1,8 +1,5 @@
-/*
 //metadoc copyright Steve Dekorte 2002
-*/
 //metadoc license BSD revised
-*/
 
 #ifndef IOPYTHON_DEFINED
 #define IOPYTHON_DEFINED 1

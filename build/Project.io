@@ -146,7 +146,7 @@ Project := Object clone do(
 
 		maxNameSize := availableAddons max(name size) name size
 		availableAddons foreach(addon,
-			path := Path with(addon folder path, "tests/run.io")
+			path := Path with(addon folder path, "tests/correctness/run.io")
 			
 			if(File clone setPath(path) exists,
 				write(addon name alignLeft(maxNameSize), " - ")
