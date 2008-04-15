@@ -30,6 +30,7 @@ struct glutOptions {
 	BOOL doesDisplay;
 	BOOL doesMouse;
 	BOOL doesMotion;
+	BOOL doesSpecial;
 	BOOL doesKeyboard;
 	BOOL doesPassiveMotion;
 	BOOL doesEntry;
@@ -165,6 +166,58 @@ void KillGLWindow()
 	}
 }
 
+/* convert VK_* codes to glut special key constants. Return -1 if no match */
+int GetGlutSpecialKeyCode(WPARAM vkKeyCode)
+{
+	switch (vkKeyCode)
+	{
+	case VK_F1:
+		return GLUT_KEY_F1;
+	case VK_F2:
+		return GLUT_KEY_F2;
+	case VK_F3:
+		return GLUT_KEY_F3;
+	case VK_F4:
+		return GLUT_KEY_F4;
+	case VK_F5:
+		return GLUT_KEY_F5;
+	case VK_F6:
+		return GLUT_KEY_F6;
+	case VK_F7:
+		return GLUT_KEY_F7;
+	case VK_F8:
+		return GLUT_KEY_F8;
+	case VK_F9:
+		return GLUT_KEY_F9;
+	case VK_F10:
+		return GLUT_KEY_F10;
+	case VK_F11:
+		return GLUT_KEY_F11;
+	case VK_F12:
+		return GLUT_KEY_F12;
+	case VK_LEFT:
+		return GLUT_KEY_LEFT;
+	case VK_RIGHT:
+		return GLUT_KEY_RIGHT;
+	case VK_UP:
+		return GLUT_KEY_UP;
+	case VK_DOWN:
+		return GLUT_KEY_DOWN;
+	case VK_PRIOR:
+		return GLUT_KEY_PAGE_UP;
+	case VK_NEXT:
+		return GLUT_KEY_PAGE_DOWN;
+	case VK_HOME:
+		return GLUT_KEY_HOME;
+	case VK_END:
+		return GLUT_KEY_END;
+	case VK_INSERT:
+		return GLUT_KEY_INSERT;
+
+	default:
+		return -1;
+	}
+}
 /*	This Code Creates Our OpenGL Window.  Parameters Are:					*
  *	title			- Title To Appear At The Top Of The Window				*
  *	width			- Width Of The GL Window Or Fullscreen Mode				*
@@ -439,7 +492,15 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,
 
 		case WM_KEYDOWN:							
 		{
+			POINT ptCursor;
+			int glutKey = GetGlutSpecialKeyCode(wParam);
+			GetCursorPos(&ptCursor);
+			ScreenToClient(hWnd, &ptCursor);
+
 			keys[wParam] = TRUE;					
+			if (glutOptions.doesSpecial && glutKey != -1)
+				if (loadIoGlutDll()) ioGlutFuncs.IoGlutSpecialFunc(glutKey, ptCursor.x, ptCursor.y);
+			
 			return 0;								
 		}
 
@@ -448,6 +509,19 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,
 			keys[wParam] = FALSE;					
 			return 0;								
 		}
+
+		case WM_CHAR:
+		{
+			char c = wParam;
+			POINT ptCursor;
+			GetCursorPos(&ptCursor);
+			ScreenToClient(hWnd, &ptCursor);
+
+			if (glutOptions.doesKeyboard)
+				if (loadIoGlutDll()) ioGlutFuncs.IoGlutKeyboardFunc(c, ptCursor.x, ptCursor.y);
+
+			break;
+		}	
 
 		case WM_SIZE:								
 		{
@@ -461,49 +535,12 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,
 	return DefWindowProc(hWnd,uMsg,wParam,lParam);
 }
 
-void CreateConsole()
-{
-	int hConHandle;
-	long lStdHandle;
-
-	CONSOLE_SCREEN_BUFFER_INFO coninfo;
-	FILE *fp;
-	// allocate a console for this app
-	AllocConsole();
-
-	// redirect unbuffered STDOUT to the console
-	lStdHandle = (long)GetStdHandle(STD_OUTPUT_HANDLE);
-	hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
-	fp = _fdopen( hConHandle, "w" );
-	*stdout = *fp;
-	setvbuf( stdout, NULL, _IONBF, 0 );
-
-	// redirect unbuffered STDIN to the console
-	lStdHandle = (long)GetStdHandle(STD_INPUT_HANDLE);
-	hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
-	fp = _fdopen( hConHandle, "r" );
-	*stdin = *fp;
-	setvbuf( stdin, NULL, _IONBF, 0 );
-
-	// redirect unbuffered STDERR to the console
-	lStdHandle = (long)GetStdHandle(STD_ERROR_HANDLE);
-	hConHandle = _open_osfhandle(lStdHandle, _O_TEXT);
-	fp = _fdopen( hConHandle, "w" );
-	*stderr = *fp;
-	setvbuf( stderr, NULL, _IONBF, 0 );
-
-}
-
-	char buf[100] = {"boo"};
-	char *pbuf[] = {&buf};
-
 void StartIO(LPCTSTR aScriptName)
 {
-	CreateConsole();
 	ioState = IoState_new();	
 	IoState_init(ioState);
 	
-	IoState_argc_argv_(ioState, 1, pbuf);
+//	IoState_argc_argv_(ioState, 1, pbuf);
 	IoState_runCLI(ioState);
 //	IoState_doFile_(ioState, aScriptName);
 }
@@ -511,7 +548,6 @@ void StartIO(LPCTSTR aScriptName)
 void StopIO()
 {
 	if (ioState) IoState_free(ioState);
-	FreeConsole();
 }
 
 void GLIoView_postRedisplay(IoGL *self, IoObject *locals, IoMessage *m)
@@ -542,6 +578,11 @@ void GLIoView_glutMouseFunc(IoGL *self, IoObject *locals, IoMessage *m)
 void GLIoView_glutMotionFunc(IoGL *self, IoObject *locals, IoMessage *m)
 {
 	glutOptions.doesMotion = TRUE;
+}
+
+void GLIoView_glutSpecialFunc(IoGL *self, IoObject *locals, IoMessage *m)
+{
+	glutOptions.doesSpecial = TRUE;
 }
 
 void GLIoView_glutKeyboardFunc(IoGL *self, IoObject *locals, IoMessage *m)
@@ -586,6 +627,8 @@ void overrideIoGLMethods()
 						 IOCFUNCTION_GL(GLIoView_glutDisplayFunc));
 	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutReshapeFunc"), 
 						 IOCFUNCTION_GL(GLIoView_glutReshapeFunc));
+	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutSpecialFunc"), 
+						 IOCFUNCTION_GL(GLIoView_glutSpecialFunc));
 	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutKeyboardFunc"), 
 						 IOCFUNCTION_GL(GLIoView_glutKeyboardFunc));
 	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutKeyboardUpFunc"), 
