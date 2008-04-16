@@ -3,7 +3,7 @@ HttpServer := Server clone do(
 	setHost("127.0.0.1")
 	
 	init := method(
-		recycledRequests := List clone
+		self recycledRequests := List clone
 	)
 	
 	handleSocket := method(socket,
