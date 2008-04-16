@@ -3,6 +3,11 @@
 #include "IoState.h"
 #include "http11_parser.h"
 
+#undef TRUE
+#define TRUE    1               /* boolean true */
+#undef FALSE
+#define FALSE   0               /* boolean false */
+
 #define PARSER(self) (HTTPParser *)IoObject_dataPointer(self)
 
 IoTag *IoHTTPParser_newTag(void *state)

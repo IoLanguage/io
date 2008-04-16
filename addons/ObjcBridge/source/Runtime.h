@@ -45,6 +45,6 @@
 - (unsigned int)argumentSizeAtIndex:(unsigned int)index;
 @end
 Class objc_makeClass(const char *name, const char *superName, BOOL isMetaClass);
-void class_addMethod(Class class, SEL sel, const char *types, IMP imp, BOOL toInstanceMethods);
+void Io_class_addMethod(Class class, SEL sel, const char *types, IMP imp, BOOL toInstanceMethods);
 
 #endif

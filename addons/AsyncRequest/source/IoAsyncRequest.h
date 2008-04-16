@@ -1,7 +1,4 @@
-/*
 //metadoc AsyncRequest copyright Steve Dekorte 2002
-*/
-*/
 
 #ifndef IoAsyncRequest_DEFINED
 #define IoAsyncRequest_DEFINED 1

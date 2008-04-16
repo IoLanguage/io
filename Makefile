@@ -73,7 +73,7 @@ libs := basekit coroutine garbagecollector iovm
 all: addons
 
 testaddon:
-	./_build/binaries/io_static$(BINARY_SUFFIX) addons/$(addon)/tests/run.io
+	./_build/binaries/io_static$(BINARY_SUFFIX) addons/$(addon)/tests/correctness/run.io
 
 vm:
 	for dir in $(libs); do INSTALL_PREFIX=$(INSTALL_PREFIX) $(MAKE) -C libs/$$dir; done

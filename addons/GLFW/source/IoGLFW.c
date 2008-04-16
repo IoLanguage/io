@@ -1,4 +1,4 @@
-/*metadoc GLFW copyright Joel de Vahl, 2006
+//metadoc GLFW copyright Joel de Vahl, 2006
 //metadoc GLFW license BSD revised
 //metadoc GLFW category Graphics
 

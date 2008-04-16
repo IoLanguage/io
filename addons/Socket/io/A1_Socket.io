@@ -63,7 +63,7 @@ Socket do(
 	)
 	
 	//doc Socket host Returns the host for the socket.
-	host := method(ipAddress host)
+	host := method(ipAddress ip)
 
 	//doc Socket setPort(portNumber) Sets the port number for the socket, returns self.
 	setPort := method(port,

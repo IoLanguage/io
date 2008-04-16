@@ -5,7 +5,7 @@
 /*metadoc SampleRateConverter description
 	A binding for lib sample rate.
 */
-			   */
+
 #include "IoSampleRateConverter.h"
 #include "List.h"
 #include "IoState.h"
