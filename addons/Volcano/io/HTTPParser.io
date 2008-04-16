@@ -1,13 +1,13 @@
-HTTPParser do(
+HttpParser do(
 	parseBuffer ::= ""
 	
 	asRequest := method(
-		HTTPRequest clone setUri(?requestURI)\
+		HttpRequest clone setUri(?requestURI)\
 			setFragment(?fragment)\
 			setPath(?requestPath)\
 			setQueryString(?queryString)\
-			setVersion(?httpVersion)\
+			setVersion(?HttpVersion)\
 			setBody(?body)\
-			setFields(httpFields)
+			setFields(HttpFields)
 	)
 )
