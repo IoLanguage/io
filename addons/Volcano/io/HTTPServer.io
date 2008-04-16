@@ -1,12 +1,16 @@
 HTTPServer := Server clone do(
 	setPort(8080)
 	setHost("127.0.0.1")
-
-	handleSocket := method(socket,
-		HTTPRequest clone setServer(self) @handleRequest(socket)
+	
+	init := method(
+		recycledRequests := List clone
 	)
 	
-	streamResponse := method(socket, request,
-		HTTPResponse withSocket(socket) setBody("<html>Hello</html>") send
+	handleSocket := method(socket,
+		request := recycledRequests pop
+		if(request == nil, request = HTTPRequest clone)
+		request setServer(self) @handleSocket(socket)
 	)
+	
+	completedRequest := method(request, recycledRequests append(request))
 )

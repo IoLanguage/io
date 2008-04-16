@@ -24,6 +24,7 @@ HTTPRequest := Object clone do(
 		)
 		streamResponse(socket, parser asRequest)
 		socket close
+		server completedRequest(self)
 	)
 	
 	streamResponse := method(socket, request,
