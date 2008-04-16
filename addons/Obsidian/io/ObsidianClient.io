@@ -6,10 +6,10 @@ ObsidianClient := Object clone do(
 	)
 	
 	open := method(
-		writeln("connecting")
+		debugWriteln("connecting")
 		socket connect
 		if(socket isOpen not, Exception raise("connect failed"))
-		writeln("connected")
+		debugWriteln("connected")
 		self
 	)
 	
@@ -72,6 +72,7 @@ ObsidianClient := Object clone do(
 	)
 )
 
+/*
 writeln("begin")
 client := ObsidianClient clone open
 client onAtPut("1", "aKey", "aSlot")
@@ -83,6 +84,6 @@ writeln("a = ", a)
 b := client onAt("1", "bKey")
 writeln("b = ", b)
 client close
-
+*/
 
 

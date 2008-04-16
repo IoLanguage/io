@@ -48,14 +48,14 @@ CLI := Object clone do(
 		)
 	)
 
-	run := method(
+	run := method(		
 		System launchPath := Directory currentWorkingDirectory
 		Importer addSearchPath(System launchPath)
 		context exit := method(
 			CLI saveHistory
 			System exit
 		)
-
+		
 		runIorc
 
 		if(System ?args first == "-e",
@@ -87,7 +87,7 @@ CLI := Object clone do(
 	interactiveMultiline := method(
 		writeln("Io ", System version)
 
-		/* Use GNU Readline as the default line reader. Fall back to Editline */
+		// Use GNU Readline as the default line reader. Fall back to Editline 
 		try(setLineReader(ReadLine))
 		try(lineReader ifNil( setLineReader(EditLine)))
 

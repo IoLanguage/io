@@ -2,7 +2,7 @@
 ObsidianChannel := Object clone do(
 	db ::= nil
 	
-	debugWriteln := getSlot("writeln")
+	//debugWriteln := getSlot("writeln")
 	
 	sendList := method(aList,
 		debugWriteln("ObsidianChannel ", socket descriptorId, " send ", aList)
@@ -90,11 +90,11 @@ ObsidianServer := Server clone do(
 		self db := TokyoCabinet clone open("test.tc")
 	)
 	
- 	debugWriteln := getSlot("writeln")
+ 	//debugWriteln := getSlot("writeln")
 	handleSocket := method(aSocket, 
 		debugWriteln("ObsidianServer got connection")
         ObsidianChannel clone setDb(db) @handleSocket(aSocket)
     )
 )
 
-ObsidianServer clone start
+//ObsidianServer clone start

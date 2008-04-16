@@ -107,6 +107,12 @@ IoObject *IoFile_foreachLine(IoFile *self, IoObject *locals, IoMessage *m);
 //IoObject *IoFile_rawDo(IoFile *self, IoObject *context);
 //IoObject *IoFile_do(IoFile *self, IoObject *locals, IoMessage *m);
 
+/*
+IoObject *IoFile_makeUnbuffered(IoFile *self, IoObject *locals, IoMessage *m);
+IoObject *IoFile_makeLineBuffered(IoFile *self, IoObject *locals, IoMessage *m);
+IoObject *IoFile_makeFullyBuffered(IoFile *self, IoObject *locals, IoMessage *m);
+*/
+
 #ifdef __cplusplus
 }
 #endif
