@@ -60,6 +60,7 @@ BOOL loadIoGlutDll()
 			return FALSE;
 		ioGlutFuncs.IoGLUT_glutEventTarget_ = (void *)GetProcAddress(hLib, "IoGLUT_glutEventTarget_");
 		ioGlutFuncs.IoGlutSpecialFunc = (void *)GetProcAddress(hLib, "IoGlutSpecialFunc");
+		ioGlutFuncs.IoGlutKeyboardFunc = (void *)GetProcAddress(hLib, "IoGlutKeyboardFunc");
 		ioGlutFuncs.IoGlutKeyboardUpFunc = (void *)GetProcAddress(hLib, "IoGlutKeyboardUpFunc");
 		ioGlutFuncs.IoGlutEntryFunc = (void *)GetProcAddress(hLib, "IoGlutEntryFunc");
 		ioGlutFuncs.IoGlutMotionFunc = (void *)GetProcAddress(hLib, "IoGlutMotionFunc");
@@ -595,6 +596,14 @@ void GLIoView_glutPassiveMotionFunc(IoGL *self, IoObject *locals, IoMessage *m)
 	glutOptions.doesPassiveMotion = TRUE;
 }
 
+IoObject *GLIoView_glutReshapeWindow(IoGLUT *self, IoObject *locals, IoMessage *m)
+{
+	int w = IoMessage_locals_intArgAt_(m, locals, 0);
+	int h = IoMessage_locals_intArgAt_(m, locals, 1);
+	//glutReshapeWindow(w, h);
+	return self;
+}
+
 int g_timerVal;
 
 void CALLBACK timerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
@@ -641,6 +650,8 @@ void overrideIoGLMethods()
 						 IOCFUNCTION_GL(GLIoView_glutPassiveMotionFunc));
 	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutEntryFunc"), 
 						 IOCFUNCTION_GL(GLIoView_glutEntryFunc));
+	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutReshapeWindow"), 
+						 IOCFUNCTION_GL(GLIoView_glutReshapeWindow));
     
 	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutVisibilityFunc"), noopfunc);
 	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutTimerFunc"), 
