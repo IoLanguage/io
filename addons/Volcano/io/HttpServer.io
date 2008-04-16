@@ -3,25 +3,7 @@ HttpServer := Server clone do(
 	setHost("127.0.0.1")
 
 	handleSocket := method(socket,
-		@handleRequest(socket)
-	)
-	
-	handleRequest := method(socket,
-		parser := HttpParser clone setParseBuffer(socket readBuffer)
-		while(parser isFinished not,
-			socket streamReadNextChunk ifError(e,
-				writeln("Error reading next chunk: ", e description)
-				socket close
-				return
-			)
-			parser parse ifError(e,
-				writeln("Error parsing request: ", e description)
-				socket close
-				return
-			)
-		)
-		streamResponse(socket, parser asRequest)
-		socket close
+		HTTPRequest clone setServer(self) @handleRequest(socket)
 	)
 	
 	streamResponse := method(socket, request,
