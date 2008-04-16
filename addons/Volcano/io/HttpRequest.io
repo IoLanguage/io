@@ -9,7 +9,7 @@ HttpRequest := Object clone do(
 	server ::= nil
 	
 	handleSocket := method(socket,
-		parser := HTTPParser clone setParseBuffer(socket readBuffer)
+		parser := HttpParser clone setParseBuffer(socket readBuffer)
 		while(parser isFinished not,
 			socket streamReadNextChunk ifError(e,
 				writeln("Error reading next chunk: ", e description)
@@ -24,9 +24,10 @@ HttpRequest := Object clone do(
 		)
 		streamResponse(socket, parser asRequest)
 		socket close
+		server completedRequest(self)
 	)
 	
 	streamResponse := method(socket, request,
-		HTTPResponse withSocket(socket) setBody("<html>Hello</html>") send
+		HttpResponse withSocket(socket) setBody("<html>Hello</html>") send
 	)
 )

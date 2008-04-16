@@ -1,6 +1,6 @@
 StatusCodes := Map clone
 
-// pulled from http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
+// pulled from http://en.wikipedia.org/wiki/List_of_Http_status_codes
 """100 Continue
 101 Switching Protocols
 102 Processing
@@ -49,7 +49,7 @@ StatusCodes := Map clone
 502 Bad Gateway
 503 Service Unavailable
 504 Gateway Timeout
-505 HTTP Version Not Supported
+505 Http Version Not Supported
 506 Variant Also Negotiates
 507 Insufficient Storage
 509 Bandwidth Limit Exceeded
