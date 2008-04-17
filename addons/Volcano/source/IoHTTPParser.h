@@ -21,7 +21,10 @@ IoHttpParser *IoHttpParser_rawClone(IoHttpParser *proto);
 IoHttpParser *IoHttpParser_new(void *state);
 void IoHttpParser_free(IoHttpParser *self);
 void IoHttpParser_initState(IoHttpParser *self);
+void IoHttpParser_freeParser(IoHttpParser *self);
+void IoHttpParser_initParser(IoHttpParser *self);
 
+IoHttpParser *IoHttpParser_rawReset(IoHttpParser *self, IoObject *locals, IoMessage *m);
 IoHttpParser *IoHttpParser_parse(IoHttpParser *self, IoObject *locals, IoMessage *m);
 IoHttpParser *IoHttpParser_isFinished(IoHttpParser *self, IoObject *locals, IoMessage *m);
 

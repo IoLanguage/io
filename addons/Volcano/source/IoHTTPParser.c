@@ -9,6 +9,7 @@
 #define FALSE   0               /* boolean false */
 
 #define PARSER(self) (HttpParser *)IoObject_dataPointer(self)
+#define IOSEQDATA(self) ((UArray *)(IoObject_dataPointer(self)))
 
 IoTag *IoHttpParser_newTag(void *state)
 {
@@ -31,9 +32,10 @@ IoHttpParser *IoHttpParser_proto(void *state)
 
 	{
 		IoMethodTable methodTable[] = {
-		{"parse", IoHttpParser_parse},
-		{"isFinished", IoHttpParser_isFinished},
-		{NULL, NULL},
+			{"parse", IoHttpParser_parse},
+			{"isFinished", IoHttpParser_isFinished},
+			{"rawReset", IoHttpParser_rawReset},
+			{NULL, NULL},
 		};
 		IoObject_addMethodTable_(self, methodTable);
 	}
@@ -57,10 +59,28 @@ IoHttpParser *IoHttpParser_new(void *state)
 
 void IoHttpParser_free(IoHttpParser *self)
 {
-	HttpParser_free(PARSER(self));
+	IoHttpParser_freeParser(self);
 }
 
 void IoHttpParser_initState(IoHttpParser *self)
+{
+	IoHttpParser_initParser(self);
+
+	IoObject_setSlot_to_(self, IOSYMBOL("httpFields"), IoMap_new(IOSTATE));
+	IoObject_setSlot_to_(self, IOSYMBOL("requestUri"), IoSeq_newWithCString_(IOSTATE, ""));
+	IoObject_setSlot_to_(self, IOSYMBOL("fragment"), IoSeq_newWithCString_(IOSTATE, ""));
+	IoObject_setSlot_to_(self, IOSYMBOL("requestPath"), IoSeq_newWithCString_(IOSTATE, ""));
+	IoObject_setSlot_to_(self, IOSYMBOL("queryString"), IoSeq_newWithCString_(IOSTATE, ""));
+	IoObject_setSlot_to_(self, IOSYMBOL("httpVersion"), IoSeq_newWithCString_(IOSTATE, ""));
+	IoObject_setSlot_to_(self, IOSYMBOL("body"), IoSeq_newWithCString_(IOSTATE, ""));
+}
+
+void IoHttpParser_freeParser(IoHttpParser *self)
+{
+	HttpParser_free(PARSER(self));
+}
+
+void IoHttpParser_initParser(IoHttpParser *self)
 {
 	HttpParser *parser = HttpParser_new();
 
@@ -72,8 +92,6 @@ void IoHttpParser_initState(IoHttpParser *self)
 	HttpParser_setHttpVersionCallback_(parser, (element_cb) IoHttpParser_setHttpVersion_givenSize_);
 	HttpParser_setHeaderDoneCallback_(parser, (element_cb) IoHttpParser_setBody_givenSize_);
 	IoObject_setDataPointer_(self, parser);
-
-	IoObject_setSlot_to_(self, IOSYMBOL("httpFields"), IoMap_new(IOSTATE));
 }
 
 /* ----------------------------------------------------------- */
@@ -120,6 +138,15 @@ IoHttpParser *IoHttpParser_isFinished(IoHttpParser *self, IoObject *locals, IoMe
 
 	return IOBOOL(self, HttpParser_isFinished(parser));
 }
+
+IoHttpParser *IoHttpParser_rawReset(IoHttpParser *self, IoObject *locals, IoMessage *m)
+{
+	//doc HttpParser rawReset Resets the parser state to prepare for a new parse.  Returns self.
+	IoHttpParser_freeParser(self);
+	IoHttpParser_initParser(self);
+	return self;
+}
+
 /* ----------------------------------------------------------- */
 
 void IoHttpParser_setHttpField_withName_givenSize_value_givenSize_(void *data, const unsigned char *fieldNameBuffer, size_t fieldNameSize, const unsigned char *fieldValueBuffer, size_t fieldValueSize)
@@ -164,7 +191,10 @@ void IoHttpParser_setRequestURI_givenSize_(void *data, const unsigned char * buf
 		return;
 	}
 	
-	IoObject_setSlot_to_(self, IOSYMBOL("requestURI"), IOSEQ(buffer, bufferSize));
+	{
+		IoSeq *requestURI = IoObject_getSlot_(self, IOSYMBOL("requestUri"));
+		UArray_setData_type_size_copy_(IOSEQDATA(requestURI), (void *)buffer, CTYPE_uint8_t, bufferSize, 1);
+	}
 }
 
 void IoHttpParser_setFragment_givenSize_(void *data, const unsigned char * buffer, size_t bufferSize)
@@ -177,7 +207,11 @@ void IoHttpParser_setFragment_givenSize_(void *data, const unsigned char * buffe
 		HttpParser_setParseError_(parser, "fragment is longer than the allowed length of %d bytes.", MAX_REQUEST_FRAGMENT_LENGTH);
 		return;
 	}
-	IoObject_setSlot_to_(self, IOSYMBOL("fragment"), IOSEQ(buffer, bufferSize));
+	
+	{
+		IoSeq *fragment = IoObject_getSlot_(self, IOSYMBOL("fragment"));
+		UArray_setData_type_size_copy_(IOSEQDATA(fragment), (void *)buffer, CTYPE_uint8_t, bufferSize, 1);
+	}
 }
 
 void IoHttpParser_setRequestPath_givenSize_(void *data, const unsigned char * buffer, size_t bufferSize)
@@ -190,7 +224,11 @@ void IoHttpParser_setRequestPath_givenSize_(void *data, const unsigned char * bu
 		HttpParser_setParseError_(parser, "requestPath is longer than the allowed length of %d bytes.", MAX_REQUEST_PATH_LENGTH);
 		return;
 	}
-	IoObject_setSlot_to_(self, IOSYMBOL("requestPath"), IOSEQ(buffer, bufferSize));
+	
+	{
+		IoSeq *requestPath = IoObject_getSlot_(self, IOSYMBOL("requestPath"));
+		UArray_setData_type_size_copy_(IOSEQDATA(requestPath), (void *)buffer, CTYPE_uint8_t, bufferSize, 1);
+	}
 }
 
 void IoHttpParser_setQueryString_givenSize_(void *data, const unsigned char * buffer, size_t bufferSize)
@@ -203,19 +241,29 @@ void IoHttpParser_setQueryString_givenSize_(void *data, const unsigned char * bu
 		HttpParser_setParseError_(parser, "queryString is longer than the allowed length of %d bytes.", MAX_REQUEST_QUERY_STRING_LENGTH);
 		return;
 	}
-	IoObject_setSlot_to_(self, IOSYMBOL("queryString"), IOSEQ(buffer, bufferSize));
+	
+	{
+		IoSeq *queryString = IoObject_getSlot_(self, IOSYMBOL("queryString"));
+		UArray_setData_type_size_copy_(IOSEQDATA(queryString), (void *)buffer, CTYPE_uint8_t, bufferSize, 1);
+	}
 }
 
 void IoHttpParser_setHttpVersion_givenSize_(void *data, const unsigned char * buffer, size_t bufferSize)
 {
 	IoHttpParser *self = (IoHttpParser *)data;
 	
-	IoObject_setSlot_to_(self, IOSYMBOL("httpVersion"), IOSEQ(buffer, bufferSize));
+	{
+		IoSeq *httpVersion = IoObject_getSlot_(self, IOSYMBOL("httpVersion"));
+		UArray_setData_type_size_copy_(IOSEQDATA(httpVersion), (void *)buffer, CTYPE_uint8_t, bufferSize, 1);
+	}
 }
 
 void IoHttpParser_setBody_givenSize_(void *data, const unsigned char * buffer, size_t bufferSize)
 {
 	IoHttpParser *self = (IoHttpParser *)data;
 	
-	IoObject_setSlot_to_(self, IOSYMBOL("body"), IOSEQ(buffer, bufferSize));
+	{
+		IoSeq *body = IoObject_getSlot_(self, IOSYMBOL("body"));
+		UArray_setData_type_size_copy_(IOSEQDATA(body), (void *)buffer, CTYPE_uint8_t, bufferSize, 1);
+	}
 }

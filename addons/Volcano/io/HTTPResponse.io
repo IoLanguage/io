@@ -15,11 +15,11 @@ HttpResponse := Object clone do(
 	)
 	
 	status := method(
-		StatusCodes at(statusCode asString)
+		statusCode asString .. " " .. StatusCodes at(statusCode asString)
 	)
 	
 	send := method(
-		socket write("Http/1.x " .. status .. "\n")
+		socket write("HTTP/1.1 " .. status .. "\r\n")
 		headers atIfAbsentPut("Content-Type", contentType)
 		headers foreach(name, value, socket write(name .. ": " .. value .. "\n"))
 		socket write("\n")

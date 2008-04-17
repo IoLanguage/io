@@ -3,14 +3,17 @@ HttpServer := Server clone do(
 	setHost("127.0.0.1")
 	
 	init := method(
-		self recycledRequests := List clone
+		self recycledHandlers := List clone
 	)
 	
 	handleSocket := method(socket,
-		request := recycledRequests pop
-		if(request == nil, request = HttpRequest clone)
-		request setServer(self) @handleSocket(socket)
+		handler := recycledHandlers pop
+		if(handler == nil, handler = HttpRequestHandler clone)
+		//writeln("handler := HttpRequestHandler clone")
+		//handler := HttpRequestHandler clone
+		//writeln("handler setServer(self) @handleRequest(socket)")
+		handler setServer(self) @handleRequest(socket)
 	)
 	
-	completedRequest := method(request, recycledRequests append(request))
+	completedRequest := method(handler, recycledHandlers append(handler))
 )
