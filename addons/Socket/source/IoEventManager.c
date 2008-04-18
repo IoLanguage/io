@@ -82,7 +82,7 @@ IoEventManager *IoEventManager_proto(void *state)
 	DATA(self)->eventBase = event_init();
 
 	//IoEventManager_setDescriptorLimitToMax(self);
-	//Socket_SetDescriptorLimitToMax();
+	Socket_SetDescriptorLimitToMax();
 
 	return self;
 }
