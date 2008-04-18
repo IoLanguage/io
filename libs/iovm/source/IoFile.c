@@ -122,7 +122,11 @@ IoFile *IoFile_proto(void *state)
 	{"remove", IoFile_remove},
 	{"moveTo", IoFile_moveTo_},
 	{"truncateToSize", IoFile_truncateToSize},
-
+/*
+	{"makeUnbuffered", IoFile_makeUnbuffered},
+	{"makeLineBuffered", IoFile_makeLineBuffered},
+	{"makeFullyBuffered", IoFile_makeFullyBuffered},
+*/
 	{NULL, NULL},
 	};
 
@@ -1109,3 +1113,34 @@ aFile foreach(v, writeln("Line: ", v))
 	IoState_popRetainPool(state);
 	return result;
 }
+
+/*
+IoObject *IoFile_makeUnbuffered(IoFile *self, IoObject *locals, IoMessage *m)
+{
+	//doc File makeUnbuffered Sets the file's stream to be unbuffered. Returns self.
+
+	setvbuf(DATA(self)->stream, NULL, _IONBF, 0);
+	// this doesn't work on stdin and there is no OS neutral way to get unbuffered input
+
+	return self;
+}
+
+IoObject *IoFile_makeLineBuffered(IoFile *self, IoObject *locals, IoMessage *m)
+{
+	//doc File makeLineBuffered Sets the file's stream to be line buffered. Returns self.
+
+	setvbuf(DATA(self)->stream, NULL, _IOLBF, 0);
+
+	return self;
+}
+
+IoObject *IoFile_makeFullyBuffered(IoFile *self, IoObject *locals, IoMessage *m)
+{
+	//doc File makeFullyBuffered Sets the file's stream to be fully buffered. Returns self.
+
+	setvbuf(DATA(self)->stream, NULL, _IOFBF, 0);
+
+	return self;
+}
+*/
+

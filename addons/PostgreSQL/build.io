@@ -5,6 +5,6 @@ AddonBuilder clone do(
 
 	debs    atPut("pq", "libpq-dev")
 	ebuilds atPut("pq", "libpq")
-	pkgs    atPut("pq", "postgresql")
+	pkgs    atPut("pq", "postgresql81")
 	rpms    atPut("pq", "postgresql-devel")
 )

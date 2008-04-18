@@ -111,18 +111,18 @@ EventManager do(
 		loop(
 			setIsRunning(true)
 			while(hasActiveEvents,
-				debugWriteln("EventManager run - listening")
+				//debugWriteln("EventManager run - listening")
 				if(Coroutine yieldingCoros first, listen, listenUntilEvent) ifError(e, 
 					Exception raise("Unrecoverable Error in EventManager: " .. e description))
 				yield
 			)
-			debugWriteln("EventManager run - no active events")
+			//debugWriteln("EventManager run - no active events")
 			setIsRunning(false)
 			coro pause
-			debugWriteln("EventManager run - resuming")
+			//debugWriteln("EventManager run - resuming")
 		)
 	)
 )
 
 Scheduler currentCoroutine setLabel("main")
-EventManager setListenTimeout(.1)
+EventManager setListenTimeout(.01)

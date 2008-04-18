@@ -5,4 +5,6 @@ AddonBuilder clone do(
 	headerSearchPaths foreach(headerSearchPath, appendHeaderSearchPath(headerSearchPath .. "/mysql"))
 
 	ebuilds atPut("mysql5.0", "mysql")
+	pkgs    atPut("mysqlclient", "mysql5")
+
 )
