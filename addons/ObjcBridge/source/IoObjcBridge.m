@@ -240,7 +240,9 @@ IoMessage *IoObjcBridge_ioMessageForNSInvocation_(IoObjcBridge *self, NSInvocati
 	if (!*returnType) returnType = "?";
 	if (debug)
 	{
-		IoState_print_(IOSTATE, "Objc -> Io (%s)", IoObjcBridge_nameForTypeChar_(self, *returnType));
+		IoState_print_(IOSTATE, "Objc -> Io: ");
+		printf(IoObject_name([[invocation target] ioValue]));
+		IoState_print_(IOSTATE, " (%s)", IoObjcBridge_nameForTypeChar_(self, *returnType));
 		IoState_print_(IOSTATE, "%s(", methodName);
 	}
 	for (index = 2; index < [signature numberOfArguments]; index++)
@@ -273,13 +275,14 @@ void IoObjcBridge_removeId_(IoObjcBridge *self, id obj)
 
 void IoObjcBridge_removeValue_(IoObjcBridge *self, IoObject *v)
 {
-	/* Called by Obj2Io instance when dealloced */
+	/* Called by Objc2Io instance when dealloced */
 	PHash_removeKey_(DATA(self)->objc2ios, v);
 }
 
 void IoObjcBridge_addValue_(IoObjcBridge *self, IoObject *v, id obj)
 {
-	/* Called by Obj2Io instance when alloced */
+	/* Called by Objc2Io instance when alloced */
+	[obj retain];
 	PHash_at_put_(DATA(self)->objc2ios, IOREF(v), obj);
 }
 
@@ -312,7 +315,7 @@ const char *IoObjcBridge_selectorEncoding(IoObjcBridge *self, SEL selector)
 //  Objective-C  -> Io
 // -----------------------------------------------------------------
 
-IoObject *IoObjcBridge_ioValueForCValue_ofType_error_(IoObjcBridge *self, void *cValue, char *cType, char **error)
+IoObject *IoObjcBridge_ioValueForCValue_ofType_error_(IoObjcBridge *self, void *cValue, const char *cType, char **error)
 {
 	*error = NULL;
 	switch (*cType)
@@ -400,7 +403,7 @@ IoObject *IoObjcBridge_ioValueForCValue_ofType_error_(IoObjcBridge *self, void *
 //  Io -> Objective-C
 // -----------------------------------------------------------------
 
-void *IoObjcBridge_cValueForIoObject_ofType_error_(IoObjcBridge *self, IoObject *value, char *cType, char **error)
+void *IoObjcBridge_cValueForIoObject_ofType_error_(IoObjcBridge *self, IoObject *value, const char *cType, char **error)
 {
 	*error = NULL;
 	switch (*cType)
@@ -493,7 +496,13 @@ void *IoObjcBridge_cValueForIoObject_ofType_error_(IoObjcBridge *self, IoObject 
 			break;
 		//case 'b':
 		//case 'v':
-		//case 'r':
+		case 'r': // const qualifier
+			if (0 != strncmp(cType, "r*", 2)) // strings do not equal
+			{
+				*error = "no match for argument type";
+				break;
+			}
+			// fall through to '*' if strings are equal
 		case '*':
 			if (ISSYMBOL(value))
 				DATA(self)->cValue.cp = CSTRING(value);
@@ -635,6 +644,9 @@ char *IoObjcBridge_nameForTypeChar_(IoObjcBridge *self, char type)
 		case ')': return "union E";
 		case '{': return "struct B";
 		case '}': return "struct A";
+		case 'r': // const qualifier
+			if (strncmp(&type, "r*", 2))
+				return "const char *";
 	}
 	return "?";
 }

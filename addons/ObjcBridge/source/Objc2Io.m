@@ -9,9 +9,9 @@
 
 - init
 {
-	id obj = [super init];
+	self = [super init];
 	//[obj retain]; // debug test
-	return obj;
+	return self;
 }
 
 - (void)dealloc
@@ -99,14 +99,20 @@
 	
 	IoMessage *message = IoObjcBridge_ioMessageForNSInvocation_(bridge, invocation);
 	const char *returnType = [[invocation methodSignature] methodReturnType];
-	IoObject *result = IoObject_tag(ioValue)->performFunc(ioValue, ioValue, message);
+	IoTag* tag = IoObject_tag(ioValue);
+	IoObject *result;
+	
+	if (IoTag_performFunc(tag))
+		result = tag->performFunc(ioValue, ioValue, message);
+	else
+		result = IoObject_perform(ioValue, ioValue, message);
 
 	// convert and return result if not void
 
 	if (*returnType != 'v')
 	{
 		char *error;
-		void *cResult = IoObjcBridge_cValueForIoObject_ofType_error_(bridge, result, (char *)returnType, &error);
+		void *cResult = IoObjcBridge_cValueForIoObject_ofType_error_(bridge, result, returnType, &error);
 		if (error)
 			IoState_error_(IoObject_state(bridge), message, "Io Objc2Io forwardInvocation: %s - return type:'%s'", error, returnType);
 		[invocation setReturnValue:cResult];
