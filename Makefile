@@ -172,7 +172,7 @@ testvm:
 	cd tools; make test
 
 testaddons:
-	_build/binaries/io$(BINARY_SUFFIX) build.io runUnitTests
+	_build/binaries/io_static$(BINARY_SUFFIX) build.io runUnitTests
 
 test:
 	$(MAKE) testvm
