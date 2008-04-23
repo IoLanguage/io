@@ -136,7 +136,29 @@ IoObject *IoObject_errorNumber(IoObject *self, IoObject *locals, IoMessage *m)
 #include <shellapi.h>
 IoObject *IoObject_shellExecute(IoObject *self, IoObject *locals, IoMessage *m)
 {
-	return IONUMBER((int) ShellExecute(NULL, "open", CSTRING(IoMessage_locals_symbolArgAt_(m, locals, 0)), NULL, NULL, SW_SHOWNORMAL));
+	LPCTSTR operation;
+	LPCTSTR file;
+	LPCTSTR parameters;
+	LPCTSTR directory;
+	int displayFlag;
+	int result;
+	
+	operation = CSTRING(IoMessage_locals_symbolArgAt_(m, locals, 0));
+	file = CSTRING(IoMessage_locals_symbolArgAt_(m, locals, 1));
+	parameters = IoMessage_argCount(m) > 2 ? CSTRING(IoMessage_locals_symbolArgAt_(m, locals, 2)) : NULL;
+	directory = IoMessage_argCount(m) > 3 ? CSTRING(IoMessage_locals_symbolArgAt_(m, locals, 3)) : NULL;
+	displayFlag = IoMessage_argCount(m) > 4 ? IoMessage_locals_intArgAt_(m, locals, 4) : SW_SHOWNORMAL;
+	
+	result = (int)ShellExecute(NULL, operation, file, parameters, directory, displayFlag);
+	
+	if(result > 32)
+	{
+		return self;
+	}
+	else
+	{
+		return (IoObject *)IoError_newWithMessageFormat_(IOSTATE, "ShellExecute Error %i", result);
+	}
 }
 #endif
 

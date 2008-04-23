@@ -46,7 +46,7 @@ IoError *IoError_new(void *state)
 
 /* ----------------------------------------------------------- */
 
-IoSeq *IoError_newWithMessageFormat_(void *state, const char *format, ...)
+IoError *IoError_newWithMessageFormat_(void *state, const char *format, ...)
 {
 	IoSymbol *message;
 	

@@ -352,7 +352,9 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		if(platform == "Mac OS/X") then(
 			System system("open " .. quotedUrl)
 		) elseif(platform containsSeq("Windows")) then(
-			System shellExecute(url)
+			result := System shellExecute("open", url)
+			result ifError(result := System shellExecute("open", System getEnvironmentVariable("programfiles") .. "\\Internet Explorer\\iexplore.exe", url))
+			return(result)
 		) else(
 			// assume generic Unix?
 			System system("open " .. quotedUrl)
