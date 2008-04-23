@@ -177,7 +177,6 @@ BASEKIT_API void *cpalloc(const void *p, size_t size);
 BASEKIT_API void *io_freerealloc(void *p, size_t size);
 
 int io_isBigEndian(void);
-
 BASEKIT_API uint32_t io_uint32InBigEndian(uint32_t i);
 
 #ifdef __cplusplus

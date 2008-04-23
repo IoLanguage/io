@@ -75,10 +75,10 @@ THE AUTHOR'S WRITTEN PERMISSION, WITH THE FOLLOWING EXCEPTIONS:
 
 #ifdef __UNK__EMU__  /* Unknown System/Emulation */
 
-#ifndef WIN32
-#warning "using SIMD Emulation"
-#else
+#ifdef _MSC_VER
 #pragma message("using SIMD Emulation")
+#else
+#warning "using SIMD Emulation"
 #endif
 
    /* v0 = v1 {mask} v2, where mask controlls which packed values are copied */
