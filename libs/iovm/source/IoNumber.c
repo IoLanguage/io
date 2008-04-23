@@ -14,6 +14,11 @@ A container for a double (a 64bit floating point number on most platforms).
 #include "IoSeq.h"
 #include "IoDate.h"
 #include "IoState.h"
+
+#ifdef _MSC_VER
+#define _USE_MATH_DEFINES
+#endif
+
 #include <math.h>
 #include <ctype.h>
 #include <assert.h>
@@ -441,7 +446,7 @@ IoObject *IoNumber_asCharacter(IoNumber *self, IoObject *locals, IoMessage *m)
 	else
 	{	
 		uint32_t i = io_uint32InBigEndian((uint32_t)d);
-		int bytes = d > 0 ? log2(d) / 8 : 1;
+		int bytes = d > 0 ? (log(d) / log(2.0)) / 8 : 1;
 		IoSeq *s;
 		
 		if (bytes == 0) 
