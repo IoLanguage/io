@@ -32,7 +32,7 @@ IoHttpParser *IoHttpParser_proto(void *state)
 
 	{
 		IoMethodTable methodTable[] = {
-			{"parse", IoHttpParser_parse},
+			{"rawParse", IoHttpParser_rawParse},
 			{"isFinished", IoHttpParser_isFinished},
 			{"rawReset", IoHttpParser_rawReset},
 			{NULL, NULL},
@@ -96,7 +96,7 @@ void IoHttpParser_initParser(IoHttpParser *self)
 
 /* ----------------------------------------------------------- */
 
-IoHttpParser *IoHttpParser_parse(IoHttpParser *self, IoObject *locals, IoMessage *m)
+IoHttpParser *IoHttpParser_rawParse(IoHttpParser *self, IoObject *locals, IoMessage *m)
 {
 	//doc HttpParser parse Parsers the Http request stored in the parseBuffer slot.  Sets slots on self using the values parsed.  Returns self if successful or an Error if the parse fails.
 	HttpParser *parser = PARSER(self);
