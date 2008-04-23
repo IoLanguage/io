@@ -92,8 +92,8 @@ void IoObjcBridge_addValue_(IoObjcBridge *self, IoObject *v, id obj);
 const char *IoObjcBridge_selectorEncoding(IoObjcBridge *self, SEL selector);
 
 /* ----------------------------------------------------------------- */
-IoObject *IoObjcBridge_ioValueForCValue_ofType_error_(IoObjcBridge *self, void *cValue, char *cType, char **error);
-void *IoObjcBridge_cValueForIoObject_ofType_error_(IoObjcBridge *self, IoObject *value, char *cType, char **error);
+IoObject *IoObjcBridge_ioValueForCValue_ofType_error_(IoObjcBridge *self, void *cValue, const char *cType, char **error);
+void *IoObjcBridge_cValueForIoObject_ofType_error_(IoObjcBridge *self, IoObject *value, const char *cType, char **error);
 
 /* --- method name buffer ----------------------------------- */
 void IoObjcBridge_setMethodBuffer_(IoObjcBridge *self, char *name);

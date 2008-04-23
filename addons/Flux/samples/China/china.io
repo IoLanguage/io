@@ -151,7 +151,7 @@ Direction := Object clone do(
 		newD arrowColor = newD pieceColor clone adjustSaturation(0.6)		// medium saturation
 		e := try (
 			newD image = Image clone open(
-				Path with(launchPath, "images/" .. newD colorName .. ".png"))
+				Path with(System launchPath, "images/" .. newD colorName .. ".png"))
 		)
 		e catch (Exception, if (false, writeln("*** Direction new: ", e error)))
 		return newD
@@ -1148,7 +1148,7 @@ ChinaApp teamPolarities := method(
 	if(self useAllColors, list(0, 1, 1, 1, -1, -1, -1), list(0, 0, 1, 0, 0, -1, 0))
 )
 
-ChinaApp dataPath := method(fileName, Path with(launchPath, fileName))
+ChinaApp dataPath := method(fileName, Path with(System launchPath, fileName))
 
 ChinaApp configure := method(
 	status := nil
@@ -1595,7 +1595,7 @@ ChinaApp testDialog := method(
 )
 
 ChinaApp do(
-writeln("launchPath: ", launchPath)
+writeln("launchPath: ", System launchPath)
 	configure
 	setupFont
 	newGame
