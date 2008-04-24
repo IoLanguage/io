@@ -469,8 +469,8 @@ IoObject *IoNumber_asCharacter(IoNumber *self, IoObject *locals, IoMessage *m)
 			switch (bytes)
 			{
 				case 1: e = CENCODING_ASCII; break;
-				case 2: e = CENCODING_UTF16; break;
-				case 4: e = CENCODING_UTF32; break;
+				case 2: e = CENCODING_UCS2; break;
+				case 4: e = CENCODING_UCS4; break;
 			}
 			
 			UArray_setEncoding_(u, e);

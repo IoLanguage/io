@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AA2E9CA30B6DA6CB0075FC67 /* ConvertUTF.c in Sources */ = {isa = PBXBuildFile; fileRef = AA2E9CA10B6DA6CB0075FC67 /* ConvertUTF.c */; };
-		AA2E9CA40B6DA6CB0075FC67 /* ConvertUTF.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA2E9CA20B6DA6CB0075FC67 /* ConvertUTF.h */; };
+		AA6AA4EF0DC0327E00C7667D /* ucs2.c in Sources */ = {isa = PBXBuildFile; fileRef = AA6AA4E80DC0327E00C7667D /* ucs2.c */; };
+		AA6AA4F00DC0327E00C7667D /* ucs4.c in Sources */ = {isa = PBXBuildFile; fileRef = AA6AA4E90DC0327E00C7667D /* ucs4.c */; };
+		AA6AA4F10DC0327E00C7667D /* utf8.c in Sources */ = {isa = PBXBuildFile; fileRef = AA6AA4EA0DC0327E00C7667D /* utf8.c */; };
+		AA6AA4F20DC0327E00C7667D /* utf_convert.c in Sources */ = {isa = PBXBuildFile; fileRef = AA6AA4ED0DC0327E00C7667D /* utf_convert.c */; };
 		AA6AC0280BA8E5D10049770F /* IoSeq_vector.c in Sources */ = {isa = PBXBuildFile; fileRef = AA6AC0260BA8E5D10049770F /* IoSeq_vector.c */; };
 		AA6AC0290BA8E5D10049770F /* IoSeq_vector.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA6AC0270BA8E5D10049770F /* IoSeq_vector.h */; };
 		AA6AC74C0BAF7EBD0049770F /* simd_cp.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA6AC7410BAF7EBD0049770F /* simd_cp.h */; };
@@ -71,8 +73,6 @@
 		AAE69FC20B110796006E309B /* PortableUsleep.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAE69DD50B110795006E309B /* PortableUsleep.h */; };
 		AAE69FC30B110796006E309B /* RandomGen.c in Sources */ = {isa = PBXBuildFile; fileRef = AAE69DD60B110795006E309B /* RandomGen.c */; };
 		AAE69FC40B110796006E309B /* RandomGen.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAE69DD70B110795006E309B /* RandomGen.h */; };
-		AAE69FC50B110796006E309B /* Sorting.c in Sources */ = {isa = PBXBuildFile; fileRef = AAE69DD80B110795006E309B /* Sorting.c */; };
-		AAE69FC60B110796006E309B /* Sorting.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAE69DD90B110795006E309B /* Sorting.h */; };
 		AAE69FC70B110796006E309B /* Stack.c in Sources */ = {isa = PBXBuildFile; fileRef = AAE69DDA0B110795006E309B /* Stack.c */; };
 		AAE69FC80B110796006E309B /* Stack.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAE69DDB0B110795006E309B /* Stack.h */; };
 		AAE69FC90B110796006E309B /* Stack_inline.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAE69DDC0B110795006E309B /* Stack_inline.h */; };
@@ -207,7 +207,6 @@
 				AAE69FC00B110796006E309B /* PortableTruncate.h in CopyFiles */,
 				AAE69FC20B110796006E309B /* PortableUsleep.h in CopyFiles */,
 				AAE69FC40B110796006E309B /* RandomGen.h in CopyFiles */,
-				AAE69FC60B110796006E309B /* Sorting.h in CopyFiles */,
 				AAE69FC80B110796006E309B /* Stack.h in CopyFiles */,
 				AAE69FC90B110796006E309B /* Stack_inline.h in CopyFiles */,
 				AAE69FDE0B110796006E309B /* Coro.h in CopyFiles */,
@@ -268,7 +267,6 @@
 				AAA3CAF60B186E2F004C257F /* IoMessage_opShuffle.h in CopyFiles */,
 				AAE93A320B682471000D1BD7 /* SHash_inline.h in CopyFiles */,
 				AAE93A340B682471000D1BD7 /* SHash.h in CopyFiles */,
-				AA2E9CA40B6DA6CB0075FC67 /* ConvertUTF.h in CopyFiles */,
 				AABF81320B759BC8002DBAB5 /* UArray_character.h in CopyFiles */,
 				AABF81340B759BC8002DBAB5 /* UArray_format.h in CopyFiles */,
 				AABF81360B759BC8002DBAB5 /* UArray_math.h in CopyFiles */,
@@ -290,8 +288,13 @@
 
 /* Begin PBXFileReference section */
 		8DD76FB20486AB0100D96B5E /* osxvm */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = osxvm; sourceTree = BUILT_PRODUCTS_DIR; };
-		AA2E9CA10B6DA6CB0075FC67 /* ConvertUTF.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = ConvertUTF.c; path = ../../libs/basekit/source/ConvertUTF.c; sourceTree = SOURCE_ROOT; };
-		AA2E9CA20B6DA6CB0075FC67 /* ConvertUTF.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ConvertUTF.h; path = ../../libs/basekit/source/ConvertUTF.h; sourceTree = SOURCE_ROOT; };
+		AA6AA4E80DC0327E00C7667D /* ucs2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ucs2.c; path = ../../libs/basekit/source/ucs2.c; sourceTree = SOURCE_ROOT; };
+		AA6AA4E90DC0327E00C7667D /* ucs4.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ucs4.c; path = ../../libs/basekit/source/ucs4.c; sourceTree = SOURCE_ROOT; };
+		AA6AA4EA0DC0327E00C7667D /* utf8.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = utf8.c; path = ../../libs/basekit/source/utf8.c; sourceTree = SOURCE_ROOT; };
+		AA6AA4EB0DC0327E00C7667D /* utf8.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = utf8.h; path = ../../libs/basekit/source/utf8.h; sourceTree = SOURCE_ROOT; };
+		AA6AA4EC0DC0327E00C7667D /* utf8internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = utf8internal.h; path = ../../libs/basekit/source/utf8internal.h; sourceTree = SOURCE_ROOT; };
+		AA6AA4ED0DC0327E00C7667D /* utf_convert.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = utf_convert.c; sourceTree = "<group>"; };
+		AA6AA4EE0DC0327E00C7667D /* utf_convert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utf_convert.h; sourceTree = "<group>"; };
 		AA6AC0260BA8E5D10049770F /* IoSeq_vector.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoSeq_vector.c; path = ../../libs/iovm/source/IoSeq_vector.c; sourceTree = SOURCE_ROOT; };
 		AA6AC0270BA8E5D10049770F /* IoSeq_vector.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoSeq_vector.h; path = ../../libs/iovm/source/IoSeq_vector.h; sourceTree = SOURCE_ROOT; };
 		AA6AC7410BAF7EBD0049770F /* simd_cp.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = simd_cp.h; path = ../../libs/basekit/source/simd_cph/include/simd_cp.h; sourceTree = SOURCE_ROOT; };
@@ -354,8 +357,6 @@
 		AAE69DD50B110795006E309B /* PortableUsleep.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PortableUsleep.h; path = ../../libs/basekit/source/PortableUsleep.h; sourceTree = SOURCE_ROOT; };
 		AAE69DD60B110795006E309B /* RandomGen.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = RandomGen.c; path = ../../libs/basekit/source/RandomGen.c; sourceTree = SOURCE_ROOT; };
 		AAE69DD70B110795006E309B /* RandomGen.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RandomGen.h; path = ../../libs/basekit/source/RandomGen.h; sourceTree = SOURCE_ROOT; };
-		AAE69DD80B110795006E309B /* Sorting.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = Sorting.c; path = ../../libs/basekit/source/Sorting.c; sourceTree = SOURCE_ROOT; };
-		AAE69DD90B110795006E309B /* Sorting.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Sorting.h; path = ../../libs/basekit/source/Sorting.h; sourceTree = SOURCE_ROOT; };
 		AAE69DDA0B110795006E309B /* Stack.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = Stack.c; path = ../../libs/basekit/source/Stack.c; sourceTree = SOURCE_ROOT; };
 		AAE69DDB0B110795006E309B /* Stack.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Stack.h; path = ../../libs/basekit/source/Stack.h; sourceTree = SOURCE_ROOT; };
 		AAE69DDC0B110795006E309B /* Stack_inline.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Stack_inline.h; path = ../../libs/basekit/source/Stack_inline.h; sourceTree = SOURCE_ROOT; };
@@ -548,24 +549,6 @@
 			isa = PBXGroup;
 			children = (
 				AA6AC73D0BAF7EBD0049770F /* simd_cph */,
-				AABF83120B76D00A002DBAB5 /* UArray_stream.c */,
-				AABF83130B76D00A002DBAB5 /* UArray_stream.h */,
-				AABF81230B759BC8002DBAB5 /* UArray_character.c */,
-				AABF81240B759BC8002DBAB5 /* UArray_character.h */,
-				AABF81250B759BC8002DBAB5 /* UArray_format.c */,
-				AABF81260B759BC8002DBAB5 /* UArray_format.h */,
-				AABF81270B759BC8002DBAB5 /* UArray_math.c */,
-				AABF81280B759BC8002DBAB5 /* UArray_math.h */,
-				AABF81290B759BC8002DBAB5 /* UArray_path.c */,
-				AABF812A0B759BC8002DBAB5 /* UArray_path.h */,
-				AABF812B0B759BC8002DBAB5 /* UArray_string.c */,
-				AABF812C0B759BC8002DBAB5 /* UArray_string.h */,
-				AABF812D0B759BC8002DBAB5 /* UArray_utf.c */,
-				AABF812E0B759BC8002DBAB5 /* UArray_utf.h */,
-				AABF812F0B759BC8002DBAB5 /* UArray.c */,
-				AABF81300B759BC8002DBAB5 /* UArray.h */,
-				AA2E9CA10B6DA6CB0075FC67 /* ConvertUTF.c */,
-				AA2E9CA20B6DA6CB0075FC67 /* ConvertUTF.h */,
 				AAE69DAC0B110795006E309B /* Base.h */,
 				AAE69DAD0B110795006E309B /* BStream.c */,
 				AAE69DAE0B110795006E309B /* BStream.h */,
@@ -605,11 +588,32 @@
 				AAE69DD50B110795006E309B /* PortableUsleep.h */,
 				AAE69DD60B110795006E309B /* RandomGen.c */,
 				AAE69DD70B110795006E309B /* RandomGen.h */,
-				AAE69DD80B110795006E309B /* Sorting.c */,
-				AAE69DD90B110795006E309B /* Sorting.h */,
 				AAE69DDA0B110795006E309B /* Stack.c */,
 				AAE69DDB0B110795006E309B /* Stack.h */,
 				AAE69DDC0B110795006E309B /* Stack_inline.h */,
+				AABF83120B76D00A002DBAB5 /* UArray_stream.c */,
+				AABF83130B76D00A002DBAB5 /* UArray_stream.h */,
+				AABF81230B759BC8002DBAB5 /* UArray_character.c */,
+				AABF81240B759BC8002DBAB5 /* UArray_character.h */,
+				AABF81250B759BC8002DBAB5 /* UArray_format.c */,
+				AABF81260B759BC8002DBAB5 /* UArray_format.h */,
+				AABF81270B759BC8002DBAB5 /* UArray_math.c */,
+				AABF81280B759BC8002DBAB5 /* UArray_math.h */,
+				AABF81290B759BC8002DBAB5 /* UArray_path.c */,
+				AABF812A0B759BC8002DBAB5 /* UArray_path.h */,
+				AABF812B0B759BC8002DBAB5 /* UArray_string.c */,
+				AABF812C0B759BC8002DBAB5 /* UArray_string.h */,
+				AABF812D0B759BC8002DBAB5 /* UArray_utf.c */,
+				AABF812E0B759BC8002DBAB5 /* UArray_utf.h */,
+				AABF812F0B759BC8002DBAB5 /* UArray.c */,
+				AABF81300B759BC8002DBAB5 /* UArray.h */,
+				AA6AA4E80DC0327E00C7667D /* ucs2.c */,
+				AA6AA4E90DC0327E00C7667D /* ucs4.c */,
+				AA6AA4EA0DC0327E00C7667D /* utf8.c */,
+				AA6AA4EB0DC0327E00C7667D /* utf8.h */,
+				AA6AA4EC0DC0327E00C7667D /* utf8internal.h */,
+				AA6AA4ED0DC0327E00C7667D /* utf_convert.c */,
+				AA6AA4EE0DC0327E00C7667D /* utf_convert.h */,
 			);
 			name = source;
 			path = ../../libs/basekit/source;
@@ -828,7 +832,6 @@
 				AAE69FBF0B110796006E309B /* PortableTruncate.c in Sources */,
 				AAE69FC10B110796006E309B /* PortableUsleep.c in Sources */,
 				AAE69FC30B110796006E309B /* RandomGen.c in Sources */,
-				AAE69FC50B110796006E309B /* Sorting.c in Sources */,
 				AAE69FC70B110796006E309B /* Stack.c in Sources */,
 				AAE69FDD0B110796006E309B /* Coro.c in Sources */,
 				AAE69FDF0B110796006E309B /* PortableUContext.c in Sources */,
@@ -876,7 +879,6 @@
 				AAE6A1500B110B8F006E309B /* main.c in Sources */,
 				AAA3CAF50B186E2F004C257F /* IoMessage_opShuffle.c in Sources */,
 				AAE93A330B682471000D1BD7 /* SHash.c in Sources */,
-				AA2E9CA30B6DA6CB0075FC67 /* ConvertUTF.c in Sources */,
 				AABF81310B759BC8002DBAB5 /* UArray_character.c in Sources */,
 				AABF81330B759BC8002DBAB5 /* UArray_format.c in Sources */,
 				AABF81350B759BC8002DBAB5 /* UArray_math.c in Sources */,
@@ -886,6 +888,10 @@
 				AABF813D0B759BC8002DBAB5 /* UArray.c in Sources */,
 				AABF83140B76D00A002DBAB5 /* UArray_stream.c in Sources */,
 				AA6AC0280BA8E5D10049770F /* IoSeq_vector.c in Sources */,
+				AA6AA4EF0DC0327E00C7667D /* ucs2.c in Sources */,
+				AA6AA4F00DC0327E00C7667D /* ucs4.c in Sources */,
+				AA6AA4F10DC0327E00C7667D /* utf8.c in Sources */,
+				AA6AA4F20DC0327E00C7667D /* utf_convert.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,8 +10,8 @@ IOVM_API IoObject *IoSeq_itemType(IoSeq *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoSeq_itemSize(IoSeq *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoSeq_encoding(IoSeq *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoSeq_asUTF8(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_asUTF16(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_asUTF32(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoSeq_asUCS2(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoSeq_asUCS4(IoSeq *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoSeq_asFixedSizeType(IoSeq *self, IoObject *locals, IoMessage *m);
 
 // conversion
