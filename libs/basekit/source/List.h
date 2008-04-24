@@ -34,6 +34,7 @@ typedef void *(ListCollectCallback)(void *);
 typedef int   (ListSelectCallback)(void *);
 typedef int   (ListDetectCallback)(void *);
 typedef int   (ListSortCallback)(const void *, const void *);
+typedef int   (ListSortRCallback)(void *, const void *, const void *);
 typedef int   (ListCompareFunc)(const void *, const void *);
 
 typedef struct
