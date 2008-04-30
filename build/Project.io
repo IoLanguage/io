@@ -74,7 +74,7 @@ Project := Object clone do(
 		if (platform == "windows",
 			"-MD -Zi -DWIN32 -DNDEBUG -DIOBINDINGS -D_CRT_SECURE_NO_DEPRECATE"
 		,
-			"-Os -g -Wall -DSANE_POPEN -DIOBINDINGS"
+			"-Os -g -Wall -pipe -fno-strict-aliasing -DSANE_POPEN -DIOBINDINGS"
 		)
 	)
 

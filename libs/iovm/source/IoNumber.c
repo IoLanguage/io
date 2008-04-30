@@ -423,6 +423,20 @@ IoObject *IoNumber_justAsString(IoNumber *self, IoObject *locals, IoMessage *m)
 	return string;
 }
 
+static int countBytes(long ld)
+{
+	int n = 1;
+	for (;;)
+	{
+		ld >>= 8;
+		if (ld == 0)
+		{
+			return n;
+		}
+		n++;
+	}
+}
+
 IoObject *IoNumber_asCharacter(IoNumber *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Number asCharacter
@@ -441,7 +455,7 @@ IoObject *IoNumber_asCharacter(IoNumber *self, IoObject *locals, IoMessage *m)
 	else
 	{	
 		uint32_t i = io_uint32InBigEndian((uint32_t)d);
-		int bytes = d > 0 ? log2(d) / 8 : 1;
+		int bytes = countBytes(ld);
 		IoSeq *s;
 		
 		if (bytes == 0) 
