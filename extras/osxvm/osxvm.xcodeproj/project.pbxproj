@@ -37,6 +37,8 @@
 		AABF83140B76D00A002DBAB5 /* UArray_stream.c in Sources */ = {isa = PBXBuildFile; fileRef = AABF83120B76D00A002DBAB5 /* UArray_stream.c */; };
 		AABF83150B76D00A002DBAB5 /* UArray_stream.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AABF83130B76D00A002DBAB5 /* UArray_stream.h */; };
 		AAD893220B783B17001C28DD /* libMallocDebug.A.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AAD893210B783B17001C28DD /* libMallocDebug.A.dylib */; };
+		AAE58CE50DC9303D00183939 /* PortableSorting.c in Sources */ = {isa = PBXBuildFile; fileRef = AAE58CE30DC9303D00183939 /* PortableSorting.c */; };
+		AAE58CEF0DC9347B00183939 /* IoError.c in Sources */ = {isa = PBXBuildFile; fileRef = AAE58CED0DC9347B00183939 /* IoError.c */; };
 		AAE69F990B110796006E309B /* Base.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAE69DAC0B110795006E309B /* Base.h */; };
 		AAE69F9A0B110796006E309B /* BStream.c in Sources */ = {isa = PBXBuildFile; fileRef = AAE69DAD0B110795006E309B /* BStream.c */; };
 		AAE69F9B0B110796006E309B /* BStream.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAE69DAE0B110795006E309B /* BStream.h */; };
@@ -321,6 +323,10 @@
 		AABF83120B76D00A002DBAB5 /* UArray_stream.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = UArray_stream.c; sourceTree = "<group>"; };
 		AABF83130B76D00A002DBAB5 /* UArray_stream.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = UArray_stream.h; sourceTree = "<group>"; };
 		AAD893210B783B17001C28DD /* libMallocDebug.A.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libMallocDebug.A.dylib; path = /usr/lib/libMallocDebug.A.dylib; sourceTree = "<absolute>"; };
+		AAE58CE30DC9303D00183939 /* PortableSorting.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PortableSorting.c; sourceTree = "<group>"; };
+		AAE58CE40DC9303D00183939 /* PortableSorting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PortableSorting.h; sourceTree = "<group>"; };
+		AAE58CED0DC9347B00183939 /* IoError.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = IoError.c; path = ../../libs/iovm/source/IoError.c; sourceTree = SOURCE_ROOT; };
+		AAE58CEE0DC9347B00183939 /* IoError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IoError.h; path = ../../libs/iovm/source/IoError.h; sourceTree = SOURCE_ROOT; };
 		AAE69DAC0B110795006E309B /* Base.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Base.h; path = ../../libs/basekit/source/Base.h; sourceTree = SOURCE_ROOT; };
 		AAE69DAD0B110795006E309B /* BStream.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = BStream.c; path = ../../libs/basekit/source/BStream.c; sourceTree = SOURCE_ROOT; };
 		AAE69DAE0B110795006E309B /* BStream.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = BStream.h; path = ../../libs/basekit/source/BStream.h; sourceTree = SOURCE_ROOT; };
@@ -586,6 +592,8 @@
 				AAE69DD30B110795006E309B /* PortableTruncate.h */,
 				AAE69DD40B110795006E309B /* PortableUsleep.c */,
 				AAE69DD50B110795006E309B /* PortableUsleep.h */,
+				AAE58CE30DC9303D00183939 /* PortableSorting.c */,
+				AAE58CE40DC9303D00183939 /* PortableSorting.h */,
 				AAE69DD60B110795006E309B /* RandomGen.c */,
 				AAE69DD70B110795006E309B /* RandomGen.h */,
 				AAE69DDA0B110795006E309B /* Stack.c */,
@@ -705,6 +713,8 @@
 				AAE69EBD0B110795006E309B /* IoDuration.h */,
 				AAE69EBE0B110795006E309B /* IoDynLib.c */,
 				AAE69EBF0B110795006E309B /* IoDynLib.h */,
+				AAE58CED0DC9347B00183939 /* IoError.c */,
+				AAE58CEE0DC9347B00183939 /* IoError.h */,
 				AAE69EC00B110795006E309B /* IoFile.c */,
 				AAE69EC10B110795006E309B /* IoFile.h */,
 				AAE69EC30B110795006E309B /* IoFile_stat.h */,
@@ -892,6 +902,8 @@
 				AA6AA4F00DC0327E00C7667D /* ucs4.c in Sources */,
 				AA6AA4F10DC0327E00C7667D /* utf8.c in Sources */,
 				AA6AA4F20DC0327E00C7667D /* utf_convert.c in Sources */,
+				AAE58CE50DC9303D00183939 /* PortableSorting.c in Sources */,
+				AAE58CEF0DC9347B00183939 /* IoError.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

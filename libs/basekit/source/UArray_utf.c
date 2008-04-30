@@ -9,7 +9,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <stddef.h>
-#include <utf8.h>
+#include "utf8.h"
 #include <assert.h>
 
 int UArray_MachineIsLittleEndian(void)
