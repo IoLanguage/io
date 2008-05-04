@@ -14,7 +14,9 @@ extern "C" {
    qsort_r isn't available on all platforms.
 */
 
-typedef int (PortableSortingCompareCallback)(void *context, int i, int j);
+//typedef int   (ListSortRCallback)(void *, const void *, const void *);
+
+typedef int (PortableSortingCompareCallback)(void *context, const void *a, const void *b);
 
 void portable_qsort_r(void *base, size_t nel, size_t width, 
 	void *context, PortableSortingCompareCallback *compare);

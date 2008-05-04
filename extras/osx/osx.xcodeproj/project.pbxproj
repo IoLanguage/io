@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		8DD76FB00486AB0100D96B5E /* osx.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C6A0FF2C0290799A04C91782 /* osx.1 */; };
+		AA14627C0DCD4B2B00FB1808 /* IoTagDB.c in Sources */ = {isa = PBXBuildFile; fileRef = AA1462110DCD4B2B00FB1808 /* IoTagDB.c */; };
+		AA14627D0DCD4B2B00FB1808 /* IoTagDBInit.c in Sources */ = {isa = PBXBuildFile; fileRef = AA1462130DCD4B2B00FB1808 /* IoTagDBInit.c */; };
 		AA1C3FAE0B7448B500334368 /* UArray_format.c in Sources */ = {isa = PBXBuildFile; fileRef = AA1C3FA00B7448B500334368 /* UArray_format.c */; };
 		AA1C3FAF0B7448B500334368 /* UArray_format.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA1C3FA10B7448B500334368 /* UArray_format.h */; };
 		AA1C3FB00B7448B500334368 /* UArray_path.c in Sources */ = {isa = PBXBuildFile; fileRef = AA1C3FA20B7448B500334368 /* UArray_path.c */; };
@@ -860,6 +862,9 @@
 
 /* Begin PBXFileReference section */
 		8DD76FB20486AB0100D96B5E /* osx */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = osx; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA1462110DCD4B2B00FB1808 /* IoTagDB.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = IoTagDB.c; path = ../../addons/TagDB/source/IoTagDB.c; sourceTree = SOURCE_ROOT; };
+		AA1462120DCD4B2B00FB1808 /* IoTagDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IoTagDB.h; path = ../../addons/TagDB/source/IoTagDB.h; sourceTree = SOURCE_ROOT; };
+		AA1462130DCD4B2B00FB1808 /* IoTagDBInit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = IoTagDBInit.c; path = ../../addons/TagDB/source/IoTagDBInit.c; sourceTree = SOURCE_ROOT; };
 		AA1C3FA00B7448B500334368 /* UArray_format.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = UArray_format.c; sourceTree = "<group>"; };
 		AA1C3FA10B7448B500334368 /* UArray_format.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = UArray_format.h; sourceTree = "<group>"; };
 		AA1C3FA20B7448B500334368 /* UArray_path.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = UArray_path.c; sourceTree = "<group>"; };
@@ -1448,6 +1453,26 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		AA1462000DCD4B2B00FB1808 /* TagDB */ = {
+			isa = PBXGroup;
+			children = (
+				AA1462100DCD4B2B00FB1808 /* source */,
+			);
+			name = TagDB;
+			path = ../../addons/TagDB;
+			sourceTree = SOURCE_ROOT;
+		};
+		AA1462100DCD4B2B00FB1808 /* source */ = {
+			isa = PBXGroup;
+			children = (
+				AA1462110DCD4B2B00FB1808 /* IoTagDB.c */,
+				AA1462120DCD4B2B00FB1808 /* IoTagDB.h */,
+				AA1462130DCD4B2B00FB1808 /* IoTagDBInit.c */,
+			);
+			name = source;
+			path = ../../addons/TagDB/source;
+			sourceTree = SOURCE_ROOT;
+		};
 		AA6ABF750BA8012F0049770F /* Box */ = {
 			isa = PBXGroup;
 			children = (
@@ -1555,6 +1580,7 @@
 				AA7D62050B60123F00D7DEA9 /* SQLite3 */,
 				AA7D621D0B60123F00D7DEA9 /* Syslog */,
 				AA7D62330B60123F00D7DEA9 /* SystemCall */,
+				AA1462000DCD4B2B00FB1808 /* TagDB */,
 				AA7D624F0B60123F00D7DEA9 /* TagLib */,
 				AA7D62680B60123F00D7DEA9 /* Thread */,
 				AA7D62880B60123F00D7DEA9 /* User */,
@@ -3340,6 +3366,8 @@
 				AA9150E50D5B30EB00CBBF14 /* IoDBIResult.c in Sources */,
 				AA9151050D5B35DB00CBBF14 /* IoRange.c in Sources */,
 				AA9151060D5B35DB00CBBF14 /* IoRangeInit.c in Sources */,
+				AA14627C0DCD4B2B00FB1808 /* IoTagDB.c in Sources */,
+				AA14627D0DCD4B2B00FB1808 /* IoTagDBInit.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3451,6 +3479,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_92)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_3)",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../addons/AppleExtras/_build/dll\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_10 = "\"$(SRCROOT)/../../addons/Blowfish/_build/lib\"";
@@ -3546,6 +3575,7 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_92 = "\"$(SRCROOT)/../../libs/skipdb/_build/lib\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../addons/Range/_build/dll\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../../addons/Range/_build/lib\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_3 = "\"$(SRCROOT)/../../addons/TagDB/_build/lib\"";
 				PRODUCT_NAME = osx;
 				ZERO_LINK = YES;
 			};
@@ -3657,6 +3687,7 @@
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_92)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_93)",
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_94)",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 				);
 				LIBRARY_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../addons/AppleExtras/_build/dll\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_10 = "\"$(SRCROOT)/../../addons/Blowfish/_build/lib\"";
@@ -3752,6 +3783,7 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_92 = "\"$(SRCROOT)/../../libs/skipdb/_build/lib\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_93 = "\"$(SRCROOT)/../../addons/Range/_build/dll\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_94 = "\"$(SRCROOT)/../../addons/Range/_build/lib\"";
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../../addons/TagDB/_build/lib\"";
 				PRODUCT_NAME = osx;
 			};
 			name = Release;

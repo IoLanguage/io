@@ -44,11 +44,11 @@ int Sorter_quickSortRearrange(Sorter *self, size_t lb, size_t ub)
 {
 	PortableSortingCompareCallback *comp = self->compare;
 	void *context = self->context;
-	void *base = self->base;
+	unsigned char *base = self->base;
 	size_t width = self->width;
 
 	do {
-		while (ub > lb && (*comp)(context, ub, lb) >= 0)
+		while (ub > lb && (*comp)(context, base + width*ub, base + width*lb) >= 0)
 		{
 			ub --;
 		}
@@ -57,7 +57,7 @@ int Sorter_quickSortRearrange(Sorter *self, size_t lb, size_t ub)
 		{
 			memcpy(((unsigned char *)base) + width*ub, ((unsigned char *)base) + width*lb, width);
 
-			while (lb < ub && (*comp)(context, lb, ub) <= 0)
+			while (lb < ub && (*comp)(context, base + width*lb, base + width*ub) <= 0)
 			{
 				lb ++;
 			}

@@ -164,7 +164,7 @@ IoObject *IoTokyoCabinetPrefixCursor_last(IoObject *self, IoObject *locals, IoMe
 	*/
 
 	IoSeq *prefix = IoObject_getSlot_(self, IOSYMBOL("prefix"));
-IOASSERT(ISSEQ(prefix), "prefix must be a sequence");
+	IOASSERT(ISSEQ(prefix), "prefix must be a sequence");
 	IOASSERT(TokyoCabinetPrefixCursor(self), "invalid TokyoCabinetPrefixCursor");
 	
 	{

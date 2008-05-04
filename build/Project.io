@@ -17,7 +17,7 @@ Project := Object clone do(
 	modulesInFolder := method(name,
 		folder := Directory clone setPath(name)
 		if(folder exists not, return List clone)
-		subfolders := folder folders
+		subfolders := folder directories
 		subfolders selectInPlace(fileNamedOrNil("build.io"))
 		subfolders map(f,
 			module := Lobby doString(f fileNamedOrNil("build.io") contents)
@@ -101,7 +101,7 @@ Project := Object clone do(
 		self
 	)
 
-	libPaths := Directory with("libs") folders map(path)
+	libPaths := Directory with("libs") directories map(path)
 
 	otherLibPaths := method(libtype,
 		if(libtype == nil, libtype = "_build/dll")

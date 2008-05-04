@@ -77,17 +77,17 @@ IoObject *IoTagDB_close(IoTagDB *self, IoObject *locals, IoMessage *m)
 }
 
 
-TagIdArray *IoTagDB_tagArrayForTagNames_(IoTagDB *self, IoMessage *m, IoList *tagNames)
+Uint64Array *IoTagDB_tagArrayForTagNames_(IoTagDB *self, IoMessage *m, IoList *tagNames)
 {
 	TagDB *tdb = DATA(self);
-	TagIdArray *tags = TagIdArray_new();
+	Uint64Array *tags = Uint64Array_new();
 	int i;
 
 	for (i = 0; i < IoList_rawSize(tagNames); i ++)
 	{
 		IoSeq *tagName = IoList_rawAt_(tagNames, i);
 		IOASSERT(ISSEQ(tagName), "tag names must be Sequences");
-		TagIdArray_append_(tags, TagDB_idForSymbol_size_(tdb, CSTRING(tagName), IoSeq_rawSize(tagName)));
+		Uint64Array_append_(tags, TagDB_idForSymbol_size_(tdb, CSTRING(tagName), IoSeq_rawSize(tagName)));
 	}
 
 	return tags;
@@ -100,35 +100,35 @@ IoObject *IoTagDB_atKeyPutTags(IoTagDB *self, IoObject *locals, IoMessage *m)
 	IoSeq *key = IoMessage_locals_seqArgAt_(m, locals, 0);
 	IoList *tagNames = IoMessage_locals_listArgAt_(m, locals, 1);
 	symbolid_t keyid = TagDB_idForSymbol_size_(tdb, CSTRING(key), IoSeq_rawSize(key));
-	TagIdArray *tags = IoTagDB_tagArrayForTagNames_(self, m, tagNames);
+	Uint64Array *tags = IoTagDB_tagArrayForTagNames_(self, m, tagNames);
 	TagDB_atKey_putTags_(tdb, keyid, tags);
-	TagIdArray_free(tags);
+	Uint64Array_free(tags);
 	return self;
 }
 
-IoObject *IoTagDB_tagsAt(IoTagDB *self, IoObject *locals, IoMessage *m)
+IoObject *IoTagDB_tagsAtKey(IoTagDB *self, IoObject *locals, IoMessage *m)
 {
 	TagDB *tdb = DATA(self);
 	IoSeq *key = IoMessage_locals_seqArgAt_(m, locals, 0);
 	symbolid_t keyid = TagDB_idForSymbol_size_(tdb, CSTRING(key), IoSeq_rawSize(key));
 	IoList *tagNames = IoList_new(IOSTATE);
-	TagIdArray *tags = TagDB_tagsAt_(tdb, keyid);
+	Uint64Array *tags = TagDB_tagsAtKey_(tdb, keyid);
 	int i;
 
 	//printf("IoTagDB_tagsAt self = %p\n", (void *)self);
 
 	if (!tags) return IONIL(self);
 
-	for (i = 0; i < TagIdArray_size(tags); i ++)
+	for (i = 0; i < Uint64Array_size(tags); i ++)
 	{
-		tagid_t tagid = TagIdArray_at_(tags, i);
+		uint64_t tagid = Uint64Array_at_(tags, i);
 		Datum *name = TagDB_symbolForId_(tdb, tagid);
 		//printf("tagid %i = %i\n", i, (int)tagid);
 		//printf("name '%s'\n", (char *)name->data);
 
 		if (!name)
 		{
-			printf("IoTagDB_tagsAt: no datum returned for TagDB_symbolForId_\n");
+			printf("IoTagDB_tagsAtKey: no datum returned for TagDB_symbolForId_\n");
 		}
 		else
 		{
@@ -137,9 +137,19 @@ IoObject *IoTagDB_tagsAt(IoTagDB *self, IoObject *locals, IoMessage *m)
 		}
 	}
 
-	//TagIdArray_free(tags);
+	//Uint64Array_free(tags);
 
 	return tagNames;
+}
+
+IoObject *IoTagDB_keyAtIndex(IoTagDB *self, IoObject *locals, IoMessage *m)
+{
+	TagDB *tdb = DATA(self);
+	IoNumber *index = IoMessage_locals_numberArgAt_(m, locals, 0);
+	uint64_t key = TagDB_keyAtIndex_(tdb, CNUMBER(index));
+	IoSeq *keySeq = IoSeq_newWithData_length_(IOSTATE, &key, sizeof(uint64_t));
+	//	TagDB_size(tadb)	
+	return keySeq;
 }
 
 IoObject *IoTagDB_removeKey(IoTagDB *self, IoObject *locals, IoMessage *m)
@@ -155,11 +165,11 @@ IoObject *IoTagDB_keysForTags(IoTagDB *self, IoObject *locals, IoMessage *m)
 {
 	TagDB *tdb = DATA(self);
 	IoList *tagNames = IoMessage_locals_listArgAt_(m, locals, 0);
-	TagIdArray *tags = IoTagDB_tagArrayForTagNames_(self, m, tagNames);
-	KeyIdArray *keys = TagDB_keysForTags_(tdb, tags);
-	UArray *keyArray = UArray_newWithData_type_size_copy_(KeyIdArray_data(keys), CTYPE_uint64_t, KeyIdArray_size(keys), 1);
+	Uint64Array *tags = IoTagDB_tagArrayForTagNames_(self, m, tagNames);
+	Uint64Array *keys = TagDB_keysForTags_(tdb, tags);
+	UArray *keyArray = UArray_newWithData_type_size_copy_(Uint64Array_data(keys), CTYPE_uint64_t, Uint64Array_size(keys), 1);
 	IoSeq *keySeq = IoSeq_newWithUArray_copy_(IOSTATE, keyArray, 0);
-	TagIdArray_free(tags);
+	Uint64Array_free(tags);
 	return keySeq;
 }
 
@@ -202,12 +212,13 @@ IoTagDB *IoTagDB_proto(void *state)
 		{"open", IoTagDB_open},
 		{"close", IoTagDB_close},
 		{"atKeyPutTags", IoTagDB_atKeyPutTags},
-		{"tagsAt", IoTagDB_tagsAt},
+		{"tagsAtKey", IoTagDB_tagsAtKey},
 		{"removeKey", IoTagDB_removeKey},
 		{"keysForTags", IoTagDB_keysForTags},
 		{"size", IoTagDB_size},
 		{"symbolForId", IoTagDB_symbolForId},
 		{"idForSymbol", IoTagDB_idForSymbol},
+		{"keyAtIndex", IoTagDB_keyAtIndex},
 		{"delete", IoTagDB_delete},
 		{NULL, NULL},
 		};
