@@ -86,8 +86,21 @@ Uint64Array *IoTagDB_tagArrayForTagNames_(IoTagDB *self, IoMessage *m, IoList *t
 	for (i = 0; i < IoList_rawSize(tagNames); i ++)
 	{
 		IoSeq *tagName = IoList_rawAt_(tagNames, i);
+		symbolid_t keyid;
+		
 		IOASSERT(ISSEQ(tagName), "tag names must be Sequences");
-		Uint64Array_append_(tags, TagDB_idForSymbol_size_(tdb, CSTRING(tagName), IoSeq_rawSize(tagName)));
+
+		keyid = TagDB_idForSymbol_size_(tdb, CSTRING(tagName), IoSeq_rawSize(tagName));
+
+		Uint64Array_append_(tags, keyid);
+		/*
+		{
+		Datum *keyDatum = TagDB_symbolForId_(tdb, keyid);	
+		printf("%s -> %i && ", CSTRING(tagName), (int)keyid);
+		printf("%i -> %s\n", (int)keyid, (char *)(keyDatum->data));
+		Datum_free(keyDatum);
+		}
+		*/
 	}
 
 	return tags;
@@ -100,9 +113,24 @@ IoObject *IoTagDB_atKeyPutTags(IoTagDB *self, IoObject *locals, IoMessage *m)
 	IoSeq *key = IoMessage_locals_seqArgAt_(m, locals, 0);
 	IoList *tagNames = IoMessage_locals_listArgAt_(m, locals, 1);
 	symbolid_t keyid = TagDB_idForSymbol_size_(tdb, CSTRING(key), IoSeq_rawSize(key));
+	
+	// debugging check
+	/*
+	Datum *keyDatum = TagDB_symbolForId_(tdb, keyid);
+	
+	printf("%s -> %i\n", CSTRING(key), (int)keyid);
+	printf("%i -> %s\n", (int)keyid, (char *)(keyDatum->data));
+	assert(strcmp((char *)(keyDatum->data), (char *)CSTRING(key)) == 0);
+	Datum_free(keyDatum);
+	*/
+	
+	{
 	Uint64Array *tags = IoTagDB_tagArrayForTagNames_(self, m, tagNames);
+	TagDB_begin(tdb);
 	TagDB_atKey_putTags_(tdb, keyid, tags);
+	TagDB_commit(tdb);
 	Uint64Array_free(tags);
+	}
 	return self;
 }
 
@@ -117,8 +145,12 @@ IoObject *IoTagDB_tagsAtKey(IoTagDB *self, IoObject *locals, IoMessage *m)
 
 	//printf("IoTagDB_tagsAt self = %p\n", (void *)self);
 
-	if (!tags) return IONIL(self);
-
+	if (!tags) 
+	{
+		//printf("IoTagDB_tagsAtKey: no tags found for key\n");
+		return IONIL(self);
+	}
+	
 	for (i = 0; i < Uint64Array_size(tags); i ++)
 	{
 		uint64_t tagid = Uint64Array_at_(tags, i);
@@ -132,7 +164,7 @@ IoObject *IoTagDB_tagsAtKey(IoTagDB *self, IoObject *locals, IoMessage *m)
 		}
 		else
 		{
-			IoList_rawAppend_(tagNames, IOSYMBOL(name));
+			IoList_rawAppend_(tagNames, IoSeq_newWithData_length_(IOSTATE, name->data, name->size));
 			Datum_free(name);
 		}
 	}
@@ -147,7 +179,7 @@ IoObject *IoTagDB_keyAtIndex(IoTagDB *self, IoObject *locals, IoMessage *m)
 	TagDB *tdb = DATA(self);
 	IoNumber *index = IoMessage_locals_numberArgAt_(m, locals, 0);
 	uint64_t key = TagDB_keyAtIndex_(tdb, CNUMBER(index));
-	IoSeq *keySeq = IoSeq_newWithData_length_(IOSTATE, &key, sizeof(uint64_t));
+	IoSeq *keySeq = IoSeq_newWithData_length_(IOSTATE, (void *)(&key), sizeof(uint64_t));
 	//	TagDB_size(tadb)	
 	return keySeq;
 }
@@ -157,7 +189,9 @@ IoObject *IoTagDB_removeKey(IoTagDB *self, IoObject *locals, IoMessage *m)
 	TagDB *tdb = DATA(self);
 	IoSeq *key = IoMessage_locals_seqArgAt_(m, locals, 0);
 	symbolid_t keyid = TagDB_idForSymbol_size_(tdb, CSTRING(key), IoSeq_rawSize(key));
+	TagDB_begin(tdb);
 	TagDB_removeKey_(tdb, keyid);
+	TagDB_commit(tdb);
 	return self;
 }
 

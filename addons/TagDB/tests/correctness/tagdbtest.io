@@ -12,7 +12,9 @@ TagDBTest := UnitTest clone do(
         assertEquals(tdb size, 0)
         
 		tdb atKeyPutTags("f430 for sale", list("red", "ferrari"))
+        assertEquals(tdb tagsAtKey("f430 for sale"), list("red", "ferrari"))
         tdb atKeyPutTags("lotus esprit", list("lotus", "esprit"))
+        assertEquals(tdb tagsAtKey("lotus esprit"), list("lotus", "esprit"))
         
         assertEquals(tdb size, 2)
         
@@ -25,8 +27,8 @@ TagDBTest := UnitTest clone do(
         keys := tdb keysForTags(list("lotus"))
         assertEquals(keys size, 0)
         
-        tags := tdb tagsAt("lotus esprit")
-        assertEquals(tags, list("lotus", "esprit"))
+        tags := tdb tagsAtKey("lotus esprit")
+        assertEquals(tags, nil)
        
 		writeln("ok")
 		tdb close
