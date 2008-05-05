@@ -36,7 +36,7 @@ Project := Object clone do(
 		currentAddon build(options)
 	)
 
-/*
+	/*
 	buildAddon := method(name,
 		addons detect(addon, /*writeln(addon name);*/ addon name == name) build(options)
 	)
