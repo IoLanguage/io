@@ -29,14 +29,26 @@ Project := Object clone do(
 	addons := method(
 		self addons := modulesInFolder("addons") sortInPlaceBy(block(x, y, x name < y name))
 	)
-
-	buildAddon := method(name,
-		addons detect(addon, addon name == name) build(options)
+	
+ 	buildAddon := method(name,
+		currentAddon := addons detect(addon, addon name == name)
+		if(currentAddon == nil,	Exception raise("No addon named " .. name .. " found!"))
+		currentAddon build(options)
 	)
 
+/*
+	buildAddon := method(name,
+		addons detect(addon, /*writeln(addon name);*/ addon name == name) build(options)
+	)
+	*/
+
 	availableAddon := method(addon,
-		if(addon hasSlot("isAvailable"), return addon isAvailable)
+		if(addon hasSlot("isAvailable"), 
+			//writeln(addon name, " isAvailable")
+			return addon isAvailable
+		)
 		if(addon isDisabled,
+			//writeln(addon name, " isDisabled")
 			addon isAvailable := false
 			return false
 		)

@@ -377,6 +377,20 @@
 		vrLen = 623;
 		vrLoc = 10863;
 	};
+	AA1462110DCD4B2B00FB1808 /* IoTagDB.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1012, 3518}}";
+			sepNavSelRange = "{4237, 0}";
+			sepNavVisRange = "{4097, 688}";
+		};
+	};
+	AA1462120DCD4B2B00FB1808 /* IoTagDB.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {823, 576}}";
+			sepNavSelRange = "{1059, 19}";
+			sepNavVisRange = "{180, 1033}";
+		};
+	};
 	AA1C3FA00B7448B500334368 /* UArray_format.c */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {928, 2178}}";
@@ -2153,9 +2167,9 @@
 	};
 	AA86BF4E0B6051FF00495786 /* IoList.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {845, 15840}}";
-			sepNavSelRange = "{11705, 0}";
-			sepNavVisRange = "{11379, 627}";
+			sepNavIntBoundsRect = "{{0, 0}, {929, 9032}}";
+			sepNavSelRange = "{21830, 27}";
+			sepNavVisRange = "{21282, 653}";
 			sepNavVisRect = "{{0, 0}, {966, 782}}";
 		};
 	};
@@ -2291,9 +2305,9 @@
 	};
 	AA86BF690B6051FF00495786 /* IoSeq.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {841, 1888}}";
-			sepNavSelRange = "{2883, 15}";
-			sepNavVisRange = "{1326, 1540}";
+			sepNavIntBoundsRect = "{{0, 0}, {929, 1888}}";
+			sepNavSelRange = "{1845, 25}";
+			sepNavVisRange = "{1265, 1263}";
 			sepNavVisRect = "{{0, 450}, {1084, 757}}";
 			sepNavWindowFrame = "{{107, 496}, {1296, 1015}}";
 		};

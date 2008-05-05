@@ -40,6 +40,16 @@ void Sorter_quickSort(Sorter *self, size_t lb, size_t ub)
 	}
 }
 
+static void swap(void *base, size_t a, size_t b, size_t width)
+{
+	unsigned char swapSpace[width];
+	void *ap = ((unsigned char *)base) + width*a;
+	void *bp = ((unsigned char *)base) + width*b;
+	memcpy(swapSpace, ap, width);
+	memcpy(ap, bp, width);
+	memcpy(bp, swapSpace, width);
+
+}
 int Sorter_quickSortRearrange(Sorter *self, size_t lb, size_t ub)
 {
 	PortableSortingCompareCallback *comp = self->compare;
@@ -55,8 +65,8 @@ int Sorter_quickSortRearrange(Sorter *self, size_t lb, size_t ub)
 
 		if (ub != lb)
 		{
-			memcpy(((unsigned char *)base) + width*ub, ((unsigned char *)base) + width*lb, width);
-
+			swap(base, ub, lb, width);
+			
 			while (lb < ub && (*comp)(context, base + width*lb, base + width*ub) <= 0)
 			{
 				lb ++;
@@ -64,7 +74,7 @@ int Sorter_quickSortRearrange(Sorter *self, size_t lb, size_t ub)
 
 			if (lb != ub)
 			{
-				memcpy(((unsigned char *)base) + width*lb, ((unsigned char *)base) + width*ub, width);
+				swap(base, lb, ub, width);
 			}
 		}
 	} while (lb != ub);

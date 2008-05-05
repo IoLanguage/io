@@ -178,10 +178,14 @@ IoObject *IoTagDB_keyAtIndex(IoTagDB *self, IoObject *locals, IoMessage *m)
 {
 	TagDB *tdb = DATA(self);
 	IoNumber *index = IoMessage_locals_numberArgAt_(m, locals, 0);
-	uint64_t key = TagDB_keyAtIndex_(tdb, CNUMBER(index));
-	IoSeq *keySeq = IoSeq_newWithData_length_(IOSTATE, (void *)(&key), sizeof(uint64_t));
-	//	TagDB_size(tadb)	
-	return keySeq;
+	Datum *key = TagDB_keyAtIndex_(tdb, CNUMBER(index));
+	
+	if (!key) 
+	{
+		return IONIL(self);
+	}
+	
+	return IoSeq_newWithData_length_(IOSTATE, (void *)(key->data), key->size);
 }
 
 IoObject *IoTagDB_removeKey(IoTagDB *self, IoObject *locals, IoMessage *m)
