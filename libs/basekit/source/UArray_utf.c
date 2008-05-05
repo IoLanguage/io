@@ -224,7 +224,7 @@ UArray *UArray_asUCS2(const UArray *self)
 	
 	if (numChars != countedChars)
 	{
-		printf("UArray_asUCS2 warning: numChars != countedChars\n");
+		printf("UArray_asUCS2 warning: numChars %i != countedChars %i\n", numChars, countedChars);
 	}
 
 	UArray_setSize_(out, numChars);
@@ -249,7 +249,7 @@ UArray *UArray_asUCS4(const UArray *self)
 
 	if (numChars != countedChars)
 	{
-		printf("UArray_asUCS4 warning: numChars != countedChars\n");
+		printf("UArray_asUCS4 warning: numChars %i != countedChars %i\n", numChars, countedChars);
 	}
 	
 	UArray_setSize_(out, numChars);
