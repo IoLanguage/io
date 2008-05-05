@@ -222,11 +222,12 @@ UArray *UArray_asUCS2(const UArray *self)
 
 	numChars = ucs2decode((ucs2 *)(out->data), out->size, utf8Array->data);
 	
-	if (numChars != countedChars)
+	if (numChars*2 < countedChars)
 	{
-		printf("UArray_asUCS2 warning: numChars %i != countedChars %i\n", numChars, countedChars);
+		printf("UArray_asUCS2 error: numChars %i != countedChars %i\n", numChars, countedChars);
+		exit(-1);
 	}
-
+	
 	UArray_setSize_(out, numChars);
 	
 	if (convertToUtf8First) UArray_free((UArray *)utf8Array);
@@ -247,9 +248,10 @@ UArray *UArray_asUCS4(const UArray *self)
 
 	numChars = ucs4decode((ucs4 *)out->data, out->size, utf8Array->data);
 
-	if (numChars != countedChars)
+	if (numChars*2 < countedChars)
 	{
-		printf("UArray_asUCS4 warning: numChars %i != countedChars %i\n", numChars, countedChars);
+		printf("UArray_asUCS4 error: numChars %i != countedChars %i\n", numChars, countedChars);
+		exit(-1);
 	}
 	
 	UArray_setSize_(out, numChars);
