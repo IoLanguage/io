@@ -218,10 +218,16 @@ UArray *UArray_asUCS2(const UArray *self)
 	UArray *out = UArray_new();
 	UArray_setItemType_(out, CTYPE_uint16_t);
 	UArray_setEncoding_(out, CENCODING_UCS2);
-	UArray_setSize_(out, countedChars);
+	UArray_setSize_(out, countedChars*2);
 
 	numChars = ucs2decode((ucs2 *)(out->data), out->size, utf8Array->data);
-	assert(numChars == countedChars);
+	
+	if (numChars != countedChars)
+	{
+		printf("UArray_asUCS2 warning: numChars != countedChars\n");
+	}
+
+	UArray_setSize_(out, numChars);
 	
 	if (convertToUtf8First) UArray_free((UArray *)utf8Array);
 	return out;
@@ -237,11 +243,17 @@ UArray *UArray_asUCS4(const UArray *self)
 	UArray *out = UArray_new();
 	UArray_setItemType_(out, CTYPE_uint32_t);
 	UArray_setEncoding_(out, CENCODING_UCS4);
-	UArray_setSize_(out, countedChars);
+	UArray_setSize_(out, countedChars*2);
 
 	numChars = ucs4decode((ucs4 *)out->data, out->size, utf8Array->data);
-	assert(numChars == countedChars);
 
+	if (numChars != countedChars)
+	{
+		printf("UArray_asUCS4 warning: numChars != countedChars\n");
+	}
+	
+	UArray_setSize_(out, numChars);
+	
 	if (convertToUtf8First) UArray_free((UArray *)utf8Array);
 	return out;
 }
