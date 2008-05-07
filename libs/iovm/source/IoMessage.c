@@ -121,6 +121,10 @@ IoMessage *IoMessage_proto(void *state)
 
 	{"opShuffle", IoMessage_opShuffle},
 	{"opShuffleC", IoMessage_opShuffle},
+	
+	#ifdef IOMESSAGE_HASPREV
+	{"previous", IoMessage_previous},
+	#endif
 
 	{NULL, NULL},
 	};

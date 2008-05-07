@@ -31,7 +31,7 @@ extern "C" {
 
 typedef IoObject IoMessage;
 
-//#define IOMESSAGE_HASPREV
+#define IOMESSAGE_HASPREV
 
 typedef struct
 {
