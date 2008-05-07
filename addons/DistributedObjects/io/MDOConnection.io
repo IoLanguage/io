@@ -1,3 +1,4 @@
+DistributedObjects := Object clone
 
 MDOProxy := Object clone do(
 	connection ::= nil
@@ -13,39 +14,51 @@ Message setCachedArgs := method(args,
 
 MDOConnection := Object clone do(
 	socket ::= nil
-	port ::= 8456
+	setPort := method(port, socket setPort(port); self)
 	corosWaitingOnResponses ::= nil
 	
 	remoteObject ::= nil
 	localObject ::= nil
 	
 	init := method(
-		setSocket(Socket clone setPort(port))
+		setSocket(Socket clone setPort(8456))
 		setRemoteObject(MDOProxy clone setConnection(self))
 		setCorosWaitingOnResponses(Map clone)
 	)
 	
+	setHost := method(host,
+		socket setHost(host)
+		self
+	)
+	
 	connect := method(
 		socket connect
+		if(socket isOpen not, Exception raise(self type .. " unable to connect to host " ..  socket host))
+		self
 	)
 	
 	close := method(
 		socket close
+		self
 	)	
 	
 	send := method(messageName, args,
+		//writeln("con send(", messageName, ", ", args, ")")
 		coro := Coroutine currentCoroutine
 		messageId := coro uniqueId asString
 		socket writeListMessage(list("s", messageId, messageName) appendSeq(args))
-		corosWaitingOnResponses atPut(id, coro)
+		corosWaitingOnResponses atPut(messageId, coro)
+		//writeln("pausing coro ", messageId)
 		coro pause
-		corosWaitingOnResponses removeAt(id)
+		//writeln("resumed coro ", messageId)
+		corosWaitingOnResponses removeAt(messageId)
 		coro result
 	)
 	
 	receiveLoop := method(
 		while(socket isOpen,
 			args := socket readListMessage
+			//writeln("got message: ", args)
 			messageType := args removeFirst
 			
 			if (messageType == "s") then(
@@ -74,7 +87,7 @@ MDOConnection := Object clone do(
 		messageId := args removeFirst
 		messageName := args removeFirst
 		m := Message clone setName(messageName) setCachedArgs(args)
-		if(localObject acceptedMessageNames contains(s name)) then(
+		if(localObject acceptedMessageNames contains(messageName)) then(
 			result := localObject doMessage(m)
 			socket writeListMessage(list("r", messageId, result))
 		) else(

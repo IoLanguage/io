@@ -1,8 +1,8 @@
 
 MDOServer := Server clone do(
-	setPort(MDOConnection port)
 	localObject ::= nil
 	handleSocket := method(aSocket,
+		//writeln("MDOServer got connection")
 		MDOConnection clone setLocalObject(localObject) setSocket(aSocket) @receiveLoop
 	)
 )
