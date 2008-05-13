@@ -77,8 +77,8 @@ int CENCODING_forName(const char *name)
 {
 	if(!strcmp(name, "ascii"))  return CENCODING_ASCII;
 	if(!strcmp(name, "utf8"))   return CENCODING_UTF8;
-	if(!strcmp(name, "utf16"))  return CENCODING_UTF16;
-	if(!strcmp(name, "utf32"))  return CENCODING_UTF32;
+	if(!strcmp(name, "ucs2"))	return CENCODING_UCS2;
+	if(!strcmp(name, "ucs4"))	return CENCODING_UCS4;
 	if(!strcmp(name, "number")) return CENCODING_NUMBER;
 	return -1;
 }
@@ -89,8 +89,8 @@ const char *CENCODING_name(CENCODING encoding)
 	{
 		case CENCODING_ASCII:  return "ascii";
 		case CENCODING_UTF8:   return "utf8";
-		case CENCODING_UTF16:  return "utf16";
-		case CENCODING_UTF32:  return "utf32";
+		case CENCODING_UCS2:   return "ucs2";
+		case CENCODING_UCS4:   return "ucs4";
 		case CENCODING_NUMBER: return "number";
 	}
 	return "unknown";
@@ -163,8 +163,8 @@ void UArray_setItemType_(UArray *self, CTYPE type)
 	{
 		switch(self->itemSize)
 		{
-			case 2: self->encoding = CENCODING_UTF16; break;
-			case 4: self->encoding = CENCODING_UTF32; break;
+			case 2: self->encoding = CENCODING_UCS2; break;
+			case 4: self->encoding = CENCODING_UCS4; break;
 			case 8: self->encoding = CENCODING_NUMBER; break;
 		}
 	}
@@ -185,10 +185,10 @@ void UArray_setEncoding_(UArray *self, CENCODING encoding)
 		case CENCODING_UTF8:
 			UArray_setItemType_(self, CTYPE_uint8_t);
 			break;
-		case CENCODING_UTF16:
+		case CENCODING_UCS2:
 			UArray_setItemType_(self, CTYPE_uint16_t);
 			break;
-		case CENCODING_UTF32:
+		case CENCODING_UCS4:
 			UArray_setItemType_(self, CTYPE_uint32_t);
 			break;
 		case CENCODING_NUMBER:
@@ -209,11 +209,11 @@ void UArray_convertToEncoding_(UArray *self, CENCODING encoding)
 		case CENCODING_UTF8:
 			UArray_convertToUTF8(self);
 			break;
-		case CENCODING_UTF16:
-			UArray_convertToUTF16(self);
+		case CENCODING_UCS2:
+			UArray_convertToUCS2(self);
 			break;
-		case CENCODING_UTF32:
-			UArray_convertToUTF32(self);
+		case CENCODING_UCS4:
+			UArray_convertToUCS4(self);
 			break;
 		case CENCODING_NUMBER:
 			UArray_setItemType_(self, CTYPE_uint8_t);

@@ -14,7 +14,6 @@ A mutable array of values. The first index is 0.")
 #include "IoState.h"
 #include "IoNumber.h"
 #include "IoBlock.h"
-#include "Sorting.h"
 #include <math.h>
 
 #define DATA(self) ((List *)(IoObject_dataPointer(self)))
@@ -892,10 +891,10 @@ typedef struct
 	List *list;
 } MSortContext;
 
-int MSortContext_compareForSort(MSortContext *self, int i, int j)
+int MSortContext_compareForSort(MSortContext *self, void *ap, void *bp)
 {
-	IoObject *a = List_at_(self->list, i);
-	IoObject *b = List_at_(self->list, j);
+	IoObject *a = *(void **)ap;
+	IoObject *b = *(void **)bp;
 	int r;
 
 	IoState_pushRetainPool(self->state);
@@ -906,11 +905,6 @@ int MSortContext_compareForSort(MSortContext *self, int i, int j)
 
 	IoState_popRetainPool(self->state);
 	return r;
-}
-
-void MSortContext_swapForSort(MSortContext *self, int i, int j)
-{
-	List_swap_with_(self->list, i, j);
 }
 
 IoObject *IoList_sortInPlace(IoList *self, IoObject *locals, IoMessage *m)
@@ -930,15 +924,10 @@ IoObject *IoList_sortInPlace(IoList *self, IoObject *locals, IoMessage *m)
 		MSortContext sc;
 		MSortContext *sortContext = &sc;
 		sortContext->state = IOSTATE;
-
-		sortContext->list = DATA(self);
 		sortContext->locals = locals;
 		sortContext->exp = IoMessage_rawArgAt_(m, 0);
 
-		Sorting_context_comp_swap_size_type_(sortContext,
-										(SDSortCompareCallback *)MSortContext_compareForSort,
-										(SDSortSwapCallback *)MSortContext_swapForSort,
-										List_size(DATA(self)), SDQuickSort);
+		List_qsort_r(DATA(self), sortContext, (ListSortRCallback *)MSortContext_compareForSort);
 
 	}
 
@@ -956,50 +945,40 @@ typedef struct
 	List *list;
 } SortContext;
 
-int SortContext_compareForSort(SortContext *self, int i, int j)
+int SortContext_compareForSort(SortContext *self, void *ap, void *bp)
 {
+	IoObject *a = *(void **)ap;
+	IoObject *b = *(void **)bp;
 	IoObject *cr;
 	IoState_pushRetainPool(self->state);
 
-	IoMessage_cachedResult_(self->argMsg1, LIST_AT_(self->list, i));
-	IoMessage_cachedResult_(self->argMsg2, LIST_AT_(self->list, j));
+	IoMessage_cachedResult_(self->argMsg1, a);
+	IoMessage_cachedResult_(self->argMsg2, b);
 	cr = IoBlock_activate(self->block, self->locals, self->locals, self->blockMsg, self->locals);
-	//cr = IoMessage_locals_performOn_(self->block->message, self->locals, self->locals);
 
 	IoState_popRetainPool(self->state);
 	return ISFALSE(cr) ? 1 : -1;
 }
 
-void SortContext_swapForSort(SortContext *self, int i, int j)
-{
-	List_swap_with_(self->list, i, j);
-}
-
 IoObject *IoList_sortInPlaceBy(IoList *self, IoObject *locals, IoMessage *m)
 {
-	/*doc List sortBy(aBlock)
+	/*doc List sortInPlaceBy(aBlock)
 	Sort the list using aBlock as the compare function. Returns self.
 	*/
 
 	SortContext sc;
 	SortContext *sortContext = &sc;
-	sortContext->state = IOSTATE;
-
-	sortContext->list = DATA(self);
-	sortContext->locals = locals;
-	sortContext->block = IoMessage_locals_blockArgAt_(m, locals, 0);
-	sortContext->blockMsg = IoMessage_new(IOSTATE);
-	sortContext->argMsg1  = IoMessage_new(IOSTATE);
-	sortContext->argMsg2  = IoMessage_new(IOSTATE);
+	sc.state = IOSTATE;
+	sc.locals = locals;
+	sc.block = IoMessage_locals_blockArgAt_(m, locals, 0);
+	sc.blockMsg = IoMessage_new(IOSTATE);
+	sc.argMsg1  = IoMessage_new(IOSTATE);
+	sc.argMsg2  = IoMessage_new(IOSTATE);
 
 	IoMessage_addArg_(sortContext->blockMsg, sortContext->argMsg1);
 	IoMessage_addArg_(sortContext->blockMsg, sortContext->argMsg2);
 
-	Sorting_context_comp_swap_size_type_(sortContext,
-									(SDSortCompareCallback *)SortContext_compareForSort,
-									(SDSortSwapCallback *)SortContext_swapForSort,
-									List_size(DATA(self)), SDQuickSort);
-
+	List_qsort_r(DATA(self), &sc, (ListSortRCallback *)SortContext_compareForSort);
 	return self;
 }
 

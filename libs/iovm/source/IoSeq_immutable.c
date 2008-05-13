@@ -104,22 +104,22 @@ IoObject *IoSeq_asUTF8(IoSeq *self, IoObject *locals, IoMessage *m)
 	return IoSeq_newWithUArray_copy_(IOSTATE, UArray_asUTF8(DATA(self)), 0);
 }
 
-IoObject *IoSeq_asUTF16(IoSeq *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_asUCS2(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc Sequence asUTF16
-	Returns a new copy of the receiver converted to utf16 encoding. 
+	/*doc Sequence asUCS2
+	Returns a new copy of the receiver converted to UCS2 (fixed character width UTF16) encoding. 
 	*/
 
-	return IoSeq_newWithUArray_copy_(IOSTATE, UArray_asUTF16(DATA(self)), 0);
+	return IoSeq_newWithUArray_copy_(IOSTATE, UArray_asUCS2(DATA(self)), 0);
 }
 
-IoObject *IoSeq_asUTF32(IoSeq *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_asUCS4(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc Sequence asUTF32
-	Returns a new copy of the receiver converted to utf32 encoding. 
+	/*doc Sequence asUCS4
+	Returns a new copy of the receiver converted to UCS4 (fixed character width UTF32) encoding. 
 	*/
 
-	return IoSeq_newWithUArray_copy_(IOSTATE, UArray_asUTF32(DATA(self)), 0);
+	return IoSeq_newWithUArray_copy_(IOSTATE, UArray_asUCS4(DATA(self)), 0);
 }
 
 IoObject *IoSeq_asFixedSizeType(IoSeq *self, IoObject *locals, IoMessage *m)
@@ -1325,8 +1325,8 @@ void IoSeq_addImmutableMethods(IoSeq *self)
 	{"itemSize", IoSeq_itemSize},
 	{"encoding", IoSeq_encoding},
 	{"asUTF8", IoSeq_asUTF8},
-	{"asUTF16", IoSeq_asUTF16},
-	{"asUTF32", IoSeq_asUTF32},
+	{"asUCS2", IoSeq_asUCS2},
+	{"asUCS4", IoSeq_asUCS4},
 	{"asFixedSizeType", IoSeq_asFixedSizeType},
 
 	{"asBinaryNumber", IoSeq_asBinaryNumber},

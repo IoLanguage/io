@@ -17,3 +17,6 @@ Sequence do(
 	md5 := method(MD5 clone appendSeq(self) md5)
 )
 
+
+MD5 hashString := SHA1 getSlot("md5String")
+MD5 hash := SHA1 getSlot("md5")

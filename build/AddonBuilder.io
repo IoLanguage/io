@@ -234,7 +234,7 @@ AddonBuilder := Object clone do(
 
 	includePaths := method(
 		includePaths := List clone
-		includePaths appendSeq(libsFolder folders map(path) map(p, Path with(p, "_build/headers")))
+		includePaths appendSeq(libsFolder directories map(path) map(p, Path with(p, "_build/headers")))
 		includePaths appendSeq(depends addons map(n, "addons/" .. n .. "/_build/headers"))
 		includePaths
 	)

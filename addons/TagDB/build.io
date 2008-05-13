@@ -1,8 +1,8 @@
 AddonBuilder clone do(
-	dependsOnLib("qdbm")
+	dependsOnLib("tokyocabinet")
 	dependsOnLib("tagdb")
 	appendHeaderSearchPath("/usr/local/include/tagdb")
-	appendHeaderSearchPath("/usr/include/qdbm")
+	//appendHeaderSearchPath("/usr/include/tokyocabinet")
 
 //	if(platform != "windows",
 //		hasLib := libSearchPaths detect(path, Directory with(path) files detect(name containsSeq("libtagdb")))

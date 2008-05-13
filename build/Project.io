@@ -17,7 +17,7 @@ Project := Object clone do(
 	modulesInFolder := method(name,
 		folder := Directory clone setPath(name)
 		if(folder exists not, return List clone)
-		subfolders := folder folders
+		subfolders := folder directories
 		subfolders selectInPlace(fileNamedOrNil("build.io"))
 		subfolders map(f,
 			module := Lobby doString(f fileNamedOrNil("build.io") contents)
@@ -29,14 +29,26 @@ Project := Object clone do(
 	addons := method(
 		self addons := modulesInFolder("addons") sortInPlaceBy(block(x, y, x name < y name))
 	)
-
-	buildAddon := method(name,
-		addons detect(addon, addon name == name) build(options)
+	
+ 	buildAddon := method(name,
+		currentAddon := addons detect(addon, addon name == name)
+		if(currentAddon == nil,	Exception raise("No addon named " .. name .. " found!"))
+		currentAddon build(options)
 	)
 
+	/*
+	buildAddon := method(name,
+		addons detect(addon, /*writeln(addon name);*/ addon name == name) build(options)
+	)
+	*/
+
 	availableAddon := method(addon,
-		if(addon hasSlot("isAvailable"), return addon isAvailable)
+		if(addon hasSlot("isAvailable"), 
+			//writeln(addon name, " isAvailable")
+			return addon isAvailable
+		)
 		if(addon isDisabled,
+			//writeln(addon name, " isDisabled")
 			addon isAvailable := false
 			return false
 		)
@@ -75,7 +87,7 @@ Project := Object clone do(
 			//"-MDd -Zi -DWIN32 -D_DEBUG -DIOBINDINGS -D_CRT_SECURE_NO_DEPRECATE"
 			"-MD -Zi -DWIN32 -DNDEBUG -DIOBINDINGS -D_CRT_SECURE_NO_DEPRECATE"
 		,
-			"-Os -g -Wall -DSANE_POPEN -DIOBINDINGS"
+			"-Os -g -Wall -pipe -fno-strict-aliasing -DSANE_POPEN -DIOBINDINGS"
 		)
 	)
 
@@ -102,7 +114,7 @@ Project := Object clone do(
 		self
 	)
 
-	libPaths := Directory with("libs") folders map(path)
+	libPaths := Directory with("libs") directories map(path)
 
 	otherLibPaths := method(libtype,
 		if(libtype == nil, libtype = "_build/dll")

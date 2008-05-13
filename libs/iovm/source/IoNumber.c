@@ -428,6 +428,20 @@ IoObject *IoNumber_justAsString(IoNumber *self, IoObject *locals, IoMessage *m)
 	return string;
 }
 
+static int countBytes(long ld)
+{
+	int n = 1;
+	for (;;)
+	{
+		ld >>= 8;
+		if (ld == 0)
+		{
+			return n;
+		}
+		n++;
+	}
+}
+
 IoObject *IoNumber_asCharacter(IoNumber *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Number asCharacter
@@ -446,7 +460,7 @@ IoObject *IoNumber_asCharacter(IoNumber *self, IoObject *locals, IoMessage *m)
 	else
 	{	
 		uint32_t i = io_uint32InBigEndian((uint32_t)d);
-		int bytes = d > 0 ? (log(d) / log(2.0)) / 8 : 1;
+		int bytes = countBytes(ld);
 		IoSeq *s;
 		
 		if (bytes == 0) 
@@ -474,8 +488,8 @@ IoObject *IoNumber_asCharacter(IoNumber *self, IoObject *locals, IoMessage *m)
 			switch (bytes)
 			{
 				case 1: e = CENCODING_ASCII; break;
-				case 2: e = CENCODING_UTF16; break;
-				case 4: e = CENCODING_UTF32; break;
+				case 2: e = CENCODING_UCS2; break;
+				case 4: e = CENCODING_UCS4; break;
 			}
 			
 			UArray_setEncoding_(u, e);

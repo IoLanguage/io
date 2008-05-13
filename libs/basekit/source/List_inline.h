@@ -380,6 +380,11 @@ IOINLINE void List_qsort(List *self, ListSortCallback *callback)
 	qsort(self->items, self->size, sizeof(void *), *callback);
 }
 
+IOINLINE void List_qsort_r(List *self, void *context, ListSortRCallback *callback)
+{
+	portable_qsort_r(self->items, self->size, sizeof(void *), context, *callback);
+}
+
 IOINLINE void *List_bsearch(List *self, const void *key, ListSortCallback *callback)
 {
 	return bsearch(key, self->items, self->size, sizeof(void *), callback);

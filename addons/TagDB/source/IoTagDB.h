@@ -23,7 +23,8 @@ IoObject *IoTagDB_open(IoTagDB *self, IoObject *locals, IoMessage *m);
 IoObject *IoTagDB_close(IoTagDB *self, IoObject *locals, IoMessage *m);
 
 IoObject *IoTagDB_atKeyPutTags(IoTagDB *self, IoObject *locals, IoMessage *m);
-IoObject *IoTagDB_tagsAt(IoTagDB *self, IoObject *locals, IoMessage *m);
+IoObject *IoTagDB_tagsAtKey(IoTagDB *self, IoObject *locals, IoMessage *m);
+IoObject *IoTagDB_keyAtIndex(IoTagDB *self, IoObject *locals, IoMessage *m);
 IoObject *IoTagDB_removeKey(IoTagDB *self, IoObject *locals, IoMessage *m);
 IoObject *IoTagDB_keysForTags(IoTagDB *self, IoObject *locals, IoMessage *m);
 IoObject *IoTagDB_size(IoTagDB *self, IoObject *locals, IoMessage *m);

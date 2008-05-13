@@ -527,7 +527,7 @@ uintptr_t UArray_calcHash(UArray *self)
 	//printf("UArray_%p %i %s\n", self, h, (char *)self->data);
 
 /*
-	// I *think* this should hash to the same value for ASCII, UTF16 and UTF32 types, but not UTF8
+	// I *think* this should hash to the same value for ASCII, UCS2 and UCS2 types, but not UTF8
 
 	UARRAY_FOREACH(self, i, v,
 		h += (h << 5);

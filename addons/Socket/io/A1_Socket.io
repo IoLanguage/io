@@ -307,7 +307,7 @@ Socket do(
 	)
 	
 	//doc Socket readListMessage A shortcut for List fromEncodedList(socket readMessage).
-	readListMessage := method(aList,
+	readListMessage := method(
 		s := readMessage returnIfError
 		List fromEncodedList(s)
 	)

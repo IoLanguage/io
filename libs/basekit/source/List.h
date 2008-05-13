@@ -9,6 +9,7 @@
 #define LIST_DEFINED 1
 
 #include "Common.h"
+#include "PortableSorting.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -34,6 +35,7 @@ typedef void *(ListCollectCallback)(void *);
 typedef int   (ListSelectCallback)(void *);
 typedef int   (ListDetectCallback)(void *);
 typedef int   (ListSortCallback)(const void *, const void *);
+typedef int   (ListSortRCallback)(void *, const void *, const void *);
 typedef int   (ListCompareFunc)(const void *, const void *);
 
 typedef struct

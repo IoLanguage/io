@@ -51,10 +51,12 @@ with kernel threads and socket polling.
 	*/
 
 	start := method(
+		//writeln("Server start")
 		socket serverOpen returnIfError
 		while(socket isOpen,
 			handleSocket(socket serverWaitForConnection ifError(continue))
 		)
+		self
 	)
 
 	//doc Server stop Stops the server if it is running. Returns self.

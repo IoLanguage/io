@@ -1,7 +1,9 @@
-Socket
+DistributedObjects
 
 DOTest := UnitTest clone do(
 	testDO := method(
+		nil
+		/*
 		Root := Object clone
 		Root test := method(v, return list(1))
 
@@ -14,6 +16,8 @@ DOTest := UnitTest clone do(
 		DOConnection
 		con := DOConnection clone setHost("127.0.0.1") setPort(8456) connect
 		assertFalse(con isError)
+		*/
+		
 		/*
 		
 		result := con serverObject test(1)

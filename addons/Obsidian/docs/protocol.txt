@@ -23,21 +23,23 @@ cursor
 
 --- messages -----------------------------------
 
-id set		obj.x slot value   -> id
-id get		obj.x slot	   -> id value
-id remove	obj.x slot         -> id
+id obj x set		slot/value pairs -> id
+id obj x get		slots		-> id values
+id obj x increment	slots		-> id values
+id obj x remove		slots		-> id
+id obj x removeAllSlots			-> id
 
-id first	obj.x count	   -> id slot/value pairs hasMore
-id last		obj.x count	   -> id slot/value pairs hasMore
-id after	obj.x slot count   -> id slot/value pairs hasMore
-id before	obj.x slot count   -> id slot/value pairs hasMore
+id obj x first	count		-> id slot/value pairs hasMore
+id obj x last	count		-> id slot/value pairs hasMore
+id obj x after	slot count	-> id slot/value pairs hasMore
+id obj x before	slot count	-> id slot/value pairs hasMore
 
-id detect 		obj.x expression
-id reduce		obj.x expression
-id select		obj.x expression
-id selectInPlace	obj.x expression
-id mapInPlace		obj.x expression
-id send			obj.x message args
+id obj x detect 	expression -> slot
+id obj x reduce		expression -> value
+id obj x select		expression -> slots
+id obj x selectInPlace	expression -> id
+id obj x mapInPlace	expression -> id
+id obj x send		obj.x message args
 
 control:
 id count	obj -> count

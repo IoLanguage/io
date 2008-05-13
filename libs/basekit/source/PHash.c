@@ -68,7 +68,6 @@ void PHash_tableInit_(PHash* self, int log2tableSize)
 PHash *PHash_new(void)
 {
 	PHash *self = (PHash *)io_calloc(1, sizeof(PHash));
-	memset(self, 0x0, sizeof(PHash));
 	self->numKeys = 0;
 	PHash_tableInit_(self, 1);
 	//printf("ok");
