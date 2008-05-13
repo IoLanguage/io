@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <io.h>
+#include <crtdbg.h>
 
 HDC			hDC=NULL;		
 HGLRC		hRC=NULL;		
@@ -37,7 +38,7 @@ struct glutOptions {
 } glutOptions = {0};
 
 struct ioGlutFuncs {
-IoObject * (__cdecl *IoGLUT_glutEventTarget_)(IoGLUT *, IoObject *, IoMessage *);
+//IoObject * (__cdecl *IoGLUT_glutEventTarget_)(IoGLUT *, IoObject *, IoMessage *);
 void (__cdecl *IoGlutKeyboardFunc)(unsigned char key, int xv, int yv);
 void (__cdecl *IoGlutSpecialFunc)(int key, int xv, int yv);
 void (__cdecl *IoGlutKeyboardUpFunc)(unsigned char key, int xv, int yv);
@@ -51,14 +52,28 @@ void (__cdecl *IoGlutReshapeFunc)(int width, int height);
 void (__cdecl *IoGlutTimerFunc)(int vv);
 } ioGlutFuncs;
 
+void debug(const char *format, ...)
+{
+	UArray *message;
+	
+	va_list ap;
+	va_start(ap, format);
+	message = UArray_newWithVargs_(format, ap);
+	va_end(ap);
+	
+	MessageBox(NULL, UArray_asCString(message), NULL, MB_OK);
+	
+	UArray_free(message);
+}
+
 BOOL loadIoGlutDll()
 {
-	if (ioGlutFuncs.IoGLUT_glutEventTarget_ == NULL)
+	if (ioGlutFuncs.IoGlutSpecialFunc == NULL)
 	{
-		HMODULE hLib = LoadLibrary(_T("\\usr\\local\\lib\\io\\addons\\OpenGL\\_build\\dll\\libioopengl.dll"));
+		HMODULE hLib = LoadLibrary(_T("io\\addons\\OpenGL\\_build\\dll\\libIoOpenGL.dll"));
 		if (hLib == 0)
 			return FALSE;
-		ioGlutFuncs.IoGLUT_glutEventTarget_ = (void *)GetProcAddress(hLib, "IoGLUT_glutEventTarget_");
+		//ioGlutFuncs.IoGLUT_glutEventTarget_ = (void *)GetProcAddress(hLib, "IoGLUT_glutEventTarget_");
 		ioGlutFuncs.IoGlutSpecialFunc = (void *)GetProcAddress(hLib, "IoGlutSpecialFunc");
 		ioGlutFuncs.IoGlutKeyboardFunc = (void *)GetProcAddress(hLib, "IoGlutKeyboardFunc");
 		ioGlutFuncs.IoGlutKeyboardUpFunc = (void *)GetProcAddress(hLib, "IoGlutKeyboardUpFunc");
@@ -103,26 +118,6 @@ int DrawGLScene()
 {
 	if (glutOptions.doesDisplay)
 		if (loadIoGlutDll()) ioGlutFuncs.IoGlutDisplayFunc();
-	/*
-	static float t = 0;
-	t+=0.1f;
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
-	glLoadIdentity();
-	glDisable(GL_DEPTH_TEST);
-
-	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-
-	glRotatef(t, 0, 0, 1);
-	glScalef(0.1f, 0.1f, 0.1f);
-
-	glBegin(GL_QUADS);
-	glColor3f(1, 0, 0.5f);
-	glVertex2f(-1, -1);
-	glVertex2f(1, -1);
-	glVertex2f(1, 1);
-	glVertex2f(-1, 1);
-	glEnd();
-	*/
 	return TRUE;										
 }
 
@@ -536,13 +531,13 @@ LRESULT CALLBACK WndProc(	HWND	hWnd,
 	return DefWindowProc(hWnd,uMsg,wParam,lParam);
 }
 
-void StartIO(LPCTSTR aScriptName)
+void StartIO()
 {
 	ioState = IoState_new();	
 	IoState_init(ioState);
 	
 //	IoState_argc_argv_(ioState, 1, pbuf);
-	IoState_runCLI(ioState);
+//	IoState_runCLI(ioState);
 //	IoState_doFile_(ioState, aScriptName);
 }
 
@@ -551,49 +546,58 @@ void StopIO()
 	if (ioState) IoState_free(ioState);
 }
 
-void GLIoView_postRedisplay(IoGL *self, IoObject *locals, IoMessage *m)
-{
-//	glutOptions.doesDisplay = TRUE; !
-}
-
-void GLIoView_glutReshapeFunc(IoGL *self, IoObject *locals, IoMessage *m)
-{
-	glutOptions.doesReshape = TRUE;
-}
-
-void GLIoView_glutDisplayFunc(IoGL *self, IoObject *locals, IoMessage *m)
+IoObject *GLIoView_postRedisplay(IoGL *self, IoObject *locals, IoMessage *m)
 {
 	glutOptions.doesDisplay = TRUE;
+	return self;
 }
 
-void GLIoView_glutEntryFunc(IoGL *self, IoObject *locals, IoMessage *m)
+IoObject *GLIoView_glutReshapeFunc(IoGL *self, IoObject *locals, IoMessage *m)
+{
+	glutOptions.doesReshape = TRUE;
+	return self;
+}
+
+IoObject *GLIoView_glutDisplayFunc(IoGL *self, IoObject *locals, IoMessage *m)
+{
+	glutOptions.doesDisplay = TRUE;
+	return self;
+}
+
+IoObject *GLIoView_glutEntryFunc(IoGL *self, IoObject *locals, IoMessage *m)
 {
 	glutOptions.doesEntry = TRUE;
+	return self;
 }
 
-void GLIoView_glutMouseFunc(IoGL *self, IoObject *locals, IoMessage *m)
+IoObject *GLIoView_glutMouseFunc(IoGL *self, IoObject *locals, IoMessage *m)
 {
 	glutOptions.doesMouse = TRUE;
+	return self;
 }
 
-void GLIoView_glutMotionFunc(IoGL *self, IoObject *locals, IoMessage *m)
+IoObject *GLIoView_glutMotionFunc(IoGL *self, IoObject *locals, IoMessage *m)
 {
 	glutOptions.doesMotion = TRUE;
+	return self;
 }
 
-void GLIoView_glutSpecialFunc(IoGL *self, IoObject *locals, IoMessage *m)
+IoObject *GLIoView_glutSpecialFunc(IoGL *self, IoObject *locals, IoMessage *m)
 {
 	glutOptions.doesSpecial = TRUE;
+	return self;
 }
 
-void GLIoView_glutKeyboardFunc(IoGL *self, IoObject *locals, IoMessage *m)
+IoObject *GLIoView_glutKeyboardFunc(IoGL *self, IoObject *locals, IoMessage *m)
 {
 	glutOptions.doesKeyboard = TRUE;
+	return self;
 }
 
-void GLIoView_glutPassiveMotionFunc(IoGL *self, IoObject *locals, IoMessage *m)
+IoObject *GLIoView_glutPassiveMotionFunc(IoGL *self, IoObject *locals, IoMessage *m)
 {
 	glutOptions.doesPassiveMotion = TRUE;
+	return self;
 }
 
 IoObject *GLIoView_glutReshapeWindow(IoGLUT *self, IoObject *locals, IoMessage *m)
@@ -617,11 +621,12 @@ void GLIoView_registerTimer(IoGL *self, IoObject *locals, IoMessage *m)
 	int val = IoMessage_locals_intArgAt_(m, locals, 1);
 
 	g_timerVal = val;
-	SetTimer(NULL, 1, millisecs, timerProc);
+	SetTimer(hWnd, 1, millisecs, timerProc);
 }
 
-void GLIoView_noop(IoGL *self, IoObject *locals, IoMessage *m) 
+IoObject *GLIoView_noop(IoGL *self, IoObject *locals, IoMessage *m) 
 {
+	return IONIL(self);
 }
 
 #define IOCFUNCTION_GL(func) IoCFunction_newWithFunctionPointer_tag_name_(ioState, (void *)func, NULL, "")
@@ -629,6 +634,7 @@ void GLIoView_noop(IoGL *self, IoObject *locals, IoMessage *m)
 void overrideIoGLMethods()
 {
 	IoObject *cxt = IoState_doCString_(ioState, "GLUT");
+	IoObject *self = cxt;
 
 	IoCFunction *noopfunc = IOCFUNCTION_GL(GLIoView_noop);
 	
@@ -662,46 +668,47 @@ void overrideIoGLMethods()
 						 IOCFUNCTION_GL(GLIoView_postRedisplay));
 	
 	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutInit"), noopfunc);
+	
 	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutMainLoop"), noopfunc);
 	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutInitDisplayMode"), noopfunc);
 	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutInitWindowSize"), noopfunc);
 	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutCreateWindow"), noopfunc);
 	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutInitWindowPosition"), noopfunc);
-	/*
-	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutEventTarget"), 
-						 IOCFUNCTION_GL(IoGLUT_glutEventTarget_));  
-    */
+	//IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutEventTarget"), IOCFUNCTION_GL(IoGLUT_glutEventTarget_));
 	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutInitDisplayMode"), noopfunc);
 	IoObject_setSlot_to_(cxt, IoState_symbolWithCString_(ioState, "glutSwapBuffers"), 
 						 IOCFUNCTION_GL(GLIoView_postRedisplay));
 }
 
+/*
 int main(int argc, char **argv)
 {
 	ioState = IoState_new();	
 	IoState_init(ioState);
 	overrideIoGLMethods();
-//	IoState_doFile_(ioState, "main.io");
+	IoState_doFile_(ioState, "main.io");
 	IoState_argc_argv_(ioState, argc, argv);
 	IoState_runCLI(ioState);
 	StartGL();
 	if (ioState) IoState_free(ioState);
-}
+}*/
 
 int StartGL()
 {
 	MSG		msg;									
 	BOOL	done=FALSE;								
 
-//	StartIO(_T("main.io"));
-//	IoState_doFile_(ioState, "main.io");
+	StartIO();
 
 	// Create Our OpenGL Window
 	if (!CreateGLWindow(_T("NeHe's OpenGL Framework"),640,480,32,fullscreen))
 	{
 		return 0;									
 	}
-
+	
+	overrideIoGLMethods();
+	IoState_doFile_(ioState, "main.io");
+	
 	if (glutOptions.doesReshape)
 		if (loadIoGlutDll()) ioGlutFuncs.IoGlutReshapeFunc(640,480);
 
@@ -709,6 +716,7 @@ int StartGL()
 	{
 		if (PeekMessage(&msg,NULL,0,0,PM_REMOVE))	
 		{
+			printf("PeekMessage\n");
 			if (msg.message==WM_QUIT)				
 			{
 				done=TRUE;							
@@ -721,6 +729,7 @@ int StartGL()
 		}
 		else										
 		{
+			printf("No PeekMessage\n");
 			if (active)								
 			{
 				if (keys[VK_ESCAPE])				// Was ESC Pressed?
@@ -759,5 +768,6 @@ int WINAPI WinMain(	HINSTANCE	hInstance,
 					LPSTR		lpCmdLine,			
 					int			nCmdShow)			
 {
+	freopen( "debug.txt", "w", stdout);
 	return StartGL();
 }

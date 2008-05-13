@@ -73,3 +73,10 @@ io2c
 ./addons/SGML/source/libsgml/examples/Makefile*
 ./addons/SGML/source/libsgml/src/Makefile*
 tools/editlib_test/editlib_test
+extras/IoPlayers/MSWindows/ioplayer/ioplayer.ncb
+extras/IoPlayers/MSWindows/ioplayer/ioplayer.suo
+extras/IoPlayers/MSWindows/ioplayer/ioplayer/Debug
+extras/IoPlayers/MSWindows/ioplayer/ioplayer/Release
+extras/IoPlayers/MSWindows/ioplayer/ioplayer/ioplayer.vcproj.CUSTOMER2007.Customer.user
+extras/IoPlayers/MSWindows/ioplayer/pingme.txt
+extras/IoPlayers/MSWindows/ioplayer/smysrv
