@@ -30,12 +30,17 @@ HttpRequestHandler := Object clone do(
 	)
 	
 	completeRequest := method(socket,
-		parser reset
 		socket close
 		handlerQueue requestCompleted(self)
 	)
 	
 	streamResponse := method(socket, request,
-		HttpResponse withSocket(socket) setBody("<html>Hello</html>") send
+		response := HttpResponse withSocket(socket)
+		handlerQueue server renderResponse(request, response)
+		response send
+	)
+	
+	reset := method(
+		parser reset
 	)
 )

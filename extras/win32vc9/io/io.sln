@@ -1,0 +1,85 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "iovm", "iovm\iovm.vcproj", "{EAB8C2C1-1CD7-4B33-9A36-477607B62930}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9B47BA52-B730-4E08-8E4E-9BA2BC9F8C5F} = {9B47BA52-B730-4E08-8E4E-9BA2BC9F8C5F}
+		{5A9D7F60-59A6-4CF1-965E-6F41A329BCDE} = {5A9D7F60-59A6-4CF1-965E-6F41A329BCDE}
+		{21ADD6D1-2DDC-4BCE-AE5D-66F1183301EE} = {21ADD6D1-2DDC-4BCE-AE5D-66F1183301EE}
+		{3DFCE12D-0671-4CC6-8E43-A08A18296C81} = {3DFCE12D-0671-4CC6-8E43-A08A18296C81}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "basekit", "basekit\basekit.vcproj", "{3DFCE12D-0671-4CC6-8E43-A08A18296C81}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "garbagecollector", "garbagecollector\garbagecollector.vcproj", "{5A9D7F60-59A6-4CF1-965E-6F41A329BCDE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3DFCE12D-0671-4CC6-8E43-A08A18296C81} = {3DFCE12D-0671-4CC6-8E43-A08A18296C81}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "coroutine", "coroutine\coroutine.vcproj", "{9B47BA52-B730-4E08-8E4E-9BA2BC9F8C5F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "io2c", "io2c\io2c.vcproj", "{21ADD6D1-2DDC-4BCE-AE5D-66F1183301EE}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "io_static", "io_static\io_static.vcproj", "{1AA0F128-02E8-4AC6-9436-F453CFA59170}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		iovmall_Debug|Win32 = iovmall_Debug|Win32
+		iovmall_Release|Win32 = iovmall_Release|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EAB8C2C1-1CD7-4B33-9A36-477607B62930}.Debug|Win32.ActiveCfg = Debug|Win32
+		{EAB8C2C1-1CD7-4B33-9A36-477607B62930}.Debug|Win32.Build.0 = Debug|Win32
+		{EAB8C2C1-1CD7-4B33-9A36-477607B62930}.iovmall_Debug|Win32.ActiveCfg = iovmall_Debug|Win32
+		{EAB8C2C1-1CD7-4B33-9A36-477607B62930}.iovmall_Debug|Win32.Build.0 = iovmall_Debug|Win32
+		{EAB8C2C1-1CD7-4B33-9A36-477607B62930}.iovmall_Release|Win32.ActiveCfg = iovmall_Release|Win32
+		{EAB8C2C1-1CD7-4B33-9A36-477607B62930}.iovmall_Release|Win32.Build.0 = iovmall_Release|Win32
+		{EAB8C2C1-1CD7-4B33-9A36-477607B62930}.Release|Win32.ActiveCfg = Release|Win32
+		{EAB8C2C1-1CD7-4B33-9A36-477607B62930}.Release|Win32.Build.0 = Release|Win32
+		{3DFCE12D-0671-4CC6-8E43-A08A18296C81}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3DFCE12D-0671-4CC6-8E43-A08A18296C81}.Debug|Win32.Build.0 = Debug|Win32
+		{3DFCE12D-0671-4CC6-8E43-A08A18296C81}.iovmall_Debug|Win32.ActiveCfg = iovmall_Debug|Win32
+		{3DFCE12D-0671-4CC6-8E43-A08A18296C81}.iovmall_Debug|Win32.Build.0 = iovmall_Debug|Win32
+		{3DFCE12D-0671-4CC6-8E43-A08A18296C81}.iovmall_Release|Win32.ActiveCfg = iovmall_Release|Win32
+		{3DFCE12D-0671-4CC6-8E43-A08A18296C81}.iovmall_Release|Win32.Build.0 = iovmall_Release|Win32
+		{3DFCE12D-0671-4CC6-8E43-A08A18296C81}.Release|Win32.ActiveCfg = Release|Win32
+		{3DFCE12D-0671-4CC6-8E43-A08A18296C81}.Release|Win32.Build.0 = Release|Win32
+		{5A9D7F60-59A6-4CF1-965E-6F41A329BCDE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5A9D7F60-59A6-4CF1-965E-6F41A329BCDE}.Debug|Win32.Build.0 = Debug|Win32
+		{5A9D7F60-59A6-4CF1-965E-6F41A329BCDE}.iovmall_Debug|Win32.ActiveCfg = iovmall_Debug|Win32
+		{5A9D7F60-59A6-4CF1-965E-6F41A329BCDE}.iovmall_Debug|Win32.Build.0 = iovmall_Debug|Win32
+		{5A9D7F60-59A6-4CF1-965E-6F41A329BCDE}.iovmall_Release|Win32.ActiveCfg = iovmall_Release|Win32
+		{5A9D7F60-59A6-4CF1-965E-6F41A329BCDE}.iovmall_Release|Win32.Build.0 = iovmall_Release|Win32
+		{5A9D7F60-59A6-4CF1-965E-6F41A329BCDE}.Release|Win32.ActiveCfg = Release|Win32
+		{5A9D7F60-59A6-4CF1-965E-6F41A329BCDE}.Release|Win32.Build.0 = Release|Win32
+		{9B47BA52-B730-4E08-8E4E-9BA2BC9F8C5F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9B47BA52-B730-4E08-8E4E-9BA2BC9F8C5F}.Debug|Win32.Build.0 = Debug|Win32
+		{9B47BA52-B730-4E08-8E4E-9BA2BC9F8C5F}.iovmall_Debug|Win32.ActiveCfg = iovmall_Debug|Win32
+		{9B47BA52-B730-4E08-8E4E-9BA2BC9F8C5F}.iovmall_Debug|Win32.Build.0 = iovmall_Debug|Win32
+		{9B47BA52-B730-4E08-8E4E-9BA2BC9F8C5F}.iovmall_Release|Win32.ActiveCfg = iovmall_Release|Win32
+		{9B47BA52-B730-4E08-8E4E-9BA2BC9F8C5F}.iovmall_Release|Win32.Build.0 = iovmall_Release|Win32
+		{9B47BA52-B730-4E08-8E4E-9BA2BC9F8C5F}.Release|Win32.ActiveCfg = Release|Win32
+		{9B47BA52-B730-4E08-8E4E-9BA2BC9F8C5F}.Release|Win32.Build.0 = Release|Win32
+		{21ADD6D1-2DDC-4BCE-AE5D-66F1183301EE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{21ADD6D1-2DDC-4BCE-AE5D-66F1183301EE}.Debug|Win32.Build.0 = Debug|Win32
+		{21ADD6D1-2DDC-4BCE-AE5D-66F1183301EE}.iovmall_Debug|Win32.ActiveCfg = iovmall_Debug|Win32
+		{21ADD6D1-2DDC-4BCE-AE5D-66F1183301EE}.iovmall_Debug|Win32.Build.0 = iovmall_Debug|Win32
+		{21ADD6D1-2DDC-4BCE-AE5D-66F1183301EE}.iovmall_Release|Win32.ActiveCfg = iovmall_Release|Win32
+		{21ADD6D1-2DDC-4BCE-AE5D-66F1183301EE}.iovmall_Release|Win32.Build.0 = iovmall_Release|Win32
+		{21ADD6D1-2DDC-4BCE-AE5D-66F1183301EE}.Release|Win32.ActiveCfg = Release|Win32
+		{21ADD6D1-2DDC-4BCE-AE5D-66F1183301EE}.Release|Win32.Build.0 = Release|Win32
+		{1AA0F128-02E8-4AC6-9436-F453CFA59170}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1AA0F128-02E8-4AC6-9436-F453CFA59170}.Debug|Win32.Build.0 = Debug|Win32
+		{1AA0F128-02E8-4AC6-9436-F453CFA59170}.iovmall_Debug|Win32.ActiveCfg = iovmall_Debug|Win32
+		{1AA0F128-02E8-4AC6-9436-F453CFA59170}.iovmall_Debug|Win32.Build.0 = iovmall_Debug|Win32
+		{1AA0F128-02E8-4AC6-9436-F453CFA59170}.iovmall_Release|Win32.ActiveCfg = iovmall_Release|Win32
+		{1AA0F128-02E8-4AC6-9436-F453CFA59170}.iovmall_Release|Win32.Build.0 = iovmall_Release|Win32
+		{1AA0F128-02E8-4AC6-9436-F453CFA59170}.Release|Win32.ActiveCfg = Release|Win32
+		{1AA0F128-02E8-4AC6-9436-F453CFA59170}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

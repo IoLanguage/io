@@ -3,7 +3,7 @@ HttpServer := Server clone do(
 	setHost("127.0.0.1")
 	
 	init := method(
-		self handlerQueue := HandlerQueue clone
+		self handlerQueue := HandlerQueue clone setServer(self)
 	)
 	
 	start := method(

@@ -25,7 +25,7 @@ void IoHttpParser_freeParser(IoHttpParser *self);
 void IoHttpParser_initParser(IoHttpParser *self);
 
 IoHttpParser *IoHttpParser_rawReset(IoHttpParser *self, IoObject *locals, IoMessage *m);
-IoHttpParser *IoHttpParser_parse(IoHttpParser *self, IoObject *locals, IoMessage *m);
+IoHttpParser *IoHttpParser_rawParse(IoHttpParser *self, IoObject *locals, IoMessage *m);
 IoHttpParser *IoHttpParser_isFinished(IoHttpParser *self, IoObject *locals, IoMessage *m);
 
 void IoHttpParser_setHttpField_withName_givenSize_value_givenSize_(void *data, const unsigned char *fieldNameBuffer, size_t fieldNameLength, const unsigned char *fieldValueBuffer, size_t fieldValueLength);

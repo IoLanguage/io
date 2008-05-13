@@ -14,6 +14,11 @@ A container for a double (a 64bit floating point number on most platforms).
 #include "IoSeq.h"
 #include "IoDate.h"
 #include "IoState.h"
+
+#ifdef _MSC_VER
+#define _USE_MATH_DEFINES
+#endif
+
 #include <math.h>
 #include <ctype.h>
 #include <assert.h>

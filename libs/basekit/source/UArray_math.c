@@ -7,10 +7,10 @@
 #include <math.h>
 #include <float.h>
 
-#ifndef WIN32
-#warning Uncomment the IO_USE_SIMD define to turn on SIMD acceleration
-#else
+#ifdef _MSC_VER
 #pragma message("Uncomment the IO_USE_SIMD define to turn on SIMD acceleration")
+#else
+#warning Uncomment the IO_USE_SIMD define to turn on SIMD acceleration
 #endif
 //#define IO_USE_SIMD 1
 

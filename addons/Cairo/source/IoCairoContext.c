@@ -27,6 +27,10 @@ CairoContext ioDoc(
 #define CONTEXT(self) ((cairo_t *)IoObject_dataPointer(self))
 #define CHECK_STATUS(self) checkStatus_(IOSTATE, m, cairo_status(CONTEXT(self)))
 
+// MS Visual C doesn't seem to support C99's __func__ identifier
+#if defined(_MSC_VER) 
+#define __func__ __FUNCTION__
+#endif
 
 static IoTag *IoCairoContext_newTag(void *state)
 {
