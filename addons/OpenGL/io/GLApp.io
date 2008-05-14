@@ -38,7 +38,7 @@ GLApp := Object clone do(
 	didInit := false
 
 	display := method(
-		if(didInit not, appDidInit; didInit = true)
+		if(didInit not, didInit = true; appDidInit)
 		backgroundColor glClearColor
 		glClear(GL_COLOR_BUFFER_BIT)
 		glPushMatrix

@@ -60,7 +60,7 @@ int main(int argc, char **argv)
 	 * Now we'll try our hand at base64 binary manipulation.
 	 */
 
-	fprintf(stdout, "\nSetting attribute 'binary_b64' to a %d byte buffer.\n\n", sizeof(binary) - 1);
+	fprintf(stdout, "\nSetting attribute 'binary_b64' to a %i byte buffer.\n\n", (int)(sizeof(binary) - 1));
 
 	domElementSetAttributeVariant(element, "binary_b64", VARIANT_TYPE_BINARY_B64, binary, sizeof(binary) - 1);
 

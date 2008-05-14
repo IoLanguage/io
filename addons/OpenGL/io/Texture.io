@@ -150,6 +150,9 @@ Texture := Object clone do(
 	)
 
 	drawScaled := method(w, h,
+		//writeln("drawScaled ", w, ", ", h)
+		//draw(w, h); return self
+
 		glPushAttrib(GL_TEXTURE_BIT)
 		glEnable(GL_TEXTURE_2D)
 		bind
@@ -157,21 +160,23 @@ Texture := Object clone do(
 		w = w ifNilEval(originalWidth)
 		h = h ifNilEval(originalHeight)
 
+		writeln("drawScaled ", w, ", ", h)
 		# the y texture coords are flipped since the image data starts with y=0
+
 		glBegin(GL_QUADS)
 
-		glTexCoord2f(0,  0)
-		glVertex2i(0, h)
+			glTexCoord2f(0,  0)
+			glVertex2i(0, 0)
 
-		glTexCoord2f(0,  1)
-		glVertex2i(0, 0)
+			glTexCoord2f(0,  1)
+			glVertex2i(0, h)
 
-		glTexCoord2f(1,  1)
-		glVertex2i(w, 0)
+			glTexCoord2f(1,  1)
+			glVertex2i(w, h)
 
-		glTexCoord2f(1, 0)
-		glVertex2i(w, h)
-
+			glTexCoord2f(1, 0)
+			glVertex2i(w, 0)
+		
 		glEnd
 		glPopAttrib
 
@@ -179,6 +184,9 @@ Texture := Object clone do(
 	)
 
 	willFree := method(
-		glDeleteTextures(1, list(id))
+		if(id, 
+			glDeleteTextures(1, list(id))
+			id = nil
+		)
 	)
 )
