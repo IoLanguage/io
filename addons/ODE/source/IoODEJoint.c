@@ -8,7 +8,7 @@ ODEJoint binding
 #include "IoODEBody.h"
 #include "IoState.h"
 #include "IoSeq.h"
-#include "IoVector_ode.h"
+#include "IoSeq_ode.h"
 #include "GLIncludes.h"
 
 /* ----------------------------------------------------------- */
@@ -154,7 +154,7 @@ IoObject *IoODEJoint_getVector3(IoODEJoint *self, IoObject *locals, IoMessage *m
 
 	IoODEJoint_assertValidJoint(self, locals, m);
 	func(JOINTID, anchor);
-	return IoVector_newWithODEPoint(IOSTATE, anchor);
+	return IoSeq_newWithODEPoint(IOSTATE, anchor);
 }
 
 IoObject *IoODEJoint_setVector3(IoODEJoint *self, IoObject *locals, IoMessage *m, IoODEJointSetVector3Func func)

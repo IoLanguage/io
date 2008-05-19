@@ -9,7 +9,6 @@ ODEJoint binding
 #include "IoODEBody.h"
 #include "IoState.h"
 #include "IoSeq.h"
-#include "IoVector_ode.h"
 #include "GLIncludes.h"
 
 /* ----------------------------------------------------------- */

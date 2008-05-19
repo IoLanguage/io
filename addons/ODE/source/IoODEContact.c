@@ -9,7 +9,7 @@ ODEContact binding
 #include "IoState.h"
 #include "IoObject.h"
 #include "IoSeq.h"
-#include "IoVector_ode.h"
+#include "IoSeq_ode.h"
 #include "IoMessage.h"
 #include "geom.h"
 
@@ -177,7 +177,7 @@ dContact *IoODEContact_dContactStruct(IoODEContact *self)
 
 IoObject *IoODEContact_position(IoODEContact *self, IoObject *locals, IoMessage *m)
 {
-	return IoVector_newWithODEPoint(IOSTATE, DATA(self)->geom.pos);
+	return IoSeq_newWithODEPoint(IOSTATE, DATA(self)->geom.pos);
 }
 
 IoObject *IoODEContact_setPosition(IoODEContact *self, IoObject *locals, IoMessage *m)
@@ -191,7 +191,7 @@ IoObject *IoODEContact_setPosition(IoODEContact *self, IoObject *locals, IoMessa
 
 IoObject *IoODEContact_normal(IoODEContact *self, IoObject *locals, IoMessage *m)
 {
-	return IoVector_newWithODEPoint(IOSTATE, DATA(self)->geom.normal);
+	return IoSeq_newWithODEPoint(IOSTATE, DATA(self)->geom.normal);
 }
 
 IoObject *IoODEContact_setNormal(IoODEContact *self, IoObject *locals, IoMessage *m)
@@ -275,7 +275,7 @@ IoObject *IoODEContact_setMu(IoODEContact *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoODEContact_frictionDirection(IoODEContact *self, IoObject *locals, IoMessage *m)
 {
-	return IoVector_newWithODEPoint(IOSTATE, DATA(self)->fdir1);
+	return IoSeq_newWithODEPoint(IOSTATE, DATA(self)->fdir1);
 }
 
 IoObject *IoODEContact_setFrictionDirection(IoODEContact *self, IoObject *locals, IoMessage *m)

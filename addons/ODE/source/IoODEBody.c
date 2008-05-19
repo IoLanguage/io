@@ -9,7 +9,7 @@ ODEBody binding
 #include "IoODEMass.h"
 #include "IoState.h"
 #include "IoSeq.h"
-#include "IoVector_ode.h"
+#include "IoSeq_ode.h"
 #include "GLIncludes.h"
 
 #define DATA(self) ((IoODEBodyData *)IoObject_dataPointer(self))
@@ -214,7 +214,7 @@ IoObject *IoODEBody_setMass(IoODEBody *self, IoObject *locals, IoMessage *m)
 IoObject *IoODEBody_position(IoODEBody *self, IoObject *locals, IoMessage *m)
 {
 	IoODEBody_assertValidBody(self, locals, m);
-	return IoVector_newWithODEPoint(IOSTATE, dBodyGetPosition(BODYID));
+	return IoSeq_newWithODEPoint(IOSTATE, dBodyGetPosition(BODYID));
 }
 
 IoObject *IoODEBody_setPosition(IoODEBody *self, IoObject *locals, IoMessage *m)
@@ -231,7 +231,7 @@ IoObject *IoODEBody_setPosition(IoODEBody *self, IoObject *locals, IoMessage *m)
 IoObject *IoODEBody_force(IoODEBody *self, IoObject *locals, IoMessage *m)
 {
 	IoODEBody_assertValidBody(self, locals, m);
-	return IoVector_newWithODEPoint(IOSTATE, dBodyGetForce(BODYID));
+	return IoSeq_newWithODEPoint(IOSTATE, dBodyGetForce(BODYID));
 }
 
 IoObject *IoODEBody_setForce(IoODEBody *self, IoObject *locals, IoMessage *m)
@@ -270,7 +270,7 @@ IoObject *IoODEBody_addRelForce(IoODEBody *self, IoObject *locals, IoMessage *m)
 IoObject *IoODEBody_torque(IoODEBody *self, IoObject *locals, IoMessage *m)
 {
 	IoODEBody_assertValidBody(self, locals, m);
-	return IoVector_newWithODEPoint(IOSTATE, dBodyGetTorque(BODYID));
+	return IoSeq_newWithODEPoint(IOSTATE, dBodyGetTorque(BODYID));
 }
 
 IoObject *IoODEBody_setTorque(IoODEBody *self, IoObject *locals, IoMessage *m)
@@ -309,7 +309,7 @@ IoObject *IoODEBody_addRelTorque(IoODEBody *self, IoObject *locals, IoMessage *m
 IoObject *IoODEBody_linearVelocity(IoODEBody *self, IoObject *locals, IoMessage *m)
 {
 	IoODEBody_assertValidBody(self, locals, m);
-	return IoVector_newWithODEPoint(IOSTATE, dBodyGetLinearVel(BODYID));
+	return IoSeq_newWithODEPoint(IOSTATE, dBodyGetLinearVel(BODYID));
 }
 
 IoObject *IoODEBody_setLinearVelocity(IoODEBody *self, IoObject *locals, IoMessage *m)
@@ -344,20 +344,20 @@ IoObject *IoODEBody_rotation(IoODEBody *self, IoObject *locals, IoMessage *m)
 	{
 		const dReal *R = dBodyGetRotation(BODYID);
 
-		IoSeq *v = IoSeq_makeFloatArrayOfSize_(IOSTATE, 9);
+		IoSeq *v = IoSeq_newFloatArrayOfSize_(IOSTATE, 9);
 		UArray *u = IoSeq_rawUArray(v);
 
-		UArray_at_put_(u, 0, R[0]);
-		UArray_at_put_(u, 1, R[4]);
-		UArray_at_put_(u, 2, R[8]);
+		UArray_at_putDouble_(u, 0, R[0]);
+		UArray_at_putDouble_(u, 1, R[4]);
+		UArray_at_putDouble_(u, 2, R[8]);
 
-		UArray_at_put_(u, 3, R[1]);
-		UArray_at_put_(u, 4, R[5]);
-		UArray_at_put_(u, 5, R[9]);
+		UArray_at_putDouble_(u, 3, R[1]);
+		UArray_at_putDouble_(u, 4, R[5]);
+		UArray_at_putDouble_(u, 5, R[9]);
 
-		UArray_at_put_(u, 6, R[2]);
-		UArray_at_put_(u, 7, R[6]);
-		UArray_at_put_(u, 8, R[10]);
+		UArray_at_putDouble_(u, 6, R[2]);
+		UArray_at_putDouble_(u, 7, R[6]);
+		UArray_at_putDouble_(u, 8, R[10]);
 
 		return v;
 	}
@@ -391,12 +391,12 @@ IoObject *IoODEBody_quaternion(IoODEBody *self, IoObject *locals, IoMessage *m)
 	IoODEBody_assertValidBody(self, locals, m);
 	{
 		const dReal *q = dBodyGetQuaternion(BODYID);
-		IoSeq *v = IoSeq_makeFloatArrayOfSize_(IOSTATE, 4);
+		IoSeq *v = IoSeq_newFloatArrayOfSize_(IOSTATE, 4);
 		UArray *u = IoSeq_rawUArray(v);
-		UArray_at_put_(u, 0, q[0]);
-		UArray_at_put_(u, 1, q[1]);
-		UArray_at_put_(u, 2, q[2]);
-		UArray_at_put_(u, 3, q[3]);
+		UArray_at_putDouble_(u, 0, q[0]);
+		UArray_at_putDouble_(u, 1, q[1]);
+		UArray_at_putDouble_(u, 2, q[2]);
+		UArray_at_putDouble_(u, 3, q[3]);
 		return v;
 	}
 }
