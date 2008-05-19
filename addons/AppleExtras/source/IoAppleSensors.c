@@ -149,8 +149,8 @@ IoObject *IoAppleSensors_smsVector(IoAppleSensors *self, IoObject *locals, IoMes
 		Sets aVector to the current x, y and z accelerometer values. 
 		Returns true on success and false on failure.
 	*/
-	IoSeq *v = IoMessage_locals_seqArgAt_(m, locals, 0);
-	float *f = IoSeq_makeFloatArrayOfSize_(v);
+	IoSeq *vector = IoMessage_locals_seqArgAt_(m, locals, 0);
+	float *f = IoSeq_floatPointerOfLength_(vector, 3);
 	int err;
 
 	if (smsType == -1)
@@ -158,7 +158,13 @@ IoObject *IoAppleSensors_smsVector(IoAppleSensors *self, IoObject *locals, IoMes
 		smsType = detect_sms();
 	}
 
-	err = read_sms(smsType, f+0, f+1, f+2);
+	int v[3] = {0, 0, 0};
+
+	err = read_sms(smsType, &v[0], &v[1], &v[3]);
+	
+	f[0] = v[0];
+	f[1] = v[1];
+	f[2] = v[2];
 
 	return err ? IOTRUE(self) : IOFALSE(self);
 }
