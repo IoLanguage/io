@@ -213,6 +213,8 @@ void Image_load(Image *self)
 	{
 		Image_error_(self, "error reading file");
 	}
+
+	Image_makeRGBA(self);
 }
 
 void Image_save(Image *self)
@@ -271,7 +273,7 @@ void Image_save(Image *self)
 	{
 		Image_error_(self, "unknown file type");
 	}
-
+	
 	//Image_flipY(self);
 }
 
@@ -478,3 +480,36 @@ int Image_decodingHeightHint(Image *self)
 	return self->decodingHeightHint;
 }
 
+void Image_makeRGBA(Image *self)
+{
+	if (self->componentCount == 3)
+	{
+		//Image_addAlpha(self);
+	
+		//printf("converted component count from 3 to 4\n");
+	} 
+	else if (self->componentCount == 1)
+	{
+		UArray *outUArray = UArray_new();
+		UArray_setSize_(outUArray, 4 * self->width * self->height);
+		uint8_t *outData = (uint8_t *)UArray_bytes(outUArray);
+		uint8_t *inData  = (uint8_t *)UArray_bytes(self->byteArray);
+		size_t numPixels = self->width * self->height;
+		size_t p1;
+		size_t p2 = 0;
+		
+		for (p1 = 0; p1 < numPixels; p1 ++)
+		{
+			outData[p2] = inData[p1]; p2 ++;
+			outData[p2] = inData[p1]; p2 ++;
+			outData[p2] = inData[p1]; p2 ++;
+			outData[p2] = 255; p2 ++;
+		}
+		
+		UArray_copy_(self->byteArray, outUArray);
+		UArray_free(outUArray);
+
+		self->componentCount = 4;
+		//printf("converted component count from 1 to 4\n");
+	}
+}

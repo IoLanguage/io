@@ -14,12 +14,10 @@ Image do(
 		changed = true
 	)
 
+	glFormats := list(nil, GL_LUMINANCE, GL_LUMINANCE_ALPHA, GL_RGB, GL_RGBA)
+
 	glFormat := method(
-		if (componentCount == 1, return(GL_LUMINANCE))
-		if (componentCount == 2, return(GL_LUMINANCE_ALPHA))
-		if (componentCount == 3, return(GL_RGB))
-		if (componentCount == 4, return(GL_RGBA))
-		nil
+		glFormats at(componentCount)
 	)
 
 	sizeIsPowerOf2 := method(IsPowerOf2(width) and IsPowerOf2(height))
@@ -34,9 +32,7 @@ Image do(
 		// flip the y axis since y=0 starts at first byte of image data
 		glRasterPos2d(0, height)
 		glPixelZoom(1, -1)
-
 		glDrawPixels(width, height, glFormat, GL_UNSIGNED_BYTE, data)
-
 		glPixelZoom(1, 1)
 		glPopMatrix
 
@@ -76,7 +72,7 @@ Image do(
 		OpenGL gluScaleImage(self glFormat, width, height, self glFormat, data, widthOut, heightOut, self glFormat, dataSeqOut)
 		out := Image clone 
 		out setDataWidthHeightComponentCount(dataSeqOut, widthOut, heightOut, self componentCount)
-		writeln("out = ", out type)
+		//writeln("out = ", out type)
 		out
 	)
 )

@@ -1,19 +1,18 @@
 
 ClipView := View clone do(
-    protoName := "ClipView"
     offset := Point clone 
     
     scrollerDelegate := nil
     setScrollerDelegate := method(d, scrollerDelegate = d; update)
     isClipped := 1
     invertY := 1
-    outlineColor = Color clone set(0,0,0,1)
+    outlineColor = Color clone set(0,0,1,1)
     
     init := method(
 		resend
 		offset = offset clone
 		setDocumentView(testDocumentView)
-		//backgroundColor set(1,0,1,.5)
+		backgroundColor set(1,0,1,.5)
     )
 
     documentView := method(subviews at(0))
@@ -30,7 +29,6 @@ ClipView := View clone do(
     
     yoffset := 0
     setYOffset := method(y, 
-		//write("setYOffset (", y , ")\n")
 		yoffset = y
 		offset setY(y clip(0,1))
 		update
@@ -40,6 +38,7 @@ ClipView := View clone do(
     yRatio := method(size y / documentView size y)
     
     update := method(
+		documentView ?update
 		if (xRatio > 1, offset setX(0))
 		if (yRatio > 1, offset setY(0))
 		d := size - documentView size 
@@ -63,11 +62,14 @@ ClipView := View clone do(
 		write("documentView size x = ", documentView size x, "\n\n")
 		*/
 		if (scrollerDelegate, 
-			//write("setProportion(", xRatio, ")\n")
+			//write("setXProportion(", xRatio, ")\n")
+			//write("setYProportion(", yRatio, ")\n")
 			scrollerDelegate ?setXProportion(xRatio)
 			scrollerDelegate ?setYProportion(yRatio)
 		)
-		//write("documentView size = ", documentView size, "\n")
+		write("clipView size     = ", self size x floor, " x ", self size y floor, "\n")
+		write("documentView size = ", documentView size x floor, " x ", documentView size y floor, "\n")
+		documentView position floor
     )
 
     testDocumentView := View clone do(
@@ -76,7 +78,6 @@ ClipView := View clone do(
 		//textures := TextureGroup clone loadGroupNamed("TestPattern")
 		draw := method(
 			//textures draw(width, height)
-			
 			glColor4d(1,0,0,1)
 			glBegin(GL_LINES)
 			glVertex2i(0,0)
@@ -88,7 +89,10 @@ ClipView := View clone do(
 		)
     )
     
-    resizeBy := method(dx, dy, resend; update)
+    resizeBy := method(dx, dy, 
+		resend 
+	//	update
+	)
     
     subviewDidUpdate := method(
 		//write("subviewDidUpdate\n")

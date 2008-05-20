@@ -2054,7 +2054,7 @@ IoObject *IoGL_glDrawPixels(IoGL *self, IoObject *locals, IoMessage *m)
 	
 	{
 		size_t requiredSize = (width * height * IoGL_BitsPerPixelForFormat_(format)) / 8;
-		IOASSERT(IoSeq_rawSize(pixels) == requiredSize, "pixels data not correct size");
+		IOASSERT(IoSeq_rawSize(data) == requiredSize, "pixels data not correct size");
 	}
 		
 	glDrawPixels(width,height,format,type,pixels);

@@ -68,34 +68,37 @@ IoObject *IoGLUT_forward(IoGLUT *self, IoObject *locals, IoMessage *m);
 void IoGLUT_free(IoGLUT *self);
 void IoGLUT_mark(IoGLUT *self);
 
+/*
 #ifdef GLEXPORT
 #define IOGLUT_FUNC __declspec(dllexport)
 #else
 #define IOGLUT_FUNC 
 // __declspec(dllimport)
 #endif
+*/
+#define IOGLUT_FUNC 
 
 
-IoObject IOGLUT_FUNC *IoGLUT_glutEventTarget_(IoGLUT *self, IoObject *locals, IoMessage *m);
+IOGLUT_FUNC IoObject *IoGLUT_glutEventTarget_(IoGLUT *self, IoObject *locals, IoMessage *m);
 void IoGLUT_protoInit(IoGLUT *self);
 
 // --- events ---------------------------------------------------------------
 
 IoObject *IoGLUT_tryCallback(IoGLUT *self, IoMessage *m);
 
-void IOGLUT_FUNC IoGlutKeyboardFunc(unsigned char key, int xv, int yv);
-void IOGLUT_FUNC IoGlutSpecialFunc(int key, int xv, int yv);
-void IOGLUT_FUNC IoGlutKeyboardUpFunc(unsigned char key, int xv, int yv);
-void IOGLUT_FUNC IoGlutSpecialUpFunc(int key, int xv, int yv);
+IOGLUT_FUNC void IoGlutKeyboardFunc(unsigned char key, int xv, int yv);
+IOGLUT_FUNC void IoGlutSpecialFunc(int key, int xv, int yv);
+IOGLUT_FUNC void IoGlutKeyboardUpFunc(unsigned char key, int xv, int yv);
+IOGLUT_FUNC void IoGlutSpecialUpFunc(int key, int xv, int yv);
 
-void IOGLUT_FUNC IoGlutEntryFunc(int state);
-void IOGLUT_FUNC IoGlutMotionFunc(int xv, int yv);
-void IOGLUT_FUNC IoGlutPassiveMotionFunc(int xv, int yv);
-void IOGLUT_FUNC IoGlutMouseFunc(int button, int state, int xv, int yv);
+IOGLUT_FUNC void IoGlutEntryFunc(int state);
+IOGLUT_FUNC void IoGlutMotionFunc(int xv, int yv);
+IOGLUT_FUNC void IoGlutPassiveMotionFunc(int xv, int yv);
+IOGLUT_FUNC void IoGlutMouseFunc(int button, int state, int xv, int yv);
 
-void IOGLUT_FUNC IoGlutDisplayFunc(void);
-void IOGLUT_FUNC IoGlutReshapeFunc(int width, int height);
-void IOGLUT_FUNC IoGlutTimerFunc(int vv);
+IOGLUT_FUNC void IoGlutDisplayFunc(void);
+IOGLUT_FUNC void IoGlutReshapeFunc(int width, int height);
+IOGLUT_FUNC void IoGlutTimerFunc(int vv);
 
 // Menus
 

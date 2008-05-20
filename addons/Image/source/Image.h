@@ -105,5 +105,7 @@ IOIMAGE_API int Image_decodingWidthHint(Image *self);
 IOIMAGE_API void Image_decodingHeightHint_(Image *self, int v);
 IOIMAGE_API int Image_decodingHeightHint(Image *self);
 
+IOIMAGE_API void Image_makeRGBA(Image *self);
+
 #endif
 

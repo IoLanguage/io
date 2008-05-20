@@ -35,4 +35,8 @@ Image do(
 		self setDataWidthHeightComponentCount(data, width, height, 4)
 		self flipY
 	)
+	
+	sizeInBytes := method(
+		width * height * componentCount
+	)
 )
