@@ -320,13 +320,23 @@ ListTest := UnitTest clone do(
 		assertEquals(0+1+2, a foreach(index, value, number := number + index))
 	)
 
-	testReverse := method(
+	testReverseInPlace := method(
 		a := List clone append("a", "beta", 3)
-		a reverse
+		a reverseInPlace
 		assertEquals(3, a at(0))
 		assertEquals("beta", a at(1))
 		assertEquals("a", a at(2))
 	)
+	
+	testReverse := method(
+		a := List clone append("a", "beta", 3)
+		b := a reverse
+		assertNotSame(a, b)
+		assertEquals(3, b at(0))
+		assertEquals("beta", b at(1))
+		assertEquals("a", b at(2))
+	)
+	
 	testReverseForeach := method(
 		a := List clone append("a", "beta", 3)
 		assertRaisesException(a reverseForeach)

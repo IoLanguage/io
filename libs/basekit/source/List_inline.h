@@ -294,7 +294,7 @@ IOINLINE void List_swap_with_(List *self, long index1, long index2)
 	}
 }
 
-IOINLINE void List_reverse(List *self)
+IOINLINE void List_reverseInPlace(List *self)
 {
 	register void **i = self->items;
 	register void **j = i + (self->size - 1);

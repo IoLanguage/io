@@ -151,7 +151,7 @@ Coroutine do(
 
 	callStack := method(
 		stack := ioStack
-		stack selectInPlace(v, Object argIsCall(getSlot("v"))) reverse
+		stack selectInPlace(v, Object argIsCall(getSlot("v"))) reverseInPlace
 		stack selectInPlace(v,
 			(v target type == "Coroutine" and ignoredCoroutineMethodNames contains(v message name)) not
 		)

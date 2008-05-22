@@ -601,9 +601,9 @@ IoObject *IoSeq_translate(IoSeq *self, IoObject *locals, IoMessage *m)
 
 // reverse --------------------------------------------------------
 
-IoObject *IoSeq_reverse(IoSeq *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_reverseInPlace(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc Sequence reverse
+	/*doc Sequence reverseInPlace
 	Reverses the bytes in the receiver, in-place.
 	*/
 
@@ -1378,7 +1378,7 @@ void IoSeq_addMutableMethods(IoSeq *self)
 
 	{"empty", IoSeq_empty},
 	{"sort", IoSeq_sort},
-	{"reverse", IoSeq_reverse},
+	{"reverseInPlace", IoSeq_reverseInPlace},
 	{"replaceMap", IoSeq_replaceMap},
 
 	{"strip",  IoSeq_strip},

@@ -45,9 +45,9 @@ IOVM_API IoObject *IoSeq_empty(IoSeq *self, IoObject *locals, IoMessage *m);
 
 IOVM_API IoObject *IoSeq_sort(IoSeq *self, IoObject *locals, IoMessage *m);
 
-// reverse
+// reverseInPlace
 
-IOVM_API IoObject *IoSeq_reverse(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoSeq_reverseInPlace(IoSeq *self, IoObject *locals, IoMessage *m);
 
 // removing indexwise
 

@@ -619,11 +619,36 @@ SequenceTest := UnitTest clone do(
 		assertEquals("ae", "z" nextInSequence(5))
 	)
 
-	testReverse := method(
-		assertEquals("" asMutable, "" asMutable reverse)
-		assertEquals("a" asMutable, "a" asMutable reverse)
-		assertEquals("abc" asMutable, "cba" asMutable reverse)
+	testReverseInPlace := method(
+		s := ""
+		s reverseInPlace
+		assertEquals("" asMutable, s)
+		
+		s := "a"
+		s reverseInPlace
+		assertEquals("a" asMutable, s)
+		
+		s := "cba"
+		s reverseInPlace
+		assertEquals("abc" asMutable, s)
 		assertRaisesException("abc" reverse)
+	)
+	
+	testReverse := method(
+		a := ""
+		b := a reverse
+		assertEquals("" asMutable, b)
+		assertNotSame(a, b)
+		
+		a := "a"
+		b := a reverse
+		assertEquals("a" asMutable, b)
+		assertNotSame(a, b)
+		
+		a := "cba"
+		b := a reverse
+		assertEquals("abc" asMutable, b)
+		assertNotSame(a, b)
 	)
 
 	testPrependSeq := method(
