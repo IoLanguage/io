@@ -237,6 +237,15 @@ IoObject *IoTagDB_idForSymbol(IoTagDB *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(TagDB_idForSymbol_size_(DATA(self), CSTRING(key), IoSeq_rawSize(key)));
 }
 
+IoObject *IoTagDB_allUniqueTagIds(IoTagDB *self, IoObject *locals, IoMessage *m)
+{
+	Uint64Array *tagIds = TagDB_allUniqueTags(DATA(self)); 
+	UArray *ua = UArray_newWithData_type_size_copy_(Uint64Array_data(tagIds), CTYPE_uint64_t, Uint64Array_size(tagIds), 1);
+	
+	Uint64Array_free(tagIds);	
+	return IoSeq_newWithUArray_copy_(IOSTATE, ua, 0);
+}
+
 IoTagDB *IoTagDB_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
@@ -258,6 +267,7 @@ IoTagDB *IoTagDB_proto(void *state)
 		{"idForSymbol", IoTagDB_idForSymbol},
 		{"keyAtIndex", IoTagDB_keyAtIndex},
 		{"delete", IoTagDB_delete},
+		{"allUniqueTagIds", IoTagDB_allUniqueTagIds},
 		{NULL, NULL},
 		};
 		IoObject_addMethodTable_(self, methodTable);
