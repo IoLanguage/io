@@ -3,9 +3,12 @@ VScrollArea := View clone do(
     protoName := "VScrollArea"
     resizeWidth  := 101
     resizeHeight  := 101
-    
+    contentView ::= nil
+
     init := method(
 		resend
+		setHeight(100)
+		setWidth(100)
 		self scroller := VScroller clone 
 		scroller position set(width - scroller width,0)
 		scroller size setHeight(height)
@@ -18,14 +21,12 @@ VScrollArea := View clone do(
 		self clipView := ClipView clone
 		clipView position set(0, 0)
 		clipView size set(width - scroller width, height)
-		clipView resizeWidth  := 101
-		clipView resizeHeight := 101
+		clipView resizeWithSuperview
 		addSubview(clipView)
-		
 		clipView setScrollerDelegate(scroller) 
     )
 
-    scrollAction := method(scroller,
+    scrollAction := method(
 		clipView setYOffset(scroller value)
     )
 )

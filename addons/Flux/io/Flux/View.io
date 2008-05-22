@@ -454,7 +454,7 @@ View := Responder clone do(
     )
     
     resizeToFitSuperview := method(
-		setSize(superview size)
+		resizeToSize(superview size)
 		self
     )
 
@@ -464,6 +464,11 @@ View := Responder clone do(
 		self
     )
 
+    resizeToSize := method(size,
+		resizeTo(size width, size height)
+		self
+	)
+	 
     resizeTo := method(w, h, 
 		resizeBy(w - width, h - height)
     )

@@ -57,7 +57,6 @@ HScroller do(
 	
 	applyConstraints := method(
 		knob position perform(setAxis, value * (size perform(axis) - knob size perform(axis)))
-		
 		knob size perform(setAxis, (size perform(axis) * proportion) max(knob maxSpace))
 		knob size perform(setOtherAxis, size perform(otherAxis))
 		knob applyConstraints
