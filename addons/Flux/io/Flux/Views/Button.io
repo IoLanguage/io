@@ -33,12 +33,12 @@ Button := View clone do(
     newSlot("altImage")
 
     sizeToImage := method(
-      if(image, size setWidth(image width) setHeight(image height+1))
+		if(image, size setWidth(image width) setHeight(image height+1))
     )
 
     textureWidth := method(width)
     textureHeight := method(height)
-	roundingSize := 0
+	roundingSize ::= 0
     
     draw := method(
 		if(image, 
@@ -58,7 +58,7 @@ Button := View clone do(
             if(isDisabled) then(
                 textures disabled draw(textureWidth, textureHeight)
             ) else(
-                if(isSelected,
+                if(isSelected) then(
                     textures active draw(textureWidth, textureHeight)
                 ) else(
                     textures normal draw(textureWidth, textureHeight)
@@ -83,7 +83,7 @@ Button := View clone do(
 		//if(isSelected, textColorSelected glColor)
 		if(isDisabled, textColorDisabled glColor)
 		b := ((w - font widthOfString(title)) * .5) round
-		glTranslatei(b, (3 + size y - font pixelHeight) / 2, 0)
+		glTranslatei(b, 3 + (size y - font pixelHeight) / 2, 0)
 		font drawString(title)
 		glPopMatrix
     )
