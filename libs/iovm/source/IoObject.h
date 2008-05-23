@@ -226,7 +226,11 @@ IOVM_API void IoObject_removeListener_(IoObject *self, void *listener);
 
 // persistence
 
-IOVM_API PID_TYPE IoObject_pid(IoObject *self);
+IOVM_API void IoObject_protoClean(IoObject *self);
+IOVM_API IoObject *IoObject_hasDirtySlot_(IoObject *self, IoMessage *m, IoObject *locals);
+IOVM_API IoObject *IoObject_markClean(IoObject *self, IoObject *locals, IoMessage *m);
+
+//IOVM_API PID_TYPE IoObject_pid(IoObject *self);
 
 // asString helper
 

@@ -834,7 +834,7 @@ IoObject *IoSeq_interpolateInPlace(IoSeq *self, IoObject *locals, IoMessage *m)
 		
 		if (UArray_size(code) == 0)
 		{
-			// we don't want "#{}" to interpolate into "nil"
+			// we do not want "#{}" to interpolate into "nil"
 			evaluatedCodeAsString = DATA(IoState_doCString_(IOSTATE, "Sequence clone"));
 		}
 		else
@@ -1427,7 +1427,7 @@ void IoSeq_addMutableMethods(IoSeq *self)
 	{"negate", IoSeq_negate},
 	{"rangeFill", IoSeq_rangeFill},
 	{"Min", IoSeq_Min},
-	{"Max", IoSeq_Min},
+	{"Max", IoSeq_Max},
 
 	{"sin", IoSeq_sin},
 	{"cos", IoSeq_cos},

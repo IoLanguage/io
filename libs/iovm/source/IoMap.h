@@ -24,8 +24,10 @@ void IoMap_free(IoMap *self);
 void IoMap_mark(IoMap *self);
 PHash *IoMap_rawHash(IoMap *self);
 
+/*
 void IoMap_writeToStream_(IoMap *self, BStream *stream);
 void IoMap_readFromStream_(IoMap *self, BStream *stream);
+*/
 
 // -----------------------------------------------------------
 

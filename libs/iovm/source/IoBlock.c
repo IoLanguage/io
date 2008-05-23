@@ -25,8 +25,8 @@ IoTag *IoBlock_newTag(void *state)
 	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoBlock_mark);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoBlock_free);
 	IoTag_activateFunc_(tag, (IoTagActivateFunc *)IoBlock_activate);
-	IoTag_writeToStreamFunc_(tag, (IoTagWriteToStreamFunc *)IoBlock_writeToStream_);
-	IoTag_readFromStreamFunc_(tag, (IoTagReadFromStreamFunc *)IoBlock_readFromStream_);
+	//IoTag_writeToStreamFunc_(tag, (IoTagWriteToStreamFunc *)IoBlock_writeToStream_);
+	//IoTag_readFromStreamFunc_(tag, (IoTagReadFromStreamFunc *)IoBlock_readFromStream_);
 	return tag;
 }
 
@@ -48,6 +48,7 @@ void IoBlock_copy_(IoBlock *self, IoBlock *other)
 	DATA(self)->scope = DATA(other)->scope;
 }
 
+/*
 void IoBlock_writeToStream_(IoBlock *self, BStream *stream)
 {
 	UArray *ba = IoBlock_justCode(self);
@@ -93,6 +94,7 @@ void IoBlock_readFromStream_(IoBlock *self, BStream *stream)
 		}
 	}
 }
+*/
 
 IoBlock *IoBlock_proto(void *vState)
 {

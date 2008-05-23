@@ -58,13 +58,14 @@ IoTag *IoNumber_newTag(void *state)
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoNumber_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoNumber_free);
 	IoTag_compareFunc_(tag, (IoTagCompareFunc *)IoNumber_compare);
-	IoTag_writeToStreamFunc_(tag, (IoTagWriteToStreamFunc *)IoNumber_writeToStream_);
-	IoTag_readFromStreamFunc_(tag, (IoTagReadFromStreamFunc *)IoNumber_readFromStream_);
+	//IoTag_writeToStreamFunc_(tag, (IoTagWriteToStreamFunc *)IoNumber_writeToStream_);
+	//IoTag_readFromStreamFunc_(tag, (IoTagReadFromStreamFunc *)IoNumber_readFromStream_);
 	assert(sizeof(double) <= sizeof(void *)*2);
 	/*printf("Number tag = %p\n", (void *)tag);*/
 	return tag;
 }
 
+/*
 void IoNumber_writeToStream_(IoNumber *self, BStream *stream)
 {
 	BStream_writeTaggedDouble_(stream, DATA(self));
@@ -75,6 +76,7 @@ void *IoNumber_readFromStream_(IoNumber *self, BStream *stream)
 	DATA(self) = BStream_readTaggedDouble(stream);
 	return self;
 }
+*/
 
 // #define IONUMBER_IS_MUTABLE
 

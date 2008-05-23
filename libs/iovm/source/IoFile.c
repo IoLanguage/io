@@ -58,8 +58,8 @@ IoTag *IoFile_newTag(void *state)
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoFile_rawClone);
 	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoFile_mark);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoFile_free);
-	IoTag_writeToStreamFunc_(tag, (IoTagWriteToStreamFunc *)IoFile_writeToStream_);
-	IoTag_readFromStreamFunc_(tag, (IoTagReadFromStreamFunc *)IoFile_readFromStream_);
+	//IoTag_writeToStreamFunc_(tag, (IoTagWriteToStreamFunc *)IoFile_writeToStream_);
+	//IoTag_readFromStreamFunc_(tag, (IoTagReadFromStreamFunc *)IoFile_readFromStream_);
 	return tag;
 }
 
@@ -644,7 +644,7 @@ IoObject *IoFile_moveTo_(IoFile *self, IoObject *locals, IoMessage *m)
 	{
 		int error;
 
-		remove(toPath); // to make sure we don't get an error
+		remove(toPath); // to make sure we do not get an error
 		error = rename(fromPath, toPath);
 
 		if (error)

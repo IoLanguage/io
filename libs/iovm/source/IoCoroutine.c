@@ -26,6 +26,7 @@ IoCoroutine *IoMessage_locals_coroutineArgAt_(IoMessage *self, void *locals, int
 	return v;
 }
 
+/*
 void IoCoroutine_writeToStream_(IoCoroutine *self, BStream *stream)
 {
 	//IoCoroutineData *data = DATA(self);
@@ -35,6 +36,7 @@ void IoCoroutine_readFromStream_(IoCoroutine *self, BStream *stream)
 {
 	//IoCoroutineData *data = DATA(self);
 }
+*/
 
 IoTag *IoCoroutine_newTag(void *state)
 {
@@ -43,8 +45,8 @@ IoTag *IoCoroutine_newTag(void *state)
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCoroutine_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCoroutine_rawClone);
 	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoCoroutine_mark);
-	IoTag_writeToStreamFunc_(tag, (IoTagWriteToStreamFunc *)IoCoroutine_writeToStream_);
-	IoTag_readFromStreamFunc_(tag, (IoTagReadFromStreamFunc *)IoCoroutine_readFromStream_);
+	//IoTag_writeToStreamFunc_(tag, (IoTagWriteToStreamFunc *)IoCoroutine_writeToStream_);
+	//IoTag_readFromStreamFunc_(tag, (IoTagReadFromStreamFunc *)IoCoroutine_readFromStream_);
 	return tag;
 }
 
@@ -60,7 +62,7 @@ IoCoroutine *IoCoroutine_proto(void *state)
 #endif
 	IoState_registerProtoWithFunc_((IoState *)state, self, IoCoroutine_proto);
 
-	// init Coroutine proto's coro as the main one
+	/* init Coroutine proto's coro as the main one */
 	{
 	Coro *coro = Coro_new();
 	DATA(self)->cid = coro;

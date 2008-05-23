@@ -474,7 +474,7 @@ IoObject *IoDirectory_create(IoDirectory *self, IoObject *locals, IoMessage *m)
 	
 	if (!opendir(CSTRING(DATA(self)->path)))
 	{
-		// doesn't exist, so make it
+		// not there, so make it
 		int r = MKDIR(CSTRING(DATA(self)->path), S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
 		return (r == 0) ? self : IONIL(self);
 	}
@@ -528,7 +528,7 @@ UArray *IoDirectory_CurrentWorkingDirectoryAsUArray(void)
 		UArray *ba =  UArray_newWithData_type_size_copy_((unsigned char *)buf, CTYPE_uint8_t, strlen(buf), 1);
 		UArray_setEncoding_(ba, CENCODING_UTF8);
 		UArray_convertToFixedSizeType(ba);
-		// io_free(buf); OSX get cwd man page says we should io_free this, but MallocDebug doesn't like it
+		// io_free(buf); OSX get cwd man page says we should io_free this, but MallocDebug does not like it
 		return ba;
 	}
 }

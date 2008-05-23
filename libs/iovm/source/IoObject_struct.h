@@ -24,6 +24,8 @@ typedef struct CollectorMarker IoObject;
 #endif
 */
 
+#define IOOBJECT_PERSISTENCE 1
+
 struct IoObjectData
 {
 	unsigned int markerCount;
@@ -44,10 +46,6 @@ struct IoObjectData
 	PHash *slots;
 	List *listeners;
 	IoObject **protos;
-
-#ifdef IOOBJECT_PERSISTENCE
-	PID_TYPE persistentId;
-#endif
 
 	unsigned int hasDoneLookup : 1;    // used to avoid slot lookup loops
 	unsigned int isActivatable : 1;    // if true, upon activation, call activate slot
@@ -128,14 +126,6 @@ struct IoObjectData
 
 #define IoObject_isLocals_(self, v) IoObject_deref(self)->isLocals = v;
 #define IoObject_isLocals(self)     (IoObject_deref(self)->isLocals)
-
-#ifdef IOOBJECT_PERSISTENCE
-#define IoObject_persistentId_(self, v) IoObject_deref(self)->persistentId = v;
-#define IoObject_persistentId(self) (IoObject_deref(self)->persistentId)
-#else
-#define IoObject_persistentId_(self, v)
-#define IoObject_persistentId(self) 0
-#endif
 
 #ifdef IO_BLOCK_LOCALS_RECYCLING
 #define IoObject_isReferenced_(self, v) IoObject_deref(self)->isReferenced = v;

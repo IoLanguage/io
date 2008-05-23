@@ -1,10 +1,8 @@
 
 //metadoc Date copyright Steve Dekorte 2002
 //metadoc Date license BSD revised
-/*metadoc Date description
-A container for a date and time information.
-*/
-//metadoc Date credits fromString method by Sean Perry")
+/*metadoc Date description A container for a date and time information.*/
+//metadoc Date credits fromString method by Sean Perry
 //metadoc Date category Time
 
 #include "IoDate.h"
@@ -26,8 +24,8 @@ IoTag *IoDate_newTag(void *state)
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoDate_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoDate_free);
 	IoTag_compareFunc_(tag, (IoTagCompareFunc *)IoDate_compare);
-	IoTag_writeToStreamFunc_(tag, (IoTagWriteToStreamFunc *)IoDate_writeToStream_);
-	IoTag_readFromStreamFunc_(tag, (IoTagReadFromStreamFunc *)IoDate_readFromStream_);
+	//IoTag_writeToStreamFunc_(tag, (IoTagWriteToStreamFunc *)IoDate_writeToStream_);
+	//IoTag_readFromStreamFunc_(tag, (IoTagReadFromStreamFunc *)IoDate_readFromStream_);
 	return tag;
 }
 

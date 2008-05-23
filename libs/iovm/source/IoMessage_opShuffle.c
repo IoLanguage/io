@@ -150,10 +150,12 @@ IoMap *getOpTable(IoObject *self, const char *slotName, IoMap *create(IoState *s
 	}
 	else
 	{
-		// Not strictly correct as if the message has it's own empty
-		// OperatorTable slot, we'll create one for it instead of using
-		// Core Message OperatorTable operators. Oh well.
-
+		/*
+		Not strictly correct as if the message has its own empty
+		OperatorTable slot, we'll create one for it instead of using
+		Core Message OperatorTable operators. Oh well.
+		*/
+		
 		IoMap *result = create(IOSTATE);
 		IoObject_setSlot_to_(self, symbol, result);
 		return result;
@@ -167,18 +169,20 @@ Levels *Levels_new(IoMessage *msg)
 	IoState *state = IoObject_state(msg);
 	IoSymbol *operatorTableSymbol = IoState_symbolWithCString_(state, "OperatorTable");
 
-	// Be ultra flexable, and try to use the first message's operator table.
+	/* Be ultra flexable, and try to use the first message's operator table. */
 	IoObject *opTable = IoObject_rawGetSlot_(msg, operatorTableSymbol);
 
-	// Otherwise, use Core OperatorTable, and if that doesn't exist, create it.
+	// Otherwise, use Core OperatorTable, and if that does not exist, create it.
 	if (opTable == NULL)
 	{
-		// There is a chance the message didn't have it, but the core did---due
-		// to the Core not being part of the message's protos. Use Core
-		// Message's OperatorTable
+		/* 
+		There is a chance the message didn't have it, but the core did---due
+		to the Core not being part of the message's protos. Use Core
+		Message's OperatorTable
+		*/
 		opTable = IoObject_rawGetSlot_(state->core, operatorTableSymbol);
 
-		// If Core doesn't have an OperatorTable, then create it.
+		// If Core does not have an OperatorTable, then create it.
 		if (opTable == NULL)
 		{
 			opTable = IoObject_new(state);
@@ -244,7 +248,7 @@ void Level_finish(Level *self)
 	{
 		IoMessage_rawSetNext(self->message, NULL);
 
-		// Remove extra () we added in for operators, but don't need any more
+		// Remove extra () we added in for operators, but do not need any more
 		if ( IoMessage_argCount(self->message) == 1 )
 		{
 			IoMessage *arg = IoMessage_rawArgAt_(self->message, 0);
@@ -323,7 +327,7 @@ int Levels_levelForOp(Levels *self, char *messageName, IoSymbol *messageSymbol, 
 	else
 	{
 		IoState_error_(IoObject_state(msg), msg, "compile error: Value for '%s' in Message OperatorTable operators is not a number. Values in the OperatorTable operators are numbers which indicate the precedence of the operator.", messageName);
-		return -1; // The C compiler doesn't know that IoState_error_() will never return.
+		return -1; // The C compiler does not know that IoState_error_() will never return.
 	}
 }
 
@@ -366,58 +370,60 @@ void Levels_attach(Levels *self, IoMessage *msg, List *expressions)
 
 	int msgArgCount = IoMessage_argCount(msg);
 
-	// `o a := b c ; d`  becomes  `o setSlot("a", b c) ; d`
+	/*
+	// o a := b c ; d  becomes  o setSlot("a", b c) ; d
 	//
 	// a      attaching
 	// :=     msg
 	// b c    msg->next
-
+	*/
+	
 	if (Levels_isAssignOperator(self, messageSymbol))
 	{
 		Level *currentLevel = Levels_currentLevel(self);
 		IoMessage *attaching = currentLevel->message;
 		IoSymbol *setSlotName;
 
-		if (attaching == NULL) // `:= b ;`
+		if (attaching == NULL) // := b ;
 		{
 			// Could be handled as, message(:= 42) -> setSlot(nil, 42)
 
 			IoState_error_(state, msg, "compile error: %s requires a symbol to its left.", messageName);
 		}
 
-		if (IoMessage_argCount(attaching) > 0) // `a(1,2,3) := b ;`
+		if (IoMessage_argCount(attaching) > 0) // a(1,2,3) := b ;
 		{
 			IoState_error_(state, msg, "compile error: The symbol to the left of %s cannot have arguments.", messageName);
 		}
 
-		if (msgArgCount > 1) // `setSlot("a") :=(b, c, d) e ;`
+		if (msgArgCount > 1) // setSlot("a") :=(b, c, d) e ;
 		{
 			IoState_error_(state, msg, "compile error: Assign operator passed multiple arguments, e.g., a := (b, c).", messageName);
 		}
 
 
 		{
-			// `a := b ;`
+			// a := b ;
 			IoSymbol *slotName = DATA(attaching)->name;
 			IoSymbol *quotedSlotName = IoSeq_newSymbolWithFormat_(state, "\"%s\"", CSTRING(slotName));
 			IoMessage *slotNameMessage = IoMessage_newWithName_returnsValue_(state, quotedSlotName, slotName);
 
 			IoMessage_rawCopySourceLocation(slotNameMessage, attaching);
 
-			// `a := b ;`  ->  `a("a") := b ;`
+			// a := b ;  ->  a("a") := b ;
 			IoMessage_addArg_(attaching, slotNameMessage);
 
 			setSlotName = Levels_nameForAssignOperator(self, state, messageSymbol, slotName, msg);
 		}
 
-		// `a("a") := b ;`  ->  `setSlot("a") := b ;`
+		// a("a") := b ;  ->  setSlot("a") := b ;
 		DATA(attaching)->name = IoObject_addingRef_(attaching, setSlotName);
 
 		currentLevel->type = ATTACH;
 
-		if (msgArgCount > 0) // `setSlot("a") :=(b c) d e ;`
+		if (msgArgCount > 0) // setSlot("a") :=(b c) d e ;
 		{
-			// `b c`
+			// b c
 			IoMessage *arg = IoMessage_rawArgAt_(msg, 0);
 
 			if (DATA(msg)->next == NULL || IoMessage_rawIsEOL(DATA(msg)->next))
@@ -426,24 +432,24 @@ void Levels_attach(Levels *self, IoMessage *msg, List *expressions)
 			}
 			else
 			{
-				// `()`
+				// ()
 				IoMessage *foo = IoMessage_newWithName_(state, IoState_symbolWithCString_(state, ""));
 
 				IoMessage_rawCopySourceLocation(foo, attaching);
 
-				// `()`  ->  `(b c)`
+				// ()  ->  (b c)
 				IoMessage_addArg_(foo, arg);
 
-				// `(b c)`  ->  `(b c) d e ;`
+				// (b c)  ->  (b c) d e ;
 				IoMessage_rawSetNext(foo, DATA(msg)->next);
 
-				// `setSlot("a") :=(b c) d e ;`  ->  `setSlot("a", (b c) d e ;) :=(b c) d e ;`
+				// setSlot("a") :=(b c) d e ;  ->  setSlot("a", (b c) d e ;) :=(b c) d e ;
 				IoMessage_addArg_(attaching, foo);
 			}
 		}
-		else // `setSlot("a") := b ;`
+		else // setSlot("a") := b ;
 		{
-			// `setSlot("a") :=` or `setSlot("a") := ;`
+			// setSlot("a") := or setSlot("a") := ;
 			IoMessage *mn = DATA(msg)->next;
 			IoSymbol *name = mn ? DATA(mn)->name : NULL;
 			IoSymbol *semi = IoObject_state(msg)->semicolonSymbol;
@@ -454,11 +460,11 @@ void Levels_attach(Levels *self, IoMessage *msg, List *expressions)
 				IoState_error_(state, msg, "compile error: %s must be followed by a value.", messageName);
 			}
 
-			// `setSlot("a") := b c ;`  ->  `setSlot("a", b c ;) := b c ;`
+			// setSlot("a") := b c ;  ->  setSlot("a", b c ;) := b c ;
 			IoMessage_addArg_(attaching, DATA(msg)->next);
 		}
 
-		// process the value (`b c d`) later  (`setSlot("a", b c d) := b c d ;`)
+		// process the value (b c d) later  (setSlot("a", b c d) := b c d ;)
 		if (DATA(msg)->next != NULL && !IoMessage_rawIsEOL(DATA(msg)->next))
 		{
 			List_push_(expressions, DATA(msg)->next);
@@ -482,7 +488,7 @@ void Levels_attach(Levels *self, IoMessage *msg, List *expressions)
 			}
 		}
 
-		// make sure b in `1 := b` gets executed
+		// make sure b in 1 := b gets executed
 		IoMessage_cachedResult_(attaching, NULL);
 	}
 	else if (IoMessage_rawIsEOL(msg))
@@ -494,7 +500,7 @@ void Levels_attach(Levels *self, IoMessage *msg, List *expressions)
 	{
 		if (msgArgCount > 0)
 		{
-			// move arguments off to their own message to make () after operators behave like C's grouping ()
+			// move arguments off to their own message to make () after operators behave like Cs grouping ()
 			IoMessage *brackets = IoMessage_newWithName_(state, IoState_symbolWithCString_(state, ""));
 
 			IoMessage_rawCopySourceLocation(brackets, msg);
@@ -502,7 +508,7 @@ void Levels_attach(Levels *self, IoMessage *msg, List *expressions)
 			List_copy_(IoMessage_rawArgList(brackets), IoMessage_rawArgList(msg));
 			List_removeAll(IoMessage_rawArgList(msg));
 
-			// Insert the brackets message between msg and it's next message
+			// Insert the brackets message between msg and its next message
 			IoMessage_rawSetNext(brackets, DATA(msg)->next);
 			IoMessage_rawSetNext(msg, brackets);
 		}

@@ -34,11 +34,12 @@ IoTag *IoWeakLink_newTag(void *state)
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoWeakLink_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoWeakLink_free);
 	IoTag_notificationFunc_(tag, (IoTagNotificationFunc *)IoWeakLink_notification);
-	IoTag_writeToStreamFunc_(tag, (IoTagWriteToStreamFunc *)IoWeakLink_writeToStream_);
-	IoTag_readFromStreamFunc_(tag, (IoTagReadFromStreamFunc *)IoWeakLink_readFromStream_);
+	//IoTag_writeToStreamFunc_(tag, (IoTagWriteToStreamFunc *)IoWeakLink_writeToStream_);
+	//IoTag_readFromStreamFunc_(tag, (IoTagReadFromStreamFunc *)IoWeakLink_readFromStream_);
 	return tag;
 }
 
+/*
 void IoWeakLink_writeToStream_(IoWeakLink *self, BStream *stream)
 {
 	if (DATA(self)->link)
@@ -50,6 +51,7 @@ void IoWeakLink_writeToStream_(IoWeakLink *self, BStream *stream)
 		BStream_writeTaggedInt32_(stream, 0);
 	}
 }
+*/
 
 void IoWeakLink_readFromStream_(IoWeakLink *self, BStream *stream)
 {
