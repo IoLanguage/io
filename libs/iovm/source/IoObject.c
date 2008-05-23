@@ -212,6 +212,9 @@ IoObject *IoObject_protoFinish(void *state)
 
 	{"ownsSlots", IoObject_protoOwnsSlots}, // a debug method
 	{"memorySize", IoObject_memorySizeMethod},
+	
+	{"hasDirtySlot", IoObject_hasDirtySlot_},
+	{"markClean", IoObject_markClean},
 
 	{NULL, NULL},
 	};
@@ -592,30 +595,6 @@ void IoObject_willFree(IoObject *self)
 
 void IoObject_free(IoObject *self) // prepare for io_free and possibly recycle
 {
-/*
-	if (IoObject_isLocals(self))
-	{
-		printf("io_free %p locals isRef %i\n", (void *)self, IoObject_isReferenced(self));
-	}
-	else
-	{
-		printf("io_free %p %s isRef %i\n", (void *)self, IoObject_name(self), IoObject_isReferenced(self));
-		if(ISSEQ(self))
-		{
-			printf("string '%s'\n", CSTRING(self));
-		}
-		if(ISMESSAGE(self))
-		{
-			printf("message '%s'\n", CSTRING(IoMessage_name(self)));
-		}
-	}
-
-	if (!IoObject_isReferenced(self))
-	{
-		printf("\n");
-	}
-	*/
-
 	//if(List_size(IOSTATE->recycledObjects) >= IOSTATE->maxRecycledObjects)
 	{
 		IoObject_dealloc(self);
@@ -628,7 +607,6 @@ void IoObject_free(IoObject *self) // prepare for io_free and possibly recycle
 		IoObject_rawRemoveAllProtos(self);
 
 		#ifdef IOOBJECT_PERSISTENCE
-		IoObject_persistentId_(self, 0);
 		IoObject_isDirty_(self, 0);
 		#endif
 
@@ -636,7 +614,6 @@ void IoObject_free(IoObject *self) // prepare for io_free and possibly recycle
 		IoObject_isSymbol_(self, 0);
 		IoObject_isLocals_(self, 0);
 		IoObject_isActivatable_(self, 0);
-
 
 		if (IoObject_ownsSlots(self))
 		{
@@ -1917,6 +1894,26 @@ IoObject *IoObject_become(IoObject *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
+IoObject *IoObject_hasDirtySlot_(IoObject *self, IoObject *locals, IoMessage *m)
+{
+	IoSymbol *slotName = IoMessage_locals_symbolArgAt_(m, locals, 0);
+	int result = PHash_hasDirtyKey_(IoObject_slots(self), IOREF(slotName));
+	return IOBOOL(self, result);
+}
+
+void IoObject_protoClean(IoObject *self)
+{
+	IoObject_isDirty_(self, 0);
+	PHash_cleanSlots(IoObject_slots(self));
+	return self;
+}
+
+IoObject *IoObject_markClean(IoObject *self, IoObject *locals, IoMessage *m)
+{
+	PHash_cleanSlots(IoObject_slots(self));
+	return self;
+}
+
 // io_free listeners ---------------------------------------------
 
 void IoObject_addListener_(IoObject *self, void *listener)
@@ -1949,10 +1946,12 @@ void IoObject_removeListener_(IoObject *self, void *listener)
 
 // persistence ------------------------------------------------
 
-IOVM_API PID_TYPE IoObject_pid(IoObject *self)
+/*
+PID_TYPE IoObject_pid(IoObject *self)
 {
 	return 0;
 }
+*/
 
 // asString helper
 

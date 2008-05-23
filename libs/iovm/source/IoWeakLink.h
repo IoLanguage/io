@@ -25,8 +25,8 @@ typedef struct
 IoObject *IoWeakLink_proto(void *state);
 IoObject *IoWeakLink_new(void *state);
 
-void IoWeakLink_writeToStream_(IoWeakLink *self, BStream *stream);
-void IoWeakLink_readFromStream_(IoWeakLink *self, BStream *stream);
+//void IoWeakLink_writeToStream_(IoWeakLink *self, BStream *stream);
+//void IoWeakLink_readFromStream_(IoWeakLink *self, BStream *stream);
 
 IoObject *IoWeakLink_rawClone(IoWeakLink *self);
 void IoWeakLink_free(IoWeakLink *self);

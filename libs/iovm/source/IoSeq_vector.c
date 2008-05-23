@@ -5,7 +5,7 @@
 
 int ISVECTOR(IoObject *self)
 {
-	// Don't have ISVECTOR as a macro because self is used twice.
+	// Do not have ISVECTOR as a macro because self is used twice.
 	return ISSEQ(self) && UArray_itemType(IoSeq_rawUArray(self)) == CTYPE_float32_t;
 }
 

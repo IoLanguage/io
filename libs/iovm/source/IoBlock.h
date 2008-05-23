@@ -33,8 +33,8 @@ void IoBlock_mark(IoBlock *self);
 void IoBlock_free(IoBlock *self);
 void IoBlock_message_(IoBlock *self, IoMessage *m);
 
-void IoBlock_writeToStream_(IoBlock *self, BStream *stream);
-void IoBlock_readFromStream_(IoBlock *self, BStream *stream);
+//void IoBlock_writeToStream_(IoBlock *self, BStream *stream);
+//void IoBlock_readFromStream_(IoBlock *self, BStream *stream);
 
 // calling
 

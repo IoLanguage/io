@@ -39,6 +39,7 @@ But the cost to performance seems to outweigh the need to cover this case for no
 
 #define DATA(self) ((IoMessageData *)IoObject_dataPointer(self))
 
+/*
 void IoMessage_writeToStream_(IoMessage *self, BStream *stream)
 {
 	UArray *ba = IoMessage_description(self);
@@ -52,6 +53,7 @@ void IoMessage_readFromStream_(IoMessage *self, BStream *stream)
 	IoMessage *m = IoMessage_newFromText_label_(IOSTATE, (char *)code, "[from store]");
 	IoMessage_copy_(self, m);
 }
+*/
 
 IoObject *IoMessage_activate(IoMessage *self, IoObject *target, IoObject *locals, IoMessage *m, IoObject *slotContext)
 {
@@ -69,8 +71,8 @@ IoTag *IoMessage_newTag(void *state)
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoMessage_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoMessage_free);
 	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoMessage_mark);
-	IoTag_writeToStreamFunc_(tag, (IoTagWriteToStreamFunc *)IoMessage_writeToStream_);
-	IoTag_readFromStreamFunc_(tag, (IoTagReadFromStreamFunc *)IoMessage_readFromStream_);
+	//IoTag_writeToStreamFunc_(tag, (IoTagWriteToStreamFunc *)IoMessage_writeToStream_);
+	//IoTag_readFromStreamFunc_(tag, (IoTagReadFromStreamFunc *)IoMessage_readFromStream_);
 	IoTag_activateFunc_(tag, (IoTagActivateFunc *)IoMessage_activate);
 	return tag;
 }

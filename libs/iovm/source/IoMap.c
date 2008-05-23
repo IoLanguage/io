@@ -25,11 +25,12 @@ IoTag *IoMap_newTag(void *state)
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoMap_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoMap_free);
 	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoMap_mark);
-	IoTag_writeToStreamFunc_(tag, (IoTagWriteToStreamFunc *)IoMap_writeToStream_);
-	IoTag_readFromStreamFunc_(tag, (IoTagReadFromStreamFunc *)IoMap_readFromStream_);
+	//IoTag_writeToStreamFunc_(tag, (IoTagWriteToStreamFunc *)IoMap_writeToStream_);
+	//IoTag_readFromStreamFunc_(tag, (IoTagReadFromStreamFunc *)IoMap_readFromStream_);
 	return tag;
 }
 
+/*
 void IoMap_writeToStream_(IoMap *self, BStream *stream)
 {
 	PHASH_FOREACH(DATA(self), k, v,
@@ -59,6 +60,7 @@ void IoMap_readFromStream_(IoMap *self, BStream *stream)
 		PHash_at_put_(hash, IoState_objectWithPid_(IOSTATE, k), IoState_objectWithPid_(IOSTATE, v));
 	}
 }
+*/
 
 
 IoMap *IoMap_proto(void *state)

@@ -31,8 +31,8 @@ IOVM_API IoNumber *IoNumber_newWithDouble_(void *state, double n);
 IOVM_API IoNumber *IoNumber_newCopyOf_(IoNumber *number);
 IOVM_API void IoNumber_copyFrom_(IoNumber *self, IoNumber *number);
 
-IOVM_API void IoNumber_writeToStream_(IoNumber *self, BStream *stream);
-IOVM_API void *IoNumber_readFromStream_(IoNumber *self, BStream *stream);
+//IOVM_API void IoNumber_writeToStream_(IoNumber *self, BStream *stream);
+//IOVM_API void *IoNumber_readFromStream_(IoNumber *self, BStream *stream);
 
 IOVM_API void IoNumber_free(IoNumber *self);
 

@@ -28,8 +28,8 @@ IoDate *IoDate_rawClone(IoDate *self);
 void IoDate_free(IoDate *self);
 int IoDate_compare(IoDate *self, IoDate *other);
 
-void IoDate_writeToStream_(IoDate *self, BStream *stream);
-void IoDate_readFromStream_(IoDate *self, BStream *stream);
+//void IoDate_writeToStream_(IoDate *self, BStream *stream);
+//void IoDate_readFromStream_(IoDate *self, BStream *stream);
 
 double IoDate_difference_(IoDate *self, IoDate *other);
 

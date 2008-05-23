@@ -42,8 +42,8 @@ IoCall *IoCall_new(IoState *state);
 void IoCall_mark(IoCall *self);
 void IoCall_free(IoCall *self);
 
-void IoCall_writeToStream_(IoCall *self, BStream *stream);
-void IoCall_readFromStream_(IoCall *self, BStream *stream);
+//void IoCall_writeToStream_(IoCall *self, BStream *stream);
+//void IoCall_readFromStream_(IoCall *self, BStream *stream);
 
 IoObject *IoCall_sender(IoCall *self, IoObject *locals, IoMessage *m);
 IoObject *IoCall_message(IoCall *self, IoObject *locals, IoMessage *m);

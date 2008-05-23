@@ -43,8 +43,8 @@ IOVM_API IoFile *IoFile_newWithStream_(void *state, FILE *stream);
 void IoFile_free(IoFile *self);
 void IoFile_mark(IoFile *self);
 
-IOVM_API void IoFile_writeToStream_(IoFile *self, BStream *stream);
-IOVM_API void *IoFile_readFromStream_(IoFile *self, BStream *stream);
+//IOVM_API void IoFile_writeToStream_(IoFile *self, BStream *stream);
+//IOVM_API void *IoFile_readFromStream_(IoFile *self, BStream *stream);
 
 void IoFile_justClose(IoFile *self);
 int IoFile_justExists(IoFile *self);

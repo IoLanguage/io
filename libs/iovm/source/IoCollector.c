@@ -142,12 +142,44 @@ IoObject *IoCollector_allObjects(IoCollector *self, IoObject *locals, IoMessage 
 	Returns a List containing all objects known to the collector.
 	*/
 
-	IoList *allObjects = IoList_new(IOSTATE);
+	IoList *results = IoList_new(IOSTATE);
 	Collector *collector = IOSTATE->collector;
 
-	COLLECTOR_FOREACH(collector, v, IoList_rawAppend_(allObjects, (void *)v));
-	return allObjects;
+	COLLECTOR_FOREACH(collector, v, IoList_rawAppend_(results, (void *)v));
+	return results;
 }
+
+IoObject *IoCollector_dirtyObjects(IoCollector *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Collector dirtyObjects
+	Returns a List containing all dirty objects known to the collector.
+	*/
+
+	IoList *results = IoList_new(IOSTATE);
+	Collector *collector = IOSTATE->collector;
+
+	COLLECTOR_FOREACH(collector, v,
+		if(IoObject_isDirty(v))
+		{
+			IoList_rawAppend_(results, (void *)v);
+		}
+	);
+	
+	return results;
+}
+
+IoObject *IoCollector_cleanAllObjects(IoCollector *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Collector cleanAllObjects
+	Sets all objects as clean. Returns self.
+	*/
+
+	Collector *collector = IOSTATE->collector;
+
+	COLLECTOR_FOREACH(collector, v, IoObject_protoClean(v); );	
+	return self;
+}
+
 
 IoObject *IoCollector_objectWithUniqueId(IoCollector *self, IoObject *locals, IoMessage *m)
 {
@@ -186,6 +218,8 @@ IoObject *IoCollector_proto(void *state)
 	{"timeUsed", IoCollector_timeUsed},
 	
 	{"objectWithUniqueId", IoCollector_objectWithUniqueId},
+	{"dirtyObjects", IoCollector_dirtyObjects},
+	{"cleanAllObjects", IoCollector_cleanAllObjects},
 	{NULL, NULL},
 	};
 

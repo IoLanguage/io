@@ -1,7 +1,7 @@
 
 //metadoc File copyright Steve Dekorte 2002
 //metadoc File license BSD revised
-//metadoc File docCredits("Initial version contributed by Miles Egan.
+//metadoc File credits Initial version contributed by Miles Egan.
 
 #include "IoFile_stat.h"
 #include "IoState.h"

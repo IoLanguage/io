@@ -58,7 +58,6 @@ IoSymbol *IoSymbol_allocFromStore_stream_(IoSymbol *self, BStream *stream)
 
 	return IoState_symbolWithUArray_copy_(IOSTATE, ba, 1);
 }
-*/
 
 void IoSeq_writeToStream_(IoSeq *self, BStream *stream)
 {
@@ -69,6 +68,7 @@ void IoSeq_readFromStream_(IoSeq *self, BStream *stream)
 {
 	BStream_readTaggedUArray_(stream, DATA(self));
 }
+*/
 
 
 IoTag *IoSeq_newTag(void *state)
@@ -78,8 +78,8 @@ IoTag *IoSeq_newTag(void *state)
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoSeq_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoSeq_free);
 	IoTag_compareFunc_(tag, (IoTagCompareFunc *)IoSeq_compare);
-	IoTag_writeToStreamFunc_(tag, (IoTagWriteToStreamFunc *)IoSeq_writeToStream_);
-	IoTag_readFromStreamFunc_(tag, (IoTagReadFromStreamFunc *)IoSeq_readFromStream_);
+	//IoTag_writeToStreamFunc_(tag, (IoTagWriteToStreamFunc *)IoSeq_writeToStream_);
+	//IoTag_readFromStreamFunc_(tag, (IoTagReadFromStreamFunc *)IoSeq_readFromStream_);
 	return tag;
 }
 

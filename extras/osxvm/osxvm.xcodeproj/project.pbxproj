@@ -137,8 +137,6 @@
 		AAE6A0A50B110796006E309B /* IoObject_flow.c in Sources */ = {isa = PBXBuildFile; fileRef = AAE69ED30B110795006E309B /* IoObject_flow.c */; };
 		AAE6A0A60B110796006E309B /* IoObject_flow.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAE69ED40B110795006E309B /* IoObject_flow.h */; };
 		AAE6A0A70B110796006E309B /* IoObject_inline.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAE69ED50B110795006E309B /* IoObject_inline.h */; };
-		AAE6A0A80B110796006E309B /* IoObject_persistence.c in Sources */ = {isa = PBXBuildFile; fileRef = AAE69ED60B110795006E309B /* IoObject_persistence.c */; };
-		AAE6A0A90B110796006E309B /* IoObject_persistence.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAE69ED70B110795006E309B /* IoObject_persistence.h */; };
 		AAE6A0AA0B110796006E309B /* IoObject_struct.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAE69ED80B110795006E309B /* IoObject_struct.h */; };
 		AAE6A0B00B110796006E309B /* IoSandbox.c in Sources */ = {isa = PBXBuildFile; fileRef = AAE69EDE0B110796006E309B /* IoSandbox.c */; };
 		AAE6A0B10B110796006E309B /* IoSandbox.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAE69EDF0B110796006E309B /* IoSandbox.h */; };
@@ -244,7 +242,6 @@
 				AAE6A0A40B110796006E309B /* IoObject.h in CopyFiles */,
 				AAE6A0A60B110796006E309B /* IoObject_flow.h in CopyFiles */,
 				AAE6A0A70B110796006E309B /* IoObject_inline.h in CopyFiles */,
-				AAE6A0A90B110796006E309B /* IoObject_persistence.h in CopyFiles */,
 				AAE6A0AA0B110796006E309B /* IoObject_struct.h in CopyFiles */,
 				AAE6A0B10B110796006E309B /* IoSandbox.h in CopyFiles */,
 				AAE6A0B30B110796006E309B /* IoSeq.h in CopyFiles */,
@@ -425,8 +422,6 @@
 		AAE69ED30B110795006E309B /* IoObject_flow.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoObject_flow.c; path = ../../libs/iovm/source/IoObject_flow.c; sourceTree = SOURCE_ROOT; };
 		AAE69ED40B110795006E309B /* IoObject_flow.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoObject_flow.h; path = ../../libs/iovm/source/IoObject_flow.h; sourceTree = SOURCE_ROOT; };
 		AAE69ED50B110795006E309B /* IoObject_inline.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoObject_inline.h; path = ../../libs/iovm/source/IoObject_inline.h; sourceTree = SOURCE_ROOT; };
-		AAE69ED60B110795006E309B /* IoObject_persistence.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoObject_persistence.c; path = ../../libs/iovm/source/IoObject_persistence.c; sourceTree = SOURCE_ROOT; };
-		AAE69ED70B110795006E309B /* IoObject_persistence.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoObject_persistence.h; path = ../../libs/iovm/source/IoObject_persistence.h; sourceTree = SOURCE_ROOT; };
 		AAE69ED80B110795006E309B /* IoObject_struct.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoObject_struct.h; path = ../../libs/iovm/source/IoObject_struct.h; sourceTree = SOURCE_ROOT; };
 		AAE69EDE0B110796006E309B /* IoSandbox.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoSandbox.c; path = ../../libs/iovm/source/IoSandbox.c; sourceTree = SOURCE_ROOT; };
 		AAE69EDF0B110796006E309B /* IoSandbox.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoSandbox.h; path = ../../libs/iovm/source/IoSandbox.h; sourceTree = SOURCE_ROOT; };
@@ -687,8 +682,6 @@
 			isa = PBXGroup;
 			children = (
 				AA8383A60BDFCE0100B4F003 /* IoVMApi.h */,
-				AAA3CAF30B186E2F004C257F /* IoMessage_opShuffle.c */,
-				AAA3CAF40B186E2F004C257F /* IoMessage_opShuffle.h */,
 				AAE69EA80B110795006E309B /* IoBlock.c */,
 				AAE69EA90B110795006E309B /* IoBlock.h */,
 				AAE69EAA0B110795006E309B /* IoCall.c */,
@@ -728,6 +721,8 @@
 				AAE69ECA0B110795006E309B /* IoMessage.c */,
 				AAE69ECB0B110795006E309B /* IoMessage.h */,
 				AAE69ECC0B110795006E309B /* IoMessage_inline.h */,
+				AAA3CAF30B186E2F004C257F /* IoMessage_opShuffle.c */,
+				AAA3CAF40B186E2F004C257F /* IoMessage_opShuffle.h */,
 				AAE69ECD0B110795006E309B /* IoMessage_parser.c */,
 				AAE69ECE0B110795006E309B /* IoMessage_parser.h */,
 				AAE69ECF0B110795006E309B /* IoNumber.c */,
@@ -737,8 +732,6 @@
 				AAE69ED30B110795006E309B /* IoObject_flow.c */,
 				AAE69ED40B110795006E309B /* IoObject_flow.h */,
 				AAE69ED50B110795006E309B /* IoObject_inline.h */,
-				AAE69ED60B110795006E309B /* IoObject_persistence.c */,
-				AAE69ED70B110795006E309B /* IoObject_persistence.h */,
 				AAE69ED80B110795006E309B /* IoObject_struct.h */,
 				AAE69EDE0B110796006E309B /* IoSandbox.c */,
 				AAE69EDF0B110796006E309B /* IoSandbox.h */,
@@ -869,7 +862,6 @@
 				AAE6A0A10B110796006E309B /* IoNumber.c in Sources */,
 				AAE6A0A30B110796006E309B /* IoObject.c in Sources */,
 				AAE6A0A50B110796006E309B /* IoObject_flow.c in Sources */,
-				AAE6A0A80B110796006E309B /* IoObject_persistence.c in Sources */,
 				AAE6A0B00B110796006E309B /* IoSandbox.c in Sources */,
 				AAE6A0B20B110796006E309B /* IoSeq.c in Sources */,
 				AAE6A0B40B110796006E309B /* IoSeq_immutable.c in Sources */,

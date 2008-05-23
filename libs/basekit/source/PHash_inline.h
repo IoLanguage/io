@@ -123,7 +123,9 @@ IOINLINE void PHash_at_put_(PHash *self, void *key, void *value)
 
 	thisRecord.key = key;
 	thisRecord.value = value;
-
+	#ifdef PHASH_DIRTY_SLOTS
+	thisRecord.isDirty = 1;
+	#endif
 	record = PHash_cuckoo_(self, &thisRecord);
 
 	if (!record) // collision
@@ -139,6 +141,35 @@ IOINLINE void PHash_at_put_(PHash *self, void *key, void *value)
 	}
 }
 
+#define PHASH_FOREACHRECORD(self, record, code) \
+{\
+	PHash *_self = (self);\
+	unsigned int _i, _j, _size = _self->tableSize;\
+	\
+	for (_j = 0; _j < 2; _j ++)\
+	for (_i = 0; _i < _size; _i ++)\
+	{\
+		PHashRecord *record = PHASH_RECORDS_AT_(_self, _j, _i);\
+		if (record->key)\
+		{\
+			code;\
+		}\
+	}\
+}
+
+#ifdef PHASH_DIRTY_SLOTS
+IOINLINE int PHash_hasDirtyKey_(PHash *self, void *key)
+{
+	PHashRecord *record = PHash_recordAt_(self, key);
+	return record ? record->isDirty : 0;
+}
+
+IOINLINE void PHash_cleanSlots(PHash *self)
+{
+	PHASH_FOREACHRECORD(self, aRecord, aRecord->isDirty = 0;);
+}
+#endif
+
 IOINLINE void PHash_removeKey_(PHash *self, void *key)
 {
 	PHashRecord *record = PHash_recordAt_(self, key);
@@ -152,6 +183,9 @@ IOINLINE void PHash_removeKey_(PHash *self, void *key)
 }
 
 // --- enumeration --------------------------------------------------
+
+
+
 
 #define PHASH_FOREACH(self, pkey, pvalue, code) \
 {\

@@ -13,7 +13,7 @@ View := Responder clone do(
     fonts := method(Application fonts)
     font := fonts system normal
     
-    newSlot("isClipped", true)
+    isClipped ::= true
     clippingOn  := method(isClipped = true)
     clippingOff := method(isClipped = false)
 

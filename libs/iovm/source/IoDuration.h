@@ -30,8 +30,8 @@ void IoDuration_free(IoDuration *self);
 int IoDuration_compare(IoDuration *self, IoDuration *other);
 Duration *IoDuration_duration(IoDuration *self);
 
-void IoDuration_writeToStream_(IoDuration *self, BStream *stream);
-void IoDuration_readFromStream_(IoDuration *self, BStream *stream);
+//void IoDuration_writeToStream_(IoDuration *self, BStream *stream);
+//void IoDuration_readFromStream_(IoDuration *self, BStream *stream);
 
 IoDuration *IoDuration_fromSeconds_(IoDuration *self, double s);
 double IoDuration_asSeconds(IoDuration *self);

@@ -401,7 +401,7 @@ void IoState_done(IoState *self)
 	PHash_free(self->primitives);
 	SHash_free(self->symbols);
 
-	LIST_DO_(self->recycledObjects, IoObject_dealloc); // this doesn't work now that objects and marks are separate
+	LIST_DO_(self->recycledObjects, IoObject_dealloc); // this does not work now that objects and marks are separate
 	List_free(self->recycledObjects);
 	List_free(self->cachedNumbers);
 

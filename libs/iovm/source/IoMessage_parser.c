@@ -229,8 +229,8 @@ void IoMessage_parseArgs(IoMessage *self, IoLexer *lexer)
 				IoMessage *arg = IoMessage_newParseNextMessageChain(IOSTATE, lexer);
 				IoMessage_addArg_(self, arg);
 			}
-			// Doesn't actually work because the lexer detects this case and reports the error before we can handle it...
-			//else if (IoLexer_topType(lexer) == CLOSEPAREN_TOKEN)
+			// Does not actually work because the lexer detects this case and reports the error before we can handle it...
+			// else if (IoLexer_topType(lexer) == CLOSEPAREN_TOKEN)
 			//{
 			//	// Allow the last arg to be empty as in, "foo(a,b,c,)".
 			//}

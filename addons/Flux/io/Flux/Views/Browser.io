@@ -20,11 +20,10 @@ File do(
 BrowserDelegate := Directory clone setPath("/")
 
 Browser := HScrollArea clone do(
-    protoName := "Browser"
-    newSlot("columnWidth", 210)
+    columnWidth ::= 210
     rootItem := BrowserDelegate clone
     textures := TextureGroup clone loadGroupNamed("Browser")
-    newSlot("delegate", nil)
+    delegate ::= nil
     
     setRootItem := method(item, 
 		rootItem = item

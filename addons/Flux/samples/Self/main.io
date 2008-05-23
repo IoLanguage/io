@@ -2,18 +2,19 @@
 
 Flux
 
-app := Application clone
-app setTitle("Flux")
-app mainWindow resizeTo(800, 800)
+app := Application clone do(	
+	setTitle("Flux")
+	mainWindow resizeTo(800, 800)
 
-app keyboard := method(key, x, y,
-    resend
-    if(key == GLUT_KEY_ESC, mainWindow toggleFullScreen)
-)
+	keyboard := method(key, x, y,
+	    resend
+	    if(key == GLUT_KEY_ESC, mainWindow toggleFullScreen)
+	)
 
-app appDidStart := method(
-    resend
-    //mainWindow toggleFullScreen
+	appDidStart := method(
+	    resend
+	    //mainWindow toggleFullScreen
+	)
 )
 
 CloseButton := View clone do(
@@ -111,13 +112,13 @@ ObjectView := View clone do(
         position += velocity
         velocity += vector(1, .5)
         glutPostRedisplay
-        if(position x > topWindow size x, remove, topWindow addTimerTargetWithDelay(self, .3))
+        if(position x > topWindow size x, remove, topWindow addTimerTargetWithDelay(self, .01))
     )
 )
 
 SlotView := View clone do(
-    newSlot("title", "slot")
-    newSlot("target", nil)
+    title ::= "slot"
+    target ::= nil
     position set(0,0)
     size set(160, 23)
     

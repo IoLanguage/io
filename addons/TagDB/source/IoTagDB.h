@@ -31,5 +31,6 @@ IoObject *IoTagDB_size(IoTagDB *self, IoObject *locals, IoMessage *m);
 
 IoObject *IoTagDB_symbolForId(IoTagDB *self, IoObject *locals, IoMessage *m);
 IoObject *IoTagDB_idForSymbol(IoTagDB *self, IoObject *locals, IoMessage *m);
+IoObject *IoTagDB_allUniqueTagIds(IoTagDB *self, IoObject *locals, IoMessage *m);
 
 #endif

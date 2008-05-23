@@ -26,11 +26,12 @@ IoTag *IoList_newTag(void *state)
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoList_rawClone);
 	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoList_mark);
 	IoTag_compareFunc_(tag, (IoTagCompareFunc *)IoList_compare);
-	IoTag_writeToStreamFunc_(tag, (IoTagWriteToStreamFunc *)IoList_writeToStream_);
-	IoTag_readFromStreamFunc_(tag, (IoTagReadFromStreamFunc *)IoList_readFromStream_);
+	//IoTag_writeToStreamFunc_(tag, (IoTagWriteToStreamFunc *)IoList_writeToStream_);
+	//IoTag_readFromStreamFunc_(tag, (IoTagReadFromStreamFunc *)IoList_readFromStream_);
 	return tag;
 }
 
+/*
 void IoList_writeToStream_(IoList *self, BStream *stream)
 {
 	List *list = DATA(self);
@@ -54,6 +55,7 @@ void IoList_readFromStream_(IoList *self, BStream *stream)
 		List_append_(list, v);
 	}
 }
+*/
 
 IoList *IoList_proto(void *state)
 {

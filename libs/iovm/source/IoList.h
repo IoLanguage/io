@@ -28,8 +28,8 @@ IOVM_API void IoList_free(IoList *self);
 IOVM_API void IoList_mark(IoList *self);
 IOVM_API int IoList_compare(IoList *self, IoList *otherList);
 
-IOVM_API void IoList_writeToStream_(IoList *self, BStream *stream);
-IOVM_API void IoList_readFromStream_(IoList *self, BStream *stream);
+//IOVM_API void IoList_writeToStream_(IoList *self, BStream *stream);
+//IOVM_API void IoList_readFromStream_(IoList *self, BStream *stream);
 
 IOVM_API List *IoList_rawList(IoList *self);
 IOVM_API IoObject *IoList_rawAt_(IoList *self, int i);

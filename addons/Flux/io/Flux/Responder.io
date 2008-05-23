@@ -1,12 +1,10 @@
 
 
 Responder := GLObject clone do(
-    newSlot("nextResponder")
-    
-    // --------------------------------------
-    
-    newSlot("actionTarget")
-    newSlot("action")
+    nextResponder ::=nil
+        
+    actionTarget ::= nil
+    action ::= nil
     
     doAction := method(
 		if(actionTarget and action, 

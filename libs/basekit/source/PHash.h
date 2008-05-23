@@ -18,10 +18,15 @@
 extern "C" {
 #endif
 
+#define PHASH_DIRTY_SLOTS 1
+
 typedef struct
 {
 	void *key;
 	void *value;
+	#ifdef PHASH_DIRTY_SLOTS
+	unsigned int isDirty:1;
+	#endif
 } PHashRecord;
 
 

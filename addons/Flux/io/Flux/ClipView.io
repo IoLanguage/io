@@ -3,9 +3,12 @@ ClipView := View clone do(
     offset := Point clone 
     
     scrollerDelegate := nil
-    setScrollerDelegate := method(d, scrollerDelegate = d; update)
-    isClipped := 1
-    invertY := 1
+    setScrollerDelegate := method(d, 
+		scrollerDelegate = d; 
+		didScroll
+	)
+    isClipped := true
+    invertY := true
     outlineColor = Color clone set(0,0,1,1)
     
     init := method(
@@ -24,52 +27,28 @@ ClipView := View clone do(
 
     setXOffset := method(x, 
 		offset setX(x clip(0,1))
-		update
+		didScroll
     )
     
-    yoffset := 0
     setYOffset := method(y, 
-		yoffset = y
 		offset setY(y clip(0,1))
-		update
+		didScroll
     )
 
     xRatio := method(size x / documentView size x)
     yRatio := method(size y / documentView size y)
     
-    update := method(
-		documentView ?update
+	update := method(didScroll)
+    
+	didScroll := method(
+		documentView ?didScroll
 		if (xRatio > 1, offset setX(0))
 		if (yRatio > 1, offset setY(0))
 		d := size - documentView size 
 		d *= offset 
-		documentView position copy(d)
-		
-		if (invertY == 1 and scrollerDelegate proto == VScroller,
-		    // nil, 
-			documentView position setY((height - documentView height) * yoffset)
-			//write("invertY: offset y = ", offset y, " ", yoffset, "\n")
-			//write("documentView position y = ", documentView position y, "\n\n")
-			//documentView position setY(yRatio)
-			//documentView position setY(documentView height - documentView position y)
-			//write("documentView position y = ", documentView position y, "\n")
-			//write("documentView size x = ", documentView size x, "\n\n")
-		)
-		
-		/*
-		if (documentView ?isTrackMeter, write("isTrackMeter:\n"))
-		write("size x              = ",  size x, "\n")
-		write("documentView size x = ", documentView size x, "\n\n")
-		*/
-		if (scrollerDelegate, 
-			//write("setXProportion(", xRatio, ")\n")
-			//write("setYProportion(", yRatio, ")\n")
-			scrollerDelegate ?setXProportion(xRatio)
-			scrollerDelegate ?setYProportion(yRatio)
-		)
-		write("clipView size     = ", self size x floor, " x ", self size y floor, "\n")
-		write("documentView size = ", documentView size x floor, " x ", documentView size y floor, "\n")
-		documentView position floor
+		documentView position copy(d) floor
+		//writeln("didScroll")
+		documentView setNeedsRedraw(true)
     )
 
     testDocumentView := View clone do(
@@ -88,16 +67,20 @@ ClipView := View clone do(
 			glColor4d(0,0,0,1)
 		)
     )
-    
-    resizeBy := method(dx, dy, 
-		resend 
-	//	update
+
+	didChangeSize := method(
+		resend
+		//writeln("clipView didChangeSize")
+		documentView didChangeSize
+		if (scrollerDelegate, 
+			//write("setXProportion(", xRatio, ")\n")
+			//write("setYProportion(", yRatio, ")\n")
+			scrollerDelegate ?setXProportion(xRatio)
+			scrollerDelegate ?setYProportion(yRatio)
+		)
 	)
     
-    subviewDidUpdate := method(
-		//write("subviewDidUpdate\n")
-		update
+    subviewDiddidScroll := method(
+		didScroll
     )
-    
-    //drawOutline := method(drawLineOutline)
 )
