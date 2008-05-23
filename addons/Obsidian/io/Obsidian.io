@@ -1,23 +1,17 @@
 
+
 Obsidian := Object clone do(
-<<<<<<< HEAD:addons/Obsidian/io/Obsidian.io
 	name ::= "test"
 	sharedPrefixCursor ::= nil
-=======
 	path ::= nil
->>>>>>> 280aabf42b52afa2e38ff54c97471c3e448c417b:addons/Obsidian/io/Obsidian.io
 	
 	init := method(	
 		self db := TokyoCabinet clone
 	)
 	
 	open := method(
-<<<<<<< HEAD:addons/Obsidian/io/Obsidian.io
-		db open(name .. ".tc")
-		setSharedPrefixCursor(db prefixCursor)
-=======
 		db open(path)
->>>>>>> 280aabf42b52afa2e38ff54c97471c3e448c417b:addons/Obsidian/io/Obsidian.io
+		setSharedPrefixCursor(db prefixCursor)
 	)
 	
 	close := method(
