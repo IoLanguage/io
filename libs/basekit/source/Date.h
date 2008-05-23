@@ -61,6 +61,9 @@ BASEKIT_API int Date_minute(const Date *self);
 BASEKIT_API void Date_setSecond_(Date *self, double s);
 BASEKIT_API double Date_second(const Date *self);
 
+BASEKIT_API UArray *asSerialization(Date *self);
+BASEKIT_API Date *fromSerialization(Date *self, UArray *serialization);
+
 BASEKIT_API unsigned char Date_isDaylightSavingsTime(const Date *self);
 BASEKIT_API int Date_isLeapYear(const Date *self);
 

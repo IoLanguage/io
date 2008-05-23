@@ -82,7 +82,7 @@ IOVM_API IoObject *IoList_removeAt(IoList *self, IoObject *locals, IoMessage *m)
 IOVM_API IoObject *IoList_atPut(IoList *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoList_removeAll(IoList *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoList_swapIndices(IoList *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_reverse(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoList_reverseInPlace(IoList *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoList_sortInPlace(IoList *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoList_sortInPlaceBy(IoList *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoList_selectInPlace(IoList *self, IoObject *locals, IoMessage *m);\

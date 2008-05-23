@@ -163,6 +163,12 @@ List do(
 	isEmpty := method(size == 0)
 	isNotEmpty := method(size > 0)
 
+	//doc List reverse Reverses the ordering of all the items of the receiver. Returns copy of receiver.
+	reverse := method(itemCopy reverseInPlace)
+
+	//doc List itemCopy Returns a new list containing the items from the receiver.
+	itemCopy := method(List clone copy(self))
+
 	sort := method(self clone sortInPlace)
 	sortBy := method(b, self clone sortInPlaceBy(getSlot("b")))
 	/*

@@ -102,7 +102,7 @@ IoList *IoList_proto(void *state)
 	{"sortInPlace",     IoList_sortInPlace},
 	{"sortInPlaceBy",   IoList_sortInPlaceBy},
 	{"foreach",         IoList_foreach},
-	{"reverse",         IoList_reverse},
+	{"reverseInPlace",	IoList_reverseInPlace},
 	{"reverseForeach",  IoList_reverseForeach},
 	
 	{"asEncodedList",   IoList_asEncodedList},
@@ -862,13 +862,12 @@ IoObject *IoList_swapIndices(IoList *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoList_reverse(IoList *self, IoObject *locals, IoMessage *m)
+IoObject *IoList_reverseInPlace(IoList *self, IoObject *locals, IoMessage *m)
 {
-	/*doc List reverse
+	/*doc List reverseInPlace
 	Reverses the ordering of all the items in the receiver. Returns self.
 	*/
-
-	List_reverse(DATA(self));
+	List_reverseInPlace(DATA(self));
 	return self;
 }
 

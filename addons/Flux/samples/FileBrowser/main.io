@@ -15,10 +15,10 @@ Application clone do(
         resend
         cv := Browser clone
         
-        cv backgroundColor := Color clone set(1,1,1,1)
-        HScroller backgroundColor := Color clone set(1,1,1,1)
-        TextCell backgroundColor := Color clone set(1,1,1,1)
-        Button textColor set(1,1,1,1)
+        cv backgroundColor := Color Red
+        HScroller backgroundColor := Color White
+        TextCell backgroundColor := Color White
+        Button textColor copy(Color White)
         
         cv resizeWithSuperview
         mainWindow contentView addSubview(cv)

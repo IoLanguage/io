@@ -45,7 +45,7 @@ Directory do(
 		list := List clone
 		d := self
 		while(d = d parentDirectory, list append(d))
-		list reverse
+		list reverseInPlace
 	)
 
 	//doc Directory accessibleAncestors Returns a list of accessizble ancestor directories.

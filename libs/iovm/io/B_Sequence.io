@@ -125,6 +125,9 @@ Sequence do(
 	//doc Sequence prependSeq(object1, object2, ...) Prepends given objects asString in reverse order to the receiver.  Returns self.")
 	prependSeq := method(self atInsertSeq(0, call evalArgs join); self)
 
+	//doc Sequence itemCopy Returns a new sequence containing the items from the receiver.
+	itemCopy := method(Sequence clone copy(self))
+
 	sequenceSets := Map clone do(
 		atPut("lowercaseSequence",
 			lst := list
@@ -144,6 +147,9 @@ Sequence do(
 		removeSlot("lst")
 		removeSlot("v")
 	)
+	
+	//doc Sequence reverse Reverses the ordering of all the items of the receiver. Returns copy of receiver.
+	reverse := method(self itemCopy reverseInPlace)
 
 	//doc Sequence asHex Returns a hex string for the receiving sequence, e.g., \"abc\" asHex -> \"616263\".")
 	asHex := method(
