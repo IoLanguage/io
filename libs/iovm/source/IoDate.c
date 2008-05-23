@@ -153,7 +153,7 @@ IoSeq *IoDate_asSerialization(IoDate *self, IoObject *locals, IoMessage *m)
 	Returns a serialization (sequence) of the date that allows for perfect reconstruction of the timestamp.
 	*/
 
-	return IoSeq_newWithUArray_copy_(IOSTATE, Date_asSerialization(DATA(self)), 0);
+	return IoSeq_newWithUArray_copy_(IOSTATE, (UArray *) Date_asSerialization(DATA(self)), 0);
 }
 
 IoDate *IoDate_fromSerialization(IoDate *self, IoObject *locals, IoMessage *m)
@@ -164,7 +164,7 @@ IoDate *IoDate_fromSerialization(IoDate *self, IoObject *locals, IoMessage *m)
 	IoSeq *serializationSeq = IoMessage_locals_seqArgAt_(m, locals, 0);
 	UArray *serialization = UArray_clone(IoSeq_rawUArray(serializationSeq));
 	
-	UArray_convertToItemType_(serialization, CTYPE_int32_t);
+	UArray_setItemType_(serialization, CTYPE_int32_t);
 	if(UArray_size(serialization) != 4)
 	{
 		IoState_error_(IOSTATE, self, "Expected a serialization sequence comprising 4 int32 items.");
