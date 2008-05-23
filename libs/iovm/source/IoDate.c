@@ -44,6 +44,8 @@ void IoDate_readFromStream_(IoDate *self, BStream *stream)
 IoDate *IoDate_proto(void *state)
 {
 	IoMethodTable methodTable[] = {
+	{"asSerialization", IoDate_asSerialization},
+	{"fromSerialization", IoDate_fromSerialization},
 	{"now", IoDate_now},
 	{"clock", IoDate_clock},
 	{"copy", IoDate_copy},
@@ -144,6 +146,36 @@ int IoDate_compare(IoDate *self, IoDate *date)
 }
 
 // -----------------------------------------------------------
+
+IoSeq *IoDate_asSerialization(IoDate *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Date asSerialization
+	Returns a serialization (sequence) of the date that allows for perfect reconstruction of the timestamp.
+	*/
+
+	return IoSeq_newWithUArray_copy_(IOSTATE, Date_asSerialization(DATA(self)), 0);
+}
+
+IoDate *IoDate_fromSerialization(IoDate *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Date fromSerialization
+	Sets the date based on the serialization sequence.  Return self.
+	*/
+	IoSeq *serializationSeq = IoMessage_locals_seqArgAt_(m, locals, 0);
+	UArray *serialization = UArray_clone(IoSeq_rawUArray(serializationSeq));
+	
+	UArray_convertToItemType_(serialization, CTYPE_int32_t);
+	if(UArray_size(serialization) != 4)
+	{
+		IoState_error_(IOSTATE, self, "Expected a serialization sequence comprising 4 int32 items.");
+	}
+	
+	Date_fromSerialization(DATA(self), serialization);
+	
+	UArray_free(serialization);
+	
+	return self;
+}
 
 IoObject *IoDate_now(IoDate *self, IoObject *locals, IoMessage *m)
 {

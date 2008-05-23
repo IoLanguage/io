@@ -1,13 +1,13 @@
 
 Obsidian := Object clone do(
-	name ::= "test"
+	path ::= nil
 	
 	init := method(	
 		self db := TokyoCabinet clone
 	)
 	
 	open := method(
-		db open(name .. ".tc")
+		db open(path)
 	)
 	
 	close := method(

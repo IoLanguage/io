@@ -35,6 +35,8 @@ double IoDate_difference_(IoDate *self, IoDate *other);
 
 // -----------------------------------------------------------
 
+IoObject *IoDate_asSerialization(IoDate *self, IoObject *locals, IoMessage *m);
+IoObject *IoDate_fromSerialization(IoDate *self, IoObject *locals, IoMessage *m);
 IoObject *IoDate_now(IoDate *self, IoObject *locals, IoMessage *m);
 IoObject *IoDate_clock(IoDate *self, IoObject *locals, IoMessage *m);
 IoObject *IoDate_copy(IoDate *self, IoObject *locals, IoMessage *m);

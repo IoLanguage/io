@@ -45,6 +45,11 @@ DateTest := UnitTest clone do(
 		assertEquals(date second floor, date asString("%S") asNumber)
 		assertEquals(date zone, date asString("%Z"))
 	)
+	
+	testAsSerializationAndFromSerialization := method(
+		d := Date clone now
+		assertEquals(d, Date clone fromSerialization(d asSerialization))
+	)
 
 	testNow := method(
 
