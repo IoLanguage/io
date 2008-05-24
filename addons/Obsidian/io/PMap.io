@@ -1,6 +1,4 @@
 PMap := Object clone do(	
-	objectsToPersist ::= nil
-
 	_setSlot := getSlot("setSlot")
 	
 	forward := method(
@@ -15,5 +13,9 @@ PMap := Object clone do(
 	setSlot := method(slotName, value,
 		pdb atPut(slotName, getSlot("value") ppid)
 		self _setSlot(slotName, getSlot("value"))
+	)
+	
+	unpersist := method(
+		self
 	)
 )

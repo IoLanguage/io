@@ -1,16 +1,16 @@
 Object do(
 	pdb ::= nil
 	ppid ::= nil
-	needsFirstPersist ::= false
+	needsMetaPersist ::= false
 	
 	ppid := method(
 		PDB addObjectToPersist(self)
-		self needsFirstPersist := true
+		self needsMetaPersist := true
 		self ppid := UUID uuidTime
 	)
 	
 	persist := method(
-		if(needsFirstPersist, needsFirstPersist = false; persistMetaData)
+		if(needsFirstPersist, persistMetaData)
 		self persistData 
 		self persistSlots
 		self
@@ -18,6 +18,7 @@ Object do(
 	
 	persistMetaData := method(
 		pdb onAtPut(ppid, "_type", self type)
+		needsMetaPersist = false
 		self		
 	)
 	
@@ -30,10 +31,6 @@ Object do(
 		persistentSlots foreach(name,
 			self hasDirtySlot(name) ifTrue(
 				value = self getSlot(name)
-				if(value ppid == nil,
-					value generatePid
-					pdb objectsToPersist appendIfAbsent(value)
-				)
 				pdb onAtPut(ppid, slotName, value ppid)
 			)
 		)
