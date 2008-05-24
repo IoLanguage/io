@@ -307,6 +307,7 @@ IoObject *IoDate_setDay(IoDate *self, IoObject *locals, IoMessage *m)
 	}
 
 	Date_setDay_(DATA(self), v);
+	IoObject_isDirty_(self, 1);
 	return self;
 }
 
@@ -328,6 +329,7 @@ IoObject *IoDate_setHour(IoDate *self, IoObject *locals, IoMessage *m)
 	int v = IoMessage_locals_intArgAt_(m, locals, 0);
 	IOASSERT(v >= 0 && v <= 23, "hour must be within range 0-23");
 	Date_setHour_(DATA(self), v);
+	IoObject_isDirty_(self, 1);
 	return self;
 }
 
@@ -350,6 +352,7 @@ IoObject *IoDate_setMinute(IoDate *self, IoObject *locals, IoMessage *m)
 	int v = IoMessage_locals_intArgAt_(m, locals, 0);
 	IOASSERT(v >= 0 && v <= 59, "minute must be within range 0-59");
 	Date_setMinute_(DATA(self), v);
+	IoObject_isDirty_(self, 1);
 	return self;
 }
 
@@ -372,6 +375,7 @@ IoObject *IoDate_setSecond(IoDate *self, IoObject *locals, IoMessage *m)
 	int v = IoMessage_locals_intArgAt_(m, locals, 0);
 	IOASSERT(v >= 0 && v <= 59, "second must be within range 0-59");
 	Date_setSecond_(DATA(self), v);
+	IoObject_isDirty_(self, 1);
 	return self;
 }
 
@@ -576,6 +580,7 @@ IoObject *IoDate_fromNumber(IoDate *self, IoObject *locals, IoMessage *m)
 	*/
 
 	Date_fromSeconds_(DATA(self), IoMessage_locals_doubleArgAt_(m, locals, 0));
+	IoObject_isDirty_(self, 1);
 	return self;
 }
 
@@ -591,6 +596,7 @@ IoObject *IoDate_fromString(IoDate *self, IoObject *locals, IoMessage *m)
 		IoSymbol *format = IoMessage_locals_seqArgAt_(m, locals, 1);
 		Date_fromString_format_(DATA(self), CSTRING(date_input), CSTRING(format));
 	}
+	IoObject_isDirty_(self, 1);
 	return self;
 }
 
@@ -629,6 +635,7 @@ IoObject *IoDate_subtractInPlace(IoDate *self, IoObject *locals, IoMessage *m)
 
 	IoDuration *d = IoMessage_locals_durationArgAt_(m, locals, 0);
 	Date_subtractDuration_(DATA(self), IoDuration_duration(d));
+	IoObject_isDirty_(self, 1);
 	return self;
 }
 
@@ -640,6 +647,7 @@ IoObject *IoDate_addInPlace(IoDate *self, IoObject *locals, IoMessage *m)
 
 	IoDuration *d = IoMessage_locals_durationArgAt_(m, locals, 0);
 	Date_addDuration_(DATA(self), IoDuration_duration(d));
+	IoObject_isDirty_(self, 1);
 	return self;
 }
 
