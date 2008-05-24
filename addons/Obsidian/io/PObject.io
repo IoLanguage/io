@@ -29,4 +29,12 @@ Object do(
 		)
 		self
 	)
+	
+	unpersist := method(
+		pdb onFirst(ppid, 100) select(beginsWithSeq("_") not) foreach(key,
+			value := pdb objectAtPpid(pdb onAt(ppid, key))
+			setSlot(key, value)
+		)
+		
+	)
 )

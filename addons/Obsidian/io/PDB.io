@@ -2,7 +2,8 @@ PDB := Obsidian clone do(
 	setPath("obsidian.tc")
 	
 	objectsToPersist ::= nil
-
+	ppidMap := Map clone
+	
 	sync := method(
 		setObjectsToPersist(Collector dirtyObjects)
 		
@@ -17,5 +18,14 @@ PDB := Obsidian clone do(
 		setObjectsToPersist(nil)
 
 		self
+	)
+	
+	objectAtPpid := method(ppid,
+		obj := ppidMap at(ppid)
+		if(obj, return obj)
+		objType := self onAt(ppid, "_type")
+		obj := getSlot(objType) clone setPpid(ppid)
+		ppidMap atPut(ppid, obj)
+		obj unpersist
 	)
 )
