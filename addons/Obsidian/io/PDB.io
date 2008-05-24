@@ -1,22 +1,12 @@
 PDB := Obsidian clone do(
 	setPath("obsidian.tc")
 	
-	objectsToPersist ::= nil
+	objectsToPersist ::= List clone
 	ppidMap := Map clone
 	
 	sync := method(
-		setObjectsToPersist(Collector dirtyObjects)
-		
-		objectsToPersist foreach(obj,
-			if(obj ppid == nil,
-				obj setPdb(self) generatePid persistMetaData
-			)
-
-			obj persistData persistSlots
-		)
-		
-		setObjectsToPersist(nil)
-
+		Collector dirtyObjects foreach(o, objectsToPersist appendIfAbsent(o))
+		objectsToPersist foreach(persist) removeAll
 		self
 	)
 	
@@ -27,5 +17,9 @@ PDB := Obsidian clone do(
 		obj := getSlot(objType) clone setPpid(ppid)
 		ppidMap atPut(ppid, obj)
 		obj unpersist
+	)
+	
+	addObjectToPersist := method(o, 
+		objectsToPersist appendIfAbsent(o)
 	)
 )

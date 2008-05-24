@@ -1,19 +1,29 @@
 Object do(
 	pdb ::= nil
 	ppid ::= nil
-		
-	generatePpid := method(
-		setPpid(UUID uuidTime)
+	needsFirstPersist ::= false
+	
+	ppid := method(
+		PDB addObjectToPersist(self)
+		self needsFirstPersist := true
+		self ppid := UUID uuidTime
 	)
 	
-	persistData := method(
-		pdb onAtPut(ppid, "_data", asSerialization)
+	persist := method(
+		if(needsFirstPersist, needsFirstPersist = false; persistMetaData)
+		self persistData 
+		self persistSlots
 		self
 	)
 	
 	persistMetaData := method(
 		pdb onAtPut(ppid, "_type", self type)
 		self		
+	)
+	
+	persistData := method(
+		pdb onAtPut(ppid, "_data", asSerialization)
+		self
 	)
 	
 	persistSlots := method(		
@@ -35,6 +45,5 @@ Object do(
 			value := pdb objectAtPpid(pdb onAt(ppid, key))
 			setSlot(key, value)
 		)
-		
 	)
 )
