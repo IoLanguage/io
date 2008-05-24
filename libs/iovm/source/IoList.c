@@ -207,27 +207,32 @@ IoObject *IoList_rawAt_(IoList *self, int i)
 void IoList_rawAt_put_(IoList *self, int i, IoObject *v)
 {
 	List_at_put_(DATA(self), i, IOREF(v));
+	IoObject_isDirty_(self, 1);
 }
 
 void IoList_rawAppend_(IoList *self, IoObject *v)
 {
 	List_append_(DATA(self), IOREF(v));
+	IoObject_isDirty_(self, 1);
 }
 
 void IoList_rawRemove_(IoList *self, IoObject *v)
 {
 	List_remove_(DATA(self), IOREF(v));
+	IoObject_isDirty_(self, 1);
 }
 
 void IoList_rawAddBaseList_(IoList *self, List *otherList)
 {
 	List *list = DATA(self);
 	LIST_FOREACH(otherList, i, v, List_append_(list, IOREF((IoObject *)v)); );
+	IoObject_isDirty_(self, 1);
 }
 
 void IoList_rawAddIoList_(IoList *self, IoList *other)
 {
 	IoList_rawAddBaseList_(self, DATA(other));
+	IoObject_isDirty_(self, 1);
 }
 
 size_t IoList_rawSize(IoList *self)
@@ -415,26 +420,28 @@ IoObject *IoList_last(IoList *self, IoObject *locals, IoMessage *m)
 
 void IoList_sliceArguments(IoList *self, IoObject *locals, IoMessage *m, int *start, int *end)
 {
-		int size = IoList_rawSize(self);
+	int size = IoList_rawSize(self);
 
 	*start = IoMessage_locals_intArgAt_(m, locals, 0);
+	
+	if (*start < 0)
+	{
+		*start += size;
 		if (*start < 0)
 		{
-			*start += size;
-			if (*start < 0)
-			{
-				*start = 0;
-			}
+			*start = 0;
 		}
+	}
 
 	if (IoMessage_argCount(m) == 2)
 	{
 		*end = IoMessage_locals_intArgAt_(m, locals, 1);
-				if (*end < 0)
-				{
-					*end += size;
-				}
-				(*end)--;
+
+		if (*end < 0)
+		{
+			*end += size;
+		}
+		(*end)--;
 	}
 	else
 	{
@@ -453,17 +460,17 @@ IoObject *IoList_slice(IoList *self, IoObject *locals, IoMessage *m)
 	List *list;
 	int start, end;
 
-		IoList_sliceArguments(self, locals, m, &start, &end);
+	IoList_sliceArguments(self, locals, m, &start, &end);
 
-		if (end < start)
-		{
-				return IoList_new(IOSTATE);
-		}
-		else
-		{
-			list = List_cloneSlice(DATA(self), start, end);
-			return IoList_newWithList_(IOSTATE, list);
-		}
+	if (end < start)
+	{
+			return IoList_new(IOSTATE);
+	}
+	else
+	{
+		list = List_cloneSlice(DATA(self), start, end);
+		return IoList_newWithList_(IOSTATE, list);
+	}
 }
 
 IoObject *IoList_sliceInPlace(IoList *self, IoObject *locals, IoMessage *m)
@@ -476,16 +483,19 @@ IoObject *IoList_sliceInPlace(IoList *self, IoObject *locals, IoMessage *m)
 
 	int start, end;
 
-		IoList_sliceArguments(self, locals, m, &start, &end);
+	IoList_sliceArguments(self, locals, m, &start, &end);
 
-		if (end < start)
-		{
-				List_removeAll(DATA(self));
-		}
-		else
-		{
-				List_sliceInPlace(DATA(self), start, end);
-		}
+	if (end < start)
+	{
+		List_removeAll(DATA(self));
+	}
+	else
+	{
+		List_sliceInPlace(DATA(self), start, end);
+	}
+	
+	IoObject_isDirty_(self, 1);
+
 	return self;
 }
 
@@ -623,6 +633,7 @@ IoObject *IoList_appendIfAbsent(IoList *self, IoObject *locals, IoMessage *m)
 		{
 			IoState_stackRetain_(IOSTATE, v);
 			List_append_(DATA(self), IOREF(v));
+			IoObject_isDirty_(self, 1);
 		}
 	}
 
@@ -658,8 +669,10 @@ IoObject *IoList_appendSeq(IoList *self, IoObject *locals, IoMessage *m)
 				IoObject *v = List_at_(otherList, i);
 				List_append_(selfList, IOREF(v));
 			}
+			IoObject_isDirty_(self, 1);
 		}
 	}
+	
 	return self;
 }
 
@@ -682,6 +695,8 @@ IoObject *IoList_append(IoList *self, IoObject *locals, IoMessage *m)
 		IoObject *v = IoMessage_locals_valueArgAt_(m, locals, n);
 		List_append_(DATA(self), IOREF(v));
 	}
+	
+	IoObject_isDirty_(self, 1);
 
 	return self;
 }
@@ -701,6 +716,8 @@ IoObject *IoList_prepend(IoList *self, IoObject *locals, IoMessage *m)
 		IoObject *v = IoMessage_locals_valueArgAt_(m, locals, n);
 		List_at_insert_(DATA(self), 0, IOREF(v));
 	}
+	
+	IoObject_isDirty_(self, 1);
 
 	return self;
 }
@@ -737,6 +754,8 @@ IoObject *IoList_remove(IoList *self, IoObject *locals, IoMessage *m)
 			List_removeIndex_(DATA(self), i);
 		}
 	}
+	
+	IoObject_isDirty_(self, 1);
 
 	return self;
 }
@@ -765,6 +784,7 @@ IoObject *IoList_atInsert(IoList *self, IoObject *locals, IoMessage *m)
 
 	IoList_checkIndex(self, m, 1, index, "List atInsert");
 	List_at_insert_(DATA(self), index, IOREF(v));
+	IoObject_isDirty_(self, 1);
 	return self;
 }
 
@@ -780,6 +800,7 @@ IoObject *IoList_removeAt(IoList *self, IoObject *locals, IoMessage *m)
 
 	IoList_checkIndex(self, m, 0, index, "Io List atInsert");
 	List_removeIndex_(DATA(self), index);
+	IoObject_isDirty_(self, 1);
 	return (v) ? v : IONIL(self);
 }
 
@@ -791,6 +812,7 @@ void IoList_rawAtPut(IoList *self, int i, IoObject *v)
 	}
 
 	List_at_put_(DATA(self), i, IOREF(v));
+	IoObject_isDirty_(self, 1);
 }
 
 IoObject *IoList_atPut(IoList *self, IoObject *locals, IoMessage *m)
@@ -805,6 +827,7 @@ IoObject *IoList_atPut(IoList *self, IoObject *locals, IoMessage *m)
 
 	IoList_checkIndex(self, m, 0, index, "Io List atPut");
 	IoList_rawAtPut(self, index, v);
+	IoObject_isDirty_(self, 1);
 	return self;
 }
 
@@ -833,6 +856,7 @@ IoObject *IoList_setSize(IoList *self, IoObject *locals, IoMessage *m)
 		}
 	}
 
+	IoObject_isDirty_(self, 1);
 	return self;
 }
 
@@ -843,6 +867,7 @@ IoObject *IoList_removeAll(IoList *self, IoObject *locals, IoMessage *m)
 	*/
 
 	List_removeAll(DATA(self));
+	IoObject_isDirty_(self, 1);
 	return self;
 }
 
@@ -859,6 +884,7 @@ IoObject *IoList_swapIndices(IoList *self, IoObject *locals, IoMessage *m)
 	IoList_checkIndex(self, m, 0, i, "List swapIndices");
 	IoList_checkIndex(self, m, 0, j, "List swapIndices");
 	List_swap_with_(DATA(self), i, j);
+	IoObject_isDirty_(self, 1);
 	return self;
 }
 
@@ -868,6 +894,7 @@ IoObject *IoList_reverseInPlace(IoList *self, IoObject *locals, IoMessage *m)
 	Reverses the ordering of all the items in the receiver. Returns self.
 	*/
 	List_reverseInPlace(DATA(self));
+	IoObject_isDirty_(self, 1);
 	return self;
 }
 
@@ -932,6 +959,7 @@ IoObject *IoList_sortInPlace(IoList *self, IoObject *locals, IoMessage *m)
 
 	}
 
+	IoObject_isDirty_(self, 1);
 	return self;
 }
 
@@ -980,6 +1008,7 @@ IoObject *IoList_sortInPlaceBy(IoList *self, IoObject *locals, IoMessage *m)
 	IoMessage_addArg_(sortContext->blockMsg, sortContext->argMsg2);
 
 	List_qsort_r(DATA(self), &sc, (ListSortRCallback *)SortContext_compareForSort);
+	IoObject_isDirty_(self, 1);
 	return self;
 }
 

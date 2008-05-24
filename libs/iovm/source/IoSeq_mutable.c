@@ -58,7 +58,7 @@ IoObject *IoSeq_setItemType(IoSeq *self, IoObject *locals, IoMessage *m)
 	IOASSERT(itemType != -1, "invalid item type name");
 
 	UArray_setItemType_(DATA(self), itemType);
-
+	IoObject_isDirty_(self, 1);
 	return self;
 }
 
@@ -79,6 +79,7 @@ IoObject *IoSeq_convertToItemType(IoSeq *self, IoObject *locals, IoMessage *m)
 	IOASSERT(itemType != -1, "invalid item type name");
 
 	UArray_convertToItemType_(DATA(self), itemType);
+	IoObject_isDirty_(self, 1);
 	return self;
 }
 
@@ -86,6 +87,7 @@ IoObject *IoSeq_convertToFixedSizeType(IoSeq *self, IoObject *locals, IoMessage 
 {
 	IO_ASSERT_NOT_SYMBOL(self);
 	UArray_convertToFixedSizeType(DATA(self));
+	IoObject_isDirty_(self, 1);
 	return self;
 }
 
@@ -110,6 +112,7 @@ IoObject *IoSeq_setEncoding(IoSeq *self, IoObject *locals, IoMessage *m)
 
 	UArray_setEncoding_(DATA(self), encoding);
 
+	IoObject_isDirty_(self, 1);
 	return self;
 }
 
