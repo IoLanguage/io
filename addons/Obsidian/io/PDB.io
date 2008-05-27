@@ -5,7 +5,7 @@ PDB := Obsidian clone do(
 	ppidMap := Map clone
 	
 	sync := method(
-		Collector dirtyObjects foreach(o, objectsToPersist appendIfAbsent(o))
+		Collector dirtyObjects select(getSlot("ppid")) foreach(o, objectsToPersist appendIfAbsent(o))
 		objectsToPersist foreach(persist)
 		objectsToPersist removeAll
 		self

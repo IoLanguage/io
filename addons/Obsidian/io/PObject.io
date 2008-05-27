@@ -12,7 +12,7 @@ Object do(
 	
 	withPpid := method(
 		o := self clone
-		o ppid
+		o generatePpid
 		o
 	)
 	
@@ -28,11 +28,12 @@ Object do(
 		self
 	)
 	
-	ppid := method(
-		pdb addObjectToPersist(self)
-		self needsFirstPersist := true
-		self ppid := UUID uuidTime
-		self ppid
+	generatePpid := method(
+		if(self getSlot("ppid"), ppid,
+			pdb addObjectToPersist(self)
+			self needsFirstPersist := true
+			self ppid := UUID uuidTime
+		)
 	)
 	
 	persist := method(
@@ -43,6 +44,7 @@ Object do(
 	)
 	
 	persistMetaData := method(
+		writeln("self = ", self)
 		pdb onAtPut(ppid, "_type", self type)
 		self		
 	)
@@ -55,10 +57,10 @@ Object do(
 	)
 	
 	persistSlots := method(
-		persistentSlots foreach(name,
+		?persistentSlots foreach(name,
 			self hasDirtySlot(name) ifTrue(
 				value := self getSlot(name)
-				pdb onAtPut(ppid, name, value ppid)
+				pdb onAtPut(ppid, name, value generatePpid)
 			)
 		)
 		self
