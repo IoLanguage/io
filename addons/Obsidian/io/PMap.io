@@ -1,8 +1,4 @@
-PMap := Object clone do(	
-	objectsToPersist ::= nil
-
-	_setSlot := getSlot("setSlot")
-	
+PMap := Object clone do(
 	forward := method(
 		slotName := call message name
 		id := pdb onAt(ppid, slotName)
@@ -12,8 +8,23 @@ PMap := Object clone do(
 		obj
 	)
 	
-	setSlot := method(slotName, value,
-		pdb atPut(slotName, getSlot("value") ppid)
-		self _setSlot(slotName, getSlot("value"))
+	add := method(pObj,
+		atPut(pObj ppid, pObj)
+		self
+	)
+	
+	at := method(ppid,
+		self getSlot(ppid)
+	)
+	
+	atPut := method(ppid, value,
+		dirtyPersistentSlots appendIfAbsent(ppid)
+		self setSlot(ppid, value)
+		self
+	)
+	
+	unpersist := method(
+		watchPersistentSlots
+		self
 	)
 )
