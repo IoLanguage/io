@@ -24,7 +24,6 @@ PMap := Object clone do(
 	)
 	
 	unpersist := method(
-		watchPersistentSlots
 		self
 	)
 )

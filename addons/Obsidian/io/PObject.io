@@ -1,13 +1,5 @@
 nil ppid := "This is my ppid. There are many like it, but this one is mine.  My ppid is my best friend. It is my life. I must master it as I must master my life.  My ppid, without me, is useless."
 
-Object do(
-	aliasMethodChain := method(oldName, suffix,
-		self setSlot(oldName .. "Without" .. suffix asCapitalized, self getSlot(oldName))
-		self setSlot(oldName, self getSlot(oldName .. "With" .. suffix asCapitalized))
-		self
-	)
-)
-
 Sequence do(
 	asSerialization := method(self asSymbol)
 	fromSerialization := method(serialization, copy(serialization))
@@ -38,7 +30,6 @@ Object do(
 	
 	ppid := method(
 		pdb addObjectToPersist(self)
-		watchPersistentSlots
 		self needsFirstPersist := true
 		self ppid := UUID uuidTime
 		self ppid
@@ -63,33 +54,13 @@ Object do(
 		self
 	)
 	
-	setSlotWithPersistentSlotWatching := method(name, value,
-		?persistentSlots contains(name) ifTrue(
-			dirtyPersistentSlots appendIfAbsent(name)
-		)
-		setSlotWithoutPersistentSlotWatching(name, value)
-	)
-	
-	updateSlotWithPersistentSlotWatching := method(name, value,
-		?persistentSlots contains(name) ifTrue(
-			dirtyPersistentSlots appendIfAbsent(name)
-		)
-		updateSlotWithoutPersistentSlotWatching(name, value)
-	)
-	
-	watchPersistentSlots := method(
-		self dirtyPersistentSlots := List clone
-		self aliasMethodChain("updateSlot", "persistentSlotWatching")
-		self aliasMethodChain("setSlot", "persistentSlotWatching")
-		self
-	)
-	
 	persistSlots := method(
-		dirtyPersistentSlots foreach(name,
-			value := self getSlot(name)
-			pdb onAtPut(ppid, name, value ppid)
+		persistentSlots foreach(name,
+			self hasDirtySlot(name) ifTrue(
+				value := self getSlot(name)
+				pdb onAtPut(ppid, name, value ppid)
+			)
 		)
-		dirtyPersistentSlots removeAll
 		self
 	)
 	
@@ -101,7 +72,6 @@ Object do(
 		if(self getSlot("fromSerialization"),
 			fromSerialization(pdb onAt(ppid, "_data"))
 		)
-		watchPersistentSlots
 		self
 	)
 )
