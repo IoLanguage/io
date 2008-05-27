@@ -44,7 +44,6 @@ Object do(
 	)
 	
 	persistMetaData := method(
-		writeln("self = ", self)
 		pdb onAtPut(ppid, "_type", self type)
 		self		
 	)

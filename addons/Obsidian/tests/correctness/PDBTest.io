@@ -4,6 +4,7 @@ PDBTest := UnitTest clone do(
 	setUp := method(
 		Object pdb := PDB clone setPath("pobject_test.tc") open
 		Collector cleanAllObjects
+		pdb emptyPpidMap
 	)
 	
 	cleanUp := method(
@@ -55,5 +56,24 @@ PDBTest := UnitTest clone do(
 		
 		unpersistedRich := pdb objectAtPpid(richPpid)
 		assertEquals(nil, unpersistedRich name)
+	)
+	
+	testSyncWithExistingObject := method(
+		clock := Object withPpid pSlots(time)
+		clockPpid := clock ppid
+		
+		clock time := Date clone now
+		
+		pdb sync
+		
+		unpersistedClock := pdb objectAtPpid(clockPpid)
+		unpersistedTime := unpersistedClock time
+		unpersistedTime now
+		
+		pdb sync
+		pdb emptyPpidMap
+		
+		unpersistedClock := pdb objectAtPpid(clockPpid)
+		assertEquals(unpersistedTime, unpersistedClock time)
 	)
 )

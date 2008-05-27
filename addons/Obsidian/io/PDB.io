@@ -8,6 +8,7 @@ PDB := Obsidian clone do(
 		Collector dirtyObjects select(getSlot("ppid")) foreach(o, objectsToPersist appendIfAbsent(o))
 		objectsToPersist foreach(persist)
 		objectsToPersist removeAll
+		Collector cleanAllObjects
 		self
 	)
 	
@@ -19,6 +20,11 @@ PDB := Obsidian clone do(
 		obj := self getSlot(objType) clone setPpid(ppid)
 		ppidMap atPut(ppid, obj)
 		obj unpersist
+	)
+	
+	emptyPpidMap := method(
+		ppidMap empty
+		self
 	)
 	
 	addObjectToPersist := method(o, 
