@@ -10,11 +10,11 @@ PDBTest := UnitTest clone do(
 	)
 	
 	testSimpleSync := method(
-		
 		// store a value in the root PMap
 		pdb open
 		pdb root a := "a"
 		pdb root b := 1
+		pdb root c := nil
 		pdb sync
 		pdb close
 		
@@ -22,6 +22,7 @@ PDBTest := UnitTest clone do(
 		pdb open
 		assertEquals(pdb root a, "a")
 		assertEquals(pdb root b, 1)
+		assertEquals(pdb root c, nil)
 		pdb close
 	)
 
