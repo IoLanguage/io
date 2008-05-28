@@ -1,5 +1,15 @@
 nil ppid := "nil"
 
+List do(
+	asSerialization := method(
+		map(ppid) join(",")
+	)
+	
+	fromSerialization := method(serialization,
+		copy(split(",") map(ppid, pdb objectAtPpid(ppid)))
+	)
+)
+
 Sequence do(
 	asSerialization := method(self asSymbol)
 	fromSerialization := method(serialization, serialization)
