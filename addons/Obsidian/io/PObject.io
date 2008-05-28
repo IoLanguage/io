@@ -1,51 +1,49 @@
-nil ppid := "This is my ppid. There are many like it, but this one is mine.  My ppid is my best friend. It is my life. I must master it as I must master my life.  My ppid, without me, is useless."
+nil ppid := "nil"
 
 Sequence do(
 	asSerialization := method(self asSymbol)
-	fromSerialization := method(serialization, copy(serialization))
+	fromSerialization := method(serialization, serialization)
 )
+
+Number do(
+	asSerialization := method(self asString)
+	fromSerialization := method(serialization, serialization asNumber)
+)
+
+
 
 Object do(
 	pdb ::= nil
+	pdb = PDB
 	ppid ::= nil
-	needsFirstPersist ::= false
-	
-	withPpid := method(
-		o := self clone
-		o generatePpid
-		o
-	)
+
+	needsMetaPersist ::= false
+	persistentSlots ::= nil
 	
 	pSlots := method(
-		if(self getSlot("persistentSlots") not, self persistentSlots := List clone)
-		m := call message arguments first
-		while(m,
-			slotName := m name
-			self persistentSlots appendIfAbsent(slotName)
-			self newSlot(slotName, nil)
-			m := m next
-		)
+		self persistentSlots :=  call message arguments map(name)
 		self
 	)
 	
-	generatePpid := method(
-		if(self getSlot("ppid"), ppid,
-			pdb addObjectToPersist(self)
-			self needsFirstPersist := true
-			self ppid := UUID uuidTime
-		)
+	ppid := method(
+		PDB addObjectToPersist(self)
+		self needsMetaPersist := true
+		self ppid := PDB newId
+		self ppid
 	)
 	
 	persist := method(
-		if(needsFirstPersist, needsFirstPersist = false; persistMetaData)
+		//if(persistentSlots == nil, return)
+		if(needsMetaPersist, persistMetaData)
 		self persistData 
 		self persistSlots
 		self
 	)
-	
+
 	persistMetaData := method(
 		pdb onAtPut(ppid, "_type", self type)
-		self		
+		needsMetaPersist = false
+		self
 	)
 	
 	persistData := method(
@@ -56,23 +54,27 @@ Object do(
 	)
 	
 	persistSlots := method(
-		?persistentSlots foreach(name,
-			self hasDirtySlot(name) ifTrue(
+		persistentSlots ?foreach(name,
+			if(self hasDirtySlot(name),
 				value := self getSlot(name)
-				pdb onAtPut(ppid, name, value generatePpid)
+				pdb onAtPut(ppid, name, value ppid)
 			)
 		)
 		self
 	)
 	
 	unpersist := method(
+		//writeln(self type, " unpersist")
+		obj := self
+		if(self getSlot("fromSerialization"),
+			obj = self fromSerialization(pdb onAt(ppid, "_data"))
+		)
+		
 		pdb onFirst(ppid, 100) select(beginsWithSeq("_") not) foreach(key,
 			value := pdb objectAtPpid(pdb onAt(ppid, key))
-			self setSlot(key, value)
+			obj setSlot(key, value)
 		)
-		if(self getSlot("fromSerialization"),
-			fromSerialization(pdb onAt(ppid, "_data"))
-		)
-		self
+
+		obj
 	)
 )

@@ -2,27 +2,30 @@ PDB
 
 PDBTest := UnitTest clone do(
 	setUp := method(
-		Object pdb := PDB clone setPath("pobject_test.tc") open
-		Collector cleanAllObjects
-		pdb emptyPpidMap
+		self pdb := PDB setPath("test.tc") 
 	)
 	
 	cleanUp := method(
-		File with("pobject_test.tc") remove
+		pdb delete
 	)
 	
 	testSimpleSync := method(
-		rich := "Rich" withPpid
-		ppid := rich ppid
-		rich foo := 1
-		pdb sync
 		
-		unpersistedPObj := pdb objectAtPpid(ppid)
-		assertEquals("Rich", unpersistedPObj)
-		assertEquals(rich ppid, unpersistedPObj ppid)
-		assertEquals(rich type, unpersistedPObj type)
+		// store a value in the root PMap
+		pdb open
+		pdb root a := "a"
+		pdb root b := 1
+		pdb sync
+		pdb close
+		
+		// see if it's still there after a reopen
+		pdb open
+		assertEquals(pdb root a, "a")
+		assertEquals(pdb root b, 1)
+		pdb close
 	)
-	
+
+	/*
 	testSyncWithPersistentSlots := method(
 		rich := Object withPpid pSlots(name email)
 		richPpid := rich ppid
@@ -76,4 +79,6 @@ PDBTest := UnitTest clone do(
 		unpersistedClock := pdb objectAtPpid(clockPpid)
 		assertEquals(unpersistedTime, unpersistedClock time)
 	)
+)
+	*/
 )
