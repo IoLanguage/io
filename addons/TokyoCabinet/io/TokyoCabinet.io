@@ -8,8 +8,11 @@ TokyoCabinet do(
 	_open := getSlot("open")
 	open := method(p, opt,
 		if(p, setPath(p))
-		if(opt, _open(path, opt), _open(path))
-		writeln("TC open(\"", path, "\")")
+		if(opt, 
+			self _open(path, opt)
+		, 
+			self _open(path)
+		)
 		self
 	)
 

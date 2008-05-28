@@ -2,8 +2,15 @@ nil ppid := "nil"
 
 Sequence do(
 	asSerialization := method(self asSymbol)
-	fromSerialization := method(serialization, copy(serialization))
+	fromSerialization := method(serialization, serialization)
 )
+
+Number do(
+	asSerialization := method(self asString)
+	fromSerialization := method(serialization, serialization asNumber)
+)
+
+
 
 Object do(
 	pdb ::= nil
@@ -20,12 +27,12 @@ Object do(
 	ppid := method(
 		PDB addObjectToPersist(self)
 		self needsMetaPersist := true
-		self ppid := UUID uuidTime
+		self ppid := PDB newId
 		self ppid
 	)
 	
 	persist := method(
-		if(persistentSlots == nil, return)
+		//if(persistentSlots == nil, return)
 		if(needsMetaPersist, persistMetaData)
 		self persistData 
 		self persistSlots
@@ -46,7 +53,7 @@ Object do(
 	)
 	
 	persistSlots := method(
-		persistentSlots foreach(name,
+		persistentSlots ?foreach(name,
 			if(self hasDirtySlot(name),
 				value := self getSlot(name)
 				pdb onAtPut(ppid, name, value ppid)
@@ -56,13 +63,17 @@ Object do(
 	)
 	
 	unpersist := method(
+		//writeln(self type, " unpersist")
+		obj := self
+		if(self getSlot("fromSerialization"),
+			obj = self fromSerialization(pdb onAt(ppid, "_data"))
+		)
+		
 		pdb onFirst(ppid, 100) select(beginsWithSeq("_") not) foreach(key,
 			value := pdb objectAtPpid(pdb onAt(ppid, key))
-			self setSlot(key, value)
+			obj setSlot(key, value)
 		)
-		if(self getSlot("fromSerialization"),
-			fromSerialization(pdb onAt(ppid, "_data"))
-		)
-		self
+
+		obj
 	)
 )

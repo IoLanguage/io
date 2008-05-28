@@ -2,7 +2,7 @@ PDB
 
 PDBTest := UnitTest clone do(
 	setUp := method(
-		self pdb := PDB clone setPath("test.tc") 
+		self pdb := PDB setPath("test.tc") 
 	)
 	
 	cleanUp := method(
@@ -10,12 +10,18 @@ PDBTest := UnitTest clone do(
 	)
 	
 	testSimpleSync := method(
+		
+		// store a value in the root PMap
 		pdb open
-		pdb root foo := "bar"
+		pdb root a := "a"
+		pdb root b := 1
 		pdb sync
 		pdb close
+		
+		// see if it's still there after a reopen
 		pdb open
-		assertEquals("bar", pdb root foo)
+		assertEquals(pdb root a, "a")
+		assertEquals(pdb root b, 1)
 		pdb close
 	)
 

@@ -3,10 +3,11 @@ PMap := Object clone do(
 	init := method(
 		resend
 		PDB addObjectToPersist(self)
+		self needsMetaPersist = true
 	)
 	
 	forward := method(
-		writeln("PMap forward ", call message name)
+		//writeln("PMap forward ", call message name)
 		slotName := call message name
 		id := pdb onAt(ppid, slotName)
 		if(id == nil, return nil)
@@ -15,13 +16,15 @@ PMap := Object clone do(
 		obj
 	)
 	
+	hiddenSlots := list("ppid", "needsMetaPersist")
 	persistSlots := method(
 		// persist all dirty slots
 		self slotNames foreach(name,
-			if(self hasDirtySlot(name),
+			if(self hasDirtySlot(name) and hiddenSlots contains(name) not,
 				value := self getSlot(name)
 				if(getSlot(name) type != "Block",
 					pdb onAtPut(ppid, name, value ppid)
+					value persist
 				)
 			)
 		)
@@ -31,11 +34,12 @@ PMap := Object clone do(
 	shouldPersist := true
 	
 	unpersist := method(
+		//writeln("PMap unpersist")
 		self
 	)
 	
 	persist := method(
-		writeln("PMap persist")
+		//writeln("PMap persist")
 		if(needsMetaPersist, persistMetaData)
 		self persistSlots
 		self

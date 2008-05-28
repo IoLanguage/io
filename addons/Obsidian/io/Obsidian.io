@@ -1,7 +1,6 @@
 
-
 Obsidian := Object clone do(
-	name ::= "test"
+	name ::= "unnamed"
 	sharedPrefixCursor ::= nil
 	path ::= nil
 	
@@ -12,7 +11,6 @@ Obsidian := Object clone do(
 	open := method(
 		db open(path)
 		setSharedPrefixCursor(db prefixCursor)
-		writeln("db open")
 		self
 	)
 	
@@ -29,8 +27,9 @@ Obsidian := Object clone do(
 	)
 	
 	onAtPut := method(objId, slotName, value,
-		writeln("onAtPut(",objId, ", ", slotName, ", ", value, ")")
-		db transactionalAtPut(objId .. "/" .. slotName, value)
+		key := objId .. "/" .. slotName
+		//writeln("db transactionalAtPut('", key, "', '", value, "')")
+		db transactionalAtPut(key, value)
 	)
 	
 	onAt := method(objId, slotName,
