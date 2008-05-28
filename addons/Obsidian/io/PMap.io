@@ -18,7 +18,6 @@ PMap := Object clone do(
 	)
 	
 	atPut := method(ppid, value,
-		dirtyPersistentSlots appendIfAbsent(ppid)
 		self setSlot(ppid, value)
 		self
 	)
