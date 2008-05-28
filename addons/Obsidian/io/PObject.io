@@ -10,8 +10,6 @@ Number do(
 	fromSerialization := method(serialization, serialization asNumber)
 )
 
-
-
 Object do(
 	pdb ::= nil
 	pdb = PDB

@@ -18,7 +18,7 @@ PDB := Obsidian clone do(
 	
 	objectAtPpid := method(ppid,
 		//if(ppid == nil, return(nil))
-		//if(ppid == nil ppid, return(nil))
+		if(ppid == nil ppid, return(nil))
 		obj := ppidMap at(ppid)
 		//writeln("obj = ", obj)
 		if(obj, return obj)
