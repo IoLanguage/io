@@ -12,14 +12,24 @@ Obsidian := Object clone do(
 	open := method(
 		db open(path)
 		setSharedPrefixCursor(db prefixCursor)
+		writeln("db open")
+		self
 	)
 	
 	close := method(
 		self sharedPrefixCursor := nil
 		db close
+		self
+	)
+	
+	delete := method(
+		db close
+		File with(path) remove
+		self
 	)
 	
 	onAtPut := method(objId, slotName, value,
+		writeln("onAtPut(",objId, ", ", slotName, ", ", value, ")")
 		db transactionalAtPut(objId .. "/" .. slotName, value)
 	)
 	

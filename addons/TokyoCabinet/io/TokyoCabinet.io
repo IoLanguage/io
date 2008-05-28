@@ -9,6 +9,8 @@ TokyoCabinet do(
 	open := method(p, opt,
 		if(p, setPath(p))
 		if(opt, _open(path, opt), _open(path))
+		writeln("TC open(\"", path, "\")")
+		self
 	)
 
 	//doc TokyoCabinet transactionalAtPut(key, value) Transactionally insert the given key and value. Returns self.
