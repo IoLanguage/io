@@ -101,9 +101,7 @@ PDB := Obsidian clone do(
 		c := db cursor
 		c first
 		while(k := c key,
-			if(walked at(k beforeSeq("/")) == nil, 
-				c remove, 
-				c next)
+			if(walked at(k beforeSeq("/")) == nil, c remove, c next)
 		)
 		c close
 		db commit
