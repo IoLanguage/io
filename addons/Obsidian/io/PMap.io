@@ -6,32 +6,36 @@ PMap := Object clone do(
 		self needsMetaPersist = true
 	)
 	
-	forward := method(
-		//writeln("PMap forward ", call message name)
-		slotName := call message name
+	shouldPersistByDefault := true
+	
+	at := method(slotName,
 		id := pdb onAt(ppid, slotName)
 		if(id == nil, return nil)
 		obj := pdb objectAtPpid(id)
 		self setSlot(slotName, obj)
-		obj
+		obj		
 	)
 	
-	hiddenSlots := list("ppid", "needsMetaPersist")
+	forward := method(
+		self at(call message name)
+	)
+	
+	hiddenSlots := list("ppid", "needsMetaPersist", "type", "shouldPersistByDefault", "hiddenSlots")
+	
 	persistSlots := method(
 		// persist all dirty slots
 		self slotNames foreach(name,
-			if(self hasDirtySlot(name) and hiddenSlots contains(name) not,
+			if(self getSlot(name) type != "Block" and self hasDirtySlot(name) and hiddenSlots contains(name) not,
 				value := self getSlot(name)
-				if(getSlot(name) type != "Block",
-					pdb onAtPut(ppid, name, value ppid)
-					value persist
-				)
+				//writeln("PMap saving slot ", name)
+				pdb onAtPut(ppid, name, value ppid)
+				value persist
 			)
 		)
 		self
 	)
 	
-	shouldPersist := true
+	shouldPersistByDefault = true
 	
 	unpersist := method(
 		//writeln("PMap unpersist")

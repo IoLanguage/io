@@ -9,7 +9,15 @@ PDB := Obsidian clone do(
 	)
 	
 	sync := method(
-		// objectsToPersist appendSeq(Collector dirtyObjects select(shouldPersist))
+		Collector collect
+		Collector dirtyObjects foreach(obj,
+			//writeln("obj ", getSlot("obj") uniqueId)
+			//writeln("obj ", getSlot("obj") type)
+			if(getSlot("obj") shouldPersistByDefault == true, 
+				//writeln(getSlot("obj") type, "_", getSlot("obj") uniqueId, " shouldPersistByDefault ")
+				objectsToPersist appendIfAbsent(getSlot("obj"))
+			)
+		)
 		objectsToPersist foreach(persist)
 		objectsToPersist removeAll
 		Collector cleanAllObjects
@@ -30,12 +38,7 @@ PDB := Obsidian clone do(
 		obj unpersist
 	)
 	
-	emptyPpidMap := method(
-		ppidMap empty
-		self
-	)
-	
-	addObjectToPersist := method(o, 
+	addObjectToPersist := method(o,
 		objectsToPersist appendIfAbsent(o)
 	)
 	
@@ -53,4 +56,33 @@ PDB := Obsidian clone do(
 		_root
 	)
 	
+	collectGarbage := method(
+		// walk objects from root, recording ids found
+		walked := Map clone
+		toWalk := List clone append("root")
+		c := self sharedPrefixCursor
+		while(id := toWalk pop,
+			walked atPut(id, true)
+			c setPrefix(id)
+			c first
+			while(c next,
+				k := c key
+				if(k beginsWithSeq("_") == false and walked at(k) == nil,
+					toWalk append(k)
+				)
+			)
+		)
+		
+		// now remove all non-walked ids
+		db begin
+		c := db cursor
+		c first
+		while(c next,
+			k := c key
+			id := k beforeSeq("/")
+			if(walked at(id) == nil, db removeAt(k))
+		)
+		c close
+		db commit
+	)	
 )

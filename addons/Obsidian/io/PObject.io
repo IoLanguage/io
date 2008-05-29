@@ -27,20 +27,30 @@ Object do(
 
 	needsMetaPersist ::= false
 	persistentSlots ::= nil
+	shouldPersistByDefault := false
 	
 	pSlots := method(
 		self persistentSlots := call message arguments map(arg,
 			newSlot(arg name, nil)
 			arg name
 		)
+		shouldPersistByDefault = true
 		self
 	)
 	
 	ppid := method(
 		PDB addObjectToPersist(self)
 		self needsMetaPersist := true
-		self ppid := PDB newId
+		self setPpid(PDB newId)
 		self ppid
+	)
+	
+	setPpid := method(id,
+		self ppid := id
+		//writeln(getSlot("self") type, " setPpid")
+		if(getSlot("self") type == "List", Exception raise("List setPpid"))
+		shouldPersistByDefault = true
+		self
 	)
 	
 	persist := method(
@@ -65,6 +75,9 @@ Object do(
 	)
 	
 	persistSlots := method(
+		if(getSlot("self") type == "Block",
+			Exception raise("attempt to persist a Block")
+		)
 		persistentSlots ?foreach(name,
 			if(self hasDirtySlot(name),
 				value := self getSlot(name)
