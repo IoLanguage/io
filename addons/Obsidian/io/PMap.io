@@ -4,6 +4,7 @@ PMap := Object clone do(
 		resend
 		PDB addObjectToPersist(self)
 		self needsMetaPersist = true
+		self slotsToRemove := List clone
 	)
 	
 	shouldPersistByDefault := true
@@ -20,7 +21,7 @@ PMap := Object clone do(
 		self at(call message name)
 	)
 	
-	hiddenSlots := list("ppid", "needsMetaPersist", "type", "shouldPersistByDefault", "hiddenSlots")
+	hiddenSlots := list("ppid", "needsMetaPersist", "type", "shouldPersistByDefault", "hiddenSlots", "slotsToRemove")
 	
 	persistSlots := method(
 		// persist all dirty slots
@@ -29,7 +30,7 @@ PMap := Object clone do(
 				value := self getSlot(name)
 				//writeln("PMap saving slot ", name)
 				pdb onAtPut(ppid, name, value ppid)
-				value persist
+				//value persist
 			)
 		)
 		self
@@ -46,6 +47,12 @@ PMap := Object clone do(
 		//writeln("PMap persist")
 		if(needsMetaPersist, persistMetaData)
 		self persistSlots
+		if(slotsToRemove, slotsToRemove foreach(slotName, pdb onRemoveAt(ppid, slotName)))
 		self
+	)
+	
+	removeSlot := method(slotName,
+		slotsToRemove appendIfAbsent(slotName)
+		resend		
 	)
 )

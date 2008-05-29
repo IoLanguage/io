@@ -8,6 +8,12 @@ PDB := Obsidian clone do(
 		UUID uuidTime asMutable replaceSeq("-", "") asSymbol
 	)
 	
+	repoen := method(
+		sync
+		close
+		open
+	)
+	
 	sync := method(
 		Collector collect
 		Collector dirtyObjects foreach(obj,
@@ -52,7 +58,27 @@ PDB := Obsidian clone do(
 		_root
 	)
 	
+	show := method(
+		writeln("PDB ", db path, ":")
+		c := db cursor
+		c first
+		while(c key,
+			k := c key
+			id := k beforeSeq("/")
+			slotName := k afterSeq("/")
+			if(slotName beginsWithSeq("_"),
+				writeln("  ", k, " = '", c value, "'")
+			,
+				writeln("  ", k, " = ", c value)
+			)
+			c next
+		)
+		c close
+			
+	)
+	
 	collectGarbage := method(
+		//writeln("PDB collectGarbage:")
 		// walk objects from root, recording ids found
 		walked := Map clone
 		toWalk := List clone append("root")
@@ -61,24 +87,29 @@ PDB := Obsidian clone do(
 			walked atPut(id, true)
 			c setPrefix(id)
 			c first
-			while(c next,
+			while(c key,
 				k := c key
 				if(k beginsWithSeq("_") == false and walked at(k) == nil,
 					toWalk append(k)
 				)
+				c next
 			)
 		)
 		
+		toRemove := List clone
 		// now remove all non-walked ids
-		db begin
 		c := db cursor
 		c first
-		while(c next,
+		while(c key,
 			k := c key
 			id := k beforeSeq("/")
-			if(walked at(id) == nil, db removeAt(k))
+			if(walked at(id) == nil, toRemove append(k))
+			c next
 		)
 		c close
+		
+		db begin
+		toRemove foreach(k, db removeAt(k))
 		db commit
 	)	
 )

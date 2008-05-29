@@ -8,7 +8,7 @@ PDBTest := UnitTest clone do(
 	cleanUp := method(
 		pdb delete
 	)
-	
+	/*
 	testSimpleSync := method(
 		// store a value in the root PMap
 		pdb open
@@ -28,25 +28,43 @@ PDBTest := UnitTest clone do(
 
 	testObjectSync := method(
 		pdb open
-		rich := Object clone pSlots(name, email)
-		richPpid := rich ppid
+		rich := Object clone pSlots(name, email)		
+		rich setName("Rich Collins")
+		rich setEmail("rc@gmail.com")
 		
-		richsName := "Rich Collins"
-		rich name := richsName
+		pdb root setSlot(rich email, rich)
+		pdb repoen
 		
-		richsEmail := "rc@gmail.com"
-		rich email := richsEmail
-		
-		pdb root setSlot(richsEmail, rich)
-		pdb sync
-		pdb close
-		pdb open
-		
-		rich2 := pdb root at(richsEmail)
-		
+		rich2 := pdb root at(rich email)
 		assertEquals(rich2 name, rich name)
 		assertEquals(rich2 email, rich email)
 		pdb close
+		pdb delete
 		//writeln("testObjectSync")
+	)
+	*/
+	
+	testRemove := method(
+		pdb open
+		rich := Object clone pSlots(name, email)	
+		rich setName("Rich Collins")
+		rich setEmail("rc@gmail.com")
+		pdb root setSlot(rich email, rich)
+		pdb repoen
+
+
+		pdb root removeSlot(rich email)
+		pdb repoen
+			
+		rich2 := pdb root at(rich email)
+		
+		assertEquals(rich2, nil)
+		
+		pdb collectGarbage
+		rich = nil
+		Collector collect
+		assertEquals(pdb db size, 1)
+		pdb close
+		pdb delete
 	)
 )
