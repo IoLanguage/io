@@ -29,6 +29,7 @@ PMap := Object clone do(
 			if(self getSlot(name) type != "Block" and self hasDirtySlot(name) and hiddenSlots contains(name) not,
 				value := self getSlot(name)
 				//writeln("PMap saving slot ", name)
+				slotsToRemove remove(name)
 				pdb onAtPut(ppid, name, value ppid)
 				//value persist
 			)
@@ -47,7 +48,7 @@ PMap := Object clone do(
 		//writeln("PMap persist")
 		if(needsMetaPersist, persistMetaData)
 		self persistSlots
-		if(slotsToRemove, slotsToRemove foreach(slotName, pdb onRemoveAt(ppid, slotName)))
+		if(slotsToRemove, slotsToRemove foreach(slotName, pdb onRemoveAt(ppid, slotName)); slotsToRemove removeAll)
 		self
 	)
 	
