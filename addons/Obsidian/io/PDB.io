@@ -11,8 +11,6 @@ PDB := Obsidian clone do(
 	sync := method(
 		Collector collect
 		Collector dirtyObjects foreach(obj,
-			//writeln("obj ", getSlot("obj") uniqueId)
-			//writeln("obj ", getSlot("obj") type)
 			if(getSlot("obj") shouldPersistByDefault == true, 
 				//writeln(getSlot("obj") type, "_", getSlot("obj") uniqueId, " shouldPersistByDefault ")
 				objectsToPersist appendIfAbsent(getSlot("obj"))
@@ -24,10 +22,8 @@ PDB := Obsidian clone do(
 	)
 	
 	objectAtPpid := method(ppid,
-		//if(ppid == nil, return(nil))
 		if(ppid == nil ppid, return(nil))
 		obj := ppidMap at(ppid)
-		//writeln("obj = ", obj)
 		if(obj, return obj)
 		objType := self onAt(ppid, "_type")
 		//writeln(objType, " = db onAt('", ppid, "/_type)")
