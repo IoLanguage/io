@@ -29,7 +29,10 @@ Object do(
 	persistentSlots ::= nil
 	
 	pSlots := method(
-		self persistentSlots :=  call message arguments map(name)
+		self persistentSlots := call message arguments map(arg,
+			newSlot(arg name, nil)
+			arg name
+		)
 		self
 	)
 	
