@@ -95,21 +95,17 @@ PDB := Obsidian clone do(
 				c next
 			)
 		)
-		
-		toRemove := List clone
+
 		// now remove all non-walked ids
+		db begin
 		c := db cursor
 		c first
-		while(c key,
-			k := c key
-			id := k beforeSeq("/")
-			if(walked at(id) == nil, toRemove append(k))
-			c next
+		while(k := c key,
+			if(walked at(k beforeSeq("/")) == nil, 
+				c remove, 
+				c next)
 		)
 		c close
-		
-		db begin
-		toRemove foreach(k, db removeAt(k))
 		db commit
 	)	
 )
