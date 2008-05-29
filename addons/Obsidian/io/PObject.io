@@ -34,7 +34,7 @@ Object do(
 	setPpid := method(id,
 		self ppid := id
 		//writeln(getSlot("self") type, " setPpid")
-		if(getSlot("self") type == "List", Exception raise("List setPpid"))
+		//if(getSlot("self") type == "List", Exception raise("List setPpid"))
 		shouldPersistByDefault = true
 		self
 	)
