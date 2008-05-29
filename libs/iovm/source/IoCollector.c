@@ -161,6 +161,7 @@ IoObject *IoCollector_dirtyObjects(IoCollector *self, IoObject *locals, IoMessag
 	COLLECTOR_FOREACH(collector, v,
 		if(IoObject_isDirty(v))
 		{
+			// raw append will do an IOREF on each v
 			IoList_rawAppend_(results, (void *)v);
 		}
 	);

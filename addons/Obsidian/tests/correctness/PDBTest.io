@@ -26,40 +26,27 @@ PDBTest := UnitTest clone do(
 		pdb close
 	)
 
-	/*
-	testSyncWithPersistentSlots := method(
-		rich := Object withPpid pSlots(name email)
+	testObjectSync := method(
+		pdb open
+		rich := Object clone pSlots(name, email)
 		richPpid := rich ppid
 		
 		richsName := "Rich Collins"
 		rich name := richsName
 		
-		richsEmail := "richcollins@gmail.com"
+		richsEmail := "rc@gmail.com"
 		rich email := richsEmail
 		
+		pdb root setSlot(richsEmail, rich)
 		pdb sync
+		pdb close
+		pdb open
 		
-		namePpid := rich name ppid
-		emailPpid := rich email ppid
+		rich2 := pdb root at(richsEmail)
 		
-		unpersistedRich := pdb objectAtPpid(richPpid)
-		unpersistedName := unpersistedRich name
-		assertEquals("Rich Collins", unpersistedName)
-		
-		unpersistedEmail := unpersistedRich email
-		assertEquals("richcollins@gmail.com", unpersistedEmail)
+		assertEquals(rich2 name, rich name)
+		assertEquals(rich2 email, rich email)
+		pdb close
+		//writeln("testObjectSync")
 	)
-	
-	testSyncWithPersistentNilSlot := method(
-		rich := Object withPpid pSlots(name)
-		richPpid := rich ppid
-		
-		richsName := "Rich Collins"
-		
-		pdb sync
-		
-		unpersistedRich := pdb objectAtPpid(richPpid)
-		assertEquals(nil, unpersistedRich name)
-	)
-	*/
 )
