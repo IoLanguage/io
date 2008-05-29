@@ -1,5 +1,15 @@
 nil ppid := "nil"
 
+List do(
+	asSerialization := method(
+		map(ppid) join(",")
+	)
+	
+	fromSerialization := method(serialization,
+		copy(split(",") map(ppid, pdb objectAtPpid(ppid)))
+	)
+)
+
 Sequence do(
 	asSerialization := method(self asSymbol)
 	fromSerialization := method(serialization, serialization)
@@ -14,12 +24,16 @@ Object do(
 	pdb ::= nil
 	pdb = PDB
 	ppid ::= nil
+
 	needsMetaPersist ::= false
 	persistentSlots ::= nil
 	shouldPersistByDefault := false
 	
 	pSlots := method(
-		self persistentSlots :=  call message arguments map(name)
+		self persistentSlots := call message arguments map(arg,
+			newSlot(arg name, nil)
+			arg name
+		)
 		shouldPersistByDefault = true
 		self
 	)

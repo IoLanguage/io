@@ -10,7 +10,7 @@ UnitTest := Object clone do(
 	init := method(self exceptions := List clone)
 	testSlotNames := method(
 		names := self slotNames select(name, name beginsWithSeq("test"))
-		names sortByKey(name, self getSlot(name) message lineNumber)
+		if(names isEmpty, names, names sortByKey(name, self getSlot(name) message lineNumber))
 	)
 	
 	testCount := method(testSlotNames size)

@@ -18,6 +18,7 @@ PDB := Obsidian clone do(
 		)
 		objectsToPersist foreach(persist)
 		objectsToPersist removeAll
+		Collector cleanAllObjects
 		self
 	)
 	
