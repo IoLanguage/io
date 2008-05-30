@@ -56,4 +56,20 @@ PMap := Object clone do(
 		slotsToRemove appendIfAbsent(slotName)
 		resend		
 	)
+
+	firstCount  := method(count, 
+		pdb onFirst(ppid, count) map(key, pdb objectAtPpid(key))
+	)
+	
+	lastCount   := method(count, 
+		pdb onLast(ppid, count) map(key, pdb objectAtPpid(key)
+	)
+	
+	afterCount  := method(key, count, 
+		pdb onAfter(ppid, key, count) map(key, pdb objectAtPpid(key)
+	)
+	
+	beforeCount := method(key, count, 
+		pdb onBefore(ppid, key, count) map(key, pdb objectAtPpid(key)
+	)
 )
