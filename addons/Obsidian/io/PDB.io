@@ -78,7 +78,7 @@ PDB := Obsidian clone do(
 	)
 	
 	collectGarbage := method(
-		//writeln("PDB collectGarbage:")
+		// plan to make this incremental and distributed later
 		// walk objects from root, recording ids found
 		walked := Map clone
 		toWalk := List clone append("root")
