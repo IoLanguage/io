@@ -6,6 +6,6 @@ AddonBuilder clone do(
 
 	debs atPut("pcre", "libpcre3-dev")
 	ebuilds atPut("pcre", "pcre")
-	pkgs atPut("pcre", "libpcre")
+	pkgs atPut("pcre", "pcre")
 	rpms atPut("pcre", "pcre-devel")
 )

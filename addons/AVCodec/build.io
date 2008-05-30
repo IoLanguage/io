@@ -13,6 +13,6 @@ AddonBuilder clone do(
 
 	debs    atPut("avcodec", "libavcodec-dev")
 	ebuilds atPut("avcodec", "ffmpeg")
-	pkgs    atPut("avcodec", "subversion ffmpeg")
+	pkgs    atPut("avcodec", "ffmpeg")
 	rpms    atPut("avcodec", "ffmpeg-devel")
 )
