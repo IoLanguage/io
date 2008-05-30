@@ -23,6 +23,7 @@ void HttpParser_setRequestPathCallback_(HttpParser *self, element_cb callback);
 void HttpParser_setQueryStringCallback_(HttpParser *self, element_cb callback);
 void HttpParser_setHttpVersionCallback_(HttpParser *self, element_cb callback);
 void HttpParser_setHeaderDoneCallback_(HttpParser *self, element_cb callback);
+void HttpParser_setRequestMethodCallback_(HttpParser *self, element_cb callback);
 void HttpParser_parse_fromBuffer_givenLength_(HttpParser *self, void *listener, const char *parseBuffer, size_t parseBufferSize);
 size_t HttpParser_bytesParsed(HttpParser *self);
 int HttpParser_parseErrorOccured(HttpParser *self);

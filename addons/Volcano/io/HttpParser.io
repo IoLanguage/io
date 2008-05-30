@@ -22,6 +22,7 @@ HttpParser do(
 			setPath(requestPath)\
 			setQueryString(queryString)\
 			setVersion(httpVersion)\
+			setRequestMethod(requestMethod asCapitalized)\
 			setBody(body)\
 			setFields(httpFields)
 	)

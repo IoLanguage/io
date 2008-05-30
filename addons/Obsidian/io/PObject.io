@@ -1,4 +1,6 @@
 nil ppid := "nil"
+true ppid := "true"
+false ppid := "true"
 
 List do(
 	asSerialization := method(

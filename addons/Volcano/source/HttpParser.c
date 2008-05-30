@@ -11,6 +11,7 @@ HttpParser *HttpParser_new(void)
 	HttpParser_setQueryStringCallback_(self, NULL);
 	HttpParser_setHttpVersionCallback_(self, NULL);
 	HttpParser_setHeaderDoneCallback_(self, NULL);
+	HttpParser_setRequestMethodCallback_(self, NULL);
 	http_parser_init(self->parser);
 	HttpParser_clearParseError(self);
 	return self;
@@ -83,6 +84,11 @@ void HttpParser_setHttpVersionCallback_(HttpParser *self, element_cb callback)
 void HttpParser_setHeaderDoneCallback_(HttpParser *self, element_cb callback)
 {
 	self->parser->header_done = callback;
+}
+
+void HttpParser_setRequestMethodCallback_(HttpParser *self, element_cb callback)
+{
+	self->parser->request_method = callback;
 }
 
 void HttpParser_parse_fromBuffer_givenLength_(HttpParser *self, void *listener, const char *parseBuffer, size_t parseBufferSize)

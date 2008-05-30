@@ -34,5 +34,6 @@ void IoHttpParser_setFragment_givenSize_(void *data, const unsigned char * buffe
 void IoHttpParser_setRequestPath_givenSize_(void *data, const unsigned char * buffer, size_t bufferSize);
 void IoHttpParser_setQueryString_givenSize_(void *data, const unsigned char * buffer, size_t bufferSize);
 void IoHttpParser_setHttpVersion_givenSize_(void *data, const unsigned char * buffer, size_t bufferSize);
+void IoHttpParser_setRequestMethod_givenSize_(void *data, const unsigned char * buffer, size_t bufferSize);
 void IoHttpParser_setBody_givenSize_(void *data, const unsigned char * buffer, size_t bufferSize);
 #endif

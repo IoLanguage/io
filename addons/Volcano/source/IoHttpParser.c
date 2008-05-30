@@ -72,6 +72,7 @@ void IoHttpParser_initState(IoHttpParser *self)
 	IoObject_setSlot_to_(self, IOSYMBOL("requestPath"), IoSeq_newWithCString_(IOSTATE, ""));
 	IoObject_setSlot_to_(self, IOSYMBOL("queryString"), IoSeq_newWithCString_(IOSTATE, ""));
 	IoObject_setSlot_to_(self, IOSYMBOL("httpVersion"), IoSeq_newWithCString_(IOSTATE, ""));
+	IoObject_setSlot_to_(self, IOSYMBOL("requestMethod"), IoSeq_newWithCString_(IOSTATE, ""));
 	IoObject_setSlot_to_(self, IOSYMBOL("body"), IoSeq_newWithCString_(IOSTATE, ""));
 }
 
@@ -90,6 +91,7 @@ void IoHttpParser_initParser(IoHttpParser *self)
 	HttpParser_setRequestPathCallback_(parser, (element_cb) IoHttpParser_setRequestPath_givenSize_);
 	HttpParser_setQueryStringCallback_(parser, (element_cb) IoHttpParser_setQueryString_givenSize_);
 	HttpParser_setHttpVersionCallback_(parser, (element_cb) IoHttpParser_setHttpVersion_givenSize_);
+	HttpParser_setRequestMethodCallback_(parser, (element_cb) IoHttpParser_setRequestMethod_givenSize_);
 	HttpParser_setHeaderDoneCallback_(parser, (element_cb) IoHttpParser_setBody_givenSize_);
 	IoObject_setDataPointer_(self, parser);
 }
@@ -170,6 +172,8 @@ void IoHttpParser_setHttpField_withName_givenSize_value_givenSize_(void *data, c
 	{
 		IoMap *httpFields = IoObject_getSlot_(self, IOSYMBOL("httpFields"));
 		UArray *fieldName = UArray_newWithData_type_size_copy_((char *)fieldNameBuffer, CTYPE_uint8_t, fieldNameSize, 1);
+		UArray_toupper(fieldName);
+		UArray_replaceCString_withCString_(fieldName, "-", "_");
 		IoSeq *fieldValue = IOSEQ(fieldValueBuffer, fieldValueSize);
 
 		//UArray_toupper(fieldName);
@@ -255,6 +259,16 @@ void IoHttpParser_setHttpVersion_givenSize_(void *data, const unsigned char * bu
 	{
 		IoSeq *httpVersion = IoObject_getSlot_(self, IOSYMBOL("httpVersion"));
 		UArray_setData_type_size_copy_(IOSEQDATA(httpVersion), (void *)buffer, CTYPE_uint8_t, bufferSize, 1);
+	}
+}
+
+void IoHttpParser_setRequestMethod_givenSize_(void *data, const unsigned char * buffer, size_t bufferSize)
+{
+	IoHttpParser *self = (IoHttpParser *)data;
+	
+	{
+		IoSeq *requestMethod = IoObject_getSlot_(self, IOSYMBOL("requestMethod"));
+		UArray_setData_type_size_copy_(IOSEQDATA(requestMethod), (void *)buffer, CTYPE_uint8_t, bufferSize, 1);
 	}
 }
 

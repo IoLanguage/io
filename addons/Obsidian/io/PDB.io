@@ -17,7 +17,7 @@ PDB := Obsidian clone do(
 	sync := method(
 		Collector collect
 		Collector dirtyObjects foreach(obj,
-			if(getSlot("obj") shouldPersistByDefault == true, 
+			if(getSlot("obj") shouldPersistByDefault == true,
 				//writeln(getSlot("obj") type, "_", getSlot("obj") uniqueId, " shouldPersistByDefault ")
 				objectsToPersist appendIfAbsent(getSlot("obj"))
 			)
@@ -30,12 +30,14 @@ PDB := Obsidian clone do(
 	
 	objectAtPpid := method(ppid,
 		if(ppid == nil ppid, return(nil))
+		if(ppid == false ppid, return(false))
+		if(ppid == true ppid, return(true))
 		obj := ppidMap at(ppid)
 		if(obj, return obj)
 		objType := self onAt(ppid, "_type")
 		//writeln(objType, " = db onAt('", ppid, "/_type)")
 		if(objType == nil, return nil)
-		obj := Lobby getSlot(objType) clone setPpid(ppid)
+		obj := Lobby doString(objType) clone setPpid(ppid)
 		ppidMap atPut(ppid, obj)
 		obj unpersist
 	)
