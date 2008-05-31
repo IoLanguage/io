@@ -8,7 +8,7 @@ PDBTest := UnitTest clone do(
 	cleanUp := method(
 		pdb delete
 	)
-	/*
+
 	testSimpleSync := method(
 		// store a value in the root PMap
 		pdb open
@@ -42,7 +42,6 @@ PDBTest := UnitTest clone do(
 		pdb delete
 		//writeln("testObjectSync")
 	)
-	*/
 	
 	testRemove := method(
 		pdb open

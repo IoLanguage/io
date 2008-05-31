@@ -9,6 +9,11 @@ PMap := Object clone do(
 	
 	shouldPersistByDefault := true
 	
+	atPut := method(slotName, value,
+		self setSlot(slotName, getSlot("value"))
+		self
+	)
+	
 	at := method(slotName,
 		id := pdb onAt(ppid, slotName)
 		if(id == nil, return nil)
