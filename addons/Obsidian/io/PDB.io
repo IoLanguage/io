@@ -1,3 +1,11 @@
+//metadoc PDB copyright Steve Dekorte 2008
+//metadoc PDB license BSD revised
+/*metadoc PDB description 
+	An arbitrary graph database with support for on-disk garbage collection. 
+*/
+//metadoc PDB credits In collaboration with Rich Collins
+//metadoc PDB category Databases
+
 PDB := Obsidian clone do(
 	setPath("obsidian.tc")
 	objectsToPersist ::= List clone

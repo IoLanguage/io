@@ -1,3 +1,4 @@
+Warning in tools/io/docs2html.io: 'folders' is deprecated. use 'directories()' instead.
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html>
 <head>
@@ -26,6 +27,7 @@
 <div class=indexItem><a href="#Directory">Directory</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#Duration">Duration</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#DynLib">DynLib</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href="#Error">Error</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#File">File</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#Importer">Importer</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#List">List</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -87,7 +89,6 @@
 <div class=indexItem><a href="#ODEPlane">ODEPlane</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#ODESimpleSpace">ODESimpleSpace</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#ODEWorld">ODEWorld</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-<div class=indexSection><a href="#Obsidian">Obsidian</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#OpenGL">OpenGL</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#Box">Box</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#GLApp">GLApp</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -101,8 +102,8 @@
 <div class=indexItem><a href="#AudioDevice">AudioDevice</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#AudioMixer">AudioMixer</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#Postgres">Postgres</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-</td><td valign=top>
 <div class=indexSection><a href="#Python">Python</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+</td><td valign=top>
 <div class=indexSection><a href="#QDBM">QDBM</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#Random">Random</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#Range">Range</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -142,8 +143,8 @@
 <div class=indexItem><a href="#URL">URL</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#WriteEvent">WriteEvent</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#SoundTouch">SoundTouch</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-</td><td valign=top>
 <div class=indexSection><a href="#Syslog">Syslog</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+</td><td valign=top>
 <div class=indexSection><a href="#SystemCall">SystemCall</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#TagLib">TagLib</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#Thread">Thread</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -544,6 +545,7 @@ asynchronous in Io.
 <h3>Slot Index</h3>
 <div class=slotIndex>
 <a href="#AsyncRequest-cancel">cancel</a><br>
+<a href="#AsyncRequest-copyBufferTo">copyBufferTo</a><br>
 <a href="#AsyncRequest-copyBufferto">copyBufferto()</a><br>
 <a href="#AsyncRequest-descriptor">descriptor</a><br>
 <a href="#AsyncRequest-error">error</a><br>
@@ -561,6 +563,10 @@ asynchronous in Io.
 <a name="AsyncRequest-cancel"></a><b>cancel</b><p>
 <div class=slotDescription>
 Cancels the request. Returns nil on error or self otherwise.
+</div>
+<a name="AsyncRequest-copyBufferTo"></a><b>copyBufferTo</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 <a name="AsyncRequest-copyBufferto"></a><b>copyBufferto(aSeq)</b><p>
 <div class=slotDescription>
@@ -1567,9 +1573,12 @@ Generally, the more objects in your heap, the larger you'll want this number.
 <div class=slotIndex>
 <a href="#Collector-allObjects">allObjects</a><br>
 <a href="#Collector-allocatedStep">allocatedStep</a><br>
+<a href="#Collector-cleanAllObjects">cleanAllObjects</a><br>
 <a href="#Collector-collect">collect</a><br>
+<a href="#Collector-dirtyObjects">dirtyObjects</a><br>
 <a href="#Collector-marksPerAlloc">marksPerAlloc</a><br>
 <a href="#Collector-maxAllocatedBytes">maxAllocatedBytes</a><br>
+<a href="#Collector-objectWithUniqueId">objectWithUniqueId()</a><br>
 <a href="#Collector-resetMaxAllocatedBytes">resetMaxAllocatedBytes</a><br>
 <a href="#Collector-setAllocatedStep">setAllocatedStep()</a><br>
 <a href="#Collector-setDebug">setDebug()</a><br>
@@ -1588,9 +1597,17 @@ Returns a List containing all objects known to the collector.
 <div class=slotDescription>
 Return the allocation step value as a Number.
 </div>
+<a name="Collector-cleanAllObjects"></a><b>cleanAllObjects</b><p>
+<div class=slotDescription>
+Sets all objects as clean. Returns self.
+</div>
 <a name="Collector-collect"></a><b>collect</b><p>
 <div class=slotDescription>
 Runs garbage collector. Returns the number of items collected.
+</div>
+<a name="Collector-dirtyObjects"></a><b>dirtyObjects</b><p>
+<div class=slotDescription>
+Returns a List containing all dirty objects known to the collector.
 </div>
 <a name="Collector-marksPerAlloc"></a><b>marksPerAlloc</b><p>
 <div class=slotDescription>
@@ -1599,6 +1616,12 @@ Return the number of allocations per collector mark pass.
 <a name="Collector-maxAllocatedBytes"></a><b>maxAllocatedBytes</b><p>
 <div class=slotDescription>
 Returns the maximum number of bytes allocated by the collector.
+</div>
+<a name="Collector-objectWithUniqueId"></a><b>objectWithUniqueId(aNumber)</b><p>
+<div class=slotDescription>
+Returns an object whose uniqueId is aNumber or nil if no match is found. 
+	Warning: This lookup currently scans all objects, so it is not efficient, 
+	though it should handle thousands of lookups per second.
 </div>
 <a name="Collector-resetMaxAllocatedBytes"></a><b>resetMaxAllocatedBytes</b><p>
 <div class=slotDescription>
@@ -1719,7 +1742,6 @@ Object wrapper for an Io coroutine.
 <a href="#Coroutine-runLocals">runLocals</a><br>
 <a href="#Coroutine-runMessage">runMessage</a><br>
 <a href="#Coroutine-runTarget">runTarget</a><br>
-<a href="#Coroutine-setErrorDescription">setErrorDescription</a><br>
 <a href="#Coroutine-setException">setException</a><br>
 <a href="#Coroutine-setInException">setInException</a><br>
 <a href="#Coroutine-setLabel">setLabel</a><br>
@@ -1845,10 +1867,6 @@ The message to send to the runTarget when the coroutine starts.
 <a name="Coroutine-runTarget"></a><b>runTarget</b><p>
 <div class=slotDescription>
 The object which the coroutine will send a message to when it starts.
-</div>
-<a name="Coroutine-setErrorDescription"></a><b>setErrorDescription</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="Coroutine-setException"></a><b>setException</b><p>
 <div class=slotDescription>
@@ -2523,6 +2541,11 @@ Returns the number of rows available.
 <font color=#bbb>
 </font>
 </div>
+<h3>Description</h3>
+<div class=protoDescription>
+Utility methods related to Domain Name Service lookups.
+
+</div>
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
@@ -2631,6 +2654,8 @@ ipForYahoo := DNSResolver ipForHostName("yahoo.com")
 <a href="#DNSResolver-emptyCache">emptyCache</a><br>
 <a href="#DNSResolver-ipForHostName">ipForHostName()</a><br>
 <a href="#DNSResolver-queries">queries</a><br>
+<a href="#DNSResolver-readTimeout">readTimeout</a><br>
+<a href="#DNSResolver-setReadTimeout">setReadTimeout</a><br>
 <a href="#DNSResolver-setupServerListIfNeeded">setupServerListIfNeeded</a><br>
 </div>
 <p>
@@ -2659,6 +2684,14 @@ Returns a String containing the IP for the hostName or an error if hostName coul
 <a name="DNSResolver-queries"></a><b>queries</b><p>
 <div class=slotDescription>
 Returns list of active DNSQuery objects.
+</div>
+<a name="DNSResolver-readTimeout"></a><b>readTimeout</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="DNSResolver-setReadTimeout"></a><b>setReadTimeout</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 <font color=#888>
 <a name="DNSResolver-setupServerListIfNeeded"></a><b>setupServerListIfNeeded</b><p>
@@ -2976,14 +3009,9 @@ Sets the root object which incoming messages will be send to.
 <b>Category:</b> Time
 <br>
 <font color=#bbb>
-<b>Credits:</b> fromString method by Sean Perry")
+<b>Credits:</b> fromString method by Sean Perry
 <br>
 </font>
-</div>
-<h3>Description</h3>
-<div class=protoDescription>
-A container for a date and time information.
-
 </div>
 <div class=slots>
 <h3>Slot Index</h3>
@@ -2994,6 +3022,7 @@ A container for a date and time information.
 <a href="#Date--=">-=()</a><br>
 <a href="#Date-asAtomDate">asAtomDate</a><br>
 <a href="#Date-asNumber">asNumber</a><br>
+<a href="#Date-asSerialization">asSerialization</a><br>
 <a href="#Date-asString">asString()</a><br>
 <a href="#Date-clock">clock</a><br>
 <a href="#Date-copy">copy()</a><br>
@@ -3001,6 +3030,7 @@ A container for a date and time information.
 <a href="#Date-day">day</a><br>
 <a href="#Date-format">format</a><br>
 <a href="#Date-fromNumber">fromNumber()</a><br>
+<a href="#Date-fromSerialization">fromSerialization</a><br>
 <a href="#Date-fromString">fromString()</a><br>
 <a href="#Date-gmtOffset">gmtOffset</a><br>
 <a href="#Date-gmtOffsetSeconds">gmtOffsetSeconds</a><br>
@@ -3055,6 +3085,10 @@ Returns the date formatted as a valid atom date (rfc4287) in the system's timezo
 <a name="Date-asNumber"></a><b>asNumber</b><p>
 <div class=slotDescription>
 Returns the date as seconds since 1970.
+</div>
+<a name="Date-asSerialization"></a><b>asSerialization</b><p>
+<div class=slotDescription>
+Returns a serialization (sequence) of the date that allows for perfect reconstruction of the timestamp.
 </div>
 <a name="Date-asString"></a><b>asString(optionalFormatString)</b><p>
 <div class=slotDescription>
@@ -3115,6 +3149,10 @@ Returns the format string for the receiver. The default is "%Y-%m-%d %H:%M:%S %Z
 <a name="Date-fromNumber"></a><b>fromNumber(aNumber)</b><p>
 <div class=slotDescription>
 Sets the receiver to be aNumber seconds since 1970.
+</div>
+<a name="Date-fromSerialization"></a><b>fromSerialization</b><p>
+<div class=slotDescription>
+Sets the date based on the serialization sequence.  Return self.
 </div>
 <a name="Date-fromString"></a><b>fromString(aString, formatString)</b><p>
 <div class=slotDescription>
@@ -3310,6 +3348,7 @@ if not specified, "./" is assumed.""")
 <a href="#Directory-createIfAbsent">createIfAbsent</a><br>
 <a href="#Directory-createSubdirectory">createSubdirectory()</a><br>
 <a href="#Directory-currentWorkingDirectory">currentWorkingDirectory</a><br>
+<a href="#Directory-directories">directories</a><br>
 <a href="#Directory-directoryNamed">directoryNamed()</a><br>
 <a href="#Directory-exists">exists()</a><br>
 <a href="#Directory-fileNamed">fileNamed()</a><br>
@@ -3359,13 +3398,15 @@ Returns a File or Directory object matching the name specified
 Create the directory if it doesn't exist. 
 	Returns self on success (or if the directory already exists), nil on failure.
 </div>
+<font color=#55a>
 <a name="Directory-createFileNamed"></a><b>createFileNamed(name)</b><p>
 <div class=slotDescription>
-Depracted. Returns a new file object in the directory with the specified name.
+Deprecated. Returns a new file object in the directory with the specified name.
+</font>
 </div>
 <a name="Directory-createIfAbsent"></a><b>createIfAbsent</b><p>
 <div class=slotDescription>
-Creates the directory folder (and any missing ancestor folders) if they don't exist. Returns self.
+Creates the directory (and any missing ancestor directories) if they don't exist. Returns self.
 </div>
 <a name="Directory-createSubdirectory"></a><b>createSubdirectory(name)</b><p>
 <div class=slotDescription>
@@ -3374,6 +3415,10 @@ Create a subdirectory with the specified name.
 <a name="Directory-currentWorkingDirectory"></a><b>currentWorkingDirectory</b><p>
 <div class=slotDescription>
 Returns the current working directory path.
+</div>
+<a name="Directory-directories"></a><b>directories</b><p>
+<div class=slotDescription>
+Returns a list of subdirectories in the receiver.
 </div>
 <a name="Directory-directoryNamed"></a><b>directoryNamed(aName)</b><p>
 <div class=slotDescription>
@@ -3412,9 +3457,11 @@ Deprecated. Replaced by directoryNamed().
 Deprecated. Returns a new Directory object in the directory with the specified name.
 </font>
 </div>
+<font color=#55a>
 <a name="Directory-folders"></a><b>folders</b><p>
 <div class=slotDescription>
-Returns a list of subdirectories for the receiver.
+Deprecated. Replaced by directories().
+</font>
 </div>
 <a name="Directory-isAccessible"></a><b>isAccessible</b><p>
 <div class=slotDescription>
@@ -3692,6 +3739,53 @@ Same as call but for functions with no return value. Returns nil.
 </div>
 </div>
 <hr align=left>
+<h2><a name="Error"></a>Error</h2>
+<div class=indent>
+<div style="line-height:1.3em">
+<b>Module:</b> Core<br>
+<font color=#bbb>
+</font>
+</div>
+<h3>Description</h3>
+<div class=protoDescription>
+An object that contains error information and flow control based on errors.
+
+</div>
+<div class=slots>
+<h3>Slot Index</h3>
+<div class=slotIndex>
+<a href="#Error-ifError">ifError</a><br>
+<a href="#Error-isError">isError</a><br>
+<a href="#Error-raiseIfError">raiseIfError</a><br>
+<a href="#Error-returnIfError">returnIfError</a><br>
+<a href="#Error-with">with</a><br>
+</div>
+<p>
+<h3>Slots</h3>
+<p>
+<a name="Error-ifError"></a><b>ifError</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Error-isError"></a><b>isError</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Error-raiseIfError"></a><b>raiseIfError</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Error-returnIfError"></a><b>returnIfError</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Error-with"></a><b>with</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+</div>
+</div>
+<hr align=left>
 <h2><a name="Event"></a>Event</h2>
 <div class=indent>
 <div style="line-height:1.3em">
@@ -3915,6 +4009,8 @@ Runs the EventManger loop. Does not return.
 <b>Category:</b> FileSystem
 <br>
 <font color=#bbb>
+<b>Credits:</b> Initial version contributed by Miles Egan.
+<br>
 </font>
 </div>
 <h3>Description</h3>
@@ -3959,6 +4055,9 @@ file close
 <a href="#File-lastInfoChangeDate">lastInfoChangeDate</a><br>
 <a href="#File-lock">lock</a><br>
 <a href="#File-lockFile">lockFile</a><br>
+<a href="#File-makeFullyBuffered">makeFullyBuffered</a><br>
+<a href="#File-makeLineBuffered">makeLineBuffered</a><br>
+<a href="#File-makeUnbuffered">makeUnbuffered</a><br>
 <a href="#File-mode">mode</a><br>
 <a href="#File-moveTo">moveTo()</a><br>
 <a href="#File-name">name</a><br>
@@ -4127,6 +4226,18 @@ Creates a path.lock file if it does not exist. If it does exist, it waits for it
 <div class=slotDescription>
 Deprecated. The .lock file used for File locking.
 </font>
+</div>
+<a name="File-makeFullyBuffered"></a><b>makeFullyBuffered</b><p>
+<div class=slotDescription>
+Sets the file's stream to be fully buffered. Returns self.
+</div>
+<a name="File-makeLineBuffered"></a><b>makeLineBuffered</b><p>
+<div class=slotDescription>
+Sets the file's stream to be line buffered. Returns self.
+</div>
+<a name="File-makeUnbuffered"></a><b>makeUnbuffered</b><p>
+<div class=slotDescription>
+Sets the file's stream to be unbuffered. Returns self.
 </div>
 <a name="File-mode"></a><b>mode</b><p>
 <div class=slotDescription>
@@ -4323,7 +4434,6 @@ AutoImporter for the Flux Io UI framework.
 <a href="#Flux-fluxPath">fluxPath</a><br>
 <a href="#Flux-fluxSource">fluxSource</a><br>
 <a href="#Flux-fluxViews">fluxViews</a><br>
-<a href="#Flux-loadAll">loadAll</a><br>
 </div>
 <p>
 <h3>Slots</h3>
@@ -4341,10 +4451,6 @@ AutoImporter for the Flux Io UI framework.
 <div class=error>undocumented</div>
 </div>
 <a name="Flux-fluxViews"></a><b>fluxViews</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Flux-loadAll"></a><b>loadAll</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
@@ -7140,28 +7246,6 @@ Scales the image data in dataSeqIn and outputs the result to dataSeqOut.
 </div>
 </div>
 <hr align=left>
-<h2><a name="HTTPParser"></a>HTTPParser</h2>
-<div class=indent>
-<div style="line-height:1.3em">
-<b>Module:</b> Volcano<br>
-<font color=#bbb>
-</font>
-</div>
-<div class=slots>
-<h3>Slot Index</h3>
-<div class=slotIndex>
-<a href="#HTTPParser-parse">parse</a><br>
-</div>
-<p>
-<h3>Slots</h3>
-<p>
-<a name="HTTPParser-parse"></a><b>parse</b><p>
-<div class=slotDescription>
-Parsers the HTTP request stored in the parseBuffer slot.  Sets slots on self using the values parsed.  Returns self if successful or an Error if the parse fails.
-</div>
-</div>
-</div>
-<hr align=left>
 <h2><a name="Host"></a>Host</h2>
 <div class=indent>
 <div style="line-height:1.3em">
@@ -7203,6 +7287,98 @@ Returns name.
 <a name="Host-setName"></a><b>setName(aString)</b><p>
 <div class=slotDescription>
 Set's the host name. Return self.
+</div>
+</div>
+</div>
+<hr align=left>
+<h2><a name="HttpParser"></a>HttpParser</h2>
+<div class=indent>
+<div style="line-height:1.3em">
+<b>Module:</b> Volcano<br>
+<font color=#bbb>
+</font>
+</div>
+<div class=slots>
+<h3>Slot Index</h3>
+<div class=slotIndex>
+<a href="#HttpParser-body">body</a><br>
+<a href="#HttpParser-fillHttpRequest">fillHttpRequest</a><br>
+<a href="#HttpParser-fragment">fragment</a><br>
+<a href="#HttpParser-httpFields">httpFields</a><br>
+<a href="#HttpParser-httpVersion">httpVersion</a><br>
+<a href="#HttpParser-isFinished">isFinished</a><br>
+<a href="#HttpParser-parse">parse</a><br>
+<a href="#HttpParser-parseBuffer">parseBuffer</a><br>
+<a href="#HttpParser-queryString">queryString</a><br>
+<a href="#HttpParser-rawParse">rawParse</a><br>
+<a href="#HttpParser-rawReset">rawReset</a><br>
+<a href="#HttpParser-requestPath">requestPath</a><br>
+<a href="#HttpParser-requestUri">requestUri</a><br>
+<a href="#HttpParser-reset">reset</a><br>
+<a href="#HttpParser-setParseBuffer">setParseBuffer</a><br>
+</div>
+<p>
+<h3>Slots</h3>
+<p>
+<a name="HttpParser-body"></a><b>body</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="HttpParser-fillHttpRequest"></a><b>fillHttpRequest</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="HttpParser-fragment"></a><b>fragment</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="HttpParser-httpFields"></a><b>httpFields</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="HttpParser-httpVersion"></a><b>httpVersion</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="HttpParser-isFinished"></a><b>isFinished</b><p>
+<div class=slotDescription>
+Returns true if the parser has fully completed parsing of the content in the parse buffer and false if it hasn't.
+</div>
+<a name="HttpParser-parse"></a><b>parse</b><p>
+<div class=slotDescription>
+Parsers the Http request stored in the parseBuffer slot.  Sets slots on self using the values parsed.  Returns self if successful or an Error if the parse fails.
+</div>
+<a name="HttpParser-parseBuffer"></a><b>parseBuffer</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="HttpParser-queryString"></a><b>queryString</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="HttpParser-rawParse"></a><b>rawParse</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="HttpParser-rawReset"></a><b>rawReset</b><p>
+<div class=slotDescription>
+Resets the parser state to prepare for a new parse.  Returns self.
+</div>
+<a name="HttpParser-requestPath"></a><b>requestPath</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="HttpParser-requestUri"></a><b>requestUri</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="HttpParser-reset"></a><b>reset</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="HttpParser-setParseBuffer"></a><b>setParseBuffer</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 </div>
 </div>
@@ -7316,6 +7492,7 @@ Currently supported formats include PNG(which supports alpha), JPG and TIFF.
 <a href="#Image-flipX">flipX</a><br>
 <a href="#Image-flipY">flipY</a><br>
 <a href="#Image-glFormat">glFormat</a><br>
+<a href="#Image-glFormats">glFormats</a><br>
 <a href="#Image-grabScreen">grabScreen</a><br>
 <a href="#Image-height">height</a><br>
 <a href="#Image-isL8">isL8</a><br>
@@ -7334,6 +7511,7 @@ Currently supported formats include PNG(which supports alpha), JPG and TIFF.
 <a href="#Image-setDecodingWidthHint">setDecodingWidthHint()</a><br>
 <a href="#Image-setEncodingQuality">setEncodingQuality()</a><br>
 <a href="#Image-setPath">setPath()</a><br>
+<a href="#Image-sizeInBytes">sizeInBytes</a><br>
 <a href="#Image-sizeIsPowerOf2">sizeIsPowerOf2</a><br>
 <a href="#Image-texture">texture</a><br>
 <a href="#Image-textureHeight">textureHeight</a><br>
@@ -7407,6 +7585,10 @@ Flips the image on the horizonal plane (left/right mirror). Returns self.
 Flips the image on the vertical plane (top/bottom mirror). Returns self.
 </div>
 <a name="Image-glFormat"></a><b>glFormat</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Image-glFormats"></a><b>glFormats</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
@@ -7484,6 +7666,10 @@ Sets the image encoding quality (range is 0.0 - 1.0, 1.0 with being the highest)
 <a name="Image-setPath"></a><b>setPath(aString)</b><p>
 <div class=slotDescription>
 Sets the image path. Returns self.
+</div>
+<a name="Image-sizeInBytes"></a><b>sizeInBytes</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 <a name="Image-sizeIsPowerOf2"></a><b>sizeIsPowerOf2</b><p>
 <div class=slotDescription>
@@ -7927,6 +8113,7 @@ A mutable array of values. The first index is 0.")
 <a href="#List-intersect">intersect()</a><br>
 <a href="#List-isEmpty">isEmpty</a><br>
 <a href="#List-isNotEmpty">isNotEmpty</a><br>
+<a href="#List-itemCopy">itemCopy</a><br>
 <a href="#List-join">join()</a><br>
 <a href="#List-justSerialized">justSerialized</a><br>
 <a href="#List-last">last()</a><br>
@@ -7948,20 +8135,22 @@ A mutable array of values. The first index is 0.")
 <a href="#List-removeSeq">removeSeq</a><br>
 <a href="#List-reverse">reverse</a><br>
 <a href="#List-reverseForeach">reverseForeach()</a><br>
+<a href="#List-reverseInPlace">reverseInPlace</a><br>
 <a href="#List-reverseReduce">reverseReduce</a><br>
 <a href="#List-second">second</a><br>
 <a href="#List-select">select()</a><br>
 <a href="#List-selectInPlace">selectInPlace</a><br>
 <a href="#List-setSize">setSize</a><br>
 <a href="#List-shuffle">shuffle</a><br>
+<a href="#List-shuffleInPlace">shuffleInPlace</a><br>
 <a href="#List-size">size</a><br>
 <a href="#List-slice">slice()</a><br>
 <a href="#List-sliceInPlace">sliceInPlace()</a><br>
 <a href="#List-sort">sort</a><br>
-<a href="#List-sortBy">sortBy()</a><br>
+<a href="#List-sortBy">sortBy</a><br>
 <a href="#List-sortByKey">sortByKey</a><br>
 <a href="#List-sortInPlace">sortInPlace()</a><br>
-<a href="#List-sortInPlaceBy">sortInPlaceBy</a><br>
+<a href="#List-sortInPlaceBy">sortInPlaceBy()</a><br>
 <a href="#List-sortKey">sortKey</a><br>
 <a href="#List-sum">sum</a><br>
 <a href="#List-swapIndices">swapIndices()</a><br>
@@ -7996,8 +8185,11 @@ Add the items in the lists to the receiver. Returns self.
 </div>
 <a name="List-asEncodedList"></a><b>asEncodedList</b><p>
 <div class=slotDescription>
-The list should contain only Sequence or Number objects
-	Returns a Sequence with the raw array encoding of the list.
+Returns a Sequence with an encoding of the list. 
+	Nil, Number and Symbol objects are copied into the encoding, for other object
+	types, referenceIdForObject(item) will be called to request a reference id for 
+	the object.
+	
 	Also see: List fromEncodedList.
 </div>
 <a name="List-asMap"></a><b>asMap</b><p>
@@ -8070,10 +8262,6 @@ Returns true if the receiver contains a value identical to anObject, otherwise r
 </div>
 <a name="List-cursor"></a><b>cursor</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="List-cusor"></a><b>cusor</b><p>
-<div class=slotDescription>
 Returns a ListCursor for the receiver.
 </div>
 <a name="List-detect"></a><b>detect(optionalIndex, value, message)</b><p>
@@ -8118,8 +8306,11 @@ list(1, 2, 3) foreach(v, writeln(v))</pre>
 </div>
 <a name="List-fromEncodedList"></a><b>fromEncodedList(aSeq)</b><p>
 <div class=slotDescription>
-Returns a List with the decoded Sequences and Numbers from the input raw array. 
-	Also see: List toEncodedList.
+Returns a List with the decoded Nils, Symbols and Numbers from the input raw array. 
+	For each object reference encounters, objectForReferenceId(id) will be called to 
+	allow the reference to be resolved. 
+	
+	Also see: List asEncodedList.
 </div>
 <a name="List-indexOf"></a><b>indexOf(anObject)</b><p>
 <div class=slotDescription>
@@ -8150,6 +8341,10 @@ Returns a new list containing the common values from the target and argument lis
 <a name="List-isNotEmpty"></a><b>isNotEmpty</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
+</div>
+<a name="List-itemCopy"></a><b>itemCopy</b><p>
+<div class=slotDescription>
+Returns a new list containing the items from the receiver.
 </div>
 <a name="List-join"></a><b>join(optionalString)</b><p>
 <div class=slotDescription>
@@ -8233,11 +8428,15 @@ Removes each of the items from the current list which are contained in the seque
 </div>
 <a name="List-reverse"></a><b>reverse</b><p>
 <div class=slotDescription>
-Reverses the ordering of all the items in the receiver. Returns self.
+Reverses the ordering of all the items of the receiver. Returns copy of receiver.
 </div>
 <a name="List-reverseForeach"></a><b>reverseForeach(index, value, message)</b><p>
 <div class=slotDescription>
 Same as foreach, but in reverse order.
+</div>
+<a name="List-reverseInPlace"></a><b>reverseInPlace</b><p>
+<div class=slotDescription>
+Reverses the ordering of all the items in the receiver. Returns self.
 </div>
 <a name="List-reverseReduce"></a><b>reverseReduce</b><p>
 <div class=slotDescription>
@@ -8267,6 +8466,10 @@ Sets the size of the receiver by either removing excess items or adding nils as 
 </div>
 <a name="List-shuffle"></a><b>shuffle</b><p>
 <div class=slotDescription>
+Randomizes the ordering of all the items of the receiver. Returns copy of receiver.
+</div>
+<a name="List-shuffleInPlace"></a><b>shuffleInPlace</b><p>
+<div class=slotDescription>
 Randomizes the order of the elements in the receiver. Returns self.
 </div>
 <a name="List-size"></a><b>size</b><p>
@@ -8289,9 +8492,9 @@ Returns the receiver containing the subset of the
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="List-sortBy"></a><b>sortBy(aBlock)</b><p>
+<a name="List-sortBy"></a><b>sortBy</b><p>
 <div class=slotDescription>
-Sort the list using aBlock as the compare function. Returns self.
+<div class=error>undocumented</div>
 </div>
 <a name="List-sortByKey"></a><b>sortByKey</b><p>
 <div class=slotDescription>
@@ -8303,9 +8506,9 @@ Sorts the list using the compare method on the items. Returns self.
 	If an optionalExpression is provided, the sort is done on the result of the evaluation
 	of the optionalExpression on each value.
 </div>
-<a name="List-sortInPlaceBy"></a><b>sortInPlaceBy</b><p>
+<a name="List-sortInPlaceBy"></a><b>sortInPlaceBy(aBlock)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sort the list using aBlock as the compare function. Returns self.
 </div>
 <a name="List-sortKey"></a><b>sortKey</b><p>
 <div class=slotDescription>
@@ -8361,6 +8564,8 @@ An object for calculating MD5 hashes. Each has calculation should instiate it's 
 <h3>Slot Index</h3>
 <div class=slotIndex>
 <a href="#MD5-appendSeq">appendSeq()</a><br>
+<a href="#MD5-hash">hash</a><br>
+<a href="#MD5-hashString">hashString</a><br>
 <a href="#MD5-md5">md5</a><br>
 <a href="#MD5-md5String">md5String</a><br>
 </div>
@@ -8370,6 +8575,14 @@ An object for calculating MD5 hashes. Each has calculation should instiate it's 
 <a name="MD5-appendSeq"></a><b>appendSeq(aSequence)</b><p>
 <div class=slotDescription>
 Appends aSequence to the hash calculation. Returns self.
+</div>
+<a name="MD5-hash"></a><b>hash</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MD5-hashString"></a><b>hashString</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 <a name="MD5-md5"></a><b>md5</b><p>
 <div class=slotDescription>
@@ -8405,7 +8618,7 @@ A key/value dictionary appropriate for holding large key/value collections.
 <a href="#Map-at">at()</a><br>
 <a href="#Map-atIfAbsentPut">atIfAbsentPut()</a><br>
 <a href="#Map-atPut">atPut()</a><br>
-<a href="#Map-detect">detect</a><br>
+<a href="#Map-detect">detect()</a><br>
 <a href="#Map-empty">empty</a><br>
 <a href="#Map-foreach">foreach()</a><br>
 <a href="#Map-hasKey">hasKey()</a><br>
@@ -8413,10 +8626,10 @@ A key/value dictionary appropriate for holding large key/value collections.
 <a href="#Map-i">i</a><br>
 <a href="#Map-justSerialized">justSerialized</a><br>
 <a href="#Map-keys">keys</a><br>
-<a href="#Map-map">map</a><br>
+<a href="#Map-map">map()</a><br>
 <a href="#Map-removeAt">removeAt()</a><br>
 <a href="#Map-reverseMap">reverseMap</a><br>
-<a href="#Map-select">select</a><br>
+<a href="#Map-select">select()</a><br>
 <a href="#Map-size">size</a><br>
 <a href="#Map-values">values</a><br>
 </div>
@@ -8433,7 +8646,7 @@ Converts a Map to a list of lists. Each element in the returned list will be a l
 </div>
 <a name="Map-asObject"></a><b>asObject</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Create a new Object whose slotDescriptionMap will be equal to self
 </div>
 <a name="Map-at"></a><b>at(keyString, optionalDefaultValue)</b><p>
 <div class=slotDescription>
@@ -8448,9 +8661,9 @@ If a value is present at the specified key, the value is returned.
 <div class=slotDescription>
 Inserts/sets aValue with the key keyString. Returns self.
 </div>
-<a name="Map-detect"></a><b>detect</b><p>
+<a name="Map-detect"></a><b>detect(optionalIndex, optionalValue, message)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a random value for which message evals to non-nil.
 </div>
 <a name="Map-empty"></a><b>empty</b><p>
 <div class=slotDescription>
@@ -8489,9 +8702,10 @@ Returns true if the value is one of the Map's values or false otherwise.
 <div class=slotDescription>
 Returns a List of the receivers keys.
 </div>
-<a name="Map-map"></a><b>map</b><p>
+<a name="Map-map"></a><b>map(key, value, message)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Create a List of results of message applied to self's items in a random
+		order.
 </div>
 <a name="Map-removeAt"></a><b>removeAt(keyString)</b><p>
 <div class=slotDescription>
@@ -8499,11 +8713,12 @@ Removes the specified keyString if present. Returns self.
 </div>
 <a name="Map-reverseMap"></a><b>reverseMap</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Create a new Map using values as keys and keys as values
 </div>
-<a name="Map-select"></a><b>select</b><p>
+<a name="Map-select"></a><b>select(optionalIndex, optionalValue, message)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Create a new Map with keys,values of self for which message evaluated
+		to non-nil.
 </div>
 <a name="Map-size"></a><b>size</b><p>
 <div class=slotDescription>
@@ -8580,6 +8795,7 @@ But the cost to performance seems to outweigh the need to cover this case for no
 <a href="#Message-previous">previous</a><br>
 <a href="#Message-removeCachedResult">removeCachedResult</a><br>
 <a href="#Message-setArguments">setArguments()</a><br>
+<a href="#Message-setCachedArgs">setCachedArgs</a><br>
 <a href="#Message-setCachedResult">setCachedResult()</a><br>
 <a href="#Message-setCharacterNumber">setCharacterNumber()</a><br>
 <a href="#Message-setLabel">setLabel()</a><br>
@@ -8751,6 +8967,10 @@ Removes the cached result of the Message.
 <div class=slotDescription>
 Sets the arguments of the receiver to deep copies of
 	those contained in aListOfMessages.  Returns self.
+</div>
+<a name="Message-setCachedArgs"></a><b>setCachedArgs</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 <a name="Message-setCachedResult"></a><b>setCachedResult(anObject)</b><p>
 <div class=slotDescription>
@@ -9694,6 +9914,7 @@ When cloned, an Object will call it's init slot (with no arguments).
 <a href="#Object-getLocalSlot">getLocalSlot()</a><br>
 <a href="#Object-getSlot">getSlot()</a><br>
 <a href="#Object-handleActorException">handleActorException</a><br>
+<a href="#Object-hasDirtySlot">hasDirtySlot</a><br>
 <a href="#Object-hasLocalSlot">hasLocalSlot()</a><br>
 <a href="#Object-hasProto">hasProto()</a><br>
 <a href="#Object-hasSlot">hasSlot</a><br>
@@ -9719,6 +9940,7 @@ When cloned, an Object will call it's init slot (with no arguments).
 <a href="#Object-localsForward">localsForward</a><br>
 <a href="#Object-localsUpdateSlot">localsUpdateSlot()</a><br>
 <a href="#Object-loop">loop()</a><br>
+<a href="#Object-markClean">markClean</a><br>
 <a href="#Object-memorySize">memorySize</a><br>
 <a href="#Object-memorySizeOfState">memorySizeOfState</a><br>
 <a href="#Object-message">message()</a><br>
@@ -10058,6 +10280,10 @@ Returns the value of the slot named slotNameString
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
+<a name="Object-hasDirtySlot"></a><b>hasDirtySlot</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="Object-hasLocalSlot"></a><b>hasLocalSlot(slotNameString)</b><p>
 <div class=slotDescription>
 Returns true if the slot exists in the receiver or false otherwise.
@@ -10159,6 +10385,10 @@ Local's version of updateSlot mthod.
 <a name="Object-loop"></a><b>loop(expression)</b><p>
 <div class=slotDescription>
 Keeps evaluating message until a break.
+</div>
+<a name="Object-markClean"></a><b>markClean</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 <a name="Object-memorySize"></a><b>memorySize</b><p>
 <div class=slotDescription>
@@ -10433,27 +10663,6 @@ Same as write() but also writes a return character at the end. Returns Nil.
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-</div>
-</div>
-<hr align=left>
-<h2><a name="ObsidianServer"></a>ObsidianServer</h2>
-<div class=indent>
-<div style="line-height:1.3em">
-<b>Module:</b> Obsidian<br>
-<font color=#bbb>
-</font>
-</div>
-<h3>Description</h3>
-<div class=protoDescription>
-
-</div>
-<div class=slots>
-<h3>Slot Index</h3>
-<div class=slotIndex>
-</div>
-<p>
-<h3>Slots</h3>
-<p>
 </div>
 </div>
 <hr align=left>
@@ -11231,10 +11440,35 @@ This object provides access the world of python.
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
+<a href="#Python-credits">credits</a><br>
+<a href="#Python-forward">forward</a><br>
+<a href="#Python-import">import</a><br>
+<a href="#Python-invoke">invoke</a><br>
+<a href="#Python-print">print</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
+<a name="Python-credits"></a><b>credits</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Python-forward"></a><b>forward</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Python-import"></a><b>import</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Python-invoke"></a><b>invoke</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Python-print"></a><b>print</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 </div>
 </div>
 <hr align=left>
@@ -12350,36 +12584,15 @@ Returns the string that the receiver finds matches in.
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#SGMLElement-asObject">asObject</a><br>
 <a href="#SGMLElement-asString">asString</a><br>
 <a href="#SGMLElement-attributes">attributes</a><br>
-<a href="#SGMLElement-beginTag">beginTag</a><br>
-<a href="#SGMLElement-elementWithName">elementWithName</a><br>
-<a href="#SGMLElement-elementsWithName">elementsWithName</a><br>
-<a href="#SGMLElement-endTag">endTag</a><br>
-<a href="#SGMLElement-linkStrings">linkStrings</a><br>
 <a href="#SGMLElement-name">name</a><br>
-<a href="#SGMLElement-parent">parent</a><br>
-<a href="#SGMLElement-redirectStrings">redirectStrings</a><br>
-<a href="#SGMLElement-search">search</a><br>
-<a href="#SGMLElement-setAttributes">setAttributes</a><br>
 <a href="#SGMLElement-setName">setName()</a><br>
-<a href="#SGMLElement-setParent">setParent</a><br>
-<a href="#SGMLElement-setSubitems">setSubitems</a><br>
-<a href="#SGMLElement-setText">setText</a><br>
 <a href="#SGMLElement-subitems">subitems</a><br>
-<a href="#SGMLElement-tableData">tableData</a><br>
-<a href="#SGMLElement-text">text</a><br>
-<a href="#SGMLElement-withText">withText</a><br>
-<a href="#SGMLElement-writeToStream">writeToStream</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
-<a name="SGMLElement-asObject"></a><b>asObject</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="SGMLElement-asString"></a><b>asString</b><p>
 <div class=slotDescription>
 Returns a String representation of the tag and all of it's subitems.
@@ -12388,81 +12601,17 @@ Returns a String representation of the tag and all of it's subitems.
 <div class=slotDescription>
 Returns a Map containing the tag's attributes.
 </div>
-<a name="SGMLElement-beginTag"></a><b>beginTag</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SGMLElement-elementWithName"></a><b>elementWithName</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SGMLElement-elementsWithName"></a><b>elementsWithName</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SGMLElement-endTag"></a><b>endTag</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SGMLElement-linkStrings"></a><b>linkStrings</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="SGMLElement-name"></a><b>name</b><p>
 <div class=slotDescription>
 Returns the tag name
-</div>
-<a name="SGMLElement-parent"></a><b>parent</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SGMLElement-redirectStrings"></a><b>redirectStrings</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SGMLElement-search"></a><b>search</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SGMLElement-setAttributes"></a><b>setAttributes</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="SGMLElement-setName"></a><b>setName(aString)</b><p>
 <div class=slotDescription>
 Sets the tag name. Returns self.
 </div>
-<a name="SGMLElement-setParent"></a><b>setParent</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SGMLElement-setSubitems"></a><b>setSubitems</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SGMLElement-setText"></a><b>setText</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="SGMLElement-subitems"></a><b>subitems</b><p>
 <div class=slotDescription>
 Returns a List containing the tag's subitems.
-</div>
-<a name="SGMLElement-tableData"></a><b>tableData</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SGMLElement-text"></a><b>text</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SGMLElement-withText"></a><b>withText</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SGMLElement-writeToStream"></a><b>writeToStream</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 </div>
 </div>
@@ -12484,39 +12633,12 @@ This object can be used to parse SGML / HTML / XML.
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#SGMLParser-elementForString">elementForString</a><br>
-<a href="#SGMLParser-elementProto">elementProto</a><br>
-<a href="#SGMLParser-endElement">endElement</a><br>
-<a href="#SGMLParser-newAttribute">newAttribute</a><br>
-<a href="#SGMLParser-newText">newText</a><br>
 <a href="#SGMLParser-parse">parse()</a><br>
-<a href="#SGMLParser-startElement">startElement</a><br>
 <a href="#SGMLParser-tagForString">tagForString()</a><br>
-<a href="#SGMLParser-top">top</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
-<a name="SGMLParser-elementForString"></a><b>elementForString</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SGMLParser-elementProto"></a><b>elementProto</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SGMLParser-endElement"></a><b>endElement</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SGMLParser-newAttribute"></a><b>newAttribute</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SGMLParser-newText"></a><b>newText</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="SGMLParser-parse"></a><b>parse(aSequence)</b><p>
 <div class=slotDescription>
 Parses aSequence and calls the following methods on self;
@@ -12528,17 +12650,9 @@ newText(text)
 </pre>	
 for each of the items it finds. Returns self.
 </div>
-<a name="SGMLParser-startElement"></a><b>startElement</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="SGMLParser-tagForString"></a><b>tagForString(aSequence)</b><p>
 <div class=slotDescription>
 Parses aSequence and returns an SGMLTag object.
-</div>
-<a name="SGMLParser-top"></a><b>top</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 </div>
 </div>
@@ -12562,6 +12676,8 @@ should instiate it's own SHA1 instance.
 <h3>Slot Index</h3>
 <div class=slotIndex>
 <a href="#SHA1-appendSeq">appendSeq()</a><br>
+<a href="#SHA1-hash">hash</a><br>
+<a href="#SHA1-hashString">hashString</a><br>
 <a href="#SHA1-sha1">sha1</a><br>
 <a href="#SHA1-sha1String">sha1String</a><br>
 </div>
@@ -12571,6 +12687,14 @@ should instiate it's own SHA1 instance.
 <a name="SHA1-appendSeq"></a><b>appendSeq(aSequence)</b><p>
 <div class=slotDescription>
 Appends aSequence to the hash calculation. Returns self.
+</div>
+<a name="SHA1-hash"></a><b>hash</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SHA1-hashString"></a><b>hashString</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 <a name="SHA1-sha1"></a><b>sha1</b><p>
 <div class=slotDescription>
@@ -12922,10 +13046,65 @@ Returns a list containing the names of all
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
+<a href="#SampleRateConverter-inputBuffer">inputBuffer</a><br>
+<a href="#SampleRateConverter-outputBuffer">outputBuffer</a><br>
+<a href="#SampleRateConverter-outputToInputRatio">outputToInputRatio</a><br>
+<a href="#SampleRateConverter-process">process</a><br>
+<a href="#SampleRateConverter-setEndOFInput">setEndOFInput</a><br>
+<a href="#SampleRateConverter-setOutputToInputRatio">setOutputToInputRatio</a><br>
+<a href="#SampleRateConverter-setStreamDestination">setStreamDestination</a><br>
+<a href="#SampleRateConverter-start">start</a><br>
+<a href="#SampleRateConverter-stop">stop</a><br>
+<a href="#SampleRateConverter-streamDestination">streamDestination</a><br>
+<a href="#SampleRateConverter-write">write</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
+<a name="SampleRateConverter-inputBuffer"></a><b>inputBuffer</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SampleRateConverter-outputBuffer"></a><b>outputBuffer</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SampleRateConverter-outputToInputRatio"></a><b>outputToInputRatio</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SampleRateConverter-process"></a><b>process</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SampleRateConverter-setEndOFInput"></a><b>setEndOFInput</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SampleRateConverter-setOutputToInputRatio"></a><b>setOutputToInputRatio</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SampleRateConverter-setStreamDestination"></a><b>setStreamDestination</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SampleRateConverter-start"></a><b>start</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SampleRateConverter-stop"></a><b>stop</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SampleRateConverter-streamDestination"></a><b>streamDestination</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SampleRateConverter-write"></a><b>write</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 </div>
 </div>
 <hr align=left>
@@ -13079,9 +13258,9 @@ Terminology
 <a href="#Sequence-asBinaryNumber">asBinaryNumber</a><br>
 <a href="#Sequence-asBuffer">asBuffer</a><br>
 <a href="#Sequence-asCapitalized">asCapitalized</a><br>
+<a href="#Sequence-asDecodedList">asDecodedList</a><br>
 <a href="#Sequence-asFile">asFile</a><br>
 <a href="#Sequence-asFixedSizeType">asFixedSizeType</a><br>
-<a href="#Sequence-asHTML">asHTML</a><br>
 <a href="#Sequence-asHex">asHex</a><br>
 <a href="#Sequence-asHtml">asHtml</a><br>
 <a href="#Sequence-asIoPath">asIoPath</a><br>
@@ -13091,17 +13270,15 @@ Terminology
 <a href="#Sequence-asNumber">asNumber</a><br>
 <a href="#Sequence-asOSPath">asOSPath</a><br>
 <a href="#Sequence-asRegex">asRegex</a><br>
-<a href="#Sequence-asSGML">asSGML</a><br>
 <a href="#Sequence-asSimpleString">asSimpleString</a><br>
 <a href="#Sequence-asString">asString</a><br>
 <a href="#Sequence-asStruct">asStruct()</a><br>
 <a href="#Sequence-asSymbol">asSymbol</a><br>
+<a href="#Sequence-asUCS2">asUCS2</a><br>
+<a href="#Sequence-asUCS4">asUCS4</a><br>
 <a href="#Sequence-asURL">asURL</a><br>
-<a href="#Sequence-asUTF16">asUTF16</a><br>
-<a href="#Sequence-asUTF32">asUTF32</a><br>
 <a href="#Sequence-asUTF8">asUTF8</a><br>
 <a href="#Sequence-asUppercase">asUppercase</a><br>
-<a href="#Sequence-asXML">asXML</a><br>
 <a href="#Sequence-asin">asin</a><br>
 <a href="#Sequence-at">at()</a><br>
 <a href="#Sequence-atInsertSeq">atInsertSeq()</a><br>
@@ -13187,6 +13364,7 @@ Terminology
 <a href="#Sequence-isSymbol">isSymbol</a><br>
 <a href="#Sequence-isUppercase">isUppercase</a><br>
 <a href="#Sequence-isZero">isZero</a><br>
+<a href="#Sequence-itemCopy">itemCopy</a><br>
 <a href="#Sequence-itemSize">itemSize</a><br>
 <a href="#Sequence-itemType">itemType</a><br>
 <a href="#Sequence-justSerialized">justSerialized</a><br>
@@ -13239,6 +13417,7 @@ Terminology
 <a href="#Sequence-replaceSeq">replaceSeq()</a><br>
 <a href="#Sequence-reverse">reverse</a><br>
 <a href="#Sequence-reverseFindSeq">reverseFindSeq()</a><br>
+<a href="#Sequence-reverseInPlace">reverseInPlace</a><br>
 <a href="#Sequence-rootMeanSquare">rootMeanSquare</a><br>
 <a href="#Sequence-rstrip">rstrip()</a><br>
 <a href="#Sequence-sequenceSets">sequenceSets</a><br>
@@ -13287,7 +13466,6 @@ Terminology
 <a href="#Sequence-width">width</a><br>
 <a href="#Sequence-with">with()</a><br>
 <a href="#Sequence-withStruct">withStruct()</a><br>
-<a href="#Sequence-writeToStream">writeToStream</a><br>
 <a href="#Sequence-x">x</a><br>
 <a href="#Sequence-y">y</a><br>
 <a href="#Sequence-z">z</a><br>
@@ -13458,6 +13636,10 @@ Returns a Number containing the first 8 bytes of the
 <div class=slotDescription>
 Returns a copy of the receiver with the first charater made uppercase.
 </div>
+<a name="Sequence-asDecodedList"></a><b>asDecodedList</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="Sequence-asFile"></a><b>asFile</b><p>
 <div class=slotDescription>
 Returns a new File object with the receiver as it's path.
@@ -13467,10 +13649,6 @@ Returns a new File object with the receiver as it's path.
 Returns a new sequence with the receiver encoded in the 
 	minimal fixed width text encoding that it's characters can fit 
 	into (either, ascii, utf8, utf16 or utf32).
-</div>
-<a name="Sequence-asHTML"></a><b>asHTML</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="Sequence-asHex"></a><b>asHex</b><p>
 <div class=slotDescription>
@@ -13509,10 +13687,6 @@ Returns a OS style path for an Io style path.
 <div class=slotDescription>
 Returns a new Regex created from the receiver.
 </div>
-<a name="Sequence-asSGML"></a><b>asSGML</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="Sequence-asSimpleString"></a><b>asSimpleString</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
@@ -13545,17 +13719,17 @@ The output pointObject would contain x and y slots with Number objects.
 <div class=slotDescription>
 Returns a immutable Sequence (aka Symbol) version of the receiver.
 </div>
+<a name="Sequence-asUCS2"></a><b>asUCS2</b><p>
+<div class=slotDescription>
+Returns a new copy of the receiver converted to UCS2 (fixed character width UTF16) encoding.
+</div>
+<a name="Sequence-asUCS4"></a><b>asUCS4</b><p>
+<div class=slotDescription>
+Returns a new copy of the receiver converted to UCS4 (fixed character width UTF32) encoding.
+</div>
 <a name="Sequence-asURL"></a><b>asURL</b><p>
 <div class=slotDescription>
 Returns a new URL object instance with the receiver as it's url string.
-</div>
-<a name="Sequence-asUTF16"></a><b>asUTF16</b><p>
-<div class=slotDescription>
-Returns a new copy of the receiver converted to utf16 encoding.
-</div>
-<a name="Sequence-asUTF32"></a><b>asUTF32</b><p>
-<div class=slotDescription>
-Returns a new copy of the receiver converted to utf32 encoding.
 </div>
 <a name="Sequence-asUTF8"></a><b>asUTF8</b><p>
 <div class=slotDescription>
@@ -13564,10 +13738,6 @@ Returns a new copy of the receiver converted to utf8 encoding.
 <a name="Sequence-asUppercase"></a><b>asUppercase</b><p>
 <div class=slotDescription>
 Returns a symbol containing the reveiver made uppercase.
-</div>
-<a name="Sequence-asXML"></a><b>asXML</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="Sequence-asin"></a><b>asin</b><p>
 <div class=slotDescription>
@@ -13958,6 +14128,10 @@ Returns self if all the characters in the string are upper case.
 <div class=slotDescription>
 Returns true if all elements are 0, false otherwise.
 </div>
+<a name="Sequence-itemCopy"></a><b>itemCopy</b><p>
+<div class=slotDescription>
+Returns a new sequence containing the items from the receiver.
+</div>
 <a name="Sequence-itemSize"></a><b>itemSize</b><p>
 <div class=slotDescription>
 Returns number of bytes in each element.
@@ -14180,7 +14354,7 @@ Returns a new Sequence with all occurances of aSequence
 </div>
 <a name="Sequence-reverse"></a><b>reverse</b><p>
 <div class=slotDescription>
-Reverses the bytes in the receiver, in-place.
+Reverses the ordering of all the items of the receiver. Returns copy of receiver.
 </div>
 <a name="Sequence-reverseFindSeq"></a><b>reverseFindSeq(aSequence, startIndex)</b><p>
 <div class=slotDescription>
@@ -14188,6 +14362,10 @@ Returns a number with the first occurrence of aSequence in
 	the receiver before the startIndex. The startIndex argument is optional.
 	By default reverseFind starts at the end of the string. Nil is
 	returned if no occurrences are found.
+</div>
+<a name="Sequence-reverseInPlace"></a><b>reverseInPlace</b><p>
+<div class=slotDescription>
+Reverses the bytes in the receiver, in-place.
 </div>
 <a name="Sequence-rootMeanSquare"></a><b>rootMeanSquare</b><p>
 <div class=slotDescription>
@@ -14437,10 +14615,6 @@ Example:
 pointStructSeq := Sequence withStruct(list("float32", 1.2, "float32", 3.5))
 </pre>
 The output pointStructSeq would contain 2 raw 32 bit floats.
-</div>
-<a name="Sequence-writeToStream"></a><b>writeToStream</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="Sequence-x"></a><b>x</b><p>
 <div class=slotDescription>
@@ -14777,6 +14951,29 @@ Sets the path to the dbm folder. Returns self.
 <br>
 <font color=#bbb>
 </font>
+</div>
+<h3>Description</h3>
+<div class=protoDescription>
+Interface to network communication.
+Sockets will auto yield to other coroutines while waiting on a request.
+All blocking operations use the timeout settings of the socket.
+Reads are appended to the socket's read buffer which can 
+be accessed using the readBuffer method.
+
+Example:
+
+<pre>	
+socket := Socket clone setHost("www.yahoo.com") setPort(80) connect
+if(socket error) then( write(socket error, "\n"); exit)
+
+socket write("GET /\n\n")
+
+while(socket read, Nop)
+if(socket error) then(write(socket error, "\n"); exit)
+
+write("read ", socket readBuffer length, " bytes\n")
+</pre>
+
 </div>
 <div class=slots>
 <h3>Slot Index</h3>
@@ -15709,7 +15906,9 @@ Run the system call.")
 <h3>Slot Index</h3>
 <div class=slotIndex>
 <a href="#TagLib-load">load</a><br>
+<a href="#TagLib-path">path</a><br>
 <a href="#TagLib-save">save</a><br>
+<a href="#TagLib-setPath">setPath</a><br>
 </div>
 <p>
 <h3>Slots</h3>
@@ -15718,9 +15917,17 @@ Run the system call.")
 <div class=slotDescription>
 Loads tag data from the file specified in the path slot. Returns self.
 </div>
+<a name="TagLib-path"></a><b>path</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="TagLib-save"></a><b>save</b><p>
 <div class=slotDescription>
 Saves the tag settings and returns self.
+</div>
+<a name="TagLib-setPath"></a><b>setPath</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 </div>
 </div>
@@ -16044,9 +16251,11 @@ A database cursor.
 <a href="#TokyoCabinetPrefixCursor-key">key</a><br>
 <a href="#TokyoCabinetPrefixCursor-last">last</a><br>
 <a href="#TokyoCabinetPrefixCursor-next">next</a><br>
+<a href="#TokyoCabinetPrefixCursor-prefix">prefix</a><br>
 <a href="#TokyoCabinetPrefixCursor-previous">previous</a><br>
 <a href="#TokyoCabinetPrefixCursor-put">put()</a><br>
 <a href="#TokyoCabinetPrefixCursor-remove">remove</a><br>
+<a href="#TokyoCabinetPrefixCursor-setPrefix">setPrefix</a><br>
 <a href="#TokyoCabinetPrefixCursor-value">value</a><br>
 </div>
 <p>
@@ -16077,6 +16286,10 @@ Move cursor to last record. Returns self
 Move cursor to next record. Returns true if there is another key, 
 	or false if there is no next record.
 </div>
+<a name="TokyoCabinetPrefixCursor-prefix"></a><b>prefix</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="TokyoCabinetPrefixCursor-previous"></a><b>previous</b><p>
 <div class=slotDescription>
 Move cursor to previous record. Returns true if there is another key, 
@@ -16089,6 +16302,10 @@ Sets the value at the current cursor postion. Returns self.
 <a name="TokyoCabinetPrefixCursor-remove"></a><b>remove</b><p>
 <div class=slotDescription>
 Removes the current cursor postion. Returns self.
+</div>
+<a name="TokyoCabinetPrefixCursor-setPrefix"></a><b>setPrefix</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 <a name="TokyoCabinetPrefixCursor-value"></a><b>value</b><p>
 <div class=slotDescription>

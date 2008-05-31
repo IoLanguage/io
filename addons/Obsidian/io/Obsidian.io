@@ -1,4 +1,10 @@
 
+//metadoc Obsidian copyright Steve Dekorte 2008
+//metadoc Obsidian license BSD revised
+//metadoc Obsidian description A double key/value database with cursors on first key. Basis for PDB.
+//metadoc Obsidian credits In collaboration with Rich Collins
+//metadoc Obsidian category Databases
+
 Obsidian := Object clone do(
 	name ::= "unnamed"
 	sharedPrefixCursor ::= nil
@@ -89,7 +95,7 @@ Obsidian := Object clone do(
 		keys			
 	)
 
-	before := method(objId, slotName, count,
+	onBefore := method(objId, slotName, count,
 		c := sharedPrefixCursor setPrefix(objId)
 		c goto(slotName)
 		keys := list()

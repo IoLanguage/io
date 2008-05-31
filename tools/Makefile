@@ -135,7 +135,7 @@ test:
 	./_build/binaries/io_static$(BINARY_SUFFIX) ../libs/iovm/tests/correctness/run.io || true
 
 docs:
-	./io_static$(BINARY_SUFFIX) _docgen/DocsExtractor.io .
+	io_static$(BINARY_SUFFIX) _docgen/DocsExtractor.io .
 
 cleanDocs:
 	-rm -f _ioCode/zzz_docs.io
