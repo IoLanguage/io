@@ -1,3 +1,19 @@
+//metadoc MDOConnection category Networking
+/*metadoc MDOConnection description
+A Minimal Distributed Objects connection. Example;
+<pre>
+dateServerCon := MDOConnection clone setHost("127.0.0.1") setPort(8123) connect
+writeln("date from date server: ", Date fromNumber(dateServerCon currentDate))
+dateServerCon close
+</pre>
+
+See the docs for MDOServer for the DateServer code.
+<p>
+A MDOConnection will pause calling coroutines until the response is received. 
+Mutliple requests can be sent before a single request returns if they are sent 
+from separate coroutines.
+*/
+
 DistributedObjects := Object clone
 
 MDOProxy := Object clone do(

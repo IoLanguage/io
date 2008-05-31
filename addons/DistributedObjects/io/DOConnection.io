@@ -2,7 +2,7 @@ Object NullCharacter := Sequence clone
 Object NullCharacter append(0x0)
 
 DOConnection := Object clone do(
-//metadoc DOConnection Networking
+//metadoc DOConnection category Networking
 
 /*metadoc DOConnection description 
 The DOConnection object is usefull for communicating with remote servers in a way that makes it look just like the sending of local messages. Proxies are automatically created on either side for passed objects, with the exception of strings and numbers, which are passed by value. Example:

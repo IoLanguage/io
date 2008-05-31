@@ -67,6 +67,8 @@
 <div class=indexItem><a href="#DOConnection">DOConnection</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#DOProxy">DOProxy</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#DOServer">DOServer</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href="#MDOConnection">MDOConnection</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href="#MDOServer">MDOServer</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#Flux">Flux</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#Fnmatch">Fnmatch</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#Font">Font</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -90,6 +92,7 @@
 <div class=indexItem><a href="#ODEWorld">ODEWorld</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#Obsidian">Obsidian</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#Obsidian">Obsidian</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href="#ObsidianServer">ObsidianServer</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#PDB">PDB</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#OpenGL">OpenGL</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#Box">Box</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -2748,6 +2751,8 @@ Sets the host name for the DNSServer.
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> DistributedObjects<br>
+<b>Category:</b> Networking
+<br>
 <font color=#888>
 </font>
 </div>
@@ -2959,7 +2964,7 @@ Sets the port number to connect to. Returns self.
 </div>
 <h3>Description</h3>
 <div class=protoDescription>
-The DOServer object is usefull for fetching web pages and parsing DOServers. Example;
+An experimental distributed objects server. Example;
 <pre>
 Test := Object clone
 Test test := method(v, 
@@ -8597,6 +8602,176 @@ Returns a string containing a hexadecimal representation of the md5 hash.
 </div>
 </div>
 <hr align=left>
+<h2><a name="MDOConnection"></a>MDOConnection</h2>
+<div class=indent>
+<div style="line-height:1.3em">
+<b>Module:</b> DistributedObjects<br>
+<b>Category:</b> Networking
+<br>
+<font color=#888>
+</font>
+</div>
+<h3>Description</h3>
+<div class=protoDescription>
+A Minimal Distributed Objects connection. Example;
+<pre>
+dateServerCon := MDOConnection clone setHost("127.0.0.1") setPort(8123) connect
+writeln("date from date server: ", Date fromNumber(dateServerCon currentDate))
+dateServerCon close
+</pre>
+
+See the docs for MDOServer for the Date Server code.
+<p>
+A MDOConnection will pause calling coroutines until the response is received. 
+Mutliple requests can be sent before a single request returns if they are sent 
+from separate coroutines.
+
+</div>
+<div class=slots>
+<h3>Slot Index</h3>
+<div class=slotIndex>
+<a href="#MDOConnection-close">close</a><br>
+<a href="#MDOConnection-connect">connect</a><br>
+<a href="#MDOConnection-corosWaitingOnResponses">corosWaitingOnResponses</a><br>
+<a href="#MDOConnection-localObject">localObject</a><br>
+<a href="#MDOConnection-receiveLoop">receiveLoop</a><br>
+<a href="#MDOConnection-receiveResponse">receiveResponse</a><br>
+<a href="#MDOConnection-receiveSend">receiveSend</a><br>
+<a href="#MDOConnection-remoteObject">remoteObject</a><br>
+<a href="#MDOConnection-send">send</a><br>
+<a href="#MDOConnection-setCorosWaitingOnResponses">setCorosWaitingOnResponses</a><br>
+<a href="#MDOConnection-setHost">setHost</a><br>
+<a href="#MDOConnection-setLocalObject">setLocalObject</a><br>
+<a href="#MDOConnection-setPort">setPort</a><br>
+<a href="#MDOConnection-setRemoteObject">setRemoteObject</a><br>
+<a href="#MDOConnection-setSocket">setSocket</a><br>
+<a href="#MDOConnection-socket">socket</a><br>
+</div>
+<p>
+<h3>Slots</h3>
+<p>
+<a name="MDOConnection-close"></a><b>close</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-connect"></a><b>connect</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-corosWaitingOnResponses"></a><b>corosWaitingOnResponses</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-localObject"></a><b>localObject</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-receiveLoop"></a><b>receiveLoop</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-receiveResponse"></a><b>receiveResponse</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-receiveSend"></a><b>receiveSend</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-remoteObject"></a><b>remoteObject</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-send"></a><b>send</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-setCorosWaitingOnResponses"></a><b>setCorosWaitingOnResponses</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-setHost"></a><b>setHost</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-setLocalObject"></a><b>setLocalObject</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-setPort"></a><b>setPort</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-setRemoteObject"></a><b>setRemoteObject</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-setSocket"></a><b>setSocket</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-socket"></a><b>socket</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+</div>
+</div>
+<hr align=left>
+<h2><a name="MDOServer"></a>MDOServer</h2>
+<div class=indent>
+<div style="line-height:1.3em">
+<b>Module:</b> DistributedObjects<br>
+<b>Category:</b> Networking
+<br>
+<font color=#888>
+</font>
+</div>
+<h3>Description</h3>
+<div class=protoDescription>
+A Minimal Distributed Objects server. Example;
+<pre>
+DateServer := Object clone do(
+	acceptedMessageNames := list("currentDate")
+	currentDate := method(Date clone asNumber)
+)
+
+mdoServer := MDOServer clone 
+mdoServer setHost("127.0.0.1")  setPort(8123) 
+mdoServer setLocalObject(DateServer clone)
+mdoServer start
+</pre>
+
+</div>
+<div class=slots>
+<h3>Slot Index</h3>
+<div class=slotIndex>
+<a href="#MDOServer-handleSocket">handleSocket</a><br>
+<a href="#MDOServer-localObject">localObject</a><br>
+<a href="#MDOServer-setLocalObject">setLocalObject</a><br>
+<a href="#MDOServer-socket">socket</a><br>
+</div>
+<p>
+<h3>Slots</h3>
+<p>
+<a name="MDOServer-handleSocket"></a><b>handleSocket</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOServer-localObject"></a><b>localObject</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOServer-setLocalObject"></a><b>setLocalObject</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOServer-socket"></a><b>socket</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+</div>
+</div>
+<hr align=left>
 <h2><a name="Map"></a>Map</h2>
 <div class=indent>
 <div style="line-height:1.3em">
@@ -10784,6 +10959,76 @@ A double key/value database with cursors on first key. Basis for PDB.
 </div>
 </div>
 <hr align=left>
+<h2><a name="ObsidianServer"></a>ObsidianServer</h2>
+<div class=indent>
+<div style="line-height:1.3em">
+<b>Module:</b> Obsidian<br>
+<b>Category:</b> Databases
+<br>
+<font color=#888>
+</font>
+</div>
+<h3>Description</h3>
+<div class=protoDescription>
+
+A network interface for Obsidian.
+
+<h4>Starting a Server</h4>
+
+<pre>
+oServer := ObsidianServer clone
+oServer localObject setName("foo") open
+oServer start
+</pre>
+
+<h4>Example Client Code</h4>
+
+<pre>
+client := MDOConnection clone setHost("127.0.0.1") setPort(8000) connect
+client onAtPut("1", "aKey", "aSlot")
+client onAtPut("1", "cKey", "cSlot")
+client onAtPut("1", "bKey", "bSlot")
+client first("1", 5) println
+a := client onAt("1", "aKey")
+writeln("a = ", a)
+b := client onAt("1", "bKey")
+writeln("b = ", b)
+client close
+</pre>
+
+The messages accepted by the Obsidian server include:
+
+<pre>
+onAtPut(id, key, value)
+onAt(id, key)
+onRemoveAt(id, key)
+onFirst(id, count)
+onLast(id, count)
+onAfter(id, key, count)
+onBefore(id, key, count)
+</pre>
+
+</div>
+<div class=slots>
+<h3>Slot Index</h3>
+<div class=slotIndex>
+<a href="#ObsidianServer-localObject">localObject</a><br>
+<a href="#ObsidianServer-socket">socket</a><br>
+</div>
+<p>
+<h3>Slots</h3>
+<p>
+<a name="ObsidianServer-localObject"></a><b>localObject</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ObsidianServer-socket"></a><b>socket</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+</div>
+</div>
+<hr align=left>
 <h2><a name="OpenGL"></a>OpenGL</h2>
 <div class=indent>
 <div style="line-height:1.3em">
@@ -11440,7 +11685,7 @@ The List, Date, Sequence and Number primitives already know how to persist thems
 <pre>
 PDB open 
 user := User clone setName("steve") setEmail("steve@foo.com")
-PDB users atPut("steve", user)
+PDB root users atPut("steve", user)
 PDB sync
 PDB close
 </pre>
@@ -11448,7 +11693,7 @@ PDB close
 <h4>Accessing a Persistent Object</h4>
 
 <pre>
-user := PDB users at("steve")
+user := PDB root users at("steve")
 writeln("user name = ", user name, " email = ", user email)
 </pre>
 
@@ -11465,7 +11710,7 @@ If the object was already in the database, only it's updated slots will be writt
 <h4>Removing an entry in a PMap</h4>
 
 <pre>
-PDB users removeAt("steve")
+PDB root users removeAt("steve")
 </pre>
 
 <h4>Removing a persistent object</h4>
@@ -11477,7 +11722,6 @@ PDB collectGarbage
 </pre>
 
 Will remove all objects unreachable by the reference graph from the root PMap.
-
 
 <p>
 Notes: Currently, PDB is a singleton.

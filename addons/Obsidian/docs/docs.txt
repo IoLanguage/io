@@ -13,6 +13,54 @@ In collaboration with Rich Collins
 metadoc Obsidian category 
 Databases
 ------
+metadoc ObsidianServer copyright 
+Steve Dekorte 2008
+------
+metadoc ObsidianServer license 
+BSD revised
+------
+metadoc ObsidianServer category 
+Databases
+------
+metadoc ObsidianServer description 
+
+A network interface for Obsidian.
+
+<h4>Starting a Server</h4>
+
+<pre>
+oServer := ObsidianServer clone
+oServer localObject setName("foo") open
+oServer start
+</pre>
+
+<h4>Example Client Code</h4>
+
+<pre>
+client := MDOConnection clone setHost("127.0.0.1") setPort(8000) connect
+client onAtPut("1", "aKey", "aSlot")
+client onAtPut("1", "cKey", "cSlot")
+client onAtPut("1", "bKey", "bSlot")
+client first("1", 5) println
+a := client onAt("1", "aKey")
+writeln("a = ", a)
+b := client onAt("1", "bKey")
+writeln("b = ", b)
+client close
+</pre>
+
+The messages accepted by the Obsidian server include:
+
+<pre>
+onAtPut(id, key, value)
+onAt(id, key)
+onRemoveAt(id, key)
+onFirst(id, count)
+onLast(id, count)
+onAfter(id, key, count)
+onBefore(id, key, count)
+</pre>
+------
 metadoc PDB copyright 
 Steve Dekorte 2008
 ------
@@ -58,7 +106,7 @@ The List, Date, Sequence and Number primitives already know how to persist thems
 <pre>
 PDB open 
 user := User clone setName("steve") setEmail("steve@foo.com")
-PDB users atPut("steve", user)
+PDB root users atPut("steve", user)
 PDB sync
 PDB close
 </pre>
@@ -66,7 +114,7 @@ PDB close
 <h4>Accessing a Persistent Object</h4>
 
 <pre>
-user := PDB users at("steve")
+user := PDB root users at("steve")
 writeln("user name = ", user name, " email = ", user email)
 </pre>
 
@@ -83,7 +131,7 @@ If the object was already in the database, only it's updated slots will be writt
 <h4>Removing an entry in a PMap</h4>
 
 <pre>
-PDB users removeAt("steve")
+PDB root users removeAt("steve")
 </pre>
 
 <h4>Removing a persistent object</h4>
@@ -95,7 +143,6 @@ PDB collectGarbage
 </pre>
 
 Will remove all objects unreachable by the reference graph from the root PMap.
-
 
 <p>
 Notes: Currently, PDB is a singleton.

@@ -1,6 +1,8 @@
 //metadoc PDB copyright Steve Dekorte 2008
 //metadoc PDB license BSD revised
 //metadoc PDB proto Obsidian
+//metadoc PDB credits In collaboration with Rich Collins
+//metadoc PDB category Databases
 /*metadoc PDB description 
 An arbitrary graph database with support for on-disk garbage collection. Example use:
 
@@ -31,7 +33,7 @@ The List, Date, Sequence and Number primitives already know how to persist thems
 <pre>
 PDB open 
 user := User clone setName("steve") setEmail("steve@foo.com")
-PDB users atPut("steve", user)
+PDB root users atPut("steve", user)
 PDB sync
 PDB close
 </pre>
@@ -39,7 +41,7 @@ PDB close
 <h4>Accessing a Persistent Object</h4>
 
 <pre>
-user := PDB users at("steve")
+user := PDB root users at("steve")
 writeln("user name = ", user name, " email = ", user email)
 </pre>
 
@@ -56,7 +58,7 @@ If the object was already in the database, only it's updated slots will be writt
 <h4>Removing an entry in a PMap</h4>
 
 <pre>
-PDB users removeAt("steve")
+PDB root users removeAt("steve")
 </pre>
 
 <h4>Removing a persistent object</h4>
@@ -69,12 +71,9 @@ PDB collectGarbage
 
 Will remove all objects unreachable by the reference graph from the root PMap.
 
-
 <p>
 Notes: Currently, PDB is a singleton.
 */
-//metadoc PDB credits In collaboration with Rich Collins
-//metadoc PDB category Databases
 
 PDB := Obsidian clone do(
 	setPath("obsidian.tc")
