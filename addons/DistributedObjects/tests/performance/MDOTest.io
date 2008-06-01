@@ -14,7 +14,7 @@ root := Object clone do(
 )
 
 MDOTest := UnitTest clone do(	
-	doit := method(
+	testMDO := method(
 		writeln("MDOTest starting server")
 		server := MDOServer clone setHost("127.0.0.1") setPort(8123) debugOn setLocalObject(root) 
 		server @@start
@@ -26,24 +26,10 @@ MDOTest := UnitTest clone do(
 		count := 1000
 		t := Date clone now
 		count repeat(
-			//result := con send("increment", list(1))
+			//con send("increment", list(1))
 			con remoteObject increment
 		)
 		dt := Date clone now - t
-		writeln((count/dt totalSeconds) floor, " message send & receive response per second")
-		System exit
-	)
-	
-	testMDO := method(
-		self @@doit
-		yield
-		while(Scheduler yieldingCoros size > 0,
-			//while(true,
-				
-				//System sleep(.01)
-				//writeln("yielding")
-			//writeln("Scheduler yieldingCoros size = ", Scheduler yieldingCoros size)
-			yield
-		)
+		writeln((count/dt totalSeconds) floor, " sync message send & receive response per second")
 	)
 ) 

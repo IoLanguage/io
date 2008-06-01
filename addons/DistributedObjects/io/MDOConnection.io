@@ -58,15 +58,17 @@ MDOConnection := Object clone do(
 		self
 	)	
 	
+	debugWriteln := nil //getSlot("writeln")
+	
 	send := method(messageName, args,
-		//writeln("con send(", messageName, ", ", args, ")")
+		//debugWriteln("con send(", messageName, ", ", args, ")")
 		coro := Coroutine currentCoroutine
-		messageId := coro uniqueId asString
+		messageId := coro uniqueId asString // not entirely safe...
 		socket writeListMessage(list("s", messageId, messageName) appendSeq(args))
 		corosWaitingOnResponses atPut(messageId, coro)
-		//writeln("pausing coro ", messageId)
+		//debugWriteln("pausing coro ", messageId)
 		coro pause
-		//writeln("resumed coro ", messageId)
+		//debugWriteln("resumed coro ", messageId)
 		corosWaitingOnResponses removeAt(messageId)
 		coro result
 	)
@@ -74,16 +76,11 @@ MDOConnection := Object clone do(
 	receiveLoop := method(
 		while(socket isOpen,
 			args := socket readListMessage
-			//writeln("got message: ", args)
+			//debugWriteln("got message: ", args)
 			messageType := args removeFirst
-			
-			if (messageType == "s") then(
-				receiveSend(args)
-			) elseif(messageType == "r") then(
-				receiveResponse(args)
-			) else(
-				writeln("Warning: invalid message type: ", messageType, " - ignoring")
-			)
+			if(messageType == "s", receiveSend(args); continue)
+			if(messageType == "r", receiveResponse(args); continue)
+			writeln("Warning: invalid message type: ", messageType, " - ignoring")
 		)
 	)
 	
@@ -91,24 +88,30 @@ MDOConnection := Object clone do(
 		messageId := args first
 		result := args second
 		coro := corosWaitingOnResponses at(messageId)
-		if(coro) then(
-			coro setResult(result) resumeLater
-			yield
-		) else(
+		if(coro == nil,
 			writeln("Warning: response to unknown coro : ", messageId, " - ignoring")
+			return
 		)
+		coro setResult(result) resumeLater
+		yield
 	)
 	
 	receiveSend := method(args,
 		messageId := args removeFirst
 		messageName := args removeFirst
-		m := Message clone setName(messageName) setCachedArgs(args)
-		if(localObject acceptedMessageNames contains(messageName)) then(
+		m := Message clone setName(messageName) 
+		if(args, m setCachedArgs(args))
+		if(localObject acceptedMessageNames contains(messageName),
 			result := localObject doMessage(m)
+			//r := list("r", messageId, result)
+			//writeln("messageId = ", messageId, " ", messageId type)
+			//writeln("result = ", result, " ", result type)
 			socket writeListMessage(list("r", messageId, result))
-		) else(
-			writeln("Warning: unaccepted message '", s name, " - returning nil")
+			//debugWriteln("socket writeListMessage(", r, ")")
+		,
+			writeln("Warning: unaccepted message '", messageName, " - returning nil")
 			socket writeListMessage(list("r", messageId, nil))
-		)		
+		)
+		//debugWriteln("done with receiveSend")
 	)
 )

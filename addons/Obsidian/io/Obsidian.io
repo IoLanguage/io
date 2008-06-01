@@ -37,6 +37,7 @@ Obsidian := Object clone do(
 		//writeln("db transactionalAtPut('", key, "', '", value, "')")
 		db transactionalAtPut(key, value)
 		//if(db at(key) != value, Exception raise(key .. " not saved"))
+		nil
  	)
 	
 	onAt := method(objId, slotName,
