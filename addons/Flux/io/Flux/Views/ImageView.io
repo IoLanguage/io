@@ -2,8 +2,8 @@
 ImageView := View clone do(
 	position setX(0) setY(0)
 	size setWidth(100) setHeight(24)
-	newSlot("delegate")
-	newSlot("image")
+	delegate ::= nil
+	image ::= nil
 
 	init := method(
 		resend

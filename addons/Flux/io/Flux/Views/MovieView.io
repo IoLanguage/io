@@ -4,7 +4,7 @@ MovieView := View clone do(
 	isSelected := 0
 	size setWidth(100) setHeight(100)
 	motionAction := nil
-	newSlot("movie")
+	movie ::= nil
 	
 	sizeToMovie := method(
 		if(movie, self size setWidth(movie width) setHeight(movie height))

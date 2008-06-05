@@ -1,6 +1,5 @@
 
 VStackView := View clone do(
-	protoName := "VStackView"
 	resizeWidth  = 101
 	resizeHeight = 110
 	

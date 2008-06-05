@@ -1,6 +1,5 @@
 
 ScrollBar := View clone do(
-	protoName := "ScrollBar"
 	scrollVertCaps   := ImageManager item("ScrollVertCaps")
 	scrollVertTop    := ImageManager item("ScrollVertTop")
 	scrollVertBottom := ImageManager item("ScrollVertBottom")

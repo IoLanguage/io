@@ -1,7 +1,5 @@
 
-VKnob := HKnob clone 
-
-VKnob do(
+VKnob := HKnob clone do(
     size set(20,20)
     resizeWidth  := 010
     resizeHeight := 101

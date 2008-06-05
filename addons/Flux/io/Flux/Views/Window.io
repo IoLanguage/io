@@ -1,7 +1,6 @@
 
 
 WindowTitleBar := Button clone do(
-    protoName := "WindowTitleBar"
     setTexturesPath("Window/TitleBar")
     resizeWidth = 101
     resizeHeight = 011
@@ -25,7 +24,6 @@ WindowCloseButton := Button clone do(
 //-------------------------------------------------
 
 Window := View clone do(
-    type := "Window"
     isSelected := 0
     name := "Window"
     setTitle := method(t, titleBar setTitle(t))

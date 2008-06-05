@@ -152,7 +152,8 @@ Screen do(
         )
 
         timer := method(v,
-                timerCount = timerCount + 1
+ 				//Collector collect
+				timerCount = timerCount + 1
                 glutTimerFunc(100, 0)
                 display
         )
@@ -190,9 +191,11 @@ Screen do(
                 //glBlendFunc(GL_SRC_ALPHA, GL_ONE)
                 glHint(GL_LINE_SMOOTH_HINT, GL_NICEST)
                 glLineWidth(1)
+				Collector collect
                 glutMainLoop
         )
 )
 
+//Collector collect
 Screen run
 //writeln("hello world")

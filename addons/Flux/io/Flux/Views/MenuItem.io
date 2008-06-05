@@ -1,9 +1,6 @@
 
-MenuItem := View clone do(
-	type := "MenuItem"
-	
-	title := "MenuItem"
-	setTitle := method(t, title = t; self)
+MenuItem := View clone do(	
+	title ::= "MenuItem"
 	setActionTarget(nil)
 	setAction(nil)
 	tag := nil

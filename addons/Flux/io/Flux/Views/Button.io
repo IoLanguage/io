@@ -19,18 +19,19 @@ Button := View clone do(
     disable    := method(isDisabled = true)
     enable     := method(isDisabled = false)
     
-    newSlot("title", "")
+    title ::= ""
+
     widthOfTitle := method(font widthOfString(title))
     sizeToTitle := method(setWidth(widthOfTitle + 40); self)
     
     motionAction := nil
     
-    newSlot("textColor", Color clone set(0,0,0,1))
-    newSlot("textColorSelected", Color clone set(0,0,0,1))
-    newSlot("textColorDisabled", Color clone set(.5,.5,.5,1))
+    textColor ::= Color clone set(0,0,0,1)
+    textColorSelected ::= Color clone set(0,0,0,1)
+    textColorDisabled ::= Color clone set(.5,.5,.5,1)
 
-    newSlot("image")
-    newSlot("altImage")
+    image ::= nil
+    altImage ::= nil
 
     sizeToImage := method(
 		if(image, size setWidth(image width) setHeight(image height+1))
@@ -82,8 +83,9 @@ Button := View clone do(
 		textColor glColor
 		//if(isSelected, textColorSelected glColor)
 		if(isDisabled, textColorDisabled glColor)
-		b := ((w - font widthOfString(title)) * .5) round
-		glTranslatei(b, 3 + (size y - font pixelHeight) / 2, 0)
+		dx := ((w - font widthOfString(title)) * .5) round
+		dy := 3 + (size y - font pixelHeight) / 2
+		glTranslatei(dx, dy, 0)
 		font drawString(title)
 		glPopMatrix
     )
@@ -91,7 +93,7 @@ Button := View clone do(
     drawBackground := nil
     drawOutline := nil
 
-    newSlot("previousFirstResponder")
+    previousFirstResponder ::= nil
     
     pushFirstResponder := method(
         setPreviousFirstResponder(topWindow firstResponder)

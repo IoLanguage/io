@@ -1,4 +1,6 @@
 System do(
+	args := list()
+	
 	launchScript := nil
 	//doc System launchScript Returns the path of the io file run on the command line. Returns nil if no file was run.
 

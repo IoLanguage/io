@@ -17,6 +17,7 @@ PMap := Object clone do(
 	at := method(slotName,
 		id := pdb onAt(ppid, slotName)
 		if(id == nil, return nil)
+		if(slotName beginsWithSeq("_"), return id)
 		obj := pdb objectAtPpid(id)
 		self setSlot(slotName, obj)
 		obj		
@@ -63,18 +64,26 @@ PMap := Object clone do(
 	)
 
 	firstCount  := method(count, 
-		pdb onFirst(ppid, count) map(key, pdb objectAtPpid(key))
+		pdb onFirst(ppid, count)
+	)
+	
+	objectsForKeys := method(keys,
+		keys map(key, if(key beginsWithSeq("_"), key, pdb objectAtPpid(key)))
 	)
 	
 	lastCount   := method(count, 
-		pdb onLast(ppid, count) map(key, pdb objectAtPpid(key))
+		pdb onLast(ppid, count)
 	)
 	
 	afterCount  := method(key, count, 
-		pdb onAfter(ppid, key, count) map(key, pdb objectAtPpid(key))
+		pdb onAfter(ppid, count)
 	)
 	
 	beforeCount := method(key, count, 
-		pdb onBefore(ppid, key, count) map(key, pdb objectAtPpid(key))
+		pdb onBefore(ppid, key, count)
+	)
+	
+	slotCount := method(
+		pdb sizeOn(ppid) 
 	)
 )

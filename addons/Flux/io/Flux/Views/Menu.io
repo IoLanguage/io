@@ -1,6 +1,5 @@
 
 Menu := View clone do(
-	protoName := "Menu"
 	items := List clone
 	itemSize := Point clone set(100, 26)
 	selectedItem := nil

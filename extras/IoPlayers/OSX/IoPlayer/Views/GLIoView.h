@@ -4,21 +4,21 @@
 
 @interface GLIoView : NSOpenGLView
 {
-  IoState *ioState;
-  NSTrackingRectTag trackingRectTag;
-  NSMutableDictionary *timers;
-  BOOL didInit;
-  
-  BOOL doesReshape;
-  BOOL doesDisplay;
-  BOOL doesMouse;
-  BOOL doesMotion;
-  BOOL doesKeyboard;
-  BOOL doesEntry;
-  BOOL doesPassiveMotion;
-  
-  BOOL canDrop;
-  BOOL canDrag;
+	IoState *ioState;
+	NSTrackingRectTag trackingRectTag;
+	NSMutableDictionary *timers;
+	BOOL didInit;
+
+	BOOL doesReshape;
+	BOOL doesDisplay;
+	BOOL doesMouse;
+	BOOL doesMotion;
+	BOOL doesKeyboard;
+	BOOL doesEntry;
+	BOOL doesPassiveMotion;
+
+	BOOL canDrop;
+	BOOL canDrag;
 }
 
 + sharedInstance;
@@ -35,7 +35,6 @@
 - (void)setMouse:(BOOL)b;
 - (void)setMotion:(BOOL)b;
 - (void)setKeyboard:(BOOL)b;
-
 
 // Events 
 - (void)mouseDown:(NSEvent *)event;
