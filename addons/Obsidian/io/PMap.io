@@ -58,6 +58,10 @@ PMap := Object clone do(
 		self
 	)
 	
+	removeAt := method(slotName, 
+		self removeSlot(slotName)
+	)
+	
 	removeSlot := method(slotName,
 		slotsToRemove appendIfAbsent(slotName)
 		resend		
