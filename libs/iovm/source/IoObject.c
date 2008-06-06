@@ -1905,7 +1905,6 @@ void IoObject_protoClean(IoObject *self)
 {
 	IoObject_isDirty_(self, 0);
 	PHash_cleanSlots(IoObject_slots(self));
-	return self;
 }
 
 IoObject *IoObject_markClean(IoObject *self, IoObject *locals, IoMessage *m)
