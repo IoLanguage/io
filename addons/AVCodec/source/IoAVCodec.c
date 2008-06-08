@@ -597,29 +597,7 @@ int IoAVCodec_decodeVideoPacket(IoAVCodec *self, AVCodecContext *c, uint8_t *inb
 
 	return 0;
 }
-/*
-IoSeq *IoAVCode_frameSeqForAVFrame_(IoAVCodec *self, AVFrame *avframe, int srcPixelFormat, int width, int height)
-{
 
-	AVPicture *rgbPicture = IoAVCode_allocDstPictureIfNeeded(self, srcPixelFormat, width, height);
-	AVPicture srcPicture;
-
-        static int sws_flags = SWS_BICUBIC;
-        struct SwsContext *img_convert_ctx;
-        img_convert_ctx = sws_getContext(width, height,
-                                         srcPixelFormat,
-                                         width, height,
-                                         PIX_FMT_RGB24,
-                                         sws_flags, NULL, NULL, NULL);
-
-        sws_scale (img_convert_ctx, rgbPicture->data, rgbPicture->linesize,
-            0, height, srcPicture.data, srcPicture.linesize);
-        sws_freeContext(img_convert_ctx);
-
-	UArray *data = UArray_newWithData_type_encoding_size_copy_(rgbPicture->data[0], CTYPE_uint8_t, CENCODING_NUMBER, width * height * 3, 1);
-
-	return IoSeq_newWithUArray_copy_(IOSTATE, data, 0);
-}*/
 
 IoSeq *IoAVCode_frameSeqForAVFrame_(IoAVCodec *self, AVFrame *avframe, int srcPixelFormat, int width, int height)
 {
@@ -627,14 +605,19 @@ IoSeq *IoAVCode_frameSeqForAVFrame_(IoAVCodec *self, AVFrame *avframe, int srcPi
 	int result;
         
         struct SwsContext *img_convert_ctx;
-        img_convert_ctx = sws_getContext(width, height,srcPixelFormat, width, height, PIX_FMT_RGB24, SWS_BICUBIC, NULL, NULL, NULL);
+        img_convert_ctx = sws_getContext(width, height, srcPixelFormat,
+                                         width, height, PIX_FMT_RGB24,
+                                         SWS_BICUBIC, NULL, NULL, NULL);
         
-	result = sws_scale(img_convert_ctx, avframe->data,avframe->linesize, 0, height, rgbPicture->data,rgbPicture->linesize );
+	result = sws_scale(img_convert_ctx, 
+                           avframe->data,    avframe->linesize, 0, height, 
+                           rgbPicture->data, rgbPicture->linesize);
+
         sws_freeContext(img_convert_ctx);
 
         if (result)
 	{
-		printf("AVCodec: img_convert error?\n");
+		printf("AVCodec: sws_scale error?\n");
 	}
 
 	UArray *data = UArray_newWithData_type_encoding_size_copy_(rgbPicture->data[0], CTYPE_uint8_t, CENCODING_NUMBER, width * height * 3, 1);
