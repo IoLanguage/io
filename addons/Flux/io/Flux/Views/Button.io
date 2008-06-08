@@ -40,7 +40,8 @@ Button := View clone do(
     textureWidth := method(width)
     textureHeight := method(height)
 	roundingSize ::= 0
-    
+    alignment ::= "centered"
+
     draw := method(
 		if(image, 
 			if(isSelected not) then(
@@ -83,8 +84,18 @@ Button := View clone do(
 		textColor glColor
 		//if(isSelected, textColorSelected glColor)
 		if(isDisabled, textColorDisabled glColor)
-		dx := ((w - font widthOfString(title)) * .5) round
+
 		dy := 3 + (size y - font pixelHeight) / 2
+
+		if(alignment == "centered",
+			dx := ((w - font widthOfString(title)) * .5) round
+		)
+		if(alignment == "right",
+			dx := ((w - font widthOfString(title))) round
+		)
+		if(alignment == "left",
+			dx := 3
+		)		
 		glTranslatei(dx, dy, 0)
 		font drawString(title)
 		glPopMatrix
