@@ -408,12 +408,16 @@ someObject doString("1 + 1")
 Example of printing out command line arguments:
 
 <pre>
-args foreach(k, v, write("'", v, "'\n"))
+System args foreach(k, v, write("'", v, "'\n"))
 </pre>
 
 <h4>launchPath</h4>
 
-The System "launchPath" slot is set to the location on the initial source file that is executed.
+The System "launchPath" slot is set to the location on the initial source file that is executed; when the interactive prompt is started (without specifying a source file to execute), the launchPath is the current working directory:
+
+<pre>
+System launchPath
+</pre>
 
 </div>
 <h2>Syntax<a name="Syntax"></a></h2>
