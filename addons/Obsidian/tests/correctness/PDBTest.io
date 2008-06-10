@@ -53,6 +53,7 @@ PDBTest := UnitTest clone do(
 
 
 		pdb root removeSlot(rich email)
+		pdb sync
 		assertEquals(pdb root at(rich email), nil)
 		pdb repoen
 			

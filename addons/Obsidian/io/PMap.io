@@ -7,6 +7,7 @@ PMap := Object clone do(
 		self slotsToRemove := List clone
 	)
 	
+	slotsToRemove := List clone
 	shouldPersistByDefault := true
 	
 	atPut := method(slotName, value,
@@ -15,6 +16,7 @@ PMap := Object clone do(
 	)
 	
 	at := method(slotName,
+		if(slotsToRemove contains(slotName), return nil)
 		id := pdb onAt(ppid, slotName)
 		if(id == nil, return nil)
 		if(slotName beginsWithSeq("_"), return id)
@@ -54,7 +56,8 @@ PMap := Object clone do(
 		//writeln("PMap persist")
 		if(needsMetaPersist, persistMetaData)
 		self persistSlots
-		if(slotsToRemove, slotsToRemove foreach(slotName, pdb onRemoveAt(ppid, slotName)); slotsToRemove removeAll)
+		slotsToRemove foreach(slotName, pdb onRemoveAt(ppid, slotName))
+		slotsToRemove removeAll
 		self
 	)
 	
@@ -65,6 +68,7 @@ PMap := Object clone do(
 	removeSlot := method(slotName,
 		slotsToRemove appendIfAbsent(slotName)
 		resend		
+		self
 	)
 
 	firstCount  := method(count, 
@@ -89,5 +93,10 @@ PMap := Object clone do(
 	
 	slotCount := method(
 		pdb sizeOn(ppid) 
+	)
+	
+	createIfAbsent := method(slotName,
+		if(self at(slotName) == nil, self atPut(slotName, PMap clone))
+		self at(slotName)
 	)
 )
