@@ -706,7 +706,7 @@ Io's guiding design principle is simplicity and power through conceptual unifica
 <i>blocks with assignable scope	</i>
 </td>
 <td>
-<i>functions, methods, closures, functions</i>
+<i>functions, methods, closures</i>
 </td>
 </tr>
 
@@ -734,7 +734,7 @@ Io's guiding design principle is simplicity and power through conceptual unifica
 
 In Io, everything is an object (including the locals storage of a block and the namespace itself) and all actions are messages (including assignment). Objects are composed of a list of key/value pairs called slots, and an internal list of objects from which it inherits called protos. A slot's key is a symbol (a unique immutable sequence) and its value can be any type of object.
  
-clone and init
+<h4>clone and init</h4>
 New objects are made by cloning existing ones. A clone is an empty object that has the parent in its list of protos. A new instance's init slot will be activated which gives the object a chance to initialize itself. Like NewtonScript[3], slots in Io are create-on-write.
 
 <pre>
@@ -762,7 +762,7 @@ Io> Dog := Object clone
 ==> Object_0x4a7c0 
 </pre>
 
-The above code sets the Lobby slot "Dog" to a clone of the Object object. Notice it only contains a protos list contains a reference to Object. Dog is now essentially a subclass of Object. Instance variables and methods are inherited from the proto. If a slot is set, it creates a new slot in our object instead of changing the proto: 
+The above code sets the Lobby slot "Dog" to a clone of the Object object; the protos list of this new object contains only a reference to Object, essentially indicating that a subclass of Object has been created. Instance variables and methods are inherited from the objects referenced in the protos list. If a slot is set, it creates a new slot in our object instead of changing the protos:
 
 <pre>
   Io> Dog color := "red"
@@ -921,7 +921,7 @@ MyObject forward := method(
 <a name="Objects-Forward"></a>
 <h3>Resend</h3>
 
-Sends the current message to the receiver's proto with the context of self. Example: 
+Sends the current message to the receiver's protos with self as the context. Example: 
 
 <pre>
 A := Object clone
