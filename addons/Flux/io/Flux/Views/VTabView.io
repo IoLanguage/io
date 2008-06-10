@@ -1,5 +1,6 @@
 
 VTabView := VStackView clone do(
+	allowsMultipleSelection := true
 	topAligned := true
 	
 	organize := method(organizeTopDown(padding))
@@ -13,7 +14,7 @@ VTabView := VStackView clone do(
 	)
 	
 	setup := method(
-		subviews foreach(setActionTarget(self) setAction("selectTab"))
+		subviews foreach(setActionTarget(self) setAction("didSelectTab"))
 	)
 	
     addSubview := method(v, 
@@ -30,9 +31,21 @@ VTabView := VStackView clone do(
 		self
 	)
 
-	selectTab := method(tab,
-		subviews foreach(setIsActive(false))
+	didSelectTab := method(tab,
+		if(Keyboard shiftKeyIsDown not or allowsMultipleSelection not,
+			subviews foreach(setIsActive(false))
+		)
 		tab setIsActive(true)
 		doAction
 	)
+	
+	selectedTabs := method(
+		subviews select(isActive)
+	)
+	
+	unselectedTabs := method(
+		subviews clone removeSeq(selectedTabs)
+	)
+	
+	tabs := method(subviews)
 )

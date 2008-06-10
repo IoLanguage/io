@@ -1,6 +1,11 @@
 
 MatrixView := View clone do(
     cell ::= nil
+	setCell := method(aCell,
+		cell = aCell
+		cell setSuperview(self)
+		self
+	)
     scroller ::= nil
     delegate ::= nil
 
@@ -24,14 +29,14 @@ MatrixView := View clone do(
 	)
 	
 	didChangeSize := method(
-		writeln("matrixView didChangeSize")
+		//writeln("matrixView didChangeSize")
 		resizeToFitItems
 	)
 	
 	//update := method(resizeToFitItems)
 	
 	resizeToFitItems := method(
-		writeln("resizeToFitItems")
+		//writeln("resizeToFitItems")
 		setHeight((numberOfRows * cell height) floor)
 		setWidth(superview width floor)
 		//superview update
@@ -41,9 +46,9 @@ MatrixView := View clone do(
 		//glRecti(0, 0, width, height)
 		offset := superview ?positionOffset
 		
-    	numberOfItems := numberOfItems
+    	numberOfItems   := numberOfItems
 		numberOfColumns := numberOfColumns 
-		numberOfRows := numberOfRows
+		numberOfRows    := numberOfRows
 
 		if(offset,
 			startHeight := ( (- offset y) floor)
@@ -97,6 +102,13 @@ MatrixView := View clone do(
 		maxSelection copy(cr)
 		applySelectionRange
 		makeFirstResponder
+	)
+	
+	doubleLeftMouseDown := method(
+		cr := rowColumnAtMousePosition
+		index := indexForColumnRow(cr x, cr y)
+		delegate willDrawCellNumber(cell, index)
+   		cell doubleLeftMouseDown
 	)
 	
 	applySelectionRange := method(

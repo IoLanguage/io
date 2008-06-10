@@ -78,7 +78,10 @@ Mouse := Object clone do(
 		writeln("button = ", button)
 		writeln("state = ", state)
 		*/
+		//s := 
 		mouseRoute at(mod) at(clickCount) at(button) at(state)
+		//writeln(s)
+		//s 
     )
 )
 

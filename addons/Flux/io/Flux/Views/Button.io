@@ -90,12 +90,15 @@ Button := View clone do(
 		if(alignment == "centered",
 			dx := ((w - font widthOfString(title)) * .5) round
 		)
+		
 		if(alignment == "right",
 			dx := ((w - font widthOfString(title))) round
 		)
+		
 		if(alignment == "left",
 			dx := 3
-		)		
+		)
+		
 		glTranslatei(dx, dy, 0)
 		font drawString(title)
 		glPopMatrix
@@ -115,7 +118,9 @@ Button := View clone do(
         previousFirstResponder ?makeFirstResponder
         setPreviousFirstResponder(nil)
     )
-    
+
+    shiftLeftMouseDown := method(leftMouseDown)
+
     leftMouseDown := method(
 		if(isDisabled, return)
 		pushFirstResponder

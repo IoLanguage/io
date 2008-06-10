@@ -385,14 +385,14 @@ View := Responder clone do(
 
     special := method(key, x, y,
 		//writeln(self type, "_", self uniqueId, " special ", key)
-		if(key == GLUT_KEY_LEFT, if(self hasSlot("keyboardLeftArrow"), keyboardLeftArrow; return))
-		if(key == GLUT_KEY_UP, if(self hasSlot("keyboardUpArrow"), keyboardUpArrow; return))
-		if(key == GLUT_KEY_RIGHT, if(self hasSlot("keyboardRightArrow"), keyboardRightArrow; return))
-		if(key == GLUT_KEY_DOWN, if(self hasSlot("keyboardDownArrow"), keyboardDownArrow; return))
-		if(key == GLUT_KEY_PAGE_UP, if(self hasSlot("keyboardPageUp"), keyboardPageUp; return))
+		if(key == GLUT_KEY_LEFT,      if(self hasSlot("keyboardLeftArrow"), keyboardLeftArrow; return))
+		if(key == GLUT_KEY_UP,        if(self hasSlot("keyboardUpArrow"), keyboardUpArrow; return))
+		if(key == GLUT_KEY_RIGHT,     if(self hasSlot("keyboardRightArrow"), keyboardRightArrow; return))
+		if(key == GLUT_KEY_DOWN,      if(self hasSlot("keyboardDownArrow"), keyboardDownArrow; return))
+		if(key == GLUT_KEY_PAGE_UP,   if(self hasSlot("keyboardPageUp"), keyboardPageUp; return))
 		if(key == GLUT_KEY_PAGE_DOWN, if(self hasSlot("keyboardPageDown"), keyboardPageDown; return))
-		if(key == GLUT_KEY_HOME, if(self hasSlot("keyboardHome"), keyboardHome; return))
-		if(key == GLUT_KEY_END, if(self hasSlot("keyboardEnd"), keyboardEnd; return))
+		if(key == GLUT_KEY_HOME,      if(self hasSlot("keyboardHome"), keyboardHome; return))
+		if(key == GLUT_KEY_END,       if(self hasSlot("keyboardEnd"), keyboardEnd; return))
 		nextResponder ?special(key, x, y)
     )
     
@@ -402,7 +402,6 @@ View := Responder clone do(
 		//s := Mouse state
 		sm := Mouse stateMessage
 		//writeln(self type, " '", sm name, "' ", self hasSlot(sm name))
-
 		if (self hasSlot(sm name), self doMessage(sm), if(nextResponder, nextResponder mouse))
     )
 
@@ -428,10 +427,10 @@ View := Responder clone do(
         //writeln("directMouse ", Mouse state)
 		if(Mouse state == 1, mouse; return)
 		v := screenHit
-		if(v) then(
+		if(v,
 			topWindow setFirstResponder(v)
 			v mouse
-		) else(
+		,
 			topWindow setFirstResponder(nil)
 			//if(nextResponder, nextResponder directMouse, topWindow setFirstResponder(nil))
 		)
