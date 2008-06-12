@@ -524,7 +524,7 @@ UArray *UArray_asBase64(const UArray *self)
 	encodedBytesSize = base64_encode_block((char *)UArray_bytes(self), unencodedBytesSize, (char *)encodedBytes, &state);
 	UArray_appendBytes_size_(encoded, encodedBytes, encodedBytesSize);
 	
-	encodedBytesSize += base64_encode_blockend((char *)encodedBytes, &state);
+	encodedBytesSize = base64_encode_blockend((char *)encodedBytes, &state);
 	UArray_appendBytes_size_(encoded, encodedBytes, encodedBytesSize);
 	
 	io_free(encodedBytes);
