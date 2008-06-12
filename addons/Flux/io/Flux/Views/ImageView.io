@@ -2,8 +2,8 @@
 ImageView := View clone do(
 	position setX(0) setY(0)
 	size setWidth(100) setHeight(24)
-	newSlot("delegate")
-	newSlot("image")
+	delegate ::= nil
+	image ::= nil
 
 	init := method(
 		resend
@@ -43,16 +43,16 @@ ImageView := View clone do(
 		glPushMatrix
 		translateToPlacement
 		drawColor
-		//glColor4d(1, 1, 1, .05)
-		//writeln("image drawTexture")
+		glColor4d(1, 1, 1, 1)
+		writeln("image drawTexture")
 		image drawTexture
 		if(isSelected and superview isFirstResponder, drawBorder)
 		glPopMatrix
 		self
 	)
 
-	newSlot("borderColor", Color clone set(1,1,1,1))
-	newSlot("borderSize", 1)
+	borderColor := Color clone set(1,1,1,1)
+	borderSize ::= 1
 
     setIsClipped(false)
    
@@ -78,7 +78,7 @@ ImageView := View clone do(
 		glPopMatrix
 	)
 	
-	newSlot("isSelected", false)
+	isSelected ::= false
 	select := method(setIsSelected(true))
 	unselect := method(setIsSelected(false))
 	acceptsFirstResponder := false

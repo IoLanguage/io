@@ -1,7 +1,6 @@
 
 
 Application := Responder clone do(
-
     fonts := Object clone do(
 		system := Object clone do(
 			normal := FontManager item("Free/Sans/Normal") setPixelSize(15)
@@ -12,11 +11,11 @@ Application := Responder clone do(
 		)
     )
     
-    newSlot("mainWindow", nil)
-    newSlot("windows", List clone)
-    newSlot("title", "")
-    newSlot("firstResponder", nil)
-	newSlot("timers", Map clone)
+    mainWindow ::= nil
+    windows ::= List clone
+    title ::= ""
+    firstResponder ::= nil
+	timers ::= Map clone
    
     setTitle := method(title,
     	mainWindow ?setTitle(title)
@@ -88,7 +87,7 @@ Application := Responder clone do(
    		windows detect(windowId == wid)
    	)
  
- 	newSlot("started", false)
+ 	started ::= false
   	
     timer := method(id,
         //writeln("app timer")

@@ -1,8 +1,8 @@
 
 VStackView := View clone do(
-	protoName := "VStackView"
 	resizeWidth  = 101
 	resizeHeight = 110
+	padding ::= 0
 	
 	organizeBottomUp := method(
 		last := nil
@@ -32,7 +32,7 @@ VStackView := View clone do(
 		superview ?subviewDidUpdate
 	)
 	
-	organize := method(organizeBottomUp)
+	organize := method(organizeBottomUp(padding))
 	
 	addSubview    := method(resend; organize)
 	removeSubview := method(resend; organize)

@@ -9,24 +9,23 @@ SheetView := View clone do(
 		self uniqueId := idCount
     )
     
-    type := "SheetView"
     font := fonts system bold
     
-    newSlot("borderSize", 50)
+    borderSize ::= 50
     
     setResizeWidth(101)
     setResizeHeight(101)
     
-    newSlot("title", "1")
-    newSlot("previousSheet", nil)
-    newSlot("nextSheet", nil)
+    title ::= "1"
+    previousSheet ::= nil
+    nextSheet ::= nil
     
     motionAction := nil
     
-    newSlot("textColor", Color clone set(1, 1, 1, 1))
-    newSlot("backgroundColor", Color clone set(.5, .5, .5, .5))
-    newSlot("targetPosition", nil)
-    newSlot("targetSize", nil)
+    textColor ::= Color clone set(1, 1, 1, 1)
+    backgroundColor ::= Color clone set(.5, .5, .5, .5)
+    targetPosition ::= nil
+    targetSize ::= nil
     
     draw := method(
 		drawBackground

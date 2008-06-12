@@ -23,6 +23,7 @@
 #include "IoMessage_parser.h"
 #include "IoDynLib.h"
 #include "IoWeakLink.h"
+#include "IoError.h"
 
 #include "IoSystem.h"
 #include "IoCompiler.h"

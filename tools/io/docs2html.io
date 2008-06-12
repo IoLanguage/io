@@ -1,6 +1,6 @@
 #!/usr/local/bin/io
 
-addonFolders := Directory with("addons") folders
+addonFolders := Directory with("addons") directories
 addonFolders foreach(folder,
 	System system("io tools/io/DocsExtractor.io " .. folder path)
 )
@@ -179,7 +179,7 @@ protoNames foreach(protoName,
 	writeln("""<div style="line-height:1.3em">""")
 	showMeta("module")
 	showMeta("category")
-	writeln("<font color=#bbb>")
+	writeln("<font color=#888>")
 	//showMeta("copyright")
 	//showMeta("license")
 	showMeta("credits")

@@ -1,16 +1,87 @@
 //metadoc PDB copyright Steve Dekorte 2008
 //metadoc PDB license BSD revised
-/*metadoc PDB description 
-	An arbitrary graph database with support for on-disk garbage collection. 
-*/
+//metadoc PDB proto Obsidian
 //metadoc PDB credits In collaboration with Rich Collins
 //metadoc PDB category Databases
+/*metadoc PDB description 
+An arbitrary graph database with support for on-disk garbage collection. Example use:
+
+<h4>Setup</h4>
+
+<pre>
+PDB open
+PDB root atPut("users", PMap clone)
+PDB sync
+PDB close
+</pre>
+
+PMap is a Map/Dictionary whose keys are lazily loaded from the database. 
+PDB root is the root PMap in the database and the root object used for PDB's garbage collector. 
+PDB sync needs to be called to write any changes to the database.
+
+<h4>Defining a Persistent Object</h4>
+
+<pre>
+User := Object clone pSlots(name, email)
+</pre>
+
+The pSlots(), declares which slots on the object should be persisted. 
+The List, Date, Sequence and Number primitives already know how to persist themselves.
+
+<h4>Inserting a Persistent Object</h4>
+
+<pre>
+PDB open 
+user := User clone setName("steve") setEmail("steve@foo.com")
+PDB root users atPut("steve", user)
+PDB sync
+PDB close
+</pre>
+
+<h4>Accessing a Persistent Object</h4>
+
+<pre>
+user := PDB root users at("steve")
+writeln("user name = ", user name, " email = ", user email)
+</pre>
+
+<h4>Updating a Persistent Object</h4>
+
+<pre>
+user setEmail("steve@newDomain.com")
+PDB sync 
+</pre>
+
+PDB sync will scan all persistent objects in the vm and save any with changes to their persistent slots. 
+If the object was already in the database, only it's updated slots will be written.
+
+<h4>Removing an entry in a PMap</h4>
+
+<pre>
+PDB root users removeAt("steve")
+</pre>
+
+<h4>Removing a persistent object</h4>
+
+This is never done explicitly, instead calling:
+
+<pre>
+PDB collectGarbage
+</pre>
+
+Will remove all objects unreachable by the reference graph from the root PMap.
+
+<p>
+Notes: Currently, PDB is a singleton.
+*/
 
 PDB := Obsidian clone do(
 	setPath("obsidian.tc")
 	objectsToPersist ::= List clone
 	ppidMap := Map clone
 	_root := nil
+	
+	clone := method(self)
 	
 	newId := method(
 		UUID uuidTime asMutable replaceSeq("-", "") asSymbol

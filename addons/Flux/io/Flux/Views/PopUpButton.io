@@ -1,7 +1,5 @@
 
-PopUpButton := View clone do(
-	type := "PopUpButton"
-	
+PopUpButton := View clone do(	
 	position setX(100) setY(100)
 	isSelected := 0
 	leftEnd    := ImageManager item("PopUpRightEnd")

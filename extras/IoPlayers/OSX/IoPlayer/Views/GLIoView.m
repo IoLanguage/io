@@ -78,9 +78,9 @@ void GLIoView_noop(IoGL *self, IoObject *locals, IoMessage *m)
     stringByAppendingPathComponent:@"main.io"];
 	
 	ioState = IoState_new();	
-	[self overrideIoGLMethods];
+	//[self overrideIoGLMethods];
 	
-	IoState_doFile_(ioState, (char *)[path cString]);
+	IoState_doFile_(ioState, (char *)[path UTF8String]);
 	didInit = YES;
 }
 
@@ -138,7 +138,7 @@ void GLIoView_noop(IoGL *self, IoObject *locals, IoMessage *m)
 - (void)setPassiveMotion:(BOOL)b { doesPassiveMotion = b; }
 - (void)setEntry:(BOOL)b         { doesEntry = b; }
 
-	// --- Events -----------------------------------------
+// Events -----------------------------------------
 
 - (void)windowDidExpose:(NSNotification *)aNotification
 {

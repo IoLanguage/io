@@ -9,9 +9,13 @@ View := Responder clone do(
     setSize := method(s, size copy(s); self)
     size := method(frame size)
     scale := Point clone set(1,1,1)
+
+	topRightPoint := method(
+		position + size
+	)
     
     fonts := method(Application fonts)
-    font := fonts system normal
+    font ::= fonts system normal
     
     isClipped ::= true
     clippingOn  := method(isClipped = true)
@@ -27,24 +31,24 @@ View := Responder clone do(
     setHeight := method(n, size setHeight(n))
     setWidth  := method(n, size setWidth(n))
 
-    newSlot("maxSize", nil)
-    newSlot("minSize",vector(0,0))
-    newSlot("resizeWidth", 110)
-    newSlot("resizeHeight", 110)
+    maxSize ::= nil
+    minSize ::= vector(0,0)
+    resizeWidth  ::= 110
+    resizeHeight ::= 110
 
-    newSlot("backgroundColor", Point clone set(1, 1, 1, 1))
-    newSlot("selectedColor", Point clone set(1, 1, 1, 1))
-    newSlot("outlineColor", Point clone set(0, 0, 0, 1))
-    newSlot("subviews", List clone)
+    backgroundColor ::= Point clone set(1, 1, 1, 1)
+    selectedColor   ::= Point clone set(1, 1, 1, 1)
+    outlineColor    ::= Point clone set(0, 0, 0, 1)
+    subviews  ::= List clone
     superview := nil
-    newSlot("needsRedraw", false)
+    needsRedraw ::= false
     
  	setNeedsRedraw := method(bool,
  		needsRedraw = bool
  		if(needsRedraw, glutPostRedisplay)
  	)
  	
-    newSlot("isDisplayListCached", false)
+   	isDisplayListCached ::= false
         
     init := method(
 		resend
@@ -381,14 +385,14 @@ View := Responder clone do(
 
     special := method(key, x, y,
 		//writeln(self type, "_", self uniqueId, " special ", key)
-		if(key == GLUT_KEY_LEFT, if(self hasSlot("keyboardLeftArrow"), keyboardLeftArrow; return))
-		if(key == GLUT_KEY_UP, if(self hasSlot("keyboardUpArrow"), keyboardUpArrow; return))
-		if(key == GLUT_KEY_RIGHT, if(self hasSlot("keyboardRightArrow"), keyboardRightArrow; return))
-		if(key == GLUT_KEY_DOWN, if(self hasSlot("keyboardDownArrow"), keyboardDownArrow; return))
-		if(key == GLUT_KEY_PAGE_UP, if(self hasSlot("keyboardPageUp"), keyboardPageUp; return))
+		if(key == GLUT_KEY_LEFT,      if(self hasSlot("keyboardLeftArrow"), keyboardLeftArrow; return))
+		if(key == GLUT_KEY_UP,        if(self hasSlot("keyboardUpArrow"), keyboardUpArrow; return))
+		if(key == GLUT_KEY_RIGHT,     if(self hasSlot("keyboardRightArrow"), keyboardRightArrow; return))
+		if(key == GLUT_KEY_DOWN,      if(self hasSlot("keyboardDownArrow"), keyboardDownArrow; return))
+		if(key == GLUT_KEY_PAGE_UP,   if(self hasSlot("keyboardPageUp"), keyboardPageUp; return))
 		if(key == GLUT_KEY_PAGE_DOWN, if(self hasSlot("keyboardPageDown"), keyboardPageDown; return))
-		if(key == GLUT_KEY_HOME, if(self hasSlot("keyboardHome"), keyboardHome; return))
-		if(key == GLUT_KEY_END, if(self hasSlot("keyboardEnd"), keyboardEnd; return))
+		if(key == GLUT_KEY_HOME,      if(self hasSlot("keyboardHome"), keyboardHome; return))
+		if(key == GLUT_KEY_END,       if(self hasSlot("keyboardEnd"), keyboardEnd; return))
 		nextResponder ?special(key, x, y)
     )
     
@@ -398,7 +402,6 @@ View := Responder clone do(
 		//s := Mouse state
 		sm := Mouse stateMessage
 		//writeln(self type, " '", sm name, "' ", self hasSlot(sm name))
-
 		if (self hasSlot(sm name), self doMessage(sm), if(nextResponder, nextResponder mouse))
     )
 
@@ -424,10 +427,10 @@ View := Responder clone do(
         //writeln("directMouse ", Mouse state)
 		if(Mouse state == 1, mouse; return)
 		v := screenHit
-		if(v) then(
+		if(v,
 			topWindow setFirstResponder(v)
 			v mouse
-		) else(
+		,
 			topWindow setFirstResponder(nil)
 			//if(nextResponder, nextResponder directMouse, topWindow setFirstResponder(nil))
 		)
@@ -440,7 +443,7 @@ View := Responder clone do(
     
     isFirstResponder := method(topWindow firstResponder == self)
 
-	newSlot("acceptsFirstResponder", false)
+	acceptsFirstResponder ::= false
 	
     // --------------------------------------------
 	
@@ -619,7 +622,7 @@ View := Responder clone do(
 		didChangePosition
 	)
     
-    newSlot("editors")
+    editors ::= nil
     
     //toggleEditMode := method(if(editor, endEditMode, beginEditMode))
     
@@ -635,22 +638,19 @@ View := Responder clone do(
     	if(editors, editors foreach(stopEditing); editors = nil)
     )
     
-    
 	viewChainAttribute := method(name,
 		if(self hasSlot(name), return self getSlot(name))
 		if(superview, return superview viewChainAttribute(name))
 		nil
 	)
 	
-	
 	isTextured := false
 	
 	quadric := method(self quadric := gluNewQuadric)
 	
-	newSlot("roundingSize", 10)
-	//boxColor := Color clone set(.15,.15,.15,1)
-	newSlot("boxColor", Color clone set(.1,.1,.1,1))
-	newSlot("backgroundColor", Color clone set(0,0,0,1))
+	roundingSize ::= 10
+	boxColor ::= Color clone set(.1, .1, .1, 1)
+	backgroundColor ::= Color clone set(0, 0, 0, 1)
 	
 	drawRoundedBox := method(
         slices := 20

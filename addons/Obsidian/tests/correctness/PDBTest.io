@@ -8,7 +8,7 @@ PDBTest := UnitTest clone do(
 	cleanUp := method(
 		pdb delete
 	)
-	/*
+
 	testSimpleSync := method(
 		// store a value in the root PMap
 		pdb open
@@ -42,7 +42,6 @@ PDBTest := UnitTest clone do(
 		pdb delete
 		//writeln("testObjectSync")
 	)
-	*/
 	
 	testRemove := method(
 		pdb open
@@ -54,6 +53,8 @@ PDBTest := UnitTest clone do(
 
 
 		pdb root removeSlot(rich email)
+		pdb sync
+		assertEquals(pdb root at(rich email), nil)
 		pdb repoen
 			
 		rich2 := pdb root at(rich email)

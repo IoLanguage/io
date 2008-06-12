@@ -10,6 +10,7 @@ This object provides access the world of python.
 #include "IoState.h"
 #include "IoNumber.h"
 #include "IoList.h"
+#include "IoMap.h"
 #include "IoDirectory.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -84,7 +85,7 @@ IoObject *IoPython_credits(IoPython *self, IoObject *locals, IoMessage *m)
 IoObject *IoPython_print(IoPython *self, IoObject *locals, IoMessage *m)
 {
 	PyObject *obj = DATA(self)->data;
-	if(obj > 1) {
+	if(obj != NULL) {
 		PyObject_Print(obj, stdout, 0);
 	}
 	return self;
@@ -95,21 +96,39 @@ IoObject *IoPython_print(IoPython *self, IoObject *locals, IoMessage *m)
  * At the moment, we can't pass in any objects, just those that can be translated,
  * until I build a python wrapper around an io object, reverse of what I did here.
  * TODO: Memory management!!!
+ *
+ * self: unused? (why is it here?)
+ * obj: the Io object to map into a Python object
+ * return NULL on failure -- callers should check for this case
  */
 PyObject *convertIo(IoObject *self, IoObject *obj) {
-	PyObject *ret;
+	PyObject *ret = NULL;
+	if(ISNIL(obj)) {
+		ret = Py_None;
+	}
 	if(ISNUMBER(obj)) {
 		ret = PyFloat_FromDouble(CNUMBER(obj));
 		Py_INCREF(ret);
-		return ret;
-	}
-	if(ISSEQ(obj)) {
+	} else if(ISSEQ(obj)) {
 		ret = PyString_FromString(CSTRING(obj));
 		Py_INCREF(ret);
-		return ret;
+	} else if(ISLIST(obj)) {
+		ret = PyList_New(IoList_rawSize(obj));
+		Py_INCREF(ret);
+		//todo: check for NULL returns from the recursion (and on a null, free up the half-constructed list and return NULL ourselves)
+		//otherwise you get "Bus error", probably when Python tries to complain that you've passed it an invalid data structure
+		LIST_SAFEFOREACH(IoList_rawList(obj), i, v, PyList_SET_ITEM(ret, i, convertIo(self, v)));
+	} else if(ISMAP(obj)) {
+		ret = PyDict_New();
+		Py_INCREF(ret);
+		IoList* keys = IoMap_rawKeys(obj); //XXX do I have to free this?
+		//todo: check for NULL returns from the recursions
+		LIST_SAFEFOREACH(IoList_rawList(keys), i, v, PyDict_SetItem(ret, convertIo(self, v), convertIo(self, IoMap_rawAt(obj, v))));
+	} else {
+		printf("Unable to convert parameter `%s` to python.\n", IoObject_name(obj));
 	}
-	printf("Unable to convert parameter to python.\n");
-	return NULL;
+
+	return ret;
 }
 
 /**
@@ -120,26 +139,24 @@ IoObject *convertPy(IoObject *self, PyObject *obj) {
 	//PyObject_Print(obj, stdout, 0);
 	//PyObject *pType = PyObject_Type(obj);
 	//PyObject_Print(pType, stdout, 0);
-	IoObject *ret;  // Return value
+	IoObject *ret = NULL;  // Return value
 
-	if(PyString_Check(obj)) {
+	//I've messed with the way the return value is structured in this code, it's not cleaned up yet, sorry -- nick
+	
+	if(obj == Py_None) {
+		ret = IONIL(self); 
+	} else if(PyString_Check(obj)) {
 		// Convert to Io sequence and return.
 		IoSeq *ret = IoSeq_newWithCString_(IOSTATE, PyString_AsString(obj));
-		// TODO:::: Memory management! Who's responsible here! (I am, that's who)
 		return ret;
-	}
-
-	if(PyFloat_Check(obj)) {
+		// TODO:::: Memory management! Who's responsible here! (I am, that's who)
+	} else if(PyFloat_Check(obj)) {
 		ret = IoNumber_newWithDouble_(IOSTATE, PyFloat_AS_DOUBLE(obj));
 		//Py_DECREF(obj);
-		return ret;
-	}
-	if(PyInt_Check(obj)) {
+	} else if(PyInt_Check(obj)) {
 		ret = IoNumber_newWithDouble_(IOSTATE, PyInt_AS_LONG(obj));
 		// Decref?
-		return ret;
-	}
-	if(PyList_Check(obj)) {
+	} else if(PyList_Check(obj)) {
 		// We have a list. So, make an Io list, and convert every element, and insert them.
 		int len = PyList_GET_SIZE(obj);
 		ret = IoList_new(IOSTATE);
@@ -150,18 +167,27 @@ IoObject *convertPy(IoObject *self, PyObject *obj) {
 			// insert in list
 			IoList_rawAppend_(ret, x);
 		}
-		return ret;
-	}
-	if(PyDict_Check(obj)) {
+        } else if(PyTuple_Check(obj)) { 
+                int len = PyTuple_GET_SIZE(obj);
+                ret = IoList_new(IOSTATE);
+                int i;
+                for(i=0;i<len;i++) {
+                        PyObject *o = PyTuple_GET_ITEM(obj, i);
+                        IoObject *x = convertPy(self, o);
+                        // insert in list
+                        IoList_rawAppend_(ret, x);
+                }
+	} else if(PyDict_Check(obj)) {
 		// We have a dictionary. Make an Io map, and convert all values.
 		// or should we.... Io's map can only have string keys... hardly a replacement, now is it.
 		// Would be better to build a good wrapper around the python dict.
-	}
-	if(PyCallable_Check(obj)) {
+	} else if(PyCallable_Check(obj)) {
 		//ret = IoState_doString_(IOSTATE, "method(return self invoke(\"\")");
 		// TODO: We should return a callable object here... Don't know how though. Yet.
+	} else {
+		ret = wrap(self, obj);
 	}
-	return wrap(self, obj);
+	return ret;
 }
 
 
@@ -201,14 +227,15 @@ IoObject *IoPython_call_int(IoPython *self, IoObject *locals, IoMessage *m, int 
 				PyErr_Print();
 			fprintf(stderr,"Call failed\n");
 		}
-	} else {
-		if (PyErr_Occurred())
-			PyErr_Print();
-		else {
-			return convertPy(self, pFunc);
-		}
+	} else if (PyErr_Occurred()) {
 		fprintf(stderr, "Cannot find python function \"%s\"\n", functionName);
+		PyErr_Print();
 	}
+	else {
+		return convertPy(self, pFunc);
+	}
+	
+	//catchall just in case
 	return IONIL(self);
 }
 

@@ -1,5 +1,6 @@
 
 ObsidianClient := Object clone
+
 /*
 sample client code
 

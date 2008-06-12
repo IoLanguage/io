@@ -40,13 +40,18 @@ ClipView := View clone do(
     
 	update := method(didScroll)
     
+	positionOffset := method(
+		if(xRatio > 1, offset setX(0))
+		if(yRatio > 1, offset setY(0))
+		d := size - documentView size 
+		d *= offset		
+		if (invertY and documentView size y < size y, d setY(d y + height - documentView size y))
+		d
+	)
+
 	didScroll := method(
 		documentView ?didScroll
-		if (xRatio > 1, offset setX(0))
-		if (yRatio > 1, offset setY(0))
-		d := size - documentView size 
-		d *= offset 
-		documentView position copy(d) floor
+		documentView position copy(positionOffset) floor
 		//writeln("didScroll")
 		documentView setNeedsRedraw(true)
     )

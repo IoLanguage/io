@@ -1,7 +1,7 @@
 DOServer := Server clone do(
 //metadoc DOServer category Networking
 /*metadoc DOServer description
-The DOServer object is usefull for fetching web pages and parsing DOServers. Example;
+An experimental distributed objects server. Example;
 <pre>
 Test := Object clone
 Test test := method(v, 

@@ -1,7 +1,7 @@
 
 
 OSWindow := Responder clone do(	    
- 	newSlot("frame", Box clone do(size set(500, 500)))
+ 	frame ::= Box clone do(size set(500, 500))
  	
 	position := method(frame origin)
     setPosition := method(p, position copy(p); self)
@@ -12,15 +12,15 @@ OSWindow := Responder clone do(
     width   := method(size width)
     height  := method(size height)
     
-    newSlot("title", "")
-    newSlot("firstResponder")
-    newSlot("backgroundColor", Color clone)
-    newSlot("application")
-    newSlot("subviews", List clone)
-    newSlot("windowId")
-    newSlot("isFullScreen", false)
-	newSlot("normalFrame", Box clone)
-    newSlot("frameBeforeFullScreen", Box clone)
+    title := ""
+    firstResponder ::= nil
+    backgroundColor ::= Color clone
+    application  ::= nil
+    subviews ::= List clone
+    windowId ::= nil
+    isFullScreen ::= false
+	normalFrame ::= Box clone
+    frameBeforeFullScreen ::= Box clone
    
     init := method(
 		setFrame(frame clone)
@@ -119,7 +119,7 @@ OSWindow := Responder clone do(
 		)
     )
 
-	newSlot("yieldTimerPeriod", .5)
+	yieldTimerPeriod ::= .5
 	
     yieldTimer := method(
 		//writeln("OSWindow yieldTimer ", Coroutine yieldingCoros size)

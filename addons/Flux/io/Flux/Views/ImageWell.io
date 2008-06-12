@@ -1,7 +1,5 @@
 
-ImageWell := View clone do(
-	type := "ImageWell"
-	
+ImageWell := View clone do(	
 	position setX(0) setY(0)
 	isSelected := 0
 	cornersImage := ImageManager item("ImageWellCorners")
@@ -10,7 +8,7 @@ ImageWell := View clone do(
 	corners := ImageManager item("ImageWellCorners")
 	size setWidth(150) setHeight(150)
 	motionAction := nil
-	newSlot("image")
+	image ::= nil
 		
 	draw := method(
 		w := size width

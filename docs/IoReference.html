@@ -1,4 +1,3 @@
-Warning in tools/io/docs2html.io: 'folders' is deprecated. use 'directories()' instead.
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html>
 <head>
@@ -68,6 +67,8 @@ Warning in tools/io/docs2html.io: 'folders' is deprecated. use 'directories()' i
 <div class=indexItem><a href="#DOConnection">DOConnection</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#DOProxy">DOProxy</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#DOServer">DOServer</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href="#MDOConnection">MDOConnection</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href="#MDOServer">MDOServer</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#Flux">Flux</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#Fnmatch">Fnmatch</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#Font">Font</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -89,6 +90,10 @@ Warning in tools/io/docs2html.io: 'folders' is deprecated. use 'directories()' i
 <div class=indexItem><a href="#ODEPlane">ODEPlane</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#ODESimpleSpace">ODESimpleSpace</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#ODEWorld">ODEWorld</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href="#Obsidian">Obsidian</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href="#Obsidian">Obsidian</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href="#ObsidianServer">ObsidianServer</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href="#PDB">PDB</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#OpenGL">OpenGL</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#Box">Box</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#GLApp">GLApp</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -101,9 +106,9 @@ Warning in tools/io/docs2html.io: 'folders' is deprecated. use 'directories()' i
 <div class=indexSection><a href="#PortAudio">PortAudio</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#AudioDevice">AudioDevice</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#AudioMixer">AudioMixer</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+</td><td valign=top>
 <div class=indexSection><a href="#Postgres">Postgres</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#Python">Python</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-</td><td valign=top>
 <div class=indexSection><a href="#QDBM">QDBM</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#Random">Random</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#Range">Range</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -142,9 +147,9 @@ Warning in tools/io/docs2html.io: 'folders' is deprecated. use 'directories()' i
 <div class=indexItem><a href="#TimerEvent">TimerEvent</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#URL">URL</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#WriteEvent">WriteEvent</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+</td><td valign=top>
 <div class=indexSection><a href="#SoundTouch">SoundTouch</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#Syslog">Syslog</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-</td><td valign=top>
 <div class=indexSection><a href="#SystemCall">SystemCall</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#TagLib">TagLib</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#Thread">Thread</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -167,7 +172,7 @@ Warning in tools/io/docs2html.io: 'folders' is deprecated. use 'directories()' i
 <b>Module:</b> AVCodec<br>
 <b>Category:</b> Media
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -329,7 +334,7 @@ Appends aSequence to the input buffer and resumes the receiver's coroutine in or
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> Core<br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <div class=slots>
@@ -458,7 +463,7 @@ Returns the path of the source folder for the addon.
 <b>Module:</b> AppleExtras<br>
 <b>Category:</b> Other
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -528,7 +533,7 @@ Sets aVector to the current x, y and z accelerometer values.
 <b>Module:</b> AsyncRequest<br>
 <b>Category:</b> Filesystem
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -618,7 +623,7 @@ Submits an async write request. Returns nil on error, self otherwise.
 <b>Module:</b> PortAudio<br>
 <b>Category:</b> Media
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -697,7 +702,7 @@ Returns the true if the audio buffer is empty, false otherwise.
 <b>Module:</b> PortAudio<br>
 <b>Category:</b> Media
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -782,7 +787,7 @@ Stops the mixer if it is running.
 <b>Module:</b> Core<br>
 <b>Category:</b> Core
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -902,7 +907,7 @@ If argument is an object, when the block is activated,
 <b>Module:</b> Blowfish<br>
 <b>Category:</b> Encryption
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -998,7 +1003,7 @@ If aBool is true, encrypting mode is on, otherwise, decrypting mode is on.
 <b>Module:</b> OpenGL<br>
 <b>Category:</b> Math
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -1102,7 +1107,7 @@ Same as; size x
 <b>Module:</b> CFFI<br>
 <b>Category:</b> binding
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <div class=slots>
@@ -1121,7 +1126,7 @@ Same as; size x
 <b>Module:</b> Core<br>
 <b>Category:</b> Core
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -1195,7 +1200,7 @@ Returns the name given to the CFunction.
 <b>Module:</b> CGI<br>
 <b>Category:</b> Networking
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -1425,7 +1430,7 @@ Send content for the body of the response
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> Core<br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -1543,7 +1548,7 @@ Returns the target value.
 <b>Module:</b> Core<br>
 <b>Category:</b> Core
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -1661,7 +1666,7 @@ Return the time used so far by the collector in seconds.
 <b>Module:</b> Core<br>
 <b>Category:</b> Core
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -1705,7 +1710,7 @@ Returns a list of token objects lexed from the input string.
 <b>Module:</b> Core<br>
 <b>Category:</b> Core
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -1952,7 +1957,7 @@ Reference to Scheduler yieldingCoros.
 <b>Module:</b> Curses<br>
 <b>Category:</b> Server
 <br>
-<font color=#bbb>
+<font color=#888>
 <b>Credits:</b> Original version by Edwin Zacharias. getCh method by Scott Dunlop.
 <br>
 </font>
@@ -2213,7 +2218,7 @@ Returns the cursor y position.
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> DBI<br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <div class=slots>
@@ -2262,7 +2267,7 @@ Get a new connection with the given driver.
 <b>Module:</b> DBI<br>
 <b>Category:</b> Databases
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -2367,7 +2372,7 @@ Return the next sequence that will be used during an INSERT query.
 <b>Module:</b> DBI<br>
 <b>Category:</b> Databases
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -2428,7 +2433,7 @@ Returns a new DBIRecord instance for the given value map.
 <b>Module:</b> DBI<br>
 <b>Category:</b> Databases
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -2538,7 +2543,7 @@ Returns the number of rows available.
 <b>Module:</b> Socket<br>
 <b>Category:</b> Networking
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -2578,7 +2583,7 @@ Returns a list of local name server IPs as a list of Sequences. Works on OSX, Un
 <b>Module:</b> Socket<br>
 <b>Category:</b> Networking
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -2633,7 +2638,7 @@ Pauses the calling coroutine until the query is completed.
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> Socket<br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -2708,7 +2713,7 @@ Private method that gets local name server IPs and sets up dnsServers list. Retu
 <b>Module:</b> Socket<br>
 <b>Category:</b> Networking
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -2746,7 +2751,9 @@ Sets the host name for the DNSServer.
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> DistributedObjects<br>
-<font color=#bbb>
+<b>Category:</b> Networking
+<br>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -2908,7 +2915,7 @@ Sets the port number to connect to. Returns self.
 <b>Module:</b> DistributedObjects<br>
 <b>Category:</b> Networking
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <div class=slots>
@@ -2952,12 +2959,12 @@ Sets the port number to connect to. Returns self.
 <b>Module:</b> DistributedObjects<br>
 <b>Category:</b> Networking
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
 <div class=protoDescription>
-The DOServer object is usefull for fetching web pages and parsing DOServers. Example;
+An experimental distributed objects server. Example;
 <pre>
 Test := Object clone
 Test test := method(v, 
@@ -3008,7 +3015,7 @@ Sets the root object which incoming messages will be send to.
 <b>Module:</b> Core<br>
 <b>Category:</b> Time
 <br>
-<font color=#bbb>
+<font color=#888>
 <b>Credits:</b> fromString method by Sean Perry
 <br>
 </font>
@@ -3271,7 +3278,7 @@ Returns a string containing the system's time zone code.
 <b>Module:</b> Core<br>
 <b>Category:</b> Core
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -3323,7 +3330,7 @@ Override this method to implement your own debugging mechanisms. Default behavio
 <b>Module:</b> Core<br>
 <b>Category:</b> FileSystem
 <br>
-<font color=#bbb>
+<font color=#888>
 <b>Credits:</b> Cygwin code by Mike Austin. WIN32 code by Daniel Vollmer.
 <br>
 </font>
@@ -3525,7 +3532,7 @@ Returns a new instance with the provided path.
 <b>Module:</b> Core<br>
 <b>Category:</b> Time
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -3659,7 +3666,7 @@ Returns a number containing the year of the receiver.
 <b>Module:</b> Core<br>
 <b>Category:</b> Core
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -3743,7 +3750,7 @@ Same as call but for functions with no return value. Returns nil.
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> Core<br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -3792,7 +3799,7 @@ An object that contains error information and flow control based on errors.
 <b>Module:</b> Socket<br>
 <b>Category:</b> Networking
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -3916,7 +3923,7 @@ Networking
 <b>Module:</b> Socket<br>
 <b>Category:</b> Networking
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -4008,7 +4015,7 @@ Runs the EventManger loop. Does not return.
 <b>Module:</b> Core<br>
 <b>Category:</b> FileSystem
 <br>
-<font color=#bbb>
+<font color=#888>
 <b>Credits:</b> Initial version contributed by Miles Egan.
 <br>
 </font>
@@ -4419,7 +4426,7 @@ Writes the arguments to the receiver file. Returns self.
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> Flux<br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -4463,7 +4470,7 @@ AutoImporter for the Flux Io UI framework.
 <b>Module:</b> Fnmatch<br>
 <b>Category:</b> RegularExpressions
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -4582,7 +4589,7 @@ The string to do matching on.
 <b>Module:</b> Font<br>
 <b>Category:</b> Graphics
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -4697,7 +4704,7 @@ Returns a Number with the width that aString would render
 <b>Module:</b> OpenGL<br>
 <b>Category:</b> Graphics
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <div class=slots>
@@ -4841,7 +4848,7 @@ Returns a Number with the width that aString would render
 <b>Module:</b> GLFW<br>
 <b>Category:</b> Graphics
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <div class=slots>
@@ -4860,7 +4867,7 @@ Returns a Number with the width that aString would render
 <b>Module:</b> OpenGL<br>
 <b>Category:</b> Graphics
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <div class=slots>
@@ -4944,7 +4951,7 @@ Returns a Number with the width that aString would render
 <b>Module:</b> OpenGL<br>
 <b>Category:</b> Graphics
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <div class=slots>
@@ -5849,7 +5856,7 @@ Scales the image data in dataSeqIn and outputs the result to dataSeqOut.
 <b>Module:</b> OpenGL<br>
 <b>Category:</b> Graphics
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <div class=slots>
@@ -5923,7 +5930,7 @@ Scales the image data in dataSeqIn and outputs the result to dataSeqOut.
 <b>Module:</b> OpenGL<br>
 <b>Category:</b> Graphics
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <div class=slots>
@@ -7252,7 +7259,7 @@ Scales the image data in dataSeqIn and outputs the result to dataSeqOut.
 <b>Module:</b> Socket<br>
 <b>Category:</b> Networking
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <div class=slots>
@@ -7295,7 +7302,7 @@ Set's the host name. Return self.
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> Volcano<br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <div class=slots>
@@ -7389,7 +7396,7 @@ Resets the parser state to prepare for a new parse.  Returns self.
 <b>Module:</b> Socket<br>
 <b>Category:</b> Networking
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -7454,7 +7461,7 @@ Translates hostName to an IP using asynchronous DNS and
 <b>Module:</b> Image<br>
 <b>Category:</b> Graphics
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -7702,7 +7709,7 @@ Returns the image width.
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> Core<br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -7776,7 +7783,7 @@ Turns on the Importer. Returns self.
 <b>Module:</b> LZO<br>
 <b>Category:</b> Compression
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -7846,7 +7853,7 @@ Process the inputBuffer and appends the result to the outputBuffer.
 <b>Module:</b> LZO<br>
 <b>Category:</b> Compression
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -7916,7 +7923,7 @@ Process the inputBuffer and appends the result to the outputBuffer.
 <b>Module:</b> LibSndFile<br>
 <b>Category:</b> Media
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -8025,7 +8032,7 @@ Stops processing data.
 <b>Module:</b> Loki<br>
 <b>Category:</b> Compilers
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -8065,7 +8072,7 @@ adds the CFunction to the given object on slot slotName.
 <b>Module:</b> Core<br>
 <b>Category:</b> DataStructures
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -8552,7 +8559,7 @@ Returns a new List containing the arguments.
 <b>Module:</b> MD5<br>
 <b>Category:</b> Digests
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -8595,13 +8602,183 @@ Returns a string containing a hexadecimal representation of the md5 hash.
 </div>
 </div>
 <hr align=left>
+<h2><a name="MDOConnection"></a>MDOConnection</h2>
+<div class=indent>
+<div style="line-height:1.3em">
+<b>Module:</b> DistributedObjects<br>
+<b>Category:</b> Networking
+<br>
+<font color=#888>
+</font>
+</div>
+<h3>Description</h3>
+<div class=protoDescription>
+A Minimal Distributed Objects connection. Example;
+<pre>
+dateServerCon := MDOConnection clone setHost("127.0.0.1") setPort(8123) connect
+writeln("date from date server: ", Date fromNumber(dateServerCon currentDate))
+dateServerCon close
+</pre>
+
+See the docs for MDOServer for the Date Server code.
+<p>
+A MDOConnection will pause calling coroutines until the response is received. 
+Mutliple requests can be sent before a single request returns if they are sent 
+from separate coroutines.
+
+</div>
+<div class=slots>
+<h3>Slot Index</h3>
+<div class=slotIndex>
+<a href="#MDOConnection-close">close</a><br>
+<a href="#MDOConnection-connect">connect</a><br>
+<a href="#MDOConnection-corosWaitingOnResponses">corosWaitingOnResponses</a><br>
+<a href="#MDOConnection-localObject">localObject</a><br>
+<a href="#MDOConnection-receiveLoop">receiveLoop</a><br>
+<a href="#MDOConnection-receiveResponse">receiveResponse</a><br>
+<a href="#MDOConnection-receiveSend">receiveSend</a><br>
+<a href="#MDOConnection-remoteObject">remoteObject</a><br>
+<a href="#MDOConnection-send">send</a><br>
+<a href="#MDOConnection-setCorosWaitingOnResponses">setCorosWaitingOnResponses</a><br>
+<a href="#MDOConnection-setHost">setHost</a><br>
+<a href="#MDOConnection-setLocalObject">setLocalObject</a><br>
+<a href="#MDOConnection-setPort">setPort</a><br>
+<a href="#MDOConnection-setRemoteObject">setRemoteObject</a><br>
+<a href="#MDOConnection-setSocket">setSocket</a><br>
+<a href="#MDOConnection-socket">socket</a><br>
+</div>
+<p>
+<h3>Slots</h3>
+<p>
+<a name="MDOConnection-close"></a><b>close</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-connect"></a><b>connect</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-corosWaitingOnResponses"></a><b>corosWaitingOnResponses</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-localObject"></a><b>localObject</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-receiveLoop"></a><b>receiveLoop</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-receiveResponse"></a><b>receiveResponse</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-receiveSend"></a><b>receiveSend</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-remoteObject"></a><b>remoteObject</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-send"></a><b>send</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-setCorosWaitingOnResponses"></a><b>setCorosWaitingOnResponses</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-setHost"></a><b>setHost</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-setLocalObject"></a><b>setLocalObject</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-setPort"></a><b>setPort</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-setRemoteObject"></a><b>setRemoteObject</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-setSocket"></a><b>setSocket</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-socket"></a><b>socket</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+</div>
+</div>
+<hr align=left>
+<h2><a name="MDOServer"></a>MDOServer</h2>
+<div class=indent>
+<div style="line-height:1.3em">
+<b>Module:</b> DistributedObjects<br>
+<b>Category:</b> Networking
+<br>
+<font color=#888>
+</font>
+</div>
+<h3>Description</h3>
+<div class=protoDescription>
+A Minimal Distributed Objects server. Example;
+<pre>
+DateServer := Object clone do(
+	acceptedMessageNames := list("currentDate")
+	currentDate := method(Date clone asNumber)
+)
+
+mdoServer := MDOServer clone 
+mdoServer setHost("127.0.0.1")  setPort(8123) 
+mdoServer setLocalObject(DateServer clone)
+mdoServer start
+</pre>
+
+</div>
+<div class=slots>
+<h3>Slot Index</h3>
+<div class=slotIndex>
+<a href="#MDOServer-handleSocket">handleSocket</a><br>
+<a href="#MDOServer-localObject">localObject</a><br>
+<a href="#MDOServer-setLocalObject">setLocalObject</a><br>
+<a href="#MDOServer-socket">socket</a><br>
+</div>
+<p>
+<h3>Slots</h3>
+<p>
+<a name="MDOServer-handleSocket"></a><b>handleSocket</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOServer-localObject"></a><b>localObject</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOServer-setLocalObject"></a><b>setLocalObject</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOServer-socket"></a><b>socket</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+</div>
+</div>
+<hr align=left>
 <h2><a name="Map"></a>Map</h2>
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> Core<br>
 <b>Category:</b> DataStructures
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -8737,7 +8914,7 @@ Returns a List of the receivers values.
 <b>Module:</b> Core<br>
 <b>Category:</b> Core
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -9018,7 +9195,7 @@ Returns a new message object with the receivers message as the first argument of
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> Core<br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <div class=slots>
@@ -9047,7 +9224,7 @@ Leaves aNumberToLeave items then removes aNumberToRemove items.  Returns self.
 <b>Module:</b> Core<br>
 <b>Category:</b> Core
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -9642,7 +9819,7 @@ Returns a new number with the bitwise OR of the receiver and aNumber.
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> ODE<br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -9664,7 +9841,7 @@ ODEBody binding
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> ODE<br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -9686,7 +9863,7 @@ ODEBox binding
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> ODE<br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -9708,7 +9885,7 @@ ODEContact binding
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> ODE<br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -9730,7 +9907,7 @@ ODEJoint binding
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> ODE<br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -9752,7 +9929,7 @@ ODEJointGroup binding
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> ODE<br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -9774,7 +9951,7 @@ ODEMass binding
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> ODE<br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -9796,7 +9973,7 @@ ODEPlane binding
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> ODE<br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -9818,7 +9995,7 @@ ODESimpleSpace binding
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> ODE<br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -9842,7 +10019,7 @@ ODEWorld binding
 <b>Module:</b> Core<br>
 <b>Category:</b> Core
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -10666,13 +10843,199 @@ Same as write() but also writes a return character at the end. Returns Nil.
 </div>
 </div>
 <hr align=left>
+<h2><a name="Obsidian"></a>Obsidian</h2>
+<div class=indent>
+<div style="line-height:1.3em">
+<b>Module:</b> Obsidian<br>
+<b>Category:</b> Databases
+<br>
+<font color=#888>
+<b>Credits:</b> In collaboration with Rich Collins
+<br>
+</font>
+</div>
+<h3>Description</h3>
+<div class=protoDescription>
+A double key/value database with cursors on first key. Basis for PDB.
+
+</div>
+<div class=slots>
+<h3>Slot Index</h3>
+<div class=slotIndex>
+<a href="#Obsidian-acceptedMessageNames">acceptedMessageNames</a><br>
+<a href="#Obsidian-close">close</a><br>
+<a href="#Obsidian-cursorOn">cursorOn</a><br>
+<a href="#Obsidian-delete">delete</a><br>
+<a href="#Obsidian-name">name</a><br>
+<a href="#Obsidian-onAfter">onAfter</a><br>
+<a href="#Obsidian-onAt">onAt</a><br>
+<a href="#Obsidian-onAtPut">onAtPut</a><br>
+<a href="#Obsidian-onBefore">onBefore</a><br>
+<a href="#Obsidian-onFirst">onFirst</a><br>
+<a href="#Obsidian-onLast">onLast</a><br>
+<a href="#Obsidian-onRemoveAt">onRemoveAt</a><br>
+<a href="#Obsidian-open">open</a><br>
+<a href="#Obsidian-path">path</a><br>
+<a href="#Obsidian-setName">setName</a><br>
+<a href="#Obsidian-setPath">setPath</a><br>
+<a href="#Obsidian-setSharedPrefixCursor">setSharedPrefixCursor</a><br>
+<a href="#Obsidian-sharedPrefixCursor">sharedPrefixCursor</a><br>
+</div>
+<p>
+<h3>Slots</h3>
+<p>
+<a name="Obsidian-acceptedMessageNames"></a><b>acceptedMessageNames</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Obsidian-close"></a><b>close</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Obsidian-cursorOn"></a><b>cursorOn</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Obsidian-delete"></a><b>delete</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Obsidian-name"></a><b>name</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Obsidian-onAfter"></a><b>onAfter</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Obsidian-onAt"></a><b>onAt</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Obsidian-onAtPut"></a><b>onAtPut</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Obsidian-onBefore"></a><b>onBefore</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Obsidian-onFirst"></a><b>onFirst</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Obsidian-onLast"></a><b>onLast</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Obsidian-onRemoveAt"></a><b>onRemoveAt</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Obsidian-open"></a><b>open</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Obsidian-path"></a><b>path</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Obsidian-setName"></a><b>setName</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Obsidian-setPath"></a><b>setPath</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Obsidian-setSharedPrefixCursor"></a><b>setSharedPrefixCursor</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Obsidian-sharedPrefixCursor"></a><b>sharedPrefixCursor</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+</div>
+</div>
+<hr align=left>
+<h2><a name="ObsidianServer"></a>ObsidianServer</h2>
+<div class=indent>
+<div style="line-height:1.3em">
+<b>Module:</b> Obsidian<br>
+<b>Category:</b> Databases
+<br>
+<font color=#888>
+</font>
+</div>
+<h3>Description</h3>
+<div class=protoDescription>
+
+A network interface for Obsidian.
+
+<h4>Starting a Server</h4>
+
+<pre>
+oServer := ObsidianServer clone
+oServer localObject setName("foo") open
+oServer start
+</pre>
+
+<h4>Example Client Code</h4>
+
+<pre>
+client := MDOConnection clone setHost("127.0.0.1") setPort(8000) connect
+client onAtPut("1", "aKey", "aSlot")
+client onAtPut("1", "cKey", "cSlot")
+client onAtPut("1", "bKey", "bSlot")
+client first("1", 5) println
+a := client onAt("1", "aKey")
+writeln("a = ", a)
+b := client onAt("1", "bKey")
+writeln("b = ", b)
+client close
+</pre>
+
+The messages accepted by the Obsidian server include:
+
+<pre>
+onAtPut(id, key, value)
+onAt(id, key)
+onRemoveAt(id, key)
+onFirst(id, count)
+onLast(id, count)
+onAfter(id, key, count)
+onBefore(id, key, count)
+</pre>
+
+</div>
+<div class=slots>
+<h3>Slot Index</h3>
+<div class=slotIndex>
+<a href="#ObsidianServer-localObject">localObject</a><br>
+<a href="#ObsidianServer-socket">socket</a><br>
+</div>
+<p>
+<h3>Slots</h3>
+<p>
+<a name="ObsidianServer-localObject"></a><b>localObject</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ObsidianServer-socket"></a><b>socket</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+</div>
+</div>
+<hr align=left>
 <h2><a name="OpenGL"></a>OpenGL</h2>
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> OpenGL<br>
 <b>Category:</b> Graphics
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <div class=slots>
@@ -11280,13 +11643,182 @@ Same as write() but also writes a return character at the end. Returns Nil.
 </div>
 </div>
 <hr align=left>
+<h2><a name="PDB"></a>PDB</h2>
+<div class=indent>
+<div style="line-height:1.3em">
+<b>Module:</b> Obsidian<br>
+<b>Category:</b> Databases
+<br>
+<font color=#888>
+<b>Credits:</b> In collaboration with Rich Collins
+<br>
+</font>
+</div>
+<h3>Description</h3>
+<div class=protoDescription>
+An arbitrary graph database with support for on-disk garbage collection. Example use:
+
+<h4>Setup</h4>
+
+<pre>
+PDB open
+PDB root atPut("users", PMap clone)
+PDB sync
+PDB close
+</pre>
+
+PMap is a Map/Dictionary whose keys are lazily loaded from the database. 
+PDB root is the root PMap in the database and the root object used for PDB's garbage collector. 
+PDB sync needs to be called to write any changes to the database.
+
+<h4>Defining a Persistent Object</h4>
+
+<pre>
+User := Object clone pSlots(name, email)
+</pre>
+
+The pSlots(), declares which slots on the object should be persisted. 
+The List, Date, Sequence and Number primitives already know how to persist themselves.
+
+<h4>Inserting a Persistent Object</h4>
+
+<pre>
+PDB open 
+user := User clone setName("steve") setEmail("steve@foo.com")
+PDB root users atPut("steve", user)
+PDB sync
+PDB close
+</pre>
+
+<h4>Accessing a Persistent Object</h4>
+
+<pre>
+user := PDB root users at("steve")
+writeln("user name = ", user name, " email = ", user email)
+</pre>
+
+<h4>Updating a Persistent Object</h4>
+
+<pre>
+user setEmail("steve@newDomain.com")
+PDB sync 
+</pre>
+
+PDB sync will scan all persistent objects in the vm and save any with changes to their persistent slots. 
+If the object was already in the database, only it's updated slots will be written.
+
+<h4>Removing an entry in a PMap</h4>
+
+<pre>
+PDB root users removeAt("steve")
+</pre>
+
+<h4>Removing a persistent object</h4>
+
+This is never done explicitly, instead calling:
+
+<pre>
+PDB collectGarbage
+</pre>
+
+Will remove all objects unreachable by the reference graph from the root PMap.
+
+<p>
+Notes: Currently, PDB is a singleton.
+
+</div>
+<div class=slots>
+<h3>Slot Index</h3>
+<div class=slotIndex>
+<a href="#PDB-addObjectToPersist">addObjectToPersist</a><br>
+<a href="#PDB-clone">clone</a><br>
+<a href="#PDB-close">close</a><br>
+<a href="#PDB-collectGarbage">collectGarbage</a><br>
+<a href="#PDB-db">db</a><br>
+<a href="#PDB-newId">newId</a><br>
+<a href="#PDB-objectAtPpid">objectAtPpid</a><br>
+<a href="#PDB-objectsToPersist">objectsToPersist</a><br>
+<a href="#PDB-path">path</a><br>
+<a href="#PDB-ppidMap">ppidMap</a><br>
+<a href="#PDB-repoen">repoen</a><br>
+<a href="#PDB-root">root</a><br>
+<a href="#PDB-setObjectsToPersist">setObjectsToPersist</a><br>
+<a href="#PDB-show">show</a><br>
+<a href="#PDB-sync">sync</a><br>
+</div>
+<p>
+<h3>Slots</h3>
+<p>
+<a name="PDB-addObjectToPersist"></a><b>addObjectToPersist</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="PDB-clone"></a><b>clone</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="PDB-close"></a><b>close</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="PDB-collectGarbage"></a><b>collectGarbage</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="PDB-db"></a><b>db</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="PDB-newId"></a><b>newId</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="PDB-objectAtPpid"></a><b>objectAtPpid</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="PDB-objectsToPersist"></a><b>objectsToPersist</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="PDB-path"></a><b>path</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="PDB-ppidMap"></a><b>ppidMap</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="PDB-repoen"></a><b>repoen</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="PDB-root"></a><b>root</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="PDB-setObjectsToPersist"></a><b>setObjectsToPersist</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="PDB-show"></a><b>show</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="PDB-sync"></a><b>sync</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+</div>
+</div>
+<hr align=left>
 <h2><a name="Path"></a>Path</h2>
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> Core<br>
 <b>Category:</b> FileSystem
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <div class=slots>
@@ -11325,7 +11857,7 @@ Returns a new Path object for the given Sequence.
 <b>Module:</b> Postgres<br>
 <b>Category:</b> Databases
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <div class=slots>
@@ -11429,7 +11961,7 @@ Returns a new Path object for the given Sequence.
 <b>Module:</b> Python<br>
 <b>Category:</b> Server
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -11478,7 +12010,7 @@ This object provides access the world of python.
 <b>Module:</b> QDBM<br>
 <b>Category:</b> Databases
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -11649,7 +12181,7 @@ Syncs the database. Returns self
 <b>Module:</b> Random<br>
 <b>Category:</b> Math
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -11709,7 +12241,7 @@ If called with:
 <b>Module:</b> Range<br>
 <b>Category:</b> Jeremy Tregunna, 2006
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -11866,7 +12398,7 @@ Returns the value of the current item in the range.
 <b>Module:</b> Rational<br>
 <b>Category:</b> Math
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <div class=slots>
@@ -12000,7 +12532,7 @@ Convenience constructor. Returns a new Rational number whose numerator and denom
 <b>Module:</b> Socket<br>
 <b>Category:</b> Networking
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -12029,7 +12561,7 @@ Object for read events.
 <b>Module:</b> Regex<br>
 <b>Category:</b> Parsers
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -12232,7 +12764,7 @@ Returns a new Regex created from the given pattern string.
 <b>Module:</b> Regex<br>
 <b>Category:</b> Parsers
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -12426,7 +12958,7 @@ Returns the string that this match was found in.
 <b>Module:</b> Regex<br>
 <b>Category:</b> Parsers
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -12578,7 +13110,7 @@ Returns the string that the receiver finds matches in.
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> SGML<br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <div class=slots>
@@ -12622,7 +13154,7 @@ Returns a List containing the tag's subitems.
 <b>Module:</b> SGML<br>
 <b>Category:</b> XML
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -12663,7 +13195,7 @@ Parses aSequence and returns an SGMLTag object.
 <b>Module:</b> SHA1<br>
 <b>Category:</b> Digests
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -12714,7 +13246,7 @@ Returns a string containing a hexadecimal representation of the sha1 hash.")
 <b>Module:</b> SQLite<br>
 <b>Category:</b> 	Databases
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -12870,7 +13402,7 @@ Returns a list containing the names of all views in the database.
 <b>Module:</b> SQLite3<br>
 <b>Category:</b> 	Databases
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -13035,7 +13567,7 @@ Returns a list containing the names of all
 <b>Module:</b> SampleRateConverter<br>
 <b>Category:</b> Media
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -13114,7 +13646,7 @@ Returns a list containing the names of all
 <b>Module:</b> Core<br>
 <b>Category:</b> Core
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -13166,7 +13698,7 @@ Returns a number containing the time limit of calls made to the Sandbox.
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> Core<br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <div class=slots>
@@ -13210,7 +13742,7 @@ The List of yielding Coroutine objects.
 <b>Module:</b> Core<br>
 <b>Category:</b> Core
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -13270,6 +13802,7 @@ Terminology
 <a href="#Sequence-asNumber">asNumber</a><br>
 <a href="#Sequence-asOSPath">asOSPath</a><br>
 <a href="#Sequence-asRegex">asRegex</a><br>
+<a href="#Sequence-asSerialization">asSerialization</a><br>
 <a href="#Sequence-asSimpleString">asSimpleString</a><br>
 <a href="#Sequence-asString">asString</a><br>
 <a href="#Sequence-asStruct">asStruct()</a><br>
@@ -13338,6 +13871,7 @@ Terminology
 <a href="#Sequence-floor">floor</a><br>
 <a href="#Sequence-foreach">foreach()</a><br>
 <a href="#Sequence-fromBase">fromBase()</a><br>
+<a href="#Sequence-fromSerialization">fromSerialization</a><br>
 <a href="#Sequence-glClearColor">glClearColor</a><br>
 <a href="#Sequence-glColor">glColor</a><br>
 <a href="#Sequence-glNormal">glNormal</a><br>
@@ -13687,6 +14221,10 @@ Returns a OS style path for an Io style path.
 <div class=slotDescription>
 Returns a new Regex created from the receiver.
 </div>
+<a name="Sequence-asSerialization"></a><b>asSerialization</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="Sequence-asSimpleString"></a><b>asSimpleString</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
@@ -14020,6 +14558,10 @@ aSequence foreach(v, writeln("value ", v))
 <div class=slotDescription>
 Returns a number with a base 10 representation of the receiver
 	converted from the specified base. Only base 2 through 32 are currently supported.
+</div>
+<a name="Sequence-fromSerialization"></a><b>fromSerialization</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 <a name="Sequence-glClearColor"></a><b>glClearColor</b><p>
 <div class=slotDescription>
@@ -14649,7 +15191,7 @@ The output pointStructSeq would contain 2 raw 32 bit floats.
 <b>Module:</b> Socket<br>
 <b>Category:</b> Networking
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -14732,7 +15274,7 @@ Stops the server if it is running. Returns self.
 <b>Module:</b> Socket<br>
 <b>Category:</b> Networking
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -14761,7 +15303,7 @@ Object for signal events.
 <b>Module:</b> SkipDB<br>
 <b>Category:</b> Databases
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -14815,7 +15357,7 @@ Returns the number of keys in the receiver.
 <b>Module:</b> SkipDB<br>
 <b>Category:</b> Databases")
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -14874,7 +15416,7 @@ Returns the current cursor key, or nil if the cursor is out of range.
 <b>Module:</b> SkipDB<br>
 <b>Category:</b> Databases")
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -14949,7 +15491,7 @@ Sets the path to the dbm folder. Returns self.
 <b>Module:</b> Socket<br>
 <b>Category:</b> Networking
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -15324,7 +15866,7 @@ Returns the length of time in seconds for write timeouts on the socket.
 <b>Module:</b> SoundTouch<br>
 <b>Category:</b> 	Media
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -15393,7 +15935,7 @@ Cleans up SoundTouch.
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> Core<br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <div class=slots>
@@ -15412,7 +15954,7 @@ Cleans up SoundTouch.
 <b>Module:</b> Syslog<br>
 <b>Category:</b> Server
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -15595,7 +16137,7 @@ Reopens an already open log session. This is useful if you wish to
 <b>Module:</b> Core<br>
 <b>Category:</b> Core
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <div class=slots>
@@ -15744,7 +16286,7 @@ Returns a version number for Io.
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> SystemCall<br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <div class=slots>
@@ -15871,7 +16413,7 @@ Run the system call.")
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> Core<br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <div class=slots>
@@ -15890,7 +16432,7 @@ Run the system call.")
 <b>Module:</b> TagLib<br>
 <b>Category:</b> 	Media
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -15938,7 +16480,7 @@ Saves the tag settings and returns self.
 <b>Module:</b> Thread<br>
 <b>Category:</b> Concurrency
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -15976,7 +16518,7 @@ Thread createThread()
 <b>Module:</b> Socket<br>
 <b>Category:</b> Networking
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -16003,7 +16545,7 @@ Object for timer events.
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> Core<br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <div class=slots>
@@ -16022,7 +16564,7 @@ Object for timer events.
 <b>Module:</b> TokyoCabinet<br>
 <b>Category:</b> Databases
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -16158,7 +16700,7 @@ Transactionally remove the given key. Returns self.
 <b>Module:</b> TokyoCabinet<br>
 <b>Category:</b> Databases
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -16234,7 +16776,7 @@ Returns current cursor value or nil.
 <b>Module:</b> TokyoCabinet<br>
 <b>Category:</b> Databases
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -16320,7 +16862,7 @@ Returns current cursor value or nil.
 <b>Module:</b> Socket<br>
 <b>Category:</b> Networking
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <div class=slots>
@@ -16560,7 +17102,7 @@ Returns a new URL instance for the url in the urlString.
 <b>Module:</b> UUID<br>
 <b>Category:</b> 	Encryption
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -16602,7 +17144,7 @@ Returns a new time and mac uuid (type 1) in string format.
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> Core<br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <div class=slots>
@@ -16716,7 +17258,7 @@ Testing
 <b>Module:</b> User<br>
 <b>Category:</b> Server
 <br>
-<font color=#bbb>
+<font color=#888>
 <b>Credits:</b> Windows code by Mike Austin
 <br>
 </font>
@@ -16751,7 +17293,7 @@ Returns the current user's name.
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> OpenGL<br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <div class=slots>
@@ -16778,7 +17320,7 @@ Returns the current user's name.
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> AVCodec<br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <div class=slots>
@@ -16839,7 +17381,7 @@ Private setter for frameNumber. Returns self.
 <b>Module:</b> Core<br>
 <b>Category:</b> 	Core
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -16878,7 +17420,7 @@ Sets the link pointer. Returns self.
 <b>Module:</b> Socket<br>
 <b>Category:</b> Networking
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -16907,7 +17449,7 @@ Object for write events.
 <b>Module:</b> Zlib<br>
 <b>Category:</b> Compression
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -16976,7 +17518,7 @@ Process the inputBuffer and appends the result to the outputBuffer.
 <b>Module:</b> Zlib<br>
 <b>Category:</b> Compression
 <br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -17025,7 +17567,7 @@ Process the inputBuffer and appends the result to the outputBuffer.
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> Core<br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <h3>Description</h3>
@@ -17087,7 +17629,7 @@ Returns nil without evaluating expression.
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> Core<br>
-<font color=#bbb>
+<font color=#888>
 </font>
 </div>
 <div class=slots>
@@ -17104,6 +17646,7 @@ Returns nil without evaluating expression.
 <a href="#true-justSerialized">justSerialized</a><br>
 <a href="#true-not">not</a><br>
 <a href="#true-or">or</a><br>
+<a href="#true-ppid">ppid</a><br>
 <a href="#true-then">then</a><br>
 </div>
 <p>
@@ -17152,6 +17695,10 @@ Does not eval argument and returns false.
 <a name="true-or"></a><b>or</b><p>
 <div class=slotDescription>
 Does not eval argument and returns true.
+</div>
+<a name="true-ppid"></a><b>ppid</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 <a name="true-then"></a><b>then</b><p>
 <div class=slotDescription>

@@ -1,9 +1,7 @@
 
 Label := View clone do(
-	protoName := "Label"
 	textColor := Point clone set(1, 1, 1, 1)
-	title := "Label"
-	setTitle := method(t, title = t)
+	title ::= "Label"
 	clippingOff
 	
 	draw := method(

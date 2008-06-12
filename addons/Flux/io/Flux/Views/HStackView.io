@@ -1,7 +1,5 @@
 
-HStackView := View clone do(
-    protoName := "HStackView"
-	    
+HStackView := View clone do(	    
     organize := method(
 		last := nil
 		

@@ -18,6 +18,26 @@ int UArray_MachineIsLittleEndian(void)
 	return ((unsigned char *)(&i))[0] == 1;
 }
 
+/*
+int strlenUTF8(char *s) 
+{
+	int i = 0;
+	int len = 0;
+	
+	while (s[i]) 
+	{
+		if ((s[i] & 0xc0) != 0x80) 
+		{
+			len ++;
+		}
+		
+		i ++;
+	}
+	
+	return len;
+}
+*/
+
 static int UArray_SizeOfUTF8Char(const uint8_t *s)
 {
 	uint8_t c = *s;

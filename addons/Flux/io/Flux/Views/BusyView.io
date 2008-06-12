@@ -25,7 +25,10 @@ BusyView := View clone do(
 	)
 	
 	draw := method(
-        isActive ifFalse(return)
+       	isActive ifFalse(return)
+ 		//writeln("BusyView draw ", position, " ", size)
+		glColor4d(1,1,1,1)
+		
 		glPushMatrix
 		glTranslated(width/2, height/2, 0)
 		glRotated(-counter * 20, 0, 0, 1)
@@ -47,8 +50,10 @@ BusyView := View clone do(
 	timer := method(v,
 		counter =  counter + 1
 		if (counter > 360, counter := 0)
-		//writeln("BusyView timer ", topWindow type)
+		//writeln("BusyView timer")
 		topWindow ?addTimerTargetWithDelay(self, .07)
+		setNeedsRedraw(true)
+		yield
 		glutPostRedisplay
 	)
 )

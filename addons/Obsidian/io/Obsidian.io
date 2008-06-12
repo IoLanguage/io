@@ -37,6 +37,7 @@ Obsidian := Object clone do(
 		//writeln("db transactionalAtPut('", key, "', '", value, "')")
 		db transactionalAtPut(key, value)
 		//if(db at(key) != value, Exception raise(key .. " not saved"))
+		nil
  	)
 	
 	onAt := method(objId, slotName,
@@ -107,4 +108,16 @@ Obsidian := Object clone do(
 		)
 		keys			
 	)	
+	
+	sizeOn := method(objId,
+		c := sharedPrefixCursor setPrefix(objId)
+		c goto(slotName)
+		size := 1
+		while (c key,
+			size = size + 1
+			if(k == nil, break)
+			c next
+		)
+		size			
+	)
 )

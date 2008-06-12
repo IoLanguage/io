@@ -67,7 +67,6 @@
 		AA3E2A330BD6FC17004CBC79 /* CollectorMarker_inline.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E29D70BD6FC17004CBC79 /* CollectorMarker_inline.h */; };
 		AA3E2A340BD6FC17004CBC79 /* Common.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E29D80BD6FC17004CBC79 /* Common.h */; };
 		AA3E2A350BD6FC17004CBC79 /* Common_inline.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E29D90BD6FC17004CBC79 /* Common_inline.h */; };
-		AA3E2A360BD6FC17004CBC79 /* ConvertUTF.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E29DA0BD6FC17004CBC79 /* ConvertUTF.h */; };
 		AA3E2A370BD6FC17004CBC79 /* Coro.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E29DB0BD6FC17004CBC79 /* Coro.h */; };
 		AA3E2A380BD6FC17004CBC79 /* Date.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E29DC0BD6FC17004CBC79 /* Date.h */; };
 		AA3E2A390BD6FC17004CBC79 /* Duration.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E29DD0BD6FC17004CBC79 /* Duration.h */; };
@@ -98,7 +97,6 @@
 		AA3E2A520BD6FC17004CBC79 /* IoObject.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E29F60BD6FC17004CBC79 /* IoObject.h */; };
 		AA3E2A530BD6FC17004CBC79 /* IoObject_flow.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E29F70BD6FC17004CBC79 /* IoObject_flow.h */; };
 		AA3E2A540BD6FC17004CBC79 /* IoObject_inline.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E29F80BD6FC17004CBC79 /* IoObject_inline.h */; };
-		AA3E2A550BD6FC17004CBC79 /* IoObject_persistence.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E29F90BD6FC17004CBC79 /* IoObject_persistence.h */; };
 		AA3E2A560BD6FC17004CBC79 /* IoObject_struct.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E29FA0BD6FC17004CBC79 /* IoObject_struct.h */; };
 		AA3E2A570BD6FC17004CBC79 /* IoSandbox.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E29FB0BD6FC17004CBC79 /* IoSandbox.h */; };
 		AA3E2A580BD6FC17004CBC79 /* IoSeq.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E29FC0BD6FC17004CBC79 /* IoSeq.h */; };
@@ -139,7 +137,6 @@
 		AA3E2A7B0BD6FC17004CBC79 /* RandomGen.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E2A1F0BD6FC17004CBC79 /* RandomGen.h */; };
 		AA3E2A7C0BD6FC17004CBC79 /* SHash.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E2A200BD6FC17004CBC79 /* SHash.h */; };
 		AA3E2A7D0BD6FC17004CBC79 /* SHash_inline.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E2A210BD6FC17004CBC79 /* SHash_inline.h */; };
-		AA3E2A7E0BD6FC17004CBC79 /* Sorting.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E2A220BD6FC17004CBC79 /* Sorting.h */; };
 		AA3E2A7F0BD6FC17004CBC79 /* Stack.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E2A230BD6FC17004CBC79 /* Stack.h */; };
 		AA3E2A800BD6FC17004CBC79 /* Stack_inline.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E2A240BD6FC17004CBC79 /* Stack_inline.h */; };
 		AA3E2A810BD6FC17004CBC79 /* UArray.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E2A250BD6FC17004CBC79 /* UArray.h */; };
@@ -152,7 +149,6 @@
 		AA3E2A880BD6FC17004CBC79 /* UArray_utf.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E2A2C0BD6FC17004CBC79 /* UArray_utf.h */; };
 		AA3E2A9D0BD6FC2C004CBC79 /* GLIncludes.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E2A8A0BD6FC2C004CBC79 /* GLIncludes.h */; };
 		AA3E2A9E0BD6FC2C004CBC79 /* IoBox_gl.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E2A8B0BD6FC2C004CBC79 /* IoBox_gl.h */; };
-		AA3E2A9F0BD6FC2C004CBC79 /* IoDisplayList.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E2A8C0BD6FC2C004CBC79 /* IoDisplayList.h */; };
 		AA3E2AA00BD6FC2C004CBC79 /* IoGLconst.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E2A8D0BD6FC2C004CBC79 /* IoGLconst.h */; };
 		AA3E2AA10BD6FC2C004CBC79 /* IoGLEconst.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E2A8E0BD6FC2C004CBC79 /* IoGLEconst.h */; };
 		AA3E2AA20BD6FC2C004CBC79 /* IoGLEfunc.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E2A8F0BD6FC2C004CBC79 /* IoGLEfunc.h */; };
@@ -160,10 +156,8 @@
 		AA3E2AA40BD6FC2C004CBC79 /* IoGLScissor.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E2A910BD6FC2C004CBC79 /* IoGLScissor.h */; };
 		AA3E2AA50BD6FC2C004CBC79 /* IoGLU.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E2A920BD6FC2C004CBC79 /* IoGLU.h */; };
 		AA3E2AA60BD6FC2C004CBC79 /* IoGLUconst.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E2A930BD6FC2C004CBC79 /* IoGLUconst.h */; };
-		AA3E2AA70BD6FC2C004CBC79 /* IoGLUCylinder.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E2A940BD6FC2C004CBC79 /* IoGLUCylinder.h */; };
 		AA3E2AA80BD6FC2C004CBC79 /* IoGLUfunc.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E2A950BD6FC2C004CBC79 /* IoGLUfunc.h */; };
 		AA3E2AA90BD6FC2C004CBC79 /* IoGLUQuadric.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E2A960BD6FC2C004CBC79 /* IoGLUQuadric.h */; };
-		AA3E2AAA0BD6FC2C004CBC79 /* IoGLUSphere.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E2A970BD6FC2C004CBC79 /* IoGLUSphere.h */; };
 		AA3E2AAB0BD6FC2C004CBC79 /* IoGLUT.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E2A980BD6FC2C004CBC79 /* IoGLUT.h */; };
 		AA3E2AAC0BD6FC2C004CBC79 /* IoGLUTconst.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E2A990BD6FC2C004CBC79 /* IoGLUTconst.h */; };
 		AA3E2AAD0BD6FC2C004CBC79 /* IoGLUTfunc.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3E2A9A0BD6FC2C004CBC79 /* IoGLUTfunc.h */; };
@@ -176,6 +170,11 @@
 		AAB21BE8053FF78F00E7E01B /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB21BE6053FF78F00E7E01B /* OpenGL.framework */; };
 		AAB21C33054000EE00E7E01B /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB21C31054000EE00E7E01B /* AudioToolbox.framework */; };
 		AAB21C34054000EE00E7E01B /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAB21C32054000EE00E7E01B /* CoreAudio.framework */; };
+		AAEAAA610DF89A1D00CA9B17 /* IoError.h in Headers */ = {isa = PBXBuildFile; fileRef = AAEAAA5C0DF89A1D00CA9B17 /* IoError.h */; };
+		AAEAAA620DF89A1D00CA9B17 /* PortableSorting.h in Headers */ = {isa = PBXBuildFile; fileRef = AAEAAA5D0DF89A1D00CA9B17 /* PortableSorting.h */; };
+		AAEAAA630DF89A1D00CA9B17 /* utf8.h in Headers */ = {isa = PBXBuildFile; fileRef = AAEAAA5E0DF89A1D00CA9B17 /* utf8.h */; };
+		AAEAAA640DF89A1D00CA9B17 /* utf8internal.h in Headers */ = {isa = PBXBuildFile; fileRef = AAEAAA5F0DF89A1D00CA9B17 /* utf8internal.h */; };
+		AAEAAA650DF89A1D00CA9B17 /* utf_convert.h in Headers */ = {isa = PBXBuildFile; fileRef = AAEAAA600DF89A1D00CA9B17 /* utf_convert.h */; };
 		F6030E5A036EB36F017668DC /* GLIoView.h in Headers */ = {isa = PBXBuildFile; fileRef = F6030E56036EB36F017668DC /* GLIoView.h */; };
 		F6030E5B036EB36F017668DC /* GLIoView.m in Sources */ = {isa = PBXBuildFile; fileRef = F6030E57036EB36F017668DC /* GLIoView.m */; };
 /* End PBXBuildFile section */
@@ -200,7 +199,6 @@
 		AA3E29D70BD6FC17004CBC79 /* CollectorMarker_inline.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CollectorMarker_inline.h; path = ../../../../_build/headers/CollectorMarker_inline.h; sourceTree = SOURCE_ROOT; };
 		AA3E29D80BD6FC17004CBC79 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Common.h; path = ../../../../_build/headers/Common.h; sourceTree = SOURCE_ROOT; };
 		AA3E29D90BD6FC17004CBC79 /* Common_inline.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Common_inline.h; path = ../../../../_build/headers/Common_inline.h; sourceTree = SOURCE_ROOT; };
-		AA3E29DA0BD6FC17004CBC79 /* ConvertUTF.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ConvertUTF.h; path = ../../../../_build/headers/ConvertUTF.h; sourceTree = SOURCE_ROOT; };
 		AA3E29DB0BD6FC17004CBC79 /* Coro.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Coro.h; path = ../../../../_build/headers/Coro.h; sourceTree = SOURCE_ROOT; };
 		AA3E29DC0BD6FC17004CBC79 /* Date.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Date.h; path = ../../../../_build/headers/Date.h; sourceTree = SOURCE_ROOT; };
 		AA3E29DD0BD6FC17004CBC79 /* Duration.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Duration.h; path = ../../../../_build/headers/Duration.h; sourceTree = SOURCE_ROOT; };
@@ -231,7 +229,6 @@
 		AA3E29F60BD6FC17004CBC79 /* IoObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoObject.h; path = ../../../../_build/headers/IoObject.h; sourceTree = SOURCE_ROOT; };
 		AA3E29F70BD6FC17004CBC79 /* IoObject_flow.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoObject_flow.h; path = ../../../../_build/headers/IoObject_flow.h; sourceTree = SOURCE_ROOT; };
 		AA3E29F80BD6FC17004CBC79 /* IoObject_inline.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoObject_inline.h; path = ../../../../_build/headers/IoObject_inline.h; sourceTree = SOURCE_ROOT; };
-		AA3E29F90BD6FC17004CBC79 /* IoObject_persistence.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoObject_persistence.h; path = ../../../../_build/headers/IoObject_persistence.h; sourceTree = SOURCE_ROOT; };
 		AA3E29FA0BD6FC17004CBC79 /* IoObject_struct.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoObject_struct.h; path = ../../../../_build/headers/IoObject_struct.h; sourceTree = SOURCE_ROOT; };
 		AA3E29FB0BD6FC17004CBC79 /* IoSandbox.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoSandbox.h; path = ../../../../_build/headers/IoSandbox.h; sourceTree = SOURCE_ROOT; };
 		AA3E29FC0BD6FC17004CBC79 /* IoSeq.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoSeq.h; path = ../../../../_build/headers/IoSeq.h; sourceTree = SOURCE_ROOT; };
@@ -272,7 +269,6 @@
 		AA3E2A1F0BD6FC17004CBC79 /* RandomGen.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = RandomGen.h; path = ../../../../_build/headers/RandomGen.h; sourceTree = SOURCE_ROOT; };
 		AA3E2A200BD6FC17004CBC79 /* SHash.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SHash.h; path = ../../../../_build/headers/SHash.h; sourceTree = SOURCE_ROOT; };
 		AA3E2A210BD6FC17004CBC79 /* SHash_inline.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SHash_inline.h; path = ../../../../_build/headers/SHash_inline.h; sourceTree = SOURCE_ROOT; };
-		AA3E2A220BD6FC17004CBC79 /* Sorting.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Sorting.h; path = ../../../../_build/headers/Sorting.h; sourceTree = SOURCE_ROOT; };
 		AA3E2A230BD6FC17004CBC79 /* Stack.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Stack.h; path = ../../../../_build/headers/Stack.h; sourceTree = SOURCE_ROOT; };
 		AA3E2A240BD6FC17004CBC79 /* Stack_inline.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Stack_inline.h; path = ../../../../_build/headers/Stack_inline.h; sourceTree = SOURCE_ROOT; };
 		AA3E2A250BD6FC17004CBC79 /* UArray.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = UArray.h; path = ../../../../_build/headers/UArray.h; sourceTree = SOURCE_ROOT; };
@@ -285,7 +281,6 @@
 		AA3E2A2C0BD6FC17004CBC79 /* UArray_utf.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = UArray_utf.h; path = ../../../../_build/headers/UArray_utf.h; sourceTree = SOURCE_ROOT; };
 		AA3E2A8A0BD6FC2C004CBC79 /* GLIncludes.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GLIncludes.h; path = ../../../../addons/OpenGL/_build/headers/GLIncludes.h; sourceTree = SOURCE_ROOT; };
 		AA3E2A8B0BD6FC2C004CBC79 /* IoBox_gl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoBox_gl.h; path = ../../../../addons/OpenGL/_build/headers/IoBox_gl.h; sourceTree = SOURCE_ROOT; };
-		AA3E2A8C0BD6FC2C004CBC79 /* IoDisplayList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoDisplayList.h; path = ../../../../addons/OpenGL/_build/headers/IoDisplayList.h; sourceTree = SOURCE_ROOT; };
 		AA3E2A8D0BD6FC2C004CBC79 /* IoGLconst.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoGLconst.h; path = ../../../../addons/OpenGL/_build/headers/IoGLconst.h; sourceTree = SOURCE_ROOT; };
 		AA3E2A8E0BD6FC2C004CBC79 /* IoGLEconst.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoGLEconst.h; path = ../../../../addons/OpenGL/_build/headers/IoGLEconst.h; sourceTree = SOURCE_ROOT; };
 		AA3E2A8F0BD6FC2C004CBC79 /* IoGLEfunc.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoGLEfunc.h; path = ../../../../addons/OpenGL/_build/headers/IoGLEfunc.h; sourceTree = SOURCE_ROOT; };
@@ -293,10 +288,8 @@
 		AA3E2A910BD6FC2C004CBC79 /* IoGLScissor.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoGLScissor.h; path = ../../../../addons/OpenGL/_build/headers/IoGLScissor.h; sourceTree = SOURCE_ROOT; };
 		AA3E2A920BD6FC2C004CBC79 /* IoGLU.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoGLU.h; path = ../../../../addons/OpenGL/_build/headers/IoGLU.h; sourceTree = SOURCE_ROOT; };
 		AA3E2A930BD6FC2C004CBC79 /* IoGLUconst.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoGLUconst.h; path = ../../../../addons/OpenGL/_build/headers/IoGLUconst.h; sourceTree = SOURCE_ROOT; };
-		AA3E2A940BD6FC2C004CBC79 /* IoGLUCylinder.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoGLUCylinder.h; path = ../../../../addons/OpenGL/_build/headers/IoGLUCylinder.h; sourceTree = SOURCE_ROOT; };
 		AA3E2A950BD6FC2C004CBC79 /* IoGLUfunc.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoGLUfunc.h; path = ../../../../addons/OpenGL/_build/headers/IoGLUfunc.h; sourceTree = SOURCE_ROOT; };
 		AA3E2A960BD6FC2C004CBC79 /* IoGLUQuadric.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoGLUQuadric.h; path = ../../../../addons/OpenGL/_build/headers/IoGLUQuadric.h; sourceTree = SOURCE_ROOT; };
-		AA3E2A970BD6FC2C004CBC79 /* IoGLUSphere.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoGLUSphere.h; path = ../../../../addons/OpenGL/_build/headers/IoGLUSphere.h; sourceTree = SOURCE_ROOT; };
 		AA3E2A980BD6FC2C004CBC79 /* IoGLUT.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoGLUT.h; path = ../../../../addons/OpenGL/_build/headers/IoGLUT.h; sourceTree = SOURCE_ROOT; };
 		AA3E2A990BD6FC2C004CBC79 /* IoGLUTconst.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoGLUTconst.h; path = ../../../../addons/OpenGL/_build/headers/IoGLUTconst.h; sourceTree = SOURCE_ROOT; };
 		AA3E2A9A0BD6FC2C004CBC79 /* IoGLUTfunc.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoGLUTfunc.h; path = ../../../../addons/OpenGL/_build/headers/IoGLUTfunc.h; sourceTree = SOURCE_ROOT; };
@@ -309,6 +302,11 @@
 		AAB21BE6053FF78F00E7E01B /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
 		AAB21C31054000EE00E7E01B /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = /System/Library/Frameworks/AudioToolbox.framework; sourceTree = "<absolute>"; };
 		AAB21C32054000EE00E7E01B /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = /System/Library/Frameworks/CoreAudio.framework; sourceTree = "<absolute>"; };
+		AAEAAA5C0DF89A1D00CA9B17 /* IoError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoError.h; sourceTree = "<group>"; };
+		AAEAAA5D0DF89A1D00CA9B17 /* PortableSorting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PortableSorting.h; sourceTree = "<group>"; };
+		AAEAAA5E0DF89A1D00CA9B17 /* utf8.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utf8.h; sourceTree = "<group>"; };
+		AAEAAA5F0DF89A1D00CA9B17 /* utf8internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utf8internal.h; sourceTree = "<group>"; };
+		AAEAAA600DF89A1D00CA9B17 /* utf_convert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utf_convert.h; sourceTree = "<group>"; };
 		F6030E56036EB36F017668DC /* GLIoView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GLIoView.h; sourceTree = "<group>"; };
 		F6030E57036EB36F017668DC /* GLIoView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GLIoView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -418,6 +416,11 @@
 		AA3E29D00BD6FC17004CBC79 /* headers */ = {
 			isa = PBXGroup;
 			children = (
+				AAEAAA5C0DF89A1D00CA9B17 /* IoError.h */,
+				AAEAAA5D0DF89A1D00CA9B17 /* PortableSorting.h */,
+				AAEAAA5E0DF89A1D00CA9B17 /* utf8.h */,
+				AAEAAA5F0DF89A1D00CA9B17 /* utf8internal.h */,
+				AAEAAA600DF89A1D00CA9B17 /* utf_convert.h */,
 				AA3E29D10BD6FC17004CBC79 /* Base.h */,
 				AA3E29D20BD6FC17004CBC79 /* BStream.h */,
 				AA3E29D30BD6FC17004CBC79 /* BStreamTag.h */,
@@ -427,7 +430,6 @@
 				AA3E29D70BD6FC17004CBC79 /* CollectorMarker_inline.h */,
 				AA3E29D80BD6FC17004CBC79 /* Common.h */,
 				AA3E29D90BD6FC17004CBC79 /* Common_inline.h */,
-				AA3E29DA0BD6FC17004CBC79 /* ConvertUTF.h */,
 				AA3E29DB0BD6FC17004CBC79 /* Coro.h */,
 				AA3E29DC0BD6FC17004CBC79 /* Date.h */,
 				AA3E29DD0BD6FC17004CBC79 /* Duration.h */,
@@ -458,7 +460,6 @@
 				AA3E29F60BD6FC17004CBC79 /* IoObject.h */,
 				AA3E29F70BD6FC17004CBC79 /* IoObject_flow.h */,
 				AA3E29F80BD6FC17004CBC79 /* IoObject_inline.h */,
-				AA3E29F90BD6FC17004CBC79 /* IoObject_persistence.h */,
 				AA3E29FA0BD6FC17004CBC79 /* IoObject_struct.h */,
 				AA3E29FB0BD6FC17004CBC79 /* IoSandbox.h */,
 				AA3E29FC0BD6FC17004CBC79 /* IoSeq.h */,
@@ -499,7 +500,6 @@
 				AA3E2A1F0BD6FC17004CBC79 /* RandomGen.h */,
 				AA3E2A200BD6FC17004CBC79 /* SHash.h */,
 				AA3E2A210BD6FC17004CBC79 /* SHash_inline.h */,
-				AA3E2A220BD6FC17004CBC79 /* Sorting.h */,
 				AA3E2A230BD6FC17004CBC79 /* Stack.h */,
 				AA3E2A240BD6FC17004CBC79 /* Stack_inline.h */,
 				AA3E2A250BD6FC17004CBC79 /* UArray.h */,
@@ -520,7 +520,6 @@
 			children = (
 				AA3E2A8A0BD6FC2C004CBC79 /* GLIncludes.h */,
 				AA3E2A8B0BD6FC2C004CBC79 /* IoBox_gl.h */,
-				AA3E2A8C0BD6FC2C004CBC79 /* IoDisplayList.h */,
 				AA3E2A8D0BD6FC2C004CBC79 /* IoGLconst.h */,
 				AA3E2A8E0BD6FC2C004CBC79 /* IoGLEconst.h */,
 				AA3E2A8F0BD6FC2C004CBC79 /* IoGLEfunc.h */,
@@ -528,10 +527,8 @@
 				AA3E2A910BD6FC2C004CBC79 /* IoGLScissor.h */,
 				AA3E2A920BD6FC2C004CBC79 /* IoGLU.h */,
 				AA3E2A930BD6FC2C004CBC79 /* IoGLUconst.h */,
-				AA3E2A940BD6FC2C004CBC79 /* IoGLUCylinder.h */,
 				AA3E2A950BD6FC2C004CBC79 /* IoGLUfunc.h */,
 				AA3E2A960BD6FC2C004CBC79 /* IoGLUQuadric.h */,
-				AA3E2A970BD6FC2C004CBC79 /* IoGLUSphere.h */,
 				AA3E2A980BD6FC2C004CBC79 /* IoGLUT.h */,
 				AA3E2A990BD6FC2C004CBC79 /* IoGLUTconst.h */,
 				AA3E2A9A0BD6FC2C004CBC79 /* IoGLUTfunc.h */,
@@ -578,7 +575,6 @@
 				AA3E2A330BD6FC17004CBC79 /* CollectorMarker_inline.h in Headers */,
 				AA3E2A340BD6FC17004CBC79 /* Common.h in Headers */,
 				AA3E2A350BD6FC17004CBC79 /* Common_inline.h in Headers */,
-				AA3E2A360BD6FC17004CBC79 /* ConvertUTF.h in Headers */,
 				AA3E2A370BD6FC17004CBC79 /* Coro.h in Headers */,
 				AA3E2A380BD6FC17004CBC79 /* Date.h in Headers */,
 				AA3E2A390BD6FC17004CBC79 /* Duration.h in Headers */,
@@ -609,7 +605,6 @@
 				AA3E2A520BD6FC17004CBC79 /* IoObject.h in Headers */,
 				AA3E2A530BD6FC17004CBC79 /* IoObject_flow.h in Headers */,
 				AA3E2A540BD6FC17004CBC79 /* IoObject_inline.h in Headers */,
-				AA3E2A550BD6FC17004CBC79 /* IoObject_persistence.h in Headers */,
 				AA3E2A560BD6FC17004CBC79 /* IoObject_struct.h in Headers */,
 				AA3E2A570BD6FC17004CBC79 /* IoSandbox.h in Headers */,
 				AA3E2A580BD6FC17004CBC79 /* IoSeq.h in Headers */,
@@ -650,7 +645,6 @@
 				AA3E2A7B0BD6FC17004CBC79 /* RandomGen.h in Headers */,
 				AA3E2A7C0BD6FC17004CBC79 /* SHash.h in Headers */,
 				AA3E2A7D0BD6FC17004CBC79 /* SHash_inline.h in Headers */,
-				AA3E2A7E0BD6FC17004CBC79 /* Sorting.h in Headers */,
 				AA3E2A7F0BD6FC17004CBC79 /* Stack.h in Headers */,
 				AA3E2A800BD6FC17004CBC79 /* Stack_inline.h in Headers */,
 				AA3E2A810BD6FC17004CBC79 /* UArray.h in Headers */,
@@ -663,7 +657,6 @@
 				AA3E2A880BD6FC17004CBC79 /* UArray_utf.h in Headers */,
 				AA3E2A9D0BD6FC2C004CBC79 /* GLIncludes.h in Headers */,
 				AA3E2A9E0BD6FC2C004CBC79 /* IoBox_gl.h in Headers */,
-				AA3E2A9F0BD6FC2C004CBC79 /* IoDisplayList.h in Headers */,
 				AA3E2AA00BD6FC2C004CBC79 /* IoGLconst.h in Headers */,
 				AA3E2AA10BD6FC2C004CBC79 /* IoGLEconst.h in Headers */,
 				AA3E2AA20BD6FC2C004CBC79 /* IoGLEfunc.h in Headers */,
@@ -671,15 +664,18 @@
 				AA3E2AA40BD6FC2C004CBC79 /* IoGLScissor.h in Headers */,
 				AA3E2AA50BD6FC2C004CBC79 /* IoGLU.h in Headers */,
 				AA3E2AA60BD6FC2C004CBC79 /* IoGLUconst.h in Headers */,
-				AA3E2AA70BD6FC2C004CBC79 /* IoGLUCylinder.h in Headers */,
 				AA3E2AA80BD6FC2C004CBC79 /* IoGLUfunc.h in Headers */,
 				AA3E2AA90BD6FC2C004CBC79 /* IoGLUQuadric.h in Headers */,
-				AA3E2AAA0BD6FC2C004CBC79 /* IoGLUSphere.h in Headers */,
 				AA3E2AAB0BD6FC2C004CBC79 /* IoGLUT.h in Headers */,
 				AA3E2AAC0BD6FC2C004CBC79 /* IoGLUTconst.h in Headers */,
 				AA3E2AAD0BD6FC2C004CBC79 /* IoGLUTfunc.h in Headers */,
 				AA3E2AAE0BD6FC2C004CBC79 /* IoOpenGL.h in Headers */,
 				AA3E2AAF0BD6FC2C004CBC79 /* IoVector_gl.h in Headers */,
+				AAEAAA610DF89A1D00CA9B17 /* IoError.h in Headers */,
+				AAEAAA620DF89A1D00CA9B17 /* PortableSorting.h in Headers */,
+				AAEAAA630DF89A1D00CA9B17 /* utf8.h in Headers */,
+				AAEAAA640DF89A1D00CA9B17 /* utf8internal.h in Headers */,
+				AAEAAA650DF89A1D00CA9B17 /* utf_convert.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -693,6 +689,7 @@
 			hasScannedForEncodings = 1;
 			mainGroup = 29B97314FDCFA39411CA2CEA /* IoPlayer */;
 			projectDirPath = "";
+			projectRoot = "";
 			targets = (
 				29B97326FDCFA39411CA2CEA /* IoPlayer */,
 			);

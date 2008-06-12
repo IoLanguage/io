@@ -580,7 +580,9 @@ IoObject *IoGLUT_tryCallback(IoGLUT *self, IoMessage *m)
 
 
 		//IoCoroutine_try(tryCoro, t, t, m);
+	//IoState_pushRetainPool(state);
 		IoMessage_locals_performOn_(m, t, t);
+	//IoState_popRetainPool(state);
 
 		if (IoCoroutine_rawException(tryCoro) != state->ioNil)
 		{

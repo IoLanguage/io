@@ -1,6 +1,5 @@
 
 VScrollArea := View clone do(
-    protoName := "VScrollArea"
     resizeWidth  := 101
     resizeHeight  := 101
     contentView ::= nil
