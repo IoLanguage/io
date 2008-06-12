@@ -70,3 +70,6 @@ BASEKIT_API void UArray_unquote(UArray *self);
 BASEKIT_API void UArray_translate(UArray *self, UArray *fromChars, UArray *toChars);
 BASEKIT_API size_t UArray_count_(const UArray *self, const UArray *other);
 
+// encoding
+
+BASEKIT_API UArray* UArray_asBase64(const UArray *self);

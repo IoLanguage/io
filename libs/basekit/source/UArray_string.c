@@ -4,6 +4,7 @@
 */
 
 #include "UArray.h"
+#include "cencode.h"
 #include <string.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -503,4 +504,30 @@ size_t UArray_count_(const UArray *self, const UArray *other)
 	}
 
 	return count;
+}
+
+UArray *UArray_asBase64(const UArray *self)
+{
+	base64_encodestate state;
+	size_t unencodedBytesSize;
+	uint8_t *encodedBytes;
+	size_t encodedBytesSize;
+	UArray *encoded;
+	
+	base64_init_encodestate(&state);
+	unencodedBytesSize = UArray_sizeInBytes(self);
+	encodedBytes = io_calloc(2 * unencodedBytesSize, 1);
+	
+	encoded = UArray_new();
+	UArray_setItemType_(encoded, CTYPE_uint8_t);
+	
+	encodedBytesSize = base64_encode_block((char *)UArray_bytes(self), unencodedBytesSize, (char *)encodedBytes, &state);
+	UArray_appendBytes_size_(encoded, encodedBytes, encodedBytesSize);
+	
+	encodedBytesSize += base64_encode_blockend((char *)encodedBytes, &state);
+	UArray_appendBytes_size_(encoded, encodedBytes, encodedBytesSize);
+	
+	io_free(encodedBytes);
+	
+	return encoded;
 }
