@@ -321,7 +321,8 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 
 		headers ifNil(headers := Map clone)
 		headers atIfAbsentPut("User-Agent", "Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/312.8 (KHTML, like Gecko) Safari/312.6")
-		headers atIfAbsentPut("Host", host)
+		hostHeader := if(port != 80, list(host, port) join(":"), host)
+		headers atIfAbsentPut("Host", hostHeader)
 		headers atIfAbsentPut("Accept", "text/html; q=1.0, text/*; q=0.8, image/gif; q=0.6, image/jpeg; q=0.6, image/*; q=0.5, */*; q=0.1")
 		headers atIfAbsentPut("Content-Type", "application/x-www-form-urlencoded")
 
