@@ -118,6 +118,11 @@ IoSecureSocket *IoSecureSocket_proto(void *state)
 		IoObject_addMethodTable_(self, methodTable);
 	}
 	
+	{
+	SecureSocket *ssock = (SecureSocket *)calloc(1, sizeof(SecureSocket));
+	IoObject_setDataPointer_(self, ssock);
+	}
+	
 	return self;
 }
 
@@ -126,6 +131,8 @@ IoSecureSocket *IoSecureSocket_rawClone(IoSecureSocket *proto)
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	//this behavior is probably wrong, this method should probably never be used
 	IoObject_setDataPointer_(self, NULL);	
+	SecureSocket *ssock = (SecureSocket *)calloc(1, sizeof(SecureSocket));
+	IoObject_setDataPointer_(self, ssock);
 	return self; 
 }
 
@@ -136,13 +143,15 @@ IoSecureSocket *IoSecureSocket_newWithCTX_(void *state, SSL_CTX *ctx)
 	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoSecureSocket_proto);
 	IoSecureSocket *self = IOCLONE(proto);
 	SecureSocket *ssock = (SecureSocket *)calloc(1, sizeof(SecureSocket));
+	IoObject_setDataPointer_(self, ssock);
 	ssock->ssl = SSL_new(ctx);
 //	SSL_set_verify(ssock->ssl, SSL_VERIFY_PEER | SSL_VERIFY_FAIL_IF_NO_PEER_CERT, IoSecureSockets_Verify_Callback);
-	IoObject_setDataPointer_(self, ssock);
+	
 	if(!OSSL(self))
 	{
 		return IONIL(self);
 	}
+	
 	return self;
 }
 
@@ -160,7 +169,7 @@ IoSecureSocket *IoSecureSocket_newWithSSL_IP_(void *state, SSL *ssl, IoIPAddress
 
 void IoSecureSocket_free(IoSecureSocket *self) 
 {
-	SSL_free(OSSL(self));
+	if(OSSL(self)) SSL_free(OSSL(self));
 	free(SSOCK(self));
 }
 

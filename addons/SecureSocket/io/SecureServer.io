@@ -26,15 +26,15 @@ SecureServer do(
 	   self
 	)
 	
-	docSlot("setHost(hostName)", "Sets the hostName. Returns self.")
+	//doc SecureServer setHost(hostName) Sets the hostName. Returns self.")
 	
 	setHost := method(host, socket setHost(host); self)
 	
-	docSlot("setPort(aNumber)", "Sets the port on which the server will listen  for connections. Returns self.")
+	//doc SecureServer setPort(aNumber) Sets the port on which the server will listen  for connections. Returns self.")
 	
 	setPort := method(port, socket setPort(port); self)
 	
-	docSlot("port", "Returns the port on which the server will listen for connections.")
+	//doc SecureServer port Returns the port on which the server will listen for connections.")
 	
 	port := method(socket port)
 	
@@ -147,7 +147,7 @@ SecureServer do(
 		s
 	)
 	
-	docSlot("stop", "Stops the server if it is running. Returns self.")
+	//doc SecureServer stop Stops the server if it is running. Returns self.")
 	
 	stop := method(
 		socket close

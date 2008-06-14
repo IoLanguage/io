@@ -1,14 +1,13 @@
 SecureSocket do(
-	type := "SecureSocket"
-	docCategory("Networking")
+	//metadoc SecureSocket category Networking
 	
-    newSlot("bytesPerRead", 4096)
-    newSlot("bytesPerWrite", 1024)
-	newSlot("readTimeout", 60)
-	newSlot("writeTimeout", 60)
-    newSlot("connectTimeout", 60)
-    newSlot("acceptTimeout", 60)
-    newSlot("error", nil)
+    bytesPerRead ::= 4096
+    bytesPerWrite ::= 1024
+	readTimeout ::= 60
+	writeTimeout ::= 60
+    connectTimeout ::= 60
+    acceptTimeout ::= 60
+    error ::= nil
  
     debugWriteln := nil
     debugOff := method(self debugWriteln := nil)
@@ -23,6 +22,7 @@ SecureSocket do(
 		)
 		_certificate
 	)
+	
 	peerCertificate := method(
 		if(_peerCertificate == nil,
 			self _peerCertificate := rawPeerCertificate
@@ -31,6 +31,7 @@ SecureSocket do(
 	)
 	
 	asyncRead := getSlot("asyncStreamRead")
+	
 	setupEvents := method(
 		self _certificate := nil
 		self _peerCertificate := nil
@@ -42,6 +43,7 @@ SecureSocket do(
 			self asyncRead := self getSlot("asyncUdpRead")
 		)
 	)
+	
 	udpServerSetup := method(
 		self _certificate := nil
 		self _peerCertificate := nil
@@ -153,22 +155,27 @@ SecureSocket do(
 		total := readBuffer size + numBytes
 		tries := 0
 		while(readBuffer size < total, 
+			
 			if(isOpen not,
 				debugWriteln("not open. so far, read ", readBuffer)
 				return false
 			)
+			
 			debugWriteln("trying read to ", total)
 			if(tries > 8, Exception raise("socket read timeout; aborting"); return false)
+			
 			if(wantsWrite,
 				debugWriteln("read wants write")
             	writeEvent waitOn(readTimeout/8) ifFalse(tries = tries + 1)
 //				continue
 			)
+			
 			if(wantsRead,
 				debugWriteln("read wants read")
 				readEvent waitOn(readTimeout/8) ifFalse(tries = tries + 1)
 //				continue
 			)
+			
 			readEvent waitOn(readTimeout/8) ifFalse(tries = tries + 1)
 	    	while(asyncRead(readBuffer, bytesPerRead), debugWriteln("read to ", readBuffer size ))
 		)
@@ -271,6 +278,7 @@ SecureSocket do(
 		shutdown
         false
 	)
+	
 	udpAccept := method(
 		debugWriteln("accepting...")
 		status := asyncAccept

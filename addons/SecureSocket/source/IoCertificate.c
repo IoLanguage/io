@@ -76,6 +76,8 @@ IoCertificate *IoCertificate_proto(void *state)
 		IoObject_addMethodTable_(self, methodTable);
 	}
 	
+	IoObject_setDataPointer_(self, calloc(1, sizeof(Certificate)));
+	
 	return self;
 }
 
