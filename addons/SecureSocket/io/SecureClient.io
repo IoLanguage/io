@@ -3,6 +3,7 @@ SecureClient do(
 	
 	connectionToServer := method(host, port,
 		/*
+		// seemed unnecesarilly complex
 		//host:port -> host:port -> host, port; 
 		//host, port -> host:port -> host, port
 		components := call evalArgs join(":") split(":")
