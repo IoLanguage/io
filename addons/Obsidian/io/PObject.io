@@ -103,4 +103,6 @@ Object do(
 
 		obj
 	)
+	
+	pdbMark := nil
 )

@@ -253,7 +253,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 
 		// read and separate the header
 
-	//	socket write("\n\n")
+		//	socket write("\n\n")
 		while(socket isOpen,
 			socket streamReadNextChunk returnIfError
 			match := b findSeqs(headerBreaks)
@@ -267,27 +267,35 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		if(readHeader == nil, return(Error with("didn't find read header in [" .. b .. "]")))
 
 		contentLength := headerFields at("Content-Length")
-		if(contentLength, contentLength = contentLength asNumber)
+		if(contentLength, 
+			//writeln("contentLength: ", contentLength)
+			contentLength = contentLength asNumber
+		)
 
 		while(socket isOpen,
 			socket streamReadNextChunk returnIfError
 			if(contentLength and b size >= contentLength, break)
 			if(getSlot("progressBlock"), progressBlock(b size, contentLength))
 		)
-		socket close
 
 		if(headerFields at("Transfer-Encoding") == "chunked",
+			//writeln("chunked encoding")
 			newB := Sequence clone
 			while(index := b findSeq("\r\n"),
 				n := b slice(0, index)
-				b removeSlice(0, index + 1)
+				b removeSlice(0, index + 2)
 				length := ("0x" .. n) asNumber
+				//writeln("length = ", n, " ", length)
 				newB appendSeq(b slice(0, length))
 				b removeSlice(0, length)
+				//writeln("after = [", b slice(0, 10), "]")
 			)
 			b copy(newB)
 		)
+		
+		//b size println
 
+		socket close
 		if(headerFields at("Content-Encoding") == "gzip", Zlib; b unzip)
 		b
 	)

@@ -1,11 +1,11 @@
 Blowfish do(
-	newSlot("key", nil)
-	newSlot("inputBuffer", Sequence clone)
-	newSlot("outputBuffer", Sequence clone)
+	key ::= nil
+	inputBuffer  ::= Sequence clone
+	outputBuffer ::= Sequence clone
 
 	init := method(
 		resend
-		self inputBuffer := self inputBuffer clone
+		self inputBuffer  := self inputBuffer clone
 		self outputBuffer := self outputBuffer clone
 	)
 
@@ -16,6 +16,7 @@ Blowfish do(
 		inputBuffer copy(s)
 		process
 		endProcessing
+		inputBuffer empty
 		outputBuffer
 	)
 
@@ -26,6 +27,7 @@ Blowfish do(
 		inputBuffer copy(s)
 		process
 		endProcessing
+		inputBuffer empty
 		outputBuffer
 	)
 )

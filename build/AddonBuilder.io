@@ -330,6 +330,7 @@ AddonBuilder := Object clone do(
 		if(platform == "darwin",
 			links append("-flat_namespace")
 			s := " -install_name " .. System installPrefix .. "/lib/io/addons/" .. self name .. "/_build/dll/" .. libname
+			//s := " -install_name io/addons/" .. self name .. "/_build/dll/" .. libname
 		)
 
 		systemCall(linkdll .. " " .. cflags .. " " .. dllCommand .. " " .. s .. " " .. linkOutFlag .. "_build/dll/" .. libname .. " _build/objs/*.o" .. " " .. links join(" "))

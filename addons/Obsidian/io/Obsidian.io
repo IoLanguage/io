@@ -6,7 +6,6 @@
 //metadoc Obsidian category Databases
 
 Obsidian := Object clone do(
-	name ::= "unnamed"
 	sharedPrefixCursor ::= nil
 	path ::= nil
 	
@@ -15,7 +14,7 @@ Obsidian := Object clone do(
 	)
 	
 	open := method(
-		db open(path)
+		db setPath(path) open
 		setSharedPrefixCursor(db prefixCursor)
 		self
 	)
