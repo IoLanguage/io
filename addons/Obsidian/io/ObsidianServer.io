@@ -41,4 +41,4 @@ onBefore(id, key, count)
 </pre>
 */
 
-ObsidianServer := MDOServer clone setLocalObject(Obsidian clone open)
+//ObsidianServer := MDOServer clone setLocalObject(Obsidian clone open)

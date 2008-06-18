@@ -76,7 +76,6 @@ Notes: Currently, PDB is a singleton.
 */
 
 PDB := Obsidian clone do(
-	setPath("obsidian.tc")
 	objectsToPersist ::= List clone
 	ppidMap := Map clone
 	_root := nil
