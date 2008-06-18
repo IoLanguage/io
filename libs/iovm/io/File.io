@@ -58,6 +58,18 @@ File do(
 	create := method(
 		if(open, close; self, nil)
 	)
+	
+	baseName := method(
+		name split(".") slice(0, -1) join(".")
+	)
+	
+	thisSourceFile := method(
+		File with(Directory currentWorkingDirectory .. "/" .. call message label)
+	)
+	
+	containingDirectory := method(
+		Directory with(path pathComponent)
+	)
 )
 
 Sequence do(

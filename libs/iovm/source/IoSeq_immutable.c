@@ -1116,6 +1116,15 @@ IoObject *IoSeq_occurancesOfSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(count);
 }
 
+IoObject *IoSeq_asBase64(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Sequence asBase64
+	Returns an immutable, base64 encoded (according to RFC 1421) version of self.
+	*/
+	
+	return IoSeq_newWithUArray_copy_(IOSTATE, UArray_asBase64(IoSeq_rawUArray(self)), 0);
+}
+
 IoObject *IoSeq_interpolate(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Sequence interpolate(ctx)
@@ -1388,6 +1397,8 @@ void IoSeq_addImmutableMethods(IoSeq *self)
 	{"occurancesOfSeq", IoSeq_occurancesOfSeq},
 	{"interpolate", IoSeq_interpolate},
 	{"distanceTo", IoSeq_distanceTo},
+
+	{"asBase64", IoSeq_asBase64},
 
 	{">", IoSeq_greaterThan_},
 	{"<", IoSeq_lessThan_},

@@ -97,3 +97,7 @@ IOVM_API IoObject *IoSeq_beforeSeq(IoSeq *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoSeq_afterSeq(IoSeq *self, IoObject *locals, IoMessage *m);
 
 IOVM_API IoObject *IoSeq_occurancesOfSeq(IoSeq *self, IoObject *locals, IoMessage *m);
+
+// encoding
+
+IOVM_API IoObject *IoSeq_asBase64(IoSeq *self, IoObject *locals, IoMessage *m);

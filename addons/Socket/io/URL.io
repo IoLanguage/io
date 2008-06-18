@@ -213,10 +213,10 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 	fourCharheaderBreaks := list("\r\n\r\n", "\n\r\n\r")
 
 	//doc URL headerBreaks Private method to connect to the host and write the header.
-	connectAndWriteHeader := method(
+	connectAndWriteHeader := method(header,
 		if(host == nil, return(Error with("No host set")))
 		socket returnIfError setHost(host) returnIfError setPort(port) connect returnIfError
-		socket appendToWriteBuffer(requestHeader) write returnIfError
+		socket appendToWriteBuffer(if(header, header, requestHeader)) write returnIfError
 	//	writeln("write [", requestHeader, "]")
 	)
 
@@ -317,39 +317,42 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		URL clone setURL(u) setReferer(url)
 	)
 
-	/*doc URL post(data)
-	Sends an http post message. If data is a Map, it's key/value pairs are 
-	send as the post parameters. If data is a Sequence or String, it is sent directly. 
+	/*doc URL post(parameters, headers)
+	Sends an http post message. If parameters is a Map, it's key/value pairs are 
+	send as the post parameters. If parameters is a Sequence or String, it is sent directly.
+	Any headers in the headers map are sent with the request.
 	Returns a sequence containing the response on success or an Error, if one occurs.
 	*/
-	post := method(postdata,
-		postdata ifNil(postdata = "")
+	post := method(parameters, headers,
+		parameters ifNil(parameters = "")
 		ip := Host clone setName(host) address returnIfError
 
-		header := Sequence clone
-		header appendSeq(
-			"POST ", request, " HTTP/1.0\r\n",
-			"User-Agent: Mozilla/4.0\r\n",
-			"Host: ", host, "\r\n",
-			//"Accept: */*\r\n",
-			"Accept: text/html; q=1.0, text/*; q=0.8, image/gif; q=0.6, image/jpeg; q=0.6, image/*; q=0.5, */*; q=0.1",
-			"Content-Type: application/x-www-form-urlencoded\r\n"
+		headers ifNil(headers := Map clone)
+		headers atIfAbsentPut("User-Agent", "Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/312.8 (KHTML, like Gecko) Safari/312.6")
+		hostHeader := if(port != 80, list(host, port) join(":"), host)
+		headers atIfAbsentPut("Host", hostHeader)
+		headers atIfAbsentPut("Accept", "text/html; q=1.0, text/*; q=0.8, image/gif; q=0.6, image/jpeg; q=0.6, image/*; q=0.5, */*; q=0.1")
+		headers atIfAbsentPut("Content-Type", "application/x-www-form-urlencoded")
+
+		header := Sequence clone appendSeq("POST ", request, " HTTP/1.0\r\n")
+		headers foreach(name, value,
+			header appendSeq(name, ": ", value, "\r\n")
 		)
 
-		if(postdata type == "Map") then(
+		if(parameters type == "Map") then(
 			buffer := Sequence clone
-			postdata keys foreach(i, j,
-			buffer appendSeq(escapeString(j), "=", escapeString(postdata at(j)))
-			if(i < postdata size - 1, buffer appendSeq("&"))
+			parameters keys foreach(i, j,
+			buffer appendSeq(escapeString(j), "=", escapeString(parameters at(j)))
+			if(i < parameters size - 1, buffer appendSeq("&"))
 			)
 			content := buffer asString
 		) else(
-			content := postdata
+			content := parameters
 		)
 
 		header appendSeq("Content-Length: ", content size, "\r\n\r\n", content)
 
-		connectAndWriteHeader returnIfError
+		connectAndWriteHeader(header) returnIfError
 		processHttpResponse
 	)
 
