@@ -244,21 +244,23 @@ IoObject *IoTokyoCabinet_open(IoObject *self, IoObject *locals, IoMessage *m)
 	Opens the database.
 	*/
 	
-	IoSeq *path = IoMessage_locals_seqArgAt_(m, locals, 0);
 	BDBCMP cf = pathCompareFunc;
+	IoSeq *path = IoObject_getSlot_(self, IOSYMBOL("path"));
+
+	IOASSERT(ISSEQ(path), "path must be a sequence");
 
 	IoTokyoCabinet_close(self, locals, m);
 	
-	if(IoMessage_argCount(m) > 1)
 	{
-		IoSeq *compareType = IoMessage_locals_seqArgAt_(m, locals, 1);
+		IoSeq *compareType = IoObject_getSlot_(self, IOSYMBOL("compareType"));
 		//printf("using compareType:%s\n", CSTRING(compareType));
+		IOASSERT(ISSEQ(compareType), "compareType must be a sequence");
 
-		if(strcmp(CSTRING(compareType), "tcbdbcmplexical") == 0) { cf = tcbdbcmplexical; } else
-		if(strcmp(CSTRING(compareType), "tcbdbcmpdecimal") == 0) { cf = tcbdbcmpdecimal; } else
-		if(strcmp(CSTRING(compareType), "tcbdbcmpint32")   == 0) { cf = tcbdbcmpint32;   } else
-		if(strcmp(CSTRING(compareType), "tcbdbcmpint64")   == 0) { cf = tcbdbcmpint64;   } else
-		if(strcmp(CSTRING(compareType), "path")            == 0) { cf = pathCompareFunc; }
+		if(strcmp(CSTRING(compareType), "lexical") == 0) { cf = tcbdbcmplexical; } else
+		if(strcmp(CSTRING(compareType), "decimal") == 0) { cf = tcbdbcmpdecimal; } else
+		if(strcmp(CSTRING(compareType), "int32")   == 0) { cf = tcbdbcmpint32;   } else
+		if(strcmp(CSTRING(compareType), "int64")   == 0) { cf = tcbdbcmpint64;   } else
+		if(strcmp(CSTRING(compareType), "path")    == 0) { cf = pathCompareFunc; }
 		else
 		{
 			fprintf(stderr, "ivalid compare function name\n");
@@ -266,15 +268,15 @@ IoObject *IoTokyoCabinet_open(IoObject *self, IoObject *locals, IoMessage *m)
 		}
 	}
 
-	//tcbdbsetcmpfunc(TokyoCabinet(self), cf, NULL);
-	
 	IoObject_setDataPointer_(self, tcbdbnew());
+	tcbdbsetcmpfunc(TokyoCabinet(self), cf, NULL);
 	
 	if(!tcbdbopen(TokyoCabinet(self), CSTRING(path), BDBOWRITER | BDBOCREAT | BDBOLCKNB))
 	{
 		fprintf(stderr, "tcbdbopen failed\n");
 		return IONIL(self);
 	}
+
 
 
 	return self;

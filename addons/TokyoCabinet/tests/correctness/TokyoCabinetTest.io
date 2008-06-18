@@ -8,7 +8,7 @@ TokyoCabinetTest := UnitTest clone do(
 	testBasic := method(
 		db := TokyoCabinet clone
 		File with("test.db") remove		
-		db open("test.db")
+		db setPath("test.db") open
 		
 		assertEquals(nil, db at("foo"))
 		
@@ -31,7 +31,7 @@ TokyoCabinetTest := UnitTest clone do(
 		assertEquals("1", db at("001/a"))
 		
 		db close
-		db open("test.db")
+		db setPath("test.db") open
 		
 		assertEquals("1", db at("001/a"))
 		assertEquals("2", db at("001/b"))
@@ -61,7 +61,7 @@ TokyoCabinetTest := UnitTest clone do(
 		assertEquals(nil, db at("001/b"))
 		
 		db close
-		db open("test.db")
+		db setPath("test.db") open
 		
 		assertEquals(nil, db at("001/a"))
 		assertEquals(nil, db at("001/b"))
@@ -98,7 +98,7 @@ TokyoCabinetTest := UnitTest clone do(
 		assertEquals(nil, db at("001/b"))
 		
 		db close
-		db open("test.db")
+		db setPath("test.db") open
 		
 		assertEquals(nil, db at("001/a"))
 		assertEquals(nil, db at("001/b"))
