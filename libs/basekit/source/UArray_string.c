@@ -316,13 +316,23 @@ size_t UArray_splitCount_(const UArray *self, const PtrUArray *delims)
 
 BASEKIT_API int UArray_beginsWith_(UArray *self, const UArray *other)
 {
-	if (self->size >= other->size)
-	{
-		UArray tmp = UArray_stackRange(self, 0, other->size);
-		return UArray_find_(&tmp, other) != -1;
-	}
+	int msize = self->size;
+	int osize = other->size;
 
-	return 0;
+	if ((msize >= 0) && (msize >= osize))
+	{
+		/* A common case seems to be comparing against a single byte, which
+		 * happens all of the place internally (not sure why yet, but it would
+		 * be good to investigate this)*/
+		if (osize == 1) {
+			return (*(self->data) == *(other->data));
+		}
+		else if (memcmp(self->data, other->data, osize) == 0){
+			return 1;
+		}
+		return 0;
+	}
+	return  0;
 }
 
 BASEKIT_API int UArray_endsWith_(UArray *self, const UArray *other)
