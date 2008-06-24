@@ -86,7 +86,7 @@ PDB := Obsidian clone do(
 		UUID uuidTime asMutable replaceSeq("-", "") asSymbol
 	)
 	
-	repoen := method(
+	reopen := method(
 		sync
 		close
 		open
