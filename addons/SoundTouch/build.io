@@ -6,7 +6,7 @@ AddonBuilder clone do(
 
 	debs    atPut("SoundTouch", "libsoundtouch1-dev")
 	ebuilds atPut("SoundTouch", "soundtouch")
-	pkgs    atPut("SoundTouch", "libsoundtouch")
+	pkgs    atPut("SoundTouch", "soundtouch")
 	rpms    atPut("SoundTouch", "soundtouch-devel")
 )
 
