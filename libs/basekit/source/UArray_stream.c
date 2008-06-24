@@ -90,21 +90,22 @@ int UArray_readLineFromCStream_(UArray *self, FILE *stream)
 
 		while (fgets(s, CHUNK_SIZE, stream) != NULL)
 		{
-			char *eol1 = strchr(s, '\n');
-			char *eol2 = strchr(s, '\r');
+			int i;
+			int start = strlen(s) - 1;
+
+			/* Remove trailing newline characters */
+			for (i = start; (i >= 0) && ((s[i] == '\n') || (s[i] == '\r')) ; s[i--] = '\0') ;
 
 			readSomething = 1;
-
-			if (eol1) { *eol1 = 0; } // remove the \n return character
-			if (eol2) { *eol2 = 0; } // remove the \r return character
 
 			if (*s)
 			{
 				UArray_appendCString_(self, s);
 			}
 
-			if (eol1 || eol2)
-			{
+			/* I think this might not quite be right, but it's equivalent to
+			 * what was happening before... */
+			if (i < start) {
 				break;
 			}
 		}
