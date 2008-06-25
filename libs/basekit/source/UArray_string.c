@@ -17,11 +17,8 @@ void UArray_append_(UArray *self, const UArray *other)
 
 void UArray_appendCString_(UArray *self, const char *s)
 {
-	while (*s)
-	{
-		UArray_appendLong_(self, *s);
-		s ++;
-	}
+	/* TODO: pass in the length of the string since it's usually known. */
+	UArray_appendBytes_size_(self, (const uint8_t *) s, strlen(s));
 }
 
 void UArray_prepend_(UArray *self, const UArray *other)

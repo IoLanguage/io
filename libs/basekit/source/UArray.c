@@ -748,7 +748,10 @@ switch (self->itemType)\
 
 void UArray_at_putLong_(UArray *self, size_t pos, long v)
 {
-	if(pos >= self->size) UArray_setSize_(self, pos + 1);
+	if (pos >= self->size)
+	{
+		UArray_setSize_(self, pos + 1);
+	}
 
 	//if(UArray_longAt_(self, pos) != v)
 	{

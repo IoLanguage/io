@@ -9,6 +9,8 @@
 #include <stdio.h>
 #include <stddef.h>
 
+#define CHUNK_SIZE 4096
+
 // read ------------------------------------------------------
 
 size_t UArray_fread_(UArray *self, FILE *fp)
@@ -21,7 +23,7 @@ size_t UArray_fread_(UArray *self, FILE *fp)
 long UArray_readFromCStream_(UArray *self, FILE *fp)
 {
 	long totalItemsRead = 0;
-	long itemsPerBuffer =  4096 / self->itemSize;
+	long itemsPerBuffer = CHUNK_SIZE / self->itemSize;
 	UArray *buffer = UArray_new();
 	UArray_setItemType_(buffer, self->itemType);
 	UArray_setSize_(buffer, itemsPerBuffer);
@@ -76,9 +78,6 @@ long UArray_readFromFilePath_(UArray *self, const UArray *path)
 	if(sysPath != path) UArray_free(sysPath);
 	return itemsRead;
 }
-
-
-#define CHUNK_SIZE 4096
 
 int UArray_readLineFromCStream_(UArray *self, FILE *stream)
 {
