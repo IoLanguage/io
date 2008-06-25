@@ -68,7 +68,8 @@ ifeq ($(SYS),Darwin)
 DLL_SUFFIX := dylib
 DLL_COMMAND := -dynamiclib
 FLAT_NAMESPACE := -flat_namespace
-FIXDLL := install_name_tool _build/binaries/io$(BINARY_SUFFIX) -change _build/dll/libiovmall.dylib @executable_path/libiovmall.dylib
+#FIXDLL := install_name_tool _build/binaries/io$(BINARY_SUFFIX) -change _build/dll/libiovmall.dylib @executable_path/libiovmall.dylib
+FIXDLL := install_name_tool _build/binaries/io$(BINARY_SUFFIX) -change _build/dll/libiovmall.dylib @executable_path/../lib/libiovmall.dylib
 endif
 
 ifeq ($(SYS),IRIX)
