@@ -317,7 +317,6 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 	*/
 	post := method(parameters, headers,
 		parameters ifNil(parameters = "")
-		ip := Host clone setName(host) address returnIfError
 
 		headers ifNil(headers := Map clone)
 		headers atIfAbsentPut("User-Agent", "Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/312.8 (KHTML, like Gecko) Safari/312.6")
