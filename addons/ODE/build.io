@@ -1,6 +1,4 @@
 AddonBuilder clone do(
-	disable # Needs to be ported to the new Vector code
-
 	dependsOnLib("ode")
 
 	dependsOnBinding("OpenGL")

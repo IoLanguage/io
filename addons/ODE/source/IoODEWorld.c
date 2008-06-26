@@ -176,8 +176,13 @@ IoObject *IoODEWorld_gravity(IoODEWorld *self, IoObject *locals, IoMessage *m)
 	IoODEWorld_assertHasWorldId(self, locals, m);
 
 	dWorldGetGravity(WORLDID, gravity);
+	
+	vec3f v;
+	v.x = gravity[0];
+	v.y = gravity[1];
+	v.z = gravity[2];
 
-	return IoSeq_newVec3f(IOSTATE, {gravity[0], gravity[1], gravity[2]});
+	return IoSeq_newVec3f(IOSTATE, v);
 }
 
 IoObject *IoODEWorld_step(IoODEWorld *self, IoObject *locals, IoMessage *m)

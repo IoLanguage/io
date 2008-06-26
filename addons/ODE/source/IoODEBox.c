@@ -8,7 +8,7 @@ ODEBox binding
 #include "IoODEBody.h"
 #include "IoState.h"
 #include "IoSeq.h"
-#include "IoVector_ode.h"
+#include "IoSeq_ode.h"
 #include "IoList.h"
 #include "geom.h"
 
@@ -116,7 +116,7 @@ IoObject *IoODEBox_lengths(IoODEBox *self, IoObject *locals, IoMessage *m)
 	dVector3 lengths;
 	IoODEBox_assertHasBoxId(self, locals, m);
 	dGeomBoxGetLengths(GEOMID, lengths);
-	return IoVector_newWithODEPoint(IOSTATE, lengths);
+	return IoSeq_newWithODEPoint(IOSTATE, lengths);
 }
 
 IoObject *IoODEBox_setLengths(IoODEBox *self, IoObject *locals, IoMessage *m)

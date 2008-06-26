@@ -1,4 +1,3 @@
-
 //metadoc Obsidian copyright Steve Dekorte 2008
 //metadoc Obsidian license BSD revised
 //metadoc Obsidian description A double key/value database with cursors on first key. Basis for PDB.
@@ -6,16 +5,20 @@
 //metadoc Obsidian category Databases
 
 Obsidian := Object clone do(
-	name ::= "unnamed"
 	sharedPrefixCursor ::= nil
-	path ::= nil
+	path := nil
+	
+	setPath := method(p, 
+		path = p
+		self
+	)
 	
 	init := method(	
-		self db := TokyoCabinet clone
+		self db := TokyoCabinet clone setCompareType("path")	
 	)
 	
 	open := method(
-		db open(path)
+		db setPath(path) open
 		setSharedPrefixCursor(db prefixCursor)
 		self
 	)

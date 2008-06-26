@@ -131,7 +131,7 @@ IoObject *IoODEMass_centerOfGravity(IoODEMass *self, IoObject *locals, IoMessage
 	v.y = DATA(self)->c[1];
 	v.z = DATA(self)->c[2];
 
-	return IoSeq_newVec3f(IOSTATE, vector);
+	return IoSeq_newVec3f(IOSTATE, v);
 }
 
 IoObject *IoODEMass_setCenterOfGravity(IoODEMass *self, IoObject *locals, IoMessage *m)
@@ -152,7 +152,7 @@ IoObject *IoODEMass_inertiaTensor(IoODEMass *self, IoObject *locals, IoMessage *
 	int i, j;
 
 	UArray_setItemType_(u, CTYPE_float32_t);
-	UArray_setSize_(vector, 9);
+	UArray_setSize_(u, 9);
 
 	// I == vector(I11, I12, I13, _, I12, I22, I23, _, I13, I23, I33, _)
 
@@ -161,11 +161,11 @@ IoObject *IoODEMass_inertiaTensor(IoODEMass *self, IoObject *locals, IoMessage *
 	{
 		if ((i + 1) % 4)
 		{
-			UArray_at_putDouble_(vector, j++, DATA(self)->I[i]);
+			UArray_at_putDouble_(u, j++, DATA(self)->I[i]);
 		}
 	}
 
-	return IoSeq_newWithUArray_(IOSTATE, u);
+	return IoSeq_newWithUArray_copy_(IOSTATE, u, 1);
 }
 
 IoObject *IoODEMass_parameters(IoODEMass *self, IoObject *locals, IoMessage *m)
@@ -178,23 +178,23 @@ IoObject *IoODEMass_parameters(IoODEMass *self, IoObject *locals, IoMessage *m)
 	UArray_setItemType_(u, CTYPE_float32_t);
 	UArray_setSize_(u, 10);
 
-	UArray_at_putDouble_(vector, j++, DATA(self)->mass);
+	UArray_at_putDouble_(u, j++, DATA(self)->mass);
 
 	for(i=0; i < 3; i++)
 	{
-		UArray_at_putDouble_(vector, j++, DATA(self)->c[i]);
+		UArray_at_putDouble_(u, j++, DATA(self)->c[i]);
 	}
 
 	//              0    1    2   3   4    5    6   7   8    9   10  11
 	// I == vector(I11, I12, I13, _, I12, I22, I23, _, I13, I23, I33, _)
-	UArray_at_putDouble_(vector, j++, DATA(self)->I[0 ]); // I11
-	UArray_at_putDouble_(vector, j++, DATA(self)->I[5 ]); // I22
-	UArray_at_putDouble_(vector, j++, DATA(self)->I[10]); // I33
-	UArray_at_putDouble_(vector, j++, DATA(self)->I[1 ]); // I12
-	UArray_at_putDouble_(vector, j++, DATA(self)->I[2 ]); // I13
-	UArray_at_putDouble_(vector, j++, DATA(self)->I[6 ]); // I23
+	UArray_at_putDouble_(u, j++, DATA(self)->I[0 ]); // I11
+	UArray_at_putDouble_(u, j++, DATA(self)->I[5 ]); // I22
+	UArray_at_putDouble_(u, j++, DATA(self)->I[10]); // I33
+	UArray_at_putDouble_(u, j++, DATA(self)->I[1 ]); // I12
+	UArray_at_putDouble_(u, j++, DATA(self)->I[2 ]); // I13
+	UArray_at_putDouble_(u, j++, DATA(self)->I[6 ]); // I23
 
-	return IoSeq_newWithUArray_(IOSTATE, u);
+	return IoSeq_newWithUArray_copy_(IOSTATE, u, 1);
 }
 
 IoObject *IoODEMass_setParameters(IoODEMass *self, IoObject *locals, IoMessage *m)

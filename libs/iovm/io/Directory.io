@@ -3,6 +3,13 @@ Directory do(
 	//doc Directory with(aPath) Returns a new instance with the provided path.
 	with := method(path, self clone setPath(path))
 
+	//doc Directory recursiVeFilesOfTypes(suffixes) Returns a list containing all files in the directory or any subdirectory that has any of the specified suffixes.
+	recursiVeFilesOfTypes := method(types, aList,
+		if(aList == nil, aList := List clone)
+		aList appendSeq(files select(file, types contains(file path pathExtension)))
+		directories foreach(recursiVeFilesOfTypes(types, aList))
+		aList
+	)
 
 	//doc Directory createIfAbsent Creates the directory (and any missing ancestor directories) if they don't exist. Returns self.
 	createIfAbsent := method(

@@ -76,7 +76,6 @@ Notes: Currently, PDB is a singleton.
 */
 
 PDB := Obsidian clone do(
-	setPath("obsidian.tc")
 	objectsToPersist ::= List clone
 	ppidMap := Map clone
 	_root := nil
@@ -158,11 +157,15 @@ PDB := Obsidian clone do(
 			
 	)
 	
+	noteReference := method(v,
+		nil
+	)
+	
 	collectGarbage := method(
 		// plan to make this incremental and distributed later
 		// walk objects from root, recording ids found
-		walked := Map clone
-		toWalk := List clone append("root")
+		self walked := Map clone
+		self toWalk := List clone append("root")
 		c := self sharedPrefixCursor
 		while(id := toWalk pop,
 			walked atPut(id, true)
@@ -176,6 +179,8 @@ PDB := Obsidian clone do(
 				c next
 			)
 		)
+		
+		self toWalk := nil
 
 		// now remove all non-walked ids
 		db begin
@@ -186,5 +191,25 @@ PDB := Obsidian clone do(
 		)
 		c close
 		db commit
-	)	
+		
+		self walked := nil
+	)
+
+	/*
+	stringSymbols := method(
+		self stringSymbols := self at("stringSymbols")
+	)
+	
+	numberSymbols := method(
+		self numberSymbols := self at("numberSymbols")
+	)
+	
+	ppidForStringSymbol := method(s,
+		stringSymbols atPut(s, nil)
+	)
+	
+	ppidForNumberSymbol := method(n,
+		numberSymbols atPut(n asString, nil)
+	)
+	*/	
 )

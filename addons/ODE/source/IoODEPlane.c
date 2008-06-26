@@ -7,7 +7,7 @@ ODEPlane binding
 #include "IoODEPlane.h"
 #include "IoState.h"
 #include "IoSeq.h"
-#include "IoVector_ode.h"
+#include "IoSeq_ode.h"
 #include "IoList.h"
 #include "geom.h"
 
@@ -104,7 +104,7 @@ IoObject *IoODEPlane_params(IoODEPlane *self, IoObject *locals, IoMessage *m)
 	dVector4 params;
 	IoODEPlane_assertHasPlaneId(self, locals, m);
 	dGeomPlaneGetParams(GEOMID, params);
-	return IoVector_newWithODEVector4(IOSTATE, params);
+	return IoSeq_newWithODEVector4(IOSTATE, params);
 }
 
 IoObject *IoODEPlane_setParams(IoODEPlane *self, IoObject *locals, IoMessage *m)

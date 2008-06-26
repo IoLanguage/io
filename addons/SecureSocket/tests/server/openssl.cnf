@@ -1,0 +1,50 @@
+[ ca ]
+default_ca	= CA_default
+[ CA_default ]
+
+dir	= ./
+certs	= $dir
+crl_dir	= $dir/crl
+database	= $dir/index.txt
+new_certs_dir	= $dir
+certificate	= dtlsCA.pem
+serial	= $dir/serial
+crl	= $dir/crl.pem
+private_key	= $dir/dtlsCA.key
+RANDFILE	= $dir/.rand
+name_opt	= ca_default
+cert_opt	= ca_default
+default_days	= 365
+default_crl_days= 30
+default_md	= md5
+preserve	= no
+policy	= policy_match
+
+[ policy_match ]
+countryName	= match
+stateOrProvinceName	= match
+organizationName	= match
+organizationalUnitName	= optional
+commonName	= supplied
+emailAddress	= optional
+
+[ policy_anything ]
+countryName	= optional
+stateOrProvinceName	= optional
+localityName	= optional
+organizationName= optional
+organizationalUnitName	= optional
+commonName	= supplied
+emailAddress	= optional
+
+[ req ]
+prompt=no
+distinguished_name=RC
+
+[RC]
+countryName=IN
+stateOrProvinceName=TN
+localityName=CH
+organizationName=dtls-example
+emailAddress=hi2arun@gmail.com
+commonName=dtls-server
