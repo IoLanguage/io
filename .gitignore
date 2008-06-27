@@ -80,3 +80,5 @@ extras/IoPlayers/MSWindows/ioplayer/ioplayer/Release
 extras/IoPlayers/MSWindows/ioplayer/ioplayer/ioplayer.vcproj.CUSTOMER2007.Customer.user
 extras/IoPlayers/MSWindows/ioplayer/pingme.txt
 extras/IoPlayers/MSWindows/ioplayer/smysrv
+libs/iovm/docs/docs.txt
+addons/*/docs/docs.txt
