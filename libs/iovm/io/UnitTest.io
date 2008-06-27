@@ -1,11 +1,21 @@
+//metadoc UnitTest category Test
+/*metadoc UnitTest description
+An object for organizing and running unit tests validated by assertions.
+*/
+
+//doc UnitTest setUp Method called prior to each test.
+//doc UnitTest tearDown Method called after each test.
+//doc UnitTest testCount Returns the number of tests defined in this object.
+//doc UnitTest run Runs all tests.
+//doc UnitTest fail Call to trigger a test failure.
 UnitTest := Object clone do(
 	verbose := method(s,
 		nil
 		//writeln(s)
 	)
 
-	//doc UnitTest category Testing
 	setUp := method(nil)
+	
 	tearDown := method(nil)
 	init := method(self exceptions := List clone)
 	testSlotNames := method(
@@ -35,6 +45,18 @@ UnitTest := Object clone do(
 	)
 
 	fail := method(Exception raise("fail"))
+
+//doc UnitTest assertEquals(a, b) Fail the running test if a != b.
+//doc UnitTest assertNotEquals(a, b) Fail the running test if a == b.
+//doc UnitTest assertNotSame(a, b) Fail the running test if a != b.
+//doc UnitTest assertNil(a) Fail the running test if a != nil.
+//doc UnitTest assertNotNil(a) Fail the running test if a == nil.
+//doc UnitTest assertTrue(a) Fail the running test if a != true.
+//doc UnitTest assertFalse(a) Fail the running test if a != false.
+//doc UnitTest assertRaisesException(code) Fail the running test if the code does not raise an Exception.
+/*doc UnitTest assertEqualsWithinDelta(expected, actual, delta)
+Fail the running test if the expected value is not within delta of the actual value.
+*/
 
 	assertEquals := method(a, b, m,
 		//writeln("assertEquals1 call message = ", call message type)
@@ -73,20 +95,27 @@ UnitTest := Object clone do(
 	)
 )
 
+//metadoc TestSuite category Testing
+/*metadoc TestSuite description
+An object to collect and run multiple UnitTests defined in *Test.io files within the System launchPath directory.
+*/
 TestSuite := Object clone do(
 	verbose := method(s,
 		nil
 		//writeln(s)
 	)
 
-	//doc UnitTest category Testing
-
+//doc TestSuite name Return the name of the TestSuite.
 	name := method(
 		path asMutable pathComponent lastPathComponent
 	)
 
 	newSlot("path", ".")
 
+/*doc TestSuite run
+Collects and all files named *Test.io within the System launchPath directory,
+runs their tests and prints collated results.
+*/
 	run := method(
 		verbose("\n" .. name)
 		unitTestFiles := Directory with(System launchPath) files select(f, f name endsWithSeq("Test.io"))

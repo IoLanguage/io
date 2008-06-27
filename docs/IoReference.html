@@ -42,6 +42,7 @@
 <div class=indexItem><a href="#State">State</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#System">System</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#Tag">Tag</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href="#TestSuite">TestSuite</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#Token">Token</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#UnitTest">UnitTest</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#WeakLink">WeakLink</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -57,12 +58,12 @@
 <div class=indexSection><a href="#CFFI">CFFI</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#CGI">CGI</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#Curses">Curses</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+</td><td valign=top>
 <div class=indexSection><a href="#DBI">DBI</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#DBI">DBI</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#DBIConn">DBIConn</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#DBIRecord">DBIRecord</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#DBIResult">DBIResult</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-</td><td valign=top>
 <div class=indexSection><a href="#DistributedObjects">DistributedObjects</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#DOConnection">DOConnection</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#DOProxy">DOProxy</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -94,6 +95,8 @@
 <div class=indexItem><a href="#Obsidian">Obsidian</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#ObsidianServer">ObsidianServer</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#PDB">PDB</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href="#PMap">PMap</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href="#category">category</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#OpenGL">OpenGL</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#Box">Box</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#GLApp">GLApp</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -103,10 +106,10 @@
 <div class=indexItem><a href="#GLUT">GLUT</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#OpenGL">OpenGL</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#Vector">Vector</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+</td><td valign=top>
 <div class=indexSection><a href="#PortAudio">PortAudio</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#AudioDevice">AudioDevice</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#AudioMixer">AudioMixer</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-</td><td valign=top>
 <div class=indexSection><a href="#Postgres">Postgres</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#Python">Python</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#QDBM">QDBM</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -125,6 +128,9 @@
 <div class=indexSection><a href="#SQLite">SQLite</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#SQLite3">SQLite3</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#SampleRateConverter">SampleRateConverter</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexSection><a href="#SecureSocket">SecureSocket</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href="#SecureServer">SecureServer</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href="#SecureSocket">SecureSocket</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#SkipDB">SkipDB</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#SkipDB">SkipDB</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#SkipDBCursor">SkipDBCursor</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -713,57 +719,16 @@ A minimal audio mixer.
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#AudioMixer-appendSource">appendSource</a><br>
-<a href="#AudioMixer-isRunning">isRunning</a><br>
 <a href="#AudioMixer-process">process()</a><br>
-<a href="#AudioMixer-processedSamples">processedSamples</a><br>
-<a href="#AudioMixer-removeSource">removeSource</a><br>
-<a href="#AudioMixer-setIsRunning">setIsRunning</a><br>
-<a href="#AudioMixer-setProcessedSamples">setProcessedSamples</a><br>
-<a href="#AudioMixer-setStreamDestination">setStreamDestination</a><br>
-<a href="#AudioMixer-start">start</a><br>
 <a href="#AudioMixer-start Start the mixer loop processing 1/64th of a second chunks">start Start the mixer loop processing 1/64th of a second chunks</a><br>
 <a href="#AudioMixer-stop">stop</a><br>
-<a href="#AudioMixer-streamDestination">streamDestination</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
-<a name="AudioMixer-appendSource"></a><b>appendSource</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AudioMixer-isRunning"></a><b>isRunning</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="AudioMixer-process"></a><b>process(sampleCount)</b><p>
 <div class=slotDescription>
 Internal method used for processing a chunk of the input sources. Returns self.
-</div>
-<a name="AudioMixer-processedSamples"></a><b>processedSamples</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AudioMixer-removeSource"></a><b>removeSource</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AudioMixer-setIsRunning"></a><b>setIsRunning</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AudioMixer-setProcessedSamples"></a><b>setProcessedSamples</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AudioMixer-setStreamDestination"></a><b>setStreamDestination</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AudioMixer-start"></a><b>start</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="AudioMixer-start Start the mixer loop processing 1/64th of a second chunks"></a><b>start Start the mixer loop processing 1/64th of a second chunks</b><p>
 <div class=slotDescription>
@@ -773,10 +738,6 @@ by calling process(22050) in a loop.
 <a name="AudioMixer-stop"></a><b>stop</b><p>
 <div class=slotDescription>
 Stops the mixer if it is running.
-</div>
-<a name="AudioMixer-streamDestination"></a><b>streamDestination</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 </div>
 </div>
@@ -3372,6 +3333,7 @@ if not specified, "./" is assumed.""")
 <a href="#Directory-parentDirectory">parentDirectory</a><br>
 <a href="#Directory-parents">parents</a><br>
 <a href="#Directory-path">path</a><br>
+<a href="#Directory-recursiVeFilesOfTypes">recursiVeFilesOfTypes()</a><br>
 <a href="#Directory-remove">remove</a><br>
 <a href="#Directory-setCurrentWorkingDirectory">setCurrentWorkingDirectory()</a><br>
 <a href="#Directory-setPath">setPath()</a><br>
@@ -3500,6 +3462,10 @@ Deprecated. Replaced by ancestorDirectories.
 <a name="Directory-path"></a><b>path</b><p>
 <div class=slotDescription>
 Returns the directory path. The default path is '.'.
+</div>
+<a name="Directory-recursiVeFilesOfTypes"></a><b>recursiVeFilesOfTypes(suffixes)</b><p>
+<div class=slotDescription>
+Returns a list containing all files in the directory or any subdirectory that has any of the specified suffixes.
 </div>
 <a name="Directory-remove"></a><b>remove</b><p>
 <div class=slotDescription>
@@ -4039,7 +4005,9 @@ file close
 <a href="#File-asBuffer">asBuffer</a><br>
 <a href="#File-at">at()</a><br>
 <a href="#File-atPut">atPut()</a><br>
+<a href="#File-baseName">baseName</a><br>
 <a href="#File-close">close</a><br>
+<a href="#File-containingDirectory">containingDirectory</a><br>
 <a href="#File-contents">contents</a><br>
 <a href="#File-copyToPath">copyToPath()</a><br>
 <a href="#File-create">create</a><br>
@@ -4100,6 +4068,7 @@ file close
 <a href="#File-streamReadSize">streamReadSize</a><br>
 <a href="#File-streamTo">streamTo</a><br>
 <a href="#File-temporaryFile">temporaryFile</a><br>
+<a href="#File-thisSourceFile">thisSourceFile</a><br>
 <a href="#File-truncateToSize">truncateToSize()</a><br>
 <a href="#File-userId">userId</a><br>
 <a href="#File-with">with()</a><br>
@@ -4123,9 +4092,17 @@ Returns a Number containing the byte at the specified
 Writes the byte value of byteNumber to the file position
 	positionNumber. Returns self.
 </div>
+<a name="File-baseName"></a><b>baseName</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="File-close"></a><b>close</b><p>
 <div class=slotDescription>
 Closes the receiver if open, otherwise does nothing. Returns self.
+</div>
+<a name="File-containingDirectory"></a><b>containingDirectory</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 <a name="File-contents"></a><b>contents</b><p>
 <div class=slotDescription>
@@ -4402,6 +4379,10 @@ Returns the file's size in bytes as a Number.
 <div class=slotDescription>
 Returns a new File object with an open temporary file. The file is
 	automatically deleted when the returned File object is closed or garbage collected.
+</div>
+<a name="File-thisSourceFile"></a><b>thisSourceFile</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 <a name="File-truncateToSize"></a><b>truncateToSize(numberOfBytes)</b><p>
 <div class=slotDescription>
@@ -7319,6 +7300,7 @@ Set's the host name. Return self.
 <a href="#HttpParser-queryString">queryString</a><br>
 <a href="#HttpParser-rawParse">rawParse</a><br>
 <a href="#HttpParser-rawReset">rawReset</a><br>
+<a href="#HttpParser-requestMethod">requestMethod</a><br>
 <a href="#HttpParser-requestPath">requestPath</a><br>
 <a href="#HttpParser-requestUri">requestUri</a><br>
 <a href="#HttpParser-reset">reset</a><br>
@@ -7370,6 +7352,10 @@ Parsers the Http request stored in the parseBuffer slot.  Sets slots on self usi
 <a name="HttpParser-rawReset"></a><b>rawReset</b><p>
 <div class=slotDescription>
 Resets the parser state to prepare for a new parse.  Returns self.
+</div>
+<a name="HttpParser-requestMethod"></a><b>requestMethod</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 <a name="HttpParser-requestPath"></a><b>requestPath</b><p>
 <div class=slotDescription>
@@ -8620,7 +8606,7 @@ writeln("date from date server: ", Date fromNumber(dateServerCon currentDate))
 dateServerCon close
 </pre>
 
-See the docs for MDOServer for the Date Server code.
+See the docs for MDOServer for the DateServer code.
 <p>
 A MDOConnection will pause calling coroutines until the response is received. 
 Mutliple requests can be sent before a single request returns if they are sent 
@@ -8633,6 +8619,7 @@ from separate coroutines.
 <a href="#MDOConnection-close">close</a><br>
 <a href="#MDOConnection-connect">connect</a><br>
 <a href="#MDOConnection-corosWaitingOnResponses">corosWaitingOnResponses</a><br>
+<a href="#MDOConnection-debugWriteln">debugWriteln</a><br>
 <a href="#MDOConnection-localObject">localObject</a><br>
 <a href="#MDOConnection-receiveLoop">receiveLoop</a><br>
 <a href="#MDOConnection-receiveResponse">receiveResponse</a><br>
@@ -8659,6 +8646,10 @@ from separate coroutines.
 <div class=error>undocumented</div>
 </div>
 <a name="MDOConnection-corosWaitingOnResponses"></a><b>corosWaitingOnResponses</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-debugWriteln"></a><b>debugWriteln</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
@@ -9830,10 +9821,115 @@ ODEBody binding
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
+<a href="#ODEBody-addForce">addForce</a><br>
+<a href="#ODEBody-addRelForce">addRelForce</a><br>
+<a href="#ODEBody-addRelTorque">addRelTorque</a><br>
+<a href="#ODEBody-addTorque">addTorque</a><br>
+<a href="#ODEBody-bodyId">bodyId</a><br>
+<a href="#ODEBody-force">force</a><br>
+<a href="#ODEBody-glMultMatrix">glMultMatrix</a><br>
+<a href="#ODEBody-linearVelocity">linearVelocity</a><br>
+<a href="#ODEBody-mass">mass</a><br>
+<a href="#ODEBody-position">position</a><br>
+<a href="#ODEBody-quaternion">quaternion</a><br>
+<a href="#ODEBody-rotation">rotation</a><br>
+<a href="#ODEBody-setForce">setForce</a><br>
+<a href="#ODEBody-setLinearVelocity">setLinearVelocity</a><br>
+<a href="#ODEBody-setMass">setMass</a><br>
+<a href="#ODEBody-setPosition">setPosition</a><br>
+<a href="#ODEBody-setRotation">setRotation</a><br>
+<a href="#ODEBody-setTorque">setTorque</a><br>
+<a href="#ODEBody-slotDescriptionMap">slotDescriptionMap</a><br>
+<a href="#ODEBody-torque">torque</a><br>
+<a href="#ODEBody-world">world</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
+<a name="ODEBody-addForce"></a><b>addForce</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEBody-addRelForce"></a><b>addRelForce</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEBody-addRelTorque"></a><b>addRelTorque</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEBody-addTorque"></a><b>addTorque</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEBody-bodyId"></a><b>bodyId</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEBody-force"></a><b>force</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEBody-glMultMatrix"></a><b>glMultMatrix</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEBody-linearVelocity"></a><b>linearVelocity</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEBody-mass"></a><b>mass</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEBody-position"></a><b>position</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEBody-quaternion"></a><b>quaternion</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEBody-rotation"></a><b>rotation</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEBody-setForce"></a><b>setForce</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEBody-setLinearVelocity"></a><b>setLinearVelocity</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEBody-setMass"></a><b>setMass</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEBody-setPosition"></a><b>setPosition</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEBody-setRotation"></a><b>setRotation</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEBody-setTorque"></a><b>setTorque</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEBody-slotDescriptionMap"></a><b>slotDescriptionMap</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEBody-torque"></a><b>torque</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEBody-world"></a><b>world</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 </div>
 </div>
 <hr align=left>
@@ -9852,10 +9948,50 @@ ODEBox binding
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
+<a href="#ODEBox-body">body</a><br>
+<a href="#ODEBox-collide">collide</a><br>
+<a href="#ODEBox-geomId">geomId</a><br>
+<a href="#ODEBox-lengths">lengths</a><br>
+<a href="#ODEBox-pointDepth">pointDepth</a><br>
+<a href="#ODEBox-setBody">setBody</a><br>
+<a href="#ODEBox-setLengths">setLengths</a><br>
+<a href="#ODEBox-slotDescriptionMap">slotDescriptionMap</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
+<a name="ODEBox-body"></a><b>body</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEBox-collide"></a><b>collide</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEBox-geomId"></a><b>geomId</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEBox-lengths"></a><b>lengths</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEBox-pointDepth"></a><b>pointDepth</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEBox-setBody"></a><b>setBody</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEBox-setLengths"></a><b>setLengths</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEBox-slotDescriptionMap"></a><b>slotDescriptionMap</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 </div>
 </div>
 <hr align=left>
@@ -9874,10 +10010,285 @@ ODEContact binding
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
+<a href="#ODEContact-bounce">bounce</a><br>
+<a href="#ODEContact-bounceEnabled">bounceEnabled</a><br>
+<a href="#ODEContact-bounceVelocity">bounceVelocity</a><br>
+<a href="#ODEContact-depth">depth</a><br>
+<a href="#ODEContact-disableBounce">disableBounce</a><br>
+<a href="#ODEContact-disableFrictionDirection">disableFrictionDirection</a><br>
+<a href="#ODEContact-disableMotion1">disableMotion1</a><br>
+<a href="#ODEContact-disableMotion2">disableMotion2</a><br>
+<a href="#ODEContact-disableMu2">disableMu2</a><br>
+<a href="#ODEContact-disableSlip1">disableSlip1</a><br>
+<a href="#ODEContact-disableSlip2">disableSlip2</a><br>
+<a href="#ODEContact-disableSoftCfm">disableSoftCfm</a><br>
+<a href="#ODEContact-disableSoftErp">disableSoftErp</a><br>
+<a href="#ODEContact-frictionDirection">frictionDirection</a><br>
+<a href="#ODEContact-frictionDirectionEnabled">frictionDirectionEnabled</a><br>
+<a href="#ODEContact-geom1">geom1</a><br>
+<a href="#ODEContact-geom2">geom2</a><br>
+<a href="#ODEContact-motion1">motion1</a><br>
+<a href="#ODEContact-motion1Enabled">motion1Enabled</a><br>
+<a href="#ODEContact-motion2">motion2</a><br>
+<a href="#ODEContact-motion2Enabled">motion2Enabled</a><br>
+<a href="#ODEContact-mu">mu</a><br>
+<a href="#ODEContact-mu2">mu2</a><br>
+<a href="#ODEContact-mu2Enabled">mu2Enabled</a><br>
+<a href="#ODEContact-normal">normal</a><br>
+<a href="#ODEContact-position">position</a><br>
+<a href="#ODEContact-setBounce">setBounce</a><br>
+<a href="#ODEContact-setBounceVelocity">setBounceVelocity</a><br>
+<a href="#ODEContact-setDepth">setDepth</a><br>
+<a href="#ODEContact-setFrictionDirection">setFrictionDirection</a><br>
+<a href="#ODEContact-setGeom1">setGeom1</a><br>
+<a href="#ODEContact-setGeom2">setGeom2</a><br>
+<a href="#ODEContact-setMotion1">setMotion1</a><br>
+<a href="#ODEContact-setMotion2">setMotion2</a><br>
+<a href="#ODEContact-setMu">setMu</a><br>
+<a href="#ODEContact-setMu2">setMu2</a><br>
+<a href="#ODEContact-setNormal">setNormal</a><br>
+<a href="#ODEContact-setPosition">setPosition</a><br>
+<a href="#ODEContact-setSide1">setSide1</a><br>
+<a href="#ODEContact-setSide2">setSide2</a><br>
+<a href="#ODEContact-setSlip1">setSlip1</a><br>
+<a href="#ODEContact-setSlip2">setSlip2</a><br>
+<a href="#ODEContact-setSoftCfm">setSoftCfm</a><br>
+<a href="#ODEContact-setSoftErp">setSoftErp</a><br>
+<a href="#ODEContact-side1">side1</a><br>
+<a href="#ODEContact-side2">side2</a><br>
+<a href="#ODEContact-slip1">slip1</a><br>
+<a href="#ODEContact-slip1Enabled">slip1Enabled</a><br>
+<a href="#ODEContact-slip2">slip2</a><br>
+<a href="#ODEContact-slip2Enabled">slip2Enabled</a><br>
+<a href="#ODEContact-slotDescriptionMap">slotDescriptionMap</a><br>
+<a href="#ODEContact-softCfm">softCfm</a><br>
+<a href="#ODEContact-softCfmEnabled">softCfmEnabled</a><br>
+<a href="#ODEContact-softErp">softErp</a><br>
+<a href="#ODEContact-softErpEnabled">softErpEnabled</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
+<a name="ODEContact-bounce"></a><b>bounce</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-bounceEnabled"></a><b>bounceEnabled</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-bounceVelocity"></a><b>bounceVelocity</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-depth"></a><b>depth</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-disableBounce"></a><b>disableBounce</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-disableFrictionDirection"></a><b>disableFrictionDirection</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-disableMotion1"></a><b>disableMotion1</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-disableMotion2"></a><b>disableMotion2</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-disableMu2"></a><b>disableMu2</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-disableSlip1"></a><b>disableSlip1</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-disableSlip2"></a><b>disableSlip2</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-disableSoftCfm"></a><b>disableSoftCfm</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-disableSoftErp"></a><b>disableSoftErp</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-frictionDirection"></a><b>frictionDirection</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-frictionDirectionEnabled"></a><b>frictionDirectionEnabled</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-geom1"></a><b>geom1</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-geom2"></a><b>geom2</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-motion1"></a><b>motion1</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-motion1Enabled"></a><b>motion1Enabled</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-motion2"></a><b>motion2</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-motion2Enabled"></a><b>motion2Enabled</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-mu"></a><b>mu</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-mu2"></a><b>mu2</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-mu2Enabled"></a><b>mu2Enabled</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-normal"></a><b>normal</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-position"></a><b>position</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-setBounce"></a><b>setBounce</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-setBounceVelocity"></a><b>setBounceVelocity</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-setDepth"></a><b>setDepth</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-setFrictionDirection"></a><b>setFrictionDirection</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-setGeom1"></a><b>setGeom1</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-setGeom2"></a><b>setGeom2</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-setMotion1"></a><b>setMotion1</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-setMotion2"></a><b>setMotion2</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-setMu"></a><b>setMu</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-setMu2"></a><b>setMu2</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-setNormal"></a><b>setNormal</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-setPosition"></a><b>setPosition</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-setSide1"></a><b>setSide1</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-setSide2"></a><b>setSide2</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-setSlip1"></a><b>setSlip1</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-setSlip2"></a><b>setSlip2</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-setSoftCfm"></a><b>setSoftCfm</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-setSoftErp"></a><b>setSoftErp</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-side1"></a><b>side1</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-side2"></a><b>side2</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-slip1"></a><b>slip1</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-slip1Enabled"></a><b>slip1Enabled</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-slip2"></a><b>slip2</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-slip2Enabled"></a><b>slip2Enabled</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-slotDescriptionMap"></a><b>slotDescriptionMap</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-softCfm"></a><b>softCfm</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-softCfmEnabled"></a><b>softCfmEnabled</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-softErp"></a><b>softErp</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEContact-softErpEnabled"></a><b>softErpEnabled</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 </div>
 </div>
 <hr align=left>
@@ -9896,10 +10307,35 @@ ODEJoint binding
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
+<a href="#ODEJoint-attach">attach</a><br>
+<a href="#ODEJoint-attachedBody1">attachedBody1</a><br>
+<a href="#ODEJoint-attachedBody2">attachedBody2</a><br>
+<a href="#ODEJoint-jointGroup">jointGroup</a><br>
+<a href="#ODEJoint-jointId">jointId</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
+<a name="ODEJoint-attach"></a><b>attach</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEJoint-attachedBody1"></a><b>attachedBody1</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEJoint-attachedBody2"></a><b>attachedBody2</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEJoint-jointGroup"></a><b>jointGroup</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEJoint-jointId"></a><b>jointId</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 </div>
 </div>
 <hr align=left>
@@ -9918,10 +10354,40 @@ ODEJointGroup binding
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
+<a href="#ODEJointGroup-createContact">createContact</a><br>
+<a href="#ODEJointGroup-empty">empty</a><br>
+<a href="#ODEJointGroup-jointGroupId">jointGroupId</a><br>
+<a href="#ODEJointGroup-joints">joints</a><br>
+<a href="#ODEJointGroup-slotDescriptionMap">slotDescriptionMap</a><br>
+<a href="#ODEJointGroup-world">world</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
+<a name="ODEJointGroup-createContact"></a><b>createContact</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEJointGroup-empty"></a><b>empty</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEJointGroup-jointGroupId"></a><b>jointGroupId</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEJointGroup-joints"></a><b>joints</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEJointGroup-slotDescriptionMap"></a><b>slotDescriptionMap</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEJointGroup-world"></a><b>world</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 </div>
 </div>
 <hr align=left>
@@ -9940,10 +10406,95 @@ ODEMass binding
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
+<a href="#ODEMass-==">==</a><br>
+<a href="#ODEMass-asSimpleString">asSimpleString</a><br>
+<a href="#ODEMass-centerOfGravity">centerOfGravity</a><br>
+<a href="#ODEMass-inertiaTensor">inertiaTensor</a><br>
+<a href="#ODEMass-mass">mass</a><br>
+<a href="#ODEMass-parameters">parameters</a><br>
+<a href="#ODEMass-reset">reset</a><br>
+<a href="#ODEMass-setBoxDensity">setBoxDensity</a><br>
+<a href="#ODEMass-setBoxMass">setBoxMass</a><br>
+<a href="#ODEMass-setCappedCylinderDensity">setCappedCylinderDensity</a><br>
+<a href="#ODEMass-setCappedCylinderMass">setCappedCylinderMass</a><br>
+<a href="#ODEMass-setCenterOfGravity">setCenterOfGravity</a><br>
+<a href="#ODEMass-setMass">setMass</a><br>
+<a href="#ODEMass-setParameters">setParameters</a><br>
+<a href="#ODEMass-setSphereDensity">setSphereDensity</a><br>
+<a href="#ODEMass-setSphereMass">setSphereMass</a><br>
+<a href="#ODEMass-slotDescriptionMap">slotDescriptionMap</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
+<a name="ODEMass-=="></a><b>==</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEMass-asSimpleString"></a><b>asSimpleString</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEMass-centerOfGravity"></a><b>centerOfGravity</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEMass-inertiaTensor"></a><b>inertiaTensor</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEMass-mass"></a><b>mass</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEMass-parameters"></a><b>parameters</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEMass-reset"></a><b>reset</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEMass-setBoxDensity"></a><b>setBoxDensity</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEMass-setBoxMass"></a><b>setBoxMass</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEMass-setCappedCylinderDensity"></a><b>setCappedCylinderDensity</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEMass-setCappedCylinderMass"></a><b>setCappedCylinderMass</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEMass-setCenterOfGravity"></a><b>setCenterOfGravity</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEMass-setMass"></a><b>setMass</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEMass-setParameters"></a><b>setParameters</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEMass-setSphereDensity"></a><b>setSphereDensity</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEMass-setSphereMass"></a><b>setSphereMass</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEMass-slotDescriptionMap"></a><b>slotDescriptionMap</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 </div>
 </div>
 <hr align=left>
@@ -9962,10 +10513,40 @@ ODEPlane binding
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
+<a href="#ODEPlane-body">body</a><br>
+<a href="#ODEPlane-collide">collide</a><br>
+<a href="#ODEPlane-geomId">geomId</a><br>
+<a href="#ODEPlane-params">params</a><br>
+<a href="#ODEPlane-setParams">setParams</a><br>
+<a href="#ODEPlane-slotDescriptionMap">slotDescriptionMap</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
+<a name="ODEPlane-body"></a><b>body</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEPlane-collide"></a><b>collide</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEPlane-geomId"></a><b>geomId</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEPlane-params"></a><b>params</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEPlane-setParams"></a><b>setParams</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEPlane-slotDescriptionMap"></a><b>slotDescriptionMap</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 </div>
 </div>
 <hr align=left>
@@ -9984,10 +10565,35 @@ ODESimpleSpace binding
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
+<a href="#ODESimpleSpace-box">box</a><br>
+<a href="#ODESimpleSpace-collide">collide</a><br>
+<a href="#ODESimpleSpace-plane">plane</a><br>
+<a href="#ODESimpleSpace-slotDescriptionMap">slotDescriptionMap</a><br>
+<a href="#ODESimpleSpace-spaceId">spaceId</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
+<a name="ODESimpleSpace-box"></a><b>box</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODESimpleSpace-collide"></a><b>collide</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODESimpleSpace-plane"></a><b>plane</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODESimpleSpace-slotDescriptionMap"></a><b>slotDescriptionMap</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODESimpleSpace-spaceId"></a><b>spaceId</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 </div>
 </div>
 <hr align=left>
@@ -10006,10 +10612,75 @@ ODEWorld binding
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
+<a href="#ODEWorld-asSimpleString">asSimpleString</a><br>
+<a href="#ODEWorld-bodies">bodies</a><br>
+<a href="#ODEWorld-cfm">cfm</a><br>
+<a href="#ODEWorld-erp">erp</a><br>
+<a href="#ODEWorld-gravity">gravity</a><br>
+<a href="#ODEWorld-jointGroups">jointGroups</a><br>
+<a href="#ODEWorld-quickStep">quickStep</a><br>
+<a href="#ODEWorld-setCfm">setCfm</a><br>
+<a href="#ODEWorld-setErp">setErp</a><br>
+<a href="#ODEWorld-setGravity">setGravity</a><br>
+<a href="#ODEWorld-slotDescriptionMap">slotDescriptionMap</a><br>
+<a href="#ODEWorld-step">step</a><br>
+<a href="#ODEWorld-worldId">worldId</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
+<a name="ODEWorld-asSimpleString"></a><b>asSimpleString</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEWorld-bodies"></a><b>bodies</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEWorld-cfm"></a><b>cfm</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEWorld-erp"></a><b>erp</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEWorld-gravity"></a><b>gravity</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEWorld-jointGroups"></a><b>jointGroups</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEWorld-quickStep"></a><b>quickStep</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEWorld-setCfm"></a><b>setCfm</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEWorld-setErp"></a><b>setErp</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEWorld-setGravity"></a><b>setGravity</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEWorld-slotDescriptionMap"></a><b>slotDescriptionMap</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEWorld-step"></a><b>step</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ODEWorld-worldId"></a><b>worldId</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 </div>
 </div>
 <hr align=left>
@@ -10866,7 +11537,6 @@ A double key/value database with cursors on first key. Basis for PDB.
 <a href="#Obsidian-close">close</a><br>
 <a href="#Obsidian-cursorOn">cursorOn</a><br>
 <a href="#Obsidian-delete">delete</a><br>
-<a href="#Obsidian-name">name</a><br>
 <a href="#Obsidian-onAfter">onAfter</a><br>
 <a href="#Obsidian-onAt">onAt</a><br>
 <a href="#Obsidian-onAtPut">onAtPut</a><br>
@@ -10876,10 +11546,10 @@ A double key/value database with cursors on first key. Basis for PDB.
 <a href="#Obsidian-onRemoveAt">onRemoveAt</a><br>
 <a href="#Obsidian-open">open</a><br>
 <a href="#Obsidian-path">path</a><br>
-<a href="#Obsidian-setName">setName</a><br>
 <a href="#Obsidian-setPath">setPath</a><br>
 <a href="#Obsidian-setSharedPrefixCursor">setSharedPrefixCursor</a><br>
 <a href="#Obsidian-sharedPrefixCursor">sharedPrefixCursor</a><br>
+<a href="#Obsidian-sizeOn">sizeOn</a><br>
 </div>
 <p>
 <h3>Slots</h3>
@@ -10897,10 +11567,6 @@ A double key/value database with cursors on first key. Basis for PDB.
 <div class=error>undocumented</div>
 </div>
 <a name="Obsidian-delete"></a><b>delete</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Obsidian-name"></a><b>name</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
@@ -10940,10 +11606,6 @@ A double key/value database with cursors on first key. Basis for PDB.
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="Obsidian-setName"></a><b>setName</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="Obsidian-setPath"></a><b>setPath</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
@@ -10953,6 +11615,10 @@ A double key/value database with cursors on first key. Basis for PDB.
 <div class=error>undocumented</div>
 </div>
 <a name="Obsidian-sharedPrefixCursor"></a><b>sharedPrefixCursor</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Obsidian-sizeOn"></a><b>sizeOn</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
@@ -11012,20 +11678,10 @@ onBefore(id, key, count)
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#ObsidianServer-localObject">localObject</a><br>
-<a href="#ObsidianServer-socket">socket</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
-<a name="ObsidianServer-localObject"></a><b>localObject</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="ObsidianServer-socket"></a><b>socket</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 </div>
 </div>
 <hr align=left>
@@ -11736,11 +12392,11 @@ Notes: Currently, PDB is a singleton.
 <a href="#PDB-collectGarbage">collectGarbage</a><br>
 <a href="#PDB-db">db</a><br>
 <a href="#PDB-newId">newId</a><br>
+<a href="#PDB-noteReference">noteReference</a><br>
 <a href="#PDB-objectAtPpid">objectAtPpid</a><br>
 <a href="#PDB-objectsToPersist">objectsToPersist</a><br>
-<a href="#PDB-path">path</a><br>
 <a href="#PDB-ppidMap">ppidMap</a><br>
-<a href="#PDB-repoen">repoen</a><br>
+<a href="#PDB-reopen">reopen</a><br>
 <a href="#PDB-root">root</a><br>
 <a href="#PDB-setObjectsToPersist">setObjectsToPersist</a><br>
 <a href="#PDB-show">show</a><br>
@@ -11773,6 +12429,10 @@ Notes: Currently, PDB is a singleton.
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
+<a name="PDB-noteReference"></a><b>noteReference</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="PDB-objectAtPpid"></a><b>objectAtPpid</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
@@ -11781,15 +12441,11 @@ Notes: Currently, PDB is a singleton.
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="PDB-path"></a><b>path</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="PDB-ppidMap"></a><b>ppidMap</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="PDB-repoen"></a><b>repoen</b><p>
+<a name="PDB-reopen"></a><b>reopen</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
@@ -11806,6 +12462,124 @@ Notes: Currently, PDB is a singleton.
 <div class=error>undocumented</div>
 </div>
 <a name="PDB-sync"></a><b>sync</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+</div>
+</div>
+<hr align=left>
+<h2><a name="PMap"></a>PMap</h2>
+<div class=indent>
+<div style="line-height:1.3em">
+<b>Module:</b> Obsidian<br>
+<font color=#888>
+</font>
+</div>
+<h3>Description</h3>
+<div class=protoDescription>
+PMap stores persistent data in a Map-like fashion and lazily loads
+available slots from the PDB backing store. Values stored or loaded are cached
+into local object slots.
+
+</div>
+<div class=slots>
+<h3>Slot Index</h3>
+<div class=slotIndex>
+<a href="#PMap-afterCount">afterCount</a><br>
+<a href="#PMap-at">at()</a><br>
+<a href="#PMap-atPut">atPut()</a><br>
+<a href="#PMap-beforeCount">beforeCount</a><br>
+<a href="#PMap-createIfAbsent">createIfAbsent</a><br>
+<a href="#PMap-firstCount">firstCount</a><br>
+<a href="#PMap-forward">forward</a><br>
+<a href="#PMap-hiddenSlots">hiddenSlots</a><br>
+<a href="#PMap-lastCount">lastCount</a><br>
+<a href="#PMap-objectsForKeys">objectsForKeys</a><br>
+<a href="#PMap-persist">persist</a><br>
+<a href="#PMap-persistSlots">persistSlots</a><br>
+<a href="#PMap-removeAt">removeAt</a><br>
+<a href="#PMap-removeSlot">removeSlot</a><br>
+<a href="#PMap-shouldPersistByDefault">shouldPersistByDefault</a><br>
+<a href="#PMap-slotCount">slotCount</a><br>
+<a href="#PMap-slotsToRemove">slotsToRemove</a><br>
+<a href="#PMap-unpersist">unpersist</a><br>
+</div>
+<p>
+<h3>Slots</h3>
+<p>
+<a name="PMap-afterCount"></a><b>afterCount</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="PMap-at"></a><b>at(slotName)</b><p>
+<div class=slotDescription>
+Tries to obtain a value for slot slotName from a local slot of that name,
+or tries to load it from the PDB if the local slot does not exist. When all else fails, returns nil.
+<p>
+If slotName begins with an underscore ("_"), returns the id of the slot from PDB instead of the value.
+</div>
+<a name="PMap-atPut"></a><b>atPut(slotName, value)</b><p>
+<div class=slotDescription>
+Records value in the slot named slotName.
+</div>
+<a name="PMap-beforeCount"></a><b>beforeCount</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="PMap-createIfAbsent"></a><b>createIfAbsent</b><p>
+<div class=slotDescription>
+Creates a slot with a new PMap clone if not already present.
+</div>
+<a name="PMap-firstCount"></a><b>firstCount</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="PMap-forward"></a><b>forward</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="PMap-hiddenSlots"></a><b>hiddenSlots</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="PMap-lastCount"></a><b>lastCount</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="PMap-objectsForKeys"></a><b>objectsForKeys</b><p>
+<div class=slotDescription>
+Returns a list of values for each key in the list given. Keys beginning with an
+underscore ("_") are returned verbatim.
+</div>
+<a name="PMap-persist"></a><b>persist</b><p>
+<div class=slotDescription>
+Commits the PMap's slots to PDB.
+</div>
+<a name="PMap-persistSlots"></a><b>persistSlots</b><p>
+<div class=slotDescription>
+Cleans up dirty slots by committing them to PDB.
+</div>
+<a name="PMap-removeAt"></a><b>removeAt</b><p>
+<div class=slotDescription>
+Marks a value for removal.
+</div>
+<a name="PMap-removeSlot"></a><b>removeSlot</b><p>
+<div class=slotDescription>
+Marks a value for removal.
+</div>
+<a name="PMap-shouldPersistByDefault"></a><b>shouldPersistByDefault</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="PMap-slotCount"></a><b>slotCount</b><p>
+<div class=slotDescription>
+Returns the number of slots committed to PDB.
+</div>
+<a name="PMap-slotsToRemove"></a><b>slotsToRemove</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="PMap-unpersist"></a><b>unpersist</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
@@ -13116,15 +13890,36 @@ Returns the string that the receiver finds matches in.
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
+<a href="#SGMLElement-asObject">asObject</a><br>
 <a href="#SGMLElement-asString">asString</a><br>
 <a href="#SGMLElement-attributes">attributes</a><br>
+<a href="#SGMLElement-beginTag">beginTag</a><br>
+<a href="#SGMLElement-elementWithName">elementWithName</a><br>
+<a href="#SGMLElement-elementsWithName">elementsWithName</a><br>
+<a href="#SGMLElement-endTag">endTag</a><br>
+<a href="#SGMLElement-linkStrings">linkStrings</a><br>
 <a href="#SGMLElement-name">name</a><br>
+<a href="#SGMLElement-parent">parent</a><br>
+<a href="#SGMLElement-redirectStrings">redirectStrings</a><br>
+<a href="#SGMLElement-search">search</a><br>
+<a href="#SGMLElement-setAttributes">setAttributes</a><br>
 <a href="#SGMLElement-setName">setName()</a><br>
+<a href="#SGMLElement-setParent">setParent</a><br>
+<a href="#SGMLElement-setSubitems">setSubitems</a><br>
+<a href="#SGMLElement-setText">setText</a><br>
 <a href="#SGMLElement-subitems">subitems</a><br>
+<a href="#SGMLElement-tableData">tableData</a><br>
+<a href="#SGMLElement-text">text</a><br>
+<a href="#SGMLElement-withText">withText</a><br>
+<a href="#SGMLElement-writeToStream">writeToStream</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
+<a name="SGMLElement-asObject"></a><b>asObject</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="SGMLElement-asString"></a><b>asString</b><p>
 <div class=slotDescription>
 Returns a String representation of the tag and all of it's subitems.
@@ -13133,17 +13928,81 @@ Returns a String representation of the tag and all of it's subitems.
 <div class=slotDescription>
 Returns a Map containing the tag's attributes.
 </div>
+<a name="SGMLElement-beginTag"></a><b>beginTag</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-elementWithName"></a><b>elementWithName</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-elementsWithName"></a><b>elementsWithName</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-endTag"></a><b>endTag</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-linkStrings"></a><b>linkStrings</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="SGMLElement-name"></a><b>name</b><p>
 <div class=slotDescription>
 Returns the tag name
+</div>
+<a name="SGMLElement-parent"></a><b>parent</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-redirectStrings"></a><b>redirectStrings</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-search"></a><b>search</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-setAttributes"></a><b>setAttributes</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 <a name="SGMLElement-setName"></a><b>setName(aString)</b><p>
 <div class=slotDescription>
 Sets the tag name. Returns self.
 </div>
+<a name="SGMLElement-setParent"></a><b>setParent</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-setSubitems"></a><b>setSubitems</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-setText"></a><b>setText</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="SGMLElement-subitems"></a><b>subitems</b><p>
 <div class=slotDescription>
 Returns a List containing the tag's subitems.
+</div>
+<a name="SGMLElement-tableData"></a><b>tableData</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-text"></a><b>text</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-withText"></a><b>withText</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-writeToStream"></a><b>writeToStream</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 </div>
 </div>
@@ -13165,12 +14024,39 @@ This object can be used to parse SGML / HTML / XML.
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
+<a href="#SGMLParser-elementForString">elementForString</a><br>
+<a href="#SGMLParser-elementProto">elementProto</a><br>
+<a href="#SGMLParser-endElement">endElement</a><br>
+<a href="#SGMLParser-newAttribute">newAttribute</a><br>
+<a href="#SGMLParser-newText">newText</a><br>
 <a href="#SGMLParser-parse">parse()</a><br>
+<a href="#SGMLParser-startElement">startElement</a><br>
 <a href="#SGMLParser-tagForString">tagForString()</a><br>
+<a href="#SGMLParser-top">top</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
+<a name="SGMLParser-elementForString"></a><b>elementForString</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLParser-elementProto"></a><b>elementProto</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLParser-endElement"></a><b>endElement</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLParser-newAttribute"></a><b>newAttribute</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLParser-newText"></a><b>newText</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="SGMLParser-parse"></a><b>parse(aSequence)</b><p>
 <div class=slotDescription>
 Parses aSequence and calls the following methods on self;
@@ -13182,9 +14068,17 @@ newText(text)
 </pre>	
 for each of the items it finds. Returns self.
 </div>
+<a name="SGMLParser-startElement"></a><b>startElement</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="SGMLParser-tagForString"></a><b>tagForString(aSequence)</b><p>
 <div class=slotDescription>
 Parses aSequence and returns an SGMLTag object.
+</div>
+<a name="SGMLParser-top"></a><b>top</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 </div>
 </div>
@@ -13578,65 +14472,10 @@ Returns a list containing the names of all
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#SampleRateConverter-inputBuffer">inputBuffer</a><br>
-<a href="#SampleRateConverter-outputBuffer">outputBuffer</a><br>
-<a href="#SampleRateConverter-outputToInputRatio">outputToInputRatio</a><br>
-<a href="#SampleRateConverter-process">process</a><br>
-<a href="#SampleRateConverter-setEndOFInput">setEndOFInput</a><br>
-<a href="#SampleRateConverter-setOutputToInputRatio">setOutputToInputRatio</a><br>
-<a href="#SampleRateConverter-setStreamDestination">setStreamDestination</a><br>
-<a href="#SampleRateConverter-start">start</a><br>
-<a href="#SampleRateConverter-stop">stop</a><br>
-<a href="#SampleRateConverter-streamDestination">streamDestination</a><br>
-<a href="#SampleRateConverter-write">write</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
-<a name="SampleRateConverter-inputBuffer"></a><b>inputBuffer</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SampleRateConverter-outputBuffer"></a><b>outputBuffer</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SampleRateConverter-outputToInputRatio"></a><b>outputToInputRatio</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SampleRateConverter-process"></a><b>process</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SampleRateConverter-setEndOFInput"></a><b>setEndOFInput</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SampleRateConverter-setOutputToInputRatio"></a><b>setOutputToInputRatio</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SampleRateConverter-setStreamDestination"></a><b>setStreamDestination</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SampleRateConverter-start"></a><b>start</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SampleRateConverter-stop"></a><b>stop</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SampleRateConverter-streamDestination"></a><b>streamDestination</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SampleRateConverter-write"></a><b>write</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 </div>
 </div>
 <hr align=left>
@@ -13736,6 +14575,452 @@ The List of yielding Coroutine objects.
 </div>
 </div>
 <hr align=left>
+<h2><a name="SecureServer"></a>SecureServer</h2>
+<div class=indent>
+<div style="line-height:1.3em">
+<b>Module:</b> SecureSocket<br>
+<font color=#888>
+</font>
+</div>
+<div class=slots>
+<h3>Slot Index</h3>
+<div class=slotIndex>
+<a href="#SecureServer-coro">coro</a><br>
+<a href="#SecureServer-debugOff">debugOff</a><br>
+<a href="#SecureServer-debugOn">debugOn</a><br>
+<a href="#SecureServer-debugWriteln">debugWriteln</a><br>
+<a href="#SecureServer-dispatch">dispatch</a><br>
+<a href="#SecureServer-dispatchCoro">dispatchCoro</a><br>
+<a href="#SecureServer-handleSocket">handleSocket</a><br>
+<a href="#SecureServer-port">port</a><br>
+<a href="#SecureServer-rawUseDTLS">rawUseDTLS</a><br>
+<a href="#SecureServer-rawUseTLS">rawUseTLS</a><br>
+<a href="#SecureServer-secureSocketForPeer">secureSocketForPeer</a><br>
+<a href="#SecureServer-setCAFile">setCAFile</a><br>
+<a href="#SecureServer-setCRLFile">setCRLFile</a><br>
+<a href="#SecureServer-setCertFile">setCertFile</a><br>
+<a href="#SecureServer-setCoro">setCoro</a><br>
+<a href="#SecureServer-setDispatchCoro">setDispatchCoro</a><br>
+<a href="#SecureServer-setHost">setHost()</a><br>
+<a href="#SecureServer-setKeyFile">setKeyFile</a><br>
+<a href="#SecureServer-setPort">setPort()</a><br>
+<a href="#SecureServer-setRequiresClientCertificate">setRequiresClientCertificate</a><br>
+<a href="#SecureServer-start">start</a><br>
+<a href="#SecureServer-stop">stop</a><br>
+<a href="#SecureServer-stopWhenUnused">stopWhenUnused</a><br>
+<a href="#SecureServer-supportsDTLS">supportsDTLS</a><br>
+<a href="#SecureServer-tlsWrap">tlsWrap</a><br>
+<a href="#SecureServer-useDTLS">useDTLS</a><br>
+<a href="#SecureServer-useTLS">useTLS</a><br>
+<a href="#SecureServer-usesTLS">usesTLS</a><br>
+</div>
+<p>
+<h3>Slots</h3>
+<p>
+<a name="SecureServer-coro"></a><b>coro</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-debugOff"></a><b>debugOff</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-debugOn"></a><b>debugOn</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-debugWriteln"></a><b>debugWriteln</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-dispatch"></a><b>dispatch</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-dispatchCoro"></a><b>dispatchCoro</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-handleSocket"></a><b>handleSocket</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-port"></a><b>port</b><p>
+<div class=slotDescription>
+Returns the port on which the server will listen for connections.")
+</div>
+<a name="SecureServer-rawUseDTLS"></a><b>rawUseDTLS</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-rawUseTLS"></a><b>rawUseTLS</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-secureSocketForPeer"></a><b>secureSocketForPeer</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-setCAFile"></a><b>setCAFile</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-setCRLFile"></a><b>setCRLFile</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-setCertFile"></a><b>setCertFile</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-setCoro"></a><b>setCoro</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-setDispatchCoro"></a><b>setDispatchCoro</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-setHost"></a><b>setHost(hostName)</b><p>
+<div class=slotDescription>
+Sets the hostName. Returns self.")
+</div>
+<a name="SecureServer-setKeyFile"></a><b>setKeyFile</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-setPort"></a><b>setPort(aNumber)</b><p>
+<div class=slotDescription>
+Sets the port on which the server will listen  for connections. Returns self.")
+</div>
+<a name="SecureServer-setRequiresClientCertificate"></a><b>setRequiresClientCertificate</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-start"></a><b>start</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-stop"></a><b>stop</b><p>
+<div class=slotDescription>
+Stops the server if it is running. Returns self.")
+</div>
+<a name="SecureServer-stopWhenUnused"></a><b>stopWhenUnused</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-supportsDTLS"></a><b>supportsDTLS</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-tlsWrap"></a><b>tlsWrap</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-useDTLS"></a><b>useDTLS</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-useTLS"></a><b>useTLS</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-usesTLS"></a><b>usesTLS</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+</div>
+</div>
+<hr align=left>
+<h2><a name="SecureSocket"></a>SecureSocket</h2>
+<div class=indent>
+<div style="line-height:1.3em">
+<b>Module:</b> SecureSocket<br>
+<b>Category:</b> Networking
+<br>
+<font color=#888>
+</font>
+</div>
+<div class=slots>
+<h3>Slot Index</h3>
+<div class=slotIndex>
+<a href="#SecureSocket-ValidationFail">ValidationFail</a><br>
+<a href="#SecureSocket-ValidationOkay">ValidationOkay</a><br>
+<a href="#SecureSocket-accept">accept</a><br>
+<a href="#SecureSocket-acceptTimeout">acceptTimeout</a><br>
+<a href="#SecureSocket-asyncAccept">asyncAccept</a><br>
+<a href="#SecureSocket-asyncConnectBIO">asyncConnectBIO</a><br>
+<a href="#SecureSocket-asyncConnectSSL">asyncConnectSSL</a><br>
+<a href="#SecureSocket-asyncRead">asyncRead</a><br>
+<a href="#SecureSocket-asyncStreamRead">asyncStreamRead</a><br>
+<a href="#SecureSocket-asyncWrite">asyncWrite</a><br>
+<a href="#SecureSocket-bytesPerRead">bytesPerRead</a><br>
+<a href="#SecureSocket-bytesPerWrite">bytesPerWrite</a><br>
+<a href="#SecureSocket-certificate">certificate</a><br>
+<a href="#SecureSocket-connect">connect</a><br>
+<a href="#SecureSocket-connectBIO">connectBIO</a><br>
+<a href="#SecureSocket-connectSSL">connectSSL</a><br>
+<a href="#SecureSocket-connectTimeout">connectTimeout</a><br>
+<a href="#SecureSocket-debugOff">debugOff</a><br>
+<a href="#SecureSocket-debugOn">debugOn</a><br>
+<a href="#SecureSocket-debugWriteln">debugWriteln</a><br>
+<a href="#SecureSocket-descriptorId">descriptorId</a><br>
+<a href="#SecureSocket-error">error</a><br>
+<a href="#SecureSocket-getSocketReadLowWaterMark">getSocketReadLowWaterMark</a><br>
+<a href="#SecureSocket-getSocketWriteLowWaterMark">getSocketWriteLowWaterMark</a><br>
+<a href="#SecureSocket-isConnected">isConnected</a><br>
+<a href="#SecureSocket-isDatagram">isDatagram</a><br>
+<a href="#SecureSocket-isOpen">isOpen</a><br>
+<a href="#SecureSocket-peerCertificate">peerCertificate</a><br>
+<a href="#SecureSocket-rawCertificate">rawCertificate</a><br>
+<a href="#SecureSocket-rawPeerCertificate">rawPeerCertificate</a><br>
+<a href="#SecureSocket-rawValidate">rawValidate</a><br>
+<a href="#SecureSocket-read">read</a><br>
+<a href="#SecureSocket-readTimeout">readTimeout</a><br>
+<a href="#SecureSocket-setAcceptTimeout">setAcceptTimeout</a><br>
+<a href="#SecureSocket-setBytesPerRead">setBytesPerRead</a><br>
+<a href="#SecureSocket-setBytesPerWrite">setBytesPerWrite</a><br>
+<a href="#SecureSocket-setConnectTimeout">setConnectTimeout</a><br>
+<a href="#SecureSocket-setError">setError</a><br>
+<a href="#SecureSocket-setReadTimeout">setReadTimeout</a><br>
+<a href="#SecureSocket-setSocketReadBufferSize">setSocketReadBufferSize</a><br>
+<a href="#SecureSocket-setSocketReadLowWaterMark">setSocketReadLowWaterMark</a><br>
+<a href="#SecureSocket-setSocketWriteBufferSize">setSocketWriteBufferSize</a><br>
+<a href="#SecureSocket-setSocketWriteLowWaterMark">setSocketWriteLowWaterMark</a><br>
+<a href="#SecureSocket-setWriteTimeout">setWriteTimeout</a><br>
+<a href="#SecureSocket-setupEvents">setupEvents</a><br>
+<a href="#SecureSocket-shutdown">shutdown</a><br>
+<a href="#SecureSocket-supportsDTLS">supportsDTLS</a><br>
+<a href="#SecureSocket-udpAccept">udpAccept</a><br>
+<a href="#SecureSocket-udpServerSetup">udpServerSetup</a><br>
+<a href="#SecureSocket-validateConnection">validateConnection</a><br>
+<a href="#SecureSocket-wantsRead">wantsRead</a><br>
+<a href="#SecureSocket-wantsWrite">wantsWrite</a><br>
+<a href="#SecureSocket-write">write</a><br>
+<a href="#SecureSocket-writeTimeout">writeTimeout</a><br>
+</div>
+<p>
+<h3>Slots</h3>
+<p>
+<a name="SecureSocket-ValidationFail"></a><b>ValidationFail</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-ValidationOkay"></a><b>ValidationOkay</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-accept"></a><b>accept</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-acceptTimeout"></a><b>acceptTimeout</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-asyncAccept"></a><b>asyncAccept</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-asyncConnectBIO"></a><b>asyncConnectBIO</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-asyncConnectSSL"></a><b>asyncConnectSSL</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-asyncRead"></a><b>asyncRead</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-asyncStreamRead"></a><b>asyncStreamRead</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-asyncWrite"></a><b>asyncWrite</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-bytesPerRead"></a><b>bytesPerRead</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-bytesPerWrite"></a><b>bytesPerWrite</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-certificate"></a><b>certificate</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-connect"></a><b>connect</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-connectBIO"></a><b>connectBIO</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-connectSSL"></a><b>connectSSL</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-connectTimeout"></a><b>connectTimeout</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-debugOff"></a><b>debugOff</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-debugOn"></a><b>debugOn</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-debugWriteln"></a><b>debugWriteln</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-descriptorId"></a><b>descriptorId</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-error"></a><b>error</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-getSocketReadLowWaterMark"></a><b>getSocketReadLowWaterMark</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-getSocketWriteLowWaterMark"></a><b>getSocketWriteLowWaterMark</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-isConnected"></a><b>isConnected</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-isDatagram"></a><b>isDatagram</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-isOpen"></a><b>isOpen</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-peerCertificate"></a><b>peerCertificate</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-rawCertificate"></a><b>rawCertificate</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-rawPeerCertificate"></a><b>rawPeerCertificate</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-rawValidate"></a><b>rawValidate</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-read"></a><b>read</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-readTimeout"></a><b>readTimeout</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-setAcceptTimeout"></a><b>setAcceptTimeout</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-setBytesPerRead"></a><b>setBytesPerRead</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-setBytesPerWrite"></a><b>setBytesPerWrite</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-setConnectTimeout"></a><b>setConnectTimeout</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-setError"></a><b>setError</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-setReadTimeout"></a><b>setReadTimeout</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-setSocketReadBufferSize"></a><b>setSocketReadBufferSize</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-setSocketReadLowWaterMark"></a><b>setSocketReadLowWaterMark</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-setSocketWriteBufferSize"></a><b>setSocketWriteBufferSize</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-setSocketWriteLowWaterMark"></a><b>setSocketWriteLowWaterMark</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-setWriteTimeout"></a><b>setWriteTimeout</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-setupEvents"></a><b>setupEvents</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-shutdown"></a><b>shutdown</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-supportsDTLS"></a><b>supportsDTLS</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-udpAccept"></a><b>udpAccept</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-udpServerSetup"></a><b>udpServerSetup</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-validateConnection"></a><b>validateConnection</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-wantsRead"></a><b>wantsRead</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-wantsWrite"></a><b>wantsWrite</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-write"></a><b>write</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureSocket-writeTimeout"></a><b>writeTimeout</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+</div>
+</div>
+<hr align=left>
 <h2><a name="Sequence"></a>Sequence</h2>
 <div class=indent>
 <div style="line-height:1.3em">
@@ -13787,12 +15072,14 @@ Terminology
 <a href="#Sequence-append">append()</a><br>
 <a href="#Sequence-appendPathSeq">appendPathSeq()</a><br>
 <a href="#Sequence-appendSeq">appendSeq()</a><br>
+<a href="#Sequence-asBase64">asBase64</a><br>
 <a href="#Sequence-asBinaryNumber">asBinaryNumber</a><br>
 <a href="#Sequence-asBuffer">asBuffer</a><br>
 <a href="#Sequence-asCapitalized">asCapitalized</a><br>
 <a href="#Sequence-asDecodedList">asDecodedList</a><br>
 <a href="#Sequence-asFile">asFile</a><br>
 <a href="#Sequence-asFixedSizeType">asFixedSizeType</a><br>
+<a href="#Sequence-asHTML">asHTML</a><br>
 <a href="#Sequence-asHex">asHex</a><br>
 <a href="#Sequence-asHtml">asHtml</a><br>
 <a href="#Sequence-asIoPath">asIoPath</a><br>
@@ -13802,6 +15089,7 @@ Terminology
 <a href="#Sequence-asNumber">asNumber</a><br>
 <a href="#Sequence-asOSPath">asOSPath</a><br>
 <a href="#Sequence-asRegex">asRegex</a><br>
+<a href="#Sequence-asSGML">asSGML</a><br>
 <a href="#Sequence-asSerialization">asSerialization</a><br>
 <a href="#Sequence-asSimpleString">asSimpleString</a><br>
 <a href="#Sequence-asString">asString</a><br>
@@ -13812,6 +15100,7 @@ Terminology
 <a href="#Sequence-asURL">asURL</a><br>
 <a href="#Sequence-asUTF8">asUTF8</a><br>
 <a href="#Sequence-asUppercase">asUppercase</a><br>
+<a href="#Sequence-asXML">asXML</a><br>
 <a href="#Sequence-asin">asin</a><br>
 <a href="#Sequence-at">at()</a><br>
 <a href="#Sequence-atInsertSeq">atInsertSeq()</a><br>
@@ -14000,6 +15289,7 @@ Terminology
 <a href="#Sequence-width">width</a><br>
 <a href="#Sequence-with">with()</a><br>
 <a href="#Sequence-withStruct">withStruct()</a><br>
+<a href="#Sequence-writeToStream">writeToStream</a><br>
 <a href="#Sequence-x">x</a><br>
 <a href="#Sequence-y">y</a><br>
 <a href="#Sequence-z">z</a><br>
@@ -14157,6 +15447,10 @@ Appends argument to the receiver such that there is one
 <div class=slotDescription>
 Calls asString on the arguments and appends the string to the receiver. Returns self.
 </div>
+<a name="Sequence-asBase64"></a><b>asBase64</b><p>
+<div class=slotDescription>
+Returns an immutable, base64 encoded (according to RFC 1421) version of self.
+</div>
 <a name="Sequence-asBinaryNumber"></a><b>asBinaryNumber</b><p>
 <div class=slotDescription>
 Returns a Number containing the first 8 bytes of the
@@ -14183,6 +15477,10 @@ Returns a new File object with the receiver as it's path.
 Returns a new sequence with the receiver encoded in the 
 	minimal fixed width text encoding that it's characters can fit 
 	into (either, ascii, utf8, utf16 or utf32).
+</div>
+<a name="Sequence-asHTML"></a><b>asHTML</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 <a name="Sequence-asHex"></a><b>asHex</b><p>
 <div class=slotDescription>
@@ -14220,6 +15518,10 @@ Returns a OS style path for an Io style path.
 <a name="Sequence-asRegex"></a><b>asRegex</b><p>
 <div class=slotDescription>
 Returns a new Regex created from the receiver.
+</div>
+<a name="Sequence-asSGML"></a><b>asSGML</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 <a name="Sequence-asSerialization"></a><b>asSerialization</b><p>
 <div class=slotDescription>
@@ -14276,6 +15578,10 @@ Returns a new copy of the receiver converted to utf8 encoding.
 <a name="Sequence-asUppercase"></a><b>asUppercase</b><p>
 <div class=slotDescription>
 Returns a symbol containing the reveiver made uppercase.
+</div>
+<a name="Sequence-asXML"></a><b>asXML</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 <a name="Sequence-asin"></a><b>asin</b><p>
 <div class=slotDescription>
@@ -15158,6 +16464,10 @@ pointStructSeq := Sequence withStruct(list("float32", 1.2, "float32", 3.5))
 </pre>
 The output pointStructSeq would contain 2 raw 32 bit floats.
 </div>
+<a name="Sequence-writeToStream"></a><b>writeToStream</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="Sequence-x"></a><b>x</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
@@ -15888,6 +17198,7 @@ Returns the length of time in seconds for write timeouts on the socket.
 <a href="#SoundTouch-setTempo">setTempo()</a><br>
 <a href="#SoundTouch-setTempoChange">setTempoChange()</a><br>
 <a href="#SoundTouch-start">start</a><br>
+<a href="#SoundTouch-stop">stop</a><br>
 </div>
 <p>
 <h3>Slots</h3>
@@ -15927,6 +17238,10 @@ Sets the tempo change amount.
 <a name="SoundTouch-start"></a><b>start</b><p>
 <div class=slotDescription>
 Cleans up SoundTouch.
+</div>
+<a name="SoundTouch-stop"></a><b>stop</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 </div>
 </div>
@@ -16474,6 +17789,56 @@ Saves the tag settings and returns self.
 </div>
 </div>
 <hr align=left>
+<h2><a name="TestSuite"></a>TestSuite</h2>
+<div class=indent>
+<div style="line-height:1.3em">
+<b>Module:</b> Core<br>
+<b>Category:</b> Testing
+<br>
+<font color=#888>
+</font>
+</div>
+<h3>Description</h3>
+<div class=protoDescription>
+An object to collect and run multiple UnitTests defined in *Test.io files within the System launchPath directory.
+
+</div>
+<div class=slots>
+<h3>Slot Index</h3>
+<div class=slotIndex>
+<a href="#TestSuite-name">name</a><br>
+<a href="#TestSuite-path">path</a><br>
+<a href="#TestSuite-run">run</a><br>
+<a href="#TestSuite-setPath">setPath</a><br>
+<a href="#TestSuite-verbose">verbose</a><br>
+</div>
+<p>
+<h3>Slots</h3>
+<p>
+<a name="TestSuite-name"></a><b>name</b><p>
+<div class=slotDescription>
+Return the name of the TestSuite.
+</div>
+<a name="TestSuite-path"></a><b>path</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="TestSuite-run"></a><b>run</b><p>
+<div class=slotDescription>
+Collects and all files named *Test.io within the System launchPath directory,
+runs their tests and prints collated results.
+</div>
+<a name="TestSuite-setPath"></a><b>setPath</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="TestSuite-verbose"></a><b>verbose</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+</div>
+</div>
+<hr align=left>
 <h2><a name="Thread"></a>Thread</h2>
 <div class=indent>
 <div style="line-height:1.3em">
@@ -16575,7 +17940,6 @@ An ordered key/value database that supports transactions and arbitrary kay and v
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#TokyoCabinet-_open">_open</a><br>
 <a href="#TokyoCabinet-abort">abort</a><br>
 <a href="#TokyoCabinet-at">at()</a><br>
 <a href="#TokyoCabinet-atAppend">atAppend</a><br>
@@ -16585,12 +17949,14 @@ An ordered key/value database that supports transactions and arbitrary kay and v
 <a href="#TokyoCabinet-begin">begin</a><br>
 <a href="#TokyoCabinet-close">close</a><br>
 <a href="#TokyoCabinet-commit">commit</a><br>
+<a href="#TokyoCabinet-compareType">compareType</a><br>
 <a href="#TokyoCabinet-cursor">cursor</a><br>
 <a href="#TokyoCabinet-open">open()</a><br>
 <a href="#TokyoCabinet-optimize">optimize</a><br>
 <a href="#TokyoCabinet-path">path</a><br>
 <a href="#TokyoCabinet-prefixCursor">prefixCursor</a><br>
 <a href="#TokyoCabinet-removeAt">removeAt</a><br>
+<a href="#TokyoCabinet-setCompareType">setCompareType()</a><br>
 <a href="#TokyoCabinet-setPath">setPath()</a><br>
 <a href="#TokyoCabinet-size">size</a><br>
 <a href="#TokyoCabinet-sizeAt">sizeAt()</a><br>
@@ -16601,12 +17967,6 @@ An ordered key/value database that supports transactions and arbitrary kay and v
 <p>
 <h3>Slots</h3>
 <p>
-<font color=#888>
-<a name="TokyoCabinet-_open"></a><b>_open</b><p>
-<div class=slotDescription>
-Private.
-</font>
-</div>
 <a name="TokyoCabinet-abort"></a><b>abort</b><p>
 <div class=slotDescription>
 Abort transaction. Returns self
@@ -16643,6 +18003,10 @@ Closes the database.
 <div class=slotDescription>
 Commit transaction. Returns self
 </div>
+<a name="TokyoCabinet-compareType"></a><b>compareType</b><p>
+<div class=slotDescription>
+Returns the compare type function name used.
+</div>
 <a name="TokyoCabinet-cursor"></a><b>cursor</b><p>
 <div class=slotDescription>
 Returns a new cursor object.
@@ -16666,6 +18030,11 @@ Returns a new prefix cursor object.
 <a name="TokyoCabinet-removeAt"></a><b>removeAt</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
+</div>
+<a name="TokyoCabinet-setCompareType"></a><b>setCompareType(name)</b><p>
+<div class=slotDescription>
+Sets the compare type function used to compare keys in the database. Valid compare types include:
+	"lexical", "decimal", "int32", "int64" and "path". Returns self.
 </div>
 <a name="TokyoCabinet-setPath"></a><b>setPath(aPath)</b><p>
 <div class=slotDescription>
@@ -16983,10 +18352,11 @@ Opens the URL in the local default browser. Supports OSX, Windows and (perhaps) 
 Private method to parse the url.
 </font>
 </div>
-<a name="URL-post"></a><b>post(data)</b><p>
+<a name="URL-post"></a><b>post(parameters, headers)</b><p>
 <div class=slotDescription>
-Sends an http post message. If data is a Map, it's key/value pairs are 
-	send as the post parameters. If data is a Sequence or String, it is sent directly. 
+Sends an http post message. If parameters is a Map, it's key/value pairs are 
+	send as the post parameters. If parameters is a Sequence or String, it is sent directly.
+	Any headers in the headers map are sent with the request.
 	Returns a sequence containing the response on success or an Error, if one occurs.
 </div>
 <font color=#888>
@@ -17144,23 +18514,29 @@ Returns a new time and mac uuid (type 1) in string format.
 <div class=indent>
 <div style="line-height:1.3em">
 <b>Module:</b> Core<br>
+<b>Category:</b> Test
+<br>
 <font color=#888>
 </font>
+</div>
+<h3>Description</h3>
+<div class=protoDescription>
+An object for organizing and running unit tests validated by assertions.
+
 </div>
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#UnitTest-assertEquals">assertEquals</a><br>
-<a href="#UnitTest-assertEqualsWithinDelta">assertEqualsWithinDelta</a><br>
-<a href="#UnitTest-assertFalse">assertFalse</a><br>
-<a href="#UnitTest-assertNil">assertNil</a><br>
-<a href="#UnitTest-assertNotEquals">assertNotEquals</a><br>
-<a href="#UnitTest-assertNotNil">assertNotNil</a><br>
-<a href="#UnitTest-assertNotSame">assertNotSame</a><br>
-<a href="#UnitTest-assertRaisesException">assertRaisesException</a><br>
+<a href="#UnitTest-assertEquals">assertEquals()</a><br>
+<a href="#UnitTest-assertEqualsWithinDelta">assertEqualsWithinDelta()</a><br>
+<a href="#UnitTest-assertFalse">assertFalse()</a><br>
+<a href="#UnitTest-assertNil">assertNil()</a><br>
+<a href="#UnitTest-assertNotEquals">assertNotEquals()</a><br>
+<a href="#UnitTest-assertNotNil">assertNotNil()</a><br>
+<a href="#UnitTest-assertNotSame">assertNotSame()</a><br>
+<a href="#UnitTest-assertRaisesException">assertRaisesException()</a><br>
 <a href="#UnitTest-assertSame">assertSame</a><br>
-<a href="#UnitTest-assertTrue">assertTrue</a><br>
-<a href="#UnitTest-category">category</a><br>
+<a href="#UnitTest-assertTrue">assertTrue()</a><br>
 <a href="#UnitTest-fail">fail</a><br>
 <a href="#UnitTest-knownBug">knownBug</a><br>
 <a href="#UnitTest-run">run</a><br>
@@ -17173,53 +18549,49 @@ Returns a new time and mac uuid (type 1) in string format.
 <p>
 <h3>Slots</h3>
 <p>
-<a name="UnitTest-assertEquals"></a><b>assertEquals</b><p>
+<a name="UnitTest-assertEquals"></a><b>assertEquals(a, b)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Fail the running test if a != b.
 </div>
-<a name="UnitTest-assertEqualsWithinDelta"></a><b>assertEqualsWithinDelta</b><p>
+<a name="UnitTest-assertEqualsWithinDelta"></a><b>assertEqualsWithinDelta(expected, actual, delta)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Fail the running test if the expected value is not within delta of the actual value.
 </div>
-<a name="UnitTest-assertFalse"></a><b>assertFalse</b><p>
+<a name="UnitTest-assertFalse"></a><b>assertFalse(a)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Fail the running test if a != false.
 </div>
-<a name="UnitTest-assertNil"></a><b>assertNil</b><p>
+<a name="UnitTest-assertNil"></a><b>assertNil(a)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Fail the running test if a != nil.
 </div>
-<a name="UnitTest-assertNotEquals"></a><b>assertNotEquals</b><p>
+<a name="UnitTest-assertNotEquals"></a><b>assertNotEquals(a, b)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Fail the running test if a == b.
 </div>
-<a name="UnitTest-assertNotNil"></a><b>assertNotNil</b><p>
+<a name="UnitTest-assertNotNil"></a><b>assertNotNil(a)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Fail the running test if a == nil.
 </div>
-<a name="UnitTest-assertNotSame"></a><b>assertNotSame</b><p>
+<a name="UnitTest-assertNotSame"></a><b>assertNotSame(a, b)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Fail the running test if a != b.
 </div>
-<a name="UnitTest-assertRaisesException"></a><b>assertRaisesException</b><p>
+<a name="UnitTest-assertRaisesException"></a><b>assertRaisesException(code)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Fail the running test if the code does not raise an Exception.
 </div>
 <a name="UnitTest-assertSame"></a><b>assertSame</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="UnitTest-assertTrue"></a><b>assertTrue</b><p>
+<a name="UnitTest-assertTrue"></a><b>assertTrue(a)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="UnitTest-category"></a><b>category</b><p>
-<div class=slotDescription>
-Testing
+Fail the running test if a != true.
 </div>
 <a name="UnitTest-fail"></a><b>fail</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Call to trigger a test failure.
 </div>
 <a name="UnitTest-knownBug"></a><b>knownBug</b><p>
 <div class=slotDescription>
@@ -17227,19 +18599,19 @@ Testing
 </div>
 <a name="UnitTest-run"></a><b>run</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Runs all tests.
 </div>
 <a name="UnitTest-setUp"></a><b>setUp</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Method called prior to each test.
 </div>
 <a name="UnitTest-tearDown"></a><b>tearDown</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Method called after each test.
 </div>
 <a name="UnitTest-testCount"></a><b>testCount</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the number of tests defined in this object.
 </div>
 <a name="UnitTest-testSlotNames"></a><b>testSlotNames</b><p>
 <div class=slotDescription>
@@ -17328,12 +18700,9 @@ Returns the current user's name.
 <div class=slotIndex>
 <a href="#Video-audioOn">audioOn</a><br>
 <a href="#Video-frameNumber">frameNumber</a><br>
-<a href="#Video-isDone">isDone</a><br>
-<a href="#Video-readNextFrame">readNextFrame</a><br>
 <a href="#Video-readNextFrame Decodes the next video frame into the receiver's image object.">readNextFrame Decodes the next video frame into the receiver's image object.</a><br>
 <a href="#Video-setAudioOn">setAudioOn()</a><br>
 <a href="#Video-setFrameNumber">setFrameNumber()</a><br>
-<a href="#Video-setIsDone">setIsDone</a><br>
 </div>
 <p>
 <h3>Slots</h3>
@@ -17345,14 +18714,6 @@ Whether or not the decoded audio is directed to the AudioDevice.
 <a name="Video-frameNumber"></a><b>frameNumber</b><p>
 <div class=slotDescription>
 The current frame number.
-</div>
-<a name="Video-isDone"></a><b>isDone</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Video-readNextFrame"></a><b>readNextFrame</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="Video-readNextFrame Decodes the next video frame into the receiver's image object."></a><b>readNextFrame Decodes the next video frame into the receiver's image object.</b><p>
 <div class=slotDescription>
@@ -17367,10 +18728,6 @@ Sets whether or not the decoded audio is directed to the AudioDevice. Returns se
 <div class=slotDescription>
 Private setter for frameNumber. Returns self.
 </font>
-</div>
-<a name="Video-setIsDone"></a><b>setIsDone</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 </div>
 </div>
@@ -17560,6 +18917,23 @@ Process the inputBuffer and appends the result to the outputBuffer.
 	The processed inputBuffer is empties except for the spare bytes at 
 	the end which don't fit into a cipher block.
 </div>
+</div>
+</div>
+<hr align=left>
+<h2><a name="category"></a>category</h2>
+<div class=indent>
+<div style="line-height:1.3em">
+<b>Module:</b> Obsidian<br>
+<font color=#888>
+</font>
+</div>
+<div class=slots>
+<h3>Slot Index</h3>
+<div class=slotIndex>
+</div>
+<p>
+<h3>Slots</h3>
+<p>
 </div>
 </div>
 <hr align=left>
