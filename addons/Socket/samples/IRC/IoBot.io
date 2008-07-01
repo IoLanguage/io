@@ -1,5 +1,7 @@
 #!/usr/bin/env io
 
+SGML
+
 Feed := Object clone do(
     init := method(
         self lastItemGuid := nil
@@ -14,7 +16,10 @@ Feed := Object clone do(
         writeln("done")
         if(item guid != lastItemGuid, lastItemGuid = item guid; true, false)
     )
-    message := method(messagePrefix .. " '" .. item title .. "' by " .. item author .. " " .. item link)
+    message := method(
+		author := if(item hasSlot("author"), item author, if(item hasSlot("creator"), item creator, "<no author>"))
+		messagePrefix .. " '" .. item title .. "' by " .. author .. " " .. item link
+	)
 )
 
 IoMailingListFeed := Feed clone do(
@@ -23,7 +28,7 @@ IoMailingListFeed := Feed clone do(
 )
 
 IoGoogleFeed := Feed clone do(
-    setUrl("http://blogsearch.google.com/blogsearch_feeds?hl=en&q=link:iolanguage.com&ie=utf-8&num=10&output=rss")
+    setUrl("feed://github.com/feeds/stevedekorte/commits/io/master")
     messagePrefix := "google blog search found new page:"
 )
 
@@ -37,8 +42,7 @@ IRCClient := Object clone do(
 
     login := method(
         socket setReadTimeout(60*60*24)
-        socket setHost("irc.freenode.net") setPort(6667) connect
-        if (socket error, writeln(socket error); exit)
+        if (socket setHost("irc.freenode.net") setPort(6667) connect isError, writeln(socket errorDescription); exit)
         socket streamWrite("NICK " .. nickName .. "\r\n")
         socket streamWrite("USER " .. userName .. " 0 0 " .. userEmail .. "\r\n")
         socket streamWrite("JOIN #" .. channel .. "\r\n")    

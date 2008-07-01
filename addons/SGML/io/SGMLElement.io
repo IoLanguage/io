@@ -2,7 +2,7 @@ Sequence writeToStream := method(b, b appendSeq(self))
 
 SGMLElement := Object clone do(
 	//metadoc SGMLElement Representation of an SGML / HTML / XML tag.
-	//doc SGMLElement setName(aString)Sets the tag name. Returns self.
+	//doc SGMLElement setName(aString) Sets the tag name. Returns self.
 	//doc SGMLElement name Returns the tag name
 	//doc SGMLElement attributes Returns a Map containing the tag's attributes.
 	//doc SGMLElement subitems Returns a List containing the tag's subitems.
@@ -160,8 +160,11 @@ SGMLParser do(
 )
 
 Sequence do(
+	//doc Sequence asHTML SGML extension to interpret the Sequence as HTML and return an SGML object using SGMLParser elementForString
 	asHTML := method(SGMLParser clone elementForString(self))
+	//doc Sequence asXML SGML extension to interpret the Sequence as XML and return an SGML object using SGMLParser elementForString
 	asXML  := method(SGMLParser clone elementForString(self))
+	//doc Sequence asSGML SGML extension to interpret the Sequence as SGML and return an SGML object using SGMLParser elementForString
 	asSGML := method(SGMLParser clone elementForString(self))
 )
 
