@@ -72,6 +72,7 @@
 <div class=indexItem><a href="#MDOConnection">MDOConnection</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#MDOServer">MDOServer</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#Message">Message</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href="#Object">Object</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#Flux">Flux</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#Fnmatch">Fnmatch</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#Font">Font</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -787,7 +788,7 @@ They are typically used to represent object methods.
 <p>
 <a name="Block-Formatter"></a><b>Formatter</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Helper object for the <tt>asString</tt> method.
 </div>
 <a name="Block-argumentNames"></a><b>argumentNames</b><p>
 <div class=slotDescription>
@@ -832,7 +833,7 @@ prints an Io source code representation of the block/method
 </div>
 <a name="Block-println"></a><b>println</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Same as <tt>print</tt>.
 </div>
 <a name="Block-scope"></a><b>scope</b><p>
 <div class=slotDescription>
@@ -10707,7 +10708,7 @@ When cloned, an Object will call it's init slot (with no arguments).
 <a href="#Object-asSimpleString">asSimpleString</a><br>
 <a href="#Object-asString">asString</a><br>
 <a href="#Object-become">become()</a><br>
-<a href="#Object-block">block</a><br>
+<a href="#Object-block">block()</a><br>
 <a href="#Object-break">break()</a><br>
 <a href="#Object-clone">clone</a><br>
 <a href="#Object-cloneWithoutInit">cloneWithoutInit</a><br>
@@ -10746,7 +10747,7 @@ When cloned, an Object will call it's init slot (with no arguments).
 <a href="#Object-hasProto">hasProto()</a><br>
 <a href="#Object-hasSlot">hasSlot()</a><br>
 <a href="#Object-if">if()</a><br>
-<a href="#Object-ifDebug">ifDebug</a><br>
+<a href="#Object-ifDebug">ifDebug()</a><br>
 <a href="#Object-ifError">ifError</a><br>
 <a href="#Object-ifNil">ifNil()</a><br>
 <a href="#Object-ifNilEval">ifNilEval()</a><br>
@@ -10771,7 +10772,7 @@ When cloned, an Object will call it's init slot (with no arguments).
 <a href="#Object-memorySize">memorySize</a><br>
 <a href="#Object-memorySizeOfState">memorySizeOfState</a><br>
 <a href="#Object-message">message()</a><br>
-<a href="#Object-method">method</a><br>
+<a href="#Object-method">method()</a><br>
 <a href="#Object-newSlot">newSlot()</a><br>
 <a href="#Object-not">not</a><br>
 <a href="#Object-or">or()</a><br>
@@ -10897,15 +10898,15 @@ Same as Object @, but returns nil instead of FutureProxy.
 </div>
 <a name="Object-NullCharacter"></a><b>NullCharacter</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+A sequence with a single zero byte.
 </div>
 <a name="Object-actorProcessQueue"></a><b>actorProcessQueue</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Processes each message in a queue, yielding between each message.
 </div>
 <a name="Object-actorRun"></a><b>actorRun</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Starts actor mode if not started already. Basically, sets actorProcessQueue for later execution.
 </div>
 <a name="Object-ancestorWithSlot"></a><b>ancestorWithSlot(slotName)</b><p>
 <div class=slotDescription>
@@ -10926,7 +10927,7 @@ Appends anObject to the receiver's proto list. Returns self.
 </div>
 <a name="Object-apropos"></a><b>apropos</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Prints out <tt>Protos Core</tt> slot descriptions.
 </div>
 <a name="Object-argIsActivationRecord"></a><b>argIsActivationRecord</b><p>
 <div class=slotDescription>
@@ -10941,11 +10942,11 @@ Returns true if arg is an activation context (i.e. Call object)
 </div>
 <a name="Object-asSimpleString"></a><b>asSimpleString</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns <type>_<uniqueHexId> string.
 </div>
 <a name="Object-asString"></a><b>asString</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Same as <tt>slotSummary</tt>.
 </div>
 <a name="Object-become"></a><b>become(anotherObject)</b><p>
 <div class=slotDescription>
@@ -10954,9 +10955,18 @@ Replaces receiver with <tt>anotherObject</tt> and returns self.
 	<br/>
 	Note: primitives cannot become new values.
 </div>
-<a name="Object-block"></a><b>block</b><p>
+<a name="Object-block"></a><b>block(args..., body)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Creates a block and binds it to the sender context (i.e. lexical context).
+	In other words, block locals' proto is sender's locals.
+	<tt>args</tt> is a list of formal arguments (can be empty). <br/>
+	<tt>body</tt> is evaluated in the context of Locals object.<br/>
+	See also <tt>Object method</tt>.
+	<br/>
+	<pre>
+	Io> block(x, x*2) scope == thisContext
+  ==> true
+	</pre>
 </div>
 <a name="Object-break"></a><b>break(optionalReturnValue)</b><p>
 <div class=slotDescription>
@@ -11019,15 +11029,15 @@ Returns the currently running coroutine.
 </div>
 <a name="Object-debugOff"></a><b>debugOff</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets debugWriteln to nil. Returns self.
 </div>
 <a name="Object-debugOn"></a><b>debugOn</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets debugWriteln to writeln. Returns self.
 </div>
 <a name="Object-debugWriteln"></a><b>debugWriteln</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Method for writing debug messages (nil/writeln by default)
 </div>
 <a name="Object-deprecatedWarning"></a><b>deprecatedWarning(optionalNewName)</b><p>
 <div class=slotDescription>
@@ -11166,9 +11176,9 @@ Evaluates trueMessage if condition evaluates to a non-Nil.
 	Otherwise evaluates optionalFalseMessage if it is present.
 	Returns the result of the evaluated message or Nil if none was evaluated.
 </div>
-<a name="Object-ifDebug"></a><b>ifDebug</b><p>
+<a name="Object-ifDebug"></a><b>ifDebug(code)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Executes code if debugWriteln is not nil.
 </div>
 <a name="Object-ifError"></a><b>ifError</b><p>
 <div class=slotDescription>
@@ -11306,9 +11316,17 @@ Returns the number of bytes in the IoState
 <div class=slotDescription>
 Return the message object for the argument or Nil if there is no argument.
 </div>
-<a name="Object-method"></a><b>method</b><p>
+<a name="Object-method"></a><b>method(args..., body)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Creates a method. 
+	<tt>args</tt> is a list of formal arguments (can be empty). <br/>
+  <tt>body</tt> is evaluated in the context of Locals object.<br/>
+  Locals' proto is a message receiver (i.e. self).
+  <br/>
+  Slot with a method is <em>activatable</em>. Use getSlot(name) to retrieve 
+  method object without activating it (i.e. calling).
+  <br/>
+  See also <tt>Object block</tt>.
 </div>
 <a name="Object-newSlot"></a><b>newSlot(slotName, aValue)</b><p>
 <div class=slotDescription>
@@ -18662,14 +18680,74 @@ Process the inputBuffer and appends the result to the outputBuffer.
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
+<a href="#false-and">and</a><br>
+<a href="#false-asSimpleString">asSimpleString</a><br>
+<a href="#false-asString">asString</a><br>
+<a href="#false-clone">clone</a><br>
+<a href="#false-else">else</a><br>
+<a href="#false-elseif">elseif</a><br>
+<a href="#false-ifFalse">ifFalse</a><br>
+<a href="#false-ifTrue">ifTrue</a><br>
 <a href="#false-justSerialized">justSerialized()</a><br>
+<a href="#false-not">not</a><br>
+<a href="#false-or">or</a><br>
+<a href="#false-then">then</a><br>
+<a href="#false-type">type</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
+<a name="false-and"></a><b>and</b><p>
+<div class=slotDescription>
+Returns false.
+</div>
+<a name="false-asSimpleString"></a><b>asSimpleString</b><p>
+<div class=slotDescription>
+Returns "false".
+</div>
+<a name="false-asString"></a><b>asString</b><p>
+<div class=slotDescription>
+Returns "false".
+</div>
+<a name="false-clone"></a><b>clone</b><p>
+<div class=slotDescription>
+Returns self.
+</div>
+<a name="false-else"></a><b>else</b><p>
+<div class=slotDescription>
+Evaluates the argument and returns nil.
+</div>
+<a name="false-elseif"></a><b>elseif</b><p>
+<div class=slotDescription>
+Same as <tt>if</tt>.
+</div>
+<a name="false-ifFalse"></a><b>ifFalse</b><p>
+<div class=slotDescription>
+Evaluates the argument and returns self.
+</div>
+<a name="false-ifTrue"></a><b>ifTrue</b><p>
+<div class=slotDescription>
+Returns false.
+</div>
 <a name="false-justSerialized"></a><b>justSerialized(stream)</b><p>
 <div class=slotDescription>
 Writes the receiver's code into the stream.
+</div>
+<a name="false-not"></a><b>not</b><p>
+<div class=slotDescription>
+Returns true.
+</div>
+<a name="false-or"></a><b>or</b><p>
+<div class=slotDescription>
+Evaluates the argument and returns the result.
+</div>
+<a name="false-then"></a><b>then</b><p>
+<div class=slotDescription>
+Returns false.
+</div>
+<a name="false-type"></a><b>type</b><p>
+<div class=slotDescription>
+Returns "false".
 </div>
 </div>
 </div>
@@ -18782,7 +18860,7 @@ Returns true.
 </div>
 <a name="true-clone"></a><b>clone</b><p>
 <div class=slotDescription>
-Returns self.
+Returns true.
 </div>
 <a name="true-else"></a><b>else</b><p>
 <div class=slotDescription>

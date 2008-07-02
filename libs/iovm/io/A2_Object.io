@@ -67,23 +67,35 @@ true do(
 	//doc true not Does not eval argument and returns false.
 	not := false
 	
-	//doc true clone Returns self.
+	//doc true clone Returns true.
 	clone := true
 )
 
 false do(
+  //doc false then Returns false.
 	then    := false
+	//doc false ifTrue Returns false.
 	ifTrue  := false
+	//doc false ifFalse Evaluates the argument and returns self.
 	ifFalse := Object getSlot("evalArgAndReturnSelf")
+	//doc false elseif Same as <tt>if</tt>.
 	elseif  := Object getSlot("if")
+	//doc false else Evaluates the argument and returns nil.
 	else    := Object getSlot("evalArgAndReturnNil")
+	//doc false and Returns false.
 	setSlot("and", false)
+	//doc false or Evaluates the argument and returns the result.
 	setSlot("or", Object getSlot("evalArg"))
-
+  
+  //doc false type Returns "false".
 	type := "false"
+	//doc false asString Returns "false".
 	asString := "false"
+	//doc false asSimpleString Returns "false".
 	asSimpleString := "false"
+	//doc false not Returns true.
 	not := true
+	//doc false clone Returns self.
 	clone := false
 )
 
@@ -255,7 +267,7 @@ Object do(
 		slotDescs := slotNames map(name, getSlot("self") getSlot(name) asSimpleString)
 		Map clone addKeysAndValues(slotNames, slotDescs)
 	)
-
+  //doc Object apropos Prints out <tt>Protos Core</tt> slot descriptions.
 	apropos := method(keyword,
 		Protos Core foreachSlot(name, p,
 			slotDescriptions := getSlot("p") slotDescriptionMap ?select(k, v, k asMutable lowercase containsSeq(keyword))
@@ -303,9 +315,11 @@ Object do(
 		)
 		s
 	)
-
+  
+  //doc Object asString Same as <tt>slotSummary</tt>.
 	asString := getSlot("slotSummary")
 
+  //doc Object asSimpleString Returns <type>_<uniqueHexId> string.
 	asSimpleString := method(getSlot("self") type .. "_" .. getSlot("self") uniqueHexId)
 
 	/*doc Object newSlot(slotName, aValue)

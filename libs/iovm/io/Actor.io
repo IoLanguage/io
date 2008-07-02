@@ -101,6 +101,7 @@ Object do(
   */
 	pause := method(Coroutine currentCoroutine pause)
 
+  //doc Object actorRun Starts actor mode if not started already. Basically, sets actorProcessQueue for later execution.
 	actorRun := method(
 		if(self hasLocalSlot("actorCoroutine"),
 			if(actorQueue size == 0, self actorCoroutine resumeLater)
@@ -116,6 +117,8 @@ Object do(
 			//Coroutine yieldingCoros append(actorCoroutine)
 		)
 	)
+  
+  //doc Object actorProcessQueue Processes each message in a queue, yielding between each message.
 
 	actorProcessQueue := method(
 		//writeln(self type, "_", self uniqueId, " actorProcessQueue")
