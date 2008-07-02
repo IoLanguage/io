@@ -124,6 +124,7 @@
 <div class=indexSection><a href="#SGML">SGML</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#SGMLElement">SGMLElement</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#SGMLParser">SGMLParser</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href="#Sequence">Sequence</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#SHA1">SHA1</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#SQLite">SQLite</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#SQLite3">SQLite3</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -4418,30 +4419,10 @@ AutoImporter for the Flux Io UI framework.
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#Flux-Views">Views</a><br>
-<a href="#Flux-fluxPath">fluxPath</a><br>
-<a href="#Flux-fluxSource">fluxSource</a><br>
-<a href="#Flux-fluxViews">fluxViews</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
-<a name="Flux-Views"></a><b>Views</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Flux-fluxPath"></a><b>fluxPath</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Flux-fluxSource"></a><b>fluxSource</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Flux-fluxViews"></a><b>fluxViews</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 </div>
 </div>
 <hr align=left>
@@ -4594,8 +4575,6 @@ Smaller fonts (those having a point size around 30 or smaller, depending on the 
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#Font-drawCenteredString">drawCenteredString</a><br>
-<a href="#Font-drawOffsetString">drawOffsetString</a><br>
 <a href="#Font-drawString">drawString()</a><br>
 <a href="#Font-error">error</a><br>
 <a href="#Font-isTextured">isTextured</a><br>
@@ -4612,14 +4591,6 @@ Smaller fonts (those having a point size around 30 or smaller, depending on the 
 <p>
 <h3>Slots</h3>
 <p>
-<a name="Font-drawCenteredString"></a><b>drawCenteredString</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Font-drawOffsetString"></a><b>drawOffsetString</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="Font-drawString"></a><b>drawString(aString, optionalStartIndex, optionalEndIndex)</b><p>
 <div class=slotDescription>
 Draws aString using the optional start and end indexes, if supplied. Returns self.
@@ -7486,7 +7457,6 @@ Currently supported formats include PNG(which supports alpha), JPG and TIFF.
 <a href="#Image-flipY">flipY</a><br>
 <a href="#Image-glFormat">glFormat</a><br>
 <a href="#Image-glFormats">glFormats</a><br>
-<a href="#Image-grabScreen">grabScreen</a><br>
 <a href="#Image-height">height</a><br>
 <a href="#Image-isL8">isL8</a><br>
 <a href="#Image-isLA8">isLA8</a><br>
@@ -7504,7 +7474,6 @@ Currently supported formats include PNG(which supports alpha), JPG and TIFF.
 <a href="#Image-setDecodingWidthHint">setDecodingWidthHint()</a><br>
 <a href="#Image-setEncodingQuality">setEncodingQuality()</a><br>
 <a href="#Image-setPath">setPath()</a><br>
-<a href="#Image-sizeInBytes">sizeInBytes</a><br>
 <a href="#Image-sizeIsPowerOf2">sizeIsPowerOf2</a><br>
 <a href="#Image-texture">texture</a><br>
 <a href="#Image-textureHeight">textureHeight</a><br>
@@ -7585,10 +7554,6 @@ Flips the image on the vertical plane (top/bottom mirror). Returns self.
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="Image-grabScreen"></a><b>grabScreen</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="Image-height"></a><b>height</b><p>
 <div class=slotDescription>
 Returns the image hieght.
@@ -7659,10 +7624,6 @@ Sets the image encoding quality (range is 0.0 - 1.0, 1.0 with being the highest)
 <a name="Image-setPath"></a><b>setPath(aString)</b><p>
 <div class=slotDescription>
 Sets the image path. Returns self.
-</div>
-<a name="Image-sizeInBytes"></a><b>sizeInBytes</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="Image-sizeIsPowerOf2"></a><b>sizeIsPowerOf2</b><p>
 <div class=slotDescription>
@@ -12397,6 +12358,7 @@ Notes: Currently, PDB is a singleton.
 <a href="#PDB-objectsToPersist">objectsToPersist</a><br>
 <a href="#PDB-ppidMap">ppidMap</a><br>
 <a href="#PDB-reopen">reopen</a><br>
+<a href="#PDB-repoen">repoen</a><br>
 <a href="#PDB-root">root</a><br>
 <a href="#PDB-setObjectsToPersist">setObjectsToPersist</a><br>
 <a href="#PDB-show">show</a><br>
@@ -12446,6 +12408,10 @@ Notes: Currently, PDB is a singleton.
 <div class=error>undocumented</div>
 </div>
 <a name="PDB-reopen"></a><b>reopen</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="PDB-repoen"></a><b>repoen</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
@@ -14585,149 +14551,29 @@ The List of yielding Coroutine objects.
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#SecureServer-coro">coro</a><br>
-<a href="#SecureServer-debugOff">debugOff</a><br>
-<a href="#SecureServer-debugOn">debugOn</a><br>
-<a href="#SecureServer-debugWriteln">debugWriteln</a><br>
-<a href="#SecureServer-dispatch">dispatch</a><br>
-<a href="#SecureServer-dispatchCoro">dispatchCoro</a><br>
-<a href="#SecureServer-handleSocket">handleSocket</a><br>
 <a href="#SecureServer-port">port</a><br>
-<a href="#SecureServer-rawUseDTLS">rawUseDTLS</a><br>
-<a href="#SecureServer-rawUseTLS">rawUseTLS</a><br>
-<a href="#SecureServer-secureSocketForPeer">secureSocketForPeer</a><br>
-<a href="#SecureServer-setCAFile">setCAFile</a><br>
-<a href="#SecureServer-setCRLFile">setCRLFile</a><br>
-<a href="#SecureServer-setCertFile">setCertFile</a><br>
-<a href="#SecureServer-setCoro">setCoro</a><br>
-<a href="#SecureServer-setDispatchCoro">setDispatchCoro</a><br>
 <a href="#SecureServer-setHost">setHost()</a><br>
-<a href="#SecureServer-setKeyFile">setKeyFile</a><br>
 <a href="#SecureServer-setPort">setPort()</a><br>
-<a href="#SecureServer-setRequiresClientCertificate">setRequiresClientCertificate</a><br>
-<a href="#SecureServer-start">start</a><br>
 <a href="#SecureServer-stop">stop</a><br>
-<a href="#SecureServer-stopWhenUnused">stopWhenUnused</a><br>
-<a href="#SecureServer-supportsDTLS">supportsDTLS</a><br>
-<a href="#SecureServer-tlsWrap">tlsWrap</a><br>
-<a href="#SecureServer-useDTLS">useDTLS</a><br>
-<a href="#SecureServer-useTLS">useTLS</a><br>
-<a href="#SecureServer-usesTLS">usesTLS</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
-<a name="SecureServer-coro"></a><b>coro</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureServer-debugOff"></a><b>debugOff</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureServer-debugOn"></a><b>debugOn</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureServer-debugWriteln"></a><b>debugWriteln</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureServer-dispatch"></a><b>dispatch</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureServer-dispatchCoro"></a><b>dispatchCoro</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureServer-handleSocket"></a><b>handleSocket</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="SecureServer-port"></a><b>port</b><p>
 <div class=slotDescription>
 Returns the port on which the server will listen for connections.")
-</div>
-<a name="SecureServer-rawUseDTLS"></a><b>rawUseDTLS</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureServer-rawUseTLS"></a><b>rawUseTLS</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureServer-secureSocketForPeer"></a><b>secureSocketForPeer</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureServer-setCAFile"></a><b>setCAFile</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureServer-setCRLFile"></a><b>setCRLFile</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureServer-setCertFile"></a><b>setCertFile</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureServer-setCoro"></a><b>setCoro</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureServer-setDispatchCoro"></a><b>setDispatchCoro</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="SecureServer-setHost"></a><b>setHost(hostName)</b><p>
 <div class=slotDescription>
 Sets the hostName. Returns self.")
 </div>
-<a name="SecureServer-setKeyFile"></a><b>setKeyFile</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="SecureServer-setPort"></a><b>setPort(aNumber)</b><p>
 <div class=slotDescription>
 Sets the port on which the server will listen  for connections. Returns self.")
 </div>
-<a name="SecureServer-setRequiresClientCertificate"></a><b>setRequiresClientCertificate</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureServer-start"></a><b>start</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="SecureServer-stop"></a><b>stop</b><p>
 <div class=slotDescription>
 Stops the server if it is running. Returns self.")
-</div>
-<a name="SecureServer-stopWhenUnused"></a><b>stopWhenUnused</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureServer-supportsDTLS"></a><b>supportsDTLS</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureServer-tlsWrap"></a><b>tlsWrap</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureServer-useDTLS"></a><b>useDTLS</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureServer-useTLS"></a><b>useTLS</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureServer-usesTLS"></a><b>usesTLS</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 </div>
 </div>
@@ -14744,280 +14590,10 @@ Stops the server if it is running. Returns self.")
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#SecureSocket-ValidationFail">ValidationFail</a><br>
-<a href="#SecureSocket-ValidationOkay">ValidationOkay</a><br>
-<a href="#SecureSocket-accept">accept</a><br>
-<a href="#SecureSocket-acceptTimeout">acceptTimeout</a><br>
-<a href="#SecureSocket-asyncAccept">asyncAccept</a><br>
-<a href="#SecureSocket-asyncConnectBIO">asyncConnectBIO</a><br>
-<a href="#SecureSocket-asyncConnectSSL">asyncConnectSSL</a><br>
-<a href="#SecureSocket-asyncRead">asyncRead</a><br>
-<a href="#SecureSocket-asyncStreamRead">asyncStreamRead</a><br>
-<a href="#SecureSocket-asyncWrite">asyncWrite</a><br>
-<a href="#SecureSocket-bytesPerRead">bytesPerRead</a><br>
-<a href="#SecureSocket-bytesPerWrite">bytesPerWrite</a><br>
-<a href="#SecureSocket-certificate">certificate</a><br>
-<a href="#SecureSocket-connect">connect</a><br>
-<a href="#SecureSocket-connectBIO">connectBIO</a><br>
-<a href="#SecureSocket-connectSSL">connectSSL</a><br>
-<a href="#SecureSocket-connectTimeout">connectTimeout</a><br>
-<a href="#SecureSocket-debugOff">debugOff</a><br>
-<a href="#SecureSocket-debugOn">debugOn</a><br>
-<a href="#SecureSocket-debugWriteln">debugWriteln</a><br>
-<a href="#SecureSocket-descriptorId">descriptorId</a><br>
-<a href="#SecureSocket-error">error</a><br>
-<a href="#SecureSocket-getSocketReadLowWaterMark">getSocketReadLowWaterMark</a><br>
-<a href="#SecureSocket-getSocketWriteLowWaterMark">getSocketWriteLowWaterMark</a><br>
-<a href="#SecureSocket-isConnected">isConnected</a><br>
-<a href="#SecureSocket-isDatagram">isDatagram</a><br>
-<a href="#SecureSocket-isOpen">isOpen</a><br>
-<a href="#SecureSocket-peerCertificate">peerCertificate</a><br>
-<a href="#SecureSocket-rawCertificate">rawCertificate</a><br>
-<a href="#SecureSocket-rawPeerCertificate">rawPeerCertificate</a><br>
-<a href="#SecureSocket-rawValidate">rawValidate</a><br>
-<a href="#SecureSocket-read">read</a><br>
-<a href="#SecureSocket-readTimeout">readTimeout</a><br>
-<a href="#SecureSocket-setAcceptTimeout">setAcceptTimeout</a><br>
-<a href="#SecureSocket-setBytesPerRead">setBytesPerRead</a><br>
-<a href="#SecureSocket-setBytesPerWrite">setBytesPerWrite</a><br>
-<a href="#SecureSocket-setConnectTimeout">setConnectTimeout</a><br>
-<a href="#SecureSocket-setError">setError</a><br>
-<a href="#SecureSocket-setReadTimeout">setReadTimeout</a><br>
-<a href="#SecureSocket-setSocketReadBufferSize">setSocketReadBufferSize</a><br>
-<a href="#SecureSocket-setSocketReadLowWaterMark">setSocketReadLowWaterMark</a><br>
-<a href="#SecureSocket-setSocketWriteBufferSize">setSocketWriteBufferSize</a><br>
-<a href="#SecureSocket-setSocketWriteLowWaterMark">setSocketWriteLowWaterMark</a><br>
-<a href="#SecureSocket-setWriteTimeout">setWriteTimeout</a><br>
-<a href="#SecureSocket-setupEvents">setupEvents</a><br>
-<a href="#SecureSocket-shutdown">shutdown</a><br>
-<a href="#SecureSocket-supportsDTLS">supportsDTLS</a><br>
-<a href="#SecureSocket-udpAccept">udpAccept</a><br>
-<a href="#SecureSocket-udpServerSetup">udpServerSetup</a><br>
-<a href="#SecureSocket-validateConnection">validateConnection</a><br>
-<a href="#SecureSocket-wantsRead">wantsRead</a><br>
-<a href="#SecureSocket-wantsWrite">wantsWrite</a><br>
-<a href="#SecureSocket-write">write</a><br>
-<a href="#SecureSocket-writeTimeout">writeTimeout</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
-<a name="SecureSocket-ValidationFail"></a><b>ValidationFail</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-ValidationOkay"></a><b>ValidationOkay</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-accept"></a><b>accept</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-acceptTimeout"></a><b>acceptTimeout</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-asyncAccept"></a><b>asyncAccept</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-asyncConnectBIO"></a><b>asyncConnectBIO</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-asyncConnectSSL"></a><b>asyncConnectSSL</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-asyncRead"></a><b>asyncRead</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-asyncStreamRead"></a><b>asyncStreamRead</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-asyncWrite"></a><b>asyncWrite</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-bytesPerRead"></a><b>bytesPerRead</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-bytesPerWrite"></a><b>bytesPerWrite</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-certificate"></a><b>certificate</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-connect"></a><b>connect</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-connectBIO"></a><b>connectBIO</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-connectSSL"></a><b>connectSSL</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-connectTimeout"></a><b>connectTimeout</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-debugOff"></a><b>debugOff</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-debugOn"></a><b>debugOn</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-debugWriteln"></a><b>debugWriteln</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-descriptorId"></a><b>descriptorId</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-error"></a><b>error</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-getSocketReadLowWaterMark"></a><b>getSocketReadLowWaterMark</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-getSocketWriteLowWaterMark"></a><b>getSocketWriteLowWaterMark</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-isConnected"></a><b>isConnected</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-isDatagram"></a><b>isDatagram</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-isOpen"></a><b>isOpen</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-peerCertificate"></a><b>peerCertificate</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-rawCertificate"></a><b>rawCertificate</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-rawPeerCertificate"></a><b>rawPeerCertificate</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-rawValidate"></a><b>rawValidate</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-read"></a><b>read</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-readTimeout"></a><b>readTimeout</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-setAcceptTimeout"></a><b>setAcceptTimeout</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-setBytesPerRead"></a><b>setBytesPerRead</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-setBytesPerWrite"></a><b>setBytesPerWrite</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-setConnectTimeout"></a><b>setConnectTimeout</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-setError"></a><b>setError</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-setReadTimeout"></a><b>setReadTimeout</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-setSocketReadBufferSize"></a><b>setSocketReadBufferSize</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-setSocketReadLowWaterMark"></a><b>setSocketReadLowWaterMark</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-setSocketWriteBufferSize"></a><b>setSocketWriteBufferSize</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-setSocketWriteLowWaterMark"></a><b>setSocketWriteLowWaterMark</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-setWriteTimeout"></a><b>setWriteTimeout</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-setupEvents"></a><b>setupEvents</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-shutdown"></a><b>shutdown</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-supportsDTLS"></a><b>supportsDTLS</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-udpAccept"></a><b>udpAccept</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-udpServerSetup"></a><b>udpServerSetup</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-validateConnection"></a><b>validateConnection</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-wantsRead"></a><b>wantsRead</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-wantsWrite"></a><b>wantsWrite</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-write"></a><b>write</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SecureSocket-writeTimeout"></a><b>writeTimeout</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 </div>
 </div>
 <hr align=left>
@@ -15480,7 +15056,7 @@ Returns a new sequence with the receiver encoded in the
 </div>
 <a name="Sequence-asHTML"></a><b>asHTML</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+SGML extension to interpret the Sequence as HTML and return an SGML object using SGMLParser elementForString
 </div>
 <a name="Sequence-asHex"></a><b>asHex</b><p>
 <div class=slotDescription>
@@ -15521,7 +15097,7 @@ Returns a new Regex created from the receiver.
 </div>
 <a name="Sequence-asSGML"></a><b>asSGML</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+SGML extension to interpret the Sequence as SGML and return an SGML object using SGMLParser elementForString
 </div>
 <a name="Sequence-asSerialization"></a><b>asSerialization</b><p>
 <div class=slotDescription>
@@ -15581,7 +15157,7 @@ Returns a symbol containing the reveiver made uppercase.
 </div>
 <a name="Sequence-asXML"></a><b>asXML</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+SGML extension to interpret the Sequence as XML and return an SGML object using SGMLParser elementForString
 </div>
 <a name="Sequence-asin"></a><b>asin</b><p>
 <div class=slotDescription>
@@ -17198,7 +16774,6 @@ Returns the length of time in seconds for write timeouts on the socket.
 <a href="#SoundTouch-setTempo">setTempo()</a><br>
 <a href="#SoundTouch-setTempoChange">setTempoChange()</a><br>
 <a href="#SoundTouch-start">start</a><br>
-<a href="#SoundTouch-stop">stop</a><br>
 </div>
 <p>
 <h3>Slots</h3>
@@ -17238,10 +16813,6 @@ Sets the tempo change amount.
 <a name="SoundTouch-start"></a><b>start</b><p>
 <div class=slotDescription>
 Cleans up SoundTouch.
-</div>
-<a name="SoundTouch-stop"></a><b>stop</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 </div>
 </div>
@@ -17519,7 +17090,7 @@ This primitive is used to get command line options similar to Cs getopt().
 	the beginning dashes (--).
 	<p>
 	Example:
-	<code>
+	<code><pre>
 	options := System getOptions(args)
 	options foreach(k, v,
 	  if(v type == List type,
@@ -17528,7 +17099,7 @@ This primitive is used to get command line options similar to Cs getopt().
 	  )
 	  writeln(\"Got option: \" .. k .. \" with value: \" .. v)
 	)
-	</code>
+	</pre></code>
 </div>
 <a name="System-installPrefix"></a><b>installPrefix</b><p>
 <div class=slotDescription>
