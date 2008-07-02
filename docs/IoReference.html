@@ -10722,7 +10722,7 @@ When cloned, an Object will call it's init slot (with no arguments).
 <a href="#Object-forward">forward</a><br>
 <a href="#Object-getLocalSlot">getLocalSlot()</a><br>
 <a href="#Object-getSlot">getSlot()</a><br>
-<a href="#Object-handleActorException">handleActorException</a><br>
+<a href="#Object-handleActorException">handleActorException()</a><br>
 <a href="#Object-hasDirtySlot">hasDirtySlot</a><br>
 <a href="#Object-hasLocalSlot">hasLocalSlot()</a><br>
 <a href="#Object-hasProto">hasProto()</a><br>
@@ -10861,11 +10861,21 @@ description: Sends the message aMessage to the receiver if it can respond to it.
 </div>
 <a name="Object-@"></a><b>@</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sends asynchronous message to an object, returns a FutureProxy.
+  <br/>
+  Caller coroutine is paused when proxy is accessed (i.e. message is sent)
+  till result is ready. Proxy will become an actual result when it is ready.
+  <br/>
+  See IoGuide for more information.
+  <br/>
+  Usage: obj @someMethod(a, b, c)
 </div>
 <a name="Object-@@"></a><b>@@</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Same as Object @, but returns nil instead of FutureProxy.
+  <br/>
+  Might be useful in a command line or as a last expression in a block/method when
+  you don't want to return a future.
 </div>
 <a name="Object-NullCharacter"></a><b>NullCharacter</b><p>
 <div class=slotDescription>
@@ -11085,9 +11095,11 @@ Returns the value of the slot named slotNameString
 Returns the value of the slot named slotNameString
 	(following the lookup path) or nil if no such slot is found.
 </div>
-<a name="Object-handleActorException"></a><b>handleActorException</b><p>
+<a name="Object-handleActorException"></a><b>handleActorException(exception)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Callback for handling exceptions during asynchronous message processing.
+  <br/>
+  Default value: method(e, e showStack)
 </div>
 <a name="Object-hasDirtySlot"></a><b>hasDirtySlot</b><p>
 <div class=slotDescription>

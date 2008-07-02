@@ -135,9 +135,24 @@ Object do(
 			self actorCoroutine pause
 		)
 	)
-
+	
+  /*doc Object handleActorException(exception)
+  Callback for handling exceptions during asynchronous message processing.
+  <br/>
+  Default value: method(e, e showStack)
+  */
 	handleActorException := method(e, e showStack)
-
+    
+  /*doc Object @
+  Sends asynchronous message to an object, returns a FutureProxy.
+  <br/>
+  Caller coroutine is paused when proxy is accessed (i.e. message is sent)
+  till result is ready. Proxy will become an actual result when it is ready.
+  <br/>
+  See IoGuide for more information.
+  <br/>
+  Usage: obj @someMethod(a, b, c)
+  */
 	setSlot("@", method(
 		//writeln("@ ", call argAt(0))
 		m := call argAt(0) asMessageWithEvaluatedArgs(call sender)
@@ -146,7 +161,13 @@ Object do(
 		self actorQueue append(f)
 		f futureProxy
 	))
-
+  
+  /*doc Object @@
+  Same as Object @, but returns nil instead of FutureProxy.
+  <br/>
+  Might be useful in a command line or as a last expression in a block/method when
+  you don't want to return a future.
+  */
 	setSlot("@@", method(
 		//writeln(self type , "_", self uniqueId, " @@", call argAt(0)) //, " ", call argAt(0) label)
 		m := call argAt(0) asMessageWithEvaluatedArgs(call sender)
