@@ -8891,7 +8891,7 @@ In the above example:
   msg next next name  =>  ;
   msg next next next  =>  E F
 </pre>
-Important; Modifying the message tree of a block currently in use may cause
+Important: Modifying the message tree of a block currently in use may cause
 a crash if a garbage collection cycle occurs. If the implementation were
 changed to retain every called message, this could be avoided.
 But the cost to performance seems to outweigh the need to cover this case for now.
@@ -8934,7 +8934,7 @@ But the cost to performance seems to outweigh the need to cover this case for no
 <a href="#Message-previous">previous</a><br>
 <a href="#Message-removeCachedResult">removeCachedResult</a><br>
 <a href="#Message-setArguments">setArguments()</a><br>
-<a href="#Message-setCachedArgs">setCachedArgs</a><br>
+<a href="#Message-setCachedArgs">setCachedArgs()</a><br>
 <a href="#Message-setCachedResult">setCachedResult()</a><br>
 <a href="#Message-setCharacterNumber">setCharacterNumber()</a><br>
 <a href="#Message-setLabel">setLabel()</a><br>
@@ -9107,9 +9107,9 @@ Removes the cached result of the Message.
 Sets the arguments of the receiver to deep copies of
 	those contained in aListOfMessages.  Returns self.
 </div>
-<a name="Message-setCachedArgs"></a><b>setCachedArgs</b><p>
+<a name="Message-setCachedArgs"></a><b>setCachedArgs(listOfValues)</b><p>
 <div class=slotDescription>
-Appends evaluated arguments to a message. Returns the receiver.
+Appends evaluated arguments to a message. Returns self.
 </div>
 <a name="Message-setCachedResult"></a><b>setCachedResult(anObject)</b><p>
 <div class=slotDescription>
