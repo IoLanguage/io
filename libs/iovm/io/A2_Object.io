@@ -112,12 +112,20 @@ nil do(
 // I think non-local returns can eliminate all this stopStatus stuff 
 
 Call do(
+  /*doc Call relayStopStatus(arg) 
+  Sets sender's stop status (Normal, Return, 
+  Break, Continue etc.) and returns evaluated argument.
+  */
 	relayStopStatus := method(
 		ss := stopStatus(r := call evalArgAt(0))
 		call sender call setStopStatus(ss)
 		getSlot("r")
 	)
 
+  /*doc Call resetStopStatus(arg) 
+  Sets stop status to Normal.
+  See also <tt>Call setStopStatus</tt>.
+  */
 	resetStopStatus := method(
 		setStopStatus(Normal)
 	)
@@ -157,29 +165,57 @@ Return appendProto(Normal) do(
 )
 
 Object do(
+  //doc Object not Returns nil.
 	not := nil
-
+  //doc Object isNil Returns false.
 	isNil := false
-
+  //doc Object ifNil(arg) Does nothing, returns self.
 	ifNil := Object getSlot("thisContext")
+	//doc Object ifNonNil(arg) Evaluates argument and returns self.
 	ifNonNil := Object getSlot("evalArgAndReturnSelf")
-
+  //doc Object ifNonNilEval(arg) Evaluates argument and returns the result.
 	ifNonNilEval := Object getSlot("evalArg")
+	//doc Object ifNilEval(arg) Does nothing, returns self.
 	ifNilEval    := Object getSlot("thisContext")
-
+  //doc Object and(arg) Evaluates argument and returns the result.
 	setSlot("and", Object getSlot("evalArg"))
+	//doc Object or(arg) Returns true.
 	setSlot("or", true)
 )
 
 Sequence do(
+  /*doc Sequence makeFirstCharacterLowercase 
+  Receiver must be mutable (see also asMutable). Returns receiver.
+  <br/>
+  <pre>
+  Io> "ABC" asMutable makeFirstCharacterLowercase
+  ==> aBC
+  </pre>
+  */
 	makeFirstCharacterLowercase := method(
 		if(self size > 0, self atPut(0, self at(0) asLowercase))
 	)
-
+  /*doc Sequence makeFirstCharacterUppercase 
+  Receiver must be mutable (see also asMutable). Returns receiver.
+  <br/>
+  <pre>
+  Io> "abc" asMutable makeFirstCharacterUppercase
+  ==> Abc
+  </pre>
+  */
 	makeFirstCharacterUppercase := method(
 		if(self size > 0, self atPut(0, self at(0) asUppercase))
 	)
 
+  /*doc Sequence slicesBetween(startSeq, endSeq) 
+  Returns a list of slices delimited 
+  by <tt>startSeq</tt> and <tt>endSeq</tt>.
+  <br>
+  <pre>
+  Io> "<a><b></b></a>" slicesBetween("<", ">")
+  ==> list("a", "b", "/b", "/a")
+  </pre>
+  */
 	slicesBetween := method(startSeq, endSeq,
 		chunks := List clone
 		lastIndex := 0
@@ -194,6 +230,10 @@ Sequence do(
 )
 
 Object do(
+  /*doc Object hasSlot(name) 
+  Returns <tt>true</tt> if slot is found somewhere in the inheritance chain 
+  (including receiver itself).
+  */
 	hasSlot := method(n,
 		getSlot("self") hasLocalSlot(n) or(getSlot("self") ancestorWithSlot(n) != nil)
 	)
@@ -205,7 +245,11 @@ Object do(
 	setSlot("..", method(arg, getSlot("self") asString .. arg asString))
 
 	Map addKeysAndValues := method(keys, values, keys foreach(i, k, self atPut(k, values at(i))); self)
-
+  
+  /*doc Object slotDescriptionMap
+  Returns raw map of slot names and short values' descriptions.
+  See also <tt>Object slotSummary</tt>.
+  */
 	slotDescriptionMap := method(
 		slotNames := getSlot("self") slotNames sort
 		slotDescs := slotNames map(name, getSlot("self") getSlot(name) asSimpleString)
@@ -228,7 +272,19 @@ Object do(
 		)
 		nil
 	)
-
+  /*doc Object slotSummary 
+  Returns a formatted <tt>slotDescriptionMap</tt>.
+  <br/>
+  <pre>
+  Io> slotSummary
+  ==>  Object_0x30c590:
+    Lobby            = Object_0x30c590
+    Protos           = Object_0x30c880
+    exit             = method(...)
+    forward          = method(...)
+  </pre>
+  */
+  
 	slotSummary := method(keyword,
 		if(getSlot("self") type == "Block",
 			return getSlot("self") asSimpleString
@@ -281,10 +337,10 @@ Object do(
 
 	/*doc Object ?(aMessage)
 	description: Sends the message aMessage to the receiver if it can respond to it. Example:
-	<code>
+	<pre>
 	MyObject test // performs test
 	MyObject ?test // performs test if MyObject has a slot named test
-	</code>
+	</pre>
 	The search for the slot only follows the receivers proto chain.
 	*/
 
@@ -314,10 +370,10 @@ Object do(
 
 	/*doc Object super(aMessage)
 	Sends the message aMessage to the receiver's proto with the context of self. Example:
-	<code>
+	<pre>
 	self test(1, 2)   // performs test(1, 2) on self
 	super(test(1, 2)) // performs test(1, 2) on self proto but with the context of self
-	</code>
+	</pre>
 	*/
 
 	setSlot("super", method(
@@ -342,15 +398,15 @@ Object do(
 
 	/*doc Object resend
 	Send the message used to activate the current method to the Object's proto.
-	For example;
-	<code>
-	Dog := Mammal clone do(
-	init := method(
-		resend
-	)
-	)
-	</code>
-	calling Dog init will send an init method to Mammal, but using the Dog's context.
+  For example:
+  <pre>
+  Dog := Mammal clone do(
+    init := method(
+  	  resend
+    )
+  )
+  </pre>
+	Calling Dog init will send an init method to Mammal, but using the Dog's context.
 	*/
 
 	setSlot("resend", method(
@@ -389,8 +445,46 @@ Object do(
 	//doc Object in(aList) Same as: aList contains(self)
 	in := method(aList, aList contains(self))
 
+  /*doc Object uniqueHexId 
+  Returns uniqueId in a hexadecimal form (with a "0x" prefix)
+  <pre>
+  Io> Object uniqueId
+  ==> 3146784
+  Io> Object uniqueHexId
+  ==> 0x300420
+  </pre>
+  */
 	uniqueHexId := method("0x" .. getSlot("self") uniqueId asString toBase(16))
 
+  /*doc Object lazySlot(code) 
+  Defines a slot with a lazy initialization code. 
+  Code is run only once: the first time slot is accessed. 
+  Returned value is stored in a regular slot.
+  <br/>
+  <pre>
+  Io> x := lazySlot("Evaluated!" println; 17)
+  Io> x
+  Evaluated!
+  ==> 17
+  Io> x
+  ==> 17
+  Io> x
+  ==> 17
+  </pre>
+  <br/>
+  Another form is <tt>lazySlot(name, code)</tt>:
+  <br/>
+  <pre>
+  Io> lazySlot("x", "Evaluated!" println; 17)
+  Io> x
+  Evaluated!
+  ==> 17
+  Io> x
+  ==> 17
+  Io> x
+  ==> 17
+  </pre>
+  */
 	lazySlot := method(
 		if(call argCount == 1,
 			m := method(
@@ -409,7 +503,23 @@ Object do(
 			nil
 		)
 	)
-
+  
+  /*doc Object foreachSlot(slotName, slotValue, code)
+  Iterates over all the slots in a receiver. Provides slotValue (non-activated)
+  along with slotName. Code is executed in context of sender. <tt>slotName</tt> and <tt>slotValue</tt>
+  become visible in the receiver (no Locals created! Maybe, it is not the best decision).
+  <br/>
+  <pre>
+  Io> thisContext foreachSlot(n, v, n println)
+  Lobby
+  Protos
+  exit
+  forward
+  n
+  v
+  ==> false
+  </pre>
+  */
 	foreachSlot := method(
 		self slotNames sort foreach(n,
 			call sender setSlot(call message argAt(0) name, n)

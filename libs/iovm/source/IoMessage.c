@@ -454,7 +454,8 @@ IoObject *IoMessage_setLabel(IoMessage *self, IoObject *locals, IoMessage *m)
 IoObject *IoMessage_doInContext(IoMessage *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Message doInContext(anObject, locals)
-	Evaluates the receiver in the context of anObject. 
+	Evaluates the receiver in the context of anObject. Optional <tt>locals</tt> 
+	object is used as message sender. <tt>anObject</tt> is used as sender otherwise.
 	*/
 
 	IoObject *context = IoMessage_locals_valueArgAt_(m, (IoObject *)locals, 0);

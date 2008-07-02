@@ -46,6 +46,7 @@
 <div class=indexItem><a href="#Token">Token</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#UnitTest">UnitTest</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#WeakLink">WeakLink</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href="#false">false</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#nil">nil</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#true">true</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#AVCodec">AVCodec</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -810,7 +811,7 @@ Returns a string containing the decompiled code of the receiver.
 </div>
 <a name="Block-justSerialized"></a><b>justSerialized(stream)</b><p>
 <div class=slotDescription>
-Write's the receivers code into the stream.
+Writes the receiver's code into the stream.
 </div>
 <a name="Block-message"></a><b>message</b><p>
 <div class=slotDescription>
@@ -1415,8 +1416,8 @@ Call stores slots related to activation.
 <a href="#Call-evalArgs">evalArgs</a><br>
 <a href="#Call-hasArgs">hasArgs</a><br>
 <a href="#Call-message">message</a><br>
-<a href="#Call-relayStopStatus">relayStopStatus</a><br>
-<a href="#Call-resetStopStatus">resetStopStatus</a><br>
+<a href="#Call-relayStopStatus">relayStopStatus()</a><br>
+<a href="#Call-resetStopStatus">resetStopStatus()</a><br>
 <a href="#Call-sender">sender</a><br>
 <a href="#Call-setStopStatus">setStopStatus()</a><br>
 <a href="#Call-slotContext">slotContext</a><br>
@@ -1473,13 +1474,15 @@ Returns true if the call was passed arguments.
 <div class=slotDescription>
 Returns the message value.
 </div>
-<a name="Call-relayStopStatus"></a><b>relayStopStatus</b><p>
+<a name="Call-relayStopStatus"></a><b>relayStopStatus(arg)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets sender's stop status (Normal, Return, 
+  Break, Continue etc.) and returns evaluated argument.
 </div>
-<a name="Call-resetStopStatus"></a><b>resetStopStatus</b><p>
+<a name="Call-resetStopStatus"></a><b>resetStopStatus(arg)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets stop status to Normal.
+  See also <tt>Call setStopStatus</tt>.
 </div>
 <a name="Call-sender"></a><b>sender</b><p>
 <div class=slotDescription>
@@ -3732,34 +3735,37 @@ An object that contains error information and flow control based on errors.
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#Error-ifError">ifError</a><br>
+<a href="#Error-ifError">ifError()</a><br>
 <a href="#Error-isError">isError</a><br>
 <a href="#Error-raiseIfError">raiseIfError</a><br>
 <a href="#Error-returnIfError">returnIfError</a><br>
-<a href="#Error-with">with</a><br>
+<a href="#Error-with">with()</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
-<a name="Error-ifError"></a><b>ifError</b><p>
+<a name="Error-ifError"></a><b>ifError(code)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Evaluates code in the context of sender. Returns self.
+  <br/>
+  Another form is <tt>Error ifError(error, code)</tt>. 
+  Note: <tt>error</tt> slot is set in the context of sender, Locals object is not created!
 </div>
 <a name="Error-isError"></a><b>isError</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true.
 </div>
 <a name="Error-raiseIfError"></a><b>raiseIfError</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Raises exception.
 </div>
 <a name="Error-returnIfError"></a><b>returnIfError</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns self from the context of sender.
 </div>
-<a name="Error-with"></a><b>with</b><p>
+<a name="Error-with"></a><b>with(message)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets message slot and returns self.
 </div>
 </div>
 </div>
@@ -8073,7 +8079,7 @@ A mutable array of values. The first index is 0.")
 <a href="#List-isNotEmpty">isNotEmpty</a><br>
 <a href="#List-itemCopy">itemCopy</a><br>
 <a href="#List-join">join()</a><br>
-<a href="#List-justSerialized">justSerialized</a><br>
+<a href="#List-justSerialized">justSerialized()</a><br>
 <a href="#List-last">last()</a><br>
 <a href="#List-map">map()</a><br>
 <a href="#List-mapFromKey">mapFromKey</a><br>
@@ -8309,9 +8315,9 @@ Returns a new list containing the items from the receiver.
 Returns a Sequence of the concatenated items with 
 		optionalString between each item or simply the concatenation of the items if no optionalString is supplied.
 </div>
-<a name="List-justSerialized"></a><b>justSerialized</b><p>
+<a name="List-justSerialized"></a><b>justSerialized(stream)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Writes the receiver's code into the stream.
 </div>
 <a name="List-last"></a><b>last(optionalSize)</b><p>
 <div class=slotDescription>
@@ -8757,7 +8763,7 @@ A key/value dictionary appropriate for holding large key/value collections.
 <a href="#Map-hasKey">hasKey()</a><br>
 <a href="#Map-hasValue">hasValue()</a><br>
 <a href="#Map-i">i</a><br>
-<a href="#Map-justSerialized">justSerialized</a><br>
+<a href="#Map-justSerialized">justSerialized()</a><br>
 <a href="#Map-keys">keys</a><br>
 <a href="#Map-map">map()</a><br>
 <a href="#Map-removeAt">removeAt()</a><br>
@@ -8827,9 +8833,9 @@ Returns true if the value is one of the Map's values or false otherwise.
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="Map-justSerialized"></a><b>justSerialized</b><p>
+<a name="Map-justSerialized"></a><b>justSerialized(stream)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Writes the receiver's code into the stream.
 </div>
 <a name="Map-keys"></a><b>keys</b><p>
 <div class=slotDescription>
@@ -9036,7 +9042,8 @@ Returns a string containing a short description of the method.
 </div>
 <a name="Message-doInContext"></a><b>doInContext(anObject, locals)</b><p>
 <div class=slotDescription>
-Evaluates the receiver in the context of anObject.
+Evaluates the receiver in the context of anObject. Optional <tt>locals</tt> 
+	object is used as message sender. <tt>anObject</tt> is used as sender otherwise.
 </div>
 <a name="Message-evaluatedArgs"></a><b>evaluatedArgs</b><p>
 <div class=slotDescription>
@@ -9145,6 +9152,11 @@ Sets the previous message in the message chain to a deep copy of
 <div class=slotDescription>
 Returns a new message object with the receivers message as the first argument of the returned message, 
 	and the other parameter's arguments as each successive argument to the new message.
+	<br/>
+	<pre>
+  Io> message(a) union(message(b))
+  ==> [unnamed](a, b)
+  </pre>
 </div>
 </div>
 </div>
@@ -9258,7 +9270,7 @@ A container for a double (a 64bit floating point number on most platforms).
 <a href="#Number-isPunctuation">isPunctuation</a><br>
 <a href="#Number-isSpace">isSpace</a><br>
 <a href="#Number-isUppercase">isUppercase</a><br>
-<a href="#Number-justSerialized">justSerialized</a><br>
+<a href="#Number-justSerialized">justSerialized()</a><br>
 <a href="#Number-log">log</a><br>
 <a href="#Number-log10">log10</a><br>
 <a href="#Number-log2">log2</a><br>
@@ -9603,9 +9615,9 @@ Returns true if
 	the receiver is a uppercase character value
 	, false otherwise.
 </div>
-<a name="Number-justSerialized"></a><b>justSerialized</b><p>
+<a name="Number-justSerialized"></a><b>justSerialized(stream)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Writes the receiver's code into the stream.
 </div>
 <a name="Number-log"></a><b>log</b><p>
 <div class=slotDescription>
@@ -10687,14 +10699,14 @@ When cloned, an Object will call it's init slot (with no arguments).
 <a href="#Object-actorRun">actorRun</a><br>
 <a href="#Object-ancestorWithSlot">ancestorWithSlot()</a><br>
 <a href="#Object-ancestors">ancestors</a><br>
-<a href="#Object-and">and</a><br>
+<a href="#Object-and">and()</a><br>
 <a href="#Object-appendProto">appendProto()</a><br>
 <a href="#Object-apropos">apropos</a><br>
 <a href="#Object-argIsActivationRecord">argIsActivationRecord</a><br>
-<a href="#Object-argIsCall">argIsCall</a><br>
+<a href="#Object-argIsCall">argIsCall()</a><br>
 <a href="#Object-asSimpleString">asSimpleString</a><br>
 <a href="#Object-asString">asString</a><br>
-<a href="#Object-become">become</a><br>
+<a href="#Object-become">become()</a><br>
 <a href="#Object-block">block</a><br>
 <a href="#Object-break">break()</a><br>
 <a href="#Object-clone">clone</a><br>
@@ -10724,7 +10736,7 @@ When cloned, an Object will call it's init slot (with no arguments).
 <a href="#Object-evalArgAndReturnSelf">evalArgAndReturnSelf()</a><br>
 <a href="#Object-for">for()</a><br>
 <a href="#Object-foreach">foreach()</a><br>
-<a href="#Object-foreachSlot">foreachSlot</a><br>
+<a href="#Object-foreachSlot">foreachSlot()</a><br>
 <a href="#Object-forward">forward</a><br>
 <a href="#Object-getLocalSlot">getLocalSlot()</a><br>
 <a href="#Object-getSlot">getSlot()</a><br>
@@ -10732,14 +10744,14 @@ When cloned, an Object will call it's init slot (with no arguments).
 <a href="#Object-hasDirtySlot">hasDirtySlot</a><br>
 <a href="#Object-hasLocalSlot">hasLocalSlot()</a><br>
 <a href="#Object-hasProto">hasProto()</a><br>
-<a href="#Object-hasSlot">hasSlot</a><br>
+<a href="#Object-hasSlot">hasSlot()</a><br>
 <a href="#Object-if">if()</a><br>
 <a href="#Object-ifDebug">ifDebug</a><br>
 <a href="#Object-ifError">ifError</a><br>
-<a href="#Object-ifNil">ifNil</a><br>
-<a href="#Object-ifNilEval">ifNilEval</a><br>
-<a href="#Object-ifNonNil">ifNonNil</a><br>
-<a href="#Object-ifNonNilEval">ifNonNilEval</a><br>
+<a href="#Object-ifNil">ifNil()</a><br>
+<a href="#Object-ifNilEval">ifNilEval()</a><br>
+<a href="#Object-ifNonNil">ifNonNil()</a><br>
+<a href="#Object-ifNonNilEval">ifNonNilEval()</a><br>
 <a href="#Object-in">in()</a><br>
 <a href="#Object-inlineMethod">inlineMethod</a><br>
 <a href="#Object-isActivatable">isActivatable</a><br>
@@ -10748,9 +10760,9 @@ When cloned, an Object will call it's init slot (with no arguments).
 <a href="#Object-isKindOf">isKindOf()</a><br>
 <a href="#Object-isLaunchScript">isLaunchScript</a><br>
 <a href="#Object-isNil">isNil</a><br>
-<a href="#Object-justSerialized">justSerialized</a><br>
+<a href="#Object-justSerialized">justSerialized()</a><br>
 <a href="#Object-launchFile">launchFile()</a><br>
-<a href="#Object-lazySlot">lazySlot</a><br>
+<a href="#Object-lazySlot">lazySlot()</a><br>
 <a href="#Object-list">list()</a><br>
 <a href="#Object-localsForward">localsForward</a><br>
 <a href="#Object-localsUpdateSlot">localsUpdateSlot()</a><br>
@@ -10762,7 +10774,7 @@ When cloned, an Object will call it's init slot (with no arguments).
 <a href="#Object-method">method</a><br>
 <a href="#Object-newSlot">newSlot()</a><br>
 <a href="#Object-not">not</a><br>
-<a href="#Object-or">or</a><br>
+<a href="#Object-or">or()</a><br>
 <a href="#Object-ownsSlots">ownsSlots</a><br>
 <a href="#Object-pause">pause</a><br>
 <a href="#Object-perform">perform()</a><br>
@@ -10784,8 +10796,8 @@ When cloned, an Object will call it's init slot (with no arguments).
 <a href="#Object-returnIfNonNil">returnIfNonNil</a><br>
 <a href="#Object-self">self</a><br>
 <a href="#Object-serialized">serialized</a><br>
-<a href="#Object-serializedSlots">serializedSlots</a><br>
-<a href="#Object-serializedSlotsWithNames">serializedSlotsWithNames</a><br>
+<a href="#Object-serializedSlots">serializedSlots()</a><br>
+<a href="#Object-serializedSlotsWithNames">serializedSlotsWithNames()</a><br>
 <a href="#Object-setIsActivatable">setIsActivatable()</a><br>
 <a href="#Object-setProto">setProto()</a><br>
 <a href="#Object-setProtos">setProtos()</a><br>
@@ -10859,10 +10871,10 @@ Evaluates argument and returns self if self is greater
 <a name="Object-?"></a><b>?(aMessage)</b><p>
 <div class=slotDescription>
 description: Sends the message aMessage to the receiver if it can respond to it. Example:
-	<code>
+	<pre>
 	MyObject test // performs test
 	MyObject ?test // performs test if MyObject has a slot named test
-	</code>
+	</pre>
 	The search for the slot only follows the receivers proto chain.
 </div>
 <a name="Object-@"></a><b>@</b><p>
@@ -10904,9 +10916,9 @@ Returns the first ancestor of the receiver that contains
 <div class=slotDescription>
 Returns a list of all of the receiver's ancestors as found by recursively following the protos links.
 </div>
-<a name="Object-and"></a><b>and</b><p>
+<a name="Object-and"></a><b>and(arg)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Evaluates argument and returns the result.
 </div>
 <a name="Object-appendProto"></a><b>appendProto(anObject)</b><p>
 <div class=slotDescription>
@@ -10918,11 +10930,14 @@ Appends anObject to the receiver's proto list. Returns self.
 </div>
 <a name="Object-argIsActivationRecord"></a><b>argIsActivationRecord</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Note: seems to be an obsolete method.
 </div>
-<a name="Object-argIsCall"></a><b>argIsCall</b><p>
+<a name="Object-argIsCall"></a><b>argIsCall(arg)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if arg is an activation context (i.e. Call object)
+	<br/>
+	Note: this is used internally in one place only (Coroutine callStack). 
+	Refactoring should be considered.
 </div>
 <a name="Object-asSimpleString"></a><b>asSimpleString</b><p>
 <div class=slotDescription>
@@ -10932,9 +10947,12 @@ Appends anObject to the receiver's proto list. Returns self.
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="Object-become"></a><b>become</b><p>
+<a name="Object-become"></a><b>become(anotherObject)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Replaces receiver with <tt>anotherObject</tt> and returns self.
+	Useful for implementing transparent proxies. See also <tt>FutureProxy</tt> and <tt>Object @</tt>.
+	<br/>
+	Note: primitives cannot become new values.
 </div>
 <a name="Object-block"></a><b>block</b><p>
 <div class=slotDescription>
@@ -11076,9 +11094,22 @@ myObject foreach(v,
 )
 </pre>
 </div>
-<a name="Object-foreachSlot"></a><b>foreachSlot</b><p>
+<a name="Object-foreachSlot"></a><b>foreachSlot(slotName, slotValue, code)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Iterates over all the slots in a receiver. Provides slotValue (non-activated)
+  along with slotName. Code is executed in context of sender. <tt>slotName</tt> and <tt>slotValue</tt>
+  become visible in the receiver (no Locals created! Maybe, it is not the best decision).
+  <br/>
+  <pre>
+  Io> thisContext foreachSlot(n, v, n println)
+  Lobby
+  Protos
+  exit
+  forward
+  n
+  v
+  ==> false
+  </pre>
 </div>
 <a name="Object-forward"></a><b>forward</b><p>
 <div class=slotDescription>
@@ -11124,9 +11155,10 @@ Returns true if the slot exists in the receiver or false otherwise.
 <div class=slotDescription>
 Returns true if anObject is found in the proto path of the target, false otherwise.
 </div>
-<a name="Object-hasSlot"></a><b>hasSlot</b><p>
+<a name="Object-hasSlot"></a><b>hasSlot(name)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns <tt>true</tt> if slot is found somewhere in the inheritance chain 
+  (including receiver itself).
 </div>
 <a name="Object-if"></a><b>if(&lt;condition&gt;, &lt;trueMessage&gt;, &lt;optionalFalseMessage&gt;)</b><p>
 <div class=slotDescription>
@@ -11140,23 +11172,23 @@ Evaluates trueMessage if condition evaluates to a non-Nil.
 </div>
 <a name="Object-ifError"></a><b>ifError</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Does nothing, returns self.
 </div>
-<a name="Object-ifNil"></a><b>ifNil</b><p>
+<a name="Object-ifNil"></a><b>ifNil(arg)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Does nothing, returns self.
 </div>
-<a name="Object-ifNilEval"></a><b>ifNilEval</b><p>
+<a name="Object-ifNilEval"></a><b>ifNilEval(arg)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Does nothing, returns self.
 </div>
-<a name="Object-ifNonNil"></a><b>ifNonNil</b><p>
+<a name="Object-ifNonNil"></a><b>ifNonNil(arg)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Evaluates argument and returns self.
 </div>
-<a name="Object-ifNonNilEval"></a><b>ifNonNilEval</b><p>
+<a name="Object-ifNonNilEval"></a><b>ifNonNilEval(arg)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Evaluates argument and returns the result.
 </div>
 <a name="Object-in"></a><b>in(aList)</b><p>
 <div class=slotDescription>
@@ -11164,7 +11196,19 @@ Same as: aList contains(self)
 </div>
 <a name="Object-inlineMethod"></a><b>inlineMethod</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Creates a method which is executed directly in a receiver (no Locals object is created).
+  <br/>
+  <pre>
+  Io> m := inlineMethod(x := x*2)
+  Io> x := 1
+  ==> 1
+  Io> m
+  ==> 2
+  Io> m
+  ==> 4
+  Io> m
+  ==> 8
+  </pre>
 </div>
 <a name="Object-isActivatable"></a><b>isActivatable</b><p>
 <div class=slotDescription>
@@ -11172,7 +11216,7 @@ Returns true if the receiver is activatable, false otherwise.
 </div>
 <a name="Object-isError"></a><b>isError</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns false if not an error.
 </div>
 <a name="Object-isIdenticalTo"></a><b>isIdenticalTo(aValue)</b><p>
 <div class=slotDescription>
@@ -11188,19 +11232,46 @@ Returns true if the current file was run on the command line. Io's version of Py
 </div>
 <a name="Object-isNil"></a><b>isNil</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns false.
 </div>
-<a name="Object-justSerialized"></a><b>justSerialized</b><p>
+<a name="Object-justSerialized"></a><b>justSerialized(stream)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Writes serialized representation to a stream. Returns stream contents. 
+  [This is unintended side effect! Returned value may change in the future.]
 </div>
 <a name="Object-launchFile"></a><b>launchFile(pathString)</b><p>
 <div class=slotDescription>
 Eval file at pathString as if from the command line in it's folder.
 </div>
-<a name="Object-lazySlot"></a><b>lazySlot</b><p>
+<a name="Object-lazySlot"></a><b>lazySlot(code)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Defines a slot with a lazy initialization code. 
+  Code is run only once: the first time slot is accessed. 
+  Returned value is stored in a regular slot.
+  <br/>
+  <pre>
+  Io> x := lazySlot("Evaluated!" println; 17)
+  Io> x
+  Evaluated!
+  ==> 17
+  Io> x
+  ==> 17
+  Io> x
+  ==> 17
+  </pre>
+  <br/>
+  Another form is <tt>lazySlot(name, code)</tt>:
+  <br/>
+  <pre>
+  Io> lazySlot("x", "Evaluated!" println; 17)
+  Io> x
+  Evaluated!
+  ==> 17
+  Io> x
+  ==> 17
+  Io> x
+  ==> 17
+  </pre>
 </div>
 <a name="Object-list"></a><b>list(...)</b><p>
 <div class=slotDescription>
@@ -11247,15 +11318,15 @@ Creates a getter and setter for the slot with the name slotName
 </div>
 <a name="Object-not"></a><b>not</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns nil.
 </div>
-<a name="Object-or"></a><b>or</b><p>
+<a name="Object-or"></a><b>or(arg)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true.
 </div>
 <a name="Object-ownsSlots"></a><b>ownsSlots</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+A debug method.
 </div>
 <a name="Object-pause"></a><b>pause</b><p>
 <div class=slotDescription>
@@ -11294,7 +11365,7 @@ Returns a copy of the receiver's protos list.
 </div>
 <a name="Object-raiseIfError"></a><b>raiseIfError</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Does nothing, returns self.
 </div>
 <a name="Object-relativeDoFile"></a><b>relativeDoFile(pathString)</b><p>
 <div class=slotDescription>
@@ -11321,15 +11392,15 @@ Removes the specified slot (only) in the receiver if it exists. Returns self.
 <a name="Object-resend"></a><b>resend</b><p>
 <div class=slotDescription>
 Send the message used to activate the current method to the Object's proto.
-	For example;
-	<code>
-	Dog := Mammal clone do(
-	init := method(
-		resend
-	)
-	)
-	</code>
-	calling Dog init will send an init method to Mammal, but using the Dog's context.
+  For example:
+  <pre>
+  Dog := Mammal clone do(
+    init := method(
+  	  resend
+    )
+  )
+  </pre>
+	Calling Dog init will send an init method to Mammal, but using the Dog's context.
 </div>
 <a name="Object-return"></a><b>return(anObject)</b><p>
 <div class=slotDescription>
@@ -11337,7 +11408,7 @@ Return anObject from the current execution block.
 </div>
 <a name="Object-returnIfError"></a><b>returnIfError</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Does nothing, returns self.
 </div>
 <a name="Object-returnIfNonNil"></a><b>returnIfNonNil</b><p>
 <div class=slotDescription>
@@ -11350,15 +11421,22 @@ Returns self.
 </div>
 <a name="Object-serialized"></a><b>serialized</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a serialized representation of the receiver.
+  <br/>
+  <pre>
+  Io> Object clone do(x:=1) serialized
+  ==> Object clone do(
+  	x := 1
+  )
+  </pre>
 </div>
-<a name="Object-serializedSlots"></a><b>serializedSlots</b><p>
+<a name="Object-serializedSlots"></a><b>serializedSlots(stream)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Writes all slots to a stream.
 </div>
-<a name="Object-serializedSlotsWithNames"></a><b>serializedSlotsWithNames</b><p>
+<a name="Object-serializedSlotsWithNames"></a><b>serializedSlotsWithNames(names, stream)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Writes selected slots to a stream.
 </div>
 <a name="Object-setIsActivatable"></a><b>setIsActivatable(aValue)</b><p>
 <div class=slotDescription>
@@ -11393,7 +11471,8 @@ Returns a shallow copy of the receiver.
 </div>
 <a name="Object-slotDescriptionMap"></a><b>slotDescriptionMap</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns raw map of slot names and short values' descriptions.
+  See also <tt>Object slotSummary</tt>.
 </div>
 <a name="Object-slotNames"></a><b>slotNames</b><p>
 <div class=slotDescription>
@@ -11402,7 +11481,16 @@ Returns a list of strings containing the names of the
 </div>
 <a name="Object-slotSummary"></a><b>slotSummary</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a formatted <tt>slotDescriptionMap</tt>.
+  <br/>
+  <pre>
+  Io> slotSummary
+  ==>  Object_0x30c590:
+    Lobby            = Object_0x30c590
+    Protos           = Object_0x30c880
+    exit             = method(...)
+    forward          = method(...)
+  </pre>
 </div>
 <a name="Object-slotValues"></a><b>slotValues</b><p>
 <div class=slotDescription>
@@ -11415,10 +11503,10 @@ Returns the internal IoState->stopStatus.
 <a name="Object-super"></a><b>super(aMessage)</b><p>
 <div class=slotDescription>
 Sends the message aMessage to the receiver's proto with the context of self. Example:
-	<code>
+	<pre>
 	self test(1, 2)   // performs test(1, 2) on self
 	super(test(1, 2)) // performs test(1, 2) on self proto but with the context of self
-	</code>
+	</pre>
 </div>
 <a name="Object-switch"></a><b>switch(&lt;key1&gt;, &lt;expression1&gt;, &lt;key2&gt;, &lt;expression2&gt;, ...)</b><p>
 <div class=slotDescription>
@@ -11446,7 +11534,7 @@ Io> a(1)
 </div>
 <a name="Object-thisContext"></a><b>thisContext</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Synonym to self.
 </div>
 <a name="Object-thisLocalContext"></a><b>thisLocalContext</b><p>
 <div class=slotDescription>
@@ -11454,7 +11542,7 @@ Returns current locals.
 </div>
 <a name="Object-thisMessage"></a><b>thisMessage</b><p>
 <div class=slotDescription>
-Returns the calling message.
+Returns the calling message (i.e. thisMessage itself, huh).
 </div>
 <a name="Object-try"></a><b>try(code)</b><p>
 <div class=slotDescription>
@@ -11469,7 +11557,13 @@ Returns a string containing the name of the type of Object (Number, String, etc)
 </div>
 <a name="Object-uniqueHexId"></a><b>uniqueHexId</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns uniqueId in a hexadecimal form (with a "0x" prefix)
+  <pre>
+  Io> Object uniqueId
+  ==> 3146784
+  Io> Object uniqueHexId
+  ==> 0x300420
+  </pre>
 </div>
 <a name="Object-uniqueId"></a><b>uniqueId</b><p>
 <div class=slotDescription>
@@ -14800,7 +14894,7 @@ Terminology
 <a href="#Sequence-itemCopy">itemCopy</a><br>
 <a href="#Sequence-itemSize">itemSize</a><br>
 <a href="#Sequence-itemType">itemType</a><br>
-<a href="#Sequence-justSerialized">justSerialized</a><br>
+<a href="#Sequence-justSerialized">justSerialized()</a><br>
 <a href="#Sequence-lastPathComponent">lastPathComponent</a><br>
 <a href="#Sequence-leaveThenRemove">leaveThenRemove</a><br>
 <a href="#Sequence-lessThan">lessThan()</a><br>
@@ -14877,7 +14971,7 @@ Terminology
 <a href="#Sequence-size">size</a><br>
 <a href="#Sequence-sizeInBytes">sizeInBytes</a><br>
 <a href="#Sequence-slice">slice()</a><br>
-<a href="#Sequence-slicesBetween">slicesBetween</a><br>
+<a href="#Sequence-slicesBetween">slicesBetween()</a><br>
 <a href="#Sequence-sort">sort</a><br>
 <a href="#Sequence-split">split()</a><br>
 <a href="#Sequence-splitAt">splitAt()</a><br>
@@ -15598,9 +15692,9 @@ Returns number of bytes in each element.
 <div class=slotDescription>
 Returns machine type of elements.
 </div>
-<a name="Sequence-justSerialized"></a><b>justSerialized</b><p>
+<a name="Sequence-justSerialized"></a><b>justSerialized(stream)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Writes the receiver's code into the stream.
 </div>
 <a name="Sequence-lastPathComponent"></a><b>lastPathComponent</b><p>
 <div class=slotDescription>
@@ -15659,11 +15753,21 @@ stripped from the beginning of the receiver. Example:
 </div>
 <a name="Sequence-makeFirstCharacterLowercase"></a><b>makeFirstCharacterLowercase</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Receiver must be mutable (see also asMutable). Returns receiver.
+  <br/>
+  <pre>
+  Io> "ABC" asMutable makeFirstCharacterLowercase
+  ==> aBC
+  </pre>
 </div>
 <a name="Sequence-makeFirstCharacterUppercase"></a><b>makeFirstCharacterUppercase</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Receiver must be mutable (see also asMutable). Returns receiver.
+  <br/>
+  <pre>
+  Io> "abc" asMutable makeFirstCharacterUppercase
+  ==> Abc
+  </pre>
 </div>
 <a name="Sequence-matchesOfRegex"></a><b>matchesOfRegex(aRegexOrString)</b><p>
 <div class=slotDescription>
@@ -15950,9 +16054,15 @@ Returns a new string containing the subset of the
 	receiver from the startIndex to the endIndex. The endIndex argument
 	is optional. If not given, it is assumed to be the end of the string.
 </div>
-<a name="Sequence-slicesBetween"></a><b>slicesBetween</b><p>
+<a name="Sequence-slicesBetween"></a><b>slicesBetween(startSeq, endSeq)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a list of slices delimited 
+  by <tt>startSeq</tt> and <tt>endSeq</tt>.
+  <br>
+  <pre>
+  Io> "<a><b></b></a>" slicesBetween("<", ">")
+  ==> list("a", "b", "/b", "/a")
+  </pre>
 </div>
 <a name="Sequence-sort"></a><b>sort</b><p>
 <div class=slotDescription>
@@ -17124,7 +17234,7 @@ This primitive is used to get command line options similar to Cs getopt().
 	the beginning dashes (--).
 	<p>
 	Example:
-	<code><pre>
+	<pre>
 	options := System getOptions(args)
 	options foreach(k, v,
 	  if(v type == List type,
@@ -17133,7 +17243,7 @@ This primitive is used to get command line options similar to Cs getopt().
 	  )
 	  writeln(\"Got option: \" .. k .. \" with value: \" .. v)
 	)
-	</pre></code>
+	</pre>
 </div>
 <a name="System-installPrefix"></a><b>installPrefix</b><p>
 <div class=slotDescription>
@@ -18542,6 +18652,28 @@ Process the inputBuffer and appends the result to the outputBuffer.
 </div>
 </div>
 <hr align=left>
+<h2><a name="false"></a>false</h2>
+<div class=indent>
+<div style="line-height:1.3em">
+<b>Module:</b> Core<br>
+<font color=#888>
+</font>
+</div>
+<div class=slots>
+<h3>Slot Index</h3>
+<div class=slotIndex>
+<a href="#false-justSerialized">justSerialized()</a><br>
+</div>
+<p>
+<h3>Slots</h3>
+<p>
+<a name="false-justSerialized"></a><b>justSerialized(stream)</b><p>
+<div class=slotDescription>
+Writes the receiver's code into the stream.
+</div>
+</div>
+</div>
+<hr align=left>
 <h2><a name="nil"></a>nil</h2>
 <div class=indent>
 <div style="line-height:1.3em">
@@ -18562,6 +18694,7 @@ nil is a singleton object that is used as a placeholder and to mean false in Io.
 <a href="#nil-else">else()</a><br>
 <a href="#nil-ifNil">ifNil()</a><br>
 <a href="#nil-isNil">isNil</a><br>
+<a href="#nil-justSerialized">justSerialized()</a><br>
 <a href="#nil-or">or()</a><br>
 <a href="#nil-print">print</a><br>
 <a href="#nil-then">then()</a><br>
@@ -18588,6 +18721,10 @@ Evaluates message.
 <a name="nil-isNil"></a><b>isNil</b><p>
 <div class=slotDescription>
 Returns Lobby.
+</div>
+<a name="nil-justSerialized"></a><b>justSerialized(stream)</b><p>
+<div class=slotDescription>
+Writes the receiver's code into the stream.
 </div>
 <a name="nil-or"></a><b>or(anObject)</b><p>
 <div class=slotDescription>
@@ -18622,7 +18759,7 @@ Returns nil without evaluating expression.
 <a href="#true-elseif">elseif</a><br>
 <a href="#true-ifFalse">ifFalse</a><br>
 <a href="#true-ifTrue">ifTrue</a><br>
-<a href="#true-justSerialized">justSerialized</a><br>
+<a href="#true-justSerialized">justSerialized()</a><br>
 <a href="#true-not">not</a><br>
 <a href="#true-or">or</a><br>
 <a href="#true-ppid">ppid</a><br>
@@ -18663,9 +18800,9 @@ Does not eval argument and returns true.
 <div class=slotDescription>
 Evaluates the argument and returns self.
 </div>
-<a name="true-justSerialized"></a><b>justSerialized</b><p>
+<a name="true-justSerialized"></a><b>justSerialized(stream)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Writes the receiver's code into the stream.
 </div>
 <a name="true-not"></a><b>not</b><p>
 <div class=slotDescription>
