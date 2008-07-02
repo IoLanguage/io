@@ -18,6 +18,7 @@ PMap := Object clone do(
 	
 	//doc PMap atPut(slotName, value) Records value in the slot named slotName.
 	atPut := method(slotName, value,
+		PDB addObjectToPersist(self)
 		self setSlot(slotName, getSlot("value"))
 		self
 	)
