@@ -11248,7 +11248,10 @@ Creates a getter and setter for the slot with the name slotName
 </div>
 <a name="Object-pause"></a><b>pause</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Removes current coroutine from the yieldingCoros list and
+	yields to another coro. Exits if no coros left.
+	<br/>
+  (See Coroutine documentation for more details.)
 </div>
 <a name="Object-perform"></a><b>perform(methodName, &lt;arg1&gt;, &lt;arg2&gt;, ...)</b><p>
 <div class=slotDescription>
@@ -11482,7 +11485,9 @@ Same as write() but also writes a return character at the end. Returns Nil.
 </div>
 <a name="Object-yield"></a><b>yield</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Yields to another coroutine. Does nothing if yieldingCoros is empty.
+  <br/>
+  (See Coroutine documentation for more details.)
 </div>
 </div>
 </div>

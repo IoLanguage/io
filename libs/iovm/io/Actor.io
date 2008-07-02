@@ -86,7 +86,19 @@ Object do(
 */
 
 Object do(
+  /*doc Object yield
+  Yields to another coroutine. Does nothing if yieldingCoros is empty.
+  <br/>
+  (See Coroutine documentation for more details.)
+  */
 	yield := method(Coroutine currentCoroutine yield)
+	
+	/*doc Object pause
+	Removes current coroutine from the yieldingCoros list and
+	yields to another coro. Exits if no coros left.
+	<br/>
+  (See Coroutine documentation for more details.)
+  */
 	pause := method(Coroutine currentCoroutine pause)
 
 	actorRun := method(
