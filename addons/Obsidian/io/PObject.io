@@ -27,10 +27,19 @@ Object do(
 	pdb = PDB
 	ppid ::= nil
 
+	/*doc Object shouldPersistByDefault
+PDB boolean flag indicating whether this object should be considered for persistence
+when persistence has not been specifically requested by calling ppid() or PDB addObjectToPersist.
+Always false by default for Object.
+	*/
 	needsMetaPersist ::= false
 	persistentSlots ::= nil
 	shouldPersistByDefault := false
 	
+	/*doc Object pSlots
+PDB extension to set a list of slots to persist with PDB.
+Creates the specified slots using newSlot and sets them to nil.
+	*/
 	pSlots := method(
 		self persistentSlots := call message arguments map(arg,
 			newSlot(arg name, nil)
@@ -40,6 +49,10 @@ Object do(
 		self
 	)
 	
+	/*doc Object ppid
+This PDB extension returns a unique identifier for this object and registers it
+for persistence with PDB.
+	*/
 	ppid := method(
 		PDB addObjectToPersist(self)
 		self needsMetaPersist := true
@@ -47,6 +60,9 @@ Object do(
 		self ppid
 	)
 	
+	/*doc Object setPpid
+PDB extension to set the value returned by ppid.
+	*/
 	setPpid := method(id,
 		self ppid := id
 		//writeln(getSlot("self") type, " setPpid")
@@ -55,6 +71,7 @@ Object do(
 		self
 	)
 	
+	//doc Object persist Force immediate persistence of this object with PDB.
 	persist := method(
 		//if(persistentSlots == nil, return)
 		if(needsMetaPersist, persistMetaData)
@@ -63,12 +80,19 @@ Object do(
 		self
 	)
 
+	/*doc Object persistMetaData
+Force immediate persistence of this object's type data into PDB
+	*/
 	persistMetaData := method(
 		pdb onAtPut(ppid, "_type", self type)
 		needsMetaPersist = false
 		self
 	)
 	
+	/*doc Object persistData
+Force immediate persistence of this object's serialized form (using asSerialization)
+into PDB, if possible. 
+	*/
 	persistData := method(
 		if(self getSlot("asSerialization"),
 			pdb onAtPut(ppid, "_data", asSerialization)
@@ -76,6 +100,9 @@ Object do(
 		self
 	)
 	
+	/*doc Object persistSlots
+Force immediate persistence of this object's dirty slots into PDB.
+	*/
 	persistSlots := method(
 		if(getSlot("self") type == "Block",
 			Exception raise("attempt to persist a Block")
@@ -89,6 +116,9 @@ Object do(
 		self
 	)
 	
+	/*doc Object unpersist
+PDB extension to populate this object with the data associated with this object's ppid from PDB.
+	*/
 	unpersist := method(
 		//writeln(self type, " unpersist")
 		obj := self

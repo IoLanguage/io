@@ -14,6 +14,11 @@ PMap := Object clone do(
 	)
 	
 	slotsToRemove := List clone
+	/*doc PMap shouldPersistByDefault
+PDB boolean flag indicating whether this object should be considered for persistence
+when persistence has not been specifically requested by calling ppid() or PDB addObjectToPersist.
+Always true by default for PMap.
+	*/
 	shouldPersistByDefault := true
 	
 	//doc PMap atPut(slotName, value) Records value in the slot named slotName.
@@ -59,8 +64,6 @@ If slotName begins with an underscore ("_"), returns the id of the slot from PDB
 		)
 		self
 	)
-	
-	shouldPersistByDefault = true
 	
 	unpersist := method(
 		//writeln("PMap unpersist")
