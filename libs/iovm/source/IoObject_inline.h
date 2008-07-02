@@ -134,6 +134,7 @@ IOINLINE void IoObject_inlineSetSlot_to_(IoObject *self,
 
 	PHash_at_put_(IoObject_slots(self), IOREF(slotName), IOREF(value));
 
+	IoObject_isDirty_(self, 1);
 	/*
 	if(PHash_at_put_(IoObject_slots(self), IOREF(slotName), IOREF(value)))
 	{
