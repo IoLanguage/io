@@ -1777,7 +1777,7 @@ Returns List of values on this coroutine's stack.
 </div>
 <a name="Coroutine-isYielding"></a><b>isYielding</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if the receiver is yielding (not paused or running).
 </div>
 <a name="Coroutine-label"></a><b>label</b><p>
 <div class=slotDescription>
@@ -1793,7 +1793,8 @@ Returns the parent coroutine this one was chained from or nil if it wasn't chain
 </div>
 <a name="Coroutine-pause"></a><b>pause</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Removes current coroutine from the yieldingCoros queue and
+	yields to another coro. <tt>System exit</tt> is executed if no coros left.
 </div>
 <a name="Coroutine-pauseCurrentAndResumeSelf"></a><b>pauseCurrentAndResumeSelf</b><p>
 <div class=slotDescription>
@@ -1813,7 +1814,8 @@ The result set when the coroutine ends.
 </div>
 <a name="Coroutine-resumeLater"></a><b>resumeLater</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Promotes receiver to the top of the yieldingCoros queue, but not yielding to it.
+  When current coroutine yields, receiver will resume.
 </div>
 <a name="Coroutine-resumeParentCoroutine"></a><b>resumeParentCoroutine</b><p>
 <div class=slotDescription>
@@ -1884,7 +1886,7 @@ for more information.
 </div>
 <a name="Coroutine-showStack"></a><b>showStack</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Writes backTraceString to STDOUT.
 </div>
 <a name="Coroutine-showYielding"></a><b>showYielding</b><p>
 <div class=slotDescription>
@@ -1900,7 +1902,8 @@ Stack size allocated for each new coroutine. Coroutines will automatically chain
 </div>
 <a name="Coroutine-yield"></a><b>yield</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Yields to another coroutine in the yieldingCoros queue.
+  Does nothing if yieldingCoros is empty.
 </div>
 <a name="Coroutine-yieldCurrentAndResumeSelf"></a><b>yieldCurrentAndResumeSelf</b><p>
 <div class=slotDescription>
@@ -8905,7 +8908,7 @@ But the cost to performance seems to outweigh the need to cover this case for no
 <a href="#Message-characterNumber">characterNumber</a><br>
 <a href="#Message-clone">clone</a><br>
 <a href="#Message-code">code</a><br>
-<a href="#Message-codeOfLength">codeOfLength</a><br>
+<a href="#Message-codeOfLength">codeOfLength()</a><br>
 <a href="#Message-description">description</a><br>
 <a href="#Message-doInContext">doInContext()</a><br>
 <a href="#Message-evaluatedArgs">evaluatedArgs</a><br>
@@ -9016,9 +9019,9 @@ Returns a Message that is a deep copy of the receiver.
 <div class=slotDescription>
 Returns a String containing a decompiled code representation of the receiver.
 </div>
-<a name="Message-codeOfLength"></a><b>codeOfLength</b><p>
+<a name="Message-codeOfLength"></a><b>codeOfLength(n)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Same as <tt>Message code</tt>, but returns first <tt>n</tt> characters only.
 </div>
 <a name="Message-description"></a><b>description</b><p>
 <div class=slotDescription>
@@ -10698,10 +10701,10 @@ When cloned, an Object will call it's init slot (with no arguments).
 <a href="#Object-compare">compare()</a><br>
 <a href="#Object-contextWithSlot">contextWithSlot()</a><br>
 <a href="#Object-continue">continue</a><br>
-<a href="#Object-coroDo">coroDo</a><br>
-<a href="#Object-coroDoLater">coroDoLater</a><br>
-<a href="#Object-coroFor">coroFor</a><br>
-<a href="#Object-coroWith">coroWith</a><br>
+<a href="#Object-coroDo">coroDo()</a><br>
+<a href="#Object-coroDoLater">coroDoLater()</a><br>
+<a href="#Object-coroFor">coroFor()</a><br>
+<a href="#Object-coroWith">coroWith()</a><br>
 <a href="#Object-currentCoro">currentCoro</a><br>
 <a href="#Object-debugOff">debugOff</a><br>
 <a href="#Object-debugOn">debugOn</a><br>
@@ -10797,12 +10800,12 @@ When cloned, an Object will call it's init slot (with no arguments).
 <a href="#Object-thisContext">thisContext</a><br>
 <a href="#Object-thisLocalContext">thisLocalContext</a><br>
 <a href="#Object-thisMessage">thisMessage</a><br>
-<a href="#Object-try">try</a><br>
+<a href="#Object-try">try()</a><br>
 <a href="#Object-type">type</a><br>
 <a href="#Object-uniqueHexId">uniqueHexId</a><br>
 <a href="#Object-uniqueId">uniqueId</a><br>
 <a href="#Object-updateSlot">updateSlot()</a><br>
-<a href="#Object-wait">wait</a><br>
+<a href="#Object-wait">wait()</a><br>
 <a href="#Object-while">while()</a><br>
 <a href="#Object-write">write()</a><br>
 <a href="#Object-writeln">writeln()</a><br>
@@ -10968,25 +10971,30 @@ Returns the first context (starting with the receiver and following the lookup p
 Skip the rest of the current loop iteration and start on
 	the next, if any.
 </div>
-<a name="Object-coroDo"></a><b>coroDo</b><p>
+<a name="Object-coroDo"></a><b>coroDo(code)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Creates a new coro to be run in a context of sender and yields to it.
+  Returns a coro.
 </div>
-<a name="Object-coroDoLater"></a><b>coroDoLater</b><p>
+<a name="Object-coroDoLater"></a><b>coroDoLater(code)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a new coro to be run in a context of sender.
+  New coro is moved to the top of the yieldingCoros queue to be executed 
+  when current coro yields.
+  <br/>
+  Note: run target is <tt>self</tt> (i.e. receiver), not <tt>call sender</tt> as in coroDo.
 </div>
-<a name="Object-coroFor"></a><b>coroFor</b><p>
+<a name="Object-coroFor"></a><b>coroFor(code)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a new coro to be run in a context of sender.
 </div>
-<a name="Object-coroWith"></a><b>coroWith</b><p>
+<a name="Object-coroWith"></a><b>coroWith(code)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a new coro to be run in a context of receiver.
 </div>
 <a name="Object-currentCoro"></a><b>currentCoro</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the currently running coroutine.
 </div>
 <a name="Object-debugOff"></a><b>debugOff</b><p>
 <div class=slotDescription>
@@ -11248,10 +11256,10 @@ Creates a getter and setter for the slot with the name slotName
 </div>
 <a name="Object-pause"></a><b>pause</b><p>
 <div class=slotDescription>
-Removes current coroutine from the yieldingCoros list and
+Removes current coroutine from the yieldingCoros queue and
 	yields to another coro. Exits if no coros left.
 	<br/>
-  (See Coroutine documentation for more details.)
+  See Coroutine documentation for more details.
 </div>
 <a name="Object-perform"></a><b>perform(methodName, &lt;arg1&gt;, &lt;arg2&gt;, ...)</b><p>
 <div class=slotDescription>
@@ -11445,9 +11453,12 @@ Returns current locals.
 <div class=slotDescription>
 Returns the calling message.
 </div>
-<a name="Object-try"></a><b>try</b><p>
+<a name="Object-try"></a><b>try(code)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Executes particular code in a new coroutine.
+  Returns exception or nil if no exception is caught.
+  <br/>
+  See also documentation for Exception catch and pass.
 </div>
 <a name="Object-type"></a><b>type</b><p>
 <div class=slotDescription>
@@ -11466,9 +11477,12 @@ Returns a Number containing a unique id for the receiver.
 Same as setSlot(), but raises an error if the slot does not
 	already exist in the receiver's slot lookup path.
 </div>
-<a name="Object-wait"></a><b>wait</b><p>
+<a name="Object-wait"></a><b>wait(s)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Pauses current coroutine for at least <tt>s</tt> seconds.
+<br/>
+Note: current coroutine may wait much longer than designated number of seconds
+depending on circumstances.
 </div>
 <a name="Object-while"></a><b>while(&lt;condition&gt;, expression)</b><p>
 <div class=slotDescription>
@@ -11485,9 +11499,9 @@ Same as write() but also writes a return character at the end. Returns Nil.
 </div>
 <a name="Object-yield"></a><b>yield</b><p>
 <div class=slotDescription>
-Yields to another coroutine. Does nothing if yieldingCoros is empty.
+Yields to another coroutine. Does nothing if yieldingCoros queue is empty.
   <br/>
-  (See Coroutine documentation for more details.)
+  See Coroutine documentation for more details.
 </div>
 </div>
 </div>

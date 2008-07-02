@@ -97,9 +97,14 @@ Coroutine do(
 		writeln("   ", label, " ", s)
 		yieldingCoros foreach(v, writeln("    ", v uniqueId))
 	)
-
+	
+  //doc Coroutine isYielding Returns true if the receiver is yielding (not paused or running).
 	isYielding := method(yieldingCoros contains(self))
-
+  
+  /*doc Coroutine yield
+  Yields to another coroutine in the yieldingCoros queue.
+  Does nothing if yieldingCoros is empty.
+  */
 	yield := method(
 		//showYielding("yield")
 		//writeln("Coro ", self uniqueId, " yielding - yieldingCoros = ", yieldingCoros size)
@@ -111,12 +116,20 @@ Coroutine do(
 		if(next, next resume)
 	)
 
+  /*doc Coroutine resumeLater
+  Promotes receiver to the top of the yieldingCoros queue, but not yielding to it.
+  When current coroutine yields, receiver will resume.
+  */
 	resumeLater := method(
 		yieldingCoros remove(self)
 		yieldingCoros atInsert(0, self)
 		//writeln(self label, " resumeLater")
 	)
 
+  /*doc Coroutine pause
+	Removes current coroutine from the yieldingCoros queue and
+	yields to another coro. <tt>System exit</tt> is executed if no coros left.
+  */
 	pause := method(
 		yieldingCoros remove(self)
 		if(isCurrent,
@@ -133,6 +146,7 @@ Coroutine do(
 		)
 	)
 
+  //FIXME: these two methods are identical!!
 	yieldCurrentAndResumeSelf := method(
 		//showYielding("yieldCurrentAndResumeSelf")
 		yieldingCoros remove(self)
@@ -208,6 +222,9 @@ Coroutine do(
 		buf
 	)
 
+  /*doc Coroutine showStack
+  Writes backTraceString to STDOUT.
+  */
 	showStack := method(write(backTraceString))
 
 	resumeParentCoroutine := method(
@@ -226,12 +243,22 @@ Coroutine do(
 	)
 )
 
+/*doc Object wait(s)
+Pauses current coroutine for at least <tt>s</tt> seconds.
+<br/>
+Note: current coroutine may wait much longer than designated number of seconds
+depending on circumstances. 
+*/
+
 Object wait := method(s,
 	endDate := Date clone now + Duration clone setSeconds(s)
 	loop(endDate isPast ifTrue(break); yield)
 )
 
 Message do(
+  /*doc Message codeOfLength(n)
+  Same as <tt>Message code</tt>, but returns first <tt>n</tt> characters only.
+  */
 	codeOfLength := method(length,
 		c := self code
 		if (c size < length, c, c slice(0, length) .. "...") asMutable replaceSeq("\n", ";")
@@ -244,6 +271,12 @@ Message do(
 )
 
 Object do(
+  /*doc Object try(code)
+  Executes particular code in a new coroutine.
+  Returns exception or nil if no exception is caught.
+  <br/>
+  See also documentation for Exception catch and pass.  
+  */
 	try := method(
 		coro := Coroutine clone
 		coro setParentCoroutine(Scheduler currentCoroutine)
@@ -254,6 +287,9 @@ Object do(
 		if(coro exception, coro exception, nil)
 	)
 
+  /*doc Object coroFor(code)
+  Returns a new coro to be run in a context of sender.
+  */
 	coroFor := method(
 		coro := Coroutine clone
 		coro setRunTarget(call sender)
@@ -262,6 +298,10 @@ Object do(
 		coro
 	)
 
+  /*doc Object coroDo(code)
+  Creates a new coro to be run in a context of sender and yields to it.
+  Returns a coro.
+  */
 	coroDo := method(
 		coro := Coroutine clone
 		coro setRunTarget(call sender)
@@ -272,6 +312,13 @@ Object do(
 		coro
 	)
 
+  /*doc Object coroDoLater(code)
+  Returns a new coro to be run in a context of sender.
+  New coro is moved to the top of the yieldingCoros queue to be executed 
+  when current coro yields.
+  <br/>
+  Note: run target is <tt>self</tt> (i.e. receiver), not <tt>call sender</tt> as in coroDo.
+  */
 	coroDoLater := method(
 		coro := Coroutine clone
 		coro setRunTarget(self)
@@ -281,6 +328,9 @@ Object do(
 		coro
 	)
 
+  /*doc Object coroWith(code)
+  Returns a new coro to be run in a context of receiver.
+  */
 	coroWith := method(
 		coro := Coroutine clone
 		coro setRunTarget(self)
@@ -288,7 +338,7 @@ Object do(
 		coro setRunMessage(call argAt(0))
 		coro
 	)
-
+  //doc Object currentCoro Returns the currently running coroutine.
 	currentCoro := method(Coroutine currentCoroutine)
 )
 
