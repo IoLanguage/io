@@ -70,6 +70,7 @@
 <div class=indexItem><a href="#DOServer">DOServer</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#MDOConnection">MDOConnection</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#MDOServer">MDOServer</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href="#Message">Message</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#Flux">Flux</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#Fnmatch">Fnmatch</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#Font">Font</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -8879,10 +8880,16 @@ Blocks are composed of a Message and its children.
 <p>
 Terminology
 <pre>
-Example;
-A B(C D); E F
+Example:
+  Io> msg := message(A B(C D); E F)
+  ==> A B(C D); E F
+  
 In the above example:
-...
+  msg name            =>  A
+  msg next            =>  B(C D); E F
+  msg next arguments  =>  list(C D)
+  msg next next name  =>  ;
+  msg next next next  =>  E F
 </pre>
 Important; Modifying the message tree of a block currently in use may cause
 a crash if a garbage collection cycle occurs. If the implementation were
@@ -8900,7 +8907,7 @@ But the cost to performance seems to outweigh the need to cover this case for no
 <a href="#Message-argCount">argCount</a><br>
 <a href="#Message-argsEvaluatedIn">argsEvaluatedIn()</a><br>
 <a href="#Message-arguments">arguments</a><br>
-<a href="#Message-asMessageWithEvaluatedArgs">asMessageWithEvaluatedArgs</a><br>
+<a href="#Message-asMessageWithEvaluatedArgs">asMessageWithEvaluatedArgs()</a><br>
 <a href="#Message-asSimpleString">asSimpleString</a><br>
 <a href="#Message-asStackEntry">asStackEntry</a><br>
 <a href="#Message-asString">asString</a><br>
@@ -8933,8 +8940,7 @@ But the cost to performance seems to outweigh the need to cover this case for no
 <a href="#Message-setLabel">setLabel()</a><br>
 <a href="#Message-setLineNumber">setLineNumber()</a><br>
 <a href="#Message-setName">setName()</a><br>
-<a href="#Message-setNext">setNext</a><br>
-<a href="#Message-setNextMessage">setNextMessage()</a><br>
+<a href="#Message-setNext">setNext()</a><br>
 <a href="#Message-setPrevious">setPrevious()</a><br>
 <a href="#Message-union">union()</a><br>
 </div>
@@ -8986,13 +8992,14 @@ Returns a list of the message objects that act as the
 	receiver's arguments. Modifying this list will not alter the actual
 	list of arguments. Use the arguments_() method to do that.
 </div>
-<a name="Message-asMessageWithEvaluatedArgs"></a><b>asMessageWithEvaluatedArgs</b><p>
+<a name="Message-asMessageWithEvaluatedArgs"></a><b>asMessageWithEvaluatedArgs(optionalContext)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a copy of receiver with arguments evaluated in the context of sender if
+	optionalContext is nil.
 </div>
 <a name="Message-asSimpleString"></a><b>asSimpleString</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns one-line string representation up to 40 characters long.
 </div>
 <a name="Message-asStackEntry"></a><b>asStackEntry</b><p>
 <div class=slotDescription>
@@ -9102,7 +9109,7 @@ Sets the arguments of the receiver to deep copies of
 </div>
 <a name="Message-setCachedArgs"></a><b>setCachedArgs</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Appends evaluated arguments to a message. Returns the receiver.
 </div>
 <a name="Message-setCachedResult"></a><b>setCachedResult(anObject)</b><p>
 <div class=slotDescription>
@@ -9124,11 +9131,7 @@ Sets the line number of the message. Returns self.
 <div class=slotDescription>
 Sets the name of the receiver. Returns self.
 </div>
-<a name="Message-setNext"></a><b>setNext</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Message-setNextMessage"></a><b>setNextMessage(aMessageOrNil)</b><p>
+<a name="Message-setNext"></a><b>setNext(aMessageOrNil)</b><p>
 <div class=slotDescription>
 Sets the next message in the message chain to a deep copy of
 	aMessage or it removes the next message if aMessage is nil.

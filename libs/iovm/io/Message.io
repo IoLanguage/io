@@ -9,7 +9,8 @@ Message do(
 		call message argAt(0) arguments foreach(arg, l append(arg))
 		r setArguments(l)
 	)
-
+	
+  //doc Message asSimpleString Returns one-line string representation up to 40 characters long.
 	asSimpleString := method(
 		s := self asString asMutable replaceSeq(" ;\n", "; ")
 		if(s size > 40,
