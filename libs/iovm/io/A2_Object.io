@@ -337,7 +337,7 @@ Object do(
 	)
 
 	//doc Object launchFile(pathString) Eval file at pathString as if from the command line in it's folder.
-
+  //doc System launchPath Returns a pathComponent of the launch file.
 	launchFile := method(path, args,
 		args ifNil(args = List clone)
 		System launchPath :=  path pathComponent

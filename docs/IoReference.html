@@ -1645,7 +1645,7 @@ Contains methods related to the compiling code.
 <h3>Slot Index</h3>
 <div class=slotIndex>
 <a href="#Compiler-messageForString">messageForString()</a><br>
-<a href="#Compiler-messageForString2">messageForString2</a><br>
+<a href="#Compiler-messageForString2">messageForString2()</a><br>
 <a href="#Compiler-messageForTokens">messageForTokens()</a><br>
 <a href="#Compiler-tokensForString">tokensForString()</a><br>
 </div>
@@ -1656,9 +1656,9 @@ Contains methods related to the compiling code.
 <div class=slotDescription>
 Returns the compiled message object for aString.
 </div>
-<a name="Compiler-messageForString2"></a><b>messageForString2</b><p>
+<a name="Compiler-messageForString2"></a><b>messageForString2(aString)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the compiled message object for aString. (Runs raw string against lexer directly.)
 </div>
 <a name="Compiler-messageForTokens"></a><b>messageForTokens(aList)</b><p>
 <div class=slotDescription>
@@ -1738,19 +1738,19 @@ Object wrapper for an Io coroutine.
 <p>
 <a name="Coroutine-backTraceString"></a><b>backTraceString</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a formatted callStack output along with exception info (if any). In case of CGI script, wraps output with &lt;code&gt; tag.
 </div>
 <a name="Coroutine-callStack"></a><b>callStack</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a list of Call objects.
 </div>
 <a name="Coroutine-currentCoroutine"></a><b>currentCoroutine</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns currently running coroutine in Io state.
 </div>
 <a name="Coroutine-debugWriteln"></a><b>debugWriteln</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+(See <tt>Object debugWriteln</tt>.)
 </div>
 <a name="Coroutine-exception"></a><b>exception</b><p>
 <div class=slotDescription>
@@ -1758,15 +1758,15 @@ Returns the current exception or nil if there is none.
 </div>
 <a name="Coroutine-freeStack"></a><b>freeStack</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Frees all the internal data from the receiver's stack. Returns self.
 </div>
 <a name="Coroutine-ignoredCoroutineMethodNames"></a><b>ignoredCoroutineMethodNames</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+List of methods to ignore when building a <tt>callStack</tt>.
 </div>
 <a name="Coroutine-implementation"></a><b>implementation</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns coroutine implementation type: "fibers", "ucontext" or "setjmp"
 </div>
 <a name="Coroutine-inException"></a><b>inException</b><p>
 <div class=slotDescription>
@@ -1778,7 +1778,7 @@ Returns List of values on this coroutine's stack.
 </div>
 <a name="Coroutine-isCurrent"></a><b>isCurrent</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if the receiver is currently running coroutine.
 </div>
 <a name="Coroutine-isYielding"></a><b>isYielding</b><p>
 <div class=slotDescription>
@@ -1790,7 +1790,7 @@ A label slot useful for debugging purposes.
 </div>
 <a name="Coroutine-main"></a><b>main</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+[Seems to be obsolete!] Executes runMessage, resumes parent coroutine.
 </div>
 <a name="Coroutine-parentCoroutine"></a><b>parentCoroutine</b><p>
 <div class=slotDescription>
@@ -1803,11 +1803,11 @@ Removes current coroutine from the yieldingCoros queue and
 </div>
 <a name="Coroutine-pauseCurrentAndResumeSelf"></a><b>pauseCurrentAndResumeSelf</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Pauses current coroutine and yields to a receiver.
 </div>
 <a name="Coroutine-raiseException"></a><b>raiseException</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets exception in the receiver and resumes parent coroutine.
 </div>
 <a name="Coroutine-result"></a><b>result</b><p>
 <div class=slotDescription>
@@ -1815,7 +1815,8 @@ The result set when the coroutine ends.
 </div>
 <a name="Coroutine-resume"></a><b>resume</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Yields to the receiver. Runs the receiver if it is not running yet. 
+  Returns self.
 </div>
 <a name="Coroutine-resumeLater"></a><b>resumeLater</b><p>
 <div class=slotDescription>
@@ -1824,11 +1825,11 @@ Promotes receiver to the top of the yieldingCoros queue, but not yielding to it.
 </div>
 <a name="Coroutine-resumeParentCoroutine"></a><b>resumeParentCoroutine</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Pauses current coroutine and resumes parent.
 </div>
 <a name="Coroutine-run"></a><b>run</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Runs receiver and returns self.
 </div>
 <a name="Coroutine-runLocals"></a><b>runLocals</b><p>
 <div class=slotDescription>
@@ -1844,15 +1845,15 @@ The object which the coroutine will send a message to when it starts.
 </div>
 <a name="Coroutine-setException"></a><b>setException</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+
 </div>
 <a name="Coroutine-setInException"></a><b>setInException</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+
 </div>
 <a name="Coroutine-setLabel"></a><b>setLabel</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+
 </div>
 <a name="Coroutine-setMessageDebugging"></a><b>setMessageDebugging(aBoolean)</b><p>
 <div class=slotDescription>
@@ -1863,31 +1864,31 @@ for more information.
 </div>
 <a name="Coroutine-setParentCoroutine"></a><b>setParentCoroutine</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+
 </div>
 <a name="Coroutine-setResult"></a><b>setResult</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+
 </div>
 <a name="Coroutine-setRunLocals"></a><b>setRunLocals</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+
 </div>
 <a name="Coroutine-setRunMessage"></a><b>setRunMessage</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+
 </div>
 <a name="Coroutine-setRunTarget"></a><b>setRunTarget</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+
 </div>
 <a name="Coroutine-setStackSize"></a><b>setStackSize</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+
 </div>
 <a name="Coroutine-setYieldingCoros"></a><b>setYieldingCoros</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+
 </div>
 <a name="Coroutine-showStack"></a><b>showStack</b><p>
 <div class=slotDescription>
@@ -1895,7 +1896,7 @@ Writes backTraceString to STDOUT.
 </div>
 <a name="Coroutine-showYielding"></a><b>showYielding</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Prints a list of yielding coroutines to STDOUT.
 </div>
 <a name="Coroutine-stackSize"></a><b>stackSize</b><p>
 <div class=slotDescription>
@@ -1903,7 +1904,7 @@ Stack size allocated for each new coroutine. Coroutines will automatically chain
 </div>
 <a name="Coroutine-typeId"></a><b>typeId</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns <type>_<uniqueHexId> string.
 </div>
 <a name="Coroutine-yield"></a><b>yield</b><p>
 <div class=slotDescription>
@@ -1912,7 +1913,7 @@ Yields to another coroutine in the yieldingCoros queue.
 </div>
 <a name="Coroutine-yieldCurrentAndResumeSelf"></a><b>yieldCurrentAndResumeSelf</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Yields to a receiver.
 </div>
 <a name="Coroutine-yieldingCoros"></a><b>yieldingCoros</b><p>
 <div class=slotDescription>
@@ -9010,7 +9011,7 @@ Returns one-line string representation up to 40 characters long.
 </div>
 <a name="Message-asStackEntry"></a><b>asStackEntry</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a string containing message name, file and line.
 </div>
 <a name="Message-asString"></a><b>asString</b><p>
 <div class=slotDescription>
@@ -17273,7 +17274,7 @@ Returns the path of io installation. The default is $INSTALL_PREFIX/lib/io.
 </div>
 <a name="System-launchPath"></a><b>launchPath</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a pathComponent of the launch file.
 </div>
 <a name="System-launchScript"></a><b>launchScript</b><p>
 <div class=slotDescription>
@@ -18768,12 +18769,14 @@ nil is a singleton object that is used as a placeholder and to mean false in Io.
 <h3>Slot Index</h3>
 <div class=slotIndex>
 <a href="#nil-and">and()</a><br>
+<a href="#nil-catch">catch</a><br>
 <a href="#nil-clone">clone</a><br>
 <a href="#nil-else">else()</a><br>
 <a href="#nil-ifNil">ifNil()</a><br>
 <a href="#nil-isNil">isNil</a><br>
 <a href="#nil-justSerialized">justSerialized()</a><br>
 <a href="#nil-or">or()</a><br>
+<a href="#nil-pass">pass</a><br>
 <a href="#nil-print">print</a><br>
 <a href="#nil-then">then()</a><br>
 </div>
@@ -18783,6 +18786,10 @@ nil is a singleton object that is used as a placeholder and to mean false in Io.
 <a name="nil-and"></a><b>and(expression)</b><p>
 <div class=slotDescription>
 Returns nil without evaluating expression.
+</div>
+<a name="nil-catch"></a><b>catch</b><p>
+<div class=slotDescription>
+Does nothing, returns nil. See <tt>Exception catch</tt>.
 </div>
 <a name="nil-clone"></a><b>clone</b><p>
 <div class=slotDescription>
@@ -18807,6 +18814,10 @@ Writes the receiver's code into the stream.
 <a name="nil-or"></a><b>or(anObject)</b><p>
 <div class=slotDescription>
 Returns anObject if anObject is not nil. Otherwise returns nil.
+</div>
+<a name="nil-pass"></a><b>pass</b><p>
+<div class=slotDescription>
+Does nothing, returns nil. See <tt>Exception pass</tt>.
 </div>
 <a name="nil-print"></a><b>print</b><p>
 <div class=slotDescription>

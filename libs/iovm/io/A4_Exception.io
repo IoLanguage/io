@@ -60,39 +60,51 @@ Scheduler := Object clone do(
 
 Coroutine do(
 	//doc Coroutine stackSize Stack size allocated for each new coroutine. Coroutines will automatically chain themselves as need if more stack space is required.
+	//doc Coroutine setStackSize
 	stackSize ::= 128000 // PPC needs 128k for current parser
 	
 	//doc Coroutine exception Returns the current exception or nil if there is none.
+	//doc Coroutine setException
 	exception ::= nil
 	
 	//doc Coroutine parentCoroutine Returns the parent coroutine this one was chained from or nil if it wasn't chained. When a Coroutine ends, it will attempt to resume it's parent.
+	//doc Coroutine setParentCoroutine
 	parentCoroutine ::= nil
 	
 	//doc Coroutine runTarget The object which the coroutine will send a message to when it starts.
+	//doc Coroutine setRunTarget
 	runTarget ::= nil
 
 	//doc Coroutine runLocals The locals object in whose context the coroutine will send it's run message.
+	//doc Coroutine setRunLocals
 	runLocals ::= nil
 
 	//doc Coroutine runMessage The message to send to the runTarget when the coroutine starts.
+	//doc Coroutine setRunMessage
 	runMessage ::= nil
 
 	//doc Coroutine result The result set when the coroutine ends.
+	//doc Coroutine setResult 
 	result ::= nil
 	
 	//doc Coroutine label A label slot useful for debugging purposes.
+	//doc Coroutine setLabel
 	label ::= ""
 
 	//doc Coroutine inException Set to true when processing an exception in the coroutine.
+	//doc Coroutine setInException
 	inException ::= false
 	
 	//doc Coroutine yieldingCoros Reference to Scheduler yieldingCoros.
+	//doc Coroutine setYieldingCoros
 	yieldingCoros ::= Scheduler yieldingCoros
+	//doc Coroutine debugWriteln (See <tt>Object debugWriteln</tt>.)
 	debugWriteln := nil
 
 	label := method(self uniqueId)
 	setLabel := method(s, self label = s .. "_" .. self uniqueId)
-
+  
+  //doc Coroutine showYielding Prints a list of yielding coroutines to STDOUT.
 	showYielding := method(s,
 		writeln("   ", label, " ", s)
 		yieldingCoros foreach(v, writeln("    ", v uniqueId))
@@ -147,22 +159,27 @@ Coroutine do(
 	)
 
   //FIXME: these two methods are identical!!
+  //doc Coroutine yieldCurrentAndResumeSelf Yields to a receiver.
 	yieldCurrentAndResumeSelf := method(
 		//showYielding("yieldCurrentAndResumeSelf")
 		yieldingCoros remove(self)
 		isCurrent ifFalse(resume)
 	)
-
+  //FIXME: these two methods are identical!!
+  //doc Coroutine pauseCurrentAndResumeSelf Pauses current coroutine and yields to a receiver.
 	pauseCurrentAndResumeSelf := method(
 		//showYielding("pauseCurrentAndResumeSelf")
 		yieldingCoros remove(self)
 		isCurrent ifFalse(resume)
 	)
-
+  
+  //doc Coroutine typeId Returns <type>_<uniqueHexId> string.
 	typeId := method(self type .. "_0x" .. self uniqueId asString toBase(16))
-
+    
+  //doc Coroutine ignoredCoroutineMethodNames List of methods to ignore when building a <tt>callStack</tt>.
 	ignoredCoroutineMethodNames := list("setResult", "main", "pauseCurrentAndResumeSelf", "resumeParentCoroutine", "raiseException")
 
+  //doc Coroutine callStack Returns a list of Call objects.
 	callStack := method(
 		stack := ioStack
 		stack selectInPlace(v, Object argIsCall(getSlot("v"))) reverseInPlace
@@ -174,6 +191,7 @@ Coroutine do(
 		stack
 	)
 
+  //doc Coroutine backTraceString Returns a formatted callStack output along with exception info (if any). In case of CGI script, wraps output with &lt;code&gt; tag.
 	backTraceString := method(
 		if(Coroutine inException,
 			writeln("\n", exception type, ": ", exception error, "\n\n")
@@ -222,21 +240,22 @@ Coroutine do(
 		buf
 	)
 
-  /*doc Coroutine showStack
-  Writes backTraceString to STDOUT.
-  */
+  //doc Coroutine showStack Writes backTraceString to STDOUT.
 	showStack := method(write(backTraceString))
-
+    
+  //doc Coroutine resumeParentCoroutine Pauses current coroutine and resumes parent.
 	resumeParentCoroutine := method(
 		if(parentCoroutine, parentCoroutine pauseCurrentAndResumeSelf)
 	)
-
+  
+  //doc Coroutine main [Seems to be obsolete!] Executes runMessage, resumes parent coroutine.
 	main := method(
 		setResult(self getSlot("runTarget") doMessage(runMessage, self getSlot("runLocals")))
 		resumeParentCoroutine
 		pause
 	)
-
+  
+  //doc Coroutine raiseException Sets exception in the receiver and resumes parent coroutine.
 	raiseException := method(e,
 		self setException(e)
 		resumeParentCoroutine
@@ -264,6 +283,7 @@ Message do(
 		if (c size < length, c, c slice(0, length) .. "...") asMutable replaceSeq("\n", ";")
 	)
 
+  //doc Message asStackEntry Returns a string containing message name, file and line.
 	asStackEntry := method(
 		label := label lastPathComponent fileName
 		label alignLeft(19) .. lineNumber asString alignLeft(7) .. name
@@ -343,6 +363,8 @@ Object do(
 )
 
 nil do(
+  //doc nil catch Does nothing, returns nil. See <tt>Exception catch</tt>.
+	//doc nil pass Does nothing, returns nil. See <tt>Exception pass</tt>.
 	catch := nil
 	pass := nil
 )
