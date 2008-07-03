@@ -95,6 +95,7 @@
 <div class=indexItem><a href="#ODESimpleSpace">ODESimpleSpace</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#ODEWorld">ODEWorld</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#Obsidian">Obsidian</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href="#Object">Object</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#Obsidian">Obsidian</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#ObsidianServer">ObsidianServer</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#PDB">PDB</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -10778,9 +10779,15 @@ When cloned, an Object will call it's init slot (with no arguments).
 <a href="#Object-not">not</a><br>
 <a href="#Object-or">or()</a><br>
 <a href="#Object-ownsSlots">ownsSlots</a><br>
+<a href="#Object-pSlots">pSlots</a><br>
 <a href="#Object-pause">pause</a><br>
 <a href="#Object-perform">perform()</a><br>
 <a href="#Object-performWithArgList">performWithArgList()</a><br>
+<a href="#Object-persist">persist</a><br>
+<a href="#Object-persistData">persistData</a><br>
+<a href="#Object-persistMetaData">persistMetaData</a><br>
+<a href="#Object-persistSlots">persistSlots</a><br>
+<a href="#Object-ppid">ppid</a><br>
 <a href="#Object-prependProto">prependProto()</a><br>
 <a href="#Object-print">print</a><br>
 <a href="#Object-println">println</a><br>
@@ -10801,11 +10808,13 @@ When cloned, an Object will call it's init slot (with no arguments).
 <a href="#Object-serializedSlots">serializedSlots()</a><br>
 <a href="#Object-serializedSlotsWithNames">serializedSlotsWithNames()</a><br>
 <a href="#Object-setIsActivatable">setIsActivatable()</a><br>
+<a href="#Object-setPpid">setPpid</a><br>
 <a href="#Object-setProto">setProto()</a><br>
 <a href="#Object-setProtos">setProtos()</a><br>
 <a href="#Object-setSlot">setSlot()</a><br>
 <a href="#Object-setSlotWithType">setSlotWithType()</a><br>
 <a href="#Object-shallowCopy">shallowCopy</a><br>
+<a href="#Object-shouldPersistByDefault">shouldPersistByDefault</a><br>
 <a href="#Object-slotDescriptionMap">slotDescriptionMap</a><br>
 <a href="#Object-slotNames">slotNames</a><br>
 <a href="#Object-slotSummary">slotSummary</a><br>
@@ -10821,6 +10830,7 @@ When cloned, an Object will call it's init slot (with no arguments).
 <a href="#Object-type">type</a><br>
 <a href="#Object-uniqueHexId">uniqueHexId</a><br>
 <a href="#Object-uniqueId">uniqueId</a><br>
+<a href="#Object-unpersist">unpersist</a><br>
 <a href="#Object-updateSlot">updateSlot()</a><br>
 <a href="#Object-wait">wait()</a><br>
 <a href="#Object-while">while()</a><br>
@@ -11347,6 +11357,11 @@ Returns true.
 <div class=slotDescription>
 A debug method.
 </div>
+<a name="Object-pSlots"></a><b>pSlots</b><p>
+<div class=slotDescription>
+PDB extension to set a list of slots to persist with PDB.
+Creates the specified slots using newSlot and sets them to nil.
+</div>
 <a name="Object-pause"></a><b>pause</b><p>
 <div class=slotDescription>
 Removes current coroutine from the yieldingCoros queue and
@@ -11361,6 +11376,28 @@ Performs the method corresponding to methodName with the arguments supplied.
 <a name="Object-performWithArgList"></a><b>performWithArgList(methodName, argList)</b><p>
 <div class=slotDescription>
 Performs the method corresponding to methodName with the arguments in the argList.
+</div>
+<a name="Object-persist"></a><b>persist</b><p>
+<div class=slotDescription>
+Force immediate persistence of this object with PDB.
+</div>
+<a name="Object-persistData"></a><b>persistData</b><p>
+<div class=slotDescription>
+Force immediate persistence of this object's serialized form (using asSerialization)
+into PDB, if possible.
+</div>
+<a name="Object-persistMetaData"></a><b>persistMetaData</b><p>
+<div class=slotDescription>
+Force immediate persistence of this object's type data into PDB
+</div>
+<a name="Object-persistSlots"></a><b>persistSlots</b><p>
+<div class=slotDescription>
+Force immediate persistence of this object's dirty slots into PDB.
+</div>
+<a name="Object-ppid"></a><b>ppid</b><p>
+<div class=slotDescription>
+This PDB extension returns a unique identifier for this object and registers it
+for persistence with PDB.
 </div>
 <a name="Object-prependProto"></a><b>prependProto(anObject)</b><p>
 <div class=slotDescription>
@@ -11464,6 +11501,10 @@ When called with a non-Nil aValue, sets the object
 	off if aValue is Nil. Only works on Objects which are not Activatable
 	Primitives (such as CFunction or Block). Returns self.
 </div>
+<a name="Object-setPpid"></a><b>setPpid</b><p>
+<div class=slotDescription>
+PDB extension to set the value returned by ppid.
+</div>
 <a name="Object-setProto"></a><b>setProto(anObject)</b><p>
 <div class=slotDescription>
 Sets the first proto of the receiver to anObject, replacing the
@@ -11487,6 +11528,12 @@ Sets the slot slotNameString in the receiver to
 <a name="Object-shallowCopy"></a><b>shallowCopy</b><p>
 <div class=slotDescription>
 Returns a shallow copy of the receiver.
+</div>
+<a name="Object-shouldPersistByDefault"></a><b>shouldPersistByDefault</b><p>
+<div class=slotDescription>
+PDB boolean flag indicating whether this object should be considered for persistence
+when persistence has not been specifically requested by calling ppid() or PDB addObjectToPersist.
+Always false by default for Object.
 </div>
 <a name="Object-slotDescriptionMap"></a><b>slotDescriptionMap</b><p>
 <div class=slotDescription>
@@ -11588,6 +11635,10 @@ Returns uniqueId in a hexadecimal form (with a "0x" prefix)
 <div class=slotDescription>
 Returns a Number containing a unique id for the receiver.
 </div>
+<a name="Object-unpersist"></a><b>unpersist</b><p>
+<div class=slotDescription>
+PDB extension to populate this object with the data associated with this object's ppid from PDB.
+</div>
 <a name="Object-updateSlot"></a><b>updateSlot(slotNameString, valueObject)</b><p>
 <div class=slotDescription>
 Same as setSlot(), but raises an error if the slot does not
@@ -11668,7 +11719,7 @@ A double key/value database with cursors on first key. Basis for PDB.
 </div>
 <a name="Obsidian-close"></a><b>close</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Closes the persistence database file.
 </div>
 <a name="Obsidian-cursorOn"></a><b>cursorOn</b><p>
 <div class=slotDescription>
@@ -11676,7 +11727,7 @@ A double key/value database with cursors on first key. Basis for PDB.
 </div>
 <a name="Obsidian-delete"></a><b>delete</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Removes the persistence database file set via setPath.
 </div>
 <a name="Obsidian-onAfter"></a><b>onAfter</b><p>
 <div class=slotDescription>
@@ -11684,7 +11735,7 @@ A double key/value database with cursors on first key. Basis for PDB.
 </div>
 <a name="Obsidian-onAt"></a><b>onAt</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Return the value associated with slotName of stored object whose ppid is objId.
 </div>
 <a name="Obsidian-onAtPut"></a><b>onAtPut</b><p>
 <div class=slotDescription>
@@ -12516,7 +12567,7 @@ Notes: Currently, PDB is a singleton.
 <p>
 <a name="PDB-addObjectToPersist"></a><b>addObjectToPersist</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Register an object to be persisted in the next PDB sync.
 </div>
 <a name="PDB-clone"></a><b>clone</b><p>
 <div class=slotDescription>
@@ -12524,11 +12575,11 @@ Notes: Currently, PDB is a singleton.
 </div>
 <a name="PDB-close"></a><b>close</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Close the persistence database.
 </div>
 <a name="PDB-collectGarbage"></a><b>collectGarbage</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Remove from PDB all objects not accessible via the root object.
 </div>
 <a name="PDB-db"></a><b>db</b><p>
 <div class=slotDescription>
@@ -12536,7 +12587,7 @@ Notes: Currently, PDB is a singleton.
 </div>
 <a name="PDB-newId"></a><b>newId</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Generate a new PDB id number for use as a persistent object's ppid.
 </div>
 <a name="PDB-noteReference"></a><b>noteReference</b><p>
 <div class=slotDescription>
@@ -12544,7 +12595,7 @@ Notes: Currently, PDB is a singleton.
 </div>
 <a name="PDB-objectAtPpid"></a><b>objectAtPpid</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Return the object associated in the database with a ppid.
 </div>
 <a name="PDB-objectsToPersist"></a><b>objectsToPersist</b><p>
 <div class=slotDescription>
@@ -12556,6 +12607,10 @@ Notes: Currently, PDB is a singleton.
 </div>
 <a name="PDB-reopen"></a><b>reopen</b><p>
 <div class=slotDescription>
+Sync, close and reopen the PDB store.
+</div>
+<a name="PDB-repoen"></a><b>repoen</b><p>
+<div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
 <a name="PDB-repoen"></a><b>repoen</b><p>
@@ -12564,7 +12619,7 @@ Notes: Currently, PDB is a singleton.
 </div>
 <a name="PDB-root"></a><b>root</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Return the root PMap object used to store and retrieve persistent objects and their slots.
 </div>
 <a name="PDB-setObjectsToPersist"></a><b>setObjectsToPersist</b><p>
 <div class=slotDescription>
@@ -12572,11 +12627,13 @@ Notes: Currently, PDB is a singleton.
 </div>
 <a name="PDB-show"></a><b>show</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Print to standard output a listing of all objects and IDs stored in PDB.
 </div>
 <a name="PDB-sync"></a><b>sync</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Immediately persist data for all objects marked dirty by Collector whose 
+shouldPersistByDefault is true, or that have specifically requested to be
+persisted since the last sync via addObjectToPersist.
 </div>
 </div>
 </div>
@@ -12682,7 +12739,9 @@ Marks a value for removal.
 </div>
 <a name="PMap-shouldPersistByDefault"></a><b>shouldPersistByDefault</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+PDB boolean flag indicating whether this object should be considered for persistence
+when persistence has not been specifically requested by calling ppid() or PDB addObjectToPersist.
+Always true by default for PMap.
 </div>
 <a name="PMap-slotCount"></a><b>slotCount</b><p>
 <div class=slotDescription>

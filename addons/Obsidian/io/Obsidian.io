@@ -23,12 +23,14 @@ Obsidian := Object clone do(
 		self
 	)
 	
+	//doc Obsidian close Closes the persistence database file.
 	close := method(
 		self sharedPrefixCursor := nil
 		db close
 		self
 	)
 	
+	//doc Obsidian delete Removes the persistence database file set via setPath.
 	delete := method(
 		db close
 		File with(path) remove
@@ -43,6 +45,7 @@ Obsidian := Object clone do(
 		nil
  	)
 	
+	//doc Obsidian onAt Return the value associated with slotName of stored object whose ppid is objId.
 	onAt := method(objId, slotName,
 		db at(objId .. "/" .. slotName)
 	)
