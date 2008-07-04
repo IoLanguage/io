@@ -101,6 +101,7 @@
 <div class=indexItem><a href="#PDB">PDB</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#PMap">PMap</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#category">category</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+</td><td valign=top>
 <div class=indexSection><a href="#OpenGL">OpenGL</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#Box">Box</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#GLApp">GLApp</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -110,7 +111,6 @@
 <div class=indexItem><a href="#GLUT">GLUT</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#OpenGL">OpenGL</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#Vector">Vector</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-</td><td valign=top>
 <div class=indexSection><a href="#PortAudio">PortAudio</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#AudioDevice">AudioDevice</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#AudioMixer">AudioMixer</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -140,6 +140,7 @@
 <div class=indexItem><a href="#SkipDB">SkipDB</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#SkipDBCursor">SkipDBCursor</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#SkipDBM">SkipDBM</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+</td><td valign=top>
 <div class=indexSection><a href="#Socket">Socket</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#DNS">DNS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#DNSQuery">DNSQuery</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -158,7 +159,6 @@
 <div class=indexItem><a href="#TimerEvent">TimerEvent</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#URL">URL</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#WriteEvent">WriteEvent</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-</td><td valign=top>
 <div class=indexSection><a href="#SoundTouch">SoundTouch</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#Syslog">Syslog</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#SystemCall">SystemCall</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -8064,7 +8064,7 @@ A mutable array of values. The first index is 0.")
 <a href="#List-containsAll">containsAll()</a><br>
 <a href="#List-containsAny">containsAny()</a><br>
 <a href="#List-containsIdenticalTo">containsIdenticalTo()</a><br>
-<a href="#List-copy">copy</a><br>
+<a href="#List-copy">copy()</a><br>
 <a href="#List-cursor">cursor</a><br>
 <a href="#List-detect">detect()</a><br>
 <a href="#List-difference">difference()</a><br>
@@ -8223,9 +8223,9 @@ Returns true the target contains any of the items in the argument list.
 <div class=slotDescription>
 Returns true if the receiver contains a value identical to anObject, otherwise returns false.
 </div>
-<a name="List-copy"></a><b>copy</b><p>
+<a name="List-copy"></a><b>copy(v)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Replaces self with <tt>v</tt> list items. Returns self.
 </div>
 <a name="List-cursor"></a><b>cursor</b><p>
 <div class=slotDescription>
@@ -8337,7 +8337,7 @@ Same as calling mapInPlace() on a clone of the receiver, but more efficient.
 </div>
 <a name="List-mapInPlace"></a><b>mapInPlace</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Same as <tt>map</tt>, but result replaces self.
 </div>
 <a name="List-max"></a><b>max</b><p>
 <div class=slotDescription>
@@ -8411,7 +8411,7 @@ Also known as foldr and inject. Combines values in target starting on the right.
 </div>
 <a name="List-second"></a><b>second</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns third element (same as <tt>at(2)</tt>)
 </div>
 <a name="List-select"></a><b>select(optionalIndex, value, message)",</b><p>
 <div class=slotDescription>
@@ -8425,7 +8425,7 @@ list(1, 5, 7, 2) select(v, v > 3) print
 </div>
 <a name="List-selectInPlace"></a><b>selectInPlace</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Same as <tt>select</tt>, but result replaces self.
 </div>
 <a name="List-setSize"></a><b>setSize</b><p>
 <div class=slotDescription>
@@ -12608,10 +12608,6 @@ Return the object associated in the database with a ppid.
 <a name="PDB-reopen"></a><b>reopen</b><p>
 <div class=slotDescription>
 Sync, close and reopen the PDB store.
-</div>
-<a name="PDB-repoen"></a><b>repoen</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="PDB-repoen"></a><b>repoen</b><p>
 <div class=slotDescription>

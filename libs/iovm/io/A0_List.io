@@ -163,12 +163,15 @@ List do(
 		return aList
 	)
 
+  //doc List copy(v) Replaces self with <tt>v</tt> list items. Returns self. 
 	copy := method(v, self empty; self appendSeq(v); self)
 
+  //doc List mapInPlace Same as <tt>map</tt>, but result replaces self.
 	mapInPlace := method(
 		self copy(self getSlot("map") performOn(self, call sender, call message))
 	)
 
+  //doc List selectInPlace Same as <tt>select</tt>, but result replaces self.
 	selectInPlace := method(
 		self copy(self getSlot("select") performOn(self, call sender, call message))
 	)
@@ -213,7 +216,8 @@ List do(
 		self
 	)
 	*/
-
+  //doc List second Returns second element (same as <tt>at(1)</tt>)
 	second := method(at(1))
+	//doc List second Returns third element (same as <tt>at(2)</tt>)
 	third := method(at(2))
 )
