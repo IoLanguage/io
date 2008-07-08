@@ -31,7 +31,7 @@ void IoEventManager_free(IoEventManager *self);
 
 IoObject *IoEventManager_addEvent(IoEventManager *self, IoObject *locals, IoMessage *m);
 IoObject *IoEventManager_removeEvent(IoEventManager *self, IoObject *locals, IoMessage *m);
-IoObject *IoEventManager_timeoutEvent(IoEventManager *self, IoObject *locals, IoMessage *m);
+IoObject *IoEventManager_resetEventTimeout(IoEventManager *self, IoObject *locals, IoMessage *m);
 
 IoObject *IoEventManager_setListenTimeout(IoEventManager *self, IoObject *locals, IoMessage *m);
 IoObject *IoEventManager_listen(IoEventManager *self, IoObject *locals, IoMessage *m);

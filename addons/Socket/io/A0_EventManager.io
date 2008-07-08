@@ -53,7 +53,12 @@ Event do(
 	)
 	
 	timeoutNow := method(
-		EventManager timeoutEvent(self)
+		EventManager resetEventTimeout(self, 0)
+		self
+	)
+	
+	resetTimeout := method(
+		EventManager resetEventTimeout(self, timeout)
 		self
 	)
 )
