@@ -141,6 +141,8 @@ Coroutine do(
   /*doc Coroutine pause
 	Removes current coroutine from the yieldingCoros queue and
 	yields to another coro. <tt>System exit</tt> is executed if no coros left.
+	<br/>
+	You can resume a coroutine using either <tt>resume</tt> or <tt>resumeLater</tt> message.
   */
 	pause := method(
 		yieldingCoros remove(self)
