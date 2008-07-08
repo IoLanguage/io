@@ -33,7 +33,7 @@ PDBTest := UnitTest clone do(
 		rich setEmail("rc@gmail.com")
 		
 		pdb root setSlot(rich email, rich)
-		pdb repoen
+		pdb reopen
 		
 		rich2 := pdb root at(rich email)
 		assertEquals(rich2 name, rich name)
@@ -49,13 +49,13 @@ PDBTest := UnitTest clone do(
 		rich setName("Rich Collins")
 		rich setEmail("rc@gmail.com")
 		pdb root setSlot(rich email, rich)
-		pdb repoen
+		pdb reopen
 
 
 		pdb root removeSlot(rich email)
 		pdb sync
 		assertEquals(pdb root at(rich email), nil)
-		pdb repoen
+		pdb reopen
 			
 		rich2 := pdb root at(rich email)
 		

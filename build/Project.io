@@ -150,7 +150,7 @@ Project := Object clone do(
 
 	cleanDocs := method(
 		writeln("--- Project clean embedded docs ---")
-		systemCall("cd vm; make cleanDocs")
+		systemCall("cd libs/iovm; rm -rf docs/docs.txt")
 		addons foreach(cleanDocs)
 	)
 

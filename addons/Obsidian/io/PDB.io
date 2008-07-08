@@ -82,16 +82,24 @@ PDB := Obsidian clone do(
 	
 	clone := method(self)
 	
+	//doc PDB newId Generate a new PDB id number for use as a persistent object's ppid.
 	newId := method(
 		UUID uuidTime asMutable replaceSeq("-", "") asSymbol
 	)
 	
-	repoen := method(
+	//doc PDB reopen Sync, close and reopen the PDB store.
+	repoen := method(deprecatedWarning("reopen"); reopen)
+	reopen := method(
 		sync
 		close
 		open
 	)
 	
+	/*doc PDB sync
+Immediately persist data for all objects marked dirty by Collector whose 
+shouldPersistByDefault is true, or that have specifically requested to be
+persisted since the last sync via addObjectToPersist.
+	*/
 	sync := method(
 		Collector collect
 		Collector dirtyObjects foreach(obj,
@@ -106,6 +114,7 @@ PDB := Obsidian clone do(
 		self
 	)
 	
+	//doc PDB objectAtPpid Return the object associated in the database with a ppid.
 	objectAtPpid := method(ppid,
 		if(ppid == nil ppid, return(nil))
 		if(ppid == false ppid, return(false))
@@ -120,10 +129,12 @@ PDB := Obsidian clone do(
 		obj unpersist
 	)
 	
+	//doc PDB addObjectToPersist Register an object to be persisted in the next PDB sync.
 	addObjectToPersist := method(o,
 		objectsToPersist appendIfAbsent(o)
 	)
 	
+	//doc PDB close Close the persistence database.
 	close := method(
 		resend
 		_root = nil
@@ -131,6 +142,7 @@ PDB := Obsidian clone do(
 		self
 	)
 	
+	//doc PDB root Return the root PMap object used to store and retrieve persistent objects and their slots.
 	root := method(
 		if(_root, return _root)
 		_root = self objectAtPpid("root")
@@ -138,6 +150,8 @@ PDB := Obsidian clone do(
 		_root
 	)
 	
+	
+	//doc PDB show Print to standard output a listing of all objects and IDs stored in PDB.  
 	show := method(
 		writeln("PDB ", db path, ":")
 		c := db cursor
@@ -161,6 +175,7 @@ PDB := Obsidian clone do(
 		nil
 	)
 	
+	//doc PDB collectGarbage Remove from PDB all objects not accessible via the root object.
 	collectGarbage := method(
 		// plan to make this incremental and distributed later
 		// walk objects from root, recording ids found
