@@ -73,7 +73,7 @@ PDB extension to set the value returned by ppid.
 	
 	//doc Object persist Force immediate persistence of this object with PDB.
 	persist := method(
-		writeln("Persisting #{self type}_#{self uniqueHexId}" interpolate)
+		//writeln("Persisting #{self type}_#{self uniqueHexId}" interpolate)
 		//if(persistentSlots == nil, return)
 		if(needsMetaPersist, persistMetaData)
 		self persistData 

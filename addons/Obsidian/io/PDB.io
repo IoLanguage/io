@@ -104,7 +104,7 @@ persisted since the last sync via addObjectToPersist.
 		Collector collect
 		Collector dirtyObjects foreach(obj,
 			if(getSlot("obj") shouldPersistByDefault == true,
-				writeln(getSlot("obj") type, "_", getSlot("obj") uniqueId, " shouldPersistByDefault ")
+				//writeln(getSlot("obj") type, "_", getSlot("obj") uniqueId, " shouldPersistByDefault ")
 				objectsToPersist atPut(getSlot("obj") ppid, getSlot("obj"))
 			)
 		)
@@ -112,7 +112,7 @@ persisted since the last sync via addObjectToPersist.
 			keys := objectsToPersist keys
 			keys foreach(k, 
 				o := objectsToPersist at(k)
-				"About to persist #{o type}_#{o uniqueHexId}" interpolate println
+				//"About to persist #{o type}_#{o uniqueHexId}" interpolate println
 				o persist
 				objectsToPersist removeAt(k)
 			)
@@ -138,10 +138,7 @@ persisted since the last sync via addObjectToPersist.
 	
 	//doc PDB addObjectToPersist Register an object to be persisted in the next PDB sync.
 	addObjectToPersist := method(o,
-		x := objectsToPersist atIfAbsentPut(o ppid, o)
-		writeln("Objects to persist: ")
-		objectsToPersist foreach(p, v, writeln(p, ": ", v type, "_", v uniqueHexId))
-		x
+		objectsToPersist atIfAbsentPut(o ppid, o)
 	)
 	
 	//doc PDB close Close the persistence database.
@@ -163,7 +160,7 @@ persisted since the last sync via addObjectToPersist.
 	
 	//doc PDB show Print to standard output a listing of all objects and IDs stored in PDB.  
 	show := method(
-		writeln("PDB ", db path, ":")
+		//writeln("PDB ", db path, ":")
 		c := db cursor
 		c first
 		while(c key,
