@@ -42,7 +42,7 @@ Creates the specified slots using newSlot and sets them to nil.
 	*/
 	pSlots := method(
 		self persistentSlots := call message arguments map(arg,
-			newSlot(arg name, nil)
+			if(hasSlot(arg name) not, newSlot(arg name, nil))
 			arg name
 		)
 		shouldPersistByDefault = true
@@ -54,9 +54,9 @@ This PDB extension returns a unique identifier for this object and registers it
 for persistence with PDB.
 	*/
 	ppid := method(
-		PDB addObjectToPersist(self)
 		self needsMetaPersist := true
 		self setPpid(PDB newId)
+		PDB addObjectToPersist(self)
 		self ppid
 	)
 	
@@ -73,6 +73,7 @@ PDB extension to set the value returned by ppid.
 	
 	//doc Object persist Force immediate persistence of this object with PDB.
 	persist := method(
+		//writeln("Persisting #{self type}_#{self uniqueHexId}" interpolate)
 		//if(persistentSlots == nil, return)
 		if(needsMetaPersist, persistMetaData)
 		self persistData 
