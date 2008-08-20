@@ -186,7 +186,7 @@ Sequence do(
 		while (startIndex := self findSeq(startSeq, lastIndex),
 			endIndex := self findSeq(endSeq, startIndex + startSeq size)
 			endIndex ifNil(break)
-			chunks append(self slice(startIndex + startSeq size, endIndex))
+			chunks append(self exclusiveSlice(startIndex + startSeq size, endIndex))
 			lastIndex := endIndex + endSeq size
 		)
 		chunks

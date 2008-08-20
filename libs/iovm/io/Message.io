@@ -13,7 +13,7 @@ Message do(
 	asSimpleString := method(
 		s := self asString asMutable replaceSeq(" ;\n", "; ")
 		if(s size > 40,
-			s slice(0, 37) .. "..."
+			s exclusiveSlice(0, 37) .. "..."
 		,
 			s
 		)
