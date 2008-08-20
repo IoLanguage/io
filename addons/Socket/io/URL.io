@@ -258,7 +258,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 			socket streamReadNextChunk returnIfError
 			match := b findSeqs(headerBreaks)
 			if(match,
-				setReadHeader(b slice(0, match index))
+				setReadHeader(b exclusiveSlice(0, match index))
 				b removeSlice(0, match index + match match size - 1)
 				break
 			)
@@ -282,13 +282,13 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 			//writeln("chunked encoding")
 			newB := Sequence clone
 			while(index := b findSeq("\r\n"),
-				n := b slice(0, index)
-				b removeSlice(0, index + 2)
+				n := b exclusiveSlice(0, index)
+				b removeSlice(0, index + 1)
 				length := ("0x" .. n) asNumber
 				//writeln("length = ", n, " ", length)
-				newB appendSeq(b slice(0, length))
-				b removeSlice(0, length)
-				//writeln("after = [", b slice(0, 10), "]")
+				newB appendSeq(b exclusiveSlice(0, length))
+				b removeSlice(0, length + 1)
+				//writeln("after = [", b exclusiveSlice(0, 10), "]")
 			)
 			b copy(newB)
 		)
