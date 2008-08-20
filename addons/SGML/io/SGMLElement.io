@@ -108,9 +108,9 @@ SGMLElement := Object clone do(
 
 	search := method(b, list,
 		if(list == nil, list := List clone)
-		if(b(self), list append(self))
+		if(b call(self), list append(self))
 		subitems foreach(item, item setParent(self))
-		subitems foreach(item, item search(getSlot("b"), list))
+		subitems foreach(item, item search(b, list))
 		list
 	)
 
