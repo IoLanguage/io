@@ -164,4 +164,9 @@ Sequence do(
 	)
 	
 	asDecodedList := method(List fromEncodedList(self))
+	
+	slice := method(start, end,
+		deprecatedWarning("exclusiveSlice()")
+		exclusiveSlice(start, end)
+	)
 )
