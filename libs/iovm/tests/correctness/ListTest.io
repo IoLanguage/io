@@ -322,10 +322,10 @@ ListTest := UnitTest clone do(
 
 	testReverse := method(
 		a := List clone append("a", "beta", 3)
-		a reverse
-		assertEquals(3, a at(0))
-		assertEquals("beta", a at(1))
-		assertEquals("a", a at(2))
+		reversedA := a reverse
+		assertEquals(3, reversedA at(0))
+		assertEquals("beta", reversedA at(1))
+		assertEquals("a", reversedA at(2))
 	)
 	testReverseForeach := method(
 		a := List clone append("a", "beta", 3)
