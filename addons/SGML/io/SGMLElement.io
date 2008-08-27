@@ -8,11 +8,11 @@ SGMLElement := Object clone do(
 	//doc SGMLElement subitems Returns a List containing the tag's subitems.
 	//doc SGMLElement asString Returns a String representation of the tag and all of it's subitems.
 
-	newSlot("name")
-	newSlot("attributes", Map clone)
-	newSlot("subitems", List clone)
-	newSlot("text")
-	newSlot("parent")
+	name ::= nil
+	attributes ::= Map clone
+	subitems ::= List clone
+	text ::= nil
+	parent ::= nil
 
 	withText := method(text,
 		self clone setText(text)
@@ -29,10 +29,11 @@ SGMLElement := Object clone do(
 		b asString
 	)
 
-	writeToStream := method(b,
-		if(name, beginTag(b), if(text, b appendSeq(text)))
-		subitems foreach(writeToStream(b))
-		if(name, endTag(b))
+	writeToStream := method(b, l,
+		if(l == nil, l = "", l = l .. "  ")
+		if(name, b appendSeq(l); beginTag(b), if(text, b appendSeq(l, text, "\n")))
+		subitems foreach(writeToStream(b, l))
+		if(name, b appendSeq(l); endTag(b))
 	)
 
 	beginTag := method(b,
@@ -45,12 +46,14 @@ SGMLElement := Object clone do(
 			)
 			b appendSeq(">")
 		)
+		b appendSeq("\n")
 		b
 	)
 
 	endTag := method(b,
 		if(b == nil, b := Sequence clone)
 		b appendSeq("</", name, ">")
+		b appendSeq("\n")
 		b
 	)
 
@@ -113,9 +116,15 @@ SGMLElement := Object clone do(
 		subitems foreach(item, item search(getSlot("b"), list))
 		list
 	)
-
+	
 	tableData := method(
-		elementsWithName("tr") map(search(block(e, e name == "td" or e name == "th")) map(subitems first ?text))
+		//elementsWithName("tr") map(search(block(e, e name == "td" or e name == "th")) map(name))
+		//elementsWithName("tr") map(subitems map(name))
+		elementsWithName("tr") map(subitems map(name))
+	)
+	
+	allText := method(
+		if(?text, text, "") .. subitems map(allText) select(!=nil) join
 	)
 )
 
@@ -157,6 +166,7 @@ SGMLParser do(
 		parse(aString)
 		root
 	)
+	
 )
 
 Sequence do(

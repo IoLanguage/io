@@ -1,5 +1,5 @@
 
-// open with http://localhost:8000/
+// open with http://localhost:8000/root
 
 Response := Object clone do(
 	header ::= """HTTP/1.1 200 OK
@@ -25,10 +25,10 @@ pdb := PDB setPath("web.tc") clone
 pdb delete
 pdb open
 pdb root atPut("a", "b")
-	pdb root atPut("b", 1)
-	p := PMap clone
-	pdb root atPut("c", p)
-	p atPut("foo", "bar")
+pdb root atPut("b", 1)
+p := PMap clone
+pdb root atPut("c", p)
+p atPut("foo", "bar")
 pdb sync
 pdb close
 
@@ -36,6 +36,9 @@ Server clone setHost("127.0.0.1") setPort(8000) do(
 	handleSocket := method(aSocket,
 		aSocket streamReadNextChunk
 		self url := aSocket readBuffer afterSeq("GET ") beforeSeq(" HTTP/")
+		self options := url afterSeq("?") 
+		if(options, options = options split("&") map(split("=")) asMap)
+		url = url beforeSeq("?")
 		self parts := url splitNoEmpties("/")
 		if(parts contains("favicon.ico"), aSocket close; return)
 		pdb open
@@ -46,9 +49,10 @@ Server clone setHost("127.0.0.1") setPort(8000) do(
 			<html>
 			<head>
 			    <title>#{pdb path}</title>
-			    <link rel="stylesheet" href="http://dekorte.com/site.css">
+			    <link rel="stylesheet" href="http://dekorte.com/site_polish.css">
 			    <META HTTP-EQUIV="EXPIRES" CONTENT=0>
 			</head>
+						
 			<body>
 		""" interpolate)
 		
@@ -107,7 +111,19 @@ Server clone setHost("127.0.0.1") setPort(8000) do(
 		v := pdb onAt(objId, k)
 		s appendSeq("<table cellspacing=1 cellpadding=1><tr><td bgcolor=#ccc>")
 		s appendSeq("<table cellspacing=0 cellpadding=5><tr><td bgcolor=#eee>")
-		s appendSeq(v)
+		
+		if(options,
+			s appendSeq("""
+			<form action="#{url}"" method="post">
+			<textarea rows="2" cols="20">#{v}</textarea><br>
+			<input type="submit"></form>
+			""" interpolate)
+		,
+			s appendSeq("""
+			<a href=#{url}?action=edit><font color=black>#{v}</font></a>
+			""" interpolate)
+		)
+		
 		s appendSeq("</td></tr></table>")
 		s appendSeq("</td></tr></table>")
 		s appendSeq("</pre>")
@@ -126,8 +142,12 @@ Server clone setHost("127.0.0.1") setPort(8000) do(
 		c first
 		while(c key,
 			k := c key
-			s appendSeq("<tr><td align=left><b>")
-			s appendSeq("<a href=/" .. url afterSeq("/") .. "/" .. k .. ">" .. k .. "</a>")
+			s appendSeq("<tr><td align=right>")
+			s appendSeq("<a href=" .. url .. "?action=edit&slot=" .. k .. "><font color=black>")
+			s appendSeq(k)
+			s appendSeq("</a>")
+			s appendSeq("</td><td>&nbsp;</td><td>\n")
+			s appendSeq("<a href=/" .. url afterSeq("/") .. "/" .. k .. ">&#8594;</a>")
 			s appendSeq("</b></td></tr>\n")
 			c next
 		)

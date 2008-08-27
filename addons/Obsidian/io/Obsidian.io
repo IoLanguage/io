@@ -78,7 +78,9 @@ Obsidian := Object clone do(
 				
 	onLast := method(objId, count,
 		c := sharedPrefixCursor setPrefix(objId)
+		writeln(objId)
 		c last
+		writeln(c key)
 		keys := list()
 		arg1 asNumber repeat(
 			k := c key
@@ -91,7 +93,7 @@ Obsidian := Object clone do(
 			
 	onAfter := method(objId, slotName, count,
 		c := sharedPrefixCursor setPrefix(objId)
-		c goto(slotName)
+		c jump(slotName)
 		keys := list()
 		count asNumber repeat(
 			k := c key
@@ -104,7 +106,7 @@ Obsidian := Object clone do(
 
 	onBefore := method(objId, slotName, count,
 		c := sharedPrefixCursor setPrefix(objId)
-		c goto(slotName)
+		c jump(slotName)
 		keys := list()
 		count asNumber repeat(
 			k := c key
@@ -117,7 +119,7 @@ Obsidian := Object clone do(
 	
 	sizeOn := method(objId,
 		c := sharedPrefixCursor setPrefix(objId)
-		c goto(slotName)
+		c jump(slotName)
 		size := 1
 		while (c key,
 			size = size + 1

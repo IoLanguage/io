@@ -1,7 +1,6 @@
 // !$*UTF8*$!
 {
 	08FB7793FE84155DC02AAC07 /* Project object */ = {
-		activeArchitecture = i386;
 		activeBuildConfigurationName = Development;
 		activeExecutable = AA1BF4360C30959F005ED047 /* osxvm */;
 		activeTarget = 8DD76FA90486AB0100D96B5E /* osxvm */;
@@ -76,10 +75,11 @@
 					PBXFileDataSource_Target_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 234487894;
-			PBXWorkspaceStateSaveDate = 234487894;
+			PBXPerProjectTemplateStateSaveDate = 236684331;
+			PBXWorkspaceStateSaveDate = 236684331;
 		};
 		sourceControlManager = AA1BF43C0C3095A2005ED047 /* Source Control */;
+		userBookmarkGroup = AAD2E1F90E1B842B00BFA950 /* PBXBookmarkGroup */;
 		userBuildSettings = {
 		};
 	};
@@ -595,6 +595,23 @@
 			sepNavVisRange = "{0, 782}";
 		};
 	};
+	AAD2E1F90E1B842B00BFA950 /* PBXBookmarkGroup */ = {
+		isa = PBXBookmarkGroup;
+		children = (
+			AAD2E2040E1B846300BFA950 /* PBXTextBookmark */,
+		);
+		name = Root;
+	};
+	AAD2E2040E1B846300BFA950 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AAE69EAE0B110795006E309B /* IoCollector.c */;
+		name = dirty;
+		rLen = 0;
+		rLoc = 5259;
+		rType = 0;
+		vrLen = 965;
+		vrLoc = 4805;
+	};
 	AAE58CE30DC9303D00183939 /* PortableSorting.c */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {841, 1184}}";
@@ -881,9 +898,10 @@
 	};
 	AAE69EAE0B110795006E309B /* IoCollector.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {841, 3568}}";
-			sepNavSelRange = "{5487, 0}";
-			sepNavVisRange = "{4923, 681}";
+			sepNavIntBoundsRect = "{{0, 0}, {748, 3712}}";
+			sepNavSelRange = "{5120, 16}";
+			sepNavVisRange = "{4559, 917}";
+			sepNavWindowFrame = "{{15, 258}, {761, 615}}";
 		};
 	};
 	AAE69EAF0B110795006E309B /* IoCollector.h */ = {
@@ -1125,11 +1143,11 @@
 	};
 	AAE69ED10B110795006E309B /* IoObject.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1053, 15810}}";
-			sepNavSelRange = "{48100, 0}";
-			sepNavVisRange = "{47474, 1401}";
+			sepNavIntBoundsRect = "{{0, 0}, {940, 31120}}";
+			sepNavSelRange = "{26528, 0}";
+			sepNavVisRange = "{25888, 1347}";
 			sepNavVisRect = "{{0, 9622}, {742, 640}}";
-			sepNavWindowFrame = "{{31, 26}, {1114, 852}}";
+			sepNavWindowFrame = "{{173, 90}, {761, 615}}";
 		};
 	};
 	AAE69ED20B110795006E309B /* IoObject.h */ = {
@@ -1155,10 +1173,11 @@
 	};
 	AAE69ED50B110795006E309B /* IoObject_inline.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {841, 3230}}";
-			sepNavSelRange = "{2732, 69}";
-			sepNavVisRange = "{2449, 644}";
+			sepNavIntBoundsRect = "{{0, 0}, {724, 5184}}";
+			sepNavSelRange = "{2803, 0}";
+			sepNavVisRange = "{2417, 740}";
 			sepNavVisRect = "{{0, 1759}, {850, 320}}";
+			sepNavWindowFrame = "{{422, 239}, {761, 615}}";
 		};
 	};
 	AAE69ED80B110795006E309B /* IoObject_struct.h */ = {
