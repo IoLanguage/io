@@ -51,6 +51,16 @@ Event do(
 		isTimeout ifTrue(Exception raise("timeout"))
 		self
 	)
+	
+	timeoutNow := method(
+		EventManager resetEventTimeout(self, 0)
+		self
+	)
+	
+	resetTimeout := method(
+		EventManager resetEventTimeout(self, timeout)
+		self
+	)
 )
 
 ReadEvent := Event clone setEventType(Event EV_READ) do(
