@@ -502,31 +502,56 @@ SequenceTest := UnitTest clone do(
 		assertEquals("aba",  "aba" beforeSeq("c"))
 	)
 
-	testFromTo := method(
-		assertRaisesException("" slice)
+	testExclusiveSlice := method(
+		assertRaisesException("" exclusiveSlice)
 
-		assertEquals("", "" slice(1))
-		assertEquals("bcdef", "abcdef" slice(1))
-		assertEquals("f", "abcdef" slice(-1))
-		assertEquals("", "abcdef" slice(20))
-		assertEquals("abcdef", "abcdef" slice(-20))
+		assertEquals("", "" exclusiveSlice(1))
+		assertEquals("bcdef", "abcdef" exclusiveSlice(1))
+		assertEquals("f", "abcdef" exclusiveSlice(-1))
+		assertEquals("", "abcdef" exclusiveSlice(20))
+		assertEquals("abcdef", "abcdef" exclusiveSlice(-20))
 
-		assertEquals("", "" slice(1,4))
+		assertEquals("", "" exclusiveSlice(1,4))
 
-		assertEquals("b", "abcdef" slice(1,2))
-		assertEquals("e", "abcdef" slice(-2,-1))
+		assertEquals("b", "abcdef" exclusiveSlice(1,2))
+		assertEquals("e", "abcdef" exclusiveSlice(-2,-1))
 
-		assertEquals("", "abcdef" slice(2,1))
-		assertEquals("", "abcdef" slice(-1,-2))
+		assertEquals("", "abcdef" exclusiveSlice(2,1))
+		assertEquals("", "abcdef" exclusiveSlice(-1,-2))
 
-		assertEquals("bcde", "abcdef" slice(1,-1))
-		assertEquals("", "abcdef" slice(-1,1))
-		assertEquals("", "abcdef" slice(3,-3))
-		assertEquals("c", "abcdef" slice(2,-3))
-		assertEquals("cdef", "abcdef" slice(2,2000))
-		assertEquals("", "abcdef" slice(2,-2000))
+		assertEquals("bcde", "abcdef" exclusiveSlice(1,-1))
+		assertEquals("", "abcdef" exclusiveSlice(-1,1))
+		assertEquals("", "abcdef" exclusiveSlice(3,-3))
+		assertEquals("c", "abcdef" exclusiveSlice(2,-3))
+		assertEquals("cdef", "abcdef" exclusiveSlice(2,2000))
+		assertEquals("", "abcdef" exclusiveSlice(2,-2000))
 	)
+	
+	testInclusiveSlice := method(
+		assertRaisesException("" inclusiveSlice)
 
+		assertEquals("", "" inclusiveSlice(1))
+		assertEquals("bcdef", "abcdef" inclusiveSlice(1))
+		assertEquals("f", "abcdef" inclusiveSlice(-1))
+		assertEquals("", "abcdef" inclusiveSlice(20))
+		assertEquals("abcdef", "abcdef" inclusiveSlice(-20))
+
+		assertEquals("", "" inclusiveSlice(1,4))
+
+		assertEquals("bc", "abcdef" inclusiveSlice(1,2))
+		assertEquals("ef", "abcdef" inclusiveSlice(-2,-1))
+
+		assertEquals("", "abcdef" inclusiveSlice(2,1))
+		assertEquals("", "abcdef" inclusiveSlice(-1,-2))
+
+		assertEquals("bcdef", "abcdef" inclusiveSlice(1,-1))
+		assertEquals("", "abcdef" inclusiveSlice(-1,1))
+		assertEquals("d", "abcdef" inclusiveSlice(3,-3))
+		assertEquals("cd", "abcdef" inclusiveSlice(2,-3))
+		assertEquals("cdef", "abcdef" inclusiveSlice(2,2000))
+		assertEquals("", "abcdef" inclusiveSlice(2,-2000))
+	)
+	
 	testSetSize := method(
 		assertRaisesException(Sequence clone setSize(-1))
 		assertRaisesException(Sequence clone setSize(-10))
@@ -620,18 +645,18 @@ SequenceTest := UnitTest clone do(
 	)
 
 	testReverseInPlace := method(
-		s := ""
+		s := "" asMutable
 		s reverseInPlace
 		assertEquals("" asMutable, s)
 		
-		s := "a"
+		s := "a" asMutable
 		s reverseInPlace
 		assertEquals("a" asMutable, s)
 		
-		s := "cba"
+		s := "cba" asMutable
 		s reverseInPlace
 		assertEquals("abc" asMutable, s)
-		assertRaisesException("abc" reverse)
+		assertRaisesException("abc" reverseInPlace)
 	)
 	
 	testReverse := method(

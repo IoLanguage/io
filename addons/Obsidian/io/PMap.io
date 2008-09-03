@@ -11,6 +11,7 @@ PMap := Object clone do(
 		PDB addObjectToPersist(self)
 		self needsMetaPersist = true
 		self slotsToRemove := List clone
+		//super(removeSlot("ppid"))		
 	)
 	
 	slotsToRemove := List clone
@@ -52,8 +53,11 @@ If slotName begins with an underscore ("_"), returns the id of the slot from PDB
 	
 	//doc PMap persistSlots Cleans up dirty slots by committing them to PDB.
 	persistSlots := method(
+		//writeln("PMap persistSlots")
 		self slotNames foreach(name,
+			//writeln("self hasDirtySlot(", name, ")", self hasDirtySlot(name))
 			if(self getSlot(name) type != "Block" and self hasDirtySlot(name) and hiddenSlots contains(name) not,
+				//writeln("PMap persisting slot ", name)
 				value := self getSlot(name)
 				//writeln("PMap saving slot ", name)
 				slotsToRemove remove(name)
@@ -108,7 +112,7 @@ underscore ("_") are returned verbatim.
 	)
 	
 	afterCount  := method(key, count, 
-		pdb onAfter(ppid, count)
+		pdb onAfter(ppid, key, count)
 	)
 	
 	beforeCount := method(key, count, 

@@ -234,7 +234,7 @@ Object wait := method(s,
 Message do(
 	codeOfLength := method(length,
 		c := self code
-		if (c size < length, c, c slice(0, length) .. "...") asMutable replaceSeq("\n", ";")
+		if (c size < length, c, c exclusiveSlice(0, length) .. "...") asMutable replaceSeq("\n", ";")
 	)
 
 	asStackEntry := method(

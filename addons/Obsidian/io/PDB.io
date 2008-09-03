@@ -101,13 +101,17 @@ shouldPersistByDefault is true, or that have specifically requested to be
 persisted since the last sync via addObjectToPersist.
 	*/
 	sync := method(
+		//writeln("\n\nPDB sync ----------")
 		Collector collect
-		Collector dirtyObjects foreach(obj,
+		dirty := Collector dirtyObjects 
+		dirty foreach(obj,
 			if(getSlot("obj") shouldPersistByDefault == true,
 				//writeln(getSlot("obj") type, "_", getSlot("obj") uniqueId, " shouldPersistByDefault ")
 				objectsToPersist atPut(getSlot("obj") ppid, getSlot("obj"))
 			)
 		)
+		//writeln("PDB: persisting ", objectsToPersist size, " of ", dirty size, " dirty objects")
+	
 		while(objectsToPersist size > 0,
 			keys := objectsToPersist keys
 			keys foreach(k, 
