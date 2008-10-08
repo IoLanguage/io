@@ -36,7 +36,7 @@ Demo reshape := method(w, h,
 
 //  Load the texture image and set up the points grid during set-up.
 Demo InitGL := method(
-    self image := Image clone open(Path with(launchPath, "tim.jpg"))
+    self image := Image clone open(Path with(System launchPath, "tim.jpg"))
     
     glEnable(GL_TEXTURE_2D)    
     

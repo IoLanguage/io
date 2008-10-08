@@ -102,7 +102,7 @@ Demo reshape := method(w, h,
 // in keeping all 3, and the fewer code changes the better.
 Demo LoadGLTextures := method(
     // Load the image we want to use as a texture.
-    image := Image clone open(Path with(launchPath, "cube.jpg"))
+    image := Image clone open(Path with(System launchPath, "cube.jpg"))
     
     glGenTextures(3, texture)
     

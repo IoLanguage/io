@@ -106,6 +106,6 @@ Slideshow := GLApp clone do(
 )
 
 //Slideshow open(if(System args size > 0, System args at(1), "slides.txt"))
-path := Path with(launchPath, "slides.txt")
+path := Path with(System launchPath, "slides.txt")
 Slideshow open(path)
 

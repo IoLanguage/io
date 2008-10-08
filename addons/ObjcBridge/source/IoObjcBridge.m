@@ -183,7 +183,7 @@ IoObject *IoObjcBridge_NSStringFromSelector(IoObjcBridge *self, IoObject *locals
 IoObject *IoObjcBridge_main(IoObjcBridge *self, IoObject *locals, IoMessage *m)
 {
 	int argc = 1;
-	const char *argv[] = {CSTRING(IoState_doCString_(IOSTATE, "Lobby launchPath"))};
+	const char *argv[] = {CSTRING(IoState_doCString_(IOSTATE, "System launchPath"))};
 	NSApplicationMain(argc, argv);
 	return self;
 }
