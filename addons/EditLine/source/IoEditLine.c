@@ -1,10 +1,8 @@
-/*#io
-EditLine ioDoc(
-	docCopyright("Jonathan Wright", 2007)
-	docLicense("BSD revised")
-	docObject("EditLine")
-	docDescription("Binding to libedit (BSD version of readline).")
-	docCategory("Core")
+//metadoc EditLine copyright Jonathan Wright, 2007
+//metadoc EditLine license BSD revised
+//metadoc EditLine category Core
+/*metadoc EditLine description
+Binding to libedit (BSD version of readline).
 */
 
 #include <locale.h>

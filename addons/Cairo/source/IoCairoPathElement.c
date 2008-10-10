@@ -1,9 +1,6 @@
-/*#io
-CairoPathElement ioDoc(
-	docCopyright("Daniel Rosengren", 2007)
-	docLicense("BSD revised")
-	docCategory("Graphics")
-*/
+//metadoc CairoPathElement copyright Daniel Rosengren, 2007
+//metadoc CairoPathElement license BSD revised
+//metadoc CairoPathElement category Graphics
 
 #include "IoCairoPathElement.h"
 #include "IoCairoPath.h"

@@ -1,10 +1,7 @@
-/*#io
-CairoLinearGradient ioDoc(
-	docCopyright("Trevor Fancher", 2007)
-	docCopyright("Daniel Rosengren", 2007)
-	docLicense("BSD revised")
-	docCategory("Graphics")
-*/
+//metadoc CairoLinearGradient copyright Trevor Fancher, 2007
+//metadoc CairoLinearGradient copyright Daniel Rosengren, 2007
+//metadoc CairoLinearGradient license BSD revised
+//metadoc CairoLinearGradient category Graphics
 
 #include "IoCairoLinearGradient.h"
 #include "IoCairoGradient.h"

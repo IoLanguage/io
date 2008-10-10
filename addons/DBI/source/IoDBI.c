@@ -1,11 +1,9 @@
-/*#io
-DBI ioDoc(
-	docCopyright("Jeremy Cowgar", 2006)
-	docLicense("BSD revised")
-	docCategory("Databases")
-	docObject("DBI")
-	docDescription("An object for wrapping libdbi to allow Io access to
-a multitude of database systems transparently.")
+//metadoc DBI copyright Jeremy Cowgar, 2006
+//metadoc DBI license BSD revised
+//metadoc DBI category Databases
+/*metadoc DBI description
+An object for wrapping libdbi to allow Io access to
+a multitude of database systems transparently.
 */
 
 #include "IoDBI.h"

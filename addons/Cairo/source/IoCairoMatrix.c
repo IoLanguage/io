@@ -1,9 +1,6 @@
-/*#io
-CairoMatrix ioDoc(
-	docCopyright("Daniel Rosengren", 2007)
-	docLicense("BSD revised")
-	docCategory("Graphics")
-*/
+//metadoc CairoMatrix copyright Daniel Rosengren, 2007
+//metadoc CairoMatrix license BSD revised
+//metadoc CairoMatrix category Graphics
 
 #include "IoCairoMatrix.h"
 #include "tools.h"

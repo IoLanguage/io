@@ -1,9 +1,6 @@
-/*#io
-CairoFontFace ioDoc(
-	docCopyright("Daniel Rosengren", 2007)
-	docLicense("BSD revised")
-	docCategory("Graphics")
-*/
+//metadoc CairoFontFace copyright Daniel Rosengren, 2007
+//metadoc CairoFontFace license BSD revised
+//metadoc CairoFontFace category Graphics
 
 #include "IoCairoFontFace.h"
 #include "IoNumber.h"

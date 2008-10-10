@@ -1,11 +1,9 @@
-/*#io
-Cairo ioDoc(
-	docCopyright("Daniel Rosengren", 2007)
-	docLicense("BSD revised")
-	docDescription("Cairo is a 2D graphics library. http://cairographics.org/")
-	docCategory("Graphics")
+//metadoc Cairo copyright Daniel Rosengren, 2007
+//metadoc Cairo license BSD revised
+//metadoc Cairo category Graphics
+/*metadoc Cairo description 
+Cairo is a 2D graphics library. http://cairographics.org/
 */
-
 #include "IoCairo.h"
 #include "IoNumber.h"
 #include <cairo-svg.h>

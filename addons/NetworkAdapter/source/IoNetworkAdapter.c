@@ -1,9 +1,8 @@
-/*#io
-NetworkAdapter ioDoc(
-    docCopyright("Rich Collins", 2007)
-    docLicense("BSD revised")
-    docCategory("Networking")
-    docDescription("Interface to network adapter functionality")
+//metadoc NetworkAdapter copyright Rich Collins, 2007
+//metadoc NetworkAdapter license BSD revised
+//metadoc NetworkAdapter category Networking
+/*metadoc NetworkAdapter description
+Interface to network adapter functionality.
 */
 
 #include "IoNetworkAdapter.h"
@@ -53,8 +52,8 @@ IoNetworkAdapter *IoNetworkAdapter_new(void *state)
 
 IoSeq *IoNetworkAdapter_macAddress(IoNetworkAdapter *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("macAddress", "Returns the MAC address for the primary network adapter in a Hex string.")
+	/*doc NetworkAdapter macAddress
+	Returns the MAC address for the primary network adapter in a Hex string.
 	*/
 
 #if defined(WIN32) ||  defined(__APPLE__) || defined(MACOSX)
