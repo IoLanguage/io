@@ -149,8 +149,8 @@ linkInstall:
 uninstall:
 	rm -rf $(INSTALL_PREFIX)/lib/io
 	rm -rf $(INSTALL_PREFIX)/include/io
-	rm $(INSTALL_PREFIX)/bin/io
-	rm $(INSTALL_PREFIX)/bin/io_static$(BINARY_SUFFIX)
+	rm -f $(INSTALL_PREFIX)/bin/io
+	rm -f $(INSTALL_PREFIX)/bin/io_static$(BINARY_SUFFIX)
 	rm $(INSTALL_PREFIX)/bin/libiovmall.*
 	rm $(INSTALL_PREFIX)/lib/libiovmall.*
 
