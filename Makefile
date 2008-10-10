@@ -112,6 +112,7 @@ install:
 	umask 022
 	mkdir -p $(INSTALL_PREFIX)/bin || true
 	mkdir -p $(INSTALL_PREFIX)/lib || true
+	mkdir -p $(INSTALL_PREFIX)/include || true
 	rm -f $(INSTALL_PREFIX)/bin/io$(BINARY_SUFFIX)
 	cp _build/binaries/io$(BINARY_SUFFIX) $(INSTALL_PREFIX)/bin || true
 	chmod ugo+rx $(INSTALL_PREFIX)/bin/io$(BINARY_SUFFIX)
@@ -124,6 +125,9 @@ install:
 	mkdir -p $(INSTALL_PREFIX)/lib/io || true
 	cp -fR addons $(INSTALL_PREFIX)/lib/io
 	chmod -R ugo+rX $(INSTALL_PREFIX)/lib/io
+	rm -rf $(INSTALL_PREFIX)/include/io || true
+	mkdir -p $(INSTALL_PREFIX)/include/io || true
+	cp -fR _build/headers/* $(INSTALL_PREFIX)/include/io
 
 linkInstall:
 	mkdir -p $(INSTALL_PREFIX)/bin || true
@@ -144,6 +148,7 @@ linkInstall:
 
 uninstall:
 	rm -rf $(INSTALL_PREFIX)/lib/io
+	rm -rf $(INSTALL_PREFIX)/include/io
 	rm $(INSTALL_PREFIX)/bin/io
 	rm $(INSTALL_PREFIX)/bin/io_static$(BINARY_SUFFIX)
 	rm $(INSTALL_PREFIX)/bin/libiovmall.*
