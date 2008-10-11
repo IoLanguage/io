@@ -1,10 +1,7 @@
-/*#io
-CairoPattern ioDoc(
-	docCopyright("Trevor Fancher", 2007)
-	docCopyright("Daniel Rosengren", 2007)
-	docLicense("BSD revised")
-	docCategory("Graphics")
-*/
+//metadoc CairoPattern copyright Trevor Fancher, 2007
+//metadoc CairoPattern copyright Daniel Rosengren, 2007
+//metadoc CairoPattern license BSD revised
+//metadoc CairoPattern category Graphics
 
 #include "IoCairoPattern.h"
 #include "IoCairoPattern_inline.h"

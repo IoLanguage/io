@@ -1,9 +1,6 @@
-/*#io
-CairoSurfacePattern ioDoc(
-	docCopyright("Daniel Rosengren", 2007)
-	docLicense("BSD revised")
-	docCategory("Graphics")
-*/
+//metadoc CairoSurfacePattern copyright Daniel Rosengren, 2007
+//metadoc CairoSurfacePattern license BSD revised
+//metadoc CairoSurfacePattern category Graphics
 
 #include "IoCairoSurfacePattern.h"
 #include "IoCairoPattern.h"

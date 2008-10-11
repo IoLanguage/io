@@ -61,7 +61,7 @@ TracksView := View clone do(
 
     /* --- Song -------------------------------- */
 
-    newSlot("path", Path with(launchPath, "Songs/Default.songjam"))
+    newSlot("path", Path with(System launchPath, "Songs/Default.songjam"))
     
     open := method(p, 
 	if (p, setPath(p))
@@ -85,7 +85,7 @@ TracksView := View clone do(
     )
     
     addTrackAtPath := method(path,
-	if (path beginsWithSeq("/") == nil, path = Path with(launchPath, path))
+	if (path beginsWithSeq("/") == nil, path = Path with(System launchPath, path))
       	t := TrackView clone openFile(path)
         //t sound setPitch( (SongJam pitchSlider value * 12) - 6 )
 	addTrack(t)

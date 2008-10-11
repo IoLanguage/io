@@ -65,7 +65,7 @@ Python := SpeedTestResult clone setName("Python")
 Ruby   := SpeedTestResult clone setName("Ruby")
 languages := list(Io, Python, Ruby)
 
-doFile(Path with(launchPath, "SpeedResults")) 
+doFile(Path with(System launchPath, "SpeedResults")) 
 
 write("<br>Values are in millions of operations per second, so larger values are better.")
 

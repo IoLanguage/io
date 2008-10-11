@@ -1,9 +1,9 @@
-/*#io
-SecureSocket ioDoc(
-		   docCopyright("Joe Osborn", 2007)
-		   docLicense("BSD revised")
-		   docDependsOn("Socket")
-		   docDescription("""Interface to secure network communication. 
+//metadoc SecureSocekt copyright Joe Osborn, 2007
+//metadoc SecureSocket license BSD revised
+//metadoc SecureSocket category Networking
+//metadoc SecureSocket dependsOn Socket
+/*metdoc SecureSocket description
+Interface to secure network communication. 
 Sockets will auto-yield to other coroutines while waiting on a request. 
 All blocking operations use the timeout settings of the socket. 
 Reads are appended to the socket's read buffer which can be accessed using the readBuffer method.
@@ -13,7 +13,6 @@ Example:
 <pre>
 //...
 </pre>""")
-		   docCategory("Networking")
 */
 
 #include "IoSecureSocket.h"

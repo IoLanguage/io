@@ -1,7 +1,5 @@
-/*#io
-docCopyright("Steve Dekorte and Edwin Zacharias", 2002)
-docLicense("BSD revised")
-*/
+//metadoc NullAddon copyright Steve Dekorte and Edwin Zacharias, 2002
+//metadoc NullAddon license BSD revised
 
 #ifndef IONULLADDON_DEFINED
 #define IONULLADDON_DEFINED 1
