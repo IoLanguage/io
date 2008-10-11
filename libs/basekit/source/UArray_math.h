@@ -110,3 +110,5 @@ BASEKIT_API void UArray_removeEvenIndexes(UArray *self);
 
 BASEKIT_API void UArray_reverseItemByteOrders(UArray *self);
 
+BASEKIT_API void UArray_addEqualsOffsetXScaleYScale(UArray *self, UArray *other, float offset, float xscale, float yscale);
+
