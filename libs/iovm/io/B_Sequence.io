@@ -166,7 +166,7 @@ Sequence do(
 	asDecodedList := method(List fromEncodedList(self))
 	
 	slice := method(start,
-		deprecatedWarning("exclusiveSlice")
-		performWithArgList("exclusiveSlice", call evalArgs)
+		deprecatedWarning("exSlice")
+		performWithArgList("exSlice", call evalArgs)
 	)
 )
