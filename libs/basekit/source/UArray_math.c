@@ -7,18 +7,19 @@
 #include <math.h>
 #include <float.h>
 
-#ifdef _MSC_VER
-#pragma message("Uncomment the IO_USE_SIMD define to turn on SIMD acceleration")
-#else
-#warning Uncomment the IO_USE_SIMD define to turn on SIMD acceleration
-#endif
-//#define IO_USE_SIMD 1
+
+// #define IO_USE_SIMD 1
 
 #ifdef IO_USE_SIMD
-#include "simd_cp.h"
+  #include "simd_cp.h"
 #else
-#define __UNK__EMU__
-#include "simd_cp_emu.h"
+  #ifdef _MSC_VER
+    #pragma message("Uncomment the IO_USE_SIMD define to turn on SIMD acceleration")
+  #else
+    #warning Uncomment the IO_USE_SIMD define to turn on SIMD acceleration
+  #endif
+  #define __UNK__EMU__
+  #include "simd_cp_emu.h"
 #endif
 
 #define VEC_SIZE 4
