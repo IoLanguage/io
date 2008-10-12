@@ -1,10 +1,8 @@
-/*#io
-ReadLine ioDoc(
-	docCopyright("Jonas Eschenburg", 2007)
-	docLicense("BSD revised")
-	docObject("ReadLine")
-	docDescription("Binding to GNU readline.")
-	docCategory("Core")
+//metadoc ReadLine copyright Jonaa Eschenburg, 2007
+//metadoc ReadLine license BSD revised
+//metadoc ReadLine category Core
+/*metadoc ReadLine description
+Binding to GNU readline.
 */
 
 #include <locale.h>

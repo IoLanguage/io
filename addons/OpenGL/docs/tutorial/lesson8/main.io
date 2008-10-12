@@ -41,7 +41,7 @@ Demo reshape := method(w, h,
 // The only thing changed here is the use of the glass texture.
 Demo LoadGLTextures := method(
     // Load the image we want to use as a texture.
-    image := Image clone open(Path with(launchPath, "glass.jpg"))
+    image := Image clone open(Path with(System launchPath, "glass.jpg"))
     
     glGenTextures(3, texture)
     

@@ -1,14 +1,13 @@
-/*#io
-Certificate ioDoc(
-		   docCopyright("Joe Osborn", 2007)
-		   docLicense("BSD revised")
-		   docDescription("""Read-only interface to SSL X509 certificates.
+//metadoc Certificate copyright Joe Osborn, 2007
+//metadoc Certificate license BSD revised
+//metadoc Certificate category Networking
+/*metadoc Certificate description
+Read-only interface to SSL X509 certificates.
 Example:
 
 <pre>
 //...
 </pre>""")
-		   docCategory("Networking")
 */
 
 #include "IoCertificate.h"

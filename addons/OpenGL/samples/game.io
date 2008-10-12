@@ -104,7 +104,7 @@ Screen := Object clone do(
     width := method(size x)
     height := method(size y)
 
-    docSlot("reshape", "Reshape callback for glut.")
+    //doc Screen reshape  Reshape callback for glut.
     reshape := method(w, h,
         size set(w, h)
         scale = vector(2,2) / size
@@ -119,7 +119,7 @@ Screen := Object clone do(
         glLoadIdentity
     )
 
-    docSlot("display", "Display callback for glut.")
+    //doc Screen display Display callback for glut.
     display := method(
         glClear(GL_COLOR_BUFFER_BIT)
         glLoadIdentity
@@ -132,7 +132,7 @@ Screen := Object clone do(
         glutSwapBuffers
     )
 
-    docSlot("timer", "Timer callback for glut.")
+    //doc Screen timer Timer callback for glut.
     timer := method(v,
         glutTimerFunc(10, 0)
 
@@ -141,14 +141,14 @@ Screen := Object clone do(
         self glutPostRedisplay
     )
 
-    docSlot("keyboard", "Key down callback for glut.")
+    //doc Screen keyboard Key down callback for glut.
     keyboard := method(key, x, y,
         if(key asCharacter == "4", ship setTurningLeft(true))
         if(key asCharacter == "6", ship setTurningRight(true))
         if(key asCharacter == "8", ship setThrusting(true))
     )
 
-    docSlot("keyboardUp", "Key up callback for glut.")
+    //doc Screen keyboardUp Key up callback for glut.
     keyboardUp := method(key, x, y,
         if(key asCharacter == "4", ship setTurningLeft(false))
         if(key asCharacter == "6", ship setTurningRight(false))
@@ -156,7 +156,7 @@ Screen := Object clone do(
     )
 )
 
-docSlot("run", "Sets up GLUT, creates the window and sets a few of the opengl defaults.")
+//doc run Sets up GLUT, creates the window and sets a few of the opengl defaults.
 run := method(
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowPosition(200, 100)

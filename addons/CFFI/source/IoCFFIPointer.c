@@ -2,6 +2,7 @@
    Copyright (c) 2006 Trevor Fancher. All rights reserved.
    All code licensed under the New BSD license.
  */
+// docDependsOn("CFFIDataType")
 
 #include "IoCFFIPointer.h"
 #include "IoCFFIDataType.h"

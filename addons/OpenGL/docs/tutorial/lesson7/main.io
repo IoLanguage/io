@@ -41,7 +41,7 @@ Demo reshape := method(w, h,
 // We now get around to doing textures the complex way.
 Demo LoadGLTextures := method(
     // Load the image we want to use as a texture.
-    image := Image clone open(Path with(launchPath, "texture.jpg"))
+    image := Image clone open(Path with(System launchPath, "texture.jpg"))
     
     glGenTextures(3, texture)   // Create Three Textures
     

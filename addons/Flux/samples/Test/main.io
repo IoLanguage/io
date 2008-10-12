@@ -43,7 +43,7 @@ glRoundedBox := method(w, h, r,
 
 Application clone do(
     appDidStart := method(
-        mainWindow setTitle("Test")
+        self setTitle("Test")
         b := Button clone
         b setTitle("Foo")
         b setWidth(300)

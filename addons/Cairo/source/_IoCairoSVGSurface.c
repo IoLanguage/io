@@ -1,9 +1,6 @@
-/*#io
-CairoSVGSurface ioDoc(
-	docCopyright("Daniel Rosengren", 2007)
-	docLicense("BSD revised")
-	docCategory("Graphics")
-*/
+//metadoc CairoSVGSurface copyright Daniel Rosengren, 2007
+//metadoc CairoSVGSurface license BSD revised
+//metadoc CairoSVGSurface category Graphics
 
 #include "IoCairoSVGSurface.h"
 

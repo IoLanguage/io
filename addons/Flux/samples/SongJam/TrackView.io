@@ -66,7 +66,7 @@ TrackView := View clone do(
 	if (path contains("Percussion"), m = "Percussion.png")
 	if (path contains("Vocals"), m = "Vocals.png")
 	if (path contains("World"), m = "World.png")
-	if (m, return Path with(launchPath, "Images/Instruments", m))
+	if (m, return Path with(System launchPath, "Images/Instruments", m))
 	nil
     )
 
@@ -139,7 +139,7 @@ TrackView := View clone do(
     draw := nil
     
     writeToFile := method(file,
-	p := sound path removePrefix(launchPath) removePrefix("/")
+	p := sound path removePrefix(System launchPath) removePrefix("/")
 	file write("track := addTrackAtPath(\"" .. p .. "\")\n ")
 	file write("track sound setVolumesString(\"" .. sound volumesString .. "\") ")
 	file write("setVolume(" .. sound volume .. ")\n ")
@@ -160,7 +160,7 @@ TrackView := View clone do(
 	w setActionTarget(self)
 	w setAction("newLoopAction")
 	w resizeTo(400, 300)
-	w setPath(Path with(launchPath, "Sounds"))
+	w setPath(Path with(System launchPath, "Sounds"))
 	w open
     )
     
@@ -236,8 +236,8 @@ TrackView := View clone do(
 	w setActionTarget(self)
 	w setAction("openLoopAction")
 	w resizeTo(210*2+2, 300)
-	w setPath(Path with(launchPath, "Sounds"))
-	w setRootItem(SJItem clone setPath(Path with(launchPath, "Sounds")))
+	w setPath(Path with(System launchPath, "Sounds"))
+	w setRootItem(SJItem clone setPath(Path with(System launchPath, "Sounds")))
 
 	w open    
     )

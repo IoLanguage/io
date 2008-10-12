@@ -64,7 +64,7 @@ Demo reshape := method(w, h,
 // Note that while in Lesson 6 we simply used the texture from the raw
 // Image, we cannot do that here because we are going to color it later.
 Demo LoadGLTextures := method(
-    image := Image clone open(Path with(launchPath, "star.jpg"))
+    image := Image clone open(Path with(System launchPath, "star.jpg"))
     
     glGenTextures(1, texture)
     

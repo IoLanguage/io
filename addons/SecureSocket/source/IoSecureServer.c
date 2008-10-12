@@ -1,16 +1,16 @@
-/*#io
-SecureServer ioDoc(
-		   docCopyright("Joe Osborn", 2007)
-		   docLicense("BSD revised")
-		   docDependsOn("Server")
-		   docDescription("""Interface to secure network communication. 
-A SecureServer is a wrapper on an OpenSSL SSL_CTX object and supports both TLSv1 and DTLSv1.
+//metadoc SecureServer copyright Joe Osborn, 2007
+//metadoc SecureServer license BSD revised
+//metadoc SecureServer category Networking
+//metadoc SecureServer dependsOn Server
+/*metadoc SecureServer description
+Interface to secure network communication. 
+A SecureServer is a wrapper on an OpenSSL SSL_CTX object
+and supports both TLSv1 and DTLSv1.
 Example:
 
 <pre>
 //...
 </pre>""")
-		   docCategory("Networking")
 */
 
 #include "IoSecureServer.h"

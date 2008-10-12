@@ -1,10 +1,12 @@
-/*#io
-NullAddon ioDoc(
-		   docCopyright("Samuel A. Falvo II", 2007)
-		   docLicense("BSD revised")
-		   docCategory("Server")
-		   docDescription("A do-nothing addon for Io, primarily intended to serve as a skeleton for writing your own addons, without having to rewrite all the boilerplate yourself.  It implements only one method, hello, which does the obvious job of greeting the world.")
-		   */
+//metadoc NullAddon copyright Samuel A. Falvo II, 2007
+//metadoc NullAddon license BSD revised
+//metadoc NullAddon category Server
+/*metadoc NullAddon description
+A do-nothing addon for Io, primarily intended to serve as
+a skeleton for writing your own addons, without having to
+rewrite all the boilerplate yourself. It implements only
+one method, hello, which does the obvious job of greeting the world.
+*/
 
 #include "IoState.h"
 #include "IoNumber.h"       // Needed?

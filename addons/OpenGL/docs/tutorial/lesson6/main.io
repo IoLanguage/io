@@ -26,7 +26,7 @@ Demo reshape := method(w, h,
 //  Load the texture image during set-up.
 Demo InitGL := method(
     // Instead of manual texture creation, we'll use Image features.
-    self image := Image clone open(Path with(launchPath, "NeHe.jpg"))
+    self image := Image clone open(Path with(System launchPath, "NeHe.jpg"))
 
     glEnable(GL_TEXTURE_2D) // Enable Texture Mapping
     

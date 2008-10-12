@@ -2,7 +2,7 @@
 
 // --- Model -------------------------------------------------------
 
-doFile(Path with(launchPath, "Tank.io"))
+doFile(Path with(System launchPath, "Tank.io"))
 
 Arena := Object clone
 Arena size := 100

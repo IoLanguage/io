@@ -1,10 +1,7 @@
-/*#io
-CairoGradient ioDoc(
-	docCopyright("Trevor Fancher", 2007)
-	docCopyright("Daniel Rosengren", 2007)
-	docLicense("BSD revised")
-	docCategory("Graphics")
-*/
+//metadoc CairoGradient copyright Trevor Fancher, 2007
+//metadoc CairoGradient copyright Daniel Rosengren, 2007
+//metadoc CairoGradient license BSD revised
+//metadoc CairoGradient category Graphics
 
 #include "IoCairoGradient.h"
 #include "IoCairoPattern.h"
