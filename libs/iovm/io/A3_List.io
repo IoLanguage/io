@@ -184,12 +184,12 @@ list(1, 2, 3, 4) detect(v, v > 2)
 			if(call message arguments size == 1,
 				args := list(nil)
 				meth := call argAt(0) name
-				slice(1) foreach(x, accu = accu performWithArgList(meth, args atPut(0, x)))
+				exSlice(1) foreach(x, accu = accu performWithArgList(meth, args atPut(0, x)))
 			,
 				aName := call argAt(0) name
 				bName := call argAt(1) name
 				body := call argAt(2)
-				slice(1) foreach(x,
+				exSlice(1) foreach(x,
 					call sender setSlot(aName, accu)
 					call sender setSlot(bName, x)
 					accu = call sender doMessage(body, call sender)
@@ -204,12 +204,12 @@ list(1, 2, 3, 4) detect(v, v > 2)
 			if(call message arguments size == 1,
 				args := list(nil)
 				meth := call argAt(0) name
-				slice(0, -1) reverseForeach(x, accu = x performWithArgList(meth, args atPut(0, accu)))
+				exSlice(0, -1) reverseForeach(x, accu = x performWithArgList(meth, args atPut(0, accu)))
 			,
 				aName := call argAt(0) name
 				bName := call argAt(1) name
 				body := call argAt(2)
-				slice(0, -1) reverseForeach(x,
+				exSlice(0, -1) reverseForeach(x,
 					call sender setSlot(aName, x)
 					call sender setSlot(bName, accu)
 					accu = call sender doMessage(body, call sender)
@@ -232,6 +232,8 @@ list(1, 2, 3, 4) detect(v, v > 2)
 
 		//doc List uniqueCount Returns a list of list(value, count) for each unique value in self.
 		uniqueCount := method(self unique map(item, list(item, self select(== item) size)))
+		
+		exSlice := getSlot("slice")
 )
 
 List ListCursor := Object clone do(
@@ -245,10 +247,10 @@ List ListCursor := Object clone do(
 )
 
 List asSimpleString := method(
-	r := self slice(0, 30) asString
+	r := self exSlice(0, 30) asString
 	//r := self asString
 	if(r size > 40,
-		r slice(0, 37) .. "..."
+		r exSlice(0, 37) .. "..."
 	,
 		r
 	)

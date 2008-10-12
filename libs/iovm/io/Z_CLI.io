@@ -59,7 +59,7 @@ CLI := Object clone do(
 		runIorc
 
 		if(System ?args first == "-e",
-			writeln(context doString(System args slice(1) map(asUTF8) join(" ")))
+			writeln(context doString(System args exSlice(1) map(asUTF8) join(" ")))
 			return
 		)
 
