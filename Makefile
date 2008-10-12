@@ -76,7 +76,7 @@ testaddon:
 	./_build/binaries/io_static$(BINARY_SUFFIX) addons/$(addon)/tests/correctness/run.io
 
 vm:
-	for dir in $(libs); do INSTALL_PREFIX=$(INSTALL_PREFIX) $(MAKE) -C libs/$$dir; done
+	for dir in $(libs); do if [ -d libs/$$dir ]; then INSTALL_PREFIX=$(INSTALL_PREFIX) $(MAKE) -C libs/$$dir; fi; done
 	$(MAKE) vmlib
 	cd tools; $(MAKE)
 ifneq (,$(findstring Windows,$(SYS)))
@@ -165,7 +165,7 @@ clean:
 		$(MAKE) -C libs/$$dir clean; \
 	done
 	
-	cd tools; $(MAKE) cleanDocs; cd ..
+	( cd tools; $(MAKE) cleanDocs )
 	./_build/binaries/io_static$(BINARY_SUFFIX) build.io clean || true
 	-rm -f IoBindingsInit.*
 	-rm -rf _build
