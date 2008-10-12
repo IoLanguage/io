@@ -7,19 +7,27 @@
 #include <math.h>
 #include <float.h>
 
-
-// #define IO_USE_SIMD 1
+//#define IO_USE_SIMD 1
 
 #ifdef IO_USE_SIMD
-  #include "simd_cp.h"
+
+#ifdef _MSC_VER
+#pragma message("Note: IO_USE_SIMD on, attempting to use SIMD acceleration")
 #else
-  #ifdef _MSC_VER
-    #pragma message("Uncomment the IO_USE_SIMD define to turn on SIMD acceleration")
-  #else
-    #warning Uncomment the IO_USE_SIMD define to turn on SIMD acceleration
-  #endif
-  #define __UNK__EMU__
-  #include "simd_cp_emu.h"
+#warning Note: IO_USE_SIMD on, attempting to use SIMD acceleration
+#endif
+
+#include "simd_cp.h"
+#else
+
+#ifdef _MSC_VER
+#pragma message("Uncomment the IO_USE_SIMD define to turn on SIMD acceleration")
+#else
+#warning Uncomment the IO_USE_SIMD define to turn on SIMD acceleration
+#endif
+
+#define __UNK__EMU__
+#include "simd_cp_emu.h"
 #endif
 
 #define VEC_SIZE 4
@@ -431,6 +439,7 @@ void UArray_normalize(UArray *self)
 	a = UArray_sumAsDouble(s);
 	UArray_free(s);
 	a = sqrt(a);
+	//double max = UArray_maxAsDouble(self);
 	UArray_divideScalarDouble_(self, a);
 }
 
@@ -680,3 +689,40 @@ void UArray_reverseItemByteOrders(UArray *self)
 		UArray_changed(self);
 	}
 }
+
+//
+void UArray_addEqualsOffsetXScaleYScale(UArray *self, UArray *other, float offset, float xscale, float yscale)
+{	
+	if (self->itemType == CTYPE_float32_t && other->itemType == CTYPE_float32_t)
+	{
+		float32_t *d1 = (float32_t *)self->data;
+		float32_t *d2 = (float32_t *)other->data;
+		
+		long i = offset;
+		long j = 0;
+		
+		while (i < (long)self->size)
+		{			
+			int jj = j/xscale;
+			
+			//printf("self->size: %i i: %i jj: %i\n", self->size, i, jj);
+			if (jj > other->size - 1) break;
+			
+			if (i >= 0) //&& jj < other->size - 1)
+			{			
+				d1[i] += d2[jj] * yscale;
+			}
+			
+			j ++;
+			i ++;
+		}
+		
+		UArray_changed(self);
+	}
+	else
+	{
+		printf("UArray_addEqualsOffsetXScaleYScale called on non float array\n");
+		exit(-1);
+	}
+}
+

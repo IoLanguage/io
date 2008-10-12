@@ -890,7 +890,18 @@ IoObject *IoSeq_addEquals(IoSeq *self, IoObject *locals, IoMessage *m)
 
 	if (ISSEQ(other))
 	{
-		UArray_add_(DATA(self), DATA(other));
+		//printf("IoMessage_argCount(m) = %i\n", IoMessage_argCount(m));
+		if (IoMessage_argCount(m) > 1)
+		{
+			float offset = IoMessage_locals_floatArgAt_(m, locals, 1);
+			float xscale = IoMessage_locals_floatArgAt_(m, locals, 2);
+			float yscale = IoMessage_locals_floatArgAt_(m, locals, 3);
+			UArray_addEqualsOffsetXScaleYScale(DATA(self), DATA(other), offset, xscale, yscale);
+		}
+		else
+		{
+			UArray_add_(DATA(self), DATA(other));
+		}
 	}
 	else if (ISNUMBER(other))
 	{
@@ -904,6 +915,7 @@ IoObject *IoSeq_addEquals(IoSeq *self, IoObject *locals, IoMessage *m)
 
 	return self;
 }
+
 
 IoObject *IoSeq_subtractEquals(IoSeq *self, IoObject *locals, IoMessage *m)
 {
