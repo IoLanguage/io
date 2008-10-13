@@ -19,14 +19,30 @@ DNSQuery := Object clone do(
 	addCoro := method(coro, coros append(coro); self)
 	
 	//doc DNSQuery resumeCoros Resumes all the paused coros. <font color=red>Should this use resumeLater instead?</font>
-	resumeCoros := method(coros foreach(resume); self) 
+	resumeCoros := method(
+		coros foreach(c,
+			//writeln("DNSQuery resumeCoro ", c label)			
+			c resumeLater
+		)
+		self
+	) 
 	
 	//doc DNSQuery waitOn Pauses the calling coroutine until the query is completed.
 	waitOn := method(
 		coro := Scheduler currentCoroutine
+		//writeln("DNSQuery waitOn pausing ", coro label)
 		addCoro(coro)
 		coro pause
 		self
+	)
+	
+	description := method(
+		hostName .. " " .. coros map(label)
+		/*
+		writeln("DNSQuery_", self uniqueId)
+		writeln("	coros: ", coros map(label))
+		writeln("	hostName: ", hostName)
+		*/
 	)
 )
 
@@ -42,6 +58,8 @@ DNSServer := Object clone do(
 	Sends a request to the DNS server, waits for a response and returns it. Will try 3 times if there are timeouts.
 	Returns the IP (as a Sequence) if successful, raises an exception otherwise.
 	*/
+	//debugOn
+	
 	ipForHostName := method(hostName, timeout,
 		if(timeout == nil, timeout = 10)
 		response := nil
@@ -77,15 +95,15 @@ DNSServer := Object clone do(
 )
 
 DNSResolver := Object clone do(
-//metadoc DNSResolver Networking
-/*metadoc DNSResolver description 
-With the DNSResolver you can set the DNS servers to be used for DNS lookups. Example;
-<pre>
-DNSResolver addDNSServerIp("128.105.2.10")
-ipForYahoo := DNSResolver ipForHostName("yahoo.com")
-</pre>
-*/
-
+	//metadoc DNSResolver Networking
+	/*metadoc DNSResolver description 
+	With the DNSResolver you can set the DNS servers to be used for DNS lookups. Example;
+	<pre>
+	DNSResolver addDNSServerIp("128.105.2.10")
+	ipForYahoo := DNSResolver ipForHostName("yahoo.com")
+	</pre>
+	*/
+	//debugOn
 	readTimeout ::= 10
 
 	init := method(
@@ -113,10 +131,11 @@ ipForYahoo := DNSResolver ipForHostName("yahoo.com")
 		DNS localNameServersIPs select(isEmpty not) foreach(ip, addDNSServerIp(ip))
 		self
 	)
-
+     
 	/*doc DNSResolver ipForHostName(hostName)
 	Returns a String containing the IP for the hostName or an error if hostName could not be resolved.
 	*/
+
 	ipForHostName := method(hostName,
 		setupServerListIfNeeded
 		ip := cache at(hostName)
@@ -124,19 +143,24 @@ ipForYahoo := DNSResolver ipForHostName("yahoo.com")
 
 		q := queries at(hostName)
 
-		if(q) then(q waitOn) else(
+		if(q) then(
+			//writeln(hostName, " lookup waiting on existing query ", q description)
+			q waitOn
+		) else(
+			//writeln("DNSQuery clone ---------------")
 			q := DNSQuery clone setHostName(hostName)
 			queries atPut(hostName, q)
 			ip = nil
 
 			dnsServers foreach(dnsServer,
-				debugWriteln("sending query")
+				//writeln("sending query")
 				//try(ip = dnsServer ipForHostName(hostName))
 				ip = dnsServer ipForHostName(hostName, readTimeout)
+				//writeln("after dnsServer ipForHostName")
 				ip isError ifTrue(continue)
 				ip ifNonNil(break)
 			)
-			debugWriteln("sending query done ip = ", ip)
+			//writeln("sending query done ip = ", ip)
 			cache atPut(hostName, ip)
 			queries removeAt(hostName)
 			q resumeCoros
