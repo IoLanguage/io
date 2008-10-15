@@ -77,8 +77,12 @@ Viewer := Object clone do(
 		//glutKeyboardFunc
 		glutSpecialFunc
 		//self setImagePath(Path with(System launchPath, "images/lotus.png"))
-			//self setImagePath(Path with(System launchPath, "t.jpg"))
-			self setImagePath(System args at(1))
+		//self setImagePath(Path with(System launchPath, "t.jpg"))
+		if (System args size < 2,
+			"Usage: io test.io path-to-image" println
+			return
+		)
+		self setImagePath(System args at(1))
 		glutMainLoop
 	)
 )
