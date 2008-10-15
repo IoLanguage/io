@@ -7,7 +7,7 @@ Terminal do(
     newSlot("bottomMargin", 10)
     newSlot("prompt", "Io> ")
 
-    font := Font clone open("resources/library/fonts/ProFont/Mono/Normal.ttf") setPixelSize(25)
+    font := Font clone open("../../Flux/resources/fonts/ProFont/Mono/Normal.ttf") setPixelSize(25)
     lines := List clone append(Sequence clone with(prompt))
     command := Sequence clone
     

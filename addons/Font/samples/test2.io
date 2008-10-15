@@ -1,7 +1,7 @@
 #!/usr/bin/env io
 
-sansFontBig     := Font clone open("resources/library/fonts/Free/Sans/Bold.ttf") setPixelSize(200)
-sansFontMedium  := Font clone open("resources/library/fonts/Free/Sans/Bold.ttf") setPixelSize(25)
+sansFontBig     := Font clone open("../../Flux/resources/fonts/Free/Sans/Bold.ttf") setPixelSize(200)
+sansFontMedium  := Font clone open("../../Flux/resources/fonts/Free/Sans/Bold.ttf") setPixelSize(25)
 
 Screen := Object clone
 Screen appendProto(OpenGL)

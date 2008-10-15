@@ -1,10 +1,9 @@
 #!/usr/bin/env io
 
-
-monoFont  := Font clone open("resources/library/fonts/Vera/Mono/Bold.ttf") setPixelSize(12)
+monoFont  := Font clone open("../../Flux/resources/fonts/Vera/Mono/Bold.ttf") setPixelSize(12)
 writeln("top1")
-sansFont  := Font clone open("resources/library/fonts/Vera/Sans/Normal.ttf") setPixelSize(12)
-serifFont := Font clone open("resources/library/fonts/Vera/Serif/Normal.ttf") setPixelSize(12)
+sansFont  := Font clone open("../../Flux/resources/fonts/Vera/Sans/Normal.ttf") setPixelSize(12)
+serifFont := Font clone open("../../Flux/resources/fonts/Vera/Serif/Normal.ttf") setPixelSize(12)
 
 writeln("top")
 
