@@ -8,3 +8,5 @@ Sequence do(
 	set := method(call evalArgs foreach(i, v, atPut(i, v)))
 	rootMeanSquare := method(meanSquare sqrt)
 )
+
+Sequence addEquals := Sequence getSlot("+=")

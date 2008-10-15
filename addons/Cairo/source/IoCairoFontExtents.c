@@ -1,9 +1,6 @@
-/*#io
-CairoFontExtents ioDoc(
-	docCopyright("Trevor Fancher", 2007)
-	docLicense("BSD revised")
-	docCategory("Graphics")
-*/
+//metadoc CairoFontExtents copyright Trevor Fancher, 2007
+//metadoc CairoFontExtents license BSD revised
+//metadoc CairoFontExtents category Graphics
 
 #include "IoCairoFontExtents.h"
 #include "IoNumber.h"

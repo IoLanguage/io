@@ -56,6 +56,10 @@ Scheduler := Object clone do(
 	
 	//doc Scheduler currentCoroutine Returns the currently running coroutine.
 	currentCoroutine := method(Coroutine currentCoroutine)
+	
+	waitForCorosToComplete := method(
+		while(yieldingCoros size > 0, yield)	
+	)
 )
 
 Coroutine do(

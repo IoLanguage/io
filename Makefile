@@ -76,7 +76,7 @@ testaddon:
 	./_build/binaries/io_static$(BINARY_SUFFIX) addons/$(addon)/tests/correctness/run.io
 
 vm:
-	for dir in $(libs); do INSTALL_PREFIX=$(INSTALL_PREFIX) $(MAKE) -C libs/$$dir; done
+	for dir in $(libs); do if [ -d libs/$$dir ]; then INSTALL_PREFIX=$(INSTALL_PREFIX) $(MAKE) -C libs/$$dir; fi; done
 	$(MAKE) vmlib
 	cd tools; $(MAKE)
 ifneq (,$(findstring Windows,$(SYS)))
@@ -112,6 +112,7 @@ install:
 	umask 022
 	mkdir -p $(INSTALL_PREFIX)/bin || true
 	mkdir -p $(INSTALL_PREFIX)/lib || true
+	mkdir -p $(INSTALL_PREFIX)/include || true
 	rm -f $(INSTALL_PREFIX)/bin/io$(BINARY_SUFFIX)
 	cp _build/binaries/io$(BINARY_SUFFIX) $(INSTALL_PREFIX)/bin || true
 	chmod ugo+rx $(INSTALL_PREFIX)/bin/io$(BINARY_SUFFIX)
@@ -124,6 +125,9 @@ install:
 	mkdir -p $(INSTALL_PREFIX)/lib/io || true
 	cp -fR addons $(INSTALL_PREFIX)/lib/io
 	chmod -R ugo+rX $(INSTALL_PREFIX)/lib/io
+	rm -rf $(INSTALL_PREFIX)/include/io || true
+	mkdir -p $(INSTALL_PREFIX)/include/io || true
+	cp -fR _build/headers/* $(INSTALL_PREFIX)/include/io
 
 linkInstall:
 	mkdir -p $(INSTALL_PREFIX)/bin || true
@@ -144,10 +148,11 @@ linkInstall:
 
 uninstall:
 	rm -rf $(INSTALL_PREFIX)/lib/io
-	rm $(INSTALL_PREFIX)/bin/io
-	rm $(INSTALL_PREFIX)/bin/io_static$(BINARY_SUFFIX)
-	rm $(INSTALL_PREFIX)/bin/libiovmall.*
-	rm $(INSTALL_PREFIX)/lib/libiovmall.*
+	rm -rf $(INSTALL_PREFIX)/include/io
+	rm -f $(INSTALL_PREFIX)/bin/io
+	rm -f $(INSTALL_PREFIX)/bin/io_static$(BINARY_SUFFIX)
+	rm -f $(INSTALL_PREFIX)/bin/libiovmall.*
+	rm -f $(INSTALL_PREFIX)/lib/libiovmall.*
 
 doc:
 	./_build/binaries/io_static$(BINARY_SUFFIX) build.io docs
@@ -160,7 +165,7 @@ clean:
 		$(MAKE) -C libs/$$dir clean; \
 	done
 	
-	cd tools; $(MAKE) cleanDocs; cd ..
+	( cd tools; $(MAKE) cleanDocs )
 	./_build/binaries/io_static$(BINARY_SUFFIX) build.io clean || true
 	-rm -f IoBindingsInit.*
 	-rm -rf _build

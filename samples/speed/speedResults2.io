@@ -23,7 +23,7 @@ template := """
 Io := Object clone
 Python := Object clone
 
-s := File setPath(Path with(launchPath, "SpeedResults")) asString
+s := File setPath(Path with(System launchPath, "SpeedResults")) asString
 
 doString(s)
 

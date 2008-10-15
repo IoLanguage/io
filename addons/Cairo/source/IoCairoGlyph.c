@@ -1,9 +1,6 @@
-/*#io
-CairoGlyph ioDoc(
-	docCopyright("Daniel Rosengren", 2007)
-	docLicense("BSD revised")
-	docCategory("Graphics")
-*/
+//metadoc CairoGlyph copyright Daniel Rosengren, 2007
+//metadoc CairoGlyph license BSD revised
+//metadoc CairoGlyph category Graphics
 
 #include "IoCairoGlyph.h"
 #include "IoNumber.h"

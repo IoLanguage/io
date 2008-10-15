@@ -1,7 +1,7 @@
 // 2005-05
 
-doFile(Path with(launchPath, "SoundExtensions.io"))
-doFile(Path with(launchPath, "SButton.io"))
+doFile(Path with(System launchPath, "SoundExtensions.io"))
+doFile(Path with(System launchPath, "SButton.io"))
 
 //Collector debugOn
 
@@ -171,8 +171,8 @@ SongJam do(
 	w setActionTarget(self)
 	w setAction("openLoopAction")
 	w resizeTo(210*2+2, 300)
-	w setPath(Path with(launchPath, "Sounds"))
-	w setRootItem(SJItem clone setPath(Path with(launchPath, "Sounds")))
+	w setPath(Path with(System launchPath, "Sounds"))
+	w setRootItem(SJItem clone setPath(Path with(System launchPath, "Sounds")))
 
 	w open    
     )
@@ -279,7 +279,7 @@ SongJam do(
 	w setActionTarget(self)
 	w setAction("doRecordVocalsAction")
 	//w resizeTo(400, 300)
-	w setPath(Path with(launchPath, "Sounds/Volume One/Vocals"))
+	w setPath(Path with(System launchPath, "Sounds/Volume One/Vocals"))
 	w setFileName("vocals.wav")
 	w open
     )
@@ -752,10 +752,10 @@ SongJam do(
 	w setActionTarget(self)
 	w setAction("doOpenSongAction")
 	w resizeTo(400, 300)
-	w setPath(Path with(launchPath, "Songs"))
+	w setPath(Path with(System launchPath, "Songs"))
 	w open
 	
-	//tracksView open(Path with(launchPath, "Songs/default.sjm"))
+	//tracksView open(Path with(System launchPath, "Songs/default.sjm"))
     )
     
     doOpenSongAction := method(savePanel, 
@@ -783,7 +783,7 @@ SongJam do(
 	w setActionTarget(self)
 	w setAction("doSaveSongAction")
 	//w resizeTo(400, 300)
-	w setPath(Path with(launchPath, "Songs"))
+	w setPath(Path with(System launchPath, "Songs"))
 	w setFileName(tracksView path lastPathComponent)
 	w open
     )
@@ -864,10 +864,10 @@ SongJam do(
     volumeImage resizeWidth := 011
     volumeImage size set(16, 16)
     volumeImage position set(20,-1)
-    volumeImage setImage(Image clone open(Path with(launchPath, "Images/Volume.png")))
+    volumeImage setImage(Image clone open(Path with(System launchPath, "Images/Volume.png")))
     //logoButton size set(64, 64)
     //logoButton position set(screenView width - logoButton width - 5, screenView height - logoButton height)
-    //logoButton setImage(Image clone open(Path with(launchPath, "Images/logo2.png")))
+    //logoButton setImage(Image clone open(Path with(System launchPath, "Images/logo2.png")))
     bottomLeft addSubview(volumeImage)
 
     
@@ -876,10 +876,10 @@ SongJam do(
     logoButton resizeWidth := 011
     logoButton size set(227, 47)
     logoButton position set(screenView width - logoButton width - 5, screenView height - logoButton height - 3)
-    logoButton setImage(Image clone open(Path with(launchPath, "Images/newlogo.png")))
+    logoButton setImage(Image clone open(Path with(System launchPath, "Images/newlogo.png")))
     //logoButton size set(64, 64)
     //logoButton position set(screenView width - logoButton width - 5, screenView height - logoButton height)
-    //logoButton setImage(Image clone open(Path with(launchPath, "Images/logo2.png")))
+    //logoButton setImage(Image clone open(Path with(System launchPath, "Images/logo2.png")))
     screenView addSubview(logoButton)
     
     
@@ -925,7 +925,7 @@ SongJam do(
 	tracksView tracks last waveView sound offset := 11025
     )
 */    
-    openSongAtPath(Path with(launchPath, "Songs/default.sjm"))
+    openSongAtPath(Path with(System launchPath, "Songs/default.sjm"))
 )
     
 Screen setTitle("SongJam")

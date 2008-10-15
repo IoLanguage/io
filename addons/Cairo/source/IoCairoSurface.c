@@ -1,9 +1,6 @@
-/*#io
-CairoSurface ioDoc(
-	docCopyright("Daniel Rosengren", 2007)
-	docLicense("BSD revised")
-	docCategory("Graphics")
-*/
+//metadoc CairoSurface copyright Daniel Rosengren, 2007
+//metadoc CairoSurface license BSD revised
+//metadoc CairoSurface category Graphics
 
 #include "IoCairoSurface.h"
 #include "IoCairoSurface_inline.h"

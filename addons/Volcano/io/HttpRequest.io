@@ -9,7 +9,7 @@ HttpRequest := Object clone do(
 	fields ::= nil
 	
 	cookies := method(
-		raw := fields at("cookie")
+		raw := fields at("COOKIE")
 		parsed := Map clone
 
 		raw ?splitNoEmpties(";") foreach(cook,
@@ -39,17 +39,8 @@ HttpRequest := Object clone do(
 		)
 	)
 	
-	_memoized := Map clone
 	postData := method(
-		if (_memoized hasKey("postData"), return _memoized at("postData"))
-
-		data := nil
-		if(requestMethod == "POST",
-			data = body
-		)
-
-		_memoized atPut("postData", data)
-		return _memoized at("postData")
+		postData = if(requestMethod == "POST", body, nil)
 	)
 	
 	urlCode2Char := Map clone
@@ -105,10 +96,22 @@ HttpRequest := Object clone do(
 		return form
 	)
 	
+	parameters := method(
+		parameters = Map clone addKeysAndValues(postParameters keys, postParameters values) addKeysAndValues(getParameters keys, getParameters values)
+	)
+	
+	getParameters := method(
+		q := queryString
+		getParameters = if(q == nil, Map clone, self parseString(q))
+	)
+	
+	contentType := method(
+		contentType = fields at("CONTENT_TYPE")
+	)
+	
 	postParameters := method(
-		if (_memoized hasKey("postParameters"), return _memoized at("postParameters"))
 		form := Map clone
-		if(fields at("CONTENT_TYPE") == "application/x-www-form-urlencoded") then(
+		if(contentType == "application/x-www-form-urlencoded") then(
 			form = self parseString(postData)
 		) elseif(contentType ?beginsWithSeq("multipart/form-data") and postData != nil)  then(
 			boundary := contentType asMutable clipBeforeEndOfSeq("boundary=")
@@ -144,7 +147,6 @@ HttpRequest := Object clone do(
 
 			)
 		)
-		_memoized atPut("postParameters", form)
-		return _memoized at("postParameters")
+		postParameters = form
 	)
 )

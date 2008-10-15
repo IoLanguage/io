@@ -1,7 +1,7 @@
 #!/usr/bin/env io
 
 
-doFile(Path with(launchPath, "Tank.io"))
+doFile(Path with(System launchPath, "Tank.io"))
 
 systemfont := Font clone open("Library/Fonts/Free/FreeSans.ttf") setPointSize(14)
 

@@ -473,7 +473,7 @@ Object do(
 	Returns self.
 	*/
 	Object deprecatedWarning := method(newName,
-		writeln("Warning in ", call sender call message label, ": '", call sender call message name, "' is deprecated. ", if(newName, "use '" .. newName .. "' instead.", ""))
+		writeln("Warning in ", call sender call message label, ": '", call sender call message name, "' is deprecated", if(newName, ".  Use '" .. newName .. "' instead.", " and will be removed from a later version."))
 		self
 	)
 	

@@ -11,7 +11,7 @@ Controller := Object clone do(
 app := Application clone
 
 app appDidStart := method(
-    app mainWindow setTitle("Test")
+    app setTitle("Test")
     b := Button clone
     b setTitle("Foo")
     b setWidth(300)

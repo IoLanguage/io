@@ -53,4 +53,4 @@ StatusCodes := Map clone
 506 Variant Also Negotiates
 507 Insufficient Storage
 509 Bandwidth Limit Exceeded
-510 Not Extended""" split("\n") foreach(status, StatusCodes atPut(status slice(0, 3), status slice(3)))
+510 Not Extended""" split("\n") foreach(status, StatusCodes atPut(status exclusiveSlice(0, 3), status exclusiveSlice(3)))

@@ -1,9 +1,6 @@
-/*#io
-CairoContext ioDoc(
-	docCopyright("Daniel Rosengren", 2007)
-	docLicense("BSD revised")
-	docCategory("Graphics")
-*/
+//metadoc CairoContext copyright Daniel Rosengren, 2007
+//metadoc CairoContext license BSD revised
+//metadoc CairoContext category Graphics
 
 #include "IoCairoContext.h"
 #include "IoCairoSurface.h"

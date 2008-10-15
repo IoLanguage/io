@@ -7,7 +7,7 @@ LINK := $(CC)
 CCOUTFLAG := -o 
 LINKOUTFLAG := -o 
 
-sublibs := $(shell ls ../libs)
+sublibs := basekit coroutine garbagecollector iovm
 sublibs_headers := $(addprefix -I../libs/, $(sublibs))
 sublibs_headers := $(addsuffix /_build/headers, $(sublibs_headers))
 

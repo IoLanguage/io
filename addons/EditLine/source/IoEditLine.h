@@ -1,7 +1,5 @@
-/*#io
-docCopyright("Jonathan Wright", 2007)
-docLicense("BSD revised")
-*/
+//metadoc EditLine copyright Jonathan Wright, 2007
+//metadoc EditLine license BSD revised
 
 #ifndef IoEditLine_DEFINED
 #define IoEditLine_DEFINED 1

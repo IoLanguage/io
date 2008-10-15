@@ -162,6 +162,12 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		)
 		u
 	)
+	
+	fetchWithDelegate := method(delegate,
+		result := self fetch
+		delegate urlFetched(self, result)
+		result
+	)
 
 	//doc URL fetch Fetches the url and returns the result as a Sequence. Returns an Error, if one occurs.
 	fetch := method(url,

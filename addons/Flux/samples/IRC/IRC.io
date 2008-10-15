@@ -17,6 +17,6 @@ IRCApp do(
     
 )
 
-Screen addSubview(IRCView)
+Screen addSubview(IRCApp IRCView)
 Screen setTitle("Terminal")
 Screen open

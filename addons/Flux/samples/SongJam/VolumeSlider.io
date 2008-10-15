@@ -2,8 +2,8 @@ VolumeSlider := HSlider clone do (
 
   init := method (
     resend
-   ImageManager addPath( Path with(launchPath,  "Images" ) )
-    //self background := Image clone open( Path with(launchPath,  "Images/VolumeBack.png" ) )
+   ImageManager addPath( Path with(System launchPath,  "Images" ) )
+    //self background := Image clone open( Path with(System launchPath,  "Images/VolumeBack.png" ) )
     self background := ImageManager itemOrNil( "VolumeBack" )
   )
 

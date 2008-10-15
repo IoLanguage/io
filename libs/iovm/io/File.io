@@ -18,7 +18,26 @@ File do(
 			yield
 		)
 	)
-
+	
+	streamToWithoutYielding := method(streamDestination,
+		b := Sequence clone
+		self open
+		while(isAtEnd not,
+			b empty
+			readToBufferLength(b, streamReadSize)
+			streamDestination write(b)
+		)
+	)
+	
+	//doc File copyToPathWithoutYielding(destinationPath) Copies the file to the specified path without yielding.
+	copyToPathWithoutYielding := method(dstPath,
+		dst := File with(dstPath) open
+		self open streamToWithoutYielding(dst)
+		dst close
+		self close
+		self
+	)
+	
 	//doc File copyToPath(destinationPath) Copies the file to the specified path.
 	copyToPath := method(dstPath,
 		dst := File with(dstPath) open
@@ -64,7 +83,8 @@ File do(
 	)
 	
 	thisSourceFile := method(
-		File with(Directory currentWorkingDirectory .. "/" .. call message label)
+		deprecatedWarning
+		File with(Path with(Directory currentWorkingDirectory, call message label))
 	)
 	
 	containingDirectory := method(

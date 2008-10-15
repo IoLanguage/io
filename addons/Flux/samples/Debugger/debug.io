@@ -1,7 +1,5 @@
 #!/usr/bin/env io
 
-autoImportResources
-
 Runner := Object clone do(  
   run := method(msg,
     self turnOnMessageDebugging
