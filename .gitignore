@@ -82,3 +82,5 @@ extras/IoPlayers/MSWindows/ioplayer/pingme.txt
 extras/IoPlayers/MSWindows/ioplayer/smysrv
 libs/iovm/docs/docs.txt
 addons/*/docs/docs.txt
+*.mode1
+*.pbxuser
