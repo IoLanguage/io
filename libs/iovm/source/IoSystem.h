@@ -40,6 +40,7 @@ IoObject *IoObject_recycledObjectCount(IoObject *self, IoObject *locals, IoMessa
 
 IoObject *IoObject_symbols(IoObject *self, IoObject *locals, IoMessage *m);
 IoObject *IoObject_setLobby(IoObject *self, IoObject *locals, IoMessage *m);
+IoObject *IoObject_thisProcessPid(IoObject *self, IoObject *locals, IoMessage *m);
 
 #ifdef __cplusplus
 }
