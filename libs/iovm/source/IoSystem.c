@@ -90,6 +90,7 @@ IoObject *IoSystem_proto(void *state)
 	{"setMaxRecycledObjects", IoObject_setMaxRecycledObjects},
 	{"symbols", IoObject_symbols},
 	{"setLobby", IoObject_setLobby},
+	{"thisProcessPid", IoObject_thisProcessPid},
 	{NULL, NULL},
 	};
 
@@ -468,6 +469,15 @@ IoObject *IoObject_setLobby(IoObject *self, IoObject *locals, IoMessage *m)
 	IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 0);
 	IoState_setLobby_(IOSTATE, v);
 	return self;
+}
+
+IoObject *IoObject_thisProcessPid(IoObject *self, IoObject *locals, IoMessage *m)
+{
+	/*doc System thisProcessPid()
+	Return the process id (pid) for this Io process.
+	*/
+	
+	return IONUMBER(getpid());
 }
 
 /*doc System version
