@@ -37,5 +37,10 @@ Path := Object clone do(
 			with(Directory currentWorkingDirectory, path)
 		)
 	)
+	
+	//doc Path thisSourceFilePath Uses call message label to return an absolute path to the file that contains the sender.
+	thisSourceFilePath := method(
+		Path absolute(call message label)
+	)
 )
 
