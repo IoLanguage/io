@@ -1,10 +1,7 @@
-/*#io
-CairoImageSurface ioDoc(
-	docCopyright("Trevor Fancher", 2007)
-	docCopyright("Daniel Rosengren", 2007)
-	docLicense("BSD revised")
-	docCategory("Graphics")
-*/
+//metadoc CairoImageSurface copyright Trevor Fancher, 2007
+//metadoc CairoImageSurface copyright Daniel Rosengren, 2007
+//metadoc CairoImageSurface license BSD revised
+//metadoc CairoImageSurface category Graphics
 
 #include "IoCairoImageSurface.h"
 #include "IoCairoSurface.h"

@@ -162,6 +162,12 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		)
 		u
 	)
+	
+	fetchWithDelegate := method(delegate,
+		result := self fetch
+		delegate urlFetched(self, result)
+		result
+	)
 
 	//doc URL fetch Fetches the url and returns the result as a Sequence. Returns an Error, if one occurs.
 	fetch := method(url,
@@ -191,15 +197,19 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		header := Sequence clone
 		//write("request = [", request, "]\n")
 		header appendSeq("GET ", request," HTTP/1.1\r\n")
-		header appendSeq("Host: ", host, ":", port, "\r\n")
+		//header appendSeq("User-Agent: Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/312.8 (KHTML, like Gecko) Safari/312.6\r\n")
+		header appendSeq("User-Agent: curl/7.18.0 (i386-apple-darwin9.2.0) libcurl/7.18.0 zlib/1.2.3\r\n")
+		header appendSeq("Host: ", host, if(port != 80, ":" .. port, ""), "\r\n")
+		//header appendSeq("Host: ", host, ":", port, "\r\n")
 		header appendSeq("Connection: close\r\n")
-		header appendSeq("User-Agent: Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/312.8 (KHTML, like Gecko) Safari/312.6\r\n")
+		
 		if(referer, header appendSeq("Referer: ", referer, "\r\n"))
-		//header appendSeq("Accept: */*\r\n")
-		header appendSeq("Accept: text/html; q=1.0, text/*; q=0.8, image/gif; q=0.6, image/jpeg; q=0.6, image/*; q=0.5, */*; q=0.1\r\n")
+		header appendSeq("Accept: */*\r\n")
+		//header appendSeq("Accept: text/html\r\n")
+		//header appendSeq("Accept: text/html; q=1.0, text/*; q=0.8, image/gif; q=0.6, image/jpeg; q=0.6, image/*; q=0.5, */*; q=0.1\r\n")
 		//header appendSeq("Accept-Encoding: gzip, deflate\r\n")
-		header appendSeq("Accept-Language: en\r\n\r\n")
-		//header appendSeq("\n\n")
+		//header appendSeq("Accept-Language: en\r\n\r\n")
+		header appendSeq("\r\n")
 		header
 	)
 
@@ -258,7 +268,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 			socket streamReadNextChunk returnIfError
 			match := b findSeqs(headerBreaks)
 			if(match,
-				setReadHeader(b slice(0, match index))
+				setReadHeader(b exclusiveSlice(0, match index))
 				b removeSlice(0, match index + match match size - 1)
 				break
 			)
@@ -282,13 +292,13 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 			//writeln("chunked encoding")
 			newB := Sequence clone
 			while(index := b findSeq("\r\n"),
-				n := b slice(0, index)
-				b removeSlice(0, index + 2)
+				n := b exclusiveSlice(0, index)
+				b removeSlice(0, index + 1)
 				length := ("0x" .. n) asNumber
 				//writeln("length = ", n, " ", length)
-				newB appendSeq(b slice(0, length))
-				b removeSlice(0, length)
-				//writeln("after = [", b slice(0, 10), "]")
+				newB appendSeq(b exclusiveSlice(0, length))
+				b removeSlice(0, length + 1)
+				//writeln("after = [", b exclusiveSlice(0, 10), "]")
 			)
 			b copy(newB)
 		)
@@ -312,7 +322,11 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 
 	childUrl := method(u,
 		if(u beginsWithSeq("http") not,
-			u = Path with(url pathComponent, u)
+			if(u beginsWithSeq("/"),
+				u = Path with("http://" .. host, u)
+			,
+				u = Path with(url pathComponent, u)
+			)
 		)
 		URL clone setURL(u) setReferer(url)
 	)
@@ -325,7 +339,6 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 	*/
 	post := method(parameters, headers,
 		parameters ifNil(parameters = "")
-		ip := Host clone setName(host) address returnIfError
 
 		headers ifNil(headers := Map clone)
 		headers atIfAbsentPut("User-Agent", "Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/312.8 (KHTML, like Gecko) Safari/312.6")
@@ -383,6 +396,12 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 	//doc URL test Private test method.
 	test := method(
 		data := URL with("http://www.yahoo.com/") fetch
+	)
+	
+	domain := method(
+		parts := self host split(".") 
+		parts removeLast 
+		parts last	
 	)
 )
 

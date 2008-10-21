@@ -56,6 +56,10 @@ Scheduler := Object clone do(
 	
 	//doc Scheduler currentCoroutine Returns the currently running coroutine.
 	currentCoroutine := method(Coroutine currentCoroutine)
+	
+	waitForCorosToComplete := method(
+		while(yieldingCoros size > 0, yield)	
+	)
 )
 
 Coroutine do(
@@ -282,7 +286,7 @@ Message do(
   */
 	codeOfLength := method(length,
 		c := self code
-		if (c size < length, c, c slice(0, length) .. "...") asMutable replaceSeq("\n", ";")
+		if (c size < length, c, c exclusiveSlice(0, length) .. "...") asMutable replaceSeq("\n", ";")
 	)
 
   //doc Message asStackEntry Returns a string containing message name, file and line.

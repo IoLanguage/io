@@ -1,4 +1,4 @@
 
 //Collector debugOn
 
-TestSuite clone setPath(launchPath) run
+TestSuite clone setPath(System launchPath) run

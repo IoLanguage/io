@@ -61,7 +61,7 @@ TrackLabel := View clone do(
     title := ""
     setTitle := method(t, label setTitle(t))
     clippingOn
-    //labelImage := Image clone open(Path with(launchPath, "Guitar.png"))
+    //labelImage := Image clone open(Path with(System launchPath, "Guitar.png"))
     delegate := nil
     setDelegate := method(d, 
       delegate = d
@@ -81,7 +81,7 @@ TrackLabel := View clone do(
 	closeButton setActionTarget(self)
 	addSubview(closeButton)
 
-        ImageManager addPath( Path with(launchPath,  "Images" ) )
+        ImageManager addPath( Path with(System launchPath,  "Images" ) )
 
         self muteButton := Button clone
         muteButton resizeHeight := 011
@@ -149,7 +149,7 @@ TrackLabel := View clone do(
 	imageButton leftMouseMotion := method( writeln("motion") )
 	imageButton scale set(.4,.4,1)
 	imageButton setImage(nil)
-	//imageButton setImage(Image clone open(Path with(launchPath, "Guitar.png")))
+	//imageButton setImage(Image clone open(Path with(System launchPath, "Guitar.png")))
 	addSubview(imageButton)
 
     )

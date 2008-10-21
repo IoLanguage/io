@@ -1,9 +1,6 @@
-/*#io
-CairoRectangle ioDoc(
-	docCopyright("Daniel Rosengren", 2007)
-	docLicense("BSD revised")
-	docCategory("Graphics")
-*/
+//metadoc CairoRectangle copyright Daniel Rosengren, 2007
+//metadoc CairoRectangle license BSD revised
+//metadoc CairoRectangle category Graphics
 
 #include "IoCairoRectangle.h"
 #include "IoNumber.h"

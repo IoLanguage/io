@@ -5,7 +5,8 @@ Event do(
 	timeout ::= 10
 	coro ::= nil // internal
 	EV_TIMER ::= 0
-
+	//debugWriteln := getSlot("writeln")
+	
 	eventTypeName := method(
 		if(eventType == EV_READ,   return "EV_READ")
 		if(eventType == EV_WRITE,  return "EV_WRITE")
@@ -18,12 +19,12 @@ Event do(
 	
 	*/
 	handleEvent := method(isTimeout,
-		debugWriteln("Event ", eventTypeName, " handleEvent(", isTimeout, ")")
+		//writeln("Event ", eventTypeName, " handleEvent(", isTimeout, ")")
 		//debugWriteln(coro label, " resuming - got ", eventTypeName)
 		self isTimeout := isTimeout
 		if(coro,
 			tmpCoro := coro
-			debugWriteln("Event handleEvent - resuming ", coro label)
+			//debugWriteln("Event handleEvent - resuming ", coro label)
 			setCoro(nil)
 			tmpCoro resumeLater
 			//yield
@@ -31,14 +32,13 @@ Event do(
 	)
 
 	/*doc Event waitOnOrExcept(timeout) 
-	
 	*/
 	waitOn := method(t,
 		if(t, timeout = t)
 
 		if(coro, return(Error with("Already waiting on this event")))
 		coro = Scheduler currentCoroutine
-		debugWriteln(coro label, " Event waitOn(", t, ") - pausing")
+		//writeln(coro label, " ", eventTypeName, " waitOn(", t, ") - pausing")
 		EventManager addEvent(self, descriptorId, eventType, timeout) ifError(e, coro = nil; return(e))
 		coro pause
 		debugWriteln(Scheduler currentCoroutine label, " Event waitOn(", t, ") - resumed")
@@ -49,6 +49,16 @@ Event do(
 	waitOnOrExcept := method(t,
 		waitOn(t)
 		isTimeout ifTrue(Exception raise("timeout"))
+		self
+	)
+	
+	timeoutNow := method(
+		EventManager resetEventTimeout(self, 0)
+		self
+	)
+	
+	resetTimeout := method(
+		EventManager resetEventTimeout(self, timeout)
 		self
 	)
 )
@@ -93,14 +103,13 @@ EventManager do(
 	realAddEvent := getSlot("addEvent")
 
 	/*doc EventManager addEvent(event, descriptor, eventType, timeout) 
-	
 	*/
 	addEvent := method(e, descriptorId, eventType, timeout,
-		debugWriteln("EventManager addEvent " .. e eventTypeName .. " - begin")
+		//writeln("EventManager addEvent " .. e eventTypeName .. " - begin")
 		r := self realAddEvent(e, descriptorId, eventType, timeout)
 		r returnIfError
 		if(coro, coro resumeLater, self coro := coroFor(run); coro setLabel("EventManager"); coro resumeLater)
-		debugWriteln("EventManager addEvent " .. e eventTypeName .. " - done")
+		//debugWriteln("EventManager addEvent " .. e eventTypeName .. " - done")
 		r
 	)
 

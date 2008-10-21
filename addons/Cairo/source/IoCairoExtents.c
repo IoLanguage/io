@@ -1,9 +1,6 @@
-/*#io
-CairoExtents ioDoc(
-	docCopyright("Daniel Rosengren", 2007)
-	docLicense("BSD revised")
-	docCategory("Graphics")
-*/
+//metadoc CairoExtents copyright Daniel Rosengren, 2007
+//metadoc CairoExtents license BSD revised
+//metadoc CairoExtents category Graphics
 
 #include "IoCairoExtents.h"
 #include "IoNumber.h"

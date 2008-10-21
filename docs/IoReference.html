@@ -7275,46 +7275,13 @@ Set's the host name. Return self.
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#HttpParser-body">body</a><br>
-<a href="#HttpParser-fillHttpRequest">fillHttpRequest</a><br>
-<a href="#HttpParser-fragment">fragment</a><br>
-<a href="#HttpParser-httpFields">httpFields</a><br>
-<a href="#HttpParser-httpVersion">httpVersion</a><br>
 <a href="#HttpParser-isFinished">isFinished</a><br>
 <a href="#HttpParser-parse">parse</a><br>
-<a href="#HttpParser-parseBuffer">parseBuffer</a><br>
-<a href="#HttpParser-queryString">queryString</a><br>
-<a href="#HttpParser-rawParse">rawParse</a><br>
 <a href="#HttpParser-rawReset">rawReset</a><br>
-<a href="#HttpParser-requestMethod">requestMethod</a><br>
-<a href="#HttpParser-requestPath">requestPath</a><br>
-<a href="#HttpParser-requestUri">requestUri</a><br>
-<a href="#HttpParser-reset">reset</a><br>
-<a href="#HttpParser-setParseBuffer">setParseBuffer</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
-<a name="HttpParser-body"></a><b>body</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="HttpParser-fillHttpRequest"></a><b>fillHttpRequest</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="HttpParser-fragment"></a><b>fragment</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="HttpParser-httpFields"></a><b>httpFields</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="HttpParser-httpVersion"></a><b>httpVersion</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="HttpParser-isFinished"></a><b>isFinished</b><p>
 <div class=slotDescription>
 Returns true if the parser has fully completed parsing of the content in the parse buffer and false if it hasn't.
@@ -7323,41 +7290,9 @@ Returns true if the parser has fully completed parsing of the content in the par
 <div class=slotDescription>
 Parsers the Http request stored in the parseBuffer slot.  Sets slots on self using the values parsed.  Returns self if successful or an Error if the parse fails.
 </div>
-<a name="HttpParser-parseBuffer"></a><b>parseBuffer</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="HttpParser-queryString"></a><b>queryString</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="HttpParser-rawParse"></a><b>rawParse</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="HttpParser-rawReset"></a><b>rawReset</b><p>
 <div class=slotDescription>
 Resets the parser state to prepare for a new parse.  Returns self.
-</div>
-<a name="HttpParser-requestMethod"></a><b>requestMethod</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="HttpParser-requestPath"></a><b>requestPath</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="HttpParser-requestUri"></a><b>requestUri</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="HttpParser-reset"></a><b>reset</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="HttpParser-setParseBuffer"></a><b>setParseBuffer</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 </div>
 </div>
@@ -8533,8 +8468,6 @@ An object for calculating MD5 hashes. Each has calculation should instiate it's 
 <h3>Slot Index</h3>
 <div class=slotIndex>
 <a href="#MD5-appendSeq">appendSeq()</a><br>
-<a href="#MD5-hash">hash</a><br>
-<a href="#MD5-hashString">hashString</a><br>
 <a href="#MD5-md5">md5</a><br>
 <a href="#MD5-md5String">md5String</a><br>
 </div>
@@ -8544,14 +8477,6 @@ An object for calculating MD5 hashes. Each has calculation should instiate it's 
 <a name="MD5-appendSeq"></a><b>appendSeq(aSequence)</b><p>
 <div class=slotDescription>
 Appends aSequence to the hash calculation. Returns self.
-</div>
-<a name="MD5-hash"></a><b>hash</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="MD5-hashString"></a><b>hashString</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="MD5-md5"></a><b>md5</b><p>
 <div class=slotDescription>
@@ -11694,94 +11619,24 @@ A double key/value database with cursors on first key. Basis for PDB.
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#Obsidian-acceptedMessageNames">acceptedMessageNames</a><br>
 <a href="#Obsidian-close">close</a><br>
-<a href="#Obsidian-cursorOn">cursorOn</a><br>
 <a href="#Obsidian-delete">delete</a><br>
-<a href="#Obsidian-onAfter">onAfter</a><br>
 <a href="#Obsidian-onAt">onAt</a><br>
-<a href="#Obsidian-onAtPut">onAtPut</a><br>
-<a href="#Obsidian-onBefore">onBefore</a><br>
-<a href="#Obsidian-onFirst">onFirst</a><br>
-<a href="#Obsidian-onLast">onLast</a><br>
-<a href="#Obsidian-onRemoveAt">onRemoveAt</a><br>
-<a href="#Obsidian-open">open</a><br>
-<a href="#Obsidian-path">path</a><br>
-<a href="#Obsidian-setPath">setPath</a><br>
-<a href="#Obsidian-setSharedPrefixCursor">setSharedPrefixCursor</a><br>
-<a href="#Obsidian-sharedPrefixCursor">sharedPrefixCursor</a><br>
-<a href="#Obsidian-sizeOn">sizeOn</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
-<a name="Obsidian-acceptedMessageNames"></a><b>acceptedMessageNames</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="Obsidian-close"></a><b>close</b><p>
 <div class=slotDescription>
 Closes the persistence database file.
-</div>
-<a name="Obsidian-cursorOn"></a><b>cursorOn</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="Obsidian-delete"></a><b>delete</b><p>
 <div class=slotDescription>
 Removes the persistence database file set via setPath.
 </div>
-<a name="Obsidian-onAfter"></a><b>onAfter</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="Obsidian-onAt"></a><b>onAt</b><p>
 <div class=slotDescription>
 Return the value associated with slotName of stored object whose ppid is objId.
-</div>
-<a name="Obsidian-onAtPut"></a><b>onAtPut</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Obsidian-onBefore"></a><b>onBefore</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Obsidian-onFirst"></a><b>onFirst</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Obsidian-onLast"></a><b>onLast</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Obsidian-onRemoveAt"></a><b>onRemoveAt</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Obsidian-open"></a><b>open</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Obsidian-path"></a><b>path</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Obsidian-setPath"></a><b>setPath</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Obsidian-setSharedPrefixCursor"></a><b>setSharedPrefixCursor</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Obsidian-sharedPrefixCursor"></a><b>sharedPrefixCursor</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Obsidian-sizeOn"></a><b>sizeOn</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 </div>
 </div>
@@ -12548,19 +12403,12 @@ Notes: Currently, PDB is a singleton.
 <h3>Slot Index</h3>
 <div class=slotIndex>
 <a href="#PDB-addObjectToPersist">addObjectToPersist</a><br>
-<a href="#PDB-clone">clone</a><br>
 <a href="#PDB-close">close</a><br>
 <a href="#PDB-collectGarbage">collectGarbage</a><br>
-<a href="#PDB-db">db</a><br>
 <a href="#PDB-newId">newId</a><br>
-<a href="#PDB-noteReference">noteReference</a><br>
 <a href="#PDB-objectAtPpid">objectAtPpid</a><br>
-<a href="#PDB-objectsToPersist">objectsToPersist</a><br>
-<a href="#PDB-ppidMap">ppidMap</a><br>
 <a href="#PDB-reopen">reopen</a><br>
-<a href="#PDB-repoen">repoen</a><br>
 <a href="#PDB-root">root</a><br>
-<a href="#PDB-setObjectsToPersist">setObjectsToPersist</a><br>
 <a href="#PDB-show">show</a><br>
 <a href="#PDB-sync">sync</a><br>
 </div>
@@ -12571,10 +12419,6 @@ Notes: Currently, PDB is a singleton.
 <div class=slotDescription>
 Register an object to be persisted in the next PDB sync.
 </div>
-<a name="PDB-clone"></a><b>clone</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="PDB-close"></a><b>close</b><p>
 <div class=slotDescription>
 Close the persistence database.
@@ -12583,45 +12427,21 @@ Close the persistence database.
 <div class=slotDescription>
 Remove from PDB all objects not accessible via the root object.
 </div>
-<a name="PDB-db"></a><b>db</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="PDB-newId"></a><b>newId</b><p>
 <div class=slotDescription>
 Generate a new PDB id number for use as a persistent object's ppid.
-</div>
-<a name="PDB-noteReference"></a><b>noteReference</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="PDB-objectAtPpid"></a><b>objectAtPpid</b><p>
 <div class=slotDescription>
 Return the object associated in the database with a ppid.
 </div>
-<a name="PDB-objectsToPersist"></a><b>objectsToPersist</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PDB-ppidMap"></a><b>ppidMap</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="PDB-reopen"></a><b>reopen</b><p>
 <div class=slotDescription>
 Sync, close and reopen the PDB store.
 </div>
-<a name="PDB-repoen"></a><b>repoen</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="PDB-root"></a><b>root</b><p>
 <div class=slotDescription>
 Return the root PMap object used to store and retrieve persistent objects and their slots.
-</div>
-<a name="PDB-setObjectsToPersist"></a><b>setObjectsToPersist</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="PDB-show"></a><b>show</b><p>
 <div class=slotDescription>
@@ -12653,15 +12473,9 @@ into local object slots.
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#PMap-afterCount">afterCount</a><br>
 <a href="#PMap-at">at()</a><br>
 <a href="#PMap-atPut">atPut()</a><br>
-<a href="#PMap-beforeCount">beforeCount</a><br>
 <a href="#PMap-createIfAbsent">createIfAbsent</a><br>
-<a href="#PMap-firstCount">firstCount</a><br>
-<a href="#PMap-forward">forward</a><br>
-<a href="#PMap-hiddenSlots">hiddenSlots</a><br>
-<a href="#PMap-lastCount">lastCount</a><br>
 <a href="#PMap-objectsForKeys">objectsForKeys</a><br>
 <a href="#PMap-persist">persist</a><br>
 <a href="#PMap-persistSlots">persistSlots</a><br>
@@ -12669,16 +12483,10 @@ into local object slots.
 <a href="#PMap-removeSlot">removeSlot</a><br>
 <a href="#PMap-shouldPersistByDefault">shouldPersistByDefault</a><br>
 <a href="#PMap-slotCount">slotCount</a><br>
-<a href="#PMap-slotsToRemove">slotsToRemove</a><br>
-<a href="#PMap-unpersist">unpersist</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
-<a name="PMap-afterCount"></a><b>afterCount</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="PMap-at"></a><b>at(slotName)</b><p>
 <div class=slotDescription>
 Tries to obtain a value for slot slotName from a local slot of that name,
@@ -12690,29 +12498,9 @@ If slotName begins with an underscore ("_"), returns the id of the slot from PDB
 <div class=slotDescription>
 Records value in the slot named slotName.
 </div>
-<a name="PMap-beforeCount"></a><b>beforeCount</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="PMap-createIfAbsent"></a><b>createIfAbsent</b><p>
 <div class=slotDescription>
 Creates a slot with a new PMap clone if not already present.
-</div>
-<a name="PMap-firstCount"></a><b>firstCount</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PMap-forward"></a><b>forward</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PMap-hiddenSlots"></a><b>hiddenSlots</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PMap-lastCount"></a><b>lastCount</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="PMap-objectsForKeys"></a><b>objectsForKeys</b><p>
 <div class=slotDescription>
@@ -12744,14 +12532,6 @@ Always true by default for PMap.
 <a name="PMap-slotCount"></a><b>slotCount</b><p>
 <div class=slotDescription>
 Returns the number of slots committed to PDB.
-</div>
-<a name="PMap-slotsToRemove"></a><b>slotsToRemove</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PMap-unpersist"></a><b>unpersist</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 </div>
 </div>
@@ -12916,35 +12696,10 @@ This object provides access the world of python.
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#Python-credits">credits</a><br>
-<a href="#Python-forward">forward</a><br>
-<a href="#Python-import">import</a><br>
-<a href="#Python-invoke">invoke</a><br>
-<a href="#Python-print">print</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
-<a name="Python-credits"></a><b>credits</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Python-forward"></a><b>forward</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Python-import"></a><b>import</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Python-invoke"></a><b>invoke</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Python-print"></a><b>print</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 </div>
 </div>
 <hr align=left>
@@ -14272,8 +14027,6 @@ should instiate it's own SHA1 instance.
 <h3>Slot Index</h3>
 <div class=slotIndex>
 <a href="#SHA1-appendSeq">appendSeq()</a><br>
-<a href="#SHA1-hash">hash</a><br>
-<a href="#SHA1-hashString">hashString</a><br>
 <a href="#SHA1-sha1">sha1</a><br>
 <a href="#SHA1-sha1String">sha1String</a><br>
 </div>
@@ -14283,14 +14036,6 @@ should instiate it's own SHA1 instance.
 <a name="SHA1-appendSeq"></a><b>appendSeq(aSequence)</b><p>
 <div class=slotDescription>
 Appends aSequence to the hash calculation. Returns self.
-</div>
-<a name="SHA1-hash"></a><b>hash</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SHA1-hashString"></a><b>hashString</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="SHA1-sha1"></a><b>sha1</b><p>
 <div class=slotDescription>
@@ -14339,16 +14084,13 @@ db close
 <a href="#SQLite-columnNamesOfTable">columnNamesOfTable()</a><br>
 <a href="#SQLite-debugOff">debugOff</a><br>
 <a href="#SQLite-debugOn">debugOn</a><br>
-<a href="#SQLite-delete">delete</a><br>
 <a href="#SQLite-error">error</a><br>
 <a href="#SQLite-escapeString">escapeString()</a><br>
 <a href="#SQLite-exec">exec()</a><br>
-<a href="#SQLite-exists">exists</a><br>
 <a href="#SQLite-isOpen">isOpen</a><br>
 <a href="#SQLite-lastInsertRowId">lastInsertRowId</a><br>
 <a href="#SQLite-open">open()</a><br>
 <a href="#SQLite-path">path</a><br>
-<a href="#SQLite-rowsChangedCount">rowsChangedCount</a><br>
 <a href="#SQLite-setPath">setPath()</a><br>
 <a href="#SQLite-setTimeoutSeconds">setTimeoutSeconds()</a><br>
 <a href="#SQLite-tableNames">tableNames</a><br>
@@ -14382,10 +14124,6 @@ Turns off debugging.
 <div class=slotDescription>
 Turns on debugging.
 </div>
-<a name="SQLite-delete"></a><b>delete</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="SQLite-error"></a><b>error</b><p>
 <div class=slotDescription>
 Results a string containing the current error. 
@@ -14405,10 +14143,6 @@ Opens the database if it is not already open and executes
 	The key/value pairs of the maps being column name/column value
 	pairs for a row. ")
 </div>
-<a name="SQLite-exists"></a><b>exists</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="SQLite-isOpen"></a><b>isOpen</b><p>
 <div class=slotDescription>
 Returns true if the database is open, false otherwise.
@@ -14426,10 +14160,6 @@ Opens the database.Returns self on success or nil upon failure.
 <a name="SQLite-path"></a><b>path</b><p>
 <div class=slotDescription>
 Returns the path to the database file.
-</div>
-<a name="SQLite-rowsChangedCount"></a><b>rowsChangedCount</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="SQLite-setPath"></a><b>setPath(aSeq)</b><p>
 <div class=slotDescription>
@@ -14502,16 +14232,13 @@ db close
 <a href="#SQLite3-columnNamesOfTable">columnNamesOfTable()</a><br>
 <a href="#SQLite3-debugOff">debugOff</a><br>
 <a href="#SQLite3-debugOn">debugOn</a><br>
-<a href="#SQLite3-delete">delete</a><br>
 <a href="#SQLite3-error">error</a><br>
 <a href="#SQLite3-escapeString">escapeString()</a><br>
 <a href="#SQLite3-exec">exec()</a><br>
-<a href="#SQLite3-exists">exists</a><br>
 <a href="#SQLite3-isOpen">isOpen</a><br>
 <a href="#SQLite3-lastInsertRowId">lastInsertRowId</a><br>
 <a href="#SQLite3-open">open()</a><br>
 <a href="#SQLite3-path">path</a><br>
-<a href="#SQLite3-rowsChangedCount">rowsChangedCount</a><br>
 <a href="#SQLite3-setPath">setPath</a><br>
 <a href="#SQLite3-setTimeoutSeconds">setTimeoutSeconds()</a><br>
 <a href="#SQLite3-tableNames">tableNames</a><br>
@@ -14543,10 +14270,6 @@ Turns off debugging.
 <div class=slotDescription>
 Turns on debugging.
 </div>
-<a name="SQLite3-delete"></a><b>delete</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="SQLite3-error"></a><b>error</b><p>
 <div class=slotDescription>
 Results a string containing the current error. If there is no error, Nil is returned.
@@ -14564,10 +14287,6 @@ Opens the database if it is not already open and executes
 	there was an error. Each map holds the contents of a row.
 	The key/value pairs of the maps being column name/column value
 	pairs for a row.
-</div>
-<a name="SQLite3-exists"></a><b>exists</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="SQLite3-isOpen"></a><b>isOpen</b><p>
 <div class=slotDescription>
@@ -14590,10 +14309,6 @@ Opens the database. If there is an optionalPathString argument,
 <a name="SQLite3-path"></a><b>path</b><p>
 <div class=slotDescription>
 Returns the path to the database file.
-</div>
-<a name="SQLite3-rowsChangedCount"></a><b>rowsChangedCount</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="SQLite3-setPath"></a><b>setPath</b><p>
 <div class=slotDescription>
@@ -14837,7 +14552,6 @@ Terminology
 <a href="#Sequence-&lt;=">&lt;=</a><br>
 <a href="#Sequence-&gt;">&gt;</a><br>
 <a href="#Sequence-&gt;=">&gt;=</a><br>
-<a href="#Sequence-EscapeRegex">EscapeRegex</a><br>
 <a href="#Sequence-Max">Max</a><br>
 <a href="#Sequence-Min">Min</a><br>
 <a href="#Sequence-abs">abs</a><br>
@@ -14870,7 +14584,6 @@ Terminology
 <a href="#Sequence-asOSPath">asOSPath</a><br>
 <a href="#Sequence-asRegex">asRegex</a><br>
 <a href="#Sequence-asSGML">asSGML</a><br>
-<a href="#Sequence-asSerialization">asSerialization</a><br>
 <a href="#Sequence-asSimpleString">asSimpleString</a><br>
 <a href="#Sequence-asString">asString</a><br>
 <a href="#Sequence-asStruct">asStruct()</a><br>
@@ -14940,7 +14653,6 @@ Terminology
 <a href="#Sequence-floor">floor</a><br>
 <a href="#Sequence-foreach">foreach()</a><br>
 <a href="#Sequence-fromBase">fromBase()</a><br>
-<a href="#Sequence-fromSerialization">fromSerialization</a><br>
 <a href="#Sequence-glClearColor">glClearColor</a><br>
 <a href="#Sequence-glColor">glColor</a><br>
 <a href="#Sequence-glNormal">glNormal</a><br>
@@ -15040,8 +14752,6 @@ Terminology
 <a href="#Sequence-setX">setX</a><br>
 <a href="#Sequence-setY">setY</a><br>
 <a href="#Sequence-setZ">setZ</a><br>
-<a href="#Sequence-sha1">sha1</a><br>
-<a href="#Sequence-sha1String">sha1String</a><br>
 <a href="#Sequence-sin">sin</a><br>
 <a href="#Sequence-sinh">sinh</a><br>
 <a href="#Sequence-size">size</a><br>
@@ -15139,10 +14849,6 @@ Divides the values of aSeq to the corresponding values of the receiver.
 <div class=error>undocumented</div>
 </div>
 <a name="Sequence-&gt;="></a><b>&gt;=</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Sequence-EscapeRegex"></a><b>EscapeRegex</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
@@ -15302,10 +15008,6 @@ Returns a new Regex created from the receiver.
 <a name="Sequence-asSGML"></a><b>asSGML</b><p>
 <div class=slotDescription>
 SGML extension to interpret the Sequence as SGML and return an SGML object using SGMLParser elementForString
-</div>
-<a name="Sequence-asSerialization"></a><b>asSerialization</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="Sequence-asSimpleString"></a><b>asSimpleString</b><p>
 <div class=slotDescription>
@@ -15644,10 +15346,6 @@ aSequence foreach(v, writeln("value ", v))
 <div class=slotDescription>
 Returns a number with a base 10 representation of the receiver
 	converted from the specified base. Only base 2 through 32 are currently supported.
-</div>
-<a name="Sequence-fromSerialization"></a><b>fromSerialization</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="Sequence-glClearColor"></a><b>glClearColor</b><p>
 <div class=slotDescription>
@@ -16091,14 +15789,6 @@ Sets the length in bytes of the receiver to aNumber. Return self.
 <div class=error>undocumented</div>
 </div>
 <a name="Sequence-setZ"></a><b>setZ</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Sequence-sha1"></a><b>sha1</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Sequence-sha1String"></a><b>sha1String</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
@@ -17398,119 +17088,14 @@ Returns a version number for Io.
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#SystemCall-arguments">arguments</a><br>
 <a href="#SystemCall-asyncRun">asyncRun()</a><br>
-<a href="#SystemCall-close">close</a><br>
-<a href="#SystemCall-command">command</a><br>
-<a href="#SystemCall-environment">environment</a><br>
-<a href="#SystemCall-isRunning">isRunning</a><br>
-<a href="#SystemCall-returnCode">returnCode</a><br>
-<a href="#SystemCall-run">run</a><br>
-<a href="#SystemCall-runWith">runWith</a><br>
-<a href="#SystemCall-setArguments">setArguments</a><br>
-<a href="#SystemCall-setCommand">setCommand</a><br>
-<a href="#SystemCall-setEnvironment">setEnvironment</a><br>
-<a href="#SystemCall-setIsRunning">setIsRunning</a><br>
-<a href="#SystemCall-setReturnCode">setReturnCode</a><br>
-<a href="#SystemCall-setStderr">setStderr</a><br>
-<a href="#SystemCall-setStdin">setStdin</a><br>
-<a href="#SystemCall-setStdout">setStdout</a><br>
-<a href="#SystemCall-status">status</a><br>
-<a href="#SystemCall-stderr">stderr</a><br>
-<a href="#SystemCall-stdin">stdin</a><br>
-<a href="#SystemCall-stdout">stdout</a><br>
-<a href="#SystemCall-with">with</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
-<a name="SystemCall-arguments"></a><b>arguments</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="SystemCall-asyncRun"></a><b>asyncRun(command, argList, envMap)</b><p>
 <div class=slotDescription>
 Run the system call.")
-</div>
-<a name="SystemCall-close"></a><b>close</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-command"></a><b>command</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-environment"></a><b>environment</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-isRunning"></a><b>isRunning</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-returnCode"></a><b>returnCode</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-run"></a><b>run</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-runWith"></a><b>runWith</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-setArguments"></a><b>setArguments</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-setCommand"></a><b>setCommand</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-setEnvironment"></a><b>setEnvironment</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-setIsRunning"></a><b>setIsRunning</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-setReturnCode"></a><b>setReturnCode</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-setStderr"></a><b>setStderr</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-setStdin"></a><b>setStdin</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-setStdout"></a><b>setStdout</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-status"></a><b>status</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-stderr"></a><b>stderr</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-stdin"></a><b>stdin</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-stdout"></a><b>stdout</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-with"></a><b>with</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 </div>
 </div>
@@ -17554,9 +17139,7 @@ Run the system call.")
 <h3>Slot Index</h3>
 <div class=slotIndex>
 <a href="#TagLib-load">load</a><br>
-<a href="#TagLib-path">path</a><br>
 <a href="#TagLib-save">save</a><br>
-<a href="#TagLib-setPath">setPath</a><br>
 </div>
 <p>
 <h3>Slots</h3>
@@ -17565,17 +17148,9 @@ Run the system call.")
 <div class=slotDescription>
 Loads tag data from the file specified in the path slot. Returns self.
 </div>
-<a name="TagLib-path"></a><b>path</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="TagLib-save"></a><b>save</b><p>
 <div class=slotDescription>
 Saves the tag settings and returns self.
-</div>
-<a name="TagLib-setPath"></a><b>setPath</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 </div>
 </div>
@@ -17651,20 +17226,10 @@ Thread createThread()
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#Thread-createThread">createThread</a><br>
-<a href="#Thread-threadCount">threadCount</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
-<a name="Thread-createThread"></a><b>createThread</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Thread-threadCount"></a><b>threadCount</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 </div>
 </div>
 <hr align=left>
@@ -17733,7 +17298,6 @@ An ordered key/value database that supports transactions and arbitrary kay and v
 <div class=slotIndex>
 <a href="#TokyoCabinet-abort">abort</a><br>
 <a href="#TokyoCabinet-at">at()</a><br>
-<a href="#TokyoCabinet-atAppend">atAppend</a><br>
 <a href="#TokyoCabinet-atApple">atApple()</a><br>
 <a href="#TokyoCabinet-atPut">atPut()</a><br>
 <a href="#TokyoCabinet-atRemove">atRemove()</a><br>
@@ -17746,7 +17310,6 @@ An ordered key/value database that supports transactions and arbitrary kay and v
 <a href="#TokyoCabinet-optimize">optimize</a><br>
 <a href="#TokyoCabinet-path">path</a><br>
 <a href="#TokyoCabinet-prefixCursor">prefixCursor</a><br>
-<a href="#TokyoCabinet-removeAt">removeAt</a><br>
 <a href="#TokyoCabinet-setCompareType">setCompareType()</a><br>
 <a href="#TokyoCabinet-setPath">setPath()</a><br>
 <a href="#TokyoCabinet-size">size</a><br>
@@ -17765,10 +17328,6 @@ Abort transaction. Returns self
 <a name="TokyoCabinet-at"></a><b>at(keySymbol)</b><p>
 <div class=slotDescription>
 Returns a Sequence for the value at the given key or nil if there is no such key.
-</div>
-<a name="TokyoCabinet-atAppend"></a><b>atAppend</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="TokyoCabinet-atApple"></a><b>atApple(keySymbol, valueSequence)</b><p>
 <div class=slotDescription>
@@ -17817,10 +17376,6 @@ Returns the path of the database file.
 <a name="TokyoCabinet-prefixCursor"></a><b>prefixCursor</b><p>
 <div class=slotDescription>
 Returns a new prefix cursor object.
-</div>
-<a name="TokyoCabinet-removeAt"></a><b>removeAt</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="TokyoCabinet-setCompareType"></a><b>setCompareType(name)</b><p>
 <div class=slotDescription>
@@ -17953,11 +17508,9 @@ A database cursor.
 <a href="#TokyoCabinetPrefixCursor-key">key</a><br>
 <a href="#TokyoCabinetPrefixCursor-last">last</a><br>
 <a href="#TokyoCabinetPrefixCursor-next">next</a><br>
-<a href="#TokyoCabinetPrefixCursor-prefix">prefix</a><br>
 <a href="#TokyoCabinetPrefixCursor-previous">previous</a><br>
 <a href="#TokyoCabinetPrefixCursor-put">put()</a><br>
 <a href="#TokyoCabinetPrefixCursor-remove">remove</a><br>
-<a href="#TokyoCabinetPrefixCursor-setPrefix">setPrefix</a><br>
 <a href="#TokyoCabinetPrefixCursor-value">value</a><br>
 </div>
 <p>
@@ -17988,10 +17541,6 @@ Move cursor to last record. Returns self
 Move cursor to next record. Returns true if there is another key, 
 	or false if there is no next record.
 </div>
-<a name="TokyoCabinetPrefixCursor-prefix"></a><b>prefix</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="TokyoCabinetPrefixCursor-previous"></a><b>previous</b><p>
 <div class=slotDescription>
 Move cursor to previous record. Returns true if there is another key, 
@@ -18004,10 +17553,6 @@ Sets the value at the current cursor postion. Returns self.
 <a name="TokyoCabinetPrefixCursor-remove"></a><b>remove</b><p>
 <div class=slotDescription>
 Removes the current cursor postion. Returns self.
-</div>
-<a name="TokyoCabinetPrefixCursor-setPrefix"></a><b>setPrefix</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="TokyoCabinetPrefixCursor-value"></a><b>value</b><p>
 <div class=slotDescription>
@@ -18619,11 +18164,7 @@ bf outputBuffer // this contains the output data
 <div class=slotIndex>
 <a href="#ZlibDecoder-beginProcessing">beginProcessing</a><br>
 <a href="#ZlibDecoder-endProcessing">endProcessing</a><br>
-<a href="#ZlibDecoder-inputBuffer">inputBuffer</a><br>
-<a href="#ZlibDecoder-outputBuffer">outputBuffer</a><br>
 <a href="#ZlibDecoder-process">process</a><br>
-<a href="#ZlibDecoder-setInputBuffer">setInputBuffer</a><br>
-<a href="#ZlibDecoder-setOutputBuffer">setOutputBuffer</a><br>
 </div>
 <p>
 <h3>Slots</h3>
@@ -18636,26 +18177,10 @@ Initializes the algorithm.
 <div class=slotDescription>
 Finish processing remaining bytes of inputBuffer.
 </div>
-<a name="ZlibDecoder-inputBuffer"></a><b>inputBuffer</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="ZlibDecoder-outputBuffer"></a><b>outputBuffer</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="ZlibDecoder-process"></a><b>process</b><p>
 <div class=slotDescription>
 Process the inputBuffer and appends the result to the outputBuffer.
 	The processed inputBuffer is empties except for the spare bytes at the end which don't fit into a cipher block.
-</div>
-<a name="ZlibDecoder-setInputBuffer"></a><b>setInputBuffer</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="ZlibDecoder-setOutputBuffer"></a><b>setOutputBuffer</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 </div>
 </div>
@@ -18908,7 +18433,6 @@ Returns nil without evaluating expression.
 <a href="#true-justSerialized">justSerialized()</a><br>
 <a href="#true-not">not</a><br>
 <a href="#true-or">or</a><br>
-<a href="#true-ppid">ppid</a><br>
 <a href="#true-then">then</a><br>
 </div>
 <p>
@@ -18957,10 +18481,6 @@ Does not eval argument and returns false.
 <a name="true-or"></a><b>or</b><p>
 <div class=slotDescription>
 Does not eval argument and returns true.
-</div>
-<a name="true-ppid"></a><b>ppid</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="true-then"></a><b>then</b><p>
 <div class=slotDescription>

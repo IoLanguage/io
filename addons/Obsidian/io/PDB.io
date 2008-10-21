@@ -76,7 +76,7 @@ Notes: Currently, PDB is a singleton.
 */
 
 PDB := Obsidian clone do(
-	objectsToPersist ::= List clone
+	objectsToPersist ::= Map clone
 	ppidMap := Map clone
 	_root := nil
 	
@@ -101,15 +101,26 @@ shouldPersistByDefault is true, or that have specifically requested to be
 persisted since the last sync via addObjectToPersist.
 	*/
 	sync := method(
+		//writeln("\n\nPDB sync ----------")
 		Collector collect
-		Collector dirtyObjects foreach(obj,
+		dirty := Collector dirtyObjects 
+		dirty foreach(obj,
 			if(getSlot("obj") shouldPersistByDefault == true,
 				//writeln(getSlot("obj") type, "_", getSlot("obj") uniqueId, " shouldPersistByDefault ")
-				objectsToPersist appendIfAbsent(getSlot("obj"))
+				objectsToPersist atPut(getSlot("obj") ppid, getSlot("obj"))
 			)
 		)
-		objectsToPersist foreach(persist)
-		objectsToPersist removeAll
+		//writeln("PDB: persisting ", objectsToPersist size, " of ", dirty size, " dirty objects")
+	
+		while(objectsToPersist size > 0,
+			keys := objectsToPersist keys
+			keys foreach(k, 
+				o := objectsToPersist at(k)
+				//"About to persist #{o type}_#{o uniqueHexId}" interpolate println
+				o persist
+				objectsToPersist removeAt(k)
+			)
+		)
 		Collector cleanAllObjects
 		self
 	)
@@ -131,7 +142,7 @@ persisted since the last sync via addObjectToPersist.
 	
 	//doc PDB addObjectToPersist Register an object to be persisted in the next PDB sync.
 	addObjectToPersist := method(o,
-		objectsToPersist appendIfAbsent(o)
+		objectsToPersist atIfAbsentPut(o ppid, o)
 	)
 	
 	//doc PDB close Close the persistence database.
@@ -153,7 +164,7 @@ persisted since the last sync via addObjectToPersist.
 	
 	//doc PDB show Print to standard output a listing of all objects and IDs stored in PDB.  
 	show := method(
-		writeln("PDB ", db path, ":")
+		//writeln("PDB ", db path, ":")
 		c := db cursor
 		c first
 		while(c key,
@@ -188,8 +199,10 @@ persisted since the last sync via addObjectToPersist.
 			c first
 			while(c key,
 				k := c key
+				v := c value
 				if(k beginsWithSeq("_") == false and walked at(k) == nil,
 					toWalk append(k)
+					if(walked at(v) == nil, toWalk append(v))
 				)
 				c next
 			)

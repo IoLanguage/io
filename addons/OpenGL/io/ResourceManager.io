@@ -90,7 +90,3 @@ FontManager := ResourceManager clone do(
 	setResourceProto(Font)
 )
 
-//autoImportResources := method(path, if(path, ResourceManager setResourcesPath(path)))
-
-
-

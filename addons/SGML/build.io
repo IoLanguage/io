@@ -22,7 +22,10 @@ AddonBuilder clone do(
 	)
 	
 	clean := method(
-		resend
-		System system("cd addons/SGML/source/" .. libSgmlDirectory .. "; make clean")
+	      	 d := "addons/SGML/source/" .. libSgmlDirectory
+		 if ( Directory exists ( d ),
+		      resend
+		      System system("cd " .. d .. "; make clean")
+		 )
 	)
 )

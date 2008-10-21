@@ -91,7 +91,7 @@ Sequence do(
 		num := self findSeq(str)
 		if(num isNil, return nil)
 		if(n == 1, return num)
-		num + self slice(num + 1, self size) findNthSeq(str, n - 1)
+		num + self exclusiveSlice(num + 1, self size) findNthSeq(str, n - 1)
 	)
 
 
@@ -106,7 +106,7 @@ Sequence do(
 					skipped = skipped + 1
 					continue
 				)
-				r append(slice(i, j))
+				r append(exclusiveSlice(i, j))
 				if(skipped > 0,
 					skipped repeat(r append(nil))
 					skipped = 0
@@ -116,7 +116,7 @@ Sequence do(
 			if(size == 0,
 				r append(nil)
 			,
-				r append(slice(i))
+				r append(exclusiveSlice(i))
 			)
 			skipped repeat(r append(nil))
 			r
@@ -164,4 +164,9 @@ Sequence do(
 	)
 	
 	asDecodedList := method(List fromEncodedList(self))
+	
+	slice := method(start,
+		deprecatedWarning("exSlice")
+		performWithArgList("exSlice", call evalArgs)
+	)
 )

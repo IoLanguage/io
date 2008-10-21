@@ -12,9 +12,4 @@ AddonBuilder clone do(
 //			System system("cd addons/TagDB/source/tagdb; ./configure; echo \"sudo make install\"; sudo make install")
 //		)
 //	)
-
-	clean := method(
-		resend
-		System system("cd addons/TagDB/source/tagdb; make clean")
-	)
 )

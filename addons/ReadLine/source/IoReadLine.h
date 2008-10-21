@@ -1,7 +1,5 @@
-/*#io
-docCopyright("Jonaa Eschenburg", 2007)
-docLicense("BSD revised")
-*/
+//metadoc ReadLine copyright Jonaa Eschenburg, 2007
+//metadoc ReadLine license BSD revised
 
 #ifndef IoReadLine_DEFINED
 #define IoReadLine_DEFINED 1

@@ -56,6 +56,7 @@ IoEventManager *IoEventManager_proto(void *state)
 		IoMethodTable methodTable[] = {
 		{"addEvent", IoEventManager_addEvent},
 		{"removeEvent", IoEventManager_removeEvent},
+		{"resetEventTimeout", IoEventManager_resetEventTimeout},
 
 		{"listen", IoEventManager_listen},
 		{"listenUntilEvent", IoEventManager_listenUntilEvent},
@@ -226,6 +227,18 @@ IoObject *IoEventManager_removeEvent(IoEventManager *self, IoObject *locals, IoM
 {
 	IoEvent *event = IoMessage_locals_eventArgAt_(m, locals, 0);
 	event_del(IoEvent_rawEvent(event));
+	return self;
+}
+
+IoObject *IoEventManager_resetEventTimeout(IoEventManager *self, IoObject *locals, IoMessage *m)
+{
+	IoEvent *event = IoMessage_locals_eventArgAt_(m, locals, 0);
+	struct event *ev = IoEvent_rawEvent(event);
+	double timeout = IoMessage_locals_doubleArgAt_(m, locals, 1);
+	struct timeval tv = timevalFromDouble(timeout);
+	
+	event_add(ev, &tv);
+
 	return self;
 }
 

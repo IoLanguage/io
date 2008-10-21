@@ -247,8 +247,8 @@ Message do(
 	valueForToken := method(token,
 	tokenType := token type
 	tokenName := token name
-	if (tokenType == "TriQuote", return tokenName slice(3, -3) unescape)
-	if (tokenType == "MonoQuote", return tokenName slice(1, -1) unescape)
+	if (tokenType == "TriQuote", return tokenName exclusiveSlice(3, -3) unescape)
+	if (tokenType == "MonoQuote", return tokenName exclusiveSlice(1, -1) unescape)
 	if (tokenType == "Number" or tokenType == "HexNumber", return tokenName asNumber)
 	nil
 	)

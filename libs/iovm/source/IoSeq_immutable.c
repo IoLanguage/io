@@ -276,11 +276,38 @@ IoObject *IoSeq_at(IoSeq *self, IoObject *locals, IoMessage *m)
 	}
 }
 
-IoObject *IoSeq_slice(IoSeq *self, IoObject *locals, IoMessage *m)
+IoObject *IoSeq_exclusiveSlice(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*doc Sequence slice(startIndex, endIndex)
+	/*doc Sequence exclusiveSlice(inclusiveStartIndex, exclusiveEndIndex)
 	Returns a new string containing the subset of the
-	receiver from the startIndex to the endIndex. The endIndex argument
+	receiver from the inclusiveStartIndex to the exclusiveEndIndex. The exclusiveEndIndex argument
+	is optional. If not given, it is assumed to be one beyond the end of the string. 
+	*/
+
+	long fromIndex = IoMessage_locals_longArgAt_(m, locals, 0);
+	long last = UArray_size(DATA(self));
+	UArray *ba;
+
+	if (IoMessage_argCount(m) > 1)
+	{
+		last = IoMessage_locals_longArgAt_(m, locals, 1);
+	}
+
+	ba = UArray_slice(DATA(self), fromIndex, last);
+
+	if (ISSYMBOL(self))
+	{
+		return IoState_symbolWithUArray_copy_(IOSTATE, ba, 0);
+	}
+
+	return IoSeq_newWithUArray_copy_(IOSTATE, ba, 0);
+}
+
+IoObject *IoSeq_inclusiveSlice(IoSeq *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Sequence inclusiveSlice(inclusiveStartIndex, inclusiveEndIndex)
+	Returns a new string containing the subset of the
+	receiver from the inclusiveStartIndex to the inclusiveEndIndex. The inclusiveEndIndex argument
 	is optional. If not given, it is assumed to be the end of the string. 
 	*/
 
@@ -293,6 +320,15 @@ IoObject *IoSeq_slice(IoSeq *self, IoObject *locals, IoMessage *m)
 		last = IoMessage_locals_longArgAt_(m, locals, 1);
 	}
 
+	if (last == -1)
+	{
+		last = UArray_size(DATA(self));
+	}
+	else
+	{
+		last = last + 1;
+	}
+	
 	ba = UArray_slice(DATA(self), fromIndex, last);
 
 	if (ISSYMBOL(self))
@@ -1352,7 +1388,10 @@ void IoSeq_addImmutableMethods(IoSeq *self)
 	{"isZero", IoSeq_isZero},
 	{"isEmpty", IoSeq_isEmpty},
 	{"at", IoSeq_at},
-	{"slice", IoSeq_slice},
+	{"exclusiveSlice", IoSeq_exclusiveSlice},
+	{"exSlice", IoSeq_exclusiveSlice},
+	{"inclusiveSlice", IoSeq_inclusiveSlice},
+	{"inSlice", IoSeq_inclusiveSlice},
 	{"between", IoSeq_between},
 	{"betweenSeq", IoSeq_between},
 	{"findSeqs", IoSeq_findSeqs},

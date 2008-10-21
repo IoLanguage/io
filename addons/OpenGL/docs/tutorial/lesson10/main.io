@@ -61,7 +61,7 @@ Demo do(
 // Here's where we read in the data file.  Io doesn't have sscanf(), but
 // similar parsing with String is just as clean, if not cleaner.
 Demo SetupWorld := method(
-    worldFile := File clone openForReading(Path with(launchPath, "World.txt"))
+    worldFile := File clone openForReading(Path with(System launchPath, "World.txt"))
     //worldFile readLines selectInPlace(i, v, v != "" and v beginsWithSeq("//") == nil)
     numtriangles := worldFile readstr removePrefix("NUMPOLLIES ") asNumber
     
@@ -93,7 +93,7 @@ Demo reshape := method(w, h,
 
 // The only thing changed here is the use of the mud texture.
 Demo LoadGLTextures := method(
-    image := Image clone open(Path with(launchPath, "mud.jpg"))
+    image := Image clone open(Path with(System launchPath, "mud.jpg"))
     
     glGenTextures(3, texture)
     

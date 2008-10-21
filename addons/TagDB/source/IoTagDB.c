@@ -1,8 +1,8 @@
-/*#io
-TagDB ioDoc(
-	docCopyright("Steve Dekorte", 2007)
-	docLicense("BSD revised")
-	docDescription("""Binding for tagdb - a tagging database.""")
+//metadoc TagDB copyright Steve Dekorte, 2007
+//metadoc TagDB license BSD revised
+//metadoc TagDB category Databases
+/*metadoc TagDB description
+Binding for tagdb - a tagging database.
 */
 
 #include "IoTagDB.h"
@@ -46,8 +46,8 @@ void IoTagDB_free(IoTagDB *self)
 
 IoObject *IoTagDB_setPath(IoTagDB *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("setPath(aPath)", "Sets the path to the tag database. Returns self.")
+	/*doc TagDB setPath(aPath)
+	Sets the path to the tag database. Returns self.
 	*/
 	IoSeq *path = IoMessage_locals_seqArgAt_(m, locals, 0);
 	TagDB_setPath_(DATA(self), CSTRING(path));
@@ -56,8 +56,8 @@ IoObject *IoTagDB_setPath(IoTagDB *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoTagDB_open(IoTagDB *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("open", "Open the tagdb. Returns self.")
+	/*doc TagDB open
+	Open the tagdb. Returns self.
 	*/
 
 	TagDB_open(DATA(self));
@@ -67,8 +67,8 @@ IoObject *IoTagDB_open(IoTagDB *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoTagDB_close(IoTagDB *self, IoObject *locals, IoMessage *m)
 {
-	/*#io
-	docSlot("close", "Close the tagdb. Returns self.")
+	/*doc TagDB close
+	Close the tagdb. Returns self.
 	*/
 
 	TagDB_close(DATA(self));

@@ -34,7 +34,8 @@ IOVM_API IoObject *IoSeq_sizeInBytes(IoSeq *self, IoObject *locals, IoMessage *m
 IOVM_API IoObject *IoSeq_isEmpty(IoSeq *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoSeq_isZero(IoSeq *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoSeq_at(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_slice(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoSeq_exclusiveSlice(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoSeq_inclusiveSlice(IoSeq *self, IoObject *locals, IoMessage *m);
 
 IOVM_API IoObject *IoSeq_between(IoSeq *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoSeq_asNumber(IoSeq *self, IoObject *locals, IoMessage *m);

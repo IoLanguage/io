@@ -32,9 +32,9 @@ d write := method(b,
 AudioMixer setAudioDevice(d)
 */
 /*
-s1 := Sound clone open(Path with(launchPath, "SampleLoops/drum.wav"))
-s2 := Sound clone open(Path with(launchPath, "SampleLoops/bass.wav"))
-s3 := Sound clone open(Path with(launchPath, "SampleLoops/synth.wav"))
+s1 := Sound clone open(Path with(System launchPath, "SampleLoops/drum.wav"))
+s2 := Sound clone open(Path with(System launchPath, "SampleLoops/bass.wav"))
+s3 := Sound clone open(Path with(System launchPath, "SampleLoops/synth.wav"))
 AudioMixer addSound(s1)
 AudioMixer addSound(s2)
 AudioMixer addSound(s3)
@@ -60,7 +60,7 @@ jitterDraw := method(
   )
 )
 
-doFile(Path with(launchPath, "Thing.io"))
+doFile(Path with(System launchPath, "Thing.io"))
 
 Mix := Object clone
 Mix appendProto(OpenGL)
@@ -72,8 +72,8 @@ Mix lastMouseDownTime := Date clone now
 Mix fullScreen := nil
 Mix framesPerSecond := 40
 
-sansFont12 := Font clone open(Path with(launchPath, "../../IoResources/Library/Fonts/Free/Sans/Bold.ttf")) setPixelSize(17)
-sansFont24 := Font clone open(Path with(launchPath, "../../IoResources/Library/Fonts/Free/Sans/Bold.ttf")) setPixelSize(38)
+sansFont12 := Font clone open(Path with(System launchPath, "../../IoResources/Library/Fonts/Free/Sans/Bold.ttf")) setPixelSize(17)
+sansFont24 := Font clone open(Path with(System launchPath, "../../IoResources/Library/Fonts/Free/Sans/Bold.ttf")) setPixelSize(38)
 
 Mix reshape := method(w, h, 
   self width := w
@@ -195,18 +195,18 @@ Mix leftSpeaker  := Speaker clone setName("L")
 Mix rightSpeaker := Speaker clone setName("R")
 Mix things append(Mix leftSpeaker, Mix rightSpeaker)
 
-Mix addLoopAt(Path with(launchPath, "Loops/drum.wav"), 200, 75)
-Mix addLoopAt(Path with(launchPath, "Loops/bass.wav"), 400, 250)
-Mix addLoopAt(Path with(launchPath, "Loops/synth.wav"), 600, 75)
+Mix addLoopAt(Path with(System launchPath, "Loops/drum.wav"), 200, 75)
+Mix addLoopAt(Path with(System launchPath, "Loops/bass.wav"), 400, 250)
+Mix addLoopAt(Path with(System launchPath, "Loops/synth.wav"), 600, 75)
 
 /*
-Mix addLoopAt(Path with(launchPath, "Loops/Progeny/keyboards.wav"), 400, 250)
-Mix addLoopAt(Path with(launchPath, "Loops/Progeny/guitars.wav"), 600, 75)
-Mix addLoopAt(Path with(launchPath, "Loops/Progeny/beltram.wav"), 700, 75)
-Mix addLoopAt(Path with(launchPath, "Loops/Progeny/trumpets.wav"), 100, 75)
-Mix addLoopAt(Path with(launchPath, "Loops/Progeny/bass.wav"), 200, 75)
-Mix addLoopAt(Path with(launchPath, "Loops/Progeny/MAM Harmony.wav"), 300, 75)
-Mix addLoopAt(Path with(launchPath, "Loops/Progeny/oz.wav"), 350, 175)
+Mix addLoopAt(Path with(System launchPath, "Loops/Progeny/keyboards.wav"), 400, 250)
+Mix addLoopAt(Path with(System launchPath, "Loops/Progeny/guitars.wav"), 600, 75)
+Mix addLoopAt(Path with(System launchPath, "Loops/Progeny/beltram.wav"), 700, 75)
+Mix addLoopAt(Path with(System launchPath, "Loops/Progeny/trumpets.wav"), 100, 75)
+Mix addLoopAt(Path with(System launchPath, "Loops/Progeny/bass.wav"), 200, 75)
+Mix addLoopAt(Path with(System launchPath, "Loops/Progeny/MAM Harmony.wav"), 300, 75)
+Mix addLoopAt(Path with(System launchPath, "Loops/Progeny/oz.wav"), 350, 175)
 */
 
 Mix run

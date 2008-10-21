@@ -1,16 +1,16 @@
-/*#io
-SecureClient ioDoc(
-		   docCopyright("Joe Osborn", 2007)
-		   docLicense("BSD revised")
-		   docDependsOn("Client")
-		   docDescription("""Interface to secure network communication. 
-A SecureClient is a wrapper on an OpenSSL SSL_CTX object and supports both TLSv1 and DTLSv1.
+//metadoc SecureClient copyright Joe Osborn, 2007
+//metadoc SecureClient license BSD revised
+//metadoc SecureClient category Networking
+//metadoc SecureClient dependsOn Client
+/*metadoc SecureClient description
+Interface to secure network communication. 
+A SecureClient is a wrapper on an OpenSSL SSL_CTX object
+and supports both TLSv1 and DTLSv1.
 Example:
 
 <pre>
 //...
 </pre>""")
-		   docCategory("Networking")
 */
 
 /*

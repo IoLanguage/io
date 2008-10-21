@@ -14,7 +14,7 @@ SJItem := Object clone do(
 
   nodePath := method(path asMutable removePrefix(rootPath) removePrefix("/"))
   
-  rootPath := method(Path with(launchPath, "Sounds"))
+  rootPath := method(Path with(System launchPath, "Sounds"))
   
   subitems := method(
     if (items, return items)
@@ -65,7 +65,7 @@ SJItem := Object clone do(
 	if (path contains("Percussion"), m = "Percussion.png")
 	if (path contains("Vocals"), m = "Vocals.png")
 	if (path contains("World"), m = "World.png")
-	if (m, return Path with(launchPath, "Images/Instruments", m))
+	if (m, return Path with(System launchPath, "Images/Instruments", m))
 	nil
     )
 

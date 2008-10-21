@@ -1,9 +1,10 @@
-/*#io
-MySQL ioDoc(
-	docCopyright("Min-hee Hong", 2007)
-	docLicense("MIT License")
-	docObject("MySQL")
-	docDescription("""<a href="http://www.mysql.com/">MySQL</a> is a fast, multi-threaded, multi-user SQL database server. IoMySQL is a MySQL binding for Io, by <a href="http://dahlia.pe.kr/">Min-hee Hong</a>.
+//metadoc MySQL copyright Min-hee Hong, 2007
+//metadoc MySQL license MIT License
+//metadoc MySQL category Databases
+/*metadoc MySQL description
+<a href="http://www.mysql.com/">MySQL</a> is a fast, multi-threaded,
+multi-user SQL database server. IoMySQL is a MySQL binding for Io,
+by <a href="http://dahlia.pe.kr/">Min-hee Hong</a>.
 
 <pre><code>
 my := MySQL establish(&quot;localhost&quot;, &quot;user&quot;, &quot;password&quot;, &quot;database&quot;)
@@ -15,9 +16,7 @@ my query(&quot;SELECT * FROM rel&quot;) foreach(at(0) println)
 
 my close
 </code></pre>
-""")
-	docCategory("Databases")
-	*/
+*/
 
 #include "IoMySQL.h"
 #include "IoMessage.h"
@@ -81,9 +80,8 @@ void IoMySQL_free(IoObject* self) {
 /* ----------------------------------------------------------- */
 
 IoObject* IoMySQL_establish(IoObject* self, IoObject* locals, IoMessage* m) {
-	/*#io
-	docSlot("establish",
-		   "Establish a connection to a MySQL database.")
+	/*doc MySQL establish
+	Establish a connection to a MySQL database.
 	*/
 	IoObject* result = IoMySQL_new(IOSTATE);
 	IoMySQL_connect(result, locals, m);
@@ -93,9 +91,8 @@ IoObject* IoMySQL_establish(IoObject* self, IoObject* locals, IoMessage* m) {
 IoObject* IoMySQL_connect(IoObject* self, IoObject* locals, IoMessage* m) {
 	IoObject *host = NULL, *user = NULL, *password = NULL, *database = NULL, *port = NULL, *socket = NULL, *ssl = NULL;
 
-	/*#io
-	docSlot("connect(host, user, password, database, port, unixSocket, useSSL)",
-		   "Connect to a MySQL database.")
+	/*doc MySQL connect(host, user, password, database, port, unixSocket, useSSL)
+	Connect to a MySQL database.
 	*/
 
 	switch(IoMessage_argCount(m)) {
@@ -142,9 +139,8 @@ IoObject* IoMySQL_connected(IoObject* self, IoObject* locals, IoMessage* m) {
 }
 
 IoObject* IoMySQL_close(IoObject* self, IoObject* locals, IoMessage* m) {
-	/*#io
-	docSlot("close",
-		   "Closes a previously opened connection.")
+	/*doc close
+	Closes a previously opened connection.
 	*/
 
 	if(DATA(self)->connected)
@@ -225,9 +221,8 @@ IoObject* IoMySQL_query(IoObject* self, IoObject* locals, IoMessage* m) {
 }
 
 IoObject* IoMySQL_lastInsertRowId(IoObject* self, IoObject* locals, IoMessage* m) {
-	/*#io
-	docSlot("lastInsertRowId",
-		"Returns the value generated for an AUTO_INCREMENT column by the previous INSERT or UPDATE statement.")
+	/*doc MySQL lastInsertRowId
+	Returns the value generated for an AUTO_INCREMENT column by the previous INSERT or UPDATE statement.
 	*/
 
 	if(DATA(self)->connected)
