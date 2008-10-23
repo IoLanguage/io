@@ -42,4 +42,6 @@ Number do(
 
 	//doc Number minMax(low, high) Returns a number between or equal to low and high. If the receiver is equal to or between low and high, the reciever is returned. If the reciever is less than low, low is returned. If the receiver is greater than high, high is returned.
 	minMax := method(low, high, min(high) max(low))
+	
+	asJson := getSlot("asString")
 )

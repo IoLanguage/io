@@ -24,7 +24,7 @@ Screen := Object clone do(
 )
 
 Screen initFonts := method(
-	fPath := "addons/Flux/resources/fonts/"
+	fPath := "../../Flux/resources/fonts/"
 	self infoFont = Font clone open(fPath .. "Free/Sans/Normal.ttf")
 	self infoFont setPixelSize(14)
 	font := nil
