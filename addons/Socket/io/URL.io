@@ -21,6 +21,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 
 	init := method(
 		self socket := socketProto clone
+		self requestHeaders := requestHeaders clone
 	)
 
 	setTimeout := method(timeout,
@@ -193,20 +194,32 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 	/*doc URL requestHeader 
 	Returns a Sequence containing the request header that will be sent.
 	*/
+	
+	requestHeaders := Map clone
+	requestHeaders atPut("User-Agent", "Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/312.8 (KHTML, like Gecko) Safari/312.6)")
+	requestHeaders atPut("Connection", "close")
+	//requestHeaders atPut("Referer", "")
+	requestHeaders atPut("Accept", "*/*")
+			
 	requestHeader := method(
 		header := Sequence clone
 		//write("request = [", request, "]\n")
 		header appendSeq("GET ", request," HTTP/1.1\r\n")
-		//header appendSeq("User-Agent: Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/312.8 (KHTML, like Gecko) Safari/312.6\r\n")
-		header appendSeq("User-Agent: curl/7.18.0 (i386-apple-darwin9.2.0) libcurl/7.18.0 zlib/1.2.3\r\n")
 		header appendSeq("Host: ", host, if(port != 80, ":" .. port, ""), "\r\n")
-		//header appendSeq("Host: ", host, ":", port, "\r\n")
-		header appendSeq("Connection: close\r\n")
-		
 		if(referer, header appendSeq("Referer: ", referer, "\r\n"))
-		header appendSeq("Accept: */*\r\n")
+
+		requestHeaders foreach(k, v,
+			header appendSeq(k, ":", v, "\r\n")
+		)
+		//header appendSeq("User-Agent: Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/312.8 (KHTML, like Gecko) Safari/312.6\r\n")
+		//header appendSeq("User-Agent: curl/7.18.0 (i386-apple-darwin9.2.0) libcurl/7.18.0 zlib/1.2.3\r\n")
+		//header appendSeq("Host: ", host, ":", port, "\r\n")
+		//header appendSeq("Connection: close\r\n")
+		
+		//header appendSeq("Accept: */*\r\n")
 		//header appendSeq("Accept: text/html\r\n")
 		//header appendSeq("Accept: text/html; q=1.0, text/*; q=0.8, image/gif; q=0.6, image/jpeg; q=0.6, image/*; q=0.5, */*; q=0.1\r\n")
+		//header appendSeq("Accept: text/*; image/*;\r\n")
 		//header appendSeq("Accept-Encoding: gzip, deflate\r\n")
 		//header appendSeq("Accept-Language: en\r\n\r\n")
 		header appendSeq("\r\n")

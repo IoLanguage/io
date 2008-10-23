@@ -364,6 +364,7 @@ void IoState_registerProtoWithFunc_(IoState *self, IoObject *proto, IoStateProto
 {
 	if (PHash_at_(self->primitives, (void *)func))
 	{
+		printf("Error registering proto: %s\n", IoObject_name(proto));
 		IoState_fatalError_(self, "IoState_registerProtoWithFunc_() Error: attempt to add the same proto twice");
 	}
 
