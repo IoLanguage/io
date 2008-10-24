@@ -46,6 +46,7 @@
 <div class=indexItem><a href="#Token">Token</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#UnitTest">UnitTest</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#WeakLink">WeakLink</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href="#false">false</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#nil">nil</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#true">true</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#AVCodec">AVCodec</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -70,6 +71,8 @@
 <div class=indexItem><a href="#DOServer">DOServer</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#MDOConnection">MDOConnection</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#MDOServer">MDOServer</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href="#Message">Message</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href="#Object">Object</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#Flux">Flux</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#Fnmatch">Fnmatch</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#Font">Font</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -98,6 +101,7 @@
 <div class=indexItem><a href="#PDB">PDB</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#PMap">PMap</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#category">category</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+</td><td valign=top>
 <div class=indexSection><a href="#OpenGL">OpenGL</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#Box">Box</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#GLApp">GLApp</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -107,7 +111,6 @@
 <div class=indexItem><a href="#GLUT">GLUT</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#OpenGL">OpenGL</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#Vector">Vector</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-</td><td valign=top>
 <div class=indexSection><a href="#PortAudio">PortAudio</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#AudioDevice">AudioDevice</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#AudioMixer">AudioMixer</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -137,6 +140,7 @@
 <div class=indexItem><a href="#SkipDB">SkipDB</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#SkipDBCursor">SkipDBCursor</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#SkipDBM">SkipDBM</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+</td><td valign=top>
 <div class=indexSection><a href="#Socket">Socket</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#DNS">DNS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#DNSQuery">DNSQuery</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -155,7 +159,6 @@
 <div class=indexItem><a href="#TimerEvent">TimerEvent</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#URL">URL</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#WriteEvent">WriteEvent</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-</td><td valign=top>
 <div class=indexSection><a href="#SoundTouch">SoundTouch</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#Syslog">Syslog</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexSection><a href="#SystemCall">SystemCall</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -786,7 +789,7 @@ They are typically used to represent object methods.
 <p>
 <a name="Block-Formatter"></a><b>Formatter</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Helper object for the <tt>asString</tt> method.
 </div>
 <a name="Block-argumentNames"></a><b>argumentNames</b><p>
 <div class=slotDescription>
@@ -810,7 +813,7 @@ Returns a string containing the decompiled code of the receiver.
 </div>
 <a name="Block-justSerialized"></a><b>justSerialized(stream)</b><p>
 <div class=slotDescription>
-Write's the receivers code into the stream.
+Writes the receiver's code into the stream.
 </div>
 <a name="Block-message"></a><b>message</b><p>
 <div class=slotDescription>
@@ -831,7 +834,7 @@ prints an Io source code representation of the block/method
 </div>
 <a name="Block-println"></a><b>println</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Same as <tt>print</tt>.
 </div>
 <a name="Block-scope"></a><b>scope</b><p>
 <div class=slotDescription>
@@ -1415,8 +1418,8 @@ Call stores slots related to activation.
 <a href="#Call-evalArgs">evalArgs</a><br>
 <a href="#Call-hasArgs">hasArgs</a><br>
 <a href="#Call-message">message</a><br>
-<a href="#Call-relayStopStatus">relayStopStatus</a><br>
-<a href="#Call-resetStopStatus">resetStopStatus</a><br>
+<a href="#Call-relayStopStatus">relayStopStatus()</a><br>
+<a href="#Call-resetStopStatus">resetStopStatus()</a><br>
 <a href="#Call-sender">sender</a><br>
 <a href="#Call-setStopStatus">setStopStatus()</a><br>
 <a href="#Call-slotContext">slotContext</a><br>
@@ -1473,13 +1476,15 @@ Returns true if the call was passed arguments.
 <div class=slotDescription>
 Returns the message value.
 </div>
-<a name="Call-relayStopStatus"></a><b>relayStopStatus</b><p>
+<a name="Call-relayStopStatus"></a><b>relayStopStatus(arg)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets sender's stop status (Normal, Return, 
+  Break, Continue etc.) and returns evaluated argument.
 </div>
-<a name="Call-resetStopStatus"></a><b>resetStopStatus</b><p>
+<a name="Call-resetStopStatus"></a><b>resetStopStatus(arg)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets stop status to Normal.
+  See also <tt>Call setStopStatus</tt>.
 </div>
 <a name="Call-sender"></a><b>sender</b><p>
 <div class=slotDescription>
@@ -1641,7 +1646,7 @@ Contains methods related to the compiling code.
 <h3>Slot Index</h3>
 <div class=slotIndex>
 <a href="#Compiler-messageForString">messageForString()</a><br>
-<a href="#Compiler-messageForString2">messageForString2</a><br>
+<a href="#Compiler-messageForString2">messageForString2()</a><br>
 <a href="#Compiler-messageForTokens">messageForTokens()</a><br>
 <a href="#Compiler-tokensForString">tokensForString()</a><br>
 </div>
@@ -1652,9 +1657,9 @@ Contains methods related to the compiling code.
 <div class=slotDescription>
 Returns the compiled message object for aString.
 </div>
-<a name="Compiler-messageForString2"></a><b>messageForString2</b><p>
+<a name="Compiler-messageForString2"></a><b>messageForString2(aString)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the compiled message object for aString. (Runs raw string against lexer directly.)
 </div>
 <a name="Compiler-messageForTokens"></a><b>messageForTokens(aList)</b><p>
 <div class=slotDescription>
@@ -1734,19 +1739,19 @@ Object wrapper for an Io coroutine.
 <p>
 <a name="Coroutine-backTraceString"></a><b>backTraceString</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a formatted callStack output along with exception info (if any). In case of CGI script, wraps output with &lt;code&gt; tag.
 </div>
 <a name="Coroutine-callStack"></a><b>callStack</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a list of Call objects.
 </div>
 <a name="Coroutine-currentCoroutine"></a><b>currentCoroutine</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns currently running coroutine in Io state.
 </div>
 <a name="Coroutine-debugWriteln"></a><b>debugWriteln</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+(See <tt>Object debugWriteln</tt>.)
 </div>
 <a name="Coroutine-exception"></a><b>exception</b><p>
 <div class=slotDescription>
@@ -1754,15 +1759,15 @@ Returns the current exception or nil if there is none.
 </div>
 <a name="Coroutine-freeStack"></a><b>freeStack</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Frees all the internal data from the receiver's stack. Returns self.
 </div>
 <a name="Coroutine-ignoredCoroutineMethodNames"></a><b>ignoredCoroutineMethodNames</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+List of methods to ignore when building a <tt>callStack</tt>.
 </div>
 <a name="Coroutine-implementation"></a><b>implementation</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns coroutine implementation type: "fibers", "ucontext" or "setjmp"
 </div>
 <a name="Coroutine-inException"></a><b>inException</b><p>
 <div class=slotDescription>
@@ -1774,11 +1779,11 @@ Returns List of values on this coroutine's stack.
 </div>
 <a name="Coroutine-isCurrent"></a><b>isCurrent</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if the receiver is currently running coroutine.
 </div>
 <a name="Coroutine-isYielding"></a><b>isYielding</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if the receiver is yielding (not paused or running).
 </div>
 <a name="Coroutine-label"></a><b>label</b><p>
 <div class=slotDescription>
@@ -1786,7 +1791,7 @@ A label slot useful for debugging purposes.
 </div>
 <a name="Coroutine-main"></a><b>main</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+[Seems to be obsolete!] Executes runMessage, resumes parent coroutine.
 </div>
 <a name="Coroutine-parentCoroutine"></a><b>parentCoroutine</b><p>
 <div class=slotDescription>
@@ -1794,15 +1799,18 @@ Returns the parent coroutine this one was chained from or nil if it wasn't chain
 </div>
 <a name="Coroutine-pause"></a><b>pause</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Removes current coroutine from the yieldingCoros queue and
+	yields to another coro. <tt>System exit</tt> is executed if no coros left.
+	<br/>
+	You can resume a coroutine using either <tt>resume</tt> or <tt>resumeLater</tt> message.
 </div>
 <a name="Coroutine-pauseCurrentAndResumeSelf"></a><b>pauseCurrentAndResumeSelf</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Pauses current coroutine and yields to a receiver.
 </div>
 <a name="Coroutine-raiseException"></a><b>raiseException</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets exception in the receiver and resumes parent coroutine.
 </div>
 <a name="Coroutine-result"></a><b>result</b><p>
 <div class=slotDescription>
@@ -1810,19 +1818,21 @@ The result set when the coroutine ends.
 </div>
 <a name="Coroutine-resume"></a><b>resume</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Yields to the receiver. Runs the receiver if it is not running yet. 
+  Returns self.
 </div>
 <a name="Coroutine-resumeLater"></a><b>resumeLater</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Promotes receiver to the top of the yieldingCoros queue, but not yielding to it.
+  When current coroutine yields, receiver will resume.
 </div>
 <a name="Coroutine-resumeParentCoroutine"></a><b>resumeParentCoroutine</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Pauses current coroutine and resumes parent.
 </div>
 <a name="Coroutine-run"></a><b>run</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Runs receiver and returns self.
 </div>
 <a name="Coroutine-runLocals"></a><b>runLocals</b><p>
 <div class=slotDescription>
@@ -1838,15 +1848,15 @@ The object which the coroutine will send a message to when it starts.
 </div>
 <a name="Coroutine-setException"></a><b>setException</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+
 </div>
 <a name="Coroutine-setInException"></a><b>setInException</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+
 </div>
 <a name="Coroutine-setLabel"></a><b>setLabel</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+
 </div>
 <a name="Coroutine-setMessageDebugging"></a><b>setMessageDebugging(aBoolean)</b><p>
 <div class=slotDescription>
@@ -1857,39 +1867,39 @@ for more information.
 </div>
 <a name="Coroutine-setParentCoroutine"></a><b>setParentCoroutine</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+
 </div>
 <a name="Coroutine-setResult"></a><b>setResult</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+
 </div>
 <a name="Coroutine-setRunLocals"></a><b>setRunLocals</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+
 </div>
 <a name="Coroutine-setRunMessage"></a><b>setRunMessage</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+
 </div>
 <a name="Coroutine-setRunTarget"></a><b>setRunTarget</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+
 </div>
 <a name="Coroutine-setStackSize"></a><b>setStackSize</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+
 </div>
 <a name="Coroutine-setYieldingCoros"></a><b>setYieldingCoros</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+
 </div>
 <a name="Coroutine-showStack"></a><b>showStack</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Writes backTraceString to STDOUT.
 </div>
 <a name="Coroutine-showYielding"></a><b>showYielding</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Prints a list of yielding coroutines to STDOUT.
 </div>
 <a name="Coroutine-stackSize"></a><b>stackSize</b><p>
 <div class=slotDescription>
@@ -1897,15 +1907,16 @@ Stack size allocated for each new coroutine. Coroutines will automatically chain
 </div>
 <a name="Coroutine-typeId"></a><b>typeId</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns <type>_<uniqueHexId> string.
 </div>
 <a name="Coroutine-yield"></a><b>yield</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Yields to another coroutine in the yieldingCoros queue.
+  Does nothing if yieldingCoros is empty.
 </div>
 <a name="Coroutine-yieldCurrentAndResumeSelf"></a><b>yieldCurrentAndResumeSelf</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Yields to a receiver.
 </div>
 <a name="Coroutine-yieldingCoros"></a><b>yieldingCoros</b><p>
 <div class=slotDescription>
@@ -3729,34 +3740,37 @@ An object that contains error information and flow control based on errors.
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#Error-ifError">ifError</a><br>
+<a href="#Error-ifError">ifError()</a><br>
 <a href="#Error-isError">isError</a><br>
 <a href="#Error-raiseIfError">raiseIfError</a><br>
 <a href="#Error-returnIfError">returnIfError</a><br>
-<a href="#Error-with">with</a><br>
+<a href="#Error-with">with()</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
-<a name="Error-ifError"></a><b>ifError</b><p>
+<a name="Error-ifError"></a><b>ifError(code)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Evaluates code in the context of sender. Returns self.
+  <br/>
+  Another form is <tt>Error ifError(error, code)</tt>. 
+  Note: <tt>error</tt> slot is set in the context of sender, Locals object is not created!
 </div>
 <a name="Error-isError"></a><b>isError</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true.
 </div>
 <a name="Error-raiseIfError"></a><b>raiseIfError</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Raises exception.
 </div>
 <a name="Error-returnIfError"></a><b>returnIfError</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns self from the context of sender.
 </div>
-<a name="Error-with"></a><b>with</b><p>
+<a name="Error-with"></a><b>with(message)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets message slot and returns self.
 </div>
 </div>
 </div>
@@ -4420,30 +4434,10 @@ AutoImporter for the Flux Io UI framework.
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#Flux-Views">Views</a><br>
-<a href="#Flux-fluxPath">fluxPath</a><br>
-<a href="#Flux-fluxSource">fluxSource</a><br>
-<a href="#Flux-fluxViews">fluxViews</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
-<a name="Flux-Views"></a><b>Views</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Flux-fluxPath"></a><b>fluxPath</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Flux-fluxSource"></a><b>fluxSource</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Flux-fluxViews"></a><b>fluxViews</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 </div>
 </div>
 <hr align=left>
@@ -4596,8 +4590,6 @@ Smaller fonts (those having a point size around 30 or smaller, depending on the 
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#Font-drawCenteredString">drawCenteredString</a><br>
-<a href="#Font-drawOffsetString">drawOffsetString</a><br>
 <a href="#Font-drawString">drawString()</a><br>
 <a href="#Font-error">error</a><br>
 <a href="#Font-isTextured">isTextured</a><br>
@@ -4614,14 +4606,6 @@ Smaller fonts (those having a point size around 30 or smaller, depending on the 
 <p>
 <h3>Slots</h3>
 <p>
-<a name="Font-drawCenteredString"></a><b>drawCenteredString</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Font-drawOffsetString"></a><b>drawOffsetString</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="Font-drawString"></a><b>drawString(aString, optionalStartIndex, optionalEndIndex)</b><p>
 <div class=slotDescription>
 Draws aString using the optional start and end indexes, if supplied. Returns self.
@@ -7423,7 +7407,6 @@ Currently supported formats include PNG(which supports alpha), JPG and TIFF.
 <a href="#Image-flipY">flipY</a><br>
 <a href="#Image-glFormat">glFormat</a><br>
 <a href="#Image-glFormats">glFormats</a><br>
-<a href="#Image-grabScreen">grabScreen</a><br>
 <a href="#Image-height">height</a><br>
 <a href="#Image-isL8">isL8</a><br>
 <a href="#Image-isLA8">isLA8</a><br>
@@ -7441,7 +7424,6 @@ Currently supported formats include PNG(which supports alpha), JPG and TIFF.
 <a href="#Image-setDecodingWidthHint">setDecodingWidthHint()</a><br>
 <a href="#Image-setEncodingQuality">setEncodingQuality()</a><br>
 <a href="#Image-setPath">setPath()</a><br>
-<a href="#Image-sizeInBytes">sizeInBytes</a><br>
 <a href="#Image-sizeIsPowerOf2">sizeIsPowerOf2</a><br>
 <a href="#Image-texture">texture</a><br>
 <a href="#Image-textureHeight">textureHeight</a><br>
@@ -7522,10 +7504,6 @@ Flips the image on the vertical plane (top/bottom mirror). Returns self.
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="Image-grabScreen"></a><b>grabScreen</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="Image-height"></a><b>height</b><p>
 <div class=slotDescription>
 Returns the image hieght.
@@ -7596,10 +7574,6 @@ Sets the image encoding quality (range is 0.0 - 1.0, 1.0 with being the highest)
 <a name="Image-setPath"></a><b>setPath(aString)</b><p>
 <div class=slotDescription>
 Sets the image path. Returns self.
-</div>
-<a name="Image-sizeInBytes"></a><b>sizeInBytes</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="Image-sizeIsPowerOf2"></a><b>sizeIsPowerOf2</b><p>
 <div class=slotDescription>
@@ -8027,7 +8001,7 @@ A mutable array of values. The first index is 0.")
 <a href="#List-containsAll">containsAll()</a><br>
 <a href="#List-containsAny">containsAny()</a><br>
 <a href="#List-containsIdenticalTo">containsIdenticalTo()</a><br>
-<a href="#List-copy">copy</a><br>
+<a href="#List-copy">copy()</a><br>
 <a href="#List-cursor">cursor</a><br>
 <a href="#List-detect">detect()</a><br>
 <a href="#List-difference">difference()</a><br>
@@ -8045,7 +8019,7 @@ A mutable array of values. The first index is 0.")
 <a href="#List-isNotEmpty">isNotEmpty</a><br>
 <a href="#List-itemCopy">itemCopy</a><br>
 <a href="#List-join">join()</a><br>
-<a href="#List-justSerialized">justSerialized</a><br>
+<a href="#List-justSerialized">justSerialized()</a><br>
 <a href="#List-last">last()</a><br>
 <a href="#List-map">map()</a><br>
 <a href="#List-mapFromKey">mapFromKey</a><br>
@@ -8186,9 +8160,9 @@ Returns true the target contains any of the items in the argument list.
 <div class=slotDescription>
 Returns true if the receiver contains a value identical to anObject, otherwise returns false.
 </div>
-<a name="List-copy"></a><b>copy</b><p>
+<a name="List-copy"></a><b>copy(v)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Replaces self with <tt>v</tt> list items. Returns self.
 </div>
 <a name="List-cursor"></a><b>cursor</b><p>
 <div class=slotDescription>
@@ -8281,9 +8255,9 @@ Returns a new list containing the items from the receiver.
 Returns a Sequence of the concatenated items with 
 		optionalString between each item or simply the concatenation of the items if no optionalString is supplied.
 </div>
-<a name="List-justSerialized"></a><b>justSerialized</b><p>
+<a name="List-justSerialized"></a><b>justSerialized(stream)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Writes the receiver's code into the stream.
 </div>
 <a name="List-last"></a><b>last(optionalSize)</b><p>
 <div class=slotDescription>
@@ -8300,7 +8274,7 @@ Same as calling mapInPlace() on a clone of the receiver, but more efficient.
 </div>
 <a name="List-mapInPlace"></a><b>mapInPlace</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Same as <tt>map</tt>, but result replaces self.
 </div>
 <a name="List-max"></a><b>max</b><p>
 <div class=slotDescription>
@@ -8374,7 +8348,7 @@ Also known as foldr and inject. Combines values in target starting on the right.
 </div>
 <a name="List-second"></a><b>second</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns third element (same as <tt>at(2)</tt>)
 </div>
 <a name="List-select"></a><b>select(optionalIndex, value, message)",</b><p>
 <div class=slotDescription>
@@ -8388,7 +8362,7 @@ list(1, 5, 7, 2) select(v, v > 3) print
 </div>
 <a name="List-selectInPlace"></a><b>selectInPlace</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Same as <tt>select</tt>, but result replaces self.
 </div>
 <a name="List-setSize"></a><b>setSize</b><p>
 <div class=slotDescription>
@@ -8719,7 +8693,7 @@ A key/value dictionary appropriate for holding large key/value collections.
 <a href="#Map-hasKey">hasKey()</a><br>
 <a href="#Map-hasValue">hasValue()</a><br>
 <a href="#Map-i">i</a><br>
-<a href="#Map-justSerialized">justSerialized</a><br>
+<a href="#Map-justSerialized">justSerialized()</a><br>
 <a href="#Map-keys">keys</a><br>
 <a href="#Map-map">map()</a><br>
 <a href="#Map-removeAt">removeAt()</a><br>
@@ -8789,9 +8763,9 @@ Returns true if the value is one of the Map's values or false otherwise.
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
-<a name="Map-justSerialized"></a><b>justSerialized</b><p>
+<a name="Map-justSerialized"></a><b>justSerialized(stream)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Writes the receiver's code into the stream.
 </div>
 <a name="Map-keys"></a><b>keys</b><p>
 <div class=slotDescription>
@@ -8842,12 +8816,18 @@ Blocks are composed of a Message and its children.
 <p>
 Terminology
 <pre>
-Example;
-A B(C D); E F
+Example:
+  Io> msg := message(A B(C D); E F)
+  ==> A B(C D); E F
+  
 In the above example:
-...
+  msg name            =>  A
+  msg next            =>  B(C D); E F
+  msg next arguments  =>  list(C D)
+  msg next next name  =>  ;
+  msg next next next  =>  E F
 </pre>
-Important; Modifying the message tree of a block currently in use may cause
+Important: Modifying the message tree of a block currently in use may cause
 a crash if a garbage collection cycle occurs. If the implementation were
 changed to retain every called message, this could be avoided.
 But the cost to performance seems to outweigh the need to cover this case for now.
@@ -8863,7 +8843,7 @@ But the cost to performance seems to outweigh the need to cover this case for no
 <a href="#Message-argCount">argCount</a><br>
 <a href="#Message-argsEvaluatedIn">argsEvaluatedIn()</a><br>
 <a href="#Message-arguments">arguments</a><br>
-<a href="#Message-asMessageWithEvaluatedArgs">asMessageWithEvaluatedArgs</a><br>
+<a href="#Message-asMessageWithEvaluatedArgs">asMessageWithEvaluatedArgs()</a><br>
 <a href="#Message-asSimpleString">asSimpleString</a><br>
 <a href="#Message-asStackEntry">asStackEntry</a><br>
 <a href="#Message-asString">asString</a><br>
@@ -8871,7 +8851,7 @@ But the cost to performance seems to outweigh the need to cover this case for no
 <a href="#Message-characterNumber">characterNumber</a><br>
 <a href="#Message-clone">clone</a><br>
 <a href="#Message-code">code</a><br>
-<a href="#Message-codeOfLength">codeOfLength</a><br>
+<a href="#Message-codeOfLength">codeOfLength()</a><br>
 <a href="#Message-description">description</a><br>
 <a href="#Message-doInContext">doInContext()</a><br>
 <a href="#Message-evaluatedArgs">evaluatedArgs</a><br>
@@ -8890,14 +8870,13 @@ But the cost to performance seems to outweigh the need to cover this case for no
 <a href="#Message-previous">previous</a><br>
 <a href="#Message-removeCachedResult">removeCachedResult</a><br>
 <a href="#Message-setArguments">setArguments()</a><br>
-<a href="#Message-setCachedArgs">setCachedArgs</a><br>
+<a href="#Message-setCachedArgs">setCachedArgs()</a><br>
 <a href="#Message-setCachedResult">setCachedResult()</a><br>
 <a href="#Message-setCharacterNumber">setCharacterNumber()</a><br>
 <a href="#Message-setLabel">setLabel()</a><br>
 <a href="#Message-setLineNumber">setLineNumber()</a><br>
 <a href="#Message-setName">setName()</a><br>
-<a href="#Message-setNext">setNext</a><br>
-<a href="#Message-setNextMessage">setNextMessage()</a><br>
+<a href="#Message-setNext">setNext()</a><br>
 <a href="#Message-setPrevious">setPrevious()</a><br>
 <a href="#Message-union">union()</a><br>
 </div>
@@ -8949,17 +8928,18 @@ Returns a list of the message objects that act as the
 	receiver's arguments. Modifying this list will not alter the actual
 	list of arguments. Use the arguments_() method to do that.
 </div>
-<a name="Message-asMessageWithEvaluatedArgs"></a><b>asMessageWithEvaluatedArgs</b><p>
+<a name="Message-asMessageWithEvaluatedArgs"></a><b>asMessageWithEvaluatedArgs(optionalContext)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a copy of receiver with arguments evaluated in the context of sender if
+	optionalContext is nil.
 </div>
 <a name="Message-asSimpleString"></a><b>asSimpleString</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns one-line string representation up to 40 characters long.
 </div>
 <a name="Message-asStackEntry"></a><b>asStackEntry</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a string containing message name, file and line.
 </div>
 <a name="Message-asString"></a><b>asString</b><p>
 <div class=slotDescription>
@@ -8982,9 +8962,9 @@ Returns a Message that is a deep copy of the receiver.
 <div class=slotDescription>
 Returns a String containing a decompiled code representation of the receiver.
 </div>
-<a name="Message-codeOfLength"></a><b>codeOfLength</b><p>
+<a name="Message-codeOfLength"></a><b>codeOfLength(n)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Same as <tt>Message code</tt>, but returns first <tt>n</tt> characters only.
 </div>
 <a name="Message-description"></a><b>description</b><p>
 <div class=slotDescription>
@@ -8992,7 +8972,8 @@ Returns a string containing a short description of the method.
 </div>
 <a name="Message-doInContext"></a><b>doInContext(anObject, locals)</b><p>
 <div class=slotDescription>
-Evaluates the receiver in the context of anObject.
+Evaluates the receiver in the context of anObject. Optional <tt>locals</tt> 
+	object is used as message sender. <tt>anObject</tt> is used as sender otherwise.
 </div>
 <a name="Message-evaluatedArgs"></a><b>evaluatedArgs</b><p>
 <div class=slotDescription>
@@ -9063,9 +9044,9 @@ Removes the cached result of the Message.
 Sets the arguments of the receiver to deep copies of
 	those contained in aListOfMessages.  Returns self.
 </div>
-<a name="Message-setCachedArgs"></a><b>setCachedArgs</b><p>
+<a name="Message-setCachedArgs"></a><b>setCachedArgs(listOfValues)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Appends evaluated arguments to a message. Returns self.
 </div>
 <a name="Message-setCachedResult"></a><b>setCachedResult(anObject)</b><p>
 <div class=slotDescription>
@@ -9087,11 +9068,7 @@ Sets the line number of the message. Returns self.
 <div class=slotDescription>
 Sets the name of the receiver. Returns self.
 </div>
-<a name="Message-setNext"></a><b>setNext</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Message-setNextMessage"></a><b>setNextMessage(aMessageOrNil)</b><p>
+<a name="Message-setNext"></a><b>setNext(aMessageOrNil)</b><p>
 <div class=slotDescription>
 Sets the next message in the message chain to a deep copy of
 	aMessage or it removes the next message if aMessage is nil.
@@ -9105,6 +9082,11 @@ Sets the previous message in the message chain to a deep copy of
 <div class=slotDescription>
 Returns a new message object with the receivers message as the first argument of the returned message, 
 	and the other parameter's arguments as each successive argument to the new message.
+	<br/>
+	<pre>
+  Io> message(a) union(message(b))
+  ==> [unnamed](a, b)
+  </pre>
 </div>
 </div>
 </div>
@@ -9218,7 +9200,7 @@ A container for a double (a 64bit floating point number on most platforms).
 <a href="#Number-isPunctuation">isPunctuation</a><br>
 <a href="#Number-isSpace">isSpace</a><br>
 <a href="#Number-isUppercase">isUppercase</a><br>
-<a href="#Number-justSerialized">justSerialized</a><br>
+<a href="#Number-justSerialized">justSerialized()</a><br>
 <a href="#Number-log">log</a><br>
 <a href="#Number-log10">log10</a><br>
 <a href="#Number-log2">log2</a><br>
@@ -9563,9 +9545,9 @@ Returns true if
 	the receiver is a uppercase character value
 	, false otherwise.
 </div>
-<a name="Number-justSerialized"></a><b>justSerialized</b><p>
+<a name="Number-justSerialized"></a><b>justSerialized(stream)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Writes the receiver's code into the stream.
 </div>
 <a name="Number-log"></a><b>log</b><p>
 <div class=slotDescription>
@@ -10647,15 +10629,15 @@ When cloned, an Object will call it's init slot (with no arguments).
 <a href="#Object-actorRun">actorRun</a><br>
 <a href="#Object-ancestorWithSlot">ancestorWithSlot()</a><br>
 <a href="#Object-ancestors">ancestors</a><br>
-<a href="#Object-and">and</a><br>
+<a href="#Object-and">and()</a><br>
 <a href="#Object-appendProto">appendProto()</a><br>
 <a href="#Object-apropos">apropos</a><br>
 <a href="#Object-argIsActivationRecord">argIsActivationRecord</a><br>
-<a href="#Object-argIsCall">argIsCall</a><br>
+<a href="#Object-argIsCall">argIsCall()</a><br>
 <a href="#Object-asSimpleString">asSimpleString</a><br>
 <a href="#Object-asString">asString</a><br>
-<a href="#Object-become">become</a><br>
-<a href="#Object-block">block</a><br>
+<a href="#Object-become">become()</a><br>
+<a href="#Object-block">block()</a><br>
 <a href="#Object-break">break()</a><br>
 <a href="#Object-clone">clone</a><br>
 <a href="#Object-cloneWithoutInit">cloneWithoutInit</a><br>
@@ -10664,10 +10646,10 @@ When cloned, an Object will call it's init slot (with no arguments).
 <a href="#Object-compare">compare()</a><br>
 <a href="#Object-contextWithSlot">contextWithSlot()</a><br>
 <a href="#Object-continue">continue</a><br>
-<a href="#Object-coroDo">coroDo</a><br>
-<a href="#Object-coroDoLater">coroDoLater</a><br>
-<a href="#Object-coroFor">coroFor</a><br>
-<a href="#Object-coroWith">coroWith</a><br>
+<a href="#Object-coroDo">coroDo()</a><br>
+<a href="#Object-coroDoLater">coroDoLater()</a><br>
+<a href="#Object-coroFor">coroFor()</a><br>
+<a href="#Object-coroWith">coroWith()</a><br>
 <a href="#Object-currentCoro">currentCoro</a><br>
 <a href="#Object-debugOff">debugOff</a><br>
 <a href="#Object-debugOn">debugOn</a><br>
@@ -10684,22 +10666,22 @@ When cloned, an Object will call it's init slot (with no arguments).
 <a href="#Object-evalArgAndReturnSelf">evalArgAndReturnSelf()</a><br>
 <a href="#Object-for">for()</a><br>
 <a href="#Object-foreach">foreach()</a><br>
-<a href="#Object-foreachSlot">foreachSlot</a><br>
+<a href="#Object-foreachSlot">foreachSlot()</a><br>
 <a href="#Object-forward">forward</a><br>
 <a href="#Object-getLocalSlot">getLocalSlot()</a><br>
 <a href="#Object-getSlot">getSlot()</a><br>
-<a href="#Object-handleActorException">handleActorException</a><br>
+<a href="#Object-handleActorException">handleActorException()</a><br>
 <a href="#Object-hasDirtySlot">hasDirtySlot</a><br>
 <a href="#Object-hasLocalSlot">hasLocalSlot()</a><br>
 <a href="#Object-hasProto">hasProto()</a><br>
-<a href="#Object-hasSlot">hasSlot</a><br>
+<a href="#Object-hasSlot">hasSlot()</a><br>
 <a href="#Object-if">if()</a><br>
-<a href="#Object-ifDebug">ifDebug</a><br>
+<a href="#Object-ifDebug">ifDebug()</a><br>
 <a href="#Object-ifError">ifError</a><br>
-<a href="#Object-ifNil">ifNil</a><br>
-<a href="#Object-ifNilEval">ifNilEval</a><br>
-<a href="#Object-ifNonNil">ifNonNil</a><br>
-<a href="#Object-ifNonNilEval">ifNonNilEval</a><br>
+<a href="#Object-ifNil">ifNil()</a><br>
+<a href="#Object-ifNilEval">ifNilEval()</a><br>
+<a href="#Object-ifNonNil">ifNonNil()</a><br>
+<a href="#Object-ifNonNilEval">ifNonNilEval()</a><br>
 <a href="#Object-in">in()</a><br>
 <a href="#Object-inlineMethod">inlineMethod</a><br>
 <a href="#Object-isActivatable">isActivatable</a><br>
@@ -10708,9 +10690,9 @@ When cloned, an Object will call it's init slot (with no arguments).
 <a href="#Object-isKindOf">isKindOf()</a><br>
 <a href="#Object-isLaunchScript">isLaunchScript</a><br>
 <a href="#Object-isNil">isNil</a><br>
-<a href="#Object-justSerialized">justSerialized</a><br>
+<a href="#Object-justSerialized">justSerialized()</a><br>
 <a href="#Object-launchFile">launchFile()</a><br>
-<a href="#Object-lazySlot">lazySlot</a><br>
+<a href="#Object-lazySlot">lazySlot()</a><br>
 <a href="#Object-list">list()</a><br>
 <a href="#Object-localsForward">localsForward</a><br>
 <a href="#Object-localsUpdateSlot">localsUpdateSlot()</a><br>
@@ -10719,10 +10701,10 @@ When cloned, an Object will call it's init slot (with no arguments).
 <a href="#Object-memorySize">memorySize</a><br>
 <a href="#Object-memorySizeOfState">memorySizeOfState</a><br>
 <a href="#Object-message">message()</a><br>
-<a href="#Object-method">method</a><br>
+<a href="#Object-method">method()</a><br>
 <a href="#Object-newSlot">newSlot()</a><br>
 <a href="#Object-not">not</a><br>
-<a href="#Object-or">or</a><br>
+<a href="#Object-or">or()</a><br>
 <a href="#Object-ownsSlots">ownsSlots</a><br>
 <a href="#Object-pSlots">pSlots</a><br>
 <a href="#Object-pause">pause</a><br>
@@ -10750,8 +10732,8 @@ When cloned, an Object will call it's init slot (with no arguments).
 <a href="#Object-returnIfNonNil">returnIfNonNil</a><br>
 <a href="#Object-self">self</a><br>
 <a href="#Object-serialized">serialized</a><br>
-<a href="#Object-serializedSlots">serializedSlots</a><br>
-<a href="#Object-serializedSlotsWithNames">serializedSlotsWithNames</a><br>
+<a href="#Object-serializedSlots">serializedSlots()</a><br>
+<a href="#Object-serializedSlotsWithNames">serializedSlotsWithNames()</a><br>
 <a href="#Object-setIsActivatable">setIsActivatable()</a><br>
 <a href="#Object-setPpid">setPpid</a><br>
 <a href="#Object-setProto">setProto()</a><br>
@@ -10771,13 +10753,13 @@ When cloned, an Object will call it's init slot (with no arguments).
 <a href="#Object-thisContext">thisContext</a><br>
 <a href="#Object-thisLocalContext">thisLocalContext</a><br>
 <a href="#Object-thisMessage">thisMessage</a><br>
-<a href="#Object-try">try</a><br>
+<a href="#Object-try">try()</a><br>
 <a href="#Object-type">type</a><br>
 <a href="#Object-uniqueHexId">uniqueHexId</a><br>
 <a href="#Object-uniqueId">uniqueId</a><br>
 <a href="#Object-unpersist">unpersist</a><br>
 <a href="#Object-updateSlot">updateSlot()</a><br>
-<a href="#Object-wait">wait</a><br>
+<a href="#Object-wait">wait()</a><br>
 <a href="#Object-while">while()</a><br>
 <a href="#Object-write">write()</a><br>
 <a href="#Object-writeln">writeln()</a><br>
@@ -10828,31 +10810,41 @@ Evaluates argument and returns self if self is greater
 <a name="Object-?"></a><b>?(aMessage)</b><p>
 <div class=slotDescription>
 description: Sends the message aMessage to the receiver if it can respond to it. Example:
-	<code>
+	<pre>
 	MyObject test // performs test
 	MyObject ?test // performs test if MyObject has a slot named test
-	</code>
+	</pre>
 	The search for the slot only follows the receivers proto chain.
 </div>
 <a name="Object-@"></a><b>@</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sends asynchronous message to an object, returns a FutureProxy.
+  <br/>
+  Caller coroutine is paused when proxy is accessed (i.e. message is sent)
+  till result is ready. Proxy will become an actual result when it is ready.
+  <br/>
+  See IoGuide for more information.
+  <br/>
+  Usage: obj @someMethod(a, b, c)
 </div>
 <a name="Object-@@"></a><b>@@</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Same as Object @, but returns nil instead of FutureProxy.
+  <br/>
+  Might be useful in a command line or as a last expression in a block/method when
+  you don't want to return a future.
 </div>
 <a name="Object-NullCharacter"></a><b>NullCharacter</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+A sequence with a single zero byte.
 </div>
 <a name="Object-actorProcessQueue"></a><b>actorProcessQueue</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Processes each message in a queue, yielding between each message.
 </div>
 <a name="Object-actorRun"></a><b>actorRun</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Starts actor mode if not started already. Basically, sets actorProcessQueue for later execution.
 </div>
 <a name="Object-ancestorWithSlot"></a><b>ancestorWithSlot(slotName)</b><p>
 <div class=slotDescription>
@@ -10863,9 +10855,9 @@ Returns the first ancestor of the receiver that contains
 <div class=slotDescription>
 Returns a list of all of the receiver's ancestors as found by recursively following the protos links.
 </div>
-<a name="Object-and"></a><b>and</b><p>
+<a name="Object-and"></a><b>and(arg)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Evaluates argument and returns the result.
 </div>
 <a name="Object-appendProto"></a><b>appendProto(anObject)</b><p>
 <div class=slotDescription>
@@ -10873,31 +10865,46 @@ Appends anObject to the receiver's proto list. Returns self.
 </div>
 <a name="Object-apropos"></a><b>apropos</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Prints out <tt>Protos Core</tt> slot descriptions.
 </div>
 <a name="Object-argIsActivationRecord"></a><b>argIsActivationRecord</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Note: seems to be an obsolete method.
 </div>
-<a name="Object-argIsCall"></a><b>argIsCall</b><p>
+<a name="Object-argIsCall"></a><b>argIsCall(arg)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if arg is an activation context (i.e. Call object)
+	<br/>
+	Note: this is used internally in one place only (Coroutine callStack). 
+	Refactoring should be considered.
 </div>
 <a name="Object-asSimpleString"></a><b>asSimpleString</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns <type>_<uniqueHexId> string.
 </div>
 <a name="Object-asString"></a><b>asString</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Same as <tt>slotSummary</tt>.
 </div>
-<a name="Object-become"></a><b>become</b><p>
+<a name="Object-become"></a><b>become(anotherObject)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Replaces receiver with <tt>anotherObject</tt> and returns self.
+	Useful for implementing transparent proxies. See also <tt>FutureProxy</tt> and <tt>Object @</tt>.
+	<br/>
+	Note: primitives cannot become new values.
 </div>
-<a name="Object-block"></a><b>block</b><p>
+<a name="Object-block"></a><b>block(args..., body)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Creates a block and binds it to the sender context (i.e. lexical context).
+	In other words, block locals' proto is sender's locals.
+	<tt>args</tt> is a list of formal arguments (can be empty). <br/>
+	<tt>body</tt> is evaluated in the context of Locals object.<br/>
+	See also <tt>Object method</tt>.
+	<br/>
+	<pre>
+	Io> block(x, x*2) scope == thisContext
+  ==> true
+	</pre>
 </div>
 <a name="Object-break"></a><b>break(optionalReturnValue)</b><p>
 <div class=slotDescription>
@@ -10933,37 +10940,42 @@ Returns the first context (starting with the receiver and following the lookup p
 Skip the rest of the current loop iteration and start on
 	the next, if any.
 </div>
-<a name="Object-coroDo"></a><b>coroDo</b><p>
+<a name="Object-coroDo"></a><b>coroDo(code)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Creates a new coro to be run in a context of sender and yields to it.
+  Returns a coro.
 </div>
-<a name="Object-coroDoLater"></a><b>coroDoLater</b><p>
+<a name="Object-coroDoLater"></a><b>coroDoLater(code)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a new coro to be run in a context of sender.
+  New coro is moved to the top of the yieldingCoros queue to be executed 
+  when current coro yields.
+  <br/>
+  Note: run target is <tt>self</tt> (i.e. receiver), not <tt>call sender</tt> as in coroDo.
 </div>
-<a name="Object-coroFor"></a><b>coroFor</b><p>
+<a name="Object-coroFor"></a><b>coroFor(code)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a new coro to be run in a context of sender.
 </div>
-<a name="Object-coroWith"></a><b>coroWith</b><p>
+<a name="Object-coroWith"></a><b>coroWith(code)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a new coro to be run in a context of receiver.
 </div>
 <a name="Object-currentCoro"></a><b>currentCoro</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the currently running coroutine.
 </div>
 <a name="Object-debugOff"></a><b>debugOff</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets debugWriteln to nil. Returns self.
 </div>
 <a name="Object-debugOn"></a><b>debugOn</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets debugWriteln to writeln. Returns self.
 </div>
 <a name="Object-debugWriteln"></a><b>debugWriteln</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Method for writing debug messages (nil/writeln by default)
 </div>
 <a name="Object-deprecatedWarning"></a><b>deprecatedWarning(optionalNewName)</b><p>
 <div class=slotDescription>
@@ -11030,9 +11042,22 @@ myObject foreach(v,
 )
 </pre>
 </div>
-<a name="Object-foreachSlot"></a><b>foreachSlot</b><p>
+<a name="Object-foreachSlot"></a><b>foreachSlot(slotName, slotValue, code)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Iterates over all the slots in a receiver. Provides slotValue (non-activated)
+  along with slotName. Code is executed in context of sender. <tt>slotName</tt> and <tt>slotValue</tt>
+  become visible in the receiver (no Locals created! Maybe, it is not the best decision).
+  <br/>
+  <pre>
+  Io> thisContext foreachSlot(n, v, n println)
+  Lobby
+  Protos
+  exit
+  forward
+  n
+  v
+  ==> false
+  </pre>
 </div>
 <a name="Object-forward"></a><b>forward</b><p>
 <div class=slotDescription>
@@ -11060,9 +11085,11 @@ Returns the value of the slot named slotNameString
 Returns the value of the slot named slotNameString
 	(following the lookup path) or nil if no such slot is found.
 </div>
-<a name="Object-handleActorException"></a><b>handleActorException</b><p>
+<a name="Object-handleActorException"></a><b>handleActorException(exception)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Callback for handling exceptions during asynchronous message processing.
+  <br/>
+  Default value: method(e, e showStack)
 </div>
 <a name="Object-hasDirtySlot"></a><b>hasDirtySlot</b><p>
 <div class=slotDescription>
@@ -11076,9 +11103,10 @@ Returns true if the slot exists in the receiver or false otherwise.
 <div class=slotDescription>
 Returns true if anObject is found in the proto path of the target, false otherwise.
 </div>
-<a name="Object-hasSlot"></a><b>hasSlot</b><p>
+<a name="Object-hasSlot"></a><b>hasSlot(name)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns <tt>true</tt> if slot is found somewhere in the inheritance chain 
+  (including receiver itself).
 </div>
 <a name="Object-if"></a><b>if(&lt;condition&gt;, &lt;trueMessage&gt;, &lt;optionalFalseMessage&gt;)</b><p>
 <div class=slotDescription>
@@ -11086,29 +11114,29 @@ Evaluates trueMessage if condition evaluates to a non-Nil.
 	Otherwise evaluates optionalFalseMessage if it is present.
 	Returns the result of the evaluated message or Nil if none was evaluated.
 </div>
-<a name="Object-ifDebug"></a><b>ifDebug</b><p>
+<a name="Object-ifDebug"></a><b>ifDebug(code)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Executes code if debugWriteln is not nil.
 </div>
 <a name="Object-ifError"></a><b>ifError</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Does nothing, returns self.
 </div>
-<a name="Object-ifNil"></a><b>ifNil</b><p>
+<a name="Object-ifNil"></a><b>ifNil(arg)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Does nothing, returns self.
 </div>
-<a name="Object-ifNilEval"></a><b>ifNilEval</b><p>
+<a name="Object-ifNilEval"></a><b>ifNilEval(arg)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Does nothing, returns self.
 </div>
-<a name="Object-ifNonNil"></a><b>ifNonNil</b><p>
+<a name="Object-ifNonNil"></a><b>ifNonNil(arg)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Evaluates argument and returns self.
 </div>
-<a name="Object-ifNonNilEval"></a><b>ifNonNilEval</b><p>
+<a name="Object-ifNonNilEval"></a><b>ifNonNilEval(arg)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Evaluates argument and returns the result.
 </div>
 <a name="Object-in"></a><b>in(aList)</b><p>
 <div class=slotDescription>
@@ -11116,7 +11144,19 @@ Same as: aList contains(self)
 </div>
 <a name="Object-inlineMethod"></a><b>inlineMethod</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Creates a method which is executed directly in a receiver (no Locals object is created).
+  <br/>
+  <pre>
+  Io> m := inlineMethod(x := x*2)
+  Io> x := 1
+  ==> 1
+  Io> m
+  ==> 2
+  Io> m
+  ==> 4
+  Io> m
+  ==> 8
+  </pre>
 </div>
 <a name="Object-isActivatable"></a><b>isActivatable</b><p>
 <div class=slotDescription>
@@ -11124,7 +11164,7 @@ Returns true if the receiver is activatable, false otherwise.
 </div>
 <a name="Object-isError"></a><b>isError</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns false if not an error.
 </div>
 <a name="Object-isIdenticalTo"></a><b>isIdenticalTo(aValue)</b><p>
 <div class=slotDescription>
@@ -11140,19 +11180,46 @@ Returns true if the current file was run on the command line. Io's version of Py
 </div>
 <a name="Object-isNil"></a><b>isNil</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns false.
 </div>
-<a name="Object-justSerialized"></a><b>justSerialized</b><p>
+<a name="Object-justSerialized"></a><b>justSerialized(stream)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Writes serialized representation to a stream. Returns stream contents. 
+  [This is unintended side effect! Returned value may change in the future.]
 </div>
 <a name="Object-launchFile"></a><b>launchFile(pathString)</b><p>
 <div class=slotDescription>
 Eval file at pathString as if from the command line in it's folder.
 </div>
-<a name="Object-lazySlot"></a><b>lazySlot</b><p>
+<a name="Object-lazySlot"></a><b>lazySlot(code)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Defines a slot with a lazy initialization code. 
+  Code is run only once: the first time slot is accessed. 
+  Returned value is stored in a regular slot.
+  <br/>
+  <pre>
+  Io> x := lazySlot("Evaluated!" println; 17)
+  Io> x
+  Evaluated!
+  ==> 17
+  Io> x
+  ==> 17
+  Io> x
+  ==> 17
+  </pre>
+  <br/>
+  Another form is <tt>lazySlot(name, code)</tt>:
+  <br/>
+  <pre>
+  Io> lazySlot("x", "Evaluated!" println; 17)
+  Io> x
+  Evaluated!
+  ==> 17
+  Io> x
+  ==> 17
+  Io> x
+  ==> 17
+  </pre>
 </div>
 <a name="Object-list"></a><b>list(...)</b><p>
 <div class=slotDescription>
@@ -11187,9 +11254,17 @@ Returns the number of bytes in the IoState
 <div class=slotDescription>
 Return the message object for the argument or Nil if there is no argument.
 </div>
-<a name="Object-method"></a><b>method</b><p>
+<a name="Object-method"></a><b>method(args..., body)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Creates a method. 
+	<tt>args</tt> is a list of formal arguments (can be empty). <br/>
+  <tt>body</tt> is evaluated in the context of Locals object.<br/>
+  Locals' proto is a message receiver (i.e. self).
+  <br/>
+  Slot with a method is <em>activatable</em>. Use getSlot(name) to retrieve 
+  method object without activating it (i.e. calling).
+  <br/>
+  See also <tt>Object block</tt>.
 </div>
 <a name="Object-newSlot"></a><b>newSlot(slotName, aValue)</b><p>
 <div class=slotDescription>
@@ -11199,15 +11274,15 @@ Creates a getter and setter for the slot with the name slotName
 </div>
 <a name="Object-not"></a><b>not</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns nil.
 </div>
-<a name="Object-or"></a><b>or</b><p>
+<a name="Object-or"></a><b>or(arg)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true.
 </div>
 <a name="Object-ownsSlots"></a><b>ownsSlots</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+A debug method.
 </div>
 <a name="Object-pSlots"></a><b>pSlots</b><p>
 <div class=slotDescription>
@@ -11216,7 +11291,10 @@ Creates the specified slots using newSlot and sets them to nil.
 </div>
 <a name="Object-pause"></a><b>pause</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Removes current coroutine from the yieldingCoros queue and
+	yields to another coro. Exits if no coros left.
+	<br/>
+  See Coroutine documentation for more details.
 </div>
 <a name="Object-perform"></a><b>perform(methodName, &lt;arg1&gt;, &lt;arg2&gt;, ...)</b><p>
 <div class=slotDescription>
@@ -11270,7 +11348,7 @@ Returns a copy of the receiver's protos list.
 </div>
 <a name="Object-raiseIfError"></a><b>raiseIfError</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Does nothing, returns self.
 </div>
 <a name="Object-relativeDoFile"></a><b>relativeDoFile(pathString)</b><p>
 <div class=slotDescription>
@@ -11297,15 +11375,15 @@ Removes the specified slot (only) in the receiver if it exists. Returns self.
 <a name="Object-resend"></a><b>resend</b><p>
 <div class=slotDescription>
 Send the message used to activate the current method to the Object's proto.
-	For example;
-	<code>
-	Dog := Mammal clone do(
-	init := method(
-		resend
-	)
-	)
-	</code>
-	calling Dog init will send an init method to Mammal, but using the Dog's context.
+  For example:
+  <pre>
+  Dog := Mammal clone do(
+    init := method(
+  	  resend
+    )
+  )
+  </pre>
+	Calling Dog init will send an init method to Mammal, but using the Dog's context.
 </div>
 <a name="Object-return"></a><b>return(anObject)</b><p>
 <div class=slotDescription>
@@ -11313,7 +11391,7 @@ Return anObject from the current execution block.
 </div>
 <a name="Object-returnIfError"></a><b>returnIfError</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Does nothing, returns self.
 </div>
 <a name="Object-returnIfNonNil"></a><b>returnIfNonNil</b><p>
 <div class=slotDescription>
@@ -11326,15 +11404,22 @@ Returns self.
 </div>
 <a name="Object-serialized"></a><b>serialized</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a serialized representation of the receiver.
+  <br/>
+  <pre>
+  Io> Object clone do(x:=1) serialized
+  ==> Object clone do(
+  	x := 1
+  )
+  </pre>
 </div>
-<a name="Object-serializedSlots"></a><b>serializedSlots</b><p>
+<a name="Object-serializedSlots"></a><b>serializedSlots(stream)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Writes all slots to a stream.
 </div>
-<a name="Object-serializedSlotsWithNames"></a><b>serializedSlotsWithNames</b><p>
+<a name="Object-serializedSlotsWithNames"></a><b>serializedSlotsWithNames(names, stream)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Writes selected slots to a stream.
 </div>
 <a name="Object-setIsActivatable"></a><b>setIsActivatable(aValue)</b><p>
 <div class=slotDescription>
@@ -11379,7 +11464,8 @@ Always false by default for Object.
 </div>
 <a name="Object-slotDescriptionMap"></a><b>slotDescriptionMap</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns raw map of slot names and short values' descriptions.
+  See also <tt>Object slotSummary</tt>.
 </div>
 <a name="Object-slotNames"></a><b>slotNames</b><p>
 <div class=slotDescription>
@@ -11388,7 +11474,16 @@ Returns a list of strings containing the names of the
 </div>
 <a name="Object-slotSummary"></a><b>slotSummary</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a formatted <tt>slotDescriptionMap</tt>.
+  <br/>
+  <pre>
+  Io> slotSummary
+  ==>  Object_0x30c590:
+    Lobby            = Object_0x30c590
+    Protos           = Object_0x30c880
+    exit             = method(...)
+    forward          = method(...)
+  </pre>
 </div>
 <a name="Object-slotValues"></a><b>slotValues</b><p>
 <div class=slotDescription>
@@ -11401,10 +11496,10 @@ Returns the internal IoState->stopStatus.
 <a name="Object-super"></a><b>super(aMessage)</b><p>
 <div class=slotDescription>
 Sends the message aMessage to the receiver's proto with the context of self. Example:
-	<code>
+	<pre>
 	self test(1, 2)   // performs test(1, 2) on self
 	super(test(1, 2)) // performs test(1, 2) on self proto but with the context of self
-	</code>
+	</pre>
 </div>
 <a name="Object-switch"></a><b>switch(&lt;key1&gt;, &lt;expression1&gt;, &lt;key2&gt;, &lt;expression2&gt;, ...)</b><p>
 <div class=slotDescription>
@@ -11432,7 +11527,7 @@ Io> a(1)
 </div>
 <a name="Object-thisContext"></a><b>thisContext</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Synonym to self.
 </div>
 <a name="Object-thisLocalContext"></a><b>thisLocalContext</b><p>
 <div class=slotDescription>
@@ -11440,11 +11535,14 @@ Returns current locals.
 </div>
 <a name="Object-thisMessage"></a><b>thisMessage</b><p>
 <div class=slotDescription>
-Returns the calling message.
+Returns the calling message (i.e. thisMessage itself, huh).
 </div>
-<a name="Object-try"></a><b>try</b><p>
+<a name="Object-try"></a><b>try(code)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Executes particular code in a new coroutine.
+  Returns exception or nil if no exception is caught.
+  <br/>
+  See also documentation for Exception catch and pass.
 </div>
 <a name="Object-type"></a><b>type</b><p>
 <div class=slotDescription>
@@ -11452,7 +11550,13 @@ Returns a string containing the name of the type of Object (Number, String, etc)
 </div>
 <a name="Object-uniqueHexId"></a><b>uniqueHexId</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns uniqueId in a hexadecimal form (with a "0x" prefix)
+  <pre>
+  Io> Object uniqueId
+  ==> 3146784
+  Io> Object uniqueHexId
+  ==> 0x300420
+  </pre>
 </div>
 <a name="Object-uniqueId"></a><b>uniqueId</b><p>
 <div class=slotDescription>
@@ -11467,9 +11571,12 @@ PDB extension to populate this object with the data associated with this object'
 Same as setSlot(), but raises an error if the slot does not
 	already exist in the receiver's slot lookup path.
 </div>
-<a name="Object-wait"></a><b>wait</b><p>
+<a name="Object-wait"></a><b>wait(s)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Pauses current coroutine for at least <tt>s</tt> seconds.
+<br/>
+Note: current coroutine may wait much longer than designated number of seconds
+depending on circumstances.
 </div>
 <a name="Object-while"></a><b>while(&lt;condition&gt;, expression)</b><p>
 <div class=slotDescription>
@@ -11486,7 +11593,9 @@ Same as write() but also writes a return character at the end. Returns Nil.
 </div>
 <a name="Object-yield"></a><b>yield</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Yields to another coroutine. Does nothing if yieldingCoros queue is empty.
+  <br/>
+  See Coroutine documentation for more details.
 </div>
 </div>
 </div>
@@ -14573,7 +14682,7 @@ Terminology
 <a href="#Sequence-itemCopy">itemCopy</a><br>
 <a href="#Sequence-itemSize">itemSize</a><br>
 <a href="#Sequence-itemType">itemType</a><br>
-<a href="#Sequence-justSerialized">justSerialized</a><br>
+<a href="#Sequence-justSerialized">justSerialized()</a><br>
 <a href="#Sequence-lastPathComponent">lastPathComponent</a><br>
 <a href="#Sequence-leaveThenRemove">leaveThenRemove</a><br>
 <a href="#Sequence-lessThan">lessThan()</a><br>
@@ -14648,7 +14757,7 @@ Terminology
 <a href="#Sequence-size">size</a><br>
 <a href="#Sequence-sizeInBytes">sizeInBytes</a><br>
 <a href="#Sequence-slice">slice()</a><br>
-<a href="#Sequence-slicesBetween">slicesBetween</a><br>
+<a href="#Sequence-slicesBetween">slicesBetween()</a><br>
 <a href="#Sequence-sort">sort</a><br>
 <a href="#Sequence-split">split()</a><br>
 <a href="#Sequence-splitAt">splitAt()</a><br>
@@ -15357,9 +15466,9 @@ Returns number of bytes in each element.
 <div class=slotDescription>
 Returns machine type of elements.
 </div>
-<a name="Sequence-justSerialized"></a><b>justSerialized</b><p>
+<a name="Sequence-justSerialized"></a><b>justSerialized(stream)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Writes the receiver's code into the stream.
 </div>
 <a name="Sequence-lastPathComponent"></a><b>lastPathComponent</b><p>
 <div class=slotDescription>
@@ -15418,11 +15527,21 @@ stripped from the beginning of the receiver. Example:
 </div>
 <a name="Sequence-makeFirstCharacterLowercase"></a><b>makeFirstCharacterLowercase</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Receiver must be mutable (see also asMutable). Returns receiver.
+  <br/>
+  <pre>
+  Io> "ABC" asMutable makeFirstCharacterLowercase
+  ==> aBC
+  </pre>
 </div>
 <a name="Sequence-makeFirstCharacterUppercase"></a><b>makeFirstCharacterUppercase</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Receiver must be mutable (see also asMutable). Returns receiver.
+  <br/>
+  <pre>
+  Io> "abc" asMutable makeFirstCharacterUppercase
+  ==> Abc
+  </pre>
 </div>
 <a name="Sequence-matchesOfRegex"></a><b>matchesOfRegex(aRegexOrString)</b><p>
 <div class=slotDescription>
@@ -15701,9 +15820,15 @@ Returns a new string containing the subset of the
 	receiver from the startIndex to the endIndex. The endIndex argument
 	is optional. If not given, it is assumed to be the end of the string.
 </div>
-<a name="Sequence-slicesBetween"></a><b>slicesBetween</b><p>
+<a name="Sequence-slicesBetween"></a><b>slicesBetween(startSeq, endSeq)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a list of slices delimited 
+  by <tt>startSeq</tt> and <tt>endSeq</tt>.
+  <br>
+  <pre>
+  Io> "<a><b></b></a>" slicesBetween("<", ">")
+  ==> list("a", "b", "/b", "/a")
+  </pre>
 </div>
 <a name="Sequence-sort"></a><b>sort</b><p>
 <div class=slotDescription>
@@ -16875,7 +17000,7 @@ This primitive is used to get command line options similar to Cs getopt().
 	the beginning dashes (--).
 	<p>
 	Example:
-	<code>
+	<pre>
 	options := System getOptions(args)
 	options foreach(k, v,
 	  if(v type == List type,
@@ -16884,7 +17009,7 @@ This primitive is used to get command line options similar to Cs getopt().
 	  )
 	  writeln(\"Got option: \" .. k .. \" with value: \" .. v)
 	)
-	</code>
+	</pre>
 </div>
 <a name="System-installPrefix"></a><b>installPrefix</b><p>
 <div class=slotDescription>
@@ -16896,7 +17021,7 @@ Returns the path of io installation. The default is $INSTALL_PREFIX/lib/io.
 </div>
 <a name="System-launchPath"></a><b>launchPath</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a pathComponent of the launch file.
 </div>
 <a name="System-launchScript"></a><b>launchScript</b><p>
 <div class=slotDescription>
@@ -18128,6 +18253,88 @@ Process the inputBuffer and appends the result to the outputBuffer.
 </div>
 </div>
 <hr align=left>
+<h2><a name="false"></a>false</h2>
+<div class=indent>
+<div style="line-height:1.3em">
+<b>Module:</b> Core<br>
+<font color=#888>
+</font>
+</div>
+<div class=slots>
+<h3>Slot Index</h3>
+<div class=slotIndex>
+<a href="#false-and">and</a><br>
+<a href="#false-asSimpleString">asSimpleString</a><br>
+<a href="#false-asString">asString</a><br>
+<a href="#false-clone">clone</a><br>
+<a href="#false-else">else</a><br>
+<a href="#false-elseif">elseif</a><br>
+<a href="#false-ifFalse">ifFalse</a><br>
+<a href="#false-ifTrue">ifTrue</a><br>
+<a href="#false-justSerialized">justSerialized()</a><br>
+<a href="#false-not">not</a><br>
+<a href="#false-or">or</a><br>
+<a href="#false-then">then</a><br>
+<a href="#false-type">type</a><br>
+</div>
+<p>
+<h3>Slots</h3>
+<p>
+<a name="false-and"></a><b>and</b><p>
+<div class=slotDescription>
+Returns false.
+</div>
+<a name="false-asSimpleString"></a><b>asSimpleString</b><p>
+<div class=slotDescription>
+Returns "false".
+</div>
+<a name="false-asString"></a><b>asString</b><p>
+<div class=slotDescription>
+Returns "false".
+</div>
+<a name="false-clone"></a><b>clone</b><p>
+<div class=slotDescription>
+Returns self.
+</div>
+<a name="false-else"></a><b>else</b><p>
+<div class=slotDescription>
+Evaluates the argument and returns nil.
+</div>
+<a name="false-elseif"></a><b>elseif</b><p>
+<div class=slotDescription>
+Same as <tt>if</tt>.
+</div>
+<a name="false-ifFalse"></a><b>ifFalse</b><p>
+<div class=slotDescription>
+Evaluates the argument and returns self.
+</div>
+<a name="false-ifTrue"></a><b>ifTrue</b><p>
+<div class=slotDescription>
+Returns false.
+</div>
+<a name="false-justSerialized"></a><b>justSerialized(stream)</b><p>
+<div class=slotDescription>
+Writes the receiver's code into the stream.
+</div>
+<a name="false-not"></a><b>not</b><p>
+<div class=slotDescription>
+Returns true.
+</div>
+<a name="false-or"></a><b>or</b><p>
+<div class=slotDescription>
+Evaluates the argument and returns the result.
+</div>
+<a name="false-then"></a><b>then</b><p>
+<div class=slotDescription>
+Returns false.
+</div>
+<a name="false-type"></a><b>type</b><p>
+<div class=slotDescription>
+Returns "false".
+</div>
+</div>
+</div>
+<hr align=left>
 <h2><a name="nil"></a>nil</h2>
 <div class=indent>
 <div style="line-height:1.3em">
@@ -18144,11 +18351,14 @@ nil is a singleton object that is used as a placeholder and to mean false in Io.
 <h3>Slot Index</h3>
 <div class=slotIndex>
 <a href="#nil-and">and()</a><br>
+<a href="#nil-catch">catch</a><br>
 <a href="#nil-clone">clone</a><br>
 <a href="#nil-else">else()</a><br>
 <a href="#nil-ifNil">ifNil()</a><br>
 <a href="#nil-isNil">isNil</a><br>
+<a href="#nil-justSerialized">justSerialized()</a><br>
 <a href="#nil-or">or()</a><br>
+<a href="#nil-pass">pass</a><br>
 <a href="#nil-print">print</a><br>
 <a href="#nil-then">then()</a><br>
 </div>
@@ -18158,6 +18368,10 @@ nil is a singleton object that is used as a placeholder and to mean false in Io.
 <a name="nil-and"></a><b>and(expression)</b><p>
 <div class=slotDescription>
 Returns nil without evaluating expression.
+</div>
+<a name="nil-catch"></a><b>catch</b><p>
+<div class=slotDescription>
+Does nothing, returns nil. See <tt>Exception catch</tt>.
 </div>
 <a name="nil-clone"></a><b>clone</b><p>
 <div class=slotDescription>
@@ -18175,9 +18389,17 @@ Evaluates message.
 <div class=slotDescription>
 Returns Lobby.
 </div>
+<a name="nil-justSerialized"></a><b>justSerialized(stream)</b><p>
+<div class=slotDescription>
+Writes the receiver's code into the stream.
+</div>
 <a name="nil-or"></a><b>or(anObject)</b><p>
 <div class=slotDescription>
 Returns anObject if anObject is not nil. Otherwise returns nil.
+</div>
+<a name="nil-pass"></a><b>pass</b><p>
+<div class=slotDescription>
+Does nothing, returns nil. See <tt>Exception pass</tt>.
 </div>
 <a name="nil-print"></a><b>print</b><p>
 <div class=slotDescription>
@@ -18208,7 +18430,7 @@ Returns nil without evaluating expression.
 <a href="#true-elseif">elseif</a><br>
 <a href="#true-ifFalse">ifFalse</a><br>
 <a href="#true-ifTrue">ifTrue</a><br>
-<a href="#true-justSerialized">justSerialized</a><br>
+<a href="#true-justSerialized">justSerialized()</a><br>
 <a href="#true-not">not</a><br>
 <a href="#true-or">or</a><br>
 <a href="#true-then">then</a><br>
@@ -18230,7 +18452,7 @@ Returns true.
 </div>
 <a name="true-clone"></a><b>clone</b><p>
 <div class=slotDescription>
-Returns self.
+Returns true.
 </div>
 <a name="true-else"></a><b>else</b><p>
 <div class=slotDescription>
@@ -18248,9 +18470,9 @@ Does not eval argument and returns true.
 <div class=slotDescription>
 Evaluates the argument and returns self.
 </div>
-<a name="true-justSerialized"></a><b>justSerialized</b><p>
+<a name="true-justSerialized"></a><b>justSerialized(stream)</b><p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Writes the receiver's code into the stream.
 </div>
 <a name="true-not"></a><b>not</b><p>
 <div class=slotDescription>

@@ -80,6 +80,9 @@ IoObject *IoObject_proto(void *state)
 
 IoObject *IoObject_protoOwnsSlots(IoObject *self, IoObject *locals, IoMessage *m)
 {
+  /*doc Object ownsSlots
+  A debug method.
+  */
 	return IOBOOL(self, IoObject_ownsSlots(self));
 }
 
@@ -1520,6 +1523,9 @@ IoObject *IoObject_self(IoObject *self, IoObject *locals, IoMessage *m)
 	/*doc Object self
 	Returns self.
 	*/
+	/*doc Object thisContext
+	Synonym to self.
+	*/
 
 	return self;
 }
@@ -1527,7 +1533,7 @@ IoObject *IoObject_self(IoObject *self, IoObject *locals, IoMessage *m)
 IoObject *IoObject_thisMessage(IoObject *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Object thisMessage
-	Returns the calling message.
+	Returns the calling message (i.e. thisMessage itself, huh).
 	*/
 	
 	return m;
@@ -1869,11 +1875,20 @@ UArray *IoObject_rawGetMutableUArraySlot(IoObject *self,
 
 IoObject *IoObject_argIsActivationRecord(IoObject *self, IoObject *locals, IoMessage *m)
 {
+  /*doc Object argIsActivationRecord
+  Note: seems to be an obsolete method.
+	*/
 	return IOBOOL(self, PHash_at_(IoObject_slots(self), IOSTATE->callSymbol) != NULL);
 }
 
 IoObject *IoObject_argIsCall(IoObject *self, IoObject *locals, IoMessage *m)
 {
+  /*doc Object argIsCall(arg)
+	Returns true if arg is an activation context (i.e. Call object)
+	<br/>
+	Note: this is used internally in one place only (Coroutine callStack). 
+	Refactoring should be considered.
+	*/
 	IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 0);
 	//printf("IoObject_tag(v)->name = '%s'\n", IoObject_tag(v)->name);
 	return IOBOOL(self, ISACTIVATIONCONTEXT(v));
@@ -1881,6 +1896,13 @@ IoObject *IoObject_argIsCall(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoObject_become(IoObject *self, IoObject *locals, IoMessage *m)
 {
+  /*doc Object become(anotherObject)
+	Replaces receiver with <tt>anotherObject</tt> and returns self.
+	Useful for implementing transparent proxies. See also <tt>FutureProxy</tt> and <tt>Object @</tt>.
+	<br/>
+	Note: primitives cannot become new values.
+	*/
+	
 	IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 0);
 
 	if(self == v || IoObject_deref(v) == IoObject_deref(self)) return self;

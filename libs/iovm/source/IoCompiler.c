@@ -105,6 +105,9 @@ IoObject *IoObject_messageForString(IoObject *self, IoObject *locals, IoMessage 
 
 IoObject *IoObject_messageForString2(IoObject *self, IoObject *locals, IoMessage *m)
 {
+  /*doc Compiler messageForString2(aString)
+	Returns the compiled message object for aString. (Runs raw string against lexer directly.)
+	*/
 	IoLexer *lexer = IoLexer_new();
 	char *text = IoMessage_locals_cStringArgAt_(m, locals, 0);
 	IoMessage *msg;
