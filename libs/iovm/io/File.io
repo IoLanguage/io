@@ -64,7 +64,8 @@ File do(
 	)
 	
 	thisSourceFile := method(
-		File with(Directory currentWorkingDirectory .. "/" .. call message label)
+		deprecatedWarning
+		File with(Path with(Directory currentWorkingDirectory, call message label))
 	)
 	
 	containingDirectory := method(

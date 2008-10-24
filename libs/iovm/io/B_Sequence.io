@@ -169,4 +169,8 @@ Sequence do(
 		deprecatedWarning("exSlice")
 		performWithArgList("exSlice", call evalArgs)
 	)
+	
+	asJson := method(
+		"\"" .. self .. "\""
+	)
 )

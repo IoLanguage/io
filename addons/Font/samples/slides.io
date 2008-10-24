@@ -5,9 +5,9 @@
 //doFile(Path with(System launchPath, "GLApp.io"))
 
 Slide := Object clone do(
-    bigFont    := Font clone open("../resources/library/fonts/Free/Sans/Bold.ttf")   setPixelSize(200)
-    mediumFont := Font clone open("../resources/library/fonts/Free/Sans/Bold.ttf")   setPixelSize(48)
-    smallFont  := Font clone open("../resources/library/fonts/Free/Sans/Normal.ttf") setPixelSize(32)
+    bigFont    := Font clone open("../../Flux/resources/fonts/Free/Sans/Bold.ttf")   setPixelSize(200)
+    mediumFont := Font clone open("../../Flux/resources/fonts/Free/Sans/Bold.ttf")   setPixelSize(48)
+    smallFont  := Font clone open("../../Flux/resources/fonts/Free/Sans/Normal.ttf") setPixelSize(32)
     
     titleFont := mediumFont
     textFont  := smallFont
@@ -81,7 +81,12 @@ Slideshow := GLApp clone do(
     slideNumber := 0
     
     open := method(path,
-		parse(File with(path) asString)
+		file := File with(path)
+		if (file isRegularFile not,
+			"Supplied file is not a regular file" println
+			return
+		)
+		parse(file contents asString)
 		runFullScreen
     )
     
@@ -104,4 +109,4 @@ Slideshow := GLApp clone do(
     specialDownKey := method(slideNumber = ((slideNumber + 1) min(slides size - 1)))
 )
 
-Slideshow open(System args at(0))
+Slideshow open(System args at(1))

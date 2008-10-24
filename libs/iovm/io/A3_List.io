@@ -234,6 +234,11 @@ list(1, 2, 3, 4) detect(v, v > 2)
 		uniqueCount := method(self unique map(item, list(item, self select(== item) size)))
 		
 		exSlice := getSlot("slice")
+		
+		
+	asJson := method(
+		"[" .. self map(asJson) join(",\n") .. "]"
+	)
 )
 
 List ListCursor := Object clone do(

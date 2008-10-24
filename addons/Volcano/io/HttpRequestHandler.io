@@ -36,7 +36,11 @@ HttpRequestHandler := Object clone do(
 	
 	streamResponse := method(socket, request,
 		response := HttpResponse withSocket(socket)
-		handlerQueue server renderResponse(request, response)
+		e := try(handlerQueue server renderResponse(request, response))
+		if(e,
+			response setStatusCode(500)
+			response body := "<pre>" .. e coroutine backTraceString .. "</pre>"
+		)
 		response send
 	)
 	
