@@ -139,7 +139,7 @@ IoObject* IoMySQL_connected(IoObject* self, IoObject* locals, IoMessage* m) {
 }
 
 IoObject* IoMySQL_close(IoObject* self, IoObject* locals, IoMessage* m) {
-	/*doc close
+	/*doc MySQL close
 	Closes a previously opened connection.
 	*/
 

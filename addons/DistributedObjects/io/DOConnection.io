@@ -1,3 +1,4 @@
+//doc Object NullCharacter A sequence with a single zero byte.
 Object NullCharacter := Sequence clone
 Object NullCharacter append(0x0)
 

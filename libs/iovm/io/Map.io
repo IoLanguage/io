@@ -10,7 +10,7 @@ Map do(
 	)
 	
 	asJson := method(
-		"{" .. self keys map(k, k .. "=" .. self at(k) asJson) join(",") .. "}"
+		"{" .. self keys map(k, k .. ":" .. self at(k) asJson) join(",") .. "}"
 	)
 	
 	//doc Map asList Converts a Map to a list of lists. Each element in the returned list will be a list of two elements: the key, and the value.
