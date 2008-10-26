@@ -34,9 +34,9 @@ TokyoCabinetPrefixCursor do(
 	
 	copyFromCursor := method(other,
 		other first
-		while(other key and other value, 
-			to := Path with(self prefix, other key)
-			//writeln("copying from:", Path with(other prefix, other key), " -> ", to)
+		while(other key and other value,
+			to := if(other key isEmpty, self prefix, Path with(self prefix, other key))
+			//writeln("copying from:", if(other key isEmpty, other prefix, Path with(other prefix, other key)), " -> ", to)
 			self db atPut(to, other value)
 			other next
 		)
