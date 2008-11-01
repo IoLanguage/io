@@ -50,11 +50,11 @@ tak := method(x, y, z,
 n := System args at(1) asNumber
 
 // Use interpolation for complex string expressions
-"Ack(3,#io{n}): #io{ack(3, n)}" interpolate println
-"Fib(#io{(27.0 + n) asString(0,1)}): #io{fib(27.0 + n) asString(0,1)}" interpolate println
+"Ack(3,#{n}): #{ack(3, n)}" interpolate println
+"Fib(#{(27.0 + n) asString(0,1)}): #{fib(27.0 + n) asString(0,1)}" interpolate println
 
 n := n - 1
-"Tak(#io{n * 3},#io{n * 2},#io{n}): #io{tak(n * 3, n * 2, n * 1)}" interpolate println
+"Tak(#{n * 3},#{n * 2},#{n}): #{tak(n * 3, n * 2, n * 1)}" interpolate println
 
 // Use concatenation for simpler ones
 ("Fib(3): " .. fib(3)) println

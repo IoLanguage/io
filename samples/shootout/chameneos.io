@@ -7,7 +7,7 @@
 
 n := System args at(1) asNumber
 meetings := 0
-first := second := Nil
+first := second := nil
 
 Creature := Object clone do(
     setColor  := method(n, self color := n; self)
@@ -23,13 +23,13 @@ Creature := Object clone do(
         if (Lobby first) then (
             Lobby second = self
             other := Lobby first color
-            Lobby first = Nil
+            Lobby first = nil
         ) else (
-            if (n==0, return Nil, Lobby n=n-1)
+            if (n==0, return nil, Lobby n=n-1)
             Lobby first = self
             yield; while(Lobby second isNil, yield)
             other := Lobby second color
-            Lobby second = Nil
+            Lobby second = nil
         )
         other
     )
