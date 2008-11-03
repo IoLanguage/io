@@ -1233,7 +1233,7 @@ obj1 := Object clone
 obj1 test := method(for(n, 1, 3, n print; yield))
 obj2 := obj1 clone
 obj1 @@test; obj2 @@test
-while(Scheduler yieldingCoroutines size > 1, yield)
+while(Scheduler yieldingCoros size > 1, yield)
 </pre>
 
 This would print "112233".
