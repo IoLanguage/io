@@ -237,7 +237,7 @@ list(1, 2, 3, 4) detect(v, v > 2)
 		
 		
 	asJson := method(
-		"[" .. self map(asJson) join(",\n") .. "]"
+		"[" .. self map(asJson) join(",") .. "]"
 	)
 )
 

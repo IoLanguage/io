@@ -256,6 +256,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		lines := header split("\r\n")
 		self headerFields := Map clone
 		//lines println
+		self statusCode := lines first split at(1) asNumber
 		lines removeAt(0)
 		lines foreach(line,
 			headerFields atPut(line beforeSeq(":"), line afterSeq(":") strip)
