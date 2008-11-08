@@ -1,5 +1,21 @@
 
 URL := Notifier clone do(
+	cacheFolder := Directory with("/tmp/ioUrlCache/")
+	cacheFolder create
+	cacheFile := method(MD5; File with(Path with(cacheFolder path, url md5String)))
+	cacheOn ::= false
+	cacheTimeout := 24*60*60
+	
+	cacheStore := method(data,
+		cacheFile setContents(data)
+	)
+	
+	cacheLoad := method(
+		cf := cacheFile
+		if(cf exists and(cf lastDataChangeDate secondsSinceNow < cacheTimeout), 
+			writeln("using cache"); cf contents, nil)
+	)
+	
 //metadoc URL category Networking
 //metadoc URL copyright Steve Dekorte, 2004
 //metadoc URL license BSD revised
@@ -267,8 +283,11 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 
 	//doc URL fetchHttp(optionalProgressBlock) Private method that fetches an http url.
 	fetchHttp := method(progressBlock,
+		if(cacheOn, r := cacheLoad; if(r, return r))
 		connectAndWriteHeader returnIfError
-		processHttpResponse(progressBlock)
+		r := processHttpResponse(progressBlock)
+		if(cacheOn, cacheStore(r))
+		return r
 	)
 	
 	//doc URL processHttpResponse(optionalProgressBlock) Private method that processes http response.
