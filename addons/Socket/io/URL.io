@@ -13,7 +13,8 @@ URL := Notifier clone do(
 	cacheLoad := method(
 		cf := cacheFile
 		if(cf exists and(cf lastDataChangeDate secondsSinceNow < cacheTimeout), 
-			writeln("using cache"); cf contents, nil)
+			//writeln("using cache"); 
+			setStatusCode(200); cf contents, nil)
 	)
 	
 //metadoc URL category Networking
