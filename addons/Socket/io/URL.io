@@ -5,6 +5,7 @@ URL := Notifier clone do(
 	cacheFile := method(MD5; File with(Path with(cacheFolder path, url md5String)))
 	cacheOn ::= false
 	cacheTimeout := 24*60*60
+	followRedirects := true
 	
 	cacheStore := method(data,
 		cacheFile setContents(data)
@@ -188,10 +189,24 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		result
 	)
 
+	fetchAndFollowRedirect := method(
+		v := self fetch
+		if(statusCode == 302 or statusCode == 301,
+		 	v = URL with(self headerFields at("Location")) setCacheOn(false) fetch
+		)
+		v
+	)
+	
 	//doc URL fetch Fetches the url and returns the result as a Sequence. Returns an Error, if one occurs.
 	fetch := method(url,
 		if(url, setURL(url))
-		if(protocol == "http", return(fetchHttp))
+		if(protocol == "http", 
+			v := fetchHttp
+			if(followRedirects and(statusCode == 302 or statusCode == 301), 
+		 		v = URL with(self headerFields at("Location")) setCacheOn(false) fetch
+			)
+			return v
+		)
 		Error with("Protocol '" .. protocol .. "' unsupported")
 	)
 
