@@ -540,7 +540,7 @@ int Image_baselineHeight(Image *self)
 				uint8_t g = d[p + 1];
 				uint8_t b = d[p + 2];
 				
-				if((r < 100) || (g < 100) || (b < 100))
+				if((r < 150) || (g < 150) || (b < 150))
 				{
 					//printf("x: %i y: %i r: %i g: %i b: %i\n", x, y, r, g, b);
 					base = y;
