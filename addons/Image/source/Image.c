@@ -485,7 +485,6 @@ void Image_makeRGBA(Image *self)
 	if (self->componentCount == 3)
 	{
 		//Image_addAlpha(self);
-	
 		//printf("converted component count from 3 to 4\n");
 	} 
 	else if (self->componentCount == 1)
@@ -512,4 +511,49 @@ void Image_makeRGBA(Image *self)
 		self->componentCount = 4;
 		//printf("converted component count from 1 to 4\n");
 	}
+}
+
+int Image_baselineHeight(Image *self)
+{
+	//size_t numPixels = self->width * self->height;
+	/*
+	printf("self->componentCount: %i\n", self->componentCount);
+	printf("numPixels: %i\n", (int)numPixels);
+	printf("height: %i\n", (int)self->height);
+	printf("width: %i\n", (int)self->width);
+	*/
+	// optimize later
+	
+	if (self->componentCount == 3)
+	{
+		int base = 0;
+		uint8_t *d = (uint8_t *)UArray_bytes(self->byteArray);
+		int x, y;
+		
+		for (y = 0; y < self->height; y ++)
+		//for (y = self->height; y > 0; y --)
+		{
+			for (x = 0; x < self->width; x ++)
+			{
+				int p = (x + (y * self->width))*3;
+				uint8_t r = d[p + 0];
+				uint8_t g = d[p + 1];
+				uint8_t b = d[p + 2];
+				
+				if((r < 100) || (g < 100) || (b < 100))
+				{
+					//printf("x: %i y: %i r: %i g: %i b: %i\n", x, y, r, g, b);
+					base = y;
+					//break;
+					//return self->height - base;
+				}
+			}
+		}
+		
+		//printf("base = %i\n", base);
+		return self->height - base;
+		//return self->height;
+	}
+	
+	return -1;
 }

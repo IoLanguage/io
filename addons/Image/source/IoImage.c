@@ -84,6 +84,8 @@ IoImage *IoImage_proto(void *state)
 
 		{"flipX", IoImage_flipX},
 		{"flipY", IoImage_flipY},
+		
+		{"baselineHeight", IoImage_baselineHeight},
 
 		{NULL, NULL},
 		};
@@ -440,5 +442,15 @@ IoObject *IoImage_flipY(IoImage *self, IoObject *locals, IoMessage *m)
 	
 	Image_flipY(DATA(self)->image);
 	return self;
+}
+
+IoObject *IoImage_baselineHeight(IoImage *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Image baselineHeight
+	Returns the pixel height (relative to the bottom of the image) which first contains a non-white pixel or -1 if
+	no baseline is found.
+	*/
+	
+	return IONUMBER(Image_baselineHeight(DATA(self)->image));
 }
 
