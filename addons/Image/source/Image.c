@@ -539,7 +539,7 @@ int Image_baselineHeight(Image *self)
 			
 			for (c = 0; c < componentCount; c ++)
 			{
-				if (d[p + c] < 150)
+				if (d[p + c] < 170)
 				{
 					base = y;
 					break;
