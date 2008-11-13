@@ -523,37 +523,31 @@ int Image_baselineHeight(Image *self)
 	printf("width: %i\n", (int)self->width);
 	*/
 	// optimize later
+	int componentCount = self->componentCount;
 	
-	if (self->componentCount == 3)
+	int base = 0;
+	uint8_t *d = (uint8_t *)UArray_bytes(self->byteArray);
+	int x, y;
+	
+	for (y = 0; y < self->height; y ++)
+	//for (y = self->height; y > 0; y --)
 	{
-		int base = 0;
-		uint8_t *d = (uint8_t *)UArray_bytes(self->byteArray);
-		int x, y;
-		
-		for (y = 0; y < self->height; y ++)
-		//for (y = self->height; y > 0; y --)
+		for (x = 0; x < self->width; x ++)
 		{
-			for (x = 0; x < self->width; x ++)
+			int p = (x + (y * self->width))*componentCount;
+			int c;
+			
+			for (c = 0; c < componentCount; c ++)
 			{
-				int p = (x + (y * self->width))*3;
-				uint8_t r = d[p + 0];
-				uint8_t g = d[p + 1];
-				uint8_t b = d[p + 2];
-				
-				if((r < 150) || (g < 150) || (b < 150))
+				if (d[p + c] < 150)
 				{
-					//printf("x: %i y: %i r: %i g: %i b: %i\n", x, y, r, g, b);
 					base = y;
-					//break;
-					//return self->height - base;
+					break;
 				}
 			}
 		}
-		
-		//printf("base = %i\n", base);
-		return self->height - base;
-		//return self->height;
 	}
 	
-	return -1;
+	//printf("base = %i\n", base);
+	return self->height - base;
 }
