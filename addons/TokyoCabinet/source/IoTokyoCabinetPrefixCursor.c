@@ -255,7 +255,7 @@ IoObject *IoTokyoCabinetPrefixCursor_key(IoObject *self, IoObject *locals, IoMes
 			//printf("prefix '%s'\n", UArray_bytes(IoSeq_rawUArray(prefix)));
 			//printf("before clip '%s'\n", UArray_bytes(k));
 			UArray_clipBeforeEndOf_(k, IoSeq_rawUArray(prefix));
-			//UArray_removeFirst(k); // remove separator
+			UArray_removeFirst(k); // remove separator
 			//printf("after clip  '%s'\n", UArray_bytes(k));
 			return IoSeq_newWithUArray_copy_(IOSTATE, k, 0);
 		}

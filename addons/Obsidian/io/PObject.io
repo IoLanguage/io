@@ -4,11 +4,11 @@ false ppid := "true"
 
 List do(
 	asSerialization := method(
-		map(ppid) join(",")
+	  map(ppid) join(",")
 	)
 	
 	fromSerialization := method(serialization,
-		copy(split(",") map(ppid, pdb objectAtPpid(ppid)))
+		copy(serialization split(",") map(ppid, pdb objectAtPpid(ppid)))
 	)
 )
 
