@@ -78,6 +78,7 @@ PDBTest := UnitTest clone do(
 
     assertEquals(aList, pdb root at("aList"))
     assertEquals(aList, pdb objectAtPpid(aList ppid))
+    assertEquals(aList ppid, pdb root at("aList") ppid)
   )
 
   testSequenceSync := method(
@@ -89,6 +90,7 @@ PDBTest := UnitTest clone do(
 
     assertEquals(aSeq, pdb root at("aSeq"))
     assertEquals(aSeq, pdb objectAtPpid(aSeq ppid))
+    assertEquals(aSeq ppid, pdb root at("aSeq") ppid)
   )
 
   testNumberSync := method(
@@ -100,5 +102,6 @@ PDBTest := UnitTest clone do(
 
     assertEquals(aNum, pdb root at("aNum"))
     assertEquals(aNum, pdb objectAtPpid(aNum ppid))
+    assertEquals(aNum ppid, pdb root at("aNum") ppid)
   )
 )

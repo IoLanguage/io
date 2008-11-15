@@ -14,7 +14,7 @@ List do(
 
 Sequence do(
 	asSerialization := method(self asSymbol)
-	fromSerialization := method(serialization, serialization)
+	fromSerialization := method(serialization, serialization setPpid(ppid))
 )
 
 Number do(
