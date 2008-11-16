@@ -524,7 +524,6 @@ int Image_baselineHeight(Image *self)
 	*/
 	// optimize later
 	int componentCount = self->componentCount;
-	
 	int base = 0;
 	uint8_t *d = (uint8_t *)UArray_bytes(self->byteArray);
 	int x, y;
@@ -539,7 +538,7 @@ int Image_baselineHeight(Image *self)
 			
 			for (c = 0; c < componentCount; c ++)
 			{
-				if (d[p + c] < 170)
+				if (d[p + c] < 150)
 				{
 					base = y;
 					break;

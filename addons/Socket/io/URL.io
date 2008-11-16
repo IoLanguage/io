@@ -203,7 +203,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		if(protocol == "http", 
 			v := fetchHttp
 			if(followRedirects and(statusCode == 302 or statusCode == 301), 
-				writeln("REDIRECT TO ", self headerFields at("Location"))
+				//writeln("REDIRECT TO ", self headerFields at("Location"))
 		 		v := self setURL(self headerFields at("Location")) fetch
 			)
 			return v
