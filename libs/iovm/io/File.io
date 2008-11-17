@@ -7,6 +7,7 @@ File do(
 	streamReadSize := 65536
 	
 	startStreaming := method(streamTo(streamDestination))
+  exitStatus := nil
 
 	streamTo := method(streamDestination,
 		b := Sequence clone

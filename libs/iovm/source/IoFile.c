@@ -231,7 +231,9 @@ void IoFile_justClose(IoFile *self)
 		{
 			if (DATA(self)->flags == IOFILE_FLAGS_PIPE)
 			{
-				pclose(stream);
+				int exitStatus = pclose(stream);
+        IoObject_setSlot_to_(self, IOSYMBOL("exitStatus"), 
+                                   IONUMBER(WEXITSTATUS(exitStatus)));
 			}
 			else
 			{
