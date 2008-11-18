@@ -53,7 +53,6 @@ true do(
 	ifFalse := true
 	
 	//doc true and Evaluates the argument and returns the result.
-	setSlot("and", Object getSlot("evalArg"))
 	
 	//doc true or Does not eval argument and returns true.
 	setSlot("or", true)
@@ -85,7 +84,7 @@ false do(
 	//doc false and Returns false.
 	setSlot("and", false)
 	//doc false or Evaluates the argument and returns the result.
-	setSlot("or", Object getSlot("evalArg"))
+	or := method(v, v isTrue)
   
   //doc false type Returns "false".
 	type := "false"
@@ -97,6 +96,7 @@ false do(
 	not := true
 	//doc false clone Returns self.
 	clone := false
+	isTrue := false
 )
 
 nil do(
@@ -114,11 +114,12 @@ nil do(
 	asSimpleString := type
 
 	setSlot("and", false)
-	setSlot("or", Object getSlot("evalArg"))
+	or := method(v, v isTrue)
 	then := nil
 	else := nil
 	elseif := nil
 	clone := nil
+	isTrue := false
 )
 
 // I think non-local returns can eliminate all this stopStatus stuff 
@@ -177,22 +178,24 @@ Return appendProto(Normal) do(
 )
 
 Object do(
-  //doc Object not Returns nil.
+	//doc Object not Returns nil.
 	not := nil
-  //doc Object isNil Returns false.
+	//doc Object isNil Returns false.
 	isNil := false
-  //doc Object ifNil(arg) Does nothing, returns self.
+	//doc Object ifNil(arg) Does nothing, returns self.
 	ifNil := Object getSlot("thisContext")
 	//doc Object ifNonNil(arg) Evaluates argument and returns self.
 	ifNonNil := Object getSlot("evalArgAndReturnSelf")
-  //doc Object ifNonNilEval(arg) Evaluates argument and returns the result.
+	//doc Object ifNonNilEval(arg) Evaluates argument and returns the result.
 	ifNonNilEval := Object getSlot("evalArg")
 	//doc Object ifNilEval(arg) Does nothing, returns self.
 	ifNilEval    := Object getSlot("thisContext")
-  //doc Object and(arg) Evaluates argument and returns the result.
-	setSlot("and", Object getSlot("evalArg"))
+	//doc Object and(arg) Evaluates argument and returns the result.
 	//doc Object or(arg) Returns true.
 	setSlot("or", true)
+	
+	isTrue := true
+	and := method(v, v isTrue)
 )
 
 Sequence do(
