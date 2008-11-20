@@ -86,6 +86,7 @@ IoImage *IoImage_proto(void *state)
 		{"flipY", IoImage_flipY},
 		
 		{"baselineHeight", IoImage_baselineHeight},
+		{"averageColor", IoImage_averageColor},
 
 		{NULL, NULL},
 		};
@@ -453,4 +454,23 @@ IoObject *IoImage_baselineHeight(IoImage *self, IoObject *locals, IoMessage *m)
 	
 	return IONUMBER(Image_baselineHeight(DATA(self)->image));
 }
+
+
+IoObject *IoImage_averageColor(IoImage *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Image averageColor
+	Returns the average RGB color of all pixels in the image. 
+	*/
+	
+	ColorStruct c = Image_averageColor(DATA(self)->image);
+	vec3f v;
+	
+	v.x = c.r;	
+	v.y = c.g;	
+	v.z = c.b;
+	
+	return IoSeq_newVec3f(IOSTATE, v);
+}
+
+
 

@@ -32,6 +32,13 @@
 #include <GL/gl.h>
 #endif
 
+typedef struct
+{
+	uint8_t r;
+	uint8_t g;
+	uint8_t b;
+	uint8_t a;
+} ColorStruct;
 
 typedef struct
 {
@@ -106,6 +113,8 @@ IOIMAGE_API void Image_decodingHeightHint_(Image *self, int v);
 IOIMAGE_API int Image_decodingHeightHint(Image *self);
 
 IOIMAGE_API void Image_makeRGBA(Image *self);
+
+IOIMAGE_API ColorStruct Image_averageColor(Image *self);
 
 #endif
 

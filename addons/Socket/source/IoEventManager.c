@@ -81,7 +81,7 @@ IoEventManager *IoEventManager_proto(void *state)
 #endif
 
 	DATA(self)->eventBase = event_init();
-
+	DATA(self)->evh = evhttp_new(DATA(self)->eventBase);
 	//IoEventManager_setDescriptorLimitToMax(self);
 	Socket_SetDescriptorLimitToMax();
 
@@ -110,9 +110,14 @@ void IoEventManager_free(IoEventManager *self)
 	// using it
 	List_free(DATA(self)->activeEvents);
 
+	evhttp_free(DATA(self)->evh);
 	free(IoObject_dataPointer(self));
 }
 
+void *IoEventManager_rawBase(IoEventManager *self)
+{
+	return DATA(self)->eventBase;
+}
 
 /*
 IoEventManager *IoEventManager_new(void)
@@ -285,3 +290,4 @@ IoObject *IoEventManager_activeEvents(IoEventManager *self, IoObject *locals, Io
 {
 	return IoList_newWithList_(IOSTATE, DATA(self)->activeEvents);
 }
+

@@ -198,13 +198,17 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 	)
 	
 	//doc URL fetch Fetches the url and returns the result as a Sequence. Returns an Error, if one occurs.
-	fetch := method(url,
+	fetch := method(url, redirected,
 		if(url, setURL(url))
 		if(protocol == "http", 
 			v := fetchHttp
-			if(followRedirects and(statusCode == 302 or statusCode == 301), 
-				//writeln("REDIRECT TO ", self headerFields at("Location"))
-		 		v := self setURL(self headerFields at("Location")) fetch
+			if(followRedirects and(statusCode == 302 or statusCode == 301),
+			 	if(redirected, 
+					writeln("DOUBLE REDIRECT on " .. url)
+			 		return Error with("Double redirect")
+				)
+				writeln("REDIRECT TO ", self headerFields at("Location"))
+		 		v := self fetch(self headerFields at("Location"), true)
 			)
 			return v
 		)
@@ -353,8 +357,8 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 			)
 			b copy(newB)
 		)
-		
-		//b size println
+
+		//writeln("b size: ", b size)
 
 		socket close
 		if(headerFields at("Content-Encoding") == "gzip", Zlib; b unzip)
