@@ -13,6 +13,7 @@ Selects on sockets and checks for timeouts.
 #include "IoEvent.h"
 #include "Socket.h"
 #include <event.h>
+#include <evhttp.h>
 
 typedef IoObject IoEventManager;
 
@@ -22,6 +23,7 @@ typedef struct
 	void *eventBase;
 	IoMessage *handleEventMessage;
 	List *activeEvents;
+	//int activeHttpClientRequests;
 } IoEventManagerData;
 
 #define ISEEVENTMANAGER(self) IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoEventManager_rawClone)

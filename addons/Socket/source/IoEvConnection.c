@@ -43,14 +43,13 @@ IoEvConnection *IoEvConnection_proto(void *state)
 		IoObject_addMethodTable_(self, methodTable);
 	}
 
-
 	return self;
 }
 
 IoEvConnection *IoEvConnection_rawClone(IoEvConnection *proto)
 {
 	IoObject *self = IoObject_rawClonePrimitive(proto);
-	IoObject_setDataPointer_(self, (struct event *)calloc(1, sizeof(struct event)));
+	IoObject_setDataPointer_(self, 0x0);
 	return self;
 }
 
@@ -62,9 +61,12 @@ IoEvConnection *IoEvConnection_new(void *state)
 
 void IoEvConnection_free(IoEvConnection *self)
 {
+	//printf("IoEvConnection_free\n");
+	
 	if (CONN(self))
 	{
-		evhttp_connection_free(CONN(self));
+		//printf("IoEvConnection_free skipping free?\n");
+		//evhttp_connection_free(CONN(self));
 		IoObject_setDataPointer_(self, 0x0);
 	}
 }
@@ -73,7 +75,6 @@ struct evhttp_connection *IoEvConnection_rawConnection(IoEvConnection *self)
 {
 	return CONN(self);
 }
-
 
 IoObject *IoEvConnection_setTimeout_(IoEvConnection *self, IoObject *locals, IoMessage *m)
 {
@@ -99,8 +100,8 @@ IoObject *IoEvConnection_setLocalAddress_(IoEvConnection *self, IoObject *locals
 void IoEvConnection_ConnectionCloseCallback(struct evhttp_connection *con, void *arg)
 {
 	IoObject *self = arg;
+	//printf("IoEvConnection_ConnectionCloseCallback\n");
 	IoEvConnection_free(self);
-	return 0x0;
 }
 
 IoObject *IoEvConnection_connect(IoEvConnection *self, IoObject *locals, IoMessage *m)
@@ -111,6 +112,8 @@ IoObject *IoEvConnection_connect(IoEvConnection *self, IoObject *locals, IoMessa
 
 	IOASSERT(CONN(self) == 0x0, "already have connection");
 	IOASSERT(ISEEVENTMANAGER(em), "eventManager slot not set properly");
+
+	//printf("IoEventManager_rawBase(em) = %p\n", (void *)IoEventManager_rawBase(em));
 
 	IoObject_setDataPointer_(self, evhttp_connection_new(CSTRING(address), port));
 	evhttp_connection_set_base(CONN(self), IoEventManager_rawBase(em));

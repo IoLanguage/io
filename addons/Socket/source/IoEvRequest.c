@@ -32,7 +32,7 @@ IoEvRequest *IoEvRequest_proto(void *state)
 
 	{
 		IoMethodTable methodTable[] = {
-		{"send", IoEvRequest_send},
+		{"asyncSend", IoEvRequest_send},
 		{"cancel", IoEvRequest_cancel},
 		{NULL, NULL},
 		};
@@ -47,7 +47,7 @@ IoEvRequest *IoEvRequest_proto(void *state)
 IoEvRequest *IoEvRequest_rawClone(IoEvRequest *proto)
 {
 	IoObject *self = IoObject_rawClonePrimitive(proto);
-	IoObject_setDataPointer_(self, (struct event *)calloc(1, sizeof(struct event)));
+	IoObject_setDataPointer_(self, 0x0);
 	return self;
 }
 
@@ -60,8 +60,9 @@ IoEvRequest *IoEvRequest_new(void *state)
 void IoEvRequest_free(IoEvRequest *self)
 {
 	if (REQUEST(self))
-	{
-		evhttp_request_free(REQUEST(self));
+	{	
+		//printf("IoEvRequest_free skipping free?\n");
+		//evhttp_request_free(REQUEST(self));
 		IoObject_setDataPointer_(self, 0x0);
 	}
 }
@@ -100,16 +101,19 @@ void IoEvRequest_RequestDoneCallback(struct evhttp_request *request, void *arg)
 		int i = 0;
 		const char *name;
 		IoMap *outputHeaders = IoMap_new(IOSTATE);
+		
 		IoObject_setSlot_to_(self, IOSYMBOL("data"), IOSEQ(b->buffer, b->off));
 		IoObject_setSlot_to_(self, IOSYMBOL("inputHeaders"), outputHeaders);
 
 		while ((name = headerNames[i]))
 		{
 			const char *value = evhttp_find_header(headers, name);
-			IoMap_rawAtPut(outputHeaders, IOSYMBOL(name), IOSYMBOL(value));
+			if (value) IoMap_rawAtPut(outputHeaders, IOSYMBOL(name), IOSYMBOL(value));
+			i ++;
 		}
 		
-		IoEvRequest_free(self);	
+		//IoEvRequest_free(self);	
+		IoMessage_locals_performOn_(IOSTATE->didFinishMessage, self, self); 
 	}
 }
 
@@ -124,6 +128,7 @@ IoObject *IoEvRequest_send(IoEvRequest *self, IoObject *locals, IoMessage *m)
 	IOASSERT(REQUEST(self) == 0x0, "request already sent");
 	IOASSERT(ISMAP(headers), "headers slot needs to be a Map");
 	IOASSERT(ISEVCONNECTION(connection), "connection slot not set properly");
+	IOASSERT(IoEvConnection_rawConnection(connection), "connection not open");
 	
 	if (IoSeq_rawEqualsCString_(requestType, "GET"))
 	{

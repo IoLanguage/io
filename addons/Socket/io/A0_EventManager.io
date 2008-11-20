@@ -108,9 +108,13 @@ EventManager do(
 		//writeln("EventManager addEvent " .. e eventTypeName .. " - begin")
 		r := self realAddEvent(e, descriptorId, eventType, timeout)
 		r returnIfError
-		if(coro, coro resumeLater, self coro := coroFor(run); coro setLabel("EventManager"); coro resumeLater)
+		resumeIfNeeded
 		//debugWriteln("EventManager addEvent " .. e eventTypeName .. " - done")
 		r
+	)
+	
+	resumeIfNeeded := method(
+		if(coro, coro resumeLater, self coro := coroFor(run); coro setLabel("EventManager"); coro resumeLater)	
 	)
 
 	//doc EventManager run Runs the EventManger loop. Does not return.
@@ -131,7 +135,53 @@ EventManager do(
 			//debugWriteln("EventManager run - resuming")
 		)
 	)
+	
+	/*
+	runBrute := method(
+		//Scheduler currentCoroutine setLabel("EventManager")
+		setIsRunning(true)
+		self setListenTimeout(1)
+		loop(
+			//writeln("runBrute listen")
+			writeln("hasActiveEvents: ", self hasActiveEvents)
+			listen
+			yield
+		)
+	)
+	*/
 )
 
 Scheduler currentCoroutine setLabel("main")
 EventManager setListenTimeout(.01)
+
+EvConnection do(
+	eventManager ::= EventManager
+	address ::= ""
+	port ::= 80
+	
+	newRequest := method(
+		EvRequest clone setConnection(self)
+	)
+)
+
+EvRequest do(
+	init := method(
+		self inputHeaders := Map clone		
+	)
+
+	connection ::= nil
+	requestType ::= "GET"
+	uri ::= "/"
+
+	send := method(
+		self waitingCoro := Coroutine currentCoroutine
+		asyncSend
+		EventManager resumeIfNeeded
+		yield
+		waitingCoro pause
+	)
+
+	didFinish := method(
+		waitingCoro resumeLater
+	)
+)
