@@ -284,6 +284,7 @@ IoObject *IoEventManager_listenUntilEvent(IoEventManager *self, IoObject *locals
 	return self;
 }
 
+// this may need to be updated on future releases of libevent
 
 struct event_base_PROTO 
 {
@@ -297,9 +298,6 @@ IoObject *IoEventManager_hasActiveEvents(IoEventManager *self, IoObject *locals,
 {
 	int count = ((struct event_base_PROTO *)DATA(self)->eventBase)->event_count;
 	return IOBOOL(self, count > 1);
-	//return IOBOOL(self, count > 0);
-	//return IOBOOL(self, event_haveevents(DATA(self)->eventBase));
-	//return IOBOOL(self, (List_size(DATA(self)->activeEvents) > 0));
 }
 
 IoObject *IoEventManager_activeEvents(IoEventManager *self, IoObject *locals, IoMessage *m)

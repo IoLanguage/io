@@ -135,20 +135,6 @@ EventManager do(
 			//debugWriteln("EventManager run - resuming")
 		)
 	)
-	
-	/*
-	runBrute := method(
-		//Scheduler currentCoroutine setLabel("EventManager")
-		setIsRunning(true)
-		self setListenTimeout(1)
-		loop(
-			//writeln("runBrute listen")
-			writeln("hasActiveEvents: ", self hasActiveEvents)
-			listen
-			yield
-		)
-	)
-	*/
 )
 
 Scheduler currentCoroutine setLabel("main")
@@ -165,15 +151,21 @@ EvConnection do(
 )
 
 EvRequest do(
+	requestHeaders := Map clone
+	requestHeaders atPut("User-Agent", "Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/312.8 (KHTML, like Gecko) Safari/312.6)")
+	requestHeaders atPut("Connection", "close")
+	requestHeaders atPut("Accept", "*/*")
+	
 	init := method(
-		self inputHeaders := Map clone		
+		self requestHeaders := requestHeaders clone		
 	)
 
 	connection ::= nil
 	requestType ::= "GET"
-	uri ::= "/"
+	uri ::= "/index.html"
 
 	send := method(
+		r requestHeaders atPut("Host", connection address, connection port)
 		self waitingCoro := Coroutine currentCoroutine
 		asyncSend
 		EventManager resumeIfNeeded
