@@ -60,13 +60,10 @@ IoEvConnection *IoEvConnection_new(void *state)
 }
 
 void IoEvConnection_free(IoEvConnection *self)
-{
-	//printf("IoEvConnection_free\n");
-	
+{	
 	if (CONN(self))
 	{
-		//printf("IoEvConnection_free skipping free?\n");
-		//evhttp_connection_free(CONN(self));
+		evhttp_connection_free(CONN(self));
 		IoObject_setDataPointer_(self, 0x0);
 	}
 }
@@ -101,7 +98,8 @@ void IoEvConnection_ConnectionCloseCallback(struct evhttp_connection *con, void 
 {
 	IoObject *self = arg;
 	//printf("IoEvConnection_ConnectionCloseCallback\n");
-	IoEvConnection_free(self);
+	//IoEvConnection_free(self);
+	IoMessage_locals_performOn_(IOSTATE->didFinishMessage, self, self); 
 }
 
 IoObject *IoEvConnection_connect(IoEvConnection *self, IoObject *locals, IoMessage *m)

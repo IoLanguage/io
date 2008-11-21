@@ -148,6 +148,8 @@ EvConnection do(
 	newRequest := method(
 		EvRequest clone setConnection(self)
 	)
+	
+	didFinish := nil
 )
 
 EvRequest do(

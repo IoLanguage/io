@@ -110,7 +110,7 @@ void IoEvRequest_RequestDoneCallback(struct evhttp_request *request, void *arg)
 			const char *value = evhttp_find_header(headers, name);
 			if (value) 
 			{
-				printf("response header: %s : %s\n", name, value);
+				//printf("response header: %s : %s\n", name, value);
 				IoMap_rawAtPut(responseHeaders, IOSYMBOL(name), IOSYMBOL(value));
 			}
 			i ++;
@@ -128,6 +128,7 @@ IoObject *IoEvRequest_send(IoEvRequest *self, IoObject *locals, IoMessage *m)
 	IoSeq *uri = IoObject_symbolGetSlot_(self, IOSYMBOL("uri"));
 	IoMap *responseHeaders = IoObject_getSlot_(self, IOSYMBOL("requestHeaders"));
 	int rt = 0;
+	int r;
 	
 	IOASSERT(REQUEST(self) == 0x0, "request already sent");
 	IOASSERT(ISMAP(responseHeaders), "responseHeaders slot needs to be a Map");
@@ -152,15 +153,15 @@ IoObject *IoEvRequest_send(IoEvRequest *self, IoObject *locals, IoMessage *m)
 	{
 		PHash *rh = IoMap_rawHash(responseHeaders);
 		PHASH_FOREACH(rh, k, v, 
-			printf("request header %s : %s\n", CSTRING(k), CSTRING(v));
+			//printf("request header %s : %s\n", CSTRING(k), CSTRING(v));
 			evhttp_add_header(REQUEST(self)->output_headers, CSTRING(k), CSTRING(v));
 		)
 	}
 	
-	int r = evhttp_make_request(IoEvConnection_rawConnection(connection),	
+	r = evhttp_make_request(IoEvConnection_rawConnection(connection),	
 		REQUEST(self), rt, CSTRING(uri));
 	
-	printf("send uri: %s\n", CSTRING(uri));
+	//printf("send uri: %s\n", CSTRING(uri));
 	return r == -1 ? IONIL(self) : self;
 }
 
