@@ -167,7 +167,7 @@ EvRequest do(
 	uri ::= "/index.html"
 
 	send := method(
-		r requestHeaders atPut("Host", connection address, connection port)
+		self requestHeaders atPut("Host", connection address, connection port)
 		self waitingCoro := Coroutine currentCoroutine
 		asyncSend
 		EventManager resumeIfNeeded
@@ -179,3 +179,5 @@ EvRequest do(
 		waitingCoro resumeLater
 	)
 )
+
+

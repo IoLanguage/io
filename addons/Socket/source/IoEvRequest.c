@@ -61,7 +61,7 @@ void IoEvRequest_free(IoEvRequest *self)
 {
 	if (REQUEST(self))
 	{	
-		//printf("IoEvRequest_free skipping free?\n");
+		// looks like the connection or evhttp is responsible for freeing the request
 		//evhttp_request_free(REQUEST(self));
 		IoObject_setDataPointer_(self, 0x0);
 	}
@@ -104,19 +104,21 @@ void IoEvRequest_RequestDoneCallback(struct evhttp_request *request, void *arg)
 		
 		IoObject_setSlot_to_(self, IOSYMBOL("data"), IOSEQ(b->buffer, b->off));
 		IoObject_setSlot_to_(self, IOSYMBOL("responseHeaders"), responseHeaders);
-
+		IoObject_setSlot_to_(self, IOSYMBOL("responseCode"), IONUMBER(request->response_code));
+		
 		while ((name = headerNames[i]))
 		{
 			const char *value = evhttp_find_header(headers, name);
+			
 			if (value) 
 			{
 				//printf("response header: %s : %s\n", name, value);
 				IoMap_rawAtPut(responseHeaders, IOSYMBOL(name), IOSYMBOL(value));
 			}
+			
 			i ++;
 		}
 		
-		//IoEvRequest_free(self);	
 		IoMessage_locals_performOn_(IOSTATE->didFinishMessage, self, self); 
 	}
 }

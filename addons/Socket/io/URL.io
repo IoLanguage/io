@@ -155,7 +155,6 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 			path = url
 		)
 
-
 		if(port == nil, port = 80)
 		if(path == nil, path = "/")
 		if(protocol and path and path beginsWithSeq("/") not, path = "/" .. path)
@@ -197,6 +196,17 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		v
 	)
 	
+	evFetch := method(
+		c := EvConnection clone setAddress(host) setPort(port) connect
+		writeln("evFetch ", url)
+		r := c newRequest setUri(request) 
+		r requestHeaders = self requestHeaders
+		r send
+		self statusCode := r responseCode
+		//writeln("evFetch  got ", r data size, " bytes")
+		r data
+	)
+
 	//doc URL fetch Fetches the url and returns the result as a Sequence. Returns an Error, if one occurs.
 	fetch := method(url, redirected,
 		if(url, setURL(url))
