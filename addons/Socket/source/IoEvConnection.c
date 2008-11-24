@@ -26,7 +26,7 @@ IoEvConnection *IoEvConnection_proto(void *state)
 	IoObject *self = IoObject_new(state);
 
 	IoObject_tag_(self, IoEvConnection_newTag(state));
-	IoObject_setDataPointer_(self, (struct event *)calloc(1, sizeof(struct event)));
+	IoObject_setDataPointer_(self, 0x0);
 
 	IoState_registerProtoWithFunc_((IoState *)state, self, IoEvConnection_proto);
 
