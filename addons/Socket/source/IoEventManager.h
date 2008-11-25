@@ -13,21 +13,27 @@ Selects on sockets and checks for timeouts.
 #include "IoEvent.h"
 #include "Socket.h"
 #include <event.h>
+#include <evhttp.h>
 
 typedef IoObject IoEventManager;
 
 typedef struct
 {
+	struct evhttp *evh;
 	void *eventBase;
 	IoMessage *handleEventMessage;
 	List *activeEvents;
+	//int activeHttpClientRequests;
 } IoEventManagerData;
+
+#define ISEEVENTMANAGER(self) IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoEventManager_rawClone)
 
 IoEventManager *IoEventManager_rawClone(IoEventManager *self);
 IoEventManager *IoEventManager_proto(void *state);
 
 void IoEventManager_mark(IoEventManager *self);
 void IoEventManager_free(IoEventManager *self);
+void *IoEventManager_rawBase(IoEventManager *self);
 
 IoObject *IoEventManager_addEvent(IoEventManager *self, IoObject *locals, IoMessage *m);
 IoObject *IoEventManager_removeEvent(IoEventManager *self, IoObject *locals, IoMessage *m);

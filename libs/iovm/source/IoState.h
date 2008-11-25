@@ -82,6 +82,7 @@ struct IoState
 	IoMessage *runMessage;
 	IoMessage *willFreeMessage;
 	IoMessage *yieldMessage;
+	IoMessage *didFinishMessage;
 
 	List *cachedNumbers;
 

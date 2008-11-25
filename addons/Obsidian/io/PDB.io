@@ -136,8 +136,8 @@ persisted since the last sync via addObjectToPersist.
 		//writeln(objType, " = db onAt('", ppid, "/_type)")
 		if(objType == nil, return nil)
 		obj := Lobby doString(objType) clone setPpid(ppid)
-		ppidMap atPut(ppid, obj)
-		obj unpersist
+		ppidMap atPut(ppid, unpersistedObj := obj unpersist)
+    unpersistedObj
 	)
 	
 	//doc PDB addObjectToPersist Register an object to be persisted in the next PDB sync.

@@ -156,6 +156,7 @@ IoObject *IoObject_protoFinish(void *state)
 	{"for", IoObject_for},
 	{"if", IoObject_if},
 	{"", IoObject_evalArg},
+	//{"truthValueOfArg", IoObject_truthValueOfArg},
 	{"evalArg", IoObject_evalArg},
 	{"evalArgAndReturnSelf", IoObject_evalArgAndReturnSelf},
 	{"evalArgAndReturnNil", IoObject_evalArgAndReturnNil},
@@ -1668,6 +1669,16 @@ void IoObject_print(IoObject *self)
 	IoMessage_locals_performOn_(IOSTATE->printMessage, self, self);
 	// using self as locals hack
 }
+
+/*
+IoObject *IoObject_truthValueOfArg(IoObject *self, IoObject *locals, IoMessage *m);
+{
+	//doc Object The '' method evaluates the argument and returns the result.
+	
+	IOASSERT(IoMessage_argCount(m) > 0, "argument required");
+	return IoMessage_locals_valueArgAt_(m, locals, 0);
+}
+*/
 
 IoObject *IoObject_evalArg(IoObject *self, IoObject *locals, IoMessage *m)
 {

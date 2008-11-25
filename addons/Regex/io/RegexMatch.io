@@ -43,7 +43,7 @@ RegexMatch do(
 	captures := method(
 		if(regex isNil, return list)
 		captures = ranges map(range,
-			if (range, subject slice(range first, range last), nil)
+			if (range, subject exSlice(range first, range last), nil)
 		)
 		captures
 	)
@@ -130,7 +130,7 @@ RegexMatch do(
 	</pre>
 	*/
 	prefix := method(
-		subject slice(0, start)
+		subject exSlice(0, start)
 	)
 
 	/*doc RegexMatch postfix
@@ -141,7 +141,7 @@ RegexMatch do(
 	</pre>
 	*/
 	postfix := method(
-		subject slice(end)
+		subject exSlice(end)
 	)
 	
 	/*doc RegexMatch range

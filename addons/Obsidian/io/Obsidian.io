@@ -73,7 +73,7 @@ Obsidian := Object clone do(
 			keys append(k)
 			c next
 		)
-		keys	
+		keys
 	)
 				
 	onLast := method(objId, count,
@@ -88,7 +88,7 @@ Obsidian := Object clone do(
 			keys append(k)
 			c previous
 		)
-		keys			
+		keys
 	)
 			
 	onAfter := method(objId, slotName, count,
@@ -101,7 +101,7 @@ Obsidian := Object clone do(
 			keys append(k)
 			c next
 		)
-		keys			
+		keys 
 	)
 
 	onBefore := method(objId, slotName, count,
@@ -114,7 +114,7 @@ Obsidian := Object clone do(
 			keys append(k)
 			c previous
 		)
-		keys			
+		keys
 	)	
 	
 	sizeOn := method(objId,

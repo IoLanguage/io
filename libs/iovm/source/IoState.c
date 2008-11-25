@@ -341,6 +341,9 @@ void IoState_setupCachedMessages(IoState *self)
 
 	self->yieldMessage = IoMessage_newWithName_(self, SIOSYMBOL("yield"));
 	IoState_retain_(self, self->yieldMessage);
+	
+	self->didFinishMessage = IoMessage_newWithName_(self, SIOSYMBOL("didFinish"));
+	IoState_retain_(self, self->didFinishMessage);
 }
 
 IoObject *IoObject_initBindings(IoObject *self, IoObject *locals, IoMessage *m)

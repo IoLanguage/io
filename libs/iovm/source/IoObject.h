@@ -180,6 +180,7 @@ IOVM_API IoObject *IoObject_isGreaterThanOrEqualTo_(IoObject *self, IoObject *lo
 
 // meta
 
+//IOVM_API IoObject *IoObject_truthValueOfArg(IoObject *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoObject_evalArg(IoObject *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoObject_evalArgAndReturnNil(IoObject *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoObject_evalArgAndReturnSelf(IoObject *self, IoObject *locals, IoMessage *m);
