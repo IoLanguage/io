@@ -14,6 +14,8 @@ SGMLElement := Object clone do(
 	text ::= nil
 	parent ::= nil
 
+	attribute := method(aname, attributes at(aname))
+	
 	withText := method(text,
 		self clone setText(text)
 	)

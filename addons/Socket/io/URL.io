@@ -317,7 +317,8 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		if(cacheOn, r := cacheLoad; if(r, return r))
 		connectAndWriteHeader returnIfError
 		r := processHttpResponse(progressBlock)
-		if(cacheOn, cacheStore(r))
+		if(r isError not, cacheStore(r))
+		//if(cacheOn and r isError not, cacheStore(r))
 		return r
 	)
 	
