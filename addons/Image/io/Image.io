@@ -39,4 +39,24 @@ Image do(
 	sizeInBytes := method(
 		width * height * componentCount
 	)
+	
+	
+	with := method(path,
+		self clone setPath(path)
+	)
+
+	isWhiteAt := method(x, y,
+		i := (x + (width * y)) * componentCount
+		r := data at(i + 0)
+		g := data at(i + 1)
+		b := data at(i + 2)
+		(r > 200) and(g > 200) and(b > 200) 
+	)
+
+	hasWhiteBackground := method(
+		//writeln("isWhiteAt(width-1,   height/4) = ", isWhiteAt(width-1, height/4))
+		//writeln("isWhiteAt(width/4, 0)        = ", isWhiteAt(width/4, 0))
+		(isWhiteAt(width/4, 0) and isWhiteAt(width*3/4, 0)) or(
+			isWhiteAt(width-1, height/4) and isWhiteAt(width-1, height*3/4))
+	)
 )

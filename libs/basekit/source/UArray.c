@@ -1030,7 +1030,7 @@ int UArray_isZero(const UArray *self)
 #define UARRAY_FIND_TYPES(OP2, TYPE1, self, TYPE2, other)\
 {\
 	size_t i;\
-			if(self->size < other->size || self->size == 0) return -1;\
+			if((self->size < other->size) || (self->size == 0)) return -1;\
 			for(i = 0; i < self->size - other->size + 1; i ++)\
 			{\
 				size_t j;\
@@ -1059,9 +1059,9 @@ int UArray_contains_(const UArray *self, const UArray *other)
 
 long UArray_find_from_(const UArray *self, const UArray *other, size_t from)
 {
+  if (self->size < from) return -1;
 	UArray s = UArray_stackRange(self, from, self->size - from);
 	long i = UArray_find_(&s, other);
-
 	return i == -1 ? -1 : from + i;
 }
 

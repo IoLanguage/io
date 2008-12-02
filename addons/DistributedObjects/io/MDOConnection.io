@@ -24,6 +24,7 @@ MDOProxy := Object clone do(
 	)
 )
 
+//doc Message setCachedArgs(listOfValues) Appends evaluated arguments to a message. Returns self. 
 Message setCachedArgs := method(args,
 	args foreach(arg, self appendCachedArg(arg))
 )

@@ -84,6 +84,9 @@ IoImage *IoImage_proto(void *state)
 
 		{"flipX", IoImage_flipX},
 		{"flipY", IoImage_flipY},
+		
+		{"baselineHeight", IoImage_baselineHeight},
+		{"averageColor", IoImage_averageColor},
 
 		{NULL, NULL},
 		};
@@ -441,4 +444,33 @@ IoObject *IoImage_flipY(IoImage *self, IoObject *locals, IoMessage *m)
 	Image_flipY(DATA(self)->image);
 	return self;
 }
+
+IoObject *IoImage_baselineHeight(IoImage *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Image baselineHeight
+	Returns the pixel height (relative to the bottom of the image) which first contains a non-white pixel or -1 if
+	no baseline is found.
+	*/
+	
+	return IONUMBER(Image_baselineHeight(DATA(self)->image));
+}
+
+
+IoObject *IoImage_averageColor(IoImage *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Image averageColor
+	Returns the average RGB color of all pixels in the image. 
+	*/
+	
+	ColorStruct c = Image_averageColor(DATA(self)->image);
+	vec3f v;
+	
+	v.x = c.r;	
+	v.y = c.g;	
+	v.z = c.b;
+	
+	return IoSeq_newVec3f(IOSTATE, v);
+}
+
+
 

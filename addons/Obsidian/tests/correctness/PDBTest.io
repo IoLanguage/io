@@ -68,4 +68,40 @@ PDBTest := UnitTest clone do(
 		pdb close
 		pdb delete
 	)
+
+  testListSync := method(
+    pdb open
+    aList := list("1", "2", "3") 
+    pdb root setSlot("aList", aList)
+    pdb sync
+    pdb reopen
+
+    assertEquals(aList, pdb root at("aList"))
+    assertEquals(aList, pdb objectAtPpid(aList ppid))
+    assertEquals(aList ppid, pdb root at("aList") ppid)
+  )
+
+  testSequenceSync := method(
+    pdb open
+    aSeq := "aoeu"
+    pdb root setSlot("aSeq", aSeq)
+    pdb sync
+    pdb reopen
+
+    assertEquals(aSeq, pdb root at("aSeq"))
+    assertEquals(aSeq, pdb objectAtPpid(aSeq ppid))
+    assertEquals(aSeq ppid, pdb root at("aSeq") ppid)
+  )
+
+  testNumberSync := method(
+    pdb open
+    aNum := 10
+    pdb root setSlot("aNum", aNum)
+    pdb sync
+    pdb reopen
+
+    assertEquals(aNum, pdb root at("aNum"))
+    assertEquals(aNum, pdb objectAtPpid(aNum ppid))
+    assertEquals(aNum ppid, pdb root at("aNum") ppid)
+  )
 )

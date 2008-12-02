@@ -214,9 +214,22 @@ IoObject *IoTokyoCabinetPrefixCursor_jump(IoObject *self, IoObject *locals, IoMe
 	*/
 	
 	IoSeq *key = IoMessage_locals_seqArgAt_(m, locals, 0);
+	int result;
+	UArray *p;
+	
+	IoSeq *prefix = IoObject_getSlot_(self, IOSYMBOL("prefix"));
+	IOASSERT(ISSEQ(prefix), "prefix must be a sequence");
 
+	p = UArray_clone(IoSeq_rawUArray(prefix));
+	UArray_appendPath_(p, IoSeq_rawUArray(key));
+	
+	result = tcbdbcurjump(TokyoCabinetPrefixCursor(self), 
+						  (const void *)UArray_bytes(p), 
+						  (int)UArray_sizeInBytes(p));
+	UArray_free(p);
+	
 	IOASSERT(TokyoCabinetPrefixCursor(self), "invalid TokyoCabinetPrefixCursor");
-	return IOBOOL(self, tcbdbcurjump(TokyoCabinetPrefixCursor(self), (const void *)IoSeq_rawBytes(key), (int)IoSeq_rawSizeInBytes(key)));
+	return IOBOOL(self, result);
 }
 
 IoObject *IoTokyoCabinetPrefixCursor_key(IoObject *self, IoObject *locals, IoMessage *m)
@@ -239,6 +252,7 @@ IoObject *IoTokyoCabinetPrefixCursor_key(IoObject *self, IoObject *locals, IoMes
 	
 		if (UArray_beginsWith_(k, IoSeq_rawUArray(prefix)))
 		{
+			//printf("prefix '%s'\n", UArray_bytes(IoSeq_rawUArray(prefix)));
 			//printf("before clip '%s'\n", UArray_bytes(k));
 			UArray_clipBeforeEndOf_(k, IoSeq_rawUArray(prefix));
 			UArray_removeFirst(k); // remove separator

@@ -86,9 +86,22 @@ Object do(
 */
 
 Object do(
+  /*doc Object yield
+  Yields to another coroutine. Does nothing if yieldingCoros queue is empty.
+  <br/>
+  See Coroutine documentation for more details.
+  */
 	yield := method(Coroutine currentCoroutine yield)
+	
+	/*doc Object pause
+	Removes current coroutine from the yieldingCoros queue and
+	yields to another coro. Exits if no coros left.
+	<br/>
+  See Coroutine documentation for more details.
+  */
 	pause := method(Coroutine currentCoroutine pause)
 
+  //doc Object actorRun Starts actor mode if not started already. Basically, sets actorProcessQueue for later execution.
 	actorRun := method(
 		if(self hasLocalSlot("actorCoroutine"),
 			if(actorQueue size == 0, self actorCoroutine resumeLater)
@@ -104,6 +117,8 @@ Object do(
 			//Coroutine yieldingCoros append(actorCoroutine)
 		)
 	)
+  
+  //doc Object actorProcessQueue Processes each message in a queue, yielding between each message.
 
 	actorProcessQueue := method(
 		//writeln(self type, "_", self uniqueId, " actorProcessQueue")
@@ -135,9 +150,24 @@ Object do(
 			self actorCoroutine pause
 		)
 	)
-
+	
+  /*doc Object handleActorException(exception)
+  Callback for handling exceptions during asynchronous message processing.
+  <br/>
+  Default value: method(e, e showStack)
+  */
 	handleActorException := method(e, e showStack)
-
+    
+  /*doc Object @
+  Sends asynchronous message to an object, returns a FutureProxy.
+  <br/>
+  Caller coroutine is paused when proxy is accessed (i.e. message is sent)
+  till result is ready. Proxy will become an actual result when it is ready.
+  <br/>
+  See IoGuide for more information.
+  <br/>
+  Usage: obj @someMethod(a, b, c)
+  */
 	setSlot("@", method(
 		//writeln("@ ", call argAt(0))
 		m := call argAt(0) asMessageWithEvaluatedArgs(call sender)
@@ -146,7 +176,13 @@ Object do(
 		self actorQueue append(f)
 		f futureProxy
 	))
-
+  
+  /*doc Object @@
+  Same as Object @, but returns nil instead of FutureProxy.
+  <br/>
+  Might be useful in a command line or as a last expression in a block/method when
+  you don't want to return a future.
+  */
 	setSlot("@@", method(
 		//writeln(self type , "_", self uniqueId, " @@", call argAt(0)) //, " ", call argAt(0) label)
 		m := call argAt(0) asMessageWithEvaluatedArgs(call sender)

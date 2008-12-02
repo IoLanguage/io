@@ -1,5 +1,23 @@
 
 URL := Notifier clone do(
+	cacheFolder := Directory with("/tmp/ioUrlCache/")
+	cacheFolder create
+	cacheFile := method(MD5; File with(Path with(cacheFolder path, url md5String)))
+	cacheOn ::= false
+	cacheTimeout := 24*60*60
+	followRedirects := true
+	
+	cacheStore := method(data,
+		cacheFile setContents(data)
+	)
+	
+	cacheLoad := method(
+		cf := cacheFile
+		if(cf exists and(cf lastDataChangeDate secondsSinceNow < cacheTimeout), 
+			//writeln("using cache"); 
+			setStatusCode(200); cf contents, nil)
+	)
+	
 //metadoc URL category Networking
 //metadoc URL copyright Steve Dekorte, 2004
 //metadoc URL license BSD revised
@@ -18,9 +36,11 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 	
 	socketProto ::= Socket clone
 	readHeader ::= nil
+	statusCode ::= nil
 
 	init := method(
 		self socket := socketProto clone
+		self requestHeaders := requestHeaders clone
 	)
 
 	setTimeout := method(timeout,
@@ -135,7 +155,6 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 			path = url
 		)
 
-
 		if(port == nil, port = 80)
 		if(path == nil, path = "/")
 		if(protocol and path and path beginsWithSeq("/") not, path = "/" .. path)
@@ -169,10 +188,40 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		result
 	)
 
+	fetchAndFollowRedirect := method(
+		v := self fetch
+		if(statusCode == 302 or statusCode == 301,
+		 	v = URL with(self headerFields at("Location")) setCacheOn(false) fetch
+		)
+		v
+	)
+	
+	evFetch := method(
+		c := EvConnection clone setAddress(host) setPort(port) connect
+		writeln("evFetch ", url)
+		r := c newRequest setUri(request) 
+		r requestHeaders = self requestHeaders
+		r send
+		self statusCode := r responseCode
+		//writeln("evFetch  got ", r data size, " bytes")
+		r data
+	)
+
 	//doc URL fetch Fetches the url and returns the result as a Sequence. Returns an Error, if one occurs.
-	fetch := method(url,
+	fetch := method(url, redirected,
 		if(url, setURL(url))
-		if(protocol == "http", return(fetchHttp))
+		if(protocol == "http", 
+			v := fetchHttp
+			if(followRedirects and(statusCode == 302 or statusCode == 301),
+			 	if(redirected, 
+					writeln("DOUBLE REDIRECT on " .. url)
+			 		return Error with("Double redirect")
+				)
+				writeln("REDIRECT TO ", self headerFields at("Location"))
+		 		v := self fetch(self headerFields at("Location"), true)
+			)
+			return v
+		)
 		Error with("Protocol '" .. protocol .. "' unsupported")
 	)
 
@@ -193,19 +242,35 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 	/*doc URL requestHeader 
 	Returns a Sequence containing the request header that will be sent.
 	*/
+	
+	requestHeaders := Map clone
+	requestHeaders atPut("User-Agent", "Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/312.8 (KHTML, like Gecko) Safari/312.6)")
+	requestHeaders atPut("Connection", "close")
+	//requestHeaders atPut("Referer", "")
+	requestHeaders atPut("Accept", "*/*")
+			
 	requestHeader := method(
 		header := Sequence clone
 		//write("request = [", request, "]\n")
 		header appendSeq("GET ", request," HTTP/1.1\r\n")
-		header appendSeq("Host: ", host, ":", port, "\r\n")
-		header appendSeq("Connection: close\r\n")
-		header appendSeq("User-Agent: Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/312.8 (KHTML, like Gecko) Safari/312.6\r\n")
+		header appendSeq("Host: ", host, if(port != 80, ":" .. port, ""), "\r\n")
 		if(referer, header appendSeq("Referer: ", referer, "\r\n"))
+
+		requestHeaders foreach(k, v,
+			header appendSeq(k, ":", v, "\r\n")
+		)
+		//header appendSeq("User-Agent: Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/312.8 (KHTML, like Gecko) Safari/312.6\r\n")
+		//header appendSeq("User-Agent: curl/7.18.0 (i386-apple-darwin9.2.0) libcurl/7.18.0 zlib/1.2.3\r\n")
+		//header appendSeq("Host: ", host, ":", port, "\r\n")
+		//header appendSeq("Connection: close\r\n")
+		
 		//header appendSeq("Accept: */*\r\n")
-		header appendSeq("Accept: text/html; q=1.0, text/*; q=0.8, image/gif; q=0.6, image/jpeg; q=0.6, image/*; q=0.5, */*; q=0.1\r\n")
+		//header appendSeq("Accept: text/html\r\n")
+		//header appendSeq("Accept: text/html; q=1.0, text/*; q=0.8, image/gif; q=0.6, image/jpeg; q=0.6, image/*; q=0.5, */*; q=0.1\r\n")
+		//header appendSeq("Accept: text/*; image/*;\r\n")
 		//header appendSeq("Accept-Encoding: gzip, deflate\r\n")
-		header appendSeq("Accept-Language: en\r\n\r\n")
-		//header appendSeq("\n\n")
+		//header appendSeq("Accept-Language: en\r\n\r\n")
+		header appendSeq("\r\n")
 		header
 	)
 
@@ -239,6 +304,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		lines := header split("\r\n")
 		self headerFields := Map clone
 		//lines println
+		statusCode = lines first split at(1) asNumber
 		lines removeAt(0)
 		lines foreach(line,
 			headerFields atPut(line beforeSeq(":"), line afterSeq(":") strip)
@@ -248,8 +314,12 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 
 	//doc URL fetchHttp(optionalProgressBlock) Private method that fetches an http url.
 	fetchHttp := method(progressBlock,
+		if(cacheOn, r := cacheLoad; if(r, return r))
 		connectAndWriteHeader returnIfError
-		processHttpResponse(progressBlock)
+		r := processHttpResponse(progressBlock)
+		if(r isError not, cacheStore(r))
+		//if(cacheOn and r isError not, cacheStore(r))
+		return r
 	)
 	
 	//doc URL processHttpResponse(optionalProgressBlock) Private method that processes http response.
@@ -298,8 +368,8 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 			)
 			b copy(newB)
 		)
-		
-		//b size println
+
+		//writeln("b size: ", b size)
 
 		socket close
 		if(headerFields at("Content-Encoding") == "gzip", Zlib; b unzip)
@@ -318,7 +388,11 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 
 	childUrl := method(u,
 		if(u beginsWithSeq("http") not,
-			u = Path with(url pathComponent, u)
+			if(u beginsWithSeq("/"),
+				u = Path with("http://" .. host, u)
+			,
+				u = Path with(url pathComponent, u)
+			)
 		)
 		URL clone setURL(u) setReferer(url)
 	)
@@ -388,6 +462,12 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 	//doc URL test Private test method.
 	test := method(
 		data := URL with("http://www.yahoo.com/") fetch
+	)
+	
+	domain := method(
+		parts := self host split(".") 
+		parts removeLast 
+		parts last	
 	)
 )
 

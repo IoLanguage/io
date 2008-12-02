@@ -294,6 +294,18 @@ IoObject *IoBlock_activate(IoBlock *self, IoObject *target, IoObject *locals, Io
 
 IoObject *IoBlock_method(IoObject *target, IoObject *locals, IoMessage *m)
 {
+  /*doc Object method(args..., body)
+	Creates a method. 
+	<tt>args</tt> is a list of formal arguments (can be empty). <br/>
+  <tt>body</tt> is evaluated in the context of Locals object.<br/>
+  Locals' proto is a message receiver (i.e. self).
+  <br/>
+  Slot with a method is <em>activatable</em>. Use getSlot(name) to retrieve 
+  method object without activating it (i.e. calling).
+  <br/>
+  See also <tt>Object block</tt>.
+	*/
+  
 	IoBlock *const self = IoBlock_new(IoObject_state(target));
 	const int nargs = IoMessage_argCount(m);
 	IoMessage *const message = (nargs > 0) ? IoMessage_rawArgAt_(m, nargs - 1) : IOSTATE->nilMessage;
@@ -314,6 +326,19 @@ IoObject *IoBlock_method(IoObject *target, IoObject *locals, IoMessage *m)
 
 IoObject *IoObject_block(IoObject *target, IoObject *locals, IoMessage *m)
 {
+  /*doc Object block(args..., body)
+	Creates a block and binds it to the sender context (i.e. lexical context).
+	In other words, block locals' proto is sender's locals.
+	<tt>args</tt> is a list of formal arguments (can be empty). <br/>
+	<tt>body</tt> is evaluated in the context of Locals object.<br/>
+	See also <tt>Object method</tt>.
+	<br/>
+	<pre>
+	Io> block(x, x*2) scope == thisContext
+  ==> true
+	</pre>
+	*/
+	
 	IoBlock *self = (IoBlock *)IoBlock_method(target, locals, m);
 	DATA(self)->scope = IOREF(locals);
 	IoObject_isActivatable_(self, 0);

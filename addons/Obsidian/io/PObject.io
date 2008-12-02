@@ -4,17 +4,17 @@ false ppid := "true"
 
 List do(
 	asSerialization := method(
-		map(ppid) join(",")
+	  map(ppid) join(",")
 	)
 	
 	fromSerialization := method(serialization,
-		copy(split(",") map(ppid, pdb objectAtPpid(ppid)))
+		copy(serialization split(",") map(ppid, pdb objectAtPpid(ppid)))
 	)
 )
 
 Sequence do(
 	asSerialization := method(self asSymbol)
-	fromSerialization := method(serialization, serialization)
+	fromSerialization := method(serialization, serialization setPpid(ppid))
 )
 
 Number do(

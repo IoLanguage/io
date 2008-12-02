@@ -7,12 +7,18 @@ Blocks are composed of a Message and its children.
 <p>
 Terminology
 <pre>
-Example;
-A B(C D); E F
+Example:
+  Io> msg := message(A B(C D); E F)
+  ==> A B(C D); E F
+  
 In the above example:
-...
+  msg name            =>  A
+  msg next            =>  B(C D); E F
+  msg next arguments  =>  list(C D)
+  msg next next name  =>  ;
+  msg next next next  =>  E F
 </pre>
-Important; Modifying the message tree of a block currently in use may cause
+Important: Modifying the message tree of a block currently in use may cause
 a crash if a garbage collection cycle occurs. If the implementation were
 changed to retain every called message, this could be avoided.
 But the cost to performance seems to outweigh the need to cover this case for now.
@@ -448,7 +454,8 @@ IoObject *IoMessage_setLabel(IoMessage *self, IoObject *locals, IoMessage *m)
 IoObject *IoMessage_doInContext(IoMessage *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Message doInContext(anObject, locals)
-	Evaluates the receiver in the context of anObject. 
+	Evaluates the receiver in the context of anObject. Optional <tt>locals</tt> 
+	object is used as message sender. <tt>anObject</tt> is used as sender otherwise.
 	*/
 
 	IoObject *context = IoMessage_locals_valueArgAt_(m, (IoObject *)locals, 0);
@@ -838,7 +845,7 @@ IoMessage *IoMessage_rawNext(IoMessage *self)
 
 IoObject *IoMessage_setNext(IoMessage *self, IoObject *locals, IoMessage *m)
 {
-	/*doc Message setNextMessage(aMessageOrNil)
+	/*doc Message setNext(aMessageOrNil)
 	Sets the next message in the message chain to a deep copy of
 	aMessage or it removes the next message if aMessage is nil. 
 	*/
@@ -1266,6 +1273,10 @@ void IoMessage_foreachArgs(IoMessage *self,
 
 IoMessage *IoMessage_asMessageWithEvaluatedArgs(IoMessage *self, IoObject *locals, IoMessage *m)
 {
+  /*doc Message asMessageWithEvaluatedArgs(optionalContext)
+	Returns a copy of receiver with arguments evaluated in the context of sender if
+	optionalContext is nil.
+	*/
 	IoState *state = IOSTATE;
 	IoMessage *sendMessage;
 	int i, max = IoMessage_argCount(self);

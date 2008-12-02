@@ -169,4 +169,18 @@ Sequence do(
 		deprecatedWarning("exSlice")
 		performWithArgList("exSlice", call evalArgs)
 	)
+	
+	asJson := method(
+		//TODO Return unicode string with hex replacements as per http://www.json.org/
+		replacementMap := Map clone\
+			atPut("\"", "\\\"")\
+			atPut("/", "\\/")\
+			atPut("\b", "\\b")\
+			atPut("\f", "\\f")\
+			atPut("\n", "\\n")\
+			atPut("\t", "\\t")
+			
+		
+		"\"" .. self asMutable replaceSeq("\\", "\\\\") replaceMap(replacementMap) .. "\""
+	)
 )

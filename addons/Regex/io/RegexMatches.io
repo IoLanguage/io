@@ -73,7 +73,7 @@ RegexMatches do(
 		cursor := 0
 		foreach(match,
 			if(match start > cursor,
-				call sender setSlot(name, string slice(cursor, match start))
+				call sender setSlot(name, string exSlice(cursor, match start))
 				call sender doMessage(nonMatchMessage)
 			)
 			call sender setSlot(name, match)
@@ -82,7 +82,7 @@ RegexMatches do(
 		)
 
 		# Perform the inter-match interval for the tail end
-		tail := string slice(cursor)
+		tail := string exSlice(cursor)
 		if(tail size > 0,
 			call sender setSlot(name, tail)
 			call sender doMessage(nonMatchMessage)
@@ -126,11 +126,11 @@ RegexMatches do(
 		parts := list
 		cursor := 0
 		foreach(match,
-			parts append(string slice(cursor, match start))
+			parts append(string exSlice(cursor, match start))
 			cursor = match end
 		)
 
-		s := string slice(cursor)
+		s := string exSlice(cursor)
 		parts append(s)
 		parts
 	)

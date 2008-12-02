@@ -74,5 +74,8 @@ IOIMAGE_API IoObject *IoImage_decodingHeightHint(IoImage *self, IoObject *locals
 
 IOIMAGE_API IoObject *IoImage_flipX(IoImage *self, IoObject *locals, IoMessage *m);
 IOIMAGE_API IoObject *IoImage_flipY(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_baselineHeight(IoImage *self, IoObject *locals, IoMessage *m);
+
+IOIMAGE_API IoObject *IoImage_averageColor(IoImage *self, IoObject *locals, IoMessage *m);
 
 #endif

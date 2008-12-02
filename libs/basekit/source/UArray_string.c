@@ -111,10 +111,17 @@ BASEKIT_API int UArray_clipBefore_(UArray *self, const UArray *other)
 BASEKIT_API int UArray_clipBeforeEndOf_(UArray *self, const UArray *other)
 {
 	long index = UArray_find_(self, other);
-
-	if (index > -1)
+	/*
+	printf("UArray_find_('%s', '%s')\n", UArray_bytes(self), UArray_bytes(other));
+	printf("find index = %i\n", index);
+	printf("prefix sizeInBytes = %i\n", UArray_sizeInBytes(other));
+	printf("prefix size = %i\n", UArray_size(other));
+	*/
+	if (index > -1 && other->size)
 	{
+		//printf("UArray_removeRange(0, %i)\n", index + other->size - 1);
 		UArray_removeRange(self, 0, index + other->size);
+		//printf("result = '%s'\n", UArray_bytes(self));
 		return 1;
 	}
 

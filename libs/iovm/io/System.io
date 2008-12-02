@@ -14,7 +14,7 @@ System do(
 	the beginning dashes (--).
 	<p>
 	Example:
-	<code>
+	<pre>
 	options := System getOptions(args)
 	options foreach(k, v,
 	  if(v type == List type,
@@ -23,7 +23,7 @@ System do(
 	  )
 	  writeln(\"Got option: \" .. k .. \" with value: \" .. v)
 	)
-	</code>
+	</pre>
 	*/
 
 	getOptions := method(arguments,

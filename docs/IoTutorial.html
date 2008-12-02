@@ -17,12 +17,13 @@
 <td valign=top style="width:33%">
 
 <div class=indexSection><a href="#Introduction">Introduction</a></div>
-<div class=indexItem><a href="#Introduction-Perspective">Math</a></div>
-<div class=indexItem><a href="#Introduction-Getting-Started">Variables</a></div>
-<div class=indexItem><a href="#Introduction-Downloading">Conditions</a></div>
-<div class=indexItem><a href="#Introduction-Installing">Lists</a></div>
-<div class=indexItem><a href="#Introduction-Binaries">Loops</a></div>
-<div class=indexItem><a href="#Introduction-Running-Scripts">Strings</a></div>
+<div class=indexItem><a href="#Introduction-Math">Math</a></div>
+<div class=indexItem><a href="#Introduction-Variables">Variables</a></div>
+<div class=indexItem><a href="#Introduction-Conditions">Conditions</a></div>
+<div class=indexItem><a href="#Introduction-Lists">Lists</a></div>
+<div class=indexItem><a href="#Introduction-Loops">Loops</a></div>
+<div class=indexItem><a href="#Introduction-Strings">Strings</a></div>
+<div class=indexItem><a href="#Introduction-Further-Reading">Further Reading</a></div>
 
 </td>
 </tr>
@@ -30,7 +31,7 @@
 
 <p>
 
-<h2>Introduction<a name="Introduction"></a></h2>
+<h2>Introduction <a name="Introduction"></a></h2>
 <div class=indent>
 	
 <div class=quote>
@@ -41,12 +42,12 @@
 This is a quick overview of Io intended for folks that already know how to program.<p>
 After compiling Io, run the io executable in the binaries folder. You should get a prompt like this:
 <pre>
-IoVM version 20031123
+Io 20080120
 Io>
 </pre>
 The following is an annotated transcript of a CLI session that will walk through some examples:
 <p>
-<h3>Basic Math</h3>
+<h3>Basic Math <a name="Introduction-Math"></a></h3>
 
 <pre>
 Io> 1+1
@@ -59,7 +60,7 @@ Io> 2 sqrt
 ==> 1.414214
 </PRE>
 
-<h3>Variables</h3>
+<h3>Variables <a name="Introduction-Variables"></a></h3>
 
 <PRE>
 Io> a := 1
@@ -75,7 +76,7 @@ Io> a + b
 ==> 7
 </PRE>
 
-<h3>Conditions</h3>
+<h3>Conditions <a name="Introduction-Conditions"></a></h3>
 <PRE>
 Io> a := 2
 
@@ -86,7 +87,7 @@ Io> if(a == 1, writeln("a is one"), writeln("a is not one"))
 a is not one
 </PRE>
 
-<h3>Lists</h3>
+<h3>Lists <a name="Introduction-Lists"></a></h3>
 
 <PRE>
 Io> d := List clone append(30, 10, 5, 20)    
@@ -117,7 +118,7 @@ Io> d atPut(1, 123)
 ==> list(5, 123, 20)
 </PRE>
 
-<h3>Loops</h3>
+<h3>Loops <a name="Introduction-Loops"></a></h3>
 <PRE>
 Io> for(i, 1, 10, write(i, " "))
 1 2 3 4 5 6 7 8 9 10 
@@ -126,9 +127,14 @@ Io> d foreach(i, v, writeln(i, ": ", v))
 0: 5
 1: 123
 3: 20
+
+Io> list("abc", "def", "ghi") foreach(println)
+abc
+def
+ghi
 </PRE>
 
-<h3>Strings</h3>
+<h3>Strings <a name="Introduction-Strings"></a></h3>
 
 <PRE>
 Io> a := "foo"
@@ -164,9 +170,12 @@ Io> s slice(10)
 Io> s slice(2, 10)
 ==> "is is a "
 
-</pre>
+</PRE>
 
 </ul>
-Also see: <a href=http://www.quag.geek.nz/io/getting-started/>Quag's Getting Started Tutorial</a>.
+<h3>Further Reading <a name="Introduction-Further-Reading"></a></h3>
+<PRE>
+<a href=http://www.quag.geek.nz/io/getting-started/>Quag's Getting Started Tutorial</a>
+</PRE>
 <br>
 <br>

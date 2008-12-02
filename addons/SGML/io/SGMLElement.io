@@ -14,6 +14,8 @@ SGMLElement := Object clone do(
 	text ::= nil
 	parent ::= nil
 
+	attribute := method(aname, attributes at(aname))
+	
 	withText := method(text,
 		self clone setText(text)
 	)
@@ -71,6 +73,16 @@ SGMLElement := Object clone do(
 		subitems foreach(elementsWithName(name, list))
 		list
 	)
+	
+	elementsWithNameAndClass := method(name, class,
+		elementsWithName(name) select(attributes at("class") == class)
+	)
+	
+	elementsWithNameAndId := method(name, id,
+		elementsWithName(name) select(attributes at("id") == id)
+	)
+	
+	firstText := method(subitems first text)
 
 	asObject := method(prefix,
 		if(prefix == nil, prefix = "XML")

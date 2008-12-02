@@ -7,6 +7,7 @@ A binding for libevent.
 //metadoc EventManager category Networking
 
 #include "IoEventManager.h"
+//#include "event-internal.h"
 #include "IoNumber.h"
 #include "IoList.h"
 #include "Common.h"
@@ -81,7 +82,7 @@ IoEventManager *IoEventManager_proto(void *state)
 #endif
 
 	DATA(self)->eventBase = event_init();
-
+	DATA(self)->evh = evhttp_new(DATA(self)->eventBase);
 	//IoEventManager_setDescriptorLimitToMax(self);
 	Socket_SetDescriptorLimitToMax();
 
@@ -110,9 +111,15 @@ void IoEventManager_free(IoEventManager *self)
 	// using it
 	List_free(DATA(self)->activeEvents);
 
+	//printf("IoEventManager_free - skipping evhttp_free\n");
+	evhttp_free(DATA(self)->evh);
 	free(IoObject_dataPointer(self));
 }
 
+void *IoEventManager_rawBase(IoEventManager *self)
+{
+	return DATA(self)->eventBase;
+}
 
 /*
 IoEventManager *IoEventManager_new(void)
@@ -256,6 +263,7 @@ IoObject *IoEventManager_listen(IoEventManager *self, IoObject *locals, IoMessag
 {
 	int hadEvents = event_base_loop(DATA(self)->eventBase, EVLOOP_NONBLOCK);
 	
+	//printf("IoEventManager_listen %p\n", (void *)self);
 	if (hadEvents == -1)
 	{
 		return IoError_newWithMessageFormat_(IOSTATE, "EventManager: error in event_base_loop");
@@ -276,12 +284,24 @@ IoObject *IoEventManager_listenUntilEvent(IoEventManager *self, IoObject *locals
 	return self;
 }
 
+// this may need to be updated on future releases of libevent
+
+struct event_base_PROTO 
+{
+	void *evsel;
+	void *evbase;
+	int event_count;		/* counts number of total events */
+	int event_count_active;	/* counts number of active events */
+};
+
 IoObject *IoEventManager_hasActiveEvents(IoEventManager *self, IoObject *locals, IoMessage *m)
 {
-	return IOBOOL(self, List_size(DATA(self)->activeEvents) > 0);
+	int count = ((struct event_base_PROTO *)DATA(self)->eventBase)->event_count;
+	return IOBOOL(self, count > 1);
 }
 
 IoObject *IoEventManager_activeEvents(IoEventManager *self, IoObject *locals, IoMessage *m)
 {
 	return IoList_newWithList_(IOSTATE, DATA(self)->activeEvents);
 }
+

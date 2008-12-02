@@ -15,8 +15,10 @@ getSlot("Block") do(
 		writeln(asString)
 	)
 
+  //doc Block println Same as <tt>print</tt>.
 	println := getSlot("print")
-
+    
+  //doc Block Formatter Helper object for the <tt>asString</tt> method.
 	Formatter := Object clone do(
 		newSlot("lineNumber", 0)
 		newSlot("isLineEmpty", true)
