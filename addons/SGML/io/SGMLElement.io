@@ -82,7 +82,7 @@ SGMLElement := Object clone do(
 		elementsWithName(name) select(attributes at("id") == id)
 	)
 	
-	firstText := method(subitems first text)
+	firstText := method(subitems first ?text)
 
 	asObject := method(prefix,
 		if(prefix == nil, prefix = "XML")

@@ -218,7 +218,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 			 		return Error with("Double redirect")
 				)
 				writeln("REDIRECT TO ", self headerFields at("Location"))
-		 		v := self fetch(self headerFields at("Location"), true)
+		 		v := self fetch(childUrl(self headerFields at("Location")), true)
 			)
 			return v
 		)

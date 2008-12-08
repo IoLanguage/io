@@ -91,7 +91,7 @@ CLI := Object clone do(
 		try(setLineReader(ReadLine))
 		try(lineReader ifNil( setLineReader(EditLine)))
 
-		loadHistory
+		//loadHistory // don't inable this unless you intend to make it work properly on osx
 
 		while(isRunning,
 			if(lineReader isNil not,
@@ -101,7 +101,7 @@ CLI := Object clone do(
 			)
 		)
 
-		saveHistory
+		//saveHistory
 	)
 
 	interactive := method(
