@@ -1,1 +1,1 @@
-DNSQuery DNSResolver DNSServer Event EventManager Host IPAddress Server URL
+DNSQuery DNSResolver DNSServer Event EventManager Host IPAddress Server URL EvRequest EvConnection

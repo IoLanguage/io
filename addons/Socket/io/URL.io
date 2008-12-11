@@ -155,7 +155,6 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 			path = url
 		)
 
-
 		if(port == nil, port = 80)
 		if(path == nil, path = "/")
 		if(protocol and path and path beginsWithSeq("/") not, path = "/" .. path)
@@ -197,14 +196,29 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		v
 	)
 	
+	evFetch := method(
+		c := EvConnection clone setAddress(host) setPort(port) connect
+		writeln("evFetch ", url)
+		r := c newRequest setUri(request) 
+		r requestHeaders = self requestHeaders
+		r send
+		self statusCode := r responseCode
+		//writeln("evFetch  got ", r data size, " bytes")
+		r data
+	)
+
 	//doc URL fetch Fetches the url and returns the result as a Sequence. Returns an Error, if one occurs.
-	fetch := method(url,
+	fetch := method(url, redirected,
 		if(url, setURL(url))
 		if(protocol == "http", 
 			v := fetchHttp
-			if(followRedirects and(statusCode == 302 or statusCode == 301), 
+			if(followRedirects and(statusCode == 302 or statusCode == 301),
+			 	if(redirected, 
+					writeln("DOUBLE REDIRECT on " .. url)
+			 		return Error with("Double redirect")
+				)
 				writeln("REDIRECT TO ", self headerFields at("Location"))
-		 		v := self setURL(self headerFields at("Location")) fetch
+		 		v := self fetch(childUrl(self headerFields at("Location")), true)
 			)
 			return v
 		)
@@ -303,7 +317,8 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		if(cacheOn, r := cacheLoad; if(r, return r))
 		connectAndWriteHeader returnIfError
 		r := processHttpResponse(progressBlock)
-		if(cacheOn, cacheStore(r))
+		if(r isError not, cacheStore(r))
+		//if(cacheOn and r isError not, cacheStore(r))
 		return r
 	)
 	
@@ -353,8 +368,8 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 			)
 			b copy(newB)
 		)
-		
-		//b size println
+
+		//writeln("b size: ", b size)
 
 		socket close
 		if(headerFields at("Content-Encoding") == "gzip", Zlib; b unzip)

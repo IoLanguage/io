@@ -524,7 +524,6 @@ int Image_baselineHeight(Image *self)
 	*/
 	// optimize later
 	int componentCount = self->componentCount;
-	
 	int base = 0;
 	uint8_t *d = (uint8_t *)UArray_bytes(self->byteArray);
 	int x, y;
@@ -539,7 +538,7 @@ int Image_baselineHeight(Image *self)
 			
 			for (c = 0; c < componentCount; c ++)
 			{
-				if (d[p + c] < 170)
+				if (d[p + c] < 200)
 				{
 					base = y;
 					break;
@@ -550,4 +549,61 @@ int Image_baselineHeight(Image *self)
 	
 	//printf("base = %i\n", base);
 	return self->height - base;
+}
+
+ColorStruct Image_averageColor(Image *self)
+{
+	int componentCount = self->componentCount;
+	uint8_t *d = (uint8_t *)UArray_bytes(self->byteArray);
+	int x, y, c;
+	long cs[4];
+	ColorStruct s;
+	
+	cs[0] = 0;
+	cs[1] = 0;
+	cs[2] = 0;
+	cs[3] = 0;
+	
+	for (y = 0; y < self->height; y ++)
+	{
+		for (x = 0; x < self->width; x ++)
+		{
+			int p = (x + (y * self->width))*componentCount;
+			int c;
+			
+			for (c = 0; c < componentCount; c ++)
+			{
+				cs[c] += d[p + c];
+			}
+		}
+	}
+
+	//printf("color %i %i %i\n", (int)cs[0], (int)cs[1], (int)cs[2]);
+
+
+	for (c = 0; c < componentCount; c ++)
+	{
+		cs[c] /= (self->width * self->height);
+	}
+	
+	//printf("color %i %i %i\n", (int)cs[0], (int)cs[1], (int)cs[2]);
+	
+	if (componentCount == 1)
+	{
+		s.r = cs[0];
+		s.g = cs[0];
+		s.b = cs[0];
+		s.a = cs[0];
+	}
+	else
+	{
+		s.r = cs[0];
+		s.g = cs[1];
+		s.b = cs[2];
+		s.a = cs[3];
+	}
+	
+	//printf("color struct %i %i %i\n", s.r, s.g, s.b);
+	
+	return s;
 }
