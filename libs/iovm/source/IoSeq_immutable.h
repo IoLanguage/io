@@ -102,3 +102,4 @@ IOVM_API IoObject *IoSeq_occurancesOfSeq(IoSeq *self, IoObject *locals, IoMessag
 // encoding
 
 IOVM_API IoObject *IoSeq_asBase64(IoSeq *self, IoObject *locals, IoMessage *m);
+

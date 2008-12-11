@@ -1,0 +1,11 @@
+1.1.4
+
+	* Size mis-calculation on base64 decoding.
+
+1.1.2
+
+	* Processing of single quotes inside double quotes (reported by trogers@kwikin.com)
+	
+1.1.0
+
+	* Processing instruction parsing in XML is slightly confusing.  (<?xml>)

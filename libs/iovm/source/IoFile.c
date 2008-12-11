@@ -29,7 +29,7 @@ file close
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-
+#include <sys/wait.h>
 
 #if !defined(_MSC_VER) && !defined(__SYMBIAN32__)
 #include <unistd.h> /* ok, this isn't ANSI */
