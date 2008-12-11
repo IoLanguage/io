@@ -42,6 +42,13 @@ A container for a double (a 64bit floating point number on most platforms).
 #define isnan _isnan
 #endif
 
+#ifndef log2
+double log2(double n)
+{
+	return log(n) / log(2);
+}
+#endif
+
 #define DATA(self) CNUMBER(self)
 
 IoNumber *IoNumber_numberForDouble_canUse_(IoNumber *self, double n, IoNumber *other)
