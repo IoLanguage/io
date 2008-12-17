@@ -385,6 +385,35 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		fetchHttp(block(file write(socket readBuffer); socket readBuffer empty)) returnIfError
 		self
 	)
+	
+	/*
+	fetchOrFailToFilePath := method(path,
+		tmpPath := "/tmp/" .. Date clone now asNumber asString md5String
+		tmpFile := File with(tmpPath) open
+		writeln("fetchOrFailToFilePath(", path, ")")
+		e := fetchToFile(tmpFile)
+		tmpFile close
+		if(e isError or self statusCode != 200,
+			writeln("error loading ", self url)
+			tmpFile remove
+		, 
+			tmpFile copyToPath(path)
+			tmpFile remove
+		)
+		e
+	)
+	*/
+	
+	fetchOrFailToFilePath := method(path,
+		data := self fetch
+		if(data isError or self statusCode != 200,
+			writeln("error loading ", self url)
+			return data
+		, 
+			File with(path) setContents(data)
+		)
+		self
+	)
 
 	childUrl := method(u,
 		if(u beginsWithSeq("http") not,
