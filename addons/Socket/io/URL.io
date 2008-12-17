@@ -314,11 +314,11 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 
 	//doc URL fetchHttp(optionalProgressBlock) Private method that fetches an http url.
 	fetchHttp := method(progressBlock,
-		if(cacheOn, r := cacheLoad; if(r, return r))
+		//if(cacheOn, r := cacheLoad; if(r, return r))
 		connectAndWriteHeader returnIfError
 		r := processHttpResponse(progressBlock)
-		if(r isError not, cacheStore(r))
-		//if(cacheOn and r isError not, cacheStore(r))
+		//if(r isError not, if(cacheOn, cacheStore(r)))
+		if(cacheOn and r isError not, cacheStore(r))
 		return r
 	)
 	
