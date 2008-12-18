@@ -1,0 +1,53 @@
+AC_INIT(acgeneral.m4)
+
+dnl AC_ARG_PROGRAM
+
+AC_ARG_ENABLE(debug,[ --enable-debug	Enable debug mode. (Default=no)],,enable_debug="no")
+
+AC_PROG_MAKE_SET
+AC_PROG_CC
+AC_SUBST(CC)
+
+AC_MSG_CHECKING(this systems operating system)
+AC_CACHE_VAL(sys_os,
+[
+if test "$uname_prog" != "no"; then
+  sys_os="`uname`"
+
+  case "$sys_os" in
+    SunOS)
+      case "`uname -r`" in
+        5.*) sys_os="Solaris";
+      esac
+      DEFINES="$DEFINES -DSUNOS"
+    ;;
+    *BSD)
+	DEFINES="$DEFINES -DBSD"
+    ;;
+  esac
+fi
+])
+AC_MSG_RESULT($sys_os)
+
+AC_MSG_CHECKING(if to compile in debug mode)
+
+AC_MSG_RESULT($enable_debug)
+
+if test "x$enable_debug" = "xyes" ; then
+	DEBUG="-g -DDEBUG"
+else
+	DEBUG="-O3"
+fi
+
+if test "x$mmd_sys_os" = "xSolaris"; then 
+	LIBBIN="ld -dy -r -o ../libsgml.so \${OBJS}"
+else
+	LIBBIN="\${CXX} \${DEBUG} -Wall -O3 -shared -fPIC -o ../libsgml.so \${OBJS}"
+fi
+
+AC_SUBST(LIBS)
+AC_SUBST(DEFINES)
+AC_SUBST(DEBUG)
+AC_SUBST(LIBBIN)
+
+AC_OUTPUT(Makefile src/Makefile examples/Makefile)

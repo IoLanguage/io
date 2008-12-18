@@ -8,6 +8,8 @@ Lobby Protos Core do(
 )
 
 Sequence do(
+	validEncodings := "ascii utf8 ucs2 ucs4 number" split
+	validItemTypes := "uint8 uint16 uint32 uint64 int8 int16 int32 int64 float32 float64" split
 	setSlot("..", method(arg, self asString cloneAppendSeq(arg asString)))
 
 	//doc Sequence repeated(n) Returns a new sequence containing the receiver repeated n number of times.

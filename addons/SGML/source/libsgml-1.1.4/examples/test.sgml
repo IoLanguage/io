@@ -1,0 +1,6 @@
+<Test attribute=value      bleat another="spaced out value<>" blah>
+	<!-- comment -->
+	<Terminate bob="jane"/>
+	<Terminator/>
+<   /Test>
+
