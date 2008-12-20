@@ -74,6 +74,16 @@ File do(
 	//doc File setContents(aSeq) Replaces the contents for the file with aSeq. Returns self.
 	setContents := method(d, self truncateToSize(0) open write(d) close; self)
 	
+	//doc File appendToContents(aSeq) Appends to the contents of the file with aSeq. Returns self.
+	appendToContents := method(
+		openForAppending
+		call evalArgs foreach(seq,
+			self write(seq) 
+		)
+		close
+		self
+	)
+	
 	//doc File create Creates an empty file at the file's path. Returns self on success, nil on failure.
 	create := method(
 		if(open, close; self, nil)
