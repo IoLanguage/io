@@ -22,6 +22,7 @@ Importer := Object clone do(
 			directories foreach(folder,
 				path := Path with(folder, protoName .. ".io") asSymbol
 				if(File with(path) exists,
+					//writeln("importing: ", path)
 					Lobby doFile(path)
 					return true
 				)
