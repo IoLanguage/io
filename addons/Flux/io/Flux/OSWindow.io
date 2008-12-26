@@ -12,7 +12,7 @@ OSWindow := Responder clone do(
     width   := method(size width)
     height  := method(size height)
     
-    title := ""
+    title ::= ""
     firstResponder ::= nil
     backgroundColor ::= Color clone
     application  ::= nil
@@ -288,6 +288,11 @@ OSWindow := Responder clone do(
      
     toggleFullScreen := method(
     	if(isFullScreen, fullScreenOff, fullScreenOn)
+    )
+
+    setTitle := method(newTitle,
+	    title = newTitle
+	    glutSetWindowTitle(title)
     )
 )
 
