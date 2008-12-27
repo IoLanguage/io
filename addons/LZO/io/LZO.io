@@ -1,8 +1,8 @@
 
 method(
 m := message(
-	newSlot("inputBuffer", nil)
-	newSlot("outputBuffer", nil)
+	inputBuffer ::= nil
+	outputBuffer ::= nil
 
 	init := method(
 	   setInputBuffer(Sequence clone)

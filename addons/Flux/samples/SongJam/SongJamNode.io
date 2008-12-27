@@ -7,8 +7,8 @@ SongJamNode := Object clone do(
 	getfile := "http://www.songjam.com/sjremote.php?issh=[sessionkey]&page=sjmemberdownload&file=[path]"
     )
 
-    newSlot("username", "xxx")
-    newSlot("password", "yyy")
+    username ::= "xxx"
+    password ::= "yyy"
         
     urlNamed := method(name, 
 	url := protocol getSlot(name) asMutable
@@ -34,7 +34,7 @@ SongJamNode := Object clone do(
     sessionKey := nil
     completed  := nil
     
-    newSlot("path", "/")
+    path ::= "/"
     
     setPath := method(p,
 	if (p == "", p = "/")

@@ -32,7 +32,7 @@ LabelView := TextField clone do(
 		font drawString(renderString)
 	)
 
-	newSlot("isActive", false)
+	isActive ::= false
 
 	leftMouseDown := method(
 		if(isActive, resend, superview ?leftMouseDown)

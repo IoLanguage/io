@@ -33,8 +33,8 @@ appendProto(OpenGL)
 
 # Glut events object
 Screen := Object clone do(
-        newSlot("width", 512)
-        newSlot("height", 512)
+        width ::= 512
+        height ::= 512
         
         reshape := method( w, h,
                 setWidth(w) setHeight(h)

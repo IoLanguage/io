@@ -69,7 +69,7 @@ AudioMixer2 := Object clone do(
 		self mixed := Sequence clone setItemType("float32")
 	)
 
-	newSlot("isRunning", false)
+	isRunning ::= false
 
 	play := method(buf, buffers append(buf clone setItemType("float32")))
 

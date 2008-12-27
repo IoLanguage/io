@@ -6,7 +6,7 @@ Song := Object clone do(
 	tracks empty
     )
     
-    newSlot("path", Path with(System launchPath, "Songs/Default.songjam"))
+    path ::= Path with(System launchPath, "Songs/Default.songjam")
     
     open := method(
 	removeAllTracks

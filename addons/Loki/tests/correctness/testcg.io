@@ -17,7 +17,7 @@ Loki Implementation linkToAs( Sequence, "getByteStringPointer" ) with(
 
 
 Chrono := Object clone do(
-	newSlot("timer",0)
+	timer ::= 0
 	
 //	init := method( self timer := 0 )
 	

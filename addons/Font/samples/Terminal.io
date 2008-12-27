@@ -3,9 +3,9 @@
 Terminal := GLApp clone 
 Terminal do(
     setAppName("Terminal")
-    newSlot("leftMargin", 10)
-    newSlot("bottomMargin", 10)
-    newSlot("prompt", "Io> ")
+    leftMargin ::= 10
+    bottomMargin ::= 10
+    prompt ::= "Io> "
 
     font := Font clone open("../../Flux/resources/fonts/ProFont/Mono/Normal.ttf") setPixelSize(25)
     lines := List clone append(Sequence clone with(prompt))

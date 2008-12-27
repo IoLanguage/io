@@ -1,16 +1,16 @@
 LineView := View clone do(
 	appendProto(Selectable)
 
-	newSlot("origin", Point clone)
-	newSlot("endpoint", Point clone)
+	origin ::= Point clone
+	endpoint ::= Point clone
 
-	newSlot("selectedColor", Point clone set(.1, .475, .1, 1))
-	newSlot("lineColor", Point clone set(.3, .3, .3, 1))
+	selectedColor ::= Point clone set(.1, .475, .1, 1)
+	lineColor ::= Point clone set(.3, .3, .3, 1)
 
-	newSlot("isDangling", true)
-	newSlot("isAttached", false)
+	isDangling ::= true
+	isAttached ::= false
 
-	newSlot("hitThreshold", 6)
+	hitThreshold ::= 6
 	
 	init := method(
 		setOrigin(Point clone)

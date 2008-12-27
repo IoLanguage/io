@@ -4,8 +4,8 @@
  */
 
 CFFI Function do(
-	newSlot("library", Library)
-	newSlot("name", "")
-	newSlot("returnType", "")
-	newSlot("argumentTypes", "")
+	library ::= Library
+	name ::= ""
+	returnType ::= ""
+	argumentTypes ::= ""
 )

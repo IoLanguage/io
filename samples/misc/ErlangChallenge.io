@@ -3,8 +3,8 @@
 //Collector debugOn
 
 Test := Object clone do(
-	newSlot("next", nil)
-	newSlot("id", nil)
+	next ::= nil
+	id ::= nil
 	ping := method(
 		//writeln("ping ", id)
 		if(next, next @@ping)
