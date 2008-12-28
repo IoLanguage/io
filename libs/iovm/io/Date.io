@@ -36,40 +36,6 @@ Date do(
 	)
 )
 
-Number do(
-	/*doc Number years Returns Duration of receiver's years.
-
-Example:
-<code>
-Io> 1 years
-==> 1 years 00 days 00:00:0.000000
-Io> 20 years
-==> 20 years 00 days 00:00:0.000000
-</code>
-
-With this, you can do things such as:
-<code>
-Io> Date clone now + 5 years
-==> 2011-11-14 18:44:33 EST
-Io> Date clone now + 2 years + 3 days + 22 minutes
-==> 2008-11-17 19:06:54 EST
-</code>
-*/
-	years := method(Duration clone setYears(self))
-
-	//doc Number days Returns Duration of receiver's days. See `years' for a few examples.
-	days := method(Duration clone setDays(self))
-
-	//doc Number hours Returns Duration of receiver's hours. See `years' for a few examples.
-	hours := method(Duration clone setHours(self))
-
-	//doc Number minutes Returns Duration of receiver's minutes. See `years' for a few examples.
-	minutes := method(Duration clone setMinutes(self))
-
-	//doc Number seconds Returns Duration of receiver's seconds. See `years' for a few examples.
-	seconds := method(Duration clone setSeconds(self))
-)
-
 Duration do(
 	//doc Duration + Returns a new Duration of the two added.
 	setSlot("+", method(d, self clone += d))
