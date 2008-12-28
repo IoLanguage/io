@@ -81,4 +81,3 @@ Importer := Object clone do(
 	// Auto Importer is on by default
 	turnOn
 )
-
