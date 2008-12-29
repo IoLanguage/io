@@ -44,6 +44,9 @@ IoObject *IoCurses_erase(IoCurses *self, IoObject *locals, IoMessage *m);
 IoObject *IoCurses_clear(IoCurses *self, IoObject *locals, IoMessage *m);
 IoObject *IoCurses_clearToEndOfLine(IoCurses *self, IoObject *locals, IoMessage *m);
 IoObject *IoCurses_refresh(IoCurses *self, IoObject *locals, IoMessage *m);
+IoObject *IoCurses_scroll(IoCurses *self, IoObject *locals, IoMessage *m);
+IoObject *IoCurses_scrollok(IoCurses *self, IoObject *locals, IoMessage *m);
+IoObject *IoCurses_setScrollingRegion(IoCurses *self, IoObject *locals, IoMessage *m);
 
 IoObject *IoCurses_width(IoCurses *self, IoObject *locals, IoMessage *m);
 IoObject *IoCurses_height(IoCurses *self, IoObject *locals, IoMessage *m);

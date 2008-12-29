@@ -71,6 +71,10 @@ IoCurses *IoCurses_proto(void *state)
 		//{"clearToEndOfLine", IoCurses_clearToEndOfLine},
 		{"refresh",  IoCurses_refresh},
 
+		{"scroll", IoCurses_scroll},
+		{"scrollok", IoCurses_scrollok},
+		{"setScrollingRegion", IoCurses_setScrollingRegion},
+
 		{"x", IoCurses_x},
 		{"y", IoCurses_y},
 
@@ -445,6 +449,50 @@ IoObject *IoCurses_refresh(IoCurses *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
+IoObject *IoCurses_scroll(IoCurses *self, IoObject *locals, IoMessage *m)
+{
+    /*doc Curses scroll(num)
+    Scrolls up num lines.
+    num is optional and defaults to 1. Returns self.
+    */
+    int num = 1;
+	if (IoMessage_argCount(m) > 0)
+	{
+		num = IoNumber_asInt(IoMessage_locals_numberArgAt_(m, locals, 0));
+	}
+
+ 	if (scrl(num) == ERR)
+	{
+		IoCurses_showError(self, m, "Curses.scroll", "Failed to scroll screen.");
+	}
+
+    return self;
+}
+
+IoObject *IoCurses_scrollok(IoCurses *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Curses scrollok(aBoolean) 
+    Enables / Disables automatic scrolling. Return self.
+    */
+    int b = ISTRUE(IoMessage_locals_valueArgAt_(m, locals, 0));
+    scrollok(stdscr, b); // always returns OK
+    return self;
+}
+
+IoObject *IoCurses_setScrollingRegion(IoCurses *self, IoObject *locals, IoMessage *m) {
+    /*doc Curses setScrollingRegion(top, bottom) 
+    Sets the scrolling region; top and bottom are the line numbers of the top
+    and button margin. Returns self.
+    */
+    int top = IoNumber_asInt(IoMessage_locals_numberArgAt_(m, locals, 0));
+    int bot = IoNumber_asInt(IoMessage_locals_numberArgAt_(m, locals, 1));
+    if(setscrreg(top, bot) == ERR)
+    {
+        IoCurses_showError(self, m, "Curses.scroll", "Failed to set the scrolling region.");
+    }
+    return self;
+}
+
 IoObject *IoCurses_width(IoCurses *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Curses width
@@ -484,12 +532,10 @@ void IoCurses_colorSet(IoCurses *self)
 		DATA(self)->colorOn = 1;
 		/*pair_content(0, &(DATA(self)->fgColor), &(DATA(self)->bgColor));*/
 	}
-	init_pair(0, DATA(self)->fgColor, DATA(self)->bgColor);
-#if ! defined(__PDCURSES__)
-	color_set(0, NULL);
-#else
-	attrset(COLOR_PAIR(0));
-#endif
+	// pairs have to be > 0
+    int pair_id = DATA(self)->fgColor * COLORS + DATA(self)->bgColor; // correct?
+    init_pair(pair_id, DATA(self)->fgColor, DATA(self)->bgColor);
+	attrset(COLOR_PAIR(pair_id));
 }
 
 /* --- Background --- */
