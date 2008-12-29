@@ -11,7 +11,7 @@ Debugger do(
 	implement your own debugging mechanisms.
 	*/
 
-	//doc Debugger start Starts the debugger.")
+	//doc Debugger start Starts the debugger.
 	start := method(
 		loop(
 			self vmWillSendMessage(self message name)
@@ -19,12 +19,12 @@ Debugger do(
 		)
 	)
 
-	//doc Debugger vmWillSendMessage Override this method to implement your own debugging mechanisms. Default behavior is to print every message sent.")
+	//doc Debugger vmWillSendMessage Override this method to implement your own debugging mechanisms. Default behavior is to print every message sent.
 	vmWillSendMessage := method(
 		writeln("Debugger vmWillSendMessage(", self message name, ")")
 	)
 
-	//doc Debugger debuggerCoroutine Returns the coroutine used for the debugger.")
+	//doc Debugger debuggerCoroutine Returns the coroutine used for the debugger.
 	debuggerCoroutine := coroFor(start)
 	yield
 )
