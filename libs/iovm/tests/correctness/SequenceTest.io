@@ -298,14 +298,14 @@ SequenceTest := UnitTest clone do(
 		assertEquals("Abc", "Abc" asMutable escape)
 		string := "\\\""
 		assertNotSame(string, string asMutable escape)
-		assertEquals("\\\" \\a \\b \\f \\n \\r \\t \\v \\\\", "\" \a \b \f \n \r \t \v \\" asMutable escape)
+		assertEquals("\\\" \\a \\b \\f \\n \\r \\t \\v \\0 \\\\", "\" \a \b \f \n \r \t \v \0 \\" asMutable escape)
 	)
 
 	testUnescape := method(
 		assertEquals("Abc", "Abc" asMutable unescape)
 		string := "\\\""
 		assertNotSame(string, string asMutable unescape)
-		assertEquals("\" \a \b \f \n \r \t \v \\", "\\\" \\a \\b \\f \\n \\r \\t \\v \\\\" asMutable unescape)
+		assertEquals("\" \a \b \f \n \r \t \v \0 \\", "\\\" \\a \\b \\f \\n \\r \\t \\v \\0 \\\\" asMutable unescape)
 	)
 
 	_testPrint := method(
