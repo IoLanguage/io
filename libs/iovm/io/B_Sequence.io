@@ -93,7 +93,7 @@ Sequence do(
 		alignRight(((size + width) / 2) floor, padding) alignLeftInPlace(width, padding)
 	)
 
-	asSimpleString := method("\"" .. self asString .. "\"")
+	asSimpleString := method("\"" .. self asString asMutable escape .. "\"")
 
 	/*doc Sequence split(optionalArg1, optionalArg2, ...)
 		Returns a list containing the non-empty sub-sequences of the receiver divided by the given arguments.
