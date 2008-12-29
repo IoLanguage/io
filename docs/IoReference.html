@@ -176,6 +176,7 @@
 <div class=indexItem><a href="#DNSQuery">DNSQuery</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#DNSResolver">DNSResolver</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#DNSServer">DNSServer</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+<div class=indexItem><a href="#EvRequest">EvRequest</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#Event">Event</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#EventManager">EventManager</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
 <div class=indexItem><a href="#Host">Host</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -1111,44 +1112,10 @@ Same as; size x
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-Warning in /usr/local/lib/io/addons/CFFI/io/A_init.io: 'slice' is deprecated.  Use 'exSlice' instead.
-Warning in /usr/local/lib/io/addons/CFFI/io/A_init.io: 'slice' is deprecated.  Use 'exSlice' instead.
-Warning in /usr/local/lib/io/addons/CFFI/io/A_init.io: 'slice' is deprecated.  Use 'exSlice' instead.
-Warning in /usr/local/lib/io/addons/CFFI/io/A_init.io: 'slice' is deprecated.  Use 'exSlice' instead.
-<a href="#CFFI-CFFI">CFFI</a><br>
-<a href="#CFFI-DataType">DataType</a><br>
-<a href="#CFFI-Function">Function</a><br>
-<a href="#CFFI-Library">Library</a><br>
-<a href="#CFFI-Pointer">Pointer</a><br>
-<a href="#CFFI-Types">Types</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
-<a name="CFFI-CFFI"></a><b>CFFI</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CFFI-DataType"></a><b>DataType</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CFFI-Function"></a><b>Function</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CFFI-Library"></a><b>Library</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CFFI-Pointer"></a><b>Pointer</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CFFI-Types"></a><b>Types</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 </div>
 </div>
 <hr align=left>
@@ -1475,10 +1442,485 @@ Cairo is a 2D graphics library. http://cairographics.org/
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
+<a href="#Cairo-ANTIALIAS_DEFAULT">ANTIALIAS_DEFAULT</a><br>
+<a href="#Cairo-ANTIALIAS_GRAY">ANTIALIAS_GRAY</a><br>
+<a href="#Cairo-ANTIALIAS_NONE">ANTIALIAS_NONE</a><br>
+<a href="#Cairo-ANTIALIAS_SUBPIXEL">ANTIALIAS_SUBPIXEL</a><br>
+<a href="#Cairo-CONTENT_ALPHA">CONTENT_ALPHA</a><br>
+<a href="#Cairo-CONTENT_COLOR">CONTENT_COLOR</a><br>
+<a href="#Cairo-CONTENT_COLOR_ALPHA">CONTENT_COLOR_ALPHA</a><br>
+<a href="#Cairo-Context">Context</a><br>
+<a href="#Cairo-EXTEND_NONE">EXTEND_NONE</a><br>
+<a href="#Cairo-EXTEND_REFLECT">EXTEND_REFLECT</a><br>
+<a href="#Cairo-EXTEND_REPEAT">EXTEND_REPEAT</a><br>
+<a href="#Cairo-Extents">Extents</a><br>
+<a href="#Cairo-FILL_RULE_EVEN_ODD">FILL_RULE_EVEN_ODD</a><br>
+<a href="#Cairo-FILL_RULE_WINDING">FILL_RULE_WINDING</a><br>
+<a href="#Cairo-FILTER_BEST">FILTER_BEST</a><br>
+<a href="#Cairo-FILTER_BILINEAR">FILTER_BILINEAR</a><br>
+<a href="#Cairo-FILTER_FAST">FILTER_FAST</a><br>
+<a href="#Cairo-FILTER_GAUSSIAN">FILTER_GAUSSIAN</a><br>
+<a href="#Cairo-FILTER_GOOD">FILTER_GOOD</a><br>
+<a href="#Cairo-FILTER_NEAREST">FILTER_NEAREST</a><br>
+<a href="#Cairo-FONT_SLANT_ITALIC">FONT_SLANT_ITALIC</a><br>
+<a href="#Cairo-FONT_SLANT_NORMAL">FONT_SLANT_NORMAL</a><br>
+<a href="#Cairo-FONT_SLANT_OBLIQUE">FONT_SLANT_OBLIQUE</a><br>
+<a href="#Cairo-FONT_WEIGHT_BOLD">FONT_WEIGHT_BOLD</a><br>
+<a href="#Cairo-FONT_WEIGHT_NORMAL">FONT_WEIGHT_NORMAL</a><br>
+<a href="#Cairo-FORMAT_A1">FORMAT_A1</a><br>
+<a href="#Cairo-FORMAT_A8">FORMAT_A8</a><br>
+<a href="#Cairo-FORMAT_ARGB32">FORMAT_ARGB32</a><br>
+<a href="#Cairo-FORMAT_RGB16_565">FORMAT_RGB16_565</a><br>
+<a href="#Cairo-FORMAT_RGB24">FORMAT_RGB24</a><br>
+<a href="#Cairo-FontExtents">FontExtents</a><br>
+<a href="#Cairo-FontFace">FontFace</a><br>
+<a href="#Cairo-FontOptions">FontOptions</a><br>
+<a href="#Cairo-Glyph">Glyph</a><br>
+<a href="#Cairo-Gradient">Gradient</a><br>
+<a href="#Cairo-HAS_PDF_SURFACE">HAS_PDF_SURFACE</a><br>
+<a href="#Cairo-HAS_PNG_FUNCTIONS">HAS_PNG_FUNCTIONS</a><br>
+<a href="#Cairo-HAS_PS_SURFACE">HAS_PS_SURFACE</a><br>
+<a href="#Cairo-HAS_SVG_SURFACE">HAS_SVG_SURFACE</a><br>
+<a href="#Cairo-HINT_METRICS_DEFAULT">HINT_METRICS_DEFAULT</a><br>
+<a href="#Cairo-HINT_METRICS_OFF">HINT_METRICS_OFF</a><br>
+<a href="#Cairo-HINT_METRICS_ON">HINT_METRICS_ON</a><br>
+<a href="#Cairo-HINT_STYLE_DEFAULT">HINT_STYLE_DEFAULT</a><br>
+<a href="#Cairo-HINT_STYLE_FULL">HINT_STYLE_FULL</a><br>
+<a href="#Cairo-HINT_STYLE_MEDIUM">HINT_STYLE_MEDIUM</a><br>
+<a href="#Cairo-HINT_STYLE_NONE">HINT_STYLE_NONE</a><br>
+<a href="#Cairo-HINT_STYLE_SLIGHT">HINT_STYLE_SLIGHT</a><br>
+<a href="#Cairo-ImageSurface">ImageSurface</a><br>
+<a href="#Cairo-LINE_CAP_BUTT">LINE_CAP_BUTT</a><br>
+<a href="#Cairo-LINE_CAP_ROUND">LINE_CAP_ROUND</a><br>
+<a href="#Cairo-LINE_CAP_SQUARE">LINE_CAP_SQUARE</a><br>
+<a href="#Cairo-LINE_JOIN_BEVEL">LINE_JOIN_BEVEL</a><br>
+<a href="#Cairo-LINE_JOIN_MITER">LINE_JOIN_MITER</a><br>
+<a href="#Cairo-LINE_JOIN_ROUND">LINE_JOIN_ROUND</a><br>
+<a href="#Cairo-LinearGradient">LinearGradient</a><br>
+<a href="#Cairo-Matrix">Matrix</a><br>
+<a href="#Cairo-OPERATOR_ADD">OPERATOR_ADD</a><br>
+<a href="#Cairo-OPERATOR_ATOP">OPERATOR_ATOP</a><br>
+<a href="#Cairo-OPERATOR_CLEAR">OPERATOR_CLEAR</a><br>
+<a href="#Cairo-OPERATOR_DEST">OPERATOR_DEST</a><br>
+<a href="#Cairo-OPERATOR_DEST_ATOP">OPERATOR_DEST_ATOP</a><br>
+<a href="#Cairo-OPERATOR_DEST_IN">OPERATOR_DEST_IN</a><br>
+<a href="#Cairo-OPERATOR_DEST_OUT">OPERATOR_DEST_OUT</a><br>
+<a href="#Cairo-OPERATOR_DEST_OVER">OPERATOR_DEST_OVER</a><br>
+<a href="#Cairo-OPERATOR_IN">OPERATOR_IN</a><br>
+<a href="#Cairo-OPERATOR_OUT">OPERATOR_OUT</a><br>
+<a href="#Cairo-OPERATOR_OVER">OPERATOR_OVER</a><br>
+<a href="#Cairo-OPERATOR_SATURATE">OPERATOR_SATURATE</a><br>
+<a href="#Cairo-OPERATOR_SOURCE">OPERATOR_SOURCE</a><br>
+<a href="#Cairo-OPERATOR_XOR">OPERATOR_XOR</a><br>
+<a href="#Cairo-PATH_CLOSE_PATH">PATH_CLOSE_PATH</a><br>
+<a href="#Cairo-PATH_CURVE_TO">PATH_CURVE_TO</a><br>
+<a href="#Cairo-PATH_LINE_TO">PATH_LINE_TO</a><br>
+<a href="#Cairo-PATH_MOVE_TO">PATH_MOVE_TO</a><br>
+<a href="#Cairo-PDFSurface">PDFSurface</a><br>
+<a href="#Cairo-PSSurface">PSSurface</a><br>
+<a href="#Cairo-Path">Path</a><br>
+<a href="#Cairo-PathElement">PathElement</a><br>
+<a href="#Cairo-Pattern">Pattern</a><br>
+<a href="#Cairo-RadialGradient">RadialGradient</a><br>
+<a href="#Cairo-Rectangle">Rectangle</a><br>
+<a href="#Cairo-SUBPIXEL_ORDER_BGR">SUBPIXEL_ORDER_BGR</a><br>
+<a href="#Cairo-SUBPIXEL_ORDER_DEFAULT">SUBPIXEL_ORDER_DEFAULT</a><br>
+<a href="#Cairo-SUBPIXEL_ORDER_RGB">SUBPIXEL_ORDER_RGB</a><br>
+<a href="#Cairo-SUBPIXEL_ORDER_VBGR">SUBPIXEL_ORDER_VBGR</a><br>
+<a href="#Cairo-SUBPIXEL_ORDER_VRGB">SUBPIXEL_ORDER_VRGB</a><br>
+<a href="#Cairo-SVGSurface">SVGSurface</a><br>
+<a href="#Cairo-SVG_VERSION_1_1">SVG_VERSION_1_1</a><br>
+<a href="#Cairo-SVG_VERSION_1_2">SVG_VERSION_1_2</a><br>
+<a href="#Cairo-ScaledFont">ScaledFont</a><br>
+<a href="#Cairo-SolidPattern">SolidPattern</a><br>
+<a href="#Cairo-Surface">Surface</a><br>
+<a href="#Cairo-SurfacePattern">SurfacePattern</a><br>
+<a href="#Cairo-TextExtents">TextExtents</a><br>
+<a href="#Cairo-version">version</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
+<a name="Cairo-ANTIALIAS_DEFAULT"></a><b>ANTIALIAS_DEFAULT</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-ANTIALIAS_GRAY"></a><b>ANTIALIAS_GRAY</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-ANTIALIAS_NONE"></a><b>ANTIALIAS_NONE</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-ANTIALIAS_SUBPIXEL"></a><b>ANTIALIAS_SUBPIXEL</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-CONTENT_ALPHA"></a><b>CONTENT_ALPHA</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-CONTENT_COLOR"></a><b>CONTENT_COLOR</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-CONTENT_COLOR_ALPHA"></a><b>CONTENT_COLOR_ALPHA</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-Context"></a><b>Context</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-EXTEND_NONE"></a><b>EXTEND_NONE</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-EXTEND_REFLECT"></a><b>EXTEND_REFLECT</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-EXTEND_REPEAT"></a><b>EXTEND_REPEAT</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-Extents"></a><b>Extents</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FILL_RULE_EVEN_ODD"></a><b>FILL_RULE_EVEN_ODD</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FILL_RULE_WINDING"></a><b>FILL_RULE_WINDING</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FILTER_BEST"></a><b>FILTER_BEST</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FILTER_BILINEAR"></a><b>FILTER_BILINEAR</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FILTER_FAST"></a><b>FILTER_FAST</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FILTER_GAUSSIAN"></a><b>FILTER_GAUSSIAN</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FILTER_GOOD"></a><b>FILTER_GOOD</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FILTER_NEAREST"></a><b>FILTER_NEAREST</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FONT_SLANT_ITALIC"></a><b>FONT_SLANT_ITALIC</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FONT_SLANT_NORMAL"></a><b>FONT_SLANT_NORMAL</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FONT_SLANT_OBLIQUE"></a><b>FONT_SLANT_OBLIQUE</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FONT_WEIGHT_BOLD"></a><b>FONT_WEIGHT_BOLD</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FONT_WEIGHT_NORMAL"></a><b>FONT_WEIGHT_NORMAL</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FORMAT_A1"></a><b>FORMAT_A1</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FORMAT_A8"></a><b>FORMAT_A8</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FORMAT_ARGB32"></a><b>FORMAT_ARGB32</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FORMAT_RGB16_565"></a><b>FORMAT_RGB16_565</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FORMAT_RGB24"></a><b>FORMAT_RGB24</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FontExtents"></a><b>FontExtents</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FontFace"></a><b>FontFace</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FontOptions"></a><b>FontOptions</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-Glyph"></a><b>Glyph</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-Gradient"></a><b>Gradient</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-HAS_PDF_SURFACE"></a><b>HAS_PDF_SURFACE</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-HAS_PNG_FUNCTIONS"></a><b>HAS_PNG_FUNCTIONS</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-HAS_PS_SURFACE"></a><b>HAS_PS_SURFACE</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-HAS_SVG_SURFACE"></a><b>HAS_SVG_SURFACE</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-HINT_METRICS_DEFAULT"></a><b>HINT_METRICS_DEFAULT</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-HINT_METRICS_OFF"></a><b>HINT_METRICS_OFF</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-HINT_METRICS_ON"></a><b>HINT_METRICS_ON</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-HINT_STYLE_DEFAULT"></a><b>HINT_STYLE_DEFAULT</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-HINT_STYLE_FULL"></a><b>HINT_STYLE_FULL</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-HINT_STYLE_MEDIUM"></a><b>HINT_STYLE_MEDIUM</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-HINT_STYLE_NONE"></a><b>HINT_STYLE_NONE</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-HINT_STYLE_SLIGHT"></a><b>HINT_STYLE_SLIGHT</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-ImageSurface"></a><b>ImageSurface</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-LINE_CAP_BUTT"></a><b>LINE_CAP_BUTT</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-LINE_CAP_ROUND"></a><b>LINE_CAP_ROUND</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-LINE_CAP_SQUARE"></a><b>LINE_CAP_SQUARE</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-LINE_JOIN_BEVEL"></a><b>LINE_JOIN_BEVEL</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-LINE_JOIN_MITER"></a><b>LINE_JOIN_MITER</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-LINE_JOIN_ROUND"></a><b>LINE_JOIN_ROUND</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-LinearGradient"></a><b>LinearGradient</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-Matrix"></a><b>Matrix</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-OPERATOR_ADD"></a><b>OPERATOR_ADD</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-OPERATOR_ATOP"></a><b>OPERATOR_ATOP</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-OPERATOR_CLEAR"></a><b>OPERATOR_CLEAR</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-OPERATOR_DEST"></a><b>OPERATOR_DEST</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-OPERATOR_DEST_ATOP"></a><b>OPERATOR_DEST_ATOP</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-OPERATOR_DEST_IN"></a><b>OPERATOR_DEST_IN</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-OPERATOR_DEST_OUT"></a><b>OPERATOR_DEST_OUT</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-OPERATOR_DEST_OVER"></a><b>OPERATOR_DEST_OVER</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-OPERATOR_IN"></a><b>OPERATOR_IN</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-OPERATOR_OUT"></a><b>OPERATOR_OUT</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-OPERATOR_OVER"></a><b>OPERATOR_OVER</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-OPERATOR_SATURATE"></a><b>OPERATOR_SATURATE</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-OPERATOR_SOURCE"></a><b>OPERATOR_SOURCE</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-OPERATOR_XOR"></a><b>OPERATOR_XOR</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-PATH_CLOSE_PATH"></a><b>PATH_CLOSE_PATH</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-PATH_CURVE_TO"></a><b>PATH_CURVE_TO</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-PATH_LINE_TO"></a><b>PATH_LINE_TO</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-PATH_MOVE_TO"></a><b>PATH_MOVE_TO</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-PDFSurface"></a><b>PDFSurface</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-PSSurface"></a><b>PSSurface</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-Path"></a><b>Path</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-PathElement"></a><b>PathElement</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-Pattern"></a><b>Pattern</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-RadialGradient"></a><b>RadialGradient</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-Rectangle"></a><b>Rectangle</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-SUBPIXEL_ORDER_BGR"></a><b>SUBPIXEL_ORDER_BGR</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-SUBPIXEL_ORDER_DEFAULT"></a><b>SUBPIXEL_ORDER_DEFAULT</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-SUBPIXEL_ORDER_RGB"></a><b>SUBPIXEL_ORDER_RGB</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-SUBPIXEL_ORDER_VBGR"></a><b>SUBPIXEL_ORDER_VBGR</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-SUBPIXEL_ORDER_VRGB"></a><b>SUBPIXEL_ORDER_VRGB</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-SVGSurface"></a><b>SVGSurface</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-SVG_VERSION_1_1"></a><b>SVG_VERSION_1_1</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-SVG_VERSION_1_2"></a><b>SVG_VERSION_1_2</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-ScaledFont"></a><b>ScaledFont</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-SolidPattern"></a><b>SolidPattern</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-Surface"></a><b>Surface</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-SurfacePattern"></a><b>SurfacePattern</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-TextExtents"></a><b>TextExtents</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-version"></a><b>version</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 </div>
 </div>
 <hr align=left>
@@ -4326,6 +4768,85 @@ Sets message slot and returns self.
 </div>
 </div>
 <hr align=left>
+<h2><a name="EvRequest"></a>EvRequest</h2>
+<div class=indent>
+<div style="line-height:1.3em">
+<b>Module:</b> Socket<br>
+<b>Category:</b> Networking
+<br>
+<font color=#888>
+</font>
+</div>
+<h3>Description</h3>
+<div class=protoDescription>
+Networking Event.
+
+</div>
+<div class=slots>
+<h3>Slot Index</h3>
+<div class=slotIndex>
+<a href="#EvRequest-asyncSend">asyncSend</a><br>
+<a href="#EvRequest-cancel">cancel</a><br>
+<a href="#EvRequest-connection">connection</a><br>
+<a href="#EvRequest-didFinish">didFinish</a><br>
+<a href="#EvRequest-requestHeaders">requestHeaders</a><br>
+<a href="#EvRequest-requestType">requestType</a><br>
+<a href="#EvRequest-send">send</a><br>
+<a href="#EvRequest-setConnection">setConnection</a><br>
+<a href="#EvRequest-setRequestType">setRequestType</a><br>
+<a href="#EvRequest-setUri">setUri</a><br>
+<a href="#EvRequest-uri">uri</a><br>
+</div>
+<p>
+<h3>Slots</h3>
+<p>
+<a name="EvRequest-asyncSend"></a><b>asyncSend</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="EvRequest-cancel"></a><b>cancel</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="EvRequest-connection"></a><b>connection</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="EvRequest-didFinish"></a><b>didFinish</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="EvRequest-requestHeaders"></a><b>requestHeaders</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="EvRequest-requestType"></a><b>requestType</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="EvRequest-send"></a><b>send</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="EvRequest-setConnection"></a><b>setConnection</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="EvRequest-setRequestType"></a><b>setRequestType</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="EvRequest-setUri"></a><b>setUri</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="EvRequest-uri"></a><b>uri</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+</div>
+</div>
+<hr align=left>
 <h2><a name="Event"></a>Event</h2>
 <div class=indent>
 <div style="line-height:1.3em">
@@ -4490,6 +5011,7 @@ Networking
 <a href="#EventManager-realAddEvent">realAddEvent</a><br>
 <a href="#EventManager-removeEvent">removeEvent</a><br>
 <a href="#EventManager-resetEventTimeout">resetEventTimeout</a><br>
+<a href="#EventManager-resumeIfNeeded">resumeIfNeeded</a><br>
 <a href="#EventManager-run">run</a><br>
 <a href="#EventManager-setCoro">setCoro</a><br>
 <a href="#EventManager-setIsRunning">setIsRunning</a><br>
@@ -4535,6 +5057,10 @@ Networking
 <div class=error>undocumented</div>
 </div>
 <a name="EventManager-resetEventTimeout"></a><b>resetEventTimeout</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="EventManager-resumeIfNeeded"></a><b>resumeIfNeeded</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
@@ -4592,9 +5118,11 @@ file close
 <a href="#File-containingDirectory">containingDirectory</a><br>
 <a href="#File-contents">contents</a><br>
 <a href="#File-copyToPath">copyToPath()</a><br>
+<a href="#File-copyToPathWithoutYielding">copyToPathWithoutYielding()</a><br>
 <a href="#File-create">create</a><br>
 <a href="#File-descriptor">descriptor</a><br>
 <a href="#File-exists">exists</a><br>
+<a href="#File-exitStatus">exitStatus</a><br>
 <a href="#File-flush">flush</a><br>
 <a href="#File-foreach">foreach()</a><br>
 <a href="#File-foreachLine">foreachLine()</a><br>
@@ -4649,6 +5177,7 @@ file close
 <a href="#File-streamDestination">streamDestination</a><br>
 <a href="#File-streamReadSize">streamReadSize</a><br>
 <a href="#File-streamTo">streamTo</a><br>
+<a href="#File-streamToWithoutYielding">streamToWithoutYielding</a><br>
 <a href="#File-temporaryFile">temporaryFile</a><br>
 <a href="#File-thisSourceFile">thisSourceFile</a><br>
 <a href="#File-truncateToSize">truncateToSize()</a><br>
@@ -4694,6 +5223,10 @@ Returns contents of the file as a mutable Sequence of bytes.
 <div class=slotDescription>
 Copies the file to the specified path.
 </div>
+<a name="File-copyToPathWithoutYielding"></a><b>copyToPathWithoutYielding(destinationPath)</b><p>
+<div class=slotDescription>
+Copies the file to the specified path without yielding.
+</div>
 <a name="File-create"></a><b>create</b><p>
 <div class=slotDescription>
 Creates an empty file at the file's path. Returns self on success, nil on failure.
@@ -4706,6 +5239,10 @@ Returns the file's descriptor as a number.
 <div class=slotDescription>
 Returns true if the file specified by the receiver's
 	path exists, false otherwise.
+</div>
+<a name="File-exitStatus"></a><b>exitStatus</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 <a name="File-flush"></a><b>flush</b><p>
 <div class=slotDescription>
@@ -4957,6 +5494,10 @@ Returns the file's size in bytes as a Number.
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
+<a name="File-streamToWithoutYielding"></a><b>streamToWithoutYielding</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="File-temporaryFile"></a><b>temporaryFile</b><p>
 <div class=slotDescription>
 Returns a new File object with an open temporary file. The file is
@@ -5000,10 +5541,30 @@ AutoImporter for the Flux Io UI framework.
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
+<a href="#Flux-Views">Views</a><br>
+<a href="#Flux-fluxPath">fluxPath</a><br>
+<a href="#Flux-fluxSource">fluxSource</a><br>
+<a href="#Flux-fluxViews">fluxViews</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
+<a name="Flux-Views"></a><b>Views</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Flux-fluxPath"></a><b>fluxPath</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Flux-fluxSource"></a><b>fluxSource</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Flux-fluxViews"></a><b>fluxViews</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 </div>
 </div>
 <hr align=left>
@@ -5156,6 +5717,8 @@ Smaller fonts (those having a point size around 30 or smaller, depending on the 
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
+<a href="#Font-drawCenteredString">drawCenteredString</a><br>
+<a href="#Font-drawOffsetString">drawOffsetString</a><br>
 <a href="#Font-drawString">drawString()</a><br>
 <a href="#Font-error">error</a><br>
 <a href="#Font-isTextured">isTextured</a><br>
@@ -5172,6 +5735,14 @@ Smaller fonts (those having a point size around 30 or smaller, depending on the 
 <p>
 <h3>Slots</h3>
 <p>
+<a name="Font-drawCenteredString"></a><b>drawCenteredString</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Font-drawOffsetString"></a><b>drawOffsetString</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="Font-drawString"></a><b>drawString(aString, optionalStartIndex, optionalEndIndex)</b><p>
 <div class=slotDescription>
 Draws aString using the optional start and end indexes, if supplied. Returns self.
@@ -7841,46 +8412,13 @@ Set's the host name. Return self.
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#HttpParser-body">body</a><br>
-<a href="#HttpParser-fillHttpRequest">fillHttpRequest</a><br>
-<a href="#HttpParser-fragment">fragment</a><br>
-<a href="#HttpParser-httpFields">httpFields</a><br>
-<a href="#HttpParser-httpVersion">httpVersion</a><br>
 <a href="#HttpParser-isFinished">isFinished</a><br>
 <a href="#HttpParser-parse">parse</a><br>
-<a href="#HttpParser-parseBuffer">parseBuffer</a><br>
-<a href="#HttpParser-queryString">queryString</a><br>
-<a href="#HttpParser-rawParse">rawParse</a><br>
 <a href="#HttpParser-rawReset">rawReset</a><br>
-<a href="#HttpParser-requestMethod">requestMethod</a><br>
-<a href="#HttpParser-requestPath">requestPath</a><br>
-<a href="#HttpParser-requestUri">requestUri</a><br>
-<a href="#HttpParser-reset">reset</a><br>
-<a href="#HttpParser-setParseBuffer">setParseBuffer</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
-<a name="HttpParser-body"></a><b>body</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="HttpParser-fillHttpRequest"></a><b>fillHttpRequest</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="HttpParser-fragment"></a><b>fragment</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="HttpParser-httpFields"></a><b>httpFields</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="HttpParser-httpVersion"></a><b>httpVersion</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="HttpParser-isFinished"></a><b>isFinished</b><p>
 <div class=slotDescription>
 Returns true if the parser has fully completed parsing of the content in the parse buffer and false if it hasn't.
@@ -7889,41 +8427,9 @@ Returns true if the parser has fully completed parsing of the content in the par
 <div class=slotDescription>
 Parsers the Http request stored in the parseBuffer slot.  Sets slots on self using the values parsed.  Returns self if successful or an Error if the parse fails.
 </div>
-<a name="HttpParser-parseBuffer"></a><b>parseBuffer</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="HttpParser-queryString"></a><b>queryString</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="HttpParser-rawParse"></a><b>rawParse</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="HttpParser-rawReset"></a><b>rawReset</b><p>
 <div class=slotDescription>
 Resets the parser state to prepare for a new parse.  Returns self.
-</div>
-<a name="HttpParser-requestMethod"></a><b>requestMethod</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="HttpParser-requestPath"></a><b>requestPath</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="HttpParser-requestUri"></a><b>requestUri</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="HttpParser-reset"></a><b>reset</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="HttpParser-setParseBuffer"></a><b>setParseBuffer</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 </div>
 </div>
@@ -8023,6 +8529,8 @@ Currently supported formats include PNG(which supports alpha), JPG and TIFF.
 <div class=slotIndex>
 <a href="#Image-IsPowerOf2">IsPowerOf2</a><br>
 <a href="#Image-addAlpha">addAlpha</a><br>
+<a href="#Image-averageColor">averageColor</a><br>
+<a href="#Image-baselineHeight">baselineHeight</a><br>
 <a href="#Image-changed">changed</a><br>
 <a href="#Image-componentCount">componentCount</a><br>
 <a href="#Image-crop">crop()</a><br>
@@ -8038,11 +8546,14 @@ Currently supported formats include PNG(which supports alpha), JPG and TIFF.
 <a href="#Image-flipY">flipY</a><br>
 <a href="#Image-glFormat">glFormat</a><br>
 <a href="#Image-glFormats">glFormats</a><br>
+<a href="#Image-grabScreen">grabScreen</a><br>
+<a href="#Image-hasWhiteBackground">hasWhiteBackground</a><br>
 <a href="#Image-height">height</a><br>
 <a href="#Image-isL8">isL8</a><br>
 <a href="#Image-isLA8">isLA8</a><br>
 <a href="#Image-isRGB8">isRGB8</a><br>
 <a href="#Image-isRGBA8">isRGBA8</a><br>
+<a href="#Image-isWhiteAt">isWhiteAt</a><br>
 <a href="#Image-open">open()</a><br>
 <a href="#Image-path">path</a><br>
 <a href="#Image-removeAlpha">removeAlpha</a><br>
@@ -8055,12 +8566,14 @@ Currently supported formats include PNG(which supports alpha), JPG and TIFF.
 <a href="#Image-setDecodingWidthHint">setDecodingWidthHint()</a><br>
 <a href="#Image-setEncodingQuality">setEncodingQuality()</a><br>
 <a href="#Image-setPath">setPath()</a><br>
+<a href="#Image-sizeInBytes">sizeInBytes</a><br>
 <a href="#Image-sizeIsPowerOf2">sizeIsPowerOf2</a><br>
 <a href="#Image-texture">texture</a><br>
 <a href="#Image-textureHeight">textureHeight</a><br>
 <a href="#Image-textureWidth">textureWidth</a><br>
 <a href="#Image-updateTexture">updateTexture</a><br>
 <a href="#Image-width">width</a><br>
+<a href="#Image-with">with</a><br>
 </div>
 <p>
 <h3>Slots</h3>
@@ -8072,6 +8585,15 @@ Currently supported formats include PNG(which supports alpha), JPG and TIFF.
 <a name="Image-addAlpha"></a><b>addAlpha</b><p>
 <div class=slotDescription>
 Adds an opaque alpha component if the image is in RGB format and does not already contain one.  Returns self.
+</div>
+<a name="Image-averageColor"></a><b>averageColor</b><p>
+<div class=slotDescription>
+Returns the average RGB color of all pixels in the image.
+</div>
+<a name="Image-baselineHeight"></a><b>baselineHeight</b><p>
+<div class=slotDescription>
+Returns the pixel height (relative to the bottom of the image) which first contains a non-white pixel or -1 if
+	no baseline is found.
 </div>
 <a name="Image-changed"></a><b>changed</b><p>
 <div class=slotDescription>
@@ -8135,6 +8657,14 @@ Flips the image on the vertical plane (top/bottom mirror). Returns self.
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
+<a name="Image-grabScreen"></a><b>grabScreen</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Image-hasWhiteBackground"></a><b>hasWhiteBackground</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="Image-height"></a><b>height</b><p>
 <div class=slotDescription>
 Returns the image hieght.
@@ -8154,6 +8684,10 @@ Returns true if the receiver is in RGB8 format, false otherwise.
 <a name="Image-isRGBA8"></a><b>isRGBA8</b><p>
 <div class=slotDescription>
 Returns true if the receiver is in RGBA8 format, false otherwise.
+</div>
+<a name="Image-isWhiteAt"></a><b>isWhiteAt</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 <a name="Image-open"></a><b>open(optionalPathString)</b><p>
 <div class=slotDescription>
@@ -8206,6 +8740,10 @@ Sets the image encoding quality (range is 0.0 - 1.0, 1.0 with being the highest)
 <div class=slotDescription>
 Sets the image path. Returns self.
 </div>
+<a name="Image-sizeInBytes"></a><b>sizeInBytes</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="Image-sizeIsPowerOf2"></a><b>sizeIsPowerOf2</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
@@ -8229,6 +8767,10 @@ Sets the image path. Returns self.
 <a name="Image-width"></a><b>width</b><p>
 <div class=slotDescription>
 Returns the image width.
+</div>
+<a name="Image-with"></a><b>with</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 </div>
 </div>
@@ -9811,8 +10353,11 @@ my close
 <div class=slotIndex>
 <a href="#MySQL-close">close</a><br>
 <a href="#MySQL-connect">connect()</a><br>
+<a href="#MySQL-connected">connected</a><br>
 <a href="#MySQL-establish">establish</a><br>
 <a href="#MySQL-lastInsertRowId">lastInsertRowId</a><br>
+<a href="#MySQL-query">query</a><br>
+<a href="#MySQL-queryThenMap">queryThenMap</a><br>
 </div>
 <p>
 <h3>Slots</h3>
@@ -9825,6 +10370,10 @@ Closes a previously opened connection.
 <div class=slotDescription>
 Connect to a MySQL database.
 </div>
+<a name="MySQL-connected"></a><b>connected</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="MySQL-establish"></a><b>establish</b><p>
 <div class=slotDescription>
 Establish a connection to a MySQL database.
@@ -9832,6 +10381,14 @@ Establish a connection to a MySQL database.
 <a name="MySQL-lastInsertRowId"></a><b>lastInsertRowId</b><p>
 <div class=slotDescription>
 Returns the value generated for an AUTO_INCREMENT column by the previous INSERT or UPDATE statement.
+</div>
+<a name="MySQL-query"></a><b>query</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MySQL-queryThenMap"></a><b>queryThenMap</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 </div>
 </div>
@@ -9953,7 +10510,6 @@ A container for a double (a 64bit floating point number on most platforms).
 <a href="#Number-constants">constants</a><br>
 <a href="#Number-cos">cos</a><br>
 <a href="#Number-cubed">cubed</a><br>
-<a href="#Number-days">days</a><br>
 <a href="#Number-doubleMin">doubleMin</a><br>
 <a href="#Number-e">e</a><br>
 <a href="#Number-exp">exp</a><br>
@@ -9961,7 +10517,6 @@ A container for a double (a 64bit floating point number on most platforms).
 <a href="#Number-floatMax">floatMax</a><br>
 <a href="#Number-floatMin">floatMin</a><br>
 <a href="#Number-floor">floor</a><br>
-<a href="#Number-hours">hours</a><br>
 <a href="#Number-inf">inf</a><br>
 <a href="#Number-integerMax">integerMax</a><br>
 <a href="#Number-integerMin">integerMin</a><br>
@@ -9989,7 +10544,6 @@ A container for a double (a 64bit floating point number on most platforms).
 <a href="#Number-max">max()</a><br>
 <a href="#Number-min">min()</a><br>
 <a href="#Number-minMax">minMax()</a><br>
-<a href="#Number-minutes">minutes</a><br>
 <a href="#Number-mod">mod()</a><br>
 <a href="#Number-nan">nan</a><br>
 <a href="#Number-negate">negate</a><br>
@@ -10001,7 +10555,6 @@ A container for a double (a 64bit floating point number on most platforms).
 <a href="#Number-round">round</a><br>
 <a href="#Number-roundDown">roundDown</a><br>
 <a href="#Number-roundedUpToPowerOf2">roundedUpToPowerOf2</a><br>
-<a href="#Number-seconds">seconds</a><br>
 <a href="#Number-shiftLeft">shiftLeft</a><br>
 <a href="#Number-shiftRight">shiftRight</a><br>
 <a href="#Number-shortMax">shortMax</a><br>
@@ -10014,8 +10567,6 @@ A container for a double (a 64bit floating point number on most platforms).
 <a href="#Number-unsignedIntMax">unsignedIntMax</a><br>
 <a href="#Number-unsignedLongMax">unsignedLongMax</a><br>
 <a href="#Number-unsignedShortMax">unsignedShortMax</a><br>
-<a href="#Number-years">years</a><br>
-<a href="#Number-years Returns Duration of receiver's years.">years Returns Duration of receiver's years.</a><br>
 <a href="#Number-|">|()</a><br>
 </div>
 <p>
@@ -10194,10 +10745,6 @@ Returns the cosine of the receiver.
 <div class=slotDescription>
 Returns the cube of the receiver.
 </div>
-<a name="Number-days"></a><b>days</b><p>
-<div class=slotDescription>
-Returns Duration of receiver's days. See `years' for a few examples.
-</div>
 <a name="Number-doubleMin"></a><b>doubleMin</b><p>
 <div class=slotDescription>
 Returns the minimum double precision float value.
@@ -10226,10 +10773,6 @@ Returns the minimum float value.
 <div class=slotDescription>
 Returns the a number with the receiver's value rounded
 	down to the nearest integer if it's fractional component is not 0.
-</div>
-<a name="Number-hours"></a><b>hours</b><p>
-<div class=slotDescription>
-Returns Duration of receiver's hours. See `years' for a few examples.
 </div>
 <a name="Number-inf"></a><b>inf</b><p>
 <div class=slotDescription>
@@ -10367,10 +10910,6 @@ Returns the lesser of the receiver and aNumber.
 <div class=slotDescription>
 Returns a number between or equal to low and high. If the receiver is equal to or between low and high, the reciever is returned. If the reciever is less than low, low is returned. If the receiver is greater than high, high is returned.
 </div>
-<a name="Number-minutes"></a><b>minutes</b><p>
-<div class=slotDescription>
-Returns Duration of receiver's minutes. See `years' for a few examples.
-</div>
 <a name="Number-mod"></a><b>mod(aNumber)</b><p>
 <div class=slotDescription>
 Returns the receiver modulus aNumber.
@@ -10417,10 +10956,6 @@ Returns the a number with the receiver's value rounded down to
 <a name="Number-roundedUpToPowerOf2"></a><b>roundedUpToPowerOf2</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
-</div>
-<a name="Number-seconds"></a><b>seconds</b><p>
-<div class=slotDescription>
-Returns Duration of receiver's seconds. See `years' for a few examples.
 </div>
 <a name="Number-shiftLeft"></a><b>shiftLeft</b><p>
 <div class=slotDescription>
@@ -10469,28 +11004,6 @@ Returns the maximum unsigned long value.
 <a name="Number-unsignedShortMax"></a><b>unsignedShortMax</b><p>
 <div class=slotDescription>
 Returns the minimum unsigned int value.
-</div>
-<a name="Number-years"></a><b>years</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Number-years Returns Duration of receiver's years."></a><b>years Returns Duration of receiver's years.</b><p>
-<div class=slotDescription>
-Example:
-<code>
-Io> 1 years
-==> 1 years 00 days 00:00:0.000000
-Io> 20 years
-==> 20 years 00 days 00:00:0.000000
-</code>
-
-With this, you can do things such as:
-<code>
-Io> Date clone now + 5 years
-==> 2011-11-14 18:44:33 EST
-Io> Date clone now + 2 years + 3 days + 22 minutes
-==> 2008-11-17 19:06:54 EST
-</code>
 </div>
 <a name="Number-|"></a><b>|(aNumber)</b><p>
 <div class=slotDescription>
@@ -11409,6 +11922,7 @@ When cloned, an Object will call it's init slot (with no arguments).
 <a href="#Object-@">@</a><br>
 <a href="#Object-@@">@@</a><br>
 <a href="#Object-NullCharacter">NullCharacter</a><br>
+<a href="#Object-The">The</a><br>
 <a href="#Object-actorProcessQueue">actorProcessQueue</a><br>
 <a href="#Object-actorRun">actorRun</a><br>
 <a href="#Object-ancestorWithSlot">ancestorWithSlot()</a><br>
@@ -11474,6 +11988,7 @@ When cloned, an Object will call it's init slot (with no arguments).
 <a href="#Object-isKindOf">isKindOf()</a><br>
 <a href="#Object-isLaunchScript">isLaunchScript</a><br>
 <a href="#Object-isNil">isNil</a><br>
+<a href="#Object-isTrue">isTrue</a><br>
 <a href="#Object-justSerialized">justSerialized()</a><br>
 <a href="#Object-launchFile">launchFile()</a><br>
 <a href="#Object-lazySlot">lazySlot()</a><br>
@@ -11621,6 +12136,10 @@ Same as Object @, but returns nil instead of FutureProxy.
 <a name="Object-NullCharacter"></a><b>NullCharacter</b><p>
 <div class=slotDescription>
 A sequence with a single zero byte.
+</div>
+<a name="Object-The"></a><b>The</b><p>
+<div class=slotDescription>
+'' method evaluates the argument and returns the result.
 </div>
 <a name="Object-actorProcessQueue"></a><b>actorProcessQueue</b><p>
 <div class=slotDescription>
@@ -11965,6 +12484,10 @@ Returns true if the current file was run on the command line. Io's version of Py
 <a name="Object-isNil"></a><b>isNil</b><p>
 <div class=slotDescription>
 Returns false.
+</div>
+<a name="Object-isTrue"></a><b>isTrue</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 <a name="Object-justSerialized"></a><b>justSerialized(stream)</b><p>
 <div class=slotDescription>
@@ -12403,94 +12926,24 @@ A double key/value database with cursors on first key. Basis for PDB.
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#Obsidian-acceptedMessageNames">acceptedMessageNames</a><br>
 <a href="#Obsidian-close">close</a><br>
-<a href="#Obsidian-cursorOn">cursorOn</a><br>
 <a href="#Obsidian-delete">delete</a><br>
-<a href="#Obsidian-onAfter">onAfter</a><br>
 <a href="#Obsidian-onAt">onAt</a><br>
-<a href="#Obsidian-onAtPut">onAtPut</a><br>
-<a href="#Obsidian-onBefore">onBefore</a><br>
-<a href="#Obsidian-onFirst">onFirst</a><br>
-<a href="#Obsidian-onLast">onLast</a><br>
-<a href="#Obsidian-onRemoveAt">onRemoveAt</a><br>
-<a href="#Obsidian-open">open</a><br>
-<a href="#Obsidian-path">path</a><br>
-<a href="#Obsidian-setPath">setPath</a><br>
-<a href="#Obsidian-setSharedPrefixCursor">setSharedPrefixCursor</a><br>
-<a href="#Obsidian-sharedPrefixCursor">sharedPrefixCursor</a><br>
-<a href="#Obsidian-sizeOn">sizeOn</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
-<a name="Obsidian-acceptedMessageNames"></a><b>acceptedMessageNames</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="Obsidian-close"></a><b>close</b><p>
 <div class=slotDescription>
 Closes the persistence database file.
-</div>
-<a name="Obsidian-cursorOn"></a><b>cursorOn</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="Obsidian-delete"></a><b>delete</b><p>
 <div class=slotDescription>
 Removes the persistence database file set via setPath.
 </div>
-<a name="Obsidian-onAfter"></a><b>onAfter</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="Obsidian-onAt"></a><b>onAt</b><p>
 <div class=slotDescription>
 Return the value associated with slotName of stored object whose ppid is objId.
-</div>
-<a name="Obsidian-onAtPut"></a><b>onAtPut</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Obsidian-onBefore"></a><b>onBefore</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Obsidian-onFirst"></a><b>onFirst</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Obsidian-onLast"></a><b>onLast</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Obsidian-onRemoveAt"></a><b>onRemoveAt</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Obsidian-open"></a><b>open</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Obsidian-path"></a><b>path</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Obsidian-setPath"></a><b>setPath</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Obsidian-setSharedPrefixCursor"></a><b>setSharedPrefixCursor</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Obsidian-sharedPrefixCursor"></a><b>sharedPrefixCursor</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Obsidian-sizeOn"></a><b>sizeOn</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 </div>
 </div>
@@ -13257,19 +13710,12 @@ Notes: Currently, PDB is a singleton.
 <h3>Slot Index</h3>
 <div class=slotIndex>
 <a href="#PDB-addObjectToPersist">addObjectToPersist</a><br>
-<a href="#PDB-clone">clone</a><br>
 <a href="#PDB-close">close</a><br>
 <a href="#PDB-collectGarbage">collectGarbage</a><br>
-<a href="#PDB-db">db</a><br>
 <a href="#PDB-newId">newId</a><br>
-<a href="#PDB-noteReference">noteReference</a><br>
 <a href="#PDB-objectAtPpid">objectAtPpid</a><br>
-<a href="#PDB-objectsToPersist">objectsToPersist</a><br>
-<a href="#PDB-ppidMap">ppidMap</a><br>
 <a href="#PDB-reopen">reopen</a><br>
-<a href="#PDB-repoen">repoen</a><br>
 <a href="#PDB-root">root</a><br>
-<a href="#PDB-setObjectsToPersist">setObjectsToPersist</a><br>
 <a href="#PDB-show">show</a><br>
 <a href="#PDB-sync">sync</a><br>
 </div>
@@ -13280,10 +13726,6 @@ Notes: Currently, PDB is a singleton.
 <div class=slotDescription>
 Register an object to be persisted in the next PDB sync.
 </div>
-<a name="PDB-clone"></a><b>clone</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="PDB-close"></a><b>close</b><p>
 <div class=slotDescription>
 Close the persistence database.
@@ -13292,45 +13734,21 @@ Close the persistence database.
 <div class=slotDescription>
 Remove from PDB all objects not accessible via the root object.
 </div>
-<a name="PDB-db"></a><b>db</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="PDB-newId"></a><b>newId</b><p>
 <div class=slotDescription>
 Generate a new PDB id number for use as a persistent object's ppid.
-</div>
-<a name="PDB-noteReference"></a><b>noteReference</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="PDB-objectAtPpid"></a><b>objectAtPpid</b><p>
 <div class=slotDescription>
 Return the object associated in the database with a ppid.
 </div>
-<a name="PDB-objectsToPersist"></a><b>objectsToPersist</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PDB-ppidMap"></a><b>ppidMap</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="PDB-reopen"></a><b>reopen</b><p>
 <div class=slotDescription>
 Sync, close and reopen the PDB store.
 </div>
-<a name="PDB-repoen"></a><b>repoen</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="PDB-root"></a><b>root</b><p>
 <div class=slotDescription>
 Return the root PMap object used to store and retrieve persistent objects and their slots.
-</div>
-<a name="PDB-setObjectsToPersist"></a><b>setObjectsToPersist</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="PDB-show"></a><b>show</b><p>
 <div class=slotDescription>
@@ -13362,15 +13780,9 @@ into local object slots.
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#PMap-afterCount">afterCount</a><br>
 <a href="#PMap-at">at()</a><br>
 <a href="#PMap-atPut">atPut()</a><br>
-<a href="#PMap-beforeCount">beforeCount</a><br>
 <a href="#PMap-createIfAbsent">createIfAbsent</a><br>
-<a href="#PMap-firstCount">firstCount</a><br>
-<a href="#PMap-forward">forward</a><br>
-<a href="#PMap-hiddenSlots">hiddenSlots</a><br>
-<a href="#PMap-lastCount">lastCount</a><br>
 <a href="#PMap-objectsForKeys">objectsForKeys</a><br>
 <a href="#PMap-persist">persist</a><br>
 <a href="#PMap-persistSlots">persistSlots</a><br>
@@ -13378,16 +13790,10 @@ into local object slots.
 <a href="#PMap-removeSlot">removeSlot</a><br>
 <a href="#PMap-shouldPersistByDefault">shouldPersistByDefault</a><br>
 <a href="#PMap-slotCount">slotCount</a><br>
-<a href="#PMap-slotsToRemove">slotsToRemove</a><br>
-<a href="#PMap-unpersist">unpersist</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
-<a name="PMap-afterCount"></a><b>afterCount</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="PMap-at"></a><b>at(slotName)</b><p>
 <div class=slotDescription>
 Tries to obtain a value for slot slotName from a local slot of that name,
@@ -13399,29 +13805,9 @@ If slotName begins with an underscore ("_"), returns the id of the slot from PDB
 <div class=slotDescription>
 Records value in the slot named slotName.
 </div>
-<a name="PMap-beforeCount"></a><b>beforeCount</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="PMap-createIfAbsent"></a><b>createIfAbsent</b><p>
 <div class=slotDescription>
 Creates a slot with a new PMap clone if not already present.
-</div>
-<a name="PMap-firstCount"></a><b>firstCount</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PMap-forward"></a><b>forward</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PMap-hiddenSlots"></a><b>hiddenSlots</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PMap-lastCount"></a><b>lastCount</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="PMap-objectsForKeys"></a><b>objectsForKeys</b><p>
 <div class=slotDescription>
@@ -13454,14 +13840,6 @@ Always true by default for PMap.
 <div class=slotDescription>
 Returns the number of slots committed to PDB.
 </div>
-<a name="PMap-slotsToRemove"></a><b>slotsToRemove</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PMap-unpersist"></a><b>unpersist</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 </div>
 </div>
 <hr align=left>
@@ -13480,6 +13858,7 @@ Returns the number of slots committed to PDB.
 <a href="#Path-absolute">absolute</a><br>
 <a href="#Path-hasDriveLetters">hasDriveLetters</a><br>
 <a href="#Path-isPathAbsolute">isPathAbsolute</a><br>
+<a href="#Path-thisSourceFilePath">thisSourceFilePath</a><br>
 <a href="#Path-with">with()</a><br>
 </div>
 <p>
@@ -13496,6 +13875,10 @@ returns true if the platform requires DOS C: style drive letters.
 <a name="Path-isPathAbsolute"></a><b>isPathAbsolute</b><p>
 <div class=slotDescription>
 Returns true if path is absolute, false if it is relative.
+</div>
+<a name="Path-thisSourceFilePath"></a><b>thisSourceFilePath</b><p>
+<div class=slotDescription>
+Uses call message label to return an absolute path to the file that contains the sender.
 </div>
 <a name="Path-with"></a><b>with(aSequence)</b><p>
 <div class=slotDescription>
@@ -13625,35 +14008,10 @@ This object provides access the world of python.
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#Python-credits">credits</a><br>
-<a href="#Python-forward">forward</a><br>
-<a href="#Python-import">import</a><br>
-<a href="#Python-invoke">invoke</a><br>
-<a href="#Python-print">print</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
-<a name="Python-credits"></a><b>credits</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Python-forward"></a><b>forward</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Python-import"></a><b>import</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Python-invoke"></a><b>invoke</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Python-print"></a><b>print</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 </div>
 </div>
 <hr align=left>
@@ -14225,35 +14583,10 @@ Binding to GNU readline.
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#ReadLine-addHistory">addHistory</a><br>
-<a href="#ReadLine-loadHistory">loadHistory</a><br>
-<a href="#ReadLine-prompt">prompt</a><br>
-<a href="#ReadLine-readLine">readLine</a><br>
-<a href="#ReadLine-saveHistory">saveHistory</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
-<a name="ReadLine-addHistory"></a><b>addHistory</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="ReadLine-loadHistory"></a><b>loadHistory</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="ReadLine-prompt"></a><b>prompt</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="ReadLine-readLine"></a><b>readLine</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="ReadLine-saveHistory"></a><b>saveHistory</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 </div>
 </div>
 <hr align=left>
@@ -14818,34 +15151,144 @@ Returns the string that the receiver finds matches in.
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
+<a href="#SGMLElement-allText">allText</a><br>
+<a href="#SGMLElement-asObject">asObject</a><br>
 <a href="#SGMLElement-asString">asString</a><br>
+<a href="#SGMLElement-attribute">attribute</a><br>
 <a href="#SGMLElement-attributes">attributes</a><br>
+<a href="#SGMLElement-beginTag">beginTag</a><br>
+<a href="#SGMLElement-elementWithName">elementWithName</a><br>
+<a href="#SGMLElement-elementsWithName">elementsWithName</a><br>
+<a href="#SGMLElement-elementsWithNameAndClass">elementsWithNameAndClass</a><br>
+<a href="#SGMLElement-elementsWithNameAndId">elementsWithNameAndId</a><br>
+<a href="#SGMLElement-endTag">endTag</a><br>
+<a href="#SGMLElement-firstText">firstText</a><br>
+<a href="#SGMLElement-linkStrings">linkStrings</a><br>
 <a href="#SGMLElement-name">name</a><br>
+<a href="#SGMLElement-parent">parent</a><br>
+<a href="#SGMLElement-redirectStrings">redirectStrings</a><br>
+<a href="#SGMLElement-search">search</a><br>
+<a href="#SGMLElement-setAttributes">setAttributes</a><br>
 <a href="#SGMLElement-setName">setName()</a><br>
+<a href="#SGMLElement-setParent">setParent</a><br>
+<a href="#SGMLElement-setSubitems">setSubitems</a><br>
+<a href="#SGMLElement-setText">setText</a><br>
 <a href="#SGMLElement-subitems">subitems</a><br>
+<a href="#SGMLElement-tableData">tableData</a><br>
+<a href="#SGMLElement-text">text</a><br>
+<a href="#SGMLElement-withText">withText</a><br>
+<a href="#SGMLElement-writeToStream">writeToStream</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
+<a name="SGMLElement-allText"></a><b>allText</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-asObject"></a><b>asObject</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="SGMLElement-asString"></a><b>asString</b><p>
 <div class=slotDescription>
 Returns a String representation of the tag and all of it's subitems.
+</div>
+<a name="SGMLElement-attribute"></a><b>attribute</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 <a name="SGMLElement-attributes"></a><b>attributes</b><p>
 <div class=slotDescription>
 Returns a Map containing the tag's attributes.
 </div>
+<a name="SGMLElement-beginTag"></a><b>beginTag</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-elementWithName"></a><b>elementWithName</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-elementsWithName"></a><b>elementsWithName</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-elementsWithNameAndClass"></a><b>elementsWithNameAndClass</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-elementsWithNameAndId"></a><b>elementsWithNameAndId</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-endTag"></a><b>endTag</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-firstText"></a><b>firstText</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-linkStrings"></a><b>linkStrings</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="SGMLElement-name"></a><b>name</b><p>
 <div class=slotDescription>
 Returns the tag name
+</div>
+<a name="SGMLElement-parent"></a><b>parent</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-redirectStrings"></a><b>redirectStrings</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-search"></a><b>search</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-setAttributes"></a><b>setAttributes</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 <a name="SGMLElement-setName"></a><b>setName(aString)</b><p>
 <div class=slotDescription>
 Sets the tag name. Returns self.
 </div>
+<a name="SGMLElement-setParent"></a><b>setParent</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-setSubitems"></a><b>setSubitems</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-setText"></a><b>setText</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="SGMLElement-subitems"></a><b>subitems</b><p>
 <div class=slotDescription>
 Returns a List containing the tag's subitems.
+</div>
+<a name="SGMLElement-tableData"></a><b>tableData</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-text"></a><b>text</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-withText"></a><b>withText</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLElement-writeToStream"></a><b>writeToStream</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 </div>
 </div>
@@ -14867,12 +15310,39 @@ This object can be used to parse SGML / HTML / XML.
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
+<a href="#SGMLParser-elementForString">elementForString</a><br>
+<a href="#SGMLParser-elementProto">elementProto</a><br>
+<a href="#SGMLParser-endElement">endElement</a><br>
+<a href="#SGMLParser-newAttribute">newAttribute</a><br>
+<a href="#SGMLParser-newText">newText</a><br>
 <a href="#SGMLParser-parse">parse()</a><br>
+<a href="#SGMLParser-startElement">startElement</a><br>
 <a href="#SGMLParser-tagForString">tagForString()</a><br>
+<a href="#SGMLParser-top">top</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
+<a name="SGMLParser-elementForString"></a><b>elementForString</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLParser-elementProto"></a><b>elementProto</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLParser-endElement"></a><b>endElement</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLParser-newAttribute"></a><b>newAttribute</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SGMLParser-newText"></a><b>newText</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="SGMLParser-parse"></a><b>parse(aSequence)</b><p>
 <div class=slotDescription>
 Parses aSequence and calls the following methods on self;
@@ -14884,9 +15354,17 @@ newText(text)
 </pre>	
 for each of the items it finds. Returns self.
 </div>
+<a name="SGMLParser-startElement"></a><b>startElement</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="SGMLParser-tagForString"></a><b>tagForString(aSequence)</b><p>
 <div class=slotDescription>
 Parses aSequence and returns an SGMLTag object.
+</div>
+<a name="SGMLParser-top"></a><b>top</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 </div>
 </div>
@@ -14977,16 +15455,13 @@ db close
 <a href="#SQLite-columnNamesOfTable">columnNamesOfTable()</a><br>
 <a href="#SQLite-debugOff">debugOff</a><br>
 <a href="#SQLite-debugOn">debugOn</a><br>
-<a href="#SQLite-delete">delete</a><br>
 <a href="#SQLite-error">error</a><br>
 <a href="#SQLite-escapeString">escapeString()</a><br>
 <a href="#SQLite-exec">exec()</a><br>
-<a href="#SQLite-exists">exists</a><br>
 <a href="#SQLite-isOpen">isOpen</a><br>
 <a href="#SQLite-lastInsertRowId">lastInsertRowId</a><br>
 <a href="#SQLite-open">open()</a><br>
 <a href="#SQLite-path">path</a><br>
-<a href="#SQLite-rowsChangedCount">rowsChangedCount</a><br>
 <a href="#SQLite-setPath">setPath()</a><br>
 <a href="#SQLite-setTimeoutSeconds">setTimeoutSeconds()</a><br>
 <a href="#SQLite-tableNames">tableNames</a><br>
@@ -15020,10 +15495,6 @@ Turns off debugging.
 <div class=slotDescription>
 Turns on debugging.
 </div>
-<a name="SQLite-delete"></a><b>delete</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="SQLite-error"></a><b>error</b><p>
 <div class=slotDescription>
 Results a string containing the current error. 
@@ -15043,10 +15514,6 @@ Opens the database if it is not already open and executes
 	The key/value pairs of the maps being column name/column value
 	pairs for a row. ")
 </div>
-<a name="SQLite-exists"></a><b>exists</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="SQLite-isOpen"></a><b>isOpen</b><p>
 <div class=slotDescription>
 Returns true if the database is open, false otherwise.
@@ -15064,10 +15531,6 @@ Opens the database.Returns self on success or nil upon failure.
 <a name="SQLite-path"></a><b>path</b><p>
 <div class=slotDescription>
 Returns the path to the database file.
-</div>
-<a name="SQLite-rowsChangedCount"></a><b>rowsChangedCount</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="SQLite-setPath"></a><b>setPath(aSeq)</b><p>
 <div class=slotDescription>
@@ -15140,16 +15603,13 @@ db close
 <a href="#SQLite3-columnNamesOfTable">columnNamesOfTable()</a><br>
 <a href="#SQLite3-debugOff">debugOff</a><br>
 <a href="#SQLite3-debugOn">debugOn</a><br>
-<a href="#SQLite3-delete">delete</a><br>
 <a href="#SQLite3-error">error</a><br>
 <a href="#SQLite3-escapeString">escapeString()</a><br>
 <a href="#SQLite3-exec">exec()</a><br>
-<a href="#SQLite3-exists">exists</a><br>
 <a href="#SQLite3-isOpen">isOpen</a><br>
 <a href="#SQLite3-lastInsertRowId">lastInsertRowId</a><br>
 <a href="#SQLite3-open">open()</a><br>
 <a href="#SQLite3-path">path</a><br>
-<a href="#SQLite3-rowsChangedCount">rowsChangedCount</a><br>
 <a href="#SQLite3-setPath">setPath</a><br>
 <a href="#SQLite3-setTimeoutSeconds">setTimeoutSeconds()</a><br>
 <a href="#SQLite3-tableNames">tableNames</a><br>
@@ -15181,10 +15641,6 @@ Turns off debugging.
 <div class=slotDescription>
 Turns on debugging.
 </div>
-<a name="SQLite3-delete"></a><b>delete</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="SQLite3-error"></a><b>error</b><p>
 <div class=slotDescription>
 Results a string containing the current error. If there is no error, Nil is returned.
@@ -15202,10 +15658,6 @@ Opens the database if it is not already open and executes
 	there was an error. Each map holds the contents of a row.
 	The key/value pairs of the maps being column name/column value
 	pairs for a row.
-</div>
-<a name="SQLite3-exists"></a><b>exists</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="SQLite3-isOpen"></a><b>isOpen</b><p>
 <div class=slotDescription>
@@ -15228,10 +15680,6 @@ Opens the database. If there is an optionalPathString argument,
 <a name="SQLite3-path"></a><b>path</b><p>
 <div class=slotDescription>
 Returns the path to the database file.
-</div>
-<a name="SQLite3-rowsChangedCount"></a><b>rowsChangedCount</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="SQLite3-setPath"></a><b>setPath</b><p>
 <div class=slotDescription>
@@ -15577,7 +16025,6 @@ Terminology
 <a href="#Sequence-asOSPath">asOSPath</a><br>
 <a href="#Sequence-asRegex">asRegex</a><br>
 <a href="#Sequence-asSGML">asSGML</a><br>
-<a href="#Sequence-asSerialization">asSerialization</a><br>
 <a href="#Sequence-asSimpleString">asSimpleString</a><br>
 <a href="#Sequence-asString">asString</a><br>
 <a href="#Sequence-asStruct">asStruct()</a><br>
@@ -15649,7 +16096,6 @@ Terminology
 <a href="#Sequence-floor">floor</a><br>
 <a href="#Sequence-foreach">foreach()</a><br>
 <a href="#Sequence-fromBase">fromBase()</a><br>
-<a href="#Sequence-fromSerialization">fromSerialization</a><br>
 <a href="#Sequence-glClearColor">glClearColor</a><br>
 <a href="#Sequence-glColor">glColor</a><br>
 <a href="#Sequence-glNormal">glNormal</a><br>
@@ -15776,10 +16222,13 @@ Terminology
 <a href="#Sequence-translate">translate()</a><br>
 <a href="#Sequence-unescape">unescape</a><br>
 <a href="#Sequence-uppercase">uppercase</a><br>
+<a href="#Sequence-validEncodings">validEncodings</a><br>
+<a href="#Sequence-validItemTypes">validItemTypes</a><br>
 <a href="#Sequence-whiteSpaceStrings">whiteSpaceStrings</a><br>
 <a href="#Sequence-width">width</a><br>
 <a href="#Sequence-with">with()</a><br>
 <a href="#Sequence-withStruct">withStruct()</a><br>
+<a href="#Sequence-writeToStream">writeToStream</a><br>
 <a href="#Sequence-x">x</a><br>
 <a href="#Sequence-y">y</a><br>
 <a href="#Sequence-z">z</a><br>
@@ -16020,10 +16469,6 @@ Returns a new Regex created from the receiver.
 <a name="Sequence-asSGML"></a><b>asSGML</b><p>
 <div class=slotDescription>
 SGML extension to interpret the Sequence as SGML and return an SGML object using SGMLParser elementForString
-</div>
-<a name="Sequence-asSerialization"></a><b>asSerialization</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="Sequence-asSimpleString"></a><b>asSimpleString</b><p>
 <div class=slotDescription>
@@ -16372,10 +16817,6 @@ aSequence foreach(v, writeln("value ", v))
 <div class=slotDescription>
 Returns a number with a base 10 representation of the receiver
 	converted from the specified base. Only base 2 through 32 are currently supported.
-</div>
-<a name="Sequence-fromSerialization"></a><b>fromSerialization</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="Sequence-glClearColor"></a><b>glClearColor</b><p>
 <div class=slotDescription>
@@ -16963,6 +17404,14 @@ Escape codes replaced with escape characters. Returns self.
 <div class=slotDescription>
 Makes all characters of the receiver uppercase.
 </div>
+<a name="Sequence-validEncodings"></a><b>validEncodings</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Sequence-validItemTypes"></a><b>validItemTypes</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="Sequence-whiteSpaceStrings"></a><b>whiteSpaceStrings</b><p>
 <div class=slotDescription>
 Returns a List of strings. Each string contains a different
@@ -16995,6 +17444,10 @@ Example:
 pointStructSeq := Sequence withStruct(list("float32", 1.2, "float32", 3.5))
 </pre>
 The output pointStructSeq would contain 2 raw 32 bit floats.
+</div>
+<a name="Sequence-writeToStream"></a><b>writeToStream</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 <a name="Sequence-x"></a><b>x</b><p>
 <div class=slotDescription>
@@ -18135,119 +18588,14 @@ Returns a version number for Io.
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#SystemCall-arguments">arguments</a><br>
 <a href="#SystemCall-asyncRun">asyncRun()</a><br>
-<a href="#SystemCall-close">close</a><br>
-<a href="#SystemCall-command">command</a><br>
-<a href="#SystemCall-environment">environment</a><br>
-<a href="#SystemCall-isRunning">isRunning</a><br>
-<a href="#SystemCall-returnCode">returnCode</a><br>
-<a href="#SystemCall-run">run</a><br>
-<a href="#SystemCall-runWith">runWith</a><br>
-<a href="#SystemCall-setArguments">setArguments</a><br>
-<a href="#SystemCall-setCommand">setCommand</a><br>
-<a href="#SystemCall-setEnvironment">setEnvironment</a><br>
-<a href="#SystemCall-setIsRunning">setIsRunning</a><br>
-<a href="#SystemCall-setReturnCode">setReturnCode</a><br>
-<a href="#SystemCall-setStderr">setStderr</a><br>
-<a href="#SystemCall-setStdin">setStdin</a><br>
-<a href="#SystemCall-setStdout">setStdout</a><br>
-<a href="#SystemCall-status">status</a><br>
-<a href="#SystemCall-stderr">stderr</a><br>
-<a href="#SystemCall-stdin">stdin</a><br>
-<a href="#SystemCall-stdout">stdout</a><br>
-<a href="#SystemCall-with">with</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
-<a name="SystemCall-arguments"></a><b>arguments</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="SystemCall-asyncRun"></a><b>asyncRun(command, argList, envMap)</b><p>
 <div class=slotDescription>
 Run the system call.")
-</div>
-<a name="SystemCall-close"></a><b>close</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-command"></a><b>command</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-environment"></a><b>environment</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-isRunning"></a><b>isRunning</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-returnCode"></a><b>returnCode</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-run"></a><b>run</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-runWith"></a><b>runWith</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-setArguments"></a><b>setArguments</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-setCommand"></a><b>setCommand</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-setEnvironment"></a><b>setEnvironment</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-setIsRunning"></a><b>setIsRunning</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-setReturnCode"></a><b>setReturnCode</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-setStderr"></a><b>setStderr</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-setStdin"></a><b>setStdin</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-setStdout"></a><b>setStdout</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-status"></a><b>status</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-stderr"></a><b>stderr</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-stdin"></a><b>stdin</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-stdout"></a><b>stdout</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SystemCall-with"></a><b>with</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 </div>
 </div>
@@ -18330,9 +18678,7 @@ Sets the path to the tag database. Returns self.
 <h3>Slot Index</h3>
 <div class=slotIndex>
 <a href="#TagLib-load">load</a><br>
-<a href="#TagLib-path">path</a><br>
 <a href="#TagLib-save">save</a><br>
-<a href="#TagLib-setPath">setPath</a><br>
 </div>
 <p>
 <h3>Slots</h3>
@@ -18341,17 +18687,9 @@ Sets the path to the tag database. Returns self.
 <div class=slotDescription>
 Loads tag data from the file specified in the path slot. Returns self.
 </div>
-<a name="TagLib-path"></a><b>path</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="TagLib-save"></a><b>save</b><p>
 <div class=slotDescription>
 Saves the tag settings and returns self.
-</div>
-<a name="TagLib-setPath"></a><b>setPath</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 </div>
 </div>
@@ -18427,20 +18765,10 @@ Thread createThread()
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#Thread-createThread">createThread</a><br>
-<a href="#Thread-threadCount">threadCount</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
-<a name="Thread-createThread"></a><b>createThread</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Thread-threadCount"></a><b>threadCount</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 </div>
 </div>
 <hr align=left>
@@ -18509,7 +18837,6 @@ An ordered key/value database that supports transactions and arbitrary kay and v
 <div class=slotIndex>
 <a href="#TokyoCabinet-abort">abort</a><br>
 <a href="#TokyoCabinet-at">at()</a><br>
-<a href="#TokyoCabinet-atAppend">atAppend</a><br>
 <a href="#TokyoCabinet-atApple">atApple()</a><br>
 <a href="#TokyoCabinet-atPut">atPut()</a><br>
 <a href="#TokyoCabinet-atRemove">atRemove()</a><br>
@@ -18522,7 +18849,6 @@ An ordered key/value database that supports transactions and arbitrary kay and v
 <a href="#TokyoCabinet-optimize">optimize</a><br>
 <a href="#TokyoCabinet-path">path</a><br>
 <a href="#TokyoCabinet-prefixCursor">prefixCursor</a><br>
-<a href="#TokyoCabinet-removeAt">removeAt</a><br>
 <a href="#TokyoCabinet-setCompareType">setCompareType()</a><br>
 <a href="#TokyoCabinet-setPath">setPath()</a><br>
 <a href="#TokyoCabinet-size">size</a><br>
@@ -18541,10 +18867,6 @@ Abort transaction. Returns self
 <a name="TokyoCabinet-at"></a><b>at(keySymbol)</b><p>
 <div class=slotDescription>
 Returns a Sequence for the value at the given key or nil if there is no such key.
-</div>
-<a name="TokyoCabinet-atAppend"></a><b>atAppend</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="TokyoCabinet-atApple"></a><b>atApple(keySymbol, valueSequence)</b><p>
 <div class=slotDescription>
@@ -18593,10 +18915,6 @@ Returns the path of the database file.
 <a name="TokyoCabinet-prefixCursor"></a><b>prefixCursor</b><p>
 <div class=slotDescription>
 Returns a new prefix cursor object.
-</div>
-<a name="TokyoCabinet-removeAt"></a><b>removeAt</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="TokyoCabinet-setCompareType"></a><b>setCompareType(name)</b><p>
 <div class=slotDescription>
@@ -18723,68 +19041,23 @@ A database cursor.
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
-<a href="#TokyoCabinetPrefixCursor-calcPathSize">calcPathSize</a><br>
-<a href="#TokyoCabinetPrefixCursor-calcSize">calcSize</a><br>
 <a href="#TokyoCabinetPrefixCursor-close">close</a><br>
-<a href="#TokyoCabinetPrefixCursor-copyFromCursor">copyFromCursor</a><br>
-<a href="#TokyoCabinetPrefixCursor-copyKeysFromCursor">copyKeysFromCursor</a><br>
-<a href="#TokyoCabinetPrefixCursor-db">db</a><br>
 <a href="#TokyoCabinetPrefixCursor-first">first</a><br>
 <a href="#TokyoCabinetPrefixCursor-jump">jump()</a><br>
 <a href="#TokyoCabinetPrefixCursor-key">key</a><br>
-<a href="#TokyoCabinetPrefixCursor-keyPath">keyPath</a><br>
 <a href="#TokyoCabinetPrefixCursor-last">last</a><br>
-<a href="#TokyoCabinetPrefixCursor-leaves">leaves</a><br>
 <a href="#TokyoCabinetPrefixCursor-next">next</a><br>
-<a href="#TokyoCabinetPrefixCursor-nextPath">nextPath</a><br>
-<a href="#TokyoCabinetPrefixCursor-pairsAfter">pairsAfter</a><br>
-<a href="#TokyoCabinetPrefixCursor-pathSize">pathSize</a><br>
-<a href="#TokyoCabinetPrefixCursor-prefix">prefix</a><br>
 <a href="#TokyoCabinetPrefixCursor-previous">previous</a><br>
 <a href="#TokyoCabinetPrefixCursor-put">put()</a><br>
 <a href="#TokyoCabinetPrefixCursor-remove">remove</a><br>
-<a href="#TokyoCabinetPrefixCursor-removeAfter">removeAfter</a><br>
-<a href="#TokyoCabinetPrefixCursor-removeAll">removeAll</a><br>
-<a href="#TokyoCabinetPrefixCursor-removeTo">removeTo</a><br>
-<a href="#TokyoCabinetPrefixCursor-setDb">setDb</a><br>
-<a href="#TokyoCabinetPrefixCursor-setPrefix">setPrefix</a><br>
-<a href="#TokyoCabinetPrefixCursor-setSize">setSize</a><br>
-<a href="#TokyoCabinetPrefixCursor-size">size</a><br>
-<a href="#TokyoCabinetPrefixCursor-sizePath">sizePath</a><br>
-<a href="#TokyoCabinetPrefixCursor-subpathCursors">subpathCursors</a><br>
-<a href="#TokyoCabinetPrefixCursor-subpathSizePairs">subpathSizePairs</a><br>
-<a href="#TokyoCabinetPrefixCursor-subpaths">subpaths</a><br>
-<a href="#TokyoCabinetPrefixCursor-transactionalRemoveAfter">transactionalRemoveAfter</a><br>
-<a href="#TokyoCabinetPrefixCursor-transactionalRemoveAll">transactionalRemoveAll</a><br>
-<a href="#TokyoCabinetPrefixCursor-transactionalRemoveTo">transactionalRemoveTo</a><br>
 <a href="#TokyoCabinetPrefixCursor-value">value</a><br>
 </div>
 <p>
 <h3>Slots</h3>
 <p>
-<a name="TokyoCabinetPrefixCursor-calcPathSize"></a><b>calcPathSize</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetPrefixCursor-calcSize"></a><b>calcSize</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="TokyoCabinetPrefixCursor-close"></a><b>close</b><p>
 <div class=slotDescription>
 Closes the database.
-</div>
-<a name="TokyoCabinetPrefixCursor-copyFromCursor"></a><b>copyFromCursor</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetPrefixCursor-copyKeysFromCursor"></a><b>copyKeysFromCursor</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetPrefixCursor-db"></a><b>db</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="TokyoCabinetPrefixCursor-first"></a><b>first</b><p>
 <div class=slotDescription>
@@ -18798,38 +19071,14 @@ Move cursor to record before key. Returns self
 <div class=slotDescription>
 Returns current cursor key or nil.
 </div>
-<a name="TokyoCabinetPrefixCursor-keyPath"></a><b>keyPath</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
 <a name="TokyoCabinetPrefixCursor-last"></a><b>last</b><p>
 <div class=slotDescription>
 Move cursor to last record. Returns self
-</div>
-<a name="TokyoCabinetPrefixCursor-leaves"></a><b>leaves</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="TokyoCabinetPrefixCursor-next"></a><b>next</b><p>
 <div class=slotDescription>
 Move cursor to next record. Returns true if there is another key, 
 	or false if there is no next record.
-</div>
-<a name="TokyoCabinetPrefixCursor-nextPath"></a><b>nextPath</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetPrefixCursor-pairsAfter"></a><b>pairsAfter</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetPrefixCursor-pathSize"></a><b>pathSize</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetPrefixCursor-prefix"></a><b>prefix</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="TokyoCabinetPrefixCursor-previous"></a><b>previous</b><p>
 <div class=slotDescription>
@@ -18843,62 +19092,6 @@ Sets the value at the current cursor postion. Returns self.
 <a name="TokyoCabinetPrefixCursor-remove"></a><b>remove</b><p>
 <div class=slotDescription>
 Removes the current cursor postion. Returns self.
-</div>
-<a name="TokyoCabinetPrefixCursor-removeAfter"></a><b>removeAfter</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetPrefixCursor-removeAll"></a><b>removeAll</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetPrefixCursor-removeTo"></a><b>removeTo</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetPrefixCursor-setDb"></a><b>setDb</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetPrefixCursor-setPrefix"></a><b>setPrefix</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetPrefixCursor-setSize"></a><b>setSize</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetPrefixCursor-size"></a><b>size</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetPrefixCursor-sizePath"></a><b>sizePath</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetPrefixCursor-subpathCursors"></a><b>subpathCursors</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetPrefixCursor-subpathSizePairs"></a><b>subpathSizePairs</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetPrefixCursor-subpaths"></a><b>subpaths</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetPrefixCursor-transactionalRemoveAfter"></a><b>transactionalRemoveAfter</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetPrefixCursor-transactionalRemoveAll"></a><b>transactionalRemoveAll</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetPrefixCursor-transactionalRemoveTo"></a><b>transactionalRemoveTo</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="TokyoCabinetPrefixCursor-value"></a><b>value</b><p>
 <div class=slotDescription>
@@ -18919,18 +19112,28 @@ Returns current cursor value or nil.
 <div class=slots>
 <h3>Slot Index</h3>
 <div class=slotIndex>
+<a href="#URL-cacheFile">cacheFile</a><br>
+<a href="#URL-cacheFolder">cacheFolder</a><br>
+<a href="#URL-cacheLoad">cacheLoad</a><br>
+<a href="#URL-cacheOn">cacheOn</a><br>
+<a href="#URL-cacheStore">cacheStore</a><br>
+<a href="#URL-cacheTimeout">cacheTimeout</a><br>
 <a href="#URL-childUrl">childUrl</a><br>
 <a href="#URL-clear">clear</a><br>
 <a href="#URL-connectAndWriteHeader">connectAndWriteHeader</a><br>
 <a href="#URL-domain">domain</a><br>
 <a href="#URL-escapeCodes">escapeCodes</a><br>
 <a href="#URL-escapeString">escapeString()</a><br>
+<a href="#URL-evFetch">evFetch</a><br>
 <a href="#URL-fetch">fetch</a><br>
+<a href="#URL-fetchAndFollowRedirect">fetchAndFollowRedirect</a><br>
 <a href="#URL-fetchHttp">fetchHttp()</a><br>
+<a href="#URL-fetchOrFailToFilePath">fetchOrFailToFilePath</a><br>
 <a href="#URL-fetchRaw">fetchRaw</a><br>
 <a href="#URL-fetchToFile">fetchToFile()</a><br>
 <a href="#URL-fetchWithDelegate">fetchWithDelegate</a><br>
 <a href="#URL-fetchWithProgress">fetchWithProgress()</a><br>
+<a href="#URL-followRedirects">followRedirects</a><br>
 <a href="#URL-fourCharheaderBreaks">fourCharheaderBreaks</a><br>
 <a href="#URL-headerBreaks">headerBreaks</a><br>
 <a href="#URL-host">host</a><br>
@@ -18943,17 +19146,20 @@ Returns current cursor value or nil.
 <a href="#URL-referer">referer</a><br>
 <a href="#URL-requestHeader">requestHeader</a><br>
 <a href="#URL-requestHeaders">requestHeaders</a><br>
+<a href="#URL-setCacheOn">setCacheOn</a><br>
 <a href="#URL-setHost">setHost</a><br>
 <a href="#URL-setProtocol">setProtocol</a><br>
 <a href="#URL-setReadHeader">setReadHeader()</a><br>
 <a href="#URL-setReferer">setReferer()</a><br>
 <a href="#URL-setRequest">setRequest()</a><br>
 <a href="#URL-setSocketProto">setSocketProto</a><br>
+<a href="#URL-setStatusCode">setStatusCode</a><br>
 <a href="#URL-setStreamDestination">setStreamDestination</a><br>
 <a href="#URL-setTimeout">setTimeout</a><br>
 <a href="#URL-setURL">setURL()</a><br>
 <a href="#URL-socketProto">socketProto</a><br>
 <a href="#URL-startStreaming">startStreaming</a><br>
+<a href="#URL-statusCode">statusCode</a><br>
 <a href="#URL-stopFetch">stopFetch</a><br>
 <a href="#URL-streamDestination">streamDestination</a><br>
 <a href="#URL-test">test</a><br>
@@ -18966,6 +19172,30 @@ Returns current cursor value or nil.
 <p>
 <h3>Slots</h3>
 <p>
+<a name="URL-cacheFile"></a><b>cacheFile</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-cacheFolder"></a><b>cacheFolder</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-cacheLoad"></a><b>cacheLoad</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-cacheOn"></a><b>cacheOn</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-cacheStore"></a><b>cacheStore</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-cacheTimeout"></a><b>cacheTimeout</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="URL-childUrl"></a><b>childUrl</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
@@ -18992,15 +19222,27 @@ Returns a Map whose key/value pairs are special characters and their URL escape 
 <div class=slotDescription>
 Returns a new String that is aString with the appropriate characters replaced by their URL escape codes.
 </div>
+<a name="URL-evFetch"></a><b>evFetch</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="URL-fetch"></a><b>fetch</b><p>
 <div class=slotDescription>
 Fetches the url and returns the result as a Sequence. Returns an Error, if one occurs.
+</div>
+<a name="URL-fetchAndFollowRedirect"></a><b>fetchAndFollowRedirect</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 <font color=#888>
 <a name="URL-fetchHttp"></a><b>fetchHttp(optionalProgressBlock)</b><p>
 <div class=slotDescription>
 Private method that fetches an http url.
 </font>
+</div>
+<a name="URL-fetchOrFailToFilePath"></a><b>fetchOrFailToFilePath</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 <a name="URL-fetchRaw"></a><b>fetchRaw</b><p>
 <div class=slotDescription>
@@ -19020,6 +19262,10 @@ Fetch the url and save the result to the specified File object.
 <div class=slotDescription>
 Same as fetch, but with each read, progressBlock is called with the readBuffer 
 	and the content size as parameters.
+</div>
+<a name="URL-followRedirects"></a><b>followRedirects</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
 </div>
 <a name="URL-fourCharheaderBreaks"></a><b>fourCharheaderBreaks</b><p>
 <div class=slotDescription>
@@ -19078,6 +19324,10 @@ Returns a Sequence containing the request header that will be sent.
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
+<a name="URL-setCacheOn"></a><b>setCacheOn</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="URL-setHost"></a><b>setHost</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
@@ -19106,6 +19356,10 @@ Private method to set the url request.
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
+<a name="URL-setStatusCode"></a><b>setStatusCode</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
 <a name="URL-setStreamDestination"></a><b>setStreamDestination</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
@@ -19123,6 +19377,10 @@ Sets the url string and parses into the protocol, host, port path, and query slo
 <div class=error>undocumented</div>
 </div>
 <a name="URL-startStreaming"></a><b>startStreaming</b><p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-statusCode"></a><b>statusCode</b><p>
 <div class=slotDescription>
 <div class=error>undocumented</div>
 </div>
@@ -19814,7 +20072,6 @@ Returns nil without evaluating expression.
 <a href="#true-justSerialized">justSerialized()</a><br>
 <a href="#true-not">not</a><br>
 <a href="#true-or">or</a><br>
-<a href="#true-ppid">ppid</a><br>
 <a href="#true-then">then</a><br>
 </div>
 <p>
@@ -19863,10 +20120,6 @@ Does not eval argument and returns false.
 <a name="true-or"></a><b>or</b><p>
 <div class=slotDescription>
 Does not eval argument and returns true.
-</div>
-<a name="true-ppid"></a><b>ppid</b><p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
 </div>
 <a name="true-then"></a><b>then</b><p>
 <div class=slotDescription>
