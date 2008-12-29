@@ -3,7 +3,7 @@ TracksView := View clone do(
     protoName := "TracksView"
 
     tracks := method(subviews)
-    newSlot("delegate", nil)
+    delegate ::= nil
     soloTracks := 0
     
     addTrack := method(track,
@@ -61,7 +61,7 @@ TracksView := View clone do(
 
     /* --- Song -------------------------------- */
 
-    newSlot("path", Path with(System launchPath, "Songs/Default.songjam"))
+    path ::= Path with(System launchPath, "Songs/Default.songjam")
     
     open := method(p, 
 	if (p, setPath(p))

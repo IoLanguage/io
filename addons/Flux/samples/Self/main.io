@@ -18,7 +18,7 @@ app := Application clone do(
 )
 
 CloseButton := View clone do(
-    newSlot("target", nil)
+    target ::= nil
     size set(20, 20)
     
     draw := method(
@@ -40,9 +40,9 @@ CloseButton := View clone do(
 Lobby type := "Lobby"
 
 ObjectView := View clone do(
-    newSlot("title", "Lobby")
-    newSlot("next", nil)
-    newSlot("previous", nil)
+    title ::= "Lobby"
+    next ::= nil
+    previous ::= nil
     
     setTarget := method(t, 
         writeln("OV setTarget")

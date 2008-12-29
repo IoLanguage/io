@@ -1,14 +1,14 @@
 
 
 SystemCall do(
-	newSlot("command", "")
-	newSlot("isRunning", false)
-	newSlot("returnCode", nil)
-	newSlot("stdin", nil)
-	newSlot("stdout", nil)
-	newSlot("stderr", nil)
-	newSlot("arguments", nil)
-	newSlot("environment", Map clone)
+	command ::= ""
+	isRunning ::= false
+	returnCode ::= nil
+	stdin ::= nil
+	stdout ::= nil
+	stderr ::= nil
+	arguments ::= nil
+	environment ::= Map clone
 
 	init := method(
 		self arguments := List clone

@@ -50,7 +50,7 @@ SecureSocket do(
 		self readBuffer  := Sequence clone
 		self writeBuffer := Sequence clone
 		self readEvent   := self
-		self newSlot("coro", nil)
+		coro ::= nil
 		self waitOn := method(
 			if(rbioReady, debugWriteln("bio already ready"); return true)
 			debugWriteln("fauxread")

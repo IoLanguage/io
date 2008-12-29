@@ -34,10 +34,10 @@ IoGoogleFeed := Feed clone do(
 
 IRCClient := Object clone do(
     socket := Socket clone
-    newSlot("nickName", "ioalertbot")
-    newSlot("userName", nickName)
-    newSlot("userEmail", nickName .. "@foo.com")
-    newSlot("channel", "io")
+    nickName ::= "ioalertbot"
+    userName ::= nickName
+    userEmail ::= nickName .. "@foo.com"
+    channel ::= "io"
     feeds := list(IoMailingListFeed)
 
     login := method(

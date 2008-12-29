@@ -7,9 +7,9 @@ AudioMixer := Object clone do(
 		self mixed := Sequence clone
 	)
 	
-	newSlot("streamDestination", AudioDevice)
-	newSlot("processedSamples", 0)
-	newSlot("isRunning", false)
+	streamDestination ::= AudioDevice
+	processedSamples ::= 0
+	isRunning ::= false
 	
 	addSource    := method(s, sources append(s))
 	removeSource := method(s, sources remove(s))

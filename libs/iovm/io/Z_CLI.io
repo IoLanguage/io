@@ -1,14 +1,14 @@
 CLI := Object clone do(
-	newSlot("prompt", "Io> ")
-	newSlot("outPrompt", "==> ")
-	newSlot("continuedLinePrompt", "    ")
+	prompt ::= "Io> "
+	outPrompt ::= "==> "
+	continuedLinePrompt ::= "    "
 
-	newSlot("context", method(Lobby))
-	newSlot("isRunning", true)
+	context ::= method(Lobby)
+	isRunning ::= true
 
-	newSlot("commandLineLabel", "Command Line")
+	commandLineLabel ::= "Command Line"
 
-	newSlot("lineReader" , nil)
+	lineReader ::= nil
 
 	stop := method(setIsRunning(false))
 

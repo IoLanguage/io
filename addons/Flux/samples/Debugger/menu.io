@@ -12,7 +12,7 @@ form := CGI parse
 
 Page := Object clone do(
     type := "Page"
-    newSlot("folder", Directory clone)
+    folder ::= Directory clone
 
     init := method(
 	resend

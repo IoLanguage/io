@@ -2,6 +2,28 @@
 Vector := Sequence clone setItemType("float32") setEncoding("number")
 vector := method(v := Vector clone; call evalArgs foreach(n, v append(n)); v)
 
+
+/*
+Object moveSlotToObject := method(slotName, target,
+	v := self getSlot(slotName)
+	self removeSlot(slotName)
+	target setSlot(slotName, getSlot("v"))
+	writeln(self type, " removeSlot(\"", slotName, "\")")
+)
+
+
+list("*", "*=", "+", "+=", "-", "-=", "..", "/", "/=", "<", 
+"<=", ">", ">=", "Max", "Min", "abs", "acos", "addEquals", "asin", 
+"bitAt", "bitCount", "bitwiseAnd", "bitwiseNot", "bitwiseOr", "bitwiseXor", "byteAt", "ceil", 
+"cos", "cosh", "distanceTo", "dotProduct", "duplicateIndexes", "isZero", 
+"log", "log10", "logicalOr", "max", "mean", "meanSquare", "min", "negate", "normalize",  
+"product", "rangeFill", "removeEvenIndexes", "removeOddIndexes", "rootMeanSquare", 
+"setX", "setY", "setZ", "sin", "sinh", "sort", "sqrt", "square", "sum", 
+"tan", "tanh", "toBase", "translate", "x", "y", "z", "zero") foreach(slotName, Sequence moveSlotToObject(slotName, Vector))
+
+Sequence appendProto(Vector)
+*/
+
 Lobby Protos Core do(
 	ImmutableSequence := ""
 	String := ImmutableSequence

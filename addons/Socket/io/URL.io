@@ -448,12 +448,9 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		)
 
 		if(parameters type == "Map") then(
-			buffer := Sequence clone
-			parameters keys foreach(i, j,
-			buffer appendSeq(escapeString(j), "=", escapeString(parameters at(j)))
-			if(i < parameters size - 1, buffer appendSeq("&"))
-			)
-			content := buffer asString
+			content := parameters keys map(k,
+				Sequence with(escapeString(k), "=", escapeString(parameters at(k)))
+			) join("&")
 		) else(
 			content := parameters
 		)

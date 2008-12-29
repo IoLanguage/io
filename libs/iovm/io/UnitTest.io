@@ -110,7 +110,7 @@ TestSuite := Object clone do(
 		path asMutable pathComponent lastPathComponent
 	)
 
-	newSlot("path", ".")
+	path ::= "."
 
 /*doc TestSuite run
 Collects and all files named *Test.io within the System launchPath directory,

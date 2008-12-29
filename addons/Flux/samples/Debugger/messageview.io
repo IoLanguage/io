@@ -148,7 +148,7 @@ MessageView := View clone do(
   size set(Screen width, Screen height)
   resizeWithSuperview
 
-  newSlot("textColor", Point clone set(0,0,0,1))
+  textColor ::= Point clone set(0,0,0,1)
 
   cursorImage := Image clone open("cursor.tif")
 

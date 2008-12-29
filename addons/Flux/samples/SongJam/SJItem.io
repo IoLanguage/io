@@ -1,6 +1,6 @@
 
 SJItem := Object clone do(
-  newSlot("path", "/")
+  path ::= "/"
 
   init := method(
     self items := nil

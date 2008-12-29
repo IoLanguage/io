@@ -2,7 +2,7 @@
 ColumnView := VScrollArea clone do(
 	textures := TextureGroup clone loadGroupNamed("ColumnView")
 	selectedItem := nil
-	newSlot("delegate", nil)
+	delegate ::= nil
 		
 	init := method(
 		resend

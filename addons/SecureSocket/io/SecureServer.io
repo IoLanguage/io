@@ -4,8 +4,8 @@ SecureServer do(
     debugOn := method(self debugWriteln := getSlot("writeln"))
 	//debugOn
 
-	newSlot("coro", nil)
-	newSlot("dispatchCoro", nil)
+	coro ::= nil
+	dispatchCoro ::= nil
 	
 	rawUseTLS := getSlot("useTLS")
 	rawUseDTLS := getSlot("useDTLS")

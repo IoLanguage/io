@@ -10,7 +10,7 @@ Lobby exit := method(Curses end; System exit)
 Inspector := Object clone do(
 	_object := Lobby
 	offset := 0
-	newSlot("selectedSlotName", "")
+	selectedSlotName ::= ""
 	objectStack := List clone
 	
 	objectSlotNames := method(object slotNames sort)

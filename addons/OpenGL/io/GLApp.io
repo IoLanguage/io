@@ -15,8 +15,8 @@ Font drawOffsetString := method(text, offset,
 GLApp := Object clone do(
 	//metadoc GLApp category Graphics
 	appendProto(OpenGL)
-	newSlot("width", 1024)
-	newSlot("height", 768)
+	width ::= 1024
+	height ::= 768
 
 	didReshape := nil
 
@@ -68,7 +68,7 @@ GLApp := Object clone do(
 
 	timer := method(nil)
 
-	newSlot("appName", "io")
+	appName ::= "io"
 
 	didToggleFullScreen := nil
 

@@ -13,7 +13,7 @@ CursesView := Object clone do(
 		size = size clone
     )
     
-    newSlot("superview", nil)
+    superview ::= nil
     redisplay := method(superview ?redisplay)
     
     draw := method(
@@ -79,8 +79,8 @@ CursesScreen := Object clone do(
 		//size = size + 1
     )
     
-    newSlot("firstResponder", nil)
-    newSlot("needsDisplay", 1)
+    firstResponder ::= nil
+    needsDisplay ::= 1
     redisplay := method(needsDisplay = 1)
     
     debugMessage := ""
@@ -112,10 +112,10 @@ CursesScreen := Object clone do(
 // ----------------------------------------
 
 CursesItem := Object clone do(
-    newSlot("object", nil)
+    object ::= nil
     setObject := method(v, object = getSlot("v"); self)
-    newSlot("title", "")
-    newSlot("isSelected", nil)
+    title ::= ""
+    isSelected ::= nil
     
     subitems := method(
 		items := List clone
@@ -138,8 +138,8 @@ CursesItem := Object clone do(
 )
 
 CursesColumn := CursesView clone do(
-	newSlot("delegate", nil)
-	newSlot("selectedIndex", 0)
+	delegate ::= nil
+	selectedIndex ::= 0
 	size setWidth(30)
 	draw := method(
 		w := size width

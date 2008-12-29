@@ -125,12 +125,12 @@ contactgroup := world JointGroup clone
 
 # Glut events object
 Screen := Object clone do(
-	newSlot("width", 640)
-	newSlot("height", 480)
+	width ::= 640
+	height ::= 480
 
-	newSlot("state", 0)
-	newSlot("counter", 0)
-	newSlot("objCount", 0)
+	state ::= 0
+	counter ::= 0
+	objCount ::= 0
 	
 	reshape := method( w, h,
 		setWidth(w) setHeight(h)
