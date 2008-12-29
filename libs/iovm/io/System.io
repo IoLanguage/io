@@ -64,6 +64,6 @@ System do(
 			writeln("  coroutine ", coro label)
 			coro showStack
 		)
-		self
+		self exit
 	)
 )
