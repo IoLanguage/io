@@ -122,7 +122,8 @@ writeln("""<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 """)
 
 writeln("<h1>The Io Reference Manual</h1>")
-writeln("<div class=Version>Version " .. System version asString asMutable atInsertSeq(4, " ") atInsertSeq(7, " ") .. "</div>")
+	writeln("<div class=Version>version " .. System version asString asMutable atInsertSeq(4, " ") atInsertSeq(7, " "))
+	writeln(" generated on " .. Date clone now asString("%Y %m %d") .. "</div>")
 writeln("<p><br>")
 //writeln("<h2>Modules</h2>")
 
