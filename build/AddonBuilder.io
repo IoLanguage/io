@@ -142,8 +142,8 @@ AddonBuilder := Object clone do(
 		if(path != nil, dependsOnFramework(v) ; appendHeaderSearchPath(path .. "/" .. v .. ".framework/Headers"), dependsOnLib(w))
 	)
 
-	optionallyDependsOnLib       := method(v, if(pathForLib(v) != nil, dependsOnLib(v)))
-	optionallyDependsOnFramework := method(v, if(pathForFramework(v) != nil, dependsOnFramework(v)))
+	optionallyDependsOnLib       := method(v, a := pathForLib(v) != nil; if(a, dependsOnLib(v)); a)
+	optionallyDependsOnFramework := method(v, a := pathForFramework(v) != nil; if(a, dependsOnFramework(v)); a)
 
 	missingFrameworks := method(
 		depends frameworks select(p,
