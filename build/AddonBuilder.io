@@ -145,41 +145,38 @@ AddonBuilder := Object clone do(
 	optionallyDependsOnLib       := method(v, a := pathForLib(v) != nil; if(a, dependsOnLib(v)); a)
 	optionallyDependsOnFramework := method(v, a := pathForFramework(v) != nil; if(a, dependsOnFramework(v)); a)
 
-	missingFrameworks := method(
+	missingFrameworks := method(errors,
 		depends frameworks select(p,
 			if(pathForFramework(p) == nil,
-				error := (self name .. " is missing " .. p .. " framework\n") print
-				File clone openForAppending("errors") write(error) close
+				errors addError(self name .. " is missing " .. p .. " framework\n")
 				self isAvailable := false
 				true
 			)
 		)
 	)
 
-	missingHeaders := method(
+	missingHeaders := method(errors,
 		depends headers select(p,
 			if(pathForHeader(p) == nil,
-				error := (self name .. " is missing " .. p .. " header\n") print
-				File clone openForAppending("errors") write(error) close
+				errors addError(self name .. " is missing " .. p .. " header\n")
 				self isAvailable := false
 				true
 			)
 		)
 	)
 
-	missingLibs := method(
+	missingLibs := method(errors,
 		depends libs select(p,
 			//writeln("pathForLib(", p, ") = ", pathForLib(p))
 			if(pathForLib(p) == nil,
-				error := (self name .. " is missing " .. p .. " library\n") print
-				File clone openForAppending("errors") write(error) close
+				errors addError(self name .. " is missing " .. p .. " library\n")
 				self isAvailable := false
 				true
 			)
 		)
 	)
 
-	hasDepends := method(missingFrameworks size == 0 and missingLibs size == 0 and missingHeaders size == 0)
+	hasDepends := method(errors, missingFrameworks(errors) size == 0 and missingLibs(errors) size == 0 and missingHeaders(errors) size == 0)
 
 	installCommands := method(
 		commands := Map clone
