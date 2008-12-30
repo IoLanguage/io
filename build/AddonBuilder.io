@@ -79,6 +79,8 @@ AddonBuilder := Object clone do(
 			linkOptions := List clone
 			addons := List clone
 		)
+		
+		self defines := List clone
 	)
 
 	mkdir := method(relativePath,
@@ -121,6 +123,7 @@ AddonBuilder := Object clone do(
 		path
 	)
 
+	addDefine := method(v, defines appendIfAbsent(v))
 	dependsOnBinding := method(v, depends addons appendIfAbsent(v))
 	dependsOnHeader := method(v, depends headers appendIfAbsent(v))
 	dependsOnLib := method(v,
@@ -250,7 +253,7 @@ AddonBuilder := Object clone do(
 
 		generateInitFile
 
-		options := options ifNilEval("") .. cflags
+		options := options ifNilEval("") .. cflags .. " " .. defines map(d, "-D" .. d) join(" ")
 		cFiles foreach(f,
 			obj := f name replaceSeq(".cpp", ".o") replaceSeq(".c", ".o") replaceSeq(".m", ".o")
 			objFile := objsFolder fileNamedOrNil(obj)

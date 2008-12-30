@@ -32,7 +32,7 @@ AddonBuilder clone do(
 
 	dependsOnBinding("Box")
 	dependsOnBinding("Image")
-	dependsOnInclude("-DGLEXPORT")
+	addDefine("GLEXPORT")
 
 	debs    atPut("GL", "libgl1-mesa-dev")
 	ebuilds atPut("GL", "mesa")

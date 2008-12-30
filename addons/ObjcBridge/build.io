@@ -12,7 +12,7 @@ AddonBuilder clone do(
 		dependsOnInclude("-fconstant-string-class=NSConstantString")
 		optionallyDependsOnLib("Addresses")
 		dependsOnHeader("AppKit/AppKit.h")
-		dependsOnInclude("-DGNUSTEP")
+		addDefine("GNUSTEP")
 		dependsOnLib("gnustep-gui")
 	)
 
