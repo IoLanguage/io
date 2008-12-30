@@ -8,7 +8,12 @@
 #include "IoSeq.h"
 #include "IoList.h"
 
+#if defined USE_MINILZO
 #include "minilzo.h"
+#elif defined USE_LIBLZO
+#include <lzo/lzo1x.h>
+#endif
+
 #include <ctype.h>
 
 #define ISZLOENCODER(self) IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoLZOEncoder_rawClone)
