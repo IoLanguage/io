@@ -107,20 +107,26 @@ NumberTest := UnitTest clone do(
 	)
 
 	testAsHex := method(
+		assertEquals("0f", 0xf asHex)
 		assertEquals("ff", 0xff asHex)
-		assertEquals("0", 0x00 asHex)
+		assertEquals("00", 0x00 asHex)
+		assertEquals("0100", 0x100 asHex)
 		assertEquals("ffef", 0xffef asHex)
 	)
 
 	testAsBinary := method(
-		assertEquals("101010", 42 asBinary)
+		assertEquals("00101010", 42 asBinary)
+		assertEquals("0000000100000000", 256 asBinary)
 	)
 
 	testAsOctal := method(
+		assertEquals("001", 1 asOctal)
 		assertEquals("141", 97 asOctal)
+		assertEquals("001000", 512 asOctal)
 	)
 
 	testToBase := method(
 		assertEquals("101010", 42 toBase(2))
+		assertEquals("f", 15 toBase(16))
 	)
 )
