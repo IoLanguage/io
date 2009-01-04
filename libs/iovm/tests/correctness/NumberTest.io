@@ -105,4 +105,22 @@ NumberTest := UnitTest clone do(
 		assertEquals("       -137846528820", (-137846528820) asString(20, 0))
 		assertEquals("     -137846528820.0", (-137846528820) asString(20, 1))
 	)
+
+	testAsHex := method(
+		assertEquals("ff", 0xff asHex)
+		assertEquals("0", 0x00 asHex)
+		assertEquals("ffef", 0xffef asHex)
+	)
+
+	testAsBinary := method(
+		assertEquals("101010", 42 asBinary)
+	)
+
+	testAsOctal := method(
+		assertEquals("141", 97 asOctal)
+	)
+
+	testToBase := method(
+		assertEquals("101010", 42 toBase(2))
+	)
 )
