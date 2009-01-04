@@ -178,7 +178,7 @@ Sequence do(
 	//doc Sequence asHex Returns a hex string for the receiving sequence, e.g., \"abc\" asHex -> \"616263\".")
 	asHex := method(
 		r := Sequence clone
-		self foreach(c, r appendSeq(c asHex alignRight(2, "00")))
+		self foreach(c, r appendSeq(c asHex))
 		r
 	)
 
