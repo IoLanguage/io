@@ -84,9 +84,7 @@ AddonBuilder := Object clone do(
 	)
 
 	mkdir := method(relativePath,
-		if (folder path != ".",
-			path := folder path .. "/" .. relativePath
-		)
+		path := Path with(folder path, relativePath)
 		if(Directory exists(path) not,
 			writeln("mkdir -p ", relativePath)
 			Directory with(path) createIfAbsent
@@ -95,28 +93,23 @@ AddonBuilder := Object clone do(
 
 	pathForFramework := method(name,
 		frameworkname := name .. ".framework"
-		path := frameworkSearchPaths detect(path,
+		frameworkSearchPaths detect(path,
 			Directory with(path .. "/" .. frameworkname) exists
 		)
-		path
 	)
 
 	pathForHeader := method(name,
-		path := headerSearchPaths detect(path,
+		headerSearchPaths detect(path,
 			File with(path .. "/" .. name) exists
 		)
-		path
 	)
 
 	pathForLib := method(name,
-		libname := "lib" .. name
-		path := libSearchPaths detect(path,
-			p1 := File with(path .. "/" .. libname .. "." .. dllSuffix) exists
-			p2 := File with(path .. "/" .. libname .. ".a") exists
-			p3 := File with(path .. "/" .. libname .. ".lib") exists
-			p1 or p2 or p3
+		libNames := list("." .. dllSuffix, ".a", ".lib") map(suffix, "lib" .. name .. suffix)
+		libSearchPaths detect(path,
+			libDirectory := Directory with(path)
+			libNames detect(libName, libDirectory fileNamed(libName) exists)
 		)
-		path
 	)
 
 	addDefine := method(v, defines appendIfAbsent(v))
