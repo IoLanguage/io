@@ -164,7 +164,11 @@ _build/lib: _build
 _build/dll: _build
 	mkdir -p $@
 
+# pull in dependency info for *existing* .o files
+-include $(objects:.o=.d)
+
 _build/objs/%.o: source/%.c
+	$(CC) -MM -MT $@ -MF $(@:.o=.d) -DINSTALL_PREFIX=\"$(INSTALL_PREFIX)\" $(CFLAGS) -c $< $(CCOUTFLAG)$@
 	$(CC) -DINSTALL_PREFIX=\"$(INSTALL_PREFIX)\" $(CFLAGS) -c $< $(CCOUTFLAG)$@
 
 _build/vmall_objs/%.o: source/%.c
