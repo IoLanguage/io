@@ -100,7 +100,7 @@ IoObject *IoSystem_proto(void *state)
 	/*doc System version
 	Returns the Io version number.
 	*/
-	IoObject_setSlot_to_(self, IOSYMBOL("version"), IONUMBER(IO_VERSION_NUMBER));
+	IoObject_setSlot_to_(self, IOSYMBOL("version"), IOSYMBOL(IO_VERSION_NUMBER));
 
 	//IoObject_setSlot_to_(self, IOSYMBOL("distribution"), IOSYMBOL("Io"));
 	IoObject_setSlot_to_(self, IOSYMBOL("type"), IOSYMBOL("System"));
