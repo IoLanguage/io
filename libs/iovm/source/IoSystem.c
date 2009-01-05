@@ -8,6 +8,7 @@ Contains methods related to the IoVM.
 #include "IoSystem.h"
 #include "IoNumber.h"
 #include "IoMessage_parser.h"
+#include "IoVersion.h"
 
 #if defined(linux)
 #include <unistd.h>
