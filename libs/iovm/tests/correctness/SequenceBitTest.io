@@ -17,4 +17,20 @@ SequenceBitTest := UnitTest clone do(
 		for(i, 0, 7, assertEquals(0, ("\0" .. 0 asCharacter) bitAt(8 + i)))
 		for(i, 0, 7, assertEquals(1, ("\0" .. 0xff asCharacter) bitAt(8 + i)))
 	)
+
+	byteList := method(s,
+		l := list()
+		s sizeInBytes repeat(i,
+			l append(s byteAt(i))
+		)
+		l
+	)
+
+	testByteAtByteItemType := method(
+		assertEquals(list(97, 98, 99, 100), byteList("abcd"))
+	)
+
+	testByteAtTwoByteItemType := method(
+		assertEquals(list(97, 98, 99, 100), byteList("abcd" asMutable setItemType("uint16")))
+	)
 )

@@ -226,7 +226,7 @@ int UArray_bitAt_(UArray *self, size_t i)
 
 uint8_t UArray_byteAt_(UArray *self, size_t i)
 {
-	if (i < self->size) return self->data[i];
+	if (i < UArray_sizeInBytes(self)) return self->data[i];
 	return 0;
 }
 
