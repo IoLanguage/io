@@ -42,13 +42,27 @@ void Sorter_quickSort(Sorter *self, size_t lb, size_t ub)
 
 static void swap(void *base, size_t a, size_t b, size_t width)
 {
-	unsigned char swapSpace[width];
-	void *ap = ((unsigned char *)base) + width*a;
-	void *bp = ((unsigned char *)base) + width*b;
+	unsigned char swapBuf[128];
+	unsigned char *swapSpace;
+	void *ap;
+	void *bp;
+
+    if (width > 128) {
+        swapSpace = (unsigned char *) malloc(sizeof(char)*width);
+        if (!swapSpace)
+            return;
+    } else {
+        swapSpace = swapBuf;
+    }
+	ap = ((unsigned char *)base) + width*a;
+	bp = ((unsigned char *)base) + width*b;
 	memcpy(swapSpace, ap, width);
 	memcpy(ap, bp, width);
 	memcpy(bp, swapSpace, width);
 
+    if (width > 128) {
+        free((void*)swapBuf);
+    }
 }
 int Sorter_quickSortRearrange(Sorter *self, size_t lb, size_t ub)
 {

@@ -61,6 +61,7 @@ ARFLAGS :=
 AROUTFLAG := -out:
 VMALL := vmall_
 BINARY_SUFFIX := .exe
+RANLIB := echo no ranlib
 endif
 
 ###########################
@@ -76,7 +77,10 @@ testaddon:
 	./_build/binaries/io_static$(BINARY_SUFFIX) addons/$(addon)/tests/correctness/run.io
 
 vm:
-	for dir in $(libs); do if [ -d libs/$$dir ]; then INSTALL_PREFIX=$(INSTALL_PREFIX) $(MAKE) -C libs/$$dir; fi; done
+	$(MAKE) -C libs/basekit
+	$(MAKE) -C libs/coroutine
+	$(MAKE) -C libs/garbagecollector
+	$(MAKE) -C libs/iovm
 	$(MAKE) vmlib
 	cd tools; $(MAKE)
 ifneq (,$(findstring Windows,$(SYS)))

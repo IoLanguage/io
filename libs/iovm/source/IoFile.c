@@ -29,7 +29,12 @@ file close
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+
+#if defined(_MSC_VER)
+#define WEXITSTATUS(s) (s)
+#else
 #include <sys/wait.h>
+#endif
 
 #if !defined(_MSC_VER) && !defined(__SYMBIAN32__)
 #include <unistd.h> /* ok, this isn't ANSI */
