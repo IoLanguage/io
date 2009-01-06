@@ -110,7 +110,6 @@ IOVM_API IoObject *IoObject_initClone_(IoObject *self, IoObject *locals, IoMessa
 
 // printing
 
-IOVM_API IoObject *IoObject_protoPrint(IoObject *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoObject_protoWrite(IoObject *self, IoObject *locals, IoMessage *m);
 IOVM_API IoObject *IoObject_protoWriteLn(IoObject *self, IoObject *locals, IoMessage *m);
 

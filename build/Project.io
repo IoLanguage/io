@@ -36,12 +36,6 @@ Project := Object clone do(
 		currentAddon build(options)
 	)
 
-	/*
-	buildAddon := method(name,
-		addons detect(addon, /*writeln(addon name);*/ addon name == name) build(options)
-	)
-	*/
-
 	availableAddon := method(addon,
 		if(addon hasSlot("isAvailable"), 
 			//writeln(addon name, " isAvailable")
@@ -53,23 +47,22 @@ Project := Object clone do(
 			return false
 		)
 		if(addon supportedOnPlatform(platform) not,
-			error := (addon name .. " is not supported on " .. platform .. "\n") print
-			File clone openForAppending("errors") write(error) close
+			errors addError(addon name .. " is not supported on " .. platform .. "\n")
 			addon isAvailable := false
 			return false
 		)
-		if(addon hasDepends not, return false)
+		if(addon hasDepends(errors) not,
+			return false
+		)
 		addon depends addons foreach(addonName,
 			dependancy := addons detect(name == addonName)
 			if(dependancy == nil,
-				error := (addon name .. " is missing " .. addonName .. " addon\n") print
-				File clone openForAppending("errors") write(error) close
+				errors addError(addon name .. " is missing " .. addonName .. " addon\n")
 				addon isAvailable := false
 				return false
 			)
 			if(availableAddon(dependancy) not,
-				error := (addon name .. " is missing " .. addonName .. " addon\n") print
-				File clone openForAppending("errors") write(error) close
+				errors addError(addon name .. " is missing " .. addonName .. " addon\n")
 				addon isAvailable := false
 				return false
 			)
@@ -92,7 +85,8 @@ Project := Object clone do(
 	)
 
 	build := method(
-		File clone with("errors") remove close
+		self errors := ErrorReport clone
+		errors removeFile
 		buildAddons
 		writeln("\n--- build complete ---\n")
 	)
@@ -143,9 +137,10 @@ Project := Object clone do(
 	docs := method(
 		writeln("--- Project generate docs from source file comments ---")
 		systemCall("cd libs/iovm; ../../_build/binaries/io ../../tools/io/DocsExtractor.io .")
-		//addons foreach(generateDocs)
+		addons foreach(generateDocs)
 		//build
 		systemCall("_build/binaries/io tools/io/docs2html.io > docs/IoReference.html")
+		writeln("docs/IoReference.html generated")
 	)
 
 	cleanDocs := method(

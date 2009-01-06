@@ -108,7 +108,6 @@ IoObject *IoObject_protoFinish(void *state)
 	{"clone", IoObject_clone},
 	{"cloneWithoutInit", IoObject_cloneWithoutInit},
 	{"shallowCopy", IoObject_shallowCopy},
-	//{"print", IoObject_protoPrint},
 	{"write", IoObject_protoWrite},
 	{"writeln", IoObject_protoWriteLn},
 	{"type", IoObject_type},

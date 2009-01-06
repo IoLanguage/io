@@ -93,7 +93,7 @@ Sequence do(
 		alignRight(((size + width) / 2) floor, padding) alignLeftInPlace(width, padding)
 	)
 
-	asSimpleString := method("\"" .. self asString .. "\"")
+	asSimpleString := method("\"" .. self asString asMutable escape .. "\"")
 
 	/*doc Sequence split(optionalArg1, optionalArg2, ...)
 		Returns a list containing the non-empty sub-sequences of the receiver divided by the given arguments.
@@ -178,7 +178,7 @@ Sequence do(
 	//doc Sequence asHex Returns a hex string for the receiving sequence, e.g., \"abc\" asHex -> \"616263\".")
 	asHex := method(
 		r := Sequence clone
-		self foreach(c, r appendSeq(c asHex alignRight(2, "00")))
+		self foreach(c, r appendSeq(c asHex))
 		r
 	)
 
