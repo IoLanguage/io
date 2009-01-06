@@ -185,7 +185,7 @@ test:
 
 dist:
 	-rm -f Io-*.tar.gz
-	echo "#define IO_VERSION_STRING \""$(shell date +'%Y%m%d')"\"" > libs/iovm/source/IoVersion.h
+	echo "#ifndef IO_VERSION_STRING\n#define IO_VERSION_STRING \""$(shell date +'%Y%m%d')"\"\n#endif" > libs/iovm/source/IoVersion.h
 	git add libs/iovm/source/IoVersion.h | true
 	git commit -q --no-verify -m "setting version string for release" | true
 	git archive --format=tar --prefix=Io-$(date)/ HEAD | gzip > Io-$(date).tar.gz
