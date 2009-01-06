@@ -219,9 +219,9 @@ void UArray_setAllBitsTo_(UArray *self, uint8_t aBool)
 int UArray_bitAt_(UArray *self, size_t i)
 {
 	size_t bytePos = i / 8;
-	size_t bitPos  = i - bytePos;
+	size_t bitPos  = i % 8;
 	if (bytePos >= UArray_sizeInBytes(self)) return 0;
-	return self->data[bytePos] = (self->data[bytePos] >> bitPos) & 0x1;
+	return (self->data[bytePos] >> bitPos) & 0x1;
 }
 
 uint8_t UArray_byteAt_(UArray *self, size_t i)
@@ -233,7 +233,7 @@ uint8_t UArray_byteAt_(UArray *self, size_t i)
 void UArray_setBit_at_(UArray *self, int aBool, size_t i)
 {
 	size_t bytePos = i / 8;
-	size_t bitPos  = i - bytePos;
+	size_t bitPos  = i % 8;
 	uint8_t n = 0x1 << bitPos;
 	uint8_t b;
 	if (bytePos >= UArray_sizeInBytes(self)) return;
