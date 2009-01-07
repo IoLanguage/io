@@ -40,6 +40,7 @@ int main(int argc, const char *argv[])
 #endif
 	IoState_init(self);
 	IoState_argc_argv_(self, argc, argv);
+	//IoState_doCString_(self, "some test code...");
 	IoState_runCLI(self);
 	exitResult = IoState_exitResult(self);
 

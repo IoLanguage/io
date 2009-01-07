@@ -1093,7 +1093,6 @@ IoObject *IoList_asEncodedList(IoList *self, IoObject *locals, IoMessage *m)
 			}
 		}
 	}
-
 	
 	return IoSeq_newWithUArray_copy_(IOSTATE, u, 0);
 }
