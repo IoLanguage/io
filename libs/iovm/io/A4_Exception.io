@@ -65,7 +65,7 @@ Scheduler := Object clone do(
 Coroutine do(
 	//doc Coroutine stackSize Stack size allocated for each new coroutine. Coroutines will automatically chain themselves as need if more stack space is required.
 	//doc Coroutine setStackSize
-	stackSize ::= 128000 // PPC needs 128k for current parser
+	stackSize ::= 128000*10 // PPC needs 128k for current parser
 	
 	//doc Coroutine exception Returns the current exception or nil if there is none.
 	//doc Coroutine setException
@@ -207,10 +207,12 @@ Coroutine do(
 		Coroutine setInException(true)
 		buf := Sequence clone
 
+		//writeln("backTraceString 1\n")
 		if(getSlot("CGI") != nil and CGI isInWebScript, buf appendSeq("<code>"))
 
 		if(exception, buf appendSeq("\n  ", exception type, ": ", exception error, "\n"))
 
+		//writeln("backTraceString 2\n")
 		if(callStack size > 0) then(
 			buf appendSeq("  ---------\n")
 
