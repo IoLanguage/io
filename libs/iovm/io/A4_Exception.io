@@ -185,7 +185,7 @@ Coroutine do(
   //doc Coroutine ignoredCoroutineMethodNames List of methods to ignore when building a <tt>callStack</tt>.
 	ignoredCoroutineMethodNames := list("setResult", "main", "pauseCurrentAndResumeSelf", "resumeParentCoroutine", "raiseException")
 
-  //doc Coroutine callStack Returns a list of Call objects.
+	//doc Coroutine callStack Returns a list of Call objects.
 	callStack := method(
 		stack := ioStack
 		stack selectInPlace(v, Object argIsCall(getSlot("v"))) reverseInPlace
@@ -197,7 +197,7 @@ Coroutine do(
 		stack
 	)
 
-  //doc Coroutine backTraceString Returns a formatted callStack output along with exception info (if any). In case of CGI script, wraps output with &lt;code&gt; tag.
+    //doc Coroutine backTraceString Returns a formatted callStack output along with exception info (if any). In case of CGI script, wraps output with &lt;code&gt; tag.
 	backTraceString := method(
 		if(Coroutine inException,
 			writeln("\n", exception type, ": ", exception error, "\n\n")
@@ -248,22 +248,22 @@ Coroutine do(
 		buf
 	)
 
-  //doc Coroutine showStack Writes backTraceString to STDOUT.
+	//doc Coroutine showStack Writes backTraceString to STDOUT.
 	showStack := method(write(backTraceString))
     
-  //doc Coroutine resumeParentCoroutine Pauses current coroutine and resumes parent.
+	//doc Coroutine resumeParentCoroutine Pauses current coroutine and resumes parent.
 	resumeParentCoroutine := method(
 		if(parentCoroutine, parentCoroutine pauseCurrentAndResumeSelf)
 	)
   
-  //doc Coroutine main [Seems to be obsolete!] Executes runMessage, resumes parent coroutine.
+	//doc Coroutine main [Seems to be obsolete!] Executes runMessage, resumes parent coroutine.
 	main := method(
 		setResult(self getSlot("runTarget") doMessage(runMessage, self getSlot("runLocals")))
 		resumeParentCoroutine
 		pause
 	)
   
-  //doc Coroutine raiseException Sets exception in the receiver and resumes parent coroutine.
+	//doc Coroutine raiseException Sets exception in the receiver and resumes parent coroutine.
 	raiseException := method(e,
 		self setException(e)
 		resumeParentCoroutine
@@ -278,8 +278,15 @@ depending on circumstances.
 */
 
 Object wait := method(s,
-	endDate := Date clone now + Duration clone setSeconds(s)
-	loop(endDate isPast ifTrue(break); yield)
+	//writeln("Scheduler yieldingCoros size = ", Scheduler yieldingCoros size)
+	if(Scheduler yieldingCoros isEmpty,		
+		//writeln("System sleep")
+		System sleep(s)
+	,
+		//writeln("Object wait")
+		endDate := Date clone now + Duration clone setSeconds(s)
+		loop(endDate isPast ifTrue(break); yield)
+	)
 )
 
 Message do(
