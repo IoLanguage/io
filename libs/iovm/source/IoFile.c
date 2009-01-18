@@ -51,6 +51,8 @@ static char* getcwd(char* buf, int size) { return 0; }
 
 #define DATA(self) ((IoFileData *)IoObject_dataPointer(self))
 
+int fileExists(char *path);
+
 IoTag *IoFile_newTag(void *state)
 {
 	IoTag *tag = IoTag_newWithName_("File");
@@ -246,10 +248,15 @@ void IoFile_justClose(IoFile *self)
 	}
 }
 
-int IoFile_justExists(IoFile *self)
+int fileExists(char *path)
 {
 	struct stat statInfo;
-	return stat(CSTRING(DATA(self)->path), &statInfo) == 0;
+	return stat(path, &statInfo) == 0;
+}
+
+int IoFile_justExists(IoFile *self)
+{
+	return fileExists(CSTRING(DATA(self)->path));
 }
 
 int IoFile_create(IoFile *self)
@@ -588,12 +595,23 @@ IoObject *IoFile_asBuffer(IoFile *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoFile_exists(IoFile *self, IoObject *locals, IoMessage *m)
 {
-	/*doc File exists
-	Returns true if the file specified by the receiver's
-	path exists, false otherwise.
+	/*doc File exists(optionalPath)
+	Returns true if the file path exists, and false otherwise.
+	If optionalPath string is provided, it tests the existance of that path instead. 
 	*/
 
-	return IOBOOL(self, IoFile_justExists(self));
+	IoSymbol *path;
+
+	if (IoMessage_argCount(m) > 0)
+	{
+		path = IoMessage_locals_symbolArgAt_(m, locals, 0);
+	}
+	else
+	{
+		path = DATA(self)->path;
+	}
+
+	return IOBOOL(self, fileExists(CSTRING(path)));
 }
 
 IoObject *IoFile_remove(IoFile *self, IoObject *locals, IoMessage *m)

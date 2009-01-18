@@ -115,6 +115,7 @@ infiles := $(wildcard source/*.c)
 #infiles += $(wildcard *.S)
 asmfiles := $(wildcard source/*.S)
 hfiles  := $(wildcard source/*.h)
+buildhfiles := $(subst source/,_build/headers/,$(hfiles))
 objects := $(notdir $(infiles))
 objects := $(basename $(objects))
 objects := $(addsuffix .o,$(objects))
@@ -138,31 +139,44 @@ DEF_FILE :=
 
 ### RULES ###########################################################
 
-all:
+all: _build/objs _build/headers _build/lib _build/dll $(buildhfiles)
 	$(ALL_BEGIN) 
-	mkdir -p _build
-	mkdir -p _build/objs
-	mkdir -p _build/headers
-	mkdir -p _build/lib
-	mkdir -p _build/dll
 	$(MAKE) $(LIBR)
 	$(MAKE) $(DLL) 
 ifneq (,$(findstring Windows,$(SYS)))
 	mkdir -p _build/vmall_objs
 	$(MAKE) vmall_objs
 endif
-ifneq (,$(hfiles))
-	cp $(hfiles) _build/headers
-endif
 	$(ALL_END)
 
+_build:
+	mkdir -p $@
+
+_build/objs: _build
+	mkdir -p $@
+
+_build/headers: _build
+	mkdir -p $@
+
+_build/lib: _build
+	mkdir -p $@
+
+_build/dll: _build
+	mkdir -p $@
+
+# pull in dependency info for *existing* .o files
+-include $(objects:.o=.d)
+
 _build/objs/%.o: source/%.c
+	$(CC) -MM -MT $@ -MF $(@:.o=.d) -DINSTALL_PREFIX=\"$(INSTALL_PREFIX)\" $(CFLAGS) -c $< $(CCOUTFLAG)$@
 	$(CC) -DINSTALL_PREFIX=\"$(INSTALL_PREFIX)\" $(CFLAGS) -c $< $(CCOUTFLAG)$@
 
 _build/vmall_objs/%.o: source/%.c
 	$(CC) -DINSTALL_PREFIX=\"$(INSTALL_PREFIX)\" $(CFLAGS) \
         -DBUILDING_IOVMALL_DLL -c $< $(CCOUTFLAG)$@
 
+_build/headers/%.h: source/%.h _build/headers
+	cp $< $@
 
 _build/vmall_objs:
 	mkdir -p $@
