@@ -45,6 +45,8 @@ void UArray_replace_with_(UArray *self, const UArray *a1, const UArray *a2)
 	size_t start = 0;
 	UArray visible = UArray_stackRange(self, start, self->size);
 
+	if (UArray_size(a1) == 0) return;
+	
 	while ((i = UArray_find_(&visible, a1)) != -1)
 	{
 		size_t index = start + i;

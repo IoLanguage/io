@@ -1,7 +1,7 @@
 #ifndef CALLSYSTEM_INCLUDED
 #define CALLSYSTEM_INCLUDED
 /*
-  callsystem    - system() on steorids
+  callsystem    - system() on steorids (by ceteh?)
 
   features:
    - asynchonous running of a child process
