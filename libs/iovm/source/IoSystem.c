@@ -8,6 +8,7 @@ Contains methods related to the IoVM.
 #include "IoSystem.h"
 #include "IoNumber.h"
 #include "IoMessage_parser.h"
+#include "IoVersion.h"
 
 #if defined(linux)
 #include <unistd.h>
@@ -100,7 +101,7 @@ IoObject *IoSystem_proto(void *state)
 	/*doc System version
 	Returns the Io version number.
 	*/
-	IoObject_setSlot_to_(self, IOSYMBOL("version"), IONUMBER(IO_VERSION_NUMBER));
+	IoObject_setSlot_to_(self, IOSYMBOL("version"), IOSYMBOL(IO_VERSION_STRING));
 
 	//IoObject_setSlot_to_(self, IOSYMBOL("distribution"), IOSYMBOL("Io"));
 	IoObject_setSlot_to_(self, IOSYMBOL("type"), IOSYMBOL("System"));

@@ -1,6 +1,5 @@
 #include "PortableSorting.h"
 
-
 typedef struct
 {
 	void *base;
@@ -8,6 +7,7 @@ typedef struct
 	size_t width;
 	void *context;
 	PortableSortingCompareCallback *compare;
+	unsigned char *swapSpace;
 } Sorter;
 
 void Sorter_quickSort(Sorter *self, size_t lb, size_t ub);
@@ -16,13 +16,18 @@ int Sorter_quickSortRearrange(Sorter *self, size_t lb, size_t ub);
 void portable_qsort_r(void *base, size_t size, size_t width, 
 	void *context, PortableSortingCompareCallback *compare)
 {
-	Sorter s;
-	s.base = base;
-	s.size = size;
-	s.width = width;
-	s.context = context;
-	s.compare = compare;
-	Sorter_quickSort(&s, 0, size-1);
+	if (size > 0 && width > 0)
+	{
+		Sorter s;
+		s.base = base;
+		s.size = size;
+		s.width = width;
+		s.context = context;
+		s.compare = compare;
+		s.swapSpace = malloc(width);
+		Sorter_quickSort(&s, 0, size-1);
+		free(s.swapSpace);
+	}
 }
 
 void Sorter_quickSort(Sorter *self, size_t lb, size_t ub)
@@ -40,37 +45,23 @@ void Sorter_quickSort(Sorter *self, size_t lb, size_t ub)
 	}
 }
 
-static void swap(void *base, size_t a, size_t b, size_t width)
+static void swap(void *base, size_t a, size_t b, size_t width, unsigned char *swapSpace)
 {
-	unsigned char swapBuf[128];
-	unsigned char *swapSpace;
-	void *ap;
-	void *bp;
-
-    if (width > 128) {
-        swapSpace = (unsigned char *) malloc(sizeof(char)*width);
-        if (!swapSpace)
-            return;
-    } else {
-        swapSpace = swapBuf;
-    }
-	ap = ((unsigned char *)base) + width*a;
-	bp = ((unsigned char *)base) + width*b;
+	//unsigned char swapSpace[width]; // windows can't deal with this
+	void *ap = ((unsigned char *)base) + width*a;
+	void *bp = ((unsigned char *)base) + width*b;
 	memcpy(swapSpace, ap, width);
 	memcpy(ap, bp, width);
 	memcpy(bp, swapSpace, width);
-
-    if (width > 128) {
-        free((void*)swapBuf);
-    }
 }
+
 int Sorter_quickSortRearrange(Sorter *self, size_t lb, size_t ub)
 {
 	PortableSortingCompareCallback *comp = self->compare;
 	void *context = self->context;
 	unsigned char *base = self->base;
 	size_t width = self->width;
-
+	
 	do {
 		while (ub > lb && (*comp)(context, base + width*ub, base + width*lb) >= 0)
 		{
@@ -79,7 +70,7 @@ int Sorter_quickSortRearrange(Sorter *self, size_t lb, size_t ub)
 
 		if (ub != lb)
 		{
-			swap(base, ub, lb, width);
+			swap(base, ub, lb, width, self->swapSpace);
 			
 			while (lb < ub && (*comp)(context, base + width*lb, base + width*ub) <= 0)
 			{
@@ -88,10 +79,11 @@ int Sorter_quickSortRearrange(Sorter *self, size_t lb, size_t ub)
 
 			if (lb != ub)
 			{
-				swap(base, lb, ub, width);
+				swap(base, lb, ub, width, self->swapSpace);
 			}
 		}
 	} while (lb != ub);
 
 	return lb;
 }
+

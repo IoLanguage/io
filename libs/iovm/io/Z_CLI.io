@@ -84,8 +84,12 @@ CLI := Object clone do(
 		)
 	)
 
-	interactiveMultiline := method(
+	writeWelcomeBanner := method(
 		writeln("Io ", System version)
+	)
+
+	interactiveMultiline := method(
+		writeWelcomeBanner
 
 		// Use GNU Readline as the default line reader. Fall back to Editline 
 		try(setLineReader(ReadLine))
@@ -105,7 +109,7 @@ CLI := Object clone do(
 	)
 
 	interactive := method(
-		writeln("Io ", System version)
+		writeWelcomeBanner
 		while(isRunning,
 			handleInteractiveSingleLine
 		)
