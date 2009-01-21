@@ -924,7 +924,7 @@ IoObject *IoObject_protoPerform(IoObject *self, IoObject *locals, IoMessage *m)
 		return IoObject_perform(self, locals, slotName);
 	}
 
-	IOASSERT(ISSYMBOL(slotName), "perform requires a String or Message argument");
+	IOASSERT(ISSYMBOL(slotName), "perform requires a Symbol or Message argument");
 
 	{
 		IoObject *context;

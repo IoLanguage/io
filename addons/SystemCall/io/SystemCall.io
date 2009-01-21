@@ -15,6 +15,17 @@ SystemCall do(
 		self environment := environment clone
 	)
 
+	tryToRun := method(times,
+		if(times == nil, times = 3)
+		times repeat(
+			e := try(run)
+			if(e == nil, break)
+			writeln("RETRYING: Runable to run command: '", command, "'")
+		)
+		if(e, e pass)
+		self
+	)
+	
 	run := method(aBlock,
 		err := self asyncRun(command, arguments, environment)
 		if(err == -1, Exception raise("unable to run command"))
