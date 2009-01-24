@@ -46,8 +46,8 @@ IoObject *IoCollector_showStats(IoCollector *self, IoObject *locals, IoMessage *
 	Prints the collector's stats to standard output.
 	*/
 	io_show_mem("IoCollector_showStats");
-	printf("marksPerAlloc       %i\n", Collector_marksPerAlloc(IOSTATE->collector));
-	printf("allocatedStep       %i\n", Collector_allocatedStep(IOSTATE->collector));
+	printf("marksPerAlloc       %g\n", Collector_marksPerAlloc(IOSTATE->collector));
+	printf("allocatedStep       %g\n", Collector_allocatedStep(IOSTATE->collector));
 	return self;
 }
 
