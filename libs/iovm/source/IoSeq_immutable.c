@@ -1339,7 +1339,6 @@ The output pointStructSeq would contain 2 raw 32 bit floats.
 		IoSeq *memberType = List_at_(members, memberIndex*2);
 		IoSeq *memberValue = List_at_(members, memberIndex*2 + 1);
 		char *mt;
-		IoObject *v = NULL;
 
 		IOASSERT(ISSEQ(memberType), "memberTypes must be strings");
 		IOASSERT(ISNUMBER(memberValue), "memberValues must be strings");

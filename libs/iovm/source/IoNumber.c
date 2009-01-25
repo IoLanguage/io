@@ -408,7 +408,6 @@ IoObject *IoNumber_multiply(IoNumber *self, IoObject *locals, IoMessage *m)
 
 char *IoNumber_asAllocedCString(IoNumber *self)
 {
-	IoSymbol *string;
 	int size = 1024;
 	char *s = (char *)io_calloc(1, size);
 	memset(s, 0, size);
