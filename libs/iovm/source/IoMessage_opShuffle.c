@@ -4,6 +4,7 @@
 #include "IoMessage_opShuffle.h"
 #include "IoMap.h"
 #include "IoNumber.h"
+#include <ctype.h>
 
 #define DATA(self) ((IoMessageData *)IoObject_dataPointer(self))
 
