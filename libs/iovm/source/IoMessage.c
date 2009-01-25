@@ -548,7 +548,7 @@ IoObject *IoMessage_locals_performOn_(IoMessage *self, IoObject *locals, IoObjec
 					*/
 			}
 		}
-	} while (m = md->next);
+	} while ((m = md->next));
 
 	return result;
 }
@@ -781,7 +781,7 @@ void IoMessage_appendDescriptionTo_follow_(IoMessage *self, UArray *ba, int foll
 
 		if (DATA(self)->next && DATA(self)->name != IOSTATE->semicolonSymbol) UArray_appendCString_(ba, " ");
 		if (DATA(self)->name == IOSTATE->semicolonSymbol) UArray_appendCString_(ba, "\n");
-	} while (self = DATA(self)->next);
+	} while ((self = DATA(self)->next));
 }
 
 //  methods ---------------------------------------------------
@@ -917,7 +917,7 @@ IoMessage *IoMessage_rawLastBeforeEOL(IoMessage *self)
 	IoMessage *last = self;
 	IoMessage *next;
 
-	while (next = IoMessage_rawNext(last))
+	while ((next = IoMessage_rawNext(last)))
 	{
 		if (IoMessage_rawIsEOL(next))
 		{
@@ -943,7 +943,7 @@ IoMessage *IoMessage_rawLast(IoMessage *self)
 	IoMessage *last = self;
 	IoMessage *next;
 
-	while (next = IoMessage_rawNext(last))
+	while ((next = IoMessage_rawNext(last)))
 	{
 		last = next;
 	}

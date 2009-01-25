@@ -557,7 +557,7 @@ IoMessage *IoMessage_opShuffle(IoMessage *self, IoObject *locals, IoMessage *m)
 		{
 			Levels_attach(levels, n, expressions);
 			List_appendSeq_(expressions, DATA(n)->args);
-		} while (n = DATA(n)->next);
+		} while ((n = DATA(n)->next));
 
 		Levels_nextMessage(levels);
 	}
