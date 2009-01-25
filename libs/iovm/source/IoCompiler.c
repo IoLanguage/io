@@ -92,7 +92,6 @@ IoObject *IoObject_messageForString(IoObject *self, IoObject *locals, IoMessage 
 
 	IoSymbol *string = IoMessage_locals_seqArgAt_(m, locals, 0);
 	IoSymbol *label  = IoMessage_rawLabel(m);
-	IoObject *result = IONIL(self);
 
 	if (IoMessage_argCount(m) > 1)
 	{
