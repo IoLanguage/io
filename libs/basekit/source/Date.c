@@ -143,7 +143,9 @@ void Date_addSeconds_(Date *self, double s)
 
 double Date_secondsSince_(const Date *self, const Date *other)
 {
-	return Date_asSeconds(self) - Date_asSeconds(other);
+	long s  = self->tv.tv_sec - other->tv.tv_sec;
+	long us = self->tv.tv_usec - other->tv.tv_usec;
+	return ((double)s) + (((double)us)/1000000.0);
 }
 
 // components --------------------------------------------------------
@@ -339,9 +341,10 @@ void Date_subtractDuration_(Date *self, const Duration *d)
 
 double Date_secondsSinceNow(const Date *self)
 {
-	double n = Date_SecondsFrom1970ToNow();
-	double s = Date_asSeconds(self);
-	return n - s;
+	Date *now = Date_new();
+	double s = Date_secondsSince_(now, self);
+	Date_free(now);
+	return s;
 }
 
 // format --------------------------------------------------------
