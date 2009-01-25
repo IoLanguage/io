@@ -1,4 +1,4 @@
-/*metadoc System copyright Steve Dekorte, 2002
+//metadoc System copyright Steve Dekorte, 2002
 //metadoc System license BSD revised
 /*metadoc System description
 Contains methods related to the IoVM.
