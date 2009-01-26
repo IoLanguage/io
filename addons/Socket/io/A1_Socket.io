@@ -267,6 +267,18 @@ Socket do(
 	)
 
 
+	/*doc Socket readBytes(numBytes)
+	Reads the socket until its readBuffer is numBytes long, then returns a Sequence
+	containing the first numBytes of readBuffer's contents and clips that section from the readBuffer.
+	*/
+	readBytes := method(numBytes,
+		while(readBuffer size < numBytes, self read)
+		bytes := readBuffer inclusiveSlice(0, numBytes - 1)
+		readBuffer removeSlice(0, numBytes - 1)
+		bytes
+	)
+
+
 	/*doc Socket writeMessage(aSeq)
 	Writes a 4 byte uint32 in network byte order containing the size of aSeq. 
 	Then writes the bytes in aSeq and returns self.
