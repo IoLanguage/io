@@ -21,6 +21,8 @@ typedef struct
 	struct timezone tz;
 } Date;
 
+BASEKIT_API double Date_SecondsFrom1970ToNow(void);
+
 BASEKIT_API Date *Date_new(void);
 BASEKIT_API void Date_copy_(Date *self, const Date *other);
 BASEKIT_API void Date_free(Date *self);

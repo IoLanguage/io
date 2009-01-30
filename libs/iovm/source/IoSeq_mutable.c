@@ -190,7 +190,6 @@ IoObject *IoSeq_atInsertSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_insertSeqEvery(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*
 	/*doc MutableSequence IoSeq_insertSeqEvery(aSequence, aNumberOfItems)
 	Inserts aSequence every aNumberOfItems.  Returns self.
 	*/
@@ -275,7 +274,6 @@ IoObject *IoSeq_removeLast(IoSeq *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSeq_leaveThenRemove(IoSeq *self, IoObject *locals, IoMessage *m)
 {
-	/*
 	/*doc MutableSequence IoSeq_leaveThenRemove(aNumberToLeave, aNumberToRemove)
 	Leaves aNumberToLeave items then removes aNumberToRemove items.  Returns self.
 	*/

@@ -38,10 +38,11 @@ Error do(
 		Exception raise(message)
 	)
 	
-	//doc Error with(message) Sets message slot and returns self.
+	//doc Error with(message) Returns new error with message slot set.
 	with := method(message,
-		self message := message
-		self
+		error := self clone
+		error message := message
+		error
 	)
 	
 	//doc Error isError Returns true.

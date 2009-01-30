@@ -215,3 +215,4 @@ urpmi:
 
 .DEFAULT:
 	./_build/binaries/io_static$(BINARY_SUFFIX) build.io -a $@
+

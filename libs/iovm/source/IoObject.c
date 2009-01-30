@@ -252,7 +252,6 @@ IoObject *IoObject_localsProto(void *state)
 IoObject *IoObject_addMethod_(IoObject *self, IoSymbol *slotName, IoMethodFunc *fp)
 {
 	IoTag *t = IoObject_tag(self);
-	IoObject *proto = IoState_protoWithInitFunction_(IOSTATE, IoObject_proto);
 	IoCFunction *f;
 
 	f = IoCFunction_newWithFunctionPointer_tag_name_(IOSTATE, (IoUserFunction *)fp, t, CSTRING(slotName));
@@ -273,7 +272,6 @@ void IoObject_addMethodTable_(IoObject *self, IoMethodTable *methodTable)
 
 IoObject *IoObject_addTaglessMethod_(IoObject *self, IoSymbol *slotName, IoMethodFunc *fp)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(IOSTATE, IoObject_proto);
 	IoCFunction *f;
 
 	f = IoCFunction_newWithFunctionPointer_tag_name_(IOSTATE, (IoUserFunction *)fp, NULL, CSTRING(slotName));
@@ -1949,8 +1947,6 @@ IoObject *IoObject_markClean(IoObject *self, IoObject *locals, IoMessage *m)
 
 void IoObject_addListener_(IoObject *self, void *listener)
 {
-	List *listeners = IoObject_listeners(self);
-
 	if (IoObject_listeners(self) == NULL)
 	{
 		IoObject_listeners_(self, List_new());

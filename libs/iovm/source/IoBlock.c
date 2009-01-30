@@ -215,7 +215,7 @@ IoObject *IoBlock_activate(IoBlock *self, IoObject *target, IoObject *locals, Io
 	IoObject_isReferenced_(blockLocals, 0);
 	IoObject_isReferenced_(callObject, 0);
 
-	tailCall:
+	//tailCall:
 	poolMark = IoState_pushRetainPool(state);
 
 	LIST_FOREACH(argNames, i, name,

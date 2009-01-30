@@ -84,9 +84,13 @@ Project := Object clone do(
 		)
 	)
 
-	build := method(
+	setupErrors := method(
 		self errors := ErrorReport clone
 		errors removeFile
+	)
+
+	build := method(
+		setupErrors
 		buildAddons
 		writeln("\n--- build complete ---\n")
 	)
@@ -150,6 +154,8 @@ Project := Object clone do(
 	)
 
 	runUnitTests := method(
+		setupErrors
+
 		failures := 0
 
 		maxNameSize := availableAddons max(name size) name size
