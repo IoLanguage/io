@@ -52,65 +52,65 @@ int IoFile_create(IoFile *self);
 
 /* ----------------------------------------------------------- */
 
-IoObject *IoFile_descriptor(IoFile *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoFile, descriptor);
 
-IoObject *IoFile_standardInput(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_standardOutput(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_standardError(IoFile *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoFile, standardInput);
+IO_METHOD(IoFile, standardOutput);
+IO_METHOD(IoFile, standardError);
 
-IoObject *IoFile_setPath(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_path(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_lastPathComponent(IoFile *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoFile, setPath);
+IO_METHOD(IoFile, path);
+IO_METHOD(IoFile, lastPathComponent);
 
-IoObject *IoFile_mode(IoFile *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoFile, mode);
 
-IoObject *IoFile_temporaryFile(IoFile *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoFile, temporaryFile);
 
-IoObject *IoFile_openForReading(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_openForUpdating(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_openForAppending(IoFile *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoFile, openForReading);
+IO_METHOD(IoFile, openForUpdating);
+IO_METHOD(IoFile, openForAppending);
 
-IoObject *IoFile_open(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_popen(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_close(IoFile *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoFile, open);
+IO_METHOD(IoFile, popen);
+IO_METHOD(IoFile, close);
 
-IoObject *IoFile_flush(IoFile *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoFile, flush);
 IoObject *IoFile_rawAsString(IoFile *self);
-IoObject *IoFile_contents(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_asBuffer(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_exists(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_remove(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_truncateToSize(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_moveTo_(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_write(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_readLine(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_readLines(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_readToBufferLength(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_readStringOfLength_(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_readBufferOfLength_(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_rewind(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_position_(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_position(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_positionAtEnd(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_isAtEnd(IoFile *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoFile, contents);
+IO_METHOD(IoFile, asBuffer);
+IO_METHOD(IoFile, exists);
+IO_METHOD(IoFile, remove);
+IO_METHOD(IoFile, truncateToSize);
+IO_METHOD(IoFile, moveTo_);
+IO_METHOD(IoFile, write);
+IO_METHOD(IoFile, readLine);
+IO_METHOD(IoFile, readLines);
+IO_METHOD(IoFile, readToBufferLength);
+IO_METHOD(IoFile, readStringOfLength_);
+IO_METHOD(IoFile, readBufferOfLength_);
+IO_METHOD(IoFile, rewind);
+IO_METHOD(IoFile, position_);
+IO_METHOD(IoFile, position);
+IO_METHOD(IoFile, positionAtEnd);
+IO_METHOD(IoFile, isAtEnd);
 
-IoObject *IoFile_size(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_isOpen(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_assertOpen(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_assertWrite(IoFile *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoFile, size);
+IO_METHOD(IoFile, isOpen);
+IO_METHOD(IoFile, assertOpen);
+IO_METHOD(IoFile, assertWrite);
 
-IoObject *IoFile_at(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_atPut(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_foreach(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_foreachLine(IoFile *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoFile, at);
+IO_METHOD(IoFile, atPut);
+IO_METHOD(IoFile, foreach);
+IO_METHOD(IoFile, foreachLine);
 
 //IoObject *IoFile_rawDo(IoFile *self, IoObject *context);
-//IoObject *IoFile_do(IoFile *self, IoObject *locals, IoMessage *m);
+//IO_METHOD(IoFile, do);
 
 /*
-IoObject *IoFile_makeUnbuffered(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_makeLineBuffered(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_makeFullyBuffered(IoFile *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoFile, makeUnbuffered);
+IO_METHOD(IoFile, makeLineBuffered);
+IO_METHOD(IoFile, makeFullyBuffered);
 */
 
 #ifdef __cplusplus
