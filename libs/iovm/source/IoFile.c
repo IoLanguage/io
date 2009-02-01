@@ -274,7 +274,7 @@ int IoFile_create(IoFile *self)
 
 /* ----------------------------------------------------------- */
 
-IoObject *IoFile_descriptor(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, descriptor)
 {
 	/*doc File descriptor
 	Returns the file's descriptor as a number.
@@ -291,7 +291,7 @@ IoObject *IoFile_descriptor(IoFile *self, IoObject *locals, IoMessage *m)
 
 }
 
-IoObject *IoFile_standardInput(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, standardInput)
 {
 	/*doc File standardInput
 	Returns a new File whose stream is set to the standard input stream.
@@ -305,7 +305,7 @@ IoObject *IoFile_standardInput(IoFile *self, IoObject *locals, IoMessage *m)
 	return newFile;
 }
 
-IoObject *IoFile_standardOutput(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, standardOutput)
 {
 	/*doc File standardOutput
 	Returns a new File whose stream is set to the standard output stream.
@@ -319,7 +319,7 @@ IoObject *IoFile_standardOutput(IoFile *self, IoObject *locals, IoMessage *m)
 	return newFile;
 }
 
-IoObject *IoFile_standardError(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, standardError)
 {
 	/*doc File standardError
 	Returns a new File whose stream is set to the standard error stream.
@@ -334,7 +334,7 @@ IoObject *IoFile_standardError(IoFile *self, IoObject *locals, IoMessage *m)
 }
 
 
-IoObject *IoFile_setPath(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, setPath)
 {
 	/*doc File setPath(aString)
 	Sets the file path of the receiver to pathString.
@@ -345,7 +345,7 @@ IoObject *IoFile_setPath(IoFile *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoFile_path(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, path)
 {
 	/*doc File path
 	Returns the file path of the receiver.
@@ -354,7 +354,7 @@ IoObject *IoFile_path(IoFile *self, IoObject *locals, IoMessage *m)
 	return DATA(self)->path;
 }
 
-IoObject *IoFile_lastPathComponent(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, lastPathComponent)
 {
 	/*doc File name
 	Returns the last path component of the file path.
@@ -363,7 +363,7 @@ IoObject *IoFile_lastPathComponent(IoFile *self, IoObject *locals, IoMessage *m)
 	return IoSeq_lastPathComponent(DATA(self)->path, locals, m);
 }
 
-IoObject *IoFile_mode(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, mode)
 {
 	/*doc File mode
 	Returns the open mode of the file(either read, update or append).
@@ -378,7 +378,7 @@ IoObject *IoFile_mode(IoFile *self, IoObject *locals, IoMessage *m)
 	return IONIL(self);
 }
 
-IoObject *IoFile_temporaryFile(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, temporaryFile)
 {
 	/*doc File temporaryFile
 	Returns a new File object with an open temporary file. The file is
@@ -390,7 +390,7 @@ IoObject *IoFile_temporaryFile(IoFile *self, IoObject *locals, IoMessage *m)
 	return newFile;
 }
 
-IoObject *IoFile_openForReading(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, openForReading)
 {
 	/*doc File openForReading(optionalPathString)
 	Sets the file mode to read (reading only) and calls open(optionalPathString). 
@@ -400,7 +400,7 @@ IoObject *IoFile_openForReading(IoFile *self, IoObject *locals, IoMessage *m)
 	return IoFile_open(self, locals, m);
 }
 
-IoObject *IoFile_openForUpdating(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, openForUpdating)
 {
 	/*doc File openForUpdating(optionalPathString)
 	Sets the file mode to update (reading and writing) and calls
@@ -412,7 +412,7 @@ IoObject *IoFile_openForUpdating(IoFile *self, IoObject *locals, IoMessage *m)
 	return IoFile_open(self, locals, m);
 }
 
-IoObject *IoFile_openForAppending(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, openForAppending)
 {
 	/*doc File openForAppending(optionalPathString)
 	Sets the file mode to append (writing to the end of the file)
@@ -423,7 +423,7 @@ IoObject *IoFile_openForAppending(IoFile *self, IoObject *locals, IoMessage *m)
 	return IoFile_open(self, locals, m);
 }
 
-IoObject *IoFile_open(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, open)
 {
 	/*doc File open(optionalPathString)
 	Opens the file. Creates one if it does not exist.
@@ -463,7 +463,7 @@ IoObject *IoFile_open(IoFile *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoFile_popen(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, popen)
 {
 	/*doc File popen
 	Open the file as a pipe. Return self.
@@ -503,7 +503,7 @@ IoObject *IoFile_popen(IoFile *self, IoObject *locals, IoMessage *m)
 }
 
 
-IoObject *IoFile_close(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, close)
 {
 	/*doc File close
 	Closes the receiver if open, otherwise does nothing. Returns self.
@@ -513,7 +513,7 @@ IoObject *IoFile_close(IoFile *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoFile_flush(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, flush)
 {
 	/*doc File flush
 	Forces any buffered data to be written to disk. Returns self.
@@ -540,7 +540,7 @@ IoObject *IoFile_rawAsString(IoFile *self)
 	return IONIL(self);
 }
 
-IoObject *IoFile_contents(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, contents)
 {
 	/*doc File contents
 	Returns contents of the file as a mutable Sequence of bytes.
@@ -571,7 +571,7 @@ IoObject *IoFile_contents(IoFile *self, IoObject *locals, IoMessage *m)
 	return IONIL(self);
 }
 
-IoObject *IoFile_asBuffer(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, asBuffer)
 {
 	/*doc File asBuffer
 	Opens the receiver in read only mode, reads the whole
@@ -593,7 +593,7 @@ IoObject *IoFile_asBuffer(IoFile *self, IoObject *locals, IoMessage *m)
 	return IONIL(self);
 }
 
-IoObject *IoFile_exists(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, exists)
 {
 	/*doc File exists(optionalPath)
 	Returns true if the file path exists, and false otherwise.
@@ -614,7 +614,7 @@ IoObject *IoFile_exists(IoFile *self, IoObject *locals, IoMessage *m)
 	return IOBOOL(self, fileExists(CSTRING(path)));
 }
 
-IoObject *IoFile_remove(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, remove)
 {
 	/*doc File remove
 	Removes the file specified by the receiver's path.
@@ -636,7 +636,7 @@ IoObject *IoFile_remove(IoFile *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoFile_truncateToSize(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, truncateToSize)
 {
 	/*doc File truncateToSize(numberOfBytes)
 	Trunctates the file's size to the numberOfBytes. Returns self.
@@ -647,7 +647,7 @@ IoObject *IoFile_truncateToSize(IoFile *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoFile_moveTo_(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, moveTo_)
 {
 	/*doc File moveTo(pathString)
 	Moves the file specified by the receiver's path to the
@@ -676,7 +676,7 @@ IoObject *IoFile_moveTo_(IoFile *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoFile_write(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, write)
 {
 	/*doc File write(aSequence1, aSequence2, ...)
 	Writes the arguments to the receiver file. Returns self.
@@ -702,7 +702,7 @@ IoObject *IoFile_write(IoFile *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoFile_readLines(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, readLines)
 {
 	/*doc File readLines
 	Returns list containing all lines in the file.
@@ -741,7 +741,7 @@ IoObject *IoFile_readLines(IoFile *self, IoObject *locals, IoMessage *m)
 	}
 }
 
-IoObject *IoFile_readLine(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, readLine)
 {
 	/*doc File readLine
 	Reads the next line of the file and returns it as a
@@ -809,7 +809,7 @@ UArray *IoFile_readUArrayOfLength_(IoFile *self, IoObject *locals, IoMessage *m)
 	return ba;
 }
 
-IoObject *IoFile_readToBufferLength(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, readToBufferLength)
 {
 	/*doc File readToBufferOfLength(aBuffer, aNumber)
 	Reads at most aNumber number of items and appends them to aBuffer.
@@ -823,7 +823,7 @@ IoObject *IoFile_readToBufferLength(IoFile *self, IoObject *locals, IoMessage *m
 	return IONUMBER(itemsRead);
 }
 
-IoObject *IoFile_readBufferOfLength_(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, readBufferOfLength_)
 {
 	/*doc File readBufferOfLength(aNumber)
 	Reads a Buffer of the specified length and returns it.
@@ -840,7 +840,7 @@ IoObject *IoFile_readBufferOfLength_(IoFile *self, IoObject *locals, IoMessage *
 	return IoSeq_newWithUArray_copy_(IOSTATE, ba, 0);
 }
 
-IoObject *IoFile_readStringOfLength_(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, readStringOfLength_)
 {
 	/*doc File readStringOfLength(aNumber)
 	Reads a String of the specified length and returns it.
@@ -857,7 +857,7 @@ IoObject *IoFile_readStringOfLength_(IoFile *self, IoObject *locals, IoMessage *
 	return IoState_symbolWithUArray_copy_(IOSTATE, ba, 0);
 }
 
-IoObject *IoFile_rewind(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, rewind)
 {
 	/*doc File rewind
 	Sets the file position pointer to the beginning of the file.
@@ -873,7 +873,7 @@ IoObject *IoFile_rewind(IoFile *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoFile_position_(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, position_)
 {
 	/*doc File setPosition(aNumber)
 	Sets the file position pointer to the byte specified by aNumber. Returns self.
@@ -891,7 +891,7 @@ IoObject *IoFile_position_(IoFile *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoFile_position(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, position)
 {
 	/*doc File position
 	Returns the current file pointer byte position as a Number.
@@ -901,7 +901,7 @@ IoObject *IoFile_position(IoFile *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(ftell(DATA(self)->stream));
 }
 
-IoObject *IoFile_positionAtEnd(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, positionAtEnd)
 {
 	/*doc File positionAtEnd
 	Sets the file position pointer to the end of the file.
@@ -917,7 +917,7 @@ IoObject *IoFile_positionAtEnd(IoFile *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoFile_isAtEnd(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, isAtEnd)
 {
 	/*doc File isAtEnd
 	Returns true if the file is at it's end. Otherwise returns false.
@@ -927,7 +927,7 @@ IoObject *IoFile_isAtEnd(IoFile *self, IoObject *locals, IoMessage *m)
 	return IOBOOL(self, feof(DATA(self)->stream) != 0);
 }
 
-IoObject *IoFile_size(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, size)
 {
 	/*doc File size
 	Returns the file size in bytes.
@@ -951,7 +951,7 @@ IoObject *IoFile_size(IoFile *self, IoObject *locals, IoMessage *m)
 	return IONIL(self);
 }
 
-IoObject *IoFile_isOpen(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, isOpen)
 {
 	/*doc File isOpen
 	Returns self if the file is open. Otherwise returns Nil.
@@ -960,7 +960,7 @@ IoObject *IoFile_isOpen(IoFile *self, IoObject *locals, IoMessage *m)
 	return IOBOOL(self, DATA(self)->stream != 0);
 }
 
-IoObject *IoFile_assertOpen(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, assertOpen)
 {
 	if (!DATA(self)->stream)
 	{
@@ -969,7 +969,7 @@ IoObject *IoFile_assertOpen(IoFile *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoFile_assertWrite(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, assertWrite)
 {
 	char *mode = IoSeq_asCString(DATA(self)->mode);
 
@@ -981,7 +981,7 @@ IoObject *IoFile_assertWrite(IoFile *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoFile_at(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, at)
 {
 	/*doc File at(aNumber)
 	Returns a Number containing the byte at the specified
@@ -1002,7 +1002,7 @@ IoObject *IoFile_at(IoFile *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(byte);
 }
 
-IoObject *IoFile_atPut(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, atPut)
 {
 	/*doc File atPut(positionNumber, byteNumber)
 	Writes the byte value of byteNumber to the file position
@@ -1024,7 +1024,7 @@ IoObject *IoFile_atPut(IoFile *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoFile_foreach(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, foreach)
 {
 	/*doc File foreach(optionalIndex, value, message)
 	For each byte, set index to the index of the byte
@@ -1076,7 +1076,7 @@ aFile foreach(v, writeln("byte ", v))
 }
 
 
-IoObject *IoFile_foreachLine(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, foreachLine)
 {
 	/*doc File foreachLine(optionalLineNumber, line, message)
 	For each line, set index to the line number of the line
@@ -1135,7 +1135,7 @@ aFile foreach(v, writeln("Line: ", v))
 }
 
 /*
-IoObject *IoFile_makeUnbuffered(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, makeUnbuffered)
 {
 	//doc File makeUnbuffered Sets the file's stream to be unbuffered. Returns self.
 
@@ -1145,7 +1145,7 @@ IoObject *IoFile_makeUnbuffered(IoFile *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoFile_makeLineBuffered(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, makeLineBuffered)
 {
 	//doc File makeLineBuffered Sets the file's stream to be line buffered. Returns self.
 
@@ -1154,7 +1154,7 @@ IoObject *IoFile_makeLineBuffered(IoFile *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoFile_makeFullyBuffered(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, makeFullyBuffered)
 {
 	//doc File makeFullyBuffered Sets the file's stream to be fully buffered. Returns self.
 
