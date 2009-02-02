@@ -28,11 +28,11 @@ void IoSandbox_free(IoSandbox *self);
 void IoSandbox_mark(IoSandbox *self);
 
 IoNumber *IoSandbox_messageCount(IoSandbox *self, IoObject *locals, IoMessage *m);
-IoObject *IoSandbox_setMessageCount(IoSandbox *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoSandbox, setMessageCount);
 IoNumber *IoSandbox_timeLimit(IoSandbox *self, IoObject *locals, IoMessage *m);
-IoObject *IoSandbox_setTimeLimit(IoSandbox *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoSandbox, setTimeLimit);
 
-IoObject *IoSandbox_doSandboxString(IoSandbox *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoSandbox, doSandboxString);
 
 void IoSandbox_cleanState(IoSandbox *self);
 void IoSandbox_addPrintCallback(IoSandbox *self);

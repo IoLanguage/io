@@ -105,7 +105,7 @@ IoCFunction *IoCFunction_newWithFunctionPointer_tag_name_(void *state,
 	return self;
 }
 
-IoObject *IoCFunction_id(IoCFunction *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoCFunction, id)
 {
 	/*doc CFunction id
 	Returns a number containing a unique id for the receiver's internal C function. 
@@ -114,7 +114,7 @@ IoObject *IoCFunction_id(IoCFunction *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(((uintptr_t)self));
 }
 
-IoObject *IoCFunction_uniqueName(IoCFunction *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoCFunction, uniqueName)
 {
 	/*doc CFunction uniqueName
 	Returns the name given to the CFunction.
@@ -128,7 +128,7 @@ IoObject *IoCFunction_uniqueName(IoCFunction *self, IoObject *locals, IoMessage 
 	return IONIL(self);
 }
 
-IoObject *IoCFunction_typeName(IoCFunction *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoCFunction, typeName)
 {
 	/*doc CFunction typeName
 	Returns the owning type of the CFunction or nil if the CFunction can be called on any object.
@@ -142,7 +142,7 @@ IoObject *IoCFunction_typeName(IoCFunction *self, IoObject *locals, IoMessage *m
 	return IONIL(self);
 }
 
-IoObject *IoCFunction_equals(IoCFunction *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoCFunction, equals)
 {
 	/*doc CFunction ==(anObject)
 	Returns self if the argument is a CFunction with the same internal C function pointer. 
@@ -173,7 +173,7 @@ IoObject *IoCFunction_activate(IoCFunction *self, IoObject *target, IoObject *lo
 	return result;
 }
 
-IoObject *IoCFunction_performOn(IoCFunction *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoCFunction, performOn)
 {
 	/*doc CFunction performOn(target, blockLocals, optionalMessage, optionalContext)
 	Activates the CFunctions with the supplied settings.

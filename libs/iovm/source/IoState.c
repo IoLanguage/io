@@ -346,7 +346,7 @@ void IoState_setupCachedMessages(IoState *self)
 	IoState_retain_(self, self->didFinishMessage);
 }
 
-IoObject *IoObject_initBindings(IoObject *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoObject, initBindings)
 {
 	IOSTATE->bindingsInitCallback(IOSTATE, self);
 	return self;

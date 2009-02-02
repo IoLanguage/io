@@ -125,7 +125,7 @@ IoObject *IoSystem_proto(void *state)
 */
 	
 /*
-IoObject *IoObject_errorNumber(IoObject *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoObject, errorNumber)
 {
 	return IONUMBER(errno);
 }
@@ -136,7 +136,7 @@ IoObject *IoObject_errorNumber(IoObject *self, IoObject *locals, IoMessage *m)
 
 #if defined(_WIN32)
 #include <shellapi.h>
-IoObject *IoObject_shellExecute(IoObject *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoObject, shellExecute)
 {
 	LPCTSTR operation;
 	LPCTSTR file;
@@ -164,7 +164,7 @@ IoObject *IoObject_shellExecute(IoObject *self, IoObject *locals, IoMessage *m)
 }
 #endif
 
-IoObject *IoObject_errorNumberDescription(IoObject *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoObject, errorNumberDescription)
 {
 	/*doc System errorNumber
 	Returns the C errno string.
@@ -172,7 +172,7 @@ IoObject *IoObject_errorNumberDescription(IoObject *self, IoObject *locals, IoMe
 	return errno ? IOSYMBOL(strerror(errno)) : IONIL(self);
 }
 
-IoObject *IoObject_exit(IoObject *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoObject, exit)
 {
 	/*doc System exit(optionalReturnCodeNumber)
 	Shutdown the IoState (io_free all objects) and return
@@ -190,7 +190,7 @@ control to the calling program (if any).
 	return self;
 }
 
-IoObject *IoObject_getEnvironmentVariable(IoObject *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoObject, getEnvironmentVariable)
 {
 	/*doc System getEnvironmentVariable(nameString)
 	Returns a string with the value of the environment 
@@ -208,7 +208,7 @@ IoObject *IoObject_getEnvironmentVariable(IoObject *self, IoObject *locals, IoMe
 	return IoState_symbolWithCString_(IOSTATE, s);
 }
 
-IoObject *IoObject_system(IoObject *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoObject, system)
 {
 	/*doc System system(aString)
 	Makes a system call and returns a Number for the return value.
@@ -220,7 +220,7 @@ IoObject *IoObject_system(IoObject *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(result);
 }
 
-IoObject *IoObject_memorySizeOfState(IoObject *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoObject, memorySizeOfState)
 {
 	/*doc Object memorySizeOfState
 	Returns the number of bytes in the IoState
@@ -231,7 +231,7 @@ IoObject *IoObject_memorySizeOfState(IoObject *self, IoObject *locals, IoMessage
 	//return IONUMBER(IoState_memorySize(IOSTATE));
 }
 
-IoObject *IoObject_compactState(IoObject *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoObject, compactState)
 {
 	/*doc Object compactState
 	Attempt to compact the memory of the IoState if possible.
@@ -241,7 +241,7 @@ IoObject *IoObject_compactState(IoObject *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoObject_setEnvironmentVariable(IoObject *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoObject, setEnvironmentVariable)
 {
 	/*doc System setEnvironmentVariable(keyString, valueString)
 	Sets the environment variable keyString to the value valueString.
@@ -254,7 +254,7 @@ IoObject *IoObject_setEnvironmentVariable(IoObject *self, IoObject *locals, IoMe
 	return self;
 }
 
-IoObject *IoObject_platform(IoObject *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoObject, platform)
 {
 	/*doc System platform
 	Returns a string description of the platform.
@@ -340,7 +340,7 @@ IoObject *IoObject_platform(IoObject *self, IoObject *locals, IoMessage *m)
 	return IoState_symbolWithCString_(IOSTATE, platform);
 }
 
-IoObject *IoObject_platformVersion(IoObject *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoObject, platformVersion)
 {
 	char platformVersion[256];
 
@@ -372,7 +372,7 @@ IoObject *IoObject_platformVersion(IoObject *self, IoObject *locals, IoMessage *
 	return IoState_symbolWithCString_(IOSTATE, platformVersion);
 }
 
-IoObject *IoObject_activeCpus(IoObject *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoObject, activeCpus)
 {
 	/*doc System activeCpus
 	Returns the number of active CPUs.
@@ -407,7 +407,7 @@ IoObject *IoObject_activeCpus(IoObject *self, IoObject *locals, IoMessage *m)
 
 #include "PortableUsleep.h"
 
-IoObject *IoObject_sleep(IoObject *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoObject, sleep)
 {
 	/*doc System sleep(secondsNumber)
 	Performs a *blocking* sleep call for specified number of seconds.
@@ -419,7 +419,7 @@ IoObject *IoObject_sleep(IoObject *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoObject_maxRecycledObjects(IoObject *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoObject, maxRecycledObjects)
 {
 	/*doc System maxRecycledObjects
 	Returns the max number of recycled objects used.
@@ -428,7 +428,7 @@ IoObject *IoObject_maxRecycledObjects(IoObject *self, IoObject *locals, IoMessag
 	return IONUMBER(IOSTATE->maxRecycledObjects);
 }
 
-IoObject *IoObject_setMaxRecycledObjects(IoObject *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoObject, setMaxRecycledObjects)
 {
 	/*doc System setMaxRecycledObjects(aNumber)
 	Sets the max number of recycled objects used.
@@ -439,7 +439,7 @@ IoObject *IoObject_setMaxRecycledObjects(IoObject *self, IoObject *locals, IoMes
 	return self;
 }
 
-IoObject *IoObject_recycledObjectCount(IoObject *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoObject, recycledObjectCount)
 {
 	/*doc System recycledObjectCount
 	Returns the current number of objects being held for recycling.
@@ -450,7 +450,7 @@ IoObject *IoObject_recycledObjectCount(IoObject *self, IoObject *locals, IoMessa
 
 #include "IoList.h"
 
-IoObject *IoObject_symbols(IoObject *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoObject, symbols)
 {
 	/*doc System symbols
 	Returns a List containing all Symbols currently in the system.
@@ -461,7 +461,7 @@ IoObject *IoObject_symbols(IoObject *self, IoObject *locals, IoMessage *m)
 	return list;
 }
 
-IoObject *IoObject_setLobby(IoObject *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoObject, setLobby)
 {
 	/*doc System setLobby(anObject)
 	Sets the root object of the garbage collector.
@@ -472,7 +472,7 @@ IoObject *IoObject_setLobby(IoObject *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoObject_thisProcessPid(IoObject *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoObject, thisProcessPid)
 {
 	/*doc System thisProcessPid()
 	Return the process id (pid) for this Io process.

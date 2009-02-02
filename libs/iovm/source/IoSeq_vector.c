@@ -117,31 +117,31 @@ void IoSeq_setVec3f_(IoSeq *self, vec3f v)
 }
 
 
-IoObject *IoSeq_x(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, x)
 {
 	UArray *u = IoSeq_rawUArray(self);
 	return IONUMBER(UArray_rawDoubleAt_(u, 0));
 }
 
-IoObject *IoSeq_y(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, y)
 {
 	UArray *u = IoSeq_rawUArray(self);
 	return IONUMBER(UArray_rawDoubleAt_(u, 1));
 }
 
-IoObject *IoSeq_z(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, z)
 {
 	UArray *u = IoSeq_rawUArray(self);
 	return IONUMBER(UArray_rawDoubleAt_(u, 2));
 }
 
-IoObject *IoSeq_w(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, w)
 {
 	UArray *u = IoSeq_rawUArray(self);
 	return IONUMBER(UArray_rawDoubleAt_(u, 3));
 }
 
-IoObject *IoSeq_setX(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, setX)
 {
 	double v = IoMessage_locals_doubleArgAt_(m, locals, 0);
 	UArray *u = IoSeq_rawUArray(self);
@@ -149,7 +149,7 @@ IoObject *IoSeq_setX(IoSeq *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoSeq_setY(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, setY)
 {
 	double v = IoMessage_locals_doubleArgAt_(m, locals, 0);
 	UArray *u = IoSeq_rawUArray(self);
@@ -157,7 +157,7 @@ IoObject *IoSeq_setY(IoSeq *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoSeq_setZ(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, setZ)
 {
 	double v = IoMessage_locals_doubleArgAt_(m, locals, 0);
 	UArray *u = IoSeq_rawUArray(self);
@@ -165,7 +165,7 @@ IoObject *IoSeq_setZ(IoSeq *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoSeq_setW(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, setW)
 {
 	double v = IoMessage_locals_doubleArgAt_(m, locals, 0);
 	UArray *u = IoSeq_rawUArray(self);

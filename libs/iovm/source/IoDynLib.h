@@ -41,11 +41,11 @@ IoDynLib *IoDynLib_initFuncName(IoDynLib *self, IoObject *locals, IoMessage *m);
 IoDynLib *IoDynLib_setFreeFuncName(IoDynLib *self, IoObject *locals, IoMessage *m);
 IoDynLib *IoDynLib_freeFuncName(IoDynLib *self, IoObject *locals, IoMessage *m);
 
-IoObject *IoDynLib_open(IoDynLib *self, IoObject *locals, IoMessage *m);
-IoObject *IoDynLib_close(IoDynLib *self, IoObject *locals, IoMessage *m);
-IoObject *IoDynLib_isOpen(IoDynLib *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoDynLib, open);
+IO_METHOD(IoDynLib, close);
+IO_METHOD(IoDynLib, isOpen);
 
-IoObject *IoDynLib_call(IoDynLib *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoDynLib, call);
 IoDynLib *IoDynLib_voidCall(IoDynLib *self, IoObject *locals, IoMessage *m);
 
 IoDynLib *IoDynLib_callPluginInitFunc(IoDynLib *self, IoObject *locals, IoMessage *m);

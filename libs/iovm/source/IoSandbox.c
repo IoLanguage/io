@@ -112,7 +112,7 @@ IoNumber *IoSandbox_messageCount(IoSandbox *self, IoObject *locals, IoMessage *m
 	return IONUMBER(boxState->messageCountLimit);
 }
 
-IoObject *IoSandbox_setMessageCount(IoSandbox *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSandbox, setMessageCount)
 {
 	/*doc Sandbox setMessageCount(anInteger)
 	Sets the messageCount limit of the receiver. 
@@ -133,7 +133,7 @@ IoNumber *IoSandbox_timeLimit(IoSandbox *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(boxState->timeLimit);
 }
 
-IoObject *IoSandbox_setTimeLimit(IoSandbox *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSandbox, setTimeLimit)
 {
 	/*doc Sandbox setTimeLimit(aDouble)
 	Sets the time limit of the Sandbox. 
@@ -144,7 +144,7 @@ IoObject *IoSandbox_setTimeLimit(IoSandbox *self, IoObject *locals, IoMessage *m
 	return self;
 }
 
-IoObject *IoSandbox_doSandboxString(IoSandbox *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSandbox, doSandboxString)
 {
 	/*doc Sandbox doSandboxString(aString)
 	Evaluate aString inside the Sandbox. 

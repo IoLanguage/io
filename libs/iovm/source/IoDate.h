@@ -35,53 +35,53 @@ double IoDate_difference_(IoDate *self, IoDate *other);
 
 // -----------------------------------------------------------
 
-IoObject *IoDate_asSerialization(IoDate *self, IoObject *locals, IoMessage *m);
-IoObject *IoDate_fromSerialization(IoDate *self, IoObject *locals, IoMessage *m);
-IoObject *IoDate_now(IoDate *self, IoObject *locals, IoMessage *m);
-IoObject *IoDate_clock(IoDate *self, IoObject *locals, IoMessage *m);
-IoObject *IoDate_copy(IoDate *self, IoObject *locals, IoMessage *m);
-IoObject *IoDate_cpuSecondsToRun(IoDate *self, IoObject *locals, IoMessage *m);
-IoObject *IoDate_year(IoDate *self, IoObject *locals, IoMessage *m);
-IoObject *IoDate_setYear(IoDate *self, IoObject *locals, IoMessage *m);
-IoObject *IoDate_month(IoDate *self, IoObject *locals, IoMessage *m);
-IoObject *IoDate_setMonth(IoDate *self, IoObject *locals, IoMessage *m);
-IoObject *IoDate_day(IoDate *self, IoObject *locals, IoMessage *m);
-IoObject *IoDate_setDay(IoDate *self, IoObject *locals, IoMessage *m);
-IoObject *IoDate_hour(IoDate *self, IoObject *locals, IoMessage *m);
-IoObject *IoDate_setHour(IoDate *self, IoObject *locals, IoMessage *m);
-IoObject *IoDate_minute(IoDate *self, IoObject *locals, IoMessage *m);
-IoObject *IoDate_setMinute(IoDate *self, IoObject *locals, IoMessage *m);
-IoObject *IoDate_second(IoDate *self, IoObject *locals, IoMessage *m);
-IoObject *IoDate_setSecond(IoDate *self, IoObject *locals, IoMessage *m);
-IoObject *IoDate_isDaylightSavingsTime(IoDate *self, IoObject *locals, IoMessage *m);
-IoObject *IoDate_zone(IoDate *self, IoObject *locals, IoMessage *m);
-IoObject *IoDate_gmtOffset(IoDate *self, IoObject *locals, IoMessage *m);
-IoObject *IoDate_gmtOffsetSeconds(IoDate *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoDate, asSerialization);
+IO_METHOD(IoDate, fromSerialization);
+IO_METHOD(IoDate, now);
+IO_METHOD(IoDate, clock);
+IO_METHOD(IoDate, copy);
+IO_METHOD(IoDate, cpuSecondsToRun);
+IO_METHOD(IoDate, year);
+IO_METHOD(IoDate, setYear);
+IO_METHOD(IoDate, month);
+IO_METHOD(IoDate, setMonth);
+IO_METHOD(IoDate, day);
+IO_METHOD(IoDate, setDay);
+IO_METHOD(IoDate, hour);
+IO_METHOD(IoDate, setHour);
+IO_METHOD(IoDate, minute);
+IO_METHOD(IoDate, setMinute);
+IO_METHOD(IoDate, second);
+IO_METHOD(IoDate, setSecond);
+IO_METHOD(IoDate, isDaylightSavingsTime);
+IO_METHOD(IoDate, zone);
+IO_METHOD(IoDate, gmtOffset);
+IO_METHOD(IoDate, gmtOffsetSeconds);
 
-IoObject *IoDate_isValidTime(IoDate *self, IoObject *locals, IoMessage *m);
-IoObject *IoDate_secondsSince_(IoDate *self, IoObject *locals, IoMessage *m);
-IoObject *IoDate_secondsSinceNow(IoDate *self, IoObject *locals, IoMessage *m);
-IoObject *IoDate_isPast(IoDate *self, IoObject *locals, IoMessage *m);
-//IoObject *IoDate_dateAfterSeconds_(IoDate *self, IoObject *locals, IoMessage *m);
-IoObject *IoDate_printDate(IoDate *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoDate, isValidTime);
+IO_METHOD(IoDate, secondsSince_);
+IO_METHOD(IoDate, secondsSinceNow);
+IO_METHOD(IoDate, isPast);
+//IO_METHOD(IoDate, dateAfterSeconds_);
+IO_METHOD(IoDate, printDate);
 
 // coversions
 
-IoObject *IoDate_asString(IoDate *self, IoObject *locals, IoMessage *m);
-IoObject *IoDate_asNumber(IoDate *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoDate, asString);
+IO_METHOD(IoDate, asNumber);
 
-IoObject *IoDate_fromNumber(IoDate *self, IoObject *locals, IoMessage *m);
-IoObject *IoDate_fromString(IoDate *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoDate, fromNumber);
+IO_METHOD(IoDate, fromString);
 
-IoObject *IoDate_setFormat(IoDate *self, IoObject *locals, IoMessage *m);
-IoObject *IoDate_format(IoDate *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoDate, setFormat);
+IO_METHOD(IoDate, format);
 
 // durations
 
-IoObject *IoDate_subtract(IoDate *self, IoObject *locals, IoMessage *m);
-IoObject *IoDate_subtractInPlace(IoDate *self, IoObject *locals, IoMessage *m);
-IoObject *IoDate_add(IoDate *self, IoObject *locals, IoMessage *m);
-IoObject *IoDate_addInPlace(IoDate *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoDate, subtract);
+IO_METHOD(IoDate, subtractInPlace);
+IO_METHOD(IoDate, add);
+IO_METHOD(IoDate, addInPlace);
 
 #ifdef __cplusplus
 }
