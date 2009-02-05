@@ -1782,6 +1782,8 @@ IO_METHOD(IoObject, message)
 {
 	/*doc Object message(expression)
 	Return the message object for the argument or Nil if there is no argument.
+	Note: returned object is a mutable singleton. Use "message(foo) clone" if 
+  you wish to modify it.
 	*/
 
 	return IoMessage_argCount(m) ? IoMessage_rawArgAt_(m, 0) : IONIL(self);
