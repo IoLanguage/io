@@ -2,12 +2,36 @@
 Vector := Sequence clone setItemType("float32") setEncoding("number")
 vector := method(v := Vector clone; call evalArgs foreach(n, v append(n)); v)
 
+
+/*
+Object moveSlotToObject := method(slotName, target,
+	v := self getSlot(slotName)
+	self removeSlot(slotName)
+	target setSlot(slotName, getSlot("v"))
+	writeln(self type, " removeSlot(\"", slotName, "\")")
+)
+
+
+list("*", "*=", "+", "+=", "-", "-=", "..", "/", "/=", "<", 
+"<=", ">", ">=", "Max", "Min", "abs", "acos", "addEquals", "asin", 
+"bitAt", "bitCount", "bitwiseAnd", "bitwiseNot", "bitwiseOr", "bitwiseXor", "byteAt", "ceil", 
+"cos", "cosh", "distanceTo", "dotProduct", "duplicateIndexes", "isZero", 
+"log", "log10", "logicalOr", "max", "mean", "meanSquare", "min", "negate", "normalize",  
+"product", "rangeFill", "removeEvenIndexes", "removeOddIndexes", "rootMeanSquare", 
+"setX", "setY", "setZ", "sin", "sinh", "sort", "sqrt", "square", "sum", 
+"tan", "tanh", "toBase", "translate", "x", "y", "z", "zero") foreach(slotName, Sequence moveSlotToObject(slotName, Vector))
+
+Sequence appendProto(Vector)
+*/
+
 Lobby Protos Core do(
 	ImmutableSequence := ""
 	String := ImmutableSequence
 )
 
 Sequence do(
+	validEncodings := "ascii utf8 ucs2 ucs4 number" split
+	validItemTypes := "uint8 uint16 uint32 uint64 int8 int16 int32 int64 float32 float64" split
 	setSlot("..", method(arg, self asString cloneAppendSeq(arg asString)))
 
 	//doc Sequence repeated(n) Returns a new sequence containing the receiver repeated n number of times.
@@ -69,7 +93,7 @@ Sequence do(
 		alignRight(((size + width) / 2) floor, padding) alignLeftInPlace(width, padding)
 	)
 
-	asSimpleString := method("\"" .. self asString .. "\"")
+	asSimpleString := method("\"" .. self asString asMutable escape .. "\"")
 
 	/*doc Sequence split(optionalArg1, optionalArg2, ...)
 		Returns a list containing the non-empty sub-sequences of the receiver divided by the given arguments.
@@ -154,7 +178,7 @@ Sequence do(
 	//doc Sequence asHex Returns a hex string for the receiving sequence, e.g., \"abc\" asHex -> \"616263\".")
 	asHex := method(
 		r := Sequence clone
-		self foreach(c, r appendSeq(c asHex alignRight(2, "00")))
+		self foreach(c, r appendSeq(c asHex))
 		r
 	)
 

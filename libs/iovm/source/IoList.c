@@ -271,7 +271,7 @@ void IoList_checkIndex(IoList *self, IoMessage *m, char allowsExtending, int ind
 
 // immutable --------------------------------------------------------
 
-IoObject *IoList_with(IoList *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoList, with)
 {
 	/*doc List with(anObject, ...)
 	Returns a new List containing the arguments. 
@@ -290,7 +290,7 @@ IoObject *IoList_with(IoList *self, IoObject *locals, IoMessage *m)
 }
 
 
-IoObject *IoList_indexOf(IoList *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoList, indexOf)
 {
 	/*doc List indexOf(anObject)
 	Returns the index of the first occurrence of anObject
@@ -310,7 +310,7 @@ IoObject *IoList_indexOf(IoList *self, IoObject *locals, IoMessage *m)
 	}
 }
 
-IoObject *IoList_contains(IoList *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoList, contains)
 {
 	/*doc List contains(anObject)
 	Returns true if the receiver contains anObject, otherwise returns false. 
@@ -320,7 +320,7 @@ IoObject *IoList_contains(IoList *self, IoObject *locals, IoMessage *m)
 	return IOBOOL(self, IoList_rawIndexOf_(self, v) != -1);
 }
 
-IoObject *IoList_containsIdenticalTo(IoList *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoList, containsIdenticalTo)
 {
 	/*doc List containsIdenticalTo(anObject)
 	Returns true if the receiver contains a value identical to anObject, otherwise returns false. 
@@ -330,7 +330,7 @@ IoObject *IoList_containsIdenticalTo(IoList *self, IoObject *locals, IoMessage *
 	return IOBOOL(self, List_contains_(DATA(self), v) != 0);
 }
 
-IoObject *IoList_capacity(IoList *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoList, capacity)
 {
 	/*doc List capacity
 	Returns the number of potential elements the receiver can hold before it needs to grow.
@@ -339,7 +339,7 @@ IoObject *IoList_capacity(IoList *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(DATA(self)->memSize / sizeof(void *));
 }
 
-IoObject *IoList_size(IoList *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoList, size)
 {
 	/*doc List size
 	Returns the number of items in the receiver. 
@@ -348,7 +348,7 @@ IoObject *IoList_size(IoList *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(List_size(DATA(self)));
 }
 
-IoObject *IoList_at(IoList *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoList, at)
 {
 	/*doc List at(index)
 	Returns the value at index. Returns Nil if the index is out of bounds. 
@@ -361,7 +361,7 @@ IoObject *IoList_at(IoList *self, IoObject *locals, IoMessage *m)
 	return (v) ? v : IONIL(self);
 }
 
-IoObject *IoList_first(IoList *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoList, first)
 {
 	/*doc List first(optionalSize)
 	Returns the first item or Nil if the list is empty.
@@ -390,7 +390,7 @@ IoObject *IoList_first(IoList *self, IoObject *locals, IoMessage *m)
 	}
 }
 
-IoObject *IoList_last(IoList *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoList, last)
 {
 	/*doc List last(optionalSize)
 	Returns the last item or Nil if the list is empty.
@@ -449,7 +449,7 @@ void IoList_sliceArguments(IoList *self, IoObject *locals, IoMessage *m, int *st
 	}
 }
 
-IoObject *IoList_slice(IoList *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoList, slice)
 {
 	/*doc List slice(startIndex, endIndex)
 	Returns a new string containing the subset of the
@@ -473,7 +473,7 @@ IoObject *IoList_slice(IoList *self, IoObject *locals, IoMessage *m)
 	}
 }
 
-IoObject *IoList_sliceInPlace(IoList *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoList, sliceInPlace)
 {
 	/*doc List sliceInPlace(startIndex, endIndex)
 	Returns the receiver containing the subset of the
@@ -499,7 +499,7 @@ IoObject *IoList_sliceInPlace(IoList *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoList_each(IoList *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoList, each)
 {
 	IoState *state = IOSTATE;
 	IoObject *result = IONIL(self);
@@ -520,7 +520,7 @@ done:
 }
 
 
-IoObject *IoList_foreach(IoList *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoList, foreach)
 {
 	/*doc List foreach(optionalIndex, value, message)
 Loops over the list values setting the specified index and
@@ -573,7 +573,7 @@ done:
 	return result;
 }
 
-IoObject *IoList_reverseForeach(IoList *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoList, reverseForeach)
 {
 	/*doc List reverseForeach(index, value, message)
 	Same as foreach, but in reverse order.
@@ -617,7 +617,7 @@ done:
 
 // mutable --------------------------------------------------------
 
-IoObject *IoList_appendIfAbsent(IoList *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoList, appendIfAbsent)
 {
 	/*doc List appendIfAbsent(anObject)
 	Adds each value not already contained by the receiver, returns self. 
@@ -640,7 +640,7 @@ IoObject *IoList_appendIfAbsent(IoList *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoList_appendSeq(IoList *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoList, appendSeq)
 {
 	/*doc List appendSeq(aList1, aList2, ...)
 	Add the items in the lists to the receiver. Returns self.
@@ -676,7 +676,7 @@ IoObject *IoList_appendSeq(IoList *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoList_append(IoList *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoList, append)
 {
 	/*doc List append(anObject1, anObject2, ...)
 	Appends the arguments to the end of the list. Returns self.
@@ -701,7 +701,7 @@ IoObject *IoList_append(IoList *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoList_prepend(IoList *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoList, prepend)
 {
 	/*doc List prepend(anObject1, anObject2, ...)
 	Inserts the values at the beginning of the list. Returns self.
@@ -723,7 +723,7 @@ IoObject *IoList_prepend(IoList *self, IoObject *locals, IoMessage *m)
 }
 
 
-IoObject *IoList_remove(IoList *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoList, remove)
 {
 	/*doc List remove(anObject, ...)
 	Removes all occurrences of the arguments from the receiver. Returns self. 
@@ -760,7 +760,7 @@ IoObject *IoList_remove(IoList *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoList_pop(IoList *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoList, pop)
 {
 	/*doc List pop
 	Returns the last item in the list and removes it
@@ -771,7 +771,7 @@ IoObject *IoList_pop(IoList *self, IoObject *locals, IoMessage *m)
 	return (v) ? v : IONIL(self);
 }
 
-IoObject *IoList_atInsert(IoList *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoList, atInsert)
 {
 	/*doc List atInsert(index, anObject)
 	Inserts anObject at the index specified by index.
@@ -788,7 +788,7 @@ IoObject *IoList_atInsert(IoList *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoList_removeAt(IoList *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoList, removeAt)
 {
 	/*doc List removeAt(index)
 	Removes the item at the specified index and returns the value removed.
@@ -815,7 +815,7 @@ void IoList_rawAtPut(IoList *self, int i, IoObject *v)
 	IoObject_isDirty_(self, 1);
 }
 
-IoObject *IoList_atPut(IoList *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoList, atPut)
 {
 	/*doc List atPut(index, anObject)
 	Replaces the existing value at index with anObject.
@@ -831,7 +831,7 @@ IoObject *IoList_atPut(IoList *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoList_setSize(IoList *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoList, setSize)
 {
 	/*doc List setSize
 	Sets the size of the receiver by either removing excess items or adding nils as needed.
@@ -860,7 +860,7 @@ IoObject *IoList_setSize(IoList *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoList_removeAll(IoList *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoList, removeAll)
 {
 	/*doc List empty
 	Removes all items from the receiver.
@@ -871,7 +871,7 @@ IoObject *IoList_removeAll(IoList *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoList_swapIndices(IoList *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoList, swapIndices)
 {
 	/*doc List swapIndices(index1, index2)
 	Exchanges the object at index1 with the object at index2.
@@ -888,7 +888,7 @@ IoObject *IoList_swapIndices(IoList *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoList_reverseInPlace(IoList *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoList, reverseInPlace)
 {
 	/*doc List reverseInPlace
 	Reverses the ordering of all the items in the receiver. Returns self.
@@ -898,7 +898,7 @@ IoObject *IoList_reverseInPlace(IoList *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoList_preallocateToSize(IoList *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoList, preallocateToSize)
 {
 	/*doc List preallocateToSize(aNumber)
 	Preallocates array memory to hold aNumber number of items.
@@ -935,7 +935,7 @@ int MSortContext_compareForSort(MSortContext *self, void *ap, void *bp)
 	return r;
 }
 
-IoObject *IoList_sortInPlace(IoList *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoList, sortInPlace)
 {
 	/*doc List sortInPlace(optionalExpression)
 	Sorts the list using the compare method on the items. Returns self.
@@ -989,7 +989,7 @@ int SortContext_compareForSort(SortContext *self, void *ap, void *bp)
 	return ISFALSE(cr) ? 1 : -1;
 }
 
-IoObject *IoList_sortInPlaceBy(IoList *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoList, sortInPlaceBy)
 {
 	/*doc List sortInPlaceBy(aBlock)
 	Sort the list using aBlock as the compare function. Returns self.
@@ -1022,7 +1022,7 @@ typedef enum
 } IOLIST_ENCODING_TYPE;
 
 
-IoObject *IoList_asEncodedList(IoList *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoList, asEncodedList)
 {
 	/*doc List asEncodedList
 	Returns a Sequence with an encoding of the list. 
@@ -1093,12 +1093,11 @@ IoObject *IoList_asEncodedList(IoList *self, IoObject *locals, IoMessage *m)
 			}
 		}
 	}
-
 	
 	return IoSeq_newWithUArray_copy_(IOSTATE, u, 0);
 }
 
-IoObject *IoList_fromEncodedList(IoList *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoList, fromEncodedList)
 {
 	/*doc List fromEncodedList(aSeq)
 	Returns a List with the decoded Nils, Symbols and Numbers from the input raw array. 

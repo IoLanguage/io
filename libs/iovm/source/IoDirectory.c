@@ -229,7 +229,7 @@ void IoDirectory_mark(IoDirectory *self)
 
 // -----------------------------------------------------------
 
-IoObject *IoDirectory_path(IoDirectory *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDirectory, path)
 {
 	/*doc Directory path
 	Returns the directory path. The default path is '.'.
@@ -238,7 +238,7 @@ IoObject *IoDirectory_path(IoDirectory *self, IoObject *locals, IoMessage *m)
 	return DATA(self)->path;
 }
 
-IoObject *IoDirectory_setPath(IoDirectory *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDirectory, setPath)
 {
 	/*doc Directory setPath(aString)
 	Sets the directory path. Returns self. 
@@ -255,7 +255,7 @@ IoObject *IoDirectory_setPath(IoDirectory *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoDirectory_name(IoDirectory *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDirectory, name)
 {
 	/*doc Directory name
 	Returns the receiver's last path component.  
@@ -293,7 +293,7 @@ IoObject *IoDirectory_itemForDirent_(IoDirectory *self, struct dirent *dp)
 	return IoFile_newWithPath_(IOSTATE, pathString);
 }
 
-IoObject *IoDirectory_exists(IoDirectory *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDirectory, exists)
 {
 	/*doc Directory exists(optionalPath)
 	Returns true if the Directory path exists, and false otherwise.
@@ -319,7 +319,7 @@ IoObject *IoDirectory_exists(IoDirectory *self, IoObject *locals, IoMessage *m)
 	return IOTRUE(self);
 }
 
-IoObject *IoDirectory_items(IoDirectory *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDirectory, items)
 {
 	/*doc Directory items
 	Returns a list object containing File and Directory objects
@@ -375,7 +375,7 @@ IoObject *IoDirectory_justAt(IoDirectory *self, IoSymbol *name)
 	return IONIL(self);
 }
 
-IoObject *IoDirectory_at(IoDirectory *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDirectory, at)
 {
 	/*doc Directory at(aString)
 	Returns a File or Directory object matching the name specified
@@ -395,7 +395,7 @@ IoObject *IoDirectory_at(IoDirectory *self, IoObject *locals, IoMessage *m)
 }
 
 /*
-IoObject *IoDirectory_atPut(IoDirectory *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDirectory, atPut)
 {
 	IoSymbol *name = IoMessage_locals_symbolArgAt_(m, locals, 0);
 	IoObject *item = IoDirectory_justAt(self, name);
@@ -408,7 +408,7 @@ IoObject *IoDirectory_atPut(IoDirectory *self, IoObject *locals, IoMessage *m)
 */
 
 /*
-IoObject *IoDirectory_itemNamed(IoDirectory *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDirectory, itemNamed)
 {
 	IoSymbol *itemName = IoMessage_locals_symbolArgAt_(m, locals, 0);
 	char *name = CSTRING(itemName);
@@ -433,7 +433,7 @@ IoObject *IoDirectory_itemNamed(IoDirectory *self, IoObject *locals, IoMessage *
 }
 */
 
-IoObject *IoDirectory_createSubdirectory(IoDirectory *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDirectory, createSubdirectory)
 {
 	/*doc Directory createSubdirectory(name)
 	Create a subdirectory with the specified name.
@@ -465,7 +465,7 @@ IoObject *IoDirectory_createSubdirectory(IoDirectory *self, IoObject *locals, Io
 }
 
 
-IoObject *IoDirectory_create(IoDirectory *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDirectory, create)
 {
 	/*doc Directory create
 	Create the directory if it doesn't exist. 
@@ -482,7 +482,7 @@ IoObject *IoDirectory_create(IoDirectory *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoDirectory_size(IoDirectory *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDirectory, size)
 {
 	/*doc Directory size
 	Returns a Number containing the number of file and directory
@@ -538,7 +538,7 @@ int IoDirectory_SetCurrentWorkingDirectory(const char *path)
 	return chdir(path);
 }
 
-IoObject *IoDirectory_currentWorkingDirectory(IoDirectory *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDirectory, currentWorkingDirectory)
 {
 	/*doc Directory currentWorkingDirectory
 	Returns the current working directory path.
@@ -555,7 +555,7 @@ int IoDirectory_SetCurrentWorkingDirectory(char *p)
 }
 */
 
-IoObject *IoDirectory_setCurrentWorkingDirectory(IoDirectory *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDirectory, setCurrentWorkingDirectory)
 {
 	/*doc Directory setCurrentWorkingDirectory(pathString)
 	Set's the current working directory path.

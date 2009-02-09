@@ -3,11 +3,15 @@ ifneq (,$(findstring Windows,$(SYS)))
     CCLDOUTFLAG := "-Fe"
 endif
 
+iofiles=$(wildcard io/*.io)
+
 tools/io2c:
 	$(CC) tools/io2c.c -o tools/io2c
 
-all_begin: tools/io2c
-	./tools/io2c VMCode IoState_doString_ $(shell ls io/*.io) > source/IoVMInit.c
+all_begin: source/IoVMInit.c
+
+source/IoVMInit.c: tools/io2c $(iofiles)
+	./tools/io2c VMCode IoState_doString_ $(iofiles) > $@
 
 all_end:
 	

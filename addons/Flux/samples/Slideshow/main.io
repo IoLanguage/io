@@ -12,8 +12,8 @@ Slide := Object clone do(
     
     appendProto(OpenGL)
     
-    newSlot("title", "")
-    newSlot("bulletPoints", "")
+    title ::= ""
+    bulletPoints ::= ""
     width  := method(app width)
     height := method(app height)
     titleRatio := .95

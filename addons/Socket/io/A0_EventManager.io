@@ -87,7 +87,7 @@ TimerEvent  := Event clone setEventType(Event EV_TIMER) do(
 	nil
 )
 
-Object wait := method(t, TimerEvent clone setTimeout(t) waitOn)
+//Object wait := method(t, TimerEvent clone setTimeout(t) waitOn)
 
 EventManager do(
 	//metadoc EventManager category Networking
@@ -140,44 +140,41 @@ EventManager do(
 Scheduler currentCoroutine setLabel("main")
 EventManager setListenTimeout(.01)
 
-EvConnection do(
-	eventManager ::= EventManager
-	address ::= ""
-	port ::= 80
-	
-	newRequest := method(
-		EvRequest clone setConnection(self)
-	)
-	
-	didFinish := nil
-)
-
-EvRequest do(
-	requestHeaders := Map clone
-	requestHeaders atPut("User-Agent", "Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/312.8 (KHTML, like Gecko) Safari/312.6)")
-	requestHeaders atPut("Connection", "close")
-	requestHeaders atPut("Accept", "*/*")
-	
-	init := method(
-		self requestHeaders := requestHeaders clone		
+if(getSlot("EvConnection"),
+	EvConnection do(
+		eventManager ::= EventManager
+		address ::= ""
+		port ::= 80
+		newRequest := method(EvRequest clone setConnection(self))
+		didFinish := nil
 	)
 
-	connection ::= nil
-	requestType ::= "GET"
-	uri ::= "/index.html"
+	EvRequest do(
+		requestHeaders := Map clone
+		requestHeaders atPut("User-Agent", "Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/312.8 (KHTML, like Gecko) Safari/312.6)")
+		requestHeaders atPut("Connection", "close")
+		requestHeaders atPut("Accept", "*/*")
+	
+		init := method(
+			self requestHeaders := requestHeaders clone		
+		)
 
-	send := method(
-		self requestHeaders atPut("Host", connection address, connection port)
-		self waitingCoro := Coroutine currentCoroutine
-		asyncSend
-		EventManager resumeIfNeeded
-		yield
-		waitingCoro pause
-	)
+		connection ::= nil
+		requestType ::= "GET"
+		uri ::= "/index.html"
 
-	didFinish := method(
-		waitingCoro resumeLater
+		send := method(
+			self requestHeaders atPut("Host", connection address, connection port)
+			self waitingCoro := Coroutine currentCoroutine
+			asyncSend
+			EventManager resumeIfNeeded
+			yield
+			waitingCoro pause
+		)
+
+		didFinish := method(
+			waitingCoro resumeLater
+		)
 	)
 )
-
 

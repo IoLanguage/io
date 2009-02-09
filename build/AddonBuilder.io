@@ -79,48 +79,40 @@ AddonBuilder := Object clone do(
 			linkOptions := List clone
 			addons := List clone
 		)
+		
+		self defines := List clone
 	)
 
 	mkdir := method(relativePath,
-		if (folder path != ".",
-			path := folder path .. "/" .. relativePath
-		)
+		path := Path with(folder path, relativePath)
 		if(Directory exists(path) not,
 			writeln("mkdir -p ", relativePath)
-			dir :=  Directory with(".")
-			path split("/") foreach(x,
-				dir := dir directoryNamed(x)
-				dir create
-			)
+			Directory with(path) createIfAbsent
 		)
 	)
 
 	pathForFramework := method(name,
 		frameworkname := name .. ".framework"
-		path := frameworkSearchPaths detect(path,
+		frameworkSearchPaths detect(path,
 			Directory with(path .. "/" .. frameworkname) exists
 		)
-		path
 	)
 
 	pathForHeader := method(name,
-		path := headerSearchPaths detect(path,
+		headerSearchPaths detect(path,
 			File with(path .. "/" .. name) exists
 		)
-		path
 	)
 
 	pathForLib := method(name,
-		libname := "lib" .. name
-		path := libSearchPaths detect(path,
-			p1 := File with(path .. "/" .. libname .. "." .. dllSuffix) exists
-			p2 := File with(path .. "/" .. libname .. ".a") exists
-			p3 := File with(path .. "/" .. libname .. ".lib") exists
-			p1 or p2 or p3
+		libNames := list("." .. dllSuffix, ".a", ".lib") map(suffix, "lib" .. name .. suffix)
+		libSearchPaths detect(path,
+			libDirectory := Directory with(path)
+			libNames detect(libName, libDirectory fileNamed(libName) exists)
 		)
-		path
 	)
 
+	addDefine := method(v, defines appendIfAbsent(v))
 	dependsOnBinding := method(v, depends addons appendIfAbsent(v))
 	dependsOnHeader := method(v, depends headers appendIfAbsent(v))
 	dependsOnLib := method(v,
@@ -139,44 +131,41 @@ AddonBuilder := Object clone do(
 		if(path != nil, dependsOnFramework(v) ; appendHeaderSearchPath(path .. "/" .. v .. ".framework/Headers"), dependsOnLib(w))
 	)
 
-	optionallyDependsOnLib       := method(v, if(pathForLib(v) != nil, dependsOnLib(v)))
-	optionallyDependsOnFramework := method(v, if(pathForFramework(v) != nil, dependsOnFramework(v)))
+	optionallyDependsOnLib       := method(v, a := pathForLib(v) != nil; if(a, dependsOnLib(v)); a)
+	optionallyDependsOnFramework := method(v, a := pathForFramework(v) != nil; if(a, dependsOnFramework(v)); a)
 
-	missingFrameworks := method(
+	missingFrameworks := method(errors,
 		depends frameworks select(p,
 			if(pathForFramework(p) == nil,
-				error := (self name .. " is missing " .. p .. " framework\n") print
-				File clone openForAppending("errors") write(error) close
+				errors addError(self name .. " is missing " .. p .. " framework\n")
 				self isAvailable := false
 				true
 			)
 		)
 	)
 
-	missingHeaders := method(
+	missingHeaders := method(errors,
 		depends headers select(p,
 			if(pathForHeader(p) == nil,
-				error := (self name .. " is missing " .. p .. " header\n") print
-				File clone openForAppending("errors") write(error) close
+				errors addError(self name .. " is missing " .. p .. " header\n")
 				self isAvailable := false
 				true
 			)
 		)
 	)
 
-	missingLibs := method(
+	missingLibs := method(errors,
 		depends libs select(p,
 			//writeln("pathForLib(", p, ") = ", pathForLib(p))
 			if(pathForLib(p) == nil,
-				error := (self name .. " is missing " .. p .. " library\n") print
-				File clone openForAppending("errors") write(error) close
+				errors addError(self name .. " is missing " .. p .. " library\n")
 				self isAvailable := false
 				true
 			)
 		)
 	)
 
-	hasDepends := method(missingFrameworks size == 0 and missingLibs size == 0 and missingHeaders size == 0)
+	hasDepends := method(errors, missingFrameworks(errors) size == 0 and missingLibs(errors) size == 0 and missingHeaders(errors) size == 0)
 
 	installCommands := method(
 		commands := Map clone
@@ -250,7 +239,7 @@ AddonBuilder := Object clone do(
 
 		generateInitFile
 
-		options := options ifNilEval("") .. cflags
+		options := options ifNilEval("") .. cflags .. " " .. defines map(d, "-D" .. d) join(" ")
 		cFiles foreach(f,
 			obj := f name replaceSeq(".cpp", ".o") replaceSeq(".c", ".o") replaceSeq(".m", ".o")
 			objFile := objsFolder fileNamedOrNil(obj)

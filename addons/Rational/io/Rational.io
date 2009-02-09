@@ -17,11 +17,11 @@ Rational := Object clone do(
 
 	//doc Rational numerator Returns the numerator.
 	//doc Rational setNumerator(aNumber) Sets the numerator. Returns self.
-	newSlot("numerator", 0)
+	numerator ::= 0
 	
 	//doc Rational denominator Returns the denominator.
 	//doc Rational setDenominator(aNumber) Sets the denominator. Returns self.	
-	newSlot("denominator", 0)
+	denominator ::= 0
 
 	//doc Rational with(aNumerator, aDenominator) Convenience constructor. Returns a new Rational number whose numerator and denominator are represented by the arguments aNumerator and aDenominator respectively.")
 	with := method(n, d,

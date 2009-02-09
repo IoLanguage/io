@@ -20,7 +20,7 @@ DBox := View clone do(
 	isBox := true
 
 	size set(140, 30)
-	newSlot("selectedColor", Point clone set(.1, .8, .1, 1))
+	selectedColor ::= Point clone set(.1, .8, .1, 1)
 	setOutlineColor(Point clone set(.3, .3, .3, .95))
 	setBackgroundColor(Point clone set(.2, .2, .2, 1))
 

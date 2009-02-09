@@ -43,12 +43,12 @@ IOVM_API void IoSeq_setVec3f_(IoSeq *self, vec3f v);
 
 // --------------
 
-IOVM_API IoObject *IoSeq_x(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_y(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_z(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_w(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, x);
+IOVM_API IO_METHOD(IoSeq, y);
+IOVM_API IO_METHOD(IoSeq, z);
+IOVM_API IO_METHOD(IoSeq, w);
 
-IOVM_API IoObject *IoSeq_setX(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_setY(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_setZ(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_setW(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, setX);
+IOVM_API IO_METHOD(IoSeq, setY);
+IOVM_API IO_METHOD(IoSeq, setZ);
+IOVM_API IO_METHOD(IoSeq, setW);

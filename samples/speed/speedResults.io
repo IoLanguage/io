@@ -41,9 +41,9 @@ slotNames := list(
 	"instantiations")
 	
 SpeedTestResult := Object clone do(
-    newSlot("name", "")
-    newSlot("color", "#888888")
-    newSlot("fontColor", "#aaaaaa")
+    name ::= ""
+    color ::= "#888888"
+    fontColor ::= "#aaaaaa"
 
     showBarFor := method(slotName, scale, 
 	value := self getSlot(slotName)

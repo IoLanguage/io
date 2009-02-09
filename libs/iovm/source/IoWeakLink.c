@@ -123,7 +123,7 @@ void IoWeakLink_notification(IoWeakLink *self, void *notification) // called whe
 
 // -----------------------------------------------------------
 
-IoObject *IoWeakLink_setLink(IoWeakLink *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoWeakLink, setLink)
 {
 	/*doc WeakLink setLink(aValue)
 	Sets the link pointer. Returns self.
@@ -148,7 +148,7 @@ void IoWeakLink_rawSetLink(IoWeakLink *self, IoObject *v)
 	}
 }
 
-IoObject *IoWeakLink_link(IoWeakLink *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoWeakLink, link)
 {
 	/*doc WeakLink link
 	Returns the link pointer or Nil if none is set.

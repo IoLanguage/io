@@ -19,7 +19,6 @@
 #include "Collector.h"
 
 #include "IoSeq.h"
-#include "IoVersion.h"
 #include "IoCoroutine.h"
 
 #define IOMESSAGE_INLINE_PERFORM 1

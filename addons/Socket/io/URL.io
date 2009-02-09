@@ -314,11 +314,11 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 
 	//doc URL fetchHttp(optionalProgressBlock) Private method that fetches an http url.
 	fetchHttp := method(progressBlock,
-		if(cacheOn, r := cacheLoad; if(r, return r))
+		//if(cacheOn, r := cacheLoad; if(r, return r))
 		connectAndWriteHeader returnIfError
 		r := processHttpResponse(progressBlock)
-		if(r isError not, cacheStore(r))
-		//if(cacheOn and r isError not, cacheStore(r))
+		//if(r isError not, if(cacheOn, cacheStore(r)))
+		if(cacheOn and r isError not, cacheStore(r))
 		return r
 	)
 	
@@ -385,6 +385,35 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		fetchHttp(block(file write(socket readBuffer); socket readBuffer empty)) returnIfError
 		self
 	)
+	
+	/*
+	fetchOrFailToFilePath := method(path,
+		tmpPath := "/tmp/" .. Date clone now asNumber asString md5String
+		tmpFile := File with(tmpPath) open
+		writeln("fetchOrFailToFilePath(", path, ")")
+		e := fetchToFile(tmpFile)
+		tmpFile close
+		if(e isError or self statusCode != 200,
+			writeln("error loading ", self url)
+			tmpFile remove
+		, 
+			tmpFile copyToPath(path)
+			tmpFile remove
+		)
+		e
+	)
+	*/
+	
+	fetchOrFailToFilePath := method(path,
+		data := self fetch
+		if(data isError or self statusCode != 200,
+			writeln("error loading ", self url)
+			return data
+		, 
+			File with(path) setContents(data)
+		)
+		self
+	)
 
 	childUrl := method(u,
 		if(u beginsWithSeq("http") not,
@@ -419,12 +448,9 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		)
 
 		if(parameters type == "Map") then(
-			buffer := Sequence clone
-			parameters keys foreach(i, j,
-			buffer appendSeq(escapeString(j), "=", escapeString(parameters at(j)))
-			if(i < parameters size - 1, buffer appendSeq("&"))
-			)
-			content := buffer asString
+			content := parameters keys map(k,
+				Sequence with(escapeString(k), "=", escapeString(parameters at(k)))
+			) join("&")
 		) else(
 			content := parameters
 		)

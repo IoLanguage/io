@@ -1,10 +1,10 @@
 
-   v := Object clone do(
-	newSlot("from", "")
-	newSlot("to", nil)
-	newSlot("cc", nil)
-	newSlot("subject", "")
-	newSlot("content", "")
+v := Object clone do(
+	from ::= ""
+	to ::= nil
+	cc ::= nil
+	subject ::= ""
+	content ::= ""
 	
 	mailServerAddress := method(
 		host := to split("@") last

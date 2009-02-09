@@ -15,7 +15,7 @@ Lobby exit := method(Curses end; System exit)
 
 Outliner := Object clone do(
 	_object := Lobby
-	newSlot("selectedSlotName", "")
+	selectedSlotName ::= ""
 
 	init := method(
 		resend

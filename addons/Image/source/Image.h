@@ -16,14 +16,12 @@
 #include <Common.h>
 #include <UArray.h>
 
-#if defined(__APPLE__) || defined(MACOSX)
+/*#if defined(__APPLE__) || defined(MACOSX)
 #include <GLUT/glut.h>
 #include <OpenGL/glu.h>
 #include <OpenGL/gl.h>
-/*
-#include <OpenGL/OpenGL.h>
-#include <OpenGL/glext.h>
-*/
+//#include <OpenGL/OpenGL.h>
+//#include <OpenGL/glext.h>
 #else
 #ifdef _WIN32
 #include <windows.h>
@@ -31,6 +29,7 @@
 #include <GL/glu.h>
 #include <GL/gl.h>
 #endif
+*/
 
 typedef struct
 {

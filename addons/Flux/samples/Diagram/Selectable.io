@@ -1,5 +1,5 @@
 Selectable := Object clone do(
-	newSlot("isSelected", false)
+	isSelected ::= false
 
 	unselect := method(setIsSelected(false))
 	select   := method(setIsSelected(true); setMoveOffset; self)

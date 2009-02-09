@@ -29,7 +29,7 @@ Generally, the more objects in your heap, the larger you'll want this number.
 
 typedef IoObject IoCollector;
 
-IoObject *IoCollector_collect(IoCollector *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoCollector, collect)
 {
 	/*doc Collector collect
 	Runs garbage collector. Returns the number of items collected. 
@@ -40,18 +40,20 @@ IoObject *IoCollector_collect(IoCollector *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(count);
 }
 
-IoObject *IoCollector_showStats(IoCollector *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoCollector, showStats)
 {
 	/*doc Collector showStats
 	Prints the collector's stats to standard output.
 	*/
+#ifdef IO_CHECK_ALLOC
 	io_show_mem("IoCollector_showStats");
-	printf("marksPerAlloc       %i\n", Collector_marksPerAlloc(IOSTATE->collector));
-	printf("allocatedStep       %i\n", Collector_allocatedStep(IOSTATE->collector));
+#endif
+	printf("marksPerAlloc       %g\n", Collector_marksPerAlloc(IOSTATE->collector));
+	printf("allocatedStep       %g\n", Collector_allocatedStep(IOSTATE->collector));
 	return self;
 }
 
-IoObject *IoCollector_maxAllocatedBytes(IoCollector *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoCollector, maxAllocatedBytes)
 {
 	/*doc Collector maxAllocatedBytes
 	Returns the maximum number of bytes allocated by the collector.
@@ -59,7 +61,7 @@ IoObject *IoCollector_maxAllocatedBytes(IoCollector *self, IoObject *locals, IoM
 	return IONUMBER(io_maxAllocatedBytes());
 }
 
-IoObject *IoCollector_resetMaxAllocatedBytes(IoCollector *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoCollector, resetMaxAllocatedBytes)
 {
 	/*doc Collector resetMaxAllocatedBytes
 	Resets maximum number of bytes allocated by the collector. Returns self.
@@ -68,7 +70,7 @@ IoObject *IoCollector_resetMaxAllocatedBytes(IoCollector *self, IoObject *locals
 	return self;
 }
 
-IoObject *IoCollector_setDebug(IoCollector *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoCollector, setDebug)
 {
 	/*doc Collector setDebug(aBool)
 	Turns on/off printing of collector debugging messages. Returns self.
@@ -80,7 +82,7 @@ IoObject *IoCollector_setDebug(IoCollector *self, IoObject *locals, IoMessage *m
 	return self;
 }
 
-IoObject *IoCollector_setMarksPerAlloc(IoCollector *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoCollector, setMarksPerAlloc)
 {
 	/*doc Collector setMarksPerAlloc(aNumber)
 	Sets the number of incremental collector marks per object 
@@ -93,7 +95,7 @@ IoObject *IoCollector_setMarksPerAlloc(IoCollector *self, IoObject *locals, IoMe
 	return self;
 }
 
-IoObject *IoCollector_marksPerAlloc(IoCollector *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoCollector, marksPerAlloc)
 {
 	/*doc Collector marksPerAlloc
 	Return the number of allocations per collector mark pass.
@@ -102,7 +104,7 @@ IoObject *IoCollector_marksPerAlloc(IoCollector *self, IoObject *locals, IoMessa
 	return IONUMBER(Collector_marksPerAlloc(IOSTATE->collector));
 }
 
-IoObject *IoCollector_setAllocatedStep(IoCollector *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoCollector, setAllocatedStep)
 {
 	/*doc Collector setAllocatedStep(aNumber)
 	Sets the allocatedStep (can have a fractional component, 
@@ -118,7 +120,7 @@ IoObject *IoCollector_setAllocatedStep(IoCollector *self, IoObject *locals, IoMe
 	return self;
 }
 
-IoObject *IoCollector_allocatedStep(IoCollector *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoCollector, allocatedStep)
 {
 	/*doc Collector allocatedStep
 	Return the allocation step value as a Number.
@@ -127,7 +129,7 @@ IoObject *IoCollector_allocatedStep(IoCollector *self, IoObject *locals, IoMessa
 	return IONUMBER(Collector_allocatedStep(IOSTATE->collector));
 }
 
-IoObject *IoCollector_timeUsed(IoCollector *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoCollector, timeUsed)
 {
 	/*doc Collector timeUsed
 	Return the time used so far by the collector in seconds.
@@ -136,7 +138,7 @@ IoObject *IoCollector_timeUsed(IoCollector *self, IoObject *locals, IoMessage *m
 	return IONUMBER(Collector_timeUsed(IOSTATE->collector));
 }
 
-IoObject *IoCollector_allObjects(IoCollector *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoCollector, allObjects)
 {
 	/*doc Collector allObjects
 	Returns a List containing all objects known to the collector.
@@ -149,7 +151,7 @@ IoObject *IoCollector_allObjects(IoCollector *self, IoObject *locals, IoMessage 
 	return results;
 }
 
-IoObject *IoCollector_dirtyObjects(IoCollector *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoCollector, dirtyObjects)
 {
 	/*doc Collector dirtyObjects
 	Returns a List containing all dirty objects known to the collector.
@@ -169,7 +171,7 @@ IoObject *IoCollector_dirtyObjects(IoCollector *self, IoObject *locals, IoMessag
 	return results;
 }
 
-IoObject *IoCollector_cleanAllObjects(IoCollector *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoCollector, cleanAllObjects)
 {
 	/*doc Collector cleanAllObjects
 	Sets all objects as clean. Returns self.
@@ -182,7 +184,7 @@ IoObject *IoCollector_cleanAllObjects(IoCollector *self, IoObject *locals, IoMes
 }
 
 
-IoObject *IoCollector_objectWithUniqueId(IoCollector *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoCollector, objectWithUniqueId)
 {
 	/*doc Collector objectWithUniqueId(aNumber)
 	Returns an object whose uniqueId is aNumber or nil if no match is found. 

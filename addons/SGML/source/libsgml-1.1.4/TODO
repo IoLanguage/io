@@ -1,0 +1,7 @@
+1.1.3
+
+	* XML: Add processing instruction support.
+	* XML: Add cdata support.
+	
+	* DOM: Add NamedNodeMap's
+	* DOM: Add NodeIterator's

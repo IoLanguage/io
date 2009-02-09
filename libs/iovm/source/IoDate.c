@@ -175,7 +175,7 @@ IoDate *IoDate_fromSerialization(IoDate *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoDate_now(IoDate *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDate, now)
 {
 	/*doc Date now
 	Sets the receiver to the current time. Returns self.
@@ -185,7 +185,7 @@ IoObject *IoDate_now(IoDate *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoDate_copy(IoDate *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDate, copy)
 {
 	/*doc Date copy(aDate)
 	Sets the receiver to be the same date as aDate. Returns self.
@@ -197,7 +197,7 @@ IoObject *IoDate_copy(IoDate *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoDate_clock(IoDate *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDate, clock)
 {
 	/*doc Date clock
 	Returns a number containing the number of seconds
@@ -207,7 +207,7 @@ IoObject *IoDate_clock(IoDate *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(Date_Clock());
 }
 
-IoObject *IoDate_cpuSecondsToRun(IoDate *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDate, cpuSecondsToRun)
 {
 	/*doc Date cpuSecondsToRun(expression)
 	Evaluates message and returns a Number whose value 
@@ -226,7 +226,7 @@ IoObject *IoDate_cpuSecondsToRun(IoDate *self, IoObject *locals, IoMessage *m)
 	}
 }
 
-IoObject *IoDate_year(IoDate *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDate, year)
 {
 	/*doc Date year
 	Returns a number containing the year of the receiver. 
@@ -235,7 +235,7 @@ IoObject *IoDate_year(IoDate *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(Date_year(DATA(self)));
 }
 
-IoObject *IoDate_setYear(IoDate *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDate, setYear)
 {
 	/*doc Date setYear(aNumber)
 	Sets the year of the receiver. 
@@ -245,7 +245,7 @@ IoObject *IoDate_setYear(IoDate *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoDate_month(IoDate *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDate, month)
 {
 	/*doc Date month
 	Returns a number containing the month(1-12) of the year of the receiver. 
@@ -254,7 +254,7 @@ IoObject *IoDate_month(IoDate *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(Date_month(DATA(self)) + 1);
 }
 
-IoObject *IoDate_setMonth(IoDate *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDate, setMonth)
 {
 	/*doc Date setMonth(aNumber)
 	Sets the month(1-12) of the receiver. Returns self. 
@@ -266,7 +266,7 @@ IoObject *IoDate_setMonth(IoDate *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoDate_day(IoDate *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDate, day)
 {
 	/*doc Date day
 	Returns a number containing the day of the month of the receiver. 
@@ -275,7 +275,7 @@ IoObject *IoDate_day(IoDate *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(Date_day(DATA(self)));
 }
 
-IoObject *IoDate_setDay(IoDate *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDate, setDay)
 {
 	/*doc Date setDay(aNumber)
 	Sets the day of the receiver. Returns self.
@@ -311,7 +311,7 @@ IoObject *IoDate_setDay(IoDate *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoDate_hour(IoDate *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDate, hour)
 {
 	/*doc Date hour
 	Returns a number containing the hour of the day(0-23) of the receiver. 
@@ -320,7 +320,7 @@ IoObject *IoDate_hour(IoDate *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(Date_hour(DATA(self)));
 }
 
-IoObject *IoDate_setHour(IoDate *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDate, setHour)
 {
 	/*doc Date setHour(aNumber)
 	Sets the hour of the receiver. Returns self.
@@ -333,7 +333,7 @@ IoObject *IoDate_setHour(IoDate *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoDate_minute(IoDate *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDate, minute)
 {
 	/*doc Date minute
 	Returns a number containing the minute of the hour(0-59) of the receiver. 
@@ -343,7 +343,7 @@ IoObject *IoDate_minute(IoDate *self, IoObject *locals, IoMessage *m)
 }
 
 
-IoObject *IoDate_setMinute(IoDate *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDate, setMinute)
 {
 	/*doc Date setMinute(aNumber)
 	Sets the minute of the receiver. Returns self.
@@ -356,7 +356,7 @@ IoObject *IoDate_setMinute(IoDate *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoDate_second(IoDate *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDate, second)
 {
 	/*doc Date second
 	Returns a number containing the seconds of the minute(0-59) of the receiver. This number may contain fractions of seconds. 
@@ -366,7 +366,7 @@ IoObject *IoDate_second(IoDate *self, IoObject *locals, IoMessage *m)
 }
 
 
-IoObject *IoDate_setSecond(IoDate *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDate, setSecond)
 {
 	/*doc Date setSecond(aNumber)
 	Sets the second of the receiver. Returns self.
@@ -379,7 +379,7 @@ IoObject *IoDate_setSecond(IoDate *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoDate_zone(IoDate *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDate, zone)
 {
 	/*doc Date zone
 	Returns a string containing the system's time zone code. 
@@ -392,7 +392,7 @@ IoObject *IoDate_zone(IoDate *self, IoObject *locals, IoMessage *m)
 	return IOSYMBOL(s);
 }
 
-IoObject *IoDate_gmtOffsetSeconds(IoDate *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDate, gmtOffsetSeconds)
 {
 	/*doc Date gmtOffsetSeconds
 	Returns the system's seconds east of UTC.
@@ -407,7 +407,7 @@ IoObject *IoDate_gmtOffsetSeconds(IoDate *self, IoObject *locals, IoMessage *m)
 #endif
 }
 
-IoObject *IoDate_gmtOffset(IoDate *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDate, gmtOffset)
 {
 	/*doc Date gmtOffset
 	Returns the system's timezone string. E.g., +1300 or -0500.
@@ -427,7 +427,7 @@ IoObject *IoDate_gmtOffset(IoDate *self, IoObject *locals, IoMessage *m)
 	return IOSYMBOL(buf);
 }
 
-IoObject *IoDate_isDaylightSavingsTime(IoDate *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDate, isDaylightSavingsTime)
 {
 	/*doc Date isDaylightSavingsTime
 	Returns self if Daylight Saving Time is in effect for the receiver, otherwise returns Nil. 
@@ -436,7 +436,7 @@ IoObject *IoDate_isDaylightSavingsTime(IoDate *self, IoObject *locals, IoMessage
 	return IOBOOL(self, Date_isDaylightSavingsTime(DATA(self)));
 }
 
-IoObject *IoDate_isValidTime(IoDate *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDate, isValidTime)
 {
 	/*doc Date isValidTime(hour, min, sec)
 	Returns self if the specified time is valid, otherwise returns Nil. 
@@ -458,7 +458,7 @@ IoObject *IoDate_isValidTime(IoDate *self, IoObject *locals, IoMessage *m)
 		((sec >= 0) && (sec <  60)));
 }
 
-IoObject *IoDate_secondsSince_(IoDate *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDate, secondsSince_)
 {
 	/*doc Date secondsSince(aDate)
 	Returns a number of seconds of between aDate and the receiver. 
@@ -468,7 +468,7 @@ IoObject *IoDate_secondsSince_(IoDate *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(Date_secondsSince_(DATA(self), DATA(date)));
 }
 
-IoObject *IoDate_secondsSinceNow(IoDate *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDate, secondsSinceNow)
 {
 	/*doc Date secondsSinceNow(aDate)
 	Returns the number of seconds since aDate. 
@@ -477,7 +477,7 @@ IoObject *IoDate_secondsSinceNow(IoDate *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(Date_secondsSinceNow(DATA(self)));
 }
 
-IoObject *IoDate_isPast(IoDate *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDate, isPast)
 {
 	/*doc Date isPast
 	Returns true if the receiver is a date in the past. 
@@ -487,7 +487,7 @@ IoObject *IoDate_isPast(IoDate *self, IoObject *locals, IoMessage *m)
 }
 
 /*
-IoObject *IoDate_dateAfterSeconds_(IoDate *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDate, dateAfterSeconds_)
 {
 	// doc Date dateAfterSeconds(secondsNumber)
 	Returns a new date that is secondsNumber seconds after the receiver.
@@ -499,7 +499,7 @@ IoObject *IoDate_dateAfterSeconds_(IoDate *self, IoObject *locals, IoMessage *m)
 }
 */
 
-IoObject *IoDate_asString(IoDate *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDate, asString)
 {
 	/*doc Date asString(optionalFormatString)
 	Returns a string representation of the receiver using the
@@ -553,7 +553,7 @@ null string if no time zone can be obtained
 	}
 }
 
-IoObject *IoDate_printDate(IoDate *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDate, printDate)
 {
 	/*doc Date print
 	Prints the receiver. Returns self.
@@ -564,7 +564,7 @@ IoObject *IoDate_printDate(IoDate *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoDate_asNumber(IoDate *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDate, asNumber)
 {
 	/*doc Date asNumber
 	Returns the date as seconds since 1970.
@@ -573,7 +573,7 @@ IoObject *IoDate_asNumber(IoDate *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(Date_asSeconds(DATA(self)));
 }
 
-IoObject *IoDate_fromNumber(IoDate *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDate, fromNumber)
 {
 	/*doc Date fromNumber(aNumber)
 	Sets the receiver to be aNumber seconds since 1970.
@@ -584,7 +584,7 @@ IoObject *IoDate_fromNumber(IoDate *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoDate_fromString(IoDate *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDate, fromString)
 {
 	/*doc Date fromString(aString, formatString)
 	Sets the receiver to the date specified by aString as parsed according to the given formatString. See the Date asString method for formating rules. Returns self. 
@@ -602,7 +602,7 @@ IoObject *IoDate_fromString(IoDate *self, IoObject *locals, IoMessage *m)
 
 /* --- Durations -------------------------------------------------------- */
 
-IoObject *IoDate_subtract(IoDate *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDate, subtract)
 {
 	/*doc Date -(aDurationOrDate)
 	Return a new Date with the receiver's value minus an amount of time specified by aDuration to the receiver. Returns self. 
@@ -627,7 +627,7 @@ IoObject *IoDate_subtract(IoDate *self, IoObject *locals, IoMessage *m)
 	return IONIL(self);
 }
 
-IoObject *IoDate_subtractInPlace(IoDate *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDate, subtractInPlace)
 {
 	/*doc Date -=(aDuration)
 	Subtract aDuration from the receiver. Returns self.
@@ -639,7 +639,7 @@ IoObject *IoDate_subtractInPlace(IoDate *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoDate_addInPlace(IoDate *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDate, addInPlace)
 {
 	/*doc Date +=(aDuration)
 	Add aDuration to the receiver. Returns self. 
@@ -651,7 +651,7 @@ IoObject *IoDate_addInPlace(IoDate *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoDate_add(IoDate *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoDate, add)
 {
 	/*doc Date +(aDuration)
 	Return a new Date with the receiver's value plus an amount 

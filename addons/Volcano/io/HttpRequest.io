@@ -8,6 +8,10 @@ HttpRequest := Object clone do(
 	body ::= nil
 	fields ::= nil
 	
+	headers := method(
+		fields
+	)
+	
 	cookies := method(
 		raw := fields at("COOKIE")
 		parsed := Map clone

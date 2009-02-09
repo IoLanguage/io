@@ -38,7 +38,7 @@ static void IoAssertNotSymbol(IoSeq *self, IoMessage *m)
 	}
 }
 
-IoObject *IoSeq_setItemType(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, setItemType)
 {
 	/*doc Sequence setItemType(aTypeName)
 	Sets the underlying machine type for the elements. 
@@ -62,7 +62,7 @@ IoObject *IoSeq_setItemType(IoSeq *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoSeq_convertToItemType(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, convertToItemType)
 {
 	/*doc Sequence convertToItemType(aTypeName)
 	Converts the underlying machine type for the elements, expanding or contracting
@@ -83,7 +83,7 @@ IoObject *IoSeq_convertToItemType(IoSeq *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoSeq_convertToFixedSizeType(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, convertToFixedSizeType)
 {
 	IO_ASSERT_NOT_SYMBOL(self);
 	UArray_convertToFixedSizeType(DATA(self));
@@ -91,7 +91,7 @@ IoObject *IoSeq_convertToFixedSizeType(IoSeq *self, IoObject *locals, IoMessage 
 	return self;
 }
 
-IoObject *IoSeq_setEncoding(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, setEncoding)
 {
 	/*doc Sequence setEncoding(encodingName)
 	Sets the encoding flag of the receiver (only the encoding flag, 
@@ -121,7 +121,7 @@ void IoSeq_rawCopy_(IoSeq *self, IoSeq *other)
 	UArray_copy_(DATA(self), DATA(other));
 }
 
-IoObject *IoSeq_copy(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, copy)
 {
 	/*doc Sequence copy(aSequence)
 	Replaces the bytes of the receiver with a copy of those in aSequence. Returns self. 
@@ -133,7 +133,7 @@ IoObject *IoSeq_copy(IoSeq *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoSeq_appendSeq(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, appendSeq)
 {
 	/*doc Sequence appendSeq(object1, object2, ...)
 	Calls asString on the arguments and appends the string to the receiver. Returns self. 
@@ -151,7 +151,7 @@ IoObject *IoSeq_appendSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoSeq_append(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, append)
 {
 	/*doc Sequence append(aNumber)
 	Appends aNumber (cast to a byte) to the receiver. Returns self. 
@@ -170,7 +170,7 @@ IoObject *IoSeq_append(IoSeq *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoSeq_atInsertSeq(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, atInsertSeq)
 {
 	/*doc Sequence atInsertSeq(indexNumber, object)
 	Calls asString on object and inserts the string at position indexNumber. Returns self.
@@ -188,9 +188,8 @@ IoObject *IoSeq_atInsertSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoSeq_insertSeqEvery(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, insertSeqEvery)
 {
-	/*
 	/*doc MutableSequence IoSeq_insertSeqEvery(aSequence, aNumberOfItems)
 	Inserts aSequence every aNumberOfItems.  Returns self.
 	*/
@@ -209,7 +208,7 @@ IoObject *IoSeq_insertSeqEvery(IoSeq *self, IoObject *locals, IoMessage *m)
 }
 
 /*
-IoObject *IoSeq_atInsert(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, atInsert)
 {
 	doc Sequence atInsert(indexNumber, valueNumber)
 	Inserts valueNumber at position indexNumber. Returns self.
@@ -227,7 +226,7 @@ IoObject *IoSeq_atInsert(IoSeq *self, IoObject *locals, IoMessage *m)
 
 // removing ---------------------------------------
 
-IoObject *IoSeq_removeAt(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, removeAt)
 {
 	/*doc Sequence removeAt(index)
 	Removes the item at index. Returns self.
@@ -243,7 +242,7 @@ IoObject *IoSeq_removeAt(IoSeq *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoSeq_removeSlice(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, removeSlice)
 {
 	/*doc Sequence removeSlice(startIndex, endIndex)
 	Removes the items from startIndex to endIndex.
@@ -262,7 +261,7 @@ IoObject *IoSeq_removeSlice(IoSeq *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoSeq_removeLast(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, removeLast)
 {
 	/*doc Sequence removeLast
 	Removes the last element from the receiver. Returns self.
@@ -273,9 +272,8 @@ IoObject *IoSeq_removeLast(IoSeq *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoSeq_leaveThenRemove(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, leaveThenRemove)
 {
-	/*
 	/*doc MutableSequence IoSeq_leaveThenRemove(aNumberToLeave, aNumberToRemove)
 	Leaves aNumberToLeave items then removes aNumberToRemove items.  Returns self.
 	*/
@@ -292,7 +290,7 @@ IoObject *IoSeq_leaveThenRemove(IoSeq *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoSeq_setSize(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, setSize)
 {
 	/*doc Sequence setSize(aNumber)
 	Sets the length in bytes of the receiver to aNumber. Return self.
@@ -314,7 +312,7 @@ void IoSeq_rawPio_reallocateToSize_(IoSeq *self, size_t size)
 	UArray_sizeTo_(DATA(self), size);
 }
 
-IoObject *IoSeq_preallocateToSize(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, preallocateToSize)
 {
 	/*doc Sequence preallocateToSize(aNumber)
 	If needed, resize the memory alloced for the receivers
@@ -330,7 +328,7 @@ IoObject *IoSeq_preallocateToSize(IoSeq *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoSeq_replaceSeq(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, replaceSeq)
 {
 	/*doc Sequence replaceSeq(aSequence, anotherSequence)
 	Returns a new Sequence with all occurances of aSequence
@@ -344,7 +342,7 @@ IoObject *IoSeq_replaceSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoSeq_removeSeq(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, removeSeq)
 {
 	/*doc Sequence removeSeq(aSequence)
 	Removes occurances of aSequence from the receiver.
@@ -357,7 +355,7 @@ IoObject *IoSeq_removeSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 }
 
 
-IoObject *IoSeq_replaceFirstSeq(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, replaceFirstSeq)
 {
 	/*doc Sequence replaceFirstSeq(aSequence, anotherSequence, optionalStartIndex)
 	Returns a new Sequence with the first occurance of aSequence
@@ -390,7 +388,7 @@ IoObject *IoSeq_replaceFirstSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoSeq_atPut(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, atPut)
 {
 	/*doc Sequence atPut(aNumberIndex, aNumber)
 	Sets the value at the index specified by aNumberIndex to aNumber. Returns self. 
@@ -415,7 +413,7 @@ IoObject *IoSeq_atPut(IoSeq *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoSeq_lowercase(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, lowercase)
 {
 	/*doc Sequence lowercase
 	Makes all the uppercase characters in the receiver lowercase. Returns self. 
@@ -426,7 +424,7 @@ IoObject *IoSeq_lowercase(IoSeq *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoSeq_uppercase(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, uppercase)
 {
 	/*doc Sequence uppercase
 	Makes all characters of the receiver uppercase. 
@@ -439,7 +437,7 @@ IoObject *IoSeq_uppercase(IoSeq *self, IoObject *locals, IoMessage *m)
 
 // clip --------------------------------------
 
-IoObject *IoSeq_clipBeforeSeq(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, clipBeforeSeq)
 {
 	/*doc Sequence clipBeforeSeq(aSequence)
 	Clips receiver before aSequence.
@@ -451,7 +449,7 @@ IoObject *IoSeq_clipBeforeSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoSeq_clipAfterSeq(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, clipAfterSeq)
 {
 	/*doc Sequence clipAfterSeq(aSequence)
 	Removes the contents of the receiver after the end of
@@ -466,7 +464,7 @@ IoObject *IoSeq_clipAfterSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoSeq_clipBeforeEndOfSeq(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, clipBeforeEndOfSeq)
 {
 	/*doc Sequence clipBeforeEndOfSeq(aSequence)
 	Removes the contents of the receiver before the end of
@@ -480,7 +478,7 @@ IoObject *IoSeq_clipBeforeEndOfSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoSeq_clipAfterStartOfSeq(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, clipAfterStartOfSeq)
 {
 	/*doc Sequence clipAfterStartOfSeq(aSequence)
 	Removes the contents of the receiver after the beginning of
@@ -496,7 +494,7 @@ IoObject *IoSeq_clipAfterStartOfSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 
 // -----------------------------------------
 
-IoObject *IoSeq_empty(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, empty)
 {
 	/*doc Sequence empty
 	Sets all bytes in the receiver to 0x0 and sets
@@ -527,7 +525,7 @@ int IoSeq_byteCompare(const void *a, const void *b)
 	return 1;
 }
 
-IoObject *IoSeq_sort(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, sort)
 {
 	//doc Sequence sort Sorts the characters/numbers the array. Returns self.
 	
@@ -546,7 +544,7 @@ IoObject *IoSeq_sort(IoSeq *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoSeq_replaceMap(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, replaceMap)
 {
 	/*doc Sequence replaceMap(aMap)
 	In the receiver, the keys of aMap replaced with it's values. Returns self.
@@ -580,7 +578,7 @@ IoObject *IoSeq_replaceMap(IoSeq *self, IoObject *locals, IoMessage *m)
 
 // translate ------------------------------------------------------
 
-IoObject *IoSeq_translate(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, translate)
 {
 	/*doc Sequence translate(fromChars, toChars)
 	In the receiver, the characters in fromChars are replaced with those in the same positions in toChars. Returns self.
@@ -604,7 +602,7 @@ IoObject *IoSeq_translate(IoSeq *self, IoObject *locals, IoMessage *m)
 
 // reverse --------------------------------------------------------
 
-IoObject *IoSeq_reverseInPlace(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, reverseInPlace)
 {
 	/*doc Sequence reverseInPlace
 	Reverses the bytes in the receiver, in-place.
@@ -619,7 +617,7 @@ IoObject *IoSeq_reverseInPlace(IoSeq *self, IoObject *locals, IoMessage *m)
 
 // strip ----------------------------------------------------------
 
-IoObject *IoSeq_strip(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, strip)
 {
 /*doc Sequence strip(optionalSequence)
 Trims the whitespace (or optionalSequence) off both ends:
@@ -646,7 +644,7 @@ Trims the whitespace (or optionalSequence) off both ends:
 	return self;
 }
 
-IoObject *IoSeq_lstrip(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, lstrip)
 {
 /*doc Sequence lstrip(aSequence)
 Strips the characters in aSequence
@@ -674,7 +672,7 @@ stripped from the beginning of the receiver. Example:
 	return self;
 }
 
-IoObject *IoSeq_rstrip(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, rstrip)
 {
 /*doc Sequence rstrip(aSequence)
 Strips the characters in
@@ -703,7 +701,7 @@ aSequence stripped from the end of the receiver. Example:
 
 // -----------------------------------------------------------
 
-IoObject *IoSeq_escape(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, escape)
 {
 	/*doc Sequence escape
 	Escape characters in the receiver are replaced with escape codes.
@@ -716,7 +714,7 @@ IoObject *IoSeq_escape(IoSeq *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoSeq_unescape(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, unescape)
 {
 	/*doc Sequence unescape
 	Escape codes replaced with escape characters. Returns self.
@@ -727,7 +725,7 @@ IoObject *IoSeq_unescape(IoSeq *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoSeq_removePrefix(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, removePrefix)
 {
 	/*doc Sequence removePrefix(aSequence)
 	If the receiver begins with aSequence, it is removed. Returns self.
@@ -745,7 +743,7 @@ IoObject *IoSeq_removePrefix(IoSeq *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoSeq_removeSuffix(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, removeSuffix)
 {
 	/*doc Sequence removeSuffix(aSequence)
 	If the receiver end with aSequence, it is removed. Returns self.
@@ -766,7 +764,7 @@ IoObject *IoSeq_removeSuffix(IoSeq *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoSeq_capitalize(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, capitalize)
 {
 	/*doc Sequence capitalize
 	First charater of the receiver is made uppercase.
@@ -779,7 +777,7 @@ IoObject *IoSeq_capitalize(IoSeq *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoSeq_appendPathSeq(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, appendPathSeq)
 {
 	/*doc Sequence appendPathSeq(aSeq)
 	Appends argument to the receiver such that there is one
@@ -793,7 +791,7 @@ IoObject *IoSeq_appendPathSeq(IoSeq *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoSeq_interpolateInPlace(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, interpolateInPlace)
 {
 	/*doc Sequence interpolateInPlace(optionalContext)
 	Replaces all #{expression} with expression evaluated in the optionalContext. 
@@ -876,7 +874,7 @@ IoObject *IoSeq_interpolateInPlace(IoSeq *self, IoObject *locals, IoMessage *m)
 
 // math ---------------------------------------------------------------------
 
-IoObject *IoSeq_addEquals(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, addEquals)
 {
 	/*doc Sequence +=(aSeq)
 	Vector addition - adds the values of aSeq to those of the receiver.
@@ -917,7 +915,7 @@ IoObject *IoSeq_addEquals(IoSeq *self, IoObject *locals, IoMessage *m)
 }
 
 
-IoObject *IoSeq_subtractEquals(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, subtractEquals)
 {
 	/*doc Sequence -=(aSeq)
 	Vector subtraction - subtracts the values of aSeq to those of the receiver.
@@ -946,7 +944,7 @@ IoObject *IoSeq_subtractEquals(IoSeq *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoSeq_multiplyEquals(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, multiplyEquals)
 {
 	/*doc Sequence *=(aSeq)
 	Multiplies the values of aSeq to the corresponding values of the receiver.
@@ -975,7 +973,7 @@ IoObject *IoSeq_multiplyEquals(IoSeq *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoSeq_divideEquals(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, divideEquals)
 {
 	/*doc Sequence /=(aSeq)
 	Divides the values of aSeq to the corresponding values of the receiver.
@@ -1009,7 +1007,7 @@ IoObject *IoSeq_clone(IoSeq *self)
 	return IoSeq_newWithUArray_copy_(IOSTATE, DATA(self), 1);
 }
 
-IoObject *IoSeq_add(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, add)
 {
 	/*doc Sequence +(aSeq)
 	Vector addition - Adds the values of aSeq to the corresponding values of the receiver 
@@ -1020,7 +1018,7 @@ IoObject *IoSeq_add(IoSeq *self, IoObject *locals, IoMessage *m)
 	return IoSeq_addEquals(IoSeq_clone(self), locals, m);
 }
 
-IoObject *IoSeq_subtract(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, subtract)
 {
 	/*doc Sequence +(aSeq)
 	Vector addition - Adds the values of aSeq to the corresponding values of the receiver 
@@ -1031,7 +1029,7 @@ IoObject *IoSeq_subtract(IoSeq *self, IoObject *locals, IoMessage *m)
 	return IoSeq_subtractEquals(IoSeq_clone(self), locals, m);
 }
 
-IoObject *IoSeq_multiply(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, multiply)
 {
 	/*doc Sequence *(aSeq)
 	Multiplies the values of aSeq to the corresponding values of the receiver 
@@ -1042,7 +1040,7 @@ IoObject *IoSeq_multiply(IoSeq *self, IoObject *locals, IoMessage *m)
 	return IoSeq_multiplyEquals(IoSeq_clone(self), locals, m);
 }
 
-IoObject *IoSeq_divide(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, divide)
 {
 	/*doc Sequence /(aSeq)
 	Divides the values of aSeq to the corresponding values of the receiver 
@@ -1053,7 +1051,7 @@ IoObject *IoSeq_divide(IoSeq *self, IoObject *locals, IoMessage *m)
 	return IoSeq_divideEquals(IoSeq_clone(self), locals, m);
 }
 
-IoObject *IoSeq_dotProduct(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, dotProduct)
 {
 	/*doc Sequence dotProduct(aSeq)
 	Returns a new Sequence containing the dot product of the receiver with aSeq.
@@ -1064,7 +1062,7 @@ IoObject *IoSeq_dotProduct(IoSeq *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(UArray_dotProduct_(DATA(self), DATA(other)));
 }
 
-IoObject *IoSeq_setItemsToLong_(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, setItemsToLong_)
 {
 	/*doc Sequence setItemsToLong(aNumber)
 	Sets all items in the Sequence to the long integer value of aNumber.
@@ -1076,7 +1074,7 @@ IoObject *IoSeq_setItemsToLong_(IoSeq *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoSeq_setItemsToDouble_(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, setItemsToDouble_)
 {
 	/*doc Sequence setItemsToDouble(aNumber)
 	Sets all items in the Sequence to the double floating point value of aNumber.
@@ -1088,7 +1086,7 @@ IoObject *IoSeq_setItemsToDouble_(IoSeq *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoSeq_set_(IoSeq *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoSeq, set_)
 {
 	/*doc Sequence set(aNumber1, aNumber2, ...)
 	Sets the values of the receiver to the sequences of numbers in the arguments.

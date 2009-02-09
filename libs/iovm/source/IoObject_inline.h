@@ -274,7 +274,7 @@ IOVM_API IOINLINE IoObject *IoObject_activate(IoObject *self,
 	//return IoObject_tag(self)->activateFunc ? (IoObject *)((IoObject_tag(self)->activateFunc)(self, target, locals, m, slotContext)) : self;
 }
 
-IOINLINE IoObject *IoObject_forward(IoObject *self, IoObject *locals, IoMessage *m)
+IOINLINE IO_METHOD(IoObject, forward)
 {
 	IoState *state = IOSTATE;
 	IoObject *context;
@@ -299,7 +299,7 @@ IOINLINE IoObject *IoObject_forward(IoObject *self, IoObject *locals, IoMessage 
 	return self;
 }
 
-IOINLINE IoObject *IoObject_perform(IoObject *self, IoObject *locals, IoMessage *m)
+IOINLINE IO_METHOD(IoObject, perform)
 {
 	IoObject *context;
 	IoObject *slotValue = IoObject_rawGetSlot_context_(self, IoMessage_name(m), &context);

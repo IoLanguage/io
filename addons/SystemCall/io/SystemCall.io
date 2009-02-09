@@ -1,20 +1,31 @@
 
 
 SystemCall do(
-	newSlot("command", "")
-	newSlot("isRunning", false)
-	newSlot("returnCode", nil)
-	newSlot("stdin", nil)
-	newSlot("stdout", nil)
-	newSlot("stderr", nil)
-	newSlot("arguments", nil)
-	newSlot("environment", Map clone)
+	command ::= ""
+	isRunning ::= false
+	returnCode ::= nil
+	stdin ::= nil
+	stdout ::= nil
+	stderr ::= nil
+	arguments ::= nil
+	environment ::= Map clone
 
 	init := method(
 		self arguments := List clone
 		self environment := environment clone
 	)
 
+	tryToRun := method(times,
+		if(times == nil, times = 3)
+		times repeat(
+			e := try(run)
+			if(e == nil, break)
+			writeln("RETRYING: Runable to run command: '", command, "'")
+		)
+		if(e, e pass)
+		self
+	)
+	
 	run := method(aBlock,
 		err := self asyncRun(command, arguments, environment)
 		if(err == -1, Exception raise("unable to run command"))

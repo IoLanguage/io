@@ -266,7 +266,7 @@ void UArray_print(const UArray *self)
 {
 	if(self->encoding == CENCODING_ASCII || self->encoding == CENCODING_UTF8)
 	{
-		printf("%s", (char *)self->data);
+		fwrite(self->data, self->itemSize, self->size, stdout);
 	}
 	else if(self->encoding != CENCODING_NUMBER)
 	{

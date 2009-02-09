@@ -1,14 +1,14 @@
 CLI := Object clone do(
-	newSlot("prompt", "Io> ")
-	newSlot("outPrompt", "==> ")
-	newSlot("continuedLinePrompt", "    ")
+	prompt ::= "Io> "
+	outPrompt ::= "==> "
+	continuedLinePrompt ::= "    "
 
-	newSlot("context", method(Lobby))
-	newSlot("isRunning", true)
+	context ::= method(Lobby)
+	isRunning ::= true
 
-	newSlot("commandLineLabel", "Command Line")
+	commandLineLabel ::= "Command Line"
 
-	newSlot("lineReader" , nil)
+	lineReader ::= nil
 
 	stop := method(setIsRunning(false))
 
@@ -84,8 +84,12 @@ CLI := Object clone do(
 		)
 	)
 
-	interactiveMultiline := method(
+	writeWelcomeBanner := method(
 		writeln("Io ", System version)
+	)
+
+	interactiveMultiline := method(
+		writeWelcomeBanner
 
 		// Use GNU Readline as the default line reader. Fall back to Editline 
 		try(setLineReader(ReadLine))
@@ -105,7 +109,7 @@ CLI := Object clone do(
 	)
 
 	interactive := method(
-		writeln("Io ", System version)
+		writeWelcomeBanner
 		while(isRunning,
 			handleInteractiveSingleLine
 		)

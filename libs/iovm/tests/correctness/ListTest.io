@@ -4,6 +4,7 @@ ListTest := UnitTest clone do(
 		super(setUp)
 		self exampleList := List clone append("a", "beta", 3)
 	)
+	
 	testClone := method(
 		assertNotSame(List, List clone)
 		clonedList := exampleList clone
@@ -12,6 +13,7 @@ ListTest := UnitTest clone do(
 		assertEquals(exampleList at(0), clonedList at(0))
 		assertEquals(exampleList at(2), clonedList at(2))
 	)
+	
 	testAppend := method(
 		assertRaisesException(a append)
 		a := List clone append("a", "beta", 3)
@@ -22,6 +24,7 @@ ListTest := UnitTest clone do(
 		assertEquals(88, a at(4))
 		assertNil(a at(3))
 	)
+	
 	testAppendIfAbsent := method(
 		a := List clone append("a", "beta", 3)
 		a appendIfAbsent
@@ -36,6 +39,7 @@ ListTest := UnitTest clone do(
 		assertEquals("new1", a at(5))
 		assertEquals("new2", a at(6))
 	)
+	
 	testAppendSeq := method(
 		a := List clone append("a", "beta", 3)
 		assertRaisesException(a appendSeq(nil))
@@ -46,6 +50,7 @@ ListTest := UnitTest clone do(
 		assertEquals("blah", a at(3))
 		assertEquals("fasel", a at(4))
 	)
+	
 	testRemove := method(
 		a := List clone append("a", "beta", 3)
 		assertRaisesException(a remove)
@@ -58,6 +63,7 @@ ListTest := UnitTest clone do(
 		assertEquals("beta", a at(1))
 		assertEquals(7, a at(2))
 	)
+	
 	testIndexOf := method(
 		a := List clone append("a", "beta", 3)
 		assertRaisesException(a indexOf)
@@ -67,6 +73,7 @@ ListTest := UnitTest clone do(
 		a removeAt(0)
 		assertEquals(2, a indexOf("a"))
 	)
+	
 	testContains := method(
 		a := List clone append("a", "beta", 3)
 		assertFalse(a contains)
@@ -74,6 +81,7 @@ ListTest := UnitTest clone do(
 		assertFalse(a contains(333))
 		assertTrue(a contains("beta"))
 	)
+	
 	testPush := method(
 		a := List clone append("a", "beta", 3)
 		assertRaisesException(a push)
@@ -84,6 +92,7 @@ ListTest := UnitTest clone do(
 		assertEquals(88, a at(4))
 		assertNil(a at(3))
 	)
+	
 	testPop := method(
 		a := List clone append("a", "beta", 3)
 		assertEquals(3, a pop)
@@ -94,11 +103,13 @@ ListTest := UnitTest clone do(
 		assertEquals(0, a size)
 		assertNil(a pop)
 	)
+	
 	testEmpty := method(
 		a := List clone append("a", "beta", 3)
 		a empty
 		assertEquals(0, a size)
 	)
+	
 	testsize := method(
 		a := List clone append("a", "beta", 3)
 		assertEquals(0, List size)
@@ -106,6 +117,7 @@ ListTest := UnitTest clone do(
 		a append("yo")
 		assertEquals(4, a size)
 	)
+	
 	testAtInsert := method(
 		a := List clone append("a", "beta", 3)
 		assertRaisesException(a atInsert())
@@ -126,6 +138,7 @@ ListTest := UnitTest clone do(
 		assertEquals(6, a size)
 		assertEquals(5, a indexOf("append"))
 	)
+	
 	testRemoveAt := method(
 		a := List clone append("a", "beta", 3)
 		assertRaisesException(a removeAt())
@@ -142,6 +155,7 @@ ListTest := UnitTest clone do(
 		assertEquals(1, a size)
 		assertEquals("beta", a at(0))
 	)
+	
 	testAt := method(
 		a := List clone append("a", "beta", 3)
 		assertRaisesException(a at())
@@ -152,6 +166,7 @@ ListTest := UnitTest clone do(
 		assertEquals("beta", a at(1))
 		assertEquals(3, a at(2))
 	)
+	
 	testAtPut := method(
 		a := List clone append("a", "beta", 3)
 		assertRaisesException(a atPut())
@@ -168,6 +183,7 @@ ListTest := UnitTest clone do(
 		assertEquals(3, a size)
 		assertEquals(2, a indexOf("two"))
 	)
+	
 	testSwapIndices := method(
 		a := List clone append("a", "beta", 3)
 		assertRaisesException(a swapIndices())
@@ -184,6 +200,7 @@ ListTest := UnitTest clone do(
 		assertEquals("beta", a at(1))
 		assertEquals(3, a at(0))
 	)
+	
 	testpreallocateToSize := method(
 		a := List clone append("a", "beta", 3)
 		assertRaisesException(a preallocateToSize)
@@ -193,20 +210,24 @@ ListTest := UnitTest clone do(
 		a preallocateToSize(10)
 		assertEquals(3, a size)
 	)
+	
 	testFirst := method(
 		a := List clone append("a", "beta", 3)
 		assertNil(List first)
 		assertEquals("a", a first)
 	)
+	
 	testLast := method(
 		a := List clone append("a", "beta", 3)
 		assertNil(List last)
 		assertEquals(3, a last)
 	)
+	
 	_testPrint := method(
 		// would need to be able to read stdout or install a printCallback from Io to test print()
 		Nop
 	)
+	
 	testSelect := method(
 		a := List clone append("a", "beta", 3)
 		assertRaisesException(a select)
@@ -253,6 +274,7 @@ ListTest := UnitTest clone do(
 		a selectInPlace(index, value, index == -1)
 		assertEquals(0, a size)
 	)
+	
 	testDetect := method(
 		a := List clone append("a", "beta", 3)
 		assertRaisesException(a detect)
@@ -262,6 +284,7 @@ ListTest := UnitTest clone do(
 		assertEquals(3, a detect(index, value, value type == "Number" and value > 1))
 		assertNil(a detect(index, value, value > 3))
 	)
+	
 	testDetect := method(
 		a := List clone append("a", "beta", 3)
 		assertRaisesException(a detect)
@@ -270,6 +293,7 @@ ListTest := UnitTest clone do(
 		assertEquals(3, a detect(index, value, value type == "Number" and value > 1))
 		assertNil(a detect(index, value, value type == "Number" and value > 3))
 	)
+	
 	testSort := method(
 		a := List clone append("a", "beta", "3")
 		List clone sortInPlace
@@ -327,6 +351,7 @@ ListTest := UnitTest clone do(
 		assertEquals("beta", reversedA at(1))
 		assertEquals("a", reversedA at(2))
 	)
+	
 	testReverseForeach := method(
 		a := List clone append("a", "beta", 3)
 		assertRaisesException(a reverseForeach)

@@ -5,103 +5,103 @@ IOVM_API void IoSeq_addMutableMethods(IoSeq *self);
 IOVM_API void IoSeq_rawPio_reallocateToSize_(IoSeq *self, size_t size);
 IOVM_API int IoSeq_byteCompare(const void *a, const void *b);
 
-IOVM_API IoObject *IoSeq_setItemType(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_convertToItemType(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_convertToFixedSizeType(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_setEncoding(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, setItemType);
+IOVM_API IO_METHOD(IoSeq, convertToItemType);
+IOVM_API IO_METHOD(IoSeq, convertToFixedSizeType);
+IOVM_API IO_METHOD(IoSeq, setEncoding);
 
 IOVM_API void IoSeq_rawCopy_(IoSeq *self, IoSeq *other);
-IOVM_API IoObject *IoSeq_copy(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_appendSeq(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_append(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_atInsertSeq(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_insertSeqEvery(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, copy);
+IOVM_API IO_METHOD(IoSeq, appendSeq);
+IOVM_API IO_METHOD(IoSeq, append);
+IOVM_API IO_METHOD(IoSeq, atInsertSeq);
+IOVM_API IO_METHOD(IoSeq, insertSeqEvery);
 
 // removing
 
-IOVM_API IoObject *IoSeq_removeAt(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_removeSlice(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_removeLast(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_leaveThenRemove(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_setSize(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_preallocateToSize(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_replaceSeq(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_removeSeq(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_replaceFirstSeq(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_atPut(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_lowercase(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_uppercase(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_translate(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, removeAt);
+IOVM_API IO_METHOD(IoSeq, removeSlice);
+IOVM_API IO_METHOD(IoSeq, removeLast);
+IOVM_API IO_METHOD(IoSeq, leaveThenRemove);
+IOVM_API IO_METHOD(IoSeq, setSize);
+IOVM_API IO_METHOD(IoSeq, preallocateToSize);
+IOVM_API IO_METHOD(IoSeq, replaceSeq);
+IOVM_API IO_METHOD(IoSeq, removeSeq);
+IOVM_API IO_METHOD(IoSeq, replaceFirstSeq);
+IOVM_API IO_METHOD(IoSeq, atPut);
+IOVM_API IO_METHOD(IoSeq, lowercase);
+IOVM_API IO_METHOD(IoSeq, uppercase);
+IOVM_API IO_METHOD(IoSeq, translate);
 
 // clip
 
-IOVM_API IoObject *IoSeq_clipBeforeSeq(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_clipAfterSeq(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_clipBeforeEndOfSeq(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_clipAfterStartOfSeq(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_empty(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, clipBeforeSeq);
+IOVM_API IO_METHOD(IoSeq, clipAfterSeq);
+IOVM_API IO_METHOD(IoSeq, clipBeforeEndOfSeq);
+IOVM_API IO_METHOD(IoSeq, clipAfterStartOfSeq);
+IOVM_API IO_METHOD(IoSeq, empty);
 
 // sort
 
-IOVM_API IoObject *IoSeq_sort(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, sort);
 
 // reverseInPlace
 
-IOVM_API IoObject *IoSeq_reverseInPlace(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, reverseInPlace);
 
 // removing indexwise
 
-IOVM_API IoObject *IoSeq_removeOddIndexes(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_removeEvenIndexes(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_duplicateIndexes(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_replaceMap(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, removeOddIndexes);
+IOVM_API IO_METHOD(IoSeq, removeEvenIndexes);
+IOVM_API IO_METHOD(IoSeq, duplicateIndexes);
+IOVM_API IO_METHOD(IoSeq, replaceMap);
 
 // strip
 
-IOVM_API IoObject *IoSeq_strip(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_lstrip(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_rstrip(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, strip);
+IOVM_API IO_METHOD(IoSeq, lstrip);
+IOVM_API IO_METHOD(IoSeq, rstrip);
 
 // escape
 
-IOVM_API IoObject *IoSeq_escape(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_unescape(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, escape);
+IOVM_API IO_METHOD(IoSeq, unescape);
 
-IOVM_API IoObject *IoSeq_removePrefix(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_removeSuffix(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_capitalize(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_appendPathSeq(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, removePrefix);
+IOVM_API IO_METHOD(IoSeq, removeSuffix);
+IOVM_API IO_METHOD(IoSeq, capitalize);
+IOVM_API IO_METHOD(IoSeq, appendPathSeq);
 
-IOVM_API IoObject *IoSeq_asCapitalized(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, asCapitalized);
 
-IOVM_API IoObject *IoSeq_interpolateInPlace(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, interpolateInPlace);
 
 // math ---------------------------------------------------------------------
 
-IOVM_API IoObject *IoSeq_addEquals(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_subtractEquals(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_multiplyEquals(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_divideEquals(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, addEquals);
+IOVM_API IO_METHOD(IoSeq, subtractEquals);
+IOVM_API IO_METHOD(IoSeq, multiplyEquals);
+IOVM_API IO_METHOD(IoSeq, divideEquals);
 
-IOVM_API IoObject *IoSeq_add(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_subtract(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_multiply(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_divide(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, add);
+IOVM_API IO_METHOD(IoSeq, subtract);
+IOVM_API IO_METHOD(IoSeq, multiply);
+IOVM_API IO_METHOD(IoSeq, divide);
 
 
-IOVM_API IoObject *IoSeq_dotProduct(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_sum(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_product(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_min(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_max(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_arithmeticMeanAsDouble(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_arithmeticMeanSquareAsDouble(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_square(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_abs(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_ceil(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_floor(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_log(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_log10(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_negate(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_rangeFill(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_clear(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, dotProduct);
+IOVM_API IO_METHOD(IoSeq, sum);
+IOVM_API IO_METHOD(IoSeq, product);
+IOVM_API IO_METHOD(IoSeq, min);
+IOVM_API IO_METHOD(IoSeq, max);
+IOVM_API IO_METHOD(IoSeq, arithmeticMeanAsDouble);
+IOVM_API IO_METHOD(IoSeq, arithmeticMeanSquareAsDouble);
+IOVM_API IO_METHOD(IoSeq, square);
+IOVM_API IO_METHOD(IoSeq, abs);
+IOVM_API IO_METHOD(IoSeq, ceil);
+IOVM_API IO_METHOD(IoSeq, floor);
+IOVM_API IO_METHOD(IoSeq, log);
+IOVM_API IO_METHOD(IoSeq, log10);
+IOVM_API IO_METHOD(IoSeq, negate);
+IOVM_API IO_METHOD(IoSeq, rangeFill);
+IOVM_API IO_METHOD(IoSeq, clear);

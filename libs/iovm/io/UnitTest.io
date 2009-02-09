@@ -63,11 +63,11 @@ Fail the running test if the expected value is not within delta of the actual va
 		mm := call message
 		if(m == nil, m = mm)
 		d := m argAt(0) code .. " != " .. call argAt(1) code
-		if(a != b, Exception raise("[" .. d .. "] [" .. a .. " != " .. b .. "]"))
+		if(a != b, Exception raise("[" .. d .. "] [" .. a asSimpleString .. " != " .. b asSimpleString .. "]"))
 		//writeln("assertEquals2")
 	)
 
-	assertNotEquals := method(a, b, if(a == b, Exception raise(a .. " == " .. b)))
+	assertNotEquals := method(a, b, if(a == b, Exception raise(a asSimpleString .. " == " .. b asSimpleString)))
 
 	assertSame    := method(a, b, assertEquals(a uniqueId, b uniqueId, call message))
 	assertNotSame := method(a, b, assertNotEquals(a uniqueId, b uniqueId, call message))
@@ -110,7 +110,7 @@ TestSuite := Object clone do(
 		path asMutable pathComponent lastPathComponent
 	)
 
-	newSlot("path", ".")
+	path ::= "."
 
 /*doc TestSuite run
 Collects and all files named *Test.io within the System launchPath directory,

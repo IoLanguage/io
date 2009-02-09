@@ -148,11 +148,9 @@ IoMessage *IoMessage_coroNewParseNextMessageChain(ParseContext *context)
 
 IoMessage *IoMessage_newParseNextMessageChain(void *state, IoLexer *lexer)
 {
+		/*
 		IoCoroutine *current = IoState_currentCoroutine(state);
 		Coro *coro = IoCoroutine_cid(current);
-		size_t left = Coro_bytesLeftOnStack(coro);
-
-		/*
 		if (Coro_stackSpaceAlmostGone(coro))
 		{
 			// need to make Coroutine support a stack of Coros which it frees when released
@@ -160,6 +158,7 @@ IoMessage *IoMessage_newParseNextMessageChain(void *state, IoLexer *lexer)
 
 			Coro *newCoro = Coro_new();
 			ParseContext p = {state, lexer, newCoro, coro, NULL};
+			size_t left = Coro_bytesLeftOnStack(coro);
 			printf("Warning IoMessage_newParseNextMessageChain doing callc with %i bytes left to avoid stack overflow\n", left);
 
 			Coro_startCoro_(coro, newCoro, &p, (CoroStartCallback *)IoMessage_coroNewParseNextMessageChain);

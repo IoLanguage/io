@@ -4,101 +4,102 @@
 IOVM_API void IoSeq_rawPrint(IoSeq *self);
 IOVM_API void IoSeq_addImmutableMethods(IoSeq *self);
 
-IOVM_API IoObject *IoSeq_with(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, with);
 
-IOVM_API IoObject *IoSeq_itemType(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_itemSize(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_encoding(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_asUTF8(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_asUCS2(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_asUCS4(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_asFixedSizeType(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, itemType);
+IOVM_API IO_METHOD(IoSeq, itemSize);
+IOVM_API IO_METHOD(IoSeq, encoding);
+IOVM_API IO_METHOD(IoSeq, asUTF8);
+IOVM_API IO_METHOD(IoSeq, asUCS2);
+IOVM_API IO_METHOD(IoSeq, asUCS4);
+IOVM_API IO_METHOD(IoSeq, asFixedSizeType);
 
 // conversion
 
-IOVM_API IoObject *IoSeq_asBinaryNumber(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_asSymbol(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_isMutable(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_isSymbol(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_asNumber(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, asBinaryNumber);
+IOVM_API IO_METHOD(IoSeq, asSymbol);
+IOVM_API IO_METHOD(IoSeq, isMutable);
+IOVM_API IO_METHOD(IoSeq, isSymbol);
+IOVM_API IO_METHOD(IoSeq, asNumber);
 
-IOVM_API IoObject *IoSeq_whiteSpaceStrings(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, whiteSpaceStrings);
 
-IOVM_API IoObject *IoSeq_print(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_linePrint(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, print);
+IOVM_API IO_METHOD(IoSeq, linePrint);
 
 // access
 
-IOVM_API IoObject *IoSeq_size(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_sizeInBytes(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_isEmpty(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_isZero(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_at(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_exclusiveSlice(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_inclusiveSlice(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, size);
+IOVM_API IO_METHOD(IoSeq, sizeInBytes);
+IOVM_API IO_METHOD(IoSeq, isEmpty);
+IOVM_API IO_METHOD(IoSeq, isZero);
+IOVM_API IO_METHOD(IoSeq, at);
+IOVM_API IO_METHOD(IoSeq, exclusiveSlice);
+IOVM_API IO_METHOD(IoSeq, inclusiveSlice);
 
-IOVM_API IoObject *IoSeq_between(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_asNumber(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, between);
+IOVM_API IO_METHOD(IoSeq, asNumber);
 
 // find
 
-IOVM_API IoObject *IoSeq_findSeqs(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_findSeq(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_reverseFindSeq(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, findSeqs);
+IOVM_API IO_METHOD(IoSeq, findSeq);
+IOVM_API IO_METHOD(IoSeq, reverseFindSeq);
 
-IOVM_API IoObject *IoSeq_beginsWithSeq(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_endsWithSeq(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, beginsWithSeq);
+IOVM_API IO_METHOD(IoSeq, endsWithSeq);
 
-IOVM_API IoObject *IoSeq_split(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, split);
 
-IOVM_API IoObject *IoSeq_contains(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_containsSeq(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_containsAnyCaseSeq(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, contains);
+IOVM_API IO_METHOD(IoSeq, containsSeq);
+IOVM_API IO_METHOD(IoSeq, containsAnyCaseSeq);
 
-IOVM_API IoObject *IoSeq_isLowercase(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_isUppercase(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_isEqualAnyCase(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, isLowercase);
+IOVM_API IO_METHOD(IoSeq, isUppercase);
+IOVM_API IO_METHOD(IoSeq, isEqualAnyCase);
 
 // split
 
-IOVM_API IoObject *IoSeq_split(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_splitAt(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, split);
+IOVM_API IO_METHOD(IoSeq, splitAt);
 
 // base
 
-IOVM_API IoObject *IoSeq_fromBase(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_toBase(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, fromBase);
+IOVM_API IO_METHOD(IoSeq, toBase);
 
-IOVM_API IoObject *IoSeq_foreach(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_asMessage(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, foreach);
+IOVM_API IO_METHOD(IoSeq, asMessage);
 
-IOVM_API IoObject *IoSeq_cloneAppendSeq(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_asMutable(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, cloneAppendSeq);
+IOVM_API IO_METHOD(IoSeq, asMutable);
 
 // case
 
-IOVM_API IoObject *IoSeq_asUppercase(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_asLowercase(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, asUppercase);
+IOVM_API IO_METHOD(IoSeq, asLowercase);
 
 // path
 
-IOVM_API IoObject *IoSeq_lastPathComponent(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_pathExtension(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_fileName(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, lastPathComponent);
+IOVM_API IO_METHOD(IoSeq, pathExtension);
+IOVM_API IO_METHOD(IoSeq, fileName);
 
-IOVM_API IoObject *IoSeq_cloneAppendPath(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_pathComponent(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, cloneAppendPath);
+IOVM_API IO_METHOD(IoSeq, pathComponent);
 
-IOVM_API IoObject *IoSeq_asOSPath(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_asIoPath(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, asOSPath);
+IOVM_API IO_METHOD(IoSeq, asIoPath);
 
 // occurance
 
-IOVM_API IoObject *IoSeq_beforeSeq(IoSeq *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoSeq_afterSeq(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, beforeSeq);
+IOVM_API IO_METHOD(IoSeq, afterSeq);
 
-IOVM_API IoObject *IoSeq_occurancesOfSeq(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, occurancesOfSeq);
 
 // encoding
 
-IOVM_API IoObject *IoSeq_asBase64(IoSeq *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoSeq, asBase64);
+

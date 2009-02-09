@@ -13,10 +13,10 @@ extern "C" {
 
 IoObject *IoCompiler_proto(void *state);
 
-IoObject *IoObject_tokensForString(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoObject_messageForTokens(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoObject_messageForString(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoObject_messageForString2(IoObject *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoObject, tokensForString);
+IO_METHOD(IoObject, messageForTokens);
+IO_METHOD(IoObject, messageForString);
+IO_METHOD(IoObject, messageForString2);
 
 #ifdef __cplusplus
 }

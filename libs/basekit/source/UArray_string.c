@@ -45,6 +45,8 @@ void UArray_replace_with_(UArray *self, const UArray *a1, const UArray *a2)
 	size_t start = 0;
 	UArray visible = UArray_stackRange(self, start, self->size);
 
+	if (UArray_size(a1) == 0) return;
+	
 	while ((i = UArray_find_(&visible, a1)) != -1)
 	{
 		size_t index = start + i;
@@ -370,6 +372,7 @@ void UArray_escape(UArray *self)
 			case '\r': UArray_appendCString_(out, "\\r"); break;
 			case '\t': UArray_appendCString_(out, "\\t"); break;
 			case '\v': UArray_appendCString_(out, "\\v"); break;
+			case '\0': UArray_appendCString_(out, "\\0"); break;
 			case '\\': UArray_appendCString_(out, "\\\\"); break;
 			default:   UArray_appendLong_(out, v);
 		}

@@ -492,7 +492,8 @@ View := Responder clone do(
     resizeXFunc := method(id, dx, x,
 		// 1 := fixed, 0 := spring
 		if(id == 000, return x + dx/2)
-		if(id == 001, return x - dx)
+		//if(id == 001, return x - dx)
+		if(id == 001, return x + dx/2)
 		if(id == 010, return x + dx/2)
 		if(id == 011, return x + dx)
 		// 110, 111 nop

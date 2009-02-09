@@ -1,13 +1,13 @@
 
 Background := View clone do(
-	newSlot("gridSize", 10)
+	gridSize ::= 10
 	setBackgroundColor(Point clone set(.1, .1, .1, 1))
 	setOutlineColor(Point clone set(1, 1, 1, .03))
 	resizeWidthWithSuperview
 	resizeHeightWithSuperview
-	newSlot("selectionArea", nil)
+	selectionArea ::= nil
 
-	newSlot("lastBox", nil)
+	lastBox ::= nil
 	
 	doubleLeftMouseDown := method(
 		box := DBox clone

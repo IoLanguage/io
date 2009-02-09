@@ -3,9 +3,9 @@
 VideoDecoder := AVCodec clone do(
 	newSlot("internalCoro")
 	newSlot("externalCoro")
-	newSlot("frameNumber", 0)
-	newSlot("sampleRateConverter", nil)
-	newSlot("audioOn", false)
+	frameNumber ::= 0
+	sampleRateConverter ::= nil
+	audioOn ::= false
 	isDone ::= false
 	
 	init := method(

@@ -173,7 +173,6 @@ UArray *UArray_asUTF8(const UArray *self)
 	UArray_setSize_(out, self->size * 4);
 
 	{
-		ConversionResult r = conversionOK;
 		ConversionFlags options = lenientConversion;
 		void *sourceStart = self->data;
 		void *sourceEnd   = self->data + self->size * self->itemSize;
@@ -199,11 +198,13 @@ UArray *UArray_asUTF8(const UArray *self)
 				*/
 			case CENCODING_UCS2:
 				// should the size be the num of chars or num of bytes??????????
-				r = ucs2encode(targetStart, sourceStart, self->size, NULL); // ucs2 to utf8
+				outSize = ucs2encode(targetStart, sourceStart, self->size, NULL); // ucs2 to utf8
+				UArray_setSize_(out, outSize - 1);
 				break;
 			case CENCODING_UCS4:
 				// should the size be the num of chars or num of bytes??????????
-				r = ucs4encode(targetStart, sourceStart, self->size, NULL); // ucs4 to utf8
+				outSize = ucs4encode(targetStart, sourceStart, self->size, NULL); // ucs4 to utf8
+				UArray_setSize_(out, outSize - 1);
 				break;
 			case CENCODING_NUMBER:
 				{
@@ -217,8 +218,6 @@ UArray *UArray_asUTF8(const UArray *self)
 				printf("UArray_asUTF8 - unknown source encoding\n");
 		}
 	}
-
-	UArray_setSize_(out, strlen((char *)out->data));
 
 	return out;
 }

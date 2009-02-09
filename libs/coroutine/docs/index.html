@@ -1,0 +1,70 @@
+<!--#include virtual="/menu.cgi?path=/projects/opensource/libCoroutine/docs" -->
+
+<UL>
+
+<table cellpadding=0 cellspacing=0 border=0 width=90%>
+<tr>
+<td>
+
+<h2>Overview</h2>
+
+libCoroutine is a simple stackfull coroutine implementation. On unix platforms, the implementation uses ucontext if available or with setjmp/longjmp otherwise except on OSX where some assembly is used. On windows, fibers are used. <br>
+<p>
+
+<h2>Main</h2>
+
+First you'll need to create a coro instance to represent the C stack that was allocated to run the host program's main() function:
+
+<pre>
+Coro *mainCoro = Coro_new();
+Coro_initializeMainCoro(mainCoro);
+</pre>
+
+<h2>Starting</h2>
+
+To create a coroutine:
+<pre>
+Coro *newCoro = Coro_new();
+Coro_startCoro_(currentCoro, newCoro, aContext, aCallback);
+</pre>
+
+currentCoro should be a pointer to the currenting running coroutine (which would be mainCoro, if this is the first corountine you're creating). aCallback is a function pointer for the function which will be called when the coroutine starts and aContext is the argument that will be passed to the callback function.
+
+<h2>Switching</h2>
+
+To switch to the coroutine:
+
+<pre>
+Coro_switchTo_(currentCoro, nextCoro);
+</pre>
+
+<h2>Freeing</h2>
+
+<pre>
+Coro_free(aCoro);
+</pre>
+
+Note that you can't free the currently running coroutine as this would free the current C stack.
+
+<h2>Stacks</h2>
+
+You can check to see whether a corouinte has nearly exhasted it's stack space by calling:
+
+<pre>
+Coro_stackSpaceAlmostGone(aCoro);
+</pre>
+
+This returns 1 if the remaining stack space is less than CORO_STACK_SIZE_MIN. 
+<p>
+The define CORO_STACK_SIZE can be used to adjust the default stack size. There is also a #ifdef on USE_VALGRIND which, when enabled, will register stack switches with valgrind, so it won't be confused.
+
+<h2>Chaining</h2>
+
+A trick to provide effectively get unlimited stack space while keeping stack allocations small is to periodically call Coro_stackSpaceAlmostGone() and create a new Coro in which to continue the computation when the stack gets low.
+
+</td>
+</tr>
+</table>
+
+<br><br><br>
+</UL>
