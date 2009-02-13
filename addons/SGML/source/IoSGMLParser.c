@@ -243,7 +243,9 @@ for each of the items it finds. Returns self.
 
 	IoSeq *buffer = IoMessage_locals_seqArgAt_(m, locals, 0);
 	int ret;
-
+	IoState_pushRetainPool(IOSTATE); //needed?
+	IoState_stackRetain_(IOSTATE, buffer); //needed?
+	
 	IoSGMLParser_initParser(self);
 
 	//ret =_sgmlParseChunk(&(self->parser), s, strlen(s));
@@ -252,6 +254,8 @@ for each of the items it finds. Returns self.
 						   IoSeq_rawSize(buffer));
 
 	IoSGMLParser_freeParser(self);
+
+	IoState_popRetainPool(IOSTATE); //needed?
 
 	if (ret == 0)
 	{

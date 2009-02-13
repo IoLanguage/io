@@ -18,5 +18,5 @@ Sequence do(
 )
 
 
-MD5 hashString := SHA1 getSlot("md5String")
-MD5 hash := SHA1 getSlot("md5")
+Sequence hashString := Sequence getSlot("md5String")
+Sequence hash := Sequence getSlot("md5")
