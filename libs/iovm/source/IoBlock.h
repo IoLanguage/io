@@ -39,31 +39,31 @@ void IoBlock_message_(IoBlock *self, IoMessage *m);
 // calling
 
 IoObject *IoBlock_activate(IoBlock *self, IoObject *target, IoObject *locals, IoMessage *m, IoObject *slotContext);
-IoObject *IoBlock_print(IoBlock *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoBlock, print);
 
 UArray *IoBlock_justCode(IoBlock *self);
-IoObject *IoBlock_code(IoBlock *self, IoObject *locals, IoMessage *m);
-IoObject *IoBlock_code_(IoBlock *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoBlock, code);
+IO_METHOD(IoBlock, code_);
 
-IoObject *IoBlock_message(IoBlock *self, IoObject *locals, IoMessage *m);
-IoObject *IoBlock_setMessage(IoBlock *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoBlock, message);
+IO_METHOD(IoBlock, setMessage);
 
-IoObject *IoBlock_argumentNames(IoBlock *self, IoObject *locals, IoMessage *m);
-IoObject *IoBlock_argumentNames_(IoBlock *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoBlock, argumentNames);
+IO_METHOD(IoBlock, argumentNames_);
 
-IoObject *IoBlock_setScope_(IoBlock *self, IoObject *locals, IoMessage *m);
-IoObject *IoBlock_scope(IoBlock *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoBlock, setScope_);
+IO_METHOD(IoBlock, scope);
 
-IoObject *IoBlock_setPassStops_(IoBlock *self, IoObject *locals, IoMessage *m);
-IoObject *IoBlock_passStops(IoBlock *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoBlock, setPassStops_);
+IO_METHOD(IoBlock, passStops);
 
 // lobby methods
 
 IoObject *IoBlock_method(IoObject *target, IoObject *locals, IoMessage *m);
 IoObject *IoObject_block(IoObject *target, IoObject *locals, IoMessage *m);
 
-IoObject *IoBlock_performOn(IoBlock *self, IoObject *locals, IoMessage *m);
-IoObject *IoBlock_call(IoBlock *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoBlock, performOn);
+IO_METHOD(IoBlock, call);
 
 #ifdef __cplusplus
 }

@@ -4,7 +4,7 @@
 
 // loops ---------------------------------------
 
-IoObject *IoObject_while(IoObject *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoObject, while)
 {
 	/*doc Object while(<condition>, expression)
 	Keeps evaluating message until condition return Nil.
@@ -44,7 +44,7 @@ done:
 	}
 }
 
-IoObject *IoObject_loop(IoObject *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoObject, loop)
 {
 	/*doc Object loop(expression)
 	Keeps evaluating message until a break.
@@ -76,7 +76,7 @@ done:
 }
 
 
-IoObject *IoObject_for(IoObject *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoObject, for)
 {
 	/*doc Object for(<counter>, <start>, <end>, <do message>)
 	A for-loop control structure. See the io Programming Guide for a full description. 
@@ -150,7 +150,7 @@ done:
 	}
 }
 
-IoObject *IoObject_return(IoObject *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoObject, return)
 {
 	/*doc Object return(anObject)
 	Return anObject from the current execution block.
@@ -161,7 +161,7 @@ IoObject *IoObject_return(IoObject *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoObject_returnIfNonNil(IoObject *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoObject, returnIfNonNil)
 {
 	/*doc Object returnIfNonNil
 	Returns the receiver from the current execution block if it is non nil. 
@@ -176,7 +176,7 @@ IoObject *IoObject_returnIfNonNil(IoObject *self, IoObject *locals, IoMessage *m
 	return self;
 }
 
-IoObject *IoObject_break(IoObject *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoObject, break)
 {
 	/*doc Object break(optionalReturnValue)
 	Break the current loop, if any. 
@@ -193,7 +193,7 @@ IoObject *IoObject_break(IoObject *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoObject_continue(IoObject *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoObject, continue)
 {
 	/*doc Object continue
 	Skip the rest of the current loop iteration and start on
@@ -204,7 +204,7 @@ IoObject *IoObject_continue(IoObject *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoObject_stopStatus(IoObject *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoObject, stopStatus)
 {
 	/*doc Object stopStatus
 	Returns the internal IoState->stopStatus.
@@ -220,7 +220,7 @@ IoObject *IoObject_stopStatus(IoObject *self, IoObject *locals, IoMessage *m)
 	return IoState_stopStatusObject(IOSTATE, stopStatus);
 }
 
-IoObject *IoObject_if(IoObject *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoObject, if)
 {
 	/*doc Object if(<condition>, <trueMessage>, <optionalFalseMessage>)
 	Evaluates trueMessage if condition evaluates to a non-Nil.
@@ -238,7 +238,7 @@ IoObject *IoObject_if(IoObject *self, IoObject *locals, IoMessage *m)
 	return IOBOOL(self, condition);
 }
 
-IoObject *IoObject_tailCall(IoObject *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoObject, tailCall)
 {
 /*doc Object tailCall(expression)
 Does a tailCall on the currently executing Block. Example:

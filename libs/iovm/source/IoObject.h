@@ -23,6 +23,9 @@ extern "C" {
 
 #define ISOBJECT(self) IOOBJECT_ISTYPE(self, Object)
 
+// Shortcut for method definitons in C code
+#define IO_METHOD(CLASS, NAME) IoObject * CLASS ## _ ## NAME (CLASS  *self, IoObject *locals, IoMessage *m)
+
 #include "IoObject_struct.h"
 #include "IoMessage.h"
 #include "IoSeq.h"
@@ -56,14 +59,14 @@ IOVM_API void IoObject_rawRemoveProto_(IoObject *self, IoObject *p);
 //IOVM_API void IoObject_rawRemoveAllProtos(IoObject *self);
 IOVM_API void IoObject_rawSetProto_(IoObject *self, IoObject *proto);
 
-IOVM_API IoObject *IoObject_objectProto(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_setProto(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_setProtos(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_appendProto(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_prependProto(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_removeProto(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_removeAllProtos(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_protosMethod(IoObject *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoObject, objectProto);
+IOVM_API IO_METHOD(IoObject, setProto);
+IOVM_API IO_METHOD(IoObject, setProtos);
+IOVM_API IO_METHOD(IoObject, appendProto);
+IOVM_API IO_METHOD(IoObject, prependProto);
+IOVM_API IO_METHOD(IoObject, removeProto);
+IOVM_API IO_METHOD(IoObject, removeAllProtos);
+IOVM_API IO_METHOD(IoObject, protosMethod);
 IOVM_API unsigned int IoObject_rawHasProto_(IoObject *self, IoObject *p);
 
 // slots
@@ -82,9 +85,9 @@ IOVM_API void IoObject_removeSlot_(IoObject *self, IoSymbol *slotName);
 // perform and activate
 
 //IOVM_API IoObject *IoObject_activate(IoObject *self, IoObject *target, IoObject *locals, IoMessage *m, IoObject *slotContext);
-//IOVM_API IoObject *IoObject_perform(IoObject *self, IoObject *locals, IoMessage *m);
-//IoObject *IoObject_forward(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_localsForward(IoObject *self, IoObject *locals, IoMessage *m);
+//IOVM_API IO_METHOD(IoObject, perform);
+//IO_METHOD(IoObject, forward);
+IOVM_API IO_METHOD(IoObject, localsForward);
 
 // tag functions
 
@@ -103,109 +106,109 @@ IOVM_API void IoObject_show(IoObject *self);
 
 // proto
 
-IOVM_API IoObject *IoObject_clone(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_cloneWithoutInit(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_shallowCopy(IoObject *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoObject, clone);
+IOVM_API IO_METHOD(IoObject, cloneWithoutInit);
+IOVM_API IO_METHOD(IoObject, shallowCopy);
 IOVM_API IoObject *IoObject_initClone_(IoObject *self, IoObject *locals, IoMessage *m, IoObject *newObject);
 
 // printing
 
-IOVM_API IoObject *IoObject_protoWrite(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_protoWriteLn(IoObject *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoObject, protoWrite);
+IOVM_API IO_METHOD(IoObject, protoWriteLn);
 
 // reflection
 
-IOVM_API IoObject *IoObject_protoPerform(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_protoPerformWithArgList(IoObject *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoObject, protoPerform);
+IOVM_API IO_METHOD(IoObject, protoPerformWithArgList);
 
-IOVM_API IoObject *IoObject_protoSet_to_(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_protoSetSlotWithType(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_localsUpdateSlot(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_protoUpdateSlot_to_(IoObject *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoObject, protoSet_to_);
+IOVM_API IO_METHOD(IoObject, protoSetSlotWithType);
+IOVM_API IO_METHOD(IoObject, localsUpdateSlot);
+IOVM_API IO_METHOD(IoObject, protoUpdateSlot_to_);
 
-IOVM_API IoObject *IoObject_protoGetSlot_(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_protoGetLocalSlot_(IoObject *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoObject, protoGetSlot_);
+IOVM_API IO_METHOD(IoObject, protoGetLocalSlot_);
 
-IOVM_API IoObject *IoObject_protoHasLocalSlot(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_protoHasProto_(IoObject *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoObject, protoHasLocalSlot);
+IOVM_API IO_METHOD(IoObject, protoHasProto_);
 
-IOVM_API IoObject *IoObject_protoRemoveSlot(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_protoRemoveAllSlots(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_protoSlotNames(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_protoSlotValues(IoObject *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoObject, protoRemoveSlot);
+IOVM_API IO_METHOD(IoObject, protoRemoveAllSlots);
+IOVM_API IO_METHOD(IoObject, protoSlotNames);
+IOVM_API IO_METHOD(IoObject, protoSlotValues);
 
-//IoObject *IoObject_forward_(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_super(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_contextWithSlot(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_ancestorWithSlot(IoObject *self, IoObject *locals, IoMessage *m);
+//IO_METHOD(IoObject, forward_);
+IOVM_API IO_METHOD(IoObject, super);
+IOVM_API IO_METHOD(IoObject, contextWithSlot);
+IOVM_API IO_METHOD(IoObject, ancestorWithSlot);
 
-IOVM_API IoObject *IoObject_doMessage(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_self(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_locals(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_thisMessage(IoObject *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoObject, doMessage);
+IOVM_API IO_METHOD(IoObject, self);
+IOVM_API IO_METHOD(IoObject, locals);
+IOVM_API IO_METHOD(IoObject, thisMessage);
 
 // memory
 
-IOVM_API IoObject *IoObject_memorySizeMethod(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_compactMethod(IoObject *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoObject, memorySizeMethod);
+IOVM_API IO_METHOD(IoObject, compactMethod);
 
 // description
 
 IOVM_API void IoObject_defaultPrint(IoObject *self);
 
-IOVM_API IoObject *IoObject_type(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_lobbyPrint(IoObject *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoObject, type);
+IOVM_API IO_METHOD(IoObject, lobbyPrint);
 
 // logic
 
-IOVM_API IoObject *IoObject_and(IoObject *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoObject, and);
 
 // math
 
-IOVM_API IoObject *IoObject_subtract(IoObject *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoObject, subtract);
 
 // comparison
 
 IOVM_API int IoObject_sortCompare(IoObject **self, IoObject **v);
 
-IOVM_API IoObject *IoObject_isIdenticalTo(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_equals(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_notEquals(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_protoCompare(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_isLessThan_(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_isLessThanOrEqualTo_(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_isGreaterThan_(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_isGreaterThanOrEqualTo_(IoObject *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoObject, isIdenticalTo);
+IOVM_API IO_METHOD(IoObject, equals);
+IOVM_API IO_METHOD(IoObject, notEquals);
+IOVM_API IO_METHOD(IoObject, protoCompare);
+IOVM_API IO_METHOD(IoObject, isLessThan_);
+IOVM_API IO_METHOD(IoObject, isLessThanOrEqualTo_);
+IOVM_API IO_METHOD(IoObject, isGreaterThan_);
+IOVM_API IO_METHOD(IoObject, isGreaterThanOrEqualTo_);
 
 // meta
 
-//IOVM_API IoObject *IoObject_truthValueOfArg(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_evalArg(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_evalArgAndReturnNil(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_evalArgAndReturnSelf(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_uniqueId(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_do(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_message(IoObject *self, IoObject *locals, IoMessage *m);
+//IOVM_API IO_METHOD(IoObject, truthValueOfArg);
+IOVM_API IO_METHOD(IoObject, evalArg);
+IOVM_API IO_METHOD(IoObject, evalArgAndReturnNil);
+IOVM_API IO_METHOD(IoObject, evalArgAndReturnSelf);
+IOVM_API IO_METHOD(IoObject, uniqueId);
+IOVM_API IO_METHOD(IoObject, do);
+IOVM_API IO_METHOD(IoObject, message);
 
 // compiler
 
 IOVM_API IoObject *IoObject_rawDoString_label_(IoObject *self, IoSymbol *string, IoSymbol *label);
-IOVM_API IoObject *IoObject_doString(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_doFile(IoObject *self, IoObject *locals, IoMessage *m);
-//IoObject *IoObject_unpack(IoObject *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoObject, doString);
+IOVM_API IO_METHOD(IoObject, doFile);
+//IO_METHOD(IoObject, unpack);
 
 // activatable
 
-IOVM_API IoObject *IoObject_setIsActivatableMethod(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_isActivatableMethod(IoObject *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoObject, setIsActivatableMethod);
+IOVM_API IO_METHOD(IoObject, isActivatableMethod);
 
 // eval
 
 IOVM_API IoObject *IoObject_rawDoMessage(IoObject *self, IoMessage *m);
 IOVM_API IoObject *IoObject_eval(IoObject *self, IoMessage *m, IoObject *locals);
 
-IOVM_API IoObject *IoObject_argIsActivationRecord(IoObject *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoObject_argIsCall(IoObject *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoObject, argIsActivationRecord);
+IOVM_API IO_METHOD(IoObject, argIsCall);
 
 IOVM_API UArray *IoObject_rawGetUArraySlot(IoObject *self,
 								IoObject *locals,
@@ -217,7 +220,7 @@ IOVM_API UArray *IoObject_rawGetMutableUArraySlot(IoObject *self,
 								IoMessage *m,
 								IoSymbol *slotName);
 
-IOVM_API IoObject *IoObject_become(IoObject *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoObject, become);
 
 // io_free listeners ---------------------------------------------
 
@@ -228,7 +231,7 @@ IOVM_API void IoObject_removeListener_(IoObject *self, void *listener);
 
 IOVM_API void IoObject_protoClean(IoObject *self);
 IOVM_API IoObject *IoObject_hasDirtySlot_(IoObject *self, IoMessage *m, IoObject *locals);
-IOVM_API IoObject *IoObject_markClean(IoObject *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoObject, markClean);
 
 //IOVM_API PID_TYPE IoObject_pid(IoObject *self);
 

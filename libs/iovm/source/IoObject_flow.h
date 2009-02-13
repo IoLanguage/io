@@ -4,24 +4,24 @@
 
 // loop
 
-IoObject *IoObject_loop(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoObject_while(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoObject_foreachSlot(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoObject_for(IoObject *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoObject, loop);
+IO_METHOD(IoObject, while);
+IO_METHOD(IoObject, foreachSlot);
+IO_METHOD(IoObject, for);
 
 // break
 
-IoObject *IoObject_returnIfNonNil(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoObject_return(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoObject_break(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoObject_continue(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoObject_stopStatus(IoObject *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoObject, returnIfNonNil);
+IO_METHOD(IoObject, return);
+IO_METHOD(IoObject, break);
+IO_METHOD(IoObject, continue);
+IO_METHOD(IoObject, stopStatus);
 
 // branch
 
-IoObject *IoObject_if(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoObject_if2(IoObject *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoObject, if);
+IO_METHOD(IoObject, if2);
 
 // tail call
 
-IoObject *IoObject_tailCall(IoObject *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoObject, tailCall);

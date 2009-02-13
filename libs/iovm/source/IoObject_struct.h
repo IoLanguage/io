@@ -14,6 +14,8 @@
 extern "C" {
 #endif
 
+// Shortcut for method definitons in C code
+#define IO_METHOD(CLASS, NAME) IoObject * CLASS ## _ ## NAME (CLASS  *self, IoObject *locals, IoMessage *m)
 
 typedef struct CollectorMarker IoObject;
 //typedef struct IoObjectData IoObjectData;

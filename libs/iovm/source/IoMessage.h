@@ -81,13 +81,13 @@ IOVM_API void IoMessage_setCachedArg_to_(IoMessage *self, int n, IoObject *v);
 IOVM_API void IoMessage_setCachedArg_toInt_(IoMessage *self, int n, int anInt);
 IOVM_API void IoMessage_cachedResult_(IoMessage *self, IoObject *v);
 
-IOVM_API IoObject *IoMessage_lineNumber(IoMessage *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoMessage_characterNumber(IoMessage *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoMessage_label(IoMessage *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoMessage, lineNumber);
+IOVM_API IO_METHOD(IoMessage, characterNumber);
+IOVM_API IO_METHOD(IoMessage, label);
 
 // perform
 
-IOVM_API IoObject *IoMessage_doInContext(IoMessage *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoMessage, doInContext);
 IOVM_API IoObject *IoMessage_locals_performOn_(IoMessage *self, IoObject *locals, IoObject *target);
 
 // args
@@ -129,59 +129,59 @@ IOVM_API void IoMessage_printWithReturn(IoMessage *self);
 IOVM_API UArray *IoMessage_description(IoMessage *self);
 IOVM_API UArray *IoMessage_descriptionJustSelfAndArgs(IoMessage *self); /* caller must io_free returned */
 IOVM_API void IoMessage_appendDescriptionTo_follow_(IoMessage *self, UArray *ba, int follow);
-IOVM_API IoObject *IoMessage_asString(IoMessage *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoMessage, asString);
 
 // primitive methods
 
-IOVM_API IoObject *IoMessage_clone(IoMessage *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoMessage_protoName(IoMessage *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoMessage_protoSetName(IoMessage *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoMessage_descriptionString(IoMessage *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoMessage, clone);
+IOVM_API IO_METHOD(IoMessage, protoName);
+IOVM_API IO_METHOD(IoMessage, protoSetName);
+IOVM_API IO_METHOD(IoMessage, descriptionString);
 
 // next
 
-IOVM_API IoObject *IoMessage_next(IoMessage *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoMessage, next);
 IOVM_API IoMessage *IoMessage_rawNext(IoMessage *self);
 
-IOVM_API IoObject *IoMessage_setNext(IoMessage *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoMessage, setNext);
 IOVM_API void IoMessage_rawSetNext(IoMessage *self, IoMessage *m);
 
-IOVM_API IoObject *IoMessage_isEOL(IoMessage *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoMessage, isEOL);
 IOVM_API int IoMessage_rawIsEOL(IoMessage *self);
 
-IOVM_API IoObject *IoMessage_nextIgnoreEOLs(IoMessage *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoMessage, nextIgnoreEOLs);
 IOVM_API IoMessage *IoMessage_rawNextIgnoreEOLs(IoMessage *self);
-IOVM_API IoObject *IoMessage_last(IoMessage *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoMessage, last);
 IOVM_API IoMessage *IoMessage_rawLast(IoMessage *self);
-IOVM_API IoObject *IoMessage_lastBeforeEOL(IoMessage *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoMessage, lastBeforeEOL);
 IOVM_API IoMessage *IoMessage_rawLastBeforeEOL(IoMessage *self);
 
 // previous
 
-IOVM_API IoObject *IoMessage_previous(IoMessage *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoMessage, previous);
 IOVM_API IoMessage *IoMessage_rawPrevious(IoMessage *self);
 
-IOVM_API IoObject *IoMessage_setPrevious(IoMessage *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoMessage, setPrevious);
 IOVM_API void IoMessage_rawSetPrevious(IoMessage *self, IoMessage *m);
 
-IOVM_API IoObject *IoMessage_argAt(IoMessage *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoMessage_arguments(IoMessage *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoMessage_setArguments(IoMessage *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoMessage_appendArg(IoMessage *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoMessage_appendCachedArg(IoMessage *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoMessage_argCount_(IoMessage *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoMessage_cachedResult(IoMessage *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoMessage_setCachedResult(IoMessage *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoMessage_removeCachedResult(IoMessage *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoMessage_hasCachedResult(IoMessage *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoMessage, argAt);
+IOVM_API IO_METHOD(IoMessage, arguments);
+IOVM_API IO_METHOD(IoMessage, setArguments);
+IOVM_API IO_METHOD(IoMessage, appendArg);
+IOVM_API IO_METHOD(IoMessage, appendCachedArg);
+IOVM_API IO_METHOD(IoMessage, argCount_);
+IOVM_API IO_METHOD(IoMessage, cachedResult);
+IOVM_API IO_METHOD(IoMessage, setCachedResult);
+IOVM_API IO_METHOD(IoMessage, removeCachedResult);
+IOVM_API IO_METHOD(IoMessage, hasCachedResult);
 
-IOVM_API IoObject *IoMessage_setLineNumber(IoMessage *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoMessage_setCharacterNumber(IoMessage *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoMessage_setLabel(IoMessage *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoMessage, setLineNumber);
+IOVM_API IO_METHOD(IoMessage, setCharacterNumber);
+IOVM_API IO_METHOD(IoMessage, setLabel);
 
-IOVM_API IoObject *IoMessage_fromString(IoMessage *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoMessage_argsEvaluatedIn(IoMessage *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoMessage_evaluatedArgs(IoMessage *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoMessage, fromString);
+IOVM_API IO_METHOD(IoMessage, argsEvaluatedIn);
+IOVM_API IO_METHOD(IoMessage, evaluatedArgs);
 
 IOVM_API void IoMessage_foreachArgs(IoMessage *self,
 	IoObject *object,

@@ -29,22 +29,22 @@ IOVM_API void IoDirectory_mark(IoDirectory *self);
 
 // -----------------------------------------------------------
 
-IOVM_API IoObject *IoDirectory_path(IoDirectory *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoDirectory_setPath(IoDirectory *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoDirectory_name(IoDirectory *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoDirectory, path);
+IOVM_API IO_METHOD(IoDirectory, setPath);
+IOVM_API IO_METHOD(IoDirectory, name);
 
-IOVM_API IoObject *IoDirectory_at(IoDirectory *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoDirectory_size(IoDirectory *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoDirectory, at);
+IOVM_API IO_METHOD(IoDirectory, size);
 
-IOVM_API IoObject *IoDirectory_exists(IoDirectory *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoDirectory_items(IoDirectory *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoDirectory_create(IoDirectory *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoDirectory_createSubdirectory(IoDirectory *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoDirectory, exists);
+IOVM_API IO_METHOD(IoDirectory, items);
+IOVM_API IO_METHOD(IoDirectory, create);
+IOVM_API IO_METHOD(IoDirectory, createSubdirectory);
 
 IOVM_API UArray *IoDirectory_CurrentWorkingDirectoryAsUArray(void);
 IOVM_API int IoDirectory_SetCurrentWorkingDirectory(const char *path);
 
-IOVM_API IoObject *IoDirectory_currentWorkingDirectory(IoDirectory *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoDirectory_setCurrentWorkingDirectory(IoDirectory *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoDirectory, currentWorkingDirectory);
+IOVM_API IO_METHOD(IoDirectory, setCurrentWorkingDirectory);
 
 #endif

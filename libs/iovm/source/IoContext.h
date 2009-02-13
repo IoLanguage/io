@@ -29,7 +29,7 @@ typedef struct
 
 example:
 
-	IoObject *IoDuration_days(IoDuration *self, IoObject *locals, IoMessage *m);
+	IO_METHOD(IoDuration, days);
 
 becomes:
 

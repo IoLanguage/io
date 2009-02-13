@@ -31,25 +31,25 @@ void IoMap_readFromStream_(IoMap *self, BStream *stream);
 
 // -----------------------------------------------------------
 
-IoObject *IoMap_empty(IoMap *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoMap, empty);
 
 IOVM_API IoObject *IoMap_rawAt(IoMap *self, IoSymbol *k);
-IOVM_API IoObject *IoMap_at(IoMap *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoMap, at);
 
 void IoMap_rawAtPut(IoMap *self, IoSymbol *k, IoObject *v);
-IoObject *IoMap_atPut(IoMap *self, IoObject *locals, IoMessage *m);
-IoObject *IoMap_atIfAbsentPut(IoMap *self, IoObject *locals, IoMessage *m);
-IoObject *IoMap_removeAt(IoMap *self, IoObject *locals, IoMessage *m);
-IoObject *IoMap_size(IoMap *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoMap, atPut);
+IO_METHOD(IoMap, atIfAbsentPut);
+IO_METHOD(IoMap, removeAt);
+IO_METHOD(IoMap, size);
 
-IoObject *IoMap_hasKey(IoMap *self, IoObject *locals, IoMessage *m);
-IoObject *IoMap_hasValue(IoMap *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoMap, hasKey);
+IO_METHOD(IoMap, hasValue);
 
 IOVM_API IoList *IoMap_rawKeys(IoMap *self);
-IoObject *IoMap_keys(IoMap *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoMap, keys);
 
-IoObject *IoMap_values(IoMap *self, IoObject *locals, IoMessage *m);
-IoObject *IoMap_foreach(IoMap *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoMap, values);
+IO_METHOD(IoMap, foreach);
 
 #ifdef __cplusplus
 }
