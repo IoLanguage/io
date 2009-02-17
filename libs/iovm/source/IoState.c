@@ -43,6 +43,7 @@ void IoState_new_atAddress(void *address)
 	IoCFunction *cFunctionProto;
 	IoSeq *seqProto;
 
+
 	// collector
 
 	self->collector = Collector_new();

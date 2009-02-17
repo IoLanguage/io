@@ -20,5 +20,5 @@ Sequence sha1 := method(
 	SHA1 clone appendSeq(self) sha1
 )
 
-SHA1 hashString := SHA1 getSlot("sha1String")
-SHA1 hash := SHA1 getSlot("sha1")
+Sequence hashString := Sequence getSlot("sha1String")
+Sequence hash := Sequence getSlot("sha1")
