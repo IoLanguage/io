@@ -198,7 +198,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 	
 	evFetch := method(
 		c := EvConnection clone setAddress(host) setPort(port) connect
-		writeln("evFetch ", url)
+		//writeln("evFetch ", url)
 		r := c newRequest setUri(request) 
 		r requestHeaders = self requestHeaders
 		r send
@@ -210,6 +210,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 	//doc URL fetch Fetches the url and returns the result as a Sequence. Returns an Error, if one occurs.
 	fetch := method(url, redirected,
 		if(url, setURL(url))
+		Exception raise("OLD URL fetch")
 		if(protocol == "http", 
 			v := fetchHttp
 			if(followRedirects and(statusCode == 302 or statusCode == 301),
@@ -224,7 +225,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		)
 		Error with("Protocol '" .. protocol .. "' unsupported")
 	)
-
+	
 	/*doc URL fetchWithProgress(progressBlock)
 	Same as fetch, but with each read, progressBlock is called with the readBuffer 
 	and the content size as parameters.
@@ -314,10 +315,10 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 
 	//doc URL fetchHttp(optionalProgressBlock) Private method that fetches an http url.
 	fetchHttp := method(progressBlock,
-		//if(cacheOn, r := cacheLoad; if(r, return r))
+		if(cacheOn, r := cacheLoad; if(r, write("+"); return r))
 		connectAndWriteHeader returnIfError
 		r := processHttpResponse(progressBlock)
-		//if(r isError not, if(cacheOn, cacheStore(r)))
+		if(r isError not, if(cacheOn, cacheStore(r)))
 		if(cacheOn and r isError not, cacheStore(r))
 		return r
 	)
@@ -426,6 +427,36 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		URL clone setURL(u) setReferer(url)
 	)
 
+	evPost := method(parameters, headers,
+		headers ifNil(headers := Map clone)
+		headers atIfAbsentPut("User-Agent", "Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/312.8 (KHTML, like Gecko) Safari/312.6")
+		hostHeader := if(port != 80, list(host, port) join(":"), host)
+		headers atIfAbsentPut("Host", hostHeader)
+		headers atIfAbsentPut("Accept", "text/html; q=1.0, text/*; q=0.8, image/gif; q=0.6, image/jpeg; q=0.6, image/*; q=0.5, */*; q=0.1")
+		headers atIfAbsentPut("Content-Type", "application/x-www-form-urlencoded")
+		
+		if(parameters type == "Map") then(
+			content := parameters keys map(k,
+				Sequence with(escapeString(k), "=", escapeString(parameters at(k)))
+			) join("&")
+		) else(
+			content := parameters
+		)
+
+		headers atPut("Content-Length: ", content size asString)
+
+		writeln("evPost ", url)
+		writeln("POST: [", content, "]")
+		c := EvConnection clone setAddress(host) setPort(port) connect
+		r := c newRequest setUri(request) 
+		r requestHeaders = headers
+		//r postData := content
+		r send
+		self statusCode := r responseCode
+		//writeln("evFetch  got ", r data size, " bytes")
+		r data
+		
+	)
 	/*doc URL post(parameters, headers)
 	Sends an http post message. If parameters is a Map, it's key/value pairs are 
 	send as the post parameters. If parameters is a Sequence or String, it is sent directly.
@@ -503,3 +534,5 @@ Object doURL := method(url, self doString(URL clone setURL(url) fetch))
 //doc Sequence asURL Returns a new URL object instance with the receiver as it's url string.
 Sequence asURL := method(URL with(self))
 
+URL fetch := URL getSlot("evFetch")
+URL post := URL getSlot("evPost")

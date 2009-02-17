@@ -129,7 +129,7 @@ IoObject *IoEvRequest_send(IoEvRequest *self, IoObject *locals, IoMessage *m)
 	IoSeq *requestType = IoObject_symbolGetSlot_(self, IOSYMBOL("requestType"));
 	IoSeq *uri = IoObject_symbolGetSlot_(self, IOSYMBOL("uri"));
 	IoMap *responseHeaders = IoObject_getSlot_(self, IOSYMBOL("requestHeaders"));
-	int rt = 0;
+	int rtype = 0;
 	int r;
 	
 	IOASSERT(REQUEST(self) == 0x0, "request already sent");
@@ -139,11 +139,13 @@ IoObject *IoEvRequest_send(IoEvRequest *self, IoObject *locals, IoMessage *m)
 	
 	if (IoSeq_rawEqualsCString_(requestType, "GET"))
 	{
-		rt = EVHTTP_REQ_GET;
+		rtype = EVHTTP_REQ_GET;
 	}
 	else if (IoSeq_rawEqualsCString_(requestType, "POST"))
 	{
-		rt = EVHTTP_REQ_POST;
+		IoSeq *postData = IoObject_seqGetSlot_(self, IOSYMBOL("postData"));
+		rtype = EVHTTP_REQ_POST;
+		evbuffer_add_printf(REQUEST(self)->output_buffer, CSTRING(postData));
 	}
 	else
 	{
@@ -155,13 +157,14 @@ IoObject *IoEvRequest_send(IoEvRequest *self, IoObject *locals, IoMessage *m)
 	{
 		PHash *rh = IoMap_rawHash(responseHeaders);
 		PHASH_FOREACH(rh, k, v, 
+			IOASSERT(ISSEQ(v), "responseHeader values must be Sequences");
 			//printf("request header %s : %s\n", CSTRING(k), CSTRING(v));
 			evhttp_add_header(REQUEST(self)->output_headers, CSTRING(k), CSTRING(v));
 		)
 	}
 	
 	r = evhttp_make_request(IoEvConnection_rawConnection(connection),	
-		REQUEST(self), rt, CSTRING(uri));
+		REQUEST(self), rtype, CSTRING(uri));
 	
 	//printf("send uri: %s\n", CSTRING(uri));
 	return r == -1 ? IONIL(self) : self;
