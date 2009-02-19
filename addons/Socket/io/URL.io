@@ -49,6 +49,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 	setIsSynchronous := method(aBool,
 		isSynchronous = aBool
 		socket setIsSynchronous(aBool)
+		self
 	)
 	
 	setTimeout := method(timeout,
@@ -217,16 +218,20 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 
 	//doc URL fetch Fetches the url and returns the result as a Sequence. Returns an Error, if one occurs.
 	fetch := method(url, redirected,
+		//if(isSynchronous not, Exception raise("URL not synchronous"))
 		if(url, setURL(url))
+		//writeln("URL fetch: ", self url type, ": '", self url, "'")
 		if(protocol == "http", 
 			v := fetchHttp
+			//writeln("URL fetch, statusCode: ", statusCode)
 			if(followRedirects and(statusCode == 302 or statusCode == 301),
 			 	if(redirected, 
 					writeln("DOUBLE REDIRECT on " .. url)
 			 		return Error with("Double redirect")
 				)
-				writeln("REDIRECT TO ", self responseHeaders at("Location"))
-		 		v := self fetch(childUrl(self responseHeaders at("Location")), true)
+				newUrl := self responseHeaders at("Location")
+				writeln("REDIRECT TO ", newUrl)
+		 		v := childUrl(newUrl) fetch(nil, true)
 			)
 			return v
 		)
@@ -434,7 +439,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 				u = Path with(url pathComponent, u)
 			)
 		)
-		URL clone setURL(u) setReferer(url)
+		self clone setURL(u) setReferer(url)
 	)
 
 	evPost := method(parameters, headers,
