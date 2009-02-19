@@ -17,6 +17,7 @@ A binding for libevent.
 #include <AvailabilityMacros.h>
 #endif
 
+
 #include <time.h>
 #ifndef WIN32
 #include <unistd.h>
@@ -46,7 +47,7 @@ IoEventManager *IoEventManager_proto(void *state)
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoEventManager_newTag(state));
 
-	IoObject_setDataPointer_(self, calloc(1, sizeof(IoEventManagerData)));
+	IoObject_setDataPointer_(self, io_calloc(1, sizeof(IoEventManagerData)));
 
 	DATA(self)->handleEventMessage = IoMessage_newWithName_(state, IOSYMBOL("handleEvent"));
 	DATA(self)->activeEvents = List_new();
@@ -74,15 +75,19 @@ IoEventManager *IoEventManager_proto(void *state)
 
 
 //#if !defined(AVAILABLE_MAC_OS_X_VERSION_10_4_AND_LATER)
+/*
 #if defined(__APPLE__)
 	setenv("EVENT_NOKQUEUE", "1", 1);
 	//printf("EventManager warning: disabling libevent kqueue support to avoid bug in OSX < 10.4\n");
 	setenv("EVENT_NOPOLL", "1", 1);
 	//setenv("EVENT_NOSELECT", "1", 1);
 #endif
+*/
 
 	DATA(self)->eventBase = event_init();
+	#ifdef USE_EVHTTP
 	DATA(self)->evh = evhttp_new(DATA(self)->eventBase);
+	#endif
 	//IoEventManager_setDescriptorLimitToMax(self);
 	Socket_SetDescriptorLimitToMax();
 
@@ -117,8 +122,10 @@ void IoEventManager_free(IoEventManager *self)
 	List_free(DATA(self)->activeEvents);
 
 	//printf("IoEventManager_free - skipping evhttp_free\n");
+	#ifdef USE_EVHTTP
 	evhttp_free(DATA(self)->evh);
-	free(IoObject_dataPointer(self));
+	#endif
+	io_free(IoObject_dataPointer(self));
 }
 
 void *IoEventManager_rawBase(IoEventManager *self)
@@ -129,7 +136,7 @@ void *IoEventManager_rawBase(IoEventManager *self)
 /*
 IoEventManager *IoEventManager_new(void)
 {
-	IoEventManager *self = (IoEventManager *)calloc(1, sizeof(IoEventManager));
+	IoEventManager *self = (IoEventManager *)io_calloc(1, sizeof(IoEventManager));
 
 	DATA(self)->handleEventMessage = IoMessage_newWithName_(state, IOSYMBOL("handleEvent"));
 	DATA(self)->activeEvents = List_new();
@@ -330,8 +337,8 @@ struct event_base_PROTO
 IoObject *IoEventManager_hasActiveEvents(IoEventManager *self, IoObject *locals, IoMessage *m)
 {
 	int count = ((struct event_base_PROTO *)DATA(self)->eventBase)->event_count;
-	int countActive = ((struct event_base_PROTO *)DATA(self)->eventBase)->event_count;
-	printf("count: %i countActive: %i\n", count, countActive);
+	//int countActive = ((struct event_base_PROTO *)DATA(self)->eventBase)->event_count;
+	//printf("count: %i countActive: %i\n", count, countActive);
 	return IOBOOL(self, count > 1);
 }
 

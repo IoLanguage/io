@@ -314,6 +314,14 @@ void IoObject_freeData(IoObject *self)
 
 	if (func)
 	{
+		/*
+		if(func == free)
+		{
+			printf("Tag func is free\n");
+			if (IoObject_name(self)) printf("free %s\n", IoObject_name(self));
+		}
+		*/
+		
 		(*func)(self);
 	}
 	else if (IoObject_dataPointer(self))

@@ -4,8 +4,8 @@
 
 IPAddress *IPAddress_new(void)
 {
-	IPAddress *self = calloc(1, sizeof(IPAddress));
-	self->sockaddr = calloc(1, sizeof(struct sockaddr_in));
+	IPAddress *self = io_calloc(1, sizeof(IPAddress));
+	self->sockaddr = io_calloc(1, sizeof(struct sockaddr_in));
 	self->size = sizeof(struct sockaddr_in);
 	return self;
 }
@@ -14,7 +14,7 @@ IPAddress *IPAddress_setIPAddress_size_(IPAddress *self,
 							   struct sockaddr *address,
 							   size_t size)
 {
-	self->sockaddr = realloc(self->sockaddr, size);
+	self->sockaddr = io_realloc(self->sockaddr, size);
 	memcpy(self->sockaddr, address, size);
 	self->size = size;
 	return self;
@@ -22,8 +22,8 @@ IPAddress *IPAddress_setIPAddress_size_(IPAddress *self,
 
 void IPAddress_free(IPAddress *self)
 {
-	free(self->sockaddr);
-	 free(self);
+	io_free(self->sockaddr);
+	io_free(self);
 }
 
 // access

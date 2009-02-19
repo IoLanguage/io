@@ -111,6 +111,7 @@ IoCoroutine *IoCoroutine_new(void *state)
 
 void IoCoroutine_free(IoCoroutine *self)
 {
+	//printf("IoCoroutine_free %p\n", (void *)self);
 	Coro *coro = DATA(self)->cid;
 	if (coro) Coro_free(coro);
 	Stack_free(DATA(self)->ioStack);
@@ -428,7 +429,7 @@ IO_METHOD(IoCoroutine, resume)
   Yields to the receiver. Runs the receiver if it is not running yet. 
   Returns self.
   */
-	//printf("IoCoroutine_resume()\n");
+	//printf("IoCoroutine_resume(%p)\n", (void *)self);
 	return IoCoroutine_rawResume(self);
 }
 
