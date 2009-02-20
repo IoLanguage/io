@@ -164,7 +164,8 @@ void IoBlock_mark(IoBlock *self)
 
 void IoBlock_free(IoBlock *self)
 {
-	List_free(DATA(self)->argNames);;
+	//printf("IoBlock_free(%p)\n", (void *)self);
+	List_free(DATA(self)->argNames);
 	io_free(IoObject_dataPointer(self));
 }
 
@@ -224,6 +225,7 @@ IoObject *IoBlock_activate(IoBlock *self, IoObject *target, IoObject *locals, Io
 		IoObject_setSlot_to_(blockLocals, name, arg);
 	);
 
+	//printf("IoBlock.c: 1\n");
 	if (Coro_stackSpaceAlmostGone(IoCoroutine_cid(state->currentCoroutine)))
 	{
 		/*

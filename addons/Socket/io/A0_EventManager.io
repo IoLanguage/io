@@ -123,7 +123,7 @@ EventManager do(
 		debugWriteln("EventManager run")
 		loop(
 			setIsRunning(true)
-			while(true, //hasActiveEvents,
+			while(hasActiveEvents,
 				//debugWriteln("EventManager run - listening")
 				if(Coroutine yieldingCoros first, listen, listenUntilEvent) ifError(e, 
 					Exception raise("Unrecoverable Error in EventManager: " .. e description))

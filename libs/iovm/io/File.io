@@ -101,6 +101,9 @@ File do(
 	containingDirectory := method(
 		Directory with(path pathComponent)
 	)
+	
+	standardOutput := File standardOutput
+	standardInput  := File standardInput
 )
 
 Sequence do(

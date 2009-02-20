@@ -38,11 +38,20 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 	readHeader ::= nil
 	statusCode ::= nil
 
+	isSynchronous := false
+	
 	init := method(
 		self socket := socketProto clone
+		setIsSynchronous(isSynchronous)
 		self requestHeaders := requestHeaders clone
 	)
 
+	setIsSynchronous := method(aBool,
+		isSynchronous = aBool
+		socket setIsSynchronous(aBool)
+		self
+	)
+	
 	setTimeout := method(timeout,
 		s := if(getSlot("socket"), socket, socketProto)
 		s setReadTimeout(timeout)
@@ -191,14 +200,14 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 	fetchAndFollowRedirect := method(
 		v := self fetch
 		if(statusCode == 302 or statusCode == 301,
-		 	v = URL with(self headerFields at("Location")) setCacheOn(false) fetch
+		 	v = URL with(self responseHeaders at("Location")) setCacheOn(false) fetch
 		)
 		v
 	)
 	
 	evFetch := method(
+		Exception raise("evFetch " .. url)
 		c := EvConnection clone setAddress(host) setPort(port) connect
-		//writeln("evFetch ", url)
 		r := c newRequest setUri(request) 
 		r requestHeaders = self requestHeaders
 		r send
@@ -209,17 +218,20 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 
 	//doc URL fetch Fetches the url and returns the result as a Sequence. Returns an Error, if one occurs.
 	fetch := method(url, redirected,
+		//if(isSynchronous not, Exception raise("URL not synchronous"))
 		if(url, setURL(url))
-		Exception raise("OLD URL fetch")
+		//writeln("URL fetch: ", self url type, ": '", self url, "'")
 		if(protocol == "http", 
 			v := fetchHttp
+			//writeln("URL fetch, statusCode: ", statusCode)
 			if(followRedirects and(statusCode == 302 or statusCode == 301),
 			 	if(redirected, 
 					writeln("DOUBLE REDIRECT on " .. url)
 			 		return Error with("Double redirect")
 				)
-				writeln("REDIRECT TO ", self headerFields at("Location"))
-		 		v := self fetch(childUrl(self headerFields at("Location")), true)
+				newUrl := self responseHeaders at("Location")
+				writeln("REDIRECT TO ", newUrl)
+		 		v := childUrl(newUrl) fetch(nil, true)
 			)
 			return v
 		)
@@ -243,6 +255,9 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 	/*doc URL requestHeader 
 	Returns a Sequence containing the request header that will be sent.
 	*/
+	
+	setCookie := method(cookie, requestHeaders atPut("Cookie", cookie))
+	responseCookie := method(responseHeaders at("Set-Cookie"))
 	
 	requestHeaders := Map clone
 	requestHeaders atPut("User-Agent", "Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/312.8 (KHTML, like Gecko) Safari/312.6)")
@@ -299,16 +314,16 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		socket readBuffer
 	)
 
-	//doc URL setReadHeader(headerString) Private method that parses the headerFields.
-	setReadHeader := method(header,
+	//doc URL setResponseHeaderString(headerString) Private method that parses the responseHeaders.
+	setResponseHeaderString := method(header,
 		readHeader = header
 		lines := header split("\r\n")
-		self headerFields := Map clone
+		self responseHeaders := Map clone
 		//lines println
 		statusCode = lines first split at(1) asNumber
 		lines removeAt(0)
 		lines foreach(line,
-			headerFields atPut(line beforeSeq(":"), line afterSeq(":") strip)
+			responseHeaders atPut(line beforeSeq(":"), line afterSeq(":") strip)
 		)
 		self
 	)
@@ -335,7 +350,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 			socket streamReadNextChunk returnIfError
 			match := b findSeqs(headerBreaks)
 			if(match,
-				setReadHeader(b exclusiveSlice(0, match index))
+				setResponseHeaderString(b exclusiveSlice(0, match index))
 				b removeSlice(0, match index + match match size - 1)
 				break
 			)
@@ -343,7 +358,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 
 		if(readHeader == nil, return(Error with("didn't find read header in [" .. b .. "]")))
 
-		contentLength := headerFields at("Content-Length")
+		contentLength := responseHeaders at("Content-Length")
 		if(contentLength, 
 			//writeln("contentLength: ", contentLength)
 			contentLength = contentLength asNumber
@@ -355,7 +370,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 			if(getSlot("progressBlock"), progressBlock(b size, contentLength))
 		)
 
-		if(headerFields at("Transfer-Encoding") == "chunked",
+		if(responseHeaders at("Transfer-Encoding") == "chunked",
 			//writeln("chunked encoding")
 			newB := Sequence clone
 			while(index := b findSeq("\r\n"),
@@ -373,7 +388,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		//writeln("b size: ", b size)
 
 		socket close
-		if(headerFields at("Content-Encoding") == "gzip", Zlib; b unzip)
+		if(responseHeaders at("Content-Encoding") == "gzip", Zlib; b unzip)
 		b
 	)
 
@@ -424,7 +439,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 				u = Path with(url pathComponent, u)
 			)
 		)
-		URL clone setURL(u) setReferer(url)
+		self clone setURL(u) setReferer(url)
 	)
 
 	evPost := method(parameters, headers,
@@ -534,5 +549,5 @@ Object doURL := method(url, self doString(URL clone setURL(url) fetch))
 //doc Sequence asURL Returns a new URL object instance with the receiver as it's url string.
 Sequence asURL := method(URL with(self))
 
-URL fetch := URL getSlot("evFetch")
-URL post := URL getSlot("evPost")
+//URL fetch := URL getSlot("evFetch")
+//URL post := URL getSlot("evPost")

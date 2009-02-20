@@ -100,7 +100,7 @@ long Socket_SetDescriptorLimitToMax(void)
 
 Socket *Socket_new(void)
 {
-	Socket *self = (Socket *)calloc(1, sizeof(Socket));
+	Socket *self = (Socket *)io_calloc(1, sizeof(Socket));
 #ifdef WIN32
 	self->fd = INVALID_SOCKET;
 #else
@@ -111,7 +111,7 @@ Socket *Socket_new(void)
 
 void Socket_free(Socket *self)
 {
-	free(self);
+	io_free(self);
 }
 
 void Socket_setDescriptor_(Socket *self, SOCKET_DESCRIPTOR fd)

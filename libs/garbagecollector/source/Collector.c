@@ -260,6 +260,7 @@ size_t Collector_freeWhites(Collector *self)
 
 	COLLECTMARKER_FOREACH(self->whites, v,
 					  (*freeFunc)(v);
+					  v->object = 0x0;
 					  Collector_makeFree_(self, v);
 					  count ++;
 					  );

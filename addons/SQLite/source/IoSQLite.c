@@ -57,7 +57,7 @@ IoSQLite *IoSQLite_proto(void *state)
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoSQLite_newTag(state));
 
-	IoObject_setDataPointer_(self, calloc(1, sizeof(IoSQLiteData)));
+	IoObject_setDataPointer_(self, io_calloc(1, sizeof(IoSQLiteData)));
 	DATA(self)->path = IOSYMBOL(".");
 	IoSQLite_error_(self, "");
 
@@ -118,7 +118,7 @@ void IoSQLite_free(IoSQLite *self)
 {
 	if (DATA(self)->db) sqlite_close(DATA(self)->db);
 	if (DATA(self)->error) free(DATA(self)->error);
-	free(IoObject_dataPointer(self));
+	io_free(IoObject_dataPointer(self));
 }
 
 void IoSQLite_mark(IoSQLite *self)

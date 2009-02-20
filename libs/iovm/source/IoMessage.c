@@ -484,11 +484,16 @@ IoObject *IoMessage_locals_performOn_(IoMessage *self, IoObject *locals, IoObjec
 	//IoMessageData *md;
 	IoMessageData *md;
 
+	if (state->receivedUserInterrupt) 
+	{
+		IoState_callUserInterruptHandler(IOSTATE);
+	}
+			
 	do
 	{
 		//md = DATA(m);
 		//printf("%s %i\n", CSTRING(IoMessage_name(m)), state->stopStatus);
-		//printf("%s\n", CSTRING(IoMessage_name(m)));
+		//printf("M:%s\n", CSTRING(IoMessage_name(m)));
 		
 		md = DATA(m);
 
@@ -531,7 +536,7 @@ IoObject *IoMessage_locals_performOn_(IoMessage *self, IoObject *locals, IoObjec
 
 			//IoObject_freeIfUnreferenced(target);
 			target = result;
-
+			
 			if (state->stopStatus != MESSAGE_STOP_STATUS_NORMAL)
 			{
 					return state->returnValue;
@@ -549,7 +554,7 @@ IoObject *IoMessage_locals_performOn_(IoMessage *self, IoObject *locals, IoObjec
 			}
 		}
 	} while ((m = md->next));
-
+			
 	return result;
 }
 

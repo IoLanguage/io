@@ -36,7 +36,7 @@ IoEvent *IoEvent_proto(void *state)
 	IoObject *self = IoObject_new(state);
 
 	IoObject_tag_(self, IoEvent_newTag(state));
-	IoObject_setDataPointer_(self, (struct event *)calloc(1, sizeof(struct event)));
+	IoObject_setDataPointer_(self, (struct event *)io_calloc(1, sizeof(struct event)));
 
 	IoState_registerProtoWithFunc_((IoState *)state, self, IoEvent_proto);
 
@@ -62,7 +62,7 @@ IoEvent *IoEvent_proto(void *state)
 IoEvent *IoEvent_rawClone(IoEvent *proto)
 {
 	IoObject *self = IoObject_rawClonePrimitive(proto);
-	IoObject_setDataPointer_(self, (struct event *)calloc(1, sizeof(struct event)));
+	IoObject_setDataPointer_(self, (struct event *)io_calloc(1, sizeof(struct event)));
 	return self;
 }
 
@@ -78,7 +78,14 @@ void IoEvent_free(IoEvent *self)
 {
 	// this check ensures that libevent is never holding a referenced
 	// to an IoEvent that has been collected
-
+	
+	/*
+	if(!ISNIL(IoObject_getSlot_(self, IOSYMBOL("coro"))))
+	{
+		printf("IoEvent_free %p with coro\n", (void *)self); 
+	}
+	*/
+	
 	if (event_initialized(EVENT(self)) && event_pending(EVENT(self), 0, NULL))
 	{
 		//printf("IoEvent_free %p PENDING\n", (void *)self); 
@@ -99,7 +106,7 @@ void IoEvent_free(IoEvent *self)
 		}
 	}
 
-	free(EVENT(self));
+	io_free(EVENT(self));
 }
 
 struct event *IoEvent_rawEvent(IoEvent *self)
