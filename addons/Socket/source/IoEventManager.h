@@ -39,6 +39,8 @@ void IoEventManager_mark(IoEventManager *self);
 void IoEventManager_free(IoEventManager *self);
 void *IoEventManager_rawBase(IoEventManager *self);
 
+int IoEventManager_rawHasActiveEvent_(IoEventManager *self, IoEvent *event);
+
 IoObject *IoEventManager_addEvent(IoEventManager *self, IoObject *locals, IoMessage *m);
 IoObject *IoEventManager_removeEvent(IoEventManager *self, IoObject *locals, IoMessage *m);
 IoObject *IoEventManager_resetEventTimeout(IoEventManager *self, IoObject *locals, IoMessage *m);
