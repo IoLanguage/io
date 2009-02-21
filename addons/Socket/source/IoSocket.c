@@ -417,9 +417,9 @@ IoObject *IoSocket_asyncStreamWrite(IoSocket *self, IoObject *locals, IoMessage 
 		}
 		else
 		{
-			if (IoSocket_errorNumber(self, locals, m) == 0)
-			// 0 bytes means the other end disconnected
-				IoSocket_close(self, locals, m);
+			int errorNumber = SocketErrorStatus();
+			
+			if (errorNumber == ECONNRESET) IoSocket_close(self, locals, m);
 			return IONIL(self);
 		}
 	}
