@@ -59,6 +59,7 @@ typedef int SOCKET_DESCRIPTOR;
 
 #include "IPAddress.h"
 #include "UArray.h"
+#include "Common.h"
 
 typedef struct
 {

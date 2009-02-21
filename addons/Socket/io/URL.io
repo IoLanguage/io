@@ -227,7 +227,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 			if(followRedirects and(statusCode == 302 or statusCode == 301),
 			 	if(redirected, 
 					writeln("DOUBLE REDIRECT on " .. url)
-			 		return Error with("Double redirect")
+			 		return Error with("double redirect")
 				)
 				newUrl := self responseHeaders at("Location")
 				writeln("REDIRECT TO ", newUrl)

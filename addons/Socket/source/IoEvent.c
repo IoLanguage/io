@@ -99,10 +99,10 @@ void IoEvent_free(IoEvent *self)
 	{
 		IoEventManager *em = IoState_protoWithInitFunction_(IOSTATE, IoEventManager_proto);
 		
-		if(IoEventManager_rawHasActiveEvent_(em, self))
+		if(em && IoEventManager_rawHasActiveEvent_(em, self))
 		{
-			printf("ERROR: IoEvent_free: Attempt to free event still in EventManager active list\n");
-			exit(-1);
+			//printf("WARNING: IoEvent_free: Attempt to free event still in EventManager active list\n");
+			//printf("This should only happen during VM shutdown.\n");
 		}
 	}
 
