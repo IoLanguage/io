@@ -26,12 +26,12 @@ Memcached do(
 		value
 	)
 
-	/*doc Memcached atPut(key, value)
+	/*doc Memcached atPut(key, value[, expiration])
 	Asks memcached to store the value identified by the key.
-	Returns self.
+	Same as Memcached set, but returns self.
 	*/
-	atPut := method(key, value,
-		set(key, value)
+	atPut := method(key, value, expiration,
+		set(key, value, if(expiration == nil, 0, expiration))
 		self
 	)
 
