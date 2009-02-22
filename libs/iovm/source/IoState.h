@@ -150,7 +150,7 @@ struct IoState
 	int shouldExit;
 	int exitResult;
 	
-	int receivedUserInterrupt;
+	int receivedSignal;
 };
 
 #define IOSTATE_STRUCT_DEFINED

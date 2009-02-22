@@ -41,7 +41,7 @@ IoImage *IoImage_proto(void *state)
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoImage_newTag(state));
 
-	IoObject_setDataPointer_(self, calloc(1, sizeof(IoImageData)));
+	IoObject_setDataPointer_(self, io_calloc(1, sizeof(IoImageData)));
 
 	DATA(self)->buffer = IoSeq_newWithCString_(IOSTATE, "");
 	DATA(self)->image = Image_new();
@@ -115,7 +115,7 @@ IoImage *IoImage_new(void *state)
 void IoImage_free(IoImage *self)
 {
 	Image_free(DATA(self)->image);
-	free(IoObject_dataPointer(self));
+	io_free(IoObject_dataPointer(self));
 }
 
 void IoImage_mark(IoImage *self)

@@ -484,7 +484,7 @@ IoObject *IoMessage_locals_performOn_(IoMessage *self, IoObject *locals, IoObjec
 	//IoMessageData *md;
 	IoMessageData *md;
 
-	if (state->receivedUserInterrupt) 
+	if (state->receivedSignal) 
 	{
 		IoState_callUserInterruptHandler(IOSTATE);
 	}
