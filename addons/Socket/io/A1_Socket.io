@@ -188,6 +188,8 @@ Socket do(
 		self setSocketWriteBufferSize(n)
 		self setSocketWriteLowWaterMark(bytesPerWrite)
 
+		if(isSynchronous, return(syncWriteFromBuffer(writeCallback)))
+		
 		while(writeBuffer isEmpty not,
 			writeEvent waitOn(writeTimeout) returnIfError
 			if(writeCallback,
@@ -197,6 +199,15 @@ Socket do(
 			,
 				asyncStreamWrite(writeBuffer, 0, bytesPerWrite) returnIfError
 			)
+		)
+		self
+	)
+	
+	syncWriteFromBuffer := method(writeCallback,
+		while(isOpen and writeBuffer isEmpty not,
+			sizeBefore := writeBuffer size
+			while(isOpen and asyncStreamWrite(writeBuffer, 0, bytesPerWrite) returnIfError not, syncWait)
+			if(writeCallback, writeCallback call(sizeBefore - writeBuffer size))
 		)
 		self
 	)
@@ -216,12 +227,9 @@ Socket do(
 	
 	syncStreamReadNextChunk := method(
 		self setSocketReadLowWaterMark(1)
-		oldBufferSize := readBuffer size
-		while(isOpen and e := asyncStreamRead(readBuffer, bytesPerRead), 
-			if(readBuffer size != oldBufferSize, break)
-			syncWait
-			e returnIfError
-		)
+		while(isOpen and asyncStreamRead(readBuffer, bytesPerRead) returnIfError not, syncWait) //read and sleep until bytes
+		while(isOpen and asyncStreamRead(readBuffer, bytesPerRead) returnIfError, nil) //read rest of the bytes
+		self
 	)
 	
 	/*doc Socket streamReadWhileOpen
@@ -246,8 +254,15 @@ Socket do(
 	Returns self on success or an Error object on error.
 	*/
 	udpReadNextChunk := method(ipAddress,
+		if(isSynchronous, return(syncUdpReadNextChunk))
 		readEvent waitOn(readTimeout) returnIfError
 		while(e := asyncUdpRead(ipAddress, readBuffer, bytesPerRead), e returnIfError)
+		self
+	)
+	
+	syncUdpReadNextChunk := method(
+		while(asyncUdpRead(ipAddress, readBuffer, bytesPerRead) returnIfError not, syncWait) //read and sleep until bytes
+		while(asyncUdpRead(ipAddress, readBuffer, bytesPerRead) returnIfError, nil) //read rest of the bytes
 		self
 	)
 

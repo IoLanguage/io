@@ -26,7 +26,7 @@
 
 Image *Image_new(void)
 {
-	Image *self = (Image *)calloc(1, sizeof(Image));
+	Image *self = (Image *)io_calloc(1, sizeof(Image));
 	Image_path_(self, "");
 	Image_fileType_(self, "");
 	self->byteArray = UArray_new();
@@ -72,13 +72,13 @@ void Image_free(Image *self)
 
 	if (self->error)
 	{
-		free(self->error);
+		io_free(self->error);
 	}
 
-	free(self->fileType);
-	free(self->path);
+	io_free(self->fileType);
+	io_free(self->path);
 
-	free(self);
+	io_free(self);
 }
 
 UArray *Image_byteArray(Image *self)
@@ -114,7 +114,7 @@ void Image_getFileType(Image *self) /* private */
 
 void Image_path_(Image *self, const char *path)
 {
-	self->path = strcpy((char *)realloc(self->path, strlen(path)+1), path);
+	self->path = strcpy((char *)io_realloc(self->path, strlen(path)+1), path);
 	Image_getFileType(self);
 }
 
@@ -125,7 +125,7 @@ char *Image_path(Image *self)
 
 void Image_fileType_(Image *self, const char *fileType)
 {
-	self->fileType = strcpy((char *)realloc(self->fileType, strlen(fileType)+1), fileType);
+	self->fileType = strcpy((char *)io_realloc(self->fileType, strlen(fileType)+1), fileType);
 }
 
 char *Image_fileType(Image *self) { return self->fileType; }
@@ -135,11 +135,11 @@ void Image_error_(Image *self, const char *error)
 	if (error && strlen(error))
 	{
 		/*printf("Image_error_(%s)\n", error);*/
-		self->error = strcpy((char *)realloc(self->error, strlen(error)+1), error);
+		self->error = strcpy((char *)io_realloc(self->error, strlen(error)+1), error);
 	}
 	else
 	{
-		if (self->error) free(self->error);
+		if (self->error) io_free(self->error);
 		self->error = NULL;
 	}
 }
@@ -350,7 +350,7 @@ void Image_flipY(Image *self)
 	int componentCount = self->componentCount;
 	uint8_t *bytes = UArray_mutableBytes(self->byteArray);
 	size_t bytesPerLine = componentCount * w;
-	unsigned char *buf = malloc(bytesPerLine);
+	unsigned char *buf = io_malloc(bytesPerLine);
 
 	for (y = 0; y < h/2; y ++)
 	{
@@ -362,7 +362,7 @@ void Image_flipY(Image *self)
 		memcpy(b,   buf, bytesPerLine);
 	}
 	
-	free(buf);
+	io_free(buf);
 }
 
 void Image_resizeTo(Image *self, int w, int h, Image *outImage)

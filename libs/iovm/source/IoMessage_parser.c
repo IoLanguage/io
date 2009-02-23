@@ -74,7 +74,11 @@ IoMessage *IoMessage_newFromText_label_(void *state, const char *text, const cha
 
 IoMessage *IoMessage_newFromText_labelSymbol_(void *state, const char *text, IoSymbol *label)
 {
-	IoLexer *lexer = IoLexer_new();
+	IoLexer *lexer;
+
+	IoState_pushCollectorPause(state);
+
+	lexer = IoLexer_new();
 	IoMessage *msg;
 
 	IoLexer_string_(lexer, text);
@@ -84,7 +88,9 @@ IoMessage *IoMessage_newFromText_labelSymbol_(void *state, const char *text, IoS
 	IoMessage_opShuffle_(msg);
 	IoMessage_label_(msg, label);
 	IoLexer_free(lexer);
-
+	
+	IoState_popCollectorPause(state);
+	
 	return msg;
 }
 

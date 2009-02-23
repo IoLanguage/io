@@ -15,7 +15,7 @@
 
 PNGImage *PNGImage_new(void)
 {
-	PNGImage *self = (PNGImage *)calloc(1, sizeof(PNGImage));
+	PNGImage *self = (PNGImage *)io_calloc(1, sizeof(PNGImage));
 	PNGImage_path_(self, "");
 	PNGImage_error_(self, "");
 	self->byteArray = UArray_new();
@@ -34,19 +34,19 @@ PNGImage *PNGImage_newWithPath_(char *path)
 void PNGImage_free(PNGImage *self)
 {
 	if (self->ownsBuffer) UArray_free(self->byteArray);
-	if (self->error) free(self->error);
-	free(self->path);
-	free(self);
+	if (self->error) io_free(self->error);
+	io_free(self->path);
+	io_free(self);
 }
 
 void PNGImage_path_(PNGImage *self, const char *path)
-{ self->path = strcpy((char *)realloc(self->path, strlen(path)+1), path);  }
+{ self->path = strcpy((char *)io_realloc(self->path, strlen(path)+1), path);  }
 
 char *PNGImage_path(PNGImage *self) { return self->path; }
 
 void PNGImage_error_(PNGImage *self, const char *error)
 {
-	self->error = strcpy((char *)realloc(self->error, strlen(error)+1), error);
+	self->error = strcpy((char *)io_realloc(self->error, strlen(error)+1), error);
 	/*if (strlen(self->error)) printf("PNGImage error: %s\n", self->error);*/
 }
 
@@ -168,7 +168,7 @@ void PNGImage_load(PNGImage *self)
 	/* The easiest way to read the image: */
 	{
 		/*png_bytep row_pointers[height];*/
-		png_bytep *row_pointers = (png_bytep *)malloc(self->height*sizeof(void *));
+		png_bytep *row_pointers = (png_bytep *)io_malloc(self->height*sizeof(void *));
 
 		for (row = 0; row < self->height; row++)
 		{
@@ -203,11 +203,11 @@ void PNGImage_load(PNGImage *self)
 			{
 				int i = row*(self->width*self->components);
 				memcpy((uint8_t *)UArray_bytes(self->byteArray) + i, row_pointers[row], bytesPerRow);
-				free(row_pointers[row]);
+				io_free(row_pointers[row]);
 			}
 		}
 
-		free(row_pointers);
+		io_free(row_pointers);
 	}
 	/* read rest of file, and get additional chunks in info_ptr - REQUIRED */
 	png_read_end(png_ptr, (info_ptr));
@@ -418,7 +418,7 @@ void PNGImage_save(PNGImage *self)
 */
 	{
 		png_uint_32 k;
-		png_bytep *row_pointers = malloc(self->height*sizeof(png_bytep *));  // JEFF DRAKE MOD: YOU CAN'T HAVE A NON-CONSTANT
+		png_bytep *row_pointers = io_malloc(self->height*sizeof(png_bytep *));  // JEFF DRAKE MOD: YOU CAN'T HAVE A NON-CONSTANT
 									   // ARRAY HERE!!!!
 		for (k = 0; k < (png_uint_32)self->height; k++)
 		{
@@ -428,7 +428,7 @@ void PNGImage_save(PNGImage *self)
 
 		/* write out the entire image data in one call */
 		png_write_image(png_ptr, row_pointers);
-		free(row_pointers);
+		io_free(row_pointers);
 	}
 
 	/* You can write optional chunks like tEXt, zTXt, and tIME at the end

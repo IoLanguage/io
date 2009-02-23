@@ -23,7 +23,7 @@ void MyTIFFErrorHandler(const char* module, const char* fmt, va_list ap)
 
 TIFFImage *TIFFImage_new(void)
 {
-	TIFFImage *self = (TIFFImage *)calloc(1, sizeof(TIFFImage));
+	TIFFImage *self = (TIFFImage *)io_calloc(1, sizeof(TIFFImage));
 	TIFFImage_path_(self, "");
 	TIFFImage_error_(self, "");
 	self->byteArray = UArray_new();
@@ -43,19 +43,24 @@ TIFFImage *TIFFImage_newWithPath_(char *path)
 void TIFFImage_free(TIFFImage *self)
 {
 	if (self->ownsBuffer) UArray_free(self->byteArray);
-	if (self->error) free(self->error);
-	free(self->path);
-	free(self);
+	if (self->error) io_free(self->error);
+	io_free(self->path);
+	io_free(self);
 }
 
 void TIFFImage_path_(TIFFImage *self, const char *path)
-{ self->path = strcpy((char *)realloc(self->path, strlen(path)+1), path);  }
+{ 
+	self->path = strcpy((char *)io_realloc(self->path, strlen(path)+1), path);  
+}
 
-char *TIFFImage_path(TIFFImage *self) { return self->path; }
+char *TIFFImage_path(TIFFImage *self) 
+{ 
+	return self->path; 
+}
 
 void TIFFImage_error_(TIFFImage *self, const char *error)
 {
-	self->error = strcpy((char *)realloc(self->error, strlen(error)+1), error);
+	self->error = strcpy((char *)io_realloc(self->error, strlen(error)+1), error);
 	/*if (strlen(self->error)) printf("TIFFImage error: %s\n", self->error);*/
 }
 
