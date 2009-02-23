@@ -1,5 +1,8 @@
 
 URL := Notifier clone do(
+	standardHeaderSymbols := list(
+		"Accept-Ranges", "Cache-Control", "Last-Modified", "\r"
+	)
 	cacheFolder := Directory with("/tmp/ioUrlCache/")
 	cacheFolder create
 	cacheFile := method(MD5; File with(Path with(cacheFolder path, url md5String)))
@@ -37,7 +40,8 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 	socketProto ::= Socket clone
 	readHeader ::= nil
 	statusCode ::= nil
-
+	socket ::= nil
+	
 	isSynchronous := false
 	
 	init := method(
@@ -48,7 +52,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 
 	setIsSynchronous := method(aBool,
 		isSynchronous = aBool
-		socket setIsSynchronous(aBool)
+		if(socket, socket setIsSynchronous(aBool))
 		self
 	)
 	

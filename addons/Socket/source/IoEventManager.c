@@ -339,7 +339,8 @@ IoObject *IoEventManager_hasActiveEvents(IoEventManager *self, IoObject *locals,
 	int count = ((struct event_base_PROTO *)DATA(self)->eventBase)->event_count;
 	//int countActive = ((struct event_base_PROTO *)DATA(self)->eventBase)->event_count;
 	//printf("count: %i countActive: %i\n", count, countActive);
-	return IOBOOL(self, count > 1);
+	//return IOBOOL(self, count > 1);
+	return IOBOOL(self, count);
 }
 
 IoObject *IoEventManager_activeEvents(IoEventManager *self, IoObject *locals, IoMessage *m)

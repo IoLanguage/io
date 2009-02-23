@@ -105,7 +105,10 @@ EventManager do(
 	/*doc EventManager addEvent(event, descriptor, eventType, timeout) 
 	*/
 	addEvent := method(e, descriptorId, eventType, timeout,
-		//writeln("EventManager addEvent " .. e eventTypeName .. " - begin")
+		//writeln("addEvent")
+		Coroutine currentCoroutine backTraceString
+		//Exception raise("EventManager addEvent " .. e eventTypeName .. " - begin")
+		//writeln("addEvent2")
 		r := self realAddEvent(e, descriptorId, eventType, timeout)
 		r returnIfError
 		resumeIfNeeded
@@ -121,14 +124,17 @@ EventManager do(
 	run := method(
 		//Scheduler currentCoroutine setLabel("EventManager")
 		debugWriteln("EventManager run")
+		//writeln("EventManager run")
 		loop(
 			setIsRunning(true)
+			//writeln("hasActiveEvents: ", hasActiveEvents)
 			while(hasActiveEvents,
 				//debugWriteln("EventManager run - listening")
 				if(Coroutine yieldingCoros first, listen, listenUntilEvent) ifError(e, 
 					Exception raise("Unrecoverable Error in EventManager: " .. e description))
 				yield
 			)
+			//writeln("hasActiveEvents: ", hasActiveEvents)
 			//debugWriteln("EventManager run - no active events")
 			setIsRunning(false)
 			coro pause
