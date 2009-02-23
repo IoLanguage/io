@@ -106,6 +106,7 @@ IoCoroutine *IoCoroutine_new(void *state)
 {
 	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoCoroutine_proto);
 	IoObject *self = IOCLONE(proto);
+	printf("IoCoroutine_new %p\n", (void *)self);
 	return self;
 }
 
@@ -351,6 +352,7 @@ void IoCoroutine_rawRun(IoCoroutine *self)
 	{
 		IoCoroutine *current = IoState_currentCoroutine(IOSTATE);
 		Coro *currentCoro = IoCoroutine_rawCoro(current);
+		//IoState_stackRetain_(IOSTATE, self);
 		Coro_startCoro_(currentCoro, coro, self, (CoroStartCallback *)IoCoroutine_coroStart);
 		//IoState_setCurrentCoroutine_(IOSTATE, current);
 	}

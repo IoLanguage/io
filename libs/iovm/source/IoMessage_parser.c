@@ -76,7 +76,7 @@ IoMessage *IoMessage_newFromText_labelSymbol_(void *state, const char *text, IoS
 {
 	IoLexer *lexer;
 
-	IoState_pushCollectorPause(state);
+	IoState_pushCollectorPause(state); // needed?
 
 	lexer = IoLexer_new();
 	IoMessage *msg;

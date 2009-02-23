@@ -73,8 +73,8 @@ IoEventManager *IoEventManager_proto(void *state)
 		IoObject_addMethodTable_(self, methodTable);
 	}
 
-
 //#if !defined(AVAILABLE_MAC_OS_X_VERSION_10_4_AND_LATER)
+
 /*
 #if defined(__APPLE__)
 	setenv("EVENT_NOKQUEUE", "1", 1);

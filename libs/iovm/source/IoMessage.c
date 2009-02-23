@@ -278,6 +278,8 @@ void IoMessage_mark(IoMessage *self)
 
 void IoMessage_free(IoMessage *self)
 {
+	IoMessageData *d = (IoMessageData *)IoObject_dataPointer(self);
+	
 	if (DATA(self)->args)
 	{
 		List_free(DATA(self)->args);

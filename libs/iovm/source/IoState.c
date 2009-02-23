@@ -209,9 +209,10 @@ void IoState_new_atAddress(void *address)
 		//Collector_collect(self->collector);
 		//io_show_mem("after Collector_collect");
 
-//		IoState_popCollectorPause(self);
+		//IoState_popCollectorPause(self);
 		IoState_clearRetainStack(self);
-
+	
+		//Collector_check(self->collector);
 		Collector_collect(self->collector);
 		//io_show_mem("after IoState_clearRetainStack and Collector_collect");
 		IoState_setupUserInterruptHandler(self);

@@ -106,14 +106,19 @@ void IoSGMLParser_mark(IoSGMLParser *self)
 
 void IoSGMLParser_free(IoSGMLParser *self)
 {
+	//printf("IoSGMLParser_free1\n");
 	IoSGMLParser_freeParser(self);
 
+	//printf("IoSGMLParser_free2\n");
 	if (DATA(self)->tmpString)
 	{
+		//printf("IoSGMLParser_free3\n");
 		io_free(DATA(self)->tmpString);
 	}
 
+	//printf("IoSGMLParser_free4\n");
 	io_free(DATA(self));
+	//printf("IoSGMLParser_free5\n");
 }
 
 char *IoSGMLParser_lowercase_(IoSGMLParser *self, const char *s)

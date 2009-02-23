@@ -236,8 +236,28 @@ IOINLINE int IoObject_mark(IoObject *self)
 	if (IoObject_ownsSlots(self))
 	{
 		PHASH_FOREACH(IoObject_slots(self), k, v,
+			//char *s = CSTRING((IoSeq *)k);
+			//printf("mark slot k: %s\n", s);
 			IoObject_shouldMark((IoObject *)k);
+			//printf("k.\n");
+			/*
+			if(strcmp(s, "path") == 0)
+			{
+				//printf("s = %s\n", s);
+				//printf("vp = %p\n", (void *)v);
+				
+				if(ISSEQ((IoObject *)v))
+				{
+					printf("%s = '%s'\n", s, CSTRING((IoSeq *)v));
+				}
+				else
+				{
+					printf("%s type = %s\n", s, IoObject_name((IoObject *)v));
+				}
+			}*/
 			IoObject_shouldMark((IoObject *)v);
+			//if(strcmp(s, "path") == 0) 
+			//printf("v.\n");
 		);
 	}
 
@@ -258,7 +278,8 @@ IOINLINE int IoObject_mark(IoObject *self)
 }
 
 //IoObject *IoObject_addingRef_(IoObject *self, IoObject *ref);
-IOVM_API IOINLINE int IoObject_hasCloneFunc_(IoObject *self, IoTagCloneFunc *func);
+IOVM_API  int IoObject_hasCloneFunc_(IoObject *self, IoTagCloneFunc *func);
+//IOVM_API IOINLINE int IoObject_hasCloneFunc_(IoObject *self, IoTagCloneFunc *func);
 
 IOVM_API IOINLINE IoObject *IoObject_activate(IoObject *self,
 									 IoObject *target,

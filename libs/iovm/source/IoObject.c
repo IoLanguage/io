@@ -314,13 +314,11 @@ void IoObject_freeData(IoObject *self)
 
 	if (func)
 	{
-		/*
-		if(func == free)
+		//if(func == free)
 		{
-			printf("Tag func is free\n");
-			if (IoObject_name(self)) printf("free %s\n", IoObject_name(self));
+			//printf("Tag func is free\n");
+			//if (IoObject_name(self)) printf("free %s\n", IoObject_name(self));
 		}
-		*/
 		
 		(*func)(self);
 	}
@@ -1802,13 +1800,6 @@ IO_METHOD(IoObject, message)
 
 int IoObject_hasCloneFunc_(IoObject *self, IoTagCloneFunc *func)
 {
-	/*
-	if (ISWAITINGFUTURE(self))
-	{
-		IoFuture_rawWaitOnResult(self);
-	}
-	*/
-
 	return (IoObject_tag(self)->cloneFunc == func);
 }
 

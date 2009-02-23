@@ -795,7 +795,7 @@ IO_METHOD(IoNumber, round)
 {
 	/*doc Number round
 	Returns the a number with the receiver's value rounded up to
-	the nearest integer if it's fraction component is >= .5.
+	the nearest integer if it's fraction component is >= .5 or rounded up the the nearest integer otherwises..
 	*/
 	
 	double x = DATA(self);
@@ -809,7 +809,7 @@ IO_METHOD(IoNumber, roundDown)
 {
 	/*doc Number roundDown
 	Returns the a number with the receiver's value rounded down to
-	the nearest integer if it's fraction component is <= .5.
+	the nearest integer if it's fraction component is <= .5 or rounded up the the nearest integer otherwises.
 	*/
 	
 	return IONUMBER(floor(DATA(self) + 0.5));

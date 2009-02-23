@@ -220,6 +220,7 @@ void IoSeq_free(IoSeq *self)
 	if (IoObject_isSymbol(self))
 	{
 		//if(strcmp(CSTRING(self), "_x_") == 0) { printf("Symbol free '%s'\n", CSTRING(self)); }
+		//if(strlen(CSTRING(self)) < 100 && strncmp("0.", CSTRING(self), 2) != 0 ) { printf("Symbol free '%s'\n", CSTRING(self)); }
 		IoState_removeSymbol_(IOSTATE, self);
 	}
 

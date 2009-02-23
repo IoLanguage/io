@@ -191,11 +191,14 @@ void Coro_initializeMainCoro(Coro *self)
 
 void Coro_startCoro_(Coro *self, Coro *other, void *context, CoroStartCallback *callback)
 {
-	CallbackBlock block;
-	block.context = context;
-	block.func    = callback;
+	CallbackBlock sblock;
+	CallbackBlock *block = &sblock;
+	//CallbackBlock *block = malloc(sizeof(CallbackBlock)); // memory leak
+	block->context = context;
+	block->func    = callback;
+	
 	Coro_allocStackIfNeeded(other);
-	Coro_setup(other, &block);
+	Coro_setup(other, block);
 	Coro_switchTo_(self, other);
 }
 

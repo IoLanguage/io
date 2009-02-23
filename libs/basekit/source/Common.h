@@ -135,7 +135,7 @@ as errors in my dev settings */
 extern "C" {
 #endif
 
-//#define IO_CHECK_ALLOC
+#define IO_CHECK_ALLOC
 
 #ifdef IO_CHECK_ALLOC
 	BASEKIT_API size_t io_memsize(void *ptr);
