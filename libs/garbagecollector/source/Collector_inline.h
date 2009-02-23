@@ -28,7 +28,12 @@ IOINLINE int Collector_markerIsBlack_(Collector *self, CollectorMarker *m)
 
 IOINLINE void Collector_makeFree_(Collector *self, CollectorMarker *v)
 {
-	CollectorMarker_removeAndInsertAfter_((CollectorMarker *)v, self->freed);
+	#ifdef COLLECTOR_RECYCLE_FREED
+		CollectorMarker_removeAndInsertAfter_((CollectorMarker *)v, self->freed);
+	#else
+		CollectorMarker_remove(v); 
+		CollectorMarker_free(v);
+	#endif
 }
 
 IOINLINE void Collector_makeWhite_(Collector *self, CollectorMarker *v)

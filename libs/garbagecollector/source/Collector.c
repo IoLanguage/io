@@ -183,6 +183,11 @@ CollectorMarker *Collector_newMarker(Collector *self)
 	if (m->color != self->freed->color)
 	{
 		m = CollectorMarker_new();
+		//printf("new marker\n");
+	}
+	else
+	{
+		//printf("using recycled marker\n");
 	}
 
 	self->allocated ++;
@@ -202,7 +207,7 @@ void Collector_addValue_(Collector *self, void *v)
 	{
 		if(self->allocated > self->allocatedSweepLevel)
 		{
-			Collector_sweepPhase(self);
+			Collector_sweep(self);
 		}
 		else if (self->queuedMarks > 1.0)
 		{
@@ -287,7 +292,7 @@ void Collector_markForTimePeriod_(Collector *self, double seconds)
 
 		if (CollectorMarker_colorSetIsEmpty(self->grays))
 		{
-			Collector_sweepPhase(self);
+			Collector_sweep(self);
 			return;
 		}
 
@@ -299,7 +304,7 @@ void Collector_markPhase(Collector *self)
 {
 	if(self->allocated > self->allocatedSweepLevel)
 	{
-		Collector_sweepPhase(self);
+		Collector_sweep(self);
 	}
 	else
 	{
@@ -311,6 +316,19 @@ void Collector_markPhase(Collector *self)
 		Collector_freeWhites(self);
 		//Collector_sweepPhase(self);
 	}
+}
+
+size_t Collector_sweep(Collector *self)
+{
+	size_t freedCount = Collector_sweepPhase(self);
+	
+	if (self->debugOn)
+	{
+		size_t freedCount2 = Collector_sweepPhase(self);
+		return freedCount + freedCount2;
+	}
+	
+	return freedCount;
 }
 
 size_t Collector_sweepPhase(Collector *self)

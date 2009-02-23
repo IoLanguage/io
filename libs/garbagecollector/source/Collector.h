@@ -16,6 +16,8 @@ extern "C" {
 	COLLECTMARKER_FOREACH(self->grays,   v, code;); \
 	COLLECTMARKER_FOREACH(self->blacks,  v, code;);
 
+//#define COLLECTOR_RECYCLE_FREED 1
+
 typedef enum
 {
 	COLLECTOR_INITIAL_WHITE,
@@ -97,6 +99,7 @@ COLLECTOR_API void Collector_addValue_(Collector *self, void *v);
 // collection
 
 COLLECTOR_API void Collector_initPhase(Collector *self);
+COLLECTOR_API size_t Collector_sweep(Collector *self); 
 COLLECTOR_API size_t Collector_sweepPhase(Collector *self);
 COLLECTOR_API void Collector_markPhase(Collector *self);
 
