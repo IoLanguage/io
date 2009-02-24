@@ -426,7 +426,7 @@ double Collector_timeUsed(Collector *self)
 	return (double)self->clocksUsed / (double)CLOCKS_PER_SEC;
 }
 
-static size_t Collector_checkMarker(Collector *self, CollectorMarker *marker)
+size_t CollectorMarker_checkObjectPointer(CollectorMarker *marker)
 {
 	if (marker->object == 0x0) 
 	{ 
@@ -446,9 +446,9 @@ size_t Collector_countOfNullObjectPointers(Collector *self)
 {
 	size_t count = 0;
 
-	COLLECTMARKER_FOREACH(self->blacks, v, count += Collector_checkMarker(self, v);  );
-	COLLECTMARKER_FOREACH(self->grays,  v, count += Collector_checkMarker(self, v);  );
-	COLLECTMARKER_FOREACH(self->whites, v, count += Collector_checkMarker(self, v);  );
+	COLLECTMARKER_FOREACH(self->blacks, v, count += CollectorMarker_checkObjectPointer(v);  );
+	COLLECTMARKER_FOREACH(self->grays,  v, count += CollectorMarker_checkObjectPointer(v);  );
+	COLLECTMARKER_FOREACH(self->whites, v, count += CollectorMarker_checkObjectPointer(v);  );
 	
 	return count;
 }

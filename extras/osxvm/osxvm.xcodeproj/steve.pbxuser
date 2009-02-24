@@ -9,6 +9,7 @@
 		);
 		breakpoints = (
 			AA7E22080F53776300C6E1D6 /* Collector.c:443 */,
+			AA7E223F0F537DA900C6E1D6 /* Collector.c:434 */,
 		);
 		codeSenseManager = AA1BF43D0C3095A2005ED047 /* Code sense */;
 		executables = (
@@ -102,6 +103,16 @@
 			AA7E22280F537B2700C6E1D6 /* PBXTextBookmark */ = AA7E22280F537B2700C6E1D6 /* PBXTextBookmark */;
 			AA7E22310F537C2400C6E1D6 /* PBXTextBookmark */ = AA7E22310F537C2400C6E1D6 /* PBXTextBookmark */;
 			AA7E22320F537C2400C6E1D6 /* PBXTextBookmark */ = AA7E22320F537C2400C6E1D6 /* PBXTextBookmark */;
+			AA7E22350F537CDB00C6E1D6 /* PBXTextBookmark */ = AA7E22350F537CDB00C6E1D6 /* PBXTextBookmark */;
+			AA7E22360F537CDB00C6E1D6 /* PBXTextBookmark */ = AA7E22360F537CDB00C6E1D6 /* PBXTextBookmark */;
+			AA7E22370F537CE100C6E1D6 /* PBXTextBookmark */ = AA7E22370F537CE100C6E1D6 /* PBXTextBookmark */;
+			AA7E22380F537D6500C6E1D6 /* PBXTextBookmark */ = AA7E22380F537D6500C6E1D6 /* PBXTextBookmark */;
+			AA7E22390F537D9000C6E1D6 /* PBXTextBookmark */ = AA7E22390F537D9000C6E1D6 /* PBXTextBookmark */;
+			AA7E223A0F537D9000C6E1D6 /* PBXTextBookmark */ = AA7E223A0F537D9000C6E1D6 /* PBXTextBookmark */;
+			AA7E223B0F537D9000C6E1D6 /* PBXTextBookmark */ = AA7E223B0F537D9000C6E1D6 /* PBXTextBookmark */;
+			AA7E223C0F537D9000C6E1D6 /* PBXTextBookmark */ = AA7E223C0F537D9000C6E1D6 /* PBXTextBookmark */;
+			AA7E22410F537F4500C6E1D6 /* PBXTextBookmark */ = AA7E22410F537F4500C6E1D6 /* PBXTextBookmark */;
+			AA7E22420F537F4F00C6E1D6 /* PBXTextBookmark */ = AA7E22420F537F4F00C6E1D6 /* PBXTextBookmark */;
 		};
 		sourceControlManager = AA1BF43C0C3095A2005ED047 /* Source Control */;
 		userBookmarkGroup = AAD2E1F90E1B842B00BFA950 /* PBXBookmarkGroup */;
@@ -125,7 +136,7 @@
 			"-e \"doFile(\\\"/users/steve/test.io\\\")\"",
 		);
 		autoAttachOnCrash = 1;
-		breakpointsEnabled = 0;
+		breakpointsEnabled = 1;
 		configStateDict = {
 		};
 		customDataFormattersEnabled = 1;
@@ -319,7 +330,7 @@
 		ignoreCount = 0;
 		lineNumber = 443;
 		location = osxvm;
-		modificationTime = 257129490.452787;
+		modificationTime = 257130113.730366;
 		state = 2;
 	};
 	AA7E22170F5378D900C6E1D6 /* PBXTextBookmark */ = {
@@ -327,7 +338,7 @@
 		fRef = AAE69E130B110795006E309B /* Collector.c */;
 		name = "Collector.c: 434";
 		rLen = 35;
-		rLoc = 9584;
+		rLoc = 9573;
 		rType = 0;
 		vrLen = 1353;
 		vrLoc = 8509;
@@ -355,12 +366,124 @@
 		fRef = AAE69E130B110795006E309B /* Collector.c */;
 		name = "Collector.c: 439";
 		rLen = 37;
-		rLoc = 9521;
+		rLoc = 9510;
 		rType = 0;
 		vrLen = 1422;
 		vrLoc = 8509;
 	};
 	AA7E22320F537C2400C6E1D6 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AAE69EAE0B110795006E309B /* IoCollector.c */;
+		name = "IoCollector.c: 208";
+		rLen = 35;
+		rLoc = 5615;
+		rType = 0;
+		vrLen = 913;
+		vrLoc = 4819;
+	};
+	AA7E22350F537CDB00C6E1D6 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "error: 'count' undeclared (first use in this function)";
+		fRef = AAE69E130B110795006E309B /* Collector.c */;
+		rLen = 1;
+		rLoc = 434;
+		rType = 1;
+	};
+	AA7E22360F537CDB00C6E1D6 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AAE69E130B110795006E309B /* Collector.c */;
+		name = "Collector.c: 434";
+		rLen = 0;
+		rLoc = 9441;
+		rType = 0;
+		vrLen = 428;
+		vrLoc = 9209;
+	};
+	AA7E22370F537CE100C6E1D6 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AAE69EAE0B110795006E309B /* IoCollector.c */;
+		name = "IoCollector.c: 208";
+		rLen = 35;
+		rLoc = 5615;
+		rType = 0;
+		vrLen = 915;
+		vrLoc = 4819;
+	};
+	AA7E22380F537D6500C6E1D6 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AAE69E160B110795006E309B /* CollectorMarker.c */;
+		rLen = 21;
+		rLoc = 107;
+		rType = 0;
+	};
+	AA7E22390F537D9000C6E1D6 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AAE69E130B110795006E309B /* Collector.c */;
+		name = "Collector.c: 449";
+		rLen = 21;
+		rLoc = 9697;
+		rType = 0;
+		vrLen = 447;
+		vrLoc = 9444;
+	};
+	AA7E223A0F537D9000C6E1D6 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AAE69E170B110795006E309B /* CollectorMarker.h */;
+		name = "CollectorMarker.h: 66";
+		rLen = 21;
+		rLoc = 1469;
+		rType = 0;
+		vrLen = 1069;
+		vrLoc = 1058;
+	};
+	AA7E223B0F537D9000C6E1D6 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AAE69E170B110795006E309B /* CollectorMarker.h */;
+		name = "CollectorMarker.h: 66";
+		rLen = 21;
+		rLoc = 1469;
+		rType = 0;
+		vrLen = 1069;
+		vrLoc = 1058;
+	};
+	AA7E223C0F537D9000C6E1D6 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AAE69E160B110795006E309B /* CollectorMarker.c */;
+		name = "CollectorMarker.c: 10";
+		rLen = 0;
+		rLoc = 182;
+		rType = 0;
+		vrLen = 411;
+		vrLoc = 0;
+	};
+	AA7E223F0F537DA900C6E1D6 /* Collector.c:434 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = AAE69E130B110795006E309B /* Collector.c */;
+		functionName = "CollectorMarker_checkObjectPointer()";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 434;
+		location = osxvm;
+		modificationTime = 257130113.730788;
+		state = 1;
+	};
+	AA7E22410F537F4500C6E1D6 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AAE69E130B110795006E309B /* Collector.c */;
+		name = "Collector.c: 451";
+		rLen = 0;
+		rLoc = 9915;
+		rType = 0;
+		vrLen = 415;
+		vrLoc = 9150;
+	};
+	AA7E22420F537F4F00C6E1D6 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = AAE69EAE0B110795006E309B /* IoCollector.c */;
 		name = "IoCollector.c: 208";
@@ -756,10 +879,10 @@
 	};
 	AAE69E130B110795006E309B /* Collector.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1137, 6732}}";
-			sepNavSelRange = "{9521, 37}";
-			sepNavVisRange = "{8509, 1422}";
-			sepNavWindowFrame = "{{404, 63}, {810, 696}}";
+			sepNavIntBoundsRect = "{{0, 0}, {980, 6948}}";
+			sepNavSelRange = "{9915, 0}";
+			sepNavVisRange = "{9150, 415}";
+			sepNavWindowFrame = "{{498, 16}, {744, 575}}";
 		};
 	};
 	AAE69E140B110795006E309B /* Collector.h */ = {
@@ -780,17 +903,17 @@
 	};
 	AAE69E160B110795006E309B /* CollectorMarker.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {998, 1008}}";
-			sepNavSelRange = "{573, 20}";
-			sepNavVisRange = "{286, 446}";
+			sepNavIntBoundsRect = "{{0, 0}, {998, 976}}";
+			sepNavSelRange = "{182, 0}";
+			sepNavVisRange = "{0, 411}";
 			sepNavWindowFrame = "{{420, 82}, {810, 696}}";
 		};
 	};
 	AAE69E170B110795006E309B /* CollectorMarker.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {761, 1588}}";
-			sepNavSelRange = "{1368, 20}";
-			sepNavVisRange = "{742, 1385}";
+			sepNavIntBoundsRect = "{{0, 0}, {998, 1588}}";
+			sepNavSelRange = "{1469, 21}";
+			sepNavVisRange = "{1058, 1069}";
 			sepNavWindowFrame = "{{107, 93}, {810, 696}}";
 		};
 	};
@@ -1053,9 +1176,9 @@
 	};
 	AAE69ECA0B110795006E309B /* IoMessage.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {924, 20716}}";
+			sepNavIntBoundsRect = "{{0, 0}, {763, 20606}}";
 			sepNavSelRange = "{7746, 0}";
-			sepNavVisRange = "{7602, 431}";
+			sepNavVisRange = "{7451, 610}";
 			sepNavWindowFrame = "{{204, 59}, {1028, 819}}";
 		};
 	};
@@ -1140,9 +1263,9 @@
 	};
 	AAE69ED50B110795006E309B /* IoObject_inline.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {924, 5530}}";
-			sepNavSelRange = "{1733, 0}";
-			sepNavVisRange = "{1583, 297}";
+			sepNavIntBoundsRect = "{{0, 0}, {763, 5600}}";
+			sepNavSelRange = "{1582, 0}";
+			sepNavVisRange = "{1364, 577}";
 			sepNavVisRect = "{{0, 1759}, {850, 320}}";
 			sepNavWindowFrame = "{{571, 193}, {761, 615}}";
 		};
