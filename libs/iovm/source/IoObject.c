@@ -182,6 +182,8 @@ IoObject *IoObject_protoFinish(void *state)
 	{"uniqueId", IoObject_uniqueId},
 
 	// memory utilities
+	
+	{"checkMemory", IoObject_checkMemory},
 
 	//{"compact", IoObject_compactMethod},
 
@@ -215,6 +217,7 @@ IoObject *IoObject_protoFinish(void *state)
 
 	{"ownsSlots", IoObject_protoOwnsSlots}, // a debug method
 	{"memorySize", IoObject_memorySizeMethod},
+	
 	
 	{"hasDirtySlot", IoObject_hasDirtySlot_},
 	{"markClean", IoObject_markClean},
@@ -1625,6 +1628,15 @@ IO_METHOD(IoObject, memorySizeMethod)
 	*/
 	
 	return IONUMBER(IoObject_memorySize(self));
+}
+
+/*doc Object checkMemory()
+	accesses memory in the IoObjectData struct that should be accessible.  Should cause a memory access
+	exception if memory is corrupt.
+	*/
+IO_METHOD(IoObject, checkMemory)
+{
+	return IOBOOL(self, IOCOLLECTOR != 0x0);
 }
 
 IO_METHOD(IoObject, compactMethod)
