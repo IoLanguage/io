@@ -426,19 +426,29 @@ double Collector_timeUsed(Collector *self)
 	return (double)self->clocksUsed / (double)CLOCKS_PER_SEC;
 }
 
+static size_t Collector_checkMarker(Collector *self, CollectorMarker *marker)
+{
+	if (marker->object == 0x0) 
+	{ 
+		printf("WARNING: Collector found a null object pointer on marker %p! Memory is likely hosed.\n", (void *)marker);
+		return 1;
+	} 
+	else 
+	{ 
+		// read a word of memory to check for bad pointers
+		int p = *(int *)(marker->object); 
+	}
+	
+	return 0;
+}
 
 size_t Collector_countOfNullObjectPointers(Collector *self)
 {
 	size_t count = 0;
 
-	COLLECTMARKER_FOREACH(self->blacks, v, if(v->object == 0x0) count ++;);
-	COLLECTMARKER_FOREACH(self->grays,  v, if(v->object == 0x0) count ++;);
-	COLLECTMARKER_FOREACH(self->whites, v, if(v->object == 0x0) count ++;);
-
-	if(count)
-	{
-		printf("WARNING: Collector found a null object pointer! Memory is likely hosed.\n");
-	}
+	COLLECTMARKER_FOREACH(self->blacks, v, count += Collector_checkMarker(self, v);  );
+	COLLECTMARKER_FOREACH(self->grays,  v, count += Collector_checkMarker(self, v);  );
+	COLLECTMARKER_FOREACH(self->whites, v, count += Collector_checkMarker(self, v);  );
 	
 	return count;
 }
