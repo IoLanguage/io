@@ -151,6 +151,7 @@ struct IoState
 	int exitResult;
 	
 	int receivedSignal;
+	int showAllMessages;
 };
 
 #define IOSTATE_STRUCT_DEFINED

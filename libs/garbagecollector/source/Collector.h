@@ -29,6 +29,7 @@ typedef enum
 typedef int  (CollectorMarkFunc)(void *);
 typedef void (CollectorWillFreeFunc)(void *);
 typedef void (CollectorFreeFunc)(void *);
+typedef int  (CollectorCheckFunc)(void *);
 
 typedef struct
 {
@@ -130,6 +131,7 @@ COLLECTOR_API void Collector_popPause(Collector *self);
 COLLECTOR_API int Collector_isPaused(Collector *self);
 COLLECTOR_API double Collector_timeUsed(Collector *self);
 COLLECTOR_API size_t Collector_countOfNullObjectPointers(Collector *self); // if not 0, then memory is hosed
+COLLECTOR_API void Collector_checkObjectsWith_(Collector *self, CollectorCheckFunc *func);
 
 #include "Collector_inline.h"
 

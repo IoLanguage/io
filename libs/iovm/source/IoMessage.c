@@ -495,7 +495,7 @@ IoObject *IoMessage_locals_performOn_(IoMessage *self, IoObject *locals, IoObjec
 	{
 		//md = DATA(m);
 		//printf("%s %i\n", CSTRING(IoMessage_name(m)), state->stopStatus);
-		//printf("M:%s\n", CSTRING(IoMessage_name(m)));
+		if(state->showAllMessages) printf("M:%s\n", CSTRING(IoMessage_name(m)));
 		
 		md = DATA(m);
 

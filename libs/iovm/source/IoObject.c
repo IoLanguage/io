@@ -1350,10 +1350,10 @@ IoObject *IoObject_rawDoString_label_(IoObject *self, IoSymbol *string, IoSymbol
 		IoMessage_rawSetNext(cm, messageForString);
 		IoMessage_addCachedArg_(messageForString, string);
 		IoMessage_addCachedArg_(messageForString, label);
-
+		
 		newMessage = IoMessage_locals_performOn_(cm, self, self);
-
 		IoState_stackRetain_(state, newMessage); // needed?
+		
 		IoState_popCollectorPause(state);
 
 		if (newMessage)
@@ -1985,14 +1985,18 @@ PID_TYPE IoObject_pid(IoObject *self)
 
 IoSeq *IoObject_asString_(IoObject *self, IoMessage *m)
 {
+	IoSeq *result = IoMessage_locals_performOn_(IOSTATE->asStringMessage, self, self);
+	/*
 	IoSymbol *string = IOSYMBOL("asString");
 	IoSymbol *label = string;
 	IoSeq *result;
 
 	IoState_pushRetainPool(IOSTATE);
+
 	result = IoObject_rawDoString_label_(self, string, label);
 	IoState_popRetainPoolExceptFor_(IOSTATE, result);
-
+	*/
+	
 	if (!ISSEQ(result))
 	{
 		IoState_error_(IOSTATE, m, "%s asString didn't return a Sequence", IoObject_name(self));

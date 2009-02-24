@@ -128,12 +128,17 @@ EventManager do(
 		loop(
 			setIsRunning(true)
 			//writeln("hasActiveEvents: ", hasActiveEvents)
+			//writeln("event loop 0 -----------------------------------")
 			while(hasActiveEvents,
 				//debugWriteln("EventManager run - listening")
-				if(Coroutine yieldingCoros first, listen, listenUntilEvent) ifError(e, 
+				er := if(Coroutine yieldingCoros first, listen, listenUntilEvent) 
+				//writeln("event loop 1 -----------------------------------")
+				er ifError(e, 
 					Exception raise("Unrecoverable Error in EventManager: " .. e description))
+					//writeln("event loop 2 -----------------------------------")
 				yield
 			)
+			//writeln("event loop 3 -----------------------------------")
 			//writeln("hasActiveEvents: ", hasActiveEvents)
 			//debugWriteln("EventManager run - no active events")
 			setIsRunning(false)

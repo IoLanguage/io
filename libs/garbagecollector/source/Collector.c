@@ -445,10 +445,16 @@ size_t CollectorMarker_checkObjectPointer(CollectorMarker *marker)
 size_t Collector_countOfNullObjectPointers(Collector *self)
 {
 	size_t count = 0;
-
-	COLLECTMARKER_FOREACH(self->blacks, v, count += CollectorMarker_checkObjectPointer(v);  );
-	COLLECTMARKER_FOREACH(self->grays,  v, count += CollectorMarker_checkObjectPointer(v);  );
-	COLLECTMARKER_FOREACH(self->whites, v, count += CollectorMarker_checkObjectPointer(v);  );
-	
+	COLLECTMARKER_FOREACH(self->blacks, v, count += CollectorMarker_checkObjectPointer(v); );
+	COLLECTMARKER_FOREACH(self->grays,  v, count += CollectorMarker_checkObjectPointer(v); );
+	COLLECTMARKER_FOREACH(self->whites, v, count += CollectorMarker_checkObjectPointer(v); );
 	return count;
 }
+
+void Collector_checkObjectsWith_(Collector *self, CollectorCheckFunc *func)
+{
+	COLLECTMARKER_FOREACH(self->blacks, v, func(v); );
+	COLLECTMARKER_FOREACH(self->grays,  v, func(v); );
+	COLLECTMARKER_FOREACH(self->whites, v, func(v); );
+}
+
