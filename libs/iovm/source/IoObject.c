@@ -179,11 +179,7 @@ IoObject *IoObject_protoFinish(void *state)
 
 	// reflection
 
-	{"uniqueId", IoObject_uniqueId},
-
-	// memory utilities
-	
-	{"checkMemory", IoObject_checkMemory},
+	{"uniqueId", IoObject_uniqueId},	
 
 	//{"compact", IoObject_compactMethod},
 
@@ -1634,9 +1630,9 @@ IO_METHOD(IoObject, memorySizeMethod)
 	accesses memory in the IoObjectData struct that should be accessible.  Should cause a memory access
 	exception if memory is corrupt.
 	*/
-IO_METHOD(IoObject, checkMemory)
+int IoObject_rawCheckMemory(IoObject *self)
 {
-	return IOBOOL(self, IOCOLLECTOR != 0x0);
+	return IOCOLLECTOR != 0x0;
 }
 
 IO_METHOD(IoObject, compactMethod)

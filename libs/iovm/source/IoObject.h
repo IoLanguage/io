@@ -146,7 +146,7 @@ IOVM_API IO_METHOD(IoObject, thisMessage);
 
 // memory
 
-IOVM_API IO_METHOD(IoObject, checkMemory);
+IOVM_API int IoObject_rawCheckMemory(IoObject *self);
 IOVM_API IO_METHOD(IoObject, memorySizeMethod);
 IOVM_API IO_METHOD(IoObject, compactMethod);
 

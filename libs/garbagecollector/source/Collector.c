@@ -457,4 +457,3 @@ void Collector_checkObjectsWith_(Collector *self, CollectorCheckFunc *func)
 	COLLECTMARKER_FOREACH(self->grays,  v, func(v); );
 	COLLECTMARKER_FOREACH(self->whites, v, func(v); );
 }
-

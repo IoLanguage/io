@@ -206,8 +206,18 @@ IO_METHOD(IoCollector, countOfNullObjectPointers)
 {
 	Collector *collector = IOSTATE->collector;
 	int count = Collector_countOfNullObjectPointers(collector);
+	Collector_checkObjectsWith_(collector, IoObject_rawCheckMemory);
 	return IONUMBER(count);
 }
+
+/*
+IO_METHOD(IoCollector, checkObjectMemory)
+{
+	Collector *collector = IOSTATE->collector;
+	Collector_checkObjectsWith_(collector, IoObject_rawCheckMemory);
+	return self;
+}
+*/
 
 IoObject *IoCollector_proto(void *state)
 {
