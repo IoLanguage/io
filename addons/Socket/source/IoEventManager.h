@@ -25,7 +25,8 @@ typedef struct
 	struct evhttp *evh;
 	#endif	
 	void *eventBase;
-	IoMessage *handleEventMessage;
+	IoMessage *handleEventMessageTrue;
+	IoMessage *handleEventMessageFalse;
 	List *activeEvents;
 	//int activeHttpClientRequests;
 } IoEventManagerData;

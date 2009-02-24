@@ -42,14 +42,20 @@ void IoEventManager_BrokenPipeSignalHandler(int v)
 	printf("IoEventManager catching broken pipe signal %i\n", v);
 }
 
-IoEventManager *IoEventManager_proto(void *state)
+IoEventManager *IoEventManager_proto(void *vState)
 {
+	IoState *state = vState;
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoEventManager_newTag(state));
 
 	IoObject_setDataPointer_(self, io_calloc(1, sizeof(IoEventManagerData)));
 
-	DATA(self)->handleEventMessage = IoMessage_newWithName_(state, IOSYMBOL("handleEvent"));
+	DATA(self)->handleEventMessageTrue = IoMessage_newWithName_(state, IOSYMBOL("handleEvent"));
+	IoMessage_setCachedArg_to_(DATA(self)->handleEventMessageTrue, 0, state->ioTrue);
+
+	DATA(self)->handleEventMessageFalse = IoMessage_newWithName_(state, IOSYMBOL("handleEvent"));
+	IoMessage_setCachedArg_to_(DATA(self)->handleEventMessageFalse, 0, state->ioFalse);
+
 	DATA(self)->activeEvents = List_new();
 
 	IoState_registerProtoWithFunc_((IoState *)state, self, IoEventManager_proto);
@@ -103,7 +109,8 @@ IoEventManager *IoEventManager_rawClone(IoEventManager *self)
 
 void IoEventManager_mark(IoEventManager *self)
 {
-	IoObject_shouldMark(DATA(self)->handleEventMessage);
+	IoObject_shouldMark(DATA(self)->handleEventMessageTrue);
+	IoObject_shouldMark(DATA(self)->handleEventMessageFalse);
 	//printf("IoEventManager_mark %i events\n", List_size(DATA(self)->activeEvents));
 	//List_do_(DATA(self)->activeEvents, (ListDoCallback *)IoObject_shouldMark);
 	LIST_FOREACH(DATA(self)->activeEvents, i, v, 
@@ -218,9 +225,15 @@ void IoEvent_handleEvent(int fd, short eventType, void *context)
 	*/
 
 	IoState_pushRetainPool(IOSTATE);
+	
+	if(eventType == EV_TIMEOUT)
 	{
-		IoMessage *m = DATA(em)->handleEventMessage;
-		IoMessage_setCachedArg_to_(m, 0, IOBOOL(self, eventType == EV_TIMEOUT));
+		IoMessage *m = DATA(em)->handleEventMessageTrue;
+		IoMessage_locals_performOn_(m, self, self);
+	}
+	else
+	{
+		IoMessage *m = DATA(em)->handleEventMessageFalse;
 		IoMessage_locals_performOn_(m, self, self);
 	}
 	IoState_popRetainPool(IOSTATE);
