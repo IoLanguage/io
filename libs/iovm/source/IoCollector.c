@@ -202,6 +202,13 @@ IO_METHOD(IoCollector, objectWithUniqueId)
 	return IONIL(self);
 }
 
+IO_METHOD(IoCollector, countOfNullObjectPointers)
+{
+	Collector *collector = IOSTATE->collector;
+	int count = Collector_countOfNullObjectPointers(collector);
+	return IONUMBER(count);
+}
+
 IoObject *IoCollector_proto(void *state)
 {
 	IoMethodTable methodTable[] = {
@@ -223,6 +230,7 @@ IoObject *IoCollector_proto(void *state)
 	{"objectWithUniqueId", IoCollector_objectWithUniqueId},
 	{"dirtyObjects", IoCollector_dirtyObjects},
 	{"cleanAllObjects", IoCollector_cleanAllObjects},
+	{"countOfNullObjectPointers", IoCollector_countOfNullObjectPointers},
 	{NULL, NULL},
 	};
 

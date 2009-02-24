@@ -129,6 +129,7 @@ COLLECTOR_API void Collector_pushPause(Collector *self);
 COLLECTOR_API void Collector_popPause(Collector *self);
 COLLECTOR_API int Collector_isPaused(Collector *self);
 COLLECTOR_API double Collector_timeUsed(Collector *self);
+COLLECTOR_API size_t Collector_countOfNullObjectPointers(Collector *self); // if not 0, then memory is hosed
 
 #include "Collector_inline.h"
 

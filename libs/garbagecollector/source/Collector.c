@@ -421,9 +421,24 @@ char *Collector_colorNameFor_(Collector *self, void *v)
 	return "off-white";
 }
 
-COLLECTOR_API double Collector_timeUsed(Collector *self)
+double Collector_timeUsed(Collector *self)
 {
 	return (double)self->clocksUsed / (double)CLOCKS_PER_SEC;
 }
 
 
+size_t Collector_countOfNullObjectPointers(Collector *self)
+{
+	size_t count = 0;
+
+	COLLECTMARKER_FOREACH(self->blacks, v, if(v->object == 0x0) count ++;);
+	COLLECTMARKER_FOREACH(self->grays,  v, if(v->object == 0x0) count ++;);
+	COLLECTMARKER_FOREACH(self->whites, v, if(v->object == 0x0) count ++;);
+
+	if(count)
+	{
+		printf("WARNING: Collector found a null object pointer! Memory is likely hosed.\n");
+	}
+	
+	return count;
+}
