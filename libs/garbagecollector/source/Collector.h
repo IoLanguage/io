@@ -57,6 +57,7 @@ typedef struct
 	long clocksUsed;
 	size_t sweepCount;
 	int debugOn;
+	int safeMode;
 } Collector;
 
 COLLECTOR_API Collector *Collector_new(void);
@@ -87,7 +88,7 @@ COLLECTOR_API float Collector_allocatedStep(Collector *self);
 // debug
 
 COLLECTOR_API void Collector_setDebug_(Collector *self, int b);
-COLLECTOR_API void Collector_setOn_(Collector *self, int b);
+COLLECTOR_API void Collector_setSafeModeOn_(Collector *self, int b);
 
 // retaining
 

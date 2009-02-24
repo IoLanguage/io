@@ -490,7 +490,7 @@ void Levels_attach(Levels *self, IoMessage *msg, List *expressions)
 		}
 
 		// make sure b in 1 := b gets executed
-		IoMessage_cachedResult_(attaching, NULL);
+		IoMessage_rawSetCachedResult_(attaching, NULL);
 	}
 	else if (IoMessage_rawIsEOL(msg))
 	{

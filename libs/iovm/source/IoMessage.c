@@ -191,11 +191,8 @@ void IoMessage_copy_(IoMessage *self, IoMessage *other)
 		}
 	}
 
-	if (DATA(other)->next) IOREF(DATA(other)->next);
-	DATA(self)->next = DATA(other)->next;
-
-	if (DATA(other)->cachedResult) IOREF(DATA(other)->cachedResult);
-	DATA(self)->cachedResult = DATA(other)->cachedResult;
+	DATA(self)->next = DATA(other)->next ? IOREF(DATA(other)->next) : 0x0;
+	IoMessage_rawSetCachedResult_(self, DATA(other)->cachedResult);
 
 	IoMessage_rawCopySourceLocation(self, other);
 }
@@ -222,7 +219,7 @@ IoMessage *IoMessage_deepCopyOf_(IoMessage *self)
 	}
 
 	DATA(child)->name = IOREF(DATA(self)->name);
-	IoMessage_cachedResult_(child, (IoObject *)DATA(self)->cachedResult);
+	IoMessage_rawSetCachedResult_(child, (IoObject *)DATA(self)->cachedResult);
 
 	if (DATA(self)->next)
 	{
@@ -250,8 +247,8 @@ IoMessage *IoMessage_newWithName_label_(void *state, IoSymbol *symbol, IoSymbol 
 IoMessage *IoMessage_newWithName_returnsValue_(void *state, IoSymbol *symbol, IoObject *v)
 {
 	IoMessage *self = IoMessage_new(state);
-	DATA(self)->name         = IOREF(symbol);
-	DATA(self)->cachedResult = IOREF(v);
+	DATA(self)->name = IOREF(symbol);
+	IoMessage_rawSetCachedResult_(self, v);
 	return self;
 }
 
@@ -293,7 +290,7 @@ List *IoMessage_args(IoMessage *self)
 	return DATA(self)->args;
 }
 
-void IoMessage_cachedResult_(IoMessage *self, IoObject *v)
+void IoMessage_rawSetCachedResult_(IoMessage *self, IoObject *v)
 {
 	DATA(self)->cachedResult = v ? IOREF(v) : NULL;
 }
@@ -360,7 +357,7 @@ unsigned char IoMessage_needsEvaluation(IoMessage *self)
 void IoMessage_addCachedArg_(IoMessage *self, IoObject *v)
 {
 	IoMessage *m = IoMessage_new(IOSTATE);
-	IoMessage_cachedResult_(m, v);
+	IoMessage_rawSetCachedResult_(m, v);
 	IoMessage_addArg_(self, m);
 }
 
@@ -373,7 +370,7 @@ void IoMessage_setCachedArg_to_(IoMessage *self, int n, IoObject *v)
 		IoMessage_addArg_(self, IoMessage_new(IOSTATE));
 	}
 
-	IoMessage_cachedResult_(arg, v);
+	IoMessage_rawSetCachedResult_(arg, v);
 }
 
 void IoMessage_setCachedArg_toInt_(IoMessage *self, int n, int anInt)
@@ -387,7 +384,7 @@ void IoMessage_setCachedArg_toInt_(IoMessage *self, int n, int anInt)
 		List_append_(DATA(self)->args, IOREF(IoMessage_new(IOSTATE)));
 	}
 
-	DATA(arg)->cachedResult = IOREF(IONUMBER(anInt));
+	IoMessage_rawSetCachedResult_(arg, IONUMBER(anInt));
 }
 
 IO_METHOD(IoMessage, lineNumber)
@@ -495,7 +492,7 @@ IoObject *IoMessage_locals_performOn_(IoMessage *self, IoObject *locals, IoObjec
 	{
 		//md = DATA(m);
 		//printf("%s %i\n", CSTRING(IoMessage_name(m)), state->stopStatus);
-		if(state->showAllMessages) printf("M:%s\n", CSTRING(IoMessage_name(m)));
+		//if(state->showAllMessages) printf("M:%s\n", CSTRING(IoMessage_name(m)));
 		
 		md = DATA(m);
 
@@ -1161,8 +1158,7 @@ IO_METHOD(IoMessage, removeCachedResult)
 	/*doc Message removeCachedResult
 	Removes the cached result of the Message.
 	*/
-
-	DATA(self)->cachedResult = NULL;
+	IoMessage_rawSetCachedResult_(self, 0x0);
 	return self;
 }
 

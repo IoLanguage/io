@@ -211,10 +211,10 @@ IO_METHOD(IoCollector, checkMemory)
 	return self;
 }
 
-IO_METHOD(IoCollector, setOn)
+IO_METHOD(IoCollector, setSafeModeOn)
 {
 	IoObject *aBool = IoMessage_locals_valueArgAt_(m, locals, 0);
-	Collector_setOn_(IOSTATE->collector, ISTRUE(aBool));	
+	Collector_setSafeModeOn_(IOSTATE->collector, ISTRUE(aBool));	
 	return self;
 }
 
@@ -240,7 +240,7 @@ IoObject *IoCollector_proto(void *state)
 	{"dirtyObjects", IoCollector_dirtyObjects},
 	{"cleanAllObjects", IoCollector_cleanAllObjects},
 	{"checkMemory", IoCollector_checkMemory},
-	{"setOn", IoCollector_setOn},
+	{"setSafeModeOn", IoCollector_setSafeModeOn},
 	{NULL, NULL},
 	};
 

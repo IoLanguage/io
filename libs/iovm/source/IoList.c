@@ -981,8 +981,8 @@ int SortContext_compareForSort(SortContext *self, void *ap, void *bp)
 	IoObject *cr;
 	IoState_pushRetainPool(self->state);
 
-	IoMessage_cachedResult_(self->argMsg1, a);
-	IoMessage_cachedResult_(self->argMsg2, b);
+	IoMessage_rawSetCachedResult_(self->argMsg1, a);
+	IoMessage_rawSetCachedResult_(self->argMsg2, b);
 	cr = IoBlock_activate(self->block, self->locals, self->locals, self->blockMsg, self->locals);
 
 	IoState_popRetainPool(self->state);

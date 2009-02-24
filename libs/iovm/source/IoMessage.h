@@ -79,7 +79,7 @@ IOVM_API unsigned char IoMessage_needsEvaluation(IoMessage *self);
 IOVM_API void IoMessage_addCachedArg_(IoMessage *self, IoObject *v);
 IOVM_API void IoMessage_setCachedArg_to_(IoMessage *self, int n, IoObject *v);
 IOVM_API void IoMessage_setCachedArg_toInt_(IoMessage *self, int n, int anInt);
-IOVM_API void IoMessage_cachedResult_(IoMessage *self, IoObject *v);
+IOVM_API void IoMessage_rawSetCachedResult_(IoMessage *self, IoObject *v);
 
 IOVM_API IO_METHOD(IoMessage, lineNumber);
 IOVM_API IO_METHOD(IoMessage, characterNumber);

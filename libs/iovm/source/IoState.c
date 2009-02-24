@@ -164,7 +164,7 @@ void IoState_new_atAddress(void *address)
 			IoObject_setSlot_to_(core, SIOSYMBOL("Debugger"), self->debugger);
 
 			self->vmWillSendMessage  = IoMessage_newWithName_(self, SIOSYMBOL("vmWillSendMessage"));
-			IoMessage_cachedResult_(self->nilMessage, self->ioNil);
+			IoMessage_rawSetCachedResult_(self->nilMessage, self->ioNil);
 			IoState_retain_(self, self->vmWillSendMessage);
 		}
 
@@ -255,7 +255,7 @@ void IoState_setupSingletons(IoState *self)
 	IoObject_setSlot_to_(core, SIOSYMBOL("Call"),  IoCall_proto(self));
 
 	self->nilMessage  = IoMessage_newWithName_(self, SIOSYMBOL("nil"));
-	IoMessage_cachedResult_(self->nilMessage, self->ioNil);
+	IoMessage_rawSetCachedResult_(self->nilMessage, self->ioNil);
 	IoState_retain_(self, self->nilMessage);
 
 	// true

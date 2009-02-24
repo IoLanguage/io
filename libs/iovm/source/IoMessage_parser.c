@@ -63,7 +63,7 @@ void IoMessage_ifPossibleCacheToken_(IoMessage *self, IoToken *p)
 			}
 	}
 
-	IoMessage_cachedResult_(self, r);
+	IoMessage_rawSetCachedResult_(self, r);
 }
 
 IoMessage *IoMessage_newFromText_label_(void *state, const char *text, const char *label)

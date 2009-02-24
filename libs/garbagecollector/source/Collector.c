@@ -159,9 +159,9 @@ void Collector_setDebug_(Collector *self, int b)
 	self->debugOn = b ? 1 : 0;
 }
 
-void Collector_setOn_(Collector *self, int b)
+void Collector_setSafeModeOn_(Collector *self, int b)
 {
-	//self->on = b ? 1 : 0;
+	self->safeMode = b ? 1 : 0;
 }
 
 

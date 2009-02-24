@@ -68,7 +68,8 @@ IOINLINE void Collector_makeFreed_(Collector *self, void *v)
 
 IOINLINE void *Collector_value_addingRefTo_(Collector *self, void *v, void *ref)
 {
-	if (Collector_markerIsBlack_(self, (CollectorMarker *)v) && Collector_markerIsWhite_(self, (CollectorMarker *)ref))
+	//if (Collector_markerIsBlack_(self, (CollectorMarker *)v) && Collector_markerIsWhite_(self, (CollectorMarker *)ref))
+	if (self->safeMode || (Collector_markerIsBlack_(self, (CollectorMarker *)v) && Collector_markerIsWhite_(self, (CollectorMarker *)ref)))
 	{
 		Collector_makeGray_(self, (CollectorMarker *) ref);
 	}
