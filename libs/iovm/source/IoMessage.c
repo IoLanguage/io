@@ -160,8 +160,10 @@ IoMessage *IoMessage_rawClone(IoMessage *proto)
 
 	IoObject_setDataPointer_(self, io_calloc(1, sizeof(IoMessageData)));
 	DATA(self)->args = List_new();
-	DATA(self)->name = DATA(proto)->name;
-	DATA(self)->label = DATA(proto)->label;
+	IoMessage_rawSetName_(self, DATA(proto)->name);
+	IoMessage_rawSetLabel_(self, DATA(proto)->label);
+	//DATA(self)->name = DATA(proto)->name;
+	//DATA(self)->label = DATA(proto)->label;
 	/* any clone really needs to be a deep copy */
 	return self;
 }
@@ -177,7 +179,7 @@ IoMessage *IoMessage_new(void *state)
 
 void IoMessage_copy_(IoMessage *self, IoMessage *other)
 {
-	DATA(self)->name = IOREF(DATA(other)->name);
+	IoMessage_rawSetName_(self, DATA(other)->name);
 
 	{
 		List *l1 = DATA(self)->args;
@@ -191,9 +193,8 @@ void IoMessage_copy_(IoMessage *self, IoMessage *other)
 		}
 	}
 
-	DATA(self)->next = DATA(other)->next ? IOREF(DATA(other)->next) : 0x0;
+	IoMessage_rawSetNext_(self, DATA(other)->next);
 	IoMessage_rawSetCachedResult_(self, DATA(other)->cachedResult);
-
 	IoMessage_rawCopySourceLocation(self, other);
 }
 
@@ -201,9 +202,7 @@ void IoMessage_rawCopySourceLocation(IoMessage *self, IoMessage *other)
 {
 	//DATA(self)->charNumber = DATA(other)->charNumber;
 	DATA(self)->lineNumber = DATA(other)->lineNumber;
-
-	if (DATA(other)->label) IOREF(DATA(other)->label);
-	DATA(self)->label = DATA(other)->label;
+	IoMessage_rawSetLabel_(self, DATA(other)->label);
 }
 
 IoMessage *IoMessage_deepCopyOf_(IoMessage *self)
@@ -218,12 +217,12 @@ IoMessage *IoMessage_deepCopyOf_(IoMessage *self)
 					 IOREF(IoMessage_deepCopyOf_(LIST_AT_(DATA(self)->args, i))));
 	}
 
-	DATA(child)->name = IOREF(DATA(self)->name);
+	IoMessage_rawSetName_(child, DATA(self)->name);
 	IoMessage_rawSetCachedResult_(child, (IoObject *)DATA(self)->cachedResult);
 
 	if (DATA(self)->next)
 	{
-		DATA(child)->next = IOREF(IoMessage_deepCopyOf_(DATA(self)->next));
+		IoMessage_rawSetNext_(child, IoMessage_deepCopyOf_(DATA(self)->next));
 	}
 	/*printf("deep copy result: %s\n", UArray_asCString(IoMessage_description(child)));*/
 	return child;
@@ -232,22 +231,22 @@ IoMessage *IoMessage_deepCopyOf_(IoMessage *self)
 IoMessage *IoMessage_newWithName_(void *state, IoSymbol *symbol)
 {
 	IoMessage *self = IoMessage_new(state);
-	DATA(self)->name = IOREF(symbol);
+	IoMessage_rawSetName_(self, symbol);
 	return self;
 }
 
 IoMessage *IoMessage_newWithName_label_(void *state, IoSymbol *symbol, IoSymbol *label)
 {
 	IoMessage *self = IoMessage_new(state);
-	DATA(self)->name  = IOREF(symbol);
-	DATA(self)->label = IOREF(label);
+	IoMessage_rawSetName_(self, symbol);
+	IoMessage_rawSetLabel_(self, label);
 	return self;
 }
 
 IoMessage *IoMessage_newWithName_returnsValue_(void *state, IoSymbol *symbol, IoObject *v)
 {
 	IoMessage *self = IoMessage_new(state);
-	DATA(self)->name = IOREF(symbol);
+	IoMessage_rawSetName_(self, symbol);
 	IoMessage_rawSetCachedResult_(self, v);
 	return self;
 }
@@ -262,13 +261,13 @@ IoMessage *IoMessage_newWithName_andCachedArg_(void *state, IoSymbol *symbol, Io
 void IoMessage_mark(IoMessage *self)
 {
 	IoObject_shouldMarkIfNonNull(DATA(self)->name);
+	IoObject_shouldMarkIfNonNull(DATA(self)->cachedResult);
 
 	if (DATA(self)->args)
 	{
 		LIST_FOREACH(DATA(self)->args, i, v, IoObject_shouldMark(v));
 	}
 
-	IoObject_shouldMarkIfNonNull(DATA(self)->cachedResult);
 	IoObject_shouldMarkIfNonNull((IoObject *)DATA(self)->next);
 	IoObject_shouldMarkIfNonNull((IoObject *)DATA(self)->label);
 }
@@ -295,9 +294,19 @@ void IoMessage_rawSetCachedResult_(IoMessage *self, IoObject *v)
 	DATA(self)->cachedResult = v ? IOREF(v) : NULL;
 }
 
+void IoMessage_rawSetName_(IoMessage *self, IoObject *v)
+{
+	DATA(self)->name = v ? IOREF(v) : NULL;
+}
+
+void IoMessage_rawSetLabel_(IoMessage *self, IoObject *v)
+{
+	DATA(self)->label = v ? IOREF(v) : NULL;
+}
+
 void IoMessage_label_(IoMessage *self, IoSymbol *ioSymbol) /* sets label for children too */
 {
-	DATA(self)->label = IOREF(ioSymbol);
+	IoMessage_rawSetLabel_(self, ioSymbol);
 	List_do_with_(DATA(self)->args, (ListDoWithCallback *)IoMessage_label_, ioSymbol);
 
 	if (DATA(self)->next)
@@ -814,8 +823,7 @@ IO_METHOD(IoMessage, protoSetName)
 	/*doc Message setName(aString)
 	Sets the name of the receiver. Returns self. 
 	*/
-
-	DATA(self)->name = IOREF(IoMessage_locals_symbolArgAt_(m, locals, 0));
+	IoMessage_rawSetName_(self, IoMessage_locals_symbolArgAt_(m, locals, 0));
 	//IoMessage_cacheIfPossible(self);
 	return self;
 }
@@ -862,16 +870,15 @@ IO_METHOD(IoMessage, setNext)
 		v = NULL;
 	}
 
-	IoMessage_rawSetNext(self, v);
+	IoMessage_rawSetNext_(self, v);
 	return self;
 }
 
-void IoMessage_rawSetNext(IoMessage *self, IoMessage *m)
+void IoMessage_rawSetNext_(IoMessage *self, IoMessage *m)
 {
 	DATA(self)->next = m ? IOREF(m) : NULL;
 
 #ifdef IOMESSAGE_HASPREV
-
 	if(m)
 	{
 		DATA(m)->previous = self;
@@ -1148,8 +1155,8 @@ IO_METHOD(IoMessage, setCachedResult)
 	/*doc Message setCachedResult(anObject)
 	Sets the cached result of the message. Returns self.
 	*/
-
-	DATA(self)->cachedResult = IOREF(IoMessage_locals_valueArgAt_(m , locals, 0));
+	IoObject *v = IoMessage_locals_valueArgAt_(m , locals, 0);
+	IoMessage_rawSetCachedResult_(self, v);
 	return self;
 }
 
@@ -1168,7 +1175,7 @@ IO_METHOD(IoMessage, hasCachedResult)
 	Returns true if there is a cached result. Nil is a valid cached result.
 	*/
 
-	return IOBOOL(self, DATA(self)->cachedResult == NULL);
+	return IOBOOL(self, IoMessage_rawCachedResult(self) == NULL);
 }
 
 IO_METHOD(IoMessage, argsEvaluatedIn)

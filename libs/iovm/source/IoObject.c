@@ -1346,7 +1346,7 @@ IoObject *IoObject_rawDoString_label_(IoObject *self, IoSymbol *string, IoSymbol
 		cm = IoMessage_newWithName_label_(state, IOSYMBOL("Compiler"), internal);
 		messageForString = IoMessage_newWithName_label_(state, IOSYMBOL("messageForString"), internal);
 
-		IoMessage_rawSetNext(cm, messageForString);
+		IoMessage_rawSetNext_(cm, messageForString);
 		IoMessage_addCachedArg_(messageForString, string);
 		IoMessage_addCachedArg_(messageForString, label);
 		

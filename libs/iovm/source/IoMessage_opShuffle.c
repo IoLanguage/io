@@ -247,7 +247,7 @@ void Level_finish(Level *self)
 {
 	if (self->message)
 	{
-		IoMessage_rawSetNext(self->message, NULL);
+		IoMessage_rawSetNext_(self->message, NULL);
 
 		// Remove extra () we added in for operators, but do not need any more
 		if ( IoMessage_argCount(self->message) == 1 )
@@ -270,7 +270,7 @@ void Level_attach(Level *self, IoMessage *msg)
 	switch (self->type)
 	{
 		case ATTACH:
-			IoMessage_rawSetNext(self->message, msg);
+			IoMessage_rawSetNext_(self->message, msg);
 			break;
 
 		case ARG:
@@ -442,7 +442,7 @@ void Levels_attach(Levels *self, IoMessage *msg, List *expressions)
 				IoMessage_addArg_(foo, arg);
 
 				// (b c)  ->  (b c) d e ;
-				IoMessage_rawSetNext(foo, DATA(msg)->next);
+				IoMessage_rawSetNext_(foo, DATA(msg)->next);
 
 				// setSlot("a") :=(b c) d e ;  ->  setSlot("a", (b c) d e ;) :=(b c) d e ;
 				IoMessage_addArg_(attaching, foo);
@@ -478,14 +478,14 @@ void Levels_attach(Levels *self, IoMessage *msg, List *expressions)
 				last = DATA(last)->next;
 			}
 
-			IoMessage_rawSetNext(attaching, DATA(last)->next);
+			IoMessage_rawSetNext_(attaching, DATA(last)->next);
 
 			// Continue processing in IoMessage_opShuffle loop
-			IoMessage_rawSetNext(msg, DATA(last)->next);
+			IoMessage_rawSetNext_(msg, DATA(last)->next);
 
 			if (last != msg)
 			{
-				IoMessage_rawSetNext(last, NULL);
+				IoMessage_rawSetNext_(last, NULL);
 			}
 		}
 
@@ -510,8 +510,8 @@ void Levels_attach(Levels *self, IoMessage *msg, List *expressions)
 			List_removeAll(IoMessage_rawArgList(msg));
 
 			// Insert the brackets message between msg and its next message
-			IoMessage_rawSetNext(brackets, DATA(msg)->next);
-			IoMessage_rawSetNext(msg, brackets);
+			IoMessage_rawSetNext_(brackets, DATA(msg)->next);
+			IoMessage_rawSetNext_(msg, brackets);
 		}
 
 		Levels_popDownTo(self, precedence);

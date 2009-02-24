@@ -197,7 +197,7 @@ IoMessage *IoMessage_newParseNextMessageChain(void *state, IoLexer *lexer)
 		if (IoTokenType_isValidMessageName(IoLexer_topType(lexer)))
 		{
 			IoMessage *eol = IoMessage_newWithName_(state, ((IoState*)state)->semicolonSymbol);
-			IoMessage_rawSetNext(self, eol);
+			IoMessage_rawSetNext_(self, eol);
 			IoMessage_parseNext(eol, lexer);
 		}
 	}
@@ -256,6 +256,6 @@ void IoMessage_parseArgs(IoMessage *self, IoLexer *lexer)
 void IoMessage_parseNext(IoMessage *self, IoLexer *lexer)
 {
 	IoMessage *next = IoMessage_newParseNextMessageChain(IOSTATE, lexer);
-	IoMessage_rawSetNext(self, next);
+	IoMessage_rawSetNext_(self, next);
 }
 

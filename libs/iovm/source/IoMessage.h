@@ -80,6 +80,9 @@ IOVM_API void IoMessage_addCachedArg_(IoMessage *self, IoObject *v);
 IOVM_API void IoMessage_setCachedArg_to_(IoMessage *self, int n, IoObject *v);
 IOVM_API void IoMessage_setCachedArg_toInt_(IoMessage *self, int n, int anInt);
 IOVM_API void IoMessage_rawSetCachedResult_(IoMessage *self, IoObject *v);
+IOVM_API void IoMessage_rawSetName_(IoMessage *self, IoObject *v);
+IOVM_API void IoMessage_rawSetLabel_(IoMessage *self, IoObject *v);
+
 
 IOVM_API IO_METHOD(IoMessage, lineNumber);
 IOVM_API IO_METHOD(IoMessage, characterNumber);
@@ -144,7 +147,7 @@ IOVM_API IO_METHOD(IoMessage, next);
 IOVM_API IoMessage *IoMessage_rawNext(IoMessage *self);
 
 IOVM_API IO_METHOD(IoMessage, setNext);
-IOVM_API void IoMessage_rawSetNext(IoMessage *self, IoMessage *m);
+IOVM_API void IoMessage_rawSetNext_(IoMessage *self, IoMessage *m);
 
 IOVM_API IO_METHOD(IoMessage, isEOL);
 IOVM_API int IoMessage_rawIsEOL(IoMessage *self);
