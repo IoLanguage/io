@@ -106,7 +106,7 @@ IoCoroutine *IoCoroutine_new(void *state)
 {
 	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoCoroutine_proto);
 	IoObject *self = IOCLONE(proto);
-	printf("IoCoroutine_new %p\n", (void *)self);
+	//printf("IoCoroutine_new %p\n", (void *)self);
 	return self;
 }
 
