@@ -202,22 +202,23 @@ IO_METHOD(IoCollector, objectWithUniqueId)
 	return IONIL(self);
 }
 
-IO_METHOD(IoCollector, countOfNullObjectPointers)
+IO_METHOD(IoCollector, checkMemory)
 {
 	Collector *collector = IOSTATE->collector;
-	int count = Collector_countOfNullObjectPointers(collector);
-	Collector_checkObjectsWith_(collector, IoObject_rawCheckMemory);
-	return IONUMBER(count);
-}
-
-/*
-IO_METHOD(IoCollector, checkObjectMemory)
-{
-	Collector *collector = IOSTATE->collector;
-	Collector_checkObjectsWith_(collector, IoObject_rawCheckMemory);
+	Collector_check(collector);
+	Collector_checkObjectPointers(collector);
+	Collector_check(collector);
+	Collector_checkObjectsWith_(collector, (CollectorCheckFunc *)IoObject_rawCheckMemory);
+	Collector_check(collector);
 	return self;
 }
-*/
+
+IO_METHOD(IoCollector, setOn)
+{
+	IoObject *aBool = IoMessage_locals_valueArgAt_(m, locals, 0);
+	Collector_setOn_(IOSTATE->collector, ISTRUE(aBool));	
+	return self;
+}
 
 IoObject *IoCollector_proto(void *state)
 {
@@ -240,7 +241,8 @@ IoObject *IoCollector_proto(void *state)
 	{"objectWithUniqueId", IoCollector_objectWithUniqueId},
 	{"dirtyObjects", IoCollector_dirtyObjects},
 	{"cleanAllObjects", IoCollector_cleanAllObjects},
-	{"countOfNullObjectPointers", IoCollector_countOfNullObjectPointers},
+	{"checkMemory", IoCollector_checkMemory},
+	{"setOn", IoCollector_setOn},
 	{NULL, NULL},
 	};
 

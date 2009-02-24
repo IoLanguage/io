@@ -67,6 +67,37 @@ void Collector_check(Collector *self)
 	CollectorMarker_check(w);
 }
 
+size_t CollectorMarker_checkObjectPointer(CollectorMarker *marker)
+{
+	if (marker->object == 0x0) 
+	{
+		printf("WARNING: Collector found a null object pointer on marker %p! Memory is likely hosed.\n", (void *)marker);
+		exit(-1);
+		return 1;
+	} 
+	else 
+	{ 
+		// read a word of memory to check for bad pointers
+		int p = *(int *)(marker->object); 
+	}
+	
+	return 0;
+}
+
+void Collector_checkObjectPointers(Collector *self)
+{
+	COLLECTMARKER_FOREACH(self->blacks, v, CollectorMarker_checkObjectPointer(v); );
+	COLLECTMARKER_FOREACH(self->grays,  v, CollectorMarker_checkObjectPointer(v); );
+	COLLECTMARKER_FOREACH(self->whites, v, CollectorMarker_checkObjectPointer(v); );
+}
+
+void Collector_checkObjectsWith_(Collector *self, CollectorCheckFunc *func)
+{
+	COLLECTMARKER_FOREACH(self->blacks, v, func(v); );
+	COLLECTMARKER_FOREACH(self->grays,  v, func(v); );
+	COLLECTMARKER_FOREACH(self->whites, v, func(v); );
+}
+
 void Collector_free(Collector *self)
 {
 	List_free(self->retainedValues);
@@ -127,6 +158,12 @@ void Collector_setDebug_(Collector *self, int b)
 {
 	self->debugOn = b ? 1 : 0;
 }
+
+void Collector_setOn_(Collector *self, int b)
+{
+	//self->on = b ? 1 : 0;
+}
+
 
 // retain/release --------------------------------------------
 
@@ -426,34 +463,3 @@ double Collector_timeUsed(Collector *self)
 	return (double)self->clocksUsed / (double)CLOCKS_PER_SEC;
 }
 
-size_t CollectorMarker_checkObjectPointer(CollectorMarker *marker)
-{
-	if (marker->object == 0x0) 
-	{ 
-		printf("WARNING: Collector found a null object pointer on marker %p! Memory is likely hosed.\n", (void *)marker);
-		return 1;
-	} 
-	else 
-	{ 
-		// read a word of memory to check for bad pointers
-		int p = *(int *)(marker->object); 
-	}
-	
-	return 0;
-}
-
-size_t Collector_countOfNullObjectPointers(Collector *self)
-{
-	size_t count = 0;
-	COLLECTMARKER_FOREACH(self->blacks, v, count += CollectorMarker_checkObjectPointer(v); );
-	COLLECTMARKER_FOREACH(self->grays,  v, count += CollectorMarker_checkObjectPointer(v); );
-	COLLECTMARKER_FOREACH(self->whites, v, count += CollectorMarker_checkObjectPointer(v); );
-	return count;
-}
-
-void Collector_checkObjectsWith_(Collector *self, CollectorCheckFunc *func)
-{
-	COLLECTMARKER_FOREACH(self->blacks, v, func(v); );
-	COLLECTMARKER_FOREACH(self->grays,  v, func(v); );
-	COLLECTMARKER_FOREACH(self->whites, v, func(v); );
-}

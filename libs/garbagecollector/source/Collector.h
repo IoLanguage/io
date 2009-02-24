@@ -63,6 +63,8 @@ COLLECTOR_API Collector *Collector_new(void);
 COLLECTOR_API void Collector_free(Collector *self);
 
 COLLECTOR_API void Collector_check(Collector *self);
+COLLECTOR_API void Collector_checkObjectPointers(Collector *self); // if not 0, then memory is hosed
+COLLECTOR_API void Collector_checkObjectsWith_(Collector *self, CollectorCheckFunc *func);
 
 COLLECTOR_API void Collector_setMarkBeforeSweepValue_(Collector *self, void *v);
 
@@ -85,6 +87,7 @@ COLLECTOR_API float Collector_allocatedStep(Collector *self);
 // debug
 
 COLLECTOR_API void Collector_setDebug_(Collector *self, int b);
+COLLECTOR_API void Collector_setOn_(Collector *self, int b);
 
 // retaining
 
@@ -130,8 +133,7 @@ COLLECTOR_API void Collector_pushPause(Collector *self);
 COLLECTOR_API void Collector_popPause(Collector *self);
 COLLECTOR_API int Collector_isPaused(Collector *self);
 COLLECTOR_API double Collector_timeUsed(Collector *self);
-COLLECTOR_API size_t Collector_countOfNullObjectPointers(Collector *self); // if not 0, then memory is hosed
-COLLECTOR_API void Collector_checkObjectsWith_(Collector *self, CollectorCheckFunc *func);
+
 
 #include "Collector_inline.h"
 
