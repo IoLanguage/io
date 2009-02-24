@@ -206,10 +206,8 @@ IO_METHOD(IoCollector, checkMemory)
 {
 	Collector *collector = IOSTATE->collector;
 	Collector_check(collector);
-	Collector_checkObjectPointers(collector);
-	Collector_check(collector);
+	//Collector_checkObjectPointers(collector);
 	Collector_checkObjectsWith_(collector, (CollectorCheckFunc *)IoObject_rawCheckMemory);
-	Collector_check(collector);
 	return self;
 }
 
