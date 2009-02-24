@@ -34,7 +34,8 @@ Collector *Collector_new(void)
 	CollectorMarker_setColor_(self->blacks, COLLECTOR_INITIAL_BLACK);
 	CollectorMarker_setColor_(self->grays,  COLLECTOR_GRAY);
 	CollectorMarker_setColor_(self->freed,  COLLECTOR_FREE);
-
+	
+	Collector_setSafeModeOn_(self, 1);
 	self->allocated = 0;
 
 	self->allocatedSweepLevel = 3000;
@@ -359,11 +360,13 @@ size_t Collector_sweep(Collector *self)
 {
 	size_t freedCount = Collector_sweepPhase(self);
 	
+	/*
 	if (self->debugOn)
 	{
 		size_t freedCount2 = Collector_sweepPhase(self);
 		return freedCount + freedCount2;
 	}
+	*/
 	
 	return freedCount;
 }
