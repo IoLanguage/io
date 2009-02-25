@@ -322,7 +322,7 @@ Socket do(
 	containing the readBuffer's contents up to (but not including) aSequence and clips that section from the readBuffer.
 	*/	
 	readUntilSeq := method(aSeq,
-		while(readBuffer containsSeq(aSeq) not, self read)
+		while(isOpen and readBuffer containsSeq(aSeq) not, self read returnIfError)
 		s := readBuffer beforeSeq(aSeq)
 		readBuffer clipBeforeEndOfSeq(aSeq)
 		s
