@@ -108,6 +108,7 @@ IOVM_API void IoMessage_locals_numberArgAt_errorForType_(
 
 IOVM_API IoObject *IoMessage_locals_numberArgAt_(IoMessage *self, IoObject *locals, int n);
 IOVM_API int IoMessage_locals_intArgAt_(IoMessage *self, IoObject *locals, int n);
+IOVM_API int IoMessage_locals_boolArgAt_(IoMessage *self, IoObject *locals, int n);
 IOVM_API long IoMessage_locals_longArgAt_(IoMessage *self, IoObject *locals, int n);
 IOVM_API size_t IoMessage_locals_sizetArgAt_(IoMessage *self, IoObject *locals, int n);
 IOVM_API double IoMessage_locals_doubleArgAt_(IoMessage *self, IoObject *locals, int n);

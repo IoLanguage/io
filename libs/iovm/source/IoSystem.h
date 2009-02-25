@@ -17,8 +17,10 @@ extern "C" {
 
 IoObject *IoSystem_proto(void *state);
 
-#if defined(_WIN32)
+#ifdef WIN32
 IO_METHOD(IoObject, shellExecute);
+#else
+IO_METHOD(IoObject, daemon);
 #endif
 IO_METHOD(IoObject, errorNumber);
 IO_METHOD(IoObject, errorNumberDescription);

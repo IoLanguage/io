@@ -604,6 +604,13 @@ IoObject *IoMessage_locals_numberArgAt_(IoMessage *self, IoObject *locals, int n
 	return v;
 }
 
+int IoMessage_locals_boolArgAt_(IoMessage *self, IoObject *locals, int n)
+{
+	IoObject *v = IoMessage_locals_valueArgAt_(self, locals, n);
+
+	return !ISNIL(v) && !ISFALSE(v);
+}
+
 int IoMessage_locals_intArgAt_(IoMessage *self, IoObject *locals, int n)
 {
 	return IoNumber_asInt(IoMessage_locals_numberArgAt_(self, locals, n));
