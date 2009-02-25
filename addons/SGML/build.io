@@ -1,5 +1,5 @@
 AddonBuilder clone do(
-	libSgmlDirectory := if(platform == "darwin", "libsgml-1.1.4_osx", "libsgml-1.1.4")
+	libSgmlDirectory := if(platform == "darwin", "sgml", "libsgml-1.1.4")
 	configure        := if(platform == "darwin", "", " ./configure &&")
 	
 	dependsOnLib("sgml")
