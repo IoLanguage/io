@@ -1,5 +1,8 @@
 
 URL := Notifier clone do(
+	standardHeaderSymbols := list(
+		"Accept-Ranges", "Cache-Control", "Last-Modified", "\r"
+	)
 	cacheFolder := Directory with("/tmp/ioUrlCache/")
 	cacheFolder create
 	cacheFile := method(MD5; File with(Path with(cacheFolder path, url md5String)))
@@ -37,12 +40,22 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 	socketProto ::= Socket clone
 	readHeader ::= nil
 	statusCode ::= nil
-
+	socket ::= nil
+	
+	isSynchronous := false
+	
 	init := method(
 		self socket := socketProto clone
+		setIsSynchronous(isSynchronous)
 		self requestHeaders := requestHeaders clone
 	)
 
+	setIsSynchronous := method(aBool,
+		isSynchronous = aBool
+		if(socket, socket setIsSynchronous(aBool))
+		self
+	)
+	
 	setTimeout := method(timeout,
 		s := if(getSlot("socket"), socket, socketProto)
 		s setReadTimeout(timeout)
@@ -191,14 +204,14 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 	fetchAndFollowRedirect := method(
 		v := self fetch
 		if(statusCode == 302 or statusCode == 301,
-		 	v = URL with(self headerFields at("Location")) setCacheOn(false) fetch
+		 	v = URL with(self responseHeaders at("Location")) setCacheOn(false) fetch
 		)
 		v
 	)
 	
 	evFetch := method(
+		Exception raise("evFetch " .. url)
 		c := EvConnection clone setAddress(host) setPort(port) connect
-		writeln("evFetch ", url)
 		r := c newRequest setUri(request) 
 		r requestHeaders = self requestHeaders
 		r send
@@ -209,22 +222,26 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 
 	//doc URL fetch Fetches the url and returns the result as a Sequence. Returns an Error, if one occurs.
 	fetch := method(url, redirected,
+		//if(isSynchronous not, Exception raise("URL not synchronous"))
 		if(url, setURL(url))
+		//writeln("URL fetch: ", self url type, ": '", self url, "'")
 		if(protocol == "http", 
 			v := fetchHttp
+			//writeln("URL fetch, statusCode: ", statusCode)
 			if(followRedirects and(statusCode == 302 or statusCode == 301),
 			 	if(redirected, 
 					writeln("DOUBLE REDIRECT on " .. url)
-			 		return Error with("Double redirect")
+			 		return Error with("double redirect")
 				)
-				writeln("REDIRECT TO ", self headerFields at("Location"))
-		 		v := self fetch(childUrl(self headerFields at("Location")), true)
+				newUrl := self responseHeaders at("Location")
+				writeln("REDIRECT TO ", newUrl)
+		 		v := childUrl(newUrl) fetch(nil, true)
 			)
 			return v
 		)
 		Error with("Protocol '" .. protocol .. "' unsupported")
 	)
-
+	
 	/*doc URL fetchWithProgress(progressBlock)
 	Same as fetch, but with each read, progressBlock is called with the readBuffer 
 	and the content size as parameters.
@@ -242,6 +259,9 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 	/*doc URL requestHeader 
 	Returns a Sequence containing the request header that will be sent.
 	*/
+	
+	setCookie := method(cookie, requestHeaders atPut("Cookie", cookie))
+	responseCookie := method(responseHeaders at("Set-Cookie"))
 	
 	requestHeaders := Map clone
 	requestHeaders atPut("User-Agent", "Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/312.8 (KHTML, like Gecko) Safari/312.6)")
@@ -298,26 +318,26 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		socket readBuffer
 	)
 
-	//doc URL setReadHeader(headerString) Private method that parses the headerFields.
-	setReadHeader := method(header,
+	//doc URL setResponseHeaderString(headerString) Private method that parses the responseHeaders.
+	setResponseHeaderString := method(header,
 		readHeader = header
 		lines := header split("\r\n")
-		self headerFields := Map clone
+		self responseHeaders := Map clone
 		//lines println
 		statusCode = lines first split at(1) asNumber
 		lines removeAt(0)
 		lines foreach(line,
-			headerFields atPut(line beforeSeq(":"), line afterSeq(":") strip)
+			responseHeaders atPut(line beforeSeq(":"), line afterSeq(":") strip)
 		)
 		self
 	)
 
 	//doc URL fetchHttp(optionalProgressBlock) Private method that fetches an http url.
 	fetchHttp := method(progressBlock,
-		//if(cacheOn, r := cacheLoad; if(r, return r))
+		if(cacheOn, r := cacheLoad; if(r, write("+"); return r))
 		connectAndWriteHeader returnIfError
 		r := processHttpResponse(progressBlock)
-		//if(r isError not, if(cacheOn, cacheStore(r)))
+		if(r isError not, if(cacheOn, cacheStore(r)))
 		if(cacheOn and r isError not, cacheStore(r))
 		return r
 	)
@@ -334,7 +354,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 			socket streamReadNextChunk returnIfError
 			match := b findSeqs(headerBreaks)
 			if(match,
-				setReadHeader(b exclusiveSlice(0, match index))
+				setResponseHeaderString(b exclusiveSlice(0, match index))
 				b removeSlice(0, match index + match match size - 1)
 				break
 			)
@@ -342,7 +362,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 
 		if(readHeader == nil, return(Error with("didn't find read header in [" .. b .. "]")))
 
-		contentLength := headerFields at("Content-Length")
+		contentLength := responseHeaders at("Content-Length")
 		if(contentLength, 
 			//writeln("contentLength: ", contentLength)
 			contentLength = contentLength asNumber
@@ -354,7 +374,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 			if(getSlot("progressBlock"), progressBlock(b size, contentLength))
 		)
 
-		if(headerFields at("Transfer-Encoding") == "chunked",
+		if(responseHeaders at("Transfer-Encoding") == "chunked",
 			//writeln("chunked encoding")
 			newB := Sequence clone
 			while(index := b findSeq("\r\n"),
@@ -372,7 +392,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		//writeln("b size: ", b size)
 
 		socket close
-		if(headerFields at("Content-Encoding") == "gzip", Zlib; b unzip)
+		if(responseHeaders at("Content-Encoding") == "gzip", Zlib; b unzip)
 		b
 	)
 
@@ -423,9 +443,39 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 				u = Path with(url pathComponent, u)
 			)
 		)
-		URL clone setURL(u) setReferer(url)
+		self clone setURL(u) setReferer(url)
 	)
 
+	evPost := method(parameters, headers,
+		headers ifNil(headers := Map clone)
+		headers atIfAbsentPut("User-Agent", "Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/312.8 (KHTML, like Gecko) Safari/312.6")
+		hostHeader := if(port != 80, list(host, port) join(":"), host)
+		headers atIfAbsentPut("Host", hostHeader)
+		headers atIfAbsentPut("Accept", "text/html; q=1.0, text/*; q=0.8, image/gif; q=0.6, image/jpeg; q=0.6, image/*; q=0.5, */*; q=0.1")
+		headers atIfAbsentPut("Content-Type", "application/x-www-form-urlencoded")
+		
+		if(parameters type == "Map") then(
+			content := parameters keys map(k,
+				Sequence with(escapeString(k), "=", escapeString(parameters at(k)))
+			) join("&")
+		) else(
+			content := parameters
+		)
+
+		headers atPut("Content-Length: ", content size asString)
+
+		writeln("evPost ", url)
+		writeln("POST: [", content, "]")
+		c := EvConnection clone setAddress(host) setPort(port) connect
+		r := c newRequest setUri(request) 
+		r requestHeaders = headers
+		//r postData := content
+		r send
+		self statusCode := r responseCode
+		//writeln("evFetch  got ", r data size, " bytes")
+		r data
+		
+	)
 	/*doc URL post(parameters, headers)
 	Sends an http post message. If parameters is a Map, it's key/value pairs are 
 	send as the post parameters. If parameters is a Sequence or String, it is sent directly.
@@ -503,3 +553,5 @@ Object doURL := method(url, self doString(URL clone setURL(url) fetch))
 //doc Sequence asURL Returns a new URL object instance with the receiver as it's url string.
 Sequence asURL := method(URL with(self))
 
+//URL fetch := URL getSlot("evFetch")
+//URL post := URL getSlot("evPost")

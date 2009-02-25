@@ -17,6 +17,7 @@ A binding for libevent.
 #include <AvailabilityMacros.h>
 #endif
 
+
 #include <time.h>
 #ifndef WIN32
 #include <unistd.h>
@@ -41,14 +42,20 @@ void IoEventManager_BrokenPipeSignalHandler(int v)
 	printf("IoEventManager catching broken pipe signal %i\n", v);
 }
 
-IoEventManager *IoEventManager_proto(void *state)
+IoEventManager *IoEventManager_proto(void *vState)
 {
+	IoState *state = vState;
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoEventManager_newTag(state));
 
-	IoObject_setDataPointer_(self, calloc(1, sizeof(IoEventManagerData)));
+	IoObject_setDataPointer_(self, io_calloc(1, sizeof(IoEventManagerData)));
 
-	DATA(self)->handleEventMessage = IoMessage_newWithName_(state, IOSYMBOL("handleEvent"));
+	DATA(self)->handleEventMessageTrue = IoMessage_newWithName_(state, IOSYMBOL("handleEvent"));
+	IoMessage_setCachedArg_to_(DATA(self)->handleEventMessageTrue, 0, state->ioTrue);
+
+	DATA(self)->handleEventMessageFalse = IoMessage_newWithName_(state, IOSYMBOL("handleEvent"));
+	IoMessage_setCachedArg_to_(DATA(self)->handleEventMessageFalse, 0, state->ioFalse);
+
 	DATA(self)->activeEvents = List_new();
 
 	IoState_registerProtoWithFunc_((IoState *)state, self, IoEventManager_proto);
@@ -72,17 +79,21 @@ IoEventManager *IoEventManager_proto(void *state)
 		IoObject_addMethodTable_(self, methodTable);
 	}
 
-
 //#if !defined(AVAILABLE_MAC_OS_X_VERSION_10_4_AND_LATER)
+
+/*
 #if defined(__APPLE__)
 	setenv("EVENT_NOKQUEUE", "1", 1);
 	//printf("EventManager warning: disabling libevent kqueue support to avoid bug in OSX < 10.4\n");
 	setenv("EVENT_NOPOLL", "1", 1);
 	//setenv("EVENT_NOSELECT", "1", 1);
 #endif
+*/
 
 	DATA(self)->eventBase = event_init();
+	#ifdef USE_EVHTTP
 	DATA(self)->evh = evhttp_new(DATA(self)->eventBase);
+	#endif
 	//IoEventManager_setDescriptorLimitToMax(self);
 	Socket_SetDescriptorLimitToMax();
 
@@ -98,8 +109,14 @@ IoEventManager *IoEventManager_rawClone(IoEventManager *self)
 
 void IoEventManager_mark(IoEventManager *self)
 {
-	IoObject_shouldMark(DATA(self)->handleEventMessage);
-	List_do_(DATA(self)->activeEvents, (ListDoCallback *)IoObject_shouldMark);
+	IoObject_shouldMark(DATA(self)->handleEventMessageTrue);
+	IoObject_shouldMark(DATA(self)->handleEventMessageFalse);
+	//printf("IoEventManager_mark %i events\n", List_size(DATA(self)->activeEvents));
+	//List_do_(DATA(self)->activeEvents, (ListDoCallback *)IoObject_shouldMark);
+	LIST_FOREACH(DATA(self)->activeEvents, i, v, 
+		//printf("	marking event %p\n", (void *)v);
+		IoObject_shouldMark(v);
+	);
 
 	// add code to walk event list and mark context values
 }
@@ -112,8 +129,10 @@ void IoEventManager_free(IoEventManager *self)
 	List_free(DATA(self)->activeEvents);
 
 	//printf("IoEventManager_free - skipping evhttp_free\n");
+	#ifdef USE_EVHTTP
 	evhttp_free(DATA(self)->evh);
-	free(IoObject_dataPointer(self));
+	#endif
+	io_free(IoObject_dataPointer(self));
 }
 
 void *IoEventManager_rawBase(IoEventManager *self)
@@ -124,7 +143,7 @@ void *IoEventManager_rawBase(IoEventManager *self)
 /*
 IoEventManager *IoEventManager_new(void)
 {
-	IoEventManager *self = (IoEventManager *)calloc(1, sizeof(IoEventManager));
+	IoEventManager *self = (IoEventManager *)io_calloc(1, sizeof(IoEventManager));
 
 	DATA(self)->handleEventMessage = IoMessage_newWithName_(state, IOSYMBOL("handleEvent"));
 	DATA(self)->activeEvents = List_new();
@@ -144,25 +163,60 @@ static int validEventType(int t)
 }
 */
 
+int IoEventManager_rawHasActiveEvent_(IoEventManager *self, IoEvent *event)
+{
+	return List_contains_(DATA(self)->activeEvents, event);
+}
+
+void IoEventManager_rawRemoveEvent_(IoEventManager *self, IoEvent *event)
+{
+	if(!List_contains_(DATA(self)->activeEvents, event))
+	{
+		printf("WARNING: IoEventManager_rawRemoveEvent_: event not in active list\n");
+	}
+	//printf("NOT remove event %p\n", (void *)event);
+	event_del(IoEvent_rawEvent(event));
+	List_remove_(DATA(self)->activeEvents, event);
+}
+
+void IoEventManager_rawAddEvent_(IoEventManager *self, IoEvent *event)
+{
+	if(List_contains_(DATA(self)->activeEvents, event))
+	{
+		printf("ERROR: IoEventManager_addEvent: attempt to add same event twice\n");
+		exit(-1);
+	}
+
+	//printf("add event %p\n", (void *)event);
+	List_append_(DATA(self)->activeEvents, IOREF(event));
+}
+
+IoObject *IoEventManager_removeEvent(IoEventManager *self, IoObject *locals, IoMessage *m)
+{
+	IoEvent *event = IoMessage_locals_eventArgAt_(m, locals, 0);
+	IoEventManager_rawRemoveEvent_(self, event);
+	return self;
+}
+
 void IoEvent_handleEvent(int fd, short eventType, void *context)
 {
 	IoEvent *self = (IoEvent *)context;
-
 	struct event *ev = IoEvent_rawEvent(self);
 	IoEventManager *em = IoState_protoWithInitFunction_(IOSTATE, IoEventManager_proto);
 	//printf("IoEvent_handleEvent type:%i descriptor:%i\n", eventType, fd);
-
-	List_remove_(DATA(em)->activeEvents, self);
 	//printf("e: %i\n", List_size(DATA(em)->activeEvents));
 
+	if(!IoEventManager_rawHasActiveEvent_(em, self))
+	{
+		printf("ERROR: got IoEvent_handleEvent for Event not in EventManager active list\n");
+		exit(-1);
+	}
+	
 	if (!ev)
 	{
 		printf("IoEventManager_addEvent: attempt to process an IoEvent with a 0x0 event struct - possible gc error");
 		exit(1);
 	}
-
-	event_del(ev);
-
 	/*
 	if (eventType !=  && !RawDescriptor_isValid(fd))
 	{
@@ -171,13 +225,19 @@ void IoEvent_handleEvent(int fd, short eventType, void *context)
 	*/
 
 	IoState_pushRetainPool(IOSTATE);
+	
+	if(eventType == EV_TIMEOUT)
 	{
-	IoMessage *m = DATA(em)->handleEventMessage;
-
-	IoMessage_setCachedArg_to_(m, 0, IOBOOL(self, eventType == EV_TIMEOUT));
-	IoMessage_locals_performOn_(m, self, self);
+		IoMessage *m = DATA(em)->handleEventMessageTrue;
+		IoMessage_locals_performOn_(m, self, self);
+	}
+	else
+	{
+		IoMessage *m = DATA(em)->handleEventMessageFalse;
+		IoMessage_locals_performOn_(m, self, self);
 	}
 	IoState_popRetainPool(IOSTATE);
+	IoEventManager_rawRemoveEvent_(em, self);
 	//printf("IoEvent_handleEvent %p done\n", (void *) context);
 }
 
@@ -213,7 +273,7 @@ IoObject *IoEventManager_addEvent(IoEventManager *self, IoObject *locals, IoMess
 		return IoError_newWithMessageFormat_(IOSTATE, "IoEventManager_addEvent: attempt to add bad file descriptor %i", fd);
 	}
 
-	List_append_(DATA(self)->activeEvents, IOREF(event));
+	IoEventManager_rawAddEvent_(self, event);
 
 	event_set(ev, fd, eventType, IoEvent_handleEvent, event);
 	event_base_set(DATA(self)->eventBase, ev);
@@ -227,13 +287,6 @@ IoObject *IoEventManager_addEvent(IoEventManager *self, IoObject *locals, IoMess
 		event_add(ev, &tv);
 	}
 
-	return self;
-}
-
-IoObject *IoEventManager_removeEvent(IoEventManager *self, IoObject *locals, IoMessage *m)
-{
-	IoEvent *event = IoMessage_locals_eventArgAt_(m, locals, 0);
-	event_del(IoEvent_rawEvent(event));
 	return self;
 }
 
@@ -297,7 +350,10 @@ struct event_base_PROTO
 IoObject *IoEventManager_hasActiveEvents(IoEventManager *self, IoObject *locals, IoMessage *m)
 {
 	int count = ((struct event_base_PROTO *)DATA(self)->eventBase)->event_count;
-	return IOBOOL(self, count > 1);
+	//int countActive = ((struct event_base_PROTO *)DATA(self)->eventBase)->event_count;
+	//printf("count: %i countActive: %i\n", count, countActive);
+	//return IOBOOL(self, count > 1);
+	return IOBOOL(self, count);
 }
 
 IoObject *IoEventManager_activeEvents(IoEventManager *self, IoObject *locals, IoMessage *m)

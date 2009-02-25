@@ -23,9 +23,6 @@ extern "C" {
 
 #define ISOBJECT(self) IOOBJECT_ISTYPE(self, Object)
 
-// Shortcut for method definitons in C code
-#define IO_METHOD(CLASS, NAME) IoObject * CLASS ## _ ## NAME (CLASS  *self, IoObject *locals, IoMessage *m)
-
 #include "IoObject_struct.h"
 #include "IoMessage.h"
 #include "IoSeq.h"
@@ -149,6 +146,7 @@ IOVM_API IO_METHOD(IoObject, thisMessage);
 
 // memory
 
+IOVM_API int IoObject_rawCheckMemory(IoObject *self);
 IOVM_API IO_METHOD(IoObject, memorySizeMethod);
 IOVM_API IO_METHOD(IoObject, compactMethod);
 

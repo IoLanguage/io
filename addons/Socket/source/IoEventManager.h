@@ -15,13 +15,18 @@ Selects on sockets and checks for timeouts.
 #include <event.h>
 #include <evhttp.h>
 
+#define USE_EVHTTP 1
+
 typedef IoObject IoEventManager;
 
 typedef struct
 {
+	#ifdef USE_EVHTTP
 	struct evhttp *evh;
+	#endif	
 	void *eventBase;
-	IoMessage *handleEventMessage;
+	IoMessage *handleEventMessageTrue;
+	IoMessage *handleEventMessageFalse;
 	List *activeEvents;
 	//int activeHttpClientRequests;
 } IoEventManagerData;
@@ -34,6 +39,8 @@ IoEventManager *IoEventManager_proto(void *state);
 void IoEventManager_mark(IoEventManager *self);
 void IoEventManager_free(IoEventManager *self);
 void *IoEventManager_rawBase(IoEventManager *self);
+
+int IoEventManager_rawHasActiveEvent_(IoEventManager *self, IoEvent *event);
 
 IoObject *IoEventManager_addEvent(IoEventManager *self, IoObject *locals, IoMessage *m);
 IoObject *IoEventManager_removeEvent(IoEventManager *self, IoObject *locals, IoMessage *m);

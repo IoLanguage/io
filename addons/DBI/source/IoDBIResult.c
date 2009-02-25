@@ -358,6 +358,11 @@ functionality. Please see `DBIRecord' for further information and an example.
 	unsigned int i, count = dbi_result_get_numrows(res);
 	unsigned int fIdx, fCount = dbi_result_get_numfields(res);
 
+	/* If there are 0 resulting rows, we don't have to loop */
+	if(count == 0) {
+		return result;
+	}
+
 	if (IoMessage_argCount(m) == 2)
 	{
 		resSlotName = IoMessage_name(IoMessage_rawArgAt_(m, 0));

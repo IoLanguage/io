@@ -8,32 +8,44 @@
 			8DD76FA90486AB0100D96B5E /* osxvm */,
 		);
 		breakpoints = (
-			AA344B140C729D9900464C3F /* IoQDBM.c:90 */,
-			AA344B500C72A32700464C3F /* IoQDBM.c:112 */,
-			AA5BEC5A0CB46EAD0091316C /* UArray_path.c:122 */,
-			AA5BEC640CB46F3C0091316C /* UArray_path.c:127 */,
-			AA5BEC680CB46F610091316C /* IoSeq_immutable.c:1016 */,
-			AA5BEC6A0CB46F630091316C /* IoSeq_immutable.c:1021 */,
-			AA5BCA620CFA1A9D00C10249 /* UArray_string.c:367 */,
-			AA5BCA640CFA1A9F00C10249 /* UArray_string.c:367 */,
-			AA5BCA660CFA1AA200C10249 /* UArray_string.c:367 */,
-			AA9182250D5064710027E8AF /* UArray_math.c:83 */,
-			AA398F410D6599EF000856C0 /* IoNumber.c:430 */,
-			AA9FE5EE0DCFA0CC0067F390 /* IoObject.c:806 */,
-			AA9FE5F00DCFA0CF0067F390 /* IoObject.c:805 */,
-			AA9FE5F20DCFA0CF0067F390 /* IoObject.c:807 */,
-			AAEF5E950DE7774200390E0B /* IoObject.c:1912 */,
-			AA34767D0ED62A9E00AC8E16 /* regress_http.c:412 */,
-			AACD20040F1413540072A032 /* main.c:43 */,
-			AA095F800F142CAF008F2B9D /* IoList.c:1010 */,
-			AA095F880F142D42008F2B9D /* IoList.c:23 */,
-			AA095F8B0F142D51008F2B9D /* IoList.c:946 */,
+			AA7E22080F53776300C6E1D6 /* Collector.c:467 */,
+			AA7E223F0F537DA900C6E1D6 /* Collector.c:467 */,
+			AA7E224C0F53808100C6E1D6 /* IoObject.c:1353 */,
+			AA7E22560F53811700C6E1D6 /* IoObject.c:1351 */,
+			AA7E227B0F53837D00C6E1D6 /* IoObject.c:1348 */,
+			AA7E22F60F538ED300C6E1D6 /* IoCollector.c:207 */,
+			AA7E23580F5397A300C6E1D6 /* Collector_inline.h:72 */,
+			AA7E23880F539A0C00C6E1D6 /* IoMessage.c:196 */,
 		);
 		codeSenseManager = AA1BF43D0C3095A2005ED047 /* Code sense */;
 		executables = (
 			AA1BF4360C30959F005ED047 /* osxvm */,
 		);
 		perUserDictionary = {
+			"PBXConfiguration.PBXBreakpointsDataSource.v1:1CA1AED706398EBD00589147" = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXBreakpointsDataSource_BreakpointID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					20,
+					198,
+					20,
+					99,
+					99,
+					29,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXBreakpointsDataSource_ActionID,
+					PBXBreakpointsDataSource_TypeID,
+					PBXBreakpointsDataSource_BreakpointID,
+					PBXBreakpointsDataSource_UseID,
+					PBXBreakpointsDataSource_LocationID,
+					PBXBreakpointsDataSource_ConditionID,
+					PBXBreakpointsDataSource_IgnoreCountID,
+					PBXBreakpointsDataSource_ContinueID,
+				);
+			};
 			"PBXConfiguration.PBXBreakpointsDataSource.v1:1CA23EDF0692099D00951B8B" = {
 				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
 				PBXFileTableDataSourceColumnSortingKey = PBXBreakpointsDataSource_BreakpointID;
@@ -63,7 +75,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					663,
+					315,
 					20,
 					48,
 					43,
@@ -80,8 +92,8 @@
 					PBXFileDataSource_Target_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 253192790;
-			PBXWorkspaceStateSaveDate = 253192790;
+			PBXPerProjectTemplateStateSaveDate = 257142292;
+			PBXWorkspaceStateSaveDate = 257142292;
 		};
 		sourceControlManager = AA1BF43C0C3095A2005ED047 /* Source Control */;
 		userBookmarkGroup = AAD2E1F90E1B842B00BFA950 /* PBXBookmarkGroup */;
@@ -94,62 +106,15 @@
 			AA1BF4360C30959F005ED047 /* osxvm */,
 		);
 	};
-	AA095F800F142CAF008F2B9D /* IoList.c:1010 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		countType = 0;
-		delayBeforeContinue = 0;
-		fileReference = AAE69EC60B110795006E309B /* IoList.c */;
-		functionName = "IoList_sortInPlaceBy()";
-		hitCount = 0;
-		ignoreCount = 0;
-		lineNumber = 1010;
-		location = osxvm;
-		modificationTime = 253064850.078452;
-		state = 1;
-	};
-	AA095F880F142D42008F2B9D /* IoList.c:23 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		countType = 0;
-		delayBeforeContinue = 0;
-		fileReference = AAE69EC60B110795006E309B /* IoList.c */;
-		functionName = "IoList_newTag()";
-		hitCount = 0;
-		ignoreCount = 0;
-		lineNumber = 23;
-		location = osxvm;
-		modificationTime = 253064850.078456;
-		state = 2;
-	};
-	AA095F8B0F142D51008F2B9D /* IoList.c:946 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		countType = 0;
-		delayBeforeContinue = 0;
-		fileReference = AAE69EC60B110795006E309B /* IoList.c */;
-		functionName = "IoList_sortInPlace()";
-		hitCount = 0;
-		ignoreCount = 0;
-		lineNumber = 946;
-		location = osxvm;
-		modificationTime = 253064850.07846;
-		state = 2;
-	};
 	AA1BF4360C30959F005ED047 /* osxvm */ = {
 		isa = PBXExecutable;
 		activeArgIndices = (
+			NO,
+			NO,
 		);
 		argumentStrings = (
+			"-e \"Collector checMemory\"",
+			"-e \"doFile(\\\"/users/steve/test.io\\\")\"",
 		);
 		autoAttachOnCrash = 1;
 		breakpointsEnabled = 1;
@@ -184,210 +149,6 @@
 	AA1BF43D0C3095A2005ED047 /* Code sense */ = {
 		isa = PBXCodeSenseManager;
 		indexTemplatePath = "";
-	};
-	AA344B120C729D9900464C3F /* IoQDBM.c */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = sourcecode.c.c;
-		name = IoQDBM.c;
-		path = /Users/steve/Io/addons/QDBM/source/IoQDBM.c;
-		sourceTree = "<absolute>";
-	};
-	AA344B140C729D9900464C3F /* IoQDBM.c:90 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		countType = 0;
-		delayBeforeContinue = 0;
-		fileReference = AA344B120C729D9900464C3F /* IoQDBM.c */;
-		functionName = "compareStrNumFunc()";
-		hitCount = 0;
-		ignoreCount = 0;
-		lineNumber = 90;
-		modificationTime = 253064850.07836;
-		state = 2;
-	};
-	AA344B4E0C72A32700464C3F /* IoQDBM.c */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = sourcecode.c.c;
-		name = IoQDBM.c;
-		path = /Users/steve/Io/addons/QDBM/source/IoQDBM.c;
-		sourceTree = "<group>";
-	};
-	AA344B500C72A32700464C3F /* IoQDBM.c:112 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		countType = 0;
-		delayBeforeContinue = 0;
-		fileReference = AA344B4E0C72A32700464C3F /* IoQDBM.c */;
-		functionName = "compareStrNumFunc()";
-		hitCount = 0;
-		ignoreCount = 0;
-		lineNumber = 112;
-		modificationTime = 253064850.078369;
-		state = 2;
-	};
-	AA34767B0ED62A9E00AC8E16 /* regress_http.c */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = sourcecode.c.c;
-		name = regress_http.c;
-		path = "/Users/steve/Downloads/libevent-1.4.8-stable/test/regress_http.c";
-		sourceTree = "<absolute>";
-	};
-	AA34767D0ED62A9E00AC8E16 /* regress_http.c:412 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		countType = 0;
-		delayBeforeContinue = 0;
-		fileReference = AA34767B0ED62A9E00AC8E16 /* regress_http.c */;
-		functionName = "http_connection_test()";
-		hitCount = 0;
-		ignoreCount = 0;
-		lineNumber = 412;
-		modificationTime = 253064850.078445;
-		state = 2;
-	};
-	AA398F410D6599EF000856C0 /* IoNumber.c:430 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		countType = 0;
-		delayBeforeContinue = 0;
-		fileReference = AAE69ECF0B110795006E309B /* IoNumber.c */;
-		functionName = "IoNumber_asCharacter()";
-		hitCount = 0;
-		ignoreCount = 0;
-		lineNumber = 430;
-		location = osxvm;
-		modificationTime = 253064850.078426;
-		state = 2;
-	};
-	AA5BCA620CFA1A9D00C10249 /* UArray_string.c:367 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		countType = 0;
-		delayBeforeContinue = 0;
-		fileReference = AABF812B0B759BC8002DBAB5 /* UArray_string.c */;
-		functionName = "UArray_unescape()";
-		hitCount = 0;
-		ignoreCount = 0;
-		lineNumber = 367;
-		location = osxvm;
-		modificationTime = 253064850.07841;
-		state = 1;
-	};
-	AA5BCA640CFA1A9F00C10249 /* UArray_string.c:367 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		countType = 0;
-		delayBeforeContinue = 0;
-		fileReference = AABF812B0B759BC8002DBAB5 /* UArray_string.c */;
-		functionName = "UArray_unescape()";
-		hitCount = 0;
-		ignoreCount = 0;
-		lineNumber = 367;
-		modificationTime = 253064850.078414;
-		state = 2;
-	};
-	AA5BCA660CFA1AA200C10249 /* UArray_string.c:367 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		countType = 0;
-		delayBeforeContinue = 0;
-		fileReference = AABF812B0B759BC8002DBAB5 /* UArray_string.c */;
-		functionName = "UArray_unescape()";
-		hitCount = 0;
-		ignoreCount = 0;
-		lineNumber = 367;
-		location = osxvm;
-		modificationTime = 253064850.0784181;
-		state = 1;
-	};
-	AA5BEC5A0CB46EAD0091316C /* UArray_path.c:122 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		countType = 0;
-		delayBeforeContinue = 0;
-		fileReference = AABF81290B759BC8002DBAB5 /* UArray_path.c */;
-		functionName = "UArray_OSPathSeparatorIsUnixSeparator()";
-		hitCount = 0;
-		ignoreCount = 0;
-		lineNumber = 122;
-		location = osxvm;
-		modificationTime = 253064850.078374;
-		state = 1;
-	};
-	AA5BEC640CB46F3C0091316C /* UArray_path.c:127 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		countType = 0;
-		delayBeforeContinue = 0;
-		fileReference = AABF81290B759BC8002DBAB5 /* UArray_path.c */;
-		functionName = "UArray_asOSPath()";
-		hitCount = 0;
-		ignoreCount = 0;
-		lineNumber = 127;
-		location = osxvm;
-		modificationTime = 253064850.078397;
-		state = 2;
-	};
-	AA5BEC680CB46F610091316C /* IoSeq_immutable.c:1016 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		countType = 0;
-		delayBeforeContinue = 0;
-		fileReference = AAE69EE20B110796006E309B /* IoSeq_immutable.c */;
-		functionName = "IoSeq_asOSPath()";
-		hitCount = 0;
-		ignoreCount = 0;
-		lineNumber = 1016;
-		location = osxvm;
-		modificationTime = 253064850.078402;
-		state = 2;
-	};
-	AA5BEC6A0CB46F630091316C /* IoSeq_immutable.c:1021 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		countType = 0;
-		delayBeforeContinue = 0;
-		fileReference = AAE69EE20B110796006E309B /* IoSeq_immutable.c */;
-		functionName = "IoSeq_asIoPath()";
-		hitCount = 0;
-		ignoreCount = 0;
-		lineNumber = 1021;
-		location = osxvm;
-		modificationTime = 253064850.078406;
-		state = 2;
 	};
 	AA6AA4E80DC0327E00C7667D /* ucs2.c */ = {
 		uiCtxt = {
@@ -477,78 +238,148 @@
 			sepNavVisRange = "{0, 1006}";
 		};
 	};
+	AA7E22080F53776300C6E1D6 /* Collector.c:467 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = AAE69E130B110795006E309B /* Collector.c */;
+		functionName = "Collector_foundBadMarker()";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 467;
+		location = osxvm;
+		modificationTime = 257142298.525756;
+		state = 2;
+	};
+	AA7E223F0F537DA900C6E1D6 /* Collector.c:467 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = AAE69E130B110795006E309B /* Collector.c */;
+		functionName = "CollectorMarker_checkObjectPointer()";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 467;
+		location = osxvm;
+		modificationTime = 257142298.525774;
+		state = 2;
+	};
+	AA7E224C0F53808100C6E1D6 /* IoObject.c:1353 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = AAE69ED10B110795006E309B /* IoObject.c */;
+		functionName = "IoObject_rawDoString_label_()";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 1353;
+		location = osxvm;
+		modificationTime = 257142298.52578;
+		state = 2;
+	};
+	AA7E22560F53811700C6E1D6 /* IoObject.c:1351 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = AAE69ED10B110795006E309B /* IoObject.c */;
+		functionName = "IoObject_rawDoString_label_()";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 1351;
+		location = osxvm;
+		modificationTime = 257142298.525784;
+		state = 2;
+	};
+	AA7E227B0F53837D00C6E1D6 /* IoObject.c:1348 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = AAE69ED10B110795006E309B /* IoObject.c */;
+		functionName = "IoObject_rawDoString_label_()";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 1348;
+		location = osxvm;
+		modificationTime = 257142298.525788;
+		state = 2;
+	};
+	AA7E22F60F538ED300C6E1D6 /* IoCollector.c:207 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = AAE69EAE0B110795006E309B /* IoCollector.c */;
+		functionName = "IO_METHOD()";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 207;
+		location = osxvm;
+		modificationTime = 257142298.525792;
+		state = 2;
+	};
+	AA7E23580F5397A300C6E1D6 /* Collector_inline.h:72 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = AAE69E150B110795006E309B /* Collector_inline.h */;
+		functionName = "Collector_value_addingRefTo_(Collector *self, void *v, void *ref)";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 72;
+		location = osxvm;
+		modificationTime = 257142298.525796;
+		state = 2;
+	};
+	AA7E23880F539A0C00C6E1D6 /* IoMessage.c:196 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = AAE69ECA0B110795006E309B /* IoMessage.c */;
+		functionName = "IoMessage_deepCopyOf_()";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 196;
+		location = osxvm;
+		modificationTime = 257142298.5258;
+		state = 1;
+	};
 	AA8383A60BDFCE0100B4F003 /* IoVMApi.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {742, 640}}";
 			sepNavSelRange = "{0, 0}";
 			sepNavVisRect = "{{0, 0}, {742, 640}}";
 		};
-	};
-	AA9182250D5064710027E8AF /* UArray_math.c:83 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		countType = 0;
-		delayBeforeContinue = 0;
-		fileReference = AABF81270B759BC8002DBAB5 /* UArray_math.c */;
-		functionName = "UArray_add_()";
-		hitCount = 0;
-		ignoreCount = 0;
-		lineNumber = 83;
-		location = osxvm;
-		modificationTime = 253064850.078422;
-		state = 1;
-	};
-	AA9FE5EE0DCFA0CC0067F390 /* IoObject.c:806 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		countType = 0;
-		delayBeforeContinue = 0;
-		fileReference = AAE69ED10B110795006E309B /* IoObject.c */;
-		functionName = "IoObject_activateFunc()";
-		hitCount = 0;
-		ignoreCount = 0;
-		lineNumber = 806;
-		modificationTime = 253064850.07843;
-		state = 2;
-	};
-	AA9FE5F00DCFA0CF0067F390 /* IoObject.c:805 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		countType = 0;
-		delayBeforeContinue = 0;
-		fileReference = AAE69ED10B110795006E309B /* IoObject.c */;
-		functionName = "IoObject_activateFunc()";
-		hitCount = 0;
-		ignoreCount = 0;
-		lineNumber = 805;
-		location = osxvm;
-		modificationTime = 253064850.078433;
-		state = 2;
-	};
-	AA9FE5F20DCFA0CF0067F390 /* IoObject.c:807 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		countType = 0;
-		delayBeforeContinue = 0;
-		fileReference = AAE69ED10B110795006E309B /* IoObject.c */;
-		functionName = "IoObject_activateFunc()";
-		hitCount = 0;
-		ignoreCount = 0;
-		lineNumber = 807;
-		modificationTime = 253064850.078437;
-		state = 2;
 	};
 	AAA3CAF30B186E2F004C257F /* IoMessage_opShuffle.c */ = {
 		uiCtxt = {
@@ -559,9 +390,9 @@
 	};
 	AAA3CAF40B186E2F004C257F /* IoMessage_opShuffle.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {674, 564}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{0, 371}";
+			sepNavIntBoundsRect = "{{0, 0}, {998, 396}}";
+			sepNavSelRange = "{62, 0}";
+			sepNavVisRange = "{0, 356}";
 			sepNavVisRect = "{{0, 0}, {643, 590}}";
 		};
 	};
@@ -619,10 +450,10 @@
 	};
 	AABF812B0B759BC8002DBAB5 /* UArray_string.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {788, 8420}}";
-			sepNavSelRange = "{2553, 0}";
-			sepNavVisRange = "{2212, 946}";
-			sepNavWindowFrame = "{{441, 55}, {820, 736}}";
+			sepNavIntBoundsRect = "{{0, 0}, {788, 8668}}";
+			sepNavSelRange = "{828, 17}";
+			sepNavVisRange = "{493, 1071}";
+			sepNavWindowFrame = "{{515, 58}, {820, 736}}";
 		};
 	};
 	AABF812C0B759BC8002DBAB5 /* UArray_string.h */ = {
@@ -676,23 +507,6 @@
 			sepNavSelRange = "{156, 0}";
 			sepNavVisRange = "{0, 782}";
 		};
-	};
-	AACD20040F1413540072A032 /* main.c:43 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		countType = 0;
-		delayBeforeContinue = 0;
-		fileReference = AAE6A14F0B110B8F006E309B /* main.c */;
-		functionName = "main()";
-		hitCount = 0;
-		ignoreCount = 0;
-		lineNumber = 43;
-		location = osxvm;
-		modificationTime = 253064850.078448;
-		state = 2;
 	};
 	AAD2E1F90E1B842B00BFA950 /* PBXBookmarkGroup */ = {
 		isa = PBXBookmarkGroup;
@@ -750,16 +564,18 @@
 	};
 	AAE69DB40B110795006E309B /* Common.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {830, 4848}}";
-			sepNavSelRange = "{83, 0}";
-			sepNavVisRange = "{0, 432}";
+			sepNavIntBoundsRect = "{{0, 0}, {1138, 4822}}";
+			sepNavSelRange = "{131, 14}";
+			sepNavVisRange = "{0, 583}";
+			sepNavWindowFrame = "{{176, 131}, {1187, 595}}";
 		};
 	};
 	AAE69DB50B110795006E309B /* Common.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {2312, 2880}}";
-			sepNavSelRange = "{241, 0}";
-			sepNavVisRange = "{0, 674}";
+			sepNavIntBoundsRect = "{{0, 0}, {1691, 2874}}";
+			sepNavSelRange = "{3917, 0}";
+			sepNavVisRange = "{3468, 1182}";
+			sepNavWindowFrame = "{{199, 110}, {1187, 595}}";
 		};
 	};
 	AAE69DB60B110795006E309B /* Common_inline.h */ = {
@@ -851,15 +667,16 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {756, 1316}}";
 			sepNavSelRange = "{553, 11}";
-			sepNavVisRange = "{685, 1327}";
+			sepNavVisRange = "{399, 1108}";
 			sepNavWindowFrame = "{{429, 94}, {750, 716}}";
 		};
 	};
 	AAE69DC90B110795006E309B /* PHash_inline.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {841, 3536}}";
-			sepNavSelRange = "{3552, 10}";
-			sepNavVisRange = "{3180, 603}";
+			sepNavIntBoundsRect = "{{0, 0}, {836, 3722}}";
+			sepNavSelRange = "{3987, 50}";
+			sepNavVisRange = "{1491, 883}";
+			sepNavWindowFrame = "{{130, 93}, {823, 675}}";
 		};
 	};
 	AAE69DD40B110795006E309B /* PortableUsleep.c */ = {
@@ -899,10 +716,10 @@
 	};
 	AAE69DF90B110795006E309B /* Coro.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1027, 11302}}";
-			sepNavSelRange = "{1928, 0}";
-			sepNavVisRange = "{1466, 910}";
-			sepNavWindowFrame = "{{199, 87}, {1076, 774}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1027, 12080}}";
+			sepNavSelRange = "{349, 0}";
+			sepNavVisRange = "{0, 1380}";
+			sepNavWindowFrame = "{{146, 29}, {1076, 774}}";
 		};
 	};
 	AAE69DFA0B110795006E309B /* Coro.h */ = {
@@ -943,46 +760,59 @@
 	};
 	AAE69E130B110795006E309B /* Collector.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {872, 6656}}";
-			sepNavSelRange = "{101, 183}";
-			sepNavVisRange = "{0, 422}";
+			sepNavIntBoundsRect = "{{0, 0}, {823, 7282}}";
+			sepNavSelRange = "{493, 0}";
+			sepNavVisRange = "{280, 1089}";
+			sepNavWindowFrame = "{{385, 216}, {872, 580}}";
 		};
 	};
 	AAE69E140B110795006E309B /* Collector.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {830, 2208}}";
-			sepNavSelRange = "{168, 0}";
-			sepNavVisRange = "{0, 589}";
+			sepNavIntBoundsRect = "{{0, 0}, {855, 2412}}";
+			sepNavSelRange = "{1288, 0}";
+			sepNavVisRange = "{836, 1330}";
+			sepNavWindowFrame = "{{372, 36}, {904, 799}}";
 		};
 	};
 	AAE69E150B110795006E309B /* Collector_inline.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {830, 1296}}";
-			sepNavSelRange = "{89, 0}";
-			sepNavVisRange = "{0, 594}";
+			sepNavIntBoundsRect = "{{0, 0}, {1124, 1334}}";
+			sepNavSelRange = "{1689, 28}";
+			sepNavVisRange = "{1424, 246}";
+			sepNavWindowFrame = "{{372, 18}, {1029, 841}}";
+		};
+	};
+	AAE69E160B110795006E309B /* CollectorMarker.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {761, 1024}}";
+			sepNavSelRange = "{182, 0}";
+			sepNavVisRange = "{0, 729}";
+			sepNavWindowFrame = "{{420, 82}, {810, 696}}";
 		};
 	};
 	AAE69E170B110795006E309B /* CollectorMarker.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {830, 1776}}";
-			sepNavSelRange = "{1, 0}";
-			sepNavVisRange = "{0, 499}";
+			sepNavIntBoundsRect = "{{0, 0}, {998, 1588}}";
+			sepNavSelRange = "{1469, 21}";
+			sepNavVisRange = "{1058, 1069}";
+			sepNavWindowFrame = "{{107, 93}, {810, 696}}";
 		};
 	};
 	AAE69E180B110795006E309B /* CollectorMarker_inline.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {830, 1344}}";
-			sepNavSelRange = "{101, 0}";
-			sepNavVisRange = "{0, 532}";
+			sepNavIntBoundsRect = "{{0, 0}, {860, 1278}}";
+			sepNavSelRange = "{1054, 31}";
+			sepNavVisRange = "{538, 942}";
+			sepNavWindowFrame = "{{130, 72}, {810, 696}}";
 		};
 	};
 	AAE69EA80B110795006E309B /* IoBlock.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {998, 9040}}";
-			sepNavSelRange = "{1437, 7}";
-			sepNavVisRange = "{1827, 575}";
+			sepNavIntBoundsRect = "{{0, 0}, {859, 8750}}";
+			sepNavSelRange = "{3628, 0}";
+			sepNavVisRange = "{3381, 691}";
 			sepNavVisRect = "{{0, 4593}, {643, 590}}";
-			sepNavWindowFrame = "{{15, 242}, {843, 631}}";
+			sepNavWindowFrame = "{{50, 65}, {843, 631}}";
 		};
 	};
 	AAE69EA90B110795006E309B /* IoBlock.h */ = {
@@ -1002,9 +832,10 @@
 	};
 	AAE69EAB0B110795006E309B /* IoCall.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {841, 1040}}";
-			sepNavSelRange = "{937, 0}";
-			sepNavVisRange = "{513, 1262}";
+			sepNavIntBoundsRect = "{{0, 0}, {855, 1048}}";
+			sepNavSelRange = "{170, 0}";
+			sepNavVisRange = "{0, 997}";
+			sepNavWindowFrame = "{{428, 33}, {904, 799}}";
 		};
 	};
 	AAE69EAC0B110795006E309B /* IoCFunction.c */ = {
@@ -1023,17 +854,18 @@
 	};
 	AAE69EAE0B110795006E309B /* IoCollector.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {748, 3712}}";
-			sepNavSelRange = "{5120, 16}";
-			sepNavVisRange = "{4559, 917}";
-			sepNavWindowFrame = "{{15, 258}, {761, 615}}";
+			sepNavIntBoundsRect = "{{0, 0}, {830, 3922}}";
+			sepNavSelRange = "{6780, 0}";
+			sepNavVisRange = "{6342, 632}";
+			sepNavWindowFrame = "{{613, 154}, {761, 615}}";
 		};
 	};
 	AAE69EAF0B110795006E309B /* IoCollector.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {607, 367}}";
-			sepNavSelRange = "{1, 0}";
+			sepNavIntBoundsRect = "{{0, 0}, {855, 739}}";
+			sepNavSelRange = "{255, 0}";
 			sepNavVisRange = "{0, 291}";
+			sepNavWindowFrame = "{{15, 74}, {904, 799}}";
 		};
 	};
 	AAE69EB00B110795006E309B /* IoCompiler.c */ = {
@@ -1059,26 +891,26 @@
 	};
 	AAE69EB40B110795006E309B /* IoCoroutine.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1027, 9204}}";
-			sepNavSelRange = "{6366, 28}";
-			sepNavVisRange = "{742, 1300}";
-			sepNavWindowFrame = "{{107, 15}, {1076, 774}}";
+			sepNavIntBoundsRect = "{{0, 0}, {998, 9016}}";
+			sepNavSelRange = "{3097, 0}";
+			sepNavVisRange = "{2774, 596}";
+			sepNavWindowFrame = "{{271, 126}, {810, 696}}";
 		};
 	};
 	AAE69EB50B110795006E309B /* IoCoroutine.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {942, 2652}}";
+			sepNavIntBoundsRect = "{{0, 0}, {764, 2606}}";
 			sepNavSelRange = "{70, 0}";
-			sepNavVisRange = "{0, 1476}";
-			sepNavWindowFrame = "{{15, -5}, {991, 878}}";
+			sepNavVisRange = "{90, 621}";
+			sepNavWindowFrame = "{{15, 366}, {585, 507}}";
 		};
 	};
 	AAE69EB60B110795006E309B /* IoDate.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {998, 10602}}";
+			sepNavIntBoundsRect = "{{0, 0}, {725, 10310}}";
 			sepNavSelRange = "{964, 256}";
-			sepNavVisRange = "{717, 742}";
-			sepNavWindowFrame = "{{107, 60}, {774, 729}}";
+			sepNavVisRange = "{2589, 1045}";
+			sepNavWindowFrame = "{{664, 27}, {774, 729}}";
 		};
 	};
 	AAE69EB70B110795006E309B /* IoDate.h */ = {
@@ -1147,10 +979,11 @@
 	};
 	AAE69EC00B110795006E309B /* IoFile.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {841, 9406}}";
-			sepNavSelRange = "{15768, 0}";
-			sepNavVisRange = "{15262, 858}";
+			sepNavIntBoundsRect = "{{0, 0}, {1140, 18124}}";
+			sepNavSelRange = "{1946, 0}";
+			sepNavVisRange = "{1681, 845}";
 			sepNavVisRect = "{{0, 10707}, {943, 638}}";
+			sepNavWindowFrame = "{{38, 257}, {1187, 595}}";
 		};
 	};
 	AAE69EC10B110795006E309B /* IoFile.h */ = {
@@ -1177,9 +1010,11 @@
 	};
 	AAE69EC40B110795006E309B /* IoLexer.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1636, 22763}}";
-			sepNavSelRange = "{0, 0}";
+			sepNavIntBoundsRect = "{{0, 0}, {1628, 21098}}";
+			sepNavSelRange = "{6255, 15}";
+			sepNavVisRange = "{5822, 826}";
 			sepNavVisRect = "{{0, 0}, {943, 638}}";
+			sepNavWindowFrame = "{{185, 165}, {1166, 680}}";
 		};
 	};
 	AAE69EC50B110795006E309B /* IoLexer.h */ = {
@@ -1206,10 +1041,10 @@
 	};
 	AAE69EC80B110795006E309B /* IoMap.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {701, 4990}}";
-			sepNavSelRange = "{2651, 82}";
-			sepNavVisRange = "{2483, 954}";
-			sepNavWindowFrame = "{{84, 94}, {750, 716}}";
+			sepNavIntBoundsRect = "{{0, 0}, {701, 4898}}";
+			sepNavSelRange = "{2526, 4}";
+			sepNavVisRange = "{1646, 1005}";
+			sepNavWindowFrame = "{{317, 90}, {750, 716}}";
 		};
 	};
 	AAE69EC90B110795006E309B /* IoMap.h */ = {
@@ -1222,17 +1057,17 @@
 	};
 	AAE69ECA0B110795006E309B /* IoMessage.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {979, 20344}}";
-			sepNavSelRange = "{1447, 0}";
-			sepNavVisRange = "{1451, 1656}";
-			sepNavWindowFrame = "{{112, -46}, {1028, 819}}";
+			sepNavIntBoundsRect = "{{0, 0}, {716, 20808}}";
+			sepNavSelRange = "{5763, 31}";
+			sepNavVisRange = "{4960, 1083}";
+			sepNavWindowFrame = "{{294, 166}, {743, 711}}";
 		};
 	};
 	AAE69ECB0B110795006E309B /* IoMessage.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {910, 3716}}";
-			sepNavSelRange = "{3130, 27}";
-			sepNavVisRange = "{1891, 2322}";
+			sepNavIntBoundsRect = "{{0, 0}, {912, 3520}}";
+			sepNavSelRange = "{5884, 0}";
+			sepNavVisRange = "{5149, 1486}";
 			sepNavWindowFrame = "{{176, 17}, {959, 709}}";
 		};
 	};
@@ -1245,9 +1080,10 @@
 	};
 	AAE69ECD0B110795006E309B /* IoMessage_parser.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1036, 4112}}";
-			sepNavSelRange = "{6123, 0}";
-			sepNavVisRange = "{5640, 775}";
+			sepNavIntBoundsRect = "{{0, 0}, {896, 4320}}";
+			sepNavSelRange = "{1991, 0}";
+			sepNavVisRange = "{1550, 750}";
+			sepNavWindowFrame = "{{250, 253}, {945, 538}}";
 		};
 	};
 	AAE69ECE0B110795006E309B /* IoMessage_parser.h */ = {
@@ -1259,9 +1095,9 @@
 	};
 	AAE69ECF0B110795006E309B /* IoNumber.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {770, 21800}}";
-			sepNavSelRange = "{1843, 0}";
-			sepNavVisRange = "{2122, 1103}";
+			sepNavIntBoundsRect = "{{0, 0}, {770, 22304}}";
+			sepNavSelRange = "{16815, 43}";
+			sepNavVisRange = "{16269, 877}";
 			sepNavVisRect = "{{0, 10756}, {742, 640}}";
 			sepNavWindowFrame = "{{517, 78}, {819, 721}}";
 		};
@@ -1276,26 +1112,27 @@
 	};
 	AAE69ED10B110795006E309B /* IoObject.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {998, 32984}}";
-			sepNavSelRange = "{16953, 22}";
-			sepNavVisRange = "{16531, 479}";
+			sepNavIntBoundsRect = "{{0, 0}, {940, 31980}}";
+			sepNavSelRange = "{24319, 0}";
+			sepNavVisRange = "{24087, 415}";
 			sepNavVisRect = "{{0, 9622}, {742, 640}}";
-			sepNavWindowFrame = "{{173, 90}, {761, 615}}";
+			sepNavWindowFrame = "{{465, 203}, {710, 610}}";
 		};
 	};
 	AAE69ED20B110795006E309B /* IoObject.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {876, 3900}}";
-			sepNavSelRange = "{6733, 5}";
-			sepNavVisRange = "{5694, 2062}";
+			sepNavIntBoundsRect = "{{0, 0}, {876, 3996}}";
+			sepNavSelRange = "{321, 19}";
+			sepNavVisRange = "{0, 1385}";
 			sepNavWindowFrame = "{{223, 22}, {820, 736}}";
 		};
 	};
 	AAE69ED30B110795006E309B /* IoObject_flow.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1160, 4304}}";
-			sepNavSelRange = "{4331, 0}";
-			sepNavVisRange = "{4137, 536}";
+			sepNavIntBoundsRect = "{{0, 0}, {855, 4342}}";
+			sepNavSelRange = "{1080, 0}";
+			sepNavVisRange = "{659, 831}";
+			sepNavWindowFrame = "{{445, 7}, {904, 799}}";
 		};
 	};
 	AAE69ED40B110795006E309B /* IoObject_flow.h */ = {
@@ -1307,18 +1144,18 @@
 	};
 	AAE69ED50B110795006E309B /* IoObject_inline.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1100, 4912}}";
-			sepNavSelRange = "{5690, 0}";
-			sepNavVisRange = "{4818, 1343}";
+			sepNavIntBoundsRect = "{{0, 0}, {859, 5426}}";
+			sepNavSelRange = "{1724, 0}";
+			sepNavVisRange = "{1670, 349}";
 			sepNavVisRect = "{{0, 1759}, {850, 320}}";
-			sepNavWindowFrame = "{{431, 263}, {761, 615}}";
+			sepNavWindowFrame = "{{571, 193}, {761, 615}}";
 		};
 	};
 	AAE69ED80B110795006E309B /* IoObject_struct.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {812, 2444}}";
-			sepNavSelRange = "{4140, 20}";
-			sepNavVisRange = "{2632, 2161}";
+			sepNavIntBoundsRect = "{{0, 0}, {998, 2506}}";
+			sepNavSelRange = "{442, 0}";
+			sepNavVisRange = "{146, 567}";
 			sepNavVisRect = "{{0, 2246}, {850, 320}}";
 			sepNavWindowFrame = "{{61, 89}, {727, 742}}";
 		};
@@ -1332,34 +1169,37 @@
 	};
 	AAE69EDF0B110796006E309B /* IoSandbox.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {830, 832}}";
-			sepNavSelRange = "{19, 0}";
-			sepNavVisRange = "{0, 501}";
+			sepNavIntBoundsRect = "{{0, 0}, {761, 726}}";
+			sepNavSelRange = "{315, 22}";
+			sepNavVisRange = "{0, 1075}";
+			sepNavWindowFrame = "{{84, 114}, {810, 696}}";
 		};
 	};
 	AAE69EE00B110796006E309B /* IoSeq.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {841, 6480}}";
-			sepNavSelRange = "{1816, 0}";
-			sepNavVisRange = "{7750, 410}";
+			sepNavIntBoundsRect = "{{0, 0}, {1140, 6488}}";
+			sepNavSelRange = "{5472, 0}";
+			sepNavVisRange = "{5273, 598}";
 			sepNavVisRect = "{{0, 4038}, {711, 271}}";
+			sepNavWindowFrame = "{{194, 178}, {1187, 595}}";
 		};
 	};
 	AAE69EE10B110796006E309B /* IoSeq.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {770, 1912}}";
-			sepNavSelRange = "{3376, 23}";
-			sepNavVisRange = "{2441, 1318}";
+			sepNavIntBoundsRect = "{{0, 0}, {1138, 1912}}";
+			sepNavSelRange = "{927, 7}";
+			sepNavVisRange = "{290, 1225}";
 			sepNavVisRect = "{{0, 926}, {943, 638}}";
 			sepNavWindowFrame = "{{176, 5}, {819, 721}}";
 		};
 	};
 	AAE69EE20B110796006E309B /* IoSeq_immutable.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {900, 12984}}";
-			sepNavSelRange = "{20970, 0}";
-			sepNavVisRange = "{20622, 685}";
+			sepNavIntBoundsRect = "{{0, 0}, {1140, 23062}}";
+			sepNavSelRange = "{23687, 0}";
+			sepNavVisRange = "{23162, 1004}";
 			sepNavVisRect = "{{0, 17000}, {943, 638}}";
+			sepNavWindowFrame = "{{201, 199}, {1187, 595}}";
 		};
 	};
 	AAE69EE30B110796006E309B /* IoSeq_immutable.h */ = {
@@ -1379,9 +1219,10 @@
 	};
 	AAE69EE50B110796006E309B /* IoSeq_mutable.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1195, 23574}}";
-			sepNavSelRange = "{12922, 0}";
-			sepNavVisRange = "{12776, 1007}";
+			sepNavIntBoundsRect = "{{0, 0}, {1195, 24096}}";
+			sepNavSelRange = "{4113, 0}";
+			sepNavVisRange = "{3815, 574}";
+			sepNavWindowFrame = "{{298, 52}, {1019, 767}}";
 		};
 	};
 	AAE69EE60B110796006E309B /* IoSeq_mutable.h */ = {
@@ -1393,19 +1234,19 @@
 	};
 	AAE69EE70B110796006E309B /* IoState.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {916, 8758}}";
-			sepNavSelRange = "{2117, 7}";
-			sepNavVisRange = "{441, 623}";
+			sepNavIntBoundsRect = "{{0, 0}, {998, 8428}}";
+			sepNavSelRange = "{8602, 12}";
+			sepNavVisRange = "{8452, 347}";
 			sepNavWindowFrame = "{{291, 174}, {824, 483}}";
 		};
 	};
 	AAE69EE80B110796006E309B /* IoState.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {770, 3400}}";
-			sepNavSelRange = "{860, 7}";
-			sepNavVisRange = "{82, 767}";
+			sepNavIntBoundsRect = "{{0, 0}, {770, 3426}}";
+			sepNavSelRange = "{1975, 6}";
+			sepNavVisRange = "{1492, 795}";
 			sepNavVisRect = "{{0, 2550}, {742, 640}}";
-			sepNavWindowFrame = "{{38, 131}, {819, 721}}";
+			sepNavWindowFrame = "{{179, 157}, {819, 721}}";
 		};
 	};
 	AAE69EE90B110796006E309B /* IoState_callbacks.c */ = {
@@ -1424,31 +1265,42 @@
 	};
 	AAE69EEB0B110796006E309B /* IoState_coros.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {769, 544}}";
-			sepNavSelRange = "{202, 0}";
+			sepNavIntBoundsRect = "{{0, 0}, {998, 388}}";
+			sepNavSelRange = "{383, 34}";
 			sepNavVisRange = "{0, 564}";
+			sepNavWindowFrame = "{{219, 353}, {934, 429}}";
 		};
 	};
 	AAE69EEC0B110796006E309B /* IoState_coros.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {769, 544}}";
+			sepNavIntBoundsRect = "{{0, 0}, {855, 762}}";
 			sepNavSelRange = "{124, 24}";
 			sepNavVisRange = "{0, 292}";
+			sepNavWindowFrame = "{{61, 32}, {904, 799}}";
 		};
 	};
 	AAE69EED0B110796006E309B /* IoState_debug.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {998, 1794}}";
-			sepNavSelRange = "{2123, 0}";
-			sepNavVisRange = "{1781, 577}";
-			sepNavWindowFrame = "{{130, 39}, {774, 729}}";
+			sepNavIntBoundsRect = "{{0, 0}, {970, 2128}}";
+			sepNavSelRange = "{1636, 0}";
+			sepNavVisRange = "{528, 936}";
+			sepNavWindowFrame = "{{345, 54}, {1019, 767}}";
+		};
+	};
+	AAE69EEE0B110796006E309B /* IoState_debug.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {885, 392}}";
+			sepNavSelRange = "{362, 0}";
+			sepNavVisRange = "{0, 418}";
+			sepNavWindowFrame = "{{61, 402}, {934, 429}}";
 		};
 	};
 	AAE69EEF0B110796006E309B /* IoState_eval.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {824, 1520}}";
+			sepNavIntBoundsRect = "{{0, 0}, {828, 1528}}";
 			sepNavSelRange = "{1163, 97}";
-			sepNavVisRange = "{741, 756}";
+			sepNavVisRange = "{1332, 872}";
+			sepNavWindowFrame = "{{544, 227}, {744, 575}}";
 		};
 	};
 	AAE69EF00B110796006E309B /* IoState_eval.h */ = {
@@ -1460,9 +1312,10 @@
 	};
 	AAE69EF10B110796006E309B /* IoState_exceptions.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {830, 896}}";
+			sepNavIntBoundsRect = "{{0, 0}, {970, 707}}";
 			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{0, 525}";
+			sepNavVisRange = "{0, 755}";
+			sepNavWindowFrame = "{{294, 33}, {1019, 767}}";
 		};
 	};
 	AAE69EF20B110796006E309B /* IoState_exceptions.h */ = {
@@ -1474,31 +1327,35 @@
 	};
 	AAE69EF50B110796006E309B /* IoState_inline.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1158, 2898}}";
-			sepNavSelRange = "{3993, 0}";
-			sepNavVisRange = "{3744, 404}";
+			sepNavIntBoundsRect = "{{0, 0}, {764, 5124}}";
+			sepNavSelRange = "{4193, 0}";
+			sepNavVisRange = "{3896, 582}";
+			sepNavWindowFrame = "{{84, 11}, {904, 799}}";
 		};
 	};
 	AAE69EF60B110796006E309B /* IoState_symbols.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {830, 1456}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{0, 535}";
+			sepNavIntBoundsRect = "{{0, 0}, {1138, 1400}}";
+			sepNavSelRange = "{1101, 0}";
+			sepNavVisRange = "{860, 852}";
+			sepNavWindowFrame = "{{154, 39}, {1187, 595}}";
 		};
 	};
 	AAE69EF70B110796006E309B /* IoState_symbols.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {830, 381}}";
-			sepNavSelRange = "{82, 0}";
+			sepNavIntBoundsRect = "{{0, 0}, {1138, 558}}";
+			sepNavSelRange = "{97, 26}";
 			sepNavVisRange = "{0, 616}";
+			sepNavWindowFrame = "{{15, 278}, {1187, 595}}";
 		};
 	};
 	AAE69EFA0B110796006E309B /* IoSystem.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {841, 5196}}";
-			sepNavSelRange = "{10966, 0}";
-			sepNavVisRange = "{10343, 624}";
+			sepNavIntBoundsRect = "{{0, 0}, {1117, 7902}}";
+			sepNavSelRange = "{8307, 0}";
+			sepNavVisRange = "{8198, 869}";
 			sepNavVisRect = "{{0, 7068}, {850, 320}}";
+			sepNavWindowFrame = "{{107, 109}, {1166, 680}}";
 		};
 	};
 	AAE69EFB0B110796006E309B /* IoSystem.h */ = {
@@ -1511,9 +1368,10 @@
 	};
 	AAE69EFC0B110796006E309B /* IoTag.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {797, 1312}}";
-			sepNavSelRange = "{78, 0}";
-			sepNavVisRange = "{0, 534}";
+			sepNavIntBoundsRect = "{{0, 0}, {1138, 1260}}";
+			sepNavSelRange = "{578, 0}";
+			sepNavVisRange = "{132, 725}";
+			sepNavWindowFrame = "{{142, 283}, {1187, 595}}";
 		};
 	};
 	AAE69EFD0B110796006E309B /* IoTag.h */ = {
@@ -1525,9 +1383,9 @@
 	};
 	AAE69EFE0B110796006E309B /* IoTag_inline.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {797, 2624}}";
-			sepNavSelRange = "{45, 7}";
-			sepNavVisRange = "{0, 446}";
+			sepNavIntBoundsRect = "{{0, 0}, {998, 2732}}";
+			sepNavSelRange = "{1017, 78}";
+			sepNavVisRange = "{846, 360}";
 		};
 	};
 	AAE69EFF0B110796006E309B /* IoToken.c */ = {
@@ -1567,9 +1425,9 @@
 	};
 	AAE6A14F0B110B8F006E309B /* main.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {948, 1300}}";
-			sepNavSelRange = "{830, 0}";
-			sepNavVisRange = "{394, 1186}";
+			sepNavIntBoundsRect = "{{0, 0}, {998, 1220}}";
+			sepNavSelRange = "{90, 14}";
+			sepNavVisRange = "{224, 390}";
 			sepNavWindowFrame = "{{283, 35}, {995, 783}}";
 		};
 	};
@@ -1595,22 +1453,5 @@
 			sepNavVisRange = "{320, 1019}";
 			sepNavWindowFrame = "{{61, 195}, {959, 636}}";
 		};
-	};
-	AAEF5E950DE7774200390E0B /* IoObject.c:1912 */ = {
-		isa = PBXFileBreakpoint;
-		actions = (
-		);
-		breakpointStyle = 0;
-		continueAfterActions = 0;
-		countType = 0;
-		delayBeforeContinue = 0;
-		fileReference = AAE69ED10B110795006E309B /* IoObject.c */;
-		functionName = "IoObject_hasDirtySlot_()";
-		hitCount = 0;
-		ignoreCount = 0;
-		lineNumber = 1912;
-		location = osxvm;
-		modificationTime = 253064850.078441;
-		state = 2;
 	};
 }

@@ -163,6 +163,64 @@ List do(
 		return aList
 	)
 
+	groupBy := method(
+		aMap := Map clone
+
+		a1 := call argAt(0)
+		if(a1 == nil, Exception raise("missing argument"))
+		a2 := call argAt(1)
+		a3 := call argAt(2)
+
+		if(a2 == nil,
+			self foreach(v,
+				ss := stopStatus(c := a1 doInContext(getSlot("v"), call sender))
+				if(ss isReturn, ss return getSlot("c"))
+				if(ss stopLooping, break)
+				if(ss isContinue, continue)
+
+				key := getSlot("c") asString
+
+				aMap atIfAbsentPut(key, list())
+				aMap at(key) append(v)
+			)
+			return aMap
+		)
+
+		if(a3 == nil,
+			a1 := a1 name
+			self foreach(v,
+				call sender setSlot(a1, getSlot("v"))
+				ss := stopStatus(c := a2 doInContext(call sender, call sender))
+				if(ss isReturn, ss return getSlot("c"))
+				if(ss stopLooping, break)
+				if(ss isContinue, continue)
+
+				key := getSlot("c") asString
+
+				aMap atIfAbsentPut(key, list())
+				aMap at(key) append(v)
+			)
+			return aMap
+		)
+
+		a1 := a1 name
+		a2 := a2 name
+		self foreach(i, v,
+			call sender setSlot(a1, i)
+			call sender setSlot(a2, getSlot("v"))
+			ss := stopStatus(c := a3 doInContext(call sender, call sender))
+			if(ss isReturn, ss return getSlot("c"))
+			if(ss stopLooping, break)
+			if(ss isContinue, continue)
+
+			key := getSlot("c") asString
+
+			aMap atIfAbsentPut(key, list())
+			aMap at(key) append(v)
+		)
+		return aMap
+	)
+
   //doc List copy(v) Replaces self with <tt>v</tt> list items. Returns self. 
 	copy := method(v, self empty; self appendSeq(v); self)
 

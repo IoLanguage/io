@@ -42,9 +42,18 @@ Error do(
 	with := method(message,
 		error := self clone
 		error message := message
+		error location := call message label .. ":" .. call message lineNumber
 		error
 	)
-	
+
+	withShow := method(s,
+		writeln("ERROR: ", s)
+		error := self clone
+		error message := message
+		error location := call message label .. ":" .. call message lineNumber
+		error
+	)
+		
 	//doc Error isError Returns true.
 	isError := true
 )

@@ -113,6 +113,7 @@ IOIMAGE_API int Image_decodingHeightHint(Image *self);
 
 IOIMAGE_API void Image_makeRGBA(Image *self);
 
+IOIMAGE_API int Image_baselineHeight(Image *self);
 IOIMAGE_API ColorStruct Image_averageColor(Image *self);
 
 #endif

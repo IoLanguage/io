@@ -34,7 +34,8 @@ Collector *Collector_new(void)
 	CollectorMarker_setColor_(self->blacks, COLLECTOR_INITIAL_BLACK);
 	CollectorMarker_setColor_(self->grays,  COLLECTOR_GRAY);
 	CollectorMarker_setColor_(self->freed,  COLLECTOR_FREE);
-
+	
+	Collector_setSafeModeOn_(self, 1);
 	self->allocated = 0;
 
 	self->allocatedSweepLevel = 3000;
@@ -65,6 +66,37 @@ void Collector_check(Collector *self)
 	assert(b->prev->color != b->color);
 
 	CollectorMarker_check(w);
+}
+
+size_t CollectorMarker_checkObjectPointer(CollectorMarker *marker)
+{
+	if (marker->object == 0x0) 
+	{
+		printf("WARNING: Collector found a null object pointer on marker %p! Memory is likely hosed.\n", (void *)marker);
+		exit(-1);
+		return 1;
+	} 
+	else 
+	{ 
+		// read a word of memory to check for bad pointers
+		int p = *(int *)(marker->object); 
+	}
+	
+	return 0;
+}
+
+void Collector_checkObjectPointers(Collector *self)
+{
+	COLLECTMARKER_FOREACH(self->blacks, v, CollectorMarker_checkObjectPointer(v); );
+	COLLECTMARKER_FOREACH(self->grays,  v, CollectorMarker_checkObjectPointer(v); );
+	COLLECTMARKER_FOREACH(self->whites, v, CollectorMarker_checkObjectPointer(v); );
+}
+
+void Collector_checkObjectsWith_(Collector *self, CollectorCheckFunc *func)
+{
+	COLLECTMARKER_FOREACH(self->blacks, v, func(v); );
+	COLLECTMARKER_FOREACH(self->grays,  v, func(v); );
+	COLLECTMARKER_FOREACH(self->whites, v, func(v); );
 }
 
 void Collector_free(Collector *self)
@@ -128,6 +160,12 @@ void Collector_setDebug_(Collector *self, int b)
 	self->debugOn = b ? 1 : 0;
 }
 
+void Collector_setSafeModeOn_(Collector *self, int b)
+{
+	self->safeMode = b ? 1 : 0;
+}
+
+
 // retain/release --------------------------------------------
 
 void *Collector_retain_(Collector *self, void *v)
@@ -183,6 +221,11 @@ CollectorMarker *Collector_newMarker(Collector *self)
 	if (m->color != self->freed->color)
 	{
 		m = CollectorMarker_new();
+		//printf("new marker\n");
+	}
+	else
+	{
+		//printf("using recycled marker\n");
 	}
 
 	self->allocated ++;
@@ -202,7 +245,7 @@ void Collector_addValue_(Collector *self, void *v)
 	{
 		if(self->allocated > self->allocatedSweepLevel)
 		{
-			Collector_sweepPhase(self);
+			Collector_sweep(self);
 		}
 		else if (self->queuedMarks > 1.0)
 		{
@@ -260,6 +303,7 @@ size_t Collector_freeWhites(Collector *self)
 
 	COLLECTMARKER_FOREACH(self->whites, v,
 					  (*freeFunc)(v);
+					  v->object = 0x0;
 					  Collector_makeFree_(self, v);
 					  count ++;
 					  );
@@ -286,7 +330,7 @@ void Collector_markForTimePeriod_(Collector *self, double seconds)
 
 		if (CollectorMarker_colorSetIsEmpty(self->grays))
 		{
-			Collector_sweepPhase(self);
+			Collector_sweep(self);
 			return;
 		}
 
@@ -298,7 +342,7 @@ void Collector_markPhase(Collector *self)
 {
 	if(self->allocated > self->allocatedSweepLevel)
 	{
-		Collector_sweepPhase(self);
+		Collector_sweep(self);
 	}
 	else
 	{
@@ -310,6 +354,21 @@ void Collector_markPhase(Collector *self)
 		Collector_freeWhites(self);
 		//Collector_sweepPhase(self);
 	}
+}
+
+size_t Collector_sweep(Collector *self)
+{
+	size_t freedCount = Collector_sweepPhase(self);
+	
+	/*
+	if (self->debugOn)
+	{
+		size_t freedCount2 = Collector_sweepPhase(self);
+		return freedCount + freedCount2;
+	}
+	*/
+	
+	return freedCount;
 }
 
 size_t Collector_sweepPhase(Collector *self)
@@ -402,9 +461,8 @@ char *Collector_colorNameFor_(Collector *self, void *v)
 	return "off-white";
 }
 
-COLLECTOR_API double Collector_timeUsed(Collector *self)
+double Collector_timeUsed(Collector *self)
 {
 	return (double)self->clocksUsed / (double)CLOCKS_PER_SEC;
 }
-
 

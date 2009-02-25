@@ -72,8 +72,10 @@ static void setenv(const char *varName, const char* value, int force)
 IoObject *IoSystem_proto(void *state)
 {
 	IoMethodTable methodTable[] = {
-#if defined(_WIN32)
+#ifdef WIN32
 	{"shellExecute", IoObject_shellExecute},
+#else
+	{"daemon", IoObject_daemon},
 #endif
 	{"errorNumber", IoObject_errorNumberDescription},
 	{"exit", IoObject_exit},
@@ -134,7 +136,7 @@ IO_METHOD(IoObject, errorNumber)
 #include <stdio.h>
 #include <errno.h>
 
-#if defined(_WIN32)
+#ifdef WIN32
 #include <shellapi.h>
 IO_METHOD(IoObject, shellExecute)
 {
@@ -161,6 +163,16 @@ IO_METHOD(IoObject, shellExecute)
 	{
 		return (IoObject *)IoError_newWithMessageFormat_(IOSTATE, "ShellExecute Error %i", result);
 	}
+}
+#else
+IO_METHOD(IoObject, daemon)
+{
+	if(daemon(IoMessage_locals_boolArgAt_(m, locals, 0), IoMessage_locals_boolArgAt_(m, locals, 1)))
+	{
+		IoState_error_(IOSTATE, self, "Daemonize failed. See System errorNumberDescription.");
+	}
+	
+	return self;
 }
 #endif
 

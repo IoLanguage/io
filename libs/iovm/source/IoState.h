@@ -149,6 +149,9 @@ struct IoState
 
 	int shouldExit;
 	int exitResult;
+	
+	int receivedSignal;
+	int showAllMessages;
 };
 
 #define IOSTATE_STRUCT_DEFINED

@@ -31,7 +31,7 @@ IoFnmatch *IoFnmatch_proto(void *state)
 	IoFnmatch *self = IoObject_new(state);
 	IoObject_tag_(self, IoFnmatch_newTag(state));
 
-	IoObject_setDataPointer_(self, calloc(1, sizeof(IoFnmatchData)));
+	IoObject_setDataPointer_(self, io_calloc(1, sizeof(IoFnmatchData)));
 	DATA(self)->string = IOSYMBOL("");
 	DATA(self)->pattern = DATA(self)->string;
 	IoState_registerProtoWithFunc_(state, self, IoFnmatch_proto);
@@ -99,7 +99,7 @@ IoFnmatch *IoFnmatch_new(void *state)
 
 void IoFnmatch_free(IoFnmatch *self)
 {
-	free(IoObject_dataPointer(self));
+	io_free(IoObject_dataPointer(self));
 }
 
 void IoFnmatch_mark(IoFnmatch *self)

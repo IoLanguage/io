@@ -106,11 +106,13 @@ IoCoroutine *IoCoroutine_new(void *state)
 {
 	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoCoroutine_proto);
 	IoObject *self = IOCLONE(proto);
+	//printf("IoCoroutine_new %p\n", (void *)self);
 	return self;
 }
 
 void IoCoroutine_free(IoCoroutine *self)
 {
+	//printf("IoCoroutine_free %p\n", (void *)self);
 	Coro *coro = DATA(self)->cid;
 	if (coro) Coro_free(coro);
 	Stack_free(DATA(self)->ioStack);
@@ -350,6 +352,7 @@ void IoCoroutine_rawRun(IoCoroutine *self)
 	{
 		IoCoroutine *current = IoState_currentCoroutine(IOSTATE);
 		Coro *currentCoro = IoCoroutine_rawCoro(current);
+		//IoState_stackRetain_(IOSTATE, self);
 		Coro_startCoro_(currentCoro, coro, self, (CoroStartCallback *)IoCoroutine_coroStart);
 		//IoState_setCurrentCoroutine_(IOSTATE, current);
 	}
@@ -428,7 +431,7 @@ IO_METHOD(IoCoroutine, resume)
   Yields to the receiver. Runs the receiver if it is not running yet. 
   Returns self.
   */
-	//printf("IoCoroutine_resume()\n");
+	//printf("IoCoroutine_resume(%p)\n", (void *)self);
 	return IoCoroutine_rawResume(self);
 }
 

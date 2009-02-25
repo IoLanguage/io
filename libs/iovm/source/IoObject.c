@@ -179,9 +179,7 @@ IoObject *IoObject_protoFinish(void *state)
 
 	// reflection
 
-	{"uniqueId", IoObject_uniqueId},
-
-	// memory utilities
+	{"uniqueId", IoObject_uniqueId},	
 
 	//{"compact", IoObject_compactMethod},
 
@@ -215,6 +213,7 @@ IoObject *IoObject_protoFinish(void *state)
 
 	{"ownsSlots", IoObject_protoOwnsSlots}, // a debug method
 	{"memorySize", IoObject_memorySizeMethod},
+	
 	
 	{"hasDirtySlot", IoObject_hasDirtySlot_},
 	{"markClean", IoObject_markClean},
@@ -314,6 +313,12 @@ void IoObject_freeData(IoObject *self)
 
 	if (func)
 	{
+		//if(func == free)
+		{
+			//printf("Tag func is free\n");
+			//if (IoObject_name(self)) printf("free %s\n", IoObject_name(self));
+		}
+		
 		(*func)(self);
 	}
 	else if (IoObject_dataPointer(self))
@@ -1341,13 +1346,13 @@ IoObject *IoObject_rawDoString_label_(IoObject *self, IoSymbol *string, IoSymbol
 		cm = IoMessage_newWithName_label_(state, IOSYMBOL("Compiler"), internal);
 		messageForString = IoMessage_newWithName_label_(state, IOSYMBOL("messageForString"), internal);
 
-		IoMessage_rawSetNext(cm, messageForString);
+		IoMessage_rawSetNext_(cm, messageForString);
 		IoMessage_addCachedArg_(messageForString, string);
 		IoMessage_addCachedArg_(messageForString, label);
-
+		
 		newMessage = IoMessage_locals_performOn_(cm, self, self);
-
 		IoState_stackRetain_(state, newMessage); // needed?
+		
 		IoState_popCollectorPause(state);
 
 		if (newMessage)
@@ -1621,6 +1626,15 @@ IO_METHOD(IoObject, memorySizeMethod)
 	return IONUMBER(IoObject_memorySize(self));
 }
 
+/*doc Object checkMemory()
+	accesses memory in the IoObjectData struct that should be accessible.  Should cause a memory access
+	exception if memory is corrupt.
+	*/
+int IoObject_rawCheckMemory(IoObject *self)
+{
+	return IOCOLLECTOR != 0x0;
+}
+
 IO_METHOD(IoObject, compactMethod)
 {
 	/*doc Object compact
@@ -1794,13 +1808,6 @@ IO_METHOD(IoObject, message)
 
 int IoObject_hasCloneFunc_(IoObject *self, IoTagCloneFunc *func)
 {
-	/*
-	if (ISWAITINGFUTURE(self))
-	{
-		IoFuture_rawWaitOnResult(self);
-	}
-	*/
-
 	return (IoObject_tag(self)->cloneFunc == func);
 }
 
@@ -1986,14 +1993,18 @@ PID_TYPE IoObject_pid(IoObject *self)
 
 IoSeq *IoObject_asString_(IoObject *self, IoMessage *m)
 {
+	IoSeq *result = IoMessage_locals_performOn_(IOSTATE->asStringMessage, self, self);
+	/*
 	IoSymbol *string = IOSYMBOL("asString");
 	IoSymbol *label = string;
 	IoSeq *result;
 
 	IoState_pushRetainPool(IOSTATE);
+
 	result = IoObject_rawDoString_label_(self, string, label);
 	IoState_popRetainPoolExceptFor_(IOSTATE, result);
-
+	*/
+	
 	if (!ISSEQ(result))
 	{
 		IoState_error_(IOSTATE, m, "%s asString didn't return a Sequence", IoObject_name(self));

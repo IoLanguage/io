@@ -13,7 +13,7 @@ void LocalNameServers_findIps(LocalNameServers *self);
 
 LocalNameServers *LocalNameServers_new(void)
 {
-	LocalNameServers *self = (LocalNameServers *)calloc(1, sizeof(LocalNameServers));
+	LocalNameServers *self = (LocalNameServers *)io_calloc(1, sizeof(LocalNameServers));
 	return self;
 }
 
@@ -21,11 +21,11 @@ void LocalNameServers_free(LocalNameServers *self)
 {
 	if (self->ips)
 	{
-		List_do_(self->ips, (ListDoCallback *)free);
+		List_do_(self->ips, (ListDoCallback *)io_free);
 	}
 
 	List_free(self->ips);
-	free(self);
+	io_free(self);
 }
 
 List *LocalNameServers_ips(LocalNameServers *self)
@@ -41,7 +41,7 @@ List *LocalNameServers_ips(LocalNameServers *self)
 
 void LocalNameServers_addIPAddress_(LocalNameServers *self, const char *s)
 {
-	char *newIPAddress = strcpy(malloc(strlen(s) + 1), s);
+	char *newIPAddress = strcpy(io_malloc(strlen(s) + 1), s);
 	List_append_(self->ips, newIPAddress);
 }
 
@@ -79,7 +79,7 @@ static char *lastWhiteSpaceInString(char *s)
 
 static char *local_strdup(char *s) // because OSXs is buggy
 {
-	return strcpy(malloc(strlen(s)+1), s);
+	return strcpy(io_malloc(strlen(s)+1), s);
 }
 
 void LocalNameServers_findIpsViaResolveConf(LocalNameServers *self)
@@ -109,7 +109,7 @@ void LocalNameServers_findIpsViaResolveConf(LocalNameServers *self)
 					LocalNameServers_addIPAddress_(self, ip);
 				}
 
-				free(s);
+				io_free(s);
 			}
 			UArray_setSize_(ba, 0);
 		}
@@ -157,8 +157,8 @@ void LocalNameServers_findIps(LocalNameServers *self)
 void LocalNameServers_findIps(LocalNameServers *self)
 {
 	char *path = tmpnam(NULL);
-	char *command = malloc(1024);
-	char *answerBuffer = calloc(1, 1024);
+	char *command = io_malloc(1024);
+	char *answerBuffer = io_calloc(1, 1024);
 	char *answer = answerBuffer;
 	FILE *fp;
 
@@ -188,8 +188,8 @@ void LocalNameServers_findIps(LocalNameServers *self)
 	LocalNameServers_addIPAddress_(self, answer);
 
 	done:
-	free(command);
-	free(answerBuffer);
+	io_free(command);
+	io_free(answerBuffer);
 }
 
 #else
