@@ -49,7 +49,7 @@ If slotName begins with an underscore ("_"), returns the id of the slot from PDB
 		self at(call message name)
 	)
 	
-	hiddenSlots := list("ppid", "needsMetaPersist", "type", "shouldPersistByDefault", "hiddenSlots", "slotsToRemove")
+	hiddenSlots := list("", "ppid", "needsMetaPersist", "type", "shouldPersistByDefault", "hiddenSlots", "slotsToRemove")
 	
 	//doc PMap persistSlots Cleans up dirty slots by committing them to PDB.
 	persistSlots := method(
