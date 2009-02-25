@@ -96,6 +96,7 @@ void IoEvent_free(IoEvent *self)
 		//printf("IoEvent_free %p\n", (void *)self); 
 	}
 
+	/*
 	{
 		IoEventManager *em = IoState_protoWithInitFunction_(IOSTATE, IoEventManager_proto);
 		
@@ -105,6 +106,7 @@ void IoEvent_free(IoEvent *self)
 			//printf("This should only happen during VM shutdown.\n");
 		}
 	}
+	*/
 
 	io_free(EVENT(self));
 }

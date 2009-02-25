@@ -95,16 +95,6 @@
 			PBXPerProjectTemplateStateSaveDate = 257142292;
 			PBXWorkspaceStateSaveDate = 257142292;
 		};
-		perUserProjectItems = {
-			AA7E23340F53970400C6E1D6 = AA7E23340F53970400C6E1D6 /* PBXBookmark */;
-			AA7E23920F539C2100C6E1D6 = AA7E23920F539C2100C6E1D6 /* PBXBookmark */;
-			AA7E239A0F539D2D00C6E1D6 = AA7E239A0F539D2D00C6E1D6 /* PBXTextBookmark */;
-			AA7E23B00F53ADC100C6E1D6 = AA7E23B00F53ADC100C6E1D6 /* PBXTextBookmark */;
-			AA7E23B10F53ADC100C6E1D6 = AA7E23B10F53ADC100C6E1D6 /* PBXTextBookmark */;
-			AA7E23B20F53ADC100C6E1D6 = AA7E23B20F53ADC100C6E1D6 /* PBXTextBookmark */;
-			AAF9D6520F53C89A00A35ADD /* PBXBookmark */ = AAF9D6520F53C89A00A35ADD /* PBXBookmark */;
-			AAF9D6570F53C8AB00A35ADD /* PBXTextBookmark */ = AAF9D6570F53C8AB00A35ADD /* PBXTextBookmark */;
-		};
 		sourceControlManager = AA1BF43C0C3095A2005ED047 /* Source Control */;
 		userBookmarkGroup = AAD2E1F90E1B842B00BFA950 /* PBXBookmarkGroup */;
 		userBuildSettings = {
@@ -350,10 +340,6 @@
 		modificationTime = 257142298.525792;
 		state = 2;
 	};
-	AA7E23340F53970400C6E1D6 /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = AAE69E130B110795006E309B /* Collector.c */;
-	};
 	AA7E23580F5397A300C6E1D6 /* Collector_inline.h:72 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
@@ -387,50 +373,6 @@
 		location = osxvm;
 		modificationTime = 257142298.5258;
 		state = 1;
-	};
-	AA7E23920F539C2100C6E1D6 /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = AAE69ECB0B110795006E309B /* IoMessage.h */;
-	};
-	AA7E239A0F539D2D00C6E1D6 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = AAE69ECA0B110795006E309B /* IoMessage.c */;
-		name = "IoMessage.c: 235";
-		rLen = 0;
-		rLoc = 5669;
-		rType = 0;
-		vrLen = 1238;
-		vrLoc = 5801;
-	};
-	AA7E23B00F53ADC100C6E1D6 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = AAE69ECA0B110795006E309B /* IoMessage.c */;
-		name = "IoMessage.c: 198";
-		rLen = 31;
-		rLoc = 5763;
-		rType = 0;
-		vrLen = 1084;
-		vrLoc = 4960;
-	};
-	AA7E23B10F53ADC100C6E1D6 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = AAE69ECB0B110795006E309B /* IoMessage.h */;
-		name = "IoMessage.h: 150";
-		rLen = 0;
-		rLoc = 5884;
-		rType = 0;
-		vrLen = 1535;
-		vrLoc = 5100;
-	};
-	AA7E23B20F53ADC100C6E1D6 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = AAE69E130B110795006E309B /* Collector.c */;
-		name = "Collector.c: 162";
-		rLen = 24;
-		rLoc = 3847;
-		rType = 0;
-		vrLen = 662;
-		vrLoc = 3452;
 	};
 	AA8383A60BDFCE0100B4F003 /* IoVMApi.h */ = {
 		uiCtxt = {
@@ -1511,19 +1453,5 @@
 			sepNavVisRange = "{320, 1019}";
 			sepNavWindowFrame = "{{61, 195}, {959, 636}}";
 		};
-	};
-	AAF9D6520F53C89A00A35ADD /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = AAE69E130B110795006E309B /* Collector.c */;
-	};
-	AAF9D6570F53C8AB00A35ADD /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = AAE69E130B110795006E309B /* Collector.c */;
-		name = "Collector.c: 368";
-		rLen = 0;
-		rLoc = 7860;
-		rType = 0;
-		vrLen = 517;
-		vrLoc = 7404;
 	};
 }
