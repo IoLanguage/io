@@ -71,6 +71,7 @@ IO_METHOD(IoFile, openForUpdating);
 IO_METHOD(IoFile, openForAppending);
 
 IO_METHOD(IoFile, open);
+IO_METHOD(IoFile, reopen);
 IO_METHOD(IoFile, popen);
 IO_METHOD(IoFile, close);
 
