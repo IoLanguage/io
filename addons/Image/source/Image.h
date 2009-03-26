@@ -55,6 +55,14 @@ typedef struct
 	int decodingHeightHint;
 } Image;
 
+typedef struct
+{
+	int xmin;
+	int ymin;
+	int xmax;
+	int ymax;
+} ImageBounds;
+
 IOIMAGE_API Image *Image_new(void);
 IOIMAGE_API Image *Image_newWithPath_(char *fname);
 IOIMAGE_API Image *Image_copyWithUArray_(Image *self, UArray *ba);
@@ -112,6 +120,8 @@ IOIMAGE_API void Image_decodingHeightHint_(Image *self, int v);
 IOIMAGE_API int Image_decodingHeightHint(Image *self);
 
 IOIMAGE_API void Image_makeRGBA(Image *self);
+
+IOIMAGE_API ImageBounds Image_bounds(Image *self, int cutoff);
 
 IOIMAGE_API int Image_baselineHeight(Image *self);
 IOIMAGE_API ColorStruct Image_averageColor(Image *self);

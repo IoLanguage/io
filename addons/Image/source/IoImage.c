@@ -87,6 +87,8 @@ IoImage *IoImage_proto(void *state)
 		
 		{"baselineHeight", IoImage_baselineHeight},
 		{"averageColor", IoImage_averageColor},
+		
+		{"bounds", IoImage_bounds},
 
 		{NULL, NULL},
 		};
@@ -453,6 +455,24 @@ IoObject *IoImage_baselineHeight(IoImage *self, IoObject *locals, IoMessage *m)
 	*/
 	
 	return IONUMBER(Image_baselineHeight(DATA(self)->image));
+}
+
+IOIMAGE_API IoObject *IoImage_bounds(IoImage *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Image bounds(cutoff)
+	Returns an object continaing the bounds of the image. Cutoff is max bound color value for any color component.
+	If it is negative, it is the min bound color value.
+	*/
+	int cutoff = IoMessage_locals_intArgAt_(m, locals, 0);
+	ImageBounds b = Image_bounds(DATA(self)->image, cutoff);
+	IoObject *bounds = IoObject_new(IOSTATE);
+	
+	IoObject_setSlot_to_(bounds, IOSYMBOL("xmin"), IONUMBER(b.xmin));
+	IoObject_setSlot_to_(bounds, IOSYMBOL("ymin"), IONUMBER(b.ymin));
+	IoObject_setSlot_to_(bounds, IOSYMBOL("xmax"), IONUMBER(b.xmax));
+	IoObject_setSlot_to_(bounds, IOSYMBOL("ymax"), IONUMBER(b.ymax));
+	
+	return bounds;
 }
 
 
