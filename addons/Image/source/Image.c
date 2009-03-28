@@ -558,10 +558,10 @@ ImageBounds Image_bounds(Image *self, int cutoff)
 	ImageBounds bounds;
 	int x, y;
 	
-	bounds.xmin = 0;
-	bounds.xmax = self->width;
-	bounds.ymin = 0;
-	bounds.ymax = self->height;
+	bounds.xmin = self->width;
+	bounds.xmax = 0;
+	bounds.ymin = self->height;
+	bounds.ymax = 0;
 
 	for (y = 0; y < self->height; y ++)
 	{
