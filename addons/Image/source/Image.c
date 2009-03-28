@@ -551,6 +551,42 @@ int Image_baselineHeight(Image *self)
 	return self->height - base;
 }
 
+ImageBounds Image_bounds(Image *self, int cutoff)
+{
+	int componentCount = self->componentCount;
+	uint8_t *d = (uint8_t *)UArray_bytes(self->byteArray);
+	ImageBounds bounds;
+	int x, y;
+	
+	bounds.xmin = self->width;
+	bounds.xmax = 0;
+	bounds.ymin = self->height;
+	bounds.ymax = 0;
+
+	for (y = 0; y < self->height; y ++)
+	{
+		for (x = 0; x < self->width; x ++)
+		{
+			int p = (x + (y * self->width)) * componentCount;
+			int c;
+
+			for (c = 0; c < componentCount; c ++)
+			{
+				if (d[p + c] < cutoff)
+				{
+					if(x < bounds.xmin) bounds.xmin = x;
+					if(x > bounds.xmax) bounds.xmax = x;
+					if(y < bounds.ymin) bounds.ymin = y;
+					if(y > bounds.ymax) bounds.ymax = y;
+					break;
+				}
+			}
+		}
+	}
+	
+	return bounds;
+}
+
 ColorStruct Image_averageColor(Image *self)
 {
 	int componentCount = self->componentCount;

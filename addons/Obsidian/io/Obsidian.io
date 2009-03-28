@@ -38,6 +38,7 @@ Obsidian := Object clone do(
 	)
 	
 	onAtPut := method(objId, slotName, value,
+		if(slotName size == 0, return nil)
 		key := objId .. "/" .. slotName
 		//writeln("db transactionalAtPut('", key, "', '", value, "')")
 		db transactionalAtPut(key, value)
@@ -47,6 +48,7 @@ Obsidian := Object clone do(
 	
 	//doc Obsidian onAt Return the value associated with slotName of stored object whose ppid is objId.
 	onAt := method(objId, slotName,
+		if(slotName size == 0, return nil)
 		db at(objId .. "/" .. slotName)
 	)
 	

@@ -323,9 +323,13 @@ Socket do(
 	*/	
 	readUntilSeq := method(aSeq,
 		while(isOpen and readBuffer containsSeq(aSeq) not, self read returnIfError)
-		s := readBuffer beforeSeq(aSeq)
-		readBuffer clipBeforeEndOfSeq(aSeq)
-		s
+		if(readBuffer containsSeq(aSeq)) then (
+			s := readBuffer beforeSeq(aSeq)
+			readBuffer clipBeforeEndOfSeq(aSeq)
+			return s
+		) else (
+			return ""
+		)
 	)
 
 
