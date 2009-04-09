@@ -8,8 +8,8 @@
 			8DD76FA90486AB0100D96B5E /* osxvm */,
 		);
 		breakpoints = (
-			AA7E22080F53776300C6E1D6 /* Collector.c:467 */,
-			AA7E223F0F537DA900C6E1D6 /* Collector.c:467 */,
+			AA7E22080F53776300C6E1D6 /* Collector.c:464 */,
+			AA7E223F0F537DA900C6E1D6 /* Collector.c:464 */,
 			AA7E224C0F53808100C6E1D6 /* IoObject.c:1353 */,
 			AA7E22560F53811700C6E1D6 /* IoObject.c:1351 */,
 			AA7E227B0F53837D00C6E1D6 /* IoObject.c:1348 */,
@@ -92,8 +92,14 @@
 					PBXFileDataSource_Target_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 257142292;
-			PBXWorkspaceStateSaveDate = 257142292;
+			PBXPerProjectTemplateStateSaveDate = 260936941;
+			PBXWorkspaceStateSaveDate = 260936941;
+		};
+		perUserProjectItems = {
+			AA75F2C10F8D95090083991E /* PBXTextBookmark */ = AA75F2C10F8D95090083991E /* PBXTextBookmark */;
+			AA75F2C20F8D95090083991E /* PBXTextBookmark */ = AA75F2C20F8D95090083991E /* PBXTextBookmark */;
+			AA75F2C30F8D95090083991E /* PBXTextBookmark */ = AA75F2C30F8D95090083991E /* PBXTextBookmark */;
+			AA75F2C40F8D95090083991E /* PBXTextBookmark */ = AA75F2C40F8D95090083991E /* PBXTextBookmark */;
 		};
 		sourceControlManager = AA1BF43C0C3095A2005ED047 /* Source Control */;
 		userBookmarkGroup = AAD2E1F90E1B842B00BFA950 /* PBXBookmarkGroup */;
@@ -238,7 +244,44 @@
 			sepNavVisRange = "{0, 1006}";
 		};
 	};
-	AA7E22080F53776300C6E1D6 /* Collector.c:467 */ = {
+	AA75F2C10F8D95090083991E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AAE69E130B110795006E309B /* Collector.c */;
+		name = "Collector.c: 261";
+		rLen = 15;
+		rLoc = 5822;
+		rType = 0;
+		vrLen = 373;
+		vrLoc = 5191;
+	};
+	AA75F2C20F8D95090083991E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AAE69E140B110795006E309B /* Collector.h */;
+		rLen = 15;
+		rLoc = 3058;
+		rType = 0;
+	};
+	AA75F2C30F8D95090083991E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AAE69E130B110795006E309B /* Collector.c */;
+		name = "Collector.c: 261";
+		rLen = 15;
+		rLoc = 5822;
+		rType = 0;
+		vrLen = 373;
+		vrLoc = 5191;
+	};
+	AA75F2C40F8D95090083991E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AAE69E140B110795006E309B /* Collector.h */;
+		name = "Collector.h: 112";
+		rLen = 15;
+		rLoc = 3058;
+		rType = 0;
+		vrLen = 529;
+		vrLoc = 2898;
+	};
+	AA7E22080F53776300C6E1D6 /* Collector.c:464 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -250,12 +293,12 @@
 		functionName = "Collector_foundBadMarker()";
 		hitCount = 0;
 		ignoreCount = 0;
-		lineNumber = 467;
+		lineNumber = 464;
 		location = osxvm;
 		modificationTime = 257142298.525756;
 		state = 2;
 	};
-	AA7E223F0F537DA900C6E1D6 /* Collector.c:467 */ = {
+	AA7E223F0F537DA900C6E1D6 /* Collector.c:464 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -267,7 +310,7 @@
 		functionName = "CollectorMarker_checkObjectPointer()";
 		hitCount = 0;
 		ignoreCount = 0;
-		lineNumber = 467;
+		lineNumber = 464;
 		location = osxvm;
 		modificationTime = 257142298.525774;
 		state = 2;
@@ -760,17 +803,17 @@
 	};
 	AAE69E130B110795006E309B /* Collector.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {823, 7282}}";
-			sepNavSelRange = "{493, 0}";
-			sepNavVisRange = "{280, 1089}";
+			sepNavIntBoundsRect = "{{0, 0}, {998, 7698}}";
+			sepNavSelRange = "{5794, 15}";
+			sepNavVisRange = "{5191, 373}";
 			sepNavWindowFrame = "{{385, 216}, {872, 580}}";
 		};
 	};
 	AAE69E140B110795006E309B /* Collector.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {855, 2412}}";
-			sepNavSelRange = "{1288, 0}";
-			sepNavVisRange = "{836, 1330}";
+			sepNavIntBoundsRect = "{{0, 0}, {998, 2478}}";
+			sepNavSelRange = "{3058, 15}";
+			sepNavVisRange = "{2898, 529}";
 			sepNavWindowFrame = "{{372, 36}, {904, 799}}";
 		};
 	};
