@@ -11,5 +11,6 @@ AddonBuilder clone do(
 
 	ebuilds atPut("mysql5.0", "mysql")
 	pkgs    atPut("mysqlclient", "mysql5")
+	debs	atPut("mysqlclient", "libmysqlclient15-dev")
 
 )
