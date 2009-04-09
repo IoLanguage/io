@@ -203,11 +203,20 @@ void Collector_popPause(Collector *self)
 
 	self->pauseCount --;
 
+	//printf("collect newMarkerCount %i\n", self->newMarkerCount);
+#ifdef COLLECTOR_USE_NONINCREMENTAL_MARK_SWEEP
+	if (self->pauseCount == 0 && self->newMarkerCount > 10000) 
+	{
+		//printf("collect newMarkerCount %i\n", self->newMarkerCount);
+		self->newMarkerCount = 0;
+		Collector_collect(self);
+	}
+#else
 	if (self->pauseCount == 0 && self->queuedMarks > 1.0)
 	{
 		Collector_markPhase(self);
 	}
-
+#endif
 }
 
 // adding ------------------------------------------------
@@ -240,7 +249,10 @@ void Collector_addValue_(Collector *self, void *v)
 	CollectorMarker_removeIfNeededAndInsertAfter_(v, self->whites);
 
 	self->queuedMarks += self->marksPerAlloc;
+	self->newMarkerCount ++;
 
+	// pauseCount is never zero here...
+	/*
 	if (self->pauseCount == 0)
 	{
 		if(self->allocated > self->allocatedSweepLevel)
@@ -252,6 +264,7 @@ void Collector_addValue_(Collector *self, void *v)
 			Collector_markPhase(self);
 		}
 	}
+	*/
 }
 
 // collection ------------------------------------------------

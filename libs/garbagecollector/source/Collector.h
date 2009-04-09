@@ -17,6 +17,7 @@ extern "C" {
 	COLLECTMARKER_FOREACH(self->blacks,  v, code;);
 
 //#define COLLECTOR_RECYCLE_FREED 1
+#define COLLECTOR_USE_NONINCREMENTAL_MARK_SWEEP 1
 
 typedef enum
 {
@@ -58,6 +59,10 @@ typedef struct
 	size_t sweepCount;
 	int debugOn;
 	int safeMode;
+	
+	#ifdef COLLECTOR_USE_NONINCREMENTAL_MARK_SWEEP
+	int newMarkerCount;
+	#endif
 } Collector;
 
 COLLECTOR_API Collector *Collector_new(void);
