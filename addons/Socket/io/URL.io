@@ -9,6 +9,7 @@ URL := Notifier clone do(
 	cacheOn ::= false
 	cacheTimeout := 24*60*60
 	followRedirects := true
+	maxRedirects ::= 1
 	
 	cacheStore := method(data,
 		cacheFile setContents(data)
@@ -221,7 +222,8 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 	)
 
 	//doc URL fetch Fetches the url and returns the result as a Sequence. Returns an Error, if one occurs.
-	fetch := method(url, redirected,
+	fetch := method(url, redirectCount,
+		if(redirectCount not, redirectCount = 0)
 		//if(isSynchronous not, Exception raise("URL not synchronous"))
 		if(url, setURL(url))
 		//writeln("URL fetch: ", self url type, ": '", self url, "'")
@@ -229,13 +231,13 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 			v := fetchHttp
 			//writeln("URL fetch, statusCode: ", statusCode)
 			if(followRedirects and(statusCode == 302 or statusCode == 301),
-			 	if(redirected, 
-					writeln("DOUBLE REDIRECT on " .. url)
-			 		return Error with("double redirect")
+			 	if(redirectCount >= maxRedirects, 
+					//writeln("MAX REDIRECTS(" .. redirectCount .. ") on " .. url)
+			 		return Error with("max redirects")
 				)
 				newUrl := self responseHeaders at("Location")
-				writeln("REDIRECT TO ", newUrl)
-		 		v := childUrl(newUrl) fetch(nil, true)
+				//writeln("REDIRECT TO ", newUrl)
+		 		v := childUrl(newUrl) fetch(nil, redirectCount + 1)
 			)
 			return v
 		)
