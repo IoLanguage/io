@@ -1,5 +1,5 @@
 AddonBuilder clone do(
-	libSgmlDirectory := if(platform == "darwin", "sgml", "libsgml-1.1.4")
+	libSgmlDirectory := if(platform == "darwin", "libsgml-1.1.4_osx", "libsgml-1.1.4")
 	configure        := if(platform == "darwin", "", " ./configure &&")
 	
 	dependsOnLib("sgml")
@@ -15,7 +15,7 @@ AddonBuilder clone do(
 		if(hasLib == nil,
 			writeln("No libsgml installed - attempting to compile and install")
 			//cmd := "cd addons/SGML/source/" .. libSgmlDirectory .. "; ./configure; echo \"sudo make install\"; sudo make install"
-			cmd := "cd addons/SGML/source/" .. libSgmlDirectory .. ";" .. configure .. " make && echo \"sudo make install\" && sudo make install"
+			cmd := "cd addons/SGML/source/" .. libSgmlDirectory .. " && " .. configure .. " make && echo \"sudo make install\" && sudo make install"
 			writeln(cmd)
 			System system(cmd)
 		)
