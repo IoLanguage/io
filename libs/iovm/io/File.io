@@ -84,6 +84,14 @@ File do(
 		self
 	)
 	
+	//doc File readToEnd(chunkSize) Reads chunkSize bytes (4096 by default) at a time until end of file is reached.  Returns a sequence containing the bytes read from the file.
+	readToEnd := method(chunkSize,
+		if(chunkSize not, chunkSize = 4096)
+		buffer := Sequence clone
+		while(readToBufferLength(buffer, chunkSize) == chunkSize, nil)
+		buffer
+	)
+	
 	//doc File create Creates an empty file at the file's path. Returns self on success, nil on failure.
 	create := method(
 		if(open, close; self, nil)

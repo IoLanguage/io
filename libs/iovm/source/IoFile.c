@@ -91,6 +91,7 @@ IoFile *IoFile_proto(void *state)
 	{"mode", IoFile_mode},
 
 	{"open", IoFile_open},
+	{"reopen", IoFile_reopen},
 	{"popen", IoFile_popen},
 	{"close", IoFile_close},
 
@@ -333,7 +334,6 @@ IO_METHOD(IoFile, standardError)
 	return newFile;
 }
 
-
 IO_METHOD(IoFile, setPath)
 {
 	/*doc File setPath(aString)
@@ -458,6 +458,53 @@ IO_METHOD(IoFile, open)
 	if (DATA(self)->stream == NULL)
 	{
 		IoState_error_(IOSTATE, m, "unable to open file path '%s'", CSTRING(DATA(self)->path));
+	}
+
+	return self;
+}
+
+IO_METHOD(IoFile, reopen)
+{
+	/*doc File reopen(otherFile, mode)
+	Reopen's otherFile and redirects its stream to this file's path using mode.
+	If mode is omitted, it is copied from otherFile.
+	Returns self or raises a File exception on error.
+	*/
+
+	IoFile *otherFile;
+	IoSeq *mode;
+
+	DATA(self)->flags = IOFILE_FLAGS_NONE;
+
+	IoMessage_assertArgCount_receiver_(m, 1, self);
+	
+	otherFile = IoMessage_locals_valueArgAt_(m, locals, 0);
+	IOASSERT(ISFILE(otherFile), "arg must be a File");
+	
+	mode = IoMessage_locals_valueArgAt_(m, locals, 1);
+	if(ISSEQ(mode))
+	{
+		DATA(self)->mode = IOREF(mode);
+	}
+	else
+	{
+		DATA(self)->mode = IOREF(IoSeq_newWithUArray_copy_(IOSTATE, (UArray *)DATA(DATA(otherFile)->mode), 1));
+	}
+
+	if (!DATA(self)->stream)
+	{
+		FILE *fp = freopen(CSTRING(DATA(self)->path), CSTRING(DATA(self)->mode), DATA(otherFile)->stream);
+
+		if (fp)
+		{
+			DATA(self)->stream = fp;
+		}
+		else
+		{
+			printf("%i:%s\n", errno, strerror(errno));
+			IoState_error_(IOSTATE, m, "unable to reopen to file '%s' with mode %s.", CSTRING(DATA(self)->path), CSTRING(DATA(self)->mode));
+			fclose(fp);
+		}
 	}
 
 	return self;
