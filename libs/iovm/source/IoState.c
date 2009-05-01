@@ -67,10 +67,11 @@ void IoState_new_atAddress(void *address)
 
 	// symbol table
 
-	self->symbols = SHash_new();
+	self->symbols = CHash_new();
 
-	SHash_setKeysEqualCallback(self->symbols, (SHashKeysEqualCallback *)UArray_equalsWithHashCheck_);
-	SHash_setHashForKeyCallback(self->symbols, (SHashHashforKeyCallback *)UArray_hash);
+	CHash_setEqualFunc_(self->symbols, (CHashEqualFunc *)UArray_equalsWithHashCheck_);
+	CHash_setHash1Func_(self->symbols, (CHashHashFunc *)UArray_hash);
+	CHash_setHash2Func_(self->symbols, (CHashHashFunc *)UArray_hash2);
 
 	/*
 	Problem:
@@ -406,7 +407,7 @@ void IoState_done(IoState *self)
 	List_free(tags);
 
 	PHash_free(self->primitives);
-	SHash_free(self->symbols);
+	CHash_free(self->symbols);
 
 	LIST_DO_(self->recycledObjects, IoObject_dealloc); // this does not work now that objects and marks are separate
 	List_free(self->recycledObjects);

@@ -11,7 +11,7 @@
 //#include "Collector.h"
 #include "Stack.h"
 #include "PHash.h"
-#include "SHash.h"
+#include "CHash.h"
 #include "MainArgs.h"
 #include "IoObject_struct.h"
 #define COLLECTOROBJECTTYPE IoObjectData
@@ -38,7 +38,7 @@ typedef IoObject *(IoStateProtoFunc)(void *);
 struct IoState
 {
 	PHash *primitives;
-	SHash *symbols;
+	CHash *symbols;
 
 	// coroutines
 

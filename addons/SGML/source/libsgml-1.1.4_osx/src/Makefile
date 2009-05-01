@@ -4,15 +4,15 @@
 #
 
 CC=gcc
-DEBUG=-O3
+DEBUG=-g
 INCLUDE=-I../include -I.
 LIBS=
-CFLAGS=${DEBUG} ${INCLUDE} -Wall -O3
-LFLAGS=${DEBUG} ${INCLUDE} -Wall -O3 -o
+CFLAGS=${DEBUG} ${INCLUDE} -Wall -g
+LFLAGS=${DEBUG} ${INCLUDE} -Wall -g -o
 OBJS=DomComment.o DomDocument.o DomElement.o DomNode.o DomNodeList.o DomText.o SgmlExtensionHtml.o SgmlExtensionXml.o SgmlParser.o Variant.o
 LIBNAME=../libsgml.a
 LIBEXEC=ar rc ${LIBNAME} ${OBJS} ${LIBS} && ranlib ${LIBNAME}
-LIBBIN=${CXX} ${DEBUG} -Wall -O3 -dynamiclib -fPIC -o ../libsgml.dylib ${OBJS}
+LIBBIN=${CXX} ${DEBUG} -Wall -g -dynamiclib -fPIC -o ../libsgml.dylib ${OBJS}
 
 all: ${OBJS}
 	${LIBEXEC}

@@ -100,6 +100,7 @@ BASEKIT_API void UArray_Min(UArray *self, const UArray *other);
 BASEKIT_API void UArray_changed(UArray *self);
 BASEKIT_API uintptr_t UArray_calcHash(UArray *self);
 BASEKIT_API uintptr_t UArray_hash(UArray *self);
+BASEKIT_API uintptr_t UArray_hash2(UArray *self);
 BASEKIT_API int UArray_equalsWithHashCheck_(UArray *self, UArray *other);
 
 // indexes

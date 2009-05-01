@@ -75,6 +75,7 @@ typedef struct
 	CTYPE itemType;
 	size_t itemSize;
 	uintptr_t hash;
+	uintptr_t hash2;
 	uint8_t encoding;
 	#ifdef UARRAY_DEBUG
 	int stackAllocated;

@@ -51,8 +51,12 @@
 					PBXFindDataSource_LocationID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 255730389;
-			PBXWorkspaceStateSaveDate = 255730389;
+			PBXPerProjectTemplateStateSaveDate = 262576079;
+			PBXWorkspaceStateSaveDate = 262576079;
+		};
+		perUserProjectItems = {
+			AAC6163B0FA697E1004C9E40 /* PBXBookmark */ = AAC6163B0FA697E1004C9E40 /* PBXBookmark */;
+			AAC616400FA697E9004C9E40 /* PBXTextBookmark */ = AAC616400FA697E9004C9E40 /* PBXTextBookmark */;
 		};
 		sourceControlManager = AA7D577E0B60123600D7DEA9 /* Source Control */;
 		userBuildSettings = {
@@ -123,9 +127,11 @@
 	};
 	AA1C3FAD0B7448B500334368 /* SHash.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {863, 1638}}";
-			sepNavSelRange = "{0, 0}";
+			sepNavIntBoundsRect = "{{0, 0}, {821, 1330}}";
+			sepNavSelRange = "{47, 15}";
+			sepNavVisRange = "{985, 1219}";
 			sepNavVisRect = "{{0, 792}, {863, 831}}";
+			sepNavWindowFrame = "{{61, 169}, {870, 662}}";
 		};
 	};
 	AA6ABF7B0BA8012F0049770F /* Makefile */ = {
@@ -2191,5 +2197,19 @@
 			sepNavSelRange = "{755, 9}";
 			sepNavVisRange = "{2286, 856}";
 		};
+	};
+	AAC6163B0FA697E1004C9E40 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = AA1C3FAD0B7448B500334368 /* SHash.h */;
+	};
+	AAC616400FA697E9004C9E40 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AA1C3FAD0B7448B500334368 /* SHash.h */;
+		name = "SHash.h: 2";
+		rLen = 15;
+		rLoc = 47;
+		rType = 0;
+		vrLen = 818;
+		vrLoc = 0;
 	};
 }

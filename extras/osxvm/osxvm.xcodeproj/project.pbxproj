@@ -20,6 +20,7 @@
 		AA8383A70BDFCE0100B4F003 /* IoVMApi.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA8383A60BDFCE0100B4F003 /* IoVMApi.h */; };
 		AAA3CAF50B186E2F004C257F /* IoMessage_opShuffle.c in Sources */ = {isa = PBXBuildFile; fileRef = AAA3CAF30B186E2F004C257F /* IoMessage_opShuffle.c */; };
 		AAA3CAF60B186E2F004C257F /* IoMessage_opShuffle.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAA3CAF40B186E2F004C257F /* IoMessage_opShuffle.h */; };
+		AAADB4AE0FA8010D00D4F384 /* CHash.c in Sources */ = {isa = PBXBuildFile; fileRef = AAADB4AB0FA8010D00D4F384 /* CHash.c */; };
 		AABF81310B759BC8002DBAB5 /* UArray_character.c in Sources */ = {isa = PBXBuildFile; fileRef = AABF81230B759BC8002DBAB5 /* UArray_character.c */; };
 		AABF81320B759BC8002DBAB5 /* UArray_character.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AABF81240B759BC8002DBAB5 /* UArray_character.h */; };
 		AABF81330B759BC8002DBAB5 /* UArray_format.c in Sources */ = {isa = PBXBuildFile; fileRef = AABF81250B759BC8002DBAB5 /* UArray_format.c */; };
@@ -177,9 +178,6 @@
 		AAE6A0D80B110796006E309B /* IoWeakLink.c in Sources */ = {isa = PBXBuildFile; fileRef = AAE69F060B110796006E309B /* IoWeakLink.c */; };
 		AAE6A0D90B110796006E309B /* IoWeakLink.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAE69F070B110796006E309B /* IoWeakLink.h */; };
 		AAE6A1500B110B8F006E309B /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = AAE6A14F0B110B8F006E309B /* main.c */; };
-		AAE93A320B682471000D1BD7 /* SHash_inline.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAE93A2F0B682471000D1BD7 /* SHash_inline.h */; };
-		AAE93A330B682471000D1BD7 /* SHash.c in Sources */ = {isa = PBXBuildFile; fileRef = AAE93A300B682471000D1BD7 /* SHash.c */; };
-		AAE93A340B682471000D1BD7 /* SHash.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAE93A310B682471000D1BD7 /* SHash.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -266,8 +264,6 @@
 				AAE6A0D60B110796006E309B /* IoVM.h in CopyFiles */,
 				AAE6A0D90B110796006E309B /* IoWeakLink.h in CopyFiles */,
 				AAA3CAF60B186E2F004C257F /* IoMessage_opShuffle.h in CopyFiles */,
-				AAE93A320B682471000D1BD7 /* SHash_inline.h in CopyFiles */,
-				AAE93A340B682471000D1BD7 /* SHash.h in CopyFiles */,
 				AABF81320B759BC8002DBAB5 /* UArray_character.h in CopyFiles */,
 				AABF81340B759BC8002DBAB5 /* UArray_format.h in CopyFiles */,
 				AABF81360B759BC8002DBAB5 /* UArray_math.h in CopyFiles */,
@@ -305,6 +301,9 @@
 		AA8383A60BDFCE0100B4F003 /* IoVMApi.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoVMApi.h; path = ../../libs/iovm/source/IoVMApi.h; sourceTree = SOURCE_ROOT; };
 		AAA3CAF30B186E2F004C257F /* IoMessage_opShuffle.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = IoMessage_opShuffle.c; sourceTree = "<group>"; };
 		AAA3CAF40B186E2F004C257F /* IoMessage_opShuffle.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IoMessage_opShuffle.h; sourceTree = "<group>"; };
+		AAADB4AB0FA8010D00D4F384 /* CHash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = CHash.c; path = ../../libs/basekit/source/CHash.c; sourceTree = SOURCE_ROOT; };
+		AAADB4AC0FA8010D00D4F384 /* CHash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CHash.h; path = ../../libs/basekit/source/CHash.h; sourceTree = SOURCE_ROOT; };
+		AAADB4AD0FA8010D00D4F384 /* CHash_inline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CHash_inline.h; path = ../../libs/basekit/source/CHash_inline.h; sourceTree = SOURCE_ROOT; };
 		AABF81230B759BC8002DBAB5 /* UArray_character.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = UArray_character.c; sourceTree = "<group>"; };
 		AABF81240B759BC8002DBAB5 /* UArray_character.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = UArray_character.h; sourceTree = "<group>"; };
 		AABF81250B759BC8002DBAB5 /* UArray_format.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = UArray_format.c; sourceTree = "<group>"; };
@@ -466,9 +465,6 @@
 		AAE69F060B110796006E309B /* IoWeakLink.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoWeakLink.c; path = ../../libs/iovm/source/IoWeakLink.c; sourceTree = SOURCE_ROOT; };
 		AAE69F070B110796006E309B /* IoWeakLink.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoWeakLink.h; path = ../../libs/iovm/source/IoWeakLink.h; sourceTree = SOURCE_ROOT; };
 		AAE6A14F0B110B8F006E309B /* main.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = main.c; path = ../../tools/source/main.c; sourceTree = SOURCE_ROOT; };
-		AAE93A2F0B682471000D1BD7 /* SHash_inline.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SHash_inline.h; path = ../../libs/basekit/source/SHash_inline.h; sourceTree = SOURCE_ROOT; };
-		AAE93A300B682471000D1BD7 /* SHash.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = SHash.c; path = ../../libs/basekit/source/SHash.c; sourceTree = SOURCE_ROOT; };
-		AAE93A310B682471000D1BD7 /* SHash.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SHash.h; path = ../../libs/basekit/source/SHash.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -555,6 +551,9 @@
 		AAE69D960B110795006E309B /* source */ = {
 			isa = PBXGroup;
 			children = (
+				AAADB4AB0FA8010D00D4F384 /* CHash.c */,
+				AAADB4AC0FA8010D00D4F384 /* CHash.h */,
+				AAADB4AD0FA8010D00D4F384 /* CHash_inline.h */,
 				AACD1FF20F12F6370072A032 /* cdecode.c */,
 				AACD1FF30F12F6370072A032 /* cdecode.h */,
 				AACD1FF40F12F6370072A032 /* cencode.c */,
@@ -568,9 +567,6 @@
 				AAE69DC70B110795006E309B /* PHash.c */,
 				AAE69DC80B110795006E309B /* PHash.h */,
 				AAE69DC90B110795006E309B /* PHash_inline.h */,
-				AAE93A300B682471000D1BD7 /* SHash.c */,
-				AAE93A310B682471000D1BD7 /* SHash.h */,
-				AAE93A2F0B682471000D1BD7 /* SHash_inline.h */,
 				AAE69DB40B110795006E309B /* Common.c */,
 				AAE69DB50B110795006E309B /* Common.h */,
 				AAE69DB60B110795006E309B /* Common_inline.h */,
@@ -890,7 +886,6 @@
 				AAE6A0D80B110796006E309B /* IoWeakLink.c in Sources */,
 				AAE6A1500B110B8F006E309B /* main.c in Sources */,
 				AAA3CAF50B186E2F004C257F /* IoMessage_opShuffle.c in Sources */,
-				AAE93A330B682471000D1BD7 /* SHash.c in Sources */,
 				AABF81310B759BC8002DBAB5 /* UArray_character.c in Sources */,
 				AABF81330B759BC8002DBAB5 /* UArray_format.c in Sources */,
 				AABF81350B759BC8002DBAB5 /* UArray_math.c in Sources */,
@@ -908,6 +903,7 @@
 				AAE58CEF0DC9347B00183939 /* IoError.c in Sources */,
 				AACD1FF60F12F6370072A032 /* cdecode.c in Sources */,
 				AACD1FF70F12F6370072A032 /* cencode.c in Sources */,
+				AAADB4AE0FA8010D00D4F384 /* CHash.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

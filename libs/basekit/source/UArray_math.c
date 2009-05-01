@@ -534,16 +534,30 @@ uintptr_t UArray_calcHash(UArray *self)
 		h ^= data[i];
 	}
 
-	//printf("UArray_%p %i %s\n", self, h, (char *)self->data);
-
 /*
+	//printf("UArray_%p %i %s\n", self, h, (char *)self->data);
 	// I *think* this should hash to the same value for ASCII, UCS2 and UCS2 types, but not UTF8
-
 	UARRAY_FOREACH(self, i, v,
 		h += (h << 5);
 		h ^= (uintptr_t)v;
 	);
 */
+
+	return h;
+}
+
+uintptr_t UArray_calcHash2(UArray *self)
+{
+	uintptr_t h = 5381;
+
+	int i, max = UArray_sizeInBytes(self);
+	uint8_t *data = self->data;
+
+	for(i = 0; i < max; i ++)
+	{
+		h += (h << 3);
+		h ^= data[i];
+	}
 
 	return h;
 }
@@ -557,6 +571,17 @@ uintptr_t UArray_hash(UArray *self)
 	}
 
 	return self->hash;
+}
+
+uintptr_t UArray_hash2(UArray *self)
+{
+	if (!self->hash2)
+	{
+		self->hash2 = UArray_calcHash2(self);
+		if(self->hash2 == 0x0) self->hash2 = 0x1;
+	}
+
+	return self->hash2;
 }
 
 int UArray_equalsWithHashCheck_(UArray *self, UArray *other)
