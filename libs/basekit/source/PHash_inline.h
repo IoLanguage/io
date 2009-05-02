@@ -12,40 +12,9 @@
 #include "Common_inline.h"
 #ifdef IO_DECLARE_INLINES
 
-#include <stdio.h>
-
-#define PHASH_RECORDS_AT_(self, tableIndex, index) (self->records + self->tableSize*tableIndex + index)
-#define PHASH_RECORDS_AT_HASH_(self, tableIndex, hash) \
-(self->records + self->tableSize*tableIndex + (hash & self->mask))
-
-IOINLINE unsigned int PHash_count(PHash *self)
-{
-	return self->numKeys;
-}
-
-IOINLINE void PHashRecord_swap(PHashRecord* r1, PHashRecord* r2)
-{
-	PHashRecord t = *r1;
-	*r1 = *r2;
-	*r2 = t;
-}
-
-#define PHashKey_value(k) k
+#define Records_recordAt_(records, pos) (PHashRecord *)(records + (pos * sizeof(PHashRecord)))
 
 /*
-IOINLINE void *PHashKey_value(void *key)
-{
-	return key;
-}
-*/
-
-IOINLINE unsigned int PHashKey_isEqual_(void *key1, void *key2)
-{
-//	return key2 && (PHashKey_value(key1) == PHashKey_value(key2));
-	return key1 == key2;
-}
-
-// simple hash functions, should be enough for pointers
 IOINLINE unsigned int PHash_hash(PHash *self, void *key)
 {
 	intptr_t k = (intptr_t)PHashKey_value(key);
@@ -56,172 +25,136 @@ IOINLINE unsigned int PHash_hash_more(PHash *self, unsigned int hash)
 {
 	return hash ^ (hash >> self->log2tableSize);
 }
+*/
 
 // -----------------------------------
 
-IOINLINE void PHash_clean(PHash *self)
+IOINLINE PHashRecord *PHash_record1_(PHash *self, void *k)
 {
-	memset(self->records, 0, sizeof(PHashRecord) * self->tableSize * 2);
-	self->numKeys = 0;
+	// the ~| 0x1 before the mask ensures an odd pos
+	intptr_t kk = (intptr_t)k;
+	size_t pos = ((kk^(kk>>4)) | 0x1) & self->mask;
+	return Records_recordAt_(self->records, pos);
 }
 
-IOINLINE PHashRecord *PHash_recordAt_(PHash *self, void *key)
+IOINLINE PHashRecord *PHash_record2_(PHash *self, void *k)
 {
-	unsigned int hash;
-	PHashRecord *record;
-
-	hash = PHash_hash(self, key);
-	record = PHASH_RECORDS_AT_HASH_(self, 0, hash);
-
-	// we try the second location
-	hash = PHash_hash_more(self, hash);
-	record = (key == record->key) ? record : PHASH_RECORDS_AT_HASH_(self, 1, hash);
-
-	return (key == record->key) ? record : &self->nullRecord;
+	// the | 0x1 before the mask ensures an even pos
+	intptr_t kk = (intptr_t)k;
+	//size_t pos = (((kk^(kk/33)) << 1)) & self->mask;
+	size_t pos = (kk << 1) & self->mask;
+	return Records_recordAt_(self->records, pos);
 }
 
-IOINLINE void *PHash_at_(PHash *self, void *key)
+IOINLINE void *PHash_at_(PHash *self, void *k)
 {
-	return PHash_recordAt_(self, key)->value;
+	PHashRecord *r;
+	
+	r = PHash_record1_(self, k);
+	if(k == r->k) return r->v;
+	
+	r = PHash_record2_(self, k);	
+	if(k == r->k) return r->v;
+	
+	return 0x0;
 }
 
-IOINLINE unsigned char PHash_at_update_(PHash *self, void *key, void *value)
+IOINLINE unsigned int PHash_count(PHash *self)
 {
-	PHashRecord *record = PHash_recordAt_(self, key);
+	return self->keyCount;
+}
 
-	if (record->key)
+IOINLINE int PHashKey_hasKey_(PHash *self, void *key)
+{
+	return PHash_at_(self, key) != NULL;
+}
+
+IOINLINE void PHash_at_put_(PHash *self, void *k, void *v)
+{
+	PHashRecord *r;
+	
+	r = PHash_record1_(self, k);
+	
+	if(!r->k)
 	{
-		// already a matching key, replace it
-		if (PHashKey_isEqual_(key, record->key))
-		{
-			if (record->value == value)
-			{
-				return 0; // return 0 if no change
-			}
-
-			record->value = value;
-			return 1;
-		}
+		r->k = k;
+		r->v = v;
+		self->keyCount ++;
+		return;
 	}
-
-	return 0;
-}
-
-IOINLINE void PHash_at_put_(PHash *self, void *key, void *value)
-{
-	PHashRecord thisRecord;
-	PHashRecord *record;
-
-	record = PHash_recordAt_(self, key);
-
-	// already a matching key, replace it
-	if (record != &self->nullRecord && PHashKey_isEqual_(key, record->key))
+	
+	if(r->k == k)
 	{
-		record->value = value;
+		r->v = v;
 		return;
 	}
 
-	thisRecord.key = key;
-	thisRecord.value = value;
-	#ifdef PHASH_DIRTY_SLOTS
-	thisRecord.isDirty = 1;
-	#endif
-	record = PHash_cuckoo_(self, &thisRecord);
+	r = PHash_record2_(self, k);
 
-	if (!record) // collision
+	if(!r->k)
 	{
-		PHash_growWithRecord(self, &thisRecord);
+		r->k = k;
+		r->v = v;
+		self->keyCount ++;
+		return;
 	}
-	else
+	
+	if(r->k == k)
 	{
-		*record = thisRecord;
-		self->numKeys ++;
-		if (self->numKeys > PHash_maxKeys(self))
-			PHash_grow(self);
+		r->v = v;
+		return;
 	}
-}
-
-#define PHASH_FOREACHRECORD(self, record, code) \
-{\
-	PHash *_self = (self);\
-	unsigned int _i, _j, _size = _self->tableSize;\
-	\
-	for (_j = 0; _j < 2; _j ++)\
-	for (_i = 0; _i < _size; _i ++)\
-	{\
-		PHashRecord *record = PHASH_RECORDS_AT_(_self, _j, _i);\
-		if (record->key)\
-		{\
-			code;\
-		}\
-	}\
-}
-
-#ifdef PHASH_DIRTY_SLOTS
-IOINLINE int PHash_hasDirtyKey_(PHash *self, void *key)
-{
-	PHashRecord *record = PHash_recordAt_(self, key);
-	return record ? record->isDirty : 0;
-}
-
-IOINLINE void PHash_cleanSlots(PHash *self)
-{
-	PHASH_FOREACHRECORD(self, aRecord, aRecord->isDirty = 0;);
-}
-#endif
-
-IOINLINE void PHash_removeKey_(PHash *self, void *key)
-{
-	PHashRecord *record = PHash_recordAt_(self, key);
-	void *rkey = record->key;
-
-	if (rkey && PHashKey_value(rkey) == PHashKey_value(key))
+	
 	{
-		self->numKeys --;
-		memset(record, 0, sizeof(PHashRecord));
+	PHashRecord x;
+	x.k = k;
+	x.v = v;
+	PHash_insert_(self, &x);
 	}
+}
+
+IOINLINE void PHash_shrinkIfNeeded(PHash *self)
+{
+	if(self->keyCount < self->size/8)
+	{
+		PHash_shrink(self);
+	}
+}
+
+IOINLINE void PHashRecord_swapWith_(PHashRecord *self, PHashRecord *other)
+{
+	PHashRecord tmp = *self;
+	*self = *other;
+	*other = tmp;
+}
+
+IOINLINE void PHash_clean(PHash *self)
+{
+	memset(self->records, 0, sizeof(PHashRecord) * self->size);
+	self->keyCount = 0;
 }
 
 // --- enumeration --------------------------------------------------
 
-
-
-
 #define PHASH_FOREACH(self, pkey, pvalue, code) \
 {\
 	PHash *_self = (self);\
-	unsigned int _i, _j, _size = _self->tableSize;\
-	void * pkey;\
-	void * pvalue;\
+	unsigned char *_records = _self->records;\
+	unsigned int _i, _size = _self->size;\
+	void *pkey;\
+	void *pvalue;\
 	\
-	for (_j = 0; _j < 2; _j ++)\
 	for (_i = 0; _i < _size; _i ++)\
 	{\
-		PHashRecord *_record = PHASH_RECORDS_AT_(_self, _j, _i);\
-		if (_record->key)\
+		PHashRecord *_record = Records_recordAt_(_records, _i);\
+		if (_record->k)\
 		{\
-			pkey = _record->key;\
-			pvalue = _record->value;\
+			pkey = _record->k;\
+			pvalue = _record->v;\
 			code;\
 		}\
 	}\
 }
-
-/*
-typedef BASEKIT_API void (PHashDoCallback)(void *);
-
-IOINLINE void PHash_do_(PHash *self, PHashDoCallback *callback)
-{ PHASH_FOREACH(self, k, v, (*callback)(v)); }
-
-IOINLINE void *PHash_detect_(PHash *self, PHashDetectCallback *callback)
-{ PHASH_FOREACH(self, k, v, if ((*callback)(v)) return k; ); return NULL; }
-
-IOINLINE void PHash_doOnKeys_(PHash *self, PHashDoCallback *callback)
-{ PHASH_FOREACH(self, k, v, (*callback)(k)); }
-
-IOINLINE void PHash_doOnKeyAndValue_(PHash *self, PHashDoCallback *callback)
-{ PHASH_FOREACH(self, k, v, (*callback)(k); (*callback)(v);); }
-*/
 
 #undef IO_IN_C_FILE
 #endif
