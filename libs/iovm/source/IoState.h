@@ -14,6 +14,7 @@
 #include "CHash.h"
 #include "MainArgs.h"
 #include "IoObject_struct.h"
+#include "RandomGen.h" 
 #define COLLECTOROBJECTTYPE IoObjectData
 
 #include "Collector.h"
@@ -37,6 +38,7 @@ typedef IoObject *(IoStateProtoFunc)(void *);
 
 struct IoState
 {
+	RandomGen *randomGen;
 	PointerHash *primitives;
 	CHash *symbols;
 

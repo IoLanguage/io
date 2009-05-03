@@ -30,7 +30,9 @@ typedef struct CollectorMarker CollectorMarker;
 #define CollectorMarkerSansPointer \
 	CollectorMarker *prev; \
 	CollectorMarker *next; \
-	unsigned int color : 2;
+	unsigned int color : 2; \
+	unsigned int hash1; \
+	unsigned int hash2; 
 
 /*
 #if !defined(COLLECTOROBJECTTYPE)

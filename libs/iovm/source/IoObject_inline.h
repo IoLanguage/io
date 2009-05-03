@@ -13,14 +13,16 @@
 
 IOINLINE PHashRecord *PHash_record1_(PHash *self, void *k)
 {
-	intptr_t kk = IoSeq_rawUArray(((IoSeq *)k))->evenHash;
+	//intptr_t kk = IoSeq_rawUArray(((IoSeq *)k))->evenHash;
+	intptr_t kk = ((CollectorMarker *)k)->hash1;
 	size_t pos = kk & self->mask;
 	return Records_recordAt_(self->records, pos);
 }
 
 IOINLINE PHashRecord *PHash_record2_(PHash *self, void *k)
 {
-	intptr_t kk = IoSeq_rawUArray(((IoSeq *)k))->oddHash;
+	//intptr_t kk = IoSeq_rawUArray(((IoSeq *)k))->oddHash;
+	intptr_t kk = ((CollectorMarker *)k)->hash2;
 	size_t pos = kk & self->mask;
 	return Records_recordAt_(self->records, pos);
 }

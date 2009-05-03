@@ -43,6 +43,7 @@ void IoState_new_atAddress(void *address)
 	IoCFunction *cFunctionProto;
 	IoSeq *seqProto;
 
+	self->randomGen = RandomGen_new();
 
 	// collector
 
@@ -381,14 +382,14 @@ void IoState_registerProtoWithFunc_(IoState *self, IoObject *proto, IoStateProto
 
 IoObject *IoState_protoWithName_(IoState *self, const char *name)
 {
-	PHASH_FOREACH(self->primitives, key, proto, if (!strcmp(IoObject_name(proto), name)) { return proto; });
+	POINTERHASH_FOREACH(self->primitives, key, proto, if (!strcmp(IoObject_name(proto), name)) { return proto; });
 	return NULL;
 }
 
 List *IoState_tagList(IoState *self) // caller must io_free returned List
 {
 	List *tags = List_new();
-	PHASH_FOREACH(self->primitives, k, proto, List_append_(tags, IoObject_tag((IoObject *)proto)));
+	POINTERHASH_FOREACH(self->primitives, k, proto, List_append_(tags, IoObject_tag((IoObject *)proto)));
 	return tags;
 }
 
@@ -413,6 +414,7 @@ void IoState_done(IoState *self)
 	List_free(self->recycledObjects);
 	List_free(self->cachedNumbers);
 
+	RandomGen_free(self->randomGen);
 	MainArgs_free(self->mainArgs);
 }
 

@@ -77,6 +77,8 @@ IoSymbol *IoState_addSymbol_(IoState *self, IoSymbol *s)
 {
 	CHash_at_put_(self->symbols, IoSeq_rawUArray(s), s);
 	IoObject_isSymbol_(s, 1);
+	s->hash1 = RandomGen_randomInt(self->randomGen) | 0x1;
+	s->hash2 = RandomGen_randomInt(self->randomGen) << 1;
 	return s;
 }
 
