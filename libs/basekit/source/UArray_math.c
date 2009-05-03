@@ -518,7 +518,8 @@ double UArray_distanceTo_(const UArray *self, const UArray *other)
 
 void UArray_changed(UArray *self)
 {
-	self->hash = 0;
+	self->evenHash = 0;
+	self->oddHash = 0;
 }
 
 //#include "pstdint.h" /* Replace with <stdint.h> if appropriate */
@@ -579,12 +580,12 @@ uint32_t SuperFastHash (const char * data, int len)
     return hash;
 }
 
-uintptr_t UArray_calcHash(UArray *self)
+uintptr_t UArray_calcEvenHash(UArray *self)
 {
-	return SuperFastHash((char *)(self->data), UArray_sizeInBytes(self));
+	return SuperFastHash((char *)(self->data), UArray_sizeInBytes(self)) | 0x1; // ensures odd result
 }
 
-uintptr_t UArray_calcHash2(UArray *self)
+uintptr_t UArray_calcOddHash(UArray *self)
 {
 	uintptr_t h = 5381;
 
@@ -597,29 +598,29 @@ uintptr_t UArray_calcHash2(UArray *self)
 		h ^= data[i];
 	}
 
-	return h;
+	return h << 1; // ensures even result
 }
 
-uintptr_t UArray_hash(UArray *self)
+uintptr_t UArray_oddHash(UArray *self)
 {
-	if (!self->hash)
+	if (!self->oddHash)
 	{
-		self->hash = UArray_calcHash(self);
-		if(self->hash == 0x0) self->hash = 0x1;
+		self->oddHash = UArray_calcOddHash(self);
+		if(self->oddHash == 0x0) self->oddHash = 0x1;
 	}
 
-	return self->hash;
+	return self->oddHash;
 }
 
-uintptr_t UArray_hash2(UArray *self)
+uintptr_t UArray_evenHash(UArray *self)
 {
-	if (!self->hash2)
+	if (!self->evenHash)
 	{
-		self->hash2 = UArray_calcHash2(self);
-		if(self->hash2 == 0x0) self->hash2 = 0x1;
+		self->evenHash = UArray_calcEvenHash(self);
+		if(self->evenHash == 0x0) self->evenHash = 0x1;
 	}
 
-	return self->hash2;
+	return self->evenHash;
 }
 
 int UArray_equalsWithHashCheck_(UArray *self, UArray *other)
@@ -630,8 +631,8 @@ int UArray_equalsWithHashCheck_(UArray *self, UArray *other)
 	}
 	else
 	{
-		uintptr_t h1 = UArray_hash(self);
-		uintptr_t h2 = UArray_hash(other);
+		uintptr_t h1 = UArray_evenHash(self);
+		uintptr_t h2 = UArray_evenHash(other);
 
 		if (h1 != h2)
 		{

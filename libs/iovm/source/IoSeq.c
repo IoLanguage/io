@@ -241,10 +241,12 @@ int IoSeq_compare(IoSeq *self, IoSeq *v)
 	return IoObject_defaultCompare(self, v);
 }
 
+/*
 UArray *IoSeq_rawUArray(IoSeq *self)
 {
 	return DATA(self);
 }
+*/
 
 char *IoSeq_asCString(IoSeq *self)
 {
@@ -356,28 +358,6 @@ int IoSeq_rawIsNotAlphaNumeric(IoSeq *self)
 
 	return (*s == 0);
 }
-
-// hashing
-
-/*
-int IoSeq_rawEqualTo(IoSeq *self, IoObject *other)
-{
-	return UArray_equals_(DATA(self), DATA(other));
-}
-
-uintptr_t IoSeq_rawHash(IoSeq *self)
-{
-	uintptr_t hash = IoObject_dataPointer2(self);
-
-	if (!hash)
-	{
-		hash = UArray_hash(DATA(self));
-		IoObject_setDataPointer2_(self, hash);
-	}
-
-	return hash;
-}
-*/
 
 /*
 int IoSeq_rawIsNotAlphaNumeric(IoSeq *self)

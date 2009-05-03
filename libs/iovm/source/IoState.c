@@ -54,7 +54,7 @@ void IoState_new_atAddress(void *address)
 	Collector_setFreeFunc_(self->collector, (CollectorFreeFunc *)IoObject_free);
 
 	self->mainArgs   = MainArgs_new();
-	self->primitives = PHash_new();
+	self->primitives = PointerHash_new();
 
 	self->recycledObjects = List_new();
 	self->maxRecycledObjects = IOSTATE_DEFAULT_MAX_RECYCLED_OBJECTS;
@@ -70,8 +70,8 @@ void IoState_new_atAddress(void *address)
 	self->symbols = CHash_new();
 
 	CHash_setEqualFunc_(self->symbols, (CHashEqualFunc *)UArray_equalsWithHashCheck_);
-	CHash_setHash1Func_(self->symbols, (CHashHashFunc *)UArray_hash);
-	CHash_setHash2Func_(self->symbols, (CHashHashFunc *)UArray_hash2);
+	CHash_setHash1Func_(self->symbols, (CHashHashFunc *)UArray_evenHash);
+	CHash_setHash2Func_(self->symbols, (CHashHashFunc *)UArray_oddHash);
 
 	/*
 	Problem:
@@ -368,14 +368,14 @@ void IoState_init(IoState *self)
 
 void IoState_registerProtoWithFunc_(IoState *self, IoObject *proto, IoStateProtoFunc *func)
 {
-	if (PHash_at_(self->primitives, (void *)func))
+	if (PointerHash_at_(self->primitives, (void *)func))
 	{
 		printf("Error registering proto: %s\n", IoObject_name(proto));
 		IoState_fatalError_(self, "IoState_registerProtoWithFunc_() Error: attempt to add the same proto twice");
 	}
 
 	IoState_retain_(self, proto);
-	PHash_at_put_(self->primitives, (void *)func, proto);
+	PointerHash_at_put_(self->primitives, (void *)func, proto);
 	//printf("registered %s\n", IoObject_name(proto));
 }
 
@@ -406,7 +406,7 @@ void IoState_done(IoState *self)
 	List_do_(tags, (ListDoCallback *)IoTag_free);
 	List_free(tags);
 
-	PHash_free(self->primitives);
+	PointerHash_free(self->primitives);
 	CHash_free(self->symbols);
 
 	LIST_DO_(self->recycledObjects, IoObject_dealloc); // this does not work now that objects and marks are separate
@@ -439,7 +439,7 @@ void MissingProtoError(void)
 
 IoObject *IoState_protoWithInitFunction_(IoState *self, IoStateProtoFunc *func)
 {
-	IoObject *proto = PHash_at_(self->primitives, (void *)func);
+	IoObject *proto = PointerHash_at_(self->primitives, (void *)func);
 
 	//printf("IoState_protoWithInitFunction_(self, %p)\n", (void *)func);
 

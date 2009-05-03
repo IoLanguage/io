@@ -5,7 +5,7 @@
 #define OBJECT_STRUCT_DEFINED 1
 
 #include "Common.h"
-#include "PHash.h"
+#include "PHash_struct.h"
 #include "BStream.h"
 #include "IoTag.h"
 #include "Collector.h"

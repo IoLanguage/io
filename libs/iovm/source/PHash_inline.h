@@ -29,6 +29,7 @@ IOINLINE unsigned int PHash_hash_more(PHash *self, unsigned int hash)
 
 // -----------------------------------
 
+/*
 IOINLINE PHashRecord *PHash_record1_(PHash *self, void *k)
 {
 	// the ~| 0x1 before the mask ensures an odd pos
@@ -45,7 +46,9 @@ IOINLINE PHashRecord *PHash_record2_(PHash *self, void *k)
 	size_t pos = (kk << 1) & self->mask;
 	return Records_recordAt_(self->records, pos);
 }
+*/
 
+/*
 IOINLINE void *PHash_at_(PHash *self, void *k)
 {
 	PHashRecord *r;
@@ -155,6 +158,7 @@ IOINLINE void PHash_clean(PHash *self)
 		}\
 	}\
 }
+*/
 
 #undef IO_IN_C_FILE
 #endif

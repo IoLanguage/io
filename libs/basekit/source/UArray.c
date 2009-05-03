@@ -521,7 +521,7 @@ UArray UArray_stackRange(const UArray *self, size_t start, size_t size)
 	UArray s;
 
 	memcpy(&s, self, sizeof(UArray));
-	s.hash = 0;
+	UArray_changed(&s);
 
 #ifdef UARRAY_DEBUG
 	s.stackAllocated = 1;

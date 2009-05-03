@@ -21,6 +21,8 @@
 		AAA3CAF50B186E2F004C257F /* IoMessage_opShuffle.c in Sources */ = {isa = PBXBuildFile; fileRef = AAA3CAF30B186E2F004C257F /* IoMessage_opShuffle.c */; };
 		AAA3CAF60B186E2F004C257F /* IoMessage_opShuffle.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAA3CAF40B186E2F004C257F /* IoMessage_opShuffle.h */; };
 		AAADB4AE0FA8010D00D4F384 /* CHash.c in Sources */ = {isa = PBXBuildFile; fileRef = AAADB4AB0FA8010D00D4F384 /* CHash.c */; };
+		AAADB7710FAD0A6100D4F384 /* PHash.c in Sources */ = {isa = PBXBuildFile; fileRef = AAADB76E0FAD0A6100D4F384 /* PHash.c */; };
+		AAADB7FD0FAD1E8C00D4F384 /* PointerHash.c in Sources */ = {isa = PBXBuildFile; fileRef = AAADB7FA0FAD1E8C00D4F384 /* PointerHash.c */; };
 		AABF81310B759BC8002DBAB5 /* UArray_character.c in Sources */ = {isa = PBXBuildFile; fileRef = AABF81230B759BC8002DBAB5 /* UArray_character.c */; };
 		AABF81320B759BC8002DBAB5 /* UArray_character.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AABF81240B759BC8002DBAB5 /* UArray_character.h */; };
 		AABF81330B759BC8002DBAB5 /* UArray_format.c in Sources */ = {isa = PBXBuildFile; fileRef = AABF81250B759BC8002DBAB5 /* UArray_format.c */; };
@@ -61,9 +63,6 @@
 		AAE69FB10B110796006E309B /* List_inline.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAE69DC40B110795006E309B /* List_inline.h */; };
 		AAE69FB20B110796006E309B /* MainArgs.c in Sources */ = {isa = PBXBuildFile; fileRef = AAE69DC50B110795006E309B /* MainArgs.c */; };
 		AAE69FB30B110796006E309B /* MainArgs.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAE69DC60B110795006E309B /* MainArgs.h */; };
-		AAE69FB40B110796006E309B /* PHash.c in Sources */ = {isa = PBXBuildFile; fileRef = AAE69DC70B110795006E309B /* PHash.c */; };
-		AAE69FB50B110796006E309B /* PHash.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAE69DC80B110795006E309B /* PHash.h */; };
-		AAE69FB60B110796006E309B /* PHash_inline.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAE69DC90B110795006E309B /* PHash_inline.h */; };
 		AAE69FB70B110796006E309B /* PortableGettimeofday.c in Sources */ = {isa = PBXBuildFile; fileRef = AAE69DCA0B110795006E309B /* PortableGettimeofday.c */; };
 		AAE69FB80B110796006E309B /* PortableGettimeofday.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAE69DCB0B110795006E309B /* PortableGettimeofday.h */; };
 		AAE69FB90B110796006E309B /* PortableSnprintf.c in Sources */ = {isa = PBXBuildFile; fileRef = AAE69DCC0B110795006E309B /* PortableSnprintf.c */; };
@@ -198,8 +197,6 @@
 				AAE69FB00B110796006E309B /* List.h in CopyFiles */,
 				AAE69FB10B110796006E309B /* List_inline.h in CopyFiles */,
 				AAE69FB30B110796006E309B /* MainArgs.h in CopyFiles */,
-				AAE69FB50B110796006E309B /* PHash.h in CopyFiles */,
-				AAE69FB60B110796006E309B /* PHash_inline.h in CopyFiles */,
 				AAE69FB80B110796006E309B /* PortableGettimeofday.h in CopyFiles */,
 				AAE69FBA0B110796006E309B /* PortableStdint.h in CopyFiles */,
 				AAE69FBC0B110796006E309B /* PortableStrlcpy.h in CopyFiles */,
@@ -304,6 +301,13 @@
 		AAADB4AB0FA8010D00D4F384 /* CHash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = CHash.c; path = ../../libs/basekit/source/CHash.c; sourceTree = SOURCE_ROOT; };
 		AAADB4AC0FA8010D00D4F384 /* CHash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CHash.h; path = ../../libs/basekit/source/CHash.h; sourceTree = SOURCE_ROOT; };
 		AAADB4AD0FA8010D00D4F384 /* CHash_inline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CHash_inline.h; path = ../../libs/basekit/source/CHash_inline.h; sourceTree = SOURCE_ROOT; };
+		AAADB76E0FAD0A6100D4F384 /* PHash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = PHash.c; path = ../../libs/iovm/source/PHash.c; sourceTree = SOURCE_ROOT; };
+		AAADB76F0FAD0A6100D4F384 /* PHash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHash.h; path = ../../libs/iovm/source/PHash.h; sourceTree = SOURCE_ROOT; };
+		AAADB7700FAD0A6100D4F384 /* PHash_inline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHash_inline.h; path = ../../libs/iovm/source/PHash_inline.h; sourceTree = SOURCE_ROOT; };
+		AAADB7910FAD0DFA00D4F384 /* PHash_struct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PHash_struct.h; path = ../../libs/iovm/source/PHash_struct.h; sourceTree = SOURCE_ROOT; };
+		AAADB7FA0FAD1E8C00D4F384 /* PointerHash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = PointerHash.c; path = ../../libs/basekit/source/PointerHash.c; sourceTree = SOURCE_ROOT; };
+		AAADB7FB0FAD1E8C00D4F384 /* PointerHash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PointerHash.h; path = ../../libs/basekit/source/PointerHash.h; sourceTree = SOURCE_ROOT; };
+		AAADB7FC0FAD1E8C00D4F384 /* PointerHash_struct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PointerHash_struct.h; path = ../../libs/basekit/source/PointerHash_struct.h; sourceTree = SOURCE_ROOT; };
 		AABF81230B759BC8002DBAB5 /* UArray_character.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = UArray_character.c; sourceTree = "<group>"; };
 		AABF81240B759BC8002DBAB5 /* UArray_character.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = UArray_character.h; sourceTree = "<group>"; };
 		AABF81250B759BC8002DBAB5 /* UArray_format.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = UArray_format.c; sourceTree = "<group>"; };
@@ -348,9 +352,6 @@
 		AAE69DC40B110795006E309B /* List_inline.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = List_inline.h; path = ../../libs/basekit/source/List_inline.h; sourceTree = SOURCE_ROOT; };
 		AAE69DC50B110795006E309B /* MainArgs.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = MainArgs.c; path = ../../libs/basekit/source/MainArgs.c; sourceTree = SOURCE_ROOT; };
 		AAE69DC60B110795006E309B /* MainArgs.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MainArgs.h; path = ../../libs/basekit/source/MainArgs.h; sourceTree = SOURCE_ROOT; };
-		AAE69DC70B110795006E309B /* PHash.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = PHash.c; path = ../../libs/basekit/source/PHash.c; sourceTree = SOURCE_ROOT; };
-		AAE69DC80B110795006E309B /* PHash.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PHash.h; path = ../../libs/basekit/source/PHash.h; sourceTree = SOURCE_ROOT; };
-		AAE69DC90B110795006E309B /* PHash_inline.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PHash_inline.h; path = ../../libs/basekit/source/PHash_inline.h; sourceTree = SOURCE_ROOT; };
 		AAE69DCA0B110795006E309B /* PortableGettimeofday.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = PortableGettimeofday.c; path = ../../libs/basekit/source/PortableGettimeofday.c; sourceTree = SOURCE_ROOT; };
 		AAE69DCB0B110795006E309B /* PortableGettimeofday.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PortableGettimeofday.h; path = ../../libs/basekit/source/PortableGettimeofday.h; sourceTree = SOURCE_ROOT; };
 		AAE69DCC0B110795006E309B /* PortableSnprintf.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = PortableSnprintf.c; path = ../../libs/basekit/source/PortableSnprintf.c; sourceTree = SOURCE_ROOT; };
@@ -551,6 +552,9 @@
 		AAE69D960B110795006E309B /* source */ = {
 			isa = PBXGroup;
 			children = (
+				AAADB7FA0FAD1E8C00D4F384 /* PointerHash.c */,
+				AAADB7FB0FAD1E8C00D4F384 /* PointerHash.h */,
+				AAADB7FC0FAD1E8C00D4F384 /* PointerHash_struct.h */,
 				AAADB4AB0FA8010D00D4F384 /* CHash.c */,
 				AAADB4AC0FA8010D00D4F384 /* CHash.h */,
 				AAADB4AD0FA8010D00D4F384 /* CHash_inline.h */,
@@ -564,9 +568,6 @@
 				AAE69DAE0B110795006E309B /* BStream.h */,
 				AAE69DAF0B110795006E309B /* BStreamTag.c */,
 				AAE69DB00B110795006E309B /* BStreamTag.h */,
-				AAE69DC70B110795006E309B /* PHash.c */,
-				AAE69DC80B110795006E309B /* PHash.h */,
-				AAE69DC90B110795006E309B /* PHash_inline.h */,
 				AAE69DB40B110795006E309B /* Common.c */,
 				AAE69DB50B110795006E309B /* Common.h */,
 				AAE69DB60B110795006E309B /* Common_inline.h */,
@@ -687,6 +688,10 @@
 		AAE69EA70B110795006E309B /* source */ = {
 			isa = PBXGroup;
 			children = (
+				AAADB7700FAD0A6100D4F384 /* PHash_inline.h */,
+				AAADB7910FAD0DFA00D4F384 /* PHash_struct.h */,
+				AAADB76E0FAD0A6100D4F384 /* PHash.c */,
+				AAADB76F0FAD0A6100D4F384 /* PHash.h */,
 				AA8383A60BDFCE0100B4F003 /* IoVMApi.h */,
 				AAE69EA80B110795006E309B /* IoBlock.c */,
 				AAE69EA90B110795006E309B /* IoBlock.h */,
@@ -833,7 +838,6 @@
 				AAE69FAA0B110796006E309B /* DynLib.c in Sources */,
 				AAE69FAF0B110796006E309B /* List.c in Sources */,
 				AAE69FB20B110796006E309B /* MainArgs.c in Sources */,
-				AAE69FB40B110796006E309B /* PHash.c in Sources */,
 				AAE69FB70B110796006E309B /* PortableGettimeofday.c in Sources */,
 				AAE69FB90B110796006E309B /* PortableSnprintf.c in Sources */,
 				AAE69FBB0B110796006E309B /* PortableStrlcpy.c in Sources */,
@@ -904,6 +908,8 @@
 				AACD1FF60F12F6370072A032 /* cdecode.c in Sources */,
 				AACD1FF70F12F6370072A032 /* cencode.c in Sources */,
 				AAADB4AE0FA8010D00D4F384 /* CHash.c in Sources */,
+				AAADB7710FAD0A6100D4F384 /* PHash.c in Sources */,
+				AAADB7FD0FAD1E8C00D4F384 /* PointerHash.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,7 +10,7 @@
 
 //#include "Collector.h"
 #include "Stack.h"
-#include "PHash.h"
+#include "PointerHash.h"
 #include "CHash.h"
 #include "MainArgs.h"
 #include "IoObject_struct.h"
@@ -37,7 +37,7 @@ typedef IoObject *(IoStateProtoFunc)(void *);
 
 struct IoState
 {
-	PHash *primitives;
+	PointerHash *primitives;
 	CHash *symbols;
 
 	// coroutines
