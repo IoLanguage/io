@@ -81,7 +81,7 @@ IoNumber *IoRandom_rawClone(IoRandom *proto)
 {
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, RandomGen_new());
-	//RandomGen_chooseRandomSeed(DATA(self));
+	RandomGen_chooseRandomSeed(DATA(self));
 	return self;
 }
 
