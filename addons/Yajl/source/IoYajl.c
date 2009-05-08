@@ -1,59 +1,59 @@
-//metadoc YajilParser copyright Steve Dekorte, 2004
-//metadoc YajilParser license BSD revised
-/*metadoc YajilParser description
-This object can be used to parse Yajil / HTML / XML.
+//metadoc YajlParser copyright Steve Dekorte, 2004
+//metadoc YajlParser license BSD revised
+/*metadoc YajlParser description
+This object can be used to parse Yajl / HTML / XML.
 */
-//metadoc YajilParser category XML
+//metadoc YajlParser category XML
 
-#include "IoYajil.h"
+#include "IoYajl.h"
 #include "IoState.h"
 #include "IoObject.h"
 #include "IoSeq.h"
 #include "IoNumber.h"
 #include <ctype.h>
 
-#define DATA(self) ((IoYajilData *)(IoObject_dataPointer(self)))
+#define DATA(self) ((IoYajlData *)(IoObject_dataPointer(self)))
 
-IoTag *IoYajil_newTag(void *state)
+IoTag *IoYajl_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("YajilParser");
+	IoTag *tag = IoTag_newWithName_("YajlParser");
 	IoTag_state_(tag, state);
-	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoYajil_rawClone);
-	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoYajil_mark);
-	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoYajil_free);
+	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoYajl_rawClone);
+	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoYajl_mark);
+	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoYajl_free);
 	return tag;
 }
 
-IoYajil *IoYajil_proto(void *state)
+IoYajl *IoYajl_proto(void *state)
 {
-	IoYajil *self = IoObject_new(state);
-	IoObject_tag_(self, IoYajil_newTag(state));
+	IoYajl *self = IoObject_new(state);
+	IoObject_tag_(self, IoYajl_newTag(state));
 
-	IoObject_setDataPointer_(self, io_calloc(1, sizeof(IoYajilData)));
+	IoObject_setDataPointer_(self, io_calloc(1, sizeof(IoYajlData)));
 
 	DATA(self)->addValueMessage = IoMessage_newWithName_label_(state,
-													   IOSYMBOL("addValue"), IOSYMBOL("YajilParser"));
+													   IOSYMBOL("addValue"), IOSYMBOL("YajlParser"));
 													   
 	DATA(self)->startArrayMessage = IoMessage_newWithName_label_(state,
-													   IOSYMBOL("startArray"), IOSYMBOL("YajilParser"));
+													   IOSYMBOL("startArray"), IOSYMBOL("YajlParser"));
 
 	DATA(self)->endArrayMessage = IoMessage_newWithName_label_(state,
-													 IOSYMBOL("endArray"), IOSYMBOL("YajilParser"));
+													 IOSYMBOL("endArray"), IOSYMBOL("YajlParser"));
 
 	DATA(self)->startMapMessage = IoMessage_newWithName_label_(state,
-													   IOSYMBOL("startMap"), IOSYMBOL("YajilParser"));
+													   IOSYMBOL("startMap"), IOSYMBOL("YajlParser"));
 
 	DATA(self)->endMapMessage = IoMessage_newWithName_label_(state,
-												   IOSYMBOL("endMap"), IOSYMBOL("YajilParser"));
+												   IOSYMBOL("endMap"), IOSYMBOL("YajlParser"));
 
 	DATA(self)->addMapKeyMessage = IoMessage_newWithName_label_(state,
-												   IOSYMBOL("addMapKey"), IOSYMBOL("YajilParser"));
+												   IOSYMBOL("addMapKey"), IOSYMBOL("YajlParser"));
 
-	IoState_registerProtoWithFunc_(state, self, IoYajil_proto);
+	IoState_registerProtoWithFunc_(state, self, IoYajl_proto);
 
 	{
 		IoMethodTable methodTable[] = {
-		{"parse", IoYajil_parse},
+		{"parse", IoYajl_parse},
 		{NULL, NULL},
 		};
 		IoObject_addMethodTable_(self, methodTable);
@@ -62,20 +62,20 @@ IoYajil *IoYajil_proto(void *state)
 }
 
 
-IoYajil *IoYajil_rawClone(IoYajil *proto)
+IoYajl *IoYajl_rawClone(IoYajl *proto)
 {
 	IoObject *self = IoObject_rawClonePrimitive(proto);
-	IoObject_setDataPointer_(self, cpalloc(DATA(proto), sizeof(IoYajilData)));
+	IoObject_setDataPointer_(self, cpalloc(DATA(proto), sizeof(IoYajlData)));
 	return self;
 }
 
-IoYajil *IoYajil_new(void *state)
+IoYajl *IoYajl_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoYajil_proto);
+	IoObject *proto = IoState_protoWithInitFunction_(state, IoYajl_proto);
 	return IOCLONE(proto);
 }
 
-void IoYajil_mark(IoYajil *self)
+void IoYajl_mark(IoYajl *self)
 {
 	IoObject_shouldMark(DATA(self)->addValueMessage);
 	IoObject_shouldMark(DATA(self)->startArrayMessage);
@@ -85,7 +85,7 @@ void IoYajil_mark(IoYajil *self)
 	IoObject_shouldMark(DATA(self)->addMapKeyMessage);
 }
 
-void IoYajil_free(IoYajil *self)
+void IoYajl_free(IoYajl *self)
 {
 
 
@@ -94,9 +94,9 @@ void IoYajil_free(IoYajil *self)
 
 /* ---  callbacks ---------------------------------- */
 
-static int IoYajil_callback_null(void *ctx)  
+static int IoYajl_callback_null(void *ctx)  
 {  
-	IoYajil *self = ctx;
+	IoYajl *self = ctx;
 	IoState_pushRetainPool(IOSTATE);
 	{
 	IoMessage *m = DATA(self)->addValueMessage;
@@ -107,9 +107,9 @@ static int IoYajil_callback_null(void *ctx)
     return 1;  
 }  
   
-static int IoYajil_callback_boolean(void *ctx, int boolean)  
+static int IoYajl_callback_boolean(void *ctx, int boolean)  
 {  
-	IoYajil *self = ctx;
+	IoYajl *self = ctx;
 	IoState_pushRetainPool(IOSTATE);
 	{
 	IoMessage *m = DATA(self)->addValueMessage;
@@ -122,9 +122,9 @@ static int IoYajil_callback_boolean(void *ctx, int boolean)
   
 #include <stdlib.h>
 	 
-static int IoYajil_callback_number(void *ctx, const char * s, unsigned int l)  
+static int IoYajl_callback_number(void *ctx, const char * s, unsigned int l)  
 {  
-	IoYajil *self = ctx;
+	IoYajl *self = ctx;
 	IoState_pushRetainPool(IOSTATE);
 	{
 	IoMessage *m = DATA(self)->addValueMessage;
@@ -136,10 +136,10 @@ static int IoYajil_callback_number(void *ctx, const char * s, unsigned int l)
     return 1;  
 }  
 
-static int IoYajil_callback_string(void *ctx, const unsigned char * stringVal,  
+static int IoYajl_callback_string(void *ctx, const unsigned char * stringVal,  
                            unsigned int stringLen)  
 {  
-	IoYajil *self = ctx;
+	IoYajl *self = ctx;
 	IoState_pushRetainPool(IOSTATE);
 	{
 	IoMessage *m = DATA(self)->addValueMessage;
@@ -150,10 +150,10 @@ static int IoYajil_callback_string(void *ctx, const unsigned char * stringVal,
     return 1;  
 }   
   
-static int IoYajil_callback_map_key(void *ctx, const unsigned char * stringVal,  
+static int IoYajl_callback_map_key(void *ctx, const unsigned char * stringVal,  
                             unsigned int stringLen)  
 {  
-	IoYajil *self = ctx;
+	IoYajl *self = ctx;
 	IoState_pushRetainPool(IOSTATE);
 	{
 	IoMessage *m = DATA(self)->addMapKeyMessage;
@@ -164,9 +164,9 @@ static int IoYajil_callback_map_key(void *ctx, const unsigned char * stringVal,
     return 1;  
 }  
   
-static int IoYajil_callback_start_map(void *ctx)  
+static int IoYajl_callback_start_map(void *ctx)  
 {  
-	IoYajil *self = ctx;
+	IoYajl *self = ctx;
 	IoState_pushRetainPool(IOSTATE);
 	{
 	IoMessage *m = DATA(self)->startMapMessage;
@@ -176,9 +176,9 @@ static int IoYajil_callback_start_map(void *ctx)
     return 1;  
 }
 
-static int IoYajil_callback_end_map(void *ctx)  
+static int IoYajl_callback_end_map(void *ctx)  
 {  
-	IoYajil *self = ctx;
+	IoYajl *self = ctx;
 	IoState_pushRetainPool(IOSTATE);
 	{
 	IoMessage *m = DATA(self)->endMapMessage;
@@ -188,9 +188,9 @@ static int IoYajil_callback_end_map(void *ctx)
     return 1;  
 }  
   
-static int IoYajil_callback_start_array(void *ctx)  
+static int IoYajl_callback_start_array(void *ctx)  
 {  
-	IoYajil *self = ctx;
+	IoYajl *self = ctx;
 	IoState_pushRetainPool(IOSTATE);
 	{
 	IoMessage *m = DATA(self)->startArrayMessage;
@@ -200,9 +200,9 @@ static int IoYajil_callback_start_array(void *ctx)
     return 1;  
 }  
   
-static int IoYajil_callback_end_array(void *ctx)  
+static int IoYajl_callback_end_array(void *ctx)  
 {  
-	IoYajil *self = ctx;
+	IoYajl *self = ctx;
 	IoState_pushRetainPool(IOSTATE);
 	{
 	IoMessage *m = DATA(self)->endArrayMessage;
@@ -213,20 +213,20 @@ static int IoYajil_callback_end_array(void *ctx)
 }  
   
 static yajl_callbacks callbacks = {  
-    IoYajil_callback_null,  
-    IoYajil_callback_boolean,  
+    IoYajl_callback_null,  
+    IoYajl_callback_boolean,  
     NULL,  
     NULL,  
-    IoYajil_callback_number,  
-    IoYajil_callback_string,  
-    IoYajil_callback_start_map,  
-    IoYajil_callback_map_key,  
-    IoYajil_callback_end_map,  
-    IoYajil_callback_start_array,  
-    IoYajil_callback_end_array  
+    IoYajl_callback_number,  
+    IoYajl_callback_string,  
+    IoYajl_callback_start_map,  
+    IoYajl_callback_map_key,  
+    IoYajl_callback_end_map,  
+    IoYajl_callback_start_array,  
+    IoYajl_callback_end_array  
 };  
   
-IoObject *IoYajil_parse(IoYajil *self, IoObject *locals, IoMessage *m)
+IoObject *IoYajl_parse(IoYajl *self, IoObject *locals, IoMessage *m)
 {
 	IoSeq *dataSeq = IoMessage_locals_seqArgAt_(m, locals, 0);
 	size_t dataSize = IoSeq_rawSizeInBytes(dataSeq);
@@ -252,14 +252,14 @@ IoObject *IoYajil_parse(IoYajil *self, IoObject *locals, IoMessage *m)
     return self;  
 }  
 /*
-void IoYajil_startElementHandler(Yajil_PARSER *parser,
+void IoYajl_startElementHandler(Yajl_PARSER *parser,
 							   void *userContext,
 							   const char *elementName)
 {
-	IoYajil *self = userContext;
+	IoYajl *self = userContext;
 	IoState_pushRetainPool(IOSTATE);
 	{
-	char *e = IoYajil_lowercase_(self, elementName);
+	char *e = IoYajl_lowercase_(self, elementName);
 	IoMessage *m = DATA(self)->startElementMessage;
 	IoMessage_setCachedArg_to_(m, 0, IOSYMBOL(e));
 	IoObject_perform(self, self, m);
@@ -267,14 +267,14 @@ void IoYajil_startElementHandler(Yajil_PARSER *parser,
 	IoState_popRetainPool(IOSTATE);
 }
 
-void IoYajil_endElementHandler(Yajil_PARSER *parser,
+void IoYajl_endElementHandler(Yajl_PARSER *parser,
 							 void *userContext,
 							 const char *elementName)
 {
-	IoYajil *self = userContext;
+	IoYajl *self = userContext;
 	IoState_pushRetainPool(IOSTATE);
 	{
-	char *e = IoYajil_lowercase_(self, elementName);
+	char *e = IoYajl_lowercase_(self, elementName);
 	IoMessage *m = DATA(self)->endElementMessage;
 
 	IoMessage_setCachedArg_to_(m, 0, IOSYMBOL(e));
@@ -283,18 +283,18 @@ void IoYajil_endElementHandler(Yajil_PARSER *parser,
 	IoState_popRetainPool(IOSTATE);
 }
 
-void IoYajil_newAttributeHandler(Yajil_PARSER *parser,
+void IoYajl_newAttributeHandler(Yajl_PARSER *parser,
 							   void *userContext,
 							   const char *attributeName,
 							   const char *attributeValue)
 {
-	IoYajil *self = userContext;
+	IoYajl *self = userContext;
 	IoState_pushRetainPool(IOSTATE);
 	{
 	IoMessage *m = DATA(self)->newAttributeMessage;
 
 	{
-		char *k = IoYajil_lowercase_(self, attributeName);
+		char *k = IoYajl_lowercase_(self, attributeName);
 		char *v = (char *)attributeValue;
 		k = k ? k : "";
 		v = v ? v : "";

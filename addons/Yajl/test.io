@@ -1,4 +1,4 @@
-Yajil
+Yajl
 
 s := """
 {
@@ -25,7 +25,7 @@ s := """
 }
 """
 
-root := Yajil clone parse(s) root 
+root := Yajl clone parse(s) root 
 root asJson println
 
 writeln("done")

@@ -1,4 +1,4 @@
-Yajil do(
+Yajl do(
 	init := method(
 		self stack := List clone
 		self mapKey := nil
@@ -56,6 +56,10 @@ Yajil do(
 	addMapKey := method(k,
 		//write(indent, "", k, ": ")
 		mapKey = k
+	)
+	
+	parseJson := method(json,
+		Yajl clone parse(json) root first
 	)
 )
 
