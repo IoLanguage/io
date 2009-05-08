@@ -606,7 +606,7 @@ uintptr_t UArray_oddHash(UArray *self)
 	if (!self->oddHash)
 	{
 		self->oddHash = UArray_calcOddHash(self);
-		if(self->oddHash == 0x0) self->oddHash = 0x1;
+		//if(self->oddHash == 0x0) self->oddHash = 0x1;
 	}
 
 	return self->oddHash;
@@ -617,7 +617,7 @@ uintptr_t UArray_evenHash(UArray *self)
 	if (!self->evenHash)
 	{
 		self->evenHash = UArray_calcEvenHash(self);
-		if(self->evenHash == 0x0) self->evenHash = 0x1;
+		//if(self->evenHash == 0x0) self->evenHash = 0x2;
 	}
 
 	return self->evenHash;
@@ -631,14 +631,15 @@ int UArray_equalsWithHashCheck_(UArray *self, UArray *other)
 	}
 	else
 	{
-		uintptr_t h1 = UArray_evenHash(self);
-		uintptr_t h2 = UArray_evenHash(other);
-
-		if (h1 != h2)
+		if (UArray_evenHash(self) != UArray_evenHash(other))
 		{
 			return 0;
 		}
 
+		if (UArray_oddHash(self) != UArray_oddHash(other))
+		{
+			return 0;
+		}
 		/*
 		if(strcmp(self->data, other->data) != 0)
 		{

@@ -26,7 +26,7 @@ IoObject *IoState_replacePerformFunc_with_(IoState *self,
 								   IoTagPerformFunc *oldFunc,
 								   IoTagPerformFunc *newFunc)
 {
-	PHASH_FOREACH(self->primitives, k, v,
+	POINTERHASH_FOREACH(self->primitives, k, v,
 		{
 		IoObject *proto = v;
 		IoTag *tag = IoObject_tag(proto);

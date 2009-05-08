@@ -70,7 +70,7 @@ void IoState_new_atAddress(void *address)
 
 	self->symbols = CHash_new();
 
-	CHash_setEqualFunc_(self->symbols, (CHashEqualFunc *)UArray_equalsWithHashCheck_);
+	CHash_setEqualFunc_(self->symbols, (CHashEqualFunc *)UArray_equals_);
 	CHash_setHash1Func_(self->symbols, (CHashHashFunc *)UArray_evenHash);
 	CHash_setHash2Func_(self->symbols, (CHashHashFunc *)UArray_oddHash);
 

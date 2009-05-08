@@ -12,7 +12,7 @@
 extern "C" {
 #endif
 
-#define CHASH_MAXLOOP 10
+#define CHASH_MAXLOOP 200
 	
 typedef int (CHashEqualFunc)(void *, void *);
 typedef intptr_t (CHashHashFunc)(void *);
@@ -32,6 +32,7 @@ typedef struct
 	CHashHashFunc *hash2;
 	CHashEqualFunc *equals;
 	intptr_t mask;
+	int isResizing;
 } CHash;
 
 BASEKIT_API CHash *CHash_new(void);
@@ -43,7 +44,7 @@ BASEKIT_API void CHash_setHash1Func_(CHash *self, CHashHashFunc *f);
 BASEKIT_API void CHash_setHash2Func_(CHash *self, CHashHashFunc *f);
 BASEKIT_API void CHash_setEqualFunc_(CHash *self, CHashEqualFunc *f);
 
-BASEKIT_API void CHash_at_put_(CHash *self, void *k, void *v);
+BASEKIT_API int CHash_at_put_(CHash *self, void *k, void *v);
 BASEKIT_API void CHash_removeKey_(CHash *self, void *k);
 BASEKIT_API size_t CHash_size(CHash *self); // actually the keyCount
 
@@ -53,7 +54,7 @@ BASEKIT_API void CHash_compact(CHash *self);
 // private methods -------------------------------
 
 BASEKIT_API void CHash_setSize_(CHash *self, size_t size); 
-BASEKIT_API void CHash_insert_(CHash *self, CHashRecord *x); 
+BASEKIT_API int CHash_insert_(CHash *self, CHashRecord *x); 
 BASEKIT_API void CHash_grow(CHash *self); 
 BASEKIT_API void CHash_shrinkIfNeeded(CHash *self); 
 BASEKIT_API void CHash_shrink(CHash *self); 

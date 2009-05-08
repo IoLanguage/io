@@ -1,31 +1,87 @@
 Yajil do(
+	init := method(
+		self stack := List clone
+		self mapKey := nil
+		self root := List clone
+		push(root)
+	)
+
+	push := method(v,
+		stack append(v)
+	)
+
+	pop := method(
+		stack removeLast
+	)
+
 	addValue := method(v,
-		writeln("addValue ", v);
+		//writeln("'", v, "'")
+		if(mapKey,
+			//writeln(stack last uniqueId, " atPut ", mapKey, ", ", v) 
+			stack last atPut(mapKey, v)
+			mapKey = nil
+		,
+			stack last append(v)
+		)
+	)
+
+	indent := method(
+		"\t" repeated(stack size)
 	)
 
 	startArray := method(
-		writeln("startArray");
+		//write("[");
+		v := List clone
+		addValue(v)
+		push(v)
 	)
 
 	endArray := method(
-		writeln("endArray");
+		//writeln(indent, "]")
+		pop
 	)
 
 	startMap := method(
-		writeln("addMapKey ", k);
+		//writeln("{");
+		v := Map clone
+		addValue(v)
+		push(v)
 	)
 
 	endMap := method(
-		writeln("addMapKey ", k);
+		//writeln(indent, "}")
+		pop
 	)
 
 	addMapKey := method(k,
-		writeln("addMapKey ", k);
+		//write(indent, "", k, ": ")
+		mapKey = k
 	)
 )
 
+Sequence asJson := method("\"" .. self .. "\"")
+Number asJson := method(self asString)
+true asJson := method("true")
+false asJson := method("false")
+nil asJson := method("null")
 
-Sequence do(
-	asJson := method(SGMLParser clone elementForString(self))
+Map asJson := method(
+	s := Sequence clone
+	s appendSeq("{")
+	self keys foreach(k,
+		s appendSeq(k asJson, ":", self at(k) asJson)
+	)
+	s appendSeq("}")
+	s
 )
+
+List asJson := method(
+	s := Sequence clone
+	s appendSeq("[")
+	s appendSeq(self map(asJson) join(", "))
+	s appendSeq("]")
+	s
+)
+
+
 

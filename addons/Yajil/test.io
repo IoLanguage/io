@@ -1,6 +1,6 @@
 Yajil
 
-		s := """
+s := """
 {
     "glossary": {
         "title": "example glossary",
@@ -24,6 +24,8 @@ Yajil
     }
 }
 """
-	Yajil parse(s)
-	
-)
+
+root := Yajil clone parse(s) root 
+root asJson println
+
+writeln("done")
