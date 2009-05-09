@@ -1,3 +1,6 @@
+#ifndef PORTABLESORTING_DEFINED
+#define PORTABLESORTING_DEFINED 1
+
 #include "Common.h"
 
 #ifdef __cplusplus
@@ -23,4 +26,6 @@ BASEKIT_API void portable_qsort_r(void *base, size_t nel, size_t width,
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif
