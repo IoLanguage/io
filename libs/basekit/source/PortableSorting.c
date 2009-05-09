@@ -6,7 +6,7 @@ typedef struct
 	size_t size;
 	size_t width;
 	void *context;
-	PortableSortingCompareCallback *compare;
+	PortableSortingCompareCallback compare;
 	unsigned char *swapSpace;
 } Sorter;
 
@@ -14,7 +14,7 @@ void Sorter_quickSort(Sorter *self, size_t lb, size_t ub);
 int Sorter_quickSortRearrange(Sorter *self, size_t lb, size_t ub);
 
 void portable_qsort_r(void *base, size_t size, size_t width, 
-	void *context, PortableSortingCompareCallback *compare)
+	void *context, PortableSortingCompareCallback compare)
 {
 	if (size > 0 && width > 0)
 	{
@@ -57,7 +57,7 @@ static void swap(void *base, size_t a, size_t b, size_t width, unsigned char *sw
 
 int Sorter_quickSortRearrange(Sorter *self, size_t lb, size_t ub)
 {
-	PortableSortingCompareCallback *comp = self->compare;
+	PortableSortingCompareCallback comp = self->compare;
 	void *context = self->context;
 	unsigned char *base = self->base;
 	size_t width = self->width;

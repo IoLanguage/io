@@ -10,6 +10,9 @@
 
 #include "IoVMApi.h"
 #include "IoState.h"
+#include "PHash.h"
+
+#define Records_recordAt_(records, pos) (PHashRecord *)(records + (pos * sizeof(PHashRecord)))
 
 IOINLINE PHashRecord *PHash_record1_(PHash *self, void *k)
 {

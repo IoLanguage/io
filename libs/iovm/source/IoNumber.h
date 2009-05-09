@@ -40,7 +40,7 @@ IOVM_API UArray IoNumber_asStackUArray(IoNumber *self);
 IOVM_API int IoNumber_asInt(IoNumber *self);
 long IoNumber_asLong(IoNumber *self);
 IOVM_API double IoNumber_asDouble(IoNumber *self);
-float IoNumber_asFloat(IoNumber *self);
+IOVM_API float IoNumber_asFloat(IoNumber *self);
 IOVM_API int IoNumber_compare(IoNumber *self, IoNumber *v);
 IOVM_API void IoNumber_print(IoNumber *self);
 //void IoNumber_rawSet(IoNumber *self, double v);

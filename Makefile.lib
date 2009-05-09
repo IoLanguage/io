@@ -19,6 +19,7 @@ LINKDLL := $(CC)
 LINKDLLOUTFLAG := -o 
 LINKDIRFLAG := -L
 LINKLIBFLAG := -l
+INSTALL_PREFIX_DEFINE := $(INSTALL_PREFIX)
 
 # may need to remove --param max-inline-insns-single=500 for older versions of gccs
 WARN :=-Wstrict-prototypes 
@@ -90,7 +91,7 @@ CC := cl -nologo
 CCOUTFLAG :=-Fo
 WARN := 
 #OPTIMIZE :=-Zi -MDd -D_USE_MATH_DEFINES -DWIN32 -D_DEBUG -D_CRT_SECURE_NO_DEPRECATE
-OPTIMIZE :=-Zi -MD -D_USE_MATH_DEFINES -DWIN32 -DNDEBUG -D_CRT_SECURE_NO_DEPRECATE
+OPTIMIZE :=-O2 -EHsc -MD -D_USE_MATH_DEFINES -DWIN32 -DNDEBUG -D_CRT_SECURE_NO_DEPRECATE
 AR := link -lib
 AROUTFLAG :=-out:
 ARFLAGS :=
@@ -104,6 +105,7 @@ DLL_SUFFIX := dll
 DLL_EXTRAS := ws2_32.lib shell32.lib
 FLAT_NAMESPACE :=
 RANLIB := echo no ranlib
+INSTALL_PREFIX_DEFINE := $(shell cygpath -am $(INSTALL_PREFIX))
 endif
 
 ### FILES #########################################################
@@ -168,11 +170,13 @@ _build/dll: _build
 -include $(objects:.o=.d)
 
 _build/objs/%.o: source/%.c
-	$(CC) -MM -MT $@ -MF $(@:.o=.d) -DINSTALL_PREFIX=\"$(INSTALL_PREFIX)\" $(CFLAGS) -c $< $(CCOUTFLAG)$@
-	$(CC) -DINSTALL_PREFIX=\"$(INSTALL_PREFIX)\" $(CFLAGS) -c $< $(CCOUTFLAG)$@
+ifeq (,$(findstring Windows,$(SYS)))
+	$(CC) -MM -MT $@ -MF $(@:.o=.d) -DINSTALL_PREFIX=\"$(INSTALL_PREFIX_DEFINE)\" $(CFLAGS) -c $< $(CCOUTFLAG)$@
+endif
+	$(CC) -DINSTALL_PREFIX=\"$(INSTALL_PREFIX_DEFINE)\" $(CFLAGS) -c $< $(CCOUTFLAG)$@
 
 _build/vmall_objs/%.o: source/%.c
-	$(CC) -DINSTALL_PREFIX=\"$(INSTALL_PREFIX)\" $(CFLAGS) \
+	$(CC) -DINSTALL_PREFIX=\"$(INSTALL_PREFIX_DEFINE)\" $(CFLAGS) \
         -DBUILDING_IOVMALL_DLL -c $< $(CCOUTFLAG)$@
 
 _build/headers/%.h: source/%.h _build/headers
