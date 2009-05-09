@@ -9,6 +9,7 @@ The List is not responsible for io_freeing it's elements.
 #define IO_IN_C_FILE
 #endif
 #include "Common_inline.h"
+#include "PortableSorting.h"
 #ifdef IO_DECLARE_INLINES
 
 #define LIST_FOREACH(list, index, value, code) \

@@ -18,7 +18,7 @@ extern "C" {
 typedef IoObject IoMap;
 
 IoMap *IoMap_proto(void *state);
-IoMap *IoMap_rawClone(IoMap *self);
+IOVM_API IoMap *IoMap_rawClone(IoMap *self);
 IoMap *IoMap_new(void *state);
 void IoMap_free(IoMap *self);
 void IoMap_mark(IoMap *self);

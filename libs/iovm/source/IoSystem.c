@@ -63,6 +63,21 @@ static void setenv(const char *varName, const char* value, int force)
 }
 
 //#define setenv(k, v, o) SetEnvironmentVariable((k), (v))
+
+IO_METHOD(IoObject, installPrefix)
+{
+
+	char acPath[256];
+	char root[256];
+	if( GetModuleFileName( NULL, acPath, 256 ) != 0)
+	{
+		// guaranteed file name of at least one character after path
+		strcpy(( strrchr( acPath, '\\' ) ), "\\..\\");
+		_fullpath(root,acPath,256);
+	}
+
+	return IoState_symbolWithCString_(IOSTATE, root);
+}
 #endif
 
 #if defined(__CYGWIN__) || defined(_WIN32)
@@ -74,6 +89,7 @@ IoObject *IoSystem_proto(void *state)
 	IoMethodTable methodTable[] = {
 #ifdef WIN32
 	{"shellExecute", IoObject_shellExecute},
+	{"installPrefix", IoObject_installPrefix},
 #else
 	{"daemon", IoObject_daemon},
 #endif
@@ -117,7 +133,9 @@ IoObject *IoSystem_proto(void *state)
 	Returns the root path where io was install. The default is /usr/local.
 	*/
 	
+#ifndef WIN32
 	IoObject_setSlot_to_(self, IOSYMBOL("installPrefix"), IOSYMBOL(INSTALL_PREFIX));
+#endif
 
 	return self;
 }
@@ -492,6 +510,7 @@ IO_METHOD(IoObject, thisProcessPid)
 	
 	return IONUMBER(getpid());
 }
+
 
 /*doc System version
 	Returns a version number for Io.

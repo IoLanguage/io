@@ -64,7 +64,7 @@ typedef struct CallbackBlock
 	CoroStartCallback *func;
 } CallbackBlock;
 
-//static CallbackBlock globalCallbackBlock;
+static CallbackBlock globalCallbackBlock;
 
 Coro *Coro_new(void)
 {
@@ -239,13 +239,13 @@ void Coro_StartWithArg(CallbackBlock *block)
 	exit(-1);
 }
 
-/*
+
 void Coro_Start(void)
 {
 	CallbackBlock block = globalCallbackBlock;
 	Coro_StartWithArg(&block);
 }
- */
+ 
 #endif
 
 // --------------------------------------------------------------------

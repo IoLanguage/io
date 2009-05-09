@@ -26,6 +26,7 @@ LINKDLLOUTFLAG := -o
 LINKDIRFLAG := -L
 LINKLIBFLAG := -l
 DLL_LIB_SUFFIX := 
+DLL_LIB_PREFIX :=
 CCOUTFLAG := -o 
 AROUTFLAG := 
 RANLIB ?= ranlib
@@ -50,6 +51,7 @@ endif
 
 ifneq (,$(findstring Windows,$(SYS)))
 CC := cl -nologo
+DLL_LIB_PREFIX :=
 LINKDLL := link
 LINKDLLOUTFLAG :=-out:
 DLL_SUFFIX := dll
@@ -95,15 +97,15 @@ addons: vm
 vmlib:
 	mkdir -p _build || true
 	mkdir -p _build/dll || true
-	$(LINKDLL) $(DLL_COMMAND) $(LINKDLLOUTFLAG)_build/dll/libiovmall.$(DLL_SUFFIX) libs/*/_build/$(VMALL)objs/*.o $(LFLAGS) $(DLL_EXTRA_LIBS)
+	$(LINKDLL) $(DLL_COMMAND) $(LINKDLLOUTFLAG)_build/dll/$(DLL_LIB_PREFIX)iovmall.$(DLL_SUFFIX) libs/*/_build/$(VMALL)objs/*.o $(LFLAGS) $(DLL_EXTRA_LIBS)
 ifneq (,$(findstring Windows,$(SYS)))
-	mt.exe -manifest _build/dll/libiovmall.dll.manifest -outputresource:_build/dll/libiovmall.dll
-	rm _build/dll/libiovmall.dll.manifest
+	mt.exe -manifest _build/dll/$(DLL_LIB_PREFIX)iovmall.dll.manifest -outputresource:_build/dll/$(DLL_LIB_PREFIX)iovmall.dll
+	rm _build/dll/$(DLL_LIB_PREFIX)iovmall.dll.manifest
 endif
 	mkdir -p _build/lib || true
-	$(AR) $(ARFLAGS) $(AROUTFLAG)_build/lib/libiovmall.a\
+	$(AR) $(ARFLAGS) $(AROUTFLAG)_build/lib/$(DLL_LIB_PREFIX)iovmall.a\
         libs/*/_build/$(VMALL)objs/*.o
-	$(RANLIB) _build/lib/libiovmall.a
+	$(RANLIB) _build/lib/$(DLL_LIB_PREFIX)iovmall.a
 	mkdir -p _build/headers || true
 	cp libs/*/_build/headers/* _build/headers
 
@@ -151,8 +153,8 @@ uninstall:
 	rm -rf $(INSTALL_PREFIX)/include/io
 	rm -f $(INSTALL_PREFIX)/bin/io
 	rm -f $(INSTALL_PREFIX)/bin/io_static$(BINARY_SUFFIX)
-	rm -f $(INSTALL_PREFIX)/bin/libiovmall.*
-	rm -f $(INSTALL_PREFIX)/lib/libiovmall.*
+	rm -f $(INSTALL_PREFIX)/bin/$(DLL_LIB_PREFIX)iovmall.*
+	rm -f $(INSTALL_PREFIX)/lib/$(DLL_LIB_PREFIX)iovmall.*
 
 doc:
 	./_build/binaries/io_static$(BINARY_SUFFIX) build.io docs

@@ -12,8 +12,9 @@ AddonBuilder := Object clone do(
 		ccOutFlag := "-Fo"
 		linkdll := "link -link -nologo"
 		linkDirPathFlag := "-libpath:"
-		linkLibFlag := "lib"
+		linkLibFlag := ""
 		linkOutFlag := "-out:"
+		linkLibPrefix := ""
 		linkLibSuffix := ".lib"
 		ar := "link -lib -nologo"
 		arFlags := "-out:"
@@ -25,6 +26,7 @@ AddonBuilder := Object clone do(
 		linkdll := cc
 		linkDirPathFlag := "-L"
 		linkLibFlag := "-l"
+		linkLibPrefix := "lib"
 		linkLibSuffix := ""
 		linkOutFlag := "-o "
 		linkLibSuffix := ""
@@ -299,7 +301,7 @@ AddonBuilder := Object clone do(
 
 		links := depends addons map(b, linkDirPathFlag .. "../" .. b .. "/_build/dll")
 
-		links appendSeq(depends addons map(v, linkLibFlag .. "Io" .. v .. linkLibSuffix))
+		links appendSeq(depends addons map(v, linkLibFlag .. linkLibPrefix .. "Io" .. v .. linkLibSuffix))
 		if(platform == "windows",
 			links appendSeq(depends syslibs map(v, v .. ".lib"))
 		)
@@ -307,8 +309,8 @@ AddonBuilder := Object clone do(
 			links appendSeq(depends addons map(v, "-Wl,--rpath -Wl," .. System installPrefix .. "/lib/io/addons/" .. v .. "/_build/dll/"))
 		)
 		links appendSeq(libSearchPaths map(v, linkDirPathFlag .. v))
-		links appendSeq(depends libs map(v, linkLibFlag .. v .. linkLibSuffix))
-		links appendSeq(list(linkDirPathFlag .. "../../_build/dll", linkLibFlag .. "iovmall" .. linkLibSuffix))
+		links appendSeq(depends libs map(v, linkLibFlag .. linkLibPrefix .. v .. linkLibSuffix))
+		links appendSeq(list(linkDirPathFlag .. "../../_build/dll", linkLibFlag .. linkLibPrefix .. "iovmall" .. linkLibSuffix))
 
 		links appendSeq(depends frameworks map(v, "-framework " .. v))
 		links appendSeq(depends linkOptions)
