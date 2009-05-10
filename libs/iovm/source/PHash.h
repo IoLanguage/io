@@ -12,7 +12,8 @@
 
 #include "Common.h"
 #include <stddef.h>
-#include <stdint.h>
+#include "IoVMApi.h"
+#include "PortableStdint.h"
 
 /*
 #define BASEKIT_API 
@@ -30,27 +31,27 @@ extern "C" {
 
 #include "PHash_struct.h"
 
-BASEKIT_API PHash *PHash_new(void);
-BASEKIT_API void PHash_copy_(PHash *self, const PHash *other);
-BASEKIT_API PHash *PHash_clone(PHash *self);
-BASEKIT_API void PHash_free(PHash *self);
+PHash *PHash_new(void);
+void PHash_copy_(PHash *self, const PHash *other);
+PHash *PHash_clone(PHash *self);
+void PHash_free(PHash *self);
 
-BASEKIT_API void PHash_at_put_(PHash *self, void *k, void *v);
-BASEKIT_API void PHash_removeKey_(PHash *self, void *k);
-BASEKIT_API size_t PHash_size(PHash *self); // actually the keyCount
+void PHash_at_put_(PHash *self, void *k, void *v);
+void PHash_removeKey_(PHash *self, void *k);
+IOVM_API size_t PHash_size(PHash *self); // actually the keyCount
 
-BASEKIT_API size_t PHash_memorySize(PHash *self);
-BASEKIT_API void PHash_compact(PHash *self);
+size_t PHash_memorySize(PHash *self);
+void PHash_compact(PHash *self);
 
 // --- private methods ----------------------------------------
 
-BASEKIT_API void PHash_setSize_(PHash *self, size_t size); 
-BASEKIT_API void PHash_insert_(PHash *self, PHashRecord *x); 
-BASEKIT_API void PHash_grow(PHash *self); 
-BASEKIT_API void PHash_shrinkIfNeeded(PHash *self); 
-BASEKIT_API void PHash_shrink(PHash *self); 
-BASEKIT_API void PHash_show(PHash *self);
-BASEKIT_API void PHash_updateMask(PHash *self); 
+IOVM_API void PHash_setSize_(PHash *self, size_t size); 
+IOVM_API void PHash_insert_(PHash *self, PHashRecord *x); 
+IOVM_API void PHash_grow(PHash *self); 
+void PHash_shrinkIfNeeded(PHash *self); 
+IOVM_API void PHash_shrink(PHash *self); 
+IOVM_API void PHash_show(PHash *self);
+IOVM_API void PHash_updateMask(PHash *self); 
 
 #include "PHash_inline.h"
 

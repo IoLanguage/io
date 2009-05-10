@@ -5,6 +5,7 @@
 #define PHASH_C
 #include "PHash.h"
 #undef PHASH_C
+#include "IoObject.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

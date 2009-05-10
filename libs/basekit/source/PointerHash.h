@@ -12,7 +12,7 @@
 
 #include "Common.h"
 #include <stddef.h>
-#include <stdint.h>
+#include "PortableStdint.h"
 
 #ifdef __cplusplus
 extern "C" {

@@ -489,13 +489,15 @@ void Image_makeRGBA(Image *self)
 	} 
 	else if (self->componentCount == 1)
 	{
-		UArray *outUArray = UArray_new();
-		UArray_setSize_(outUArray, 4 * self->width * self->height);
-		uint8_t *outData = (uint8_t *)UArray_bytes(outUArray);
-		uint8_t *inData  = (uint8_t *)UArray_bytes(self->byteArray);
 		size_t numPixels = self->width * self->height;
 		size_t p1;
 		size_t p2 = 0;
+		uint8_t *outData;
+		uint8_t *inData;
+		UArray *outUArray = UArray_new();
+		UArray_setSize_(outUArray, 4 * self->width * self->height);
+		*outData = (uint8_t *)UArray_bytes(outUArray);
+		*inData  = (uint8_t *)UArray_bytes(self->byteArray);
 		
 		for (p1 = 0; p1 < numPixels; p1 ++)
 		{
