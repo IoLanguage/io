@@ -89,19 +89,24 @@ void CHash_setEqualFunc_(CHash *self, CHashEqualFunc *f)
 int CHash_insert_(CHash *self, CHashRecord *x)
 {	
 	int n;
-	
+	size_t pos;
 	//printf("insert\n");
+	
 	for (n = 0; n < CHASH_MAXLOOP; n ++)
 	{ 
 		CHashRecord *r;
 		
+		//pos = self->hash1(x->k) & self->mask;
+		//printf("1 x->k = %p-> %i\n", x->k, pos);
 		r = CHash_record1_(self, x->k);
 		CHashRecord_swapWith_(x, r); //x ↔ T1 [h1 (x)] 
-		if(x->k == 0x0) { self->keyCount ++; return; }
-		 
+		if(x->k == 0x0) { self->keyCount ++; return 0; }
+
+		//pos = self->hash2(x->k) & self->mask;
+		//printf("2 x->k = %p-> %i\n\n", x->k, pos);		 
 		r = CHash_record2_(self, x->k);
 		CHashRecord_swapWith_(x, r); //x ↔ T2 [h2 (x)] 
-		if(x->k == 0x0) { self->keyCount ++; return; }
+		if(x->k == 0x0) { self->keyCount ++; return 0; }
 	}
 	
 	if(self->isResizing) 
@@ -137,7 +142,7 @@ int CHash_resizeTo_(CHash *self, size_t newSize)
 
 	self->isResizing = 1;
 
-	//printf("%p resizeTo %i/%i\n", (void *)self, self->keyCount, self->size);
+	printf("%p resizeTo %i/%i %i%%\n", (void *)self, self->keyCount, self->size, (int)(100.0*CHash_density(self)));
 		
 	do
 	{
@@ -213,3 +218,11 @@ size_t CHash_memorySize(CHash *self)
 void CHash_compact(CHash *self)
 {
 }
+
+float CHash_density(CHash *self)
+{
+	float kc = (float)self->keyCount;
+	float size = (float)self->size;
+	return kc/size;
+}
+

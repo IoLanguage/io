@@ -12,7 +12,7 @@
 extern "C" {
 #endif
 
-#define CHASH_MAXLOOP 200
+#define CHASH_MAXLOOP 4
 	
 typedef int (CHashEqualFunc)(void *, void *);
 typedef intptr_t (CHashHashFunc)(void *);
@@ -60,6 +60,7 @@ BASEKIT_API void CHash_shrinkIfNeeded(CHash *self);
 BASEKIT_API void CHash_shrink(CHash *self); 
 BASEKIT_API void CHash_show(CHash *self);
 BASEKIT_API void CHash_updateMask(CHash *self); 
+BASEKIT_API float CHash_density(CHash *self); 
 
 #include "CHash_inline.h"
 

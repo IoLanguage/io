@@ -594,11 +594,12 @@ uintptr_t UArray_calcOddHash(UArray *self)
 
 	for(i = 0; i < max; i ++)
 	{
-		h += (h << 5);
-		h ^= data[i];
+		h = data[i] + (h << 6) + (h << 16) - h;
+		//h += (h << 5);
+		//h ^= data[i];
 	}
 
-	return h << 1; // ensures even result
+	return h << 1; // ensures odd result
 }
 
 uintptr_t UArray_oddHash(UArray *self)
