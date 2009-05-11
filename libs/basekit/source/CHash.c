@@ -142,7 +142,7 @@ int CHash_resizeTo_(CHash *self, size_t newSize)
 
 	self->isResizing = 1;
 
-	printf("%p resizeTo %i/%i %i%%\n", (void *)self, self->keyCount, self->size, (int)(100.0*CHash_density(self)));
+	//printf("%p resizeTo %i/%i %i%%\n", (void *)self, self->keyCount, self->size, (int)(100.0*CHash_density(self)));
 		
 	do
 	{

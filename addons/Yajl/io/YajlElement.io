@@ -58,8 +58,16 @@ Yajl do(
 		mapKey = k
 	)
 	
+	cleanSeq := method(seq,
+		seq = seq asMutable
+		32 repeat(i,
+			seq removeSeq(Sequence clone atPut(0, i))
+		)
+		seq
+	)
+	
 	parseJson := method(json,
-		Yajl clone parse(json) root first
+		Yajl clone parse(cleanSeq(json)) root first
 	)
 )
 
