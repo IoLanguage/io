@@ -496,8 +496,8 @@ void Image_makeRGBA(Image *self)
 		uint8_t *inData;
 		UArray *outUArray = UArray_new();
 		UArray_setSize_(outUArray, 4 * self->width * self->height);
-		*outData = (uint8_t *)UArray_bytes(outUArray);
-		*inData  = (uint8_t *)UArray_bytes(self->byteArray);
+		outData = (uint8_t *)UArray_bytes(outUArray);
+		inData  = (uint8_t *)UArray_bytes(self->byteArray);
 		
 		for (p1 = 0; p1 < numPixels; p1 ++)
 		{
