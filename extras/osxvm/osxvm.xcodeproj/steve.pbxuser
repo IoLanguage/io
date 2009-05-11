@@ -100,6 +100,11 @@
 		perUserProjectItems = {
 			AA330AF90FB7D61F00CF9355 /* PBXBookmark */ = AA330AF90FB7D61F00CF9355 /* PBXBookmark */;
 			AA330B000FB7D6A900CF9355 /* PBXTextBookmark */ = AA330B000FB7D6A900CF9355 /* PBXTextBookmark */;
+			AA330B040FB8E7EE00CF9355 /* PBXTextBookmark */ = AA330B040FB8E7EE00CF9355 /* PBXTextBookmark */;
+			AA330B050FB8E7EE00CF9355 /* PBXTextBookmark */ = AA330B050FB8E7EE00CF9355 /* PBXTextBookmark */;
+			AA330B060FB8E7EE00CF9355 /* PBXTextBookmark */ = AA330B060FB8E7EE00CF9355 /* PBXTextBookmark */;
+			AA330B070FB8E7EE00CF9355 /* PBXTextBookmark */ = AA330B070FB8E7EE00CF9355 /* PBXTextBookmark */;
+			AA330B0E0FB8E82E00CF9355 /* PBXTextBookmark */ = AA330B0E0FB8E82E00CF9355 /* PBXTextBookmark */;
 			AAE324CF0FB7CEB100D1F90A = AAE324CF0FB7CEB100D1F90A /* PBXTextBookmark */;
 			AAE324D00FB7CEB100D1F90A = AAE324D00FB7CEB100D1F90A /* PBXTextBookmark */;
 			AAE324D10FB7CEB700D1F90A = AAE324D10FB7CEB700D1F90A /* PBXTextBookmark */;
@@ -120,12 +125,10 @@
 		activeArgIndices = (
 			NO,
 			NO,
-			YES,
 		);
 		argumentStrings = (
 			"-e \"Collector checMemory\"",
 			"-e \"doFile(\\\"/users/steve/Desktop/test2.io\\\")\"",
-			/Users/steve/io/libs/iovm/tests/correctness/run.io,
 		);
 		autoAttachOnCrash = 1;
 		breakpointsEnabled = 0;
@@ -174,6 +177,53 @@
 		rType = 0;
 		vrLen = 733;
 		vrLoc = 812;
+	};
+	AA330B040FB8E7EE00CF9355 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AAADB7FA0FAD1E8C00D4F384 /* PointerHash.c */;
+		name = "PointerHash.c: 109";
+		rLen = 8;
+		rLoc = 2493;
+		rType = 0;
+		vrLen = 896;
+		vrLoc = 2035;
+	};
+	AA330B050FB8E7EE00CF9355 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AAADB4AB0FA8010D00D4F384 /* CHash.c */;
+		rLen = 8;
+		rLoc = 2893;
+		rType = 0;
+	};
+	AA330B060FB8E7EE00CF9355 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AAADB7FA0FAD1E8C00D4F384 /* PointerHash.c */;
+		name = "PointerHash.c: 109";
+		rLen = 8;
+		rLoc = 2493;
+		rType = 0;
+		vrLen = 896;
+		vrLoc = 2035;
+	};
+	AA330B070FB8E7EE00CF9355 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AAADB4AB0FA8010D00D4F384 /* CHash.c */;
+		name = "CHash.c: 145";
+		rLen = 0;
+		rLoc = 2882;
+		rType = 0;
+		vrLen = 869;
+		vrLoc = 2459;
+	};
+	AA330B0E0FB8E82E00CF9355 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AAADB4AB0FA8010D00D4F384 /* CHash.c */;
+		name = "CHash.c: 131";
+		rLen = 0;
+		rLoc = 2658;
+		rType = 0;
+		vrLen = 804;
+		vrLoc = 2541;
 	};
 	AA6AA4E80DC0327E00C7667D /* ucs2.c */ = {
 		uiCtxt = {
@@ -289,9 +339,9 @@
 	};
 	AAADB4AB0FA8010D00D4F384 /* CHash.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1090, 3608}}";
-			sepNavSelRange = "{1429, 5}";
-			sepNavVisRange = "{998, 831}";
+			sepNavIntBoundsRect = "{{0, 0}, {1233, 3512}}";
+			sepNavSelRange = "{2658, 0}";
+			sepNavVisRange = "{2541, 804}";
 			sepNavWindowFrame = "{{653, 0}, {1139, 878}}";
 		};
 	};
@@ -364,10 +414,10 @@
 	};
 	AAADB76E0FAD0A6100D4F384 /* PHash.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {988, 2694}}";
+			sepNavIntBoundsRect = "{{0, 0}, {988, 2630}}";
 			sepNavSelRange = "{1474, 0}";
-			sepNavVisRange = "{812, 733}";
-			sepNavWindowFrame = "{{84, 124}, {1037, 686}}";
+			sepNavVisRange = "{1126, 729}";
+			sepNavWindowFrame = "{{275, 102}, {1037, 686}}";
 		};
 	};
 	AAADB76F0FAD0A6100D4F384 /* PHash.h */ = {
@@ -388,9 +438,9 @@
 	};
 	AAADB7FA0FAD1E8C00D4F384 /* PointerHash.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {988, 2630}}";
-			sepNavSelRange = "{1691, 0}";
-			sepNavVisRange = "{1072, 790}";
+			sepNavIntBoundsRect = "{{0, 0}, {1233, 2582}}";
+			sepNavSelRange = "{2493, 8}";
+			sepNavVisRange = "{2035, 896}";
 			sepNavWindowFrame = "{{61, 145}, {1037, 686}}";
 		};
 	};
