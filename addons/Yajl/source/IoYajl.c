@@ -97,26 +97,26 @@ void IoYajl_free(IoYajl *self)
 static int IoYajl_callback_null(void *ctx)  
 {  
 	IoYajl *self = ctx;
-	IoState_pushRetainPool(IOSTATE);
+	//IoState_pushRetainPool(IOSTATE);
 	{
 	IoMessage *m = DATA(self)->addValueMessage;
 	IoMessage_setCachedArg_to_(m, 0, IONIL(self));
 	IoObject_perform(self, self, m);
 	}
-	IoState_popRetainPool(IOSTATE);
+	//IoState_popRetainPool(IOSTATE);
     return 1;  
 }  
   
 static int IoYajl_callback_boolean(void *ctx, int boolean)  
 {  
 	IoYajl *self = ctx;
-	IoState_pushRetainPool(IOSTATE);
+	//IoState_pushRetainPool(IOSTATE);
 	{
 	IoMessage *m = DATA(self)->addValueMessage;
 	IoMessage_setCachedArg_to_(m, 0, boolean ? IOTRUE(self) : IOFALSE(self));
 	IoObject_perform(self, self, m);
 	}
-	IoState_popRetainPool(IOSTATE);
+	//IoState_popRetainPool(IOSTATE);
     return 1;  
 }  
   
@@ -125,14 +125,14 @@ static int IoYajl_callback_boolean(void *ctx, int boolean)
 static int IoYajl_callback_number(void *ctx, const char * s, unsigned int l)  
 {  
 	IoYajl *self = ctx;
-	IoState_pushRetainPool(IOSTATE);
+	//IoState_pushRetainPool(IOSTATE);
 	{
 	IoMessage *m = DATA(self)->addValueMessage;
 	float f = atof(s);
 	IoMessage_setCachedArg_to_(m, 0, IONUMBER(f));
 	IoObject_perform(self, self, m);
 	}
-	IoState_popRetainPool(IOSTATE);
+	//IoState_popRetainPool(IOSTATE);
     return 1;  
 }  
 
@@ -140,13 +140,13 @@ static int IoYajl_callback_string(void *ctx, const unsigned char * stringVal,
                            unsigned int stringLen)  
 {  
 	IoYajl *self = ctx;
-	IoState_pushRetainPool(IOSTATE);
+	//IoState_pushRetainPool(IOSTATE);
 	{
 	IoMessage *m = DATA(self)->addValueMessage;
 	IoMessage_setCachedArg_to_(m, 0, IOSEQ(stringVal, stringLen));
 	IoObject_perform(self, self, m);
 	}
-	IoState_popRetainPool(IOSTATE);
+	//IoState_popRetainPool(IOSTATE);
     return 1;  
 }   
   
@@ -154,61 +154,61 @@ static int IoYajl_callback_map_key(void *ctx, const unsigned char * stringVal,
                             unsigned int stringLen)  
 {  
 	IoYajl *self = ctx;
-	IoState_pushRetainPool(IOSTATE);
+	//IoState_pushRetainPool(IOSTATE);
 	{
 	IoMessage *m = DATA(self)->addMapKeyMessage;
 	IoMessage_setCachedArg_to_(m, 0, IOSEQ(stringVal, stringLen));
 	IoObject_perform(self, self, m);
 	}
-	IoState_popRetainPool(IOSTATE);
+	//IoState_popRetainPool(IOSTATE);
     return 1;  
 }  
   
 static int IoYajl_callback_start_map(void *ctx)  
 {  
 	IoYajl *self = ctx;
-	IoState_pushRetainPool(IOSTATE);
+	//IoState_pushRetainPool(IOSTATE);
 	{
 	IoMessage *m = DATA(self)->startMapMessage;
 	IoObject_perform(self, self, m);
 	}
-	IoState_popRetainPool(IOSTATE);
+	//IoState_popRetainPool(IOSTATE);
     return 1;  
 }
 
 static int IoYajl_callback_end_map(void *ctx)  
 {  
 	IoYajl *self = ctx;
-	IoState_pushRetainPool(IOSTATE);
+	//IoState_pushRetainPool(IOSTATE);
 	{
 	IoMessage *m = DATA(self)->endMapMessage;
 	IoObject_perform(self, self, m);
 	}
-	IoState_popRetainPool(IOSTATE);
+	//IoState_popRetainPool(IOSTATE);
     return 1;  
 }  
   
 static int IoYajl_callback_start_array(void *ctx)  
 {  
 	IoYajl *self = ctx;
-	IoState_pushRetainPool(IOSTATE);
+	//IoState_pushRetainPool(IOSTATE);
 	{
 	IoMessage *m = DATA(self)->startArrayMessage;
 	IoObject_perform(self, self, m);
 	}
-	IoState_popRetainPool(IOSTATE);
+	//IoState_popRetainPool(IOSTATE);
     return 1;  
 }  
   
 static int IoYajl_callback_end_array(void *ctx)  
 {  
 	IoYajl *self = ctx;
-	IoState_pushRetainPool(IOSTATE);
+	////IoState_pushRetainPool(IOSTATE);
 	{
 	IoMessage *m = DATA(self)->endArrayMessage;
 	IoObject_perform(self, self, m);
 	}
-	IoState_popRetainPool(IOSTATE);
+	////IoState_popRetainPool(IOSTATE);
     return 1;  
 }  
   
@@ -240,7 +240,7 @@ IoObject *IoYajl_parse(IoYajl *self, IoObject *locals, IoMessage *m)
 	stat = yajl_parse_complete(hand);  
 
 	if (stat != yajl_status_ok &&  
-	stat != yajl_status_insufficient_data)  
+		stat != yajl_status_insufficient_data)  
 	{  
 		unsigned char * str = yajl_get_error(hand, 1, data, dataSize);  
 		fprintf(stderr, (const char *) str);  
@@ -250,21 +250,22 @@ IoObject *IoYajl_parse(IoYajl *self, IoObject *locals, IoMessage *m)
     yajl_free(hand);  
       
     return self;  
-}  
+}
+
 /*
 void IoYajl_startElementHandler(Yajl_PARSER *parser,
 							   void *userContext,
 							   const char *elementName)
 {
 	IoYajl *self = userContext;
-	IoState_pushRetainPool(IOSTATE);
+	//IoState_pushRetainPool(IOSTATE);
 	{
 	char *e = IoYajl_lowercase_(self, elementName);
 	IoMessage *m = DATA(self)->startElementMessage;
 	IoMessage_setCachedArg_to_(m, 0, IOSYMBOL(e));
 	IoObject_perform(self, self, m);
 	}
-	IoState_popRetainPool(IOSTATE);
+	//IoState_popRetainPool(IOSTATE);
 }
 
 void IoYajl_endElementHandler(Yajl_PARSER *parser,
@@ -272,7 +273,7 @@ void IoYajl_endElementHandler(Yajl_PARSER *parser,
 							 const char *elementName)
 {
 	IoYajl *self = userContext;
-	IoState_pushRetainPool(IOSTATE);
+	//IoState_pushRetainPool(IOSTATE);
 	{
 	char *e = IoYajl_lowercase_(self, elementName);
 	IoMessage *m = DATA(self)->endElementMessage;
@@ -280,7 +281,7 @@ void IoYajl_endElementHandler(Yajl_PARSER *parser,
 	IoMessage_setCachedArg_to_(m, 0, IOSYMBOL(e));
 	IoObject_perform(self, self, m);
 	}
-	IoState_popRetainPool(IOSTATE);
+	//IoState_popRetainPool(IOSTATE);
 }
 
 void IoYajl_newAttributeHandler(Yajl_PARSER *parser,
@@ -289,7 +290,7 @@ void IoYajl_newAttributeHandler(Yajl_PARSER *parser,
 							   const char *attributeValue)
 {
 	IoYajl *self = userContext;
-	IoState_pushRetainPool(IOSTATE);
+	//IoState_pushRetainPool(IOSTATE);
 	{
 	IoMessage *m = DATA(self)->newAttributeMessage;
 
@@ -303,8 +304,6 @@ void IoYajl_newAttributeHandler(Yajl_PARSER *parser,
 		IoObject_perform(self, self, m);
 	}
 	}
-	IoState_popRetainPool(IOSTATE);
+	//IoState_popRetainPool(IOSTATE);
 }
-
 */
-

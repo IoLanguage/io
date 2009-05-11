@@ -67,6 +67,7 @@ void PHash_show(PHash *self)
 
 void PHash_free(PHash *self)
 {
+	io_free(self->records);
 	io_free(self);
 }
 

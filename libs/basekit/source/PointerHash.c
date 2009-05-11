@@ -66,6 +66,7 @@ void PointerHash_show(PointerHash *self)
 
 void PointerHash_free(PointerHash *self)
 {
+	io_free(self->records);
 	io_free(self);
 }
 
