@@ -12,7 +12,7 @@
 extern "C" {
 #endif
 
-#define CHASH_MAXLOOP 4
+#define CHASH_MAXLOOP 5
 	
 typedef int (CHashEqualFunc)(void *, void *);
 typedef intptr_t (CHashHashFunc)(void *);
