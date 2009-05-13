@@ -533,7 +533,9 @@ uintptr_t UArray_calcEvenHash(UArray *self)
 uintptr_t UArray_calcOddHash(UArray *self)
 {
 	return (uintptr_t)fnv_32_buf((void *)(self->data), UArray_sizeInBytes(self), FNV1_32_INIT) << 1; // ensures odd result
+}
 /*
+uintptr_t UArray_calcOddHash(UArray *self)
 	uintptr_t h = 5381;
 
 	int i, max = UArray_sizeInBytes(self);
@@ -546,8 +548,37 @@ uintptr_t UArray_calcOddHash(UArray *self)
 		//h ^= data[i];
 	}
 	return h << 1; // ensures odd result
-*/
 }
+*/
+
+/*
+uintptr_t UArray_steveHash(UArray *self)
+{
+	uintptr_t hash = 0;
+	int max = byteCount/4;
+	
+	{
+		int i, byteCount = UArray_sizeInBytes(self);
+		uint32_t *words = self->data;
+
+		for(i = 0; i < max; i ++)
+		{
+			hash ^= words[i];
+		}
+	}
+
+	{
+		uint32_t lastWord = 0;
+		uint8_t *data = self->data;
+		memcpy(&lastWord, data[max*4], byteCount % 4);
+		hash ^= lastWord;
+	}
+	
+	// this hash should be ok for use with hash mod(tableSize), 
+	// but not with hash mask(powerOf2TableSize-1)
+	return hash;
+}
+*/
 
 uintptr_t UArray_oddHash(UArray *self)
 {
