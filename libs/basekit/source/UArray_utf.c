@@ -268,7 +268,7 @@ UArray *UArray_asUCS4(const UArray *self)
 
 	numChars = ucs4decode((ucs4 *)out->data, out->size, utf8Array->data);
 
-	if (numChars*2 < countedChars)
+	if ((numChars > 0) && (numChars*2 < countedChars))
 	{
 		printf("UArray_asUCS4 error: numChars %i != countedChars %i\n", numChars, countedChars);
 		exit(-1);
