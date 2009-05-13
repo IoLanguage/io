@@ -243,8 +243,9 @@ UArray *UArray_asUCS2(const UArray *self)
 	
 	if (numChars > countedChars*2)
 	{
-		printf("UArray_asUCS2 error: numChars %i != countedChars %i\n", numChars, countedChars);
-		//exit(-1);
+		printf("UArray_asUCS2 error: numChars (%i) > countedChars (2*%i)\n", numChars, countedChars);
+		printf("Exiting because we may have overwritten the usc2 decode output buffer.");
+		exit(-1);
 	}
 	
 	UArray_setSize_(out, numChars);
