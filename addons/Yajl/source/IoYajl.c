@@ -232,7 +232,7 @@ IoObject *IoYajl_parse(IoYajl *self, IoObject *locals, IoMessage *m)
 	size_t dataSize = IoSeq_rawSizeInBytes(dataSeq);
 	const unsigned char *data = (const unsigned char *)CSTRING(dataSeq);
 	
-	yajl_parser_config cfg = { 1, 1 };  
+	yajl_parser_config cfg = { 1, 0 };
 	yajl_handle hand = yajl_alloc(&callbacks, &cfg,  NULL, (void *) self);  
     yajl_status stat;        
 	
