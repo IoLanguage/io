@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA330B1C0FB8EF5400CF9355 /* Hash_fnv.c in Sources */ = {isa = PBXBuildFile; fileRef = AA330B170FB8EF5400CF9355 /* Hash_fnv.c */; };
+		AA330B1D0FB8EF5400CF9355 /* Hash_superfast.c in Sources */ = {isa = PBXBuildFile; fileRef = AA330B190FB8EF5400CF9355 /* Hash_superfast.c */; };
 		AA6AA4EF0DC0327E00C7667D /* ucs2.c in Sources */ = {isa = PBXBuildFile; fileRef = AA6AA4E80DC0327E00C7667D /* ucs2.c */; };
 		AA6AA4F00DC0327E00C7667D /* ucs4.c in Sources */ = {isa = PBXBuildFile; fileRef = AA6AA4E90DC0327E00C7667D /* ucs4.c */; };
 		AA6AA4F10DC0327E00C7667D /* utf8.c in Sources */ = {isa = PBXBuildFile; fileRef = AA6AA4EA0DC0327E00C7667D /* utf8.c */; };
@@ -282,6 +284,11 @@
 
 /* Begin PBXFileReference section */
 		8DD76FB20486AB0100D96B5E /* osxvm */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = osxvm; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA330B170FB8EF5400CF9355 /* Hash_fnv.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Hash_fnv.c; sourceTree = "<group>"; };
+		AA330B180FB8EF5400CF9355 /* Hash_fnv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hash_fnv.h; sourceTree = "<group>"; };
+		AA330B190FB8EF5400CF9355 /* Hash_superfast.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = Hash_superfast.c; path = ../../libs/basekit/source/Hash_superfast.c; sourceTree = SOURCE_ROOT; };
+		AA330B1A0FB8EF5400CF9355 /* Hash_superfast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Hash_superfast.h; path = ../../libs/basekit/source/Hash_superfast.h; sourceTree = SOURCE_ROOT; };
+		AA330B1B0FB8EF5400CF9355 /* PointerHash_inline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PointerHash_inline.h; path = ../../libs/basekit/source/PointerHash_inline.h; sourceTree = SOURCE_ROOT; };
 		AA6AA4E80DC0327E00C7667D /* ucs2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ucs2.c; path = ../../libs/basekit/source/ucs2.c; sourceTree = SOURCE_ROOT; };
 		AA6AA4E90DC0327E00C7667D /* ucs4.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ucs4.c; path = ../../libs/basekit/source/ucs4.c; sourceTree = SOURCE_ROOT; };
 		AA6AA4EA0DC0327E00C7667D /* utf8.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = utf8.c; path = ../../libs/basekit/source/utf8.c; sourceTree = SOURCE_ROOT; };
@@ -552,6 +559,11 @@
 		AAE69D960B110795006E309B /* source */ = {
 			isa = PBXGroup;
 			children = (
+				AA330B170FB8EF5400CF9355 /* Hash_fnv.c */,
+				AA330B180FB8EF5400CF9355 /* Hash_fnv.h */,
+				AA330B190FB8EF5400CF9355 /* Hash_superfast.c */,
+				AA330B1A0FB8EF5400CF9355 /* Hash_superfast.h */,
+				AA330B1B0FB8EF5400CF9355 /* PointerHash_inline.h */,
 				AAADB7FA0FAD1E8C00D4F384 /* PointerHash.c */,
 				AAADB7FB0FAD1E8C00D4F384 /* PointerHash.h */,
 				AAADB7FC0FAD1E8C00D4F384 /* PointerHash_struct.h */,
@@ -910,6 +922,8 @@
 				AAADB4AE0FA8010D00D4F384 /* CHash.c in Sources */,
 				AAADB7710FAD0A6100D4F384 /* PHash.c in Sources */,
 				AAADB7FD0FAD1E8C00D4F384 /* PointerHash.c in Sources */,
+				AA330B1C0FB8EF5400CF9355 /* Hash_fnv.c in Sources */,
+				AA330B1D0FB8EF5400CF9355 /* Hash_superfast.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
