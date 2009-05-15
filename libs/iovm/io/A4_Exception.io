@@ -6,6 +6,13 @@ Call do(
 		s := self target type .. " " .. m name
 		s alignLeft(36) .. " " .. m label lastPathComponent .. " " .. m lineNumber
 	)
+	
+	fullDescription := method(
+		error := e error
+		message := e coroutine callStack at(0) message
+		location := message label lastPathComponent .. "-" .. message lineNumber
+		error .. " " .. location
+	)
 
 	/*doc Call delegateTo(target, altSender)
 	Sends the call's message to target (and relays it's stop status). 
