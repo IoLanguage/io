@@ -346,15 +346,16 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		if(contentType,
 			//if(r containsSeq("""<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>""") or 
 			if(contentType == "text/html; charset=utf-8",
-				//r = r setEncoding("utf8") convertToFixedSizeType
-				r = r asUTF8 convertToFixedSizeType
+				r = r asMutable setEncoding("utf8") convertToFixedSizeType
 			)
 			if(contentType == "text/html; charset=utf-16",
-				r = r setEncoding("utf16") convertToFixedSizeType
+				r = r asMutable setEncoding("utf16") convertToFixedSizeType
 			)
 			if(contentType == "text/html; charset=utf-32",
-				r = r setEncoding("utf32") convertToFixedSizeType
+				r = r asMutable setEncoding("utf32") convertToFixedSizeType
 			)
+		,	
+			r = r asMutable setEncoding("utf8") convertToFixedSizeType
 		)
 
 		return r
