@@ -34,6 +34,14 @@ Date do(
 			"setSecond(", self second, ")",
 			");")
 	)
+	
+	asNumberString := method(
+		self asNumber asString alignLeft(27, "0")
+	)
+	
+	timeStampString := method(
+		Date clone now asNumber asString alignLeft(27, "0")
+	)
 )
 
 Duration do(

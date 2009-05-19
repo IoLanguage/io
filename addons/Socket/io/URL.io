@@ -341,6 +341,23 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		r := processHttpResponse(progressBlock)
 		if(r isError not, if(cacheOn, cacheStore(r)))
 		if(cacheOn and r isError not, cacheStore(r))
+
+		contentType := responseHeaders at("Content-Type")
+		if(contentType,
+			//if(r containsSeq("""<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>""") or 
+			if(contentType == "text/html; charset=utf-8",
+				r = r asMutable setEncoding("utf8") convertToFixedSizeType
+			)
+			if(contentType == "text/html; charset=utf-16",
+				r = r asMutable setEncoding("utf16") convertToFixedSizeType
+			)
+			if(contentType == "text/html; charset=utf-32",
+				r = r asMutable setEncoding("utf32") convertToFixedSizeType
+			)
+		,	
+			r = r asMutable setEncoding("utf8") convertToFixedSizeType
+		)
+
 		return r
 	)
 	

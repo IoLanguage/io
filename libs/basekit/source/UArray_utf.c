@@ -78,8 +78,7 @@ int UArray_maxCharSize(const UArray *self)
 
 size_t UArray_numberOfCharacters(const UArray *self)
 {
-	if (
-		self->encoding == CENCODING_UTF8)
+	if (self->encoding == CENCODING_UTF8)
 	{
 		size_t numChars = 0;
 		size_t i = 0;
@@ -241,7 +240,7 @@ UArray *UArray_asUCS2(const UArray *self)
 
 	numChars = ucs2decode((ucs2 *)(out->data), out->size, utf8Array->data);
 	
-	if (numChars > countedChars*2)
+	if ((numChars > 0) && (numChars > countedChars*2))
 	{
 		printf("UArray_asUCS2 error: numChars (%i) > countedChars (2*%i)\n", numChars, countedChars);
 		printf("Exiting because we may have overwritten the usc2 decode output buffer.");
@@ -268,7 +267,7 @@ UArray *UArray_asUCS4(const UArray *self)
 
 	numChars = ucs4decode((ucs4 *)out->data, out->size, utf8Array->data);
 
-	if (numChars*2 < countedChars)
+	if ((numChars > 0) && (numChars > countedChars*2))
 	{
 		printf("UArray_asUCS4 error: numChars %i != countedChars %i\n", numChars, countedChars);
 		exit(-1);
