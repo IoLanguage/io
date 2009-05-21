@@ -3,7 +3,7 @@ AddonBuilder clone do(
 	configure        := if(platform == "darwin", "", " ./configure &&")
 	
 	dependsOnLib("sgml")
-	dependsOnHeader(libSgmlDirectory .. "/libsgml.h")
+	//dependsOnHeader(libSgmlDirectory .. "/libsgml.h")
 	
 //	appendInstallCommand("apt-get", "(cd addons/SGML/source/libsgml && ./configure && make && make install && ldconfig)")
 //	appendInstallCommand("emerge",  "(cd addons/SGML/source/libsgml && ./configure && make && make install && ldconfig)")
@@ -22,8 +22,8 @@ AddonBuilder clone do(
 	)
 	
 	clean := method(
-	      	 d := "addons/SGML/source/" .. libSgmlDirectory
-		 if ( Directory exists ( d ),
+	     d := "addons/SGML/source/" .. libSgmlDirectory
+		 if(Directory exists(d),
 		      resend
 		      System system("cd " .. d .. "; make clean")
 		 )

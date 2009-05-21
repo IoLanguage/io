@@ -1,6 +1,6 @@
-Yajil
+Yajl
 
-YajilTest := UnitTest clone do(
+YajlTest := UnitTest clone do(
 	testFull := method(
 		s := """
 {

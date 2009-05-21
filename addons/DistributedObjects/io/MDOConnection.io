@@ -62,14 +62,14 @@ MDOConnection := Object clone do(
 	debugWriteln := nil //getSlot("writeln")
 	
 	send := method(messageName, args,
-		//debugWriteln("con send(", messageName, ", ", args, ")")
+		writeln("con send(", messageName, ", ", args, ")")
 		coro := Coroutine currentCoroutine
 		messageId := coro uniqueId asString // not entirely safe...
 		socket writeListMessage(list("s", messageId, messageName) appendSeq(args))
 		corosWaitingOnResponses atPut(messageId, coro)
-		//debugWriteln("pausing coro ", messageId)
+		writeln("pausing coro ", messageId)
 		coro pause
-		//debugWriteln("resumed coro ", messageId)
+		writeln("resumed coro ", messageId)
 		corosWaitingOnResponses removeAt(messageId)
 		coro result
 	)
@@ -86,6 +86,7 @@ MDOConnection := Object clone do(
 	)
 	
 	receiveResponse := method(args,
+		writeln("receiveResponse")
 		messageId := args first
 		result := args second
 		coro := corosWaitingOnResponses at(messageId)
@@ -98,6 +99,7 @@ MDOConnection := Object clone do(
 	)
 	
 	receiveSend := method(args,
+		writeln("receiveSend")
 		messageId := args removeFirst
 		messageName := args removeFirst
 		m := Message clone setName(messageName) 

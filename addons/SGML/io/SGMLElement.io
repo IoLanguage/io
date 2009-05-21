@@ -28,12 +28,14 @@ SGMLElement := Object clone do(
 	asString := method(
 		b := Sequence clone
 		writeToStream(b)
-		b asString
+		b asSymbol
 	)
 
 	writeToStream := method(b, l,
-		if(l == nil, l = "", l = l .. "  ")
-		if(name, b appendSeq(l); beginTag(b), if(text, b appendSeq(l, text, "\n")))
+		l = ""
+		//if(l == nil, l = "", l = l .. "  ")
+		//if(name, b appendSeq(l); beginTag(b), if(text, b appendSeq(l, text, "\n")))
+		if(name, b appendSeq(l); beginTag(b), if(text, b appendSeq(l, text)))
 		subitems foreach(writeToStream(b, l))
 		if(name, b appendSeq(l); endTag(b))
 	)
@@ -48,14 +50,14 @@ SGMLElement := Object clone do(
 			)
 			b appendSeq(">")
 		)
-		b appendSeq("\n")
+		//b appendSeq("\n")
 		b
 	)
 
 	endTag := method(b,
 		if(b == nil, b := Sequence clone)
 		b appendSeq("</", name, ">")
-		b appendSeq("\n")
+		//b appendSeq("\n")
 		b
 	)
 
