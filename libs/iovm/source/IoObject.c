@@ -53,9 +53,12 @@ IoObject *IoObject_justAlloc(IoState *state)
 
 IoObject *IoObject_alloc(IoObject *self)
 {
-	IoObject *child = List_pop(IOSTATE->recycledObjects);
-
+	IoObject *child;
+	
+	#ifdef IOSTATE_RECYCLING_ON
+	child = List_pop(IOSTATE->recycledObjects);
 	if (!child)
+	#endif
 	{
 		child = IoObject_justAlloc(IOSTATE);
 	}
@@ -601,12 +604,14 @@ void IoObject_willFree(IoObject *self)
 
 void IoObject_free(IoObject *self) // prepare for io_free and possibly recycle
 {
-	//if(List_size(IOSTATE->recycledObjects) >= IOSTATE->maxRecycledObjects)
+#ifdef IOSTATE_RECYCLING_ON
+	if(List_size(IOSTATE->recycledObjects) >= IOSTATE->maxRecycledObjects)
+#endif
 	{
 		IoObject_dealloc(self);
 		//CollectorMarker_free((CollectorMarker *)self);
 	}
-	/*
+#ifdef IOSTATE_RECYCLING_ON
 	else
 	{
 		//printf("recycling %p\n", (void *)self);
@@ -621,19 +626,21 @@ void IoObject_free(IoObject *self) // prepare for io_free and possibly recycle
 		IoObject_isLocals_(self, 0);
 		IoObject_isActivatable_(self, 0);
 
-		if (IoObject_ownsSlots(self))
+		//if (IoObject_ownsSlots(self))
 		{
 			//IoObject_freeSlots(self);
 			PHash_clean(IoObject_slots(self));
 		}
+		/*
 		else
 		{
 			IoObject_slots_(self, NULL);
 		}
+		*/
 
 		List_append_(IOSTATE->recycledObjects, self);
 	}
-	*/
+#endif
 }
 
 void IoObject_dealloc(IoObject *self) // really io_free it

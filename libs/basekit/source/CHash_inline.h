@@ -107,7 +107,7 @@ IOINLINE int CHash_at_put_(CHash *self, void *k, void *v)
 
 IOINLINE void CHash_shrinkIfNeeded(CHash *self)
 {
-	if(self->keyCount < self->size/4)
+	if(self->keyCount < self->size/5)
 	{
 		CHash_shrink(self);
 	}

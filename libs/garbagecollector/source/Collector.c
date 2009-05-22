@@ -249,8 +249,9 @@ void Collector_addValue_(Collector *self, void *v)
 	CollectorMarker_removeIfNeededAndInsertAfter_(v, self->whites);
 
 	self->queuedMarks += self->marksPerAlloc;
+	#ifdef COLLECTOR_USE_NONINCREMENTAL_MARK_SWEEP
 	self->newMarkerCount ++;
-
+	#endif
 	// pauseCount is never zero here...
 	/*
 	if (self->pauseCount == 0)
@@ -316,7 +317,7 @@ size_t Collector_freeWhites(Collector *self)
 
 	COLLECTMARKER_FOREACH(self->whites, v,
 					  (*freeFunc)(v);
-					  v->object = 0x0;
+					  //v->object = 0x0;
 					  Collector_makeFree_(self, v);
 					  count ++;
 					  );

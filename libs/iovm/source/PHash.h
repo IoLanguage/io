@@ -53,9 +53,10 @@ IOVM_API void PHash_shrink(PHash *self);
 IOVM_API void PHash_show(PHash *self);
 IOVM_API void PHash_updateMask(PHash *self); 
 
+IOVM_API void PHash_cleanSlots(PHash *self);
+
 #include "PHash_inline.h"
 
-#define PHash_cleanSlots(self)
 #define PHash_hasDirtyKey_(self, k) 0
 
 #ifdef __cplusplus

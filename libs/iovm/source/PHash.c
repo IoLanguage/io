@@ -169,3 +169,9 @@ size_t PHash_memorySize(PHash *self)
 void PHash_compact(PHash *self)
 {
 }
+
+void PHash_cleanSlots(PHash *self)
+{
+	memset(self->records, 0x0, self->size * sizeof(PHashRecord));
+	self->keyCount = 0;
+}
