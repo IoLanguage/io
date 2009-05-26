@@ -20,6 +20,7 @@
 		AA6AC74E0BAF7EBD0049770F /* simd_cp_emu.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA6AC7430BAF7EBD0049770F /* simd_cp_emu.h */; };
 		AA6AC74F0BAF7EBD0049770F /* simd_cp_x86.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA6AC7440BAF7EBD0049770F /* simd_cp_x86.h */; };
 		AA8383A70BDFCE0100B4F003 /* IoVMApi.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA8383A60BDFCE0100B4F003 /* IoVMApi.h */; };
+		AA9DD3360FC8C193006B05DD /* Hash_murmur.c in Sources */ = {isa = PBXBuildFile; fileRef = AA9DD3340FC8C193006B05DD /* Hash_murmur.c */; };
 		AAA3CAF50B186E2F004C257F /* IoMessage_opShuffle.c in Sources */ = {isa = PBXBuildFile; fileRef = AAA3CAF30B186E2F004C257F /* IoMessage_opShuffle.c */; };
 		AAA3CAF60B186E2F004C257F /* IoMessage_opShuffle.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAA3CAF40B186E2F004C257F /* IoMessage_opShuffle.h */; };
 		AAADB4AE0FA8010D00D4F384 /* CHash.c in Sources */ = {isa = PBXBuildFile; fileRef = AAADB4AB0FA8010D00D4F384 /* CHash.c */; };
@@ -303,6 +304,8 @@
 		AA6AC7430BAF7EBD0049770F /* simd_cp_emu.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = simd_cp_emu.h; path = ../../libs/basekit/source/simd_cph/include/simd_cp_emu.h; sourceTree = SOURCE_ROOT; };
 		AA6AC7440BAF7EBD0049770F /* simd_cp_x86.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = simd_cp_x86.h; path = ../../libs/basekit/source/simd_cph/include/simd_cp_x86.h; sourceTree = SOURCE_ROOT; };
 		AA8383A60BDFCE0100B4F003 /* IoVMApi.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoVMApi.h; path = ../../libs/iovm/source/IoVMApi.h; sourceTree = SOURCE_ROOT; };
+		AA9DD3340FC8C193006B05DD /* Hash_murmur.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Hash_murmur.c; sourceTree = "<group>"; };
+		AA9DD3350FC8C193006B05DD /* Hash_murmur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hash_murmur.h; sourceTree = "<group>"; };
 		AAA3CAF30B186E2F004C257F /* IoMessage_opShuffle.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = IoMessage_opShuffle.c; sourceTree = "<group>"; };
 		AAA3CAF40B186E2F004C257F /* IoMessage_opShuffle.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IoMessage_opShuffle.h; sourceTree = "<group>"; };
 		AAADB4AB0FA8010D00D4F384 /* CHash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = CHash.c; path = ../../libs/basekit/source/CHash.c; sourceTree = SOURCE_ROOT; };
@@ -559,6 +562,8 @@
 		AAE69D960B110795006E309B /* source */ = {
 			isa = PBXGroup;
 			children = (
+				AA9DD3340FC8C193006B05DD /* Hash_murmur.c */,
+				AA9DD3350FC8C193006B05DD /* Hash_murmur.h */,
 				AA330B170FB8EF5400CF9355 /* Hash_fnv.c */,
 				AA330B180FB8EF5400CF9355 /* Hash_fnv.h */,
 				AA330B190FB8EF5400CF9355 /* Hash_superfast.c */,
@@ -924,6 +929,7 @@
 				AAADB7FD0FAD1E8C00D4F384 /* PointerHash.c in Sources */,
 				AA330B1C0FB8EF5400CF9355 /* Hash_fnv.c in Sources */,
 				AA330B1D0FB8EF5400CF9355 /* Hash_superfast.c in Sources */,
+				AA9DD3360FC8C193006B05DD /* Hash_murmur.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

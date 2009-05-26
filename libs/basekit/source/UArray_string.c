@@ -5,6 +5,7 @@
 
 #include "UArray.h"
 #include "cencode.h"
+#include "cdecode.h"
 #include <string.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -540,4 +541,27 @@ UArray *UArray_asBase64(const UArray *self)
 	io_free(encodedBytes);
 	
 	return encoded;
+}
+
+UArray *UArray_fromBase64(const UArray *self)
+{
+	base64_decodestate state;
+	size_t undecodedBytesSize;
+	uint8_t *decodedBytes;
+	size_t decodedBytesSize;
+	UArray *decoded;
+	
+	base64_init_decodestate(&state);
+	undecodedBytesSize = UArray_sizeInBytes(self);
+	decodedBytes = io_calloc(2 * undecodedBytesSize, 1);
+	
+	decoded = UArray_new();
+	UArray_setItemType_(decoded, CTYPE_uint8_t);
+	
+	decodedBytesSize = base64_decode_block((char *)UArray_bytes(self), undecodedBytesSize, (char *)decodedBytes, &state);
+	UArray_appendBytes_size_(decoded, decodedBytes, decodedBytesSize);
+		
+	io_free(decodedBytes);
+	
+	return decoded;
 }

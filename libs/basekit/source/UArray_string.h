@@ -73,3 +73,4 @@ BASEKIT_API size_t UArray_count_(const UArray *self, const UArray *other);
 // encoding
 
 BASEKIT_API UArray* UArray_asBase64(const UArray *self);
+BASEKIT_API UArray* UArray_fromBase64(const UArray *self);

@@ -135,11 +135,70 @@ IO_METHOD(IoSeq, asFixedSizeType)
 	return self;
 }
 
+IO_METHOD(IoSeq, asBinaryUnsignedInteger)
+{
+	/*doc Sequence asBinaryUnsignedInteger
+	Returns a Number with the bytes of the receiver interpreted as a binary unsigned integer. Endian is same as machine.
+	*/
+
+	const void *bytes = UArray_bytes(DATA(self));
+	size_t byteCount = UArray_size(DATA(self));
+
+	if(byteCount == 1)
+	{
+		return IONUMBER(*((const uint8_t *)bytes));
+	} 
+	else if(byteCount == 2)
+	{
+		return IONUMBER(*((const uint16_t *)bytes));
+	} 
+	else if(byteCount == 4)
+	{
+		return IONUMBER(*((const uint32_t *)bytes));
+	} 
+	else 
+	{
+		IoState_error_(IOSTATE, m, "Sequence is %i bytes but only conversion of 1, 2, or 4 bytes is supported", byteCount);
+	}
+
+	return IONIL(self);
+}
+
+IO_METHOD(IoSeq, asBinarySignedInteger)
+{
+	/*doc Sequence asBinarySignedInteger
+	Returns a Number with the bytes of the receiver interpreted as a binary signed integer. Endian is same as machine.
+	*/
+
+	const void *bytes = UArray_bytes(DATA(self));
+	size_t byteCount = UArray_size(DATA(self));
+
+	if(byteCount == 1)
+	{
+		return IONUMBER(*((const int8_t *)bytes));
+	} 
+	else if(byteCount == 2)
+	{
+		return IONUMBER(*((const int16_t *)bytes));
+	} 
+	else if(byteCount == 4)
+	{
+		return IONUMBER(*((const int32_t *)bytes));
+	} 
+	else 
+	{
+		IoState_error_(IOSTATE, m, "Sequence is %i bytes but only conversion of 1, 2, or 4 bytes is supported", byteCount);
+	}
+
+	return IONIL(self);
+}
+
+
 IO_METHOD(IoSeq, asBinaryNumber)
 {
 	/*doc Sequence asBinaryNumber
 	Returns a Number containing the first 8 bytes of the
-	receiver without casting them to a double.
+	receiver without casting them to a double. Endian is same as machine.
 	*/
 
 	IoNumber *byteCount = IoMessage_locals_valueArgAt_(m, locals, 0);
@@ -1161,6 +1220,15 @@ IO_METHOD(IoSeq, asBase64)
 	return IoSeq_newWithUArray_copy_(IOSTATE, UArray_asBase64(IoSeq_rawUArray(self)), 0);
 }
 
+IO_METHOD(IoSeq, fromBase64)
+{
+	/*doc Sequence fromBase64
+	Returns an immutable, base64 decoded (according to RFC 1421) version of self.
+	*/
+	
+	return IoSeq_newWithUArray_copy_(IOSTATE, UArray_fromBase64(IoSeq_rawUArray(self)), 0);
+}
+
 IO_METHOD(IoSeq, interpolate)
 {
 	/*doc Sequence interpolate(ctx)
@@ -1374,6 +1442,8 @@ void IoSeq_addImmutableMethods(IoSeq *self)
 	{"asFixedSizeType", IoSeq_asFixedSizeType},
 
 	{"asBinaryNumber", IoSeq_asBinaryNumber},
+	{"asBinaryUnsignedInteger", IoSeq_asBinaryUnsignedInteger},
+	{"asBinarySignedInteger", IoSeq_asBinaryUnsignedInteger},
 	{"isSymbol", IoSeq_isSymbol},
 	{"isMutable", IoSeq_isMutable},
 	{"asSymbol", IoSeq_asSymbol},
@@ -1437,6 +1507,7 @@ void IoSeq_addImmutableMethods(IoSeq *self)
 	{"distanceTo", IoSeq_distanceTo},
 
 	{"asBase64", IoSeq_asBase64},
+	{"fromBase64", IoSeq_fromBase64},
 
 	{">", IoSeq_greaterThan_},
 	{"<", IoSeq_lessThan_},

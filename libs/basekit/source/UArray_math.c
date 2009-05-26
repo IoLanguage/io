@@ -524,68 +524,42 @@ void UArray_changed(UArray *self)
 
 #include "Hash_fnv.h"
 #include "Hash_superfast.h"
+#include "Hash_murmur.h"
 
-uintptr_t UArray_calcEvenHash(UArray *self)
+uintptr_t UArray_superfastHash(UArray *self)
 {
-	return SuperFastHash((char *)(self->data), UArray_sizeInBytes(self)) | 0x1; // ensures odd result
+	return SuperFastHash((char *)(self->data), UArray_sizeInBytes(self));
 }
 
-uintptr_t UArray_calcOddHash(UArray *self)
+uintptr_t UArray_fnvHash(UArray *self)
 {
 	return (uintptr_t)fnv_32_buf((void *)(self->data), UArray_sizeInBytes(self), FNV1_32_INIT) << 1; // ensures odd result
 }
-/*
-uintptr_t UArray_calcOddHash(UArray *self)
-	uintptr_t h = 5381;
 
-	int i, max = UArray_sizeInBytes(self);
-	uint8_t *data = self->data;
-
-	for(i = 0; i < max; i ++)
-	{
-		h = data[i] + (h << 6) + (h << 16) - h;
-		//h += (h << 5);
-		//h ^= data[i];
-	}
-	return h << 1; // ensures odd result
-}
-*/
-
-/*
-uintptr_t UArray_steveHash(UArray *self)
+uintptr_t UArray_murmurHash(UArray *self)
 {
-	uintptr_t hash = 0;
-	int max = byteCount/4;
-	
-	{
-		int i, byteCount = UArray_sizeInBytes(self);
-		uint32_t *words = self->data;
-
-		for(i = 0; i < max; i ++)
-		{
-			hash ^= words[i];
-		}
-	}
-
-	{
-		uint32_t lastWord = 0;
-		uint8_t *data = self->data;
-		memcpy(&lastWord, data[max*4], byteCount % 4);
-		hash ^= lastWord;
-	}
-	
-	// this hash should be ok for use with hash mod(tableSize), 
-	// but not with hash mask(powerOf2TableSize-1)
-	return hash;
+	return (uintptr_t)MurmurHash2((const void *)(self->data), UArray_sizeInBytes(self), 0);
 }
-*/
+
+// even/odd hashes for cuckoo hashtables
+
+uintptr_t UArray_calcOddHash(UArray *self)
+{
+	return UArray_superfastHash(self) | 0x1; // ensures odd result
+}
+
+uintptr_t UArray_calcEvenHash(UArray *self)
+{
+	return UArray_fnvHash(self) << 1; // ensures odd result
+}
+
+// Caching even/odd hashes for cuckoo hashtables
 
 uintptr_t UArray_oddHash(UArray *self)
 {
 	if (!self->oddHash)
 	{
 		self->oddHash = UArray_calcOddHash(self);
-		//if(self->oddHash == 0x0) self->oddHash = 0x1;
 	}
 
 	return self->oddHash;
@@ -596,7 +570,6 @@ uintptr_t UArray_evenHash(UArray *self)
 	if (!self->evenHash)
 	{
 		self->evenHash = UArray_calcEvenHash(self);
-		//if(self->evenHash == 0x0) self->evenHash = 0x2;
 	}
 
 	return self->evenHash;
