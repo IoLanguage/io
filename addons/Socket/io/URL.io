@@ -90,10 +90,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 	*/
 
 	escapeString := method(u,
-		u := u clone asMutable
-		u replaceSeq("%","%25")
-		escapeCodes foreach(k, v, u replaceSeq(k, v))
-		u asString
+		EvRequest encodeUri(u)
 	)
 
 	/*doc URL unescapeString(aString)
@@ -101,39 +98,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 	*/
 
 	unescapeString := method(u,
-		u := u clone asMutable
-		escapeCodes foreach(k, v, u replaceSeq(v, k))
-		u replaceSeq("%25", "%")
-		u asString
-	)
-
-	/*doc URL escapeCodes
-	Returns a Map whose key/value pairs are special characters and their URL escape codes.
-	*/
-
-	escapeCodes := Map clone do(
-		atPut(" ","%20")
-		atPut("<","%3C")
-		atPut(">","%3E")
-		atPut("#","%23")
-		//atPut("%","%25")
-		atPut("{","%7B")
-		atPut("}","%7D")
-		atPut("|","%7C")
-		//atPut("backslash","%5C")
-		atPut("^","%5E")
-		atPut("~","%7E")
-		atPut("[","%5B")
-		atPut("]","%5D")
-		atPut("\`","%60")
-		atPut(";","%3B")
-		atPut("/","%2F")
-		atPut("?","%3F")
-		atPut(":","%3A")
-		atPut("@","%40")
-		atPut("=","%3D")
-		atPut("&","%26")
-		atPut("$","%24")
+		EvRequest decodeUri(u)
 	)
 
 	//doc URL referer Returns the referer String or nil if not set.
