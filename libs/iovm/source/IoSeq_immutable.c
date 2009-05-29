@@ -129,10 +129,11 @@ IO_METHOD(IoSeq, asFixedSizeType)
 	minimal fixed width text encoding that it's characters can fit 
 	into (either, ascii, utf8, utf16 or utf32). 
 	*/
-
-	IOASSERT(1 == 0, "IoSeq_asFixedSizeType unimplemented");
-	//return IoSeq_newWithUArray_copy_(IOSTATE, UArray_asFixedSizeType(DATA(self)), 0);
-	return self;
+	
+	UArray *out = UArray_new();
+	UArray_copy_(out, DATA(self));
+	UArray_convertToFixedSizeType(out);	
+	return IoSeq_newWithUArray_copy_(IOSTATE, out, 0);
 }
 
 IO_METHOD(IoSeq, asBinaryUnsignedInteger)
