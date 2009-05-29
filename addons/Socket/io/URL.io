@@ -349,10 +349,10 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 				r = r asMutable setEncoding("utf8") convertToFixedSizeType
 			)
 			if(contentType == "text/html; charset=utf-16",
-				r = r asMutable setEncoding("utf16") convertToFixedSizeType
+				r = r asMutable setEncoding("ucs2") convertToFixedSizeType
 			)
 			if(contentType == "text/html; charset=utf-32",
-				r = r asMutable setEncoding("utf32") convertToFixedSizeType
+				r = r asMutable setEncoding("ucs4") convertToFixedSizeType
 			)
 		,	
 			r = r asMutable setEncoding("utf8") convertToFixedSizeType
