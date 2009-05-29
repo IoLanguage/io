@@ -157,7 +157,7 @@ SGMLParser do(
 	)
 
 	startElement := method(name,
-		e := elementProto clone setName(name)
+		e := elementProto clone setName(name asFixedSizeType)
 		top subitems append(e)
 		e setParent(top)
 		stack push(e)
@@ -173,7 +173,7 @@ SGMLParser do(
 
 	newText := method(text,
 		//top subitems append(text)
-		top subitems append(elementProto withText(text))
+		top subitems append(elementProto withText(text asFixedSizeType))
 	)
 
 	elementForString := method(aString,
@@ -185,11 +185,11 @@ SGMLParser do(
 
 Sequence do(
 	//doc Sequence asHTML SGML extension to interpret the Sequence as HTML and return an SGML object using SGMLParser elementForString
-	asHTML := method(SGMLParser clone elementForString(self))
+	asHTML := method(SGMLParser clone elementForString(self asUTF8))
 	//doc Sequence asXML SGML extension to interpret the Sequence as XML and return an SGML object using SGMLParser elementForString
-	asXML  := method(SGMLParser clone elementForString(self))
+	asXML  := method(SGMLParser clone elementForString(self asUTF8))
 	//doc Sequence asSGML SGML extension to interpret the Sequence as SGML and return an SGML object using SGMLParser elementForString
-	asSGML := method(SGMLParser clone elementForString(self))
+	asSGML := method(SGMLParser clone elementForString(self asUTF8))
 )
 
 SGML := Object clone do(
