@@ -80,6 +80,15 @@ SGMLElement := Object clone do(
 		elementsWithName(name) select(attributes at("class") == class)
 	)
 	
+	elementsWithNameAndClasses := method(
+		args := call evalArgs
+		name := args removeFirst
+		classes := args
+		elementsWithName(name) select(e,
+			if(classAttribute := e attributes at("class"), classAttribute splitNoEmpties(" ") containsAll(classes))
+		)
+	)
+	
 	elementsWithNameAndId := method(name, id,
 		elementsWithName(name) select(attributes at("id") == id)
 	)
