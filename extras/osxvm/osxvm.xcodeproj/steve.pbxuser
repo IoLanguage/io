@@ -355,7 +355,7 @@
 		ignoreCount = 0;
 		lineNumber = 123;
 		location = osxvm;
-		modificationTime = 265046161.205768;
+		modificationTime = 265587402.603039;
 		state = 2;
 	};
 	AAADB5260FA9786600D4F384 /* CHash.c:124 */ = {
@@ -372,7 +372,7 @@
 		ignoreCount = 0;
 		lineNumber = 124;
 		location = osxvm;
-		modificationTime = 265046161.205787;
+		modificationTime = 265587402.603227;
 		state = 2;
 	};
 	AAADB5290FA978D800D4F384 /* CHash.c:144 */ = {
@@ -389,7 +389,7 @@
 		ignoreCount = 0;
 		lineNumber = 144;
 		location = osxvm;
-		modificationTime = 265046161.205796;
+		modificationTime = 265587402.603308;
 		state = 2;
 	};
 	AAADB76E0FAD0A6100D4F384 /* PHash.c */ = {
@@ -454,7 +454,7 @@
 		ignoreCount = 0;
 		lineNumber = 171;
 		location = osxvm;
-		modificationTime = 265046161.205804;
+		modificationTime = 265587402.603382;
 		state = 2;
 	};
 	AAADB8FF0FB3CE3500D4F384 /* CHash.c:154 */ = {
@@ -471,7 +471,7 @@
 		ignoreCount = 0;
 		lineNumber = 154;
 		location = osxvm;
-		modificationTime = 265046161.205812;
+		modificationTime = 265587402.603435;
 		state = 2;
 	};
 	AAADB9030FB3CE9900D4F384 /* CHash.c:156 */ = {
@@ -488,7 +488,7 @@
 		ignoreCount = 0;
 		lineNumber = 156;
 		location = osxvm;
-		modificationTime = 265046161.205821;
+		modificationTime = 265587402.603451;
 		state = 2;
 	};
 	AAADB93F0FB3D71B00D4F384 /* CHash.c:98 */ = {
@@ -505,7 +505,7 @@
 		ignoreCount = 0;
 		lineNumber = 98;
 		location = osxvm;
-		modificationTime = 265046161.205829;
+		modificationTime = 265587402.603463;
 		state = 2;
 	};
 	AAADB9420FB3D73F00D4F384 /* CHash.c:112 */ = {
@@ -522,7 +522,7 @@
 		ignoreCount = 0;
 		lineNumber = 112;
 		location = osxvm;
-		modificationTime = 265046161.205837;
+		modificationTime = 265587402.603474;
 		state = 2;
 	};
 	AAADB9450FB3D78800D4F384 /* CHash.c:142 */ = {
@@ -539,7 +539,7 @@
 		ignoreCount = 0;
 		lineNumber = 142;
 		location = osxvm;
-		modificationTime = 265046161.205845;
+		modificationTime = 265587402.603486;
 		state = 2;
 	};
 	AAADB9470FB3D7E600D4F384 /* CHash.c:172 */ = {
@@ -556,7 +556,7 @@
 		ignoreCount = 0;
 		lineNumber = 172;
 		location = osxvm;
-		modificationTime = 265046161.205854;
+		modificationTime = 265587402.603497;
 		state = 2;
 	};
 	AABF81240B759BC8002DBAB5 /* UArray_character.h */ = {
@@ -631,9 +631,9 @@
 	};
 	AABF812D0B759BC8002DBAB5 /* UArray_utf.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {820, 5134}}";
-			sepNavSelRange = "{2684, 13}";
-			sepNavVisRange = "{2317, 799}";
+			sepNavIntBoundsRect = "{{0, 0}, {1062, 5518}}";
+			sepNavSelRange = "{1542, 29}";
+			sepNavVisRange = "{1144, 732}";
 			sepNavWindowFrame = "{{208, 51}, {1111, 808}}";
 		};
 	};
@@ -655,9 +655,9 @@
 	};
 	AABF81300B759BC8002DBAB5 /* UArray.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {707, 8190}}";
-			sepNavSelRange = "{1157, 7}";
-			sepNavVisRange = "{807, 931}";
+			sepNavIntBoundsRect = "{{0, 0}, {1380, 7844}}";
+			sepNavSelRange = "{2897, 0}";
+			sepNavVisRange = "{2490, 1858}";
 			sepNavVisRect = "{{3, 3424}, {943, 638}}";
 			sepNavWindowFrame = "{{130, 88}, {756, 680}}";
 		};
@@ -676,12 +676,36 @@
 			sepNavVisRange = "{0, 782}";
 		};
 	};
+	AACD1FF20F12F6370072A032 /* cdecode.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {2148, 1436}}";
+			sepNavSelRange = "{230, 0}";
+			sepNavVisRange = "{0, 1117}";
+			sepNavWindowFrame = "{{130, 132}, {799, 636}}";
+		};
+	};
 	AACD1FF30F12F6370072A032 /* cdecode.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1158, 515}}";
 			sepNavSelRange = "{416, 0}";
 			sepNavVisRange = "{0, 676}";
 			sepNavWindowFrame = "{{15, 321}, {1207, 552}}";
+		};
+	};
+	AACD1FF40F12F6370072A032 /* cencode.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {892, 1724}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{462, 991}";
+			sepNavWindowFrame = "{{107, 153}, {799, 636}}";
+		};
+	};
+	AACD1FF50F12F6370072A032 /* cencode.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {900, 599}}";
+			sepNavSelRange = "{194, 0}";
+			sepNavVisRange = "{0, 756}";
+			sepNavWindowFrame = "{{84, 174}, {799, 636}}";
 		};
 	};
 	AAD2E1F90E1B842B00BFA950 /* PBXBookmarkGroup */ = {
@@ -1344,27 +1368,27 @@
 	};
 	AAE69EE00B110796006E309B /* IoSeq.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1138, 6008}}";
-			sepNavSelRange = "{4166, 0}";
-			sepNavVisRange = "{3794, 833}";
+			sepNavIntBoundsRect = "{{0, 0}, {1138, 5996}}";
+			sepNavSelRange = "{2801, 0}";
+			sepNavVisRange = "{2431, 956}";
 			sepNavVisRect = "{{0, 4038}, {711, 271}}";
 			sepNavWindowFrame = "{{98, 170}, {1187, 595}}";
 		};
 	};
 	AAE69EE10B110796006E309B /* IoSeq.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {764, 1840}}";
-			sepNavSelRange = "{1089, 0}";
-			sepNavVisRange = "{775, 575}";
+			sepNavIntBoundsRect = "{{0, 0}, {770, 1884}}";
+			sepNavSelRange = "{1401, 0}";
+			sepNavVisRange = "{1004, 1712}";
 			sepNavVisRect = "{{0, 926}, {943, 638}}";
-			sepNavWindowFrame = "{{176, 5}, {819, 721}}";
+			sepNavWindowFrame = "{{467, 10}, {819, 721}}";
 		};
 	};
 	AAE69EE20B110796006E309B /* IoSeq_immutable.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {996, 24474}}";
-			sepNavSelRange = "{3307, 0}";
-			sepNavVisRange = "{3287, 53}";
+			sepNavIntBoundsRect = "{{0, 0}, {801, 24662}}";
+			sepNavSelRange = "{2617, 15}";
+			sepNavVisRange = "{2388, 947}";
 			sepNavVisRect = "{{0, 17000}, {943, 638}}";
 			sepNavWindowFrame = "{{227, 46}, {1187, 595}}";
 		};
@@ -1612,7 +1636,7 @@
 		ignoreCount = 0;
 		lineNumber = 77;
 		location = osxvm;
-		modificationTime = 265046161.205862;
+		modificationTime = 265587402.603508;
 		state = 2;
 	};
 	AAFC0B700FC1B6C1009439BF /* Collector.c:404 */ = {
@@ -1629,7 +1653,7 @@
 		ignoreCount = 0;
 		lineNumber = 404;
 		location = osxvm;
-		modificationTime = 265046161.20587;
+		modificationTime = 265587402.60352;
 		state = 2;
 	};
 	AAFC0B720FC1B6C3009439BF /* Collector.c:408 */ = {
@@ -1646,7 +1670,7 @@
 		ignoreCount = 0;
 		lineNumber = 408;
 		location = osxvm;
-		modificationTime = 265046161.205878;
+		modificationTime = 265587402.603531;
 		state = 2;
 	};
 	AAFC0BAB0FC1BCCD009439BF /* IoObject.c:629 */ = {
@@ -1663,7 +1687,7 @@
 		ignoreCount = 0;
 		lineNumber = 629;
 		location = osxvm;
-		modificationTime = 265046161.205886;
+		modificationTime = 265587402.603542;
 		state = 2;
 	};
 	AAFC0BBE0FC1BEC2009439BF /* IoObject.c:618 */ = {
@@ -1680,7 +1704,7 @@
 		ignoreCount = 0;
 		lineNumber = 618;
 		location = osxvm;
-		modificationTime = 265046161.205894;
+		modificationTime = 265587402.603554;
 		state = 2;
 	};
 	AAFC0BC20FC1BEFB009439BF /* Collector.c:321 */ = {
@@ -1697,7 +1721,7 @@
 		ignoreCount = 0;
 		lineNumber = 321;
 		location = osxvm;
-		modificationTime = 265046161.205902;
+		modificationTime = 265587402.603565;
 		state = 2;
 	};
 	AAFC0C2D0FC34F5C009439BF /* IoState_debug.c:115 */ = {
@@ -1713,7 +1737,8 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 115;
-		modificationTime = 265046221.847837;
+		location = osxvm;
+		modificationTime = 265587402.603577;
 		state = 1;
 	};
 }
