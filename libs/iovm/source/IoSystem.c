@@ -24,10 +24,16 @@ Contains methods related to the IoVM.
 #endif
 #endif
 
+//#define WIN32
+#if defined(__CYGWIN__) || defined(_WIN32)
+#include <windows.h>
+#endif
+
 #ifdef WIN32
 #include <windows.h>
-
-static void setenv(const char *varName, const char* value, int force)
+#define _fullpath(res,path,size) \
+  (GetFullPathName ((path), (size), (res), NULL) ? (res) : NULL)    
+/*static void setenv(const char *varName, const char* value, int force)
 {
 	const char *safeValue;
 	char *buf;
@@ -61,8 +67,10 @@ static void setenv(const char *varName, const char* value, int force)
 	_putenv(buf);
 	io_free(buf);
 }
+*/
 
 //#define setenv(k, v, o) SetEnvironmentVariable((k), (v))
+
 
 IO_METHOD(IoObject, installPrefix)
 {
@@ -78,10 +86,6 @@ IO_METHOD(IoObject, installPrefix)
 
 	return IoState_symbolWithCString_(IOSTATE, root);
 }
-#endif
-
-#if defined(__CYGWIN__) || defined(_WIN32)
-#include <windows.h>
 #endif
 
 IoObject *IoSystem_proto(void *state)
