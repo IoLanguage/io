@@ -59,7 +59,7 @@ IoSQLite3 *IoSQLite3_proto(void *state)
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoSQLite3_newTag(state));
 
-	IoObject_setDataPointer_(self, calloc(1, sizeof(IoSQLite3Data)));
+	IoObject_setDataPointer_(self, io_calloc(1, sizeof(IoSQLite3Data)));
 	DATA(self)->path = IOSYMBOL(".");
 
 	IoState_registerProtoWithFunc_(state, self, IoSQLite3_proto);
@@ -117,7 +117,7 @@ IoSQLite3 *IoSQLite3_newWithPath_(void *state, IoSymbol *path)
 void IoSQLite3_free(IoSQLite3 *self)
 {
 	if (DATA(self)->db) sqlite3_close(DATA(self)->db);
-	free(IoObject_dataPointer(self));
+	io_free(IoObject_dataPointer(self));
 }
 
 void IoSQLite3_mark(IoSQLite3 *self)

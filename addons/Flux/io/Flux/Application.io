@@ -22,6 +22,7 @@ Application := Responder clone do(
     )
     
     init := method(
+		glutInit
 		setWindows(List clone)
 		setMainWindow(OSWindow clone)
     	addWindow(mainWindow)
@@ -48,9 +49,9 @@ Application := Responder clone do(
 		glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_ALPHA | GLUT_DEPTH)
 		glutInitWindowPosition(0, 0)
 		glutInitWindowSize(100, 100)
-		glutInit
+		//glutInit
 		glutEventTarget(self)
-	    //writeln("app glutTimerFunc")
+	    	//writeln("app glutTimerFunc")
 		glutTimerFunc(0, 0)		
 		mainWindow open
 		glutMainLoop

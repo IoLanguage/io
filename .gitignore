@@ -84,3 +84,6 @@ libs/iovm/docs/docs.txt
 addons/*/docs/docs.txt
 *.mode1
 *.pbxuser
+*.mode1v3
+extras/osxvm/build
+*~

@@ -19,13 +19,13 @@ Path := Object clone do(
 	//doc Path isPathAbsolute Returns true if path is absolute, false if it is relative.
 	isPathAbsolute := method(p,
 		absolute := false
-		try (
+		//try (
 			if (hasDriveLetters,
 				absolute = p at(0) isLetter and p at(1) asCharacter == ":" or p at(0) asCharacter == "/" or p at(0) asCharacter == "\\"
 			,
 				absolute = p at(0) asCharacter == "/"
 			)
-		)
+		//)
 		absolute
 	)
 

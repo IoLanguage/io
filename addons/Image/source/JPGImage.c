@@ -15,7 +15,7 @@
 
 JPGImage *JPGImage_new(void)
 {
-	JPGImage *self = (JPGImage *)calloc(1, sizeof(JPGImage));
+	JPGImage *self = (JPGImage *)io_calloc(1, sizeof(JPGImage));
 	JPGImage_path_(self, "");
 	JPGImage_error_(self, "");
 	self->byteArray = UArray_new();
@@ -37,14 +37,14 @@ JPGImage *JPGImage_newWithPath_(char *path)
 void JPGImage_free(JPGImage *self)
 {
 	if (self->ownsUArray) UArray_free(self->byteArray);
-	if (self->error) free(self->error);
-	free(self->path);
-	free(self);
+	if (self->error) io_free(self->error);
+	io_free(self->path);
+	io_free(self);
 }
 
 void JPGImage_path_(JPGImage *self, const char *path)
 {
-	self->path = strcpy((char *)realloc(self->path, strlen(path)+1), path);
+	self->path = strcpy((char *)io_realloc(self->path, strlen(path)+1), path);
 }
 
 char *JPGImage_path(JPGImage *self)
@@ -86,7 +86,7 @@ int JPGImage_decodingHeightHint(JPGImage *self)
 
 void JPGImage_error_(JPGImage *self, const char *error)
 {
-	self->error = strcpy((char *)realloc(self->error, strlen(error)+1), error);
+	self->error = strcpy((char *)io_realloc(self->error, strlen(error)+1), error);
 	/*if (strlen(self->error)) printf("JPGImage error: %s\n", self->error);*/
 }
 
@@ -257,7 +257,7 @@ void JPGImage_readScanLines(JPGImage *self, struct jpeg_decompress_struct *cinfo
 
 	/* 6. while (scan lines remain to be read) */
 	{
-		unsigned char **rows = malloc(cinfo->output_height * sizeof(unsigned char *));
+		unsigned char **rows = io_malloc(cinfo->output_height * sizeof(unsigned char *));
 		int r;
 		for (r=0; r < (int)cinfo->output_height; r++)
 		{
@@ -269,7 +269,7 @@ void JPGImage_readScanLines(JPGImage *self, struct jpeg_decompress_struct *cinfo
 			jpeg_read_scanlines(cinfo, rows + cinfo->output_scanline, cinfo->output_height);
 		}
 
-		free(rows);
+		io_free(rows);
 	}
 }
 

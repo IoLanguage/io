@@ -16,6 +16,9 @@ extern "C" {
 	COLLECTMARKER_FOREACH(self->grays,   v, code;); \
 	COLLECTMARKER_FOREACH(self->blacks,  v, code;);
 
+//#define COLLECTOR_RECYCLE_FREED 1
+#define COLLECTOR_USE_NONINCREMENTAL_MARK_SWEEP 1
+
 typedef enum
 {
 	COLLECTOR_INITIAL_WHITE,
@@ -27,6 +30,7 @@ typedef enum
 typedef int  (CollectorMarkFunc)(void *);
 typedef void (CollectorWillFreeFunc)(void *);
 typedef void (CollectorFreeFunc)(void *);
+typedef int  (CollectorCheckFunc)(void *);
 
 typedef struct
 {
@@ -54,12 +58,19 @@ typedef struct
 	long clocksUsed;
 	size_t sweepCount;
 	int debugOn;
+	int safeMode;
+	
+	#ifdef COLLECTOR_USE_NONINCREMENTAL_MARK_SWEEP
+	int newMarkerCount;
+	#endif
 } Collector;
 
 COLLECTOR_API Collector *Collector_new(void);
 COLLECTOR_API void Collector_free(Collector *self);
 
 COLLECTOR_API void Collector_check(Collector *self);
+COLLECTOR_API void Collector_checkObjectPointers(Collector *self); // if not 0, then memory is hosed
+COLLECTOR_API void Collector_checkObjectsWith_(Collector *self, CollectorCheckFunc *func);
 
 COLLECTOR_API void Collector_setMarkBeforeSweepValue_(Collector *self, void *v);
 
@@ -82,6 +93,7 @@ COLLECTOR_API float Collector_allocatedStep(Collector *self);
 // debug
 
 COLLECTOR_API void Collector_setDebug_(Collector *self, int b);
+COLLECTOR_API void Collector_setSafeModeOn_(Collector *self, int b);
 
 // retaining
 
@@ -97,6 +109,7 @@ COLLECTOR_API void Collector_addValue_(Collector *self, void *v);
 // collection
 
 COLLECTOR_API void Collector_initPhase(Collector *self);
+COLLECTOR_API size_t Collector_sweep(Collector *self); 
 COLLECTOR_API size_t Collector_sweepPhase(Collector *self);
 COLLECTOR_API void Collector_markPhase(Collector *self);
 
@@ -126,6 +139,7 @@ COLLECTOR_API void Collector_pushPause(Collector *self);
 COLLECTOR_API void Collector_popPause(Collector *self);
 COLLECTOR_API int Collector_isPaused(Collector *self);
 COLLECTOR_API double Collector_timeUsed(Collector *self);
+
 
 #include "Collector_inline.h"
 

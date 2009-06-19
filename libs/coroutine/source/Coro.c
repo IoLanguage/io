@@ -64,7 +64,7 @@ typedef struct CallbackBlock
 	CoroStartCallback *func;
 } CallbackBlock;
 
-//static CallbackBlock globalCallbackBlock;
+static CallbackBlock globalCallbackBlock;
 
 Coro *Coro_new(void)
 {
@@ -191,11 +191,14 @@ void Coro_initializeMainCoro(Coro *self)
 
 void Coro_startCoro_(Coro *self, Coro *other, void *context, CoroStartCallback *callback)
 {
-	CallbackBlock block;
-	block.context = context;
-	block.func    = callback;
+	CallbackBlock sblock;
+	CallbackBlock *block = &sblock;
+	//CallbackBlock *block = malloc(sizeof(CallbackBlock)); // memory leak
+	block->context = context;
+	block->func    = callback;
+	
 	Coro_allocStackIfNeeded(other);
-	Coro_setup(other, &block);
+	Coro_setup(other, block);
 	Coro_switchTo_(self, other);
 }
 
@@ -236,13 +239,13 @@ void Coro_StartWithArg(CallbackBlock *block)
 	exit(-1);
 }
 
-/*
+
 void Coro_Start(void)
 {
 	CallbackBlock block = globalCallbackBlock;
 	Coro_StartWithArg(&block);
 }
- */
+ 
 #endif
 
 // --------------------------------------------------------------------
@@ -415,12 +418,34 @@ void Coro_setup(Coro *self, void *arg)
 	//printf("sp = %p\n", sp);
 	buf[0]  = (long)sp;
 	buf[21] = (long)Coro_Start;
+	globalCallbackBlock.context=((CallbackBlock*)arg)->context;
+	globalCallbackBlock.func=((CallbackBlock*)arg)->func;
 	//sp[-4] = (size_t)self; // for G5 10.3
 	//sp[-6] = (size_t)self; // for G4 10.4
 
 	//printf("self = %p\n", (void *)self);
 	//printf("sp = %p\n", sp);
 }
+
+/*
+void Coro_setup(Coro *self, void *arg)
+{
+	size_t *sp = (size_t *)(((intptr_t)Coro_stack(self)
+						+ Coro_stackSize(self) - 64 + 15) & ~15);
+
+	setjmp(buf);
+
+	//printf("self = %p\n", self);
+	//printf("sp = %p\n", sp);
+	buf[0]  = (long)sp;
+	buf[21] = (long)Coro_Start;
+	//sp[-4] = (size_t)self; // for G5 10.3
+	//sp[-6] = (size_t)self; // for G4 10.4
+
+	//printf("self = %p\n", (void *)self);
+	//printf("sp = %p\n", sp);
+}
+*/
 
 #elif defined(__DragonFly__)
 

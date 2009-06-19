@@ -1,3 +1,6 @@
+#ifndef PORTABLESORTING_DEFINED
+#define PORTABLESORTING_DEFINED 1
+
 #include "Common.h"
 
 #ifdef __cplusplus
@@ -16,11 +19,13 @@ extern "C" {
 
 //typedef int   (ListSortRCallback)(void *, const void *, const void *);
 
-typedef int (PortableSortingCompareCallback)(void *context, const void *a, const void *b);
+typedef int (*PortableSortingCompareCallback)(void *context, const void *a, const void *b);
 
 BASEKIT_API void portable_qsort_r(void *base, size_t nel, size_t width,
 	void *context, PortableSortingCompareCallback *compare);
 
 #ifdef __cplusplus
 }
+#endif
+
 #endif

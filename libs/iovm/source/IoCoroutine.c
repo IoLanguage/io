@@ -106,11 +106,13 @@ IoCoroutine *IoCoroutine_new(void *state)
 {
 	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoCoroutine_proto);
 	IoObject *self = IOCLONE(proto);
+	//printf("IoCoroutine_new %p\n", (void *)self);
 	return self;
 }
 
 void IoCoroutine_free(IoCoroutine *self)
 {
+	//printf("IoCoroutine_free %p\n", (void *)self);
 	Coro *coro = DATA(self)->cid;
 	if (coro) Coro_free(coro);
 	Stack_free(DATA(self)->ioStack);
@@ -220,7 +222,7 @@ IoObject *IoCoroutine_rawException(IoCoroutine *self)
 
 // ioStack
 
-IoObject *IoCoroutine_ioStack(IoCoroutine *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoCoroutine, ioStack)
 {
 	/*doc Coroutine ioStack
 	Returns List of values on this coroutine's stack.
@@ -284,7 +286,7 @@ void IoCoroutine_coroStartWithContextAndCFunction(void *context, CoroStartCallba
 }
 */
 
-IoObject *IoCoroutine_freeStack(IoCoroutine *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoCoroutine, freeStack)
 {
   /*doc Coroutine freeStack
   Frees all the internal data from the receiver's stack. Returns self.
@@ -300,7 +302,7 @@ IoObject *IoCoroutine_freeStack(IoCoroutine *self, IoObject *locals, IoMessage *
 	return self;
 }
 
-IoObject *IoCoroutine_main(IoCoroutine *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoCoroutine, main)
 {
 	IoObject *runTarget  = IoCoroutine_rawRunTarget(self);
 	IoObject *runLocals  = IoCoroutine_rawRunLocals(self);
@@ -350,12 +352,13 @@ void IoCoroutine_rawRun(IoCoroutine *self)
 	{
 		IoCoroutine *current = IoState_currentCoroutine(IOSTATE);
 		Coro *currentCoro = IoCoroutine_rawCoro(current);
+		//IoState_stackRetain_(IOSTATE, self);
 		Coro_startCoro_(currentCoro, coro, self, (CoroStartCallback *)IoCoroutine_coroStart);
 		//IoState_setCurrentCoroutine_(IOSTATE, current);
 	}
 }
 
-IoObject *IoCoroutine_run(IoCoroutine *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoCoroutine, run)
 {
   /*doc Coroutine run
   Runs receiver and returns self.
@@ -422,17 +425,17 @@ IoObject *IoCoroutine_rawResume(IoCoroutine *self)
 	return self;
 }
 
-IoObject *IoCoroutine_resume(IoCoroutine *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoCoroutine, resume)
 {
   /*doc Coroutine resume
   Yields to the receiver. Runs the receiver if it is not running yet. 
   Returns self.
   */
-	//printf("IoCoroutine_resume()\n");
+	//printf("IoCoroutine_resume(%p)\n", (void *)self);
 	return IoCoroutine_rawResume(self);
 }
 
-IoObject *IoCoroutine_implementation(IoCoroutine *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoCoroutine, implementation)
 {
   /*doc Coroutine implementation
   Returns coroutine implementation type: "fibers", "ucontext" or "setjmp"
@@ -440,7 +443,7 @@ IoObject *IoCoroutine_implementation(IoCoroutine *self, IoObject *locals, IoMess
 	return IOSYMBOL(CORO_IMPLEMENTATION);
 }
 
-IoObject *IoCoroutine_isCurrent(IoCoroutine *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoCoroutine, isCurrent)
 {
   /*doc Coroutine isCurrent 
   Returns true if the receiver is currently running coroutine.
@@ -449,7 +452,7 @@ IoObject *IoCoroutine_isCurrent(IoCoroutine *self, IoObject *locals, IoMessage *
 	return v;
 }
 
-IoObject *IoCoroutine_currentCoroutine(IoCoroutine *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoCoroutine, currentCoroutine)
 {
   /*doc Coroutine currentCoroutine
   Returns currently running coroutine in Io state.
@@ -484,7 +487,7 @@ int IoCoroutine_rawDebuggingOn(IoCoroutine *self)
 	return DATA(self)->debuggingOn;
 }
 
-IoObject *IoCoroutine_setMessageDebugging(IoCoroutine *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoCoroutine, setMessageDebugging)
 {
 	/*doc Coroutine setMessageDebugging(aBoolean)
 	Turns on message level debugging for this coro. When on, this

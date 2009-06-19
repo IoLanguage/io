@@ -127,7 +127,7 @@ PHash *IoMap_rawHash(IoMap *self)
 
 // -----------------------------------------------------------
 
-IoObject *IoMap_empty(IoMap *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoMap, empty)
 {
 	/*doc Map empty
 	Removes all keys from the receiver. Returns self.
@@ -142,7 +142,7 @@ IoObject *IoMap_rawAt(IoMap *self, IoSymbol *k)
 	return PHash_at_(DATA(self), k);
 }
 
-IoObject *IoMap_at(IoMap *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoMap, at)
 {
 	/*doc Map at(keyString, optionalDefaultValue)
 	Returns the value for the key keyString. Returns nil if the key is absent. 
@@ -159,7 +159,7 @@ IoObject *IoMap_at(IoMap *self, IoObject *locals, IoMessage *m)
 	return (result) ? result : IONIL(self);
 }
 
-IoObject *IoMap_atPut(IoMap *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoMap, atPut)
 {
 	/*doc Map atPut(keyString, aValue)
 	Inserts/sets aValue with the key keyString. Returns self. 
@@ -171,7 +171,7 @@ IoObject *IoMap_atPut(IoMap *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoMap_atIfAbsentPut(IoMap *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoMap, atIfAbsentPut)
 {
 	/*doc Map atIfAbsentPut(keyString, aValue)
 	If a value is present at the specified key, the value is returned. 
@@ -189,7 +189,7 @@ IoObject *IoMap_atIfAbsentPut(IoMap *self, IoObject *locals, IoMessage *m)
 	return PHash_at_(DATA(self), k);
 }
 
-IoObject *IoMap_size(IoMap *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoMap, size)
 {
 	/*doc Map size
 	Returns the number of key/value pairs in the receiver.
@@ -198,7 +198,7 @@ IoObject *IoMap_size(IoMap *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(PHash_count(DATA(self)));
 }
 
-IoObject *IoMap_hasKey(IoMap *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoMap, hasKey)
 {
 	/*doc Map hasKey(keyString)
 	Returns true if the key is present or false otherwise.
@@ -208,7 +208,7 @@ IoObject *IoMap_hasKey(IoMap *self, IoObject *locals, IoMessage *m)
 	return IOBOOL(self, PHash_at_(DATA(self), k) != NULL);
 }
 
-IoObject *IoMap_removeAt(IoMap *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoMap, removeAt)
 {
 	/*doc Map removeAt(keyString)
 	Removes the specified keyString if present. Returns self. 
@@ -219,7 +219,7 @@ IoObject *IoMap_removeAt(IoMap *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoMap_hasValue(IoMap *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoMap, hasValue)
 {
 	/*doc Map hasValue(aValue)
 	Returns true if the value is one of the Map's values or false otherwise.
@@ -247,7 +247,7 @@ IoList *IoMap_keys(IoMap *self, IoObject *locals, IoMessage *m)
 	return IoMap_rawKeys(self);
 }
 
-IoObject *IoMap_values(IoMap *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoMap, values)
 {
 	/*doc Map values
 	Returns a List of the receivers values.
@@ -258,7 +258,7 @@ IoObject *IoMap_values(IoMap *self, IoObject *locals, IoMessage *m)
 	return list;
 }
 
-IoObject *IoMap_foreach(IoMap *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoMap, foreach)
 {
 	/*doc Map foreach(optionalKey, value, message)
 	For each key value pair, sets the locals key to

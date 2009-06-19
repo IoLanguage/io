@@ -74,7 +74,7 @@ struct stat *IoFile_statPointer(IoFile *self, IoObject *locals, IoMessage *m)
 	return (struct stat *)DATA(self)->info;
 }
 
-IoObject *IoFile_stat(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, stat)
 {
 	/*doc File stat
 	Updates the receiver's meta info cache.
@@ -101,7 +101,7 @@ IoObject *IoFile_stat(IoFile *self, IoObject *locals, IoMessage *m)
 
 /* ---------------------------------- */
 
-IoObject *IoFile_protectionMode(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, protectionMode)
 {
 	/*doc File protectionMode
 	Returns a Number containing the protection mode
@@ -129,7 +129,7 @@ struct timeval time_t2timeval(time_t ts)
 	return tv;
 }
 
-IoObject *IoFile_lastAccessDate(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, lastAccessDate)
 {
 	/*doc File lastAccessDate
 	Returns a Date object containing the last date and
@@ -147,7 +147,7 @@ IoObject *IoFile_lastAccessDate(IoFile *self, IoObject *locals, IoMessage *m)
 	return IoDate_newWithTimeval_(IOSTATE, tv);
 }
 
-IoObject *IoFile_lastInfoChangeDate(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, lastInfoChangeDate)
 {
 	/*doc File lastInfoChangeDate
 	Returns a Date object containing the last date and
@@ -166,7 +166,7 @@ IoObject *IoFile_lastInfoChangeDate(IoFile *self, IoObject *locals, IoMessage *m
 	return IoDate_newWithTimeval_(IOSTATE, tv);
 }
 
-IoObject *IoFile_lastDataChangeDate(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, lastDataChangeDate)
 {
 	/*doc File lastDataChangeDate
 	Returns a Date object containing the last date and
@@ -190,7 +190,7 @@ IoObject *IoFile_lastDataChangeDate(IoFile *self, IoObject *locals, IoMessage *m
 	return IoDate_newWithTimeval_(IOSTATE, tv);
 }
 
-IoObject *IoFile_userId(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, userId)
 {
 	/*doc File userId
 	Returns a Number containing the user id associated with the file's path.
@@ -199,7 +199,7 @@ IoObject *IoFile_userId(IoFile *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(IoFile_statPointer(self, locals, m)->st_uid);
 }
 
-IoObject *IoFile_groupId(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, groupId)
 {
 	/*doc File groupId
 	Returns a Number containing the group id associated with the file's path.
@@ -208,7 +208,7 @@ IoObject *IoFile_groupId(IoFile *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(IoFile_statPointer(self, locals, m)->st_gid);
 }
 
-IoObject *IoFile_statSize(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, statSize)
 {
 	/*doc File statSize
 	Returns the file's size in bytes as a Number.
@@ -219,7 +219,7 @@ IoObject *IoFile_statSize(IoFile *self, IoObject *locals, IoMessage *m)
 
 /* ---------------------------------- */
 
-IoObject *IoFile_isDirectory(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, isDirectory)
 {
 	/*doc File isDirectory
 	Returns true if the receiver's path points to a directory, false otherwise.
@@ -228,7 +228,7 @@ IoObject *IoFile_isDirectory(IoFile *self, IoObject *locals, IoMessage *m)
 	return IOBOOL(self, S_ISDIR(IoFile_statPointer(self, locals, m)->st_mode));
 }
 
-IoObject *IoFile_isPipe(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, isPipe)
 {
 	/*doc File isPipe
 	Returns true if the receiver is a pipe, false otherwise.
@@ -237,7 +237,7 @@ IoObject *IoFile_isPipe(IoFile *self, IoObject *locals, IoMessage *m)
 	return IOBOOL(self, S_ISFIFO(IoFile_statPointer(self, locals, m)->st_mode));
 }
 
-IoObject *IoFile_isLink(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, isLink)
 {
 	/*doc File isLink
 	Returns true if the receiver's path points to a link, false otherwise.
@@ -255,7 +255,7 @@ IoObject *IoFile_isLink(IoFile *self, IoObject *locals, IoMessage *m)
 	return IOBOOL(self, S_ISLNK((&buf)->st_mode));
 }
 
-IoObject *IoFile_isRegularFile(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, isRegularFile)
 {
 	/*doc File isRegularFile
 	Returns true if the receiver's file descriptor is a regular file, false otherwise.
@@ -264,7 +264,7 @@ IoObject *IoFile_isRegularFile(IoFile *self, IoObject *locals, IoMessage *m)
 	return IOBOOL(self, S_ISREG(IoFile_statPointer(self, locals, m)->st_mode));
 }
 
-IoObject *IoFile_isSocket(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, isSocket)
 {
 	/*doc File isSocket
 	Returns true if the receiver's file descriptor is a Socket, false otherwise.
@@ -273,7 +273,7 @@ IoObject *IoFile_isSocket(IoFile *self, IoObject *locals, IoMessage *m)
 	return IOBOOL(self, S_ISSOCK(IoFile_statPointer(self, locals, m)->st_mode));
 }
 
-IoObject *IoFile_isUserExecutable(IoFile *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoFile, isUserExecutable)
 {
 	/*doc File isUserExecutable
 	Returns true if the receiver is user group executable, false otherwise.

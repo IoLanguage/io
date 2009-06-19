@@ -63,7 +63,7 @@ void IoMessage_ifPossibleCacheToken_(IoMessage *self, IoToken *p)
 			}
 	}
 
-	IoMessage_cachedResult_(self, r);
+	IoMessage_rawSetCachedResult_(self, r);
 }
 
 IoMessage *IoMessage_newFromText_label_(void *state, const char *text, const char *label)
@@ -74,8 +74,12 @@ IoMessage *IoMessage_newFromText_label_(void *state, const char *text, const cha
 
 IoMessage *IoMessage_newFromText_labelSymbol_(void *state, const char *text, IoSymbol *label)
 {
-	IoLexer *lexer = IoLexer_new();
+	IoLexer *lexer;
 	IoMessage *msg;
+
+	IoState_pushCollectorPause(state); // needed?
+
+	lexer = IoLexer_new();
 
 	IoLexer_string_(lexer, text);
 	IoLexer_lex(lexer);
@@ -84,7 +88,9 @@ IoMessage *IoMessage_newFromText_labelSymbol_(void *state, const char *text, IoS
 	IoMessage_opShuffle_(msg);
 	IoMessage_label_(msg, label);
 	IoLexer_free(lexer);
-
+	
+	IoState_popCollectorPause(state);
+	
 	return msg;
 }
 
@@ -191,7 +197,7 @@ IoMessage *IoMessage_newParseNextMessageChain(void *state, IoLexer *lexer)
 		if (IoTokenType_isValidMessageName(IoLexer_topType(lexer)))
 		{
 			IoMessage *eol = IoMessage_newWithName_(state, ((IoState*)state)->semicolonSymbol);
-			IoMessage_rawSetNext(self, eol);
+			IoMessage_rawSetNext_(self, eol);
 			IoMessage_parseNext(eol, lexer);
 		}
 	}
@@ -250,6 +256,6 @@ void IoMessage_parseArgs(IoMessage *self, IoLexer *lexer)
 void IoMessage_parseNext(IoMessage *self, IoLexer *lexer)
 {
 	IoMessage *next = IoMessage_newParseNextMessageChain(IOSTATE, lexer);
-	IoMessage_rawSetNext(self, next);
+	IoMessage_rawSetNext_(self, next);
 }
 

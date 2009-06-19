@@ -10,10 +10,11 @@
 
 //#include "Collector.h"
 #include "Stack.h"
-#include "PHash.h"
-#include "SHash.h"
+#include "PointerHash.h"
+#include "CHash.h"
 #include "MainArgs.h"
 #include "IoObject_struct.h"
+#include "RandomGen.h" 
 #define COLLECTOROBJECTTYPE IoObjectData
 
 #include "Collector.h"
@@ -23,6 +24,7 @@
 
 #define IOMESSAGE_INLINE_PERFORM 1
 //#define IO_BLOCK_LOCALS_RECYCLING 1
+//#define IOSTATE_RECYCLING_ON 1
 #define IOSTATE_DEFAULT_MAX_RECYCLED_OBJECTS 1000
 
 #ifdef __cplusplus
@@ -37,8 +39,9 @@ typedef IoObject *(IoStateProtoFunc)(void *);
 
 struct IoState
 {
-	PHash *primitives;
-	SHash *symbols;
+	RandomGen *randomGen;
+	PointerHash *primitives;
+	CHash *symbols;
 
 	// coroutines
 
@@ -149,6 +152,9 @@ struct IoState
 
 	int shouldExit;
 	int exitResult;
+	
+	int receivedSignal;
+	int showAllMessages;
 };
 
 #define IOSTATE_STRUCT_DEFINED

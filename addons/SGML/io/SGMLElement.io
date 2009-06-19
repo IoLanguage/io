@@ -28,12 +28,14 @@ SGMLElement := Object clone do(
 	asString := method(
 		b := Sequence clone
 		writeToStream(b)
-		b asString
+		b asSymbol
 	)
 
 	writeToStream := method(b, l,
-		if(l == nil, l = "", l = l .. "  ")
-		if(name, b appendSeq(l); beginTag(b), if(text, b appendSeq(l, text, "\n")))
+		l = ""
+		//if(l == nil, l = "", l = l .. "  ")
+		//if(name, b appendSeq(l); beginTag(b), if(text, b appendSeq(l, text, "\n")))
+		if(name, b appendSeq(l); beginTag(b), if(text, b appendSeq(l, text)))
 		subitems foreach(writeToStream(b, l))
 		if(name, b appendSeq(l); endTag(b))
 	)
@@ -48,14 +50,14 @@ SGMLElement := Object clone do(
 			)
 			b appendSeq(">")
 		)
-		b appendSeq("\n")
+		//b appendSeq("\n")
 		b
 	)
 
 	endTag := method(b,
 		if(b == nil, b := Sequence clone)
 		b appendSeq("</", name, ">")
-		b appendSeq("\n")
+		//b appendSeq("\n")
 		b
 	)
 
@@ -155,7 +157,7 @@ SGMLParser do(
 	)
 
 	startElement := method(name,
-		e := elementProto clone setName(name)
+		e := elementProto clone setName(name asFixedSizeType)
 		top subitems append(e)
 		e setParent(top)
 		stack push(e)
@@ -171,7 +173,7 @@ SGMLParser do(
 
 	newText := method(text,
 		//top subitems append(text)
-		top subitems append(elementProto withText(text))
+		top subitems append(elementProto withText(text asFixedSizeType))
 	)
 
 	elementForString := method(aString,
@@ -183,11 +185,11 @@ SGMLParser do(
 
 Sequence do(
 	//doc Sequence asHTML SGML extension to interpret the Sequence as HTML and return an SGML object using SGMLParser elementForString
-	asHTML := method(SGMLParser clone elementForString(self))
+	asHTML := method(SGMLParser clone elementForString(self asUTF8))
 	//doc Sequence asXML SGML extension to interpret the Sequence as XML and return an SGML object using SGMLParser elementForString
-	asXML  := method(SGMLParser clone elementForString(self))
+	asXML  := method(SGMLParser clone elementForString(self asUTF8))
 	//doc Sequence asSGML SGML extension to interpret the Sequence as SGML and return an SGML object using SGMLParser elementForString
-	asSGML := method(SGMLParser clone elementForString(self))
+	asSGML := method(SGMLParser clone elementForString(self asUTF8))
 )
 
 SGML := Object clone do(

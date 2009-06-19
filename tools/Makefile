@@ -32,6 +32,7 @@ LIBS := $(sublibs_l)
 LINKDIRFLAG := -L
 LINKLIBFLAG := -l
 DLL_LIB_SUFFIX := 
+DLL_LIB_PREFIX := lib
 
 SYS ?= $(shell uname -s)
 
@@ -68,8 +69,8 @@ ifeq ($(SYS),Darwin)
 DLL_SUFFIX := dylib
 DLL_COMMAND := -dynamiclib
 FLAT_NAMESPACE := -flat_namespace
-#FIXDLL := install_name_tool _build/binaries/io$(BINARY_SUFFIX) -change _build/dll/libiovmall.dylib @executable_path/libiovmall.dylib
-FIXDLL := install_name_tool _build/binaries/io$(BINARY_SUFFIX) -change _build/dll/libiovmall.dylib @executable_path/../lib/libiovmall.dylib
+#FIXDLL := install_name_tool _build/binaries/io$(BINARY_SUFFIX) -change _build/dll/$(DLL_LIB_PREFIX)iovmall.dylib @executable_path/$(DLL_LIB_PREFIX)iovmall.dylib
+FIXDLL := install_name_tool _build/binaries/io$(BINARY_SUFFIX) -change _build/dll/$(DLL_LIB_PREFIX)iovmall.dylib @executable_path/../lib/$(DLL_LIB_PREFIX)iovmall.dylib
 endif
 
 ifeq ($(SYS),IRIX)
@@ -99,8 +100,9 @@ LFLAGS += ws2_32.lib kernel32.lib shell32.lib
 OPTIMIZE := -Zi -MD -DWIN32 -DNDEBUG -DBUILDING_IOVMALL_DLL -D_CRT_SECURE_NO_DEPRECATE
 WARN :=
 LINKDIRFLAG := -libpath:
-LINKLIBFLAG := lib
+LINKLIBFLAG := 
 DLL_LIB_SUFFIX := .lib
+DLL_LIB_PREFIX := 
 BINARY_SUFFIX := .exe
 endif
 
@@ -121,10 +123,10 @@ all:
 	$(CC) $(CFLAGS) -c $(CCOUTFLAG)_build/objs/main.o source/main.c $(HEADERS)
 
 #_build/binaries/io_static$(BINARY_SUFFIX): _build/objs/main.o
-	$(LINK) $(LINKOUTFLAG)_build/binaries/io_static$(BINARY_SUFFIX) _build/objs/main.o ../_build/lib/libiovmall.a $(LFLAGS)
+	$(LINK) $(LINKOUTFLAG)_build/binaries/io_static$(BINARY_SUFFIX) _build/objs/main.o ../_build/lib/$(DLL_LIB_PREFIX)iovmall.a $(LFLAGS)
 
 #_build/binaries/io: _build/objs/main.o
-	#$(CC) $(CFLAGS) $(FLAT_NAMESPACE) $(LFLAGS) -o _build/binaries/io$(BINARY_SUFFIX) _build/objs/main.o ../_build/dll/libiovmall.$(DLL_SUFFIX)
+	#$(CC) $(CFLAGS) $(FLAT_NAMESPACE) $(LFLAGS) -o _build/binaries/io$(BINARY_SUFFIX) _build/objs/main.o ../_build/dll/$(DLL_LIB_PREFIX)iovmall.$(DLL_SUFFIX)
 	$(LINK) $(FLAT_NAMESPACE) $(LFLAGS) $(LINKOUTFLAG)_build/binaries/io$(BINARY_SUFFIX) _build/objs/main.o $(LINKDIRFLAG)../_build/dll $(LINKLIBFLAG)iovmall$(DLL_LIB_SUFFIX)
 
 	$(FIXDLL)

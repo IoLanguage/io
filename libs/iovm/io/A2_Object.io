@@ -336,7 +336,7 @@ Object do(
 		getSlot("self") setSlot("set" .. name asCapitalized,
 			doString("method(" .. name .. " = call evalArgAt(0); self)"))
 			//if(doc, getSlot("self") docSlot(name, doc))
-		value
+		getSlot("value")
 	)
 
 	//doc Object launchFile(pathString) Eval file at pathString as if from the command line in it's folder.

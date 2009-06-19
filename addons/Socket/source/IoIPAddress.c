@@ -97,8 +97,8 @@ IoIPAddress *IoIPAddress_newWithIPAddress_size_(void *state,
 								  size_t size)
 {
 	IoIPAddress *self = IoIPAddress_new(state);
-	free(DATA(self)->address);
-	DATA(self)->address = malloc(size);
+	io_free(DATA(self)->address);
+	DATA(self)->address = io_malloc(size);
 	DATA(self)->size = size;
 	memcpy(DATA(self)->address, address, size);
 	return self;

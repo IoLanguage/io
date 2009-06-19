@@ -28,7 +28,7 @@ IoSGMLParser *IoSGMLParser_proto(void *state)
 	IoSGMLParser *self = IoObject_new(state);
 	IoObject_tag_(self, IoSGMLParser_newTag(state));
 
-	IoObject_setDataPointer_(self, calloc(1, sizeof(IoSGMLParserData)));
+	IoObject_setDataPointer_(self, io_calloc(1, sizeof(IoSGMLParserData)));
 
 	DATA(self)->startElementMessage = IoMessage_newWithName_label_(state,
 													   IOSYMBOL("startElement"), IOSYMBOL("SGMLParser"));
@@ -110,10 +110,10 @@ void IoSGMLParser_free(IoSGMLParser *self)
 
 	if (DATA(self)->tmpString)
 	{
-		free(DATA(self)->tmpString);
+		io_free(DATA(self)->tmpString);
 	}
 
-	free(DATA(self));
+	io_free(DATA(self));
 }
 
 char *IoSGMLParser_lowercase_(IoSGMLParser *self, const char *s)
@@ -122,7 +122,7 @@ char *IoSGMLParser_lowercase_(IoSGMLParser *self, const char *s)
 	int i;
 	char *ts = DATA(self)->tmpString;
 
-	ts = realloc(ts, max + 1);
+	ts = io_realloc(ts, max + 1);
 	strcpy(ts, s);
 
 	for (i = 0; i < max; i ++)
@@ -243,7 +243,9 @@ for each of the items it finds. Returns self.
 
 	IoSeq *buffer = IoMessage_locals_seqArgAt_(m, locals, 0);
 	int ret;
-
+	IoState_pushRetainPool(IOSTATE); //needed?
+	IoState_stackRetain_(IOSTATE, buffer); //needed?
+	
 	IoSGMLParser_initParser(self);
 
 	//ret =_sgmlParseChunk(&(self->parser), s, strlen(s));
@@ -252,6 +254,8 @@ for each of the items it finds. Returns self.
 						   IoSeq_rawSize(buffer));
 
 	IoSGMLParser_freeParser(self);
+
+	IoState_popRetainPool(IOSTATE); //needed?
 
 	if (ret == 0)
 	{

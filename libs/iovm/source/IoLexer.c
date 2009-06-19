@@ -566,7 +566,8 @@ const char *IoLexer_nameForGroupChar_(IoLexer *self, char groupChar)
 	exit(1);
 }
 
-static char *specialChars = ":._";
+//static char *specialChars = ":._";
+static char *specialChars = "._";
 
 int IoLexer_readMessage(IoLexer *self)
 {
@@ -610,9 +611,9 @@ int IoLexer_readMessage(IoLexer *self)
 					}
 				}
 
-				if (groupChar == '[') specialChars = "._";
+				//if (groupChar == '[') specialChars = "._";
 				IoLexer_messageChain(self);
-				if (groupChar == '[') specialChars = ":._";
+				//if (groupChar == '[') specialChars = ":._";
 				IoLexer_readPadding(self);
 
 			} while (IoLexer_readTokenChar_type_(self, ',', COMMA_TOKEN));
@@ -697,12 +698,14 @@ int IoLexer_readIdentifier(IoLexer *self)
 	{
 		// avoid grabing : on last character if followed by =
 
+/*
 		char *current = IoLexer_current(self);
 
 		if (*(current - 1) == ':' && *current == '=')
 		{
 			IoLexer_prevChar(self);
 		}
+		*/
 
 
 		IoLexer_grabTokenType_(self, IDENTIFIER_TOKEN);

@@ -32,5 +32,8 @@ struct event *IoEvRequest_rawEvent(IoEvRequest *self);
 
 IoObject *IoEvRequest_send(IoEvRequest *self, IoObject *locals, IoMessage *m);
 IoObject *IoEvRequest_cancel(IoEvRequest *self, IoObject *locals, IoMessage *m);
+IoObject *IoEvRequest_encodeUri(IoEvRequest *self, IoObject *locals, IoMessage *m);
+IoObject *IoEvRequest_decodeUri(IoEvRequest *self, IoObject *locals, IoMessage *m);
+IoObject *IoEvRequest_htmlEscape(IoEvRequest *self, IoObject *locals, IoMessage *m);
 
 #endif

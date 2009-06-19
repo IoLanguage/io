@@ -43,7 +43,7 @@ IoObject *IoState_numberWithDouble_(IoState *self, double n)
 
 IoSymbol *IoState_symbolWithUArray_copy_(IoState *self, UArray *ba, int copy)
 {
-	IoSymbol *ioSymbol = SHash_at_(self->symbols, ba);
+	IoSymbol *ioSymbol = CHash_at_(self->symbols, ba);
 
 	if (!ioSymbol)
 	{
@@ -75,12 +75,16 @@ IoSymbol *IoState_symbolWithCString_(IoState *self, const char *s)
 
 IoSymbol *IoState_addSymbol_(IoState *self, IoSymbol *s)
 {
-	SHash_at_put_(self->symbols, IoSeq_rawUArray(s), s);
+	CHash_at_put_(self->symbols, IoSeq_rawUArray(s), s);
 	IoObject_isSymbol_(s, 1);
+	s->hash1 = RandomGen_randomInt(self->randomGen) | 0x1;
+	s->hash2 = RandomGen_randomInt(self->randomGen) << 1;
+	//s->hash2 = rand() << 1; //RandomGen_randomInt(self->randomGen) << 1;
+	//s->hash1 = s->hash1 << 1;
 	return s;
 }
 
 void IoState_removeSymbol_(IoState *self, IoSymbol *s)
 {
-	SHash_removeKey_(self->symbols, IoSeq_rawUArray(s));
+	CHash_removeKey_(self->symbols, IoSeq_rawUArray(s));
 }

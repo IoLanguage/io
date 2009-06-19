@@ -26,7 +26,7 @@
 
 Image *Image_new(void)
 {
-	Image *self = (Image *)calloc(1, sizeof(Image));
+	Image *self = (Image *)io_calloc(1, sizeof(Image));
 	Image_path_(self, "");
 	Image_fileType_(self, "");
 	self->byteArray = UArray_new();
@@ -72,13 +72,13 @@ void Image_free(Image *self)
 
 	if (self->error)
 	{
-		free(self->error);
+		io_free(self->error);
 	}
 
-	free(self->fileType);
-	free(self->path);
+	io_free(self->fileType);
+	io_free(self->path);
 
-	free(self);
+	io_free(self);
 }
 
 UArray *Image_byteArray(Image *self)
@@ -114,7 +114,7 @@ void Image_getFileType(Image *self) /* private */
 
 void Image_path_(Image *self, const char *path)
 {
-	self->path = strcpy((char *)realloc(self->path, strlen(path)+1), path);
+	self->path = strcpy((char *)io_realloc(self->path, strlen(path)+1), path);
 	Image_getFileType(self);
 }
 
@@ -125,7 +125,7 @@ char *Image_path(Image *self)
 
 void Image_fileType_(Image *self, const char *fileType)
 {
-	self->fileType = strcpy((char *)realloc(self->fileType, strlen(fileType)+1), fileType);
+	self->fileType = strcpy((char *)io_realloc(self->fileType, strlen(fileType)+1), fileType);
 }
 
 char *Image_fileType(Image *self) { return self->fileType; }
@@ -135,11 +135,11 @@ void Image_error_(Image *self, const char *error)
 	if (error && strlen(error))
 	{
 		/*printf("Image_error_(%s)\n", error);*/
-		self->error = strcpy((char *)realloc(self->error, strlen(error)+1), error);
+		self->error = strcpy((char *)io_realloc(self->error, strlen(error)+1), error);
 	}
 	else
 	{
-		if (self->error) free(self->error);
+		if (self->error) io_free(self->error);
 		self->error = NULL;
 	}
 }
@@ -350,7 +350,7 @@ void Image_flipY(Image *self)
 	int componentCount = self->componentCount;
 	uint8_t *bytes = UArray_mutableBytes(self->byteArray);
 	size_t bytesPerLine = componentCount * w;
-	unsigned char *buf = malloc(bytesPerLine);
+	unsigned char *buf = io_malloc(bytesPerLine);
 
 	for (y = 0; y < h/2; y ++)
 	{
@@ -362,7 +362,7 @@ void Image_flipY(Image *self)
 		memcpy(b,   buf, bytesPerLine);
 	}
 	
-	free(buf);
+	io_free(buf);
 }
 
 void Image_resizeTo(Image *self, int w, int h, Image *outImage)
@@ -489,13 +489,15 @@ void Image_makeRGBA(Image *self)
 	} 
 	else if (self->componentCount == 1)
 	{
-		UArray *outUArray = UArray_new();
-		UArray_setSize_(outUArray, 4 * self->width * self->height);
-		uint8_t *outData = (uint8_t *)UArray_bytes(outUArray);
-		uint8_t *inData  = (uint8_t *)UArray_bytes(self->byteArray);
 		size_t numPixels = self->width * self->height;
 		size_t p1;
 		size_t p2 = 0;
+		uint8_t *outData;
+		uint8_t *inData;
+		UArray *outUArray = UArray_new();
+		UArray_setSize_(outUArray, 4 * self->width * self->height);
+		outData = (uint8_t *)UArray_bytes(outUArray);
+		inData  = (uint8_t *)UArray_bytes(self->byteArray);
 		
 		for (p1 = 0; p1 < numPixels; p1 ++)
 		{
@@ -549,6 +551,42 @@ int Image_baselineHeight(Image *self)
 	
 	//printf("base = %i\n", base);
 	return self->height - base;
+}
+
+ImageBounds Image_bounds(Image *self, int cutoff)
+{
+	int componentCount = self->componentCount;
+	uint8_t *d = (uint8_t *)UArray_bytes(self->byteArray);
+	ImageBounds bounds;
+	int x, y;
+	
+	bounds.xmin = self->width;
+	bounds.xmax = 0;
+	bounds.ymin = self->height;
+	bounds.ymax = 0;
+
+	for (y = 0; y < self->height; y ++)
+	{
+		for (x = 0; x < self->width; x ++)
+		{
+			int p = (x + (y * self->width)) * componentCount;
+			int c;
+
+			for (c = 0; c < componentCount; c ++)
+			{
+				if (d[p + c] < cutoff)
+				{
+					if(x < bounds.xmin) bounds.xmin = x;
+					if(x > bounds.xmax) bounds.xmax = x;
+					if(y < bounds.ymin) bounds.ymin = y;
+					if(y > bounds.ymax) bounds.ymax = y;
+					break;
+				}
+			}
+		}
+	}
+	
+	return bounds;
 }
 
 ColorStruct Image_averageColor(Image *self)

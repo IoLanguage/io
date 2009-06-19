@@ -31,6 +31,10 @@ Socket do(
 	//doc Socket setIpAddress(ipAddressObject) Sets the ipAddress for the socket. Returns self. The setHost() method should generally be used to set the host instead of this method.
 	ipAddress ::= IPAddress clone
 
+	isSynchronous ::= false
+	syncWaitTime ::= 0.05
+	syncWait := method(System sleep(syncWaitTime))
+	
 	init := method(
 		resend
 		self ipAddress   := ipAddress clone
@@ -88,7 +92,7 @@ Socket do(
 
 	//doc Socket connect Connects to the socket's host. Returns self on success or an Error object on error.
 	connect := method(
-		debugWriteln("Socket connect isOpen = ", isOpen)
+		if(isSynchronous, return syncConnect)
 		isOpen ifFalse(streamOpen returnIfError)
 		asyncConnect(ipAddress) returnIfError ifNil(
 			writeEvent waitOn(connectTimeout) returnIfError
@@ -106,12 +110,23 @@ Socket do(
 		)
 		self
 	)
+	
+	syncConnect := method(
+		isOpen ifFalse(streamOpen returnIfError)
+		start := Date clone now
+		while(asyncConnect(ipAddress) returnIfError == nil,
+			syncWait
+			if(start secondsSinceNow > connectTimeout, return(Error with("Connect timeout")))
+		)
+		self
+	)	
 
 	/*doc Socket streamRead(numberOfBytes) 
 	Reads numberOfBytes from the socket into the socket's readBuffer. 
 	Returns self when all bytes are read or an Error object on error.
 	*/
 	streamRead := method(numBytes,
+		if(isSynchronous, return syncStreamRead)
 		total := readBuffer size + numBytes
 
 		isOpen ifFalse(
@@ -128,6 +143,23 @@ Socket do(
 			*/
 			isOpen ifFalse(
 				Exception raise("Socket is closed")
+				return(Error with("Socket closed before " .. numBytes .. " bytes could be read"))
+			)
+		)
+		self
+	)
+	
+	syncStreamRead := method(numBytes,
+		total := readBuffer size + numBytes
+
+		isOpen ifFalse(
+			return(Error with("Socket closed before " .. numBytes .. " bytes could be read"))
+		)
+	
+		while(readBuffer size < total,
+			error := asyncStreamRead(readBuffer, total - readBuffer size) 
+			syncWait
+			isOpen ifFalse(
 				return(Error with("Socket closed before " .. numBytes .. " bytes could be read"))
 			)
 		)
@@ -156,6 +188,8 @@ Socket do(
 		self setSocketWriteBufferSize(n)
 		self setSocketWriteLowWaterMark(bytesPerWrite)
 
+		if(isSynchronous, return(syncWriteFromBuffer(writeCallback)))
+		
 		while(writeBuffer isEmpty not,
 			writeEvent waitOn(writeTimeout) returnIfError
 			if(writeCallback,
@@ -168,16 +202,33 @@ Socket do(
 		)
 		self
 	)
+	
+	syncWriteFromBuffer := method(writeCallback,
+		while(isOpen and writeBuffer isEmpty not,
+			sizeBefore := writeBuffer size
+			while(isOpen and asyncStreamWrite(writeBuffer, 0, bytesPerWrite) returnIfError not, syncWait)
+			if(writeCallback, writeCallback call(sizeBefore - writeBuffer size))
+		)
+		self
+	)
 
 	/*doc Socket streamReadNextChunk(optionalProgressBlock) 
 	Waits for incoming data on the socket and when found, reads any available data and returns self. 
 	Returns self on success or an Error object on error or timeout.
 	*/
+	
 	streamReadNextChunk := method(
+		if(isSynchronous, return syncStreamReadNextChunk)
 		self setSocketReadLowWaterMark(1)
-		//while(isOpen and e := asyncStreamRead(readBuffer, bytesPerRead), e returnIfError)
 		readEvent waitOn(readTimeout) returnIfError
 		while(isOpen and e := asyncStreamRead(readBuffer, bytesPerRead), e returnIfError)
+		self
+	)
+	
+	syncStreamReadNextChunk := method(
+		self setSocketReadLowWaterMark(1)
+		while(isOpen and asyncStreamRead(readBuffer, bytesPerRead) returnIfError not, syncWait) //read and sleep until bytes
+		while(isOpen and asyncStreamRead(readBuffer, bytesPerRead) returnIfError, nil) //read rest of the bytes
 		self
 	)
 	
@@ -186,9 +237,13 @@ Socket do(
 	Returns self on success or an Error object on error.
 	*/	
 	streamReadWhileOpen := method(
-		while(isOpen,
-			streamReadNextChunk returnIfError
-		)
+		if(isSynchronous, return syncStreamReadWhileOpen)
+		while(isOpen, streamReadNextChunk returnIfError)
+		self
+	)
+
+	syncStreamReadWhileOpen := method(
+		while(isOpen, syncStreamReadNextChunk returnIfError)
 		self
 	)
 
@@ -199,8 +254,15 @@ Socket do(
 	Returns self on success or an Error object on error.
 	*/
 	udpReadNextChunk := method(ipAddress,
+		if(isSynchronous, return(syncUdpReadNextChunk))
 		readEvent waitOn(readTimeout) returnIfError
 		while(e := asyncUdpRead(ipAddress, readBuffer, bytesPerRead), e returnIfError)
+		self
+	)
+	
+	syncUdpReadNextChunk := method(
+		while(asyncUdpRead(ipAddress, readBuffer, bytesPerRead) returnIfError not, syncWait) //read and sleep until bytes
+		while(asyncUdpRead(ipAddress, readBuffer, bytesPerRead) returnIfError, nil) //read rest of the bytes
 		self
 	)
 
@@ -260,10 +322,14 @@ Socket do(
 	containing the readBuffer's contents up to (but not including) aSequence and clips that section from the readBuffer.
 	*/	
 	readUntilSeq := method(aSeq,
-		while(readBuffer containsSeq(aSeq) not, self read)
-		s := readBuffer beforeSeq(aSeq)
-		readBuffer clipBeforeEndOfSeq(aSeq)
-		s
+		while(isOpen and readBuffer containsSeq(aSeq) not, self read returnIfError)
+		if(readBuffer containsSeq(aSeq)) then (
+			s := readBuffer beforeSeq(aSeq)
+			readBuffer clipBeforeEndOfSeq(aSeq)
+			return s
+		) else (
+			return ""
+		)
 	)
 
 

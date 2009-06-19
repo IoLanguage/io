@@ -5,7 +5,7 @@
 #define OBJECT_STRUCT_DEFINED 1
 
 #include "Common.h"
-#include "PHash.h"
+#include "PHash_struct.h"
 #include "BStream.h"
 #include "IoTag.h"
 #include "Collector.h"
@@ -14,6 +14,8 @@
 extern "C" {
 #endif
 
+// Shortcut for method definitons in C code
+#define IO_METHOD(CLASS, NAME) IoObject * CLASS ## _ ## NAME (CLASS  *self, IoObject *locals, IoMessage *m)
 
 typedef struct CollectorMarker IoObject;
 //typedef struct IoObjectData IoObjectData;

@@ -8,22 +8,22 @@
 
 void IoFile_statInit(IoFile *self);
 
-IoObject *IoFile_stat(IoFile *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoFile, stat);
 
-IoObject *IoFile_protectionMode(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_lastAccessDate(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_lastInfoChangeDate(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_lastDataChangeDate(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_userId(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_groupId(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_statSize(IoFile *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoFile, protectionMode);
+IO_METHOD(IoFile, lastAccessDate);
+IO_METHOD(IoFile, lastInfoChangeDate);
+IO_METHOD(IoFile, lastDataChangeDate);
+IO_METHOD(IoFile, userId);
+IO_METHOD(IoFile, groupId);
+IO_METHOD(IoFile, statSize);
 
-IoObject *IoFile_isDirectory(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_isPipe(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_isLink(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_isRegularFile(IoFile *self, IoObject *locals, IoMessage *m);
-IoObject *IoFile_isSocket(IoFile *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoFile, isDirectory);
+IO_METHOD(IoFile, isPipe);
+IO_METHOD(IoFile, isLink);
+IO_METHOD(IoFile, isRegularFile);
+IO_METHOD(IoFile, isSocket);
 
-IoObject *IoFile_isUserExecutable(IoFile *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoFile, isUserExecutable);
 
 #endif

@@ -8,7 +8,8 @@ EmailMessage := Object clone do(
 	
 	mailServerAddress := method(
 		host := to split("@") last
-		Host clone setName(host) mailServerAddresses first
+		address := Host clone setName(host) ?mailServerAddresses ?first
+		if(address, address, host)
 	)
 	
 	crlf := method(13 asCharacter .. 10 asCharacter)
@@ -16,13 +17,13 @@ EmailMessage := Object clone do(
 	send := method(
 		s := Socket clone setHost(mailServerAddress) setPort(25) 
 		if (s connect == nil, return nil)
-		s writeln("MAIL FROM:", from)
-		s writeln("RCPT TO:", to)
-		s writeln("DATA")
-		s writeln("Subject: ", subject)
-		if (cc, s write("Cc: ", cc))
-		s writeln(content)
-		s write(crlf, ".", crlf)
+		s streamWrite("MAIL FROM:" .. from .. "\n")
+		s streamWrite("RCPT TO:" .. to .. "\n")
+		s streamWrite("DATA\n")
+		s streamWrite("Subject: " .. subject .. "\n")
+		if (cc, s streamWrite("Cc: " .. cc .. "\n"))
+		s streamWrite(content .. "\n\n")
+		s streamWrite(crlf .. "." .. crlf)
 		s close
 		self
 	)

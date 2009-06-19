@@ -291,8 +291,8 @@ OSWindow := Responder clone do(
     )
 
     setTitle := method(newTitle,
-	    title = newTitle
-	    glutSetWindowTitle(title)
+	title = newTitle
+	if(windowId, glutSetWindowTitle(title))
     )
 )
 

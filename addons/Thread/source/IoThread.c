@@ -75,14 +75,14 @@ typedef struct
 
 IoThreadInfo *IoThreadInfo_new(void)
 {
-	IoThreadInfo *self = (IoThreadInfo *)calloc(1, sizeof(IoThreadInfo));
+	IoThreadInfo *self = (IoThreadInfo *)io_calloc(1, sizeof(IoThreadInfo));
 	return self;
 }
 
 void IoThreadInfo_free(IoThreadInfo *self)
 {
-	if(self->evalString) free(self->evalString);
-	free(self);
+	if(self->evalString) io_free(self->evalString);
+	io_free(self);
 }
 
 void IoThreadInfo_setState_(IoThreadInfo *self, IoState *state)
@@ -107,7 +107,7 @@ Thread *IoThreadInfo_thread(IoThreadInfo *self)
 
 void IoThreadInfo_setEvalString_(IoThreadInfo *self, char *s)
 {
-	self->evalString = strcpy(malloc(strlen(s) + 1), s);
+	self->evalString = strcpy(io_malloc(strlen(s) + 1), s);
 }
 
 char *IoThreadInfo_evalString(IoThreadInfo *self)

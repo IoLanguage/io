@@ -17,30 +17,32 @@ extern "C" {
 
 IoObject *IoSystem_proto(void *state);
 
-#if defined(_WIN32)
-IoObject *IoObject_shellExecute(IoObject *self, IoObject *locals, IoMessage *m);
+#if defined(__CYGWIN__) || defined(_WIN32)
+IO_METHOD(IoObject, shellExecute);
+#else
+IO_METHOD(IoObject, daemon);
 #endif
-IoObject *IoObject_errorNumber(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoObject_errorNumberDescription(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoObject_exit(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoObject_compileString(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoObject_getEnvironmentVariable(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoObject_setEnvironmentVariable(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoObject_system(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoObject_memorySizeOfState(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoObject_compactState(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoObject_platform(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoObject_platformVersion(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoObject_sleep(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoObject_activeCpus(IoObject *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoObject, errorNumber);
+IO_METHOD(IoObject, errorNumberDescription);
+IO_METHOD(IoObject, exit);
+IO_METHOD(IoObject, compileString);
+IO_METHOD(IoObject, getEnvironmentVariable);
+IO_METHOD(IoObject, setEnvironmentVariable);
+IO_METHOD(IoObject, system);
+IO_METHOD(IoObject, memorySizeOfState);
+IO_METHOD(IoObject, compactState);
+IO_METHOD(IoObject, platform);
+IO_METHOD(IoObject, platformVersion);
+IO_METHOD(IoObject, sleep);
+IO_METHOD(IoObject, activeCpus);
 
-IoObject *IoObject_maxRecycledObjects(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoObject_setMaxRecycledObjects(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoObject_recycledObjectCount(IoObject *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoObject, maxRecycledObjects);
+IO_METHOD(IoObject, setMaxRecycledObjects);
+IO_METHOD(IoObject, recycledObjectCount);
 
-IoObject *IoObject_symbols(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoObject_setLobby(IoObject *self, IoObject *locals, IoMessage *m);
-IoObject *IoObject_thisProcessPid(IoObject *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoObject, symbols);
+IO_METHOD(IoObject, setLobby);
+IO_METHOD(IoObject, thisProcessPid);
 
 #ifdef __cplusplus
 }

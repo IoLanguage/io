@@ -36,9 +36,9 @@ IoObject *IoWeakLink_rawLink(IoWeakLink *self);
 
 void IoObject_collectorNotification(IoWeakLink *self);
 
-IoObject *IoWeakLink_setLink(IoWeakLink *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoWeakLink, setLink);
 void IoWeakLink_rawSetLink(IoWeakLink *self, IoObject *v);
-IoObject *IoWeakLink_link(IoWeakLink *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoWeakLink, link);
 
 void IoWeakLink_notification(IoWeakLink *self, void *notification);
 

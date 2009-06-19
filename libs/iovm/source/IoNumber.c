@@ -330,7 +330,7 @@ void IoNumber_print(IoNumber *self)
 #include <arpa/inet.h>
 #endif
 
-//IoObject *IoNumber_htonl(IoNumber *self, IoObject *locals, IoMessage *m)
+//IO_METHOD(IoNumber, htonl)
 //{
 //    /* doc htonl
 //    Returns a new number with the first 4 bytes of the receiver switched from
@@ -342,7 +342,7 @@ void IoNumber_print(IoNumber *self)
 //    return num;
 //}
 
-//IoObject *IoNumber_ntohl(IoNumber *self, IoObject *locals, IoMessage *m)
+//IO_METHOD(IoNumber, ntohl)
 //{
 //    /* doc ntohl
 //Returns a new number with the first 4 bytes of the receiver switched from
@@ -356,7 +356,7 @@ void IoNumber_print(IoNumber *self)
 
 // -----------------------------------------------------------
 
-IoObject *IoNumber_asNumber(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, asNumber)
 {
 	/*doc Number asNumber
 	Returns self.
@@ -365,7 +365,7 @@ IoObject *IoNumber_asNumber(IoNumber *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoNumber_add_(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, add_)
 {
 	/*doc Number +(aNumber)
 	Returns a new number that is the sum of the receiver and aNumber.
@@ -376,7 +376,7 @@ IoObject *IoNumber_add_(IoNumber *self, IoObject *locals, IoMessage *m)
 }
 
 
-IoObject *IoNumber_subtract(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, subtract)
 {
 	/*doc Number -(aNumber)
 	Returns a new number that is the difference of the receiver and aNumber.
@@ -386,7 +386,7 @@ IoObject *IoNumber_subtract(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(DATA(self) - DATA(other));
 }
 
-IoObject *IoNumber_divide(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, divide)
 {
 	/*doc Number /(aNumber)
 	Returns a new number with the value of the receiver diveded by aNumber.
@@ -396,7 +396,7 @@ IoObject *IoNumber_divide(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(DATA(self) / DATA(other));
 }
 
-IoObject *IoNumber_multiply(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, multiply)
 {
 	/*doc Number *(aNumber)
 	Returns a new number that is the product of the receiver and aNumber.
@@ -415,7 +415,7 @@ char *IoNumber_asAllocedCString(IoNumber *self)
 	return s;
 }
 
-IoObject *IoNumber_printNumber(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, printNumber)
 {
 	/*doc Number print
 	Prints the number.
@@ -427,7 +427,7 @@ IoObject *IoNumber_printNumber(IoNumber *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoNumber_justAsString(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, justAsString)
 {
 	IoSymbol *string;
 	char *s = IoNumber_asAllocedCString(self);
@@ -450,7 +450,7 @@ static int countBytes(long ld)
 	}
 }
 
-IoObject *IoNumber_asCharacter(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, asCharacter)
 {
 	/*doc Number asCharacter
 	Returns a String containing a single character whose
@@ -507,7 +507,7 @@ IoObject *IoNumber_asCharacter(IoNumber *self, IoObject *locals, IoMessage *m)
 	}
 }
 
-IoObject *IoNumber_asUint32Buffer(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, asUint32Buffer)
 {
 	/*doc Number asUint32Buffer
 	Returns a Sequence containing a 4 byte representation of the uint32 value of the receiver.
@@ -517,7 +517,7 @@ IoObject *IoNumber_asUint32Buffer(IoNumber *self, IoObject *locals, IoMessage *m
 	return IoSeq_newWithData_length_(IOSTATE, (unsigned char *)&i, sizeof(uint32_t));
 }
 
-IoObject *IoNumber_asBuffer(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, asBuffer)
 {
 	/*doc Number asBuffer(optionalNumberOfBytes)
 	Returns a Buffer containing a the number of bytes specified by
@@ -535,7 +535,7 @@ IoObject *IoNumber_asBuffer(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IoSeq_newWithData_length_(IOSTATE, (unsigned char *)&(DATA(self)), bc);
 }
 
-IoObject *IoNumber_asString(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, asString)
 {
 /*doc Number asString(optionalIntegerDigits, optionalFactionDigits)
 Returns a string representation of the receiver. For example:
@@ -583,13 +583,13 @@ would return:
 }
 
 /*
-IoObject *IoNumber_asDate(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, asDate)
 {
 	return IoDate_newWithNumber_((IoState *)IOSTATE, DATA(self));
 }
 */
 
-IoObject *IoNumber_abs(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, abs)
 {
 	/*doc Number abs
 	Returns a number with the absolute value of the receiver.
@@ -598,7 +598,7 @@ IoObject *IoNumber_abs(IoNumber *self, IoObject *locals, IoMessage *m)
 	return (DATA(self) < 0) ? (IoObject *)IONUMBER(-DATA(self)) : (IoObject *)self;
 }
 
-IoObject *IoNumber_acos(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, acos)
 {
 	/*doc Number acos
 	Returns a number with the arc cosine of the receiver.
@@ -607,7 +607,7 @@ IoObject *IoNumber_acos(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(acos(DATA(self)));
 }
 
-IoObject *IoNumber_asin(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, asin)
 {
 	/*doc Number asin
 	Returns a number with the arc sine of the receiver.
@@ -616,7 +616,7 @@ IoObject *IoNumber_asin(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(asin(DATA(self)));
 }
 
-IoObject *IoNumber_atan(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, atan)
 {
 	/*doc Number atan
 	Returns a number with the arc tangent of the receiver.
@@ -625,7 +625,7 @@ IoObject *IoNumber_atan(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(atan(DATA(self)));
 }
 
-IoObject *IoNumber_atan2(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, atan2)
 {
 	/*doc Number atan2(aNumber)
 	Returns a number with the arc tangent of y/x where y is the receiver and x is aNumber.
@@ -635,7 +635,7 @@ IoObject *IoNumber_atan2(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(atan2(DATA(self), DATA(other)));
 }
 
-IoObject *IoNumber_ceil(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, ceil)
 {
 	/*doc Number ceil
 	Returns the a number with the receiver's value rounded up to
@@ -645,7 +645,7 @@ IoObject *IoNumber_ceil(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(ceil(DATA(self)));
 }
 
-IoObject *IoNumber_cos(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, cos)
 {
 	/*doc Number cos
 	Returns the cosine of the receiver.
@@ -655,13 +655,13 @@ IoObject *IoNumber_cos(IoNumber *self, IoObject *locals, IoMessage *m)
 }
 
 /*
-IoObject *IoNumber_deg(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, deg)
 {
 	return IONUMBER(deg(DATA(self)));
 }
 */
 
-IoObject *IoNumber_exp(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, exp)
 {
 	/*doc Number exp
 	Returns e to the power of the receiver.
@@ -670,7 +670,7 @@ IoObject *IoNumber_exp(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(exp(DATA(self)));
 }
 
-IoObject *IoNumber_factorial(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, factorial)
 {
 	/*doc Number factorial
 	Returns the factorial of the receiver.
@@ -686,7 +686,7 @@ IoObject *IoNumber_factorial(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(v);
 }
 
-IoObject *IoNumber_floor(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, floor)
 {
 	/*doc Number floor
 	Returns the a number with the receiver's value rounded
@@ -696,7 +696,7 @@ IoObject *IoNumber_floor(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(floor(DATA(self)));
 }
 
-IoObject *IoNumber_log(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, log)
 {
 	/*doc Number log
 	Returns the logarithm of the receiver.  The base
@@ -714,7 +714,7 @@ IoObject *IoNumber_log(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(log(DATA(self)) / log(base));
 }
 
-IoObject *IoNumber_log2(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, log2)
 {
 	/*doc Number log2
 	Returns the base 2 logarithm of the receiver.
@@ -723,7 +723,7 @@ IoObject *IoNumber_log2(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(log2(DATA(self)));
 }
 
-IoObject *IoNumber_log10(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, log10)
 {
 	/*doc Number log10
 	Returns the base 10 logarithm of the receiver.
@@ -732,7 +732,7 @@ IoObject *IoNumber_log10(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(log10(DATA(self)));
 }
 
-IoObject *IoNumber_max(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, max)
 {
 	/*doc Number max(aNumber)
 	Returns the greater of the receiver and aNumber.
@@ -742,7 +742,7 @@ IoObject *IoNumber_max(IoNumber *self, IoObject *locals, IoMessage *m)
 	return (DATA(self) > DATA(other)) ? (IoObject *)self :(IoObject *)other;
 }
 
-IoObject *IoNumber_min(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, min)
 {
 	/*doc Number min(aNumber)
 	Returns the lesser of the receiver and aNumber.
@@ -752,7 +752,7 @@ IoObject *IoNumber_min(IoNumber *self, IoObject *locals, IoMessage *m)
 	return (DATA(self) < DATA(other)) ? (IoObject *)self : (IoObject *)other;
 }
 
-IoObject *IoNumber_mod(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, mod)
 {
 	/*doc Number %(aNumber)
 	Returns the receiver modulus aNumber.
@@ -767,17 +767,17 @@ IoObject *IoNumber_mod(IoNumber *self, IoObject *locals, IoMessage *m)
 }
 
 /*
-IoObject *IoNumber_modf(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, modf)
 {
 	IoNumber *other = IoMessage_locals_numberArgAt_(m, locals, 0);
 	if (DATA(self) < DATA(other)); return self;
 	return other;
 }
 
-IoObject *IoNumber_rad(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, rad)
 */
 
-IoObject *IoNumber_pow(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, pow)
 {
 	/*doc Number pow(aNumber)
 	Returns the value of the receiver to the aNumber power.
@@ -791,11 +791,11 @@ IoObject *IoNumber_pow(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(pow(DATA(self), DATA(other)));
 }
 
-IoObject *IoNumber_round(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, round)
 {
 	/*doc Number round
 	Returns the a number with the receiver's value rounded up to
-	the nearest integer if it's fraction component is >= .5.
+	the nearest integer if it's fraction component is >= .5 or rounded up the the nearest integer otherwises..
 	*/
 	
 	double x = DATA(self);
@@ -805,17 +805,17 @@ IoObject *IoNumber_round(IoNumber *self, IoObject *locals, IoMessage *m)
 		return IONUMBER(floor(x + 0.5));
 }
 
-IoObject *IoNumber_roundDown(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, roundDown)
 {
 	/*doc Number roundDown
 	Returns the a number with the receiver's value rounded down to
-	the nearest integer if it's fraction component is <= .5.
+	the nearest integer if it's fraction component is <= .5 or rounded up the the nearest integer otherwises.
 	*/
 	
 	return IONUMBER(floor(DATA(self) + 0.5));
 }
 
-IoObject *IoNumber_sin(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, sin)
 {
 	/*doc Number sin
 	Returns the sine of the receiver.
@@ -824,7 +824,7 @@ IoObject *IoNumber_sin(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(sin(DATA(self)));
 }
 
-IoObject *IoNumber_sqrt(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, sqrt)
 {
 	/*doc Number sqrt
 	Returns the square root of the receiver.
@@ -833,7 +833,7 @@ IoObject *IoNumber_sqrt(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(sqrt(DATA(self)));
 }
 
-IoObject *IoNumber_squared(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, squared)
 {
 	/*doc Number squared
 	Returns the square of the receiver.
@@ -843,7 +843,7 @@ IoObject *IoNumber_squared(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(v * v);
 }
 
-IoObject *IoNumber_cubed(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, cubed)
 {
 	/*doc Number cubed
 	Returns the cube of the receiver.
@@ -854,7 +854,7 @@ IoObject *IoNumber_cubed(IoNumber *self, IoObject *locals, IoMessage *m)
 }
 
 
-IoObject *IoNumber_tan(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, tan)
 {
 	/*doc Number tan
 	Returns the tangent of the receiver.
@@ -864,18 +864,18 @@ IoObject *IoNumber_tan(IoNumber *self, IoObject *locals, IoMessage *m)
 }
 
 /*
-IoObject *IoNumber_frexp(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, frexp)
 {
 	return IONUMBER( frexp(DATA(self)) );
 }
 
-IoObject *IoNumber_ldexp(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, ldexp)
 {
 	return IONUMBER( ldexp(DATA(self)) );
 }
 */
 
-IoObject *IoNumber_toggle(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, toggle)
 {
 	/*doc Number toggle
 	Returns 1 if the receiver is 0. Returns 0 otherwise.
@@ -886,7 +886,7 @@ IoObject *IoNumber_toggle(IoNumber *self, IoObject *locals, IoMessage *m)
 
 /* --- bitwise operations ---------------------------------------- */
 
-IoObject *IoNumber_bitwiseAnd(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, bitwiseAnd)
 {
 	/*doc Number &(aNumber)
 	Returns a new number with the bitwise AND of the receiver and aNumber.
@@ -900,7 +900,7 @@ IoObject *IoNumber_bitwiseAnd(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(((long)DATA(self) & other));
 }
 
-IoObject *IoNumber_bitwiseOr(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, bitwiseOr)
 {
 	/*doc Number |(aNumber)
 	Returns a new number with the bitwise OR of the receiver and aNumber.
@@ -916,7 +916,7 @@ IoObject *IoNumber_bitwiseOr(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(r);
 }
 
-IoObject *IoNumber_bitwiseXor(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, bitwiseXor)
 {
 	/*doc Number bitwiseXor(aNumber)
 	Returns a new number with the bitwise XOR of the receiver and aNumber.
@@ -931,7 +931,7 @@ IoObject *IoNumber_bitwiseXor(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(r);
 }
 
-IoObject *IoNumber_bitwiseComplement(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, bitwiseComplement)
 {
 	/*doc Number bitwiseComplement
 	Returns a new number with the bitwise complement of the
@@ -942,7 +942,7 @@ IoObject *IoNumber_bitwiseComplement(IoNumber *self, IoObject *locals, IoMessage
 	return IONUMBER(r);
 }
 
-IoObject *IoNumber_bitShiftLeft(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, bitShiftLeft)
 {
 	/*doc Number <<(aNumber)
 	Shifts the bits of the receiver left by the number of places specified by aNumber.
@@ -953,7 +953,7 @@ IoObject *IoNumber_bitShiftLeft(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(r);
 }
 
-IoObject *IoNumber_bitShiftRight(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, bitShiftRight)
 {
 	/*doc Number >>(aNumber)
 	Shifts the bits of the receiver right by the number of places specified by aNumber.
@@ -966,7 +966,7 @@ IoObject *IoNumber_bitShiftRight(IoNumber *self, IoObject *locals, IoMessage *m)
 
 // even and odd ------------------------------
 
-IoObject *IoNumber_isEven(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, isEven)
 {
 	/*doc Number isEven
 	Returns true if 
@@ -978,7 +978,7 @@ IoObject *IoNumber_isEven(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IOBOOL(self, 0 == (n & 0x01));
 }
 
-IoObject *IoNumber_isOdd(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, isOdd)
 {
 	/*doc Number isOdd
 	Returns true if 
@@ -992,7 +992,7 @@ IoObject *IoNumber_isOdd(IoNumber *self, IoObject *locals, IoMessage *m)
 
 // character operations ---------------------------------
 
-IoObject *IoNumber_isAlphaNumeric(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, isAlphaNumeric)
 {
 	/*doc Number isAlphaNumeric
 	Returns true if 
@@ -1003,7 +1003,7 @@ IoObject *IoNumber_isAlphaNumeric(IoNumber *self, IoObject *locals, IoMessage *m
 	return IOBOOL(self, isalnum((int)DATA(self)));
 }
 
-IoObject *IoNumber_isLetter(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, isLetter)
 {
 	/*doc Number isLetter
 	Returns true if 
@@ -1014,7 +1014,7 @@ IoObject *IoNumber_isLetter(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IOBOOL(self, isalpha((int)DATA(self)));
 }
 
-IoObject *IoNumber_isControlCharacter(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, isControlCharacter)
 {
 	/*doc Number isControlCharacter
 	Returns true if 
@@ -1025,7 +1025,7 @@ IoObject *IoNumber_isControlCharacter(IoNumber *self, IoObject *locals, IoMessag
 	return IOBOOL(self, iscntrl((int)DATA(self)));
 }
 
-IoObject *IoNumber_isDigit(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, isDigit)
 {
 	/*doc Number isDigit
 	Returns true if 
@@ -1036,7 +1036,7 @@ IoObject *IoNumber_isDigit(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IOBOOL(self, isdigit((int)DATA(self)));
 }
 
-IoObject *IoNumber_isGraph(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, isGraph)
 {
 	/*doc Number isGraph
 	Returns true if 
@@ -1047,7 +1047,7 @@ IoObject *IoNumber_isGraph(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IOBOOL(self, isgraph((int)DATA(self)));
 }
 
-IoObject *IoNumber_isLowercase(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, isLowercase)
 {
 	/*doc Number isLowercase
 	Returns true if 
@@ -1058,7 +1058,7 @@ IoObject *IoNumber_isLowercase(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IOBOOL(self, islower((int)DATA(self)));
 }
 
-IoObject *IoNumber_isUppercase(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, isUppercase)
 {
 	/*doc Number isUppercase
 	Returns true if 
@@ -1069,7 +1069,7 @@ IoObject *IoNumber_isUppercase(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IOBOOL(self, isupper((int)DATA(self)));
 }
 
-IoObject *IoNumber_isPrint(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, isPrint)
 {
 	/*doc Number isPrint
 	Returns true if 
@@ -1080,7 +1080,7 @@ IoObject *IoNumber_isPrint(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IOBOOL(self, isprint((int)DATA(self)));
 }
 
-IoObject *IoNumber_isPunctuation(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, isPunctuation)
 {
 	/*doc Number isPunctuation
 	Returns true if 
@@ -1092,7 +1092,7 @@ IoObject *IoNumber_isPunctuation(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IOBOOL(self, ispunct((int)DATA(self)));
 }
 
-IoObject *IoNumber_isSpace(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, isSpace)
 {
 	/*doc Number isSpace
 	Returns true if 
@@ -1103,7 +1103,7 @@ IoObject *IoNumber_isSpace(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IOBOOL(self, isspace((int)DATA(self)));
 }
 
-IoObject *IoNumber_isHexDigit(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, isHexDigit)
 {
 	/*doc Number isHexDigit
 	Returns true if 
@@ -1116,7 +1116,7 @@ IoObject *IoNumber_isHexDigit(IoNumber *self, IoObject *locals, IoMessage *m)
 
 // case ---------------------------------
 
-IoObject *IoNumber_asLowercase(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, asLowercase)
 {
 	/*doc Number asLowercase
 	Returns a new Number containing a lower case version of the receiver.
@@ -1126,7 +1126,7 @@ IoObject *IoNumber_asLowercase(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(r);
 }
 
-IoObject *IoNumber_asUppercase(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, asUppercase)
 {
 	/*doc Number asUppercase
 	Returns a new Number containing a upper case version of the receiver.
@@ -1136,7 +1136,7 @@ IoObject *IoNumber_asUppercase(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(r);
 }
 
-IoObject *IoNumber_between(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, between)
 {
 	/*doc Number between(aNumber1, aNumber2)
 	Returns the true if the receiver's value is between or
@@ -1150,7 +1150,7 @@ IoObject *IoNumber_between(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IOBOOL(self, ((n >= a) && (n <= b)) || (n <= a && (n >= b)));
 }
 
-IoObject *IoNumber_clip(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, clip)
 {
 	/*doc Number clip(aNumber1, aNumber2)
 	Returns self if the receiver is between aNumber1 and aNumber2.
@@ -1167,7 +1167,7 @@ IoObject *IoNumber_clip(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(n);
 }
 
-IoObject *IoNumber_negate(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, negate)
 {
 	/*doc Number negate
 	Returns new number that is negated version of the receiver.
@@ -1176,7 +1176,7 @@ IoObject *IoNumber_negate(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(-DATA(self));
 }
 
-IoObject *IoNumber_at(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, at)
 {
 	/*doc Number at(bitIndexNumber)
 	Returns a new Number containing 1 if the receiver cast to a long
@@ -1195,7 +1195,7 @@ IoObject *IoNumber_at(IoNumber *self, IoObject *locals, IoMessage *m)
 
 // limits ------------------------------------
 
-IoObject *IoNumber_integerMax(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, integerMax)
 {
 	/*doc Number integerMax
 	Returns the maximum integer value.
@@ -1204,7 +1204,7 @@ IoObject *IoNumber_integerMax(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(INT_MAX);
 }
 
-IoObject *IoNumber_integerMin(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, integerMin)
 {
 	/*doc Number integerMin
 	Returns the minimum integer value.
@@ -1214,7 +1214,7 @@ IoObject *IoNumber_integerMin(IoNumber *self, IoObject *locals, IoMessage *m)
 }
 
 
-IoObject *IoNumber_longMax(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, longMax)
 {
 	/*doc Number longMax
 	Returns the maximum long value.
@@ -1223,7 +1223,7 @@ IoObject *IoNumber_longMax(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(LONG_MAX);
 }
 
-IoObject *IoNumber_longMin(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, longMin)
 {
 	/*doc Number longMin
 	Returns the minimum long value.
@@ -1233,7 +1233,7 @@ IoObject *IoNumber_longMin(IoNumber *self, IoObject *locals, IoMessage *m)
 }
 
 
-IoObject *IoNumber_shortMax(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, shortMax)
 {
 	/*doc Number shortMax
 	Returns the maximum short value.
@@ -1242,7 +1242,7 @@ IoObject *IoNumber_shortMax(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(SHRT_MAX);
 }
 
-IoObject *IoNumber_shortMin(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, shortMin)
 {
 	/*doc Number shortMin
 	Returns the minimum short value.
@@ -1251,7 +1251,7 @@ IoObject *IoNumber_shortMin(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(SHRT_MIN);
 }
 
-IoObject *IoNumber_unsignedLongMax(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, unsignedLongMax)
 {
 	/*doc Number unsignedLongMax
 	Returns the maximum unsigned long value.
@@ -1260,7 +1260,7 @@ IoObject *IoNumber_unsignedLongMax(IoNumber *self, IoObject *locals, IoMessage *
 	return IONUMBER(ULONG_MAX);
 }
 
-IoObject *IoNumber_unsignedIntMax(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, unsignedIntMax)
 {
 	/*doc Number unsignedIntMax
 	Returns the maximum unsigned int value.
@@ -1269,7 +1269,7 @@ IoObject *IoNumber_unsignedIntMax(IoNumber *self, IoObject *locals, IoMessage *m
 	return IONUMBER(UINT_MAX);
 }
 
-IoObject *IoNumber_unsignedShortMax(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, unsignedShortMax)
 {
 	/*doc Number unsignedShortMax
 	Returns the minimum unsigned int value.
@@ -1278,7 +1278,7 @@ IoObject *IoNumber_unsignedShortMax(IoNumber *self, IoObject *locals, IoMessage 
 	return IONUMBER(USHRT_MAX);
 }
 
-IoObject *IoNumber_floatMax(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, floatMax)
 {
 	/*doc Number floatMax
 	Returns the maximum float value.
@@ -1287,7 +1287,7 @@ IoObject *IoNumber_floatMax(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(FLT_MAX);
 }
 
-IoObject *IoNumber_floatMin(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, floatMin)
 {
 	/*doc Number floatMin
 	Returns the minimum float value.
@@ -1296,7 +1296,7 @@ IoObject *IoNumber_floatMin(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(FLT_MIN);
 }
 
-IoObject *IoNumber_doubleMax(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, doubleMax)
 {
 	/*doc Number floatMax
 	Returns the maximum double precision float value.
@@ -1305,7 +1305,7 @@ IoObject *IoNumber_doubleMax(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(DBL_MAX);
 }
 
-IoObject *IoNumber_doubleMin(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, doubleMin)
 {
 	/*doc Number doubleMin
 	Returns the minimum double precision float value.
@@ -1314,7 +1314,7 @@ IoObject *IoNumber_doubleMin(IoNumber *self, IoObject *locals, IoMessage *m)
 	return IONUMBER(DBL_MIN);
 }
 
-IoObject *IoNumber_isNan(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, isNan)
 {
 	/*doc Number isNan
 	Returns true if the receiver is not a number. Otherwise returns false.
@@ -1325,7 +1325,7 @@ IoObject *IoNumber_isNan(IoNumber *self, IoObject *locals, IoMessage *m)
 
 // looping ---------------------------------------------
 
-IoObject *IoNumber_repeat(IoNumber *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoNumber, repeat)
 {
 	/*doc Number repeat(optionalIndex, expression)
 	Evaluates message a number of times that corresponds to the receivers

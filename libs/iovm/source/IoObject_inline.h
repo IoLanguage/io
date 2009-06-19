@@ -10,6 +10,138 @@
 
 #include "IoVMApi.h"
 #include "IoState.h"
+#include "PHash.h"
+
+#define Records_recordAt_(records, pos) (PHashRecord *)(records + (pos * sizeof(PHashRecord)))
+
+IOINLINE PHashRecord *PHash_record1_(PHash *self, void *k)
+{
+	//intptr_t kk = IoSeq_rawUArray(((IoSeq *)k))->evenHash;
+	intptr_t kk = ((CollectorMarker *)k)->hash1;
+	size_t pos = kk & self->mask;
+	return Records_recordAt_(self->records, pos);
+}
+
+IOINLINE PHashRecord *PHash_record2_(PHash *self, void *k)
+{
+	//intptr_t kk = IoSeq_rawUArray(((IoSeq *)k))->oddHash;
+	intptr_t kk = ((CollectorMarker *)k)->hash2;
+	size_t pos = kk & self->mask;
+	return Records_recordAt_(self->records, pos);
+}
+
+IOINLINE void *PHash_at_(PHash *self, void *k)
+{
+	PHashRecord *r;
+	
+	r = PHash_record1_(self, k);
+	if(k == r->k) return r->v;
+	
+	r = PHash_record2_(self, k);	
+	if(k == r->k) return r->v;
+	
+	return 0x0;
+}
+
+IOINLINE unsigned int PHash_count(PHash *self)
+{
+	return self->keyCount;
+}
+
+IOINLINE int PHashKey_hasKey_(PHash *self, void *key)
+{
+	return PHash_at_(self, key) != NULL;
+}
+
+IOINLINE void PHash_at_put_(PHash *self, void *k, void *v)
+{
+	PHashRecord *r;
+	
+	r = PHash_record1_(self, k);
+	
+	if(!r->k)
+	{
+		r->k = k;
+		r->v = v;
+		self->keyCount ++;
+		return;
+	}
+	
+	if(r->k == k)
+	{
+		r->v = v;
+		return;
+	}
+
+	r = PHash_record2_(self, k);
+
+	if(!r->k)
+	{
+		r->k = k;
+		r->v = v;
+		self->keyCount ++;
+		return;
+	}
+	
+	if(r->k == k)
+	{
+		r->v = v;
+		return;
+	}
+	
+	{
+	PHashRecord x;
+	x.k = k;
+	x.v = v;
+	PHash_insert_(self, &x);
+	}
+}
+
+IOINLINE void PHash_shrinkIfNeeded(PHash *self)
+{
+	if(self->keyCount < self->size/8)
+	{
+		PHash_shrink(self);
+	}
+}
+
+IOINLINE void PHashRecord_swapWith_(PHashRecord *self, PHashRecord *other)
+{
+	PHashRecord tmp = *self;
+	*self = *other;
+	*other = tmp;
+}
+
+IOINLINE void PHash_clean(PHash *self)
+{
+	memset(self->records, 0, sizeof(PHashRecord) * self->size);
+	self->keyCount = 0;
+}
+
+// --- enumeration --------------------------------------------------
+
+#define PHASH_FOREACH(self, pkey, pvalue, code) \
+{\
+	PHash *_self = (self);\
+	unsigned char *_records = _self->records;\
+	unsigned int _i, _size = _self->size;\
+	void *pkey;\
+	void *pvalue;\
+	\
+	for (_i = 0; _i < _size; _i ++)\
+	{\
+		PHashRecord *_record = Records_recordAt_(_records, _i);\
+		if (_record->k)\
+		{\
+			pkey = _record->k;\
+			pvalue = _record->v;\
+			code;\
+		}\
+	}\
+}
+
+// ------------------------------------------------------------------
+
 
 #define IOOBJECT_FOREACHPROTO(self, pvar, code) \
 {\
@@ -236,8 +368,28 @@ IOINLINE int IoObject_mark(IoObject *self)
 	if (IoObject_ownsSlots(self))
 	{
 		PHASH_FOREACH(IoObject_slots(self), k, v,
+			//char *s = CSTRING((IoSeq *)k);
+			//printf("mark slot k: %s\n", s);
 			IoObject_shouldMark((IoObject *)k);
+			//printf("k.\n");
+			/*
+			if(strcmp(s, "path") == 0)
+			{
+				//printf("s = %s\n", s);
+				//printf("vp = %p\n", (void *)v);
+				
+				if(ISSEQ((IoObject *)v))
+				{
+					printf("%s = '%s'\n", s, CSTRING((IoSeq *)v));
+				}
+				else
+				{
+					printf("%s type = %s\n", s, IoObject_name((IoObject *)v));
+				}
+			}*/
 			IoObject_shouldMark((IoObject *)v);
+			//if(strcmp(s, "path") == 0) 
+			//printf("v.\n");
 		);
 	}
 
@@ -258,7 +410,8 @@ IOINLINE int IoObject_mark(IoObject *self)
 }
 
 //IoObject *IoObject_addingRef_(IoObject *self, IoObject *ref);
-IOVM_API IOINLINE int IoObject_hasCloneFunc_(IoObject *self, IoTagCloneFunc *func);
+IOVM_API  int IoObject_hasCloneFunc_(IoObject *self, IoTagCloneFunc *func);
+//IOVM_API IOINLINE int IoObject_hasCloneFunc_(IoObject *self, IoTagCloneFunc *func);
 
 IOVM_API IOINLINE IoObject *IoObject_activate(IoObject *self,
 									 IoObject *target,
@@ -274,7 +427,7 @@ IOVM_API IOINLINE IoObject *IoObject_activate(IoObject *self,
 	//return IoObject_tag(self)->activateFunc ? (IoObject *)((IoObject_tag(self)->activateFunc)(self, target, locals, m, slotContext)) : self;
 }
 
-IOINLINE IoObject *IoObject_forward(IoObject *self, IoObject *locals, IoMessage *m)
+IOINLINE IO_METHOD(IoObject, forward)
 {
 	IoState *state = IOSTATE;
 	IoObject *context;
@@ -299,7 +452,7 @@ IOINLINE IoObject *IoObject_forward(IoObject *self, IoObject *locals, IoMessage 
 	return self;
 }
 
-IOINLINE IoObject *IoObject_perform(IoObject *self, IoObject *locals, IoMessage *m)
+IOINLINE IO_METHOD(IoObject, perform)
 {
 	IoObject *context;
 	IoObject *slotValue = IoObject_rawGetSlot_context_(self, IoMessage_name(m), &context);

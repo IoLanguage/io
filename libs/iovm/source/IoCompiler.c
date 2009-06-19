@@ -30,7 +30,7 @@ IoObject *IoCompiler_proto(void *state)
 	return self;
 }
 
-IoObject *IoObject_tokensForString(IoObject *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoObject, tokensForString)
 {
 	/*doc Compiler tokensForString(aString)
 	Returns a list of token objects lexed from the input string.
@@ -75,7 +75,7 @@ IoObject *IoObject_tokensForString(IoObject *self, IoObject *locals, IoMessage *
 	return tokensList;
 }
 
-IoObject *IoObject_messageForTokens(IoObject *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoObject, messageForTokens)
 {
 	/*doc Compiler messageForTokens(aList)
 	Returns the compiled message object for the given token list.
@@ -84,7 +84,7 @@ IoObject *IoObject_messageForTokens(IoObject *self, IoObject *locals, IoMessage 
 	return m;
 }
 
-IoObject *IoObject_messageForString(IoObject *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoObject, messageForString)
 {
 	/*doc Compiler messageForString(aString, optionalLabelString)
 	Returns the compiled message object for aString.
@@ -102,7 +102,7 @@ IoObject *IoObject_messageForString(IoObject *self, IoObject *locals, IoMessage 
 }
 
 
-IoObject *IoObject_messageForString2(IoObject *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoObject, messageForString2)
 {
   /*doc Compiler messageForString2(aString)
 	Returns the compiled message object for aString. (Runs raw string against lexer directly.)

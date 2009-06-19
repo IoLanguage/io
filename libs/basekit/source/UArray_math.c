@@ -518,45 +518,61 @@ double UArray_distanceTo_(const UArray *self, const UArray *other)
 
 void UArray_changed(UArray *self)
 {
-	self->hash = 0;
+	self->evenHash = 0;
+	self->oddHash = 0;
 }
 
-uintptr_t UArray_calcHash(UArray *self)
+#include "Hash_fnv.h"
+#include "Hash_superfast.h"
+#include "Hash_murmur.h"
+
+uintptr_t UArray_superfastHash(UArray *self)
 {
-	uintptr_t h = 5381;
-
-	int i, max = UArray_sizeInBytes(self);
-	uint8_t *data = self->data;
-
-	for(i = 0; i < max; i ++)
-	{
-		h += (h << 5);
-		h ^= data[i];
-	}
-
-	//printf("UArray_%p %i %s\n", self, h, (char *)self->data);
-
-/*
-	// I *think* this should hash to the same value for ASCII, UCS2 and UCS2 types, but not UTF8
-
-	UARRAY_FOREACH(self, i, v,
-		h += (h << 5);
-		h ^= (uintptr_t)v;
-	);
-*/
-
-	return h;
+	return SuperFastHash((char *)(self->data), UArray_sizeInBytes(self));
 }
 
-uintptr_t UArray_hash(UArray *self)
+uintptr_t UArray_fnvHash(UArray *self)
 {
-	if (!self->hash)
+	return (uintptr_t)fnv_32_buf((void *)(self->data), UArray_sizeInBytes(self), FNV1_32_INIT) << 1; // ensures odd result
+}
+
+uintptr_t UArray_murmurHash(UArray *self)
+{
+	return (uintptr_t)MurmurHash2((const void *)(self->data), UArray_sizeInBytes(self), 0);
+}
+
+// even/odd hashes for cuckoo hashtables
+
+uintptr_t UArray_calcOddHash(UArray *self)
+{
+	return UArray_superfastHash(self) | 0x1; // ensures odd result
+}
+
+uintptr_t UArray_calcEvenHash(UArray *self)
+{
+	return UArray_fnvHash(self) << 1; // ensures odd result
+}
+
+// Caching even/odd hashes for cuckoo hashtables
+
+uintptr_t UArray_oddHash(UArray *self)
+{
+	if (!self->oddHash)
 	{
-		self->hash = UArray_calcHash(self);
-		if(self->hash == 0x0) self->hash = 0x1;
+		self->oddHash = UArray_calcOddHash(self);
 	}
 
-	return self->hash;
+	return self->oddHash;
+}
+
+uintptr_t UArray_evenHash(UArray *self)
+{
+	if (!self->evenHash)
+	{
+		self->evenHash = UArray_calcEvenHash(self);
+	}
+
+	return self->evenHash;
 }
 
 int UArray_equalsWithHashCheck_(UArray *self, UArray *other)
@@ -567,14 +583,15 @@ int UArray_equalsWithHashCheck_(UArray *self, UArray *other)
 	}
 	else
 	{
-		uintptr_t h1 = UArray_hash(self);
-		uintptr_t h2 = UArray_hash(other);
-
-		if (h1 != h2)
+		if (UArray_evenHash(self) != UArray_evenHash(other))
 		{
 			return 0;
 		}
 
+		if (UArray_oddHash(self) != UArray_oddHash(other))
+		{
+			return 0;
+		}
 		/*
 		if(strcmp(self->data, other->data) != 0)
 		{

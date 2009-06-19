@@ -42,53 +42,53 @@ IOVM_API size_t IoList_rawSize(IoList *self);
 
 // immutable
 
-IOVM_API IoObject *IoList_with(IoList *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_indexOf(IoList *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_contains(IoList *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_containsIdenticalTo(IoList *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_capacity(IoList *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_size(IoList *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_at(IoList *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_first(IoList *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_last(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoList, with);
+IOVM_API IO_METHOD(IoList, indexOf);
+IOVM_API IO_METHOD(IoList, contains);
+IOVM_API IO_METHOD(IoList, containsIdenticalTo);
+IOVM_API IO_METHOD(IoList, capacity);
+IOVM_API IO_METHOD(IoList, size);
+IOVM_API IO_METHOD(IoList, at);
+IOVM_API IO_METHOD(IoList, first);
+IOVM_API IO_METHOD(IoList, last);
 
-IOVM_API IoObject *IoList_slice(IoList *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_sliceInPlace(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoList, slice);
+IOVM_API IO_METHOD(IoList, sliceInPlace);
 
-IOVM_API IoObject *IoList_mapInPlace(IoList *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_map(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoList, mapInPlace);
+IOVM_API IO_METHOD(IoList, map);
 
-IOVM_API IoObject *IoList_select(IoList *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_detect(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoList, select);
+IOVM_API IO_METHOD(IoList, detect);
 
-IOVM_API IoObject *IoList_foreach(IoList *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_reverseForeach(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoList, foreach);
+IOVM_API IO_METHOD(IoList, reverseForeach);
 
 // mutable
 
-IOVM_API IoObject *IoList_preallocateToSize(IoList *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_append(IoList *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_prepend(IoList *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_appendIfAbsent(IoList *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_appendSeq(IoList *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_remove(IoList *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_push(IoList *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_pop(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoList, preallocateToSize);
+IOVM_API IO_METHOD(IoList, append);
+IOVM_API IO_METHOD(IoList, prepend);
+IOVM_API IO_METHOD(IoList, appendIfAbsent);
+IOVM_API IO_METHOD(IoList, appendSeq);
+IOVM_API IO_METHOD(IoList, remove);
+IOVM_API IO_METHOD(IoList, push);
+IOVM_API IO_METHOD(IoList, pop);
 
-IoObject *IoList_setSize(IoList *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_removeAll(IoList *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_atInsert(IoList *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_removeAt(IoList *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_atPut(IoList *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_removeAll(IoList *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_swapIndices(IoList *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_reverseInPlace(IoList *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_sortInPlace(IoList *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_sortInPlaceBy(IoList *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_selectInPlace(IoList *self, IoObject *locals, IoMessage *m);\
+IO_METHOD(IoList, setSize);
+IOVM_API IO_METHOD(IoList, removeAll);
+IOVM_API IO_METHOD(IoList, atInsert);
+IOVM_API IO_METHOD(IoList, removeAt);
+IOVM_API IO_METHOD(IoList, atPut);
+IOVM_API IO_METHOD(IoList, removeAll);
+IOVM_API IO_METHOD(IoList, swapIndices);
+IOVM_API IO_METHOD(IoList, reverseInPlace);
+IOVM_API IO_METHOD(IoList, sortInPlace);
+IOVM_API IO_METHOD(IoList, sortInPlaceBy);
+IOVM_API IO_METHOD(IoList, selectInPlace);\
 
-IOVM_API IoObject *IoList_asEncodedList(IoList *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoList_fromEncodedList(IoList *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoList, asEncodedList);
+IOVM_API IO_METHOD(IoList, fromEncodedList);
 
 
 #ifdef __cplusplus

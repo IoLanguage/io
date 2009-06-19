@@ -164,7 +164,8 @@ void IoBlock_mark(IoBlock *self)
 
 void IoBlock_free(IoBlock *self)
 {
-	List_free(DATA(self)->argNames);;
+	//printf("IoBlock_free(%p)\n", (void *)self);
+	List_free(DATA(self)->argNames);
 	io_free(IoObject_dataPointer(self));
 }
 
@@ -224,6 +225,7 @@ IoObject *IoBlock_activate(IoBlock *self, IoObject *target, IoObject *locals, Io
 		IoObject_setSlot_to_(blockLocals, name, arg);
 	);
 
+	//printf("IoBlock.c: 1\n");
 	if (Coro_stackSpaceAlmostGone(IoCoroutine_cid(state->currentCoroutine)))
 	{
 		/*
@@ -345,7 +347,7 @@ IoObject *IoObject_block(IoObject *target, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoBlock_print(IoBlock *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoBlock, print)
 {
 	/*doc Block print
 	prints an Io source code representation of the block/method
@@ -384,7 +386,7 @@ UArray *IoBlock_justCode(IoBlock *self)
 	return ba;
 }
 
-IoObject *IoBlock_code(IoBlock *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoBlock, code)
 {
 	/*doc Block code
 	Returns a string containing the decompiled code of the receiver. 
@@ -393,7 +395,7 @@ IoObject *IoBlock_code(IoBlock *self, IoObject *locals, IoMessage *m)
 	return IoState_symbolWithUArray_copy_(IOSTATE, IoBlock_justCode(self), 0);
 }
 
-IoObject *IoBlock_code_(IoBlock *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoBlock, code_)
 {
 	/*doc Block setCode(aString)
 	Set's the reciever's message to a compiled version of aString. Returns self
@@ -415,7 +417,7 @@ IoObject *IoBlock_code_(IoBlock *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoBlock_message(IoBlock *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoBlock, message)
 {
 	/*doc Block message
 	Returns the root message of the receiver. 
@@ -424,7 +426,7 @@ IoObject *IoBlock_message(IoBlock *self, IoObject *locals, IoMessage *m)
 	return DATA(self)->message ? (IoObject *)DATA(self)->message : IONIL(self);
 }
 
-IoObject *IoBlock_setMessage(IoBlock *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoBlock, setMessage)
 {
 	/*doc Block setMessage(aMessage)
 	Sets the root message of the receiver to aMessage. 
@@ -435,7 +437,7 @@ IoObject *IoBlock_setMessage(IoBlock *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoBlock_argumentNames(IoBlock *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoBlock, argumentNames)
 {
 	/*doc Block argumentNames
 	Returns a List of strings containing the argument names of the receiver. 
@@ -448,7 +450,7 @@ IoObject *IoBlock_argumentNames(IoBlock *self, IoObject *locals, IoMessage *m)
 	return argsList;
 }
 
-IoObject *IoBlock_argumentNames_(IoBlock *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoBlock, argumentNames_)
 {
 	/*doc Block setArgumentNames(aListOfStrings)
 	Sets the receiver's argument names to those specified in
@@ -466,7 +468,7 @@ IoObject *IoBlock_argumentNames_(IoBlock *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoBlock_scope(IoBlock *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoBlock, scope)
 {
 	/*doc Block scope
 	Returns the scope used when the block is activated or
@@ -477,7 +479,7 @@ IoObject *IoBlock_scope(IoBlock *self, IoObject *locals, IoMessage *m)
 	return scope ? scope : IONIL(self);
 }
 
-IoObject *IoBlock_setScope_(IoBlock *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoBlock, setScope_)
 {
 	/*doc Block setScope(anObjectOrNil)
 	If argument is an object, when the block is activated,
@@ -490,7 +492,7 @@ IoObject *IoBlock_setScope_(IoBlock *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoBlock_passStops(IoBlock *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoBlock, passStops)
 {
 	/*doc Block passStops
 	Returns whether or not the receiver passes return/continue/break to caller. 
@@ -499,7 +501,7 @@ IoObject *IoBlock_passStops(IoBlock *self, IoObject *locals, IoMessage *m)
 	return IOBOOL(self, DATA(self)->passStops);
 }
 
-IoObject *IoBlock_setPassStops_(IoBlock *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoBlock, setPassStops_)
 {
 	/*doc Block setPassStops(aBool)
 	Sets whether the receiver passes return/continue/break to caller. 
@@ -509,7 +511,7 @@ IoObject *IoBlock_setPassStops_(IoBlock *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
-IoObject *IoBlock_performOn(IoBlock *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoBlock, performOn)
 {
 	/*doc Block performOn(anObject, optionalLocals, optionalMessage, optionalSlotContext)
 	Activates the receiver in the target context of anObject.
@@ -540,7 +542,7 @@ IoObject *IoBlock_performOn(IoBlock *self, IoObject *locals, IoMessage *m)
 	return IoBlock_activate(self, bTarget, bLocals, bMessage, bContext);
 }
 
-IoObject *IoBlock_call(IoBlock *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoBlock, call)
 {
 	/*doc Block call(arg0, arg1, ...)
 	Activates the receiver with the provided arguments.

@@ -38,37 +38,37 @@ double IoDuration_asSeconds(IoDuration *self);
 
 // getters/setters
 
-IoObject *IoDuration_years(IoDuration *self, IoObject *locals, IoMessage *m);
-IoObject *IoDuration_setYears(IoDuration *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoDuration, years);
+IO_METHOD(IoDuration, setYears);
 
-IoObject *IoDuration_days(IoDuration *self, IoObject *locals, IoMessage *m);
-IoObject *IoDuration_setDays(IoDuration *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoDuration, days);
+IO_METHOD(IoDuration, setDays);
 
-IoObject *IoDuration_hours(IoDuration *self, IoObject *locals, IoMessage *m);
-IoObject *IoDuration_setHours(IoDuration *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoDuration, hours);
+IO_METHOD(IoDuration, setHours);
 
-IoObject *IoDuration_minutes(IoDuration *self, IoObject *locals, IoMessage *m);
-IoObject *IoDuration_setMinutes(IoDuration *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoDuration, minutes);
+IO_METHOD(IoDuration, setMinutes);
 
-IoObject *IoDuration_seconds(IoDuration *self, IoObject *locals, IoMessage *m);
-IoObject *IoDuration_setSeconds(IoDuration *self, IoObject *locals, IoMessage *m);
-IoObject *IoDuration_totalSeconds(IoDuration *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoDuration, seconds);
+IO_METHOD(IoDuration, setSeconds);
+IO_METHOD(IoDuration, totalSeconds);
 
-IoObject *IoDuration_setFromTo(IoDuration *self, IoObject *locals, IoMessage *m);
-IoObject *IoDuration_printDuration(IoDuration *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoDuration, setFromTo);
+IO_METHOD(IoDuration, printDuration);
 
 // conversion
 
-IoObject *IoDuration_asString(IoDuration *self, IoObject *locals, IoMessage *m);
-IoObject *IoDuration_asNumber(IoDuration *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoDuration, asString);
+IO_METHOD(IoDuration, asNumber);
 
-IoObject *IoDuration_fromNumber(IoDuration *self, IoObject *locals, IoMessage *m);
-IoObject *IoDuration_fromString(IoDuration *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoDuration, fromNumber);
+IO_METHOD(IoDuration, fromString);
 
 // math
 
-IoObject *IoDuration_add(IoDuration *self, IoObject *locals, IoMessage *m);
-IoObject *IoDuration_subtract(IoDuration *self, IoObject *locals, IoMessage *m);
+IO_METHOD(IoDuration, add);
+IO_METHOD(IoDuration, subtract);
 
 #ifdef __cplusplus
 }

@@ -127,6 +127,7 @@ IoSeq *IoSeq_newWithData_length_(void *state, const unsigned char *s, size_t len
 {
 	IoSeq *self = IoSeq_new(state);
 	UArray_setData_type_size_copy_(DATA(self), (uint8_t *)s, CTYPE_uint8_t, length, 1);
+	//UArray_convertToFixedSizeType(DATA(self));
 	return self;
 }
 
@@ -219,6 +220,8 @@ void IoSeq_free(IoSeq *self)
 {
 	if (IoObject_isSymbol(self))
 	{
+		//if(strcmp(CSTRING(self), "_x_") == 0) { printf("Symbol free '%s'\n", CSTRING(self)); }
+		//if(strlen(CSTRING(self)) < 100 && strncmp("0.", CSTRING(self), 2) != 0 ) { printf("Symbol free '%s'\n", CSTRING(self)); }
 		IoState_removeSymbol_(IOSTATE, self);
 	}
 
@@ -239,10 +242,12 @@ int IoSeq_compare(IoSeq *self, IoSeq *v)
 	return IoObject_defaultCompare(self, v);
 }
 
+/*
 UArray *IoSeq_rawUArray(IoSeq *self)
 {
 	return DATA(self);
 }
+*/
 
 char *IoSeq_asCString(IoSeq *self)
 {
@@ -354,28 +359,6 @@ int IoSeq_rawIsNotAlphaNumeric(IoSeq *self)
 
 	return (*s == 0);
 }
-
-// hashing
-
-/*
-int IoSeq_rawEqualTo(IoSeq *self, IoObject *other)
-{
-	return UArray_equals_(DATA(self), DATA(other));
-}
-
-uintptr_t IoSeq_rawHash(IoSeq *self)
-{
-	uintptr_t hash = IoObject_dataPointer2(self);
-
-	if (!hash)
-	{
-		hash = UArray_hash(DATA(self));
-		IoObject_setDataPointer2_(self, hash);
-	}
-
-	return hash;
-}
-*/
 
 /*
 int IoSeq_rawIsNotAlphaNumeric(IoSeq *self)

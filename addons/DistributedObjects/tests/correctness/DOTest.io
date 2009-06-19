@@ -1,7 +1,7 @@
 DistributedObjects
 
 DOTest := UnitTest clone do(
-	testDO := method(
+	old_testDO := method(
 		nil
 		/*
 		Root := Object clone

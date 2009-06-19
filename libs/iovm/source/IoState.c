@@ -43,6 +43,8 @@ void IoState_new_atAddress(void *address)
 	IoCFunction *cFunctionProto;
 	IoSeq *seqProto;
 
+	self->randomGen = RandomGen_new();
+
 	// collector
 
 	self->collector = Collector_new();
@@ -53,7 +55,7 @@ void IoState_new_atAddress(void *address)
 	Collector_setFreeFunc_(self->collector, (CollectorFreeFunc *)IoObject_free);
 
 	self->mainArgs   = MainArgs_new();
-	self->primitives = PHash_new();
+	self->primitives = PointerHash_new();
 
 	self->recycledObjects = List_new();
 	self->maxRecycledObjects = IOSTATE_DEFAULT_MAX_RECYCLED_OBJECTS;
@@ -66,10 +68,11 @@ void IoState_new_atAddress(void *address)
 
 	// symbol table
 
-	self->symbols = SHash_new();
+	self->symbols = CHash_new();
 
-	SHash_setKeysEqualCallback(self->symbols, (SHashKeysEqualCallback *)UArray_equalsWithHashCheck_);
-	SHash_setHashForKeyCallback(self->symbols, (SHashHashforKeyCallback *)UArray_hash);
+	CHash_setEqualFunc_(self->symbols, (CHashEqualFunc *)UArray_equals_);
+	CHash_setHash1Func_(self->symbols, (CHashHashFunc *)UArray_evenHash);
+	CHash_setHash2Func_(self->symbols, (CHashHashFunc *)UArray_oddHash);
 
 	/*
 	Problem:
@@ -163,7 +166,7 @@ void IoState_new_atAddress(void *address)
 			IoObject_setSlot_to_(core, SIOSYMBOL("Debugger"), self->debugger);
 
 			self->vmWillSendMessage  = IoMessage_newWithName_(self, SIOSYMBOL("vmWillSendMessage"));
-			IoMessage_cachedResult_(self->nilMessage, self->ioNil);
+			IoMessage_rawSetCachedResult_(self->nilMessage, self->ioNil);
 			IoState_retain_(self, self->vmWillSendMessage);
 		}
 
@@ -208,9 +211,10 @@ void IoState_new_atAddress(void *address)
 		//Collector_collect(self->collector);
 		//io_show_mem("after Collector_collect");
 
-//		IoState_popCollectorPause(self);
+		//IoState_popCollectorPause(self);
 		IoState_clearRetainStack(self);
-
+	
+		//Collector_check(self->collector);
 		Collector_collect(self->collector);
 		//io_show_mem("after IoState_clearRetainStack and Collector_collect");
 		IoState_setupUserInterruptHandler(self);
@@ -253,7 +257,7 @@ void IoState_setupSingletons(IoState *self)
 	IoObject_setSlot_to_(core, SIOSYMBOL("Call"),  IoCall_proto(self));
 
 	self->nilMessage  = IoMessage_newWithName_(self, SIOSYMBOL("nil"));
-	IoMessage_cachedResult_(self->nilMessage, self->ioNil);
+	IoMessage_rawSetCachedResult_(self->nilMessage, self->ioNil);
 	IoState_retain_(self, self->nilMessage);
 
 	// true
@@ -346,7 +350,7 @@ void IoState_setupCachedMessages(IoState *self)
 	IoState_retain_(self, self->didFinishMessage);
 }
 
-IoObject *IoObject_initBindings(IoObject *self, IoObject *locals, IoMessage *m)
+IO_METHOD(IoObject, initBindings)
 {
 	IOSTATE->bindingsInitCallback(IOSTATE, self);
 	return self;
@@ -365,27 +369,27 @@ void IoState_init(IoState *self)
 
 void IoState_registerProtoWithFunc_(IoState *self, IoObject *proto, IoStateProtoFunc *func)
 {
-	if (PHash_at_(self->primitives, (void *)func))
+	if (PointerHash_at_(self->primitives, (void *)func))
 	{
 		printf("Error registering proto: %s\n", IoObject_name(proto));
 		IoState_fatalError_(self, "IoState_registerProtoWithFunc_() Error: attempt to add the same proto twice");
 	}
 
 	IoState_retain_(self, proto);
-	PHash_at_put_(self->primitives, (void *)func, proto);
+	PointerHash_at_put_(self->primitives, (void *)func, proto);
 	//printf("registered %s\n", IoObject_name(proto));
 }
 
 IoObject *IoState_protoWithName_(IoState *self, const char *name)
 {
-	PHASH_FOREACH(self->primitives, key, proto, if (!strcmp(IoObject_name(proto), name)) { return proto; });
+	POINTERHASH_FOREACH(self->primitives, key, proto, if (!strcmp(IoObject_name(proto), name)) { return proto; });
 	return NULL;
 }
 
 List *IoState_tagList(IoState *self) // caller must io_free returned List
 {
 	List *tags = List_new();
-	PHASH_FOREACH(self->primitives, k, proto, List_append_(tags, IoObject_tag((IoObject *)proto)));
+	POINTERHASH_FOREACH(self->primitives, k, proto, List_append_(tags, IoObject_tag((IoObject *)proto)));
 	return tags;
 }
 
@@ -403,13 +407,14 @@ void IoState_done(IoState *self)
 	List_do_(tags, (ListDoCallback *)IoTag_free);
 	List_free(tags);
 
-	PHash_free(self->primitives);
-	SHash_free(self->symbols);
+	PointerHash_free(self->primitives);
+	CHash_free(self->symbols);
 
 	LIST_DO_(self->recycledObjects, IoObject_dealloc); // this does not work now that objects and marks are separate
 	List_free(self->recycledObjects);
 	List_free(self->cachedNumbers);
 
+	RandomGen_free(self->randomGen);
 	MainArgs_free(self->mainArgs);
 }
 
@@ -436,7 +441,7 @@ void MissingProtoError(void)
 
 IoObject *IoState_protoWithInitFunction_(IoState *self, IoStateProtoFunc *func)
 {
-	IoObject *proto = PHash_at_(self->primitives, (void *)func);
+	IoObject *proto = PointerHash_at_(self->primitives, (void *)func);
 
 	//printf("IoState_protoWithInitFunction_(self, %p)\n", (void *)func);
 

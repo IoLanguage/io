@@ -26,7 +26,7 @@ IoObject *IoState_replacePerformFunc_with_(IoState *self,
 								   IoTagPerformFunc *oldFunc,
 								   IoTagPerformFunc *newFunc)
 {
-	PHASH_FOREACH(self->primitives, k, v,
+	POINTERHASH_FOREACH(self->primitives, k, v,
 		{
 		IoObject *proto = v;
 		IoTag *tag = IoObject_tag(proto);
@@ -78,24 +78,46 @@ static int multipleIoStates = 0;
 
 void IoState_UserInterruptHandler(int sig) 
 {
-	printf("\nIo received user interrupt. Calling System userInterruptHandler.\n");
-	
+	printf("\nIOVM:\n");
+
 	if(multipleIoStates)
 	{
 		// what could we do here to tell which IoState we are in?
-		// maybe look 
-		printf("Unable to print stack trace since multiple IoStates are in use.\n");
+		// send the interrupt to all of them? interactively let the user choose one? interrupt the first stat created
+		printf("	Received signal but since multiple Io states are in use\n");
+		printf("	we don't know which state to send the signal to. Exiting.\n");
+		exit(0);
 	}
 	else
 	{
 		IoState *self = stateToReceiveControlC;
+		
+		if (self->receivedSignal) 
+		{
+			printf("	Second signal received before first was handled. \n");
+			printf("	Assuming control is stuck in a C call and isn't returning\n");
+			printf("	to Io so we're exiting without stack trace.\n\n");
+			exit(-1);
+		}
+		else
+		{
+			printf("	Received signal. Setting interrupt flag.\n");
+			self->receivedSignal = 1;
+		}
+	}	
+}
+
+void IoState_callUserInterruptHandler(IoState *self)
+{
+	self->receivedSignal = 0;
+
+	{
 		IoObject *system = IoState_doCString_(self, "System");
 		IoMessage *m = IoMessage_newWithName_(self, SIOSYMBOL("userInterruptHandler"));
-		IoMessage_locals_performOn_(m, system, system); 
+		IoMessage_locals_performOn_(m, system, system);
 	}
-	
-	//printf("\nIo exiting.\n");
 }
+
 
 void IoState_setupUserInterruptHandler(IoState *self)
 {

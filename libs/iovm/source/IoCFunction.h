@@ -38,13 +38,13 @@ IOVM_API void IoCFunction_mark(IoCFunction *self);
 IOVM_API void IoCFunction_free(IoCFunction *self);
 IOVM_API void IoCFunction_print(IoCFunction *self);
 
-IOVM_API IoObject *IoCFunction_id(IoCFunction *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoCFunction_uniqueName(IoCFunction *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoCFunction_typeName(IoCFunction *self, IoObject *locals, IoMessage *m);
-IOVM_API IoObject *IoCFunction_equals(IoCFunction *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoCFunction, id);
+IOVM_API IO_METHOD(IoCFunction, uniqueName);
+IOVM_API IO_METHOD(IoCFunction, typeName);
+IOVM_API IO_METHOD(IoCFunction, equals);
 IOVM_API IoObject *IoCFunction_activate(IoCFunction *self, IoObject *target, IoObject *locals, IoMessage *m, IoObject *slotContext);
 
-IOVM_API IoObject *IoCFunction_performOn(IoCFunction *self, IoObject *locals, IoMessage *m);
+IOVM_API IO_METHOD(IoCFunction, performOn);
 
 #ifdef __cplusplus
 }

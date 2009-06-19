@@ -59,6 +59,12 @@ IOINLINE IoTagCleanupFunc *IoTag_cleanupFunc(IoTag *self)
 
 IOINLINE void IoTag_freeFunc_(IoTag *self, IoTagFreeFunc *func)
 {
+	if(func == free)
+	{
+		printf("IoTag_freeFunc_ called free\n");
+		exit(-1);
+	}
+	
 	self->freeFunc = func;
 }
 
