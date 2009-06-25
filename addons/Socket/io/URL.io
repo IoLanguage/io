@@ -42,6 +42,9 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 	readHeader ::= nil
 	statusCode ::= nil
 	socket ::= nil
+	username ::= nil
+	password ::= nil
+	usesBasicAuthentication ::= false
 	
 	isSynchronous := false
 	
@@ -470,6 +473,9 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		parameters ifNil(parameters = "")
 
 		headers ifNil(headers := Map clone)
+		if(usesBasicAuthentication,
+			headers atPut("Authorization", "Basic " .. list(username, password) join(":") asBase64)
+		)
 		headers atIfAbsentPut("User-Agent", "Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/312.8 (KHTML, like Gecko) Safari/312.6")
 		hostHeader := if(port != 80, list(host, port) join(":"), host)
 		headers atIfAbsentPut("Host", hostHeader)
@@ -493,6 +499,12 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 
 		connectAndWriteHeader(header) returnIfError
 		processHttpResponse
+	)
+	
+	useBasicAuthentication := method(username, password,
+		setUsername(username)
+		setPassword(password)
+		setUsesBasicAuthentication(true)
 	)
 
 	//doc URL openOnDesktop Opens the URL in the local default browser. Supports OSX, Windows and (perhaps) other Unixes.
