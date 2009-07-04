@@ -66,6 +66,7 @@ IoOggPacket *IoOggPacket_new(void *state)
 
 void IoOggPacket_free(IoOggPacket *self)
 {
+        ogg_packet_clear(DATA(self));
 	free(DATA(self));
 }
 

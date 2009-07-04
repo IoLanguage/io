@@ -16,7 +16,7 @@ while(true,
 	if (buffer != nil, state write(buffer))
         r := state pageout(page);
 	
-	if (r == 1, pages = pages + 1)
+	if (r == 1, pages = pages + 1; page granulepos println)
 	buffer = file readBufferOfLength(4096)
 	if (buffer == nil and r != 1, break)
 )

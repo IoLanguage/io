@@ -18,4 +18,14 @@ IoOggPage *IoOggPage_proto(void *state);
 IoOggPage *IoOggPage_rawClone(IoOggPage *self);
 void IoOggPage_free(IoOggPage *self);
 
+IoObject *IoOggPage_version(IoOggPage *self, IoObject *locals, IoMessage *m);
+IoObject *IoOggPage_continued(IoOggPage *self, IoObject *locals, IoMessage *m);
+IoObject *IoOggPage_packets(IoOggPage *self, IoObject *locals, IoMessage *m);
+IoObject *IoOggPage_bos(IoOggPage *self, IoObject *locals, IoMessage *m);
+IoObject *IoOggPage_eos(IoOggPage *self, IoObject *locals, IoMessage *m);
+IoObject *IoOggPage_granulepos(IoOggPage *self, IoObject *locals, IoMessage *m);
+IoObject *IoOggPage_serialno(IoOggPage *self, IoObject *locals, IoMessage *m);
+IoObject *IoOggPage_pageno(IoOggPage *self, IoObject *locals, IoMessage *m);
+IoObject *IoOggPage_setChecksum(IoOggPage *self, IoObject *locals, IoMessage *m);
+
 #endif
