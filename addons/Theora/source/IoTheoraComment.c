@@ -38,7 +38,7 @@ IoTheoraComment *IoTheoraComment_proto(void *state)
 	IoObject_tag_(self, IoTheoraComment_newTag(state));
 
 	th_comment* data = calloc(1, sizeof(th_comment));
-        th_comment_init(data);
+	//        th_comment_init(data);
 	IoObject_setDataPointer_(self, data);
 
 	IoState_registerProtoWithFunc_(state, self, IoTheoraComment_proto);
@@ -58,7 +58,7 @@ IoTheoraComment *IoTheoraComment_rawClone(IoTheoraComment *proto)
 {
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	th_comment* data = calloc(1, sizeof(th_comment));
-        th_comment_init(data);
+	//        th_comment_init(data);
 	IoObject_setDataPointer_(self, data);
 	return self;
 }
