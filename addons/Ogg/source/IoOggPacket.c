@@ -35,7 +35,7 @@ IoOggPacket *IoOggPacket_proto(void *state)
 	IoOggPacket *self = IoObject_new(state);
 	IoObject_tag_(self, IoOggPacket_newTag(state));
 
-	ogg_sync_state* data = calloc(1, sizeof(ogg_packet));
+	ogg_packet* data = calloc(1, sizeof(ogg_packet));
 	IoObject_setDataPointer_(self, data);
 
 	IoState_registerProtoWithFunc_(state, self, IoOggPacket_proto);

@@ -35,7 +35,7 @@ IoOggPage *IoOggPage_proto(void *state)
 	IoOggPage *self = IoObject_new(state);
 	IoObject_tag_(self, IoOggPage_newTag(state));
 
-	ogg_sync_state* data = calloc(1, sizeof(ogg_page));
+	ogg_page* data = calloc(1, sizeof(ogg_page));
 	IoObject_setDataPointer_(self, data);
 
 	IoState_registerProtoWithFunc_(state, self, IoOggPage_proto);
