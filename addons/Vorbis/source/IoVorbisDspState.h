@@ -20,5 +20,6 @@ void IoVorbisDspState_free(IoVorbisDspState *self);
 IoObject *IoVorbisDspState_setup(IoVorbisDspState *self, IoObject *locals, IoMessage *m);
 IoObject *IoVorbisDspState_headerin(IoVorbisDspState *self, IoObject *locals, IoMessage *m);
 IoObject *IoVorbisDspState_blockin(IoVorbisDspState *self, IoObject *locals, IoMessage *m);
+IoObject *IoVorbisDspState_pcmout(IoVorbisDspState *self, IoObject *locals, IoMessage *m);
 
 #endif

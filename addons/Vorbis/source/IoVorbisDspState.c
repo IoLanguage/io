@@ -50,6 +50,7 @@ IoVorbisDspState *IoVorbisDspState_proto(void *state)
 		{"setup", IoVorbisDspState_setup},
 		{"headerin", IoVorbisDspState_headerin},
 		{"blockin", IoVorbisDspState_blockin},
+		{"pcmout", IoVorbisDspState_pcmout},
 		{NULL, NULL},
 		};
 		IoObject_addMethodTable_(self, methodTable);
@@ -119,3 +120,25 @@ IoObject *IoVorbisDspState_blockin(IoVorbisDspState *self, IoObject *locals, IoM
 
 	return self;
 }
+
+IoObject *IoVorbisDspState_pcmout(IoVorbisDspState *self, IoObject *locals, IoMessage *m)
+{
+	/*doc VorbisDspState pcmout
+	Returns array of audio data
+	*/
+        float** pcm;
+	int samples = vorbis_synthesis_pcmout(DATA(self), &pcm);
+	float sound[samples * 2];
+	float* p = sound;
+	int i = 0;
+	int j = 0;
+	for (i=0; i < samples; i++)
+	  for (j=0; j < 2; j++)
+	    *p++ = pcm[j][i];
+
+	IoObject* data = IOSEQ((const unsigned char*)sound, samples * sizeof(float) * 2);
+	int ret = vorbis_synthesis_read(DATA(self), samples);
+
+	return data;
+}
+
