@@ -5,13 +5,12 @@
 
 #include "IoObject.h"
 #include "IoSeq.h"
-#include <ogg/ogg.h>
 
 #define ISVORBISINFO(self) IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoVorbisInfo_rawClone)
 
 typedef IoObject IoVorbisInfo;
 
-IoObject *IoMessage_locals_oggPageArgAt_(IoMessage *self, IoObject *locals, int n);
+IoObject *IoMessage_locals_vorbisInfoArgAt_(IoMessage *self, IoObject *locals, int n);
 
 IoTag *IoVorbisInfo_newTag(void *state);
 IoVorbisInfo *IoVorbisInfo_proto(void *state);

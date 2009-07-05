@@ -1,7 +1,7 @@
-//metadoc OggPage copyright Chris Double, 2004
-//metadoc OggPage license BSD revised
-//metadoc OggPage category Multimedia
-/*metadoc OggPage description
+//metadoc VorbisInfo copyright Chris Double, 2004
+//metadoc VorbisInfo license BSD revised
+//metadoc VorbisInfo category Multimedia
+/*metadoc VorbisInfo description
 A wrapper around the libvorbis vorbis_info object.
 */
 
@@ -37,6 +37,7 @@ IoVorbisInfo *IoVorbisInfo_proto(void *state)
 	IoObject_tag_(self, IoVorbisInfo_newTag(state));
 
 	vorbis_info* data = calloc(1, sizeof(vorbis_info));
+        vorbis_info_init(data);
 	IoObject_setDataPointer_(self, data);
 
 	IoState_registerProtoWithFunc_(state, self, IoVorbisInfo_proto);
@@ -58,6 +59,7 @@ IoVorbisInfo *IoVorbisInfo_rawClone(IoVorbisInfo *proto)
 {
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	vorbis_info* data = calloc(1, sizeof(vorbis_info));
+        vorbis_info_init(data);
 	IoObject_setDataPointer_(self, data);
 	return self;
 }
@@ -70,6 +72,7 @@ IoVorbisInfo *IoVorbisInfo_new(void *state)
 
 void IoVorbisInfo_free(IoVorbisInfo *self)
 {
+        vorbis_info_clear(DATA(self));
 	free(DATA(self));
 }
 

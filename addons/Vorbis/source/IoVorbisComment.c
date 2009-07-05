@@ -36,8 +36,8 @@ IoVorbisComment *IoVorbisComment_proto(void *state)
 	IoVorbisComment *self = IoObject_new(state);
 	IoObject_tag_(self, IoVorbisComment_newTag(state));
 
-	vorbis_info* data = calloc(1, sizeof(vorbis_comment));
-        vorbis_comment_init(DATA(self));
+	vorbis_comment* data = calloc(1, sizeof(vorbis_comment));
+        vorbis_comment_init(data);
 	IoObject_setDataPointer_(self, data);
 
 	IoState_registerProtoWithFunc_(state, self, IoVorbisComment_proto);
@@ -57,7 +57,7 @@ IoVorbisComment *IoVorbisComment_rawClone(IoVorbisComment *proto)
 {
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	vorbis_comment* data = calloc(1, sizeof(vorbis_comment));
-        vorbis_comment_init(DATA(self));
+        vorbis_comment_init(data);
 	IoObject_setDataPointer_(self, data);
 	return self;
 }
