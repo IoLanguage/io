@@ -6,6 +6,10 @@ A wrapper around the libvorbis vorbis_comment object.
 */
 
 #include "IoVorbisDspState.h"
+#include "IoVorbisInfo.h"
+#include "IoVorbisComment.h"
+#include "IoVorbisBlock.h"
+#include "IoOggPacket.h"
 #include "IoState.h"
 #include "IoNumber.h"
 #include "IoSeq.h"
@@ -43,6 +47,9 @@ IoVorbisDspState *IoVorbisDspState_proto(void *state)
 
 	{
 		IoMethodTable methodTable[] = {
+		{"setup", IoVorbisDspState_setup},
+		{"headerin", IoVorbisDspState_headerin},
+		{"blockin", IoVorbisDspState_blockin},
 		{NULL, NULL},
 		};
 		IoObject_addMethodTable_(self, methodTable);
@@ -73,3 +80,42 @@ void IoVorbisDspState_free(IoVorbisDspState *self)
 
 /* ----------------------------------------------------------- */
 
+IoObject *IoVorbisDspState_setup(IoVorbisDspState *self, IoObject *locals, IoMessage *m)
+{
+	/*doc VorbisDspState setup(info)
+	Initialize for decoding using the information obtained
+	from reading the Vorbis headers.
+	*/
+        IoVorbisInfo *info = IoMessage_locals_vorbisInfoArgAt_(m, locals, 0);
+	int ret = vorbis_synthesis_init(DATA(self), ((vorbis_info*)(IoObject_dataPointer(info))));
+	IOASSERT(ret == 0, "vorbis_synthesis_init returned non-zero value");
+
+	return self;
+}
+
+IoObject *IoVorbisDspState_headerin(IoVorbisDspState *self, IoObject *locals, IoMessage *m)
+{
+	/*doc VorbisDspState headerin(info, comment, packet)
+	Try to decode a vorbis header from the packet.
+	*/
+        IoVorbisInfo *info = IoMessage_locals_vorbisInfoArgAt_(m, locals, 0);
+        IoVorbisComment *comment = IoMessage_locals_vorbisCommentArgAt_(m, locals, 1);
+        IoOggPacket *packet = IoMessage_locals_oggPacketArgAt_(m, locals, 2);
+	int ret = vorbis_synthesis_headerin(((vorbis_info*)(IoObject_dataPointer(info))),
+					    ((vorbis_comment*)(IoObject_dataPointer(comment))),
+					    ((ogg_packet*)(IoObject_dataPointer(packet))));
+
+	return IONUMBER(ret);
+}
+
+IoObject *IoVorbisDspState_blockin(IoVorbisDspState *self, IoObject *locals, IoMessage *m)
+{
+	/*doc VorbisDspState blockin(block)
+	Decodes that data from the block, storing it in the dsp state.
+	*/
+        IoVorbisBlock *block = IoMessage_locals_vorbisBlockArgAt_(m, locals, 0);
+	int ret = vorbis_synthesis_blockin(DATA(self), ((vorbis_block*)(IoObject_dataPointer(block))));
+	IOASSERT(ret == 0, "vorbis_synthesis_blockin returned non-zero value");
+
+	return self;
+}

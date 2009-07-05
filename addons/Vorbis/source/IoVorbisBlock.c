@@ -6,6 +6,8 @@ A wrapper around the libvorbis vorbis_comment object.
 */
 
 #include "IoVorbisBlock.h"
+#include "IoVorbisDspState.h"
+#include "IoOggPacket.h"
 #include "IoState.h"
 #include "IoNumber.h"
 #include "IoSeq.h"
@@ -43,6 +45,8 @@ IoVorbisBlock *IoVorbisBlock_proto(void *state)
 
 	{
 		IoMethodTable methodTable[] = {
+		{"setup", IoVorbisBlock_setup},
+		{"synthesis", IoVorbisBlock_synthesis},
 		{NULL, NULL},
 		};
 		IoObject_addMethodTable_(self, methodTable);
@@ -73,3 +77,27 @@ void IoVorbisBlock_free(IoVorbisBlock *self)
 
 /* ----------------------------------------------------------- */
 
+IoObject *IoVorbisBlock_setup(IoVorbisDspState *self, IoObject *locals, IoMessage *m)
+{
+	/*doc VorbisBlock setup
+	Initialize for decoding using the information obtained
+	from reading the Vorbis headers.
+	*/
+        IoVorbisDspState *dsp = IoMessage_locals_vorbisDspStateArgAt_(m, locals, 0);
+	int ret = vorbis_block_init(((vorbis_dsp_state*)(IoObject_dataPointer(dsp))), DATA(self));
+	IOASSERT(ret == 0, "vorbis_synthesis_init returned non-zero value");
+
+	return self;
+}
+
+IoObject *IoVorbisBlock_synthesis(IoVorbisDspState *self, IoObject *locals, IoMessage *m)
+{
+	/*doc VorbisBlock synthesis(packet)
+	Decode the vorbis data from the packet, storing it in the
+	block.
+	*/
+        IoOggPacket *packet = IoMessage_locals_oggPacketArgAt_(m, locals, 0);
+	int ret = vorbis_synthesis(DATA(self), ((ogg_packet*)(IoObject_dataPointer(packet))));
+
+	return IONUMBER(ret);
+}

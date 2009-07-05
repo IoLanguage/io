@@ -17,4 +17,7 @@ IoVorbisBlock *IoVorbisBlock_proto(void *state);
 IoVorbisBlock *IoVorbisBlock_rawClone(IoVorbisBlock *self);
 void IoVorbisBlock_free(IoVorbisBlock *self);
 
+IoObject *IoVorbisBlock_setup(IoVorbisBlock *self, IoObject *locals, IoMessage *m);
+IoObject *IoVorbisBlock_synthesis(IoVorbisBlock *self, IoObject *locals, IoMessage *m);
+
 #endif
