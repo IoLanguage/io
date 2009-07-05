@@ -17,4 +17,6 @@ IoTheoraDecodeContext *IoTheoraDecodeContext_proto(void *state);
 IoTheoraDecodeContext *IoTheoraDecodeContext_rawClone(IoTheoraDecodeContext *self);
 void IoTheoraDecodeContext_free(IoTheoraDecodeContext *self);
 
+IoObject *IoTheoraDecodeContext_headerin(IoTheoraDecodeContext *self, IoObject *locals, IoMessage *m);
+
 #endif
