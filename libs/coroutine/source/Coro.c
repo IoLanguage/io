@@ -379,6 +379,8 @@ void Coro_setup(Coro *self, void *arg)
 	setjmp(buf);
 	buf[7] = (long)(Coro_stack(self) + Coro_stackSize(self) - 16);
 	buf[8] = (long)Coro_Start;
+	globalCallbackBlock.context=((CallbackBlock*)arg)->context;
+	globalCallbackBlock.func=((CallbackBlock*)arg)->func;
 }
 
 #elif defined(__SYMBIAN32__)
