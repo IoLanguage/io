@@ -59,7 +59,7 @@ IOINLINE void *PointerHash_at_(PointerHash *self, void *k)
 	return 0x0;
 }
 
-IOINLINE unsigned int PointerHash_count(PointerHash *self)
+IOINLINE size_t PointerHash_count(PointerHash *self)
 {
 	return self->keyCount;
 }

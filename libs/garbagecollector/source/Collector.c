@@ -39,7 +39,7 @@ Collector *Collector_new(void)
 	self->allocated = 0;
 
 	self->allocatedSweepLevel = 3000;
-	self->allocatedStep = 1.1;
+	self->allocatedStep = 1.1f;
 	self->marksPerAlloc = 2;
 
 	self->clocksUsed = 0;

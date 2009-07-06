@@ -11,7 +11,7 @@ typedef struct
 } Sorter;
 
 void Sorter_quickSort(Sorter *self, size_t lb, size_t ub);
-int Sorter_quickSortRearrange(Sorter *self, size_t lb, size_t ub);
+size_t Sorter_quickSortRearrange(Sorter *self, size_t lb, size_t ub);
 
 void portable_qsort_r(void *base, size_t size, size_t width, 
 	void *context, PortableSortingCompareCallback compare)
@@ -55,7 +55,7 @@ static void swap(void *base, size_t a, size_t b, size_t width, unsigned char *sw
 	memcpy(bp, swapSpace, width);
 }
 
-int Sorter_quickSortRearrange(Sorter *self, size_t lb, size_t ub)
+size_t Sorter_quickSortRearrange(Sorter *self, size_t lb, size_t ub)
 {
 	PortableSortingCompareCallback comp = self->compare;
 	void *context = self->context;

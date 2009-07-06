@@ -709,7 +709,7 @@ IO_METHOD(IoNumber, log)
 		base = DATA(IoMessage_locals_numberArgAt_(m, locals, 0));
 	}
 	else{
-		base = M_E;
+		base = (float)M_E;
 	}
 	return IONUMBER(log(DATA(self)) / log(base));
 }

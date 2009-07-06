@@ -55,13 +55,13 @@ void CHash_updateMask(CHash *self)
 
 void CHash_show(CHash *self)
 {
-	int i;
+	size_t i;
 	
 	printf("CHash records:\n");
 	for(i = 0; i < self->size; i++)
 	{
 		CHashRecord *r = CRecords_recordAt_(self->records, i);
-		printf("  %i: %i %i\n", i, r->k, r->v);
+		printf("  %p: %p %p\n", i, r->k, r->v);
 	}
 }
 
@@ -89,7 +89,6 @@ void CHash_setEqualFunc_(CHash *self, CHashEqualFunc *f)
 int CHash_insert_(CHash *self, CHashRecord *x)
 {	
 	int n;
-	size_t pos;
 	//printf("insert\n");
 	
 	for (n = 0; n < CHASH_MAXLOOP; n ++)
@@ -121,7 +120,7 @@ int CHash_insert_(CHash *self, CHashRecord *x)
 
 int CHash_insertRecords(CHash *self, unsigned char *oldRecords, size_t oldSize)
 {
-	int i;
+	size_t i;
 	
 	for (i = 0; i < oldSize; i ++)
 	{
