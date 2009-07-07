@@ -27,8 +27,15 @@ Kudos to Daniel A. Koepke
 	#include "TargetConditionals.h"
 #endif
 
-//#if defined __GNUC__ && __GNUC__ >= 4
-#if defined TARGET_ASPEN_SIMULATOR || TARGET_OS_ASPEN 
+#if defined __XCODE__ && (TARGET_ASPEN_SIMULATOR || TARGET_OS_ASPEN)
+	#define NON_EXTERN_INLINES
+#else
+	#if defined __GNUC__ && __GNUC__ >= 4
+		//#define NON_EXTERN_INLINES
+	#endif
+#endif
+
+#ifdef NON_EXTERN_INLINES
 
 #ifdef IO_IN_C_FILE
 	// in .c 

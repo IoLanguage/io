@@ -89,7 +89,7 @@ void CHash_setEqualFunc_(CHash *self, CHashEqualFunc *f)
 int CHash_insert_(CHash *self, CHashRecord *x)
 {	
 	int n;
-	size_t pos;
+	//size_t pos;
 	//printf("insert\n");
 	
 	for (n = 0; n < CHASH_MAXLOOP; n ++)

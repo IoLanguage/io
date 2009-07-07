@@ -44,7 +44,6 @@ BASEKIT_API void CHash_setHash1Func_(CHash *self, CHashHashFunc *f);
 BASEKIT_API void CHash_setHash2Func_(CHash *self, CHashHashFunc *f);
 BASEKIT_API void CHash_setEqualFunc_(CHash *self, CHashEqualFunc *f);
 
-BASEKIT_API int CHash_at_put_(CHash *self, void *k, void *v);
 BASEKIT_API void CHash_removeKey_(CHash *self, void *k);
 BASEKIT_API size_t CHash_size(CHash *self); // actually the keyCount
 
@@ -56,7 +55,6 @@ BASEKIT_API void CHash_compact(CHash *self);
 BASEKIT_API void CHash_setSize_(CHash *self, size_t size); 
 BASEKIT_API int CHash_insert_(CHash *self, CHashRecord *x); 
 BASEKIT_API void CHash_grow(CHash *self); 
-BASEKIT_API void CHash_shrinkIfNeeded(CHash *self); 
 BASEKIT_API void CHash_shrink(CHash *self); 
 BASEKIT_API void CHash_show(CHash *self);
 BASEKIT_API void CHash_updateMask(CHash *self); 
