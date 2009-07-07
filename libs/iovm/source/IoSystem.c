@@ -69,8 +69,8 @@ Contains methods related to the IoVM.
 }
 */
 
-//#define setenv(k, v, o) SetEnvironmentVariable((k), (v))
-
+#define setenv(k, v, o) SetEnvironmentVariable((k), (v))
+#define getpid GetCurrentProcessId
 
 IO_METHOD(IoObject, installPrefix)
 {
@@ -160,6 +160,7 @@ IO_METHOD(IoObject, errorNumber)
 
 #ifdef WIN32
 #include <shellapi.h>
+#include "IoError.h"
 IO_METHOD(IoObject, shellExecute)
 {
 	LPCTSTR operation;

@@ -50,7 +50,7 @@ IOINLINE void *CHash_at_(CHash *self, void *k)
 	return 0x0;
 }
 
-IOINLINE unsigned int CHash_count(CHash *self)
+IOINLINE size_t CHash_count(CHash *self)
 {
 	return self->keyCount;
 }

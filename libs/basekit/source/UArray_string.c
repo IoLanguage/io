@@ -458,9 +458,9 @@ void UArray_unquote(UArray *self)
 
 void UArray_translate(UArray *self, UArray *fromChars, UArray *toChars)
 {
-	size_t max = 4096;
-	long fromMax = UArray_maxAsDouble(fromChars);
-	long toMax   = UArray_maxAsDouble(toChars);
+	double max = 4096;
+	double fromMax = UArray_maxAsDouble(fromChars);
+	double toMax   = UArray_maxAsDouble(toChars);
 
 	if (UArray_size(fromChars) != UArray_size(toChars))
 	{

@@ -103,7 +103,7 @@ IOINLINE void *List_at_(const List *self, size_t index)
 
 // --------------------------------------------
 
-IOINLINE long List_indexOf_(List *self, void *item)
+IOINLINE size_t List_indexOf_(List *self, void *item)
 {
 	LIST_FOREACH(self, i, v, if(v == item) return i);
 	return -1;
@@ -154,7 +154,7 @@ IOINLINE void List_removeIndex_(List *self, size_t index)
 
 IOINLINE void List_removeIndex_toIndex_(List *self, size_t index1, size_t index2)
 {
-	long length;
+	size_t length;
 
 	if (index1 < 0)
 	{
@@ -206,7 +206,7 @@ IOINLINE void List_remove_(List *self, void *item)
 
 IOINLINE int List_removeFirst_(List *self, void *item)
 {
-	int i, max = self->size;
+	size_t i, max = self->size;
 
 	for (i = 0; i < max; i ++)
 	{
@@ -222,7 +222,7 @@ IOINLINE int List_removeFirst_(List *self, void *item)
 
 IOINLINE void List_removeLast_(List *self, void *item)
 {
-	int index = self->size - 1;
+	size_t index = self->size - 1;
 
 	for (index = self->size - 1; index > -1; index --)
 	{

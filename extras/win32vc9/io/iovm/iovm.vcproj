@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="windows-1251"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="9.00"
 	Name="iovm"
 	ProjectGUID="{EAB8C2C1-1CD7-4B33-9A36-477607B62930}"
 	RootNamespace="iovm"
 	Keyword="Win32Proj"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -50,7 +51,6 @@
 				UsePrecompiledHeader="0"
 				ObjectFile="$(OutDir)\objs\"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="4"
 			/>
 			<Tool
@@ -66,8 +66,11 @@
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\dll\iovm.dll"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				SubSystem="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -87,9 +90,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -128,7 +128,6 @@
 				UsePrecompiledHeader="0"
 				ObjectFile="$(OutDir)\objs\"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -144,10 +143,13 @@
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\dll\$(ProjectName).dll"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -167,9 +169,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -208,7 +207,6 @@
 				UsePrecompiledHeader="0"
 				ObjectFile="$(OutDir)\objs\"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -224,10 +222,13 @@
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\dll\libiovmall.dll"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -247,9 +248,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -288,7 +286,6 @@
 				UsePrecompiledHeader="0"
 				ObjectFile="$(OutDir)\objs\"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="3"
 			/>
 			<Tool
@@ -304,10 +301,13 @@
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\dll\libiovmall.dll"
 				LinkIncremental="1"
+				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -327,9 +327,6 @@
 			/>
 			<Tool
 				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCWebDeploymentTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -390,6 +387,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\..\libs\iovm\source\IoError.c"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\..\libs\iovm\source\IoFile.c"
 				>
 			</File>
@@ -431,10 +432,6 @@
 			</File>
 			<File
 				RelativePath="..\..\..\..\libs\iovm\source\IoObject_flow.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\libs\iovm\source\IoObject_persistence.c"
 				>
 			</File>
 			<File
@@ -505,6 +502,10 @@
 				RelativePath="..\..\..\..\libs\iovm\source\IoWeakLink.c"
 				>
 			</File>
+			<File
+				RelativePath="..\..\..\..\libs\iovm\source\PHash.c"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -564,6 +565,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\..\libs\iovm\source\IoError.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\..\libs\iovm\source\IoFile.h"
 				>
 			</File>
@@ -613,10 +618,6 @@
 			</File>
 			<File
 				RelativePath="..\..\..\..\libs\iovm\source\IoObject_inline.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\..\libs\iovm\source\IoObject_persistence.h"
 				>
 			</File>
 			<File
@@ -709,6 +710,18 @@
 			</File>
 			<File
 				RelativePath="..\..\..\..\libs\iovm\source\IoWeakLink.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\libs\iovm\source\PHash.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\libs\iovm\source\PHash_inline.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\..\libs\iovm\source\PHash_struct.h"
 				>
 			</File>
 		</Filter>

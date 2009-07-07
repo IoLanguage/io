@@ -54,13 +54,13 @@ void PointerHash_updateMask(PointerHash *self)
 
 void PointerHash_show(PointerHash *self)
 {
-	int i;
+	size_t i;
 	
 	printf("PointerHash records:\n");
 	for(i = 0; i < self->size; i++)
 	{
 		PointerHashRecord *r = PointerHashRecords_recordAt_(self->records, i);
-		printf("  %i: %i %i\n", i, r->k, r->v);
+		printf("  %p: %p %p\n", i, r->k, r->v);
 	}
 }
 
@@ -93,7 +93,7 @@ void PointerHash_insert_(PointerHash *self, PointerHashRecord *x)
 
 void PointerHash_insertRecords(PointerHash *self, unsigned char *oldRecords, size_t oldSize)
 {
-	int i;
+	size_t i;
 	
 	for (i = 0; i < oldSize; i ++)
 	{

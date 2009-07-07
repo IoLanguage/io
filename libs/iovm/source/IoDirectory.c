@@ -120,12 +120,13 @@ int mkdir_win32(const char *path, mode_t_win32 mode)
 	return (CreateDirectory(lpPathName, lpSecurityAttributes) != 0);
 }
 
+/*
 int chdir(const char *path)
 {
 	LPCTSTR lpPathName = path;
 	return SetCurrentDirectory(lpPathName) ? 1 : -1;
 }
-
+*/
 #endif
 
 int isDirectory(struct dirent *dp, char *path)
