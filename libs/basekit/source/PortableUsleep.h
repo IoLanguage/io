@@ -4,7 +4,7 @@
 #ifndef WIN32
 	int usleep (unsigned int us);
 #endif
-#else
+#elif !defined(__CYGWIN__)
 	#include <unistd.h>
 #endif
 
