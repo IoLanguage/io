@@ -17,11 +17,12 @@
 	</ToolFiles>
 	<Configurations>
 		<Configuration
-			Name="Debug|Win32"
+			Name="Dynamic Debug|Win32"
 			OutputDirectory="..\..\..\..\libs\$(ProjectName)\_build"
 			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="2"
-			CharacterSet="1"
+			ConfigurationType="4"
+			CharacterSet="0"
+			WholeProgramOptimization="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -41,85 +42,9 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				WholeProgramOptimization="false"
 				AdditionalIncludeDirectories="..\..\..\..\libs\basekit\_build\headers"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;GARBAGECOLLECTOR_EXPORTS;BUILDING_COLLECTOR_DLL"
-				MinimalRebuild="true"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
-				UsePrecompiledHeader="0"
-				ObjectFile="$(OutDir)\objs\"
-				WarningLevel="3"
-				DebugInformationFormat="4"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				OutputFile="$(OutDir)\dll\$(ProjectName).dll"
-				LinkIncremental="2"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
-				TargetMachine="1"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-				CommandLine="mkdir $(OutDir)\headers&#x0D;&#x0A;xcopy /Y /Q $(OutDir)\..\source\*.h $(OutDir)\headers\&#x0D;&#x0A;"
-			/>
-		</Configuration>
-		<Configuration
-			Name="Release|Win32"
-			OutputDirectory="..\..\..\..\libs\$(ProjectName)\_build"
-			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="2"
-			CharacterSet="0"
-			WholeProgramOptimization="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\..\libs\basekit\_build\headers"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;GARBAGECOLLECTOR_EXPORTS;BUILDING_COLLECTOR_DLL"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;GARBAGECOLLECTOR_EXPORTS;BUILDING_COLLECTOR_DLL;BUILDING_IOVMALL_DLL"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				ObjectFile="$(OutDir)\objs\"
@@ -136,22 +61,11 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				OutputFile="$(OutDir)\dll\$(ProjectName).dll"
-				LinkIncremental="1"
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
-				TargetMachine="1"
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)\lib\$(ProjectName).lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -163,18 +77,15 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="mkdir $(OutDir)\headers&#x0D;&#x0A;xcopy /Y /Q $(OutDir)\..\source\*.h $(OutDir)\headers\&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
-			Name="iovmall_Release|Win32"
-			OutputDirectory="..\..\..\..\libs\$(ProjectName)\_build"
+			Name="Dynamic Release|Win32"
+			OutputDirectory="..\..\..\..\libs\garbagecollector\_build"
 			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="0"
 			WholeProgramOptimization="1"
 			>
@@ -213,13 +124,11 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)\lib\$(ProjectName).lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -231,7 +140,69 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
-				Name="VCAppVerifierTool"
+				Name="VCPostBuildEventTool"
+				CommandLine="mkdir $(OutDir)\headers&#x0D;&#x0A;xcopy /Y /Q $(OutDir)\..\source\*.h $(OutDir)\headers\&#x0D;&#x0A;"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Static Debug|Win32"
+			OutputDirectory="..\..\..\..\libs\garbagecollector\_build"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="4"
+			CharacterSet="0"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				WholeProgramOptimization="false"
+				AdditionalIncludeDirectories="..\..\..\..\libs\basekit\_build\headers"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;GARBAGECOLLECTOR_EXPORTS;BUILDING_COLLECTOR_DLL;BUILDING_IOVMALL_DLL"
+				RuntimeLibrary="2"
+				UsePrecompiledHeader="0"
+				ObjectFile="$(OutDir)\objs\"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)\lib\$(ProjectName).lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -239,10 +210,10 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="iovmall_Debug|Win32"
-			OutputDirectory="..\..\..\..\libs\$(ProjectName)\_build"
+			Name="Static Release|Win32"
+			OutputDirectory="..\..\..\..\libs\garbagecollector\_build"
 			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="0"
 			WholeProgramOptimization="1"
 			>
@@ -281,13 +252,11 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)\lib\$(ProjectName).lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -297,9 +266,6 @@
 			/>
 			<Tool
 				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
