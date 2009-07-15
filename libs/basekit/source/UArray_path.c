@@ -11,7 +11,7 @@
 
 void UArray_appendPath_(UArray *self, const UArray *path)
 {
-	const UArray sep = UArray_stackAllocedWithCString_(IO_PATH_SEPARATOR);
+	const UArray sep = UArray_stackAllocedWithCString_(OS_PATH_SEPARATOR);
 
 	int selfEndsWithSep   = IS_PATH_SEPERATOR(UArray_lastLong(self));
 	int pathStartsWithSep = IS_PATH_SEPERATOR(UArray_firstLong(path));

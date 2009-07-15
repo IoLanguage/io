@@ -20,25 +20,30 @@ UnicodeTest := UnitTest clone do(
 	monoQuoteString := "Hello, world!\nЗдравствуй, мир!\n"
 	monoQuoteString = monoQuoteString .. "この世界お。今日は！\n"
 
+	isOnWindows := System platform beginsWithSeq("Windows")
+	if(isOnWindows,
+		diffCmd := "diff -q --strip-trailing-cr ",
+		diffCmd := "diff -q "
+	)
 
 	tempWrite := method(s,
 		File with(tempPath) openForUpdating truncateToSize(0) write(s) close
 	)
 
 	tempSystem := method(s,
-		code := (" " .. s) asMutable replaceSeq("$0", Path with(wdPath, "printer.io"))
+		code := ("io " .. s) asMutable replaceSeq("$0", Path with(wdPath, "printer.io"))
 		System system(code .. " > " .. tempPath)
 	)
 
 	assertDiff := method(
-		outcome := System system("diff -q " .. tempPath .. " " .. textPath)
+		outcome := System system(diffCmd .. tempPath .. " " .. textPath)
 		File with(tempPath) remove
 		assertTrue(outcome == 0)
 	)
 
 	knownBugDiff := method(
 		File with(tempPath) remove
-		knownBug(System system("diff -q " .. tempPath .. " " .. textPath) == 0)
+		knownBug(System system(diffCmd .. tempPath .. " " .. textPath) == 0)
 	)
 
 	testCompares := method(

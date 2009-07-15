@@ -412,7 +412,7 @@ SequenceTest := UnitTest clone do(
 		if(isOnWindows,
 			assertEquals("abc", "abc\\def" pathComponent)
 			assertEquals("abc", "abc\\def\\" pathComponent)
-			assertEquals("abc\\def", "abc\\def\\\\" pathComponent)
+			assertEquals("abc", "abc\\def\\\\" pathComponent)
 			assertEquals("", "abc\\" pathComponent)
 		)
 	)

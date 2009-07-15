@@ -1,3 +1,8 @@
+// On Windows, these tests may produce the message:
+// "The process tried to write to a nonexistent pipe".
+// This is normal behaviour when when a pipe executing
+// a process is closed before the process completes.
+
 FileTest := UnitTest clone do(
 	testPOpenReadsFromCommandsStandardOutput := method(
 		file := File with("echo hello") popen
