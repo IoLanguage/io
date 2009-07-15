@@ -22,6 +22,7 @@ See the release notes for a list of folks that helped with this code.
 #include <sys/time.h>
 #else
 #include <winsock2.h>
+#define ECONNRESET WSAECONNRESET
 
 // for dog4
 #ifndef IO_WINSOCK_COMPAT

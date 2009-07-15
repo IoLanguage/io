@@ -19,10 +19,10 @@ typedef IoObject IoMap;
 
 IoMap *IoMap_proto(void *state);
 IOVM_API IoMap *IoMap_rawClone(IoMap *self);
-IoMap *IoMap_new(void *state);
+IOVM_API IoMap *IoMap_new(void *state);
 void IoMap_free(IoMap *self);
 void IoMap_mark(IoMap *self);
-PHash *IoMap_rawHash(IoMap *self);
+IOVM_API PHash *IoMap_rawHash(IoMap *self);
 
 /*
 void IoMap_writeToStream_(IoMap *self, BStream *stream);
@@ -36,7 +36,7 @@ IO_METHOD(IoMap, empty);
 IOVM_API IoObject *IoMap_rawAt(IoMap *self, IoSymbol *k);
 IOVM_API IO_METHOD(IoMap, at);
 
-void IoMap_rawAtPut(IoMap *self, IoSymbol *k, IoObject *v);
+IOVM_API void IoMap_rawAtPut(IoMap *self, IoSymbol *k, IoObject *v);
 IO_METHOD(IoMap, atPut);
 IO_METHOD(IoMap, atIfAbsentPut);
 IO_METHOD(IoMap, removeAt);
