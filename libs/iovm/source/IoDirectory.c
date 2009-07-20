@@ -132,11 +132,13 @@ int chdir(const char *path)
 int isDirectory(struct dirent *dp, char *path)
 {
 	#ifdef DT_UNKNOWN
-	if (dp->d_type != DT_UNKNOWN)
+	if (dp->d_type == DT_UNKNOWN) return 0;
+	/*if (dp->d_type != DT_UNKNOWN)
 	{
-		return (dp->d_type == DT_DIR);
+		return (dp->d_type == DT_DIR) || (dp->d_type == DT_LNK);
 	}
 	else
+	*/
 	#endif
 	{
 		struct stat st;
