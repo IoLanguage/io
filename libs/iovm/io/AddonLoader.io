@@ -95,7 +95,7 @@ AddonLoader := Object clone do(
 	addons := method(
 		searchFolders := searchPaths map(path, Directory with(path)) select(exists)
 		addonFolders := searchFolders map(directories) flatten select(isAccessible) select(fileNames contains("build.io"))
-		addons := addonFolders map(f, Addon clone setRootPath(f path pathComponent) setName(f path lastPathComponent))
+		self addons := addonFolders map(f, Addon clone setRootPath(f path pathComponent) setName(f path lastPathComponent))
 		addons
 	)
 
