@@ -65,7 +65,7 @@ Scheduler := Object clone do(
 Coroutine do(
 	//doc Coroutine stackSize Stack size allocated for each new coroutine. Coroutines will automatically chain themselves as need if more stack space is required.
 	//doc Coroutine setStackSize
-	stackSize ::= 128000*10 // PPC needs 128k for current parser
+	stackSize ::= 128*1024 // PPC needs 128k for current parser
 	
 	//doc Coroutine exception Returns the current exception or nil if there is none.
 	//doc Coroutine setException
