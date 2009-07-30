@@ -45,7 +45,7 @@
 				WholeProgramOptimization="false"
 				AdditionalIncludeDirectories="..\..\..\..\libs\basekit\source\simd_cph\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;BUILDING_BASEKIT_DLL;BUILDING_IOVMALL_DLL"
-				RuntimeLibrary="2"
+				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				ObjectFile="$(OutDir)\objs\"
 				WarningLevel="3"

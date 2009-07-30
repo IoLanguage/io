@@ -45,7 +45,7 @@
 				WholeProgramOptimization="false"
 				AdditionalIncludeDirectories="..\..\..\..\libs\coroutine\_build\headers;..\..\..\..\libs\garbagecollector\_build\headers;..\..\..\..\libs\basekit\_build\headers;..\..\..\..\libs\iovm\source"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE;BUILDING_IOVMALL_DLL;_CRT_SECURE_NO_DEPRECATE"
-				RuntimeLibrary="2"
+				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				ObjectFile="$(OutDir)\objs\"
 				WarningLevel="3"
@@ -59,7 +59,7 @@
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
-				CommandLine="mkdir $(OutDir)\lib"
+				CommandLine="IF NOT EXIST $(OutDir)\lib MD $(OutDir)\lib"
 			/>
 			<Tool
 				Name="VCLinkerTool"
@@ -99,7 +99,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine=""
+				CommandLine="IF NOT EXIST ..\..\..\..\_build\headers MD ..\..\..\..\_build\headers&#x0D;&#x0A;XCOPY /Y ..\..\..\..\libs\basekit\_build\headers ..\..\..\..\_build\headers&#x0D;&#x0A;XCOPY /Y ..\..\..\..\libs\coroutine\_build\headers ..\..\..\..\_build\headers&#x0D;&#x0A;XCOPY /Y ..\..\..\..\libs\garbagecollector\_build\headers ..\..\..\..\_build\headers&#x0D;&#x0A;XCOPY /Y ..\..\..\..\libs\iovm\_build\headers ..\..\..\..\_build\headers&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -143,7 +143,7 @@
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
-				CommandLine="mkdir $(OutDir)\lib"
+				CommandLine="IF NOT EXIST $(OutDir)\lib MD $(OutDir)\lib"
 			/>
 			<Tool
 				Name="VCLinkerTool"
@@ -228,7 +228,7 @@
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
-				CommandLine="mkdir $(OutDir)\lib"
+				CommandLine="IF NOT EXIST $(OutDir)\lib MD $(OutDir)\lib"
 			/>
 			<Tool
 				Name="VCLinkerTool"
@@ -312,7 +312,7 @@
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
-				CommandLine="mkdir $(OutDir)\lib"
+				CommandLine="IF NOT EXIST $(OutDir)\lib MD $(OutDir)\lib"
 			/>
 			<Tool
 				Name="VCLinkerTool"

@@ -45,7 +45,7 @@
 				WholeProgramOptimization="false"
 				AdditionalIncludeDirectories="..\..\..\..\libs\basekit\_build\headers"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;COROUTINE_EXPORTS;BUILDING_IOVMALL_DLL"
-				RuntimeLibrary="2"
+				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				ObjectFile="$(OutDir)\objs\"
 				WarningLevel="3"
