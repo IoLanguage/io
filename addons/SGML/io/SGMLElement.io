@@ -77,7 +77,7 @@ SGMLElement := Object clone do(
 	)
 	
 	elementsWithNameAndClass := method(name, class,
-		elementsWithName(name) select(attributes at("class") == class)
+		elementsWithName(name) select(attribute("class") == class)
 	)
 	
 	elementsWithNameAndId := method(name, id,

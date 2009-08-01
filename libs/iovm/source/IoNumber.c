@@ -49,6 +49,10 @@ double log2(double n)
 }
 #endif
 
+#ifdef __FreeBSD__
+#define log2(x) (log(x) / M_LN2)
+#endif
+
 #define DATA(self) CNUMBER(self)
 
 IoNumber *IoNumber_numberForDouble_canUse_(IoNumber *self, double n, IoNumber *other)
