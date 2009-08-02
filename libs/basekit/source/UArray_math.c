@@ -720,7 +720,7 @@ void UArray_addEqualsOffsetXScaleYScale(UArray *self, UArray *other, float offse
 		
 		while (i < (long)self->size)
 		{			
-			int jj = j/xscale;
+			size_t jj = j/xscale;
 			
 			//printf("self->size: %i i: %i jj: %i\n", self->size, i, jj);
 			if (jj > other->size - 1) break;

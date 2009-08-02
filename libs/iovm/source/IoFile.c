@@ -448,7 +448,7 @@ IO_METHOD(IoFile, open)
 
 			if(!IoFile_justExists(self))
 			{
-				IoState_error_(IOSTATE, m, "unable to create file '%s'", CSTRING(DATA(self)->path));
+				IoState_error_(IOSTATE, m, "unable to create file '%s': %s", CSTRING(DATA(self)->path), strerror(errno));
 			}
 		}
 
@@ -457,7 +457,7 @@ IO_METHOD(IoFile, open)
 
 	if (DATA(self)->stream == NULL)
 	{
-		IoState_error_(IOSTATE, m, "unable to open file path '%s'", CSTRING(DATA(self)->path));
+		IoState_error_(IOSTATE, m, "unable to open file path '%s': %s", CSTRING(DATA(self)->path), strerror(errno));
 	}
 
 	return self;

@@ -166,10 +166,13 @@ BASEKIT_API int UArray_isZero(const UArray *self);
 
 BASEKIT_API int UArray_contains_(const UArray *self, const UArray *other);
 BASEKIT_API int UArray_containsAnyCase_(const UArray *self, const UArray *other);
+BASEKIT_API int UArray_containsDouble_(const UArray *self, double other);
+BASEKIT_API int UArray_containsLong_(const UArray *self, long other);
 
 // find
 
 BASEKIT_API long UArray_find_(const UArray *self, const UArray *other);
+BASEKIT_API long UArray_findAnyCase_(const UArray *self, const UArray *other);
 BASEKIT_API long UArray_find_from_(const UArray *self, const UArray *other, size_t from);
 BASEKIT_API long UArray_rFind_from_(const UArray *self, const UArray *other, size_t from);
 BASEKIT_API long UArray_rFind_(const UArray *self, const UArray *other);

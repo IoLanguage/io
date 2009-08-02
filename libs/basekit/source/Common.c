@@ -159,7 +159,6 @@ void MemoryBlock_free(MemoryBlock *self)
 	MemoryBlock_remove(self);
 	allocatedBytes -= self->size;
 	frees ++;
-	memset(self, 0, self->size); // zero out the memory
 	free(self);
 }
 

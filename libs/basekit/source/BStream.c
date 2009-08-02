@@ -165,14 +165,14 @@ void BStream_writeDouble_(BStream *self, double v)
 
 void BStream_writeCString_(BStream *self, const char *s)
 {
-	int length = strlen(s);
-	BStream_writeInt32_(self, length);
+	size_t length = strlen(s);
+	BStream_writeInt32_(self, (int32_t)length);
 	BStream_writeData_length_(self, (unsigned char *)s, length);
 }
 
 void BStream_writeUArray_(BStream *self, UArray *ba)
 {
-	BStream_writeInt32_(self, UArray_size(ba));
+	BStream_writeInt32_(self, (int32_t)UArray_size(ba));
 	UArray_append_(self->ba, ba);
 	self->index += UArray_size(ba);
 }
@@ -355,7 +355,7 @@ void BStream_writeTaggedDouble_(BStream *self, double v)
 void BStream_writeTaggedData_length_(BStream *self, const unsigned char *data, size_t length)
 {
 	BStream_writeTag(self, BSTREAM_UNSIGNED_INT, 1, 1);
-	BStream_writeTaggedInt32_(self, length);
+	BStream_writeTaggedInt32_(self, (int32_t)length);
 	UArray_appendBytes_size_(self->ba, (unsigned char *)data, length);
 	self->index += length;
 }
@@ -559,7 +559,7 @@ int BStream_showInt(BStream *self)
 
 void BStream_show(BStream *self)
 {
-	int pos = self->index;
+	size_t pos = self->index;
 	int v = 0;
 
 	self->index = 0;

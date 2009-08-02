@@ -49,6 +49,10 @@ double log2(double n)
 }
 #endif
 
+#ifdef __FreeBSD__
+#define log2(x) (log(x) / M_LN2)
+#endif
+
 #define DATA(self) CNUMBER(self)
 
 IoNumber *IoNumber_numberForDouble_canUse_(IoNumber *self, double n, IoNumber *other)
@@ -709,7 +713,7 @@ IO_METHOD(IoNumber, log)
 		base = DATA(IoMessage_locals_numberArgAt_(m, locals, 0));
 	}
 	else{
-		base = M_E;
+		base = (float)M_E;
 	}
 	return IONUMBER(log(DATA(self)) / log(base));
 }

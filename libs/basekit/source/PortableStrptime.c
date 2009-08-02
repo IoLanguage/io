@@ -75,7 +75,7 @@ struct dtconv {
 int readndigits(char **const buf, const size_t count)
 {
 	int result = 0;
-	int i;
+	size_t i;
 
 	for (i = 0; i < count; i++, (*buf)++) {
 		const char digit = **buf;

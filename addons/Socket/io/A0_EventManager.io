@@ -87,7 +87,7 @@ TimerEvent  := Event clone setEventType(Event EV_TIMER) do(
 	nil
 )
 
-//Object wait := method(t, TimerEvent clone setTimeout(t) waitOn)
+Object wait := method(t, TimerEvent clone setTimeout(t) waitOn)
 
 EventManager do(
 	//metadoc EventManager category Networking

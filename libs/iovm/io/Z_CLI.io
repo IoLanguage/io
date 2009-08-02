@@ -92,8 +92,8 @@ CLI := Object clone do(
 		writeWelcomeBanner
 
 		// Use GNU Readline as the default line reader. Fall back to Editline 
-		try(setLineReader(ReadLine))
-		try(lineReader ifNil( setLineReader(EditLine)))
+		//try(setLineReader(ReadLine))
+		//try(lineReader ifNil( setLineReader(EditLine)))
 
 		//loadHistory // don't inable this unless you intend to make it work properly on osx
 

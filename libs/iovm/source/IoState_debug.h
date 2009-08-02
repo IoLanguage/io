@@ -15,3 +15,5 @@ int IoState_hasDebuggingCoroutine(IoState *self);
 void IoState_updateDebuggingMode(IoState *self);
 
 void IoState_setupUserInterruptHandler(IoState *self);
+
+void IoState_callUserInterruptHandler(IoState *self);
