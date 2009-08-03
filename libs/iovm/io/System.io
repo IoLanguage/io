@@ -68,7 +68,8 @@ System do(
 	)
 	
 	//doc System runCommand Calls system and redirects stdout/err to tmp files.  Returns object with exitStatus, stdout and stderr slots.
-	runCommand := method(cmd,
+	runCommand := method(cmd, successStatus,
+		successStatus := if(successStatus, successStatus, 0)
 		tmpDirPath := System getEnvironmentVariable("TMPDIR")
 		outPath := method(suffix,
 			Path with(tmpDirPath, list(System thisProcessPid, Date clone now asNumber, suffix) join("-"))
@@ -77,9 +78,10 @@ System do(
 		stderrPath := outPath("stderr")
 		exitStatus := System system(cmd .. " > " .. stdoutPath .. " 2> " .. stderrPath)
 		result := Object clone
+		result successStatus := successStatus
 		result exitStatus := exitStatus
-		result failed := method(exitStatus != 0)
-		result succeeded := method(exitStatus == 0)
+		result failed := method(exitStatus != successStatus)
+		result succeeded := method(exitStatus == successStatus)
 		result stdout := File with(stdoutPath) contents
 		result stderr := File with(stderrPath) contents
 		result
