@@ -66,4 +66,20 @@ System do(
 		)
 		self exit
 	)
+	
+	//doc System runCommand Calls system and redirects stdout/err to tmp files.  Returns object with exitStatus, stdout and stderr slots.
+	runCommand := method(cmd,
+		tmpDirPath := System getEnvironmentVariable("TMPDIR")
+		outPath := method(suffix,
+			Path with(tmpDirPath, list(System thisProcessPid, Date clone now asNumber, suffix) join("-"))
+		)
+		stdoutPath := outPath("stdout")
+		stderrPath := outPath("stderr")
+		exitStatus := System system(cmd .. " > " .. stdoutPath .. " 2> " .. stderrPath)
+		result := Object clone
+		result exitStatus := exitStatus
+		result stdout := File with(stdoutPath) contents
+		result stderr := File with(stderrPath) contents
+		result
+	)
 )
