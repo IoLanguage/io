@@ -30,7 +30,7 @@ make vm; su -c "sudo make emerge"; make make; sudo make install
 MS WINDOWS WITH CYGWIN
 ----------------------
 
-1) [once] Ensure your VisualStudio has the Windows SDK. Mine didn't. (Somehow it had cl.exe and link.exe in the VC/bin, but practically nothing in VC/include.) I installed VS C++ Express, and all was well after that.
+1) [once] Ensure your VisualStudio has the Windows SDK. 
 
 2) Start up a Visual Studio Command Prompt using the start menu link (inside the Visual Studio Tools subfolder), or from a command prompt execute "%PROGRAMFILES%\Microsoft Visual Studio 9.0\VC\vcvarsall.bat". This sets up environment variables needed by the compiler.
 
