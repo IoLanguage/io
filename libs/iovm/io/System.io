@@ -78,6 +78,8 @@ System do(
 		exitStatus := System system(cmd .. " > " .. stdoutPath .. " 2> " .. stderrPath)
 		result := Object clone
 		result exitStatus := exitStatus
+		result failed := method(exitStatus != 0)
+		result succeeded := method(exitStatus == 0)
 		result stdout := File with(stdoutPath) contents
 		result stderr := File with(stderrPath) contents
 		result
