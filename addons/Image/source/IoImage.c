@@ -18,7 +18,6 @@ Currently supported formats include PNG(which supports alpha), JPG and TIFF.
 */
 
 #include "IoImage.h"
-#include "List.h"
 #include "IoState.h"
 #include "IoNumber.h"
 #include "IoSeq.h"
