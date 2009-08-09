@@ -2,7 +2,7 @@
 
 File md5String := method(
 	digest := MD5 clone
-	buffer := Buffer clone
+	buffer := Sequence clone
 	
 	openForReading
 	while(isAtEnd == nil,
@@ -18,7 +18,7 @@ if (System ?args == nil or System args size == 0,
 	exit
 )
 
-f := File clone setPath(System args at(0))
+f := File clone setPath(System args at(1))
 m1 := f md5String
 m2 := f asBuffer md5String
 write("md5 = ", m1, "\n")
