@@ -4,7 +4,7 @@
 // Steve Dekorte, 2003
 
 debugCollector := 1
-Scheduler setSleepInterval(0.001)
+Scheduler setTimers(0.001)
 
 AudioDevice open
 
