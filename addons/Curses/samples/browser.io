@@ -34,7 +34,7 @@ Inspector := Object clone do(
 			s := if(slotName == selectedSlotName, ">", " ")
 			Curses write(s .. slotName)
 			Curses move(20, i)
-			Curses write(object getSlot(slotName) asSimpleString)
+			Curses write("" .. object getSlot(slotName) asSimpleString)
 		)
 		Curses move( 0, Curses height - 1)
 		Curses write("<Up>/<Down> to navigat the slot names, <Right>/<Left> to navigate proto hierarchies, <ESC> to quit")
