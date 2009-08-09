@@ -10,6 +10,7 @@ Application clone do(
 		mainWindow resizeTo(1024, 768)	
 		Background size copy(mainWindow size)
 		mainWindow addSubview(Background)
+		display
 	)
 	run
 )
