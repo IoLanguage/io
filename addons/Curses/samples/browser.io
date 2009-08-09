@@ -29,23 +29,27 @@ Inspector := Object clone do(
 
 	show := method(
 		objectSlotNames foreach(i, slotName,
-			if (i > Curses height - 1, break) 
+			if (i > Curses height - 2, break)
 			Curses move(0, i)
 			s := if(slotName == selectedSlotName, ">", " ")
 			Curses write(s .. slotName)
 			Curses move(20, i)
 			Curses write(object getSlot(slotName) asSimpleString)
 		)
+		Curses move( 0, Curses height - 1)
+		Curses write("<Up>/<Down> to navigat the slot names, <Right>/<Left> to navigate proto hierarchies, <ESC> to quit")
 	)
 	
 	selectPreviousSlot := method(
 		sn := objectSlotNames 
-		setSelectedSlotName(sn at(sn indexOf(selectedSlotName) - 1))		
+		index := sn indexOf(selectedSlotName)
+		if (0 < index, setSelectedSlotName(sn at(index - 1)))
 	)
 	
 	selectNextSlot := method(
 		sn := objectSlotNames 
-		setSelectedSlotName(sn at(sn indexOf(selectedSlotName) + 1))
+		index := sn indexOf(selectedSlotName)
+		if ((sn size - 1 > index), setSelectedSlotName(sn at(index + 1)))
 	)
 	
 	up   := method(selectPreviousSlot)
@@ -75,7 +79,7 @@ loop(
 		if(c == 258, Inspector down)
 		if(c == 261, Inspector next)
 		if(c == 260, Inspector previous)
-		if(c == 27, Curses end; System exit)
+		if(c == 27, Lobby exit)
 	)
 	
 	e catch(Exception,
