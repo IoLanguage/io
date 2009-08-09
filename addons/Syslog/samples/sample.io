@@ -7,10 +7,10 @@
 logger := Syslog clone do (
 	identity("SyslogTest")
 	facility(facilityMap at("LOG_USER"))
-	options(List add(optionsMap at("LOG_PID"), optionsMap at("LOG_CONS")))
+	options(List append(optionsMap at("LOG_PID"), optionsMap at("LOG_CONS")))
 	priority(priorityMap at("LOG_INFO"))
 	open(facility, options)
-	mask(List add(maskMap at("LOG_PRIMASK")))
+	mask(List append(maskMap at("LOG_PRIMASK")))
 	log(priority, "*** Merely a test ***")
 	close
 )
