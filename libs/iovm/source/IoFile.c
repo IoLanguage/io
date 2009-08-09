@@ -626,8 +626,9 @@ IO_METHOD(IoFile, asBuffer)
 	*/
 
 	UArray *ba = UArray_new();
+	int result = UArray_readFromFilePath_(ba, IoSeq_rawUArray(DATA(self)->path));
 
-	if (UArray_readFromFilePath_(ba, IoSeq_rawUArray(DATA(self)->path)) == 1)
+	if (-1 != result)
 	{
 		return IoSeq_newWithUArray_copy_(IOSTATE, ba, 0);
 	}
