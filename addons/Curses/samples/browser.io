@@ -15,9 +15,9 @@ Inspector := Object clone do(
 	
 	objectSlotNames := method(object slotNames sort)
 	
-	setObject := method(obj,
+	setObject := method(obj, newSelectedSlot,
 		_object = getSlot("obj")
-		selectedSlotName = objectSlotNames first
+		selectedSlotName = if(newSelectedSlot, newSelectedSlot, objectSlotNames first)
 		object _proto := object proto
 	)
 	
@@ -56,13 +56,13 @@ Inspector := Object clone do(
 	down := method(selectNextSlot)
 	
 	next := method(
-		objectStack push(object)
+		objectStack push(list(object, selectedSlotName))
 		setObject(object getSlot(selectedSlotName))
 	)
 	
 	previous := method(
 		obj := objectStack pop
-		if(obj, setObject(obj))
+		if(obj, setObject(obj first, obj second))
 	)
 )
 
