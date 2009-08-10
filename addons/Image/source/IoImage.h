@@ -7,9 +7,9 @@
 #include "IoImageApi.h"
 
 #include "IoObject.h"
+#include "Image.h"
 
 struct IoSeq;
-struct Image;
 
 #define ISIMAGE(self) IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoImage_rawClone)
 
