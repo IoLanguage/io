@@ -4,6 +4,7 @@
 ODEWorld binding
 */
 
+#include <ode/ode.h>
 #include "IoODEWorld.h"
 #include "IoODEBody.h"
 #include "IoODEJointGroup.h"
@@ -25,6 +26,7 @@ IoTag *IoODEWorld_newTag(void *state)
 
 IoODEWorld *IoODEWorld_proto(void *state)
 {
+	dInitODE();
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoODEWorld_newTag(state));
 
