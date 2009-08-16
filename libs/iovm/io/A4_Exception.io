@@ -66,7 +66,7 @@ Coroutine do(
 	//doc Coroutine stackSize Stack size allocated for each new coroutine. Coroutines will automatically chain themselves as need if more stack space is required.
 	//doc Coroutine setStackSize
 	stackSize ::= 131072 // PPC needs 128k for current parser
-	
+
 	//doc Coroutine exception Returns the current exception or nil if there is none.
 	//doc Coroutine setException
 	exception ::= nil

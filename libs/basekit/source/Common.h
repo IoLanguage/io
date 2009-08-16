@@ -48,13 +48,13 @@ typedef long long int64_t;
 
 #define ON_WINDOWS 1
 
+// this also includes windows.h
+#include <winsock2.h>
+
 // Enable fibers
 #ifndef _WIN32_WINNT
 #define _WIN32_WINNT 0x0400
 #endif
-
-// this also includes windows.h
-#include <winsock2.h>
 
 #if !defined(__MINGW32__)
 #if defined(BUILDING_BASEKIT_DLL) || defined(BUILDING_IOVMALL_DLL)

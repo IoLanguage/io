@@ -17,11 +17,12 @@
 	</ToolFiles>
 	<Configurations>
 		<Configuration
-			Name="Debug|Win32"
-			OutputDirectory="..\..\..\..\libs\$(ProjectName)\_build"
+			Name="Dynamic Debug|Win32"
+			OutputDirectory="..\..\..\..\libs\iovm\_build"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
 			CharacterSet="0"
+			WholeProgramOptimization="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -29,7 +30,6 @@
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
-				CommandLine=""
 			/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"
@@ -43,15 +43,97 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				WholeProgramOptimization="false"
 				AdditionalIncludeDirectories="..\..\..\..\libs\garbagecollector\_build\headers\;..\..\..\..\libs\coroutine\_build\headers;..\..\..\..\libs\basekit\_build\headers\"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;BUILDING_IOVM_DLL;BUILDING_BASEKIT_DLL"
-				MinimalRebuild="true"
-				BasicRuntimeChecks="3"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;BUILDING_IOVM_DLL;BUILDING_IOVMALL_DLL"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
 				ObjectFile="$(OutDir)\objs\"
 				WarningLevel="3"
-				DebugInformationFormat="4"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="basekit.lib coroutine.lib garbagecollector.lib"
+				OutputFile="$(OutDir)\dll\iovm.dll"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories="..\..\..\..\libs\basekit\_build\lib;..\..\..\..\libs\coroutine\_build\lib;..\..\..\..\libs\garbagecollector\_build\lib;"
+				GenerateDebugInformation="true"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				LinkTimeCodeGeneration="0"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
+				ImportLibrary="$(OutDir)\lib\$(TargetName).lib"
+				TargetMachine="1"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="mkdir $(OutDir)\headers&#x0D;&#x0A;xcopy /Y /Q $(OutDir)\..\source\*.h $(OutDir)\headers\&#x0D;&#x0A;"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Dynamic Release|Win32"
+			OutputDirectory="..\..\..\..\libs\iovm\_build"
+			IntermediateDirectory="$(ConfigurationName)"
+			ConfigurationType="2"
+			CharacterSet="0"
+			WholeProgramOptimization="1"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+				Description="Generate IoVMInit.c from Io source files"
+				CommandLine="cd $(OutDir)\..\io&#x0D;&#x0A;cmd /c &quot;dir /B *.io&quot; | cscript //Nologo $(ProjectDir)\scripts\microsed.js &quot;\r\n&quot; &quot; &quot; | cscript //Nologo $(ProjectDir)\scripts\microxargs.js ..\tools\io2c.exe VMCode IoState_doString_ &gt;..\source\IOVMInit.c&#x0D;&#x0A;"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="..\..\..\..\libs\garbagecollector\_build\headers\;..\..\..\..\libs\coroutine\_build\headers;..\..\..\..\libs\basekit\_build\headers\"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;BUILDING_IOVM_DLL;BUILDING_IOVMALL_DLL"
+				RuntimeLibrary="2"
+				UsePrecompiledHeader="0"
+				ObjectFile="$(OutDir)\objs\"
+				WarningLevel="3"
+				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -65,12 +147,16 @@
 			<Tool
 				Name="VCLinkerTool"
 				OutputFile="$(OutDir)\dll\iovm.dll"
-				LinkIncremental="2"
+				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
-				GenerateDebugInformation="true"
+				GenerateDebugInformation="false"
 				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				ProfileGuidedDatabase=""
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
+				ImportLibrary="$(OutDir)\lib\$(TargetName).lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -97,10 +183,10 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release|Win32"
-			OutputDirectory="..\..\..\..\libs\$(ProjectName)\_build"
+			Name="Static Debug|Win32"
+			OutputDirectory="..\..\..\..\libs\iovm\_build"
 			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="0"
 			WholeProgramOptimization="1"
 			>
@@ -122,8 +208,10 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				Optimization="0"
+				WholeProgramOptimization="false"
 				AdditionalIncludeDirectories="..\..\..\..\libs\garbagecollector\_build\headers\;..\..\..\..\libs\coroutine\_build\headers;..\..\..\..\libs\basekit\_build\headers\"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;BUILDING_IOVM_DLL"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;BUILDING_IOVM_DLL;BUILDING_IOVMALL_DLL"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				ObjectFile="$(OutDir)\objs\"
@@ -140,23 +228,11 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				OutputFile="$(OutDir)\dll\$(ProjectName).dll"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories=""
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
-				TargetMachine="1"
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)\lib\$(ProjectName).lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -168,102 +244,21 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
 				CommandLine="mkdir $(OutDir)\headers&#x0D;&#x0A;xcopy /Y /Q $(OutDir)\..\source\*.h $(OutDir)\headers\&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
-			Name="iovmall_Release|Win32"
-			OutputDirectory="..\..\..\..\libs\$(ProjectName)\_build"
+			Name="Static Release|Win32"
+			OutputDirectory="..\..\..\..\libs\iovm\_build"
 			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="2"
+			ConfigurationType="4"
 			CharacterSet="0"
 			WholeProgramOptimization="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
-				CommandLine="cd $(OutDir)\..\io&#x0D;&#x0A;cmd /c &quot;dir /B *.io&quot; | cscript //Nologo $(ProjectDir)\scripts\microsed.js &quot;\r\n&quot; &quot; &quot; | cscript //Nologo $(ProjectDir)\scripts\microxargs.js ..\tools\io2c.exe VMCode IoState_doString_ &gt;..\source\IOVMInit.c&#x0D;&#x0A;"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\..\..\..\libs\garbagecollector\_build\headers\;..\..\..\..\libs\coroutine\_build\headers;..\..\..\..\libs\basekit\_build\headers\"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;BUILDING_IOVM_DLL;BUILDING_IOVMALL_DLL"
-				RuntimeLibrary="2"
-				UsePrecompiledHeader="0"
-				ObjectFile="$(OutDir)\objs\"
-				WarningLevel="3"
-				DebugInformationFormat="3"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				OutputFile="$(OutDir)\dll\libiovmall.dll"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories=""
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
-				TargetMachine="1"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-				CommandLine="mkdir $(OutDir)\headers&#x0D;&#x0A;xcopy /Y /Q $(OutDir)\..\source\*.h $(OutDir)\headers\&#x0D;&#x0A;"
-			/>
-		</Configuration>
-		<Configuration
-			Name="iovmall_Debug|Win32"
-			OutputDirectory="..\..\..\..\libs\$(ProjectName)\_build"
-			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="2"
-			CharacterSet="0"
-			WholeProgramOptimization="1"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
+				Description="Generate IoVMInit.c from Io source files"
 				CommandLine="cd $(OutDir)\..\io&#x0D;&#x0A;cmd /c &quot;dir /B *.io&quot; | cscript //Nologo $(ProjectDir)\scripts\microsed.js &quot;\r\n&quot; &quot; &quot; | cscript //Nologo $(ProjectDir)\scripts\microxargs.js ..\tools\io2c.exe VMCode IoState_doString_ &gt;..\source\IOVMInit.c&#x0D;&#x0A;"
 			/>
 			<Tool
@@ -282,7 +277,10 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\..\..\..\libs\garbagecollector\_build\headers\;..\..\..\..\libs\coroutine\_build\headers;..\..\..\..\libs\basekit\_build\headers\"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;BUILDING_IOVM_DLL;BUILDING_IOVMALL_DLL"
+				ExceptionHandling="0"
 				RuntimeLibrary="2"
+				DisableLanguageExtensions="false"
+				RuntimeTypeInfo="false"
 				UsePrecompiledHeader="0"
 				ObjectFile="$(OutDir)\objs\"
 				WarningLevel="3"
@@ -298,23 +296,11 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				OutputFile="$(OutDir)\dll\libiovmall.dll"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories=""
-				GenerateDebugInformation="true"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
-				TargetMachine="1"
+				Name="VCLibrarianTool"
+				OutputFile="$(OutDir)\lib\$(ProjectName).lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -324,9 +310,6 @@
 			/>
 			<Tool
 				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"

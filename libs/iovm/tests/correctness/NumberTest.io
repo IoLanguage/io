@@ -79,9 +79,15 @@ NumberTest := UnitTest clone do(
 		# Test the no-argument form (try all the IoNumber_Double_intoCString_() paths)
 		assertEquals("1", 1 asString)
 		assertEquals("2147483647", 2147483647 asString)
-		assertEquals("2.147484e+09", 2147483648 asString)
 		assertEquals("1.1000000000000001", 1.1 asString)
 		assertEquals("1.2", 1.2 asString)
+
+		# Windows formats exponents to 3 digits
+		isOnWindows := System platform beginsWithSeq("Windows")
+		if(isOnWindows,
+			mersenne8 := "2.147484e+009",
+			mersenne8 := "2.147484e+09")
+		assertEquals(mersenne8, 2147483648 asString)
 
 		# Test the one argument form
 		assertEquals("1.000000", 1 asString(0))

@@ -361,6 +361,7 @@ void UArray_escape(UArray *self)
 {
 	UArray *out = UArray_new();
 	out->itemType = self->itemType;
+	out->itemSize = self->itemSize;
 
 	UARRAY_FOREACH(self, i, v,
 		switch ((int)v)
