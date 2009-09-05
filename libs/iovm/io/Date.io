@@ -23,6 +23,8 @@ Date do(
 	Date asAtomDate := method(
 		asString("%Y-%m-%dT%H:%M:%S") .. gmtOffset asMutable atInsertSeq(3, ":")
 	)
+	
+	asJson := method(asString asJson)
 			
 	justSerialized := method(stream,
 		stream write("Date clone do(",
