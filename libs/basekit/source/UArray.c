@@ -255,8 +255,8 @@ UArray *UArray_clone(const UArray *self)
 void UArray_show(const UArray *self)
 {
 	printf("UArray_%p %s\t", (void *)self, CTYPE_name(self->itemType));
-	printf("size: %i ", self->size);
-	printf("itemSize: %i ", self->itemSize);
+	printf("size: %i ", (int)self->size);
+	printf("itemSize: %i ", (int)self->itemSize);
 	printf("data: ");
 	UArray_print(self);
 	printf("\n");
@@ -885,13 +885,13 @@ void UArray_at_putAll_(UArray *self, size_t pos, const UArray *other)
 				//(&newChunk)->data == 0x0 ||
 				(&insertChunk)->data == 0x0)
 			{
-				printf("oldChunk.data     %p size %i\n", (void *)(&oldChunk)->data, oldChunk.size);
-				printf("newChunk.data     %p size %i\n", (void *)(&newChunk)->data, newChunk.size);
-				printf("insertChunk.data  %p size %i\n", (void *)(&insertChunk)->data, insertChunk.size);
-				printf("originalSelfSize = %i\n", originalSelfSize);
-				printf("self->size  = %i\n", self->size);
-				printf("other->size = %i\n", other->size);
-				printf("pos = %i\n", pos);
+				printf("oldChunk.data     %p size %i\n", (void *)(&oldChunk)->data, (int)oldChunk.size);
+				printf("newChunk.data     %p size %i\n", (void *)(&newChunk)->data, (int)newChunk.size);
+				printf("insertChunk.data  %p size %i\n", (void *)(&insertChunk)->data, (int)insertChunk.size);
+				printf("originalSelfSize = %i\n", (int)originalSelfSize);
+				printf("self->size  = %i\n", (int)self->size);
+				printf("other->size = %i\n", (int)other->size);
+				printf("pos = %i\n", (int)pos);
 				//exit(-1);
 
 				oldChunk = UArray_stackRange(self, pos, chunkSize);

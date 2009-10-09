@@ -61,7 +61,7 @@ void CHash_show(CHash *self)
 	for(i = 0; i < self->size; i++)
 	{
 		CHashRecord *r = CRecords_recordAt_(self->records, i);
-		printf("  %p: %p %p\n", i, r->k, r->v);
+		printf("  %i: %p %p\n", (int)i, r->k, r->v);
 	}
 }
 

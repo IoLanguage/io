@@ -400,7 +400,8 @@ IO_METHOD(IoObject, platformVersion)
 
 	if (ret == 0)
 	{
-		snprintf(platformVersion, sizeof(platformVersion) - 1, os.release);
+		snprintf(platformVersion, 256, "%s.%s", os.version, os.release);
+		//sprintf(platformVersion, (size_t)sizeof(platformVersion) - 1, (const char *)os.release);
 	}
 #endif
 

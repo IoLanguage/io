@@ -150,11 +150,11 @@ UArray *UArray_asNumberArrayString(const UArray *self)
 
 		if(UArray_isFloatType(self))
 		{
-			sprintf(s, "%f", v);
+			sprintf(s, "%f", (double)v);
 		}
 		else
 		{
-			sprintf(s, "%i", v);
+			sprintf(s, "%i", (int)v);
 		}
 
 		if(i != UArray_size(self) -1 ) strcat(s, ", ");
@@ -242,7 +242,7 @@ UArray *UArray_asUCS2(const UArray *self)
 	
 	if ((numChars > 0) && (numChars > countedChars*2))
 	{
-		printf("UArray_asUCS2 error: numChars (%i) > countedChars (2*%i)\n", numChars, countedChars);
+		printf("UArray_asUCS2 error: numChars (%i) > countedChars (2*%i)\n", (int)numChars, (int)countedChars);
 		printf("Exiting because we may have overwritten the usc2 decode output buffer.");
 		exit(-1);
 	}
@@ -269,7 +269,7 @@ UArray *UArray_asUCS4(const UArray *self)
 
 	if ((numChars > 0) && (numChars > countedChars*2))
 	{
-		printf("UArray_asUCS4 error: numChars %i != countedChars %i\n", numChars, countedChars);
+		printf("UArray_asUCS4 error: numChars %i != countedChars %i\n", (int)numChars, (int)countedChars);
 		exit(-1);
 	}
 	

@@ -158,7 +158,7 @@ void List_print(const List *self)
 
 	for (i = 0; i < self->size; i ++)
 	{
-		printf("%i: %p\n", i, (void *)self->items[i]);
+		printf("%i: %p\n", (int)i, (void *)self->items[i]);
 	}
 
 	printf("\n");

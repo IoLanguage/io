@@ -1,4 +1,4 @@
-include ../../Makefile.lib
+include ./Makefile.lib
 CFLAGS += -DBUILDING_CORO_DLL $(IOVMALLFLAGS)
 
 # Manually control which coro implementation to use
