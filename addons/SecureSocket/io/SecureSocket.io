@@ -3,8 +3,8 @@ SecureSocket do(
 	
     bytesPerRead ::= 4096
     bytesPerWrite ::= 1024
-	readTimeout ::= 60
-	writeTimeout ::= 60
+    readTimeout ::= 60
+    writeTimeout ::= 60
     connectTimeout ::= 60
     acceptTimeout ::= 60
     error ::= nil
