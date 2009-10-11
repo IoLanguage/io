@@ -5,7 +5,8 @@
 #define CORO_DEFINED 1
 
 #include "Common.h"
-#include "PortableUContext.h"
+//#include "PortableUContext.h"
+#include "taskimpl.h"
 
 #if defined(__SYMBIAN32__)
 	#define CORO_STACK_SIZE     8192
@@ -41,12 +42,14 @@
 #if !defined(USE_FIBERS) && !defined(USE_UCONTEXT) && !defined(USE_SETJMP)
 
 #if defined(WIN32) && defined(HAS_FIBERS)
-#define USE_FIBERS
+#	define USE_FIBERS
 #elif defined(HAS_UCONTEXT)
 //#elif defined(HAS_UCONTEXT) && !defined(__x86_64__)
-#define USE_UCONTEXT
+#	if !defined(USE_UCONTEXT)
+#		define USE_UCONTEXT
+#	endif
 #else
-#define USE_SETJMP
+#	define USE_SETJMP
 #endif
 
 #endif

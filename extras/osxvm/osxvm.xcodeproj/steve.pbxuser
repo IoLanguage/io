@@ -25,6 +25,8 @@
 			AAFC0BBE0FC1BEC2009439BF /* IoObject.c:618 */,
 			AAFC0BC20FC1BEFB009439BF /* Collector.c:321 */,
 			AAFC0C2D0FC34F5C009439BF /* IoState_debug.c:115 */,
+			AAAF38D31080201B0034804C /* Coro.c:250 */,
+			AAAF38E9108021590034804C /* Coro.c:326 */,
 		);
 		codeSenseManager = AA1BF43D0C3095A2005ED047 /* Code sense */;
 		executables = (
@@ -101,11 +103,12 @@
 					PBXFileDataSource_Target_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 270179257;
-			PBXWorkspaceStateSaveDate = 270179257;
+			PBXPerProjectTemplateStateSaveDate = 276783449;
+			PBXWorkspaceStateSaveDate = 276783449;
 		};
 		perUserProjectItems = {
-			AA083B99101A98EE0064A624 /* PBXBookmark */ = AA083B99101A98EE0064A624 /* PBXBookmark */;
+			AAAF38F0108021730034804C /* PBXTextBookmark */ = AAAF38F0108021730034804C /* PBXTextBookmark */;
+			AAAF392710808B1B0034804C /* PBXTextBookmark */ = AAAF392710808B1B0034804C /* PBXTextBookmark */;
 		};
 		sourceControlManager = AA1BF43C0C3095A2005ED047 /* Source Control */;
 		userBookmarkGroup = AAD2E1F90E1B842B00BFA950 /* PBXBookmarkGroup */;
@@ -117,10 +120,6 @@
 		executables = (
 			AA1BF4360C30959F005ED047 /* osxvm */,
 		);
-	};
-	AA083B99101A98EE0064A624 /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = AAE69EC00B110795006E309B /* IoFile.c */;
 	};
 	AA1BF4360C30959F005ED047 /* osxvm */ = {
 		isa = PBXExecutable;
@@ -141,6 +140,9 @@
 		configStateDict = {
 		};
 		customDataFormattersEnabled = 1;
+		dataTipCustomDataFormattersEnabled = 1;
+		dataTipShowTypeColumn = 1;
+		dataTipSortType = 0;
 		debuggerPlugin = GDBDebugging;
 		disassemblyDisplayState = 0;
 		dylibVariantSuffix = "";
@@ -153,6 +155,7 @@
 		name = osxvm;
 		savedGlobals = {
 		};
+		showTypeColumn = 0;
 		sourceDirectories = (
 		);
 		variableFormatDictionary = {
@@ -163,6 +166,9 @@
 		fallbackIsa = XCSourceControlManager;
 		isSCMEnabled = 0;
 		scmConfiguration = {
+			repositoryNamesForRoots = {
+				"" = "";
+			};
 		};
 		scmType = "";
 	};
@@ -362,7 +368,8 @@
 		ignoreCount = 0;
 		lineNumber = 123;
 		location = osxvm;
-		modificationTime = 269376148.022809;
+		modificationTime = 276833666.321156;
+		originalNumberOfMultipleMatches = 0;
 		state = 2;
 	};
 	AAADB5260FA9786600D4F384 /* CHash.c:124 */ = {
@@ -379,7 +386,8 @@
 		ignoreCount = 0;
 		lineNumber = 124;
 		location = osxvm;
-		modificationTime = 269376148.02282;
+		modificationTime = 276833666.324013;
+		originalNumberOfMultipleMatches = 0;
 		state = 2;
 	};
 	AAADB5290FA978D800D4F384 /* CHash.c:144 */ = {
@@ -396,7 +404,8 @@
 		ignoreCount = 0;
 		lineNumber = 144;
 		location = osxvm;
-		modificationTime = 269376148.022828;
+		modificationTime = 276833666.325137;
+		originalNumberOfMultipleMatches = 0;
 		state = 2;
 	};
 	AAADB76E0FAD0A6100D4F384 /* PHash.c */ = {
@@ -461,7 +470,8 @@
 		ignoreCount = 0;
 		lineNumber = 171;
 		location = osxvm;
-		modificationTime = 269376148.022835;
+		modificationTime = 276833666.326233;
+		originalNumberOfMultipleMatches = 0;
 		state = 2;
 	};
 	AAADB8FF0FB3CE3500D4F384 /* CHash.c:154 */ = {
@@ -478,7 +488,8 @@
 		ignoreCount = 0;
 		lineNumber = 154;
 		location = osxvm;
-		modificationTime = 269376148.022842;
+		modificationTime = 276833666.327321;
+		originalNumberOfMultipleMatches = 0;
 		state = 2;
 	};
 	AAADB9030FB3CE9900D4F384 /* CHash.c:156 */ = {
@@ -495,7 +506,8 @@
 		ignoreCount = 0;
 		lineNumber = 156;
 		location = osxvm;
-		modificationTime = 269376148.022849;
+		modificationTime = 276833666.328515;
+		originalNumberOfMultipleMatches = 0;
 		state = 2;
 	};
 	AAADB93F0FB3D71B00D4F384 /* CHash.c:98 */ = {
@@ -512,7 +524,8 @@
 		ignoreCount = 0;
 		lineNumber = 98;
 		location = osxvm;
-		modificationTime = 269376148.0228561;
+		modificationTime = 276833666.329531;
+		originalNumberOfMultipleMatches = 0;
 		state = 2;
 	};
 	AAADB9420FB3D73F00D4F384 /* CHash.c:112 */ = {
@@ -529,7 +542,8 @@
 		ignoreCount = 0;
 		lineNumber = 112;
 		location = osxvm;
-		modificationTime = 269376148.022862;
+		modificationTime = 276833666.330585;
+		originalNumberOfMultipleMatches = 0;
 		state = 2;
 	};
 	AAADB9450FB3D78800D4F384 /* CHash.c:142 */ = {
@@ -546,7 +560,8 @@
 		ignoreCount = 0;
 		lineNumber = 142;
 		location = osxvm;
-		modificationTime = 269376148.02287;
+		modificationTime = 276833666.331691;
+		originalNumberOfMultipleMatches = 0;
 		state = 2;
 	};
 	AAADB9470FB3D7E600D4F384 /* CHash.c:172 */ = {
@@ -563,8 +578,65 @@
 		ignoreCount = 0;
 		lineNumber = 172;
 		location = osxvm;
-		modificationTime = 269376148.0228761;
+		modificationTime = 276833666.332784;
+		originalNumberOfMultipleMatches = 0;
 		state = 2;
+	};
+	AAAF38D31080201B0034804C /* Coro.c:250 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = AAE69DF90B110795006E309B /* Coro.c */;
+		functionName = "Coro_Start()";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 250;
+		location = osxvm;
+		modificationTime = 276833666.344657;
+		originalNumberOfMultipleMatches = 1;
+		state = 2;
+	};
+	AAAF38E9108021590034804C /* Coro.c:326 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = AAE69DF90B110795006E309B /* Coro.c */;
+		functionName = "Coro_setup()";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 326;
+		location = osxvm;
+		modificationTime = 276833666.353291;
+		originalNumberOfMultipleMatches = 1;
+		state = 2;
+	};
+	AAAF38F0108021730034804C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AAE69DF90B110795006E309B /* Coro.c */;
+		name = "Coro.c: 316";
+		rLen = 0;
+		rLoc = 7639;
+		rType = 0;
+		vrLen = 949;
+		vrLoc = 7068;
+	};
+	AAAF392710808B1B0034804C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = AAE69DF90B110795006E309B /* Coro.c */;
+		name = "Coro.c: 743";
+		rLen = 0;
+		rLoc = 17664;
+		rType = 0;
+		vrLen = 1058;
+		vrLoc = 7382;
 	};
 	AABF81240B759BC8002DBAB5 /* UArray_character.h */ = {
 		uiCtxt = {
@@ -911,18 +983,18 @@
 	};
 	AAE69DF90B110795006E309B /* Coro.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1027, 12080}}";
-			sepNavSelRange = "{349, 0}";
-			sepNavVisRange = "{0, 1380}";
-			sepNavWindowFrame = "{{146, 29}, {1076, 774}}";
+			sepNavIntBoundsRect = "{{0, 0}, {801, 12034}}";
+			sepNavSelRange = "{17664, 0}";
+			sepNavVisRange = "{4128, 648}";
+			sepNavWindowFrame = "{{509, 162}, {605, 673}}";
 		};
 	};
 	AAE69DFA0B110795006E309B /* Coro.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {998, 1848}}";
-			sepNavSelRange = "{297, 0}";
-			sepNavVisRange = "{0, 569}";
-			sepNavWindowFrame = "{{15, -5}, {991, 878}}";
+			sepNavIntBoundsRect = "{{0, 0}, {801, 1946}}";
+			sepNavSelRange = "{1174, 0}";
+			sepNavVisRange = "{786, 734}";
+			sepNavWindowFrame = "{{234, 0}, {991, 878}}";
 		};
 	};
 	AAE69DFB0B110795006E309B /* PortableUContext.c */ = {
@@ -1602,9 +1674,9 @@
 	};
 	AAE69F050B110796006E309B /* IoVMInit.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1212, 53376}}";
-			sepNavSelRange = "{103647, 54}";
-			sepNavVisRange = "{103272, 584}";
+			sepNavIntBoundsRect = "{{0, 0}, {858, 61312}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 147}";
 		};
 	};
 	AAE69F060B110796006E309B /* IoWeakLink.c */ = {
@@ -1643,7 +1715,8 @@
 		ignoreCount = 0;
 		lineNumber = 77;
 		location = osxvm;
-		modificationTime = 269376148.022899;
+		modificationTime = 276833666.333865;
+		originalNumberOfMultipleMatches = 0;
 		state = 2;
 	};
 	AAFC0B700FC1B6C1009439BF /* Collector.c:404 */ = {
@@ -1660,7 +1733,8 @@
 		ignoreCount = 0;
 		lineNumber = 404;
 		location = osxvm;
-		modificationTime = 269376148.022906;
+		modificationTime = 276833666.334923;
+		originalNumberOfMultipleMatches = 0;
 		state = 2;
 	};
 	AAFC0B720FC1B6C3009439BF /* Collector.c:408 */ = {
@@ -1677,7 +1751,8 @@
 		ignoreCount = 0;
 		lineNumber = 408;
 		location = osxvm;
-		modificationTime = 269376148.022919;
+		modificationTime = 276833666.336998;
+		originalNumberOfMultipleMatches = 0;
 		state = 2;
 	};
 	AAFC0BAB0FC1BCCD009439BF /* IoObject.c:629 */ = {
@@ -1694,7 +1769,8 @@
 		ignoreCount = 0;
 		lineNumber = 629;
 		location = osxvm;
-		modificationTime = 269376148.022927;
+		modificationTime = 276833666.340006;
+		originalNumberOfMultipleMatches = 0;
 		state = 2;
 	};
 	AAFC0BBE0FC1BEC2009439BF /* IoObject.c:618 */ = {
@@ -1711,7 +1787,8 @@
 		ignoreCount = 0;
 		lineNumber = 618;
 		location = osxvm;
-		modificationTime = 269376148.022933;
+		modificationTime = 276833666.341125;
+		originalNumberOfMultipleMatches = 0;
 		state = 2;
 	};
 	AAFC0BC20FC1BEFB009439BF /* Collector.c:321 */ = {
@@ -1728,7 +1805,8 @@
 		ignoreCount = 0;
 		lineNumber = 321;
 		location = osxvm;
-		modificationTime = 269376148.022941;
+		modificationTime = 276833666.342307;
+		originalNumberOfMultipleMatches = 0;
 		state = 2;
 	};
 	AAFC0C2D0FC34F5C009439BF /* IoState_debug.c:115 */ = {
@@ -1744,8 +1822,8 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 115;
-		location = osxvm;
-		modificationTime = 269376148.022947;
+		modificationTime = 276833666.775078;
+		originalNumberOfMultipleMatches = 1;
 		state = 1;
 	};
 }

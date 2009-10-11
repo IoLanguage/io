@@ -60,7 +60,7 @@ void PointerHash_show(PointerHash *self)
 	for(i = 0; i < self->size; i++)
 	{
 		PointerHashRecord *r = PointerHashRecords_recordAt_(self->records, i);
-		printf("  %p: %p %p\n", i, r->k, r->v);
+		printf("  %i: %p %p\n", (int)i, r->k, r->v);
 	}
 }
 

@@ -13,6 +13,7 @@
 	Fibers support by Jonas Eschenburg
 	Ucontext arg support by Olivier Ansaldi
 	Ucontext x86-64 support by James Burgess and Jonathan Wright
+	Russ Cox for the newer portable ucontext implementions.
 
  Notes
 
@@ -38,7 +39,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stddef.h>
-#include "PortableUContext.h"
+#include "taskimpl.h"
 
 #ifdef USE_VALGRIND
 #include <valgrind/valgrind.h>
