@@ -12,16 +12,6 @@ TwitterAccount := Object clone do(
 		TwitterRequest clone setUsername(screenName) setPassword(password)
 	)
 	
-	doRequest := method(
-		requestName := call message arguments first name
-		request := requestNamed(requestName)
-		
-		call sender setSlot(requestName, request)
-		call evalArgAt(1)
-		results := request results
-		if(error := results at("error"), Error with(error), results)
-	)
-	
 	hasFriend := method(screenName,
 		//Could not find target user.
 		request asShowFriendship setTargetScreenName(screenName) resultsOrError\

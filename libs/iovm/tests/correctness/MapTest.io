@@ -131,4 +131,28 @@ MapTest := UnitTest clone do(
 
 		assertEquals(0, m size)
 	)
+	
+	testMergeInPlace := method(
+		m := Map clone atPut("a", 0) atPut("b", 1)
+		m mergeInPlace(Map clone atPut("a", -1) atPut("c", 2))
+		
+		assertEquals(3, m size)
+		assertEquals(-1, m at("a"))
+		assertEquals(1, m at("b"))
+		assertEquals(2, m at("c"))
+	)
+	
+	testMerge := method(
+		m := Map clone atPut("a", 0) atPut("b", 1)
+		m2 := m merge(Map clone atPut("a", -1) atPut("c", 2))
+		
+		assertEquals(3, m2 size)
+		assertEquals(-1, m2 at("a"))
+		assertEquals(1, m2 at("b"))
+		assertEquals(2, m2 at("c"))
+		
+		assertEquals(2, m size)
+		assertEquals(0, m at("a"))
+		assertFalse(m hasKey("c"))
+	)
 )

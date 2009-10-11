@@ -83,6 +83,20 @@ Map do(
 			)
 		)
 	)
+	
+	/*doc Map merge(anotherMap)
+		Returns a new map created by merging the pairs from anotherMap into this map
+	*/
+	merge := method(anotherMap,
+		self clone mergeInPlace(anotherMap)
+	)
+	
+	/*doc Map mergeInPlace(anotherMap)
+		Merges the pairs from anotherMap into this map
+	*/
+	mergeInPlace := method(anotherMap,
+		addKeysAndValues(anotherMap keys, anotherMap values)
+	)
 
 	//doc Map reverseMap Create a new Map using values as keys and keys as values
 	reverseMap := method(
