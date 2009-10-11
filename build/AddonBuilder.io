@@ -3,6 +3,7 @@ Sequence prepend := method(s, s .. self)
 AddonBuilder := Object clone do(
 	isDisabled := false
 	disable := method(isDisabled = true)
+	errors := ErrorReport clone
 
 	platform := System platform split at(0) asLowercase
 	cflags := method(System getEnvironmentVariable("CFLAGS") ifNilEval(""))
@@ -135,6 +136,7 @@ AddonBuilder := Object clone do(
 	optionallyDependsOnFramework := method(v, a := pathForFramework(v) != nil; if(a, dependsOnFramework(v)); a)
 
 	missingFrameworks := method(errors,
+		writeln("errors: ", errors type)
 		depends frameworks select(p,
 			if(pathForFramework(p) == nil,
 				errors addError(self name .. " is missing " .. p .. " framework\n")
@@ -169,7 +171,8 @@ AddonBuilder := Object clone do(
 
 	installCommands := method(
 		commands := Map clone
-		missingLibs foreach(p,
+		errors := ErrorReport clone
+		missingLibs(errors) foreach(p,
 			if(debs at(p), commands atPut("aptget", "apt-get install " .. debs at(p) .. " && ldconfig"))
 			if(ebuilds at(p), commands atPut("emerge", "emerge -DN1 " .. ebuilds at(p)))
 			if(pkgs at(p), commands atPut("port", "port install " .. pkgs at(p)))
