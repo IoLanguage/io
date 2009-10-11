@@ -8,7 +8,7 @@ URL := Notifier clone do(
 	cacheFile := method(MD5; File with(Path with(cacheFolder path, url md5String)))
 	cacheOn ::= false
 	cacheTimeout := 24*60*60
-	followRedirects := true
+	followRedirects ::= true
 	maxRedirects ::= 1
 	
 	cacheStore := method(data,
@@ -245,10 +245,14 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		header appendSeq("GET ", request," HTTP/1.1\r\n")
 		header appendSeq("Host: ", host, if(port != 80, ":" .. port, ""), "\r\n")
 		if(referer, header appendSeq("Referer: ", referer, "\r\n"))
+		if(usesBasicAuthentication,
+			header appendSeq("Authorization: Basic ", list(username, password) join(":") asBase64 exSlice(0, -1), "\r\n")
+		)
 
 		requestHeaders foreach(k, v,
 			header appendSeq(k, ":", v, "\r\n")
 		)
+		
 		//header appendSeq("User-Agent: Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/312.8 (KHTML, like Gecko) Safari/312.6\r\n")
 		//header appendSeq("User-Agent: curl/7.18.0 (i386-apple-darwin9.2.0) libcurl/7.18.0 zlib/1.2.3\r\n")
 		//header appendSeq("Host: ", host, ":", port, "\r\n")
@@ -278,7 +282,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		if(host == nil, return(Error with("No host set")))
 		socket returnIfError setHost(host) returnIfError setPort(port) connect returnIfError
 		socket appendToWriteBuffer(if(header, header, requestHeader)) write returnIfError
-	//	writeln("write [", requestHeader, "]")
+		//writeln("write [", requestHeader, "]")
 	)
 
 	//doc URL fetchRaw Fetch and return the entire response. Note: This may have problems for some request times.
@@ -474,7 +478,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 
 		headers ifNil(headers := Map clone)
 		if(usesBasicAuthentication,
-			headers atPut("Authorization", "Basic " .. list(username, password) join(":") asBase64)
+			headers atPut("Authorization", "Basic " .. list(username, password) join(":") asBase64 exSlice(0, -1))
 		)
 		headers atIfAbsentPut("User-Agent", "Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/312.8 (KHTML, like Gecko) Safari/312.6")
 		hostHeader := if(port != 80, list(host, port) join(":"), host)
@@ -496,8 +500,8 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		)
 
 		header appendSeq("Content-Length: ", content size, "\r\n\r\n", content)
-
 		connectAndWriteHeader(header) returnIfError
+		//writeln(header)
 		processHttpResponse
 	)
 	
@@ -548,6 +552,14 @@ Object doURL := method(url, self doString(URL clone setURL(url) fetch))
 
 //doc Sequence asURL Returns a new URL object instance with the receiver as it's url string.
 Sequence asURL := method(URL with(self))
+
+//doc Map asQueryString Returns an escaped query string representation of this map
+Map asQueryString := method(
+	keys map(k,
+		Sequence with(URL escapeString(k), "=", URL escapeString(at(k)))
+	) join("&")
+)
+
 
 //URL fetch := URL getSlot("evFetch")
 //URL post := URL getSlot("evPost")
