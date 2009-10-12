@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA33049310829DA8007AD6CA /* asm.S in Sources */ = {isa = PBXBuildFile; fileRef = AA33048F10829DA8007AD6CA /* asm.S */; };
+		AA33049410829DA8007AD6CA /* context.c in Sources */ = {isa = PBXBuildFile; fileRef = AA33049010829DA8007AD6CA /* context.c */; };
 		AA330B1C0FB8EF5400CF9355 /* Hash_fnv.c in Sources */ = {isa = PBXBuildFile; fileRef = AA330B170FB8EF5400CF9355 /* Hash_fnv.c */; };
 		AA330B1D0FB8EF5400CF9355 /* Hash_superfast.c in Sources */ = {isa = PBXBuildFile; fileRef = AA330B190FB8EF5400CF9355 /* Hash_superfast.c */; };
 		AA6AA4EF0DC0327E00C7667D /* ucs2.c in Sources */ = {isa = PBXBuildFile; fileRef = AA6AA4E80DC0327E00C7667D /* ucs2.c */; };
@@ -44,7 +46,6 @@
 		AABF83150B76D00A002DBAB5 /* UArray_stream.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AABF83130B76D00A002DBAB5 /* UArray_stream.h */; };
 		AACD1FF60F12F6370072A032 /* cdecode.c in Sources */ = {isa = PBXBuildFile; fileRef = AACD1FF20F12F6370072A032 /* cdecode.c */; };
 		AACD1FF70F12F6370072A032 /* cencode.c in Sources */ = {isa = PBXBuildFile; fileRef = AACD1FF40F12F6370072A032 /* cencode.c */; };
-		AAD893220B783B17001C28DD /* libMallocDebug.A.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AAD893210B783B17001C28DD /* libMallocDebug.A.dylib */; };
 		AAE58CE50DC9303D00183939 /* PortableSorting.c in Sources */ = {isa = PBXBuildFile; fileRef = AAE58CE30DC9303D00183939 /* PortableSorting.c */; };
 		AAE58CEF0DC9347B00183939 /* IoError.c in Sources */ = {isa = PBXBuildFile; fileRef = AAE58CED0DC9347B00183939 /* IoError.c */; };
 		AAE69F990B110796006E309B /* Base.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAE69DAC0B110795006E309B /* Base.h */; };
@@ -85,11 +86,6 @@
 		AAE69FC90B110796006E309B /* Stack_inline.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAE69DDC0B110795006E309B /* Stack_inline.h */; };
 		AAE69FDD0B110796006E309B /* Coro.c in Sources */ = {isa = PBXBuildFile; fileRef = AAE69DF90B110795006E309B /* Coro.c */; };
 		AAE69FDE0B110796006E309B /* Coro.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAE69DFA0B110795006E309B /* Coro.h */; };
-		AAE69FDF0B110796006E309B /* PortableUContext.c in Sources */ = {isa = PBXBuildFile; fileRef = AAE69DFB0B110795006E309B /* PortableUContext.c */; };
-		AAE69FE00B110796006E309B /* PortableUContext.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAE69DFC0B110795006E309B /* PortableUContext.h */; };
-		AAE69FE10B110796006E309B /* PortableUContext386.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAE69DFD0B110795006E309B /* PortableUContext386.h */; };
-		AAE69FE20B110796006E309B /* PortableUContext_asm.S in Sources */ = {isa = PBXBuildFile; fileRef = AAE69DFE0B110795006E309B /* PortableUContext_asm.S */; };
-		AAE69FE30B110796006E309B /* PortableUContextPPC.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAE69DFF0B110795006E309B /* PortableUContextPPC.h */; };
 		AAE69FEF0B110796006E309B /* Collector.c in Sources */ = {isa = PBXBuildFile; fileRef = AAE69E130B110795006E309B /* Collector.c */; };
 		AAE69FF00B110796006E309B /* Collector.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAE69E140B110795006E309B /* Collector.h */; };
 		AAE69FF10B110796006E309B /* Collector_inline.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAE69E150B110795006E309B /* Collector_inline.h */; };
@@ -210,9 +206,6 @@
 				AAE69FC80B110796006E309B /* Stack.h in CopyFiles */,
 				AAE69FC90B110796006E309B /* Stack_inline.h in CopyFiles */,
 				AAE69FDE0B110796006E309B /* Coro.h in CopyFiles */,
-				AAE69FE00B110796006E309B /* PortableUContext.h in CopyFiles */,
-				AAE69FE10B110796006E309B /* PortableUContext386.h in CopyFiles */,
-				AAE69FE30B110796006E309B /* PortableUContextPPC.h in CopyFiles */,
 				AAE69FF00B110796006E309B /* Collector.h in CopyFiles */,
 				AAE69FF10B110796006E309B /* Collector_inline.h in CopyFiles */,
 				AAE69FF30B110796006E309B /* CollectorMarker.h in CopyFiles */,
@@ -285,6 +278,12 @@
 
 /* Begin PBXFileReference section */
 		8DD76FB20486AB0100D96B5E /* osxvm */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = osxvm; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA33048D10829DA8007AD6CA /* 386-ucontext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "386-ucontext.h"; sourceTree = "<group>"; };
+		AA33048E10829DA8007AD6CA /* amd64-ucontext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "amd64-ucontext.h"; sourceTree = "<group>"; };
+		AA33048F10829DA8007AD6CA /* asm.S */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = asm.S; sourceTree = "<group>"; };
+		AA33049010829DA8007AD6CA /* context.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = context.c; sourceTree = "<group>"; };
+		AA33049110829DA8007AD6CA /* power-ucontext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "power-ucontext.h"; sourceTree = "<group>"; };
+		AA33049210829DA8007AD6CA /* taskimpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = taskimpl.h; sourceTree = "<group>"; };
 		AA330B170FB8EF5400CF9355 /* Hash_fnv.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Hash_fnv.c; sourceTree = "<group>"; };
 		AA330B180FB8EF5400CF9355 /* Hash_fnv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hash_fnv.h; sourceTree = "<group>"; };
 		AA330B190FB8EF5400CF9355 /* Hash_superfast.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = Hash_superfast.c; path = ../../libs/basekit/source/Hash_superfast.c; sourceTree = SOURCE_ROOT; };
@@ -338,7 +337,6 @@
 		AACD1FF30F12F6370072A032 /* cdecode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cdecode.h; path = ../../libs/basekit/source/cdecode.h; sourceTree = SOURCE_ROOT; };
 		AACD1FF40F12F6370072A032 /* cencode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = cencode.c; path = ../../libs/basekit/source/cencode.c; sourceTree = SOURCE_ROOT; };
 		AACD1FF50F12F6370072A032 /* cencode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cencode.h; path = ../../libs/basekit/source/cencode.h; sourceTree = SOURCE_ROOT; };
-		AAD893210B783B17001C28DD /* libMallocDebug.A.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libMallocDebug.A.dylib; path = /usr/lib/libMallocDebug.A.dylib; sourceTree = "<absolute>"; };
 		AAE58CE30DC9303D00183939 /* PortableSorting.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PortableSorting.c; sourceTree = "<group>"; };
 		AAE58CE40DC9303D00183939 /* PortableSorting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PortableSorting.h; sourceTree = "<group>"; };
 		AAE58CED0DC9347B00183939 /* IoError.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = IoError.c; path = ../../libs/iovm/source/IoError.c; sourceTree = SOURCE_ROOT; };
@@ -381,11 +379,6 @@
 		AAE69DDC0B110795006E309B /* Stack_inline.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Stack_inline.h; path = ../../libs/basekit/source/Stack_inline.h; sourceTree = SOURCE_ROOT; };
 		AAE69DF90B110795006E309B /* Coro.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = Coro.c; path = ../../libs/coroutine/source/Coro.c; sourceTree = SOURCE_ROOT; };
 		AAE69DFA0B110795006E309B /* Coro.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Coro.h; path = ../../libs/coroutine/source/Coro.h; sourceTree = SOURCE_ROOT; };
-		AAE69DFB0B110795006E309B /* PortableUContext.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = PortableUContext.c; path = ../../libs/coroutine/source/PortableUContext.c; sourceTree = SOURCE_ROOT; };
-		AAE69DFC0B110795006E309B /* PortableUContext.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PortableUContext.h; path = ../../libs/coroutine/source/PortableUContext.h; sourceTree = SOURCE_ROOT; };
-		AAE69DFD0B110795006E309B /* PortableUContext386.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PortableUContext386.h; path = ../../libs/coroutine/source/PortableUContext386.h; sourceTree = SOURCE_ROOT; };
-		AAE69DFE0B110795006E309B /* PortableUContext_asm.S */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.asm; name = PortableUContext_asm.S; path = ../../libs/coroutine/source/PortableUContext_asm.S; sourceTree = SOURCE_ROOT; };
-		AAE69DFF0B110795006E309B /* PortableUContextPPC.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PortableUContextPPC.h; path = ../../libs/coroutine/source/PortableUContextPPC.h; sourceTree = SOURCE_ROOT; };
 		AAE69E130B110795006E309B /* Collector.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = Collector.c; path = ../../libs/garbagecollector/source/Collector.c; sourceTree = SOURCE_ROOT; };
 		AAE69E140B110795006E309B /* Collector.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Collector.h; path = ../../libs/garbagecollector/source/Collector.h; sourceTree = SOURCE_ROOT; };
 		AAE69E150B110795006E309B /* Collector_inline.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Collector_inline.h; path = ../../libs/garbagecollector/source/Collector_inline.h; sourceTree = SOURCE_ROOT; };
@@ -483,7 +476,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AAD893220B783B17001C28DD /* libMallocDebug.A.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -493,7 +485,6 @@
 		08FB7794FE84155DC02AAC07 /* osxvm */ = {
 			isa = PBXGroup;
 			children = (
-				AAD893210B783B17001C28DD /* libMallocDebug.A.dylib */,
 				AAE6A14F0B110B8F006E309B /* main.c */,
 				08FB7795FE84155DC02AAC07 /* Source */,
 				1AB674ADFE9D54B511CA2CBB /* Products */,
@@ -658,13 +649,14 @@
 		AAE69DF80B110795006E309B /* source */ = {
 			isa = PBXGroup;
 			children = (
+				AA33048D10829DA8007AD6CA /* 386-ucontext.h */,
+				AA33048E10829DA8007AD6CA /* amd64-ucontext.h */,
+				AA33048F10829DA8007AD6CA /* asm.S */,
+				AA33049010829DA8007AD6CA /* context.c */,
+				AA33049110829DA8007AD6CA /* power-ucontext.h */,
+				AA33049210829DA8007AD6CA /* taskimpl.h */,
 				AAE69DF90B110795006E309B /* Coro.c */,
 				AAE69DFA0B110795006E309B /* Coro.h */,
-				AAE69DFB0B110795006E309B /* PortableUContext.c */,
-				AAE69DFC0B110795006E309B /* PortableUContext.h */,
-				AAE69DFD0B110795006E309B /* PortableUContext386.h */,
-				AAE69DFE0B110795006E309B /* PortableUContext_asm.S */,
-				AAE69DFF0B110795006E309B /* PortableUContextPPC.h */,
 			);
 			name = source;
 			path = ../../libs/coroutine/source;
@@ -864,8 +856,6 @@
 				AAE69FC30B110796006E309B /* RandomGen.c in Sources */,
 				AAE69FC70B110796006E309B /* Stack.c in Sources */,
 				AAE69FDD0B110796006E309B /* Coro.c in Sources */,
-				AAE69FDF0B110796006E309B /* PortableUContext.c in Sources */,
-				AAE69FE20B110796006E309B /* PortableUContext_asm.S in Sources */,
 				AAE69FEF0B110796006E309B /* Collector.c in Sources */,
 				AAE69FF20B110796006E309B /* CollectorMarker.c in Sources */,
 				AAE6A07A0B110796006E309B /* IoBlock.c in Sources */,
@@ -930,6 +920,8 @@
 				AA330B1C0FB8EF5400CF9355 /* Hash_fnv.c in Sources */,
 				AA330B1D0FB8EF5400CF9355 /* Hash_superfast.c in Sources */,
 				AA9DD3360FC8C193006B05DD /* Hash_murmur.c in Sources */,
+				AA33049310829DA8007AD6CA /* asm.S in Sources */,
+				AA33049410829DA8007AD6CA /* context.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -939,6 +931,8 @@
 		AA984A66090478C9002242A2 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1 = x86_64;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -973,7 +967,7 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_8 = "\"$(SRCROOT)/../../libs/iovm/_build/dll\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_9 = "\"$(SRCROOT)/../../libs/iovm/_build/lib\"";
 				PRODUCT_NAME = osxvm;
-				VALID_ARCHS = "i386 x86_64";
+				VALID_ARCHS = x86_64;
 				ZERO_LINK = YES;
 			};
 			name = Development;

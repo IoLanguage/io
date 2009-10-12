@@ -45,6 +45,7 @@ BASEKIT_API void CHash_setHash2Func_(CHash *self, CHashHashFunc *f);
 BASEKIT_API void CHash_setEqualFunc_(CHash *self, CHashEqualFunc *f);
 
 BASEKIT_API void CHash_removeKey_(CHash *self, void *k);
+BASEKIT_API void CHash_clear(CHash *self);
 BASEKIT_API size_t CHash_size(CHash *self); // actually the keyCount
 
 BASEKIT_API size_t CHash_memorySize(CHash *self);

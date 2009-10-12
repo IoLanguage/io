@@ -10,6 +10,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <stddef.h>
+#include <ctype.h>
 
 void UArray_append_(UArray *self, const UArray *other)
 {

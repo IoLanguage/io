@@ -126,7 +126,13 @@ int UArray_isMultibyte(const UArray *self)
 {
 	if (self->encoding == CENCODING_UTF8)
 	{
-		UARRAY_INTFOREACH(self, i, v, if (ismbchar((int)v)) return 1; );
+		size_t i, max = UArray_sizeInBytes(self); 
+		const uint8_t *bytes = UArray_bytes(self);
+		for (i = 0; i < max; i ++)
+		{
+			if (UArray_SizeOfUTF8Char(bytes + i) > 1) return 1; 
+		}
+		//UARRAY_INTFOREACH(self, i, v, if (ismbchar((int)v)) return 1; );
 	}
 
 	return 0;
@@ -172,11 +178,11 @@ UArray *UArray_asUTF8(const UArray *self)
 	UArray_setSize_(out, self->size * 4);
 
 	{
-		ConversionFlags options = lenientConversion;
+		//ConversionFlags options = lenientConversion;
 		void *sourceStart = self->data;
-		void *sourceEnd   = self->data + self->size * self->itemSize;
+		//void *sourceEnd   = self->data + self->size * self->itemSize;
 		UTF8 *targetStart = out->data;
-		UTF8 *targetEnd   = out->data + out->size * out->itemSize;
+		//UTF8 *targetEnd   = out->data + out->size * out->itemSize;
 		size_t outSize;
 
 		switch(self->encoding)
