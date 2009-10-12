@@ -243,7 +243,7 @@ IoObject *IoYajl_parse(IoYajl *self, IoObject *locals, IoMessage *m)
 		stat != yajl_status_insufficient_data)  
 	{  
 		unsigned char * str = yajl_get_error(hand, 1, data, dataSize);  
-		fprintf(stderr, (const char *) str);  
+		fputs((const char *) str, stderr);  
 		yajl_free_error(hand, str);  
 	} 
 
