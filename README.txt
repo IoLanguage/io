@@ -12,18 +12,17 @@ Io is two parts - the vm and the addons/packages. Don't worry if all the addons 
 
 OSX
 ---
-
 cd to Io folder
-make vm; sudo make port; make make; sudo make install
+make vm; sudo make install; sudo make port; sudo make install
 
 Debian or Ubuntu
 ----------------
 cd to Io folder
-make vm; su -c "sudo make aptget"; make make; sudo make install
+make vm; sudo make install; su -c "sudo make aptget"; make; sudo make install
 
 Gentoo
 ------
-make vm; su -c "sudo make emerge"; make make; sudo make install
+make vm; sudo make install; su -c "sudo make emerge"; make; sudo make install
 
 
 
