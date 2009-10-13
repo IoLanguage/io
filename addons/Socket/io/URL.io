@@ -310,7 +310,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 	fetchHttp := method(progressBlock,
 		if(cacheOn, r := cacheLoad; if(r, write("+"); return r))
 		connectAndWriteHeader returnIfError
-		r := processHttpResponse(progressBlock)
+		r := processHttpResponse(progressBlock) returnIfError
 		if(r isError not, if(cacheOn, cacheStore(r)))
 		if(cacheOn and r isError not, cacheStore(r))
 
@@ -351,7 +351,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 			)
 		)
 
-		if(readHeader == nil, return(Error with("didn't find read header in [" .. b .. "]")))
+		if(readHeader == nil or self getSlot("responseHeaders") == nil, return(Error with("URL Error: didn't find read header in [" .. b .. "]")))
 
 		contentLength := responseHeaders at("Content-Length")
 		if(contentLength, 
