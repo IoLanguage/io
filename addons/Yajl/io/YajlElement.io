@@ -67,7 +67,7 @@ Yajl do(
 	)
 	
 	parseJson := method(json,
-		Yajl clone parse(cleanSeq(json)) root first
+		Yajl clone parse(cleanSeq(json)) returnIfError root first
 	)
 )
 

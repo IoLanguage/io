@@ -10,6 +10,7 @@ This object can be used to parse Yajl / HTML / XML.
 #include "IoObject.h"
 #include "IoSeq.h"
 #include "IoNumber.h"
+#include "IoError.h"
 #include <ctype.h>
 
 #define DATA(self) ((IoYajlData *)(IoObject_dataPointer(self)))
@@ -242,12 +243,16 @@ IoObject *IoYajl_parse(IoYajl *self, IoObject *locals, IoMessage *m)
 	if (stat != yajl_status_ok &&  
 		stat != yajl_status_insufficient_data)  
 	{  
-		unsigned char * str = yajl_get_error(hand, 1, data, dataSize);  
-		fprintf(stderr, (const char *) str);  
-		yajl_free_error(hand, str);  
+		char *str = (char *)yajl_get_error(hand, 1, data, dataSize);
+		IoObject *error = IoError_newWithCStringMessage_(IOSTATE, str);
+		yajl_free_error(hand, (unsigned char *)str);
+		yajl_free(hand);
+		return error;
+		//fprintf(stderr, (const char *) str);
+		
 	} 
 
-    yajl_free(hand);  
+    yajl_free(hand);
       
     return self;  
 }
