@@ -111,7 +111,7 @@ VertexDB Node := Object clone do(
 		request\
 			setAction("link")\
 			addQuerySlots("fromPath toPath key")\
-			setFromPath(self path)\
+			setPath(self path)\
 			setToPath(aPath pathComponent)\
 			setKey(aPath lastPathComponent)\
 			setHttpMethod("post")
