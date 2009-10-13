@@ -4,6 +4,10 @@ VertexDB Settings setHost("localhost") setPort(8080)
 
 ///*
 //Request debugOn
+
+writeln(Node with("/foo") asQueue path)
+System exit
+
 foo := Node with("/foo") mkdir
 3 repeat(i,
 	foo atWrite("_" .. i asString, "The key is _" .. i asString)
