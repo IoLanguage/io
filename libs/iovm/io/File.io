@@ -102,11 +102,15 @@ File do(
 	)
 	
 	thisSourceFile := method(
-		deprecatedWarning
-		File with(Path with(Directory currentWorkingDirectory, call message label))
+		File with(Path with(call message label))
 	)
 	
 	containingDirectory := method(
+		deprecatedWarning("parentDirectory")
+		parentDirectory
+	)
+	
+	parentDirectory := method(
 		Directory with(path pathComponent)
 	)
 	

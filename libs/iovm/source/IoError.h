@@ -25,6 +25,7 @@ void IoError_mark(IoError *self);
 
 
 IOVM_API IoObject *IoError_newWithMessageFormat_(void *state, const char *format, ...);
+IOVM_API IoObject *IoError_newWithCStringMessage_(IoState *state, char *cString);
 
 #ifdef __cplusplus
 }
