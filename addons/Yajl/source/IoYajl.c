@@ -248,8 +248,6 @@ IoObject *IoYajl_parse(IoYajl *self, IoObject *locals, IoMessage *m)
 		yajl_free_error(hand, (unsigned char *)str);
 		yajl_free(hand);
 		return error;
-		//fprintf(stderr, (const char *) str);
-		
 	} 
 
     yajl_free(hand);

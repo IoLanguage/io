@@ -58,22 +58,22 @@ void UArray_round(UArray *self)
 
 void UArray_clear(UArray *self)
 {
-	UARRAY_FOREACHASSIGN(self, i, v, 0);
+	UARRAY_FOREACHASSIGN_VALUE_UNUSED(self, i, 0);
 }
 
 void UArray_setItemsToLong_(UArray *self, long x)
 {
-	UARRAY_FOREACHASSIGN(self, i, v, x);
+	UARRAY_FOREACHASSIGN_VALUE_UNUSED(self, i, x);
 }
 
 void UArray_setItemsToDouble_(UArray *self, double x)
 {
-	UARRAY_FOREACHASSIGN(self, i, v, x);
+	UARRAY_FOREACHASSIGN_VALUE_UNUSED(self, i, x);
 }
 
 void UArray_rangeFill(UArray *self)
 {
-	UARRAY_FOREACHASSIGN(self, i, v, i);
+	UARRAY_FOREACHASSIGN_VALUE_UNUSED(self, i, i);
 }
 
 void UArray_negate(const UArray *self)
@@ -147,6 +147,7 @@ void UArray_divide_(UArray *self, const UArray *other)
 double UArray_dotProduct_(const UArray *self, const UArray *other)
 {
 	DUARRAY_OP(UARRAY_DOT, NULL, self, other);
+	return 0; // to keep compiler from annoying us
 }
 
 // basic scalar math

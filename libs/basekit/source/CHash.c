@@ -201,6 +201,13 @@ void CHash_removeKey_(CHash *self, void *k)
 	}
 }
 
+void CHash_clear(CHash *self)
+{
+	memset(self->records, 0x0, self->size * sizeof(CHashRecord));
+	self->keyCount = 0;
+	CHash_shrinkIfNeeded(self);
+}
+
 size_t CHash_size(CHash *self) // actually the keyCount
 {
 	return self->keyCount;
