@@ -48,8 +48,8 @@ TwitterAccount := Object clone do(
 	)
 	
 	updateStatus := method(message,
-		request asUpdateStatus setStatus(message) resultsOrError returnIfError
-		self
+		request asUpdateStatus setStatus(message) resultsOrError returnIfError at("id")// asString
+		//self
 	)
 )
 
