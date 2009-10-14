@@ -67,7 +67,7 @@ IoError *IoError_newWithCStringMessage_(IoState *state, char *cString)
 	IoError *error = IoError_new(state);
 	IoObject_setSlot_to_(error,
 		IoState_symbolWithCString_(state, (char *)("message")),
-		IOSEQ(cString, strlen(cString))
+		IoSeq_newWithCString_(state, cString)
 	);
 	return error;
 }
