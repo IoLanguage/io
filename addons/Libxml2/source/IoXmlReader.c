@@ -114,6 +114,8 @@ void IoXmlReader_free(IoXmlReader *self)
 {
 	if (DATA(self)->reader)
 		xmlFreeTextReader(DATA(self)->reader);
+	if(DATA(self)->error)
+		free(DATA(self)->error);
 	free(IoObject_dataPointer(self));
 }
 
@@ -126,14 +128,28 @@ void IoXmlReader_mark(IoXmlReader *self)
 	if (DATA(self)->xmlFile) IoObject_shouldMark((IoObject*)DATA(self)->xmlFile);
 }
 
-const char *IoXmlReader_error(IoXmlReader *self)
+void IoXmlReader_raiseError(IoXmlReader *self, IoMessage *m)
 {
+	if(DATA(self)->error)
+	{
+		IoState_error_(IOSTATE, m, DATA(self)->error);
+	}
+	else 
+	{
+		IoState_error_(IOSTATE, m, "error but error callback not called");
+	}
+}
+
+const char *IoXmlReader_error(IoXmlReader *self)
+{ 
 	return DATA(self)->error;
 }
 
 static void errorFunc(void *arg, const char *msg, xmlParserSeverities severity, xmlTextReaderLocatorPtr locator)
 {
-	DATA((IoXmlReader*)arg)->error = msg;
+	IoXmlReader *self = (IoXmlReader*)arg;
+	DATA(self)->error = realloc(DATA(self)->error, strlen(msg) + 1);
+	strcpy(DATA(self)->error, msg);
 }
 
 /* ------------------------------------------------------------- */
@@ -141,21 +157,28 @@ IoObject *IoXmlReader_parseFile(IoXmlReader *self, IoObject *locals, IoMessage *
 {
 	IoObject *file_or_filename;
 	COPY_ARG_TO(0, file_or_filename);
-	if (ISFILE(file_or_filename)) {
+	
+	if (ISFILE(file_or_filename)) 
+	{
 		DATA(self)->xmlFile = file_or_filename;
 		int fd = fileno(((IoFileData*)IoObject_dataPointer(file_or_filename))->stream);
 		DATA(self)->reader = xmlReaderForFd(fd,
 											ENSURE_CSTRING(DATA(self)->url),
 											ENSURE_CSTRING(DATA(self)->encoding),
 											DATA(self)->options);
-	} else if (ISSEQ(file_or_filename)) {
+	} 
+	else if (ISSEQ(file_or_filename)) 
+	{
 		DATA(self)->xmlPath = file_or_filename;
 		DATA(self)->reader = xmlReaderForFile(ENSURE_CSTRING(file_or_filename),
 												ENSURE_CSTRING(DATA(self)->encoding),
 												DATA(self)->options);
-	} else {
-		IoState_error_(IOSTATE,m, "File or Sequence required");
+	} 
+	else 
+	{
+		IoState_error_(IOSTATE, m, "File or Sequence required");
 	}
+	
 	if (!DATA(self)->reader)
 		IoState_error_(IOSTATE,m,"Error Initializing Xml Parser");
 	xmlTextReaderSetErrorHandler(DATA(self)->reader, errorFunc, self);
@@ -286,7 +309,7 @@ IoObject *IoXmlReader_attributeCount(IoXmlReader *self, IoObject *locals, IoMess
 {
 	ENSURE_OPEN;
 	int ret = xmlTextReaderAttributeCount(DATA(self)->reader);
-	if (ret < 0) IoState_error_(IOSTATE, m, DATA(self)->error);
+	if (ret < 0) IoXmlReader_raiseError(self, m);
 	return IONUMBER(ret);
 }
 
@@ -303,7 +326,7 @@ IoObject *IoXmlReader_byteConsumed(IoXmlReader *self, IoObject *locals, IoMessag
 {
 	ENSURE_OPEN;
 	int ret = xmlTextReaderByteConsumed(DATA(self)->reader);
-	if (ret < 0) IoState_error_(IOSTATE, m, DATA(self)->error);
+	if (ret < 0) IoXmlReader_raiseError(self, m);
 	return IONUMBER(ret);
 }
 */
@@ -368,7 +391,7 @@ IoObject *IoXmlReader_depth(IoXmlReader *self, IoObject *locals, IoMessage *m)
 {
 	ENSURE_OPEN;
 	int ret = xmlTextReaderDepth(DATA(self)->reader);
-	if (ret < 0) IoState_error_(IOSTATE, m, DATA(self)->error);
+	if (ret < 0) IoXmlReader_raiseError(self, m);
 	return IONUMBER(ret);
 }
 
@@ -408,7 +431,7 @@ IoObject *IoXmlReader_columnNumber(IoXmlReader *self, IoObject *locals, IoMessag
 {
 	ENSURE_OPEN;
 	int ret = xmlTextReaderGetParserColumnNumber(DATA(self)->reader);
-	if (ret < 0) IoState_error_(IOSTATE, m, DATA(self)->error);
+	if (ret < 0) IoXmlReader_raiseError(self, m);
 	return IONUMBER(ret);
 }
 */
@@ -418,7 +441,7 @@ IoObject *IoXmlReader_lineNumber(IoXmlReader *self, IoObject *locals, IoMessage 
 {
 	ENSURE_OPEN;
 	int ret = xmlTextReaderGetParserLineNumber(DATA(self)->reader);
-	if (ret < 0) IoState_error_(IOSTATE, m, DATA(self)->error);
+	if (ret < 0) IoXmlReader_raiseError(self, m);
 	return IONUMBER(ret);
 }
 */
@@ -427,7 +450,7 @@ IoObject *IoXmlReader_hasValue(IoXmlReader *self, IoObject *locals, IoMessage *m
 {
 	ENSURE_OPEN;
 	int ret = xmlTextReaderHasValue(DATA(self)->reader);
-	if (ret < 0) IoState_error_(IOSTATE, m, DATA(self)->error);
+	if (ret < 0) IoXmlReader_raiseError(self, m);
 	return ret ? IOTRUE(self) : IOFALSE(self);
 }
 
@@ -435,7 +458,7 @@ IoObject *IoXmlReader_hasAttributes(IoXmlReader *self, IoObject *locals, IoMessa
 {
 	ENSURE_OPEN;
 	int ret = xmlTextReaderHasAttributes(DATA(self)->reader);
-	if (ret < 0) IoState_error_(IOSTATE, m, DATA(self)->error);
+	if (ret < 0) IoXmlReader_raiseError(self, m);
 	return ret ? IOTRUE(self) : IOFALSE(self);
 }
 
@@ -443,7 +466,7 @@ IoObject *IoXmlReader_isDefault(IoXmlReader *self, IoObject *locals, IoMessage *
 {
 	ENSURE_OPEN;
 	int ret = xmlTextReaderIsDefault(DATA(self)->reader);
-	if (ret < 0) IoState_error_(IOSTATE, m, DATA(self)->error);
+	if (ret < 0) IoXmlReader_raiseError(self, m);
 	return ret ? IOTRUE(self) : IOFALSE(self);
 }
 
@@ -451,7 +474,7 @@ IoObject *IoXmlReader_isEmptyElement(IoXmlReader *self, IoObject *locals, IoMess
 {
 	ENSURE_OPEN;
 	int ret = xmlTextReaderIsEmptyElement(DATA(self)->reader);
-	if (ret < 0) IoState_error_(IOSTATE, m, DATA(self)->error);
+	if (ret < 0) IoXmlReader_raiseError(self, m);
 	return ret ? IOTRUE(self) : IOFALSE(self);
 }
 
@@ -459,7 +482,7 @@ IoObject *IoXmlReader_isNamespaceDecl(IoXmlReader *self, IoObject *locals, IoMes
 {
 	ENSURE_OPEN;
 	int ret = xmlTextReaderIsNamespaceDecl(DATA(self)->reader);
-	if (ret < 0) IoState_error_(IOSTATE, m, DATA(self)->error);
+	if (ret < 0) IoXmlReader_raiseError(self, m);
 	return ret ? IOTRUE(self) : IOFALSE(self);
 }
 
@@ -467,7 +490,7 @@ IoObject *IoXmlReader_isValid(IoXmlReader *self, IoObject *locals, IoMessage *m)
 {
 	ENSURE_OPEN;
 	int ret = xmlTextReaderIsValid(DATA(self)->reader);
-	if (ret < 0) IoState_error_(IOSTATE, m, DATA(self)->error);
+	if (ret < 0) IoXmlReader_raiseError(self, m);
 	return ret ? IOTRUE(self) : IOFALSE(self);
 }
 
@@ -487,7 +510,7 @@ IoObject *IoXmlReader_moveToAttribute(IoXmlReader *self, IoObject *locals, IoMes
 	IoObject *o;
 	COPY_ARG_TO(0,o);
 	int ret = xmlTextReaderMoveToAttribute(DATA(self)->reader, (xmlChar*)ENSURE_CSTRING(o));
-	if (ret < 0) IoState_error_(IOSTATE, m, DATA(self)->error);
+	if (ret < 0) IoXmlReader_raiseError(self, m);
 	return ret == 0 ? IOFALSE(self) : IOTRUE(self);
 }
 
@@ -497,7 +520,7 @@ IoObject *IoXmlReader_moveToAttributeNo(IoXmlReader *self, IoObject *locals, IoM
 	IoObject *o;
 	COPY_ARG_TO(0,o);
 	int ret = xmlTextReaderMoveToAttributeNo(DATA(self)->reader, IoNumber_asInt(o));
-	if (ret < 0) IoState_error_(IOSTATE, m, DATA(self)->error);
+	if (ret < 0) IoXmlReader_raiseError(self, m);
 	return ret == 0 ? IOFALSE(self) : IOTRUE(self);
 }
 
@@ -508,14 +531,14 @@ IoObject *IoXmlReader_moveToAttributeNs(IoXmlReader *self, IoObject *locals, IoM
 	COPY_ARG_TO(0, localName);
 	COPY_ARG_TO(1, namespaceURI);
 	int ret = xmlTextReaderMoveToAttributeNs(DATA(self)->reader, (xmlChar*)ENSURE_CSTRING(localName), (xmlChar*)ENSURE_CSTRING(namespaceURI));
-	if (ret < 0) IoState_error_(IOSTATE, m, DATA(self)->error);
+	if (ret < 0) IoXmlReader_raiseError(self, m);
 	return ret == 0 ? IOFALSE(self) : IOTRUE(self);
 }
 IoObject *IoXmlReader_moveToElement(IoXmlReader *self, IoObject *locals, IoMessage *m)
 {
 	ENSURE_OPEN;
 	int ret = xmlTextReaderMoveToElement(DATA(self)->reader);
-	if (ret < 0) IoState_error_(IOSTATE, m, DATA(self)->error);
+	if (ret < 0) IoXmlReader_raiseError(self, m);
 	return ret == 0 ? IOFALSE(self) : IOTRUE(self);
 }
 
@@ -523,7 +546,7 @@ IoObject *IoXmlReader_moveToFirstAttribute(IoXmlReader *self, IoObject *locals, 
 {
 	ENSURE_OPEN;
 	int ret = xmlTextReaderMoveToFirstAttribute(DATA(self)->reader);
-	if (ret < 0) IoState_error_(IOSTATE, m, DATA(self)->error);
+	if (ret < 0) IoXmlReader_raiseError(self, m);
 	return ret == 0 ? IOFALSE(self) : IOTRUE(self);
 }
 
@@ -531,7 +554,7 @@ IoObject *IoXmlReader_moveToNextAttribute(IoXmlReader *self, IoObject *locals, I
 {
 	ENSURE_OPEN;
 	int ret = xmlTextReaderMoveToNextAttribute(DATA(self)->reader);
-	if (ret < 0) IoState_error_(IOSTATE, m, DATA(self)->error);
+	if (ret < 0) IoXmlReader_raiseError(self, m);
 	return ret == 0 ? IOFALSE(self) : IOTRUE(self);
 }
 
@@ -539,7 +562,7 @@ IoObject *IoXmlReader_next(IoXmlReader *self, IoObject *locals, IoMessage *m)
 {
 	ENSURE_OPEN;
 	int ret = xmlTextReaderNext(DATA(self)->reader);
-	if (ret < 0) IoState_error_(IOSTATE, m, DATA(self)->error);
+	if (ret < 0) IoXmlReader_raiseError(self, m);
 	return ret == 0 ? IOFALSE(self) : IOTRUE(self);
 }
 
@@ -547,15 +570,21 @@ IoObject *IoXmlReader_nextSibling(IoXmlReader *self, IoObject *locals, IoMessage
 {
 	ENSURE_OPEN;
 	int ret = xmlTextReaderNextSibling(DATA(self)->reader);
-	if (ret < 0) IoState_error_(IOSTATE, m, DATA(self)->error);
+	if (ret < 0) IoXmlReader_raiseError(self, m);
 	return ret == 0 ? IOFALSE(self) : IOTRUE(self);
 }
 
 IoObject *IoXmlReader_nodeType(IoXmlReader *self, IoObject *locals, IoMessage *m)
 {
+	//printf("\nnodeType begin\n");
 	ENSURE_OPEN;
 	int ret = xmlTextReaderNodeType(DATA(self)->reader);
-	if (ret < 0) IoState_error_(IOSTATE, m, DATA(self)->error);
+	if (ret < 0) 
+	{
+		printf("ERROR!!!!!!!!\n");
+		IoState_error_(IOSTATE, m, DATA(self)->error);
+	}
+	
 	switch (ret) {
 		case XML_READER_TYPE_NONE: return IOSYMBOL("NONE");
 		case XML_READER_TYPE_ELEMENT: return IOSYMBOL("ELEMENT");
@@ -577,6 +606,7 @@ IoObject *IoXmlReader_nodeType(IoXmlReader *self, IoObject *locals, IoMessage *m
 		case XML_READER_TYPE_XML_DECLARATION: return IOSYMBOL("XML_DECLARATION");
 		default: IoState_error_(IOSTATE, m, "Unknown return code from xmlTextReaderNodeType");
 	}
+
 	return IONIL(self);		// suppress error
 }
 
@@ -592,7 +622,7 @@ IoObject *IoXmlReader_quoteChar(IoXmlReader *self, IoObject *locals, IoMessage *
 {
 	ENSURE_OPEN;
 	int ret = xmlTextReaderQuoteChar(DATA(self)->reader);
-	if (ret < 0) IoState_error_(IOSTATE, m, DATA(self)->error);
+	if (ret < 0) IoXmlReader_raiseError(self, m);
 	return IONUMBER(ret);
 }
 
@@ -600,7 +630,7 @@ IoObject *IoXmlReader_read(IoXmlReader *self, IoObject *locals, IoMessage *m)
 {
 	ENSURE_OPEN;
 	int ret = xmlTextReaderRead(DATA(self)->reader);
-	if (ret < 0) IoState_error_(IOSTATE, m, DATA(self)->error);
+	if (ret < 0) IoXmlReader_raiseError(self, m);
 	return ret == 0 ? IOFALSE(self) : IOTRUE(self);
 }
 
@@ -608,7 +638,7 @@ IoObject *IoXmlReader_readAttributeValue(IoXmlReader *self, IoObject *locals, Io
 {
 	ENSURE_OPEN;
 	int ret = xmlTextReaderReadAttributeValue(DATA(self)->reader);
-	if (ret < 0) IoState_error_(IOSTATE, m, DATA(self)->error);
+	if (ret < 0) IoXmlReader_raiseError(self, m);
 	return ret == 0 ? IOFALSE(self) : IOTRUE(self);
 }
 
@@ -640,7 +670,7 @@ IoObject *IoXmlReader_readState(IoXmlReader *self, IoObject *locals, IoMessage *
 {
 	ENSURE_OPEN;
 	int ret = xmlTextReaderReadState(DATA(self)->reader);
-	if (ret < 0) IoState_error_(IOSTATE, m, DATA(self)->error);
+	if (ret < 0) IoXmlReader_raiseError(self, m);
 	return IONUMBER(ret);
 }
 

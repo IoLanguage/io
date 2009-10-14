@@ -66,12 +66,14 @@ IoObject* IoMySQL_rawClone(IoObject* proto) {
 	return self;
 }
 
-IoObject* IoMySQL_new(void* state) {
+IoObject* IoMySQL_new(void* state) 
+{
 	IoObject* proto = IoState_protoWithInitFunction_(state, IoMySQL_proto);
 	return IOCLONE(proto);
 }
 
-void IoMySQL_free(IoObject* self) {
+void IoMySQL_free(IoObject* self) 
+{
 	if(DATA(self)->connected)
 		mysql_close(&DATA(self)->connection);
 	free(IoObject_dataPointer(self));
@@ -106,8 +108,11 @@ IoObject* IoMySQL_connect(IoObject* self, IoObject* locals, IoMessage* m) {
 	}
 
 	if(DATA(self)->connected)
+	{
 		mysql_close(&DATA(self)->connection);
-
+		DATA(self)->connected = 0;
+	}
+	
 	if(mysql_real_connect(
 		&DATA(self)->connection,
 		host && ISSEQ(host) ? IoSeq_asCString(host) : NULL,
@@ -134,18 +139,26 @@ IoObject* IoMySQL_connect(IoObject* self, IoObject* locals, IoMessage* m) {
 	return self;
 }
 
-IoObject* IoMySQL_connected(IoObject* self, IoObject* locals, IoMessage* m) {
+IoObject* IoMySQL_connected(IoObject* self, IoObject* locals, IoMessage* m) 
+{
+	/*doc MySQL connected
+	Returns true if connected to the database, false otherwise.
+	*/
 	return IOBOOL(self, DATA(self)->connected);
 }
 
-IoObject* IoMySQL_close(IoObject* self, IoObject* locals, IoMessage* m) {
+IoObject* IoMySQL_close(IoObject* self, IoObject* locals, IoMessage* m) 
+{
 	/*doc MySQL close
 	Closes a previously opened connection.
 	*/
 
 	if(DATA(self)->connected)
+	{
 		mysql_close(&DATA(self)->connection);
-
+		DATA(self)->connected = 0;
+	}
+/*
 	IoObject_removeSlot_(self, IOSYMBOL("host"));
 	IoObject_removeSlot_(self, IOSYMBOL("user"));
 	IoObject_removeSlot_(self, IOSYMBOL("password"));
@@ -153,12 +166,21 @@ IoObject* IoMySQL_close(IoObject* self, IoObject* locals, IoMessage* m) {
 	IoObject_removeSlot_(self, IOSYMBOL("port"));
 	IoObject_removeSlot_(self, IOSYMBOL("socket"));
 	IoObject_removeSlot_(self, IOSYMBOL("usingSSL"));
-
+*/
+	
 	return self;
 }
 
-IoObject* IoMySQL_query(IoObject* self, IoObject* locals, IoMessage* m) {
-	IoObject* queryString;
+IoObject* IoMySQL_query(IoObject* self, IoObject* locals, IoMessage* m) 
+{
+	/*doc MySQL query(aQueryString)
+	Perform a SQL query and return a list of results.
+	<pre>
+	db query("SELECT * FROM accounts") foreach(println)
+	</pre>
+	*/
+	
+	IoObject * queryString = 0x0;
 	bool useMap;
 
 	MYSQL* conn = &DATA(self)->connection;
@@ -168,14 +190,14 @@ IoObject* IoMySQL_query(IoObject* self, IoObject* locals, IoMessage* m) {
 	char** columnNames;
 	unsigned c, colLength;
 	unsigned long* colLengths;
-	IoObject *list, *rowObject, *tmpObject;
+	IoObject *list, *rowObject; //, *tmpObject;
 
 	if(IoMessage_argCount(m) < 1 || !ISSEQ(queryString = IoMessage_locals_quickValueArgAt_(m, locals, 0)))
 		IoState_error_(IOSTATE, m, "argument 0 to method 'query' must be a Sequence");
 
 	useMap = IoMessage_argCount(m) > 1 && ISTRUE(IoMessage_locals_quickValueArgAt_(m, locals, 1));
 
-	if(!DATA(self)->connected)
+	if(!DATA(self)->connected) //printf("not connected?\n");
 		IoState_error_(IOSTATE, m, "not connected yet");
 
 	if(mysql_real_query(conn, CSTRING(queryString), IOSEQ_LENGTH(queryString)))
@@ -189,7 +211,8 @@ IoObject* IoMySQL_query(IoObject* self, IoObject* locals, IoMessage* m) {
 			for(c = 0; c < colLength && (column = mysql_fetch_field(result)); ++c)
 				columnNames[c] = column->name;
 
-			while(row = mysql_fetch_row(result)) {
+			while((row = mysql_fetch_row(result))) 
+			{
 				colLengths = mysql_fetch_lengths(result);
 				rowObject = IoMap_new(IOSTATE);
 
@@ -201,8 +224,9 @@ IoObject* IoMySQL_query(IoObject* self, IoObject* locals, IoMessage* m) {
 
 			free(columnNames);
 		}
-		else {
-			while(row = mysql_fetch_row(result)) {
+		else 
+		{
+			while((row = mysql_fetch_row(result))) {
 				colLengths = mysql_fetch_lengths(result);
 				rowObject = IoList_new(IOSTATE);
 

@@ -20,7 +20,7 @@ typedef struct
 	int options;
 	IoSymbol *encoding;
 	IoSymbol *url;
-	const char *error;
+	char *error;
 
 	IoSeq *xmlText;
 	IoFile *xmlFile;
