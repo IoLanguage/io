@@ -287,7 +287,8 @@ AddonBuilder := Object clone do(
 
 	dllCommand := method(
 		if(platform == "darwin",
-			"-dynamiclib -single_module -read_only_relocs suppress"
+			//"-dynamiclib -single_module -read_only_relocs suppress"
+			"-dynamiclib -single_module"
 		,
 			if (platform == "windows",
 				"-dll -debug"
