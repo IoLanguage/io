@@ -129,13 +129,27 @@ static int IoYajl_callback_number(void *ctx, const char * s, unsigned int l)
 	//IoState_pushRetainPool(IOSTATE);
 	{
 	IoMessage *m = DATA(self)->addValueMessage;
-	float f = atof(s);
-	IoMessage_setCachedArg_to_(m, 0, IONUMBER(f));
+	if (l > 10)
+	{
+		
+		IoMessage_setCachedArg_to_(m, 0, IOSEQ((const unsigned char *)s, l));
+	}
+	else
+	{
+		if (atoll(s) > 2147483647)
+		{
+			IoMessage_setCachedArg_to_(m, 0, IOSEQ((const unsigned char *)s, l));
+		}
+		else
+		{
+			IoMessage_setCachedArg_to_(m, 0, IONUMBER(atof(s)));
+		}
+	}
 	IoObject_perform(self, self, m);
 	}
 	//IoState_popRetainPool(IOSTATE);
     return 1;  
-}  
+}
 
 static int IoYajl_callback_string(void *ctx, const unsigned char * stringVal,  
                            unsigned int stringLen)  
