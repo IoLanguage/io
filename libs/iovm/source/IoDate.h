@@ -57,6 +57,7 @@ IO_METHOD(IoDate, isDaylightSavingsTime);
 IO_METHOD(IoDate, zone);
 IO_METHOD(IoDate, gmtOffset);
 IO_METHOD(IoDate, gmtOffsetSeconds);
+IO_METHOD(IoDate, convertToUTC);
 
 IO_METHOD(IoDate, isValidTime);
 IO_METHOD(IoDate, secondsSince_);

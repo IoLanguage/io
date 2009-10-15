@@ -14,6 +14,7 @@
 #include "IoDuration.h"
 #include "PortableStrptime.h"
 #include <string.h>
+#include <time.h>
 
 #define DATA(self) ((Date *)IoObject_dataPointer(self))
 
@@ -64,6 +65,7 @@ IoDate *IoDate_proto(void *state)
 	{"zone", IoDate_zone},
 	{"gmtOffset", IoDate_gmtOffset},
 	{"gmtOffsetSeconds", IoDate_gmtOffsetSeconds},
+	{"convertToUTC", IoDate_convertToUTC},
 	{"isValidTime", IoDate_isValidTime},
 	{"secondsSince", IoDate_secondsSince_},
 	{"secondsSinceNow", IoDate_secondsSinceNow},
@@ -425,6 +427,19 @@ IO_METHOD(IoDate, gmtOffset)
 	snprintf(buf, sizeof(buf), "%+03d%02d", minutes / 60, minutes % 60);
 
 	return IOSYMBOL(buf);
+}
+
+IO_METHOD(IoDate, convertToUTC)
+{
+	/*doc Date convertToUTC
+	Converts this date to the equivalent UTC date
+	*/
+
+	struct timezone tz;
+	tz.tz_minuteswest = 0;
+	tz.tz_dsttime = 0;
+	Date_convertToTimeZone_(DATA(self), tz);
+	return self;
 }
 
 IO_METHOD(IoDate, isDaylightSavingsTime)
