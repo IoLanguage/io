@@ -64,10 +64,6 @@ void Date_now(Date *self)
 	struct timezone timezone;
 
 	gettimeofday(&timeval, &timezone);
-	s = timeval.tv_sec;
-	s -= timezone.tz_minuteswest * 60;
-	us = timeval.tv_usec;
-
 	self->tv = timeval;
 	self->tz = timezone;
 }
