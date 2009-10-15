@@ -17,4 +17,8 @@ TwitterSearch := Object clone do(
 			setPage(page)\
 			resultsOrError returnIfError at("results")
 	)
+	
+	cursor := method(
+		TwitterSearchCursor clone setSearch(self clone setPage(0))
+	)
 )
