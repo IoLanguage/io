@@ -183,6 +183,7 @@ TwitterRequest := Object clone do(
 	asUpdateStatus := method(
 		setHttpMethod("post")
 		setPath("/statuses/update")
+		addQuerySlots("source")
 		addPostSlots("status")
 	)
 	
