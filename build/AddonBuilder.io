@@ -36,6 +36,8 @@ AddonBuilder := Object clone do(
 
 	supportedOnPlatform := true
 
+	/*
+
 	frameworkSearchPaths := List clone
 	frameworkSearchPaths append("/System/Library/Frameworks")
 	frameworkSearchPaths append("/Library/Frameworks")
@@ -62,6 +64,37 @@ AddonBuilder := Object clone do(
 	libSearchPaths := List clone
 	appendLibSearchPath := method(v, if(File clone setPath(v) exists, libSearchPaths appendIfAbsent(v)))
 	searchPrefixes foreach(searchPrefix, appendLibSearchPath(searchPrefix .. "/lib"))
+*/
+
+	setupPaths := method(
+
+			self frameworkSearchPaths := List clone
+			frameworkSearchPaths append("/System/Library/Frameworks")
+			frameworkSearchPaths append("/Library/Frameworks")
+			frameworkSearchPaths append("/Local/Library/Frameworks")
+		//	frameworkSearchPaths append("~/Library/Frameworks")
+
+			self searchPrefixes := List clone
+			searchPrefixes append(System installPrefix)
+			searchPrefixes append("/usr")
+			if(platform != "darwin", searchPrefixes append("/usr/X11R6"))
+			if(platform == "mingw", searchPrefixes append("/mingw"))
+			searchPrefixes append("/usr/local")
+			searchPrefixes append("/usr/pkg")
+			searchPrefixes append("/opt/local")
+			searchPrefixes append("/sw")
+			// on windows there is no such thing as a standard place
+			// to look for these things
+			searchPrefixes append("i:/io/addonLibs", "C:/io/addonLibs")
+					
+	self headerSearchPaths := List clone
+	self appendHeaderSearchPath := method(v, if(File clone setPath(v) exists, headerSearchPaths appendIfAbsent(v)))
+	searchPrefixes foreach(searchPrefix, appendHeaderSearchPath(searchPrefix .. "/include"))
+
+	self libSearchPaths := List clone
+	self appendLibSearchPath := method(v, if(File clone setPath(v) exists, libSearchPaths appendIfAbsent(v)))
+	searchPrefixes foreach(searchPrefix, appendLibSearchPath(searchPrefix .. "/lib"))
+	)
 
 	debs    := Map clone
 	ebuilds := Map clone
@@ -82,6 +115,8 @@ AddonBuilder := Object clone do(
 		)
 		
 		self defines := List clone
+
+		setupPaths
 	)
 
 	mkdir := method(relativePath,
@@ -192,12 +227,14 @@ AddonBuilder := Object clone do(
 	)
 
 	trySystemCall := method(s,
-		writeln(s)
 		oldPath := nil
 		if (folder path != ".",
 			oldPath := Directory currentWorkingDirectory
+			//writeln("::::::::: folder path = ", folder path)
 			Directory setCurrentWorkingDirectory(folder path)
 		)
+		writeln("::::::::: Directory currentWorkingDirectory: ", Directory currentWorkingDirectory)
+		writeln(s)
 		result := System system(s)
 		if (oldPath != nil,
 			Directory setCurrentWorkingDirectory(oldPath)
@@ -259,6 +296,7 @@ AddonBuilder := Object clone do(
 					s = s .. name asUppercase
 					s = s .. "_ADDON "
 				)
+
 				s = s .. "-c " .. ccOutFlag .. "_build/objs/" .. obj .. " source/" .. f name
 				systemCall(s)
 			)

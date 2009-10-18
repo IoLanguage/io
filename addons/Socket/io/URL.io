@@ -564,7 +564,7 @@ Sequence asURL := method(URL with(self))
 
 //doc Map asQueryString Returns an escaped query string representation of this map
 Map asQueryString := method(
-	keys map(k,
+	keys sort map(k,
 		Sequence with(URL escapeString(k), "=", URL escapeString(at(k)))
 	) join("&")
 )
