@@ -11,25 +11,22 @@ VertexDB Request := Object clone do(
 	)
 	
 	//api
-	host ::= method(Settings host)
-	port ::= method(Settings port)
+	host ::= method(VertexDB Settings host)
+	port ::= method(VertexDB Settings port)
 	path ::= "/" asMutable
 	raisesOnError ::= true
 	
 	httpMethod ::= "get"
 	body ::= ""
 
-	addQuerySlots := method(querySlotNames,
-		querySlotNames split foreach(name,
-			self newSlot(name)
-			queryParamNames appendIfAbsent(name)
-		)
+	addQuerySlots := method(qnames,
+		self queryParamNames appendSeq(qnames)
 		self
 	)
 	
 	queryString := method(
 		queryParamNames foreach(name,
-			if(v := self perform(name asSymbol),
+			if(v := self getSlot(name),
 				queryParams atPut(name, v asString)
 			)
 		)
@@ -48,9 +45,12 @@ VertexDB Request := Object clone do(
 			debugWriteln(body split("\n") map(line, "\t" .. line) join("\n"))
 		)
 		
-		Response clone\
+		r := VertexDB Response clone setRequest(self)\
 			setBody(if(httpMethod asLowercase == "get", url fetch, url post(body)))\
 			setStatusCode(url statusCode)
+
+		//writeln("url statusCode: ", url statusCode)
+		r
 	)
 	
 	results := method(
@@ -58,4 +58,29 @@ VertexDB Request := Object clone do(
 		if(raisesOnError, response raiseIfError)
 		response results
 	)
+
+	key ::= nil
+	value ::= nil
+)
+
+VertexDB do(
+ReadRequest := VertexDB Request clone setAction("read") addQuerySlots(list("key")) setHttpMethod("get")
+
+
+
+SizeRequest := VertexDB Request clone setAction("size") setHttpMethod("get")
+WriteRequest := VertexDB Request clone setAction("write")\
+			addQuerySlots(list("key", "value"))\
+			setHttpMethod("get")
+WriteRequest queryString := method(Sequence with("?action=read&key=", key, "&value=", value))
+
+RmRequest := VertexDB Request clone setAction("rm") addQuerySlots(list("key")) setHttpMethod("get")	
+MkdirRequest := VertexDB Request setAction("mkdir") setHttpMethod("get")
+MkdirRequest queryString := method(Sequence with("?action=mkdir"))
+
+TransactionRequest := Request clone\
+				setHttpMethod("post")\
+				setAction("transaction")
+TransactionRequest queryString := Sequence with("?action=transaction")
+
 )

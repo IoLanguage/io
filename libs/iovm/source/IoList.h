@@ -89,6 +89,7 @@ IOVM_API IO_METHOD(IoList, selectInPlace);\
 
 IOVM_API IO_METHOD(IoList, asEncodedList);
 IOVM_API IO_METHOD(IoList, fromEncodedList);
+IOVM_API IO_METHOD(IoList, join);
 
 
 #ifdef __cplusplus

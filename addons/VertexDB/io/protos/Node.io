@@ -1,17 +1,13 @@
+
 VertexDB Node := Object clone do(
-	//internal
-	request := method(
-		Request clone setRaisesOnError(raisesOnError) setHost(host) setPort(port) setPath(path)
-	)
 	
-	//api
-	host ::= method(Settings host)
-	port ::= method(Settings port)
+	// api
+	//host ::= method(Settings host)
+	//port ::= method(Settings port)
+
 	
 	path ::= "/"
-	
-	raisesOnError ::= method(Settings raisesOnError)
-	
+		
 	with := method(path,
 		self clone setPath(path)
 	)
@@ -25,7 +21,8 @@ VertexDB Node := Object clone do(
 	)
 	
 	// reads
-	//query
+	// query
+
 	query := method(
 		Query clone setNode(self)
 	)
@@ -53,64 +50,41 @@ VertexDB Node := Object clone do(
 	rm := method(
 		query rm
 	)
-	
-	//read
-	readRequest := method(
-		request setAction("read") addQuerySlots("key")
-	)
-	
+		
 	read := method(key,
-		readRequest setKey(key) results
+		ReadRequest clone setPath(path) setKey(key) results
 	)
-	
-	sizeRequest := method(
-		request setAction("size")
-	)
-	
+
 	size := method(
-		sizeRequest results
-	)
-	
-	//
-	
-	//write
-	//remove
-	rmRequest := method(key,
-		request setAction("rm") addQuerySlots("key") setHttpMethod("post") setKey(key)
+		SizeRequest clone setPath(path) results
 	)
 	
 	rm := method(key,
-		rmRequest(key) results
+		RmRequest clone setPath(path) setKey(key) results
 		self
 	)
-	
-	//insert
-	atWriteRequest := method(key, data,
-		request setAction("write")\
-			addQuerySlots("key")\
-			setHttpMethod("post")\
-			setKey(key)\
-			setBody(data)
-	)
-	
-	atWrite := method(key, data,
-		Transaction current appendRequest(atWriteRequest(key, data))
+		
+	atWrite := method(key, value,
+		Transaction current appendRequest(
+			//WriteRequest clone setPath(path) setKey(key) setValue(value)
+			w := WriteRequest clone 
+			w path := path
+			w key := key
+			w value := value
+			w
+		)
 		self
-	)
-	
-	mkdirRequest := method(
-		request setAction("mkdir") setHttpMethod("post")
 	)
 	
 	mkdir := method(
-		Transaction current appendRequest(mkdirRequest)
+		Transaction current appendRequest(MkdirRequest clone setPath(path))
 		self
 	)
 	
 	linkToRequest := method(aPath,
 		request\
 			setAction("link")\
-			addQuerySlots("fromPath toPath key")\
+			addQuerySlots(list("fromPath", "toPath", "key"))\
 			setPath(self path)\
 			setToPath(aPath pathComponent)\
 			setKey(aPath lastPathComponent)\
@@ -132,7 +106,7 @@ VertexDB Node := Object clone do(
 	queuePopToRequest := method(aPath,
 		request\
 			setAction("queuePopTo")\
-			addQuerySlots("path ttl whereKey whereValue")\
+			addQuerySlots(list("path", "ttl", "whereKey", "whereValue"))\
 			setPath(aPath)\
 			setHttpMethod("post")
 	)
@@ -148,7 +122,7 @@ VertexDB Node := Object clone do(
 	queueExpireToRequest := method(aPath,
 		request\
 			setAction("queueExpireTo")\
-			addQuerySlots("path")\
+			addQuerySlots(list("path"))\
 			setPath(aPath)\
 			setHttpMethod("post")
 	)
@@ -162,6 +136,6 @@ VertexDB Node := Object clone do(
 		queueExpireTo(aNode path)
 		self
 	)
-	
-	//
-)
+
+) 
+

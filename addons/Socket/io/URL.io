@@ -282,7 +282,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		if(host == nil, return(Error with("No host set")))
 		socket returnIfError setHost(host) returnIfError setPort(port) connect returnIfError
 		socket appendToWriteBuffer(if(header, header, requestHeader)) write returnIfError
-		//writeln("write [", requestHeader, "]")
+		writeln("write [", requestHeader, "]")
 	)
 
 	//doc URL fetchRaw Fetch and return the entire response. Note: This may have problems for some request times.
@@ -332,6 +332,10 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 
 		return r
 	)
+
+	hasResponseHeaders := method(
+		?respondHeaders != nil
+	)
 	
 	//doc URL processHttpResponse(optionalProgressBlock) Private method that processes http response.
 	processHttpResponse := method(progressBlock,
@@ -341,8 +345,10 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		// read and separate the header
 
 		//	socket write("\n\n")
+
 		while(socket isOpen,
 			socket streamReadNextChunk returnIfError
+			//socket readBuffer println
 			match := b findSeqs(headerBreaks)
 			if(match,
 				setResponseHeaderString(b exclusiveSlice(0, match index))
@@ -350,6 +356,9 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 				break
 			)
 		)
+
+		//writeln("readHeader[", readHeader, "]")
+        	//if(responseHeaders , writeln("responseHeaders [",responseHeaders keys join(","),"]"))
 
 		if(readHeader == nil or self getSlot("responseHeaders") == nil, return(Error with("URL Error: didn't find read header in [" .. b .. "]")))
 
@@ -481,7 +490,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 			headers atPut("Authorization", "Basic " .. list(username, password) join(":") asBase64 exSlice(0, -1))
 		)
 		headers atIfAbsentPut("User-Agent", "Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/312.8 (KHTML, like Gecko) Safari/312.6")
-		hostHeader := if(port != 80, list(host, port) join(":"), host)
+		hostHeader := if(port != 80, Sequence with(host, ":", port asString), host)
 		headers atIfAbsentPut("Host", hostHeader)
 		headers atIfAbsentPut("Accept", "text/html; q=1.0, text/*; q=0.8, image/gif; q=0.6, image/jpeg; q=0.6, image/*; q=0.5, */*; q=0.1")
 		headers atIfAbsentPut("Content-Type", "application/x-www-form-urlencoded")

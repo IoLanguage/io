@@ -67,6 +67,7 @@ Yajl do(
 	)
 	
 	parseJson := method(json,
+		json ifError(Exception raise(json message))
 		Yajl clone parse(cleanSeq(json)) returnIfError root first
 	)
 )

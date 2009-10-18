@@ -463,7 +463,6 @@ void UArray_sizeTo_(UArray *self, size_t size)
 	UArray_setSize_(self, size);
 }
 
-
 // copy
 
 void UArray_copy_(UArray *self, const UArray *other)

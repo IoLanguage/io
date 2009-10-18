@@ -107,6 +107,7 @@ IoList *IoList_proto(void *state)
 	
 	{"asEncodedList",   IoList_asEncodedList},
 	{"fromEncodedList", IoList_fromEncodedList},
+	{"join", IoList_join},
 	{NULL, NULL},
 	};
 
@@ -1097,6 +1098,7 @@ IO_METHOD(IoList, asEncodedList)
 	return IoSeq_newWithUArray_copy_(IOSTATE, u, 0);
 }
 
+
 IO_METHOD(IoList, fromEncodedList)
 {
 	/*doc List fromEncodedList(aSeq)
@@ -1176,3 +1178,55 @@ IO_METHOD(IoList, fromEncodedList)
 	
 	return IoList_newWithList_(IOSTATE, list);
 }
+
+IO_METHOD(IoList, join)
+{
+	/*doc List join(optionalSeperator)
+	Returns a String with the elements of the receiver concatenated into one String. 
+	If optionalSeperator is provided, it is used to separate the concatenated strings.
+	This operation does not respect string encodings.
+	*/
+
+	List *items = IoList_rawList(self);
+	int itemCount = List_size(items);
+	IoSeq *seperator = IoMessage_locals_seqArgAt_(m, locals, 0);
+	UArray *out = UArray_new();
+	int totalSize = 0;
+	IOASSERT(ISSEQ(seperator), "seperator must be of type Sequence");
+	int hasSeperator = !ISNIL(seperator);
+	int seperatorSize = hasSeperator ? IOSEQ_LENGTH(seperator) : 0;
+	
+	LIST_FOREACH(items, i, v,
+			if(!ISSEQ(v))
+			{
+				printf("type: %s\n", IoObject_name(v));
+				IOASSERT(ISSEQ(v), "values must be of type Sequence");
+			}
+			totalSize += IoSeq_rawSizeInBytes(v);
+			//printf("UArray_sizeInBytes(v): %i\n", (int) IoSeq_rawSizeInBytes(v));
+			if(hasSeperator) totalSize += seperatorSize;
+	)
+	
+	if(hasSeperator) totalSize -= seperatorSize;
+	
+	//printf("seperatorSize: %i\n", (int) seperatorSize);
+	//printf("totalSize: %i\n", (int) totalSize);
+	UArray_sizeTo_(out, totalSize+1);
+	
+	uint8_t *bytes = UArray_mutableBytes(out);
+	
+	LIST_FOREACH(items, i, v,
+		size_t vsize = IoSeq_rawSizeInBytes(v);
+		memcpy((char *)bytes, (char *)IoSeq_rawBytes(v), (int)vsize);
+		bytes += vsize;
+		
+		if(hasSeperator && i != itemCount-1) 
+		{
+			memcpy(bytes, (char *)IoSeq_rawBytes(seperator), seperatorSize);
+			bytes += seperatorSize;
+		}
+	)
+	
+	return IoSeq_newWithUArray_copy_(IOSTATE, out, 0);
+}
+

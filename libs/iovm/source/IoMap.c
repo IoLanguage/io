@@ -276,13 +276,13 @@ aMap foreach(k, v, myBlock(k, v))</pre>
 	IoState *state = IOSTATE;
 	IoSymbol *keyName, *valueName;
 	IoMessage *doMessage;
-
+	PHash *p = DATA(self);
 
 	IoObject *result = IONIL(self);
 	IoMessage_foreachArgs(m, self, &keyName, &valueName, &doMessage);
 	IoState_pushRetainPool(state);
 
-	PHASH_FOREACH(DATA(self), key, value,
+	PHASH_FOREACH(p, key, value,
 		IoState_clearTopPool(state);
 		if (keyName)
 		{

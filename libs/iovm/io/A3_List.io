@@ -32,7 +32,7 @@ List do(
 		optionalString between each item or simply the concatenation of the items if no optionalString is supplied.
 	*/
 		
-	join := method(arg,
+	join2 := method(arg,
 		s := if(self first type == "List", List clone, Sequence clone)
 
 		if(arg,

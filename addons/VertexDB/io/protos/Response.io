@@ -4,6 +4,8 @@ VertexDB Response := Object clone do(
 	//api
 	body ::= nil
 	statusCode ::= nil
+	request ::= nil
+
 	results ::= method(
 		setResults(Yajl parseJson(body))
 		results
@@ -14,7 +16,8 @@ VertexDB Response := Object clone do(
 			Exception raise(e message)
 		)
 		if(statusCode == 500) then(
-			Exception raise("VertextDB Error: " .. results)
+			//writeln("exception!!!!!!!!!!")
+			Exception raise("VertextDB Error: Status 500 '" .. results .. "' on resource: " .. request resource .. " " .. request body)
 		)
 	)
 )

@@ -33,22 +33,25 @@ VertexDB Transaction := Object clone do(
 	)
 	
 	begin := method(
-		Exception raise("Transactions aren't currently supported")
+		//Exception raise("Transactions aren't currently supported")
 		setInTransaction(true)
 		self
 	)
 	
 	commit := method(
+		write("/"); File standardOutput flush
 		body := requests map(resource) join("\n")
+		write("/"); File standardOutput flush
 		abort
+		write("+"); File standardOutput flush
 		if(body size > 0,
-			Request clone\
+			TransactionRequest clone\
 				setHost(host)\
 				setPort(port)\
-				setAction("transaction")\
 				setBody(body)\
 				results
 		)
+		write("+"); File standardOutput flush
 		self
 	)
 	
