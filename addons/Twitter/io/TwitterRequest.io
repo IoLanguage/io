@@ -5,6 +5,7 @@ Sequence asCamelized := method(
 )
 
 TwitterRequest := Object clone do(
+	host ::= "twitter.com"
 	username ::= nil
 	password ::= nil
 	
@@ -46,7 +47,7 @@ TwitterRequest := Object clone do(
 			)
 		)
 		
-		url := URL with("http://twitter.com" .. path .. ".json" .. queryString) setFollowRedirects(false)
+		url := URL with("http://" .. host .. path .. ".json" .. queryString) setFollowRedirects(false)
 		
 		//writeln(url asString)
 		
@@ -127,70 +128,68 @@ TwitterRequest := Object clone do(
 	)
 	
 	asShowFriendship := method(
-		self\
-			setPath("/friendships/show")\
-			addQuerySlots("source_id source_screen_name target_id target_screen_name")
+		setPath("/friendships/show")
+		addQuerySlots("source_id source_screen_name target_id target_screen_name")
 	)
 	
 	asCreateFriendship := method(
-		self\
-			setHttpMethod("post")\
-			setPath("/friendships/create")\
-			addQuerySlots("user_id screen_name follow")
+		setHttpMethod("post")
+		setPath("/friendships/create")
+		addQuerySlots("user_id screen_name follow")
 	)
 	
 	asDestroyFriendship := method(
 		self\
-			setHttpMethod("post")\
-			setPath("/friendships/destroy")\
-			addQuerySlots("user_id screen_name")
+		setHttpMethod("post")\
+		setPath("/friendships/destroy")\
+		addQuerySlots("user_id screen_name")
 	)
 	
 	asFriendIds := method(
-		self\
-			setPath("/friends/ids")\
-			addQuerySlots("user_id screen_name")
+		setPath("/friends/ids")
+		addQuerySlots("user_id screen_name")
 	)
 	
 	asFollowerIds := method(
-		self\
-			setPath("/followers/ids")\
-			addQuerySlots("user_id screen_name")
+		setPath("/followers/ids")
+		addQuerySlots("user_id screen_name")
 	)
 	
 	asUpdateAccountProfile := method(
-		self\
-			setHttpMethod("post")
-			setPath("/account/update_profile")
-			addPostSlots("name url location description")
+		setHttpMethod("post")
+		setPath("/account/update_profile")
+		addPostSlots("name url location description")
 	)
 	
 	asUpdateAccountProfileColors := method(
-		self\
-			setHttpMethod("post")
-			setPath("/account/update_profile_colors")
-			addPostSlots("profile_background_color profile_text_color profile_link_color profile_sidebar_fill_color profile_sidebar_border_color")
+		setHttpMethod("post")
+		setPath("/account/update_profile_colors")
+		addPostSlots("profile_background_color profile_text_color profile_link_color profile_sidebar_fill_color profile_sidebar_border_color")
 	)
 	
 	asUpdateAccountProfileImage := method(
-		self\
-			setHttpMethod("post")
-			setPath("/account/update_profile_image")
-			addFileSlot("image")
+		setHttpMethod("post")
+		setPath("/account/update_profile_image")
+		addFileSlot("image")
 	)
 	
 	asUpdateAccountProfileBackgroundImage := method(
-		self\
-			setHttpMethod("post")
-			setPath("/account/update_profile_background_image")
-			addFileSlot("image")
-			addQuerySlots("tile")
+		setHttpMethod("post")
+		setPath("/account/update_profile_background_image")
+		addFileSlot("image")
+		addQuerySlots("tile")
 	)
 	
 	asUpdateStatus := method(
-		self\
-			setHttpMethod("post")
-			setPath("/statuses/update")
-			addPostSlots("status")
+		setHttpMethod("post")
+		setPath("/statuses/update")
+		addQuerySlots("source")
+		addPostSlots("status")
+	)
+	
+	asSearch := method(
+		setHost("search.twitter.com")
+		setPath("/search")
+		addQuerySlots("rpp page since_id q")
 	)
 )

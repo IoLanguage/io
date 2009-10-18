@@ -3,6 +3,7 @@ TwitterAccount := Object clone do(
 	password ::= nil
 	
 	profile ::= nil
+	source ::= "API"
 	
 	init := method(
 		setProfile(TwitterAccountProfile clone setAccount(self))
@@ -48,9 +49,7 @@ TwitterAccount := Object clone do(
 	)
 	
 	updateStatus := method(message,
-		request asUpdateStatus setStatus(message) resultsOrError returnIfError at("id")// asString
+		request asUpdateStatus setStatus(message) setSource(source) resultsOrError returnIfError at("id")// asString
 		//self
 	)
 )
-
-//TwitterRequest debugOn
