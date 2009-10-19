@@ -72,7 +72,7 @@ SizeRequest := VertexDB Request clone setAction("size") setHttpMethod("get")
 WriteRequest := VertexDB Request clone setAction("write")\
 			addQuerySlots(list("key", "value"))\
 			setHttpMethod("get")
-WriteRequest queryString := method(Sequence with("?action=read&key=", key, "&value=", value))
+WriteRequest queryString := method(Sequence with("?action=write&key=", key, "&value=", value))
 
 RmRequest := VertexDB Request clone setAction("rm") addQuerySlots(list("key")) setHttpMethod("get")	
 MkdirRequest := VertexDB Request setAction("mkdir") setHttpMethod("get")

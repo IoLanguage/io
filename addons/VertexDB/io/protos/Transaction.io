@@ -1,11 +1,11 @@
 VertexDB Transaction := Object clone do(
 	//internal
-	requests ::= List clone
+	requests ::= nil
 	inTransaction ::= false
 	coroSlotName ::= "currentVertexDBTransaction"
 	
 	init := method(
-		setRequests(requests clone)
+		setRequests(List clone)
 		setInTransaction(false)
 	)
 	
@@ -15,11 +15,18 @@ VertexDB Transaction := Object clone do(
 	port ::= method(Settings port)
 	
 	current := method(
-		t := Coroutine currentCoroutine getSlot(coroSlotName)
-		if(t not,
-			t := self clone
-			Coroutine currentCoroutine setSlot(coroSlotName, t)
+		coro := Coroutine currentCoroutine
+		while(coro and (t := coro getSlot(coroSlotName)) not,
+			coro = coro parentCoroutine
 		)
+		
+		if(t not, t = newForCoro)
+		t
+	)
+	
+	newForCoro := method(
+		t := VertexDB Transaction clone
+		Coroutine currentCoroutine setSlot(coroSlotName, t)
 		t
 	)
 	
@@ -39,11 +46,11 @@ VertexDB Transaction := Object clone do(
 	)
 	
 	commit := method(
-		write("/"); File standardOutput flush
+		//write("/"); File standardOutput flush
 		body := requests map(resource) join("\n")
-		write("/"); File standardOutput flush
+		//write("/"); File standardOutput flush
 		abort
-		write("+"); File standardOutput flush
+		//write("+"); File standardOutput flush
 		if(body size > 0,
 			TransactionRequest clone\
 				setHost(host)\
@@ -51,7 +58,7 @@ VertexDB Transaction := Object clone do(
 				setBody(body)\
 				results
 		)
-		write("+"); File standardOutput flush
+		//write("+"); File standardOutput flush
 		self
 	)
 	

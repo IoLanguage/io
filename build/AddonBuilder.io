@@ -233,7 +233,6 @@ AddonBuilder := Object clone do(
 			//writeln("::::::::: folder path = ", folder path)
 			Directory setCurrentWorkingDirectory(folder path)
 		)
-		writeln("::::::::: Directory currentWorkingDirectory: ", Directory currentWorkingDirectory)
 		writeln(s)
 		result := System system(s)
 		if (oldPath != nil,

@@ -282,7 +282,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		if(host == nil, return(Error with("No host set")))
 		socket returnIfError setHost(host) returnIfError setPort(port) connect returnIfError
 		socket appendToWriteBuffer(if(header, header, requestHeader)) write returnIfError
-		writeln("write [", requestHeader, "]")
+		//writeln("write [", requestHeader, "]")
 	)
 
 	//doc URL fetchRaw Fetch and return the entire response. Note: This may have problems for some request times.
