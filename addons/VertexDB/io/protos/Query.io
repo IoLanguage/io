@@ -11,10 +11,7 @@ VertexDB Query := Object clone do(
 	httpMethod ::= "get"
 	
 	request := method(
-		node request\
-			setHttpMethod(httpMethod)\
-			setAction("select")\
-			addQuerySlots("op before after count whereKey whereValue")\
+		TransactionRequest clone\
 			setOp(op)\
 			setBefore(before)\
 			setAfter(after)\

@@ -66,8 +66,6 @@ VertexDB Request := Object clone do(
 VertexDB do(
 ReadRequest := VertexDB Request clone setAction("read") addQuerySlots(list("key")) setHttpMethod("get")
 
-
-
 SizeRequest := VertexDB Request clone setAction("size") setHttpMethod("get")
 WriteRequest := VertexDB Request clone setAction("write")\
 			addQuerySlots(list("key", "value"))\
@@ -79,8 +77,18 @@ MkdirRequest := VertexDB Request setAction("mkdir") setHttpMethod("get")
 MkdirRequest queryString := method(Sequence with("?action=mkdir"))
 
 TransactionRequest := Request clone\
-				setHttpMethod("post")\
+				setHttpMethod("get")\
 				setAction("transaction")
 TransactionRequest queryString := Sequence with("?action=transaction")
+SelectRequest Request clone do(
+				setHttpMethod("post")
+				setAction("select")
+				op ::= nil
+				before ::= nil
+				after ::= nil
+				count ::= nil
+				whereKey ::= nil
+				whereValue ::= nil
+)
 
 )
