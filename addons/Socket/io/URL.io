@@ -464,8 +464,8 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 
 		headers atPut("Content-Length: ", content size asString)
 
-		writeln("evPost ", url)
-		writeln("POST: [", content, "]")
+		//writeln("evPost ", url)
+		//writeln("POST: [", content, "]")
 		c := EvConnection clone setAddress(host) setPort(port) connect
 		r := c newRequest setUri(request) 
 		r requestHeaders = headers

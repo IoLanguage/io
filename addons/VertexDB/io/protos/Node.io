@@ -83,18 +83,10 @@ VertexDB Node := Object clone do(
 		self
 	)
 	
-	linkToRequest := method(aPath,
-		request\
-			setAction("link")\
-			addQuerySlots(list("fromPath", "toPath", "key"))\
-			setPath(self path)\
-			setToPath(aPath pathComponent)\
-			setKey(aPath lastPathComponent)\
-			setHttpMethod("post")
-	)
-	
 	linkTo := method(aPath,
-		Transaction current appendRequest(linkToRequest(aPath))
+		Transaction current appendRequest(
+			LinkToRequest clone setPath(self path) setToPath(aPath pathComponent) setKey(aPath lastPathComponent)
+		)
 		self
 	)
 	

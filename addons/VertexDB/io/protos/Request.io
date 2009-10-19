@@ -84,4 +84,9 @@ VertexDB do(
 		setAction("select")
 		addQuerySlots(list("op", "before", "after", "count", "whereKey", "whereValue"))
 	)
+	
+	LinkToRequest := Request clone do(
+		setAction("link")
+		addQuerySlots(list("fromPath", "toPath", "key"))
+	)
 )

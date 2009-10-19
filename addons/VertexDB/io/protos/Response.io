@@ -17,7 +17,7 @@ VertexDB Response := Object clone do(
 		)
 		if(statusCode == 500) then(
 			//writeln("exception!!!!!!!!!!")
-			Exception raise("VertextDB Error: Status 500 '" .. results .. "' on resource: " .. request resource .. " " .. request body)
+			Exception raise("VertexDB Error: Status 500 '" .. results .. "' on resource: " .. request resource .. " " .. request body)
 		)
 	)
 )
