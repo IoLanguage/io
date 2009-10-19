@@ -20,6 +20,7 @@ VertexDB Request := Object clone do(
 	body ::= ""
 
 	addQuerySlots := method(qnames,
+		qnames foreach(name, self newSlot(name))
 		self queryParamNames appendSeq(qnames)
 		self
 	)
@@ -64,33 +65,23 @@ VertexDB Request := Object clone do(
 )
 
 VertexDB do(
-ReadRequest := VertexDB Request clone setAction("read") addQuerySlots(list("key")) setHttpMethod("get")
+	ReadRequest := Request clone setAction("read") addQuerySlots(list("key"))
+	
+	SizeRequest := Request clone setAction("size")
+	
+	WriteRequest := Request clone setAction("write") addQuerySlots(list("key", "value"))
+	WriteRequest queryString := method(Sequence with("?action=write&key=", key, "&value=", value))
 
-SizeRequest := VertexDB Request clone setAction("size") setHttpMethod("get")
-WriteRequest := VertexDB Request clone setAction("write")\
-			addQuerySlots(list("key", "value"))\
-			setHttpMethod("get")
-WriteRequest queryString := method(Sequence with("?action=write&key=", key, "&value=", value))
+	RmRequest := Request clone setAction("rm") addQuerySlots(list("key"))
+	
+	MkdirRequest := Request clone setAction("mkdir")
+	MkdirRequest queryString := method(Sequence with("?action=mkdir"))
 
-RmRequest := VertexDB Request clone setAction("rm") addQuerySlots(list("key")) setHttpMethod("get")	
-MkdirRequest := VertexDB Request setAction("mkdir") setHttpMethod("get")
-MkdirRequest queryString := method(Sequence with("?action=mkdir"))
-
-TransactionRequest := Request clone\
-				setHttpMethod("get")\
-				setAction("transaction")
-TransactionRequest queryString := Sequence with("?action=transaction")
-SelectRequest := Request clone do(
-				setHttpMethod("post")
-				setAction("select")
-				addQuerySlots(list("op", "before", "after", 
-					"count", "whereKey", whereValue"))
-				op ::= nil
-				before ::= nil
-				after ::= nil
-				count ::= nil
-				whereKey ::= nil
-				whereValue ::= nil
-)
-
+	TransactionRequest := Request clone setAction("transaction") setHttpMethod("post")
+	TransactionRequest queryString := Sequence with("?action=transaction")
+	
+	QueryRequest := Request clone do(
+		setAction("select")
+		addQuerySlots(list("op", "before", "after", "count", "whereKey", "whereValue"))
+	)
 )

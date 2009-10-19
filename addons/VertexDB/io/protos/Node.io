@@ -23,33 +23,35 @@ VertexDB Node := Object clone do(
 	// reads
 	// query
 
-	query := method(
-		Query clone setNode(self)
+	queryRequest := method(
+		QueryRequest clone setPath(self path)
 	)
 	
 	keys := method(
-		query keys
+		queryRequest setOp("keys") results
 	)
 	
 	values := method(
-		query values
+		queryRequest setOp("values") results
 	)
 	
 	pairs := method(
-		query pairs
+		queryRequest setOp("pairs") results
 	)
 	
 	counts := method(
-		query counts
+		queryRequest setOp("counts") results
 	)
 	
 	object := method(
-		query object
+		queryRequest setOp("object") results
 	)
 	
+	/*
 	rm := method(
-		query rm
+		queryRequest setOp("rm") setMethod("rm") results
 	)
+	*/
 		
 	read := method(key,
 		ReadRequest clone setPath(path) setKey(key) results
