@@ -40,7 +40,7 @@ VertexDB Transaction := Object clone do(
 	)
 	
 	begin := method(
-		//Exception raise("Transactions aren't currently supported")
+		if(requests not, Exception raise("Uninitialized transaction"))
 		setInTransaction(true)
 		self
 	)

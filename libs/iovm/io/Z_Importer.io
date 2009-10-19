@@ -57,6 +57,8 @@ Importer := Object clone do(
 			Lobby getSlot(protoName)
 		,
 			targetType := originalCall target type
+			writeln("BOOM")
+			System exit
 			Exception raiseFrom(originalCall, targetType .. " does not respond to '" .. protoName .. "'")
 		)
 	)
