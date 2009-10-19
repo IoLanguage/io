@@ -83,6 +83,8 @@ TransactionRequest queryString := Sequence with("?action=transaction")
 SelectRequest := Request clone do(
 				setHttpMethod("post")
 				setAction("select")
+				addQuerySlots(list("op", "before", "after", 
+					"count", "whereKey", whereValue"))
 				op ::= nil
 				before ::= nil
 				after ::= nil
