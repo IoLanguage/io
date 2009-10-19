@@ -47,6 +47,9 @@ VertexDB Node := Object clone do(
 		queryRequest setOp("object") results
 	)
 	
+	empty := method(
+		Transaction current appendRequest(queryRequest setOp("rm"))
+	)
 	/*
 	rm := method(
 		queryRequest setOp("rm") setMethod("rm") results
