@@ -80,7 +80,7 @@ TransactionRequest := Request clone\
 				setHttpMethod("get")\
 				setAction("transaction")
 TransactionRequest queryString := Sequence with("?action=transaction")
-SelectRequest Request clone do(
+SelectRequest := Request clone do(
 				setHttpMethod("post")
 				setAction("select")
 				op ::= nil
