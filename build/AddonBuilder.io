@@ -171,7 +171,7 @@ AddonBuilder := Object clone do(
 	optionallyDependsOnFramework := method(v, a := pathForFramework(v) != nil; if(a, dependsOnFramework(v)); a)
 
 	missingFrameworks := method(errors,
-		writeln("errors: ", errors type)
+		//writeln("errors: ", errors type)
 		depends frameworks select(p,
 			if(pathForFramework(p) == nil,
 				errors addError(self name .. " is missing " .. p .. " framework\n")
@@ -233,8 +233,8 @@ AddonBuilder := Object clone do(
 			//writeln("::::::::: folder path = ", folder path)
 			Directory setCurrentWorkingDirectory(folder path)
 		)
-		writeln(s)
 		result := System system(s)
+		if(result != 0, writeln("^^^^^^^^^^ error from command below ^^^^^^^^^^^^^\n", s, "\n\n"))
 		if (oldPath != nil,
 			Directory setCurrentWorkingDirectory(oldPath)
 		)
@@ -269,7 +269,7 @@ AddonBuilder := Object clone do(
 
 	build := method(options,
 		writeln(("--- " .. folder name .. " ") alignLeft(79, "-"))
-		writeln("build.io: Entering directory `", folder path, "'")
+		//writeln("build.io: Entering directory `", folder path, "'")
 		mkdir("_build/headers")
 		mkdir("source")
 		if(Directory with(Path with(folder path, "source")) filesWithExtension(".h") size > 0,
@@ -304,7 +304,7 @@ AddonBuilder := Object clone do(
 		buildLib
 		buildDynLib
 		if(platform == "windows", embedManifest)
-		writeln("build.io: Leaving directory `", folder path, "'")
+		//writeln("build.io: Leaving directory `", folder path, "'")
 		writeln
 	)
 
