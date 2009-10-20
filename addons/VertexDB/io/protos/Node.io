@@ -65,7 +65,7 @@ VertexDB Node := Object clone do(
 	)
 	
 	rm := method(key,
-		RmRequest clone setPath(path) setKey(key) results
+		Transaction current appendRequest(RmRequest clone setPath(path) setKey(key))
 		self
 	)
 		
