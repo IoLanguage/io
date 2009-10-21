@@ -448,7 +448,7 @@ IoObject *IoState_protoWithInitFunction_(IoState *self, IoStateProtoFunc *func)
 	if (!proto)
 	{
 		//MissingProtoError();
-		printf("missing proto %p\n", (void *)func);
+		printf("IoState error: missing proto %p\n", (void *)func);
 
 		IoState_fatalError_(self, "IoState_protoWithInitFunction() Error: missing proto");
 	}

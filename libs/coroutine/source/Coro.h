@@ -1,8 +1,13 @@
-/*
-*/
-
 #ifndef CORO_DEFINED
 #define CORO_DEFINED 1
+
+#if defined(__linux__)
+	#define HAS_UCONTEXT 1
+#endif
+
+#if defined(__amd64__) && !defined(__x86_64__)
+        #define __x86_64__ 1
+#endif
 
 #include "Common.h"
 //#include "PortableUContext.h"
@@ -31,11 +36,6 @@
 #define CORO_API
 #endif
 
-/*
-#if defined(__amd64__) && !defined(__x86_64__)
-	#define __x86_64__ 1
-#endif
-*/
 
 // Pick which coro implementation to use
 // The make file can set -DUSE_FIBERS, -DUSE_UCONTEXT or -DUSE_SETJMP to force this choice.

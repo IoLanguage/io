@@ -1199,7 +1199,7 @@ IO_METHOD(IoList, join)
 	LIST_FOREACH(items, i, v,
 			if(!ISSEQ(v))
 			{
-				printf("type: %s\n", IoObject_name(v));
+				//printf("type: %s\n", IoObject_name(v));
 				IOASSERT(ISSEQ(v), "values must be of type Sequence");
 			}
 			totalSize += IoSeq_rawSizeInBytes(v);

@@ -62,6 +62,7 @@ typedef struct
 	
 	#ifdef COLLECTOR_USE_NONINCREMENTAL_MARK_SWEEP
 	int newMarkerCount;
+	int allocsPerSweep;
 	#endif
 } Collector;
 
@@ -89,6 +90,11 @@ COLLECTOR_API float Collector_marksPerAlloc(Collector *self);
 
 COLLECTOR_API void Collector_setAllocatedStep_(Collector *self, float n);
 COLLECTOR_API float Collector_allocatedStep(Collector *self);
+
+#ifdef COLLECTOR_USE_NONINCREMENTAL_MARK_SWEEP
+	void Collector_setAllocsPerSweep_(Collector *self, int n);
+	float Collector_allocsPerSweep(Collector *self);
+#endif
 
 // debug
 

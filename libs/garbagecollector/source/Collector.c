@@ -41,7 +41,11 @@ Collector *Collector_new(void)
 	self->allocatedSweepLevel = 3000;
 	self->allocatedStep = 1.1f;
 	self->marksPerAlloc = 2;
-
+	
+#ifdef COLLECTOR_USE_NONINCREMENTAL_MARK_SWEEP
+	self->allocsPerSweep = 10000;
+#endif
+	
 	self->clocksUsed = 0;
 
 	Collector_check(self);
@@ -205,9 +209,14 @@ void Collector_popPause(Collector *self)
 
 	//printf("collect newMarkerCount %i\n", self->newMarkerCount);
 #ifdef COLLECTOR_USE_NONINCREMENTAL_MARK_SWEEP
-	if (self->pauseCount == 0 && self->newMarkerCount > 10000) 
+	if (self->pauseCount == 0 && self->newMarkerCount > self->allocsPerSweep) 
 	{
 		//printf("collect newMarkerCount %i\n", self->newMarkerCount);
+		if(self->debugOn)
+		{
+			printf("\n  newMarkerCount %i\n", (int)self->newMarkerCount);
+		}
+		
 		self->newMarkerCount = 0;
 		Collector_collect(self);
 	}
@@ -218,6 +227,20 @@ void Collector_popPause(Collector *self)
 	}
 #endif
 }
+
+#ifdef COLLECTOR_USE_NONINCREMENTAL_MARK_SWEEP
+
+void Collector_setAllocsPerSweep_(Collector *self, int n)
+{
+	self->allocsPerSweep = n;
+}
+
+float Collector_allocsPerSweep(Collector *self)
+{
+	return self->allocsPerSweep;
+}
+
+#endif
 
 // adding ------------------------------------------------
 
@@ -389,9 +412,13 @@ size_t Collector_sweepPhase(Collector *self)
 {
 	size_t freedCount = 0;
 
+	self->newMarkerCount = 0;
+	
 	if (self->debugOn)
 	{
 		printf("Collector_sweepPhase()\n");
+		//printf("  newMarkerCount %i\n", (int)self->newMarkerCount);
+		printf("  allocsPerSweep %i\n", (int)self->allocsPerSweep);
 		printf("  allocated %i\n", (int)self->allocated);
 		printf("  allocatedSweepLevel %i\n", (int)self->allocatedSweepLevel);
 	}

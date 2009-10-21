@@ -218,6 +218,22 @@ IO_METHOD(IoCollector, setSafeModeOn)
 	return self;
 }
 
+#ifdef COLLECTOR_USE_NONINCREMENTAL_MARK_SWEEP
+
+IO_METHOD(IoCollector, setAllocsPerSweep)
+{
+	int n = IoMessage_locals_intArgAt_(m, locals, 0);
+	Collector_setAllocsPerSweep_(IOSTATE->collector, n);	
+	return self;
+}
+
+IO_METHOD(IoCollector, allocsPerSweep)
+{
+	return IONUMBER(Collector_allocsPerSweep(IOSTATE->collector));	
+}
+
+#endif
+
 IoObject *IoCollector_proto(void *state)
 {
 	IoMethodTable methodTable[] = {
@@ -241,6 +257,10 @@ IoObject *IoCollector_proto(void *state)
 	{"cleanAllObjects", IoCollector_cleanAllObjects},
 	{"checkMemory", IoCollector_checkMemory},
 	{"setSafeModeOn", IoCollector_setSafeModeOn},
+#ifdef COLLECTOR_USE_NONINCREMENTAL_MARK_SWEEP
+	{"setAllocsPerSweep", IoCollector_setAllocsPerSweep},
+	{"allocsPerSweep", IoCollector_allocsPerSweep},
+#endif
 	{NULL, NULL},
 	};
 
