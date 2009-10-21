@@ -46,11 +46,14 @@ VertexDB Transaction := Object clone do(
 	)
 	
 	commit := method(
-		//write("/"); File standardOutput flush
-		body := requests map(resource) join("\n")
-		//write("/"); File standardOutput flush
+		write(" <join"); File standardOutput flush
+		body := Sequence clone
+		body setSize(1000000) setSize(0)
+		requests foreach(r, body appendSeq(r resource, "\n"))
+		write(">"); File standardOutput flush
 		abort
 		//write("+"); File standardOutput flush
+			write(" <send"); File standardOutput flush
 		if(body size > 0,
 			TransactionRequest clone\
 				setHost(host)\
@@ -58,7 +61,7 @@ VertexDB Transaction := Object clone do(
 				setBody(body)\
 				results
 		)
-		//write("+"); File standardOutput flush
+		write(">"); File standardOutput flush
 		self
 	)
 	
