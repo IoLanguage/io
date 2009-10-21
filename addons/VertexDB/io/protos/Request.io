@@ -89,4 +89,14 @@ VertexDB do(
 		setAction("link")
 		addQuerySlots(list("fromPath", "toPath", "key"))
 	)
+	
+	QueuePopToRequest := Request clone do(
+		setAction("queuePopTo")
+		addQuerySlots(list("toPath", "ttl", "whereKey", "whereValue"))
+	)
+	
+	QueueExpireToRequest := Request clone do(
+		setAction("queueExpireTo")
+		addQuerySlots(list("toPath"))
+	)
 )

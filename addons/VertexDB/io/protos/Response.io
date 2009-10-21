@@ -7,6 +7,8 @@ VertexDB Response := Object clone do(
 	request ::= nil
 
 	results ::= method(
+		debugWriteln("VertexDB Response body[", body, "]")
+		debugWriteln("VertexDB Response statusCode[", statusCode, "]")
 		setResults(Yajl parseJson(body))
 		results
 	)
