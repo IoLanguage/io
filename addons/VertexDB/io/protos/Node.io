@@ -32,7 +32,7 @@ VertexDB Node := Object clone do(
 	)
 	
 	lastKey := method(
-		queryRequest setOp("keys") setBefore("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ") setCount(1) results first
+		queryRequest setOp("keys") setBefore("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ") setCount(1) results first // hack
 	)
 
 
