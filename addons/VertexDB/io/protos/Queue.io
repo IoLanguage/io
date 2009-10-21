@@ -50,8 +50,10 @@ VertexDB Queue := Object clone do(
 	
 	path := method(node path)
 	
+	jobError ::= nil
+	
 	process := method(
-		self jobError := nil
+		setJobError(nil)
 		
 		if(expiresActive, expireActive)
 		processedOne := false
@@ -79,10 +81,6 @@ VertexDB Queue := Object clone do(
 		processedOne
 	)
 	
-	jobError := method(jobError,
-		self jobError := jobError
-	)
-	
 	AsyncJob := Object clone do(
 		queue ::= nil
 		node ::= nil
@@ -92,7 +90,7 @@ VertexDB Queue := Object clone do(
 				queue processNode(node)
 			)
 			
-			if(e, queue jobError(e), queue finishedJob(self))
+			if(e, queue setJobError(e), queue finishedJob(self))
 		)
 	)
 	
@@ -111,9 +109,7 @@ VertexDB Queue := Object clone do(
 			node atWrite("_error", errorMessage asMutable replaceSeq("\n", "<br>"))
 			activeNode moveKeyToNode(node key, errorNode)
 		,
-			debugWriteln(node)
 			activeNode moveKeyToNode(node key, doneNode)
-			debugWriteln("Moved")
 		)
 		VertexDB Transaction current commit
 	)
