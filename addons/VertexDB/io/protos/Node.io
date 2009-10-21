@@ -93,8 +93,12 @@ VertexDB Node := Object clone do(
 		self
 	)
 	
+	key := method(
+		path lastPathComponent
+	)
+	
 	moveKeyToNode := method(key, node,
-		nodeAt(key) linkTo(node nodeAt(key))
+		nodeAt(key) linkTo(node nodeAt(key) path)
 		rm(key)
 		self
 	)

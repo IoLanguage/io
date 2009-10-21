@@ -51,6 +51,8 @@ VertexDB Queue := Object clone do(
 	path := method(node path)
 	
 	process := method(
+		self jobError := nil
+		
 		if(expiresActive, expireActive)
 		processedOne := false
 		self jobs := List clone
@@ -60,7 +62,7 @@ VertexDB Queue := Object clone do(
 			debugWriteln("jobs size: ", jobs size)
 			debugWriteln("concurrency: ", concurrency)
 			while(jobs size >= concurrency,
-				debugWriteln("waiting to run new job ...")
+				if(jobError, jobError pass)
 				yield
 			)
 			processedOne = true
@@ -71,10 +73,14 @@ VertexDB Queue := Object clone do(
 			if(concurrency > 1, job @@run, job run)
 		)
 		while(jobs size > 0,
-			debugWriteln("waiting for jobs to finish ...")
+			if(jobError, jobError pass)
 			yield
 		)
 		processedOne
+	)
+	
+	jobError := method(jobError,
+		self jobError := jobError
 	)
 	
 	AsyncJob := Object clone do(
@@ -82,24 +88,19 @@ VertexDB Queue := Object clone do(
 		node ::= nil
 		
 		run := method(
-			runError := try(
+			e := try(
 				queue processNode(node)
 			)
 			
-			if(runError,
-				debugWriteln("AsyncJob run error:")
-				debugWriteln(runError coroutine backTraceString)
-			)
-			queue finishedJob(self)
+			if(e, queue jobError(e), queue finishedJob(self))
 		)
 	)
 	
 	processNode := method(node,
 		error := nil
 
-		VertexDB Transaction current begin
+		VertexDB Transaction newForCoro begin
 
-		debugWriteln("VertexDB Queue messageName == <", messageName, ">")
 		e := try(target perform(messageName, node))
 		if(e, errorMessage := e coroutine backTraceString)
 
@@ -110,14 +111,11 @@ VertexDB Queue := Object clone do(
 			node atWrite("_error", errorMessage asMutable replaceSeq("\n", "<br>"))
 			activeNode moveKeyToNode(node key, errorNode)
 		,
+			debugWriteln(node)
 			activeNode moveKeyToNode(node key, doneNode)
+			debugWriteln("Moved")
 		)
-		///*
-		e := try(Transaction current commit)
-		if(e,
-			writeln("Transaction current commit error in DBQueue")
-		)
-		//*/
+		VertexDB Transaction current commit
 	)
 	
 	finishedJob := method(job,
@@ -126,6 +124,5 @@ VertexDB Queue := Object clone do(
 	
 	expireActive := method(
 		count := activeNode queueExpireToNode(waitingNode)
-		//writeln(qNode path, " expired ", count, " from active to waiting")
 	)
 )
