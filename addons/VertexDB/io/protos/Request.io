@@ -41,6 +41,7 @@ VertexDB Request := Object clone do(
 	execute := method(
 		url := URL with("http://" .. host .. ":" .. port asString .. resource) setFollowRedirects(false)
 		
+		debugOn
 		debugWriteln(url url)
 		/*
 		if(body size > 0,
