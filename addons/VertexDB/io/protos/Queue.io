@@ -9,12 +9,15 @@ VertexDB Queue := Object clone do(
 	expiresActive ::= true
 	concurrency ::= 10
 	node ::= nil
+	qNodes ::= nil
+	
+	waitingNode ::= method(node nodeAt("waiting"))
+	activeNode ::= method(node nodeAt("active"))
+	doneNode ::= method(node nodeAt("done"))
+	errorNode ::= method(node nodeAt("error"))
+	
 	qNodes ::= method(
-		setQNodes(
-			"waiting active done error jobs" split map(name,
-				self setSlot(name .. "Node", node nodeAt(name))
-			)
-		)
+		list(waitingNode, activeNode, doneNode, errorNode)
 	)
 	
 	path := method(node path)
@@ -31,29 +34,37 @@ VertexDB Queue := Object clone do(
 	)
 	
 	create := method(
-		node create
+		node mkdir
 		createNodes
 	)
 	
 	createNodes := method(
-		qNodes foreach(create)
+		qNodes foreach(mkdir)
+		self
 	)
 	
 	empty := method(
-		qNodes foreach(remove) 
-		qNodes foreach(create)
+		qNodes foreach(empty)
+		self
 	)
 	
 	path := method(node path)
 	
+	jobError ::= nil
+	
 	process := method(
+		setJobError(nil)
+		
 		if(expiresActive, expireActive)
 		processedOne := false
 		self jobs := List clone
 		while(k := waitingNode queueToNode(activeNode),
-			if(k == "", break)
-			waiting := false
+			debugWriteln("waitingNode<", waitingNode path, "> queueToNode(<", activeNode path, ">) == <", k, ">")
+			if(k == nil, break)
+			debugWriteln("jobs size: ", jobs size)
+			debugWriteln("concurrency: ", concurrency)
 			while(jobs size >= concurrency,
+				if(jobError, jobError pass)
 				yield
 			)
 			processedOne = true
@@ -63,6 +74,10 @@ VertexDB Queue := Object clone do(
 			
 			if(concurrency > 1, job @@run, job run)
 		)
+		while(jobs size > 0,
+			if(jobError, jobError pass)
+			yield
+		)
 		processedOne
 	)
 	
@@ -71,22 +86,18 @@ VertexDB Queue := Object clone do(
 		node ::= nil
 		
 		run := method(
-			runError := try(
+			e := try(
 				queue processNode(node)
 			)
 			
-			if(runError,
-				debugWriteln("AsyncJob run error:")
-				debugWriteln(runError coroutine backTraceString)
-			)
-			queue finishedJob(self)
+			if(e, queue setJobError(e), queue finishedJob(self))
 		)
 	)
 	
 	processNode := method(node,
 		error := nil
 
-		//Transaction current begin
+		VertexDB Transaction newForCoro begin
 
 		e := try(target perform(messageName, node))
 		if(e, errorMessage := e coroutine backTraceString)
@@ -100,12 +111,7 @@ VertexDB Queue := Object clone do(
 		,
 			activeNode moveKeyToNode(node key, doneNode)
 		)
-		/*
-		e := try(Transaction current commit)
-		if(e,
-			writeln("Transaction current commit error in DBQueue")
-		)
-		*/
+		VertexDB Transaction current commit
 	)
 	
 	finishedJob := method(job,
@@ -114,6 +120,5 @@ VertexDB Queue := Object clone do(
 	
 	expireActive := method(
 		count := activeNode queueExpireToNode(waitingNode)
-		//writeln(qNode path, " expired ", count, " from active to waiting")
 	)
 )

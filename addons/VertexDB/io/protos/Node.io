@@ -17,7 +17,7 @@ VertexDB Node := Object clone do(
 	)
 	
 	asQueue := method(
-		Queue with(self)
+		Queue clone setNode(self)
 	)
 	
 	// reads
@@ -74,7 +74,7 @@ VertexDB Node := Object clone do(
 	)
 	
 	rm := method(key,
-		RmRequest clone setPath(path) setKey(key) results
+		Transaction current appendRequest(RmRequest clone setPath(path) setKey(key))
 		self
 	)
 		
@@ -102,39 +102,27 @@ VertexDB Node := Object clone do(
 		self
 	)
 	
+	key := method(
+		path lastPathComponent
+	)
+	
 	moveKeyToNode := method(key, node,
-		nodeAt(key) linkTo(node nodeAt(key))
+		nodeAt(key) linkTo(node nodeAt(key) path)
 		rm(key)
 		self
 	)
 	
 	//queues
-	queuePopToRequest := method(aPath,
-		request\
-			setAction("queuePopTo")\
-			addQuerySlots(list("path", "ttl", "whereKey", "whereValue"))\
-			setPath(aPath)\
-			setHttpMethod("post")
-	)
-	
 	queuePopTo := method(aPath,
-		Transaction current appendRequest(queuePopToRequest(aPath))
+		QueuePopToRequest clone setPath(path) setToPath(aPath) results
 	)
 	
 	queueToNode := method(aNode,
 		queuePopTo(aNode path)
 	)
 	
-	queueExpireToRequest := method(aPath,
-		request\
-			setAction("queueExpireTo")\
-			addQuerySlots(list("path"))\
-			setPath(aPath)\
-			setHttpMethod("post")
-	)
-	
 	queueExpireTo := method(aPath,
-		Transaction current appendRequest(queueExpireToRequest(aPath))
+		Transaction current appendRequest(QueueExpireToRequest clone setPath(path) setToPath(aPath))
 		self
 	)
 	

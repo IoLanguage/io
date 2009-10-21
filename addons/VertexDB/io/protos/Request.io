@@ -41,13 +41,12 @@ VertexDB Request := Object clone do(
 	execute := method(
 		url := URL with("http://" .. host .. ":" .. port asString .. resource) setFollowRedirects(false)
 		
-		debugOn
 		debugWriteln(url url)
-		/*
+		///*
 		if(body size > 0,
 			debugWriteln(body split("\n") map(line, "\t" .. line) join("\n"))
 		)
-		*/
+		//*/
 		
 		r := VertexDB Response clone setRequest(self)\
 			setBody(if(httpMethod asLowercase == "get", url fetch, url post(body)))\
@@ -91,5 +90,15 @@ VertexDB do(
 	LinkToRequest := Request clone do(
 		setAction("link")
 		addQuerySlots(list("fromPath", "toPath", "key"))
+	)
+	
+	QueuePopToRequest := Request clone do(
+		setAction("queuePopTo")
+		addQuerySlots(list("toPath", "ttl", "whereKey", "whereValue"))
+	)
+	
+	QueueExpireToRequest := Request clone do(
+		setAction("queueExpireTo")
+		addQuerySlots(list("toPath"))
 	)
 )
