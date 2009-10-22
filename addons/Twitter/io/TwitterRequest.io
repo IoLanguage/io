@@ -23,9 +23,11 @@ TwitterRequest := Object clone do(
 		setPathParamNames(List clone)
 	)
 	
+	response ::= nil
+	
 	//public
 	
-	results := method(
+	execute := method(
 		queryParams := Map clone
 		queryParamNames foreach(name,
 			if(v := self perform(name asCamelized asSymbol),
@@ -83,18 +85,16 @@ TwitterRequest := Object clone do(
 			postParams appendSeq("--" .. boundary .. "--\r\n")
 		)
 		
-		data := if(httpMethod asLowercase == "get", url fetch, url post(postParams, headers))
-		result := Yajl parseJson(data)
-		result _url := url
-		result _data := data
-		debugWriteln(url url)
-		debugWriteln(data)
-		result
+		setResponse(TwitterResponse clone\
+			setBody(if(httpMethod asLowercase == "get", url fetch, url post(postParams, headers)))\
+			setStatusCode(url statusCode)\
+			setRateLimitRemaining(url ?responseHeaders at("X-RateLimit-Remaining"))\
+			setRateLimitExpiration(url ?responseHeaders at("X-RateLimit-Reset")))
+		response
 	)
 	
-	resultsOrError := method(
-		results := self results
-		if(error := if(results type == "Map", results at("error")), Error with(error), results)
+	results := method(
+		execute raiseIfError results
 	)
 	
 	addQuerySlots := method(querySlotNames,
@@ -130,6 +130,11 @@ TwitterRequest := Object clone do(
 	asShowFriendship := method(
 		setPath("/friendships/show")
 		addQuerySlots("source_id source_screen_name target_id target_screen_name")
+	)
+	
+	asShow := method(
+		setPath("/users/show")
+		addQuerySlots("id user_id screen_name")
 	)
 	
 	asCreateFriendship := method(

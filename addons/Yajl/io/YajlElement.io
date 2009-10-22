@@ -81,8 +81,10 @@ nil asJson := method("null")
 Map asJson := method(
 	s := Sequence clone
 	s appendSeq("{")
-	self keys foreach(k,
-		s appendSeq(k asJson, ":", self at(k) asJson)
+	s appendSeq(
+		self keys map(k,
+			Sequence with(k asJson, ":", self at(k) asJson)
+		) join(",")
 	)
 	s appendSeq("}")
 	s
