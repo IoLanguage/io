@@ -12,11 +12,21 @@ TwitterAccount := Object clone do(
 		setProfile(TwitterAccountProfile clone setAccount(self))
 	)
 	
+	isLimited := method(
+		if(rateLimitRemaining == nil,
+			updateRateLimits
+		)
+		rateLimitRemaining == 0
+	)
+	
 	request := method(name,
 		TwitterRequest clone setUsername(screenName) setPassword(password)
 	)
 	
 	resultsFor := method(request,
+		if(isLimited,
+			TwitterException clone setIsRateLimited(true) raise
+		)
 		request execute
 		
 		if(request response rateLimitRemaining,
@@ -27,27 +37,44 @@ TwitterAccount := Object clone do(
 			setRateLimitExpiration(Date clone fromNumber(request response rateLimitExpiration asNumber))
 		)
 		
-		request results
+		request response raiseIfError results
 	)
 	
-	hasFriend := method(screenName,
+	updateRateLimits := method(
+		r := request asRateLimits execute response raiseIfError results
+		
+		setRateLimitRemaining(r at("remaining-hits") asNumber)
+		setRateLimitExpiration(Date clone fromNumber(r at("reset-time-in-seconds") asNumber))
+		self
+	)
+	
+	hasFriend := method(aScreenName,
 		//Could not find target user.
-		resultsFor(request asShowFriendship setTargetScreenName(screenName)) at("relationship") at("source") at("following")
+		resultsFor(request asShowFriendship setTargetScreenName(aScreenName)) at("relationship") at("source") at("following")
 	)
 	
-	follow := method(screenName,
+	hasFollower := method(aScreenName,
+		//Could not find target user.
+		resultsFor(request asFriendshipExists setUserA(aScreenName) setUserB(screenName))
+	)
+	
+	hasProtectedUpdates := method(aScreenName,
+		show(aScreenName) at("protected")
+	)
+	
+	follow := method(aScreenName,
 		//Could not follow user: richcollins is already on your list.
 		//Could not follow user: You have been blocked from following this account at the request of the user.
 		//Could not follow user: This account is currently suspended and is being investigated due to strange activity
 		
-		resultsFor(request asCreateFriendship setScreenName(screenName))
+		resultsFor(request asCreateFriendship setScreenName(aScreenName))
 		self
 	)
 	
-	unfollow := method(screenName,
+	unfollow := method(aScreenName,
 		//You are not friends with the specified user
 		
-		resultsFor(request asDestroyFriendship setScreenName(screenName))
+		resultsFor(request asDestroyFriendship setScreenName(aScreenName))
 		self
 	)
 	
@@ -67,5 +94,68 @@ TwitterAccount := Object clone do(
 	
 	show := method(
 		resultsFor(request asShow setScreenName(screenName))
+	)
+	
+	showUser := method(aScreenName,
+		resultsFor(request asShow setScreenName(aScreenName))
+	)
+	
+	ExceptionConditional := Object clone do(
+		exception ::= nil
+		result ::= nil
+		done ::= false
+		
+		forward := method(
+			//if there is an exception, check for condition
+			if(exception,
+				condMessageName := call message name asMutable removePrefix("if") makeFirstCharacterLowercase
+				if(exception perform(condMessageName),
+					call evalArgAt(0)
+					setDone(true)
+				)
+			)
+
+			self
+		)
+		
+		else := method(
+			if(exception,
+				if(done,
+					//exception was handled
+					self
+				,
+					//exception wasn't handled
+					exception pass
+				)
+			,
+				//no exception
+				if(call message arguments size == 1,
+					call sender setSlot(call message arguments at(0), result)
+					messageArg := 1
+				,
+					messageArg := 0
+				)
+				
+				call evalArgAt(messageArg)
+				self
+			)
+		)
+	)
+	
+	handleErrors := method(
+		e := try(
+			result := call evalArgAt(0)
+		)
+		
+		if(e and e hasProto(TwitterException) not,
+			e pass
+		,
+			conditional := ExceptionConditional clone
+			if(e,
+				conditional setException(e)
+			,
+				conditional setResult(result) setDone(true)
+			)
+		)
 	)
 )

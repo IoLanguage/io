@@ -90,11 +90,10 @@ TwitterRequest := Object clone do(
 			setStatusCode(url statusCode)\
 			setRateLimitRemaining(url ?responseHeaders at("X-RateLimit-Remaining"))\
 			setRateLimitExpiration(url ?responseHeaders at("X-RateLimit-Reset")))
+		
+		debugWriteln("TwitterResponse body[", response body, "]")
+		debugWriteln("TwitterResponse statusCode[", response statusCode, "]")
 		response
-	)
-	
-	results := method(
-		execute raiseIfError results
 	)
 	
 	addQuerySlots := method(querySlotNames,
@@ -130,6 +129,11 @@ TwitterRequest := Object clone do(
 	asShowFriendship := method(
 		setPath("/friendships/show")
 		addQuerySlots("source_id source_screen_name target_id target_screen_name")
+	)
+	
+	asFriendshipExists := method(
+		setPath("/friendships/exists")
+		addQuerySlots("user_a user_b")
 	)
 	
 	asShow := method(
@@ -196,5 +200,9 @@ TwitterRequest := Object clone do(
 		setHost("search.twitter.com")
 		setPath("/search")
 		addQuerySlots("rpp page since_id q")
+	)
+	
+	asRateLimitStatus := method(
+		setPath("/account/rate_limit_status")
 	)
 )
