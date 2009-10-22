@@ -19,29 +19,52 @@ TwitterResponse := Object clone do(
 		)
 		
 		if(statusCode == 400) then(
-			TwitterBadRequestException raise(body)
+			TwitterException clone setIsBadRequest(true) raise(body)
 		) elseif(statusCode == 401) then(
-			TwitterNotAuthorizedException raise("bad username / password")
+			TwitterException clone setIsNotAuthorized(true) raise
 		) elseif(statusCode == 403) then(
-			TwitterForbiddenException raise(body)
+			e := TwitterException clone setIsForbidden(true)
+			if(errorMessage := results ?at("error"),
+				if(errorMessage endsWithSeq("is already on your list.")) then(
+					e setIsAlreadyFollowing(true)
+				) elseif(errorMessage containsSeq("You have been blocked")) then(
+					e setIsBlocked(true)
+				) elseif(errorMessage containsSeq("You do not have permission to retrieve following status for both specified users")) then(
+					setIsBlockedOrSuspendedOrProtected(true)
+				) elseif(errorMessage containsSeq("This account is currently suspended")) then(
+					e setIsSuspended(true)
+				) elseif(errorMessage containsSeq("You are not friends with the specified user")) then(
+					e setWasntFriend(true)
+				)
+			,
+				errorMessage := body
+			)
+			e raise(errorMessage)
 		) elseif(statusCode == 404) then(
-			TwitterNotFoundException raise
+			e := TwitterException clone setIsNotFound(true)
+			if(errorMessage := results ?at("error"),
+				if(errorMessage containsSeq("User has been suspended")) then(
+					e setIsSuspended(true)
+				)
+			,
+				errorMessage := body
+			)
+			e raise(errorMessage)
 		) elseif(statusCode == 500) then(
-			TwitterInternalErrorException raise(body)
+			TwitterException clone setIsInternalError(true) raise(body)
 		) elseif(statusCode == 502) then(
-			TwitterDownException raise
+			TwitterException clone setIsDown(true) raise
 		) elseif(statusCode == 503) then(
-			TwitterOverloadedException raise
+			TwitterException clone setIsOverloaded(true) raise
 		)
 		
 		results ifError(
 			Exception raise(e message)
 		)
 		
-		if(results at("error"),
-			TwitterUnknownException raise(results at("error"))
+		if(errorMessage := results ?at("error"),
+			TwitterException clone  raise(errorMessage)
 		)
-		
 		
 		self
 	)

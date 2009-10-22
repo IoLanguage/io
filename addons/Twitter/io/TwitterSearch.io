@@ -15,7 +15,7 @@ TwitterSearch := Object clone do(
 			setRpp(perPage)\
 			setSinceId(sinceUpdateId)\
 			setPage(page)\
-			resultsOrError returnIfError at("results")
+			results at("results")
 	)
 	
 	cursor := method(
