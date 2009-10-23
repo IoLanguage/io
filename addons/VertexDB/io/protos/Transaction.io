@@ -66,7 +66,7 @@ VertexDB Transaction := Object clone do(
 	)
 	
 	_abort := method(
-		Coroutine currentCoroutine removeSlot(coroSlotName)
+		//Coroutine currentCoroutine removeSlot(coroSlotName)
 		setInTransaction(false)
 		requests empty
 		self
