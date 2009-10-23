@@ -62,11 +62,18 @@ TwitterAccount := Object clone do(
 		show(aScreenName) at("protected")
 	)
 	
+	/* for testing
+	raiseFollowException := method(
+		//self raiseFollowException := nil
+		TwitterException clone setIsFollowLimit(true) raise("Follow limit reached")
+	)
+	*/
+	
 	follow := method(aScreenName,
 		//Could not follow user: richcollins is already on your list.
 		//Could not follow user: You have been blocked from following this account at the request of the user.
 		//Could not follow user: This account is currently suspended and is being investigated due to strange activity
-		
+		//raiseFollowException for testing
 		resultsFor(request asCreateFriendship setScreenName(aScreenName))
 		self
 	)
@@ -116,7 +123,7 @@ TwitterAccount := Object clone do(
 			)
 
 			self
-		)
+		) setPassStops(true)
 		
 		else := method(
 			if(exception,
@@ -129,7 +136,7 @@ TwitterAccount := Object clone do(
 				)
 			,
 				//no exception
-				if(call message arguments size == 1,
+				if(call message arguments size == 2,
 					call sender setSlot(call message arguments at(0) name, result)
 					messageArg := 1
 				,
@@ -139,7 +146,7 @@ TwitterAccount := Object clone do(
 				call evalArgAt(messageArg)
 				self
 			)
-		)
+		) setPassStops(true)
 	)
 	
 	handleErrors := method(

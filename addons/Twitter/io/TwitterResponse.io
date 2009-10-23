@@ -35,6 +35,8 @@ TwitterResponse := Object clone do(
 					e setIsSuspended(true)
 				) elseif(errorMessage containsSeq("You are not friends with the specified user")) then(
 					e setWasntFriend(true)
+				) elseif(errorMessage containsSeq("You are unable to follow more people at this time")) then(
+					e setIsFollowLimit(true)
 				)
 			,
 				errorMessage := body
