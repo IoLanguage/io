@@ -72,7 +72,7 @@ VertexDB do(
 	SizeRequest := Request clone setAction("size")
 	
 	WriteRequest := Request clone setAction("write") addQuerySlots(list("key", "value"))
-	WriteRequest queryString := method(Sequence with("?action=write&key=", key, "&value=", value))
+	WriteRequest queryString := method(Sequence with("?action=write&key=", URL escapeString(key), "&value=", URL escapeString(value)))
 
 	RmRequest := Request clone setAction("rm") addQuerySlots(list("key"))
 	
@@ -85,6 +85,26 @@ VertexDB do(
 	QueryRequest := Request clone do(
 		setAction("select")
 		addQuerySlots(list("op", "before", "after", "count", "whereKey", "whereValue"))
+		
+		foreachBlock := method(b,
+			last := ""
+			loop(
+				keys := self setOp("keys") setAfter(last) setCount(200) results
+				if(keys isEmpty, break)
+				keys foreach(k, b call(k, nodeAt(k)))
+				last := keys last
+			)
+		)
+		
+		foreachAttributeBlock := method(attribute, b,
+			last := ""
+			loop(
+				value := queryRequest setOp("value") setAfter(last) setAttribute(attribute) setCount(200) results
+				if(keys isEmpty, break)
+				keys foreach(k, b call(k, nodeAt(k)))
+				last := keys last
+			)
+		)
 	)
 	
 	LinkToRequest := Request clone do(

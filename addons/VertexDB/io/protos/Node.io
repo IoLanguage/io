@@ -54,7 +54,7 @@ VertexDB Node := Object clone do(
 	pairs := method(
 		queryRequest setOp("pairs") results
 	)
-	
+		
 	counts := method(
 		queryRequest setOp("counts") results
 	)
@@ -149,7 +149,23 @@ VertexDB Node := Object clone do(
 	)
 */
 	foreachBlock := method(b,
-		self keys foreach(k, b call(k, nodeAt(k)))
+		last := ""
+		loop(
+			keys := queryRequest setOp("keys") setAfter(last) setCount(200) results
+			if(keys isEmpty, break)
+			keys foreach(k, b call(k, nodeAt(k)))
+			last := keys last
+		)
+	)
+	
+	foreachAttributeBlock := method(attribute, b,
+		last := ""
+		loop(
+			value := queryRequest setOp("value") setAfter(last) setAttribute(attribute) setCount(200) results
+			if(keys isEmpty, break)
+			keys foreach(k, b call(k, nodeAt(k)))
+			last := keys last
+		)
 	)
 
 	renameKey := method(oldKey, newKey,
