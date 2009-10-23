@@ -26,6 +26,9 @@ List do(
 		seq foreach(x, self remove(x))
 		self
 	)
+	
+	//doc List rest Returns a copy of the list but with the first element removed.
+	rest := method(slice(1))
 
 	/*doc List join(optionalString) 
 		Returns a Sequence of the concatenated items with 
