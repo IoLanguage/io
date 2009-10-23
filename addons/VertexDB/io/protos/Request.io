@@ -39,6 +39,7 @@ VertexDB Request := Object clone do(
 	)
 
 	execute := method(
+		writeln("execute")
 		url := URL with("http://" .. host .. ":" .. port asString .. resource) setFollowRedirects(false)
 		
 		debugWriteln(url url)
@@ -51,6 +52,7 @@ VertexDB Request := Object clone do(
 		r := VertexDB Response clone setRequest(self)\
 			setBody(if(httpMethod asLowercase == "get", url fetch, url post(body)))\
 			setStatusCode(url statusCode)
+			writeln("r statusCode:", r statusCode)
 
 		//writeln("url statusCode: ", url statusCode)
 		r
@@ -58,6 +60,7 @@ VertexDB Request := Object clone do(
 	
 	results := method(
 		response := execute
+		raisesOnError = true
 		if(raisesOnError, response raiseIfError)
 		response results
 	)

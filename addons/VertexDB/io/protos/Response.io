@@ -14,6 +14,7 @@ VertexDB Response := Object clone do(
 	)
 	
 	raiseIfError := method(
+		writeln("statusCode:", statusCode)
 		body ifError(e,
 			Exception raise(e message)
 		)
