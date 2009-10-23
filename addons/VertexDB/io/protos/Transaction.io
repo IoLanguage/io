@@ -39,19 +39,20 @@ VertexDB Transaction := Object clone do(
 		)
 	)
 	
-	begin := method(
+	_begin := method(
+		if(inTransaction, Exception raise("Already in transaction"))
 		if(requests not, Exception raise("Uninitialized transaction"))
 		setInTransaction(true)
 		self
 	)
 	
-	commit := method(
+	_commit := method(
 		//write(" <join"); File standardOutput flush
 		body := Sequence clone
 		body setSize(1000000) setSize(0)
 		requests foreach(r, body appendSeq(r resource, "\n"))
 		//write(">"); File standardOutput flush
-		abort
+		_abort
 		//write(" <send"); File standardOutput flush
 		if(body size > 0,
 			TransactionRequest clone\
@@ -64,7 +65,7 @@ VertexDB Transaction := Object clone do(
 		self
 	)
 	
-	abort := method(
+	_abort := method(
 		Coroutine currentCoroutine removeSlot(coroSlotName)
 		setInTransaction(false)
 		requests empty
@@ -72,13 +73,15 @@ VertexDB Transaction := Object clone do(
 	)
 	
 	doCommit := method(
+		if(inTransaction, return(self))
+		
 		e := try(
-			begin
+			_begin
 			call evalArgs
-			commit
+			_commit
 		)
 		if(e,
-			abort
+			_abort
 			e pass
 		)
 		self
