@@ -32,7 +32,7 @@ VertexDB Node := Object clone do(
 	)
 	
 	lastKey := method(
-		queryRequest setOp("keys") setBefore("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ") setCount(1) results first
+		queryRequest setOp("keys") setBefore("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ") setCount(1) results first // hack
 	)
 	
 	lastValue := method(
@@ -41,6 +41,10 @@ VertexDB Node := Object clone do(
 
 	keys := method(
 		queryRequest setOp("keys") results
+	)
+	
+	hasKey := method(key,
+		read(key) != nil
 	)
 	
 	values := method(
@@ -133,6 +137,28 @@ VertexDB Node := Object clone do(
 		queueExpireTo(aNode path)
 		self
 	)
+	
+/*
+	foreach := method(
+		slotName := call message arguments first name
+		todo := call message arguments at(1)
+		keys foreach(key,
+			call sender setSlot(slotName, key)
+			call sender doMessage(todo)
+		)
+	)
+*/
+	foreachBlock := method(b,
+		self keys foreach(k, b call(k, nodeAt(k)))
+	)
 
+	renameKey := method(oldKey, newKey,
+		if(oldKey == newKey, return self)
+		Request debugOn
+		//writeln("self nodeAt(newKey) path = ", self nodeAt(newKey) path)
+		nodeAt(oldKey) linkTo(self nodeAt(newKey) path)
+		rm(oldKey)
+		self	
+	)
 ) 
 
