@@ -51,12 +51,8 @@
 					PBXFindDataSource_LocationID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 262576079;
-			PBXWorkspaceStateSaveDate = 262576079;
-		};
-		perUserProjectItems = {
-			AAC6163B0FA697E1004C9E40 /* PBXBookmark */ = AAC6163B0FA697E1004C9E40 /* PBXBookmark */;
-			AAC616400FA697E9004C9E40 /* PBXTextBookmark */ = AAC616400FA697E9004C9E40 /* PBXTextBookmark */;
+			PBXPerProjectTemplateStateSaveDate = 278019607;
+			PBXWorkspaceStateSaveDate = 278019607;
 		};
 		sourceControlManager = AA7D577E0B60123600D7DEA9 /* Source Control */;
 		userBuildSettings = {
@@ -186,6 +182,9 @@
 		configStateDict = {
 		};
 		customDataFormattersEnabled = 1;
+		dataTipCustomDataFormattersEnabled = 1;
+		dataTipShowTypeColumn = 1;
+		dataTipSortType = 0;
 		debuggerPlugin = GDBDebugging;
 		disassemblyDisplayState = 0;
 		enableDebugStr = 1;
@@ -195,6 +194,7 @@
 		executableUserSymbolLevel = 0;
 		libgmallocEnabled = 0;
 		name = osx;
+		showTypeColumn = 0;
 		sourceDirectories = (
 		);
 	};
@@ -203,6 +203,9 @@
 		fallbackIsa = XCSourceControlManager;
 		isSCMEnabled = 0;
 		scmConfiguration = {
+			repositoryNamesForRoots = {
+				"" = "";
+			};
 		};
 		scmType = "";
 	};
@@ -2074,6 +2077,7 @@
 		ignoreCount = 0;
 		lineNumber = 38;
 		modificationTime = 196051063.588601;
+		originalNumberOfMultipleMatches = 0;
 		state = 2;
 	};
 	AAB9651D0B616A1000030A99 /* IoObject_inline.h:40 */ = {
@@ -2090,6 +2094,7 @@
 		ignoreCount = 0;
 		lineNumber = 40;
 		modificationTime = 196051063.588622;
+		originalNumberOfMultipleMatches = 0;
 		state = 2;
 	};
 	AAB965230B616ACD00030A99 /* Stack_inline.h:41 */ = {
@@ -2106,6 +2111,7 @@
 		ignoreCount = 0;
 		lineNumber = 41;
 		modificationTime = 223735691.3090011;
+		originalNumberOfMultipleMatches = 1;
 		state = 0;
 	};
 	AABA46030B6DB7CC00446661 /* UArray_character.c */ = {
@@ -2197,19 +2203,5 @@
 			sepNavSelRange = "{755, 9}";
 			sepNavVisRange = "{2286, 856}";
 		};
-	};
-	AAC6163B0FA697E1004C9E40 /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = AA1C3FAD0B7448B500334368 /* SHash.h */;
-	};
-	AAC616400FA697E9004C9E40 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = AA1C3FAD0B7448B500334368 /* SHash.h */;
-		name = "SHash.h: 2";
-		rLen = 15;
-		rLoc = 47;
-		rType = 0;
-		vrLen = 818;
-		vrLoc = 0;
 	};
 }
