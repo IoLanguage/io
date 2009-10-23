@@ -31,6 +31,7 @@ VertexDB Transaction := Object clone do(
 	)
 	
 	appendRequest := method(request,
+		writeln(request resource)
 		if(inTransaction,
 			requests append(request)
 			self
@@ -51,6 +52,7 @@ VertexDB Transaction := Object clone do(
 		body := Sequence clone
 		body setSize(1000000) setSize(0)
 		requests foreach(r, body appendSeq(r resource, "\n"))
+		body removeSuffix("\n")
 		//write(">"); File standardOutput flush
 		_abort
 		//write(" <send"); File standardOutput flush
@@ -66,6 +68,7 @@ VertexDB Transaction := Object clone do(
 	)
 	
 	_abort := method(
+		writeln("Abort")
 		//Coroutine currentCoroutine removeSlot(coroSlotName)
 		setInTransaction(false)
 		requests empty
@@ -74,9 +77,12 @@ VertexDB Transaction := Object clone do(
 	
 	doCommit := method(
 		if(inTransaction,
+			writeln("In Transaction")
 			call evalArgs
 			return(self)
 		)
+		
+		writeln("Not In transaction")
 		
 		e := try(
 			_begin
