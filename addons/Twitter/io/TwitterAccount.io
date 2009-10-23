@@ -41,10 +41,10 @@ TwitterAccount := Object clone do(
 	)
 	
 	updateRateLimits := method(
-		r := request asRateLimits execute response raiseIfError results
+		r := request asRateLimitStatus execute raiseIfError results
 		
-		setRateLimitRemaining(r at("remaining-hits") asNumber)
-		setRateLimitExpiration(Date clone fromNumber(r at("reset-time-in-seconds") asNumber))
+		setRateLimitRemaining(r at("remaining_hits") asNumber)
+		setRateLimitExpiration(Date clone fromNumber(r at("reset_time_in_seconds") asNumber))
 		self
 	)
 	
@@ -108,7 +108,7 @@ TwitterAccount := Object clone do(
 		forward := method(
 			//if there is an exception, check for condition
 			if(exception,
-				condMessageName := call message name asMutable removePrefix("if") makeFirstCharacterLowercase
+				condMessageName := call message name asMutable removePrefix("if") makeFirstCharacterLowercase asSymbol
 				if(exception perform(condMessageName),
 					call evalArgAt(0)
 					setDone(true)
@@ -130,7 +130,7 @@ TwitterAccount := Object clone do(
 			,
 				//no exception
 				if(call message arguments size == 1,
-					call sender setSlot(call message arguments at(0), result)
+					call sender setSlot(call message arguments at(0) name, result)
 					messageArg := 1
 				,
 					messageArg := 0
@@ -144,7 +144,7 @@ TwitterAccount := Object clone do(
 	
 	handleErrors := method(
 		e := try(
-			result := call evalArgAt(0)
+			result := self doMessage(call message arguments at(0), call sender)
 		)
 		
 		if(e and e hasProto(TwitterException) not,

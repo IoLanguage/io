@@ -73,7 +73,10 @@ VertexDB Transaction := Object clone do(
 	)
 	
 	doCommit := method(
-		if(inTransaction, return(self))
+		if(inTransaction,
+			call evalArgs
+			return(self)
+		)
 		
 		e := try(
 			_begin
