@@ -27,7 +27,7 @@ Call do(
 	/*doc Call evalArgs
 	Returns a list containing the call message arguments evaluated in the context of the sender.
 	*/
-	evalArgs := method(self message argsEvaluatedIn(sender))
+	evalArgs := method(self message argsEvaluatedIn(sender)) setPassStops(true)
 	
 	/*doc Call hasArgs
 	Returns true if the call was passed arguments.
