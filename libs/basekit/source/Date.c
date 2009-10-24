@@ -307,6 +307,7 @@ static struct tm EmptyTM(void)
 void Date_fromString_format_(Date *self, const char *s, const char *format)
 {
 	struct tm tm = EmptyTM();
+	tm.tm_isdst = self->tz.tz_dsttime;
 	io_strptime((char *)s, (char *)format, &tm);
 	/*
 	printf("year  = %i\n", t.tm_year);
