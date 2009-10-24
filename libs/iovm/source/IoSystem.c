@@ -190,6 +190,9 @@ IO_METHOD(IoObject, shellExecute)
 #else
 IO_METHOD(IoObject, daemon)
 {
+	/*doc System daemon(dontChroot, dontRedirectOutputStreams)
+	Become a daemon process.  If dontChroot is false, the process will change its directory to /.  If dontRedirectOutputStreams is false, stdout and stderr are redirected to /dev/null.
+	*/
 	if(daemon(IoMessage_locals_boolArgAt_(m, locals, 0), IoMessage_locals_boolArgAt_(m, locals, 1)))
 	{
 		IoState_error_(IOSTATE, self, "Daemonize failed. See System errorNumberDescription.");
