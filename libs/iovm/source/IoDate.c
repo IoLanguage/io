@@ -66,6 +66,7 @@ IoDate *IoDate_proto(void *state)
 	{"gmtOffset", IoDate_gmtOffset},
 	{"gmtOffsetSeconds", IoDate_gmtOffsetSeconds},
 	{"convertToUTC", IoDate_convertToUTC},
+	{"setToUTC", IoDate_setToUTC},
 	{"isValidTime", IoDate_isValidTime},
 	{"secondsSince", IoDate_secondsSince_},
 	{"secondsSinceNow", IoDate_secondsSinceNow},
@@ -408,7 +409,7 @@ IO_METHOD(IoDate, gmtOffsetSeconds)
 	return IONUMBER(tp->tm_gmtoff);
 #endif
 }
-
+	
 IO_METHOD(IoDate, gmtOffset)
 {
 	/*doc Date gmtOffset
@@ -439,6 +440,23 @@ IO_METHOD(IoDate, convertToUTC)
 	tz.tz_minuteswest = 0;
 	tz.tz_dsttime = 0;
 	Date_convertToTimeZone_(DATA(self), tz);
+	IoObject_isDirty_(self, 1);
+	return self;
+}
+
+IO_METHOD(IoDate, setToUTC)
+{
+	/*doc Date asUTC
+	Changes the timezone of this date to utc
+	*/
+
+	struct timezone tz;
+	tz.tz_minuteswest = 0;
+	tz.tz_dsttime = 0;
+	
+	Date_setTimeZone_(DATA(self), tz);
+	IoObject_isDirty_(self, 1);
+	
 	return self;
 }
 
