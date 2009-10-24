@@ -43,9 +43,9 @@ SqlTable := Object clone do(
 		start := 0
 		increment := 1000
 		loop(
-			//write(" <sql"); File standardOutput flush
+			write(" <sql"); File standardOutput flush
 			rows := db queryThenMap("SELECT * FROM " .. name .. " LIMIT " .. start .. ", " .. increment)
-			//write(">"); File standardOutput flush
+			write(">"); File standardOutput flush
 			if(rows size == 0, break)
 			rows foreach(row, 
 				call sender setSlot(call message arguments first name, row)

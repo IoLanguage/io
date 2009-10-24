@@ -104,7 +104,6 @@ void IoState_UserInterruptHandler(int sig)
 		{
 			self->receivedSignal = 1;
 			
-			/*
 			IoObject *system = IoState_protoWithInitFunction_(self, IoSystem_proto);
 			if (system)
 			{
@@ -114,7 +113,7 @@ void IoState_UserInterruptHandler(int sig)
 					return;
 				}
 			}
-			*/
+
 			printf("	Received signal. Setting interrupt flag.\n");
 		}
 	}	
