@@ -39,9 +39,11 @@ SqlTable := Object clone do(
 		writeln(list(name, columnNames))
 	)
 
+	foreachCacheSize ::= 1000
+	
 	foreach := method(
 		start := 0
-		increment := 1000
+		increment := foreachCacheSize
 		loop(
 			write(" <sql"); File standardOutput flush
 			rows := db queryThenMap("SELECT * FROM " .. name .. " LIMIT " .. start .. ", " .. increment)
