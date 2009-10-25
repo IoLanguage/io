@@ -39,7 +39,7 @@ SqlTable := Object clone do(
 		writeln(list(name, columnNames))
 	)
 
-	foreachCacheSize ::= 1000
+	foreachCacheSize ::= 100
 	
 	foreach := method(
 		start := 0
