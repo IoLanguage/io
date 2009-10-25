@@ -519,7 +519,7 @@ size_t UArray_count_(const UArray *self, const UArray *other)
 	return count;
 }
 
-UArray *UArray_asBase64(const UArray *self)
+UArray *UArray_asBase64(const UArray *self, int charsPerLine)
 {
 	base64_encodestate state;
 	size_t unencodedBytesSize;
@@ -528,6 +528,8 @@ UArray *UArray_asBase64(const UArray *self)
 	UArray *encoded;
 	
 	base64_init_encodestate(&state);
+	state.chars_per_line = charsPerLine;
+	
 	unencodedBytesSize = UArray_sizeInBytes(self);
 	encodedBytes = io_calloc(2 * unencodedBytesSize, 1);
 	
