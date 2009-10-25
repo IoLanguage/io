@@ -104,15 +104,17 @@ void IoState_UserInterruptHandler(int sig)
 		{
 			self->receivedSignal = 1;
 			
-			IoObject *system = IoState_protoWithInitFunction_(self, IoSystem_proto);
+			/*
+			IoObject *system = IoState_protoWithName_(self, "System");
 			if (system)
 			{
-				IoObject *handlerMethod = IoObject_getSlot_(system, IOSYMBOL("interuptHandler"));
-				if (!ISNIL(handlerMethod))
+				IoObject *handlerMethod = IoObject_rawGetSlot_(system, IOSYMBOL("interuptHandler"));
+				if (handlerMethod)
 				{
 					return;
 				}
 			}
+			*/
 
 			printf("	Received signal. Setting interrupt flag.\n");
 		}
