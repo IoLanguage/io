@@ -360,7 +360,10 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		//writeln("readHeader[", readHeader, "]")
         	//if(responseHeaders , writeln("responseHeaders [",responseHeaders keys join(","),"]"))
 
-		if(readHeader == nil or self getSlot("responseHeaders") == nil, return(Error with("URL Error: didn't find read header in [" .. b .. "]")))
+		if(readHeader == nil or self getSlot("responseHeaders") == nil,
+			self readHeader := ""
+			self responseHeaders := Map clone
+		)
 
 		contentLength := responseHeaders at("Content-Length")
 		if(contentLength, 

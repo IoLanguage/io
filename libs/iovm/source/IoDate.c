@@ -66,6 +66,7 @@ IoDate *IoDate_proto(void *state)
 	{"gmtOffset", IoDate_gmtOffset},
 	{"gmtOffsetSeconds", IoDate_gmtOffsetSeconds},
 	{"convertToUTC", IoDate_convertToUTC},
+	{"convertToLocal", IoDate_convertToLocal},
 	{"setToUTC", IoDate_setToUTC},
 	{"isValidTime", IoDate_isValidTime},
 	{"secondsSince", IoDate_secondsSince_},
@@ -433,12 +434,28 @@ IO_METHOD(IoDate, gmtOffset)
 IO_METHOD(IoDate, convertToUTC)
 {
 	/*doc Date convertToUTC
-	Converts this date to the equivalent UTC date
+	Converts self from a local date to the equivalent UTC date
 	*/
 
 	struct timezone tz;
 	tz.tz_minuteswest = 0;
 	tz.tz_dsttime = 0;
+	Date_convertToTimeZone_(DATA(self), tz);
+	IoObject_isDirty_(self, 1);
+	return self;
+}
+
+IO_METHOD(IoDate, convertToLocal)
+{
+	/*doc Date convertToLocal
+	Converts self date from a UTC date to the equivalent local date
+	*/
+
+	struct timeval tv;
+	struct timezone tz;
+	
+	gettimeofday(&tv, &tz);
+	
 	Date_convertToTimeZone_(DATA(self), tz);
 	IoObject_isDirty_(self, 1);
 	return self;
@@ -600,7 +617,7 @@ IO_METHOD(IoDate, printDate)
 IO_METHOD(IoDate, asNumber)
 {
 	/*doc Date asNumber
-	Returns the date as seconds since 1970.
+	Returns the date as seconds since 1970 UTC.
 	*/
 
 	return IONUMBER(Date_asSeconds(DATA(self)));

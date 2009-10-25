@@ -93,12 +93,8 @@ void Date_setTimeZone_(Date *self, struct timezone tz)
 
 void Date_convertToTimeZone_(Date *self, struct timezone tz)
 {
-	double s = Date_asSeconds(self) +
-	((self->tz.tz_minuteswest - tz.tz_minuteswest) * 60);
-	if (self->tz.tz_dsttime)
-	{
-		s -= 3600;
-	}
+	double s = Date_asSeconds(self) + 60*(self->tz.tz_minuteswest - (self->tz.tz_dsttime ? 60 : 0)) - 60*(tz.tz_minuteswest - (tz.tz_dsttime ? 60 : 0));
+	
 	Date_fromSeconds_(self, s);
 	Date_setTimeZone_(self, tz);
 }
