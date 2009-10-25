@@ -1216,13 +1216,13 @@ IO_METHOD(IoSeq, asBase64)
 {
 	/*doc Sequence asBase64(optionalCharactersPerLine)
 	Returns an immutable, base64 encoded (according to RFC 1421) version of self. 
-	If used, optionalCharactersPerLine sets where return characters will occur in the output and if not pased, a value of 72 is used.
+	optionalCharactersPerLine describes the number of characters between line breaks and defaults to 0.
 	*/
-	int charsPerLine = 72;
+	int charsPerLine = 0;
 	
 	if (IoMessage_argCount(m) > 0)
 	{
-		charsPerLine = IoMessage_locals_intArgAt_(m, locals, 1);
+		charsPerLine = IoMessage_locals_intArgAt_(m, locals, 0);
 	}
 	
 	return IoSeq_newWithUArray_copy_(IOSTATE, UArray_asBase64(IoSeq_rawUArray(self), charsPerLine), 0);
