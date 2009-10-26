@@ -65,6 +65,7 @@ Scheduler := Object clone do(
 Coroutine do(
 	//doc Coroutine stackSize Stack size allocated for each new coroutine. Coroutines will automatically chain themselves as need if more stack space is required.
 	//doc Coroutine setStackSize
+	//stackSize ::= 131072 // PPC needs 128k for current parser
 	stackSize ::= 131072 // PPC needs 128k for current parser
 
 	//doc Coroutine exception Returns the current exception or nil if there is none.
@@ -199,6 +200,7 @@ Coroutine do(
 
     //doc Coroutine backTraceString Returns a formatted callStack output along with exception info (if any). In case of CGI script, wraps output with &lt;code&gt; tag.
 	backTraceString := method(
+		writeln("backTraceString ==================================================================================")
 		if(Coroutine inException,
 			writeln("\n", exception type, ": ", exception error, "\n\n")
 			writeln("Coroutine Exception loop detected");
@@ -393,6 +395,7 @@ Protos Exception do(
 	newSlot("originalCall")
 
 	raise := method(error, nestedException,
+		//writeln("RAISE EXCEPTION")
 		coro := Scheduler currentCoroutine
 		coro raiseException(self clone setError(error) setCoroutine(coro) setNestedException(nestedException))
 	)

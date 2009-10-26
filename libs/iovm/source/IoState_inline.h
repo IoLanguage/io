@@ -60,12 +60,17 @@ IOINLINE int ISFALSE(IoObject *self)
 
 IOINLINE IoObject *IOBOOL(IoObject *self, int b)
 {
+/*
 	IoObject *t = IOTRUE(self);
 	IoObject *f = IOFALSE(self);
-	
+
+	printf("b = %i ", b);
+	printf("t = %p ", t);
+	printf("f = %p\n", f);
+
 	return b ? t : f;
-	
-	//return b ? IOTRUE(self) : IOFALSE(self);
+*/
+	return b ? IOTRUE(self) : IOFALSE(self);
 }
 
 // collector --------------------------------------------------------
