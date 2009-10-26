@@ -1920,6 +1920,7 @@ IO_METHOD(IoObject, argIsCall)
 	Note: this is used internally in one place only (Coroutine callStack). 
 	Refactoring should be considered.
 	*/
+	
 	IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 0);
 	//printf("IoObject_tag(v)->name = '%s'\n", IoObject_tag(v)->name);
 /*
@@ -1934,6 +1935,8 @@ IO_METHOD(IoObject, argIsCall)
 
 	//testStack(self);
 */
+	
+/*
 	int isAct = ((void *)(IoObject_tag(self)->cloneFunc) == (void *)IoCall_rawClone);
 	
 //	printf("ISACTIVATIONCONTEXT = %i\n", isAct);
@@ -1941,8 +1944,9 @@ IO_METHOD(IoObject, argIsCall)
 	void *t = IOTRUE(self);
 	void *f = IOFALSE(self);
 	return isAct ? t : f;
+*/
 
-	//return IOBOOL(self, ISACTIVATIONCONTEXT(v));
+	return IOBOOL(self, ISACTIVATIONCONTEXT(v));
 }
 
 IO_METHOD(IoObject, become)

@@ -41,6 +41,9 @@ TwitterAccount := Object clone do(
 	)
 	
 	updateRateLimits := method(
+setRateLimitRemaining(150)
+setRateLimitExpiration(Date clone now)
+return(self)
 		r := request asRateLimitStatus execute raiseIfError results
 		
 		setRateLimitRemaining(r at("remaining_hits") asNumber)
