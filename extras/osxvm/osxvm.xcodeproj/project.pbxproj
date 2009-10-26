@@ -966,6 +966,7 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_7 = "\"$(SRCROOT)/../../libs/garbagecollector/_build/lib\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_8 = "\"$(SRCROOT)/../../libs/iovm/_build/dll\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_9 = "\"$(SRCROOT)/../../libs/iovm/_build/lib\"";
+				OTHER_LDFLAGS = "-flat_namespace";
 				PRODUCT_NAME = osxvm;
 				VALID_ARCHS = x86_64;
 				ZERO_LINK = YES;
@@ -1007,6 +1008,7 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_7 = "\"$(SRCROOT)/../../libs/garbagecollector/_build/lib\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_8 = "\"$(SRCROOT)/../../libs/iovm/_build/dll\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_9 = "\"$(SRCROOT)/../../libs/iovm/_build/lib\"";
+				OTHER_LDFLAGS = "-flat_namespace";
 				PRODUCT_NAME = osxvm;
 				ZERO_LINK = NO;
 			};
@@ -1045,6 +1047,7 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_7 = "\"$(SRCROOT)/../../libs/garbagecollector/_build/lib\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_8 = "\"$(SRCROOT)/../../libs/iovm/_build/dll\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_9 = "\"$(SRCROOT)/../../libs/iovm/_build/lib\"";
+				OTHER_LDFLAGS = "-flat_namespace";
 				PRODUCT_NAME = osxvm;
 			};
 			name = Default;

@@ -276,7 +276,7 @@ IOINLINE int IoState_handleStatus(IoState *self)
 	}
 }
 
-IOINLINE IoObject* IoState_stopStatusObject(IoState *self, int stopStatus)
+IOINLINE IoObject *IoState_stopStatusObject(IoState *self, int stopStatus)
 {
 	switch(stopStatus)
 	{
