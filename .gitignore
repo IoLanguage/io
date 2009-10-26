@@ -86,4 +86,5 @@ addons/*/docs/docs.txt
 *.pbxuser
 *.mode1v3
 extras/osxvm/build
+extras/osxmain/build
 *~
