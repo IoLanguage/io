@@ -55,6 +55,7 @@ VertexDB Request := Object clone do(
 	results := method(
 		response := execute
 		raisesOnError = true
+		
 		if(raisesOnError, response raiseIfError)
 		response results
 	)

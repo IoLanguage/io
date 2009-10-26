@@ -150,19 +150,28 @@ TwitterAccount := Object clone do(
 	)
 	
 	handleErrors := method(
-		e := try(
-			result := self doMessage(call message arguments at(0), call sender)
-		)
+		attempts := 0
 		
-		if(e and e hasProto(TwitterException) not,
-			e pass
-		,
-			conditional := ExceptionConditional clone
+		while(attempts < 3,
+			e := try(
+				result := self doMessage(call message arguments at(0), call sender)
+			)
+
 			if(e,
-				conditional setException(e)
+				if(e hasProto(TwitterException),
+					if(e isOverloaded or e isDown or e isInternalError,
+						attempts = attempts + 1
+					,
+						return(ExceptionConditional clone setException(e))
+					)
+				,
+					e pass
+				)
 			,
-				conditional setResult(result) setDone(true)
+				return(ExceptionConditional clone setResult(result) setDone(true))
 			)
 		)
+		
+		e pass
 	)
 )

@@ -931,7 +931,8 @@
 		AA984A66090478C9002242A2 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1)";
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1 = x86_64;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -967,7 +968,7 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_8 = "\"$(SRCROOT)/../../libs/iovm/_build/dll\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_9 = "\"$(SRCROOT)/../../libs/iovm/_build/lib\"";
 				PRODUCT_NAME = osxvm;
-				VALID_ARCHS = x86_64;
+				VALID_ARCHS = i386;
 				ZERO_LINK = YES;
 			};
 			name = Development;
@@ -975,6 +976,8 @@
 		AA984A67090478C9002242A2 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -1008,6 +1011,7 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_8 = "\"$(SRCROOT)/../../libs/iovm/_build/dll\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_9 = "\"$(SRCROOT)/../../libs/iovm/_build/lib\"";
 				PRODUCT_NAME = osxvm;
+				VALID_ARCHS = i386;
 				ZERO_LINK = NO;
 			};
 			name = Deployment;
@@ -1015,6 +1019,8 @@
 		AA984A68090478C9002242A2 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INSTALL_PATH = "$(HOME)/bin";
@@ -1046,6 +1052,7 @@
 				LIBRARY_SEARCH_PATHS_QUOTED_8 = "\"$(SRCROOT)/../../libs/iovm/_build/dll\"";
 				LIBRARY_SEARCH_PATHS_QUOTED_9 = "\"$(SRCROOT)/../../libs/iovm/_build/lib\"";
 				PRODUCT_NAME = osxvm;
+				VALID_ARCHS = i386;
 			};
 			name = Default;
 		};
