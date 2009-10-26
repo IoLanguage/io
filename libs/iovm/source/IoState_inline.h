@@ -60,7 +60,12 @@ IOINLINE int ISFALSE(IoObject *self)
 
 IOINLINE IoObject *IOBOOL(IoObject *self, int b)
 {
-	return b ? IOTRUE(self) : IOFALSE(self);
+	IoObject *t = IOTRUE(self);
+	IoObject *f = IOFALSE(self);
+	
+	return b ? t : f;
+	
+	//return b ? IOTRUE(self) : IOFALSE(self);
 }
 
 // collector --------------------------------------------------------

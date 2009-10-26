@@ -181,6 +181,17 @@ IoObject *IoBlock_activate(IoBlock *self, IoObject *target, IoObject *locals, Io
 	IoState *state = IOSTATE;
 	intptr_t poolMark; // = IoState_pushRetainPool(state);
 
+
+
+	
+	/* for debugging ------------------------------------------------------------------*/
+	//Collector_check(IOSTATE->collector);
+	//Collector_checkObjectPointers(IOSTATE->collector);
+	/* for debugging ------------------------------------------------------------------*/
+
+
+
+
 	IoBlockData *selfData = DATA(self);
 	List *argNames  = selfData->argNames;
 	IoObject *scope = selfData->scope;

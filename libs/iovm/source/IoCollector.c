@@ -218,6 +218,19 @@ IO_METHOD(IoCollector, setSafeModeOn)
 	return self;
 }
 
+IO_METHOD(IoCollector, check)
+{
+	Collector_check(IOSTATE->collector);	
+	return self;
+}
+
+IO_METHOD(IoCollector, checkObjectPointers)
+{
+	Collector_checkObjectPointers(IOSTATE->collector);	
+	return self;
+}
+
+
 #ifdef COLLECTOR_USE_NONINCREMENTAL_MARK_SWEEP
 
 IO_METHOD(IoCollector, setAllocsPerSweep)
@@ -237,6 +250,8 @@ IO_METHOD(IoCollector, allocsPerSweep)
 IoObject *IoCollector_proto(void *state)
 {
 	IoMethodTable methodTable[] = {
+	{"check", IoCollector_check},
+	{"checkObjectPointers", IoCollector_checkObjectPointers},
 	{"setDebug", IoCollector_setDebug},
 	{"collect", IoCollector_collect},
 
