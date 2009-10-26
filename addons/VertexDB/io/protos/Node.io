@@ -133,7 +133,9 @@ VertexDB Node := Object clone do(
 	)
 	
 	queueExpireTo := method(aPath,
-		Transaction current appendRequest(QueueExpireToRequest clone setPath(path) setToPath(aPath))
+		r := QueueExpireToRequest clone setPath(path) setToPath(aPath)
+		t := Transaction current
+		t appendRequest(r)
 		self
 	)
 	
@@ -174,8 +176,6 @@ VertexDB Node := Object clone do(
 
 	renameKey := method(oldKey, newKey,
 		if(oldKey == newKey, return self)
-		Request debugOn
-		//writeln("self nodeAt(newKey) path = ", self nodeAt(newKey) path)
 		nodeAt(oldKey) linkTo(self nodeAt(newKey) path)
 		rm(oldKey)
 		self	
