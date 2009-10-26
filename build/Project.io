@@ -80,7 +80,7 @@ Project := Object clone do(
 			//"-MDd -Zi -DWIN32 -D_DEBUG -DIOBINDINGS -D_CRT_SECURE_NO_DEPRECATE"
 			"-MD -Zi -DWIN32 -DNDEBUG -DIOBINDINGS -D_CRT_SECURE_NO_DEPRECATE"
 		,
-			"-Os -g -Wall -pipe -fno-strict-aliasing -DSANE_POPEN -DIOBINDINGS"
+			"-O0 -g -Wall -pipe -fno-strict-aliasing -DSANE_POPEN -DIOBINDINGS -DUSE_VALGRIND"
 		)
 	)
 
