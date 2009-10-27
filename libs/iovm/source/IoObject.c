@@ -1923,6 +1923,7 @@ IO_METHOD(IoObject, argIsCall)
 	
 	IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 0);
 	//printf("IoObject_tag(v)->name = '%s'\n", IoObject_tag(v)->name);
+
 /*
 	printf("Collector_checkObjectPointers\n");
 	Collector_check(IOSTATE->collector);
@@ -1931,11 +1932,29 @@ IO_METHOD(IoObject, argIsCall)
 	printf("self = %p\n", self);
 	printf("v    = %p\n", v);
 	printf("tag  = %p\n", IoObject_tag(self));
-	printf("tag->cloneFunc  = %p\n", IoObject_tag(self)->cloneFunc);
+	*/
+/*
+	printf("tag->cloneFunc   = %p\n", IoObject_tag(v)->cloneFunc);
+	printf("IoCall_rawClone  = %p\n", IoCall_rawClone);
 
 	//testStack(self);
-*/
+<<<<<<< HEAD
+
 	
+	printf("ISACTIVATIONCONTEXT = %i\n", isAct);
+*/
+
+	int isAct = ((void *)(IoObject_tag(v)->cloneFunc) == (void *)IoCall_rawClone);
+	IoObject *t = IOSTATE->ioTrue; //IOTRUE(self);
+	IoObject *f = IOSTATE->ioFalse; //IOFALSE(self);
+	//return isAct ? t : f;
+	if(isAct) 
+	{
+		return t;
+	}
+	return f;
+	//return IOBOOL(self, ISACTIVATIONCONTEXT(v));
+
 /*
 	int isAct = ((void *)(IoObject_tag(self)->cloneFunc) == (void *)IoCall_rawClone);
 	

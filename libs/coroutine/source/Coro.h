@@ -22,6 +22,7 @@
 
 	//128k needed on PPC due to parser
 	#define CORO_DEFAULT_STACK_SIZE (128*1024)
+	//#define CORO_DEFAULT_STACK_SIZE (256*1024)
 	#define CORO_STACK_SIZE_MIN 8192
 #endif
 

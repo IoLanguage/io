@@ -121,7 +121,12 @@ void IoCoroutine_free(IoCoroutine *self)
 
 void IoCoroutine_mark(IoCoroutine *self)
 {
-	//printf("Coroutine_%p mark\n", (void *)self);
+	/*
+	printf("Coroutine_%p mark\n", (void *)self);
+	
+	Collector_check(IOSTATE->collector);
+	Collector_checkObjectPointers(IOSTATE->collector);
+	*/
 	Stack_do_(DATA(self)->ioStack, (ListDoCallback *)IoObject_shouldMark);
 }
 
