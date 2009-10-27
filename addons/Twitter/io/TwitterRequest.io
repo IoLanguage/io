@@ -28,7 +28,6 @@ TwitterRequest := Object clone do(
 	//public
 	
 	execute := method(
-Exception raise("We shouldn't be hitting twitter while we debug this")
 		queryParams := Map clone
 		queryParamNames foreach(name,
 			if(v := self perform(name asCamelized asSymbol),
