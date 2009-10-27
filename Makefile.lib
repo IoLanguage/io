@@ -27,7 +27,7 @@ WARN :=-Wstrict-prototypes
 #--param max-inline-insns-single=500
 
 #-ansi -pedantic
-OPTIMIZE :=-O0 -g -DUSE_VALGRIND
+OPTIMIZE :=-Os -g 
 #-msse2 -msse -mmmx
 #OPTIMIZE :=-O3 -ffast-math -ftree-vectorize  -ftree-vectorizer-verbose=4
 DLL_SUFFIX := so

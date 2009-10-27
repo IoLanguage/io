@@ -27,7 +27,7 @@ WARN :=-Wstrict-prototypes
 #--param max-inline-insns-single=500
 
 #-ansi -pedantic
-OPTIMIZE :=-O0 -g -DUSE_VALGRIND
+OPTIMIZE :=-O3 -g 
 #-msse2 -msse -mmmx
 #OPTIMIZE :=-O3 -ffast-math -ftree-vectorize  -ftree-vectorizer-verbose=4
 DLL_SUFFIX := so
@@ -91,7 +91,7 @@ CC := cl -nologo
 CCOUTFLAG :=-Fo
 WARN := 
 #OPTIMIZE :=-Zi -MDd -D_USE_MATH_DEFINES -DWIN32 -D_DEBUG -D_CRT_SECURE_NO_DEPRECATE
-OPTIMIZE :=-O0 -g -EHsc -MD -D_USE_MATH_DEFINES -DWIN32 -DNDEBUG -D_CRT_SECURE_NO_DEPRECATE
+OPTIMIZE :=-O2 -EHsc -MD -D_USE_MATH_DEFINES -DWIN32 -DNDEBUG -D_CRT_SECURE_NO_DEPRECATE
 AR := link -lib
 AROUTFLAG :=-out:
 ARFLAGS :=

@@ -1,7 +1,7 @@
 #CC ?= g++
 
 WARN :=-Wall -Wstrict-prototypes
-OPTIMIZE :=-O0 -g -DUSE_VALGRIND
+OPTIMIZE :=-Os -g
 HEADERS :=-I.
 LINK := $(CC)
 CCOUTFLAG := -o 

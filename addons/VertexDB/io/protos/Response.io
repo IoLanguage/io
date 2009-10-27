@@ -1,4 +1,4 @@
-//Yajl
+Yajl
 
 VertexDB Response := Object clone do(
 	//api
