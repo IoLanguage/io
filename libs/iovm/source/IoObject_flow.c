@@ -18,12 +18,13 @@ IO_METHOD(IoObject, while)
 		IoState *state = IOSTATE;
 		unsigned char c;
 
-		IoState_resetStopStatus(IOSTATE);
-		IoState_pushRetainPool(IOSTATE);
+		IoState_resetStopStatus(state);
+		IoState_pushRetainPool(state);
 
 		for (;;)
 		{
-			IoState_clearTopPool(IOSTATE);
+			IoState_clearTopPool(state);
+			IoState_stackRetain_(state, result);
 			c = ISTRUE(IoMessage_locals_valueArgAt_(m, locals, 0));
 
 			if (!c)
@@ -33,7 +34,7 @@ IO_METHOD(IoObject, while)
 
 			result = (IoObject *)IoMessage_locals_valueArgAt_(m, locals, 1);
 
-			if (IoState_handleStatus(IOSTATE))
+			if (IoState_handleStatus(state))
 			{
 				goto done;
 			}
