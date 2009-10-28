@@ -489,7 +489,7 @@ IoObject *IoSyslog_log(IoSyslog *self, IoObject *locals, IoMessage *m)
 		return IONIL(self);
 	}
 
-	syslog_write(CNUMBER((int)DATA(self)->priority), str);
+	syslog_write(CNUMBER((uintptr_t)DATA(self)->priority), str);
 
 	return self;
 }

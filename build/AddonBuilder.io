@@ -36,64 +36,34 @@ AddonBuilder := Object clone do(
 
 	supportedOnPlatform := true
 
-	/*
-
-	frameworkSearchPaths := List clone
-	frameworkSearchPaths append("/System/Library/Frameworks")
-	frameworkSearchPaths append("/Library/Frameworks")
-	frameworkSearchPaths append("/Local/Library/Frameworks")
-//	frameworkSearchPaths append("~/Library/Frameworks")
-
-	searchPrefixes := List clone
-	searchPrefixes append(System installPrefix)
-	searchPrefixes append("/usr")
-	if(platform != "darwin", searchPrefixes append("/usr/X11R6"))
-	if(platform == "mingw", searchPrefixes append("/mingw"))
-	searchPrefixes append("/usr/local")
-	searchPrefixes append("/usr/pkg")
-	searchPrefixes append("/opt/local")
-	searchPrefixes append("/sw")
-	// on windows there is no such thing as a standard place
-	// to look for these things
-	searchPrefixes append("i:/io/addonLibs", "C:/io/addonLibs")
-
-	headerSearchPaths := List clone
-	appendHeaderSearchPath := method(v, if(File clone setPath(v) exists, headerSearchPaths appendIfAbsent(v)))
-	searchPrefixes foreach(searchPrefix, appendHeaderSearchPath(searchPrefix .. "/include"))
-
-	libSearchPaths := List clone
-	appendLibSearchPath := method(v, if(File clone setPath(v) exists, libSearchPaths appendIfAbsent(v)))
-	searchPrefixes foreach(searchPrefix, appendLibSearchPath(searchPrefix .. "/lib"))
-*/
-
 	setupPaths := method(
+		self frameworkSearchPaths := List clone
+		frameworkSearchPaths append("/System/Library/Frameworks")
+		frameworkSearchPaths append("/Library/Frameworks")
+		frameworkSearchPaths append("/Local/Library/Frameworks")
+		//frameworkSearchPaths append("~/Library/Frameworks")
 
-			self frameworkSearchPaths := List clone
-			frameworkSearchPaths append("/System/Library/Frameworks")
-			frameworkSearchPaths append("/Library/Frameworks")
-			frameworkSearchPaths append("/Local/Library/Frameworks")
-		//	frameworkSearchPaths append("~/Library/Frameworks")
+		self searchPrefixes := List clone
 
-			self searchPrefixes := List clone
-			searchPrefixes append(System installPrefix)
-			searchPrefixes append("/usr")
-			if(platform != "darwin", searchPrefixes append("/usr/X11R6"))
-			if(platform == "mingw", searchPrefixes append("/mingw"))
-			searchPrefixes append("/usr/local")
-			searchPrefixes append("/usr/pkg")
-			searchPrefixes append("/opt/local")
-			searchPrefixes append("/sw")
-			// on windows there is no such thing as a standard place
-			// to look for these things
-			searchPrefixes append("i:/io/addonLibs", "C:/io/addonLibs")
-					
-	self headerSearchPaths := List clone
-	self appendHeaderSearchPath := method(v, if(File clone setPath(v) exists, headerSearchPaths appendIfAbsent(v)))
-	searchPrefixes foreach(searchPrefix, appendHeaderSearchPath(searchPrefix .. "/include"))
+		searchPrefixes append(System installPrefix)
+		searchPrefixes append("/opt/local")
+		searchPrefixes append("/usr")
+		if(platform != "darwin", searchPrefixes append("/usr/X11R6"))
+		if(platform == "mingw", searchPrefixes append("/mingw"))
+		searchPrefixes append("/usr/local")
+		searchPrefixes append("/usr/pkg")
+		searchPrefixes append("/sw")
+		// on windows there is no such thing as a standard place
+		// to look for these things
+		searchPrefixes append("i:/io/addonLibs", "C:/io/addonLibs")
 
-	self libSearchPaths := List clone
-	self appendLibSearchPath := method(v, if(File clone setPath(v) exists, libSearchPaths appendIfAbsent(v)))
-	searchPrefixes foreach(searchPrefix, appendLibSearchPath(searchPrefix .. "/lib"))
+		self headerSearchPaths := List clone
+		self appendHeaderSearchPath := method(v, if(File clone setPath(v) exists, headerSearchPaths appendIfAbsent(v)))
+		searchPrefixes foreach(searchPrefix, appendHeaderSearchPath(searchPrefix .. "/include"))
+
+		self libSearchPaths := List clone
+		self appendLibSearchPath := method(v, if(File clone setPath(v) exists, libSearchPaths appendIfAbsent(v)))
+		searchPrefixes foreach(searchPrefix, appendLibSearchPath(searchPrefix .. "/lib"))
 	)
 
 	debs    := Map clone
