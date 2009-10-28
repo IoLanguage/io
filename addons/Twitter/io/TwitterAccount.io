@@ -107,6 +107,14 @@ TwitterAccount := Object clone do(
 		resultsFor(request asShow setScreenName(aScreenName))
 	)
 	
+	isSuspended := method(aScreenName,
+		handleErrors(showUser(aScreenName)) ifIsSuspended(
+			return(true)
+		) else(
+			return(false)
+		)
+	)
+	
 	ExceptionConditional := Object clone do(
 		exception ::= nil
 		result ::= nil

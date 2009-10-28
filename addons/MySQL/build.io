@@ -1,11 +1,10 @@
 AddonBuilder clone do(
 	if(platform == "darwin", 
-		//appendHeaderSearchPath("/opt/local/include/mysql5/mysql")
-		//appendLibSearchPath("/opt/local/lib/mysql5/mysql"),
-		
-
-		appendHeaderSearchPath("/usr/local//mysql/include")
-		appendLibSearchPath("/usr/local/mysql/lib"),
+		appendHeaderSearchPath("/opt/local/include/mysql5/mysql")
+		appendHeaderSearchPath("/usr/local/mysql/include")
+		//appendLibSearchPath("/usr/local/mysql/lib")
+		appendLibSearchPath("/opt/local/lib/mysql5/mysql")
+	,
 
 		headerSearchPaths foreach(headerSearchPath, appendHeaderSearchPath(headerSearchPath .. "/mysql"))
 	)
