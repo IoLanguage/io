@@ -1,3 +1,9 @@
+
+int __WindowsMacAddress(int a) // just to make ranlib happy
+{
+	return a + 1;
+}
+
 #ifdef WIN32
 
 #ifndef _INC_WINDOWS

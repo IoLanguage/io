@@ -137,7 +137,8 @@ IoObject *IoVorbisDspState_pcmout(IoVorbisDspState *self, IoObject *locals, IoMe
 	    *p++ = pcm[j][i];
 
 	IoObject* data = IOSEQ((const unsigned char*)sound, samples * sizeof(float) * 2);
-	int ret = vorbis_synthesis_read(DATA(self), samples);
+	//int ret = 
+	vorbis_synthesis_read(DATA(self), samples);
 
 	return data;
 }
