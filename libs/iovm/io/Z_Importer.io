@@ -15,6 +15,7 @@ Importer := Object clone do(
 		importsFrom := "file"
 
 		directories := list("")
+		if(System getEnvironmentVariable("IOIMPORT"), directories appendIfAbsent(Path absolute(System getEnvironmentVariable("IOIMPORT")) asSymbol))
 
 		import := method(protoName,
 			if(System ?launchPath, directories appendIfAbsent(System launchPath))
