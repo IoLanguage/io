@@ -587,6 +587,9 @@ void IoObject_freeSlots(IoObject *self) // prepare for io_free and possibly recy
 
 void IoObject_willFree(IoObject *self)
 {
+	/*
+	// disabled until we keep a list of coros and can make sure their stacks are marked after the
+	// willFree gc stage
 	if (IoObject_sentWillFree(self) == 0)
 	{
 		IoObject *context;
@@ -600,6 +603,7 @@ void IoObject_willFree(IoObject *self)
 			//IoObject_makeGray(self);
 		}
 	}
+	*/
 }
 
 void IoObject_free(IoObject *self) // prepare for io_free and possibly recycle
