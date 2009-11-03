@@ -17,40 +17,33 @@ TwitterAccountProfile := Object clone do(
 	tilesBackgroundImage ::= nil
 	
 	update := method(
-		account request asUpdateAccountProfile\
+		account resultsFor(account request asUpdateAccountProfile\
 			setName(name)\
 			setUrl(url)\
 			setLocation(location)\
-			setDescription(description)\
-			resultsOrError returnIfError
-		
+			setDescription(description))
 		self
 	)
 	
 	updateColors := method(
-		account request asUpdateAccountProfileColors\
+		account resultsFor(account request asUpdateAccountProfileColors\
 			setProfileBackgroundColor(backgroundColor)\
 			setProfileTextColor(textColor)\
 			setProfileLinkColor(linkColor)\
 			setProfileSidebarFillColor(sidebarFillColor)\
-			setProfileSidebarBorderColor(sidebarBorderColor)\
-			resultsOrError returnIfError
-		
+			setProfileSidebarBorderColor(sidebarBorderColor))
 		self
 	)
 	
 	updateImage := method(
-		account request asUpdateAccountProfileImage\
-			setImage(imageFile)\
-			resultsOrError returnIfError
+		account resultsFor(account request asUpdateAccountProfileImage setImage(imageFile))
 		self
 	)
 	
 	updateBackgroundImage := method(
-		account request asUpdateAccountProfileBackgroundImage\
+		account resultsFor(account request asUpdateAccountProfileBackgroundImage\
 			setImage(backgroundImageFile)\
-			setTile(tilesBackgroundImage)\
-			resultsOrError returnIfError
+			setTile(tilesBackgroundImage))
 		self
 	)
 )

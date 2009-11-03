@@ -62,7 +62,7 @@ TwitterRequest := Object clone do(
 		headers := Map clone
 		
 		if(fileParamName and file := self perform(fileParamName),
-			ext := file path pathExtension
+			ext := file path pathExtension asLowercase
 			if(ext == "jpg") then(
 				type := "image/jpg"
 			) elseif(ext == "gif") then(

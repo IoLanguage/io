@@ -40,6 +40,11 @@ VertexDB Request := Object clone do(
 
 	execute := method(
 		url := URL with("http://" .. host .. ":" .. port asString .. resource) setFollowRedirects(false)
+		if(VertexDB Settings username,
+			url setUsername(VertexDB Settings username)
+			url setPassword(VertexDB Settings password)
+			url setUsesBasicAuthentication(true)
+		)
 		
 		debugWriteln(url url)
 		if(body size > 0,

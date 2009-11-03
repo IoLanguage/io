@@ -59,7 +59,7 @@ TwitterAccount := Object clone do(
 	)
 	
 	hasProtectedUpdates := method(aScreenName,
-		show(aScreenName) at("protected")
+		showUser(aScreenName) at("protected")
 	)
 	
 	/* for testing
