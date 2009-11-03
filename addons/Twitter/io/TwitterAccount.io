@@ -28,8 +28,8 @@ TwitterAccount := Object clone do(
 			TwitterException clone setIsRateLimited(true) raise
 		)
 		request execute
-		writeln(request response body)
-		writeln(request response statusCode)
+		debugWriteln(request response body)
+		debugWriteln(request response statusCode)
 		
 		if(request response rateLimitRemaining,
 			setRateLimitRemaining(request response rateLimitRemaining asNumber)
