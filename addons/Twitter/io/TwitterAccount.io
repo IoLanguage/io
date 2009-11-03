@@ -28,6 +28,8 @@ TwitterAccount := Object clone do(
 			TwitterException clone setIsRateLimited(true) raise
 		)
 		request execute
+		writeln(request response body)
+		writeln(request response statusCode)
 		
 		if(request response rateLimitRemaining,
 			setRateLimitRemaining(request response rateLimitRemaining asNumber)
@@ -74,8 +76,7 @@ TwitterAccount := Object clone do(
 		//Could not follow user: You have been blocked from following this account at the request of the user.
 		//Could not follow user: This account is currently suspended and is being investigated due to strange activity
 		//raiseFollowException for testing
-		resultsFor(request asCreateFriendship setScreenName(aScreenName))
-		self
+		resultsFor(request asCreateFriendship setScreenName(aScreenName)) at("protected")
 	)
 	
 	unfollow := method(aScreenName,
