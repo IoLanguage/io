@@ -187,7 +187,7 @@ TwitterAccount := Object clone do(
 					if(e isOverloaded or e isDown or e isInternalError,
 						attempts = attempts + 1
 					,
-						return(ExceptionConditional clone setException(e))
+						return(TwitterAccount ExceptionConditional clone setException(e))
 					)
 				,
 					if(list("Connection reset by peer", "Timeout") detect(m, e error containsSeq(m)),
@@ -197,7 +197,7 @@ TwitterAccount := Object clone do(
 					)
 				)
 			,
-				return(ExceptionConditional clone setResult(result) setDone(true))
+				return(TwitterAccount ExceptionConditional clone setResult(result) setDone(true))
 			)
 		)
 		

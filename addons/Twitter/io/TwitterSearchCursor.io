@@ -24,7 +24,7 @@ TwitterSearchCursor := Object clone do(
 	)
 	
 	fetchNext := method(
-		results appendSeq(search setPage(search page + 1) results)
+		search setPage(search page + 1) handleErrors(results) else(searchResults, results appendSeq(searchResults))
 		self
 	)
 )
