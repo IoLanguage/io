@@ -86,14 +86,26 @@ TwitterAccount := Object clone do(
 		self
 	)
 	
-	followerIds := method(
+	followerIdsCursor ::= "-1"
+	resetFollowerIdsCursor := method(
+		setFollowerIdsCursor("-1")
+	)
+	followerIds := method(aScreenName,
 		//"Not authorized"
-		resultsFor(request asFollowerIds setScreenName(screenName))
+		result := resultsFor(request asFollowerIds dontAuthenticate setScreenName(aScreenName) setCursor(followerIdsCursor))
+		setFollowerIdsCursor(result at("next_cursor"))
+		result at("ids")
 	)
 	
-	friendIds := method(
+	friendIdsCursor ::= "-1"
+	resetFriendIdsCursor := method(
+		setFriendIdsCursor("-1")
+	)
+	friendIds := method(aScreenName,
 		//"Not authorized"
-		resultsFor(request asFriendIds setScreenName(screenName))
+		result := resultsFor(request asFriendIds dontAuthenticate setScreenName(aScreenName) setCursor(friendIdsCursor))
+		setFriendIdsCursor(result at("next_cursor"))
+		result at("ids")
 	)
 	
 	updateStatus := method(message,
@@ -106,6 +118,10 @@ TwitterAccount := Object clone do(
 	
 	showUser := method(aScreenName,
 		resultsFor(request asShow setScreenName(aScreenName))
+	)
+	
+	showUserWithId := method(anId,
+		resultsFor(request asShow setUserId(anId))
 	)
 	
 	isSuspended := method(aScreenName,

@@ -51,7 +51,7 @@ TwitterRequest := Object clone do(
 		
 		url := URL with("http://" .. host .. path .. ".json" .. queryString) setFollowRedirects(false)
 		
-		//writeln(url asString)
+		debugWriteln(url asString)
 		
 		if(username and password,
 			url setUsesBasicAuthentication(true)
@@ -126,6 +126,10 @@ TwitterRequest := Object clone do(
 		self
 	)
 	
+	dontAuthenticate := method(
+		setUsername(nil) setPassword(nil)
+	)
+	
 	asShowFriendship := method(
 		setPath("/friendships/show")
 		addQuerySlots("source_id source_screen_name target_id target_screen_name")
@@ -156,12 +160,12 @@ TwitterRequest := Object clone do(
 	
 	asFriendIds := method(
 		setPath("/friends/ids")
-		addQuerySlots("user_id screen_name")
+		addQuerySlots("user_id screen_name cursor")
 	)
 	
 	asFollowerIds := method(
 		setPath("/followers/ids")
-		addQuerySlots("user_id screen_name")
+		addQuerySlots("user_id screen_name cursor")
 	)
 	
 	asUpdateAccountProfile := method(

@@ -129,4 +129,8 @@ VertexDB Queue := Object clone do(
 		count := activeNode queueExpireToNode(waitingNode)
 		count
 	)
+	
+	hasKey := method(k,
+		qNodes detect(hasKey(k))
+	)
 )
