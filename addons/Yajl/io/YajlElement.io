@@ -97,6 +97,3 @@ List asJson := method(
 	s appendSeq("]")
 	s
 )
-
-
-
