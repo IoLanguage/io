@@ -10,8 +10,8 @@ An object for organizing and running unit tests validated by assertions.
 //doc UnitTest fail Call to trigger a test failure.
 UnitTest := Object clone do(
 	verbose := method(s,
-		nil
-		//writeln(s)
+		//nil
+		writeln(s)
 	)
 
 	setUp := method(nil)
@@ -26,6 +26,7 @@ UnitTest := Object clone do(
 	testCount := method(testSlotNames size)
 
 	run := method(
+		writeln("-------- run ----------")
 		testSlotNames foreach(n,
 			self setUp
 			verbose("    " .. n)

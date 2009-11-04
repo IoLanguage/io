@@ -50,4 +50,6 @@ FileTest := UnitTest clone do(
 			assertTrue(true)
 		)
 	)
+
+	nil
 )

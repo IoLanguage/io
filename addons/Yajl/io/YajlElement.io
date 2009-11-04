@@ -72,7 +72,7 @@ Yajl do(
 	)
 )
 
-Sequence asJson := method("\"" .. self .. "\"")
+Sequence asJson := method(YajlGen clone pushString(self) generate)
 Number asJson := method(self asString)
 true asJson := method("true")
 false asJson := method("false")
@@ -97,6 +97,3 @@ List asJson := method(
 	s appendSeq("]")
 	s
 )
-
-
-

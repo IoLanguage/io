@@ -18,7 +18,18 @@ Importer := Object clone do(
 
 		import := method(protoName,
 			if(System ?launchPath, directories appendIfAbsent(System launchPath))
-
+			if(System getEnvironmentVariable("IOIMPORT"),
+				ioImportEnv := System getEnvironmentVariable("IOIMPORT")
+				if(System platform == "Windows",
+					ioImportEnv split(";") foreach(p,
+						directories appendIfAbsent(Path absolute(p) asSymbol)
+					)
+				,
+					ioImportEnv split(":") foreach(p,
+						directories appendIfAbsent(Path absolute(p) asSymbol)
+					)
+				)
+			)
 			directories foreach(folder,
 				path := Path with(folder, protoName .. ".io") asSymbol
 				if(File with(path) exists,
