@@ -190,7 +190,11 @@ TwitterAccount := Object clone do(
 						return(ExceptionConditional clone setException(e))
 					)
 				,
-					e pass
+					if(list("Connection reset by peer", "Timeout") detect(m, e error containsSeq(m)),
+						attempts = attempts + 1
+					,
+						e pass
+					)
 				)
 			,
 				return(ExceptionConditional clone setResult(result) setDone(true))
