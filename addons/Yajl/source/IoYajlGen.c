@@ -69,7 +69,6 @@ void IoYajlGen_mark(IoYajlGen *self)
 void IoYajlGen_free(IoYajlGen *self)
 {
 	yajl_gen_free(DATA(self));
-	io_free(DATA(self));
 }
 
 IoObject *IoYajlGen_pushString(IoYajlGen *self, IoObject *locals, IoMessage *m)
