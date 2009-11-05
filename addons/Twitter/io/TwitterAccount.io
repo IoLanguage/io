@@ -88,21 +88,19 @@ TwitterAccount := Object clone do(
 	
 	followerIdsCursor ::= "-1"
 	resetFollowerIdsCursor := method(setFollowerIdsCursor("-1"))
-	hasMoreFollowerIds := method(followerIds != "0")
+	hasMoreFollowerIds := method(followerIdsCursor != "0")
 	followerIds := method(aScreenName,
 		result := resultsFor(request asFollowerIds setScreenName(aScreenName) setCursor(followerIdsCursor))
 		setFollowerIdsCursor(result at("next_cursor") asString)
-		writeln(followerIdsCursor)
 		result at("ids")
 	)
 	
 	friendIdsCursor ::= "-1"
 	resetFriendIdsCursor := method(setFriendIdsCursor("-1"))
-	hasMoreFriendIds := method(followerIds != "0")
+	hasMoreFriendIds := method(friendIdsCursor != "0")
 	friendIds := method(aScreenName,
 		result := resultsFor(request asFriendIds setScreenName(aScreenName) setCursor(friendIdsCursor))
 		setFriendIdsCursor(result at("next_cursor") asString)
-		writeln(friendIdsCursor)
 		result at("ids")
 	)
 	
