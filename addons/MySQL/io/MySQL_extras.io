@@ -26,6 +26,8 @@ MySQL do(
 SqlTable := Object clone do(
 	db ::= nil
 	name ::= nil
+where ::= ""
+//TODO: Refactor where
 
 	fetchColumnNames := method(
 		self columnNames := db query("SHOW columns FROM " .. name) map(first) flatten
@@ -46,7 +48,8 @@ SqlTable := Object clone do(
 		increment := foreachCacheSize
 		loop(
 			write(" <sql"); File standardOutput flush
-			rows := db queryThenMap("SELECT * FROM " .. name .. " LIMIT " .. start .. ", " .. increment)
+			writeln("SELECT * FROM " .. name .. where .. " LIMIT " .. start .. ", " .. increment)
+			rows := db queryThenMap("SELECT * FROM " .. name .. where .. " LIMIT " .. start .. ", " .. increment)
 			write(">"); File standardOutput flush
 			if(rows size == 0, break)
 			rows foreach(row, 

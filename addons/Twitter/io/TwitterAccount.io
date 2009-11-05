@@ -28,6 +28,8 @@ TwitterAccount := Object clone do(
 			TwitterException clone setIsRateLimited(true) raise
 		)
 		request execute
+		debugWriteln(request response body)
+		debugWriteln(request response statusCode)
 		
 		if(request response rateLimitRemaining,
 			setRateLimitRemaining(request response rateLimitRemaining asNumber)
@@ -59,7 +61,7 @@ TwitterAccount := Object clone do(
 	)
 	
 	hasProtectedUpdates := method(aScreenName,
-		show(aScreenName) at("protected")
+		showUser(aScreenName) at("protected")
 	)
 	
 	/* for testing
@@ -74,8 +76,7 @@ TwitterAccount := Object clone do(
 		//Could not follow user: You have been blocked from following this account at the request of the user.
 		//Could not follow user: This account is currently suspended and is being investigated due to strange activity
 		//raiseFollowException for testing
-		resultsFor(request asCreateFriendship setScreenName(aScreenName))
-		self
+		resultsFor(request asCreateFriendship setScreenName(aScreenName)) at("protected")
 	)
 	
 	unfollow := method(aScreenName,
@@ -85,14 +86,26 @@ TwitterAccount := Object clone do(
 		self
 	)
 	
-	followerIds := method(
+	followerIdsCursor ::= "-1"
+	resetFollowerIdsCursor := method(
+		setFollowerIdsCursor("-1")
+	)
+	followerIds := method(aScreenName,
 		//"Not authorized"
-		resultsFor(request asFollowerIds setScreenName(screenName))
+		result := resultsFor(request asFollowerIds dontAuthenticate setScreenName(aScreenName) setCursor(followerIdsCursor))
+		setFollowerIdsCursor(result at("next_cursor"))
+		result at("ids")
 	)
 	
-	friendIds := method(
+	friendIdsCursor ::= "-1"
+	resetFriendIdsCursor := method(
+		setFriendIdsCursor("-1")
+	)
+	friendIds := method(aScreenName,
 		//"Not authorized"
-		resultsFor(request asFriendIds setScreenName(screenName))
+		result := resultsFor(request asFriendIds dontAuthenticate setScreenName(aScreenName) setCursor(friendIdsCursor))
+		setFriendIdsCursor(result at("next_cursor"))
+		result at("ids")
 	)
 	
 	updateStatus := method(message,
@@ -105,6 +118,18 @@ TwitterAccount := Object clone do(
 	
 	showUser := method(aScreenName,
 		resultsFor(request asShow setScreenName(aScreenName))
+	)
+	
+	showUserWithId := method(anId,
+		resultsFor(request asShow setUserId(anId))
+	)
+	
+	isSuspended := method(aScreenName,
+		handleErrors(showUser(aScreenName)) ifIsSuspended(
+			return(true)
+		) else(
+			return(false)
+		)
 	)
 	
 	ExceptionConditional := Object clone do(
@@ -162,13 +187,17 @@ TwitterAccount := Object clone do(
 					if(e isOverloaded or e isDown or e isInternalError,
 						attempts = attempts + 1
 					,
-						return(ExceptionConditional clone setException(e))
+						return(TwitterAccount ExceptionConditional clone setException(e))
 					)
 				,
-					e pass
+					if(list("Connection reset by peer", "Timeout") detect(m, e error containsSeq(m)),
+						attempts = attempts + 1
+					,
+						e pass
+					)
 				)
 			,
-				return(ExceptionConditional clone setResult(result) setDone(true))
+				return(TwitterAccount ExceptionConditional clone setResult(result) setDone(true))
 			)
 		)
 		

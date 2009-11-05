@@ -18,6 +18,7 @@ TwitterResponse := Object clone do(
 			Exception raise(e message)
 		)
 		
+		//Could not find both specified users
 		if(statusCode == 400) then(
 			TwitterException clone setIsBadRequest(true) raise(body)
 		) elseif(statusCode == 401) then(
@@ -30,13 +31,15 @@ TwitterResponse := Object clone do(
 				) elseif(errorMessage containsSeq("You have been blocked")) then(
 					e setIsBlocked(true)
 				) elseif(errorMessage containsSeq("You do not have permission to retrieve following status for both specified users")) then(
-					setIsBlockedOrSuspendedOrProtected(true)
+					e setIsBlockedOrSuspendedOrProtected(true)
 				) elseif(errorMessage containsSeq("This account is currently suspended")) then(
 					e setIsSuspended(true)
 				) elseif(errorMessage containsSeq("You are not friends with the specified user")) then(
 					e setWasntFriend(true)
 				) elseif(errorMessage containsSeq("You are unable to follow more people at this time")) then(
 					e setIsFollowLimit(true)
+				) elseif(errorMessage containsSeq("Could not find both specified users")) then(
+					e setUserIsMissing(true)
 				)
 			,
 				errorMessage := body

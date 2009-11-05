@@ -7,9 +7,12 @@ VertexDB Queue := Object clone do(
 	target ::= nil
 	messageName ::= nil
 	expiresActive ::= true
-	concurrency ::= 10
+	concurrency ::= 1
 	node ::= nil
 	qNodes ::= nil
+	itemsPerProcess ::= nil //if non nil then process at most itemsPerProcess
+	jobs ::= nil
+	processedCount ::= 0
 	
 	waitingNode ::= method(node nodeAt("waiting"))
 	activeNode ::= method(node nodeAt("active"))
@@ -52,12 +55,17 @@ VertexDB Queue := Object clone do(
 	
 	jobError ::= nil
 	
+	processCountLimited := method(
+		if(itemsPerProcess, processedCount >= itemsPerProcess, false)
+	)
+	
 	process := method(
 		setJobError(nil)
 		if(expiresActive, expireActive)
 		processedOne := false
-		self jobs := List clone
-		while(k := waitingNode queueToNode(activeNode),
+		setJobs(List clone)
+		setProcessedCount(0)
+		while(processCountLimited not and (k := waitingNode queueToNode(activeNode)),
 			debugWriteln("waitingNode<", waitingNode path, "> queueToNode(<", activeNode path, ">) == <", k, ">")
 			if(k == nil, break)
 			debugWriteln("jobs size: ", jobs size)
@@ -113,11 +121,16 @@ VertexDB Queue := Object clone do(
 	)
 	
 	finishedJob := method(job,
+		setProcessedCount(processedCount + 1)
 		self jobs remove(job)
 	)
 	
 	expireActive := method(
 		count := activeNode queueExpireToNode(waitingNode)
 		count
+	)
+	
+	hasKey := method(k,
+		qNodes detect(hasKey(k))
 	)
 )
