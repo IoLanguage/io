@@ -49,7 +49,7 @@ TwitterRequest := Object clone do(
 			)
 		)
 		
-		url := URL with("http://" .. host .. path .. ".json" .. queryString) setFollowRedirects(false)
+		url := URL with("http://" .. host .. path .. ".json" .. queryString) setProxyHost("localhost") setProxyPort(8118) setFollowRedirects(false)
 		
 		debugWriteln(url asString)
 		
