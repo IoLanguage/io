@@ -63,9 +63,12 @@ IoDate *IoDate_proto(void *state)
 	{"setSecond", IoDate_setSecond},
 	{"isDaylightSavingsTime", IoDate_isDaylightSavingsTime},
 	{"zone", IoDate_zone},
+	{"isDST", IoDate_isDST},
+	{"setGmtOffset", IoDate_setGmtOffset},
 	{"gmtOffset", IoDate_gmtOffset},
 	{"gmtOffsetSeconds", IoDate_gmtOffsetSeconds},
 	{"convertToUTC", IoDate_convertToUTC},
+	{"convertToZone", IoDate_convertToZone},
 	{"convertToLocal", IoDate_convertToLocal},
 	{"setToUTC", IoDate_setToUTC},
 	{"isValidTime", IoDate_isValidTime},
@@ -396,6 +399,21 @@ IO_METHOD(IoDate, zone)
 	return IOSYMBOL(s);
 }
 
+IO_METHOD(IoDate, isDST)
+{
+	/*doc Date isDST
+	Returns true if the Date is set to use DST.  Posix only.
+	*/
+
+	struct timezone tz = Date_timeZone(DATA(self));
+#if defined(__CYGWIN__) || defined(_WIN32)
+	IoState_error_(IOSTATE, m, "Not implemented on Windows.");
+	return IONIL(self);
+#else
+	return IOBOOL(self, tz.tz_dsttime);
+#endif
+}
+
 IO_METHOD(IoDate, gmtOffsetSeconds)
 {
 	/*doc Date gmtOffsetSeconds
@@ -409,6 +427,19 @@ IO_METHOD(IoDate, gmtOffsetSeconds)
 #else
 	return IONUMBER(tp->tm_gmtoff);
 #endif
+}
+
+IO_METHOD(IoDate, setGmtOffset)
+{
+	/*doc Date setGmtOffset
+	Set the number of minutes west of GMT for this Date's zone
+	*/
+
+	struct timezone tz = Date_timeZone(DATA(self));
+	tz.tz_minuteswest = IoMessage_locals_intArgAt_(m, locals, 0);
+	Date_setTimeZone_(DATA(self), tz);
+	IoObject_isDirty_(self, 1);
+	return self;
 }
 	
 IO_METHOD(IoDate, gmtOffset)
@@ -440,6 +471,24 @@ IO_METHOD(IoDate, convertToUTC)
 	struct timezone tz;
 	tz.tz_minuteswest = 0;
 	tz.tz_dsttime = 0;
+	Date_convertToTimeZone_(DATA(self), tz);
+	IoObject_isDirty_(self, 1);
+	return self;
+}
+
+IO_METHOD(IoDate, convertToZone)
+{
+	/*doc Date convertToZone(offset, isDST)
+	Converts self to an equivalent data in a zone with offset (minutes west) and DST (true, fal).
+	*/
+
+	struct timezone tz;
+	
+	int mw = IoMessage_locals_intArgAt_(m, locals, 0);
+	int dst = IoMessage_locals_boolArgAt_(m, locals, 1);
+	
+	tz.tz_minuteswest = mw;
+	tz.tz_dsttime = dst;
 	Date_convertToTimeZone_(DATA(self), tz);
 	IoObject_isDirty_(self, 1);
 	return self;
