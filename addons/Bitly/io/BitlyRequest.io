@@ -50,7 +50,7 @@ BitlyRequest := Object clone do(
 		results := self results
 		if(error := if(results type == "Map", results at("error")), Error with(error), results)
 	)
-	//http://bit.ly/info/get_metrics_data?hash=3cBK5A&scope=USER_HASH&time_frame=ALL&data_type=clicks&time_series=1&t=1247787873552
+	
 	addQuerySlots := method(querySlotNames,
 		querySlotNames split foreach(name,
 			self newSlot(name asCamelized)
@@ -65,6 +65,7 @@ BitlyRequest := Object clone do(
 			addQuerySlots("longUrl")
 	)
 	
+	//http://bit.ly/info/get_metrics_data?hash=3cBK5A&scope=USER_HASH&time_frame=ALL&data_type=clicks&time_series=1&t=1247787873552
 	asDailyClicks := method(
 		request := self\
 			setHost("bit.ly")\
@@ -76,6 +77,21 @@ BitlyRequest := Object clone do(
 			atPut("time_frame", "ALL")\
 			atPut("data_type", "clicks")\
 			atPut("time_series", Date clone now asNumber round asString .. "000")
+		
+		request
+	)
+	
+	//http://bit.ly/info/get_realtime_data?data_set=pathseries&path=3U4Djp&bitly_user=twittersales&t=1257535455868
+	asMinuteClicks := method(
+		request := self\
+			setHost("bit.ly")\
+			setPath("/info/get_realtime_data")\
+			addQuerySlots("path"/*hash*/)\
+			addQuerySlots("bitly_user")
+			
+		request queryParams\
+			atPut("data_set", "pathseries")\
+			atPut("t", Date clone now asNumber round asString .. "000")
 		
 		request
 	)
