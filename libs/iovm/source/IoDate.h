@@ -55,9 +55,12 @@ IO_METHOD(IoDate, second);
 IO_METHOD(IoDate, setSecond);
 IO_METHOD(IoDate, isDaylightSavingsTime);
 IO_METHOD(IoDate, zone);
+IO_METHOD(IoDate, isDST);
+IO_METHOD(IoDate, setGmtOffset);
 IO_METHOD(IoDate, gmtOffset);
 IO_METHOD(IoDate, gmtOffsetSeconds);
 IO_METHOD(IoDate, convertToUTC);
+IO_METHOD(IoDate, convertToZone);
 IO_METHOD(IoDate, convertToLocal);
 IO_METHOD(IoDate, setToUTC);
 

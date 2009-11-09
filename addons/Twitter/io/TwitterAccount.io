@@ -25,7 +25,7 @@ TwitterAccount := Object clone do(
 	
 	resultsFor := method(request,
 		if(isLimited,
-			TwitterException clone setIsRateLimited(true) raise
+			TwitterException clone setIsRateLimited(true) raise("Rate Limited")
 		)
 		request execute
 		debugWriteln(request response body)
@@ -87,24 +87,20 @@ TwitterAccount := Object clone do(
 	)
 	
 	followerIdsCursor ::= "-1"
-	resetFollowerIdsCursor := method(
-		setFollowerIdsCursor("-1")
-	)
+	resetFollowerIdsCursor := method(setFollowerIdsCursor("-1"))
+	hasMoreFollowerIds := method(followerIdsCursor != "0")
 	followerIds := method(aScreenName,
-		//"Not authorized"
-		result := resultsFor(request asFollowerIds dontAuthenticate setScreenName(aScreenName) setCursor(followerIdsCursor))
-		setFollowerIdsCursor(result at("next_cursor"))
+		result := resultsFor(request asFollowerIds setScreenName(aScreenName) setCursor(followerIdsCursor))
+		setFollowerIdsCursor(result at("next_cursor") asString)
 		result at("ids")
 	)
 	
 	friendIdsCursor ::= "-1"
-	resetFriendIdsCursor := method(
-		setFriendIdsCursor("-1")
-	)
+	resetFriendIdsCursor := method(setFriendIdsCursor("-1"))
+	hasMoreFriendIds := method(friendIdsCursor != "0")
 	friendIds := method(aScreenName,
-		//"Not authorized"
-		result := resultsFor(request asFriendIds dontAuthenticate setScreenName(aScreenName) setCursor(friendIdsCursor))
-		setFriendIdsCursor(result at("next_cursor"))
+		result := resultsFor(request asFriendIds setScreenName(aScreenName) setCursor(friendIdsCursor))
+		setFriendIdsCursor(result at("next_cursor") asString)
 		result at("ids")
 	)
 	
