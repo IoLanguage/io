@@ -107,7 +107,6 @@ EventManager do(
 	*/
 	addEvent := method(e, descriptorId, eventType, timeout,
 		//writeln("addEvent")
-		//writeln(Coroutine currentCoroutine backTraceString)
 		//Exception raise("EventManager addEvent " .. e eventTypeName .. " - begin")
 		//writeln("addEvent2")
 		r := self realAddEvent(e, descriptorId, eventType, timeout)

@@ -29,6 +29,7 @@ typedef struct
 	IoMessage *handleEventMessageFalse;
 	List *activeEvents;
 	//int activeHttpClientRequests;
+	struct timeval listenTimeout;
 } IoEventManagerData;
 
 #define ISEEVENTMANAGER(self) IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoEventManager_rawClone)

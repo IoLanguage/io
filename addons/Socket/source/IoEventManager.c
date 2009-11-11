@@ -307,14 +307,16 @@ IoObject *IoEventManager_resetEventTimeout(IoEventManager *self, IoObject *local
 IoObject *IoEventManager_setListenTimeout(IoEventManager *self, IoObject *locals, IoMessage *m)
 {
 	double timeout = IoMessage_locals_doubleArgAt_(m, locals, 0);
-	struct timeval tv = timevalFromDouble(timeout);
-	event_loopexit(&tv);
+	DATA(self)->listenTimeout = timevalFromDouble(timeout);
 	return self;
 }
 
 IoObject *IoEventManager_listen(IoEventManager *self, IoObject *locals, IoMessage *m)
 {
-	int hadEvents = event_base_loop(DATA(self)->eventBase, EVLOOP_NONBLOCK);
+	int hadEvents;
+	
+	event_loopexit(&(DATA(self)->listenTimeout));
+	hadEvents = event_base_loop(DATA(self)->eventBase, EVLOOP_NONBLOCK);
 	
 	//printf("IoEventManager_listen %p\n", (void *)self);
 	if (hadEvents == -1)

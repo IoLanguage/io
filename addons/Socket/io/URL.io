@@ -485,8 +485,24 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 	Any headers in the headers map are sent with the request.
 	Returns a sequence containing the response on success or an Error, if one occurs.
 	*/
+	
 	post := method(parameters, headers,
-		parameters ifNil(parameters = "")
+		connectAndWriteHeader(constructHttpHeader("POST", parameters, headers)) 
+		processHttpResponse
+	)
+	
+	put := method(parameters, headers,
+	  connectAndWriteHeader(constructHttpHeader("PUT", parameters, headers))
+	  processHttpResponse
+	)
+	
+	delete := method(parameters, headers,
+	  connectAndWriteHeader(constructHttpHeader("DELETE", parameters, headers))
+	  processHttpResponse
+	)
+	
+	constructHttpHeader := method(httpVerb, parameters, headers,
+	  parameters ifNil(parameters = "")
 
 		headers ifNil(headers := Map clone)
 		if(usesBasicAuthentication,
@@ -498,7 +514,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		headers atIfAbsentPut("Accept", "text/html; q=1.0, text/*; q=0.8, image/gif; q=0.6, image/jpeg; q=0.6, image/*; q=0.5, */*; q=0.1")
 		headers atIfAbsentPut("Content-Type", "application/x-www-form-urlencoded")
 
-		header := Sequence clone appendSeq("POST ", request, " HTTP/1.0\r\n")
+		header := Sequence clone appendSeq(httpVerb .. " ", request, " HTTP/1.0\r\n")
 		headers foreach(name, value,
 			header appendSeq(name, ": ", value, "\r\n")
 		)
@@ -512,9 +528,6 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		)
 
 		header appendSeq("Content-Length: ", content size, "\r\n\r\n", content)
-		connectAndWriteHeader(header) returnIfError
-		//writeln(header)
-		processHttpResponse
 	)
 	
 	useBasicAuthentication := method(username, password,
