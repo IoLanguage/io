@@ -47,5 +47,6 @@ HandlerQueue := Object clone do(
 			recycledHandlers append(handler)
 		)
 		inProcess = inProcess - 1
+		server ?requestCompleted
 	)
 )

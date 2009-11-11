@@ -32,7 +32,6 @@ HttpRequestHandler := Object clone do(
 	completeRequest := method(socket,
 		socket close
 		handlerQueue requestCompleted(self)
-		handlerQueue server ?requestCompleted
 	)
 	
 	streamResponse := method(socket, request,

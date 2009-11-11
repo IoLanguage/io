@@ -99,6 +99,7 @@ EventManager do(
 	*/
 	isRunning ::= false
 	coro ::= nil
+	listensUntilEvent ::= true
 	
 	realAddEvent := getSlot("addEvent")
 
@@ -131,7 +132,8 @@ EventManager do(
 			//writeln("event loop 0 -----------------------------------")
 			while(hasActiveEvents,
 				//debugWriteln("EventManager run - listening")
-				er := if(Coroutine yieldingCoros first, listen, listenUntilEvent) 
+				
+				er := if(Coroutine yieldingCoros first, listen, if(listensUntilEvent, listenUntilEvent, listen)) 
 				//writeln("event loop 1 -----------------------------------")
 				er ifError(e, 
 					Exception raise("Unrecoverable Error in EventManager: " .. e description))
