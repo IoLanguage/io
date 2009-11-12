@@ -85,11 +85,17 @@ TwitterRequest := Object clone do(
 			postParams appendSeq("--" .. boundary .. "--\r\n")
 		)
 		
-		setResponse(TwitterResponse clone\
-			setBody(if(httpMethod asLowercase == "get", url fetch, url post(postParams, headers)))\
-			setStatusCode(url statusCode)\
-			setRateLimitRemaining(url ?responseHeaders at("X-RateLimit-Remaining"))\
-			setRateLimitExpiration(url ?responseHeaders at("X-RateLimit-Reset")))
+		response := TwitterResponse clone
+		response setBody(if(httpMethod asLowercase == "get",
+			url fetch
+		,
+			headers atPut("Content-Type", "application/x-www-form-urlencoded;charset=UTF8")
+			url post(postParams, headers)
+		))
+		response setStatusCode(url statusCode)
+		response setRateLimitRemaining(url ?responseHeaders at("X-RateLimit-Remaining"))
+		response setRateLimitExpiration(url ?responseHeaders at("X-RateLimit-Reset"))
+		setResponse(response)
 		
 		debugWriteln("TwitterResponse body[", response body, "]")
 		debugWriteln("TwitterResponse statusCode[", response statusCode, "]")
