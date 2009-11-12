@@ -51,7 +51,7 @@ TwitterRequest := Object clone do(
 		
 		url := URL with("http://" .. host .. path .. ".json" .. queryString) setFollowRedirects(false)
 		
-		debugWriteln(url asString)
+		debugWriteln(url url)
 		
 		if(username and password,
 			url setUsesBasicAuthentication(true)
