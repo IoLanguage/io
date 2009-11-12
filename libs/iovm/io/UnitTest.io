@@ -19,14 +19,13 @@ UnitTest := Object clone do(
 	tearDown := method(nil)
 	init := method(self exceptions := List clone)
 	testSlotNames := method(
-		names := self slotNames select(name, name beginsWithSeq("test"))
+		names := self slotNames select(name, name beginsWithSeq("test")) 
 		if(names isEmpty, names, names sortByKey(name, self getSlot(name) message lineNumber))
 	)
 	
 	testCount := method(testSlotNames size)
 
 	run := method(
-		writeln("-------- run ----------")
 		testSlotNames foreach(n,
 			self setUp
 			verbose("    " .. n)
