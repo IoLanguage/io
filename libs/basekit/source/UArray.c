@@ -73,6 +73,14 @@ int CTYPE_forName(const char *name)
 	return -1;
 }
 
+int CTYPE_fixedWidthTextEncodingForType(CTYPE type)
+{
+	if(type == CTYPE_int8_t)    return CENCODING_ASCII;
+	if(type == CTYPE_uint16_t)	return CENCODING_UCS2;
+	if(type == CTYPE_uint32_t)	return CENCODING_UCS4;
+	return -1;
+}
+
 int CENCODING_forName(const char *name)
 {
 	if(!strcmp(name, "ascii"))  return CENCODING_ASCII;
@@ -81,6 +89,11 @@ int CENCODING_forName(const char *name)
 	if(!strcmp(name, "ucs4"))	return CENCODING_UCS4;
 	if(!strcmp(name, "number")) return CENCODING_NUMBER;
 	return -1;
+}
+
+int CENCODING_isText(CENCODING encoding)
+{
+	return encoding != CENCODING_NUMBER;
 }
 
 const char *CENCODING_name(CENCODING encoding)
@@ -503,8 +516,15 @@ void UArray_convertToItemType_(UArray *self, CTYPE newItemType)
 	if (self->itemType != newItemType)
 	{
 		UArray *tmp = UArray_new();
+		CENCODING encoding = UArray_encoding(self);
 		UArray_setItemType_(tmp, newItemType);
-		UArray_setEncoding_(tmp, UArray_encoding(self));
+		
+		if(CENCODING_isText(self->encoding))
+		{
+			encoding = CTYPE_fixedWidthTextEncodingForType(newItemType);
+		}
+		
+		UArray_setEncoding_(tmp, encoding);
 		UArray_setSize_(tmp, self->size);
 		UArray_copyItems_(tmp, self);
 		UArray_copy_(self, tmp);

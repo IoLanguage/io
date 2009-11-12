@@ -36,7 +36,11 @@ List do(
 	*/
 		
 	join := method(arg,
-		s := if(self first type == "List", List clone, Sequence clone)
+		s := if(self first type == "List", 
+			List clone
+		, 
+			Sequence clone
+		)
 
 		if(arg,
 			max := self size - 1

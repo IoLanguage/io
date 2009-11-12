@@ -95,9 +95,11 @@ BASEKIT_API size_t UArray_SizeOfCtype(CTYPE type);
 
 BASEKIT_API const char *CTYPE_name(CTYPE type);
 BASEKIT_API int CTYPE_forName(const char *name);
+BASEKIT_API int CTYPE_fixedWidthTextEncodingForType(CTYPE type);
 
 BASEKIT_API const char *CENCODING_name(CENCODING encoding);
 BASEKIT_API int CENCODING_forName(const char *name);
+BASEKIT_API int CENCODING_isText(CENCODING encoding);
 
 BASEKIT_API void UArray_unsupported_with_(const UArray *self, const char *methodName, const UArray *other);
 BASEKIT_API void UArray_error_(const UArray *self, char *e);
