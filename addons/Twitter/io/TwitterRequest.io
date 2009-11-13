@@ -89,7 +89,7 @@ TwitterRequest := Object clone do(
 		response setBody(if(httpMethod asLowercase == "get",
 			url fetch
 		,
-			headers atPut("Content-Type", "application/x-www-form-urlencoded;charset=UTF8")
+			headers atIfAbsentPut("Content-Type", "application/x-www-form-urlencoded;charset=UTF8")
 			url post(postParams, headers)
 		))
 		response setStatusCode(url statusCode)
