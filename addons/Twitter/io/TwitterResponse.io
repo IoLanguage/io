@@ -63,7 +63,7 @@ TwitterResponse := Object clone do(
 			TwitterException clone setIsOverloaded(true) raise
 		)
 		
-		results ifError(
+		results ifError(e,
 			Exception raise(e message)
 		)
 		
