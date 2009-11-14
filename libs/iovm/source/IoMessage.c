@@ -1184,7 +1184,9 @@ IO_METHOD(IoMessage, hasCachedResult)
 	Returns true if there is a cached result. Nil is a valid cached result.
 	*/
 
-	return IOBOOL(self, IoMessage_rawCachedResult(self) == NULL);
+	return IOBOOL(self, 
+		IoMessage_rawCachedResult(self) != NULL
+	);
 }
 
 IO_METHOD(IoMessage, argsEvaluatedIn)
