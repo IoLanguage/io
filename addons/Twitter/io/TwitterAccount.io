@@ -106,11 +106,11 @@ TwitterAccount := Object clone do(
 	)
 	
 	isSuspended := method(aScreenName,
-		handleErrors(showUser(aScreenName)) ifIsSuspended(
+		tryTwitter(showUser(aScreenName)) ifIsSuspended(
 			return(true)
-		) else(
-			return(false)
-		)
+		) raiseUnhandled
+		
+		false
 	)
 	
 	ExceptionConditional := Object clone do(
@@ -131,35 +131,18 @@ TwitterAccount := Object clone do(
 			self
 		) setPassStops(true)
 		
-		else := method(
+		raiseUnhandled := method(
 			if(exception,
 				if(done,
-					//exception was handled
-					self
+					exception
 				,
-					//exception wasn't handled
 					exception pass
 				)
 			,
-				//no exception
-				if(call message arguments size == 2,
-					call sender setSlot(call message arguments at(0) name, result)
-					messageArg := 1
-				,
-					messageArg := 0
-				)
-				
-				call evalArgAt(messageArg)
-				self
+				result
 			)
-		) setPassStops(true)
-		
-		raiseUnhandled := getSlot("else")
+		)
 	)
 	
 	cursorNext := method(cursor, cursor next)
-	
-	handleErrors := method(
-		tryTwitter(self doMessage(call message arguments at(0), call sender))
-	)
 )
