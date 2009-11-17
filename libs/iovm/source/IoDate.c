@@ -479,7 +479,7 @@ IO_METHOD(IoDate, convertToUTC)
 IO_METHOD(IoDate, convertToZone)
 {
 	/*doc Date convertToZone(offset, isDST)
-	Converts self to an equivalent data in a zone with offset (minutes west) and DST (true, fal).
+	Converts self to an equivalent data in a zone with offset (minutes west) and DST (true, false).
 	*/
 
 	struct timezone tz;
