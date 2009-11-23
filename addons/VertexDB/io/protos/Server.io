@@ -33,4 +33,8 @@ VertexDB Server := Object clone do(
 	collectGarbage := method(
 		collectGarbageRequest results
 	)
+	
+	sync := method(
+		request setAction("sync") results
+	)
 )
