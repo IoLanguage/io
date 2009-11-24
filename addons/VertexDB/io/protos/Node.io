@@ -1,10 +1,8 @@
 
 VertexDB Node := Object clone do(
-	
 	// api
 	//host ::= method(Settings host)
 	//port ::= method(Settings port)
-
 	
 	path ::= "/"
 		
@@ -80,7 +78,7 @@ VertexDB Node := Object clone do(
 		ReadRequest clone setPath(path) setKey(key) results
 	)
 	
-	read := method(key,
+	metaRead := method(key,
 		ReadRequest clone setPath(path) setKey(key) setMode("meta") results
 	)
 
