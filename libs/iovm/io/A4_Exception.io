@@ -195,6 +195,7 @@ Coroutine do(
 		)
 		stack foreach(i, v, if(v target type == "Importer" and v message name == "import", stack sliceInPlace(i+1); break) )
 		stack := stack unique
+		//if(parentCoroutine and parentCoroutine != self, stack appendSeq(parentCoroutine callStack))
 		stack
 	)
 
