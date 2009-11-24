@@ -79,6 +79,10 @@ VertexDB Node := Object clone do(
 	read := method(key,
 		ReadRequest clone setPath(path) setKey(key) results
 	)
+	
+	read := method(key,
+		ReadRequest clone setPath(path) setKey(key) setMode("meta") results
+	)
 
 	size := method(
 		SizeRequest clone setPath(path) results

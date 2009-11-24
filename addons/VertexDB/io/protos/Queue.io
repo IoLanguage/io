@@ -114,8 +114,10 @@ VertexDB Queue := Object clone do(
 				debugWriteln(errorMessage)
 				node atWrite("_error", errorMessage asMutable replaceSeq("\n", "<br>"))
 				activeNode moveKeyToNode(node key, errorNode)
+				//node setPath(Path with(errorNode path, node key))
 			,
 				activeNode moveKeyToNode(node key, doneNode)
+				//node setPath(Path with(doneNode path, node key))
 			)
 		)
 	)
