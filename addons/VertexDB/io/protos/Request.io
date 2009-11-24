@@ -74,11 +74,11 @@ VertexDB Request := Object clone do(
 )
 
 VertexDB do(
-	ReadRequest := Request clone setAction("read") addQuerySlots(list("key"))
+	ReadRequest := Request clone setAction("read") addQuerySlots(list("key", "mode"))
 	
 	SizeRequest := Request clone setAction("size")
 	
-	WriteRequest := Request clone setAction("write") addQuerySlots(list("key", "value"))
+	WriteRequest := Request clone setAction("write") addQuerySlots(list("key", "value", "mode"))
 	WriteRequest queryString := method(Sequence with("?action=write&key=", URL escapeString(key), "&value=", URL escapeString(value)))
 
 	RmRequest := Request clone setAction("rm") addQuerySlots(list("key"))

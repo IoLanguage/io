@@ -44,7 +44,7 @@ void IoState_new_atAddress(void *address)
 	IoSeq *seqProto;
 
 	self->randomGen = RandomGen_new();
-
+	RandomGen_setSeed(self->randomGen, 754905204); // no particular reason for this seed
 	// collector
 
 	self->collector = Collector_new();
