@@ -35,7 +35,7 @@ VertexDB Request := Object clone do(
 	)
 	
 	resource := method(
-		path .. queryString
+		URL escapeString(path) .. queryString
 	)
 	
 	requestUrl := method(
