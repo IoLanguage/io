@@ -108,6 +108,9 @@ VertexDB Queue := Object clone do(
 			e := try(target perform(messageName, node))
 			if(e, errorMessage := e coroutine backTraceString)
 
+			node rm("_qexpire")
+			node rm("_qtime")
+			
 			if(e,
 				if(errorMessage not, errorMessage = "unknown error")
 				debugWriteln("Error performing " .. messageName .. " in Queue")
