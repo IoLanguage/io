@@ -115,6 +115,7 @@ VertexDB Queue := Object clone do(
 				if(errorMessage not, errorMessage = "unknown error")
 				debugWriteln("Error performing " .. messageName .. " in Queue")
 				debugWriteln(errorMessage)
+				target ?processNodeError(errorMessage)
 				node atWrite("_error", errorMessage asMutable replaceSeq("\n", "<br>"))
 				activeNode moveKeyToNode(node key, errorNode)
 				//node setPath(Path with(errorNode path, node key))
