@@ -286,7 +286,7 @@ WebRequest do(
 	)
 )
 
-MyHandler := WebRequest clone do(
+WebServerDefaultRequestHandler := WebRequest clone do(
 	handleRequest := method(request,
 		self sendResponse (200, "OK")
 		self sendHeader ("Content-type", "text/HTML")
@@ -299,8 +299,8 @@ MyHandler := WebRequest clone do(
 WebServer := Server clone do(
 	setPort(8000)
 	handleSocket := method(aSocket,
-		MyHandler clone @handleSocket(aSocket)
+		WebServerDefaultRequestHandler clone @handleSocket(aSocket)
 	)
 )
 
-WebServer start
+//WebServer start
