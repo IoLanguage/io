@@ -859,7 +859,7 @@ UArray *IoFile_readUArrayOfLength_(IoFile *self, IoObject *locals, IoMessage *m)
 
 IO_METHOD(IoFile, readToBufferLength)
 {
-	/*doc File readToBufferOfLength(aBuffer, aNumber)
+	/*doc File readToBufferLength(aBuffer, aNumber)
 	Reads at most aNumber number of items and appends them to aBuffer.
 	Returns number of items read.
 	*/
