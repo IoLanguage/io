@@ -4,7 +4,7 @@ Object do(
 		
 		while(attempts < 3,
 			e := try(
-				result := call evalArgs
+				result := call evalArgs first
 			)
 
 			if(e,

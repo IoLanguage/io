@@ -89,8 +89,12 @@ TwitterAccount := Object clone do(
 	friendsCursor := method(screenName, TwitterFriendsCursor clone setAccount(self) setScreenName(screenName))
 	followersCursor := method(screenName, TwitterFollowersCursor clone setAccount(self) setScreenName(screenName))
 	
-	updateStatus := method(message,
-		resultsFor(request asUpdateStatus setStatus(message) setSource(source)) at("id")// asString
+	updateStatus := method(message, tweetId,
+		r := request asUpdateStatus setStatus(message) setSource(source)
+		if(tweetId,
+			r setInReplyToStatusId(tweetId)
+		)
+		resultsFor(r) at("id")// asString
 	)
 	
 	show := method(

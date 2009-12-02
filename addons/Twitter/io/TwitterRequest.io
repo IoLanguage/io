@@ -202,7 +202,7 @@ TwitterRequest := Object clone do(
 	asUpdateStatus := method(
 		setHttpMethod("post")
 		setPath("/statuses/update")
-		addQuerySlots("source")
+		addQuerySlots("source in_reply_to_status_id")
 		addPostSlots("status")
 	)
 	
