@@ -74,14 +74,14 @@ HttpRequest := Object clone do(
 		urlCode2Char removeAt("%25")
 	) call
 	
-	parseString := method(q,
+	parseStringtoValues := method(q,
 		if(q == nil, return Map clone)
 		q = q asMutable replaceSeq("+", " ")
 
 		form := Map clone
 		q splitNoEmpties("&") foreach(i, v,
 			kv := v splitNoEmpties("=")
-			if(kv size == 2,
+			if(kv size == 2) then(
 				k := kv at(0)
 				v := decodeUrlParam(kv at(1))
 				mapPutOrAppendAsList(form, k, v)
@@ -98,6 +98,47 @@ HttpRequest := Object clone do(
 		)
 
 		return form
+	)
+	
+	parseString := getSlot("parseStringtoValues")
+	
+	parseStringToLists := method(q,
+		if(q == nil, return Map clone)
+		q = q asMutable replaceSeq("+", " ")
+
+		form := Map clone
+		q splitNoEmpties("&") foreach(i, v,
+			kv := v splitNoEmpties("=")
+			if(kv size == 2) then(
+				k := kv at(0)
+				v := decodeUrlParam(kv at(1))
+				if(form at(k),
+					form at(k) append(v)
+				,
+					form atPut(k, list(v))
+				)
+			) else(
+				ikv := kv at(0) splitNoEmpties(",")
+				validx := ikv at(0) ?asNumber isNan == false
+				validy := ikv at(1) ?asNumber isNan == false
+				if (ikv size == 2 and validx and validy,
+					form atPut("imageMapX", ikv at(0))
+					form atPut("imageMapY", ikv at(1)),
+					form atPut(kv at(0), nil)
+				)
+			)
+		)
+
+		return form
+	)
+	
+	setParseAsLists := method(aBool,
+		if(aBool, 
+			self parseString := self getSlot("parseStringToLists")
+		,
+			self parseString := self getSlot("parseStringtoValues")
+		)
+		self
 	)
 	
 	parameters := method(
@@ -134,7 +175,9 @@ HttpRequest := Object clone do(
 				if (disp,
 					disp split(";") foreach(p,
 						kv := p split("=")
-						subheaders atPut(kv at(0) strip asLowercase, kv at(1) ?strip("\""))
+						k := kv at(0) strip asLowercase
+						v := kv at(1) ?strip("\"")
+						subheaders atPut(k, v)
 					)
 				 )
 
