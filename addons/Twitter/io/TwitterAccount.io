@@ -86,26 +86,15 @@ TwitterAccount := Object clone do(
 		self
 	)
 	
-	followerIdsCursor ::= "-1"
-	resetFollowerIdsCursor := method(setFollowerIdsCursor("-1"))
-	hasMoreFollowerIds := method(followerIdsCursor != "0")
-	followerIds := method(aScreenName,
-		result := resultsFor(request asFollowerIds setScreenName(aScreenName) setCursor(followerIdsCursor))
-		setFollowerIdsCursor(result at("next_cursor") asString)
-		result at("ids")
-	)
+	friendsCursor := method(screenName, TwitterFriendsCursor clone setAccount(self) setScreenName(screenName))
+	followersCursor := method(screenName, TwitterFollowersCursor clone setAccount(self) setScreenName(screenName))
 	
-	friendIdsCursor ::= "-1"
-	resetFriendIdsCursor := method(setFriendIdsCursor("-1"))
-	hasMoreFriendIds := method(friendIdsCursor != "0")
-	friendIds := method(aScreenName,
-		result := resultsFor(request asFriendIds setScreenName(aScreenName) setCursor(friendIdsCursor))
-		setFriendIdsCursor(result at("next_cursor") asString)
-		result at("ids")
-	)
-	
-	updateStatus := method(message,
-		resultsFor(request asUpdateStatus setStatus(message) setSource(source)) at("id")// asString
+	updateStatus := method(message, tweetId,
+		r := request asUpdateStatus setStatus(message) setSource(source)
+		if(tweetId,
+			r setInReplyToStatusId(tweetId)
+		)
+		resultsFor(r) at("id")// asString
 	)
 	
 	show := method(
@@ -121,11 +110,11 @@ TwitterAccount := Object clone do(
 	)
 	
 	isSuspended := method(aScreenName,
-		handleErrors(showUser(aScreenName)) ifIsSuspended(
+		tryTwitter(showUser(aScreenName)) ifIsSuspended(
 			return(true)
-		) else(
-			return(false)
-		)
+		) raiseUnhandled
+		
+		false
 	)
 	
 	ExceptionConditional := Object clone do(
@@ -146,57 +135,18 @@ TwitterAccount := Object clone do(
 			self
 		) setPassStops(true)
 		
-		else := method(
+		raiseUnhandled := method(
 			if(exception,
 				if(done,
-					//exception was handled
-					self
+					exception
 				,
-					//exception wasn't handled
 					exception pass
 				)
 			,
-				//no exception
-				if(call message arguments size == 2,
-					call sender setSlot(call message arguments at(0) name, result)
-					messageArg := 1
-				,
-					messageArg := 0
-				)
-				
-				call evalArgAt(messageArg)
-				self
-			)
-		) setPassStops(true)
-	)
-	
-	handleErrors := method(
-		attempts := 0
-		
-		while(attempts < 3,
-			e := try(
-				result := self doMessage(call message arguments at(0), call sender)
-			)
-
-			if(e,
-				if(e hasProto(TwitterException),
-					if(e isOverloaded or e isDown or e isInternalError,
-						attempts = attempts + 1
-					,
-						return(TwitterAccount ExceptionConditional clone setException(e))
-					)
-				,
-					if(list("Connection reset by peer", "Timeout") detect(m, e error containsSeq(m)),
-						attempts = attempts + 1
-					,
-						e pass
-					)
-				)
-			,
-				return(TwitterAccount ExceptionConditional clone setResult(result) setDone(true))
+				result
 			)
 		)
-		
-		e pass
 	)
+	
+	cursorNext := method(cursor, cursor next)
 )
