@@ -142,4 +142,5 @@ void IoState_setupUserInterruptHandler(IoState *self)
 	
 	stateToReceiveControlC = self;
 	signal(SIGINT, IoState_UserInterruptHandler);
+	signal(SIGTERM, IoState_UserInterruptHandler);
 }
