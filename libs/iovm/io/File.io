@@ -2,6 +2,7 @@ File do(
 	//doc File with(aPath) Returns a new instance with the provided path.
 	with := method(path, self clone setPath(path))
 
+	//doc File streamDestination The buffer object to be used for future stream operations. 
 	//doc File setStreamDestination(aBuffer) Set the buffer to be used for future stream operations. 
 	streamDestination ::= nil
 	
@@ -14,7 +15,7 @@ File do(
 	//doc File exitStatus System's close status (after file close).
   	exitStatus := nil
 
-	//doc File streamTo(aBuffer) Perform streamed reading to given buffer.
+	//doc File streamTo(aBuffer) Perform streamed reading to given buffer. The buffer will be appended with chunks of size streamReadSize until EOF. The final chunk may be less than streamReadSize.
 	streamTo := method(streamDestination,
 		b := Sequence clone
 		self open
@@ -120,6 +121,7 @@ File do(
 		parentDirectory
 	)
 	
+	//doc File parentDirectory Returns a File for the directory that is the parent directory of this object's path. 
 	parentDirectory := method(
 		Directory with(path pathComponent)
 	)
