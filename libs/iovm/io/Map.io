@@ -109,4 +109,9 @@ Map do(
 		self foreach(k, v, o setSlot(k, getSlot("v")))
 		o
 	)
+	
+	//doc Map isEmpty returns true if this map doesn't contain any pairs.
+	isEmpty := method(
+		keys isEmpty
+	)
 )
