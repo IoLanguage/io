@@ -32,6 +32,7 @@ with kernel threads and socket polling.
 
 	init := method(
 		self socket := Socket clone setPort(80) setReadTimeout(356*24*60*60)
+		self isRunning := false
 		self
 	)
 
@@ -51,16 +52,22 @@ with kernel threads and socket polling.
 	*/
 
 	start := method(
-		//writeln("Server start")
+		//writeln("Server started")
+		isRunning = true
 		socket serverOpen returnIfError
-		while(socket isOpen,
+		while(isRunning,
 			handleSocket(socket serverWaitForConnection ifError(continue))
 		)
+		//writeln("Server stopped")
 		self
 	)
 
 	//doc Server stop Stops the server if it is running. Returns self.
-	stop := method(socket close)
+	stop := method(
+		isRunning = false
+		writeln("A2_Server stop")
+		socket close
+	)
 	
 	/*doc Server handleSocket(aSocket) 
 	This method is called when the server accepts a new socket. The new sockets is passed as the argument.
@@ -69,5 +76,6 @@ with kernel threads and socket polling.
 	handleSocket := method(aSocket,
 		Exception raise("You must override Server handleSocket in your subclass")
 	)
+	
 )
 

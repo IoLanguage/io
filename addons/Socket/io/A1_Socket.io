@@ -25,7 +25,7 @@ Socket do(
 	
 	//doc Socket acceptTimeout Returns the length of time in seconds for accept timeouts on the socket.
 	//doc Socket setAcceptTimeout(seconds) Sets the length of time in seconds for accept timeouts on the socket. Returns self.
-	acceptTimeout ::= 365*24*60*60
+	acceptTimeout ::= 3 //365*24*60*60
 	
 	//doc Socket ipAddress Returns the IpAddress object for the socket.
 	//doc Socket setIpAddress(ipAddressObject) Sets the ipAddress for the socket. Returns self. The setHost() method should generally be used to set the host instead of this method.
