@@ -70,7 +70,7 @@ Object do(
 	)
   
   /*doc Object justSerialized(stream)
-  Writes serialized representation to a stream. Returns stream contents. 
+  Writes serialized representation to a SerializationStream. Returns stream contents. 
   [This is unintended side effect! Returned value may change in the future.]
   */
 	justSerialized := method(stream,
