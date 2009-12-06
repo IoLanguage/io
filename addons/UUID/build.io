@@ -4,4 +4,6 @@ AddonBuilder clone do(
 	if(platform != "darwin",
 		dependsOnLib("uuid")
 	)
+
+	debs atPut("uuid", "uuid-dev")
 )
