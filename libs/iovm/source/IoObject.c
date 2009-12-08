@@ -943,7 +943,7 @@ IO_METHOD(IoObject, protoPerform)
 	{
 		IoObject *context;
 		IoObject *v = IoObject_rawGetSlot_context_(self, slotName, &context);
-		IoMessage *newMessage = IoMessage_newWithName_(IOSTATE, slotName);
+		IoMessage *newMessage = IoMessage_newWithName_label_(IOSTATE, slotName, IOSYMBOL("perform")); //IOSTATE->performSymbol);
 
 		if (v)
 		{
