@@ -21,7 +21,9 @@ CLI := Object clone do(
 
 		System launchScript = path
 
-		try(context doFile(path)) ?showStack
+		e := try(context doFile(path)) 
+		if(e, e showStack; return -1)
+		return 0
 	)
 
 	runIorc := method(
@@ -67,7 +69,7 @@ CLI := Object clone do(
 
 			if(System args first == "-i",
 				if(System args size >= 2,
-					runFile(System args at(1))
+					return runFile(System args at(1))
 				,
 					if(File clone setPath("main.io") exists, runFile("main.io"))
 				)

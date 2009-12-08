@@ -150,7 +150,7 @@ EventManager do(
 )
 
 Scheduler currentCoroutine setLabel("main")
-EventManager setListenTimeout(.01)
+EventManager setListenTimeout(1)
 
 if(getSlot("EvConnection"),
 	EvConnection do(

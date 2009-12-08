@@ -528,8 +528,13 @@ void IoState_rawPrompt(IoState *self)
 void IoState_runCLI(IoState *self)
 {
 	IoObject *result = IoState_on_doCString_withLabel_(self, self->lobby, "CLI run", "IoState_runCLI()");
-
-	if (!self->shouldExit && ISNUMBER(result))
+	IoObject *e = IoCoroutine_rawException(self->currentCoroutine);
+	
+	if (e != self->ioNil)
+	{
+		self->exitResult = -1;
+	}
+	else if (!self->shouldExit && ISNUMBER(result))
 	{
 		self->exitResult = CNUMBER(result);
 	}
