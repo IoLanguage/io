@@ -235,6 +235,7 @@ void IoState_setupQuickAccessSymbols(IoState *self)
 	self->forwardSymbol      = IoState_retain_(self, SIOSYMBOL("forward"));
 	self->noShufflingSymbol  = IoState_retain_(self, SIOSYMBOL("__noShuffling__"));
 	self->opShuffleSymbol    = IoState_retain_(self, SIOSYMBOL("opShuffle"));
+	//self->performSymbol    = IoState_retain_(self, SIOSYMBOL("perform"));
 	//self->referenceIdSymbol    = IoState_retain_(self, SIOSYMBOL("referenceId"));
 	self->semicolonSymbol    = IoState_retain_(self, SIOSYMBOL(";"));
 	self->selfSymbol         = IoState_retain_(self, SIOSYMBOL("self"));

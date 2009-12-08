@@ -57,6 +57,7 @@ struct IoState
 	IoSymbol *forwardSymbol;
 	IoSymbol *noShufflingSymbol;
 	IoSymbol *opShuffleSymbol;
+	//IoSymbol *performSymbol;
 	//IoSymbol *referenceIdSymbol;
 	IoSymbol *semicolonSymbol;
 	IoSymbol *selfSymbol;

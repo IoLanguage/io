@@ -943,8 +943,8 @@ IO_METHOD(IoObject, protoPerform)
 	{
 		IoObject *context;
 		IoObject *v = IoObject_rawGetSlot_context_(self, slotName, &context);
-		IoMessage *newMessage = IoMessage_newWithName_(IOSTATE, slotName);
-
+		IoMessage *newMessage = IoMessage_newWithName_label_(IOSTATE, slotName, IoMessage_rawLabel(m));
+		IoMessage_rawSetLineNumber_(newMessage, IoMessage_rawLineNumber(m));
 		if (v)
 		{
 			int i;
