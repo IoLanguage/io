@@ -18,8 +18,8 @@ endif
 #endif
 
 DLL_SUFFIX := so
-#DLL_COMMAND := -shared -Wl,-soname="libiovmall.so"
-DLL_COMMAND := -shared -Wl,-soname="/usr/local/lib/libiovmall.so"
+DLL_COMMAND := -shared -Wl,-soname="libiovmall.so"
+#DLL_COMMAND := -shared -Wl,-soname="/usr/local/lib/libiovmall.so"
 FLAT_NAMESPACE :=
 
 LINKDLL := $(CC)
