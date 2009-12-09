@@ -299,6 +299,7 @@ Socket do(
 	*/	
 	serverWaitForConnection := method(
 		newAddress := IPAddress clone
+		//writeln("acceptTimeout: ", acceptTimeout)
 		readEvent waitOn(acceptTimeout) returnIfError
 		socket := asyncAccept(newAddress) returnIfError
 		if(socket,
