@@ -40,7 +40,6 @@ FileTest := UnitTest clone do(
 			,
 				if(file termSignal isNil not, othersignals = othersignals + 1))
 		)
-		"Sigpipes: #{sigpipes}" interpolate println
 		assertEquals(0, othersignals)
 		assertNotEquals(0, sigpipes)
 	)
@@ -62,7 +61,6 @@ FileTest := UnitTest clone do(
 					,
 						othersignals = othersignals + 1))
 		)
-		"Sigpipes: #{sigpipes}" interpolate println
 		assertEquals(0, othersignals)
 		assertEquals(0, sigpipes)
 		assertEquals(100, exitSuccesses)
