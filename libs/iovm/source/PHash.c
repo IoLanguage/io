@@ -61,7 +61,7 @@ void PHash_show(PHash *self)
 	for(i = 0; i < self->size; i++)
 	{
 		PHashRecord *r = Records_recordAt_(self->records, i);
-		printf("  %i: %i %i\n", i, r->k, r->v);
+		printf("  %i: %p %p\n", (int)i, r->k, r->v);
 	}
 }
 
