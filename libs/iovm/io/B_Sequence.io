@@ -95,7 +95,7 @@ Sequence do(
 
 	asSimpleString := method("\"" .. self asString asMutable escape .. "\"")
 
-	/*doc Sequence split(optionalArg1, optionalArg2, ...)
+	/*doc Sequence splitNoEmpties(optionalArg1, optionalArg2, ...)
 		Returns a list containing the non-empty sub-sequences of the receiver divided by the given arguments.
 		If no arguments are given the sequence is split on white space.
 		Examples:
@@ -106,11 +106,15 @@ Sequence do(
 		</code>
 	*/
 
+	/*doc Sequence split Returns a list containing the sub-sequences of the receiver divided by the given arguments.
+		If no arguments are given the sequence is split on white space.
+	*/
+		
 	splitNoEmpties := method(
 		self performWithArgList("split", call evalArgs) selectInPlace(size != 0)
 	)
 
-	//doc Sequence findNthSeq(aSequence, n) Returns a number with the nth occurence of aSequence")
+	//doc Sequence findNthSeq(aSequence, n) Returns a number with the nth occurence of aSequence.
 	findNthSeq := method(str, n,
 		num := self findSeq(str)
 		if(num isNil, return nil)
@@ -182,6 +186,7 @@ Sequence do(
 		r
 	)
 
+	//doc Sequence print Prints contents of a sequence.
 	cPrint := getSlot("print")
 	print := method(
 		self asUTF8 cPrint
@@ -189,11 +194,13 @@ Sequence do(
 	
 	asDecodedList := method(List fromEncodedList(self))
 	
+	//doc Sequence slice Deprecated method. Use exSlice instead.
 	slice := method(start,
 		deprecatedWarning("exSlice")
 		performWithArgList("exSlice", call evalArgs)
 	)
 	
+	//doc Sequence asJson Converts to form that could be interpreted as json if it already contains json, e.g. {"aaa":"bbb"} --> "{\"aaa\":\"bbb\"}"
 	asJson := method(
 		//TODO Return unicode string with hex replacements as per http://www.json.org/
 		replacementMap := Map clone\

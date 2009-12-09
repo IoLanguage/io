@@ -1122,13 +1122,13 @@ Returns self.
 */
 IoSeqMutateNoArgNoResultOp(rangeFill);
 
-/*doc Sequence rangeFill
+/*doc Sequence sin
 Sets each value of the Sequence to the trigomentic sine of it's value.
 Returns self.
 */
 IoSeqMutateNoArgNoResultOp(sin);
 
-/*doc Sequence rangeFill
+/*doc Sequence cos
 Sets each value of the Sequence to the trigomentic cosine of it's value.
 Returns self.
 */
@@ -1182,13 +1182,13 @@ Returns self.
 */
 IoSeqMutateNoArgNoResultOp(exp);
 
-/*doc Sequence exp
+/*doc Sequence log
 Sets each value of the Sequence to the natural log of it's value.
 Returns self.
 */
 IoSeqMutateNoArgNoResultOp(log);
 
-/*doc Sequence exp
+/*doc Sequence log10
 Sets each value of the Sequence to the base 10 log of it's value.
 Returns self.
 */
@@ -1249,7 +1249,7 @@ Returns the minimum value of the Sequence.
 */
 IoSeqNoArgNumberResultOp(minAsDouble);
 
-/*doc Sequence min
+/*doc Sequence max
 Returns the maximum value of the Sequence.
 */
 IoSeqNoArgNumberResultOp(maxAsDouble);
@@ -1259,7 +1259,7 @@ Returns the arithmetic mean of the sequence.
 */
 IoSeqNoArgNumberResultOp(arithmeticMeanAsDouble);
 
-/*doc Sequence mean
+/*doc Sequence meanSquare
 Returns the arithmetic mean of the sequence's values after they have been squared.
 */
 IoSeqNoArgNumberResultOp(arithmeticMeanSquareAsDouble);

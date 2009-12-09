@@ -10,8 +10,9 @@ Path := Object clone do(
 		call message arguments foreach(arg,
 			v := call sender doMessage(arg)
 			//writeln("appendPathSeq(", v type, ")")
-			if(v == nil, v = "")
-			s appendPathSeq(v)
+			if(v != nil, 
+				s appendPathSeq(v)
+			)
 		)
 		s asSymbol
 	)
