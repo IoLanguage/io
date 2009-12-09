@@ -76,4 +76,10 @@ HttpResponse := Object clone do(
 		addHeader("Set-Cookie", string)
 		self
 	)
+	
+	redirectTo := method(url,
+		addHeader("Location", url)
+		setStatusCode(302)
+		self
+	)
 )
