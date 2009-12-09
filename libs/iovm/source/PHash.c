@@ -61,7 +61,7 @@ void PHash_show(PHash *self)
 	for(i = 0; i < self->size; i++)
 	{
 		PHashRecord *r = Records_recordAt_(self->records, i);
-		printf("  %i: %p %p\n", (int)i, r->k, r->v);
+		printf("  %i: %i %i\n", i, r->k, r->v);
 	}
 }
 
@@ -168,10 +168,4 @@ size_t PHash_memorySize(PHash *self)
 
 void PHash_compact(PHash *self)
 {
-}
-
-void PHash_cleanSlots(PHash *self)
-{
-	memset(self->records, 0x0, self->size * sizeof(PHashRecord));
-	self->keyCount = 0;
 }
