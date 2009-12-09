@@ -331,6 +331,7 @@ IoObject *IoEventManager_listenUntilEvent(IoEventManager *self, IoObject *locals
 {
 	int hadEvents = event_base_loop(DATA(self)->eventBase, EVLOOP_ONCE);
 
+	//printf("IoEventManager_listenUntilEvent\n");
 	if (hadEvents == -1)
 	{
 		return IoError_newWithMessageFormat_(IOSTATE, "EventManager: error in event_base_loop");

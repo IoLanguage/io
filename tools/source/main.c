@@ -76,5 +76,6 @@ int main(int argc, const char *argv[])
 	}
 #endif
 
+	//printf("exitResult = %i\n", exitResult);
 	return exitResult;
 }

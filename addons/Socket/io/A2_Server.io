@@ -65,7 +65,6 @@ with kernel threads and socket polling.
 	//doc Server stop Stops the server if it is running. Returns self.
 	stop := method(
 		isRunning = false
-		writeln("A2_Server stop")
 		socket close
 	)
 	

@@ -146,6 +146,14 @@ TwitterAccount := Object clone do(
 				result
 			)
 		)
+		
+		else := method(
+			raiseUnhandled
+			if(exception == nil,
+				call evalArgs
+			)
+			result
+		)
 	)
 	
 	cursorNext := method(cursor, cursor next)
