@@ -74,7 +74,13 @@ Object do(
   [This is unintended side effect! Returned value may change in the future.]
   */
 	justSerialized := method(stream,
-		stream write(getSlot("self") type, " clone do(\n")
+		stream write(
+			if(getSlot("self") hasLocalSlot("type"),
+				getSlot("self") proto type
+			,
+				getSlot("self") type
+			)
+		, " clone do(\n")
 		self serializedSlots(stream)
 		stream write(")\n")
 	)
