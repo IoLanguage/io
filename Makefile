@@ -93,7 +93,7 @@ endif
 
 addons: vm
 	./_build/binaries/io_static$(BINARY_SUFFIX) build.io
-	@if [ -f errors ]; then cat errors; echo; echo "Note: addons do not to build when libs or headers are missing"; echo; rm errors; fi
+	@if [ -f errors ]; then cat errors; echo; echo "Note: addons do not build when libs or headers are missing"; echo; rm errors; fi
 
 vmlib:
 	mkdir -p _build || true

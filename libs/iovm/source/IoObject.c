@@ -1909,12 +1909,12 @@ IO_METHOD(IoObject, argIsActivationRecord)
 	return IOBOOL(self, PHash_at_(IoObject_slots(self), IOSTATE->callSymbol) != NULL);
 }
 
-void *testStack(void *a)
+/*void *testStack(void *a)
 {
 	int v[256];
 	memset(v, 0x1, 128);
 	return a + v[0];
-}
+}*/
 
 IO_METHOD(IoObject, argIsCall)
 {

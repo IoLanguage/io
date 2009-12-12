@@ -235,6 +235,7 @@ void IoFile_justClose(IoFile *self)
 			if (DATA(self)->flags == IOFILE_FLAGS_PIPE)
 			{
 				int exitStatus = pclose(stream);
+#if !defined(_MSC_VER)
 				if(WIFEXITED(exitStatus) == 1)
 				{
 					exitStatus = WEXITSTATUS(exitStatus);
@@ -250,6 +251,10 @@ void IoFile_justClose(IoFile *self)
 				{
 					printf("Did not exit normally. Returned %d (%d)\n", exitStatus, WEXITSTATUS(exitStatus));
 				}
+#else
+				IoObject_setSlot_to_(self, IOSYMBOL("exitStatus"),
+					IONUMBER(exitStatus));
+#endif
 			}
 			else
 			{

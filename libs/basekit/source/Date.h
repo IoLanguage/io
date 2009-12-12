@@ -39,7 +39,7 @@ BASEKIT_API time_t Date_asTime(const Date *self);
 // zone
 
 BASEKIT_API void Date_setToLocalTimeZone(Date *self);
-struct timezone Date_timeZone(const Date *self);
+BASEKIT_API struct timezone Date_timeZone(const Date *self);
 BASEKIT_API void Date_setTimeZone_(Date *self, struct timezone tz);
 BASEKIT_API void Date_convertToTimeZone_(Date *self, struct timezone tz);
 
