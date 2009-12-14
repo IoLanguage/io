@@ -45,6 +45,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 	username ::= nil
 	password ::= nil
 	usesBasicAuthentication ::= false
+	redirectUrl ::= nil
 	
 	isSynchronous := false
 	
@@ -189,6 +190,11 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		r data
 	)
 
+	lastRedirectUrl := method(
+		//writeln("lastRedirectUrl ", url)
+		if(redirectUrl, redirectUrl lastRedirectUrl, self)
+	)
+	
 	//doc URL fetch Fetches the url and returns the result as a Sequence. Returns an Error, if one occurs.
 	fetch := method(url, redirectCount,
 		if(redirectCount not, redirectCount = 0)
@@ -205,7 +211,12 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 				)
 				newUrl := self responseHeaders at("Location")
 				//writeln("REDIRECT TO ", newUrl)
-		 		v := childUrl(newUrl) fetch(nil, redirectCount + 1)
+				self setRedirectUrl(childUrl(newUrl))
+				
+				if(self cookie, redirectUrl setCookie(self cookie))
+				if(self responseCookie, redirectUrl setCookie(self responseCookie))
+				
+		 		v := redirectUrl fetch(nil, redirectCount + 1)
 			)
 			return v
 		)
@@ -230,8 +241,11 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 	Returns a Sequence containing the request header that will be sent.
 	*/
 	
-	setCookie := method(cookie, requestHeaders atPut("Cookie", cookie))
+	setCookie := method(cookie, requestHeaders atPut("Cookie", cookie); self)
+	cookie := method(requestHeaders at("Cookie"))
 	responseCookie := method(responseHeaders at("Set-Cookie"))
+	
+	setUserAgent := method(v, requestHeaders atPut("User-Agent", v); self)
 	
 	requestHeaders := Map clone
 	requestHeaders atPut("User-Agent", "Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/312.8 (KHTML, like Gecko) Safari/312.6)")
@@ -446,7 +460,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 				u = Path with(url pathComponent, u)
 			)
 		)
-		self clone setURL(u) setReferer(url)
+		self clone setURL(u) setReferer(url) setRedirectUrl(nil)
 	)
 
 	evPost := method(parameters, headers,
