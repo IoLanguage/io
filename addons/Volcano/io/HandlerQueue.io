@@ -1,6 +1,7 @@
 HandlerQueue := Object clone do(
 	server ::= nil
 	coro ::= nil
+	paused ::= false
 	
 	init := method(
 		self recycledHandlers := List clone
@@ -18,6 +19,10 @@ HandlerQueue := Object clone do(
 				handler @handleRequest
 				inProcess = inProcess + 1
 			) else(
+				if(paused not,
+					setPaused(true)
+					?Logger info("Volcano HandlerQueue is full (", concurrencyLimit, ").")
+				)
 				coro pause
 			)
 		)
@@ -37,7 +42,11 @@ HandlerQueue := Object clone do(
 			inProcess = inProcess + 1
 		) else(
 			queue append(handler)
-			coro ?resume
+			if(paused,
+				setPaused(false)
+				?Logger info("Volcano HandlerQueue resume")
+				coro resume
+			)
 		)
 	)
 	

@@ -157,4 +157,15 @@ TwitterAccount := Object clone do(
 	)
 	
 	cursorNext := method(cursor, cursor next)
+	
+	userExists := method(screenName,
+		tryTwitter(showUser(screenName)) ifIsSuspended(
+			r := false
+		) ifIsNotFound(
+			r := false
+		) else(
+			r := true
+		)
+		r
+	)
 )
