@@ -14,6 +14,7 @@
 
 #include "IoObject.h"
 #include "Socket.h"
+#include <evutil.h>
 #include <event.h>
 #include <evhttp.h>
 
