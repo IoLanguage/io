@@ -31,6 +31,7 @@ OPTIMIZE :=-O3 -g
 #-msse2 -msse -mmmx
 #OPTIMIZE :=-O3 -ffast-math -ftree-vectorize  -ftree-vectorizer-verbose=4
 DLL_SUFFIX := so
+DLL_LIB_PREFIX := lib
 DLL_COMMAND := -shared
 FLAT_NAMESPACE :=
 dependson := $(shell cat depends)
