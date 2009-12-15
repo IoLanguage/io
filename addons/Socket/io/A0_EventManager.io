@@ -41,7 +41,7 @@ Event do(
 		//writeln(coro label, " ", eventTypeName, " waitOn(", t, ") - pausing")
 		EventManager addEvent(self, descriptorId, eventType, timeout) ifError(e, coro = nil; return(e))
 		coro pause
-		writeln(Scheduler currentCoroutine label, " Event waitOn(", t, ") - resumed")
+		debugWriteln(Scheduler currentCoroutine label, " Event waitOn(", t, ") - resumed")
 		if(isTimeout, Error with("Timeout"), self)
 	)
 
@@ -130,28 +130,12 @@ EventManager do(
 			//writeln("hasActiveEvents: ", hasActiveEvents)
 			//writeln("event loop 0 -----------------------------------")
 			while(hasActiveEvents,
-				writeln("EventManager run - listening")
+				//debugWriteln("EventManager run - listening")
 				
-				er := if(Coroutine yieldingCoros first,
-					writeln("before listen")
-					listen
-					writeln("after listen")
-				,
-					if(listensUntilEvent,
-						writeln("before listenUntilEvent")
-						listenUntilEvent
-						writeln("after listenUntilEvent")
-					,
-						writeln("before listen")
-						listen
-						writeln("after listen")
-					)
-				) 
+				er := if(Coroutine yieldingCoros first, listen, if(listensUntilEvent, listenUntilEvent, listen)) 
 				//writeln("event loop 1 -----------------------------------")
 				er ifError(e, 
-					writeln("Unrecoverable Error in EventManager: " .. e description)
-					Exception raise("Unrecoverable Error in EventManager: " .. e description)
-				)
+					Exception raise("Unrecoverable Error in EventManager: " .. e description))
 					//writeln("event loop 2 -----------------------------------")
 				yield
 			)
