@@ -154,13 +154,14 @@ Coroutine do(
 		if(isCurrent,
 			next := yieldingCoros removeFirst
 			if(next,
-				next resume,
+				next resume
+			,
 				//Exception raise("Scheduler: nothing left to resume so we are exiting")
 				writeln("Scheduler: nothing left to resume so we are exiting")
 				self showStack
 				System exit
 			)
-			,
+		,
 			yieldingCoros remove(self)
 		)
 	)

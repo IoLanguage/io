@@ -218,9 +218,11 @@ Socket do(
 	*/
 	
 	streamReadNextChunk := method(
-		if(isSynchronous, return syncStreamReadNextChunk)
+		if(isSynchronous, return(syncStreamReadNextChunk))
 		self setSocketReadLowWaterMark(1)
+		writeln("before")
 		readEvent waitOn(readTimeout) returnIfError
+		writeln("after")
 		while(isOpen and e := asyncStreamRead(readBuffer, bytesPerRead), e returnIfError)
 		self
 	)
