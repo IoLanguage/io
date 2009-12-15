@@ -10,8 +10,8 @@ VolcanoServer := Server clone do(
 	handleSocket := method(aSocket,
 		rh := VolcanoRequestHandler clone
 		rh setServer(self)
-		rh setSocket(socket)
-		rh handleRequest
-		aSocket close
+		rh setSocket(aSocket)
+		rh @handleRequest
+		self
 	)
 )
