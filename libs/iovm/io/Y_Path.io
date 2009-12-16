@@ -18,6 +18,8 @@ Path := Object clone do(
 
 	//doc Path isPathAbsolute Returns true if path is absolute, false if it is relative.
 	isPathAbsolute := method(p,
+		if(p == nil or p size == 0, return false)
+		
 		absolute := false
 		//try (
 			if (hasDriveLetters,
