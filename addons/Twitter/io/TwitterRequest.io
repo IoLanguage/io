@@ -206,6 +206,15 @@ TwitterRequest := Object clone do(
 		addPostSlots("status")
 	)
 	
+	asDeleteStatus := method(
+		setHttpMethod("post")
+		self path := method(
+			"/statuses/destroy/#{statusId}" interpolate
+		)
+		self newSlot("statusId")
+		self
+	)
+	
 	asSearch := method(
 		setHost("search.twitter.com")
 		setPath("/search")

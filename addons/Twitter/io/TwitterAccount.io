@@ -97,6 +97,10 @@ TwitterAccount := Object clone do(
 		resultsFor(r) at("id")// asString
 	)
 	
+	deleteStatus := method(tweetId,
+		resultsFor(request asDeleteStatus setStatusId(tweetId))
+	)
+	
 	show := method(
 		resultsFor(request asShow setScreenName(screenName))
 	)
