@@ -111,6 +111,7 @@ Socket *Socket_new(void)
 
 void Socket_free(Socket *self)
 {
+	Socket_close(self);
 	io_free(self);
 }
 
