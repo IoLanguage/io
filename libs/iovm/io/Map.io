@@ -9,6 +9,7 @@ Map do(
 		m
 	)
 	
+	//doc Map asJson Converts a Map to a string that represents contents in JSON-compilant form
 	asJson := method(
 		"{" .. self keys map(k, k asJson .. ":" .. self at(k) asJson) join(",") .. "}"
 	)

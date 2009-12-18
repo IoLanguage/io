@@ -10,14 +10,17 @@ Path := Object clone do(
 		call message arguments foreach(arg,
 			v := call sender doMessage(arg)
 			//writeln("appendPathSeq(", v type, ")")
-			if(v == nil, v = "")
-			s appendPathSeq(v)
+			if(v != nil, 
+				s appendPathSeq(v)
+			)
 		)
 		s asSymbol
 	)
 
 	//doc Path isPathAbsolute Returns true if path is absolute, false if it is relative.
 	isPathAbsolute := method(p,
+		if(p == nil or p size == 0, return false)
+		
 		absolute := false
 		//try (
 			if (hasDriveLetters,
