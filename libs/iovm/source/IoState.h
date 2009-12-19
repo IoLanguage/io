@@ -156,6 +156,8 @@ struct IoState
 	
 	int receivedSignal;
 	int showAllMessages;
+	
+	//CHash *profiler;
 };
 
 #define IOSTATE_STRUCT_DEFINED
