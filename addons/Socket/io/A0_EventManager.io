@@ -102,6 +102,7 @@ EventManager do(
 	listensUntilEvent ::= true
 	
 	realAddEvent := getSlot("addEvent")
+	shouldRun ::= false
 
 	/*doc EventManager addEvent(event, descriptor, eventType, timeout) 
 	*/
@@ -125,11 +126,12 @@ EventManager do(
 		//Scheduler currentCoroutine setLabel("EventManager")
 		debugWriteln("EventManager run")
 		//writeln("EventManager run")
-		loop(
+		setShouldRun(true)
+		while(shouldRun,
 			setIsRunning(true)
 			//writeln("hasActiveEvents: ", hasActiveEvents)
 			//writeln("event loop 0 -----------------------------------")
-			while(hasActiveEvents,
+			while(hasActiveEvents and shouldRun,
 				//debugWriteln("EventManager run - listening")
 				
 				er := if(Coroutine yieldingCoros first, listen, if(listensUntilEvent, listenUntilEvent, listen)) 
@@ -146,6 +148,10 @@ EventManager do(
 			coro pause
 			//debugWriteln("EventManager run - resuming")
 		)
+	)
+	
+	stop := method(
+		setShouldRun(false)
 	)
 )
 
