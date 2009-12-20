@@ -176,6 +176,7 @@ void IoEvHttpServer_writeResponseHeaders(IoEvHttpServer *self, struct evhttp_req
 
 void IoEvHttpServer_handleRequest(struct evhttp_request *req, void *arg)
 {
+	printf("IoEvHttpServer_handleRequest START\n");
 	IoEvHttpServer *self = arg;
 
 	const char *uri = evhttp_request_uri(req);
@@ -194,14 +195,13 @@ void IoEvHttpServer_handleRequest(struct evhttp_request *req, void *arg)
 	}
 	else
 	{
-		IoObject *response = IoObject_getSlot_(self, IOSYMBOL("response"));
-		
 		//IoObject_perform(self, self, IOSYMBOL("handleRequestCallback"));
 		IoMessage *m = IoMessage_newWithName_label_(IOSTATE, IOSYMBOL("handleRequestCallback"), IOSYMBOL("IoEvHttpServer"));
 		IoMessage_locals_performOn_(m, self, self);
 
 		IoEvHttpServer_writeResponseHeaders(self, req);
 		
+		IoObject *response = IoObject_getSlot_(self, IOSYMBOL("response"));
 		IoSeq *data = IoObject_seqGetSlot_(response, IOSYMBOL("data"));
 		int statusCode = IoObject_doubleGetSlot_(response, IOSYMBOL("statusCode"));
 
@@ -226,6 +226,7 @@ void IoEvHttpServer_handleRequest(struct evhttp_request *req, void *arg)
 	
 	evhttp_send_reply_end(req);
 	if(buf) evbuffer_free(buf);
+	printf("IoEvHttpServer_handleRequest END\n");
 }
 
 IoObject *IoEvHttpServer_start(IoEvHttpServer *self, IoObject *locals, IoMessage *m)

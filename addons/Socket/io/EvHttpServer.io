@@ -8,18 +8,27 @@ EvHttpServer do(
 	response := EvHttpResponse clone
 	
 	handleRequestCallback := method(
-		//writeln("HttpServer handleRequest not implemented 1")
-		response headers := Map clone
+		writeln("EvHttpServer handleRequestCallback START")
+		response = EvHttpResponse clone
 		request parse
 		//writeln("parameters = ", request parameters keys)
-		self handleRequest(request)
-		
+		e := try(self handleRequest(request))
+		if(e,
+			handleError(e)
+		)
+		writeln("response data size: ", response data size)
+		writeln("EvHttpServer handleRequestCallback END")
 		self
 	)
 	
 	handleRequest := method(request,
 		writeln("HttpServer handleRequest not implemented")
-		response data := ""
+		response data = ""
 		response statusCode := 200
+	)
+	
+	handleError := method(e,
+		response data := "<pre>" .. e coroutine backTraceString .. "</pre>"
+		response statusCode := 500
 	)
 )
