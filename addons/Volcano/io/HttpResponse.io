@@ -45,8 +45,8 @@ HttpResponse := Object clone do(
 	send := method(
 		socket write("HTTP/1.1 " .. status .. "\r\n")
 		addHeaderIfAbsent("Content-Type", contentType)
-		headers foreach(header, socket write(header name .. ": " .. header value .. "\n"))
-		socket write("\n")
+		headers foreach(header, socket write(header name .. ": " .. header value .. "\r\n"))
+		socket write("\r\n")
 		socket write(body)
 	)
 	
