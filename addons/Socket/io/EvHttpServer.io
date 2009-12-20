@@ -3,28 +3,9 @@ EvHttpServer do(
 	host ::= "127.0.0.1"
 	port ::= 80
 	
-	request := Object clone do(
-		headers := Map clone
-		uri := nil
-		postData := nil
-		parse := method(
-			self path := uri beforeSeq("?")
-			q := uri afterSeq("?")
-			self parameters := Map clone
-			if(q,
-				q split("&") foreach(p,
-					parts := p split("=")
-					parameters atPut(parts at(0), parts at(1))
-				)
-			)
-		)
-	)
+	request := EvHttpRequest clone
 	
-	response := Object clone do(
-		headers := Map clone
-		statusCode := 200
-		data := ""
-	)
+	response := EvHttpResponse clone
 	
 	handleRequestCallback := method(
 		//writeln("HttpServer handleRequest not implemented 1")
