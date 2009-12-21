@@ -87,57 +87,29 @@ void IoEvHttpServer_readRequestHeaders(IoEvHttpServer *self, struct evhttp_reque
 	//IOASSERT(ISMAP(headers), "request headers not a map");
 	assert(ISMAP(headers));
 	
-	const char *headerNames[] = {
-		"Accept-Ranges",
-		"Age",
-		"Allow",
-		"Cache-Control",
-		"Content-Encoding",
-		"Content-Language",
-		"Content-Length",
-		"Content-Location",
-		"Content-Disposition",
-		"Content-MD5",
-		"Content-Range",
-		"Content-Type",
-		"Date",
-		"ETag",
-		"Expires",
-		"Last-Modified",
-		"Location",
-		"Server",
-		"Set-Cookie", 
-		0x0
-	};
-	
 	{
-		//struct evkeyvalq *h = req->input_headers;
-		int i = 0;
-		const char *name;
-		
-		//IoMap_rawEmpty(headers);
-		
-		while ((name = headerNames[i]))
-		{
-			const char *value = evhttp_find_header(req->input_headers, name);
-			
-			if (value) 
-			{
-				//printf("response header: %s : %s\n", name, value);
-				IoMap_rawAtPut(headers, IOSYMBOL(name), IOSYMBOL(value));
-			}
-			else 
-			{
-				IoMap_rawAtPut(headers, IOSYMBOL(name), IONIL(self)); // replace with IoMap_rawEmpty
-			}
+		struct evkeyval *header;
 
+		TAILQ_FOREACH(header, req->input_headers, next)
+		{
+			UArray *key = UArray_newWithCString_copy_(header->key, 1);
+			UArray_tolower(key);
 			
-			i ++;
+			{
+				IoSeq *mapKey = IoState_symbolWithUArray_copy_(IOSTATE, key, 0);
+
+				if (header->value)
+				{
+					IoMap_rawAtPut(headers, mapKey, IOSYMBOL(header->value));
+				}
+				else
+				{
+					IoMap_rawAtPut(headers, mapKey, IONIL(self));
+				}
+			}
 		}
 	}
 }
-
-
 
 void IoEvHttpServer_handleRequest(struct evhttp_request *req, void *arg)
 {
@@ -160,6 +132,7 @@ void IoEvHttpServer_handleRequest(struct evhttp_request *req, void *arg)
 	}
 	else
 	{
+
 		IoObject *response = IoEvOutResponse_new(IOSTATE);
 		IoEvOutResponse_rawSetRequest_(response, req);
 		IoObject_setSlot_to_(self, IOSYMBOL("response"), response);

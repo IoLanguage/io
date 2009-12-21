@@ -22,22 +22,7 @@ EvHttpServer do(
 	host ::= "127.0.0.1"
 	port ::= 80
 	
-	request := Object clone do(
-		headers := Map clone
-		uri := nil
-		postData := nil
-		parse := method(
-			self path := uri beforeSeq("?")
-			q := uri afterSeq("?")
-			self parameters := Map clone
-			if(q,
-				q split("&") foreach(p,
-					parts := p split("=")
-					parameters atPut(parts at(0), parts at(1))
-				)
-			)
-		)
-	)
+	request := EvHttpRequest clone
 	
 	run := method(
 		EventManager run
@@ -53,6 +38,11 @@ EvHttpServer do(
 		request parse
 		//writeln("parameters = ", request parameters keys)
 		requestHandlerProto clone @handleRequest(request, response)
+	)
+	
+	handleError := method(e,
+		response data := "<pre>" .. e coroutine backTraceString .. "</pre>"
+		response statusCode := 500
 	)
 )
 
