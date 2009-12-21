@@ -1,3 +1,21 @@
+EvHttpRequestHandler := Object clone do(
+	handleRequest := method(request, response,
+			writeln("EvHttpRequestHandler need to override this method")
+	        response data = URL with("http://dekorte.com/") fetch size asString
+			//response data := ""
+			response statusCode := 200
+			response responseMessage := "OK"
+			response asyncSend
+	)
+)
+
+EvOutResponse do(
+	headers := Map clone
+	statusCode := 200
+	data := ""
+	responseMessage := "OK" // "Internal Server Error"
+)
+
 EvHttpServer do(
 	eventManager ::= EventManager
 	host ::= "127.0.0.1"
@@ -20,25 +38,14 @@ EvHttpServer do(
 		)
 	)
 	
-	response := Object clone do(
-		headers := Map clone
-		statusCode := 200
-		data := ""
-	)
+	// response slot is set by EvHttpServer
 	
+	requestHandlerProto := EvHttpRequestHandler
 	handleRequestCallback := method(
-		//writeln("HttpServer handleRequest not implemented 1")
 		response headers := Map clone
 		request parse
 		//writeln("parameters = ", request parameters keys)
-		self handleRequest(request)
-		
-		self
-	)
-	
-	handleRequest := method(request,
-		writeln("HttpServer handleRequest not implemented")
-		response data := ""
-		response statusCode := 200
+		requestHandlerProto clone @handleRequest(request, response)
 	)
 )
+
