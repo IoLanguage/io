@@ -113,7 +113,6 @@ void IoEvHttpServer_readRequestHeaders(IoEvHttpServer *self, struct evhttp_reque
 
 void IoEvHttpServer_handleRequest(struct evhttp_request *req, void *arg)
 {
-	printf("IoEvHttpServer_handleRequest START\n");
 	IoEvHttpServer *self = arg;
 
 	const char *uri = evhttp_request_uri(req);
