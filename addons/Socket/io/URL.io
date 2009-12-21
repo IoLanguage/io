@@ -190,7 +190,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		r send
 		self statusCode := r responseCode
 		self responseHeaders := r responseHeaders
-		writeln("responseHeaders keys = ", responseHeaders keys)
+		//writeln("responseHeaders keys = ", responseHeaders keys)
 		//writeln("evFetch  got ", r data size, " bytes")
 		r data
 	)
@@ -298,6 +298,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 
 	//doc URL headerBreaks Private method to connect to the host and write the header.
 	connectAndWriteHeader := method(header,
+		//writeln("--- connectAndWriteHeader --- ")
 		if(host == nil, return(Error with("No host set")))
 		socket returnIfError setHost(host) returnIfError setPort(port) connect returnIfError
 		socket appendToWriteBuffer(if(header, header, requestHeader)) write returnIfError
