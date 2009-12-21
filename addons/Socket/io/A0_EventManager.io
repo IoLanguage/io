@@ -102,7 +102,7 @@ EventManager do(
 	listensUntilEvent ::= true
 	
 	realAddEvent := getSlot("addEvent")
-	shouldRun ::= false
+	shouldRun ::= true
 
 	/*doc EventManager addEvent(event, descriptor, eventType, timeout) 
 	*/
@@ -123,30 +123,26 @@ EventManager do(
 
 	//doc EventManager run Runs the EventManger loop. Does not return.
 	run := method(
+		if(coro == nil, resumeIfNeeded; return)
 		//Scheduler currentCoroutine setLabel("EventManager")
 		debugWriteln("EventManager run")
-		//writeln("EventManager run")
 		setShouldRun(true)
 		while(shouldRun,
 			setIsRunning(true)
-			//writeln("hasActiveEvents: ", hasActiveEvents)
-			//writeln("event loop 0 -----------------------------------")
-			while(hasActiveEvents and shouldRun,
-				//debugWriteln("EventManager run - listening")
-				
+			//while(hasActiveEvents and shouldRun,
+			loop(
+				/*
+				if(Coroutine yieldingCoros size > 0,
+					writeln("Coroutine yieldingCoros size = ", Coroutine yieldingCoros size)
+					writeln("label: ", Coroutine yieldingCoros first label)
+				)
+				*/
 				er := if(Coroutine yieldingCoros first, listen, if(listensUntilEvent, listenUntilEvent, listen)) 
-				//writeln("event loop 1 -----------------------------------")
-				er ifError(e, 
-					Exception raise("Unrecoverable Error in EventManager: " .. e description))
-					//writeln("event loop 2 -----------------------------------")
+				er ifError(e, Exception raise("Unrecoverable Error in EventManager: " .. e description))
 				yield
 			)
-			//writeln("event loop 3 -----------------------------------")
-			//writeln("hasActiveEvents: ", hasActiveEvents)
-			//debugWriteln("EventManager run - no active events")
 			setIsRunning(false)
 			coro pause
-			//debugWriteln("EventManager run - resuming")
 		)
 	)
 	
@@ -163,11 +159,11 @@ if(getSlot("EvConnection"),
 		eventManager ::= EventManager
 		address ::= ""
 		port ::= 80
-		newRequest := method(EvRequest clone setConnection(self))
+		newRequest := method(EvOutRequest clone setConnection(self))
 		didFinish := nil
 	)
 
-	EvRequest do(
+	EvOutRequest do(
 		requestHeaders := Map clone
 		requestHeaders atPut("User-Agent", "Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/312.8 (KHTML, like Gecko) Safari/312.6)")
 		requestHeaders atPut("Connection", "close")

@@ -179,13 +179,18 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		v
 	)
 	
-	evFetch := method(
-		Exception raise("evFetch " .. url)
-		c := EvConnection clone setAddress(host) setPort(port) connect
-		r := c newRequest setUri(request) 
+	evFetchHttp := method(
+		//writeln("evFetchHttp")
+		con := EvConnection clone setAddress(host) setPort(port) connect
+		//writeln("con = ", con)
+		r := con newRequest setUri(url) 
+		//writeln("request = ", r)
 		r requestHeaders = self requestHeaders
+		//writeln("request send")
 		r send
 		self statusCode := r responseCode
+		self responseHeaders := r responseHeaders
+		//writeln("responseHeaders keys = ", responseHeaders keys)
 		//writeln("evFetch  got ", r data size, " bytes")
 		r data
 	)
@@ -293,6 +298,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 
 	//doc URL headerBreaks Private method to connect to the host and write the header.
 	connectAndWriteHeader := method(header,
+		//writeln("--- connectAndWriteHeader --- ")
 		if(host == nil, return(Error with("No host set")))
 		socket returnIfError setHost(host) returnIfError setPort(port) connect returnIfError
 		socket appendToWriteBuffer(if(header, header, requestHeader)) write returnIfError
@@ -584,6 +590,13 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		parts removeLast 
 		parts last	
 	)
+
+	useEv := method(
+	 	self fetchHttp := self getSlot("evFetchHttp")
+	 	self post := self getSlot("evPost")
+	)
+	
+	//useEv
 )
 
 //doc Object doURL(urlString) Fetches the URL and evals it in the context of the receiver.
@@ -599,6 +612,3 @@ Map asQueryString := method(
 	) join("&")
 )
 
-
-//URL fetch := URL getSlot("evFetch")
-//URL post := URL getSlot("evPost")
