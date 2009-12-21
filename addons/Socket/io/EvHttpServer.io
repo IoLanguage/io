@@ -1,7 +1,8 @@
+
 EvHttpRequestHandler := Object clone do(
 	handleRequest := method(request, response,
-			writeln("EvHttpRequestHandler need to override this method")
-	        response data = URL with("http://dekorte.com/") fetch size asString
+			writeln("EvHttpRequestHandler - you need to override this method")
+	        response data = URL with("http://yahoo.com/") fetch size asString
 			//response data := ""
 			response statusCode := 200
 			response responseMessage := "OK"
@@ -38,9 +39,15 @@ EvHttpServer do(
 		)
 	)
 	
+	run := method(
+		EventManager run
+		start
+		self
+	)
+	
 	// response slot is set by EvHttpServer
 	
-	requestHandlerProto := EvHttpRequestHandler
+	requestHandlerProto ::= EvHttpRequestHandler
 	handleRequestCallback := method(
 		response headers := Map clone
 		request parse

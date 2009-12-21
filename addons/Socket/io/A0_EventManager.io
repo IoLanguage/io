@@ -131,10 +131,12 @@ EventManager do(
 			setIsRunning(true)
 			//while(hasActiveEvents and shouldRun,
 			loop(
+				/*
 				if(Coroutine yieldingCoros size > 0,
 					writeln("Coroutine yieldingCoros size = ", Coroutine yieldingCoros size)
 					writeln("label: ", Coroutine yieldingCoros first label)
 				)
+				*/
 				er := if(Coroutine yieldingCoros first, listen, if(listensUntilEvent, listenUntilEvent, listen)) 
 				er ifError(e, Exception raise("Unrecoverable Error in EventManager: " .. e description))
 				yield
