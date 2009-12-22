@@ -1,7 +1,8 @@
-EvHttpResponse := Object clone do(
+EvOutResponse do(
 	headers := Map clone atPut("Content-Type", "text/html")
 	statusCode := 200
 	data := "" asMutable
+	responseMessage := "OK" // "Internal Server Error"
 	
 	init := method(
 		headers = headers clone

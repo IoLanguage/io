@@ -115,7 +115,7 @@ void IoEvHttpServer_handleRequest(struct evhttp_request *req, void *arg)
 	IoEvHttpServer *self = arg;
 
 	const char *uri = evhttp_request_uri(req);
-	IoObject *request  = IoObject_getSlot_(self, IOSYMBOL("request"));
+	IoObject *request  = IoObject_getSlot_(self, IOSYMBOL("requestProto"));
 
 	IoSeq *postData = IOSEQ((const unsigned char *)EVBUFFER_DATA(req->input_buffer), (int)EVBUFFER_LENGTH(req->input_buffer));
 	
@@ -133,7 +133,9 @@ void IoEvHttpServer_handleRequest(struct evhttp_request *req, void *arg)
 	}
 	else
 	{
-		IoObject *response = IoEvOutResponse_new(IOSTATE);
+		IoObject *response  = IoObject_getSlot_(self, IOSYMBOL("responseProto"));
+		response = IOCLONE(response);
+		assert(ISEVOUTRESPONSE(response));
 		IoEvOutResponse_rawSetRequest_(response, req);
 		IoObject_setSlot_to_(self, IOSYMBOL("response"), response);
 		IoMessage *m = IoMessage_newWithName_label_(IOSTATE, IOSYMBOL("handleRequestCallback"), IOSYMBOL("IoEvHttpServer"));
