@@ -32,6 +32,7 @@ IoEvOutResponse *IoEvOutResponse_proto(void *state)
 
 	{
 		IoMethodTable methodTable[] = {
+		{"requestId", IoEvOutResponse_requestId},
 		{"asyncSend", IoEvOutResponse_asyncSend},
 		{NULL, NULL},
 		};
@@ -144,9 +145,17 @@ IoObject *IoEvOutResponse_asyncSend(IoEvOutResponse *self, IoObject *locals, IoM
 	struct evbuffer *buf = evbuffer_new();
 	evbuffer_add_printf(buf, "%s", CSTRING(data));
 	evhttp_send_reply(req, statusCode, CSTRING(responseMessage), buf);		
-	evhttp_send_reply_end(req);
+	//evhttp_send_reply_end(req);
 	evbuffer_free(buf);
 	
 	return self;
+}
+
+IoObject *IoEvOutResponse_requestId(IoEvOutResponse *self, IoObject *locals, IoMessage *m)
+{
+	struct evhttp_request *req = REQUEST(self);
+	char s[64];
+	sprintf(s, "%p", (void *)req);
+	return IOSYMBOL(s);
 }
 

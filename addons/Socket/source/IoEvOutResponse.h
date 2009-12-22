@@ -25,5 +25,6 @@ void IoEvOutResponse_free(IoEvOutResponse *self);
 void IoEvOutResponse_rawSetRequest_(IoEvOutResponse *self, struct evhttp_request *req);
 
 IoObject *IoEvOutResponse_asyncSend(IoEvOutResponse *self, IoObject *locals, IoMessage *m);
+IoObject *IoEvOutResponse_requestId(IoEvOutResponse *self, IoObject *locals, IoMessage *m);
 
 #endif

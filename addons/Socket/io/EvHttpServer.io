@@ -37,7 +37,7 @@ EvHttpServer do(
 		response headers := Map clone
 		request parse
 		//writeln("parameters = ", request parameters keys)
-		requestHandlerProto clone @handleRequest(request, response)
+		requestHandlerProto clone @@handleRequest(request, response)
 	)
 	
 	handleError := method(e,

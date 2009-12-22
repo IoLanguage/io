@@ -125,7 +125,7 @@ EventManager do(
 	run := method(
 		if(coro == nil, resumeIfNeeded; return)
 		//Scheduler currentCoroutine setLabel("EventManager")
-		debugWriteln("EventManager run")
+		writeln("EventManager run")
 		setShouldRun(true)
 		while(shouldRun,
 			setIsRunning(true)
@@ -137,8 +137,12 @@ EventManager do(
 					writeln("label: ", Coroutine yieldingCoros first label)
 				)
 				*/
-				er := if(Coroutine yieldingCoros first, listen, if(listensUntilEvent, listenUntilEvent, listen)) 
+
+				//listenUntilEvent
+
+				er := if(Coroutine yieldingCoros first, listen, if(listensUntilEvent, writeln("listenUntilEvent"); listenUntilEvent, listen)) 
 				er ifError(e, Exception raise("Unrecoverable Error in EventManager: " .. e description))
+
 				yield
 			)
 			setIsRunning(false)

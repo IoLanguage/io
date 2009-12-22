@@ -77,9 +77,8 @@ void IoEvHttpServer_free(IoEvHttpServer *self)
 	IoEvHttpServer_rawStop(self);
 }
 
-void IoEvHttpServer_readRequestHeaders(IoEvHttpServer *self, struct evhttp_request *req)
+void IoEvHttpServer_readRequestHeaders(IoEvHttpServer *self, IoObject *request, struct evhttp_request *req)
 {	
-	IoObject *request  = IoObject_getSlot_(self, IOSYMBOL("request"));
 	//IOASSERT(!ISNIL(request), "nil request");
 	assert(!ISNIL(request));
 	
@@ -120,9 +119,11 @@ void IoEvHttpServer_handleRequest(struct evhttp_request *req, void *arg)
 
 	IoSeq *postData = IOSEQ((const unsigned char *)EVBUFFER_DATA(req->input_buffer), (int)EVBUFFER_LENGTH(req->input_buffer));
 	
+	request = IOCLONE(request);
 	IoObject_setSlot_to_(request, IOSYMBOL("uri"), IOSYMBOL(uri));
 	IoObject_setSlot_to_(request, IOSYMBOL("postData"), postData);
-	IoEvHttpServer_readRequestHeaders(self, req);
+	IoEvHttpServer_readRequestHeaders(self, request, req);
+	IoObject_setSlot_to_(self, IOSYMBOL("request"), request);
 	
 	if (strcmp(uri, "/favicon.ico") == 0)
 	{
