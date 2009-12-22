@@ -121,9 +121,8 @@ EventManager do(
 		if(coro, coro resumeLater, self coro := coroFor(run); coro setLabel("EventManager"); coro resumeLater)	
 	)
 
-	//doc EventManager run Runs the EventManger loop. Does not return.
+	//doc EventManager run Runs the EventManger loop. Does not return. Private - should only be called by resumeIfNeeded.
 	run := method(
-		if(coro == nil, resumeIfNeeded; return)
 		//Scheduler currentCoroutine setLabel("EventManager")
 		//writeln("EventManager run")
 		setShouldRun(true)
@@ -137,8 +136,6 @@ EventManager do(
 					writeln("label: ", Coroutine yieldingCoros first label)
 				)
 				*/
-
-				//listenUntilEvent
 
 				er := if(Coroutine yieldingCoros first, listen, if(listensUntilEvent, listenUntilEvent, listen)) 
 				er ifError(e, Exception raise("Unrecoverable Error in EventManager: " .. e description))
