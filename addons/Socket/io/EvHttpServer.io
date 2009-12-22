@@ -79,7 +79,7 @@ EvHttpServer do(
 	responseProto := EvOutResponse
 
 	run := method(
-		EventManager run
+		EventManager resumeIfNeeded
 		start
 		self
 	)
