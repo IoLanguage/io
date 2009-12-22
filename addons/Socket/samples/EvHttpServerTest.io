@@ -1,3 +1,4 @@
+URL with("http://www.yahoo.com/") fetch
 
 MyRequestHandler := Object clone do(
 	baseUri ::= "http://www.google.com" 
