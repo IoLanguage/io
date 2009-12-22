@@ -125,7 +125,7 @@ EventManager do(
 	run := method(
 		if(coro == nil, resumeIfNeeded; return)
 		//Scheduler currentCoroutine setLabel("EventManager")
-		writeln("EventManager run")
+		//writeln("EventManager run")
 		setShouldRun(true)
 		while(shouldRun,
 			setIsRunning(true)
