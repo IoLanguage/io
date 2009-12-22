@@ -1,4 +1,4 @@
-URL with("http://localhost:8080") fetch
+URL with("http://yahoo.com/") fetch
 
 MyRequestHandler := Object clone do(
 	baseUri ::= "http://www.google.com" 
