@@ -1,3 +1,4 @@
+//URL with("http://localhost:8080") fetch
 
 MyRequestHandler := Object clone do(
 	baseUri ::= "http://www.google.com" 
