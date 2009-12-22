@@ -140,7 +140,7 @@ EventManager do(
 
 				//listenUntilEvent
 
-				er := if(Coroutine yieldingCoros first, listen, if(listensUntilEvent, writeln("listenUntilEvent"); listenUntilEvent, listen)) 
+				er := if(Coroutine yieldingCoros first, listen, if(listensUntilEvent, listenUntilEvent, listen)) 
 				er ifError(e, Exception raise("Unrecoverable Error in EventManager: " .. e description))
 
 				yield

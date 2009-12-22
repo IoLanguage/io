@@ -94,7 +94,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 	*/
 
 	escapeString := method(u,
-		EvRequest encodeUri(u)
+		EvOutRequest encodeUri(u)
 	)
 
 	/*doc URL unescapeString(aString)
@@ -102,7 +102,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 	*/
 
 	unescapeString := method(u,
-		EvRequest decodeUri(u)
+		EvOutRequest decodeUri(u)
 	)
 
 	//doc URL referer Returns the referer String or nil if not set.
