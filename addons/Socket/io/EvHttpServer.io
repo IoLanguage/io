@@ -1,6 +1,6 @@
 Sequence do(
-	parsedAsQueryParameters := method(
-		params := Map clone
+	parsedAsQueryParameters := method(existingParams,
+		params := if(existingParams, existingParams, Map clone)
 		splitNoEmpties("&") foreach(i, v,
 			key := v beforeSeq("=")
 			value := v afterSeq("=")
@@ -10,10 +10,34 @@ Sequence do(
 		)
 		params
 	)
+	
+	parsedAsFormParameters := method(existingParams,
+		params := if(existingParams, existingParams, Map clone)
+		splitNoEmpties("&") foreach(i, v,
+			key := v beforeSeq("=")
+			value := v afterSeq("=")
+			
+			params atIfAbsentPut(key, List clone)
+			params at(key) append(URL unescapeString(value replaceSeq("+", "%20")))
+		)
+		params
+	)
+)
+
+// --------------------------------------------------------
+
+EvInHttpRequestHandler := Object clone do(
+	handleRequest := method(request, response,
+			writeln("EvHttpRequestHandler - you need to override this method")
+	        response data = URL with("http://yahoo.com/") fetch size asString
+			//response data := ""
+			response setStatus(200)
+			response asyncSend
+	)
 )
 
 EvInRequest := Object clone do(
-	headers := Map clone
+	headers := nil
 	uri := nil
 	postData := nil
 	query := nil
@@ -22,13 +46,15 @@ EvInRequest := Object clone do(
 	cookies := nil
 	
 	init := method(
-		headers = headers clone
+		headers = Map clone
+		parameters = Map clone
 	)
 	
 	
 	parse := method(
-		parseUri
 		parseHeaders
+		parseUri
+		parsePostData
 		self
 	)
 	
@@ -39,11 +65,20 @@ EvInRequest := Object clone do(
 	)
 	
 	parseQuery := method(
-		parameters = if(query, query parsedAsQueryParameters, Map clone)
+		if(headers at("Content-Type") == "application/x-www-form-urlencoded",
+			query parsedAsFormParameters(parameters)
+		,
+			query parsedAsQueryParameters(parameters)
+		)
+		
 	)
 	
 	parseHeaders := method(
 		parseCookies
+	)
+	
+	parsePostData := method(
+		postData parsedAsFormParameters(parameters)
 	)
 	
 	parseCookies := method(
@@ -57,25 +92,12 @@ EvInRequest := Object clone do(
 	)
 )
 
-// --------------------------------------------------------
-
-EvInHttpRequestHandler := Object clone do(
-	handleRequest := method(request, response,
-			writeln("EvHttpRequestHandler - you need to override this method")
-	        response data = URL with("http://yahoo.com/") fetch size asString
-			//response data := ""
-			response statusCode := 200
-			response responseMessage := "OK"
-			response asyncSend
-	)
-)
-
 EvHttpServer do(
 	eventManager ::= EventManager
 	host ::= "127.0.0.1"
 	port ::= 80
 	
-	requestProto := EvInRequest 
+	requestProto := EvInRequest
 	responseProto := EvOutResponse
 
 	run := method(

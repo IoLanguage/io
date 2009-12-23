@@ -19,4 +19,16 @@ EvOutResponse do(
 	newCookie := method(
 		EvHttpCookie clone setResponse(self)
 	)
+	
+	setStatus := method(aCode,
+		statusCode = aCode
+		responseMessage = EvStatusCodes at(aCode asString)
+		self
+	)
+	
+	redirectTo := method(url,
+		addHeader("Location", url)
+		setStatus(302)
+		self
+	)
 )
