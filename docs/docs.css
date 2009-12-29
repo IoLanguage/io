@@ -20,6 +20,7 @@ body
 {
     font-family: 'Helvetica Neue', 'Helvetica', sans-serif;
     margin-left: 4em;
+	font-size:13px;
 }
 
 ul 
@@ -29,7 +30,6 @@ ul
 
 hr 
 {
-	width:50em;
 	height:0em;
 }
 
@@ -41,8 +41,7 @@ hr
 
 .indent 
 {
-    margin-left: 4em;
-    width: 40em;
+    margin-left: 0em;
 }
 
 h1 
@@ -58,19 +57,21 @@ h1
     margin-bottom: 0em;
     margin-left: 0em;
     margin-right: 0em;
-    margin-top: 1.5em;
+    margin-top: 1em;
     text-align: left;
     text-decoration: none;
     text-indent: 0.00em;
     text-transform: none;
     vertical-align: 0.000000em;
+	vertical-align:text-top;
+	text-transform:lowercase;
 }
 
 h2 
 {
     color: #000;
     font-family: 'Helvetica', 'Helvetica';
-    font-size: 1.8em;
+    font-size: 2em;
     font-style: normal;
     font-variant: normal;
     font-weight: bold;
@@ -82,39 +83,39 @@ h2
     margin-right: 0em;
     padding-bottom: 0em;
     padding-top: 0em;
-    text-align: left;
     text-decoration: none;
     text-indent: 0sem;
     text-transform: none;
-    vertical-align: 0em;
+	vertical-align:text-top;
+	text-transform:lowercase;
 }
 
 h3 
 {
     color: #000;
     font-family: 'Helvetica-Bold', 'Helvetica';
-    font-size: 1.3em;
+    font-size: 1em;
     font-style: normal;
     font-variant: normal;
     font-weight: bold;
     letter-spacing: 0;
-    line-height: 1.18em;
-    margin-top: 1.5em;
-    margin-bottom: .8em;
+    #line-height: 1.18em;
+    #margin-top: 1.5em;
+    #margin-bottom: .8em;
     margin-left: 0em;
     margin-right: 0em;
-    text-align: left;
     text-decoration: none;
     text-indent: 0.00em;
     text-transform: none;
-    vertical-align: 0.000000em;
+	vertical-align:text-top;
+	text-transform:lowercase;
 }
 
 h4 
 {
-    color: #666;
+    color: #000;
     font-family: 'Helvetica-Bold', 'Helvetica';
-    font-size: 1.1em;
+    font-size: 1em;
     font-style: bold;
     font-variant: normal;
     font-weight: bold;
@@ -128,7 +129,12 @@ h4
     text-decoration: none;
     text-indent: 0.00em;
     text-transform: none;
-    vertical-align: 0.000000em;
+	vertical-align:text-top;
+}
+
+td
+{
+	vertical-align:text-top;
 }
 
 .indexSection 
@@ -154,6 +160,7 @@ h4
     letter-spacing: 0;
     line-height: 1.4em;
     text-decoration: none;
+	text-transform:lowercase;
 }
 
 .indexItem 
@@ -162,12 +169,13 @@ h4
     line-height: 1.4em;
     margin-top: 0em;
     margin-bottom: 0em;
-    margin-left: 1.5em;
+    margin-left: 0em;
     margin-right: 0em;
     text-align: left;
     text-indent: 0.00em;
     text-transform: none;
     vertical-align: 0.000000em;
+	text-transform:lowercase;
 }
 
 .indexItem a 
@@ -181,6 +189,11 @@ h4
     letter-spacing: 0;
     line-height: 1.4em;
     text-decoration: none;
+}
+
+.sectionDivider
+{
+	height:1em;
 }
 
 pre 
@@ -238,8 +251,6 @@ pre
 
 .slotIndex 
 {
-    width: 40em;
-
     margin-top:    1em;
     margin-bottom: 2em;
     margin-left:   2em;
@@ -248,8 +259,6 @@ pre
 
 .protoDescription 
 {
-    width: 40em;
-
     margin-top:    1em;
     margin-bottom: 2.5em;
     margin-left:   0em;
@@ -258,8 +267,6 @@ pre
 
 .slots
 {
-    width: 40em;
-
     margin-top:    0em;
     margin-bottom: 4em;
     margin-left:   0em;
@@ -268,8 +275,6 @@ pre
 
 .slotDescription 
 {
-    width: 40em;
-
     margin-top:    1em;
     margin-bottom: 2em;
     margin-left:   2em;

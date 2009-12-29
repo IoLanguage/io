@@ -136,7 +136,7 @@ EventManager do(
 					writeln("label: ", Coroutine yieldingCoros first label)
 				)
 				*/
-
+				//writeln("EventManager listening")
 				er := if(Coroutine yieldingCoros first, listen, if(listensUntilEvent, listenUntilEvent, listen)) 
 				er ifError(e, Exception raise("Unrecoverable Error in EventManager: " .. e description))
 
@@ -171,7 +171,7 @@ if(getSlot("EvConnection"),
 		requestHeaders atPut("Accept", "*/*")
 	
 		init := method(
-			self requestHeaders := requestHeaders clone		
+			self requestHeaders := requestHeaders clone	
 		)
 
 		connection ::= nil
@@ -180,6 +180,7 @@ if(getSlot("EvConnection"),
 
 		send := method(
 			self requestHeaders atPut("Host", connection address, connection port)
+			writeln("EvOutRequest send ", self uniqueId, " ", uri)
 			self waitingCoro := Coroutine currentCoroutine
 			asyncSend
 			EventManager resumeIfNeeded
@@ -188,6 +189,7 @@ if(getSlot("EvConnection"),
 		)
 
 		didFinish := method(
+			writeln("EvOutRequest recv ", self uniqueId, " ", uri)
 			waitingCoro resumeLater
 		)
 	)

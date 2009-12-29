@@ -1784,8 +1784,10 @@ IO_METHOD(IoObject, uniqueId)
 	/*doc Object uniqueId
 	Returns a Number containing a unique id for the receiver.
 	*/
-
-	return IONUMBER((double)((size_t)IoObject_deref(self)));
+	char s[32];
+	sprintf(s, "%p", (void *)IoObject_deref(self));
+	return IOSYMBOL(s);
+	//return IONUMBER((double)((size_t)IoObject_deref(self)));
 }
 
 IO_METHOD(IoObject, do)
