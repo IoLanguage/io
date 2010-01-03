@@ -1,10 +1,10 @@
 Block printProfile := method(
 	m := getSlot("self") message
-	writeln("  ", getSlot("self") profilerTime asString(0,6), "s spent in method(", getSlot("self") argumentNames join(","), ") ", m label, " ", m lineNumber)
+	writeln("  ", getSlot("self") profilerTime asString(0,6), "s in Block (", getSlot("self") argumentNames join(","), ") ", m label, " ", m lineNumber)
 )
 
 Core getSlot("CFunction") printProfile := method(
-	writeln("  ", getSlot("self") profilerTime asString(0,6), "s spent in CFunction ", getSlot("self") uniqueName)
+	writeln("  ", getSlot("self") profilerTime asString(0,6), "s in CFunction ", getSlot("self") uniqueName, "()")
 	
 )
 
