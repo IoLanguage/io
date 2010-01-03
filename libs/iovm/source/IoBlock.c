@@ -112,6 +112,8 @@ IoBlock *IoBlock_proto(void *vState)
 	{"call", IoBlock_call},
 	{"setPassStops", IoBlock_setPassStops_},
 	{"passStops", IoBlock_passStops},
+	{"setProfilerOn", IoBlock_setProfilerOn},
+	{"profilerTime", IoBlock_profilerTime},
 	{NULL, NULL},
 	};
 
@@ -176,13 +178,41 @@ void IoBlock_message_(IoBlock *self, IoMessage *m)
 
 // calling --------------------------------------------------------
 
+IoObject *IoBlock_activateWithProfiler(IoBlock *self, IoObject *target, IoObject *locals, IoMessage *m, IoObject *slotContext)
+{
+	//printf("IoBlock_activateWithProfiler\n");
+	clock_t profilerMark = clock();
+	IoObject *result = IoBlock_activate(self, target, locals, m, slotContext);
+	DATA(self)->profilerTime += clock() - profilerMark;
+	return result;
+}
+
+IO_METHOD(IoBlock, setProfilerOn)
+{
+	/*doc Block setProfilerOn(aBool)
+	If aBool is true, the global block profiler is enabled, if false it is disabled. Returns self.
+	*/
+	
+	IoObject *aBool = IoMessage_locals_valueArgAt_(m, locals, 0);
+	IoTag *tag = IoObject_tag(self);
+	
+	if(ISTRUE(aBool))
+	{
+		IoTag_activateFunc_(tag, (IoTagActivateFunc *)IoBlock_activateWithProfiler);
+	}
+	else 
+	{
+		IoTag_activateFunc_(tag, (IoTagActivateFunc *)IoBlock_activate);
+	}
+	
+	return self;
+}
+
+
 IoObject *IoBlock_activate(IoBlock *self, IoObject *target, IoObject *locals, IoMessage *m, IoObject *slotContext)
 {
 	IoState *state = IOSTATE;
 	intptr_t poolMark; // = IoState_pushRetainPool(state);
-
-
-
 	
 	/* for debugging ------------------------------------------------------------------*/
 	//Collector_check(IOSTATE->collector);
@@ -300,6 +330,7 @@ IoObject *IoBlock_activate(IoBlock *self, IoObject *target, IoObject *locals, Io
 		}
 	}
 #endif
+
 	return result;
 }
 
@@ -563,3 +594,17 @@ IO_METHOD(IoBlock, call)
 
 }
 
+IO_METHOD(IoBlock, profilerTime)
+{
+	/*doc Block profilerTime
+	Returns clock() time spent in compiler in seconds.
+	*/
+
+	return IONUMBER(((double)DATA(self)->profilerTime)/((double)CLOCKS_PER_SEC));
+
+}
+
+void IoBlock_rawResetProfilerTime(IoBlock *self)
+{
+	DATA(self)->profilerTime = 0;
+}

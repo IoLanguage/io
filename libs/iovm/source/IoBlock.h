@@ -24,6 +24,7 @@ typedef struct
 	List *argNames;
 	IoObject *scope; // if 0x0, then use target as the locals proto
 	int passStops;
+	clock_t profilerTime;
 } IoBlockData;
 
 IoBlock *IoBlock_proto(void *state);
@@ -56,6 +57,10 @@ IO_METHOD(IoBlock, scope);
 
 IO_METHOD(IoBlock, setPassStops_);
 IO_METHOD(IoBlock, passStops);
+
+IO_METHOD(IoBlock, setProfilerOn);
+IO_METHOD(IoBlock, profilerTime);
+void IoBlock_rawResetProfilerTime(IoBlock *self);
 
 // lobby methods
 
