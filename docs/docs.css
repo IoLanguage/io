@@ -99,16 +99,13 @@ h3
     font-variant: normal;
     font-weight: bold;
     letter-spacing: 0;
-    #line-height: 1.18em;
-    #margin-top: 1.5em;
-    #margin-bottom: .8em;
     margin-left: 0em;
     margin-right: 0em;
     text-decoration: none;
     text-indent: 0.00em;
     text-transform: none;
 	vertical-align:text-top;
-	text-transform:lowercase;
+	#text-transform:lowercase;
 }
 
 h4 
