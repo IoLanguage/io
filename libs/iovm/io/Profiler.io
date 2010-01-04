@@ -24,7 +24,7 @@ Profiler do(
 	
 	show := method(
 		writeln("\nProfile:")
-		blocks := Collector allObjects select(b, getSlot("b") type == "Block" or getSlot("b") type == "CFunction")
+		blocks := Collector allObjects select(b, getSlot("b") type == "Block") // or getSlot("b") type == "CFunction")
 		blocks := blocks map(b, 
 			o := Object clone
 			o newSlot("b", getSlot("b"))
