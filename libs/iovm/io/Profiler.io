@@ -12,19 +12,21 @@ Profiler do(
 	start := method(
 		self reset
 		Block setProfilerOn(true)
+		//CFunction setProfilerOn(true)
 		Core getSlot("CFunction") setProfilerOn(true)
 		self
 	)
 	
 	stop := method(
 		Block setProfilerOn(false)
+		//CFunction setProfilerOn(false)
 		Core getSlot("CFunction") setProfilerOn(false)
 		self
 	)
 	
 	show := method(
 		writeln("\nProfile:")
-		blocks := Collector allObjects select(b, getSlot("b") type == "Block") // or getSlot("b") type == "CFunction")
+		blocks := self timedObjects select(b, getSlot("b") type == "Block") // or getSlot("b") type == "CFunction")
 		blocks := blocks map(b, 
 			o := Object clone
 			o newSlot("b", getSlot("b"))

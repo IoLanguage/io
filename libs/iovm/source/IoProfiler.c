@@ -22,10 +22,34 @@ IO_METHOD(IoProfiler, reset)
 	Collector *collector = IOSTATE->collector;
 	
 	COLLECTOR_FOREACH(collector, v,
-		if(ISBLOCK(v)) { IoBlock_rawResetProfilerTime(v); }
+		if(ISBLOCK(v)) 
+		{ 
+			IoBlock_rawResetProfilerTime(v); 
+		}
+		//if(ISCFUNCTION(v) ) { IoCFunction_rawResetProfilerTime(v); }
 	);
 	
 	return self;
+}
+
+IO_METHOD(IoProfiler, timedObjects)
+{
+	/*doc Collector timedObjects
+	Returns a list of objects found in the system that have profile times.
+	*/
+	
+	Collector *collector = IOSTATE->collector;
+	IoList *results = IoList_new(IOSTATE);
+	
+	COLLECTOR_FOREACH(collector, v,
+		if(ISBLOCK(v) && IoBlock_rawProfilerTime(v)) 
+		{
+			IoList_rawAppend_(results, (void *)v);
+		}
+		//if(ISCFUNCTION(v)) { IoList_rawAppend_(results, (void *)v) }
+	);
+	
+	return results;
 }
 
 
@@ -33,6 +57,7 @@ IoObject *IoProfiler_proto(void *state)
 {
 	IoMethodTable methodTable[] = {
 	{"reset", IoProfiler_reset},
+	{"timedObjects", IoProfiler_timedObjects},
 	{NULL, NULL},
 	};
 

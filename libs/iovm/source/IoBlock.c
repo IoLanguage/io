@@ -608,3 +608,9 @@ void IoBlock_rawResetProfilerTime(IoBlock *self)
 {
 	DATA(self)->profilerTime = 0;
 }
+
+clock_t IoBlock_rawProfilerTime(IoBlock *self)
+{
+	return DATA(self)->profilerTime;
+}
+

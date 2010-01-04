@@ -61,6 +61,7 @@ IO_METHOD(IoBlock, passStops);
 IO_METHOD(IoBlock, setProfilerOn);
 IO_METHOD(IoBlock, profilerTime);
 void IoBlock_rawResetProfilerTime(IoBlock *self);
+clock_t IoBlock_rawProfilerTime(IoBlock *self);
 
 // lobby methods
 
