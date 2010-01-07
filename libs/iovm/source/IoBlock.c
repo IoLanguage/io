@@ -166,7 +166,6 @@ void IoBlock_mark(IoBlock *self)
 
 void IoBlock_free(IoBlock *self)
 {
-	//printf("IoBlock_free(%p)\n", (void *)self);
 	List_free(DATA(self)->argNames);
 	io_free(IoObject_dataPointer(self));
 }
@@ -180,7 +179,6 @@ void IoBlock_message_(IoBlock *self, IoMessage *m)
 
 IoObject *IoBlock_activateWithProfiler(IoBlock *self, IoObject *target, IoObject *locals, IoMessage *m, IoObject *slotContext)
 {
-	//printf("IoBlock_activateWithProfiler\n");
 	clock_t profilerMark = clock();
 	IoObject *result = IoBlock_activate(self, target, locals, m, slotContext);
 	DATA(self)->profilerTime += clock() - profilerMark;
@@ -212,20 +210,10 @@ IO_METHOD(IoBlock, setProfilerOn)
 IoObject *IoBlock_activate(IoBlock *self, IoObject *target, IoObject *locals, IoMessage *m, IoObject *slotContext)
 {
 	IoState *state = IOSTATE;
-	intptr_t poolMark; // = IoState_pushRetainPool(state);
-	
-	/* for debugging ------------------------------------------------------------------*/
-	//Collector_check(IOSTATE->collector);
-	//Collector_checkObjectPointers(IOSTATE->collector);
-	/* for debugging ------------------------------------------------------------------*/
-
-
-
-
+	intptr_t poolMark; 
 	IoBlockData *selfData = DATA(self);
 	List *argNames  = selfData->argNames;
 	IoObject *scope = selfData->scope;
-
 	IoObject *blockLocals = IOCLONE(state->localsProto);
 	IoObject *result;
 	IoObject *callObject;
@@ -266,7 +254,6 @@ IoObject *IoBlock_activate(IoBlock *self, IoObject *target, IoObject *locals, Io
 		IoObject_setSlot_to_(blockLocals, name, arg);
 	);
 
-	//printf("IoBlock.c: 1\n");
 	if (Coro_stackSpaceAlmostGone(IoCoroutine_cid(state->currentCoroutine)))
 	{
 		/*
@@ -341,13 +328,13 @@ IoObject *IoBlock_method(IoObject *target, IoObject *locals, IoMessage *m)
   /*doc Object method(args..., body)
 	Creates a method. 
 	<tt>args</tt> is a list of formal arguments (can be empty). <br/>
-  <tt>body</tt> is evaluated in the context of Locals object.<br/>
-  Locals' proto is a message receiver (i.e. self).
-  <br/>
-  Slot with a method is <em>activatable</em>. Use getSlot(name) to retrieve 
-  method object without activating it (i.e. calling).
-  <br/>
-  See also <tt>Object block</tt>.
+	<tt>body</tt> is evaluated in the context of Locals object.<br/>
+	Locals' proto is a message receiver (i.e. self).
+	<br/>
+	Slot with a method is <em>activatable</em>. Use getSlot(name) to retrieve 
+	method object without activating it (i.e. calling).
+	<br/>
+	See also <tt>Object block</tt>.
 	*/
   
 	IoBlock *const self = IoBlock_new(IoObject_state(target));
