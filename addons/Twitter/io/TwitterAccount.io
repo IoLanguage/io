@@ -121,6 +121,10 @@ TwitterAccount := Object clone do(
 		false
 	)
 	
+	twitterIdForScreenName := method(screenName,
+		self showUser(screenName) at("id") asString
+	)
+	
 	ExceptionConditional := Object clone do(
 		exception ::= nil
 		result ::= nil
