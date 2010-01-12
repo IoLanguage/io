@@ -114,6 +114,7 @@ TwitterAccount := Object clone do(
 	)
 	
 	isSuspended := method(aScreenName,
+		if(aScreenName == nil, aScreenName = screenName)
 		tryTwitter(showUser(aScreenName)) ifIsSuspended(
 			return(true)
 		) raiseUnhandled
