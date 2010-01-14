@@ -177,4 +177,8 @@ TwitterAccount := Object clone do(
 		)
 		r
 	)
+	
+	mentions := method(
+		resultsFor(request asMentions)
+	)
 )
