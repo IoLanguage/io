@@ -21,7 +21,7 @@ TwitterResponse := Object clone do(
 		//Could not find both specified users
 		if(statusCode == 400) then(
 			e := TwitterException clone setIsBadRequest(true)
-			if(e ?at("error") beginsWithSeq("Rate limit exceeded"),
+			if(results ?at("error") beginsWithSeq("Rate limit exceeded"),
 				e setIsRateLimited(true)
 			)
 			e raise(body)
