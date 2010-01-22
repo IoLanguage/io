@@ -1,6 +1,10 @@
-INSTALL_PREFIX ?= /usr/local
-
 SYS ?= $(shell uname -s)
+
+ifeq($(SYS),Linux)
+INSTALL_PREFIX ?= /usr
+else
+INSTALL_PREFIX ?= /usr/local
+endif
 
 NEEDS_DL := Darwin Linux SunOS syllable
 ifneq (,$(findstring $(SYS),$(NEEDS_DL)))
