@@ -186,6 +186,7 @@ IOVM_API IO_METHOD(IoMessage, setLabel);
 IOVM_API IO_METHOD(IoMessage, fromString);
 IOVM_API IO_METHOD(IoMessage, argsEvaluatedIn);
 IOVM_API IO_METHOD(IoMessage, evaluatedArgs);
+IOVM_API IO_METHOD(IoMessage, profilerTime);
 
 IOVM_API void IoMessage_foreachArgs(IoMessage *self,
 	IoObject *object,

@@ -150,7 +150,7 @@ IoObject *IoEvOutRequest_send(IoEvOutRequest *self, IoObject *locals, IoMessage 
 	{
 		IoSeq *postData = IoObject_seqGetSlot_(self, IOSYMBOL("postData"));
 		rtype = EVHTTP_REQ_POST;
-		evbuffer_add_printf(REQUEST(self)->output_buffer, "%s", CSTRING(postData));
+		evbuffer_add(REQUEST(self)->output_buffer, IOSEQ_BYTES(postData), IOSEQ_LENGTH(postData));
 	}
 	else
 	{

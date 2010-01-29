@@ -143,7 +143,7 @@ IoObject *IoEvOutResponse_asyncSend(IoEvOutResponse *self, IoObject *locals, IoM
 	struct evhttp_request *req = REQUEST(self);
 
 	struct evbuffer *buf = evbuffer_new();
-	evbuffer_add_printf(buf, "%s", CSTRING(data));
+	evbuffer_add(buf, IOSEQ_BYTES(data), IOSEQ_LENGTH(data));
 	evhttp_send_reply(req, statusCode, CSTRING(responseMessage), buf);		
 	//evhttp_send_reply_end(req);
 	evbuffer_free(buf);

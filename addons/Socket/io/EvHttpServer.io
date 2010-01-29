@@ -6,7 +6,7 @@ Sequence do(
 			value := v afterSeq("=")
 			
 			params atIfAbsentPut(key, List clone)
-			params at(key) append(URL unescapeString(value))
+			params at(key) append(if(value, URL unescapeString(value), value))
 		)
 		params
 	)

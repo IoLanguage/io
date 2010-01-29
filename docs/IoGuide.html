@@ -68,7 +68,8 @@
 <div class=indexItem><a href="#Control-Flow-true-false-and-nil">true, false and nil</a></div>
 <div class=indexItem><a href="#Control-Flow-Comparison">Comparison</a></div>
 <div class=indexItem><a href="#Control-Flow-Conditions">Conditions</a></div>
-<div class=indexItem><a href="#Control-Flow-Loops">Loops</a></div>
+<div class=indexItem><a href="#Control-Flow-Loop">Loops</a></div>
+<div class=indexItem><a href="#Control-Flow-Return">Return</a></div>
 
 
 <div class=indexSection><a href="#Importing">Importing</a></div>
@@ -78,12 +79,12 @@
 <div class=indexItem><a href="#Concurrency-Scheduler">Scheduler</a></div>
 <div class=indexItem><a href="#Concurrency-Actors">Actors</a></div>
 <div class=indexItem><a href="#Concurrency-Futures">Futures</a></div>
-<div class=indexItem><a href="#Concurrency-Yield">Yield</a></div>
+<div class=indexItem><a href="#Concurrency-Yield">yield</a></div>
 <div class=indexItem><a href="#Concurrency-Pause and Resume">Pause and Resume</a></div>
 
 <div class=indexSection><a href="#Exceptions">Exceptions</a></div>
 <div class=indexItem><a href="#Exceptions-Raise">Raise</a></div>
-<div class=indexItem><a href="#ExceptionsTry-and-Catch">Try and Catch</a></div>
+<div class=indexItem><a href="#ExceptionsTry-and-Catch">try, catch</a></div>
 <div class=indexItem><a href="#Exceptions-Pass">Pass</a></div>
 <div class=indexItem><a href="#Exceptions-Custom-Exceptions">Custom Exceptions</a></div>
 
@@ -173,7 +174,7 @@ The focus of programming language research for the last thirty years has been to
 
 In Io, all values are objects (of which, anything can change at runtime, including slots, methods and inheritance), all code is made up of expressions (which are runtime inspectable and modifiable) and all expressions are made up of dynamic message sends (including assignment and control structures). Execution contexts themselves are objects and activatable objects such as methods/blocks and functions are unified into blocks with assignable scope. Concurrency is made more easily manageable through actors and implemented using coroutines for scalability.
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right><a name="Introduction-Goals"></a><h3>Goals</h3></td><td></td><td>
 
 To be a language that is:
@@ -199,21 +200,18 @@ practical
 
 </div>
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Introduction-Downloading"></a><h3>Downloading</h3>
 </td><td></td><td>
 	
 <div class=indent> 
 
-
 Io distributions are available at:
-<pre>
-<a href="http://iolanguage.com">http://iolanguage.com</a>
-</pre>
+<pre><a href="http://iolanguage.com">http://iolanguage.com</a></pre>
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Introduction-Installing"></a><h3>Installing</h3>
 </td><td></td><td>
@@ -306,7 +304,7 @@ make doc
 
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Introduction-Binaries"></a>
 	<h3>Binaries</h3>
@@ -322,7 +320,7 @@ io
 The io_static executable contains the vm with a minimal set of primitives all statically linked into the executable. The io executable contains just enough to load the iovm dynamically linked library and is able to dynamically load io addons when they are referenced.
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Introduction-Running-Scripts"></a>
 	<h3>Running&nbsp;Scripts</h3>
@@ -338,7 +336,7 @@ io samples/misc/HelloWorld.io
 There is no main() function or object that gets executed first in Io. Scripts are executed when compiled.
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Introduction-Interactive-Mode"></a>
 	<h3>Interactive&nbsp;Mode</h3>
@@ -376,7 +374,7 @@ Io> print
 If you have a .iorc file in your home folder, it will be evaled before the interactive prompt starts.
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Introduction-Inspecting-Objects"></a>
 	<h3>Inspecting&nbsp;objects</h3>
@@ -494,7 +492,7 @@ Less is more.<br>
 </div>
 -->
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Syntax-Expressions"></a>
 	<h3>Expressions</h3>
@@ -513,7 +511,7 @@ terminator ::= "\n" | ";"
 For performance reasons, String and Number literal messages have their results cached in their message objects.
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Syntax-Messages"></a>
 	<h3>Messages</h3>
@@ -561,7 +559,7 @@ account balance println
 Like Self[2], Io's syntax does not distinguish between accessing a slot containing a method from one containing a variable.
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Syntax-Operators"></a>
 	<h3>Operators</h3>
@@ -601,7 +599,7 @@ Is parsed as:
 User defined operators (that don't have a standard operator name) are performed left to right.
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Syntax-Assignment"></a>
 	<h3>Assignment</h3>
@@ -697,7 +695,7 @@ These operators are compiled to normal messages whose methods can be overridden.
 On Locals objects, updateSlot is overridden so it will update the slot in the object in which the method was activated if the slot is not found the locals. This is done so update assignments in methods don't require self to be an explicit target.
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Syntax-Numbers"></a>
 	<h3>Numbers</h3>
@@ -726,7 +724,7 @@ Hex numbers are also supported (in any casing):
 </pre>
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Syntax-Strings"></a>
 	<h3>Strings</h3>
@@ -746,7 +744,7 @@ s := """this is a "test".
 This is only a test."""
 </pre>
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Syntax-Comments"></a>
 	<h3>Comments</h3>
@@ -793,7 +791,7 @@ In all other languages we've considered [Fortran, Algol60, Lisp, APL, Cobol, Pas
 -->
 <br><br><br><br>
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Objects-Overview"></a>
 	<h3>Overview</h3>
@@ -843,7 +841,7 @@ Io's guiding design principle is simplicity and power through conceptual unifica
 </table>
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Objects-Prototypes"></a>
 	<h3>Prototypes</h3>
@@ -869,7 +867,7 @@ myDog sit := method("I'm sitting\n" print)
 When an object is cloned, its "init" slot will be called if it has one.
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Objects-Inheritance"></a>
 	<h3>Inheritance</h3>
@@ -902,7 +900,7 @@ You can add any number of protos to an object's protos list. When responding to 
 
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Objects-Methods"></a>
 	<h3>Methods</h3>
@@ -945,7 +943,7 @@ method(&lt;arg name 0&gt;, &lt;arg name 1&gt;, ..., &lt;do message&gt;)
 </i></pre>
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Objects-Blocks"></a>
 	<h3>Blocks</h3>
@@ -1042,7 +1040,7 @@ myif := method(
 myif(foo == bar, write("true\n"), write("false\n"))
 </pre>
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Objects-Forward"></a>
 	<h3>Forward</h3>
@@ -1060,7 +1058,7 @@ MyObject forward := method(
 )
 </pre>
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Objects-Resend"></a>
 	<h3>Resend</h3>
@@ -1086,7 +1084,7 @@ in A
 For sending other messages to the receiver's proto, super is used.
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Objects-Super"></a>
 	<h3>Super</h3>
@@ -1109,7 +1107,7 @@ fido bark := method(
 Both resend and super are implemented in Io.
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Objects-Introspection"></a>
 	<h3>Introspection</h3>
@@ -1176,7 +1174,7 @@ Io> method(a, a * 2) code
 <div class=indent>
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Control-Flow-true-false-and-nil"></a>
 	<h3>true, false and nil</h3>
@@ -1184,35 +1182,29 @@ Io> method(a, a * 2) code
 	
 
 
-Io has predefined singletons for true, false and nil. true and false are used for boolean truth values and nil is typically used to indicate an unset or missing or unavailable value.
+There are singletons for true, false and nil. nil is typically used to indicate an unset or missing value.
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Control-Flow-Comparison"></a>
 	<h3>Comparison</h3>
 </td><td></td><td>
 	
-
-The standard comparison operations (==, !=, >=, <=, >, <) return either the true or false.
+The comparison methods:
 
 <pre>
-Io> 1 < 2
-==> true
+==, !=, >=, <=, >, < 
 </pre>
 
-The compare() method is used to implement the compare methods and returns -1, 0 or 1.
+return either the true or false. The compare() method is used to implement the comparison methods and returns -1, 0 or 1 which mean less-than, equal-to or greater-than, respectively.
 
-
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
-	<a name="Control-Flow-Conditions"></a>
-	<h3>Conditions</h3>
+	<a name="Control-Flow-If-Then-Else"></a>
+	<h3>if, then, else</h3>
 </td><td></td><td>
 
-
-<h4>if</h4>
-
-The Lobby contains the condition and loop methods. A condition looks like: 
+The if() method can be used in the form: 
 
 <pre><i>
 if(&lt;condition&gt;, &lt;do message&gt;, &lt;else do message&gt;)
@@ -1224,7 +1216,7 @@ Example:
 if(a == 10, "a is 10" print)
 </pre>
 
-The else argument is optional. The condition is considered false if the condition expression evaluates to false or nil, and is considered true otherwise.
+The else argument is optional. The condition is considered false if the condition expression evaluates to false or nil, and true otherwise.
 <p>
 The result of the evaluated message is returned, so: 
 
@@ -1238,19 +1230,25 @@ is the same as:
 x := if(y < 10, y, 0)
 </pre>
 
-Conditions can also be used in this form (though not as efficiently): 
+Conditions can also be used in this form: 
 
 <pre>
 if(y < 10) then(x := y) else(x := 2)
 </pre>
 
-Else-if is supported: 
+elseif() is supported: 
 
 <pre>
 if(y < 10) then(x := y) elseif(y == 11) then(x := 0) else(x := 2)
 </pre>
 
-As well as Smalltalk style ifTrue, ifFalse, ifNil and ifNonNil methods:
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
+<tr><td align=right>
+	<a name="Control-Flow-ifTrue-ifFalse"></a>
+	<h3>ifTrue, ifFalse</h3>
+</td><td></td><td>
+
+Also supported are Smalltalk style ifTrue, ifFalse, ifNil and ifNonNil methods:
 
 <pre>
 (y < 10) ifTrue(x := y) ifFalse(x := 2)
@@ -1260,13 +1258,12 @@ Notice that the condition expression must have parenthesis surrounding it.
 
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
-	<a name="Control-Flow-Loops"></a>
-	<h3>Loops</h3>
+	<a name="Control-Flow-Loop"></a>
+	<h3>loop</h3>
 </td><td></td><td>
 
-<h4>loop</h4>
 
 The loop method can be used for "infinite" loops:
 
@@ -1274,13 +1271,30 @@ The loop method can be used for "infinite" loops:
 loop("foo" println)
 </pre>
 
-<h4>while</h4>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
+<tr><td align=right>
+	<a name="Control-Flow-Repeat"></a>
+	<h3>repeat</h3>
+</td><td></td><td>
+	
+The Number repeat method can be used to repeat a loop a given number of times.
 
-Like conditions, loops are just messages. while() takes the arguments: 
+<pre>
+3 repeat("foo" print)
+==> foofoofoo
+</pre>
 
-<pre><i>
-while(&lt;condition&gt;, &lt;do message&gt;)
-</i></pre>
+
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
+<tr><td align=right>
+	<a name="Control-Flow-While"></a>
+	<h3>while</h3>
+</td><td></td><td>
+	
+Arguments: 
+
+<pre>
+<i>while(&lt;condition&gt;, &lt;do message&gt;)</i></pre>
 
 Example: 
 
@@ -1292,13 +1306,15 @@ while(a < 10,
 )
 </pre>
 
-<h4>for</h4>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
+<tr><td align=right>
+	<a name="Control-Flow-For"></a>
+	<h3>for</h3>
+</td><td></td><td>
+	
+Arguments: 
 
-for() takes the arguments: 
-
-<pre><i>
-for(&lt;counter&gt;, &lt;start&gt;, &lt;end&gt;, &lt;optional step&gt;, &lt;do message&gt;)
-</i></pre>
+<pre><i>for(&lt;counter&gt;, &lt;start&gt;, &lt;end&gt;, &lt;optional step&gt;, &lt;do message&gt;)</i></pre>
 
 The start and end messages are only evaluated once, when the loop starts.
 
@@ -1333,25 +1349,13 @@ for(a, 10, 0, -1, a println)
 
 Note: the first value will be the first value of the loop variable and the last will be the last value on the final pass through the loop. So a loop of 1 to 10 will loop 10 times and a loop of 0 to 10 will loop 11 times.
 
-Example of using a block in a loop: 
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
+<tr><td align=right>
+	<a name="Control-Flow-Break-Continue"></a>
+	<h3>break, continue</h3>
+</td><td></td><td>
 
-<pre>
-test := method(v, v print)
-for(i, 1, 10, test(i))
-</pre>
-
-<h4>repeat</h4>
-
-The Number repeat method is simpler and more efficient when a counter isn't needed.
-
-<pre>
-3 repeat("foo" print)
-==> foofoofoo
-</pre>
-
-<h4>break and continue</h4>
-
-The flow control operations break and continue are supported in loops. For example: 
+loop, repeat, while and for support the break and continue methods. Example: 
 
 <pre>
 for(i, 1, 10, 
@@ -1361,14 +1365,19 @@ for(i, 1, 10,
 )
 </pre>
 
-Would print: 
+Output: 
 
 <pre>
 12456
 </pre>
 
-<h4>return</h4>
 
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
+<tr><td align=right>
+	<a name="Control-Flow-Return"></a>
+	<h3>return</h3>
+</td><td></td><td>
+	
 Any part of a block can return immediately using the return method. Example: 
 
 <pre>
@@ -1378,10 +1387,12 @@ Io> test
 ==> abc
 </pre>
 
+Internally, break, continue and return all work by setting a IoState internal variable called "stopStatus" which is monitored by the loop and message evaluation code.
+
 </div>
 <br><br><br><br>
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<h2>Importing<a name="Importing"></a></h2>
 </td><td></td><td>
@@ -1395,7 +1406,7 @@ The Importer proto implements Io's built-in auto importer feature. If you put ea
 </div>
 <br><br><br><br>
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<h2>Concurrency<a name="Concurrency"></a></h2>
 </td><td></td><td>
@@ -1403,7 +1414,7 @@ The Importer proto implements Io's built-in auto importer feature. If you put ea
 <div class=indent>
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Concurrency-Coroutines"></a>
 	<h3>Coroutines</h3>
@@ -1412,7 +1423,7 @@ The Importer proto implements Io's built-in auto importer feature. If you put ea
 
 Io uses coroutines (user level cooperative threads), instead of preemptive OS level threads to implement concurrency. This avoids the substantial costs (memory, system calls, locking, caching issues, etc) associated with native threads and allows Io to support a very high level of concurrency with thousands of active threads.
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Concurrency-Scheduler"></a>
 	<h3>Scheduler</h3>
@@ -1423,7 +1434,7 @@ Io uses coroutines (user level cooperative threads), instead of preemptive OS le
 The Scheduler object is responsible for resuming coroutines that are yielding. The current scheduling system uses a simple first-in-first-out policy with no priorities.
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Concurrency-Actors"></a>
 	<h3>Actors</h3>
@@ -1460,7 +1471,7 @@ HttpServer handleRequest := method(aSocket,
 )
 </pre>
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Concurrency-Futures"></a>
 	<h3>Futures</h3>
@@ -1509,7 +1520,7 @@ Io> @q; nil
 </pre>
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Concurrency-Yield"></a>
 	<h3>Yield</h3>
@@ -1525,7 +1536,7 @@ It's also possible to pause and resume an object. See the concurrency methods of
 </div>
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<h2>Exceptions<a name="Exceptions"></a></h2>
 </td><td></td><td>
@@ -1533,7 +1544,7 @@ It's also possible to pause and resume an object. See the concurrency methods of
 <div class=indent>
 
 <br><br><br><br>
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Exceptions-Raise"></a>
 	<h3>Raise</h3>
@@ -1562,7 +1573,7 @@ Error raise("Not enough memory")
 -->
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Exceptions-Try-and-Catch"></a>
 	<h3>Try and Catch</h3>
@@ -1592,7 +1603,7 @@ e catch(Exception,
 The first argument to catch indicates which types of exceptions will be caught. catch() returns the exception if it doesn't match and nil if it does.
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Exceptions-Pass"></a>
 	<h3>Pass</h3>
@@ -1614,7 +1625,7 @@ e catch(Error,
 </pre>
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Exceptions-Custom"></a>
 	<h3>Custom Exceptions</h3>
@@ -1631,7 +1642,7 @@ MyErrorType := Error clone
 
 <br><br><br><br><br>
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<h2>Primitives<a name="Primitives"></a></h2>
 </td><td></td><td>
@@ -1646,7 +1657,7 @@ Primitives are objects built into Io whose methods are typically implemented in 
 This document is not meant as a reference manual, but an overview of the base primitives and bindings is provided here to give the user a jump start and a feel for what is available and where to look in the reference documentation for further details.
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Primitives-Object"></a>
 	<h3>Object</h3>
@@ -1668,7 +1679,7 @@ Putting a "?" before a message has the same effect:
 obj ?foo
 </pre>
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Primitives-List"></a>
 	<h3>List</h3>
@@ -1799,7 +1810,7 @@ Io> numbers map(*3)
 The map and select methods return new lists. To do the same operations in-place, you can use selectInPlace() and mapInPlace() methods.
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Primitives-Sequence"></a>
 	<h3>Sequence</h3>
@@ -1901,7 +1912,7 @@ name := "Fred"
 Interpolate will eval anything with #{} as Io code in the local context. The code may include loops or anything else but needs to return an object that responds to asString.
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Primitives-Ranges"></a>
 	<h3>Ranges</h3>
@@ -1930,7 +1941,7 @@ With this method on Number (it's already there in the standard libraries), you c
 The above will print 1 through 5, each on its own line.
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Primitives-File"></a>
 	<h3>File</h3>
@@ -1949,7 +1960,7 @@ f close
 </pre>
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Primitives-Directory"></a>
 	<h3>Directory</h3>
@@ -2004,7 +2015,7 @@ Directory currentWorkingDirectory
 </pre>
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Primitives-Date"></a>
 	<h3>Date</h3>
@@ -2068,7 +2079,7 @@ Date cpuSecondsToRun(100000 repeat(1+1))
 </pre>
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Primitives-Networking"></a>
 	<h3>Networking</h3>
@@ -2136,7 +2147,7 @@ WebServer start
 </pre>
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Primitives-XML"></a>
 	<h3>XML</h3>
@@ -2151,7 +2162,7 @@ links := xml elementsWithName("a") map(attributes at("href"))
 </pre>
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Primitives-Vector"></a>
 	<h3>Vector</h3>
@@ -2232,7 +2243,7 @@ precedence ordering
 
 <br><br><br><br><br>
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<h2>Unicode<a name="Unicode"></a></h2>
 </td><td></td><td>
@@ -2242,7 +2253,7 @@ precedence ordering
 <div class=indent>
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Unicode-Sequences"></a>
 	<h3>Sequences</h3>
@@ -2260,7 +2271,7 @@ float32, float64
 </pre>
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Unicode-Encodings"></a>
 	<h3>Encodings</h3>
@@ -2281,7 +2292,7 @@ UTF encodings are assumed to be big endian.
 Except for input and output, all strings should be kept in a fixed character width encoding. This design allows for a simpler implementation, code sharing between vector and string ops, fast index-based access, and SIMD acceleration of Sequence operations. All Sequence methods will do automatic type conversions as needed.
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Unicode-Source-Code"></a>
 	<h3>Source&nbsp;Code</h3>
@@ -2313,7 +2324,7 @@ Io> "π" itemSize
 ==> 2
 </pre>
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Unicode-Conversion"></a>
 	<h3>Conversion</h3>
@@ -2336,7 +2347,7 @@ asUCS4
 
 <br><br><br><br><br>
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<h2>Embedding<a name="Embedding"></a></h2>
 </td><td></td><td>
@@ -2347,7 +2358,7 @@ asUCS4
 <div class=indent>
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Embedding-Conventions"></a>
 	<h3>Conventions</h3>
@@ -2400,7 +2411,7 @@ void Dictionary_key_value_(Dictionary *self,
 Each structure has its own separate .h and .c files. The names of the files are the same as the name of the structure. These files contain all the functions(methods) that operate on the given structure.
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Embedding-IoState"></a>
 	<h3>IoState</h3>
@@ -2432,7 +2443,7 @@ int main(int argc, const char *argv[])
 </pre>
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Embedding-Values"></a>
 	<h3>Values</h3>
@@ -2476,7 +2487,7 @@ Note that return values are always proper Io objects (as all values are objects 
 
 <br><br><br><br><br>
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<h2>Bindings<a name="Bindings"></a></h2>
 </td><td></td><td>
@@ -2493,7 +2504,7 @@ Documentation on how to write bindings/addons forthcoming..
 
 <br><br><br><br><br>
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<h2>Appendix<a name="Appendix"></a></h2>
 </td><td></td><td>
@@ -2503,7 +2514,7 @@ Documentation on how to write bindings/addons forthcoming..
 <div class=indent>
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Appendix-Grammar"></a>
 	<h3>Grammar</h3>
@@ -2570,7 +2581,7 @@ digits ::= { digit }
 </pre>
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Appendix-Credits"></a>
 	<h3>Credits</h3>
@@ -2580,7 +2591,7 @@ digits ::= { digit }
 Io is the product of all the talented folks who taken the time and interest to make a contribution. The complete list of contributors is difficult to keep track of, but some of the recent major contributors include; Jonathan Wright, Jeremy Tregunna, Mike Austin, Chris Double, Rich Collins, Oliver Ansaldi, James Burgess, Baptist Heyman, Ken Kerahone, Christian Thater, Brian Mitchell, Zachary Bir and many more. The mailing list archives, repo inventory and release history are probably the best sources for a more complete record of individual contributions.
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Appendix-References"></a>
 	<h3>References</h3>
@@ -2591,7 +2602,7 @@ Io is the product of all the talented folks who taken the time and interest to m
 
 <table cellpadding=0 cellspacing=0 border=0>
 <tr>
-<td style="width:3em" valign=top>
+<td style="width:1.5em" valign=top>
 1
 </td>
 <td>	
@@ -2668,7 +2679,7 @@ John Wiley & Sons, 1996 <br>
 </table>
 
 
-</tr><tr><td colspan=3></td></tr>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
 	<a name="Appendix-License"></a>
 	<h3>License</h3>

@@ -39,7 +39,7 @@ List do(
 		s := if(self first type == "List", 
 			List clone
 		, 
-			Sequence clone
+			Sequence clone 
 		)
 
 		if(arg,

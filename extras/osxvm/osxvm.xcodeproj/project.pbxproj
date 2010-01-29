@@ -176,6 +176,7 @@
 		AAE6A0D80B110796006E309B /* IoWeakLink.c in Sources */ = {isa = PBXBuildFile; fileRef = AAE69F060B110796006E309B /* IoWeakLink.c */; };
 		AAE6A0D90B110796006E309B /* IoWeakLink.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AAE69F070B110796006E309B /* IoWeakLink.h */; };
 		AAE6A1500B110B8F006E309B /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = AAE6A14F0B110B8F006E309B /* main.c */; };
+		AAEF00B710F0137000DF9CDC /* IoProfiler.c in Sources */ = {isa = PBXBuildFile; fileRef = AAEF00B510F0137000DF9CDC /* IoProfiler.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -469,6 +470,8 @@
 		AAE69F060B110796006E309B /* IoWeakLink.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoWeakLink.c; path = ../../libs/iovm/source/IoWeakLink.c; sourceTree = SOURCE_ROOT; };
 		AAE69F070B110796006E309B /* IoWeakLink.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoWeakLink.h; path = ../../libs/iovm/source/IoWeakLink.h; sourceTree = SOURCE_ROOT; };
 		AAE6A14F0B110B8F006E309B /* main.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = main.c; path = ../../tools/source/main.c; sourceTree = SOURCE_ROOT; };
+		AAEF00B510F0137000DF9CDC /* IoProfiler.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = IoProfiler.c; path = ../../libs/iovm/source/IoProfiler.c; sourceTree = SOURCE_ROOT; };
+		AAEF00B610F0137000DF9CDC /* IoProfiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IoProfiler.h; path = ../../libs/iovm/source/IoProfiler.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -753,6 +756,8 @@
 				AAE69ED40B110795006E309B /* IoObject_flow.h */,
 				AAE69ED50B110795006E309B /* IoObject_inline.h */,
 				AAE69ED80B110795006E309B /* IoObject_struct.h */,
+				AAEF00B510F0137000DF9CDC /* IoProfiler.c */,
+				AAEF00B610F0137000DF9CDC /* IoProfiler.h */,
 				AAE69EDE0B110796006E309B /* IoSandbox.c */,
 				AAE69EDF0B110796006E309B /* IoSandbox.h */,
 				AAE69EE00B110796006E309B /* IoSeq.c */,
@@ -922,6 +927,7 @@
 				AA9DD3360FC8C193006B05DD /* Hash_murmur.c in Sources */,
 				AA33049310829DA8007AD6CA /* asm.S in Sources */,
 				AA33049410829DA8007AD6CA /* context.c in Sources */,
+				AAEF00B710F0137000DF9CDC /* IoProfiler.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

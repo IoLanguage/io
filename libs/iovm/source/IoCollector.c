@@ -26,6 +26,7 @@ Generally, the more objects in your heap, the larger you'll want this number.
 #include "IoCollector.h"
 #include "IoNumber.h"
 #include "IoList.h"
+#include "IoBlock.h"
 
 typedef IoObject IoCollector;
 
