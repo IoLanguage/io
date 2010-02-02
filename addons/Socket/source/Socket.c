@@ -65,32 +65,39 @@ long Socket_SetDescriptorLimitToMax(void)
 long Socket_SetDescriptorLimitToMax(void)
 {
 	struct rlimit rlp;
-
+	
 	// if were root, we could also do:
 	// system("sysctl -w kern.maxfiles=1000001");
 	// system("sysctl -w kern.maxfilesperproc=1000000");
 
 	if (getrlimit(RLIMIT_NOFILE, &rlp) != 0)
 	{
+		printf("getrlimit(RLIMIT_NOFILE, &rlp) != 0\n");
 		return -1;
 	}
 
 	//printf("rlp.rlim_cur = %i\n", (int)rlp.rlim_cur);
 	//printf("rlp.rlim_max = %i\n", (int)rlp.rlim_max);
 
-	rlp.rlim_cur = rlp.rlim_max;
+	rlp.rlim_cur = 256; //rlp.rlim_max;
 
-	if (setrlimit(RLIMIT_NOFILE, &rlp) != 0)
+	do
 	{
-		return -2;
-	}
+		rlp.rlim_cur *=2; 
 
-	if (getrlimit(RLIMIT_NOFILE, &rlp) != 0)
-	{
-		return -3;
-	}
+		if (setrlimit(RLIMIT_NOFILE, &rlp) != 0)
+		{
+			break;
+		}
 
-	//printf(" max listeners = %i\n", (int)rlp.rlim_cur);
+		if (getrlimit(RLIMIT_NOFILE, &rlp) != 0)
+		{
+			break;
+		}
+		
+	} while(rlp.rlim_cur < 64000);
+
+	//printf(" Socket: max file descriptors = %i\n", (int)rlp.rlim_cur);
 
 	return (long)(rlp.rlim_cur);
 }
@@ -111,6 +118,7 @@ Socket *Socket_new(void)
 
 void Socket_free(Socket *self)
 {
+	Socket_close(self);
 	io_free(self);
 }
 

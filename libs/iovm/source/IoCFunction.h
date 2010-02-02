@@ -27,6 +27,7 @@ typedef struct
 	IoTag *typeTag; // pointer to tag of type excepted for self value to have as data
 	IoUserFunction *func;
 	IoSymbol *uniqueName;
+	clock_t profilerTime;
 } IoCFunctionData;
 
 IOVM_API IoCFunction *IoCFunction_proto(void *state);

@@ -45,6 +45,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 	username ::= nil
 	password ::= nil
 	usesBasicAuthentication ::= false
+	redirectUrl ::= nil
 	
 	isSynchronous := false
 	
@@ -93,7 +94,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 	*/
 
 	escapeString := method(u,
-		EvRequest encodeUri(u)
+		EvOutRequest encodeUri(u)
 	)
 
 	/*doc URL unescapeString(aString)
@@ -101,7 +102,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 	*/
 
 	unescapeString := method(u,
-		EvRequest decodeUri(u)
+		EvOutRequest decodeUri(u)
 	)
 
 	//doc URL referer Returns the referer String or nil if not set.
@@ -178,17 +179,27 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		v
 	)
 	
-	evFetch := method(
-		Exception raise("evFetch " .. url)
-		c := EvConnection clone setAddress(host) setPort(port) connect
-		r := c newRequest setUri(request) 
+	evFetchHttp := method(
+		//writeln("evFetchHttp")
+		con := EvConnection clone setAddress(host) setPort(port) connect
+		//writeln("con = ", con)
+		r := con newRequest setUri(url) 
+		//writeln("request = ", r)
 		r requestHeaders = self requestHeaders
+		//writeln("request send")
 		r send
 		self statusCode := r responseCode
+		self responseHeaders := r responseHeaders
+		//writeln("responseHeaders keys = ", responseHeaders keys)
 		//writeln("evFetch  got ", r data size, " bytes")
 		r data
 	)
 
+	lastRedirectUrl := method(
+		//writeln("lastRedirectUrl ", url)
+		if(redirectUrl, redirectUrl lastRedirectUrl, self)
+	)
+	
 	//doc URL fetch Fetches the url and returns the result as a Sequence. Returns an Error, if one occurs.
 	fetch := method(url, redirectCount,
 		if(redirectCount not, redirectCount = 0)
@@ -205,7 +216,12 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 				)
 				newUrl := self responseHeaders at("Location")
 				//writeln("REDIRECT TO ", newUrl)
-		 		v := childUrl(newUrl) fetch(nil, redirectCount + 1)
+				self setRedirectUrl(childUrl(newUrl))
+				
+				if(self cookie, redirectUrl setCookie(self cookie))
+				if(self responseCookie, redirectUrl setCookie(self responseCookie))
+				
+		 		v := redirectUrl fetch(nil, redirectCount + 1)
 			)
 			return v
 		)
@@ -230,8 +246,11 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 	Returns a Sequence containing the request header that will be sent.
 	*/
 	
-	setCookie := method(cookie, requestHeaders atPut("Cookie", cookie))
+	setCookie := method(cookie, requestHeaders atPut("Cookie", cookie); self)
+	cookie := method(requestHeaders at("Cookie"))
 	responseCookie := method(responseHeaders at("Set-Cookie"))
+	
+	setUserAgent := method(v, requestHeaders atPut("User-Agent", v); self)
 	
 	requestHeaders := Map clone
 	requestHeaders atPut("User-Agent", "Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/312.8 (KHTML, like Gecko) Safari/312.6)")
@@ -279,6 +298,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 
 	//doc URL headerBreaks Private method to connect to the host and write the header.
 	connectAndWriteHeader := method(header,
+		//writeln("--- connectAndWriteHeader --- ")
 		if(host == nil, return(Error with("No host set")))
 		socket returnIfError setHost(host) returnIfError setPort(port) connect returnIfError
 		socket appendToWriteBuffer(if(header, header, requestHeader)) write returnIfError
@@ -446,7 +466,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 				u = Path with(url pathComponent, u)
 			)
 		)
-		self clone setURL(u) setReferer(url)
+		self clone setURL(u) setReferer(url) setRedirectUrl(nil)
 	)
 
 	evPost := method(parameters, headers,
@@ -570,6 +590,13 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		parts removeLast 
 		parts last	
 	)
+
+	useEv := method(
+	 	self fetchHttp := self getSlot("evFetchHttp")
+	 	self post := self getSlot("evPost")
+	)
+	
+	//useEv
 )
 
 //doc Object doURL(urlString) Fetches the URL and evals it in the context of the receiver.
@@ -585,6 +612,3 @@ Map asQueryString := method(
 	) join("&")
 )
 
-
-//URL fetch := URL getSlot("evFetch")
-//URL post := URL getSlot("evPost")

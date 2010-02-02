@@ -102,6 +102,7 @@ EventManager do(
 	listensUntilEvent ::= true
 	
 	realAddEvent := getSlot("addEvent")
+	shouldRun ::= true
 
 	/*doc EventManager addEvent(event, descriptor, eventType, timeout) 
 	*/
@@ -120,32 +121,34 @@ EventManager do(
 		if(coro, coro resumeLater, self coro := coroFor(run); coro setLabel("EventManager"); coro resumeLater)	
 	)
 
-	//doc EventManager run Runs the EventManger loop. Does not return.
+	//doc EventManager run Runs the EventManger loop. Does not return. Private - should only be called by resumeIfNeeded.
 	run := method(
 		//Scheduler currentCoroutine setLabel("EventManager")
-		debugWriteln("EventManager run")
 		//writeln("EventManager run")
-		loop(
+		setShouldRun(true)
+		while(shouldRun,
 			setIsRunning(true)
-			//writeln("hasActiveEvents: ", hasActiveEvents)
-			//writeln("event loop 0 -----------------------------------")
-			while(hasActiveEvents,
-				//debugWriteln("EventManager run - listening")
-				
+			//while(hasActiveEvents and shouldRun,
+			loop(
+				/*
+				if(Coroutine yieldingCoros size > 0,
+					writeln("Coroutine yieldingCoros size = ", Coroutine yieldingCoros size)
+					writeln("label: ", Coroutine yieldingCoros first label)
+				)
+				*/
+				//writeln("EventManager listening")
 				er := if(Coroutine yieldingCoros first, listen, if(listensUntilEvent, listenUntilEvent, listen)) 
-				//writeln("event loop 1 -----------------------------------")
-				er ifError(e, 
-					Exception raise("Unrecoverable Error in EventManager: " .. e description))
-					//writeln("event loop 2 -----------------------------------")
+				er ifError(e, Exception raise("Unrecoverable Error in EventManager: " .. e description))
+
 				yield
 			)
-			//writeln("event loop 3 -----------------------------------")
-			//writeln("hasActiveEvents: ", hasActiveEvents)
-			//debugWriteln("EventManager run - no active events")
 			setIsRunning(false)
 			coro pause
-			//debugWriteln("EventManager run - resuming")
 		)
+	)
+	
+	stop := method(
+		setShouldRun(false)
 	)
 )
 
@@ -157,18 +160,18 @@ if(getSlot("EvConnection"),
 		eventManager ::= EventManager
 		address ::= ""
 		port ::= 80
-		newRequest := method(EvRequest clone setConnection(self))
+		newRequest := method(EvOutRequest clone setConnection(self))
 		didFinish := nil
 	)
 
-	EvRequest do(
+	EvOutRequest do(
 		requestHeaders := Map clone
 		requestHeaders atPut("User-Agent", "Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/312.8 (KHTML, like Gecko) Safari/312.6)")
 		requestHeaders atPut("Connection", "close")
 		requestHeaders atPut("Accept", "*/*")
 	
 		init := method(
-			self requestHeaders := requestHeaders clone		
+			self requestHeaders := requestHeaders clone	
 		)
 
 		connection ::= nil
@@ -177,6 +180,7 @@ if(getSlot("EvConnection"),
 
 		send := method(
 			self requestHeaders atPut("Host", connection address, connection port)
+			writeln("EvOutRequest send ", self uniqueId, " ", uri)
 			self waitingCoro := Coroutine currentCoroutine
 			asyncSend
 			EventManager resumeIfNeeded
@@ -185,6 +189,7 @@ if(getSlot("EvConnection"),
 		)
 
 		didFinish := method(
+			writeln("EvOutRequest recv ", self uniqueId, " ", uri)
 			waitingCoro resumeLater
 		)
 	)

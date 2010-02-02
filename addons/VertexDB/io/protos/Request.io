@@ -43,21 +43,24 @@ VertexDB Request := Object clone do(
 	)
 
 	execute := method(
-		url := URL with("http://" .. host .. ":" .. port asString .. resource) setFollowRedirects(false)
-		if(VertexDB Settings username,
-			url setUsername(VertexDB Settings username)
-			url setPassword(VertexDB Settings password)
-			url setUsesBasicAuthentication(true)
-		)
+		dt := Date secondsToRun(
+			url := URL with("http://" .. host .. ":" .. port asString .. resource) setFollowRedirects(false)
+			if(VertexDB Settings username,
+				url setUsername(VertexDB Settings username)
+				url setPassword(VertexDB Settings password)
+				url setUsesBasicAuthentication(true)
+			)
 		
-		debugWriteln(url url)
-		if(body size > 0,
-			debugWriteln(body split("\n") map(line, "\t" .. line) join("\n"))
-		)
+			debugWriteln(url url)
+			if(body size > 0,
+				debugWriteln(body split("\n") map(line, "\t" .. line) join("\n"))
+			)
 		
-		r := VertexDB Response clone setRequest(self)\
-			setBody(if(httpMethod asLowercase == "get", url fetch, url post(body)))\
-			setStatusCode(url statusCode)
+			r := VertexDB Response clone setRequest(self)
+			r setBody(if(httpMethod asLowercase == "get", url fetch, url post(body)))
+			r setStatusCode(url statusCode)
+		)
+		debugWriteln("dt: ", dt)
 		r
 	)
 	

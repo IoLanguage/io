@@ -25,8 +25,11 @@ HttpRequest := Object clone do(
 	)
 	
 	decodeUrlParam := method(s,
+		/*
 		t := s asUTF8 asMutable
 		t replaceSeq("+", " ") replaceMap(urlCode2Char) replaceSeq("%25", "%")
+		*/
+		URL unescapeString(s)
 	)
 	
 	mapPutOrAppendAsList := method(map, at, val,
@@ -80,21 +83,10 @@ HttpRequest := Object clone do(
 
 		form := Map clone
 		q splitNoEmpties("&") foreach(i, v,
-			kv := v splitNoEmpties("=")
-			if(kv size == 2) then(
-				k := kv at(0)
-				v := decodeUrlParam(kv at(1))
-				mapPutOrAppendAsList(form, k, v)
-			) else(
-				ikv := kv at(0) splitNoEmpties(",")
-				validx := ikv at(0) ?asNumber isNan == false
-				validy := ikv at(1) ?asNumber isNan == false
-				if (ikv size == 2 and validx and validy,
-					form atPut("imageMapX", ikv at(0))
-					form atPut("imageMapY", ikv at(1)),
-					form atPut(kv at(0), nil)
-				)
-			)
+			key := v beforeSeq("=")
+			value := v afterSeq("=")
+			
+			form atPut(key, URL unescapeString(value))
 		)
 
 		return form
@@ -108,25 +100,11 @@ HttpRequest := Object clone do(
 
 		form := Map clone
 		q splitNoEmpties("&") foreach(i, v,
-			kv := v splitNoEmpties("=")
-			if(kv size == 2) then(
-				k := kv at(0)
-				v := decodeUrlParam(kv at(1))
-				if(form at(k),
-					form at(k) append(v)
-				,
-					form atPut(k, list(v))
-				)
-			) else(
-				ikv := kv at(0) splitNoEmpties(",")
-				validx := ikv at(0) ?asNumber isNan == false
-				validy := ikv at(1) ?asNumber isNan == false
-				if (ikv size == 2 and validx and validy,
-					form atPut("imageMapX", ikv at(0))
-					form atPut("imageMapY", ikv at(1)),
-					form atPut(kv at(0), nil)
-				)
-			)
+			key := v beforeSeq("=")
+			value := v afterSeq("=")
+			
+			form atIfAbsentPut(key, List clone)
+			form at(key) append(URL unescapeString(value))
 		)
 
 		return form

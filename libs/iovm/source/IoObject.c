@@ -2,8 +2,8 @@
 //metadoc Object copyright Steve Dekorte 2002
 //metadoc Object license BSD revised
 /*metadoc Object description
-An Object is a key/value dictionary with string keys and values of any type. 
-The prototype Object contains a clone slot that is a CFuntion that creates new objects. 
+An Object is a key/value dictionary with string keys and values of any type.
+The prototype Object contains a clone slot that is a CFuntion that creates new objects.
 When cloned, an Object will call it's init slot (with no arguments).
 */
 //metadoc Object category Core
@@ -54,7 +54,7 @@ IoObject *IoObject_justAlloc(IoState *state)
 IoObject *IoObject_alloc(IoObject *self)
 {
 	IoObject *child;
-	
+
 	#ifdef IOSTATE_RECYCLING_ON
 	child = List_pop(IOSTATE->recycledObjects);
 	if (!child)
@@ -182,7 +182,7 @@ IoObject *IoObject_protoFinish(void *state)
 
 	// reflection
 
-	{"uniqueId", IoObject_uniqueId},	
+	{"uniqueId", IoObject_uniqueId},
 
 	//{"compact", IoObject_compactMethod},
 
@@ -216,8 +216,8 @@ IoObject *IoObject_protoFinish(void *state)
 
 	{"ownsSlots", IoObject_protoOwnsSlots}, // a debug method
 	{"memorySize", IoObject_memorySizeMethod},
-	
-	
+
+
 	{"hasDirtySlot", IoObject_hasDirtySlot_},
 	{"markClean", IoObject_markClean},
 
@@ -321,7 +321,7 @@ void IoObject_freeData(IoObject *self)
 			//printf("Tag func is free\n");
 			//if (IoObject_name(self)) printf("free %s\n", IoObject_name(self));
 		}
-		
+
 		(*func)(self);
 	}
 	else if (IoObject_dataPointer(self))
@@ -332,7 +332,7 @@ void IoObject_freeData(IoObject *self)
 	IoObject_setDataPointer_(self, NULL);
 }
 
-//inline 
+//inline
 void IoObject_setProtoTo_(IoObject *self, IoObject *proto)
 {
 	IoObject_rawSetProto_(self, proto);
@@ -485,7 +485,7 @@ IO_METHOD(IoObject, objectProto)
 	/*doc Object proto
 	Same as; method(self protos first)
 	*/
-	
+
 	IoObject *proto = IoObject_firstProto(self);
 	return proto ? proto : IONIL(self);
 }
@@ -538,7 +538,7 @@ IO_METHOD(IoObject, removeProto)
 IO_METHOD(IoObject, removeAllProtos)
 {
 	/*doc Object removeAllProtos
-	Removes all of the receiver's protos. Returns self. 
+	Removes all of the receiver's protos. Returns self.
 	*/
 
 	IoObject_rawRemoveAllProtos(self);
@@ -572,7 +572,7 @@ IO_METHOD(IoObject, protosMethod)
 
 // --------------------------------------------------------
 
-//inline 
+//inline
 void IoObject_freeSlots(IoObject *self) // prepare for io_free and possibly recycle
 {
 	if (IoObject_ownsSlots(self))
@@ -683,7 +683,7 @@ IO_METHOD(IoObject, protoCompare)
 	/*doc Object compare(anObject)
 	Returns a number containing the comparison value of the target with anObject.
 	*/
-	
+
 	IOASSERT(IoMessage_argCount(m), "compare requires argument");
 
 	{
@@ -906,7 +906,7 @@ IO_METHOD(IoObject, lobbyPrint)
 			}
 		}
 	}
-	
+
 	IoState_print_(state, ")\n");
 
 	return state->ioNil;
@@ -967,7 +967,7 @@ IO_METHOD(IoObject, protoPerform)
 IO_METHOD(IoObject, protoPerformWithArgList)
 {
 	/*doc Object performWithArgList(methodName, argList)
-	Performs the method corresponding to methodName with the arguments in the argList. 
+	Performs the method corresponding to methodName with the arguments in the argList.
 	*/
 
 	IoSymbol *slotName = IoMessage_locals_symbolArgAt_(m, locals, 0);
@@ -1021,7 +1021,7 @@ IO_METHOD(IoObject, protoWriteLn)
 	return IONIL(self);
 }
 
-//inline 
+//inline
 IoObject *IoObject_initClone_(IoObject *self, IoObject *locals, IoMessage *m, IoObject *newObject)
 {
 	IoState *state = IOSTATE;
@@ -1072,9 +1072,9 @@ IO_METHOD(IoObject, shallowCopy)
 	/*doc Object shallowCopy
 	Returns a shallow copy of the receiver.
 	*/
-	
+
 	IOASSERT(ISOBJECT(self), "shallowCopy doesn't work on primitives");
-	
+
 	{
 	IoObject *newObject = IoObject_new(IOSTATE);
 	PHASH_FOREACH(IoObject_slots(self), k, v, IoObject_setSlot_to_(newObject, k, v) );
@@ -1101,7 +1101,7 @@ IO_METHOD(IoObject, protoSetSlotWithType)
 {
 	/*doc Object setSlotWithType(slotNameString, valueObject)
 	Sets the slot slotNameString in the receiver to
-	hold valueObject and sets the type slot of valueObject 
+	hold valueObject and sets the type slot of valueObject
 	to be slotNameString. Returns valueObject.
 	*/
 
@@ -1188,7 +1188,7 @@ IO_METHOD(IoObject, protoGetSlot_)
 IO_METHOD(IoObject, protoGetLocalSlot_)
 {
 	/*doc Object getLocalSlot(slotNameString)
-	Returns the value of the slot named slotNameString 
+	Returns the value of the slot named slotNameString
 	(not looking in the object's protos) or nil if no such slot is found.
 	*/
 
@@ -1229,7 +1229,7 @@ IO_METHOD(IoObject, protoRemoveSlot)
 IO_METHOD(IoObject, protoRemoveAllSlots)
 {
 	/*doc Object removeAllSlots
-	Removes all of the receiver's slots. Returns self. 
+	Removes all of the receiver's slots. Returns self.
 	*/
 
 	PHash_clean(IoObject_slots(self));
@@ -1276,13 +1276,13 @@ Subclasses can override this method to implement proxies or special error handli
 <p>
 Example:
 <p>
-<pre>	
+<pre>
 myProxy forward = method(
 	messageName := thisMessage name
 	arguments := thisMessage arguments
 	myObject doMessage(thisMessage)
 )
-</pre>	
+</pre>
 */
 
 /*
@@ -1360,10 +1360,10 @@ IoObject *IoObject_rawDoString_label_(IoObject *self, IoSymbol *string, IoSymbol
 		IoMessage_rawSetNext_(cm, messageForString);
 		IoMessage_addCachedArg_(messageForString, string);
 		IoMessage_addCachedArg_(messageForString, label);
-		
+
 		newMessage = IoMessage_locals_performOn_(cm, self, self);
 		IoState_stackRetain_(state, newMessage); // needed?
-		
+
 		IoState_popCollectorPause(state);
 
 		if (newMessage)
@@ -1398,7 +1398,7 @@ IO_METHOD(IoObject, doMessage)
 IO_METHOD(IoObject, doString)
 {
 	/*doc Object doString(aString)
-	Evaluates the string in the context of the receiver. Returns the result. 
+	Evaluates the string in the context of the receiver. Returns the result.
 	*/
 
 	IoSymbol *string = IoMessage_locals_seqArgAt_(m, locals, 0);
@@ -1423,7 +1423,7 @@ IO_METHOD(IoObject, doString)
 IO_METHOD(IoObject, doFile)
 {
 	/*doc Object doFile(pathString)
-	Evaluates the File in the context of the receiver. Returns the result. 
+	Evaluates the File in the context of the receiver. Returns the result.
 	pathString is relative to the current working directory.
 	*/
 
@@ -1444,7 +1444,7 @@ IO_METHOD(IoObject, doFile)
 IO_METHOD(IoObject, isIdenticalTo)
 {
 	/*doc Object isIdenticalTo(aValue)
-	Returns true if the receiver is identical to aValue, false otherwise. 
+	Returns true if the receiver is identical to aValue, false otherwise.
 	*/
 
 	IoObject *other = IoMessage_locals_valueArgAt_(m, locals, 0);
@@ -1454,7 +1454,7 @@ IO_METHOD(IoObject, isIdenticalTo)
 IO_METHOD(IoObject, equals)
 {
 	/*doc Object ==(aValue)
-	Returns true if receiver and aValue are equal, false otherwise. 
+	Returns true if receiver and aValue are equal, false otherwise.
 */
 
 	IOASSERT(IoMessage_argCount(m), "compare requires argument");
@@ -1468,7 +1468,7 @@ IO_METHOD(IoObject, equals)
 IO_METHOD(IoObject, notEquals)
 {
 	/*doc Object !=(aValue)
-	Returns true the receiver is not equal to aValue, false otherwise. 
+	Returns true the receiver is not equal to aValue, false otherwise.
 	*/
 
 	IoObject *other = IoMessage_locals_valueArgAt_(m, locals, 0);
@@ -1481,7 +1481,7 @@ IO_METHOD(IoObject, foreachSlot)
 For each slot, set name to the slot's
 name and value to the slot's value and execute message. Examples:
 <p>
-<pre>	
+<pre>
 myObject foreach(n, v,
 	writeln("slot ", n, " = ", v type)
 )
@@ -1489,7 +1489,7 @@ myObject foreach(n, v,
 myObject foreach(v,
 	writeln("slot type ", v type)
 )
-</pre>	
+</pre>
 */
 
 	IoSymbol *keyName;
@@ -1549,7 +1549,7 @@ IO_METHOD(IoObject, thisMessage)
 	/*doc Object thisMessage
 	Returns the calling message (i.e. thisMessage itself, huh).
 	*/
-	
+
 	return m;
 }
 
@@ -1633,7 +1633,7 @@ IO_METHOD(IoObject, memorySizeMethod)
 	/*doc Object memorySize
 	Return the amount of memory used by the object.
 	*/
-	
+
 	return IONUMBER(IoObject_memorySize(self));
 }
 
@@ -1695,8 +1695,8 @@ void IoObject_print(IoObject *self)
 /*
 IO_METHOD(IoObject, truthValueOfArg);
 {
-	//doc Object The '' method evaluates the argument and returns the result.
-	
+	//-doc Object The '' method evaluates the argument and returns the result.
+
 	IOASSERT(IoMessage_argCount(m) > 0, "argument required");
 	return IoMessage_locals_valueArgAt_(m, locals, 0);
 }
@@ -1707,11 +1707,11 @@ IO_METHOD(IoObject, evalArg)
 	/*doc Object (expression)
 	The '' method evaluates the argument and returns the result.
 	*/
-	
+
 	/*doc Object evalArg(expression)
 	The '' method evaluates the argument and returns the result.
 	*/
-	
+
 	IOASSERT(IoMessage_argCount(m) > 0, "argument required");
 	/* eval the arg and return a non-Nil so an attached else() won't get performed */
 	return IoMessage_locals_valueArgAt_(m, locals, 0);
@@ -1784,8 +1784,10 @@ IO_METHOD(IoObject, uniqueId)
 	/*doc Object uniqueId
 	Returns a Number containing a unique id for the receiver.
 	*/
-
-	return IONUMBER((double)((size_t)IoObject_deref(self)));
+	char s[32];
+	sprintf(s, "%p", (void *)IoObject_deref(self));
+	return IOSYMBOL(s);
+	//return IONUMBER((double)((size_t)IoObject_deref(self)));
 }
 
 IO_METHOD(IoObject, do)
@@ -1807,7 +1809,7 @@ IO_METHOD(IoObject, message)
 {
 	/*doc Object message(expression)
 	Return the message object for the argument or Nil if there is no argument.
-	Note: returned object is a mutable singleton. Use "message(foo) clone" if 
+	Note: returned object is a mutable singleton. Use "message(foo) clone" if
   you wish to modify it.
 	*/
 
@@ -1921,10 +1923,10 @@ IO_METHOD(IoObject, argIsCall)
   /*doc Object argIsCall(arg)
 	Returns true if arg is an activation context (i.e. Call object)
 	<br/>
-	Note: this is used internally in one place only (Coroutine callStack). 
+	Note: this is used internally in one place only (Coroutine callStack).
 	Refactoring should be considered.
 	*/
-	
+
 	IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 0);
 	//printf("IoObject_tag(v)->name = '%s'\n", IoObject_tag(v)->name);
 
@@ -1944,7 +1946,7 @@ IO_METHOD(IoObject, argIsCall)
 	//testStack(self);
 <<<<<<< HEAD
 
-	
+
 	printf("ISACTIVATIONCONTEXT = %i\n", isAct);
 */
 
@@ -1952,7 +1954,7 @@ IO_METHOD(IoObject, argIsCall)
 	IoObject *t = IOSTATE->ioTrue; //IOTRUE(self);
 	IoObject *f = IOSTATE->ioFalse; //IOFALSE(self);
 	//return isAct ? t : f;
-	if(isAct) 
+	if(isAct)
 	{
 		return t;
 	}
@@ -1961,7 +1963,7 @@ IO_METHOD(IoObject, argIsCall)
 
 /*
 	int isAct = ((void *)(IoObject_tag(self)->cloneFunc) == (void *)IoCall_rawClone);
-	
+
 //	printf("ISACTIVATIONCONTEXT = %i\n", isAct);
 
 	void *t = IOTRUE(self);
@@ -1980,7 +1982,7 @@ IO_METHOD(IoObject, become)
 	<br/>
 	Note: primitives cannot become new values.
 	*/
-	
+
 	IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 0);
 
 	if(self == v || IoObject_deref(v) == IoObject_deref(self)) return self;
@@ -1994,7 +1996,7 @@ IO_METHOD(IoObject, become)
 	return self;
 }
 
-IO_METHOD(IoObject, hasDirtySlot_)
+IOVM_API IoObject *IoObject_hasDirtySlot_(IoObject *self, IoMessage *m, IoObject *locals)
 {
 	IoSymbol *slotName = IoMessage_locals_symbolArgAt_(m, locals, 0);
 	int result = PHash_hasDirtyKey_(IoObject_slots(self), IOREF(slotName));
@@ -2009,6 +2011,7 @@ void IoObject_protoClean(IoObject *self)
 
 IO_METHOD(IoObject, markClean)
 {
+	//doc Object markClean Cleans object's slots.
 	PHash_cleanSlots(IoObject_slots(self));
 	return self;
 }
@@ -2065,7 +2068,7 @@ IoSeq *IoObject_asString_(IoObject *self, IoMessage *m)
 	result = IoObject_rawDoString_label_(self, string, label);
 	IoState_popRetainPoolExceptFor_(IOSTATE, result);
 	*/
-	
+
 	if (!ISSEQ(result))
 	{
 		IoState_error_(IOSTATE, m, "%s asString didn't return a Sequence", IoObject_name(self));

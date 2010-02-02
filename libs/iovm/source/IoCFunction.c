@@ -41,24 +41,6 @@ IoCFunction *IoCFunction_proto(void *state)
 	return self;
 }
 
-void IoCFunction_protoFinish(void *state)
-{
-	IoMethodTable methodTable[] = {
-	{"id", IoCFunction_id},
-	{"==", IoCFunction_equals},
-	{"performOn", IoCFunction_performOn},
-	{"uniqueName", IoCFunction_uniqueName},
-	{"typeName", IoCFunction_typeName},
-	{NULL, NULL},
-	};
-
-	IoObject *self = IoState_protoWithInitFunction_((IoState *)state, IoCFunction_proto);
-	IoObject_setSlot_to_(self, IOSYMBOL("type"), IOSYMBOL("CFunction"));
-	/*doc CFunction type
-	Returns "Cfunction".
-	*/
-	IoObject_addMethodTable_(self, methodTable);
-}
 
 IoCFunction *IoCFunction_rawClone(IoCFunction *proto)
 {
@@ -153,6 +135,44 @@ IO_METHOD(IoCFunction, equals)
 	return IOBOOL(self, ISCFUNCTION(v) && (DATA(self)->func == DATA(v)->func));
 }
 
+IO_METHOD(IoCFunction, profilerTime)
+{
+	/*doc IoCFunction profilerTime
+	Returns clock() time spent in compiler in seconds.
+	*/
+
+	return IONUMBER(((double)DATA(self)->profilerTime)/((double)CLOCKS_PER_SEC));
+}
+
+IoObject *IoCFunction_activateWithProfiler(IoCFunction *self, IoObject *target, IoObject *locals, IoMessage *m, IoObject *slotContext)
+{
+	clock_t profilerMark = clock();
+	IoObject *result = IoCFunction_activate(self, target, locals, m, slotContext);
+	DATA(self)->profilerTime += clock() - profilerMark;
+	return result;
+}
+
+IO_METHOD(IoCFunction, setProfilerOn)
+{
+	/*doc IoCFunction setProfilerOn(aBool)
+	If aBool is true, the global block profiler is enabled, if false it is disabled. Returns self.
+	*/
+	
+	IoObject *aBool = IoMessage_locals_valueArgAt_(m, locals, 0);
+	IoTag *tag = IoObject_tag(self);
+	
+	if(ISTRUE(aBool))
+	{
+		IoTag_activateFunc_(tag, (IoTagActivateFunc *)IoCFunction_activateWithProfiler);
+	}
+	else 
+	{
+		IoTag_activateFunc_(tag, (IoTagActivateFunc *)IoCFunction_activate);
+	}
+	
+	return self;
+}
+
 IoObject *IoCFunction_activate(IoCFunction *self, IoObject *target, IoObject *locals, IoMessage *m, IoObject *slotContext)
 {
 	IoCFunctionData *selfData = DATA(self);
@@ -202,4 +222,26 @@ IO_METHOD(IoCFunction, performOn)
 
 	return IoCFunction_activate(self, bTarget, bLocals, bMessage, bContext);
 }
+
+void IoCFunction_protoFinish(void *state)
+{
+	IoMethodTable methodTable[] = {
+	{"id", IoCFunction_id},
+	{"==", IoCFunction_equals},
+	{"performOn", IoCFunction_performOn},
+	{"uniqueName", IoCFunction_uniqueName},
+	{"typeName", IoCFunction_typeName},
+	{"setProfilerOn", IoCFunction_setProfilerOn},
+	{"profilerTime", IoCFunction_profilerTime},
+	{NULL, NULL},
+	};
+
+	IoObject *self = IoState_protoWithInitFunction_((IoState *)state, IoCFunction_proto);
+	IoObject_setSlot_to_(self, IOSYMBOL("type"), IOSYMBOL("CFunction"));
+	/*doc CFunction type
+	Returns "Cfunction".
+	*/
+	IoObject_addMethodTable_(self, methodTable);
+}
+
 

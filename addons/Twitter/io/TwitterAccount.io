@@ -97,6 +97,10 @@ TwitterAccount := Object clone do(
 		resultsFor(r) at("id")// asString
 	)
 	
+	deleteStatus := method(tweetId,
+		resultsFor(request asDeleteStatus setStatusId(tweetId))
+	)
+	
 	show := method(
 		resultsFor(request asShow setScreenName(screenName))
 	)
@@ -110,11 +114,16 @@ TwitterAccount := Object clone do(
 	)
 	
 	isSuspended := method(aScreenName,
+		if(aScreenName == nil, aScreenName = screenName)
 		tryTwitter(showUser(aScreenName)) ifIsSuspended(
 			return(true)
 		) raiseUnhandled
 		
 		false
+	)
+	
+	twitterIdForScreenName := method(screenName,
+		self showUser(screenName) at("id") asString
 	)
 	
 	ExceptionConditional := Object clone do(
@@ -157,4 +166,19 @@ TwitterAccount := Object clone do(
 	)
 	
 	cursorNext := method(cursor, cursor next)
+	
+	userExists := method(screenName,
+		tryTwitter(showUser(screenName)) ifIsSuspended(
+			r := false
+		) ifIsNotFound(
+			r := false
+		) else(
+			r := true
+		)
+		r
+	)
+	
+	mentions := method(
+		resultsFor(request asMentions)
+	)
 )

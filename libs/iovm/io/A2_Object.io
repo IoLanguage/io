@@ -190,11 +190,12 @@ Object do(
 	ifNonNilEval := Object getSlot("evalArg")
 	//doc Object ifNilEval(arg) Does nothing, returns self.
 	ifNilEval    := Object getSlot("thisContext")
-	//doc Object and(arg) Evaluates argument and returns the result.
 	//doc Object or(arg) Returns true.
 	setSlot("or", true)
 	
+	//doc Object isTrue Returns true.
 	isTrue := true
+	//doc Object and(arg) Evaluates argument and returns the result.
 	and := method(v, v isTrue)
 )
 

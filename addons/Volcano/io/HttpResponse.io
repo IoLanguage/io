@@ -45,8 +45,8 @@ HttpResponse := Object clone do(
 	send := method(
 		socket write("HTTP/1.1 " .. status .. "\r\n")
 		addHeaderIfAbsent("Content-Type", contentType)
-		headers foreach(header, socket write(header name .. ": " .. header value .. "\n"))
-		socket write("\n")
+		headers foreach(header, socket write(header name .. ": " .. header value .. "\r\n"))
+		socket write("\r\n")
 		socket write(body)
 	)
 	
@@ -74,6 +74,12 @@ HttpResponse := Object clone do(
 
 		string := name .. "=" .. value .. "; " .. expires .. domain .. path .. secure
 		addHeader("Set-Cookie", string)
+		self
+	)
+	
+	redirectTo := method(url,
+		addHeader("Location", url)
+		setStatusCode(302)
 		self
 	)
 )

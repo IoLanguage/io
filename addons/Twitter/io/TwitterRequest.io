@@ -17,6 +17,8 @@ TwitterRequest := Object clone do(
 	pathParamNames ::= nil
 	fileParamName ::= nil
 	
+	delegate ::= nil
+	
 	init := method(
 		setQueryParamNames(List clone)
 		setPostParamNames(List clone)
@@ -50,6 +52,8 @@ TwitterRequest := Object clone do(
 		)
 		
 		url := URL with("http://" .. host .. path .. ".json" .. queryString) setFollowRedirects(false)
+		
+		delegate ?requestingTwitterUrl(url url)
 		
 		debugWriteln(url url)
 		
@@ -206,6 +210,15 @@ TwitterRequest := Object clone do(
 		addPostSlots("status")
 	)
 	
+	asDeleteStatus := method(
+		setHttpMethod("post")
+		self path := method(
+			"/statuses/destroy/#{statusId}" interpolate
+		)
+		self newSlot("statusId")
+		self
+	)
+	
 	asSearch := method(
 		setHost("search.twitter.com")
 		setPath("/search")
@@ -214,5 +227,9 @@ TwitterRequest := Object clone do(
 	
 	asRateLimitStatus := method(
 		setPath("/account/rate_limit_status")
+	)
+	
+	asMentions := method(
+		setPath("/statuses/mentions")
 	)
 )

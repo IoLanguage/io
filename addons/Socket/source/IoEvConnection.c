@@ -1,7 +1,7 @@
-//metadoc EvRequest copyright Steve Dekorte, 2004
-//metadoc EvRequest license BSD revised
-//metadoc EvRequest description Networking Event.
-//metadoc EvRequest category Networking
+//metadoc EvConnection copyright Steve Dekorte, 2004
+//metadoc EvConnection license BSD revised
+//metadoc EvConnection description Networking Event.
+//metadoc EvConnection category Networking
 
 #include "IoEvConnection.h"
 #include "IoEventManager.h"
@@ -14,7 +14,7 @@
 
 IoTag *IoEvConnection_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("EvRequest");
+	IoTag *tag = IoTag_newWithName_("EvConnection");
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoEvConnection_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoEvConnection_free);
