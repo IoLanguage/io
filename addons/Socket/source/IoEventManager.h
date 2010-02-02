@@ -12,7 +12,6 @@ Selects on sockets and checks for timeouts.
 #include "IoSocket.h"
 #include "IoEvent.h"
 #include "Socket.h"
-#include <evutil.h>
 #include <event.h>
 #include <evhttp.h>
 
