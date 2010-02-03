@@ -21,9 +21,6 @@ IoError *IoError_new(void *state);
 void IoError_free(IoError *self);
 void IoError_mark(IoError *self);
 
-/* ----------------------------------------------------------- */
-
-
 IOVM_API IoObject *IoError_newWithMessageFormat_(void *state, const char *format, ...);
 IOVM_API IoObject *IoError_newWithCStringMessage_(IoState *state, char *cString);
 

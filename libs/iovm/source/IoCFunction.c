@@ -238,9 +238,6 @@ void IoCFunction_protoFinish(void *state)
 
 	IoObject *self = IoState_protoWithInitFunction_((IoState *)state, IoCFunction_proto);
 	IoObject_setSlot_to_(self, IOSYMBOL("type"), IOSYMBOL("CFunction"));
-	/*doc CFunction type
-	Returns "Cfunction".
-	*/
 	IoObject_addMethodTable_(self, methodTable);
 }
 

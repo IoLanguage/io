@@ -34,7 +34,7 @@ IO_METHOD(IoObject, tokensForString)
 {
 	/*doc Compiler tokensForString(aString)
 	Returns a list of token objects lexed from the input string.
-*/
+	*/
 
 	IoSymbol *text = IoMessage_locals_seqArgAt_(m, locals, 0);
 	IoList *tokensList = IoList_new(IOSTATE);
@@ -104,9 +104,10 @@ IO_METHOD(IoObject, messageForString)
 
 IO_METHOD(IoObject, messageForString2)
 {
-  /*doc Compiler messageForString2(aString)
+	/*doc Compiler messageForString2(aString)
 	Returns the compiled message object for aString. (Runs raw string against lexer directly.)
 	*/
+	
 	IoLexer *lexer = IoLexer_new();
 	char *text = IoMessage_locals_cStringArgAt_(m, locals, 0);
 	IoMessage *msg;
