@@ -12,11 +12,9 @@ BitlyClient := Object clone do(
 	)
 	
 	shorten := method(url,
-		request asShorten setLongUrl(url) resultsOrError\
-			returnIfError\
-			at("results")\
-				at(url)\
-					at("shortUrl")
+		r := request asShorten setLongUrl(url) resultsOrError returnIfError
+		debugWriteln(r)
+		r at("results") at(url) at("shortUrl")
 	)
 	
 	dailyClicks := method(hash,

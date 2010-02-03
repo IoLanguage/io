@@ -114,11 +114,16 @@ TwitterAccount := Object clone do(
 	)
 	
 	isSuspended := method(aScreenName,
+		if(aScreenName == nil, aScreenName = screenName)
 		tryTwitter(showUser(aScreenName)) ifIsSuspended(
 			return(true)
 		) raiseUnhandled
 		
 		false
+	)
+	
+	twitterIdForScreenName := method(screenName,
+		self showUser(screenName) at("id") asString
 	)
 	
 	ExceptionConditional := Object clone do(
@@ -171,5 +176,9 @@ TwitterAccount := Object clone do(
 			r := true
 		)
 		r
+	)
+	
+	mentions := method(
+		resultsFor(request asMentions)
 	)
 )

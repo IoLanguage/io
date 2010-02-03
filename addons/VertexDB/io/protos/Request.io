@@ -56,9 +56,9 @@ VertexDB Request := Object clone do(
 				debugWriteln(body split("\n") map(line, "\t" .. line) join("\n"))
 			)
 		
-			r := VertexDB Response clone setRequest(self)\
-				setBody(if(httpMethod asLowercase == "get", url fetch, url post(body)))\
-				setStatusCode(url statusCode)
+			r := VertexDB Response clone setRequest(self)
+			r setBody(if(httpMethod asLowercase == "get", url fetch, url post(body)))
+			r setStatusCode(url statusCode)
 		)
 		debugWriteln("dt: ", dt)
 		r
