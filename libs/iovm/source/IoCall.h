@@ -42,9 +42,6 @@ IoCall *IoCall_new(IoState *state);
 void IoCall_mark(IoCall *self);
 void IoCall_free(IoCall *self);
 
-//void IoCall_writeToStream_(IoCall *self, BStream *stream);
-//void IoCall_readFromStream_(IoCall *self, BStream *stream);
-
 IO_METHOD(IoCall, sender);
 IO_METHOD(IoCall, message);
 IO_METHOD(IoCall, target);

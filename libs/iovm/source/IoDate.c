@@ -25,19 +25,7 @@ IoTag *IoDate_newTag(void *state)
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoDate_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoDate_free);
 	IoTag_compareFunc_(tag, (IoTagCompareFunc *)IoDate_compare);
-	//IoTag_writeToStreamFunc_(tag, (IoTagWriteToStreamFunc *)IoDate_writeToStream_);
-	//IoTag_readFromStreamFunc_(tag, (IoTagReadFromStreamFunc *)IoDate_readFromStream_);
 	return tag;
-}
-
-void IoDate_writeToStream_(IoDate *self, BStream *stream)
-{
-	BStream_writeTaggedDouble_(stream, Date_asSeconds(DATA(self)));
-}
-
-void IoDate_readFromStream_(IoDate *self, BStream *stream)
-{
-	Date_fromSeconds_(DATA(self), BStream_readTaggedDouble(stream));
 }
 
 IoDate *IoDate_proto(void *state)
@@ -166,6 +154,7 @@ IoDate *IoDate_fromSerialization(IoDate *self, IoObject *locals, IoMessage *m)
 	/*doc Date fromSerialization
 	Sets the date based on the serialization sequence.  Return self.
 	*/
+	
 	IoSeq *serializationSeq = IoMessage_locals_seqArgAt_(m, locals, 0);
 	UArray *serialization = UArray_clone(IoSeq_rawUArray(serializationSeq));
 	
@@ -228,7 +217,6 @@ IO_METHOD(IoDate, cpuSecondsToRun)
 		IoMessage *doMessage = IoMessage_rawArgAt_(m, 0);
 		IoMessage_locals_performOn_(doMessage, locals, locals);
 		t2 = clock();
-		//printf(" dt = %f / %i\n", (float)(t2 - t1), CLOCKS_PER_SEC);
 		return IONUMBER((t2 - t1)/((double)CLOCKS_PER_SEC));
 	}
 }

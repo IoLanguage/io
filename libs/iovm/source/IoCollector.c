@@ -59,6 +59,7 @@ IO_METHOD(IoCollector, maxAllocatedBytes)
 	/*doc Collector maxAllocatedBytes
 	Returns the maximum number of bytes allocated by the collector.
 	*/
+	
 	return IONUMBER(io_maxAllocatedBytes());
 }
 
@@ -67,6 +68,7 @@ IO_METHOD(IoCollector, resetMaxAllocatedBytes)
 	/*doc Collector resetMaxAllocatedBytes
 	Resets maximum number of bytes allocated by the collector. Returns self.
 	*/
+	
 	io_resetMaxAllocatedBytes();
 	return self;
 }
