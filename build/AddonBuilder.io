@@ -178,7 +178,7 @@ AddonBuilder := Object clone do(
 		commands := Map clone
 		errors := ErrorReport clone
 		missingLibs(errors) foreach(p,
-			if(debs at(p), commands atPut("aptget", "apt-get install " .. debs at(p) .. " && ldconfig"))
+			if(debs at(p), commands atPut("aptget", "apt-get -y install " .. debs at(p) .. " && ldconfig"))
 			if(ebuilds at(p), commands atPut("emerge", "emerge -DN1 " .. ebuilds at(p)))
 			if(pkgs at(p), commands atPut("port", "port install " .. pkgs at(p)))
 			if(rpms at(p), commands atPut("urpmi", "urpmi " .. rpms at(p) .. " && ldconfig"))

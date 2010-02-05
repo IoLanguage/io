@@ -256,10 +256,10 @@ IoObject *IoTokyoCabinet_open(IoObject *self, IoObject *locals, IoMessage *m)
 		//printf("using compareType:%s\n", CSTRING(compareType));
 		IOASSERT(ISSEQ(compareType), "compareType must be a sequence");
 
-		if(strcmp(CSTRING(compareType), "lexical") == 0) { cf = tccmplexical; } else
-		if(strcmp(CSTRING(compareType), "decimal") == 0) { cf = tccmpdecimal; } else
-		if(strcmp(CSTRING(compareType), "int32")   == 0) { cf = tccmpint32;   } else
-		if(strcmp(CSTRING(compareType), "int64")   == 0) { cf = tccmpint64;   } else
+		if(strcmp(CSTRING(compareType), "lexical") == 0) { cf = tcbdbcmplexical; } else
+		if(strcmp(CSTRING(compareType), "decimal") == 0) { cf = tcbdbcmpdecimal; } else
+		if(strcmp(CSTRING(compareType), "int32")   == 0) { cf = tcbdbcmpint32;   } else
+		if(strcmp(CSTRING(compareType), "int64")   == 0) { cf = tcbdbcmpint64;   } else
 		if(strcmp(CSTRING(compareType), "path")    == 0) { cf = pathCompareFunc; }
 		else
 		{

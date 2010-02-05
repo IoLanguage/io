@@ -8,6 +8,7 @@
 
 #include "IoObject.h"
 #include "Socket.h"
+#include <sys/queue.h>
 #include <event.h>
 #include <evhttp.h>
 

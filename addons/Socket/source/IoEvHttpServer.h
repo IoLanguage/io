@@ -9,6 +9,7 @@
 
 #include "IoObject.h"
 #include "Socket.h"
+#include <sys/queue.h>
 #include <event.h>
 #include <evhttp.h>
 
@@ -16,16 +17,6 @@
 #define	TAILQ_FIRST(head)		((head)->tqh_first)
 #define	TAILQ_END(head)			NULL
 #define	TAILQ_NEXT(elm, field)		((elm)->field.tqe_next)
-#define TAILQ_FOREACH(var, head, field)					\
-	for((var) = TAILQ_FIRST(head);					\
-	    (var) != TAILQ_END(head);					\
-	    (var) = TAILQ_NEXT(var, field))
-#define TAILQ_HEAD(name, type)						\
-struct name {								\
-	struct type *tqh_first;	/* first element */			\
-	struct type **tqh_last;	/* addr of last next element */		\
-}
-TAILQ_HEAD (evkeyvalq, evkeyval);
 	
 typedef IoObject IoEvHttpServer;
 
