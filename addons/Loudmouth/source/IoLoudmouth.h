@@ -15,15 +15,9 @@
 
 typedef IoObject IoLoudmouth;
 
-// Main context and loop 
+// Main context and loop
 GMainContext  *main_context;
 GMainLoop     *main_loop;
-
-// DATA(self) struct
-typedef struct {
-  LmConnection *lmc;
-  IoList *messages;
-} IoLoudmouthData;
 
 // Helper functions
 LmMessageType    str2msg_type(char *str);
