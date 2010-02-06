@@ -87,25 +87,19 @@ IOVM_API int IoCoroutine_rawIoStackSize(IoCoroutine *self);
 // raw
 
 IOVM_API void IoCoroutine_rawRun(IoCoroutine *self);
-
 IOVM_API void IoCoroutine_clearStack(IoCoroutine *self);
-
 IOVM_API void IoCoroutine_try(IoCoroutine *self, IoObject *target, IoObject *locals, IoMessage *message);
-
 IOVM_API IoCoroutine *IoCoroutine_newWithTry(void *state,
 											IoObject *target,
 											IoObject *locals,
 											IoMessage *message);
-
 IOVM_API void IoCoroutine_raiseError(IoCoroutine *self, IoSymbol *description, IoMessage *m);
 
 // methods
 
 IOVM_API IO_METHOD(IoCoroutine, implementation);
-
 IOVM_API IO_METHOD(IoCoroutine, run);
 IOVM_API IO_METHOD(IoCoroutine, callStack);
-
 IOVM_API IO_METHOD(IoCoroutine, isCurrent);
 
 // runTarget
@@ -126,31 +120,25 @@ IOVM_API IoObject *IoCoroutine_rawParentCoroutine(IoCoroutine *self);
 // try
 
 IOVM_API IO_METHOD(IoCoroutine, start);
-
 IOVM_API IoObject *IoCoroutine_rawResume(IoCoroutine *self);
 IOVM_API IO_METHOD(IoCoroutine, resume);
-
 IOVM_API IO_METHOD(IoCoroutine, isCurrent);
 IOVM_API IO_METHOD(IoCoroutine, currentCoroutine);
 
 // stack trace
 
 IOVM_API IoObject *IoObject_callStack(IoCoroutine *self);
-
 IOVM_API void IoObject_appendStackEntryDescription(IoCoroutine *self, UArray *ba);
-
 IOVM_API void IoCoroutine_rawPrint(IoCoroutine *self);
 
 // debugging
 
 IOVM_API int IoCoroutine_rawDebuggingOn(IoCoroutine *self);
-
 IOVM_API IO_METHOD(IoCoroutine, setMessageDebugging);
 IOVM_API IoObject *IoObject_performWithDebugger(IoCoroutine *self, IoObject *locals, IoMessage *m);
-
 IOVM_API IO_METHOD(IoCoroutine, callStack);
-
 IOVM_API void IoCoroutine_rawPrintBackTrace(IoCoroutine *self);
+
 #ifdef __cplusplus
 }
 #endif

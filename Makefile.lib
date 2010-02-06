@@ -100,6 +100,7 @@ LINKDLLOUTFLAG :=-out:
 LINKDIRFLAG := -libpath:
 LINKLIBFLAG := lib
 DLL_LIB_SUFFIX := .lib
+DLL_LIB_PREFIX := lib
 DLL_COMMAND := -link /INCREMENTAL:NO -subsystem:WINDOWS -machine:X86 -DLL $(DEF_FILE)
 DLL_SUFFIX := dll
 DLL_EXTRAS := ws2_32.lib shell32.lib
@@ -111,8 +112,8 @@ endif
 ### FILES #########################################################
 
 NAME    := $(notdir $(subst $() ,_,$(shell pwd)))
-LIBR    := _build/lib/lib$(NAME).a
-DLL     := _build/dll/lib$(NAME).$(DLL_SUFFIX)
+LIBR    := _build/lib/$(DLL_LIB_PREFIX)$(NAME).a
+DLL     := _build/dll/$(DLL_LIB_PREFIX)$(NAME).$(DLL_SUFFIX)
 infiles := $(wildcard source/*.c) 
 #infiles += $(wildcard *.S)
 asmfiles := $(wildcard source/*.S)

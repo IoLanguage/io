@@ -18,22 +18,8 @@ IoTag *IoCall_newTag(void *state)
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCall_rawClone);
 	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoCall_mark);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCall_free);
-	/*
-	IoTag_writeToStreamFunc_(tag, (IoTagWriteToStreamFunc *)IoCall_writeToStream_);
-	IoTag_readFromStreamFunc_(tag, (IoTagReadFromStreamFunc *)IoCall_readFromStream_);
-	*/
 	return tag;
 }
-
-/*
-void IoCall_writeToStream_(IoCall *self, BStream *stream)
-{
-}
-
-void IoCall_readFromStream_(IoCall *self, BStream *stream)
-{
-}
-*/
 
 void IoCall_initSlots(IoCall *self)
 {
@@ -126,7 +112,6 @@ void IoCall_mark(IoCall *self)
 
 void IoCall_free(IoCall *self)
 {
-	//printf("IoCall_free() %p|%p\n", (void *)self, IoObject_dataPointer(self));
 	io_free(IoObject_dataPointer(self));
 }
 

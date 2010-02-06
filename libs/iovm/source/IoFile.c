@@ -235,8 +235,26 @@ void IoFile_justClose(IoFile *self)
 			if (DATA(self)->flags == IOFILE_FLAGS_PIPE)
 			{
 				int exitStatus = pclose(stream);
-        IoObject_setSlot_to_(self, IOSYMBOL("exitStatus"), 
-                                   IONUMBER(exitStatus));
+#if !defined(_MSC_VER)
+				if(WIFEXITED(exitStatus) == 1)
+				{
+					exitStatus = WEXITSTATUS(exitStatus);
+					IoObject_setSlot_to_(self, IOSYMBOL("exitStatus"),
+						IONUMBER(exitStatus));
+				}
+				else if(WIFSIGNALED(exitStatus) == 1) {
+					exitStatus = WTERMSIG(exitStatus);
+					IoObject_setSlot_to_(self, IOSYMBOL("termSignal"),
+						IONUMBER(exitStatus));
+				}
+				else
+				{
+					printf("Did not exit normally. Returned %d (%d)\n", exitStatus, WEXITSTATUS(exitStatus));
+				}
+#else
+				IoObject_setSlot_to_(self, IOSYMBOL("exitStatus"),
+					IONUMBER(exitStatus));
+#endif
 			}
 			else
 			{
@@ -514,6 +532,9 @@ IO_METHOD(IoFile, popen)
 {
 	/*doc File popen
 	Open the file as a pipe. Return self.
+
+	Closing a popen'ed file sets exitStatus or termSignal
+	to reflect the status or cause of the child processes' termination.
 	*/
 
 	DATA(self)->flags = IOFILE_FLAGS_PIPE;
@@ -554,6 +575,10 @@ IO_METHOD(IoFile, close)
 {
 	/*doc File close
 	Closes the receiver if open, otherwise does nothing. Returns self.
+
+	When the file was opened via popen, sets either exitStatus or
+	termSignal to the exit status on normal exit, or the signal causing
+	abnormal termination.
 	*/
 
 	IoFile_justClose(self);

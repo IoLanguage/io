@@ -15,6 +15,15 @@ extern "C" {
 #define ISTokyoCabinet(self) \
 	IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoTokyoCabinet_rawClone)
 
+// latest versions on darwin do not use bdb infix
+#if defined(__APPLE__) || defined(MACOSX)
+#define tcbdbcmplexical tccmplexical 
+#define tcbdbcmpdecimal tccmpdecimal
+#define tcbdbcmpint32 tccmpint32
+#define tcbdbcmpint64 tccmpint64
+#endif 
+
+
 typedef IoObject IoTokyoCabinet;
 
 IoTokyoCabinet *IoTokyoCabinet_proto(void *state);

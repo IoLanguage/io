@@ -1192,9 +1192,10 @@ IO_METHOD(IoList, join)
 	IoSeq *seperator = IoMessage_locals_seqArgAt_(m, locals, 0);
 	UArray *out = UArray_new();
 	int totalSize = 0;
-	IOASSERT(ISSEQ(seperator), "seperator must be of type Sequence");
 	int hasSeperator = !ISNIL(seperator);
 	int seperatorSize = hasSeperator ? IOSEQ_LENGTH(seperator) : 0;
+	uint8_t *bytes; 
+	IOASSERT(ISSEQ(seperator), "seperator must be of type Sequence");
 	
 	LIST_FOREACH(items, i, v,
 			if(!ISSEQ(v))
@@ -1213,7 +1214,7 @@ IO_METHOD(IoList, join)
 	//printf("totalSize: %i\n", (int) totalSize);
 	UArray_sizeTo_(out, totalSize+1);
 	
-	uint8_t *bytes = UArray_mutableBytes(out);
+	bytes = UArray_mutableBytes(out);
 	
 	LIST_FOREACH(items, i, v,
 		size_t vsize = IoSeq_rawSizeInBytes(v);

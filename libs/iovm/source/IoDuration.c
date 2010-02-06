@@ -35,19 +35,7 @@ IoTag *IoDuration_newTag(void *state)
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoDuration_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoDuration_free);
 	IoTag_compareFunc_(tag, (IoTagCompareFunc *)IoDuration_compare);
-	//IoTag_writeToStreamFunc_(tag, (IoTagWriteToStreamFunc *)IoDuration_writeToStream_);
-	//IoTag_readFromStreamFunc_(tag, (IoTagReadFromStreamFunc *)IoDuration_readFromStream_);
 	return tag;
-}
-
-void IoDuration_writeToStream_(IoDuration *self, BStream *stream)
-{
-	BStream_writeTaggedDouble_(stream, Duration_asSeconds(DATA(self)));
-}
-
-void IoDuration_readFromStream_(IoDuration *self, BStream *stream)
-{
-	Duration_fromSeconds_(DATA(self), BStream_readTaggedDouble(stream));
 }
 
 IoDuration *IoDuration_proto(void *state)

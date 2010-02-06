@@ -102,7 +102,7 @@ UnicodeTest := UnitTest clone do(
 		// this removeLast thing is here to remove last "\n",
 		// which io interpreter adds after executing the code
 		string := monoQuoteString asMutable asUTF8 removeLast escape
-		tempSystem("io -e '\"" .. string .. "\"'")
+		tempSystem("-e '\"#{string}\"'" interpolate)
 		assertDiff
 	)
 

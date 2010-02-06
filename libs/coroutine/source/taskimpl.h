@@ -31,20 +31,24 @@
 
 #include <errno.h>
 #include <stdlib.h>
-#include <unistd.h>
 #include <string.h>
 #include <assert.h>
 #include <time.h>
+
+#ifndef WIN32
+#include <unistd.h>
 #include <sys/time.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <sched.h>
 #include <signal.h>
 #if USE_UCONTEXT
-#include <ucontext.h>
+	#include <ucontext.h>
 #endif
 #include <sys/utsname.h>
 #include <inttypes.h>
+#endif
+
 //#include "task.h"
 
 #define nil ((void*)0)
