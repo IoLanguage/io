@@ -52,9 +52,10 @@ endif
 
 ifneq (,$(findstring Windows,$(SYS)))
 CC := cl -nologo
-DLL_LIB_PREFIX :=
+DLL_LIB_PREFIX := lib
 LINKDLL := link
 LINKDLLOUTFLAG :=-out:
+LINKLIBFLAG := lib
 DLL_SUFFIX := dll
 DLL_COMMAND := -dll -debug /INCREMENTAL:NO -subsystem:CONSOLE 
 DLL_EXTRA_LIBS := ws2_32.lib shell32.lib
@@ -93,7 +94,7 @@ endif
 
 addons: vm
 	./_build/binaries/io_static$(BINARY_SUFFIX) build.io
-	@if [ -f errors ]; then cat errors; echo; echo "Note: addons do not to build when libs or headers are missing"; echo; rm errors; fi
+	@if [ -f errors ]; then cat errors; echo; echo "Note: addons do not build when libs or headers are missing"; echo; rm errors; fi
 
 vmlib:
 	mkdir -p _build || true

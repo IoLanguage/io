@@ -5,6 +5,7 @@ ErrorReport := Object clone do(
 
 	addError := method(error,
 		error print
+		Directory currentWorkingDirectory println
 		File clone openForAppending("errors") write(error) close
 	)
 )

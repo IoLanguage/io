@@ -17,7 +17,7 @@ install:
 	install -m 644 -o root -g root include/Variant.h /usr/local/include/sgml/Variant.h
 	install -m 644 -o root -g root include/libsgml.h /usr/local/include/sgml/libsgml.h
 	install -m 644 -o root -g root libsgml.a /usr/local/lib/libsgml.a
-	install -m 644 -o root -g root libsgml.so /usr/local/lib/libsgml.so
+	install -m 755 -o root -g root libsgml.so /usr/local/lib/libsgml.so
 
 uninstall:
 	rm -rf /usr/local/include/sgml /usr/local/lib/libsgml.a /usr/local/lib/libsgml.so

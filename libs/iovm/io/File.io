@@ -15,6 +15,9 @@ File do(
 	//doc File exitStatus System's close status (after file close).
   	exitStatus := nil
 
+	//doc File termSignal Pipe's terminating signal (after file close opened via popen).
+  	termSignal := nil
+
 	//doc File streamTo(aBuffer) Perform streamed reading to given buffer. The buffer will be appended with chunks of size streamReadSize until EOF. The final chunk may be less than streamReadSize.
 	streamTo := method(streamDestination,
 		b := Sequence clone

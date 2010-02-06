@@ -256,11 +256,12 @@ IO_METHOD(IoObject, system)
 	IoSymbol *s = IoMessage_locals_symbolArgAt_(m, locals, 0);
 	
 	char *buf = NULL;
+	int result = 0;
 	buf = (char *)getcwd(buf, 1024);
 	
 	//printf("CURDIR: [%s]\n", buf);
 	//printf("SYSTEM: [%s]\n", CSTRING(s));
-	int result = system(CSTRING(s))/ 256;
+	result = system(CSTRING(s))/ 256;
 	//printf("system result = %i\n", result);
 	return IONUMBER(result);
 }
