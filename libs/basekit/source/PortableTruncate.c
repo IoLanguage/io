@@ -4,7 +4,7 @@
 
 int PortableTruncate_justHereToAvoidRanlibWarning(void) { return 0; }
 
-#ifdef _WIN32
+#if defined(_WIN32) || defined(__MINGW32__)
 
 #include <stdio.h>
 #include <stdlib.h>

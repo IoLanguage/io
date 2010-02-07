@@ -85,6 +85,7 @@ endif
 
 ifneq (,$(findstring MINGW,$(SYS)))
 DLL_SUFFIX := dll
+CFLAGS += -mno-cygwin
 endif
 
 ifneq (,$(findstring Windows,$(SYS)))

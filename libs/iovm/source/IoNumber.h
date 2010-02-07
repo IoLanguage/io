@@ -19,7 +19,7 @@ extern "C" {
 #define IONUMBER(num) IoState_numberWithDouble_((IoState*)IOSTATE, (double)num)
 #define CNUMBER(self) IoObject_dataDouble((IoNumber *)self)
 
-#ifdef WIN32
+#if defined WIN32 && !defined __MINGW32__
 #define log2(num) log(num) / log(2)
 #endif
 
