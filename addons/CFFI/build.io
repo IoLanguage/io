@@ -10,8 +10,8 @@ AddonBuilder clone do(
 	headerSearchPaths foreach(path, appendHeaderSearchPath(path .. "/libffi"))
 	libSearchPaths foreach(libSearchPath, appendLibSearchPath(libSearchPath .. "/libffi"))
 
-	debs    atPut("libffi", "libffi-dev")
-	ebuilds atPut("libffi", "libffi")
-	pkgs    atPut("libffi", "libffi")
-	rpms    atPut("libffi", "libffi-devel")
+	debs    atPut("ffi", "libffi-dev")
+	ebuilds atPut("ffi", "libffi")
+	pkgs    atPut("ffi", "libffi")
+	rpms    atPut("ffi", "libffi-devel")
 )
