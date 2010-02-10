@@ -235,7 +235,7 @@ void IoFile_justClose(IoFile *self)
 			if (DATA(self)->flags == IOFILE_FLAGS_PIPE)
 			{
 				int exitStatus = pclose(stream);
-#if !defined(_MSC_VER)
+#if !defined(_MSC_VER) && !defined(__MINGW32__) /* No sys/wait.h in mingw, therefore can't use WIFEXITED, WEXITSTATUS, etc. */
 				if(WIFEXITED(exitStatus) == 1)
 				{
 					exitStatus = WEXITSTATUS(exitStatus);
