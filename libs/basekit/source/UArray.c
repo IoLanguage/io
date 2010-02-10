@@ -1078,9 +1078,9 @@ int UArray_contains_(const UArray *self, const UArray *other)
 
 long UArray_find_from_(const UArray *self, const UArray *other, size_t from)
 {
-  UArray s;
-  long i;
-  if (self->size < from) return -1;
+	UArray s;
+	long i;
+	if (self->size < from) return -1;
 	s = UArray_stackRange(self, from, self->size - from);
 	i = UArray_find_(&s, other);
 	return i == -1 ? -1 : from + i;

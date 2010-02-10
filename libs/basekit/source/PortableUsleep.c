@@ -1,6 +1,6 @@
 int PortableUsleep_justHereToAvoidRanlibWarning(void) { return 0; }
 
-#ifdef WIN32
+#if defined WIN32 && !defined __MINGW32__
 #include <windows.h>
 
 int usleep(unsigned int us)

@@ -39,13 +39,17 @@
 #include <unistd.h>
 #include <sys/time.h>
 #include <sys/types.h>
+#ifndef __MINGW32__
 #include <sys/wait.h>
+#endif
 #include <sched.h>
 #include <signal.h>
 #if USE_UCONTEXT
 	#include <ucontext.h>
 #endif
+#ifndef __MINGW32__
 #include <sys/utsname.h>
+#endif
 #include <inttypes.h>
 #endif
 

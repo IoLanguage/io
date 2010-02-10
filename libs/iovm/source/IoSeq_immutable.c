@@ -401,9 +401,12 @@ IO_METHOD(IoSeq, inclusiveSlice)
 
 IO_METHOD(IoSeq, between)
 {
-	/*doc Sequence between(aSequence, anotherSequence)
+	/*doc Sequence betweenSeq(aSequence, anotherSequence)
 	Returns a new Sequence containing the bytes between the
-	occurance of aSequence and anotherSequence in the receiver.
+	occurance of aSequence and anotherSequence in the receiver. 
+	If aSequence is empty, this method is equivalent to beforeSeq(anotherSequence).
+	If anotherSequence is nil, this method is equivalent to afterSeq(aSequence).
+	nil is returned if no match is found.
 	*/
 
 	long start = 0;
@@ -414,11 +417,20 @@ IO_METHOD(IoSeq, between)
 
 	if (ISSEQ(fromSeq))
 	{
-		start = UArray_find_from_(DATA(self), DATA(fromSeq), 0) + IoSeq_rawSize(fromSeq);
-
-		if (start == -1)
+		if (IoSeq_rawSize(fromSeq) == 0)
 		{
 			start = 0;
+		}
+		else
+		{
+			start = UArray_find_from_(DATA(self), DATA(fromSeq), 0);
+
+			if (start == -1)
+			{
+				//start = 0;
+				return IONIL(self);
+			}
+			start += IoSeq_rawSize(fromSeq);
 		}
 	}
 	else if (ISNIL(fromSeq))

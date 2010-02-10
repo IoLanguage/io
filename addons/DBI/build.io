@@ -4,6 +4,6 @@ AddonBuilder clone do(
 
 	debs    atPut("dbi", "libdbi0-dev")
 	ebuilds atPut("dbi", "libdbi")
-//	pkgs    atPut("dbi", "libdbi")
+	pkgs    atPut("dbi", "libdbi")
 	rpms    atPut("dbi", "libdbi-devel")
 )

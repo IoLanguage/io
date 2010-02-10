@@ -46,7 +46,9 @@ static char* getcwd(char* buf, int size) { return 0; }
 #define S_IXGRP 0
 #define S_IROTH 0
 #define S_IXOTH 0
+#ifndef	__MINGW32__
 #define S_IRWXU 0
+#endif
 
 #define DT_DIR 0x01
 #define MKDIR mkdir_win32
