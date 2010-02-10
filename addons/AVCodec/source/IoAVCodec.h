@@ -8,8 +8,8 @@
 #include "IoObject.h"
 #include "IoSeq.h"
 #include "IoList.h"
-#include <ffmpeg/avcodec.h>
-#include <ffmpeg/avformat.h>
+#include <libavcodec/avcodec.h>
+#include <libavformat/avformat.h>
 
 typedef IoObject IoAVCodec;
 

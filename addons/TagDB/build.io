@@ -12,4 +12,6 @@ AddonBuilder clone do(
 //			System system("cd addons/TagDB/source/tagdb; ./configure; echo \"sudo make install\"; sudo make install")
 //		)
 //	)
+
+	pkgs atPut("tokyocabinet", "tokyocabinet")
 )
