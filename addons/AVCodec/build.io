@@ -2,17 +2,20 @@ AddonBuilder clone do(
 	if(platform == "darwin",
 		dependsOnFramework("CoreAudio")
 		dependsOnFramework("AudioToolbox")
+		dependsOnHeader("libavcodec/avcodec.h")
+		dependsOnHeader("libavformat/avformat.h")
+	,
+		dependsOnHeader("ffmpeg/avcodec.h")
 	)
 
 	dependsOnLib("avformat")
 	dependsOnLib("avcodec")
 	dependsOnLib("avutil")
 
-	dependsOnHeader("ffmpeg/avcodec.h")
 	dependsOnLinkOption("-fno-common")
 
 	debs    atPut("avcodec", "libavcodec-dev")
 	ebuilds atPut("avcodec", "ffmpeg")
-	pkgs    atPut("avcodec", "ffmpeg-devel")
+	pkgs    atPut("avcodec", "ffmpeg")
 	rpms    atPut("avcodec", "ffmpeg-devel")
 )
