@@ -214,7 +214,7 @@ AddonBuilder := Object clone do(
 	pkgConfig := method(package, flags,
 		(platform == "windows") ifTrue(return(""))
 
-		resultfileName := (Directory currentWorkingDirectory) .. "/" .. (folder path) .. "/_build/_pkgconfig_" .. ((Random value * 1000) asHex)
+		resultfileName := (Directory currentWorkingDirectory) .. "/" .. (folder path) .. "/_build/_pkg-config"
 		statusCode := System system("pkg-config #{package} #{flags} --silence-errors > #{resultfileName}" interpolate)
 		if(statusCode == 0,
 			f := File openForReading(resultfileName)
