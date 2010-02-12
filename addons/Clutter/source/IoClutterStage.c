@@ -67,10 +67,10 @@ IoObject *IoMessage_locals_clutterStageArgAt_(IoMessage *self, IoObject *locals,
 /*** Object functions ***/
 IO_METHOD(IoClutterStage, getDefault) {
   ClutterActor *default_stage = clutter_stage_get_default();
-  //IoClutterStage *stage = IoClutterStage_newWithActor(IOSTATE, default_stage);
+  IoClutterStage *stage = IoClutterStage_newWithActor(IOSTATE, default_stage);
   IoClutterActor *actor = IoClutterActor_newWithActor(IOSTATE, default_stage);
 
-  //IoObject_setSlot_to_(stage, IOSYMBOL("actor"), actor);
+  IoObject_setSlot_to_(stage, IOSYMBOL("actor"), actor);
 
   return actor;
 }
