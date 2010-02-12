@@ -1,8 +1,8 @@
 Loudmouth do(
 //metadoc Loudmouth category Networking
-/*metadoc Lodumouth description 
+/*metadoc Lodumouth description
 <a href="http://groups.google.com/group/loudmouth-dev/">Lodumouth</a> is an async XMPP library written in C.
-  
+
 Example usage:
 <code><pre>
 acc := Loudmouth with("user@server.com", "super password") do(
@@ -13,7 +13,7 @@ acc := Loudmouth with("user@server.com", "super password") do(
     "#{msg from} > #{msg plainBody}" println
     body :=  msg plainBody
 
-    if(body indexOf("#") == 0, 
+    if(body indexOf("#") == 0,
       body = doString(body) asString)
 
     # This way you can manipulate
@@ -58,12 +58,12 @@ Loudmouth startMainLoop
   presence  := "available"
   statusMessage := nil
   _msgsBuffer::= nil
-  
+
   init := method(
     super(init)
     self _msgsBuffer = list())
 
-  //doc Loudmouth with(jid, password) Creates new Lodumouth clone with server details provided in <code>jid</code>. 
+  //doc Loudmouth with(jid, password) Creates new Lodumouth clone with server details provided in <code>jid</code>.
   with := method(jid, password,
     self clone\
       setJid(jid asString)\
@@ -89,9 +89,9 @@ Loudmouth startMainLoop
   handleMessage         := method()
 
   parseMessage := method(
-    e := try(self handleMessage(LoudmouthMessage with(self _msgsBuffer removeFirst)))
-    e catch(e println)
-    e)
+    while(self _msgsBuffer isEmpty not,
+      e := try(self handleMessage(LoudmouthMessage with(self _msgsBuffer removeFirst)))
+      e catch(e println)))
 
   //doc Loudmouth setPresence(presence[, statusMessage]) Sets aviability/presence and status message.
   setPresence := method(_presence, msg,

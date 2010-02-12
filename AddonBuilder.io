@@ -11,9 +11,9 @@ AddonBuilder := Object clone do(
 		cc := method(System getEnvironmentVariable("CC") ifNilEval(return "cl -nologo"))
 		cxx := method(System getEnvironmentVariable("CXX") ifNilEval(return "cl -nologo"))
 		ccOutFlag := "-Fo"
-		linkdll := "link -link -nologo /NODEFAULTLIB:LIBCMT"
+		linkdll := "link -link -nologo"
 		linkDirPathFlag := "-libpath:"
-		linkLibFlag := "lib"
+		linkLibFlag := ""
 		linkOutFlag := "-out:"
 		linkLibSuffix := ".lib"
 		ar := "link -lib -nologo"
@@ -178,7 +178,7 @@ AddonBuilder := Object clone do(
 		commands := Map clone
 		errors := ErrorReport clone
 		missingLibs(errors) foreach(p,
-			if(debs at(p), commands atPut("aptget", "apt-get -y install " .. debs at(p) .. " && ldconfig"))
+			if(debs at(p), commands atPut("aptget", "apt-get install " .. debs at(p) .. " && ldconfig"))
 			if(ebuilds at(p), commands atPut("emerge", "emerge -DN1 " .. ebuilds at(p)))
 			if(pkgs at(p), commands atPut("port", "port install " .. pkgs at(p)))
 			if(rpms at(p), commands atPut("urpmi", "urpmi " .. rpms at(p) .. " && ldconfig"))
@@ -193,7 +193,7 @@ AddonBuilder := Object clone do(
 	)
 
 	systemCall := method(s,
-		if(trySystemCall(s) == 256, System exit(1))
+    if(trySystemCall(s)== 256, System exit(1))
 	)
 
 	trySystemCall := method(s,
@@ -228,8 +228,8 @@ AddonBuilder := Object clone do(
 		)
 	)
 
-	pkgConfigLibs := method(pkg, pkgConfig(pkg, "--libs"))
-	pkgConfigCFlags := method(pkg, pkgConfig(pkg, "--cflags"))
+	pkgConfigLibs := method(pkg,    pkgConfig(pkg, "--libs"))
+	pkgConfigCFlags := method(pkg,  pkgConfig(pkg, "--cflags"))
 
 	// ------------------------------------
 
@@ -288,6 +288,7 @@ AddonBuilder := Object clone do(
 				)
 
 				s = s .. "-c " .. ccOutFlag .. "_build/objs/" .. obj .. " source/" .. f name
+				#s println; System exit;
 				systemCall(s)
 			)
 		)
@@ -339,8 +340,6 @@ AddonBuilder := Object clone do(
 			links appendSeq(depends addons map(v, "-Wl,--rpath -Wl," .. System installPrefix .. "/lib/io/addons/" .. v .. "/_build/dll/"))
 		)
 		links appendSeq(libSearchPaths map(v, linkDirPathFlag .. v))
-		links appendSeq(depends libs map(v, linkLibFlag .. v .. linkLibSuffix))
-		links appendSeq(list(linkDirPathFlag .. "../../_build/dll", linkLibFlag .. "iovmall" .. linkLibSuffix))
 
 		links appendSeq(depends libs map(v, pkgConfigLibs(v)))
 		links appendSeq(depends frameworks map(v, "-framework " .. v))
