@@ -123,8 +123,16 @@ AddonBuilder := Object clone do(
 	dependsOnHeader := method(v, depends headers appendIfAbsent(v))
 	dependsOnLib := method(v,
 		depends libs contains(v) ifFalse(
-			depends libs append(v)
+			pkgLibs := pkgConfigLibs(v)
+			if(pkgLibs isEmpty,
+				depends libs append(v)
+			,
+				pkgLibs map(l, depends libs appendIfAbsent(l))
+			)
 			searchPrefixes appendIfAbsent(v)
+			pkgConfigCFlags(v) select(containsSeq("/")) foreach(p,
+				appendHeaderSearchPath(p)
+			)
 		)
 	)
 	dependsOnFramework := method(v, depends frameworks appendIfAbsent(v))
@@ -227,8 +235,8 @@ AddonBuilder := Object clone do(
 		)
 	)
 
-	pkgConfigLibs := method(pkg, pkgConfig(pkg, "--libs"))
-	pkgConfigCFlags := method(pkg, pkgConfig(pkg, "--cflags"))
+	pkgConfigLibs 	:= method(pkg, pkgConfig(pkg, "--libs") splitNoEmpties(linkLibFlag) map(strip))
+	pkgConfigCFlags := method(pkg, pkgConfig(pkg, "--cflags") splitNoEmpties("-I") map(strip))
 	// ------------------------------------
 
 	name := method(folder name)
@@ -273,10 +281,7 @@ AddonBuilder := Object clone do(
 			if((objFile == nil) or(objFile lastDataChangeDate < f lastDataChangeDate),
 
 				includes := includePaths map(v, "-I" .. Path with("../../", v))
-				includes appendSeq(headerSearchPaths map(v,
-					cfileFlags := pkgConfigCFlags(v)
-					if(cfileFlags isEmpty, "-I" .. v, cfileFlags)
-				))
+				includes appendSeq(headerSearchPaths map(v, "-I" .. v))
 
 				s := cc .. " " .. options .. " " .. depends includes join(" ") .. " " .. includes join(" ") .. " -I. "
 				if(list("cygwin", "mingw", "windows") contains(platform) not,
@@ -339,10 +344,7 @@ AddonBuilder := Object clone do(
 			links appendSeq(depends addons map(v, "-Wl,--rpath -Wl," .. System installPrefix .. "/lib/io/addons/" .. v .. "/_build/dll/"))
 		)
 		links appendSeq(libSearchPaths map(v, linkDirPathFlag .. v))
-		links appendSeq(depends libs map(v,
-			r := pkgConfigLibs(v)
-			if(r isEmpty, linkLibFlag .. v .. linkLibSuffix, r)
-		))
+		links appendSeq(depends libs map(v, if(v at(0) asCharacter == "-", v, linkLibFlag .. v .. linkLibSuffix)))
 		links appendSeq(list(linkDirPathFlag .. "../../_build/dll", linkLibFlag .. "iovmall" .. linkLibSuffix))
 
 		links appendSeq(depends frameworks map(v, "-framework " .. v))
