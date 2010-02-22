@@ -146,6 +146,18 @@ Io> d remove(30)
 
 Io> d atPut(1, 123)
 ==> list(5, 123, 20)
+
+Io> list(30, 10, 5, 20) select(>10)
+==> list(30, 20)
+
+Io> list(30, 10, 5, 20) detect(>10)
+==> 30
+
+Io> list(30, 10, 5, 20) map(*2)
+==> list(60, 20, 10, 40)
+
+Io> list(30, 10, 5, 20) map(v, v*2)
+==> list(60, 20, 10, 40)
 </PRE>
 
 </tr><tr><td colspan=3 class=sectionDivider></td></tr>
