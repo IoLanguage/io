@@ -1,0 +1,340 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Io Reference Manual</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../docs.css">
+		</head>
+		<body>
+		
+<br><br><br>
+<table cellspacing=4 style="width:45em; line-height:1.2em;">
+<tr>
+<td>
+<a name=SecureServer></a><span class=protoName>SecureServer</span>
+</td>
+<td></td>
+<td>
+</tr>
+<tr>
+<td align=right><b><span class=protoModule>module</span></b></td>
+<td></td>
+<td>SecureSocket</td></tr>
+<tr>
+<td align=right><b><span class=protoCategory>category</span></b></td>
+<td></td>
+<td>Networking
+</td></tr>
+<tr>
+<td align=right><b><span class=protoDescription>description</span></b></td>
+<td></td>
+<td>Interface to secure network communication. 
+A SecureServer is a wrapper on an OpenSSL SSL_CTX object
+and supports both TLSv1 and DTLSv1.
+Example:
+
+<pre>
+//...
+</pre>""")
+</td></tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>index</h3>
+</td>
+<td></td>
+<td>
+<a href="#SecureServer-coro">
+coro
+</a><br>
+<a href="#SecureServer-debugOff">
+debugOff
+</a><br>
+<a href="#SecureServer-debugOn">
+debugOn
+</a><br>
+<a href="#SecureServer-debugWriteln">
+debugWriteln
+</a><br>
+<a href="#SecureServer-dispatch">
+dispatch
+</a><br>
+<a href="#SecureServer-dispatchCoro">
+dispatchCoro
+</a><br>
+<a href="#SecureServer-handleSocket">
+handleSocket
+</a><br>
+<a href="#SecureServer-port">
+port
+</a><br>
+<a href="#SecureServer-rawUseDTLS">
+rawUseDTLS
+</a><br>
+<a href="#SecureServer-rawUseTLS">
+rawUseTLS
+</a><br>
+<a href="#SecureServer-secureSocketForPeer">
+secureSocketForPeer
+</a><br>
+<a href="#SecureServer-setCAFile">
+setCAFile
+</a><br>
+<a href="#SecureServer-setCRLFile">
+setCRLFile
+</a><br>
+<a href="#SecureServer-setCertFile">
+setCertFile
+</a><br>
+<a href="#SecureServer-setCoro">
+setCoro
+</a><br>
+<a href="#SecureServer-setDispatchCoro">
+setDispatchCoro
+</a><br>
+<a href="#SecureServer-setHost">
+setHost()
+</a><br>
+<a href="#SecureServer-setKeyFile">
+setKeyFile
+</a><br>
+<a href="#SecureServer-setPort">
+setPort()
+</a><br>
+<a href="#SecureServer-setRequiresClientCertificate">
+setRequiresClientCertificate
+</a><br>
+<a href="#SecureServer-start">
+start
+</a><br>
+<a href="#SecureServer-stop">
+stop
+</a><br>
+<a href="#SecureServer-stopWhenUnused">
+stopWhenUnused
+</a><br>
+<a href="#SecureServer-supportsDTLS">
+supportsDTLS
+</a><br>
+<a href="#SecureServer-tlsWrap">
+tlsWrap
+</a><br>
+<a href="#SecureServer-useDTLS">
+useDTLS
+</a><br>
+<a href="#SecureServer-useTLS">
+useTLS
+</a><br>
+<a href="#SecureServer-usesTLS">
+usesTLS
+</a><br>
+</td>
+</tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>slots</h3>
+</td>
+<td></td>
+<td>
+<a name="SecureServer-coro"></a><b>
+coro
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-debugOff"></a><b>
+debugOff
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-debugOn"></a><b>
+debugOn
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-debugWriteln"></a><b>
+debugWriteln
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-dispatch"></a><b>
+dispatch
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-dispatchCoro"></a><b>
+dispatchCoro
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-handleSocket"></a><b>
+handleSocket
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-port"></a><b>
+port
+</b>
+<p>
+<div class=slotDescription>
+Returns the port on which the server will listen for connections.")
+</div>
+<a name="SecureServer-rawUseDTLS"></a><b>
+rawUseDTLS
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-rawUseTLS"></a><b>
+rawUseTLS
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-secureSocketForPeer"></a><b>
+secureSocketForPeer
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-setCAFile"></a><b>
+setCAFile
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-setCRLFile"></a><b>
+setCRLFile
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-setCertFile"></a><b>
+setCertFile
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-setCoro"></a><b>
+setCoro
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-setDispatchCoro"></a><b>
+setDispatchCoro
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-setHost"></a><b>
+setHost(hostName)
+</b>
+<p>
+<div class=slotDescription>
+Sets the hostName. Returns self.")
+</div>
+<a name="SecureServer-setKeyFile"></a><b>
+setKeyFile
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-setPort"></a><b>
+setPort(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Sets the port on which the server will listen  for connections. Returns self.")
+</div>
+<a name="SecureServer-setRequiresClientCertificate"></a><b>
+setRequiresClientCertificate
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-start"></a><b>
+start
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-stop"></a><b>
+stop
+</b>
+<p>
+<div class=slotDescription>
+Stops the server if it is running. Returns self.")
+</div>
+<a name="SecureServer-stopWhenUnused"></a><b>
+stopWhenUnused
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-supportsDTLS"></a><b>
+supportsDTLS
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-tlsWrap"></a><b>
+tlsWrap
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-useDTLS"></a><b>
+useDTLS
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-useTLS"></a><b>
+useTLS
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="SecureServer-usesTLS"></a><b>
+usesTLS
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

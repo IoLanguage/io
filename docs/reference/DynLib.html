@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Io Reference Manual</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../docs.css">
+		</head>
+		<body>
+		
+<br><br><br>
+<table cellspacing=4 style="width:45em; line-height:1.2em;">
+<tr>
+<td>
+<a name=DynLib></a><span class=protoName>DynLib</span>
+</td>
+<td></td>
+<td>
+</tr>
+<tr>
+<td align=right><b><span class=protoModule>module</span></b></td>
+<td></td>
+<td>Core</td></tr>
+<tr>
+<td align=right><b><span class=protoCategory>category</span></b></td>
+<td></td>
+<td>Core
+</td></tr>
+<tr>
+<td align=right><b><span class=protoDescription>description</span></b></td>
+<td></td>
+<td>A DLL Loader by Kentaro A. Kurahone.
+</td></tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>index</h3>
+</td>
+<td></td>
+<td>
+<a href="#DynLib-call">
+call()
+</a><br>
+<a href="#DynLib-callPluginInit">
+callPluginInit()
+</a><br>
+<a href="#DynLib-close">
+close
+</a><br>
+<a href="#DynLib-freeFuncName">
+freeFuncName
+</a><br>
+<a href="#DynLib-initFuncName">
+initFuncName
+</a><br>
+<a href="#DynLib-isOpen">
+isOpen
+</a><br>
+<a href="#DynLib-open">
+open
+</a><br>
+<a href="#DynLib-path">
+path
+</a><br>
+<a href="#DynLib-setFreeFuncName">
+setFreeFuncName()
+</a><br>
+<a href="#DynLib-setInitFuncName">
+setInitFuncName()
+</a><br>
+<a href="#DynLib-setPath">
+setPath()
+</a><br>
+<a href="#DynLib-voidCall">
+voidCall()
+</a><br>
+</td>
+</tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>slots</h3>
+</td>
+<td></td>
+<td>
+<a name="DynLib-call"></a><b>
+call(functionName, &lt;arg1&gt;, &lt;arg2&gt;, ...)
+</b>
+<p>
+<div class=slotDescription>
+Call's the dll function of the specified name with the arguments provided. 
+	Returns the a Number with the result value.
+</div>
+<a name="DynLib-callPluginInit"></a><b>
+callPluginInit(functionName)
+</b>
+<p>
+<div class=slotDescription>
+Call's the dll function of the specified name. 
+	Returns the result as a Number or raises an exception on error.
+</div>
+<a name="DynLib-close"></a><b>
+close
+</b>
+<p>
+<div class=slotDescription>
+Closes the library. Returns self.
+</div>
+<a name="DynLib-freeFuncName"></a><b>
+freeFuncName
+</b>
+<p>
+<div class=slotDescription>
+Returns the io_free function name.
+</div>
+<a name="DynLib-initFuncName"></a><b>
+initFuncName
+</b>
+<p>
+<div class=slotDescription>
+Returns the initialization function name.
+</div>
+<a name="DynLib-isOpen"></a><b>
+isOpen
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the library is open, or false otherwise.
+</div>
+<a name="DynLib-open"></a><b>
+open
+</b>
+<p>
+<div class=slotDescription>
+Opens the dynamic library and returns self or raises a DynLoad.open Error if there is an error.
+</div>
+<a name="DynLib-path"></a><b>
+path
+</b>
+<p>
+<div class=slotDescription>
+Returns the path to the dynamic library.
+</div>
+<a name="DynLib-setFreeFuncName"></a><b>
+setFreeFuncName(aString)
+</b>
+<p>
+<div class=slotDescription>
+Sets the io_free function name. Returns self.
+</div>
+<a name="DynLib-setInitFuncName"></a><b>
+setInitFuncName(aString)
+</b>
+<p>
+<div class=slotDescription>
+Sets the initialization function name for the dynamic library. Returns self.
+</div>
+<a name="DynLib-setPath"></a><b>
+setPath(aString)
+</b>
+<p>
+<div class=slotDescription>
+Sets the path to the dynamic library. Returns self.
+</div>
+<a name="DynLib-voidCall"></a><b>
+voidCall(functionName, &lt;arg1&gt;, &lt;arg2&gt;, ...)
+</b>
+<p>
+<div class=slotDescription>
+Same as call but for functions with no return value. Returns nil.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

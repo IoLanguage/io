@@ -1,0 +1,342 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Io Reference Manual</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../docs.css">
+		</head>
+		<body>
+		
+<br><br><br>
+<table cellspacing=4 style="width:45em; line-height:1.2em;">
+<tr>
+<td>
+<a name=Regex></a><span class=protoName>Regex</span>
+</td>
+<td></td>
+<td>
+</tr>
+<tr>
+<td align=right><b><span class=protoModule>module</span></b></td>
+<td></td>
+<td>Regex</td></tr>
+<tr>
+<td align=right><b><span class=protoCategory>category</span></b></td>
+<td></td>
+<td>Parsers
+</td></tr>
+<tr>
+<td align=right><b><span class=protoDescription>description</span></b></td>
+<td></td>
+<td><p>The Regex addon adds support for Perl regular expressions
+using the <a href=http://www.pcre.org/>PCRE</a> library by Philip Hazel.</p>
+
+<h4>Example 1</h4>
+<pre>	
+Io> re := "is.*a" asRegex
+Io> "This is a test. This is also a test." allMatchesOfRegex("is.*a") replaceAllWith("is not a")
+==> "This is not a test. This is not a test.
+</pre>
+
+<h4>Example 2</h4>
+<pre>	
+Io> "11aabb" allMatchesOfRegex("aa*")
+==> list("a", "a")
+
+Io> re := "(wom)(bat)" asRegex
+Io> "wombats are cuddly" matchesOfRegex(re) replaceAllWith("$2$1!")
+==> batwom!s are cuddly
+</pre>
+</td></tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>index</h3>
+</td>
+<td></td>
+<td>
+<a href="#Regex-asRegex">
+asRegex
+</a><br>
+<a href="#Regex-asString">
+asString
+</a><br>
+<a href="#Regex-captureCount">
+captureCount
+</a><br>
+<a href="#Regex-caseless">
+caseless
+</a><br>
+<a href="#Regex-dotAll">
+dotAll
+</a><br>
+<a href="#Regex-extended">
+extended
+</a><br>
+<a href="#Regex-isCaseless">
+isCaseless
+</a><br>
+<a href="#Regex-isDotAll">
+isDotAll
+</a><br>
+<a href="#Regex-isExtended">
+isExtended
+</a><br>
+<a href="#Regex-isMultiline">
+isMultiline
+</a><br>
+<a href="#Regex-matchesIn">
+matchesIn()
+</a><br>
+<a href="#Regex-multiline">
+multiline
+</a><br>
+<a href="#Regex-nameTable">
+nameTable
+</a><br>
+<a href="#Regex-namedCaptures">
+namedCaptures
+</a><br>
+<a href="#Regex-names">
+names
+</a><br>
+<a href="#Regex-notCaseless">
+notCaseless
+</a><br>
+<a href="#Regex-notDotAll">
+notDotAll
+</a><br>
+<a href="#Regex-notExtended">
+notExtended
+</a><br>
+<a href="#Regex-notMultiline">
+notMultiline
+</a><br>
+<a href="#Regex-pattern">
+pattern
+</a><br>
+<a href="#Regex-version">
+version
+</a><br>
+<a href="#Regex-with">
+with()
+</a><br>
+</td>
+</tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>slots</h3>
+</td>
+<td></td>
+<td>
+<a name="Regex-asRegex"></a><b>
+asRegex
+</b>
+<p>
+<div class=slotDescription>
+Returns self.
+</div>
+<a name="Regex-asString"></a><b>
+asString
+</b>
+<p>
+<div class=slotDescription>
+Returns a string containing a textual representation of the receiver.
+</div>
+<a name="Regex-captureCount"></a><b>
+captureCount
+</b>
+<p>
+<div class=slotDescription>
+Returns the number of captures defined by the pattern.
+</div>
+<a name="Regex-caseless"></a><b>
+caseless
+</b>
+<p>
+<div class=slotDescription>
+Returns a case insensitive clone of the receiver, or self if the receiver itself is
+	case insensitive:
+
+	<pre>	
+	Io> "WORD" matchesRegex("[a-z]+")
+	==> false
+
+	Io> "WORD" matchesRegex("[a-z]+" asRegex caseless)
+	==> true
+	</pre>
+</div>
+<a name="Regex-dotAll"></a><b>
+dotAll
+</b>
+<p>
+<div class=slotDescription>
+<p>Returns a clone of the receiver with the dotall option turned on,
+	or self if the receiver itself has the option turned on.</p>
+
+	<p>In dotall mode, "." matches any character, including newline. By default
+	it matches any character <em>except</em> newline.</p>
+
+	<pre>	
+	Io> "A\nB" matchesOfRegex(".+") next string
+	==> A
+
+	Io> "A\nB" matchesOfRegex(".+" asRegex dotAll) next string
+	==> A\nB
+	</pre>
+</div>
+<a name="Regex-extended"></a><b>
+extended
+</b>
+<p>
+<div class=slotDescription>
+<p>Returns a clone of the receiver with the extended option turned on,
+	or self if the receiver itself has the option turned on.</p>
+
+	<p>In extended mode, a Regex ignores any whitespace character in the pattern	except
+	when escaped or inside a character class. This allows you to write clearer patterns
+	that may be broken up into several lines.</p>
+
+	<p>Additionally, you can put comments in the pattern. A comment starts with a "#"
+	character and continues to the end of the line, unless the "#" is escaped or is
+	inside a character class.</p>
+</div>
+<a name="Regex-isCaseless"></a><b>
+isCaseless
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the receiver is case insensitive, false if not.
+</div>
+<a name="Regex-isDotAll"></a><b>
+isDotAll
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the receiver is in dotall mode, false if not.
+</div>
+<a name="Regex-isExtended"></a><b>
+isExtended
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the receiver is in extended mode, false if not.
+</div>
+<a name="Regex-isMultiline"></a><b>
+isMultiline
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the receiver is in multiline mode, false if not.
+</div>
+<a name="Regex-matchesIn"></a><b>
+matchesIn(aString)
+</b>
+<p>
+<div class=slotDescription>
+Returns a RegexMatches object that enumerates the matches of the receiver
+	in the given string.
+</div>
+<a name="Regex-multiline"></a><b>
+multiline
+</b>
+<p>
+<div class=slotDescription>
+<p>Returns a clone of the receiver with the multiline option turned on,
+	or self if the receiver itself has the option turned on.</p>
+
+	<p>In multiline mode, "^" matches at the beginning of the string and at
+	the beginning of each line; and "$" matches at the end of the string,
+	and at the end of each line.
+	By default "^" only matches at the beginning of the string, and "$"
+	only matches at the end of the string.</p>
+
+	<pre>	
+	Io> "A\nB\nC" allMatchesForRegex("^.")
+	==> list("A")
+
+	Io> "A\nB\nC" allMatchesForRegex("^." asRegex multiline)
+	==> list("A", "B", "C")
+	</pre>
+</div>
+<a name="Regex-nameTable"></a><b>
+nameTable
+</b>
+<p>
+<div class=slotDescription>
+Returns a list with the name of each capture.
+	The first element will always be nil, because it corresponds to the whole match.
+	The second element will contain the name of the first capture, or nil if the first
+	capture has no name.
+	And so on.
+</div>
+<a name="Regex-namedCaptures"></a><b>
+namedCaptures
+</b>
+<p>
+<div class=slotDescription>
+Returns a Map that contains the index of each named group.
+</div>
+<a name="Regex-names"></a><b>
+names
+</b>
+<p>
+<div class=slotDescription>
+Returns a list of the name of each named capture.
+	If there are no named captures, the list will be empty.
+</div>
+<a name="Regex-notCaseless"></a><b>
+notCaseless
+</b>
+<p>
+<div class=slotDescription>
+The reverse of caseless.
+</div>
+<a name="Regex-notDotAll"></a><b>
+notDotAll
+</b>
+<p>
+<div class=slotDescription>
+The reverse of dotAll.
+</div>
+<a name="Regex-notExtended"></a><b>
+notExtended
+</b>
+<p>
+<div class=slotDescription>
+The reverse of extended.
+</div>
+<a name="Regex-notMultiline"></a><b>
+notMultiline
+</b>
+<p>
+<div class=slotDescription>
+The reverse of multiline.
+</div>
+<a name="Regex-pattern"></a><b>
+pattern
+</b>
+<p>
+<div class=slotDescription>
+Returns the pattern string that the receiver was created from.
+</div>
+<a name="Regex-version"></a><b>
+version
+</b>
+<p>
+<div class=slotDescription>
+Returns a string with PCRE version information.
+</div>
+<a name="Regex-with"></a><b>
+with(pattern)
+</b>
+<p>
+<div class=slotDescription>
+Returns a new Regex created from the given pattern string.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

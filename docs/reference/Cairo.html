@@ -1,0 +1,1003 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Io Reference Manual</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../docs.css">
+		</head>
+		<body>
+		
+<br><br><br>
+<table cellspacing=4 style="width:45em; line-height:1.2em;">
+<tr>
+<td>
+<a name=Cairo></a><span class=protoName>Cairo</span>
+</td>
+<td></td>
+<td>
+</tr>
+<tr>
+<td align=right><b><span class=protoModule>module</span></b></td>
+<td></td>
+<td>Cairo</td></tr>
+<tr>
+<td align=right><b><span class=protoCategory>category</span></b></td>
+<td></td>
+<td>Graphics
+</td></tr>
+<tr>
+<td align=right><b><span class=protoDescription>description</span></b></td>
+<td></td>
+<td>Cairo is a 2D graphics library. http://cairographics.org/
+</td></tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>index</h3>
+</td>
+<td></td>
+<td>
+<a href="#Cairo-ANTIALIAS_DEFAULT">
+ANTIALIAS_DEFAULT
+</a><br>
+<a href="#Cairo-ANTIALIAS_GRAY">
+ANTIALIAS_GRAY
+</a><br>
+<a href="#Cairo-ANTIALIAS_NONE">
+ANTIALIAS_NONE
+</a><br>
+<a href="#Cairo-ANTIALIAS_SUBPIXEL">
+ANTIALIAS_SUBPIXEL
+</a><br>
+<a href="#Cairo-CONTENT_ALPHA">
+CONTENT_ALPHA
+</a><br>
+<a href="#Cairo-CONTENT_COLOR">
+CONTENT_COLOR
+</a><br>
+<a href="#Cairo-CONTENT_COLOR_ALPHA">
+CONTENT_COLOR_ALPHA
+</a><br>
+<a href="#Cairo-Context">
+Context
+</a><br>
+<a href="#Cairo-EXTEND_NONE">
+EXTEND_NONE
+</a><br>
+<a href="#Cairo-EXTEND_REFLECT">
+EXTEND_REFLECT
+</a><br>
+<a href="#Cairo-EXTEND_REPEAT">
+EXTEND_REPEAT
+</a><br>
+<a href="#Cairo-Extents">
+Extents
+</a><br>
+<a href="#Cairo-FILL_RULE_EVEN_ODD">
+FILL_RULE_EVEN_ODD
+</a><br>
+<a href="#Cairo-FILL_RULE_WINDING">
+FILL_RULE_WINDING
+</a><br>
+<a href="#Cairo-FILTER_BEST">
+FILTER_BEST
+</a><br>
+<a href="#Cairo-FILTER_BILINEAR">
+FILTER_BILINEAR
+</a><br>
+<a href="#Cairo-FILTER_FAST">
+FILTER_FAST
+</a><br>
+<a href="#Cairo-FILTER_GAUSSIAN">
+FILTER_GAUSSIAN
+</a><br>
+<a href="#Cairo-FILTER_GOOD">
+FILTER_GOOD
+</a><br>
+<a href="#Cairo-FILTER_NEAREST">
+FILTER_NEAREST
+</a><br>
+<a href="#Cairo-FONT_SLANT_ITALIC">
+FONT_SLANT_ITALIC
+</a><br>
+<a href="#Cairo-FONT_SLANT_NORMAL">
+FONT_SLANT_NORMAL
+</a><br>
+<a href="#Cairo-FONT_SLANT_OBLIQUE">
+FONT_SLANT_OBLIQUE
+</a><br>
+<a href="#Cairo-FONT_WEIGHT_BOLD">
+FONT_WEIGHT_BOLD
+</a><br>
+<a href="#Cairo-FONT_WEIGHT_NORMAL">
+FONT_WEIGHT_NORMAL
+</a><br>
+<a href="#Cairo-FORMAT_A1">
+FORMAT_A1
+</a><br>
+<a href="#Cairo-FORMAT_A8">
+FORMAT_A8
+</a><br>
+<a href="#Cairo-FORMAT_ARGB32">
+FORMAT_ARGB32
+</a><br>
+<a href="#Cairo-FORMAT_RGB16_565">
+FORMAT_RGB16_565
+</a><br>
+<a href="#Cairo-FORMAT_RGB24">
+FORMAT_RGB24
+</a><br>
+<a href="#Cairo-FontExtents">
+FontExtents
+</a><br>
+<a href="#Cairo-FontFace">
+FontFace
+</a><br>
+<a href="#Cairo-FontOptions">
+FontOptions
+</a><br>
+<a href="#Cairo-Glyph">
+Glyph
+</a><br>
+<a href="#Cairo-Gradient">
+Gradient
+</a><br>
+<a href="#Cairo-HAS_PDF_SURFACE">
+HAS_PDF_SURFACE
+</a><br>
+<a href="#Cairo-HAS_PNG_FUNCTIONS">
+HAS_PNG_FUNCTIONS
+</a><br>
+<a href="#Cairo-HAS_PS_SURFACE">
+HAS_PS_SURFACE
+</a><br>
+<a href="#Cairo-HAS_SVG_SURFACE">
+HAS_SVG_SURFACE
+</a><br>
+<a href="#Cairo-HINT_METRICS_DEFAULT">
+HINT_METRICS_DEFAULT
+</a><br>
+<a href="#Cairo-HINT_METRICS_OFF">
+HINT_METRICS_OFF
+</a><br>
+<a href="#Cairo-HINT_METRICS_ON">
+HINT_METRICS_ON
+</a><br>
+<a href="#Cairo-HINT_STYLE_DEFAULT">
+HINT_STYLE_DEFAULT
+</a><br>
+<a href="#Cairo-HINT_STYLE_FULL">
+HINT_STYLE_FULL
+</a><br>
+<a href="#Cairo-HINT_STYLE_MEDIUM">
+HINT_STYLE_MEDIUM
+</a><br>
+<a href="#Cairo-HINT_STYLE_NONE">
+HINT_STYLE_NONE
+</a><br>
+<a href="#Cairo-HINT_STYLE_SLIGHT">
+HINT_STYLE_SLIGHT
+</a><br>
+<a href="#Cairo-ImageSurface">
+ImageSurface
+</a><br>
+<a href="#Cairo-LINE_CAP_BUTT">
+LINE_CAP_BUTT
+</a><br>
+<a href="#Cairo-LINE_CAP_ROUND">
+LINE_CAP_ROUND
+</a><br>
+<a href="#Cairo-LINE_CAP_SQUARE">
+LINE_CAP_SQUARE
+</a><br>
+<a href="#Cairo-LINE_JOIN_BEVEL">
+LINE_JOIN_BEVEL
+</a><br>
+<a href="#Cairo-LINE_JOIN_MITER">
+LINE_JOIN_MITER
+</a><br>
+<a href="#Cairo-LINE_JOIN_ROUND">
+LINE_JOIN_ROUND
+</a><br>
+<a href="#Cairo-LinearGradient">
+LinearGradient
+</a><br>
+<a href="#Cairo-Matrix">
+Matrix
+</a><br>
+<a href="#Cairo-OPERATOR_ADD">
+OPERATOR_ADD
+</a><br>
+<a href="#Cairo-OPERATOR_ATOP">
+OPERATOR_ATOP
+</a><br>
+<a href="#Cairo-OPERATOR_CLEAR">
+OPERATOR_CLEAR
+</a><br>
+<a href="#Cairo-OPERATOR_DEST">
+OPERATOR_DEST
+</a><br>
+<a href="#Cairo-OPERATOR_DEST_ATOP">
+OPERATOR_DEST_ATOP
+</a><br>
+<a href="#Cairo-OPERATOR_DEST_IN">
+OPERATOR_DEST_IN
+</a><br>
+<a href="#Cairo-OPERATOR_DEST_OUT">
+OPERATOR_DEST_OUT
+</a><br>
+<a href="#Cairo-OPERATOR_DEST_OVER">
+OPERATOR_DEST_OVER
+</a><br>
+<a href="#Cairo-OPERATOR_IN">
+OPERATOR_IN
+</a><br>
+<a href="#Cairo-OPERATOR_OUT">
+OPERATOR_OUT
+</a><br>
+<a href="#Cairo-OPERATOR_OVER">
+OPERATOR_OVER
+</a><br>
+<a href="#Cairo-OPERATOR_SATURATE">
+OPERATOR_SATURATE
+</a><br>
+<a href="#Cairo-OPERATOR_SOURCE">
+OPERATOR_SOURCE
+</a><br>
+<a href="#Cairo-OPERATOR_XOR">
+OPERATOR_XOR
+</a><br>
+<a href="#Cairo-PATH_CLOSE_PATH">
+PATH_CLOSE_PATH
+</a><br>
+<a href="#Cairo-PATH_CURVE_TO">
+PATH_CURVE_TO
+</a><br>
+<a href="#Cairo-PATH_LINE_TO">
+PATH_LINE_TO
+</a><br>
+<a href="#Cairo-PATH_MOVE_TO">
+PATH_MOVE_TO
+</a><br>
+<a href="#Cairo-PDFSurface">
+PDFSurface
+</a><br>
+<a href="#Cairo-PSSurface">
+PSSurface
+</a><br>
+<a href="#Cairo-Path">
+Path
+</a><br>
+<a href="#Cairo-PathElement">
+PathElement
+</a><br>
+<a href="#Cairo-Pattern">
+Pattern
+</a><br>
+<a href="#Cairo-RadialGradient">
+RadialGradient
+</a><br>
+<a href="#Cairo-Rectangle">
+Rectangle
+</a><br>
+<a href="#Cairo-SUBPIXEL_ORDER_BGR">
+SUBPIXEL_ORDER_BGR
+</a><br>
+<a href="#Cairo-SUBPIXEL_ORDER_DEFAULT">
+SUBPIXEL_ORDER_DEFAULT
+</a><br>
+<a href="#Cairo-SUBPIXEL_ORDER_RGB">
+SUBPIXEL_ORDER_RGB
+</a><br>
+<a href="#Cairo-SUBPIXEL_ORDER_VBGR">
+SUBPIXEL_ORDER_VBGR
+</a><br>
+<a href="#Cairo-SUBPIXEL_ORDER_VRGB">
+SUBPIXEL_ORDER_VRGB
+</a><br>
+<a href="#Cairo-SVGSurface">
+SVGSurface
+</a><br>
+<a href="#Cairo-SVG_VERSION_1_1">
+SVG_VERSION_1_1
+</a><br>
+<a href="#Cairo-SVG_VERSION_1_2">
+SVG_VERSION_1_2
+</a><br>
+<a href="#Cairo-ScaledFont">
+ScaledFont
+</a><br>
+<a href="#Cairo-SolidPattern">
+SolidPattern
+</a><br>
+<a href="#Cairo-Surface">
+Surface
+</a><br>
+<a href="#Cairo-SurfacePattern">
+SurfacePattern
+</a><br>
+<a href="#Cairo-TextExtents">
+TextExtents
+</a><br>
+<a href="#Cairo-version">
+version
+</a><br>
+</td>
+</tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>slots</h3>
+</td>
+<td></td>
+<td>
+<a name="Cairo-ANTIALIAS_DEFAULT"></a><b>
+ANTIALIAS_DEFAULT
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-ANTIALIAS_GRAY"></a><b>
+ANTIALIAS_GRAY
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-ANTIALIAS_NONE"></a><b>
+ANTIALIAS_NONE
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-ANTIALIAS_SUBPIXEL"></a><b>
+ANTIALIAS_SUBPIXEL
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-CONTENT_ALPHA"></a><b>
+CONTENT_ALPHA
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-CONTENT_COLOR"></a><b>
+CONTENT_COLOR
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-CONTENT_COLOR_ALPHA"></a><b>
+CONTENT_COLOR_ALPHA
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-Context"></a><b>
+Context
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-EXTEND_NONE"></a><b>
+EXTEND_NONE
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-EXTEND_REFLECT"></a><b>
+EXTEND_REFLECT
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-EXTEND_REPEAT"></a><b>
+EXTEND_REPEAT
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-Extents"></a><b>
+Extents
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FILL_RULE_EVEN_ODD"></a><b>
+FILL_RULE_EVEN_ODD
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FILL_RULE_WINDING"></a><b>
+FILL_RULE_WINDING
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FILTER_BEST"></a><b>
+FILTER_BEST
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FILTER_BILINEAR"></a><b>
+FILTER_BILINEAR
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FILTER_FAST"></a><b>
+FILTER_FAST
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FILTER_GAUSSIAN"></a><b>
+FILTER_GAUSSIAN
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FILTER_GOOD"></a><b>
+FILTER_GOOD
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FILTER_NEAREST"></a><b>
+FILTER_NEAREST
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FONT_SLANT_ITALIC"></a><b>
+FONT_SLANT_ITALIC
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FONT_SLANT_NORMAL"></a><b>
+FONT_SLANT_NORMAL
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FONT_SLANT_OBLIQUE"></a><b>
+FONT_SLANT_OBLIQUE
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FONT_WEIGHT_BOLD"></a><b>
+FONT_WEIGHT_BOLD
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FONT_WEIGHT_NORMAL"></a><b>
+FONT_WEIGHT_NORMAL
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FORMAT_A1"></a><b>
+FORMAT_A1
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FORMAT_A8"></a><b>
+FORMAT_A8
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FORMAT_ARGB32"></a><b>
+FORMAT_ARGB32
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FORMAT_RGB16_565"></a><b>
+FORMAT_RGB16_565
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FORMAT_RGB24"></a><b>
+FORMAT_RGB24
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FontExtents"></a><b>
+FontExtents
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FontFace"></a><b>
+FontFace
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-FontOptions"></a><b>
+FontOptions
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-Glyph"></a><b>
+Glyph
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-Gradient"></a><b>
+Gradient
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-HAS_PDF_SURFACE"></a><b>
+HAS_PDF_SURFACE
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-HAS_PNG_FUNCTIONS"></a><b>
+HAS_PNG_FUNCTIONS
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-HAS_PS_SURFACE"></a><b>
+HAS_PS_SURFACE
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-HAS_SVG_SURFACE"></a><b>
+HAS_SVG_SURFACE
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-HINT_METRICS_DEFAULT"></a><b>
+HINT_METRICS_DEFAULT
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-HINT_METRICS_OFF"></a><b>
+HINT_METRICS_OFF
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-HINT_METRICS_ON"></a><b>
+HINT_METRICS_ON
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-HINT_STYLE_DEFAULT"></a><b>
+HINT_STYLE_DEFAULT
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-HINT_STYLE_FULL"></a><b>
+HINT_STYLE_FULL
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-HINT_STYLE_MEDIUM"></a><b>
+HINT_STYLE_MEDIUM
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-HINT_STYLE_NONE"></a><b>
+HINT_STYLE_NONE
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-HINT_STYLE_SLIGHT"></a><b>
+HINT_STYLE_SLIGHT
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-ImageSurface"></a><b>
+ImageSurface
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-LINE_CAP_BUTT"></a><b>
+LINE_CAP_BUTT
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-LINE_CAP_ROUND"></a><b>
+LINE_CAP_ROUND
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-LINE_CAP_SQUARE"></a><b>
+LINE_CAP_SQUARE
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-LINE_JOIN_BEVEL"></a><b>
+LINE_JOIN_BEVEL
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-LINE_JOIN_MITER"></a><b>
+LINE_JOIN_MITER
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-LINE_JOIN_ROUND"></a><b>
+LINE_JOIN_ROUND
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-LinearGradient"></a><b>
+LinearGradient
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-Matrix"></a><b>
+Matrix
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-OPERATOR_ADD"></a><b>
+OPERATOR_ADD
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-OPERATOR_ATOP"></a><b>
+OPERATOR_ATOP
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-OPERATOR_CLEAR"></a><b>
+OPERATOR_CLEAR
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-OPERATOR_DEST"></a><b>
+OPERATOR_DEST
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-OPERATOR_DEST_ATOP"></a><b>
+OPERATOR_DEST_ATOP
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-OPERATOR_DEST_IN"></a><b>
+OPERATOR_DEST_IN
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-OPERATOR_DEST_OUT"></a><b>
+OPERATOR_DEST_OUT
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-OPERATOR_DEST_OVER"></a><b>
+OPERATOR_DEST_OVER
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-OPERATOR_IN"></a><b>
+OPERATOR_IN
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-OPERATOR_OUT"></a><b>
+OPERATOR_OUT
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-OPERATOR_OVER"></a><b>
+OPERATOR_OVER
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-OPERATOR_SATURATE"></a><b>
+OPERATOR_SATURATE
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-OPERATOR_SOURCE"></a><b>
+OPERATOR_SOURCE
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-OPERATOR_XOR"></a><b>
+OPERATOR_XOR
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-PATH_CLOSE_PATH"></a><b>
+PATH_CLOSE_PATH
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-PATH_CURVE_TO"></a><b>
+PATH_CURVE_TO
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-PATH_LINE_TO"></a><b>
+PATH_LINE_TO
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-PATH_MOVE_TO"></a><b>
+PATH_MOVE_TO
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-PDFSurface"></a><b>
+PDFSurface
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-PSSurface"></a><b>
+PSSurface
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-Path"></a><b>
+Path
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-PathElement"></a><b>
+PathElement
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-Pattern"></a><b>
+Pattern
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-RadialGradient"></a><b>
+RadialGradient
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-Rectangle"></a><b>
+Rectangle
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-SUBPIXEL_ORDER_BGR"></a><b>
+SUBPIXEL_ORDER_BGR
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-SUBPIXEL_ORDER_DEFAULT"></a><b>
+SUBPIXEL_ORDER_DEFAULT
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-SUBPIXEL_ORDER_RGB"></a><b>
+SUBPIXEL_ORDER_RGB
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-SUBPIXEL_ORDER_VBGR"></a><b>
+SUBPIXEL_ORDER_VBGR
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-SUBPIXEL_ORDER_VRGB"></a><b>
+SUBPIXEL_ORDER_VRGB
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-SVGSurface"></a><b>
+SVGSurface
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-SVG_VERSION_1_1"></a><b>
+SVG_VERSION_1_1
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-SVG_VERSION_1_2"></a><b>
+SVG_VERSION_1_2
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-ScaledFont"></a><b>
+ScaledFont
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-SolidPattern"></a><b>
+SolidPattern
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-Surface"></a><b>
+Surface
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-SurfacePattern"></a><b>
+SurfacePattern
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-TextExtents"></a><b>
+TextExtents
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Cairo-version"></a><b>
+version
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Io Reference Manual</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../docs.css">
+		</head>
+		<body>
+		
+<br><br><br>
+<table cellspacing=4 style="width:45em; line-height:1.2em;">
+<tr>
+<td>
+<a name=ObsidianServer></a><span class=protoName>ObsidianServer</span>
+</td>
+<td></td>
+<td>
+</tr>
+<tr>
+<td align=right><b><span class=protoModule>module</span></b></td>
+<td></td>
+<td>Obsidian</td></tr>
+<tr>
+<td align=right><b><span class=protoCategory>category</span></b></td>
+<td></td>
+<td>Databases
+</td></tr>
+<tr>
+<td align=right><b><span class=protoDescription>description</span></b></td>
+<td></td>
+<td>
+A network interface for Obsidian.
+
+<h4>Starting a Server</h4>
+
+<pre>
+oServer := ObsidianServer clone
+oServer localObject setName("foo") open
+oServer start
+</pre>
+
+<h4>Example Client Code</h4>
+
+<pre>
+client := MDOConnection clone setHost("127.0.0.1") setPort(8000) connect
+client onAtPut("1", "aKey", "aSlot")
+client onAtPut("1", "cKey", "cSlot")
+client onAtPut("1", "bKey", "bSlot")
+client first("1", 5) println
+a := client onAt("1", "aKey")
+writeln("a = ", a)
+b := client onAt("1", "bKey")
+writeln("b = ", b)
+client close
+</pre>
+
+The messages accepted by the Obsidian server include:
+
+<pre>
+onAtPut(id, key, value)
+onAt(id, key)
+onRemoveAt(id, key)
+onFirst(id, count)
+onLast(id, count)
+onAfter(id, key, count)
+onBefore(id, key, count)
+</pre>
+</td></tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>index</h3>
+</td>
+<td></td>
+<td>
+</td>
+</tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>slots</h3>
+</td>
+<td></td>
+<td>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

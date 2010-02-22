@@ -1,0 +1,263 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Io Reference Manual</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../docs.css">
+		</head>
+		<body>
+		
+<br><br><br>
+<table cellspacing=4 style="width:45em; line-height:1.2em;">
+<tr>
+<td>
+<a name=Addon></a><span class=protoName>Addon</span>
+</td>
+<td></td>
+<td>
+</tr>
+<tr>
+<td align=right><b><span class=protoModule>module</span></b></td>
+<td></td>
+<td>Core</td></tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>index</h3>
+</td>
+<td></td>
+<td>
+<a href="#Addon-addonFor">
+addonFor()
+</a><br>
+<a href="#Addon-addonPath">
+addonPath
+</a><br>
+<a href="#Addon-addonProtos">
+addonProtos
+</a><br>
+<a href="#Addon-addons">
+addons
+</a><br>
+<a href="#Addon-appendSearchPath">
+appendSearchPath()
+</a><br>
+<a href="#Addon-dependencies">
+dependencies
+</a><br>
+<a href="#Addon-dllName">
+dllName
+</a><br>
+<a href="#Addon-dllPath">
+dllPath
+</a><br>
+<a href="#Addon-dllSuffix">
+dllSuffix
+</a><br>
+<a href="#Addon-exists">
+exists
+</a><br>
+<a href="#Addon-hasAddonNamed">
+hasAddonNamed()
+</a><br>
+<a href="#Addon-ioFiles">
+ioFiles
+</a><br>
+<a href="#Addon-load">
+load
+</a><br>
+<a href="#Addon-loadAddonNamed">
+loadAddonNamed()
+</a><br>
+<a href="#Addon-loadDependencies">
+loadDependencies
+</a><br>
+<a href="#Addon-name">
+name
+</a><br>
+<a href="#Addon-platform">
+platform
+</a><br>
+<a href="#Addon-rootPath">
+rootPath
+</a><br>
+<a href="#Addon-searchPaths">
+searchPaths
+</a><br>
+<a href="#Addon-setName">
+setName()
+</a><br>
+<a href="#Addon-setRootPath">
+setRootPath()
+</a><br>
+<a href="#Addon-sourcePath">
+sourcePath
+</a><br>
+</td>
+</tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>slots</h3>
+</td>
+<td></td>
+<td>
+<a name="Addon-addonFor"></a><b>
+addonFor(aName)
+</b>
+<p>
+<div class=slotDescription>
+Returns the Addon with the given name if it can be found or nil otherwise.
+</div>
+<a name="Addon-addonPath"></a><b>
+addonPath
+</b>
+<p>
+<div class=slotDescription>
+Implemented as Path with(rootPath, name).
+</div>
+<a name="Addon-addonProtos"></a><b>
+addonProtos
+</b>
+<p>
+<div class=slotDescription>
+Returns names of protos defined in the addon from the addon's protos file.
+</div>
+<a name="Addon-addons"></a><b>
+addons
+</b>
+<p>
+<div class=slotDescription>
+Looks for all addons which can be found and returns them as a list of Addon objects. Caches the result the first time it is called.
+</div>
+<a name="Addon-appendSearchPath"></a><b>
+appendSearchPath(aSequence)
+</b>
+<p>
+<div class=slotDescription>
+Appends the argument to the list of search paths.
+</div>
+<a name="Addon-dependencies"></a><b>
+dependencies
+</b>
+<p>
+<div class=slotDescription>
+Returns the list of dependencies from the addon's depends file.
+</div>
+<a name="Addon-dllName"></a><b>
+dllName
+</b>
+<p>
+<div class=slotDescription>
+Return the name of the dll for the addon.
+</div>
+<a name="Addon-dllPath"></a><b>
+dllPath
+</b>
+<p>
+<div class=slotDescription>
+Returns the path to the dll for the addon. Note: not all addons have dlls - some just contain io files.
+</div>
+<a name="Addon-dllSuffix"></a><b>
+dllSuffix
+</b>
+<p>
+<div class=slotDescription>
+Returns the platform specific dll suffix.
+</div>
+<a name="Addon-exists"></a><b>
+exists
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the addonPath exists, false otherwise.
+</div>
+<a name="Addon-hasAddonNamed"></a><b>
+hasAddonNamed(aName)
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the named addon can be found, false otherwise.
+</div>
+<a name="Addon-ioFiles"></a><b>
+ioFiles
+</b>
+<p>
+<div class=slotDescription>
+Return list of io File objects for the io files in the io folder of the addon.
+</div>
+<a name="Addon-load"></a><b>
+load
+</b>
+<p>
+<div class=slotDescription>
+Loads the addon.
+</div>
+<a name="Addon-loadAddonNamed"></a><b>
+loadAddonNamed(aName)
+</b>
+<p>
+<div class=slotDescription>
+Loads the Addon with the given name if it can be found or nil otherwise.
+</div>
+<a name="Addon-loadDependencies"></a><b>
+loadDependencies
+</b>
+<p>
+<div class=slotDescription>
+Loads the addon's dependencies. Called from the load method.
+</div>
+<a name="Addon-name"></a><b>
+name
+</b>
+<p>
+<div class=slotDescription>
+Returns the name of the addon.
+</div>
+<a name="Addon-platform"></a><b>
+platform
+</b>
+<p>
+<div class=slotDescription>
+Implemented as method(System platform asLowercase).
+</div>
+<a name="Addon-rootPath"></a><b>
+rootPath
+</b>
+<p>
+<div class=slotDescription>
+Returns the rootPath of the addon's folder.
+</div>
+<a name="Addon-searchPaths"></a><b>
+searchPaths
+</b>
+<p>
+<div class=slotDescription>
+Returns the list of paths to search for addons.
+</div>
+<a name="Addon-setName"></a><b>
+setName(aSequence)
+</b>
+<p>
+<div class=slotDescription>
+Sets the name of the addon. Returns self.
+</div>
+<a name="Addon-setRootPath"></a><b>
+setRootPath(aSequence)
+</b>
+<p>
+<div class=slotDescription>
+Sets rootPath of the addon's folder. Returns self.
+</div>
+<a name="Addon-sourcePath"></a><b>
+sourcePath
+</b>
+<p>
+<div class=slotDescription>
+Returns the path of the source folder for the addon.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

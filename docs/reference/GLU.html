@@ -1,0 +1,1819 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Io Reference Manual</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../docs.css">
+		</head>
+		<body>
+		
+<br><br><br>
+<table cellspacing=4 style="width:45em; line-height:1.2em;">
+<tr>
+<td>
+<a name=GLU></a><span class=protoName>GLU</span>
+</td>
+<td></td>
+<td>
+</tr>
+<tr>
+<td align=right><b><span class=protoModule>module</span></b></td>
+<td></td>
+<td>OpenGL</td></tr>
+<tr>
+<td align=right><b><span class=protoCategory>category</span></b></td>
+<td></td>
+<td>Graphics
+</td></tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>index</h3>
+</td>
+<td></td>
+<td>
+<a href="#GLU-GLU_AUTO_LOAD_MATRIX">
+GLU_AUTO_LOAD_MATRIX
+</a><br>
+<a href="#GLU-GLU_BEGIN">
+GLU_BEGIN
+</a><br>
+<a href="#GLU-GLU_CCW">
+GLU_CCW
+</a><br>
+<a href="#GLU-GLU_CULLING">
+GLU_CULLING
+</a><br>
+<a href="#GLU-GLU_CW">
+GLU_CW
+</a><br>
+<a href="#GLU-GLU_DISPLAY_MODE">
+GLU_DISPLAY_MODE
+</a><br>
+<a href="#GLU-GLU_DOMAIN_DISTANCE">
+GLU_DOMAIN_DISTANCE
+</a><br>
+<a href="#GLU-GLU_EDGE_FLAG">
+GLU_EDGE_FLAG
+</a><br>
+<a href="#GLU-GLU_END">
+GLU_END
+</a><br>
+<a href="#GLU-GLU_ERROR">
+GLU_ERROR
+</a><br>
+<a href="#GLU-GLU_EXTENSIONS">
+GLU_EXTENSIONS
+</a><br>
+<a href="#GLU-GLU_EXTERIOR">
+GLU_EXTERIOR
+</a><br>
+<a href="#GLU-GLU_FALSE">
+GLU_FALSE
+</a><br>
+<a href="#GLU-GLU_FILL">
+GLU_FILL
+</a><br>
+<a href="#GLU-GLU_FLAT">
+GLU_FLAT
+</a><br>
+<a href="#GLU-GLU_INSIDE">
+GLU_INSIDE
+</a><br>
+<a href="#GLU-GLU_INTERIOR">
+GLU_INTERIOR
+</a><br>
+<a href="#GLU-GLU_INVALID_ENUM">
+GLU_INVALID_ENUM
+</a><br>
+<a href="#GLU-GLU_INVALID_OPERATION">
+GLU_INVALID_OPERATION
+</a><br>
+<a href="#GLU-GLU_INVALID_VALUE">
+GLU_INVALID_VALUE
+</a><br>
+<a href="#GLU-GLU_LINE">
+GLU_LINE
+</a><br>
+<a href="#GLU-GLU_MAP1_TRIM_2">
+GLU_MAP1_TRIM_2
+</a><br>
+<a href="#GLU-GLU_MAP1_TRIM_3">
+GLU_MAP1_TRIM_3
+</a><br>
+<a href="#GLU-GLU_NONE">
+GLU_NONE
+</a><br>
+<a href="#GLU-GLU_NURBS_BEGIN">
+GLU_NURBS_BEGIN
+</a><br>
+<a href="#GLU-GLU_NURBS_BEGIN_DATA">
+GLU_NURBS_BEGIN_DATA
+</a><br>
+<a href="#GLU-GLU_NURBS_BEGIN_DATA_EXT">
+GLU_NURBS_BEGIN_DATA_EXT
+</a><br>
+<a href="#GLU-GLU_NURBS_BEGIN_EXT">
+GLU_NURBS_BEGIN_EXT
+</a><br>
+<a href="#GLU-GLU_NURBS_COLOR">
+GLU_NURBS_COLOR
+</a><br>
+<a href="#GLU-GLU_NURBS_COLOR_DATA">
+GLU_NURBS_COLOR_DATA
+</a><br>
+<a href="#GLU-GLU_NURBS_COLOR_DATA_EXT">
+GLU_NURBS_COLOR_DATA_EXT
+</a><br>
+<a href="#GLU-GLU_NURBS_COLOR_EXT">
+GLU_NURBS_COLOR_EXT
+</a><br>
+<a href="#GLU-GLU_NURBS_END">
+GLU_NURBS_END
+</a><br>
+<a href="#GLU-GLU_NURBS_END_DATA">
+GLU_NURBS_END_DATA
+</a><br>
+<a href="#GLU-GLU_NURBS_END_DATA_EXT">
+GLU_NURBS_END_DATA_EXT
+</a><br>
+<a href="#GLU-GLU_NURBS_END_EXT">
+GLU_NURBS_END_EXT
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR">
+GLU_NURBS_ERROR
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR1">
+GLU_NURBS_ERROR1
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR10">
+GLU_NURBS_ERROR10
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR11">
+GLU_NURBS_ERROR11
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR12">
+GLU_NURBS_ERROR12
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR13">
+GLU_NURBS_ERROR13
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR14">
+GLU_NURBS_ERROR14
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR15">
+GLU_NURBS_ERROR15
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR16">
+GLU_NURBS_ERROR16
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR17">
+GLU_NURBS_ERROR17
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR18">
+GLU_NURBS_ERROR18
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR19">
+GLU_NURBS_ERROR19
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR2">
+GLU_NURBS_ERROR2
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR20">
+GLU_NURBS_ERROR20
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR21">
+GLU_NURBS_ERROR21
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR22">
+GLU_NURBS_ERROR22
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR23">
+GLU_NURBS_ERROR23
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR24">
+GLU_NURBS_ERROR24
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR25">
+GLU_NURBS_ERROR25
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR26">
+GLU_NURBS_ERROR26
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR27">
+GLU_NURBS_ERROR27
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR28">
+GLU_NURBS_ERROR28
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR29">
+GLU_NURBS_ERROR29
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR3">
+GLU_NURBS_ERROR3
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR30">
+GLU_NURBS_ERROR30
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR31">
+GLU_NURBS_ERROR31
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR32">
+GLU_NURBS_ERROR32
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR33">
+GLU_NURBS_ERROR33
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR34">
+GLU_NURBS_ERROR34
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR35">
+GLU_NURBS_ERROR35
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR36">
+GLU_NURBS_ERROR36
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR37">
+GLU_NURBS_ERROR37
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR4">
+GLU_NURBS_ERROR4
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR5">
+GLU_NURBS_ERROR5
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR6">
+GLU_NURBS_ERROR6
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR7">
+GLU_NURBS_ERROR7
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR8">
+GLU_NURBS_ERROR8
+</a><br>
+<a href="#GLU-GLU_NURBS_ERROR9">
+GLU_NURBS_ERROR9
+</a><br>
+<a href="#GLU-GLU_NURBS_MODE">
+GLU_NURBS_MODE
+</a><br>
+<a href="#GLU-GLU_NURBS_MODE_EXT">
+GLU_NURBS_MODE_EXT
+</a><br>
+<a href="#GLU-GLU_NURBS_NORMAL">
+GLU_NURBS_NORMAL
+</a><br>
+<a href="#GLU-GLU_NURBS_NORMAL_DATA">
+GLU_NURBS_NORMAL_DATA
+</a><br>
+<a href="#GLU-GLU_NURBS_NORMAL_DATA_EXT">
+GLU_NURBS_NORMAL_DATA_EXT
+</a><br>
+<a href="#GLU-GLU_NURBS_NORMAL_EXT">
+GLU_NURBS_NORMAL_EXT
+</a><br>
+<a href="#GLU-GLU_NURBS_RENDERER">
+GLU_NURBS_RENDERER
+</a><br>
+<a href="#GLU-GLU_NURBS_RENDERER_EXT">
+GLU_NURBS_RENDERER_EXT
+</a><br>
+<a href="#GLU-GLU_NURBS_TESSELLATOR">
+GLU_NURBS_TESSELLATOR
+</a><br>
+<a href="#GLU-GLU_NURBS_TESSELLATOR_EXT">
+GLU_NURBS_TESSELLATOR_EXT
+</a><br>
+<a href="#GLU-GLU_NURBS_TEXTURE_COORD">
+GLU_NURBS_TEXTURE_COORD
+</a><br>
+<a href="#GLU-GLU_NURBS_TEXTURE_COORD_DATA">
+GLU_NURBS_TEXTURE_COORD_DATA
+</a><br>
+<a href="#GLU-GLU_NURBS_TEX_COORD_DATA_EXT">
+GLU_NURBS_TEX_COORD_DATA_EXT
+</a><br>
+<a href="#GLU-GLU_NURBS_TEX_COORD_EXT">
+GLU_NURBS_TEX_COORD_EXT
+</a><br>
+<a href="#GLU-GLU_NURBS_VERTEX">
+GLU_NURBS_VERTEX
+</a><br>
+<a href="#GLU-GLU_NURBS_VERTEX_DATA">
+GLU_NURBS_VERTEX_DATA
+</a><br>
+<a href="#GLU-GLU_NURBS_VERTEX_DATA_EXT">
+GLU_NURBS_VERTEX_DATA_EXT
+</a><br>
+<a href="#GLU-GLU_NURBS_VERTEX_EXT">
+GLU_NURBS_VERTEX_EXT
+</a><br>
+<a href="#GLU-GLU_OBJECT_PARAMETRIC_ERROR">
+GLU_OBJECT_PARAMETRIC_ERROR
+</a><br>
+<a href="#GLU-GLU_OBJECT_PARAMETRIC_ERROR_EXT">
+GLU_OBJECT_PARAMETRIC_ERROR_EXT
+</a><br>
+<a href="#GLU-GLU_OBJECT_PATH_LENGTH">
+GLU_OBJECT_PATH_LENGTH
+</a><br>
+<a href="#GLU-GLU_OBJECT_PATH_LENGTH_EXT">
+GLU_OBJECT_PATH_LENGTH_EXT
+</a><br>
+<a href="#GLU-GLU_OUTLINE_PATCH">
+GLU_OUTLINE_PATCH
+</a><br>
+<a href="#GLU-GLU_OUTLINE_POLYGON">
+GLU_OUTLINE_POLYGON
+</a><br>
+<a href="#GLU-GLU_OUTSIDE">
+GLU_OUTSIDE
+</a><br>
+<a href="#GLU-GLU_OUT_OF_MEMORY">
+GLU_OUT_OF_MEMORY
+</a><br>
+<a href="#GLU-GLU_PARAMETRIC_ERROR">
+GLU_PARAMETRIC_ERROR
+</a><br>
+<a href="#GLU-GLU_PARAMETRIC_TOLERANCE">
+GLU_PARAMETRIC_TOLERANCE
+</a><br>
+<a href="#GLU-GLU_PATH_LENGTH">
+GLU_PATH_LENGTH
+</a><br>
+<a href="#GLU-GLU_POINT">
+GLU_POINT
+</a><br>
+<a href="#GLU-GLU_SAMPLING_METHOD">
+GLU_SAMPLING_METHOD
+</a><br>
+<a href="#GLU-GLU_SAMPLING_TOLERANCE">
+GLU_SAMPLING_TOLERANCE
+</a><br>
+<a href="#GLU-GLU_SILHOUETTE">
+GLU_SILHOUETTE
+</a><br>
+<a href="#GLU-GLU_SMOOTH">
+GLU_SMOOTH
+</a><br>
+<a href="#GLU-GLU_TESS_BEGIN">
+GLU_TESS_BEGIN
+</a><br>
+<a href="#GLU-GLU_TESS_BEGIN_DATA">
+GLU_TESS_BEGIN_DATA
+</a><br>
+<a href="#GLU-GLU_TESS_BOUNDARY_ONLY">
+GLU_TESS_BOUNDARY_ONLY
+</a><br>
+<a href="#GLU-GLU_TESS_COMBINE">
+GLU_TESS_COMBINE
+</a><br>
+<a href="#GLU-GLU_TESS_COMBINE_DATA">
+GLU_TESS_COMBINE_DATA
+</a><br>
+<a href="#GLU-GLU_TESS_COORD_TOO_LARGE">
+GLU_TESS_COORD_TOO_LARGE
+</a><br>
+<a href="#GLU-GLU_TESS_EDGE_FLAG">
+GLU_TESS_EDGE_FLAG
+</a><br>
+<a href="#GLU-GLU_TESS_EDGE_FLAG_DATA">
+GLU_TESS_EDGE_FLAG_DATA
+</a><br>
+<a href="#GLU-GLU_TESS_END">
+GLU_TESS_END
+</a><br>
+<a href="#GLU-GLU_TESS_END_DATA">
+GLU_TESS_END_DATA
+</a><br>
+<a href="#GLU-GLU_TESS_ERROR">
+GLU_TESS_ERROR
+</a><br>
+<a href="#GLU-GLU_TESS_ERROR1">
+GLU_TESS_ERROR1
+</a><br>
+<a href="#GLU-GLU_TESS_ERROR2">
+GLU_TESS_ERROR2
+</a><br>
+<a href="#GLU-GLU_TESS_ERROR3">
+GLU_TESS_ERROR3
+</a><br>
+<a href="#GLU-GLU_TESS_ERROR4">
+GLU_TESS_ERROR4
+</a><br>
+<a href="#GLU-GLU_TESS_ERROR5">
+GLU_TESS_ERROR5
+</a><br>
+<a href="#GLU-GLU_TESS_ERROR6">
+GLU_TESS_ERROR6
+</a><br>
+<a href="#GLU-GLU_TESS_ERROR7">
+GLU_TESS_ERROR7
+</a><br>
+<a href="#GLU-GLU_TESS_ERROR8">
+GLU_TESS_ERROR8
+</a><br>
+<a href="#GLU-GLU_TESS_ERROR_DATA">
+GLU_TESS_ERROR_DATA
+</a><br>
+<a href="#GLU-GLU_TESS_MISSING_BEGIN_CONTOUR">
+GLU_TESS_MISSING_BEGIN_CONTOUR
+</a><br>
+<a href="#GLU-GLU_TESS_MISSING_BEGIN_POLYGON">
+GLU_TESS_MISSING_BEGIN_POLYGON
+</a><br>
+<a href="#GLU-GLU_TESS_MISSING_END_CONTOUR">
+GLU_TESS_MISSING_END_CONTOUR
+</a><br>
+<a href="#GLU-GLU_TESS_MISSING_END_POLYGON">
+GLU_TESS_MISSING_END_POLYGON
+</a><br>
+<a href="#GLU-GLU_TESS_NEED_COMBINE_CALLBACK">
+GLU_TESS_NEED_COMBINE_CALLBACK
+</a><br>
+<a href="#GLU-GLU_TESS_TOLERANCE">
+GLU_TESS_TOLERANCE
+</a><br>
+<a href="#GLU-GLU_TESS_VERTEX">
+GLU_TESS_VERTEX
+</a><br>
+<a href="#GLU-GLU_TESS_VERTEX_DATA">
+GLU_TESS_VERTEX_DATA
+</a><br>
+<a href="#GLU-GLU_TESS_WINDING_ABS_GEQ_TWO">
+GLU_TESS_WINDING_ABS_GEQ_TWO
+</a><br>
+<a href="#GLU-GLU_TESS_WINDING_NEGATIVE">
+GLU_TESS_WINDING_NEGATIVE
+</a><br>
+<a href="#GLU-GLU_TESS_WINDING_NONZERO">
+GLU_TESS_WINDING_NONZERO
+</a><br>
+<a href="#GLU-GLU_TESS_WINDING_ODD">
+GLU_TESS_WINDING_ODD
+</a><br>
+<a href="#GLU-GLU_TESS_WINDING_POSITIVE">
+GLU_TESS_WINDING_POSITIVE
+</a><br>
+<a href="#GLU-GLU_TESS_WINDING_RULE">
+GLU_TESS_WINDING_RULE
+</a><br>
+<a href="#GLU-GLU_TRUE">
+GLU_TRUE
+</a><br>
+<a href="#GLU-GLU_UNKNOWN">
+GLU_UNKNOWN
+</a><br>
+<a href="#GLU-GLU_U_STEP">
+GLU_U_STEP
+</a><br>
+<a href="#GLU-GLU_VERSION">
+GLU_VERSION
+</a><br>
+<a href="#GLU-GLU_VERSION_1_1">
+GLU_VERSION_1_1
+</a><br>
+<a href="#GLU-GLU_VERSION_1_2">
+GLU_VERSION_1_2
+</a><br>
+<a href="#GLU-GLU_VERSION_1_3">
+GLU_VERSION_1_3
+</a><br>
+<a href="#GLU-GLU_VERTEX">
+GLU_VERTEX
+</a><br>
+<a href="#GLU-GLU_V_STEP">
+GLU_V_STEP
+</a><br>
+<a href="#GLU-clone">
+clone
+</a><br>
+<a href="#GLU-gluBuild1DMipmaps">
+gluBuild1DMipmaps
+</a><br>
+<a href="#GLU-gluBuild2DMipmaps">
+gluBuild2DMipmaps
+</a><br>
+<a href="#GLU-gluCylinder">
+gluCylinder
+</a><br>
+<a href="#GLU-gluDeleteQuadric">
+gluDeleteQuadric
+</a><br>
+<a href="#GLU-gluDisk">
+gluDisk
+</a><br>
+<a href="#GLU-gluErrorString">
+gluErrorString
+</a><br>
+<a href="#GLU-gluGetString">
+gluGetString
+</a><br>
+<a href="#GLU-gluLookAt">
+gluLookAt
+</a><br>
+<a href="#GLU-gluNewQuadric">
+gluNewQuadric
+</a><br>
+<a href="#GLU-gluOrtho2D">
+gluOrtho2D
+</a><br>
+<a href="#GLU-gluPartialDisk">
+gluPartialDisk
+</a><br>
+<a href="#GLU-gluPerspective">
+gluPerspective
+</a><br>
+<a href="#GLU-gluPickMatrix">
+gluPickMatrix
+</a><br>
+<a href="#GLU-gluProject">
+gluProject
+</a><br>
+<a href="#GLU-gluProjectOrigin">
+gluProjectOrigin
+</a><br>
+<a href="#GLU-gluQuadricDrawStyle">
+gluQuadricDrawStyle
+</a><br>
+<a href="#GLU-gluQuadricNormals">
+gluQuadricNormals
+</a><br>
+<a href="#GLU-gluQuadricOrientation">
+gluQuadricOrientation
+</a><br>
+<a href="#GLU-gluQuadricTexture">
+gluQuadricTexture
+</a><br>
+<a href="#GLU-gluRoundedBox">
+gluRoundedBox
+</a><br>
+<a href="#GLU-gluRoundedBoxOutline">
+gluRoundedBoxOutline
+</a><br>
+<a href="#GLU-gluScaleImage">
+gluScaleImage()
+</a><br>
+<a href="#GLU-gluSphere">
+gluSphere
+</a><br>
+<a href="#GLU-gluUnProject">
+gluUnProject
+</a><br>
+<a href="#GLU-gluUnProjectOrigin">
+gluUnProjectOrigin
+</a><br>
+</td>
+</tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>slots</h3>
+</td>
+<td></td>
+<td>
+<a name="GLU-GLU_AUTO_LOAD_MATRIX"></a><b>
+GLU_AUTO_LOAD_MATRIX
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_BEGIN"></a><b>
+GLU_BEGIN
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_CCW"></a><b>
+GLU_CCW
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_CULLING"></a><b>
+GLU_CULLING
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_CW"></a><b>
+GLU_CW
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_DISPLAY_MODE"></a><b>
+GLU_DISPLAY_MODE
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_DOMAIN_DISTANCE"></a><b>
+GLU_DOMAIN_DISTANCE
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_EDGE_FLAG"></a><b>
+GLU_EDGE_FLAG
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_END"></a><b>
+GLU_END
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_ERROR"></a><b>
+GLU_ERROR
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_EXTENSIONS"></a><b>
+GLU_EXTENSIONS
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_EXTERIOR"></a><b>
+GLU_EXTERIOR
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_FALSE"></a><b>
+GLU_FALSE
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_FILL"></a><b>
+GLU_FILL
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_FLAT"></a><b>
+GLU_FLAT
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_INSIDE"></a><b>
+GLU_INSIDE
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_INTERIOR"></a><b>
+GLU_INTERIOR
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_INVALID_ENUM"></a><b>
+GLU_INVALID_ENUM
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_INVALID_OPERATION"></a><b>
+GLU_INVALID_OPERATION
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_INVALID_VALUE"></a><b>
+GLU_INVALID_VALUE
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_LINE"></a><b>
+GLU_LINE
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_MAP1_TRIM_2"></a><b>
+GLU_MAP1_TRIM_2
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_MAP1_TRIM_3"></a><b>
+GLU_MAP1_TRIM_3
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NONE"></a><b>
+GLU_NONE
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_BEGIN"></a><b>
+GLU_NURBS_BEGIN
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_BEGIN_DATA"></a><b>
+GLU_NURBS_BEGIN_DATA
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_BEGIN_DATA_EXT"></a><b>
+GLU_NURBS_BEGIN_DATA_EXT
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_BEGIN_EXT"></a><b>
+GLU_NURBS_BEGIN_EXT
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_COLOR"></a><b>
+GLU_NURBS_COLOR
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_COLOR_DATA"></a><b>
+GLU_NURBS_COLOR_DATA
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_COLOR_DATA_EXT"></a><b>
+GLU_NURBS_COLOR_DATA_EXT
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_COLOR_EXT"></a><b>
+GLU_NURBS_COLOR_EXT
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_END"></a><b>
+GLU_NURBS_END
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_END_DATA"></a><b>
+GLU_NURBS_END_DATA
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_END_DATA_EXT"></a><b>
+GLU_NURBS_END_DATA_EXT
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_END_EXT"></a><b>
+GLU_NURBS_END_EXT
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR"></a><b>
+GLU_NURBS_ERROR
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR1"></a><b>
+GLU_NURBS_ERROR1
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR10"></a><b>
+GLU_NURBS_ERROR10
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR11"></a><b>
+GLU_NURBS_ERROR11
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR12"></a><b>
+GLU_NURBS_ERROR12
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR13"></a><b>
+GLU_NURBS_ERROR13
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR14"></a><b>
+GLU_NURBS_ERROR14
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR15"></a><b>
+GLU_NURBS_ERROR15
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR16"></a><b>
+GLU_NURBS_ERROR16
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR17"></a><b>
+GLU_NURBS_ERROR17
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR18"></a><b>
+GLU_NURBS_ERROR18
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR19"></a><b>
+GLU_NURBS_ERROR19
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR2"></a><b>
+GLU_NURBS_ERROR2
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR20"></a><b>
+GLU_NURBS_ERROR20
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR21"></a><b>
+GLU_NURBS_ERROR21
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR22"></a><b>
+GLU_NURBS_ERROR22
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR23"></a><b>
+GLU_NURBS_ERROR23
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR24"></a><b>
+GLU_NURBS_ERROR24
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR25"></a><b>
+GLU_NURBS_ERROR25
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR26"></a><b>
+GLU_NURBS_ERROR26
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR27"></a><b>
+GLU_NURBS_ERROR27
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR28"></a><b>
+GLU_NURBS_ERROR28
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR29"></a><b>
+GLU_NURBS_ERROR29
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR3"></a><b>
+GLU_NURBS_ERROR3
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR30"></a><b>
+GLU_NURBS_ERROR30
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR31"></a><b>
+GLU_NURBS_ERROR31
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR32"></a><b>
+GLU_NURBS_ERROR32
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR33"></a><b>
+GLU_NURBS_ERROR33
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR34"></a><b>
+GLU_NURBS_ERROR34
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR35"></a><b>
+GLU_NURBS_ERROR35
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR36"></a><b>
+GLU_NURBS_ERROR36
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR37"></a><b>
+GLU_NURBS_ERROR37
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR4"></a><b>
+GLU_NURBS_ERROR4
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR5"></a><b>
+GLU_NURBS_ERROR5
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR6"></a><b>
+GLU_NURBS_ERROR6
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR7"></a><b>
+GLU_NURBS_ERROR7
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR8"></a><b>
+GLU_NURBS_ERROR8
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_ERROR9"></a><b>
+GLU_NURBS_ERROR9
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_MODE"></a><b>
+GLU_NURBS_MODE
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_MODE_EXT"></a><b>
+GLU_NURBS_MODE_EXT
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_NORMAL"></a><b>
+GLU_NURBS_NORMAL
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_NORMAL_DATA"></a><b>
+GLU_NURBS_NORMAL_DATA
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_NORMAL_DATA_EXT"></a><b>
+GLU_NURBS_NORMAL_DATA_EXT
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_NORMAL_EXT"></a><b>
+GLU_NURBS_NORMAL_EXT
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_RENDERER"></a><b>
+GLU_NURBS_RENDERER
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_RENDERER_EXT"></a><b>
+GLU_NURBS_RENDERER_EXT
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_TESSELLATOR"></a><b>
+GLU_NURBS_TESSELLATOR
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_TESSELLATOR_EXT"></a><b>
+GLU_NURBS_TESSELLATOR_EXT
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_TEXTURE_COORD"></a><b>
+GLU_NURBS_TEXTURE_COORD
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_TEXTURE_COORD_DATA"></a><b>
+GLU_NURBS_TEXTURE_COORD_DATA
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_TEX_COORD_DATA_EXT"></a><b>
+GLU_NURBS_TEX_COORD_DATA_EXT
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_TEX_COORD_EXT"></a><b>
+GLU_NURBS_TEX_COORD_EXT
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_VERTEX"></a><b>
+GLU_NURBS_VERTEX
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_VERTEX_DATA"></a><b>
+GLU_NURBS_VERTEX_DATA
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_VERTEX_DATA_EXT"></a><b>
+GLU_NURBS_VERTEX_DATA_EXT
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_NURBS_VERTEX_EXT"></a><b>
+GLU_NURBS_VERTEX_EXT
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_OBJECT_PARAMETRIC_ERROR"></a><b>
+GLU_OBJECT_PARAMETRIC_ERROR
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_OBJECT_PARAMETRIC_ERROR_EXT"></a><b>
+GLU_OBJECT_PARAMETRIC_ERROR_EXT
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_OBJECT_PATH_LENGTH"></a><b>
+GLU_OBJECT_PATH_LENGTH
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_OBJECT_PATH_LENGTH_EXT"></a><b>
+GLU_OBJECT_PATH_LENGTH_EXT
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_OUTLINE_PATCH"></a><b>
+GLU_OUTLINE_PATCH
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_OUTLINE_POLYGON"></a><b>
+GLU_OUTLINE_POLYGON
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_OUTSIDE"></a><b>
+GLU_OUTSIDE
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_OUT_OF_MEMORY"></a><b>
+GLU_OUT_OF_MEMORY
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_PARAMETRIC_ERROR"></a><b>
+GLU_PARAMETRIC_ERROR
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_PARAMETRIC_TOLERANCE"></a><b>
+GLU_PARAMETRIC_TOLERANCE
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_PATH_LENGTH"></a><b>
+GLU_PATH_LENGTH
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_POINT"></a><b>
+GLU_POINT
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_SAMPLING_METHOD"></a><b>
+GLU_SAMPLING_METHOD
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_SAMPLING_TOLERANCE"></a><b>
+GLU_SAMPLING_TOLERANCE
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_SILHOUETTE"></a><b>
+GLU_SILHOUETTE
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_SMOOTH"></a><b>
+GLU_SMOOTH
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_TESS_BEGIN"></a><b>
+GLU_TESS_BEGIN
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_TESS_BEGIN_DATA"></a><b>
+GLU_TESS_BEGIN_DATA
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_TESS_BOUNDARY_ONLY"></a><b>
+GLU_TESS_BOUNDARY_ONLY
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_TESS_COMBINE"></a><b>
+GLU_TESS_COMBINE
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_TESS_COMBINE_DATA"></a><b>
+GLU_TESS_COMBINE_DATA
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_TESS_COORD_TOO_LARGE"></a><b>
+GLU_TESS_COORD_TOO_LARGE
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_TESS_EDGE_FLAG"></a><b>
+GLU_TESS_EDGE_FLAG
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_TESS_EDGE_FLAG_DATA"></a><b>
+GLU_TESS_EDGE_FLAG_DATA
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_TESS_END"></a><b>
+GLU_TESS_END
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_TESS_END_DATA"></a><b>
+GLU_TESS_END_DATA
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_TESS_ERROR"></a><b>
+GLU_TESS_ERROR
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_TESS_ERROR1"></a><b>
+GLU_TESS_ERROR1
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_TESS_ERROR2"></a><b>
+GLU_TESS_ERROR2
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_TESS_ERROR3"></a><b>
+GLU_TESS_ERROR3
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_TESS_ERROR4"></a><b>
+GLU_TESS_ERROR4
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_TESS_ERROR5"></a><b>
+GLU_TESS_ERROR5
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_TESS_ERROR6"></a><b>
+GLU_TESS_ERROR6
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_TESS_ERROR7"></a><b>
+GLU_TESS_ERROR7
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_TESS_ERROR8"></a><b>
+GLU_TESS_ERROR8
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_TESS_ERROR_DATA"></a><b>
+GLU_TESS_ERROR_DATA
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_TESS_MISSING_BEGIN_CONTOUR"></a><b>
+GLU_TESS_MISSING_BEGIN_CONTOUR
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_TESS_MISSING_BEGIN_POLYGON"></a><b>
+GLU_TESS_MISSING_BEGIN_POLYGON
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_TESS_MISSING_END_CONTOUR"></a><b>
+GLU_TESS_MISSING_END_CONTOUR
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_TESS_MISSING_END_POLYGON"></a><b>
+GLU_TESS_MISSING_END_POLYGON
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_TESS_NEED_COMBINE_CALLBACK"></a><b>
+GLU_TESS_NEED_COMBINE_CALLBACK
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_TESS_TOLERANCE"></a><b>
+GLU_TESS_TOLERANCE
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_TESS_VERTEX"></a><b>
+GLU_TESS_VERTEX
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_TESS_VERTEX_DATA"></a><b>
+GLU_TESS_VERTEX_DATA
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_TESS_WINDING_ABS_GEQ_TWO"></a><b>
+GLU_TESS_WINDING_ABS_GEQ_TWO
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_TESS_WINDING_NEGATIVE"></a><b>
+GLU_TESS_WINDING_NEGATIVE
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_TESS_WINDING_NONZERO"></a><b>
+GLU_TESS_WINDING_NONZERO
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_TESS_WINDING_ODD"></a><b>
+GLU_TESS_WINDING_ODD
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_TESS_WINDING_POSITIVE"></a><b>
+GLU_TESS_WINDING_POSITIVE
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_TESS_WINDING_RULE"></a><b>
+GLU_TESS_WINDING_RULE
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_TRUE"></a><b>
+GLU_TRUE
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_UNKNOWN"></a><b>
+GLU_UNKNOWN
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_U_STEP"></a><b>
+GLU_U_STEP
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_VERSION"></a><b>
+GLU_VERSION
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_VERSION_1_1"></a><b>
+GLU_VERSION_1_1
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_VERSION_1_2"></a><b>
+GLU_VERSION_1_2
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_VERSION_1_3"></a><b>
+GLU_VERSION_1_3
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_VERTEX"></a><b>
+GLU_VERTEX
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-GLU_V_STEP"></a><b>
+GLU_V_STEP
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-clone"></a><b>
+clone
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-gluBuild1DMipmaps"></a><b>
+gluBuild1DMipmaps
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-gluBuild2DMipmaps"></a><b>
+gluBuild2DMipmaps
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-gluCylinder"></a><b>
+gluCylinder
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-gluDeleteQuadric"></a><b>
+gluDeleteQuadric
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-gluDisk"></a><b>
+gluDisk
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-gluErrorString"></a><b>
+gluErrorString
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-gluGetString"></a><b>
+gluGetString
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-gluLookAt"></a><b>
+gluLookAt
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-gluNewQuadric"></a><b>
+gluNewQuadric
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-gluOrtho2D"></a><b>
+gluOrtho2D
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-gluPartialDisk"></a><b>
+gluPartialDisk
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-gluPerspective"></a><b>
+gluPerspective
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-gluPickMatrix"></a><b>
+gluPickMatrix
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-gluProject"></a><b>
+gluProject
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-gluProjectOrigin"></a><b>
+gluProjectOrigin
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-gluQuadricDrawStyle"></a><b>
+gluQuadricDrawStyle
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-gluQuadricNormals"></a><b>
+gluQuadricNormals
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-gluQuadricOrientation"></a><b>
+gluQuadricOrientation
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-gluQuadricTexture"></a><b>
+gluQuadricTexture
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-gluRoundedBox"></a><b>
+gluRoundedBox
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-gluRoundedBoxOutline"></a><b>
+gluRoundedBoxOutline
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-gluScaleImage"></a><b>
+gluScaleImage(formatIn, widthIn, heightIn, typeIn, dataSeqIn, widthOut, heightOut, typeOut, dataSeqOut)
+</b>
+<p>
+<div class=slotDescription>
+Scales the image data in dataSeqIn and outputs the result to dataSeqOut.
+	Returns error code as a Number.
+</div>
+<a name="GLU-gluSphere"></a><b>
+gluSphere
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-gluUnProject"></a><b>
+gluUnProject
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="GLU-gluUnProjectOrigin"></a><b>
+gluUnProjectOrigin
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Io Reference Manual</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../docs.css">
+		</head>
+		<body>
+		
+<br><br><br>
+<table cellspacing=4 style="width:45em; line-height:1.2em;">
+<tr>
+<td>
+<a name=DNSServer></a><span class=protoName>DNSServer</span>
+</td>
+<td></td>
+<td>
+</tr>
+<tr>
+<td align=right><b><span class=protoModule>module</span></b></td>
+<td></td>
+<td>Socket</td></tr>
+<tr>
+<td align=right><b><span class=protoCategory>category</span></b></td>
+<td></td>
+<td>Networking
+</td></tr>
+<tr>
+<td align=right><b><span class=protoDescription>description</span></b></td>
+<td></td>
+<td>An object representing a DNSServer which DNS requests can be sent to.
+</td></tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>index</h3>
+</td>
+<td></td>
+<td>
+<a href="#DNSServer-host">
+host
+</a><br>
+<a href="#DNSServer-ipForHostName">
+ipForHostName()
+</a><br>
+<a href="#DNSServer-setHost">
+setHost()
+</a><br>
+</td>
+</tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>slots</h3>
+</td>
+<td></td>
+<td>
+<a name="DNSServer-host"></a><b>
+host
+</b>
+<p>
+<div class=slotDescription>
+The host name (usually an IP) for the DNSServer.
+</div>
+<a name="DNSServer-ipForHostName"></a><b>
+ipForHostName(hostName, timeout)
+</b>
+<p>
+<div class=slotDescription>
+Sends a request to the DNS server, waits for a response and returns it. Will try 3 times if there are timeouts.
+	Returns the IP (as a Sequence) if successful, raises an exception otherwise.
+</div>
+<a name="DNSServer-setHost"></a><b>
+setHost(aSeq)
+</b>
+<p>
+<div class=slotDescription>
+Sets the host name for the DNSServer.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

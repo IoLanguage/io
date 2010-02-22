@@ -1,0 +1,421 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Io Reference Manual</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../docs.css">
+		</head>
+		<body>
+		
+<br><br><br>
+<table cellspacing=4 style="width:45em; line-height:1.2em;">
+<tr>
+<td>
+<a name=Directory></a><span class=protoName>Directory</span>
+</td>
+<td></td>
+<td>
+</tr>
+<tr>
+<td align=right><b><span class=protoModule>module</span></b></td>
+<td></td>
+<td>Core</td></tr>
+<tr>
+<td align=right><b><span class=protoCategory>category</span></b></td>
+<td></td>
+<td>FileSystem
+</td></tr>
+<tr>
+<td align=right><b><span class=protoCredits>credits</span></b></td>
+<td></td>
+<td>Cygwin code by Mike Austin. WIN32 code by Daniel Vollmer.
+</td></tr>
+<tr>
+<td align=right><b><span class=protoDescription>description</span></b></td>
+<td></td>
+<td>The Directory object supports accessing filesystem directories. A note on paths;
+if a path begins with a "/" it's the root,
+if it beings with a "./" it's the launch path,
+if not specified, "./" is assumed.""")
+</td></tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>index</h3>
+</td>
+<td></td>
+<td>
+<a href="#Directory-accessibleAncestors">
+accessibleAncestors
+</a><br>
+<a href="#Directory-accessibleParents">
+accessibleParents
+</a><br>
+<a href="#Directory-ancestorDirectories">
+ancestorDirectories
+</a><br>
+<a href="#Directory-at">
+at()
+</a><br>
+<a href="#Directory-create">
+create
+</a><br>
+<a href="#Directory-createFileNamed">
+createFileNamed()
+</a><br>
+<a href="#Directory-createIfAbsent">
+createIfAbsent
+</a><br>
+<a href="#Directory-createSubdirectory">
+createSubdirectory()
+</a><br>
+<a href="#Directory-currentWorkingDirectory">
+currentWorkingDirectory
+</a><br>
+<a href="#Directory-directories">
+directories
+</a><br>
+<a href="#Directory-directoryNamed">
+directoryNamed()
+</a><br>
+<a href="#Directory-exists">
+exists()
+</a><br>
+<a href="#Directory-fileNamed">
+fileNamed()
+</a><br>
+<a href="#Directory-fileNames">
+fileNames
+</a><br>
+<a href="#Directory-files">
+files
+</a><br>
+<a href="#Directory-filesWithExtension">
+filesWithExtension()
+</a><br>
+<a href="#Directory-folderNamed">
+folderNamed()
+</a><br>
+<a href="#Directory-folderNamedCreateIfAbsent">
+folderNamedCreateIfAbsent()
+</a><br>
+<a href="#Directory-folders">
+folders
+</a><br>
+<a href="#Directory-isAccessible">
+isAccessible
+</a><br>
+<a href="#Directory-items">
+items
+</a><br>
+<a href="#Directory-moveTo">
+moveTo()
+</a><br>
+<a href="#Directory-name">
+name
+</a><br>
+<a href="#Directory-parentDirectory">
+parentDirectory
+</a><br>
+<a href="#Directory-parents">
+parents
+</a><br>
+<a href="#Directory-path">
+path
+</a><br>
+<a href="#Directory-recursiVeFilesOfTypes">
+recursiVeFilesOfTypes
+</a><br>
+<a href="#Directory-recursiVeFilesOftypes">
+recursiVeFilesOftypes()
+</a><br>
+<a href="#Directory-recursiveFilesOfTypes">
+recursiveFilesOfTypes()
+</a><br>
+<a href="#Directory-remove">
+remove
+</a><br>
+<a href="#Directory-setCurrentWorkingDirectory">
+setCurrentWorkingDirectory()
+</a><br>
+<a href="#Directory-setPath">
+setPath()
+</a><br>
+<a href="#Directory-size">
+size
+</a><br>
+<a href="#Directory-with">
+with()
+</a><br>
+</td>
+</tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>slots</h3>
+</td>
+<td></td>
+<td>
+<a name="Directory-accessibleAncestors"></a><b>
+accessibleAncestors
+</b>
+<p>
+<div class=slotDescription>
+Returns a list of accessizble ancestor directories.
+</div>
+<font color=#55a>
+<a name="Directory-accessibleParents"></a><b>
+accessibleParents
+</b>
+<p>
+<div class=slotDescription>
+Deprecated. Replaced by accessibleAncestors.
+</font>
+</div>
+<a name="Directory-ancestorDirectories"></a><b>
+ancestorDirectories
+</b>
+<p>
+<div class=slotDescription>
+Returns a list of ancestor directories.
+</div>
+<a name="Directory-at"></a><b>
+at(aString)
+</b>
+<p>
+<div class=slotDescription>
+Returns a File or Directory object matching the name specified
+	by aString or Nil if no such file or directory exists.
+</div>
+<a name="Directory-create"></a><b>
+create
+</b>
+<p>
+<div class=slotDescription>
+Create the directory if it doesn't exist. 
+	Returns self on success (or if the directory already exists), nil on failure.
+</div>
+<font color=#55a>
+<a name="Directory-createFileNamed"></a><b>
+createFileNamed(name)
+</b>
+<p>
+<div class=slotDescription>
+Deprecated. Returns a new file object in the directory with the specified name.
+</font>
+</div>
+<a name="Directory-createIfAbsent"></a><b>
+createIfAbsent
+</b>
+<p>
+<div class=slotDescription>
+Creates the directory (and any missing ancestor directories) if they don't exist. Returns self.
+</div>
+<a name="Directory-createSubdirectory"></a><b>
+createSubdirectory(name)
+</b>
+<p>
+<div class=slotDescription>
+Create a subdirectory with the specified name.
+</div>
+<a name="Directory-currentWorkingDirectory"></a><b>
+currentWorkingDirectory
+</b>
+<p>
+<div class=slotDescription>
+Returns the current working directory path.
+</div>
+<a name="Directory-directories"></a><b>
+directories
+</b>
+<p>
+<div class=slotDescription>
+Returns a list of subdirectories in the receiver.
+</div>
+<a name="Directory-directoryNamed"></a><b>
+directoryNamed(aName)
+</b>
+<p>
+<div class=slotDescription>
+Returns a Directory object for the specified file name whether or not it exists.
+</div>
+<a name="Directory-exists"></a><b>
+exists(optionalPath)
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the Directory path exists, and false otherwise.
+	If optionalPath string is provided, it tests the existance of that path instead.
+</div>
+<a name="Directory-fileNamed"></a><b>
+fileNamed(aName)
+</b>
+<p>
+<div class=slotDescription>
+Returns a File object for the specified file name whether it exists or not.
+</div>
+<a name="Directory-fileNames"></a><b>
+fileNames
+</b>
+<p>
+<div class=slotDescription>
+Returns a list of strings for the names of the files (no subdirectories) in the directory.
+</div>
+<a name="Directory-files"></a><b>
+files
+</b>
+<p>
+<div class=slotDescription>
+Returns a list of File objects for the files in the Directory (no directories).
+</div>
+<a name="Directory-filesWithExtension"></a><b>
+filesWithExtension(aString)
+</b>
+<p>
+<div class=slotDescription>
+Returns a list of File objects for the files in the Directory (no directories) with the specified file extension.
+</div>
+<font color=#55a>
+<a name="Directory-folderNamed"></a><b>
+folderNamed(aName)
+</b>
+<p>
+<div class=slotDescription>
+Deprecated. Replaced by directoryNamed().
+</font>
+</div>
+<font color=#55a>
+<a name="Directory-folderNamedCreateIfAbsent"></a><b>
+folderNamedCreateIfAbsent(name)
+</b>
+<p>
+<div class=slotDescription>
+Deprecated. Returns a new Directory object in the directory with the specified name.
+</font>
+</div>
+<font color=#55a>
+<a name="Directory-folders"></a><b>
+folders
+</b>
+<p>
+<div class=slotDescription>
+Deprecated. Replaced by directories().
+</font>
+</div>
+<a name="Directory-isAccessible"></a><b>
+isAccessible
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the directory can be accessed, false otherwise.
+</div>
+<a name="Directory-items"></a><b>
+items
+</b>
+<p>
+<div class=slotDescription>
+Returns a list object containing File and Directory objects
+	for the files and directories of the receiver's path.
+</div>
+<a name="Directory-moveTo"></a><b>
+moveTo(aPath)
+</b>
+<p>
+<div class=slotDescription>
+Moves the directory to the specified path.
+</div>
+<a name="Directory-name"></a><b>
+name
+</b>
+<p>
+<div class=slotDescription>
+Returns the receiver's last path component.
+</div>
+<a name="Directory-parentDirectory"></a><b>
+parentDirectory
+</b>
+<p>
+<div class=slotDescription>
+Returns the parent directory object or nil if there is no parent directory.
+</div>
+<font color=#55a>
+<a name="Directory-parents"></a><b>
+parents
+</b>
+<p>
+<div class=slotDescription>
+Deprecated. Replaced by ancestorDirectories.
+</font>
+</div>
+<a name="Directory-path"></a><b>
+path
+</b>
+<p>
+<div class=slotDescription>
+Returns the directory path. The default path is '.'.
+</div>
+<a name="Directory-recursiVeFilesOfTypes"></a><b>
+recursiVeFilesOfTypes
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<font color=#55a>
+<a name="Directory-recursiVeFilesOftypes"></a><b>
+recursiVeFilesOftypes(suffixes)
+</b>
+<p>
+<div class=slotDescription>
+Deprecated. Alias for recursiveFilesOfTypes(suffixes).
+</font>
+</div>
+<a name="Directory-recursiveFilesOfTypes"></a><b>
+recursiveFilesOfTypes(suffixes)
+</b>
+<p>
+<div class=slotDescription>
+Returns a list containing all files in the directory or any subdirectory that has any of the specified suffixes.
+</div>
+<a name="Directory-remove"></a><b>
+remove
+</b>
+<p>
+<div class=slotDescription>
+Removes the directory.
+</div>
+<a name="Directory-setCurrentWorkingDirectory"></a><b>
+setCurrentWorkingDirectory(pathString)
+</b>
+<p>
+<div class=slotDescription>
+Set's the current working directory path.
+	Returns true on success or false on error.
+</div>
+<a name="Directory-setPath"></a><b>
+setPath(aString)
+</b>
+<p>
+<div class=slotDescription>
+Sets the directory path. Returns self.
+</div>
+<a name="Directory-size"></a><b>
+size
+</b>
+<p>
+<div class=slotDescription>
+Returns a Number containing the number of file and directory
+	objects at the receiver's path.
+</div>
+<a name="Directory-with"></a><b>
+with(aPath)
+</b>
+<p>
+<div class=slotDescription>
+Returns a new instance with the provided path.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

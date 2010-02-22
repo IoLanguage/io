@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Io Reference Manual</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../docs.css">
+		</head>
+		<body>
+		
+<br><br><br>
+<table cellspacing=4 style="width:45em; line-height:1.2em;">
+<tr>
+<td>
+<a name=ZlibDecoder></a><span class=protoName>ZlibDecoder</span>
+</td>
+<td></td>
+<td>
+</tr>
+<tr>
+<td align=right><b><span class=protoModule>module</span></b></td>
+<td></td>
+<td>Zlib</td></tr>
+<tr>
+<td align=right><b><span class=protoCategory>category</span></b></td>
+<td></td>
+<td>Compression
+</td></tr>
+<tr>
+<td align=right><b><span class=protoDescription>description</span></b></td>
+<td></td>
+<td>For Zlib uncompression.
+Example use;
+<pre>	
+bf = ZlibDecoder clone
+bf beginProcessing
+bf inputBuffer appendSeq(inputData)
+bf process
+bf endProcess
+bf outputBuffer // this contains the output data
+</pre>
+</td></tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>index</h3>
+</td>
+<td></td>
+<td>
+<a href="#ZlibDecoder-beginProcessing">
+beginProcessing
+</a><br>
+<a href="#ZlibDecoder-endProcessing">
+endProcessing
+</a><br>
+<a href="#ZlibDecoder-inputBuffer">
+inputBuffer
+</a><br>
+<a href="#ZlibDecoder-outputBuffer">
+outputBuffer
+</a><br>
+<a href="#ZlibDecoder-process">
+process
+</a><br>
+<a href="#ZlibDecoder-setInputBuffer">
+setInputBuffer
+</a><br>
+<a href="#ZlibDecoder-setOutputBuffer">
+setOutputBuffer
+</a><br>
+</td>
+</tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>slots</h3>
+</td>
+<td></td>
+<td>
+<a name="ZlibDecoder-beginProcessing"></a><b>
+beginProcessing
+</b>
+<p>
+<div class=slotDescription>
+Initializes the algorithm.
+</div>
+<a name="ZlibDecoder-endProcessing"></a><b>
+endProcessing
+</b>
+<p>
+<div class=slotDescription>
+Finish processing remaining bytes of inputBuffer.
+</div>
+<a name="ZlibDecoder-inputBuffer"></a><b>
+inputBuffer
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ZlibDecoder-outputBuffer"></a><b>
+outputBuffer
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ZlibDecoder-process"></a><b>
+process
+</b>
+<p>
+<div class=slotDescription>
+Process the inputBuffer and appends the result to the outputBuffer.
+	The processed inputBuffer is empties except for the spare bytes at the end which don't fit into a cipher block.
+</div>
+<a name="ZlibDecoder-setInputBuffer"></a><b>
+setInputBuffer
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ZlibDecoder-setOutputBuffer"></a><b>
+setOutputBuffer
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

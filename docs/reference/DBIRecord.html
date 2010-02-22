@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Io Reference Manual</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../docs.css">
+		</head>
+		<body>
+		
+<br><br><br>
+<table cellspacing=4 style="width:45em; line-height:1.2em;">
+<tr>
+<td>
+<a name=DBIRecord></a><span class=protoName>DBIRecord</span>
+</td>
+<td></td>
+<td>
+</tr>
+<tr>
+<td align=right><b><span class=protoModule>module</span></b></td>
+<td></td>
+<td>DBI</td></tr>
+<tr>
+<td align=right><b><span class=protoCategory>category</span></b></td>
+<td></td>
+<td>Databases
+</td></tr>
+<tr>
+<td align=right><b><span class=protoDescription>description</span></b></td>
+<td></td>
+<td>A DBI Record. When utilizing `foreach' or `populate' methods
+of a DBIResult object, you can pass an optional Object cloned from DBIRecord.
+This object will be populated with the row contents making it possible to
+write objects that represent your SQL results. A simple example would be:
+
+<pre>
+Person := DBIRecord clone do (fullName := method(firstName.." "..lastName))
+q := conn query("SELECT id, firstName, lastName FROM people")
+q foreach(Person, p, writeln("Name = ", p fullName))
+</pre>
+
+As you can see, fullName was not in the SQL query, however, a dynamic method
+in your Person class.
+
+DBIRecord in and of itself provides no real functionality. It simply acts
+as an Object and stores the values from the SQL query into a Map. You can
+access the field information:
+
+<pre>
+o := r populate(Person)
+o firstName            // would retrieve the firstName value of the SQL query
+o setFirstName("John") // would update the object's firstName value to be John
+</pre>
+
+Do not confuse the above example as updating the actual database. The call
+to setFirstName <i>only</i> updates the objects representation of firstName.
+</td></tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>index</h3>
+</td>
+<td></td>
+<td>
+<a href="#DBIRecord-forward">
+forward
+</a><br>
+<a href="#DBIRecord-with">
+with()
+</a><br>
+</td>
+</tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>slots</h3>
+</td>
+<td></td>
+<td>
+<font color=#888>
+<a name="DBIRecord-forward"></a><b>
+forward
+</b>
+<p>
+<div class=slotDescription>
+Private method that implements getting and setting values.
+</font>
+</div>
+<a name="DBIRecord-with"></a><b>
+with(aMap)
+</b>
+<p>
+<div class=slotDescription>
+Returns a new DBIRecord instance for the given value map.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

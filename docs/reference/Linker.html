@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Io Reference Manual</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../docs.css">
+		</head>
+		<body>
+		
+<br><br><br>
+<table cellspacing=4 style="width:45em; line-height:1.2em;">
+<tr>
+<td>
+<a name=Linker></a><span class=protoName>Linker</span>
+</td>
+<td></td>
+<td>
+</tr>
+<tr>
+<td align=right><b><span class=protoModule>module</span></b></td>
+<td></td>
+<td>Loki</td></tr>
+<tr>
+<td align=right><b><span class=protoCategory>category</span></b></td>
+<td></td>
+<td>Compilers
+</td></tr>
+<tr>
+<td align=right><b><span class=protoDescription>description</span></b></td>
+<td></td>
+<td>	An object that enables low level introspection into a running Io VM.
+</td></tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>index</h3>
+</td>
+<td></td>
+<td>
+<a href="#Linker-bytesToHexSeq">
+bytesToHexSeq()
+</a><br>
+<a href="#Linker-hexSeqToBytes">
+hexSeqToBytes()
+</a><br>
+<a href="#Linker-makeCFunction">
+makeCFunction()
+</a><br>
+</td>
+</tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>slots</h3>
+</td>
+<td></td>
+<td>
+<a name="Linker-bytesToHexSeq"></a><b>
+bytesToHexSeq(aSeq)
+</b>
+<p>
+<div class=slotDescription>
+Returns a Sequence containing a hex representation of aSeq.
+</div>
+<a name="Linker-hexSeqToBytes"></a><b>
+hexSeqToBytes(aSeq)
+</b>
+<p>
+<div class=slotDescription>
+Returns a Sequence containing a binary representation of the hex data in aSeq.
+</div>
+<a name="Linker-makeCFunction"></a><b>
+makeCFunction(aSeq, slotName, object)
+</b>
+<p>
+<div class=slotDescription>
+Creates a CFunction which users the beginning address of the data in aSeq as it's function pointer and 
+adds the CFunction to the given object on slot slotName.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

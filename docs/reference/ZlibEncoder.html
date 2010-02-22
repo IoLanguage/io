@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Io Reference Manual</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../docs.css">
+		</head>
+		<body>
+		
+<br><br><br>
+<table cellspacing=4 style="width:45em; line-height:1.2em;">
+<tr>
+<td>
+<a name=ZlibEncoder></a><span class=protoName>ZlibEncoder</span>
+</td>
+<td></td>
+<td>
+</tr>
+<tr>
+<td align=right><b><span class=protoModule>module</span></b></td>
+<td></td>
+<td>Zlib</td></tr>
+<tr>
+<td align=right><b><span class=protoCategory>category</span></b></td>
+<td></td>
+<td>Compression
+</td></tr>
+<tr>
+<td align=right><b><span class=protoDescription>description</span></b></td>
+<td></td>
+<td>For Zlib compression.
+Example use:
+<p>
+<pre>	
+bf = ZlibEncoder clone
+bf beginProcessing
+bf inputBuffer appendSeq("this is a message")
+bf process
+bf endProcess
+bf outputBuffer // this contains the result data
+</pre>
+</td></tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>index</h3>
+</td>
+<td></td>
+<td>
+<a href="#ZlibEncoder-beginProcessing">
+beginProcessing
+</a><br>
+<a href="#ZlibEncoder-endProcessing">
+endProcessing
+</a><br>
+<a href="#ZlibEncoder-process">
+process
+</a><br>
+</td>
+</tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>slots</h3>
+</td>
+<td></td>
+<td>
+<a name="ZlibEncoder-beginProcessing"></a><b>
+beginProcessing
+</b>
+<p>
+<div class=slotDescription>
+Initializes the algorithm.
+</div>
+<a name="ZlibEncoder-endProcessing"></a><b>
+endProcessing
+</b>
+<p>
+<div class=slotDescription>
+Finish processing remaining bytes of inputBuffer.
+</div>
+<a name="ZlibEncoder-process"></a><b>
+process
+</b>
+<p>
+<div class=slotDescription>
+Process the inputBuffer and appends the result to the outputBuffer.
+	The processed inputBuffer is empties except for the spare bytes at 
+	the end which don't fit into a cipher block.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

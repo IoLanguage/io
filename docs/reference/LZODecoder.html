@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Io Reference Manual</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../docs.css">
+		</head>
+		<body>
+		
+<br><br><br>
+<table cellspacing=4 style="width:45em; line-height:1.2em;">
+<tr>
+<td>
+<a name=LZODecoder></a><span class=protoName>LZODecoder</span>
+</td>
+<td></td>
+<td>
+</tr>
+<tr>
+<td align=right><b><span class=protoModule>module</span></b></td>
+<td></td>
+<td>LZO</td></tr>
+<tr>
+<td align=right><b><span class=protoCategory>category</span></b></td>
+<td></td>
+<td>Compression
+</td></tr>
+<tr>
+<td align=right><b><span class=protoDescription>description</span></b></td>
+<td></td>
+<td>The LZO object can be used to Z compress and uncompress data.
+Example use;
+<pre>	
+bf = LZO clone
+bf beginProcessing
+bf inputBuffer appendSeq("this is a message")
+bf process
+bf endProcess
+bf outputBuffer // this contains the encoded data
+</pre>
+</td></tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>index</h3>
+</td>
+<td></td>
+<td>
+<a href="#LZODecoder-beginProcessing">
+beginProcessing
+</a><br>
+<a href="#LZODecoder-endProcessing">
+endProcessing
+</a><br>
+<a href="#LZODecoder-inputBuffer">
+inputBuffer
+</a><br>
+<a href="#LZODecoder-outputBuffer">
+outputBuffer
+</a><br>
+<a href="#LZODecoder-process">
+process
+</a><br>
+<a href="#LZODecoder-setInputBuffer">
+setInputBuffer
+</a><br>
+<a href="#LZODecoder-setOutputBuffer">
+setOutputBuffer
+</a><br>
+</td>
+</tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>slots</h3>
+</td>
+<td></td>
+<td>
+<a name="LZODecoder-beginProcessing"></a><b>
+beginProcessing
+</b>
+<p>
+<div class=slotDescription>
+Initializes the algorithm.
+</div>
+<a name="LZODecoder-endProcessing"></a><b>
+endProcessing
+</b>
+<p>
+<div class=slotDescription>
+Finish processing remaining bytes of inputBuffer.
+</div>
+<a name="LZODecoder-inputBuffer"></a><b>
+inputBuffer
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="LZODecoder-outputBuffer"></a><b>
+outputBuffer
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="LZODecoder-process"></a><b>
+process
+</b>
+<p>
+<div class=slotDescription>
+Process the inputBuffer and appends the result to the outputBuffer.
+	The processed inputBuffer is empties except for the spare bytes at 
+	the end which don't fit into a cipher block.
+</div>
+<a name="LZODecoder-setInputBuffer"></a><b>
+setInputBuffer
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="LZODecoder-setOutputBuffer"></a><b>
+setOutputBuffer
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

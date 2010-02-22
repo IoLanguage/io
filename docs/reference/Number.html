@@ -1,0 +1,1092 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Io Reference Manual</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../docs.css">
+		</head>
+		<body>
+		
+<br><br><br>
+<table cellspacing=4 style="width:45em; line-height:1.2em;">
+<tr>
+<td>
+<a name=Number></a><span class=protoName>Number</span>
+</td>
+<td></td>
+<td>
+</tr>
+<tr>
+<td align=right><b><span class=protoModule>module</span></b></td>
+<td></td>
+<td>Core</td></tr>
+<tr>
+<td align=right><b><span class=protoCategory>category</span></b></td>
+<td></td>
+<td>Core
+</td></tr>
+<tr>
+<td align=right><b><span class=protoDescription>description</span></b></td>
+<td></td>
+<td>A container for a double (a 64bit floating point number on most platforms).
+</td></tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>index</h3>
+</td>
+<td></td>
+<td>
+<a href="#Number-%">
+%()
+</a><br>
+<a href="#Number-&">
+&()
+</a><br>
+<a href="#Number-*">
+*()
+</a><br>
+<a href="#Number-**">
+**()
+</a><br>
+<a href="#Number-+">
++()
+</a><br>
+<a href="#Number--">
+-()
+</a><br>
+<a href="#Number-/">
+/()
+</a><br>
+<a href="#Number-&lt;&lt;">
+&lt;&lt;()
+</a><br>
+<a href="#Number-&gt;&gt;">
+&gt;&gt;()
+</a><br>
+<a href="#Number-^">
+^()
+</a><br>
+<a href="#Number-abs">
+abs
+</a><br>
+<a href="#Number-acos">
+acos
+</a><br>
+<a href="#Number-asBinary">
+asBinary
+</a><br>
+<a href="#Number-asBuffer">
+asBuffer()
+</a><br>
+<a href="#Number-asCharacter">
+asCharacter
+</a><br>
+<a href="#Number-asHex">
+asHex
+</a><br>
+<a href="#Number-asJson">
+asJson
+</a><br>
+<a href="#Number-asLowercase">
+asLowercase
+</a><br>
+<a href="#Number-asNumber">
+asNumber
+</a><br>
+<a href="#Number-asOctal">
+asOctal
+</a><br>
+<a href="#Number-asSimpleString">
+asSimpleString
+</a><br>
+<a href="#Number-asString">
+asString()
+</a><br>
+<a href="#Number-asUint32Buffer">
+asUint32Buffer
+</a><br>
+<a href="#Number-asUppercase">
+asUppercase
+</a><br>
+<a href="#Number-asin">
+asin
+</a><br>
+<a href="#Number-at">
+at()
+</a><br>
+<a href="#Number-atan">
+atan
+</a><br>
+<a href="#Number-atan2">
+atan2()
+</a><br>
+<a href="#Number-between">
+between()
+</a><br>
+<a href="#Number-bitwiseAnd">
+bitwiseAnd()
+</a><br>
+<a href="#Number-bitwiseComplement">
+bitwiseComplement
+</a><br>
+<a href="#Number-bitwiseOr">
+bitwiseOr()
+</a><br>
+<a href="#Number-bitwiseXor">
+bitwiseXor()
+</a><br>
+<a href="#Number-ceil">
+ceil
+</a><br>
+<a href="#Number-clip">
+clip()
+</a><br>
+<a href="#Number-combinations">
+combinations()
+</a><br>
+<a href="#Number-constants">
+constants
+</a><br>
+<a href="#Number-cos">
+cos
+</a><br>
+<a href="#Number-cubed">
+cubed
+</a><br>
+<a href="#Number-doubleMin">
+doubleMin
+</a><br>
+<a href="#Number-e">
+e
+</a><br>
+<a href="#Number-exp">
+exp
+</a><br>
+<a href="#Number-factorial">
+factorial
+</a><br>
+<a href="#Number-floatMax">
+floatMax
+</a><br>
+<a href="#Number-floatMin">
+floatMin
+</a><br>
+<a href="#Number-floor">
+floor
+</a><br>
+<a href="#Number-inf">
+inf
+</a><br>
+<a href="#Number-integerMax">
+integerMax
+</a><br>
+<a href="#Number-integerMin">
+integerMin
+</a><br>
+<a href="#Number-isAlphaNumeric">
+isAlphaNumeric
+</a><br>
+<a href="#Number-isControlCharacter">
+isControlCharacter
+</a><br>
+<a href="#Number-isDigit">
+isDigit
+</a><br>
+<a href="#Number-isEven">
+isEven
+</a><br>
+<a href="#Number-isGraph">
+isGraph
+</a><br>
+<a href="#Number-isHexDigit">
+isHexDigit
+</a><br>
+<a href="#Number-isInASequenceSet">
+isInASequenceSet
+</a><br>
+<a href="#Number-isLetter">
+isLetter
+</a><br>
+<a href="#Number-isLowercase">
+isLowercase
+</a><br>
+<a href="#Number-isNan">
+isNan
+</a><br>
+<a href="#Number-isOdd">
+isOdd
+</a><br>
+<a href="#Number-isPrint">
+isPrint
+</a><br>
+<a href="#Number-isPunctuation">
+isPunctuation
+</a><br>
+<a href="#Number-isSpace">
+isSpace
+</a><br>
+<a href="#Number-isUppercase">
+isUppercase
+</a><br>
+<a href="#Number-justSerialized">
+justSerialized()
+</a><br>
+<a href="#Number-log">
+log
+</a><br>
+<a href="#Number-log10">
+log10
+</a><br>
+<a href="#Number-log2">
+log2
+</a><br>
+<a href="#Number-longMax">
+longMax
+</a><br>
+<a href="#Number-longMin">
+longMin
+</a><br>
+<a href="#Number-max">
+max()
+</a><br>
+<a href="#Number-min">
+min()
+</a><br>
+<a href="#Number-minMax">
+minMax()
+</a><br>
+<a href="#Number-mod">
+mod()
+</a><br>
+<a href="#Number-nan">
+nan
+</a><br>
+<a href="#Number-negate">
+negate
+</a><br>
+<a href="#Number-permutations">
+permutations()
+</a><br>
+<a href="#Number-pi">
+pi
+</a><br>
+<a href="#Number-pow">
+pow()
+</a><br>
+<a href="#Number-print">
+print
+</a><br>
+<a href="#Number-repeat">
+repeat()
+</a><br>
+<a href="#Number-round">
+round
+</a><br>
+<a href="#Number-roundDown">
+roundDown
+</a><br>
+<a href="#Number-roundedUpToPowerOf2">
+roundedUpToPowerOf2
+</a><br>
+<a href="#Number-shiftLeft">
+shiftLeft
+</a><br>
+<a href="#Number-shiftRight">
+shiftRight
+</a><br>
+<a href="#Number-shortMax">
+shortMax
+</a><br>
+<a href="#Number-shortMin">
+shortMin
+</a><br>
+<a href="#Number-sin">
+sin
+</a><br>
+<a href="#Number-sqrt">
+sqrt
+</a><br>
+<a href="#Number-squared">
+squared
+</a><br>
+<a href="#Number-tan">
+tan
+</a><br>
+<a href="#Number-toBase">
+toBase()
+</a><br>
+<a href="#Number-toBaseWholeBytes">
+toBaseWholeBytes()
+</a><br>
+<a href="#Number-toggle">
+toggle
+</a><br>
+<a href="#Number-unsignedIntMax">
+unsignedIntMax
+</a><br>
+<a href="#Number-unsignedLongMax">
+unsignedLongMax
+</a><br>
+<a href="#Number-unsignedShortMax">
+unsignedShortMax
+</a><br>
+<a href="#Number-|">
+|()
+</a><br>
+</td>
+</tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>slots</h3>
+</td>
+<td></td>
+<td>
+<a name="Number-%"></a><b>
+%(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Returns the receiver modulus aNumber.
+</div>
+<a name="Number-&"></a><b>
+&(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Returns a new number with the bitwise AND of the receiver and aNumber.
+</div>
+<a name="Number-*"></a><b>
+*(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Returns a new number that is the product of the receiver and aNumber.
+</div>
+<a name="Number-**"></a><b>
+**(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Same as pow(aNumber).
+</div>
+<a name="Number-+"></a><b>
++(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Returns a new number that is the sum of the receiver and aNumber.
+</div>
+<a name="Number--"></a><b>
+-(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Returns a new number that is the difference of the receiver and aNumber.
+</div>
+<a name="Number-/"></a><b>
+/(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Returns a new number with the value of the receiver diveded by aNumber.
+</div>
+<a name="Number-&lt;&lt;"></a><b>
+&lt;&lt;(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Shifts the bits of the receiver left by the number of places specified by aNumber.
+</div>
+<a name="Number-&gt;&gt;"></a><b>
+&gt;&gt;(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Shifts the bits of the receiver right by the number of places specified by aNumber.
+</div>
+<a name="Number-^"></a><b>
+^(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Returns the bitwise xor with the receiver (both numbers are converted to longs for the operation).
+</div>
+<a name="Number-abs"></a><b>
+abs
+</b>
+<p>
+<div class=slotDescription>
+Returns a number with the absolute value of the receiver.
+</div>
+<a name="Number-acos"></a><b>
+acos
+</b>
+<p>
+<div class=slotDescription>
+Returns a number with the arc cosine of the receiver.
+</div>
+<a name="Number-asBinary"></a><b>
+asBinary
+</b>
+<p>
+<div class=slotDescription>
+Returns the number as binary digits inside a string. 42 asBinary -> "101010"
+</div>
+<a name="Number-asBuffer"></a><b>
+asBuffer(optionalNumberOfBytes)
+</b>
+<p>
+<div class=slotDescription>
+Returns a Buffer containing a the number of bytes specified by
+	optionalNumberOfBytes (up to the size of a double on the platform) of the reciever.
+	If no optionalNumberOfBytes is specified, it is assumed to be the number of bytes
+	in a double on the host platform.
+</div>
+<a name="Number-asCharacter"></a><b>
+asCharacter
+</b>
+<p>
+<div class=slotDescription>
+Returns a String containing a single character whose
+	value is the value of the first byte of the receiver.
+	Returns nil if the number has no valid UCS mapping.
+</div>
+<a name="Number-asHex"></a><b>
+asHex
+</b>
+<p>
+<div class=slotDescription>
+Returns the number as hex digits inside a string. 97 asHex -> "61"
+</div>
+<a name="Number-asJson"></a><b>
+asJson
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Number-asLowercase"></a><b>
+asLowercase
+</b>
+<p>
+<div class=slotDescription>
+Returns a new Number containing a lower case version of the receiver.
+</div>
+<a name="Number-asNumber"></a><b>
+asNumber
+</b>
+<p>
+<div class=slotDescription>
+Returns self.
+</div>
+<a name="Number-asOctal"></a><b>
+asOctal
+</b>
+<p>
+<div class=slotDescription>
+Returns the number as octal digits inside a string. 436 asOctal -> "664"
+</div>
+<a name="Number-asSimpleString"></a><b>
+asSimpleString
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Number-asString"></a><b>
+asString(optionalIntegerDigits, optionalFactionDigits)
+</b>
+<p>
+<div class=slotDescription>
+Returns a string representation of the receiver. For example:
+<pre>
+1234.5678 asString(0, 2)
+</pre>	
+would return:
+<pre>
+1234.57
+</pre>
+</div>
+<a name="Number-asUint32Buffer"></a><b>
+asUint32Buffer
+</b>
+<p>
+<div class=slotDescription>
+Returns a Sequence containing a 4 byte representation of the uint32 value of the receiver.
+</div>
+<a name="Number-asUppercase"></a><b>
+asUppercase
+</b>
+<p>
+<div class=slotDescription>
+Returns a new Number containing a upper case version of the receiver.
+</div>
+<a name="Number-asin"></a><b>
+asin
+</b>
+<p>
+<div class=slotDescription>
+Returns a number with the arc sine of the receiver.
+</div>
+<a name="Number-at"></a><b>
+at(bitIndexNumber)
+</b>
+<p>
+<div class=slotDescription>
+Returns a new Number containing 1 if the receiver cast to a long
+	has it's bit set to 1 at bitIndexNumber. Otherwise returns 0.
+</div>
+<a name="Number-atan"></a><b>
+atan
+</b>
+<p>
+<div class=slotDescription>
+Returns a number with the arc tangent of the receiver.
+</div>
+<a name="Number-atan2"></a><b>
+atan2(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Returns a number with the arc tangent of y/x where y is the receiver and x is aNumber.
+</div>
+<a name="Number-between"></a><b>
+between(aNumber1, aNumber2)
+</b>
+<p>
+<div class=slotDescription>
+Returns the true if the receiver's value is between or
+	equal to aNumber1 and aNumber2, otherwise returns false.
+</div>
+<a name="Number-bitwiseAnd"></a><b>
+bitwiseAnd(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Returns a new number with the bitwise AND of the receiver and aNumber.
+</div>
+<a name="Number-bitwiseComplement"></a><b>
+bitwiseComplement
+</b>
+<p>
+<div class=slotDescription>
+Returns a new number with the bitwise complement of the
+	receiver. (Turns the 0 bits of become 1s and the 1 bits become 0s. )
+</div>
+<a name="Number-bitwiseOr"></a><b>
+bitwiseOr(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Returns a new number with the bitwise AND of the receiver and aNumber.
+</div>
+<a name="Number-bitwiseXor"></a><b>
+bitwiseXor(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Returns a new number with the bitwise XOR of the receiver and aNumber.
+</div>
+<a name="Number-ceil"></a><b>
+ceil
+</b>
+<p>
+<div class=slotDescription>
+Returns the a number with the receiver's value rounded up to
+	the nearest integer if it's fractional component is greater than 0.
+</div>
+<a name="Number-clip"></a><b>
+clip(aNumber1, aNumber2)
+</b>
+<p>
+<div class=slotDescription>
+Returns self if the receiver is between aNumber1 and aNumber2.
+	Returns aNumber1 if it is less than aNumber1. Returns aNumber2 if it is greater than aNumber2.
+</div>
+<a name="Number-combinations"></a><b>
+combinations(size)
+</b>
+<p>
+<div class=slotDescription>
+Returns the combinations where the receiver is the number of different objects and size is the number to be arranged.
+</div>
+<a name="Number-constants"></a><b>
+constants
+</b>
+<p>
+<div class=slotDescription>
+Object containing number constants e, inf, nan and pi.
+</div>
+<a name="Number-cos"></a><b>
+cos
+</b>
+<p>
+<div class=slotDescription>
+Returns the cosine of the receiver.
+</div>
+<a name="Number-cubed"></a><b>
+cubed
+</b>
+<p>
+<div class=slotDescription>
+Returns the cube of the receiver.
+</div>
+<a name="Number-doubleMin"></a><b>
+doubleMin
+</b>
+<p>
+<div class=slotDescription>
+Returns the minimum double precision float value.
+</div>
+<a name="Number-e"></a><b>
+e
+</b>
+<p>
+<div class=slotDescription>
+Returns the constant e.
+</div>
+<a name="Number-exp"></a><b>
+exp
+</b>
+<p>
+<div class=slotDescription>
+Returns e to the power of the receiver.
+</div>
+<a name="Number-factorial"></a><b>
+factorial
+</b>
+<p>
+<div class=slotDescription>
+Returns the factorial of the receiver.
+</div>
+<a name="Number-floatMax"></a><b>
+floatMax
+</b>
+<p>
+<div class=slotDescription>
+Returns the maximum double precision float value.
+</div>
+<a name="Number-floatMin"></a><b>
+floatMin
+</b>
+<p>
+<div class=slotDescription>
+Returns the minimum float value.
+</div>
+<a name="Number-floor"></a><b>
+floor
+</b>
+<p>
+<div class=slotDescription>
+Returns the a number with the receiver's value rounded
+	down to the nearest integer if it's fractional component is not 0.
+</div>
+<a name="Number-inf"></a><b>
+inf
+</b>
+<p>
+<div class=slotDescription>
+Returns a not-a-number constant.
+</div>
+<a name="Number-integerMax"></a><b>
+integerMax
+</b>
+<p>
+<div class=slotDescription>
+Returns the maximum integer value.
+</div>
+<a name="Number-integerMin"></a><b>
+integerMin
+</b>
+<p>
+<div class=slotDescription>
+Returns the minimum integer value.
+</div>
+<a name="Number-isAlphaNumeric"></a><b>
+isAlphaNumeric
+</b>
+<p>
+<div class=slotDescription>
+Returns true if 
+	receiver is an alphanumeric character value
+	, false otherwise.
+</div>
+<a name="Number-isControlCharacter"></a><b>
+isControlCharacter
+</b>
+<p>
+<div class=slotDescription>
+Returns true if 
+	receiver is a control character value
+	, false otherwise.
+</div>
+<a name="Number-isDigit"></a><b>
+isDigit
+</b>
+<p>
+<div class=slotDescription>
+Returns true if 
+	receiver is a numeric digit value
+	, false otherwise.
+</div>
+<a name="Number-isEven"></a><b>
+isEven
+</b>
+<p>
+<div class=slotDescription>
+Returns true if 
+	integer form of the receiver is even
+	, false otherwise.
+</div>
+<a name="Number-isGraph"></a><b>
+isGraph
+</b>
+<p>
+<div class=slotDescription>
+Returns true if 
+	the receiver is a printing character value except space
+	, false otherwise.
+</div>
+<a name="Number-isHexDigit"></a><b>
+isHexDigit
+</b>
+<p>
+<div class=slotDescription>
+Returns true if 
+	the receiver is a hexadecimal character value
+	, false otherwise.
+</div>
+<a name="Number-isInASequenceSet"></a><b>
+isInASequenceSet
+</b>
+<p>
+<div class=slotDescription>
+Return true if receiver is in one of the Sequence sequenceSets, otherwise false.
+</div>
+<a name="Number-isLetter"></a><b>
+isLetter
+</b>
+<p>
+<div class=slotDescription>
+Returns true if 
+	receiver is a letter character value
+	, false otherwise.
+</div>
+<a name="Number-isLowercase"></a><b>
+isLowercase
+</b>
+<p>
+<div class=slotDescription>
+Returns true if 
+	the receiver is a lowercase character value
+	, false otherwise.
+</div>
+<a name="Number-isNan"></a><b>
+isNan
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the receiver is not a number. Otherwise returns false.
+</div>
+<a name="Number-isOdd"></a><b>
+isOdd
+</b>
+<p>
+<div class=slotDescription>
+Returns true if 
+	integer form of the receiver is odd
+	, false otherwise.
+</div>
+<a name="Number-isPrint"></a><b>
+isPrint
+</b>
+<p>
+<div class=slotDescription>
+Returns true if 
+	the receiver is a printing character value, including space
+	, false otherwise.
+</div>
+<a name="Number-isPunctuation"></a><b>
+isPunctuation
+</b>
+<p>
+<div class=slotDescription>
+Returns true if 
+	the receiver is a punctuation character value
+	, false otherwise.
+</div>
+<a name="Number-isSpace"></a><b>
+isSpace
+</b>
+<p>
+<div class=slotDescription>
+Returns true if 
+	the receiver is a space, formfeed, newline carriage return, tab or vertical tab character value
+	, false otherwise.
+</div>
+<a name="Number-isUppercase"></a><b>
+isUppercase
+</b>
+<p>
+<div class=slotDescription>
+Returns true if 
+	the receiver is a uppercase character value
+	, false otherwise.
+</div>
+<a name="Number-justSerialized"></a><b>
+justSerialized(stream)
+</b>
+<p>
+<div class=slotDescription>
+Writes the receiver's code into the stream.
+</div>
+<a name="Number-log"></a><b>
+log
+</b>
+<p>
+<div class=slotDescription>
+Returns the logarithm of the receiver.  The base
+	is taken as the value of the first argument or the constant e if
+	the first argument is omitted.
+</div>
+<a name="Number-log10"></a><b>
+log10
+</b>
+<p>
+<div class=slotDescription>
+Returns the base 10 logarithm of the receiver.
+</div>
+<a name="Number-log2"></a><b>
+log2
+</b>
+<p>
+<div class=slotDescription>
+Returns the base 2 logarithm of the receiver.
+</div>
+<a name="Number-longMax"></a><b>
+longMax
+</b>
+<p>
+<div class=slotDescription>
+Returns the maximum long value.
+</div>
+<a name="Number-longMin"></a><b>
+longMin
+</b>
+<p>
+<div class=slotDescription>
+Returns the minimum long value.
+</div>
+<a name="Number-max"></a><b>
+max(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Returns the greater of the receiver and aNumber.
+</div>
+<a name="Number-min"></a><b>
+min(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Returns the lesser of the receiver and aNumber.
+</div>
+<a name="Number-minMax"></a><b>
+minMax(low, high)
+</b>
+<p>
+<div class=slotDescription>
+Returns a number between or equal to low and high. If the receiver is equal to or between low and high, the reciever is returned. If the reciever is less than low, low is returned. If the receiver is greater than high, high is returned.
+</div>
+<a name="Number-mod"></a><b>
+mod(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Returns the receiver modulus aNumber.
+</div>
+<a name="Number-nan"></a><b>
+nan
+</b>
+<p>
+<div class=slotDescription>
+Returns a infinity constant.
+</div>
+<a name="Number-negate"></a><b>
+negate
+</b>
+<p>
+<div class=slotDescription>
+Returns new number that is negated version of the receiver.
+</div>
+<a name="Number-permutations"></a><b>
+permutations(size)
+</b>
+<p>
+<div class=slotDescription>
+Returns the permutations where the receiver is the number of different objects and size is the number to be arranged.
+</div>
+<a name="Number-pi"></a><b>
+pi
+</b>
+<p>
+<div class=slotDescription>
+Returns the constant pi.
+</div>
+<a name="Number-pow"></a><b>
+pow(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Returns the value of the receiver to the aNumber power.
+</div>
+<a name="Number-print"></a><b>
+print
+</b>
+<p>
+<div class=slotDescription>
+Prints the number.
+</div>
+<a name="Number-repeat"></a><b>
+repeat(optionalIndex, expression)
+</b>
+<p>
+<div class=slotDescription>
+Evaluates message a number of times that corresponds to the receivers
+	integer value. This is significantly  faster than a for() or while() loop.
+</div>
+<a name="Number-round"></a><b>
+round
+</b>
+<p>
+<div class=slotDescription>
+Returns the a number with the receiver's value rounded up to
+	the nearest integer if it's fraction component is >= .5 or rounded up the the nearest integer otherwises..
+</div>
+<a name="Number-roundDown"></a><b>
+roundDown
+</b>
+<p>
+<div class=slotDescription>
+Returns the a number with the receiver's value rounded down to
+	the nearest integer if it's fraction component is <= .5 or rounded up the the nearest integer otherwises.
+</div>
+<a name="Number-roundedUpToPowerOf2"></a><b>
+roundedUpToPowerOf2
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Number-shiftLeft"></a><b>
+shiftLeft
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Number-shiftRight"></a><b>
+shiftRight
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Number-shortMax"></a><b>
+shortMax
+</b>
+<p>
+<div class=slotDescription>
+Returns the maximum short value.
+</div>
+<a name="Number-shortMin"></a><b>
+shortMin
+</b>
+<p>
+<div class=slotDescription>
+Returns the minimum short value.
+</div>
+<a name="Number-sin"></a><b>
+sin
+</b>
+<p>
+<div class=slotDescription>
+Returns the sine of the receiver.
+</div>
+<a name="Number-sqrt"></a><b>
+sqrt
+</b>
+<p>
+<div class=slotDescription>
+Returns the square root of the receiver.
+</div>
+<a name="Number-squared"></a><b>
+squared
+</b>
+<p>
+<div class=slotDescription>
+Returns the square of the receiver.
+</div>
+<a name="Number-tan"></a><b>
+tan
+</b>
+<p>
+<div class=slotDescription>
+Returns the tangent of the receiver.
+</div>
+<a name="Number-toBase"></a><b>
+toBase(base)
+</b>
+<p>
+<div class=slotDescription>
+Returns the number in another base. 42 toBase(2) -> "101010"
+</div>
+<a name="Number-toBaseWholeBytes"></a><b>
+toBaseWholeBytes(base)
+</b>
+<p>
+<div class=slotDescription>
+Returns the number in another base printing out entire bytes. 42 toBaseWholeBytes(2) -> "00101010"
+</div>
+<a name="Number-toggle"></a><b>
+toggle
+</b>
+<p>
+<div class=slotDescription>
+Returns 1 if the receiver is 0. Returns 0 otherwise.
+</div>
+<a name="Number-unsignedIntMax"></a><b>
+unsignedIntMax
+</b>
+<p>
+<div class=slotDescription>
+Returns the maximum unsigned int value.
+</div>
+<a name="Number-unsignedLongMax"></a><b>
+unsignedLongMax
+</b>
+<p>
+<div class=slotDescription>
+Returns the maximum unsigned long value.
+</div>
+<a name="Number-unsignedShortMax"></a><b>
+unsignedShortMax
+</b>
+<p>
+<div class=slotDescription>
+Returns the minimum unsigned int value.
+</div>
+<a name="Number-|"></a><b>
+|(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Returns a new number with the bitwise OR of the receiver and aNumber.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

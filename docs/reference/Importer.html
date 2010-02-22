@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Io Reference Manual</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../docs.css">
+		</head>
+		<body>
+		
+<br><br><br>
+<table cellspacing=4 style="width:45em; line-height:1.2em;">
+<tr>
+<td>
+<a name=Importer></a><span class=protoName>Importer</span>
+</td>
+<td></td>
+<td>
+</tr>
+<tr>
+<td align=right><b><span class=protoModule>module</span></b></td>
+<td></td>
+<td>Core</td></tr>
+<tr>
+<td align=right><b><span class=protoDescription>description</span></b></td>
+<td></td>
+<td>A simple search path based auto-importer.
+</td></tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>index</h3>
+</td>
+<td></td>
+<td>
+<a href="#Importer-AddonImporter">
+AddonImporter
+</a><br>
+<a href="#Importer-FileImporter">
+FileImporter
+</a><br>
+<a href="#Importer-addSearchPath">
+addSearchPath()
+</a><br>
+<a href="#Importer-autoImportingForward">
+autoImportingForward
+</a><br>
+<a href="#Importer-import">
+import()
+</a><br>
+<a href="#Importer-importers">
+importers
+</a><br>
+<a href="#Importer-paths">
+paths
+</a><br>
+<a href="#Importer-removeSearchPath">
+removeSearchPath()
+</a><br>
+<a href="#Importer-turnOff">
+turnOff
+</a><br>
+<a href="#Importer-turnOn">
+turnOn
+</a><br>
+</td>
+</tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>slots</h3>
+</td>
+<td></td>
+<td>
+<a name="Importer-AddonImporter"></a><b>
+AddonImporter
+</b>
+<p>
+<div class=slotDescription>
+An Importer for addon modules.
+</div>
+<a name="Importer-FileImporter"></a><b>
+FileImporter
+</b>
+<p>
+<div class=slotDescription>
+An Importer for local source files.
+</div>
+<a name="Importer-addSearchPath"></a><b>
+addSearchPath(path)
+</b>
+<p>
+<div class=slotDescription>
+Add a search path to the auto importer. Relative paths are made absolute before adding.
+</div>
+<a name="Importer-autoImportingForward"></a><b>
+autoImportingForward
+</b>
+<p>
+<div class=slotDescription>
+A forward method implementation placed in the Lobby when Importing is turned on.
+</div>
+<a name="Importer-import"></a><b>
+import(originalCallMessage)
+</b>
+<p>
+<div class=slotDescription>
+Imports an object or addon for the given Message.
+</div>
+<a name="Importer-importers"></a><b>
+importers
+</b>
+<p>
+<div class=slotDescription>
+List of Importer objects.
+</div>
+<a name="Importer-paths"></a><b>
+paths
+</b>
+<p>
+<div class=slotDescription>
+List of paths the proto importer will check while searching for protos to load.
+</div>
+<a name="Importer-removeSearchPath"></a><b>
+removeSearchPath(path)
+</b>
+<p>
+<div class=slotDescription>
+Removes a search path from the auto importer. Relative paths should be removed from the same working directory as they were added.
+</div>
+<a name="Importer-turnOff"></a><b>
+turnOff
+</b>
+<p>
+<div class=slotDescription>
+Turns off the Importer. Returns self.
+</div>
+<a name="Importer-turnOn"></a><b>
+turnOn
+</b>
+<p>
+<div class=slotDescription>
+Turns on the Importer. Returns self.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

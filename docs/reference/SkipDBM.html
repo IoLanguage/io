@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Io Reference Manual</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../docs.css">
+		</head>
+		<body>
+		
+<br><br><br>
+<table cellspacing=4 style="width:45em; line-height:1.2em;">
+<tr>
+<td>
+<a name=SkipDBM></a><span class=protoName>SkipDBM</span>
+</td>
+<td></td>
+<td>
+</tr>
+<tr>
+<td align=right><b><span class=protoModule>module</span></b></td>
+<td></td>
+<td>SkipDB</td></tr>
+<tr>
+<td align=right><b><span class=protoCategory>category</span></b></td>
+<td></td>
+<td>Databases")
+</td></tr>
+<tr>
+<td align=right><b><span class=protoDescription>description</span></b></td>
+<td></td>
+<td>SkipDB is a skip-list based key-value database. SkipDBM manages any number of skipdbs within the same file. The root skipdb can be accessed using the root method.")
+	docObject
+</td></tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>index</h3>
+</td>
+<td></td>
+<td>
+<a href="#SkipDBM-at">
+at()
+</a><br>
+<a href="#SkipDBM-beginTransaction">
+beginTransaction
+</a><br>
+<a href="#SkipDBM-close">
+close
+</a><br>
+<a href="#SkipDBM-commitTransaction">
+commitTransaction
+</a><br>
+<a href="#SkipDBM-compact">
+compact
+</a><br>
+<a href="#SkipDBM-delete">
+delete
+</a><br>
+<a href="#SkipDBM-open">
+open
+</a><br>
+<a href="#SkipDBM-path">
+path
+</a><br>
+<a href="#SkipDBM-root">
+root
+</a><br>
+<a href="#SkipDBM-setPath">
+setPath()
+</a><br>
+</td>
+</tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>slots</h3>
+</td>
+<td></td>
+<td>
+<a name="SkipDBM-at"></a><b>
+at(pidNumber)
+</b>
+<p>
+<div class=slotDescription>
+Returns the SkipDB at the specified persistent ID or nil if it is not found.
+</div>
+<a name="SkipDBM-beginTransaction"></a><b>
+beginTransaction
+</b>
+<p>
+<div class=slotDescription>
+Begin a transaction. Returns self.
+</div>
+<a name="SkipDBM-close"></a><b>
+close
+</b>
+<p>
+<div class=slotDescription>
+Closes the dbm.
+</div>
+<a name="SkipDBM-commitTransaction"></a><b>
+commitTransaction
+</b>
+<p>
+<div class=slotDescription>
+Commit a transaction. Returns self.
+</div>
+<a name="SkipDBM-compact"></a><b>
+compact
+</b>
+<p>
+<div class=slotDescription>
+Compacts the database. Returns self.
+</div>
+<a name="SkipDBM-delete"></a><b>
+delete
+</b>
+<p>
+<div class=slotDescription>
+Deletes the db. Returns self.
+</div>
+<a name="SkipDBM-open"></a><b>
+open
+</b>
+<p>
+<div class=slotDescription>
+Opens the dbm. Returns self.
+</div>
+<a name="SkipDBM-path"></a><b>
+path
+</b>
+<p>
+<div class=slotDescription>
+Returns the path to the dbm. Returns self.
+</div>
+<a name="SkipDBM-root"></a><b>
+root
+</b>
+<p>
+<div class=slotDescription>
+Returns the root SkipDB.
+</div>
+<a name="SkipDBM-setPath"></a><b>
+setPath(aString)
+</b>
+<p>
+<div class=slotDescription>
+Sets the path to the dbm folder. Returns self.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

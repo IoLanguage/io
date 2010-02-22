@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Io Reference Manual</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../docs.css">
+		</head>
+		<body>
+		
+<br><br><br>
+<table cellspacing=4 style="width:45em; line-height:1.2em;">
+<tr>
+<td>
+<a name=AudioDevice></a><span class=protoName>AudioDevice</span>
+</td>
+<td></td>
+<td>
+</tr>
+<tr>
+<td align=right><b><span class=protoModule>module</span></b></td>
+<td></td>
+<td>PortAudio</td></tr>
+<tr>
+<td align=right><b><span class=protoCategory>category</span></b></td>
+<td></td>
+<td>Media
+</td></tr>
+<tr>
+<td align=right><b><span class=protoDescription>description</span></b></td>
+<td></td>
+<td>The AudioDevice object can used to write audio data as if directly to the audio buffer.
+</td></tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>index</h3>
+</td>
+<td></td>
+<td>
+<a href="#AudioDevice-asyncRead">
+asyncRead
+</a><br>
+<a href="#AudioDevice-asyncWrite">
+asyncWrite()
+</a><br>
+<a href="#AudioDevice-close">
+close
+</a><br>
+<a href="#AudioDevice-error">
+error
+</a><br>
+<a href="#AudioDevice-isActive">
+isActive
+</a><br>
+<a href="#AudioDevice-needsData">
+needsData
+</a><br>
+<a href="#AudioDevice-open">
+open
+</a><br>
+<a href="#AudioDevice-openForReadingAndWriting">
+openForReadingAndWriting
+</a><br>
+<a href="#AudioDevice-streamTime">
+streamTime
+</a><br>
+<a href="#AudioDevice-write">
+write()
+</a><br>
+<a href="#AudioDevice-writeBufferIsEmpty">
+writeBufferIsEmpty
+</a><br>
+</td>
+</tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>slots</h3>
+</td>
+<td></td>
+<td>
+<a name="AudioDevice-asyncRead"></a><b>
+asyncRead
+</b>
+<p>
+<div class=slotDescription>
+Returns the audio read buffer.
+</div>
+<a name="AudioDevice-asyncWrite"></a><b>
+asyncWrite(aBuffer)
+</b>
+<p>
+<div class=slotDescription>
+Writes aBuffer to the audio output buffer and returns immediately.
+</div>
+<a name="AudioDevice-close"></a><b>
+close
+</b>
+<p>
+<div class=slotDescription>
+Close the audio stream.
+</div>
+<a name="AudioDevice-error"></a><b>
+error
+</b>
+<p>
+<div class=slotDescription>
+Returns an error string if an error has occured, Nil otherwise.
+</div>
+<a name="AudioDevice-isActive"></a><b>
+isActive
+</b>
+<p>
+<div class=slotDescription>
+Returns self if the receiver is active, Nil otherwise.
+</div>
+<a name="AudioDevice-needsData"></a><b>
+needsData
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the receiver can read more data.
+</div>
+<a name="AudioDevice-open"></a><b>
+open
+</b>
+<p>
+<div class=slotDescription>
+Open an audio output stream.
+</div>
+<a name="AudioDevice-openForReadingAndWriting"></a><b>
+openForReadingAndWriting
+</b>
+<p>
+<div class=slotDescription>
+Open audio output and input streams.
+</div>
+<a name="AudioDevice-streamTime"></a><b>
+streamTime
+</b>
+<p>
+<div class=slotDescription>
+Returns the audio stream time as a number.
+</div>
+<a name="AudioDevice-write"></a><b>
+write(aSeq) Writes aSeq to the inputBuffer and yields until the
+</b>
+<p>
+<div class=slotDescription>
+receiver is ready for more input data. Returns self.
+</div>
+<a name="AudioDevice-writeBufferIsEmpty"></a><b>
+writeBufferIsEmpty
+</b>
+<p>
+<div class=slotDescription>
+Returns the true if the audio buffer is empty, false otherwise.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

@@ -1,0 +1,910 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Io Reference Manual</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../docs.css">
+		</head>
+		<body>
+		
+<br><br><br>
+<table cellspacing=4 style="width:45em; line-height:1.2em;">
+<tr>
+<td>
+<a name=URL></a><span class=protoName>URL</span>
+</td>
+<td></td>
+<td>
+</tr>
+<tr>
+<td align=right><b><span class=protoModule>module</span></b></td>
+<td></td>
+<td>Socket</td></tr>
+<tr>
+<td align=right><b><span class=protoCategory>category</span></b></td>
+<td></td>
+<td>Networking
+</td></tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>index</h3>
+</td>
+<td></td>
+<td>
+<a href="#URL-cacheFile">
+cacheFile
+</a><br>
+<a href="#URL-cacheFolder">
+cacheFolder
+</a><br>
+<a href="#URL-cacheLoad">
+cacheLoad
+</a><br>
+<a href="#URL-cacheOn">
+cacheOn
+</a><br>
+<a href="#URL-cacheStore">
+cacheStore
+</a><br>
+<a href="#URL-cacheTimeout">
+cacheTimeout
+</a><br>
+<a href="#URL-childUrl">
+childUrl
+</a><br>
+<a href="#URL-clear">
+clear
+</a><br>
+<a href="#URL-connectAndWriteHeader">
+connectAndWriteHeader
+</a><br>
+<a href="#URL-constructHttpHeader">
+constructHttpHeader
+</a><br>
+<a href="#URL-cookie">
+cookie
+</a><br>
+<a href="#URL-delete">
+delete
+</a><br>
+<a href="#URL-domain">
+domain
+</a><br>
+<a href="#URL-escapeString">
+escapeString()
+</a><br>
+<a href="#URL-evFetchHttp">
+evFetchHttp
+</a><br>
+<a href="#URL-evPost">
+evPost
+</a><br>
+<a href="#URL-fetch">
+fetch
+</a><br>
+<a href="#URL-fetchAndFollowRedirect">
+fetchAndFollowRedirect
+</a><br>
+<a href="#URL-fetchHttp">
+fetchHttp()
+</a><br>
+<a href="#URL-fetchOrFailToFilePath">
+fetchOrFailToFilePath
+</a><br>
+<a href="#URL-fetchRaw">
+fetchRaw
+</a><br>
+<a href="#URL-fetchToFile">
+fetchToFile()
+</a><br>
+<a href="#URL-fetchWithDelegate">
+fetchWithDelegate
+</a><br>
+<a href="#URL-fetchWithProgress">
+fetchWithProgress()
+</a><br>
+<a href="#URL-followRedirects">
+followRedirects
+</a><br>
+<a href="#URL-fourCharheaderBreaks">
+fourCharheaderBreaks
+</a><br>
+<a href="#URL-hasResponseHeaders">
+hasResponseHeaders
+</a><br>
+<a href="#URL-headerBreaks">
+headerBreaks
+</a><br>
+<a href="#URL-host">
+host
+</a><br>
+<a href="#URL-isSynchronous">
+isSynchronous
+</a><br>
+<a href="#URL-lastRedirectUrl">
+lastRedirectUrl
+</a><br>
+<a href="#URL-maxRedirects">
+maxRedirects
+</a><br>
+<a href="#URL-openOnDesktop">
+openOnDesktop
+</a><br>
+<a href="#URL-parse">
+parse
+</a><br>
+<a href="#URL-password">
+password
+</a><br>
+<a href="#URL-post">
+post()
+</a><br>
+<a href="#URL-processHttpResponse">
+processHttpResponse()
+</a><br>
+<a href="#URL-protocol">
+protocol
+</a><br>
+<a href="#URL-put">
+put
+</a><br>
+<a href="#URL-readHeader">
+readHeader
+</a><br>
+<a href="#URL-redirectUrl">
+redirectUrl
+</a><br>
+<a href="#URL-referer">
+referer
+</a><br>
+<a href="#URL-requestHeader">
+requestHeader
+</a><br>
+<a href="#URL-requestHeaders">
+requestHeaders
+</a><br>
+<a href="#URL-responseCookie">
+responseCookie
+</a><br>
+<a href="#URL-setCacheOn">
+setCacheOn
+</a><br>
+<a href="#URL-setCookie">
+setCookie
+</a><br>
+<a href="#URL-setFollowRedirects">
+setFollowRedirects
+</a><br>
+<a href="#URL-setHost">
+setHost
+</a><br>
+<a href="#URL-setIsSynchronous">
+setIsSynchronous
+</a><br>
+<a href="#URL-setMaxRedirects">
+setMaxRedirects
+</a><br>
+<a href="#URL-setPassword">
+setPassword
+</a><br>
+<a href="#URL-setProtocol">
+setProtocol
+</a><br>
+<a href="#URL-setReadHeader">
+setReadHeader
+</a><br>
+<a href="#URL-setRedirectUrl">
+setRedirectUrl
+</a><br>
+<a href="#URL-setReferer">
+setReferer()
+</a><br>
+<a href="#URL-setRequest">
+setRequest()
+</a><br>
+<a href="#URL-setResponseHeaderString">
+setResponseHeaderString()
+</a><br>
+<a href="#URL-setSocket">
+setSocket
+</a><br>
+<a href="#URL-setSocketProto">
+setSocketProto
+</a><br>
+<a href="#URL-setStatusCode">
+setStatusCode
+</a><br>
+<a href="#URL-setStreamDestination">
+setStreamDestination
+</a><br>
+<a href="#URL-setTimeout">
+setTimeout
+</a><br>
+<a href="#URL-setURL">
+setURL()
+</a><br>
+<a href="#URL-setUserAgent">
+setUserAgent
+</a><br>
+<a href="#URL-setUsername">
+setUsername
+</a><br>
+<a href="#URL-setUsesBasicAuthentication">
+setUsesBasicAuthentication
+</a><br>
+<a href="#URL-socket">
+socket
+</a><br>
+<a href="#URL-socketProto">
+socketProto
+</a><br>
+<a href="#URL-standardHeaderSymbols">
+standardHeaderSymbols
+</a><br>
+<a href="#URL-startStreaming">
+startStreaming
+</a><br>
+<a href="#URL-statusCode">
+statusCode
+</a><br>
+<a href="#URL-stopFetch">
+stopFetch
+</a><br>
+<a href="#URL-streamDestination">
+streamDestination
+</a><br>
+<a href="#URL-test">
+test
+</a><br>
+<a href="#URL-twoCharheaderBreaks">
+twoCharheaderBreaks
+</a><br>
+<a href="#URL-unescapeString">
+unescapeString()
+</a><br>
+<a href="#URL-unparse">
+unparse
+</a><br>
+<a href="#URL-url">
+url
+</a><br>
+<a href="#URL-useBasicAuthentication">
+useBasicAuthentication
+</a><br>
+<a href="#URL-useEv">
+useEv
+</a><br>
+<a href="#URL-username">
+username
+</a><br>
+<a href="#URL-usesBasicAuthentication">
+usesBasicAuthentication
+</a><br>
+<a href="#URL-with">
+with()
+</a><br>
+</td>
+</tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>slots</h3>
+</td>
+<td></td>
+<td>
+<a name="URL-cacheFile"></a><b>
+cacheFile
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-cacheFolder"></a><b>
+cacheFolder
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-cacheLoad"></a><b>
+cacheLoad
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-cacheOn"></a><b>
+cacheOn
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-cacheStore"></a><b>
+cacheStore
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-cacheTimeout"></a><b>
+cacheTimeout
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-childUrl"></a><b>
+childUrl
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<font color=#888>
+<a name="URL-clear"></a><b>
+clear
+</b>
+<p>
+<div class=slotDescription>
+Private method to clear the URL's parsed attributes.
+</font>
+</div>
+<a name="URL-connectAndWriteHeader"></a><b>
+connectAndWriteHeader
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-constructHttpHeader"></a><b>
+constructHttpHeader
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-cookie"></a><b>
+cookie
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-delete"></a><b>
+delete
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-domain"></a><b>
+domain
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-escapeString"></a><b>
+escapeString(aString)
+</b>
+<p>
+<div class=slotDescription>
+Returns a new String that is aString with the appropriate characters replaced by their URL escape codes.
+</div>
+<a name="URL-evFetchHttp"></a><b>
+evFetchHttp
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-evPost"></a><b>
+evPost
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-fetch"></a><b>
+fetch
+</b>
+<p>
+<div class=slotDescription>
+Fetches the url and returns the result as a Sequence. Returns an Error, if one occurs.
+</div>
+<a name="URL-fetchAndFollowRedirect"></a><b>
+fetchAndFollowRedirect
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<font color=#888>
+<a name="URL-fetchHttp"></a><b>
+fetchHttp(optionalProgressBlock)
+</b>
+<p>
+<div class=slotDescription>
+Private method that fetches an http url.
+</font>
+</div>
+<a name="URL-fetchOrFailToFilePath"></a><b>
+fetchOrFailToFilePath
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-fetchRaw"></a><b>
+fetchRaw
+</b>
+<p>
+<div class=slotDescription>
+Fetch and return the entire response. Note: This may have problems for some request times.
+</div>
+<a name="URL-fetchToFile"></a><b>
+fetchToFile(aFile)
+</b>
+<p>
+<div class=slotDescription>
+Fetch the url and save the result to the specified File object. 
+	Saving is done as the data is read, which help minimize memory usage. 
+	Returns self on success or nil on error.
+</div>
+<a name="URL-fetchWithDelegate"></a><b>
+fetchWithDelegate
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-fetchWithProgress"></a><b>
+fetchWithProgress(progressBlock)
+</b>
+<p>
+<div class=slotDescription>
+Same as fetch, but with each read, progressBlock is called with the readBuffer 
+	and the content size as parameters.
+</div>
+<a name="URL-followRedirects"></a><b>
+followRedirects
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-fourCharheaderBreaks"></a><b>
+fourCharheaderBreaks
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-hasResponseHeaders"></a><b>
+hasResponseHeaders
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<font color=#888>
+<a name="URL-headerBreaks"></a><b>
+headerBreaks
+</b>
+<p>
+<div class=slotDescription>
+Private method to connect to the host and write the header.
+</font>
+</div>
+<a name="URL-host"></a><b>
+host
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-isSynchronous"></a><b>
+isSynchronous
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-lastRedirectUrl"></a><b>
+lastRedirectUrl
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-maxRedirects"></a><b>
+maxRedirects
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-openOnDesktop"></a><b>
+openOnDesktop
+</b>
+<p>
+<div class=slotDescription>
+Opens the URL in the local default browser. Supports OSX, Windows and (perhaps) other Unixes.
+</div>
+<font color=#888>
+<a name="URL-parse"></a><b>
+parse
+</b>
+<p>
+<div class=slotDescription>
+Private method to parse the url.
+</font>
+</div>
+<a name="URL-password"></a><b>
+password
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-post"></a><b>
+post(parameters, headers)
+</b>
+<p>
+<div class=slotDescription>
+Sends an http post message. If parameters is a Map, it's key/value pairs are 
+	send as the post parameters. If parameters is a Sequence or String, it is sent directly.
+	Any headers in the headers map are sent with the request.
+	Returns a sequence containing the response on success or an Error, if one occurs.
+</div>
+<font color=#888>
+<a name="URL-processHttpResponse"></a><b>
+processHttpResponse(optionalProgressBlock)
+</b>
+<p>
+<div class=slotDescription>
+Private method that processes http response.
+</font>
+</div>
+<a name="URL-protocol"></a><b>
+protocol
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-put"></a><b>
+put
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-readHeader"></a><b>
+readHeader
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-redirectUrl"></a><b>
+redirectUrl
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-referer"></a><b>
+referer
+</b>
+<p>
+<div class=slotDescription>
+Returns the referer String or nil if not set.
+</div>
+<a name="URL-requestHeader"></a><b>
+requestHeader
+</b>
+<p>
+<div class=slotDescription>
+Returns a Sequence containing the request header that will be sent.
+</div>
+<a name="URL-requestHeaders"></a><b>
+requestHeaders
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-responseCookie"></a><b>
+responseCookie
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-setCacheOn"></a><b>
+setCacheOn
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-setCookie"></a><b>
+setCookie
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-setFollowRedirects"></a><b>
+setFollowRedirects
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-setHost"></a><b>
+setHost
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-setIsSynchronous"></a><b>
+setIsSynchronous
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-setMaxRedirects"></a><b>
+setMaxRedirects
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-setPassword"></a><b>
+setPassword
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-setProtocol"></a><b>
+setProtocol
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-setReadHeader"></a><b>
+setReadHeader
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-setRedirectUrl"></a><b>
+setRedirectUrl
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-setReferer"></a><b>
+setReferer(aString)
+</b>
+<p>
+<div class=slotDescription>
+Sets the referer. Returns self.
+</div>
+<font color=#888>
+<a name="URL-setRequest"></a><b>
+setRequest(requestString)
+</b>
+<p>
+<div class=slotDescription>
+Private method to set the url request.
+</font>
+</div>
+<font color=#888>
+<a name="URL-setResponseHeaderString"></a><b>
+setResponseHeaderString(headerString)
+</b>
+<p>
+<div class=slotDescription>
+Private method that parses the responseHeaders.
+</font>
+</div>
+<a name="URL-setSocket"></a><b>
+setSocket
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-setSocketProto"></a><b>
+setSocketProto
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-setStatusCode"></a><b>
+setStatusCode
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-setStreamDestination"></a><b>
+setStreamDestination
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-setTimeout"></a><b>
+setTimeout
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-setURL"></a><b>
+setURL(urlString)
+</b>
+<p>
+<div class=slotDescription>
+Sets the url string and parses into the protocol, host, port path, and query slots. Returns self.
+</div>
+<a name="URL-setUserAgent"></a><b>
+setUserAgent
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-setUsername"></a><b>
+setUsername
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-setUsesBasicAuthentication"></a><b>
+setUsesBasicAuthentication
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-socket"></a><b>
+socket
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-socketProto"></a><b>
+socketProto
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-standardHeaderSymbols"></a><b>
+standardHeaderSymbols
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-startStreaming"></a><b>
+startStreaming
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-statusCode"></a><b>
+statusCode
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-stopFetch"></a><b>
+stopFetch
+</b>
+<p>
+<div class=slotDescription>
+Stops the fetch, if there is one. Returns self.
+</div>
+<a name="URL-streamDestination"></a><b>
+streamDestination
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<font color=#888>
+<a name="URL-test"></a><b>
+test
+</b>
+<p>
+<div class=slotDescription>
+Private test method.
+</font>
+</div>
+<a name="URL-twoCharheaderBreaks"></a><b>
+twoCharheaderBreaks
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-unescapeString"></a><b>
+unescapeString(aString)
+</b>
+<p>
+<div class=slotDescription>
+Returns a new String that is aString with the URL escape codes replaced by the appropriate characters.
+</div>
+<a name="URL-unparse"></a><b>
+unparse
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-url"></a><b>
+url
+</b>
+<p>
+<div class=slotDescription>
+Returns url string.
+</div>
+<a name="URL-useBasicAuthentication"></a><b>
+useBasicAuthentication
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-useEv"></a><b>
+useEv
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-username"></a><b>
+username
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-usesBasicAuthentication"></a><b>
+usesBasicAuthentication
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="URL-with"></a><b>
+with(urlString)
+</b>
+<p>
+<div class=slotDescription>
+Returns a new URL instance for the url in the urlString.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

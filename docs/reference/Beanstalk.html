@@ -1,0 +1,484 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Io Reference Manual</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../docs.css">
+		</head>
+		<body>
+		
+<br><br><br>
+<table cellspacing=4 style="width:45em; line-height:1.2em;">
+<tr>
+<td>
+<a name=Beanstalk></a><span class=protoName>Beanstalk</span>
+</td>
+<td></td>
+<td>
+</tr>
+<tr>
+<td align=right><b><span class=protoModule>module</span></b></td>
+<td></td>
+<td>Beanstalk</td></tr>
+<tr>
+<td align=right><b><span class=protoCategory>category</span></b></td>
+<td></td>
+<td>Messaging
+</td></tr>
+<tr>
+<td align=right><b><span class=protoCredits>credits</span></b></td>
+<td></td>
+<td>Aleksey Yeschenko, 2009. Default arguments and some other things taken from beanstalk-client-ruby by Keith Rarick.
+</td></tr>
+<tr>
+<td align=right><b><span class=protoDescription>description</span></b></td>
+<td></td>
+<td>beanstalkd is a fast, distributed, in-memory workqueue service. See http://xph.us/software/beanstalkd/
+<br />An example from http://xph.us/software/beanstalkd/:
+<br />First, have one process put a job into the queue:
+<pre>
+producer := Beanstalk clone connect("127.0.0.1:11300")
+producer put("hello")
+</pre>
+
+Then start another process to take jobs out of the queue and run them:
+<pre>
+worker := Beanstalk clone connect("127.0.0.1:11300")
+loop(
+	job := worker reserve
+	job body println # prints "hello"
+	job delete
+)
+</pre>
+See Beanstalk.io code and protocol description (http://github.com/kr/beanstalkd/tree/master/doc/protocol.txt) for details.
+Both are short and easy to read.
+
+<br />Stat commands depend on <a href="http://github.com/why/syck/tree/a4f241be5d247853aea6127d02dbdedd8a1dd477/ext/io">YAML</a>.
+</td></tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>index</h3>
+</td>
+<td></td>
+<td>
+<a href="#Beanstalk-BadFormatError">
+BadFormatError
+</a><br>
+<a href="#Beanstalk-DeadlineSoonError">
+DeadlineSoonError
+</a><br>
+<a href="#Beanstalk-DrainingError">
+DrainingError
+</a><br>
+<a href="#Beanstalk-ExpectedCRLFError">
+ExpectedCRLFError
+</a><br>
+<a href="#Beanstalk-InternalError">
+InternalError
+</a><br>
+<a href="#Beanstalk-JobTooBigError">
+JobTooBigError
+</a><br>
+<a href="#Beanstalk-NotFoundError">
+NotFoundError
+</a><br>
+<a href="#Beanstalk-NotIgnoredError">
+NotIgnoredError
+</a><br>
+<a href="#Beanstalk-OutOfMemoryError">
+OutOfMemoryError
+</a><br>
+<a href="#Beanstalk-TimedOutError">
+TimedOutError
+</a><br>
+<a href="#Beanstalk-UnknownCommandError">
+UnknownCommandError
+</a><br>
+<a href="#Beanstalk-allErrors">
+allErrors
+</a><br>
+<a href="#Beanstalk-bury">
+bury()
+</a><br>
+<a href="#Beanstalk-command">
+command
+</a><br>
+<a href="#Beanstalk-connect">
+connect()
+</a><br>
+<a href="#Beanstalk-delete">
+delete()
+</a><br>
+<a href="#Beanstalk-disconnect">
+disconnect
+</a><br>
+<a href="#Beanstalk-errorWithMessage">
+errorWithMessage
+</a><br>
+<a href="#Beanstalk-ignore">
+ignore
+</a><br>
+<a href="#Beanstalk-kick">
+kick
+</a><br>
+<a href="#Beanstalk-listTubeUsed">
+listTubeUsed
+</a><br>
+<a href="#Beanstalk-listTubes">
+listTubes
+</a><br>
+<a href="#Beanstalk-listTubesWatched">
+listTubesWatched
+</a><br>
+<a href="#Beanstalk-peek">
+peek
+</a><br>
+<a href="#Beanstalk-peekBuried">
+peekBuried
+</a><br>
+<a href="#Beanstalk-peekDelayed">
+peekDelayed
+</a><br>
+<a href="#Beanstalk-peekGeneric">
+peekGeneric
+</a><br>
+<a href="#Beanstalk-peekReady">
+peekReady
+</a><br>
+<a href="#Beanstalk-put">
+put()
+</a><br>
+<a href="#Beanstalk-readJob">
+readJob
+</a><br>
+<a href="#Beanstalk-readYAML">
+readYAML
+</a><br>
+<a href="#Beanstalk-release">
+release()
+</a><br>
+<a href="#Beanstalk-reserve">
+reserve()
+</a><br>
+<a href="#Beanstalk-reserveWithTimeout">
+reserveWithTimeout
+</a><br>
+<a href="#Beanstalk-stats">
+stats
+</a><br>
+<a href="#Beanstalk-statsJob">
+statsJob
+</a><br>
+<a href="#Beanstalk-statsTube">
+statsTube
+</a><br>
+<a href="#Beanstalk-touch">
+touch()
+</a><br>
+<a href="#Beanstalk-use">
+use
+</a><br>
+<a href="#Beanstalk-watch">
+watch
+</a><br>
+</td>
+</tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>slots</h3>
+</td>
+<td></td>
+<td>
+<a name="Beanstalk-BadFormatError"></a><b>
+BadFormatError
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-DeadlineSoonError"></a><b>
+DeadlineSoonError
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-DrainingError"></a><b>
+DrainingError
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-ExpectedCRLFError"></a><b>
+ExpectedCRLFError
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-InternalError"></a><b>
+InternalError
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-JobTooBigError"></a><b>
+JobTooBigError
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-NotFoundError"></a><b>
+NotFoundError
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-NotIgnoredError"></a><b>
+NotIgnoredError
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-OutOfMemoryError"></a><b>
+OutOfMemoryError
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-TimedOutError"></a><b>
+TimedOutError
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-UnknownCommandError"></a><b>
+UnknownCommandError
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-allErrors"></a><b>
+allErrors
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-bury"></a><b>
+bury(id, pri)
+</b>
+<p>
+<div class=slotDescription>
+Puts a job into the "buried" state
+</div>
+<a name="Beanstalk-command"></a><b>
+command
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-connect"></a><b>
+connect(address)
+</b>
+<p>
+<div class=slotDescription>
+Connects to a beanstalk server. address is a "host:port" string, e.g., "127.0.0.1:11300"
+</div>
+<a name="Beanstalk-delete"></a><b>
+delete(id)
+</b>
+<p>
+<div class=slotDescription>
+Removes a job with a given id from the server, entirely
+</div>
+<a name="Beanstalk-disconnect"></a><b>
+disconnect
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-errorWithMessage"></a><b>
+errorWithMessage
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-ignore"></a><b>
+ignore
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-kick"></a><b>
+kick
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-listTubeUsed"></a><b>
+listTubeUsed
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-listTubes"></a><b>
+listTubes
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-listTubesWatched"></a><b>
+listTubesWatched
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-peek"></a><b>
+peek
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-peekBuried"></a><b>
+peekBuried
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-peekDelayed"></a><b>
+peekDelayed
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-peekGeneric"></a><b>
+peekGeneric
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-peekReady"></a><b>
+peekReady
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-put"></a><b>
+put(body, pri, delay, ttr)
+</b>
+<p>
+<div class=slotDescription>
+Inserts a job into the queue.
+	<br />pri - priority, an integer < 2**32. Jobs with smaller priority values will be
+	scheduled before jobs with larger priorities. The most urgent priority is 0;
+	the least urgent priority is 4294967295.
+	<br />delay - an integer number of seconds to wait before putting the job in
+	the ready queue. The job will be in the "delayed" state during this time.
+	<br />ttr - time to run, an integer number of seconds to allow a worker to run this job.
+</div>
+<a name="Beanstalk-readJob"></a><b>
+readJob
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-readYAML"></a><b>
+readYAML
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-release"></a><b>
+release(id)
+</b>
+<p>
+<div class=slotDescription>
+Puts a reserved job back into the ready queue
+</div>
+<a name="Beanstalk-reserve"></a><b>
+reserve(timeout)
+</b>
+<p>
+<div class=slotDescription>
+Returns and reserves a job (waits until one becomes available if necessary)
+</div>
+<a name="Beanstalk-reserveWithTimeout"></a><b>
+reserveWithTimeout
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-stats"></a><b>
+stats
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-statsJob"></a><b>
+statsJob
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-statsTube"></a><b>
+statsTube
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-touch"></a><b>
+touch(id)
+</b>
+<p>
+<div class=slotDescription>
+Allows a worker to request more time to work on a job.
+</div>
+<a name="Beanstalk-use"></a><b>
+use
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-watch"></a><b>
+watch
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

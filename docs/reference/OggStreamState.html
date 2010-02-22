@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Io Reference Manual</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../docs.css">
+		</head>
+		<body>
+		
+<br><br><br>
+<table cellspacing=4 style="width:45em; line-height:1.2em;">
+<tr>
+<td>
+<a name=OggStreamState></a><span class=protoName>OggStreamState</span>
+</td>
+<td></td>
+<td>
+</tr>
+<tr>
+<td align=right><b><span class=protoModule>module</span></b></td>
+<td></td>
+<td>Ogg</td></tr>
+<tr>
+<td align=right><b><span class=protoCategory>category</span></b></td>
+<td></td>
+<td>Multimedia
+</td></tr>
+<tr>
+<td align=right><b><span class=protoDescription>description</span></b></td>
+<td></td>
+<td>A wrapper around the libogg ogg_stream_state object.
+</td></tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>index</h3>
+</td>
+<td></td>
+<td>
+<a href="#OggStreamState-clear">
+clear
+</a><br>
+<a href="#OggStreamState-eos">
+eos
+</a><br>
+<a href="#OggStreamState-packetout">
+packetout()
+</a><br>
+<a href="#OggStreamState-packetpeek">
+packetpeek()
+</a><br>
+<a href="#OggStreamState-pagein">
+pagein()
+</a><br>
+<a href="#OggStreamState-reset">
+reset
+</a><br>
+<a href="#OggStreamState-setSerialNumber">
+setSerialNumber
+</a><br>
+</td>
+</tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>slots</h3>
+</td>
+<td></td>
+<td>
+<a name="OggStreamState-clear"></a><b>
+clear
+</b>
+<p>
+<div class=slotDescription>
+Clears the storage within the Ogg stream.
+</div>
+<a name="OggStreamState-eos"></a><b>
+eos
+</b>
+<p>
+<div class=slotDescription>
+Indicates whether we are at the end of the stream.
+</div>
+<a name="OggStreamState-packetout"></a><b>
+packetout(packet)
+</b>
+<p>
+<div class=slotDescription>
+Outputs a packet to the codec-specific decoding engine.
+</div>
+<a name="OggStreamState-packetpeek"></a><b>
+packetpeek(packet)
+</b>
+<p>
+<div class=slotDescription>
+Provides access to the next packet in the bitstream
+	  without advancing decoding.
+</div>
+<a name="OggStreamState-pagein"></a><b>
+pagein(page)
+</b>
+<p>
+<div class=slotDescription>
+Submits a complete page to the stream layer.
+</div>
+<a name="OggStreamState-reset"></a><b>
+reset
+</b>
+<p>
+<div class=slotDescription>
+Resets the stream status to its initial position.
+</div>
+<a name="OggStreamState-setSerialNumber"></a><b>
+setSerialNumber
+</b>
+<p>
+<div class=slotDescription>
+Sets the serial number for this stream.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

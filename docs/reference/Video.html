@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Io Reference Manual</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../docs.css">
+		</head>
+		<body>
+		
+<br><br><br>
+<table cellspacing=4 style="width:45em; line-height:1.2em;">
+<tr>
+<td>
+<a name=Video></a><span class=protoName>Video</span>
+</td>
+<td></td>
+<td>
+</tr>
+<tr>
+<td align=right><b><span class=protoModule>module</span></b></td>
+<td></td>
+<td>AVCodec</td></tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>index</h3>
+</td>
+<td></td>
+<td>
+<a href="#Video-audioOn">
+audioOn
+</a><br>
+<a href="#Video-frameNumber">
+frameNumber
+</a><br>
+<a href="#Video-readNextFrame Decodes the next video frame into the receiver's image object.">
+readNextFrame Decodes the next video frame into the receiver's image object.
+</a><br>
+<a href="#Video-setAudioOn">
+setAudioOn()
+</a><br>
+<a href="#Video-setFrameNumber">
+setFrameNumber()
+</a><br>
+</td>
+</tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>slots</h3>
+</td>
+<td></td>
+<td>
+<a name="Video-audioOn"></a><b>
+audioOn
+</b>
+<p>
+<div class=slotDescription>
+Whether or not the decoded audio is directed to the AudioDevice.
+</div>
+<a name="Video-frameNumber"></a><b>
+frameNumber
+</b>
+<p>
+<div class=slotDescription>
+The current frame number.
+</div>
+<a name="Video-readNextFrame Decodes the next video frame into the receiver's image object."></a><b>
+readNextFrame Decodes the next video frame into the receiver's image object.
+</b>
+<p>
+<div class=slotDescription>
+Returns the image object if successful or nil otherwise.
+</div>
+<a name="Video-setAudioOn"></a><b>
+setAudioOn(aBool)
+</b>
+<p>
+<div class=slotDescription>
+Sets whether or not the decoded audio is directed to the AudioDevice. Returns self.
+</div>
+<font color=#888>
+<a name="Video-setFrameNumber"></a><b>
+setFrameNumber(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Private setter for frameNumber. Returns self.
+</font>
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

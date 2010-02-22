@@ -1,0 +1,234 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Io Reference Manual</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../docs.css">
+		</head>
+		<body>
+		
+<br><br><br>
+<table cellspacing=4 style="width:45em; line-height:1.2em;">
+<tr>
+<td>
+<a name=MDOConnection></a><span class=protoName>MDOConnection</span>
+</td>
+<td></td>
+<td>
+</tr>
+<tr>
+<td align=right><b><span class=protoModule>module</span></b></td>
+<td></td>
+<td>DistributedObjects</td></tr>
+<tr>
+<td align=right><b><span class=protoCategory>category</span></b></td>
+<td></td>
+<td>Networking
+</td></tr>
+<tr>
+<td align=right><b><span class=protoDescription>description</span></b></td>
+<td></td>
+<td>A Minimal Distributed Objects connection. Example;
+<pre>
+dateServerCon := MDOConnection clone setHost("127.0.0.1") setPort(8123) connect
+writeln("date from date server: ", Date fromNumber(dateServerCon currentDate))
+dateServerCon close
+</pre>
+
+See the docs for MDOServer for the DateServer code.
+<p>
+A MDOConnection will pause calling coroutines until the response is received. 
+Mutliple requests can be sent before a single request returns if they are sent 
+from separate coroutines.
+</td></tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>index</h3>
+</td>
+<td></td>
+<td>
+<a href="#MDOConnection-close">
+close
+</a><br>
+<a href="#MDOConnection-connect">
+connect
+</a><br>
+<a href="#MDOConnection-corosWaitingOnResponses">
+corosWaitingOnResponses
+</a><br>
+<a href="#MDOConnection-debugWriteln">
+debugWriteln
+</a><br>
+<a href="#MDOConnection-localObject">
+localObject
+</a><br>
+<a href="#MDOConnection-receiveLoop">
+receiveLoop
+</a><br>
+<a href="#MDOConnection-receiveResponse">
+receiveResponse
+</a><br>
+<a href="#MDOConnection-receiveSend">
+receiveSend
+</a><br>
+<a href="#MDOConnection-remoteObject">
+remoteObject
+</a><br>
+<a href="#MDOConnection-send">
+send
+</a><br>
+<a href="#MDOConnection-setCorosWaitingOnResponses">
+setCorosWaitingOnResponses
+</a><br>
+<a href="#MDOConnection-setHost">
+setHost
+</a><br>
+<a href="#MDOConnection-setLocalObject">
+setLocalObject
+</a><br>
+<a href="#MDOConnection-setPort">
+setPort
+</a><br>
+<a href="#MDOConnection-setRemoteObject">
+setRemoteObject
+</a><br>
+<a href="#MDOConnection-setSocket">
+setSocket
+</a><br>
+<a href="#MDOConnection-socket">
+socket
+</a><br>
+</td>
+</tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>slots</h3>
+</td>
+<td></td>
+<td>
+<a name="MDOConnection-close"></a><b>
+close
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-connect"></a><b>
+connect
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-corosWaitingOnResponses"></a><b>
+corosWaitingOnResponses
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-debugWriteln"></a><b>
+debugWriteln
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-localObject"></a><b>
+localObject
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-receiveLoop"></a><b>
+receiveLoop
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-receiveResponse"></a><b>
+receiveResponse
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-receiveSend"></a><b>
+receiveSend
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-remoteObject"></a><b>
+remoteObject
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-send"></a><b>
+send
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-setCorosWaitingOnResponses"></a><b>
+setCorosWaitingOnResponses
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-setHost"></a><b>
+setHost
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-setLocalObject"></a><b>
+setLocalObject
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-setPort"></a><b>
+setPort
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-setRemoteObject"></a><b>
+setRemoteObject
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-setSocket"></a><b>
+setSocket
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="MDOConnection-socket"></a><b>
+socket
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

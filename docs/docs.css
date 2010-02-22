@@ -64,7 +64,6 @@ h1
     text-transform: none;
     vertical-align: 0.000000em;
 	vertical-align:text-top;
-	text-transform:lowercase;
 }
 
 h2 
@@ -87,7 +86,6 @@ h2
     text-indent: 0sem;
     text-transform: none;
 	vertical-align:text-top;
-	text-transform:lowercase;
 }
 
 h3 
@@ -105,7 +103,6 @@ h3
     text-indent: 0.00em;
     text-transform: none;
 	vertical-align:text-top;
-	#text-transform:lowercase;
 }
 
 h4 
@@ -157,7 +154,6 @@ td
     letter-spacing: 0;
     line-height: 1.4em;
     text-decoration: none;
-	text-transform:lowercase;
 }
 
 .indexItem 
@@ -172,7 +168,6 @@ td
     text-indent: 0.00em;
     text-transform: none;
     vertical-align: 0.000000em;
-	text-transform:lowercase;
 }
 
 .indexItem a 
@@ -252,6 +247,17 @@ pre
     margin-bottom: 2em;
     margin-left:   2em;
     margin-right:  0em;
+}
+
+.protoName
+{
+    margin-top:    1em;
+    margin-bottom: 2.5em;
+    margin-left:   0em;
+    margin-right:  0em;
+    font-size: 2em;
+    font-weight: bold;
+    line-height: 3;
 }
 
 .protoDescription 

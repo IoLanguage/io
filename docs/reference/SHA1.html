@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Io Reference Manual</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../docs.css">
+		</head>
+		<body>
+		
+<br><br><br>
+<table cellspacing=4 style="width:45em; line-height:1.2em;">
+<tr>
+<td>
+<a name=SHA1></a><span class=protoName>SHA1</span>
+</td>
+<td></td>
+<td>
+</tr>
+<tr>
+<td align=right><b><span class=protoModule>module</span></b></td>
+<td></td>
+<td>SHA1</td></tr>
+<tr>
+<td align=right><b><span class=protoCategory>category</span></b></td>
+<td></td>
+<td>Digests
+</td></tr>
+<tr>
+<td align=right><b><span class=protoDescription>description</span></b></td>
+<td></td>
+<td>An object for calculating SHA1 hashes. Each has calculation 
+should instiate it's own SHA1 instance.
+</td></tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>index</h3>
+</td>
+<td></td>
+<td>
+<a href="#SHA1-appendSeq">
+appendSeq()
+</a><br>
+<a href="#SHA1-sha1">
+sha1
+</a><br>
+<a href="#SHA1-sha1String">
+sha1String
+</a><br>
+</td>
+</tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>slots</h3>
+</td>
+<td></td>
+<td>
+<a name="SHA1-appendSeq"></a><b>
+appendSeq(aSequence)
+</b>
+<p>
+<div class=slotDescription>
+Appends aSequence to the hash calculation. Returns self.
+</div>
+<a name="SHA1-sha1"></a><b>
+sha1
+</b>
+<p>
+<div class=slotDescription>
+Completes the SHA1 calculation and returns the hash as a Buffer.
+	Once this method is called, append() should not be called again on the receiver or it will raise an exception.")
+</div>
+<a name="SHA1-sha1String"></a><b>
+sha1String
+</b>
+<p>
+<div class=slotDescription>
+Returns a string containing a hexadecimal representation of the sha1 hash.")
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

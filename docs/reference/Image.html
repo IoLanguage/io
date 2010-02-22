@@ -1,0 +1,551 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Io Reference Manual</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../docs.css">
+		</head>
+		<body>
+		
+<br><br><br>
+<table cellspacing=4 style="width:45em; line-height:1.2em;">
+<tr>
+<td>
+<a name=Image></a><span class=protoName>Image</span>
+</td>
+<td></td>
+<td>
+</tr>
+<tr>
+<td align=right><b><span class=protoModule>module</span></b></td>
+<td></td>
+<td>Image</td></tr>
+<tr>
+<td align=right><b><span class=protoCategory>category</span></b></td>
+<td></td>
+<td>Graphics
+</td></tr>
+<tr>
+<td align=right><b><span class=protoDescription>description</span></b></td>
+<td></td>
+<td>The Image object can read and draw images and provide the image 
+data as a buffer. Example use;
+<pre>	
+image = Image clone open("curly.png")
+image draw
+image scaleTo(image width / 2, image height / 2)
+image save("curly.tiff")
+</pre>	
+When loading an attempt will be made to convert the image into whichever 
+of the following formats it is closest to: L8, LA8, RGB8, RGBA8.
+<p>
+Currently supported formats include PNG(which supports alpha), JPG and TIFF.
+</td></tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>index</h3>
+</td>
+<td></td>
+<td>
+<a href="#Image-IsPowerOf2">
+IsPowerOf2
+</a><br>
+<a href="#Image-addAlpha">
+addAlpha
+</a><br>
+<a href="#Image-averageColor">
+averageColor
+</a><br>
+<a href="#Image-baselineHeight">
+baselineHeight
+</a><br>
+<a href="#Image-bounds">
+bounds()
+</a><br>
+<a href="#Image-changed">
+changed
+</a><br>
+<a href="#Image-componentCount">
+componentCount
+</a><br>
+<a href="#Image-crop">
+crop()
+</a><br>
+<a href="#Image-data">
+data
+</a><br>
+<a href="#Image-decodingHeightHint">
+decodingHeightHint
+</a><br>
+<a href="#Image-decodingWidthHint">
+decodingWidthHint
+</a><br>
+<a href="#Image-draw">
+draw
+</a><br>
+<a href="#Image-drawScaledTexture">
+drawScaledTexture
+</a><br>
+<a href="#Image-drawTexture">
+drawTexture
+</a><br>
+<a href="#Image-encodingQuality">
+encodingQuality
+</a><br>
+<a href="#Image-error">
+error
+</a><br>
+<a href="#Image-flipX">
+flipX
+</a><br>
+<a href="#Image-flipY">
+flipY
+</a><br>
+<a href="#Image-glFormat">
+glFormat
+</a><br>
+<a href="#Image-glFormats">
+glFormats
+</a><br>
+<a href="#Image-grabScreen">
+grabScreen
+</a><br>
+<a href="#Image-hasWhiteBackground">
+hasWhiteBackground
+</a><br>
+<a href="#Image-height">
+height
+</a><br>
+<a href="#Image-isL8">
+isL8
+</a><br>
+<a href="#Image-isLA8">
+isLA8
+</a><br>
+<a href="#Image-isRGB8">
+isRGB8
+</a><br>
+<a href="#Image-isRGBA8">
+isRGBA8
+</a><br>
+<a href="#Image-isWhiteAt">
+isWhiteAt
+</a><br>
+<a href="#Image-open">
+open()
+</a><br>
+<a href="#Image-path">
+path
+</a><br>
+<a href="#Image-removeAlpha">
+removeAlpha
+</a><br>
+<a href="#Image-resizedTo">
+resizedTo()
+</a><br>
+<a href="#Image-resizedTo">
+resizedTo()
+</a><br>
+<a href="#Image-save">
+save()
+</a><br>
+<a href="#Image-scaledTo">
+scaledTo
+</a><br>
+<a href="#Image-setDataWidthHeightComponentCount">
+setDataWidthHeightComponentCount()
+</a><br>
+<a href="#Image-setDecodingHeightHint">
+setDecodingHeightHint()
+</a><br>
+<a href="#Image-setDecodingWidthHint">
+setDecodingWidthHint()
+</a><br>
+<a href="#Image-setEncodingQuality">
+setEncodingQuality()
+</a><br>
+<a href="#Image-setPath">
+setPath()
+</a><br>
+<a href="#Image-sizeInBytes">
+sizeInBytes
+</a><br>
+<a href="#Image-sizeIsPowerOf2">
+sizeIsPowerOf2
+</a><br>
+<a href="#Image-texture">
+texture
+</a><br>
+<a href="#Image-textureHeight">
+textureHeight
+</a><br>
+<a href="#Image-textureWidth">
+textureWidth
+</a><br>
+<a href="#Image-updateTexture">
+updateTexture
+</a><br>
+<a href="#Image-width">
+width
+</a><br>
+<a href="#Image-with">
+with
+</a><br>
+</td>
+</tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>slots</h3>
+</td>
+<td></td>
+<td>
+<a name="Image-IsPowerOf2"></a><b>
+IsPowerOf2
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Image-addAlpha"></a><b>
+addAlpha
+</b>
+<p>
+<div class=slotDescription>
+Adds an opaque alpha component if the image is in RGB format and does not already contain one.  Returns self.
+</div>
+<a name="Image-averageColor"></a><b>
+averageColor
+</b>
+<p>
+<div class=slotDescription>
+Returns the average RGB color of all pixels in the image.
+</div>
+<a name="Image-baselineHeight"></a><b>
+baselineHeight
+</b>
+<p>
+<div class=slotDescription>
+Returns the pixel height (relative to the bottom of the image) which first contains a non-white pixel or -1 if
+	no baseline is found.
+</div>
+<a name="Image-bounds"></a><b>
+bounds(cutoff)
+</b>
+<p>
+<div class=slotDescription>
+Returns an object continaing the bounds of the image. Cutoff is max bound color value for any color component.
+	If it is negative, it is the min bound color value.
+</div>
+<a name="Image-changed"></a><b>
+changed
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Image-componentCount"></a><b>
+componentCount
+</b>
+<p>
+<div class=slotDescription>
+Returns the number of color components in the receiver as a Number.
+</div>
+<a name="Image-crop"></a><b>
+crop(x, y, width, height)
+</b>
+<p>
+<div class=slotDescription>
+Crops the image to the specified values. Returns self.
+	Raises an exception on error.
+</div>
+<a name="Image-data"></a><b>
+data
+</b>
+<p>
+<div class=slotDescription>
+Returns a Buffer primitive containing the image data (loading it first if needed). 
+	Manipulating this data will effect what is drawn when the receiver's draw method is called.
+</div>
+<a name="Image-decodingHeightHint"></a><b>
+decodingHeightHint
+</b>
+<p>
+<div class=slotDescription>
+Returns the decoding height hint.
+</div>
+<a name="Image-decodingWidthHint"></a><b>
+decodingWidthHint
+</b>
+<p>
+<div class=slotDescription>
+Returns the decoding width hint.
+</div>
+<a name="Image-draw"></a><b>
+draw
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Image-drawScaledTexture"></a><b>
+drawScaledTexture
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Image-drawTexture"></a><b>
+drawTexture
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Image-encodingQuality"></a><b>
+encodingQuality
+</b>
+<p>
+<div class=slotDescription>
+Returns the encodingQuality setting.
+</div>
+<a name="Image-error"></a><b>
+error
+</b>
+<p>
+<div class=slotDescription>
+Returns a String containing the current error or nil if there is no error.
+</div>
+<a name="Image-flipX"></a><b>
+flipX
+</b>
+<p>
+<div class=slotDescription>
+Flips the image on the horizonal plane (left/right mirror). Returns self.
+</div>
+<a name="Image-flipY"></a><b>
+flipY
+</b>
+<p>
+<div class=slotDescription>
+Flips the image on the vertical plane (top/bottom mirror). Returns self.
+</div>
+<a name="Image-glFormat"></a><b>
+glFormat
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Image-glFormats"></a><b>
+glFormats
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Image-grabScreen"></a><b>
+grabScreen
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Image-hasWhiteBackground"></a><b>
+hasWhiteBackground
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Image-height"></a><b>
+height
+</b>
+<p>
+<div class=slotDescription>
+Returns the image hieght.
+</div>
+<a name="Image-isL8"></a><b>
+isL8
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the receiver is in L8 (8bit Luminance) format, false otherwise.
+</div>
+<a name="Image-isLA8"></a><b>
+isLA8
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the receiver is in LA8 (8bit Luminance-Alpha) format, false otherwise.
+</div>
+<a name="Image-isRGB8"></a><b>
+isRGB8
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the receiver is in RGB8 format, false otherwise.
+</div>
+<a name="Image-isRGBA8"></a><b>
+isRGBA8
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the receiver is in RGBA8 format, false otherwise.
+</div>
+<a name="Image-isWhiteAt"></a><b>
+isWhiteAt
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Image-open"></a><b>
+open(optionalPathString)
+</b>
+<p>
+<div class=slotDescription>
+Sets the path to optionalPathString if provided and opens the image file. 
+	Returns self on success, Nil on failure.
+</div>
+<a name="Image-path"></a><b>
+path
+</b>
+<p>
+<div class=slotDescription>
+Returns the image path.
+</div>
+<a name="Image-removeAlpha"></a><b>
+removeAlpha
+</b>
+<p>
+<div class=slotDescription>
+Removes the alpha component if the image contains one.  Returns self.
+</div>
+<a name="Image-resizedTo"></a><b>
+resizedTo(newWidth, newHeight)
+</b>
+<p>
+<div class=slotDescription>
+Scales the image up to newWidth x newHeight.  Returns the newly scaled image.
+</div>
+<a name="Image-resizedTo"></a><b>
+resizedTo(width, height)
+</b>
+<p>
+<div class=slotDescription>
+Returns a new image of the receiver resized to the given width and height.
+	Raises an exception on error.
+</div>
+<a name="Image-save"></a><b>
+save(optionalPathString)
+</b>
+<p>
+<div class=slotDescription>
+Sets the path to optionalPathString if provided and saves the image 
+	in the format specified by the path extension. Returns self on success, nil on failure.
+</div>
+<a name="Image-scaledTo"></a><b>
+scaledTo
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Image-setDataWidthHeightComponentCount"></a><b>
+setDataWidthHeightComponentCount(aSequence, width, height, componentCount)
+</b>
+<p>
+<div class=slotDescription>
+Sets the image data and it's parameters. Returns self.
+</div>
+<a name="Image-setDecodingHeightHint"></a><b>
+setDecodingHeightHint(width)
+</b>
+<p>
+<div class=slotDescription>
+Sets the decoding height hint. Returns self.
+</div>
+<a name="Image-setDecodingWidthHint"></a><b>
+setDecodingWidthHint(width)
+</b>
+<p>
+<div class=slotDescription>
+Sets the decoding width hint. Returns self.
+</div>
+<a name="Image-setEncodingQuality"></a><b>
+setEncodingQuality(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Sets the image encoding quality (range is 0.0 - 1.0, 1.0 with being the highest).
+</div>
+<a name="Image-setPath"></a><b>
+setPath(aString)
+</b>
+<p>
+<div class=slotDescription>
+Sets the image path. Returns self.
+</div>
+<a name="Image-sizeInBytes"></a><b>
+sizeInBytes
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Image-sizeIsPowerOf2"></a><b>
+sizeIsPowerOf2
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Image-texture"></a><b>
+texture
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Image-textureHeight"></a><b>
+textureHeight
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Image-textureWidth"></a><b>
+textureWidth
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Image-updateTexture"></a><b>
+updateTexture
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Image-width"></a><b>
+width
+</b>
+<p>
+<div class=slotDescription>
+Returns the image width.
+</div>
+<a name="Image-with"></a><b>
+with
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

@@ -1,0 +1,835 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Io Reference Manual</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../docs.css">
+		</head>
+		<body>
+		
+<br><br><br>
+<table cellspacing=4 style="width:45em; line-height:1.2em;">
+<tr>
+<td>
+<a name=Socket></a><span class=protoName>Socket</span>
+</td>
+<td></td>
+<td>
+</tr>
+<tr>
+<td align=right><b><span class=protoModule>module</span></b></td>
+<td></td>
+<td>Socket</td></tr>
+<tr>
+<td align=right><b><span class=protoCategory>category</span></b></td>
+<td></td>
+<td>Networking
+</td></tr>
+<tr>
+<td align=right><b><span class=protoDescription>description</span></b></td>
+<td></td>
+<td>Interface to network communication.
+Sockets will auto yield to other coroutines while waiting on a request.
+All blocking operations use the timeout settings of the socket.
+Reads are appended to the socket's read buffer which can 
+be accessed using the readBuffer method.
+
+Example:
+
+<pre>	
+socket := Socket clone setHost("www.yahoo.com") setPort(80) connect
+if(socket error) then( write(socket error, "\n"); exit)
+
+socket write("GET /\n\n")
+
+while(socket read, Nop)
+if(socket error) then(write(socket error, "\n"); exit)
+
+write("read ", socket readBuffer length, " bytes\n")
+</pre>
+</td></tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>index</h3>
+</td>
+<td></td>
+<td>
+<a href="#Socket-acceptTimeout">
+acceptTimeout
+</a><br>
+<a href="#Socket-appendToWriteBuffer">
+appendToWriteBuffer()
+</a><br>
+<a href="#Socket-asyncAccept">
+asyncAccept()
+</a><br>
+<a href="#Socket-asyncBind">
+asyncBind
+</a><br>
+<a href="#Socket-asyncConnect">
+asyncConnect()
+</a><br>
+<a href="#Socket-asyncListen">
+asyncListen
+</a><br>
+<a href="#Socket-asyncStreamOpen">
+asyncStreamOpen
+</a><br>
+<a href="#Socket-asyncStreamRead">
+asyncStreamRead()
+</a><br>
+<a href="#Socket-asyncStreamWrite">
+asyncStreamWrite()
+</a><br>
+<a href="#Socket-asyncUdpOpen">
+asyncUdpOpen
+</a><br>
+<a href="#Socket-asyncUdpRead">
+asyncUdpRead()
+</a><br>
+<a href="#Socket-asyncUdpWrite">
+asyncUdpWrite()
+</a><br>
+<a href="#Socket-bytesPerRead">
+bytesPerRead
+</a><br>
+<a href="#Socket-bytesPerWrite">
+bytesPerWrite
+</a><br>
+<a href="#Socket-close">
+close
+</a><br>
+<a href="#Socket-connect">
+connect
+</a><br>
+<a href="#Socket-connectTimeout">
+connectTimeout
+</a><br>
+<a href="#Socket-descriptorId">
+descriptorId
+</a><br>
+<a href="#Socket-errorDescription">
+errorDescription
+</a><br>
+<a href="#Socket-errorNumber">
+errorNumber
+</a><br>
+<a href="#Socket-getSocketReadLowWaterMark">
+getSocketReadLowWaterMark
+</a><br>
+<a href="#Socket-getSocketWriteLowWaterMark">
+getSocketWriteLowWaterMark
+</a><br>
+<a href="#Socket-host">
+host
+</a><br>
+<a href="#Socket-ipAddress">
+ipAddress
+</a><br>
+<a href="#Socket-isOpen">
+isOpen
+</a><br>
+<a href="#Socket-isStream">
+isStream
+</a><br>
+<a href="#Socket-isSynchronous">
+isSynchronous
+</a><br>
+<a href="#Socket-isValid">
+isValid
+</a><br>
+<a href="#Socket-port">
+port
+</a><br>
+<a href="#Socket-readBytes">
+readBytes()
+</a><br>
+<a href="#Socket-readListMessage">
+readListMessage
+</a><br>
+<a href="#Socket-readMessage">
+readMessage
+</a><br>
+<a href="#Socket-readTimeout">
+readTimeout
+</a><br>
+<a href="#Socket-readUntilSeq">
+readUntilSeq()
+</a><br>
+<a href="#Socket-serverOpen">
+serverOpen
+</a><br>
+<a href="#Socket-serverWaitForConnection">
+serverWaitForConnection
+</a><br>
+<a href="#Socket-setAcceptTimeout">
+setAcceptTimeout()
+</a><br>
+<a href="#Socket-setBytesPerRead">
+setBytesPerRead()
+</a><br>
+<a href="#Socket-setBytesPerWrite">
+setBytesPerWrite()
+</a><br>
+<a href="#Socket-setConnectTimeout">
+setConnectTimeout()
+</a><br>
+<a href="#Socket-setHost">
+setHost()
+</a><br>
+<a href="#Socket-setHost">
+setHost()
+</a><br>
+<a href="#Socket-setIpAddress">
+setIpAddress()
+</a><br>
+<a href="#Socket-setIsSynchronous">
+setIsSynchronous
+</a><br>
+<a href="#Socket-setNoDelay">
+setNoDelay
+</a><br>
+<a href="#Socket-setPort">
+setPort()
+</a><br>
+<a href="#Socket-setReadTimeout">
+setReadTimeout()
+</a><br>
+<a href="#Socket-setSocketReadBufferSize">
+setSocketReadBufferSize()
+</a><br>
+<a href="#Socket-setSocketReadLowWaterMark">
+setSocketReadLowWaterMark()
+</a><br>
+<a href="#Socket-setSocketWriteBufferSize">
+setSocketWriteBufferSize()
+</a><br>
+<a href="#Socket-setSocketWriteLowWaterMark">
+setSocketWriteLowWaterMark()
+</a><br>
+<a href="#Socket-setSyncWaitTime">
+setSyncWaitTime
+</a><br>
+<a href="#Socket-setWriteTimeout">
+setWriteTimeout()
+</a><br>
+<a href="#Socket-streamOpen">
+streamOpen
+</a><br>
+<a href="#Socket-streamRead">
+streamRead()
+</a><br>
+<a href="#Socket-streamReadNextChunk">
+streamReadNextChunk()
+</a><br>
+<a href="#Socket-streamReadWhileOpen">
+streamReadWhileOpen
+</a><br>
+<a href="#Socket-streamWrite">
+streamWrite()
+</a><br>
+<a href="#Socket-syncConnect">
+syncConnect
+</a><br>
+<a href="#Socket-syncStreamRead">
+syncStreamRead
+</a><br>
+<a href="#Socket-syncStreamReadNextChunk">
+syncStreamReadNextChunk
+</a><br>
+<a href="#Socket-syncStreamReadWhileOpen">
+syncStreamReadWhileOpen
+</a><br>
+<a href="#Socket-syncUdpReadNextChunk">
+syncUdpReadNextChunk
+</a><br>
+<a href="#Socket-syncWait">
+syncWait
+</a><br>
+<a href="#Socket-syncWaitTime">
+syncWaitTime
+</a><br>
+<a href="#Socket-syncWriteFromBuffer">
+syncWriteFromBuffer
+</a><br>
+<a href="#Socket-udpOpen">
+udpOpen
+</a><br>
+<a href="#Socket-udpRead">
+udpRead()
+</a><br>
+<a href="#Socket-udpReadNextChunk">
+udpReadNextChunk()
+</a><br>
+<a href="#Socket-udpWrite">
+udpWrite
+</a><br>
+<a href="#Socket-writeFromBuffer">
+writeFromBuffer()
+</a><br>
+<a href="#Socket-writeListMessage">
+writeListMessage()
+</a><br>
+<a href="#Socket-writeMessage">
+writeMessage()
+</a><br>
+<a href="#Socket-writeTimeout">
+writeTimeout
+</a><br>
+</td>
+</tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>slots</h3>
+</td>
+<td></td>
+<td>
+<a name="Socket-acceptTimeout"></a><b>
+acceptTimeout
+</b>
+<p>
+<div class=slotDescription>
+Returns the length of time in seconds for accept timeouts on the socket.
+</div>
+<a name="Socket-appendToWriteBuffer"></a><b>
+appendToWriteBuffer(aSequence)
+</b>
+<p>
+<div class=slotDescription>
+Appends aSequence to the write buffer if it is non-nil. Returns self.
+</div>
+<a name="Socket-asyncAccept"></a><b>
+asyncAccept(ipAddressObject)
+</b>
+<p>
+<div class=slotDescription>
+Immediately returns a socket for an connection if one is available or nil otherwise. Returns an Error object on error.
+</div>
+<a name="Socket-asyncBind"></a><b>
+asyncBind
+</b>
+<p>
+<div class=slotDescription>
+Binds the socket and returns self immediately or an Error object on error.
+</div>
+<a name="Socket-asyncConnect"></a><b>
+asyncConnect(ipAddressObject)
+</b>
+<p>
+<div class=slotDescription>
+Connects ti the given IPAddress and returns self or an Error object on error.
+</div>
+<a name="Socket-asyncListen"></a><b>
+asyncListen
+</b>
+<p>
+<div class=slotDescription>
+Listens to the socket and returns self immediately or an Error object on error.
+</div>
+<a name="Socket-asyncStreamOpen"></a><b>
+asyncStreamOpen
+</b>
+<p>
+<div class=slotDescription>
+Submits an async request to open the socket in stream mode and returns self immediately or an Error object on error.
+</div>
+<a name="Socket-asyncStreamRead"></a><b>
+asyncStreamRead(aSeq, readSize)
+</b>
+<p>
+<div class=slotDescription>
+Reads up to readSize number of bytes into aSeq if data is available. 
+	Returns self immediately if successful. Returns an error object on Error. Returns nil if the socket is disconnected.
+</div>
+<a name="Socket-asyncStreamWrite"></a><b>
+asyncStreamWrite(aSeq, start, writeSize)
+</b>
+<p>
+<div class=slotDescription>
+Writes the slice of aSeq from start to start + writeSize to the socket.
+	Returns self immediately if successful, otherwise closes the socket. 
+	Returns an error object on Error. 
+	Returns nil if the socket is disconnected.
+</div>
+<a name="Socket-asyncUdpOpen"></a><b>
+asyncUdpOpen
+</b>
+<p>
+<div class=slotDescription>
+Submits an async request to open the socket in UDP mode and returns self immediately or an Error object on error.
+</div>
+<a name="Socket-asyncUdpRead"></a><b>
+asyncUdpRead(ipAddress, aSeq, readSize)
+</b>
+<p>
+<div class=slotDescription>
+Reads up to readSize number of bytes from ipAddress into aSeq if data is available. 
+	Returns self immediately if successful. Returns an error object on Error. Returns nil if the socket is disconnected.
+</div>
+<a name="Socket-asyncUdpWrite"></a><b>
+asyncUdpWrite(ipAddress, aSeq, startIndex, readSize)
+</b>
+<p>
+<div class=slotDescription>
+Writes readsize bytes from aSeq starting at startIndex to ipAddress. 
+	Returns self immediately if successful. Returns an error object on Error. Returns nil if the socket is disconnected.
+</div>
+<a name="Socket-bytesPerRead"></a><b>
+bytesPerRead
+</b>
+<p>
+<div class=slotDescription>
+Returns number of bytes to read per read call.
+</div>
+<a name="Socket-bytesPerWrite"></a><b>
+bytesPerWrite
+</b>
+<p>
+<div class=slotDescription>
+Returns number of bytes to write per write call.
+</div>
+<a name="Socket-close"></a><b>
+close
+</b>
+<p>
+<div class=slotDescription>
+Closes the socket and returns self. Returns nil on error.
+</div>
+<a name="Socket-connect"></a><b>
+connect
+</b>
+<p>
+<div class=slotDescription>
+Connects to the socket's host. Returns self on success or an Error object on error.
+</div>
+<a name="Socket-connectTimeout"></a><b>
+connectTimeout
+</b>
+<p>
+<div class=slotDescription>
+Returns the length of time in seconds for connect timeouts on the socket.
+</div>
+<a name="Socket-descriptorId"></a><b>
+descriptorId
+</b>
+<p>
+<div class=slotDescription>
+Returns the socket's file descriptor id as a Number.
+</div>
+<a name="Socket-errorDescription"></a><b>
+errorDescription
+</b>
+<p>
+<div class=slotDescription>
+Returns a description of the last error on the socket as a string.
+</div>
+<a name="Socket-errorNumber"></a><b>
+errorNumber
+</b>
+<p>
+<div class=slotDescription>
+Returns the socket error number for the last error.
+</div>
+<a name="Socket-getSocketReadLowWaterMark"></a><b>
+getSocketReadLowWaterMark
+</b>
+<p>
+<div class=slotDescription>
+Returns the read low water mark for the socket on success or nil on error.
+</div>
+<a name="Socket-getSocketWriteLowWaterMark"></a><b>
+getSocketWriteLowWaterMark
+</b>
+<p>
+<div class=slotDescription>
+Returns the write low water mark for the socket on success or nil on error.
+</div>
+<a name="Socket-host"></a><b>
+host
+</b>
+<p>
+<div class=slotDescription>
+Returns the host for the socket.
+</div>
+<a name="Socket-ipAddress"></a><b>
+ipAddress
+</b>
+<p>
+<div class=slotDescription>
+Returns the IpAddress object for the socket.
+</div>
+<a name="Socket-isOpen"></a><b>
+isOpen
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the socket is open, false otherwise.
+</div>
+<a name="Socket-isStream"></a><b>
+isStream
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the socket is a stream, false otherwise.
+</div>
+<a name="Socket-isSynchronous"></a><b>
+isSynchronous
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-isValid"></a><b>
+isValid
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the socket is in valid state, closes the socket and returns false otherwise.
+</div>
+<a name="Socket-port"></a><b>
+port
+</b>
+<p>
+<div class=slotDescription>
+Returns the port number for the socket.
+</div>
+<a name="Socket-readBytes"></a><b>
+readBytes(numBytes)
+</b>
+<p>
+<div class=slotDescription>
+Reads the socket until its readBuffer is numBytes long, then returns a Sequence
+	containing the first numBytes of readBuffer's contents and clips that section from the readBuffer.
+</div>
+<a name="Socket-readListMessage"></a><b>
+readListMessage
+</b>
+<p>
+<div class=slotDescription>
+A shortcut for List fromEncodedList(socket readMessage).
+</div>
+<a name="Socket-readMessage"></a><b>
+readMessage
+</b>
+<p>
+<div class=slotDescription>
+Empties the readBuffer and reads a 4 byte uint32 in network byte order. 
+	This number is the number of bytes in the message payload which are 
+	then read into the socket's readBuffer. The readBuffer is returned.
+</div>
+<a name="Socket-readTimeout"></a><b>
+readTimeout
+</b>
+<p>
+<div class=slotDescription>
+Returns the length of time in seconds for read timeouts on the socket.
+</div>
+<a name="Socket-readUntilSeq"></a><b>
+readUntilSeq(aSequence)
+</b>
+<p>
+<div class=slotDescription>
+Reads the socket until it's readBuffer contains aSequence, then returns a Sequence
+	containing the readBuffer's contents up to (but not including) aSequence and clips that section from the readBuffer.
+</div>
+<a name="Socket-serverOpen"></a><b>
+serverOpen
+</b>
+<p>
+<div class=slotDescription>
+Opens the socket as a stream, binds it to it's ipAddress and calls asyncListen to prepare the socket to accept connections.
+	Returns self on success or an Error object on error.
+</div>
+<a name="Socket-serverWaitForConnection"></a><b>
+serverWaitForConnection
+</b>
+<p>
+<div class=slotDescription>
+Waits for a connection or timeout. When a connection is received, this method returns the connection socket. 
+	An Error object is returned on timeour or error.
+</div>
+<a name="Socket-setAcceptTimeout"></a><b>
+setAcceptTimeout(seconds)
+</b>
+<p>
+<div class=slotDescription>
+Sets the length of time in seconds for accept timeouts on the socket. Returns self.
+</div>
+<a name="Socket-setBytesPerRead"></a><b>
+setBytesPerRead(numberOfBytes)
+</b>
+<p>
+<div class=slotDescription>
+Sets number of bytes to read per read call. Returns self.
+</div>
+<a name="Socket-setBytesPerWrite"></a><b>
+setBytesPerWrite(numberOfBytes)
+</b>
+<p>
+<div class=slotDescription>
+Sets number of bytes to write per write call. Returns self.
+</div>
+<a name="Socket-setConnectTimeout"></a><b>
+setConnectTimeout(seconds)
+</b>
+<p>
+<div class=slotDescription>
+Sets the length of time in seconds for connect timeouts on the socket. Returns self.
+</div>
+<a name="Socket-setHost"></a><b>
+setHost(hostName)
+</b>
+<p>
+<div class=slotDescription>
+Translates hostName to an IP using asynchronous DNS and sets 
+the host attribute. Returns self.
+</div>
+<a name="Socket-setHost"></a><b>
+setHost(hostNameOrIpString)
+</b>
+<p>
+<div class=slotDescription>
+Set the host for the socket. Returns self on success, an Error object otherwise.
+</div>
+<a name="Socket-setIpAddress"></a><b>
+setIpAddress(ipAddressObject)
+</b>
+<p>
+<div class=slotDescription>
+Sets the ipAddress for the socket. Returns self. The setHost() method should generally be used to set the host instead of this method.
+</div>
+<a name="Socket-setIsSynchronous"></a><b>
+setIsSynchronous
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-setNoDelay"></a><b>
+setNoDelay
+</b>
+<p>
+<div class=slotDescription>
+Sets the socket to be no-delay. Returns self on success or nil on error.
+</div>
+<a name="Socket-setPort"></a><b>
+setPort(portNumber)
+</b>
+<p>
+<div class=slotDescription>
+Sets the port number for the socket, returns self.
+</div>
+<a name="Socket-setReadTimeout"></a><b>
+setReadTimeout(seconds)
+</b>
+<p>
+<div class=slotDescription>
+Sets the length of time in seconds for read timeouts on the socket. Returns self.
+</div>
+<a name="Socket-setSocketReadBufferSize"></a><b>
+setSocketReadBufferSize(numberOfBytes)
+</b>
+<p>
+<div class=slotDescription>
+Sets the read buffer size for the socket. Returns self on success or nil on error.
+</div>
+<a name="Socket-setSocketReadLowWaterMark"></a><b>
+setSocketReadLowWaterMark(numberOfBytes)
+</b>
+<p>
+<div class=slotDescription>
+Sets the read low water mark for the socket. Returns self on success or nil on error.
+</div>
+<a name="Socket-setSocketWriteBufferSize"></a><b>
+setSocketWriteBufferSize(numberOfBytes)
+</b>
+<p>
+<div class=slotDescription>
+Sets the write buffer size for the socket. Returns self on success or nil on error.
+</div>
+<a name="Socket-setSocketWriteLowWaterMark"></a><b>
+setSocketWriteLowWaterMark(numberOfBytes)
+</b>
+<p>
+<div class=slotDescription>
+Sets the write low water mark for the socket. Returns self on success or nil on error.
+</div>
+<a name="Socket-setSyncWaitTime"></a><b>
+setSyncWaitTime
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-setWriteTimeout"></a><b>
+setWriteTimeout(seconds)
+</b>
+<p>
+<div class=slotDescription>
+Sets the length of time in seconds for write timeouts on the socket. Returns self.
+</div>
+<a name="Socket-streamOpen"></a><b>
+streamOpen
+</b>
+<p>
+<div class=slotDescription>
+Opens the socket in stream mode. Returns self.
+</div>
+<a name="Socket-streamRead"></a><b>
+streamRead(numberOfBytes)
+</b>
+<p>
+<div class=slotDescription>
+Reads numberOfBytes from the socket into the socket's readBuffer. 
+	Returns self when all bytes are read or an Error object on error.
+</div>
+<a name="Socket-streamReadNextChunk"></a><b>
+streamReadNextChunk(optionalProgressBlock)
+</b>
+<p>
+<div class=slotDescription>
+Waits for incoming data on the socket and when found, reads any available data and returns self. 
+	Returns self on success or an Error object on error or timeout.
+</div>
+<a name="Socket-streamReadWhileOpen"></a><b>
+streamReadWhileOpen
+</b>
+<p>
+<div class=slotDescription>
+Reads the stream into the socket's readBuffer until it closes.
+	Returns self on success or an Error object on error.
+</div>
+<a name="Socket-streamWrite"></a><b>
+streamWrite(buffer, optionalProgressBlock)
+</b>
+<p>
+<div class=slotDescription>
+Write's buffer to the socket. 
+	If optionalProgressBlock is supplied, it is periodically called with the number of bytes written as an argument.
+	Returns self on success or an Error object on error.
+</div>
+<a name="Socket-syncConnect"></a><b>
+syncConnect
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-syncStreamRead"></a><b>
+syncStreamRead
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-syncStreamReadNextChunk"></a><b>
+syncStreamReadNextChunk
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-syncStreamReadWhileOpen"></a><b>
+syncStreamReadWhileOpen
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-syncUdpReadNextChunk"></a><b>
+syncUdpReadNextChunk
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-syncWait"></a><b>
+syncWait
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-syncWaitTime"></a><b>
+syncWaitTime
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-syncWriteFromBuffer"></a><b>
+syncWriteFromBuffer
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-udpOpen"></a><b>
+udpOpen
+</b>
+<p>
+<div class=slotDescription>
+Opens the socket in UDP (connectionless) mode. Returns self.
+</div>
+<a name="Socket-udpRead"></a><b>
+udpRead(ipAddress, numBytes)
+</b>
+<p>
+<div class=slotDescription>
+Waits for and reads numBytes of udp data from the specified ipAddress into the socket's readBuffer.
+	Returns self on success or an Error object on error.
+</div>
+<a name="Socket-udpReadNextChunk"></a><b>
+udpReadNextChunk(ipAddress)
+</b>
+<p>
+<div class=slotDescription>
+Waits to receive UDP data from the specified ipAddress. 
+	As soon as any data is available, it reads all of it into the socket's readBuffer.
+	Returns self on success or an Error object on error.
+</div>
+<a name="Socket-udpWrite"></a><b>
+udpWrite
+</b>
+<p>
+<div class=slotDescription>
+Same as asyncUdpWrite.
+</div>
+<a name="Socket-writeFromBuffer"></a><b>
+writeFromBuffer(optionalProgressBlock)
+</b>
+<p>
+<div class=slotDescription>
+Write's the contents of the socket's writeBuffer to the socket. 
+	If optionalProgressBlock is supplied, it is periodically called with the number of bytes written as an argument.
+	Returns self on success or an Error object on error.
+</div>
+<a name="Socket-writeListMessage"></a><b>
+writeListMessage(aList)
+</b>
+<p>
+<div class=slotDescription>
+A shortcut for writeMessage(aList asEncodedList).
+</div>
+<a name="Socket-writeMessage"></a><b>
+writeMessage(aSeq)
+</b>
+<p>
+<div class=slotDescription>
+Writes a 4 byte uint32 in network byte order containing the size of aSeq. 
+	Then writes the bytes in aSeq and returns self.
+</div>
+<a name="Socket-writeTimeout"></a><b>
+writeTimeout
+</b>
+<p>
+<div class=slotDescription>
+Returns the length of time in seconds for write timeouts on the socket.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

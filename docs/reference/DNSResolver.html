@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Io Reference Manual</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../docs.css">
+		</head>
+		<body>
+		
+<br><br><br>
+<table cellspacing=4 style="width:45em; line-height:1.2em;">
+<tr>
+<td>
+<a name=DNSResolver></a><span class=protoName>DNSResolver</span>
+</td>
+<td></td>
+<td>
+</tr>
+<tr>
+<td align=right><b><span class=protoModule>module</span></b></td>
+<td></td>
+<td>Socket</td></tr>
+<tr>
+<td align=right><b><span class=protoDescription>description</span></b></td>
+<td></td>
+<td>	With the DNSResolver you can set the DNS servers to be used for DNS lookups. Example;
+	<pre>
+	DNSResolver addDNSServerIp("128.105.2.10")
+	ipForYahoo := DNSResolver ipForHostName("yahoo.com")
+	</pre>
+</td></tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>index</h3>
+</td>
+<td></td>
+<td>
+<a href="#DNSResolver-addDNSServerIp">
+addDNSServerIp()
+</a><br>
+<a href="#DNSResolver-cache">
+cache
+</a><br>
+<a href="#DNSResolver-dnsServers">
+dnsServers
+</a><br>
+<a href="#DNSResolver-emptyCache">
+emptyCache
+</a><br>
+<a href="#DNSResolver-ipForHostName">
+ipForHostName()
+</a><br>
+<a href="#DNSResolver-queries">
+queries
+</a><br>
+<a href="#DNSResolver-readTimeout">
+readTimeout
+</a><br>
+<a href="#DNSResolver-setReadTimeout">
+setReadTimeout
+</a><br>
+<a href="#DNSResolver-setupServerListIfNeeded">
+setupServerListIfNeeded
+</a><br>
+</td>
+</tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>slots</h3>
+</td>
+<td></td>
+<td>
+<a name="DNSResolver-addDNSServerIp"></a><b>
+addDNSServerIp(ipString)
+</b>
+<p>
+<div class=slotDescription>
+Adds a new DNSServer for the specified IP.
+</div>
+<a name="DNSResolver-cache"></a><b>
+cache
+</b>
+<p>
+<div class=slotDescription>
+Returns Map containing lookup cache.
+</div>
+<a name="DNSResolver-dnsServers"></a><b>
+dnsServers
+</b>
+<p>
+<div class=slotDescription>
+Returns list of DNSServer objects used for lookups.
+</div>
+<a name="DNSResolver-emptyCache"></a><b>
+emptyCache
+</b>
+<p>
+<div class=slotDescription>
+Empties the lookup cache. Returns self.
+</div>
+<a name="DNSResolver-ipForHostName"></a><b>
+ipForHostName(hostName)
+</b>
+<p>
+<div class=slotDescription>
+Returns a String containing the IP for the hostName or an error if hostName could not be resolved.
+</div>
+<a name="DNSResolver-queries"></a><b>
+queries
+</b>
+<p>
+<div class=slotDescription>
+Returns list of active DNSQuery objects.
+</div>
+<a name="DNSResolver-readTimeout"></a><b>
+readTimeout
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="DNSResolver-setReadTimeout"></a><b>
+setReadTimeout
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<font color=#888>
+<a name="DNSResolver-setupServerListIfNeeded"></a><b>
+setupServerListIfNeeded
+</b>
+<p>
+<div class=slotDescription>
+Private method that gets local name server IPs and sets up dnsServers list. Returns self.
+</font>
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

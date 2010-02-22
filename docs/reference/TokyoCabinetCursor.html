@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Io Reference Manual</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../docs.css">
+		</head>
+		<body>
+		
+<br><br><br>
+<table cellspacing=4 style="width:45em; line-height:1.2em;">
+<tr>
+<td>
+<a name=TokyoCabinetCursor></a><span class=protoName>TokyoCabinetCursor</span>
+</td>
+<td></td>
+<td>
+</tr>
+<tr>
+<td align=right><b><span class=protoModule>module</span></b></td>
+<td></td>
+<td>TokyoCabinet</td></tr>
+<tr>
+<td align=right><b><span class=protoCategory>category</span></b></td>
+<td></td>
+<td>Databases
+</td></tr>
+<tr>
+<td align=right><b><span class=protoDescription>description</span></b></td>
+<td></td>
+<td>A database cursor.
+</td></tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>index</h3>
+</td>
+<td></td>
+<td>
+<a href="#TokyoCabinetCursor-close">
+close
+</a><br>
+<a href="#TokyoCabinetCursor-first">
+first
+</a><br>
+<a href="#TokyoCabinetCursor-jump">
+jump()
+</a><br>
+<a href="#TokyoCabinetCursor-key">
+key
+</a><br>
+<a href="#TokyoCabinetCursor-last">
+last
+</a><br>
+<a href="#TokyoCabinetCursor-next">
+next
+</a><br>
+<a href="#TokyoCabinetCursor-previous">
+previous
+</a><br>
+<a href="#TokyoCabinetCursor-put">
+put()
+</a><br>
+<a href="#TokyoCabinetCursor-remove">
+remove
+</a><br>
+<a href="#TokyoCabinetCursor-value">
+value
+</a><br>
+</td>
+</tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+<td align=right>
+<h3>slots</h3>
+</td>
+<td></td>
+<td>
+<a name="TokyoCabinetCursor-close"></a><b>
+close
+</b>
+<p>
+<div class=slotDescription>
+Closes the database.
+</div>
+<a name="TokyoCabinetCursor-first"></a><b>
+first
+</b>
+<p>
+<div class=slotDescription>
+Move cursor to first record. Returns self
+</div>
+<a name="TokyoCabinetCursor-jump"></a><b>
+jump(key)
+</b>
+<p>
+<div class=slotDescription>
+Move cursor to record before key. Returns self
+</div>
+<a name="TokyoCabinetCursor-key"></a><b>
+key
+</b>
+<p>
+<div class=slotDescription>
+Returns current cursor key or nil.
+</div>
+<a name="TokyoCabinetCursor-last"></a><b>
+last
+</b>
+<p>
+<div class=slotDescription>
+Move cursor to last record. Returns self
+</div>
+<a name="TokyoCabinetCursor-next"></a><b>
+next
+</b>
+<p>
+<div class=slotDescription>
+Move cursor to next record. Returns true if there is another key, 
+	or false if there is no next record.
+</div>
+<a name="TokyoCabinetCursor-previous"></a><b>
+previous
+</b>
+<p>
+<div class=slotDescription>
+Move cursor to previous record. Returns true if there is another key, 
+	or false if there is no previous record.
+</div>
+<a name="TokyoCabinetCursor-put"></a><b>
+put(value)
+</b>
+<p>
+<div class=slotDescription>
+Sets the value at the current cursor postion. Returns self.
+</div>
+<a name="TokyoCabinetCursor-remove"></a><b>
+remove
+</b>
+<p>
+<div class=slotDescription>
+Removes the current cursor postion. Returns self.
+</div>
+<a name="TokyoCabinetCursor-value"></a><b>
+value
+</b>
+<p>
+<div class=slotDescription>
+Returns current cursor value or nil.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
