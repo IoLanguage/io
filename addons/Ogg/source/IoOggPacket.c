@@ -1,6 +1,6 @@
 //metadoc OggPacket copyright Chris Double, 2004
 //metadoc OggPacket license BSD revised
-//metadoc OggPacket category Multimedia
+//metadoc OggPacket category Audio
 /*metadoc OggPacket description
 A wrapper around the libogg ogg_packet object.
 */

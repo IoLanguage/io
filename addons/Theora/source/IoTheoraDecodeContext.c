@@ -1,6 +1,6 @@
 //metadoc TheoraDecodeContext copyright Chris Double, 2004
 //metadoc TheoraDecodeContext license BSD revised
-//metadoc TheoraDecodeContext category Multimedia
+//metadoc TheoraDecodeContext category Video
 /*metadoc TheoraDecodeContext description
 A wrapper around the libtheora th_dec_ctx object.
 */

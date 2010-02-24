@@ -1,0 +1,289 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Beanstalk</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Beanstalk Proto</h1>
+<br><br><br><br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:45em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>beanstalkd is a fast, distributed, in-memory workqueue service. See http://xph.us/software/beanstalkd/
+<br />An example from http://xph.us/software/beanstalkd/:
+<br />First, have one process put a job into the queue:
+<pre>
+producer := Beanstalk clone connect("127.0.0.1:11300")
+producer put("hello")
+</pre>
+
+Then start another process to take jobs out of the queue and run them:
+<pre>
+worker := Beanstalk clone connect("127.0.0.1:11300")
+loop(
+	job := worker reserve
+	job body println # prints "hello"
+	job delete
+)
+</pre>
+See Beanstalk.io code and protocol description (http://github.com/kr/beanstalkd/tree/master/doc/protocol.txt) for details.
+Both are short and easy to read.
+
+<br />Stat commands depend on <a href="http://github.com/why/syck/tree/a4f241be5d247853aea6127d02dbdedd8a1dd477/ext/io">YAML</a>.
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<a name="Beanstalk-Lobby"></a><b>
+Lobby
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-Protos"></a><b>
+Protos
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-addonFolders"></a><b>
+addonFolders
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-cat"></a><b>
+cat
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-catName"></a><b>
+catName
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-categories"></a><b>
+categories
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-count"></a><b>
+count
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-docsPath"></a><b>
+docsPath
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-exit"></a><b>
+exit
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-f"></a><b>
+f
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-firstProto"></a><b>
+firstProto
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-firstProtoName"></a><b>
+firstProtoName
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-folder"></a><b>
+folder
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-forward"></a><b>
+forward
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-isDeprecated"></a><b>
+isDeprecated
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-isPrivate"></a><b>
+isPrivate
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-k"></a><b>
+k
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-module"></a><b>
+module
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-moduleName"></a><b>
+moduleName
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-moduleNames"></a><b>
+moduleNames
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-moduleProtoNames"></a><b>
+moduleProtoNames
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-modules"></a><b>
+modules
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-outFile"></a><b>
+outFile
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-p"></a><b>
+p
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-protoName"></a><b>
+protoName
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-protoNames"></a><b>
+protoNames
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-prototypes"></a><b>
+prototypes
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-readFolder"></a><b>
+readFolder
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-s"></a><b>
+s
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-showMeta"></a><b>
+showMeta
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-showSection"></a><b>
+showSection
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-showSpacer"></a><b>
+showSpacer
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-slots"></a><b>
+slots
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Beanstalk-totalCount"></a><b>
+totalCount
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

@@ -1,6 +1,6 @@
 //metadoc Beanstalk Aleksey Yeschenko, 2009
 //metadoc Beanstalk license BSD revised
-//metadoc Beanstalk category Messaging
+//metadoc Beanstalk category Networking
 //metadoc Beanstalk credits Aleksey Yeschenko, 2009. Default arguments and some other things taken from beanstalk-client-ruby by Keith Rarick.
 /*metadoc Beanstalk description
 beanstalkd is a fast, distributed, in-memory workqueue service. See http://xph.us/software/beanstalkd/

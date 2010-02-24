@@ -1,0 +1,287 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Regex</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Regex Proto</h1>
+<br><br><br><br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:45em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td><p>The Regex addon adds support for Perl regular expressions
+using the <a href=http://www.pcre.org/>PCRE</a> library by Philip Hazel.</p>
+
+<h4>Example 1</h4>
+<pre>	
+Io> re := "is.*a" asRegex
+Io> "This is a test. This is also a test." allMatchesOfRegex("is.*a") replaceAllWith("is not a")
+==> "This is not a test. This is not a test.
+</pre>
+
+<h4>Example 2</h4>
+<pre>	
+Io> "11aabb" allMatchesOfRegex("aa*")
+==> list("a", "a")
+
+Io> re := "(wom)(bat)" asRegex
+Io> "wombats are cuddly" matchesOfRegex(re) replaceAllWith("$2$1!")
+==> batwom!s are cuddly
+</pre>
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<a name="Regex-Lobby"></a><b>
+Lobby
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Regex-Protos"></a><b>
+Protos
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Regex-addonFolders"></a><b>
+addonFolders
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Regex-cat"></a><b>
+cat
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Regex-catName"></a><b>
+catName
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Regex-categories"></a><b>
+categories
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Regex-count"></a><b>
+count
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Regex-docsPath"></a><b>
+docsPath
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Regex-exit"></a><b>
+exit
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Regex-f"></a><b>
+f
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Regex-firstProto"></a><b>
+firstProto
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Regex-firstProtoName"></a><b>
+firstProtoName
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Regex-folder"></a><b>
+folder
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Regex-forward"></a><b>
+forward
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Regex-isDeprecated"></a><b>
+isDeprecated
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Regex-isPrivate"></a><b>
+isPrivate
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Regex-k"></a><b>
+k
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Regex-module"></a><b>
+module
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Regex-moduleName"></a><b>
+moduleName
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Regex-moduleNames"></a><b>
+moduleNames
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Regex-moduleProtoNames"></a><b>
+moduleProtoNames
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Regex-modules"></a><b>
+modules
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Regex-outFile"></a><b>
+outFile
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Regex-p"></a><b>
+p
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Regex-protoName"></a><b>
+protoName
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Regex-protoNames"></a><b>
+protoNames
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Regex-prototypes"></a><b>
+prototypes
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Regex-readFolder"></a><b>
+readFolder
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Regex-s"></a><b>
+s
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Regex-showMeta"></a><b>
+showMeta
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Regex-showSection"></a><b>
+showSection
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Regex-showSpacer"></a><b>
+showSpacer
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Regex-slots"></a><b>
+slots
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Regex-totalCount"></a><b>
+totalCount
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

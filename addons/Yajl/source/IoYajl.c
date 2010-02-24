@@ -3,7 +3,7 @@
 /*metadoc YajlParser description
 This object can be used to parse Yajl / HTML / XML.
 */
-//metadoc YajlParser category XML
+//metadoc YajlParser category Parsers
 
 #include "IoYajl.h"
 #include "IoState.h"

@@ -1,6 +1,6 @@
 //metadoc Memcached Aleksey Yeschenko, 2009
 //metadoc Memcached license BSD revised
-//metadoc Memcached category Caching
+//metadoc Memcached category Databases
 //metadoc Memcached credits Aleksey Yeschenko, 2009
 /*metadoc Memcached description
 <a href="http://www.danga.com/memcached/">memcached</a> is a high-performance,

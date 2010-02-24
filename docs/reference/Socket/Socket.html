@@ -1,0 +1,287 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Socket</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Socket Proto</h1>
+<br><br><br><br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:45em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>Interface to network communication.
+Sockets will auto yield to other coroutines while waiting on a request.
+All blocking operations use the timeout settings of the socket.
+Reads are appended to the socket's read buffer which can 
+be accessed using the readBuffer method.
+
+Example:
+
+<pre>	
+socket := Socket clone setHost("www.yahoo.com") setPort(80) connect
+if(socket error) then( write(socket error, "\n"); exit)
+
+socket write("GET /\n\n")
+
+while(socket read, Nop)
+if(socket error) then(write(socket error, "\n"); exit)
+
+write("read ", socket readBuffer length, " bytes\n")
+</pre>
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<a name="Socket-Lobby"></a><b>
+Lobby
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-Protos"></a><b>
+Protos
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-addonFolders"></a><b>
+addonFolders
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-cat"></a><b>
+cat
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-catName"></a><b>
+catName
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-categories"></a><b>
+categories
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-count"></a><b>
+count
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-docsPath"></a><b>
+docsPath
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-exit"></a><b>
+exit
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-f"></a><b>
+f
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-firstProto"></a><b>
+firstProto
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-firstProtoName"></a><b>
+firstProtoName
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-folder"></a><b>
+folder
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-forward"></a><b>
+forward
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-isDeprecated"></a><b>
+isDeprecated
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-isPrivate"></a><b>
+isPrivate
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-k"></a><b>
+k
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-module"></a><b>
+module
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-moduleName"></a><b>
+moduleName
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-moduleNames"></a><b>
+moduleNames
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-moduleProtoNames"></a><b>
+moduleProtoNames
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-modules"></a><b>
+modules
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-outFile"></a><b>
+outFile
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-p"></a><b>
+p
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-protoName"></a><b>
+protoName
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-protoNames"></a><b>
+protoNames
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-prototypes"></a><b>
+prototypes
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-readFolder"></a><b>
+readFolder
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-s"></a><b>
+s
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-showMeta"></a><b>
+showMeta
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-showSection"></a><b>
+showSection
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-showSpacer"></a><b>
+showSpacer
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-slots"></a><b>
+slots
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Socket-totalCount"></a><b>
+totalCount
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

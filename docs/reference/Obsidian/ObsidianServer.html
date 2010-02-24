@@ -1,0 +1,305 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>ObsidianServer</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>ObsidianServer Proto</h1>
+<br><br><br><br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:45em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>
+A network interface for Obsidian.
+
+<h4>Starting a Server</h4>
+
+<pre>
+oServer := ObsidianServer clone
+oServer localObject setName("foo") open
+oServer start
+</pre>
+
+<h4>Example Client Code</h4>
+
+<pre>
+client := MDOConnection clone setHost("127.0.0.1") setPort(8000) connect
+client onAtPut("1", "aKey", "aSlot")
+client onAtPut("1", "cKey", "cSlot")
+client onAtPut("1", "bKey", "bSlot")
+client first("1", 5) println
+a := client onAt("1", "aKey")
+writeln("a = ", a)
+b := client onAt("1", "bKey")
+writeln("b = ", b)
+client close
+</pre>
+
+The messages accepted by the Obsidian server include:
+
+<pre>
+onAtPut(id, key, value)
+onAt(id, key)
+onRemoveAt(id, key)
+onFirst(id, count)
+onLast(id, count)
+onAfter(id, key, count)
+onBefore(id, key, count)
+</pre>
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<a name="ObsidianServer-Lobby"></a><b>
+Lobby
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ObsidianServer-Protos"></a><b>
+Protos
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ObsidianServer-addonFolders"></a><b>
+addonFolders
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ObsidianServer-cat"></a><b>
+cat
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ObsidianServer-catName"></a><b>
+catName
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ObsidianServer-categories"></a><b>
+categories
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ObsidianServer-count"></a><b>
+count
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ObsidianServer-docsPath"></a><b>
+docsPath
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ObsidianServer-exit"></a><b>
+exit
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ObsidianServer-f"></a><b>
+f
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ObsidianServer-firstProto"></a><b>
+firstProto
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ObsidianServer-firstProtoName"></a><b>
+firstProtoName
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ObsidianServer-folder"></a><b>
+folder
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ObsidianServer-forward"></a><b>
+forward
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ObsidianServer-isDeprecated"></a><b>
+isDeprecated
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ObsidianServer-isPrivate"></a><b>
+isPrivate
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ObsidianServer-k"></a><b>
+k
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ObsidianServer-module"></a><b>
+module
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ObsidianServer-moduleName"></a><b>
+moduleName
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ObsidianServer-moduleNames"></a><b>
+moduleNames
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ObsidianServer-moduleProtoNames"></a><b>
+moduleProtoNames
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ObsidianServer-modules"></a><b>
+modules
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ObsidianServer-outFile"></a><b>
+outFile
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ObsidianServer-p"></a><b>
+p
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ObsidianServer-protoName"></a><b>
+protoName
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ObsidianServer-protoNames"></a><b>
+protoNames
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ObsidianServer-prototypes"></a><b>
+prototypes
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ObsidianServer-readFolder"></a><b>
+readFolder
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ObsidianServer-s"></a><b>
+s
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ObsidianServer-showMeta"></a><b>
+showMeta
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ObsidianServer-showSection"></a><b>
+showSection
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ObsidianServer-showSpacer"></a><b>
+showSpacer
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ObsidianServer-slots"></a><b>
+slots
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="ObsidianServer-totalCount"></a><b>
+totalCount
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

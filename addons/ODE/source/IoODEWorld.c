@@ -1,5 +1,6 @@
 //metadoc ODEWorld copyright Jonathan Wright, 2006
 //metadoc ODEWorld license BSD revised
+//metadoc ODEWorld category Physics
 /*metadoc ODEWorld description
 ODEWorld binding
 */

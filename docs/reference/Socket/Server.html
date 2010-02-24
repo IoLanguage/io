@@ -1,0 +1,295 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Server</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Server Proto</h1>
+<br><br><br><br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:45em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>The Server object provides a simple interface for running a server. 
+You just need to set the port and define a handleSocket method. Here's an example of an echo server:
+
+<pre>
+Echo := Object clone
+Echo handleSocketFromServer := method(aSocket, aServer,
+  write("[Got echo connection from ", aSocket host, "]\n")
+  while(aSocket isOpen,
+   if(aSocket read, aSocket write(aSocket readBuffer asString))
+   aSocket readBuffer empty
+  )
+  write("[Closed ", aSocket host, "]\n")
+)
+
+write("[Starting echo server on port 8456]\n")
+server := Server clone setPort(8456)
+server handleSocket := method(aSocket,
+  Echo clone @handleSocketFromServer(aSocket, self)
+)
+server start
+</pre>
+
+<b>Notes</b><p>
+
+Io's use of lightweight threading and select for dealing with sockets makes for 
+servers that are much more efficient(both memory and cpu wise) than those written 
+with kernel threads and socket polling.
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<a name="Server-Lobby"></a><b>
+Lobby
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Server-Protos"></a><b>
+Protos
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Server-addonFolders"></a><b>
+addonFolders
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Server-cat"></a><b>
+cat
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Server-catName"></a><b>
+catName
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Server-categories"></a><b>
+categories
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Server-count"></a><b>
+count
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Server-docsPath"></a><b>
+docsPath
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Server-exit"></a><b>
+exit
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Server-f"></a><b>
+f
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Server-firstProto"></a><b>
+firstProto
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Server-firstProtoName"></a><b>
+firstProtoName
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Server-folder"></a><b>
+folder
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Server-forward"></a><b>
+forward
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Server-isDeprecated"></a><b>
+isDeprecated
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Server-isPrivate"></a><b>
+isPrivate
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Server-k"></a><b>
+k
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Server-module"></a><b>
+module
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Server-moduleName"></a><b>
+moduleName
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Server-moduleNames"></a><b>
+moduleNames
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Server-moduleProtoNames"></a><b>
+moduleProtoNames
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Server-modules"></a><b>
+modules
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Server-outFile"></a><b>
+outFile
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Server-p"></a><b>
+p
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Server-protoName"></a><b>
+protoName
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Server-protoNames"></a><b>
+protoNames
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Server-prototypes"></a><b>
+prototypes
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Server-readFolder"></a><b>
+readFolder
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Server-s"></a><b>
+s
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Server-showMeta"></a><b>
+showMeta
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Server-showSection"></a><b>
+showSection
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Server-showSpacer"></a><b>
+showSpacer
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Server-slots"></a><b>
+slots
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+<a name="Server-totalCount"></a><b>
+totalCount
+</b>
+<p>
+<div class=slotDescription>
+<div class=error>undocumented</div>
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

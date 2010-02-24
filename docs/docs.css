@@ -131,6 +131,18 @@ td
 	vertical-align:text-top;
 }
 
+.refIndexSection
+{
+    margin-top: 0em;
+    margin-bottom: 0em;
+    margin-left: 0em;
+    margin-right: 0em;
+    text-align: left;
+    text-indent: 0.00em;
+    text-transform: none;
+    vertical-align: 0.000000em;
+}
+
 .indexSection 
 {
     margin-top: 1em;

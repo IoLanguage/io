@@ -1,7 +1,7 @@
 
 //metadoc AVCodec copyright Steve Dekorte, 2004
 //metadoc AVCodec license BSD revised
-//metadoc AVCodec category Media
+//metadoc AVCodec category Video
 /*metadoc AVCodec description
 An object for encoding and decoding audio and video streams.
 

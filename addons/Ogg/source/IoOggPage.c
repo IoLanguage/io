@@ -1,6 +1,6 @@
 //metadoc OggPage copyright Chris Double, 2004
 //metadoc OggPage license BSD revised
-//metadoc OggPage category Multimedia
+//metadoc OggPage category Audio
 /*metadoc OggPage description
 A wrapper around the libogg ogg_page object.
 */

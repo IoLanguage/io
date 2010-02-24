@@ -3,7 +3,7 @@
 /*metadoc YajlGenParser description
 This object can be used to parse YajlGen / HTML / XML.
 */
-//metadoc YajlGenParser category XML
+//metadoc YajlGenParser category Parsers
 
 #include "IoYajlGen.h"
 #include "IoState.h"

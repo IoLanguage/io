@@ -1,6 +1,6 @@
-
 //metadoc ODEBody copyright Jonathan Wright, 2006
 //metadoc ODEBody license BSD revised
+//metadoc ODEBody category Physics
 /*metadoc ODEBody description
 ODEBody binding
 */

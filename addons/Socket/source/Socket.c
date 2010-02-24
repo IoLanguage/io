@@ -1,6 +1,7 @@
 
 //metadoc Socket copyright Steve Dekorte 2002
 //metadoc Socket license BSD revised
+//metadoc Socket category Networking
 
 #include "Socket.h"
 #include <stdlib.h>

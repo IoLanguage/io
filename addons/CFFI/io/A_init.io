@@ -4,7 +4,7 @@ Protos Addons CFFI CFFI := Protos Addons CFFI
 
 CFFI do(
 	//metadoc CFFI copyright Trevor Fancher, 2006
-	//metadoc CFFI category binding
+	//metadoc CFFI category Binding
 	//metadoc CFFI license New BSD license
 
 	// Because of the way building addons works, our Protos are prefixed

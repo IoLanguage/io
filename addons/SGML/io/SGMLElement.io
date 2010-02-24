@@ -1,6 +1,7 @@
 Sequence writeToStream := method(b, b appendSeq(self))
 
 SGMLElement := Object clone do(
+	//metadoc SGMLElement category Parsers
 	//metadoc SGMLElement Representation of an SGML / HTML / XML tag.
 	//doc SGMLElement setName(aString) Sets the tag name. Returns self.
 	//doc SGMLElement name Returns the tag name

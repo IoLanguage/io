@@ -1,6 +1,7 @@
 
 //metadoc LocalNameServers copyright Steve Dekorte 2002
 //metadoc LocalNameServers license BSD revised
+//metadoc LocalNameServers category Networking
 /*metadoc LocalNameServers description
 Windows code by Mike Austin.
 */

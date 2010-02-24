@@ -144,8 +144,8 @@ Project := Object clone do(
 		addons foreach(generateDocs)
 		//build
 		docsPath := "docs/reference"
+		systemCall("rm -rf " .. Path with(docsPath))
 		systemCall("mkdir " .. docsPath)
-		systemCall("rm " .. Path with(docsPath, "*"))
 		systemCall("_build/binaries/io tools/io/docs2html.io " .. docsPath)
 		writeln(docsPath .." generated")
 	)

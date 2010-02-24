@@ -7,7 +7,7 @@
 */
 
 /*metadoc UUID category
-	Encryption
+	Digests
 */
 
 /*metadoc UUID description

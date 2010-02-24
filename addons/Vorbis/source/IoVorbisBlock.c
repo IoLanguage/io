@@ -1,6 +1,6 @@
 //metadoc VorbisBlock copyright Chris Double, 2004
 //metadoc VorbisBlock license BSD revised
-//metadoc VorbisBlock category Multimedia
+//metadoc VorbisBlock category Video
 /*metadoc VorbisBlock description
 A wrapper around the libvorbis vorbis_comment object.
 */

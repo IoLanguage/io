@@ -1,15 +1,6 @@
-/*metadoc TagLib copyright
-	Steve Dekorte, 2004
-*/
-
-/*metadoc TagLib license
-	BSD revised
-*/
-
-/*metadoc TagLib category
-	Media
-*/
-
+//metadoc TagLib copyright Steve Dekorte, 2004
+//metadoc TagLib license BSD revised
+//metadoc TagLib category Audio
 /*metadoc TagLib description
 	Used to set tags on ape, flac, mp3, mpc, mpeg, and ogg files. 
 	The title, artist, album, year, track, genre slots can be written, 

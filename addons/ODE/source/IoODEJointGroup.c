@@ -1,5 +1,6 @@
 //metadoc ODEJointGroup copyright Jonathan Wright, 2006
 //metadoc ODEJointGroup license BSD revised
+//metadoc ODEJointGroup category Physics
 /*metadoc ODEJointGroup description
 ODEJointGroup binding
 */

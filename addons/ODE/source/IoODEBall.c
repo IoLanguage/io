@@ -1,8 +1,8 @@
-
-//metadoc ODEJoint copyright Jonathan Wright, 2006
-//metadoc ODEJoint license BSD revised
-/*metadoc ODEJoint description
-ODEJoint binding
+//metadoc ODEBall copyright Jonathan Wright, 2006
+//metadoc ODEBall license BSD revised
+//metadoc ODEBall category Physics
+/*metadoc ODEBall description
+ODEBall binding
 */
 
 #include "IoODEJoint_internal.h"

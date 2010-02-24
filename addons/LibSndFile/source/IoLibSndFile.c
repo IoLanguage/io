@@ -1,7 +1,7 @@
 
 //metadoc LibSndFile copyright Steve Dekorte, 2004
 //metadoc LibSndFile license BSD revised
-//metadoc LibSndFile category Media
+//metadoc LibSndFile category Audio
 /*metadoc LibSndFile description
 An object for encoding and decoding audio and video streams.
 */

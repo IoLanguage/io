@@ -1,6 +1,6 @@
 //metadoc OggStreamState copyright Chris Double, 2004
 //metadoc OggStreamState license BSD revised
-//metadoc OggStreamState category Multimedia
+//metadoc OggStreamState category Audio
 /*metadoc OggStreamState description
 A wrapper around the libogg ogg_stream_state object.
 */

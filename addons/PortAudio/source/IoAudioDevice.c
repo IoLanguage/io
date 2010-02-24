@@ -1,7 +1,7 @@
 
 //metadoc AudioDevice copyright Steve Dekorte, 2004
 //metadoc AudioDevice license BSD revised
-//metadoc AudioDevice category Media
+//metadoc AudioDevice category Audio
 //metadoc AudioDevice module PortAudio
 /*metadoc AudioDevice description
 The AudioDevice object can used to write audio data as if directly to the audio buffer.

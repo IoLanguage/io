@@ -120,47 +120,114 @@ outFile writeln("""<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-<title>Io Reference Manual</title>
+<title>Io Reference</title>
 <META HTTP-EQUIV="EXPIRES" CONTENT=0>
 <link rel="stylesheet" href="../docs.css">
 </head>
 <body>
 """)
 
-outFile writeln("<h1>Io Reference Manual</h1>")
-outFile writeln("<div class=Version>version " .. System version asString asMutable atInsertSeq(4, " ") atInsertSeq(7, " "))
-outFile writeln(" generated on " .. Date clone now asString("%Y %m %d") .. "</div>")
-outFile writeln("<p><br>")
+outFile writeln("<br>")
+	outFile writeln("<h1>Io Reference</h1>")
+//outFile writeln("<div class=Version>version " .. System version asString asMutable atInsertSeq(4, " ") atInsertSeq(7, " "))
+//outFile writeln(" generated on " .. Date clone now asString("%Y %m %d") .. "</div>")
+outFile writeln("<br><br><br><br><br>")
 
 protoNames := prototypes keys sort
 moduleNames := modules keys sort 
 
 moduleNames remove("Core") prepend("Core")
 
-
-outFile writeln("<table cellpadding=0 cellspacing=0 border=0>")
-outFile writeln("<tr><td valign=top>")
-count := 0
-moduleNames foreach(moduleName,
-	outFile writeln("<div class=indexSection><a href=\"", moduleName .. ".html", "\">", moduleName, "</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>")
-	keys := modules at(moduleName) keys sort 
-	if(keys size > 1,
-		keys foreach(protoName,
-			//outFile writeln("<div class=indexItem><a href=\"#", protoName, "\">", protoName, "</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>")
-			outFile writeln("<div class=indexItem><a href=\"", protoName .. ".html", "\">", protoName, "</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>")
-			count = count + 1
-		)
+categories := Map clone
+modules foreach(moduleName, module,
+	firstProto := nil
+	firstProtoName := module keys sort detect(k, module at(k) at("category"))
+	if(firstProtoName, firstProto := module at(firstProtoName))
+	if(firstProto,
+		catName := firstProto at("category")
+	, 
+		writeln("warning: no cat for ", moduleName, " ", module keys)
+		catName := "Other"
 	)
-	count = count + 2
-	if(count > 53,
-		outFile writeln("</td><td valign=top>")
-		count = 0
-	)
-	//outFile writeln("""<br style="width:.5em"></div>""")
+	cat := categories atIfAbsentPut(catName asMutable strip, Map clone)
+	cat atPut(moduleName, module)
 )
 
-outFile writeln("</td></tr></table>")
-outFile writeln("<p><br>")
+// REF PAGE -------------------------------------------------------
+
+outFile writeln("<table cellpadding=0 cellspacing=0 border=0 style=\"margin-left:13em; width:36em; border-style:solid; border-width:0px; border-color:#000;\">")
+outFile writeln("<tr>")
+outFile writeln("<td valign=top align=left width=33%>")
+totalCount := 0
+categories keys sort foreach(catName, 
+	cat := categories at(catName)
+
+	outFile write("<div class=indexSection><a href=>", catName, "</a></div>")
+	totalCount = totalCount + 2
+	
+	cat keys sort foreach(moduleName,
+		module := cat at(moduleName)
+		outFile writeln("<div class=indexItem><a href=", moduleName, "/index.html>", moduleName, "</a></div>")
+		//showModule(module)
+		totalCount = totalCount + 1
+	)
+	if(totalCount > 29,
+		outFile writeln("</td>")
+		outFile writeln("<td valign=top align=left width=33%>")
+		//outFile writeln("<td valign=top align=left style=\"width:10em;\">")
+		totalCount = 0
+	)
+)
+outFile writeln("</td>")
+outFile writeln("</tr>")
+outFile writeln("</table>")
+outFile close
+
+
+// MODULE INDEXES -------------------------------------------------------
+
+
+count := 0
+moduleNames foreach(moduleName,
+	module := modules at(moduleName)
+	
+	Directory with(Path with(docsPath, moduleName)) createIfAbsent
+	outFile := File with(Path with(docsPath, moduleName, "index.html")) open
+	
+	outFile writeln("""<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+	<html>
+	<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<title>Io Reference</title>
+	<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+	<link rel="stylesheet" href="../../docs.css">
+	</head>
+	<body>
+	""")
+	
+	outFile writeln("<br>")
+	outFile writeln("<h1>", moduleName, " Addon</h1>")
+	outFile writeln("<br><br><br>")
+
+	outFile writeln("<div style=\"margin-left:10em;\">")
+	outFile write("<div class=indexSection><a href=>Protos</a></div>")
+	moduleProtoNames := module keys sort 
+	count := 0
+	//if(moduleProtoNames size > 1,
+		moduleProtoNames foreach(protoName,
+			outFile writeln("<div class=indexItem><a href=", protoName .. ".html", ">", protoName, "</a></div>")
+			count = count + 1			
+			if(count > 7,
+				count = 0
+			)
+		)
+	//)
+	outFile writeln("</div>")
+	outFile close
+)
+
+
+// PROTOS -------------------------------------------------------
 
 Sequence do(
 	asHtml := method(
@@ -170,43 +237,42 @@ Sequence do(
 
 
 protoNames foreach(protoName,
+	//writeln("protoName = ", protoName)
 	outFile close
-	outFile := File with(Path with(docsPath, protoName .. ".html")) open
+	p := prototypes at(protoName)
+	moduleName = p at("module")
+	Directory with(Path with(docsPath, moduleName)) createIfAbsent
+	outFile := File with(Path with(docsPath, moduleName, protoName .. ".html")) open
 	
-		outFile writeln("""<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+	outFile writeln("""<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 		<html>
 		<head>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-		<title>Io Reference Manual</title>
+		<title>""" .. protoName .. """</title>
 		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
-		<link rel="stylesheet" href="../docs.css">
+		<link rel="stylesheet" href="../../docs.css">
 		</head>
 		<body>
 		""")
 		
-	p := prototypes at(protoName)
 //	outFile writeln("<hr align=left color=#ddd height=1>")
-	outFile writeln("<br><br><br>")
-	outFile writeln("<table cellspacing=4 style=\"width:45em; line-height:1.2em;\">")
+	outFile writeln("<br>")
+	outFile writeln("<h1>", protoName asMutable strip, " Proto</h1>")
+	outFile writeln("<br><br><br><br><br><br>")
+
+	outFile writeln("<table border=0 cellspacing=0 style=\"margin-left:8em; width:45em; line-height:1.2em;\">")
 	
 	showSection := method(name, value,
 		outFile writeln("<tr>")
-		outFile writeln("<td align=right><b>", name, "</b></td>")
+		//outFile writeln("<td align=right><b>", name, "</b></td>")
+		outFile writeln("<td align=right></td>")
 		outFile writeln("<td></td>")
 		outFile writeln("<td>", value, "</td></tr>")
 	)
 	
 	showSpacer := method(
-		outFile writeln("<tr><td colspan=2>&nbsp;</td></tr>")
+		outFile writeln("<tr><td colspan=3>&nbsp;</td></tr>")
 	)
-	
-	outFile writeln("<tr>")
-	outFile writeln("<td>")
-	outFile writeln("<a name=" .. protoName .. "></a><span class=protoName>", protoName, "</span>")
-	outFile writeln("</td>")
-	outFile writeln("<td></td>")
-	outFile writeln("<td>")
-	outFile writeln("</tr>")
 	
 	//outFile writeln("<b>Protos:</b> ", getSlot(protoName) ?prototypes ?map(type) ?join(", "))
 
@@ -214,21 +280,23 @@ protoNames foreach(protoName,
 		if(p at(name), showSection("<span class=proto" .. name asCapitalized .. ">" .. name .. "</span>", p at(name)))
 	)
 	
-	showMeta("module")	
-	showMeta("category")
+	//showMeta("module")	
+	//showMeta("category")
 	//showMeta("copyright")
 	//showMeta("license")
-	showMeta("credits")
+	//showMeta("credits")
 	showMeta("description")
 	//p keys map(s, "[" .. s .. "]") println
 
 	showSpacer
+	showSpacer
 
 	slots := p at("slots")
 	if (slots,
+		/*
 		outFile writeln("<tr>")
 		outFile writeln("<td align=right>")
-		outFile writeln("<h3>index</h3>")
+		//outFile writeln("<h3>index</h3>")
 		outFile writeln("</td>")
 		outFile writeln("<td></td>")
 		outFile writeln("<td>")
@@ -261,12 +329,12 @@ protoNames foreach(protoName,
 
 		outFile writeln("</td>")
 		outFile writeln("</tr>")
-
+*/
 		showSpacer
 		
 		outFile writeln("<tr>")
 		outFile writeln("<td align=right>")
-		outFile writeln("<h3>slots</h3>")
+		//outFile writeln("<h3>slots</h3>")
 		outFile writeln("</td>")
 		outFile writeln("<td></td>")
 		outFile writeln("<td>")
@@ -294,14 +362,6 @@ protoNames foreach(protoName,
 	outFile writeln("</tr>")	
 
 	outFile writeln("</table>")
-	outFile writeln("<br><br><br><br><br>")
-	
-	//outFile writeln("</td>")
-	//outFile writeln("</tr>")	
-	//outFile writeln("</table>")
-	//break
+	outFile writeln("<br><br><br><br><br>")	
+	outFile close
 )
-
-5 repeat(outFile writeln("<br>"))
-
-outFile close
