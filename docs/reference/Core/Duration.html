@@ -25,243 +25,153 @@
 </td>
 <td></td>
 <td>
-<a name="Duration-Lobby"></a><b>
-Lobby
+<a name="Duration-+"></a><b>
++
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a new Duration of the two added.
 </div>
-<a name="Duration-Protos"></a><b>
-Protos
+<a name="Duration-+="></a><b>
++=(aDuration)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Add aDuration to the receiver. Returns self.
 </div>
-<a name="Duration-addonFolders"></a><b>
-addonFolders
+<a name="Duration--"></a><b>
+-
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a new Duration of the two subtracted.
 </div>
-<a name="Duration-cat"></a><b>
-cat
+<a name="Duration--="></a><b>
+-=(aDuration)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Subtract aDuration to the receiver. Returns self.
 </div>
-<a name="Duration-catName"></a><b>
-catName
+<a name="Duration-asNumber"></a><b>
+asNumber
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a number representation of the receiver.
+	(where 1 is equal to one second)
 </div>
-<a name="Duration-categories"></a><b>
-categories
+<a name="Duration-asString"></a><b>
+asString(formatString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a string representation of the receiver. The formatString argument is optional. If present, the returned string will be formatted according to ANSI C date formating rules.
+<p>
+<pre>	
+%y years without century as two-digit decimal number (00-99)
+%Y year with century as four-digit decimal number
+
+%d days
+%H hour as two-digit 24-hour clock decimal integer (00-23)
+%M minute as a two-digit decimal integer (00-59)
+%S second as a two-digit decimal integer (00-59)
+
+The default format is "%Y %d %H:%M:%S".
+</pre>
 </div>
-<a name="Duration-count"></a><b>
-count
+<a name="Duration-days"></a><b>
+days
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a number containing the day of the month of the receiver.
 </div>
-<a name="Duration-docsPath"></a><b>
-docsPath
+<a name="Duration-fromNumber"></a><b>
+fromNumber(aNumber)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the receiver to the Duration specified by
+	aNumber(same format number as returned by Duration asNumber). Returns self.
 </div>
-<a name="Duration-exit"></a><b>
-exit
+<a name="Duration-hours"></a><b>
+hours
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a number containing the hour of the day(0-23) of the receiver.
 </div>
-<a name="Duration-f"></a><b>
-f
+<a name="Duration-minutes"></a><b>
+minutes
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a number containing the minute of the hour(0-59) of the receiver.
 </div>
-<a name="Duration-firstProto"></a><b>
-firstProto
+<a name="Duration-print"></a><b>
+print
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Prints the receiver. Returns self.
 </div>
-<a name="Duration-firstProtoName"></a><b>
-firstProtoName
+<a name="Duration-seconds"></a><b>
+seconds
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a number containing the seconds of the minute(0-59) of the receiver.
+	This number may contain fractions of seconds.
 </div>
-<a name="Duration-folder"></a><b>
-folder
+<a name="Duration-setDays"></a><b>
+setDays(aNumber)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the day of the receiver. Returns self.
 </div>
-<a name="Duration-forward"></a><b>
-forward
+<a name="Duration-setHours"></a><b>
+setHours(aNumber)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the hour of the receiver. Returns self.
 </div>
-<a name="Duration-isDeprecated"></a><b>
-isDeprecated
+<a name="Duration-setMinutes"></a><b>
+setMinutes(aNumber)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the minute of the receiver. Returns self.
 </div>
-<a name="Duration-isPrivate"></a><b>
-isPrivate
+<a name="Duration-setSeconds"></a><b>
+setSeconds(aNumber)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the second of the receiver. Return self.
 </div>
-<a name="Duration-k"></a><b>
-k
+<a name="Duration-setYears"></a><b>
+setYears(aNumber)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the year of the receiver. Returns self.
 </div>
-<a name="Duration-module"></a><b>
-module
+<a name="Duration-totalSeconds"></a><b>
+totalSeconds
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Same as a asNumber.
 </div>
-<a name="Duration-moduleName"></a><b>
-moduleName
+<a name="Duration-years"></a><b>
+years
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Duration-moduleNames"></a><b>
-moduleNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Duration-moduleProtoNames"></a><b>
-moduleProtoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Duration-modules"></a><b>
-modules
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Duration-outFile"></a><b>
-outFile
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Duration-p"></a><b>
-p
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Duration-protoName"></a><b>
-protoName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Duration-protoNames"></a><b>
-protoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Duration-prototypes"></a><b>
-prototypes
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Duration-readFolder"></a><b>
-readFolder
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Duration-s"></a><b>
-s
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Duration-showMeta"></a><b>
-showMeta
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Duration-showSection"></a><b>
-showSection
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Duration-showSpacer"></a><b>
-showSpacer
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Duration-slots"></a><b>
-slots
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Duration-totalCount"></a><b>
-totalCount
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a number containing the year of the receiver.
 </div>
 </td>
 </tr>

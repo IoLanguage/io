@@ -27,243 +27,88 @@ into local object slots.
 </td>
 <td></td>
 <td>
-<a name="PMap-Lobby"></a><b>
-Lobby
+<a name="PMap-at"></a><b>
+at(slotName)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Tries to obtain a value for slot slotName from a local slot of that name,
+or tries to load it from the PDB if the local slot does not exist. When all else fails, returns nil.
+<p>
+If slotName begins with an underscore ("_"), returns the id of the slot from PDB instead of the value.
 </div>
-<a name="PMap-Protos"></a><b>
-Protos
+<a name="PMap-atPut"></a><b>
+atPut(slotName, value)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Records value in the slot named slotName.
 </div>
-<a name="PMap-addonFolders"></a><b>
-addonFolders
+<a name="PMap-createIfAbsent"></a><b>
+createIfAbsent
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Creates a slot with a new PMap clone if not already present.
 </div>
-<a name="PMap-cat"></a><b>
-cat
+<a name="PMap-init"></a><b>
+init
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Initialize a new PMap and automatically add it as a persistent object to PDB.
 </div>
-<a name="PMap-catName"></a><b>
-catName
+<a name="PMap-objectsForKeys"></a><b>
+objectsForKeys
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a list of values for each key in the list given. Keys beginning with an
+underscore ("_") are returned verbatim.
 </div>
-<a name="PMap-categories"></a><b>
-categories
+<a name="PMap-persist"></a><b>
+persist
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Commits the PMap's slots to PDB.
 </div>
-<a name="PMap-count"></a><b>
-count
+<a name="PMap-persistSlots"></a><b>
+persistSlots
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Cleans up dirty slots by committing them to PDB.
 </div>
-<a name="PMap-docsPath"></a><b>
-docsPath
+<a name="PMap-removeAt"></a><b>
+removeAt
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Marks a value for removal.
 </div>
-<a name="PMap-exit"></a><b>
-exit
+<a name="PMap-removeSlot"></a><b>
+removeSlot
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Marks a value for removal.
 </div>
-<a name="PMap-f"></a><b>
-f
+<a name="PMap-shouldPersistByDefault"></a><b>
+shouldPersistByDefault
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+PDB boolean flag indicating whether this object should be considered for persistence
+when persistence has not been specifically requested by calling ppid() or PDB addObjectToPersist.
+Always true by default for PMap.
 </div>
-<a name="PMap-firstProto"></a><b>
-firstProto
+<a name="PMap-slotCount"></a><b>
+slotCount
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PMap-firstProtoName"></a><b>
-firstProtoName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PMap-folder"></a><b>
-folder
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PMap-forward"></a><b>
-forward
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PMap-isDeprecated"></a><b>
-isDeprecated
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PMap-isPrivate"></a><b>
-isPrivate
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PMap-k"></a><b>
-k
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PMap-module"></a><b>
-module
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PMap-moduleName"></a><b>
-moduleName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PMap-moduleNames"></a><b>
-moduleNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PMap-moduleProtoNames"></a><b>
-moduleProtoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PMap-modules"></a><b>
-modules
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PMap-outFile"></a><b>
-outFile
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PMap-p"></a><b>
-p
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PMap-protoName"></a><b>
-protoName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PMap-protoNames"></a><b>
-protoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PMap-prototypes"></a><b>
-prototypes
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PMap-readFolder"></a><b>
-readFolder
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PMap-s"></a><b>
-s
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PMap-showMeta"></a><b>
-showMeta
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PMap-showSection"></a><b>
-showSection
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PMap-showSpacer"></a><b>
-showSpacer
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PMap-slots"></a><b>
-slots
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PMap-totalCount"></a><b>
-totalCount
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the number of slots committed to PDB.
 </div>
 </td>
 </tr>

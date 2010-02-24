@@ -43,222 +43,171 @@ videoFrameCount
 </td>
 <td></td>
 <td>
-<a name="AVCodec-Lobby"></a><b>
-Lobby
+<a name="AVCodec-audioInputBuffer"></a><b>
+audioInputBuffer
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the input buffer.
 </div>
-<a name="AVCodec-Protos"></a><b>
-Protos
+<a name="AVCodec-audioOutputBuffer"></a><b>
+audioOutputBuffer
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the output buffer.
 </div>
-<a name="AVCodec-addonFolders"></a><b>
-addonFolders
+<a name="AVCodec-close"></a><b>
+close
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Closes the input file if it's open. Returns self.
 </div>
-<a name="AVCodec-cat"></a><b>
-cat
+<a name="AVCodec-codecName"></a><b>
+codecName
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns name of audio or video codec.
 </div>
-<a name="AVCodec-catName"></a><b>
-catName
+<a name="AVCodec-decode"></a><b>
+decode
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Decodes the next chunk of input data. 
+	Output (if any) is placed in the outputBuffers. 
+	Returns self.
 </div>
-<a name="AVCodec-categories"></a><b>
-categories
+<a name="AVCodec-decodeCodecNames"></a><b>
+decodeCodecNames
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a list of strings with the names of the decode codecs.
 </div>
-<a name="AVCodec-count"></a><b>
-count
+<a name="AVCodec-didProcess"></a><b>
+didProcess
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Called after the receiver processes some more of the input buffer.
 </div>
-<a name="AVCodec-docsPath"></a><b>
-docsPath
+<a name="AVCodec-encodeCodecNames"></a><b>
+encodeCodecNames
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a list of strings with the names of the encode codecs.
 </div>
-<a name="AVCodec-exit"></a><b>
-exit
+<a name="AVCodec-inputCoro"></a><b>
+inputCoro
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns coroutine currently writing to the receiver.
 </div>
-<a name="AVCodec-f"></a><b>
-f
+<a name="AVCodec-internalCoro"></a><b>
+internalCoro
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns coroutine used for the AVCodec to process data...
 </div>
-<a name="AVCodec-firstProto"></a><b>
-firstProto
+<a name="AVCodec-isAtEnd"></a><b>
+isAtEnd
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if the stream is at it's end, false otherwise.
 </div>
-<a name="AVCodec-firstProtoName"></a><b>
-firstProtoName
+<a name="AVCodec-open"></a><b>
+open
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Opens the input file. Return self on success or raises an exception on error.
 </div>
-<a name="AVCodec-folder"></a><b>
-folder
+<a name="AVCodec-path"></a><b>
+path
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns path to file the receiver is reading or writing to.
 </div>
-<a name="AVCodec-forward"></a><b>
-forward
+<a name="AVCodec-setCodecName"></a><b>
+setCodecName(aSeq)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the codec name. Returns self. See: encodeCodecNames and decodeCodecNames
 </div>
-<a name="AVCodec-k"></a><b>
-k
+<font color=#888>
+<a name="AVCodec-setInputCoro"></a><b>
+setInputCoro(aCoro)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Private method for setting inputCoro. Returns self.
+</font>
 </div>
-<a name="AVCodec-module"></a><b>
-module
+<font color=#888>
+<a name="AVCodec-setInternalCoro"></a><b>
+setInternalCoro(aCoro)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Private method for setting internalCoro. Returns self.
+</font>
 </div>
-<a name="AVCodec-moduleName"></a><b>
-moduleName
+<a name="AVCodec-setPath"></a><b>
+setPath(aSeq)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the path to file the receiver is reading or writing to. Returns self.
 </div>
-<a name="AVCodec-moduleNames"></a><b>
-moduleNames
+<a name="AVCodec-setStreamDestination"></a><b>
+setStreamDestination(anObject)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the streamDestination to anObject. The didProcess method will call:
+<pre>
+if(streamDestination, streamDestination write(outputBuffer))
+outputBuffer empty
+</pre>
 </div>
-<a name="AVCodec-moduleProtoNames"></a><b>
-moduleProtoNames
+<a name="AVCodec-streamDestination"></a><b>
+streamDestination
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the streamDestination.
 </div>
-<a name="AVCodec-modules"></a><b>
-modules
+<a name="AVCodec-videoCodecName"></a><b>
+videoCodecName
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the name of the video codec.
 </div>
-<a name="AVCodec-outFile"></a><b>
-outFile
+<a name="AVCodec-willProcess"></a><b>
+willProcess
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Called before the receiver will process more of the input buffer. 
+	If inputBuffer is empty, it pauses the receiver's coro.
 </div>
-<a name="AVCodec-p"></a><b>
-p
+<a name="AVCodec-write"></a><b>
+write(aSequence)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AVCodec-protoName"></a><b>
-protoName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AVCodec-protoNames"></a><b>
-protoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AVCodec-prototypes"></a><b>
-prototypes
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AVCodec-readFolder"></a><b>
-readFolder
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AVCodec-showMeta"></a><b>
-showMeta
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AVCodec-showSection"></a><b>
-showSection
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AVCodec-showSpacer"></a><b>
-showSpacer
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AVCodec-slots"></a><b>
-slots
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AVCodec-totalCount"></a><b>
-totalCount
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
+Appends aSequence to the input buffer and resumes the receiver's coroutine in order to process it.
+	The calling coroutine (inputCoroutine) will be scheduled to resume when didProcess is called.
 </div>
 </td>
 </tr>

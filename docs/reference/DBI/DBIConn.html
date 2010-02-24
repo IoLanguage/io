@@ -25,243 +25,116 @@
 </td>
 <td></td>
 <td>
-<a name="DBIConn-Lobby"></a><b>
-Lobby
+<a name="DBIConn-close"></a><b>
+close
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Close the connection to the database.
 </div>
-<a name="DBIConn-Protos"></a><b>
-Protos
+<a name="DBIConn-connect"></a><b>
+connect
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Connect to the database server.
 </div>
-<a name="DBIConn-addonFolders"></a><b>
-addonFolders
+<a name="DBIConn-driver"></a><b>
+driver
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Return database driver name.
 </div>
-<a name="DBIConn-cat"></a><b>
-cat
+<a name="DBIConn-execute"></a><b>
+execute(sql_query)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Perform a database query that expects no results. 
+	Returns the number of rows affected.
 </div>
-<a name="DBIConn-catName"></a><b>
-catName
+<a name="DBIConn-option"></a><b>
+option(key)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Retrieve an option value for the connection.
 </div>
-<a name="DBIConn-categories"></a><b>
-categories
+<a name="DBIConn-optionClear"></a><b>
+optionClear(key)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Clear a specific option associated with the connection.
 </div>
-<a name="DBIConn-count"></a><b>
-count
+<a name="DBIConn-optionPut"></a><b>
+optionPut(key,value)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Add an option key, value pair to the connection.
 </div>
-<a name="DBIConn-docsPath"></a><b>
-docsPath
+<a name="DBIConn-options"></a><b>
+options
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Retrieve an option list of the connection.
 </div>
-<a name="DBIConn-exit"></a><b>
-exit
+<a name="DBIConn-optionsClear"></a><b>
+optionsClear
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Clear all options associated with the connection
 </div>
-<a name="DBIConn-f"></a><b>
-f
+<a name="DBIConn-ping"></a><b>
+ping
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Ping the database to see if it's alive. 
+	Will return true if it is, otherwise false.
 </div>
-<a name="DBIConn-firstProto"></a><b>
-firstProto
+<a name="DBIConn-query"></a><b>
+query(sql_query)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Perform a database query returning a DBIResult object.
 </div>
-<a name="DBIConn-firstProtoName"></a><b>
-firstProtoName
+<a name="DBIConn-queryOne"></a><b>
+queryOne([object], sql)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Perform a query and return the first
+	result.
+
+	If [object] is supplied, the object is populated with the contents of the
+	result, the result is marked done and the object is returned.
 </div>
-<a name="DBIConn-folder"></a><b>
-folder
+<a name="DBIConn-quote"></a><b>
+quote(value)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Quote a string value according to the database server's specifications.
 </div>
-<a name="DBIConn-forward"></a><b>
-forward
+<a name="DBIConn-sequenceLast"></a><b>
+sequenceLast([name])
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Return the last inserted sequence value.
 </div>
-<a name="DBIConn-isDeprecated"></a><b>
-isDeprecated
+<a name="DBIConn-sequenceNext"></a><b>
+sequenceNext([name])
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIConn-isPrivate"></a><b>
-isPrivate
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIConn-k"></a><b>
-k
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIConn-module"></a><b>
-module
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIConn-moduleName"></a><b>
-moduleName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIConn-moduleNames"></a><b>
-moduleNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIConn-moduleProtoNames"></a><b>
-moduleProtoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIConn-modules"></a><b>
-modules
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIConn-outFile"></a><b>
-outFile
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIConn-p"></a><b>
-p
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIConn-protoName"></a><b>
-protoName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIConn-protoNames"></a><b>
-protoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIConn-prototypes"></a><b>
-prototypes
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIConn-readFolder"></a><b>
-readFolder
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIConn-s"></a><b>
-s
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIConn-showMeta"></a><b>
-showMeta
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIConn-showSection"></a><b>
-showSection
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIConn-showSpacer"></a><b>
-showSpacer
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIConn-slots"></a><b>
-slots
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIConn-totalCount"></a><b>
-totalCount
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
+Return the next sequence that will be used during an INSERT query.
 </div>
 </td>
 </tr>

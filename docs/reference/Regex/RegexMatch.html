@@ -56,243 +56,194 @@ Io> match at("word")
 </td>
 <td></td>
 <td>
-<a name="RegexMatch-Lobby"></a><b>
-Lobby
+<a name="RegexMatch-asString"></a><b>
+asString
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a string containing a textual representation of the receiver.
 </div>
-<a name="RegexMatch-Protos"></a><b>
-Protos
+<a name="RegexMatch-at"></a><b>
+at(indexOrName)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the capture with the given index or name. <code>at(0)</code> is the entire match.
 </div>
-<a name="RegexMatch-addonFolders"></a><b>
-addonFolders
+<a name="RegexMatch-captures"></a><b>
+captures
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a list of captured strings. The first element is the whole match.
 </div>
-<a name="RegexMatch-cat"></a><b>
-cat
+<a name="RegexMatch-end"></a><b>
+end
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the index into the subject at which the match ends.
 </div>
-<a name="RegexMatch-catName"></a><b>
-catName
+<a name="RegexMatch-endOf"></a><b>
+endOf(indexOrName)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the index into the subject at which the capture with the given index or name ends.
 </div>
-<a name="RegexMatch-categories"></a><b>
-categories
+<a name="RegexMatch-expandTo"></a><b>
+expandTo(templateString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns <em>templateString</em> with capture placeholders replaced with what they represent.
+	<code>$0</code> is replaced with the whole match, <code>$1</code> is replaced with the first
+	sub capture, etc. <code>${name}</code> is replaced with the capture of that name.
 </div>
-<a name="RegexMatch-count"></a><b>
-count
+<a name="RegexMatch-foreach"></a><b>
+foreach([index], capture, message)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Loops through the captures, assigns each capture to <em>capture</em>, and evaluates <em>message</em>.
+	Returns a list with the result of each evaluation.
 </div>
-<a name="RegexMatch-docsPath"></a><b>
-docsPath
+<a name="RegexMatch-indexOf"></a><b>
+indexOf(name)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the index of the capture with the given name.
 </div>
-<a name="RegexMatch-exit"></a><b>
-exit
+<a name="RegexMatch-map"></a><b>
+map([index], capture, message)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Like <code>foreach</code>, but the result of each evaluation of <em>message</em> is returned in a list.
 </div>
-<a name="RegexMatch-f"></a><b>
-f
+<a name="RegexMatch-nameOf"></a><b>
+nameOf(index)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the name of the capture with the given index.
 </div>
-<a name="RegexMatch-firstProto"></a><b>
-firstProto
+<a name="RegexMatch-names"></a><b>
+names
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a list of the name of each named capture.
+	If there are no named captures, the list will be empty.
 </div>
-<a name="RegexMatch-firstProtoName"></a><b>
-firstProtoName
+<a name="RegexMatch-postfix"></a><b>
+postfix
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a slice of the subject string that contains all text after this match.
+	Equivalent to:
+	<pre>
+	match subject slice(match end)
+	</pre>
 </div>
-<a name="RegexMatch-folder"></a><b>
-folder
+<a name="RegexMatch-prefix"></a><b>
+prefix
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a slice of the subject string that contains all text before this match.
+	Equivalent to:
+	<pre>
+	match subject slice(0, match start)
+	</pre>
 </div>
-<a name="RegexMatch-forward"></a><b>
-forward
+<a name="RegexMatch-range"></a><b>
+range
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the range of the match in the subject.
 </div>
-<a name="RegexMatch-isDeprecated"></a><b>
-isDeprecated
+<a name="RegexMatch-rangeOf"></a><b>
+rangeOf(indexOrName)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the range of the capture with the given index or name.
 </div>
-<a name="RegexMatch-isPrivate"></a><b>
-isPrivate
+<a name="RegexMatch-ranges"></a><b>
+ranges
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a list containing the range of each capture.
 </div>
-<a name="RegexMatch-k"></a><b>
-k
+<a name="RegexMatch-regex"></a><b>
+regex
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the Regex that was used to find this match.
 </div>
-<a name="RegexMatch-module"></a><b>
-module
+<a name="RegexMatch-select"></a><b>
+select([index], capture, message)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Like <code>foreach</code>, but the values for which the result of evaluating <em>message</em> are non-nil are returned
+	in a list.
 </div>
-<a name="RegexMatch-moduleName"></a><b>
-moduleName
+<a name="RegexMatch-size"></a><b>
+size
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the number of captures.
 </div>
-<a name="RegexMatch-moduleNames"></a><b>
-moduleNames
+<a name="RegexMatch-sizeInChars"></a><b>
+sizeInChars
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the length of the match, in characters.
 </div>
-<a name="RegexMatch-moduleProtoNames"></a><b>
-moduleProtoNames
+<a name="RegexMatch-slice"></a><b>
+slice(startIndex, [endIndex])
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a new list containing the subset of the receiver from the <em>startIndex</em> to the <em>endIndex</em>.
+	The <em>endIndex</em> argument is optional. If not given, it is assumed to be the end of the capture list.
 </div>
-<a name="RegexMatch-modules"></a><b>
-modules
+<a name="RegexMatch-start"></a><b>
+start
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the index into the subject at which the match starts.
 </div>
-<a name="RegexMatch-outFile"></a><b>
-outFile
+<a name="RegexMatch-startOf"></a><b>
+startOf(indexOrName)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the index into the subject at which the capture with the given index or name starts.
 </div>
-<a name="RegexMatch-p"></a><b>
-p
+<a name="RegexMatch-string"></a><b>
+string
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the matched string.
 </div>
-<a name="RegexMatch-protoName"></a><b>
-protoName
+<a name="RegexMatch-subject"></a><b>
+subject
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="RegexMatch-protoNames"></a><b>
-protoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="RegexMatch-prototypes"></a><b>
-prototypes
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="RegexMatch-readFolder"></a><b>
-readFolder
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="RegexMatch-s"></a><b>
-s
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="RegexMatch-showMeta"></a><b>
-showMeta
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="RegexMatch-showSection"></a><b>
-showSection
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="RegexMatch-showSpacer"></a><b>
-showSpacer
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="RegexMatch-slots"></a><b>
-slots
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="RegexMatch-totalCount"></a><b>
-totalCount
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the string that this match was found in.
 </div>
 </td>
 </tr>

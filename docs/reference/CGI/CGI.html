@@ -56,243 +56,192 @@ cgi cookies foreach(k, v,
 </td>
 <td></td>
 <td>
-<a name="CGI-Lobby"></a><b>
-Lobby
+<a name="CGI-contentLength"></a><b>
+contentLength
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+CONTENT_LENGTH from web server - Size of POST Data
 </div>
-<a name="CGI-Protos"></a><b>
-Protos
+<a name="CGI-contentType"></a><b>
+contentType
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+CONTENT_TYPE from web server
 </div>
-<a name="CGI-addonFolders"></a><b>
-addonFolders
+<a name="CGI-cookies"></a><b>
+cookies
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a Map of cookies provided by the client
 </div>
-<a name="CGI-cat"></a><b>
-cat
+<a name="CGI-decodeUrlParam"></a><b>
+decodeUrlParam(aString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a URL decoded version of aString.
 </div>
-<a name="CGI-catName"></a><b>
-catName
+<a name="CGI-encodeUrlParam"></a><b>
+encodeUrlParam(aString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a URL encoded version of aString.
 </div>
-<a name="CGI-categories"></a><b>
-categories
+<a name="CGI-getParameters"></a><b>
+getParameters
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Parses the QUERY_STRING environment variable and returns a Map containing key/value query value pairs.  For testing, a QUERY_STRING can be passed to standard in, one line will be read
 </div>
-<a name="CGI-count"></a><b>
-count
+<a name="CGI-header"></a><b>
+header(name, value, sendMultiple)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Add a header to the output, may only be called before write() is called.  
+	One of each header will be send unless sendMultiple is true
 </div>
-<a name="CGI-docsPath"></a><b>
-docsPath
+<a name="CGI-httpHeader"></a><b>
+httpHeader(name)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Fetch a header supplied by the client, such as 'referer'
 </div>
-<a name="CGI-exit"></a><b>
-exit
+<a name="CGI-isInWebScript"></a><b>
+isInWebScript
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Checks to see if this is being called within a CGI request or from the command-line (testing).  Simply checks for System getEnvironmentVariable("GATEWAY_INTERFACE")
 </div>
-<a name="CGI-f"></a><b>
-f
+<a name="CGI-maxPostSize"></a><b>
+maxPostSize
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Maximum size in bytes, to process from user submitted data.  Data greater than this will result in a nil postData slot
 </div>
-<a name="CGI-firstProto"></a><b>
-firstProto
+<a name="CGI-maxPostSizeExceeded"></a><b>
+maxPostSizeExceeded
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if the POST data exceeds a set maxPostSize
 </div>
-<a name="CGI-firstProtoName"></a><b>
-firstProtoName
+<a name="CGI-pathInfo"></a><b>
+pathInfo
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+PATH_INFO from web server
 </div>
-<a name="CGI-folder"></a><b>
-folder
+<a name="CGI-pathTranslated"></a><b>
+pathTranslated
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+PATH_TRANSLATED from web server
 </div>
-<a name="CGI-forward"></a><b>
-forward
+<a name="CGI-postData"></a><b>
+postData
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+The raw post data sent to the script.  Only set if getEnvironmentVariable("REQUEST_METHOD") asLowercase == "post".
 </div>
-<a name="CGI-isDeprecated"></a><b>
-isDeprecated
+<a name="CGI-postParameters"></a><b>
+postParameters
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Parses the POST data, multipart and urlencoded.  Returns a map of submitted variables.
+For uploaded files, an Object is returned with these slots:
+<pre>
+fileName
+content (raw content of file as Sequence)
+contentType
+contentEncoding
+size (in characters/bytes)
+asString (pretty string of name, type, size)
+</pre>
 </div>
-<a name="CGI-isPrivate"></a><b>
-isPrivate
+<a name="CGI-queryString"></a><b>
+queryString
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+QUERY_STRING from web server
 </div>
-<a name="CGI-k"></a><b>
-k
+<a name="CGI-redirect"></a><b>
+redirect(url)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Send a location: and redirect the user.  May only be called before write() is called.  It is left to the caller to stop any further processing.")
 </div>
-<a name="CGI-module"></a><b>
-module
+<a name="CGI-remoteAddress"></a><b>
+remoteAddress
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+REMOTE_ADDR from web server - User's IP
 </div>
-<a name="CGI-moduleName"></a><b>
-moduleName
+<a name="CGI-remoteHost"></a><b>
+remoteHost
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+REMOTE_HOST from web server - User's host (often blank)
 </div>
-<a name="CGI-moduleNames"></a><b>
-moduleNames
+<a name="CGI-requestMethod"></a><b>
+requestMethod
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+GET, POST, PUT, etc
 </div>
-<a name="CGI-moduleProtoNames"></a><b>
-moduleProtoNames
+<a name="CGI-requestParameter"></a><b>
+requestParameter(name)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Lazy developer's helper funtion. Retrieves a value from GET or POST, POST first
 </div>
-<a name="CGI-modules"></a><b>
-modules
+<a name="CGI-scriptName"></a><b>
+scriptName
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+SCRIPT_NAME from web server
 </div>
-<a name="CGI-outFile"></a><b>
-outFile
+<a name="CGI-setCookie"></a><b>
+setCookie(name, value, expiresDate, domain, path, secureBool)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets a cookie, keep in mind this will not be available in cookies() until they next visit the site.  
+	Parameters other than name and value are optional.
 </div>
-<a name="CGI-p"></a><b>
-p
+<a name="CGI-status"></a><b>
+status(statusCode)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Numeric status code to send to the client.  
+	Normally, the server will figure this out on its own, but this allows handling 404s and such.
 </div>
-<a name="CGI-protoName"></a><b>
-protoName
+<a name="CGI-write"></a><b>
+write(string, [string...])
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CGI-protoNames"></a><b>
-protoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CGI-prototypes"></a><b>
-prototypes
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CGI-readFolder"></a><b>
-readFolder
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CGI-s"></a><b>
-s
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CGI-showMeta"></a><b>
-showMeta
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CGI-showSection"></a><b>
-showSection
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CGI-showSpacer"></a><b>
-showSpacer
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CGI-slots"></a><b>
-slots
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CGI-totalCount"></a><b>
-totalCount
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
+Send content for the body of the response
 </div>
 </td>
 </tr>

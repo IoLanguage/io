@@ -34,243 +34,314 @@ Curses end
 </td>
 <td></td>
 <td>
-<a name="Curses-Lobby"></a><b>
-Lobby
+<a name="Curses-begin"></a><b>
+begin
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the terminal to curses mode. 
+	This should be called before any other curses methods. 
+	Returns self.
 </div>
-<a name="Curses-Protos"></a><b>
-Protos
+<a name="Curses-cBreak"></a><b>
+cBreak(aString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Disables line buffering and erase/kill character-processing. 
+	cBreak should be on for most purposes. Returns self.
 </div>
-<a name="Curses-addonFolders"></a><b>
-addonFolders
+<a name="Curses-clear"></a><b>
+clear
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Clears the terminal. Nicer than erase. Returns self.
 </div>
-<a name="Curses-cat"></a><b>
-cat
+<a name="Curses-clearToEndOfLine"></a><b>
+clearToEndOfLine
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Clears the text from the cursor to the end of the line. Returns self.
 </div>
-<a name="Curses-catName"></a><b>
-catName
+<a name="Curses-delete"></a><b>
+delete(n)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Deletes n characters at the current position. Text to the right is shifted left. 
+	n is optional and defaults to 1. Returns self.
 </div>
-<a name="Curses-categories"></a><b>
-categories
+<a name="Curses-echo"></a><b>
+echo
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Echoes user input to terminal. Returns self.
 </div>
-<a name="Curses-count"></a><b>
-count
+<a name="Curses-end"></a><b>
+end
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Ends curses mode. This should be called before standard io's read 
+	and write methods are used. Returs self.
 </div>
-<a name="Curses-docsPath"></a><b>
-docsPath
+<a name="Curses-get"></a><b>
+get(n)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns n characters from the terminal. n is optional and defaults to 1.
 </div>
-<a name="Curses-exit"></a><b>
-exit
+<a name="Curses-getCh"></a><b>
+getCh
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Reads a single-byte character from the terminal associated with the 
+	current or specified window. Returns a Number containing the byte.
 </div>
-<a name="Curses-f"></a><b>
-f
+<a name="Curses-hasColors"></a><b>
+hasColors
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if the terminal supports color, false otherwise.
 </div>
-<a name="Curses-firstProto"></a><b>
-firstProto
+<a name="Curses-height"></a><b>
+height
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a Number containing the height of the current screen.
 </div>
-<a name="Curses-firstProtoName"></a><b>
-firstProtoName
+<a name="Curses-input"></a><b>
+input(n)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns user input up to a return, or a maximun of n characters.
 </div>
-<a name="Curses-folder"></a><b>
-folder
+<a name="Curses-insert"></a><b>
+insert(aString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Inserts the string at the current position on the terminal, 
+	pushing existing text to the right. Returns self.
 </div>
-<a name="Curses-forward"></a><b>
-forward
+<a name="Curses-move"></a><b>
+move(x, y)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Moves the cursor to column y and row x on the terminal. 
+	(0, 0) is at the top-left of the terminal. Returns self.
 </div>
-<a name="Curses-isDeprecated"></a><b>
-isDeprecated
+<a name="Curses-noCBreak"></a><b>
+noCBreak
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Allows line buffering and erase/kill character-processing. 
+	cBreak should be on for most purposes. Returns self.
 </div>
-<a name="Curses-isPrivate"></a><b>
-isPrivate
+<a name="Curses-noEcho"></a><b>
+noEcho
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Does not echo user input to terminal. Returns self.
 </div>
-<a name="Curses-k"></a><b>
-k
+<a name="Curses-nodelay"></a><b>
+nodelay(aBoolean)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Enables or disables block during read. 
+	If aNumber is zero, nodelay is set to be false, otherwise it is set to be true.
 </div>
-<a name="Curses-module"></a><b>
-module
+<a name="Curses-print"></a><b>
+print(aString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Prints the string to the current position on the terminal, 
+	overwriting existing text on the terminal. Returns self.
 </div>
-<a name="Curses-moduleName"></a><b>
-moduleName
+<a name="Curses-refresh"></a><b>
+refresh
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Copies the current buffer to the screen. This must be called to make 
+	changes to the screen. Returns self.
 </div>
-<a name="Curses-moduleNames"></a><b>
-moduleNames
+<a name="Curses-scroll"></a><b>
+scroll(num)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Scrolls up num lines.
+    num is optional and defaults to 1. Returns self.
 </div>
-<a name="Curses-moduleProtoNames"></a><b>
-moduleProtoNames
+<a name="Curses-scrollok"></a><b>
+scrollok(aBoolean)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Enables / Disables automatic scrolling. Return self.
 </div>
-<a name="Curses-modules"></a><b>
-modules
+<a name="Curses-setBackgroundBlack"></a><b>
+setBackgroundBlack
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the background color to black.
 </div>
-<a name="Curses-outFile"></a><b>
-outFile
+<a name="Curses-setBackgroundBlue"></a><b>
+setBackgroundBlue
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the background color to blue.
 </div>
-<a name="Curses-p"></a><b>
-p
+<a name="Curses-setBackgroundCyan"></a><b>
+setBackgroundCyan
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the background color to cyan.
 </div>
-<a name="Curses-protoName"></a><b>
-protoName
+<a name="Curses-setBackgroundGreen"></a><b>
+setBackgroundGreen
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the background color to green.
 </div>
-<a name="Curses-protoNames"></a><b>
-protoNames
+<a name="Curses-setBackgroundMagenta"></a><b>
+setBackgroundMagenta
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the background color to magenta.
 </div>
-<a name="Curses-prototypes"></a><b>
-prototypes
+<a name="Curses-setBackgroundRed"></a><b>
+setBackgroundRed
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the background color to red.
 </div>
-<a name="Curses-readFolder"></a><b>
-readFolder
+<a name="Curses-setBackgroundWhite"></a><b>
+setBackgroundWhite
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the background color to white.
 </div>
-<a name="Curses-s"></a><b>
-s
+<a name="Curses-setBackgroundYellow"></a><b>
+setBackgroundYellow
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the background color to yellow.
 </div>
-<a name="Curses-showMeta"></a><b>
-showMeta
+<a name="Curses-setForegroundBlack"></a><b>
+setForegroundBlack
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the foreground color to black.
 </div>
-<a name="Curses-showSection"></a><b>
-showSection
+<a name="Curses-setForegroundBlue"></a><b>
+setForegroundBlue
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the foreground color to blue.
 </div>
-<a name="Curses-showSpacer"></a><b>
-showSpacer
+<a name="Curses-setForegroundCyan"></a><b>
+setForegroundCyan
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the foreground color to cyan.
 </div>
-<a name="Curses-slots"></a><b>
-slots
+<a name="Curses-setForegroundGreen"></a><b>
+setForegroundGreen
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the foreground color to green.
 </div>
-<a name="Curses-totalCount"></a><b>
-totalCount
+<a name="Curses-setForegroundMagenta"></a><b>
+setForegroundMagenta
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the foreground color to magenta.
+</div>
+<a name="Curses-setForegroundRed"></a><b>
+setForegroundRed
+</b>
+<p>
+<div class=slotDescription>
+Sets the foreground color to red.
+</div>
+<a name="Curses-setForegroundWhite"></a><b>
+setForegroundWhite
+</b>
+<p>
+<div class=slotDescription>
+Sets the foreground color to white.
+</div>
+<a name="Curses-setForegroundYellow"></a><b>
+setForegroundYellow
+</b>
+<p>
+<div class=slotDescription>
+Sets the foreground color to yellow.
+</div>
+<a name="Curses-setScrollingRegion"></a><b>
+setScrollingRegion(top, bottom)
+</b>
+<p>
+<div class=slotDescription>
+Sets the scrolling region; top and bottom are the line numbers of the top
+    and button margin. Returns self.
+</div>
+<a name="Curses-width"></a><b>
+width
+</b>
+<p>
+<div class=slotDescription>
+Returns a Number containing the width of the current screen.
+</div>
+<a name="Curses-writeCharacter"></a><b>
+writeCharacter(aCharacter)
+</b>
+<p>
+<div class=slotDescription>
+Prints the aCharacter to the current position on the terminal, 
+	overwriting existing text on the terminal. Returns self.
+</div>
+<a name="Curses-x"></a><b>
+x
+</b>
+<p>
+<div class=slotDescription>
+Returns the cursor x position.
+</div>
+<a name="Curses-y"></a><b>
+y
+</b>
+<p>
+<div class=slotDescription>
+Returns the cursor y position.
 </div>
 </td>
 </tr>

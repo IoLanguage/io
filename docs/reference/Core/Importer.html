@@ -25,243 +25,75 @@
 </td>
 <td></td>
 <td>
-<a name="Importer-Lobby"></a><b>
-Lobby
+<a name="Importer-AddonImporter"></a><b>
+AddonImporter
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+An Importer for addon modules.
 </div>
-<a name="Importer-Protos"></a><b>
-Protos
+<a name="Importer-FileImporter"></a><b>
+FileImporter
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+An Importer for local source files.
 </div>
-<a name="Importer-addonFolders"></a><b>
-addonFolders
+<a name="Importer-addSearchPath"></a><b>
+addSearchPath(path)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Add a search path to the auto importer. Relative paths are made absolute before adding.
 </div>
-<a name="Importer-cat"></a><b>
-cat
+<a name="Importer-autoImportingForward"></a><b>
+autoImportingForward
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+A forward method implementation placed in the Lobby when Importing is turned on.
 </div>
-<a name="Importer-catName"></a><b>
-catName
+<a name="Importer-import"></a><b>
+import(originalCallMessage)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Imports an object or addon for the given Message.
 </div>
-<a name="Importer-categories"></a><b>
-categories
+<a name="Importer-importers"></a><b>
+importers
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+List of Importer objects.
 </div>
-<a name="Importer-count"></a><b>
-count
+<a name="Importer-paths"></a><b>
+paths
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+List of paths the proto importer will check while searching for protos to load.
 </div>
-<a name="Importer-docsPath"></a><b>
-docsPath
+<a name="Importer-removeSearchPath"></a><b>
+removeSearchPath(path)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Removes a search path from the auto importer. Relative paths should be removed from the same working directory as they were added.
 </div>
-<a name="Importer-exit"></a><b>
-exit
+<a name="Importer-turnOff"></a><b>
+turnOff
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Turns off the Importer. Returns self.
 </div>
-<a name="Importer-f"></a><b>
-f
+<a name="Importer-turnOn"></a><b>
+turnOn
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Importer-firstProto"></a><b>
-firstProto
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Importer-firstProtoName"></a><b>
-firstProtoName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Importer-folder"></a><b>
-folder
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Importer-forward"></a><b>
-forward
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Importer-isDeprecated"></a><b>
-isDeprecated
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Importer-isPrivate"></a><b>
-isPrivate
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Importer-k"></a><b>
-k
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Importer-module"></a><b>
-module
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Importer-moduleName"></a><b>
-moduleName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Importer-moduleNames"></a><b>
-moduleNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Importer-moduleProtoNames"></a><b>
-moduleProtoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Importer-modules"></a><b>
-modules
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Importer-outFile"></a><b>
-outFile
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Importer-p"></a><b>
-p
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Importer-protoName"></a><b>
-protoName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Importer-protoNames"></a><b>
-protoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Importer-prototypes"></a><b>
-prototypes
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Importer-readFolder"></a><b>
-readFolder
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Importer-s"></a><b>
-s
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Importer-showMeta"></a><b>
-showMeta
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Importer-showSection"></a><b>
-showSection
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Importer-showSpacer"></a><b>
-showSpacer
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Importer-slots"></a><b>
-slots
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Importer-totalCount"></a><b>
-totalCount
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
+Turns on the Importer. Returns self.
 </div>
 </td>
 </tr>

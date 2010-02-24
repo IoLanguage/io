@@ -45,243 +45,147 @@ db close
 </td>
 <td></td>
 <td>
-<a name="SQLite3-Lobby"></a><b>
-Lobby
+<a name="SQLite3-changes"></a><b>
+changes
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the number of rows that were changed by the most
+	recent SQL statement. Or Nil if the database is closed.
 </div>
-<a name="SQLite3-Protos"></a><b>
-Protos
+<a name="SQLite3-close"></a><b>
+close
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Closes the database if it is open. Returns self. If the database is open when the open is garbage collected, it will be automatically closed.
 </div>
-<a name="SQLite3-addonFolders"></a><b>
-addonFolders
+<a name="SQLite3-columnNamesOfTable"></a><b>
+columnNamesOfTable(tableName)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a list containing the names of all columns in the specified table.
 </div>
-<a name="SQLite3-cat"></a><b>
-cat
+<a name="SQLite3-debugOff"></a><b>
+debugOff
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Turns off debugging.
 </div>
-<a name="SQLite3-catName"></a><b>
-catName
+<a name="SQLite3-debugOn"></a><b>
+debugOn
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Turns on debugging.
 </div>
-<a name="SQLite3-categories"></a><b>
-categories
+<a name="SQLite3-error"></a><b>
+error
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Results a string containing the current error. If there is no error, Nil is returned.
 </div>
-<a name="SQLite3-count"></a><b>
-count
+<a name="SQLite3-escapeString"></a><b>
+escapeString(aString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a translated version of aString by making two copies of 
+	every single-quote (') character. This has the effect of escaping the 
+	end-of-string meaning of single-quote within a string literal.
 </div>
-<a name="SQLite3-docsPath"></a><b>
-docsPath
+<a name="SQLite3-exec"></a><b>
+exec(aString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Opens the database if it is not already open and executes
+	aString as an sql command. Results a List of Map objects or Nil if
+	there was an error. Each map holds the contents of a row.
+	The key/value pairs of the maps being column name/column value
+	pairs for a row.
 </div>
-<a name="SQLite3-exit"></a><b>
-exit
+<a name="SQLite3-isOpen"></a><b>
+isOpen
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if the database is open, false otherwise.
 </div>
-<a name="SQLite3-f"></a><b>
-f
+<a name="SQLite3-lastInsertRowId"></a><b>
+lastInsertRowId
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the number with the row id of the last row inserted.
 </div>
-<a name="SQLite3-firstProto"></a><b>
-firstProto
+<a name="SQLite3-open"></a><b>
+open(optionalPathString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Opens the database. If there is an optionalPathString argument,
+	the path is set to it's value before opening the database. If path is "" or ":memory:"
+	a database will be created in-memory, otherwise the file specified by path is opened.
+	Returns self or Nil upon failure.
+
+	If the databse is locked, "yield" will be called until it is accessable or
+	timeoutSeconds has expired. ""
 </div>
-<a name="SQLite3-firstProtoName"></a><b>
-firstProtoName
+<a name="SQLite3-path"></a><b>
+path
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the path to the database file.
 </div>
-<a name="SQLite3-folder"></a><b>
-folder
+<a name="SQLite3-setPath"></a><b>
+setPath
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the path to the database file. Returns self.
 </div>
-<a name="SQLite3-forward"></a><b>
-forward
+<a name="SQLite3-setTimeoutSeconds"></a><b>
+setTimeoutSeconds(aNumber)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the open timeout to aNumber. If aNumber is 0, an open
+	call will never timeout. Returns self.
 </div>
-<a name="SQLite3-isDeprecated"></a><b>
-isDeprecated
+<a name="SQLite3-tableNames"></a><b>
+tableNames
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a list containing the names of all tables in the database.
 </div>
-<a name="SQLite3-isPrivate"></a><b>
-isPrivate
+<a name="SQLite3-timeoutSeconds"></a><b>
+timeoutSeconds
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the number of seconds to wait before timing out an
+	open call. If the number is 0, an open call will never timeout.
 </div>
-<a name="SQLite3-k"></a><b>
-k
+<a name="SQLite3-version"></a><b>
+version
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Results a string the version of SQLite being used.
 </div>
-<a name="SQLite3-module"></a><b>
-module
+<a name="SQLite3-viewNames"></a><b>
+viewNames
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SQLite3-moduleName"></a><b>
-moduleName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SQLite3-moduleNames"></a><b>
-moduleNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SQLite3-moduleProtoNames"></a><b>
-moduleProtoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SQLite3-modules"></a><b>
-modules
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SQLite3-outFile"></a><b>
-outFile
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SQLite3-p"></a><b>
-p
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SQLite3-protoName"></a><b>
-protoName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SQLite3-protoNames"></a><b>
-protoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SQLite3-prototypes"></a><b>
-prototypes
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SQLite3-readFolder"></a><b>
-readFolder
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SQLite3-s"></a><b>
-s
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SQLite3-showMeta"></a><b>
-showMeta
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SQLite3-showSection"></a><b>
-showSection
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SQLite3-showSpacer"></a><b>
-showSpacer
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SQLite3-slots"></a><b>
-slots
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="SQLite3-totalCount"></a><b>
-totalCount
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a list containing the names of all
+	views in the database.
 </div>
 </td>
 </tr>

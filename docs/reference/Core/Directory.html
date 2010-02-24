@@ -28,243 +28,256 @@ if not specified, "./" is assumed.""")
 </td>
 <td></td>
 <td>
-<a name="Directory-Lobby"></a><b>
-Lobby
+<a name="Directory-accessibleAncestors"></a><b>
+accessibleAncestors
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a list of accessizble ancestor directories.
 </div>
-<a name="Directory-Protos"></a><b>
-Protos
+<font color=#55a>
+<a name="Directory-accessibleParents"></a><b>
+accessibleParents
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Deprecated. Replaced by accessibleAncestors.
+</font>
 </div>
-<a name="Directory-addonFolders"></a><b>
-addonFolders
+<a name="Directory-ancestorDirectories"></a><b>
+ancestorDirectories
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a list of ancestor directories.
 </div>
-<a name="Directory-cat"></a><b>
-cat
+<a name="Directory-at"></a><b>
+at(aString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a File or Directory object matching the name specified
+	by aString or Nil if no such file or directory exists.
 </div>
-<a name="Directory-catName"></a><b>
-catName
+<a name="Directory-create"></a><b>
+create
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Create the directory if it doesn't exist. 
+	Returns self on success (or if the directory already exists), nil on failure.
 </div>
-<a name="Directory-categories"></a><b>
-categories
+<font color=#55a>
+<a name="Directory-createFileNamed"></a><b>
+createFileNamed(name)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Deprecated. Returns a new file object in the directory with the specified name.
+</font>
 </div>
-<a name="Directory-count"></a><b>
-count
+<a name="Directory-createIfAbsent"></a><b>
+createIfAbsent
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Creates the directory (and any missing ancestor directories) if they don't exist. Returns self.
 </div>
-<a name="Directory-docsPath"></a><b>
-docsPath
+<a name="Directory-createSubdirectory"></a><b>
+createSubdirectory(name)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Create a subdirectory with the specified name.
 </div>
-<a name="Directory-exit"></a><b>
-exit
+<a name="Directory-currentWorkingDirectory"></a><b>
+currentWorkingDirectory
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the current working directory path.
 </div>
-<a name="Directory-f"></a><b>
-f
+<a name="Directory-directories"></a><b>
+directories
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a list of subdirectories in the receiver.
 </div>
-<a name="Directory-firstProto"></a><b>
-firstProto
+<a name="Directory-directoryNamed"></a><b>
+directoryNamed(aName)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a Directory object for the specified file name whether or not it exists.
 </div>
-<a name="Directory-firstProtoName"></a><b>
-firstProtoName
+<a name="Directory-exists"></a><b>
+exists(optionalPath)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if the Directory path exists, and false otherwise.
+	If optionalPath string is provided, it tests the existance of that path instead.
 </div>
-<a name="Directory-folder"></a><b>
-folder
+<a name="Directory-fileNamed"></a><b>
+fileNamed(aName)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a File object for the specified file name whether it exists or not.
 </div>
-<a name="Directory-forward"></a><b>
-forward
+<a name="Directory-fileNames"></a><b>
+fileNames
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a list of strings for the names of the files (no subdirectories) in the directory.
 </div>
-<a name="Directory-isDeprecated"></a><b>
-isDeprecated
+<a name="Directory-files"></a><b>
+files
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a list of File objects for the files in the Directory (no directories).
 </div>
-<a name="Directory-isPrivate"></a><b>
-isPrivate
+<a name="Directory-filesWithExtension"></a><b>
+filesWithExtension(aString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a list of File objects for the files in the Directory (no directories) with the specified file extension.
 </div>
-<a name="Directory-k"></a><b>
-k
+<font color=#55a>
+<a name="Directory-folderNamed"></a><b>
+folderNamed(aName)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Deprecated. Replaced by directoryNamed().
+</font>
 </div>
-<a name="Directory-module"></a><b>
-module
+<font color=#55a>
+<a name="Directory-folderNamedCreateIfAbsent"></a><b>
+folderNamedCreateIfAbsent(name)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Deprecated. Returns a new Directory object in the directory with the specified name.
+</font>
 </div>
-<a name="Directory-moduleName"></a><b>
-moduleName
+<font color=#55a>
+<a name="Directory-folders"></a><b>
+folders
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Deprecated. Replaced by directories().
+</font>
 </div>
-<a name="Directory-moduleNames"></a><b>
-moduleNames
+<a name="Directory-isAccessible"></a><b>
+isAccessible
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if the directory can be accessed, false otherwise.
 </div>
-<a name="Directory-moduleProtoNames"></a><b>
-moduleProtoNames
+<a name="Directory-items"></a><b>
+items
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a list object containing File and Directory objects
+	for the files and directories of the receiver's path.
 </div>
-<a name="Directory-modules"></a><b>
-modules
+<a name="Directory-moveTo"></a><b>
+moveTo(aPath)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Moves the directory to the specified path.
 </div>
-<a name="Directory-outFile"></a><b>
-outFile
+<a name="Directory-name"></a><b>
+name
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the receiver's last path component.
 </div>
-<a name="Directory-p"></a><b>
-p
+<a name="Directory-parentDirectory"></a><b>
+parentDirectory
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the parent directory object or nil if there is no parent directory.
 </div>
-<a name="Directory-protoName"></a><b>
-protoName
+<font color=#55a>
+<a name="Directory-parents"></a><b>
+parents
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Deprecated. Replaced by ancestorDirectories.
+</font>
 </div>
-<a name="Directory-protoNames"></a><b>
-protoNames
+<a name="Directory-path"></a><b>
+path
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the directory path. The default path is '.'.
 </div>
-<a name="Directory-prototypes"></a><b>
-prototypes
+<font color=#55a>
+<a name="Directory-recursiVeFilesOftypes"></a><b>
+recursiVeFilesOftypes(suffixes)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Deprecated. Alias for recursiveFilesOfTypes(suffixes).
+</font>
 </div>
-<a name="Directory-readFolder"></a><b>
-readFolder
+<a name="Directory-recursiveFilesOfTypes"></a><b>
+recursiveFilesOfTypes(suffixes)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a list containing all files in the directory or any subdirectory that has any of the specified suffixes.
 </div>
-<a name="Directory-s"></a><b>
-s
+<a name="Directory-remove"></a><b>
+remove
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Removes the directory.
 </div>
-<a name="Directory-showMeta"></a><b>
-showMeta
+<a name="Directory-setCurrentWorkingDirectory"></a><b>
+setCurrentWorkingDirectory(pathString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Set's the current working directory path.
+	Returns true on success or false on error.
 </div>
-<a name="Directory-showSection"></a><b>
-showSection
+<a name="Directory-setPath"></a><b>
+setPath(aString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the directory path. Returns self.
 </div>
-<a name="Directory-showSpacer"></a><b>
-showSpacer
+<a name="Directory-size"></a><b>
+size
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a Number containing the number of file and directory
+	objects at the receiver's path.
 </div>
-<a name="Directory-slots"></a><b>
-slots
+<a name="Directory-with"></a><b>
+with(aPath)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Directory-totalCount"></a><b>
-totalCount
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a new instance with the provided path.
 </div>
 </td>
 </tr>

@@ -42,243 +42,124 @@ Generally, the more objects in your heap, the larger you'll want this number.
 </td>
 <td></td>
 <td>
-<a name="Collector-Lobby"></a><b>
-Lobby
+<a name="Collector-allObjects"></a><b>
+allObjects
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a List containing all objects known to the collector.
 </div>
-<a name="Collector-Protos"></a><b>
-Protos
+<a name="Collector-allocatedStep"></a><b>
+allocatedStep
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Return the allocation step value as a Number.
 </div>
-<a name="Collector-addonFolders"></a><b>
-addonFolders
+<a name="Collector-cleanAllObjects"></a><b>
+cleanAllObjects
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets all objects as clean. Returns self.
 </div>
-<a name="Collector-cat"></a><b>
-cat
+<a name="Collector-collect"></a><b>
+collect
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Runs garbage collector. Returns the number of items collected.
 </div>
-<a name="Collector-catName"></a><b>
-catName
+<a name="Collector-dirtyObjects"></a><b>
+dirtyObjects
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a List containing all dirty objects known to the collector.
 </div>
-<a name="Collector-categories"></a><b>
-categories
+<a name="Collector-marksPerAlloc"></a><b>
+marksPerAlloc
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Return the number of allocations per collector mark pass.
 </div>
-<a name="Collector-count"></a><b>
-count
+<a name="Collector-maxAllocatedBytes"></a><b>
+maxAllocatedBytes
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the maximum number of bytes allocated by the collector.
 </div>
-<a name="Collector-docsPath"></a><b>
-docsPath
+<a name="Collector-objectWithUniqueId"></a><b>
+objectWithUniqueId(aNumber)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns an object whose uniqueId is aNumber or nil if no match is found. 
+	Warning: This lookup currently scans all objects, so it is not efficient, 
+	though it should handle thousands of lookups per second.
 </div>
-<a name="Collector-exit"></a><b>
-exit
+<a name="Collector-reset"></a><b>
+reset
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Resets the profilerTime on all Block objects in the system.
 </div>
-<a name="Collector-f"></a><b>
-f
+<a name="Collector-resetMaxAllocatedBytes"></a><b>
+resetMaxAllocatedBytes
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Resets maximum number of bytes allocated by the collector. Returns self.
 </div>
-<a name="Collector-firstProto"></a><b>
-firstProto
+<a name="Collector-setAllocatedStep"></a><b>
+setAllocatedStep(aNumber)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the allocatedStep (can have a fractional component, 
+	but must be larger than 1). A collector sweep is forced when the 
+	number of allocated objects exceeds the allocatedSweepLevel. 
+	After a sweep, the allocatedSweepLevel is set to the allocated 
+	object count times the allocatedStep. Returns self.
 </div>
-<a name="Collector-firstProtoName"></a><b>
-firstProtoName
+<a name="Collector-setDebug"></a><b>
+setDebug(aBool)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Turns on/off printing of collector debugging messages. Returns self.
 </div>
-<a name="Collector-folder"></a><b>
-folder
+<a name="Collector-setMarksPerAlloc"></a><b>
+setMarksPerAlloc(aNumber)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the number of incremental collector marks per object 
+	allocation (can be fractional). Returns self.
 </div>
-<a name="Collector-forward"></a><b>
-forward
+<a name="Collector-showStats"></a><b>
+showStats
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Prints the collector's stats to standard output.
 </div>
-<a name="Collector-isDeprecated"></a><b>
-isDeprecated
+<a name="Collector-timeUsed"></a><b>
+timeUsed
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Return the time used so far by the collector in seconds.
 </div>
-<a name="Collector-isPrivate"></a><b>
-isPrivate
+<a name="Collector-timedObjects"></a><b>
+timedObjects
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Collector-k"></a><b>
-k
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Collector-module"></a><b>
-module
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Collector-moduleName"></a><b>
-moduleName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Collector-moduleNames"></a><b>
-moduleNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Collector-moduleProtoNames"></a><b>
-moduleProtoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Collector-modules"></a><b>
-modules
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Collector-outFile"></a><b>
-outFile
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Collector-p"></a><b>
-p
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Collector-protoName"></a><b>
-protoName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Collector-protoNames"></a><b>
-protoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Collector-prototypes"></a><b>
-prototypes
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Collector-readFolder"></a><b>
-readFolder
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Collector-s"></a><b>
-s
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Collector-showMeta"></a><b>
-showMeta
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Collector-showSection"></a><b>
-showSection
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Collector-showSpacer"></a><b>
-showSpacer
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Collector-slots"></a><b>
-slots
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Collector-totalCount"></a><b>
-totalCount
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a list of objects found in the system that have profile times.
 </div>
 </td>
 </tr>

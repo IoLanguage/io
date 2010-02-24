@@ -45,243 +45,60 @@ Both are short and easy to read.
 </td>
 <td></td>
 <td>
-<a name="Beanstalk-Lobby"></a><b>
-Lobby
+<a name="Beanstalk-bury"></a><b>
+bury(id, pri)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Puts a job into the "buried" state
 </div>
-<a name="Beanstalk-Protos"></a><b>
-Protos
+<a name="Beanstalk-connect"></a><b>
+connect(address)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Connects to a beanstalk server. address is a "host:port" string, e.g., "127.0.0.1:11300"
 </div>
-<a name="Beanstalk-addonFolders"></a><b>
-addonFolders
+<a name="Beanstalk-delete"></a><b>
+delete(id)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Removes a job with a given id from the server, entirely
 </div>
-<a name="Beanstalk-cat"></a><b>
-cat
+<a name="Beanstalk-put"></a><b>
+put(body, pri, delay, ttr)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Inserts a job into the queue.
+	<br />pri - priority, an integer < 2**32. Jobs with smaller priority values will be
+	scheduled before jobs with larger priorities. The most urgent priority is 0;
+	the least urgent priority is 4294967295.
+	<br />delay - an integer number of seconds to wait before putting the job in
+	the ready queue. The job will be in the "delayed" state during this time.
+	<br />ttr - time to run, an integer number of seconds to allow a worker to run this job.
 </div>
-<a name="Beanstalk-catName"></a><b>
-catName
+<a name="Beanstalk-release"></a><b>
+release(id)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Puts a reserved job back into the ready queue
 </div>
-<a name="Beanstalk-categories"></a><b>
-categories
+<a name="Beanstalk-reserve"></a><b>
+reserve(timeout)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns and reserves a job (waits until one becomes available if necessary)
 </div>
-<a name="Beanstalk-count"></a><b>
-count
+<a name="Beanstalk-touch"></a><b>
+touch(id)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Beanstalk-docsPath"></a><b>
-docsPath
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Beanstalk-exit"></a><b>
-exit
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Beanstalk-f"></a><b>
-f
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Beanstalk-firstProto"></a><b>
-firstProto
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Beanstalk-firstProtoName"></a><b>
-firstProtoName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Beanstalk-folder"></a><b>
-folder
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Beanstalk-forward"></a><b>
-forward
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Beanstalk-isDeprecated"></a><b>
-isDeprecated
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Beanstalk-isPrivate"></a><b>
-isPrivate
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Beanstalk-k"></a><b>
-k
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Beanstalk-module"></a><b>
-module
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Beanstalk-moduleName"></a><b>
-moduleName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Beanstalk-moduleNames"></a><b>
-moduleNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Beanstalk-moduleProtoNames"></a><b>
-moduleProtoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Beanstalk-modules"></a><b>
-modules
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Beanstalk-outFile"></a><b>
-outFile
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Beanstalk-p"></a><b>
-p
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Beanstalk-protoName"></a><b>
-protoName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Beanstalk-protoNames"></a><b>
-protoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Beanstalk-prototypes"></a><b>
-prototypes
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Beanstalk-readFolder"></a><b>
-readFolder
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Beanstalk-s"></a><b>
-s
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Beanstalk-showMeta"></a><b>
-showMeta
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Beanstalk-showSection"></a><b>
-showSection
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Beanstalk-showSpacer"></a><b>
-showSpacer
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Beanstalk-slots"></a><b>
-slots
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Beanstalk-totalCount"></a><b>
-totalCount
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
+Allows a worker to request more time to work on a job.
 </div>
 </td>
 </tr>

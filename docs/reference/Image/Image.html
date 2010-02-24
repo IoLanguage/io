@@ -36,243 +36,222 @@ Currently supported formats include PNG(which supports alpha), JPG and TIFF.
 </td>
 <td></td>
 <td>
-<a name="Image-Lobby"></a><b>
-Lobby
+<a name="Image-addAlpha"></a><b>
+addAlpha
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Adds an opaque alpha component if the image is in RGB format and does not already contain one.  Returns self.
 </div>
-<a name="Image-Protos"></a><b>
-Protos
+<a name="Image-averageColor"></a><b>
+averageColor
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the average RGB color of all pixels in the image.
 </div>
-<a name="Image-addonFolders"></a><b>
-addonFolders
+<a name="Image-baselineHeight"></a><b>
+baselineHeight
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the pixel height (relative to the bottom of the image) which first contains a non-white pixel or -1 if
+	no baseline is found.
 </div>
-<a name="Image-cat"></a><b>
-cat
+<a name="Image-bounds"></a><b>
+bounds(cutoff)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns an object continaing the bounds of the image. Cutoff is max bound color value for any color component.
+	If it is negative, it is the min bound color value.
 </div>
-<a name="Image-catName"></a><b>
-catName
+<a name="Image-componentCount"></a><b>
+componentCount
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the number of color components in the receiver as a Number.
 </div>
-<a name="Image-categories"></a><b>
-categories
+<a name="Image-crop"></a><b>
+crop(x, y, width, height)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Crops the image to the specified values. Returns self.
+	Raises an exception on error.
 </div>
-<a name="Image-count"></a><b>
-count
+<a name="Image-data"></a><b>
+data
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a Buffer primitive containing the image data (loading it first if needed). 
+	Manipulating this data will effect what is drawn when the receiver's draw method is called.
 </div>
-<a name="Image-docsPath"></a><b>
-docsPath
+<a name="Image-decodingHeightHint"></a><b>
+decodingHeightHint
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the decoding height hint.
 </div>
-<a name="Image-exit"></a><b>
-exit
+<a name="Image-decodingWidthHint"></a><b>
+decodingWidthHint
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the decoding width hint.
 </div>
-<a name="Image-f"></a><b>
-f
+<a name="Image-encodingQuality"></a><b>
+encodingQuality
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the encodingQuality setting.
 </div>
-<a name="Image-firstProto"></a><b>
-firstProto
+<a name="Image-error"></a><b>
+error
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a String containing the current error or nil if there is no error.
 </div>
-<a name="Image-firstProtoName"></a><b>
-firstProtoName
+<a name="Image-flipX"></a><b>
+flipX
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Flips the image on the horizonal plane (left/right mirror). Returns self.
 </div>
-<a name="Image-folder"></a><b>
-folder
+<a name="Image-flipY"></a><b>
+flipY
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Flips the image on the vertical plane (top/bottom mirror). Returns self.
 </div>
-<a name="Image-forward"></a><b>
-forward
+<a name="Image-height"></a><b>
+height
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the image hieght.
 </div>
-<a name="Image-isDeprecated"></a><b>
-isDeprecated
+<a name="Image-isL8"></a><b>
+isL8
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if the receiver is in L8 (8bit Luminance) format, false otherwise.
 </div>
-<a name="Image-isPrivate"></a><b>
-isPrivate
+<a name="Image-isLA8"></a><b>
+isLA8
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if the receiver is in LA8 (8bit Luminance-Alpha) format, false otherwise.
 </div>
-<a name="Image-k"></a><b>
-k
+<a name="Image-isRGB8"></a><b>
+isRGB8
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if the receiver is in RGB8 format, false otherwise.
 </div>
-<a name="Image-module"></a><b>
-module
+<a name="Image-isRGBA8"></a><b>
+isRGBA8
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if the receiver is in RGBA8 format, false otherwise.
 </div>
-<a name="Image-moduleName"></a><b>
-moduleName
+<a name="Image-open"></a><b>
+open(optionalPathString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the path to optionalPathString if provided and opens the image file. 
+	Returns self on success, Nil on failure.
 </div>
-<a name="Image-moduleNames"></a><b>
-moduleNames
+<a name="Image-path"></a><b>
+path
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the image path.
 </div>
-<a name="Image-moduleProtoNames"></a><b>
-moduleProtoNames
+<a name="Image-removeAlpha"></a><b>
+removeAlpha
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Removes the alpha component if the image contains one.  Returns self.
 </div>
-<a name="Image-modules"></a><b>
-modules
+<a name="Image-resizedTo"></a><b>
+resizedTo(newWidth, newHeight)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Scales the image up to newWidth x newHeight.  Returns the newly scaled image.
 </div>
-<a name="Image-outFile"></a><b>
-outFile
+<a name="Image-resizedTo"></a><b>
+resizedTo(width, height)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a new image of the receiver resized to the given width and height.
+	Raises an exception on error.
 </div>
-<a name="Image-p"></a><b>
-p
+<a name="Image-save"></a><b>
+save(optionalPathString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the path to optionalPathString if provided and saves the image 
+	in the format specified by the path extension. Returns self on success, nil on failure.
 </div>
-<a name="Image-protoName"></a><b>
-protoName
+<a name="Image-setDataWidthHeightComponentCount"></a><b>
+setDataWidthHeightComponentCount(aSequence, width, height, componentCount)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the image data and it's parameters. Returns self.
 </div>
-<a name="Image-protoNames"></a><b>
-protoNames
+<a name="Image-setDecodingHeightHint"></a><b>
+setDecodingHeightHint(width)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the decoding height hint. Returns self.
 </div>
-<a name="Image-prototypes"></a><b>
-prototypes
+<a name="Image-setDecodingWidthHint"></a><b>
+setDecodingWidthHint(width)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the decoding width hint. Returns self.
 </div>
-<a name="Image-readFolder"></a><b>
-readFolder
+<a name="Image-setEncodingQuality"></a><b>
+setEncodingQuality(aNumber)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the image encoding quality (range is 0.0 - 1.0, 1.0 with being the highest).
 </div>
-<a name="Image-s"></a><b>
-s
+<a name="Image-setPath"></a><b>
+setPath(aString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the image path. Returns self.
 </div>
-<a name="Image-showMeta"></a><b>
-showMeta
+<a name="Image-width"></a><b>
+width
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Image-showSection"></a><b>
-showSection
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Image-showSpacer"></a><b>
-showSpacer
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Image-slots"></a><b>
-slots
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Image-totalCount"></a><b>
-totalCount
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the image width.
 </div>
 </td>
 </tr>

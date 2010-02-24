@@ -93,243 +93,70 @@ Notes: Currently, PDB is a singleton.
 </td>
 <td></td>
 <td>
-<a name="PDB-Lobby"></a><b>
-Lobby
+<a name="PDB-addObjectToPersist"></a><b>
+addObjectToPersist
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Register an object to be persisted in the next PDB sync.
 </div>
-<a name="PDB-Protos"></a><b>
-Protos
+<a name="PDB-close"></a><b>
+close
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Close the persistence database.
 </div>
-<a name="PDB-addonFolders"></a><b>
-addonFolders
+<a name="PDB-collectGarbage"></a><b>
+collectGarbage
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Remove from PDB all objects not accessible via the root object.
 </div>
-<a name="PDB-cat"></a><b>
-cat
+<a name="PDB-newId"></a><b>
+newId
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Generate a new PDB id number for use as a persistent object's ppid.
 </div>
-<a name="PDB-catName"></a><b>
-catName
+<a name="PDB-objectAtPpid"></a><b>
+objectAtPpid
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Return the object associated in the database with a ppid.
 </div>
-<a name="PDB-categories"></a><b>
-categories
+<a name="PDB-reopen"></a><b>
+reopen
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sync, close and reopen the PDB store.
 </div>
-<a name="PDB-count"></a><b>
-count
+<a name="PDB-root"></a><b>
+root
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Return the root PMap object used to store and retrieve persistent objects and their slots.
 </div>
-<a name="PDB-docsPath"></a><b>
-docsPath
+<a name="PDB-show"></a><b>
+show
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Print to standard output a listing of all objects and IDs stored in PDB.
 </div>
-<a name="PDB-exit"></a><b>
-exit
+<a name="PDB-sync"></a><b>
+sync
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PDB-f"></a><b>
-f
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PDB-firstProto"></a><b>
-firstProto
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PDB-firstProtoName"></a><b>
-firstProtoName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PDB-folder"></a><b>
-folder
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PDB-forward"></a><b>
-forward
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PDB-isDeprecated"></a><b>
-isDeprecated
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PDB-isPrivate"></a><b>
-isPrivate
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PDB-k"></a><b>
-k
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PDB-module"></a><b>
-module
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PDB-moduleName"></a><b>
-moduleName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PDB-moduleNames"></a><b>
-moduleNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PDB-moduleProtoNames"></a><b>
-moduleProtoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PDB-modules"></a><b>
-modules
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PDB-outFile"></a><b>
-outFile
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PDB-p"></a><b>
-p
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PDB-protoName"></a><b>
-protoName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PDB-protoNames"></a><b>
-protoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PDB-prototypes"></a><b>
-prototypes
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PDB-readFolder"></a><b>
-readFolder
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PDB-s"></a><b>
-s
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PDB-showMeta"></a><b>
-showMeta
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PDB-showSection"></a><b>
-showSection
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PDB-showSpacer"></a><b>
-showSpacer
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PDB-slots"></a><b>
-slots
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="PDB-totalCount"></a><b>
-totalCount
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
+Immediately persist data for all objects marked dirty by Collector whose 
+shouldPersistByDefault is true, or that have specifically requested to be
+persisted since the last sync via addObjectToPersist.
 </div>
 </td>
 </tr>

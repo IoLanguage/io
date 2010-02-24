@@ -26,243 +26,150 @@ They are typically used to represent object methods.
 </td>
 <td></td>
 <td>
-<a name="Block-Lobby"></a><b>
-Lobby
+<a name="Block-Formatter"></a><b>
+Formatter
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Helper object for the <tt>asString</tt> method.
 </div>
-<a name="Block-Protos"></a><b>
-Protos
+<a name="Block-argumentNames"></a><b>
+argumentNames
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a List of strings containing the argument names of the receiver.
 </div>
-<a name="Block-addonFolders"></a><b>
-addonFolders
+<a name="Block-asSimpleString"></a><b>
+asSimpleString
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a short description of the receiver.
 </div>
-<a name="Block-cat"></a><b>
-cat
+<a name="Block-asString"></a><b>
+asString
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a full description of the receiver with decompiled code.
 </div>
-<a name="Block-catName"></a><b>
-catName
+<a name="Block-call"></a><b>
+call(arg0, arg1, ...)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Activates the receiver with the provided arguments.
 </div>
-<a name="Block-categories"></a><b>
-categories
+<a name="Block-code"></a><b>
+code
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a string containing the decompiled code of the receiver.
 </div>
-<a name="Block-count"></a><b>
-count
+<a name="Block-justSerialized"></a><b>
+justSerialized(stream)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Writes the receiver's code into the stream.
 </div>
-<a name="Block-docsPath"></a><b>
-docsPath
+<a name="Block-message"></a><b>
+message
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the root message of the receiver.
 </div>
-<a name="Block-exit"></a><b>
-exit
+<a name="Block-passStops"></a><b>
+passStops
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns whether or not the receiver passes return/continue/break to caller.
 </div>
-<a name="Block-f"></a><b>
-f
+<a name="Block-performOn"></a><b>
+performOn(anObject, optionalLocals, optionalMessage, optionalSlotContext)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Activates the receiver in the target context of anObject.
+	Returns the result.
 </div>
-<a name="Block-firstProto"></a><b>
-firstProto
+<a name="Block-print"></a><b>
+print
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+prints an Io source code representation of the block/method
 </div>
-<a name="Block-firstProtoName"></a><b>
-firstProtoName
+<a name="Block-println"></a><b>
+println
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Same as <tt>print</tt>.
 </div>
-<a name="Block-folder"></a><b>
-folder
+<a name="Block-profilerTime"></a><b>
+profilerTime
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns clock() time spent in compiler in seconds.
 </div>
-<a name="Block-forward"></a><b>
-forward
+<a name="Block-scope"></a><b>
+scope
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the scope used when the block is activated or
+	Nil if the target of the message is the scope.
 </div>
-<a name="Block-isDeprecated"></a><b>
-isDeprecated
+<a name="Block-setArgumentNames"></a><b>
+setArgumentNames(aListOfStrings)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the receiver's argument names to those specified in
+	aListOfStrings. Returns self.
 </div>
-<a name="Block-isPrivate"></a><b>
-isPrivate
+<a name="Block-setCode"></a><b>
+setCode(aString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Set's the reciever's message to a compiled version of aString. Returns self
 </div>
-<a name="Block-k"></a><b>
-k
+<a name="Block-setMessage"></a><b>
+setMessage(aMessage)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the root message of the receiver to aMessage.
 </div>
-<a name="Block-module"></a><b>
-module
+<a name="Block-setPassStops"></a><b>
+setPassStops(aBool)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets whether the receiver passes return/continue/break to caller.
 </div>
-<a name="Block-moduleName"></a><b>
-moduleName
+<a name="Block-setProfilerOn"></a><b>
+setProfilerOn(aBool)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+If aBool is true, the global block profiler is enabled, if false it is disabled. Returns self.
 </div>
-<a name="Block-moduleNames"></a><b>
-moduleNames
+<a name="Block-setScope"></a><b>
+setScope(anObjectOrNil)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Block-moduleProtoNames"></a><b>
-moduleProtoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Block-modules"></a><b>
-modules
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Block-outFile"></a><b>
-outFile
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Block-p"></a><b>
-p
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Block-protoName"></a><b>
-protoName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Block-protoNames"></a><b>
-protoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Block-prototypes"></a><b>
-prototypes
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Block-readFolder"></a><b>
-readFolder
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Block-s"></a><b>
-s
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Block-showMeta"></a><b>
-showMeta
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Block-showSection"></a><b>
-showSection
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Block-showSpacer"></a><b>
-showSpacer
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Block-slots"></a><b>
-slots
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Block-totalCount"></a><b>
-totalCount
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
+If argument is an object, when the block is activated,
+	it will set the proto and self slots of it's locals to the specified
+	object. If Nil, it will set them to the target of the message.
 </div>
 </td>
 </tr>

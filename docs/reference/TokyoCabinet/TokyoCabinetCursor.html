@@ -25,243 +25,77 @@
 </td>
 <td></td>
 <td>
-<a name="TokyoCabinetCursor-Lobby"></a><b>
-Lobby
+<a name="TokyoCabinetCursor-close"></a><b>
+close
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Closes the database.
 </div>
-<a name="TokyoCabinetCursor-Protos"></a><b>
-Protos
+<a name="TokyoCabinetCursor-first"></a><b>
+first
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Move cursor to first record. Returns self
 </div>
-<a name="TokyoCabinetCursor-addonFolders"></a><b>
-addonFolders
+<a name="TokyoCabinetCursor-jump"></a><b>
+jump(key)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Move cursor to record before key. Returns self
 </div>
-<a name="TokyoCabinetCursor-cat"></a><b>
-cat
+<a name="TokyoCabinetCursor-key"></a><b>
+key
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns current cursor key or nil.
 </div>
-<a name="TokyoCabinetCursor-catName"></a><b>
-catName
+<a name="TokyoCabinetCursor-last"></a><b>
+last
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Move cursor to last record. Returns self
 </div>
-<a name="TokyoCabinetCursor-categories"></a><b>
-categories
+<a name="TokyoCabinetCursor-next"></a><b>
+next
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Move cursor to next record. Returns true if there is another key, 
+	or false if there is no next record.
 </div>
-<a name="TokyoCabinetCursor-count"></a><b>
-count
+<a name="TokyoCabinetCursor-previous"></a><b>
+previous
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Move cursor to previous record. Returns true if there is another key, 
+	or false if there is no previous record.
 </div>
-<a name="TokyoCabinetCursor-docsPath"></a><b>
-docsPath
+<a name="TokyoCabinetCursor-put"></a><b>
+put(value)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the value at the current cursor postion. Returns self.
 </div>
-<a name="TokyoCabinetCursor-exit"></a><b>
-exit
+<a name="TokyoCabinetCursor-remove"></a><b>
+remove
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Removes the current cursor postion. Returns self.
 </div>
-<a name="TokyoCabinetCursor-f"></a><b>
-f
+<a name="TokyoCabinetCursor-value"></a><b>
+value
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetCursor-firstProto"></a><b>
-firstProto
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetCursor-firstProtoName"></a><b>
-firstProtoName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetCursor-folder"></a><b>
-folder
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetCursor-forward"></a><b>
-forward
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetCursor-isDeprecated"></a><b>
-isDeprecated
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetCursor-isPrivate"></a><b>
-isPrivate
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetCursor-k"></a><b>
-k
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetCursor-module"></a><b>
-module
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetCursor-moduleName"></a><b>
-moduleName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetCursor-moduleNames"></a><b>
-moduleNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetCursor-moduleProtoNames"></a><b>
-moduleProtoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetCursor-modules"></a><b>
-modules
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetCursor-outFile"></a><b>
-outFile
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetCursor-p"></a><b>
-p
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetCursor-protoName"></a><b>
-protoName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetCursor-protoNames"></a><b>
-protoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetCursor-prototypes"></a><b>
-prototypes
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetCursor-readFolder"></a><b>
-readFolder
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetCursor-s"></a><b>
-s
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetCursor-showMeta"></a><b>
-showMeta
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetCursor-showSection"></a><b>
-showSection
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetCursor-showSpacer"></a><b>
-showSpacer
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetCursor-slots"></a><b>
-slots
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="TokyoCabinetCursor-totalCount"></a><b>
-totalCount
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
+Returns current cursor value or nil.
 </div>
 </td>
 </tr>

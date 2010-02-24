@@ -25,243 +25,91 @@
 </td>
 <td></td>
 <td>
-<a name="DynLib-Lobby"></a><b>
-Lobby
+<a name="DynLib-call"></a><b>
+call(functionName, &lt;arg1&gt;, &lt;arg2&gt;, ...)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Call's the dll function of the specified name with the arguments provided. 
+	Returns the a Number with the result value.
 </div>
-<a name="DynLib-Protos"></a><b>
-Protos
+<a name="DynLib-callPluginInit"></a><b>
+callPluginInit(functionName)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Call's the dll function of the specified name. 
+	Returns the result as a Number or raises an exception on error.
 </div>
-<a name="DynLib-addonFolders"></a><b>
-addonFolders
+<a name="DynLib-close"></a><b>
+close
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Closes the library. Returns self.
 </div>
-<a name="DynLib-cat"></a><b>
-cat
+<a name="DynLib-freeFuncName"></a><b>
+freeFuncName
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the io_free function name.
 </div>
-<a name="DynLib-catName"></a><b>
-catName
+<a name="DynLib-initFuncName"></a><b>
+initFuncName
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the initialization function name.
 </div>
-<a name="DynLib-categories"></a><b>
-categories
+<a name="DynLib-isOpen"></a><b>
+isOpen
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if the library is open, or false otherwise.
 </div>
-<a name="DynLib-count"></a><b>
-count
+<a name="DynLib-open"></a><b>
+open
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Opens the dynamic library and returns self or raises a DynLoad.open Error if there is an error.
 </div>
-<a name="DynLib-docsPath"></a><b>
-docsPath
+<a name="DynLib-path"></a><b>
+path
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the path to the dynamic library.
 </div>
-<a name="DynLib-exit"></a><b>
-exit
+<a name="DynLib-setFreeFuncName"></a><b>
+setFreeFuncName(aString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the io_free function name. Returns self.
 </div>
-<a name="DynLib-f"></a><b>
-f
+<a name="DynLib-setInitFuncName"></a><b>
+setInitFuncName(aString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the initialization function name for the dynamic library. Returns self.
 </div>
-<a name="DynLib-firstProto"></a><b>
-firstProto
+<a name="DynLib-setPath"></a><b>
+setPath(aString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the path to the dynamic library. Returns self.
 </div>
-<a name="DynLib-firstProtoName"></a><b>
-firstProtoName
+<a name="DynLib-voidCall"></a><b>
+voidCall(functionName, &lt;arg1&gt;, &lt;arg2&gt;, ...)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DynLib-folder"></a><b>
-folder
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DynLib-forward"></a><b>
-forward
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DynLib-isDeprecated"></a><b>
-isDeprecated
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DynLib-isPrivate"></a><b>
-isPrivate
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DynLib-k"></a><b>
-k
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DynLib-module"></a><b>
-module
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DynLib-moduleName"></a><b>
-moduleName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DynLib-moduleNames"></a><b>
-moduleNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DynLib-moduleProtoNames"></a><b>
-moduleProtoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DynLib-modules"></a><b>
-modules
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DynLib-outFile"></a><b>
-outFile
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DynLib-p"></a><b>
-p
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DynLib-protoName"></a><b>
-protoName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DynLib-protoNames"></a><b>
-protoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DynLib-prototypes"></a><b>
-prototypes
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DynLib-readFolder"></a><b>
-readFolder
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DynLib-s"></a><b>
-s
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DynLib-showMeta"></a><b>
-showMeta
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DynLib-showSection"></a><b>
-showSection
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DynLib-showSpacer"></a><b>
-showSpacer
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DynLib-slots"></a><b>
-slots
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DynLib-totalCount"></a><b>
-totalCount
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
+Same as call but for functions with no return value. Returns nil.
 </div>
 </td>
 </tr>

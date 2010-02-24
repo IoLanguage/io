@@ -30,243 +30,83 @@ asynchronous in Io.
 </td>
 <td></td>
 <td>
-<a name="AsyncRequest-Lobby"></a><b>
-Lobby
+<a name="AsyncRequest-cancel"></a><b>
+cancel
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Cancels the request. Returns nil on error or self otherwise.
 </div>
-<a name="AsyncRequest-Protos"></a><b>
-Protos
+<a name="AsyncRequest-copyBufferto"></a><b>
+copyBufferto(aSeq)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Copies the request buffer's data to aSeq.
+	Returns nil on error or self otherwise.
 </div>
-<a name="AsyncRequest-addonFolders"></a><b>
-addonFolders
+<a name="AsyncRequest-descriptor"></a><b>
+descriptor
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the descriptor for the request.
 </div>
-<a name="AsyncRequest-cat"></a><b>
-cat
+<a name="AsyncRequest-error"></a><b>
+error
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns sequence containing the last error or nil otherwise.
 </div>
-<a name="AsyncRequest-catName"></a><b>
-catName
+<a name="AsyncRequest-isDone"></a><b>
+isDone
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if the request is done, false otherwise.
 </div>
-<a name="AsyncRequest-categories"></a><b>
-categories
+<a name="AsyncRequest-numberOfBytes"></a><b>
+numberOfBytes
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the number of bytes associated with the request.
 </div>
-<a name="AsyncRequest-count"></a><b>
-count
+<a name="AsyncRequest-position"></a><b>
+position
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a Number for the position of the descriptor.
 </div>
-<a name="AsyncRequest-docsPath"></a><b>
-docsPath
+<a name="AsyncRequest-read"></a><b>
+read(aSeq, numberOfBytes)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Submits an async read request. Returns nil on error, self otherwise.
 </div>
-<a name="AsyncRequest-exit"></a><b>
-exit
+<a name="AsyncRequest-setDescriptor"></a><b>
+setDescriptor(aDescriptorNumber)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the descriptor for the receiver. Returns self.
 </div>
-<a name="AsyncRequest-f"></a><b>
-f
+<a name="AsyncRequest-sync"></a><b>
+sync
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Waits for the request to complete. Returns nil on error or self otherwise.
 </div>
-<a name="AsyncRequest-firstProto"></a><b>
-firstProto
+<a name="AsyncRequest-write"></a><b>
+write(fileOffset, aSeq, bufferOffset, numberOfBytesToWrite)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AsyncRequest-firstProtoName"></a><b>
-firstProtoName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AsyncRequest-folder"></a><b>
-folder
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AsyncRequest-forward"></a><b>
-forward
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AsyncRequest-isDeprecated"></a><b>
-isDeprecated
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AsyncRequest-isPrivate"></a><b>
-isPrivate
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AsyncRequest-k"></a><b>
-k
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AsyncRequest-module"></a><b>
-module
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AsyncRequest-moduleName"></a><b>
-moduleName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AsyncRequest-moduleNames"></a><b>
-moduleNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AsyncRequest-moduleProtoNames"></a><b>
-moduleProtoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AsyncRequest-modules"></a><b>
-modules
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AsyncRequest-outFile"></a><b>
-outFile
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AsyncRequest-p"></a><b>
-p
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AsyncRequest-protoName"></a><b>
-protoName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AsyncRequest-protoNames"></a><b>
-protoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AsyncRequest-prototypes"></a><b>
-prototypes
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AsyncRequest-readFolder"></a><b>
-readFolder
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AsyncRequest-s"></a><b>
-s
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AsyncRequest-showMeta"></a><b>
-showMeta
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AsyncRequest-showSection"></a><b>
-showSection
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AsyncRequest-showSpacer"></a><b>
-showSpacer
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AsyncRequest-slots"></a><b>
-slots
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="AsyncRequest-totalCount"></a><b>
-totalCount
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
+Submits an async write request. Returns nil on error, self otherwise.
 </div>
 </td>
 </tr>

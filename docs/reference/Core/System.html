@@ -25,243 +25,204 @@
 </td>
 <td></td>
 <td>
-<a name="System-Lobby"></a><b>
-Lobby
+<a name="System-activeCpus"></a><b>
+activeCpus
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the number of active CPUs.
 </div>
-<a name="System-Protos"></a><b>
-Protos
+<a name="System-args"></a><b>
+args
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the list of command line argument strings the program was run with.")
 </div>
-<a name="System-addonFolders"></a><b>
-addonFolders
+<a name="System-daemon"></a><b>
+daemon(dontChroot, dontRedirectOutputStreams)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Become a daemon process.  If dontChroot is false, the process will change its directory to /.  If dontRedirectOutputStreams is false, stdout and stderr are redirected to /dev/null.
 </div>
-<a name="System-cat"></a><b>
-cat
+<a name="System-distribution"></a><b>
+distribution
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the Io distribution name as a string.
 </div>
-<a name="System-catName"></a><b>
-catName
+<a name="System-errorNumber"></a><b>
+errorNumber
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="System-categories"></a><b>
-categories
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="System-count"></a><b>
-count
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="System-docsPath"></a><b>
-docsPath
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the C errno string.
 </div>
 <a name="System-exit"></a><b>
-exit
+exit(optionalReturnCodeNumber)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Shutdown the IoState (io_free all objects) and return
+control to the calling program (if any).
 </div>
-<a name="System-f"></a><b>
-f
+<a name="System-getEnvironmentVariable"></a><b>
+getEnvironmentVariable(nameString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a string with the value of the environment 
+	variable whose name is specified by nameString.
 </div>
-<a name="System-firstProto"></a><b>
-firstProto
+<a name="System-getOptions"></a><b>
+getOptions(args)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+This primitive is used to get command line options similar to Cs getopt().
+	It returns a map in containing the left side of the argument, with the
+	value of the right side. (The key will not contain
+	the beginning dashes (--).
+	<p>
+	Example:
+	<pre>
+	options := System getOptions(args)
+	options foreach(k, v,
+	  if(v type == List type,
+		v foreach(i, j, writeln(\"Got unnamed argument with value: \" .. j))
+		continue
+	  )
+	  writeln(\"Got option: \" .. k .. \" with value: \" .. v)
+	)
+	</pre>
 </div>
-<a name="System-firstProtoName"></a><b>
-firstProtoName
+<a name="System-installPrefix"></a><b>
+installPrefix
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the root path where io was install. The default is /usr/local.
 </div>
-<a name="System-folder"></a><b>
-folder
+<a name="System-ioPath"></a><b>
+ioPath
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the path of io installation. The default is $INSTALL_PREFIX/lib/io.
 </div>
-<a name="System-forward"></a><b>
-forward
+<a name="System-launchPath"></a><b>
+launchPath
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a pathComponent of the launch file.
 </div>
-<a name="System-isDeprecated"></a><b>
-isDeprecated
+<a name="System-launchScript"></a><b>
+launchScript
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the path of the io file run on the command line. Returns nil if no file was run.
 </div>
-<a name="System-isPrivate"></a><b>
-isPrivate
+<a name="System-maxRecycledObjects"></a><b>
+maxRecycledObjects
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the max number of recycled objects used.
 </div>
-<a name="System-k"></a><b>
-k
+<a name="System-platform"></a><b>
+platform
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a string description of the platform.
 </div>
-<a name="System-module"></a><b>
-module
+<a name="System-platformVersion"></a><b>
+platformVersion
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the version id of the OS.
 </div>
-<a name="System-moduleName"></a><b>
-moduleName
+<a name="System-recycledObjectCount"></a><b>
+recycledObjectCount
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the current number of objects being held for recycling.
 </div>
-<a name="System-moduleNames"></a><b>
-moduleNames
+<a name="System-runCommand"></a><b>
+runCommand
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Calls system and redirects stdout/err to tmp files.  Returns object with exitStatus, stdout and stderr slots.
 </div>
-<a name="System-moduleProtoNames"></a><b>
-moduleProtoNames
+<a name="System-setEnvironmentVariable"></a><b>
+setEnvironmentVariable(keyString, valueString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the environment variable keyString to the value valueString.
 </div>
-<a name="System-modules"></a><b>
-modules
+<a name="System-setLobby"></a><b>
+setLobby(anObject)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the root object of the garbage collector.
 </div>
-<a name="System-outFile"></a><b>
-outFile
+<a name="System-setMaxRecycledObjects"></a><b>
+setMaxRecycledObjects(aNumber)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the max number of recycled objects used.
 </div>
-<a name="System-p"></a><b>
-p
+<a name="System-sleep"></a><b>
+sleep(secondsNumber)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Performs a *blocking* sleep call for specified number of seconds.
 </div>
-<a name="System-protoName"></a><b>
-protoName
+<a name="System-symbols"></a><b>
+symbols
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a List containing all Symbols currently in the system.
 </div>
-<a name="System-protoNames"></a><b>
-protoNames
+<a name="System-system"></a><b>
+system(aString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Makes a system call and returns a Number for the return value.
 </div>
-<a name="System-prototypes"></a><b>
-prototypes
+<a name="System-thisProcessPid"></a><b>
+thisProcessPid()
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Return the process id (pid) for this Io process.
 </div>
-<a name="System-readFolder"></a><b>
-readFolder
+<a name="System-userInterruptHandler"></a><b>
+userInterruptHandler
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Called when control-c is hit. Override to add custom behavior. Returns self.
 </div>
-<a name="System-s"></a><b>
-s
+<a name="System-version"></a><b>
+version
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="System-showMeta"></a><b>
-showMeta
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="System-showSection"></a><b>
-showSection
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="System-showSpacer"></a><b>
-showSpacer
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="System-slots"></a><b>
-slots
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="System-totalCount"></a><b>
-totalCount
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a version number for Io.
 </div>
 </td>
 </tr>

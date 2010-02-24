@@ -25,243 +25,41 @@
 </td>
 <td></td>
 <td>
-<a name="Debugger-Lobby"></a><b>
-Lobby
+<a name="Debugger-debuggerCoroutine"></a><b>
+debuggerCoroutine
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the coroutine used for the debugger.
 </div>
-<a name="Debugger-Protos"></a><b>
-Protos
+<a name="Debugger-description"></a><b>
+description
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+To start debugging a coroutine, call
+	<code>
+	Coroutine currentCoroutine setMessageDebugging(true)
+	</code>
+	Then each message sent within that coroutine will cause the Debugger 
+	vmWillSendMessage slot to be activated and the Debugger slots: 
+	messageCoroutine, messageSelf, messageLocals, and message will be set with the 
+	values related to the current message send. You can override vmWillSendMessage to 
+	implement your own debugging mechanisms.
 </div>
-<a name="Debugger-addonFolders"></a><b>
-addonFolders
+<a name="Debugger-start"></a><b>
+start
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Starts the debugger.
 </div>
-<a name="Debugger-cat"></a><b>
-cat
+<a name="Debugger-vmWillSendMessage"></a><b>
+vmWillSendMessage
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Debugger-catName"></a><b>
-catName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Debugger-categories"></a><b>
-categories
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Debugger-count"></a><b>
-count
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Debugger-docsPath"></a><b>
-docsPath
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Debugger-exit"></a><b>
-exit
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Debugger-f"></a><b>
-f
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Debugger-firstProto"></a><b>
-firstProto
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Debugger-firstProtoName"></a><b>
-firstProtoName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Debugger-folder"></a><b>
-folder
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Debugger-forward"></a><b>
-forward
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Debugger-isDeprecated"></a><b>
-isDeprecated
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Debugger-isPrivate"></a><b>
-isPrivate
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Debugger-k"></a><b>
-k
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Debugger-module"></a><b>
-module
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Debugger-moduleName"></a><b>
-moduleName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Debugger-moduleNames"></a><b>
-moduleNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Debugger-moduleProtoNames"></a><b>
-moduleProtoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Debugger-modules"></a><b>
-modules
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Debugger-outFile"></a><b>
-outFile
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Debugger-p"></a><b>
-p
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Debugger-protoName"></a><b>
-protoName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Debugger-protoNames"></a><b>
-protoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Debugger-prototypes"></a><b>
-prototypes
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Debugger-readFolder"></a><b>
-readFolder
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Debugger-s"></a><b>
-s
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Debugger-showMeta"></a><b>
-showMeta
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Debugger-showSection"></a><b>
-showSection
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Debugger-showSpacer"></a><b>
-showSpacer
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Debugger-slots"></a><b>
-slots
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Debugger-totalCount"></a><b>
-totalCount
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
+Override this method to implement your own debugging mechanisms. Default behavior is to print every message sent.
 </div>
 </td>
 </tr>

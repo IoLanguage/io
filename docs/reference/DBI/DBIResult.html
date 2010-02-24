@@ -25,243 +25,115 @@
 </td>
 <td></td>
 <td>
-<a name="DBIResult-Lobby"></a><b>
-Lobby
+<a name="DBIResult-at"></a><b>
+at(index_or_name)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the contents of the given field. 
+	 The parameter can be a field index or a field name.
 </div>
-<a name="DBIResult-Protos"></a><b>
-Protos
+<a name="DBIResult-done"></a><b>
+done
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Close and free the result. This <b>must</b> be called on
+each result. Failure to do so will cause memory leaks and open queries with
+the database server.
 </div>
-<a name="DBIResult-addonFolders"></a><b>
-addonFolders
+<a name="DBIResult-fields"></a><b>
+fields
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a list of field names in the result.
 </div>
-<a name="DBIResult-cat"></a><b>
-cat
+<a name="DBIResult-first"></a><b>
+first
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Move the cursor to the first record.
 </div>
-<a name="DBIResult-catName"></a><b>
-catName
+<a name="DBIResult-foreach"></a><b>
+foreach([Object], value, message)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Loops over the records in the result starting at either the first result 
+(if the cursor has never been moved) or it's current location if moved. i.e.
+
+<pre>
+r := conn query("SELECT * FROM people")
+r foreach(r, r at(1))
+</pre>
+
+The above would start at the first row, however, you can move around in the
+result set and then foreach would pickup where you left off, for instance, say
+you wanted to skip the first three rows:
+
+<pre>
+r := conn query("SELECT * FROM people")
+r seek(4)
+r foreach(r, r at (1))
+</pre>
+
+The above would start at the record #4, not at the beginning.
+
+The optional Object parameter would cause a decendent of DBIRecord to be
+populate instead of the index being set. This allows for advanced
+functionality. Please see `DBIRecord' for further information and an example.
 </div>
-<a name="DBIResult-categories"></a><b>
-categories
+<a name="DBIResult-last"></a><b>
+last
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Move the cursor to the last record.
 </div>
-<a name="DBIResult-count"></a><b>
-count
+<a name="DBIResult-next"></a><b>
+next
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Move the cursor to the next record.
 </div>
-<a name="DBIResult-docsPath"></a><b>
-docsPath
+<a name="DBIResult-populate"></a><b>
+populate(object)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Populates a decendent of DBIRecord with the current record's contents. 
+	See `DBIRecord' for further explanation and an example.
 </div>
-<a name="DBIResult-exit"></a><b>
-exit
+<a name="DBIResult-position"></a><b>
+position
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Return the current row's position (or index).
 </div>
-<a name="DBIResult-f"></a><b>
-f
+<a name="DBIResult-previous"></a><b>
+previous
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Move the cursor to the previous record.
 </div>
-<a name="DBIResult-firstProto"></a><b>
-firstProto
+<a name="DBIResult-seek"></a><b>
+seek(row_number)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Move the cursor to the nth record.
 </div>
-<a name="DBIResult-firstProtoName"></a><b>
-firstProtoName
+<a name="DBIResult-size"></a><b>
+size
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIResult-folder"></a><b>
-folder
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIResult-forward"></a><b>
-forward
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIResult-isDeprecated"></a><b>
-isDeprecated
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIResult-isPrivate"></a><b>
-isPrivate
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIResult-k"></a><b>
-k
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIResult-module"></a><b>
-module
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIResult-moduleName"></a><b>
-moduleName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIResult-moduleNames"></a><b>
-moduleNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIResult-moduleProtoNames"></a><b>
-moduleProtoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIResult-modules"></a><b>
-modules
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIResult-outFile"></a><b>
-outFile
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIResult-p"></a><b>
-p
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIResult-protoName"></a><b>
-protoName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIResult-protoNames"></a><b>
-protoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIResult-prototypes"></a><b>
-prototypes
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIResult-readFolder"></a><b>
-readFolder
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIResult-s"></a><b>
-s
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIResult-showMeta"></a><b>
-showMeta
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIResult-showSection"></a><b>
-showSection
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIResult-showSpacer"></a><b>
-showSpacer
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIResult-slots"></a><b>
-slots
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="DBIResult-totalCount"></a><b>
-totalCount
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the number of rows available.
 </div>
 </td>
 </tr>

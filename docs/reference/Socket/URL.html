@@ -20,243 +20,188 @@
 </td>
 <td></td>
 <td>
-<a name="URL-Lobby"></a><b>
-Lobby
+<font color=#888>
+<a name="URL-clear"></a><b>
+clear
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Private method to clear the URL's parsed attributes.
+</font>
 </div>
-<a name="URL-Protos"></a><b>
-Protos
+<a name="URL-escapeString"></a><b>
+escapeString(aString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a new String that is aString with the appropriate characters replaced by their URL escape codes.
 </div>
-<a name="URL-addonFolders"></a><b>
-addonFolders
+<a name="URL-fetch"></a><b>
+fetch
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Fetches the url and returns the result as a Sequence. Returns an Error, if one occurs.
 </div>
-<a name="URL-cat"></a><b>
-cat
+<font color=#888>
+<a name="URL-fetchHttp"></a><b>
+fetchHttp(optionalProgressBlock)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Private method that fetches an http url.
+</font>
 </div>
-<a name="URL-catName"></a><b>
-catName
+<a name="URL-fetchRaw"></a><b>
+fetchRaw
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Fetch and return the entire response. Note: This may have problems for some request times.
 </div>
-<a name="URL-categories"></a><b>
-categories
+<a name="URL-fetchToFile"></a><b>
+fetchToFile(aFile)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Fetch the url and save the result to the specified File object. 
+	Saving is done as the data is read, which help minimize memory usage. 
+	Returns self on success or nil on error.
 </div>
-<a name="URL-count"></a><b>
-count
+<a name="URL-fetchWithProgress"></a><b>
+fetchWithProgress(progressBlock)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Same as fetch, but with each read, progressBlock is called with the readBuffer 
+	and the content size as parameters.
 </div>
-<a name="URL-docsPath"></a><b>
-docsPath
+<font color=#888>
+<a name="URL-headerBreaks"></a><b>
+headerBreaks
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Private method to connect to the host and write the header.
+</font>
 </div>
-<a name="URL-exit"></a><b>
-exit
+<a name="URL-openOnDesktop"></a><b>
+openOnDesktop
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Opens the URL in the local default browser. Supports OSX, Windows and (perhaps) other Unixes.
 </div>
-<a name="URL-f"></a><b>
-f
+<font color=#888>
+<a name="URL-parse"></a><b>
+parse
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Private method to parse the url.
+</font>
 </div>
-<a name="URL-firstProto"></a><b>
-firstProto
+<a name="URL-post"></a><b>
+post(parameters, headers)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sends an http post message. If parameters is a Map, it's key/value pairs are 
+	send as the post parameters. If parameters is a Sequence or String, it is sent directly.
+	Any headers in the headers map are sent with the request.
+	Returns a sequence containing the response on success or an Error, if one occurs.
 </div>
-<a name="URL-firstProtoName"></a><b>
-firstProtoName
+<font color=#888>
+<a name="URL-processHttpResponse"></a><b>
+processHttpResponse(optionalProgressBlock)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Private method that processes http response.
+</font>
 </div>
-<a name="URL-folder"></a><b>
-folder
+<a name="URL-referer"></a><b>
+referer
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the referer String or nil if not set.
 </div>
-<a name="URL-forward"></a><b>
-forward
+<a name="URL-requestHeader"></a><b>
+requestHeader
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a Sequence containing the request header that will be sent.
 </div>
-<a name="URL-isDeprecated"></a><b>
-isDeprecated
+<a name="URL-setReferer"></a><b>
+setReferer(aString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the referer. Returns self.
 </div>
-<a name="URL-isPrivate"></a><b>
-isPrivate
+<font color=#888>
+<a name="URL-setRequest"></a><b>
+setRequest(requestString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Private method to set the url request.
+</font>
 </div>
-<a name="URL-k"></a><b>
-k
+<font color=#888>
+<a name="URL-setResponseHeaderString"></a><b>
+setResponseHeaderString(headerString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Private method that parses the responseHeaders.
+</font>
 </div>
-<a name="URL-module"></a><b>
-module
+<a name="URL-setURL"></a><b>
+setURL(urlString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the url string and parses into the protocol, host, port path, and query slots. Returns self.
 </div>
-<a name="URL-moduleName"></a><b>
-moduleName
+<a name="URL-stopFetch"></a><b>
+stopFetch
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Stops the fetch, if there is one. Returns self.
 </div>
-<a name="URL-moduleNames"></a><b>
-moduleNames
+<font color=#888>
+<a name="URL-test"></a><b>
+test
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Private test method.
+</font>
 </div>
-<a name="URL-moduleProtoNames"></a><b>
-moduleProtoNames
+<a name="URL-unescapeString"></a><b>
+unescapeString(aString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a new String that is aString with the URL escape codes replaced by the appropriate characters.
 </div>
-<a name="URL-modules"></a><b>
-modules
+<a name="URL-url"></a><b>
+url
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns url string.
 </div>
-<a name="URL-outFile"></a><b>
-outFile
+<a name="URL-with"></a><b>
+with(urlString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="URL-p"></a><b>
-p
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="URL-protoName"></a><b>
-protoName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="URL-protoNames"></a><b>
-protoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="URL-prototypes"></a><b>
-prototypes
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="URL-readFolder"></a><b>
-readFolder
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="URL-s"></a><b>
-s
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="URL-showMeta"></a><b>
-showMeta
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="URL-showSection"></a><b>
-showSection
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="URL-showSpacer"></a><b>
-showSpacer
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="URL-slots"></a><b>
-slots
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="URL-totalCount"></a><b>
-totalCount
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a new URL instance for the url in the urlString.
 </div>
 </td>
 </tr>

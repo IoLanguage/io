@@ -30,243 +30,61 @@ methods that require the speed of C or binding to a C library.
 </td>
 <td></td>
 <td>
-<a name="CFunction-Lobby"></a><b>
-Lobby
+<a name="CFunction-=="></a><b>
+==(anObject)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns self if the argument is a CFunction with the same internal C function pointer.
 </div>
-<a name="CFunction-Protos"></a><b>
-Protos
+<a name="CFunction-asSimpleString"></a><b>
+asSimpleString
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the CFunction name.
 </div>
-<a name="CFunction-addonFolders"></a><b>
-addonFolders
+<a name="CFunction-asString"></a><b>
+asString
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Same as asSimpleString.
 </div>
-<a name="CFunction-cat"></a><b>
-cat
+<a name="CFunction-id"></a><b>
+id
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a number containing a unique id for the receiver's internal C function.
 </div>
-<a name="CFunction-catName"></a><b>
-catName
+<a name="CFunction-name"></a><b>
+name
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the CFunction name in the form CFunction_Pointer.")
 </div>
-<a name="CFunction-categories"></a><b>
-categories
+<a name="CFunction-performOn"></a><b>
+performOn(target, blockLocals, optionalMessage, optionalContext)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Activates the CFunctions with the supplied settings.
 </div>
-<a name="CFunction-count"></a><b>
-count
+<a name="CFunction-typeName"></a><b>
+typeName
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the owning type of the CFunction or nil if the CFunction can be called on any object.
 </div>
-<a name="CFunction-docsPath"></a><b>
-docsPath
+<a name="CFunction-uniqueName"></a><b>
+uniqueName
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CFunction-exit"></a><b>
-exit
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CFunction-f"></a><b>
-f
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CFunction-firstProto"></a><b>
-firstProto
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CFunction-firstProtoName"></a><b>
-firstProtoName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CFunction-folder"></a><b>
-folder
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CFunction-forward"></a><b>
-forward
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CFunction-isDeprecated"></a><b>
-isDeprecated
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CFunction-isPrivate"></a><b>
-isPrivate
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CFunction-k"></a><b>
-k
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CFunction-module"></a><b>
-module
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CFunction-moduleName"></a><b>
-moduleName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CFunction-moduleNames"></a><b>
-moduleNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CFunction-moduleProtoNames"></a><b>
-moduleProtoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CFunction-modules"></a><b>
-modules
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CFunction-outFile"></a><b>
-outFile
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CFunction-p"></a><b>
-p
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CFunction-protoName"></a><b>
-protoName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CFunction-protoNames"></a><b>
-protoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CFunction-prototypes"></a><b>
-prototypes
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CFunction-readFolder"></a><b>
-readFolder
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CFunction-s"></a><b>
-s
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CFunction-showMeta"></a><b>
-showMeta
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CFunction-showSection"></a><b>
-showSection
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CFunction-showSpacer"></a><b>
-showSpacer
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CFunction-slots"></a><b>
-slots
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="CFunction-totalCount"></a><b>
-totalCount
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the name given to the CFunction.
 </div>
 </td>
 </tr>

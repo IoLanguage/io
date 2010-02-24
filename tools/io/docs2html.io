@@ -293,6 +293,7 @@ protoNames foreach(protoName,
 
 	slots := p at("slots")
 	if (slots,
+		slotNames := slots keys //sort
 		/*
 		outFile writeln("<tr>")
 		outFile writeln("<td align=right>")
@@ -303,7 +304,6 @@ protoNames foreach(protoName,
 		
 		//outFile writeln("<div class=slotIndex>")
 		
-		slotNames := slots keys //sort
 		
 		try(
 			if(Lobby perform(protoName),

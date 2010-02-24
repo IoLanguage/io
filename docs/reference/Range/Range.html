@@ -25,243 +25,182 @@
 </td>
 <td></td>
 <td>
-<a name="Range-Lobby"></a><b>
-Lobby
+<a name="Range-asList"></a><b>
+asList
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a list containing all the items within and including the ranges starting and ending points.
 </div>
-<a name="Range-Protos"></a><b>
-Protos
+<a name="Range-at"></a><b>
+at(position)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Rewinds the range, skips forward until we're at the supplied position then returns the value at that position. Raises an exception if the position is out of bounds.
 </div>
-<a name="Range-addonFolders"></a><b>
-addonFolders
+<a name="Range-contains"></a><b>
+contains
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a boolean value if the range contains the argument. This works independant of any increment value.
 </div>
-<a name="Range-cat"></a><b>
-cat
+<a name="Range-first"></a><b>
+first
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Moves the current cursor to the beginning of the range, and returns it.
 </div>
-<a name="Range-catName"></a><b>
-catName
+<a name="Range-foreach"></a><b>
+foreach(optionalIndex, value, message)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Iterates over each item beginning with the starting point, and finishing at 
+	the ending point inclusive. This method can operate several ways; these include: 
+	(1) Takes one argument, the message tree to be executed during each iteration; (2) 
+	Takes two arguments, the first argument is the name of the current value being 
+	iterated over, and the second is the message tree to be executed during each 
+	iteration; (3) Takes three arguments: the first is the current index within the 
+	range, the second is the name of the current value being iterated over, and the 
+	third is the message tree to be executed during each iteration. 
+	For example:
+<pre>
+// First method (operating on numbers)
+1 to(10) foreach("iterating" print) // prints "iterating" 10 times
+// Second method (operating on numbers)
+1 to(10) foreach(v, v print) // prints each value
+// Third method (operating on numbers)
+1 to(10) foreach(i, v, writeln(i .. ": " .. v)) // prints "index: value"
+</pre>
 </div>
-<a name="Range-categories"></a><b>
-categories
+<a name="Range-index"></a><b>
+index
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the current index number starting from zero and extending 
+outward up to the maximum number of items in the range.
 </div>
-<a name="Range-count"></a><b>
-count
+<a name="Range-indexOf"></a><b>
+indexOf(aValue)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Calculates each value, checking to see if it matches the aValue parameter. If so, return the position within the range. NOTE: This method rewinds the range before searching. If you need to revert back to your original position, make a duplicate of the range, and use indexOf on it instead.
 </div>
-<a name="Range-docsPath"></a><b>
-docsPath
+<a name="Range-last"></a><b>
+last
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Moves the current cursor to the end of the range, and returns it.
 </div>
-<a name="Range-exit"></a><b>
-exit
+<a name="Range-levenshtein"></a><b>
+levenshtein(other)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the levenshtein distance to other.
 </div>
-<a name="Range-f"></a><b>
-f
+<a name="Range-map"></a><b>
+map([value], body)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a new list which contains the result of the 'body' for every element stepped over in the range, from the starting point to the ending point inclusive.
 </div>
-<a name="Range-firstProto"></a><b>
-firstProto
+<a name="Range-next"></a><b>
+next
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the current item in the range to the next item in the range, 
+		and returns a boolean value indicating whether it is not at the end of the range.
 </div>
-<a name="Range-firstProtoName"></a><b>
-firstProtoName
+<a name="Range-nextInSequence"></a><b>
+nextInSequence(skipVal)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the next item in the sequence.  The optional skipVal parameter allows you to skip ahead skipVal places.
 </div>
-<a name="Range-folder"></a><b>
-folder
+<a name="Range-previous"></a><b>
+previous
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the current item in the range to the previous item in the range, 
+	and returns a boolean value indicating whether it is not at the beginning of the range.
 </div>
-<a name="Range-forward"></a><b>
-forward
+<a name="Range-rewind"></a><b>
+rewind
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the current item and the index to the values the receiver started out with.
 </div>
-<a name="Range-isDeprecated"></a><b>
-isDeprecated
+<a name="Range-select"></a><b>
+select
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Operates the same as 'List select'
 </div>
-<a name="Range-isPrivate"></a><b>
-isPrivate
+<a name="Range-setRange"></a><b>
+setRange(start, end, increment)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Has several modes of operation. First, if only two parameters are specified, 
+	the increment value is set to 1 by default, while the first parameter represents
+	the point to start from, and the second parameter represents the point to end at. 
+	If the second parameter is smaller than the first, the range will operate backwards. 
+	If the third parameter is specified, a custom iteration value will be used instead of 1.
 </div>
-<a name="Range-k"></a><b>
-k
+<a name="Range-slice"></a><b>
+slice(start, end, [by])
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a list containing the values from the Range starting at the start parameter, ending at the end parameter, and optionally incremented by the by parameter.
 </div>
-<a name="Range-module"></a><b>
-module
+<a name="Range-to"></a><b>
+to
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Convenience constructor that returns a cursor object representing the range of numbers from the receiver to the 'endingPoint' parameter. Increments over each item in that range by 1.
 </div>
-<a name="Range-moduleName"></a><b>
-moduleName
+<a name="Range-to"></a><b>
+to(endpoint)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Convenience constructor that returns a range of sequences from the receiver to the endpoint argument. Increments over each item in that range by 1.
 </div>
-<a name="Range-moduleNames"></a><b>
-moduleNames
+<a name="Range-toBy"></a><b>
+toBy(endingPoint, incrementValue)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Convenience constructor that returns a cursor object representing the range of numbers from the receiver to the 'endingPoint' parameter. Increments over each item in that range by the 'incrementValue' parameter.
 </div>
-<a name="Range-moduleProtoNames"></a><b>
-moduleProtoNames
+<a name="Range-toBy"></a><b>
+toBy(endpoint, increment)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Convenience constructor that returns a range of sequences from the receiver to the endpoint argument. Increments over each item in that range by the value of the increment parameter. The increment parameter must be positive.
 </div>
-<a name="Range-modules"></a><b>
-modules
+<a name="Range-value"></a><b>
+value
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Range-outFile"></a><b>
-outFile
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Range-p"></a><b>
-p
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Range-protoName"></a><b>
-protoName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Range-protoNames"></a><b>
-protoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Range-prototypes"></a><b>
-prototypes
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Range-readFolder"></a><b>
-readFolder
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Range-s"></a><b>
-s
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Range-showMeta"></a><b>
-showMeta
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Range-showSection"></a><b>
-showSection
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Range-showSpacer"></a><b>
-showSpacer
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Range-slots"></a><b>
-slots
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Range-totalCount"></a><b>
-totalCount
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the value of the current item in the range.
 </div>
 </td>
 </tr>

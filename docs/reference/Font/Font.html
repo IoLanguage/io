@@ -38,243 +38,97 @@ Smaller fonts (those having a point size around 30 or smaller, depending on the 
 </td>
 <td></td>
 <td>
-<a name="Font-Lobby"></a><b>
-Lobby
+<a name="Font-drawString"></a><b>
+drawString(aString, optionalStartIndex, optionalEndIndex)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Draws aString using the optional start and end indexes, if supplied. Returns self.
+<p>
+Note; Fonts are draw as RGBA pixel maps. These blending options are recommended:
+<pre>	
+glEnable(GL_BLEND)
+glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+</pre>
 </div>
-<a name="Font-Protos"></a><b>
-Protos
+<a name="Font-error"></a><b>
+error
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the current error string or nil if there is no error.
 </div>
-<a name="Font-addonFolders"></a><b>
-addonFolders
+<a name="Font-isTextured"></a><b>
+isTextured
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if the font is being cached in and rendered from a texture, false otherwise.
 </div>
-<a name="Font-cat"></a><b>
-cat
+<a name="Font-open"></a><b>
+open(optionalPath)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Opens the font. Sets path using optionalPath if supplied. Returns self.
 </div>
-<a name="Font-catName"></a><b>
-catName
+<a name="Font-path"></a><b>
+path
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the Font path.
 </div>
-<a name="Font-categories"></a><b>
-categories
+<a name="Font-pixelHeight"></a><b>
+pixelHeight
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the height of the font measured in pixels.
 </div>
-<a name="Font-count"></a><b>
-count
+<a name="Font-pixelSize"></a><b>
+pixelSize
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the font's pixelSize.
 </div>
-<a name="Font-docsPath"></a><b>
-docsPath
+<a name="Font-setPath"></a><b>
+setPath(aString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the Font path. Returns self.
 </div>
-<a name="Font-exit"></a><b>
-exit
+<a name="Font-setPixelSize"></a><b>
+setPixelSize(aNumber)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the size of the font in pixels. Returns self.
 </div>
-<a name="Font-f"></a><b>
-f
+<a name="Font-stringIndexAtWidth"></a><b>
+stringIndexAtWidth(aString, startIndex, width)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the max index of the character in String (starting at startIndex) 
+	that fits within width.
 </div>
-<a name="Font-firstProto"></a><b>
-firstProto
+<a name="Font-widthOfCharacter"></a><b>
+widthOfCharacter(aNumber)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the width of the character specified by aNumber in the receiver's font.
 </div>
-<a name="Font-firstProtoName"></a><b>
-firstProtoName
+<a name="Font-widthOfString"></a><b>
+widthOfString(aString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Font-folder"></a><b>
-folder
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Font-forward"></a><b>
-forward
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Font-isDeprecated"></a><b>
-isDeprecated
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Font-isPrivate"></a><b>
-isPrivate
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Font-k"></a><b>
-k
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Font-module"></a><b>
-module
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Font-moduleName"></a><b>
-moduleName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Font-moduleNames"></a><b>
-moduleNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Font-moduleProtoNames"></a><b>
-moduleProtoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Font-modules"></a><b>
-modules
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Font-outFile"></a><b>
-outFile
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Font-p"></a><b>
-p
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Font-protoName"></a><b>
-protoName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Font-protoNames"></a><b>
-protoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Font-prototypes"></a><b>
-prototypes
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Font-readFolder"></a><b>
-readFolder
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Font-s"></a><b>
-s
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Font-showMeta"></a><b>
-showMeta
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Font-showSection"></a><b>
-showSection
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Font-showSpacer"></a><b>
-showSpacer
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Font-slots"></a><b>
-slots
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Font-totalCount"></a><b>
-totalCount
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a Number with the width that aString would render 
+	to with the receiver's current settings.
 </div>
 </td>
 </tr>

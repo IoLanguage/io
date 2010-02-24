@@ -25,243 +25,179 @@
 </td>
 <td></td>
 <td>
-<a name="RegexMatches-Lobby"></a><b>
-Lobby
+<a name="RegexMatches-all"></a><b>
+all
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a list containing all matches in the string.
 </div>
-<a name="RegexMatches-Protos"></a><b>
-Protos
+<a name="RegexMatches-allowEmptyMatches"></a><b>
+allowEmptyMatches
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Tells the receiver to allow zero length matches. Empty matches are allowed by default.
+	Returns self.
 </div>
-<a name="RegexMatches-addonFolders"></a><b>
-addonFolders
+<a name="RegexMatches-allowsEmptyMatches"></a><b>
+allowsEmptyMatches
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if the receiver allows empty matches, false if not.
 </div>
-<a name="RegexMatches-cat"></a><b>
-cat
+<a name="RegexMatches-anchored"></a><b>
+anchored
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Like <code>next</code>, but will only match at the current search position.
 </div>
-<a name="RegexMatches-catName"></a><b>
-catName
+<a name="RegexMatches-disallowEmptyMatches"></a><b>
+disallowEmptyMatches
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Tells the receiver not to allow zero length matches. Returns self.
 </div>
-<a name="RegexMatches-categories"></a><b>
-categories
+<a name="RegexMatches-endPosition"></a><b>
+endPosition
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the index in the string where the receiver stops searching.
 </div>
-<a name="RegexMatches-count"></a><b>
-count
+<a name="RegexMatches-foreach"></a><b>
+foreach(value, message)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Loops through the matches, assigns each match to <em>value</em>, and evaluates <em>message</em>.
+	Returns the result of the last evaluation.
 </div>
-<a name="RegexMatches-docsPath"></a><b>
-docsPath
+<a name="RegexMatches-foreachInterval"></a><b>
+foreachInterval(value, matchMessage, nonMatchMessage)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Like <code>foreach</code>, but takes an extra message that will be evaluated for the non-matching
+	text before each match, and the non-matching text after the last match.
 </div>
-<a name="RegexMatches-exit"></a><b>
-exit
+<a name="RegexMatches-last"></a><b>
+last
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the last match in the string.
 </div>
-<a name="RegexMatches-f"></a><b>
-f
+<a name="RegexMatches-map"></a><b>
+map(value, message)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Like <code>foreach</code>, but the result of each evaluation of <em>message</em> is returned
+	in a list.
 </div>
-<a name="RegexMatches-firstProto"></a><b>
-firstProto
+<a name="RegexMatches-next"></a><b>
+next
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the next match, or nil if there is none.
 </div>
-<a name="RegexMatches-firstProtoName"></a><b>
-firstProtoName
+<a name="RegexMatches-position"></a><b>
+position
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the search position as an index in the string.
 </div>
-<a name="RegexMatches-folder"></a><b>
-folder
+<a name="RegexMatches-regex"></a><b>
+regex
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the Regex that the receiver uses for finding matching.
 </div>
-<a name="RegexMatches-forward"></a><b>
-forward
+<a name="RegexMatches-replace"></a><b>
+replace(name, message)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Replaces each match in the string with the result of <em>message</em> and returns
+	the resulting string.
 </div>
-<a name="RegexMatches-isDeprecated"></a><b>
-isDeprecated
+<a name="RegexMatches-replaceAllWith"></a><b>
+replaceAllWith(templateString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Same as:
+	<pre>
+	replace(match, match expandTo(templateString))
+	</pre>
 </div>
-<a name="RegexMatches-isPrivate"></a><b>
-isPrivate
+<a name="RegexMatches-reset"></a><b>
+reset
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Resets the search position to the beginning of the string. Returns self.
 </div>
-<a name="RegexMatches-k"></a><b>
-k
+<a name="RegexMatches-setEndPosition"></a><b>
+setEndPosition(anIndex)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the index in the string where the receiver should stop searching. It will be as
+	if the string ends at that index. If <em>index</em> is nil, the end position will be set
+	to the end of string.
+	Returns self.
+
+	<pre>
+	Io> "funkadelic" matchesOfRegex("\\w+") setEndPosition(4) next string
+	==> funk
+
+	Io> "funkadelic" matchesOfRegex("\\w+") setEndPosition(nil) next string
+	==> funkadelic
+	</pre>
 </div>
-<a name="RegexMatches-module"></a><b>
-module
+<a name="RegexMatches-setPosition"></a><b>
+setPosition(aRegexOrString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the search position to the given index in the string. Returns self.
 </div>
-<a name="RegexMatches-moduleName"></a><b>
-moduleName
+<a name="RegexMatches-setRegex"></a><b>
+setRegex(aRegexOrString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the regex to find matches in. Returns self.
 </div>
-<a name="RegexMatches-moduleNames"></a><b>
-moduleNames
+<a name="RegexMatches-setString"></a><b>
+setString(aString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the string to find matches in. Returns self.
 </div>
-<a name="RegexMatches-moduleProtoNames"></a><b>
-moduleProtoNames
+<a name="RegexMatches-splitString"></a><b>
+splitString
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Splits the string being matched against into pieces using the regex as the delimiter
+	and returns the piece as a list of strings.
 </div>
-<a name="RegexMatches-modules"></a><b>
-modules
+<a name="RegexMatches-string"></a><b>
+string
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="RegexMatches-outFile"></a><b>
-outFile
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="RegexMatches-p"></a><b>
-p
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="RegexMatches-protoName"></a><b>
-protoName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="RegexMatches-protoNames"></a><b>
-protoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="RegexMatches-prototypes"></a><b>
-prototypes
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="RegexMatches-readFolder"></a><b>
-readFolder
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="RegexMatches-s"></a><b>
-s
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="RegexMatches-showMeta"></a><b>
-showMeta
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="RegexMatches-showSection"></a><b>
-showSection
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="RegexMatches-showSpacer"></a><b>
-showSpacer
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="RegexMatches-slots"></a><b>
-slots
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="RegexMatches-totalCount"></a><b>
-totalCount
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the string that the receiver finds matches in.
 </div>
 </td>
 </tr>

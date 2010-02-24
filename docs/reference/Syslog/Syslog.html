@@ -42,243 +42,175 @@ Note: This is partially tested. Please let me know of any problems you happen to
 </td>
 <td></td>
 <td>
-<a name="Syslog-Lobby"></a><b>
-Lobby
+<a name="Syslog-close"></a><b>
+close
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Closes a log that has previously been opened for writing.")
 </div>
-<a name="Syslog-Protos"></a><b>
-Protos
+<a name="Syslog-facility"></a><b>
+facility(optionalFacility)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Specifies the logging facility, which can be one of any of the values 
+	found in the facilityMap map. If optionalFacility is omitted, returns 
+	the currently set facility.
 </div>
-<a name="Syslog-addonFolders"></a><b>
-addonFolders
+<a name="Syslog-facilityMap"></a><b>
+facilityMap
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Contains the following keys, which represent numbers that can be used when opening a log:
+	<p>
+	<ul>
+	 <li>LOG_KERN</li>
+	 <li>LOG_USER</li>
+	 <li>LOG_MAIL</li>
+	 <li>LOG_DAEMON</li>
+	 <li>LOG_AUTH</li>
+	 <li>LOG_SYSLOG</li>
+	 <li>LOG_LPR</li>
+	 <li>LOG_NEWS</li>
+	 <li>LOG_UUCP</li>
+	 <li>LOG_CRON</li>
+	 <li>LOG_AUTHPRIV</li>
+	 <li>LOG_FTP</li>
+	 <li>LOG_RESERVED0</li>
+	 <li>LOG_RESERVED1</li>
+	 <li>LOG_RESERVED2</li>
+	 <li>LOG_RESERVED3</li>
+	 <li>LOG_LOCAL0</li>
+	 <li>LOG_LOCAL1</li>
+	 <li>LOG_LOCAL2</li>
+	 <li>LOG_LOCAL3</li>
+	 <li>LOG_LOCAL4</li>
+	 <li>LOG_LOCAL5</li>
+	 <li>LOG_LOCAL6</li>
+	 <li>LOG_LOCAL7</li>
+	</ul>
 </div>
-<a name="Syslog-cat"></a><b>
-cat
+<a name="Syslog-identity"></a><b>
+identity(optionalIdentity)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+If optionalIdentity is specified, provides an identity for all of the messages you will be sending to the syslog daemon. Returns the identity.")
 </div>
-<a name="Syslog-catName"></a><b>
-catName
+<a name="Syslog-isOpen"></a><b>
+isOpen
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns self if the log is opened for writing. Otherwise, returns Nil.")
 </div>
-<a name="Syslog-categories"></a><b>
-categories
+<a name="Syslog-log"></a><b>
+log
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Writes the supplied data to the log. Requires 2 arguments:
+	<p>
+	<ul>
+	<li>Logging Priority</li>
+	<li>Message to log</li>
+	</ul>
 </div>
-<a name="Syslog-count"></a><b>
-count
+<a name="Syslog-mask"></a><b>
+mask(optionalMask)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+If optionalMask is specified, optionalMask is a list which contains 
+	any one or more values stored in the maskMap hash that will be OR'd 
+	together, to provide the proper mask. Returns the logging mask (as a List).
 </div>
-<a name="Syslog-docsPath"></a><b>
-docsPath
+<a name="Syslog-maskMap"></a><b>
+maskMap
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Contains keys/value pairs which represent numbers that specify the 
+	logging mask. These values may be any one (or more) of the following:
+	<p>
+	<ul>
+	<li>LOG_PRIMASK</li>
+	<li>LOG_FACMASK</li>
+	</ul>
 </div>
-<a name="Syslog-exit"></a><b>
-exit
+<a name="Syslog-open"></a><b>
+open(aPriority, someOptions, optionalIdentity)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Opens the syslog for writing. optionalIdentity need not be entered 
+	and will default to the name of the distribution of Io you are running 
+	or if you have embedded Io into your application and set 
+	Lobby distribution = "foo", it will be set to "foo".
 </div>
-<a name="Syslog-f"></a><b>
-f
+<a name="Syslog-options"></a><b>
+options(optionalOptions)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+If optionalOptions is specified, it should represent a list of the logging 
+	options you can find in the optionsMap slot. All the values in the supplied 
+	aList will be OR'd together when you call the open or reopen slots. 
+	Returns the list of options if optionalFacility is omitted.
 </div>
-<a name="Syslog-firstProto"></a><b>
-firstProto
+<a name="Syslog-optionsMap"></a><b>
+optionsMap
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+A map containing key/value pairs holding all available options. These include:
+	<p>
+	<ul>
+	<li>LOG_PID</li>
+	<li>LOG_CONS</li>
+	<li>LOG_ODELAY</li>
+	<li>LOG_NDELAY</li>
+	<li>LOG_NOWAIT</li>
+	<li>LOG_PERROR</li>
+	</ul>
 </div>
-<a name="Syslog-firstProtoName"></a><b>
-firstProtoName
+<a name="Syslog-priority"></a><b>
+priority(optionalPriority)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+If optionalPriority is specified, sets the value, and returns it. 
+	If no value is specified, will return the previously stored value if 
+	one has been set previously.
 </div>
-<a name="Syslog-folder"></a><b>
-folder
+<a name="Syslog-priorityMap"></a><b>
+priorityMap
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Contains key/value pairs for logging priorities for use when calling the log() method. These include:
+	<p>
+	<ul>
+	<li>LOG_EMERG</li>
+	<li>LOG_ALERT</li>
+	<li>LOG_CRIT</li>
+	<li>LOG_ERR</li>
+	<li>LOG_WARNING</li>
+	<li>LOG_NOTICE</li>
+	<li>LOG_INFO</li>
+	<li>LOG_DEBUG</li>
+	</ul>
 </div>
-<a name="Syslog-forward"></a><b>
-forward
+<a name="Syslog-reopen"></a><b>
+reopen(aFacility, someOptions, optionalIdentity)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Syslog-isDeprecated"></a><b>
-isDeprecated
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Syslog-isPrivate"></a><b>
-isPrivate
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Syslog-k"></a><b>
-k
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Syslog-module"></a><b>
-module
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Syslog-moduleName"></a><b>
-moduleName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Syslog-moduleNames"></a><b>
-moduleNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Syslog-moduleProtoNames"></a><b>
-moduleProtoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Syslog-modules"></a><b>
-modules
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Syslog-outFile"></a><b>
-outFile
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Syslog-p"></a><b>
-p
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Syslog-protoName"></a><b>
-protoName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Syslog-protoNames"></a><b>
-protoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Syslog-prototypes"></a><b>
-prototypes
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Syslog-readFolder"></a><b>
-readFolder
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Syslog-s"></a><b>
-s
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Syslog-showMeta"></a><b>
-showMeta
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Syslog-showSection"></a><b>
-showSection
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Syslog-showSpacer"></a><b>
-showSpacer
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Syslog-slots"></a><b>
-slots
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Syslog-totalCount"></a><b>
-totalCount
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
+Reopens an already open log session. This is useful if you wish to 
+	change the facility you are logging to, the options you are logging 
+	with, or the identity of the session. Takes the same options as the open slot.
 </div>
 </td>
 </tr>

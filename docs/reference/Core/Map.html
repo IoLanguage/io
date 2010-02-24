@@ -25,243 +25,185 @@
 </td>
 <td></td>
 <td>
-<a name="Map-Lobby"></a><b>
-Lobby
+<a name="Map-asJson"></a><b>
+asJson
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Converts a Map to a string that represents contents in JSON-compilant form
 </div>
-<a name="Map-Protos"></a><b>
-Protos
+<a name="Map-asList"></a><b>
+asList
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Converts a Map to a list of lists. Each element in the returned list will be a list of two elements: the key, and the value.
 </div>
-<a name="Map-addonFolders"></a><b>
-addonFolders
+<a name="Map-asObject"></a><b>
+asObject
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Create a new Object whose slotDescriptionMap will be equal to self
 </div>
-<a name="Map-cat"></a><b>
-cat
+<a name="Map-asQueryString"></a><b>
+asQueryString
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns an escaped query string representation of this map
 </div>
-<a name="Map-catName"></a><b>
-catName
+<a name="Map-at"></a><b>
+at(keyString, optionalDefaultValue)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the value for the key keyString. Returns nil if the key is absent.
 </div>
-<a name="Map-categories"></a><b>
-categories
+<a name="Map-atIfAbsentPut"></a><b>
+atIfAbsentPut(keyString, aValue)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+If a value is present at the specified key, the value is returned. 
+	Otherwise, inserts/sets aValue and returns aValue.
 </div>
-<a name="Map-count"></a><b>
-count
+<a name="Map-atPut"></a><b>
+atPut(keyString, aValue)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Inserts/sets aValue with the key keyString. Returns self.
 </div>
-<a name="Map-docsPath"></a><b>
-docsPath
+<a name="Map-detect"></a><b>
+detect(optionalIndex, optionalValue, message)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a random value for which message evals to non-nil.
 </div>
-<a name="Map-exit"></a><b>
-exit
+<a name="Map-empty"></a><b>
+empty
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Removes all keys from the receiver. Returns self.
 </div>
-<a name="Map-f"></a><b>
-f
+<a name="Map-foreach"></a><b>
+foreach(optionalKey, value, message)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+For each key value pair, sets the locals key to
+the key and value to the value and executes message.
+Example:
+<pre>	aMap foreach(k, v, writeln(k, " = ", v))
+aMap foreach(v, write(v))</pre>	
+
+Example use with a block:
+
+<pre>	myBlock = block(k, v, write(k, " = ", v, "\n"))
+aMap foreach(k, v, myBlock(k, v))</pre>
 </div>
-<a name="Map-firstProto"></a><b>
-firstProto
+<a name="Map-hasKey"></a><b>
+hasKey(keyString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if the key is present or false otherwise.
 </div>
-<a name="Map-firstProtoName"></a><b>
-firstProtoName
+<a name="Map-hasValue"></a><b>
+hasValue(aValue)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if the value is one of the Map's values or false otherwise.
 </div>
-<a name="Map-folder"></a><b>
-folder
+<a name="Map-isEmpty"></a><b>
+isEmpty
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+returns true if this map doesn't contain any pairs.
 </div>
-<a name="Map-forward"></a><b>
-forward
+<a name="Map-justSerialized"></a><b>
+justSerialized(stream)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Writes the receiver's code into the stream.
 </div>
-<a name="Map-isDeprecated"></a><b>
-isDeprecated
+<a name="Map-keys"></a><b>
+keys
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a List of the receivers keys.
 </div>
-<a name="Map-isPrivate"></a><b>
-isPrivate
+<a name="Map-map"></a><b>
+map(key, value, message)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Create a List of results of message applied to self's items in a random
+		order.
 </div>
-<a name="Map-k"></a><b>
-k
+<a name="Map-merge"></a><b>
+merge(anotherMap)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a new map created by merging the pairs from anotherMap into this map
 </div>
-<a name="Map-module"></a><b>
-module
+<a name="Map-mergeInPlace"></a><b>
+mergeInPlace(anotherMap)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Merges the pairs from anotherMap into this map
 </div>
-<a name="Map-moduleName"></a><b>
-moduleName
+<a name="Map-removeAt"></a><b>
+removeAt(keyString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Removes the specified keyString if present. Returns self.
 </div>
-<a name="Map-moduleNames"></a><b>
-moduleNames
+<a name="Map-reverseMap"></a><b>
+reverseMap
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Create a new Map using values as keys and keys as values
 </div>
-<a name="Map-moduleProtoNames"></a><b>
-moduleProtoNames
+<a name="Map-select"></a><b>
+select(optionalIndex, optionalValue, message)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Create a new Map with keys,values of self for which message evaluated
+		to non-nil.
 </div>
-<a name="Map-modules"></a><b>
-modules
+<a name="Map-size"></a><b>
+size
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the number of key/value pairs in the receiver.
 </div>
-<a name="Map-outFile"></a><b>
-outFile
+<a name="Map-values"></a><b>
+values
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a List of the receivers values.
 </div>
-<a name="Map-p"></a><b>
-p
+<a name="Map-with"></a><b>
+with(key1, value1, key2, value2, ...)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Map-protoName"></a><b>
-protoName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Map-protoNames"></a><b>
-protoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Map-prototypes"></a><b>
-prototypes
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Map-readFolder"></a><b>
-readFolder
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Map-s"></a><b>
-s
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Map-showMeta"></a><b>
-showMeta
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Map-showSection"></a><b>
-showSection
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Map-showSpacer"></a><b>
-showSpacer
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Map-slots"></a><b>
-slots
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Map-totalCount"></a><b>
-totalCount
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a new map containing the given keys and values
 </div>
 </td>
 </tr>

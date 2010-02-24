@@ -27,243 +27,130 @@ Note: not all options are supported on all platforms.
 </td>
 <td></td>
 <td>
-<a name="Fnmatch-Lobby"></a><b>
-Lobby
+<a name="Fnmatch-caseFoldOff"></a><b>
+caseFoldOff
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+See caseFoldOn.
 </div>
-<a name="Fnmatch-Protos"></a><b>
-Protos
+<a name="Fnmatch-caseFoldOn"></a><b>
+caseFoldOn
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Ignore case distinctions in both the pattern and the string.
 </div>
-<a name="Fnmatch-addonFolders"></a><b>
-addonFolders
+<a name="Fnmatch-hasMatch"></a><b>
+hasMatch
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if a match is found, false otherwise.
 </div>
-<a name="Fnmatch-cat"></a><b>
-cat
+<a name="Fnmatch-leadingDirOff"></a><b>
+leadingDirOff
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+See leadingDirOn.
 </div>
-<a name="Fnmatch-catName"></a><b>
-catName
+<a name="Fnmatch-leadingDirOn"></a><b>
+leadingDirOn
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Ignore rest after successful pattern matching.
 </div>
-<a name="Fnmatch-categories"></a><b>
-categories
+<a name="Fnmatch-matchFor"></a><b>
+matchFor(aString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns self if aString matches the pattern, otherwise returns nil.
 </div>
-<a name="Fnmatch-count"></a><b>
-count
+<a name="Fnmatch-noEscapeOff"></a><b>
+noEscapeOff
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+See noEscapeOn.
 </div>
-<a name="Fnmatch-docsPath"></a><b>
-docsPath
+<a name="Fnmatch-noEscapeOn"></a><b>
+noEscapeOn
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+If not set, a backslash character (\) in pattern followed by any other 
+	character will match that second character in string. 
+	In particular, "\\" will match a backslash in string. 
+	If set, a backslash character will be treated as an ordinary character.
 </div>
-<a name="Fnmatch-exit"></a><b>
-exit
+<a name="Fnmatch-pathNameOff"></a><b>
+pathNameOff
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+See pathNameOn.
 </div>
-<a name="Fnmatch-f"></a><b>
-f
+<a name="Fnmatch-pathNameOn"></a><b>
+pathNameOn
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+If set, a slash (/) character in string will be explicitly matched 
+	by a slash in pattern; it will not be matched by either the asterisk (*) 
+	or question-mark (?) special characters, nor by a bracket ([]) expression. 
+	If not set, the slash character is treated as an ordinary character.
 </div>
-<a name="Fnmatch-firstProto"></a><b>
-firstProto
+<a name="Fnmatch-pattern"></a><b>
+pattern
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the pattern string.
 </div>
-<a name="Fnmatch-firstProtoName"></a><b>
-firstProtoName
+<a name="Fnmatch-periodOff"></a><b>
+periodOff
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+"See periodOn.
 </div>
-<a name="Fnmatch-folder"></a><b>
-folder
+<a name="Fnmatch-periodOn"></a><b>
+periodOn
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+If set, a leading period in string will match a period in pattern; where the location of ``leading'' is indicated by the value of FNM_PATHNAME:
+<UL>
+<LI>If FNM_PATHNAME is set, a period is ``leading'' if it is the first character in string or if it immediately follows a slash.
+
+<LI>If FNM_PATHNAME is not set, a period is ``leading'' only if it is the first character of string.
+</UL>
+<p>
+If not set, no special restrictions are placed on matching a period.
 </div>
-<a name="Fnmatch-forward"></a><b>
-forward
+<a name="Fnmatch-setPattern"></a><b>
+setPattern(aString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the pattern string. Returns self.
 </div>
-<a name="Fnmatch-isDeprecated"></a><b>
-isDeprecated
+<a name="Fnmatch-setString"></a><b>
+setString(aString)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the string to do matching on.
 </div>
-<a name="Fnmatch-isPrivate"></a><b>
-isPrivate
+<a name="Fnmatch-string"></a><b>
+string
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Fnmatch-k"></a><b>
-k
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Fnmatch-module"></a><b>
-module
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Fnmatch-moduleName"></a><b>
-moduleName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Fnmatch-moduleNames"></a><b>
-moduleNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Fnmatch-moduleProtoNames"></a><b>
-moduleProtoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Fnmatch-modules"></a><b>
-modules
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Fnmatch-outFile"></a><b>
-outFile
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Fnmatch-p"></a><b>
-p
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Fnmatch-protoName"></a><b>
-protoName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Fnmatch-protoNames"></a><b>
-protoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Fnmatch-prototypes"></a><b>
-prototypes
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Fnmatch-readFolder"></a><b>
-readFolder
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Fnmatch-s"></a><b>
-s
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Fnmatch-showMeta"></a><b>
-showMeta
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Fnmatch-showSection"></a><b>
-showSection
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Fnmatch-showSpacer"></a><b>
-showSpacer
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Fnmatch-slots"></a><b>
-slots
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Fnmatch-totalCount"></a><b>
-totalCount
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
+The string to do matching on.
 </div>
 </td>
 </tr>

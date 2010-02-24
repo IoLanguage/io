@@ -25,243 +25,137 @@
 </td>
 <td></td>
 <td>
-<a name="Call-Lobby"></a><b>
-Lobby
+<a name="Call-activated"></a><b>
+activated
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the activated value.
 </div>
-<a name="Call-Protos"></a><b>
-Protos
+<a name="Call-argAt"></a><b>
+argAt(argNumber)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the message's argNumber arg. Shorthand for same as call message argAt(argNumber).
 </div>
-<a name="Call-addonFolders"></a><b>
-addonFolders
+<a name="Call-argCount"></a><b>
+argCount
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the number of arguments for the call. Same as call message argCount.
 </div>
-<a name="Call-cat"></a><b>
-cat
+<a name="Call-coroutine"></a><b>
+coroutine
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the coroutine in which the message was sent.
 </div>
-<a name="Call-catName"></a><b>
-catName
+<a name="Call-delegateTo"></a><b>
+delegateTo(target, altSender)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sends the call's message to target (and relays it's stop status). 
+	The sender is set to altSender, if it is supplied.
+	Returns the result of the message.
 </div>
-<a name="Call-categories"></a><b>
-categories
+<a name="Call-delegateToMethod"></a><b>
+delegateToMethod(target, methodName)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sends the call's message to target via the method specified by methodName. 
+	Returns the result of the message.
 </div>
-<a name="Call-count"></a><b>
-count
+<a name="Call-description"></a><b>
+description
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a description of the receiver as a String.
 </div>
-<a name="Call-docsPath"></a><b>
-docsPath
+<a name="Call-evalArgAt"></a><b>
+evalArgAt(argNumber)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Evaluates the specified argument of the Call's message in the context of it's sender.
 </div>
-<a name="Call-exit"></a><b>
-exit
+<a name="Call-evalArgs"></a><b>
+evalArgs
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns a list containing the call message arguments evaluated in the context of the sender.
 </div>
-<a name="Call-f"></a><b>
-f
+<a name="Call-hasArgs"></a><b>
+hasArgs
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns true if the call was passed arguments.
 </div>
-<a name="Call-firstProto"></a><b>
-firstProto
+<a name="Call-message"></a><b>
+message
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the message value.
 </div>
-<a name="Call-firstProtoName"></a><b>
-firstProtoName
+<a name="Call-relayStopStatus"></a><b>
+relayStopStatus(arg)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets sender's stop status (Normal, Return, 
+  Break, Continue etc.) and returns evaluated argument.
 </div>
-<a name="Call-folder"></a><b>
-folder
+<a name="Call-resetStopStatus"></a><b>
+resetStopStatus(arg)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets stop status to Normal.
+  See also <tt>Call setStopStatus</tt>.
 </div>
-<a name="Call-forward"></a><b>
-forward
+<a name="Call-sender"></a><b>
+sender
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the sender value.
 </div>
-<a name="Call-isDeprecated"></a><b>
-isDeprecated
+<a name="Call-setStopStatus"></a><b>
+setStopStatus(aStatusObject)
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Sets the stop status on the call.
 </div>
-<a name="Call-isPrivate"></a><b>
-isPrivate
+<a name="Call-slotContext"></a><b>
+slotContext
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the slotContext value.
 </div>
-<a name="Call-k"></a><b>
-k
+<a name="Call-stopStatus"></a><b>
+stopStatus
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the stop status on the call. (description of stopStatus will 
+	be added once we decide whether or not to keep it)
 </div>
-<a name="Call-module"></a><b>
-module
+<a name="Call-target"></a><b>
+target
 </b>
 <p>
 <div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Call-moduleName"></a><b>
-moduleName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Call-moduleNames"></a><b>
-moduleNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Call-moduleProtoNames"></a><b>
-moduleProtoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Call-modules"></a><b>
-modules
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Call-outFile"></a><b>
-outFile
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Call-p"></a><b>
-p
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Call-protoName"></a><b>
-protoName
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Call-protoNames"></a><b>
-protoNames
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Call-prototypes"></a><b>
-prototypes
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Call-readFolder"></a><b>
-readFolder
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Call-s"></a><b>
-s
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Call-showMeta"></a><b>
-showMeta
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Call-showSection"></a><b>
-showSection
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Call-showSpacer"></a><b>
-showSpacer
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Call-slots"></a><b>
-slots
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
-</div>
-<a name="Call-totalCount"></a><b>
-totalCount
-</b>
-<p>
-<div class=slotDescription>
-<div class=error>undocumented</div>
+Returns the target value.
 </div>
 </td>
 </tr>
