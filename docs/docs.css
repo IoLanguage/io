@@ -182,6 +182,22 @@ td
     vertical-align: 0.000000em;
 }
 
+.indexItemSelected a
+{
+    letter-spacing: 0;
+    line-height: 1.4em;
+    margin-top: 0em;
+    margin-bottom: 0em;
+    margin-left: 0em;
+    margin-right: 0em;
+    text-align: left;
+    text-indent: 0.00em;
+    text-transform: none;
+    vertical-align: 0.000000em;
+	color: black;
+	font-weight: bold;
+}
+
 .indexItem a 
 {
     color: #777;

@@ -1,0 +1,564 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>List</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>List Proto</h1>
+<br><br><br><br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:45em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>A mutable array of values. The first index is 0.
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<a name="List-anyOne"></a><b>
+anyOne
+</b>
+<p>
+<div class=slotDescription>
+Returns a random element of the receiver or nil if the receiver is empty.
+</div>
+<a name="List-append"></a><b>
+append(anObject1, anObject2, ...)
+</b>
+<p>
+<div class=slotDescription>
+Appends the arguments to the end of the list. Returns self.
+</div>
+<a name="List-appendIfAbsent"></a><b>
+appendIfAbsent(anObject)
+</b>
+<p>
+<div class=slotDescription>
+Adds each value not already contained by the receiver, returns self.
+</div>
+<a name="List-appendSeq"></a><b>
+appendSeq(aList1, aList2, ...)
+</b>
+<p>
+<div class=slotDescription>
+Add the items in the lists to the receiver. Returns self.
+</div>
+<a name="List-asEncodedList"></a><b>
+asEncodedList
+</b>
+<p>
+<div class=slotDescription>
+Returns a Sequence with an encoding of the list. 
+	Nil, Number and Symbol objects are copied into the encoding, for other object
+	types, referenceIdForObject(item) will be called to request a reference id for 
+	the object.
+	
+	Also see: List fromEncodedList.
+</div>
+<a name="List-asMap"></a><b>
+asMap
+</b>
+<p>
+<div class=slotDescription>
+The reverse of Map asList: converts a list of lists (key-value pairs) into a Map. The first item of each pair list must be a sequence. The second item is the value.
+</div>
+<a name="List-asMessage Converts each element in the list to unnamed messages"></a><b>
+asMessage Converts each element in the list to unnamed messages
+</b>
+<p>
+<div class=slotDescription>
+with their cached result set to the value of the element (without activating). 
+	Returns an unnamed message whose arguments map 1:1 with the elements (after being converted to messages themselves).
+</div>
+<a name="List-at"></a><b>
+at(index)
+</b>
+<p>
+<div class=slotDescription>
+Returns the value at index. Returns Nil if the index is out of bounds.
+</div>
+<a name="List-atInsert"></a><b>
+atInsert(index, anObject)
+</b>
+<p>
+<div class=slotDescription>
+Inserts anObject at the index specified by index.
+	Adds anObject if the index equals the current count of the receiver.
+	Raises an exception if the index is out of bounds. Returns self.
+</div>
+<a name="List-atPut"></a><b>
+atPut(index, anObject)
+</b>
+<p>
+<div class=slotDescription>
+Replaces the existing value at index with anObject.
+	Raises an exception if the index is out of bounds. Returns self.
+</div>
+<a name="List-average"></a><b>
+average
+</b>
+<p>
+<div class=slotDescription>
+Returns the average of the items.
+</div>
+<a name="List-capacity"></a><b>
+capacity
+</b>
+<p>
+<div class=slotDescription>
+Returns the number of potential elements the receiver can hold before it needs to grow.
+</div>
+<a name="List-contains"></a><b>
+contains(anObject)
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the receiver contains anObject, otherwise returns false.
+</div>
+<a name="List-containsAll"></a><b>
+containsAll(list)
+</b>
+<p>
+<div class=slotDescription>
+Returns true the target contains all of the items in the argument list.
+</div>
+<a name="List-containsAny"></a><b>
+containsAny(list)
+</b>
+<p>
+<div class=slotDescription>
+Returns true the target contains any of the items in the argument list.
+</div>
+<a name="List-containsIdenticalTo"></a><b>
+containsIdenticalTo(anObject)
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the receiver contains a value identical to anObject, otherwise returns false.
+</div>
+<a name="List-copy"></a><b>
+copy(v)
+</b>
+<p>
+<div class=slotDescription>
+Replaces self with <tt>v</tt> list items. Returns self.
+</div>
+<a name="List-cursor"></a><b>
+cursor
+</b>
+<p>
+<div class=slotDescription>
+Returns a ListCursor for the receiver.
+</div>
+<a name="List-detect"></a><b>
+detect(optionalIndex, value, message)
+</b>
+<p>
+<div class=slotDescription>
+Returns the first value for which the message evaluates to a non-nil. Example:
+<code>list(1, 2, 3, 4) detect(i, v, v > 2)
+==> 3
+
+list(1, 2, 3, 4) detect(v, v > 2)
+==> 3</code>
+</div>
+<a name="List-difference"></a><b>
+difference(list)
+</b>
+<p>
+<div class=slotDescription>
+Returns a new list containing items from the target list which aren't in the argument list.
+</div>
+<a name="List-empty"></a><b>
+empty
+</b>
+<p>
+<div class=slotDescription>
+Removes all items from the receiver.
+</div>
+<a name="List-first"></a><b>
+first(optionalSize)
+</b>
+<p>
+<div class=slotDescription>
+Returns the first item or Nil if the list is empty.
+	If optionalSize is provided, that number of the first items in the list are returned.
+</div>
+<a name="List-flatten"></a><b>
+flatten
+</b>
+<p>
+<div class=slotDescription>
+Creates a new list, with all contained lists flattened into the new list. For example:
+<code>
+list(1,2,list(3,4,list(5))) flatten
+==> list(1, 2, 3, 4, 5)
+</code>
+</div>
+<a name="List-foreach"></a><b>
+foreach(optionalIndex, value, message)
+</b>
+<p>
+<div class=slotDescription>
+Loops over the list values setting the specified index and
+value slots and executing the message. Returns the result of the last
+execution of the message. Example:
+<p>
+<pre>
+list(1, 2, 3) foreach(i, v, writeln(i, " = ", v))
+list(1, 2, 3) foreach(v, writeln(v))</pre>
+</div>
+<a name="List-fromEncodedList"></a><b>
+fromEncodedList(aSeq)
+</b>
+<p>
+<div class=slotDescription>
+Returns a List with the decoded Nils, Symbols and Numbers from the input raw array. 
+	For each object reference encounters, objectForReferenceId(id) will be called to 
+	allow the reference to be resolved. 
+	
+	Also see: List asEncodedList.
+</div>
+<a name="List-indexOf"></a><b>
+indexOf(anObject)
+</b>
+<p>
+<div class=slotDescription>
+Returns the index of the first occurrence of anObject
+	in the receiver. Returns Nil if the receiver doesn't contain anObject.
+</div>
+<a name="List-insertAfter"></a><b>
+insertAfter(item, afterItem)
+</b>
+<p>
+<div class=slotDescription>
+Inserts item after first occurance of afterItem and returns self. 
+	If afterItem is not found, item is appended to the end of the list.
+</div>
+<a name="List-insertAt"></a><b>
+insertAt(item, index)
+</b>
+<p>
+<div class=slotDescription>
+Inserts item at the specified index. Raises an exception if the index is out of bounds. Returns self.
+</div>
+<a name="List-insertBefore"></a><b>
+insertBefore(item, beforeItem)
+</b>
+<p>
+<div class=slotDescription>
+Inserts item before first occurance of beforeItem or to the end of the list if beforeItem is not found. Returns self.
+</div>
+<a name="List-intersect"></a><b>
+intersect(list)
+</b>
+<p>
+<div class=slotDescription>
+Returns a new list containing the common values from the target and argument lists.
+</div>
+<a name="List-itemCopy"></a><b>
+itemCopy
+</b>
+<p>
+<div class=slotDescription>
+Returns a new list containing the items from the receiver.
+</div>
+<a name="List-join"></a><b>
+join(optionalSeperator)
+</b>
+<p>
+<div class=slotDescription>
+Returns a String with the elements of the receiver concatenated into one String. 
+	If optionalSeperator is provided, it is used to separate the concatenated strings.
+	This operation does not respect string encodings.
+</div>
+<a name="List-join"></a><b>
+join(optionalString)
+</b>
+<p>
+<div class=slotDescription>
+Returns a Sequence of the concatenated items with 
+		optionalString between each item or simply the concatenation of the items if no optionalString is supplied.
+</div>
+<a name="List-justSerialized"></a><b>
+justSerialized(stream)
+</b>
+<p>
+<div class=slotDescription>
+Writes the receiver's code into the stream.
+</div>
+<a name="List-last"></a><b>
+last(optionalSize)
+</b>
+<p>
+<div class=slotDescription>
+Returns the last item or Nil if the list is empty.
+	If optionalSize is provided, that number of the last items in the list are returned.
+</div>
+<a name="List-map"></a><b>
+map(optionalIndex, value, message)
+</b>
+<p>
+<div class=slotDescription>
+Same as calling mapInPlace() on a clone of the receiver, but more efficient.
+</div>
+<a name="List-mapInPlace"></a><b>
+mapInPlace
+</b>
+<p>
+<div class=slotDescription>
+Same as <tt>map</tt>, but result replaces self.
+</div>
+<a name="List-pop"></a><b>
+pop
+</b>
+<p>
+<div class=slotDescription>
+Returns the last item in the list and removes it
+	from the receiver. Returns nil if the receiver is empty.
+</div>
+<a name="List-preallocateToSize"></a><b>
+preallocateToSize(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Preallocates array memory to hold aNumber number of items.
+</div>
+<a name="List-prepend"></a><b>
+prepend(anObject1, anObject2, ...)
+</b>
+<p>
+<div class=slotDescription>
+Inserts the values at the beginning of the list. Returns self.
+</div>
+<a name="List-push"></a><b>
+push(anObject1, anObject2, ...)
+</b>
+<p>
+<div class=slotDescription>
+Same as add(anObject1, anObject2, ...).
+</div>
+<a name="List-reduce"></a><b>
+reduce
+</b>
+<p>
+<div class=slotDescription>
+Also known as foldl or inject. Combines values in target start on the left. reduce(+) or reduce(x, y, x + y).
+</div>
+<a name="List-remove"></a><b>
+remove(anObject, ...)
+</b>
+<p>
+<div class=slotDescription>
+Removes all occurrences of the arguments from the receiver. Returns self.
+</div>
+<a name="List-removeAt"></a><b>
+removeAt(index)
+</b>
+<p>
+<div class=slotDescription>
+Removes the item at the specified index and returns the value removed.
+	Raises an exception if the index is out of bounds.
+</div>
+<a name="List-removeFirst"></a><b>
+removeFirst
+</b>
+<p>
+<div class=slotDescription>
+Returns the first item and removes it from the list. nil is returned if the list is empty.
+</div>
+<a name="List-removeLast"></a><b>
+removeLast
+</b>
+<p>
+<div class=slotDescription>
+Returns the last item and removes it from the list. nil is returned if the list is empty.
+</div>
+<a name="List-removeSeq"></a><b>
+removeSeq
+</b>
+<p>
+<div class=slotDescription>
+Removes each of the items from the current list which are contained in the sequence passed in.
+</div>
+<a name="List-rest"></a><b>
+rest
+</b>
+<p>
+<div class=slotDescription>
+Returns a copy of the list but with the first element removed.
+</div>
+<a name="List-reverse"></a><b>
+reverse
+</b>
+<p>
+<div class=slotDescription>
+Reverses the ordering of all the items of the receiver. Returns copy of receiver.
+</div>
+<a name="List-reverseForeach"></a><b>
+reverseForeach(index, value, message)
+</b>
+<p>
+<div class=slotDescription>
+Same as foreach, but in reverse order.
+</div>
+<a name="List-reverseInPlace"></a><b>
+reverseInPlace
+</b>
+<p>
+<div class=slotDescription>
+Reverses the ordering of all the items in the receiver. Returns self.
+</div>
+<a name="List-reverseReduce"></a><b>
+reverseReduce
+</b>
+<p>
+<div class=slotDescription>
+Also known as foldr and inject. Combines values in target starting on the right. reverseReduce(+) or reverseReduce(x, y, x + y).
+</div>
+<a name="List-second"></a><b>
+second
+</b>
+<p>
+<div class=slotDescription>
+Returns third element (same as <tt>at(2)</tt>)
+</div>
+<a name="List-select"></a><b>
+select(optionalIndex, value, message)",
+</b>
+<p>
+<div class=slotDescription>
+"Like foreach, but the values for which the result of
+message are non-nil are returned in a new List. Example:
+<code>list(1, 5, 7, 2) select(i, v, v > 3) print
+==> 5, 7
+
+list(1, 5, 7, 2) select(v, v > 3) print
+==> 5, 7</code>
+</div>
+<a name="List-selectInPlace"></a><b>
+selectInPlace
+</b>
+<p>
+<div class=slotDescription>
+Same as <tt>select</tt>, but result replaces self.
+</div>
+<a name="List-setSize"></a><b>
+setSize
+</b>
+<p>
+<div class=slotDescription>
+Sets the size of the receiver by either removing excess items or adding nils as needed.
+</div>
+<a name="List-shuffle"></a><b>
+shuffle
+</b>
+<p>
+<div class=slotDescription>
+Randomizes the ordering of all the items of the receiver. Returns copy of receiver.
+</div>
+<a name="List-shuffleInPlace"></a><b>
+shuffleInPlace
+</b>
+<p>
+<div class=slotDescription>
+Randomizes the order of the elements in the receiver. Returns self.
+</div>
+<a name="List-size"></a><b>
+size
+</b>
+<p>
+<div class=slotDescription>
+Returns the number of items in the receiver.
+</div>
+<a name="List-slice"></a><b>
+slice(startIndex, endIndex)
+</b>
+<p>
+<div class=slotDescription>
+Returns a new string containing the subset of the
+	receiver from the startIndex to the endIndex. The endIndex argument
+	is optional. If not given, it is assumed to be the end of the string.
+</div>
+<a name="List-sliceInPlace"></a><b>
+sliceInPlace(startIndex, endIndex)
+</b>
+<p>
+<div class=slotDescription>
+Returns the receiver containing the subset of the
+	receiver from the startIndex to the endIndex. The endIndex argument
+	is optional. If not given, it is assumed to be the end of the string.
+</div>
+<a name="List-sortInPlace"></a><b>
+sortInPlace(optionalExpression)
+</b>
+<p>
+<div class=slotDescription>
+Sorts the list using the compare method on the items. Returns self.
+	If an optionalExpression is provided, the sort is done on the result of the evaluation
+	of the optionalExpression on each value.
+</div>
+<a name="List-sortInPlaceBy"></a><b>
+sortInPlaceBy(aBlock)
+</b>
+<p>
+<div class=slotDescription>
+Sort the list using aBlock as the compare function. Returns self.
+</div>
+<a name="List-sum"></a><b>
+sum
+</b>
+<p>
+<div class=slotDescription>
+Returns the sum of the items.
+</div>
+<a name="List-swapIndices"></a><b>
+swapIndices(index1, index2)
+</b>
+<p>
+<div class=slotDescription>
+Exchanges the object at index1 with the object at index2.
+	Raises an exception if either index is out of bounds. Returns self.
+</div>
+<a name="List-union"></a><b>
+union(list)
+</b>
+<p>
+<div class=slotDescription>
+Returns a new list containing items from the target and items which are only in the argument list.
+</div>
+<a name="List-unique"></a><b>
+unique
+</b>
+<p>
+<div class=slotDescription>
+Returns a new list containing all the values in the target, but no duplicates.
+</div>
+<a name="List-uniqueCount"></a><b>
+uniqueCount
+</b>
+<p>
+<div class=slotDescription>
+Returns a list of list(value, count) for each unique value in self.
+</div>
+<a name="List-with"></a><b>
+with(anObject, ...)
+</b>
+<p>
+<div class=slotDescription>
+Returns a new List containing the arguments.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

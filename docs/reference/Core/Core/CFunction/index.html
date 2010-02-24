@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>CFunction</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>CFunction Proto</h1>
+<br><br><br><br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:45em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>A container for a pointer to a C function binding. 
+CFunction's can only be defined from the C side and act 
+like blocks in that when placed in a slot, are called when the 
+slot is activated. The for, if, while and clone methods of the Lobby 
+are examples of CFunctions. CFunctions are useful for implementing 
+methods that require the speed of C or binding to a C library.
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<a name="CFunction-=="></a><b>
+==(anObject)
+</b>
+<p>
+<div class=slotDescription>
+Returns self if the argument is a CFunction with the same internal C function pointer.
+</div>
+<a name="CFunction-asSimpleString"></a><b>
+asSimpleString
+</b>
+<p>
+<div class=slotDescription>
+Returns the CFunction name.
+</div>
+<a name="CFunction-asString"></a><b>
+asString
+</b>
+<p>
+<div class=slotDescription>
+Same as asSimpleString.
+</div>
+<a name="CFunction-id"></a><b>
+id
+</b>
+<p>
+<div class=slotDescription>
+Returns a number containing a unique id for the receiver's internal C function.
+</div>
+<a name="CFunction-name"></a><b>
+name
+</b>
+<p>
+<div class=slotDescription>
+Returns the CFunction name in the form CFunction_Pointer.")
+</div>
+<a name="CFunction-performOn"></a><b>
+performOn(target, blockLocals, optionalMessage, optionalContext)
+</b>
+<p>
+<div class=slotDescription>
+Activates the CFunctions with the supplied settings.
+</div>
+<a name="CFunction-typeName"></a><b>
+typeName
+</b>
+<p>
+<div class=slotDescription>
+Returns the owning type of the CFunction or nil if the CFunction can be called on any object.
+</div>
+<a name="CFunction-uniqueName"></a><b>
+uniqueName
+</b>
+<p>
+<div class=slotDescription>
+Returns the name given to the CFunction.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
