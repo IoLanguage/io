@@ -1,5 +1,7 @@
 #!/usr/local/bin/io
 
+// This code is a mess...
+
 docsPath := System args at(1)
 addonFolders := Directory with("addons") directories
 addonFolders foreach(folder,
@@ -148,7 +150,11 @@ Section := Object clone do(
 		s := Sequence clone
 		sortedItems foreach(item,
 			class := if(item name == selectedName, "indexItemSelected", "indexItem")
-			s appendSeq("<div class=", class, "><a href=", Path with(path, item name, "index.html"), ">", item name, "</a></div>\n")
+			url := Path with(path, item name, "index.html")
+			if(item items size == 1,
+				url := Path with(path, item name, item items keys first, "index.html")
+			)
+			s appendSeq("<div class=", class, "><a href=", url, ">", item name, "</a></div>\n")
 			s
 		)
 	)
