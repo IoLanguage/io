@@ -11,19 +11,22 @@
 <br>
 <h1>LZODecoder Proto</h1>
 <br><br><br><br><br><br>
-<table border=0 cellspacing=0 style="margin-left:8em; width:45em; line-height:1.2em;">
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
 <tr>
 <td align=right></td>
 <td></td>
-<td>The LZO object can be used to Z compress and uncompress data.
+<td>The LZO object can be used to  uncompress data using the 
+<a href=http://en.wikipedia.org/wiki/Lempel-Ziv-Oberhumer> Lempel-Ziv-Oberhumer (LZO)</a> 
+lossless data compression algorithm.
+<p>
 Example use;
 <pre>	
-bf = LZO clone
-bf beginProcessing
-bf inputBuffer appendSeq("this is a message")
-bf process
-bf endProcess
-bf outputBuffer // this contains the encoded data
+z = LZODecoder clone
+z beginProcessing
+z inputBuffer appendSeq("this is a message")
+z process
+z endProcess
+result := z outputBuffer 
 </pre>
 </td></tr>
 <tr><td colspan=3>&nbsp;</td></tr>

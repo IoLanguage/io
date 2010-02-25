@@ -4,6 +4,15 @@
 /*metadoc SHA1 description
 An object for calculating SHA1 hashes. Each has calculation 
 should instiate it's own SHA1 instance.
+
+<p>
+Example:
+<pre>
+digest := SHA1 clone
+digest appendSeq("this is a message")
+out := digest md5String
+</pre>
+
 */
 //metadoc SHA1 category Digests
 
@@ -94,7 +103,7 @@ IoObject *IoSHA1_sha1(IoSHA1 *self, IoObject *locals, IoMessage *m)
 {
 	/*doc SHA1 sha1
 	Completes the SHA1 calculation and returns the hash as a Buffer.
-	Once this method is called, append() should not be called again on the receiver or it will raise an exception.")
+	Once this method is called, append() should not be called again on the receiver or it will raise an exception.
 	*/
 	
 	return IoSeq_newWithUArray_copy_(IOSTATE, IoSHA1_sha1UArray(self), 0);
@@ -103,7 +112,7 @@ IoObject *IoSHA1_sha1(IoSHA1 *self, IoObject *locals, IoMessage *m)
 IoObject *IoSHA1_sha1String(IoSHA1 *self, IoObject *locals, IoMessage *m)
 {
 	/*doc SHA1 sha1String
-	Returns a string containing a hexadecimal representation of the sha1 hash.")
+	Returns a string containing a hexadecimal representation of the sha1 hash.
 	*/
 	
 	UArray *ba = IoSHA1_sha1UArray(self);

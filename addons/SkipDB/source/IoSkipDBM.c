@@ -2,8 +2,8 @@
 //metadoc SkipDBM license BSD revised
 //metadoc SkipDBM category Databases
 /*metadoc SkipDBM description
-SkipDB is a skip-list based key-value database. SkipDBM manages any number of skipdbs within the same file. The root skipdb can be accessed using the root method.")
-	docObject
+SkipDB is a skip-list based key-value database. SkipDBM manages any number of skipdbs within the same file. 
+The root skipdb can be accessed using the root method.
 */
 
 #include "IoSkipDBM.h"

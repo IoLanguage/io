@@ -11,20 +11,45 @@
 <br>
 <h1>Blowfish Proto</h1>
 <br><br><br><br><br><br>
-<table border=0 cellspacing=0 style="margin-left:8em; width:45em; line-height:1.2em;">
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
 <tr>
 <td align=right></td>
 <td></td>
-<td>The Blowfish object can be used to do encryption and decryption using the blowfish algorithm.
-Example use;
+<td>The Blowfish object can be used to do encryption and decryption using 
+the <a href=http://en.wikipedia.org/wiki/Blowfish_(cipher)>Blowfish</a> keyed, symmetric block cipher.
+<p>
+Example encryption and decription;
+
 <pre>	
-bf = Blowfish clone
-bf setKey("secret")
-bf beginProcessing
-bf inputBuffer appendSeq("this is a message")
-bf process
-bf endProcess
-bf outputBuffer // this contains the encrypted data
+key := "secret"
+data := "this is a message"
+
+encryptedData := Blowfish clone setKey(key) encrypt(data)
+decryptedData := Blowfish clone setKey(key) decrypt(encryptedData)
+</pre>	
+
+Or using the stream API:
+<pre>	
+key := "secret"
+data := "this is a message"
+
+cipher = Blowfish clone
+cipher setIsEncrypting(true)
+cipher setKey(key)
+cipher beginProcessing
+cipher inputBuffer appendSeq(data)
+cipher process
+cipher endProcess
+encryptedData := cipher outputBuffer
+
+cipher = Blowfish clone
+cipher setIsEncrypting(false)
+cipher setKey(key)
+cipher beginProcessing
+cipher inputBuffer appendSeq(encryptedData)
+cipher process
+cipher endProcess
+decryptedData := cipher outputBuffer
 </pre>
 </td></tr>
 <tr><td colspan=3>&nbsp;</td></tr>
@@ -44,12 +69,40 @@ beginProcessing
 <div class=slotDescription>
 Sets the key from the key slot and initializes the cipher.
 </div>
+<a name="Blowfish-decrypt"></a><b>
+decrypt(aSequence)
+</b>
+<p>
+<div class=slotDescription>
+Returns an decrypted version of aSequence.
+</div>
+<a name="Blowfish-encrypt"></a><b>
+encrypt(aSequence)
+</b>
+<p>
+<div class=slotDescription>
+Returns an encrypted version of aSequence.
+</div>
 <a name="Blowfish-endProcessing"></a><b>
 endProcessing
 </b>
 <p>
 <div class=slotDescription>
 Finish processing remaining bytes of inputBuffer.
+</div>
+<a name="Blowfish-inputBuffer"></a><b>
+inputBuffer
+</b>
+<p>
+<div class=slotDescription>
+Returns the input buffer.
+</div>
+<a name="Blowfish-outputBuffer"></a><b>
+outputBuffer
+</b>
+<p>
+<div class=slotDescription>
+Returns the output buffer.
 </div>
 <a name="Blowfish-process"></a><b>
 process

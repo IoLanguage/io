@@ -3,17 +3,46 @@
 //metadoc Blowfish license BSD revised
 //metadoc Blowfish category Encryption
 /*metadoc Blowfish description
-The Blowfish object can be used to do encryption and decryption using the blowfish algorithm.
-Example use;
+The Blowfish object can be used to do encryption and decryption using 
+the <a href=http://en.wikipedia.org/wiki/Blowfish_(cipher)>Blowfish</a> keyed, symmetric block cipher.
+<p>
+Example encryption and decription;
+
 <pre>	
-bf = Blowfish clone
-bf setKey("secret")
-bf beginProcessing
-bf inputBuffer appendSeq("this is a message")
-bf process
-bf endProcess
-bf outputBuffer // this contains the encrypted data
+key := "secret"
+data := "this is a message"
+
+encryptedData := Blowfish clone setKey(key) encrypt(data)
+decryptedData := Blowfish clone setKey(key) decrypt(encryptedData)
 </pre>	
+
+Or using the stream API:
+<pre>	
+key := "secret"
+data := "this is a message"
+
+cipher = Blowfish clone
+cipher setIsEncrypting(true)
+cipher setKey(key)
+cipher beginProcessing
+cipher inputBuffer appendSeq(data)
+cipher process
+cipher endProcess
+encryptedData := cipher outputBuffer
+
+cipher = Blowfish clone
+cipher setIsEncrypting(false)
+cipher setKey(key)
+cipher beginProcessing
+cipher inputBuffer appendSeq(encryptedData)
+cipher process
+cipher endProcess
+decryptedData := cipher outputBuffer
+</pre>	
+
+
+
+
 */
 
 #include "IoBlowfish.h"

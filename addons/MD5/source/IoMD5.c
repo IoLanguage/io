@@ -4,6 +4,13 @@
 //metadoc MD5 category Digests
 /*metadoc MD5 description
 An object for calculating MD5 hashes. Each has calculation should instiate it's own MD5 instance.
+<p>
+Example:
+<pre>
+digest := MD5 clone
+digest appendSeq("this is a message")
+out := digest md5String
+</pre>
 */
 
 #include "IoMD5.h"

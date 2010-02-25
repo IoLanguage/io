@@ -12,7 +12,7 @@ Example:
 
 <pre>
 //...
-</pre>""")
+</pre>
 */
 
 #include "IoSecureSocket.h"

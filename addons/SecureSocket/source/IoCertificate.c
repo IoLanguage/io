@@ -7,7 +7,7 @@ Example:
 
 <pre>
 //...
-</pre>""")
+</pre>
 */
 
 #include "IoCertificate.h"

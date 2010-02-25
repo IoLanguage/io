@@ -299,7 +299,7 @@ Categories sortedItems foreach(cat,
 	outFile writeln("<h1>", protoName asMutable strip, " Proto</h1>")
 	outFile writeln("<br><br><br><br><br><br>")
 
-	outFile writeln("<table border=0 cellspacing=0 style=\"margin-left:8em; width:45em; line-height:1.2em;\">")
+	outFile writeln("<table border=0 cellspacing=0 style=\"margin-left:8em; width:40em; line-height:1.2em;\">")
 	
 	showSection := method(name, value,
 		outFile writeln("<tr>")

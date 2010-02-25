@@ -2,7 +2,7 @@
 //metadoc OggPacket license BSD revised
 //metadoc OggPacket category Audio
 /*metadoc OggPacket description
-A wrapper around the libogg ogg_packet object.
+A wrapper around the libogg ogg_packet object. No methods - used internally.
 */
 
 #include "IoOggPacket.h"

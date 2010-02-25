@@ -3,7 +3,8 @@
 //metadoc LibSndFile license BSD revised
 //metadoc LibSndFile category Audio
 /*metadoc LibSndFile description
-An object for encoding and decoding audio and video streams.
+An object for encoding and decoding audio files (principally WAV and AIFF) using the 
+<a href=http://www.mega-nerd.com/libsndfile/>Libsndfile</a> library.
 */
 
 #include "IoLibSndFile.h"
@@ -94,11 +95,10 @@ IoObject *IoLibSndFile_outputBuffer(IoLibSndFile *self, IoObject *locals, IoMess
 	return DATA(self)->outputBuffer;
 }
 
+/*
 IoObject *IoLibSndFile_stop(IoLibSndFile *self, IoObject *locals, IoMessage *m)
 {
-	/*doc LibSndFile stop
-	Stops processing data.
-	*/
+
 	
 	DATA(self)->isRunning = 0;
 	return self;
@@ -106,17 +106,14 @@ IoObject *IoLibSndFile_stop(IoLibSndFile *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoLibSndFile_isRunning(IoLibSndFile *self, IoObject *locals, IoMessage *m)
 {
-	/*doc LibSndFile isRunning
-	Returns true if it's running, false otherwise.
-	*/
-	
 	return IOBOOL(self, DATA(self)->isRunning);
 }
+*/
 
 IoObject *IoLibSndFile_formatNames(IoLibSndFile *self, IoObject *locals, IoMessage *m)
 {
 	/*doc LibSndFile formatNames
-	Returns a list of strings with the names of the supported codecs.")
+	Returns a list of strings with the names of the supported codecs.
 	*/
 	
 	IoList *names = IoList_new(IOSTATE);
@@ -170,6 +167,18 @@ int IoLibSndFile_IdOfFormat(char *f)
 
 IoObject *IoLibSndFile_openForReading(IoLibSndFile *self, IoObject *locals, IoMessage *m)
 {
+	/*doc LibSndFile openForReading
+	Opens the file at the path specified in the path slot and sets the following slots:
+	<pre>
+	frames
+	sampleRate
+	channels
+	format
+	seekable
+	</pre>
+	Returns self.
+	*/
+	
 	if (!DATA(self)->sndfile)
 	{
 		IoSeq *path = IoObject_symbolGetSlot_(self, IOSYMBOL("path"));
@@ -189,6 +198,16 @@ IoObject *IoLibSndFile_openForReading(IoLibSndFile *self, IoObject *locals, IoMe
 
 IoObject *IoLibSndFile_openForWriting(IoLibSndFile *self, IoObject *locals, IoMessage *m)
 {
+	/*doc LibSndFile openForWriting
+	Opens the file at the path specified in the path slot for writing. The following slots should be set first to specify the output format:
+	<pre>
+	sampleRate
+	channels
+	format
+	</pre>
+	Returns self.
+	*/
+	
 	if (!DATA(self)->sndfile)
 	{
 		IoSeq *path = IoObject_symbolGetSlot_(self, IOSYMBOL("path"));
@@ -208,6 +227,10 @@ IoObject *IoLibSndFile_openForWriting(IoLibSndFile *self, IoObject *locals, IoMe
 
 IoObject *IoLibSndFile_close(IoLibSndFile *self, IoObject *locals, IoMessage *m)
 {
+	/*doc LibSndFile close
+	Closes the file if it is open. 
+	Returns self.
+	*/
 	if (DATA(self)->sndfile)
 	{
 		sf_close(DATA(self)->sndfile);
@@ -219,7 +242,8 @@ IoObject *IoLibSndFile_close(IoLibSndFile *self, IoObject *locals, IoMessage *m)
 IoObject *IoLibSndFile_read(IoLibSndFile *self, IoObject *locals, IoMessage *m)
 {
 	/*doc LibSndFile read(numberOfFrames)
-	Read a given number of frames (sample pairs).")
+	Read a given number of frames (sample pairs).
+	Returns self.
 	*/
 
 	sf_count_t framesToRead = IoMessage_locals_intArgAt_(m, locals, 0);
@@ -251,6 +275,16 @@ IoObject *IoLibSndFile_read(IoLibSndFile *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoLibSndFile_write(IoLibSndFile *self, IoObject *locals, IoMessage *m)
 {
+	/*doc LibSndFile write(aSeq)
+	Writes aSeq using the format specified by the slots:
+	<pre>
+	sampleRate
+	channels
+	format
+	</pre>
+	Returns the number of frames written.
+	*/
+	
 	size_t channels = IoObject_doubleGetSlot_(self, IOSYMBOL("channels"));
 	UArray *inba = IoSeq_rawUArray(IoMessage_locals_seqArgAt_(m, locals, 0));
 	sf_count_t framesToWrite = UArray_size(inba) / (channels * sizeof(float));

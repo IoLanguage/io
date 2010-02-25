@@ -2,16 +2,19 @@
 //metadoc LZOEncoder license BSD revised
 //metadoc LZOEncoder category Compression
 /*metadoc LZOEncoder description
-The LZO object can be used to Z compress and uncompress data.
+The LZOEncoder object can be used to compress  data using the 
+<a href=http://en.wikipedia.org/wiki/Lempel-Ziv-Oberhumer> Lempel-Ziv-Oberhumer (LZO)</a> 
+lossless data compression algorithm.
+<p>
 Example use;
 <pre>	
-bf = LZO clone
-bf beginProcessing
-bf inputBuffer appendSeq("this is a message")
-bf process
-bf endProcess
-bf outputBuffer // this contains the encoded data
-</pre>	
+z = LZOEncoder clone
+z beginProcessing
+z inputBuffer appendSeq("this is a message")
+z process
+z endProcess
+result := z outputBuffer 
+</pre>		
 */
 
 #include "IoLZOEncoder.h"

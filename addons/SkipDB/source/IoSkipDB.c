@@ -2,7 +2,7 @@
 //metadoc SkipDB copyright Steve Dekorte 2002
 //metadoc SkipDB license BSD revised
 /*metadoc SkipDB description
-A key/value database.
+An ordered key/value database implemented using a skiplist data structure.
 */
 //metadoc SkipDB category Databases
 
