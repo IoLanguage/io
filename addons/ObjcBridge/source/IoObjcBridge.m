@@ -1,6 +1,7 @@
-/*   Copyright (c) 2003, Steve Dekorte
-*   All rights reserved. See _BSDLicense.txt.
-*/
+
+//metadoc ObjcBridge copyright 2003, Steve Dekorte
+//metadoc ObjcBridge license Revised BSD
+//metadoc ObjcBridge category Bridges
 
 #include "IoObjcBridge.h"
 #include "List.h"
@@ -85,8 +86,8 @@ IoObjcBridge *IoObjcBridge_proto(void *state)
 			{"debugOn", IoObjcBridge_debugOn},
 			{"debugOff", IoObjcBridge_debugOff},
 			{"newClassWithNameAndProto", IoObjcBridge_newClassNamed_withProto_},
-			{"autoLookupClassNamesOn",IoObjcBridge_autoLookupClassNamesOn},
-			{"autoLookupClassNamesOff",IoObjcBridge_autoLookupClassNamesOff},
+			{"autoLookupClassNamesOn", IoObjcBridge_autoLookupClassNamesOn},
+			{"autoLookupClassNamesOff", IoObjcBridge_autoLookupClassNamesOff},
 			// Extras
 			//{"NSSelectorFromString", IoObjcBridge_NSSelectorFromString},
 			//{"NSStringFromSelector", IoObjcBridge_NSStringFromSelector},
@@ -142,24 +143,28 @@ BOOL IoObjcBridge_rawDebugOn(IoObjcBridge *self)
 
 IoObject *IoObjcBridge_autoLookupClassNamesOn(IoObjcBridge *self, IoObject *locals, IoMessage *m)
 {
+	//doc ObjcBridge2 autoLookupClassNamesOn Adds a forward method to the Lobby to call ObjcBridge classNamed(message name). Returns self.
 	IoState_doCString_(IOSTATE, "Lobby forward := method(m := call message name; v := ObjcBridge classNamed(m); if(v, return v, Exception raise(\"Lookup error, slot '\" .. m ..\"' not found\")))");
 	return self;
 }
 
 IoObject *IoObjcBridge_autoLookupClassNamesOff(IoObjcBridge *self, IoObject *locals, IoMessage *m)
 {
+	//doc ObjcBridge autoLookupClassNamesOn Removes the ObjC forward method from the Lobby. Returns self.
 	IoState_doCString_(IOSTATE, "Lobby removeSlot(\"forward\")");
 	return self;
 }
 
 IoObject *IoObjcBridge_debugOn(IoObjcBridge *self, IoObject *locals, IoMessage *m)
 {
+	//doc ObjcBridge debug On Turns debugging on. Returns self
 	DATA(self)->debug = YES;
 	return self;
 }
 
 IoObject *IoObjcBridge_debugOff(IoObjcBridge *self, IoObject *locals, IoMessage *m)
 {
+	//doc ObjcBridge debug On Turns debugging off. Returns self
 	DATA(self)->debug = NO;
 	return self;
 }
@@ -182,6 +187,7 @@ IoObject *IoObjcBridge_NSStringFromSelector(IoObjcBridge *self, IoObject *locals
 
 IoObject *IoObjcBridge_main(IoObjcBridge *self, IoObject *locals, IoMessage *m)
 {
+	//doc ObjcBridge main Calls NSApplicationMain().
 	int argc = 1;
 	const char *argv[] = {CSTRING(IoState_doCString_(IOSTATE, "System launchPath"))};
 	NSApplicationMain(argc, argv);
@@ -190,6 +196,7 @@ IoObject *IoObjcBridge_main(IoObjcBridge *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoObjcBridge_classNamed(IoObjcBridge *self, IoObject *locals, IoMessage *m)
 {
+	//doc ObjcBridge classNamed(aSeq) Returns a proxy to the ObjC class with the specified name or nil if no match is found.
 	IoSymbol *name = IoMessage_locals_symbolArgAt_(m, locals, 0);
 	id obj = objc_lookUpClass(CSTRING(name));
 

@@ -34,12 +34,47 @@ Example:
 <td>
 <hr align=left color=#ddd height=1>
 <br><br>
+<a name="SecureServer-dispatchUdp"></a><b>
+dispatchUdp
+</b>
+<p>
+<div class=slotDescription>
+Returns dispatchUdp value.
+</div>
+<a name="SecureServer-dtlsWrap"></a><b>
+dtlsWrap
+</b>
+<p>
+<div class=slotDescription>
+Returns dtlsWrap value.
+</div>
 <a name="SecureServer-port"></a><b>
 port
 </b>
 <p>
 <div class=slotDescription>
 Returns the port on which the server will listen for connections.")
+</div>
+<a name="SecureServer-setCAFile"></a><b>
+setCAFile(path)
+</b>
+<p>
+<div class=slotDescription>
+Sets the CA file. Returns self.
+</div>
+<a name="SecureServer-setCRLFile"></a><b>
+setCRLFile(path)
+</b>
+<p>
+<div class=slotDescription>
+Sets the CRL file. Returns self.
+</div>
+<a name="SecureServer-setCertFile"></a><b>
+setCertFile(path)
+</b>
+<p>
+<div class=slotDescription>
+Sets the certificate file. Returns self.
 </div>
 <a name="SecureServer-setHost"></a><b>
 setHost(hostName)
@@ -48,6 +83,13 @@ setHost(hostName)
 <div class=slotDescription>
 Sets the hostName. Returns self.")
 </div>
+<a name="SecureServer-setKeyFile"></a><b>
+setKeyFile(path)
+</b>
+<p>
+<div class=slotDescription>
+Sets the key file. Returns self.
+</div>
 <a name="SecureServer-setPort"></a><b>
 setPort(aNumber)
 </b>
@@ -55,12 +97,54 @@ setPort(aNumber)
 <div class=slotDescription>
 Sets the port on which the server will listen  for connections. Returns self.")
 </div>
+<a name="SecureServer-setRequiresClientCertificate"></a><b>
+setRequiresClientCertificate(aBool)
+</b>
+<p>
+<div class=slotDescription>
+Sets the requires client certificate attribute. Returns self.
+</div>
 <a name="SecureServer-stop"></a><b>
 stop
 </b>
 <p>
 <div class=slotDescription>
 Stops the server if it is running. Returns self.")
+</div>
+<a name="SecureServer-supportsDTLS"></a><b>
+supportsDTLS
+</b>
+<p>
+<div class=slotDescription>
+Returns true if server supports DTLS, false otherwise.
+</div>
+<a name="SecureServer-tlsWrap"></a><b>
+tlsWrap
+</b>
+<p>
+<div class=slotDescription>
+Returns tlsWrap value.
+</div>
+<a name="SecureServer-udpRecvIP"></a><b>
+udpRecvIP
+</b>
+<p>
+<div class=slotDescription>
+Returns udpRecvIP value.
+</div>
+<a name="SecureServer-useDTLS"></a><b>
+useDTLS
+</b>
+<p>
+<div class=slotDescription>
+Returns useDTLS value.
+</div>
+<a name="SecureServer-useTLS"></a><b>
+useTLS
+</b>
+<p>
+<div class=slotDescription>
+Returns useTLS value.
 </div>
 </td>
 </tr>

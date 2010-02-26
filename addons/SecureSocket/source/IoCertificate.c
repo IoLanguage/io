@@ -3,11 +3,7 @@
 //metadoc Certificate category Networking
 /*metadoc Certificate description
 Read-only interface to SSL X509 certificates.
-Example:
 
-<pre>
-//...
-</pre>
 */
 
 #include "IoCertificate.h"
@@ -63,13 +59,21 @@ IoCertificate *IoCertificate_proto(void *state)
 	{
 		IoMethodTable methodTable[] = {
 		{"version", IoCertificate_version},
+		//doc Certificate version Returns the version.
 		{"serialNumber", IoCertificate_serialNumber},
+		//doc Certificate serialNumber Returns the serialNumber.
 		{"notBefore", IoCertificate_notBefore},
+		//doc Certificate notBefore Returns the notBefore value.
 		{"notAfter", IoCertificate_notAfter},
+		//doc Certificate notAfter Returns the notAfter value.
 		{"extensions", IoCertificate_extensions},
+		//doc Certificate extensions Returns the extensions.
 		{"attributes", IoCertificate_attributes},
+		//doc Certificate attributes Returns the attributes.
 		{"issuerName", IoCertificate_issuerName},
+		//doc Certificate issuerName Returns the issuerName.
 		{"subjectName", IoCertificate_subjectName},
+		//doc Certificate subjectName Returns the subjectName.
 		{NULL, NULL}
 		};
 		IoObject_addMethodTable_(self, methodTable);

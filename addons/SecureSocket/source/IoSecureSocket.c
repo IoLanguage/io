@@ -73,44 +73,93 @@ IoSecureSocket *IoSecureSocket_proto(void *state)
 	IoObject_tag_(self, IoSecureSocket_newTag(state));
 	IoObject_setDataPointer_(self, NULL);
 	IoObject_setSlot_to_(self, IOSYMBOL("ValidationOkay"), IONUMBER(X509_V_OK));
+	//doc SecureSocket ValidationOkay Returns ValidationOkay attribute as a number.
 	IoObject_setSlot_to_(self, IOSYMBOL("ValidationFail"), IONUMBER(X509_V_ERR_APPLICATION_VERIFICATION));
-		#ifdef DTLS_IMPLEMENTED
+	//doc SecureSocket ValidationFail Returns ValidationFail attribute as a number.
+	
+	#ifdef DTLS_IMPLEMENTED
 	IoObject_setSlot_to_(self, IOSYMBOL("supportsDTLS"), IOTRUE(self));
-		#else
+	#else
 	IoObject_setSlot_to_(self, IOSYMBOL("supportsDTLS"), IOFALSE(self));
-		#endif
+	#endif
+	//doc SecureSocket supportsDTLS Returns true if server supports DTLS, false otherwise.
+	
 	IoState_registerProtoWithFunc_((IoState *)state, self, IoSecureSocket_proto);
 
 	{
 		IoMethodTable methodTable[] = {
 		{"rawCertificate", IoSecureSocket_rawCertificate},
+		//doc SecureSocket rawCertificate Returns rawCertificate.
+
 		{"rawPeerCertificate", IoSecureSocket_rawPeerCertificate},
+		//doc SecureSocket rawPeerCertificate Returns rawPeerCertificate.
+
 		{"descriptorId", IoSecureSocket_descriptorId},
+		//doc SecureSocket descriptorId Returns descriptorId.
+		
 		{"isConnected", IoSecureSocket_isConnected},
+		//doc SecureSocket isConnected Returns true if socket is connected, false otherwise.
+		
 		{"isOpen", IoSecureSocket_isOpen},
+		//doc SecureSocket isOpen Returns true if socket is open, false otherwise.
+		
 		{"asyncConnectBIO", IoSecureSocket_asyncConnectBIO},
+		//doc SecureSocket asyncConnectBIO Performs asyncConnectBIO.
+
 		{"asyncConnectSSL", IoSecureSocket_asyncConnectSSL},
+		//doc SecureSocket asyncConnectSSL Performs asyncConnectSSL.
+
 		{"rawValidate", IoSecureSocket_rawValidate},
+		//doc SecureSocket rawValidate Performs rawValidate.
+		
 		{"wantsRead", IoSecureSocket_wantsRead},
+		//doc SecureSocket wantsRead Returns wantsRead attribute.
+
 		{"wantsWrite", IoSecureSocket_wantsWrite},
+		//doc SecureSocket IoSecureSocket_wantsWrite Returns IoSecureSocket_wantsWrite attribute.
+
 		{"asyncAccept", IoSecureSocket_asyncAcceptSSL},
+		//doc SecureSocket asyncAccept Accept a connection asynchronously.
+
 		{"asyncStreamRead", IoSecureSocket_asyncStreamRead},
+		//doc SecureSocket asyncStreamRead Read available data and return it.
+
 		{"asyncWrite", IoSecureSocket_asyncWrite},
+		//doc SecureSocket asyncWrite(aSeq) Writes aSeq to the socket. Returns self.
+		
 		{"shutdown", IoSecureSocket_shutdown},
+		//doc SecureSocket shutdown close the socket connection. Returns self.
+
 		{"setSocketReadBufferSize", IoSecureSocket_setSocketReadBufferSize},
+		//doc SecureSocket setSocketReadBufferSize Sets read buffer size. Returns self.
+		
 		{"setSocketWriteBufferSize", IoSecureSocket_setSocketWriteBufferSize},
+		//doc SecureSocket setSocketWriteBufferSize Sets write buffer size. Returns self.
 		
 		{"getSocketReadLowWaterMark", IoSecureSocket_getSocketReadLowWaterMark},
+		//doc SecureSocket getSocketReadLowWaterMark Returns ReadLowWaterMark attribute.
+		
 		{"getSocketWriteLowWaterMark", IoSecureSocket_getSocketWriteLowWaterMark},
+		//doc SecureSocket getSocketWriteLowWaterMark Returns WriteLowWaterMark attribute.
 
 		{"setSocketReadLowWaterMark", IoSecureSocket_setSocketReadLowWaterMark},
+		//doc SecureSocket setSocketReadLowWaterMark Sets read low water mark. Returns self.
+
 		{"setSocketWriteLowWaterMark", IoSecureSocket_setSocketWriteLowWaterMark},
+		//doc SecureSocket setSocketWriteLowWaterMark Sets write low water mark. Returns self.
 		
 		{"isDatagram", IoSecureSocket_isDatagram},
+		//doc SecureSocket isDatagram Returns isDatagram attribute.
 		#ifdef DTLS_IMPLEMENTED
 		{"asyncUdpRead", IoSecureSocket_asyncUdpRead},
+		//doc SecureSocket asyncUdpRead ?
+
 		{"asyncUdpServerRead", IoSecureSocket_asyncUdpServerRead},
+		//doc SecureSocket asyncUdpServerRead ?
+
 		{"rbioReady", IoSecureSocket_rbioReady},
+		//doc SecureSocket rbioReady Returns rbioReady attribute.
+
 		#endif
 		{NULL, NULL}
 		};

@@ -80,12 +80,25 @@ IoSecureClient *IoSecureClient_proto(void *state)
 	{
 		IoMethodTable methodTable[] = {
 		{"setKeyFile", IoSecureClient_setKeyFile},
+		//doc SecureClient setKeyFile(aPath) Sets the key file. Returns self.
+		
 		{"setCertFile", IoSecureClient_setCertFile},
+		//doc SecureClient setCertFile(aPath) Sets the Certificate file. Returns self.
+		
 		{"setCAFile", IoSecureClient_setCAFile},
+		//doc SecureClient setCAFile(aPath) Sets the CA file. Returns self.
+		
 		{"setCRLFile", IoSecureClient_setCRLFile},
+		//doc SecureClient setCRLFile(aPath) Sets the CRL file. Returns self.
+		
 		{"useTLS", IoSecureClient_useTLS},
+		//doc SecureClient useTLS Returns useTLS value.
+		
 		{"useDTLS", IoSecureClient_useDTLS},
+		//doc SecureClient useDTLS Returns useDTLS value.
+		
 		{"connectionToServer", IoSecureClient_connectionToServer},
+		//doc SecureClient connectionToServer Returns connectionToServer.
 		{NULL, NULL}
 		};
 		IoObject_addMethodTable_(self, methodTable);
