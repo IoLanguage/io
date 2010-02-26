@@ -116,7 +116,7 @@ IoSecureSocket *IoSecureSocket_proto(void *state)
 		//doc SecureSocket wantsRead Returns wantsRead attribute.
 
 		{"wantsWrite", IoSecureSocket_wantsWrite},
-		//doc SecureSocket IoSecureSocket_wantsWrite Returns IoSecureSocket_wantsWrite attribute.
+		//doc SecureSocket wantsWrite Returns IoSecureSocket_wantsWrite attribute.
 
 		{"asyncAccept", IoSecureSocket_asyncAcceptSSL},
 		//doc SecureSocket asyncAccept Accept a connection asynchronously.
@@ -131,10 +131,10 @@ IoSecureSocket *IoSecureSocket_proto(void *state)
 		//doc SecureSocket shutdown close the socket connection. Returns self.
 
 		{"setSocketReadBufferSize", IoSecureSocket_setSocketReadBufferSize},
-		//doc SecureSocket setSocketReadBufferSize Sets read buffer size. Returns self.
+		//doc SecureSocket setSocketReadBufferSize(numberOfBytes) Sets read buffer size. Returns self.
 		
 		{"setSocketWriteBufferSize", IoSecureSocket_setSocketWriteBufferSize},
-		//doc SecureSocket setSocketWriteBufferSize Sets write buffer size. Returns self.
+		//doc SecureSocket setSocketWriteBufferSize(numberOfBytes)  Sets write buffer size. Returns self.
 		
 		{"getSocketReadLowWaterMark", IoSecureSocket_getSocketReadLowWaterMark},
 		//doc SecureSocket getSocketReadLowWaterMark Returns ReadLowWaterMark attribute.
@@ -143,10 +143,10 @@ IoSecureSocket *IoSecureSocket_proto(void *state)
 		//doc SecureSocket getSocketWriteLowWaterMark Returns WriteLowWaterMark attribute.
 
 		{"setSocketReadLowWaterMark", IoSecureSocket_setSocketReadLowWaterMark},
-		//doc SecureSocket setSocketReadLowWaterMark Sets read low water mark. Returns self.
+		//doc SecureSocket setSocketReadLowWaterMark(numberOfBytes) Sets read low water mark. Returns self.
 
 		{"setSocketWriteLowWaterMark", IoSecureSocket_setSocketWriteLowWaterMark},
-		//doc SecureSocket setSocketWriteLowWaterMark Sets write low water mark. Returns self.
+		//doc SecureSocket setSocketWriteLowWaterMark(numberOfBytes)  Sets write low water mark. Returns self.
 		
 		{"isDatagram", IoSecureSocket_isDatagram},
 		//doc SecureSocket isDatagram Returns isDatagram attribute.

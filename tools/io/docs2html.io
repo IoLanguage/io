@@ -397,7 +397,7 @@ Categories sortedItems foreach(cat,
 		outFile writeln("</td>")
 		outFile writeln("<td></td>")
 		outFile writeln("<td>")
-		outFile writeln("<hr align=left color=#ddd height=1>")
+		if(slots size > 0, outFile writeln("<hr align=left color=#ddd height=1>"))
 		outFile writeln("<br><br>")
 		//slotNames = slotNames map(asMutable strip asSymbol)
 		

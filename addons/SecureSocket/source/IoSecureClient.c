@@ -6,11 +6,7 @@
 Interface to secure network communication. 
 A SecureClient is a wrapper on an OpenSSL SSL_CTX object
 and supports both TLSv1 and DTLSv1.
-Example:
 
-<pre>
-//...
-</pre>
 */
 
 /*
