@@ -5,6 +5,7 @@ Sequence asCamelized := method(
 )
 
 TwitterRequest := Object clone do(
+	//metadoc TwitterRequest category Networking
 	host ::= "twitter.com"
 	username ::= nil
 	password ::= nil

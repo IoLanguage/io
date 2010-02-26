@@ -1,4 +1,5 @@
 TwitterSearch := Object clone do(
+	//metadoc TwitterSearch category Networking
 	query ::= nil
 	perPage ::= 100
 	sinceUpdateId ::= nil

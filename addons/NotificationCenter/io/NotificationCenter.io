@@ -1,5 +1,6 @@
 
 NotificationListener := Object clone do(
+	//metadoc NotificationListener category Core
 	newSlot("sender")
 	newSlot("name")
 	newSlot("target")

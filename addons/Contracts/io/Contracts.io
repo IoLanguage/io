@@ -4,6 +4,7 @@
 
 /* The following is only needed to facility bundle loading */
 Contracts := Object clone
+//metadoc Contracts category Core
 
 Object do(
 	contract := method(

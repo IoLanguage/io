@@ -1,6 +1,6 @@
 //metadoc CFFIDataType copyright 2006 Trevor Fancher. All rights reserved.
 //metadoc CFFIDataType license BSD revised
-//metadoc CFFIDataType category Binding
+//metadoc CFFIDataType category Bridges
 //metadoc CFFIDataType description An Io interface to C
 
 #include "IoCFFIDataType.h"

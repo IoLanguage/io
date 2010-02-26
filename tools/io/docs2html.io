@@ -126,6 +126,24 @@ categories := Map clone
 modules foreach(moduleName, module,
 	firstProto := nil
 	firstProtoName := module keys sort detect(k, module at(k) at("category"))
+	
+	catNameMap := Map clone
+	module values select(at("category")) foreach(m, 
+		count := catNameMap at(m at("category")) 
+		if(count == nil, count = 0)
+		catNameMap atPut(m at("category"), count + 1)
+	)
+	
+	maxCount := 0
+	catName := nil
+	catNameMap foreach(name, count,
+		if(count > maxCount, catName = name; maxCount = count)
+	)
+	
+	module foreach(k, v, if(v at("category") != catName, module removeAt(k)))
+	
+	
+	/*	
 	if(firstProtoName, firstProto := module at(firstProtoName))
 	if(firstProto,
 		catName := firstProto at("category")
@@ -133,6 +151,8 @@ modules foreach(moduleName, module,
 		writeln("warning: no cat for ", moduleName, " ", module keys)
 		catName := "Other"
 	)
+	*/
+	
 	cat := categories atIfAbsentPut(catName asMutable strip, Map clone)
 	cat atPut(moduleName, module)
 )

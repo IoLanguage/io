@@ -1,6 +1,6 @@
 //metadoc CFFILibrary copyright 2006 Trevor Fancher. All rights reserved.
 //metadoc CFFILibrary license BSD revised
-//metadoc CFFILibrary category Binding
+//metadoc CFFILibrary category Bridges
 //metadoc CFFILibrary description An Io interface to C
 
 #include "IoCFFILibrary.h"

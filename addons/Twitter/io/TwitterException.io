@@ -1,4 +1,5 @@
 TwitterException := Exception clone do(
+	//metadoc TwitterException category Networking
 	isBadRequest ::= false
 	isNotAuthorized ::= false
 	isForbidden ::= false

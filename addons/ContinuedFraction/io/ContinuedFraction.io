@@ -1,4 +1,5 @@
 ContinuedFraction := Object clone do(
+	//metadoc ContinuedFraction category Math
 	init := method(
 		self list := List clone
 		self precisionx := 0

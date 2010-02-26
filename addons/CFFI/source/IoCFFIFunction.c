@@ -1,6 +1,6 @@
 //metadoc CFFIFunction copyright 2006 Trevor Fancher. All rights reserved.
 //metadoc CFFIFunction license BSD revised
-//metadoc CFFIFunction category Binding
+//metadoc CFFIFunction category Bridges
 //metadoc CFFIFunction description An Io interface to C
 
 #include "IoCFFIFunction.h"

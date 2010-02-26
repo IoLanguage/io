@@ -3,6 +3,7 @@
 SGML
 
 GooglePage := Object clone do(
+	//metadoc GooglePage category Networking
     links ::= nil
 	pageNumber ::= 0
 	searchTerm ::= ""
@@ -20,6 +21,7 @@ GooglePage := Object clone do(
 )
 
 GoogleSearch := Object clone do(
+	//metadoc GoogleSearch category Networking
     links ::= nil
 	maxPages ::= 3
 	searchTerm ::= ""

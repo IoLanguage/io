@@ -1,6 +1,6 @@
 
-//metadoc State copyright Steve Dekorte 2002
-//metadoc State license BSD revised
+//--metadoc State copyright Steve Dekorte 2002
+//--metadoc State license BSD revised
 
 #define IOSTATE_C 1
 #include "IoState.h"

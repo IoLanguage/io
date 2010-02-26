@@ -1,4 +1,5 @@
 TwitterAccountProfile := Object clone do(
+	//metadoc TwitterAccountProfile category Networking
 	account ::= nil
 	
 	name ::= nil

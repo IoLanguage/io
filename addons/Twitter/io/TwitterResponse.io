@@ -1,6 +1,7 @@
 Yajl
 
 TwitterResponse := Object clone do(
+	//metadoc TwitterResponse category Networking
 	//api
 	body ::= nil
 	statusCode ::= nil

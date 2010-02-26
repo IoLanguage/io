@@ -1,4 +1,5 @@
 TwitterSearchCursor := Object clone do(
+	//metadoc TwitterSearchCursor category Networking
 	search ::= nil
 	
 	index ::= -1

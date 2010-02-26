@@ -1,6 +1,6 @@
 //metadoc CFFIPointer copyright 2006 Trevor Fancher. All rights reserved.
 //metadoc CFFIPointer license BSD revised
-//metadoc CFFIPointer category Binding
+//metadoc CFFIPointer category Bridges
 //metadoc CFFIPointer description An Io interface to C
 
 // docDependsOn("CFFIDataType")

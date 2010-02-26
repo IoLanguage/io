@@ -1,4 +1,5 @@
 TwitterAccount := Object clone do(
+	//metadoc TwitterAccount category Networking
 	screenName ::= nil
 	password ::= nil
 	
