@@ -1,4 +1,3 @@
-//metadoc BigNum category Math
 
 BigNum repeat := method(
 	bignum := self >> 31

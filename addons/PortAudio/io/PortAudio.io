@@ -16,7 +16,7 @@ AudioDevice do(
 
 AudioMixer := Object clone do(
 	//metadoc AudioMixer module PortAudio
-	//metadoc AudioMixer category Media
+	//metadoc AudioMixer category Audio
 	//metadoc AudioMixer description A minimal audio mixer.
 	init := method(
 		self sources := List clone

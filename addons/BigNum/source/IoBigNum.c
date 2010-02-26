@@ -1,4 +1,8 @@
 #include "IoBigNum.h"
+//metadoc BigNum category Math
+/*metadoc BigNum description A wrapper for <a href=http://gmplib.org/>GNU MP Bignum (arbitrary precision math) library</a>. 
+Warning: GMP uses the restrictive GNU license which can be a problem if you are hard linking it into a distrbuted application.
+*/
 
 #define DATA(self) ((IoBigNumData *)(IoObject_dataPointer(self)))
 
@@ -21,43 +25,110 @@ IoBigNum *IoBigNum_proto(void *state)
 	IoState_registerProtoWithFunc_(state, self, IoBigNum_proto);
 	IoMethodTable methodTable[] = {
 		{"+", IoBigNum_add}
+		//doc BigNum +(aNum) Add op. Returns result.
+		
 		, {"&", IoBigNum_and}
+		//doc BigNum &(aNum)  AND op. Returns result.
+
 		, {"/", IoBigNum_div}
+		//doc BigNum /(aNum) Divide op. Returns result.
+		
 		, {"|", IoBigNum_ior}
+		//doc BigNum |(aNum)  OR op. Returns result.
+
 		, {"%", IoBigNum_mod}
+		//doc BigNum %(aNum) Modulus op (same as mod()). Returns result.
+		
 		, {"*", IoBigNum_mul}
+		//doc BigNum *(aNum) Multiply op. Returns result.
+		
 		, {"-", IoBigNum_sub}
+		//doc BigNum -(aNum) Subtract op. Returns result.
+		
 		, {"^", IoBigNum_xor}
+		//doc BigNum ^(aNum) XOR op. Returns result.
+		
 		, {"**", IoBigNum_pow}
+		//doc BigNum **(aNum) Power op. Returns result.
+
 		, {"<<", IoBigNum_shl}
+		//doc BigNum <<(aNum) Shift left (towards higher bits) op. Returns result.
+		
 		, {">>", IoBigNum_shr}
+		//doc BigNum >>(aNum) Shift right (towards lower bits) op. Returns result.
+		
 		, {"abs", IoBigNum_abs}
+		//doc BigNum abs absolute op. Returns result.
+
 		, {"gcd", IoBigNum_gcd}
+		//doc BigNum gcd(aNum) Greatest common denominator op. Returns result.
+		
 		, {"lcm", IoBigNum_lcm}
+		//doc BigNum lcm(aNum) Least common denominator op. Returns result.
+
 		, {"mod", IoBigNum_mod}
+		//doc BigNum mod(aNum) Modulus op (same as %). Returns result.
+
 		, {"neg", IoBigNum_neg}
+		//doc BigNum neg Returns negative version of receiver.
+		
 		, {"pow", IoBigNum_pow}
+		//doc BigNum pow(aNum) Returns power of receiver to aNum.
+		
 		, {"powm", IoBigNum_powm}
+		//doc BigNum powm(aNum) ?
 		, {"root", IoBigNum_root}
+		//doc BigNum root(aNum) Returns the aNum root of the receiver.
+
 		, {"sqrt", IoBigNum_sqrt}
+		//doc BigNum sqrt Returns square root of the receiver.
+		
 		, {"with", IoBigNum_with}
+		//doc BigNum with(aNumber) Returns a BigNum version of the Io number aNumber.
+
 //    , {"print", IoBigNum_print}
 		, {"scan0", IoBigNum_scan0}
+		//doc BigNum scan0(aNum)  ?
 		, {"scan1", IoBigNum_scan1}
+		//doc BigNum scan1(aNum)  ?
+		
 //    , {"clrbit", IoBigNum_clrbit}
 //    , {"combit", IoBigNum_combit}
+
 		, {"invert", IoBigNum_invert}
+		//doc BigNum invert(aNum)  ?
+		
 		, {"jacobi", IoBigNum_jacobi}
+		//doc BigNum jacobi(aNum)  ?
+		
 //    , {"setbit", IoBigNum_setbit}
 		, {"tstbit", IoBigNum_tstbit}
+		//doc BigNum tstbit(aNum)  ?
+		
 		, {"hamdist", IoBigNum_hamdist}
+		//doc BigNum hamdist(aNum)  Returns hamming distance between receiver and aNum.
+		
 		, {"asNumber", IoBigNum_asNumber}
+		//doc BigNum asNumber Returns an Io Number for the receiving BigNum.
+		
 		, {"asString", IoBigNum_asString}
+		//doc BigNum asString Returns a string representation of the receiver.
+
 		, {"legendre", IoBigNum_legendre}
+		//doc BigNum legendre(aNum) ?
+
 		, {"popcount", IoBigNum_popcount}
+		//doc BigNum popcount ?
+		
 		, {"kronecker", IoBigNum_kronecker}
+		//doc BigNum kronecker ?
+		
 		, {"nextprime", IoBigNum_nextprime}
+		//doc BigNum nextprime Returns next prime larger than the receiver.
+		
 		, {"asSimpleString", IoBigNum_asString}
+		//doc BigNum asSimpleString Returns simple string representation of the receiver.
+		
 		, {NULL, NULL}
 	};
 	IoObject_addMethodTable_(self, methodTable);
