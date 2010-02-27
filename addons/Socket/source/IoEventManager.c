@@ -113,10 +113,18 @@ void IoEventManager_mark(IoEventManager *self)
 	IoObject_shouldMark(DATA(self)->handleEventMessageFalse);
 	//printf("IoEventManager_mark %i events\n", List_size(DATA(self)->activeEvents));
 	//List_do_(DATA(self)->activeEvents, (ListDoCallback *)IoObject_shouldMark);
-	LIST_FOREACH(DATA(self)->activeEvents, i, v, 
-		//printf("	marking event %p\n", (void *)v);
-		IoObject_shouldMark(v);
-	);
+
+	{
+		const List *foreachList = DATA(self)->activeEvents;
+		size_t index, foreachMax = foreachList->size;
+		for (index = 0; index < foreachMax; index ++)
+		{
+			void *value = foreachList->items[index];
+
+			//printf("	marking event %p\n", (void *)value);
+			IoObject_shouldMark(value);
+		}
+	}
 
 	// add code to walk event list and mark context values
 }

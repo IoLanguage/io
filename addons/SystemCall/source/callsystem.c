@@ -566,7 +566,7 @@ callsystem_open(const char * filename,
 			break;
 			case CALLSYSTEM_MODE_CREATE:
 			fd[0] = CALLSYSTEM_ILG_FD;
-			fd[1] = open(filename, O_WRONLY|O_CREAT|O_EXCL);
+			fd[1] = open(filename, O_WRONLY|O_CREAT|O_EXCL, 0774);
 			if(fd[1] == -1)
 				return -1;
 			break;
@@ -578,7 +578,7 @@ callsystem_open(const char * filename,
 			break;
 			case CALLSYSTEM_MODE_OVERWRITE:
 			fd[0] = CALLSYSTEM_ILG_FD;
-			fd[1] = open(filename, O_WRONLY|O_CREAT|O_TRUNC);
+			fd[1] = open(filename, O_WRONLY|O_CREAT|O_TRUNC, 0774);
 			if(fd[1] == -1)
 				return -1;
 			break;

@@ -11,9 +11,9 @@ AddonBuilder := Object clone do(
 		cc := method(System getEnvironmentVariable("CC") ifNilEval(return "cl -nologo"))
 		cxx := method(System getEnvironmentVariable("CXX") ifNilEval(return "cl -nologo"))
 		ccOutFlag := "-Fo"
-		linkdll := "link -link -nologo /NODEFAULTLIB:LIBCMT"
+		linkdll := "link -link -nologo"
 		linkDirPathFlag := "-libpath:"
-		linkLibFlag := "lib"
+		linkLibFlag := ""
 		linkOutFlag := "-out:"
 		linkLibSuffix := ".lib"
 		ar := "link -lib -nologo"
@@ -83,7 +83,7 @@ AddonBuilder := Object clone do(
 			linkOptions := List clone
 			addons := List clone
 		)
-		
+
 		self defines := List clone
 
 		setupPaths
@@ -123,8 +123,16 @@ AddonBuilder := Object clone do(
 	dependsOnHeader := method(v, depends headers appendIfAbsent(v))
 	dependsOnLib := method(v,
 		depends libs contains(v) ifFalse(
-			depends libs append(v)
+			pkgLibs := pkgConfigLibs(v)
+			if(pkgLibs isEmpty,
+				depends libs append(v)
+			,
+				pkgLibs map(l, depends libs appendIfAbsent(l))
+			)
 			searchPrefixes appendIfAbsent(v)
+			pkgConfigCFlags(v) select(containsSeq("/")) foreach(p,
+				appendHeaderSearchPath(p)
+			)
 		)
 	)
 	dependsOnFramework := method(v, depends frameworks appendIfAbsent(v))
@@ -211,6 +219,24 @@ AddonBuilder := Object clone do(
 		result
 	)
 
+	pkgConfig := method(pkg, flags,
+		(platform == "windows") ifTrue(return(""))
+
+		resFile := "_build/_pkg_config" .. (Date now asNumber asHex)
+		statusCode := System system("pkg-config #{pkg} #{flags} --silence-errors > #{resFile}" interpolate)
+		if(statusCode == 0,
+			resFile := File with(resFile) openForReading
+			flags = resFile contents asMutable strip
+			resFile close remove
+
+			return(flags)
+		,
+			return("")
+		)
+	)
+
+	pkgConfigLibs 	:= method(pkg, pkgConfig(pkg, "--libs") splitNoEmpties(linkLibFlag) map(strip))
+	pkgConfigCFlags := method(pkg, pkgConfig(pkg, "--cflags") splitNoEmpties("-I") map(strip))
 	// ------------------------------------
 
 	name := method(folder name)
@@ -318,7 +344,7 @@ AddonBuilder := Object clone do(
 			links appendSeq(depends addons map(v, "-Wl,--rpath -Wl," .. System installPrefix .. "/lib/io/addons/" .. v .. "/_build/dll/"))
 		)
 		links appendSeq(libSearchPaths map(v, linkDirPathFlag .. v))
-		links appendSeq(depends libs map(v, linkLibFlag .. v .. linkLibSuffix))
+		links appendSeq(depends libs map(v, if(v at(0) asCharacter == "-", v, linkLibFlag .. v .. linkLibSuffix)))
 		links appendSeq(list(linkDirPathFlag .. "../../_build/dll", linkLibFlag .. "iovmall" .. linkLibSuffix))
 
 		links appendSeq(depends frameworks map(v, "-framework " .. v))
@@ -359,8 +385,7 @@ AddonBuilder := Object clone do(
 
 	generateInitFile := method(
 		if(platform != "windows" and folder directoryNamed("source") filesWithExtension("m") size != 0, return)
-		initFile := folder fileNamed(initFileName) create
-		initFile remove open
+		initFile := folder fileNamed(initFileName) remove create open
 		initFile write("#include \"IoState.h\"\n")
 		initFile write("#include \"IoObject.h\"\n\n")
 
