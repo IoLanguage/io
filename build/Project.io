@@ -143,8 +143,11 @@ Project := Object clone do(
 		systemCall("cd libs/iovm; ../../_build/binaries/io ../../tools/io/DocsExtractor.io .")
 		addons foreach(generateDocs)
 		//build
-		systemCall("_build/binaries/io tools/io/docs2html.io > docs/IoReference.html")
-		writeln("docs/IoReference.html generated")
+		docsPath := "docs/reference"
+		systemCall("rm -rf " .. Path with(docsPath))
+		systemCall("mkdir " .. docsPath)
+		systemCall("_build/binaries/io tools/io/docs2html.io " .. docsPath)
+		writeln(docsPath .." generated")
 	)
 
 	cleanDocs := method(

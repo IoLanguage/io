@@ -7,11 +7,11 @@
 */
 
 /*metadoc UUID category
-	Encryption
+	Digests
 */
 
 /*metadoc UUID description
-	Generates UUIDs/GUIDs.
+	Generates <a href=http://en.wikipedia.org/wiki/Universally_Unique_Identifier>Universally Unique Identifiers </a> (UUID/GUID).  
 */
 
 #include "IoUUID.h"

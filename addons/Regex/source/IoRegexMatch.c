@@ -1,8 +1,9 @@
-/*
-	Written by Daniel Rosengren
-	danne.rosengren@gmail.com
+//metadoc RegexMatche copyright Daniel Rosengren danne.rosengren@gmail.com
+//metadoc RegexMatche license BSD revised
+//metadoc RegexMatche category Parsers
+/*metadoc RegexMatche description
+	
 */
-
 #include "IoRegexMatch.h"
 #include "IoState.h"
 #include "IoNumber.h"

@@ -1,5 +1,6 @@
 //metadoc ODESimpleSpace copyright Jonathan Wright, 2006
 //metadoc ODESimpleSpace license BSD revised
+//metadoc ODESimpleSpace category Physics
 /*metadoc ODESimpleSpace description
 ODESimpleSpace binding
 */

@@ -1,6 +1,6 @@
 //metadoc TheoraComment copyright Chris Double, 2004
 //metadoc TheoraComment license BSD revised
-//metadoc TheoraComment category Multimedia
+//metadoc TheoraComment category Video
 /*metadoc TheoraComment description
 A wrapper around the libtheora th_comment object.
 */

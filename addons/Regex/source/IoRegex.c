@@ -1,6 +1,9 @@
-/*
-	Written by Daniel Rosengren
-	danne.rosengren@gmail.com
+
+//metadoc Regex copyright Daniel Rosengren danne.rosengren@gmail.com
+//metadoc Regex license BSD revised
+//metadoc Regex category Parsers
+/*metadoc Regex description
+	Binding for regular expressions.
 */
 
 #include "IoRegex.h"

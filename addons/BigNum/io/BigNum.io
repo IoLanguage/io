@@ -1,3 +1,4 @@
+
 BigNum repeat := method(
 	bignum := self >> 31
 	remainder := (self % 2 ** 31) asNumber

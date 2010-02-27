@@ -1,6 +1,6 @@
 //metadoc TheoraSetupInfo copyright Chris Double, 2004
 //metadoc TheoraSetupInfo license BSD revised
-//metadoc TheoraSetupInfo category Multimedia
+//metadoc TheoraSetupInfo category Video
 /*metadoc TheoraSetupInfo description
 A wrapper around the libtheora th_setup_info object.
 */

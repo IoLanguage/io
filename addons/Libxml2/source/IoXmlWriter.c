@@ -1,3 +1,5 @@
+//metadoc XmlWriter category Parsers
+
 #include <stdio.h>		//fileno
 
 #include "IoXmlWriter.h"

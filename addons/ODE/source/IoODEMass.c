@@ -1,6 +1,7 @@
 
 //metadoc ODEMass copyright Jonathan Wright, 2006
 //metadoc ODEMass license BSD revised
+//metadoc ODEMass category Physics
 /*metadoc ODEMass description
 ODEMass binding
 */

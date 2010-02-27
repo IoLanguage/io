@@ -1,6 +1,6 @@
 //metadoc VorbisDspState copyright Chris Double, 2004
 //metadoc VorbisDspState license BSD revised
-//metadoc VorbisDspState category Multimedia
+//metadoc VorbisDspState category Video
 /*metadoc VorbisDspState description
 A wrapper around the libvorbis vorbis_comment object.
 */

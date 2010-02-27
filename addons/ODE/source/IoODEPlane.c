@@ -1,5 +1,6 @@
 //metadoc ODEPlane copyrigth Jonathan Wright, 2006
 //metadoc ODEPlane license BSD revised
+//metadoc ODEPlane category Physics
 /*metadoc ODEPlane description
 ODEPlane binding
 */

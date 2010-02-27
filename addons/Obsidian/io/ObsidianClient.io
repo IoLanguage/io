@@ -1,3 +1,4 @@
+//metadoc ObsidianClient category Databases
 
 ObsidianClient := Object clone
 

@@ -1,6 +1,7 @@
 
 //metadoc Box copyright Steve Dekorte 2002
 //metadoc Box license BSD revised
+//metadoc Box category Graphics
 
 #include "IoBox_gl.h"
 #include "IoState.h"

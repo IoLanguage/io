@@ -2,18 +2,21 @@
 //metadoc ZlibEncoder license BSD revised
 //metadoc ZlibEncoder category Compression
 /*metadoc ZlibEncoder description
-For Zlib compression.
+For <a href=http://en.wikipedia.org/wiki/Zlib>Zlib</a> compression.
 Example use:
 <p>
 <pre>	
-bf = ZlibEncoder clone
-bf beginProcessing
-bf inputBuffer appendSeq("this is a message")
-bf process
-bf endProcess
-bf outputBuffer // this contains the result data
+z = ZlibEncoder clone
+z beginProcessing
+z inputBuffer appendSeq("this is a message")
+z process
+z endProcess
+result := z outputBuffer
 </pre>	
 */
+
+//doc ZlibEncoder inputBuffer The input buffer for decoding.
+//doc ZlibEncoder outputBuffer The output buffer for decoding.
 
 #include "IoZlibEncoder.h"
 #include "IoState.h"

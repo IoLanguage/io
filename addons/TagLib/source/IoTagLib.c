@@ -1,22 +1,44 @@
-/*metadoc TagLib copyright
-	Steve Dekorte, 2004
-*/
-
-/*metadoc TagLib license
-	BSD revised
-*/
-
-/*metadoc TagLib category
-	Media
-*/
-
+//metadoc TagLib copyright Steve Dekorte, 2004
+//metadoc TagLib license BSD revised
+//metadoc TagLib category Audio
 /*metadoc TagLib description
-	Used to set tags on ape, flac, mp3, mpc, mpeg, and ogg files. 
-	The title, artist, album, year, track, genre slots can be written, 
-	and those plus the bitRate, sampleRate, channels and length slots 
-	can be read. To read, set the path slot and call the load method. 
-	To write, set the path and other slots and call the save method.
+Used to set meta data tags on the following audio formats:
+<pre>
+ape
+flac
+mp3
+mpc
+mpeg
+ogg
+</pre>
+Supports reading and writing the following attributes:
+<pre>title
+artist
+album
+year
+track
+genre 
+</pre>
+And reading the attributes:
+<pre>
+bitRate
+sampleRate
+channels
+length
+</pre>
+
+Example use (load and modify a track genre):
+
+<pre>
+t := TagLib clone setPath("foo.mp3") load
+writeln("genre = ", t genre)
+t setGenre("ambient")
+t save
+</pre>
 */
+
+//doc TagLib setPath(aSeq) Sets the path to the file.
+//doc TagLib path Returns the path to the file.
 
 #include "IoTagLib.h"
 #include "IoState.h"

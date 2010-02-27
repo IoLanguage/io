@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Block</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Block Proto</h1>
+<br><br><br><br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>Blocks are anonymous functions (messages with their own locals object). 
+They are typically used to represent object methods.
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="Block-Formatter"></a><b>
+Formatter
+</b>
+<p>
+<div class=slotDescription>
+Helper object for the <tt>asString</tt> method.
+</div>
+<a name="Block-argumentNames"></a><b>
+argumentNames
+</b>
+<p>
+<div class=slotDescription>
+Returns a List of strings containing the argument names of the receiver.
+</div>
+<a name="Block-asSimpleString"></a><b>
+asSimpleString
+</b>
+<p>
+<div class=slotDescription>
+Returns a short description of the receiver.
+</div>
+<a name="Block-asString"></a><b>
+asString
+</b>
+<p>
+<div class=slotDescription>
+Returns a full description of the receiver with decompiled code.
+</div>
+<a name="Block-call"></a><b>
+call(arg0, arg1, ...)
+</b>
+<p>
+<div class=slotDescription>
+Activates the receiver with the provided arguments.
+</div>
+<a name="Block-code"></a><b>
+code
+</b>
+<p>
+<div class=slotDescription>
+Returns a string containing the decompiled code of the receiver.
+</div>
+<a name="Block-justSerialized"></a><b>
+justSerialized(stream)
+</b>
+<p>
+<div class=slotDescription>
+Writes the receiver's code into the stream.
+</div>
+<a name="Block-message"></a><b>
+message
+</b>
+<p>
+<div class=slotDescription>
+Returns the root message of the receiver.
+</div>
+<a name="Block-passStops"></a><b>
+passStops
+</b>
+<p>
+<div class=slotDescription>
+Returns whether or not the receiver passes return/continue/break to caller.
+</div>
+<a name="Block-performOn"></a><b>
+performOn(anObject, optionalLocals, optionalMessage, optionalSlotContext)
+</b>
+<p>
+<div class=slotDescription>
+Activates the receiver in the target context of anObject.
+	Returns the result.
+</div>
+<a name="Block-print"></a><b>
+print
+</b>
+<p>
+<div class=slotDescription>
+prints an Io source code representation of the block/method
+</div>
+<a name="Block-println"></a><b>
+println
+</b>
+<p>
+<div class=slotDescription>
+Same as <tt>print</tt>.
+</div>
+<a name="Block-profilerTime"></a><b>
+profilerTime
+</b>
+<p>
+<div class=slotDescription>
+Returns clock() time spent in compiler in seconds.
+</div>
+<a name="Block-scope"></a><b>
+scope
+</b>
+<p>
+<div class=slotDescription>
+Returns the scope used when the block is activated or
+	Nil if the target of the message is the scope.
+</div>
+<a name="Block-setArgumentNames"></a><b>
+setArgumentNames(aListOfStrings)
+</b>
+<p>
+<div class=slotDescription>
+Sets the receiver's argument names to those specified in
+	aListOfStrings. Returns self.
+</div>
+<a name="Block-setCode"></a><b>
+setCode(aString)
+</b>
+<p>
+<div class=slotDescription>
+Set's the reciever's message to a compiled version of aString. Returns self
+</div>
+<a name="Block-setMessage"></a><b>
+setMessage(aMessage)
+</b>
+<p>
+<div class=slotDescription>
+Sets the root message of the receiver to aMessage.
+</div>
+<a name="Block-setPassStops"></a><b>
+setPassStops(aBool)
+</b>
+<p>
+<div class=slotDescription>
+Sets whether the receiver passes return/continue/break to caller.
+</div>
+<a name="Block-setProfilerOn"></a><b>
+setProfilerOn(aBool)
+</b>
+<p>
+<div class=slotDescription>
+If aBool is true, the global block profiler is enabled, if false it is disabled. Returns self.
+</div>
+<a name="Block-setScope"></a><b>
+setScope(anObjectOrNil)
+</b>
+<p>
+<div class=slotDescription>
+If argument is an object, when the block is activated,
+	it will set the proto and self slots of it's locals to the specified
+	object. If Nil, it will set them to the target of the message.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

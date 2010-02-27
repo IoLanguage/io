@@ -2,17 +2,21 @@
 //metadoc ZlibDecoder license BSD revised
 //metadoc ZlibDecoder category Compression
 /*metadoc ZlibDecoder description
-For Zlib uncompression.
+For <a href=http://en.wikipedia.org/wiki/Zlib>Zlib</a> uncompression.
 Example use;
 <pre>	
-bf = ZlibDecoder clone
-bf beginProcessing
-bf inputBuffer appendSeq(inputData)
-bf process
-bf endProcess
-bf outputBuffer // this contains the output data
+z = ZlibDecoder clone
+z beginProcessing
+z inputBuffer appendSeq(inputData)
+z process
+z endProcess
+result := z outputBuffer 
 </pre>	
 */
+
+//doc ZlibDecoder inputBuffer The input buffer for decoding.
+//doc ZlibDecoder outputBuffer The output buffer for decoding.
+
 
 #include "IoZlibDecoder.h"
 #include "IoState.h"

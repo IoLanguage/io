@@ -1,6 +1,6 @@
-
 //metadoc ODEContact copyright Jonathan Wright, 2006
 //metadoc ODEContact license BSD revised
+//metadoc ODEContact category Physics
 /*metadoc ODEContact description
 ODEContact binding
 */

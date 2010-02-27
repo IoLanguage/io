@@ -1,9 +1,11 @@
 
 //metadoc SampleRateConverter copyright Steve Dekorte, 2004
 //metadoc SampleRateConverter license BSD revised
-//metadoc SampleRateConverter category Media
+//metadoc SampleRateConverter category Audio
 /*metadoc SampleRateConverter description
-	A binding for lib sample rate.
+	A binding for <a href="http://www.mega-nerd.com/SRC/">libsamplerate</a> 
+	useful for up or downconverting the sample rate of a raw audio stream.
+	Streams are assumed to be in 32bit float interleaved stereo. 
 */
 
 #include "IoSampleRateConverter.h"
@@ -42,7 +44,7 @@ IoSampleRateConverter *IoSampleRateConverter_proto(void *state)
 		{"process", IoSampleRateConverter_process},
 		{"stop",  IoSampleRateConverter_stop},
 		{"setOutputToInputRatio",  IoSampleRateConverter_setOutputToInputRatio},
-		{"setEndOFInput",  IoSampleRateConverter_setEndOFInput},
+		{"setEndOfInput",  IoSampleRateConverter_setEndOfInput},
 		{"inputBuffer",  IoSampleRateConverter_inputBuffer},
 		{"outputBuffer",  IoSampleRateConverter_outputBuffer},
 		{"outputToInputRatio",  IoSampleRateConverter_outputToInputRatio},
@@ -143,7 +145,11 @@ IoObject *IoSampleRateConverter_process(IoSampleRateConverter *self, IoObject *l
 
 IoObject *IoSampleRateConverter_process(IoSampleRateConverter *self, IoObject *locals, IoMessage *m)
 {
-	 //
+	/*doc SampleRateConverter process
+	Process the input buffer to perform the conversion. 
+	Returns self.
+	*/
+	
 	 SRC_DATA *srcData = IoSampleRateConverter_srcData(self);
 
 	 UArray *inba  = IoSeq_rawUArray(DATA(self)->inputBuffer);
@@ -170,6 +176,11 @@ IoObject *IoSampleRateConverter_process(IoSampleRateConverter *self, IoObject *l
 
 IoObject *IoSampleRateConverter_start(IoSampleRateConverter *self, IoObject *locals, IoMessage *m)
 {
+	/*doc SampleRateConverter start
+	Prepare to process the inputBuffer. 
+	Returns self.
+	*/
+	
 	SRC_DATA *srcData = IoSampleRateConverter_srcData(self);
 
 	if (!srcData)
@@ -186,6 +197,11 @@ IoObject *IoSampleRateConverter_start(IoSampleRateConverter *self, IoObject *loc
 
 IoObject *IoSampleRateConverter_stop(IoSampleRateConverter *self, IoObject *locals, IoMessage *m)
 {
+	/*doc SampleRateConverter start
+	Stops processing.
+	Returns self.
+	*/
+	
 	IoSampleRateConverter_freeSampleRateStateIfNeeded(self);
 
 	return self;
@@ -193,6 +209,11 @@ IoObject *IoSampleRateConverter_stop(IoSampleRateConverter *self, IoObject *loca
 
 IoObject *IoSampleRateConverter_setOutputToInputRatio(IoSampleRateConverter *self, IoObject *locals, IoMessage *m)
 {
+	/*doc SampleRateConverter setOutputToInputRatio(aNumber)
+	Sets the output to input ration for the conversion.
+	Returns self.
+	*/
+	
 	SRC_DATA *srcData = IoSampleRateConverter_srcData(self);
 	IoNumber *r = IoMessage_locals_numberArgAt_(m, locals, 0);
 	srcData->src_ratio = CNUMBER(r);
@@ -201,12 +222,21 @@ IoObject *IoSampleRateConverter_setOutputToInputRatio(IoSampleRateConverter *sel
 
 IoObject *IoSampleRateConverter_outputToInputRatio(IoSampleRateConverter *self, IoObject *locals, IoMessage *m)
 {
+	/*doc SampleRateConverter setOutputToInputRatio(aNumber)
+	Returns the output to input ration for the conversion.
+	*/
+	
 	SRC_DATA *srcData = IoSampleRateConverter_srcData(self);
 	return IONUMBER(srcData->src_ratio);
 }
 
-IoObject *IoSampleRateConverter_setEndOFInput(IoSampleRateConverter *self, IoObject *locals, IoMessage *m)
+IoObject *IoSampleRateConverter_setEndOfInput(IoSampleRateConverter *self, IoObject *locals, IoMessage *m)
 {
+	/*doc SampleRateConverter setEndOFInput(aBool)
+	Sets the end of input flag.
+	Returns self.
+	*/
+	
 	SRC_DATA *srcData = IoSampleRateConverter_srcData(self);
 	IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 0);
 	srcData->end_of_input = ISTRUE(v) ? 1 : 0;
@@ -215,10 +245,18 @@ IoObject *IoSampleRateConverter_setEndOFInput(IoSampleRateConverter *self, IoObj
 
 IoObject *IoSampleRateConverter_inputBuffer(IoSampleRateConverter *self, IoObject *locals, IoMessage *m)
 {
+	/*doc SampleRateConverter inputBuffer
+	Returns the input buffer.
+	*/
+	
 	return DATA(self)->inputBuffer;
 }
 
 IoObject *IoSampleRateConverter_outputBuffer(IoSampleRateConverter *self, IoObject *locals, IoMessage *m)
 {
+	/*doc SampleRateConverter outputBuffer
+	Returns the output buffer.
+	*/
+	
 	return DATA(self)->outputBuffer;
 }

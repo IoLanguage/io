@@ -1,6 +1,7 @@
 
 //metadoc ODEJoint copyrigth Jonathan Wright, 2006
 //metadoc ODEJoint license BSD revised
+//metadoc ODEJoint category Physics
 /*metadoc ODEJoint description
 ODEJoint binding
 */

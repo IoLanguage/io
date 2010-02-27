@@ -5,12 +5,23 @@ Sequence asCamelized := method(
 )
 
 TwitterRequest := Object clone do(
+	//metadoc TwitterRequest category Networking
+	//metadoc TwitterRequest description Represents a Twitter API request and contains it's results.
+	
 	host ::= "twitter.com"
+	//doc TwitterRequest host "twitter.com"
+
 	username ::= nil
+	//doc TwitterRequest username Returns the username attribute.
+
 	password ::= nil
+	//doc TwitterRequest password Returns the password attribute.
 	
 	httpMethod ::= "get"
+	//doc TwitterRequest httpMethod "get"
+	
 	path ::= nil
+	//doc TwitterRequest path Request path.
 	
 	queryParamNames ::= nil
 	postParamNames ::= nil
@@ -18,6 +29,7 @@ TwitterRequest := Object clone do(
 	fileParamName ::= nil
 	
 	delegate ::= nil
+	//doc TwitterRequest delegate Delegate for request callbacks.
 	
 	init := method(
 		setQueryParamNames(List clone)
@@ -26,10 +38,12 @@ TwitterRequest := Object clone do(
 	)
 	
 	response ::= nil
+	//doc TwitterRequest response This slot holds a TwitterResponse object for this request.
 	
 	//public
 	
 	execute := method(
+		//doc TwitterRequest execute Sends the request. Returns the response object.
 		queryParams := Map clone
 		queryParamNames foreach(name,
 			if(v := self perform(name asCamelized asSymbol),

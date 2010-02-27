@@ -1,6 +1,6 @@
 //metadoc AppleSensors copyright Steve Dekorte, 2004
 //metadoc AppleSensors license BSD revised
-//metadoc AppleSensors category Other
+//metadoc AppleSensors category Apple
 /*metadoc AppleSensors description
 A singleton which on Apple computers can:
 <ul>

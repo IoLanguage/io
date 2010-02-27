@@ -1,15 +1,6 @@
-/*metadoc SoundTouch copyright
-	Steve Dekorte, 2004
-*/
-
-/*metadoc SoundTouch license
-	BSD revised
-*/
-
-/*metadoc SoundTouch category
-	Media
-*/
-
+//metadoc SoundTouch copyright Steve Dekorte, 2004
+//metadoc SoundTouch license BSD revised
+//metadoc SoundTouch category Audio
 /*metadoc SoundTouch description
 	Used to change the tempo and/or pitch of an audio stream. 
 	Input and output are in 32 bit floats in 2 channels at a rate 

@@ -1,14 +1,24 @@
 Yajl
 
 TwitterResponse := Object clone do(
-	//api
+	//metadoc TwitterResponse category Networking
 	body ::= nil
+	//doc TwitterResponse body Returns request body.
+	
 	statusCode ::= nil
+	//doc TwitterResponse body Returns status code.
+
 	request ::= nil
+	//doc TwitterResponse body Returns request to which this is the response.
+
 	rateLimitRemaining ::= nil
+	//doc TwitterResponse rateLimit Remaining Returns the rate limit remaining.
+	
 	rateLimitExpiration ::= nil
+	//doc TwitterResponse rateLimitExpiration Remaining Returns the rate limit expiration.
 
 	results ::= method(
+		//doc TwitterResponse rateLimitExpiration Remaining Returns response results.
 		setResults(Yajl parseJson(body))
 		results
 	)

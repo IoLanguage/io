@@ -1,5 +1,5 @@
-//metadoc Range category DataStructures
-//metadoc Range category Jeremy Tregunna, 2006
+//metadoc Range category Core
+//metadoc Range copyright Jeremy Tregunna, 2006
 //metadoc Range license BSD
 //metadoc Range description Simple datastructure representing the items at and between two specific points.
 

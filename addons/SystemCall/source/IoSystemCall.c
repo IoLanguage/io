@@ -1,12 +1,7 @@
-/*
-copyright: Steve Dekorte, 2004. All rights reserved.
-license: See _BSDLicense.txt.
-
-object: SystemCall
-prototype: Object
-
-module: IoServer
-description:  A binding for "callsystem - system() on steorids"
+//metadoc SystemCall license BSD revised
+//metadoc SystemCall category Server
+/*metadoc SystemCall description
+A binding for "callsystem - system() on steorids"
 
 <UL>
 <LI> asynchonous running of a child process
@@ -21,6 +16,7 @@ Example use;
 sc = SystemCall clone
 </pre>	
 */
+
 
 #include "IoSystemCall.h"
 #include "IoState.h"

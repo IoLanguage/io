@@ -5,7 +5,7 @@
 	For native threads.
 Example use;
 <pre>	
-Thread createThread()
+Thread createThread("1+1") // evals 1+1 in a new thread and an independent Io VM
 </pre>
 */
 
@@ -133,6 +133,11 @@ void *IoThread_BeginThread(void *vti)
 
 IoObject *IoThread_createThread(IoObject *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Thread createThread(aSequence)
+	Creates a new IoState and evals aSequence in it using a new OS thread. Returns self immediately.
+	*/
+	
+	
 	IoSeq *s = IoMessage_locals_seqArgAt_(m, locals, 0);
 	IoState *newState = IoState_new();
 	Thread *t;
@@ -155,6 +160,10 @@ IoObject *IoThread_createThread(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoThread_threadCount(IoObject *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Thread threadCount
+	Returns the number of OS threads currently running in the process.
+	*/
+	
 	Thread_Init();
 	List *threads;
 	size_t count;
@@ -168,6 +177,10 @@ IoObject *IoThread_threadCount(IoObject *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoThread_endCurrentThread(IoObject *self, IoObject *locals, IoMessage *m)
 {
+	/*doc Thread endCurrentThread
+	Ends the currently running OS thread.
+	*/
+	
 	// shutdown vm?
 	Thread_destroy(Thread_CurrentThread());
 	return self;

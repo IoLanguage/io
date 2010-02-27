@@ -65,7 +65,7 @@ DocsExtractor := Object clone do(
 			folder directoryNamed("source") files select(file,
 				file name beginsWithSeq("Io") and(
 				file name containsSeq("Init") not) and(
-				file name pathExtension == "c")
+				file name pathExtension == "c" or file name pathExtension == "m")
 			)
 		,
 			list()

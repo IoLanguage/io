@@ -1,6 +1,6 @@
 //metadoc EditLine copyright Jonathan Wright, 2007
 //metadoc EditLine license BSD revised
-//metadoc EditLine category Core
+//metadoc EditLine category Server
 /*metadoc EditLine description
 Binding to libedit (BSD version of readline).
 */

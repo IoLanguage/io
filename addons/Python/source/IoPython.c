@@ -4,7 +4,7 @@
 This object provides access the world of python.
 */
 //metadoc Python credit Based on code by Steve Dekorte
-//metadoc Python category Server
+//metadoc Python category Bridges
 
 #include "IoPython.h"
 #include "IoState.h"

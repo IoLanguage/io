@@ -7,7 +7,7 @@ The fnmatch add on adds support for the unix fnmatch function.
 Note: not all options are supported on all platforms.
 */
 
-//metadoc Fnmatch category RegularExpressions
+//metadoc Fnmatch category Parsers
 
 #include "IoFnmatch.h"
 #include "IoState.h"

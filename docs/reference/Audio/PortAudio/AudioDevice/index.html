@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>AudioDevice</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>AudioDevice Proto</h1>
+<br><br><br><br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>The AudioDevice object can used to write audio data as if directly to the audio buffer.
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="AudioDevice-asyncRead"></a><b>
+asyncRead
+</b>
+<p>
+<div class=slotDescription>
+Returns the audio read buffer.
+</div>
+<a name="AudioDevice-asyncWrite"></a><b>
+asyncWrite(aBuffer)
+</b>
+<p>
+<div class=slotDescription>
+Writes aBuffer to the audio output buffer and returns immediately.
+</div>
+<a name="AudioDevice-close"></a><b>
+close
+</b>
+<p>
+<div class=slotDescription>
+Close the audio stream.
+</div>
+<a name="AudioDevice-error"></a><b>
+error
+</b>
+<p>
+<div class=slotDescription>
+Returns an error string if an error has occured, Nil otherwise.
+</div>
+<a name="AudioDevice-isActive"></a><b>
+isActive
+</b>
+<p>
+<div class=slotDescription>
+Returns self if the receiver is active, Nil otherwise.
+</div>
+<a name="AudioDevice-needsData"></a><b>
+needsData
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the receiver can read more data.
+</div>
+<a name="AudioDevice-open"></a><b>
+open
+</b>
+<p>
+<div class=slotDescription>
+Open an audio output stream.
+</div>
+<a name="AudioDevice-openForReadingAndWriting"></a><b>
+openForReadingAndWriting
+</b>
+<p>
+<div class=slotDescription>
+Open audio output and input streams.
+</div>
+<a name="AudioDevice-streamTime"></a><b>
+streamTime
+</b>
+<p>
+<div class=slotDescription>
+Returns the audio stream time as a number.
+</div>
+<a name="AudioDevice-write"></a><b>
+write(aSeq)
+</b>
+<p>
+<div class=slotDescription>
+Writes aSeq to the inputBuffer and yields until the 
+	receiver is ready for more input data. Returns self.
+</div>
+<a name="AudioDevice-writeBufferIsEmpty"></a><b>
+writeBufferIsEmpty
+</b>
+<p>
+<div class=slotDescription>
+Returns the true if the audio buffer is empty, false otherwise.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

@@ -8,14 +8,16 @@
 </head>
 <body>
 
-<h1>The Io Tutorial</h1>
+<h1>Io Tutorial</h1>
 <p>
 <br>
 
-<table style="width:47em">
-<tr>
-<td valign=top style="width:33%">
-
+<!--
+<center>
+	<table style="width:100%">
+	<tr>
+	<td valign=top style="width:33%">
+		<ul>
 <div class=indexSection><a href="#Introduction">Introduction</a></div>
 <div class=indexItem><a href="#Introduction-Math">Math</a></div>
 <div class=indexItem><a href="#Introduction-Variables">Variables</a></div>
@@ -24,20 +26,33 @@
 <div class=indexItem><a href="#Introduction-Loops">Loops</a></div>
 <div class=indexItem><a href="#Introduction-Strings">Strings</a></div>
 <div class=indexItem><a href="#Introduction-Further-Reading">Further Reading</a></div>
-
+</ul>
 </td>
 </tr>
 </table>
+</center>
 
-<p>
+-->
 
-<h2>Introduction <a name="Introduction"></a></h2>
-<div class=indent>
-	
-<div class=quote>
-	Begin at the beginning and go on till you come to the end: then stop.<br>
-	- the King, Alice in Wonderland
-</div>
+<table cellpadding=0 cellspacing=0 border=0 style="width:35em; border-style:solid; border-width:0px; border-color:#000; padding-right:120px;">
+
+<!--
+	<tr>
+				<td width=1% align=right>
+					<h2>Introduction<a name="Introduction"></a></h2>
+				</td>
+				<td>
+					&nbsp;&nbsp;&nbsp;&nbsp;
+				</td>
+				<td>
+
+
+	<div class=indent>
+
+	</tr><tr><td colspan=3 class=sectionDivider></td></tr>
+	<tr><td align=right><a name="Introduction-Overview"></a><h3>Overview</h3>
+	</td><td></td><td>
+		
 
 This is a quick overview of Io intended for folks that already know how to program.<p>
 After compiling Io, run the io executable in the binaries folder. You should get a prompt like this:
@@ -47,7 +62,13 @@ Io>
 </pre>
 The following is an annotated transcript of a CLI session that will walk through some examples:
 <p>
-<h3>Basic Math <a name="Introduction-Math"></a></h3>
+
+-->	
+
+	<tr><td colspan=3 class=sectionDivider></td></tr>
+	<tr><td align=right><a name="Introduction-Math"></a><h3>Math</h3>
+	</td><td></td><td>
+		
 
 <pre>
 Io> 1+1
@@ -60,7 +81,10 @@ Io> 2 sqrt
 ==> 1.414214
 </PRE>
 
-<h3>Variables <a name="Introduction-Variables"></a></h3>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
+<tr><td align=right><a name="Introduction-Variables"></a><h3>Variables</h3>
+</td><td></td><td>
+	
 
 <PRE>
 Io> a := 1
@@ -76,7 +100,10 @@ Io> a + b
 ==> 7
 </PRE>
 
-<h3>Conditions <a name="Introduction-Conditions"></a></h3>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
+<tr><td align=right><a name="Introduction-Conditions"></a><h3>Conditions</h3>
+</td><td></td><td>
+	
 <PRE>
 Io> a := 2
 
@@ -87,8 +114,11 @@ Io> if(a == 1, writeln("a is one"), writeln("a is not one"))
 a is not one
 </PRE>
 
-<h3>Lists <a name="Introduction-Lists"></a></h3>
 
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
+<tr><td align=right><a name="Introduction-Lists"></a><h3>Lists</h3>
+</td><td></td><td>
+	
 <PRE>
 Io> d := List clone append(30, 10, 5, 20)    
 ==> list(30, 10, 5, 20)   
@@ -116,9 +146,24 @@ Io> d remove(30)
 
 Io> d atPut(1, 123)
 ==> list(5, 123, 20)
+
+Io> list(30, 10, 5, 20) select(>10)
+==> list(30, 20)
+
+Io> list(30, 10, 5, 20) detect(>10)
+==> 30
+
+Io> list(30, 10, 5, 20) map(*2)
+==> list(60, 20, 10, 40)
+
+Io> list(30, 10, 5, 20) map(v, v*2)
+==> list(60, 20, 10, 40)
 </PRE>
 
-<h3>Loops <a name="Introduction-Loops"></a></h3>
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
+<tr><td align=right><a name="Introduction-Loops"></a><h3>Loops</h3>
+</td><td></td><td>
+	
 <PRE>
 Io> for(i, 1, 10, write(i, " "))
 1 2 3 4 5 6 7 8 9 10 
@@ -134,8 +179,11 @@ def
 ghi
 </PRE>
 
-<h3>Strings <a name="Introduction-Strings"></a></h3>
 
+</tr><tr><td colspan=3 class=sectionDivider></td></tr>
+<tr><td align=right><a name="Introduction-Strings"></a><h3>Strings</h3>
+</td><td></td><td>
+	
 <PRE>
 Io> a := "foo"
 ==> "foo"
@@ -171,11 +219,21 @@ Io> s slice(2, 10)
 ==> "is is a "
 
 </PRE>
+</td>
+</tr>
 
-</ul>
-<h3>Further Reading <a name="Introduction-Further-Reading"></a></h3>
-<PRE>
-<a href=http://www.quag.geek.nz/io/getting-started/>Quag's Getting Started Tutorial</a>
-</PRE>
+<tr><td align=right><a name="Introduction-Further-Reading"></a><h3>More</h3></td>
+<td></td><td>
+	
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href=http://www.quag.geek.nz/io/getting-started/>Quag's Getting Started Tutorial</a>
+
+</td>
+</tr>
+</table>
+
+<br>
+<br>
+<br>
+<br>
 <br>
 <br>

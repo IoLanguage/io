@@ -1,4 +1,4 @@
-//metadoc category Databases
+//metadoc PMap category Databases
 /*metadoc PMap description
 PMap stores persistent data in a Map-like fashion and lazily loads
 available slots from the PDB backing store. Values stored or loaded are cached

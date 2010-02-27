@@ -1,3 +1,4 @@
+//metadoc XmlReader category Parsers
 #include <stdio.h>		//fileno
 
 #include "IoXmlReader.h"

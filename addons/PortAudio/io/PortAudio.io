@@ -1,7 +1,8 @@
 
 
 AudioDevice do(
-	/*doc AudioDevice write(aSeq) Writes aSeq to the inputBuffer and yields until the 
+	/*doc AudioDevice write(aSeq) 
+	Writes aSeq to the inputBuffer and yields until the 
 	receiver is ready for more input data. Returns self.
 	*/
 	write := method(data,
@@ -15,7 +16,7 @@ AudioDevice do(
 
 AudioMixer := Object clone do(
 	//metadoc AudioMixer module PortAudio
-	//metadoc AudioMixer category Media
+	//metadoc AudioMixer category Audio
 	//metadoc AudioMixer description A minimal audio mixer.
 	init := method(
 		self sources := List clone
@@ -23,11 +24,19 @@ AudioMixer := Object clone do(
 	)
 
 	streamDestination ::= AudioDevice
+	//doc AudioMixer streamDestination The output stream object.
+	
 	processedSamples ::= 0
-	isRunning ::= false
+	//doc AudioMixer processedSamples Returns the number of processed samples.
 
-	appendSource := method(source, sources append(source))
-	removeSource := method(source, sources remove(source))
+	isRunning ::= false
+	//doc AudioMixer isRunning Returns true if the mixer is running, false otherwise..
+
+	appendSource := method(source, sources append(source); self)
+	//doc AudioMixer appendSource(aSource) Adds aSource to sources list. Returns self.
+	
+	removeSource := method(source, sources remove(source); self)
+	//doc AudioMixer removeSource(aSource) Removes aSource to sources list. Returns self.
 
 	process := method(sampleCount,
 		//doc AudioMixer process(sampleCount) Internal method used for processing a chunk of the input sources. Returns self.
@@ -46,7 +55,8 @@ AudioMixer := Object clone do(
 	)
 
 	start := method(
-		/*doc AudioMixer start Start the mixer loop processing 1/64th of a second chunks
+		/*doc AudioMixer start 
+		Start the mixer loop processing 1/64th of a second chunks
 		by calling process(22050) in a loop.
 		Will not return until stop is called. Returns self.
 		*/

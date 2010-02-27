@@ -1,6 +1,6 @@
 //metadoc ReadLine copyright Jonaa Eschenburg, 2007
 //metadoc ReadLine license BSD revised
-//metadoc ReadLine category Core
+//metadoc ReadLine category Server
 /*metadoc ReadLine description
 Binding to GNU readline.
 */

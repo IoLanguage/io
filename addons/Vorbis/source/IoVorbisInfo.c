@@ -1,6 +1,6 @@
 //metadoc VorbisInfo copyright Chris Double, 2004
 //metadoc VorbisInfo license BSD revised
-//metadoc VorbisInfo category Multimedia
+//metadoc VorbisInfo category Video
 /*metadoc VorbisInfo description
 A wrapper around the libvorbis vorbis_info object.
 */

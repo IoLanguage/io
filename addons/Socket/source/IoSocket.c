@@ -1,5 +1,6 @@
 //metadoc Socket copyright Steve Dekorte, 2004
 //metadoc Socket license BSD revised
+//metadoc Socket category Networking
 
 /*metadoc Socket description
 Interface to network communication.

@@ -1,5 +1,6 @@
 //metadoc ODEBox copyright Jonathan Wright, 2006
 //metadoc ODEBox license BSD revised
+//metadoc ODEBox category Physics
 /*metadoc ODEBox description
 ODEBox binding
 */

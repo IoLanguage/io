@@ -1,9 +1,9 @@
 //metadoc SGMLParser copyright Steve Dekorte, 2004
 //metadoc SGMLParser license BSD revised
+//metadoc SGMLParser category Parsers
 /*metadoc SGMLParser description
 This object can be used to parse SGML / HTML / XML.
 */
-//metadoc SGMLParser category XML
 
 #include "IoSGMLParser.h"
 #include "IoState.h"

@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>AppleSensors</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>AppleSensors Proto</h1>
+<br><br><br><br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>A singleton which on Apple computers can:
+<ul>
+<li> get and set display and keyboard brightness
+<li> read left and right ambient light sensors (laptops only)
+<li> read accelerometer sensor (laptops only)
+</ul>
+Example use;
+<pre>	
+sensors = AppleSensors clone
+value := sensors getRightLightSensor
+</pre>
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="AppleSensors-getDisplayBrightness"></a><b>
+getDisplayBrightness
+</b>
+<p>
+<div class=slotDescription>
+Returns a number for the display brightness.
+</div>
+<a name="AppleSensors-getKeyboardBrightness"></a><b>
+getKeyboardBrightness
+</b>
+<p>
+<div class=slotDescription>
+Returns a number for the keyboard brightness.
+</div>
+<a name="AppleSensors-getLeftLightSensor"></a><b>
+getLeftLightSensor
+</b>
+<p>
+<div class=slotDescription>
+Returns a number for the left ambient light sensor.
+</div>
+<a name="AppleSensors-getRightLightSensor"></a><b>
+getRightLightSensor
+</b>
+<p>
+<div class=slotDescription>
+Returns a number for the right ambient light sensor.
+</div>
+<a name="AppleSensors-setDisplayBrightness"></a><b>
+setDisplayBrightness(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Sets the display brightness. Returns self.
+</div>
+<a name="AppleSensors-setKeyboardBrightness"></a><b>
+setKeyboardBrightness(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Sets the keyboard brightness. Returns self.
+</div>
+<a name="AppleSensors-smsVector"></a><b>
+smsVector(aVector)
+</b>
+<p>
+<div class=slotDescription>
+Sets aVector to the current x, y and z accelerometer values. 
+		Returns true on success and false on failure.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

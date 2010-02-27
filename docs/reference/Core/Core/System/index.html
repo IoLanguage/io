@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>System</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>System Proto</h1>
+<br><br><br><br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>Contains methods related to the IoVM.
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="System-activeCpus"></a><b>
+activeCpus
+</b>
+<p>
+<div class=slotDescription>
+Returns the number of active CPUs.
+</div>
+<a name="System-args"></a><b>
+args
+</b>
+<p>
+<div class=slotDescription>
+Returns the list of command line argument strings the program was run with.")
+</div>
+<a name="System-daemon"></a><b>
+daemon(dontChroot, dontRedirectOutputStreams)
+</b>
+<p>
+<div class=slotDescription>
+Become a daemon process.  If dontChroot is false, the process will change its directory to /.  If dontRedirectOutputStreams is false, stdout and stderr are redirected to /dev/null.
+</div>
+<a name="System-distribution"></a><b>
+distribution
+</b>
+<p>
+<div class=slotDescription>
+Returns the Io distribution name as a string.
+</div>
+<a name="System-errorNumber"></a><b>
+errorNumber
+</b>
+<p>
+<div class=slotDescription>
+Returns the C errno string.
+</div>
+<a name="System-exit"></a><b>
+exit(optionalReturnCodeNumber)
+</b>
+<p>
+<div class=slotDescription>
+Shutdown the IoState (io_free all objects) and return
+control to the calling program (if any).
+</div>
+<a name="System-getEnvironmentVariable"></a><b>
+getEnvironmentVariable(nameString)
+</b>
+<p>
+<div class=slotDescription>
+Returns a string with the value of the environment 
+	variable whose name is specified by nameString.
+</div>
+<a name="System-getOptions"></a><b>
+getOptions(args)
+</b>
+<p>
+<div class=slotDescription>
+This primitive is used to get command line options similar to Cs getopt().
+	It returns a map in containing the left side of the argument, with the
+	value of the right side. (The key will not contain
+	the beginning dashes (--).
+	<p>
+	Example:
+	<pre>
+	options := System getOptions(args)
+	options foreach(k, v,
+	  if(v type == List type,
+		v foreach(i, j, writeln(\"Got unnamed argument with value: \" .. j))
+		continue
+	  )
+	  writeln(\"Got option: \" .. k .. \" with value: \" .. v)
+	)
+	</pre>
+</div>
+<a name="System-installPrefix"></a><b>
+installPrefix
+</b>
+<p>
+<div class=slotDescription>
+Returns the root path where io was install. The default is /usr/local.
+</div>
+<a name="System-ioPath"></a><b>
+ioPath
+</b>
+<p>
+<div class=slotDescription>
+Returns the path of io installation. The default is $INSTALL_PREFIX/lib/io.
+</div>
+<a name="System-launchPath"></a><b>
+launchPath
+</b>
+<p>
+<div class=slotDescription>
+Returns a pathComponent of the launch file.
+</div>
+<a name="System-launchScript"></a><b>
+launchScript
+</b>
+<p>
+<div class=slotDescription>
+Returns the path of the io file run on the command line. Returns nil if no file was run.
+</div>
+<a name="System-maxRecycledObjects"></a><b>
+maxRecycledObjects
+</b>
+<p>
+<div class=slotDescription>
+Returns the max number of recycled objects used.
+</div>
+<a name="System-platform"></a><b>
+platform
+</b>
+<p>
+<div class=slotDescription>
+Returns a string description of the platform.
+</div>
+<a name="System-platformVersion"></a><b>
+platformVersion
+</b>
+<p>
+<div class=slotDescription>
+Returns the version id of the OS.
+</div>
+<a name="System-recycledObjectCount"></a><b>
+recycledObjectCount
+</b>
+<p>
+<div class=slotDescription>
+Returns the current number of objects being held for recycling.
+</div>
+<a name="System-runCommand"></a><b>
+runCommand
+</b>
+<p>
+<div class=slotDescription>
+Calls system and redirects stdout/err to tmp files.  Returns object with exitStatus, stdout and stderr slots.
+</div>
+<a name="System-setEnvironmentVariable"></a><b>
+setEnvironmentVariable(keyString, valueString)
+</b>
+<p>
+<div class=slotDescription>
+Sets the environment variable keyString to the value valueString.
+</div>
+<a name="System-setLobby"></a><b>
+setLobby(anObject)
+</b>
+<p>
+<div class=slotDescription>
+Sets the root object of the garbage collector.
+</div>
+<a name="System-setMaxRecycledObjects"></a><b>
+setMaxRecycledObjects(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Sets the max number of recycled objects used.
+</div>
+<a name="System-sleep"></a><b>
+sleep(secondsNumber)
+</b>
+<p>
+<div class=slotDescription>
+Performs a *blocking* sleep call for specified number of seconds.
+</div>
+<a name="System-symbols"></a><b>
+symbols
+</b>
+<p>
+<div class=slotDescription>
+Returns a List containing all Symbols currently in the system.
+</div>
+<a name="System-system"></a><b>
+system(aString)
+</b>
+<p>
+<div class=slotDescription>
+Makes a system call and returns a Number for the return value.
+</div>
+<a name="System-thisProcessPid"></a><b>
+thisProcessPid()
+</b>
+<p>
+<div class=slotDescription>
+Return the process id (pid) for this Io process.
+</div>
+<a name="System-userInterruptHandler"></a><b>
+userInterruptHandler
+</b>
+<p>
+<div class=slotDescription>
+Called when control-c is hit. Override to add custom behavior. Returns self.
+</div>
+<a name="System-version"></a><b>
+version
+</b>
+<p>
+<div class=slotDescription>
+Returns a version number for Io.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

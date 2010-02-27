@@ -1,81 +1,0 @@
-<HTML><HEAD><head>    <title>OpenGL</title>    <link rel="stylesheet" href="http://www.iolanguage.com/site.css">    <META HTTP-EQUIV="EXPIRES" CONTENT=0></head><body><br><ul>
-<H1>OpenGL</H1><br><UL><b>Protos:</b> Object<p></UL><p>
-
-<a name="Summary"></a>
-<h2>Summary</h2>
-<ul>
-The GL add-on provides access to the OpenGL 2d/3d graphics API.
-</ul>
-<a name="Methods"></a>
-<h2>Methods</h2>
-<ul>
-
-<p><b>GLUT</b>
-<ul>
-<dt><a href="GLUT-api/glut-summary.html">summary</a> 
-<dt><a href="GLUT-api/">functions</a> 
-</ul>
-
-<p><b>GLU</b> 
-<ul>
-<dt><a href="GLU-api/glu-summary.html">summary</a>
-<dt><a href="GLU-api/">functions</a> 
-</ul>
-
-<p><b>OpenGL</b> 
-<ul>
-<dt><a href="GL-api/">functions</a>
-<dt><a href="GL-api/gl-summary.html">summary</a> (see Notes). 
-</ul>
-
-<p>
-  
-  Notes:
-	<p>
-GLU and GLUT APIs are only partially implemented. 
-<p>
-  <ul>
-    <li>Although function versions of all numerical formats (float,
-integer, etc.) are exposed, only the float or double implementation is
-implemented and gets ultimately called. For example in the set of
-functions <b>glNormal3b, glNormal3d, glNormal3f, glNormal3i, glNormal3s</b>
-only the function <b>glNormal3d</b> is really called.<br>
-    </li>
-<p>
-
-    <li>Number-valued output vectors (i.e. as in <b>glGetDoublev</b>)
-are always mapped to list elements. The input list has to be
-initialized with a sufficient number of elements to receive the return
-values. No further size checking is done - if the list is too short,
-the additional output values are discarded.<br>
-    </li>
-<p>
-    <li>Number-valued input vectors (i.e. as for the function <b>glVertex2dv,
-glVertex2fv,
-glVertex2iv, glVertex2sv, glVertex3dv, glVertex3fv,
-glVertex3iv, glVertex3sv, glVertex4dv, glVertex4fv,
-glVertex4iv, glVertex4sv</b>) are always taken from lists. If the list
-is too short, additional input values are either set to 0.0 (for fixed
-length input) or a segfault can result (for variable length inputs).<br>
-    </li>
-<p>
-
-    <li>Input and output pointers (i.e. as for function<span
- style="font-weight: bold;"> </span>glReadPixels)operate on the byte
-of Buffer objects. The byte arrays have to be pre-allocated for output
-operations and sized correctly for both input and output operations to
-avoid segfaults.<br>
-    </li>
-  </ul>
-</ul>
-<ul>
-  <p><br>
-For some examples, see the <a href="../_tests/tutorial/index.html">Io
-version of the NeHe OpenGL tutorial</a>. </p>
-</ul>
-<br>
-<br>
-<br>
-<br>
-</body>
-</html>

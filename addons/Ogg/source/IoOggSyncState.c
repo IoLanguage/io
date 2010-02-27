@@ -1,6 +1,6 @@
 //metadoc OggSyncState copyright Chris Double, 2004
 //metadoc OggSyncState license BSD revised
-//metadoc OggSyncState category Multimedia
+//metadoc OggSyncState category Audio
 /*metadoc OggSyncState description
 A wrapper around the libogg ogg_sync_state object.
 */
