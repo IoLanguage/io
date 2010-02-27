@@ -2,7 +2,24 @@
 //metadoc TagDB license BSD revised
 //metadoc TagDB category Databases
 /*metadoc TagDB description
-Binding for tagdb - a tagging database.
+Binding for <a href=http://www.dekorte.com/projects/opensource/tagdb/>tagdb</a> - a tagging database usefull for flickr-like tag searches.
+<p>
+Example use:
+<pre>
+tdb := TagDB clone
+
+tdb setPath("test")
+tdb open
+
+writeln("size = ", tdb size)
+tdb atKeyPutTags("f430 for sale", list("red", "ferrari"))
+tdb atKeyPutTags("lotus esprit", list("lotus", "esprit"))
+writeln("size = ", tdb size)
+keys := tdb keysForTags(list("lotus"))
+writeln("keys = ", tdb symbolForId(keys at(0)))
+tdb close
+tdb delete
+</pre>
 */
 
 #include "IoTagDB.h"
@@ -109,6 +126,10 @@ Uint64Array *IoTagDB_tagArrayForTagNames_(IoTagDB *self, IoMessage *m, IoList *t
 
 IoObject *IoTagDB_atKeyPutTags(IoTagDB *self, IoObject *locals, IoMessage *m)
 {
+	/*doc TagDB atKeyPutTags(key, tagNameList)
+	Sets the tags for key to those in tagNameList. Returns self.
+	*/
+	
 	TagDB *tdb = DATA(self);
 	IoSeq *key = IoMessage_locals_seqArgAt_(m, locals, 0);
 	IoList *tagNames = IoMessage_locals_listArgAt_(m, locals, 1);
@@ -136,6 +157,10 @@ IoObject *IoTagDB_atKeyPutTags(IoTagDB *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoTagDB_tagsAtKey(IoTagDB *self, IoObject *locals, IoMessage *m)
 {
+	/*doc TagDB tagsAtKey(key)
+	Returns the tags for the specified key.
+	*/
+	
 	TagDB *tdb = DATA(self);
 	IoSeq *key = IoMessage_locals_seqArgAt_(m, locals, 0);
 	symbolid_t keyid = TagDB_idForSymbol_size_(tdb, CSTRING(key), IoSeq_rawSize(key));
@@ -176,6 +201,10 @@ IoObject *IoTagDB_tagsAtKey(IoTagDB *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoTagDB_keyAtIndex(IoTagDB *self, IoObject *locals, IoMessage *m)
 {
+	/*doc TagDB keyAtIndex(indexNumber)
+	Returns the key at the specified index of nil if the index is out of range.
+	*/
+	
 	TagDB *tdb = DATA(self);
 	IoNumber *index = IoMessage_locals_numberArgAt_(m, locals, 0);
 	Datum *key = TagDB_keyAtIndex_(tdb, CNUMBER(index));
@@ -190,6 +219,10 @@ IoObject *IoTagDB_keyAtIndex(IoTagDB *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoTagDB_removeKey(IoTagDB *self, IoObject *locals, IoMessage *m)
 {
+	/*doc TagDB removeKey(aKey)
+	Removes the specified key if it is present. Returns self.
+	*/
+	
 	TagDB *tdb = DATA(self);
 	IoSeq *key = IoMessage_locals_seqArgAt_(m, locals, 0);
 	symbolid_t keyid = TagDB_idForSymbol_size_(tdb, CSTRING(key), IoSeq_rawSize(key));
@@ -201,6 +234,9 @@ IoObject *IoTagDB_removeKey(IoTagDB *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoTagDB_keysForTags(IoTagDB *self, IoObject *locals, IoMessage *m)
 {
+	/*doc TagDB keysForTags(aTagNameList)
+	Returns list of keys whose tags contain all of the tags in aTagNameList.
+	*/
 	TagDB *tdb = DATA(self);
 	IoList *tagNames = IoMessage_locals_listArgAt_(m, locals, 0);
 	Uint64Array *tags = IoTagDB_tagArrayForTagNames_(self, m, tagNames);
@@ -213,17 +249,27 @@ IoObject *IoTagDB_keysForTags(IoTagDB *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoTagDB_size(IoTagDB *self, IoObject *locals, IoMessage *m)
 {
+	/*doc TagDB size
+	Returns number of keys in the database.
+	*/
 	return IONUMBER(TagDB_size(DATA(self)));
 }
 
 IoObject *IoTagDB_delete(IoTagDB *self, IoObject *locals, IoMessage *m)
 {
+	/*doc TagDB delete
+	Deletes all keys in the database.
+	*/
 	TagDB_delete(DATA(self));
 	return self;
 }
 
 IoObject *IoTagDB_symbolForId(IoTagDB *self, IoObject *locals, IoMessage *m)
 {
+	/*doc TagDB symbolForId(aNumber)
+	Returns the TagDB symbol for aNumber.
+	*/
+	
 	symbolid_t id = IoMessage_locals_sizetArgAt_(m, locals, 0);
 	Datum *d = TagDB_symbolForId_(DATA(self), id);
 	IoSeq *s = IoSeq_newWithData_length_(IOSTATE, Datum_data(d), Datum_size(d));
@@ -233,12 +279,19 @@ IoObject *IoTagDB_symbolForId(IoTagDB *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoTagDB_idForSymbol(IoTagDB *self, IoObject *locals, IoMessage *m)
 {
+	/*doc TagDB idForSymbol(aSeq)
+	Returns the TagDB id Number for the symbol specified by aSeq.
+	*/
 	IoSeq *key = IoMessage_locals_seqArgAt_(m, locals, 0);
 	return IONUMBER(TagDB_idForSymbol_size_(DATA(self), CSTRING(key), IoSeq_rawSize(key)));
 }
 
 IoObject *IoTagDB_allUniqueTagIds(IoTagDB *self, IoObject *locals, IoMessage *m)
 {
+	/*doc TagDB allUniqueTagIds
+	Returns a list of all unique tag ids.
+	*/
+	
 	Uint64Array *tagIds = TagDB_allUniqueTags(DATA(self)); 
 	UArray *ua = UArray_newWithData_type_size_copy_(Uint64Array_data(tagIds), CTYPE_uint64_t, Uint64Array_size(tagIds), 1);
 	
