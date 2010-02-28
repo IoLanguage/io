@@ -1,13 +1,11 @@
-function _ (string, obj) {
-  if(!string)
-     return "";
+String.prototype.interpolate = function (obj) {
   if(!obj)
-    return string;
+    return this;
 
-  return string.replace(/#{(\w+)}/g, function (match, key) {
+  return this.replace(/#{(\w+)}/g, function (match, key) {
     return obj[key] || "";
   });
-}
+};
 
 var DocsBrowser = {
   currentCategory:  null,
@@ -24,7 +22,7 @@ var DocsBrowser = {
   },
   loadDocs: function () {
     var self = this;
-    $.getJSON("docs.json", function (docs) {
+    $.getJSON("reference/docs.json", function (docs) {
       self.docs = docs;
       self.listCategories();
     });
@@ -111,7 +109,8 @@ var DocsBrowser = {
         $descriptions = $("#slotDescriptions"),
         _proto      = this.docs[this.currentCategory][this.currentAddon][proto],
         slots       = _proto.slots,
-        description = _proto.description;
+        description = _proto.description,
+        html_description = "<div><a name=\"/#{aName}\"></a><h4>#{title}</h4><div class=\"slotDescription\">#{body}</div></div>";
     this.currentProto = proto;
     this.highlightMenuItem(proto + "_proto");
 
@@ -127,10 +126,10 @@ var DocsBrowser = {
     while(n--) {
       var slot = keys[n];
       $slots.append(this.linkToSlot(slot));
-      $descriptions.append(_("<div><a name=\"/#{aName}\"></a><h4>#{title}</h4><div class=\"slotDescription\">#{body}</div></div>", {
+      $descriptions.append(html_description.interpolate({
         aName: this.aNameForHash(slot),
         title: this.parseSlotName(slot),
-        body: slots[slot]
+        body: this.parseSlotDescription(slots[slot])
       }));
     }
 
@@ -167,7 +166,7 @@ var DocsBrowser = {
       case "givenProto":
         var __term = term.split(" "),
             _term = $.trim(__term[1]),
-            ca = this.getCategoryAndAddonForProto(__term[0]);
+            ca = this.getPathToProto(__term[0]);
         if(!ca)
           break;
 
@@ -220,7 +219,7 @@ var DocsBrowser = {
     return none;
   },
   _catCache: {},
-  getCategoryAndAddonForProto: function (proto) {
+  getPathToProto: function (proto) {
     if(this._catCache[proto])
       return this._catCache[proto];
 
@@ -259,7 +258,7 @@ var DocsBrowser = {
         data.proto = result.slice(0, -1).join(" ");
 
       data.proto = "<span>" + data.proto.split(" ").join("</span><span>") + "</span>";
-      $results.prepend(_("<li><a href=\"#{link}\">#{proto} #{slot}</a></li>", data));
+      $results.prepend("<li><a href=\"#{link}\">#{proto} #{slot}</a></li>".interpolate(data));
     }
 
     $results.show().css($("#search").offset()).appendTo("body");
@@ -267,7 +266,7 @@ var DocsBrowser = {
 
   createMenuLink: function (text, type, link) {
     arguments[2] = link.split("(")[0];
-    return _('<li id="#{0}_#{1}" class="type_#{1} indexItem"><a href="#/#{2}">#{0}</a></li>', arguments);
+    return '<li id="#{0}_#{1}" class="type_#{1} indexItem"><a href="#/#{2}">#{0}</a></li>'.interpolate(arguments);
   },
   linkToCategory: function (category) {
     return this.createMenuLink(category, "category", category);
@@ -281,7 +280,7 @@ var DocsBrowser = {
   linkToSlot: function (slot) {
     var url = this.aNameForHash(slot),
         text = this.parseSlotName(slot);
-    return _('<li id="#{0}_slot" class="type_slot indexItem"><a href="#/#{1}">#{2}</a></li>', [slot, url, text]);
+    return '<li id="#{0}_slot" class="type_slot indexItem"><a href="#/#{1}">#{2}</a></li>'.interpolate([slot, url, text]);
   },
   highlightMenuItem: function (id) {
     var $link = $(document.getElementById(id));
@@ -303,6 +302,17 @@ var DocsBrowser = {
       .replace(/\((.*)\)/,  "<span class=\"args\">($1)</span>")
       .replace(/\[(.+)\]/,  "<span class=\"optionalArgs\">$1</span>")
       .replace(/(\.{3})/,   "<span class=\"infiniteArgs\">&hellip;</span>");
+  },
+  parseSlotDescription: function (body) {
+    var self = this;
+    return body.replace(/\[\[(\w+) (\w+)\]\]/g, function (line, proto, slot) {
+      var link = self.getPathToProto(proto)
+      link.push(proto, slot);
+      return "<a href=\"#{0}\">#{1} #{2}</a>".interpolate([self.pathToHash(link), proto, slot]);
+    });
+  },
+  pathToHash: function (path) {
+    return "#/" + path.join("/");
   },
   aNameForHash: function (slot) {
     slot = slot ? "/" + slot.split("(")[0] : "";
