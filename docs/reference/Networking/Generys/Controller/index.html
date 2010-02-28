@@ -1,0 +1,308 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Controller</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Controller Proto</h1>
+<br><br><br><br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>Controller provides methods which respond to certain HTTP paths. Router connects paths to accompanying contollers.
+
+Slots whose names begins with underscore are considered "private" and will never be activated by Dispatcher.
+When Dispatcher activates an slot it maps Route's variables and HTTP POST/GET query parameters to slot's argument names. Parameters not bounded to arguments all available in <code>params</code> slot. Depending on the type of object which was returned the right ResponseFormatter will be activated - returning Map or List will automatically convert it into JSON format and set appropriate value for <em>Content-Type</em> header.
+<pre><code>
+ZooController := Controller clone do(
+  visitors        := list()
+  banedVisitors   := list()
+  state           := "closed"
+
+  beforeFilter("_zooShouldBeOpen", {except: "open"})
+  beforeFilter("_zooShouldBeClosed", {only: "close"})
+  beforeFilter("_requireNoBan", {only: ["visit", "buyToy"]})
+  
+  open := method(
+    self state = "open"
+    "Zoo open!")
+  
+  close := method(
+    self state = "closed"
+    "Zoo is closed!")
+    
+  visit := method(id,
+    self visitors append(id)
+    self session visits = if(self session ?visits isNIl,
+      1, self session visits + 1)
+    
+    self redirectToRoute("zooEntrance"))
+  
+  buyToy := method(id, toy,
+    self visitors select(== id) first
+    self session toys append(toy))
+  
+  _zooShouldBeOpen := method(
+    (self state == "open") ifFalse(Exception raise("zooClosed")))
+  
+  _zooShouldBeClosed := method(
+    (self state == "closed") ifFalse(Exception raise("zooOpen")))
+  
+  _requireNoBan := method(
+    (self banedVisitors))
+)</code></pre>
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="Controller-accepts"></a><b>
+accepts(httpVerb, ...)
+</b>
+<p>
+<div class=slotDescription>
+Raises <code>wrongRequestMethod</code> exception if current request's HTTP verb isn't listed.
+</div>
+<a name="Controller-afterFilter"></a><b>
+afterFilter(filter, options)
+</b>
+<p>
+<div class=slotDescription>
+Adds a method to list of methods which will be called after target slot (one defined by rotue) is called.
+  When called first argument will be response by targeted slot.
+  For more details take a look at <code>Controller beforeFilter()</code>.
+</div>
+<a name="Controller-beforeFilter"></a><b>
+beforeFilter(slotName, options)
+</b>
+<p>
+<div class=slotDescription>
+Adds method to list of methods which will be called before targeted slot (one defined in route) gets called.
+  <code>options</code> is optional argument, which can contain list of slots before which filter shouldn't be called.
+  Filter will get the same arguments as targeted slot.
+</div>
+<a name="Controller-beforeFilters"></a><b>
+beforeFilters
+</b>
+<p>
+<div class=slotDescription>
+List of <em>before</em> filters. Use <code>Generys beforeFilter()</code> to append new filter to controller.
+</div>
+<a name="Controller-cacheFor"></a><b>
+cacheFor(duration)
+</b>
+<p>
+<div class=slotDescription>
+Sets <em>Cache-Control</em> to cache current response for <code>duration</code>.
+</div>
+<a name="Controller-createFutureResponse"></a><b>
+createFutureResponse(name)
+</b>
+<p>
+<div class=slotDescription>
+Creates FutureResponse with given name, for which you have to make sure is unique.
+  If another FutureResponse with same name already exists, it will be returned.
+</div>
+<a name="Controller-createWebSocket"></a><b>
+createWebSocket(name[, handler])
+</b>
+<p>
+<div class=slotDescription>
+Creates WebSocket with given name and assings handler class (if provided).
+  If another WebSocket with the same name already exists, it will be closed and new a one will be created.
+</div>
+<a name="Controller-destroySession"></a><b>
+destroySession()
+</b>
+<p>
+<div class=slotDescription>
+Destroys all session data and returns empty one.
+</div>
+<a name="Controller-doAfterFilters"></a><b>
+doAfterFilters()
+</b>
+<p>
+<div class=slotDescription>
+Performs all <code>afterFilters</code>
+</div>
+<a name="Controller-doBeforeFilters"></a><b>
+doBeforeFilters()
+</b>
+<p>
+<div class=slotDescription>
+Performs all <code>beforeFilters</code>
+</div>
+<a name="Controller-doFilters"></a><b>
+doFilters(filters, args)
+</b>
+<p>
+<div class=slotDescription>
+Performs all filters with given argments. Returns nil.
+</div>
+<a name="Controller-dontCache"></a><b>
+dontCache()
+</b>
+<p>
+<div class=slotDescription>
+Disables client-side cache for current request.
+</div>
+<a name="Controller-forceDownload"></a><b>
+forceDownload(filename)
+</b>
+<p>
+<div class=slotDescription>
+Instructs browser to show "Save as" dialog for current request. <code>filename</code> will be shown to user.
+</div>
+<a name="Controller-getFutureResponse"></a><b>
+getFutureResponse(name)
+</b>
+<p>
+<div class=slotDescription>
+Returns FutureResponse with provided name. Otherwise <code>nil</code>.
+</div>
+<a name="Controller-getWebSocket"></a><b>
+getWebSocket(name)
+</b>
+<p>
+<div class=slotDescription>
+Returns WebSoocket with provided name. <code>nil</code> otherwise.
+</div>
+<a name="Controller-isAjaxRequest"></a><b>
+isAjaxRequest
+</b>
+<p>
+<div class=slotDescription>
+Returns <code>true</code> if current is made via XMLHttpRequest. (X-Requested-With header has to be set).
+  Note that all header names in <code>self request headers</code> are uppercased and dashes (-) are replaced with underscores.
+</div>
+<a name="Controller-isDELETE"></a><b>
+isDELETE
+</b>
+<p>
+<div class=slotDescription>
+Returns <code>true</code> if current is made with DELETE.
+</div>
+<a name="Controller-isGET"></a><b>
+isGET
+</b>
+<p>
+<div class=slotDescription>
+Returns <code>true</code> if current is made with GET.
+</div>
+<a name="Controller-isHEAD"></a><b>
+isHEAD
+</b>
+<p>
+<div class=slotDescription>
+Returns <code>true</code> if current is made with HEAD.
+</div>
+<a name="Controller-isPOST"></a><b>
+isPOST
+</b>
+<p>
+<div class=slotDescription>
+Returns <code>true</code> if current is made with POST.
+</div>
+<a name="Controller-isPUT"></a><b>
+isPUT
+</b>
+<p>
+<div class=slotDescription>
+Returns <code>true</code> if current is made with PUT.
+</div>
+<a name="Controller-isWebSocket"></a><b>
+isWebSocket
+</b>
+<p>
+<div class=slotDescription>
+Returns <code>true</code> if request is made via WebSocket protocol.
+</div>
+<a name="Controller-params"></a><b>
+params
+</b>
+<p>
+<div class=slotDescription>
+A Map of all parameters that came in with request.
+</div>
+<a name="Controller-private"></a><b>
+private
+</b>
+<p>
+<div class=slotDescription>
+If set to <code>true</code>, Dispatcher will never call slots from this controller.
+</div>
+<a name="Controller-privateSlots"></a><b>
+privateSlots
+</b>
+<p>
+<div class=slotDescription>
+List of private slots, you can add names of slots whose names don't begin with an underscore.
+</div>
+<a name="Controller-redirectTo"></a><b>
+redirectTo(url[, statusCode])
+</b>
+<p>
+<div class=slotDescription>
+Redirects client to provided URL. By default, status code 302 is being used.
+  Note that by HTTP standard, URL should be complete (<em>http://...</em>, not just <em>/cars/all</em>),
+  you can use <code>(Generys serverURL) .. (Generys config urlPrefixPath)</code> for that.
+</div>
+<a name="Controller-redirectToRoute"></a><b>
+redirectToRoute(routeName[, routeParams])
+</b>
+<p>
+<div class=slotDescription>
+Redirect client to URL at which route will be activated.
+  <code>routeParams</code> will be passed to <code>Route interpolate()</code>.
+</div>
+<a name="Controller-request"></a><b>
+request
+</b>
+<p>
+<div class=slotDescription>
+Holds HttpRequest object of current request.
+</div>
+<a name="Controller-response"></a><b>
+response
+</b>
+<p>
+<div class=slotDescription>
+Holds HttpResponse object.
+</div>
+<a name="Controller-session"></a><b>
+session
+</b>
+<p>
+<div class=slotDescription>
+Returns session object.
+</div>
+<a name="Controller-setStatusCode"></a><b>
+setStatusCode(code)
+</b>
+<p>
+<div class=slotDescription>
+Sets status code.
+</div>
+<a name="Controller-view"></a><b>
+view(path)
+</b>
+<p>
+<div class=slotDescription>
+Alias for <code>HTML fromFile()</code>. Value of <code>Generys root</code> is prepended to <code>path</code>.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>

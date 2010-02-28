@@ -15,13 +15,8 @@
 <tr>
 <td align=right></td>
 <td></td>
-<td>A Sequence is a container for a list of data elements. Typically these elements are each 1 byte in size. A Sequence can be either mutable or immutable. When immutable, only the read-only methods can be used.
-<p>
-Terminology
-<ul>
-<li> Buffer: A mutable Sequence of single byte elements, typically in a binary encoding
-<li> Symbol or String: A unique immutable Sequence, typically in a character encoding
-</ul>
+<td>A Sequence is a container for a list of data elements. 
+Immutable Sequences are also called "Symbols".
 </td></tr>
 <tr><td colspan=3>&nbsp;</td></tr>
 <tr><td colspan=3>&nbsp;</td></tr>
@@ -288,6 +283,13 @@ asIoPath
 <p>
 <div class=slotDescription>
 Returns a Io style path for an OS style path.
+</div>
+<a name="Sequence-asJid"></a><b>
+asJid
+</b>
+<p>
+<div class=slotDescription>
+Converts Sequence to JID object. <pre><code>"cow@moo.com/Scandinavia" asJid</code></pre>
 </div>
 <a name="Sequence-asJson"></a><b>
 asJson

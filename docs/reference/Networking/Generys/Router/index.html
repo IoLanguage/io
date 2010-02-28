@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Router</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Router Proto</h1>
+<br><br><br><br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>Router.
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="Router-DELETE"></a><b>
+DELETE(pattern)
+</b>
+<p>
+<div class=slotDescription>
+Creates Route which will only respond to HTTP DELETE. Returns RouteMatch.
+</div>
+<a name="Router-GET"></a><b>
+GET(pattern)
+</b>
+<p>
+<div class=slotDescription>
+Creates Route which will only respond to HTTP GET. Returns RouteMatch.
+</div>
+<a name="Router-POST"></a><b>
+POST(pattern)
+</b>
+<p>
+<div class=slotDescription>
+Creates Route which will only respond to HTTP POST. Returns RouteMatch.
+</div>
+<a name="Router-PUT"></a><b>
+PUT(pattern)
+</b>
+<p>
+<div class=slotDescription>
+Creates Route which will only respond to HTTP PUT. Returns RouteMatch
+</div>
+<a name="Router-connect"></a><b>
+connect(pattern)
+</b>
+<p>
+<div class=slotDescription>
+Creates Route with <code>pattern</code> and returns RouteMatch.
+</div>
+<a name="Router-defaultRoutes"></a><b>
+defaultRoutes()
+</b>
+<p>
+<div class=slotDescription>
+Assings default routes which enables acces to all controllers and their actions.
+</div>
+<a name="Router-fileServerRoutes"></a><b>
+fileServerRoutes()
+</b>
+<p>
+<div class=slotDescription>
+Assings route wich will check if a file exists in <code>Generys staticDir</code> which matches request path.
+  If such file exits it will be served to the client.
+  Note: this method has to be called explicitly in <code>routes.io</code> as a last route.
+</div>
+<a name="Router-resource"></a><b>
+resource(name)
+</b>
+<p>
+<div class=slotDescription>
+Returns RouteMatch.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
