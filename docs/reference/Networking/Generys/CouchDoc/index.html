@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>CouchDoc</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>CouchDoc Proto</h1>
+<br><br><br><br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>Map with extra methods for easier interaction with CouchDB
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="CouchDoc-after"></a><b>
+after(event, slotName[, target])
+</b>
+<p>
+<div class=slotDescription>
+Subscribe callback to an <em>after</em> event.
+</div>
+<a name="CouchDoc-before"></a><b>
+before(event, slotName[, target])
+</b>
+<p>
+<div class=slotDescription>
+Subscribe callback to an <em>before</em> event.
+</div>
+<a name="CouchDoc-create"></a><b>
+create()
+</b>
+<p>
+<div class=slotDescription>
+Creates document in the database.
+  Emits <code>beforeCreate</code> and <code>afterCreate</code> events.
+</div>
+<a name="CouchDoc-delete"></a><b>
+delete()
+</b>
+<p>
+<div class=slotDescription>
+Deletes document from database.
+  Emits <code>beforeDelete</code> and <code>afterDelete</code> events.
+</div>
+<a name="CouchDoc-from"></a><b>
+from(map)
+</b>
+<p>
+<div class=slotDescription>
+Converts Map to CoucDoc.
+</div>
+<a name="CouchDoc-id"></a><b>
+id()
+</b>
+<p>
+<div class=slotDescription>
+Returns value of <code>_id</code> property.
+</div>
+<a name="CouchDoc-listenTo"></a><b>
+listenTo(event, slotName[, target])
+</b>
+<p>
+<div class=slotDescription>
+Subscribes callback to an event on <code>self</code> instance.
+  If <code>target</code> is provided, its slot <code>slotName</code> will be called.<br/>
+  Returns <code>NotificationListener</code>.
+</div>
+<a name="CouchDoc-rev"></a><b>
+rev()
+</b>
+<p>
+<div class=slotDescription>
+Returns value of <code>_rev</code> property.
+</div>
+<a name="CouchDoc-save"></a><b>
+save()
+</b>
+<p>
+<div class=slotDescription>
+Alias of <code>CouchDoc update()</code>.
+</div>
+<a name="CouchDoc-update"></a><b>
+update()
+</b>
+<p>
+<div class=slotDescription>
+Saves document to database.
+  Emits <code>beforeUpdate</code> and <code>afterUpdate</code> events.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

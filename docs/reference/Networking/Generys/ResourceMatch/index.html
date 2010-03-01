@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>ResourceMatch</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>ResourceMatch Proto</h1>
+<br><br><br><br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td><p>
+ResourceMatch is object which is returned by <code>Router resource()</code> and you'll be mostly woking with it in <code>router.io</code>.
+It provides convience methods for creating Routes which will automatically bind your controller's methods on a RESTful way.
+</p>
+<p>Routeing table for <code>Router resource("IceCream")</code>:</p>
+<table>
+  <thead>
+    <tr>
+      <th>Pattern</th>
+      <th>HTTP verb</th>
+      <th>Controller slot</th>
+      <th>Route name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>/<u>icecream</u>s</td>
+      <td>GET</td>
+      <td>index</td>
+      <td>list<u>IceCream</u>s</td>
+    </tr>
+    <tr>
+      <td>/<u>icecream</u>s/new</td>
+      <td>GET</td>
+      <td>new</td>
+      <td>new<u>IceCream</u></td>
+    </tr>
+    <tr>
+      <td>/<u>icecream</u>s</td>
+      <td>POST</td>
+      <td>create</td>
+      <td>create<u>IceCream</u></td>
+    </tr>
+    <tr>
+      <td>/<u>icecream</u>s/:id</td>
+      <td>GET</td>
+      <td>show</td>
+      <td>show<u>IceCream</u></td>
+    </tr>
+    <tr>
+      <td>/<u>icecream</u>s/:id</td>
+      <td>PUT</td>
+      <td>update</td>
+      <td>update<u>IceCream</u></td>
+    </tr>
+    <tr>
+      <td>/<u>icecream</u>s/:id</td>
+      <td>DELETE</td>
+      <td>destroy</td>
+      <td>destroy<u>IceCream</u></td>
+    </tr>
+  </tbody>
+</table>
+<p>
+Example:<br/>
+router.io:
+<pre><code>
+  Router do(
+    resource("Car") hasMany("Owners")
+  )</code></pre>
+</p>
+<p>CarsController.io:
+<pre><code>
+CarsController := Controller clone do(
+  index := method(Cars all)
+  
+  new := method(
+    self view("app/views/car/new.html"))
+  
+  create := method(data,
+    car := Car create(data)
+    self redirectToRoute("showCar", {id: car id}))
+
+  show := method(id,
+    car := Car[id]
+    self view("app/views/car/car.html") do(
+      find("#car_name") setText(car["name"])
+      find("#car_mph")  setText(car["mph"])
+    ))
+  
+  update := method(id, data,
+    car := Car[id]
+    car merege(data)
+    car save
+
+    self show(id))
+
+  destory := method(id,
+    Car removeAt(id)
+    self redirectToRoute("listCar"))
+)
+</code></pre></p>
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="ResourceMatch-allowSlotsOnResource"></a><b>
+allowSlotsOnResource(pattern, slotName)
+</b>
+<p>
+<div class=slotDescription>
+Creates routes for defined controller's slots. Returns RouteMatch with newly created route.
+  These slots will be available on <code>/#{resourceName}/:id/#{pattern}</code>
+</div>
+<a name="ResourceMatch-connectToSource"></a><b>
+connectToSource(pattern, slotName)
+</b>
+<p>
+<div class=slotDescription>
+Creates route for other controller's slots. Returns RouteMatch with newly created route.
+  These slots will be available on <code>/#{resourceName}s/#{pattern}</code>
+</div>
+<a name="ResourceMatch-hasMany"></a><b>
+hasMany(resourceName)
+</b>
+<p>
+<div class=slotDescription>
+
+</div>
+<a name="ResourceMatch-hasOne"></a><b>
+hasOne()
+</b>
+<p>
+<div class=slotDescription>
+Not implemented. Returns <code>self</code>.
+</div>
+<a name="ResourceMatch-setup"></a><b>
+setup()
+</b>
+<p>
+<div class=slotDescription>
+Installs resource methods.
+</div>
+<a name="ResourceMatch-with"></a><b>
+with(resourceName)
+</b>
+<p>
+<div class=slotDescription>
+
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

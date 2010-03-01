@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>WebSocketHandler</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>WebSocketHandler Proto</h1>
+<br><br><br><br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td><p>Object whose methods are called from WebSocket when connection is established, authenticated, disconnected or when an message is received.</p>
+<p>Example:
+<pre><code>
+ChatWebSocketHandler := WebSocketHandler clone do(
+  authenticate := method(sessionId,
+    super(authenticate(sessionId)) ifTrue(
+      self chatController := ChatController clone setSession(self session)
+      self socket send({authDetails: true, user: self session user} asJson)))
+
+  processMessage := method(msg,
+    self chatController post(msg["body"]))
+)
+</code></pre></p>
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="WebSocketHandler-authenticate"></a><b>
+authenticate(sessionId)
+</b>
+<p>
+<div class=slotDescription>
+<p>Method called when authentication cookie arrives. Returns <code>true</code> if authentication succeeds.</p>
+    <p>If you plan on overwriting this slot remember to call <code>super(authenticate(sessionId))</code></p>
+</div>
+<a name="WebSocketHandler-handleSocketClose"></a><b>
+handleSocketClose
+</b>
+<p>
+<div class=slotDescription>
+Method which will be called when WebSocket connection is closed.
+</div>
+<a name="WebSocketHandler-handleSocketConnect"></a><b>
+handleSocketConnect
+</b>
+<p>
+<div class=slotDescription>
+Method which is called once WebSocket connection is established.
+</div>
+<a name="WebSocketHandler-isAuthenticated"></a><b>
+isAuthenticated
+</b>
+<p>
+<div class=slotDescription>
+Shows if the client has already sent authentication cookie.
+</div>
+<a name="WebSocketHandler-proccessMessage"></a><b>
+proccessMessage(message)
+</b>
+<p>
+<div class=slotDescription>
+Method wwhich will be called when new message arrives. First argument will be parse JSON message (Map).
+</div>
+<a name="WebSocketHandler-processData"></a><b>
+processData(data)
+</b>
+<p>
+<div class=slotDescription>
+<p>Method which is directly called from WebSocket when data arrives.
+  This method then, if user is authenticated calls <code>WebSocketHandler proccessMessage()</code>
+  or <code>WebSocketHandler authenticate()</code> otherwise.
+  </p>
+  <p>It is recommended that if you'll have to overwrite this slot,
+  that you do it after authentication happens (unless the authentication proccess is what you're changing).</p>
+</div>
+<a name="WebSocketHandler-session"></a><b>
+session
+</b>
+<p>
+<div class=slotDescription>
+Session object.
+</div>
+<a name="WebSocketHandler-socket"></a><b>
+socket
+</b>
+<p>
+<div class=slotDescription>
+Holds WebSocket object.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

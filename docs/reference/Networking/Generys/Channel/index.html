@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Channel</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Channel Proto</h1>
+<br><br><br><br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>Channel provides seamless integration of FutureResponse and WebSocket implementations.
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="Channel-send"></a><b>
+send(message, excludeList)
+</b>
+<p>
+<div class=slotDescription>
+<p>Send message to all subscribers. Returns <code>message</code>.</p>
+  <p><code>excludeList</code> can contain list of subscribers (their <code>name</code> properties) to which message won't be sent.</p>
+</div>
+<a name="Channel-streamFor"></a><b>
+streamFor(subscriberName)
+</b>
+<p>
+<div class=slotDescription>
+Returns FutureResponse or WebSocket with provided name
+</div>
+<a name="Channel-subscribe"></a><b>
+subscribe(subscriber)
+</b>
+<p>
+<div class=slotDescription>
+Adds subscriber to the channel. Subscriber can be FutureResponse or WebSocket object. Returns <code>subscriber</code>.
+</div>
+<a name="Channel-unsubscribe"></a><b>
+unsubscribe(subscriber)
+</b>
+<p>
+<div class=slotDescription>
+Removes subscriber from self. Returns <code>self</code>.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

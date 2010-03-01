@@ -1,6 +1,3 @@
 [submodule "addons/Generys"]
 	path = addons/Generys
 	url = git://github.com/josip/generys.git
-[submodule "addons/CInvoke"]
-	path = addons/CInvoke
-	url = git://github.com/fredreichbier/io-cinvoke.git

@@ -111,6 +111,7 @@ AddonBuilder := Object clone do(
 	)
 
 	pathForLib := method(name,
+	  name containsSeq("/") ifTrue(return(name))
 		libNames := list("." .. dllSuffix, ".a", ".lib") map(suffix, "lib" .. name .. suffix)
 		libSearchPaths detect(path,
 			libDirectory := Directory with(path)

@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Loudmouth</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Loudmouth Proto</h1>
+<br><br><br><br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="Loudmouth-asString"></a><b>
+asString
+</b>
+<p>
+<div class=slotDescription>
+Converts XML to Sequence.
+</div>
+<a name="Loudmouth-body"></a><b>
+body
+</b>
+<p>
+<div class=slotDescription>
+Returns value message's body node. If both XHTML and plain versions are available, XHTML version will be returned.
+</div>
+<a name="Loudmouth-connect"></a><b>
+connect
+</b>
+<p>
+<div class=slotDescription>
+Connects to the server. Returns <code>self</code>.
+</div>
+<a name="Loudmouth-disconnect"></a><b>
+disconnect
+</b>
+<p>
+<div class=slotDescription>
+Disconnects from server and returns <code>true</code> if it succeeds.
+</div>
+<a name="Loudmouth-from"></a><b>
+from
+</b>
+<p>
+<div class=slotDescription>
+Returns sender's JID.
+</div>
+<a name="Loudmouth-handleAuthenticationFailure"></a><b>
+handleAuthenticationFailure
+</b>
+<p>
+<div class=slotDescription>
+Slot called if username/password combinaton is wrong.
+</div>
+<a name="Loudmouth-handleConnect"></a><b>
+handleConnect
+</b>
+<p>
+<div class=slotDescription>
+Slot called once connection is established.
+</div>
+<a name="Loudmouth-handleConnectFailure"></a><b>
+handleConnectFailure
+</b>
+<p>
+<div class=slotDescription>
+Slot called when server is not reachable.
+</div>
+<a name="Loudmouth-handleDisconnect"></a><b>
+handleDisconnect
+</b>
+<p>
+<div class=slotDescription>
+Slot called upon closing the connection with the server.
+</div>
+<a name="Loudmouth-handleMessage"></a><b>
+handleMessage(xmppMessage)
+</b>
+<p>
+<div class=slotDescription>
+Slot called when an message arrives via XMPP stream. <code>xmppMessage</code> is a <code>LoudmouthMessage</code> object.
+</div>
+<a name="Loudmouth-handleSslFailure"></a><b>
+handleSslFailure
+</b>
+<p>
+<div class=slotDescription>
+Slot called if SSL-related problems arrive. Method should return <code>true</code> if it wishes make a connection without SSL, <code>false</code> otherwise.
+</div>
+<a name="Loudmouth-isConnected"></a><b>
+isConnected
+</b>
+<p>
+<div class=slotDescription>
+
+</div>
+<a name="Loudmouth-isSslSupported"></a><b>
+isSslSupported
+</b>
+<p>
+<div class=slotDescription>
+
+</div>
+<a name="Loudmouth-plainBody"></a><b>
+plainBody
+</b>
+<p>
+<div class=slotDescription>
+Returns value of message's body node with XHTML markup.
+</div>
+<a name="Loudmouth-registerAccount"></a><b>
+registerAccount(server, username, password)
+</b>
+<p>
+<div class=slotDescription>
+Registers a new account at XMPP server. Returns <code>true</code> or <code>false</code>.
+</div>
+<a name="Loudmouth-send"></a><b>
+send(toJid, message)
+</b>
+<p>
+<div class=slotDescription>
+Sends an message (<code>Sequence</code>) to provided JID (<code>Sequence</code>). Returns <code>true</code> or <code>false</code>.
+</div>
+<a name="Loudmouth-sendRaw"></a><b>
+sendRaw(body)
+</b>
+<p>
+<div class=slotDescription>
+Sends raw text over XMPP stream. Returns <code>true</code> if no errors occur.
+</div>
+<a name="Loudmouth-sendVia"></a><b>
+sendVia(loudmouthConnection)
+</b>
+<p>
+<div class=slotDescription>
+Converts message to sequence and sends it via provided Loudmouth connection (<code>Loudmouth</code> object). It updates <code>from</code> property and returns <code>true</code> if message is sent.
+</div>
+<a name="Loudmouth-setFrom"></a><b>
+setFrom(jid)
+</b>
+<p>
+<div class=slotDescription>
+Sets sender's JID. Returns <code>self</code>.
+</div>
+<a name="Loudmouth-setPresence"></a><b>
+setPresence(presence[, statusMessage])
+</b>
+<p>
+<div class=slotDescription>
+Sets aviability/presence and status message.
+</div>
+<a name="Loudmouth-setStatusMessage"></a><b>
+setStatusMessage(statusMessage)
+</b>
+<p>
+<div class=slotDescription>
+Sets status message.
+</div>
+<a name="Loudmouth-setXmppType"></a><b>
+setXmppType(type)
+</b>
+<p>
+<div class=slotDescription>
+Sets value of <code>type</code> attribute.
+</div>
+<a name="Loudmouth-startMainLoop"></a><b>
+startMainLoop
+</b>
+<p>
+<div class=slotDescription>
+Starts GMainLoop. Should be called after connection is established with the server.
+</div>
+<a name="Loudmouth-status"></a><b>
+status
+</b>
+<p>
+<div class=slotDescription>
+Returns status connection. Possible return values are:
+<ul>
+  <li><code>Loudmouth types CLOSED</code></li>
+  <li><code>Loudmouth types OPENING</code></li>
+  <li><code>Loudmouth types OPEN</code></li>
+  <li><code>Loudmouth types AUTHENTICATING</code></li>
+  <li><code>Loudmouth types AUTHENTICATED</code></li>
+</ul>
+</div>
+<a name="Loudmouth-stopMainLoop"></a><b>
+stopMainLoop
+</b>
+<p>
+<div class=slotDescription>
+
+</div>
+<a name="Loudmouth-types"></a><b>
+types
+</b>
+<p>
+<div class=slotDescription>
+<p>Object containing status codes and message types.</p>
+  <pre><code>
+  Loudmouth with("username@server.com", "password") do(
+    handleConnect = method(
+      self setPresence(Loudmouth types AVAILABLE), "Drinking lemonade...")
+  )
+  </code></pre>
+</div>
+<a name="Loudmouth-with"></a><b>
+with(jid, password)
+</b>
+<p>
+<div class=slotDescription>
+Creates new Lodumouth clone with server details provided in <code>jid</code>.
+</div>
+<a name="Loudmouth-xmppType"></a><b>
+xmppType
+</b>
+<p>
+<div class=slotDescription>
+Returns value of <code>type</code> attribute of message node.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

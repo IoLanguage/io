@@ -205,6 +205,20 @@ Returns true if arg is an activation context (i.e. Call object)
 	Note: this is used internally in one place only (Coroutine callStack).
 	Refactoring should be considered.
 </div>
+<a name="Object-asJson"></a><b>
+asJson()
+</b>
+<p>
+<div class=slotDescription>
+Converts Object to JSON Sequence.
+</div>
+<a name="Object-asMap"></a><b>
+asMap()
+</b>
+<p>
+<div class=slotDescription>
+Converts Object to Map
+</div>
 <a name="Object-asSimpleString"></a><b>
 asSimpleString
 </b>
@@ -343,6 +357,20 @@ coroWith(code)
 <p>
 <div class=slotDescription>
 Returns a new coro to be run in a context of receiver.
+</div>
+<a name="Object-curlyBrackets"></a><b>
+curlyBrackets(...)
+</b>
+<p>
+<div class=slotDescription>
+JavaScript syntax for Map.<br/>
+  Note that order will not be preserved, as well as that quotes are not allowed around propery names (as in JSON specification).
+  <code><pre>
+  prices:= {
+    vanilla:    12.20,
+    chocolate:  12.25,
+    strawberry: 13.30
+  }</pre></code>
 </div>
 <a name="Object-currentCoro"></a><b>
 currentCoro
@@ -1162,6 +1190,13 @@ slotValues
 <div class=slotDescription>
 Returns a list of the values held in the slots of the receiver.
 </div>
+<a name="Object-squareBrackets"></a><b>
+squareBrackets(...)
+</b>
+<p>
+<div class=slotDescription>
+Alias for list(). <code><pre>[1, 2, 3, 4]</pre></code>
+</div>
 <a name="Object-stopStatus"></a><b>
 stopStatus
 </b>
@@ -1328,3 +1363,5 @@ Yields to another coroutine. Does nothing if yieldingCoros queue is empty.
 </tr>
 </table>
 <br><br><br><br><br>
+</body>
+</html>

@@ -34,8 +34,8 @@ acc connect
 Loudmouth startMainLoop
 
 </pre></code>*/
-  /*doc Loudmouth types *
-  <p>Returns status codes and message types.</p>
+  /*doc Loudmouth types
+  <p>Object containing status codes and message types.</p>
   <pre><code>
   Loudmouth with("username@server.com", "password") do(
     handleConnect = method(
@@ -72,17 +72,17 @@ Loudmouth startMainLoop
       setHost(jid host)\
       setResource(jid resource))
 
-  //doc Loudmouth handleConnect() Slot called once connection is established.
+  //doc Loudmouth handleConnect Slot called once connection is established.
   handleConnect         := method()
-  //doc Loudmouth handleConnectFailure() Slot called when server is not reachable.
+  //doc Loudmouth handleConnectFailure Slot called when server is not reachable.
   handleConnectFailure  := method()
-  //doc Lodumouth handleAuthenticated() Slot called upon successful authentication.
+  //doc Lodumouth handleAuthenticated Slot called upon successful authentication.
   handleAuthenticated   := method()
-  //doc Loudmouth handleAuthenticationFailure() Slot called if username/password combinaton is wrong.
+  //doc Loudmouth handleAuthenticationFailure Slot called if username/password combinaton is wrong.
   handleAuthenticationFailure := method()
-  //doc Loudmouth handleDisconnect() Slot called upon closing the connection with the server.
+  //doc Loudmouth handleDisconnect Slot called upon closing the connection with the server.
   handleDisconnect      := method()
-  //doc Loudmouth handleSslFailure() Slot called if SSL-related problems arrive. Method should return <code>true</code> if it wishes make a connection without SSL, <code>false</code> otherwise.
+  //doc Loudmouth handleSslFailure Slot called if SSL-related problems arrive. Method should return <code>true</code> if it wishes make a connection without SSL, <code>false</code> otherwise.
   handleSslFailure      := method(true)
   //doc Loudmouth handleMessage(xmppMessage) Slot called when an message arrives via XMPP stream. <code>xmppMessage</code> is a <code>LoudmouthMessage</code> object.
   # Overwrite this method in your clone

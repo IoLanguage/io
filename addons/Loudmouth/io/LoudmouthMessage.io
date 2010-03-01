@@ -72,7 +72,7 @@ LoudmouthMessage := Object clone do(
 
 XmppChatMessage := LoudmouthMessage clone do(
 //metadoc XmppChatMessage category Networking
-  //doc XmppChatMessage create() Creates a new <code>LoudmouthMessage</code> with chat <code>type</code> and random id value.
+//doc XmppChatMessage create Creates a new <code>LoudmouthMessage</code> with chat <code>type</code> and random id value.
   create := method(
     super(with("""<message from="" to="" id="lm.io.#{self uniqueHexId}" type="chat"></message>""" interpolate)))
 )
