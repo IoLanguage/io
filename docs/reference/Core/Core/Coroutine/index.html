@@ -15,7 +15,7 @@
 <tr>
 <td align=right></td>
 <td></td>
-<td>Object wrapper for an Io coroutine.
+<td>Coroutine is an primitive for Io's lightweight cooperative C-stack based threads.
 </td></tr>
 <tr><td colspan=3>&nbsp;</td></tr>
 <tr><td colspan=3>&nbsp;</td></tr>
@@ -53,7 +53,7 @@ debugWriteln
 </b>
 <p>
 <div class=slotDescription>
-(See <tt>Object debugWriteln</tt>.)
+See <tt>Object debugWriteln</tt>.
 </div>
 <a name="Coroutine-exception"></a><b>
 exception
@@ -138,9 +138,9 @@ pause
 <p>
 <div class=slotDescription>
 Removes current coroutine from the yieldingCoros queue and
-	yields to another coro. <tt>System exit</tt> is executed if no coros left.
-	<br/>
-	You can resume a coroutine using either <tt>resume</tt> or <tt>resumeLater</tt> message.
+		yields to another coro. <tt>System exit</tt> is executed if no coros left.
+		<br/>
+		You can resume a coroutine using either <tt>resume</tt> or <tt>resumeLater</tt> message.
 </div>
 <a name="Coroutine-pauseCurrentAndResumeSelf"></a><b>
 pauseCurrentAndResumeSelf
@@ -177,7 +177,7 @@ resumeLater
 <p>
 <div class=slotDescription>
 Promotes receiver to the top of the yieldingCoros queue, but not yielding to it.
-  When current coroutine yields, receiver will resume.
+		When current coroutine yields, receiver will resume.
 </div>
 <a name="Coroutine-resumeParentCoroutine"></a><b>
 resumeParentCoroutine
@@ -222,18 +222,18 @@ setException
 
 </div>
 <a name="Coroutine-setInException"></a><b>
-setInException
+setInException(aBool)
 </b>
 <p>
 <div class=slotDescription>
-
+Set the inException status. Returns self.
 </div>
 <a name="Coroutine-setLabel"></a><b>
-setLabel
+setLabel(aLabel)
 </b>
 <p>
 <div class=slotDescription>
-
+Sets the comment label for the Coro. Return self.
 </div>
 <a name="Coroutine-setMessageDebugging"></a><b>
 setMessageDebugging(aBoolean)
@@ -246,11 +246,11 @@ Turns on message level debugging for this coro. When on, this
 	for more information.
 </div>
 <a name="Coroutine-setParentCoroutine"></a><b>
-setParentCoroutine
+setParentCoroutine(aCoro)
 </b>
 <p>
 <div class=slotDescription>
-
+Sets the parent coroutine. Returns self.
 </div>
 <a name="Coroutine-setResult"></a><b>
 setResult
@@ -274,25 +274,18 @@ setRunMessage
 
 </div>
 <a name="Coroutine-setRunTarget"></a><b>
-setRunTarget
+setRunTarget(anObject)
 </b>
 <p>
 <div class=slotDescription>
 
 </div>
 <a name="Coroutine-setStackSize"></a><b>
-setStackSize
+setStackSize(aNumber)
 </b>
 <p>
 <div class=slotDescription>
-
-</div>
-<a name="Coroutine-setYieldingCoros"></a><b>
-setYieldingCoros
-</b>
-<p>
-<div class=slotDescription>
-
+Sets the stack size in bytes to allocate for new Coros. Returns self.
 </div>
 <a name="Coroutine-showStack"></a><b>
 showStack
@@ -328,7 +321,7 @@ yield
 <p>
 <div class=slotDescription>
 Yields to another coroutine in the yieldingCoros queue.
-  Does nothing if yieldingCoros is empty.
+		Does nothing if yieldingCoros is empty.
 </div>
 <a name="Coroutine-yieldCurrentAndResumeSelf"></a><b>
 yieldCurrentAndResumeSelf

@@ -28,6 +28,13 @@
 <td>
 <hr align=left color=#ddd height=1>
 <br><br>
+<a name="LibSndFile-channels"></a><b>
+channels
+</b>
+<p>
+<div class=slotDescription>
+Returns channels read from the audio file.
+</div>
 <a name="LibSndFile-close"></a><b>
 close
 </b>
@@ -35,6 +42,13 @@ close
 <div class=slotDescription>
 Closes the file if it is open. 
 	Returns self.
+</div>
+<a name="LibSndFile-format"></a><b>
+format
+</b>
+<p>
+<div class=slotDescription>
+Returns format read from the audio file.
 </div>
 <a name="LibSndFile-formatNames"></a><b>
 formatNames
@@ -49,14 +63,14 @@ openForReading
 <p>
 <div class=slotDescription>
 Opens the file at the path specified in the path slot and sets the following slots:
-	<pre>
-	frames
-	sampleRate
-	channels
-	format
-	seekable
-	</pre>
-	Returns self.
+<pre>
+frames
+sampleRate
+channels
+format
+seekable
+</pre>
+Returns self.
 </div>
 <a name="LibSndFile-openForWriting"></a><b>
 openForWriting
@@ -64,12 +78,12 @@ openForWriting
 <p>
 <div class=slotDescription>
 Opens the file at the path specified in the path slot for writing. The following slots should be set first to specify the output format:
-	<pre>
-	sampleRate
-	channels
-	format
-	</pre>
-	Returns self.
+<pre>
+sampleRate
+channels
+format
+</pre>
+Returns self.
 </div>
 <a name="LibSndFile-outputBuffer"></a><b>
 outputBuffer
@@ -77,6 +91,13 @@ outputBuffer
 <p>
 <div class=slotDescription>
 Returns the output buffer.
+</div>
+<a name="LibSndFile-path"></a><b>
+path
+</b>
+<p>
+<div class=slotDescription>
+Returns path to audio file.
 </div>
 <a name="LibSndFile-read"></a><b>
 read(numberOfFrames)
@@ -86,18 +107,39 @@ read(numberOfFrames)
 Read a given number of frames (sample pairs).
 	Returns self.
 </div>
+<a name="LibSndFile-sampleRate"></a><b>
+sampleRate
+</b>
+<p>
+<div class=slotDescription>
+Returns sample rate read from the audio file.
+</div>
+<a name="LibSndFile-setFormat"></a><b>
+setFormat(aSeq)
+</b>
+<p>
+<div class=slotDescription>
+Sets the format used for writing. Use the formatNames method to get a list of supported format names. Returns self.
+</div>
+<a name="LibSndFile-setPath"></a><b>
+setPath(aPath)
+</b>
+<p>
+<div class=slotDescription>
+Sets path to audio file.
+</div>
 <a name="LibSndFile-write"></a><b>
 write(aSeq)
 </b>
 <p>
 <div class=slotDescription>
 Writes aSeq using the format specified by the slots:
-	<pre>
-	sampleRate
-	channels
-	format
-	</pre>
-	Returns the number of frames written.
+<pre>
+sampleRate
+channels
+format
+</pre>
+Returns the number of frames written.
 </div>
 </td>
 </tr>

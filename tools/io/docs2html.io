@@ -153,6 +153,7 @@ modules foreach(moduleName, module,
 	)
 	*/
 	
+	if(catName == nil, catName = "Misc")
 	cat := categories atIfAbsentPut(catName asMutable strip, Map clone)
 	cat atPut(moduleName, module)
 )

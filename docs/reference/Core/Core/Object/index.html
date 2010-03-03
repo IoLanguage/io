@@ -317,7 +317,7 @@ coroDo(code)
 <p>
 <div class=slotDescription>
 Creates a new coro to be run in a context of sender and yields to it.
-  Returns a coro.
+		Returns a coro.
 </div>
 <a name="Object-coroDoLater"></a><b>
 coroDoLater(code)
@@ -325,10 +325,10 @@ coroDoLater(code)
 <p>
 <div class=slotDescription>
 Returns a new coro to be run in a context of sender.
-  New coro is moved to the top of the yieldingCoros queue to be executed 
-  when current coro yields.
-  <br/>
-  Note: run target is <tt>self</tt> (i.e. receiver), not <tt>call sender</tt> as in coroDo.
+		New coro is moved to the top of the yieldingCoros queue to be executed 
+		when current coro yields.
+		<br/>
+		Note: run target is <tt>self</tt> (i.e. receiver), not <tt>call sender</tt> as in coroDo.
 </div>
 <a name="Object-coroFor"></a><b>
 coroFor(code)
@@ -1237,9 +1237,9 @@ try(code)
 <p>
 <div class=slotDescription>
 Executes particular code in a new coroutine.
-  Returns exception or nil if no exception is caught.
-  <br/>
-  See also documentation for Exception catch and pass.
+		Returns exception or nil if no exception is caught.
+		<br/>
+		See also documentation for Exception catch and pass.
 </div>
 <a name="Object-type"></a><b>
 type
@@ -1289,9 +1289,9 @@ wait(s)
 <p>
 <div class=slotDescription>
 Pauses current coroutine for at least <tt>s</tt> seconds.
-<br/>
-Note: current coroutine may wait much longer than designated number of seconds
-depending on circumstances.
+	<br/>
+	Note: current coroutine may wait much longer than designated number of seconds
+	depending on circumstances.
 </div>
 <a name="Object-while"></a><b>
 while(&lt;condition&gt;, expression)

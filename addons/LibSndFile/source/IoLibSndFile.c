@@ -167,17 +167,17 @@ int IoLibSndFile_IdOfFormat(char *f)
 
 IoObject *IoLibSndFile_openForReading(IoLibSndFile *self, IoObject *locals, IoMessage *m)
 {
-	/*doc LibSndFile openForReading
-	Opens the file at the path specified in the path slot and sets the following slots:
-	<pre>
-	frames
-	sampleRate
-	channels
-	format
-	seekable
-	</pre>
-	Returns self.
-	*/
+/*doc LibSndFile openForReading
+Opens the file at the path specified in the path slot and sets the following slots:
+<pre>
+frames
+sampleRate
+channels
+format
+seekable
+</pre>
+Returns self.
+*/
 	
 	if (!DATA(self)->sndfile)
 	{
@@ -198,15 +198,15 @@ IoObject *IoLibSndFile_openForReading(IoLibSndFile *self, IoObject *locals, IoMe
 
 IoObject *IoLibSndFile_openForWriting(IoLibSndFile *self, IoObject *locals, IoMessage *m)
 {
-	/*doc LibSndFile openForWriting
-	Opens the file at the path specified in the path slot for writing. The following slots should be set first to specify the output format:
-	<pre>
-	sampleRate
-	channels
-	format
-	</pre>
-	Returns self.
-	*/
+/*doc LibSndFile openForWriting
+Opens the file at the path specified in the path slot for writing. The following slots should be set first to specify the output format:
+<pre>
+sampleRate
+channels
+format
+</pre>
+Returns self.
+*/
 	
 	if (!DATA(self)->sndfile)
 	{
@@ -275,15 +275,15 @@ IoObject *IoLibSndFile_read(IoLibSndFile *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoLibSndFile_write(IoLibSndFile *self, IoObject *locals, IoMessage *m)
 {
-	/*doc LibSndFile write(aSeq)
-	Writes aSeq using the format specified by the slots:
-	<pre>
-	sampleRate
-	channels
-	format
-	</pre>
-	Returns the number of frames written.
-	*/
+/*doc LibSndFile write(aSeq)
+Writes aSeq using the format specified by the slots:
+<pre>
+sampleRate
+channels
+format
+</pre>
+Returns the number of frames written.
+*/
 	
 	size_t channels = IoObject_doubleGetSlot_(self, IOSYMBOL("channels"));
 	UArray *inba = IoSeq_rawUArray(IoMessage_locals_seqArgAt_(m, locals, 0));
