@@ -36,6 +36,23 @@ body
 <div class=slotDescription>
 Returns value message's body node. If both XHTML and plain versions are available, XHTML version will be returned.
 </div>
+<<<<<<< HEAD:docs/reference/Networking/Loudmouth/Loudmouth/index.html
+=======
+<a name="Loudmouth-connect"></a><b>
+connect
+</b>
+<p>
+<div class=slotDescription>
+Connects to the server. Returns <code>self</code>.
+</div>
+<a name="Loudmouth-disconnect"></a><b>
+disconnect
+</b>
+<p>
+<div class=slotDescription>
+Disconnects from server and returns <code>true</code> if it succeeds.
+</div>
+>>>>>>> 7c43e3186ec15ad75056a49188073139d22bf6c3:docs/reference/Networking/Loudmouth/Loudmouth/index.html
 <a name="Loudmouth-from"></a><b>
 from
 </b>
@@ -44,28 +61,44 @@ from
 Returns sender's JID.
 </div>
 <a name="Loudmouth-handleAuthenticationFailure"></a><b>
+<<<<<<< HEAD:docs/reference/Networking/Loudmouth/Loudmouth/index.html
 handleAuthenticationFailure()
+=======
+handleAuthenticationFailure
+>>>>>>> 7c43e3186ec15ad75056a49188073139d22bf6c3:docs/reference/Networking/Loudmouth/Loudmouth/index.html
 </b>
 <p>
 <div class=slotDescription>
 Slot called if username/password combinaton is wrong.
 </div>
 <a name="Loudmouth-handleConnect"></a><b>
+<<<<<<< HEAD:docs/reference/Networking/Loudmouth/Loudmouth/index.html
 handleConnect()
+=======
+handleConnect
+>>>>>>> 7c43e3186ec15ad75056a49188073139d22bf6c3:docs/reference/Networking/Loudmouth/Loudmouth/index.html
 </b>
 <p>
 <div class=slotDescription>
 Slot called once connection is established.
 </div>
 <a name="Loudmouth-handleConnectFailure"></a><b>
+<<<<<<< HEAD:docs/reference/Networking/Loudmouth/Loudmouth/index.html
 handleConnectFailure()
+=======
+handleConnectFailure
+>>>>>>> 7c43e3186ec15ad75056a49188073139d22bf6c3:docs/reference/Networking/Loudmouth/Loudmouth/index.html
 </b>
 <p>
 <div class=slotDescription>
 Slot called when server is not reachable.
 </div>
 <a name="Loudmouth-handleDisconnect"></a><b>
+<<<<<<< HEAD:docs/reference/Networking/Loudmouth/Loudmouth/index.html
 handleDisconnect()
+=======
+handleDisconnect
+>>>>>>> 7c43e3186ec15ad75056a49188073139d22bf6c3:docs/reference/Networking/Loudmouth/Loudmouth/index.html
 </b>
 <p>
 <div class=slotDescription>
@@ -79,12 +112,33 @@ handleMessage(xmppMessage)
 Slot called when an message arrives via XMPP stream. <code>xmppMessage</code> is a <code>LoudmouthMessage</code> object.
 </div>
 <a name="Loudmouth-handleSslFailure"></a><b>
+<<<<<<< HEAD:docs/reference/Networking/Loudmouth/Loudmouth/index.html
 handleSslFailure()
+=======
+handleSslFailure
+>>>>>>> 7c43e3186ec15ad75056a49188073139d22bf6c3:docs/reference/Networking/Loudmouth/Loudmouth/index.html
 </b>
 <p>
 <div class=slotDescription>
 Slot called if SSL-related problems arrive. Method should return <code>true</code> if it wishes make a connection without SSL, <code>false</code> otherwise.
 </div>
+<<<<<<< HEAD:docs/reference/Networking/Loudmouth/Loudmouth/index.html
+=======
+<a name="Loudmouth-isConnected"></a><b>
+isConnected
+</b>
+<p>
+<div class=slotDescription>
+
+</div>
+<a name="Loudmouth-isSslSupported"></a><b>
+isSslSupported
+</b>
+<p>
+<div class=slotDescription>
+
+</div>
+>>>>>>> 7c43e3186ec15ad75056a49188073139d22bf6c3:docs/reference/Networking/Loudmouth/Loudmouth/index.html
 <a name="Loudmouth-plainBody"></a><b>
 plainBody
 </b>
@@ -92,6 +146,30 @@ plainBody
 <div class=slotDescription>
 Returns value of message's body node with XHTML markup.
 </div>
+<<<<<<< HEAD:docs/reference/Networking/Loudmouth/Loudmouth/index.html
+=======
+<a name="Loudmouth-registerAccount"></a><b>
+registerAccount(server, username, password)
+</b>
+<p>
+<div class=slotDescription>
+Registers a new account at XMPP server. Returns <code>true</code> or <code>false</code>.
+</div>
+<a name="Loudmouth-send"></a><b>
+send(toJid, message)
+</b>
+<p>
+<div class=slotDescription>
+Sends an message (<code>Sequence</code>) to provided JID (<code>Sequence</code>). Returns <code>true</code> or <code>false</code>.
+</div>
+<a name="Loudmouth-sendRaw"></a><b>
+sendRaw(body)
+</b>
+<p>
+<div class=slotDescription>
+Sends raw text over XMPP stream. Returns <code>true</code> if no errors occur.
+</div>
+>>>>>>> 7c43e3186ec15ad75056a49188073139d22bf6c3:docs/reference/Networking/Loudmouth/Loudmouth/index.html
 <a name="Loudmouth-sendVia"></a><b>
 sendVia(loudmouthConnection)
 </b>
@@ -127,12 +205,49 @@ setXmppType(type)
 <div class=slotDescription>
 Sets value of <code>type</code> attribute.
 </div>
+<<<<<<< HEAD:docs/reference/Networking/Loudmouth/Loudmouth/index.html
 <a name="Loudmouth-types *"></a><b>
 types *
+=======
+<a name="Loudmouth-startMainLoop"></a><b>
+startMainLoop
 </b>
 <p>
 <div class=slotDescription>
+Starts GMainLoop. Should be called after connection is established with the server.
+</div>
+<a name="Loudmouth-status"></a><b>
+status
+</b>
+<p>
+<div class=slotDescription>
+Returns status connection. Possible return values are:
+<ul>
+  <li><code>Loudmouth types CLOSED</code></li>
+  <li><code>Loudmouth types OPENING</code></li>
+  <li><code>Loudmouth types OPEN</code></li>
+  <li><code>Loudmouth types AUTHENTICATING</code></li>
+  <li><code>Loudmouth types AUTHENTICATED</code></li>
+</ul>
+</div>
+<a name="Loudmouth-stopMainLoop"></a><b>
+stopMainLoop
+</b>
+<p>
+<div class=slotDescription>
+
+</div>
+<a name="Loudmouth-types"></a><b>
+types
+>>>>>>> 7c43e3186ec15ad75056a49188073139d22bf6c3:docs/reference/Networking/Loudmouth/Loudmouth/index.html
+</b>
+<p>
+<div class=slotDescription>
+<<<<<<< HEAD:docs/reference/Networking/Loudmouth/Loudmouth/index.html
 <p>Returns status codes and message types.</p>
+=======
+<p>Object containing status codes and message types.</p>
+>>>>>>> 7c43e3186ec15ad75056a49188073139d22bf6c3:docs/reference/Networking/Loudmouth/Loudmouth/index.html
   <pre><code>
   Loudmouth with("username@server.com", "password") do(
     handleConnect = method(
@@ -158,3 +273,8 @@ Returns value of <code>type</code> attribute of message node.
 </tr>
 </table>
 <br><br><br><br><br>
+<<<<<<< HEAD:docs/reference/Networking/Loudmouth/Loudmouth/index.html
+=======
+</body>
+</html>
+>>>>>>> 7c43e3186ec15ad75056a49188073139d22bf6c3:docs/reference/Networking/Loudmouth/Loudmouth/index.html

@@ -11,6 +11,10 @@ a {
   text-decoration: none;
 }
 
+a:active {
+  outline: 0;
+}
+
 body {
   font-family: 'Helvetica Neue', 'Helvetica', sans-serif;
   margin: 8px 8px 8px 4em;
@@ -202,16 +206,23 @@ code {
   margin: 1em 0 3em 2em;
 }
 
+#search {
+  position: fixed;
+  right: 4em;
+}
+
 #searchResults {
-  position: absolute;
+  position: fixed;
+  right: 4em;
   list-style: none;
   min-width: 200px;
   padding: 2px;
-  margin: 20px 0 0 0;
+  margin: 20px -6px 0 0;
   text-indent: 0;
   z-index: 2;
-  background: #000;
--webkit-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.9);
+  -webkit-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.6);
+  -moz-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.6);
 }
 
 #searchResults li a {
@@ -226,31 +237,39 @@ code {
 }
 
 #browser {
-  background: rgba(255, 255, 255, 0.9);
+  border: 0;
+  margin-left: 0;
+  line-height: 1.2em;
 }
 
-#browser ol {
-  list-style: none;
-  text-indent: 0;
-  padding: 0;
-  display: block;
+#browser td.column {
+  text-align: left;
   width: 12em;
-  float: left;
-  margin: 0;
 }
 
-#browser li {
-  padding: 2px 0;
+#slots {
+  width: auto !important;
 }
 
-#slots li.description {
-  border-top: 3px double #ddd;
-  margin: 1em 0 0 0;
-  padding: 1em 0 0 0;
+#slots a:active {
+  font-weight: bold;
+  color: #000;
 }
 
-#slotDescriptions {
-  margin: 6em 0 0 0;
+#protoDescription, #protoSlots {
+  margin: 0 0 0 8em;
+  line-height: 1.2em;
+  width: 40em;
+}
+
+#protoDescription {
+  margin-top: 6em;
+  padding-bottom: 5em;
+  border-bottom: 1px solid #ddd;
+}
+
+#protoSlots {
+  margin-top: 3em;
 }
 
 span.args {

@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>CouchDocTemplate</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>CouchDocTemplate Proto</h1>
+<br><br><br><br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>CouchDocTemplate is a simple ORM for CouchDB documents.
+<pre><code>
+IceCream := CouchDocTemplate setup(
+  property("name")
+  property("flavours")
+  property("colours")
+  property("price")
+  timestamps
+  
+  docProto do(
+    before("create", method(doc,
+      ("We've got new Ice Cream!" .. doc[name]) println))
+    
+    is := method(colour,
+      self["colours"] contains(colour))
+    
+    shouldBe := method(colour,
+      self["colours"] appendIfAbsent(colour); self)
+  )
+)
+
+Io> chocolate := IceCream create({
+  _id: "chocolate",
+  name: "Chocolate",
+  flavours: ["chocolate"],
+  colours: ["brown"],
+  price: 12.20})
+We've got new ice cream! Chocolate!
+==> IceCream_0xfeed4beed:
+...
+Io> chocolate id
+==> "random-uuid-string-(for-real-,-not-kidding)"
+Io> chocolate is("green")
+==> false
+Io> chocolate shouldBe("green")
+==> IceCream_0xfeed4beef:
+...
+Io> chocolate save
+Io> IceCream["chocolate"] == chocolate
+</code></pre>
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="CouchDocTemplate-at"></a><b>
+at(id)
+</b>
+<p>
+<div class=slotDescription>
+Returns CouchDoc with <code>docProto</code> methods.
+</div>
+<a name="CouchDocTemplate-create"></a><b>
+create(properties)
+</b>
+<p>
+<div class=slotDescription>
+Creates new CouchDoc and creates it in database.
+</div>
+<a name="CouchDocTemplate-docProt"></a><b>
+docProt
+</b>
+<p>
+<div class=slotDescription>
+Slots added to his object will be available to all documents created from this template.
+</div>
+<a name="CouchDocTemplate-done"></a><b>
+done()
+</b>
+<p>
+<div class=slotDescription>
+If you're not using <code>CouchDocTemplate setup()</code> make sure you call this method after you've defined CouchDocTemplate and all the properties.
+</div>
+<a name="CouchDocTemplate-new"></a><b>
+new(properties)
+</b>
+<p>
+<div class=slotDescription>
+Creates new CouchDoc and sets <em>ioType</em> property.
+</div>
+<a name="CouchDocTemplate-property"></a><b>
+property(propertyName)
+</b>
+<p>
+<div class=slotDescription>
+Adds property to template. No magic for now.
+</div>
+<a name="CouchDocTemplate-setup"></a><b>
+setup()
+</b>
+<p>
+<div class=slotDescription>
+Use this method when defining CouchDocTemplate.
+</div>
+<a name="CouchDocTemplate-squareBrackets"></a><b>
+squareBrackets(id)
+</b>
+<p>
+<div class=slotDescription>
+Alias for <code>CouchDocTemplate at()</code>.
+</div>
+<a name="CouchDocTemplate-timestamps"></a><b>
+timestamps()
+</b>
+<p>
+<div class=slotDescription>
+Adds <em>created_at</em> and <em>updated_at</em> properties, as well as listeners to template.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

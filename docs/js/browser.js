@@ -16,21 +16,34 @@ var DocsBrowser = {
 
   init: function () {
     this.loadDocs();
-    this.attachEvents();
-
-    setInterval(this.monitorHash, 200);
   },
   loadDocs: function () {
     var self = this;
-    $.getJSON("reference/docs.json", function (docs) {
+    $.getJSON("docs.json", function (docs) {
+      if(!docs)
+        return false;
+
       self.docs = docs;
+      self.createIndex();
+      self.attachEvents();
       self.listCategories();
     });
+  },
+  _pathsIndex: [],
+  _protosIndex: {},
+  createIndex: function () {
+    for(var category in this.docs)
+      for(var addon in this.docs[category])
+        for(var proto in this.docs[category][addon]) {
+          this._protosIndex[proto] = [category, addon, proto];
+          for(var slot in this.docs[category][addon][proto].slots)
+            this._pathsIndex.push([category, addon, proto, slot]);
+        }
   },
   monitorHash: function () {
     var self = DocsBrowser;
 
-    if(self._last_hash == window.location.hash)
+    if(self._last_hash === window.location.hash)
       return;
 
     var hash = window.location.hash.split("/").slice(1);
@@ -50,14 +63,28 @@ var DocsBrowser = {
   },
   attachEvents: function () {
     var self = this;
-    /* $("#browser").mouseenter(function () {
-      if(self.collapsed) self.showMenu();
-    }); */
+
+    $("h1")
+      .before('<div id="searchResults" style="display:none"></div>')
+      .before('<input type="search" id="search" placeholder="Search..." title="Search..."/>');
+    $("body")
+      .append('<p id="protoDescription"></p>')
+      .append('<div id="protoSlots"></div>');
+    $("#categories").parent()
+      .append('<td id="addons" valign="top" class="column">')
+      .append('<td id="protos" valign="top" class="column">')
+      .append('<td id="slots"  valign="top" class="column">');
+
+    setInterval(this.monitorHash, 200);
+
     $("#searchResults").click(function () {
       $(this).empty().hide();
+      $("#search")[0].value = "";
     });
+
     $("#search").keyup(function (e) {
-      if(e.keyCode == 13) {
+      // Enter key
+      if(e.keyCode === 13) {
         var link = $("#searchResults a:first").attr("href");
         if(link) {
           window.location.hash = link;
@@ -70,12 +97,18 @@ var DocsBrowser = {
         $("#searchResults").empty().hide();
       }
     });
+    
+    $(window).keyup(function (e) {
+      if(e.target.nodeName.toLowerCase() === "html"
+        && String.fromCharCode(e.keyCode).toLowerCase() === "f")
+        $("#search")[0].focus();
+    });
   },
 
   listCategories: function () {
     var $categories = $("#categories");
     this.appendItemsToList($categories, this.docs, "linkToCategory");
-    $("#browser").prepend($categories);
+    $("#categories-column").prepend($categories);
   },
   listAddons: function (category) {
     var $addons = $("#addons"),
@@ -89,12 +122,19 @@ var DocsBrowser = {
     this.appendItemsToList($addons, addons, "linkToAddon");
     $("#protos").empty();
     $("#slots").empty();
+    $("#protoDescription").empty();
+    $("#protoSlots").empty();
     $addons.insertAfter("#categories");
 
-    if(addons.hasOwnProperty(category))
-      window.location.hash = window.location.hash + "/" + category;
+    if(addons[category] && window.location.hash.split("/").length == 2) {
+      window.location = window.location + "/" + category;
+      this.listProtos(category);
+    }
   },
   listProtos: function (addon) {
+    if(!addon)
+      return false;
+
     var $protos = $("#protos"),
         protos = this.docs[this.currentCategory][addon];
     this.currentAddon = addon;
@@ -102,15 +142,22 @@ var DocsBrowser = {
 
     this.appendItemsToList($protos, protos, "linkToProto");
     $("#slots").empty();
+    $("#protoDescription").empty();
+    $("#protoSlots").empty();
     $protos.insertAfter("#addons");
+    
+    if(protos[addon] && window.location.hash.split("/").length == 3) {
+      window.location = window.location + "/" + addon;
+      this.listSlots(addon);
+    }
   },
   listSlots: function (proto) {
     var $slots      = $("#slots"),
-        $descriptions = $("#slotDescriptions"),
+        $descriptions = $("#protoSlots"),
         _proto      = this.docs[this.currentCategory][this.currentAddon][proto],
         slots       = _proto.slots,
         description = _proto.description,
-        html_description = "<div><a name=\"/#{aName}\"></a><h4>#{title}</h4><div class=\"slotDescription\">#{body}</div></div>";
+        html_description = "<a name=\"/#{aName}\"></a><b>#{title}</b><p><div class=\"slotDescription\">#{body}</div></p>";
     this.currentProto = proto;
     this.highlightMenuItem(proto + "_proto");
 
@@ -133,15 +180,15 @@ var DocsBrowser = {
       }));
     }
 
-    $slots.width($("body").width() - ($("#protos").offset().left + $("#protos").width()));
-    if(description)
-      $slots.append("<li class=\"description indexItem\">" + description + "</li>");
 
+    if(description)
+      $("#protoDescription").html(description);
+    
     $slots.insertAfter("#protos");
-    $descriptions.insertAfter("#header");
+    $descriptions.appendTo("body");
   },
   showSlot: function (slot) {
-    // Some nice effect?
+    // Some nice scrolling effect?
     //$("a[name=" + window.location.hash.slice(1) + "]").next();
   },
 
@@ -151,13 +198,13 @@ var DocsBrowser = {
       return this.displaySearch(term, this._searchCache[term]);
 
     var results = [],
-      mode = this.getSearchMode(term),
-      scope;
+      mode = this.getSearchMode(term);
 
     switch(mode) {
       case "currentProto":
-        scope = this.docs[this.currentCategory][this.currentAddon][this.currentProto].slots;
-        var _term = $.trim(term);
+        var scope = this.docs[this.currentCategory][this.currentAddon][this.currentProto].slots,
+            _term = $.trim(term);
+
           for(var slot in scope)
             if(slot.indexOf(_term) !== -1)
               results.push([this.currentCategory, this.currentAddon, this.currentProto, slot]);
@@ -170,27 +217,25 @@ var DocsBrowser = {
         if(!ca)
           break;
 
-        scope = this.docs[ca[0]][ca[1]][__term[0]].slots;
+        var scope = this.docs[ca[0]][ca[1]][__term[0]].slots;
         for(var slot in scope)
           if(slot.indexOf(_term) !== -1)
             results.push([ca[0], ca[1], __term[0], slot]);
         break;
 
       case "searchProto":
-        for(var category in this.docs)
-          for(var addon in this.docs[category])
-            for(var proto in this.docs[category][addon])
-              if(proto.indexOf(term) !== -1)
-                results.push([category, addon, proto]);
+        var index = this._protosIndex;
+        for(var proto in index)
+          if(proto.indexOf(term) !== -1)
+            results.push(index[proto]);
+
         break;
 
       case "allProtos":
-        for(var category in this.docs)
-          for(var addon in this.docs[category])
-            for(var proto in this.docs[category][addon])
-              for(var slot in this.docs[category][addon][proto].slots)
-                if(slot.indexOf(term) !== -1)
-                  results.push([category, addon, proto, slot]);
+        var index = this._pathsIndex, n = index.length;
+        while(n--)
+          if(index[n][3].indexOf(term) !== -1)
+            results.push(index[n]);
         break;
 
       case "none":
@@ -218,17 +263,8 @@ var DocsBrowser = {
 
     return none;
   },
-  _catCache: {},
   getPathToProto: function (proto) {
-    if(this._catCache[proto])
-      return this._catCache[proto];
-
-    for(var category in this.docs)
-      for(var addon in this.docs[category])
-        if(this.docs[category][addon].hasOwnProperty(proto))
-          return this._catCache[proto] = [category, addon];
-
-    return false;
+    return this._protosIndex[proto] || false;
   },
   displaySearch: function (term, results) {
     var $results = $("#searchResults"),
@@ -261,12 +297,13 @@ var DocsBrowser = {
       $results.prepend("<li><a href=\"#{link}\">#{proto} #{slot}</a></li>".interpolate(data));
     }
 
-    $results.show().css($("#search").offset()).appendTo("body");
+    $results.show().insertBefore("h1");
+//    $results.show().css("top", $("#search").offset().top).appendTo("body");
   },
 
   createMenuLink: function (text, type, link) {
     arguments[2] = link.split("(")[0];
-    return '<li id="#{0}_#{1}" class="type_#{1} indexItem"><a href="#/#{2}">#{0}</a></li>'.interpolate(arguments);
+    return '<div id="#{0}_#{1}" class="type_#{1} indexItem"><a href="#/#{2}">#{0}</a></div>'.interpolate(arguments);
   },
   linkToCategory: function (category) {
     return this.createMenuLink(category, "category", category);
@@ -280,7 +317,7 @@ var DocsBrowser = {
   linkToSlot: function (slot) {
     var url = this.aNameForHash(slot),
         text = this.parseSlotName(slot);
-    return '<li id="#{0}_slot" class="type_slot indexItem"><a href="#/#{1}">#{2}</a></li>'.interpolate([slot, url, text]);
+    return '<div id="#{0}_slot" class="type_slot indexItem"><a href="#/#{1}">#{2}</a></div>'.interpolate([slot, url, text]);
   },
   highlightMenuItem: function (id) {
     var $link = $(document.getElementById(id));

@@ -1,9 +1,6 @@
-#Regex
-
 JID := Object clone do(
-//metadoc JID category networking
+//metadoc JID category Networking
 //metadoc JID description Object for representing JIDs.
-  #_jidRegex = "(.+)@([^/]+)/?(.*)?" asRegex
 
   //doc JID username Extracts username from JID.
   username  ::= nil
@@ -14,7 +11,8 @@ JID := Object clone do(
   //doc JID asString Converts JID to string with all available parts included.
   asString  ::= nil
 
-  /*doc JID with(jid) Extracts all parts of a provided <code>Sequence</code> and returns new <code>JID</code> clone.
+  /*doc JID with(jid)
+  Extracts all parts of a provided <code>Sequence</code> and returns new <code>JID</code> clone.
   <pre><code>
   j := JID with("cow@moo.com/Alpes")
   j username == "cow"
@@ -24,8 +22,6 @@ JID := Object clone do(
   with := method(jid,
     fpart := jid split("@")
     spart := fpart at(1) split("/")
-    #matches := jid allMatchesOfRegex(_jidRegex) ?first ?captures
-    #matches at(3) isEmpty ifTrue(matches atPut(3, nil))
 
     self clone\
       setAsString(jid)\

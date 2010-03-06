@@ -142,7 +142,6 @@ modules foreach(moduleName, module,
 	
 	module foreach(k, v, if(v at("category") != catName, module removeAt(k)))
 	
-	
 	/*	
 	if(firstProtoName, firstProto := module at(firstProtoName))
 	if(firstProto,
@@ -156,6 +155,12 @@ modules foreach(moduleName, module,
 	if(catName == nil, catName = "Misc")
 	cat := categories atIfAbsentPut(catName asMutable strip, Map clone)
 	cat atPut(moduleName, module)
+/*
+	catName isNil ifFalse(
+	  cat := categories atIfAbsentPut(catName asMutable strip, Map clone)
+	  cat atPut(moduleName, module)
+	)
+*/
 )
 
 Section := Object clone do(
@@ -186,6 +191,11 @@ Section := Object clone do(
 )
 
 Categories := Section clone setItems(categories) 
+// JSON DOCS --------------------------------------------------------
+
+jsonFile := File with(Path with(docsPath, "docs.json")) remove open
+jsonFile writeln(Categories items asJson)
+jsonFile close
 
 // CATEGORIES -------------------------------------------------------
 
@@ -196,7 +206,9 @@ outFile writeln("""<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 <title>Io Reference</title>
 <META HTTP-EQUIV="EXPIRES" CONTENT=0>
-<link rel="stylesheet" href="../docs.css">
+<link rel="stylesheet" href="../docs.css"/>
+<script src="../js/jquery.js" type="text/javascript"></script>
+<script src="../js/browser.js"></script>
 </head>
 <body>
 """)
@@ -206,9 +218,9 @@ outFile writeln("<h1>Io Reference</h1>")
 //outFile writeln(" generated on " .. Date clone now asString("%Y %m %d") .. "</div>")
 outFile writeln("<br><br><br><br><br>")
 
-outFile writeln("<table cellpadding=0 cellspacing=0 border=0 style=\"line-height:1.2; margin-left:0em;\">")
-outFile writeln("<tr>")
-outFile writeln("<td valign=top align=left style=\"width:12em;\">")
+outFile writeln("<table id=\"browser\" cellpadding=\"0\" cellspacing=\"0\">")
+outFile writeln("<tr id=\"categories-column\">")
+outFile writeln("<td id=\"categories\" class=\"column\" valign=\"top\">")
 outFile write(Categories linksHtml)
 outFile writeln("</td>")
 outFile writeln("</tr>")
@@ -234,16 +246,18 @@ Categories sortedItems foreach(cat,
 		outFile writeln("<br>")
 		outFile writeln("<h1>Io Reference</h1>")
 		outFile writeln("<br><br><br><br><br>")
-		outFile writeln("<table cellpadding=0 cellspacing=0 border=0 style=\"line-height:1.2; margin-left:0em;\">")
+		outFile writeln("<table id=\"browser\" cellpadding=\"0\" cellspacing=\"0\">")
 		outFile writeln("<tr>")
-		outFile writeln("<td valign=top align=left style=\"width:12em;\">")
+		outFile writeln("<td valign=\"top\" class=\"column\">")
 		outFile write(Categories setPath("..") linksHtml(cat name))
 		outFile writeln("</td>")
-		outFile writeln("<td valign=top align=left style=\"width:12em;\">")
+		outFile writeln("<td valign=\"top\" class=\"column\">")
 		outFile write(cat linksHtml)
 		outFile writeln("</td>")	
 		outFile writeln("</tr>")
 		outFile writeln("</table>")
+  	outFile writeln("</body>")
+  	outFile writeln("</html>")
 		outFile close
 	)
 )
@@ -269,19 +283,21 @@ Categories sortedItems foreach(cat,
 			outFile writeln("<br>")
 			outFile writeln("<h1>Io Reference</h1>")
 			outFile writeln("<br><br><br><br><br>")
-			outFile writeln("<table cellpadding=0 cellspacing=0 border=0 style=\"line-height:1.2; margin-left:0em;\">")
+			outFile writeln("<table id=\"browser\" cellpadding=\"0\" cellspacing=\"0\">")
 			outFile writeln("<tr>")
-			outFile writeln("<td valign=top align=left style=\"width:12em;\">")
+			outFile writeln("<td valign=\"top\" class=\"column\">")
 			outFile write(Categories setPath("../..") linksHtml(cat name))
 			outFile writeln("</td>")
-			outFile writeln("<td valign=top align=left style=\"width:12em;\">")
+			outFile writeln("<td valign=\"top\" class=\"column\">")
 			outFile writeln(cat setPath("..") linksHtml(addon name))
 			outFile writeln("</td>")
-			outFile writeln("<td valign=top align=left style=\"width:12em;\">")
+			outFile writeln("<td valign=\"top\" class=\"column\">")
 			outFile write(addon linksHtml)
 			outFile writeln("</td>")	
 			outFile writeln("</tr>")
 			outFile writeln("</table>")
+			outFile writeln("</body>")
+			outFile writeln("</html>")
 			outFile close
 		)
 	)
@@ -424,6 +440,8 @@ Categories sortedItems foreach(cat,
 	outFile writeln("</tr>")	
 
 	outFile writeln("</table>")
-	outFile writeln("<br><br><br><br><br>")	
+	outFile writeln("<br><br><br><br><br>")
+	outFile writeln("</body>")
+	outFile writeln("</html>")
 	outFile close
 )))
