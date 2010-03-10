@@ -11,7 +11,7 @@ CFFI do(
 			if(self isType,
 				toType(self)
 			,
-				self proto ptr
+				self proto ptr clone setValue(self)
 			)
 		)
 
@@ -22,5 +22,11 @@ CFFI do(
 		typeString := method(
 			"^" .. self pointedToType typeString
 		)
+
+		isNil := method(
+			self address isNil
+		)
+
+		fromRef := method( self ?_keepRef )
 	)
 )

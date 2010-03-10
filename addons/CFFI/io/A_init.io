@@ -4,7 +4,7 @@ Protos Addons CFFI CFFI := Protos Addons CFFI
 
 CFFI do(
 	//metadoc CFFI copyright Trevor Fancher, 2006
-	//metadoc CFFI category Bridges
+	//metadoc CFFI category binding
 	//metadoc CFFI license New BSD license
 
 	// Because of the way building addons works, our Protos are prefixed
@@ -12,7 +12,8 @@ CFFI do(
 	method(
 		CFFI slotNames foreach(slot,
 			slot beginsWithSeq("CFFI") and(slot size > 4) ifTrue(
-				CFFI setSlot(slot slice(4), CFFI getSlot(slot))
+				//CFFI setSlot(slot slice(4), CFFI getSlot(slot))
+				CFFI setSlot(slot exSlice(4), CFFI getSlot(slot))
 				CFFI removeSlot(slot)
 			)
 		)
