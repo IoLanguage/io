@@ -1,8 +1,7 @@
-/* CFFI - An Io interface to C
-Copyright (c) 2006 Trevor Fancher. All rights reserved.
-All code licensed under the New BSD license.
-*/
-// docDependsOn("CFFIDataType")
+//metadoc CFFIPointer copyright 2006 Trevor Fancher. All rights reserved.
+//metadoc CFFIPointer license BSD revised
+//metadoc CFFIPointer category Bridges
+//metadoc CFFIPointer description An Io interface to C
 
 #include "IoCFFIPointer.h"
 #include "IoCFFIStructure.h"
@@ -70,14 +69,14 @@ int IoCFFIStructure_calcOffset(int isUnion, ffi_type* type, int* nextOffset)
 {
 	int size, align, offset = *nextOffset;
 
-	if(isUnion) {
+	if ( isUnion ) {
 		*nextOffset = 0;
 		return 0;
 	}
 
 	size = type->size;
 	align = type->alignment;
-	if(align && (offset % align)) {
+	if ( align && (offset % align) ) {
 		offset += align - (offset % align); 
 	}
 
@@ -93,7 +92,7 @@ IoCFFIStructure *IoCFFIStructure_rawClone(IoCFFIStructure *proto)
 
 	IoMap* proto_slots = IoObject_getSlot_(proto, IOSYMBOL("_members"));
 
-	if(!ISNIL(proto_slots)) {
+	if ( !ISNIL(proto_slots) ) {
 		IoCFFIStructureData* data = DATA(self);
 		data->isUnion = DATA(proto)->isUnion;
 		data->ffiType = DATA(proto)->ffiType;
@@ -133,12 +132,12 @@ void IoCFFIStructure_free(IoCFFIStructure *self)
 	
 	data = DATA(self);
 
-	if (data->needToFreeBuffer) {
+	if ( data->needToFreeBuffer ) {
 		io_free(data->buffer);
 		data->needToFreeBuffer = 0;
 	}
 	
-	if (data->needToFreeElements) {
+	if ( data->needToFreeElements ) {
 		io_free(data->ffiType.elements[0]);
 		io_free(data->ffiType.elements);
 		data->needToFreeElements = 0;
@@ -153,7 +152,7 @@ IoCFFIStructure *IoCFFIStructure_with(IoCFFIStructure *self, IoObject *locals, I
 {
 	IoCFFIStructure* o = IOCLONE(self);
 	IoState_on_doCString_withLabel_(IoObject_state(o), o, "init", "IoCFFIStructure_with");
-	if(IoSeq_rawEqualsCString_(IOSYMBOL(IoObject_name(o)), "Union")) {
+	if ( IoSeq_rawEqualsCString_(IOSYMBOL(IoObject_name(o)), "Union") ) {
 		DATA(o)->isUnion = 1;
 	}
 	return IoCFFIStructure_setMembers(o, locals, m);
@@ -163,7 +162,7 @@ IoCFFIStructure *IoCFFIStructure_setMembers(IoCFFIStructure *self, IoObject *loc
 {
 	int count = IoMessage_argCount(m);
 
-	if(count) {
+	if ( count ) {
 		ffi_type* elements;
 		int i = 0, offset = 0, nextOffset = 0, maxsize = 0;
 		IoMap* members;
@@ -174,7 +173,7 @@ IoCFFIStructure *IoCFFIStructure_setMembers(IoCFFIStructure *self, IoObject *loc
 		DATA(self)->ffiType.elements = io_calloc(count + 1, sizeof(ffi_type *));
 		DATA(self)->needToFreeElements = 1;
 	
-		for(i = 0 ; i < count ; i ++) {
+		for ( i = 0 ; i < count ; i ++ ) {
 			IoList* l = IoMessage_locals_listArgAt_(m, locals, i);
 			IoCFFIDataType* d = IoList_rawAt_(l, 1);
 			elements[i] = *(IoCFFIDataType_ffiType(d));
@@ -188,20 +187,20 @@ IoCFFIStructure *IoCFFIStructure_setMembers(IoCFFIStructure *self, IoObject *loc
 		ffi_cif cif;
 		ffi_prep_cif(&cif, FFI_DEFAULT_ABI, 0, &(DATA(self)->ffiType), NULL);
 	
-		if(DATA(self)->isUnion) {
+		if ( DATA(self)->isUnion ) {
 			DATA(self)->ffiType.size = maxsize;
 		}
 	
 		members = IoMap_new(IOSTATE);
 		IoObject_setSlot_to_(self, IOSYMBOL("_members"), members);
-		for(i = 0 ; i < count ; i ++) {
+		for ( i = 0 ; i < count ; i ++ ) {
 			IoList* l = IoMessage_locals_listArgAt_(m, locals, i);
 			IoSeq* s = IOREF(IoList_rawAt_(l, 0));
 			IoCFFIDataType* d = IOCLONE(IoList_rawAt_(l, 1));
 			
 			IoMap_rawAtPut(members, s, d);
 	
-			if(DATA(self)->isUnion) {
+			if ( DATA(self)->isUnion ) {
 				DATA(self)->ffiType.elements[i]->alignment = 0;
 			}
 			offset = IoCFFIStructure_calcOffset(DATA(self)->isUnion, DATA(self)->ffiType.elements[i], &nextOffset);
@@ -230,14 +229,14 @@ IoObject *IoCFFIStructure_asBuffer(IoCFFIStructure *self, IoObject *locals, IoMe
 
 IoCFFIStructure *IoCFFIStructure_setValues(IoCFFIStructure *self, IoObject *locals, IoMessage *m)
 {
-	//TODO excepcion si no coinciden los tamaños o los TIPOS
+	//TODO check sizes and types
 	int count = IoMessage_argCount(m);
 	int i = 0;
 	IoList* members = IoState_on_doCString_withLabel_(IOSTATE, self, 
-													"_members values sortBy(method(a, b, a _order < (b _order)))",
-													"IoCFFIStructure_setValues");
+							"_members values sortBy(method(a, b, a _order < (b _order)))",
+							"IoCFFIStructure_setValues");
 
-	for(i = 0 ; i < count ; i ++) {
+	for ( i = 0 ; i < count ; i ++ ) {
 		IoObject *value = IoMessage_locals_valueArgAt_(m, locals, i);
 		IoCFFIDataType_rawSetValue(IoList_rawAt_(members, i), value);
 	}
@@ -249,7 +248,7 @@ IoCFFIStructure *IoCFFIStructure_setValues(IoCFFIStructure *self, IoObject *loca
 
 IoCFFIStructure *IoCFFIStructure_cloneWithData(IoCFFIStructure *self, void* data)
 {
-	//TODO excepcion si los tamaños no coinciden
+	//TODO check sizes and types
 	IoCFFIStructure* new = IOCLONE(self);
 	memcpy(DATA(new)->buffer, data, DATA(new)->ffiType.size);
 	return new;
@@ -268,9 +267,9 @@ ffi_type *IoCFFIStructure_ffiType(IoCFFIStructure *self)
 void IoCFFIStructure_setValuePointer_offset_(IoCFFIStructure* self, void *ptr, int offset)
 {
 	// If self is member of another Structure (nested) we have to free self buffer if
-    // needed and take the pointer and offset passed to store self values. Then tell all
+	// needed and take the pointer and offset passed to store self values. Then tell all
 	// self members to do the same.
-	if(DATA(self)->needToFreeBuffer) {
+	if ( DATA(self)->needToFreeBuffer ) {
 		io_free(DATA(self)->buffer);
 		DATA(self)->needToFreeBuffer = 0;
 	}

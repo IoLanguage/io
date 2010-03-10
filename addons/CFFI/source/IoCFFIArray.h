@@ -1,7 +1,7 @@
-/* CFFI - An Io interface to C
-Copyright (c) 2006 Trevor Fancher. All rights reserved.
-All code licensed under the New BSD license.
-*/
+//metadoc CFFIPointer copyright 2006 Trevor Fancher. All rights reserved.
+//metadoc CFFIPointer license BSD revised
+//metadoc CFFIPointer category Bridges
+//metadoc CFFIPointer description An Io interface to C
 
 #ifndef IoCFFIArray_DEFINED
 #define IoCFFIArray_DEFINED 1
@@ -13,33 +13,32 @@ All code licensed under the New BSD license.
 
 typedef IoObject IoCFFIArray;
 
-typedef struct IoCFFIArray
-{
+typedef struct IoCFFIArray {
 	void		*buffer;
-	int			needToFreeBuffer;
-	int			arraySize;
+	int		needToFreeBuffer;
+	int		arraySize;
 	ffi_type	ffiType;
-	int			itemSize;
+	int		itemSize;
 } IoCFFIArrayData;
 
-IoTag			*IoCFFIArray_newTag(void *state);
-IoCFFIArray		*IoCFFIArray_proto(void *state);
-IoCFFIArray		*IoCFFIArray_rawClone(IoCFFIArray *self);
-IoCFFIArray		*IoCFFIArray_new(void *state);
-void			IoCFFIArray_free(IoCFFIArray *self);
-void			IoCFFIArray_mark(IoCFFIArray *self);
+IoTag		*IoCFFIArray_newTag(void *state);
+IoCFFIArray	*IoCFFIArray_proto(void *state);
+IoCFFIArray	*IoCFFIArray_rawClone(IoCFFIArray *self);
+IoCFFIArray	*IoCFFIArray_new(void *state);
+void		IoCFFIArray_free(IoCFFIArray *self);
+void		IoCFFIArray_mark(IoCFFIArray *self);
 
-IoObject		*IoCFFIArray_address(IoCFFIArray *self, IoObject *locals, IoMessage *m);
-IoObject		*IoCFFIArray_asBuffer(IoCFFIArray *self, IoObject *locals, IoMessage *m);
-IoCFFIArray		*IoCFFIArray_at(IoCFFIArray *self, IoObject *locals, IoMessage *m);
-IoCFFIArray		*IoCFFIArray_atPut(IoCFFIArray *self, IoObject *locals, IoMessage *m);
-IoNumber		*IoCFFIArray_size(IoCFFIArray *self, IoObject *locals, IoMessage *m);
-IoCFFIArray		*IoCFFIArray_with(IoCFFIArray *self, IoObject *locals, IoMessage *m);
+IoObject	*IoCFFIArray_address(IoCFFIArray *self, IoObject *locals, IoMessage *m);
+IoObject	*IoCFFIArray_asBuffer(IoCFFIArray *self, IoObject *locals, IoMessage *m);
+IoCFFIArray	*IoCFFIArray_at(IoCFFIArray *self, IoObject *locals, IoMessage *m);
+IoCFFIArray	*IoCFFIArray_atPut(IoCFFIArray *self, IoObject *locals, IoMessage *m);
+IoNumber	*IoCFFIArray_size(IoCFFIArray *self, IoObject *locals, IoMessage *m);
+IoCFFIArray	*IoCFFIArray_with(IoCFFIArray *self, IoObject *locals, IoMessage *m);
 
-IoCFFIArray		*IoCFFIArray_cloneWithData(IoCFFIArray *self, void* data);
-void			*IoCFFIArray_valuePointer(IoCFFIArray *self);
-ffi_type		*IoCFFIArray_ffiType(IoCFFIArray *self);
-void			IoCFFIArray_setValuePointer_offset_(IoCFFIArray* self, void *ptr, int offset);
+IoCFFIArray	*IoCFFIArray_cloneWithData(IoCFFIArray *self, void* data);
+void		*IoCFFIArray_valuePointer(IoCFFIArray *self);
+ffi_type	*IoCFFIArray_ffiType(IoCFFIArray *self);
+void		IoCFFIArray_setValuePointer_offset_(IoCFFIArray* self, void *ptr, int offset);
 
 
 #endif

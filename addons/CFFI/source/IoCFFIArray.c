@@ -1,8 +1,7 @@
-/* CFFI - An Io interface to C
-Copyright (c) 2006 Trevor Fancher. All rights reserved.
-All code licensed under the New BSD license.
-*/
-// docDependsOn("CFFIDataType")
+//metadoc CFFIPointer copyright 2006 Trevor Fancher. All rights reserved.
+//metadoc CFFIPointer license BSD revised
+//metadoc CFFIPointer category Bridges
+//metadoc CFFIPointer description An Io interface to C
 
 #include "IoCFFIArray.h"
 #include "IoCFFIDataType.h"
@@ -78,11 +77,14 @@ void IoCFFIArray_free(IoCFFIArray *self)
 	
 	data = DATA(self);
 	
-	if (data->needToFreeBuffer) {
+	if ( data->needToFreeBuffer ) {
 		io_free(data->buffer);
 		data->buffer = NULL;
 	}
-	//TODO liberar ELEMENTS
+	
+	if ( DATA(self)->ffiType.elements ) {
+		io_free(DATA(self)->ffiType.elements);
+	}
 
 	io_free(data);
 }
@@ -116,7 +118,7 @@ IoCFFIArray *IoCFFIArray_with(IoCFFIArray *self, IoObject *locals, IoMessage *m)
 	DATA(o)->ffiType.alignment = 0;
 	DATA(o)->ffiType.type = FFI_TYPE_STRUCT;
 	DATA(o)->ffiType.elements = io_calloc(size + 1, sizeof(ffi_type *));
-	for (i = 0 ; i < size ; i++) {
+	for ( i = 0 ; i < size ; i++ ) {
 		DATA(o)->ffiType.elements[i] = item_type;
 	}
 	DATA(o)->ffiType.elements[size] = NULL;
@@ -145,7 +147,7 @@ IoCFFIArray *IoCFFIArray_at(IoCFFIArray *self, IoObject *locals, IoMessage *m)
 	int pos;
 	char *ptr;
 
-	//TODO comprobar overrun
+	//TODO check limits
 	pos = CNUMBER(IoMessage_locals_numberArgAt_(m, locals, 0));
 	ptr = ((char *)DATA(self)->buffer) + (DATA(self)->itemSize * pos);
 	return IoCFFIDataType_objectFromData_(IoObject_getSlot_(self, IOSYMBOL("arrayType")), (void *)ptr);
@@ -157,7 +159,7 @@ IoCFFIArray *IoCFFIArray_atPut(IoCFFIArray *self, IoObject *locals, IoMessage *m
 	IoObject *value, *d;
 	char *ptr;
 
-	//TODO comprobar overrun y coincidencia de tipos
+	//TODO check limits and types
 	pos = CNUMBER(IoMessage_locals_numberArgAt_(m, locals, 0));
 	value = IoMessage_locals_valueArgAt_(m, locals, 1);
 
@@ -178,7 +180,7 @@ IoNumber *IoCFFIArray_size(IoCFFIArray *self, IoObject *locals, IoMessage *m)
 /* ---------------------------------------------------------------- */
 IoCFFIArray* IoCFFIArray_cloneWithData(IoCFFIArray *self, void* data)
 {
-	//TODO excepcion si los tamaños no coinciden
+	//TODO error if different sizes
 	IoCFFIArray *new = IOCLONE(self);
 	memcpy(DATA(new)->buffer, data, DATA(new)->itemSize * DATA(self)->arraySize);
 	return new;
@@ -186,7 +188,6 @@ IoCFFIArray* IoCFFIArray_cloneWithData(IoCFFIArray *self, void* data)
 
 void *IoCFFIArray_valuePointer(IoCFFIArray *self)
 {
-	//Array es como Struct
 	return DATA(self)->buffer;
 }
 
@@ -198,7 +199,7 @@ ffi_type *IoCFFIArray_ffiType(IoCFFIArray *self)
 //Func called when we are a member of a Struct
 void IoCFFIArray_setValuePointer_offset_(IoCFFIArray* self, void *ptr, int offset)
 {
-	if(DATA(self)->needToFreeBuffer) {
+	if ( DATA(self)->needToFreeBuffer ) {
 		io_free(DATA(self)->buffer);
 		DATA(self)->needToFreeBuffer = 0;
 	}

@@ -1,8 +1,7 @@
-/* CFFI - An Io interface to C
-Copyright (c) 2006 Trevor Fancher. All rights reserved.
-All code licensed under the New BSD license.
-*/
-// docDependsOn("CFFIDataType")
+//metadoc CFFIPointer copyright 2006 Trevor Fancher. All rights reserved.
+//metadoc CFFIPointer license BSD revised
+//metadoc CFFIPointer category Bridges
+//metadoc CFFIPointer description An Io interface to C
 
 #include "IoCFFIPointer.h"
 #include "IoCFFIDataType.h"
