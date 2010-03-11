@@ -3,6 +3,8 @@
 //metadoc CFFIPointer category Bridges
 //metadoc CFFIPointer description An Io interface to C
 
+// docDependsOn("CFFIDataType")
+
 #include "IoCFFIPointer.h"
 #include "IoCFFIDataType.h"
 #include "IoCFFIFunction.h"

@@ -3,6 +3,8 @@
 //metadoc CFFIPointer category Bridges
 //metadoc CFFIPointer description An Io interface to C
 
+// docDependsOn("CFFIDataType")
+
 #include "IoCFFIArray.h"
 #include "IoCFFIDataType.h"
 #include <ffi.h>
@@ -21,7 +23,6 @@ IoTag *IoCFFIArray_newTag(void *state)
 
 IoCFFIArray *IoCFFIArray_proto(void *state)
 {
-	//IoObject *self = IoObject_new(state);
 	IoObject *self = IoCFFIDataType_new(state);
 	IoObject_tag_(self, IoCFFIArray_newTag(state));
 

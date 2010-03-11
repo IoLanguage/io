@@ -21,7 +21,7 @@ typedef struct {
 	IoObject	*context;
 } CallbackContext;
 
-typedef struct IoCFFIFunction {
+typedef struct {
 	ffi_cif		interface;
 	ffi_closure	*pcl;
 	void		*code;
