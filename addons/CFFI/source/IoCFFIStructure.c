@@ -48,10 +48,10 @@ IoCFFIStructure *IoCFFIStructure_proto(void *state)
 	IoState_registerProtoWithFunc_(state, self, IoCFFIStructure_proto);
 	{
 		IoMethodTable methodTable[] = {
-			//{"address", IoCFFIStructure_address},
-			//{"asBuffer", IoCFFIStructure_asBuffer},
+			{"address", IoCFFIStructure_address},
+			{"asBuffer", IoCFFIStructure_asBuffer},
 			{"setMembers", IoCFFIStructure_setMembers},
-			//{"setValues", IoCFFIStructure_setValues},
+			{"setValues", IoCFFIStructure_setValues},
 			{"with", IoCFFIStructure_with},
 			{NULL, NULL},
 		};
@@ -116,14 +116,6 @@ IoCFFIStructure *IoCFFIStructure_rawClone(IoCFFIStructure *proto)
 			IoMap_rawAtPut(members, k, d);
 			}
 		);
-
-        IoMethodTable methodTable[] = {
-            {"address", IoCFFIStructure_address},
-            {"asBuffer", IoCFFIStructure_asBuffer},
-            {"setValues", IoCFFIStructure_setValues},
-            {NULL, NULL},
-        };
-        IoObject_addMethodTable_(self, methodTable);
 	}
 
 	return self;
@@ -160,6 +152,7 @@ void IoCFFIStructure_free(IoCFFIStructure *self)
 IoCFFIStructure *IoCFFIStructure_with(IoCFFIStructure *self, IoObject *locals, IoMessage *m)
 {
 	IoCFFIStructure* o = IOCLONE(self);
+	
 	IoState_on_doCString_withLabel_(IoObject_state(o), o, "init", "IoCFFIStructure_with");
 	if ( IoSeq_rawEqualsCString_(IOSYMBOL(IoObject_name(o)), "Union") ) {
 		DATA(o)->isUnion = 1;
