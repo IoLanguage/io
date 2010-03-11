@@ -15,10 +15,11 @@ typedef IoObject IoCFFIArray;
 
 typedef struct IoCFFIArray {
 	void		*buffer;
-	int		needToFreeBuffer;
 	int		arraySize;
 	ffi_type	ffiType;
 	int		itemSize;
+	int		needToFreeBuffer;
+	int		needToFreeFFIType;
 } IoCFFIArrayData;
 
 IoTag		*IoCFFIArray_newTag(void *state);
