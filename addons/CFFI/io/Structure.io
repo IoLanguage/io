@@ -12,6 +12,13 @@ CFFI do(
                 self ptr := method(
                     self proto ptr clone setValue(self)
                 )
+
+                self dump := method(
+                    (self address .. " : ") print
+                    self asBuffer foreach(i, (i asHex .. " ") print)
+                    "" println
+                    self
+                )
             )
 
             self with := method(
@@ -21,13 +28,6 @@ CFFI do(
             
             self forward := method(
                 self _members at(call message name)
-            )
-
-            self dump := method(
-                (self address .. " : ") print
-                self asBuffer foreach(i, (i asHex .. " ") print)
-                "" println
-                self
             )
         )
 	)
