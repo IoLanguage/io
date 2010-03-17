@@ -230,4 +230,10 @@ Object representing a twitter account.
 		//doc TwitterAccount mentions Returns mentions for this account.	
 		resultsFor(request asMentions)
 	)
+	
+	retweet := method(tweetId,
+		//doc TwitterAccount retweet(tweetId) Retweets the tweet with tweetId
+		r := request asRetweet setTweetId(tweetId)
+		resultsFor(r) at("id") asString
+	)
 )
