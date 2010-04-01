@@ -385,8 +385,9 @@ IO_METHOD(IoList, first)
 		}
 		else
 		{
-			List *list = List_cloneSlice(DATA(self), 0, end - 1);
-			return IoList_newWithList_(IOSTATE, list);
+            // FIXME: explicit step declaration!
+            List *list = List_cloneSlice(DATA(self), 0, end - 1, 1);
+            return IoList_newWithList_(IOSTATE, list);
 		}
 	}
 }
@@ -414,85 +415,92 @@ IO_METHOD(IoList, last)
 			start = 0;
 		}
 
-		list = List_cloneSlice(DATA(self), start, size);
+        // FIXME: explicit step declaration!
+		list = List_cloneSlice(DATA(self), start, size, 1);
 		return IoList_newWithList_(IOSTATE, list);
 	}
 }
 
-void IoList_sliceArguments(IoList *self, IoObject *locals, IoMessage *m, int *start, int *end)
+void IoList_sliceIndex(int *index, int step, int size)
 {
-	int size = IoList_rawSize(self);
+    /* The following code mimics Python's slicing behaviour. */
+    if (*index < 0)
+    {
+        *index += size;
+        if (*index < 0)
+        {
+            *index = (step < 0) ? -1 : 0;
+        }
+    }
+    else if (*index >= size)
+    {
+        *index = (step < 0) ? size - 1 : size;
+    }
+}
 
-	*start = IoMessage_locals_intArgAt_(m, locals, 0);
-	
-	if (*start < 0)
-	{
-		*start += size;
-		if (*start < 0)
-		{
-			*start = 0;
-		}
-	}
+void IoList_sliceArguments(IoList *self, IoObject *locals, IoMessage *m, int *start, int *end, int *step)
+{
+    int size = IoList_rawSize(self);
+    /* Checking step, before any other arguments. */
+    *step = (IoMessage_argCount(m) == 3) ? IoMessage_locals_intArgAt_(m, locals, 2) : 1;
+    IOASSERT(step != 0, "step cannot be equal to zero");
 
-	if (IoMessage_argCount(m) == 2)
-	{
-		*end = IoMessage_locals_intArgAt_(m, locals, 1);
+    *start = IoMessage_locals_intArgAt_(m, locals, 0);
+    *end  = (IoMessage_argCount(m) >= 2) ? IoMessage_locals_intArgAt_(m, locals, 1) : size;
 
-		if (*end < 0)
-		{
-			*end += size;
-		}
-		(*end)--;
-	}
-	else
-	{
-		*end = size;
-	}
+    /* Fixing slice index values. */
+	IoList_sliceIndex(start, *step, size);
+	IoList_sliceIndex(end, *step, size);
 }
 
 IO_METHOD(IoList, slice)
 {
-	/*doc List slice(startIndex, endIndex)
-	Returns a new string containing the subset of the
-	receiver from the startIndex to the endIndex. The endIndex argument
+	/*doc List slice(startIndex, endIndex, step)
+	Returns a new string containing the subset of the receiver 
+    from the startIndex to the endIndex. The endIndex argument
 	is optional. If not given, it is assumed to be the end of the string. 
+    Step argument is also optional and defaults to 1, if not given.
+    However, since Io supports positional arguments only, you need to
+    explicitly specify endIndex, if you need a custom step.
 	*/
+    List *list;
+    int start, end, step;
 
-	List *list;
-	int start, end;
+	IoList_sliceArguments(self, locals, m, &start, &end, &step);
 
-	IoList_sliceArguments(self, locals, m, &start, &end);
-
-	if (end < start)
+	if ((step > 0 && end < start) || 
+        (step < 0 && end > start))
 	{
-			return IoList_new(IOSTATE);
+      return IoList_new(IOSTATE);
 	}
 	else
 	{
-		list = List_cloneSlice(DATA(self), start, end);
+        list = List_cloneSlice(DATA(self), start, end, step);
 		return IoList_newWithList_(IOSTATE, list);
 	}
 }
 
 IO_METHOD(IoList, sliceInPlace)
 {
-	/*doc List sliceInPlace(startIndex, endIndex)
+	/*doc List sliceInPlace(startIndex, endIndex, step)
 	Returns the receiver containing the subset of the
 	receiver from the startIndex to the endIndex. The endIndex argument
 	is optional. If not given, it is assumed to be the end of the string. 
+    Step argument is also optional and defaults to 1.
 	*/
 
-	int start, end;
+	int start, end, step;
 
-	IoList_sliceArguments(self, locals, m, &start, &end);
+	IoList_sliceArguments(self, locals, m, &start, &end, &step);
 
-	if (end < start)
+	if ((step > 0 && end < start) || 
+        (step < 0 && end > start))
 	{
-		List_removeAll(DATA(self));
+      return IoList_new(IOSTATE);
 	}
 	else
 	{
-		List_sliceInPlace(DATA(self), start, end);
+		List_sliceInPlace(DATA(self), start, end, step);
 	}
 	
 	IoObject_isDirty_(self, 1);

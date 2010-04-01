@@ -26,46 +26,28 @@ List *List_clone(const List *self)
 	return child;
 }
 
-static size_t indexWrap(long index, size_t size)
+void List_sliceInPlace(List* self, long startIndex, long endIndex, long step)
 {
-	if (index < 0)
-	{
-		index = size - index;
+    List *tmp = List_new();
+    ssize_t cur;
+    size_t i, size = List_size(self);
+    /* Calculating new list's size. */
+    size_t slicesize = abs((step < 0)
+                           ? (endIndex - startIndex + 1) / step + 1
+                           : (endIndex - startIndex - 1) / step + 1);
+    for(cur = startIndex, i = 0; i < slicesize; cur += step, i++)
+    {
+        List_append_(tmp, List_at_(self, cur));
+    }
 
-		if (index < 0)
-		{
-			index = 0;
-		}
-	}
-
-	if (index > (int)size)
-	{
-		index = size;
-	}
-
-	return (size_t)index;
+    List_copy_(self, tmp);
+    List_free(tmp);
 }
 
-void List_sliceInPlace(List* self, long startIndex, long endIndex)
-{
-	size_t i, size = List_size(self);
-	List *tmp = List_new();
-	size_t start = indexWrap(startIndex, size);
-	size_t end   = indexWrap(endIndex, size);
-
-	for (i = start; i < size && i < end + 1; i ++)
-	{
-		List_append_(tmp, List_at_(self, i));
-	}
-
-	List_copy_(self, tmp);
-	List_free(tmp);
-}
-
-List *List_cloneSlice(const List *self, long startIndex, long endIndex)
+List *List_cloneSlice(const List *self, long startIndex, long endIndex, long step)
 {
 	List *child = List_clone(self);
-	List_sliceInPlace(child, startIndex, endIndex);
+	List_sliceInPlace(child, startIndex, endIndex, step);
 	return child;
 }
 
