@@ -53,7 +53,7 @@ typedef struct
 
 BASEKIT_API List *List_new(void);
 BASEKIT_API List *List_clone(const List *self);
-BASEKIT_API List *List_cloneSlice(const List *self, long startIndex, long endIndex);
+BASEKIT_API List *List_cloneSlice(const List *self, long startIndex, long endIndex, long step);
 
 BASEKIT_API void List_free(List *self);
 BASEKIT_API void List_removeAll(List *self);
@@ -74,7 +74,7 @@ BASEKIT_API void List_compact(List *self);
 // utility
 
 BASEKIT_API void List_print(const List *self);
-BASEKIT_API void List_sliceInPlace(List *self, long startIndex, long endIndex);
+BASEKIT_API void List_sliceInPlace(List *self, long startIndex, long endIndex, long slice);
 
 // enumeration
 
