@@ -52,17 +52,20 @@ io_connect_t getDataPort(void)
 
 void getLightSensors(float *left, float *right)
 {
-	IOItemCount scalarInputCount = 0;
-	IOItemCount scalarOutputCount = 2;
-	kern_return_t kr;
-	SInt32 l = 0, r = 0;
+    uint64_t inputValues[0];
+	uint32_t inputCount = 0;
 
-	kr = IOConnectMethodScalarIScalarO(getDataPort(),
+    uint64_t outputValues[2];
+	uint32_t outputCount = 2;
+
+	kern_return_t kr;
+
+    kr = IOConnectCallScalarMethod(getDataPort(),
 		kGetSensorReadingID,
-		scalarInputCount,
-		scalarOutputCount,
-		&l,
-		&r);
+		inputValues,
+		inputCount,
+		outputValues,
+		&outputCount);
 
 	if (kr != KERN_SUCCESS)
 	{
@@ -70,8 +73,8 @@ void getLightSensors(float *left, float *right)
 		return;
 	}
 
-	*left = l;
-	*right = r;
+	*left = outputValues[0];
+	*right = outputValues[1];
 
 	*left  /= 2000;
 	*right /= 2000;
@@ -118,15 +121,33 @@ float getKeyboardBrightness(void)
 {
 	float f;
 	kern_return_t kr;
-	IOItemCount   scalarInputCount  = 1;
-	IOItemCount   scalarOutputCount = 1;
-	SInt32        in_unknown = 0, out_brightness;
+    // IOItemCount   scalarInputCount  = 1;
+    // IOItemCount   scalarOutputCount = 1;
+    // uint32_t      in_unknown = 0, out_brightness;
 
-	kr = IOConnectMethodScalarIScalarO(getDataPort(), kGetLEDBrightnessID,
-		scalarInputCount,
-		scalarOutputCount,
-		in_unknown,
-		&out_brightness);
+    // kr = IOConnectMethodScalarIScalarO(getDataPort(), kGetLEDBrightnessID,
+    // kr = MyScalarIScalarO(getDataPort(), kGetLEDBrightnessID,
+    // scalarInputCount,
+    // scalarOutputCount,
+    // &in_unknown,
+    // &out_brightness);
+
+	uint64_t inputCount = 1;
+    uint64_t inputValues[1] = {0};
+
+    uint32_t outputCount = 1;
+    uint64_t outputValues[1];
+
+    uint32_t out_brightness;
+
+	kr = IOConnectCallScalarMethod(getDataPort(),
+	    kGetLEDBrightnessID,
+		inputValues,
+		inputCount,
+		outputValues,
+		&outputCount);
+
+    out_brightness = outputValues[0];
 
 	if (kr != KERN_SUCCESS)
 	{
@@ -141,21 +162,38 @@ float getKeyboardBrightness(void)
 
 void setKeyboardBrightness(float in)
 {
-	static io_connect_t dp = 0; // shared?
+	// static io_connect_t dp = 0; // shared?
 	kern_return_t kr;
-	IOItemCount   scalarInputCount  = 2;
-	IOItemCount   scalarOutputCount = 1;
-	SInt32        in_unknown = 0, in_brightness, out_brightness;
 
-	in_brightness = in * 0xfff;
+	uint64_t inputCount  = 2;
+    uint64_t inputValues[2];
+    uint64_t in_unknown = 0;
+    uint64_t in_brightness = in * 0xfff;
+
+    inputValues[0] = in_unknown;
+    inputValues[1] = in_brightness;
+
+    uint32_t outputCount = 1;
+    uint64_t outputValues[1];
+
+    uint32_t out_brightness;
+
+
+    // IOItemCount   scalarOutputCount = 1;
+    // SInt32        in_unknown = 0, in_brightness, out_brightness;
+    //
+    // in_brightness = in * 0xfff;
 
 	//kr = IOConnectMethodScalarIScalarO(getDataPort(), kSetLEDBrightnessID,
-	kr = IOConnectMethodScalarIScalarO(dp, kSetLEDBrightnessID,
-		scalarInputCount,
-		scalarOutputCount,
-		in_unknown,
-		in_brightness,
-		&out_brightness);
+	//kr = IOConnectMethodScalarIScalarO(dp, kSetLEDBrightnessID,
+	kr = IOConnectCallScalarMethod(getDataPort(),
+	    kSetLEDBrightnessID,
+		inputValues,
+		inputCount,
+		outputValues,
+		&outputCount);
+
+    out_brightness = outputValues[0];
 
 	if (kr != KERN_SUCCESS)
 	{
@@ -163,4 +201,3 @@ void setKeyboardBrightness(float in)
 		return;
 	}
 }
-
