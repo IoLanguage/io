@@ -121,16 +121,6 @@ float getKeyboardBrightness(void)
 {
 	float f;
 	kern_return_t kr;
-    // IOItemCount   scalarInputCount  = 1;
-    // IOItemCount   scalarOutputCount = 1;
-    // uint32_t      in_unknown = 0, out_brightness;
-
-    // kr = IOConnectMethodScalarIScalarO(getDataPort(), kGetLEDBrightnessID,
-    // kr = MyScalarIScalarO(getDataPort(), kGetLEDBrightnessID,
-    // scalarInputCount,
-    // scalarOutputCount,
-    // &in_unknown,
-    // &out_brightness);
 
 	uint64_t inputCount = 1;
     uint64_t inputValues[1] = {0};
@@ -178,13 +168,6 @@ void setKeyboardBrightness(float in)
 
     uint32_t out_brightness;
 
-
-    // IOItemCount   scalarOutputCount = 1;
-    // SInt32        in_unknown = 0, in_brightness, out_brightness;
-    //
-    // in_brightness = in * 0xfff;
-
-	//kr = IOConnectMethodScalarIScalarO(getDataPort(), kSetLEDBrightnessID,
 	//kr = IOConnectMethodScalarIScalarO(dp, kSetLEDBrightnessID,
 	kr = IOConnectCallScalarMethod(getDataPort(),
 	    kSetLEDBrightnessID,
