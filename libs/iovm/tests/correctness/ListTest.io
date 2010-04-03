@@ -489,4 +489,4 @@ ListTest := UnitTest clone do(
     )
 )
 
-if(isLaunchScript, ListTest run)
+if(isLaunchScript, ListTest run, ListTest)
