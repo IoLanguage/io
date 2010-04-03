@@ -142,48 +142,30 @@ Fail the running test if the expected value is not within delta of the actual va
 An object to collect and run multiple UnitTests defined in *Test.io files within the System launchPath directory.
 */
 TestSuite := Object clone do(
-    verbose := method(s,
-        nil
-        //writeln(s)
-    )
+    path ::= "."
 
 //doc TestSuite name Return the name of the TestSuite.
-    name := method(
-        path asMutable pathComponent lastPathComponent
-    )
+    name := method(path asMutable pathComponent lastPathComponent)
+//doc TestSuite with(aPath) Returns a new instance with the provided path.
+    with := method(path, self clone setPath(path))
 
-    path ::= "."
+    testFiles := method(
+        Directory with(System launchPath) files select(name endsWithSeq("Test.io"))
+    )
 
 /*doc TestSuite run
 Collects and all files named *Test.io within the System launchPath directory,
 runs their tests and prints collated results.
 */
     run := method(
-        verbose("\n" .. name)
-        unitTestFiles := Directory with(System launchPath) files select(f, f name endsWithSeq("Test.io"))
         exceptions := List clone
-        testCount := 0
 
-        unitTestFiles foreach(f,
-            1 repeat(
-                verbose("  " .. f name fileName)
-                test := Lobby doString(f contents, f path)
-                //Collector collect
-                test run
-            )
-            testCount = testCount + test testCount
+        testFiles foreach(file,
+            test := Lobby doString(file contents, file path)
+            test run
             exceptions appendSeq(test exceptions)
         )
 
-        verbose("  ---------------")
-        //Collector collect
-        //if(testCount == 0, write("(no tests)"); File standardOutput flush; return(0))
-        if(exceptions size > 0) then(
-            //writeln(" FAILED ", testCount, " tests, ", exceptions size, " failures\n")
-            return(exceptions size)
-        ) else(
-            //writeln(" PASSED ", testCount, " tests\n")
-            return(0)
-        )
+        return(exceptions size)
     )
 )
