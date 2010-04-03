@@ -91,14 +91,21 @@ IOINLINE void *List_rawAt_(List *self, size_t index)
 }
 
 
-IOINLINE void *List_at_(const List *self, size_t index)
+IOINLINE void *List_at_(const List *self, ssize_t index)
 {
-	if (index < self->size)
-	{
-		return self->items[index];
-	}
 
-	return (void *)NULL;
+    /* Negative indexing is also supported. */
+    if (index < 0)
+    {
+        index += self->size;
+    }
+
+    if (index < self->size)
+    {
+        return self->items[index];
+    }
+
+    return (void *)NULL;
 }
 
 // --------------------------------------------

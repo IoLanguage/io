@@ -1,10 +1,9 @@
-
 ListTest := UnitTest clone do(
 	setUp := method(
 		super(setUp)
 		self exampleList := List clone append("a", "beta", 3)
 	)
-	
+
 	testClone := method(
 		assertNotSame(List, List clone)
 		clonedList := exampleList clone
@@ -13,10 +12,10 @@ ListTest := UnitTest clone do(
 		assertEquals(exampleList at(0), clonedList at(0))
 		assertEquals(exampleList at(2), clonedList at(2))
 	)
-	
+
 	testAppend := method(
 		assertRaisesException(a append)
-		a := List clone append("a", "beta", 3)
+		a := exampleList
 		a append(nil)
 		a append(88)
 		a append("blah", "fasel")
@@ -24,9 +23,9 @@ ListTest := UnitTest clone do(
 		assertEquals(88, a at(4))
 		assertNil(a at(3))
 	)
-	
+
 	testAppendIfAbsent := method(
-		a := List clone append("a", "beta", 3)
+		a := exampleList
 		a appendIfAbsent
 		a appendIfAbsent(nil)
 		a appendIfAbsent(3)
@@ -39,9 +38,9 @@ ListTest := UnitTest clone do(
 		assertEquals("new1", a at(5))
 		assertEquals("new2", a at(6))
 	)
-	
+
 	testAppendSeq := method(
-		a := List clone append("a", "beta", 3)
+		a := exampleList
 		assertRaisesException(a appendSeq(nil))
 		assertRaisesException(a appendSeq(a))
 		a appendSeq(List clone)
@@ -50,9 +49,9 @@ ListTest := UnitTest clone do(
 		assertEquals("blah", a at(3))
 		assertEquals("fasel", a at(4))
 	)
-	
+
 	testRemove := method(
-		a := List clone append("a", "beta", 3)
+		a := exampleList
 		assertRaisesException(a remove)
 		a append(nil, 7, nil)
 		a remove(nil)
@@ -63,9 +62,9 @@ ListTest := UnitTest clone do(
 		assertEquals("beta", a at(1))
 		assertEquals(7, a at(2))
 	)
-	
+
 	testIndexOf := method(
-		a := List clone append("a", "beta", 3)
+		a := exampleList
 		assertRaisesException(a indexOf)
 		assertNil(a indexOf(nil))
 		a append("a")
@@ -73,17 +72,17 @@ ListTest := UnitTest clone do(
 		a removeAt(0)
 		assertEquals(2, a indexOf("a"))
 	)
-	
+
 	testContains := method(
-		a := List clone append("a", "beta", 3)
+		a := exampleList
 		assertFalse(a contains)
 		assertFalse(a contains(nil))
 		assertFalse(a contains(333))
 		assertTrue(a contains("beta"))
 	)
-	
+
 	testPush := method(
-		a := List clone append("a", "beta", 3)
+		a := exampleList
 		assertRaisesException(a push)
 		a push(nil)
 		a push(88)
@@ -92,9 +91,9 @@ ListTest := UnitTest clone do(
 		assertEquals(88, a at(4))
 		assertNil(a at(3))
 	)
-	
+
 	testPop := method(
-		a := List clone append("a", "beta", 3)
+		a := exampleList
 		assertEquals(3, a pop)
 		assertEquals(2, a size)
 		assertEquals("beta", a pop)
@@ -103,23 +102,23 @@ ListTest := UnitTest clone do(
 		assertEquals(0, a size)
 		assertNil(a pop)
 	)
-	
+
 	testEmpty := method(
-		a := List clone append("a", "beta", 3)
+		a := exampleList
 		a empty
 		assertEquals(0, a size)
 	)
-	
+
 	testsize := method(
-		a := List clone append("a", "beta", 3)
+		a := exampleList
 		assertEquals(0, List size)
 		assertEquals(3, a size)
 		a append("yo")
 		assertEquals(4, a size)
 	)
-	
+
 	testAtInsert := method(
-		a := List clone append("a", "beta", 3)
+		a := exampleList
 		assertRaisesException(a atInsert())
 		assertRaisesException(a atInsert(nil))
 		assertRaisesException(a atInsert(nil, "two"))
@@ -138,9 +137,9 @@ ListTest := UnitTest clone do(
 		assertEquals(6, a size)
 		assertEquals(5, a indexOf("append"))
 	)
-	
+
 	testRemoveAt := method(
-		a := List clone append("a", "beta", 3)
+		a := exampleList
 		assertRaisesException(a removeAt())
 		assertRaisesException(a removeAt(nil))
 		assertRaisesException(a removeAt(-1))
@@ -155,20 +154,24 @@ ListTest := UnitTest clone do(
 		assertEquals(1, a size)
 		assertEquals("beta", a at(0))
 	)
-	
+
 	testAt := method(
-		a := List clone append("a", "beta", 3)
+		a := exampleList
 		assertRaisesException(a at())
 		assertRaisesException(a at(nil))
-		assertNil(a at(-1))
+        # Checkinng that negative indexing actually works.
+		assertNotNil(a at(-1))
+        assertEquals(3, a at(-1))
+        assertEquals("a", a at(-3))
+        assertNil(a at(-4)) # index out off bounds
 		assertNil(a at(4))
 		assertEquals("a", a at(0))
 		assertEquals("beta", a at(1))
 		assertEquals(3, a at(2))
 	)
-	
+
 	testAtPut := method(
-		a := List clone append("a", "beta", 3)
+		a := exampleList
 		assertRaisesException(a atPut())
 		assertRaisesException(a atPut(nil))
 		assertRaisesException(a atPut(nil, "two"))
@@ -183,9 +186,9 @@ ListTest := UnitTest clone do(
 		assertEquals(3, a size)
 		assertEquals(2, a indexOf("two"))
 	)
-	
+
 	testSwapIndices := method(
-		a := List clone append("a", "beta", 3)
+		a := exampleList
 		assertRaisesException(a swapIndices())
 		assertRaisesException(a swapIndices(nil))
 		assertRaisesException(a swapIndices(nil, nil))
@@ -200,9 +203,9 @@ ListTest := UnitTest clone do(
 		assertEquals("beta", a at(1))
 		assertEquals(3, a at(0))
 	)
-	
+
 	testpreallocateToSize := method(
-		a := List clone append("a", "beta", 3)
+		a := exampleList
 		assertRaisesException(a preallocateToSize)
 		assertRaisesException(a preallocateToSize(nil))
 		a preallocateToSize(1)
@@ -210,26 +213,26 @@ ListTest := UnitTest clone do(
 		a preallocateToSize(10)
 		assertEquals(3, a size)
 	)
-	
+
 	testFirst := method(
-		a := List clone append("a", "beta", 3)
+		a := exampleList
 		assertNil(List first)
 		assertEquals("a", a first)
 	)
-	
+
 	testLast := method(
-		a := List clone append("a", "beta", 3)
+		a := exampleList
 		assertNil(List last)
 		assertEquals(3, a last)
 	)
-	
+
 	_testPrint := method(
 		// would need to be able to read stdout or install a printCallback from Io to test print()
 		Nop
 	)
-	
+
 	testSelect := method(
-		a := List clone append("a", "beta", 3)
+		a := exampleList
 		assertRaisesException(a select)
 		selection := a select(index, value, index == 0 or value == 3)
 		assertEquals(2, selection size)
@@ -241,7 +244,7 @@ ListTest := UnitTest clone do(
 	)
 
 	testSelect2 := method(
-		a := List clone append("a", "beta", 3)
+		a := exampleList
 		assertRaisesException(a select)
 		selection := a select(value, value == "a" or value == 3)
 		assertEquals(2, selection size)
@@ -253,7 +256,7 @@ ListTest := UnitTest clone do(
 	)
 
 	testSelectInPlace := method(
-		a := List clone append("a", "beta", 3)
+		a := exampleList
 		assertRaisesException(a selectInPlace)
 		a selectInPlace(index, value, index == 0 or value == 3)
 		assertEquals(2, a size)
@@ -265,7 +268,7 @@ ListTest := UnitTest clone do(
 	)
 
 	testSelectInPlace2 := method(
-		a := List clone append("a", "beta", 3)
+		a := exampleList
 		a selectInPlace(index, value, value == "a" or value == 3)
 		assertEquals(2, a size)
 		assertEquals("a", a at(0))
@@ -274,9 +277,9 @@ ListTest := UnitTest clone do(
 		a selectInPlace(index, value, index == -1)
 		assertEquals(0, a size)
 	)
-	
+
 	testDetect := method(
-		a := List clone append("a", "beta", 3)
+		a := exampleList
 		assertRaisesException(a detect)
 		assertRaisesException(a detect(nil))
 		a detect(index, value, index == 0 or value == 3)
@@ -284,16 +287,16 @@ ListTest := UnitTest clone do(
 		assertEquals(3, a detect(index, value, value type == "Number" and value > 1))
 		assertNil(a detect(index, value, value > 3))
 	)
-	
+
 	testDetect := method(
-		a := List clone append("a", "beta", 3)
+		a := exampleList
 		assertRaisesException(a detect)
 		a detect(index, value, value = "a" or value == 3)
 		assertEquals("a", a detect(index, value, index == 0 or value == 3))
 		assertEquals(3, a detect(index, value, value type == "Number" and value > 1))
 		assertNil(a detect(index, value, value type == "Number" and value > 3))
 	)
-	
+
 	testSort := method(
 		a := List clone append("a", "beta", "3")
 		List clone sortInPlace
@@ -332,7 +335,7 @@ ListTest := UnitTest clone do(
 	)
 
 	testForeach := method(
-		a := List clone append("a", "beta", 3)
+		a := exampleList
 		assertRaisesException(a foreach)
 		string := ""
 		assertEquals("abeta3", a foreach(index, value, string := string .. value asString))
@@ -345,15 +348,15 @@ ListTest := UnitTest clone do(
 	)
 
 	testReverse := method(
-		a := List clone append("a", "beta", 3)
+		a := exampleList
 		reversedA := a reverse
 		assertEquals(3, reversedA at(0))
 		assertEquals("beta", reversedA at(1))
 		assertEquals("a", reversedA at(2))
 	)
-	
+
 	testReverseForeach := method(
-		a := List clone append("a", "beta", 3)
+		a := exampleList
 		assertRaisesException(a reverseForeach)
 		assertRaisesException(a reverseForeach(nil))
 		string := ""
@@ -367,7 +370,7 @@ ListTest := UnitTest clone do(
 	)
 
 	testmap := method(
-		a := List clone append("a", "beta", 3)
+		a := exampleList
 		assertRaisesException(a map)
 		a mapInPlace(index, value, value asString .. index asString)
 		assertEquals(3, a size)
@@ -377,7 +380,7 @@ ListTest := UnitTest clone do(
 	)
 
 	testmap2 := method(
-		a := List clone append("a", "beta", 3)
+		a := exampleList
 		a mapInPlace(value, value asString)
 		assertEquals(3, a size)
 		assertEquals("a", a at(0))
@@ -386,7 +389,7 @@ ListTest := UnitTest clone do(
 	)
 
 	testMap := method(
-		a := List clone append("a", "beta", 3)
+		a := exampleList
 		assertRaisesException(a map)
 		assertRaisesException(a mapInPlace)
 		a mapInPlace(index, value, value asString .. index asString)
@@ -397,7 +400,7 @@ ListTest := UnitTest clone do(
 	)
 
 	testMap2 := method(
-		a := List clone append("a", "beta", 3)
+		a := exampleList
 		a mapInPlace(value, value asString)
 		assertEquals(3, a size)
 		assertEquals("a", a at(0))
@@ -434,4 +437,56 @@ ListTest := UnitTest clone do(
 		t := list("foo")
 		assertEquals(t, t asEncodedList asDecodedList)
 	)
+
+    testSlice := method(
+        a := list(1, 2, 3, 4, 5, 6)
+        assertEquals(a, a slice(0))
+        assertEquals(a, a slice(0, a size))
+        assertNil(
+            try(assertEquals(a, a slice(0, a size * 2))),
+            "No Exception should've been raised")
+
+        # Testing the case, where there's no upper border,
+        # expecting it to be List size.
+        assertEquals(a slice(2, a size), a slice(2))
+        assertEquals(list(3, 4, 5, 6), a slice(2))
+
+        # Testing negative indexing.
+        assertEquals(list(1, 2, 3, 4, 5), a slice(0, -1))
+        assertEquals(list(1, 2, 3), a slice(0, -3))
+        assertEquals(list(), a slice(0, -(a size)))
+
+        # Testing step in action.
+        assertEquals(a, a slice(0, a size, 1))
+        assertEquals(list(1, 3, 5), a slice(0, a size, 2))
+        assertEquals(list(1, 4), a slice(0, a size, 3))
+        assertEquals(list(1), a slice(0, a size, a size))
+
+        # Note: The following should be probably hidden
+        # behind syntactic sugar, like in Python:
+        # >>> l = [1, 2, 3]
+        # >>> l[::-1] == l[-1, - (len(l) + 1), -1]
+        assertEquals(a reverse, a slice(-1, - (a size + 1), -1))
+        assertEquals(list(6, 4, 2), a slice(-1, - (a size + 1), -2))
+        assertEquals(list(6, 3), a slice(-1, - (a size + 1), -3))
+        assertEquals(list(6), a slice(-1, - (a size + 1), - a size))
+
+        # Finally, testing that a is unchanged :) too late?
+        assertEquals(list(1, 2, 3, 4, 5, 6), a)
+    )
+
+    testSliceInPlace := method(
+        # We don't have to test all the slice cases, just the
+        # fact, that slicing is done in place both with positive
+        # and negative indexing.
+        a := exampleList clone
+        a sliceInPlace(-1, - (a size + 1), -1)
+        assertEquals(exampleList reverse, a)
+
+        a := list(1, 2, 3, 4, 5, 6)
+        a sliceInPlace(0, a size, 2)
+        assertEquals(list(1, 3, 5), a)
+    )
 )
+
+if(isLaunchScript, ListTest run)
