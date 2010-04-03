@@ -1,7 +1,7 @@
 #!/usr/bin/env io
 
 if(System args size > 1,
-	# Run specific tests
+	# Run specific tests.
 	UnitTest verbose := getSlot("writeln")
 
     System args slice(1) foreach(name,
@@ -15,7 +15,5 @@ if(System args size > 1,
 	)
 ,
 	# Run all tests.
-    # Note: in the future TestSuite will display only one overall
-    # summary instead of a summary per UnitTest.
 	TestSuite with(System launchPath) run
 )
