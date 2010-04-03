@@ -3,6 +3,10 @@
 An object for organizing and running unit tests validated by assertions.
 */
 
+//metadoc TestRunner category Testing
+/*metadoc TestRunner description
+Core testing object responsible for running tests, collected by UnitTests and TestSuites.
+*/
 TestRunner := Object clone do(
     width ::= 70 # Line width.
 
@@ -12,6 +16,24 @@ TestRunner := Object clone do(
         self cases := Map clone
         self exceptions := List clone
         self runtime := 0
+    )
+//doc TestRunner testCount Returns the number of tests aggregated in this object.
+    testCount := method(
+        self cases values prepend(0) reduce(
+            count, testSlotNames, count + testSlotNames size
+    )
+
+//doc TestRunner name Return the name of the TestRunner.
+    name := method(
+        # If we are running a single test, the the test's name
+        # is taken as TestRunner's name, else processed file
+        # name is returned.
+        name := if(self cases size > 1,
+            System launchScript fileName
+        ,
+            self cases keys first
+        )
+
     )
 
     linebreak := method(
@@ -37,6 +59,7 @@ TestRunner := Object clone do(
         linebreak
     )
 
+//doc TestRunner run Runs all tests.
     run := method(
         prepare # Prepare is expected to populate tests map.
         self runtime := Date secondsToRun(
@@ -72,10 +95,6 @@ TestRunner := Object clone do(
     )
 
     printSummary := method(
-        testCount := self cases values prepend(0) reduce(
-            count, testSlotNames, count + testSlotNames size
-        )
-
         "-" repeated(width) println
         ("Ran " .. testCount .. " test" .. if(testCount != 1, "s", "") .. \
          " in " .. self runtime .. "\n") println
@@ -85,22 +104,12 @@ TestRunner := Object clone do(
         ,
             "OK")
 
-        # If we are running a single test, then the summary will contain
-        # it's name, else processed file name will be outputed.
-        name := if(self cases size > 1,
-            System launchScript fileName
-        ,
-            self cases keys first
-        )
         (result .. name alignRight(width - result size) .. "\n") println
-
     )
 )
 
 //doc UnitTest setUp Method called prior to each test.
 //doc UnitTest tearDown Method called after each test.
-//doc UnitTest testCount Returns the number of tests defined in this object.
-//doc UnitTest run Runs all tests.
 //doc UnitTest fail Call to trigger a test failure.
 UnitTest := TestRunner clone do(
     setUp := method(nil)
@@ -175,8 +184,6 @@ An object to collect and run multiple UnitTests defined in *Test.io files within
 TestSuite := TestRunner clone do(
     path ::= "."
 
-//doc TestSuite name Return the name of the TestSuite.
-    name := method(path asMutable pathComponent lastPathComponent)
 //doc TestSuite with(aPath) Returns a new instance with the provided path.
     with := method(path, self clone setPath(path))
 
