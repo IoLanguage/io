@@ -501,6 +501,18 @@ ListTest := UnitTest clone do(
         assertEquals(0, a reduce(x, y, x + y, -6))
     )
 
+    testReverseReduce := method(
+        a := list(1, 2, 3)
+        assertEquals(6, a reverseReduce(+))
+        assertEquals(6, a reverseReduce(x, y, x + y))
+        assertEquals(0, a reverseReduce(+, -6))
+        assertEquals(0, a reverseReduce(x, y, x + y, -6))
+
+        # Now checking if the list is actually folded starting
+        # from the right.
+        assertEquals(0, a reverseReduce(-))
+    )
+
     testJoin := method(
         a := list(1, 2, 3)
         assertEquals("123", a join)
