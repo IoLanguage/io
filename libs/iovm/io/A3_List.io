@@ -1,14 +1,14 @@
 
 List do(
 	//doc List sum Returns the sum of the items.
-	sum := method(s := 0; self foreach(v, s = s + v); s)
+	sum := method(self reduce(+))
 
 	//doc List average Returns the average of the items.
 	average := method(self sum / self size)
 
 	//doc List shuffleInPlace Randomizes the order of the elements in the receiver. Returns self.
 	shuffleInPlace := method(for(i, 0, size - 1, swapIndices(i, Random value(i, size) floor)))
-	
+
 	//doc List shuffle Randomizes the ordering of all the items of the receiver. Returns copy of receiver.
 	shuffle := method(self itemCopy shuffleInPlace)
 
@@ -26,34 +26,29 @@ List do(
 		seq foreach(x, self remove(x))
 		self
 	)
-	
+
 	//doc List rest Returns a copy of the list but with the first element removed.
 	rest := method(slice(1))
 
-	/*doc List join(optionalString) 
-		Returns a Sequence of the concatenated items with 
-		optionalString between each item or simply the concatenation of the items if no optionalString is supplied.
+	/*doc List join(optionalSeparator)
+		Returns a Sequence of the concatenated items with
+		optionalSeparator between each item or simply the concatenation of the items if no optionalSeparator is supplied.
 	*/
-		
-	join := method(arg,
-		s := if(self first type == "List", 
-			List clone
-		, 
-			Sequence clone 
-		)
-
-		if(arg,
+	join := method(sep,
+        result := Sequence clone
+		if(sep,
 			max := self size - 1
-			self foreach(i, v, s appendSeq(v); if(i != max, s appendSeq(arg)))
+			self foreach(idx, value,
+                result appendSeq(value)
+                if(idx != max, result appendSeq(sep))
+            )
 		,
-			self foreach(v, s appendSeq(v))
+            self foreach(value, result appendSeq(value))
 		)
+    result)
 
-		s
-	)
-
-	/*doc List insertAfter(item, afterItem) 
-	Inserts item after first occurance of afterItem and returns self. 
+	/*doc List insertAfter(item, afterItem)
+	Inserts item after first occurance of afterItem and returns self.
 	If afterItem is not found, item is appended to the end of the list.
 	*/
 	insertAfter := method(item, afterItem,
@@ -72,14 +67,7 @@ List do(
 	//doc List insertAt(item, index) Inserts item at the specified index. Raises an exception if the index is out of bounds. Returns self.
 	insertAt := method(item, index, self atInsert(index, item))
 
-	asString := method(
-		s := "list(" asMutable
-		self foreach(i, v,
-			s appendSeq(getSlot("v") asSimpleString)
-			if (i != self size - 1, s appendSeq(", "))
-		)
-		s appendSeq(")")
-	)
+	asString := method("list(" .. self join(", ") .. ")")
 
 	max := method(
 		m := call argAt(0)
@@ -103,14 +91,14 @@ List do(
 		obj
 	)
 
-	/*doc List flatten 
+	/*doc List flatten
 	Creates a new list, with all contained lists flattened into the new list. For example:
 <code>
 list(1,2,list(3,4,list(5))) flatten
 ==> list(1, 2, 3, 4, 5)
 </code>
 	*/
-	
+
 	List flatten := method(
 		l := List clone
 		self foreach(v,
@@ -122,11 +110,11 @@ list(1,2,list(3,4,list(5))) flatten
 		l
 	)
 
-	/*doc List asMessage Converts each element in the list to unnamed messages 
-	with their cached result set to the value of the element (without activating). 
+	/*doc List asMessage Converts each element in the list to unnamed messages
+	with their cached result set to the value of the element (without activating).
 	Returns an unnamed message whose arguments map 1:1 with the elements (after being converted to messages themselves).
 	*/
-	
+
 	asMessage := method(
 		m := Message clone
 		foreach(elem,
@@ -185,64 +173,89 @@ list(1, 2, 3, 4) detect(v, v > 2)
 		self foreach(pair, m atPut(pair at(0), pair at(1)))
 	)
 
-		//doc List reduce Also known as foldl or inject. Combines values in target start on the left. reduce(+) or reduce(x, y, x + y).
-		reduce := method(
-			accu := first
-			if(call message arguments size == 1,
-				args := list(nil)
-				meth := call argAt(0) name
-				exSlice(1) foreach(x, accu = accu performWithArgList(meth, args atPut(0, x)))
-			,
-				aName := call argAt(0) name
-				bName := call argAt(1) name
-				body := call argAt(2)
-				exSlice(1) foreach(x,
-					call sender setSlot(aName, accu)
-					call sender setSlot(bName, x)
-					accu = call sender doMessage(body, call sender)
-				)
-			)
-			accu
-		)
+    /*doc List reduce
+      Also known as foldl or inject. Combines values in target starting on the left.
+      If no initial value is paseed the head of the list is used.
+      reduce(+), reduce(+, 15) or reduce(x, y, x + y), reduce(x, y, x + y, 15)
+    */
+    reduce := method(
+        argCount := call argCount
 
-		//doc List reverseReduce Also known as foldr and inject. Combines values in target starting on the right. reverseReduce(+) or reverseReduce(x, y, x + y).
-		reverseReduce := method(
-			accu := last
-			if(call message arguments size == 1,
-				args := list(nil)
-				meth := call argAt(0) name
-				exSlice(0, -1) reverseForeach(x, accu = x performWithArgList(meth, args atPut(0, accu)))
-			,
-				aName := call argAt(0) name
-				bName := call argAt(1) name
-				body := call argAt(2)
-				exSlice(0, -1) reverseForeach(x,
-					call sender setSlot(aName, x)
-					call sender setSlot(bName, accu)
-					accu = call sender doMessage(body, call sender)
-				)
-			)
-			accu
-		)
+        # Checking for the initial value, if it's not present, the
+        # head of the list is used.
+        if(argCount == 2 or argCount == 4,
+            target := self
+            accumulator := call sender doMessage(
+                call argAt(argCount - 1)
+            )
+        ,
+            target := slice(1)
+            accumulator := first
+        )
+
+        if(argCount <= 2,
+            args := list(nil)
+            method := call argAt(0) name
+            target foreach(x,
+                accumulator = accumulator performWithArgList(
+                    method, args atPut(0, x)
+                )
+            )
+        ,
+            aName := call argAt(0) name # Accumulator.
+            bName := call argAt(1) name # Item.
+            body := call argAt(2)
+            # It turns out that copying the list doesn't affect
+            # the performance so much, but it keeps the original
+            # slots safe.
+            sender := call sender shallowCopy
+
+            target foreach(x,
+                sender setSlot(aName, accumulator)
+                sender setSlot(bName, x)
+                accumulator = sender doMessage(body, sender)
+            )
+        )
+        accumulator
+    )
+
+    //doc List reverseReduce Also known as foldr and inject. Combines values in target starting on the right. reverseReduce(+) or reverseReduce(x, y, x + y).
+    reverseReduce := method(
+        accu := last
+        if(call message arguments size == 1,
+            args := list(nil)
+            meth := call argAt(0) name
+            exSlice(0, -1) reverseForeach(x, accu = x performWithArgList(meth, args atPut(0, accu)))
+        ,
+            aName := call argAt(0) name
+            bName := call argAt(1) name
+            body := call argAt(2)
+            exSlice(0, -1) reverseForeach(x,
+                call sender setSlot(aName, x)
+                call sender setSlot(bName, accu)
+                accu = call sender doMessage(body, call sender)
+            )
+        )
+        accu
+    )
 
 
-		mapFromKey := method(key,
-			e := key asMessage
-			m := Map clone
-			self foreach(v,
-				k := getSlot("v") doMessage(e)
-				l := m at(k)
-				if(l, l append(getSlot("v")), m atPut(k, list(getSlot("v"))))
-			)
-			m
-		)
+    mapFromKey := method(key,
+        e := key asMessage
+        m := Map clone
+        self foreach(v,
+            k := getSlot("v") doMessage(e)
+            l := m at(k)
+            if(l, l append(getSlot("v")), m atPut(k, list(getSlot("v"))))
+        )
+        m
+    )
 
-		//doc List uniqueCount Returns a list of list(value, count) for each unique value in self.
-		uniqueCount := method(self unique map(item, list(item, self select(== item) size)))
-		
-		exSlice := getSlot("slice")
-		
-		
+    //doc List uniqueCount Returns a list of list(value, count) for each unique value in self.
+    uniqueCount := method(self unique map(item, list(item, self select(== item) size)))
+
+    exSlice := getSlot("slice")
+
 	asJson := method(
 		"[" .. self map(asJson) join(",") .. "]"
 	)

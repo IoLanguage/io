@@ -487,6 +487,32 @@ ListTest := UnitTest clone do(
         a sliceInPlace(0, a size, 2)
         assertEquals(list(1, 3, 5), a)
     )
+
+    testSum := method(
+        assertEquals(6, list(1, 2, 3) sum)
+        assertNil(list() sum)
+    )
+
+    testReduce := method(
+        a := list(1, 2, 3)
+        assertEquals(6, a reduce(+))
+        assertEquals(6, a reduce(x, y, x + y))
+        assertEquals(0, a reduce(+, -6))
+        assertEquals(0, a reduce(x, y, x + y, -6))
+    )
+
+    testJoin := method(
+        a := list(1, 2, 3)
+        assertEquals("123", a join)
+        assertEquals("1, 2, 3", a join(", "))
+        assertEquals("1", list(1) join(", "))
+        assertEquals("", list() join(", "))
+    )
+
+    testAsString := method(
+        assertEquals("list(1, 2, 3)", list(1, 2, 3) asString)
+        assertEquals("list()", list() asString)
+    )
 )
 
-if(isLaunchScript, ListTest run)
+if(isLaunchScript, ListTest run, ListTest)
