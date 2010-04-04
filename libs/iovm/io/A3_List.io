@@ -30,26 +30,22 @@ List do(
 	//doc List rest Returns a copy of the list but with the first element removed.
 	rest := method(slice(1))
 
-	/*doc List join(optionalString)
+	/*doc List join(optionalSeparator)
 		Returns a Sequence of the concatenated items with
-		optionalString between each item or simply the concatenation of the items if no optionalString is supplied.
+		optionalSeparator between each item or simply the concatenation of the items if no optionalSeparator is supplied.
 	*/
-	join := method(arg,
-		s := if(self first isKindOf(List),
-			List clone
-		,
-			Sequence clone
-		)
-
-		if(arg,
+	join := method(sep,
+        result := Sequence clone
+		if(sep,
 			max := self size - 1
-			self foreach(i, v, s appendSeq(v); if(i != max, s appendSeq(arg)))
+			self foreach(idx, value,
+                result appendSeq(value)
+                if(idx != max, result appendSeq(sep))
+            )
 		,
-			self foreach(v, s appendSeq(v))
+            self foreach(value, result appendSeq(value))
 		)
-
-		s
-	)
+    result)
 
 	/*doc List insertAfter(item, afterItem)
 	Inserts item after first occurance of afterItem and returns self.
@@ -71,14 +67,7 @@ List do(
 	//doc List insertAt(item, index) Inserts item at the specified index. Raises an exception if the index is out of bounds. Returns self.
 	insertAt := method(item, index, self atInsert(index, item))
 
-	asString := method(
-		s := "list(" asMutable
-		self foreach(i, v,
-			s appendSeq(getSlot("v") asSimpleString)
-			if (i != self size - 1, s appendSeq(", "))
-		)
-		s appendSeq(")")
-	)
+	asString := method("list(" .. self join(", ") .. ")")
 
 	max := method(
 		m := call argAt(0)

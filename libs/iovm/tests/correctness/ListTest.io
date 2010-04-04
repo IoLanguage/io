@@ -500,6 +500,19 @@ ListTest := UnitTest clone do(
         assertEquals(0, a reduce(+, -6))
         assertEquals(0, a reduce(x, y, x + y, -6))
     )
+
+    testJoin := method(
+        a := list(1, 2, 3)
+        assertEquals("123", a join)
+        assertEquals("1, 2, 3", a join(", "))
+        assertEquals("1", list(1) join(", "))
+        assertEquals("", list() join(", "))
+    )
+
+    testAsString := method(
+        assertEquals("list(1, 2, 3)", list(1, 2, 3) asString)
+        assertEquals("list()", list() asString)
+    )
 )
 
 if(isLaunchScript, ListTest run, ListTest)
