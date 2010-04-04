@@ -122,7 +122,8 @@ list(1,2,list(3,4,list(5))) flatten
 		l
 	)
 
-	/*doc List asMessage Converts each element in the list to unnamed messages 
+	/*doc List asMessage 
+	Converts each element in the list to unnamed messages 
 	with their cached result set to the value of the element (without activating). 
 	Returns an unnamed message whose arguments map 1:1 with the elements (after being converted to messages themselves).
 	*/

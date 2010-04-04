@@ -4,7 +4,7 @@
 /*metadoc List description
 A mutable array of values. The first index is 0.
 */
-//metadoc List category DataStructures
+//metadoc List category Core
 
 #include "IoList.h"
 #include "IoObject.h"
