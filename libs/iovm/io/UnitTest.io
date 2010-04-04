@@ -160,15 +160,8 @@ Fail the running test if the expected value is not within delta of the actual va
     assertFalse   := method(a, assertEquals(a, false, call message))
 
     assertRaisesException := method(
-        e := try(
-            stopStatus(call evalArgAt(0))
-            writeln("Should have raised Exception")
-        )
-        e ifNil(Exception raise("Should have raised Exception"))
-    )
-
-    knownBug := method(
-        //writeln("  [known bug: ", call argAt(0) code, "]")
+        exc := try(stopStatus(call evalArgAt(0)))
+        exc ifNil(Exception raise("Should have raised Exception"))
     )
 
     assertEqualsWithinDelta := method(expected, actual, delta,
