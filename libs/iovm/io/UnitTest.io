@@ -21,6 +21,7 @@ TestRunner := Object clone do(
     testCount := method(
         self cases values prepend(0) reduce(
             count, testSlotNames, count + testSlotNames size
+        )
     )
 
 //doc TestRunner name Return the name of the TestRunner.
