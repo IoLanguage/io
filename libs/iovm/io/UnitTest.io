@@ -71,7 +71,7 @@ TestRunner := Object clone do(
                 testSlotNames foreach(name,
                     testCase setUp
                     exc := try(stopStatus(testCase doString(name)))
-                    if(exc, error(name, exc), success)
+                    if(exc, error(testCaseName .. " " .. name, exc), success)
                     testCase tearDown
                 )
             )
@@ -86,10 +86,7 @@ TestRunner := Object clone do(
 
         # Printing exceptions in the order they occured.
         exceptions foreach(exc,
-            # The header contains both test object type and slot,
-            # if the former differs from UnitTest.
-            caseName := if(self type != "UnitTest", self type .. " ", "")
-            ("=" repeated(width) .. "\nFAIL: " .. caseName .. exc at(0) .. \
+            ("=" repeated(width) .. "\nFAIL: " .. exc at(0) .. \
              "\n" .. "-" repeated(width)) println
             exc at(1) showStack
         )
@@ -162,6 +159,10 @@ Fail the running test if the expected value is not within delta of the actual va
     assertRaisesException := method(
         exc := try(stopStatus(call evalArgAt(0)))
         exc ifNil(Exception raise("Should have raised Exception"))
+    )
+
+    knownBug := method(
+        //writeln("  [known bug: ", call argAt(0) code, "]")
     )
 
     assertEqualsWithinDelta := method(expected, actual, delta,
