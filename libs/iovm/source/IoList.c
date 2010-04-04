@@ -369,27 +369,8 @@ IO_METHOD(IoList, first)
 	If optionalSize is provided, that number of the first items in the list are returned. 
 	*/
 
-	if (IoMessage_argCount(m) == 0)
-	{
-		IoObject *result = List_at_(DATA(self), 0);
-
-		return result ? result : ((IoState *)IOSTATE)->ioNil;
-	}
-	else
-	{
-		int end = IoMessage_locals_intArgAt_(m, locals, 0);
-
-		if (end <= 0)
-		{
-			return IoList_new(IOSTATE);
-		}
-		else
-		{
-            // FIXME: explicit step declaration!
-            List *list = List_cloneSlice(DATA(self), 0, end - 1, 1);
-            return IoList_newWithList_(IOSTATE, list);
-		}
-	}
+    IoObject *result = List_at_(DATA(self), 0);
+    return result ? result : IONIL(self);
 }
 
 IO_METHOD(IoList, last)
@@ -399,26 +380,8 @@ IO_METHOD(IoList, last)
 	If optionalSize is provided, that number of the last items in the list are returned. 
 	*/
 
-	if (IoMessage_argCount(m) == 0)
-	{
-		IoObject *result = List_at_(DATA(self), List_size(DATA(self))-1);
-		return result ? result : ((IoState *)IOSTATE)->ioNil;
-	}
-	else
-	{
-		size_t size = IoList_rawSize(self);
-		int start = size - IoMessage_locals_intArgAt_(m, locals, 0);
-		List *list;
-
-		if (start < 0)
-		{
-			start = 0;
-		}
-
-        // FIXME: explicit step declaration!
-		list = List_cloneSlice(DATA(self), start, size, 1);
-		return IoList_newWithList_(IOSTATE, list);
-	}
+    IoObject *result = List_at_(DATA(self), List_size(DATA(self)) - 1);
+    return result ? result : IONIL(self);
 }
 
 void IoList_sliceIndex(int *index, int step, int size)
