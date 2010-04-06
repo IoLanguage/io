@@ -124,21 +124,25 @@ IoObject *IoRange_next(IoRange *self, IoObject *locals, IoMessage *m)
 	IoObject *context;
 	IoObject *v = IoObject_rawGetSlot_context_(rd->curr, IOSYMBOL("nextInSequence"), &context);
 	IoObject *lt = IoObject_rawGetSlot_context_(rd->curr, IOSYMBOL("compare"), &context);
-	IoObject *eq = IoObject_rawGetSlot_context_(rd->curr, IOSYMBOL("=="), &context);
+	
 
-	if (v && lt && eq)
+	if (v && lt)
 	{
 		IoMessage *newMessage = IoMessage_new(IOSTATE);
-		IoObject *r_lt, *r_eq, *ret;
-		IoMessage_addCachedArg_(newMessage, rd->end);
-		r_lt = IoObject_activate(lt, rd->curr, locals, newMessage, context);
-		r_eq = IoObject_activate(eq, rd->curr, locals, newMessage, context);
-		if (ISTRUE(r_lt) && ISFALSE(r_eq))
+		IoObject *r_lt, *ret;
+		
+		IoMessage_setCachedArg_to_(newMessage, 0, rd->increment);
+		ret = IoObject_activate(v, rd->curr, locals, newMessage, context);
+
+		// compare next value with end of range
+    IoMessage_setCachedArg_to_(newMessage, 0, rd->end);
+		r_lt = IoObject_activate(lt, ret, locals, newMessage, context);
+
+    // The comparing result depends on a range (his decreasing or increasing)
+		if (rd->end > rd->start ? IoNumber_asInt(r_lt) <= 0 : IoNumber_asInt(r_lt) >= 0)
 		{
-			IoMessage_setCachedArg_to_(newMessage, 0, rd->increment);
-			ret = IoObject_activate(v, rd->curr, locals, newMessage, context);
 			IoRange_setCurrent(self, ret);
-			IoRange_setIndex(self, IONUMBER(CNUMBER(rd->index) + CNUMBER(rd->increment)));
+			IoRange_setIndex(self, IONUMBER(CNUMBER(rd->index) + 1));
 			return self;
 		}
 	}
@@ -164,7 +168,7 @@ IoObject *IoRange_previous(IoRange *self, IoObject *locals, IoMessage *m)
 		IoMessage_addCachedArg_(newMessage, IONUMBER(-CNUMBER(rd->increment)));
 		ret = IoObject_activate(v, rd->curr, locals, newMessage, context);
 		IoRange_setCurrent(self, ret);
-		IoRange_setIndex(self, IONUMBER(CNUMBER(rd->index) - CNUMBER(rd->increment)));
+		IoRange_setIndex(self, IONUMBER(CNUMBER(rd->index) - 1));
 		return self;
 	}
 
@@ -208,9 +212,14 @@ IoRange *IoRange_setRange(IoRange *self, IoObject *locals, IoMessage *m)
 
 	if (IoMessage_argCount(m) == 3)
 		increment = IoMessage_locals_numberArgAt_(m, locals, 2);
-	else
-		increment = IONUMBER(1);
-
+	else 
+	{
+	  if( IOREF(start) < IOREF(end))
+	    increment = IONUMBER(1);
+	  else
+      increment = IONUMBER(-1);
+  }
+  
 	DATA(self)->start = IOREF(start);
 	DATA(self)->end = IOREF(end);
 	DATA(self)->curr = DATA(self)->start;
