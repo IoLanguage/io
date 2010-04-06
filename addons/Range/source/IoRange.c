@@ -246,18 +246,24 @@ IoObject *IoRange_each(IoRange *self, IoObject *locals, IoMessage *m)
 	IoState *state = IOSTATE;
 	IoObject *result = IONIL(self);
 	IoMessage *doMessage = IoMessage_rawArgAt_(m, 0);
+	IoObject *savedCursor, *savedIndex;
+	IoRangeData *rd = DATA(self);
 
-	double increment = CNUMBER(IoRange_getIncrement(self));
 	double index;
-
-	for(index = 0; ; index += increment)
+	savedCursor = rd->curr;
+	savedIndex = rd->index;
+	IoRange_setCurrent(self, rd->start);
+	
+	for(index = 0; ; index += 1)
 	{
 		IoState_clearTopPool(state);
-		result = IoMessage_locals_performOn_(doMessage, locals, RANGEDATA(self)->curr);
+		result = IoMessage_locals_performOn_(doMessage, locals, rd->curr);
 		if (IoRange_next(self, locals, m) == IONIL(self)) break;
 		if (IoState_handleStatus(state)) break;
 	}
 
+	IoRange_setCurrent(self, savedCursor);
+	IoRange_setIndex(self, savedIndex);
 	IoState_popRetainPoolExceptFor_(state, result);
 	return result;
 }
@@ -286,8 +292,8 @@ IoObject *IoRange_foreach(IoRange *self, IoObject *locals, IoMessage *m)
 
 	IoState *state = IOSTATE;
 	IoObject *result = IONIL(self);
-	IoSymbol *indexName;
-	IoSymbol *valueName;
+	IoObject *savedCursor, *savedIndex;
+	IoSymbol *indexName,*valueName;
 	IoMessage *doMessage;
 	IoRangeData *rd = DATA(self);
 
@@ -300,14 +306,19 @@ IoObject *IoRange_foreach(IoRange *self, IoObject *locals, IoMessage *m)
 	IoState_pushRetainPool(state);
 
 	{
-		double increment = CNUMBER(IoRange_getIncrement(self));
 		double index;
 
-		for(index = 0; ; index += increment)
+		// Saving state
+		savedCursor = rd->curr;
+		savedIndex = rd->index;
+		IoRange_setCurrent(self, rd->start);
+		
+		for(index = 0; ; index += 1)
 		{
 			IoState_clearTopPool(state);
 			if (indexName)
 				IoObject_setSlot_to_(locals, indexName, IONUMBER(index));
+
 			IoObject_setSlot_to_(locals, valueName, rd->curr);
 			result = IoMessage_locals_performOn_(doMessage, locals, locals);
 			if (IoState_handleStatus(state)) break;
@@ -316,6 +327,10 @@ IoObject *IoRange_foreach(IoRange *self, IoObject *locals, IoMessage *m)
 	}
 
 	IoState_popRetainPoolExceptFor_(state, result);
+
+	// Recovering state
+	IoRange_setCurrent(self, savedCursor);
+	IoRange_setIndex(self, savedIndex);
 	return result;
 }
 
