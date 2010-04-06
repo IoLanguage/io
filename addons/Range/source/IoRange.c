@@ -2,7 +2,7 @@
 //metadoc Range copyright Jeremy Tregunna, 2006
 //metadoc Range license BSD
 //metadoc Range description Simple datastructure representing the items at and between two specific points.
-
+#include <math.h>
 #include "IoState.h"
 #define IORANGE_C
 #include "IoRange.h"
@@ -99,6 +99,7 @@ IoObject *IoRange_first(IoRange *self, IoObject *locals, IoMessage *m)
 
 	IoRangeData *rd = DATA(self);
 	rd->curr = rd->start;
+	IoRange_setIndex(self, IONUMBER(0));
 	return rd->curr;
 }
 
@@ -110,6 +111,7 @@ IoObject *IoRange_last(IoRange *self, IoObject *locals, IoMessage *m)
 
 	IoRangeData *rd = DATA(self);
 	rd->curr = rd->end;
+	IoRange_setIndex(self, IONUMBER(ceil((CNUMBER(rd->end) - CNUMBER(rd->start))/CNUMBER(rd->increment))));
 	return rd->curr;
 }
 
