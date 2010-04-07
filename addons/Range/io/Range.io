@@ -1,14 +1,12 @@
 Range do(
-	#doc Range asList Returns a list containing all the items within and 
-	# including the ranges starting and ending points.
+	//doc Range asList Returns a list containing all the items within and including the ranges starting and ending points.
 	asList := method(
 		lst := List clone
 		self foreach(v, lst append(v))
 		lst
 	)
 
-	#doc Range contains Returns a boolean value if the range 
-	# contains the argument. This works independant of any increment value.
+	//doc Range contains Returns a boolean value if the range contains the argument.
 	contains := method(value,
 		lst := self clone
 		start := lst first
