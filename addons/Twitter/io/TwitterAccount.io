@@ -108,11 +108,23 @@ Object representing a twitter account.
 		resultsFor(request asCreateFriendship setScreenName(aScreenName)) at("protected")
 	)
 	
+	followId := method(userId,
+		//doc TwitterAccount followId(userId) Follow the user with the specified id. Returns results of the request.
+		resultsFor(request asCreateFriendship setUserId(userId))
+	)
+	
 	unfollow := method(aScreenName,
 		//doc TwitterAccount unfollow(aScreenName) Unfollow the user with the specified screen name. Returns self.
 		//You are not friends with the specified user
 		
 		resultsFor(request asDestroyFriendship setScreenName(aScreenName))
+		self
+	)
+	
+	unfollowId := method(userId,
+		//doc TwitterAccount unfollowId(userId) Unfollow the user with the specified screen id. Returns self.
+		
+		resultsFor(request asDestroyFriendship setUserId(userId))
 		self
 	)
 	
@@ -122,7 +134,7 @@ Object representing a twitter account.
 	)
 	
 	followersCursor := method(screenName, 
-		//doc TwitterAccount followersCursor Returns a new TwitterFriendsCursor instance for this account.		
+		//doc TwitterAccount followersCursor Returns a new TwitterFollowersCursor instance for this account.		
 		TwitterFollowersCursor clone setAccount(self) setScreenName(screenName)
 	)
 	
@@ -141,17 +153,17 @@ Object representing a twitter account.
 	)
 	
 	show := method(
-		//doc TwitterAccount show ?		
+		//doc TwitterAccount show Returns a Map containing attributes related to the Twitter user associated with this account
 		resultsFor(request asShow setScreenName(screenName))
 	)
 	
 	showUser := method(aScreenName,
-		//doc TwitterAccount showUser ?		
+		//doc TwitterAccount showUser(aScreenName) Returns a Map containing attributes related to the Twitter user associated with aScreenName
 		resultsFor(request asShow setScreenName(aScreenName))
 	)
 	
 	showUserWithId := method(anId,
-		//doc TwitterAccount showUserWithId(anId) ?		
+		//doc TwitterAccount showUserWithId(anId) Returns a Map containing attributes related to the Twitter user associated with anId
 		resultsFor(request asShow setUserId(anId))
 	)
 	
@@ -229,5 +241,11 @@ Object representing a twitter account.
 	mentions := method(
 		//doc TwitterAccount mentions Returns mentions for this account.	
 		resultsFor(request asMentions)
+	)
+	
+	retweet := method(tweetId,
+		//doc TwitterAccount retweet(tweetId) Retweets the tweet with tweetId
+		r := request asRetweet setTweetId(tweetId)
+		resultsFor(r) at("id") asString
 	)
 )

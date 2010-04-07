@@ -42,6 +42,10 @@ TwitterResponse := Object clone do(
 			if(errorMessage := results ?at("error"),
 				if(errorMessage endsWithSeq("is already on your list.")) then(
 					e setIsAlreadyFollowing(true)
+				) elseif(errorMessage containsSeq("You've already requested to follow")) then(
+					e setIsAlreadyFollowing(true)
+				) elseif(errorMessage containsSeq("You can't follow yourself")) then(
+					e setIsFollowedSelf(true)
 				) elseif(errorMessage containsSeq("You have been blocked")) then(
 					e setIsBlocked(true)
 				) elseif(errorMessage containsSeq("You do not have permission to retrieve following status for both specified users")) then(

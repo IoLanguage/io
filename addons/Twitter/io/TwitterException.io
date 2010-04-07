@@ -30,6 +30,9 @@ TwitterException := Exception clone do(
 
 	isAlreadyFollowing ::= false
 	//doc TwitterException isAlreadyFollowing Returns isAlreadyFollowing attribute.
+	
+	isFollowedSelf ::= false
+	//doc TwitterException isFollowedSelf Returns isFollowedSelf attribute.
 
 	isBlocked ::= false
 	//doc TwitterException isBlocked Returns isBlocked attribute.
