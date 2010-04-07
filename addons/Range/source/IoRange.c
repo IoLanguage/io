@@ -170,7 +170,7 @@ IoObject *IoRange_next(IoRange *self, IoObject *locals, IoMessage *m)
 		IoMessage_setCachedArg_to_(newMessage, 0, rd->end);
 		r_lt = IoObject_activate(lt, ret, locals, newMessage, context);
 
-    // The comparing result depends on a range (his decreasing or increasing)
+		// The comparing result depends on a range (his decreasing or increasing)
 		if (rd->end > rd->start ? IoNumber_asInt(r_lt) <= 0 : IoNumber_asInt(r_lt) >= 0)
 		{
 			IoRange_setCurrent(self, ret);

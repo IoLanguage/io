@@ -154,7 +154,16 @@ RangeTest := UnitTest clone do(
         assertEquals(6, decreasingExampleRangeWithCustomStep last)
     )
 
+	# Map with 1,2 or 3 arguments
+	#
     testmap := method(
+	   	assertEquals(list(10,14,18), exampleRangeWithCustomStep map(*2))
+	   	assertEquals(list(25,49,81), exampleRangeWithCustomStep map(v, v*v))
+	   	assertEquals(list(0,7,18), exampleRangeWithCustomStep map(i,v, i*v))
+
+	   	assertEquals(list(20,16,12), decreasingExampleRangeWithCustomStep map(*2))
+	   	assertEquals(list(100,64,36), decreasingExampleRangeWithCustomStep map(v, v*v))
+	   	assertEquals(list(0,8,12), decreasingExampleRangeWithCustomStep map(i,v, i*v))
     )
 
     # Returns valid next value or nil if the current item is last
