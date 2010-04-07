@@ -108,19 +108,49 @@ IoObject *IoRange_last(IoRange *self, IoObject *locals, IoMessage *m)
 	/*doc Range last
 	Moves the current cursor to the end of the range, and returns it.
 	 */
-
 	IoRangeData *rd = DATA(self);
-	rd->curr = rd->end;
-	IoRange_setIndex(self, IONUMBER(ceil((CNUMBER(rd->end) - CNUMBER(rd->start))/CNUMBER(rd->increment))));
-	return rd->curr;
+	IoObject *context;
+	
+	IoObject *v = IoObject_rawGetSlot_context_(rd->curr, IOSYMBOL("nextInSequence"), &context);
+	IoObject *lt = IoObject_rawGetSlot_context_(rd->curr, IOSYMBOL("compare"), &context);
+
+	if(v && lt)
+	{
+		IoObject *last, *result_lt;
+		IoMessage *newMessage = IoMessage_new(IOSTATE);
+		// Get penultimate index and jump to it
+		double index = ceil((CNUMBER(rd->end) - CNUMBER(rd->start))/CNUMBER(rd->increment)) - 1;
+		IoMessage_setCachedArg_to_(newMessage, 0, IONUMBER(CNUMBER(rd->increment)*(index)));
+		last = IoObject_activate(v, rd->start, locals, newMessage, context);
+
+		// Set penultimate index as current
+		IoRange_setCurrent(self, last);
+		IoRange_setIndex(self, IONUMBER(index));
+
+		// Try to get next 
+		IoMessage_setCachedArg_to_(newMessage, 0, rd->increment);
+		last = IoObject_activate(v, rd->curr, locals, newMessage, context);
+		// Compare it with end of range
+		IoMessage_setCachedArg_to_(newMessage, 0, rd->end);
+		result_lt = IoObject_activate(lt, last, locals, newMessage, context);
+
+		// If new last value not out of bounds set it as current
+		if(rd->end > rd->start ? IoNumber_asInt(result_lt) <= 0 : IoNumber_asInt(result_lt) >= 0)
+		{
+			IoRange_setCurrent(self, last);
+			IoRange_setIndex(self, IONUMBER(CNUMBER(rd->index) + 1));
+		}
+		return rd->curr;
+	}
+	return IONIL(self);
 }
 
 IoObject *IoRange_next(IoRange *self, IoObject *locals, IoMessage *m)
 {
-		/*doc Range next
+	/*doc Range next
 		Sets the current item in the range to the next item in the range, 
 		and returns a boolean value indicating whether it is not at the end of the range.
-	 */
+	*/
 
 	IoRangeData *rd = DATA(self);
 	IoObject *context;
@@ -137,7 +167,7 @@ IoObject *IoRange_next(IoRange *self, IoObject *locals, IoMessage *m)
 		ret = IoObject_activate(v, rd->curr, locals, newMessage, context);
 
 		// compare next value with end of range
-    IoMessage_setCachedArg_to_(newMessage, 0, rd->end);
+		IoMessage_setCachedArg_to_(newMessage, 0, rd->end);
 		r_lt = IoObject_activate(lt, ret, locals, newMessage, context);
 
     // The comparing result depends on a range (his decreasing or increasing)
