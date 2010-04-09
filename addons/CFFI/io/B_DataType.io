@@ -58,11 +58,11 @@ CFFI do(
 		Void := DataType clone setTypeString("v")
 
 		CString := DataType clone setTypeString("*")
-		CString castTo := method(type,
+		/*CString castTo := method(type,
 			if(type isKindOf(Pointer),
-				return type ptr clone setValue(self) value)
+				return type clone setValue(self) value)
 			nil
-		)
+		)*/
 
 		types := method(
 			m := Map clone

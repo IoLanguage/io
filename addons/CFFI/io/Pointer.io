@@ -26,7 +26,5 @@ CFFI do(
 		isNil := method(
 			self address isNil
 		)
-
-		fromRef := method( self ?_keepRef )
 	)
 )

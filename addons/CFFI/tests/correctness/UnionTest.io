@@ -1,99 +1,61 @@
 CFFI
 
-StructureTest := UnitTest clone do(
+// TODO Need to check endianness
+
+UnionTest := UnitTest clone do(
 	testSetValues := method(
 		appendProto(Types)
-		
-		S := Structure with(	list("c", Char),
-					list("i", Int),
-					list("d", Double),
-					list("str", CString))
 
-		c   := Char    clone setValue("A")
-		i   := Int     clone setValue(-12345)
-		d   := Double  clone setValue(-19256.345)
-		str := CString clone setValue("string")
+		S := Structure with(	list("a", Char),
+					list("b", Char),
+					list("c", Char),
+					list("d", Char))
+					
+		U := Union with(list("i", Int),
+				list("s", S))
 
-		//This setValues is not valid because "i" is expected as a double.
-		//s := S clone setValues(c, i, d, str)
+		u := U clone
 
-		s := S clone setValues(c, i value, d, str)
+		u i setValue(0x61626364)
 
-		assertEquals(c   value, s c   value)
-		assertEquals(i   value, s i   value)
-		assertEquals(d   value, s d   value)
-		assertEquals(str value, s str value)
+		assertEquals((u i value & 0xFF) asCharacter		, u s a value)
+		assertEquals(((u i value >> 8 ) & 0xFF) asCharacter	, u s b value)
+		assertEquals(((u i value >> 16) & 0xFF) asCharacter	, u s c value)
+		assertEquals(((u i value >> 24) & 0xFF) asCharacter	, u s d value)
+	
 	)
 
 	testNestedByValueSetValues := method(
 		appendProto(Types)
-
-		S1 := Structure with(	list("c", Char),
-					list("i", Int),
-					list("d", Double))
-
-		S2 := Structure with(	list("c1", Char),
-					list("c2", Char))
-
-		S3 := Structure with(	list("s1", S1),
-					list("s2", S2))
-
-		s3 := S3 clone setValues(	S1 clone setValues("t", 876, 567.94),
-						S2 clone setValues("U", "p"))
-
-		assertEquals(s3 s1 c  value, "t")
-		assertEquals(s3 s1 i  value, 876)
-		assertEquals(s3 s1 d  value, 567.94)
-		assertEquals(s3 s2 c1 value, "U")
-		assertEquals(s3 s2 c2 value, "p")
-
-	)
-
-	testNestedByRefSetValues := method(
-		appendProto(Types)
 		
-		S1 := Structure with(	list("d1", Double),
-					list("d2", Double),
-					list("c" , Char),
-					list("d3", Double),
-					list("d4", Double))
+		S := Structure with(	list("a", Char),
+					list("b", Char),
+					list("c", Char),
+					list("d", Char))
 
-		S2 := Structure with(	list("i1", Int),
-					list("c1", Char),
-					list("s1", CString),
-					list("c2", Char))
+		U1 := Union with(	list("i", Int),
+					list("s", S))
 
-		S3 := Structure with(	list("s2", S2 ptr),
-					list("s1", S1 ptr))
+		U2 := Union with(	list("u1", U1),
+					list("i", Int))
 
-		S4 := Structure with(list("s3", S3 ptr))
+		U3 := Union with(	list("u1", U1),
+					list("u2", U2))
 
+		u3 := U3 clone
+		u3 u2 u1 s setValues("a", "b", "c", "d")
 
-		s1 := S1 clone setValues(-92.944, 543.33, "n", -22213.4556, 678.123)
-
-		s2 := S2 clone setValues(1000000, "a", "test", "z")
-
-		/*s3 := S3 clone setValues(	S2 ptr clone setValue(s2),
-						S1 ptr clone setValue(s1))
-
-		s4 := S4 clone setValues(S3 ptr clone setValue(s3))*/
-
-		s3 := S3 clone setValues(	s2,
-						s1)
-
-		s4 := S4 clone setValues(s3)
-
-
-		assertEquals(s4 s3 value s1 value d1 value, -92.944)
-		assertEquals(s4 s3 value s1 value d2 value, 543.33)
-		assertEquals(s4 s3 value s1 value c  value, "n")
-		assertEquals(s4 s3 value s1 value d3 value, -22213.4556)
-		assertEquals(s4 s3 value s1 value d4 value, 678.123)
-
-		assertEquals(s4 s3 value s2 value i1 value, 1000000)
-		assertEquals(s4 s3 value s2 value s1 value, "test")
-		assertEquals(s4 s3 value s2 value c1 value, "a")
-		assertEquals(s4 s3 value s2 value c2 value, "z")
+		assertEquals(u3 u1 i value	, 0x64636261)
+		assertEquals(u3 u2 i value	, 0x64636261)
+		assertEquals(u3 u2 u1 i value	, 0x64636261)
+		assertEquals(u3 u1 s a value	, "a")
+		assertEquals(u3 u1 s b value	, "b")
+		assertEquals(u3 u1 s c value	, "c")
+		assertEquals(u3 u1 s d value	, "d")
+		assertEquals(u3 u2 u1 s a value	, "a")
+		assertEquals(u3 u2 u1 s b value	, "b")
+		assertEquals(u3 u2 u1 s c value	, "c")
+		assertEquals(u3 u2 u1 s d value	, "d")
 
 	)
 
@@ -130,10 +92,10 @@ StructureTest := UnitTest clone do(
 	testAddress := method(
 		appendProto(Types)
 
-		S := Structure with(	list("c", Char),
+		S := Union with(	list("c", Char),
 					list("d", Double),
 					list("i", Int))
-		
+
 		ps   := S ptr clone
 		pps  := S ptr ptr clone
 		ppps := S ptr ptr ptr clone
@@ -141,7 +103,7 @@ StructureTest := UnitTest clone do(
 		assertEquals(nil,   ps address)
 		assertEquals(nil,  pps address)
 		assertEquals(nil, ppps address)
-		
+
 		ps   setValue(S clone setValues("B", -456.78, 45))
 		pps  setValue(ps)
 		ppps setValue(pps)
@@ -155,7 +117,7 @@ StructureTest := UnitTest clone do(
 	testPointedToType := method(
 		appendProto(Types)
 		
-		S := Structure with(	list("s", CString),
+		S := Union with(	list("s", CString),
 					list("d", Double),
 					list("i", Int))
 

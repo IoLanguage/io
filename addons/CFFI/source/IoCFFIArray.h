@@ -6,6 +6,8 @@
 #ifndef IoCFFIArray_DEFINED
 #define IoCFFIArray_DEFINED 1
 
+#include "IoObject.h"
+#include "IoMessage.h"
 #include "IoNumber.h"
 #include <ffi.h>
 
@@ -20,6 +22,8 @@ typedef struct IoCFFIArray {
 	int		itemSize;
 	int		needToFreeBuffer;
 	int		needToFreeFFIType;
+	IoObject	*keepRef;
+	IoObject	**keepValuesRefs;
 } IoCFFIArrayData;
 
 IoTag		*IoCFFIArray_newTag(void *state);
@@ -33,9 +37,11 @@ IoObject	*IoCFFIArray_address(IoCFFIArray *self, IoObject *locals, IoMessage *m)
 IoObject	*IoCFFIArray_asBuffer(IoCFFIArray *self, IoObject *locals, IoMessage *m);
 IoCFFIArray	*IoCFFIArray_at(IoCFFIArray *self, IoObject *locals, IoMessage *m);
 IoCFFIArray	*IoCFFIArray_atPut(IoCFFIArray *self, IoObject *locals, IoMessage *m);
+IoCFFIArray	*IoCFFIArray_setValue(IoCFFIArray *self, IoObject *locals, IoMessage *m);
 IoNumber	*IoCFFIArray_size(IoCFFIArray *self, IoObject *locals, IoMessage *m);
 IoCFFIArray	*IoCFFIArray_with(IoCFFIArray *self, IoObject *locals, IoMessage *m);
 
+IoCFFIArray	*IoCFFIArray_rawSetValue(IoCFFIArray *self, IoObject *source, void* data);
 IoCFFIArray	*IoCFFIArray_cloneWithData(IoCFFIArray *self, void* data);
 void		*IoCFFIArray_valuePointer(IoCFFIArray *self);
 ffi_type	*IoCFFIArray_ffiType(IoCFFIArray *self);

@@ -1,6 +1,12 @@
 
 ChangeLog:
 
+10/04/2010
+----------
+- More unit tests
+- Better type casting (Pointer proto)
+- Some improvements
+
 03/10/2010
 ----------
 
@@ -17,6 +23,8 @@ ChangeLog:
 
 TODO:
 
+- Bitfields
+- Endianness
 - Variable length arrays
 - Stronger type/error checking
 - Variadic functions

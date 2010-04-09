@@ -20,6 +20,7 @@ typedef struct IoCFFIStructure {
 	ffi_type	ffiType;
 	int		needToFreeElements;
 	int		isUnion;
+	IoObject	*keepRef;
 } IoCFFIStructureData;
 
 IoTag		*IoCFFIStructure_newTag(void *state);
@@ -32,9 +33,11 @@ void		IoCFFIStructure_mark(IoCFFIStructure *self);
 IoObject	*IoCFFIStructure_address(IoCFFIStructure *self, IoObject *locals, IoMessage *m);
 IoObject	*IoCFFIStructure_asBuffer(IoCFFIStructure *self, IoObject *locals, IoMessage *m);
 IoCFFIStructure	*IoCFFIStructure_setMembers(IoCFFIStructure *self, IoObject *locals, IoMessage *m);
+IoCFFIStructure	*IoCFFIStructure_setValue(IoCFFIStructure *self, IoObject *locals, IoMessage *m);
 IoCFFIStructure	*IoCFFIStructure_setValues(IoCFFIStructure *self, IoObject *locals, IoMessage *m);
 IoCFFIStructure	*IoCFFIStructure_with(IoCFFIStructure *self, IoObject *locals, IoMessage *m);
 
+IoCFFIStructure	*IoCFFIStructure_rawSetValue(IoCFFIStructure *self, IoObject *source, void* data);
 IoCFFIStructure	*IoCFFIStructure_cloneWithData(IoCFFIStructure *self, void* data);
 void		IoCFFIStructure_setValuesFromData(IoCFFIStructure *self, void *data);
 void		*IoCFFIStructure_valuePointer(IoCFFIStructure *self);
