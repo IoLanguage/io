@@ -12,7 +12,7 @@ TwitterFriendsFollowersCursor := Object clone do(
 	
 	fetchNext := method(
 		result := account resultsFor(account request perform(requestType) setScreenName(screenName) setCursor(nextId))
-		setNextId(result at("next_cursor") asString)
+		setNextId(result at("next_cursor_str"))
 		fetchedIds appendSeq(result at("ids"))
 	)
 	

@@ -43,12 +43,12 @@
 
 #ifdef USE_VALGRIND
 #include <valgrind/valgrind.h>
-#define STACK_REGISTER(coro) \
-{ \
-	Coro *c = (coro); \
-		c->valgrindStackId = VALGRIND_STACK_REGISTER( \
-											 c->stack, \
-											 c->stack + c->requestedStackSize); \
+#define STACK_REGISTER(coro)                                            \
+{                                                                       \
+  Coro *c = (coro);                                                     \
+  c->valgrindStackId =                                                  \
+    VALGRIND_STACK_REGISTER(c->stack,                                   \
+                            (char*) c->stack + c->requestedStackSize);  \
 }
 
 #define STACK_DEREGISTER(coro) \

@@ -22,7 +22,7 @@ Sequence do(
 		str := self clone asMutable
 		skipVal ifNil(skipVal = 1)
 
-		(size < 1) or (skipVal < 1) ifTrue(return str asSymbol)
+		if(size < 1, return str asSymbol)
 
 		leadingNonNextableChars := 0
 		str foreach(char,

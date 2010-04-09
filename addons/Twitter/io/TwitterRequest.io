@@ -246,4 +246,13 @@ TwitterRequest := Object clone do(
 	asMentions := method(
 		setPath("/statuses/mentions")
 	)
+	
+	asRetweet := method(
+		setHttpMethod("post")
+		self path := method(
+			"/statuses/retweet/#{tweetId}" interpolate
+		)
+		self newSlot("tweetId")
+		self
+	)
 )

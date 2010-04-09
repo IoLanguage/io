@@ -28,20 +28,26 @@ TwitterResponse := Object clone do(
 			Exception raise(e message)
 		)
 		
+		errorMessage := results ?at("error")
+
 		//Could not find both specified users
 		if(statusCode == 400) then(
 			e := TwitterException clone setIsBadRequest(true)
-			if(results ?at("error") beginsWithSeq("Rate limit exceeded"),
+			if(errorMessage ?beginsWithSeq("Rate limit exceeded"),
 				e setIsRateLimited(true)
 			)
-			e raise(body)
+			e raise(if(errorMessage, errorMessage, body))
 		) elseif(statusCode == 401) then(
-			TwitterException clone setIsNotAuthorized(true) raise
+			TwitterException clone setIsNotAuthorized(true) raise(errorMessage)
 		) elseif(statusCode == 403) then(
 			e := TwitterException clone setIsForbidden(true)
-			if(errorMessage := results ?at("error"),
+			if(errorMessage,
 				if(errorMessage endsWithSeq("is already on your list.")) then(
 					e setIsAlreadyFollowing(true)
+				) elseif(errorMessage containsSeq("You've already requested to follow")) then(
+					e setIsAlreadyFollowing(true)
+				) elseif(errorMessage containsSeq("You can't follow yourself")) then(
+					e setIsFollowedSelf(true)
 				) elseif(errorMessage containsSeq("You have been blocked")) then(
 					e setIsBlocked(true)
 				) elseif(errorMessage containsSeq("You do not have permission to retrieve following status for both specified users")) then(
@@ -61,7 +67,7 @@ TwitterResponse := Object clone do(
 			e raise(errorMessage)
 		) elseif(statusCode == 404) then(
 			e := TwitterException clone setIsNotFound(true)
-			if(errorMessage := results ?at("error"),
+			if(errorMessage,
 				if(errorMessage containsSeq("User has been suspended")) then(
 					e setIsSuspended(true)
 				)
@@ -70,18 +76,18 @@ TwitterResponse := Object clone do(
 			)
 			e raise(errorMessage)
 		) elseif(statusCode == 500) then(
-			TwitterException clone setIsInternalError(true) raise(body)
+			TwitterException clone setError("500 response") setIsInternalError(true) raise(body)
 		) elseif(statusCode == 502) then(
-			TwitterException clone setIsDown(true) raise
+			TwitterException clone setError("502 response") setIsDown(true) raise
 		) elseif(statusCode == 503) then(
-			TwitterException clone setIsOverloaded(true) raise
+			TwitterException clone setError("503 response") setIsOverloaded(true) raise
 		)
 		
 		results ifError(e,
 			Exception raise(e message)
 		)
 		
-		if(results type == "Map" and (errorMessage := results ?at("error")),
+		if(results type == "Map" and errorMessage,
 			TwitterException clone raise(errorMessage)
 		)
 		
