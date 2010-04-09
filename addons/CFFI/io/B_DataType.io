@@ -1,7 +1,7 @@
 /* CFFI - An Io interface to C
-   Copyright (c) 2006 Trevor Fancher. All rights reserved.
-   All code licensed under the New BSD license.
- */
+Copyright (c) 2006 Trevor Fancher. All rights reserved.
+All code licensed under the New BSD license.
+*/
 
 CFFI do(
 	DataType do(
@@ -18,12 +18,29 @@ CFFI do(
 				)
 			)
 		)
+
+		with := method(value,
+			this := self clone
+			this setValue(value)
+			this
+		)
 	)
 
+	/*Object _updSlot := Object getSlot("updateSlot")
+	Object updateSlot := method(a,b,
+		obj := self getSlot(a)
+		if(obj isKindOf(Structure) then(obj performWithArgList("setValues", b))
+		elseif(obj isKindOf(DataType) then(obj setValue(b)
+		else(self _updSlot(a, b))
+		self
+	)*/
 
 	Types := Object clone do(
 		SChar := Char := DataType clone setTypeString("c")
 		UChar := DataType clone setTypeString("C")
+
+		SByte := Byte := DataType clone setTypeString("b")
+		UByte := DataType clone setTypeString("B")
 
 		SShort := Short := DataType clone setTypeString("s")
 		UShort := DataType clone setTypeString("S")
@@ -41,6 +58,11 @@ CFFI do(
 		Void := DataType clone setTypeString("v")
 
 		CString := DataType clone setTypeString("*")
+		CString castTo := method(type,
+			if(type isKindOf(Pointer),
+				return type ptr clone setValue(self) value)
+			nil
+		)
 
 		types := method(
 			m := Map clone

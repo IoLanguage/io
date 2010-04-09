@@ -66,9 +66,9 @@ PointerTest := UnitTest clone do(
 		ppd  := Double ptr ptr clone
 		pppd := Double ptr ptr ptr clone
 
-		assertEquals("0x0",   pd address)
-		assertEquals("0x0",  ppd address)
-		assertEquals("0x0", pppd address)
+		assertEquals(nil,   pd address)
+		assertEquals(nil,  ppd address)
+		assertEquals(nil, pppd address)
 		
 		pd   setValue(-76.894)
 		ppd  setValue(pd)

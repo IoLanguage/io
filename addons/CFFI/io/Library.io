@@ -5,4 +5,8 @@
 
 CFFI Library do(
 	newSlot("name")
+
+	with := method(name,
+		this := self clone setName(name)
+	)
 )
