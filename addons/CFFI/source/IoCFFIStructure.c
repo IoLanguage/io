@@ -51,6 +51,7 @@ IoCFFIStructure *IoCFFIStructure_proto(void *state)
 			{"address", IoCFFIStructure_address},
 			{"asBuffer", IoCFFIStructure_asBuffer},
 			{"setMembers", IoCFFIStructure_setMembers},
+			{"setValue", IoCFFIStructure_setValue},
 			{"setValues", IoCFFIStructure_setValues},
 			{"with", IoCFFIStructure_with},
 			{NULL, NULL},
@@ -63,6 +64,7 @@ IoCFFIStructure *IoCFFIStructure_proto(void *state)
 
 void IoCFFIStructure_mark(IoCFFIStructure *self)
 {
+	IoObject_shouldMarkIfNonNull(DATA(self)->keepRef);
 }
 
 
@@ -106,7 +108,7 @@ IoCFFIStructure *IoCFFIStructure_rawClone(IoCFFIStructure *proto)
 		data->needToFreeBuffer = 1;
 
 		// When a Structure is cloned a new buffer is created to hold the values, thus
-		// we have to travel through all the types to tell them where to store their values.
+		// we have to travel through all the members to tell them where to store their values.
 		IoMap* members = IoMap_new(IOSTATE);
 		IoObject_setSlot_to_(self, IOSYMBOL("_members"), members);
 		LIST_FOREACH(IoList_rawList(IoMap_rawKeys(proto_slots)), i, k,
@@ -230,6 +232,13 @@ IoObject *IoCFFIStructure_asBuffer(IoCFFIStructure *self, IoObject *locals, IoMe
 	return IoCFFIDataType_asBuffer(self, locals, m);
 }
 
+IoCFFIStructure *IoCFFIStructure_setValue(IoCFFIStructure *self, IoObject *locals, IoMessage *m)
+{
+	IoObject *value = IoMessage_locals_valueArgAt_(m, locals, 0);
+	
+	return IoCFFIStructure_rawSetValue(self, value, IoCFFIDataType_ValuePointerFromObject_(self, value));
+}
+
 IoCFFIStructure *IoCFFIStructure_setValues(IoCFFIStructure *self, IoObject *locals, IoMessage *m)
 {
 	//TODO check sizes and types
@@ -249,10 +258,31 @@ IoCFFIStructure *IoCFFIStructure_setValues(IoCFFIStructure *self, IoObject *loca
 
 /* ---------------------------------------------------------------- */
 
+IoCFFIStructure	*IoCFFIStructure_rawSetValue(IoCFFIStructure *self, IoObject *source, void* data)
+{
+	if ( !ISCFFIStructure(source) ) {
+		IoState_error_(IOSTATE, NULL, "value is not a Structure");
+		return IONIL(self);
+	}
+	else {
+		if ( DATA(self)->ffiType.size != DATA(source)->ffiType.size) {
+			IoState_error_(IOSTATE, NULL, "Structures have differente sizes");
+			return IONIL(self);
+		}
+		else {
+			memcpy(DATA(self)->buffer, data, DATA(self)->ffiType.size);
+			DATA(self)->keepRef = IOREF(source);
+		}
+	}
+
+	return self;
+}
+
 IoCFFIStructure *IoCFFIStructure_cloneWithData(IoCFFIStructure *self, void* data)
 {
 	//TODO check sizes and types
 	IoCFFIStructure* new = IOCLONE(self);
+	IoState_on_doCString_withLabel_(IoObject_state(new), new, "init", "IoCFFIStructure_cloneWithData");
 	memcpy(DATA(new)->buffer, data, DATA(new)->ffiType.size);
 	return new;
 }

@@ -70,7 +70,7 @@ PointerTest := UnitTest clone do(
 		assertEquals(nil,  ppd address)
 		assertEquals(nil, pppd address)
 		
-		pd   setValue(-76.894)
+		pd   setValue(Double with(-76.894))
 		ppd  setValue(pd)
 		pppd setValue(ppd)
 
@@ -118,7 +118,7 @@ PointerTest := UnitTest clone do(
 		
 		cs   := CString clone setValue(str1)		
 		csp1 := CString ptr clone setValue(cs)
-		csp2 := CString ptr clone setValue(cs value)
+		csp2 := CString ptr clone setValue(CString with(cs value))
 		
 		assertEquals(cs value, str1)
 		assertEquals(cs value, csp1 value)

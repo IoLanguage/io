@@ -6,6 +6,7 @@
 // 5. argument treating is the same as for input code
 
 UnicodeTest := UnitTest clone do(
+    io := "_build/binaries/io_static " # Yep, ugly, but at least it works :)
 
 	wdPath := Path with(method(call message label pathComponent) call, "UnicodeTest-helper")
 	tempPath := Path with(wdPath, "UnicodeTest.tmp")
@@ -31,7 +32,7 @@ UnicodeTest := UnitTest clone do(
 	)
 
 	tempSystem := method(s,
-		code := ("io " .. s) asMutable replaceSeq("$0", Path with(wdPath, "printer.io"))
+		code := (io .. s) asMutable replaceSeq("$0", Path with(wdPath, "printer.io"))
 		System system(code .. " > " .. tempPath)
 	)
 

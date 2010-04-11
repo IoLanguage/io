@@ -5,7 +5,7 @@
 This is a header that all other source files should include.
 These defines are helpful for doing OS specific checks in the code.
  */
- 
+
 
 #ifndef IOCOMMON_DEFINED
 #define IOCOMMON_DEFINED 1
@@ -39,79 +39,79 @@ typedef long long int64_t;
 
 /* Windows stuff */
 
-#if defined(WIN32) || defined(__WINS__) || defined(_MSC_VER)
-#define inline __inline
-#define snprintf _snprintf
-#ifndef __MINGW32__
-#define usleep(x) Sleep(((x)+999)/1000)
-#endif
+#if defined _WIN32 || defined __WINS__ || defined _MSC_VER
+#  define inline __inline
+#  define snprintf _snprintf
+#  ifndef __MINGW32__
+#    define usleep(x) Sleep(((x)+999)/1000)
+#  endif
 
-#define HAS_FIBERS 1
+#  define HAS_FIBERS 1
 
-#define ON_WINDOWS 1
+#  define ON_WINDOWS 1
 
-// this also includes windows.h
-#include <winsock2.h>
+// Enable fibers.
+#  ifndef _WIN32_WINNT
+#    define _WIN32_WINNT 0x0400
+#  endif
 
-// Enable fibers
-#ifndef _WIN32_WINNT
-#define _WIN32_WINNT 0x0400
-#endif
+// This also includes windows.h.
+#  include <winsock2.h>
 
-#if !defined(__MINGW32__)
-#if defined(BUILDING_BASEKIT_DLL) || defined(BUILDING_IOVMALL_DLL)
-#define BASEKIT_API __declspec(dllexport)
-#else
-#define BASEKIT_API __declspec(dllimport)
-#endif
-#else
-#define BASEKIT_API
-#endif
+#  if !defined __MINGW32__
+#    if defined BUILDING_BASEKIT_DLL || defined BUILDING_IOVMALL_DLL
+#      define BASEKIT_API __declspec(dllexport)
+#    else
+#      define BASEKIT_API __declspec(dllimport)
+#    endif
+#  else
+#    define BASEKIT_API
+#  endif
 /*
-#ifndef _SYS_STDINT_H_
-#include "PortableStdint.h"
-#endif
+#  ifndef _SYS_STDINT_H_
+#    include "PortableStdint.h"
+#  endif
  */
 
-#if !defined(__MINGW32__)
+#  if !defined __MINGW32__
 /* disable compile warnings which are always treated
 as errors in my dev settings */
 
-#pragma warning( disable : 4244 )
+#    pragma warning( disable : 4244 )
 /* warning C4244: 'function' : conversion from 'double ' to 'int ', possible loss of data */
 
-#pragma warning( disable : 4996 )
+#    pragma warning( disable : 4996 )
 /* warning C4996: 'function' : This function or variable may be unsafe. Consider using 'function_s' instead */
 
-#pragma warning( disable : 4018 )
+#    pragma warning( disable : 4018 )
 /* warning C4018: 'operator' : signed/unsigned mismatch */
 
-/*#pragma warning( disable : 4090 ) */
+/*#    pragma warning( disable : 4090 ) */
 /* warning C4090: 'function' : different 'const' qualifiers  */
 
-/*#pragma warning( disable : 4024 )*/
+/*#    pragma warning( disable : 4024 )*/
 /* warning C4024: different types for formal and actual parameter  */
 
-/*#pragma warning( disable : 4761 ) */
+/*#    pragma warning( disable : 4761 ) */
 /* warning C4761: integral size mismatch in argument; conversion supplied  */
 
-/*#pragma warning( disable : 4047 ) */
+/*#    pragma warning( disable : 4047 ) */
 /* warning C4047: '=' : 'char *' differs in levels of indirection from 'int '  */
-#define ARCHITECTURE_x86 1
-#endif
+#    define ARCHITECTURE_x86 1
+#  endif
 
 /* io_malloc, io_realloc, io_free undefined */
-#if !defined(__SYMBIAN32__)
-#include <memory.h>
+#  if !defined __SYMBIAN32__
+#    include <memory.h>
 
 /* strlen undefined */
-#include <string.h>
-#include <malloc.h> /* for calloc */
-#endif
+#    include <string.h>
+#    include <malloc.h> /* for calloc */
+#  endif
 #else
 
 // Not on windows so define this away
-#define BASEKIT_API
+#  define BASEKIT_API
 
 #endif
 

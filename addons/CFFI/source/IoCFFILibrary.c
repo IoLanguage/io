@@ -10,6 +10,9 @@
 
 #define DATA(self) ((IoCFFILibraryData *)(IoObject_dataPointer(self)))
 
+//TODO not in DynLib.h. Put it here to keep the compiler happy.
+unsigned char DynLib_hasError(DynLib *self);
+
 IoTag *IoCFFILibrary_newTag(void *state)
 {
 	IoTag *tag = IoTag_newWithName_("Library");

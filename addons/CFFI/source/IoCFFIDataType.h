@@ -43,9 +43,9 @@ IoCFFIDataType	*IoCFFIDataType_value(IoCFFIDataType *self, IoObject *locals, IoM
 IoCFFIDataType	*IoCFFIDataType_setValue(IoCFFIDataType *self, IoObject *locals, IoMessage *m);
 IoObject	*IoCFFIDataType_size(IoCFFIDataType *self, IoObject *locals, IoMessage *m);
 
-void		*IoCFFIDataType_ValuePointerFromObject_(IoCFFIDataType* self, IoObject *o);
+void		*IoCFFIDataType_ValuePointerFromObject_(IoCFFIDataType *self, IoObject *value);
 IoObject	*IoCFFIDataType_rawSetValue(IoCFFIDataType *self, IoObject *value);
-IoObject	*IoCFFIDataType_setValueFromData(IoCFFIDataType *self, void *value);
+IoObject	*IoCFFIDataType_setValueFromData(IoCFFIDataType *self, IoObject *source, void *value);
 ffi_type	*IoCFFIDataType_ffiType(IoCFFIDataType *self);
 IoObject	*IoCFFIDataType_objectFromData_(IoCFFIDataType *self, void *data);
 void		*IoCFFIDataType_valuePointer(IoCFFIDataType *self);

@@ -6,15 +6,9 @@ Directory do(
 	//doc Directory recursiveFilesOfTypes(suffixes) Returns a list containing all files in the directory or any subdirectory that has any of the specified suffixes.
 	recursiveFilesOfTypes := method(types, aList,
 		if(aList == nil, aList := List clone)
-		aList appendSeq(files select(file, types containsSeq(file path pathExtension)))
+		aList appendSeq(files select(file, types contains(file path pathExtension asLowercase)))
 		directories foreach(recursiveFilesOfTypes(types, aList))
 		aList
-	)
-
-	//doc Directory recursiVeFilesOftypes(suffixes) Deprecated. Alias for recursiveFilesOfTypes(suffixes).
-	recursiVeFilesOfTypes := method(types, aList,
-		deprecatedWarning("recursiveFilesOfTypes")
-		recursiveFilesOfTypes(types, aList)
 	)
 
 	//doc Directory createIfAbsent Creates the directory (and any missing ancestor directories) if they don't exist. Returns self.
