@@ -14,6 +14,6 @@ if(System args size > 1,
         ) ?showStack
 	)
 ,
-	# Run all tests.
-	TestSuite with(System launchPath) run
+	# Run all tests in the current directory.
+	DirectoryCollector run
 )

@@ -11,9 +11,7 @@ TestRunner := Object clone do(
     width ::= 70 # Line width.
 
     init := method(
-        # TestRunner cases is mapping of UnitTest objects to
-        # the testSlotNames theese UnitTest objects provide.
-        self cases := Map clone
+        self cases := nil
         self exceptions := List clone
         self runtime := 0
     )
@@ -34,7 +32,6 @@ TestRunner := Object clone do(
         ,
             self cases keys first
         )
-
     )
 
     linebreak := method(
@@ -60,11 +57,13 @@ TestRunner := Object clone do(
         linebreak
     )
 
-//doc TestRunner run Runs all tests.
-    run := method(
-        prepare # Prepare is expected to populate tests map.
+/*doc TestRunner run(testMap)
+Runs all tests from a given Map object, where keys are names of the UnitTests
+to run and values - lists of test slots theese UnitTests provide.*/
+    run := method(testMap,
+        self cases := testMap # Storing a reference to the test map.
         self runtime := Date secondsToRun(
-            self cases foreach(testCaseName, testSlotNames,
+            testMap foreach(testCaseName, testSlotNames,
                 # Depending on the Lobby is kind of wacky, but that's
                 # all we can do, since Map only supports string keys.
                 testCase := Lobby getSlot(testCaseName)
@@ -106,10 +105,19 @@ TestRunner := Object clone do(
     )
 )
 
+# A mix-in object, allowing the collectors to run the collected
+# tests. Merely a shortcut, since nobody wants to write two lines
+# instead of a single word :)
+RunnerMixIn := Object clone do(
+    run := method(
+        TestRunner clone run(prepare)
+    )
+)
+
 //doc UnitTest setUp Method called prior to each test.
 //doc UnitTest tearDown Method called after each test.
 //doc UnitTest fail Call to trigger a test failure.
-UnitTest := TestRunner clone do(
+UnitTest := Object clone prependProto(RunnerMixIn) do(
     setUp := method(nil)
     tearDown := method(nil)
 
@@ -122,7 +130,7 @@ UnitTest := TestRunner clone do(
         )
     )
 
-    prepare := method(self cases atPut(self type, testSlotNames))
+    prepare := method(Map with(self type, testSlotNames))
 
     fail := method(Exception raise("fail"))
 
@@ -172,36 +180,49 @@ Fail the running test if the expected value is not within delta of the actual va
     )
 )
 
-//metadoc TestSuite category Testing
-/*metadoc TestSuite description
-An object to collect and run multiple UnitTests defined in *Test.io files within the System launchPath directory.
+//metadoc DirectoryCollector category Testing
+/*metadoc DirectoryCollector description
+An object to collect multiple UnitTests defined in *Test.io files within a given directory (System launchPath directory by default).
 */
-TestSuite := TestRunner clone do(
-    path ::= "."
+DirectoryCollector := Object clone prependProto(RunnerMixIn) do(
+    path ::= lazySlot(System launchPath)
 
-//doc TestSuite with(aPath) Returns a new instance with the provided path.
+//doc DirectoryCollector with(aPath) Returns a new instance with the provided path.
     with := method(path, self clone setPath(path))
 
     testFiles := method(
-        Directory with(System launchPath) files select(name endsWithSeq("Test.io"))
+        Directory with(path) files select(name endsWithSeq("Test.io"))
     )
 
     prepare := method(
+        # Importing all test files in the set up path to the global namespace.
         testFiles foreach(file,
             # Note: second argument is a label.
             Lobby doString(file contents, file path)
         )
+
+        FileCollector prepare
+    )
+)
+
+//metadoc FileCollector category Testing
+/*metadoc FileCollector description
+An object to collect multiple UnitTests defined in the current file.
+*/
+FileCollector := Object clone prependProto(RunnerMixIn) do(
+    prepare := method(
+        cases := Map clone
 
         # Iterating over all of the imported objects and collecting
         # UnitTest instances. Since Block objects doesn't respond
         # correctly to isKindOf, we need to filter out all activatable
         # objects first and only then check for the type (kind).
         Lobby foreachSlot(slotName, slotValue,
-            if (getSlot("slotValue") isActivatable not and \
-                slotValue isKindOf(UnitTest),
-                    slotValue prepare
-                    self cases mergeInPlace(slotValue cases)
+            if(getSlot("slotValue") isActivatable not and \
+               slotValue isKindOf(UnitTest),
+                cases mergeInPlace(slotValue prepare)
             )
         )
+        cases
     )
 )
