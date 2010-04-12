@@ -499,6 +499,10 @@ ListTest := UnitTest clone do(
         assertEquals(6, a reduce(x, y, x + y))
         assertEquals(0, a reduce(+, -6))
         assertEquals(0, a reduce(x, y, x + y, -6))
+
+        # Checking that no changes were made to the sender.
+        assertNil(getSlot("x"))
+        assertNil(getSlot("y"))
     )
 
     testReverseReduce := method(
@@ -511,6 +515,10 @@ ListTest := UnitTest clone do(
         # Now checking if the list is actually folded starting
         # from the right.
         assertEquals(0, a reverseReduce(-))
+
+        # Checking that no changes were made to the sender.
+        assertNil(getSlot("x"))
+        assertNil(getSlot("y"))
     )
 
     testJoin := method(

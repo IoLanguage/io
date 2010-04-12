@@ -165,15 +165,12 @@ Io> list(1, 2, 3) reduce(xs, x, xs + x, -6)
             aName := call argAt(0) name # Accumulator.
             bName := call argAt(1) name # Item.
             body := call argAt(2)
-            # It turns out that copying the list doesn't affect
-            # the performance so much, but it keeps the original
-            # slots safe.
-            sender := call sender shallowCopy
-
+            # Creating a context, in which the body would be executed in.
+            context := Object clone prependProto(call sender)
             target foreach(x,
-                sender setSlot(aName, accumulator)
-                sender setSlot(bName, x)
-                accumulator = sender doMessage(body, sender)
+                context setSlot(aName, accumulator)
+                context setSlot(bName, x)
+                accumulator = context doMessage(body)
             )
         )
         accumulator
