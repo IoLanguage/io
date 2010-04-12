@@ -84,6 +84,7 @@ Coro *Coro_new(void)
 	return self;
 }
 
+#ifndef USE_FIBERS
 void Coro_allocStackIfNeeded(Coro *self)
 {
 	if (self->stack && self->requestedStackSize < self->allocatedStackSize)
@@ -101,6 +102,7 @@ void Coro_allocStackIfNeeded(Coro *self)
 		STACK_REGISTER(self);
 	}
 }
+#endif
 
 void Coro_free(Coro *self)
 {
@@ -113,11 +115,11 @@ void Coro_free(Coro *self)
 	}
 #else
 	STACK_DEREGISTER(self);
-#endif
 	if (self->stack)
 	{
 		io_free(self->stack);
 	}
+#endif
 
 	//printf("Coro_%p io_free\n", (void *)self);
 
@@ -199,8 +201,9 @@ void Coro_startCoro_(Coro *self, Coro *other, void *context, CoroStartCallback *
 
 #ifdef USE_FIBERS
         block->associatedCoro = other;
-#endif
+#else
 	Coro_allocStackIfNeeded(other);
+#endif
 	Coro_setup(other, block);
 	Coro_switchTo_(self, other);
 }
@@ -210,7 +213,9 @@ void Coro_startCoro_(Coro *self, Coro *other, void *context, CoroStartCallback *
 {
 	globalCallbackBlock.context = context;
 	globalCallbackBlock.func    = callback;
+#ifndef USE_FIBERS
 	Coro_allocStackIfNeeded(other);
+#endif
 	Coro_setup(other, &globalCallbackBlock);
 	Coro_switchTo_(self, other);
 }
