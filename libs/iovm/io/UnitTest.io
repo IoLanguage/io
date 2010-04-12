@@ -226,3 +226,6 @@ FileCollector := Object clone prependProto(RunnerMixIn) do(
         cases
     )
 )
+
+# For backward compatibility.
+TestSuite := getSlot("DirectoryCollector")
