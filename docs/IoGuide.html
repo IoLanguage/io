@@ -608,40 +608,40 @@ User defined operators (that don't have a standard operator name) are performed 
 Io has three assignment operators:
 
 <p>
-<table cellpadding=2 cellspacing=0 border=0 style="margin-left:1em">
+<table class=infoTable cellpadding=2 cellspacing=0 border=0>
 <tr>
-<td style="width:5em">
-<b><i>operator</i></b>	
+<th>
+operator
+</th>
+<th>
+action
+</th>
+</tr>
+
+<tr>
+<td>
+::=
 </td>
 <td>
-<b><i>action</i></b>
+Creates slot, creates setter, assigns value
 </td>
 </tr>
 
 <tr>
 <td>
-<i>::=</i>
+:=
 </td>
 <td>
-<i>Creates slot, creates setter, assigns value</i>
-</td>
-</tr>
-
-<tr>
-<td>
-<i>:=</i>
-</td>
-<td>
-<i>Creates slot, assigns value</i>
+Creates slot, assigns value
 </td>
 </tr>
 
 <tr>
 <td>
-<i>=</i>
+=
 </td>
 <td>
-<i>Assigns value to slot if it exists, otherwise raises exception</i>
+Assigns value to slot if it exists, otherwise raises exception
 </td>
 </tr>
 
@@ -652,40 +652,40 @@ These operators are compiled to normal messages whose methods can be overridden.
 
 
 <p>
-<table cellpadding=2 cellspacing=0 border=0 style="margin-left:1em">
+<table class=infoTable cellpadding=2 cellspacing=0 border=0>
 <tr>
-<td style="width:5em">
-<b><i>source</i></b>	
+<th>
+source
+</th>
+<th>
+compiles to
+</th>
+</tr>
+
+<tr>
+<td>
+a ::= 1
 </td>
 <td>
-<b><i>compiles to</i></b>
+newSlot("a", 1)
 </td>
 </tr>
 
 <tr>
 <td>
-<i>a ::= 1</i>
+a := 1
 </td>
 <td>
-<i>newSlot("a", 1)</i>
-</td>
-</tr>
-
-<tr>
-<td>
-<i>a := 1</i>
-</td>
-<td>
-<i>setSlot("a", 1)</i>
+setSlot("a", 1)
 </td>
 </tr>
 
 <tr>
 <td>
-<i>a = 1</i>
+a = 1
 </td>
 <td>
-<i>updateSlot("a", 1)</i>
+updateSlot("a", 1)
 </td>
 </tr>
 
@@ -802,40 +802,40 @@ In all other languages we've considered [Fortran, Algol60, Lisp, APL, Cobol, Pas
 Io's guiding design principle is simplicity and power through conceptual unification. 
 <p>
 
-<table cellpadding=2 cellspacing=0 border=0 style="margin-left:1em">
+<table class=infoTable cellpadding=2 cellspacing=0 border=0>
 <tr>
-<td style="width:15em">
-<b><i>concept</i></b>	
+<th>
+concept
+</th>
+<th>
+unifies
+</th>
+</tr>
+
+<tr>
+<td>
+scopable&nbsp;blocks&nbsp;&nbsp;&nbsp;
 </td>
 <td>
-<b><i>unifies</i></b>
+functions,&nbsp;methods,&nbsp;closures
 </td>
 </tr>
 
 <tr>
 <td>
-<i>blocks with assignable scope	</i>
+prototypes
 </td>
 <td>
-<i>functions, methods, closures</i>
-</td>
-</tr>
-
-<tr>
-<td>
-<i>prototypes</i>
-</td>
-<td>
-<i>objects, classes, namespaces, locals</i>
+objects, classes, namespaces, locals
 </td>
 </tr>
  
 <tr>
 <td valign=top>
-<i>messages</i>
+messages
 </td>
 <td>
-<i>operators, calls, assignment, variable accesses</i>
+operators, calls, assigns, var access
 </td>
 </tr>
 </table>
@@ -967,47 +967,51 @@ This is sometimes a source of confusion so it's worth explaining in detail. Both
 When a locals object is created, its self slot is set (to the target of the message, in the case of a method, or to the creation context, in the case of a block) and its call slot is set to a Call object that can be used to access information about the block activation:
 
 <p>
-<table cellpadding=2 cellspacing=0 border=0 style="margin-left:1em">
+<table class=infoTable cellpadding=2 cellspacing=0 border=0>
 <tr>
-<td style="width:10em">
-<b><i>slot</i></b>
-</td><td>
-<b><i>returns</i></b>
+<th>
+slot
+</th>
+<th>
+returns
+</th>
+</tr>
+<tr>
+<td>
+call sender
+</td>
+<td>
+locals object of caller
 </td>
 </tr>
 <tr>
 <td>
-<i>call sender </i>
-</td><td>
-<i>locals object of caller</i>
+call message
+</td>
+<td>
+message used to call this method/block
 </td>
 </tr>
 <tr>
 <td>
-<i>call message </i>
+call activated
 </td><td>
-<i>message used to call this method/block</i>
+the activated method/block
 </td>
 </tr>
 <tr>
 <td>
-<i>call activated</i>
+call slotContext
 </td><td>
-<i>the activated method/block</i>
+context in which slot was found
 </td>
 </tr>
 <tr>
 <td>
-<i>call slotContext</i>
-</td><td>
-<i>context in which slot was found</i>
+call target
 </td>
-</tr>
-<tr>
 <td>
-<i>call target</i>
-</td><td>
-<i>current object</i>
+current object
 </td>
 </tr>
 </table>
@@ -2528,7 +2532,11 @@ expression ::= { message | sctpad }
 message ::= [wcpad] symbol [scpad] [arguments]
 arguments ::= Open [argument [ { Comma argument } ]] Close
 argument ::= [wcpad] expression [wcpad]
-symbols
+</pre>
+
+<h4>symbols</h4>
+
+<pre>
 symbol ::= Identifier | number | Operator | quote
 Identifier ::= { letter | digit | "_" }
 Operator ::= { ":" | "." | "'" | "~" | "!" | "@" | "$" | 
@@ -2579,6 +2587,8 @@ letter ::= "a" ... "z" | "A" ... "Z"
 digit ::= "0" ... "9"
 digits ::= { digit }
 </pre>
+
+The uppercase words above designate elements the lexer treats as tokens.
 
 
 </tr><tr><td colspan=3 class=sectionDivider></td></tr>
@@ -2687,7 +2697,7 @@ John Wiley & Sons, 1996 <br>
 	
 
 
-Copyright 2006, 2007, 2008 Steve Dekorte. All rights reserved.
+Copyright 2006-2010 Steve Dekorte. All rights reserved.
 <p>
 Redistribution and use of this document with or without modification, are permitted provided that the copies reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
 <p>
