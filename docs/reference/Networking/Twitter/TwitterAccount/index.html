@@ -69,12 +69,19 @@ follow(aScreenName)
 <div class=slotDescription>
 Follow the user with the specified screen name. Returns results of the request.
 </div>
+<a name="TwitterAccount-followId"></a><b>
+followId(userId)
+</b>
+<p>
+<div class=slotDescription>
+Follow the user with the specified id. Returns results of the request.
+</div>
 <a name="TwitterAccount-followersCursor"></a><b>
 followersCursor
 </b>
 <p>
 <div class=slotDescription>
-Returns a new TwitterFriendsCursor instance for this account.
+Returns a new TwitterFollowersCursor instance for this account.
 </div>
 <a name="TwitterAccount-friendsCursor"></a><b>
 friendsCursor
@@ -270,21 +277,21 @@ show
 </b>
 <p>
 <div class=slotDescription>
-?
+Returns a Map containing attributes related to the Twitter user associated with this account
 </div>
 <a name="TwitterAccount-showUser"></a><b>
-showUser
+showUser(aScreenName)
 </b>
 <p>
 <div class=slotDescription>
-?
+Returns a Map containing attributes related to the Twitter user associated with aScreenName
 </div>
 <a name="TwitterAccount-showUserWithId"></a><b>
 showUserWithId(anId)
 </b>
 <p>
 <div class=slotDescription>
-?
+Returns a Map containing attributes related to the Twitter user associated with anId
 </div>
 <a name="TwitterAccount-sidebarBorderColor"></a><b>
 sidebarBorderColor
@@ -334,6 +341,13 @@ unfollow(aScreenName)
 <p>
 <div class=slotDescription>
 Unfollow the user with the specified screen name. Returns self.
+</div>
+<a name="TwitterAccount-unfollowId"></a><b>
+unfollowId(userId)
+</b>
+<p>
+<div class=slotDescription>
+Unfollow the user with the specified screen id. Returns self.
 </div>
 <a name="TwitterAccount-update"></a><b>
 update
