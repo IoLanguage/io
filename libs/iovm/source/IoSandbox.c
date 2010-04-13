@@ -1,10 +1,10 @@
 
+//metadoc Sandbox category Core
 //metadoc Sandbox copyright Steve Dekorte 2002
 //metadoc Sandbox license BSD revised
 /*metadoc Sandbox description
 Sandbox can be used to run separate instances of Io within the same process.
 */
-//metadoc Sandbox category Core
 
 #include "IoSandbox.h"
 #include "IoSeq.h"

@@ -1,9 +1,9 @@
 
+//metadoc Date category Core
 //metadoc Date copyright Steve Dekorte 2002
 //metadoc Date license BSD revised
 /*metadoc Date description A container for a date and time information.*/
 //metadoc Date credits fromString method by Sean Perry
-//metadoc Date category Time
 
 #include "IoDate.h"
 #include "IoState.h"

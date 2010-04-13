@@ -1,3 +1,4 @@
+//metadoc Error category Core
 //metadoc Error copyright Rich Collins 2008
 //metadoc Error license BSD revised
 /*metadoc Error description

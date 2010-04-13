@@ -1,4 +1,5 @@
 
+//metadoc Directory category Core
 //metadoc Directory copyright Steve Dekorte 2002
 //metadoc Directory license BSD revised
 /*metadoc Directory description
@@ -7,7 +8,6 @@ if a path begins with a "/" it's the root,
 if it beings with a "./" it's the launch path,
 if not specified, "./" is assumed.""")
 */
-//metadoc Directory category Core
 /*metadoc Directory credits
 Cygwin code by Mike Austin. WIN32 code by Daniel Vollmer.
 */

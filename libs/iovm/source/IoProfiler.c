@@ -1,9 +1,9 @@
 
-//metadoc Collector copyright Steve Dekorte 2002
-//metadoc Collector license BSD revised
 //metadoc Profiler category Core
+//metadoc Profiler copyright Steve Dekorte 2002
+//metadoc Profiler license BSD revised
 /*metadoc Profiler description
-
+Basic support for profiling Io code execution.
 */
 
 #include "IoProfiler.h"
@@ -15,7 +15,7 @@ typedef IoObject IoProfiler;
 
 IO_METHOD(IoProfiler, reset)
 {
-	/*doc Collector reset
+	/*doc Profiler reset
 	Resets the profilerTime on all Block objects in the system.
 	*/
 	
@@ -34,7 +34,7 @@ IO_METHOD(IoProfiler, reset)
 
 IO_METHOD(IoProfiler, timedObjects)
 {
-	/*doc Collector timedObjects
+	/*doc Profiler timedObjects
 	Returns a list of objects found in the system that have profile times.
 	*/
 	

@@ -1,6 +1,7 @@
 
 //metadoc File copyright Steve Dekorte 2002
 //metadoc File license BSD revised
+//metadoc File category Core
 /*metadoc File description
 Encapsulates file i/o. Here's an example of opening a file, 
 and reversing it's lines:
@@ -12,7 +13,6 @@ lines foreach(i, line, file write(line, "\n"))
 file close
 </pre>	
 */
-//metadoc File category FileSystem
 
 #include "IoDate.h"
 #include "IoFile.h"

@@ -1,10 +1,10 @@
 
+//metadoc Number category Core
 //metadoc Number copyright Steve Dekorte 2002
 //metadoc Number license BSD revised
 /*metadoc Number description
 A container for a double (a 64bit floating point number on most platforms).
 */
-//metadoc Number category Core
 
 #define _GNU_SOURCE // for round
 #include "IoNumber.h"

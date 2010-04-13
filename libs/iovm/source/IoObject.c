@@ -1,4 +1,5 @@
 
+//metadoc Object category Core
 //metadoc Object copyright Steve Dekorte 2002
 //metadoc Object license BSD revised
 /*metadoc Object description
@@ -6,7 +7,6 @@ An Object is a key/value dictionary with string keys and values of any type.
 The prototype Object contains a clone slot that is a CFuntion that creates new objects.
 When cloned, an Object will call it's init slot (with no arguments).
 */
-//metadoc Object category Core
 
 #include "IoState.h"
 #define IOOBJECT_C

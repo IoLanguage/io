@@ -1,4 +1,5 @@
 
+//metadoc Message category Core
 //metadoc Message copyright Steve Dekorte 2002
 //metadoc Message license BSD revised
 /*metadoc Message description
@@ -23,7 +24,6 @@ a crash if a garbage collection cycle occurs. If the implementation were
 changed to retain every called message, this could be avoided.
 But the cost to performance seems to outweigh the need to cover this case for now.
 */
-//metadoc Message category Core
 
 #include "IoObject.h"
 #define IOMESSAGE_C

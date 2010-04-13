@@ -1,10 +1,10 @@
 
+//metadoc Compiler category Core
 //metadoc Compiler copyright Steve Dekorte 2002
 //metadoc Compiler license BSD revised
 /*metadoc Compiler description
 Contains methods related to the compiling code.
 */
-//metadoc Compiler category Core
 
 #include "IoCompiler.h"
 #include "IoNumber.h"

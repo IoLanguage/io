@@ -1,11 +1,11 @@
 
+//metadoc Sequence category Core
 //metadoc Sequence copyright Steve Dekorte 2002
 //metadoc Sequence license BSD revised
 /*metadoc Sequence description
 A Sequence is a container for a list of data elements. 
 Immutable Sequences are also called "Symbols".
 */
-//metadoc Sequence category Core
 
 
 #define _GNU_SOURCE // for NAN macro

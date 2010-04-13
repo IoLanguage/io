@@ -1,10 +1,10 @@
 
+//metadoc DynLib category Core
 //metadoc DynLib copyright Steve Dekorte 2002
 //metadoc DynLib license BSD revised
 /*metadoc DynLib description
 A DLL Loader by Kentaro A. Kurahone.
 */
-//metadoc DynLib category Core
 
 
 #include "IoObject.h"
