@@ -876,7 +876,7 @@ When an object is cloned, its "init" slot will be called if it has one.
 
 When an object receives a message it looks for a matching slot, if not found, the lookup continues depth first recursively in its protos. Lookup loops are detected (at runtime) and avoided. If the matching slot contains an activatable object, such as a Block or CFunction, it is activated, if it contains any other type of value it returns the value. Io has no globals and the root object in the Io namespace is called the Lobby.
 <p>
-Since there are no classes, there's no difference between a subclass and an instance. Here's an example of creating a the equivalent of a subclass: 
+Since there are no classes, there's no difference between a subclass and an instance. Here's an example of creating the equivalent of a subclass: 
 
 <pre>
 Io> Dog := Object clone
