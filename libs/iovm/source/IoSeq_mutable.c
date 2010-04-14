@@ -1123,37 +1123,37 @@ Returns self.
 IoSeqMutateNoArgNoResultOp(rangeFill);
 
 /*doc Sequence sin
-Sets each value of the Sequence to the trigomentic sine of it's value.
+Sets each value of the Sequence to the trigonometric sine of it's value.
 Returns self.
 */
 IoSeqMutateNoArgNoResultOp(sin);
 
 /*doc Sequence cos
-Sets each value of the Sequence to the trigomentic cosine of it's value.
+Sets each value of the Sequence to the trigonometric cosine of it's value.
 Returns self.
 */
 IoSeqMutateNoArgNoResultOp(cos);
 
 /*doc Sequence tan
-Sets each value of the Sequence to the trigomentic tangent of it's value.
+Sets each value of the Sequence to the trigonometric tangent of it's value.
 Returns self.
 */
 IoSeqMutateNoArgNoResultOp(tan);
 
 /*doc Sequence asin
-Sets each value of the Sequence to the trigomentic arcsine of it's value.
+Sets each value of the Sequence to the trigonometric arcsine of it's value.
 Returns self.
 */
 IoSeqMutateNoArgNoResultOp(asin);
 
 /*doc Sequence acos
-Sets each value of the Sequence to the trigomentic arcsine of it's value.
+Sets each value of the Sequence to the trigonometric arcsine of it's value.
 Returns self.
 */
 IoSeqMutateNoArgNoResultOp(acos);
 
 /*doc Sequence atan
-Sets each value of the Sequence to the trigomentic arctangent of it's value.
+Sets each value of the Sequence to the trigonometric arctangent of it's value.
 Returns self.
 */
 IoSeqMutateNoArgNoResultOp(atan);
