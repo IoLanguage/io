@@ -68,7 +68,7 @@ IoDynLib *IoDynLib_rawClone(IoDynLib *proto)
 {
 	/*
 	Note that due to the nature of this object, a clone will *NOT* inherit
-	it's parent's dynamically loaded object.
+	its parent's dynamically loaded object.
 	*/
 
 	IoObject *self = IoObject_rawClonePrimitive(proto);

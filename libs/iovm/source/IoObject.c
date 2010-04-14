@@ -4,7 +4,7 @@
 /*metadoc Object description
 An Object is a key/value dictionary with string keys and values of any type.
 The prototype Object contains a clone slot that is a CFuntion that creates new objects.
-When cloned, an Object will call it's init slot (with no arguments).
+When cloned, an Object will call its init slot (with no arguments).
 */
 //metadoc Object category Core
 
@@ -1240,7 +1240,7 @@ IO_METHOD(IoObject, protoSlotNames)
 {
 	/*doc Object slotNames
 	Returns a list of strings containing the names of the
-	slots in the receiver (but not in it's lookup path).
+	slots in the receiver (but not in its lookup path).
 	*/
 
 	IoObject_createSlotsIfNeeded(self);
@@ -1847,7 +1847,7 @@ IO_METHOD(IoObject, setIsActivatableMethod)
 {
 	/*doc Object setIsActivatable(aValue)
 	When called with a non-Nil aValue, sets the object
-	to call it's activate slot when accessed as a value. Turns this behavior
+	to call its activate slot when accessed as a value. Turns this behavior
 	off if aValue is Nil. Only works on Objects which are not Activatable
 	Primitives (such as CFunction or Block). Returns self.
 	*/

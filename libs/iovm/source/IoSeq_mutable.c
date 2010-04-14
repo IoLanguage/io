@@ -498,7 +498,7 @@ IO_METHOD(IoSeq, empty)
 {
 	/*doc Sequence empty
 	Sets all bytes in the receiver to 0x0 and sets
-	it's length to 0. Returns self.
+	its length to 0. Returns self.
 	*/
 
 	IO_ASSERT_NOT_SYMBOL(self);
@@ -527,7 +527,7 @@ int IoSeq_byteCompare(const void *a, const void *b)
 
 IO_METHOD(IoSeq, sort)
 {
-	//doc Sequence sort Sorts the characters/numbers the array. Returns self.
+	//doc Sequence sort Sorts the characters/numbers in the array. Returns self.
 	
 	UArray *a = DATA(self);
 	IO_ASSERT_NOT_SYMBOL(self);
@@ -547,7 +547,7 @@ IO_METHOD(IoSeq, sort)
 IO_METHOD(IoSeq, replaceMap)
 {
 	/*doc Sequence replaceMap(aMap)
-	In the receiver, the keys of aMap replaced with it's values. Returns self.
+	In the receiver, the keys of aMap replaced with its values. Returns self.
 	*/
 
 	IoMap *map = IoMessage_locals_mapArgAt_(m, locals, 0);
@@ -1159,19 +1159,19 @@ Returns self.
 IoSeqMutateNoArgNoResultOp(atan);
 
 /*doc Sequence sinh
-Sets each value of the Sequence to the hyperbolic sine of it's value.
+Sets each value of the Sequence to the hyperbolic sine of its value.
 Returns self.
 */
 IoSeqMutateNoArgNoResultOp(sinh);
 
 /*doc Sequence cosh
-Sets each value of the Sequence to the hyperbolic cosine of it's value.
+Sets each value of the Sequence to the hyperbolic cosine of its value.
 Returns self.
 */
 IoSeqMutateNoArgNoResultOp(cosh);
 
 /*doc Sequence tanh
-Sets each value of the Sequence to the hyperbolic tangent of it's value.
+Sets each value of the Sequence to the hyperbolic tangent of its value.
 Returns self.
 */
 IoSeqMutateNoArgNoResultOp(tanh);
@@ -1183,13 +1183,13 @@ Returns self.
 IoSeqMutateNoArgNoResultOp(exp);
 
 /*doc Sequence log
-Sets each value of the Sequence to the natural log of it's value.
+Sets each value of the Sequence to the natural log of its value.
 Returns self.
 */
 IoSeqMutateNoArgNoResultOp(log);
 
 /*doc Sequence log10
-Sets each value of the Sequence to the base 10 log of it's value.
+Sets each value of the Sequence to the base 10 log of its value.
 Returns self.
 */
 IoSeqMutateNoArgNoResultOp(log10);
@@ -1207,19 +1207,19 @@ Returns self.
 IoSeqMutateNoArgNoResultOp(floor);
 
 /*doc Sequence abs
-Sets each value of the Sequence to it's absolute value.
+Sets each value of the Sequence to its absolute value.
 Returns self.
 */
 IoSeqMutateNoArgNoResultOp(abs);
 
 /*doc Sequence square
-Sets each value of the Sequence to the square of it's value.
+Sets each value of the Sequence to the square of its value.
 Returns self.
 */
 IoSeqMutateNoArgNoResultOp(square);
 
 /*doc Sequence sqrt
-Sets each value of the Sequence to the square root of it's value.
+Sets each value of the Sequence to the square root of its value.
 Returns self.
 */
 IoSeqMutateNoArgNoResultOp(sqrt);
@@ -1315,12 +1315,12 @@ Updates the receiver to be the result of a bitwiseNot with aSequence. Returns se
 IoSeqMutateNoArgNoResultOp(bitwiseNot);
 
 /*doc Sequence logicalOr(aSequence)
-Updates the receive's values to be the result of a logical OR operatiosn with the values of aSequence. Returns self.
+Updates the receiver's values to be the result of a logical OR operations with the values of aSequence. Returns self.
 */
 IoSeqSeqArgNoResultOp(logicalOr_);
 
 /*doc Sequence logicalAnd(aSequence)
-Updates the receive's values to be the result of a logical OR operatiosn with the values of aSequence. Returns self.
+Updates the receiver's values to be the result of a logical OR operations with the values of aSequence. Returns self.
 */
 IoSeqSeqArgNoResultOp(logicalAnd_);
 

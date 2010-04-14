@@ -3,7 +3,7 @@
 //metadoc File license BSD revised
 /*metadoc File description
 Encapsulates file i/o. Here's an example of opening a file, 
-and reversing it's lines:
+and reversing its lines:
 <pre>	
 file = File clone openForUpdating("/tmp/test")
 lines = file readLines reverse
@@ -993,7 +993,7 @@ IO_METHOD(IoFile, positionAtEnd)
 IO_METHOD(IoFile, isAtEnd)
 {
 	/*doc File isAtEnd
-	Returns true if the file is at it's end. Otherwise returns false.
+	Returns true if the file is at its end. Otherwise returns false.
 	*/
 
 	IoFile_assertOpen(self, locals, m);

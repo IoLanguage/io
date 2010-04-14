@@ -134,7 +134,7 @@ File do(
 )
 
 Sequence do(
-	//doc Sequence asFile Returns a new File object with the receiver as it's path.
+	//doc Sequence asFile Returns a new File object with the receiver as its path.
 	asFile := method(
 		File with(self)
 	)

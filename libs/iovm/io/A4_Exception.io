@@ -9,7 +9,7 @@ Call do(
 
 	delegateTo := method(target, altSender,
 		/*doc Call delegateTo(target, altSender)
-		Sends the call's message to target (and relays it's stop status). 
+		Sends the call's message to target (and relays its stop status). 
 		The sender is set to altSender, if it is supplied.
 		Returns the result of the message.
 		*/
@@ -74,7 +74,7 @@ Coroutine do(
 	//doc Coroutine setException
 	exception ::= nil
 	
-	//doc Coroutine parentCoroutine Returns the parent coroutine this one was chained from or nil if it wasn't chained. When a Coroutine ends, it will attempt to resume it's parent.
+	//doc Coroutine parentCoroutine Returns the parent coroutine this one was chained from or nil if it wasn't chained. When a Coroutine ends, it will attempt to resume its parent.
 	//doc Coroutine setParentCoroutine(aCoro) Sets the parent coroutine. Returns self.
 	parentCoroutine ::= nil
 	
@@ -82,7 +82,7 @@ Coroutine do(
 	//doc Coroutine setRunTarget(anObject) 
 	runTarget ::= nil
 
-	//doc Coroutine runLocals The locals object in whose context the coroutine will send it's run message.
+	//doc Coroutine runLocals The locals object in whose context the coroutine will send its run message.
 	//doc Coroutine setRunLocals
 	runLocals ::= nil
 
