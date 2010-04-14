@@ -141,6 +141,7 @@ Io> list(1, 2, 3) reduce(xs, x, xs + x, -6)
     reduce := method(
         argCount := call argCount
 
+        if(argCount == 0, Exception raise("missing argument"))
         # Checking for the initial value, if it's not present, the
         # head of the list is used.
         if(argCount == 2 or argCount == 4,
@@ -166,7 +167,10 @@ Io> list(1, 2, 3) reduce(xs, x, xs + x, -6)
             bName := call argAt(1) name # Item.
             body := call argAt(2)
             # Creating a context, in which the body would be executed in.
-            context := Object clone prependProto(call sender)
+            # Note: since call sender isn't the actual sender object, but
+            # rather a proxy, we need to prepend the value of it's self slot,
+            # to get the desired behaviour.
+            context := Object clone prependProto(call sender self)
             target foreach(x,
                 context setSlot(aName, accumulator)
                 context setSlot(bName, x)

@@ -24,61 +24,64 @@ List do(
         u
     )
 
-    /*doc List select(optionalIndex, value, message)
-    Like foreach, but the values for which the result of message are non-nil are returned
-    in a new List. Example:
-<code>list(1, 5, 7, 2) select(i, v, v > 3) print
+    /*doc List selectInPlace(optionalIndex, value, message)
+    Like foreach, but the values for which the result of message is either nil
+    or false are removed from the List. Example:
+<code>list(1, 5, 7, 2) selectInPlace(i, v, v > 3) print
 ==> 5, 7
-list(1, 5, 7, 2) select(v, v > 3) print
+list(1, 5, 7, 2) selectInPlace(v, v > 3) print
  ==> 5, 7</code>
 */
+    selectInPlace := method(
+        # Creating a context, in which the body would be executed in.
+        # Note: since call sender isn't the actual sender object, but
+        # rather a proxy, we need to prepend the value of it's self slot,
+        # to get the desired behaviour.
+        context := Object clone prependProto(call sender self)
+        # Offset, applied to get the real index of the elements being
+        # deleted.
+        offset := 0
+        argCount := call argCount
+
+        if(argCount == 0, Exception raise("missing argument"))
+        if(argCount == 1) then(
+            body := call argAt(0)
+            size repeat(idx,
+                if(at(idx - offset) doMessage(body, context) not,
+                    removeAt(idx - offset)
+                    offset = offset + 1
+                )
+            )
+        ) elseif(argCount == 2) then(
+            eName := call argAt(0) name # Element.
+            body  := call argAt(1)
+            size repeat(idx,
+                context setSlot(eName, at(idx - offset))
+                if(context doMessage(body) not,
+                    removeAt(idx - offset)
+                    offset = offset + 1
+                )
+            )
+        ) else(
+            iName := call argAt(0) name # Index.
+            eName := call argAt(1) name # Element.
+            body  := call argAt(2)
+
+            size repeat(idx,
+                context setSlot(iName, idx)
+                context setSlot(eName, at(idx - offset))
+                if(context doMessage(body) not,
+                    removeAt(idx - offset)
+                    offset = offset + 1
+                )
+            )
+        )
+        self
+    )
+
+    //doc List select Same as <tt>selectInPlace</tt>, but result is a new List.
     select := method(
-        aList := List clone
-
-        a1 := call argAt(0)
-        if(a1 == nil,
-            Exception raise("missing argument")
-            return
-        )
-        a2 := call argAt(1)
-        a3 := call argAt(2)
-
-        if(a3,
-            a1 := a1 name
-            a2 := a2 name
-            self foreach(i, v,
-                call sender setSlot(a1, i)
-                call sender setSlot(a2, getSlot("v"))
-                ss := stopStatus(c := a3 doInContext(call sender, call sender))
-                if(ss isReturn, ss return getSlot("c"))
-                if(ss stopLooping, break)
-                if(ss isContinue, continue)
-                if(getSlot("c"), aList append(getSlot("v")))
-            )
-            return aList
-        )
-
-        if(a2,
-            a1 := a1 name
-            self foreach(v,
-                call sender setSlot(a1, getSlot("v"))
-                ss := stopStatus(c := a2 doInContext(call sender, call sender))
-                if(ss isReturn, ss return getSlot("c"))
-                if(ss stopLooping, break)
-                if(ss isContinue, continue)
-                if(getSlot("c"), aList append(getSlot("v")))
-            )
-            return aList
-        )
-
-        self foreach(v,
-            ss := stopStatus(c := a1 doInContext(getSlot("v"), call sender))
-            if(ss isReturn, ss return getSlot("c"))
-            if(ss stopLooping, break)
-            if(ss isContinue, continue)
-            if(getSlot("c"), aList append(getSlot("v")))
-        )
-        aList
+        call delegateToMethod(self clone, "selectInPlace")
     )
 
     /*doc List detect(optionalIndex, value, message)
@@ -243,11 +246,6 @@ list(1, 2, 3, 4) detect(v, v > 2)
     //doc List mapInPlace Same as <tt>map</tt>, but result replaces self.
     mapInPlace := method(
         self copy(self getSlot("map") performOn(self, call sender, call message))
-    )
-
-    //doc List selectInPlace Same as <tt>select</tt>, but result replaces self.
-    selectInPlace := method(
-        self copy(self getSlot("select") performOn(self, call sender, call message))
     )
 
     empty := method(self removeAll)

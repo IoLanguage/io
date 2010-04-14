@@ -226,57 +226,59 @@ ListTest := UnitTest clone do(
 		assertEquals(3, a last)
 	)
 
-	_testPrint := method(
-		// would need to be able to read stdout or install a printCallback from Io to test print()
-		Nop
-	)
+    testSelect := method(
+        # Since List select() is a simple proxy method, we only
+        # need to check that the original list didn't change,
+        # after select was applied.
+        a := exampleList itemCopy
+        selection := a select(isKindOf(Number))
+        assertEquals(1, selection size)
+        assertEquals(list(3), selection)
+        assertEquals(a, exampleList) # The original list shouldn't change!
+    )
 
-	testSelect := method(
-		a := exampleList
-		assertRaisesException(a select)
-		selection := a select(index, value, index == 0 or value == 3)
-		assertEquals(2, selection size)
-		assertEquals("a", selection at(0))
-		assertEquals(3, selection at(1))
+    testSelectInPlace := method(
+        # List select requires at least one argument!
+        assertRaisesException(list() select)
 
-		selection := a select(index, value, index == -1)
-		assertEquals(0, selection size)
-	)
+        # Testing normal cases:
+        # a) select(aMessage)
+        l := exampleList itemCopy
+        l selectInPlace(isKindOf(Number))
+        assertEquals(1, l size)
+        assertEquals(list(3), l)
 
-	testSelect2 := method(
-		a := exampleList
-		assertRaisesException(a select)
-		selection := a select(value, value == "a" or value == 3)
-		assertEquals(2, selection size)
-		assertEquals("a", selection at(0))
-		assertEquals(3, selection at(1))
+        # b) select(value, aMessage)
+        l := exampleList itemCopy
+        l selectInPlace(value, value isKindOf(Sequence))
+        assertEquals(2, l size)
+        assertEquals(list("a", "beta"), l)
 
-		selection := a select(index, value, index == -1)
-		assertEquals(0, selection size)
-	)
+        # c) select(index, value, aMessage)
+        l := exampleList itemCopy
+        l selectInPlace(index, value, value isKindOf(Sequence) and index == 0)
+        assertEquals(1, l size)
+        assertEquals(list("a"), l)
 
-	testSelectInPlace := method(
-		a := exampleList
-		assertRaisesException(a selectInPlace)
-		a selectInPlace(index, value, index == 0 or value == 3)
-		assertEquals(2, a size)
-		assertEquals("a", a at(0))
-		assertEquals(3, a at(1))
+        # Testing the case, where no elements match the given predicate.
+        l := exampleList itemCopy
+        l selectInPlace(isKindOf(Block))
+        assertEquals(0, l size)
+        assertEquals(list(), l)
 
-		a selectInPlace(index, value, index == -1)
-		assertEquals(0, a size)
-	)
+        # Checking that no changes were made to the sender.
+        assertNil(getSlot("index"))
+        assertNil(getSlot("value"))
 
-	testSelectInPlace2 := method(
-		a := exampleList
-		a selectInPlace(index, value, value == "a" or value == 3)
-		assertEquals(2, a size)
-		assertEquals("a", a at(0))
-		assertEquals(3, a at(1))
-
-		a selectInPlace(index, value, index == -1)
-		assertEquals(0, a size)
-	)
+        # Testing the case, where the message contains references to sender's
+        # slots. (ex. A4_Exception.io:201)
+        l := exampleList itemCopy
+        assertNil(
+            try(l selectInPlace(== exampleList at(0)))
+        ) # No exceptions should be raised.
+        assertEquals(1, l size)
+        assertEquals(list("a"), l)
+    )
 
 	testDetect := method(
 		a := exampleList
@@ -495,6 +497,9 @@ ListTest := UnitTest clone do(
 
     testReduce := method(
         a := list(1, 2, 3)
+        # List reduce requires as least one argument.
+        assertRaisesException(a reduce)
+
         assertEquals(6, a reduce(+))
         assertEquals(6, a reduce(x, y, x + y))
         assertEquals(0, a reduce(+, -6))
@@ -503,6 +508,13 @@ ListTest := UnitTest clone do(
         # Checking that no changes were made to the sender.
         assertNil(getSlot("x"))
         assertNil(getSlot("y"))
+
+        # Testing the case, where the message contains references to sender's
+        # slots. (ex. A4_Exception.io:201)
+        assertNil(
+            try(result := a reduce(x, y, x + y + exampleList at(2)))
+        ) # No exceptions should be raised.
+        assertEquals(12, result)
     )
 
     testReverseReduce := method(
