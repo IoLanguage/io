@@ -95,7 +95,7 @@ list(1,2,list(3,4,list(5))) flatten
     List flatten := method(
         l := List clone
         self foreach(v,
-            if(getSlot("v") type == "List",
+            if(getSlot("v") isKindOf(List),
                 l appendSeq(getSlot("v") flatten)
             ,
                 l append(getSlot("v")))
@@ -192,17 +192,6 @@ Io> list(1, 2, 3) reduce(xs, x, xs + x, -6)
         call delegateToMethod(self reverse, "reduce")
     )
 
-    mapFromKey := method(key,
-        e := key asMessage
-        m := Map clone
-        self foreach(v,
-            k := getSlot("v") doMessage(e)
-            l := m at(k)
-            if(l, l append(getSlot("v")), m atPut(k, list(getSlot("v"))))
-        )
-        m
-    )
-
     //doc List uniqueCount Returns a list of list(value, count) for each unique value in self.
     uniqueCount := method(self unique map(item, list(item, self select(== item) size)))
 
@@ -257,4 +246,86 @@ List ListCursor := Object clone do(
     value := method(collection at(index))
     insert := method(v, collection atInsert(index, getSlot("v")))
     remove := method(v, collection removeAt(index))
+)
+
+# IMPORTANT:
+# ----------
+# Theese methods (List groupBy(), List mapFromKey()) should be removed,
+# because they aren't:
+#   * documented,
+#   * unittested,
+#   * used anywhere else in the code.
+#
+# Note: probably, List second() and List third() should also be considered
+# for removal.
+
+List do(
+    groupBy := method(
+        aMap := Map clone
+
+        a1 := call argAt(0)
+        if(a1 == nil, Exception raise("missing argument"))
+        a2 := call argAt(1)
+        a3 := call argAt(2)
+
+        if(a2 == nil,
+            self foreach(v,
+                ss := stopStatus(c := a1 doInContext(getSlot("v"), call sender))
+                if(ss isReturn, ss return getSlot("c"))
+                if(ss stopLooping, break)
+                if(ss isContinue, continue)
+
+                key := getSlot("c") asString
+
+                aMap atIfAbsentPut(key, list())
+                aMap at(key) append(v)
+            )
+            return aMap
+        )
+
+        if(a3 == nil,
+            a1 := a1 name
+            self foreach(v,
+                call sender setSlot(a1, getSlot("v"))
+                ss := stopStatus(c := a2 doInContext(call sender, call sender))
+                if(ss isReturn, ss return getSlot("c"))
+                if(ss stopLooping, break)
+                if(ss isContinue, continue)
+
+                key := getSlot("c") asString
+
+                aMap atIfAbsentPut(key, list())
+                aMap at(key) append(v)
+            )
+            return aMap
+        )
+
+        a1 := a1 name
+        a2 := a2 name
+        self foreach(i, v,
+            call sender setSlot(a1, i)
+            call sender setSlot(a2, getSlot("v"))
+            ss := stopStatus(c := a3 doInContext(call sender, call sender))
+            if(ss isReturn, ss return getSlot("c"))
+            if(ss stopLooping, break)
+            if(ss isContinue, continue)
+
+            key := getSlot("c") asString
+
+            aMap atIfAbsentPut(key, list())
+            aMap at(key) append(v)
+        )
+        return aMap
+    )
+
+    mapFromKey := method(key,
+        e := key asMessage
+        m := Map clone
+        self foreach(v,
+            k := getSlot("v") doMessage(e)
+            l := m at(k)
+            if(l, l append(getSlot("v")), m atPut(k, list(getSlot("v"))))
+        )
+        m
+    )
 )
