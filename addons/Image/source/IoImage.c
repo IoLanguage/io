@@ -4,7 +4,7 @@
 //metadoc Image category Graphics
 /*metadoc Image description
 The Image object can read and draw images and provide the image 
-data as a buffer. Example use;
+data as a buffer. Example use:
 <pre>	
 image = Image clone open("curly.png")
 image draw
@@ -244,7 +244,7 @@ IoObject *IoImage_data(IoImage *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Image data
 	Returns a Buffer primitive containing the image data (loading it first if needed). 
-	Manipulating this data will effect what is drawn when the receiver's draw method is called.
+	Manipulating this data will affect what is drawn when the receiver's draw method is called.
 	*/
 
 	return DATA(self)->buffer;
