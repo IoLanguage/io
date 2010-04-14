@@ -1,7 +1,7 @@
 Loudmouth do(
 //metadoc Loudmouth category Networking
 /*metadoc Loudmouth description
-<a href="http://groups.google.com/group/loudmouth-dev/">Lodumouth</a> is an async XMPP library written in C.
+<a href="http://groups.google.com/group/loudmouth-dev/">Loudmouth</a> is an async XMPP library written in C.
 
 Example usage:
 <code><pre>
@@ -63,7 +63,7 @@ Loudmouth startMainLoop
     super(init)
     self _msgsBuffer = list())
 
-  //doc Loudmouth with(jid, password) Creates a new Lodumouth clone with server details provided in <code>jid</code>.
+  //doc Loudmouth with(jid, password) Creates a new Loudmouth clone with server details provided in <code>jid</code>.
   with := method(jid, password,
     self clone\
       setJid(jid asString)\
@@ -76,7 +76,7 @@ Loudmouth startMainLoop
   handleConnect         := method()
   //doc Loudmouth handleConnectFailure Slot called when server is not reachable.
   handleConnectFailure  := method()
-  //doc Lodumouth handleAuthenticated Slot called upon successful authentication.
+  //doc Loudmouth handleAuthenticated Slot called upon successful authentication.
   handleAuthenticated   := method()
   //doc Loudmouth handleAuthenticationFailure Slot called if username/password combinaton is wrong.
   handleAuthenticationFailure := method()
