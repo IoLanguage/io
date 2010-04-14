@@ -164,7 +164,7 @@ void IoLoudmouth_free(IoLoudmouth *self) {
 }
 
 /*** Loudmouth slots ***/
-//doc Loudmouth startMainLoop Starts GMainLoop. Should be called after connection is established with the server.
+//doc Loudmouth startMainLoop Starts GMainLoop. Should be called after a connection is established with the server.
 IoObject *IoLoudmouth_startMainLoop(IoLoudmouth *self, IoObject *locals, IoMessage *m) {
   main_loop = g_main_loop_new(main_context, FALSE);
   g_main_loop_run(main_loop);
@@ -316,7 +316,7 @@ IoObject *IoLoudmouth_status(IoLoudmouth *self, IoObject *locals, IoMessage *m) 
   return status;
 }
 
-//doc Loudmouth send(toJid, message) Sends an message (<code>Sequence</code>) to provided JID (<code>Sequence</code>). Returns <code>true</code> or <code>false</code>.
+//doc Loudmouth send(toJid, message) Sends a message (<code>Sequence</code>) to provided JID (<code>Sequence</code>). Returns <code>true</code> or <code>false</code>.
 IoObject *IoLoudmouth_send(IoLoudmouth *self, IoObject *locals, IoMessage *m) {
   char *to        = IoMessage_locals_cStringArgAt_(m, locals, 0);
   char *msg_body  = IoMessage_locals_cStringArgAt_(m, locals, 1);

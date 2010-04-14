@@ -4,7 +4,7 @@ CGI := Object clone do(
 //metadoc CGI category Networking
 
 /*metadoc CGI description
-CGI supports accessing CGI parameters passed in environment variable or standard input by a web servers like Apache.Example use:
+CGI supports accessing CGI parameters passed in environment variables or standard input by a web servers like Apache. Example use:
 <pre>
 #!./ioServer
 
@@ -279,7 +279,7 @@ asString (pretty string of name, type, size)
 
 	/*doc CGI header(name, value, sendMultiple) 
 	Add a header to the output, may only be called before write() is called.  
-	One of each header will be send unless sendMultiple is true
+	One of each header will be sent unless sendMultiple is true
 	*/
 	header := method(name, value, sendMultiple,
 		if(_headersSent, Exception raise("Content already sent, no more headers may be transmitted"))

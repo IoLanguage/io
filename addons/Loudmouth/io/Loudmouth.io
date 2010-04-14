@@ -1,6 +1,6 @@
 Loudmouth do(
 //metadoc Loudmouth category Networking
-/*metadoc Lodumouth description
+/*metadoc Loudmouth description
 <a href="http://groups.google.com/group/loudmouth-dev/">Lodumouth</a> is an async XMPP library written in C.
 
 Example usage:
@@ -63,7 +63,7 @@ Loudmouth startMainLoop
     super(init)
     self _msgsBuffer = list())
 
-  //doc Loudmouth with(jid, password) Creates new Lodumouth clone with server details provided in <code>jid</code>.
+  //doc Loudmouth with(jid, password) Creates a new Lodumouth clone with server details provided in <code>jid</code>.
   with := method(jid, password,
     self clone\
       setJid(jid asString)\
@@ -82,9 +82,9 @@ Loudmouth startMainLoop
   handleAuthenticationFailure := method()
   //doc Loudmouth handleDisconnect Slot called upon closing the connection with the server.
   handleDisconnect      := method()
-  //doc Loudmouth handleSslFailure Slot called if SSL-related problems arrive. Method should return <code>true</code> if it wishes make a connection without SSL, <code>false</code> otherwise.
+  //doc Loudmouth handleSslFailure Slot called if SSL-related problems arrive. Method should return <code>true</code> if it wishes to make a connection without SSL, <code>false</code> otherwise.
   handleSslFailure      := method(true)
-  //doc Loudmouth handleMessage(xmppMessage) Slot called when an message arrives via XMPP stream. <code>xmppMessage</code> is a <code>LoudmouthMessage</code> object.
+  //doc Loudmouth handleMessage(xmppMessage) Slot called when a message arrives via XMPP stream. <code>xmppMessage</code> is a <code>LoudmouthMessage</code> object.
   # Overwrite this method in your clone
   handleMessage         := method()
 
@@ -93,7 +93,7 @@ Loudmouth startMainLoop
       e := try(self handleMessage(LoudmouthMessage with(self _msgsBuffer removeFirst)))
       e catch(e println)))
 
-  //doc Loudmouth setPresence(presence[, statusMessage]) Sets aviability/presence and status message.
+  //doc Loudmouth setPresence(presence[, statusMessage]) Sets availability/presence and status message.
   setPresence := method(_presence, msg,
     msg ifNil(msg = self statusMessage ifNil(""))
 
