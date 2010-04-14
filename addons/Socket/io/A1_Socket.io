@@ -167,7 +167,7 @@ Socket do(
 	)
 
 	/*doc Socket streamWrite(buffer, optionalProgressBlock) 
-	Write's buffer to the socket. 
+	Writes buffer to the socket. 
 	If optionalProgressBlock is supplied, it is periodically called with the number of bytes written as an argument.
 	Returns self on success or an Error object on error.
 	*/
@@ -178,7 +178,7 @@ Socket do(
 	)
 
 	/*doc Socket writeFromBuffer(optionalProgressBlock) 
-	Write's the contents of the socket's writeBuffer to the socket. 
+	Writes the contents of the socket's writeBuffer to the socket. 
 	If optionalProgressBlock is supplied, it is periodically called with the number of bytes written as an argument.
 	Returns self on success or an Error object on error.
 	*/	
