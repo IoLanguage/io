@@ -1486,7 +1486,7 @@ ChinaApp passiveMotion := method(x, y,
 ChinaApp negatives := list(
 	// Corresponding to clickedCell return values -1 through -7
 	"It's my turn! Type M, and I'll move something myself ...",
-	"That color has completed it's mission! Type M.",
+	"That color has completed its mission! Type M.",
 	"Sorry, wrong color!",
 	"Sorry, that cell is already taken!",
 	"Sorry, that's just not a valid move!",

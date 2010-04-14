@@ -602,7 +602,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 //doc Object doURL(urlString) Fetches the URL and evals it in the context of the receiver.
 Object doURL := method(url, self doString(URL clone setURL(url) fetch))
 
-//doc Sequence asURL Returns a new URL object instance with the receiver as it's url string.
+//doc Sequence asURL Returns a new URL object instance with the receiver as its url string.
 Sequence asURL := method(URL with(self))
 
 //doc Map asQueryString Returns an escaped query string representation of this map

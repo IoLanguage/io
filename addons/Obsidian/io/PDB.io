@@ -53,7 +53,7 @@ PDB sync
 </pre>
 
 PDB sync will scan all persistent objects in the vm and save any with changes to their persistent slots. 
-If the object was already in the database, only it's updated slots will be written.
+If the object was already in the database, only its updated slots will be written.
 
 <h4>Removing an entry in a PMap</h4>
 

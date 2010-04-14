@@ -283,7 +283,7 @@ Socket do(
 	udpWrite := getSlot("asyncUdpWrite")
 
 	/*doc Socket serverOpen 
-	Opens the socket as a stream, binds it to it's ipAddress and calls asyncListen to prepare the socket to accept connections.
+	Opens the socket as a stream, binds it to its ipAddress and calls asyncListen to prepare the socket to accept connections.
 	Returns self on success or an Error object on error.
 	*/
 	serverOpen := method(
@@ -319,7 +319,7 @@ Socket do(
 
 	
 	/*doc Socket readUntilSeq(aSequence)
-	Reads the socket until it's readBuffer contains aSequence, then returns a Sequence
+	Reads the socket until its readBuffer contains aSequence, then returns a Sequence
 	containing the readBuffer's contents up to (but not including) aSequence and clips that section from the readBuffer.
 	*/	
 	readUntilSeq := method(aSeq,

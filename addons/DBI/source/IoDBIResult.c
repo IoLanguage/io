@@ -325,7 +325,7 @@ IoObject *IoDBIResult_foreach(IoDBIResult *self, IoObject *locals,
 {
 /*doc DBIResult foreach([Object], value, message)
 Loops over the records in the result starting at either the first result 
-(if the cursor has never been moved) or it's current location if moved. i.e.
+(if the cursor has never been moved) or its current location if moved. i.e.
 
 <pre>
 r := conn query("SELECT * FROM people")

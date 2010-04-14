@@ -44,7 +44,7 @@ IoLinker *IoLinker_proto(void *state)
 IoObject *IoLinker_makeCFunction(IoLinker *self, IoObject *locals, IoMessage *m)
 {
 /*doc Linker makeCFunction(aSeq, slotName, object)
-Creates a CFunction which users the beginning address of the data in aSeq as it's function pointer and 
+Creates a CFunction which users the beginning address of the data in aSeq as its function pointer and 
 adds the CFunction to the given object on slot slotName.
 */
 	IoSeq *buffer = IoMessage_locals_seqArgAt_(m, locals, 0);

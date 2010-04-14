@@ -32,7 +32,7 @@ typedef struct {
 	int advance;           /* the x advnace between characters */
 } GLFont_Symbol;
 
-/* Each character caches it's texture coordinates for speed */
+/* Each character caches its texture coordinates for speed */
 typedef struct {
 	float left; float right;  /* the left and right glTexCoordf() parameters */
 	float top;  float bottom; /* the top and bottom glTexCoordf() parameters */

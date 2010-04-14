@@ -3,7 +3,7 @@
 //metadoc MD5 license BSD revised
 //metadoc MD5 category Digests
 /*metadoc MD5 description
-An object for calculating MD5 hashes. Each has calculation should instiate it's own MD5 instance.
+An object for calculating MD5 hashes. Each has calculation should instiate its own MD5 instance.
 <p>
 Example:
 <pre>

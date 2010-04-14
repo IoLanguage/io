@@ -133,7 +133,7 @@ IoObject *IoDBI_initWithDriversPath(IoDBI *self, IoObject *locals,
 IoObject *IoDBI_drivers(IoDBI *self, IoObject *locals, IoMessage *m)
 {
 	/*doc DBI drivers
-	Get a list of drivers and it's associated information:
+	Get a list of drivers and its associated information:
 
 	<ol>
 		<li>name</li>

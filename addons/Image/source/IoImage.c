@@ -170,7 +170,7 @@ void IoImage_checkError(IoImage *self, IoObject *locals, IoMessage *m)
 IoObject *IoImage_setDataWidthHeightComponentCount(IoImage *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Image setDataWidthHeightComponentCount(aSequence, width, height, componentCount)
-	Sets the image data and it's parameters. Returns self.
+	Sets the image data and its parameters. Returns self.
 	*/
 
 	IoSeq *data = IoMessage_locals_seqArgAt_(m, locals, 0);
