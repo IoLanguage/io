@@ -168,9 +168,9 @@ Io> list(1, 2, 3) reduce(xs, x, xs + x, -6)
             body := call argAt(2)
             # Creating a context, in which the body would be executed in.
             # Note: since call sender isn't the actual sender object, but
-            # rather a proxy, we need to prepend the value of it's self slot,
-            # to get the desired behaviour.
-            context := Object clone prependProto(call sender self)
+            # rather a proxy, you need to explicitly use self, to get
+            # the sender's slot value.
+            context := Object clone prependProto(call sender)
             target foreach(x,
                 context setSlot(aName, accumulator)
                 context setSlot(bName, x)

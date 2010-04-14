@@ -27,17 +27,17 @@ List do(
     /*doc List selectInPlace(optionalIndex, value, message)
     Like foreach, but the values for which the result of message is either nil
     or false are removed from the List. Example:
-<code>list(1, 5, 7, 2) selectInPlace(i, v, v > 3) print
+<code>list(1, 5, 7, 2) selectInPlace(i, v, v > 3)
 ==> 5, 7
-list(1, 5, 7, 2) selectInPlace(v, v > 3) print
+list(1, 5, 7, 2) selectInPlace(v, v > 3)
  ==> 5, 7</code>
 */
     selectInPlace := method(
         # Creating a context, in which the body would be executed in.
         # Note: since call sender isn't the actual sender object, but
-        # rather a proxy, we need to prepend the value of it's self slot,
-        # to get the desired behaviour.
-        context := Object clone prependProto(call sender self)
+        # rather a proxy, you need to explicitly use self, to get
+        # the sender's slot value, f.ex. self size.
+        context := Object clone prependProto(call sender)
         # Offset, applied to get the real index of the elements being
         # deleted.
         offset := 0
@@ -135,51 +135,52 @@ list(1, 2, 3, 4) detect(v, v > 2)
         nil
     )
 
-    //doc List map(optionalIndex, value, message) Same as calling mapInPlace() on a clone of the receiver, but more efficient.
+    /*doc List mapInPlace(optionalIndex, value, message)
+    Replaces each item in the reciever with the result of applying a given message
+    to that item. Example:
+<code>list(1, 5, 7, 2) mapInPlace(i, v, i + v)
+==> list(1, 6, 9, 5)
+list(1, 5, 7, 2) mapInPlace(v, v + 3)
+ ==> list(4, 8, 10, 5)</code>
+    */
+    mapInPlace := method(
+        # Creating a context, in which the body would be executed in.
+        # Note: since call sender isn't the actual sender object, but
+        # rather a proxy, you need to explicitly use self, to get
+        # the sender's slot value, f.ex. self size.
+        context := Object clone prependProto(call sender)
+        argCount := call argCount
+
+        if(argCount == 0, Exception raise("missing argument"))
+        if(argCount == 1) then(
+            body := call argAt(0)
+            self foreach(idx, value,
+                atPut(idx, getSlot("value") doMessage(body, context))
+            )
+        ) elseif(argCount == 2) then(
+            eName := call argAt(0) name # Element.
+            body  := call argAt(1)
+            self foreach(idx, value,
+                context setSlot(eName, getSlot("value"))
+                atPut(idx, context doMessage(body))
+            )
+        ) else(
+            iName := call argAt(0) name # Index.
+            eName := call argAt(1) name # Element.
+            body  := call argAt(2)
+
+            self foreach(idx, value,
+                context setSlot(iName, idx)
+                context setSlot(eName, getSlot("value"))
+                atPut(idx, context doMessage(body))
+            )
+        )
+        self
+    )
+
+    //doc List map Same as <tt>mapInPlace</tt>, but returns results in a new List.
     map := method(
-        aList := List clone
-
-        a1 := call argAt(0)
-        if(a1 == nil, Exception raise("missing argument"))
-        a2 := call argAt(1)
-        a3 := call argAt(2)
-
-        if(a2 == nil,
-            self foreach(v,
-                ss := stopStatus(c := a1 doInContext(getSlot("v"), call sender))
-                if(ss isReturn, ss return getSlot("c"))
-                if(ss stopLooping, break)
-                if(ss isContinue, continue)
-                aList append(getSlot("c"))
-            )
-            return aList
-        )
-
-        if(a3 == nil,
-            a1 := a1 name
-            self foreach(v,
-                call sender setSlot(a1, getSlot("v"))
-                ss := stopStatus(c := a2 doInContext(call sender, call sender))
-                if(ss isReturn, ss return getSlot("c"))
-                if(ss stopLooping, break)
-                if(ss isContinue, continue)
-                aList append(getSlot("c"))
-            )
-            return aList
-        )
-
-        a1 := a1 name
-        a2 := a2 name
-        self foreach(i, v,
-            call sender setSlot(a1, i)
-            call sender setSlot(a2, getSlot("v"))
-            ss := stopStatus(c := a3 doInContext(call sender, call sender))
-            if(ss isReturn, ss return getSlot("c"))
-            if(ss stopLooping, break)
-            if(ss isContinue, continue)
-            aList append(getSlot("c"))
-        )
-        return aList
+        call delegateToMethod(self clone, "mapInPlace")
     )
 
     groupBy := method(
@@ -242,11 +243,6 @@ list(1, 2, 3, 4) detect(v, v > 2)
 
     //doc List copy(v) Replaces self with <tt>v</tt> list items. Returns self.
     copy := method(v, self empty; self appendSeq(v); self)
-
-    //doc List mapInPlace Same as <tt>map</tt>, but result replaces self.
-    mapInPlace := method(
-        self copy(self getSlot("map") performOn(self, call sender, call message))
-    )
 
     empty := method(self removeAll)
 

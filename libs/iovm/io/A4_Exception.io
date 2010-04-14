@@ -9,7 +9,7 @@ Call do(
 
 	delegateTo := method(target, altSender,
 		/*doc Call delegateTo(target, altSender)
-		Sends the call's message to target (and relays it's stop status). 
+		Sends the call's message to target (and relays it's stop status).
 		The sender is set to altSender, if it is supplied.
 		Returns the result of the message.
 		*/
@@ -18,7 +18,7 @@ Call do(
 
 	delegateToMethod := method(target, methodName,
 		/*doc Call delegateToMethod(target, methodName)
-		Sends the call's message to target via the method specified by methodName. 
+		Sends the call's message to target via the method specified by methodName.
 		Returns the result of the message.
 		*/
 		call relayStopStatus(target doMessage(self message clone setNext setName(methodName), self sender))
@@ -28,10 +28,10 @@ Call do(
 	Returns a list containing the call message arguments evaluated in the context of the sender.
 	*/
 	evalArgs := method(self message argsEvaluatedIn(sender)) setPassStops(true)
-	
+
 	//doc Call hasArgs Returns true if the call was passed arguments.
 	hasArgs  := method(argCount > 0)
-	
+
 	//doc Call argCount Returns the number of arguments for the call. Shortcut for "call message argCount".
 	argCount := method(self message argCount)
 )
@@ -48,23 +48,23 @@ Scheduler := Object clone do(
 	//doc Scheduler yieldingCoros The List of yielding Coroutine objects.
 	//doc Scheduler setYieldingCoros(aListOfCoros) Sets the list of yielding Coroutine objects.
 	yieldingCoros ::= List clone
-	
+
 	//doc Scheduler timers The List of active timers.
 	//doc Scheduler setTimers(aListOfTimers) Sets the list of active timers.
 	timers ::= List clone
-	
+
 	//doc Scheduler currentCoroutine Returns the currently running coroutine.
 	currentCoroutine := method(Coroutine currentCoroutine)
-	
+
 	waitForCorosToComplete := method(
-		while(yieldingCoros size > 0, yield)	
+		while(yieldingCoros size > 0, yield)
 	)
 )
 
 Coroutine do(
 	//metadoc Coroutine category Core
 	//metadoc Coroutine description Coroutine is an primitive for Io's lightweight cooperative C-stack based threads.
-	
+
 	//doc Coroutine stackSize Stack size allocated for each new coroutine. Coroutines will automatically chain themselves as need if more stack space is required.
 	//doc Coroutine setStackSize(aNumber) Sets the stack size in bytes to allocate for new Coros. Returns self.
 	//stackSize ::= 131072 // PPC needs 128k for current parser
@@ -73,13 +73,13 @@ Coroutine do(
 	//doc Coroutine exception Returns the current exception or nil if there is none.
 	//doc Coroutine setException
 	exception ::= nil
-	
+
 	//doc Coroutine parentCoroutine Returns the parent coroutine this one was chained from or nil if it wasn't chained. When a Coroutine ends, it will attempt to resume it's parent.
 	//doc Coroutine setParentCoroutine(aCoro) Sets the parent coroutine. Returns self.
 	parentCoroutine ::= nil
-	
+
 	//doc Coroutine runTarget The object which the coroutine will send a message to when it starts.
-	//doc Coroutine setRunTarget(anObject) 
+	//doc Coroutine setRunTarget(anObject)
 	runTarget ::= nil
 
 	//doc Coroutine runLocals The locals object in whose context the coroutine will send it's run message.
@@ -91,9 +91,9 @@ Coroutine do(
 	runMessage ::= nil
 
 	//doc Coroutine result The result set when the coroutine ends.
-	//doc Coroutine setResult 
+	//doc Coroutine setResult
 	result ::= nil
-	
+
 	//doc Coroutine label A label slot useful for debugging purposes.
 	//doc Coroutine setLabel(aLabel) Sets the comment label for the Coro. Return self.
 	label ::= ""
@@ -101,24 +101,24 @@ Coroutine do(
 	//doc Coroutine inException Set to true when processing an exception in the coroutine.
 	//doc Coroutine setInException(aBool) Set the inException status. Returns self.
 	inException ::= false
-	
+
 
 	yieldingCoros ::= Scheduler yieldingCoros
 	//doc Coroutine yieldingCoros Reference to Scheduler yieldingCoros.
 	//--doc Coroutine setYieldingCoros(aListOfCoros)
-		
+
 	debugWriteln := nil
 	//doc Coroutine debugWriteln See <tt>Object debugWriteln</tt>.
 
 	label := method(self uniqueId)
 	setLabel := method(s, self label = s .. "_" .. self uniqueId)
-  
+
 	showYielding := method(s,
 		//doc Coroutine showYielding Prints a list of yielding coroutines to STDOUT.
 		writeln("   ", label, " ", s)
 		yieldingCoros foreach(v, writeln("    ", v uniqueId))
 	)
-	
+
 	isYielding := method(yieldingCoros contains(self))
 	//doc Coroutine isYielding Returns true if the receiver is yielding (not paused or running).
 
@@ -178,7 +178,7 @@ Coroutine do(
 		yieldingCoros remove(self)
 		isCurrent ifFalse(resume)
 	)
-	
+
 	//FIXME: these two methods are identical!!
 	pauseCurrentAndResumeSelf := method(
 		//doc Coroutine pauseCurrentAndResumeSelf Pauses current coroutine and yields to a receiver.
@@ -186,10 +186,10 @@ Coroutine do(
 		yieldingCoros remove(self)
 		isCurrent ifFalse(resume)
 	)
-  
+
 	typeId := method(self type .. "_0x" .. self uniqueId asString toBase(16))
 	//doc Coroutine typeId Returns <type>_<uniqueHexId> string.
-    
+
 	ignoredCoroutineMethodNames := list("setResult", "main", "pauseCurrentAndResumeSelf", "resumeParentCoroutine", "raiseException")
   	//doc Coroutine ignoredCoroutineMethodNames List of methods to ignore when building a <tt>callStack</tt>.
 
@@ -198,7 +198,8 @@ Coroutine do(
 		stack := ioStack
 		stack selectInPlace(v, Object argIsCall(getSlot("v"))) reverseInPlace
 		stack selectInPlace(v,
-			(v target type == "Coroutine" and ignoredCoroutineMethodNames contains(v message name)) not
+			(v target type == "Coroutine" and \
+             self ignoredCoroutineMethodNames contains(v message name)) not
 		)
 		stack foreach(i, v, if(v target type == "Importer" and v message name == "import", stack sliceInPlace(i+1); break) )
 		stack := stack unique
@@ -261,19 +262,19 @@ Coroutine do(
 		//doc Coroutine showStack Writes backTraceString to STDOUT.
 		write(backTraceString)
 	)
-    
+
 	resumeParentCoroutine := method(
 		//doc Coroutine resumeParentCoroutine Pauses current coroutine and resumes parent.
 		if(parentCoroutine, parentCoroutine pauseCurrentAndResumeSelf)
 	)
-  
+
 	main := method(
 		//doc Coroutine main [Seems to be obsolete!] Executes runMessage, resumes parent coroutine.
 		setResult(self getSlot("runTarget") doMessage(runMessage, self getSlot("runLocals")))
 		resumeParentCoroutine
 		pause
 	)
-  
+
 	raiseException := method(e,
 		//doc Coroutine raiseException Sets exception in the receiver and resumes parent coroutine.
 		self setException(e)
@@ -286,11 +287,11 @@ Object wait := method(s,
 	Pauses current coroutine for at least <tt>s</tt> seconds.
 	<br/>
 	Note: current coroutine may wait much longer than designated number of seconds
-	depending on circumstances. 
+	depending on circumstances.
 	*/
-	
+
 	//writeln("Scheduler yieldingCoros size = ", Scheduler yieldingCoros size)
-	if(Scheduler yieldingCoros isEmpty,		
+	if(Scheduler yieldingCoros isEmpty,
 		//writeln("System sleep")
 		System sleep(s)
 	,
@@ -322,7 +323,7 @@ Object do(
 		Executes particular code in a new coroutine.
 		Returns exception or nil if no exception is caught.
 		<br/>
-		See also documentation for Exception catch and pass.  
+		See also documentation for Exception catch and pass.
 		*/
 		coro := Coroutine clone
 		coro setParentCoroutine(Scheduler currentCoroutine)
@@ -363,7 +364,7 @@ Object do(
 	coroDoLater := method(
 		/*doc Object coroDoLater(code)
 		Returns a new coro to be run in a context of sender.
-		New coro is moved to the top of the yieldingCoros queue to be executed 
+		New coro is moved to the top of the yieldingCoros queue to be executed
 		when current coro yields.
 		<br/>
 		Note: run target is <tt>self</tt> (i.e. receiver), not <tt>call sender</tt> as in coroDo.
@@ -402,8 +403,8 @@ nil do(
 
 Protos Exception do(
 	//metadoc Exception category Core
-	/*metadoc Exception description 
-The Exception proto is used for raising exceptions and instances are used to hold rexception related info. 
+	/*metadoc Exception description
+The Exception proto is used for raising exceptions and instances are used to hold rexception related info.
 
 <p><b>Raise</b><p>
 
@@ -423,7 +424,7 @@ To catch a particular exception, the Exception catch() method can be used. Examp
 <pre>
 e := try(
     // ...
-) 
+)
 
 e catch(Exception,
     writeln(e coroutine backtraceString)
@@ -438,7 +439,7 @@ To re-raise an exception caught by try(), use the pass method. This is useful to
 <pre>
 e := try(
     // ...
-) 
+)
 
 e catch(Error,
     // ...
@@ -455,20 +456,20 @@ MyErrorType := Error clone
 </pre>
 
 */
-	
+
 	type := "Exception"
 	newSlot("error")
 	//doc Exception error Returns the error description string.
-	
+
 	newSlot("coroutine")
 	//doc Exception error Returns the coroutine that the exception occurred in.
-		
+
 	newSlot("caughtMessage")
 	//doc Exception caughtMessage Returns the message object associated with the exception.
 
 	newSlot("nestedException")
 	//doc Exception nestedException Returns the nestedException if there is one.
-		
+
 	newSlot("originalCall")
 	//doc Exception originalCall Returns the call object associated with the exception.
 
