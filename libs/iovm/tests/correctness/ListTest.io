@@ -280,24 +280,41 @@ ListTest := UnitTest clone do(
         assertEquals(list("a"), l)
     )
 
-	testDetect := method(
-		a := exampleList
-		assertRaisesException(a detect)
-		assertRaisesException(a detect(nil))
-		a detect(index, value, index == 0 or value == 3)
-		assertEquals("a", a detect(index, value, index == 0 or value == 3))
-		assertEquals(3, a detect(index, value, value type == "Number" and value > 1))
-		assertNil(a detect(index, value, value > 3))
-	)
+    testDetect := method(
+        # List detect requires at least one argument!
+        assertRaisesException(list() detect)
 
-	testDetect := method(
-		a := exampleList
-		assertRaisesException(a detect)
-		a detect(index, value, value = "a" or value == 3)
-		assertEquals("a", a detect(index, value, index == 0 or value == 3))
-		assertEquals(3, a detect(index, value, value type == "Number" and value > 1))
-		assertNil(a detect(index, value, value type == "Number" and value > 3))
-	)
+        # Testing normal cases:
+        # a) detect(aMessage)
+        assertEquals(3, exampleList detect(isKindOf(Number)))
+        assertEquals("a", exampleList detect(== "a"))
+
+        # b) detect(value, aMessage)
+        assertEquals(3, exampleList detect(value, value isKindOf(Number)))
+        assertEquals("a", exampleList detect(value, value == "a"))
+
+        # c) detect(index, value, aMessage)
+        assertEquals(3, exampleList detect(index, value,
+            value isKindOf(Number) and index == 2)
+        )
+        assertEquals("a", exampleList detect(index, value,
+            value == "a" and index == 0)
+        )
+
+        # Testing the case, where no elements match the given predicate,
+        # expecting nil to be returned.
+        assertNil(exampleList detect (isKindOf(Block)))
+
+        # Checking that no changes were made to the sender.
+        assertNil(getSlot("index"))
+        assertNil(getSlot("value"))
+
+        # Testing the case, where the message contains references to sender's
+        # slots. (ex. A4_Exception.io:201)
+        assertNil(
+            try(exampleList detect(== self exampleList at(0)))
+        ) # No exceptions should be raised.
+    )
 
 	testSort := method(
 		a := List clone append("a", "beta", "3")

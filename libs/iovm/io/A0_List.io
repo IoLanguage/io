@@ -92,47 +92,40 @@ list(1, 2, 3, 4) detect(v, v > 2)
 ==> 3</code>
 */
     detect := method(
-        a1 := call argAt(0)
-        if(a1 == nil, Exception raise("missing argument"))
-        a2 := call argAt(1)
-        a3 := call argAt(2)
+        # Creating a context, in which the body would be executed in.
+        # Note: since call sender isn't the actual sender object, but
+        # rather a proxy, you need to explicitly use self, to get
+        # the sender's slot value, f.ex. self size.
+        context := Object clone prependProto(call sender)
+        argCount := call argCount
 
-        if(a3,
-            a1 := a1 name
-            a2 := a2 name
-            self foreach(i, v,
-                call sender setSlot(a1, i)
-                call sender setSlot(a2, getSlot("v"))
-                ss := stopStatus(c := a3 doInContext(call sender, call sender))
-                if(ss isReturn, ss return getSlot("c"))
-                if(ss stopLooping, break)
-                if(ss isContinue, continue)
-                if(getSlot("c"), return getSlot("v"))
+        if(argCount == 0, Exception raise("missing argument"))
+        if(argCount == 1) then(
+            body := call argAt(0)
+            self foreach(value,
+                if(getSlot("value") doMessage(body, context),
+                    return getSlot("value")
+                )
             )
-            return nil
-        )
-
-        if(a2,
-            a1 := a1 name
-            self foreach(v,
-                call sender setSlot(a1, getSlot("v"))
-                ss := stopStatus(c := a2 doInContext(call sender, call sender))
-                if(ss isReturn, ss return getSlot("c"))
-                if(ss stopLooping, break)
-                if(ss isContinue, continue)
-                if(getSlot("c"), return getSlot("v"))
+        ) elseif(argCount == 2) then(
+            eName := call argAt(0) name # Element.
+            body  := call argAt(1)
+            self foreach(value,
+                context setSlot(eName, getSlot("value"))
+                if(context doMessage(body), return getSlot("value"))
             )
-            return nil
-        )
+        ) else(
+            iName := call argAt(0) name # Index.
+            eName := call argAt(1) name # Element.
+            body  := call argAt(2)
 
-        self foreach(v,
-            ss := stopStatus(c := a1 doInContext(getSlot("v"), call sender))
-            if(ss isReturn, ss return getSlot("c"))
-            if(ss stopLooping, break)
-            if(ss isContinue, continue)
-            if(getSlot("c"), return getSlot("v"))
+            self foreach(idx, value,
+                context setSlot(iName, idx)
+                context setSlot(eName, getSlot("value"))
+                if(context doMessage(body), return getSlot("value"))
+            )
         )
-        nil
+        nil # If nothing found, return nil.
     )
 
     /*doc List mapInPlace(optionalIndex, value, message)
