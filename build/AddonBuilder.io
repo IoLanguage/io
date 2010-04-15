@@ -128,7 +128,8 @@ AddonBuilder := Object clone do(
 			if(pkgLibs isEmpty,
 				depends libs append(v)
 			,
-				pkgLibs map(l, depends libs appendIfAbsent(l))
+                # `self depends` should have been there in the first place :(
+				pkgLibs map(l, self depends libs appendIfAbsent(l))
 			)
 			searchPrefixes appendIfAbsent(v)
 			pkgConfigCFlags(v) select(containsSeq("/")) foreach(p,

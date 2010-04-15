@@ -14,30 +14,43 @@ Project := Object clone do(
 		result
 	)
 
-	modulesInFolder := method(name,
-		folder := Directory clone setPath(name)
-		if(folder exists not, return List clone)
-		subfolders := folder directories
-		subfolders selectInPlace(fileNamedOrNil("build.io"))
-		subfolders map(f,
-			module := Lobby doString(f fileNamedOrNil("build.io") contents)
-			module folder setPath(f path)
-			module
-		)
-	)
+    modulesInFolder := method(path,
+        modules := list()
+        folder := Directory with(path)
 
-	addons := method(
-		self addons := modulesInFolder("addons") sortInPlaceBy(block(x, y, x name < y name))
-	)
-	
- 	buildAddon := method(name,
-		currentAddon := addons detect(addon, addon name == name)
-		if(currentAddon == nil,	Exception raise("No addon named " .. name .. " found!"))
-		currentAddon build(options)
-	)
+        if(folder exists,
+            folder walk(f, if(f name == "build.io",
+                # Some modules, might have invalid build files, in that case
+                # the error message will be printed.
+                try(
+                    module := Lobby doString(f contents)
+                    module folder setPath(f path)
+                    modules append(module)
+                ) catch(
+                    ("Module `#{f path split(\"/\") at(-2)}` " interpolate ..
+                     "has invalid build.io file!")  println
+                )
+            ))
+        )
+        modules
+    )
+
+    addons := lazySlot(modulesInFolder("addons") sortInPlace(name))
+
+    buildAddon := method(name,
+        currentAddon := addons detect(name == name)
+        if(currentAddon isNil,
+            # Probably it makes sense, to abstract this into the Project
+            # method, like Project error(aString).
+            "Addon `#{name}` not found!" interpolate println
+            System exit(1)
+        ,
+            currentAddon build(options)
+        )
+    )
 
 	availableAddon := method(addon,
-		if(addon hasSlot("isAvailable"), 
+		if(addon hasSlot("isAvailable"),
 			//writeln(addon name, " isAvailable")
 			return addon isAvailable
 		)
@@ -164,7 +177,7 @@ Project := Object clone do(
 		maxNameSize := availableAddons max(name size) name size
 		availableAddons foreach(addon,
 			path := Path with(addon folder path, "tests/correctness/run.io")
-			
+
 			if(File clone setPath(path) exists,
 				write(addon name alignLeft(maxNameSize), " - ")
 				File standardOutput flush
