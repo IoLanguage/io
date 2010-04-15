@@ -92,7 +92,7 @@ IOVM_API IO_METHOD(IoSeq, pathComponent);
 IOVM_API IO_METHOD(IoSeq, asOSPath);
 IOVM_API IO_METHOD(IoSeq, asIoPath);
 
-// occurance
+// occurrence
 
 IOVM_API IO_METHOD(IoSeq, beforeSeq);
 IOVM_API IO_METHOD(IoSeq, afterSeq);

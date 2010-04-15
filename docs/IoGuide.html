@@ -465,7 +465,7 @@ System args foreach(k, v, write("'", v, "'\n"))
 
 <h4>launchPath</h4>
 
-The System "launchPath" slot is set to the location on the initial source file that is executed; when the interactive prompt is started (without specifying a source file to execute), the launchPath is the current working directory:
+The System "launchPath" slot is set to the location of the initial source file that is executed; when the interactive prompt is started (without specifying a source file to execute), the launchPath is the current working directory:
 
 <pre>
 System launchPath
@@ -876,7 +876,7 @@ When an object is cloned, its "init" slot will be called if it has one.
 
 When an object receives a message it looks for a matching slot, if not found, the lookup continues depth first recursively in its protos. Lookup loops are detected (at runtime) and avoided. If the matching slot contains an activatable object, such as a Block or CFunction, it is activated, if it contains any other type of value it returns the value. Io has no globals and the root object in the Io namespace is called the Lobby.
 <p>
-Since there are no classes, there's no difference between a subclass and an instance. Here's an example of creating a the equivalent of a subclass: 
+Since there are no classes, there's no difference between a subclass and an instance. Here's an example of creating the equivalent of a subclass: 
 
 <pre>
 Io> Dog := Object clone
@@ -1484,7 +1484,7 @@ HttpServer handleRequest := method(aSocket,
 
 
 
-Io's futures are transparent. That is, when the result is ready, they become the result. If a message is sent to a future (besides the two methods it implements), it waits until it turns into the result before processing the message. Transparent futures are powerful because they allow programs minimize blocking while also freeing the programmer from managing the fine details of synchronization.
+Io's futures are transparent. That is, when the result is ready, they become the result. If a message is sent to a future (besides the two methods it implements), it waits until it turns into the result before processing the message. Transparent futures are powerful because they allow programs to minimize blocking while also freeing the programmer from managing the fine details of synchronization.
 
 <h4>Auto Deadlock Detection</h4>
 
@@ -2289,7 +2289,7 @@ Except for input and output, all strings should be kept in a fixed character wid
 </td><td></td><td>
 	
 
-Io source files are assumed to be in UTF8 (of which ASCII is a subset). When a source file is read, it s symbols and strings are stored in Sequences in their minimal fixed character width encoding. Examples:
+Io source files are assumed to be in UTF8 (of which ASCII is a subset). When a source file is read, its symbols and strings are stored in Sequences in their minimal fixed character width encoding. Examples:
 
 <pre>
 Io> "hello" encoding

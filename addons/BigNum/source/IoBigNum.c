@@ -2,7 +2,7 @@
 //metadoc BigNum category Math
 /*metadoc BigNum description
 A wrapper for <a href=http://gmplib.org/>GNU MP Bignum (arbitrary precision math) library</a>. 
-Warning: GMP uses the restrictive GNU license which can be a problem if you are hard linking it into a distrbuted application.
+Warning: GMP uses the restrictive GNU license which can be a problem if you are hard linking it into a distributed application.
 */
 
 #define DATA(self) ((IoBigNumData *)(IoObject_dataPointer(self)))
@@ -59,7 +59,7 @@ IoBigNum *IoBigNum_proto(void *state)
 		//doc BigNum >>(aNum) Shift right (towards lower bits) op. Returns result.
 		
 		, {"abs", IoBigNum_abs}
-		//doc BigNum abs absolute op. Returns result.
+		//doc BigNum abs Absolute op. Returns result.
 
 		, {"gcd", IoBigNum_gcd}
 		//doc BigNum gcd(aNum) Greatest common denominator op. Returns result.

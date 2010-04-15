@@ -4,7 +4,7 @@ CGI := Object clone do(
 //metadoc CGI category Networking
 
 /*metadoc CGI description
-CGI supports accessing CGI parameters passed in environment variable or standard input by a web servers like Apache.Example use:
+CGI supports accessing CGI parameters passed in environment variables or standard input by a web servers like Apache. Example use:
 <pre>
 #!./ioServer
 
@@ -165,7 +165,7 @@ asString (pretty string of name, type, size)
 
 
 	/*doc CGI setCookie(name, value, expiresDate, domain, path, secureBool) 
-	Sets a cookie, keep in mind this will not be available in cookies() until they next visit the site.  
+	Sets a cookie, keep in mind this will not be available in cookies() until they next visit to the site.  
 	Parameters other than name and value are optional.
 	*/
 
@@ -279,7 +279,7 @@ asString (pretty string of name, type, size)
 
 	/*doc CGI header(name, value, sendMultiple) 
 	Add a header to the output, may only be called before write() is called.  
-	One of each header will be send unless sendMultiple is true
+	One of each header will be sent unless sendMultiple is true
 	*/
 	header := method(name, value, sendMultiple,
 		if(_headersSent, Exception raise("Content already sent, no more headers may be transmitted"))
@@ -292,7 +292,7 @@ asString (pretty string of name, type, size)
 	_headersToSend := Map clone atPut("content-type", "text/html")
 
 
-	//doc CGI redirect(url) Send a location: and redirect the user.  May only be called before write() is called.  It is left to the caller to stop any further processing.")
+	//doc CGI redirect(url) Send a location: and redirect the user.  May only be called before write() is called.  It is left to the caller to stop any further processing.
 	redirect := method(url,
 		if(_headersSent, Exception raise("Content already sent, too late to redirect"))
 

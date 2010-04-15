@@ -2,8 +2,8 @@
 //metadoc SHA1 copyright Steve Dekorte 2002
 //metadoc SHA1 license BSD revised
 /*metadoc SHA1 description
-An object for calculating SHA1 hashes. Each has calculation 
-should instiate it's own SHA1 instance.
+An object for calculating SHA1 hashes. Each hash calculation 
+should instantiate its own SHA1 instance.
 
 <p>
 Example:

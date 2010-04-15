@@ -51,7 +51,7 @@ struct IoObjectData
 
 	unsigned int hasDoneLookup : 1;    // used to avoid slot lookup loops
 	unsigned int isActivatable : 1;    // if true, upon activation, call activate slot
-	unsigned int isDirty : 1;          // set to true when the object changes it's storable state
+	unsigned int isDirty : 1;          // set to true when the object changes its storable state
 
 	// optimizations
 

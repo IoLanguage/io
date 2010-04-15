@@ -126,7 +126,7 @@ IO_METHOD(IoSeq, asFixedSizeType)
 {
 	/*doc Sequence asFixedSizeType
 	Returns a new sequence with the receiver encoded in the 
-	minimal fixed width text encoding that it's characters can fit 
+	minimal fixed width text encoding that its characters can fit 
 	into (either, ascii, utf8, utf16 or utf32). 
 	*/
 	
@@ -403,7 +403,7 @@ IO_METHOD(IoSeq, between)
 {
 	/*doc Sequence betweenSeq(aSequence, anotherSequence)
 	Returns a new Sequence containing the bytes between the
-	occurance of aSequence and anotherSequence in the receiver. 
+	occurrence of aSequence and anotherSequence in the receiver. 
 	If aSequence is empty, this method is equivalent to beforeSeq(anotherSequence).
 	If anotherSequence is nil, this method is equivalent to afterSeq(aSequence).
 	nil is returned if no match is found.
@@ -472,7 +472,7 @@ IO_METHOD(IoSeq, between)
 IO_METHOD(IoSeq, findSeqs)
 {
 	/*doc Sequence findSeqs(listOfSequences, optionalStartIndex)
-	Returns a object with two slots - an \"index\" slot which contains 
+	Returns an object with two slots - an \"index\" slot which contains 
 	the first occurrence of any of the sequences in listOfSequences found 
 	in the receiver after the startIndex, and a \"match\" slot, which 
 	contains a reference to the matching sequence from listOfSequences. 
@@ -844,7 +844,7 @@ IO_METHOD(IoSeq, fromBase)
 IO_METHOD(IoSeq, toBase)
 {
 	/*doc Sequence toBase(aNumber)
-	Returns a Sequence containing the receiver(which is
+	Returns a Sequence containing the receiver (which is
 	assumed to be a base 10 number) converted to the specified base.
 	Only base 8 and 16 are currently supported. 
 	*/
@@ -878,7 +878,7 @@ IO_METHOD(IoSeq, toBase)
 	return IoSeq_newWithCString_(IOSTATE, ptr);
 }
 
-// this function only called by IoSeq_foreach()
+// this function is only called by IoSeq_foreach()
 IO_METHOD(IoSeq, each)
 {
 	IoState *state = IOSTATE;
@@ -917,7 +917,7 @@ IO_METHOD(IoSeq, foreach)
 {
 /*doc Sequence foreach(optionalIndex, value, message)
 For each element, set index to the index of the
-element and value the element value and execute message. 
+element and value to the element value and execute message. 
 Example:
 <pre>	
 aSequence foreach(i, v, writeln("value at index ", i, " is ", v))
@@ -1044,7 +1044,7 @@ IO_METHOD(IoSeq, asUppercase)
 IO_METHOD(IoSeq, asLowercase)
 {
 	/*doc Sequence asLowercase
-	Returns a symbol containing the reveiver made Lowercase. 
+	Returns a symbol containing the reveiver made lowercase. 
 	*/
 
 	UArray *ba = UArray_clone(DATA(self));
@@ -1287,7 +1287,7 @@ IO_METHOD(IoSeq, greaterThan_)
 IO_METHOD(IoSeq, lessThan_)
 {
 	/*doc Sequence lessThan(aSeq) 
-	Returns true if the receiver is lass than aSeq, false otherwise.
+	Returns true if the receiver is less than aSeq, false otherwise.
 	*/
 	
 	IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
@@ -1307,7 +1307,7 @@ IO_METHOD(IoSeq, greaterThanOrEqualTo_)
 IO_METHOD(IoSeq, lessThanOrEqualTo_)
 {
 	/*doc Sequence lessThanOrEqualTo(aSeq) 
-	Returns true if the receiver is lass than or equal to aSeq, false otherwise.
+	Returns true if the receiver is less than or equal to aSeq, false otherwise.
 	*/
 	
 	IoSeq *other = IoMessage_locals_seqArgAt_(m, locals, 0);
@@ -1328,8 +1328,8 @@ IO_METHOD(IoSeq, asStruct)
 {
 /*doc Sequence asStruct(memberList) 
 For a sequence that contains the data for a raw memory data structure (as used in C),
-this method can be used to extract it's members into an Object. The memberList argument
-specifies the layout of the datastructure. It's form is:
+this method can be used to extract its members into an Object. The memberList argument
+specifies the layout of the datastructure. Its form is:
 <p>
 list(memberType1, memberName1, memberType2, memberName2, ...)
 <p>

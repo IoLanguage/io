@@ -135,7 +135,7 @@ IoObject *IoSystem_proto(void *state)
 
 
 	/*doc System installPrefix
-	Returns the root path where io was install. The default is /usr/local.
+	Returns the root path where io was installed. The default is /usr/local.
 	*/
 	
 #ifndef WIN32

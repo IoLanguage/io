@@ -472,7 +472,7 @@ int IoAVCodec_findStreams(IoAVCodec *self)
 IoObject *IoAVCodec_isAtEnd(IoAVCodec *self, IoObject *locals, IoMessage *m)
 {
 	/*doc AVCodec isAtEnd
-	Returns true if the stream is at it's end, false otherwise.
+	Returns true if the stream is at its end, false otherwise.
 	*/
 	
 	return IOBOOL(self, DATA(self)->isAtEnd);

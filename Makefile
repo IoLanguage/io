@@ -172,7 +172,7 @@ clean:
 	for dir in $(libs); do \
 		$(MAKE) -C libs/$$dir clean; \
 	done
-	
+
 	( cd tools; $(MAKE) cleanDocs )
 	./_build/binaries/io_static$(BINARY_SUFFIX) build.io clean || true
 	-rm -f IoBindingsInit.*
@@ -198,7 +198,7 @@ dist:
 	git commit -q --no-verify -m "setting version string for release" | true
 	git archive --format=tar --prefix=Io-$(date)/ HEAD | gzip > Io-$(date).tar.gz
 	ls -al Io-$(date).tar.gz
-	
+
 metrics:
 	ls -1 libs/iovm/source/*.c | io -e 'File standardInput readLines map(asFile contents occurancesOfSeq(";")) sum .. " iovm"'
 	ls -1 libs/basekit/source/*.c | io -e 'File standardInput readLines map(asFile contents occurancesOfSeq(";")) sum .. " basekit"'

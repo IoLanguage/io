@@ -421,7 +421,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 
 	/*doc URL fetchToFile(aFile)
 	Fetch the url and save the result to the specified File object. 
-	Saving is done as the data is read, which help minimize memory usage. 
+	Saving is done as the data is read, which helps minimize memory usage. 
 	Returns self on success or nil on error.
 	*/
 	fetchToFile := method(file,
@@ -500,7 +500,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		
 	)
 	/*doc URL post(parameters, headers)
-	Sends an http post message. If parameters is a Map, it's key/value pairs are 
+	Sends an HTTP post message. If parameters is a Map, its key/value pairs are 
 	send as the post parameters. If parameters is a Sequence or String, it is sent directly.
 	Any headers in the headers map are sent with the request.
 	Returns a sequence containing the response on success or an Error, if one occurs.
@@ -602,7 +602,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 //doc Object doURL(urlString) Fetches the URL and evals it in the context of the receiver.
 Object doURL := method(url, self doString(URL clone setURL(url) fetch))
 
-//doc Sequence asURL Returns a new URL object instance with the receiver as it's url string.
+//doc Sequence asURL Returns a new URL object instance with the receiver as its url string.
 Sequence asURL := method(URL with(self))
 
 //doc Map asQueryString Returns an escaped query string representation of this map

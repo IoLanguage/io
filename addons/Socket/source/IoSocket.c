@@ -253,7 +253,7 @@ IoObject *IoSocket_asyncUdpOpen(IoSocket *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSocket_asyncConnect(IoSocket *self, IoObject *locals, IoMessage *m)
 {
-	//doc Socket asyncConnect(ipAddressObject) Connects ti the given IPAddress and returns self or an Error object on error.
+	//doc Socket asyncConnect(ipAddressObject) Connects to the given IPAddress and returns self or an Error object on error.
 	
 	IPAddress *address = IoMessage_locals_rawIPAddressArgAt_(m, locals, 0);
 	
@@ -330,7 +330,7 @@ IoObject *IoSocket_asyncListen(IoSocket *self, IoObject *locals, IoMessage *m)
 
 IoObject *IoSocket_asyncAccept(IoSocket *self, IoObject *locals, IoMessage *m)
 {
-	//doc Socket asyncAccept(ipAddressObject) Immediately returns a socket for an connection if one is available or nil otherwise. Returns an Error object on error.
+	//doc Socket asyncAccept(ipAddressObject) Immediately returns a socket for a connection if one is available or nil otherwise. Returns an Error object on error.
 
 	IPAddress *address = IoMessage_locals_rawIPAddressArgAt_(m, locals, 0);
 	Socket *socket = Socket_accept(SOCKET(self), address);

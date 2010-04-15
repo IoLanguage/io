@@ -8,7 +8,7 @@ AVCodec do(
 	
 	inputCoro ::= nil
 
-	//doc AVCodec internalCoro Returns coroutine used for the AVCodec to process data...
+	//doc AVCodec internalCoro Returns coroutine used for the AVCodec to process data.
 	//doc AVCodec setInternalCoro(aCoro) Private method for setting internalCoro. Returns self.
 	internalCoro ::= nil
 	
@@ -22,7 +22,7 @@ outputBuffer empty
 */
 	streamDestination ::= AudioDevice
 	
-	//doc AVCodec path Returns path to file the receiver is reading or writing to.
+	//doc AVCodec path Returns path to file the receiver is reading from or writing to.
 	//doc AVCodec setPath(aSeq) Sets the path to file the receiver is reading or writing to. Returns self.
 	path ::= nil
 	

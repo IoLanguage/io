@@ -134,7 +134,7 @@ IoObject *IoBlowfish_process(IoBlowfish *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Blowfish process
 	Process the inputBuffer and appends the result to the outputBuffer.
-	The processed inputBuffer is empties except for the spare 
+	The processed inputBuffer is emptied except for the spare 
 	bytes at the end which don't fit into a cipher block.
 	*/
 	blowfish_ctx *context = &(DATA(self)->context);

@@ -212,7 +212,7 @@ IoObject *IoSyslog_reopen(IoSyslog *self, IoObject *locals, IoMessage *m)
 IoObject *IoSyslog_isOpen(IoSyslog *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Syslog isOpen
-	Returns self if the log is opened for writing. Otherwise, returns Nil.")
+	Returns self if the log is opened for writing. Otherwise, returns Nil.
 	*/
 	
 	return IOBOOL(self, DATA(self)->syslog_opened);
@@ -221,7 +221,7 @@ IoObject *IoSyslog_isOpen(IoSyslog *self, IoObject *locals, IoMessage *m)
 IoObject *IoSyslog_close(IoSyslog *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Syslog close
-	Closes a log that has previously been opened for writing.")
+	Closes a log that has previously been opened for writing.
 	*/
 	
 	if (!DATA(self)->syslog_opened)
@@ -239,7 +239,7 @@ IoObject *IoSyslog_close(IoSyslog *self, IoObject *locals, IoMessage *m)
 IoObject *IoSyslog_identity(IoSyslog *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Syslog identity(optionalIdentity)
-	If optionalIdentity is specified, provides an identity for all of the messages you will be sending to the syslog daemon. Returns the identity.")
+	If optionalIdentity is specified, provides an identity for all of the messages you will be sending to the syslog daemon. Returns the identity.
 	*/
 	
 	if (IoMessage_argCount(m) >= 1)

@@ -170,7 +170,7 @@ Levels *Levels_new(IoMessage *msg)
 	IoState *state = IoObject_state(msg);
 	IoSymbol *operatorTableSymbol = IoState_symbolWithCString_(state, "OperatorTable");
 
-	/* Be ultra flexable, and try to use the first message's operator table. */
+	/* Be ultra flexible, and try to use the first message's operator table. */
 	IoObject *opTable = IoObject_rawGetSlot_(msg, operatorTableSymbol);
 
 	// Otherwise, use Core OperatorTable, and if that does not exist, create it.

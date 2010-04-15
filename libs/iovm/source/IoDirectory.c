@@ -302,7 +302,7 @@ IO_METHOD(IoDirectory, exists)
 {
 	/*doc Directory exists(optionalPath)
 	Returns true if the Directory path exists, and false otherwise.
-	If optionalPath string is provided, it tests the existance of that path instead. 
+	If optionalPath string is provided, it tests the existence of that path instead. 
 	*/
 
 	IoSymbol *path = DATA(self)->path;
@@ -563,7 +563,7 @@ int IoDirectory_SetCurrentWorkingDirectory(char *p)
 IO_METHOD(IoDirectory, setCurrentWorkingDirectory)
 {
 	/*doc Directory setCurrentWorkingDirectory(pathString)
-	Set's the current working directory path.
+	Sets the current working directory path.
 	Returns true on success or false on error.
 	*/
 
