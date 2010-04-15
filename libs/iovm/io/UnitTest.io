@@ -15,14 +15,14 @@ TestRunner := Object clone do(
         self exceptions := List clone
         self runtime := 0
     )
-//doc TestRunner testCount Returns the number of tests aggregated in this object.
+//doc TestRunner testCount Returns the number of tests to be ran.
     testCount := method(
         self cases values prepend(0) reduce(
             count, testSlotNames, count + testSlotNames size
         )
     )
 
-//doc TestRunner name Return the name of the TestRunner.
+//doc TestRunner name Returns the name of the TestRunner.
     name := method(
         # If we are running a single test, the the test's name
         # is taken as TestRunner's name, else processed file
@@ -116,7 +116,7 @@ RunnerMixIn := Object clone do(
 
 //doc UnitTest setUp Method called prior to each test.
 //doc UnitTest tearDown Method called after each test.
-//doc UnitTest fail Call to trigger a test failure.
+//doc UnitTest fail(error) Call to trigger a test failure with a given error message.
 UnitTest := Object clone prependProto(RunnerMixIn) do(
     setUp := method(nil)
     tearDown := method(nil)
@@ -132,7 +132,11 @@ UnitTest := Object clone prependProto(RunnerMixIn) do(
 
     prepare := method(Map with(self type, testSlotNames))
 
-    fail := method(Exception raise("fail"))
+    fail := method(error,
+        Exception raise(
+            if(error, error, "fail")
+        )
+    )
 
 //doc UnitTest assertEquals(a, b) Fail the running test if a != b.
 //doc UnitTest assertNotEquals(a, b) Fail the running test if a == b.
@@ -145,17 +149,28 @@ UnitTest := Object clone prependProto(RunnerMixIn) do(
 /*doc UnitTest assertEqualsWithinDelta(expected, actual, delta)
 Fail the running test if the expected value is not within delta of the actual value.
 */
-
     assertEquals := method(a, b, m,
-        //writeln("assertEquals1 call message = ", call message type)
-        mm := call message
-        if(m == nil, m = mm)
-        d := m argAt(0) code .. " != " .. call argAt(1) code
-        if(a != b, Exception raise("[" .. d .. "] [" .. a asSimpleString .. " != " .. b asSimpleString .. "]"))
-        //writeln("assertEquals2")
+        m ifNil(m = call message)
+        if(a != b,
+            # Since Message asString is the same as Message code,
+            # we don't have to access the latter excplitly inside
+            # the interpolated string.
+            fail(
+                ("`#{ m argAt(0) } != #{ m argAt(1) }` --> " .. \
+                 "`#{ a asSimpleString } != #{ b asSimpleString }`") interpolate
+            )
+        )
     )
 
-    assertNotEquals := method(a, b, if(a == b, Exception raise(a asSimpleString .. " == " .. b asSimpleString)))
+    assertNotEquals := method(a, b, m,
+        m ifNil(m = call message)
+        if(a == b,
+            fail(
+                ("`#{ m argAt(0) } == #{ m argAt(1) }` --> " .. \
+                 "`#{ a asSimpleString } == #{ b asSimpleString }`") interpolate
+            )
+        )
+    )
 
     assertSame    := method(a, b, assertEquals(a uniqueId, b uniqueId, call message))
     assertNotSame := method(a, b, assertNotEquals(a uniqueId, b uniqueId, call message))
@@ -165,17 +180,21 @@ Fail the running test if the expected value is not within delta of the actual va
     assertFalse   := method(a, assertEquals(a, false, call message))
 
     assertRaisesException := method(
-        exc := try(stopStatus(call evalArgAt(0)))
-        exc ifNil(Exception raise("Should have raised Exception"))
+        try(call evalArgAt(0)) ifNil(
+            fail("`#{call argAt(0)}` should have raised Exception" interpolate)
+        )
     )
 
     knownBug := method(
-        //writeln("  [known bug: ", call argAt(0) code, "]")
+        # Probably this should be a special case of assertEquals, so
+        # you can be sure that the bug still exists.
+        fail("`#{call argAt(0)}` is a known bug" interpolate)
     )
 
+    # Rename this method to assertAlmostEquals?
     assertEqualsWithinDelta := method(expected, actual, delta,
         if(((expected - actual) abs > delta),
-            Exception raise("expected " .. expected .. " but was " .. actual .. " (allowed delta: " .. delta .. ")")
+            fail("#{expected} expected, but was #{actual} (allowed delta: #{delta})")
         )
     )
 )
