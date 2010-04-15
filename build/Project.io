@@ -18,9 +18,11 @@ Project := Object clone do(
 		folder := Directory clone setPath(name)
 		if(folder exists not, return List clone)
 		subfolders := folder directories
-		subfolders selectInPlace(fileNamedOrNil("build.io"))
+		//subfolders selectInPlace(fileNamedOrNil("build.io"))
+		subfolders selectInPlace(directoryNamed("build") fileNamedOrNil("build.io"))
 		subfolders map(f,
-			module := Lobby doString(f fileNamedOrNil("build.io") contents)
+			//module := Lobby doString(f fileNamedOrNil("build.io") contents)
+			module := Lobby doString(f directoryNamed("build") fileNamedOrNil("build.io") contents)
 			module folder setPath(f path)
 			module
 		)
