@@ -95,6 +95,7 @@ DirectoryTest := UnitTest clone do(
         # as en equivalent to `rm -r ...` UNIX command.
         self files map(remove)
         self dirs map(remove)
+        testDir remove
     )
 )
 
