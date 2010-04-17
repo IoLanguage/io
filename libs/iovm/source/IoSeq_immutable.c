@@ -448,7 +448,8 @@ IO_METHOD(IoSeq, between)
 	if (ISSEQ(toSeq))
 	{
 		end = UArray_find_from_(DATA(self), DATA(toSeq), start);
-		if (end == -1) start = UArray_size(DATA(self));
+		//if (end == -1) start = UArray_size(DATA(self));
+		if (end == -1) return IONIL(self);
 	}
 	else if (ISNIL(toSeq))
 	{

@@ -2077,8 +2077,9 @@
 	AA86BF790B6051FF00495786 /* IoState_exceptions.c */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1313, 794}}";
-			sepNavSelRange = "{726, 0}";
+			sepNavSelRange = "{174, 0}";
 			sepNavVisRange = "{0, 848}";
+			sepNavWindowFrame = "{{272, 111}, {1362, 831}}";
 		};
 	};
 	AA86BF7D0B6051FF00495786 /* IoState_inline.h */ = {
@@ -2087,6 +2088,7 @@
 			sepNavSelRange = "{2389, 0}";
 			sepNavVisRange = "{2031, 1114}";
 			sepNavVisRect = "{{0, 296}, {1006, 543}}";
+			sepNavWindowFrame = "{{364, 27}, {1362, 831}}";
 		};
 	};
 	AA86BF7E0B6051FF00495786 /* IoState_symbols.c */ = {

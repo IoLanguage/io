@@ -270,88 +270,7 @@
 		</dict>
 	</array>
 	<key>OpenEditors</key>
-	<array>
-		<dict>
-			<key>Content</key>
-			<dict>
-				<key>PBXProjectModuleGUID</key>
-				<string>AA7A37C31179498900F607D0</string>
-				<key>PBXProjectModuleLabel</key>
-				<string>IoState_inline.h</string>
-				<key>PBXSplitModuleInNavigatorKey</key>
-				<dict>
-					<key>Split0</key>
-					<dict>
-						<key>PBXProjectModuleGUID</key>
-						<string>AA7A37C41179498900F607D0</string>
-						<key>PBXProjectModuleLabel</key>
-						<string>IoState_inline.h</string>
-						<key>_historyCapacity</key>
-						<integer>0</integer>
-						<key>bookmark</key>
-						<string>AA7A37C51179498900F607D0</string>
-						<key>history</key>
-						<array>
-							<string>AA7A37BE1179492D00F607D0</string>
-						</array>
-					</dict>
-					<key>SplitCount</key>
-					<string>1</string>
-				</dict>
-				<key>StatusBarVisibility</key>
-				<false/>
-			</dict>
-			<key>Geometry</key>
-			<dict>
-				<key>Frame</key>
-				<string>{{0, -1}, {1362, 811}}</string>
-				<key>PBXModuleWindowStatusBarHidden2</key>
-				<true/>
-				<key>RubberWindowFrame</key>
-				<string>364 27 1362 831 0 0 1920 1178 </string>
-			</dict>
-		</dict>
-		<dict>
-			<key>Content</key>
-			<dict>
-				<key>PBXProjectModuleGUID</key>
-				<string>AA7A37C61179498900F607D0</string>
-				<key>PBXProjectModuleLabel</key>
-				<string>IoState_exceptions.c</string>
-				<key>PBXSplitModuleInNavigatorKey</key>
-				<dict>
-					<key>Split0</key>
-					<dict>
-						<key>PBXProjectModuleGUID</key>
-						<string>AA7A37C71179498900F607D0</string>
-						<key>PBXProjectModuleLabel</key>
-						<string>IoState_exceptions.c</string>
-						<key>_historyCapacity</key>
-						<integer>0</integer>
-						<key>bookmark</key>
-						<string>AA7A37C81179498900F607D0</string>
-						<key>history</key>
-						<array>
-							<string>AA7A37BA117948FF00F607D0</string>
-						</array>
-					</dict>
-					<key>SplitCount</key>
-					<string>1</string>
-				</dict>
-				<key>StatusBarVisibility</key>
-				<false/>
-			</dict>
-			<key>Geometry</key>
-			<dict>
-				<key>Frame</key>
-				<string>{{0, -1}, {1362, 811}}</string>
-				<key>PBXModuleWindowStatusBarHidden2</key>
-				<true/>
-				<key>RubberWindowFrame</key>
-				<string>272 111 1362 831 0 0 1920 1178 </string>
-			</dict>
-		</dict>
-	</array>
+	<array/>
 	<key>PerspectiveWidths</key>
 	<array>
 		<integer>-1</integer>
@@ -616,7 +535,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>293161353.44364202</real>
+	<real>293161733.51231301</real>
 	<key>ToolbarConfigUserDefaultsMinorVersion</key>
 	<string>2</string>
 	<key>ToolbarDisplayMode</key>
@@ -636,8 +555,6 @@
 		<string>1C530D57069F1CE1000CFCEE</string>
 		<string>1C530D52069F1CE1000CFCEE</string>
 		<string>/Users/steve/Developer/opensource/io/extras/osx/osx.xcodeproj</string>
-		<string>AA7A37C61179498900F607D0</string>
-		<string>AA7A37C31179498900F607D0</string>
 	</array>
 	<key>WindowString</key>
 	<string>104 752 446 419 0 0 1920 1178 </string>
