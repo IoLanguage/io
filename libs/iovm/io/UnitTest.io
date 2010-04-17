@@ -1,4 +1,4 @@
-//metadoc UnitTest category Test
+//metadoc UnitTest category Testing
 /*metadoc UnitTest description
 An object for organizing and running unit tests validated by assertions.
 */
@@ -27,10 +27,10 @@ TestRunner := Object clone do(
         # If we are running a single test, the the test's name
         # is taken as TestRunner's name, else processed file
         # name is returned.
-        name := if(self cases size > 1,
+        if(self cases size > 1,
             System launchScript fileName
         ,
-            self cases keys first
+            if(self cases size > 0, self cases keys first, "")
         )
     )
 
@@ -94,7 +94,7 @@ to run and values - lists of test slots theese UnitTests provide.*/
     printSummary := method(
         "-" repeated(width) println
         ("Ran " .. testCount .. " test" .. if(testCount != 1, "s", "") .. \
-         " in " .. self runtime .. "\n") println
+         " in " .. runtime .. "s\n") println
 
         result := if(exceptions isNotEmpty,
             "FAILED (failures #{exceptions size})" interpolate
