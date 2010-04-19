@@ -48,9 +48,15 @@ DirectoryTest := UnitTest clone do(
 
         # Checking that all the subdirectories are walked.
         found := list()
-        testDir walk(f, found append(f name))
+        testDir walk(f, if(f isKindOf(File), found append(f name)))
         assertEquals(3, found size)
         assertEquals(self files map(name), found)
+
+        # Checking that "." and ".." are excluded.
+        found := list()
+        testDir walk(f, found append(f name))
+        assertFalse(found contains("."))
+        assertFalse(found contains(".."))
     )
 
     testRecursiveFilesOfTypes := method(
