@@ -160,9 +160,10 @@ Directory.io
 		return File clone setPath(Path with(path, name))
 	)
 
-	//doc Directory moveTo(aPath) Moves the directory to the specified path.
-	moveTo := method(path,
-		File with(self path) moveTo(path)
-		self
-	)
+    //doc Directory moveTo(aPath) Moves the directory to the specified path.
+    moveTo := method(path,
+        File with(self path) moveTo(path)
+        # Setting path slot to the new location, if everything went okay.
+        self setPath(path)
+    )
 )

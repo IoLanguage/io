@@ -24,7 +24,7 @@ Project := Object clone do(
                 # the error message will be printed.
                 try(
                     module := Lobby doString(f contents)
-                    module folder setPath(f path)
+                    module folder setPath(f path pathComponent)
                     modules append(module)
                 ) catch(
                     ("Module `#{f path split(\"/\") at(-2)}` " interpolate ..
