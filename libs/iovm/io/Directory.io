@@ -4,19 +4,21 @@ Directory do(
 
     /*doc Directory walk
     Recursively walks the current directory, and executes a given callback on
-    each file found.
-<code>
-Io> Directory with(".") walk(println)
+    each item (either File or Directory) found, excluding "." and "..".
+<pre>
+Io> Directory walk(println)
 A0_List.io
 A1_OperatorTable.io
 ...
-Io> Directory with(".") walk(f, if(f startsWithSeq("Directory"), f println))
+Io> Directory walk(f, if(f name startsWithSeq("Directory"), f println))
 Directory.io
-</code>
+</pre>
     */
     walk := method(
         # We call a given message on each file in the directory, being walked...
-        call delegateToMethod(files, "map")
+        call delegateToMethod(
+            items select(item, item name != "." and item name !=".."), "map"
+        )
         # .. and then recursively walk all subdirectories, if there is any.
         if(directories size > 0,
             directories map(dir, call delegateTo(dir))
@@ -106,9 +108,10 @@ Directory.io
         # |
         # horrible name, really
         found := list()
-        walk(file,
-            if(suffixes detect(suffix, file name endsWithSeq(suffix)),
-                found append(file)
+        walk(item,
+            if(item isKindOf(File) and \
+               suffixes detect(suffix, item name endsWithSeq(suffix)),
+                found append(item)
             )
         )
         found
