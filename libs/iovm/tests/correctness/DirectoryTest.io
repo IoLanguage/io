@@ -96,6 +96,27 @@ DirectoryTest := UnitTest clone do(
         assertFalse(Directory with("iDontExist") isAccessible)
     )
 
+    testMoveTo := method(
+        # Note: Directory directoryNamed wasn't used intentionally.
+        name := self testDir path .. "/" .. "test"
+        d := Directory with(name) create
+        assertEquals("testMoved", d moveTo("testMoved") path lastPathComponent)
+        # Making sure the old directory doesn't exist
+        assertFalse(Directory with(name) isAccessible)
+        d remove
+
+        # Testing exceptions:
+        # a) directory to move doesn't exist
+        assertRaisesException(Directory with("iDontExist") moveTo("someWhere"))
+        # b) directory already exists
+        # IMPORTANT: this is a bug! stevedekorte/issues//38
+        # d1 := Directory with("test1") create
+        # d2 := Directory with("test2") create
+        # assertRaisesException(d1 moveTo("test2"))
+        # d1 remove
+        # d2 remove
+    )
+
     tearDown := method(
         # Note: probably it makes sense to add Directory removeRecursive method,
         # as en equivalent to `rm -r ...` UNIX command.
