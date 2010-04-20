@@ -1,9 +1,9 @@
+//metadoc System category Core
 //metadoc System copyright Steve Dekorte, 2002
 //metadoc System license BSD revised
 /*metadoc System description
 Contains methods related to the IoVM.
 */
-//metadoc System category Core
 
 #include "IoSystem.h"
 #include "IoNumber.h"
@@ -135,7 +135,7 @@ IoObject *IoSystem_proto(void *state)
 
 
 	/*doc System installPrefix
-	Returns the root path where io was install. The default is /usr/local.
+	Returns the root path where io was installed. The default is /usr/local.
 	*/
 	
 #ifndef WIN32

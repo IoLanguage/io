@@ -5,7 +5,7 @@
  *
  *  It's possible to use an external UArray for loading by calling
  *  JPGImage_setExternalUArray_(), but be carefull not to use the
- *  JPGImage instance after freeing it's external byte array.
+ *  JPGImage instance after freeing its external byte array.
  */
 
 #ifndef JPGIMAGE_DEFINED

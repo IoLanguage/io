@@ -252,7 +252,7 @@ IoObject *IoFont_drawString(IoFont *self, IoObject *locals, IoMessage *m)
 	/*doc Font drawString(aString, optionalStartIndex, optionalEndIndex)
 	Draws aString using the optional start and end indexes, if supplied. Returns self.
 <p>
-Note; Fonts are draw as RGBA pixel maps. These blending options are recommended:
+Note; Fonts are drawn as RGBA pixel maps. These blending options are recommended:
 <pre>	
 glEnable(GL_BLEND)
 glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)

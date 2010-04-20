@@ -6,7 +6,7 @@ DOConnection := Object clone do(
 //metadoc DOConnection category Networking
 
 /*metadoc DOConnection description 
-The DOConnection object is usefull for communicating with remote servers in a way that makes it look just like the sending of local messages. Proxies are automatically created on either side for passed objects, with the exception of strings and numbers, which are passed by value. Example:
+The DOConnection object is useful for communicating with remote servers in a way that makes it look just like the sending of local messages. Proxies are automatically created on either side for passed objects, with the exception of strings and numbers, which are passed by value. Example:
 <pre>
 con := DOConnection clone setHost("127.0.0.1") setPort(8456) connect
 result := con serverObject test(1)

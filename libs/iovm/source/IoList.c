@@ -1,10 +1,10 @@
 
+//metadoc List category Core
 //metadoc List copyright Steve Dekorte 2002
 //metadoc List license BSD revised
 /*metadoc List description
 A mutable array of values. The first index is 0.
 */
-//metadoc List category Core
 
 #include "IoList.h"
 #include "IoObject.h"

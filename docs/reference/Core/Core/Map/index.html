@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Map</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Core</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>Core</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>Map</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>A key/value dictionary appropriate for holding large key/value collections.
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="Map-asJson"></a><b>
+asJson
+</b>
+<p>
+<div class=slotDescription>
+Converts a Map to a string that represents contents in JSON-compilant form
+</div>
+<a name="Map-asList"></a><b>
+asList
+</b>
+<p>
+<div class=slotDescription>
+Converts a Map to a list of lists. Each element in the returned list will be a list of two elements: the key, and the value.
+</div>
+<a name="Map-asObject"></a><b>
+asObject
+</b>
+<p>
+<div class=slotDescription>
+Create a new Object whose slotDescriptionMap will be equal to self
+</div>
+<a name="Map-asQueryString"></a><b>
+asQueryString
+</b>
+<p>
+<div class=slotDescription>
+Returns an escaped query string representation of this map
+</div>
+<a name="Map-at"></a><b>
+at(keyString, optionalDefaultValue)
+</b>
+<p>
+<div class=slotDescription>
+Returns the value for the key keyString. Returns nil if the key is absent.
+</div>
+<a name="Map-atIfAbsentPut"></a><b>
+atIfAbsentPut(keyString, aValue)
+</b>
+<p>
+<div class=slotDescription>
+If a value is present at the specified key, the value is returned. 
+	Otherwise, inserts/sets aValue and returns aValue.
+</div>
+<a name="Map-atPut"></a><b>
+atPut(keyString, aValue)
+</b>
+<p>
+<div class=slotDescription>
+Inserts/sets aValue with the key keyString. Returns self.
+</div>
+<a name="Map-detect"></a><b>
+detect(optionalIndex, optionalValue, message)
+</b>
+<p>
+<div class=slotDescription>
+Returns a random value for which message evals to non-nil.
+</div>
+<a name="Map-empty"></a><b>
+empty
+</b>
+<p>
+<div class=slotDescription>
+Removes all keys from the receiver. Returns self.
+</div>
+<a name="Map-foreach"></a><b>
+foreach(optionalKey, value, message)
+</b>
+<p>
+<div class=slotDescription>
+For each key value pair, sets the locals key to
+the key and value to the value and executes message.
+Example:
+<pre>	aMap foreach(k, v, writeln(k, " = ", v))
+aMap foreach(v, write(v))</pre>	
+
+Example use with a block:
+
+<pre>	myBlock = block(k, v, write(k, " = ", v, "\n"))
+aMap foreach(k, v, myBlock(k, v))</pre>
+</div>
+<a name="Map-hasKey"></a><b>
+hasKey(keyString)
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the key is present or false otherwise.
+</div>
+<a name="Map-hasValue"></a><b>
+hasValue(aValue)
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the value is one of the Map's values or false otherwise.
+</div>
+<a name="Map-isEmpty"></a><b>
+isEmpty
+</b>
+<p>
+<div class=slotDescription>
+returns true if this map doesn't contain any pairs.
+</div>
+<a name="Map-isNotEmpty"></a><b>
+isNotEmpty
+</b>
+<p>
+<div class=slotDescription>
+returns true if this map contains at least one pair.
+</div>
+<a name="Map-justSerialized"></a><b>
+justSerialized(stream)
+</b>
+<p>
+<div class=slotDescription>
+Writes the receiver's code into the stream.
+</div>
+<a name="Map-keys"></a><b>
+keys
+</b>
+<p>
+<div class=slotDescription>
+Returns a List of the receivers keys.
+</div>
+<a name="Map-map"></a><b>
+map(key, value, message)
+</b>
+<p>
+<div class=slotDescription>
+Create a List of results of message applied to self's items in a random
+		order.
+</div>
+<a name="Map-merge"></a><b>
+merge(anotherMap)
+</b>
+<p>
+<div class=slotDescription>
+Returns a new map created by merging the pairs from anotherMap into this map
+</div>
+<a name="Map-mergeInPlace"></a><b>
+mergeInPlace(anotherMap)
+</b>
+<p>
+<div class=slotDescription>
+Merges the pairs from anotherMap into this map
+</div>
+<a name="Map-removeAt"></a><b>
+removeAt(keyString)
+</b>
+<p>
+<div class=slotDescription>
+Removes the specified keyString if present. Returns self.
+</div>
+<a name="Map-reverseMap"></a><b>
+reverseMap
+</b>
+<p>
+<div class=slotDescription>
+Create a new Map using values as keys and keys as values
+</div>
+<a name="Map-select"></a><b>
+select(optionalIndex, optionalValue, message)
+</b>
+<p>
+<div class=slotDescription>
+Create a new Map with keys,values of self for which message evaluated
+		to non-nil.
+</div>
+<a name="Map-size"></a><b>
+size
+</b>
+<p>
+<div class=slotDescription>
+Returns the number of key/value pairs in the receiver.
+</div>
+<a name="Map-values"></a><b>
+values
+</b>
+<p>
+<div class=slotDescription>
+Returns a List of the receivers values.
+</div>
+<a name="Map-with"></a><b>
+with(key1, value1, key2, value2, ...)
+</b>
+<p>
+<div class=slotDescription>
+Returns a new map containing the given keys and values
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

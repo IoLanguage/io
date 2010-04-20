@@ -3,7 +3,7 @@
 //metadoc TokyoCabinet copyright Steve Dekorte 2002
 //metadoc TokyoCabinet license BSD revised
 /*metadoc TokyoCabinet description
-An ordered key/value database that supports transactions and arbitrary kay and value sizes.
+An ordered key/value database that supports transactions and arbitrary key and value sizes.
 */
 
 #include "IoTokyoCabinet.h"
@@ -313,7 +313,7 @@ IoObject *IoTokyoCabinet_sync(IoObject *self, IoObject *locals, IoMessage *m)
 IoObject *IoTokyoCabinet_size(IoObject *self, IoObject *locals, IoMessage *m)
 {
 	/*doc TokyoCabinet size
-	Returns number of records in database. Returns self
+	Returns number of records in the database. Returns self
 	*/
 	
 	int result;

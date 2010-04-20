@@ -9,8 +9,16 @@
 		<body>
 		
 <br>
-<h1>Range Proto</h1>
-<br><br><br><br><br><br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Core</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>Range</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>Range</b>
+<br><br><br>
+<br><br><br>
 <table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
 <tr>
 <td align=right></td>
@@ -46,7 +54,7 @@ contains
 </b>
 <p>
 <div class=slotDescription>
-Returns a boolean value if the range contains the argument. This works independant of any increment value.
+Returns a boolean value if the range contains the argument.
 </div>
 <a name="Range-first"></a><b>
 first
@@ -108,11 +116,28 @@ levenshtein(other)
 Returns the levenshtein distance to other.
 </div>
 <a name="Range-map"></a><b>
-map([value], body)
+map(optionalIndex, value, message)
 </b>
 <p>
 <div class=slotDescription>
-Returns a new list which contains the result of the 'body' for every element stepped over in the range, from the starting point to the ending point inclusive.
+Returns a new list which contains the result of the 'body' for every element 
+	stepped over in the range, from the starting point to the ending point inclusive. 
+	This method can operate several ways; these include: 
+	(1) Takes one argument, the message tree to be executed during each iteration; (2) 
+	Takes two arguments, the first argument is the name of the current value being 
+	iterated over, and the second is the message tree to be executed during each 
+	iteration; (3) Takes three arguments: the first is the current index within the 
+	range, the second is the name of the current value being iterated over, and the 
+	third is the message tree to be executed during each iteration. 
+	For example:
+<pre>
+# First method (operating on numbers)
+1 to(10) map(*2) # multiply each value by two
+# Second method (operating on numbers)
+1 to(10) map(v, "#{v}" interpolate) # returns string representation of each value as list
+# Third method (operating on numbers)
+1 to(10) map(i, v, i*v) #  multiply each value by index
+</pre>
 </div>
 <a name="Range-next"></a><b>
 next

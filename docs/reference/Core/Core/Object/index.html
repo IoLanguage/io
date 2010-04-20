@@ -9,15 +9,23 @@
 		<body>
 		
 <br>
-<h1>Object Proto</h1>
-<br><br><br><br><br><br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Core</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>Core</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>Object</b>
+<br><br><br>
+<br><br><br>
 <table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
 <tr>
 <td align=right></td>
 <td></td>
 <td>An Object is a key/value dictionary with string keys and values of any type.
 The prototype Object contains a clone slot that is a CFuntion that creates new objects.
-When cloned, an Object will call it's init slot (with no arguments).
+When cloned, an Object will call its init slot (with no arguments).
 </td></tr>
 <tr><td colspan=3>&nbsp;</td></tr>
 <tr><td colspan=3>&nbsp;</td></tr>
@@ -113,13 +121,13 @@ description: Sends the message aMessage to the receiver if it can respond to it.
 <p>
 <div class=slotDescription>
 Sends asynchronous message to an object, returns a FutureProxy.
-  <br/>
-  Caller coroutine is paused when proxy is accessed (i.e. message is sent)
-  till result is ready. Proxy will become an actual result when it is ready.
-  <br/>
-  See IoGuide for more information.
-  <br/>
-  Usage: obj @someMethod(a, b, c)
+	<br/>
+	Caller coroutine is paused when proxy is accessed (i.e. message is sent)
+	till result is ready. Proxy will become an actual result when it is ready.
+	<br/>
+	See IoGuide for more information.
+	<br/>
+	Usage: obj @someMethod(a, b, c)
 </div>
 <a name="Object-@@"></a><b>
 @@
@@ -127,9 +135,9 @@ Sends asynchronous message to an object, returns a FutureProxy.
 <p>
 <div class=slotDescription>
 Same as Object @, but returns nil instead of FutureProxy.
-  <br/>
-  Might be useful in a command line or as a last expression in a block/method when
-  you don't want to return a future.
+	<br/>
+	Might be useful in a command line or as a last expression in a block/method when
+	you don't want to return a future.
 </div>
 <a name="Object-NullCharacter"></a><b>
 NullCharacter
@@ -534,8 +542,8 @@ handleActorException(exception)
 <p>
 <div class=slotDescription>
 Callback for handling exceptions during asynchronous message processing.
-  <br/>
-  Default value: method(e, e showStack)
+	<br/>
+	Default value: method(e, e showStack)
 </div>
 <a name="Object-hasLocalSlot"></a><b>
 hasLocalSlot(slotNameString)
@@ -698,7 +706,7 @@ launchFile(pathString)
 </b>
 <p>
 <div class=slotDescription>
-Eval file at pathString as if from the command line in it's folder.
+Eval file at pathString as if from the command line in its folder.
 </div>
 <a name="Object-lazySlot"></a><b>
 lazySlot(code)
@@ -813,7 +821,7 @@ newSlot(slotName, aValue)
 <p>
 <div class=slotDescription>
 Creates a getter and setter for the slot with the name slotName
-	and sets it's default the value aValue. Returns self. For example,
+	and sets its default value to aValue. Returns self. For example,
 	newSlot("foo", 1) would create slot named foo with the value 1 as well as a setter method setFoo().
 </div>
 <a name="Object-not"></a><b>
@@ -853,7 +861,7 @@ pause
 Removes current coroutine from the yieldingCoros queue and
 	yields to another coro. Exits if no coros left.
 	<br/>
-  See Coroutine documentation for more details.
+	See Coroutine documentation for more details.
 </div>
 <a name="Object-perform"></a><b>
 perform(methodName, &lt;arg1&gt;, &lt;arg2&gt;, ...)
@@ -1064,7 +1072,7 @@ setIsActivatable(aValue)
 <p>
 <div class=slotDescription>
 When called with a non-Nil aValue, sets the object
-	to call it's activate slot when accessed as a value. Turns this behavior
+	to call its activate slot when accessed as a value. Turns this behavior
 	off if aValue is Nil. Only works on Objects which are not Activatable
 	Primitives (such as CFunction or Block). Returns self.
 </div>
@@ -1137,7 +1145,7 @@ slotNames
 <p>
 <div class=slotDescription>
 Returns a list of strings containing the names of the
-	slots in the receiver (but not in it's lookup path).
+	slots in the receiver (but not in its lookup path).
 </div>
 <a name="Object-slotSummary"></a><b>
 slotSummary
@@ -1321,8 +1329,8 @@ yield
 <p>
 <div class=slotDescription>
 Yields to another coroutine. Does nothing if yieldingCoros queue is empty.
-  <br/>
-  See Coroutine documentation for more details.
+	<br/>
+	See Coroutine documentation for more details.
 </div>
 </td>
 </tr>

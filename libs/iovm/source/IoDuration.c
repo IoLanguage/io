@@ -1,10 +1,10 @@
 
+//metadoc Duration category Time
 //metadoc Duration copyright Steve Dekorte 2002
 //metadoc Duration license BSD revised
 /*metadoc Duration description
 A container for a duration of time.
 */
-//metadoc Duration category Time
 
 #include "IoDuration.h"
 #include "IoState.h"

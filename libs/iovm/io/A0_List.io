@@ -261,7 +261,13 @@ list(1, 2, 3, 4) detect(v, v > 2)
     //doc List itemCopy Returns a new list containing the items from the receiver.
     itemCopy := method(List clone copy(self))
 
+    //doc List sort Returns a new list containing the sorted items from the receiver.
     sort := method(self clone sortInPlace)
+    /*doc List sortBy(aBlock)
+        Returns a new list containing the items from the receiver, sorted using aBlock as compare function. Example:
+<code>list(1, 3, 2, 4, 0) sortBy(block(a, b, a > b))
+==> list(4, 3, 2, 1, 0)</code>
+*/
     sortBy := method(b, self clone sortInPlaceBy(getSlot("b")))
 
     //doc List second Returns second element (same as <tt>at(1)</tt>)

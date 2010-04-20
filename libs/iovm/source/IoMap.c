@@ -1,10 +1,10 @@
 
+//metadoc Map category Core
 //metadoc Map copyright Steve Dekorte 2002
 //metadoc Map license BSD revised
 /*metadoc Map description
 A key/value dictionary appropriate for holding large key/value collections.
 */
-//metadoc Map category DataStructures
 
 #include "IoMap.h"
 #include "IoObject.h"

@@ -1,10 +1,10 @@
 
+//metadoc Coroutine category Core
 //metadoc Coroutine copyright Steve Dekorte 2002
 //metadoc Coroutine license BSD revised
 /*metadoc Coroutine description
 Object wrapper for an Io coroutine.
 */
-//metadoc Coroutine category Core
 
 #include "IoCoroutine.h"
 #include "IoObject.h"

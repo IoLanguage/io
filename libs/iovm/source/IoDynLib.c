@@ -1,10 +1,10 @@
 
+//metadoc DynLib category Core
 //metadoc DynLib copyright Steve Dekorte 2002
 //metadoc DynLib license BSD revised
 /*metadoc DynLib description
 A DLL Loader by Kentaro A. Kurahone.
 */
-//metadoc DynLib category Core
 
 
 #include "IoObject.h"
@@ -68,7 +68,7 @@ IoDynLib *IoDynLib_rawClone(IoDynLib *proto)
 {
 	/*
 	Note that due to the nature of this object, a clone will *NOT* inherit
-	it's parent's dynamically loaded object.
+	its parent's dynamically loaded object.
 	*/
 
 	IoObject *self = IoObject_rawClonePrimitive(proto);
