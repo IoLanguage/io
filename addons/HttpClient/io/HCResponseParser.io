@@ -1,3 +1,8 @@
+//metadoc HCResponseParser category Networking
+//metadoc HCResponseParser copyright Rich Collins, 2010
+//metadoc HCResponseParser license BSD revised
+//metadoc HCResponseParser description Handles parsing response received during an HCConnection
+
 HCResponseParser := Object clone do(
 	data ::= nil
 	response ::= nil
@@ -29,7 +34,7 @@ HCResponseParser := Object clone do(
 	)
 	
 	parseHeaders := method(
-		data afterSeq(lineTerminator) beforeSeq(headerTerminator) println
+//data afterSeq(lineTerminator) beforeSeq(headerTerminator) println
 		data afterSeq(lineTerminator) beforeSeq(headerTerminator) split(lineTerminator) foreach(headerLine,
 			response addHeader(headerLine beforeSeq(":"), headerLine afterSeq(":") strip)
 		)

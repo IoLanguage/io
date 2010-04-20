@@ -1,3 +1,12 @@
+//metadoc HCConnection category Networking
+//metadoc HCConnection copyright Rich Collins, 2010
+//metadoc HCConnection license BSD revised
+//metadoc HCConnection description Sends an HCRequest using the HTTP protcol and stores the response in an HCResponse
+
+//doc HCConnection request An HCRequest describing the HTTP request to be sent
+//doc HCConnection response An HCResponse describing the response received from the remote host
+//doc HCConnection sendRequest Send the request and set the response
+
 HCConnection := Object clone do(
 	request ::= nil
 	response ::= nil
@@ -37,7 +46,6 @@ HCConnection := Object clone do(
 	)
 	
 	sendMessage := method(
-		httpMessage println
 		socket write(httpMessage) raiseIfError
 	)
 	
@@ -48,7 +56,6 @@ HCConnection := Object clone do(
 			socket streamReadNextChunk raiseIfError
 			parser parseMessageIfPossible
 			if(parser contentReceived,
-				"contentReceived close socket" println
 				socket close
 			)
 		)
