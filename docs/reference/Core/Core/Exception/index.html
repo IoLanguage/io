@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Exception</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Core</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>Core</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>Exception</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>The Exception proto is used for raising exceptions and instances are used to hold rexception related info. 
+
+<p><b>Raise</b><p>
+
+An exception can be raised by calling raise() on an exception proto.
+Exception raise("generic foo exception")
+
+<p><b>Try and Catch</b><p>
+
+To catch an exception, the try() method of the Object proto is used. try() will catch any exceptions that occur within it and return the caught exception or nil if no exception is caught.
+
+<pre>
+e := try(<doMessage>)
+</pre>
+
+To catch a particular exception, the Exception catch() method can be used. Example:
+
+<pre>
+e := try(
+    // ...
+) 
+
+e catch(Exception,
+    writeln(e coroutine backtraceString)
+)
+</pre>
+
+The first argument to catch indicates which types of exceptions will be caught. catch() returns the exception if it doesn't match and nil if it does.
+
+<p><b>Pass</b><p>
+
+To re-raise an exception caught by try(), use the pass method. This is useful to pass the exception up to the next outer exception handler, usually after all catches failed to match the type of the current exception:
+<pre>
+e := try(
+    // ...
+) 
+
+e catch(Error,
+    // ...
+) catch(Exception,
+    // ...
+) pass
+</pre>
+
+<p><b>Custom Exceptions</b><p>
+
+Custom exception types can be implemented by simply cloning an existing Exception type:
+<pre>
+MyErrorType := Error clone
+</pre>
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="Exception-catch"></a><b>
+catch(exceptionProto)
+</b>
+<p>
+<div class=slotDescription>
+Catch an exception with the specified exception prototype.
+</div>
+<a name="Exception-caughtMessage"></a><b>
+caughtMessage
+</b>
+<p>
+<div class=slotDescription>
+Returns the message object associated with the exception.
+</div>
+<a name="Exception-error"></a><b>
+error
+</b>
+<p>
+<div class=slotDescription>
+Returns the coroutine that the exception occurred in.
+</div>
+<a name="Exception-nestedException"></a><b>
+nestedException
+</b>
+<p>
+<div class=slotDescription>
+Returns the nestedException if there is one.
+</div>
+<a name="Exception-originalCall"></a><b>
+originalCall
+</b>
+<p>
+<div class=slotDescription>
+Returns the call object associated with the exception.
+</div>
+<a name="Exception-pass"></a><b>
+pass
+</b>
+<p>
+<div class=slotDescription>
+Pass the exception up the stack.
+</div>
+<a name="Exception-raise"></a><b>
+raise(error, optionalNestedException)
+</b>
+<p>
+<div class=slotDescription>
+Raise an exception with the specified error message.
+</div>
+<a name="Exception-showStack"></a><b>
+showStack
+</b>
+<p>
+<div class=slotDescription>
+Print the exception and related stack.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

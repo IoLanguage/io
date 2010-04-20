@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Random</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Math</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>Random</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>Random</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>A high quality and reasonably fast random number generator based on 
+Makoto Matsumoto, Takuji Nishimura, and Eric Landry's implementation 
+of the <a href=http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/emt.html>Mersenne Twister</a> algorithm. The default seed is a xor of 
+the ANSI C time() and clock() return values.
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="Random-bytes"></a><b>
+bytes(count)
+</b>
+<p>
+<div class=slotDescription>
+Returns a Sequence of size count containing random bytes.
+</div>
+<a name="Random-flip"></a><b>
+flip
+</b>
+<p>
+<div class=slotDescription>
+Returns a random bit as a true or false object.
+</div>
+<a name="Random-gaussian"></a><b>
+gaussian(optionalMean, optionalStandardDeviation)
+</b>
+<p>
+<div class=slotDescription>
+Returns a pseudo random number between 0 and 1 with a gaussian distribution.
+</div>
+<a name="Random-setSeed"></a><b>
+setSeed(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Sets the random number generator seed to the unsigned int version of aNumber.
+</div>
+<a name="Random-value"></a><b>
+value(optionalArg1, optionalArg2)
+</b>
+<p>
+<div class=slotDescription>
+If called with:
+	<ul>
+	<li> no arguments, it returns a floating point
+	random Number between 0 and 1.
+	<li> one argument, it returns a floating point random
+	Number between 0 and optionalArg1.
+	<li> two arguments, it returns a floating point random
+	Number between optionalArg1 and optionalArg2.
+	</ul>
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

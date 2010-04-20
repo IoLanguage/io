@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>LibSndFile</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Audio</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>LibSndFile</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>LibSndFile</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>An object for encoding and decoding audio files (principally WAV and AIFF) using the 
+<a href=http://www.mega-nerd.com/libsndfile/>Libsndfile</a> library.
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="LibSndFile-channels"></a><b>
+channels
+</b>
+<p>
+<div class=slotDescription>
+Returns channels read from the audio file.
+</div>
+<a name="LibSndFile-close"></a><b>
+close
+</b>
+<p>
+<div class=slotDescription>
+Closes the file if it is open. 
+	Returns self.
+</div>
+<a name="LibSndFile-format"></a><b>
+format
+</b>
+<p>
+<div class=slotDescription>
+Returns format read from the audio file.
+</div>
+<a name="LibSndFile-formatNames"></a><b>
+formatNames
+</b>
+<p>
+<div class=slotDescription>
+Returns a list of strings with the names of the supported codecs.
+</div>
+<a name="LibSndFile-openForReading"></a><b>
+openForReading
+</b>
+<p>
+<div class=slotDescription>
+Opens the file at the path specified in the path slot and sets the following slots:
+<pre>
+frames
+sampleRate
+channels
+format
+seekable
+</pre>
+Returns self.
+</div>
+<a name="LibSndFile-openForWriting"></a><b>
+openForWriting
+</b>
+<p>
+<div class=slotDescription>
+Opens the file at the path specified in the path slot for writing. The following slots should be set first to specify the output format:
+<pre>
+sampleRate
+channels
+format
+</pre>
+Returns self.
+</div>
+<a name="LibSndFile-outputBuffer"></a><b>
+outputBuffer
+</b>
+<p>
+<div class=slotDescription>
+Returns the output buffer.
+</div>
+<a name="LibSndFile-path"></a><b>
+path
+</b>
+<p>
+<div class=slotDescription>
+Returns path to audio file.
+</div>
+<a name="LibSndFile-read"></a><b>
+read(numberOfFrames)
+</b>
+<p>
+<div class=slotDescription>
+Read a given number of frames (sample pairs).
+	Returns self.
+</div>
+<a name="LibSndFile-sampleRate"></a><b>
+sampleRate
+</b>
+<p>
+<div class=slotDescription>
+Returns sample rate read from the audio file.
+</div>
+<a name="LibSndFile-setFormat"></a><b>
+setFormat(aSeq)
+</b>
+<p>
+<div class=slotDescription>
+Sets the format used for writing. Use the formatNames method to get a list of supported format names. Returns self.
+</div>
+<a name="LibSndFile-setPath"></a><b>
+setPath(aPath)
+</b>
+<p>
+<div class=slotDescription>
+Sets path to audio file.
+</div>
+<a name="LibSndFile-write"></a><b>
+write(aSeq)
+</b>
+<p>
+<div class=slotDescription>
+Writes aSeq using the format specified by the slots:
+<pre>
+sampleRate
+channels
+format
+</pre>
+Returns the number of frames written.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

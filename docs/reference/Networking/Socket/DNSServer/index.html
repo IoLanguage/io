@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>DNSServer</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Networking</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>Socket</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>DNSServer</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>An object representing a DNSServer which DNS requests can be sent to.
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="DNSServer-host"></a><b>
+host
+</b>
+<p>
+<div class=slotDescription>
+The host name (usually an IP) for the DNSServer.
+</div>
+<a name="DNSServer-ipForHostName"></a><b>
+ipForHostName(hostName, timeout)
+</b>
+<p>
+<div class=slotDescription>
+Sends a request to the DNS server, waits for a response and returns it. Will try 3 times if there are timeouts.
+	Returns the IP (as a Sequence) if successful, raises an exception otherwise.
+</div>
+<a name="DNSServer-setHost"></a><b>
+setHost(aSeq)
+</b>
+<p>
+<div class=slotDescription>
+Sets the host name for the DNSServer.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

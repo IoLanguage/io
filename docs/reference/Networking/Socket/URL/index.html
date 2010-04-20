@@ -1,0 +1,221 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>URL</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Networking</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>Socket</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>URL</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<font color=#888>
+<a name="URL-clear"></a><b>
+clear
+</b>
+<p>
+<div class=slotDescription>
+Private method to clear the URL's parsed attributes.
+</font>
+</div>
+<a name="URL-escapeString"></a><b>
+escapeString(aString)
+</b>
+<p>
+<div class=slotDescription>
+Returns a new String that is aString with the appropriate characters replaced by their URL escape codes.
+</div>
+<a name="URL-fetch"></a><b>
+fetch
+</b>
+<p>
+<div class=slotDescription>
+Fetches the url and returns the result as a Sequence. Returns an Error, if one occurs.
+</div>
+<font color=#888>
+<a name="URL-fetchHttp"></a><b>
+fetchHttp(optionalProgressBlock)
+</b>
+<p>
+<div class=slotDescription>
+Private method that fetches an http url.
+</font>
+</div>
+<a name="URL-fetchRaw"></a><b>
+fetchRaw
+</b>
+<p>
+<div class=slotDescription>
+Fetch and return the entire response. Note: This may have problems for some request times.
+</div>
+<a name="URL-fetchToFile"></a><b>
+fetchToFile(aFile)
+</b>
+<p>
+<div class=slotDescription>
+Fetch the url and save the result to the specified File object. 
+	Saving is done as the data is read, which helps minimize memory usage. 
+	Returns self on success or nil on error.
+</div>
+<a name="URL-fetchWithProgress"></a><b>
+fetchWithProgress(progressBlock)
+</b>
+<p>
+<div class=slotDescription>
+Same as fetch, but with each read, progressBlock is called with the readBuffer 
+	and the content size as parameters.
+</div>
+<font color=#888>
+<a name="URL-headerBreaks"></a><b>
+headerBreaks
+</b>
+<p>
+<div class=slotDescription>
+Private method to connect to the host and write the header.
+</font>
+</div>
+<a name="URL-openOnDesktop"></a><b>
+openOnDesktop
+</b>
+<p>
+<div class=slotDescription>
+Opens the URL in the local default browser. Supports OSX, Windows and (perhaps) other Unixes.
+</div>
+<font color=#888>
+<a name="URL-parse"></a><b>
+parse
+</b>
+<p>
+<div class=slotDescription>
+Private method to parse the url.
+</font>
+</div>
+<a name="URL-post"></a><b>
+post(parameters, headers)
+</b>
+<p>
+<div class=slotDescription>
+Sends an HTTP post message. If parameters is a Map, its key/value pairs are 
+	send as the post parameters. If parameters is a Sequence or String, it is sent directly.
+	Any headers in the headers map are sent with the request.
+	Returns a sequence containing the response on success or an Error, if one occurs.
+</div>
+<font color=#888>
+<a name="URL-processHttpResponse"></a><b>
+processHttpResponse(optionalProgressBlock)
+</b>
+<p>
+<div class=slotDescription>
+Private method that processes http response.
+</font>
+</div>
+<a name="URL-referer"></a><b>
+referer
+</b>
+<p>
+<div class=slotDescription>
+Returns the referer String or nil if not set.
+</div>
+<a name="URL-requestHeader"></a><b>
+requestHeader
+</b>
+<p>
+<div class=slotDescription>
+Returns a Sequence containing the request header that will be sent.
+</div>
+<a name="URL-setReferer"></a><b>
+setReferer(aString)
+</b>
+<p>
+<div class=slotDescription>
+Sets the referer. Returns self.
+</div>
+<font color=#888>
+<a name="URL-setRequest"></a><b>
+setRequest(requestString)
+</b>
+<p>
+<div class=slotDescription>
+Private method to set the url request.
+</font>
+</div>
+<font color=#888>
+<a name="URL-setResponseHeaderString"></a><b>
+setResponseHeaderString(headerString)
+</b>
+<p>
+<div class=slotDescription>
+Private method that parses the responseHeaders.
+</font>
+</div>
+<a name="URL-setURL"></a><b>
+setURL(urlString)
+</b>
+<p>
+<div class=slotDescription>
+Sets the url string and parses into the protocol, host, port path, and query slots. Returns self.
+</div>
+<a name="URL-stopFetch"></a><b>
+stopFetch
+</b>
+<p>
+<div class=slotDescription>
+Stops the fetch, if there is one. Returns self.
+</div>
+<font color=#888>
+<a name="URL-test"></a><b>
+test
+</b>
+<p>
+<div class=slotDescription>
+Private test method.
+</font>
+</div>
+<a name="URL-unescapeString"></a><b>
+unescapeString(aString)
+</b>
+<p>
+<div class=slotDescription>
+Returns a new String that is aString with the URL escape codes replaced by the appropriate characters.
+</div>
+<a name="URL-url"></a><b>
+url
+</b>
+<p>
+<div class=slotDescription>
+Returns url string.
+</div>
+<a name="URL-with"></a><b>
+with(urlString)
+</b>
+<p>
+<div class=slotDescription>
+Returns a new URL instance for the url in the urlString.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

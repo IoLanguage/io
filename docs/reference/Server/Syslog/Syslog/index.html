@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Syslog</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Server</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>Syslog</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>Syslog</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>Provides access to a Unix system's system logger.
+<p>
+<pre>
+logger = Syslog clone do(
+	identity("SyslogTest")
+	facility(facilityMap at("LOG_USER"))
+	options(List append(optionsMap at("LOG_PID"), optionsMap at("LOG_CONS")))
+	priority(priorityMap at("LOG_INFO"))
+	open(facility, options)
+	mask(List append(maskMap at("LOG_PRIMASK")))
+	log(priority, "*** Merely a test ***")
+	close
+)
+</pre>	
+
+<p>
+Note: This is partially tested. Please let me know of any problems you happen to stumble across, or if it could be better. --Jeremy Tregunna
+<p>
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="Syslog-close"></a><b>
+close
+</b>
+<p>
+<div class=slotDescription>
+Closes a log that has previously been opened for writing.
+</div>
+<a name="Syslog-facility"></a><b>
+facility(optionalFacility)
+</b>
+<p>
+<div class=slotDescription>
+Specifies the logging facility, which can be one of any of the values 
+	found in the facilityMap map. If optionalFacility is omitted, returns 
+	the currently set facility.
+</div>
+<a name="Syslog-facilityMap"></a><b>
+facilityMap
+</b>
+<p>
+<div class=slotDescription>
+Contains the following keys, which represent numbers that can be used when opening a log:
+	<p>
+	<ul>
+	 <li>LOG_KERN</li>
+	 <li>LOG_USER</li>
+	 <li>LOG_MAIL</li>
+	 <li>LOG_DAEMON</li>
+	 <li>LOG_AUTH</li>
+	 <li>LOG_SYSLOG</li>
+	 <li>LOG_LPR</li>
+	 <li>LOG_NEWS</li>
+	 <li>LOG_UUCP</li>
+	 <li>LOG_CRON</li>
+	 <li>LOG_AUTHPRIV</li>
+	 <li>LOG_FTP</li>
+	 <li>LOG_RESERVED0</li>
+	 <li>LOG_RESERVED1</li>
+	 <li>LOG_RESERVED2</li>
+	 <li>LOG_RESERVED3</li>
+	 <li>LOG_LOCAL0</li>
+	 <li>LOG_LOCAL1</li>
+	 <li>LOG_LOCAL2</li>
+	 <li>LOG_LOCAL3</li>
+	 <li>LOG_LOCAL4</li>
+	 <li>LOG_LOCAL5</li>
+	 <li>LOG_LOCAL6</li>
+	 <li>LOG_LOCAL7</li>
+	</ul>
+</div>
+<a name="Syslog-identity"></a><b>
+identity(optionalIdentity)
+</b>
+<p>
+<div class=slotDescription>
+If optionalIdentity is specified, provides an identity for all of the messages you will be sending to the syslog daemon. Returns the identity.
+</div>
+<a name="Syslog-isOpen"></a><b>
+isOpen
+</b>
+<p>
+<div class=slotDescription>
+Returns self if the log is opened for writing. Otherwise, returns Nil.
+</div>
+<a name="Syslog-log"></a><b>
+log
+</b>
+<p>
+<div class=slotDescription>
+Writes the supplied data to the log. Requires 2 arguments:
+	<p>
+	<ul>
+	<li>Logging Priority</li>
+	<li>Message to log</li>
+	</ul>
+</div>
+<a name="Syslog-mask"></a><b>
+mask(optionalMask)
+</b>
+<p>
+<div class=slotDescription>
+If optionalMask is specified, optionalMask is a list which contains 
+	any one or more values stored in the maskMap hash that will be OR'd 
+	together, to provide the proper mask. Returns the logging mask (as a List).
+</div>
+<a name="Syslog-maskMap"></a><b>
+maskMap
+</b>
+<p>
+<div class=slotDescription>
+Contains keys/value pairs which represent numbers that specify the 
+	logging mask. These values may be any one (or more) of the following:
+	<p>
+	<ul>
+	<li>LOG_PRIMASK</li>
+	<li>LOG_FACMASK</li>
+	</ul>
+</div>
+<a name="Syslog-open"></a><b>
+open(aPriority, someOptions, optionalIdentity)
+</b>
+<p>
+<div class=slotDescription>
+Opens the syslog for writing. optionalIdentity need not be entered 
+	and will default to the name of the distribution of Io you are running 
+	or if you have embedded Io into your application and set 
+	Lobby distribution = "foo", it will be set to "foo".
+</div>
+<a name="Syslog-options"></a><b>
+options(optionalOptions)
+</b>
+<p>
+<div class=slotDescription>
+If optionalOptions is specified, it should represent a list of the logging 
+	options you can find in the optionsMap slot. All the values in the supplied 
+	aList will be OR'd together when you call the open or reopen slots. 
+	Returns the list of options if optionalFacility is omitted.
+</div>
+<a name="Syslog-optionsMap"></a><b>
+optionsMap
+</b>
+<p>
+<div class=slotDescription>
+A map containing key/value pairs holding all available options. These include:
+	<p>
+	<ul>
+	<li>LOG_PID</li>
+	<li>LOG_CONS</li>
+	<li>LOG_ODELAY</li>
+	<li>LOG_NDELAY</li>
+	<li>LOG_NOWAIT</li>
+	<li>LOG_PERROR</li>
+	</ul>
+</div>
+<a name="Syslog-priority"></a><b>
+priority(optionalPriority)
+</b>
+<p>
+<div class=slotDescription>
+If optionalPriority is specified, sets the value, and returns it. 
+	If no value is specified, will return the previously stored value if 
+	one has been set previously.
+</div>
+<a name="Syslog-priorityMap"></a><b>
+priorityMap
+</b>
+<p>
+<div class=slotDescription>
+Contains key/value pairs for logging priorities for use when calling the log() method. These include:
+	<p>
+	<ul>
+	<li>LOG_EMERG</li>
+	<li>LOG_ALERT</li>
+	<li>LOG_CRIT</li>
+	<li>LOG_ERR</li>
+	<li>LOG_WARNING</li>
+	<li>LOG_NOTICE</li>
+	<li>LOG_INFO</li>
+	<li>LOG_DEBUG</li>
+	</ul>
+</div>
+<a name="Syslog-reopen"></a><b>
+reopen(aFacility, someOptions, optionalIdentity)
+</b>
+<p>
+<div class=slotDescription>
+Reopens an already open log session. This is useful if you wish to 
+	change the facility you are logging to, the options you are logging 
+	with, or the identity of the session. Takes the same options as the open slot.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>SQLite</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Databases</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>SQLite</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>SQLite</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>SQLite provides a embedded simple and fast (2x faster than PostgreSQL or MySQL) SQL database. See http://www.hwaci.com/sw/sqlite/ for details. It's SQL command set is described at http://www.hwaci.com/sw/sqlite/lang.html. SQLite was written by Dr. Richard Hipp who offers consulting services for custom modifications and support of SQLite. Example:
+<pre>	
+db := SQLite clone
+db setPath("myDatabase.sqlite")
+db open
+db exec("CREATE TABLE Dbm (key, value)")
+db exec("CREATE INDEX DbmIndex ON Dbm (key)")
+db exec("INSERT INTO Dbm ('key', 'value') VALUES ('a', '123')")
+db exec("INSERT INTO Dbm ('key', 'value') VALUES ('a', 'efg')")
+rows := db exec("SELECT key, value FROM Dbm WHERE key='a'")
+db exec("DELETE FROM Dbm WHERE key='a'")
+rows := db exec("SELECT key, value FROM Dbm WHERE key='a'")
+db close
+</pre>
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="SQLite-changes"></a><b>
+changes
+</b>
+<p>
+<div class=slotDescription>
+Returns the number of rows that were changed by the most 
+	recent SQL statement. Or Nil if the database is closed.
+</div>
+<a name="SQLite-close"></a><b>
+close
+</b>
+<p>
+<div class=slotDescription>
+Closes the database if it is open. Returns self. 
+	If the database is open when the open is garbage collected, 
+	it will be automatically closed.
+</div>
+<a name="SQLite-columnNamesOfTable"></a><b>
+columnNamesOfTable(tableName)
+</b>
+<p>
+<div class=slotDescription>
+Returns a list containing the names of all columns in the specified table.
+</div>
+<a name="SQLite-debugOff"></a><b>
+debugOff
+</b>
+<p>
+<div class=slotDescription>
+Turns off debugging.
+</div>
+<a name="SQLite-debugOn"></a><b>
+debugOn
+</b>
+<p>
+<div class=slotDescription>
+Turns on debugging.
+</div>
+<a name="SQLite-error"></a><b>
+error
+</b>
+<p>
+<div class=slotDescription>
+Results a string containing the current error. 
+	If there is no error, Nil is returned.
+</div>
+<a name="SQLite-escapeString"></a><b>
+escapeString(aString)
+</b>
+<p>
+<div class=slotDescription>
+Returns a translated version of aString by making two 
+	copies of every single-quote (') character. This has the effect 
+	of escaping the end-of-string meaning of single-quote within a string literal.
+</div>
+<a name="SQLite-exec"></a><b>
+exec(aString)
+</b>
+<p>
+<div class=slotDescription>
+Opens the database if it is not already open and executes
+	aString as an sql command. Results a List of Map objects or Nil if
+	there was an error. Each map holds the contents of a row.
+	The key/value pairs of the maps being column name/column value
+	pairs for a row. ")
+</div>
+<a name="SQLite-isOpen"></a><b>
+isOpen
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the database is open, false otherwise.
+</div>
+<a name="SQLite-lastInsertRowId"></a><b>
+lastInsertRowId
+</b>
+<p>
+<div class=slotDescription>
+Returns the number with the row id of the last row inserted.
+</div>
+<a name="SQLite-open"></a><b>
+open(optionalPathString)
+</b>
+<p>
+<div class=slotDescription>
+Opens the database.Returns self on success or nil upon failure.
+	If the databse is locked, "yield" will be called until it is 
+	accessable or timeoutSeconds has expired.
+</div>
+<a name="SQLite-path"></a><b>
+path
+</b>
+<p>
+<div class=slotDescription>
+Returns the path to the database file.
+</div>
+<a name="SQLite-setPath"></a><b>
+setPath(aSeq)
+</b>
+<p>
+<div class=slotDescription>
+Sets the path to the database file. Returns self.
+</div>
+<a name="SQLite-setTimeoutSeconds"></a><b>
+setTimeoutSeconds(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Sets the open timeout to aNumber. If aNumber is 0, an open 
+	call will never timeout. Returns self.
+</div>
+<a name="SQLite-tableNames"></a><b>
+tableNames
+</b>
+<p>
+<div class=slotDescription>
+Returns a list containing the names of all tables in the database.
+</div>
+<a name="SQLite-timeoutSeconds"></a><b>
+timeoutSeconds
+</b>
+<p>
+<div class=slotDescription>
+Returns the number of seconds to wait before timing out an open call. 
+	If the number is 0, an open call will never timeout.
+</div>
+<a name="SQLite-version"></a><b>
+version
+</b>
+<p>
+<div class=slotDescription>
+Results a string the version of SQLite being used.
+</div>
+<a name="SQLite-viewNames"></a><b>
+viewNames
+</b>
+<p>
+<div class=slotDescription>
+Returns a list containing the names of all views in the database.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

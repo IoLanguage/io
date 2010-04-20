@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>LZODecoder</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Compression</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>LZO</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>LZODecoder</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>The LZO object can be used to  uncompress data using the 
+<a href=http://en.wikipedia.org/wiki/Lempel-Ziv-Oberhumer> Lempel-Ziv-Oberhumer (LZO)</a> 
+lossless data compression algorithm.
+<p>
+Example use;
+<pre>	
+z = LZODecoder clone
+z beginProcessing
+z inputBuffer appendSeq("this is a message")
+z process
+z endProcess
+result := z outputBuffer 
+</pre>
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="LZODecoder-beginProcessing"></a><b>
+beginProcessing
+</b>
+<p>
+<div class=slotDescription>
+Initializes the algorithm.
+</div>
+<a name="LZODecoder-endProcessing"></a><b>
+endProcessing
+</b>
+<p>
+<div class=slotDescription>
+Finish processing remaining bytes of inputBuffer.
+</div>
+<a name="LZODecoder-process"></a><b>
+process
+</b>
+<p>
+<div class=slotDescription>
+Process the inputBuffer and appends the result to the outputBuffer.
+	The processed inputBuffer is emptied except for the spare bytes at 
+	the end which don't fit into a cipher block.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

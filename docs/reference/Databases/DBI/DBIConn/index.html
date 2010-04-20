@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>DBIConn</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Databases</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>DBI</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>DBIConn</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>An object that represents a DBI Connection.
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="DBIConn-close"></a><b>
+close
+</b>
+<p>
+<div class=slotDescription>
+Close the connection to the database.
+</div>
+<a name="DBIConn-connect"></a><b>
+connect
+</b>
+<p>
+<div class=slotDescription>
+Connect to the database server.
+</div>
+<a name="DBIConn-driver"></a><b>
+driver
+</b>
+<p>
+<div class=slotDescription>
+Return database driver name.
+</div>
+<a name="DBIConn-execute"></a><b>
+execute(sql_query)
+</b>
+<p>
+<div class=slotDescription>
+Perform a database query that expects no results. 
+	Returns the number of rows affected.
+</div>
+<a name="DBIConn-option"></a><b>
+option(key)
+</b>
+<p>
+<div class=slotDescription>
+Retrieve an option value for the connection.
+</div>
+<a name="DBIConn-optionClear"></a><b>
+optionClear(key)
+</b>
+<p>
+<div class=slotDescription>
+Clear a specific option associated with the connection.
+</div>
+<a name="DBIConn-optionPut"></a><b>
+optionPut(key,value)
+</b>
+<p>
+<div class=slotDescription>
+Add an option key, value pair to the connection.
+</div>
+<a name="DBIConn-options"></a><b>
+options
+</b>
+<p>
+<div class=slotDescription>
+Retrieve an option list of the connection.
+</div>
+<a name="DBIConn-optionsClear"></a><b>
+optionsClear
+</b>
+<p>
+<div class=slotDescription>
+Clear all options associated with the connection
+</div>
+<a name="DBIConn-ping"></a><b>
+ping
+</b>
+<p>
+<div class=slotDescription>
+Ping the database to see if it's alive. 
+	Will return true if it is, otherwise false.
+</div>
+<a name="DBIConn-query"></a><b>
+query(sql_query)
+</b>
+<p>
+<div class=slotDescription>
+Perform a database query returning a DBIResult object.
+</div>
+<a name="DBIConn-queryOne"></a><b>
+queryOne([object], sql)
+</b>
+<p>
+<div class=slotDescription>
+Perform a query and return the first
+	result.
+
+	If [object] is supplied, the object is populated with the contents of the
+	result, the result is marked done and the object is returned.
+</div>
+<a name="DBIConn-quote"></a><b>
+quote(value)
+</b>
+<p>
+<div class=slotDescription>
+Quote a string value according to the database server's specifications.
+</div>
+<a name="DBIConn-sequenceLast"></a><b>
+sequenceLast([name])
+</b>
+<p>
+<div class=slotDescription>
+Return the last inserted sequence value.
+</div>
+<a name="DBIConn-sequenceNext"></a><b>
+sequenceNext([name])
+</b>
+<p>
+<div class=slotDescription>
+Return the next sequence that will be used during an INSERT query.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

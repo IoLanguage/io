@@ -1,0 +1,353 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Coroutine</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Core</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>Core</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>Coroutine</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>Coroutine is an primitive for Io's lightweight cooperative C-stack based threads.
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="Coroutine-backTraceString"></a><b>
+backTraceString
+</b>
+<p>
+<div class=slotDescription>
+Returns a formatted callStack output along with exception info (if any). In case of CGI script, wraps output with &lt;code&gt; tag.
+</div>
+<a name="Coroutine-callStack"></a><b>
+callStack
+</b>
+<p>
+<div class=slotDescription>
+Returns a list of Call objects.
+</div>
+<a name="Coroutine-currentCoroutine"></a><b>
+currentCoroutine
+</b>
+<p>
+<div class=slotDescription>
+Returns currently running coroutine in Io state.
+</div>
+<a name="Coroutine-debugWriteln"></a><b>
+debugWriteln
+</b>
+<p>
+<div class=slotDescription>
+See <tt>Object debugWriteln</tt>.
+</div>
+<a name="Coroutine-exception"></a><b>
+exception
+</b>
+<p>
+<div class=slotDescription>
+Returns the current exception or nil if there is none.
+</div>
+<a name="Coroutine-freeStack"></a><b>
+freeStack
+</b>
+<p>
+<div class=slotDescription>
+Frees all the internal data from the receiver's stack. Returns self.
+</div>
+<a name="Coroutine-ignoredCoroutineMethodNames"></a><b>
+ignoredCoroutineMethodNames
+</b>
+<p>
+<div class=slotDescription>
+List of methods to ignore when building a <tt>callStack</tt>.
+</div>
+<a name="Coroutine-implementation"></a><b>
+implementation
+</b>
+<p>
+<div class=slotDescription>
+Returns coroutine implementation type: "fibers", "ucontext" or "setjmp"
+</div>
+<a name="Coroutine-inException"></a><b>
+inException
+</b>
+<p>
+<div class=slotDescription>
+Set to true when processing an exception in the coroutine.
+</div>
+<a name="Coroutine-ioStack"></a><b>
+ioStack
+</b>
+<p>
+<div class=slotDescription>
+Returns List of values on this coroutine's stack.
+</div>
+<a name="Coroutine-isCurrent"></a><b>
+isCurrent
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the receiver is currently running coroutine.
+</div>
+<a name="Coroutine-isYielding"></a><b>
+isYielding
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the receiver is yielding (not paused or running).
+</div>
+<a name="Coroutine-label"></a><b>
+label
+</b>
+<p>
+<div class=slotDescription>
+A label slot useful for debugging purposes.
+</div>
+<a name="Coroutine-main"></a><b>
+main
+</b>
+<p>
+<div class=slotDescription>
+[Seems to be obsolete!] Executes runMessage, resumes parent coroutine.
+</div>
+<a name="Coroutine-parentCoroutine"></a><b>
+parentCoroutine
+</b>
+<p>
+<div class=slotDescription>
+Returns the parent coroutine this one was chained from or nil if it wasn't chained. When a Coroutine ends, it will attempt to resume its parent.
+</div>
+<a name="Coroutine-pause"></a><b>
+pause
+</b>
+<p>
+<div class=slotDescription>
+Removes current coroutine from the yieldingCoros queue and
+		yields to another coro. <tt>System exit</tt> is executed if no coros left.
+		<br/>
+		You can resume a coroutine using either <tt>resume</tt> or <tt>resumeLater</tt> message.
+</div>
+<a name="Coroutine-pauseCurrentAndResumeSelf"></a><b>
+pauseCurrentAndResumeSelf
+</b>
+<p>
+<div class=slotDescription>
+Pauses current coroutine and yields to a receiver.
+</div>
+<a name="Coroutine-raiseException"></a><b>
+raiseException
+</b>
+<p>
+<div class=slotDescription>
+Sets exception in the receiver and resumes parent coroutine.
+</div>
+<a name="Coroutine-result"></a><b>
+result
+</b>
+<p>
+<div class=slotDescription>
+The result set when the coroutine ends.
+</div>
+<a name="Coroutine-resume"></a><b>
+resume
+</b>
+<p>
+<div class=slotDescription>
+Yields to the receiver. Runs the receiver if it is not running yet. 
+	Returns self.
+</div>
+<a name="Coroutine-resumeLater"></a><b>
+resumeLater
+</b>
+<p>
+<div class=slotDescription>
+Promotes receiver to the top of the yieldingCoros queue, but not yielding to it.
+		When current coroutine yields, receiver will resume.
+</div>
+<a name="Coroutine-resumeParentCoroutine"></a><b>
+resumeParentCoroutine
+</b>
+<p>
+<div class=slotDescription>
+Pauses current coroutine and resumes parent.
+</div>
+<a name="Coroutine-run"></a><b>
+run
+</b>
+<p>
+<div class=slotDescription>
+Runs receiver and returns self.
+</div>
+<a name="Coroutine-runLocals"></a><b>
+runLocals
+</b>
+<p>
+<div class=slotDescription>
+The locals object in whose context the coroutine will send its run message.
+</div>
+<a name="Coroutine-runMessage"></a><b>
+runMessage
+</b>
+<p>
+<div class=slotDescription>
+The message to send to the runTarget when the coroutine starts.
+</div>
+<a name="Coroutine-runTarget"></a><b>
+runTarget
+</b>
+<p>
+<div class=slotDescription>
+The object which the coroutine will send a message to when it starts.
+</div>
+<a name="Coroutine-setException"></a><b>
+setException
+</b>
+<p>
+<div class=slotDescription>
+
+</div>
+<a name="Coroutine-setInException"></a><b>
+setInException(aBool)
+</b>
+<p>
+<div class=slotDescription>
+Set the inException status. Returns self.
+</div>
+<a name="Coroutine-setLabel"></a><b>
+setLabel(aLabel)
+</b>
+<p>
+<div class=slotDescription>
+Sets the comment label for the Coro. Return self.
+</div>
+<a name="Coroutine-setMessageDebugging"></a><b>
+setMessageDebugging(aBoolean)
+</b>
+<p>
+<div class=slotDescription>
+Turns on message level debugging for this coro. When on, this
+	coro will send a vmWillSendMessage message to the Debugger object before
+	each message send and pause itself. See the Debugger object documentation
+	for more information.
+</div>
+<a name="Coroutine-setParentCoroutine"></a><b>
+setParentCoroutine(aCoro)
+</b>
+<p>
+<div class=slotDescription>
+Sets the parent coroutine. Returns self.
+</div>
+<a name="Coroutine-setResult"></a><b>
+setResult
+</b>
+<p>
+<div class=slotDescription>
+
+</div>
+<a name="Coroutine-setRunLocals"></a><b>
+setRunLocals
+</b>
+<p>
+<div class=slotDescription>
+
+</div>
+<a name="Coroutine-setRunMessage"></a><b>
+setRunMessage
+</b>
+<p>
+<div class=slotDescription>
+
+</div>
+<a name="Coroutine-setRunTarget"></a><b>
+setRunTarget(anObject)
+</b>
+<p>
+<div class=slotDescription>
+
+</div>
+<a name="Coroutine-setStackSize"></a><b>
+setStackSize(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Sets the stack size in bytes to allocate for new Coros. Returns self.
+</div>
+<a name="Coroutine-showStack"></a><b>
+showStack
+</b>
+<p>
+<div class=slotDescription>
+Writes backTraceString to STDOUT.
+</div>
+<a name="Coroutine-showYielding"></a><b>
+showYielding
+</b>
+<p>
+<div class=slotDescription>
+Prints a list of yielding coroutines to STDOUT.
+</div>
+<a name="Coroutine-stackSize"></a><b>
+stackSize
+</b>
+<p>
+<div class=slotDescription>
+Stack size allocated for each new coroutine. Coroutines will automatically chain themselves as need if more stack space is required.
+</div>
+<a name="Coroutine-typeId"></a><b>
+typeId
+</b>
+<p>
+<div class=slotDescription>
+Returns <type>_<uniqueHexId> string.
+</div>
+<a name="Coroutine-yield"></a><b>
+yield
+</b>
+<p>
+<div class=slotDescription>
+Yields to another coroutine in the yieldingCoros queue.
+		Does nothing if yieldingCoros is empty.
+</div>
+<a name="Coroutine-yieldCurrentAndResumeSelf"></a><b>
+yieldCurrentAndResumeSelf
+</b>
+<p>
+<div class=slotDescription>
+Yields to a receiver.
+</div>
+<a name="Coroutine-yieldingCoros"></a><b>
+yieldingCoros
+</b>
+<p>
+<div class=slotDescription>
+Reference to Scheduler yieldingCoros.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

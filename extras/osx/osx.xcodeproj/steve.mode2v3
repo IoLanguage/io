@@ -300,7 +300,7 @@
 			<array>
 				<dict>
 					<key>Proportion</key>
-					<string>446pt</string>
+					<string>469pt</string>
 					<key>Tabs</key>
 					<array>
 						<dict>
@@ -320,7 +320,7 @@
 								<dict>
 									<key>PBXSmartGroupTreeModuleColumnWidthsKey</key>
 									<array>
-										<real>323</real>
+										<real>346</real>
 										<real>20</real>
 										<real>43</real>
 										<real>43</real>
@@ -346,7 +346,7 @@
 									<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 									<array>
 										<array>
-											<integer>81</integer>
+											<integer>62</integer>
 											<integer>8</integer>
 											<integer>7</integer>
 											<integer>3</integer>
@@ -355,7 +355,7 @@
 										</array>
 									</array>
 									<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-									<string>{{0, 1387}, {429, 333}}</string>
+									<string>{{0, 858}, {452, 772}}</string>
 								</dict>
 								<key>PBXTopSmartGroupGIDs</key>
 								<array/>
@@ -365,11 +365,11 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{10, 27}, {446, 351}}</string>
+								<string>{{10, 27}, {469, 790}}</string>
 								<key>GroupTreeTableConfiguration</key>
 								<array>
 									<string>MainColumn</string>
-									<real>323</real>
+									<real>346</real>
 									<string>FileBuiltColumn</string>
 									<real>20</real>
 									<string>ErrorsColumn</string>
@@ -378,7 +378,7 @@
 									<real>43</real>
 								</array>
 								<key>RubberWindowFrame</key>
-								<string>104 752 446 419 0 0 1920 1178 </string>
+								<string>104 313 469 858 0 0 1920 1178 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXSmartGroupTreeModule</string>
@@ -535,7 +535,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>293161733.51231301</real>
+	<real>293414722.53548801</real>
 	<key>ToolbarConfigUserDefaultsMinorVersion</key>
 	<string>2</string>
 	<key>ToolbarDisplayMode</key>
@@ -557,7 +557,7 @@
 		<string>/Users/steve/Developer/opensource/io/extras/osx/osx.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>104 752 446 419 0 0 1920 1178 </string>
+	<string>104 313 469 858 0 0 1920 1178 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>

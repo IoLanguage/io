@@ -482,5 +482,5 @@ Categories sortedItems foreach(cat,
 	outFile writeln("</body>")
 	outFile writeln("</html>")
 	outFile close
-	System exit
+	//System exit
 )))

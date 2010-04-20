@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>NotificationListener</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Core</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>NotificationCenter</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>NotificationListener</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="NotificationListener-action"></a><b>
+action
+</b>
+<p>
+<div class=slotDescription>
+Returns the name of the message that is sent to the target when a matching notification is found.
+</div>
+<a name="NotificationListener-handleNotification"></a><b>
+handleNotification(aNotification)
+</b>
+<p>
+<div class=slotDescription>
+Checks to see if aNotification matches the listener criteria and if so, sends it to the target. Implementation:
+<pre>
+if((name == nil or name == n name) and(object == nil or sender == n sender),
+	target perform(action, n)
+)
+</pre>
+</div>
+<a name="NotificationListener-name"></a><b>
+name
+</b>
+<p>
+<div class=slotDescription>
+Returns the message name that the listener wants to receive messages for.
+</div>
+<a name="NotificationListener-sender"></a><b>
+sender
+</b>
+<p>
+<div class=slotDescription>
+Returns the sender that the listener wants to receive messages from.
+</div>
+<a name="NotificationListener-setAction"></a><b>
+setAction(messageName)
+</b>
+<p>
+<div class=slotDescription>
+Sets the name of the message that is sent to the target when a matching notification is found. Returns self.
+</div>
+<a name="NotificationListener-setName"></a><b>
+setName(aSeq)
+</b>
+<p>
+<div class=slotDescription>
+Sets the message name that the listener wants to receive messages for. Returns self.
+</div>
+<a name="NotificationListener-setSender"></a><b>
+setSender(anObject)
+</b>
+<p>
+<div class=slotDescription>
+Sets the sender that the listener wants to receive messages from. Returns self.
+</div>
+<a name="NotificationListener-setTarget"></a><b>
+setTarget(anObject)
+</b>
+<p>
+<div class=slotDescription>
+Sets the target that the receiver sends matching messages to. Returns self.
+</div>
+<a name="NotificationListener-start"></a><b>
+start
+</b>
+<p>
+<div class=slotDescription>
+Removes the receiver to the NotificationCenter set of listeners. Returns self.
+</div>
+<a name="NotificationListener-target"></a><b>
+target
+</b>
+<p>
+<div class=slotDescription>
+Returns the target that the receiver sends matching messages to.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

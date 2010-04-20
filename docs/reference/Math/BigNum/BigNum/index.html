@@ -1,0 +1,282 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>BigNum</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Math</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>BigNum</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>BigNum</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>A wrapper for <a href=http://gmplib.org/>GNU MP Bignum (arbitrary precision math) library</a>. 
+Warning: GMP uses the restrictive GNU license which can be a problem if you are hard linking it into a distributed application.
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="BigNum-%"></a><b>
+%(aNum)
+</b>
+<p>
+<div class=slotDescription>
+Modulus op (same as mod()). Returns result.
+</div>
+<a name="BigNum-&"></a><b>
+&(aNum)
+</b>
+<p>
+<div class=slotDescription>
+AND op. Returns result.
+</div>
+<a name="BigNum-*"></a><b>
+*(aNum)
+</b>
+<p>
+<div class=slotDescription>
+Multiply op. Returns result.
+</div>
+<a name="BigNum-**"></a><b>
+**(aNum)
+</b>
+<p>
+<div class=slotDescription>
+Power op. Returns result.
+</div>
+<a name="BigNum-+"></a><b>
++(aNum)
+</b>
+<p>
+<div class=slotDescription>
+Add op. Returns result.
+</div>
+<a name="BigNum--"></a><b>
+-(aNum)
+</b>
+<p>
+<div class=slotDescription>
+Subtract op. Returns result.
+</div>
+<a name="BigNum-/"></a><b>
+/(aNum)
+</b>
+<p>
+<div class=slotDescription>
+Divide op. Returns result.
+</div>
+<a name="BigNum-&lt;&lt;"></a><b>
+&lt;&lt;(aNum)
+</b>
+<p>
+<div class=slotDescription>
+Shift left (towards higher bits) op. Returns result.
+</div>
+<a name="BigNum-&gt;&gt;"></a><b>
+&gt;&gt;(aNum)
+</b>
+<p>
+<div class=slotDescription>
+Shift right (towards lower bits) op. Returns result.
+</div>
+<a name="BigNum-^"></a><b>
+^(aNum)
+</b>
+<p>
+<div class=slotDescription>
+XOR op. Returns result.
+</div>
+<a name="BigNum-abs"></a><b>
+abs
+</b>
+<p>
+<div class=slotDescription>
+Absolute op. Returns result.
+</div>
+<a name="BigNum-asNumber"></a><b>
+asNumber
+</b>
+<p>
+<div class=slotDescription>
+Returns an Io Number for the receiving BigNum.
+</div>
+<a name="BigNum-asSimpleString"></a><b>
+asSimpleString
+</b>
+<p>
+<div class=slotDescription>
+Returns simple string representation of the receiver.
+</div>
+<a name="BigNum-asString"></a><b>
+asString
+</b>
+<p>
+<div class=slotDescription>
+Returns a string representation of the receiver.
+</div>
+<a name="BigNum-gcd"></a><b>
+gcd(aNum)
+</b>
+<p>
+<div class=slotDescription>
+Greatest common denominator op. Returns result.
+</div>
+<a name="BigNum-hamdist"></a><b>
+hamdist(aNum)
+</b>
+<p>
+<div class=slotDescription>
+Returns hamming distance between receiver and aNum.
+</div>
+<a name="BigNum-invert"></a><b>
+invert(aNum)
+</b>
+<p>
+<div class=slotDescription>
+?
+</div>
+<a name="BigNum-jacobi"></a><b>
+jacobi(aNum)
+</b>
+<p>
+<div class=slotDescription>
+?
+</div>
+<a name="BigNum-kronecker"></a><b>
+kronecker
+</b>
+<p>
+<div class=slotDescription>
+?
+</div>
+<a name="BigNum-lcm"></a><b>
+lcm(aNum)
+</b>
+<p>
+<div class=slotDescription>
+Least common denominator op. Returns result.
+</div>
+<a name="BigNum-legendre"></a><b>
+legendre(aNum)
+</b>
+<p>
+<div class=slotDescription>
+?
+</div>
+<a name="BigNum-mod"></a><b>
+mod(aNum)
+</b>
+<p>
+<div class=slotDescription>
+Modulus op (same as %). Returns result.
+</div>
+<a name="BigNum-neg"></a><b>
+neg
+</b>
+<p>
+<div class=slotDescription>
+Returns negative version of receiver.
+</div>
+<a name="BigNum-nextprime"></a><b>
+nextprime
+</b>
+<p>
+<div class=slotDescription>
+Returns next prime larger than the receiver.
+</div>
+<a name="BigNum-popcount"></a><b>
+popcount
+</b>
+<p>
+<div class=slotDescription>
+?
+</div>
+<a name="BigNum-pow"></a><b>
+pow(aNum)
+</b>
+<p>
+<div class=slotDescription>
+Returns power of receiver to aNum.
+</div>
+<a name="BigNum-powm"></a><b>
+powm(aNum)
+</b>
+<p>
+<div class=slotDescription>
+?
+</div>
+<a name="BigNum-root"></a><b>
+root(aNum)
+</b>
+<p>
+<div class=slotDescription>
+Returns the aNum root of the receiver.
+</div>
+<a name="BigNum-scan0"></a><b>
+scan0(aNum)
+</b>
+<p>
+<div class=slotDescription>
+?
+</div>
+<a name="BigNum-scan1"></a><b>
+scan1(aNum)
+</b>
+<p>
+<div class=slotDescription>
+?
+</div>
+<a name="BigNum-sqrt"></a><b>
+sqrt
+</b>
+<p>
+<div class=slotDescription>
+Returns square root of the receiver.
+</div>
+<a name="BigNum-tstbit"></a><b>
+tstbit(aNum)
+</b>
+<p>
+<div class=slotDescription>
+?
+</div>
+<a name="BigNum-with"></a><b>
+with(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Returns a BigNum version of the Io number aNumber.
+</div>
+<a name="BigNum-|"></a><b>
+|(aNum)
+</b>
+<p>
+<div class=slotDescription>
+OR op. Returns result.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

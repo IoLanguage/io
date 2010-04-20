@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>TokyoCabinet</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Databases</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>TokyoCabinet</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>TokyoCabinet</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>An ordered key/value database that supports transactions and arbitrary key and value sizes.
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="TokyoCabinet-abort"></a><b>
+abort
+</b>
+<p>
+<div class=slotDescription>
+Abort transaction. Returns self
+</div>
+<a name="TokyoCabinet-at"></a><b>
+at(keySymbol)
+</b>
+<p>
+<div class=slotDescription>
+Returns a Sequence for the value at the given key or nil if there is no such key.
+</div>
+<a name="TokyoCabinet-atApple"></a><b>
+atApple(keySymbol, valueSequence)
+</b>
+<p>
+<div class=slotDescription>
+Appends valueSequence to the current value at keySymbol. Returns self.
+</div>
+<a name="TokyoCabinet-atPut"></a><b>
+atPut(keySymbol, valueSequence)
+</b>
+<p>
+<div class=slotDescription>
+Sets the value of valueSequence with the key keySymbol. Returns self.
+</div>
+<a name="TokyoCabinet-atRemove"></a><b>
+atRemove(keySymbol)
+</b>
+<p>
+<div class=slotDescription>
+Removes the specified key. Returns self
+</div>
+<a name="TokyoCabinet-begin"></a><b>
+begin
+</b>
+<p>
+<div class=slotDescription>
+Begin transaction. Returns self
+</div>
+<a name="TokyoCabinet-close"></a><b>
+close
+</b>
+<p>
+<div class=slotDescription>
+Closes the database.
+</div>
+<a name="TokyoCabinet-commit"></a><b>
+commit
+</b>
+<p>
+<div class=slotDescription>
+Commit transaction. Returns self
+</div>
+<a name="TokyoCabinet-compareType"></a><b>
+compareType
+</b>
+<p>
+<div class=slotDescription>
+Returns the compare type function name used.
+</div>
+<a name="TokyoCabinet-cursor"></a><b>
+cursor
+</b>
+<p>
+<div class=slotDescription>
+Returns a new cursor object.
+</div>
+<a name="TokyoCabinet-open"></a><b>
+open(path)
+</b>
+<p>
+<div class=slotDescription>
+Opens the database.
+</div>
+<a name="TokyoCabinet-optimize"></a><b>
+optimize
+</b>
+<p>
+<div class=slotDescription>
+Optimizes the database. Returns self
+</div>
+<a name="TokyoCabinet-path"></a><b>
+path
+</b>
+<p>
+<div class=slotDescription>
+Returns the path of the database file.
+</div>
+<a name="TokyoCabinet-prefixCursor"></a><b>
+prefixCursor
+</b>
+<p>
+<div class=slotDescription>
+Returns a new prefix cursor object.
+</div>
+<a name="TokyoCabinet-setCompareType"></a><b>
+setCompareType(name)
+</b>
+<p>
+<div class=slotDescription>
+Sets the compare type function used to compare keys in the database. Valid compare types include:
+	"lexical", "decimal", "int32", "int64" and "path". Returns self.
+</div>
+<a name="TokyoCabinet-setPath"></a><b>
+setPath(aPath)
+</b>
+<p>
+<div class=slotDescription>
+Sets the path of the database file. Returns self.
+</div>
+<a name="TokyoCabinet-size"></a><b>
+size
+</b>
+<p>
+<div class=slotDescription>
+Returns number of records in the database. Returns self
+</div>
+<a name="TokyoCabinet-sizeAt"></a><b>
+sizeAt(keySymbol)
+</b>
+<p>
+<div class=slotDescription>
+Returns the size of the value at the given key or nil if there is no such key.
+</div>
+<a name="TokyoCabinet-sync"></a><b>
+sync
+</b>
+<p>
+<div class=slotDescription>
+Syncs the database. Returns self
+</div>
+<a name="TokyoCabinet-transactionalAtPut"></a><b>
+transactionalAtPut(key, value)
+</b>
+<p>
+<div class=slotDescription>
+Transactionally insert the given key and value. Returns self.
+</div>
+<a name="TokyoCabinet-transactionalRemoveAt"></a><b>
+transactionalRemoveAt(key)
+</b>
+<p>
+<div class=slotDescription>
+Transactionally remove the given key. Returns self.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

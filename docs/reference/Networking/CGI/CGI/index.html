@@ -1,0 +1,261 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>CGI</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Networking</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>CGI</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>CGI</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>CGI supports accessing CGI parameters passed in environment variables or standard input by a web servers like Apache. Example use:
+<pre>
+#!./ioServer
+
+cgi = CGI clone
+
+redirect = cgi getParameters at("redirurl")
+if (redirect and redirect != "",
+	redirect clipAfterStartOfSeq("\r")
+	redirect clipAfterStartOfSeq("\n")
+	cgi redirect(redirect)
+	System exit(0)
+ )
+
+cgi header("Content-type", "text/html")
+
+cgi write("&lt;html&gt;&lt;head&gt;&lt;title&gt;test&lt;/title&gt;&lt;body&gt;")
+cgi write("GET Parameters:")
+cgi getParameters foreach(k, v,
+	cgi write(k .. " = " .. v .. ","))
+)
+
+cgi write("POST Parameters:")
+cgi postParameters foreach(k, v,
+	cgi write(k .. " = " .. v .. ","))
+)
+
+cgi write("COOKIES:")
+cgi cookies foreach(k, v,
+	cgi write(k .. " = " .. v .. ",")
+)
+</pre>
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="CGI-contentLength"></a><b>
+contentLength
+</b>
+<p>
+<div class=slotDescription>
+CONTENT_LENGTH from web server - Size of POST Data
+</div>
+<a name="CGI-contentType"></a><b>
+contentType
+</b>
+<p>
+<div class=slotDescription>
+CONTENT_TYPE from web server
+</div>
+<a name="CGI-cookies"></a><b>
+cookies
+</b>
+<p>
+<div class=slotDescription>
+Returns a Map of cookies provided by the client
+</div>
+<a name="CGI-decodeUrlParam"></a><b>
+decodeUrlParam(aString)
+</b>
+<p>
+<div class=slotDescription>
+Returns a URL decoded version of aString.
+</div>
+<a name="CGI-encodeUrlParam"></a><b>
+encodeUrlParam(aString)
+</b>
+<p>
+<div class=slotDescription>
+Returns a URL encoded version of aString.
+</div>
+<a name="CGI-getParameters"></a><b>
+getParameters
+</b>
+<p>
+<div class=slotDescription>
+Parses the QUERY_STRING environment variable and returns a Map containing key/value query value pairs.  For testing, a QUERY_STRING can be passed to standard in, one line will be read
+</div>
+<a name="CGI-header"></a><b>
+header(name, value, sendMultiple)
+</b>
+<p>
+<div class=slotDescription>
+Add a header to the output, may only be called before write() is called.  
+	One of each header will be sent unless sendMultiple is true
+</div>
+<a name="CGI-httpHeader"></a><b>
+httpHeader(name)
+</b>
+<p>
+<div class=slotDescription>
+Fetch a header supplied by the client, such as 'referer'
+</div>
+<a name="CGI-isInWebScript"></a><b>
+isInWebScript
+</b>
+<p>
+<div class=slotDescription>
+Checks to see if this is being called within a CGI request or from the command-line (testing).  Simply checks for System getEnvironmentVariable("GATEWAY_INTERFACE")
+</div>
+<a name="CGI-maxPostSize"></a><b>
+maxPostSize
+</b>
+<p>
+<div class=slotDescription>
+Maximum size in bytes, to process from user submitted data.  Data greater than this will result in a nil postData slot
+</div>
+<a name="CGI-maxPostSizeExceeded"></a><b>
+maxPostSizeExceeded
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the POST data exceeds a set maxPostSize
+</div>
+<a name="CGI-pathInfo"></a><b>
+pathInfo
+</b>
+<p>
+<div class=slotDescription>
+PATH_INFO from web server
+</div>
+<a name="CGI-pathTranslated"></a><b>
+pathTranslated
+</b>
+<p>
+<div class=slotDescription>
+PATH_TRANSLATED from web server
+</div>
+<a name="CGI-postData"></a><b>
+postData
+</b>
+<p>
+<div class=slotDescription>
+The raw post data sent to the script.  Only set if getEnvironmentVariable("REQUEST_METHOD") asLowercase == "post".
+</div>
+<a name="CGI-postParameters"></a><b>
+postParameters
+</b>
+<p>
+<div class=slotDescription>
+Parses the POST data, multipart and urlencoded.  Returns a map of submitted variables.
+For uploaded files, an Object is returned with these slots:
+<pre>
+fileName
+content (raw content of file as Sequence)
+contentType
+contentEncoding
+size (in characters/bytes)
+asString (pretty string of name, type, size)
+</pre>
+</div>
+<a name="CGI-queryString"></a><b>
+queryString
+</b>
+<p>
+<div class=slotDescription>
+QUERY_STRING from web server
+</div>
+<a name="CGI-redirect"></a><b>
+redirect(url)
+</b>
+<p>
+<div class=slotDescription>
+Send a location: and redirect the user.  May only be called before write() is called.  It is left to the caller to stop any further processing.
+</div>
+<a name="CGI-remoteAddress"></a><b>
+remoteAddress
+</b>
+<p>
+<div class=slotDescription>
+REMOTE_ADDR from web server - User's IP
+</div>
+<a name="CGI-remoteHost"></a><b>
+remoteHost
+</b>
+<p>
+<div class=slotDescription>
+REMOTE_HOST from web server - User's host (often blank)
+</div>
+<a name="CGI-requestMethod"></a><b>
+requestMethod
+</b>
+<p>
+<div class=slotDescription>
+GET, POST, PUT, etc
+</div>
+<a name="CGI-requestParameter"></a><b>
+requestParameter(name)
+</b>
+<p>
+<div class=slotDescription>
+Lazy developer's helper funtion. Retrieves a value from GET or POST, POST first
+</div>
+<a name="CGI-scriptName"></a><b>
+scriptName
+</b>
+<p>
+<div class=slotDescription>
+SCRIPT_NAME from web server
+</div>
+<a name="CGI-setCookie"></a><b>
+setCookie(name, value, expiresDate, domain, path, secureBool)
+</b>
+<p>
+<div class=slotDescription>
+Sets a cookie, keep in mind this will not be available in cookies() until they next visit to the site.  
+	Parameters other than name and value are optional.
+</div>
+<a name="CGI-status"></a><b>
+status(statusCode)
+</b>
+<p>
+<div class=slotDescription>
+Numeric status code to send to the client.  
+	Normally, the server will figure this out on its own, but this allows handling 404s and such.
+</div>
+<a name="CGI-write"></a><b>
+write(string, [string...])
+</b>
+<p>
+<div class=slotDescription>
+Send content for the body of the response
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

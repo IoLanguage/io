@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>TagDB</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Databases</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>TagDB</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>TagDB</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>Binding for <a href=http://www.dekorte.com/projects/opensource/tagdb/>tagdb</a> - a tagging database usefull for flickr-like tag searches.
+<p>
+Example use:
+<pre>
+tdb := TagDB clone
+
+tdb setPath("test")
+tdb open
+
+writeln("size = ", tdb size)
+tdb atKeyPutTags("f430 for sale", list("red", "ferrari"))
+tdb atKeyPutTags("lotus esprit", list("lotus", "esprit"))
+writeln("size = ", tdb size)
+keys := tdb keysForTags(list("lotus"))
+writeln("keys = ", tdb symbolForId(keys at(0)))
+tdb close
+tdb delete
+</pre>
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="TagDB-allUniqueTagIds"></a><b>
+allUniqueTagIds
+</b>
+<p>
+<div class=slotDescription>
+Returns a list of all unique tag ids.
+</div>
+<a name="TagDB-atKeyPutTags"></a><b>
+atKeyPutTags(key, tagNameList)
+</b>
+<p>
+<div class=slotDescription>
+Sets the tags for key to those in tagNameList. Returns self.
+</div>
+<a name="TagDB-close"></a><b>
+close
+</b>
+<p>
+<div class=slotDescription>
+Close the tagdb. Returns self.
+</div>
+<a name="TagDB-delete"></a><b>
+delete
+</b>
+<p>
+<div class=slotDescription>
+Deletes all keys in the database.
+</div>
+<a name="TagDB-idForSymbol"></a><b>
+idForSymbol(aSeq)
+</b>
+<p>
+<div class=slotDescription>
+Returns the TagDB id Number for the symbol specified by aSeq.
+</div>
+<a name="TagDB-keyAtIndex"></a><b>
+keyAtIndex(indexNumber)
+</b>
+<p>
+<div class=slotDescription>
+Returns the key at the specified index of nil if the index is out of range.
+</div>
+<a name="TagDB-keysForTags"></a><b>
+keysForTags(aTagNameList)
+</b>
+<p>
+<div class=slotDescription>
+Returns list of keys whose tags contain all of the tags in aTagNameList.
+</div>
+<a name="TagDB-open"></a><b>
+open
+</b>
+<p>
+<div class=slotDescription>
+Open the tagdb. Returns self.
+</div>
+<a name="TagDB-removeKey"></a><b>
+removeKey(aKey)
+</b>
+<p>
+<div class=slotDescription>
+Removes the specified key if it is present. Returns self.
+</div>
+<a name="TagDB-setPath"></a><b>
+setPath(aPath)
+</b>
+<p>
+<div class=slotDescription>
+Sets the path to the tag database. Returns self.
+</div>
+<a name="TagDB-size"></a><b>
+size
+</b>
+<p>
+<div class=slotDescription>
+Returns number of keys in the database.
+</div>
+<a name="TagDB-symbolForId"></a><b>
+symbolForId(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Returns the TagDB symbol for aNumber.
+</div>
+<a name="TagDB-tagsAtKey"></a><b>
+tagsAtKey(key)
+</b>
+<p>
+<div class=slotDescription>
+Returns the tags for the specified key.
+</div>
+<a name="TagDB-uniqueTagNames"></a><b>
+uniqueTagNames
+</b>
+<p>
+<div class=slotDescription>
+Returns a list of all unique tag names.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

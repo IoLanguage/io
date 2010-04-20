@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Font</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Graphics</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>Font</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>Font</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>The Font object can be used to load and render TypeTrype fonts. Example use;
+<pre>	
+// within a GLUT display callback...
+
+timesFont = Font clone open(\"times.ttf\")
+if (timesFont error, write(\"Error loading font: \", timesFont error, \"\n\"); return)
+timesFont setPointSize(16)
+glColor(0,0,0,1)
+timesFont draw(\"This is a test.\")
+</pre>	
+
+<b>Rendering fonts using OpenGL textures</b>
+<p>
+Smaller fonts (those having a point size around 30 or smaller, depending on the font) will automatically be cached in and rendered from a texture. This technique is very fast and should support rendering speeds as fast (or faster than) those of typical desktop font rendering systems. Larger font sizes(due to texture memory constraints) will be rendered to a pixelmap when displayed. Thanks to Mike Austin for implementing the font texturing system.
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="Font-drawString"></a><b>
+drawString(aString, optionalStartIndex, optionalEndIndex)
+</b>
+<p>
+<div class=slotDescription>
+Draws aString using the optional start and end indexes, if supplied. Returns self.
+<p>
+Note; Fonts are drawn as RGBA pixel maps. These blending options are recommended:
+<pre>	
+glEnable(GL_BLEND)
+glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+</pre>
+</div>
+<a name="Font-error"></a><b>
+error
+</b>
+<p>
+<div class=slotDescription>
+Returns the current error string or nil if there is no error.
+</div>
+<a name="Font-isTextured"></a><b>
+isTextured
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the font is being cached in and rendered from a texture, false otherwise.
+</div>
+<a name="Font-open"></a><b>
+open(optionalPath)
+</b>
+<p>
+<div class=slotDescription>
+Opens the font. Sets path using optionalPath if supplied. Returns self.
+</div>
+<a name="Font-path"></a><b>
+path
+</b>
+<p>
+<div class=slotDescription>
+Returns the Font path.
+</div>
+<a name="Font-pixelHeight"></a><b>
+pixelHeight
+</b>
+<p>
+<div class=slotDescription>
+Returns the height of the font measured in pixels.
+</div>
+<a name="Font-pixelSize"></a><b>
+pixelSize
+</b>
+<p>
+<div class=slotDescription>
+Returns the font's pixelSize.
+</div>
+<a name="Font-setPath"></a><b>
+setPath(aString)
+</b>
+<p>
+<div class=slotDescription>
+Sets the Font path. Returns self.
+</div>
+<a name="Font-setPixelSize"></a><b>
+setPixelSize(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Sets the size of the font in pixels. Returns self.
+</div>
+<a name="Font-stringIndexAtWidth"></a><b>
+stringIndexAtWidth(aString, startIndex, width)
+</b>
+<p>
+<div class=slotDescription>
+Returns the max index of the character in String (starting at startIndex) 
+	that fits within width.
+</div>
+<a name="Font-widthOfCharacter"></a><b>
+widthOfCharacter(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Returns the width of the character specified by aNumber in the receiver's font.
+</div>
+<a name="Font-widthOfString"></a><b>
+widthOfString(aString)
+</b>
+<p>
+<div class=slotDescription>
+Returns a Number with the width that aString would render 
+	to with the receiver's current settings.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

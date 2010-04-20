@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>DOConnection</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Networking</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>DistributedObjects</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>DOConnection</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>The DOConnection object is useful for communicating with remote servers in a way that makes it look just like the sending of local messages. Proxies are automatically created on either side for passed objects, with the exception of strings and numbers, which are passed by value. Example:
+<pre>
+con := DOConnection clone setHost("127.0.0.1") setPort(8456) connect
+result := con serverObject test(1)
+writeln(result)
+r := result at(0)
+writeln(r)
+r := result at(1)
+writeln(r)
+</pre>
+
+Implementation Notes:
+<p>
+
+The format of the Distributed Objects message is a list of NullCharacter
+terminated strings in one of these two formats:
+<p>
+Send message format:
+
+<pre>
+s NullCharacter targetId NullCharacter messageName NullCharacter argCount NullCharacter argType NullCharacter argValue NullCharacter (next arg type and value, etc)
+</pre>
+
+Reply message format:
+
+<pre>
+r NullCharacter argType NullCharacter argvalue NullCharacter
+</pre>
+
+If the argument is not a String, Number or nil then:
+If it is local to the sender, the type is RemoteObject.
+If it is a proxy to a remote object, the type is LocalObject.
+
+This isn't optimized yet.
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="DOConnection-close"></a><b>
+close
+</b>
+<p>
+<div class=slotDescription>
+Close the connection, if it is open. Returns self.
+</div>
+<a name="DOConnection-connect"></a><b>
+connect
+</b>
+<p>
+<div class=slotDescription>
+Connect to the remote DOServer. Returns self or an Error, if one occurs.
+</div>
+<a name="DOConnection-host"></a><b>
+host
+</b>
+<p>
+<div class=slotDescription>
+Returns the host ip.
+</div>
+<a name="DOConnection-port"></a><b>
+port
+</b>
+<p>
+<div class=slotDescription>
+Returns the port.
+</div>
+<a name="DOConnection-serverObject"></a><b>
+serverObject
+</b>
+<p>
+<div class=slotDescription>
+A handle to the remote DOServer's root object. Returns result from server or an Error, if one occurs.
+</div>
+<a name="DOConnection-setHost"></a><b>
+setHost(ipString)
+</b>
+<p>
+<div class=slotDescription>
+Sets the host ip to connect to. Returns self or an Error, if one occurs.
+</div>
+<a name="DOConnection-setPort"></a><b>
+setPort(portNumber)
+</b>
+<p>
+<div class=slotDescription>
+Sets the port number to connect to. Returns self.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

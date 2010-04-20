@@ -1,0 +1,170 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Fnmatch</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Parsers</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>Fnmatch</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>Fnmatch</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>The fnmatch add on adds support for the unix fnmatch function. 
+(See fnmatch man page for details). 
+Note: not all options are supported on all platforms.
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="Fnmatch-caseFoldOff"></a><b>
+caseFoldOff
+</b>
+<p>
+<div class=slotDescription>
+See caseFoldOn.
+</div>
+<a name="Fnmatch-caseFoldOn"></a><b>
+caseFoldOn
+</b>
+<p>
+<div class=slotDescription>
+Ignore case distinctions in both the pattern and the string.
+</div>
+<a name="Fnmatch-hasMatch"></a><b>
+hasMatch
+</b>
+<p>
+<div class=slotDescription>
+Returns true if a match is found, false otherwise.
+</div>
+<a name="Fnmatch-leadingDirOff"></a><b>
+leadingDirOff
+</b>
+<p>
+<div class=slotDescription>
+See leadingDirOn.
+</div>
+<a name="Fnmatch-leadingDirOn"></a><b>
+leadingDirOn
+</b>
+<p>
+<div class=slotDescription>
+Ignore rest after successful pattern matching.
+</div>
+<a name="Fnmatch-matchFor"></a><b>
+matchFor(aString)
+</b>
+<p>
+<div class=slotDescription>
+Returns self if aString matches the pattern, otherwise returns nil.
+</div>
+<a name="Fnmatch-noEscapeOff"></a><b>
+noEscapeOff
+</b>
+<p>
+<div class=slotDescription>
+See noEscapeOn.
+</div>
+<a name="Fnmatch-noEscapeOn"></a><b>
+noEscapeOn
+</b>
+<p>
+<div class=slotDescription>
+If not set, a backslash character (\) in pattern followed by any other 
+	character will match that second character in string. 
+	In particular, "\\" will match a backslash in string. 
+	If set, a backslash character will be treated as an ordinary character.
+</div>
+<a name="Fnmatch-pathNameOff"></a><b>
+pathNameOff
+</b>
+<p>
+<div class=slotDescription>
+See pathNameOn.
+</div>
+<a name="Fnmatch-pathNameOn"></a><b>
+pathNameOn
+</b>
+<p>
+<div class=slotDescription>
+If set, a slash (/) character in string will be explicitly matched 
+	by a slash in pattern; it will not be matched by either the asterisk (*) 
+	or question-mark (?) special characters, nor by a bracket ([]) expression. 
+	If not set, the slash character is treated as an ordinary character.
+</div>
+<a name="Fnmatch-pattern"></a><b>
+pattern
+</b>
+<p>
+<div class=slotDescription>
+Returns the pattern string.
+</div>
+<a name="Fnmatch-periodOff"></a><b>
+periodOff
+</b>
+<p>
+<div class=slotDescription>
+"See periodOn.
+</div>
+<a name="Fnmatch-periodOn"></a><b>
+periodOn
+</b>
+<p>
+<div class=slotDescription>
+If set, a leading period in string will match a period in pattern; where the location of ``leading'' is indicated by the value of FNM_PATHNAME:
+<UL>
+<LI>If FNM_PATHNAME is set, a period is ``leading'' if it is the first character in string or if it immediately follows a slash.
+
+<LI>If FNM_PATHNAME is not set, a period is ``leading'' only if it is the first character of string.
+</UL>
+<p>
+If not set, no special restrictions are placed on matching a period.
+</div>
+<a name="Fnmatch-setPattern"></a><b>
+setPattern(aString)
+</b>
+<p>
+<div class=slotDescription>
+Sets the pattern string. Returns self.
+</div>
+<a name="Fnmatch-setString"></a><b>
+setString(aString)
+</b>
+<p>
+<div class=slotDescription>
+Sets the string to do matching on.
+</div>
+<a name="Fnmatch-string"></a><b>
+string
+</b>
+<p>
+<div class=slotDescription>
+The string to do matching on.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

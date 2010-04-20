@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Beanstalk</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Networking</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>Beanstalk</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>Beanstalk</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>beanstalkd is a fast, distributed, in-memory workqueue service. See http://xph.us/software/beanstalkd/
+<br />An example from http://xph.us/software/beanstalkd/:
+<br />First, have one process put a job into the queue:
+<pre>
+producer := Beanstalk clone connect("127.0.0.1:11300")
+producer put("hello")
+</pre>
+
+Then start another process to take jobs out of the queue and run them:
+<pre>
+worker := Beanstalk clone connect("127.0.0.1:11300")
+loop(
+	job := worker reserve
+	job body println # prints "hello"
+	job delete
+)
+</pre>
+See Beanstalk.io code and protocol description (http://github.com/kr/beanstalkd/tree/master/doc/protocol.txt) for details.
+Both are short and easy to read.
+
+<br />Stat commands depend on <a href="http://github.com/why/syck/tree/a4f241be5d247853aea6127d02dbdedd8a1dd477/ext/io">YAML</a>.
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="Beanstalk-bury"></a><b>
+bury(id, pri)
+</b>
+<p>
+<div class=slotDescription>
+Puts a job into the "buried" state
+</div>
+<a name="Beanstalk-connect"></a><b>
+connect(address)
+</b>
+<p>
+<div class=slotDescription>
+Connects to a beanstalk server. address is a "host:port" string, e.g., "127.0.0.1:11300"
+</div>
+<a name="Beanstalk-delete"></a><b>
+delete(id)
+</b>
+<p>
+<div class=slotDescription>
+Removes a job with a given id from the server, entirely
+</div>
+<a name="Beanstalk-put"></a><b>
+put(body, pri, delay, ttr)
+</b>
+<p>
+<div class=slotDescription>
+Inserts a job into the queue.
+	<br />pri - priority, an integer < 2**32. Jobs with smaller priority values will be
+	scheduled before jobs with larger priorities. The most urgent priority is 0;
+	the least urgent priority is 4294967295.
+	<br />delay - an integer number of seconds to wait before putting the job in
+	the ready queue. The job will be in the "delayed" state during this time.
+	<br />ttr - time to run, an integer number of seconds to allow a worker to run this job.
+</div>
+<a name="Beanstalk-release"></a><b>
+release(id)
+</b>
+<p>
+<div class=slotDescription>
+Puts a reserved job back into the ready queue
+</div>
+<a name="Beanstalk-reserve"></a><b>
+reserve(timeout)
+</b>
+<p>
+<div class=slotDescription>
+Returns and reserves a job (waits until one becomes available if necessary)
+</div>
+<a name="Beanstalk-touch"></a><b>
+touch(id)
+</b>
+<p>
+<div class=slotDescription>
+Allows a worker to request more time to work on a job.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

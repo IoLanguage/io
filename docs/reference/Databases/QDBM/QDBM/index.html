@@ -1,0 +1,206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>QDBM</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Databases</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>QDBM</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>QDBM</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>An ordered key/value database that supports transactions and arbitrary kay and value sizes.
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="QDBM-abort"></a><b>
+abort
+</b>
+<p>
+<div class=slotDescription>
+Abort transaction. Returns self
+</div>
+<a name="QDBM-at"></a><b>
+at(keySymbol)
+</b>
+<p>
+<div class=slotDescription>
+Returns a Sequence for the value at the given key or nil if there is no such key.
+</div>
+<a name="QDBM-atPut"></a><b>
+atPut(keySymbol, valueSequence)
+</b>
+<p>
+<div class=slotDescription>
+Sets the value of valueSequence with the key keySymbol. Returns self.
+</div>
+<a name="QDBM-atRemove"></a><b>
+atRemove(keySymbol)
+</b>
+<p>
+<div class=slotDescription>
+Removes the specified key. Returns self
+</div>
+<a name="QDBM-begin"></a><b>
+begin
+</b>
+<p>
+<div class=slotDescription>
+Begin transaction. Returns self
+</div>
+<a name="QDBM-close"></a><b>
+close
+</b>
+<p>
+<div class=slotDescription>
+Closes the database.
+</div>
+<a name="QDBM-commit"></a><b>
+commit
+</b>
+<p>
+<div class=slotDescription>
+Commit transaction. Returns self
+</div>
+<a name="QDBM-cursorFirst"></a><b>
+cursorFirst
+</b>
+<p>
+<div class=slotDescription>
+Move cursor to first record. Returns self
+</div>
+<a name="QDBM-cursorJumpBackward"></a><b>
+cursorJumpBackward(key)
+</b>
+<p>
+<div class=slotDescription>
+Move cursor to previous record around key. Returns self
+</div>
+<a name="QDBM-cursorJumpForward"></a><b>
+cursorJumpForward(key)
+</b>
+<p>
+<div class=slotDescription>
+Move cursor to next record around key. Returns self
+</div>
+<a name="QDBM-cursorKey"></a><b>
+cursorKey
+</b>
+<p>
+<div class=slotDescription>
+Returns current cursor key or nil.
+</div>
+<a name="QDBM-cursorLast"></a><b>
+cursorLast
+</b>
+<p>
+<div class=slotDescription>
+Move cursor to last record. Returns self
+</div>
+<a name="QDBM-cursorNext"></a><b>
+cursorNext
+</b>
+<p>
+<div class=slotDescription>
+Move cursor to next record. Returns true if there is another key, 
+	or false if there is no next record.
+</div>
+<a name="QDBM-cursorPrevious"></a><b>
+cursorPrevious
+</b>
+<p>
+<div class=slotDescription>
+Move cursor to previous record. Returns true if there is another key, 
+	or false if there is no previous record.
+</div>
+<a name="QDBM-cursorPut"></a><b>
+cursorPut(value)
+</b>
+<p>
+<div class=slotDescription>
+Sets the value at the current cursor postion. Returns self.
+</div>
+<a name="QDBM-cursorRemove"></a><b>
+cursorRemove
+</b>
+<p>
+<div class=slotDescription>
+Removes the current cursor postion. Returns self.
+</div>
+<a name="QDBM-cursorValue"></a><b>
+cursorValue
+</b>
+<p>
+<div class=slotDescription>
+Returns current cursor value or nil.
+</div>
+<a name="QDBM-name"></a><b>
+name
+</b>
+<p>
+<div class=slotDescription>
+Returns the name of the database.
+</div>
+<a name="QDBM-open"></a><b>
+open(path)
+</b>
+<p>
+<div class=slotDescription>
+Opens the database.
+</div>
+<a name="QDBM-optimize"></a><b>
+optimize
+</b>
+<p>
+<div class=slotDescription>
+Optimizes the database. Returns self
+</div>
+<a name="QDBM-size"></a><b>
+size
+</b>
+<p>
+<div class=slotDescription>
+Returns number of records in database. Returns self
+</div>
+<a name="QDBM-sizeAt"></a><b>
+sizeAt(keySymbol)
+</b>
+<p>
+<div class=slotDescription>
+Returns the size of the value at the given key or nil if there is no such key.
+</div>
+<a name="QDBM-sync"></a><b>
+sync
+</b>
+<p>
+<div class=slotDescription>
+Syncs the database. Returns self
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

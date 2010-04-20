@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Thread</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Concurrency</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>Thread</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>Thread</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>	For native threads.
+Example use;
+<pre>	
+Thread createThread("1+1") // evals 1+1 in a new thread and an independent Io VM
+</pre>
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="Thread-createThread"></a><b>
+createThread(aSequence)
+</b>
+<p>
+<div class=slotDescription>
+Creates a new IoState and evals aSequence in it using a new OS thread. Returns self immediately.
+</div>
+<a name="Thread-endCurrentThread"></a><b>
+endCurrentThread
+</b>
+<p>
+<div class=slotDescription>
+Ends the currently running OS thread.
+</div>
+<a name="Thread-threadCount"></a><b>
+threadCount
+</b>
+<p>
+<div class=slotDescription>
+Returns the number of OS threads currently running in the process.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

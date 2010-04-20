@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Range</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Core</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>Range</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>Range</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>Simple datastructure representing the items at and between two specific points.
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="Range-asList"></a><b>
+asList
+</b>
+<p>
+<div class=slotDescription>
+Returns a list containing all the items within and including the ranges starting and ending points.
+</div>
+<a name="Range-at"></a><b>
+at(position)
+</b>
+<p>
+<div class=slotDescription>
+Rewinds the range, skips forward until we're at the supplied position then returns the value at that position. Raises an exception if the position is out of bounds.
+</div>
+<a name="Range-contains"></a><b>
+contains
+</b>
+<p>
+<div class=slotDescription>
+Returns a boolean value if the range contains the argument.
+</div>
+<a name="Range-first"></a><b>
+first
+</b>
+<p>
+<div class=slotDescription>
+Moves the current cursor to the beginning of the range, and returns it.
+</div>
+<a name="Range-foreach"></a><b>
+foreach(optionalIndex, value, message)
+</b>
+<p>
+<div class=slotDescription>
+Iterates over each item beginning with the starting point, and finishing at 
+	the ending point inclusive. This method can operate several ways; these include: 
+	(1) Takes one argument, the message tree to be executed during each iteration; (2) 
+	Takes two arguments, the first argument is the name of the current value being 
+	iterated over, and the second is the message tree to be executed during each 
+	iteration; (3) Takes three arguments: the first is the current index within the 
+	range, the second is the name of the current value being iterated over, and the 
+	third is the message tree to be executed during each iteration. 
+	For example:
+<pre>
+// First method (operating on numbers)
+1 to(10) foreach("iterating" print) // prints "iterating" 10 times
+// Second method (operating on numbers)
+1 to(10) foreach(v, v print) // prints each value
+// Third method (operating on numbers)
+1 to(10) foreach(i, v, writeln(i .. ": " .. v)) // prints "index: value"
+</pre>
+</div>
+<a name="Range-index"></a><b>
+index
+</b>
+<p>
+<div class=slotDescription>
+Returns the current index number starting from zero and extending 
+outward up to the maximum number of items in the range.
+</div>
+<a name="Range-indexOf"></a><b>
+indexOf(aValue)
+</b>
+<p>
+<div class=slotDescription>
+Calculates each value, checking to see if it matches the aValue parameter. If so, return the position within the range. NOTE: This method rewinds the range before searching. If you need to revert back to your original position, make a duplicate of the range, and use indexOf on it instead.
+</div>
+<a name="Range-last"></a><b>
+last
+</b>
+<p>
+<div class=slotDescription>
+Moves the current cursor to the end of the range, and returns it.
+</div>
+<a name="Range-levenshtein"></a><b>
+levenshtein(other)
+</b>
+<p>
+<div class=slotDescription>
+Returns the levenshtein distance to other.
+</div>
+<a name="Range-map"></a><b>
+map(optionalIndex, value, message)
+</b>
+<p>
+<div class=slotDescription>
+Returns a new list which contains the result of the 'body' for every element 
+	stepped over in the range, from the starting point to the ending point inclusive. 
+	This method can operate several ways; these include: 
+	(1) Takes one argument, the message tree to be executed during each iteration; (2) 
+	Takes two arguments, the first argument is the name of the current value being 
+	iterated over, and the second is the message tree to be executed during each 
+	iteration; (3) Takes three arguments: the first is the current index within the 
+	range, the second is the name of the current value being iterated over, and the 
+	third is the message tree to be executed during each iteration. 
+	For example:
+<pre>
+# First method (operating on numbers)
+1 to(10) map(*2) # multiply each value by two
+# Second method (operating on numbers)
+1 to(10) map(v, "#{v}" interpolate) # returns string representation of each value as list
+# Third method (operating on numbers)
+1 to(10) map(i, v, i*v) #  multiply each value by index
+</pre>
+</div>
+<a name="Range-next"></a><b>
+next
+</b>
+<p>
+<div class=slotDescription>
+Sets the current item in the range to the next item in the range, 
+		and returns a boolean value indicating whether it is not at the end of the range.
+</div>
+<a name="Range-nextInSequence"></a><b>
+nextInSequence(skipVal)
+</b>
+<p>
+<div class=slotDescription>
+Returns the next item in the sequence.  The optional skipVal parameter allows you to skip ahead skipVal places.
+</div>
+<a name="Range-previous"></a><b>
+previous
+</b>
+<p>
+<div class=slotDescription>
+Sets the current item in the range to the previous item in the range, 
+	and returns a boolean value indicating whether it is not at the beginning of the range.
+</div>
+<a name="Range-rewind"></a><b>
+rewind
+</b>
+<p>
+<div class=slotDescription>
+Sets the current item and the index to the values the receiver started out with.
+</div>
+<a name="Range-select"></a><b>
+select
+</b>
+<p>
+<div class=slotDescription>
+Operates the same as 'List select'
+</div>
+<a name="Range-setRange"></a><b>
+setRange(start, end, increment)
+</b>
+<p>
+<div class=slotDescription>
+Has several modes of operation. First, if only two parameters are specified, 
+	the increment value is set to 1 by default, while the first parameter represents
+	the point to start from, and the second parameter represents the point to end at. 
+	If the second parameter is smaller than the first, the range will operate backwards. 
+	If the third parameter is specified, a custom iteration value will be used instead of 1.
+</div>
+<a name="Range-slice"></a><b>
+slice(start, end, [by])
+</b>
+<p>
+<div class=slotDescription>
+Returns a list containing the values from the Range starting at the start parameter, ending at the end parameter, and optionally incremented by the by parameter.
+</div>
+<a name="Range-to"></a><b>
+to
+</b>
+<p>
+<div class=slotDescription>
+Convenience constructor that returns a cursor object representing the range of numbers from the receiver to the 'endingPoint' parameter. Increments over each item in that range by 1.
+</div>
+<a name="Range-to"></a><b>
+to(endpoint)
+</b>
+<p>
+<div class=slotDescription>
+Convenience constructor that returns a range of sequences from the receiver to the endpoint argument. Increments over each item in that range by 1.
+</div>
+<a name="Range-toBy"></a><b>
+toBy(endingPoint, incrementValue)
+</b>
+<p>
+<div class=slotDescription>
+Convenience constructor that returns a cursor object representing the range of numbers from the receiver to the 'endingPoint' parameter. Increments over each item in that range by the 'incrementValue' parameter.
+</div>
+<a name="Range-toBy"></a><b>
+toBy(endpoint, increment)
+</b>
+<p>
+<div class=slotDescription>
+Convenience constructor that returns a range of sequences from the receiver to the endpoint argument. Increments over each item in that range by the value of the increment parameter. The increment parameter must be positive.
+</div>
+<a name="Range-value"></a><b>
+value
+</b>
+<p>
+<div class=slotDescription>
+Returns the value of the current item in the range.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>PMap</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Databases</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>Obsidian</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>PMap</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>PMap stores persistent data in a Map-like fashion and lazily loads
+available slots from the PDB backing store. Values stored or loaded are cached
+into local object slots.
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="PMap-at"></a><b>
+at(slotName)
+</b>
+<p>
+<div class=slotDescription>
+Tries to obtain a value for slot slotName from a local slot of that name,
+or tries to load it from the PDB if the local slot does not exist. When all else fails, returns nil.
+<p>
+If slotName begins with an underscore ("_"), returns the id of the slot from PDB instead of the value.
+</div>
+<a name="PMap-atPut"></a><b>
+atPut(slotName, value)
+</b>
+<p>
+<div class=slotDescription>
+Records value in the slot named slotName.
+</div>
+<a name="PMap-createIfAbsent"></a><b>
+createIfAbsent
+</b>
+<p>
+<div class=slotDescription>
+Creates a slot with a new PMap clone if not already present.
+</div>
+<a name="PMap-init"></a><b>
+init
+</b>
+<p>
+<div class=slotDescription>
+Initialize a new PMap and automatically add it as a persistent object to PDB.
+</div>
+<a name="PMap-objectsForKeys"></a><b>
+objectsForKeys
+</b>
+<p>
+<div class=slotDescription>
+Returns a list of values for each key in the list given. Keys beginning with an
+underscore ("_") are returned verbatim.
+</div>
+<a name="PMap-persist"></a><b>
+persist
+</b>
+<p>
+<div class=slotDescription>
+Commits the PMap's slots to PDB.
+</div>
+<a name="PMap-persistSlots"></a><b>
+persistSlots
+</b>
+<p>
+<div class=slotDescription>
+Cleans up dirty slots by committing them to PDB.
+</div>
+<a name="PMap-removeAt"></a><b>
+removeAt
+</b>
+<p>
+<div class=slotDescription>
+Marks a value for removal.
+</div>
+<a name="PMap-removeSlot"></a><b>
+removeSlot
+</b>
+<p>
+<div class=slotDescription>
+Marks a value for removal.
+</div>
+<a name="PMap-shouldPersistByDefault"></a><b>
+shouldPersistByDefault
+</b>
+<p>
+<div class=slotDescription>
+PDB boolean flag indicating whether this object should be considered for persistence
+when persistence has not been specifically requested by calling ppid() or PDB addObjectToPersist.
+Always true by default for PMap.
+</div>
+<a name="PMap-slotCount"></a><b>
+slotCount
+</b>
+<p>
+<div class=slotDescription>
+Returns the number of slots committed to PDB.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

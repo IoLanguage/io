@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Memcached</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Databases</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>Memcached</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>Memcached</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td><a href="http://www.danga.com/memcached/">memcached</a> is a high-performance,
+distributed memory object caching system, generic in nature,
+but intended for use in speeding up dynamic web applications
+by alleviating database load. Memcached is an Io client library for memcached,
+based on C <a href="http://tangent.org/552/libmemcached.html">libmemcached</a>.
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="Memcached-add"></a><b>
+add(key, value[, expiration])
+</b>
+<p>
+<div class=slotDescription>
+Asks memcached to store the value identified by the key,
+but only if the server *doesn't* already hold data for this key.
+Returns true on success, false in case of a collision.
+Otherwise raises an exception.
+</div>
+<a name="Memcached-addServer"></a><b>
+addServer(address)
+</b>
+<p>
+<div class=slotDescription>
+Adds a memcached server. address is a "host:port" string, e.g., "127.0.0.1:11211"
+Returns self.
+</div>
+<a name="Memcached-append"></a><b>
+append(key, value)
+</b>
+<p>
+<div class=slotDescription>
+Asks memcached to add this value to an existing key after existing value.
+Returns true on success, otherwise raises an exception.
+value should be a Sequence.
+Supported by memcached 1.2.4+
+</div>
+<a name="Memcached-at"></a><b>
+at(key, optionalDefaultValue)
+</b>
+<p>
+<div class=slotDescription>
+Asks memcached to retrieve data corresponding to the key.
+	Returns nil if the data is not there (or if the data *is* nil).
+</div>
+<a name="Memcached-atIfAbsentPut"></a><b>
+atIfAbsentPut(key, value[, expiration])
+</b>
+<p>
+<div class=slotDescription>
+If a value is present at the specified key, its value is returned.
+	Otherwise, inserts the new value and returns it.
+</div>
+<a name="Memcached-atPut"></a><b>
+atPut(key, value[, expiration])
+</b>
+<p>
+<div class=slotDescription>
+Asks memcached to store the value identified by the key.
+	Same as Memcached set, but returns self.
+</div>
+<a name="Memcached-decr"></a><b>
+decr([offset])
+</b>
+<p>
+<div class=slotDescription>
+Asks memcached to decrement data for some item in place. The data for the item is
+treated as decimal representation of a 64-bit unsigned integer. If the
+current data value does not conform to such a representation, the
+commands behave as if the value were 0.
+Default offset is 1.
+Returns the new value.
+</div>
+<a name="Memcached-delete"></a><b>
+delete(key[, time])
+</b>
+<p>
+<div class=slotDescription>
+Asks memcached to delete an item with the given key.
+time is the amount of time in seconds (or Unix time until which)
+the client wishes the server to refuse "add" and "replace" commands
+with this key.
+Returns true on success, false if there is no item with the given key.
+Otherwise raises an exception.
+</div>
+<a name="Memcached-flushAll"></a><b>
+flushAll([expiration])
+</b>
+<p>
+<div class=slotDescription>
+Asks memcached to invalidate all existing items immediately (by default)
+or after the expiration specified.
+Always returns true.
+</div>
+<a name="Memcached-get"></a><b>
+get(key)
+</b>
+<p>
+<div class=slotDescription>
+Asks memcached to retrieve data corresponding to the key.
+Raises "NOT FOUND" if the data is not there.
+</div>
+<a name="Memcached-getMulti"></a><b>
+getMulti(keys)
+</b>
+<p>
+<div class=slotDescription>
+Asks memcached to retrieve data corresponding to the list of keys.
+Returns a Map with the results.
+If some of the keys appearing in a retrieval request are not sent back
+by the server in the item list this means that the server does not
+hold items with such keys
+</div>
+<a name="Memcached-incr"></a><b>
+incr([offset])
+</b>
+<p>
+<div class=slotDescription>
+Asks memcached to increment data for some item in place. The data for the item is
+treated as decimal representation of a 64-bit unsigned integer. If the
+current data value does not conform to such a representation, the
+commands behave as if the value were 0.
+Default offset is 1.
+Returns the new value.
+</div>
+<a name="Memcached-prepend"></a><b>
+prepend(key, value)
+</b>
+<p>
+<div class=slotDescription>
+Asks memcached to add this value to an existing key before existing value.
+Returns true on success, otherwise raises an exception.
+value should be a Sequence.
+Supported by memcached 1.2.4+
+</div>
+<a name="Memcached-removeAt"></a><b>
+removeAt(key)
+</b>
+<p>
+<div class=slotDescription>
+Asks memcached to remove value with a given key. Returns self.
+</div>
+<a name="Memcached-replace"></a><b>
+replace(key, value[, expiration])
+</b>
+<p>
+<div class=slotDescription>
+Asks memcached to store the value identified by the key,
+but only if the server *does* already hold data for this key.
+Returns true on success, false if there is already data for this key.
+Otherwise raises an exception.
+</div>
+<a name="Memcached-set"></a><b>
+set(key, value[, expiration])
+</b>
+<p>
+<div class=slotDescription>
+Asks memcached to store the value identified by the key.
+Returns true on success, otherwise raises an exception.
+</div>
+<a name="Memcached-stats"></a><b>
+stats
+</b>
+<p>
+<div class=slotDescription>
+Returns a Map with servers' statistics. Keys are server addresses,
+values are maps with actual stats.
+</div>
+<a name="Memcached-with"></a><b>
+with(servers)
+</b>
+<p>
+<div class=slotDescription>
+Returns a new instance of Memcached.
+	Accepts a Sequence or a List of server addresses.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

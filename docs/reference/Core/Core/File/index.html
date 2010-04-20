@@ -1,0 +1,610 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>File</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Core</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>Core</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>File</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>Encapsulates file i/o. Here's an example of opening a file, 
+and reversing its lines:
+<pre>	
+file = File clone openForUpdating("/tmp/test")
+lines = file readLines reverse
+file rewind
+lines foreach(i, line, file write(line, "\n"))
+file close
+</pre>
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="File-appendToContents"></a><b>
+appendToContents(aSeq)
+</b>
+<p>
+<div class=slotDescription>
+Appends to the contents of the file with aSeq. Returns self.
+</div>
+<a name="File-asBuffer"></a><b>
+asBuffer
+</b>
+<p>
+<div class=slotDescription>
+Opens the receiver in read only mode, reads the whole
+	contents of the file into a buffer object, closes the file and returns the buffer.
+</div>
+<a name="File-at"></a><b>
+at(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Returns a Number containing the byte at the specified
+	byte index or Nil if the index is out of bounds.
+</div>
+<a name="File-atPut"></a><b>
+atPut(positionNumber, byteNumber)
+</b>
+<p>
+<div class=slotDescription>
+Writes the byte value of byteNumber to the file position
+	positionNumber. Returns self.
+</div>
+<a name="File-baseName"></a><b>
+baseName
+</b>
+<p>
+<div class=slotDescription>
+Returns File's name without an extension (returned Sequence consists of all characters up to final period ["."] character).
+</div>
+<a name="File-close"></a><b>
+close
+</b>
+<p>
+<div class=slotDescription>
+Closes the receiver if open, otherwise does nothing. Returns self.
+
+	When the file was opened via popen, sets either exitStatus or
+	termSignal to the exit status on normal exit, or the signal causing
+	abnormal termination.
+</div>
+<font color=#55a>
+<a name="File-containingDirectory"></a><b>
+containingDirectory
+</b>
+<p>
+<div class=slotDescription>
+Deprecated. See parentDirectory.
+</font>
+</div>
+<a name="File-contents"></a><b>
+contents
+</b>
+<p>
+<div class=slotDescription>
+Returns contents of the file as a mutable Sequence of bytes.
+</div>
+<a name="File-copyToPath"></a><b>
+copyToPath(destinationPath)
+</b>
+<p>
+<div class=slotDescription>
+Copies the file to the specified path.
+</div>
+<a name="File-copyToPathWithoutYielding"></a><b>
+copyToPathWithoutYielding(destinationPath)
+</b>
+<p>
+<div class=slotDescription>
+Copies the file to the specified path without yielding.
+</div>
+<a name="File-create"></a><b>
+create
+</b>
+<p>
+<div class=slotDescription>
+Creates an empty file at the file's path. Returns self on success, nil on failure.
+</div>
+<a name="File-descriptor"></a><b>
+descriptor
+</b>
+<p>
+<div class=slotDescription>
+Returns the file's descriptor as a number.
+</div>
+<a name="File-exists"></a><b>
+exists(optionalPath)
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the file path exists, and false otherwise.
+	If optionalPath string is provided, it tests the existance of that path instead.
+</div>
+<a name="File-exitStatus"></a><b>
+exitStatus
+</b>
+<p>
+<div class=slotDescription>
+System's close status (after file close).
+</div>
+<a name="File-flush"></a><b>
+flush
+</b>
+<p>
+<div class=slotDescription>
+Forces any buffered data to be written to disk. Returns self.
+</div>
+<a name="File-foreach"></a><b>
+foreach(optionalIndex, value, message)
+</b>
+<p>
+<div class=slotDescription>
+For each byte, set index to the index of the byte
+and value to the number containing the byte value and execute aMessage.
+Example usage:
+<p>
+<pre>	
+aFile foreach(i, v, writeln("byte at ", i, " is ", v))
+aFile foreach(v, writeln("byte ", v))
+</pre>
+</div>
+<a name="File-foreachLine"></a><b>
+foreachLine(optionalLineNumber, line, message)
+</b>
+<p>
+<div class=slotDescription>
+For each line, set index to the line number of the line
+and line and execute aMessage.
+Example usage:
+<pre>	
+aFile foreachLine(i, v, writeln("Line ", i, ": ", v))
+aFile foreach(v, writeln("Line: ", v))
+</pre>
+</div>
+<a name="File-groupId"></a><b>
+groupId
+</b>
+<p>
+<div class=slotDescription>
+Returns a Number containing the group id associated with the file's path.
+</div>
+<a name="File-isAtEnd"></a><b>
+isAtEnd
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the file is at its end. Otherwise returns false.
+</div>
+<a name="File-isDirectory"></a><b>
+isDirectory
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the receiver's path points to a directory, false otherwise.
+</div>
+<a name="File-isLink"></a><b>
+isLink
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the receiver's path points to a link, false otherwise.
+</div>
+<a name="File-isOpen"></a><b>
+isOpen
+</b>
+<p>
+<div class=slotDescription>
+Returns self if the file is open. Otherwise returns Nil.
+</div>
+<a name="File-isPipe"></a><b>
+isPipe
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the receiver is a pipe, false otherwise.
+</div>
+<a name="File-isRegularFile"></a><b>
+isRegularFile
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the receiver's file descriptor is a regular file, false otherwise.
+</div>
+<a name="File-isSocket"></a><b>
+isSocket
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the receiver's file descriptor is a Socket, false otherwise.
+</div>
+<a name="File-isUserExecutable"></a><b>
+isUserExecutable
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the receiver is user group executable, false otherwise.
+</div>
+<a name="File-lastAccessDate"></a><b>
+lastAccessDate
+</b>
+<p>
+<div class=slotDescription>
+Returns a Date object containing the last date and
+	time the file was accessed.
+</div>
+<a name="File-lastDataChangeDate"></a><b>
+lastDataChangeDate
+</b>
+<p>
+<div class=slotDescription>
+Returns a Date object containing the last date and
+	time the file's contents were changed.
+</div>
+<a name="File-lastInfoChangeDate"></a><b>
+lastInfoChangeDate
+</b>
+<p>
+<div class=slotDescription>
+Returns a Date object containing the last date and
+	time the file's meta info was changed.
+</div>
+<a name="File-mode"></a><b>
+mode
+</b>
+<p>
+<div class=slotDescription>
+Returns the open mode of the file(either read, update or append).
+</div>
+<a name="File-moveTo"></a><b>
+moveTo(pathString)
+</b>
+<p>
+<div class=slotDescription>
+Moves the file specified by the receiver's path to the
+	new path pathString. Raises an File doesNotExist exception if the
+	file does not exist or a File nameConflict exception if the file
+	nameString already exists.
+</div>
+<a name="File-name"></a><b>
+name
+</b>
+<p>
+<div class=slotDescription>
+Returns the last path component of the file path.
+</div>
+<a name="File-open"></a><b>
+open(optionalPathString)
+</b>
+<p>
+<div class=slotDescription>
+Opens the file. Creates one if it does not exist.
+	If the optionalPathString argument is provided, the path is set to it before
+	opening. Returns self or raises an File exception on error.
+</div>
+<a name="File-openForAppending"></a><b>
+openForAppending(optionalPathString)
+</b>
+<p>
+<div class=slotDescription>
+Sets the file mode to append (writing to the end of the file)
+	and calls open(optionalPathString).
+</div>
+<a name="File-openForReading"></a><b>
+openForReading(optionalPathString)
+</b>
+<p>
+<div class=slotDescription>
+Sets the file mode to read (reading only) and calls open(optionalPathString).
+</div>
+<a name="File-openForUpdating"></a><b>
+openForUpdating(optionalPathString)
+</b>
+<p>
+<div class=slotDescription>
+Sets the file mode to update (reading and writing) and calls
+	open(optionalPathString). This will not delete the file if it already exists.
+	Use the remove method first if you need to delete an existing file before opening a new one.
+</div>
+<a name="File-parentDirectory"></a><b>
+parentDirectory
+</b>
+<p>
+<div class=slotDescription>
+Returns a File for the directory that is the parent directory of this object's path.
+</div>
+<a name="File-path"></a><b>
+path
+</b>
+<p>
+<div class=slotDescription>
+Returns the file path of the receiver.
+</div>
+<a name="File-popen"></a><b>
+popen
+</b>
+<p>
+<div class=slotDescription>
+Open the file as a pipe. Return self.
+
+	Closing a popen'ed file sets exitStatus or termSignal
+	to reflect the status or cause of the child processes' termination.
+</div>
+<a name="File-position"></a><b>
+position
+</b>
+<p>
+<div class=slotDescription>
+Returns the current file pointer byte position as a Number.
+</div>
+<a name="File-positionAtEnd"></a><b>
+positionAtEnd
+</b>
+<p>
+<div class=slotDescription>
+Sets the file position pointer to the end of the file.
+</div>
+<a name="File-protectionMode"></a><b>
+protectionMode
+</b>
+<p>
+<div class=slotDescription>
+Returns a Number containing the protection mode
+	associated with the file's path.
+</div>
+<a name="File-readBufferOfLength"></a><b>
+readBufferOfLength(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Reads a Buffer of the specified length and returns it.
+	Returns Nil if the end of the file has been reached.
+</div>
+<a name="File-readLine"></a><b>
+readLine
+</b>
+<p>
+<div class=slotDescription>
+Reads the next line of the file and returns it as a
+	string without the return character. Returns Nil if the 
+	end of the file has been reached.
+</div>
+<a name="File-readLines"></a><b>
+readLines
+</b>
+<p>
+<div class=slotDescription>
+Returns list containing all lines in the file.
+</div>
+<a name="File-readStringOfLength"></a><b>
+readStringOfLength(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Reads a String of the specified length and returns it.
+	Returns Nil if the end of the file has been reached.
+</div>
+<a name="File-readToBufferLength"></a><b>
+readToBufferLength(aBuffer, aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Reads at most aNumber number of items and appends them to aBuffer.
+	Returns number of items read.
+</div>
+<a name="File-readToEnd"></a><b>
+readToEnd(chunkSize)
+</b>
+<p>
+<div class=slotDescription>
+Reads chunkSize bytes (4096 by default) at a time until end of file is reached.  Returns a sequence containing the bytes read from the file.
+</div>
+<a name="File-remove"></a><b>
+remove
+</b>
+<p>
+<div class=slotDescription>
+Removes the file specified by the receiver's path.
+	Raises an error if the file exists but is not removed. Returns self.
+</div>
+<a name="File-reopen"></a><b>
+reopen(otherFile, mode)
+</b>
+<p>
+<div class=slotDescription>
+Reopen's otherFile and redirects its stream to this file's path using mode.
+	If mode is omitted, it is copied from otherFile.
+	Returns self or raises a File exception on error.
+</div>
+<a name="File-rewind"></a><b>
+rewind
+</b>
+<p>
+<div class=slotDescription>
+Sets the file position pointer to the beginning of the file.
+</div>
+<a name="File-setContents"></a><b>
+setContents(aSeq)
+</b>
+<p>
+<div class=slotDescription>
+Replaces the contents for the file with aSeq. Returns self.
+</div>
+<a name="File-setPath"></a><b>
+setPath(aString)
+</b>
+<p>
+<div class=slotDescription>
+Sets the file path of the receiver to pathString.
+	The default path is an empty string. Returns self.
+</div>
+<a name="File-setPosition"></a><b>
+setPosition(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Sets the file position pointer to the byte specified by aNumber. Returns self.
+</div>
+<a name="File-setStreamDestination"></a><b>
+setStreamDestination(aBuffer)
+</b>
+<p>
+<div class=slotDescription>
+Set the buffer to be used for future stream operations.
+</div>
+<a name="File-size"></a><b>
+size
+</b>
+<p>
+<div class=slotDescription>
+Returns the file size in bytes.
+</div>
+<a name="File-standardError"></a><b>
+standardError
+</b>
+<p>
+<div class=slotDescription>
+Returns a new File whose stream is set to the standard error stream.
+</div>
+<a name="File-standardInput"></a><b>
+standardInput
+</b>
+<p>
+<div class=slotDescription>
+Returns a new File whose stream is set to the standard input stream.
+</div>
+<a name="File-standardOutput"></a><b>
+standardOutput
+</b>
+<p>
+<div class=slotDescription>
+Returns a new File whose stream is set to the standard output stream.
+</div>
+<a name="File-startStreaming"></a><b>
+startStreaming
+</b>
+<p>
+<div class=slotDescription>
+Begin streamed read to stream destination set by setStreamDestination(aBuffer).
+</div>
+<a name="File-stat"></a><b>
+stat
+</b>
+<p>
+<div class=slotDescription>
+Updates the receiver's meta info cache.
+</div>
+<a name="File-statSize"></a><b>
+statSize
+</b>
+<p>
+<div class=slotDescription>
+Returns the file's size in bytes as a Number.
+</div>
+<a name="File-streamDestination"></a><b>
+streamDestination
+</b>
+<p>
+<div class=slotDescription>
+The buffer object to be used for future stream operations.
+</div>
+<a name="File-streamReadSize"></a><b>
+streamReadSize
+</b>
+<p>
+<div class=slotDescription>
+Size of stream buffer used for streaming operations
+</div>
+<a name="File-streamTo"></a><b>
+streamTo(aBuffer)
+</b>
+<p>
+<div class=slotDescription>
+Perform streamed reading to given buffer. The buffer will be appended with chunks of size streamReadSize until EOF. The final chunk may be less than streamReadSize.
+</div>
+<a name="File-streamToWithoutYielding"></a><b>
+streamToWithoutYielding(aBuffer)
+</b>
+<p>
+<div class=slotDescription>
+Perform streamed reading to given buffer without yielding between reads.
+</div>
+<a name="File-temporaryFile"></a><b>
+temporaryFile
+</b>
+<p>
+<div class=slotDescription>
+Returns a new File object with an open temporary file. The file is
+	automatically deleted when the returned File object is closed or garbage collected.
+</div>
+<a name="File-termSignal"></a><b>
+termSignal
+</b>
+<p>
+<div class=slotDescription>
+Pipe's terminating signal (after file close opened via popen).
+</div>
+<a name="File-thisSourceFile"></a><b>
+thisSourceFile
+</b>
+<p>
+<div class=slotDescription>
+Returns a File representing the system file in which this Io code exists.
+</div>
+<a name="File-truncateToSize"></a><b>
+truncateToSize(numberOfBytes)
+</b>
+<p>
+<div class=slotDescription>
+Trunctates the file's size to the numberOfBytes. Returns self.
+</div>
+<a name="File-userId"></a><b>
+userId
+</b>
+<p>
+<div class=slotDescription>
+Returns a Number containing the user id associated with the file's path.
+</div>
+<a name="File-with"></a><b>
+with(aPath)
+</b>
+<p>
+<div class=slotDescription>
+Returns a new instance with the provided path.
+</div>
+<a name="File-write"></a><b>
+write(aSequence1, aSequence2, ...)
+</b>
+<p>
+<div class=slotDescription>
+Writes the arguments to the receiver file. Returns self.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

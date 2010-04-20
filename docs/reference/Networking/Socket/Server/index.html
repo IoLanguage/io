@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Server</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Networking</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>Socket</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>Server</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>The Server object provides a simple interface for running a server. 
+You just need to set the port and define a handleSocket method. Here's an example of an echo server:
+
+<pre>
+Echo := Object clone
+Echo handleSocketFromServer := method(aSocket, aServer,
+  write("[Got echo connection from ", aSocket host, "]\n")
+  while(aSocket isOpen,
+   if(aSocket read, aSocket write(aSocket readBuffer asString))
+   aSocket readBuffer empty
+  )
+  write("[Closed ", aSocket host, "]\n")
+)
+
+write("[Starting echo server on port 8456]\n")
+server := Server clone setPort(8456)
+server handleSocket := method(aSocket,
+  Echo clone @handleSocketFromServer(aSocket, self)
+)
+server start
+</pre>
+
+<b>Notes</b><p>
+
+Io's use of lightweight threading and select for dealing with sockets makes for 
+servers that are much more efficient (both memory and cpu wise) than those written 
+with kernel threads and socket polling.
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="Server-handleSocket"></a><b>
+handleSocket(aSocket)
+</b>
+<p>
+<div class=slotDescription>
+This method is called when the server accepts a new socket. The new socket is passed as the argument.
+	Override this method in your own server subclass. The default implementation raises an exception.
+</div>
+<a name="Server-port"></a><b>
+port
+</b>
+<p>
+<div class=slotDescription>
+Returns the port on which the server will listen for connections.
+</div>
+<a name="Server-setHost"></a><b>
+setHost(hostName)
+</b>
+<p>
+<div class=slotDescription>
+Sets the hostName. Returns self.
+</div>
+<a name="Server-setPort"></a><b>
+setPort(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Sets the port on which the server will listen  for connections. Returns self.
+</div>
+<a name="Server-start"></a><b>
+start
+</b>
+<p>
+<div class=slotDescription>
+Starts the server. This method will not return until server is stopped, 
+	so you may want to send the start message as an asynchronous message. 
+	Returns self or an Error, if one occurs.
+</div>
+<a name="Server-stop"></a><b>
+stop
+</b>
+<p>
+<div class=slotDescription>
+Stops the server if it is running. Returns self.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

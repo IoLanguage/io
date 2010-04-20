@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>DNS</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Networking</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>Socket</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>DNS</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>Utility methods related to Domain Name Service lookups.
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="DNS-dnsQueryPacketForHostName"></a><b>
+dnsQueryPacketForHostName(hostNameSeq)
+</b>
+<p>
+<div class=slotDescription>
+Assembles a DNS query packet for the given host name and returns it in a Sequence.
+</div>
+<a name="DNS-hostNameAndIPforDNSResponsePacket"></a><b>
+hostNameAndIPforDNSResponsePacket(dnsResponsePacketSeq)
+</b>
+<p>
+<div class=slotDescription>
+Dissasembles the given dnsResponsePacketSeq and returns a list object containing
+the hostName and IP or an error string on error.
+</div>
+<a name="DNS-localNameServersIPs"></a><b>
+localNameServersIPs
+</b>
+<p>
+<div class=slotDescription>
+Returns a list of local name server IPs as a list of Sequences. Works on OSX, Unix, Windows.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>MySQL</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Databases</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>MySQL</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>MySQL</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td><a href="http://www.mysql.com/">MySQL</a> is a fast, multi-threaded,
+multi-user SQL database server. IoMySQL is a MySQL binding for Io,
+by <a href="http://dahlia.pe.kr/">Min-hee Hong</a>.
+
+<pre><code>
+my := MySQL establish(&quot;localhost&quot;, &quot;user&quot;, &quot;password&quot;, &quot;database&quot;)
+
+# Get rows by Map
+my queryThenMap(&quot;SELECT * FROM rel&quot;) foreach(at(&quot;col&quot;) println)
+# Get rows by List
+my query(&quot;SELECT * FROM rel&quot;) foreach(at(0) println)
+
+my close
+</code></pre>
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="MySQL-close"></a><b>
+close
+</b>
+<p>
+<div class=slotDescription>
+Closes a previously opened connection.
+</div>
+<a name="MySQL-connect"></a><b>
+connect(host, user, password, database, port, unixSocket, useSSL)
+</b>
+<p>
+<div class=slotDescription>
+Connect to a MySQL database.
+</div>
+<a name="MySQL-connected"></a><b>
+connected
+</b>
+<p>
+<div class=slotDescription>
+Returns true if connected to the database, false otherwise.
+</div>
+<a name="MySQL-establish"></a><b>
+establish
+</b>
+<p>
+<div class=slotDescription>
+Establish a connection to a MySQL database.
+</div>
+<a name="MySQL-lastInsertRowId"></a><b>
+lastInsertRowId
+</b>
+<p>
+<div class=slotDescription>
+Returns the value generated for an AUTO_INCREMENT column by the previous INSERT or UPDATE statement.
+</div>
+<a name="MySQL-query"></a><b>
+query(aQueryString)
+</b>
+<p>
+<div class=slotDescription>
+Perform a SQL query and return a list of results.
+	<pre>
+	db query("SELECT * FROM accounts") foreach(println)
+	</pre>
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

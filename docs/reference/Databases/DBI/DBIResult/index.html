@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>DBIResult</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Databases</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>DBI</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>DBIResult</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>A DBI Result created by a call to DBIConn query.
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="DBIResult-at"></a><b>
+at(index_or_name)
+</b>
+<p>
+<div class=slotDescription>
+Returns the contents of the given field. 
+	 The parameter can be a field index or a field name.
+</div>
+<a name="DBIResult-done"></a><b>
+done
+</b>
+<p>
+<div class=slotDescription>
+Close and free the result. This <b>must</b> be called on
+each result. Failure to do so will cause memory leaks and open queries with
+the database server.
+</div>
+<a name="DBIResult-fields"></a><b>
+fields
+</b>
+<p>
+<div class=slotDescription>
+Returns a list of field names in the result.
+</div>
+<a name="DBIResult-first"></a><b>
+first
+</b>
+<p>
+<div class=slotDescription>
+Move the cursor to the first record.
+</div>
+<a name="DBIResult-foreach"></a><b>
+foreach([Object], value, message)
+</b>
+<p>
+<div class=slotDescription>
+Loops over the records in the result starting at either the first result 
+(if the cursor has never been moved) or its current location if moved. i.e.
+
+<pre>
+r := conn query("SELECT * FROM people")
+r foreach(r, r at(1))
+</pre>
+
+The above would start at the first row, however, you can move around in the
+result set and then foreach would pickup where you left off, for instance, say
+you wanted to skip the first three rows:
+
+<pre>
+r := conn query("SELECT * FROM people")
+r seek(4)
+r foreach(r, r at (1))
+</pre>
+
+The above would start at the record #4, not at the beginning.
+
+The optional Object parameter would cause a decendent of DBIRecord to be
+populate instead of the index being set. This allows for advanced
+functionality. Please see `DBIRecord' for further information and an example.
+</div>
+<a name="DBIResult-last"></a><b>
+last
+</b>
+<p>
+<div class=slotDescription>
+Move the cursor to the last record.
+</div>
+<a name="DBIResult-next"></a><b>
+next
+</b>
+<p>
+<div class=slotDescription>
+Move the cursor to the next record.
+</div>
+<a name="DBIResult-populate"></a><b>
+populate(object)
+</b>
+<p>
+<div class=slotDescription>
+Populates a decendent of DBIRecord with the current record's contents. 
+	See `DBIRecord' for further explanation and an example.
+</div>
+<a name="DBIResult-position"></a><b>
+position
+</b>
+<p>
+<div class=slotDescription>
+Return the current row's position (or index).
+</div>
+<a name="DBIResult-previous"></a><b>
+previous
+</b>
+<p>
+<div class=slotDescription>
+Move the cursor to the previous record.
+</div>
+<a name="DBIResult-seek"></a><b>
+seek(row_number)
+</b>
+<p>
+<div class=slotDescription>
+Move the cursor to the nth record.
+</div>
+<a name="DBIResult-size"></a><b>
+size
+</b>
+<p>
+<div class=slotDescription>
+Returns the number of rows available.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

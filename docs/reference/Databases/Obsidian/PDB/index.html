@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>PDB</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Databases</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>Obsidian</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>PDB</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>An arbitrary graph database with support for on-disk garbage collection. Example use:
+
+<h4>Setup</h4>
+
+<pre>
+PDB open
+PDB root atPut("users", PMap clone)
+PDB sync
+PDB close
+</pre>
+
+PMap is a Map/Dictionary whose keys are lazily loaded from the database. 
+PDB root is the root PMap in the database and the root object used for PDB's garbage collector. 
+PDB sync needs to be called to write any changes to the database.
+
+<h4>Defining a Persistent Object</h4>
+
+<pre>
+User := Object clone pSlots(name, email)
+</pre>
+
+The pSlots(), declares which slots on the object should be persisted. 
+The List, Date, Sequence and Number primitives already know how to persist themselves.
+
+<h4>Inserting a Persistent Object</h4>
+
+<pre>
+PDB open 
+user := User clone setName("steve") setEmail("steve@foo.com")
+PDB root users atPut("steve", user)
+PDB sync
+PDB close
+</pre>
+
+<h4>Accessing a Persistent Object</h4>
+
+<pre>
+user := PDB root users at("steve")
+writeln("user name = ", user name, " email = ", user email)
+</pre>
+
+<h4>Updating a Persistent Object</h4>
+
+<pre>
+user setEmail("steve@newDomain.com")
+PDB sync 
+</pre>
+
+PDB sync will scan all persistent objects in the vm and save any with changes to their persistent slots. 
+If the object was already in the database, only its updated slots will be written.
+
+<h4>Removing an entry in a PMap</h4>
+
+<pre>
+PDB root users removeAt("steve")
+</pre>
+
+<h4>Removing a persistent object</h4>
+
+This is never done explicitly, instead calling:
+
+<pre>
+PDB collectGarbage
+</pre>
+
+Will remove all objects unreachable by the reference graph from the root PMap.
+
+<p>
+Notes: Currently, PDB is a singleton.
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="PDB-addObjectToPersist"></a><b>
+addObjectToPersist
+</b>
+<p>
+<div class=slotDescription>
+Register an object to be persisted in the next PDB sync.
+</div>
+<a name="PDB-close"></a><b>
+close
+</b>
+<p>
+<div class=slotDescription>
+Close the persistence database.
+</div>
+<a name="PDB-collectGarbage"></a><b>
+collectGarbage
+</b>
+<p>
+<div class=slotDescription>
+Remove from PDB all objects not accessible via the root object.
+</div>
+<a name="PDB-newId"></a><b>
+newId
+</b>
+<p>
+<div class=slotDescription>
+Generate a new PDB id number for use as a persistent object's ppid.
+</div>
+<a name="PDB-objectAtPpid"></a><b>
+objectAtPpid
+</b>
+<p>
+<div class=slotDescription>
+Return the object associated in the database with a ppid.
+</div>
+<a name="PDB-reopen"></a><b>
+reopen
+</b>
+<p>
+<div class=slotDescription>
+Sync, close and reopen the PDB store.
+</div>
+<a name="PDB-root"></a><b>
+root
+</b>
+<p>
+<div class=slotDescription>
+Return the root PMap object used to store and retrieve persistent objects and their slots.
+</div>
+<a name="PDB-show"></a><b>
+show
+</b>
+<p>
+<div class=slotDescription>
+Print to standard output a listing of all objects and IDs stored in PDB.
+</div>
+<a name="PDB-sync"></a><b>
+sync
+</b>
+<p>
+<div class=slotDescription>
+Immediately persist data for all objects marked dirty by Collector whose 
+shouldPersistByDefault is true, or that have specifically requested to be
+persisted since the last sync via addObjectToPersist.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

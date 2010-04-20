@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>DNSQuery</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Networking</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>Socket</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>DNSQuery</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>An object representing an individual DNS query.
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<font color=#888>
+<a name="DNSQuery-addCoro"></a><b>
+addCoro(aCoro)
+</b>
+<p>
+<div class=slotDescription>
+Private method that adds a coro to coros.
+</font>
+</div>
+<a name="DNSQuery-coros"></a><b>
+coros
+</b>
+<p>
+<div class=slotDescription>
+List of coroutines paused waiting for this query.
+		These coros will be resumed when the query completes.
+</div>
+<a name="DNSQuery-hostName"></a><b>
+hostName
+</b>
+<p>
+<div class=slotDescription>
+The host name which the query will request an IP for.
+</div>
+<a name="DNSQuery-resumeCoros"></a><b>
+resumeCoros
+</b>
+<p>
+<div class=slotDescription>
+Resumes all the paused coros. <font color=red>Should this use resumeLater instead?</font>
+</div>
+<a name="DNSQuery-setHostName"></a><b>
+setHostName(aSeq)
+</b>
+<p>
+<div class=slotDescription>
+Sets the host name for the query.
+</div>
+<a name="DNSQuery-waitOn"></a><b>
+waitOn
+</b>
+<p>
+<div class=slotDescription>
+Pauses the calling coroutine until the query is completed.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

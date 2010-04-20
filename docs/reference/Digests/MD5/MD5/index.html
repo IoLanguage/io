@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>MD5</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Digests</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>MD5</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>MD5</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>An object for calculating MD5 hashes. Each hash calculation should instantiate its own MD5 instance.
+<p>
+Example:
+<pre>
+digest := MD5 clone
+digest appendSeq("this is a message")
+out := digest md5String
+</pre>
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="MD5-appendSeq"></a><b>
+appendSeq(aSequence)
+</b>
+<p>
+<div class=slotDescription>
+Appends aSequence to the hash calculation. Returns self.
+</div>
+<a name="MD5-md5"></a><b>
+md5
+</b>
+<p>
+<div class=slotDescription>
+Completes the MD5 calculation and returns the hash as a Buffer. Once this method is called, append() should not be called again on the receiver or it will raise an exception.
+</div>
+<a name="MD5-md5String"></a><b>
+md5String
+</b>
+<p>
+<div class=slotDescription>
+Returns a string containing a hexadecimal representation of the md5 hash.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

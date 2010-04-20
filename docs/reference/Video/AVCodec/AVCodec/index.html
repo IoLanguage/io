@@ -1,0 +1,227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>AVCodec</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Video</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>AVCodec</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>AVCodec</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>An object for encoding and decoding audio and video streams.
+
+<p>
+When an input stream containing audio data is opened, the following slots will be set:
+<pre>
+audioChannels
+audioSampleRate
+audioBitRate
+audioDuration
+audioFrameCount
+</pre>
+
+When an input stream containing video data is opened, the following slots will be set:
+
+<pre>
+framePeriod
+videoDuration
+videoFrameCount
+</pre>
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="AVCodec-audioInputBuffer"></a><b>
+audioInputBuffer
+</b>
+<p>
+<div class=slotDescription>
+Returns the input buffer.
+</div>
+<a name="AVCodec-audioOutputBuffer"></a><b>
+audioOutputBuffer
+</b>
+<p>
+<div class=slotDescription>
+Returns the output buffer.
+</div>
+<a name="AVCodec-close"></a><b>
+close
+</b>
+<p>
+<div class=slotDescription>
+Closes the input file if it's open. Returns self.
+</div>
+<a name="AVCodec-codecName"></a><b>
+codecName
+</b>
+<p>
+<div class=slotDescription>
+Returns name of audio or video codec.
+</div>
+<a name="AVCodec-decode"></a><b>
+decode
+</b>
+<p>
+<div class=slotDescription>
+Decodes the next chunk of input data. 
+	Output (if any) is placed in the outputBuffers. 
+	Returns self.
+</div>
+<a name="AVCodec-decodeCodecNames"></a><b>
+decodeCodecNames
+</b>
+<p>
+<div class=slotDescription>
+Returns a list of strings with the names of the decode codecs.
+</div>
+<a name="AVCodec-didProcess"></a><b>
+didProcess
+</b>
+<p>
+<div class=slotDescription>
+Called after the receiver processes some more of the input buffer.
+</div>
+<a name="AVCodec-encodeCodecNames"></a><b>
+encodeCodecNames
+</b>
+<p>
+<div class=slotDescription>
+Returns a list of strings with the names of the encode codecs.
+</div>
+<a name="AVCodec-inputCoro"></a><b>
+inputCoro
+</b>
+<p>
+<div class=slotDescription>
+Returns coroutine currently writing to the receiver.
+</div>
+<a name="AVCodec-internalCoro"></a><b>
+internalCoro
+</b>
+<p>
+<div class=slotDescription>
+Returns coroutine used for the AVCodec to process data.
+</div>
+<a name="AVCodec-isAtEnd"></a><b>
+isAtEnd
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the stream is at its end, false otherwise.
+</div>
+<a name="AVCodec-open"></a><b>
+open
+</b>
+<p>
+<div class=slotDescription>
+Opens the input file. Return self on success or raises an exception on error.
+</div>
+<a name="AVCodec-path"></a><b>
+path
+</b>
+<p>
+<div class=slotDescription>
+Returns path to file the receiver is reading from or writing to.
+</div>
+<a name="AVCodec-setCodecName"></a><b>
+setCodecName(aSeq)
+</b>
+<p>
+<div class=slotDescription>
+Sets the codec name. Returns self. See: encodeCodecNames and decodeCodecNames
+</div>
+<font color=#888>
+<a name="AVCodec-setInputCoro"></a><b>
+setInputCoro(aCoro)
+</b>
+<p>
+<div class=slotDescription>
+Private method for setting inputCoro. Returns self.
+</font>
+</div>
+<font color=#888>
+<a name="AVCodec-setInternalCoro"></a><b>
+setInternalCoro(aCoro)
+</b>
+<p>
+<div class=slotDescription>
+Private method for setting internalCoro. Returns self.
+</font>
+</div>
+<a name="AVCodec-setPath"></a><b>
+setPath(aSeq)
+</b>
+<p>
+<div class=slotDescription>
+Sets the path to file the receiver is reading or writing to. Returns self.
+</div>
+<a name="AVCodec-setStreamDestination"></a><b>
+setStreamDestination(anObject)
+</b>
+<p>
+<div class=slotDescription>
+Sets the streamDestination to anObject. The didProcess method will call:
+<pre>
+if(streamDestination, streamDestination write(outputBuffer))
+outputBuffer empty
+</pre>
+</div>
+<a name="AVCodec-streamDestination"></a><b>
+streamDestination
+</b>
+<p>
+<div class=slotDescription>
+Returns the streamDestination.
+</div>
+<a name="AVCodec-videoCodecName"></a><b>
+videoCodecName
+</b>
+<p>
+<div class=slotDescription>
+Returns the name of the video codec.
+</div>
+<a name="AVCodec-willProcess"></a><b>
+willProcess
+</b>
+<p>
+<div class=slotDescription>
+Called before the receiver will process more of the input buffer. 
+	If inputBuffer is empty, it pauses the receiver's coro.
+</div>
+<a name="AVCodec-write"></a><b>
+write(aSequence)
+</b>
+<p>
+<div class=slotDescription>
+Appends aSequence to the input buffer and resumes the receiver's coroutine in order to process it.
+	The calling coroutine (inputCoroutine) will be scheduled to resume when didProcess is called.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

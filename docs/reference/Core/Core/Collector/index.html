@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Collector</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Core</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>Core</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>Collector</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>A singleton containing methods related to Io's garbage collector. 
+Io currently uses a incremental, non-moving, generational 
+collector based on the tri-color (black/gray/white) 
+algorithm with a write-barrier.
+<p>
+Every N number of object allocs, the collector will walk 
+some of the objects marked as gray, marking their connected 
+white objects as gray and turning themselves black. 
+Every M allocs, it will pause for a sweep where it makes sure 
+all grays are marked black and io_frees all whites.
+<p>
+If the sweepsPerGeneration is set to zero, it will immediately mark 
+all blacks as white again and mark the root objects as gray. Otherwise, 
+it will wait until the sweepsPerGeneration count is reached to do this. 
+By adjusting the allocsPerSweep and sweepsPerGeneration appropriately, the 
+collector can be tuned efficiently for various usage cases. 
+
+Generally, the more objects in your heap, the larger you'll want this number.
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="Collector-allObjects"></a><b>
+allObjects
+</b>
+<p>
+<div class=slotDescription>
+Returns a List containing all objects known to the collector.
+</div>
+<a name="Collector-allocatedStep"></a><b>
+allocatedStep
+</b>
+<p>
+<div class=slotDescription>
+Return the allocation step value as a Number.
+</div>
+<a name="Collector-cleanAllObjects"></a><b>
+cleanAllObjects
+</b>
+<p>
+<div class=slotDescription>
+Sets all objects as clean. Returns self.
+</div>
+<a name="Collector-collect"></a><b>
+collect
+</b>
+<p>
+<div class=slotDescription>
+Runs garbage collector. Returns the number of items collected.
+</div>
+<a name="Collector-dirtyObjects"></a><b>
+dirtyObjects
+</b>
+<p>
+<div class=slotDescription>
+Returns a List containing all dirty objects known to the collector.
+</div>
+<a name="Collector-marksPerAlloc"></a><b>
+marksPerAlloc
+</b>
+<p>
+<div class=slotDescription>
+Return the number of allocations per collector mark pass.
+</div>
+<a name="Collector-maxAllocatedBytes"></a><b>
+maxAllocatedBytes
+</b>
+<p>
+<div class=slotDescription>
+Returns the maximum number of bytes allocated by the collector.
+</div>
+<a name="Collector-objectWithUniqueId"></a><b>
+objectWithUniqueId(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Returns an object whose uniqueId is aNumber or nil if no match is found. 
+	Warning: This lookup currently scans all objects, so it is not efficient, 
+	though it should handle thousands of lookups per second.
+</div>
+<a name="Collector-resetMaxAllocatedBytes"></a><b>
+resetMaxAllocatedBytes
+</b>
+<p>
+<div class=slotDescription>
+Resets maximum number of bytes allocated by the collector. Returns self.
+</div>
+<a name="Collector-setAllocatedStep"></a><b>
+setAllocatedStep(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Sets the allocatedStep (can have a fractional component, 
+	but must be larger than 1). A collector sweep is forced when the 
+	number of allocated objects exceeds the allocatedSweepLevel. 
+	After a sweep, the allocatedSweepLevel is set to the allocated 
+	object count times the allocatedStep. Returns self.
+</div>
+<a name="Collector-setDebug"></a><b>
+setDebug(aBool)
+</b>
+<p>
+<div class=slotDescription>
+Turns on/off printing of collector debugging messages. Returns self.
+</div>
+<a name="Collector-setMarksPerAlloc"></a><b>
+setMarksPerAlloc(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Sets the number of incremental collector marks per object 
+	allocation (can be fractional). Returns self.
+</div>
+<a name="Collector-showStats"></a><b>
+showStats
+</b>
+<p>
+<div class=slotDescription>
+Prints the collector's stats to standard output.
+</div>
+<a name="Collector-timeUsed"></a><b>
+timeUsed
+</b>
+<p>
+<div class=slotDescription>
+Return the time used so far by the collector in seconds.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

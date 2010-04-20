@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>AsyncRequest</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Filesystem</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>AsyncRequest</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>AsyncRequest</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>Used for doing asynchronous file i/o. When this addon is loaded, it will override
+the File proto's readToBufferLength, readBufferOfLength and write methods to 
+automatically use AsyncRequests. 
+<p>
+Note: This addon is only needed for async file requests - all socket ops are already
+asynchronous in Io.
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="AsyncRequest-cancel"></a><b>
+cancel
+</b>
+<p>
+<div class=slotDescription>
+Cancels the request. Returns nil on error or self otherwise.
+</div>
+<a name="AsyncRequest-copyBufferto"></a><b>
+copyBufferto(aSeq)
+</b>
+<p>
+<div class=slotDescription>
+Copies the request buffer's data to aSeq.
+	Returns nil on error or self otherwise.
+</div>
+<a name="AsyncRequest-descriptor"></a><b>
+descriptor
+</b>
+<p>
+<div class=slotDescription>
+Returns the descriptor for the request.
+</div>
+<a name="AsyncRequest-error"></a><b>
+error
+</b>
+<p>
+<div class=slotDescription>
+Returns sequence containing the last error or nil otherwise.
+</div>
+<a name="AsyncRequest-isDone"></a><b>
+isDone
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the request is done, false otherwise.
+</div>
+<a name="AsyncRequest-numberOfBytes"></a><b>
+numberOfBytes
+</b>
+<p>
+<div class=slotDescription>
+Returns the number of bytes associated with the request.
+</div>
+<a name="AsyncRequest-position"></a><b>
+position
+</b>
+<p>
+<div class=slotDescription>
+Returns a Number for the position of the descriptor.
+</div>
+<a name="AsyncRequest-read"></a><b>
+read(aSeq, numberOfBytes)
+</b>
+<p>
+<div class=slotDescription>
+Submits an async read request. Returns nil on error, self otherwise.
+</div>
+<a name="AsyncRequest-setDescriptor"></a><b>
+setDescriptor(aDescriptorNumber)
+</b>
+<p>
+<div class=slotDescription>
+Sets the descriptor for the receiver. Returns self.
+</div>
+<a name="AsyncRequest-sync"></a><b>
+sync
+</b>
+<p>
+<div class=slotDescription>
+Waits for the request to complete. Returns nil on error or self otherwise.
+</div>
+<a name="AsyncRequest-write"></a><b>
+write(fileOffset, aSeq, bufferOffset, numberOfBytesToWrite)
+</b>
+<p>
+<div class=slotDescription>
+Submits an async write request. Returns nil on error, self otherwise.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>
