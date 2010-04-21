@@ -13,16 +13,18 @@
 
 typedef IoObject IoCFFIDataType;
 
-typedef struct IoCFFIDataType {
+typedef struct {
 	union {
-		char		c[1];
-		unsigned char	C[1];
+		char		c;
+		unsigned char	C;
 		short		s;
 		unsigned short	S;
 		int		i;
 		unsigned int	I;
 		long		l;
 		unsigned long	L;
+		long long		g;
+		unsigned long long	G;
 		float		f;
 		double		d;
 		char		*str;

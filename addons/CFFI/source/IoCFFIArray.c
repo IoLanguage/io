@@ -215,7 +215,7 @@ IoCFFIArray *IoCFFIArray_setValue(IoCFFIArray *self, IoObject *locals, IoMessage
 
 IoNumber *IoCFFIArray_size(IoCFFIArray *self, IoObject *locals, IoMessage *m)
 {
-	return IONUMBER(DATA(self)->arraySize);
+	return IONUMBER(DATA(self)->arraySize * DATA(self)->itemSize);
 }
 
 /* ---------------------------------------------------------------- */

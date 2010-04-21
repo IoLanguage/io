@@ -22,6 +22,7 @@ CFFI do(
 			self setValues := method(
 				if(self address isNil not,
 					args := call message argsEvaluatedIn(call sender)
+					size := self size / self arrayType size
 					for(i, 0, size - 1, self atPut(i, args at(i)))
 					self
 				,
