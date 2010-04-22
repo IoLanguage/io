@@ -4,11 +4,20 @@
  */
 
 AddonBuilder clone do(
+
+	//headerSearchPaths foreach(path, appendHeaderSearchPath(path .. "/libffi"))
+	//libSearchPaths foreach(libSearchPath, appendLibSearchPath(libSearchPath .. "/libffi"))
+
+	if(System platform == "Linux",	
+		//Debian/Ubuntu x86
+		appendHeaderSearchPath("/usr/include/i486-linux-gnu")
+
+		//Debian/Ubuntu amd64
+		appendHeaderSearchPath("/usr/include/x86_64-linux-gnu")
+	)
+
 	dependsOnLib("ffi")
 	dependsOnHeader("ffi.h")
-
-	headerSearchPaths foreach(path, appendHeaderSearchPath(path .. "/libffi"))
-	libSearchPaths foreach(libSearchPath, appendLibSearchPath(libSearchPath .. "/libffi"))
 
 	debs    atPut("libffi", "libffi-dev")
 	ebuilds atPut("libffi", "libffi")

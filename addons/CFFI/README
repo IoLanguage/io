@@ -1,7 +1,14 @@
 
 ChangeLog:
 
-10/04/2010
+04/20/2010
+----------
+- Added CString size: gets the size of the underlying Sequence.
+- Added LongLong/ULongLong types
+- Modified Array size to return the array size in bytes (nitems*itemsize)
+- Fix in Pointer cast: don't keepref when casting to CString
+
+04/10/2010
 ----------
 - More unit tests
 - Better type casting (Pointer proto)

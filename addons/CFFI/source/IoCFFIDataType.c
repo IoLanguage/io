@@ -120,8 +120,12 @@ void *IoCFFIDataType_ValuePointerFromObject_(IoCFFIDataType *self, IoObject *val
 			// If a Char, we want the address where the char is stored (that is,
 			// a simple indirection).
 			char c = CSTRING(typeStr)[0];
-			if(c == 'c' || c == 'C')	return *(void **)IoObject_dataPointer(value);
-			else				return (void *)IoObject_dataPointer(value);
+			if(c == 'c' || c == 'C') {
+				return *(void **)IoObject_dataPointer(value);
+			}
+			else {
+				return (void *)IoObject_dataPointer(value);
+			}
 		}
 		else { // or simply return the string pointer (ie: passing a string to a Function) ?
 			return (void *)IoObject_dataPointer(value);
@@ -184,6 +188,10 @@ IoObject *IoCFFIDataType_setValueFromData(IoCFFIDataType *self, IoObject* source
 			*(long *)POINTER(data) = (long)*(double *)value; break;
 		case 'L':
 			*(unsigned long *)POINTER(data) = (unsigned long)*(double *)value; break;
+		case 'g':
+			*(long long *)POINTER(data) = (long long)*(double *)value; break;
+		case 'G':
+			*(unsigned long long *)POINTER(data) = (unsigned long long)*(double *)value; break;
 		case 'f':
 			*(float *)POINTER(data) = *(float *)value; break;
 		case 'd':
@@ -269,6 +277,8 @@ IoObject *IoCFFIDataType_asBuffer(IoCFFIDataType *self, IoObject *locals, IoMess
 		case 'I':
 		case 'l':
 		case 'L':
+		case 'g':
+		case 'G':
 		case 'f':
 		case 'd':
 			len = IoCFFIDataType_ffiType(self)->size;
@@ -347,6 +357,10 @@ IoObject *IoCFFIDataType_objectFromData_(IoCFFIDataType *self, void *data)
 			return IONUMBER(((double)(*((long *)data))));
 		case 'L':
 			return IONUMBER(((double)(*((unsigned long *)data))));
+		case 'g':
+			return IONUMBER(((double)(*((long long *)data))));
+		case 'G':
+			return IONUMBER(((double)(*((unsigned long long *)data))));
 		case 'f':
 			return IONUMBER(((double)(*((float *)data))));
 		case 'd':
@@ -403,6 +417,8 @@ ffi_type *IoCFFIDataType_ffiType(IoCFFIDataType *self)
 		case 'I':	return &ffi_type_uint;
 		case 'l':	return &ffi_type_slong;
 		case 'L':	return &ffi_type_ulong;
+		case 'g':	return &ffi_type_sint64;
+		case 'G':	return &ffi_type_uint64;
 		case 'f':	return &ffi_type_float;
 		case 'd':	return &ffi_type_double;
 		case 'v':	return &ffi_type_void;
@@ -441,6 +457,8 @@ void *IoCFFIDataType_valuePointer(IoCFFIDataType* self)
 		case 'I':
 		case 'l':
 		case 'L':
+		case 'g':
+		case 'G':
 		case 'f':
 		case 'd':
 		case '*':

@@ -19,5 +19,7 @@ DataTypeTest := UnitTest clone do(
 		assertEquals(9473, ULong setValue(9473) value)
 		assertEquals(-7.65434, Double setValue(-7.65434) value)
 		assertEquals("abc", CString setValue("abc") value)
+		assertEquals(-100000000000, LongLong setValue(-100000000000) value)
+		assertEquals(13334465676550000, ULongLong setValue(13334465676550000) value)
 	)
 )

@@ -53,6 +53,7 @@ IoCFFIPointer *IoCFFIPointer_proto(void *state)
 			{"cast", IoCFFIPointer_cast},
 			{"value", IoCFFIPointer_value},
 			{"setValue", IoCFFIPointer_setValue},
+			{"size", IoCFFIPointer_size},
 			{"toType", IoCFFIPointer_toType},
 			{NULL, NULL},
 		};
@@ -313,6 +314,7 @@ IoObject *IoCFFIPointer_cast(IoCFFIPointer *self, IoObject *locals, IoMessage *m
 				toType = IOCLONE(toType);
 				//IoCFFIDataType_rawSetValue(toType, self); //same indirection levels...
 				*(DATA(toType)->valuePointer) = *((void **)IoCFFIDataType_ValuePointerFromObject_(toType, from));
+				DATA(toType)->keepRef = IOREF(from);
 				break;
 			case '*':
 				toType = IOCLONE(toType);
@@ -323,7 +325,6 @@ IoObject *IoCFFIPointer_cast(IoCFFIPointer *self, IoObject *locals, IoMessage *m
 				return IONIL(self);
 		}
 
-		DATA(toType)->keepRef = IOREF(from);
 		return toType;
 	}
 	else {
@@ -337,6 +338,11 @@ IoObject *IoCFFIPointer_cast(IoCFFIPointer *self, IoObject *locals, IoMessage *m
 	}
 
 	return IONIL(self);
+}
+
+IoObject *IoCFFIPointer_size(IoCFFIPointer *self, IoObject *locals, IoMessage *m)
+{
+	return IONUMBER(ffi_type_pointer.size);
 }
 
 /********************************************/

@@ -51,6 +51,9 @@ CFFI do(
 		SLong := Long := DataType clone setTypeString("l")
 		ULong := DataType clone setTypeString("L")
 
+		SLongLong := LongLong := DataType clone setTypeString("g")
+		ULongLong := DataType clone setTypeString("G")
+
 		Float := DataType clone setTypeString("f")
 
 		Double := DataType clone setTypeString("d")
@@ -58,11 +61,7 @@ CFFI do(
 		Void := DataType clone setTypeString("v")
 
 		CString := DataType clone setTypeString("*")
-		/*CString castTo := method(type,
-			if(type isKindOf(Pointer),
-				return type clone setValue(self) value)
-			nil
-		)*/
+		CString size := method(self value size)
 
 		types := method(
 			m := Map clone
