@@ -12,9 +12,11 @@ Addon := Object clone do(
 
 	//doc Addon dllSuffix Returns the platform specific dll suffix.
 	dllSuffix := method(
-	  list("cygwin", "mingw", "windows") detect(dllPlatform, platform containsSeq(dllPlatform)) ifNonNil(return("dll"))
-	  if(platform == "darwin", return "dylib")
-	  "so"
+        list("cygwin", "mingw", "windows") detect(dllPlatform,
+            self platform containsSeq(dllPlatform)
+        ) ifNonNil(return("dll"))
+
+        if(platform == "darwin", "dylib", "so")
 	)
 
 	//doc Addon dllName Return the name of the dll for the addon.
