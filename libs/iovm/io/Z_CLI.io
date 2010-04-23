@@ -1,253 +1,205 @@
+Locals removeSlot("doFile")
+
+DummyLine := File standardInput do(
+    readLine := method(prompt,
+        prompt print
+        resend
+    )
+)
+
 CLI := Object clone do(
-	prompt ::= "Io> "
-	outPrompt ::= "==> "
-	continuedLinePrompt ::= "    "
+    prompt ::= "Io> "
+    outPrompt ::= "==> "
+    continuedLinePrompt ::= "... "
 
-	context ::= method(Lobby)
-	isRunning ::= true
+    isRunning ::= true # Get rid of this ...
+    commandLineLabel ::= "Command Line" # and this?
 
-	commandLineLabel ::= "Command Line"
+    context ::= lazySlot(
+        Lobby do(
+            # Python-style underscore, stores the result of the previous computation.
+            # Example:
+            # Io> 1 + 1
+            # ==> 2
+            # Io> _ == 2
+            # ==> true
+            _ ::= nil
 
-	lineReader ::= nil
+            exit := method(CLI stop)
+        )
+    )
 
-	stop := method(setIsRunning(false))
+    lineReader := lazySlot(
+        # This might look as a `hack`, but why not use stdin as the default
+        # reader, since it shares the same interface with Read(Edit)Line,
+        # i.e. <reader> readLine.
+        reader := DummyLine
 
-	runFile := method(path,
-		System launchPath := if(Path isPathAbsolute(path),
-			path
-		,
-			Directory currentWorkingDirectory asMutable appendPathSeq(path)
-		) pathComponent
+        # Trying to use GNU ReadLine as the default line reader, falling
+        # back to EditLine, if the attempt failed.
+        try(reader := ReadLine) catch(Exception,
+            try(reader := EditLine)
+        )
+        reader
+    )
 
-		System launchScript = path
+    # A list of error messages for the errors we understand.
+    knownErrors := lazySlot(
+        list("(", "[", "{", "\"\"\"", "(x,") map(error,
+            self errorMessage(try(error asMessage) error)
+        )
+    )
 
-		e := try(context doFile(path)) 
-		if(e, e showStack; return -1)
-		return 0
-	)
+    errorMessage := method(error, error beforeSeq(" on line"))
 
-	runIorc := method(
-		home := System getEnvironmentVariable("HOME")
-		if(home,
-			path := Path with(home, ".iorc")
-			if(File with(path) exists,
-				context doFile(path)
-			)
-		)
-	)
+    doFile := method(path,
+        System launchPath = if(Path isPathAbsolute(path),
+            path
+        ,
+            System launchPath asMutable appendPathSeq(path)
+        ) pathComponent
 
-	ioHistoryFile := method(
-		Path with(System getEnvironmentVariable("HOME"), ".io_history")
-	)
+        System launchScript = path
 
-	saveHistory := method(
-		lineReader ?saveHistory(ioHistoryFile)
-	)
+        context doFile(path)
+    )
 
-	loadHistory := method(
-		if(File with(ioHistoryFile) exists,
-			lineReader ?loadHistory(ioHistoryFile)
-		)
-	)
+    doLine := method(lineAsMessage,
+        # Execute the line and report any exceptions which happened.
+        executionError := try(result := context doMessage(lineAsMessage))
+        if(executionError,
+            executionError showStack
+        ,
+            # Write out the command's result to stdout; nothing is written
+            # if the CLI is terminated, this condition is satisfied, only
+            # when CLI exit() was called.
+            if(isRunning,
+                context set_(getSlot("result"))
+                writeCommandResult(getSlot("result")))
+        )
+    )
 
-	run := method(		
-		System launchPath := Directory currentWorkingDirectory
-		Importer addSearchPath(System launchPath)
-		context exit := method(
-			CLI saveHistory
-			System exit
-		)
-		
-		runIorc
+    doIorc := method(
+        # Note: Probably won't work on Windows, since it uses %HOMEPATH%
+        # and %HOMEDRIVE% pair to indentify user's home directory.
+        home := System getEnvironmentVariable("HOME")
+        if(home,
+            path := Path with(home, ".iorc")
+            if(File with(path) exists,
+                context doFile(path)
+            )
+        )
+    )
 
-		if(System ?args first == "-e",
-			writeln(context doString(System args exSlice(1) map(asUTF8) join(" ")))
-			return
-		)
+    ioHistoryFile := lazySlot(
+        Path with(System getEnvironmentVariable("HOME"), ".io_history")
+    )
 
-		if(System ?args and System args size > 0,
+    saveHistory := method(lineReader ?saveHistory(ioHistoryFile))
+    loadHistory := method(
+        if(File with(ioHistoryFile) exists,
+            lineReader ?loadHistory(ioHistoryFile)
+        )
+    )
 
-			if(System args first == "-i",
-				if(System args size >= 2,
-					return runFile(System args at(1))
-				,
-					if(File clone setPath("main.io") exists, runFile("main.io"))
-				)
-				return interactiveMultiline
-			)
 
-			runFile(System args first)
-		,
-			if(File clone setPath("main.io") exists,
-				runFile("main.io")
-			,
-				interactiveMultiline
-			)
-		)
-	)
+    writeWelcomeBanner := method("Io #{System version}" interpolate println)
+    writeCommandResult := method(result,
+        outPrompt print
 
-	writeWelcomeBanner := method(
-		writeln("Io ", System version)
-	)
+        if(exc := try(getSlot("result") asString println),
+            "<exception while dislaying result>" println
+            exc showStack
+        )
+    )
 
-	interactiveMultiline := method(
-		writeWelcomeBanner
+    stop := method(setIsRunning(false))
+    run  := method(
+        Importer addSearchPath(
+            System launchPath := Directory currentWorkingDirectory
+        )
 
-		// Use GNU Readline as the default line reader. Fall back to Editline 
-		//try(setLineReader(ReadLine))
-		//try(lineReader ifNil( setLineReader(EditLine)))
+        doIorc
 
-		//loadHistory // don't inable this unless you intend to make it work properly on osx
+        # Note: GetOpt should be used there, since System getOptions
+        # is completely useless.
+        if("-h" in(System args), help)
+        if(System args first == "-e") then(
+            return context doString(
+                System args slice(1) map(asUTF8) join(" ")
+            )
+        ) elseif(System args first == "-i" and System args size >= 2) then(
+            # Note: when given an -i option, all the following arguments
+            # should be filenames to be loaded into the REPL.
+            System args rest foreach(arg,
+                doFile(arg)
+            )
+        ) elseif(System args size > 0,
+            return doFile(System args first)
+        )
 
-		while(isRunning,
-			if(lineReader isNil not,
-				handleInteractiveMultiline
-			,
-				interactiveNoLineReader
-			)
-		)
+        # Is this still needed? Not used anywhere in the source.
+        if(File clone setPath("main.io") exists,
+            doFile("main.io")
+        )
 
-		//saveHistory
-	)
+        loadHistory
+        writeWelcomeBanner
+        interactive
+        saveHistory
+    )
 
-	interactive := method(
-		writeWelcomeBanner
-		while(isRunning,
-			handleInteractiveSingleLine
-		)
-	)
+    interactive := method(
+        # Start with the default prompt. The prompt is changed for continued lines,
+        # and errors.
+        prompt := self prompt
+        line := ""
 
-	writeCommandResult := method(result,
-		e := try(string := getSlot("result") asString)
-		if(e not,
-			writeln(outPrompt, string)
-		,
-			writeln(outPrompt, "<exception while dislaying result>")
-			e showStack
-		)
-	)
+        # If there are unmatched (, {, [ or the command ends with a \ then we'll
+        # need to read multiple lines.
+        loop(
+            # Write out prompt and read line.
+            if(nextLine := lineReader readLine(prompt),
+                # Add what we read to the line we've been building up
+                line = line .. nextLine
+            ,
+                # Note: readLine method returns nil if ^D was pressed.
+                context exit
+                "\n" print # Fixing the newline issue.
+            )
 
-	/*
-	handleInteractiveSingleLine := method(
-		line := EditLine readLine(prompt)
-		line ifNil(
-			writeln
-			context exit
-		)
+            compileError := try(
+                lineAsMessage := line asMessage setLabel(commandLineLabel)
+            )
 
-		EditLine addHistory(line)
+            if(compileError,
+                # Not sure that, displaying a different notification for
+                # each error actually makes sense.
+                if(nextLine size > 0 and errorMessage(compileError error) in(knownErrors),
+                    prompt = continuedLinePrompt
+                    continue
+                )
+                # If the error can't be fixed by continuing the line - report it.
+                compileError showStack
+            ,
+                doLine(lineAsMessage)
+            )
 
-		e := try(result := context doMessage(line asMessage(commandLineLabel)))
-		if(e,
-			e showStack
-		,
-			writeCommandResult(getSlot("result"))
-		)
-	)
-	*/
+            lineReader ?addHistory(line)
+            return if(isRunning, interactive, nil)
+        )
+    )
 
-	interactiveNoLineReader := method(
-		write(prompt)
-		File standardOutput flush
+    help := inlineMethod(
+"""
+usage: io [-h | -e expr | -i file.io, file.io, ...| file.io arg, arg, ...]
 
-		line := File standardInput readLine
+options:
+  -h  print this help message and exit
+  -e  eval a given expression and exit
+  -i  run the interpreter, after processsing the files passed
 
-		line ifNil(
-			writeln
-			context exit
-		)
-
-		e := try(result := context doMessage(line asMessage(commandLineLabel)))
-		if(e,
-			e showStack
-		,
-			writeCommandResult(getSlot("result"))
-		)
-	)
-
-	errorMessage := method(error,
-		error beforeSeq(" on line")
-	)
-
-	# Find error messages for the errors we understand
-	lazySlot("knownErrors",
-		m := Map clone
-		m atPut(compileErrorMessage("("), ")-> ")
-		m atPut(compileErrorMessage("["), "]-> ")
-		m atPut(compileErrorMessage("{"), "}-> ")
-		m atPut(compileErrorMessage("\"\"\""), "\"-> ")
-		m atPut(knownErrorMissingArgument, ")-> ")
-	)
-
-	lazySlot("knownErrorMissingArgument",
-		compileErrorMessage("(x,")
-	)
-
-	compileErrorMessage := method(source,
-		errorMessage(try(source asMessage) error)
-	)
-
-	handleInteractiveMultiline := method(
-		# Start with the default prompt. The prompt is changed for continued lines, and errors.
-		nextPrompt := prompt
-		line := ""
-
-		# If there are unmatched ( or the command ends with a \ then we'll need to read multiple lines
-		loop(
-			# Write out prompt and read line
-			nextLine := lineReader readLine(nextPrompt)
-
-			# If there was no line, exit
-			nextLine ifNil(context exit)
-
-			# Add what we read to the line we've been building up
-			if(nextLine size > 0,
-				if(line size > 0,
-					line = line .. nextLine
-				,
-					line = nextLine
-				)
-			)
-
-			# If there is a \ on the end of the line, then keep building up the line
-			if(line endsWithSeq("""\\"""),
-				nextPrompt = continuedLinePrompt
-				continue
-			)
-
-			compileError := try(lineAsMessage := line asMessage(commandLineLabel))
-			if(compileError,
-				if(nextLine size > 0,
-					# If they're missing the end of the line, then let them finish it
-					error := compileError error
-					continuePrompt := knownErrors at(errorMessage(error))
-					if(error == knownErrorMissingArgument and line asMutable strip endsWithSeq(",") not,
-						continuePrompt = nil
-					)
-					if(continuePrompt,
-						nextPrompt = continuePrompt
-						continue
-					)
-				)
-
-				# If the error can't be fixed by continuing the line, report the error.
-				compileError showStack
-				lineReader addHistory(line)
-				return
-			)
-
-			lineReader addHistory(line)
-
-			# Execute the line and report any exceptions which happen
-			executionError := try(result := context doMessage(lineAsMessage, context))
-			if(executionError,
-				executionError showStack
-				return
-			,
-				# Write out the command's result
-				writeCommandResult(getSlot("result"))
-				return
-			)
-		)
-	)
+""" println
+        System exit
+    )
 )
