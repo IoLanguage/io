@@ -17,7 +17,7 @@ RangeTest := UnitTest clone do(
         assertEquals(list(10,8,6), decreasingExampleRangeWithCustomStep asList)
     )
 
-      # Checking for valid index and out of bouns
+      # Checking for valid index and out of bounds
       #
     testat := method(
     assertEquals(exampleRangeWithCustomStep at(2), 9)
@@ -119,7 +119,7 @@ RangeTest := UnitTest clone do(
        	assertEquals(0, decreasingExampleRangeWithCustomStep ?index)
 	)
 
-    # Correctnes of index at range borders
+    # Correctness of index at range borders
     #
     testindex := method(
         exampleRangeWithCustomStep last
@@ -147,7 +147,7 @@ RangeTest := UnitTest clone do(
         assertEquals(1, decreasingExampleRangeWithCustomStep indexOf(8))
     )
 
-    # Should work correct with custom step ranges
+    # Should work correctly with custom step ranges
     #
     testlast := method(
         assertEquals(9, exampleRangeWithCustomStep last)

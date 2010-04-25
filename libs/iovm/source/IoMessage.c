@@ -1,4 +1,5 @@
 
+//metadoc Message category Core
 //metadoc Message copyright Steve Dekorte 2002
 //metadoc Message license BSD revised
 /*metadoc Message description
@@ -23,7 +24,6 @@ a crash if a garbage collection cycle occurs. If the implementation were
 changed to retain every called message, this could be avoided.
 But the cost to performance seems to outweigh the need to cover this case for now.
 */
-//metadoc Message category Core
 
 #include "IoObject.h"
 #define IOMESSAGE_C
@@ -421,7 +421,7 @@ IO_METHOD(IoMessage, characterNumber)
 {
 	/*doc Message characterNumber
 	Returns the message character number. The charcter number is typically
-	the beggining character index in the source text from with the message was read. 
+	the beginning character index in the source text from with the message was read. 
 	*/
 
 	return IONUMBER(0);
@@ -441,7 +441,7 @@ IO_METHOD(IoMessage, setCharacterNumber)
 IO_METHOD(IoMessage, label)
 {
 	/*doc Message label
-	Returns the message label. The label is typically set the the
+	Returns the message label. The label is typically set to the
 	name of the file from which the source code for the message was read.
 	*/
 

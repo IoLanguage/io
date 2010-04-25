@@ -103,7 +103,7 @@ IoObject *IoLZODecoder_process(IoLZODecoder *self, IoObject *locals, IoMessage *
 {
 	/*doc LZODecoder process
 	Process the inputBuffer and appends the result to the outputBuffer.
-	The processed inputBuffer is empties except for the spare bytes at 
+	The processed inputBuffer is emptied except for the spare bytes at 
 	the end which don't fit into a cipher block.
 	*/
 	

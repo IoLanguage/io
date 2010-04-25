@@ -488,8 +488,6 @@
 		AA86C1ED0B60520000495786 /* IoObject_flow.c in Sources */ = {isa = PBXBuildFile; fileRef = AA86BF5D0B6051FF00495786 /* IoObject_flow.c */; };
 		AA86C1EE0B60520000495786 /* IoObject_flow.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA86BF5E0B6051FF00495786 /* IoObject_flow.h */; };
 		AA86C1EF0B60520000495786 /* IoObject_inline.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA86BF5F0B6051FF00495786 /* IoObject_inline.h */; };
-		AA86C1F00B60520000495786 /* IoObject_persistence.c in Sources */ = {isa = PBXBuildFile; fileRef = AA86BF600B6051FF00495786 /* IoObject_persistence.c */; };
-		AA86C1F10B60520000495786 /* IoObject_persistence.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA86BF610B6051FF00495786 /* IoObject_persistence.h */; };
 		AA86C1F20B60520000495786 /* IoObject_struct.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA86BF620B6051FF00495786 /* IoObject_struct.h */; };
 		AA86C1F60B60520000495786 /* IoSandbox.c in Sources */ = {isa = PBXBuildFile; fileRef = AA86BF660B6051FF00495786 /* IoSandbox.c */; };
 		AA86C1F70B60520000495786 /* IoSandbox.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA86BF670B6051FF00495786 /* IoSandbox.h */; };
@@ -802,7 +800,6 @@
 				AA86C1EC0B60520000495786 /* IoObject.h in CopyFiles */,
 				AA86C1EE0B60520000495786 /* IoObject_flow.h in CopyFiles */,
 				AA86C1EF0B60520000495786 /* IoObject_inline.h in CopyFiles */,
-				AA86C1F10B60520000495786 /* IoObject_persistence.h in CopyFiles */,
 				AA86C1F20B60520000495786 /* IoObject_struct.h in CopyFiles */,
 				AA86C1F70B60520000495786 /* IoSandbox.h in CopyFiles */,
 				AA86C1F90B60520000495786 /* IoSeq.h in CopyFiles */,
@@ -1339,8 +1336,6 @@
 		AA86BF5D0B6051FF00495786 /* IoObject_flow.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = IoObject_flow.c; sourceTree = "<group>"; };
 		AA86BF5E0B6051FF00495786 /* IoObject_flow.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IoObject_flow.h; sourceTree = "<group>"; };
 		AA86BF5F0B6051FF00495786 /* IoObject_inline.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IoObject_inline.h; sourceTree = "<group>"; };
-		AA86BF600B6051FF00495786 /* IoObject_persistence.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = IoObject_persistence.c; sourceTree = "<group>"; };
-		AA86BF610B6051FF00495786 /* IoObject_persistence.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IoObject_persistence.h; sourceTree = "<group>"; };
 		AA86BF620B6051FF00495786 /* IoObject_struct.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IoObject_struct.h; sourceTree = "<group>"; };
 		AA86BF660B6051FF00495786 /* IoSandbox.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = IoSandbox.c; sourceTree = "<group>"; };
 		AA86BF670B6051FF00495786 /* IoSandbox.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IoSandbox.h; sourceTree = "<group>"; };
@@ -2961,8 +2956,6 @@
 				AA86BF5D0B6051FF00495786 /* IoObject_flow.c */,
 				AA86BF5E0B6051FF00495786 /* IoObject_flow.h */,
 				AA86BF5F0B6051FF00495786 /* IoObject_inline.h */,
-				AA86BF600B6051FF00495786 /* IoObject_persistence.c */,
-				AA86BF610B6051FF00495786 /* IoObject_persistence.h */,
 				AA86BF620B6051FF00495786 /* IoObject_struct.h */,
 				AA86BF660B6051FF00495786 /* IoSandbox.c */,
 				AA86BF670B6051FF00495786 /* IoSandbox.h */,
@@ -3319,7 +3312,6 @@
 				AA86C1E90B60520000495786 /* IoNumber.c in Sources */,
 				AA86C1EB0B60520000495786 /* IoObject.c in Sources */,
 				AA86C1ED0B60520000495786 /* IoObject_flow.c in Sources */,
-				AA86C1F00B60520000495786 /* IoObject_persistence.c in Sources */,
 				AA86C1F60B60520000495786 /* IoSandbox.c in Sources */,
 				AA86C1F80B60520000495786 /* IoSeq.c in Sources */,
 				AA86C1FA0B60520000495786 /* IoSeq_immutable.c in Sources */,

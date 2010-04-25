@@ -29,10 +29,10 @@ typedef struct {
 	int xpos;  int ypos;   /* the x and y offset into the texture */
 	int width; int height; /* the width and height of the bitmap */
 	int left;  int top;    /* the left and top bitmap offset */
-	int advance;           /* the x advnace between characters */
+	int advance;           /* the x advance between characters */
 } GLFont_Symbol;
 
-/* Each character caches it's texture coordinates for speed */
+/* Each character caches its texture coordinates for speed */
 typedef struct {
 	float left; float right;  /* the left and right glTexCoordf() parameters */
 	float top;  float bottom; /* the top and bottom glTexCoordf() parameters */
@@ -68,7 +68,7 @@ void GLFont_free(GLFont *self);
 /* creates and loads a font */
 void GLFont_loadFont(GLFont *self, const char *path);
 
-/* set's the font's size, recreating the texture */
+/* sets the font's size, recreating the texture */
 void GLFont_setPixelSize(GLFont *self, unsigned int size);
 int GLFont_pixelSize(GLFont *self);
 int GLFont_isTextured(GLFont *self);

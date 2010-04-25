@@ -1,0 +1,397 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Date</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Core</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>Core</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>Date</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="Date-+"></a><b>
++(aDuration)
+</b>
+<p>
+<div class=slotDescription>
+Return a new Date with the receiver's value plus an amount 
+	of time specified by aDuration object to the receiver.
+</div>
+<a name="Date-+="></a><b>
++=(aDuration)
+</b>
+<p>
+<div class=slotDescription>
+Add aDuration to the receiver. Returns self.
+</div>
+<a name="Date--"></a><b>
+-(aDurationOrDate)
+</b>
+<p>
+<div class=slotDescription>
+Return a new Date with the receiver's value minus an amount of time specified by aDuration to the receiver. Returns self.
+</div>
+<a name="Date--="></a><b>
+-=(aDuration)
+</b>
+<p>
+<div class=slotDescription>
+Subtract aDuration from the receiver. Returns self.
+</div>
+<a name="Date-asAtomDate"></a><b>
+asAtomDate
+</b>
+<p>
+<div class=slotDescription>
+Returns the date formatted as a valid atom date (rfc4287) in the system's timezone.
+</div>
+<a name="Date-asNumber"></a><b>
+asNumber
+</b>
+<p>
+<div class=slotDescription>
+Returns the date as seconds since 1970 UTC.
+</div>
+<a name="Date-asSerialization"></a><b>
+asSerialization
+</b>
+<p>
+<div class=slotDescription>
+Returns a serialization (sequence) of the date that allows for perfect reconstruction of the timestamp.
+</div>
+<a name="Date-asString"></a><b>
+asString(optionalFormatString)
+</b>
+<p>
+<div class=slotDescription>
+Returns a string representation of the receiver using the
+receivers format. If the optionalFormatString argument is present, the
+receiver's format is set to it first. Formatting is according to ANSI C
+date formatting rules.
+<p>
+<pre>	
+%a abbreviated weekday name (Sun, Mon, etc.)
+%A full weekday name (Sunday, Monday, etc.)
+%b abbreviated month name (Jan, Feb, etc.)
+%B full month name (January, February, etc.)
+%c full date and time string
+%d day of the month as two-digit decimal integer (01-31)
+%H hour as two-digit 24-hour clock decimal integer (00-23)
+%I hour as two-digit 12-hour clock decimal integer (01-12)
+%m month as a two-digit decimal integer (01-12)
+%M minute as a two-digit decimal integer (00-59)
+%p either "AM" or "PM"
+%S second as a two-digit decimal integer (00-59)
+%U number of week in the year as two-digit decimal integer (00-52)
+with Sunday considered as first day of the week
+%w weekday as one-digit decimal integer (0-6) with Sunday as 0
+%W number of week in the year as two-digit decimal integer (00-52)
+with Monday considered as first day of the week
+%x full date string (no time); in the C locale, this is equivalent
+to "%m/%d/%y".
+%y year without century as two-digit decimal number (00-99)
+%Y year with century as four-digit decimal number
+%Z time zone name (e.g. EST);
+null string if no time zone can be obtained
+%% stands for '%' character in output string.
+</pre>
+</div>
+<a name="Date-asUTC"></a><b>
+asUTC
+</b>
+<p>
+<div class=slotDescription>
+Changes the timezone of this date to utc
+</div>
+<a name="Date-clock"></a><b>
+clock
+</b>
+<p>
+<div class=slotDescription>
+Returns a number containing the number of seconds
+	of processor time since the beginning of the program or -1 if unavailable.
+</div>
+<a name="Date-convertToLocal"></a><b>
+convertToLocal
+</b>
+<p>
+<div class=slotDescription>
+Converts self date from a UTC date to the equivalent local date
+</div>
+<a name="Date-convertToUTC"></a><b>
+convertToUTC
+</b>
+<p>
+<div class=slotDescription>
+Converts self from a local date to the equivalent UTC date
+</div>
+<a name="Date-convertToZone"></a><b>
+convertToZone(offset, isDST)
+</b>
+<p>
+<div class=slotDescription>
+Converts self to an equivalent data in a zone with offset (minutes west) and DST (true, false).
+</div>
+<a name="Date-copy"></a><b>
+copy(aDate)
+</b>
+<p>
+<div class=slotDescription>
+Sets the receiver to be the same date as aDate. Returns self.
+</div>
+<a name="Date-cpuSecondsToRun"></a><b>
+cpuSecondsToRun(expression)
+</b>
+<p>
+<div class=slotDescription>
+Evaluates message and returns a Number whose value 
+	is the cpu seconds taken to do the evaluation.
+</div>
+<a name="Date-day"></a><b>
+day
+</b>
+<p>
+<div class=slotDescription>
+Returns a number containing the day of the month of the receiver.
+</div>
+<a name="Date-format"></a><b>
+format
+</b>
+<p>
+<div class=slotDescription>
+Returns the format string for the receiver. The default is "%Y-%m-%d %H:%M:%S %Z".
+</div>
+<a name="Date-fromNumber"></a><b>
+fromNumber(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Sets the receiver to be aNumber seconds since 1970.
+</div>
+<a name="Date-fromSerialization"></a><b>
+fromSerialization
+</b>
+<p>
+<div class=slotDescription>
+Sets the date based on the serialization sequence.  Return self.
+</div>
+<a name="Date-fromString"></a><b>
+fromString(aString, formatString)
+</b>
+<p>
+<div class=slotDescription>
+Sets the receiver to the date specified by aString as parsed according to the given formatString. See the Date asString method for formatting rules. Returns self.
+</div>
+<a name="Date-gmtOffset"></a><b>
+gmtOffset
+</b>
+<p>
+<div class=slotDescription>
+Returns the system's timezone string. E.g., +1300 or -0500.
+</div>
+<a name="Date-gmtOffsetSeconds"></a><b>
+gmtOffsetSeconds
+</b>
+<p>
+<div class=slotDescription>
+Returns the system's seconds east of UTC.
+</div>
+<a name="Date-hour"></a><b>
+hour
+</b>
+<p>
+<div class=slotDescription>
+Returns a number containing the hour of the day(0-23) of the receiver.
+</div>
+<a name="Date-isDST"></a><b>
+isDST
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the Date is set to use DST.  Posix only.
+</div>
+<a name="Date-isDaylightSavingsTime"></a><b>
+isDaylightSavingsTime
+</b>
+<p>
+<div class=slotDescription>
+Returns self if Daylight Saving Time is in effect for the receiver, otherwise returns Nil.
+</div>
+<a name="Date-isPast"></a><b>
+isPast
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the receiver is a date in the past.
+</div>
+<a name="Date-isToday"></a><b>
+isToday
+</b>
+<p>
+<div class=slotDescription>
+Returns true if the receiver's date is today's date.
+</div>
+<a name="Date-isValidTime"></a><b>
+isValidTime(hour, min, sec)
+</b>
+<p>
+<div class=slotDescription>
+Returns self if the specified time is valid, otherwise returns Nil. 
+	A negative value will count back; i.e., a value of -5 for the hour, 
+	will count back 5 hours to return a value of 19. No adjustment is 
+	done for values above 24.
+</div>
+<a name="Date-minute"></a><b>
+minute
+</b>
+<p>
+<div class=slotDescription>
+Returns a number containing the minute of the hour(0-59) of the receiver.
+</div>
+<a name="Date-month"></a><b>
+month
+</b>
+<p>
+<div class=slotDescription>
+Returns a number containing the month(1-12) of the year of the receiver.
+</div>
+<a name="Date-now"></a><b>
+now
+</b>
+<p>
+<div class=slotDescription>
+Sets the receiver to the current time. Returns self.
+</div>
+<a name="Date-print"></a><b>
+print
+</b>
+<p>
+<div class=slotDescription>
+Prints the receiver. Returns self.
+</div>
+<a name="Date-second"></a><b>
+second
+</b>
+<p>
+<div class=slotDescription>
+Returns a number containing the seconds of the minute(0-59) of the receiver. This number may contain fractions of seconds.
+</div>
+<a name="Date-secondsSince"></a><b>
+secondsSince(aDate)
+</b>
+<p>
+<div class=slotDescription>
+Returns a number of seconds of between aDate and the receiver.
+</div>
+<a name="Date-secondsSinceNow"></a><b>
+secondsSinceNow(aDate)
+</b>
+<p>
+<div class=slotDescription>
+Returns the number of seconds since aDate.
+</div>
+<a name="Date-secondsToRun"></a><b>
+secondsToRun(expression)
+</b>
+<p>
+<div class=slotDescription>
+Evaluates message and returns a Number whose value is the number of seconds taken to do the evaluation
+</div>
+<a name="Date-setDay"></a><b>
+setDay(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Sets the day of the receiver. Returns self.
+</div>
+<a name="Date-setGmtOffset"></a><b>
+setGmtOffset
+</b>
+<p>
+<div class=slotDescription>
+Set the number of minutes west of GMT for this Date's zone
+</div>
+<a name="Date-setHour"></a><b>
+setHour(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Sets the hour of the receiver. Returns self.
+</div>
+<a name="Date-setMinute"></a><b>
+setMinute(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Sets the minute of the receiver. Returns self.
+</div>
+<a name="Date-setMonth"></a><b>
+setMonth(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Sets the month(1-12) of the receiver. Returns self.
+</div>
+<a name="Date-setSecond"></a><b>
+setSecond(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Sets the second of the receiver. Returns self.
+</div>
+<a name="Date-setYear"></a><b>
+setYear(aNumber)
+</b>
+<p>
+<div class=slotDescription>
+Sets the year of the receiver.
+</div>
+<a name="Date-today"></a><b>
+today
+</b>
+<p>
+<div class=slotDescription>
+Set the receiver to the current date, no time information
+	is included. See `now' for the current date and time.
+</div>
+<a name="Date-year"></a><b>
+year
+</b>
+<p>
+<div class=slotDescription>
+Returns a number containing the year of the receiver.
+</div>
+<a name="Date-zone"></a><b>
+zone
+</b>
+<p>
+<div class=slotDescription>
+Returns a string containing the system's time zone code.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

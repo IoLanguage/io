@@ -9,8 +9,16 @@
 		<body>
 		
 <br>
-<h1>Socket Proto</h1>
-<br><br><br><br><br><br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Networking</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>Socket</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>Socket</b>
+<br><br><br>
+<br><br><br>
 <table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
 <tr>
 <td align=right></td>
@@ -64,7 +72,7 @@ asyncAccept(ipAddressObject)
 </b>
 <p>
 <div class=slotDescription>
-Immediately returns a socket for an connection if one is available or nil otherwise. Returns an Error object on error.
+Immediately returns a socket for a connection if one is available or nil otherwise. Returns an Error object on error.
 </div>
 <a name="Socket-asyncBind"></a><b>
 asyncBind
@@ -78,7 +86,7 @@ asyncConnect(ipAddressObject)
 </b>
 <p>
 <div class=slotDescription>
-Connects ti the given IPAddress and returns self or an Error object on error.
+Connects to the given IPAddress and returns self or an Error object on error.
 </div>
 <a name="Socket-asyncListen"></a><b>
 asyncListen
@@ -283,7 +291,7 @@ readUntilSeq(aSequence)
 </b>
 <p>
 <div class=slotDescription>
-Reads the socket until it's readBuffer contains aSequence, then returns a Sequence
+Reads the socket until its readBuffer contains aSequence, then returns a Sequence
 	containing the readBuffer's contents up to (but not including) aSequence and clips that section from the readBuffer.
 </div>
 <a name="Socket-serverOpen"></a><b>
@@ -291,7 +299,7 @@ serverOpen
 </b>
 <p>
 <div class=slotDescription>
-Opens the socket as a stream, binds it to it's ipAddress and calls asyncListen to prepare the socket to accept connections.
+Opens the socket as a stream, binds it to its ipAddress and calls asyncListen to prepare the socket to accept connections.
 	Returns self on success or an Error object on error.
 </div>
 <a name="Socket-serverWaitForConnection"></a><b>
@@ -444,7 +452,7 @@ streamWrite(buffer, optionalProgressBlock)
 </b>
 <p>
 <div class=slotDescription>
-Write's buffer to the socket. 
+Writes buffer to the socket. 
 	If optionalProgressBlock is supplied, it is periodically called with the number of bytes written as an argument.
 	Returns self on success or an Error object on error.
 </div>
@@ -484,7 +492,7 @@ writeFromBuffer(optionalProgressBlock)
 </b>
 <p>
 <div class=slotDescription>
-Write's the contents of the socket's writeBuffer to the socket. 
+Writes the contents of the socket's writeBuffer to the socket. 
 	If optionalProgressBlock is supplied, it is periodically called with the number of bytes written as an argument.
 	Returns self on success or an Error object on error.
 </div>

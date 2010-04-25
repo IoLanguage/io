@@ -9,13 +9,21 @@
 		<body>
 		
 <br>
-<h1>DOConnection Proto</h1>
-<br><br><br><br><br><br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Networking</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>DistributedObjects</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>DOConnection</b>
+<br><br><br>
+<br><br><br>
 <table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
 <tr>
 <td align=right></td>
 <td></td>
-<td>The DOConnection object is usefull for communicating with remote servers in a way that makes it look just like the sending of local messages. Proxies are automatically created on either side for passed objects, with the exception of strings and numbers, which are passed by value. Example:
+<td>The DOConnection object is useful for communicating with remote servers in a way that makes it look just like the sending of local messages. Proxies are automatically created on either side for passed objects, with the exception of strings and numbers, which are passed by value. Example:
 <pre>
 con := DOConnection clone setHost("127.0.0.1") setPort(8456) connect
 result := con serverObject test(1)

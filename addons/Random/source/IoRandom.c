@@ -3,7 +3,7 @@
 /*metadoc Random description
 A high quality and reasonably fast random number generator based on 
 Makoto Matsumoto, Takuji Nishimura, and Eric Landry's implementation 
-of the <a href=http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/emt.html>Mersenne Twister</a> algorithm. The default seed is and xor of 
+of the <a href=http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/emt.html>Mersenne Twister</a> algorithm. The default seed is a xor of 
 the ANSI C time() and clock() return values.
 */
 //metadoc Random category Math
@@ -156,7 +156,7 @@ IoObject *IoRandom_value(IoObject *self, IoObject *locals, IoMessage *m)
 IoObject *IoRandom_setSeed(IoObject *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Random setSeed(aNumber)
-	Sets the random number generator seed to the unsign int version of aNumber.
+	Sets the random number generator seed to the unsigned int version of aNumber.
 	*/
 
 	unsigned long v = IoMessage_locals_longArgAt_(m, locals, 0);

@@ -310,7 +310,7 @@ IoObject *IoBlock_activate(IoBlock *self, IoObject *target, IoObject *locals, Io
 	else
 #endif
 	{
-		// since the callObject doesn't IOREF it's blockLocals pointer
+		// since the callObject doesn't IOREF its blockLocals pointer
 		if (IoObject_isReferenced(callObject))
 		{
 			IoObject_isReferenced_(blockLocals, 1);
@@ -427,7 +427,7 @@ IO_METHOD(IoBlock, code)
 IO_METHOD(IoBlock, code_)
 {
 	/*doc Block setCode(aString)
-	Set's the reciever's message to a compiled version of aString. Returns self
+	Set's the receiver's message to a compiled version of aString. Returns self
 	*/
 
 	IoSymbol *string = IoMessage_locals_symbolArgAt_(m, locals, 0);
@@ -512,7 +512,7 @@ IO_METHOD(IoBlock, setScope_)
 {
 	/*doc Block setScope(anObjectOrNil)
 	If argument is an object, when the block is activated,
-	it will set the proto and self slots of it's locals to the specified
+	it will set the proto and self slots of its locals to the specified
 	object. If Nil, it will set them to the target of the message. 
 	*/
 

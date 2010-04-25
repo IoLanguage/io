@@ -8,7 +8,7 @@ Host := Object clone do(
 	name ::= nil
 
 	/*doc Host address 
-	Returns the ip address. A DNS lookup is done in the background if the 
+	Returns the IP address. A DNS lookup is done in the background if the 
 	address is not already known. Returns an error on lookup failure.
 	*/
 	

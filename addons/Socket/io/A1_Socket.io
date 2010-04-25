@@ -167,7 +167,7 @@ Socket do(
 	)
 
 	/*doc Socket streamWrite(buffer, optionalProgressBlock) 
-	Write's buffer to the socket. 
+	Writes buffer to the socket. 
 	If optionalProgressBlock is supplied, it is periodically called with the number of bytes written as an argument.
 	Returns self on success or an Error object on error.
 	*/
@@ -178,7 +178,7 @@ Socket do(
 	)
 
 	/*doc Socket writeFromBuffer(optionalProgressBlock) 
-	Write's the contents of the socket's writeBuffer to the socket. 
+	Writes the contents of the socket's writeBuffer to the socket. 
 	If optionalProgressBlock is supplied, it is periodically called with the number of bytes written as an argument.
 	Returns self on success or an Error object on error.
 	*/	
@@ -283,7 +283,7 @@ Socket do(
 	udpWrite := getSlot("asyncUdpWrite")
 
 	/*doc Socket serverOpen 
-	Opens the socket as a stream, binds it to it's ipAddress and calls asyncListen to prepare the socket to accept connections.
+	Opens the socket as a stream, binds it to its ipAddress and calls asyncListen to prepare the socket to accept connections.
 	Returns self on success or an Error object on error.
 	*/
 	serverOpen := method(
@@ -319,7 +319,7 @@ Socket do(
 
 	
 	/*doc Socket readUntilSeq(aSequence)
-	Reads the socket until it's readBuffer contains aSequence, then returns a Sequence
+	Reads the socket until its readBuffer contains aSequence, then returns a Sequence
 	containing the readBuffer's contents up to (but not including) aSequence and clips that section from the readBuffer.
 	*/	
 	readUntilSeq := method(aSeq,

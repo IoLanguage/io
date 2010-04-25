@@ -7,7 +7,7 @@ SGMLElement := Object clone do(
 	//doc SGMLElement name Returns the tag name
 	//doc SGMLElement attributes Returns a Map containing the tag's attributes.
 	//doc SGMLElement subitems Returns a List containing the tag's subitems.
-	//doc SGMLElement asString Returns a String representation of the tag and all of it's subitems.
+	//doc SGMLElement asString Returns a String representation of the tag and all of its subitems.
 
 	name ::= nil
 	attributes ::= Map clone

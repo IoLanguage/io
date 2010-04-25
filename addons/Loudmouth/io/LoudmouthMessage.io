@@ -39,7 +39,7 @@ LoudmouthMessage := Object clone do(
     self node attributes at("from", jid asString)
     self)
 
-  //doc Loudmouth sendVia(loudmouthConnection) Converts message to sequence and sends it via provided Loudmouth connection (<code>Loudmouth</code> object). It updates <code>from</code> property and returns <code>true</code> if message is sent.
+  //doc Loudmouth sendVia(loudmouthConnection) Converts message to sequence and sends it via the provided Loudmouth connection (<code>Loudmouth</code> object). It updates <code>from</code> property and returns <code>true</code> if message is sent.
   sendVia := method(account,
     self setFrom(account jid)
     account sendRaw(self asString))

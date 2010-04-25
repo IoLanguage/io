@@ -1,10 +1,10 @@
 
+//metadoc Number category Core
 //metadoc Number copyright Steve Dekorte 2002
 //metadoc Number license BSD revised
 /*metadoc Number description
 A container for a double (a 64bit floating point number on most platforms).
 */
-//metadoc Number category Core
 
 #define _GNU_SOURCE // for round
 #include "IoNumber.h"
@@ -393,7 +393,7 @@ IO_METHOD(IoNumber, subtract)
 IO_METHOD(IoNumber, divide)
 {
 	/*doc Number /(aNumber)
-	Returns a new number with the value of the receiver diveded by aNumber.
+	Returns a new number with the value of the receiver divided by aNumber.
 	*/
 	
 	IoNumber *other = IoMessage_locals_numberArgAt_(m, locals, 0);
@@ -525,7 +525,7 @@ IO_METHOD(IoNumber, asBuffer)
 {
 	/*doc Number asBuffer(optionalNumberOfBytes)
 	Returns a Buffer containing a the number of bytes specified by
-	optionalNumberOfBytes (up to the size of a double on the platform) of the reciever.
+	optionalNumberOfBytes (up to the size of a double on the platform) of the receiver.
 	If no optionalNumberOfBytes is specified, it is assumed to be the number of bytes
 	in a double on the host platform.
 	*/
@@ -643,7 +643,7 @@ IO_METHOD(IoNumber, ceil)
 {
 	/*doc Number ceil
 	Returns the a number with the receiver's value rounded up to
-	the nearest integer if it's fractional component is greater than 0.
+	the nearest integer if its fractional component is greater than 0.
 	*/
 	
 	return IONUMBER(ceil(DATA(self)));
@@ -693,8 +693,8 @@ IO_METHOD(IoNumber, factorial)
 IO_METHOD(IoNumber, floor)
 {
 	/*doc Number floor
-	Returns the a number with the receiver's value rounded
-	down to the nearest integer if it's fractional component is not 0.
+	Returns a number with the receiver's value rounded
+	down to the nearest integer if its fractional component is not 0.
 	*/
 	
 	return IONUMBER(floor(DATA(self)));
@@ -798,8 +798,8 @@ IO_METHOD(IoNumber, pow)
 IO_METHOD(IoNumber, round)
 {
 	/*doc Number round
-	Returns the a number with the receiver's value rounded up to
-	the nearest integer if it's fraction component is >= .5 or rounded up the the nearest integer otherwises..
+	Returns a number with the receiver's value rounded up to
+	the nearest integer if its fraction component is >= .5 or rounded up to the nearest integer otherwise.
 	*/
 	
 	double x = DATA(self);
@@ -812,8 +812,8 @@ IO_METHOD(IoNumber, round)
 IO_METHOD(IoNumber, roundDown)
 {
 	/*doc Number roundDown
-	Returns the a number with the receiver's value rounded down to
-	the nearest integer if it's fraction component is <= .5 or rounded up the the nearest integer otherwises.
+	Returns a number with the receiver's value rounded down to
+	the nearest integer if its fraction component is <= .5 or rounded up the the nearest integer otherwise.
 	*/
 	
 	return IONUMBER(floor(DATA(self) + 0.5));
@@ -939,7 +939,7 @@ IO_METHOD(IoNumber, bitwiseComplement)
 {
 	/*doc Number bitwiseComplement
 	Returns a new number with the bitwise complement of the
-	receiver. (Turns the 0 bits of become 1s and the 1 bits become 0s. )
+	receiver. (The 0 bits become 1s and the 1 bits become 0s. )
 	*/
 
 	long r = (double)(~(long)DATA(self));
@@ -1143,7 +1143,7 @@ IO_METHOD(IoNumber, asUppercase)
 IO_METHOD(IoNumber, between)
 {
 	/*doc Number between(aNumber1, aNumber2)
-	Returns the true if the receiver's value is between or
+	Returns true if the receiver's value is between or
 	equal to aNumber1 and aNumber2, otherwise returns false.
 	*/
 
@@ -1184,7 +1184,7 @@ IO_METHOD(IoNumber, at)
 {
 	/*doc Number at(bitIndexNumber)
 	Returns a new Number containing 1 if the receiver cast to a long
-	has it's bit set to 1 at bitIndexNumber. Otherwise returns 0.
+	has its bit set to 1 at bitIndexNumber. Otherwise returns 0.
 	*/
 
 	int i = IoMessage_locals_intArgAt_(m, locals, 0);
@@ -1333,7 +1333,7 @@ IO_METHOD(IoNumber, repeat)
 {
 	/*doc Number repeat(optionalIndex, expression)
 	Evaluates message a number of times that corresponds to the receivers
-	integer value. This is significantly  faster than a for() or while() loop.
+	integer value. This is significantly faster than a for() or while() loop.
 	*/
 
 	IoMessage_assertArgCount_receiver_(m, 1, self);
