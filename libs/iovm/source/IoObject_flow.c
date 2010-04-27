@@ -238,23 +238,3 @@ IO_METHOD(IoObject, if)
 
 	return IOBOOL(self, condition);
 }
-
-IO_METHOD(IoObject, tailCall)
-{
-/*doc Object tailCall(expression)
-Does a tailCall on the currently executing Block. Example:
-<pre>	
-Io> a := method(x, x = x + 1; if(x > 10, return x); tailCall(x))
-==> method(x, updateSlot("x", x +(1));
-		if(x >(10), return(x));
-		tailCall(x))
-Io> a(1)
-==> 11
-</pre>	
-*/
-
-	IOSTATE->tailCallMessage = m;
-	IoState_return(IOSTATE, IONIL(self));
-	return self;
-}
-

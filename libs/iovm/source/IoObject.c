@@ -207,7 +207,6 @@ IoObject *IoObject_protoFinish(void *state)
 	{"removeAllProtos", IoObject_removeAllProtos},
 	{"protos", IoObject_protosMethod},
 	{"proto", IoObject_objectProto},
-	{"tailCall", IoObject_tailCall},
 	{"setIsActivatable", IoObject_setIsActivatableMethod},
 	{"isActivatable", IoObject_isActivatableMethod},
 	{"argIsActivationRecord", IoObject_argIsActivationRecord},

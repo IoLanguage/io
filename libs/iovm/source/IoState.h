@@ -145,10 +145,6 @@ struct IoState
 	double timeLimit;
 	double endTime;
 
-	// tail calls
-
-	IoMessage *tailCallMessage;
-
 	// exiting
 
 	int shouldExit;
