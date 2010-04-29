@@ -123,7 +123,7 @@ CLI := Object clone do(
 
         # Note: GetOpt should be used there, since System getOptions
         # is completely useless.
-        if("-h" in(System args), help)
+        if("-h" in(System args) and System args size == 1, help)
         if(System args first == "-e") then(
             return context doString(
                 System args slice(1) map(asUTF8) join(" ")
