@@ -155,7 +155,8 @@ filesWithExtension(aString)
 </b>
 <p>
 <div class=slotDescription>
-Returns a list of File objects for the files in the Directory (no directories) with the specified file extension.
+Returns a list of File objects for the files in the Directory (no directories)
+    with the specified file extension.
 </div>
 <font color=#55a>
 <a name="Directory-folderNamed"></a><b>
@@ -241,7 +242,8 @@ recursiveFilesOfTypes(suffixes)
 </b>
 <p>
 <div class=slotDescription>
-Returns a list containing all files in the directory or any subdirectory that has any of the specified suffixes.
+Returns a list containing all files in the directory or any subdirectory that
+    has any of the specified suffixes.
 </div>
 <a name="Directory-remove"></a><b>
 remove
@@ -272,6 +274,22 @@ size
 <div class=slotDescription>
 Returns a Number containing the number of file and directory
 	objects at the receiver's path.
+</div>
+<a name="Directory-walk"></a><b>
+walk
+</b>
+<p>
+<div class=slotDescription>
+Recursively walks the current directory, and executes a given callback on
+    each item (either File or Directory) found, excluding "." and "..".
+<pre>
+Io> Directory walk(println)
+A0_List.io
+A1_OperatorTable.io
+...
+Io> Directory walk(f, if(f name startsWithSeq("Directory"), f println))
+Directory.io
+</pre>
 </div>
 <a name="Directory-with"></a><b>
 with(aPath)

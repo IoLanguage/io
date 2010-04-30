@@ -1,22 +1,23 @@
 #include "IoClutter.h"
 //metadoc Clutter category UserInterface
 /*metadoc Clutter description 
-Clutter is a GObject based library for creating fast, visually rich, graphical user interfaces.
-
+<p>
+<a href="http://clutter-project.org">Clutter</a> is a GObject based library for creating fast, visually rich, graphical user interfaces.
+</p><p>
 Clutter works by manipulating a scene-graph of 2D surfaces, or 'actors', inside a 3D space.
-
+</p><p>
 ClutterActor is the base class for such surfaces. All ClutterActors can be positioned, scaled and rotated in 3D space. In addition, other properties can be set, such as 2D clipping, children and opacity. Tranforms applied to a parent actor also apply to any children. Actors are also able to receive events.
-
+</p><p>
 Subclasses of ClutterActor include ClutterStage, ClutterTexture, ClutterLabel, ClutterRectangle, ClutterEntry and ClutterGroup. ClutterActors are added to a parent, transformed and then made visible.
-
+</p><p>
 ClutterStage is the top level ClutterActor - it's the representation of a window, or framebuffer. It is created automatically when Clutter is initialised. ClutterStage is a ClutterGroup, a class implementing the ClutterCointainer interface.
-
+</p><p>
 ClutterTimelines provide the basis for Clutter's animation utilities. Multiple timelines can be synchronised using ClutterScore, and ClutterBehaviour and ClutterEffect allow for the creation of animation effects such as transitions.
-
+</p><p>
 Clutter further contains a number of utilities, including; ClutterScript - for loading 'UI definition' files formatted in JSON, ClutterShader - a class for applying GPU shaders to actors, ClutterModel - a utility class for MVC list type implementations, and fixed point math utilities.
-
-For detailed docs, see <a href=http://clutter-project.org/docs/clutter/stable/>clutter-project</a>
-
+</p><p>
+For detailed docs, see <a href="http://clutter-project.org/docs/clutter/stable/">clutter-project</a>.
+</p>
 */ 
 
 /*** Initalisation functions ***/
@@ -181,35 +182,51 @@ IO_METHOD(IoClutter, init) {
   IoObject_setSlot_to_(grav, IOSYMBOL("NORTH_WEST"),  IONUMBER(CLUTTER_GRAVITY_NORTH_WEST));
   IoObject_setSlot_to_(grav, IOSYMBOL("CENTER"),      IONUMBER(CLUTTER_GRAVITY_CENTER));
 
+  //doc Clutter MASK Contains all CLUTTER_*_MASK constants.
   IoObject_setSlot_to_(self, IOSYMBOL("MASK"),        cmod);
+  //doc Clutter SCROLL Contains all CLUTTER_SCROLL_* constants.
   IoObject_setSlot_to_(self, IOSYMBOL("SCROLL"),      sdir);
+  //doc Clutter STAGE_STATE Contains all CLUTTER_STAGE_STATE_* constants.
   IoObject_setSlot_to_(self, IOSYMBOL("STAGE_STATE"), stag);
+  //doc Clutter EVENT Contains all Clutter event type constants.
   IoObject_setSlot_to_(self, IOSYMBOL("EVENT"),       evnt);
+  //doc Clutter EVENT_FLAG Contains all CLUTTER_EVENT_FLAG_* constants.
   IoObject_setSlot_to_(self, IOSYMBOL("EVENT_FLAG"),  eflg);
+  //doc Clutter DEVICE_TYPE Contains all CLUTTER_TYPE_* constants.
   IoObject_setSlot_to_(self, IOSYMBOL("DEVICE_TYPE"), devt);
+  //doc Clutter SHADER_ERROR Contains all CLUTTER_SHADER_ERROR_* constants.
   IoObject_setSlot_to_(self, IOSYMBOL("SHADER_ERROR"),shde);
+  //doc Clutter UNIT Contains all CLUTTER_UNIT_* constants.
   IoObject_setSlot_to_(self, IOSYMBOL("UNIT"),        unit);
+  //doc Clutter AXIS Contains all CLUTTER_AXIS_* constants.
   IoObject_setSlot_to_(self, IOSYMBOL("AXIS"),        axis);
+  //doc Clutter GRAVITY Contains all CLUTTER_GRAVITY_* constants.
   IoObject_setSlot_to_(self, IOSYMBOL("GRAVITY"),     grav);
 
+  //doc Clutter version
   IoObject_setSlot_to_(self, IOSYMBOL("version"), IOSYMBOL(CLUTTER_VERSION_S));
+  //doc Clutter flavour
   IoObject_setSlot_to_(self, IOSYMBOL("flavour"), IOSYMBOL(CLUTTER_FLAVOUR));
+  //doc Clutter cogl
   IoObject_setSlot_to_(self, IOSYMBOL("cogl"),    IOSYMBOL(CLUTTER_COGL));
 
   return IOBOOL(self, clutter_init(NULL, NULL));
 }
 
+//doc Clutter initThreads
 IO_METHOD(IoClutter, initThreads) {
   g_thread_init(NULL);
   clutter_threads_init();
   return self;
 }
 
+//doc Clutter threadEnter
 IO_METHOD(IoClutter, threadEnter) {
   clutter_threads_enter();
   return self;
 }
 
+//doc Clutter threadLeave
 IO_METHOD(IoClutter, threadLeave) {
   clutter_threads_leave();
   return self;
@@ -217,53 +234,63 @@ IO_METHOD(IoClutter, threadLeave) {
 
 // TODO: clutter_threads_add_idle(), _add_idle_full(), _add_timeout, _add_timeout_full
 
+//doc Clutter main Calls clutter_main() which starts GMainLoop.
 IO_METHOD(IoClutter, main) {
   clutter_main();
   return IONIL(self);
 }
 
+//doc Clutter quitMain
 IO_METHOD(IoClutter, quitMain) {
   clutter_main_quit();
   return IONIL(self);
 }
 
+//doc Clutter mainLevel
 IO_METHOD(IoClutter, mainLevel) {
   return IONUMBER(clutter_main_level());
 }
 
+//doc Clutter isFpsShown
 IO_METHOD(IoClutter, isFpsShown) {
   return IOBOOL(self, clutter_get_show_fps());
 }
 
+//doc Clutter getDefaultFrameRate
 IO_METHOD(IoClutter, getDefaultFrameRate) {
   return IONUMBER(clutter_get_default_frame_rate());
 }
 
+//doc Clutter setDefaultFrameRate(frameRate)
 IO_METHOD(IoClutter, setDefaultFrameRate) {
   clutter_set_default_frame_rate((guint)(IoMessage_locals_floatArgAt_(m, locals, 0)));
   return self;
 }
 
+//doc Clutter enableMotionEvents
 IO_METHOD(IoClutter, enableMotionEvents) {
   clutter_set_motion_events_enabled(1);
   return self;
 }
 
+//doc Clutter disableMotionEvents
 IO_METHOD(IoClutter, disableMotionEvents) {
   clutter_set_motion_events_enabled(0);
   return self;
 }
 
+//doc Clutter motionEventsEnabled Returns true if motion events are enabled.
 IO_METHOD(IoClutter, motionEventsEnabled) {
   return IOBOOL(self, clutter_get_motion_events_enabled());
 }
 
+//doc Clutter clearGlyphCache
 IO_METHOD(IoClutter, clearGlyphCache) {
   clutter_clear_glyph_cache();
   return self;
 }
 
-//doc Clutter fontHinting Returns <code>true</code> if <code>CLUTTER_FONT_HINTING</code>
+//doc Clutter fontHinting Returns <code>true</code> if <code>CLUTTER_FONT_HINTING</code> is set.
 IO_METHOD(IoClutter, getFontHinting) {
   return IOBOOL(self, clutter_get_font_flags());
 }
@@ -276,16 +303,19 @@ IO_METHOD(IoClutter, setFontHinting) {
   return self;
 }
 
+//doc Clutter getActorByGid(gid)
 IO_METHOD(IoClutter, getActorByGid) {
   guint32 gid = (guint32)(IoMessage_locals_doubleArgAt_(m, locals, 0));
   ClutterActor *actor = clutter_get_actor_by_gid(gid);
   return (actor == NULL)? IONIL(self) : IoClutterActor_newWithActor(IOSTATE, actor);
 }
 
+//doc Clutter getKeyboardGrab
 IO_METHOD(IoClutter, getKeyboardGrab) {
   return IoClutterActor_newWithActor(IOSTATE, clutter_get_keyboard_grab());
 }
 
+//doc Clutter getPointerGrab
 IO_METHOD(IoClutter, getPointerGrab) {
   return IoClutterActor_newWithActor(IOSTATE, clutter_get_pointer_grab());
 }
@@ -310,12 +340,13 @@ IO_METHOD(IoClutter, grabPointer) {
   return self;
 }
 
-//IoObject *IoClutter_ungrabKeyboard(IoClutter *self, IoObject *l, IoMessage *m) {
+//doc Clutter ungrabKeyboard
 IO_METHOD(IoClutter, ungrabKeyboard) {
   clutter_ungrab_keyboard();
   return self;
 }
 
+//doc Clutter ungrabPointer
 IO_METHOD(IoClutter, ungrabPointer) {
   IoObject *device_n = IoMessage_locals_valueArgAt_(m, locals, 0);
 
@@ -327,10 +358,12 @@ IO_METHOD(IoClutter, ungrabPointer) {
   return self;
 }
 
+//doc Clutter keySymbolToUnicode(symbol)
 IO_METHOD(IoClutter, keySymbolToUnicode) {
   return IONUMBER(clutter_keysym_to_unicode(IoMessage_locals_doubleArgAt_(m, locals, 0)));
 }
 
+//doc Clutter currentEventTime
 IO_METHOD(IoClutter, currentEventTime) {
   return IoDate_newWithTime_(IOSTATE, clutter_get_current_event_time());
 }
