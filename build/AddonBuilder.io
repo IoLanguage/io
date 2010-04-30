@@ -128,7 +128,8 @@ AddonBuilder := Object clone do(
 			if(pkgLibs isEmpty,
 				depends libs append(v)
 			,
-				pkgLibs map(l, depends libs appendIfAbsent(l))
+                # `self depends` should have been there in the first place :(
+				pkgLibs map(l, self depends libs appendIfAbsent(l))
 			)
 			searchPrefixes appendIfAbsent(v)
 			pkgConfigCFlags(v) select(containsSeq("/")) foreach(p,
@@ -335,19 +336,17 @@ AddonBuilder := Object clone do(
 	buildDynLib := method(
 		mkdir("_build/dll")
 
-		links := depends addons map(b, linkDirPathFlag .. "../" .. b .. "/_build/dll")
-
-		links appendSeq(depends addons map(v, linkLibFlag .. "Io" .. v .. linkLibSuffix))
+		links := depends addons map(b, self linkDirPathFlag .. "../" .. b .. "/_build/dll")
+		links appendSeq(depends addons map(v, self linkLibFlag .. "Io" .. v .. self linkLibSuffix))
 		if(platform == "windows",
 			links appendSeq(depends syslibs map(v, v .. ".lib"))
 		)
 		if(platform != "darwin" and platform != "windows",
 			links appendSeq(depends addons map(v, "-Wl,--rpath -Wl," .. System installPrefix .. "/lib/io/addons/" .. v .. "/_build/dll/"))
 		)
-		links appendSeq(libSearchPaths map(v, linkDirPathFlag .. v))
-		links appendSeq(depends libs map(v, if(v at(0) asCharacter == "-", v, linkLibFlag .. v .. linkLibSuffix)))
-		links appendSeq(list(linkDirPathFlag .. "../../_build/dll", linkLibFlag .. "iovmall" .. linkLibSuffix))
-
+		links appendSeq(libSearchPaths map(v, self linkDirPathFlag .. v))
+		links appendSeq(depends libs map(v, if(v at(0) asCharacter == "-", v, self linkLibFlag .. v .. self linkLibSuffix)))
+		links appendSeq(list(linkDirPathFlag .. "../../_build/dll", self linkLibFlag .. "iovmall" .. self linkLibSuffix))
 		links appendSeq(depends frameworks map(v, "-framework " .. v))
 		links appendSeq(depends linkOptions)
 

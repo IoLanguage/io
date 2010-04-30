@@ -1,4 +1,4 @@
-//metadoc UnitTest category Test
+//metadoc UnitTest category Testing
 /*metadoc UnitTest description
 An object for organizing and running unit tests validated by assertions.
 */
@@ -11,30 +11,27 @@ TestRunner := Object clone do(
     width ::= 70 # Line width.
 
     init := method(
-        # TestRunner cases is mapping of UnitTest objects to
-        # the testSlotNames theese UnitTest objects provide.
-        self cases := Map clone
+        self cases := nil
         self exceptions := List clone
         self runtime := 0
     )
-//doc TestRunner testCount Returns the number of tests aggregated in this object.
+//doc TestRunner testCount Returns the number of tests to be ran.
     testCount := method(
         self cases values prepend(0) reduce(
             count, testSlotNames, count + testSlotNames size
         )
     )
 
-//doc TestRunner name Return the name of the TestRunner.
+//doc TestRunner name Returns the name of the TestRunner.
     name := method(
         # If we are running a single test, the the test's name
         # is taken as TestRunner's name, else processed file
         # name is returned.
-        name := if(self cases size > 1,
+        if(self cases size > 1,
             System launchScript fileName
         ,
-            self cases keys first
+            if(self cases size > 0, self cases keys first, "")
         )
-
     )
 
     linebreak := method(
@@ -60,11 +57,13 @@ TestRunner := Object clone do(
         linebreak
     )
 
-//doc TestRunner run Runs all tests.
-    run := method(
-        prepare # Prepare is expected to populate tests map.
+/*doc TestRunner run(testMap)
+Runs all tests from a given Map object, where keys are names of the UnitTests
+to run and values - lists of test slots theese UnitTests provide.*/
+    run := method(testMap,
+        self cases := testMap # Storing a reference to the test map.
         self runtime := Date secondsToRun(
-            self cases foreach(testCaseName, testSlotNames,
+            testMap foreach(testCaseName, testSlotNames,
                 # Depending on the Lobby is kind of wacky, but that's
                 # all we can do, since Map only supports string keys.
                 testCase := Lobby getSlot(testCaseName)
@@ -95,7 +94,7 @@ TestRunner := Object clone do(
     printSummary := method(
         "-" repeated(width) println
         ("Ran " .. testCount .. " test" .. if(testCount != 1, "s", "") .. \
-         " in " .. self runtime .. "\n") println
+         " in " .. runtime .. "s\n") println
 
         result := if(exceptions isNotEmpty,
             "FAILED (failures #{exceptions size})" interpolate
@@ -106,10 +105,19 @@ TestRunner := Object clone do(
     )
 )
 
+# A mix-in object, allowing the collectors to run the collected
+# tests. Merely a shortcut, since nobody wants to write two lines
+# instead of a single word :)
+RunnerMixIn := Object clone do(
+    run := method(
+        TestRunner clone run(prepare)
+    )
+)
+
 //doc UnitTest setUp Method called prior to each test.
 //doc UnitTest tearDown Method called after each test.
-//doc UnitTest fail Call to trigger a test failure.
-UnitTest := TestRunner clone do(
+//doc UnitTest fail(error) Call to trigger a test failure with a given error message.
+UnitTest := Object clone prependProto(RunnerMixIn) do(
     setUp := method(nil)
     tearDown := method(nil)
 
@@ -122,9 +130,13 @@ UnitTest := TestRunner clone do(
         )
     )
 
-    prepare := method(self cases atPut(self type, testSlotNames))
+    prepare := method(Map with(self type, testSlotNames))
 
-    fail := method(Exception raise("fail"))
+    fail := method(error,
+        Exception raise(
+            if(error, error, "fail")
+        )
+    )
 
 //doc UnitTest assertEquals(a, b) Fail the running test if a != b.
 //doc UnitTest assertNotEquals(a, b) Fail the running test if a == b.
@@ -137,17 +149,28 @@ UnitTest := TestRunner clone do(
 /*doc UnitTest assertEqualsWithinDelta(expected, actual, delta)
 Fail the running test if the expected value is not within delta of the actual value.
 */
-
     assertEquals := method(a, b, m,
-        //writeln("assertEquals1 call message = ", call message type)
-        mm := call message
-        if(m == nil, m = mm)
-        d := m argAt(0) code .. " != " .. call argAt(1) code
-        if(a != b, Exception raise("[" .. d .. "] [" .. a asSimpleString .. " != " .. b asSimpleString .. "]"))
-        //writeln("assertEquals2")
+        m ifNil(m = call message)
+        if(a != b,
+            # Since Message asString is the same as Message code,
+            # we don't have to access the latter excplitly inside
+            # the interpolated string.
+            fail(
+                ("`#{ m argAt(0) } != #{ m argAt(1) }` --> " .. \
+                 "`#{ a asSimpleString } != #{ b asSimpleString }`") interpolate
+            )
+        )
     )
 
-    assertNotEquals := method(a, b, if(a == b, Exception raise(a asSimpleString .. " == " .. b asSimpleString)))
+    assertNotEquals := method(a, b, m,
+        m ifNil(m = call message)
+        if(a == b,
+            fail(
+                ("`#{ m argAt(0) } == #{ m argAt(1) }` --> " .. \
+                 "`#{ a asSimpleString } == #{ b asSimpleString }`") interpolate
+            )
+        )
+    )
 
     assertSame    := method(a, b, assertEquals(a uniqueId, b uniqueId, call message))
     assertNotSame := method(a, b, assertNotEquals(a uniqueId, b uniqueId, call message))
@@ -157,51 +180,71 @@ Fail the running test if the expected value is not within delta of the actual va
     assertFalse   := method(a, assertEquals(a, false, call message))
 
     assertRaisesException := method(
-        exc := try(stopStatus(call evalArgAt(0)))
-        exc ifNil(Exception raise("Should have raised Exception"))
+        try(call evalArgAt(0)) ifNil(
+            fail("`#{call argAt(0)}` should have raised Exception" interpolate)
+        )
     )
 
     knownBug := method(
-        //writeln("  [known bug: ", call argAt(0) code, "]")
+        # Probably this should be a special case of assertEquals, so
+        # you can be sure that the bug still exists.
+        fail("`#{call argAt(0)}` is a known bug" interpolate)
     )
 
+    # Rename this method to assertAlmostEquals?
     assertEqualsWithinDelta := method(expected, actual, delta,
         if(((expected - actual) abs > delta),
-            Exception raise("expected " .. expected .. " but was " .. actual .. " (allowed delta: " .. delta .. ")")
+            fail("#{expected} expected, but was #{actual} (allowed delta: #{delta})")
         )
     )
 )
 
-//metadoc TestSuite category Testing
-/*metadoc TestSuite description
-An object to collect and run multiple UnitTests defined in *Test.io files within the System launchPath directory.
+//metadoc DirectoryCollector category Testing
+/*metadoc DirectoryCollector description
+An object to collect multiple UnitTests defined in *Test.io files within a given directory (System launchPath directory by default).
 */
-TestSuite := TestRunner clone do(
-    path ::= "."
+DirectoryCollector := Object clone prependProto(RunnerMixIn) do(
+    path ::= lazySlot(System launchPath)
 
-//doc TestSuite with(aPath) Returns a new instance with the provided path.
+//doc DirectoryCollector with(aPath) Returns a new instance with the provided path.
     with := method(path, self clone setPath(path))
 
     testFiles := method(
-        Directory with(System launchPath) files select(name endsWithSeq("Test.io"))
+        Directory with(path) files select(name endsWithSeq("Test.io"))
     )
 
     prepare := method(
+        # Importing all test files in the set up path to the global namespace.
         testFiles foreach(file,
             # Note: second argument is a label.
             Lobby doString(file contents, file path)
         )
+
+        FileCollector prepare
+    )
+)
+
+//metadoc FileCollector category Testing
+/*metadoc FileCollector description
+An object to collect multiple UnitTests defined in the current file.
+*/
+FileCollector := Object clone prependProto(RunnerMixIn) do(
+    prepare := method(
+        cases := Map clone
 
         # Iterating over all of the imported objects and collecting
         # UnitTest instances. Since Block objects doesn't respond
         # correctly to isKindOf, we need to filter out all activatable
         # objects first and only then check for the type (kind).
         Lobby foreachSlot(slotName, slotValue,
-            if (getSlot("slotValue") isActivatable not and \
-                slotValue isKindOf(UnitTest),
-                    slotValue prepare
-                    self cases mergeInPlace(slotValue cases)
+            if(getSlot("slotValue") isActivatable not and \
+               slotValue isKindOf(UnitTest),
+                cases mergeInPlace(slotValue prepare)
             )
         )
+        cases
     )
 )
+
+# For backward compatibility.
+TestSuite := getSlot("DirectoryCollector")
