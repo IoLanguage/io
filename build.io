@@ -5,14 +5,14 @@ Directory fileNamedOrNil := method(path,
 	if(f exists, f, nil)
 )
 
+
 Directory setCurrentWorkingDirectory(System launchPath)
 
-project := Project clone
 args := System args clone
 if(args at(1) == "-a") then(
-	project buildAddon(args at(2))
+	Project clone buildAddon(args at(2))
 ) elseif (args at(1)) then(
-	project clone doString(args at(1))
+	Project clone doString(args at(1))
 ) else (
-	project clone build
+	Project clone build
 )

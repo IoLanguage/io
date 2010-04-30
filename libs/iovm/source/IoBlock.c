@@ -210,7 +210,6 @@ IO_METHOD(IoBlock, setProfilerOn)
 IoObject *IoBlock_activate(IoBlock *self, IoObject *target, IoObject *locals, IoMessage *m, IoObject *slotContext)
 {
 	IoState *state = IOSTATE;
-	intptr_t poolMark; 
 	IoBlockData *selfData = DATA(self);
 	List *argNames  = selfData->argNames;
 	IoObject *scope = selfData->scope;
@@ -245,9 +244,6 @@ IoObject *IoBlock_activate(IoBlock *self, IoObject *target, IoObject *locals, Io
 	IoObject_isReferenced_(blockLocals, 0);
 	IoObject_isReferenced_(callObject, 0);
 
-	//tailCall:
-	poolMark = IoState_pushRetainPool(state);
-
 	LIST_FOREACH(argNames, i, name,
 		IoObject *arg = IoMessage_locals_valueArgAt_(m, locals, i);
 		// gc may kick in while evaling locals, so we need to be safe
@@ -281,18 +277,6 @@ IoObject *IoBlock_activate(IoBlock *self, IoObject *target, IoObject *locals, Io
 		state->stopStatus = IoCall_rawStopStatus(callObject);
 	}
 	
-	IoState_popRetainPool_(state, poolMark);
-
-	/*
-	if(IOSTATE->tailCallMessage)
-	{
-		m = IOSTATE->tailCallMessage;
-		IOSTATE->tailCallMessage = NULL;
-		locals = blockLocals;
-		goto tailCall;
-	}
-	*/
-
 	IoState_stackRetain_(state, result);
 
 #ifdef IO_BLOCK_LOCALS_RECYCLING
