@@ -226,13 +226,14 @@ AddonBuilder := Object clone do(
 
 		resFile := "_build/_pkg_config" .. (Date now asNumber asHex)
 		statusCode := System system("pkg-config #{pkg} #{flags} --silence-errors > #{resFile}" interpolate)
+		resFile := File with(resFile) openForReading
 		if(statusCode == 0,
-			resFile := File with(resFile) openForReading
 			flags = resFile contents asMutable strip
 			resFile close remove
 
 			return(flags)
 		,
+		  resFile close remove
 			return("")
 		)
 	)
