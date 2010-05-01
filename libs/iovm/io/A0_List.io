@@ -32,6 +32,11 @@ list(1, 5, 7, 2) selectInPlace(v, v > 3)
         # rather a proxy, you need to explicitly use self, to get
         # the sender's slot value, f.ex. self size.
         context := Object clone prependProto(call sender)
+        # Note: this is needed for the Object_forwardLocals() method to
+        # work correctly. See IoObject.c:870.
+        if(call sender hasLocalSlot("self"),
+            context setSlot("self", call sender self)
+        )
         # Offset, applied to get the real index of the elements being
         # deleted.
         offset := 0
@@ -91,6 +96,11 @@ list(1, 2, 3, 4) detect(v, v > 2)
         # rather a proxy, you need to explicitly use self, to get
         # the sender's slot value, f.ex. self size.
         context := Object clone prependProto(call sender)
+        # Note: this is needed for the Object_forwardLocals() method to
+        # work correctly. See IoObject.c:870.
+        if(call sender hasLocalSlot("self"),
+            context setSlot("self", call sender self)
+        )
         argCount := call argCount
 
         if(argCount == 0, Exception raise("missing argument"))
@@ -136,6 +146,11 @@ list(1, 5, 7, 2) mapInPlace(v, v + 3)
         # rather a proxy, you need to explicitly use self, to get
         # the sender's slot value, f.ex. self size.
         context := Object clone prependProto(call sender)
+        # Note: this is needed for the Object_forwardLocals() method to
+        # work correctly. See IoObject.c:870.
+        if(call sender hasLocalSlot("self"),
+            context setSlot("self", call sender self)
+        )
         argCount := call argCount
 
         if(argCount == 0, Exception raise("missing argument"))

@@ -171,6 +171,11 @@ Io> list(1, 2, 3) reduce(xs, x, xs + x, -6)
             # rather a proxy, you need to explicitly use self, to get
             # the sender's slot value.
             context := Object clone prependProto(call sender)
+            # Note: this is needed for the Object_forwardLocals() method to
+            # work correctly. See IoObject.c:870.
+            if(call sender hasLocalSlot("self"),
+                context setSlot("self", call sender self)
+            )
             target foreach(x,
                 context setSlot(aName, accumulator)
                 context setSlot(bName, x)

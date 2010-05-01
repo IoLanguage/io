@@ -278,6 +278,12 @@ ListTest := UnitTest clone do(
         ) # No exceptions should be raised.
         assertEquals(1, l size)
         assertEquals(list("a"), l)
+
+        # Testing that sender's slots are resolved correctly even if they aren't
+        # prepended with self.
+        assertNil(
+            try(exampleList itemCopy selectInPlace(== exampleList at(0)))
+        ) # No exceptions should be raised.
     )
 
     testDetect := method(
@@ -313,6 +319,12 @@ ListTest := UnitTest clone do(
         # slots. (ex. A4_Exception.io:201)
         assertNil(
             try(exampleList detect(== self exampleList at(0)))
+        ) # No exceptions should be raised.
+
+        # Testing that sender's slots are resolved correctly even if they aren't
+        # prepended with self.
+        assertNil(
+            try(exampleList detect(== exampleList at(0)))
         ) # No exceptions should be raised.
     )
 
@@ -440,6 +452,12 @@ ListTest := UnitTest clone do(
         ) # No exceptions should be raised.
         assertEquals(3, l size)
         assertEquals(list(4, 5, 6), l)
+
+        # Testing that sender's slots are resolved correctly even if they aren't
+        # prepended with self.
+        assertNil(
+            try(list(1, 2, 3) mapInPlace(+ exampleList at(2)))
+        ) # No exceptions should be raised.
     )
 
 	testAsMap := method(
@@ -547,6 +565,12 @@ ListTest := UnitTest clone do(
             try(result := a reduce(x, y, x + y + self exampleList at(2)))
         ) # No exceptions should be raised.
         assertEquals(12, result)
+
+        # Testing that sender's slots are resolved correctly even if they aren't
+        # prepended with self.
+        assertNil(
+            try(a reduce(x, y, x + y + exampleList at(2)))
+        ) # No exceptions should be raised.
     )
 
     testReverseReduce := method(
