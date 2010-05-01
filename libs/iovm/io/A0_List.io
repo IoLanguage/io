@@ -21,17 +21,19 @@ List do(
     /*doc List selectInPlace(optionalIndex, value, message)
     Like foreach, but the values for which the result of message is either nil
     or false are removed from the List. Example:
-<code>list(1, 5, 7, 2) selectInPlace(i, v, v > 3)
+<pre>list(1, 5, 7, 2) selectInPlace(i, v, v > 3)
 ==> 5, 7
 list(1, 5, 7, 2) selectInPlace(v, v > 3)
- ==> 5, 7</code>
+ ==> 5, 7</pre>
 */
     selectInPlace := method(
         # Creating a context, in which the body would be executed in.
-        # Note: since call sender isn't the actual sender object, but
-        # rather a proxy, you need to explicitly use self, to get
-        # the sender's slot value, f.ex. self size.
         context := Object clone prependProto(call sender)
+        # Note: this is needed for the Object_forwardLocals() method to
+        # work correctly. See IoObject.c:870.
+        if(call sender hasLocalSlot("self"),
+            context setSlot("self", call sender self)
+        )
         # Offset, applied to get the real index of the elements being
         # deleted.
         offset := 0
@@ -80,17 +82,19 @@ list(1, 5, 7, 2) selectInPlace(v, v > 3)
 
     /*doc List detect(optionalIndex, value, message)
     Returns the first value for which the message evaluates to a non-nil. Example:
-<code>list(1, 2, 3, 4) detect(i, v, v > 2)
+<pre>list(1, 2, 3, 4) detect(i, v, v > 2)
 ==> 3
 list(1, 2, 3, 4) detect(v, v > 2)
-==> 3</code>
+==> 3</pre>
 */
     detect := method(
         # Creating a context, in which the body would be executed in.
-        # Note: since call sender isn't the actual sender object, but
-        # rather a proxy, you need to explicitly use self, to get
-        # the sender's slot value, f.ex. self size.
         context := Object clone prependProto(call sender)
+        # Note: this is needed for the Object_forwardLocals() method to
+        # work correctly. See IoObject.c:870.
+        if(call sender hasLocalSlot("self"),
+            context setSlot("self", call sender self)
+        )
         argCount := call argCount
 
         if(argCount == 0, Exception raise("missing argument"))
@@ -125,17 +129,19 @@ list(1, 2, 3, 4) detect(v, v > 2)
     /*doc List mapInPlace(optionalIndex, value, message)
     Replaces each item in the reciever with the result of applying a given message
     to that item. Example:
-<code>list(1, 5, 7, 2) mapInPlace(i, v, i + v)
+<pre>list(1, 5, 7, 2) mapInPlace(i, v, i + v)
 ==> list(1, 6, 9, 5)
 list(1, 5, 7, 2) mapInPlace(v, v + 3)
- ==> list(4, 8, 10, 5)</code>
+ ==> list(4, 8, 10, 5)</pre>
     */
     mapInPlace := method(
         # Creating a context, in which the body would be executed in.
-        # Note: since call sender isn't the actual sender object, but
-        # rather a proxy, you need to explicitly use self, to get
-        # the sender's slot value, f.ex. self size.
         context := Object clone prependProto(call sender)
+        # Note: this is needed for the Object_forwardLocals() method to
+        # work correctly. See IoObject.c:870.
+        if(call sender hasLocalSlot("self"),
+            context setSlot("self", call sender self)
+        )
         argCount := call argCount
 
         if(argCount == 0, Exception raise("missing argument"))
