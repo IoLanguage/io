@@ -127,7 +127,7 @@ list(1,2,list(3,4,list(5))) flatten
     /*doc List reduce
     Also known as foldl or inject. Combines values in target starting on the left.
     If no initial value is paseed the head of the list is used. <br />
-<code>
+<pre>
 Io> list(1, 2, 3) reduce(+)
 ==> 6
 Io> list(1, 2, 3) reduce(xs, x, xs + x)
@@ -136,7 +136,7 @@ Io> list(1, 2, 3) reduce(+, -6) # Passing the initial value.
 ==> 0
 Io> list(1, 2, 3) reduce(xs, x, xs + x, -6)
 ==> 0
-</code>
+</pre>
 */
     reduce := method(
         argCount := call argCount
@@ -167,9 +167,6 @@ Io> list(1, 2, 3) reduce(xs, x, xs + x, -6)
             bName := call argAt(1) name # Item.
             body := call argAt(2)
             # Creating a context, in which the body would be executed in.
-            # Note: since call sender isn't the actual sender object, but
-            # rather a proxy, you need to explicitly use self, to get
-            # the sender's slot value.
             context := Object clone prependProto(call sender)
             # Note: this is needed for the Object_forwardLocals() method to
             # work correctly. See IoObject.c:870.
