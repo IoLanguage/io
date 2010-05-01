@@ -14,7 +14,6 @@ Project := Object clone do(
 		result
 	)
 
-<<<<<<< HEAD
 /*
 	modulesInFolder := method(name,
 		folder := Directory clone setPath(name)
@@ -40,8 +39,7 @@ Project := Object clone do(
 		currentAddon build(options)
 	)
 */
-=======
->>>>>>> 70657cc8b7937b589448fa27d6712394d6ac3420
+
     modulesInFolder := method(path,
         modules := list()
         folder := Directory with(path)
