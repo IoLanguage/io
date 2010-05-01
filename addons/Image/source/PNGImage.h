@@ -12,6 +12,11 @@
  *  PNGImage instance after freeing its external byte array.
  */
 
+// these two defines have been depricated since libpng10 in favor of NULL
+// makes Image addon compatible with libpng12 and libpng14
+#define png_infopp_NULL (png_infopp)NULL
+#define int_p_NULL (int*)NULL
+
 #ifndef PNGIMAGE_DEFINED
 #define PNGIMAGE_DEFINED 1
 
