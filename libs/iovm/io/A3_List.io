@@ -199,6 +199,65 @@ Io> list(1, 2, 3) reduce(xs, x, xs + x, -6)
 
     exSlice := getSlot("slice")
 
+/*doc List groupBy
+    Group items in a List by common expression value and return them aggregated in a Map.
+    <em>Note</em>: asJson is used because Map doesn't have asString method implemented.
+<pre>
+Io> list("a", "b", "cd") groupBy(size) asJson
+==> {"2":["cd"],"1":["a","b"]}
+Io> list("a", "b", "cd") groupBy(v, v containsSeq("c")) asJson
+==> {"false":["a","b"],"true":["cd"]}
+Io> list("a", "b", "cd") groupBy(i, v, i == 1) asJson
+==> {"false":["a","cd"],"true":["b"]}
+</pre>
+*/
+    groupBy := method(
+        result  := Map clone
+        # Creating a context, in which the body would be executed in.
+        context := Object clone prependProto(call sender)
+        # Note: this is needed for the Object_forwardLocals() method to
+        # work correctly. See IoObject.c:870.
+        if(call sender hasLocalSlot("self"),
+            context setSlot("self", call sender self)
+        )
+        argCount := call argCount
+
+        if(argCount == 0, Exception raise("missing argument"))
+        if(argCount == 1) then(
+            body := call argAt(0)
+            self foreach(value,
+                key := getSlot("value") doMessage(body, context) asString
+                result atIfAbsentPut(key, list())
+                result at(key) append(getSlot("value"))
+            )
+        ) elseif(argCount == 2) then(
+            eName := call argAt(0) name # Element.
+            body  := call argAt(1)
+            self foreach(value,
+                context setSlot(eName, getSlot("value"))
+
+                key := context doMessage(body) asString
+                result atIfAbsentPut(key, list())
+                result at(key) append(getSlot("value"))
+            )
+        ) else(
+            iName := call argAt(0) name # Index.
+            eName := call argAt(1) name # Element.
+            body  := call argAt(2)
+
+            self foreach(idx, value,
+                context setSlot(iName, idx)
+                context setSlot(eName, getSlot("value"))
+
+                key := context doMessage(body) asString
+                result atIfAbsentPut(key, list())
+                result at(key) append(getSlot("value"))
+            )
+        )
+
+        result
+    )
+
     /*doc List asMessage
     Converts each element in the list to unnamed messages with their cached result
     set to the value of the element (without activating).Returns an unnamed message
@@ -252,8 +311,7 @@ List ListCursor := Object clone do(
 
 # IMPORTANT:
 # ----------
-# Theese methods (List groupBy(), List mapFromKey()) should be removed,
-# because they aren't:
+# The following methods be removed, because they aren't:
 #   * documented,
 #   * unittested,
 #   * used anywhere else in the code.
@@ -262,64 +320,6 @@ List ListCursor := Object clone do(
 # for removal.
 
 List do(
-    groupBy := method(
-        aMap := Map clone
-
-        a1 := call argAt(0)
-        if(a1 == nil, Exception raise("missing argument"))
-        a2 := call argAt(1)
-        a3 := call argAt(2)
-
-        if(a2 == nil,
-            self foreach(v,
-                ss := stopStatus(c := a1 doInContext(getSlot("v"), call sender))
-                if(ss isReturn, ss return getSlot("c"))
-                if(ss stopLooping, break)
-                if(ss isContinue, continue)
-
-                key := getSlot("c") asString
-
-                aMap atIfAbsentPut(key, list())
-                aMap at(key) append(v)
-            )
-            return aMap
-        )
-
-        if(a3 == nil,
-            a1 := a1 name
-            self foreach(v,
-                call sender setSlot(a1, getSlot("v"))
-                ss := stopStatus(c := a2 doInContext(call sender, call sender))
-                if(ss isReturn, ss return getSlot("c"))
-                if(ss stopLooping, break)
-                if(ss isContinue, continue)
-
-                key := getSlot("c") asString
-
-                aMap atIfAbsentPut(key, list())
-                aMap at(key) append(v)
-            )
-            return aMap
-        )
-
-        a1 := a1 name
-        a2 := a2 name
-        self foreach(i, v,
-            call sender setSlot(a1, i)
-            call sender setSlot(a2, getSlot("v"))
-            ss := stopStatus(c := a3 doInContext(call sender, call sender))
-            if(ss isReturn, ss return getSlot("c"))
-            if(ss stopLooping, break)
-            if(ss isContinue, continue)
-
-            key := getSlot("c") asString
-
-            aMap atIfAbsentPut(key, list())
-            aMap at(key) append(v)
-        )
-        return aMap
-    )
-
     mapFromKey := method(key,
         e := key asMessage
         m := Map clone

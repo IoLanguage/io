@@ -601,6 +601,62 @@ ListTest := UnitTest clone do(
         assertEquals("list(1, 2, 3)", list(1, 2, 3) asString)
         assertEquals("list()", list() asString)
     )
+
+    testGroupBy := method(
+        l := list("a", "b", "cd")
+        # List groupBy requires at least on argument.
+        assertRaisesException(l groupBy)
+
+        # Testing normal cases:
+        # a) groupBy(aMessage)
+        m := l groupBy(size)
+        assertTrue(m isKindOf(Map))
+        assertEquals(2, m size)
+        assertEquals(
+            list(list("cd"), list("a", "b")), m values sort
+        )
+        assertEquals(list("1", "2"), m keys sort)
+
+        # b) groupBy(value, aMessage)
+        m := l groupBy(value, value containsSeq("c"))
+        assertTrue(m isKindOf(Map))
+        assertEquals(2, m size)
+        assertEquals(
+            list(list("cd"), list("a", "b")), m values sort
+        )
+        assertEquals(list("false", "true"), m keys sort)
+
+        # c) groupBy(index, value, aMessage)
+        m := l groupBy(index, value, index == 1)
+        assertTrue(m isKindOf(Map))
+        assertEquals(2, m size)
+        assertEquals(
+            list(list("b"), list("a", "cd")), m values sort
+        )
+        assertEquals(list("false", "true"), m keys sort)
+
+        # Testing the case, where the reciever is empty.
+        m := list() groupBy(size)
+        assertEquals(0, m size)
+        assertEquals(list(), m keys)
+        assertEquals(list(), m values)
+
+        # Checking that no changes were made to the sender.
+        assertNil(getSlot("index"))
+        assertNil(getSlot("value"))
+
+        # Testing the case, where the message contains references to sender's
+        # slots. (ex. A4_Exception.io:201)
+        assertNil(
+            try(l groupBy(size == self exampleList at(1) size))
+        ) # No exceptions should be raised.
+
+        # Testing that sender's slots are resolved correctly even if they aren't
+        # prepended with self.
+        assertNil(
+            try(l groupBy(size == exampleList at(1) size))
+        ) # No exceptions should be raised.
+    )
 )
 
 if(isLaunchScript, ListTest run, ListTest)
