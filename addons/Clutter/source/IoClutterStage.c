@@ -1,4 +1,6 @@
 #include "IoClutterStage.h"
+//metadoc ClutterStage category UserInterface
+//metadoc ClutterStage description For more detailed docs see <a href="http://clutter-project.org/docs/clutter/stable/ClutterStage.html">Clutter documentation</a>.
 
 /*** Initalisation functions ***/
 IoTag *IoClutterStage_newTag(void *state) {
@@ -65,6 +67,7 @@ IoObject *IoMessage_locals_clutterStageArgAt_(IoMessage *self, IoObject *locals,
 }
 
 /*** Object functions ***/
+//doc ClutterStage default
 IO_METHOD(IoClutterStage, getDefault) {
   ClutterActor *default_stage = clutter_stage_get_default();
   IoClutterStage *stage = IoClutterStage_newWithActor(IOSTATE, default_stage);
@@ -75,22 +78,26 @@ IO_METHOD(IoClutterStage, getDefault) {
   return actor;
 }
 
+//doc ClutterStage color
 IO_METHOD(IoClutterStage, getColor) {
   ClutterColor color = { 0, };
   clutter_stage_get_color(IOCSTAGE(self), &color);
   return IoClutterColor_newWithColor(IOSTATE, color);
 }
 
+//doc ClutterStage setColor(color)
 IO_METHOD(IoClutterStage, setColor) {
   ClutterColor color = IOCCOLOR(IoMessage_locals_clutterColorArgAt_(m, locals, 0));
   clutter_stage_set_color(IOCSTAGE(self), &color);
   return self;
 }
 
+//doc ClutterStage title
 IO_METHOD(IoClutterStage, getTitle) {
   return IOSYMBOL(clutter_stage_get_title(IOCSTAGE(self)));
 }
 
+//doc ClutterStage setTitle(title)
 IO_METHOD(IoClutterStage, setTitle) {
   char *title = IoMessage_locals_cStringArgAt_(m, locals, 0);
   clutter_stage_set_title(IOCSTAGE(self), title);

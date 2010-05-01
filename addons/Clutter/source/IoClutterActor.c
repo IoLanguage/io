@@ -1,4 +1,6 @@
 #include "IoClutterActor.h"
+//metadoc ClutterActor category UserInterface
+//metadoc ClutterActor description For more detailed docs see <a href="http://clutter-project.org/docs/clutter/stable/ClutterActor.html">Clutter documentation</a>.
 
 /*** Initalisation functions ***/
 IoTag *IoClutterActor_newTag(void *state) {
@@ -131,22 +133,27 @@ IoObject *IoMessage_locals_clutterActorArgAt_(IoMessage *self, IoObject *locals,
   return v;
 }
 
+//doc ClutterActor isMapped
 IO_METHOD(IoClutterActor, isMapped) {
   return IOBOOL(self, CLUTTER_ACTOR_IS_MAPPED(IOCACTOR(self)));
 }
 
+//doc ClutterActor isRealized
 IO_METHOD(IoClutterActor, isRealized) {
   return IOBOOL(self, CLUTTER_ACTOR_IS_REALIZED(IOCACTOR(self)));
 }
 
+//doc ClutterActor isVisible
 IO_METHOD(IoClutterActor, isVisible) {
   return IOBOOL(self, CLUTTER_ACTOR_IS_VISIBLE(IOCACTOR(self)));
 }
 
+//doc ClutterActor isReactive
 IO_METHOD(IoClutterActor, isReactive) {
   return IOBOOL(self, CLUTTER_ACTOR_IS_REACTIVE(IOCACTOR(self)));
 }
 
+//doc ClutterActor show
 IO_METHOD(IoClutterActor, show) {
   fprintf(stderr, "In IoClutterActor_show\n");
   clutter_actor_show(IOCACTOR(self));
@@ -154,47 +161,55 @@ IO_METHOD(IoClutterActor, show) {
   return self;
 }
 
+//doc ClutterActor showAll
 IO_METHOD(IoClutterActor, showAll) {
   clutter_actor_show_all(IOCACTOR(self));
   return self;
 }
 
+//doc ClutterActor hide
 IO_METHOD(IoClutterActor, hide) {
   clutter_actor_hide(IOCACTOR(self));
   return self;
 }
 
+//doc ClutterActor hideAll
 IO_METHOD(IoClutterActor, hideAll) {
   clutter_actor_hide_all(IOCACTOR(self));
   return self;
 }
 
+//doc ClutterActor realize
 IO_METHOD(IoClutterActor, realize) {
   clutter_actor_realize(IOCACTOR(self));
   return self;
 }
 
+//doc ClutterActor unrealize
 IO_METHOD(IoClutterActor, unrealize) {
   clutter_actor_unrealize(IOCACTOR(self));
   return self;
 }
 
-
+//doc ClutterActor paint
 IO_METHOD(IoClutterActor, paint) {
   clutter_actor_paint(IOCACTOR(self));
   return self;
 }
 
+//doc ClutterActor queueRedraw
 IO_METHOD(IoClutterActor, queueRedraw) {
   clutter_actor_queue_redraw(IOCACTOR(self));
   return self;
 }
 
+//doc ClutterActor queueRelayout
 IO_METHOD(IoClutterActor, queueRelayout) {
   clutter_actor_queue_relayout(IOCACTOR(self));
   return self;
 }
 
+//doc ClutterActor destroy
 IO_METHOD(IoClutterActor, destroy) {
   clutter_actor_destroy(IOCACTOR(self));
   return self;
@@ -210,15 +225,18 @@ IO_METHOD(IoClutterActor, event) {
   return IOBOOL(self, success);
 }
 
+//doc ClutterActor shouldPickPaint
 IO_METHOD(IoClutterActor, shouldPickPaint) {
   return IOBOOL(self, clutter_actor_should_pick_paint(IOCACTOR(self)));
 }
 
+//doc ClutterActor map
 IO_METHOD(IoClutterActor, map) {
   clutter_actor_map(IOCACTOR(self));
   return self;
 }
 
+//doc ClutterActor unmap
 IO_METHOD(IoClutterActor, unmap) {
   clutter_actor_unmap(IOCACTOR(self));
   return self;
@@ -261,6 +279,7 @@ IO_METHOD(IoClutterActor, allocateAvailableSize) {
   return self;
 }
 
+//doc ClutterActor allocationBox Return new x.
 IO_METHOD(IoClutterActor, getAllocationBox) {
   ClutterActorBox actorBox = { 0, };
   clutter_actor_get_allocation_box(IOCACTOR(self), &actorBox);
@@ -268,12 +287,17 @@ IO_METHOD(IoClutterActor, getAllocationBox) {
   return IoClutterActorBox_newWithActorBox(IOSTATE, &actorBox);
 }
 
+
+/*doc ClutterActor allocationGeometry
+Returns an Object with slots <code>x</code>, <code>y</code>, <code>width</code>, <code>height</code>.
+*/
 IO_METHOD(IoClutterActor, getAllocationGeometry) {
   ClutterGeometry geom = { 0, };
   clutter_actor_get_allocation_geometry(IOCACTOR(self), &geom);
   return clutter_geometry_to_ioObject(IOSTATE, self, &geom);
 }
 
+//doc ClutterActor allocationVertices([ancestorActor]) Returns [[List]] with four x objects.
 IO_METHOD(IoClutterActor, getAllocationVertices) {
   ClutterVertex vertices[4] = {};
   IoList *result = IoList_new(IOSTATE);
@@ -293,6 +317,9 @@ IO_METHOD(IoClutterActor, getAllocationVertices) {
   return result;
 }
 
+/*doc ClutterActor preferredSize
+Returns an [[Object]] with slots <code>minWidth</code>, <code>minHeight</code>, <code>naturalHeight</code> and <code>naturalWidth</code>.
+*/
 IO_METHOD(IoClutterActor, getPreferredSize) {
   float min_width = 0,
         min_height = 0,
@@ -308,12 +335,13 @@ IO_METHOD(IoClutterActor, getPreferredSize) {
 
   IoObject_setSlot_to_(p_size, IOSYMBOL("minWidth"),       IONUMBER(min_width));
   IoObject_setSlot_to_(p_size, IOSYMBOL("minHeight"),      IONUMBER(min_height));
-  IoObject_setSlot_to_(p_size, IOSYMBOL("naturalHeight"),  IONUMBER(natural_width));
+  IoObject_setSlot_to_(p_size, IOSYMBOL("naturalWidth"),  IONUMBER(natural_width));
   IoObject_setSlot_to_(p_size, IOSYMBOL("naturalHeight"),  IONUMBER(natural_height));
 
   return p_size;
 }
 
+//doc ClutterActor preferredWidth Returns an [[Object]] with slots <code>minWidth</code> and <code>naturalWidth</code> set.
 IO_METHOD(IoClutterActor, getPreferredWidth) {
   float for_height    = IoMessage_locals_floatArgAt_(m, locals, 0),
         min_width     = 0,
@@ -331,6 +359,7 @@ IO_METHOD(IoClutterActor, getPreferredWidth) {
   return result;
 }
 
+//doc ClutterActor preferredHeight Returns an [[Object]] with slots <code>minHeight</code> and <code>naturalHeight</code> set.
 IO_METHOD(IoClutterActor, getPreferredHeight) {
   float for_width       = IoMessage_locals_floatArgAt_(m, locals, 0),
         min_height      = 0,
@@ -348,22 +377,29 @@ IO_METHOD(IoClutterActor, getPreferredHeight) {
   return result;
 }
 
+//doc ClutterActor fixedPosition
 IO_METHOD(IoClutterActor, getFixedPosition) {
   return IOBOOL(self, clutter_actor_get_fixed_position_set(IOCACTOR(self)));
 }
 
+
+//doc ClutterActor setFixedPosition(state) <code>state</code> can be <code>true</code> or <code>false</code>.
 IO_METHOD(IoClutterActor, setFixedPosition) {
   int state = IoMessage_locals_boolArgAt_(m, locals, 0);
   clutter_actor_set_fixed_position_set(IOCACTOR(self), state);
   return self;
 }
 
+/*doc ClutterActor geometry
+Returns an [[Object]] with slots <code>x</code>, <code>y</code>, <code>width</code>, <code>height</code>.
+*/
 IO_METHOD(IoClutterActor, getGeometry) {
   ClutterGeometry geometry;
   clutter_actor_get_geometry(IOCACTOR(self), &geometry);
   return clutter_geometry_to_ioObject(IOSTATE, self, &geometry);
 }
 
+//doc ClutterActor setGeometry(x, y, width, height) Sets actor's geometry.
 IO_METHOD(IoClutterActor, setGeometry) {
   ClutterGeometry geometry = { 0, 0, 0, 0, };
   geometry.x       = IoMessage_locals_intArgAt_(m, locals, 0);
@@ -375,6 +411,7 @@ IO_METHOD(IoClutterActor, setGeometry) {
   return self;
 }
 
+//doc ClutterActor size Returns an [[Object]] with slots <code>width</code> and <code>height</code> set.
 IO_METHOD(IoClutterActor, getSize) {
   float width = 0,
         height = 0;
@@ -387,6 +424,7 @@ IO_METHOD(IoClutterActor, getSize) {
   return size;
 }
 
+//doc ClutterActor setSize(width, height) Sets actor's size.
 IO_METHOD(IoClutterActor, setSize) {
   float width   = IoMessage_locals_floatArgAt_(m, locals, 0),
         height  = IoMessage_locals_floatArgAt_(m, locals, 1);
@@ -395,6 +433,7 @@ IO_METHOD(IoClutterActor, setSize) {
   return self;
 }
 
+//doc ClutterActor position Returns an [[Object]] with slots <code>x</code> and <code>y</code> set.
 IO_METHOD(IoClutterActor, getPosition) {
   float x = 0,
         y = 0;
@@ -407,6 +446,7 @@ IO_METHOD(IoClutterActor, getPosition) {
   return size;
 }
 
+//doc ClutterActor setPosition(x, y) Sets actor's position.
 IO_METHOD(IoClutterActor, setPosition) {
   float x  = IoMessage_locals_floatArgAt_(m, locals, 0),
         y  = IoMessage_locals_floatArgAt_(m, locals, 1);
@@ -415,42 +455,51 @@ IO_METHOD(IoClutterActor, setPosition) {
   return self;
 }
 
+//doc ClutterActor width
 IO_METHOD(IoClutterActor, getWidth) {
   return IONUMBER(clutter_actor_get_width(IOCACTOR(self)));
 }
 
+//doc ClutterActor setWidth(width)
 IO_METHOD(IoClutterActor, setWidth) {
   clutter_actor_set_width(IOCACTOR(self), IoMessage_locals_floatArgAt_(m, locals, 0));
   return self;
 }
 
+//doc ClutterActor height
 IO_METHOD(IoClutterActor, getHeight) {
   return IONUMBER(clutter_actor_get_height(IOCACTOR(self)));
 }
 
+//doc ClutterActor setHeight(height)
 IO_METHOD(IoClutterActor, setHeight) {
   clutter_actor_set_height(IOCACTOR(self), IoMessage_locals_floatArgAt_(m, locals, 0));
   return self;
 }
 
+//doc ClutterActor x
 IO_METHOD(IoClutterActor, getX) {
   return IONUMBER(clutter_actor_get_x(IOCACTOR(self)));
 }
 
+//doc ClutterActor setX(xCoord)
 IO_METHOD(IoClutterActor, setX) {
   clutter_actor_set_x(IOCACTOR(self), IoMessage_locals_floatArgAt_(m, locals, 0));
   return self;
 }
 
+//doc ClutterActor y
 IO_METHOD(IoClutterActor, getY) {
   return IONUMBER(clutter_actor_get_y(IOCACTOR(self)));
 }
 
+//doc ClutterActor setY(yCoord)
 IO_METHOD(IoClutterActor, setY) {
   clutter_actor_set_y(IOCACTOR(self), IoMessage_locals_floatArgAt_(m, locals, 0));
   return self;
 }
 
+//doc ClutterActor moveBy(dx, dy)
 IO_METHOD(IoClutterActor, moveBy) {
   float dx = IoMessage_locals_floatArgAt_(m, locals, 0),
         dy = IoMessage_locals_floatArgAt_(m, locals, 1);
@@ -459,6 +508,9 @@ IO_METHOD(IoClutterActor, moveBy) {
   return self;
 }
 
+
+/*doc ClutterActor rotation
+Returns an [[Object]] with slots <code>x</code>, <code>y</code>, <code>z</code> and <code>angle</code> set.*/
 IO_METHOD(IoClutterActor, getRotation) {
   ClutterRotateAxis axis = IoMessage_locals_intArgAt_(m, locals, 0);
   float x = 0,
@@ -475,6 +527,7 @@ IO_METHOD(IoClutterActor, getRotation) {
   return rotation;
 }
 
+//doc ClutterActor setRotation(axis, angle, x, y, z) Sets actor's rotation. Use <code>Clutter AXIS X/Y/Z</code> for first argument.
 IO_METHOD(IoClutterActor, setRotation) {
   ClutterRotateAxis axis = IoMessage_locals_intArgAt_(m, locals, 0);
   double angle  = IoMessage_locals_doubleArgAt_(m, locals, 1);
@@ -486,10 +539,12 @@ IO_METHOD(IoClutterActor, setRotation) {
   return self;
 }
 
+//doc ClutterActor zRotationGravity Returns an object from [[Clutter GRAVITY]].
 IO_METHOD(IoClutterActor, getZRotationGravity) {
   return IONUMBER(clutter_actor_get_z_rotation_gravity(IOCACTOR(self)));
 }
 
+//doc ClutterActor setZRotationFromGravity(angle, gravity)
 IO_METHOD(IoClutterActor, setZRotationFromGravity) {
   clutter_actor_set_z_rotation_from_gravity(
     IOCACTOR(self),
@@ -499,14 +554,17 @@ IO_METHOD(IoClutterActor, setZRotationFromGravity) {
   return self;
 }
 
+//doc ClutterActor isRotated
 IO_METHOD(IoClutterActor, isRotated) {
   return IOBOOL(self, clutter_actor_is_rotated(IOCACTOR(self)));
 }
 
+//doc ClutterActor opacity
 IO_METHOD(IoClutterActor, getOpacity) {
   return IONUMBER(clutter_actor_get_opacity(IOCACTOR(self)));
 }
 
+//doc ClutterActor setOpacity(opacity)
 IO_METHOD(IoClutterActor, setOpacity) {
   clutter_actor_set_opacity(
     IOCACTOR(self),
@@ -515,10 +573,12 @@ IO_METHOD(IoClutterActor, setOpacity) {
   return self;
 }
 
+//doc ClutterActor name
 IO_METHOD(IoClutterActor, getName) {
   return IOSYMBOL(clutter_actor_get_name(IOCACTOR(self)));
 }
 
+//doc ClutterActor setName
 IO_METHOD(IoClutterActor, setName) {
   clutter_actor_set_name(
     IOCACTOR(self),
@@ -527,10 +587,13 @@ IO_METHOD(IoClutterActor, setName) {
   return self;
 }
 
+//doc ClutterActor gid
 IO_METHOD(IoClutterActor, getGid) {
   return IONUMBER(clutter_actor_get_gid(IOCACTOR(self)));
 }
 
+/*doc ClutterActor clip
+Returns an [[Object]] with slots <code>xOff</code>, <code>yOff</code>, <code>width</code> and <code>height</code> set. */
 IO_METHOD(IoClutterActor, getClip) {
   float xoff    = 0,
         yoff    = 0,
@@ -547,6 +610,7 @@ IO_METHOD(IoClutterActor, getClip) {
   return result;
 }
 
+//doc ClutterActor setClip(xOff, yOff, width, height)
 IO_METHOD(IoClutterActor, setClip) {
   clutter_actor_set_clip(
     IOCACTOR(self),
@@ -558,15 +622,18 @@ IO_METHOD(IoClutterActor, setClip) {
   return self;
 }
 
+//doc ClutterActor hasClip
 IO_METHOD(IoClutterActor, hasClip) {
   return IOBOOL(self, clutter_actor_has_clip(IOCACTOR(self)));
 }
 
+//doc ClutterActor removeClip
 IO_METHOD(IoClutterActor, removeClip) {
   clutter_actor_remove_clip(IOCACTOR(self));
   return self;
 }
 
+//doc ClutterActor parent
 IO_METHOD(IoClutterActor, getParent) {
   return IoClutterActor_newWithActor(
     IOSTATE,
@@ -574,6 +641,7 @@ IO_METHOD(IoClutterActor, getParent) {
   );
 }
 
+//doc ClutterActor setParent(parentActor)
 IO_METHOD(IoClutterActor, setParent) {
   clutter_actor_set_parent(
     IOCACTOR(self),
@@ -582,6 +650,7 @@ IO_METHOD(IoClutterActor, setParent) {
   return self;
 }
 
+//doc ClutterActor reparent
 IO_METHOD(IoClutterActor, reparent) {
   clutter_actor_reparent(
     IOCACTOR(self),
@@ -590,11 +659,13 @@ IO_METHOD(IoClutterActor, reparent) {
   return self;
 }
 
+//doc ClutterActor unparent
 IO_METHOD(IoClutterActor, unparent) {
   clutter_actor_unparent(IOCACTOR(self));
   return self;
 }
 
+//doc ClutterActor raise
 IO_METHOD(IoClutterActor, raise) {
   clutter_actor_raise(
     IOCACTOR(self),
@@ -604,6 +675,7 @@ IO_METHOD(IoClutterActor, raise) {
   return self;
 }
 
+//doc ClutterActor lower
 IO_METHOD(IoClutterActor, lower) {
   clutter_actor_lower(
     IOCACTOR(self),
@@ -613,18 +685,22 @@ IO_METHOD(IoClutterActor, lower) {
   return self;
 }
 
+
+//doc ClutterActor raiseToTop
 IO_METHOD(IoClutterActor, raiseToTop) {
   clutter_actor_raise_top(IOCACTOR(self));
 
   return self;
 }
 
+//doc ClutterActor lowerToBottom
 IO_METHOD(IoClutterActor, lowerToBottom) {
   clutter_actor_lower_bottom(IOCACTOR(self));
 
   return self;
 }
 
+//doc ClutterActor stage
 IO_METHOD(IoClutterActor, getStage) {
   return IoClutterActor_newWithActor(
     IOSTATE,

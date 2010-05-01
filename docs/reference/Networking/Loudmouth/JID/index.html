@@ -24,6 +24,12 @@
 <td align=right></td>
 <td></td>
 <td>Object for representing JIDs.
+<pre><code>
+j := JID with("cow@moo.com/Alpes")
+j username == "cow"
+j host == "moo.com"
+j resource == "Alpes"
+j asString == "cow@moo.com/Alpes"</code></pre>
 </td></tr>
 <tr><td colspan=3>&nbsp;</td></tr>
 <tr><td colspan=3>&nbsp;</td></tr>
@@ -69,12 +75,6 @@ with(jid)
 <p>
 <div class=slotDescription>
 Extracts all parts of a provided <code>Sequence</code> and returns new <code>JID</code> clone.
-  <pre><code>
-  j := JID with("cow@moo.com/Alpes")
-  j username == "cow"
-  j host == "moo.com"
-  j resource == "Alpes"
-  j asString == "cow@moo.com/Alpes"</code></pre>
 </div>
 </td>
 </tr>

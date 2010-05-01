@@ -1,5 +1,11 @@
 #include "IoClutterUnits.h"
 #define DATA(self) ((IoClutterUnitsData*)IoObject_dataPointer(self))
+//metadoc ClutterUnits category UserInterface
+/*metadoc ClutterUnits description
+<p>For more detailed docs see <a href="http://clutter-project.org/docs/clutter/stable/clutter-Unit-conversion.html">Clutter documentation</a>.</p>
+Example:
+<pre><code>ClutterActor clone setWidth((10 px + 1 em) value)</code></pre>
+*/
 
 /*** Initalisation functions ***/
 IoTag *IoClutterUnits_newTag(void *state) {
@@ -86,6 +92,7 @@ IoObject *IoMessage_locals_clutterUnitsArgAt_(IoMessage *self, IoObject *locals,
 }
 
 /*** Object functions ***/
+//doc ClutterUnits ==(otherUnit)
 IO_METHOD(IoClutterUnits, equals) {
   IoClutterUnits *other = IoMessage_locals_clutterUnitsArgAt_(m, locals, 0);
   int self_in_pixels = clutter_units_to_pixels(&IOCUNITS(self)),
@@ -94,6 +101,7 @@ IO_METHOD(IoClutterUnits, equals) {
   return IOBOOL(self, self_in_pixels == other_in_pixels);
 }
 
+//doc ClutterUnits compare(otherUnit) Returns 0 if units are equal, -1 if <code>self</code> is smaller, 1 if <code>self</code> is bigger than <code>otherUnit</code>.
 IO_METHOD(IoClutterUnits, compare) {
   IoClutterUnits *other = IoMessage_locals_clutterUnitsArgAt_(m, locals, 0);
   int self_in_pixels = clutter_units_to_pixels(&IOCUNITS(self)),
@@ -107,6 +115,7 @@ IO_METHOD(IoClutterUnits, compare) {
   return IONUMBER(0);
 }
 
+//doc ClutterUnits +(otherUnit) <code>otherUnit</code> can be either [[ClutterUnits]] or [[Number]].
 IO_METHOD(IoClutterUnits, add) {
   IoObject *other     = IoMessage_locals_valueArgAt_(m, locals, 0);
   int self_in_pixels  = clutter_units_to_pixels(&IOCUNITS(self)),
@@ -126,6 +135,7 @@ IO_METHOD(IoClutterUnits, add) {
   return IoClutterUnits_newWithUnits(IOSTATE, units);
 }
 
+//doc ClutterUnits -(otherUnit)
 IO_METHOD(IoClutterUnits, subtract) {
   IoObject *other     = IoMessage_locals_valueArgAt_(m, locals, 0);
   int self_in_pixels  = clutter_units_to_pixels(&IOCUNITS(self)),
@@ -145,6 +155,7 @@ IO_METHOD(IoClutterUnits, subtract) {
   return IoClutterUnits_newWithUnits(IOSTATE, units);
 }
 
+//doc ClutterUnits withMm(valueInMm)
 IO_METHOD(IoClutterUnits, withMm) {
   ClutterUnits units;
   clutter_units_from_mm(
@@ -155,6 +166,7 @@ IO_METHOD(IoClutterUnits, withMm) {
   return IoClutterUnits_newWithUnits(IOSTATE, units);
 }
 
+//doc ClutterUnits withPt(valueInPt)
 IO_METHOD(IoClutterUnits, withPt) {
   ClutterUnits units;
   clutter_units_from_pt(
@@ -165,6 +177,7 @@ IO_METHOD(IoClutterUnits, withPt) {
   return IoClutterUnits_newWithUnits(IOSTATE, units);
 }
 
+//doc ClutterUnits withEm(valueInEm)
 IO_METHOD(IoClutterUnits, withEm) {
   ClutterUnits units;
   clutter_units_from_em(
@@ -175,6 +188,7 @@ IO_METHOD(IoClutterUnits, withEm) {
   return IoClutterUnits_newWithUnits(IOSTATE, units);
 }
 
+//doc ClutterUnits withEmForFont(valueInEm, fontName)
 IO_METHOD(IoClutterUnits, withEmForFont) {
   ClutterUnits units;
   clutter_units_from_em_for_font(
@@ -186,6 +200,7 @@ IO_METHOD(IoClutterUnits, withEmForFont) {
   return IoClutterUnits_newWithUnits(IOSTATE, units);
 }
 
+//doc ClutterUnits withPx(valueInPx)
 IO_METHOD(IoClutterUnits, withPx) {
   ClutterUnits units;
   clutter_units_from_pixels(
@@ -200,6 +215,7 @@ IO_METHOD(IoClutterUnits, asPixels) {
   return IONUMBER(clutter_units_to_pixels(&IOCUNITS(self)));
 }
 
+//doc ClutterUnits withString(string)
 IO_METHOD(IoClutterUnits, withString) {
   ClutterUnits units;
   clutter_units_from_string(
@@ -210,14 +226,17 @@ IO_METHOD(IoClutterUnits, withString) {
   return IoClutterUnits_newWithUnits(IOSTATE, units);
 }
 
+//doc ClutterUnits asString
 IO_METHOD(IoClutterUnits, asString) {
   return IOSYMBOL(clutter_units_to_string(&IOCUNITS(self)));
 }
 
+//doc ClutterUnits unit Returns an value from [[Clutter UNIT]].
 IO_METHOD(IoClutterUnits, getUnit) {
   return IONUMBER(clutter_units_get_unit_type(&IOCUNITS(self)));
 }
 
+//doc ClutterUnits value
 IO_METHOD(IoClutterUnits, getValue) {
   return IONUMBER(clutter_units_get_unit_value(&IOCUNITS(self)));
 }

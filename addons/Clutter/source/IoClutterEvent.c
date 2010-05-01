@@ -1,4 +1,6 @@
 #include "IoClutterEvent.h"
+//metadoc ClutterEvent category UserInterface
+//metadoc ClutterEvent description For more detailed docs see <a href="http://clutter-project.org/docs/clutter/stable/clutter-Events.html">Clutter documentation</a>.
 
 /*** Initalisation functions ***/
 IoTag *IoClutterEvent_newTag(void *state) {
@@ -85,10 +87,12 @@ IoObject *IoMessage_locals_clutterEventArgAt_(IoMessage *self, IoObject *locals,
   return v;
 }
 
+//doc ClutterEvent eventType Returns a value from [[Clutter EVENT]].
 IO_METHOD(IoClutterEvent, eventType) {
   return IONUMBER(clutter_event_type(IOCEVENT(self)));
 }
 
+//doc ClutterEvent coords Returns an [[Object]] with slots <code>x</code> and <code>y</code> set.
 IO_METHOD(IoClutterEvent, getCoords) {
   float x = 0,
         y = 0;
@@ -101,14 +105,18 @@ IO_METHOD(IoClutterEvent, getCoords) {
   return coords;
 }
 
+//doc ClutterEvent state Returns a value from [[Clutter STATE]].
 IO_METHOD(IoClutterEvent, getState) {
   return IONUMBER(clutter_event_get_state(IOCEVENT(self)));
 }
 
+
+//doc ClutterEvent time Returns a [[Date]] object.
 IO_METHOD(IoClutterEvent, getTime) {
   return IoDate_newWithTime_(IOSTATE, clutter_event_get_time(IOCEVENT(self)));
 }
 
+//doc ClutterEvent source
 IO_METHOD(IoClutterEvent, getSource) {
   return IoClutterActor_newWithActor(IOSTATE, clutter_event_get_source(IOCEVENT(self)));
 }
@@ -117,59 +125,71 @@ IO_METHOD(IoClutterEvent, getSource) {
 //  return IoDate_newWithTime_(IOSTATE, clutter_event_get_time(IOCEVENT(self)));
 //}
 
+//doc ClutterEvent flags
 IO_METHOD(IoClutterEvent, getFlags) {
   return IONUMBER(clutter_event_get_flags(IOCEVENT(self)));
 }
 
+//doc ClutterEvent peek
 IO_METHOD(IoClutterEvent, peek) {
   ClutterEvent *event = clutter_event_peek();
   return (event == NULL) ? IONIL(self) : IoClutterEvent_newWithEvent(IOSTATE, event);
 }
 
+//doc ClutterEvent put(event)
 IO_METHOD(IoClutterEvent, put) {
   clutter_event_put(IOCEVENT(IoMessage_locals_clutterEventArgAt_(m, locals, 0)));
   return self;
 }
 
-// ClutterEvent putBack() Puts <code>self</code> back to event queue.
+// ClutterEvent putBack Puts <code>self</code> back to event queue.
 IO_METHOD(IoClutterEvent, putBack) {
   clutter_event_put(IOCEVENT(self));
   return self;
 }
 
+//doc ClutterEvent hasPending
 IO_METHOD(IoClutterEvent, hasPending) {
   return IOBOOL(self, clutter_events_pending());
 }
 
+//doc ClutterEvent button
 IO_METHOD(IoClutterEvent, getButton) {
   return IONUMBER(clutter_event_get_button(IOCEVENT(self)));
 }
 
+//doc ClutterEvent clickCount
 IO_METHOD(IoClutterEvent, getClickCount) {
   return IONUMBER(clutter_event_get_click_count(IOCEVENT(self)));
 }
 
+//doc ClutterEvent keySymbol
 IO_METHOD(IoClutterEvent, getKeySymbol) {
   return IONUMBER(clutter_event_get_key_symbol(IOCEVENT(self)));
 }
 
+//doc ClutterEvent keyCode
 IO_METHOD(IoClutterEvent, getKeyCode) {
   return IONUMBER(clutter_event_get_key_code(IOCEVENT(self)));
 }
 
+//doc ClutterEvent keyUnicode
 IO_METHOD(IoClutterEvent, getKeyUnicode) {
   return IONUMBER(clutter_event_get_key_unicode(IOCEVENT(self)));
 }
 
+//doc ClutterEvent relatedActor
 IO_METHOD(IoClutterEvent, getRelatedActor) {
   ClutterActor *actor = clutter_event_get_related(IOCEVENT(self));
   return (actor == NULL) ? IONIL(self) : IoClutterActor_newWithActor(IOSTATE, actor);
 }
 
+//doc ClutterEvent scrollDirection
 IO_METHOD(IoClutterEvent, getScrollDirection) {
   return IONUMBER(clutter_event_get_scroll_direction(IOCEVENT(self)));
 }
 
+//doc ClutterEvent device
 IO_METHOD(IoClutterEvent, getDevice) {
   return IoClutterInputDevice_newWithDevice(
     IOSTATE,

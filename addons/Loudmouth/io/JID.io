@@ -1,6 +1,13 @@
 JID := Object clone do(
 //metadoc JID category Networking
-//metadoc JID description Object for representing JIDs.
+/*metadoc JID description
+Object for representing JIDs.
+<pre><code>
+j := JID with("cow@moo.com/Alpes")
+j username == "cow"
+j host == "moo.com"
+j resource == "Alpes"
+j asString == "cow@moo.com/Alpes"</code></pre>*/
 
   //doc JID username Extracts username from JID.
   username  ::= nil
@@ -11,14 +18,7 @@ JID := Object clone do(
   //doc JID asString Converts JID to string with all available parts included.
   asString  ::= nil
 
-  /*doc JID with(jid)
-  Extracts all parts of a provided <code>Sequence</code> and returns new <code>JID</code> clone.
-  <pre><code>
-  j := JID with("cow@moo.com/Alpes")
-  j username == "cow"
-  j host == "moo.com"
-  j resource == "Alpes"
-  j asString == "cow@moo.com/Alpes"</code></pre>*/
+  //doc JID with(jid) Extracts all parts of a provided <code>Sequence</code> and returns new <code>JID</code> clone.
   with := method(jid,
     fpart := jid split("@")
     spart := fpart at(1) split("/")
