@@ -14,7 +14,7 @@ void Sorter_quickSort(Sorter *self, size_t lb, size_t ub);
 size_t Sorter_quickSortRearrange(Sorter *self, size_t lb, size_t ub);
 
 void portable_qsort_r(void *base, size_t size, size_t width, 
-	void *context, PortableSortingCompareCallback compare)
+	void *context, PortableSortingCompareCallback *compare)
 {
 	if (size > 0 && width > 0)
 	{

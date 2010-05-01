@@ -55,7 +55,8 @@ BINARY_SUFFIX := .exe
 endif
 
 ifneq (,$(findstring Windows,$(SYS)))
-CC := cl -nologo
+CC := cc 
+#CC := cl -nologo
 DLL_LIB_PREFIX := lib
 LINKDLL := link
 LINKDLLOUTFLAG :=-out:
