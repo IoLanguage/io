@@ -11,6 +11,7 @@ AddonBuilder clone do(
 	dependsOnLib("avformat")
 	dependsOnLib("avcodec")
 	dependsOnLib("avutil")
+        dependsOnLib("swscale")
 
 	dependsOnLinkOption("-fno-common")
 
