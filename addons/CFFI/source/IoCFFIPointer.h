@@ -15,6 +15,7 @@ typedef IoObject IoCFFIPointer;
 typedef struct IoCFFIPointer {
 	void	*ptr;
 	void	**valuePointer;
+	IoObject	*keepRef;
 } IoCFFIPointerData;
 
 IoTag		*IoCFFIPointer_newTag(void *state);
@@ -34,10 +35,12 @@ IoObject	*IoCFFIPointer_toType(IoCFFIPointer *self, IoObject *locals, IoMessage 
 IoObject	*IoCFFIPointer_at(IoCFFIPointer *self, IoObject *locals, IoMessage *m);
 IoObject	*IoCFFIPointer_atPut(IoCFFIPointer *self, IoObject *locals, IoMessage *m);
 IoObject	*IoCFFIPointer_asBuffer(IoCFFIPointer *self, IoObject *locals, IoMessage *m);
-IoObject	*IoCFFIPointer_castTo(IoCFFIPointer *self, IoObject *locals, IoMessage *m);
+IoObject	*IoCFFIPointer_cast(IoCFFIPointer *self, IoObject *locals, IoMessage *m);
+IoObject	*IoCFFIPointer_size(IoCFFIPointer *self, IoObject *locals, IoMessage *m);
 
 IoCFFIPointer	*IoCFFIPointer_cloneWithData(IoCFFIPointer *self, void **data);
 void		*IoCFFIPointer_valuePointer(IoCFFIPointer *self);
 void		IoCFFIPointer_setValuePointer_offset_(IoCFFIPointer* self, void *ptr, int offset);
+IoCFFIPointer	*IoCFFIPointer_rawSetValue(IoCFFIPointer *self, IoObject *source, void *value);
 
 #endif

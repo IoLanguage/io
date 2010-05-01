@@ -13,16 +13,18 @@
 
 typedef IoObject IoCFFIDataType;
 
-typedef struct IoCFFIDataType {
+typedef struct {
 	union {
-		char		c[1];
-		unsigned char	C[1];
+		char		c;
+		unsigned char	C;
 		short		s;
 		unsigned short	S;
 		int		i;
 		unsigned int	I;
 		long		l;
 		unsigned long	L;
+		long long		g;
+		unsigned long long	G;
 		float		f;
 		double		d;
 		char		*str;
@@ -43,9 +45,9 @@ IoCFFIDataType	*IoCFFIDataType_value(IoCFFIDataType *self, IoObject *locals, IoM
 IoCFFIDataType	*IoCFFIDataType_setValue(IoCFFIDataType *self, IoObject *locals, IoMessage *m);
 IoObject	*IoCFFIDataType_size(IoCFFIDataType *self, IoObject *locals, IoMessage *m);
 
-void		*IoCFFIDataType_ValuePointerFromObject_(IoCFFIDataType* self, IoObject *o);
+void		*IoCFFIDataType_ValuePointerFromObject_(IoCFFIDataType *self, IoObject *value);
 IoObject	*IoCFFIDataType_rawSetValue(IoCFFIDataType *self, IoObject *value);
-IoObject	*IoCFFIDataType_setValueFromData(IoCFFIDataType *self, void *value);
+IoObject	*IoCFFIDataType_setValueFromData(IoCFFIDataType *self, IoObject *source, void *value);
 ffi_type	*IoCFFIDataType_ffiType(IoCFFIDataType *self);
 IoObject	*IoCFFIDataType_objectFromData_(IoCFFIDataType *self, void *data);
 void		*IoCFFIDataType_valuePointer(IoCFFIDataType *self);

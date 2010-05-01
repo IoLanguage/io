@@ -23,7 +23,8 @@ CFFI do(
 
 			self with := method(
 				this := self clone
-				call message setName("setValues") doInContext(this)
+				call message clone setName("setValues") doInContext(this, call sender)
+				this
 			)
 
 			self forward := method(

@@ -90,54 +90,59 @@ void IoCFFIDataType_mark(IoCFFIDataType *self)
 
 /* ---------------------------------------------------------------- */
 
-void *IoCFFIDataType_ValuePointerFromObject_(IoCFFIDataType* self, IoObject *o)
+void *IoCFFIDataType_ValuePointerFromObject_(IoCFFIDataType *self, IoObject *value)
 {
-	IoObject *_self, *number;
-	void* ret;
-	char c;
+	// we want the value pointer from an object to use its data to assign it
+	// to a cffi object. So, always pass the destination object in "self".
+	// It is used to exactly know the use will be given to the pointer, so
+	// we can return the correct pointer when it is not very clear.
+	if ( ISNUMBER(value) ) {
+		// TODO Pending an issue with all integer types due to the fact that
+		// Io always stores numbers as double. We lose the info about the real
+		// type of the number beeing assigned, so:
+		//	i:=Types Int with(1000)
+		// is always ok, but:
+		//	another_i:=Types Int with(i)
+		// not because "i" is a "real" integeter and IoCFFIDataType_setValueFromData()
+		// always expects numbers as double... :-/
+		IoObject *number;
 
-	// this is a hack so macros relying on self will work
-	//self = o;
-
-	// When a type wants the value pointer of an object, it must
-	// hold a reference to that object to protect it from GC.
-	// If that type is getting the pointer temproraly (ie: to just
-	// copy the data it points to) "self" is allowed to be NULL and
-	// the type will not hold a reference to the object.
-	if ( !self ) self = o, _self = NULL;
-	else _self = self;
-
-	if ( ISNUMBER(o) ) {
-		number = IoState_doCString_(IoObject_state(o), "CFFI Types Double clone");
-		DATA(number)->type.d = IoObject_dataDouble(o);
-		return IoCFFIDataType_ValuePointerFromObject_(_self, number);
+		number = IoState_doCString_(IoObject_state(self), "CFFI Types Double clone");
+		DATA(number)->type.d = IoObject_dataDouble(value);
+		return IoCFFIDataType_ValuePointerFromObject_(self, number);
 	}
-	else if ( ISSEQ(o) ) {
-		// There is an inconsistency when dealing with Sequences: they are used both for Char and CString types.
-		// If a CString, we want the address where the string is stored (we have a double indirection here). If
-		// a Char, we want the address where the char is stored (that is, a simple indirection).
-		c = CSTRING(IoState_on_doCString_withLabel_(IOSTATE, self, "typeString", "IoCFFIDataType_setValue"))[0];
-		if(c == 'c' || c == 'C')
-		ret = *(void **)IoObject_dataPointer(o);
-		else
-		ret = (void *)IoObject_dataPointer(o);
+	else if ( ISSEQ(value) ) {
+		IoObject *typeStr = IoState_on_doCString_withLabel_(IOSTATE, self, "?typeString", "IoCFFIDataType_ValuePointerFromObject_");
+		if ( !ISNIL(typeStr) ) { // assignment to a DataType?
+			// There is an inconsistency when dealing with Sequences: they are used
+			// both for Char and CString types. If a CString, we want the address
+			// where the string is stored (we have a double indirection here).
+			// If a Char, we want the address where the char is stored (that is,
+			// a simple indirection).
+			char c = CSTRING(typeStr)[0];
+			if(c == 'c' || c == 'C') {
+				return *(void **)IoObject_dataPointer(value);
+			}
+			else {
+				return (void *)IoObject_dataPointer(value);
+			}
+		}
+		else { // or simply return the string pointer (ie: passing a string to a Function) ?
+			return (void *)IoObject_dataPointer(value);
+		}
 	}
-	else if ( ISNIL(o) )              ret = &IoCFFIDataType_null;
-	else if ( ISCFFIDataType(o) )     ret = IoCFFIDataType_valuePointer(o);
-	else if ( ISCFFIPointer(o) )      ret = IoCFFIPointer_valuePointer(o);
-	else if ( ISCFFIStructure(o) )    ret = IoCFFIStructure_valuePointer(o);
-	else if ( ISCFFIFunction(o) )     ret = IoCFFIFunction_valuePointer(o);
-	else if ( ISCFFIArray(o) )        ret = IoCFFIArray_valuePointer(o);
+	else if ( ISNIL(value) )              return &IoCFFIDataType_null;
+	else if ( ISCFFIDataType(value) )     return IoCFFIDataType_valuePointer(value);
+	else if ( ISCFFIPointer(value) )      return IoCFFIPointer_valuePointer(value);
+	else if ( ISCFFIStructure(value) )    return IoCFFIStructure_valuePointer(value);
+	else if ( ISCFFIFunction(value) )     return IoCFFIFunction_valuePointer(value);
+	else if ( ISCFFIArray(value) )        return IoCFFIArray_valuePointer(value);
 	else {
 		IoState_error_(IOSTATE, NULL, "unknown object to get pointer from");
 		return NULL;
-		//ret = o;
 	}
 
-	if ( _self )
-		IoObject_setSlot_to_(_self, IOSYMBOL("_keepRef"), o);
-
-	return ret;
+	return NULL;
 }
 
 IoCFFIDataType *IoCFFIDataType_value(IoCFFIDataType *self, IoObject *locals, IoMessage *m)
@@ -145,7 +150,7 @@ IoCFFIDataType *IoCFFIDataType_value(IoCFFIDataType *self, IoObject *locals, IoM
 	return IoCFFIDataType_objectFromData_(self, IoCFFIDataType_valuePointer(self));
 }
 
-IoObject *IoCFFIDataType_setValueFromData(IoCFFIDataType *self, void *value)
+IoObject *IoCFFIDataType_setValueFromData(IoCFFIDataType *self, IoObject* source, void *value)
 {   
 	char c, *cp;
 	IoCFFIDataTypeData *data = NULL;
@@ -159,6 +164,7 @@ IoObject *IoCFFIDataType_setValueFromData(IoCFFIDataType *self, void *value)
 	}
 
 	c = CSTRING( IoState_on_doCString_withLabel_(IOSTATE, self, "typeString", "IoCFFIDataType_setValue") )[0];
+	//printf("typestring %c\n", c);
 	switch ( c ) {
 		case 'c':
 			// see comment in IoCFFIDataType_ValuePointerFromObject_()
@@ -182,6 +188,10 @@ IoObject *IoCFFIDataType_setValueFromData(IoCFFIDataType *self, void *value)
 			*(long *)POINTER(data) = (long)*(double *)value; break;
 		case 'L':
 			*(unsigned long *)POINTER(data) = (unsigned long)*(double *)value; break;
+		case 'g':
+			*(long long *)POINTER(data) = (long long)*(double *)value; break;
+		case 'G':
+			*(unsigned long long *)POINTER(data) = (unsigned long long)*(double *)value; break;
 		case 'f':
 			*(float *)POINTER(data) = *(float *)value; break;
 		case 'd':
@@ -189,19 +199,21 @@ IoObject *IoCFFIDataType_setValueFromData(IoCFFIDataType *self, void *value)
 			break;
 		case '*':
 			cp = *(char **)value;
-			*(char **)POINTER(data) = malloc(strlen(cp) + 1);
-			data->needToFreeStr = 1;
-			strcpy(*(char **)POINTER(data), cp);
+			if(cp != NULL) {
+				*(char **)POINTER(data) = malloc(strlen(cp) + 1);
+				data->needToFreeStr = 1;
+				strcpy(*(char **)POINTER(data), cp);
+			}
+			else *(char **)POINTER(data) = NULL;
 			break;
 
 		case '^':
-			*(((IoCFFIPointerData *)(IoObject_dataPointer(self)))->valuePointer) = *(void**)value;
+			IoCFFIPointer_rawSetValue(self, source, value);
 			break;
 
 		case '{':
 		case '(':
-			//TODO take this out of here
-			memcpy(((IoCFFIStructureData *)(IoObject_dataPointer(self)))->buffer, value, ((IoCFFIStructureData *)(IoObject_dataPointer(self)))->ffiType.size);
+			IoCFFIStructure_rawSetValue(self, source, value);
 			break;
 
 		case '&':
@@ -210,8 +222,8 @@ IoObject *IoCFFIDataType_setValueFromData(IoCFFIDataType *self, void *value)
 
 		case '[':
 			//TODO take this out of here
-			memcpy(((IoCFFIArrayData *)(IoObject_dataPointer(self)))->buffer, value, ((IoCFFIArrayData *)(IoObject_dataPointer(self)))->ffiType.size);
-			printf("IoCFFIDataType_setValueFromData ARRAY\n");
+			IoCFFIArray_rawSetValue(self, source, value);
+			//memcpy(((IoCFFIArrayData *)(IoObject_dataPointer(self)))->buffer, value, ((IoCFFIArrayData *)(IoObject_dataPointer(self)))->ffiType.size);
 			break;
 
 		case 'v':
@@ -230,7 +242,7 @@ IoObject *IoCFFIDataType_rawSetValue(IoCFFIDataType *self, IoObject *value)
 {
 	void *data;
 	data = IoCFFIDataType_ValuePointerFromObject_(self, value);
-	return IoCFFIDataType_setValueFromData(self, data);
+	return IoCFFIDataType_setValueFromData(self, value, data);
 }
 
 IoCFFIDataType *IoCFFIDataType_setValue(IoCFFIDataType *self, IoObject *locals, IoMessage *m)
@@ -253,7 +265,7 @@ IoObject *IoCFFIDataType_asBuffer(IoCFFIDataType *self, IoObject *locals, IoMess
 		optLen = IoMessage_locals_intArgAt_(m, locals, 0);
 	}
 
-	typeString = CSTRING( IoState_on_doCString_withLabel_(IOSTATE, self, "typeString", "IoCFFIDataType_objectFromData_") );
+	typeString = CSTRING( IoState_on_doCString_withLabel_(IOSTATE, self, "typeString", "IoCFFIDataType_asBuffer") );
 	switch ( c = typeString[0] ) {
 		case 'c':
 		case 'C':
@@ -265,6 +277,8 @@ IoObject *IoCFFIDataType_asBuffer(IoCFFIDataType *self, IoObject *locals, IoMess
 		case 'I':
 		case 'l':
 		case 'L':
+		case 'g':
+		case 'G':
 		case 'f':
 		case 'd':
 			len = IoCFFIDataType_ffiType(self)->size;
@@ -343,6 +357,10 @@ IoObject *IoCFFIDataType_objectFromData_(IoCFFIDataType *self, void *data)
 			return IONUMBER(((double)(*((long *)data))));
 		case 'L':
 			return IONUMBER(((double)(*((unsigned long *)data))));
+		case 'g':
+			return IONUMBER(((double)(*((long long *)data))));
+		case 'G':
+			return IONUMBER(((double)(*((unsigned long long *)data))));
 		case 'f':
 			return IONUMBER(((double)(*((float *)data))));
 		case 'd':
@@ -399,6 +417,8 @@ ffi_type *IoCFFIDataType_ffiType(IoCFFIDataType *self)
 		case 'I':	return &ffi_type_uint;
 		case 'l':	return &ffi_type_slong;
 		case 'L':	return &ffi_type_ulong;
+		case 'g':	return &ffi_type_sint64;
+		case 'G':	return &ffi_type_uint64;
 		case 'f':	return &ffi_type_float;
 		case 'd':	return &ffi_type_double;
 		case 'v':	return &ffi_type_void;
@@ -437,6 +457,8 @@ void *IoCFFIDataType_valuePointer(IoCFFIDataType* self)
 		case 'I':
 		case 'l':
 		case 'L':
+		case 'g':
+		case 'G':
 		case 'f':
 		case 'd':
 		case '*':
