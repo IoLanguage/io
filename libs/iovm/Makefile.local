@@ -1,12 +1,12 @@
-CCOUTFLAG := "-o "
+CCLDOUTFLAG := -o 
 ifneq (,$(findstring Windows,$(SYS)))
-    CCLDOUTFLAG := "-Fe"
+    CCLDOUTFLAG := -Fe
 endif
 
 iofiles=$(wildcard io/*.io)
 
 tools/io2c:
-	$(CC) tools/io2c.c -o tools/io2c
+	$(CC) tools/io2c.c $(CCLDOUTFLAG)tools/io2c
 
 all_begin: source/IoVMInit.c
 

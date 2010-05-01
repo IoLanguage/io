@@ -21,8 +21,8 @@ extern "C" {
 
 typedef int (*PortableSortingCompareCallback)(void *context, const void *a, const void *b);
 
-BASEKIT_API void portable_qsort_r(void *base, size_t nel, size_t width, 
-	void *context, PortableSortingCompareCallback compare);
+BASEKIT_API void portable_qsort_r(void *base, size_t nel, size_t width,
+	void *context, PortableSortingCompareCallback *compare);
 
 #ifdef __cplusplus
 }

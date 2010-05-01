@@ -33,7 +33,9 @@ Contains methods related to the IoVM.
 #include <windows.h>
 #define _fullpath(res,path,size) \
   (GetFullPathName ((path), (size), (res), NULL) ? (res) : NULL)    
-/*static void setenv(const char *varName, const char* value, int force)
+
+#ifndef __CYGWIN__
+static void setenv(const char *varName, const char* value, int force)
 {
 	const char *safeValue;
 	char *buf;
@@ -67,10 +69,13 @@ Contains methods related to the IoVM.
 	_putenv(buf);
 	io_free(buf);
 }
-*/
 
-#define setenv(k, v, o) SetEnvironmentVariable((k), (v))
-#define getpid GetCurrentProcessId
+
+//#define setenv(k, v, o) SetEnvironmentVariable((k), (v)) // removed by james burgess
+//#define getpid GetCurrentProcessId  // removed by james burgess
+//#define setenv(k, v, o) SetEnvironmentVariable((k), (v))
+#endif
+
 
 IO_METHOD(IoObject, installPrefix)
 {
