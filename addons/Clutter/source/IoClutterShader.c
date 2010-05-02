@@ -1,4 +1,6 @@
 #include "IoClutterShader.h"
+//metadoc ClutterShader category UserInterface
+//metadoc ClutterShader description For more detailed docs see <a href="http://clutter-project.org/docs/clutter/stable/clutter-Shaders.html">Clutter documentation</a>.
 
 /*** Initalisation functions ***/
 IoTag *IoClutterShader_newTag(void *state) {
@@ -74,30 +76,35 @@ IoObject *IoMessage_locals_clutterShaderArgAt_(IoMessage *self, IoObject *locals
   return v;
 }
 
+//doc ClutterShader vertexSource
 IO_METHOD(IoClutterShader, getVertexSource) {
   if(IOCSHADER(self) == NULL) return IONIL(self);
   char *vertex = clutter_shader_get_vertex_source(IOCSHADER(self));
   return (strlen(vertex) == 0) ? IONIL(self) : IOSYMBOL(vertex);
 }
 
+//doc ClutterShader setVertexSource(source)
 IO_METHOD(IoClutterShader, setVertexSource) {
   char *source = IoMessage_locals_cStringArgAt_(m, locals, 0);
   clutter_shader_set_vertex_source(IOCSHADER(self), source, -1);
   return self;
 }
 
+//doc ClutterShader fragmentSource
 IO_METHOD(IoClutterShader, getFragmentSource) {
   if(IOCSHADER(self) == NULL) return IONIL(self);
   char *fragment = clutter_shader_get_fragment_source(IOCSHADER(self));
   return (strlen(fragment) == 0) ? IONIL(self) : IOSYMBOL(fragment);
 }
 
+//doc ClutterShader setFragmentSource(source)
 IO_METHOD(IoClutterShader, setFragmentSource) {
   char *source = IoMessage_locals_cStringArgAt_(m, locals, 0);
   clutter_shader_set_fragment_source(IOCSHADER(self), source, -1);
   return self;
 }
 
+//doc ClutterShader compile
 IO_METHOD(IoClutterShader, compile) {
   GError *error = NULL;
   int success = clutter_shader_compile(IOCSHADER(self), &error);
@@ -109,19 +116,23 @@ IO_METHOD(IoClutterShader, compile) {
   return IOBOOL(self, success);
 }
 
+//doc ClutterShader release
 IO_METHOD(IoClutterShader, release) {
   clutter_shader_release(IOCSHADER(self));
   return self;
 }
 
+//doc ClutterShader isCompiled
 IO_METHOD(IoClutterShader, isCompiled) {
   return IOBOOL(self, clutter_shader_is_compiled(IOCSHADER(self)));
 }
 
+//doc ClutterShader isEnabled
 IO_METHOD(IoClutterShader, getIsEnabled) {
   return IOBOOL(self, clutter_shader_get_is_enabled(IOCSHADER(self)));
 }
 
+//doc ClutterShader setIsEnabled(state)
 IO_METHOD(IoClutterShader, setIsEnabled) {
   int is_enabled = IoMessage_locals_boolArgAt_(m, locals, 0);
   clutter_shader_set_is_enabled(IOCSHADER(self), is_enabled);

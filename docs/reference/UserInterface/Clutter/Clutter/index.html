@@ -23,21 +23,23 @@
 <tr>
 <td align=right></td>
 <td></td>
-<td>Clutter is a GObject based library for creating fast, visually rich, graphical user interfaces.
-
+<td><p>
+<a href="http://clutter-project.org">Clutter</a> is a GObject based library for creating fast, visually rich, graphical user interfaces.
+</p><p>
 Clutter works by manipulating a scene-graph of 2D surfaces, or 'actors', inside a 3D space.
-
+</p><p>
 ClutterActor is the base class for such surfaces. All ClutterActors can be positioned, scaled and rotated in 3D space. In addition, other properties can be set, such as 2D clipping, children and opacity. Tranforms applied to a parent actor also apply to any children. Actors are also able to receive events.
-
+</p><p>
 Subclasses of ClutterActor include ClutterStage, ClutterTexture, ClutterLabel, ClutterRectangle, ClutterEntry and ClutterGroup. ClutterActors are added to a parent, transformed and then made visible.
-
+</p><p>
 ClutterStage is the top level ClutterActor - it's the representation of a window, or framebuffer. It is created automatically when Clutter is initialised. ClutterStage is a ClutterGroup, a class implementing the ClutterCointainer interface.
-
+</p><p>
 ClutterTimelines provide the basis for Clutter's animation utilities. Multiple timelines can be synchronised using ClutterScore, and ClutterBehaviour and ClutterEffect allow for the creation of animation effects such as transitions.
-
+</p><p>
 Clutter further contains a number of utilities, including; ClutterScript - for loading 'UI definition' files formatted in JSON, ClutterShader - a class for applying GPU shaders to actors, ClutterModel - a utility class for MVC list type implementations, and fixed point math utilities.
-
-For detailed docs, see <a href=http://clutter-project.org/docs/clutter/stable/>clutter-project</a>
+</p><p>
+For detailed docs, see <a href="http://clutter-project.org/docs/clutter/stable/">clutter-project</a>.
+</p>
 </td></tr>
 <tr><td colspan=3>&nbsp;</td></tr>
 <tr><td colspan=3>&nbsp;</td></tr>
@@ -49,12 +51,152 @@ For detailed docs, see <a href=http://clutter-project.org/docs/clutter/stable/>c
 <td>
 <hr align=left color=#ddd height=1>
 <br><br>
+<a name="Clutter-AXIS"></a><b>
+AXIS
+</b>
+<p>
+<div class=slotDescription>
+Contains all CLUTTER_AXIS_* constants.
+</div>
+<a name="Clutter-DEVICE_TYPE"></a><b>
+DEVICE_TYPE
+</b>
+<p>
+<div class=slotDescription>
+Contains all CLUTTER_TYPE_* constants.
+</div>
+<a name="Clutter-EVENT"></a><b>
+EVENT
+</b>
+<p>
+<div class=slotDescription>
+Contains all Clutter event type constants.
+</div>
+<a name="Clutter-EVENT_FLAG"></a><b>
+EVENT_FLAG
+</b>
+<p>
+<div class=slotDescription>
+Contains all CLUTTER_EVENT_FLAG_* constants.
+</div>
+<a name="Clutter-GRAVITY"></a><b>
+GRAVITY
+</b>
+<p>
+<div class=slotDescription>
+Contains all CLUTTER_GRAVITY_* constants.
+</div>
+<a name="Clutter-MASK"></a><b>
+MASK
+</b>
+<p>
+<div class=slotDescription>
+Contains all CLUTTER_*_MASK constants.
+</div>
+<a name="Clutter-SCROLL"></a><b>
+SCROLL
+</b>
+<p>
+<div class=slotDescription>
+Contains all CLUTTER_SCROLL_* constants.
+</div>
+<a name="Clutter-SHADER_ERROR"></a><b>
+SHADER_ERROR
+</b>
+<p>
+<div class=slotDescription>
+Contains all CLUTTER_SHADER_ERROR_* constants.
+</div>
+<a name="Clutter-STAGE_STATE"></a><b>
+STAGE_STATE
+</b>
+<p>
+<div class=slotDescription>
+Contains all CLUTTER_STAGE_STATE_* constants.
+</div>
+<a name="Clutter-UNIT"></a><b>
+UNIT
+</b>
+<p>
+<div class=slotDescription>
+Contains all CLUTTER_UNIT_* constants.
+</div>
+<a name="Clutter-clearGlyphCache"></a><b>
+clearGlyphCache
+</b>
+<p>
+<div class=slotDescription>
+
+</div>
+<a name="Clutter-cogl"></a><b>
+cogl
+</b>
+<p>
+<div class=slotDescription>
+
+</div>
+<a name="Clutter-currentEventTime"></a><b>
+currentEventTime
+</b>
+<p>
+<div class=slotDescription>
+
+</div>
+<a name="Clutter-disableMotionEvents"></a><b>
+disableMotionEvents
+</b>
+<p>
+<div class=slotDescription>
+
+</div>
+<a name="Clutter-enableMotionEvents"></a><b>
+enableMotionEvents
+</b>
+<p>
+<div class=slotDescription>
+
+</div>
+<a name="Clutter-flavour"></a><b>
+flavour
+</b>
+<p>
+<div class=slotDescription>
+
+</div>
 <a name="Clutter-fontHinting"></a><b>
 fontHinting
 </b>
 <p>
 <div class=slotDescription>
-Returns <code>true</code> if <code>CLUTTER_FONT_HINTING</code>
+Returns <code>true</code> if <code>CLUTTER_FONT_HINTING</code> is set.
+</div>
+<a name="Clutter-getActorByGid"></a><b>
+getActorByGid(gid)
+</b>
+<p>
+<div class=slotDescription>
+
+</div>
+<a name="Clutter-getDefaultFrameRate"></a><b>
+getDefaultFrameRate
+</b>
+<p>
+<div class=slotDescription>
+
+</div>
+<a name="Clutter-getKeyboardGrab"></a><b>
+getKeyboardGrab
+</b>
+<p>
+<div class=slotDescription>
+
+</div>
+<a name="Clutter-getPointerGrab"></a><b>
+getPointerGrab
+</b>
+<p>
+<div class=slotDescription>
+
 </div>
 <a name="Clutter-grabKeyboard"></a><b>
 grabKeyboard(actor)
@@ -70,6 +212,62 @@ grabPointer(actor[, deviceId])
 <div class=slotDescription>
 
 </div>
+<a name="Clutter-initThreads"></a><b>
+initThreads
+</b>
+<p>
+<div class=slotDescription>
+
+</div>
+<a name="Clutter-isFpsShown"></a><b>
+isFpsShown
+</b>
+<p>
+<div class=slotDescription>
+
+</div>
+<a name="Clutter-keySymbolToUnicode"></a><b>
+keySymbolToUnicode(symbol)
+</b>
+<p>
+<div class=slotDescription>
+
+</div>
+<a name="Clutter-main"></a><b>
+main
+</b>
+<p>
+<div class=slotDescription>
+Calls clutter_main() which starts GMainLoop.
+</div>
+<a name="Clutter-mainLevel"></a><b>
+mainLevel
+</b>
+<p>
+<div class=slotDescription>
+
+</div>
+<a name="Clutter-motionEventsEnabled"></a><b>
+motionEventsEnabled
+</b>
+<p>
+<div class=slotDescription>
+Returns true if motion events are enabled.
+</div>
+<a name="Clutter-quitMain"></a><b>
+quitMain
+</b>
+<p>
+<div class=slotDescription>
+
+</div>
+<a name="Clutter-setDefaultFrameRate"></a><b>
+setDefaultFrameRate(frameRate)
+</b>
+<p>
+<div class=slotDescription>
+
+</div>
 <a name="Clutter-setFontHinting"></a><b>
 setFontHinting(useFontHinting)
 </b>
@@ -79,6 +277,41 @@ If <code>useFontHinting</code> is <code>false</code>, <code>CLUTTER_FONT_MIPMAPP
 </div>
 <a name="Clutter-setSharedInt"></a><b>
 setSharedInt(firstInt, ...)
+</b>
+<p>
+<div class=slotDescription>
+
+</div>
+<a name="Clutter-threadEnter"></a><b>
+threadEnter
+</b>
+<p>
+<div class=slotDescription>
+
+</div>
+<a name="Clutter-threadLeave"></a><b>
+threadLeave
+</b>
+<p>
+<div class=slotDescription>
+
+</div>
+<a name="Clutter-ungrabKeyboard"></a><b>
+ungrabKeyboard
+</b>
+<p>
+<div class=slotDescription>
+
+</div>
+<a name="Clutter-ungrabPointer"></a><b>
+ungrabPointer
+</b>
+<p>
+<div class=slotDescription>
+
+</div>
+<a name="Clutter-version"></a><b>
+version
 </b>
 <p>
 <div class=slotDescription>

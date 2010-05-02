@@ -1,6 +1,14 @@
 #include "IoClutterColor.h"
 #define DATA(self) ((IoClutterColorData*)IoObject_dataPointer(self))
 
+//metadoc ClutterColor category UserInterface
+/*metadoc ClutterColor description
+<p>
+For more detailed docs see <a href="http://clutter-project.org/docs/clutter/stable/clutter-Colors.html">Clutter documentation</a>.</p>
+<pre><code>red := ClutterColor fromString("red")
+blue := "#00f" asClutterColor
+(red + blue) asString println</code></pre>*/
+
 /*** Initalisation functions ***/
 IoTag *IoClutterColor_newTag(void *state) {
   IoTag *tag = IoTag_newWithName_("ClutterColor");
@@ -83,16 +91,19 @@ IoObject *IoMessage_locals_clutterColorArgAt_(IoMessage *self, IoObject *locals,
   return v;
 }
 
+//doc ClutterColor ==(otherColor)
 IO_METHOD(IoClutterColor, equals) {
   ClutterColor other = IOCCOLOR(IoMessage_locals_clutterColorArgAt_(m, locals, 0));
   return IOBOOL(self, clutter_color_equal(&(IOCCOLOR(self)), &other));
 }
 
+//doc ClutterColor !=(otherColor)
 IO_METHOD(IoClutterColor, notEquals) {
   ClutterColor other = IOCCOLOR(IoMessage_locals_clutterColorArgAt_(m, locals, 0));
   return IOBOOL(self, !clutter_color_equal(&(IOCCOLOR(self)), &other));
 }
 
+//doc ClutterColor fromString(str)
 IO_METHOD(IoClutterColor, fromString) {
   ClutterColor color;
   char *seq = CSTRING(IoMessage_locals_seqArgAt_(m, locals, 0));
@@ -101,11 +112,13 @@ IO_METHOD(IoClutterColor, fromString) {
   return IoClutterColor_newWithColor(IOSTATE, color);
 }
 
+//doc ClutterColor asString
 IO_METHOD(IoClutterColor, asString) {
   char *color = clutter_color_to_string(&(IOCCOLOR(self)));
   return IOSYMBOL(color);
 }
 
+//doc ClutterColor fromHLS(h, l, s)
 IO_METHOD(IoClutterColor, fromHLS) {
   ClutterColor color;
   float h = CNUMBER(IoMessage_locals_numberArgAt_(m, locals, 0)),
@@ -117,6 +130,7 @@ IO_METHOD(IoClutterColor, fromHLS) {
   return IoClutterColor_newWithColor(IOSTATE, color);
 }
 
+//doc ClutterColor toHLS(h, l, s)
 IO_METHOD(IoClutterColor, toHLS) {
   float h = CNUMBER(IoMessage_locals_numberArgAt_(m, locals, 0)),
         l = CNUMBER(IoMessage_locals_numberArgAt_(m, locals, 1)),
@@ -126,6 +140,7 @@ IO_METHOD(IoClutterColor, toHLS) {
   return self;
 }
 
+//doc ClutterColor fromPixel(pixel)
 IO_METHOD(IoClutterColor, fromPixel) {
   ClutterColor color;
   guint32 pixel = CNUMBER(IoMessage_locals_numberArgAt_(m, locals, 0));
@@ -134,10 +149,12 @@ IO_METHOD(IoClutterColor, fromPixel) {
   return IoClutterColor_newWithColor(IOSTATE, color);
 }
 
+//doc ClutterColor toPixel
 IO_METHOD(IoClutterColor, toPixel) {
   return IONUMBER(clutter_color_to_pixel(&IOCCOLOR(self)));
 }
 
+//doc ClutterColor +(otherColor)
 IO_METHOD(IoClutterColor, add) {
   ClutterColor color_a = IOCCOLOR(self);
   ClutterColor color_b = IOCCOLOR(IoMessage_locals_clutterColorArgAt_(m, locals, 0));
@@ -147,6 +164,7 @@ IO_METHOD(IoClutterColor, add) {
   return IoClutterColor_newWithColor(IOSTATE, result);
 }
 
+//doc ClutterColor addInPlace(otherColor)
 IO_METHOD(IoClutterColor, addInPlace) {
   ClutterColor color_a = IOCCOLOR(self);
   ClutterColor color_b = IOCCOLOR(IoMessage_locals_clutterColorArgAt_(m, locals, 0));
@@ -159,6 +177,7 @@ IO_METHOD(IoClutterColor, addInPlace) {
   return self;
 }
 
+//doc ClutterColor -(otherColor)
 IO_METHOD(IoClutterColor, subtract) {
   ClutterColor color_a = IOCCOLOR(self);
   ClutterColor color_b = IOCCOLOR(IoMessage_locals_clutterColorArgAt_(m, locals, 0));
@@ -168,6 +187,7 @@ IO_METHOD(IoClutterColor, subtract) {
   return IoClutterColor_newWithColor(IOSTATE, result);
 }
 
+//doc ClutterColor subtractInPlace(otherColor)
 IO_METHOD(IoClutterColor, subtractInPlace) {
   ClutterColor color_a = IOCCOLOR(self);
   ClutterColor color_b = IOCCOLOR(IoMessage_locals_clutterColorArgAt_(m, locals, 0));
@@ -180,6 +200,7 @@ IO_METHOD(IoClutterColor, subtractInPlace) {
   return self;
 }
 
+//doc ClutterColor lighten
 IO_METHOD(IoClutterColor, lighten) {
   ClutterColor result;
   clutter_color_lighten(&IOCCOLOR(self), &result);
@@ -187,6 +208,7 @@ IO_METHOD(IoClutterColor, lighten) {
   return IoClutterColor_newWithColor(IOSTATE, result);
 }
 
+//doc ClutterColor darken
 IO_METHOD(IoClutterColor, darken) {
   ClutterColor result;
   clutter_color_darken(&IOCCOLOR(self), &result);
@@ -194,6 +216,7 @@ IO_METHOD(IoClutterColor, darken) {
   return IoClutterColor_newWithColor(IOSTATE, result);
 }
 
+//doc ClutterColor shade(amount)
 IO_METHOD(IoClutterColor, shade) {
   ClutterColor result;
   double factor = CNUMBER(IoMessage_locals_numberArgAt_(m, locals, 0));

@@ -14,6 +14,7 @@ Project := Object clone do(
 		result
 	)
 
+/*
 	modulesInFolder := method(name,
 		folder := Directory clone setPath(name)
 		if(folder exists not, return List clone)
@@ -37,9 +38,45 @@ Project := Object clone do(
 		if(currentAddon == nil,	Exception raise("No addon named " .. name .. " found!"))
 		currentAddon build(options)
 	)
+*/
+
+    modulesInFolder := method(path,
+        modules := list()
+        folder := Directory with(path)
+
+        if(folder exists,
+            folder walk(f, if(f name == "build.io",
+                # Some modules, might have invalid build files, in that case
+                # the error message will be printed.
+                try(
+                    module := Lobby doString(f contents)
+                    module folder setPath(f path pathComponent)
+                    modules append(module)
+                ) catch(
+                    ("Module `#{f path split(\"/\") at(-2)}` " interpolate ..
+                     "has invalid build.io file!")  println
+                )
+            ))
+        )
+        modules
+    )
+
+    addons := lazySlot(modulesInFolder("addons") sortInPlace(name))
+
+    buildAddon := method(name,
+        currentAddon := addons detect(name == name)
+        if(currentAddon isNil,
+            # Probably it makes sense, to abstract this into the Project
+            # method, like Project error(aString).
+            "Addon `#{name}` not found!" interpolate println
+            System exit(1)
+        ,
+            currentAddon build(options)
+        )
+    )
 
 	availableAddon := method(addon,
-		if(addon hasSlot("isAvailable"), 
+		if(addon hasSlot("isAvailable"),
 			//writeln(addon name, " isAvailable")
 			return addon isAvailable
 		)
@@ -166,7 +203,7 @@ Project := Object clone do(
 		maxNameSize := availableAddons max(name size) name size
 		availableAddons foreach(addon,
 			path := Path with(addon folder path, "tests/correctness/run.io")
-			
+
 			if(File clone setPath(path) exists,
 				write(addon name alignLeft(maxNameSize), " - ")
 				File standardOutput flush

@@ -21,7 +21,3 @@ IO_METHOD(IoObject, stopStatus);
 
 IO_METHOD(IoObject, if);
 IO_METHOD(IoObject, if2);
-
-// tail call
-
-IO_METHOD(IoObject, tailCall);

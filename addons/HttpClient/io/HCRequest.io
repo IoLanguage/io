@@ -11,7 +11,7 @@
 //doc HCRequest connection Clone HCConnect and set its state based on this HCRequest
 //doc HCRequest hasHeader(name) Returns true if this request has a header with name
 //doc HCRequest setHeader(name, value) Sets header with name to value
-//doc HCRequest header(name) Returns the value for header with name
+//doc HCRequest headerAt(name) Returns the value for header with name
 
 
 HCRequest := Object clone do(
@@ -54,7 +54,7 @@ HCRequest := Object clone do(
 		headers atPut(name, value)
 	)
 	
-	header := method(name,
-		headers atPut(name)
+	headerAt := method(name,
+		headers at(name)
 	)
 )

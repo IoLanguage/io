@@ -226,76 +226,107 @@ ListTest := UnitTest clone do(
 		assertEquals(3, a last)
 	)
 
-	_testPrint := method(
-		// would need to be able to read stdout or install a printCallback from Io to test print()
-		Nop
-	)
+    testSelect := method(
+        # Since List select() is a simple proxy method, we only
+        # need to check that the original list didn't change,
+        # after select was applied.
+        a := exampleList itemCopy
+        selection := a select(isKindOf(Number))
+        assertEquals(1, selection size)
+        assertEquals(list(3), selection)
+        assertEquals(a, exampleList) # The original list shouldn't change!
+    )
 
-	testSelect := method(
-		a := exampleList
-		assertRaisesException(a select)
-		selection := a select(index, value, index == 0 or value == 3)
-		assertEquals(2, selection size)
-		assertEquals("a", selection at(0))
-		assertEquals(3, selection at(1))
+    testSelectInPlace := method(
+        # List selectInPlace requires at least one argument!
+        assertRaisesException(list() select)
 
-		selection := a select(index, value, index == -1)
-		assertEquals(0, selection size)
-	)
+        # Testing normal cases:
+        # a) selectInPlace(aMessage)
+        l := exampleList itemCopy
+        l selectInPlace(isKindOf(Number))
+        assertEquals(1, l size)
+        assertEquals(list(3), l)
 
-	testSelect2 := method(
-		a := exampleList
-		assertRaisesException(a select)
-		selection := a select(value, value == "a" or value == 3)
-		assertEquals(2, selection size)
-		assertEquals("a", selection at(0))
-		assertEquals(3, selection at(1))
+        # b) selectInPlace(value, aMessage)
+        l := exampleList itemCopy
+        l selectInPlace(value, value isKindOf(Sequence))
+        assertEquals(2, l size)
+        assertEquals(list("a", "beta"), l)
 
-		selection := a select(index, value, index == -1)
-		assertEquals(0, selection size)
-	)
+        # c) selectInPlace(index, value, aMessage)
+        l := exampleList itemCopy
+        l selectInPlace(index, value, value isKindOf(Sequence) and index == 0)
+        assertEquals(1, l size)
+        assertEquals(list("a"), l)
 
-	testSelectInPlace := method(
-		a := exampleList
-		assertRaisesException(a selectInPlace)
-		a selectInPlace(index, value, index == 0 or value == 3)
-		assertEquals(2, a size)
-		assertEquals("a", a at(0))
-		assertEquals(3, a at(1))
+        # Testing the case, where no elements match the given predicate.
+        l := exampleList itemCopy
+        l selectInPlace(isKindOf(Block))
+        assertEquals(0, l size)
+        assertEquals(list(), l)
 
-		a selectInPlace(index, value, index == -1)
-		assertEquals(0, a size)
-	)
+        # Checking that no changes were made to the sender.
+        assertNil(getSlot("index"))
+        assertNil(getSlot("value"))
 
-	testSelectInPlace2 := method(
-		a := exampleList
-		a selectInPlace(index, value, value == "a" or value == 3)
-		assertEquals(2, a size)
-		assertEquals("a", a at(0))
-		assertEquals(3, a at(1))
+        # Testing the case, where the message contains references to sender's
+        # slots. (ex. A4_Exception.io:201)
+        l := exampleList itemCopy
+        assertNil(
+            try(l selectInPlace(== self exampleList at(0)))
+        ) # No exceptions should be raised.
+        assertEquals(1, l size)
+        assertEquals(list("a"), l)
 
-		a selectInPlace(index, value, index == -1)
-		assertEquals(0, a size)
-	)
+        # Testing that sender's slots are resolved correctly even if they aren't
+        # prepended with self.
+        assertNil(
+            try(exampleList itemCopy selectInPlace(== exampleList at(0)))
+        ) # No exceptions should be raised.
+    )
 
-	testDetect := method(
-		a := exampleList
-		assertRaisesException(a detect)
-		assertRaisesException(a detect(nil))
-		a detect(index, value, index == 0 or value == 3)
-		assertEquals("a", a detect(index, value, index == 0 or value == 3))
-		assertEquals(3, a detect(index, value, value type == "Number" and value > 1))
-		assertNil(a detect(index, value, value > 3))
-	)
+    testDetect := method(
+        # List detect requires at least one argument!
+        assertRaisesException(list() detect)
 
-	testDetect := method(
-		a := exampleList
-		assertRaisesException(a detect)
-		a detect(index, value, value = "a" or value == 3)
-		assertEquals("a", a detect(index, value, index == 0 or value == 3))
-		assertEquals(3, a detect(index, value, value type == "Number" and value > 1))
-		assertNil(a detect(index, value, value type == "Number" and value > 3))
-	)
+        # Testing normal cases:
+        # a) detect(aMessage)
+        assertEquals(3, exampleList detect(isKindOf(Number)))
+        assertEquals("a", exampleList detect(== "a"))
+
+        # b) detect(value, aMessage)
+        assertEquals(3, exampleList detect(value, value isKindOf(Number)))
+        assertEquals("a", exampleList detect(value, value == "a"))
+
+        # c) detect(index, value, aMessage)
+        assertEquals(3, exampleList detect(index, value,
+            value isKindOf(Number) and index == 2)
+        )
+        assertEquals("a", exampleList detect(index, value,
+            value == "a" and index == 0)
+        )
+
+        # Testing the case, where no elements match the given predicate,
+        # expecting nil to be returned.
+        assertNil(exampleList detect (isKindOf(Block)))
+
+        # Checking that no changes were made to the sender.
+        assertNil(getSlot("index"))
+        assertNil(getSlot("value"))
+
+        # Testing the case, where the message contains references to sender's
+        # slots. (ex. A4_Exception.io:201)
+        assertNil(
+            try(exampleList detect(== self exampleList at(0)))
+        ) # No exceptions should be raised.
+
+        # Testing that sender's slots are resolved correctly even if they aren't
+        # prepended with self.
+        assertNil(
+            try(exampleList detect(== exampleList at(0)))
+        ) # No exceptions should be raised.
+    )
 
 	testSort := method(
 		a := List clone append("a", "beta", "3")
@@ -369,44 +400,65 @@ ListTest := UnitTest clone do(
 		assertEquals(0+1+2, a reverseForeach(index, value, number := number + index))
 	)
 
-	testmap := method(
-		a := exampleList
-		assertRaisesException(a map)
-		a mapInPlace(index, value, value asString .. index asString)
-		assertEquals(3, a size)
-		assertEquals("a0", a at(0))
-		assertEquals("beta1", a at(1))
-		assertEquals("32", a at(2))
-	)
+    testMap := method(
+        # Since List map( is a simple proxy method, we only need to
+        # check that the original list didn't change, after map was
+        # applied.
+        l := exampleList itemCopy
+        map := l map(value, value asString)
+        assertEquals(3, map size)
+        assertEquals(list("a", "beta", "3"), map)
+        assertEquals(l, exampleList)
+    )
 
-	testmap2 := method(
-		a := exampleList
-		a mapInPlace(value, value asString)
-		assertEquals(3, a size)
-		assertEquals("a", a at(0))
-		assertEquals("beta", a at(1))
-		assertEquals("3", a at(2))
-	)
+    testMapInPlace := method(
+        # List mapInPlace requires at least one argument!
+        assertRaisesException(list() mapInPlace)
 
-	testMap := method(
-		a := exampleList
-		assertRaisesException(a map)
-		assertRaisesException(a mapInPlace)
-		a mapInPlace(index, value, value asString .. index asString)
-		assertEquals(3, a size)
-		assertEquals("a0", a at(0))
-		assertEquals("beta1", a at(1))
-		assertEquals("32", a at(2))
-	)
+        # Testing normal cases:
+        # a) mapInPlace(aMessage)
+        l := exampleList itemCopy
+        l mapInPlace(asString)
+        assertEquals(3, l size)
+        assertEquals(list("a", "beta", "3"), l)
 
-	testMap2 := method(
-		a := exampleList
-		a mapInPlace(value, value asString)
-		assertEquals(3, a size)
-		assertEquals("a", a at(0))
-		assertEquals("beta", a at(1))
-		assertEquals("3", a at(2))
-	)
+        # b) mapInPlace(value, aMessage)
+        l := exampleList itemCopy
+        l mapInPlace(value, value asString)
+        assertEquals(3, l size)
+        assertEquals(list("a", "beta", "3"), l)
+
+        # c) mapInPlace(index, value, aMessage)
+        l := exampleList itemCopy
+        l mapInPlace(index, value, value asString size + index)
+        assertEquals(3, l size)
+        assertEquals(list(1, 5, 3), l)
+
+        # Testing the case, where the reciever is empty.
+        l := list()
+        l mapInPlace(+ 1)
+        assertEquals(0, l size)
+        assertEquals(list(), l)
+
+        # Checking that no changes were made to the sender.
+        assertNil(getSlot("index"))
+        assertNil(getSlot("value"))
+
+        # Testing the case, where the message contains references to sender's
+        # slots. (ex. A4_Exception.io:201)
+        l := list(1, 2, 3)
+        assertNil(
+            try(l mapInPlace(+ self exampleList at(2)))
+        ) # No exceptions should be raised.
+        assertEquals(3, l size)
+        assertEquals(list(4, 5, 6), l)
+
+        # Testing that sender's slots are resolved correctly even if they aren't
+        # prepended with self.
+        assertNil(
+            try(list(1, 2, 3) mapInPlace(+ exampleList at(2)))
+        ) # No exceptions should be raised.
+    )
 
 	testAsMap := method(
 		l := list(list("d", 4), list("c", 3), list("a", 1), list("b", 2))
@@ -495,10 +547,30 @@ ListTest := UnitTest clone do(
 
     testReduce := method(
         a := list(1, 2, 3)
+        # List reduce requires as least one argument.
+        assertRaisesException(a reduce)
+
         assertEquals(6, a reduce(+))
         assertEquals(6, a reduce(x, y, x + y))
         assertEquals(0, a reduce(+, -6))
         assertEquals(0, a reduce(x, y, x + y, -6))
+
+        # Checking that no changes were made to the sender.
+        assertNil(getSlot("x"))
+        assertNil(getSlot("y"))
+
+        # Testing the case, where the message contains references to sender's
+        # slots. (ex. A4_Exception.io:201)
+        assertNil(
+            try(result := a reduce(x, y, x + y + self exampleList at(2)))
+        ) # No exceptions should be raised.
+        assertEquals(12, result)
+
+        # Testing that sender's slots are resolved correctly even if they aren't
+        # prepended with self.
+        assertNil(
+            try(a reduce(x, y, x + y + exampleList at(2)))
+        ) # No exceptions should be raised.
     )
 
     testReverseReduce := method(
@@ -511,6 +583,10 @@ ListTest := UnitTest clone do(
         # Now checking if the list is actually folded starting
         # from the right.
         assertEquals(0, a reverseReduce(-))
+
+        # Checking that no changes were made to the sender.
+        assertNil(getSlot("x"))
+        assertNil(getSlot("y"))
     )
 
     testJoin := method(
@@ -524,6 +600,62 @@ ListTest := UnitTest clone do(
     testAsString := method(
         assertEquals("list(1, 2, 3)", list(1, 2, 3) asString)
         assertEquals("list()", list() asString)
+    )
+
+    testGroupBy := method(
+        l := list("a", "b", "cd")
+        # List groupBy requires at least on argument.
+        assertRaisesException(l groupBy)
+
+        # Testing normal cases:
+        # a) groupBy(aMessage)
+        m := l groupBy(size)
+        assertTrue(m isKindOf(Map))
+        assertEquals(2, m size)
+        assertEquals(
+            list(list("cd"), list("a", "b")), m values sort
+        )
+        assertEquals(list("1", "2"), m keys sort)
+
+        # b) groupBy(value, aMessage)
+        m := l groupBy(value, value containsSeq("c"))
+        assertTrue(m isKindOf(Map))
+        assertEquals(2, m size)
+        assertEquals(
+            list(list("cd"), list("a", "b")), m values sort
+        )
+        assertEquals(list("false", "true"), m keys sort)
+
+        # c) groupBy(index, value, aMessage)
+        m := l groupBy(index, value, index == 1)
+        assertTrue(m isKindOf(Map))
+        assertEquals(2, m size)
+        assertEquals(
+            list(list("b"), list("a", "cd")), m values sort
+        )
+        assertEquals(list("false", "true"), m keys sort)
+
+        # Testing the case, where the reciever is empty.
+        m := list() groupBy(size)
+        assertEquals(0, m size)
+        assertEquals(list(), m keys)
+        assertEquals(list(), m values)
+
+        # Checking that no changes were made to the sender.
+        assertNil(getSlot("index"))
+        assertNil(getSlot("value"))
+
+        # Testing the case, where the message contains references to sender's
+        # slots. (ex. A4_Exception.io:201)
+        assertNil(
+            try(l groupBy(size == self exampleList at(1) size))
+        ) # No exceptions should be raised.
+
+        # Testing that sender's slots are resolved correctly even if they aren't
+        # prepended with self.
+        assertNil(
+            try(l groupBy(size == exampleList at(1) size))
+        ) # No exceptions should be raised.
     )
 )
 

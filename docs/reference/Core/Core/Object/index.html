@@ -333,7 +333,7 @@ coroDoLater(code)
 <p>
 <div class=slotDescription>
 Returns a new coro to be run in a context of sender.
-		New coro is moved to the top of the yieldingCoros queue to be executed 
+		New coro is moved to the top of the yieldingCoros queue to be executed
 		when current coro yields.
 		<br/>
 		Note: run target is <tt>self</tt> (i.e. receiver), not <tt>call sender</tt> as in coroDo.
@@ -1202,21 +1202,6 @@ Execute an expression depending on the value of the caller. (This is an equivale
 		Date hour asString
 	)
 	</code>
-</div>
-<a name="Object-tailCall"></a><b>
-tailCall(expression)
-</b>
-<p>
-<div class=slotDescription>
-Does a tailCall on the currently executing Block. Example:
-<pre>	
-Io> a := method(x, x = x + 1; if(x > 10, return x); tailCall(x))
-==> method(x, updateSlot("x", x +(1));
-		if(x >(10), return(x));
-		tailCall(x))
-Io> a(1)
-==> 11
-</pre>
 </div>
 <a name="Object-thisContext"></a><b>
 thisContext

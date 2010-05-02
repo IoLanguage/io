@@ -23,7 +23,7 @@
 <tr>
 <td align=right></td>
 <td></td>
-<td><p>LoudmouthMessage provides SGML interface and convience methods for manipulation of XMPP messages.</p>
+<td>LoudmouthMessage provides [[SGML]] interface with few convience methods for manipulation of XMPP messages.
 </td></tr>
 <tr><td colspan=3>&nbsp;</td></tr>
 <tr><td colspan=3>&nbsp;</td></tr>
@@ -35,26 +35,82 @@
 <td>
 <hr align=left color=#ddd height=1>
 <br><br>
+<a name="LoudmouthMessage-asString"></a><b>
+asString
+</b>
+<p>
+<div class=slotDescription>
+Converts XML to Sequence.
+</div>
+<a name="LoudmouthMessage-body"></a><b>
+body
+</b>
+<p>
+<div class=slotDescription>
+Returns value message's body node. If both XHTML and plain versions are available, XHTML version will be returned.
+</div>
+<a name="LoudmouthMessage-from"></a><b>
+from
+</b>
+<p>
+<div class=slotDescription>
+Returns sender's JID.
+</div>
+<a name="LoudmouthMessage-plainBody"></a><b>
+plainBody
+</b>
+<p>
+<div class=slotDescription>
+Returns value of message's body node with XHTML markup.
+</div>
+<a name="LoudmouthMessage-sendVia"></a><b>
+sendVia(loudmouthConnection)
+</b>
+<p>
+<div class=slotDescription>
+Converts message to sequence and sends it via the provided [[Loudmouth]] object. It updates <code>from</code> property and returns <code>true</code> if message is sent.
+</div>
+<a name="LoudmouthMessage-setFrom"></a><b>
+setFrom(jid)
+</b>
+<p>
+<div class=slotDescription>
+Sets sender's JID. Returns <code>self</code>.
+</div>
 <a name="LoudmouthMessage-setTo"></a><b>
 setTo(jid)
 </b>
 <p>
 <div class=slotDescription>
-Sets message receiver to defined JID. JID can be both an <code>Sequence</code> or <code>JID</code> instance. Returns <code>self</code>.
+Sets message receiver to defined JID. JID can be both an [[Sequence]] or a [[JID]] object. Returns <code>self</code>.
+</div>
+<a name="LoudmouthMessage-setXmppType"></a><b>
+setXmppType(type)
+</b>
+<p>
+<div class=slotDescription>
+Sets value of <code>type</code> attribute.
 </div>
 <a name="LoudmouthMessage-to"></a><b>
 to
 </b>
 <p>
 <div class=slotDescription>
-Returns JID of receiver.
+Returns [[JID]] of receiver.
 </div>
 <a name="LoudmouthMessage-with"></a><b>
 with(source)
 </b>
 <p>
 <div class=slotDescription>
-Creates new LoudmouthMessage based on <code>source</code>, which should be valid XML (<code>Sequence</code>).
+Creates new [[LoudmouthMessage]] based on <code>source</code>, which should be valid XML ([[Sequence]]).
+</div>
+<a name="LoudmouthMessage-xmppType"></a><b>
+xmppType
+</b>
+<p>
+<div class=slotDescription>
+Returns value of <code>type</code> attribute of message node.
 </div>
 </td>
 </tr>

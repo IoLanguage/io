@@ -18,237 +18,166 @@ Object do(
 )
 
 List do(
-    unique := method(
-        u := List clone
-        self foreach(v, u appendIfAbsent(v))
-        u
+    /*doc List selectInPlace(optionalIndex, value, message)
+    Like foreach, but the values for which the result of message is either nil
+    or false are removed from the List. Example:
+<pre>list(1, 5, 7, 2) selectInPlace(i, v, v > 3)
+==> 5, 7
+list(1, 5, 7, 2) selectInPlace(v, v > 3)
+ ==> 5, 7</pre>
+*/
+    selectInPlace := method(
+        # Creating a context, in which the body would be executed in.
+        context := Object clone prependProto(call sender)
+        # Note: this is needed for the Object_forwardLocals() method to
+        # work correctly. See IoObject.c:870.
+        if(call sender hasLocalSlot("self"),
+            context setSlot("self", call sender self)
+        )
+        # Offset, applied to get the real index of the elements being
+        # deleted.
+        offset := 0
+        argCount := call argCount
+
+        if(argCount == 0, Exception raise("missing argument"))
+        if(argCount == 1) then(
+            body := call argAt(0)
+            size repeat(idx,
+                if(at(idx - offset) doMessage(body, context) not,
+                    removeAt(idx - offset)
+                    offset = offset + 1
+                )
+            )
+        ) elseif(argCount == 2) then(
+            eName := call argAt(0) name # Element.
+            body  := call argAt(1)
+            size repeat(idx,
+                context setSlot(eName, at(idx - offset))
+                if(context doMessage(body) not,
+                    removeAt(idx - offset)
+                    offset = offset + 1
+                )
+            )
+        ) else(
+            iName := call argAt(0) name # Index.
+            eName := call argAt(1) name # Element.
+            body  := call argAt(2)
+
+            size repeat(idx,
+                context setSlot(iName, idx)
+                context setSlot(eName, at(idx - offset))
+                if(context doMessage(body) not,
+                    removeAt(idx - offset)
+                    offset = offset + 1
+                )
+            )
+        )
+        self
     )
 
-    /*doc List select(optionalIndex, value, message)
-    Like foreach, but the values for which the result of message are non-nil are returned
-    in a new List. Example:
-<code>list(1, 5, 7, 2) select(i, v, v > 3) print
-==> 5, 7
-list(1, 5, 7, 2) select(v, v > 3) print
- ==> 5, 7</code>
-*/
+    //doc List select Same as <tt>selectInPlace</tt>, but result is a new List.
     select := method(
-        aList := List clone
-
-        a1 := call argAt(0)
-        if(a1 == nil,
-            Exception raise("missing argument")
-            return
-        )
-        a2 := call argAt(1)
-        a3 := call argAt(2)
-
-        if(a3,
-            a1 := a1 name
-            a2 := a2 name
-            self foreach(i, v,
-                call sender setSlot(a1, i)
-                call sender setSlot(a2, getSlot("v"))
-                ss := stopStatus(c := a3 doInContext(call sender, call sender))
-                if(ss isReturn, ss return getSlot("c"))
-                if(ss stopLooping, break)
-                if(ss isContinue, continue)
-                if(getSlot("c"), aList append(getSlot("v")))
-            )
-            return aList
-        )
-
-        if(a2,
-            a1 := a1 name
-            self foreach(v,
-                call sender setSlot(a1, getSlot("v"))
-                ss := stopStatus(c := a2 doInContext(call sender, call sender))
-                if(ss isReturn, ss return getSlot("c"))
-                if(ss stopLooping, break)
-                if(ss isContinue, continue)
-                if(getSlot("c"), aList append(getSlot("v")))
-            )
-            return aList
-        )
-
-        self foreach(v,
-            ss := stopStatus(c := a1 doInContext(getSlot("v"), call sender))
-            if(ss isReturn, ss return getSlot("c"))
-            if(ss stopLooping, break)
-            if(ss isContinue, continue)
-            if(getSlot("c"), aList append(getSlot("v")))
-        )
-        aList
+        call delegateToMethod(self clone, "selectInPlace")
     )
 
     /*doc List detect(optionalIndex, value, message)
     Returns the first value for which the message evaluates to a non-nil. Example:
-<code>list(1, 2, 3, 4) detect(i, v, v > 2)
+<pre>list(1, 2, 3, 4) detect(i, v, v > 2)
 ==> 3
 list(1, 2, 3, 4) detect(v, v > 2)
-==> 3</code>
+==> 3</pre>
 */
     detect := method(
-        a1 := call argAt(0)
-        if(a1 == nil, Exception raise("missing argument"))
-        a2 := call argAt(1)
-        a3 := call argAt(2)
+        # Creating a context, in which the body would be executed in.
+        context := Object clone prependProto(call sender)
+        # Note: this is needed for the Object_forwardLocals() method to
+        # work correctly. See IoObject.c:870.
+        if(call sender hasLocalSlot("self"),
+            context setSlot("self", call sender self)
+        )
+        argCount := call argCount
 
-        if(a3,
-            a1 := a1 name
-            a2 := a2 name
-            self foreach(i, v,
-                call sender setSlot(a1, i)
-                call sender setSlot(a2, getSlot("v"))
-                ss := stopStatus(c := a3 doInContext(call sender, call sender))
-                if(ss isReturn, ss return getSlot("c"))
-                if(ss stopLooping, break)
-                if(ss isContinue, continue)
-                if(getSlot("c"), return getSlot("v"))
+        if(argCount == 0, Exception raise("missing argument"))
+        if(argCount == 1) then(
+            body := call argAt(0)
+            self foreach(value,
+                if(getSlot("value") doMessage(body, context),
+                    return getSlot("value")
+                )
             )
-            return nil
-        )
-
-        if(a2,
-            a1 := a1 name
-            self foreach(v,
-                call sender setSlot(a1, getSlot("v"))
-                ss := stopStatus(c := a2 doInContext(call sender, call sender))
-                if(ss isReturn, ss return getSlot("c"))
-                if(ss stopLooping, break)
-                if(ss isContinue, continue)
-                if(getSlot("c"), return getSlot("v"))
+        ) elseif(argCount == 2) then(
+            eName := call argAt(0) name # Element.
+            body  := call argAt(1)
+            self foreach(value,
+                context setSlot(eName, getSlot("value"))
+                if(context doMessage(body), return getSlot("value"))
             )
-            return nil
-        )
+        ) else(
+            iName := call argAt(0) name # Index.
+            eName := call argAt(1) name # Element.
+            body  := call argAt(2)
 
-        self foreach(v,
-            ss := stopStatus(c := a1 doInContext(getSlot("v"), call sender))
-            if(ss isReturn, ss return getSlot("c"))
-            if(ss stopLooping, break)
-            if(ss isContinue, continue)
-            if(getSlot("c"), return getSlot("v"))
+            self foreach(idx, value,
+                context setSlot(iName, idx)
+                context setSlot(eName, getSlot("value"))
+                if(context doMessage(body), return getSlot("value"))
+            )
         )
-        nil
+        nil # If nothing found, return nil.
     )
 
-    //doc List map(optionalIndex, value, message) Same as calling mapInPlace() on a clone of the receiver, but more efficient.
+    /*doc List mapInPlace(optionalIndex, value, message)
+    Replaces each item in the reciever with the result of applying a given message
+    to that item. Example:
+<pre>list(1, 5, 7, 2) mapInPlace(i, v, i + v)
+==> list(1, 6, 9, 5)
+list(1, 5, 7, 2) mapInPlace(v, v + 3)
+ ==> list(4, 8, 10, 5)</pre>
+    */
+    mapInPlace := method(
+        # Creating a context, in which the body would be executed in.
+        context := Object clone prependProto(call sender)
+        # Note: this is needed for the Object_forwardLocals() method to
+        # work correctly. See IoObject.c:870.
+        if(call sender hasLocalSlot("self"),
+            context setSlot("self", call sender self)
+        )
+        argCount := call argCount
+
+        if(argCount == 0, Exception raise("missing argument"))
+        if(argCount == 1) then(
+            body := call argAt(0)
+            self foreach(idx, value,
+                atPut(idx, getSlot("value") doMessage(body, context))
+            )
+        ) elseif(argCount == 2) then(
+            eName := call argAt(0) name # Element.
+            body  := call argAt(1)
+            self foreach(idx, value,
+                context setSlot(eName, getSlot("value"))
+                atPut(idx, context doMessage(body))
+            )
+        ) else(
+            iName := call argAt(0) name # Index.
+            eName := call argAt(1) name # Element.
+            body  := call argAt(2)
+
+            self foreach(idx, value,
+                context setSlot(iName, idx)
+                context setSlot(eName, getSlot("value"))
+                atPut(idx, context doMessage(body))
+            )
+        )
+        self
+    )
+
+    //doc List map Same as <tt>mapInPlace</tt>, but returns results in a new List.
     map := method(
-        aList := List clone
-
-        a1 := call argAt(0)
-        if(a1 == nil, Exception raise("missing argument"))
-        a2 := call argAt(1)
-        a3 := call argAt(2)
-
-        if(a2 == nil,
-            self foreach(v,
-                ss := stopStatus(c := a1 doInContext(getSlot("v"), call sender))
-                if(ss isReturn, ss return getSlot("c"))
-                if(ss stopLooping, break)
-                if(ss isContinue, continue)
-                aList append(getSlot("c"))
-            )
-            return aList
-        )
-
-        if(a3 == nil,
-            a1 := a1 name
-            self foreach(v,
-                call sender setSlot(a1, getSlot("v"))
-                ss := stopStatus(c := a2 doInContext(call sender, call sender))
-                if(ss isReturn, ss return getSlot("c"))
-                if(ss stopLooping, break)
-                if(ss isContinue, continue)
-                aList append(getSlot("c"))
-            )
-            return aList
-        )
-
-        a1 := a1 name
-        a2 := a2 name
-        self foreach(i, v,
-            call sender setSlot(a1, i)
-            call sender setSlot(a2, getSlot("v"))
-            ss := stopStatus(c := a3 doInContext(call sender, call sender))
-            if(ss isReturn, ss return getSlot("c"))
-            if(ss stopLooping, break)
-            if(ss isContinue, continue)
-            aList append(getSlot("c"))
-        )
-        return aList
-    )
-
-    groupBy := method(
-        aMap := Map clone
-
-        a1 := call argAt(0)
-        if(a1 == nil, Exception raise("missing argument"))
-        a2 := call argAt(1)
-        a3 := call argAt(2)
-
-        if(a2 == nil,
-            self foreach(v,
-                ss := stopStatus(c := a1 doInContext(getSlot("v"), call sender))
-                if(ss isReturn, ss return getSlot("c"))
-                if(ss stopLooping, break)
-                if(ss isContinue, continue)
-
-                key := getSlot("c") asString
-
-                aMap atIfAbsentPut(key, list())
-                aMap at(key) append(v)
-            )
-            return aMap
-        )
-
-        if(a3 == nil,
-            a1 := a1 name
-            self foreach(v,
-                call sender setSlot(a1, getSlot("v"))
-                ss := stopStatus(c := a2 doInContext(call sender, call sender))
-                if(ss isReturn, ss return getSlot("c"))
-                if(ss stopLooping, break)
-                if(ss isContinue, continue)
-
-                key := getSlot("c") asString
-
-                aMap atIfAbsentPut(key, list())
-                aMap at(key) append(v)
-            )
-            return aMap
-        )
-
-        a1 := a1 name
-        a2 := a2 name
-        self foreach(i, v,
-            call sender setSlot(a1, i)
-            call sender setSlot(a2, getSlot("v"))
-            ss := stopStatus(c := a3 doInContext(call sender, call sender))
-            if(ss isReturn, ss return getSlot("c"))
-            if(ss stopLooping, break)
-            if(ss isContinue, continue)
-
-            key := getSlot("c") asString
-
-            aMap atIfAbsentPut(key, list())
-            aMap at(key) append(v)
-        )
-        return aMap
+        call delegateToMethod(self clone, "mapInPlace")
     )
 
     //doc List copy(v) Replaces self with <tt>v</tt> list items. Returns self.
     copy := method(v, self empty; self appendSeq(v); self)
-
-    //doc List mapInPlace Same as <tt>map</tt>, but result replaces self.
-    mapInPlace := method(
-        self copy(self getSlot("map") performOn(self, call sender, call message))
-    )
-
-    //doc List selectInPlace Same as <tt>select</tt>, but result replaces self.
-    selectInPlace := method(
-        self copy(self getSlot("select") performOn(self, call sender, call message))
-    )
 
     empty := method(self removeAll)
 

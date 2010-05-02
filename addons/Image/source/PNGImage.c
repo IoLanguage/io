@@ -140,7 +140,7 @@ void PNGImage_load(PNGImage *self)
 
 	/* Expand grayscale images to the full 8 bits from 1, 2, or 4 bits/pixel */
 	if (color_type == PNG_COLOR_TYPE_GRAY && bit_depth < 8)
-		png_set_gray_1_2_4_to_8(png_ptr);
+		png_set_expand_gray_1_2_4_to_8(png_ptr);
 
 	/* Expand paletted or RGB images with transparency to full alpha channels
 		* so the data will be available as RGBA quartets.

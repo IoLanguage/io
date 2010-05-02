@@ -63,6 +63,13 @@ appendSeq(aList1, aList2, ...)
 <div class=slotDescription>
 Add the items in the lists to the receiver. Returns self.
 </div>
+<a name="List-asClutterVertex"></a><b>
+asClutterVertex
+</b>
+<p>
+<div class=slotDescription>
+Converts [[List]] to [[ClutterVertex]].
+</div>
 <a name="List-asEncodedList"></a><b>
 asEncodedList
 </b>
@@ -188,7 +195,6 @@ detect(optionalIndex, value, message)
 Returns the first value for which the message evaluates to a non-nil. Example:
 <code>list(1, 2, 3, 4) detect(i, v, v > 2)
 ==> 3
-
 list(1, 2, 3, 4) detect(v, v > 2)
 ==> 3</code>
 </div>
@@ -262,22 +268,24 @@ insertAfter(item, afterItem)
 </b>
 <p>
 <div class=slotDescription>
-Inserts item after first occurance of afterItem and returns self.
-	If afterItem is not found, item is appended to the end of the list.
+Inserts item after first occurance of afterItem and returns self. If afterItem
+    is not found, item is appended to the end of the list.
 </div>
 <a name="List-insertAt"></a><b>
 insertAt(item, index)
 </b>
 <p>
 <div class=slotDescription>
-Inserts item at the specified index. Raises an exception if the index is out of bounds. Returns self.
+Inserts item at the specified index. Raises an exception if the index is
+    out of bounds. Returns self.
 </div>
 <a name="List-insertBefore"></a><b>
 insertBefore(item, beforeItem)
 </b>
 <p>
 <div class=slotDescription>
-Inserts item before first occurance of beforeItem or to the end of the list if beforeItem is not found. Returns self.
+Inserts item before first occurance of beforeItem or to the end of the list if
+    beforeItem is not found. Returns self.
 </div>
 <a name="List-intersect"></a><b>
 intersect(list)
@@ -299,7 +307,7 @@ join(optionalSeparator)
 <p>
 <div class=slotDescription>
 Returns a Sequence of the concatenated items with
-		optionalSeparator between each item or simply the concatenation of the items if no optionalSeparator is supplied.
+    optionalSeparator between each item or simply the concatenation of the items if no optionalSeparator is supplied.
 </div>
 <a name="List-join"></a><b>
 join(optionalSeperator)
@@ -326,18 +334,23 @@ Returns the last item or Nil if the list is empty.
 	If optionalSize is provided, that number of the last items in the list are returned.
 </div>
 <a name="List-map"></a><b>
-map(optionalIndex, value, message)
+map
 </b>
 <p>
 <div class=slotDescription>
-Same as calling mapInPlace() on a clone of the receiver, but more efficient.
+Same as <tt>mapInPlace</tt>, but returns results in a new List.
 </div>
 <a name="List-mapInPlace"></a><b>
-mapInPlace
+mapInPlace(optionalIndex, value, message)
 </b>
 <p>
 <div class=slotDescription>
-Same as <tt>map</tt>, but result replaces self.
+Replaces each item in the reciever with the result of applying a given message
+    to that item. Example:
+<code>list(1, 5, 7, 2) mapInPlace(i, v, i + v)
+==> list(1, 6, 9, 5)
+list(1, 5, 7, 2) mapInPlace(v, v + 3)
+ ==> list(4, 8, 10, 5)</code>
 </div>
 <a name="List-pop"></a><b>
 pop
@@ -380,7 +393,7 @@ Io> list(1, 2, 3) reduce(+)
 ==> 6
 Io> list(1, 2, 3) reduce(xs, x, xs + x)
 ==> 6
-Io> list(1, 2, 3) reduce(+, -6) // Passing the initial value.
+Io> list(1, 2, 3) reduce(+, -6) # Passing the initial value.
 ==> 0
 Io> list(1, 2, 3) reduce(xs, x, xs + x, -6)
 ==> 0
@@ -466,36 +479,23 @@ second
 Returns third element (same as <tt>at(2)</tt>)
 </div>
 <a name="List-select"></a><b>
-select(optionalIndex, value, message)
+select
 </b>
 <p>
 <div class=slotDescription>
-Like foreach, but the values for which the result of message are non-nil are returned
-    in a new List. Example:
-<code>list(1, 5, 7, 2) select(i, v, v > 3) print
-==> 5, 7
-list(1, 5, 7, 2) select(v, v > 3) print
- ==> 5, 7</code>
-</div>
-<a name="List-select"></a><b>
-select(optionalIndex, value, message)",
-</b>
-<p>
-<div class=slotDescription>
-"Like foreach, but the values for which the result of
-message are non-nil are returned in a new List. Example:
-<code>list(1, 5, 7, 2) select(i, v, v > 3) print
-==> 5, 7
-
-list(1, 5, 7, 2) select(v, v > 3) print
-==> 5, 7</code>
+Same as <tt>selectInPlace</tt>, but result is a new List.
 </div>
 <a name="List-selectInPlace"></a><b>
-selectInPlace
+selectInPlace(optionalIndex, value, message)
 </b>
 <p>
 <div class=slotDescription>
-Same as <tt>select</tt>, but result replaces self.
+Like foreach, but the values for which the result of message is either nil
+    or false are removed from the List. Example:
+<code>list(1, 5, 7, 2) selectInPlace(i, v, v > 3)
+==> 5, 7
+list(1, 5, 7, 2) selectInPlace(v, v > 3)
+ ==> 5, 7</code>
 </div>
 <a name="List-setSize"></a><b>
 setSize

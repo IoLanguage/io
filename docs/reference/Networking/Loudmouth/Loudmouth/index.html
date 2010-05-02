@@ -67,20 +67,6 @@ Loudmouth startMainLoop
 <td>
 <hr align=left color=#ddd height=1>
 <br><br>
-<a name="Loudmouth-asString"></a><b>
-asString
-</b>
-<p>
-<div class=slotDescription>
-Converts XML to Sequence.
-</div>
-<a name="Loudmouth-body"></a><b>
-body
-</b>
-<p>
-<div class=slotDescription>
-Returns value message's body node. If both XHTML and plain versions are available, XHTML version will be returned.
-</div>
 <a name="Loudmouth-connect"></a><b>
 connect
 </b>
@@ -94,13 +80,6 @@ disconnect
 <p>
 <div class=slotDescription>
 Disconnects from server and returns <code>true</code> if it succeeds.
-</div>
-<a name="Loudmouth-from"></a><b>
-from
-</b>
-<p>
-<div class=slotDescription>
-Returns sender's JID.
 </div>
 <a name="Loudmouth-handleAuthenticated"></a><b>
 handleAuthenticated
@@ -165,13 +144,6 @@ isSslSupported
 <div class=slotDescription>
 
 </div>
-<a name="Loudmouth-plainBody"></a><b>
-plainBody
-</b>
-<p>
-<div class=slotDescription>
-Returns value of message's body node with XHTML markup.
-</div>
 <a name="Loudmouth-registerAccount"></a><b>
 registerAccount(server, username, password)
 </b>
@@ -193,20 +165,6 @@ sendRaw(body)
 <div class=slotDescription>
 Sends raw text over XMPP stream. Returns <code>true</code> if no errors occur.
 </div>
-<a name="Loudmouth-sendVia"></a><b>
-sendVia(loudmouthConnection)
-</b>
-<p>
-<div class=slotDescription>
-Converts message to sequence and sends it via the provided Loudmouth connection (<code>Loudmouth</code> object). It updates <code>from</code> property and returns <code>true</code> if message is sent.
-</div>
-<a name="Loudmouth-setFrom"></a><b>
-setFrom(jid)
-</b>
-<p>
-<div class=slotDescription>
-Sets sender's JID. Returns <code>self</code>.
-</div>
 <a name="Loudmouth-setPresence"></a><b>
 setPresence(presence[, statusMessage])
 </b>
@@ -220,13 +178,6 @@ setStatusMessage(statusMessage)
 <p>
 <div class=slotDescription>
 Sets status message.
-</div>
-<a name="Loudmouth-setXmppType"></a><b>
-setXmppType(type)
-</b>
-<p>
-<div class=slotDescription>
-Sets value of <code>type</code> attribute.
 </div>
 <a name="Loudmouth-startMainLoop"></a><b>
 startMainLoop
@@ -275,13 +226,6 @@ with(jid, password)
 <p>
 <div class=slotDescription>
 Creates a new Loudmouth clone with server details provided in <code>jid</code>.
-</div>
-<a name="Loudmouth-xmppType"></a><b>
-xmppType
-</b>
-<p>
-<div class=slotDescription>
-Returns value of <code>type</code> attribute of message node.
 </div>
 </td>
 </tr>
