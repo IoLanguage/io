@@ -10,6 +10,11 @@ LINKDLL := $(CC)
 LINKDLLOUTFLAG := -o 
 LINKDIRFLAG := -L
 LINKLIBFLAG := -l
+ifeq ($(SYS),Linux)
+INSTALL_PREFIX := /usr
+else
+INSTALL_PREFIX := /usr/local
+endif
 INSTALL_PREFIX_DEFINE := $(INSTALL_PREFIX)
 
 # may need to remove --param max-inline-insns-single=500 for older versions of gccs
