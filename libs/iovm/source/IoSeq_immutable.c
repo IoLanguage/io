@@ -852,14 +852,20 @@ IO_METHOD(IoSeq, toBase)
 
 	const char * const table = "0123456789abcdefghijklmnopqrstuvwxyz";
 	int base = IoMessage_locals_intArgAt_(m, locals, 0);
-	unsigned long n = (unsigned long) IoSeq_asDouble(self);
 	char buf[64], *ptr = buf + 64;
+	unsigned long n = 0;
 
 	if (base < 2 || base > 36)
 	{
 		IoState_error_(IOSTATE, m, "conversion to base %i not supported", base);
 	}
-
+	
+	#ifdef _MSC_VER
+		n = strtoul(IoSeq_asCString(self), NULL, 0);
+	#else
+		n = (unsigned long) IoSeq_asDouble(self);
+	#endif
+	
 	/* Build the converted string backwards. */
 	*(--ptr) = '\0';
 

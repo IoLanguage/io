@@ -35,6 +35,9 @@ typedef   signed long   int32_t;
  */
 typedef unsigned long long uint64_t;
 typedef long long int64_t;
+#if defined(_MSC_VER)
+#define ssize_t SSIZE_T
+#endif //_MSC_VER
 #endif
 
 /* Windows stuff */

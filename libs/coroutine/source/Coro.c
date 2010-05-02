@@ -243,6 +243,7 @@ void Coro_Start(void)
 void Coro_StartWithArg(CallbackBlock *block)
 {
 #ifdef USE_FIBERS
+	MEMORY_BASIC_INFORMATION meminfo;
 	if (block->associatedCoro->fiber != GetCurrentFiber())
 		abort();
 	// Set the start of the stack for future comparaison. According to
@@ -252,7 +253,7 @@ void Coro_StartWithArg(CallbackBlock *block)
 	// this information (SetThreadStackGuarantee() is not supported
 	// on WindowsXP), so we have to assume that it is the default
 	// 64kB.
-	MEMORY_BASIC_INFORMATION meminfo;
+
 	// Look at the descriptors of the meminfo structure, which is
 	// conveniently located on the stack we are interested into.
 	VirtualQuery(&meminfo, &meminfo, sizeof meminfo);

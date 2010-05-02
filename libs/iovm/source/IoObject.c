@@ -1785,7 +1785,11 @@ IO_METHOD(IoObject, uniqueId)
 	Returns a Number containing a unique id for the receiver.
 	*/
 	char s[32];
-	sprintf(s, "%p", (void *)IoObject_deref(self));
+	#ifdef _MSC_VER
+		sprintf(s, "0x%p", (void *)IoObject_deref(self));
+	#else
+		sprintf(s, "%p", (void *)IoObject_deref(self));
+	#endif
 	return IOSYMBOL(s);
 	//return IONUMBER((double)((size_t)IoObject_deref(self)));
 }
