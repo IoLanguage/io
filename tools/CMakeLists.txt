@@ -27,11 +27,24 @@ include_directories(
 # Only one file, main.c
 set(SRCS source/main.c)
 
+# Set up an empty LIBS so we can append to it things we may need to link in.
+set(LIBS)
+
+# Add dynamic loader library for those who need it
+if(${CMAKE_SYSTEM_NAME} MATCHES "(Darwin|Linux|SunOS|syllable)")
+	list(APPEND LIBS "-ldl")
+endif(${CMAKE_SYSTEM_NAME} MATCHES "(Darwin|Linux|SunOS|syllable)")
+
+# Add math library for those who need it
+if(${CMAKE_SYSTEM_NAME} MATCHES "(FreeBSD|Linux|NetBSD|DragonFly)")
+	list(APPEND LIBS "-lm")
+if(${CMAKE_SYSTEM_NAME} MATCHES "(FreeBSD|Linux|NetBSD|DragonFly)")
+
 # Produce the executables!
 add_executable(io_static ${SRCS})
 add_dependencies(io_static basekit_static coroutine_static garbagecollector_static iovmall_static)
-target_link_libraries(io_static basekit_static coroutine_static garbagecollector_static iovmall_static)
+target_link_libraries(io_static basekit_static coroutine_static garbagecollector_static iovmall_static ${LIBS})
 
 add_executable(io ${SRCS})
 add_dependencies(io basekit coroutine garbagecollector iovmall)
-target_link_libraries(io basekit coroutine garbagecollector iovmall)
+target_link_libraries(io basekit coroutine garbagecollector iovmall ${LIBS})
