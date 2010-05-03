@@ -76,5 +76,5 @@ make_build_bundle(_build)
 add_custom_target(io_build_system ALL DEPENDS io io_static COMMENT "Building Addons")
 add_custom_command(
 	TARGET io_build_system
-	COMMAND ${PROJECT_BINARY_DIR}/_build/binaries/io_static${BINARY_SUFFIX} build.io
+	COMMAND ${PROJECT_BINARY_DIR}/_build/binaries/io_static${BINARY_SUFFIX} ${PROJECT_SOURCE_DIR}/build.io
 )
