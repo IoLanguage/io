@@ -7,38 +7,7 @@
 add_subdirectory(tools)
 
 # Our Io source files to be "compiled" into a C source file.
-set(IO_SRCS
-	io/A0_List.io
-	io/A1_OperatorTable.io
-	io/A2_Object.io
-	io/A3_List.io
-	io/A4_Exception.io
-	io/Actor.io
-	io/AddonLoader.io
-	io/B_List.io
-	io/B_Sequence.io
-	io/Block.io
-	io/CFunction.io
-	io/Date.io
-	io/Debugger.io
-	io/Directory.io
-	io/DynLib.io
-	io/Error.io
-	io/File.io
-	io/List_schwartzian.io
-	io/Map.io
-	io/Message.io
-	io/Number.io
-	io/Profiler.io
-	io/Sandbox.io
-	io/Serialize.io
-	io/System.io
-	io/UnitTest.io
-	io/Vector.io
-	io/Y_Path.io
-	io/Z_CLI.io
-	io/Z_Importer.io
-)
+file(GLOB IO_SRCS "io/*.io")
 
 # The custom command to generate source/IoVMInit.c which is our
 # "compiled" Io to C source code.
@@ -59,50 +28,8 @@ include_directories(
 )
 
 # Our library sources.
-set(SRCS
-	source/IoBlock.c
-	source/IoCFunction.c
-	source/IoCall.c
-	source/IoCollector.c
-	source/IoCompiler.c
-	source/IoCoroutine.c
-	source/IoDate.c
-	source/IoDebugger.c
-	source/IoDirectory.c
-	source/IoDuration.c
-	source/IoDynLib.c
-	source/IoError.c
-	source/IoFile.c
-	source/IoFile_stat.c
-	source/IoLexer.c
-	source/IoList.c
-	source/IoMap.c
-	source/IoMessage.c
-	source/IoMessage_opShuffle.c
-	source/IoMessage_parser.c
-	source/IoNumber.c
-	source/IoObject.c
-	source/IoObject_flow.c
-	source/IoProfiler.c
-	source/IoSandbox.c
-	source/IoSeq.c
-	source/IoSeq_immutable.c
-	source/IoSeq_mutable.c
-	source/IoSeq_vector.c
-	source/IoState.c
-	source/IoState_callbacks.c
-	source/IoState_coros.c
-	source/IoState_debug.c
-	source/IoState_eval.c
-	source/IoState_exceptions.c
-	source/IoState_symbols.c
-	source/IoSystem.c
-	source/IoTag.c
-	source/IoToken.c
-	source/IoVMInit.c
-	source/IoWeakLink.c
-	source/PHash.c
-)
+file(GLOB SRCS "source/*.c")
+list(APPEND SRCS source/IoVMInit.c)
 
 # Now build the shared library
 add_library(iovmall SHARED ${SRCS})
@@ -111,4 +38,3 @@ target_link_libraries(iovmall basekit coroutine garbagecollector)
 
 # ...And the static library
 add_library(iovmall_static STATIC ${SRCS})
-
