@@ -14,7 +14,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "(Darwin|FreeBSD|NetBSD)")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "(Darwin|FreeBSD|NetBSD)")
 
 # We want the binaries to go other places than here.
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR})
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/_build/binaries)
 
 # Include locations
 include_directories(

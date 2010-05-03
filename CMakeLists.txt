@@ -35,7 +35,7 @@ set(INSTALL_PREFIX "/usr/local")
 # anyway, I'm just not going to do anything with them unless it breaks doing
 # nothing breaks something.
 macro(make_build_bundle NAME)
-	file(MAKE_DIRECTORY ${NAME}/objs ${NAME}/headers ${NAME}/lib ${NAME}/dll)
+	file(MAKE_DIRECTORY ${NAME}/binaries ${NAME}/objs ${NAME}/headers ${NAME}/lib ${NAME}/dll)
 endmacro(make_build_bundle)
 
 # Generic macro to copy files mattching GLOBPAT in the current source
@@ -48,19 +48,33 @@ macro(copy_files NAME GLOBPAT DSTDIR)
 	add_custom_target(copy_${NAME} ALL COMMENT "Copying files: ${CMAKE_CURRENT_SOURCE_DIR}/${GLOBPAT} to ${DSTDIR}")
 
 	foreach(FILENAME ${${NAME}})
-		set(SRC "${FILENAME}")
-		set(DST "${DESTINATION}/${FILENAME}")
-
+		# Finally, copy the files.
 		add_custom_command(
 			TARGET copy_${NAME}
-			COMMAND ${CMAKE_COMMAND} -E copy ${SRC} ${DSTDIR}
+			COMMAND ${CMAKE_COMMAND} -E copy ${FILENAME} ${DSTDIR}
 		)
 	endforeach(FILENAME)
-
-	# Finally, copy the files.
-	#file(COPY ${${NAME}} DESTINATION ${DSTDIR})
 endmacro(copy_files)
+
+# Binary suffix is used to append things like .exe to binary names, for
+# windows support.
+if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+	set(BINARY_SUFFIX ".exe")
+else()
+	set(BINARY_SUFFIX "")
+endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 
 # Subdirectories. These directories should have their own CMakeLists.txt.
 add_subdirectory(libs)
 add_subdirectory(tools)
+
+# Hook into the io build system. Maybe one day we can get rid of this part
+# too?
+#./_build/binaries/io_static$(BINARY_SUFFIX) build.io
+# @if [ -f errors ]; then cat errors; echo; echo "Note: addons do not build when libs or headers are missing"; echo; rm errors; fi
+make_build_bundle(_build)
+add_custom_target(io_build_system ALL DEPENDS io io_static COMMENT "Building Addons")
+add_custom_command(
+	TARGET io_build_system
+	COMMAND ${PROJECT_BINARY_DIR}/_build/binaries/io_static${BINARY_SUFFIX} build.io
+)
