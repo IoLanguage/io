@@ -25,6 +25,7 @@ set(IOVMALL_STATIC_SRCS
 
 # The custom command to generate source/IoVMInit.c which is our
 # "compiled" Io to C source code.
+add_custom_target(generate_IoVMInit ALL DEPENDS io2c COMMENT "Generating IoVMInit.c")
 add_custom_command(
 	OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/source/IoVMInit.c
 	COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/iovm/tools/io2c VMCode IoState_doString_ ${IO_SRCS} > ${CMAKE_CURRENT_SOURCE_DIR}/source/IoVMInit.c
