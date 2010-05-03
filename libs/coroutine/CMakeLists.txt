@@ -14,11 +14,8 @@ set(ASM_SOURCES source/asm.S)
 set_source_files_properties(${ASM_SOURCES} PROPERTIES LANGUAGE C)
 
 # Sources... in all their wonderous glory!
-set(SRCS
-	source/Coro.c
-	source/context.c
-	${ASM_SOURCES}
-)
+file(GLOB SRCS "source/*.c")
+list(APPEND SRCS ${ASM_SOURCES})
 
 # Now build the shared library
 add_library(coroutine SHARED ${SRCS})

@@ -10,10 +10,7 @@ add_definitions("-DBUILDING_COLLECTOR_DLL")
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../basekit/source)
 
 # Our library sources.
-set(SRCS
-	source/CollectorMarker.c
-	source/Collector.c
-)
+file(GLOB SRCS "source/*.c")
 
 # Now build the shared library
 add_library(garbagecollector SHARED ${SRCS})
