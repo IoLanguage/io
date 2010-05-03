@@ -19,3 +19,7 @@ target_link_libraries(garbagecollector basekit)
 
 # ...And the static library
 add_library(garbagecollector_static STATIC ${SRCS})
+
+# The following add the install target, so we put libgarbagecollector.*
+# in our install prefix.
+install(TARGETS garbagecollector garbagecollector_static DESTINATION ${INSTALL_PREFIX}/lib)

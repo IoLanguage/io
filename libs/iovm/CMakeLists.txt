@@ -38,3 +38,7 @@ target_link_libraries(iovmall basekit coroutine garbagecollector)
 
 # ...And the static library
 add_library(iovmall_static STATIC ${SRCS})
+
+# The following add the install target, so we put libvmall.* in our
+# install prefix.
+install(TARGETS iovmall iovmall_static DESTINATION ${INSTALL_PREFIX}/lib)

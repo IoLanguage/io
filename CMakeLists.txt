@@ -27,6 +27,9 @@ cmake_minimum_required(VERSION 2.8)
 # spaces, or anything silly like that please.
 project(IoLanguage)
 
+# Our install prefix. Defaults to /usr/local
+set(INSTALL_PREFIX "/usr/local")
+
 # Macro to create the _build directory hierarchy.
 # Note: I'm not sure we need lib/ or objs/ in there. But I'll leave them in
 # anyway, I'm just not going to do anything with them unless it breaks doing

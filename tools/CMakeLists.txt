@@ -48,3 +48,7 @@ target_link_libraries(io_static basekit_static coroutine_static garbagecollector
 add_executable(io ${SRCS})
 add_dependencies(io basekit coroutine garbagecollector iovmall)
 target_link_libraries(io basekit coroutine garbagecollector iovmall ${LIBS})
+
+# The following add the install target, so we put io and io_static in our
+# install prefix.
+install(TARGETS io io_static DESTINATION ${INSTALL_PREFIX}/bin)

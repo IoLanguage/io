@@ -22,3 +22,7 @@ add_library(coroutine SHARED ${SRCS})
 
 # And the static library
 add_library(coroutine_static STATIC ${SRCS})
+
+# The following add the install target, so we put libcoroutine.* in
+# our install prefix.
+install(TARGETS coroutine coroutine_static DESTINATION ${INSTALL_PREFIX}/lib)
