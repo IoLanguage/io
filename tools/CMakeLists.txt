@@ -38,7 +38,7 @@ endif(${CMAKE_SYSTEM_NAME} MATCHES "(Darwin|Linux|SunOS|syllable)")
 # Add math library for those who need it
 if(${CMAKE_SYSTEM_NAME} MATCHES "(FreeBSD|Linux|NetBSD|DragonFly)")
 	list(APPEND LIBS "-lm")
-if(${CMAKE_SYSTEM_NAME} MATCHES "(FreeBSD|Linux|NetBSD|DragonFly)")
+endif(${CMAKE_SYSTEM_NAME} MATCHES "(FreeBSD|Linux|NetBSD|DragonFly)")
 
 # Produce the executables!
 add_executable(io_static ${SRCS})
