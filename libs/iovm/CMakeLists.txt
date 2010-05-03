@@ -38,6 +38,8 @@ target_link_libraries(iovmall basekit coroutine garbagecollector)
 
 # ...And the static library
 add_library(iovmall_static STATIC ${SRCS})
+add_dependencies(iovmall_static basekit_static coroutine_static garbagecollector_static)
+target_link_libraries(iovmall_static basekit_static coroutine_static garbagecollector_static)
 
 # The following add the install target, so we put libvmall.* in our
 # install prefix.
