@@ -6,13 +6,18 @@
 # Our Io source files to be "compiled" into a C source file.
 file(GLOB IO_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/iovm/io/*.io")
 
+# Hackery for CMake's horrible ASM support
+set(ASM_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/coroutine/source/asm.S)
+set_source_files_properties(${ASM_SOURCES} PROPERTIES LANGUAGE C)
+
 # Object files from every lib. Used to create iovmall static library.
-file(GLOB COROUTINE_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/coroutine/source/*.[cS]")
+file(GLOB COROUTINE_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/coroutine/source/*.c")
 file(GLOB BASEKIT_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/basekit/source/*.c")
 file(GLOB GARBAGECOLLECTOR_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/garbagecollector/source/*.c")
 file(GLOB IOVM_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/iovm/source/*.c")
 set(IOVMALL_STATIC_SRCS
 	${COROUTINE_SRCS}
+	${ASM_SOURCES}
 	${BASEKIT_SRCS}
 	${GARBAGECOLLECTOR_SRCS}
 	${IOVM_SRCS}

@@ -42,8 +42,8 @@ endif(${CMAKE_SYSTEM_NAME} MATCHES "(FreeBSD|Linux|NetBSD|DragonFly)")
 
 # Produce the executables!
 add_executable(io_static ${SRCS})
-add_dependencies(io_static basekit_static coroutine_static garbagecollector_static iovmall_static)
-target_link_libraries(io_static basekit_static coroutine_static garbagecollector_static iovmall_static ${LIBS})
+add_dependencies(io_static iovmall_static)
+target_link_libraries(io_static iovmall_static ${LIBS})
 
 add_executable(io ${SRCS})
 add_dependencies(io basekit coroutine garbagecollector iovmall)
