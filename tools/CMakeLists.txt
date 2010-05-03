@@ -1,0 +1,31 @@
+# Base Io build system
+# Written by Jeremy Tregunna <jeremy.tregunna@me.com>
+#
+# Creates the io_static and io binaries. These are different, only
+# in so much as io_static depends on the *_static libraries, and
+# io uses dynamic libraries. Use whichever floats your boat, we
+# build both because we need the static binary to use our build
+# system written in Io, before Io gets installed. Makes sense, eh?
+
+# We want the binaries to go other places than here.
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR})
+
+# Include locations
+include_directories(
+	${CMAKE_CURRENT_SOURCE_DIR}/../libs/basekit/source
+	${CMAKE_CURRENT_SOURCE_DIR}/../libs/coroutine/source
+	${CMAKE_CURRENT_SOURCE_DIR}/../libs/garbagecollector/source
+	${CMAKE_CURRENT_SOURCE_DIR}/../libs/iovm/source
+)
+
+# Only one file, main.c
+set(SRCS source/main.c)
+
+# Produce the executables!
+add_executable(io_static ${SRCS})
+add_dependencies(io_static basekit_static coroutine_static garbagecollector_static iovmall_static)
+target_link_libraries(io_static basekit_static coroutine_static garbagecollector_static iovmall_static)
+
+add_executable(io ${SRCS})
+add_dependencies(io basekit coroutine garbagecollector iovmall)
+target_link_libraries(io basekit coroutine garbagecollector iovmall)

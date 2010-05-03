@@ -60,4 +60,4 @@ endmacro(copy_files)
 
 # Subdirectories. These directories should have their own CMakeLists.txt.
 add_subdirectory(libs)
-
+add_subdirectory(tools)
