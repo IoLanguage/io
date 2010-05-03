@@ -16,8 +16,8 @@ file(GLOB SRCS "source/*.c")
 add_library(basekit SHARED ${SRCS})
 
 # ...And the static library
-add_library(basekit_static STATIC ${SRCS})
+#add_library(basekit_static STATIC ${SRCS})
 
 # The following add the install target, so we put libbasekit.* in our
 # install prefix.
-install(TARGETS basekit basekit_static DESTINATION ${INSTALL_PREFIX}/lib)
+install(TARGETS basekit DESTINATION ${INSTALL_PREFIX}/lib)

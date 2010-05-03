@@ -9,6 +9,18 @@ add_subdirectory(tools)
 # Our Io source files to be "compiled" into a C source file.
 file(GLOB IO_SRCS "io/*.io")
 
+# Object files from every lib. Used to create iovmall static library.
+file(GLOB COROUTINE_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/../coroutine/source/*.[cS]")
+file(GLOB BASEKIT_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/../basekit/source/*.c")
+file(GLOB GARBAGECOLLECTOR_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/../garbagecollector/source/*.c")
+file(GLOB IOVM_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/../iovm/source/*.c")
+set(IOVMALL_STATIC_SRCS
+	${COROUTINE_SRCS}
+	${BASEKIT_SRCS}
+	${GARBAGECOLLECTOR_SRCS}
+	${IOVM_SRCS}
+)
+
 # The custom command to generate source/IoVMInit.c which is our
 # "compiled" Io to C source code.
 add_custom_command(
@@ -36,11 +48,6 @@ add_library(iovmall SHARED ${SRCS})
 add_dependencies(iovmall io2c basekit coroutine garbagecollector)
 target_link_libraries(iovmall basekit coroutine garbagecollector)
 
-# ...And the static library
-add_library(iovmall_static STATIC ${SRCS})
-add_dependencies(iovmall_static basekit_static coroutine_static garbagecollector_static)
-target_link_libraries(iovmall_static basekit_static coroutine_static garbagecollector_static)
-
 # The following add the install target, so we put libvmall.* in our
 # install prefix.
-install(TARGETS iovmall iovmall_static DESTINATION ${INSTALL_PREFIX}/lib)
+install(TARGETS iovmall DESTINATION ${INSTALL_PREFIX}/lib)

@@ -21,8 +21,9 @@ list(APPEND SRCS ${ASM_SOURCES})
 add_library(coroutine SHARED ${SRCS})
 
 # And the static library
-add_library(coroutine_static STATIC ${SRCS})
+#add_library(coroutine_static STATIC ${SRCS})
 
 # The following add the install target, so we put libcoroutine.* in
 # our install prefix.
-install(TARGETS coroutine coroutine_static DESTINATION ${INSTALL_PREFIX}/lib)
+#install(TARGETS coroutine coroutine_static DESTINATION ${INSTALL_PREFIX}/lib)
+install(TARGETS coroutine DESTINATION ${INSTALL_PREFIX}/lib)
