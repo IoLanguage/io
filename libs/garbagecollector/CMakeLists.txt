@@ -1,0 +1,24 @@
+# Base Io build system
+# Written by Jeremy Tregunna <jeremy.tregunna@me.com>
+#
+# Build the garbage collector library.
+
+# Marvelous flags, likely compiler dependent.
+add_definitions("-DBUILDING_COLLECTOR_DLL")
+
+# Include dirs, -I flags and whatnot
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../basekit/source)
+
+# Our library sources.
+set(SRCS
+	source/CollectorMarker.c
+	source/Collector.c
+)
+
+# Now build the shared library
+add_library(garbagecollector SHARED ${SRCS})
+add_dependencies(garbagecollector basekit)
+target_link_libraries(garbagecollector basekit)
+
+# ...And the static library
+add_library(garbagecollector_static STATIC ${SRCS})
