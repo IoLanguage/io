@@ -12,8 +12,8 @@ file(GLOB IO_SRCS "io/*.io")
 # The custom command to generate source/IoVMInit.c which is our
 # "compiled" Io to C source code.
 add_custom_command(
-	OUTPUT source/IoVMInit.c
-	COMMAND tools/io2c VMCode IoState_doString_ ${IO_SRCS} > source/IoVMInit.c
+	OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/source/IoVMInit.c
+	COMMAND tools/io2c VMCode IoState_doString_ ${IO_SRCS} > ${CMAKE_CURRENT_SOURCE_DIR}/source/IoVMInit.c
 	DEPENDS io2c
 )
 
