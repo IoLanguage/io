@@ -3,6 +3,15 @@
 #
 # This is the top level for our addons.
 
+# Common include directories. Add these regardless of what the
+# addon itself wants to add.
+include_directories(
+	${COROUTINE_SOURCE_DIR}
+	${BASEKIT_SOURCE_DIR}
+	${GARBAGECOLLECTOR_SOURCE_DIR}
+	${IOVM_SOURCE_DIR}
+)
+
 # Addons listed below, and not commented out, are addons which not
 # only exist on the system, but can be built. Addons in a state of
 # flux should be commented out here until such time as they are in
@@ -54,7 +63,7 @@
 #add_subdirectory(Python)
 #add_subdirectory(QDBM)
 #add_subdirectory(Random)
-#add_subdirectory(Range)
+add_subdirectory(Range)
 add_subdirectory(Rational)
 #add_subdirectory(ReadLine)
 #add_subdirectory(Regex)

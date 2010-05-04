@@ -1,7 +1,7 @@
 # Base Io build system
 # Written by Jeremy Tregunna <jeremy.tregunna@me.com>
 #
-# Builds the Rational addon
+# Builds the Range addon
 
 # Create the _build bundle hierarchy if needed.
 make_build_bundle(_build)
@@ -13,9 +13,9 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/_build/dll)
 file(GLOB SRCS "${CMAKE_CURRENT_SOURCE_DIR}/source/*.c")
 
 # Now build the shared library
-add_library(IoRational SHARED ${SRCS})
-add_dependencies(IoRational iovmall)
-target_link_libraries(IoRational iovmall)
+add_library(IoRange SHARED ${SRCS})
+add_dependencies(IoRange iovmall)
+target_link_libraries(IoRange iovmall)
 
 # Install the addon to our global addons hierarchy.
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/addons)

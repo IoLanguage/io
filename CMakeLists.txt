@@ -35,7 +35,7 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/_build/binaries)
 # anyway, I'm just not going to do anything with them unless it breaks doing
 # nothing breaks something.
 macro(make_build_bundle NAME)
-	file(MAKE_DIRECTORY ${NAME}/binaries ${NAME}/objs ${NAME}/headers ${NAME}/lib ${NAME}/dll)
+	file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${NAME}/binaries ${CMAKE_CURRENT_BINARY_DIR}/${NAME}/objs ${CMAKE_CURRENT_BINARY_DIR}/${NAME}/headers ${CMAKE_CURRENT_BINARY_DIR}/${NAME}/lib ${NAME}/dll)
 endmacro(make_build_bundle)
 
 # Generic macro to copy files mattching GLOBPAT in the current source
@@ -85,6 +85,9 @@ make_build_bundle(_build)
 #	TARGET io_build_system
 #	COMMAND ${PROJECT_BINARY_DIR}/_build/binaries/io_static${BINARY_SUFFIX} ${PROJECT_SOURCE_DIR}/build.io
 #)
+
+# Ensure our hierarchy exists in /usr/local/lib for Io-related files.
+file(MAKE_DIRECTORY ${CMAKE_INSTALL_PREFIX}/lib/io)
 
 # Install the addons.
 #install(DIRECTORY addons DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/)
