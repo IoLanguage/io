@@ -64,23 +64,30 @@ else()
 	set(BINARY_SUFFIX "")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 
+# Definitions on where we can find headers and whatnot. Convenience definitions.
+set(COROUTINE_SOURCE_DIR ${PROJECT_SOURCE_DIR}/libs/coroutine/source)
+set(BASEKIT_SOURCE_DIR ${PROJECT_SOURCE_DIR}/libs/basekit/source)
+set(GARBAGECOLLECTOR_SOURCE_DIR ${PROJECT_SOURCE_DIR}/libs/garbagecollector/source)
+set(IOVM_SOURCE_DIR ${PROJECT_SOURCE_DIR}/libs/iovm/source)
+
 # Subdirectories. These directories should have their own CMakeLists.txt.
 add_subdirectory(libs)
 add_subdirectory(tools)
+add_subdirectory(addons)
 
 # Hook into the io build system. Maybe one day we can get rid of this part
 # too?
 #./_build/binaries/io_static$(BINARY_SUFFIX) build.io
 # @if [ -f errors ]; then cat errors; echo; echo "Note: addons do not build when libs or headers are missing"; echo; rm errors; fi
 make_build_bundle(_build)
-add_custom_target(io_build_system ALL DEPENDS io io_static COMMENT "Building Addons")
-add_custom_command(
-	TARGET io_build_system
-	COMMAND ${PROJECT_BINARY_DIR}/_build/binaries/io_static${BINARY_SUFFIX} ${PROJECT_SOURCE_DIR}/build.io
-)
+#add_custom_target(io_build_system ALL DEPENDS io io_static COMMENT "Building Addons")
+#add_custom_command(
+#	TARGET io_build_system
+#	COMMAND ${PROJECT_BINARY_DIR}/_build/binaries/io_static${BINARY_SUFFIX} ${PROJECT_SOURCE_DIR}/build.io
+#)
 
 # Install the addons.
-install(DIRECTORY addons DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/)
+#install(DIRECTORY addons DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/)
 
 # Next we NEED to copy all the libs headers into one single dir in the bundle.
 copy_files(coroutine_headers ${PROJECT_SOURCE_DIR}/libs/coroutine/source/*.h ${CMAKE_CURRENT_BINARY_DIR}/_build/headers)
