@@ -81,6 +81,10 @@ add_custom_command(
 	TARGET io_build_system
 	COMMAND ${PROJECT_BINARY_DIR}/_build/binaries/io_static${BINARY_SUFFIX} ${PROJECT_SOURCE_DIR}/build.io
 )
+
+# Install the addons.
+install(DIRECTORY addons DESTINATION ${INSTALL_PREFIX}/lib/io/)
+
 # Next we NEED to copy all the libs headers into one single dir in the bundle.
 copy_files(coroutine_headers ${PROJECT_SOURCE_DIR}/libs/coroutine/source/*.h ${CMAKE_CURRENT_BINARY_DIR}/_build/headers)
 copy_files(basekit_headers ${PROJECT_SOURCE_DIR}/libs/basekit/source/*.h ${CMAKE_CURRENT_BINARY_DIR}/_build/headers)
