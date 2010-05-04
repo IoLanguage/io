@@ -27,9 +27,6 @@ cmake_minimum_required(VERSION 2.8)
 # spaces, or anything silly like that please.
 project(IoLanguage)
 
-# Our install prefix. Defaults to /usr/local
-set(INSTALL_PREFIX "/usr/local")
-
 # We want our binaries to go here
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/_build/binaries)
 
@@ -83,7 +80,7 @@ add_custom_command(
 )
 
 # Install the addons.
-install(DIRECTORY addons DESTINATION ${INSTALL_PREFIX}/lib/io/)
+install(DIRECTORY addons DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/)
 
 # Next we NEED to copy all the libs headers into one single dir in the bundle.
 copy_files(coroutine_headers ${PROJECT_SOURCE_DIR}/libs/coroutine/source/*.h ${CMAKE_CURRENT_BINARY_DIR}/_build/headers)

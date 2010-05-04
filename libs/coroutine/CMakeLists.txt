@@ -25,10 +25,6 @@ endif(NOT ${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 # Now build the shared library
 add_library(coroutine SHARED ${SRCS})
 
-# And the static library
-#add_library(coroutine_static STATIC ${SRCS})
-
 # The following add the install target, so we put libcoroutine.* in
 # our install prefix.
-#install(TARGETS coroutine coroutine_static DESTINATION ${INSTALL_PREFIX}/lib)
-install(TARGETS coroutine DESTINATION ${INSTALL_PREFIX}/lib)
+install(TARGETS coroutine DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)

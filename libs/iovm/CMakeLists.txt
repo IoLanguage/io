@@ -65,7 +65,7 @@ add_custom_command(
 )
 
 # Marvelous flags, likely compiler dependent.
-add_definitions("-DBUILDING_IOVM_DLL")
+add_definitions("-DBUILDING_IOVM_DLL -DINSTALL_PREFIX=\\\"${CMAKE_INSTALL_PREFIX}\\\"")
 
 # Include dirs, -I flags and whatnot
 include_directories(
@@ -85,4 +85,4 @@ target_link_libraries(iovmall basekit coroutine garbagecollector)
 
 # The following add the install target, so we put libvmall.* in our
 # install prefix.
-install(TARGETS iovmall DESTINATION ${INSTALL_PREFIX}/lib)
+install(TARGETS iovmall DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
