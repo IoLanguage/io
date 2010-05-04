@@ -6,6 +6,9 @@
 # Need to go in and build io2c first. We need it to build our library.
 add_subdirectory(tools)
 
+# Output our dynamic library to the top-level _build hierarchy
+set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/_build/dll)
+
 # Our Io source files to be "compiled" into a C source file.
 #file(GLOB IO_SRCS "io/*.io")
 set(IO_SRCS
@@ -57,7 +60,7 @@ set(IOVMALL_STATIC_SRCS
 # "compiled" Io to C source code.
 add_custom_command(
 	OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/source/IoVMInit.c
-	COMMAND tools/io2c VMCode IoState_doString_ ${IO_SRCS} > ${CMAKE_CURRENT_SOURCE_DIR}/source/IoVMInit.c
+	COMMAND ${PROJECT_BINARY_DIR}/_build/binaries/io2c VMCode IoState_doString_ ${IO_SRCS} > ${CMAKE_CURRENT_SOURCE_DIR}/source/IoVMInit.c
 	DEPENDS io2c
 )
 

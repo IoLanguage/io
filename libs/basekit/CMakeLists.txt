@@ -3,6 +3,9 @@
 #
 # Build the garbage collector library.
 
+# Output our dynamic library to the top-level _build hierarchy
+set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/_build/dll)
+
 # Marvelous flags, likely compiler dependent.
 add_definitions("-DBUILDING_BASEKIT_DLL")
 

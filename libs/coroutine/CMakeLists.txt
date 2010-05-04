@@ -3,6 +3,9 @@
 #
 # Build the coroutine library.
 
+# Output our dynamic library to the top-level _build hierarchy
+set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/_build/dll)
+
 # Definitions, love them.
 add_definitions("-DBUILDING_CORO_DLL")
 

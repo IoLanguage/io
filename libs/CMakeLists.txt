@@ -3,6 +3,9 @@
 #
 # This file is a stub, here only as required.
 
+# Output our static library to the top-level _build hierarchy
+set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/_build/lib)
+
 # Our Io source files to be "compiled" into a C source file.
 #file(GLOB IO_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/iovm/io/*.io")
 set(IO_SRCS
@@ -59,7 +62,7 @@ set(IOVMALL_STATIC_SRCS
 # "compiled" Io to C source code.
 add_custom_command(
 	OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/iovm/source/IoVMInit.c
-	COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/iovm/tools/io2c VMCode IoState_doString_ ${IO_SRCS} > ${CMAKE_CURRENT_SOURCE_DIR}/iovm/source/IoVMInit.c
+	COMMAND ${PROJECT_BINARY_DIR}/_build/binaries/io2c VMCode IoState_doString_ ${IO_SRCS} > ${CMAKE_CURRENT_SOURCE_DIR}/iovm/source/IoVMInit.c
 	DEPENDS io2c
 )
 

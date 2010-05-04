@@ -30,6 +30,9 @@ project(IoLanguage)
 # Our install prefix. Defaults to /usr/local
 set(INSTALL_PREFIX "/usr/local")
 
+# We want our binaries to go here
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/_build/binaries)
+
 # Macro to create the _build directory hierarchy.
 # Note: I'm not sure we need lib/ or objs/ in there. But I'll leave them in
 # anyway, I'm just not going to do anything with them unless it breaks doing
@@ -78,3 +81,8 @@ add_custom_command(
 	TARGET io_build_system
 	COMMAND ${PROJECT_BINARY_DIR}/_build/binaries/io_static${BINARY_SUFFIX} ${PROJECT_SOURCE_DIR}/build.io
 )
+# Next we NEED to copy all the libs headers into one single dir in the bundle.
+copy_files(coroutine_headers ${PROJECT_SOURCE_DIR}/libs/coroutine/source/*.h ${CMAKE_CURRENT_BINARY_DIR}/_build/headers)
+copy_files(basekit_headers ${PROJECT_SOURCE_DIR}/libs/basekit/source/*.h ${CMAKE_CURRENT_BINARY_DIR}/_build/headers)
+copy_files(garbagecollector_headers ${PROJECT_SOURCE_DIR}/libs/garbagecollector/source/*.h ${CMAKE_CURRENT_BINARY_DIR}/_build/headers)
+copy_files(iovm_headers ${PROJECT_SOURCE_DIR}/libs/iovm/source/*.h ${CMAKE_CURRENT_BINARY_DIR}/_build/headers)
