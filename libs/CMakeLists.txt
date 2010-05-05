@@ -3,6 +3,10 @@
 #
 # This file is a stub, here only as required.
 
+# Add a definition -- explicitly required on Windows, but shouldn't
+# hurt other platforms. If it does, let me know.
+add_definitions("-DBUILDING_IOVM_DLL")
+
 # Output our static library to the top-level _build hierarchy
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/_build/lib)
 
@@ -42,8 +46,10 @@ set(IO_SRCS
 )
 
 # Hackery for CMake's horrible ASM support
-set(ASM_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/coroutine/source/asm.S)
-set_source_files_properties(${ASM_SOURCES} PROPERTIES LANGUAGE C)
+if(NOT ${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+	set(ASM_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/coroutine/source/asm.S)
+	set_source_files_properties(${ASM_SOURCES} PROPERTIES LANGUAGE C)
+endif(NOT ${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 
 # Object files from every lib. Used to create iovmall static library.
 file(GLOB COROUTINE_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/coroutine/source/*.c")
