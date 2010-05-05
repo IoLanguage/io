@@ -16,7 +16,7 @@ include_directories(
 # only exist on the system, but can be built. Addons in a state of
 # flux should be commented out here until such time as they are in
 # a stable state.
-#add_subdirectory(AVCodec)
+add_subdirectory(AVCodec)
 #add_subdirectory(AppleExtras)
 #add_subdirectory(AsyncRequest)
 #add_subdirectory(Beanstalk)
