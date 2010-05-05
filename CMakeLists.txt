@@ -27,6 +27,10 @@ cmake_minimum_required(VERSION 2.8)
 # spaces, or anything silly like that please.
 project(IoLanguage)
 
+# Ensure that we find all of our support CMake scripts. These are things like
+# locating required libraries for addons, etc. Store them in modules/
+set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/modules/")
+
 # We want our binaries to go here
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/_build/binaries)
 
