@@ -9,6 +9,11 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/_build/dll)
 # Definitions, love them.
 add_definitions("-DBUILDING_CORO_DLL")
 
+# Check if we're on FreeBSD, if so, use ucontext.
+if(${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
+	add_definitions("-DUSE_UCONTEXT")
+endif(${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
+
 # Set up Coroutine include dirs, -I args to compiler.
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../basekit/source)
 
