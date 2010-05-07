@@ -51,4 +51,5 @@ TwitterException := Exception clone do(
 
 	isRateLimited ::= false
 	//doc TwitterException isRateLimited Returns isRateLimited attribute.
+	
 )
