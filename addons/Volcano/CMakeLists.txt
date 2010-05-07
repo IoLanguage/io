@@ -3,29 +3,19 @@
 #
 # Builds the Volcano addon
 
-# Find libevent
-find_package(Event)
-
 # Create the _build bundle hierarchy if needed.
 make_build_bundle(_build)
 
-# Did we find libevent? if so, set up the targets and all the
-# support variables.
-if(EVENT_FOUND)
-	# Output our dynamic library to the top-level _build hierarchy
-	set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/_build/dll)
+# Output our dynamic library to the top-level _build hierarchy
+set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/_build/dll)
 
-	# Additional include directories
-	include_directories(${EVENT_INCLUDE_DIR})
+# Our library sources.
+file(GLOB SRCS "${CMAKE_CURRENT_SOURCE_DIR}/source/*.c")
 
-	# Our library sources.
-	file(GLOB SRCS "${CMAKE_CURRENT_SOURCE_DIR}/source/*.c")
+# Now build the shared library
+add_library(IoVolcano SHARED ${SRCS})
+add_dependencies(IoVolcano iovmall)
+target_link_libraries(IoVolcano iovmall)
 
-	# Now build the shared library
-	add_library(IoVolcano SHARED ${SRCS})
-	add_dependencies(IoVolcano iovmall)
-	target_link_libraries(IoVolcano iovmall ${EVENT_LIBRARY})
-
-	# Install the addon to our global addons hierarchy.
-	install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/addons)
-endif(EVENT_FOUND)
+# Install the addon to our global addons hierarchy.
+install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/addons)
