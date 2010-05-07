@@ -1,5 +1,6 @@
 SYS ?= $(shell uname -s)
 
+
 ifeq ($(SYS),Linux)
 INSTALL_PREFIX ?= /usr
 else
