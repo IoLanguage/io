@@ -17,6 +17,7 @@ macro(generate_ioinit NAME)
 	# Call io_static on generate.io and supply the name of the
 	# addon. The result will be source/IoFooInit.c if the name
 	# was Foo.
+    file(MAKE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/source")
 	add_custom_command(
 		OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/source/Io${NAME}Init.c
 		COMMAND ${PROJECT_BINARY_DIR}/_build/binaries/io_static ${CMAKE_SOURCE_DIR}/addons/generate.io ${CMAKE_SOURCE_DIR}/addons ${NAME}
