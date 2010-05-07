@@ -14,6 +14,9 @@ include_directories(
 
 # Get the filename component, and generate the IoFooInit.c file.
 macro(generate_ioinit NAME)
+	# Ensure the source dir exists.
+	file(MAKE_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/source")
+
 	# Call io_static on generate.io and supply the name of the
 	# addon. The result will be source/IoFooInit.c if the name
 	# was Foo.
@@ -27,7 +30,7 @@ endmacro(generate_ioinit)
 # only exist on the system, but can be built. Addons in a state of
 # flux should be commented out here until such time as they are in
 # a stable state.
-add_subdirectory(AVCodec)
+#add_subdirectory(AVCodec) # XXX: Broken
 #add_subdirectory(AppleExtras)
 add_subdirectory(AsyncRequest)
 #add_subdirectory(Beanstalk)
