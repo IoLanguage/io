@@ -85,3 +85,9 @@ Addon := Object clone do(
 		initFile close
 	)
 )
+
+if(System args size > 2,
+	Addon with(Directory with("#{System args at(1)}/#{System args at(2)}" interpolate)) generateInit
+,
+	"#{System args at(0)}: Incorrect number of arguments. Need a path to addons dir and name of the addon." interpolate println
+)

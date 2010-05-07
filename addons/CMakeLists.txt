@@ -12,6 +12,17 @@ include_directories(
 	${IOVM_SOURCE_DIR}
 )
 
+# Get the filename component, and generate the IoFooInit.c file.
+macro(generate_ioinit NAME)
+	# Call io_static on generate.io and supply the name of the
+	# addon. The result will be source/IoFooInit.c if the name
+	# was Foo.
+	add_custom_command(
+		OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/source/Io${NAME}Init.c
+		COMMAND ${PROJECT_BINARY_DIR}/_build/binaries/io_static ${CMAKE_SOURCE_DIR}/addons/generate.io ${CMAKE_SOURCE_DIR}/addons ${NAME}
+	)
+endmacro(generate_ioinit)
+
 # Addons listed below, and not commented out, are addons which not
 # only exist on the system, but can be built. Addons in a state of
 # flux should be commented out here until such time as they are in

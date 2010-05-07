@@ -27,6 +27,10 @@ cmake_minimum_required(VERSION 2.8)
 # spaces, or anything silly like that please.
 project(IoLanguage)
 
+# Don't want a coloured Makefile. On some platforms, the blue that is used is
+# so dark it's illegible.
+set(CMAKE_COLOR_MAKEFILE off)
+
 # Ensure that we find all of our support CMake scripts. These are things like
 # locating required libraries for addons, etc. Store them in modules/
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/modules/")

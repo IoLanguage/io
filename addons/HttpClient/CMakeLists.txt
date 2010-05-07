@@ -6,11 +6,16 @@
 # Create the _build bundle hierarchy if needed.
 make_build_bundle(_build)
 
+# Generate the IoHttpClientInit.c file.
+# Argument SHOULD ALWAYS be the exact name of the addon, case is
+# important.
+generate_ioinit(HttpClient)
+
 # Output our dynamic library to the top-level _build hierarchy
 set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/_build/dll)
 
 # Our library sources.
-file(GLOB SRCS "${CMAKE_CURRENT_SOURCE_DIR}/source/*.c")
+set(SRCS "${CMAKE_CURRENT_SOURCE_DIR}/source/IoHttpClientInit.c")
 
 # Now build the shared library
 add_library(IoHttpClient SHARED ${SRCS})
@@ -19,3 +24,6 @@ target_link_libraries(IoHttpClient iovmall)
 
 # Install the addon to our global addons hierarchy.
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/addons)
+
+# Clean up our mess.
+set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "${CMAKE_CURRENT_SOURCE_DIR}/source/IoHttpClientInit.c")
