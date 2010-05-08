@@ -24,7 +24,10 @@ if(GMP_FOUND)
 	generate_ioinit(BigNum)
 
 	# Our library sources.
-	file(GLOB SRCS "${CMAKE_CURRENT_SOURCE_DIR}/source/*.c")
+	set(SRCS
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoBigNum.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoBigNumInit.c"
+	)
 
 	# Now build the shared library
 	add_library(IoBigNum SHARED ${SRCS})

@@ -30,7 +30,10 @@ if(FFMPEG_FOUND AND FFMPEG_SWSCALE_FOUND)
 	generate_ioinit(AVCodec)
 
 	# Our library sources.
-	file(GLOB SRCS "${CMAKE_CURRENT_SOURCE_DIR}/source/*.c")
+	set(SRCS
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoAVCodec.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoAVCodecInit.c"
+	)
 
 	# Now build the shared library
 	add_library(IoAVCodec SHARED ${SRCS})

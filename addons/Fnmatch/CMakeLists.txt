@@ -15,7 +15,10 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/_build/dll)
 generate_ioinit(Fnmatch)
 
 # Our library sources.
-file(GLOB SRCS "${CMAKE_CURRENT_SOURCE_DIR}/source/*.c")
+set(SRCS
+	"${CMAKE_CURRENT_SOURCE_DIR}/source/IoFnmatch.c"
+	"${CMAKE_CURRENT_SOURCE_DIR}/source/IoFnmatchInit.c"
+)
 
 # Now build the shared library
 add_library(IoFnmatch SHARED ${SRCS})

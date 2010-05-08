@@ -15,7 +15,11 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/_build/dll)
 generate_ioinit(MD5)
 
 # Our library sources.
-file(GLOB SRCS "${CMAKE_CURRENT_SOURCE_DIR}/source/*.c")
+set(SRCS
+	"${CMAKE_CURRENT_SOURCE_DIR}/source/md5.c"
+	"${CMAKE_CURRENT_SOURCE_DIR}/source/IoMD5.c"
+	"${CMAKE_CURRENT_SOURCE_DIR}/source/IoMD5Init.c"
+)
 
 # Now build the shared library
 add_library(IoMD5 SHARED ${SRCS})

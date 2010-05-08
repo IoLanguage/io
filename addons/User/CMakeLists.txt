@@ -15,7 +15,10 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/_build/dll)
 generate_ioinit(User)
 
 # Our library sources.
-file(GLOB SRCS "${CMAKE_CURRENT_SOURCE_DIR}/source/*.c")
+set(SRCS
+	"${CMAKE_CURRENT_SOURCE_DIR}/source/IoUser.c"
+	"${CMAKE_CURRENT_SOURCE_DIR}/source/IoUserInit.c"
+)
 
 # Now build the shared library
 add_library(IoUser SHARED ${SRCS})

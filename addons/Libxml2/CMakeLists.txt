@@ -27,7 +27,11 @@ if(LIBXML2_FOUND)
 	generate_ioinit(Libxml2)
 
 	# Our library sources.
-	file(GLOB SRCS "${CMAKE_CURRENT_SOURCE_DIR}/source/*.c")
+	set(SRCS
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoXmlReader.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoXmlWriter.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoLibxml2Init.c"
+	)
 
 	# Now build the shared library
 	add_library(IoLibxml2 SHARED ${SRCS})
