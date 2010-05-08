@@ -27,5 +27,6 @@ if(EVENT_FOUND)
 	target_link_libraries(IoSocket iovmall ${EVENT_LIBRARY})
 
 	# Install the addon to our global addons hierarchy.
-	install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/addons)
+	install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/addons)
+	install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/_build DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/addons/Socket)
 endif(EVENT_FOUND)

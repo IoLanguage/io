@@ -12,6 +12,11 @@ include_directories(
 	${IOVM_SOURCE_DIR}
 )
 
+# Need to flatten the namespace so we can find symbols on Darwin
+if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+	set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -flat_namespace")
+endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+
 # Get the filename component, and generate the IoFooInit.c file.
 macro(generate_ioinit NAME)
 	# Ensure the source dir exists.
