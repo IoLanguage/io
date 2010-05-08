@@ -7,12 +7,12 @@ if (LZO_INCLUDE_DIR AND LZO_LIBRARIES)
 	# in cache already
 	SET(LZO_FOUND TRUE)
 else (LZO_INCLUDE_DIR AND LZO_LIBRARIES)
-	FIND_PATH(LZO_INCLUDE_DIR lzo1x.h
-		 ${LZO_ROOT}/include/lzo/
-		 /usr/include/lzo/
-		 /usr/local/include/lzo/
-		 /sw/lib/lzo/
-		 /sw/local/lib/lzo/
+	FIND_PATH(LZO_INCLUDE_DIR lzo/lzo1x.h
+		 ${LZO_ROOT}/include/
+		 /usr/include/
+		 /usr/local/include/
+		 /sw/lib/
+		 /sw/local/lib/
 	)
 
 	if(WIN32 AND MSVC)
@@ -20,10 +20,10 @@ else (LZO_INCLUDE_DIR AND LZO_LIBRARIES)
 		FIND_LIBRARY(LZO_LIBRARIES NAMES lzo2
 			PATHS
 			${LZO_ROOT}/lib
-			/sw/lib
-			/sw/local/lib
 			/usr/lib
 			/usr/local/lib
+			/sw/lib
+			/sw/local/lib
 		)
 	endif(WIN32 AND MSVC)
 
