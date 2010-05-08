@@ -52,4 +52,7 @@ TwitterException := Exception clone do(
 	isRateLimited ::= false
 	//doc TwitterException isRateLimited Returns isRateLimited attribute.
 	
+	isStatusDuplicate ::= false
+	//doc TwitterException isStatusDuplicate Returns isStatusDuplicate attribute.
+	
 )
