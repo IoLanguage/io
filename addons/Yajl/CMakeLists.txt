@@ -24,7 +24,11 @@ if(YAJL_FOUND)
 	generate_ioinit(Yajl)
 
 	# Our library sources.
-	file(GLOB SRCS "${CMAKE_CURRENT_SOURCE_DIR}/source/*.c")
+	set(SRCS
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoYajl.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoYajlGen.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoYajlInit.c"
+	)
 
 	# Now build the shared library
 	add_library(IoYajl SHARED ${SRCS})
