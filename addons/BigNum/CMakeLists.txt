@@ -18,6 +18,11 @@ if(GMP_FOUND)
 	# Additional include directories
 	include_directories(${GMP_INCLUDE_DIR})
 
+	# Generate the IoBigNumInit.c file.
+	# Argument SHOULD ALWAYS be the exact name of the addon, case is
+	# important.
+	generate_ioinit(BigNum)
+
 	# Our library sources.
 	file(GLOB SRCS "${CMAKE_CURRENT_SOURCE_DIR}/source/*.c")
 

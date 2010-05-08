@@ -9,6 +9,11 @@ make_build_bundle(_build)
 # Output our dynamic library to the top-level _build hierarchy
 set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/_build/dll)
 
+# Generate the IoLokiInit.c file.
+# Argument SHOULD ALWAYS be the exact name of the addon, case is
+# important.
+generate_ioinit(Loki)
+
 # Our library sources.
 file(GLOB SRCS "${CMAKE_CURRENT_SOURCE_DIR}/source/*.c")
 

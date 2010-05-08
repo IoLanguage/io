@@ -18,6 +18,11 @@ if(EVENT_FOUND)
 	# Additional include directories
 	include_directories(${EVENT_INCLUDE_DIR})
 
+	# Generate the IoSocketInit.c file.
+	# Argument SHOULD ALWAYS be the exact name of the addon, case is
+	# important.
+	generate_ioinit(Socket)
+
 	# Our library sources.
 	file(GLOB SRCS "${CMAKE_CURRENT_SOURCE_DIR}/source/*.c")
 

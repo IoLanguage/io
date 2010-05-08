@@ -18,6 +18,11 @@ if(PCRE_FOUND)
 	# Additional include directories
 	include_directories(${PCRE_INCLUDE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/../Range/source)
 
+	# Generate the IoRegexInit.c file.
+	# Argument SHOULD ALWAYS be the exact name of the addon, case is
+	# important.
+	generate_ioinit(Regex)
+
 	# Our library sources.
 	file(GLOB SRCS "${CMAKE_CURRENT_SOURCE_DIR}/source/*.c")
 

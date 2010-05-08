@@ -19,6 +19,11 @@ if(SQLITE_FOUND)
 	# Additional include directories
 	include_directories(${SQLITE_INCLUDE_DIRS})
 
+	# Generate the IoSQLite3Init.c file.
+	# Argument SHOULD ALWAYS be the exact name of the addon, case is
+	# important.
+	generate_ioinit(SQLite3)
+
 	# Our library sources.
 	file(GLOB SRCS "${CMAKE_CURRENT_SOURCE_DIR}/source/*.c")
 

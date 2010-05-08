@@ -18,6 +18,11 @@ if(FFI_FOUND)
 	# Additional include directories
 	include_directories(${FFI_INCLUDE_DIR})
 
+	# Generate the IoCFFIInit.c file.
+	# Argument SHOULD ALWAYS be the exact name of the addon, case is
+	# important.
+	generate_ioinit(CFFI)
+
 	# Our library sources.
 	file(GLOB SRCS "${CMAKE_CURRENT_SOURCE_DIR}/source/*.c")
 
