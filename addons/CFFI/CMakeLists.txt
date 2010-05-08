@@ -18,6 +18,11 @@ if(FFI_FOUND)
 	# Additional include directories
 	include_directories(${FFI_INCLUDE_DIR})
 
+	# Generate the IoCFFIInit.c file.
+	# Argument SHOULD ALWAYS be the exact name of the addon, case is
+	# important.
+	generate_ioinit(CFFI)
+
 	# Our library sources.
 	file(GLOB SRCS "${CMAKE_CURRENT_SOURCE_DIR}/source/*.c")
 
@@ -27,5 +32,6 @@ if(FFI_FOUND)
 	target_link_libraries(IoCFFI iovmall ${FFI_LIBRARIES})
 
 	# Install the addon to our global addons hierarchy.
-	install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/addons)
+	install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/addons)
+	install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/_build DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/addons/CFFI)
 endif(FFI_FOUND)

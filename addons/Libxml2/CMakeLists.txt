@@ -21,6 +21,11 @@ if(LIBXML2_FOUND)
 	# Additional include directories
 	include_directories(${LIBXML2_INCLUDE_DIR})
 
+	# Generate the IoLibxml2Init.c file.
+	# Argument SHOULD ALWAYS be the exact name of the addon, case is
+	# important.
+	generate_ioinit(Libxml2)
+
 	# Our library sources.
 	file(GLOB SRCS "${CMAKE_CURRENT_SOURCE_DIR}/source/*.c")
 
@@ -30,5 +35,6 @@ if(LIBXML2_FOUND)
 	target_link_libraries(IoLibxml2 iovmall ${LIBXML2_LIBRARIES})
 
 	# Install the addon to our global addons hierarchy.
-	install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/addons)
+	install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/addons)
+	install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/_build DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/addons/Libxml2)
 endif(LIBXML2_FOUND)

@@ -19,6 +19,11 @@ if(SQLITE_FOUND)
 	# Additional include directories
 	include_directories(${SQLITE_INCLUDE_DIRS})
 
+	# Generate the IoSQLite3Init.c file.
+	# Argument SHOULD ALWAYS be the exact name of the addon, case is
+	# important.
+	generate_ioinit(SQLite3)
+
 	# Our library sources.
 	file(GLOB SRCS "${CMAKE_CURRENT_SOURCE_DIR}/source/*.c")
 
@@ -28,5 +33,6 @@ if(SQLITE_FOUND)
 	target_link_libraries(IoSQLite3 iovmall ${SQLITE_LIBRARIES})
 
 	# Install the addon to our global addons hierarchy.
-	install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/addons)
+	install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/addons)
+	install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/_build DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/addons/SQLite3)
 endif(SQLITE_FOUND)

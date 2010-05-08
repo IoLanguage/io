@@ -12,6 +12,11 @@ include_directories(
 	${IOVM_SOURCE_DIR}
 )
 
+# Need to flatten the namespace so we can find symbols on Darwin
+if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+	set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -flat_namespace")
+endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+
 # Get the filename component, and generate the IoFooInit.c file.
 macro(generate_ioinit NAME)
 	# Ensure the source dir exists.
@@ -24,6 +29,9 @@ macro(generate_ioinit NAME)
 		OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/source/Io${NAME}Init.c
 		COMMAND ${PROJECT_BINARY_DIR}/_build/binaries/io_static ${CMAKE_SOURCE_DIR}/addons/generate.io ${CMAKE_SOURCE_DIR}/addons ${NAME}
 	)
+
+	# Clean up our mess.
+	set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "${CMAKE_CURRENT_SOURCE_DIR}/source/Io${NAME}Init.c")
 endmacro(generate_ioinit)
 
 # Addons listed below, and not commented out, are addons which not

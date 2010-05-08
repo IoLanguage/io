@@ -18,6 +18,11 @@ if(PCRE_FOUND)
 	# Additional include directories
 	include_directories(${PCRE_INCLUDE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/../Range/source)
 
+	# Generate the IoRegexInit.c file.
+	# Argument SHOULD ALWAYS be the exact name of the addon, case is
+	# important.
+	generate_ioinit(Regex)
+
 	# Our library sources.
 	file(GLOB SRCS "${CMAKE_CURRENT_SOURCE_DIR}/source/*.c")
 
@@ -27,5 +32,6 @@ if(PCRE_FOUND)
 	target_link_libraries(IoRegex iovmall ${PCRE_LIBRARIES} IoRange)
 
 	# Install the addon to our global addons hierarchy.
-	install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/addons)
+	install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/addons)
+	install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/_build DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/addons/Regex)
 endif(PCRE_FOUND)
