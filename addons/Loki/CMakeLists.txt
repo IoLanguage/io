@@ -15,7 +15,10 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/_build/dll)
 generate_ioinit(Loki)
 
 # Our library sources.
-file(GLOB SRCS "${CMAKE_CURRENT_SOURCE_DIR}/source/*.c")
+set(SRCS
+	"${CMAKE_CURRENT_SOURCE_DIR}/source/IoLinker.c"
+	"${CMAKE_CURRENT_SOURCE_DIR}/source/IoLokiInit.c"
+)
 
 # Now build the shared library
 add_library(IoLoki SHARED ${SRCS})

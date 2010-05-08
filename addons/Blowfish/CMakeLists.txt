@@ -15,7 +15,11 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/_build/dll)
 generate_ioinit(Blowfish)
 
 # Our library sources.
-file(GLOB SRCS "${CMAKE_CURRENT_SOURCE_DIR}/source/*.c")
+set(SRCS
+	"${CMAKE_CURRENT_SOURCE_DIR}/source/blowfish.c"
+	"${CMAKE_CURRENT_SOURCE_DIR}/source/IoBlowfish.c"
+	"${CMAKE_CURRENT_SOURCE_DIR}/source/IoBlowfishInit.c"
+)
 
 # Now build the shared library
 add_library(IoBlowfish SHARED ${SRCS})

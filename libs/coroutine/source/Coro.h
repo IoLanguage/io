@@ -9,6 +9,10 @@
 	#define USE_UCONTEXT 1
 #endif
 
+#if defined(__FreeBSD__)
+	#define HAS_UCONTEXT 1
+#endif
+
 #if defined(__amd64__) && !defined(__x86_64__)
         #define __x86_64__ 1
 #endif

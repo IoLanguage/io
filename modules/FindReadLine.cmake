@@ -1,0 +1,23 @@
+# Base Io build system
+# Written by Jeremy Tregunna <jeremy.tregunna@me.com>
+#
+# Find libreadline.
+
+FIND_PATH(READLINE_INCLUDE_DIR readline/readline.h readline/history.h)
+
+SET(READLINE_NAMES ${READLINE_NAMES} readline libreadline history libhistory)
+FIND_LIBRARY(READLINE_LIBRARY NAMES ${READLINE_NAMES} PATH)
+
+IF(READLINE_INCLUDE_DIR AND READLINE_LIBRARY)
+	SET(READLINE_FOUND TRUE)
+ENDIF(READLINE_INCLUDE_DIR AND READLINE_LIBRARY)
+
+IF(READLINE_FOUND)
+	IF(NOT Readline_FIND_QUIETLY)
+		MESSAGE(STATUS "Found Readline: ${READLINE_LIBRARY}")
+	ENDIF (NOT Readline_FIND_QUIETLY)
+ELSE(READLINE_FOUND)
+	IF(Readline_FIND_REQUIRED)
+		MESSAGE(FATAL_ERROR "Could not find readline")
+	ENDIF(Readline_FIND_REQUIRED)
+ENDIF (READLINE_FOUND)

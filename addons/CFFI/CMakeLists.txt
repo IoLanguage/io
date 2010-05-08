@@ -24,7 +24,15 @@ if(FFI_FOUND)
 	generate_ioinit(CFFI)
 
 	# Our library sources.
-	file(GLOB SRCS "${CMAKE_CURRENT_SOURCE_DIR}/source/*.c")
+	set(SRCS
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoCFFIArray.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoCFFIDataType.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoCFFIFunction.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoCFFILibrary.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoCFFIPointer.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoCFFIStructure.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoCFFIInit.c"
+	)
 
 	# Now build the shared library
 	add_library(IoCFFI SHARED ${SRCS})

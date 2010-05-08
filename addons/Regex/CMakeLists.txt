@@ -24,7 +24,13 @@ if(PCRE_FOUND)
 	generate_ioinit(Regex)
 
 	# Our library sources.
-	file(GLOB SRCS "${CMAKE_CURRENT_SOURCE_DIR}/source/*.c")
+	set(SRCS
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/Regex.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoRegexMatch.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoRegexMatches.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoRegex.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoRegexInit.c"
+	)
 
 	# Now build the shared library
 	add_library(IoRegex SHARED ${SRCS})

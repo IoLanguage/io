@@ -24,7 +24,21 @@ if(EVENT_FOUND)
 	generate_ioinit(Socket)
 
 	# Our library sources.
-	file(GLOB SRCS "${CMAKE_CURRENT_SOURCE_DIR}/source/*.c")
+	set(SRCS
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IPAddress.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/LocalNameServers.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/Socket.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoDNS.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoEvConnection.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoEvHttpServer.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoEvOutRequest.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoEvOutResponse.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoEvent.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoEventManager.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoIPAddress.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoSocket.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoSocketInit.c"
+	)
 
 	# Now build the shared library
 	add_library(IoSocket SHARED ${SRCS})
