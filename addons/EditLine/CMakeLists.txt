@@ -4,7 +4,7 @@
 # Builds the EditLine addon
 
 # Find curses
-find_package(EDIT)
+find_package(Edit)
 
 # Create the _build bundle hierarchy if needed.
 make_build_bundle(_build)
