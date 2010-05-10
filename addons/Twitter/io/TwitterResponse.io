@@ -60,6 +60,8 @@ TwitterResponse := Object clone do(
 					e setIsFollowLimit(true)
 				) elseif(errorMessage containsSeq("Could not find both specified users")) then(
 					e setUserIsMissing(true)
+				) elseif(errorMessage containsSeq("Status is a duplicate")) then(
+					e setIsStatusDuplicate(true)
 				)
 			,
 				errorMessage := body

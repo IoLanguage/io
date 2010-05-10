@@ -5,7 +5,7 @@ Importer := Object clone do(
 	paths := method(FileImporter directories)
 
 	//doc Importer addSearchPath(path) Add a search path to the auto importer. Relative paths are made absolute before adding.
-	addSearchPath    := method(p, paths appendIfAbsent(Path absolute(p) asSymbol))
+	addSearchPath := method(p, paths appendIfAbsent(Path absolute(p) asSymbol))
 
 	//doc Importer removeSearchPath(path) Removes a search path from the auto importer. Relative paths should be removed from the same working directory as they were added.
 	removeSearchPath := method(p, paths remove(Path absolute(p) asSymbol))
@@ -47,6 +47,7 @@ Importer := Object clone do(
 		importsFrom := "dll"
 
 		import := method(protoName,
+			//writeln("AddonImporter import(", protoName, ")")
 			if(hasAddon := AddonLoader hasAddonNamed(protoName),
 				AddonLoader loadAddonNamed(protoName)
 			)
@@ -60,6 +61,7 @@ Importer := Object clone do(
 	//doc Importer import(originalCallMessage) Imports an object or addon for the given Message.
 	import := method(originalCall,
 		protoName := originalCall message name
+		//writeln("Importer looking for '", protoName, "'")
 
 		if(protoName at(0) isUppercase and(importer := importers detect(import(protoName))),
 			if(Lobby hasSlot(protoName) not,
