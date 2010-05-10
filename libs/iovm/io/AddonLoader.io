@@ -31,9 +31,11 @@ Addon := Object clone do(
 	//doc Addon sourcePath Returns the path of the source folder for the addon.
 	sourcePath := method(Path with(addonPath, "source"))
 
+ 	ioFilesPath := method(Path with(addonPath, "io"))
+
 	//doc Addon ioFiles Return list of io File objects for the io files in the io folder of the addon.
 	ioFiles := method(
-		d := Directory with(addonPath) directoryNamed("io")
+		d := Directory with(ioFilesPath)
 		if(d exists not, return list())
 		files := d files select(path endsWithSeq(".io"))
 		files map(name) sort map(name, d fileNamed(name))
@@ -57,7 +59,9 @@ Addon := Object clone do(
 
 	//doc Addon load Loads the addon.
 	load := method(
-		//writeln("Addon ", name, " loading from ", addonPath)
+		//writeln("ioFilesPath = ", ioFilesPath)
+		Importer addSearchPath(ioFilesPath) // to avoid loops when a addon file refs another before it's loaded
+			
 		loadDependencies
 		context := Object clone
 		Protos Addons setSlot(name, context)
@@ -73,6 +77,7 @@ Addon := Object clone do(
 		)
 		//ioFiles foreach(f, writeln("loading ", f path))
 		ioFiles foreach(file, context doFile(file path))
+		Importer removeSearchPath(ioFilesPath)
 		Lobby getSlot(name)
 	)
 
@@ -96,7 +101,8 @@ AddonLoader := Object clone do(
 	//doc Addon addons Looks for all addons which can be found and returns them as a list of Addon objects. Caches the result the first time it is called.
 	addons := method(
 		searchFolders := searchPaths map(path, Directory with(path)) select(exists)
-		addonFolders := searchFolders map(directories) flatten select(isAccessible) select(fileNames contains("build.io"))
+		addonFolders := searchFolders map(directories) flatten select(isAccessible) select(fileNames contains("protos"))
+		//writeln("addonFolders = ", addonFolders map
 		self addons := addonFolders map(f, Addon clone setRootPath(f path pathComponent) setName(f path lastPathComponent))
 		addons
 	)
@@ -105,7 +111,8 @@ AddonLoader := Object clone do(
 	addonFor := method(name,
 		r := addons detect(name == name)
 		if(r, return r)
-		addons detect(addonProtos contains(name))
+		r := addons detect(addonProtos contains(name))
+		r
 	)
 
 	//doc Addon hasAddonNamed(aName) Returns true if the named addon can be found, false otherwise.
@@ -113,7 +120,6 @@ AddonLoader := Object clone do(
 
 	//doc Addon loadAddonNamed(aName) Loads the Addon with the given name if it can be found or nil otherwise.
 	loadAddonNamed := method(name,
-		//writeln("loadAddonNamed(", name, ")")
 		addon := addonFor(name)
 		if(addon, addon load, nil)
 		Lobby getSlot(name)
