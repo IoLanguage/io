@@ -101,7 +101,7 @@ add_subdirectory(Syslog)
 add_subdirectory(SystemCall)
 #add_subdirectory(TagDB) # XXX: I can't meet dependencies
 add_subdirectory(TagLib)
-#add_subdirectory(Theora)
+add_subdirectory(Theora)
 #add_subdirectory(Thread)
 add_subdirectory(TokyoCabinet)
 add_subdirectory(Twitter)
