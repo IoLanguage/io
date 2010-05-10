@@ -8,7 +8,7 @@
 set(LIBRARY_OUTPUT_PATH ${BUILD_DIR}/dll)
 
 # Set up the include dir
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../include/sgml)
 
 # Our sources
 set(SRCS
