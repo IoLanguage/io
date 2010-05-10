@@ -25,7 +25,17 @@ if(CLUTTER_FOUND)
 
 	# Our library sources.
 	set(SRCS
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/utils.c"
 		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoClutter.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoClutterActor.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoClutterActorBox.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoClutterColor.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoClutterEvent.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoClutterInputDevice.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoClutterShader.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoClutterStage.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoClutterUnits.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoClutterVertex.c"
 		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoClutterInit.c"
 	)
 
