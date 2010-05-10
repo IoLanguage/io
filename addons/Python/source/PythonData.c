@@ -10,7 +10,7 @@ PythonData *PythonData_new(void)
 }
 
 void bug(char *s) {
-	printf(s);
+	printf("%s", s);
 	fflush(stdout);
 }
 

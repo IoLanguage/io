@@ -72,15 +72,15 @@ add_subdirectory(Memcached)
 #add_subdirectory(MySQL)
 #add_subdirectory(NetworkAdapter)
 add_subdirectory(NotificationCenter)
-#add_subdirectory(ODE)
-#add_subdirectory(ObjcBridge)
+#add_subdirectory(ODE) # XXX: Depends on OpenGL
+#add_subdirectory(ObjcBridge) # XXX: Broken for me -- Objective-C 2.0 not supported
 add_subdirectory(Obsidian)
 add_subdirectory(Ogg)
 #add_subdirectory(OpenGL) # XXX: Needs some attention
-#add_subdirectory(PortAudio)
+#add_subdirectory(PortAudio) # XXX: Dependency broken for me
 add_subdirectory(PostgreSQL)
 #add_subdirectory(Postgres)
-#add_subdirectory(Python)
+add_subdirectory(Python)
 #add_subdirectory(QDBM)
 add_subdirectory(Random)
 add_subdirectory(Range)
