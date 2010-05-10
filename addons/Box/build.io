@@ -1,7 +1,8 @@
 AddonBuilder clone do(
 	if(platform == "darwin",
-		dependsOnFramework("Accelerate")
-		dependsOnLinkOption("-faltivec")
+		//dependsOnFramework("Accelerate")
+		//dependsOnLinkOption("-faltivec")
+		nil
 	)
 )
 
