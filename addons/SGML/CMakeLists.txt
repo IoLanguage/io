@@ -5,9 +5,10 @@
 
 # Create the _build bundle hierarchy if needed.
 make_build_bundle(_build)
+set(BUILD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/_build)
 
 # Ensure we build libsgml before we continue
-add_subdirectory(source/libsgml-1.1.4/src)
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/source/libsgml-1.1.4/src)
 
 # Generate the IoSGMLInit.c file.
 # Argument SHOULD ALWAYS be the exact name of the addon, case is
@@ -16,6 +17,9 @@ generate_ioinit(SGML)
 
 # Output our dynamic library to the top-level _build hierarchy
 set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/_build/dll)
+
+# Set up the include dir
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/source/libsgml-1.1.4/include)
 
 # Our library sources.
 set(SRCS
