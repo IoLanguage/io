@@ -59,7 +59,7 @@ add_subdirectory(EditLine)
 add_subdirectory(Fnmatch)
 #add_subdirectory(Font) # XXX: I can't meet the dependencies, someone?
 #add_subdirectory(GLFW) # XXX: Depends on OpenGL
-#add_subdirectory(GoogleSearch)
+add_subdirectory(GoogleSearch)
 add_subdirectory(HttpClient)
 add_subdirectory(Image)
 add_subdirectory(LZO)
@@ -88,9 +88,9 @@ add_subdirectory(Range)
 add_subdirectory(Rational)
 add_subdirectory(ReadLine)
 add_subdirectory(Regex)
-#add_subdirectory(SGML)
+add_subdirectory(SGML)
 add_subdirectory(SHA1)
-#add_subdirectory(SQLite)
+#add_subdirectory(SQLite) # XXX: Want to delete in favour of SQLite3
 add_subdirectory(SQLite3)
 add_subdirectory(SampleRateConverter)
 add_subdirectory(SecureSocket) # XXX: Broken
