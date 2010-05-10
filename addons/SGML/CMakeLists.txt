@@ -5,6 +5,7 @@
 
 # Create the _build bundle hierarchy if needed.
 make_build_bundle(_build)
+set(BUILD_DIR ${CMAKE_CURRENT_SOURCE_DIR}/_build)
 
 # Ensure we build libsgml before we continue
 add_subdirectory(source/libsgml-1.1.4/src)
