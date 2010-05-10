@@ -17,9 +17,8 @@ if(LOUDMOUTH_FOUND)
 	set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/_build/dll)
 
 	# Additional include directories
-	include_directories(${LOUDMOUTH_INCLUDE_DIR}, ${GLIB_INCLUDE_DIR},
-        "/usr/include/loudmouth-1.0", "/usr/include/glib-2.0",
-        "/usr/lib/glib-2.0/include")
+	include_directories(${LOUDMOUTH_INCLUDE_DIR}
+                        ${GLIB_INCLUDE_DIR})
 
 	# Generate the IoLoudmouthInit.c file.
 	# Argument SHOULD ALWAYS be the exact name of the addon, case is

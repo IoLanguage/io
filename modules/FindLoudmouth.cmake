@@ -3,7 +3,8 @@
 #
 # Find libloudmouth.
 
-FIND_PATH(LOUDMOUTH_INCLUDE_DIR loudmouth-1.0/loudmouth/loudmouth.h)
+FIND_PATH(LOUDMOUTH_INCLUDE_DIR loudmouth-1.0
+    loudmouth-1.0/loudmouth/loudmouth.h loudmouth/loudmouth.h)
 
 SET(LOUDMOUTH_NAMES ${LOUDMOUTH_NAMES} loudmouth loudmouth-1 libloudmouth libloudmouth-1)
 FIND_LIBRARY(LOUDMOUTH_LIBRARY NAMES ${LOUDMOUTH_NAMES} PATH)
