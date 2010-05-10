@@ -5,7 +5,7 @@
 
 # Find loudmouth
 find_package(Loudmouth)
-find_package(Glib)
+find_package(GLIB2)
 
 # Create the _build bundle hierarchy if needed.
 make_build_bundle(_build)
@@ -18,7 +18,7 @@ if(LOUDMOUTH_FOUND)
 
 	# Additional include directories
 	include_directories(${LOUDMOUTH_INCLUDE_DIR}
-                        ${GLIB_INCLUDE_DIR})
+                        ${GLIB2_INCLUDE_DIRS})
 
 	# Generate the IoLoudmouthInit.c file.
 	# Argument SHOULD ALWAYS be the exact name of the addon, case is
