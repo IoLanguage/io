@@ -59,7 +59,7 @@ add_subdirectory(Flux)
 add_subdirectory(Fnmatch)
 #add_subdirectory(Font) # XXX: I can't meet the dependencies, someone?
 #add_subdirectory(GLFW) # XXX: Depends on OpenGL
-#add_subdirectory(GoogleSearch)
+add_subdirectory(GoogleSearch)
 add_subdirectory(HttpClient)
 add_subdirectory(Image)
 add_subdirectory(LZO)
