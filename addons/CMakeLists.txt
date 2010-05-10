@@ -87,9 +87,9 @@ add_subdirectory(Range)
 add_subdirectory(Rational)
 add_subdirectory(ReadLine)
 add_subdirectory(Regex)
-#add_subdirectory(SGML)
+add_subdirectory(SGML)
 add_subdirectory(SHA1)
-#add_subdirectory(SQLite)
+#add_subdirectory(SQLite) # XXX: Want to delete in favour of SQLite3
 add_subdirectory(SQLite3)
 add_subdirectory(SampleRateConverter)
 #add_subdirectory(SecureSocket) # XXX: Broken
