@@ -76,7 +76,7 @@ add_subdirectory(NotificationCenter)
 #add_subdirectory(ObjcBridge)
 add_subdirectory(Obsidian)
 add_subdirectory(Ogg)
-#add_subdirectory(OpenGL)
+#add_subdirectory(OpenGL) # XXX: Needs some attention
 #add_subdirectory(PortAudio)
 #add_subdirectory(PostgreSQL)
 #add_subdirectory(Postgres)
