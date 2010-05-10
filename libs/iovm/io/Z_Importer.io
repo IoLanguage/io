@@ -47,6 +47,7 @@ Importer := Object clone do(
 		importsFrom := "dll"
 
 		import := method(protoName,
+			//writeln("AddonImporter import(", protoName, ")")
 			if(hasAddon := AddonLoader hasAddonNamed(protoName),
 				AddonLoader loadAddonNamed(protoName)
 			)
@@ -60,6 +61,7 @@ Importer := Object clone do(
 	//doc Importer import(originalCallMessage) Imports an object or addon for the given Message.
 	import := method(originalCall,
 		protoName := originalCall message name
+		//writeln("Importer looking for '", protoName, "'")
 
 		if(protoName at(0) isUppercase and(importer := importers detect(import(protoName))),
 			if(Lobby hasSlot(protoName) not,
