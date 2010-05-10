@@ -16,7 +16,7 @@ if(MYSQL_FOUND)
 	set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/_build/dll)
 
 	# Additional include directories
-	include_directories(${MYSQL_INCLUDE_DIR})
+	include_directories(${MYSQL_INCLUDE_DIR}, "/usr/include/mysql")
 
 	# Generate the IoMySQLInit.c file.
 	# Argument SHOULD ALWAYS be the exact name of the addon, case is
