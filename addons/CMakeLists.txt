@@ -78,7 +78,7 @@ add_subdirectory(Obsidian)
 add_subdirectory(Ogg)
 #add_subdirectory(OpenGL) # XXX: Needs some attention
 #add_subdirectory(PortAudio)
-#add_subdirectory(PostgreSQL)
+add_subdirectory(PostgreSQL)
 #add_subdirectory(Postgres)
 #add_subdirectory(Python)
 #add_subdirectory(QDBM)
