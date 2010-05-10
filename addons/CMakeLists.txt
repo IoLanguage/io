@@ -55,7 +55,7 @@ add_subdirectory(Curses)
 add_subdirectory(DBI)
 add_subdirectory(DistributedObjects)
 add_subdirectory(EditLine)
-add_subdirectory(Flux)
+#add_subdirectory(Flux) # XXX: Has hardcoded paths, OpenGL missing
 add_subdirectory(Fnmatch)
 #add_subdirectory(Font) # XXX: I can't meet the dependencies, someone?
 #add_subdirectory(GLFW) # XXX: Depends on OpenGL
@@ -67,10 +67,10 @@ add_subdirectory(LibSndFile)
 add_subdirectory(Libxml2)
 add_subdirectory(Logging)
 add_subdirectory(Loki)
-#add_subdirectory(Loudmouth)
+add_subdirectory(Loudmouth)
 add_subdirectory(MD5)
 add_subdirectory(Memcached)
-#add_subdirectory(MySQL)
+add_subdirectory(MySQL)
 #add_subdirectory(NetworkAdapter)
 add_subdirectory(NotificationCenter)
 #add_subdirectory(ODE) # XXX: Depends on OpenGL

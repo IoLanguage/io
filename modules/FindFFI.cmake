@@ -1,18 +1,23 @@
-# Try to find the FFI librairies
-# FFI_FOUND - system has FFI lib
-# FFI_INCLUDE_DIR - the FFI include directory
-# FFI_LIBRARIES - Libraries needed to use FFI
+# Base Io build system
+# Written by Jeremy Tregunna <jeremy.tregunna@me.com>
+#
+# Find libFFI.
 
-if (FFI_INCLUDE_DIR AND FFI_LIBRARIES)
-	# Already in cache, be silent
-	set(FFI_FIND_QUIETLY TRUE)
-endif (FFI_INCLUDE_DIR AND FFI_LIBRARIES)
+FIND_PATH(FFI_INCLUDE_DIR ffi.h /usr/lib/libffi-3.0.9/include)
 
-find_path(FFI_INCLUDE_DIR NAMES ffi.h )
-find_library(FFI_LIBRARIES NAMES ffi libffi )
-MESSAGE(STATUS "FFI libs: " ${FFI_LIBRARIES})
+SET(FFI_NAMES ${FFI_NAMES} ffi libffi)
+FIND_LIBRARY(FFI_LIBRARY NAMES ${FFI_NAMES} PATH /usr/lib/libffi)
 
-include(FindPackageHandleStandardArgs)
-FIND_PACKAGE_HANDLE_STANDARD_ARGS(FFI DEFAULT_MSG FFI_INCLUDE_DIR FFI_LIBRARIES)
+IF(FFI_INCLUDE_DIR AND FFI_LIBRARY)
+	SET(FFI_FOUND TRUE)
+ENDIF(FFI_INCLUDE_DIR AND FFI_LIBRARY)
 
-mark_as_advanced(FFI_INCLUDE_DIR FFI_LIBRARIES)
+IF(FFI_FOUND)
+	IF(NOT FFI_FIND_QUIETLY)
+		MESSAGE(STATUS "Found FFI: ${FFI_LIBRARY}")
+	ENDIF (NOT FFI_FIND_QUIETLY)
+ELSE(FFI_FOUND)
+	IF(FFI_FIND_REQUIRED)
+		MESSAGE(FATAL_ERROR "Could not find FFI")
+	ENDIF(FFI_FIND_REQUIRED)
+ENDIF (FFI_FOUND)

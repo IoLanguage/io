@@ -3,13 +3,13 @@
 #
 # Builds the OpenGL addon
 
-# Find curses
+# Find OpenGL
 find_package(OpenGL)
 
 # Create the _build bundle hierarchy if needed.
 make_build_bundle(_build)
 
-# Did we find curses? if so, set up the targets and all the support
+# Did we find OpenGL? if so, set up the targets and all the support
 # variables.
 if(OPENGL_FOUND AND OPENGL_GLU_FOUND)
 	# Output our dynamic library to the top-level _build hierarchy
