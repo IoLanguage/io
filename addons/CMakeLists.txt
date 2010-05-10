@@ -91,7 +91,7 @@ add_subdirectory(Regex)
 add_subdirectory(SHA1)
 #add_subdirectory(SQLite)
 add_subdirectory(SQLite3)
-#add_subdirectory(SampleRateConverter)
+add_subdirectory(SampleRateConverter)
 #add_subdirectory(SecureSocket)
 #add_subdirectory(SkipDB) # XXX: Disabled...why?
 add_subdirectory(Socket)
