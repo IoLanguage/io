@@ -4,7 +4,7 @@
 # Builds the SecureSocket addon
 
 # Find SecureSocket
-find_package(SSL)
+find_package(OpenSSL)
 
 # Create the _build bundle hierarchy if needed.
 make_build_bundle(_build)
@@ -16,7 +16,7 @@ if(SSL_FOUND)
 	set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/_build/dll)
 
 	# Additional include directories
-	include_directories(${SSL_INCLUDE_DIR}
+	include_directories(${OPENSSL_INCLUDE_DIR}
                         ${CMAKE_CURRENT_SOURCE_DIR}/../Socket/source)
 
 	# Generate the IoSecureSocketInit.c file.
