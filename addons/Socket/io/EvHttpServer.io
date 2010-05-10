@@ -44,6 +44,7 @@ EvInRequest := Object clone do(
 	path := nil
 	parameters := nil
 	cookies := nil
+	httpMethod ::= nil
 	
 	init := method(
 		headers = Map clone

@@ -5,7 +5,7 @@ Importer := Object clone do(
 	paths := method(FileImporter directories)
 
 	//doc Importer addSearchPath(path) Add a search path to the auto importer. Relative paths are made absolute before adding.
-	addSearchPath    := method(p, paths appendIfAbsent(Path absolute(p) asSymbol))
+	addSearchPath := method(p, paths appendIfAbsent(Path absolute(p) asSymbol))
 
 	//doc Importer removeSearchPath(path) Removes a search path from the auto importer. Relative paths should be removed from the same working directory as they were added.
 	removeSearchPath := method(p, paths remove(Path absolute(p) asSymbol))
