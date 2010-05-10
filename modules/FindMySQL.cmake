@@ -5,7 +5,7 @@
 
 FIND_PATH(MYSQL_INCLUDE_DIR mysql/mysql.h)
 
-SET(MYSQL_NAMES ${MYSQL_NAMES} mysql libmysql libmysqlclient libmysqlclient_r)
+SET(MYSQL_NAMES ${MYSQL_NAMES} mysqlclient mysqlclient_r)
 FIND_LIBRARY(MYSQL_LIBRARY NAMES ${MYSQL_NAMES} PATH /usr/lib/mysql)
 
 IF(MYSQL_INCLUDE_DIR AND MYSQL_LIBRARY)

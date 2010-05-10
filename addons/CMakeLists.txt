@@ -67,10 +67,10 @@ add_subdirectory(LibSndFile)
 add_subdirectory(Libxml2)
 add_subdirectory(Logging)
 add_subdirectory(Loki)
-add_subdirectory(Loudmouth)
+#add_subdirectory(Loudmouth)
 add_subdirectory(MD5)
-add_subdirectory(Memcached)
-add_subdirectory(MySQL)
+#add_subdirectory(Memcached)
+#add_subdirectory(MySQL)
 #add_subdirectory(NetworkAdapter)
 add_subdirectory(NotificationCenter)
 #add_subdirectory(ODE) # XXX: Depends on OpenGL
@@ -93,7 +93,7 @@ add_subdirectory(SHA1)
 #add_subdirectory(SQLite)
 add_subdirectory(SQLite3)
 add_subdirectory(SampleRateConverter)
-#add_subdirectory(SecureSocket) # XXX: Broken
+add_subdirectory(SecureSocket) # XXX: Broken
 #add_subdirectory(SkipDB) # XXX: Disabled...why?
 add_subdirectory(Socket)
 #add_subdirectory(SoundTouch) # XXX: I can't meet dependencies
