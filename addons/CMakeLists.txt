@@ -92,15 +92,15 @@ add_subdirectory(SHA1)
 #add_subdirectory(SQLite)
 add_subdirectory(SQLite3)
 add_subdirectory(SampleRateConverter)
-#add_subdirectory(SecureSocket)
+#add_subdirectory(SecureSocket) # XXX: Broken
 #add_subdirectory(SkipDB) # XXX: Disabled...why?
 add_subdirectory(Socket)
-#add_subdirectory(SoundTouch)
+#add_subdirectory(SoundTouch) # XXX: I can't meet dependencies
 add_subdirectory(SqlDatabase)
 add_subdirectory(Syslog)
 add_subdirectory(SystemCall)
-#add_subdirectory(TagDB)
-#add_subdirectory(TagLib)
+#add_subdirectory(TagDB) # XXX: I can't meet dependencies
+add_subdirectory(TagLib)
 #add_subdirectory(Theora)
 #add_subdirectory(Thread)
 add_subdirectory(TokyoCabinet)
