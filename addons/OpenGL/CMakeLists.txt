@@ -5,19 +5,21 @@
 
 # Find OpenGL
 find_package(OpenGL)
+find_package(GLUT)
 
 # Create the _build bundle hierarchy if needed.
 make_build_bundle(_build)
 
 # Did we find OpenGL? if so, set up the targets and all the support
 # variables.
-if(OPENGL_FOUND AND OPENGL_GLU_FOUND)
+if(OPENGL_FOUND AND OPENGL_GLU_FOUND AND GLUT_FOUND)
 	# Output our dynamic library to the top-level _build hierarchy
 	set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/_build/dll)
 
 	# Additional include directories
 	include_directories(
 		${OPENGL_INCLUDE_DIR}
+        ${GLUT_INCLUDE_DIR}
 		${CMAKE_CURRENT_SOURCE_DIR}/../Box/source
 		${CMAKE_CURRENT_SOURCE_DIR}/../Image/source
 	)
@@ -42,9 +44,9 @@ if(OPENGL_FOUND AND OPENGL_GLU_FOUND)
 	# Now build the shared library
 	add_library(IoOpenGL SHARED ${SRCS})
 	add_dependencies(IoOpenGL iovmall)
-	target_link_libraries(IoOpenGL iovmall ${OPENGL_LIBRARIES})
+	target_link_libraries(IoOpenGL iovmall ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES})
 
 	# Install the addon to our global addons hierarchy.
 	install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/addons)
 	install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/_build DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/addons/OpenGL)
-endif(OPENGL_FOUND AND OPENGL_GLU_FOUND)
+endif(OPENGL_FOUND AND OPENGL_GLU_FOUND AND GLUT_FOUND)
