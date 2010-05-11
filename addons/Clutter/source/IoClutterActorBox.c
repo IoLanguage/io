@@ -114,7 +114,7 @@ IO_METHOD(IoClutterActorBox, with) {
     IOSYMBOL("area"), IONUMBER(clutter_actor_box_get_area(actorBox))
   );
 
-  return clone;
+  return klone;
 }
 
 //doc ClutterActorBox origin
