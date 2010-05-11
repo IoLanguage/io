@@ -49,7 +49,7 @@ add_subdirectory(Box)
 add_subdirectory(CFFI)
 add_subdirectory(CGI)
 add_subdirectory(Cairo)
-add_subdirectory(Clutter) # XXX: Unresolved dependencies, glib, pango
+add_subdirectory(Clutter)
 add_subdirectory(ContinuedFraction)
 add_subdirectory(Curses)
 add_subdirectory(DBI)
@@ -57,8 +57,8 @@ add_subdirectory(DistributedObjects)
 add_subdirectory(EditLine)
 add_subdirectory(Flux)
 add_subdirectory(Fnmatch)
-add_subdirectory(Font) # XXX: I can't meet the dependencies, someone?
-#add_subdirectory(GLFW) # XXX: Depends on OpenGL
+add_subdirectory(Font)
+#add_subdirectory(GLFW) # XXX: Can't meet dependencies
 add_subdirectory(GoogleSearch)
 add_subdirectory(HttpClient)
 add_subdirectory(Image)
@@ -73,11 +73,11 @@ add_subdirectory(MD5)
 add_subdirectory(MySQL)
 #add_subdirectory(NetworkAdapter)
 add_subdirectory(NotificationCenter)
-#add_subdirectory(ODE) # XXX: Depends on OpenGL
+#add_subdirectory(ODE) # XXX: Can't meet dependencies
 #add_subdirectory(ObjcBridge) # XXX: Broken for me -- Objective-C 2.0 not supported
 add_subdirectory(Obsidian)
 add_subdirectory(Ogg)
-add_subdirectory(OpenGL) # XXX: Needs some attention
+add_subdirectory(OpenGL) # XXX: Looks fixed
 #add_subdirectory(PortAudio) # XXX: Dependency broken for me
 add_subdirectory(PostgreSQL)
 #add_subdirectory(Postgres)
@@ -93,7 +93,7 @@ add_subdirectory(SHA1)
 #add_subdirectory(SQLite) # XXX: Want to delete in favour of SQLite3
 add_subdirectory(SQLite3)
 add_subdirectory(SampleRateConverter)
-add_subdirectory(SecureSocket) # XXX: Broken
+add_subdirectory(SecureSocket)
 #add_subdirectory(SkipDB) # XXX: Disabled...why?
 add_subdirectory(Socket)
 #add_subdirectory(SoundTouch) # XXX: I can't meet dependencies
