@@ -77,7 +77,7 @@ add_subdirectory(NotificationCenter)
 #add_subdirectory(ObjcBridge) # XXX: Broken for me -- Objective-C 2.0 not supported
 add_subdirectory(Obsidian)
 add_subdirectory(Ogg)
-add_subdirectory(OpenGL) # XXX: Needs some attention
+#add_subdirectory(OpenGL) # XXX: Needs some attention
 #add_subdirectory(PortAudio) # XXX: Dependency broken for me
 add_subdirectory(PostgreSQL)
 #add_subdirectory(Postgres)
