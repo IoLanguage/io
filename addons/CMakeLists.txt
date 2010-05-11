@@ -49,7 +49,7 @@ add_subdirectory(Box)
 add_subdirectory(CFFI)
 add_subdirectory(CGI)
 add_subdirectory(Cairo)
-#add_subdirectory(Clutter) # XXX: Unresolved dependencies, glib, pango
+add_subdirectory(Clutter) # XXX: Unresolved dependencies, glib, pango
 add_subdirectory(ContinuedFraction)
 add_subdirectory(Curses)
 add_subdirectory(DBI)

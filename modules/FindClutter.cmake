@@ -3,12 +3,17 @@
 #
 # Find libclutter.
 
-FIND_PATH(CLUTTER_INCLUDE_DIR clutter/clutter.h /usr/local/include/clutter-1.0/ /usr/local/clutter-1.0/)
+FIND_PATH(CLUTTER_INCLUDE_DIR clutter/clutter.h /usr/include/clutter-1.0/ /usr/local/include/clutter-1.0/ /usr/local/clutter-1.0/)
 
 SET(CLUTTER_NAMES ${CLUTTER_NAMES} clutter libclutter)
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 	LIST(APPEND CLUTTER_NAMES clutter-osx-1.0)
 ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+
+IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+	LIST(APPEND CLUTTER_NAMES clutter-glx-1.0)
+ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+
 FIND_LIBRARY(CLUTTER_LIBRARY NAMES ${CLUTTER_NAMES} PATH)
 
 IF(CLUTTER_INCLUDE_DIR AND CLUTTER_LIBRARY)
