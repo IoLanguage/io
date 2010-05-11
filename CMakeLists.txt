@@ -83,8 +83,22 @@ add_subdirectory(libs)
 add_subdirectory(tools)
 add_subdirectory(addons)
 
-# Make sure the top level _build dir exists. We put libraries and binaries here.
+# Hook into the io build system. Maybe one day we can get rid of this part
+# too?
+#./_build/binaries/io_static$(BINARY_SUFFIX) build.io
+# @if [ -f errors ]; then cat errors; echo; echo "Note: addons do not build when libs or headers are missing"; echo; rm errors; fi
 make_build_bundle(_build)
+#add_custom_target(io_build_system ALL DEPENDS io io_static COMMENT "Building Addons")
+#add_custom_command(
+#	TARGET io_build_system
+#	COMMAND ${PROJECT_BINARY_DIR}/_build/binaries/io_static${BINARY_SUFFIX} ${PROJECT_SOURCE_DIR}/build.io
+#)
+
+# Ensure our hierarchy exists in /usr/local/lib for Io-related files.
+file(MAKE_DIRECTORY ${CMAKE_INSTALL_PREFIX}/lib/io)
+
+# Install the addons.
+#install(DIRECTORY addons DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/)
 
 # Next we NEED to copy all the libs headers into one single dir in the bundle.
 copy_files(coroutine_headers ${PROJECT_SOURCE_DIR}/libs/coroutine/source/*.h ${CMAKE_CURRENT_BINARY_DIR}/_build/headers)
