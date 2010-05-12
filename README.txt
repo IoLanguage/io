@@ -10,21 +10,28 @@ INSTALLING
 
 Io is two parts - the vm and the addons/packages. Don't worry if all the addons don't compile for you - some are platform specific or not well supported.
 
+There are a couple ways you can go about building Io, I will give the recommended way, and a note about how to do it alternatively.
+
 OSX
 ---
-cd to Io folder
-make vm; sudo make install; sudo make port; sudo make install
+
+Note: Assuming you wish to install to an alternate location, ensure you supply as an argument to the following command, a -DCMAKE_INSTALL_PREFIX=/path where /path is where you wish to install Io to. This is akin to setting INSTALL_PREFIX with the old build system if you are familiar with it, or --prefix with GNU autotools if you are familiar with that suite.
+
+Ensure you are at the top level of the source tree, that is where this file lives. From here, you are in the right spot to enter these commands:
+
+mkdir build && cd build
+cmake ..
+make install
+
+If you do not wish to install, just run "make" instead of "make install". Currently there is no analogue to the old "make linkInstall". However, if you have used linkInstall in previous versions of Io, you should never have to run linkInstall again, since it created symbolic links to where your Io source was at that time. The only time you would have to do this again, is if you moved the Io source from one dir to another. Most people don't.
 
 Debian or Ubuntu
 ----------------
-cd to Io folder
-make vm; sudo make install; su -c "sudo make aptget"; make; sudo make install
+See OSX instructions.
 
 Gentoo
 ------
-make vm; sudo make install; su -c "sudo make emerge"; make; sudo make install
-
-
+See OSX instructions.
 
 MS WINDOWS WITH CYGWIN
 ----------------------
