@@ -87,9 +87,6 @@ add_subdirectory(addons)
 # binaries go.
 make_build_bundle(_build)
 
-# Ensure our hierarchy exists in /usr/local/lib for Io-related files.
-file(MAKE_DIRECTORY ${CMAKE_INSTALL_PREFIX}/lib/io)
-
 # Next we NEED to copy all the libs headers into one single dir in the bundle.
 copy_files(coroutine_headers ${PROJECT_SOURCE_DIR}/libs/coroutine/source/*.h ${CMAKE_CURRENT_BINARY_DIR}/_build/headers)
 copy_files(basekit_headers ${PROJECT_SOURCE_DIR}/libs/basekit/source/*.h ${CMAKE_CURRENT_BINARY_DIR}/_build/headers)
