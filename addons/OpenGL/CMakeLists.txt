@@ -43,8 +43,8 @@ if(OPENGL_FOUND AND OPENGL_GLU_FOUND AND GLUT_FOUND)
 
 	# Now build the shared library
 	add_library(IoOpenGL SHARED ${SRCS})
-	add_dependencies(IoOpenGL iovmall)
-	target_link_libraries(IoOpenGL iovmall ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES})
+	add_dependencies(IoOpenGL iovmall IoBox)
+	target_link_libraries(IoOpenGL iovmall IoBox ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES})
 
 	# Install the addon to our global addons hierarchy.
 	install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/addons)
