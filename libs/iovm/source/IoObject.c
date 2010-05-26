@@ -354,6 +354,7 @@ IoObject *IoObject_rawClone(IoObject *proto)
 	}
 	*/
 	IoObject_setProtoTo_(self, proto);
+	IoObject_isActivatable_(self, IoObject_isActivatable(proto));
 
 	//IoObject_protos(self)[0] = proto;
 	//IoObject_setDataPointer_(self, IoObject_dataPointer(proto)); // is this right?
