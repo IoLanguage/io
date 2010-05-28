@@ -57,6 +57,7 @@ h1 {
 }
 
 h2 {
+  page-break-before: always;
   color: #000;
   font-family: 'Helvetica', 'Helvetica';
   font-size: 2em;
@@ -70,7 +71,7 @@ h2 {
   text-decoration: none;
   text-indent: 0sem;
   text-transform: none;
-	vertical-align:text-top;
+  vertical-align:text-top;
 }
 
 h3 {
@@ -322,4 +323,14 @@ span.args {
 
 span.optionalArgs {
   font-style: italic;
+}
+
+@page {
+  size: 8in 11in;
+  margin: 100mm 100mm 100mm 100mm;
+}
+
+div.pagebreak
+{
+  page-break-before: always;
 }
