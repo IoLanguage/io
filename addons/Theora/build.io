@@ -4,4 +4,6 @@ AddonBuilder clone do(
 	dependsOnLib("theoradec")
 	dependsOnHeader("theora/theora.h")
 	dependsOnHeader("theora/theoradec.h")
+	
+	kegs atPut("theora", "theora")
 )

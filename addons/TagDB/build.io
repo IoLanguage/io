@@ -14,4 +14,5 @@ AddonBuilder clone do(
 //	)
 
 	pkgs atPut("tokyocabinet", "tokyocabinet")
+	kegs atPut("tokyocabinet", "tokyo-cabinet")
 )

@@ -3,4 +3,5 @@ AddonBuilder clone do(
 	dependsOnHeader("libmemcached/memcached.h")
 
 	pkgs atPut("memcached", "libmemcached")
+	kegs atPut("memcached", "libmemcached")
 )

@@ -23,4 +23,5 @@ AddonBuilder clone do(
 	ebuilds atPut("libffi", "libffi")
 	pkgs    atPut("libffi", "libffi")
 	rpms    atPut("libffi", "libffi-devel")
+	kegs    atPut("libffi", "libffi")
 )

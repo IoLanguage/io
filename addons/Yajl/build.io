@@ -5,4 +5,5 @@ AddonBuilder clone do(
 	dependsOnHeader("yajl/yajl_parse.h")
 
 	pkgs atPut("yajl", "yajl")
+	kegs atPut("yajl", "yajl")
 )

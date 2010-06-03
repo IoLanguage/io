@@ -12,5 +12,6 @@ AddonBuilder clone do(
 	ebuilds atPut("sndfile", "libsndfile")
 	pkgs    atPut("sndfile", "libsndfile")
 	rpms    atPut("sndfile", "libsndfile-devel")
+	kegs    atPut("sndfile", "libsndfile")
 )
 

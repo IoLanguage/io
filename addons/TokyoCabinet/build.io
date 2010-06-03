@@ -3,4 +3,5 @@ AddonBuilder clone do(
 
 	debs	atPut("tokyocabinet", "libtokyocabinet-dev")
 	pkgs    atPut("tokyocabinet", "tokyocabinet")
+	kegs    atPut("tokyocabinet", "tokyo-cabinet")
 )

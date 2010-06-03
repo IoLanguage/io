@@ -23,6 +23,11 @@ AddonBuilder clone do(
 		dependsOnHeader("GL/gl.h")
 	)
 
+	// add /usr/X11 to the search paths under darwin, because Snow Leopard provides freetype2 there
+	if (platform == "darwin",
+		appendHeaderSearchPath("/usr/X11/include")
+		appendLibSearchPath("/usr/X11/lib")
+	)
 	headerSearchPaths foreach(headerSearchPath, appendHeaderSearchPath(headerSearchPath .. "/freetype2"))
 
 	debs    atPut("freetype", "libfreetype6-dev")

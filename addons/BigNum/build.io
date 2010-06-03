@@ -6,4 +6,5 @@ AddonBuilder clone do(
 	ebuilds atPut("gmp", "gmp")
 	pkgs    atPut("gmp", "gmp")
 	rpms    atPut("gmp", "gmp-devel")
+	kegs    atPut("gmp", "gmp")
 )
