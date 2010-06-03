@@ -223,6 +223,9 @@ port:
 urpmi:
 	_build/binaries/io$(BINARY_SUFFIX) build.io urpmi
 
+brew:
+	_build/binaries/io$(BINARY_SUFFIX) build.io brew
+
 .DEFAULT:
 	./_build/binaries/io_static$(BINARY_SUFFIX) build.io -a $@
 

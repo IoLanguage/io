@@ -70,6 +70,7 @@ AddonBuilder := Object clone do(
 	ebuilds := Map clone
 	pkgs    := Map clone
 	rpms    := Map clone
+	kegs    := Map clone
 
 	init := method(
 		self folder := Directory clone
@@ -192,6 +193,7 @@ AddonBuilder := Object clone do(
 			if(ebuilds at(p), commands atPut("emerge", "emerge -DN1 " .. ebuilds at(p)))
 			if(pkgs at(p), commands atPut("port", "port install " .. pkgs at(p)))
 			if(rpms at(p), commands atPut("urpmi", "urpmi " .. rpms at(p) .. " && ldconfig"))
+			if(kegs at(p), commands atPut("brew", "brew install " .. kegs at(p)))
 		)
 		commands
 	)
