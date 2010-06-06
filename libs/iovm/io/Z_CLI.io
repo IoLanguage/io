@@ -124,6 +124,8 @@ CLI := Object clone do(
         # Note: GetOpt should be used there, since System getOptions
         # is completely useless.
         if("-h" in(System args) and System args size == 1, help)
+        if("--version" in (System args) and System args size == 1, version) # hm...
+
         if(System args first == "-e") then(
             return context doString(
                 System args slice(1) map(asUTF8) join(" ")
@@ -190,14 +192,20 @@ CLI := Object clone do(
         )
     )
 
+    version := inlineMethod(
+        "Io Programming Language, v. #{System version}" interpolate println;
+        System exit
+    )
+
     help := inlineMethod(
 """
-usage: io [-h | -e expr | -i file.io, file.io, ...| file.io arg, arg, ...]
+usage: io [-h | -e expr | -i file.io, file.io, ...| file.io arg, arg, ... | --version]
 
 options:
-  -h  print this help message and exit
-  -e  eval a given expression and exit
-  -i  run the interpreter, after processsing the files passed
+  --version   print the version of the interpreter and exit
+  -h          print this help message and exit
+  -e          eval a given expression and exit
+  -i          run the interpreter, after processsing the files passed
 
 """ println
         System exit
