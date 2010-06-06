@@ -12,6 +12,8 @@ elif [ X"$1" = X"help" ]; then
 	echo "Io build and installation"
 	echo "Usage: $0 [help|linkInstall]"
 	echo "Any argument that isn't help or linkInstall will build and install Io."
+elif [ X"$1" = X"clean" ]; then
+	[ -d build ] && rm -rf build || echo "Nothing to clean."
 else
 	[ -d build ] && rm -rf build && mkdir build
 	cd build
