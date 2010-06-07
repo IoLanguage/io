@@ -9,6 +9,9 @@ Contains methods related to the IoVM.
 #include "IoNumber.h"
 #include "IoMessage_parser.h"
 #include "IoVersion.h"
+#ifndef WIN32
+#include "IoInstallPrefix.h"
+#endif
 
 #if defined(linux)
 #include <unistd.h>
@@ -133,10 +136,6 @@ IoObject *IoSystem_proto(void *state)
 	//IoObject_setSlot_to_(self, IOSYMBOL("distribution"), IOSYMBOL("Io"));
 	IoObject_setSlot_to_(self, IOSYMBOL("type"), IOSYMBOL("System"));
 	//IoState_registerProtoWithFunc_((IoState *)state, self, IoSystem_proto);
-
-	#ifndef INSTALL_PREFIX
-	#define INSTALL_PREFIX "/usr/local"
-	#endif
 
 
 	/*doc System installPrefix

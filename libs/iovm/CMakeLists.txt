@@ -56,6 +56,10 @@ set(IOVMALL_STATIC_SRCS
 	${IOVM_SRCS}
 )
 
+# Create a header file which defines our install prefix. This is
+# only needed because GCC is batshit insane.
+file(WRITE ${CMAKE_CURRENT_SOURCE_DIR}/source/IoInstallPrefix.h "#define INSTALL_PREFIX \"${CMAKE_INSTALL_PREFIX}\"")
+
 # The custom command to generate source/IoVMInit.c which is our
 # "compiled" Io to C source code.
 add_custom_command(
@@ -65,7 +69,7 @@ add_custom_command(
 )
 
 # Marvelous flags, likely compiler dependent.
-add_definitions("-DBUILDING_IOVM_DLL -DINSTALL_PREFIX=\\\"${CMAKE_INSTALL_PREFIX}\\\"")
+add_definitions(-DBUILDING_IOVM_DLL)# -DINSTALL_PREFIX="${CMAKE_INSTALL_PREFIX}")
 
 # Include dirs, -I flags and whatnot
 include_directories(
