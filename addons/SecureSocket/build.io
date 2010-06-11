@@ -4,6 +4,8 @@ AddonBuilder clone do(
 	// related to /usr/include/openssl/bio.h declaring BIO_method_type, 
 	// among others, as macros instead of real functions.
 	// This forces it to use the openssl port versions, which work.
+	//
+	// Note: this preceeding note no longer appears to be true on Snow Leopard -Kevin Ballard, 6/3/2010
 	if(platform == "darwin",
 		appendHeaderSearchPath("/opt/local/include")
 		appendLibSearchPath("/opt/local")

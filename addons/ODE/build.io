@@ -7,4 +7,5 @@ AddonBuilder clone do(
 	ebuilds atPut("ode", "ode")
 	pkgs    atPut("ode", "ode")
 	rpms    atPut("ode", "ode-devel")
+	kegs    atPut("ode", "ode")
 )

@@ -228,4 +228,5 @@ Project := Object clone do(
 	emerge := method(installDependenciesFor("emerge"))
 	port   := method(installDependenciesFor("port"))
 	urpmi  := method(installDependenciesFor("urpmi"))
+	brew   := method(installDependenciesFor("brew"))
 )

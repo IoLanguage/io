@@ -14,6 +14,7 @@ OSX
 ---
 cd to Io folder
 make vm; sudo make install; sudo make port; sudo make install
+If Homebrew is being used instead of MacPorts, replace that last command with "make brew"
 
 Debian or Ubuntu
 ----------------

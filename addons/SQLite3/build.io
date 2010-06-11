@@ -6,4 +6,5 @@ AddonBuilder clone do(
 	ebuilds atPut("sqlite3", "sqlite")
 	pkgs    atPut("sqlite3", "sqlite3")
 	rpms    atPut("sqlite3", "sqlite3-devel")
+	kegs    atPut("sqlite3", "sqlite")
 )

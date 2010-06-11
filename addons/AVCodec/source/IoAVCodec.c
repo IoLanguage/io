@@ -232,7 +232,7 @@ void IoAVCodec_mark(IoAVCodec *self)
 
 void IoAVCodec_error_(IoAVCodec *self, IoMessage *m, char *s)
 {
-	fprintf(stderr, s);
+	fprintf(stderr, "%s", s);
 	IoState_error_(IOSTATE, m, s);
 }
 
@@ -258,7 +258,7 @@ IoObject *IoAVCodec_decodeCodecNames(IoAVCodec *self, IoObject *locals, IoMessag
 	Returns a list of strings with the names of the decode codecs.
 	*/
 
-	AVCodec *p = first_avcodec;
+	AVCodec *p = av_codec_next(NULL);
 	IoList *names = IoList_new(IOSTATE);
 
 	while (p)
@@ -268,7 +268,7 @@ IoObject *IoAVCodec_decodeCodecNames(IoAVCodec *self, IoObject *locals, IoMessag
 			IoList_rawAppend_(names, IOSYMBOL(p->name));
 		}
 
-		p = p->next;
+        p = av_codec_next(p);
 	}
 
 	return names;
@@ -280,7 +280,7 @@ IoObject *IoAVCodec_encodeCodecNames(IoAVCodec *self, IoObject *locals, IoMessag
 	Returns a list of strings with the names of the encode codecs.
 	*/
 
-	AVCodec *p = first_avcodec;
+	AVCodec *p = av_codec_next(NULL);
 	IoList *names = IoList_new(IOSTATE);
 
 	while (p)
@@ -290,7 +290,7 @@ IoObject *IoAVCodec_encodeCodecNames(IoAVCodec *self, IoObject *locals, IoMessag
 			IoList_rawAppend_(names, IOSYMBOL(p->name));
 		}
 
-		p = p->next;
+        p = av_codec_next(p);
 	}
 
 	return names;
@@ -543,7 +543,7 @@ int IoAVCodec_decodeAudioPacket(IoAVCodec *self, AVCodecContext *c, uint8_t *inb
 	while (size > 0)
 	{
 		int outSize;
-		int len = avcodec_decode_audio(c, (int16_t *)outbuf, &outSize, inbuf, size);
+		int len = avcodec_decode_audio2(c, (int16_t *)outbuf, &outSize, inbuf, size);
 
 		if (len < 0)
 		{

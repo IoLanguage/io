@@ -8,4 +8,5 @@ AddonBuilder clone do(
 	ebuilds atPut("pcre", "pcre")
 	pkgs atPut("pcre", "pcre")
 	rpms atPut("pcre", "pcre-devel")
+	kegs atPut("pcre", "pcre")
 )

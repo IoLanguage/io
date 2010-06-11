@@ -6,5 +6,6 @@ AddonBuilder clone do(
 	ebuilds atPut("samplerate", "libsamplerate")
 	pkgs    atPut("samplerate", "libsamplerate")
 	rpms    atPut("samplerate", "libsamplerate-devel")
+	kegs    atPut("samplerate", "libsamplerate")
 )
 

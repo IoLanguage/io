@@ -11,5 +11,6 @@ AddonBuilder clone do(
 	ebuilds atPut("portaudio", "portaudio")
 	pkgs    atPut("portaudio", "portaudio")
 	rpms    atPut("portaudio", "portaudio-devel")
+	kegs    atPut("portaudio", "portaudio")
 )
 

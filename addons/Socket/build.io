@@ -22,4 +22,5 @@ AddonBuilder clone do(
 	ebuilds atPut("event", "libevent")
 	pkgs    atPut("event", "libevent")
 	rpms    atPut("event", "libevent-devel")
+	kegs    atPut("event", "libevent")
 )

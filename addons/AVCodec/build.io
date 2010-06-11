@@ -20,4 +20,5 @@ AddonBuilder clone do(
 	ebuilds atPut("avcodec", "ffmpeg")
 	pkgs    atPut("avcodec", "ffmpeg")
 	rpms    atPut("avcodec", "ffmpeg-devel")
+	kegs    atPut("avcodec", "ffmpeg")
 )
