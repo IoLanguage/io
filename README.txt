@@ -25,6 +25,8 @@ make install
 
 If you do not wish to install, just run "make" instead of "make install". Currently there is no analogue to the old "make linkInstall". However, if you have used linkInstall in previous versions of Io, you should never have to run linkInstall again, since it created symbolic links to where your Io source was at that time. The only time you would have to do this again, is if you moved the Io source from one dir to another. Most people don't.
 
+
+
 Debian or Ubuntu
 ----------------
 See OSX instructions.
