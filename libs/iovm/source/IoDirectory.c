@@ -153,6 +153,8 @@ int chdir(const char *path)
 
 int isDirectory(struct dirent *dp, char *path)
 {
+	struct stat st;
+
 #if (defined _DIRENT_HAVE_D_TYPE && defined _BSD_SOURCE) || defined _WIN32
 	if (dp->d_type != DT_UNKNOWN)
 	{
@@ -169,7 +171,6 @@ int isDirectory(struct dirent *dp, char *path)
 	}
 #endif
 
-	struct stat st;
 	if (!stat(path, &st))
 	{
 		return (st.st_mode & S_IFMT) == S_IFDIR;
