@@ -40,10 +40,13 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "(FreeBSD|Linux|NetBSD|DragonFly)")
 	list(APPEND LIBS "-lm")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "(FreeBSD|Linux|NetBSD|DragonFly)")
 
+add_definitions("-DBUILDING_IOVMALL_DLL")
+
 # Produce the executables!
 add_executable(io_static ${SRCS})
 add_dependencies(io_static iovmall_static)
 target_link_libraries(io_static iovmall_static ${LIBS})
+
 
 add_executable(io ${SRCS})
 add_dependencies(io basekit coroutine garbagecollector iovmall)

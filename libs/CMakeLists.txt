@@ -5,7 +5,7 @@
 
 # Add a definition -- explicitly required on Windows, but shouldn't
 # hurt other platforms. If it does, let me know.
-add_definitions("-DBUILDING_IOVM_DLL")
+add_definitions("-DBUILDING_IOVMALL_DLL")
 
 # Output our static library to the top-level _build hierarchy
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/_build/lib)
@@ -58,7 +58,7 @@ file(GLOB GARBAGECOLLECTOR_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/garbagecollector/so
 file(GLOB IOVM_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/iovm/source/*.c")
 
 # Marvelous flags, likely compiler dependent.
-add_definitions(-DBUILDING_IOVM_DLL)# -DINSTALL_PREFIX="${CMAKE_INSTALL_PREFIX}")
+#add_definitions(-DBUILDING_IOVM_DLL)# -DINSTALL_PREFIX="${CMAKE_INSTALL_PREFIX}")
 
 set(IOVMALL_STATIC_SRCS
 	${COROUTINE_SRCS}
