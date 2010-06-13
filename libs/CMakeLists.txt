@@ -13,36 +13,36 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/_build/lib)
 # Our Io source files to be "compiled" into a C source file.
 #file(GLOB IO_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/iovm/io/*.io")
 set(IO_SRCS
-	io/A0_List.io
-	io/A1_OperatorTable.io
-	io/A2_Object.io
-	io/A3_List.io
-	io/A4_Exception.io
-	io/Actor.io
-	io/AddonLoader.io
-	io/B_List.io
-	io/B_Sequence.io
-	io/Block.io
-	io/CFunction.io
-	io/Date.io
-	io/Debugger.io
-	io/Directory.io
-	io/DynLib.io
-	io/Error.io
-	io/File.io
-	io/List_schwartzian.io
-	io/Map.io
-	io/Message.io
-	io/Number.io
-	io/Profiler.io
-	io/Sandbox.io
-	io/Serialize.io
-	io/System.io
-	io/UnitTest.io
-	io/Vector.io
-	io/Y_Path.io
-	io/Z_CLI.io
-	io/Z_Importer.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/A0_List.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/A1_OperatorTable.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/A2_Object.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/A3_List.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/A4_Exception.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/Actor.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/AddonLoader.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/B_List.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/B_Sequence.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/Block.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/CFunction.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/Date.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/Debugger.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/Directory.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/DynLib.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/Error.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/File.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/List_schwartzian.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/Map.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/Message.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/Number.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/Profiler.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/Sandbox.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/Serialize.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/System.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/UnitTest.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/Vector.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/Y_Path.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/Z_CLI.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/Z_Importer.io
 )
 
 # Hackery for CMake's horrible ASM support
