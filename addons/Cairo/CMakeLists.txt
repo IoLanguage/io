@@ -18,6 +18,9 @@ if(CAIRO_FOUND)
 	# Additional include directories
 	include_directories(${CAIRO_INCLUDE_DIRS})
 
+	# Additional link directories
+	link_directories(${CAIRO_LIBRARY_DIRS})
+
 	# Generate the IoCairoInit.c file.
 	# Argument SHOULD ALWAYS be the exact name of the addon, case is
 	# important.
