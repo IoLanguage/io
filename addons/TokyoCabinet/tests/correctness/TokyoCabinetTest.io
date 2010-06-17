@@ -1,7 +1,7 @@
 TokyoCabinet
 
 TokyoCabinetTest := UnitTest clone do(
-	cleanUp := method(
+	tearDown := method(
 		File with("test.db") remove
 	)
 	
@@ -106,4 +106,3 @@ TokyoCabinetTest := UnitTest clone do(
 		db close
 	)
 )
-

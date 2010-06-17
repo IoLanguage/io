@@ -11,7 +11,7 @@ for(i, 1, max, keys append("001/" .. Random value asString))
 
 db := TokyoCabinet clone
 File with("test.db") remove		
-db open("test.db")
+db setPath("test.db") open
 
 s1 := Date secondsToRun(
 		db begin
@@ -65,4 +65,5 @@ writeln("  order is random except for cursor reads, which are sequential")
 
 
 db close
+File with("test.db") remove		
 
