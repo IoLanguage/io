@@ -10,7 +10,7 @@
 # Some platform specific stuff. Do we have a sane popen? By sane
 # we mean does it allow for a bidirectional pipe to be opened?
 if(${CMAKE_SYSTEM_NAME} MATCHES "(Darwin|FreeBSD|NetBSD)")
-	list(APPEND CMAKE_C_FLAGS "-DSANE_POPEN")
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DSANE_POPEN")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "(Darwin|FreeBSD|NetBSD)")
 
 # We want the binaries to go other places than here.
