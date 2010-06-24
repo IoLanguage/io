@@ -1,14 +1,17 @@
+//metadoc System category Core
 //metadoc System copyright Steve Dekorte, 2002
 //metadoc System license BSD revised
 /*metadoc System description
 Contains methods related to the IoVM.
 */
-//metadoc System category Core
 
 #include "IoSystem.h"
 #include "IoNumber.h"
 #include "IoMessage_parser.h"
 #include "IoVersion.h"
+#ifndef WIN32
+#include "IoInstallPrefix.h"
+#endif
 
 #if defined(linux)
 #include <unistd.h>
@@ -33,7 +36,9 @@ Contains methods related to the IoVM.
 #include <windows.h>
 #define _fullpath(res,path,size) \
   (GetFullPathName ((path), (size), (res), NULL) ? (res) : NULL)    
-/*static void setenv(const char *varName, const char* value, int force)
+
+#ifndef __CYGWIN__
+static void setenv(const char *varName, const char* value, int force)
 {
 	const char *safeValue;
 	char *buf;
@@ -67,10 +72,13 @@ Contains methods related to the IoVM.
 	_putenv(buf);
 	io_free(buf);
 }
-*/
 
-#define setenv(k, v, o) SetEnvironmentVariable((k), (v))
-#define getpid GetCurrentProcessId
+
+//#define setenv(k, v, o) SetEnvironmentVariable((k), (v)) // removed by james burgess
+//#define getpid GetCurrentProcessId  // removed by james burgess
+//#define setenv(k, v, o) SetEnvironmentVariable((k), (v))
+#endif
+
 
 IO_METHOD(IoObject, installPrefix)
 {
@@ -129,13 +137,9 @@ IoObject *IoSystem_proto(void *state)
 	IoObject_setSlot_to_(self, IOSYMBOL("type"), IOSYMBOL("System"));
 	//IoState_registerProtoWithFunc_((IoState *)state, self, IoSystem_proto);
 
-	#ifndef INSTALL_PREFIX
-	#define INSTALL_PREFIX "/usr/local"
-	#endif
-
 
 	/*doc System installPrefix
-	Returns the root path where io was install. The default is /usr/local.
+	Returns the root path where io was installed. The default is /usr/local.
 	*/
 	
 #ifndef WIN32

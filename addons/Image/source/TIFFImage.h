@@ -5,7 +5,7 @@
  *
  *  It's possible to use an external UArray for loading by calling
  *  TIFFImage_setExternalUArray_(), but be carefull not to use the
- *  TIFFImage instance after freeing it's external byte array.
+ *  TIFFImage instance after freeing its external byte array.
  */
 
 #ifndef TIFFIMAGE_DEFINED

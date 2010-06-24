@@ -1,6 +1,7 @@
 
 //metadoc Call copyright Steve Dekorte 2002
 //metadoc Call license BSD revised
+//metadoc Call category Core
 /*metadoc Call description
 Call stores slots related to activation.
 */

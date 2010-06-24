@@ -9,8 +9,16 @@
 		<body>
 		
 <br>
-<h1>URL Proto</h1>
-<br><br><br><br><br><br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Networking</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>Socket</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>URL</b>
+<br><br><br>
+<br><br><br>
 <table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
 <tr><td colspan=3>&nbsp;</td></tr>
 <tr><td colspan=3>&nbsp;</td></tr>
@@ -67,7 +75,7 @@ fetchToFile(aFile)
 <p>
 <div class=slotDescription>
 Fetch the url and save the result to the specified File object. 
-	Saving is done as the data is read, which help minimize memory usage. 
+	Saving is done as the data is read, which helps minimize memory usage. 
 	Returns self on success or nil on error.
 </div>
 <a name="URL-fetchWithProgress"></a><b>
@@ -108,7 +116,7 @@ post(parameters, headers)
 </b>
 <p>
 <div class=slotDescription>
-Sends an http post message. If parameters is a Map, it's key/value pairs are 
+Sends an HTTP post message. If parameters is a Map, its key/value pairs are 
 	send as the post parameters. If parameters is a Sequence or String, it is sent directly.
 	Any headers in the headers map are sent with the request.
 	Returns a sequence containing the response on success or an Error, if one occurs.

@@ -7,6 +7,7 @@
 
 #include "IoCFFIArray.h"
 #include "IoCFFIDataType.h"
+#include "IoCFFIPointer.h"
 #include <ffi.h>
 
 #define DATA(self) ((IoCFFIArrayData *)(IoObject_dataPointer(self)))
@@ -17,7 +18,7 @@ IoTag *IoCFFIArray_newTag(void *state)
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCFFIArray_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCFFIArray_rawClone);
-	//IoTag_markFunc_(tag, (IoTagMarkFunc *)IoCFFIArray_mark);
+	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoCFFIArray_mark);
 	return tag;
 }
 
@@ -37,6 +38,7 @@ IoCFFIArray *IoCFFIArray_proto(void *state)
 			{"asBuffer", IoCFFIArray_asBuffer},
 			{"at", IoCFFIArray_at},
 			{"atPut", IoCFFIArray_atPut},
+			{"setValue", IoCFFIArray_setValue},
 			{"size", IoCFFIArray_size},
 			{"with", IoCFFIArray_with},
 			{NULL, NULL},
@@ -49,6 +51,15 @@ IoCFFIArray *IoCFFIArray_proto(void *state)
 
 void IoCFFIArray_mark(IoCFFIArray *self)
 {
+	if ( DATA(self)->keepValuesRefs )
+	{
+		int i;
+		for ( i = 0 ; i < DATA(self)->arraySize ; i ++ ) {
+			IoObject_shouldMarkIfNonNull(DATA(self)->keepValuesRefs[i]);
+		}
+	}
+
+	IoObject_shouldMarkIfNonNull(DATA(self)->keepRef);
 }
 
 IoCFFIArray *IoCFFIArray_rawClone(IoCFFIArray *proto)
@@ -65,6 +76,8 @@ IoCFFIArray *IoCFFIArray_rawClone(IoCFFIArray *proto)
 		DATA(self)->arraySize = DATA(proto)->arraySize;
 		DATA(self)->buffer = io_calloc(DATA(self)->arraySize, DATA(self)->itemSize);
 		DATA(self)->needToFreeBuffer = 1;
+		DATA(self)->keepValuesRefs = io_calloc(DATA(self)->arraySize, sizeof(IoObject *));
+		memset(DATA(self)->keepValuesRefs, 0, sizeof(IoObject *));
 	}
 	return self;
 }
@@ -88,8 +101,14 @@ void IoCFFIArray_free(IoCFFIArray *self)
 	
 	if ( DATA(self)->needToFreeFFIType ) {
 		io_free(DATA(self)->ffiType.elements);
+		DATA(self)->ffiType.elements = NULL;
 	}
 
+	if ( DATA(self)->keepValuesRefs ) {
+		io_free(DATA(self)->keepValuesRefs);
+		DATA(self)->keepValuesRefs = NULL;
+	}
+	
 	io_free(data);
 }
 
@@ -148,8 +167,13 @@ IoCFFIArray *IoCFFIArray_at(IoCFFIArray *self, IoObject *locals, IoMessage *m)
 	int pos;
 	char *ptr;
 
-	//TODO check limits
 	pos = CNUMBER(IoMessage_locals_numberArgAt_(m, locals, 0));
+
+	if ( pos >= DATA(self)->arraySize ) {
+		IoState_error_(IOSTATE, m, "index out of bounds");
+		return IONIL(self);
+	}
+
 	ptr = ((char *)DATA(self)->buffer) + (DATA(self)->itemSize * pos);
 	return IoCFFIDataType_objectFromData_(IoObject_getSlot_(self, IOSYMBOL("arrayType")), (void *)ptr);
 }
@@ -157,32 +181,70 @@ IoCFFIArray *IoCFFIArray_at(IoCFFIArray *self, IoObject *locals, IoMessage *m)
 IoCFFIArray *IoCFFIArray_atPut(IoCFFIArray *self, IoObject *locals, IoMessage *m)
 {
 	int pos;
-	IoObject *value, *d;
+	IoObject *value, *arrayType, *d;
 	char *ptr;
 
-	//TODO check limits and types
 	pos = CNUMBER(IoMessage_locals_numberArgAt_(m, locals, 0));
 	value = IoMessage_locals_valueArgAt_(m, locals, 1);
 
+	if ( pos >= DATA(self)->arraySize ) {
+		IoState_error_(IOSTATE, m, "index out of bounds");
+		return IONIL(self);
+	}
+
+	arrayType = IoObject_getSlot_(self, IOSYMBOL("arrayType"));
 	ptr = ((char *)DATA(self)->buffer) + (DATA(self)->itemSize * pos);
 
-	d = IOCLONE(IoObject_getSlot_(self, IOSYMBOL("arrayType")));
+	d = IOCLONE(arrayType);
 	IoCFFIDataType_rawSetValue(d, value);
-	memcpy(ptr, (void *)IoCFFIDataType_ValuePointerFromObject_(NULL, d), DATA(self)->itemSize);
+	memcpy(ptr, (void *)IoCFFIDataType_ValuePointerFromObject_(self, d), DATA(self)->itemSize);
+
+	if ( DATA(self)->keepValuesRefs ) {
+		DATA(self)->keepValuesRefs[pos] = IOREF(d);
+	}
 
 	return self;
 }
 
+IoCFFIArray *IoCFFIArray_setValue(IoCFFIArray *self, IoObject *locals, IoMessage *m)
+{
+	IoObject *value = IoMessage_locals_valueArgAt_(m, locals, 0);
+
+	return IoCFFIArray_rawSetValue(self, value, IoCFFIDataType_ValuePointerFromObject_(self, value));
+}
+
 IoNumber *IoCFFIArray_size(IoCFFIArray *self, IoObject *locals, IoMessage *m)
 {
-	return IONUMBER(DATA(self)->arraySize);
+	return IONUMBER(DATA(self)->arraySize * DATA(self)->itemSize);
 }
 
 /* ---------------------------------------------------------------- */
+
+IoCFFIArray *IoCFFIArray_rawSetValue(IoCFFIArray *self, IoObject *source, void* data)
+{
+	if ( !ISCFFIArray(source) ) {
+		IoState_error_(IOSTATE, NULL, "value is not an Array");
+		return IONIL(self);
+	}
+	else {
+		if ( DATA(self)->ffiType.size != DATA(source)->ffiType.size) {
+			IoState_error_(IOSTATE, NULL, "Arrays have differente sizes");
+			return IONIL(self);
+		}
+		else {
+			memcpy(DATA(self)->buffer, data, DATA(self)->ffiType.size);
+			DATA(self)->keepRef = IOREF(source);
+		}
+	}
+
+	return self;
+}
+
 IoCFFIArray* IoCFFIArray_cloneWithData(IoCFFIArray *self, void* data)
 {
 	//TODO error if different sizes
 	IoCFFIArray *new = IOCLONE(self);
+	IoState_on_doCString_withLabel_(IoObject_state(new), new, "init", "IoCFFIArray_cloneWithData");
 	memcpy(DATA(new)->buffer, data, DATA(new)->itemSize * DATA(self)->arraySize);
 	return new;
 }

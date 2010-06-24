@@ -1,9 +1,9 @@
 
+//metadoc Date category Core
 //metadoc Date copyright Steve Dekorte 2002
 //metadoc Date license BSD revised
 /*metadoc Date description A container for a date and time information.*/
 //metadoc Date credits fromString method by Sean Perry
-//metadoc Date category Time
 
 #include "IoDate.h"
 #include "IoState.h"
@@ -592,7 +592,7 @@ IO_METHOD(IoDate, asString)
 	Returns a string representation of the receiver using the
 receivers format. If the optionalFormatString argument is present, the
 receiver's format is set to it first. Formatting is according to ANSI C
-date formating rules.
+date formatting rules.
 <p>
 <pre>	
 %a abbreviated weekday name (Sun, Mon, etc.)
@@ -674,7 +674,7 @@ IO_METHOD(IoDate, fromNumber)
 IO_METHOD(IoDate, fromString)
 {
 	/*doc Date fromString(aString, formatString)
-	Sets the receiver to the date specified by aString as parsed according to the given formatString. See the Date asString method for formating rules. Returns self. 
+	Sets the receiver to the date specified by aString as parsed according to the given formatString. See the Date asString method for formatting rules. Returns self. 
 	*/
 
 	IoMessage_assertArgCount_receiver_(m, 2, self);

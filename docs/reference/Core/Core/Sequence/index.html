@@ -9,8 +9,16 @@
 		<body>
 		
 <br>
-<h1>Sequence Proto</h1>
-<br><br><br><br><br><br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Core</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>Core</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>Sequence</b>
+<br><br><br>
+<br><br><br>
 <table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
 <tr>
 <td align=right></td>
@@ -118,7 +126,7 @@ abs
 </b>
 <p>
 <div class=slotDescription>
-Sets each value of the Sequence to it's absolute value.
+Sets each value of the Sequence to its absolute value.
 Returns self.
 </div>
 <a name="Sequence-acos"></a><b>
@@ -126,7 +134,7 @@ acos
 </b>
 <p>
 <div class=slotDescription>
-Sets each value of the Sequence to the trigomentic arcsine of it's value.
+Sets each value of the Sequence to the trigonometric arcsine of it's value.
 Returns self.
 </div>
 <a name="Sequence-afterSeq"></a><b>
@@ -252,12 +260,26 @@ asCapitalized
 <div class=slotDescription>
 Returns a copy of the receiver with the first charater made uppercase.
 </div>
+<a name="Sequence-asClutterColor"></a><b>
+asClutterColor
+</b>
+<p>
+<div class=slotDescription>
+Calls [[ClutterColor with]] with self as an argument.
+</div>
+<a name="Sequence-asClutterUnit"></a><b>
+asClutterUnit
+</b>
+<p>
+<div class=slotDescription>
+Calls [[ClutterUnit withString]].
+</div>
 <a name="Sequence-asFile"></a><b>
 asFile
 </b>
 <p>
 <div class=slotDescription>
-Returns a new File object with the receiver as it's path.
+Returns a new File object with the receiver as its path.
 </div>
 <a name="Sequence-asFixedSizeType"></a><b>
 asFixedSizeType
@@ -265,7 +287,7 @@ asFixedSizeType
 <p>
 <div class=slotDescription>
 Returns a new sequence with the receiver encoded in the 
-	minimal fixed width text encoding that it's characters can fit 
+	minimal fixed width text encoding that its characters can fit 
 	into (either, ascii, utf8, utf16 or utf32).
 </div>
 <a name="Sequence-asHTML"></a><b>
@@ -308,7 +330,7 @@ asLowercase
 </b>
 <p>
 <div class=slotDescription>
-Returns a symbol containing the reveiver made Lowercase.
+Returns a symbol containing the reveiver made lowercase.
 </div>
 <a name="Sequence-asMessage"></a><b>
 asMessage(optionalLabel)
@@ -359,8 +381,8 @@ asStruct(memberList)
 <p>
 <div class=slotDescription>
 For a sequence that contains the data for a raw memory data structure (as used in C),
-this method can be used to extract it's members into an Object. The memberList argument
-specifies the layout of the datastructure. It's form is:
+this method can be used to extract its members into an Object. The memberList argument
+specifies the layout of the datastructure. Its form is:
 <p>
 list(memberType1, memberName1, memberType2, memberName2, ...)
 <p>
@@ -402,7 +424,7 @@ asURL
 </b>
 <p>
 <div class=slotDescription>
-Returns a new URL object instance with the receiver as it's url string.
+Returns a new URL object instance with the receiver as its url string.
 </div>
 <a name="Sequence-asUTF8"></a><b>
 asUTF8
@@ -418,6 +440,13 @@ asUppercase
 <div class=slotDescription>
 Returns a symbol containing the reveiver made uppercase.
 </div>
+<a name="Sequence-asUrl"></a><b>
+asUrl
+</b>
+<p>
+<div class=slotDescription>
+Shortcut for HCUrl with(aUrlSeq)
+</div>
 <a name="Sequence-asXML"></a><b>
 asXML
 </b>
@@ -430,7 +459,7 @@ asin
 </b>
 <p>
 <div class=slotDescription>
-Sets each value of the Sequence to the trigomentic arcsine of it's value.
+Sets each value of the Sequence to the trigonometric arcsine of it's value.
 Returns self.
 </div>
 <a name="Sequence-at"></a><b>
@@ -460,7 +489,7 @@ atan
 </b>
 <p>
 <div class=slotDescription>
-Sets each value of the Sequence to the trigomentic arctangent of it's value.
+Sets each value of the Sequence to the trigonometric arctangent of it's value.
 Returns self.
 </div>
 <a name="Sequence-beforeSeq"></a><b>
@@ -484,7 +513,7 @@ betweenSeq(aSequence, anotherSequence)
 <p>
 <div class=slotDescription>
 Returns a new Sequence containing the bytes between the
-	occurance of aSequence and anotherSequence in the receiver. 
+	occurrence of aSequence and anotherSequence in the receiver. 
 	If aSequence is empty, this method is equivalent to beforeSeq(anotherSequence).
 	If anotherSequence is nil, this method is equivalent to afterSeq(aSequence).
 	nil is returned if no match is found.
@@ -648,7 +677,7 @@ cos
 </b>
 <p>
 <div class=slotDescription>
-Sets each value of the Sequence to the trigomentic cosine of it's value.
+Sets each value of the Sequence to the trigonometric cosine of it's value.
 Returns self.
 </div>
 <a name="Sequence-cosh"></a><b>
@@ -656,7 +685,7 @@ cosh
 </b>
 <p>
 <div class=slotDescription>
-Sets each value of the Sequence to the hyperbolic cosine of it's value.
+Sets each value of the Sequence to the hyperbolic cosine of its value.
 Returns self.
 </div>
 <a name="Sequence-distanceTo"></a><b>
@@ -688,7 +717,7 @@ empty
 <p>
 <div class=slotDescription>
 Sets all bytes in the receiver to 0x0 and sets
-	it's length to 0. Returns self.
+	its length to 0. Returns self.
 </div>
 <a name="Sequence-encoding"></a><b>
 encoding
@@ -777,7 +806,7 @@ findSeqs(listOfSequences, optionalStartIndex)
 </b>
 <p>
 <div class=slotDescription>
-Returns a object with two slots - an \"index\" slot which contains 
+Returns an object with two slots - an \"index\" slot which contains 
 	the first occurrence of any of the sequences in listOfSequences found 
 	in the receiver after the startIndex, and a \"match\" slot, which 
 	contains a reference to the matching sequence from listOfSequences. 
@@ -798,7 +827,7 @@ foreach(optionalIndex, value, message)
 <p>
 <div class=slotDescription>
 For each element, set index to the index of the
-element and value the element value and execute message. 
+element and value to the element value and execute message. 
 Example:
 <pre>	
 aSequence foreach(i, v, writeln("value at index ", i, " is ", v))
@@ -964,14 +993,14 @@ lessThan(aSeq)
 </b>
 <p>
 <div class=slotDescription>
-Returns true if the receiver is lass than aSeq, false otherwise.
+Returns true if the receiver is less than aSeq, false otherwise.
 </div>
 <a name="Sequence-lessThanOrEqualTo"></a><b>
 lessThanOrEqualTo(aSeq)
 </b>
 <p>
 <div class=slotDescription>
-Returns true if the receiver is lass than or equal to aSeq, false otherwise.
+Returns true if the receiver is less than or equal to aSeq, false otherwise.
 </div>
 <a name="Sequence-linePrint"></a><b>
 linePrint
@@ -985,7 +1014,7 @@ log
 </b>
 <p>
 <div class=slotDescription>
-Sets each value of the Sequence to the natural log of it's value.
+Sets each value of the Sequence to the natural log of its value.
 Returns self.
 </div>
 <a name="Sequence-log10"></a><b>
@@ -993,7 +1022,7 @@ log10
 </b>
 <p>
 <div class=slotDescription>
-Sets each value of the Sequence to the base 10 log of it's value.
+Sets each value of the Sequence to the base 10 log of its value.
 Returns self.
 </div>
 <a name="Sequence-logicalAnd"></a><b>
@@ -1001,14 +1030,14 @@ logicalAnd(aSequence)
 </b>
 <p>
 <div class=slotDescription>
-Updates the receive's values to be the result of a logical OR operatiosn with the values of aSequence. Returns self.
+Updates the receiver's values to be the result of a logical OR operations with the values of aSequence. Returns self.
 </div>
 <a name="Sequence-logicalOr"></a><b>
 logicalOr(aSequence)
 </b>
 <p>
 <div class=slotDescription>
-Updates the receive's values to be the result of a logical OR operatiosn with the values of aSequence. Returns self.
+Updates the receiver's values to be the result of a logical OR operations with the values of aSequence. Returns self.
 </div>
 <a name="Sequence-lowercase"></a><b>
 lowercase
@@ -1253,7 +1282,7 @@ replaceMap(aMap)
 </b>
 <p>
 <div class=slotDescription>
-In the receiver, the keys of aMap replaced with it's values. Returns self.
+In the receiver, the keys of aMap replaced with its values. Returns self.
 </div>
 <a name="Sequence-replaceSeq"></a><b>
 replaceSeq(aSequence, anotherSequence)
@@ -1354,7 +1383,7 @@ sin
 </b>
 <p>
 <div class=slotDescription>
-Sets each value of the Sequence to the trigomentic sine of it's value.
+Sets each value of the Sequence to the trigonometric sine of it's value.
 Returns self.
 </div>
 <a name="Sequence-sinh"></a><b>
@@ -1362,7 +1391,7 @@ sinh
 </b>
 <p>
 <div class=slotDescription>
-Sets each value of the Sequence to the hyperbolic sine of it's value.
+Sets each value of the Sequence to the hyperbolic sine of its value.
 Returns self.
 </div>
 <a name="Sequence-size"></a><b>
@@ -1411,7 +1440,7 @@ sort
 </b>
 <p>
 <div class=slotDescription>
-Sorts the characters/numbers the array. Returns self.
+Sorts the characters/numbers in the array. Returns self.
 </div>
 <a name="Sequence-split Returns a list containing the sub-sequences of the receiver divided by the given arguments."></a><b>
 split Returns a list containing the sub-sequences of the receiver divided by the given arguments.
@@ -1469,7 +1498,7 @@ sqrt
 </b>
 <p>
 <div class=slotDescription>
-Sets each value of the Sequence to the square root of it's value.
+Sets each value of the Sequence to the square root of its value.
 Returns self.
 </div>
 <a name="Sequence-square"></a><b>
@@ -1477,7 +1506,7 @@ square
 </b>
 <p>
 <div class=slotDescription>
-Sets each value of the Sequence to the square of it's value.
+Sets each value of the Sequence to the square of its value.
 Returns self.
 </div>
 <a name="Sequence-strip"></a><b>
@@ -1504,7 +1533,7 @@ tan
 </b>
 <p>
 <div class=slotDescription>
-Sets each value of the Sequence to the trigomentic tangent of it's value.
+Sets each value of the Sequence to the trigonometric tangent of it's value.
 Returns self.
 </div>
 <a name="Sequence-tanh"></a><b>
@@ -1512,7 +1541,7 @@ tanh
 </b>
 <p>
 <div class=slotDescription>
-Sets each value of the Sequence to the hyperbolic tangent of it's value.
+Sets each value of the Sequence to the hyperbolic tangent of its value.
 Returns self.
 </div>
 <a name="Sequence-toBase"></a><b>
@@ -1520,7 +1549,7 @@ toBase(aNumber)
 </b>
 <p>
 <div class=slotDescription>
-Returns a Sequence containing the receiver(which is
+Returns a Sequence containing the receiver (which is
 	assumed to be a base 10 number) converted to the specified base.
 	Only base 8 and 16 are currently supported.
 </div>

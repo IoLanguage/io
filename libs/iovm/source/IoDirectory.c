@@ -1,4 +1,5 @@
 
+//metadoc Directory category Core
 //metadoc Directory copyright Steve Dekorte 2002
 //metadoc Directory license BSD revised
 /*metadoc Directory description
@@ -7,7 +8,6 @@ if a path begins with a "/" it's the root,
 if it beings with a "./" it's the launch path,
 if not specified, "./" is assumed.""")
 */
-//metadoc Directory category Core
 /*metadoc Directory credits
 Cygwin code by Mike Austin. WIN32 code by Daniel Vollmer.
 */
@@ -50,7 +50,10 @@ static char* getcwd(char* buf, int size) { return 0; }
 #define S_IRWXU 0
 #endif
 
-#define DT_DIR 0x01
+#define DT_UNKNOWN 0
+#define DT_DIR 1
+#define DT_REG 8
+#define DT_LNK 10
 #define MKDIR mkdir_win32
 
 struct dirent {
@@ -104,7 +107,24 @@ static struct dirent *readdir(DIR *pDir)
 	if (pDir->valid)
 	{
 		strcpy(pDir->de.d_name, pDir->wfd.cFileName);
-		pDir->de.d_type = (pDir->wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0 ? DT_DIR : 0;
+		if (pDir->wfd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+		{
+			pDir->de.d_type = DT_DIR;
+		}
+		else if (pDir->wfd.dwFileAttributes & FILE_ATTRIBUTE_NORMAL)
+		{
+			pDir->de.d_type = DT_REG;
+		}
+#ifdef FILE_ATTRIBUTE_REPARSE_POINT
+		else if (pDir->wfd.dwFileAttributes & FILE_ATTRIBUTE_REPARSE_POINT)
+		{
+			pDir->de.d_type = DT_LNK;
+		}
+#endif
+		else
+		{
+			pDir->de.d_type = DT_UNKNOWN;
+		}
 		pDir->valid = FindNextFile(pDir->hFind, &pDir->wfd);
 		return &pDir->de;
 	}
@@ -133,21 +153,31 @@ int chdir(const char *path)
 
 int isDirectory(struct dirent *dp, char *path)
 {
-	#ifdef DT_UNKNOWN
-	if (dp->d_type == DT_UNKNOWN) return 0;
-	/*if (dp->d_type != DT_UNKNOWN)
+	struct stat st;
+
+#if (defined _DIRENT_HAVE_D_TYPE && defined _BSD_SOURCE) || defined _WIN32
+	if (dp->d_type != DT_UNKNOWN)
 	{
-		return (dp->d_type == DT_DIR) || (dp->d_type == DT_LNK);
+		// if it says so, let it be directory
+		if (dp->d_type == DT_DIR)
+		{
+			return 1;
+		}
+		// if it's a symlink, need to stat to know what it points to
+		if (dp->d_type != DT_LNK)
+		{
+			return 0;
+		}
 	}
-	else
-	*/
-	#endif
+#endif
+
+	if (!stat(path, &st))
 	{
-		struct stat st;
-		/*fstat( dp->d_fd, &st );*/
-		stat(path, &st);
-		return ( (st.st_mode & S_IFMT) == S_IFDIR );
+		return (st.st_mode & S_IFMT) == S_IFDIR;
 	}
+
+	// undefined behaviour here
+	return 0;
 }
 
 #define DATA(self) ((IoDirectoryData *)IoObject_dataPointer(self))
@@ -302,7 +332,7 @@ IO_METHOD(IoDirectory, exists)
 {
 	/*doc Directory exists(optionalPath)
 	Returns true if the Directory path exists, and false otherwise.
-	If optionalPath string is provided, it tests the existance of that path instead. 
+	If optionalPath string is provided, it tests the existence of that path instead. 
 	*/
 
 	IoSymbol *path = DATA(self)->path;
@@ -563,7 +593,7 @@ int IoDirectory_SetCurrentWorkingDirectory(char *p)
 IO_METHOD(IoDirectory, setCurrentWorkingDirectory)
 {
 	/*doc Directory setCurrentWorkingDirectory(pathString)
-	Set's the current working directory path.
+	Sets the current working directory path.
 	Returns true on success or false on error.
 	*/
 

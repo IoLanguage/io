@@ -9,13 +9,21 @@
 		<body>
 		
 <br>
-<h1>Exception Proto</h1>
-<br><br><br><br><br><br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Core</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>Core</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>Exception</b>
+<br><br><br>
+<br><br><br>
 <table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
 <tr>
 <td align=right></td>
 <td></td>
-<td>The Exception proto is used for raising exceptions and instances are used to hold rexception related info. 
+<td>The Exception proto is used for raising exceptions and instances are used to hold rexception related info.
 
 <p><b>Raise</b><p>
 
@@ -35,7 +43,7 @@ To catch a particular exception, the Exception catch() method can be used. Examp
 <pre>
 e := try(
     // ...
-) 
+)
 
 e catch(Exception,
     writeln(e coroutine backtraceString)
@@ -50,7 +58,7 @@ To re-raise an exception caught by try(), use the pass method. This is useful to
 <pre>
 e := try(
     // ...
-) 
+)
 
 e catch(Error,
     // ...

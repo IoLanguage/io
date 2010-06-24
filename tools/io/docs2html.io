@@ -331,10 +331,48 @@ Categories sortedItems foreach(cat,
 		<body>
 		""")
 		
-//	outFile writeln("<hr align=left color=#ddd height=1>")
+		
+	//----------------------------------------------
 	outFile writeln("<br>")
-	outFile writeln("<h1>", protoName asMutable strip, " Proto</h1>")
-	outFile writeln("<br><br><br><br><br><br>")
+	outFile writeln("<h1>Io Reference</h1>")
+	//outFile writeln("<br><br><br><br><br>")
+/*
+	outFile writeln("<table id=\"browser\" cellpadding=\"0\" cellspacing=\"0\">")
+	outFile writeln("<tr>")
+	outFile writeln("<td valign=\"top\" class=\"column\">")
+	//outFile write(Categories setPath("../..") linksHtml(cat name))
+	outFile write("<b>", cat name, "</b>", "&nbsp;&nbsp;<b><font color=#ccc>&gt;</font>")
+	
+	outFile writeln("</td>")
+	outFile writeln("<td valign=\"top\" class=\"column\">")
+//	outFile writeln(cat setPath("..") linksHtml(addon name))
+	outFile write("<b>", addon name, "</b>", "&nbsp;&nbsp;<b><font color=#ccc>&gt;</font>")
+	outFile writeln("</td>")
+	outFile writeln("<td valign=\"top\" class=\"column\">")
+	//outFile write(addon linksHtml(protoName))
+	outFile write("<b>", protoName, "</b>")
+	outFile writeln("</td>")	
+	outFile writeln("</tr>")
+	outFile writeln("</table>")
+	outFile writeln("</body>")
+	outFile writeln("</html>")
+*/
+	//----------------------------------------------
+		
+	//outFile writeln("<hr align=left color=#ccc height=1>")
+		
+	//	outFile writeln("<hr align=left color=#ddd height=1>")
+	outFile writeln("<br><br><br>")
+	outFile writeln("<br><br><br>")
+	outFile writeln("<a class='column' href='../../index.html'>", cat name, "</a>")
+	outFile writeln("&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;")
+	outFile writeln("<a class='column' href='../index.html'>", moduleName, "</a>")
+	outFile writeln("&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;")
+	outFile writeln("<b>", protoName, "</b>")
+	//outFile writeln("<h1>", protoName asMutable strip, " Proto</h1>")
+	//outFile writeln("<br><br><br><br><br><br>")
+	outFile writeln("<br><br><br>")
+	outFile writeln("<br><br><br>")
 
 	outFile writeln("<table border=0 cellspacing=0 style=\"margin-left:8em; width:40em; line-height:1.2em;\">")
 	
@@ -444,4 +482,5 @@ Categories sortedItems foreach(cat,
 	outFile writeln("</body>")
 	outFile writeln("</html>")
 	outFile close
+	//System exit
 )))

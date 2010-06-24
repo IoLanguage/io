@@ -1,4 +1,3 @@
-/*
 //metadoc DynLib license BSD revised
 /*metadoc DynLib history
 	based on DllHandle.c, contributed by Daniel A. Koepke

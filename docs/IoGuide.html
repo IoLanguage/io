@@ -213,6 +213,9 @@ Io distributions are available at:
 
 </tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
+
+<div class=pagebreak></div>
+
 	<a name="Introduction-Installing"></a><h3>Installing</h3>
 </td><td></td><td>
 
@@ -306,6 +309,9 @@ make doc
 
 </tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
+
+<div class=pagebreak></div>
+
 	<a name="Introduction-Binaries"></a>
 	<h3>Binaries</h3>
 </td><td></td><td>
@@ -376,6 +382,9 @@ If you have a .iorc file in your home folder, it will be evaled before the inter
 
 </tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
+
+<div class=pagebreak></div>
+
 	<a name="Introduction-Inspecting-Objects"></a>
 	<h3>Inspecting&nbsp;objects</h3>
 </td><td></td><td>
@@ -428,6 +437,8 @@ method(
 )
 </pre>
 
+<div class=pagebreak></div>
+
 <h4>doFile and doString</h4>
 
 A script can be run from the interactive mode using the doFile method:
@@ -465,7 +476,7 @@ System args foreach(k, v, write("'", v, "'\n"))
 
 <h4>launchPath</h4>
 
-The System "launchPath" slot is set to the location on the initial source file that is executed; when the interactive prompt is started (without specifying a source file to execute), the launchPath is the current working directory:
+The System "launchPath" slot is set to the location of the initial source file that is executed; when the interactive prompt is started (without specifying a source file to execute), the launchPath is the current working directory:
 
 <pre>
 System launchPath
@@ -561,6 +572,9 @@ Like Self[2], Io's syntax does not distinguish between accessing a slot containi
 
 </tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
+
+<div class=pagebreak></div>
+
 	<a name="Syntax-Operators"></a>
 	<h3>Operators</h3>
 </td><td></td><td>
@@ -608,40 +622,40 @@ User defined operators (that don't have a standard operator name) are performed 
 Io has three assignment operators:
 
 <p>
-<table cellpadding=2 cellspacing=0 border=0 style="margin-left:1em">
+<table class=infoTable cellpadding=2 cellspacing=0 border=0>
 <tr>
-<td style="width:5em">
-<b><i>operator</i></b>	
+<th>
+operator
+</th>
+<th>
+action
+</th>
+</tr>
+
+<tr>
+<td>
+::=
 </td>
 <td>
-<b><i>action</i></b>
+Creates slot, creates setter, assigns value
 </td>
 </tr>
 
 <tr>
 <td>
-<i>::=</i>
+:=
 </td>
 <td>
-<i>Creates slot, creates setter, assigns value</i>
-</td>
-</tr>
-
-<tr>
-<td>
-<i>:=</i>
-</td>
-<td>
-<i>Creates slot, assigns value</i>
+Creates slot, assigns value
 </td>
 </tr>
 
 <tr>
 <td>
-<i>=</i>
+=
 </td>
 <td>
-<i>Assigns value to slot if it exists, otherwise raises exception</i>
+Assigns value to slot if it exists, otherwise raises exception
 </td>
 </tr>
 
@@ -652,40 +666,40 @@ These operators are compiled to normal messages whose methods can be overridden.
 
 
 <p>
-<table cellpadding=2 cellspacing=0 border=0 style="margin-left:1em">
+<table class=infoTable cellpadding=2 cellspacing=0 border=0>
 <tr>
-<td style="width:5em">
-<b><i>source</i></b>	
+<th>
+source
+</th>
+<th>
+compiles to
+</th>
+</tr>
+
+<tr>
+<td>
+a ::= 1
 </td>
 <td>
-<b><i>compiles to</i></b>
+newSlot("a", 1)
 </td>
 </tr>
 
 <tr>
 <td>
-<i>a ::= 1</i>
+a := 1
 </td>
 <td>
-<i>newSlot("a", 1)</i>
-</td>
-</tr>
-
-<tr>
-<td>
-<i>a := 1</i>
-</td>
-<td>
-<i>setSlot("a", 1)</i>
+setSlot("a", 1)
 </td>
 </tr>
 
 <tr>
 <td>
-<i>a = 1</i>
+a = 1
 </td>
 <td>
-<i>updateSlot("a", 1)</i>
+updateSlot("a", 1)
 </td>
 </tr>
 
@@ -697,6 +711,9 @@ On Locals objects, updateSlot is overridden so it will update the slot in the ob
 
 </tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
+
+<div class=pagebreak></div>
+
 	<a name="Syntax-Numbers"></a>
 	<h3>Numbers</h3>
 </td><td></td><td>
@@ -726,6 +743,7 @@ Hex numbers are also supported (in any casing):
 
 </tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
+
 	<a name="Syntax-Strings"></a>
 	<h3>Strings</h3>
 </td><td></td><td>
@@ -802,40 +820,40 @@ In all other languages we've considered [Fortran, Algol60, Lisp, APL, Cobol, Pas
 Io's guiding design principle is simplicity and power through conceptual unification. 
 <p>
 
-<table cellpadding=2 cellspacing=0 border=0 style="margin-left:1em">
+<table class=infoTable cellpadding=2 cellspacing=0 border=0>
 <tr>
-<td style="width:15em">
-<b><i>concept</i></b>	
+<th>
+concept
+</th>
+<th>
+unifies
+</th>
+</tr>
+
+<tr>
+<td>
+scopable&nbsp;blocks&nbsp;&nbsp;&nbsp;
 </td>
 <td>
-<b><i>unifies</i></b>
+functions,&nbsp;methods,&nbsp;closures
 </td>
 </tr>
 
 <tr>
 <td>
-<i>blocks with assignable scope	</i>
+prototypes
 </td>
 <td>
-<i>functions, methods, closures</i>
-</td>
-</tr>
-
-<tr>
-<td>
-<i>prototypes</i>
-</td>
-<td>
-<i>objects, classes, namespaces, locals</i>
+objects, classes, namespaces, locals
 </td>
 </tr>
  
 <tr>
 <td valign=top>
-<i>messages</i>
+messages
 </td>
 <td>
-<i>operators, calls, assignment, variable accesses</i>
+operators, calls, assigns, var access
 </td>
 </tr>
 </table>
@@ -876,7 +894,7 @@ When an object is cloned, its "init" slot will be called if it has one.
 
 When an object receives a message it looks for a matching slot, if not found, the lookup continues depth first recursively in its protos. Lookup loops are detected (at runtime) and avoided. If the matching slot contains an activatable object, such as a Block or CFunction, it is activated, if it contains any other type of value it returns the value. Io has no globals and the root object in the Io namespace is called the Lobby.
 <p>
-Since there are no classes, there's no difference between a subclass and an instance. Here's an example of creating a the equivalent of a subclass: 
+Since there are no classes, there's no difference between a subclass and an instance. Here's an example of creating the equivalent of a subclass: 
 
 <pre>
 Io> Dog := Object clone
@@ -892,6 +910,8 @@ The above code sets the Lobby slot "Dog" to a clone of the Object object; the pr
     color := "red"
 </pre>
 
+
+<div class=pagebreak></div>
 
 	<h4>Multiple Inheritance</h4>
 	
@@ -967,47 +987,51 @@ This is sometimes a source of confusion so it's worth explaining in detail. Both
 When a locals object is created, its self slot is set (to the target of the message, in the case of a method, or to the creation context, in the case of a block) and its call slot is set to a Call object that can be used to access information about the block activation:
 
 <p>
-<table cellpadding=2 cellspacing=0 border=0 style="margin-left:1em">
+<table class=infoTable cellpadding=2 cellspacing=0 border=0>
 <tr>
-<td style="width:10em">
-<b><i>slot</i></b>
-</td><td>
-<b><i>returns</i></b>
+<th>
+slot
+</th>
+<th>
+returns
+</th>
+</tr>
+<tr>
+<td>
+call sender
+</td>
+<td>
+locals object of caller
 </td>
 </tr>
 <tr>
 <td>
-<i>call sender </i>
-</td><td>
-<i>locals object of caller</i>
+call message
+</td>
+<td>
+message used to call this method/block
 </td>
 </tr>
 <tr>
 <td>
-<i>call message </i>
+call activated
 </td><td>
-<i>message used to call this method/block</i>
+the activated method/block
 </td>
 </tr>
 <tr>
 <td>
-<i>call activated</i>
+call slotContext
 </td><td>
-<i>the activated method/block</i>
+context in which slot was found
 </td>
 </tr>
 <tr>
 <td>
-<i>call slotContext</i>
-</td><td>
-<i>context in which slot was found</i>
+call target
 </td>
-</tr>
-<tr>
 <td>
-<i>call target</i>
-</td><td>
-<i>current object</i>
+current object
 </td>
 </tr>
 </table>
@@ -1086,6 +1110,9 @@ For sending other messages to the receiver's proto, super is used.
 
 </tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
+
+<div class=pagebreak></div>
+
 	<a name="Objects-Super"></a>
 	<h3>Super</h3>
 </td><td></td><td>
@@ -1273,6 +1300,9 @@ loop("foo" println)
 
 </tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
+
+<div class=pagebreak></div>
+
 	<a name="Control-Flow-Repeat"></a>
 	<h3>repeat</h3>
 </td><td></td><td>
@@ -1441,14 +1471,14 @@ The Scheduler object is responsible for resuming coroutines that are yielding. T
 </td><td></td><td>
 
 
-An actor is an object with its own thread (in our case, its own coroutine) which it uses to process its queue of asynchronous messages. Any object in Io can be sent an asynchronous message by placing a @ or @@ before the message name. (think of the "a" in @ as standing for "asynchronous") 
+An actor is an object with its own thread (in our case, its own coroutine) which it uses to process its queue of asynchronous messages. Any object in Io can be sent an asynchronous message by placing using the asyncSend() or futureSend() messages.
 <p>
-Example:
+Examples:
 
 <pre>
 result := self foo // synchronous 
-futureResult := self @foo // async, immediately returns a Future
-self @@foo // async, immediately returns nil
+futureResult := self futureSend(foo) // async, immediately returns a Future
+self asyncSend(foo) // async, immediately returns nil
 </pre>
 
 When an object receives an asynchronous message it puts the message in its queue and, if it doesn't already have one, starts a coroutine to process the messages in its queue. Queued messages are processed sequentially in a first-in-first-out order. Control can be yielded to other coroutines by calling "yield". Example: 
@@ -1457,7 +1487,7 @@ When an object receives an asynchronous message it puts the message in its queue
 obj1 := Object clone
 obj1 test := method(for(n, 1, 3, n print; yield))
 obj2 := obj1 clone
-obj1 @@test; obj2 @@test
+obj1 asyncSend(test); obj2 asyncSend(test)
 while(Scheduler yieldingCoros size > 1, yield)
 </pre>
 
@@ -1467,12 +1497,15 @@ Here's a more real world example:
 
 <pre>
 HttpServer handleRequest := method(aSocket,
-    HttpRequestHandler clone @@handleRequest(aSocket)
+    HttpRequestHandler clone asyncSend(handleRequest(aSocket))
 )
 </pre>
 
 </tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
+
+<div class=pagebreak></div>
+
 	<a name="Concurrency-Futures"></a>
 	<h3>Futures</h3>
 </td><td></td><td>
@@ -1480,25 +1513,11 @@ HttpServer handleRequest := method(aSocket,
 
 
 
-Io's futures are transparent. That is, when the result is ready, they become the result. If a message is sent to a future (besides the two methods it implements), it waits until it turns into the result before processing the message. Transparent futures are powerful because they allow programs minimize blocking while also freeing the programmer from managing the fine details of synchronization.
+Io's futures are transparent. That is, when the result is ready, they become the result. If a message is sent to a future (besides the two methods it implements), it waits until it turns into the result before processing the message. Transparent futures are powerful because they allow programs to minimize blocking while also freeing the programmer from managing the fine details of synchronization.
 
 <h4>Auto Deadlock Detection</h4>
 
 An advantage of using futures is that when a future requires a wait, it will check to see if pausing to wait for the result would cause a deadlock and if so, avoid the deadlock and raise an exception. It performs this check by traversing the list of connected futures.
-
-<h4>The @ and @@ Operators</h4>
-
-The @ or @@ before an asynchronous message is just a normal operator message. So: 
-
-<pre>
-self @test
-</pre>
-
-Gets parsed as(and can be written as): 
-
-<pre>
-self @(test)
-</pre>
 
 <h4>Futures and the Command Line Interface</h4>
 
@@ -1506,7 +1525,7 @@ The command line will attempt to print the result of expressions evaluated in it
 
 <pre>
 Io> q := method(wait(1))
-Io> @q
+Io> futureSend(q)
 [1-second delay]
 ==> nil
 </pre>
@@ -1514,7 +1533,7 @@ Io> @q
 To avoid this, just make sure the Future isn't the result. Example:
 
 <pre>
-Io> @q; nil
+Io> futureSend(q); nil
 [no delay]
 ==> nil
 </pre>
@@ -1812,6 +1831,9 @@ The map and select methods return new lists. To do the same operations in-place,
 
 </tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
+
+<div class=pagebreak></div>
+
 	<a name="Primitives-Sequence"></a>
 	<h3>Sequence</h3>
 </td><td></td><td>
@@ -2081,6 +2103,9 @@ Date cpuSecondsToRun(100000 repeat(1+1))
 
 </tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
+
+<div class=pagebreak></div>
+
 	<a name="Primitives-Networking"></a>
 	<h3>Networking</h3>
 </td><td></td><td>
@@ -2139,7 +2164,7 @@ WebRequest := Object clone do(
 WebServer := Server clone do(
     setPort(8000)
     handleSocket := method(aSocket, 
-        WebRequest clone @handleSocket(aSocket)
+        WebRequest clone asyncSend(handleSocket(aSocket))
     )
 )
 
@@ -2149,6 +2174,9 @@ WebServer start
 
 </tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
+
+<div class=pagebreak></div>
+
 	<a name="Primitives-XML"></a>
 	<h3>XML</h3>
 </td><td></td><td>
@@ -2299,7 +2327,7 @@ Except for input and output, all strings should be kept in a fixed character wid
 </td><td></td><td>
 	
 
-Io source files are assumed to be in UTF8 (of which ASCII is a subset). When a source file is read, it s symbols and strings are stored in Sequences in their minimal fixed character width encoding. Examples:
+Io source files are assumed to be in UTF8 (of which ASCII is a subset). When a source file is read, its symbols and strings are stored in Sequences in their minimal fixed character width encoding. Examples:
 
 <pre>
 Io> "hello" encoding
@@ -2413,6 +2441,9 @@ Each structure has its own separate .h and .c files. The names of the files are 
 
 </tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
+
+<div class=pagebreak></div>
+
 	<a name="Embedding-IoState"></a>
 	<h3>IoState</h3>
 </td><td></td><td>
@@ -2528,7 +2559,11 @@ expression ::= { message | sctpad }
 message ::= [wcpad] symbol [scpad] [arguments]
 arguments ::= Open [argument [ { Comma argument } ]] Close
 argument ::= [wcpad] expression [wcpad]
-symbols
+</pre>
+
+<h4>symbols</h4>
+
+<pre>
 symbol ::= Identifier | number | Operator | quote
 Identifier ::= { letter | digit | "_" }
 Operator ::= { ":" | "." | "'" | "~" | "!" | "@" | "$" | 
@@ -2580,9 +2615,14 @@ digit ::= "0" ... "9"
 digits ::= { digit }
 </pre>
 
+The uppercase words above designate elements the lexer treats as tokens.
+
 
 </tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
+
+<div class=pagebreak></div>
+
 	<a name="Appendix-Credits"></a>
 	<h3>Credits</h3>
 </td><td></td><td>
@@ -2687,7 +2727,7 @@ John Wiley & Sons, 1996 <br>
 	
 
 
-Copyright 2006, 2007, 2008 Steve Dekorte. All rights reserved.
+Copyright 2006-2010 Steve Dekorte. All rights reserved.
 <p>
 Redistribution and use of this document with or without modification, are permitted provided that the copies reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
 <p>

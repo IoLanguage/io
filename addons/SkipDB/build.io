@@ -1,3 +1,0 @@
-AddonBuilder clone do(
-	disable
-)

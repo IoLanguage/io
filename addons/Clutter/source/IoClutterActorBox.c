@@ -1,4 +1,6 @@
 #include "IoClutterActorBox.h"
+//metadoc ClutterActorBox category UserInterface
+//metadoc ClutterActorBox description For more detailed docs see <a href="http://clutter-project.org/docs/clutter/stable/ClutterActor.html#ClutterActorBox">Clutter documentation</a>.
 
 /*** Initalisation functions ***/
 IoTag *IoClutterActorBox_newTag(void *state) {
@@ -68,12 +70,13 @@ IoObject *IoMessage_locals_clutterActorBoxArgAt_(IoMessage *self, IoObject *loca
 }
 
 /*** Object functions ***/
-//doc ClutterActorBox with(x1, y1, x2, y2)
+
 IO_METHOD(IoClutterActorBox, equals) {
   ClutterActorBox *other = IOCABOX(IoMessage_locals_clutterActorBoxArgAt_(m, locals, 0));
   return IOBOOL(self, clutter_actor_box_equal(IOCABOX(self), other));
 }
 
+//doc ClutterActorBox with(x1, y1, x2, y2)
 IO_METHOD(IoClutterActorBox, with) {
   float x1 = IoMessage_locals_floatArgAt_(m, locals, 0),
         y1 = IoMessage_locals_floatArgAt_(m, locals, 1),
@@ -81,39 +84,40 @@ IO_METHOD(IoClutterActorBox, with) {
         y2 = IoMessage_locals_floatArgAt_(m, locals, 3);
 
   ClutterActorBox *actorBox = clutter_actor_box_new(x1, y1, x2, y2);
-  IoClutterActorBox *clone = IoClutterActorBox_newWithActorBox(IOSTATE, actorBox);
+  IoClutterActorBox *klone = IoClutterActorBox_newWithActorBox(IOSTATE, actorBox);
 
-  IoObject_setSlot_to_(clone,
+  IoObject_setSlot_to_(klone,
     IOSYMBOL("x1"), IoMessage_locals_numberArgAt_(m, locals, 0)
   );
 
-  IoObject_setSlot_to_(clone,
+  IoObject_setSlot_to_(klone,
     IOSYMBOL("y1"), IoMessage_locals_numberArgAt_(m, locals, 1)
   );
 
-  IoObject_setSlot_to_(clone,
+  IoObject_setSlot_to_(klone,
     IOSYMBOL("x2"), IoMessage_locals_numberArgAt_(m, locals, 2)
   );
 
-  IoObject_setSlot_to_(clone,
+  IoObject_setSlot_to_(klone,
     IOSYMBOL("y2"), IoMessage_locals_numberArgAt_(m, locals, 3)
   );
 
-  IoObject_setSlot_to_(clone,
+  IoObject_setSlot_to_(klone,
     IOSYMBOL("width"), IONUMBER(clutter_actor_box_get_width(actorBox))
   );
 
-  IoObject_setSlot_to_(clone,
+  IoObject_setSlot_to_(klone,
     IOSYMBOL("height"), IONUMBER(clutter_actor_box_get_height(actorBox))
   );
 
-  IoObject_setSlot_to_(clone,
+  IoObject_setSlot_to_(klone,
     IOSYMBOL("area"), IONUMBER(clutter_actor_box_get_area(actorBox))
   );
 
-  return clone;
+  return klone;
 }
 
+//doc ClutterActorBox origin
 IO_METHOD(IoClutterActorBox, getOrigin) {
   float x = 0,
         y = 0;
@@ -126,6 +130,7 @@ IO_METHOD(IoClutterActorBox, getOrigin) {
   return coords;
 }
 
+//doc ClutterActorBox size
 IO_METHOD(IoClutterActorBox, getSize) {
   float width  = 0,
         height = 0;

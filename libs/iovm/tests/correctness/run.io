@@ -1,19 +1,19 @@
 #!/usr/bin/env io
 
 if(System args size > 1,
-	# Run specific tests.
-	UnitTest verbose := getSlot("writeln")
-
+    # Run specific tests.
     System args slice(1) foreach(name,
         try(
             if(name endsWithSeq(".io"),
-                doFile(name) run
+                # FIXME: This is platform dependent!
+                Lobby doFile(System launchPath .. "/" ..  name)
             ,
-                doString(name) run
+                Lobby doString(name)
             )
         ) ?showStack
-	)
+    )
+    FileCollector run
 ,
-	# Run all tests.
-	TestSuite with(System launchPath) run
+    # Run all tests in the current directory.
+    DirectoryCollector run
 )

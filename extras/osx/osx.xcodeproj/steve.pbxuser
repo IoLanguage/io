@@ -51,8 +51,8 @@
 					PBXFindDataSource_LocationID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 288661100;
-			PBXWorkspaceStateSaveDate = 288661100;
+			PBXPerProjectTemplateStateSaveDate = 293159886;
+			PBXWorkspaceStateSaveDate = 293159886;
 		};
 		sourceControlManager = AA7D577E0B60123600D7DEA9 /* Source Control */;
 		userBuildSettings = {
@@ -1536,9 +1536,10 @@
 	};
 	AA86BE9B0B6051FE00495786 /* Collector.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {845, 2432}}";
-			sepNavSelRange = "{177, 0}";
-			sepNavVisRange = "{0, 452}";
+			sepNavIntBoundsRect = "{{0, 0}, {1244, 2674}}";
+			sepNavSelRange = "{1468, 9}";
+			sepNavVisRange = "{1242, 465}";
+			sepNavWindowFrame = "{{180, 195}, {1362, 831}}";
 		};
 	};
 	AA86BF300B6051FF00495786 /* IoBlock.c */ = {
@@ -1656,10 +1657,11 @@
 	};
 	AA86BF460B6051FF00495786 /* IoDynLib.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {848, 8320}}";
-			sepNavSelRange = "{3033, 5}";
-			sepNavVisRange = "{2713, 623}";
+			sepNavIntBoundsRect = "{{0, 0}, {1580, 8016}}";
+			sepNavSelRange = "{10663, 26}";
+			sepNavVisRange = "{10271, 978}";
 			sepNavVisRect = "{{0, 201}, {776, 285}}";
+			sepNavWindowFrame = "{{226, 153}, {1362, 831}}";
 		};
 	};
 	AA86BF470B6051FF00495786 /* IoDynLib.h */ = {
@@ -1746,9 +1748,9 @@
 	};
 	AA86BF570B6051FF00495786 /* IoMessage_parser.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {845, 4032}}";
-			sepNavSelRange = "{75, 0}";
-			sepNavVisRange = "{0, 573}";
+			sepNavIntBoundsRect = "{{0, 0}, {1244, 4296}}";
+			sepNavSelRange = "{2218, 35}";
+			sepNavVisRange = "{1967, 304}";
 			sepNavVisRect = "{{0, 0}, {923, 1074}}";
 		};
 	};
@@ -1769,10 +1771,11 @@
 	};
 	AA86BF5B0B6051FF00495786 /* IoObject.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {864, 31712}}";
-			sepNavSelRange = "{20882, 0}";
-			sepNavVisRange = "{20351, 702}";
+			sepNavIntBoundsRect = "{{0, 0}, {1244, 32598}}";
+			sepNavSelRange = "{32949, 0}";
+			sepNavVisRange = "{32403, 580}";
 			sepNavVisRect = "{{0, 2030}, {896, 726}}";
+			sepNavWindowFrame = "{{203, 174}, {1362, 831}}";
 		};
 	};
 	AA86BF5C0B6051FF00495786 /* IoObject.h */ = {
@@ -1796,14 +1799,6 @@
 			sepNavVisRange = "{6247, 446}";
 			sepNavVisRect = "{{0, 3284}, {896, 726}}";
 			sepNavWindowFrame = "{{464, 127}, {1314, 1303}}";
-		};
-	};
-	AA86BF600B6051FF00495786 /* IoObject_persistence.c */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {845, 1744}}";
-			sepNavSelRange = "{0, 0}";
-			sepNavVisRange = "{1994, 524}";
-			sepNavVisRect = "{{0, 0}, {965, 991}}";
 		};
 	};
 	AA86BF620B6051FF00495786 /* IoObject_struct.h */ = {
@@ -1840,10 +1835,11 @@
 	};
 	AA86BF6A0B6051FF00495786 /* IoSeq_immutable.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {896, 21616}}";
-			sepNavSelRange = "{20335, 0}";
-			sepNavVisRange = "{19732, 854}";
+			sepNavIntBoundsRect = "{{0, 0}, {1019, 24796}}";
+			sepNavSelRange = "{9761, 0}";
+			sepNavVisRange = "{9252, 938}";
 			sepNavVisRect = "{{0, 959}, {1084, 757}}";
+			sepNavWindowFrame = "{{184, 209}, {1068, 760}}";
 		};
 	};
 	AA86BF6B0B6051FF00495786 /* IoSeq_immutable.h */ = {
@@ -1878,9 +1874,26 @@
 	};
 	AA86BF6F0B6051FF00495786 /* IoState.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {796, 8704}}";
-			sepNavSelRange = "{140, 0}";
-			sepNavVisRange = "{0, 709}";
+			sepNavIntBoundsRect = "{{0, 0}, {1244, 8786}}";
+			sepNavSelRange = "{6959, 25}";
+			sepNavVisRange = "{5527, 972}";
+			sepNavWindowFrame = "{{249, 132}, {1362, 831}}";
+		};
+	};
+	AA86BF700B6051FF00495786 /* IoState.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1313, 3448}}";
+			sepNavSelRange = "{503, 0}";
+			sepNavVisRange = "{0, 864}";
+			sepNavWindowFrame = "{{295, 90}, {1362, 831}}";
+		};
+	};
+	AA86BF710B6051FF00495786 /* IoState_callbacks.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1313, 1988}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1030}";
+			sepNavWindowFrame = "{{318, 69}, {1362, 831}}";
 		};
 	};
 	AA86BF720B6051FF00495786 /* IoState_callbacks.h */ = {
@@ -1892,9 +1905,11 @@
 	};
 	AA86BF730B6051FF00495786 /* IoState_coros.c */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {923, 1074}}";
-			sepNavSelRange = "{559, 0}";
+			sepNavIntBoundsRect = "{{0, 0}, {1313, 794}}";
+			sepNavSelRange = "{427, 7}";
+			sepNavVisRange = "{0, 567}";
 			sepNavVisRect = "{{0, 0}, {923, 1074}}";
+			sepNavWindowFrame = "{{341, 48}, {1362, 831}}";
 		};
 	};
 	AA86BF740B6051FF00495786 /* IoState_coros.h */ = {
@@ -1925,11 +1940,21 @@
 			sepNavVisRect = "{{0, 0}, {912, 747}}";
 		};
 	};
+	AA86BF790B6051FF00495786 /* IoState_exceptions.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1313, 794}}";
+			sepNavSelRange = "{174, 0}";
+			sepNavVisRange = "{0, 848}";
+			sepNavWindowFrame = "{{272, 111}, {1362, 831}}";
+		};
+	};
 	AA86BF7D0B6051FF00495786 /* IoState_inline.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1006, 3094}}";
-			sepNavSelRange = "{1029, 0}";
+			sepNavIntBoundsRect = "{{0, 0}, {1313, 5164}}";
+			sepNavSelRange = "{2389, 0}";
+			sepNavVisRange = "{2031, 1114}";
 			sepNavVisRect = "{{0, 296}, {1006, 543}}";
+			sepNavWindowFrame = "{{364, 27}, {1362, 831}}";
 		};
 	};
 	AA86BF7E0B6051FF00495786 /* IoState_symbols.c */ = {
@@ -2073,10 +2098,10 @@
 		delayBeforeContinue = 0;
 		fileReference = AA86BF5F0B6051FF00495786 /* IoObject_inline.h */;
 		functionName = "IoObject_freeIfUnreferenced()";
-		hitCount = 1;
+		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 38;
-		modificationTime = 196051063.588601;
+		modificationTime = 293342839.325203;
 		originalNumberOfMultipleMatches = 0;
 		state = 2;
 	};
@@ -2090,10 +2115,10 @@
 		delayBeforeContinue = 0;
 		fileReference = AA86BF5F0B6051FF00495786 /* IoObject_inline.h */;
 		functionName = "IoObject_freeIfUnreferenced()";
-		hitCount = 1;
+		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 40;
-		modificationTime = 196051063.588622;
+		modificationTime = 293342839.325255;
 		originalNumberOfMultipleMatches = 0;
 		state = 2;
 	};
@@ -2107,10 +2132,10 @@
 		delayBeforeContinue = 0;
 		fileReference = AA86BE630B6051FE00495786 /* Stack_inline.h */;
 		functionName = "Stack_doUntilMark_()";
-		hitCount = 1;
+		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 41;
-		modificationTime = 223735691.3090011;
+		modificationTime = 293342839.325273;
 		originalNumberOfMultipleMatches = 1;
 		state = 0;
 	};

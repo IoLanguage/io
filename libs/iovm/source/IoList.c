@@ -1,10 +1,10 @@
 
+//metadoc List category Core
 //metadoc List copyright Steve Dekorte 2002
 //metadoc List license BSD revised
 /*metadoc List description
 A mutable array of values. The first index is 0.
 */
-//metadoc List category Core
 
 #include "IoList.h"
 #include "IoObject.h"
@@ -371,29 +371,6 @@ IO_METHOD(IoList, first)
 
     IoObject *result = List_at_(DATA(self), 0);
     return result ? result : IONIL(self);
-/*
-	if (IoMessage_argCount(m) == 0)
-	{
-		IoObject *result = List_at_(DATA(self), 0);
-
-		return result ? result : ((IoState *)IOSTATE)->ioNil;
-	}
-	else
-	{
-		int end = IoMessage_locals_intArgAt_(m, locals, 0);
-
-		if (end <= 0)
-		{
-			return IoList_new(IOSTATE);
-		}
-		else
-		{
-            // FIXME: explicit step declaration!
-            List *list = List_cloneSlice(DATA(self), 0, end - 1, 1);
-            return IoList_newWithList_(IOSTATE, list);
-		}
-	}
-	*/
 }
 
 IO_METHOD(IoList, last)
@@ -405,28 +382,6 @@ IO_METHOD(IoList, last)
 
     IoObject *result = List_at_(DATA(self), List_size(DATA(self)) - 1);
     return result ? result : IONIL(self);
-/*
-	if (IoMessage_argCount(m) == 0)
-	{
-		IoObject *result = List_at_(DATA(self), List_size(DATA(self))-1);
-		return result ? result : ((IoState *)IOSTATE)->ioNil;
-	}
-	else
-	{
-		size_t size = IoList_rawSize(self);
-		int start = size - IoMessage_locals_intArgAt_(m, locals, 0);
-		List *list;
-
-		if (start < 0)
-		{
-			start = 0;
-		}
-
-        // FIXME: explicit step declaration!
-		list = List_cloneSlice(DATA(self), start, size, 1);
-		return IoList_newWithList_(IOSTATE, list);
-	}
-*/
 }
 
 void IoList_sliceIndex(int *index, int step, int size)

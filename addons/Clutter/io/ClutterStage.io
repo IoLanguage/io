@@ -1,5 +1,5 @@
 ClutterStage do(
-  forwad := method(
+  forward := method(
     self actor hasSlot(call message name) ifTrue(
       self actor doMessage(call message)))
 

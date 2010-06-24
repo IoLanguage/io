@@ -16,7 +16,7 @@ doServer start
 </pre>
 */
 
-	//doc DOServer setRootObject(anObject) Sets the root object which incoming messages will be send to.
+	//doc DOServer setRootObject(anObject) Sets the root object which incoming messages will be sent to.
 	rootObject ::= nil
 	handleSocket := method(aSocket,
 		con := DOConnection clone

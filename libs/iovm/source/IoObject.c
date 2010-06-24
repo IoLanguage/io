@@ -1,12 +1,12 @@
 
+//metadoc Object category Core
 //metadoc Object copyright Steve Dekorte 2002
 //metadoc Object license BSD revised
 /*metadoc Object description
 An Object is a key/value dictionary with string keys and values of any type.
 The prototype Object contains a clone slot that is a CFuntion that creates new objects.
-When cloned, an Object will call it's init slot (with no arguments).
+When cloned, an Object will call its init slot (with no arguments).
 */
-//metadoc Object category Core
 
 #include "IoState.h"
 #define IOOBJECT_C
@@ -207,7 +207,6 @@ IoObject *IoObject_protoFinish(void *state)
 	{"removeAllProtos", IoObject_removeAllProtos},
 	{"protos", IoObject_protosMethod},
 	{"proto", IoObject_objectProto},
-	{"tailCall", IoObject_tailCall},
 	{"setIsActivatable", IoObject_setIsActivatableMethod},
 	{"isActivatable", IoObject_isActivatableMethod},
 	{"argIsActivationRecord", IoObject_argIsActivationRecord},
@@ -355,6 +354,7 @@ IoObject *IoObject_rawClone(IoObject *proto)
 	}
 	*/
 	IoObject_setProtoTo_(self, proto);
+	IoObject_isActivatable_(self, IoObject_isActivatable(proto));
 
 	//IoObject_protos(self)[0] = proto;
 	//IoObject_setDataPointer_(self, IoObject_dataPointer(proto)); // is this right?
@@ -1240,7 +1240,7 @@ IO_METHOD(IoObject, protoSlotNames)
 {
 	/*doc Object slotNames
 	Returns a list of strings containing the names of the
-	slots in the receiver (but not in it's lookup path).
+	slots in the receiver (but not in its lookup path).
 	*/
 
 	IoObject_createSlotsIfNeeded(self);
@@ -1785,7 +1785,11 @@ IO_METHOD(IoObject, uniqueId)
 	Returns a Number containing a unique id for the receiver.
 	*/
 	char s[32];
-	sprintf(s, "%p", (void *)IoObject_deref(self));
+	#ifdef _MSC_VER
+		sprintf(s, "0x%p", (void *)IoObject_deref(self));
+	#else
+		sprintf(s, "%p", (void *)IoObject_deref(self));
+	#endif
 	return IOSYMBOL(s);
 	//return IONUMBER((double)((size_t)IoObject_deref(self)));
 }
@@ -1847,7 +1851,7 @@ IO_METHOD(IoObject, setIsActivatableMethod)
 {
 	/*doc Object setIsActivatable(aValue)
 	When called with a non-Nil aValue, sets the object
-	to call it's activate slot when accessed as a value. Turns this behavior
+	to call its activate slot when accessed as a value. Turns this behavior
 	off if aValue is Nil. Only works on Objects which are not Activatable
 	Primitives (such as CFunction or Block). Returns self.
 	*/

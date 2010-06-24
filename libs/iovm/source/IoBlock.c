@@ -210,7 +210,6 @@ IO_METHOD(IoBlock, setProfilerOn)
 IoObject *IoBlock_activate(IoBlock *self, IoObject *target, IoObject *locals, IoMessage *m, IoObject *slotContext)
 {
 	IoState *state = IOSTATE;
-	intptr_t poolMark; 
 	IoBlockData *selfData = DATA(self);
 	List *argNames  = selfData->argNames;
 	IoObject *scope = selfData->scope;
@@ -245,9 +244,6 @@ IoObject *IoBlock_activate(IoBlock *self, IoObject *target, IoObject *locals, Io
 	IoObject_isReferenced_(blockLocals, 0);
 	IoObject_isReferenced_(callObject, 0);
 
-	//tailCall:
-	poolMark = IoState_pushRetainPool(state);
-
 	LIST_FOREACH(argNames, i, name,
 		IoObject *arg = IoMessage_locals_valueArgAt_(m, locals, i);
 		// gc may kick in while evaling locals, so we need to be safe
@@ -281,18 +277,6 @@ IoObject *IoBlock_activate(IoBlock *self, IoObject *target, IoObject *locals, Io
 		state->stopStatus = IoCall_rawStopStatus(callObject);
 	}
 	
-	IoState_popRetainPool_(state, poolMark);
-
-	/*
-	if(IOSTATE->tailCallMessage)
-	{
-		m = IOSTATE->tailCallMessage;
-		IOSTATE->tailCallMessage = NULL;
-		locals = blockLocals;
-		goto tailCall;
-	}
-	*/
-
 	IoState_stackRetain_(state, result);
 
 #ifdef IO_BLOCK_LOCALS_RECYCLING
@@ -310,7 +294,7 @@ IoObject *IoBlock_activate(IoBlock *self, IoObject *target, IoObject *locals, Io
 	else
 #endif
 	{
-		// since the callObject doesn't IOREF it's blockLocals pointer
+		// since the callObject doesn't IOREF its blockLocals pointer
 		if (IoObject_isReferenced(callObject))
 		{
 			IoObject_isReferenced_(blockLocals, 1);
@@ -427,7 +411,7 @@ IO_METHOD(IoBlock, code)
 IO_METHOD(IoBlock, code_)
 {
 	/*doc Block setCode(aString)
-	Set's the reciever's message to a compiled version of aString. Returns self
+	Set's the receiver's message to a compiled version of aString. Returns self
 	*/
 
 	IoSymbol *string = IoMessage_locals_symbolArgAt_(m, locals, 0);
@@ -512,7 +496,7 @@ IO_METHOD(IoBlock, setScope_)
 {
 	/*doc Block setScope(anObjectOrNil)
 	If argument is an object, when the block is activated,
-	it will set the proto and self slots of it's locals to the specified
+	it will set the proto and self slots of its locals to the specified
 	object. If Nil, it will set them to the target of the message. 
 	*/
 

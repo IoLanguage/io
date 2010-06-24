@@ -180,9 +180,7 @@ var DocsBrowser = {
       }));
     }
 
-
-    if(description)
-      $("#protoDescription").html(description);
+    $("#protoDescription").html(this.parseSlotDescription(description) || "");
     
     $slots.insertAfter("#protos");
     $descriptions.appendTo("body");
@@ -343,9 +341,18 @@ var DocsBrowser = {
   parseSlotDescription: function (body) {
     var self = this;
     return body.replace(/\[\[(\w+) (\w+)\]\]/g, function (line, proto, slot) {
-      var link = self.getPathToProto(proto)
+      var link = self.getPathToProto(proto);
+      if(!link)
+        return '<code>#{1} #{2}</code>'.interpolate(arguments);
+
       link.push(proto, slot);
-      return "<a href=\"#{0}\">#{1} #{2}</a>".interpolate([self.pathToHash(link), proto, slot]);
+      return '<a href="#{0}"><code>#{1} #{2}</code></a>'.interpolate([self.pathToHash(link), proto, slot]);
+    }).replace(/\[\[(\w+)\]\]/g, function (line, proto) {
+      var link = self.getPathToProto(proto);
+      if(!link)
+        return '<code>' + proto + '</code>';
+
+      return '<a href="#{0}"><code>#{1}</code></a>'.interpolate([self.pathToHash(link), proto]);
     });
   },
   pathToHash: function (path) {

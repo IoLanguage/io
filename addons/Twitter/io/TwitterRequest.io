@@ -6,7 +6,7 @@ Sequence asCamelized := method(
 
 TwitterRequest := Object clone do(
 	//metadoc TwitterRequest category Networking
-	//metadoc TwitterRequest description Represents a Twitter API request and contains it's results.
+	//metadoc TwitterRequest description Represents a Twitter API request and contains its results.
 	
 	host ::= "twitter.com"
 	//doc TwitterRequest host "twitter.com"

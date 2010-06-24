@@ -328,7 +328,7 @@ Object do(
 
 	/*doc Object newSlot(slotName, aValue)
 	Creates a getter and setter for the slot with the name slotName
-	and sets it's default the value aValue. Returns self. For example,
+	and sets its default value to aValue. Returns self. For example,
 	newSlot("foo", 1) would create slot named foo with the value 1 as well as a setter method setFoo().
 	*/
 
@@ -340,7 +340,7 @@ Object do(
 		getSlot("value")
 	)
 
-	//doc Object launchFile(pathString) Eval file at pathString as if from the command line in it's folder.
+	//doc Object launchFile(pathString) Eval file at pathString as if from the command line in its folder.
   //doc System launchPath Returns a pathComponent of the launch file.
 	launchFile := method(path, args,
 		args ifNil(args = List clone)

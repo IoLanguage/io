@@ -88,3 +88,9 @@ addons/*/docs/docs.txt
 extras/osxvm/build
 extras/osxmain/build
 *~
+CMakeFiles
+CMakeCache.txt
+cmake_install.cmake
+install_manifest.txt
+Makefile
+IoInstallPrefix.h

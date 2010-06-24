@@ -61,6 +61,11 @@ THE AUTHOR'S WRITTEN PERMISSION, WITH THE FOLLOWING EXCEPTIONS:
       #define __FOUND
    #endif
    
+   #ifdef __amd64__
+      #define __GNUC__X86__
+      #define __FOUND
+   #endif
+   
   /* PowerPC Compiler */
    #ifdef __ALTIVEC__
       #define __GNUC__RS6__

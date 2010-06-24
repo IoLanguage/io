@@ -57,7 +57,7 @@ LibC := Object clone do(
 //need to be able to set address on Pointer so malloc will work
 appendProto(LibC Types)
 
-t1 := LibC malloc(Size_t clone setValue(15)) castTo(Types Long ptr)
+t1 := LibC malloc(Size_t clone setValue(15)) cast(Types Long ptr)
 
 t2 := LibC time(t1)
 tt := Types Time_t clone setValue(t2)

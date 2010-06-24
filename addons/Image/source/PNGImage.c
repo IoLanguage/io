@@ -76,7 +76,7 @@ void PNGImage_load(PNGImage *self)
 	/* Create and initialize the png_struct with the desired error handler
 		* functions.  If you want to use the default stderr and longjump method,
 	* you can supply NULL for the last three parameters.  We also supply the
-		* the compiler header file version, so that we know if the application
+		* compiler header file version, so that we know if the application
 		* was compiled with a compatible version of the library.  REQUIRED
 		*/
 	png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
@@ -140,7 +140,7 @@ void PNGImage_load(PNGImage *self)
 
 	/* Expand grayscale images to the full 8 bits from 1, 2, or 4 bits/pixel */
 	if (color_type == PNG_COLOR_TYPE_GRAY && bit_depth < 8)
-		png_set_gray_1_2_4_to_8(png_ptr);
+		png_set_expand_gray_1_2_4_to_8(png_ptr);
 
 	/* Expand paletted or RGB images with transparency to full alpha channels
 		* so the data will be available as RGBA quartets.

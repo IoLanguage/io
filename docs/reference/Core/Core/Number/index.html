@@ -9,8 +9,16 @@
 		<body>
 		
 <br>
-<h1>Number Proto</h1>
-<br><br><br><br><br><br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Core</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>Core</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>Number</b>
+<br><br><br>
+<br><br><br>
 <table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
 <tr>
 <td align=right></td>
@@ -74,7 +82,7 @@ Returns a new number that is the difference of the receiver and aNumber.
 </b>
 <p>
 <div class=slotDescription>
-Returns a new number with the value of the receiver diveded by aNumber.
+Returns a new number with the value of the receiver divided by aNumber.
 </div>
 <a name="Number-&lt;&lt;"></a><b>
 &lt;&lt;(aNumber)
@@ -124,7 +132,7 @@ asBuffer(optionalNumberOfBytes)
 <p>
 <div class=slotDescription>
 Returns a Buffer containing a the number of bytes specified by
-	optionalNumberOfBytes (up to the size of a double on the platform) of the reciever.
+	optionalNumberOfBytes (up to the size of a double on the platform) of the receiver.
 	If no optionalNumberOfBytes is specified, it is assumed to be the number of bytes
 	in a double on the host platform.
 </div>
@@ -206,7 +214,7 @@ at(bitIndexNumber)
 <p>
 <div class=slotDescription>
 Returns a new Number containing 1 if the receiver cast to a long
-	has it's bit set to 1 at bitIndexNumber. Otherwise returns 0.
+	has its bit set to 1 at bitIndexNumber. Otherwise returns 0.
 </div>
 <a name="Number-atan"></a><b>
 atan
@@ -227,7 +235,7 @@ between(aNumber1, aNumber2)
 </b>
 <p>
 <div class=slotDescription>
-Returns the true if the receiver's value is between or
+Returns true if the receiver's value is between or
 	equal to aNumber1 and aNumber2, otherwise returns false.
 </div>
 <a name="Number-bitwiseAnd"></a><b>
@@ -243,7 +251,7 @@ bitwiseComplement
 <p>
 <div class=slotDescription>
 Returns a new number with the bitwise complement of the
-	receiver. (Turns the 0 bits of become 1s and the 1 bits become 0s. )
+	receiver. (The 0 bits become 1s and the 1 bits become 0s. )
 </div>
 <a name="Number-bitwiseOr"></a><b>
 bitwiseOr(aNumber)
@@ -265,7 +273,7 @@ ceil
 <p>
 <div class=slotDescription>
 Returns the a number with the receiver's value rounded up to
-	the nearest integer if it's fractional component is greater than 0.
+	the nearest integer if its fractional component is greater than 0.
 </div>
 <a name="Number-clip"></a><b>
 clip(aNumber1, aNumber2)
@@ -317,6 +325,20 @@ e
 <div class=slotDescription>
 Returns the constant e.
 </div>
+<a name="Number-em"></a><b>
+em
+</b>
+<p>
+<div class=slotDescription>
+Calls [[ClutterUnits withEm]].
+</div>
+<a name="Number-emForFont"></a><b>
+emForFont(fontname)
+</b>
+<p>
+<div class=slotDescription>
+Calls [[ClutterUnits emForFont]].
+</div>
 <a name="Number-exp"></a><b>
 exp
 </b>
@@ -350,8 +372,8 @@ floor
 </b>
 <p>
 <div class=slotDescription>
-Returns the a number with the receiver's value rounded
-	down to the nearest integer if it's fractional component is not 0.
+Returns a number with the receiver's value rounded
+	down to the nearest integer if its fractional component is not 0.
 </div>
 <a name="Number-inf"></a><b>
 inf
@@ -568,7 +590,14 @@ minMax(low, high)
 </b>
 <p>
 <div class=slotDescription>
-Returns a number between or equal to low and high. If the receiver is equal to or between low and high, the reciever is returned. If the reciever is less than low, low is returned. If the receiver is greater than high, high is returned.
+Returns a number between or equal to low and high. If the receiver is equal to or between low and high, the receiver is returned. If the receiver is less than low, low is returned. If the receiver is greater than high, high is returned.
+</div>
+<a name="Number-mm"></a><b>
+mm
+</b>
+<p>
+<div class=slotDescription>
+Calls [[ClutterUnits withMm]].
 </div>
 <a name="Number-mod"></a><b>
 mod(aNumber)
@@ -619,29 +648,43 @@ print
 <div class=slotDescription>
 Prints the number.
 </div>
+<a name="Number-pt"></a><b>
+pt
+</b>
+<p>
+<div class=slotDescription>
+Calls [[ClutterUnits withPt]].
+</div>
+<a name="Number-px"></a><b>
+px
+</b>
+<p>
+<div class=slotDescription>
+Calls [[ClutterUnits withPx]].
+</div>
 <a name="Number-repeat"></a><b>
 repeat(optionalIndex, expression)
 </b>
 <p>
 <div class=slotDescription>
 Evaluates message a number of times that corresponds to the receivers
-	integer value. This is significantly  faster than a for() or while() loop.
+	integer value. This is significantly faster than a for() or while() loop.
 </div>
 <a name="Number-round"></a><b>
 round
 </b>
 <p>
 <div class=slotDescription>
-Returns the a number with the receiver's value rounded up to
-	the nearest integer if it's fraction component is >= .5 or rounded up the the nearest integer otherwises..
+Returns a number with the receiver's value rounded up to
+	the nearest integer if its fraction component is >= .5 or rounded up to the nearest integer otherwise.
 </div>
 <a name="Number-roundDown"></a><b>
 roundDown
 </b>
 <p>
 <div class=slotDescription>
-Returns the a number with the receiver's value rounded down to
-	the nearest integer if it's fraction component is <= .5 or rounded up the the nearest integer otherwises.
+Returns a number with the receiver's value rounded down to
+	the nearest integer if its fraction component is <= .5 or rounded up the the nearest integer otherwise.
 </div>
 <a name="Number-shortMax"></a><b>
 shortMax

@@ -39,6 +39,7 @@ typedef long long int64_t;
 
 /* Windows stuff */
 
+/*
 #if defined _WIN32 || defined __WINS__ || defined _MSC_VER
 #  define inline __inline
 #  define snprintf _snprintf
@@ -67,6 +68,30 @@ typedef long long int64_t;
 #  else
 #    define BASEKIT_API
 #  endif
+*/
+#if defined(WIN32) || defined(__WINS__) || defined(__MINGW32__) || defined(_MSC_VER)
+#define inline __inline
+#define snprintf _snprintf
+#define usleep(x) Sleep(((x)+999)/1000)
+#define ssize_t SSIZE_T
+
+#define HAS_FIBERS 1
+
+#define ON_WINDOWS 1
+
+// this also includes windows.h
+#include <winsock2.h>
+
+#if !defined(__MINGW32__)
+#if defined(BUILDING_BASEKIT_DLL) || defined(BUILDING_IOVMALL_DLL)
+#define BASEKIT_API __declspec(dllexport)
+#else
+#define BASEKIT_API __declspec(dllimport)
+#endif
+#else
+#define BASEKIT_API
+#endif
+
 /*
 #  ifndef _SYS_STDINT_H_
 #    include "PortableStdint.h"

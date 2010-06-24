@@ -10,21 +10,41 @@ INSTALLING
 
 Io is two parts - the vm and the addons/packages. Don't worry if all the addons don't compile for you - some are platform specific or not well supported.
 
+There are a couple ways you can go about building Io, I will give the recommended way, and a note about how to do it alternatively.
+
 OSX
 ---
-cd to Io folder
-make vm; sudo make install; sudo make port; sudo make install
+
+Note: Assuming you wish to install to an alternate location, ensure you supply as an argument to the following command, a -DCMAKE_INSTALL_PREFIX=/path where /path is where you wish to install Io to. This is akin to setting INSTALL_PREFIX with the old build system if you are familiar with it, or --prefix with GNU autotools if you are familiar with that suite.
+
+Ensure you are at the top level of the source tree, that is where this file lives. From here, you are in the right spot to enter these commands:
+
+mkdir build && cd build
+cmake ..
+make install
+
+If you do not wish to install, just run "make" instead of "make install". Currently there is no analogue to the old "make linkInstall". However, if you have used linkInstall in previous versions of Io, you should never have to run linkInstall again, since it created symbolic links to where your Io source was at that time. The only time you would have to do this again, is if you moved the Io source from one dir to another. Most people don't.
+
+Any Linux Distribution
+----------------------
+
+Any Linux distribution will require one additional step be taken. This is because GNU ld is what's technically known as a "dumb" linker -- it has to be told to regenerate its hash of libraries if something changes, other platforms do not have this problem. To complete this step, run the following command:
+
+ldconfig
+
+If you are still getting an error when loading the "io" binary about not being able to fins some shared library, then ensure you have the following path, in your /etc/ld.so.conf (or equivalent):
+
+/usr/local/lib
+
+The above path will change depending on what you set your CMAKE_INSTALL_PREFIX to, it will be whatever that is with /lib appended. The default is /usr/local so the above will work for the common case.
 
 Debian or Ubuntu
 ----------------
-cd to Io folder
-make vm; sudo make install; su -c "sudo make aptget"; make; sudo make install
+See OSX instructions.
 
 Gentoo
 ------
-make vm; sudo make install; su -c "sudo make emerge"; make; sudo make install
-
-
+See OSX instructions.
 
 MS WINDOWS WITH CYGWIN
 ----------------------

@@ -57,6 +57,7 @@ h1 {
 }
 
 h2 {
+  page-break-before: always;
   color: #000;
   font-family: 'Helvetica', 'Helvetica';
   font-size: 2em;
@@ -70,7 +71,7 @@ h2 {
   text-decoration: none;
   text-indent: 0sem;
   text-transform: none;
-	vertical-align:text-top;
+  vertical-align:text-top;
 }
 
 h3 {
@@ -106,13 +107,27 @@ h4 {
   vertical-align: text-top;
 }
 
-td {
+td 
+{
   vertical-align: text-top;
 }
 
-.indexItem {
+.indexSection
+{
+	line-height: 1.5em;
+	margin-top:1em;
+}
+
+.indexSection a
+{
+	font-weight: bold;
+	color: black;
+}
+
+.indexItem 
+{
   letter-spacing: 0;
-  line-height: 1.4em;
+  line-height: 1.5em;
   margin-top: 0em;
   margin-bottom: 0em;
   margin-left: 0em;
@@ -123,7 +138,8 @@ td {
   vertical-align: 0;
 }
 
-.indexItemSelected a {
+.indexItemSelected a 
+{
   letter-spacing: 0;
   line-height: 1.4em;
   margin: 0;
@@ -135,7 +151,8 @@ td {
 	font-weight: bold;
 }
 
-.indexItem a {
+.indexItem a 
+{
   color: #777;
   font-family: 'Helvetica';
   font-size: 1em;
@@ -147,11 +164,17 @@ td {
   text-decoration: none;
 }
 
-pre {
+.sectionDivider
+{
+	padding-top:1.5em;
+}
+
+pre 
+{
   white-space: pre;
   color: #333;
   font-family: 'Inconsolata', 'Courier', monspace;
-  font-size: .9em;
+  font-size: .95em;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
@@ -165,6 +188,28 @@ pre {
   text-indent: 0em;
   text-transform: none;
   vertical-align: 0em;
+}
+
+.infoTable
+{
+	margin-left:1.5em;
+	margin-top:2em;
+	margin-bottom:2em;
+}
+
+.infoTable td
+{
+	font-weight:normal;
+	font-style:normal;
+	padding-right:1em;
+}
+
+.infoTable th
+{
+	text-align: left;
+	font-weight:bold;
+	font-style:normal;
+	padding-right:1em;
 }
 
 code {
@@ -264,7 +309,7 @@ code {
 
 #protoDescription {
   margin-top: 6em;
-  padding-bottom: 5em;
+  padding-bottom: 1em;
   border-bottom: 1px solid #ddd;
 }
 
@@ -278,4 +323,14 @@ span.args {
 
 span.optionalArgs {
   font-style: italic;
+}
+
+@page {
+  size: 8in 11in;
+  margin: 100mm 100mm 100mm 100mm;
+}
+
+div.pagebreak
+{
+  page-break-before: always;
 }

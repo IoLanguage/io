@@ -153,7 +153,9 @@ IoObject *IoCFFIFunction_call(IoCFFIFunction *self, IoObject *locals, IoMessage 
 	{
 		for ( i = 0; i < funArgCount; i++ ) {
 			o = IoMessage_locals_valueArgAt_(m, locals, i);
-			funArgVals[i] = IoCFFIDataType_ValuePointerFromObject_(NULL, o);
+			// cannot pass integers directly
+			// see comment in IoCFFIDataType_ValuePointerFromObject_()
+			funArgVals[i] = IoCFFIDataType_ValuePointerFromObject_(List_at_(funArgTypeObjects, i), o);
 		}
 		ffi_call(funInterface, funPointer, funRetVal, funArgVals);
 		returnValAsObj = IoCFFIDataType_objectFromData_(funRetTypeObject, funRetVal);
@@ -249,7 +251,7 @@ void IoCFFIFunction_closure(ffi_cif* cif, void* result, void** args, void* userd
 	//these three steps are needed bacause of Numbers being always double
 	retType = IOCLONE(IoObject_getSlot_(self, IOSYMBOL("returnType")));
 	IoCFFIDataType_rawSetValue(retType, ret);
-	memcpy(result, (void *)IoCFFIDataType_ValuePointerFromObject_(NULL, retType), cif->rtype->size);
+	memcpy(result, (void *)IoCFFIDataType_ValuePointerFromObject_(retType, retType), cif->rtype->size);
 }
 
 IoCFFIFunction *IoCFFIFunction_cloneWithData(IoCFFIFunction *self, void **data)

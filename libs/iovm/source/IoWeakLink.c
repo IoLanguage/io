@@ -1,14 +1,6 @@
-/*metadoc WeakLink copyright
-	Steve Dekorte, 2002
-*/
-
-/*metadoc WeakLink license
-	BSD revised
-*/
-
-/*metadoc WeakLink category
-	Core
-*/
+//metadoc WeakLink copyright Steve Dekorte, 2002
+//metadoc WeakLink license BSD revised
+//metadoc WeakLink category Core
 
 /*metadoc WeakLink description
 	A WeakLink is a primitive that can hold a reference to 

@@ -26,7 +26,7 @@ server start
 <b>Notes</b><p>
 
 Io's use of lightweight threading and select for dealing with sockets makes for 
-servers that are much more efficient(both memory and cpu wise) than those written 
+servers that are much more efficient (both memory and cpu wise) than those written 
 with kernel threads and socket polling.
 */
 
@@ -69,7 +69,7 @@ with kernel threads and socket polling.
 	)
 	
 	/*doc Server handleSocket(aSocket) 
-	This method is called when the server accepts a new socket. The new sockets is passed as the argument.
+	This method is called when the server accepts a new socket. The new socket is passed as the argument.
 	Override this method in your own server subclass. The default implementation raises an exception.
 	*/
 	handleSocket := method(aSocket,

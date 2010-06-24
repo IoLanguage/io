@@ -1,18 +1,13 @@
-/* CFFI - An Io interface to C
-Copyright (c) 2006 Trevor Fancher. All rights reserved.
-All code licensed under the New BSD license.
-*/
-
 CFFI
 
 StructureTest := UnitTest clone do(
 	testSetValues := method(
 		appendProto(Types)
 		
-		S := Structure with(list("c"  , Char),
-							list("i"  , Int),
-							list("d"  , Double),
-							list("str", CString))
+		S := Structure with(	list("c", Char),
+					list("i", Int),
+					list("d", Double),
+					list("str", CString))
 
 		c   := Char    clone setValue("A")
 		i   := Int     clone setValue(-12345)
@@ -22,7 +17,7 @@ StructureTest := UnitTest clone do(
 		//This setValues is not valid because "i" is expected as a double.
 		//s := S clone setValues(c, i, d, str)
 
-		s := S clone setValues(c value, i value, d value, str value)
+		s := S clone setValues(c, i value, d, str)
 
 		assertEquals(c   value, s c   value)
 		assertEquals(i   value, s i   value)
@@ -33,18 +28,18 @@ StructureTest := UnitTest clone do(
 	testNestedByValueSetValues := method(
 		appendProto(Types)
 
-		S1 := Structure with(list("c", Char),
-							list("i", Int),
-							list("d", Double))
+		S1 := Structure with(	list("c", Char),
+					list("i", Int),
+					list("d", Double))
 
-		S2 := Structure with(list("c1", Char),
-							list("c2", Char))
+		S2 := Structure with(	list("c1", Char),
+					list("c2", Char))
 
-		S3 := Structure with(list("s1", S1),
-							list("s2", S2))
+		S3 := Structure with(	list("s1", S1),
+					list("s2", S2))
 
-		s3 := S3 clone setValues(S1 clone setValues("t", 876, 567.94),
-								S2 clone setValues("U", "p"))
+		s3 := S3 clone setValues(	S1 clone setValues("t", 876, 567.94),
+						S2 clone setValues("U", "p"))
 
 		assertEquals(s3 s1 c  value, "t")
 		assertEquals(s3 s1 i  value, 876)
@@ -57,19 +52,19 @@ StructureTest := UnitTest clone do(
 	testNestedByRefSetValues := method(
 		appendProto(Types)
 		
-		S1 := Structure with(list("d1", Double),
-							list("d2", Double),
-							list("c" , Char),
-							list("d3", Double),
-							list("d4", Double))
+		S1 := Structure with(	list("d1", Double),
+					list("d2", Double),
+					list("c" , Char),
+					list("d3", Double),
+					list("d4", Double))
 
-		S2 := Structure with(list("i1", Int),
-							list("c1", Char),
-							list("s1", CString),
-							list("c2", Char))
+		S2 := Structure with(	list("i1", Int),
+					list("c1", Char),
+					list("s1", CString),
+					list("c2", Char))
 
-		S3 := Structure with(list("s2", S2 ptr),
-							list("s1", S1 ptr))
+		S3 := Structure with(	list("s2", S2 ptr),
+					list("s1", S1 ptr))
 
 		S4 := Structure with(list("s3", S3 ptr))
 
@@ -78,10 +73,15 @@ StructureTest := UnitTest clone do(
 
 		s2 := S2 clone setValues(1000000, "a", "test", "z")
 
-		s3 := S3 clone setValues(S2 ptr clone setValue(s2),
-								S1 ptr clone setValue(s1))
+		/*s3 := S3 clone setValues(	S2 ptr clone setValue(s2),
+						S1 ptr clone setValue(s1))
 
-		s4 := S4 clone setValues(S3 ptr clone setValue(s3))
+		s4 := S4 clone setValues(S3 ptr clone setValue(s3))*/
+
+		s3 := S3 clone setValues(	s2,
+						s1)
+
+		s4 := S4 clone setValues(s3)
 
 
 		assertEquals(s4 s3 value s1 value d1 value, -92.944)
@@ -100,9 +100,9 @@ StructureTest := UnitTest clone do(
 	testPointerToPointers := method(
 		appendProto(Types)
 
-		S := Structure with(list("c", Char),
-							list("d", Double),
-							list("i", Int))
+		S := Structure with(	list("c", Char),
+					list("d", Double),
+					list("i", Int))
 
 		s    := S clone setValues("B", -456.78, 45)
 		ps   := S ptr clone setValue(s)
@@ -130,9 +130,9 @@ StructureTest := UnitTest clone do(
 	testAddress := method(
 		appendProto(Types)
 
-		S := Structure with(list("c", Char),
-							list("d", Double),
-							list("i", Int))
+		S := Structure with(	list("c", Char),
+					list("d", Double),
+					list("i", Int))
 		
 		ps   := S ptr clone
 		pps  := S ptr ptr clone
@@ -155,11 +155,11 @@ StructureTest := UnitTest clone do(
 	testPointedToType := method(
 		appendProto(Types)
 		
-        S := Structure with(list("s", CString),
-                            list("d", Double),
-                            list("i", Int))
+		S := Structure with(	list("s", CString),
+					list("d", Double),
+					list("i", Int))
 
-        1pS := S ptr clone
+		1pS := S ptr clone
 		2pS := S ptr ptr clone
 		3pS := S ptr ptr ptr clone
 		4pS := S ptr ptr ptr ptr clone

@@ -554,12 +554,9 @@ SequenceTest := UnitTest clone do(
 	
 	testBetweenSeq := method(
 	  assertEquals("bc", "abcd" betweenSeq("a", "d"))
-	  assertEquals("bc", "bcd" betweenSeq("a", "d"))
-	  assertEquals("", "abc" betweenSeq("a", "d"))
-	  
-	  // FAILS with Bus error
-	  assertEquals("", "" betweenSeq("aaa", "bbb"))
-	  
+	  assertEquals(nil, "bcd" betweenSeq("a", "d"))
+	  assertEquals(nil, "abc" betweenSeq("a", "d"))
+	  assertEquals(nil, "" betweenSeq("aaa", "bbb"))	  
 	)
 	
 	testSetSize := method(

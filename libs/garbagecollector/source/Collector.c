@@ -74,7 +74,7 @@ void Collector_check(Collector *self)
 
 size_t CollectorMarker_checkObjectPointer(CollectorMarker *marker)
 {
-	if (marker->object == 0x0) 
+	if (marker->object == NULL) 
 	{
 		printf("WARNING: Collector found a null object pointer on marker %p! Memory is likely hosed.\n", (void *)marker);
 		exit(-1);
@@ -83,7 +83,7 @@ size_t CollectorMarker_checkObjectPointer(CollectorMarker *marker)
 	else 
 	{ 
 		// read a word of memory to check for bad pointers
-		int p = *(int *)(marker->object); 
+		uintptr_t p = *(uintptr_t *)(marker->object); 
 	}
 	
 	return 0;

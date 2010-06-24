@@ -12,13 +12,13 @@ TwitterResponse := Object clone do(
 	//doc TwitterResponse body Returns request to which this is the response.
 
 	rateLimitRemaining ::= nil
-	//doc TwitterResponse rateLimit Remaining Returns the rate limit remaining.
+	//doc TwitterResponse rateLimitRemaining Returns the rate limit remaining.
 	
 	rateLimitExpiration ::= nil
-	//doc TwitterResponse rateLimitExpiration Remaining Returns the rate limit expiration.
+	//doc TwitterResponse rateLimitExpiration Returns the rate limit expiration.
 
 	results ::= method(
-		//doc TwitterResponse rateLimitExpiration Remaining Returns response results.
+		//doc TwitterResponse results Returns response results.
 		setResults(Yajl parseJson(body))
 		results
 	)

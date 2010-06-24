@@ -27,7 +27,7 @@ IoTag *IoCFFIPointer_newTag(void *state)
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCFFIPointer_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCFFIPointer_rawClone);
-	//IoTag_markFunc_(tag, (IoTagMarkFunc *)IoCFFIPointer_mark);
+	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoCFFIPointer_mark);
 	return tag;
 }
 
@@ -50,9 +50,10 @@ IoCFFIPointer *IoCFFIPointer_proto(void *state)
 			{"asBuffer", IoCFFIPointer_asBuffer},
 			{"at", IoCFFIPointer_at},
 			{"atPut", IoCFFIPointer_atPut},
-			{"castTo", IoCFFIPointer_castTo},
+			{"cast", IoCFFIPointer_cast},
 			{"value", IoCFFIPointer_value},
 			{"setValue", IoCFFIPointer_setValue},
+			{"size", IoCFFIPointer_size},
 			{"toType", IoCFFIPointer_toType},
 			{NULL, NULL},
 		};
@@ -85,6 +86,7 @@ void IoCFFIPointer_free(IoCFFIPointer *self)
 
 void IoCFFIPointer_mark(IoCFFIPointer *self)
 {
+	IoObject_shouldMarkIfNonNull(DATA(self)->keepRef);
 }
 
 /* ---------------------------------------------------------------- */
@@ -116,9 +118,8 @@ IoCFFIPointer *IoCFFIPointer_ToType_(IoObject *type)
 
 IoObject *IoCFFIPointer_address(IoCFFIPointer *self, IoObject *locals, IoMessage *m)
 {
-	if(*(DATA(self)->valuePointer)) {
+	if ( *(DATA(self)->valuePointer) ) {
 		char str[64] = {0};
-
 		snprintf(str, 64, "%p", *(DATA(self)->valuePointer));
 		return IOSYMBOL(str);
 	}
@@ -139,11 +140,11 @@ IoObject *IoCFFIPointer_value(IoCFFIPointer *self, IoObject *locals, IoMessage *
 		return IONIL(self);
 	}
 
-    typeString = CSTRING(IoState_on_doCString_withLabel_(IOSTATE, self, "typeString", "IoCFFIPointer_value"));
+	typeString = CSTRING(IoState_on_doCString_withLabel_(IOSTATE, self, "typeString", "IoCFFIPointer_value"));
 
-    pointedToType = IoObject_getSlot_(self, IOSYMBOL("pointedToType"));
+	pointedToType = IoObject_getSlot_(self, IOSYMBOL("pointedToType"));
 
-	if (ISCFFIPointer(pointedToType))
+	if ( ISCFFIPointer(pointedToType) )
 	{
 		// we are a pointer to a pointer, so return a new Pointer
 		// that points to the address of our ptr dereferenced
@@ -200,7 +201,7 @@ IoObject *IoCFFIPointer_value(IoCFFIPointer *self, IoObject *locals, IoMessage *
 			}
 			return pointer;
 	}
-	else if(ISCFFIDataType(pointedToType) || ISCFFIStructure(pointedToType) || ISCFFIFunction(pointedToType) || ISCFFIArray(pointedToType))
+	else if( ISCFFIDataType(pointedToType) || ISCFFIStructure(pointedToType) || ISCFFIFunction(pointedToType) || ISCFFIArray(pointedToType) )
 	{
 		return IoCFFIDataType_objectFromData_(pointedToType, *(DATA(self)->valuePointer));
 	}
@@ -211,11 +212,18 @@ IoObject *IoCFFIPointer_value(IoCFFIPointer *self, IoObject *locals, IoMessage *
 	}
 }
 
+
+/*
+	!!!!! IMPORTANT !!!!!
+	
+	pointer_setValue expects a value one indirection level less than self
+
+*/
 IoObject *IoCFFIPointer_setValue(IoCFFIPointer *self, IoObject *locals, IoMessage *m)
 {
-	IoObject* v = IoMessage_locals_valueArgAt_(m, locals, 0);
-	*(DATA(self)->valuePointer) = IoCFFIDataType_ValuePointerFromObject_(self, v);
-	return self;
+	IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 0);
+
+	return IoCFFIPointer_rawSetValue(self, v, IoCFFIDataType_ValuePointerFromObject_(self, v));
 }
 
 IoObject *IoCFFIPointer_toType(IoCFFIPointer *self, IoObject *locals, IoMessage *m)
@@ -232,11 +240,16 @@ IoObject *IoCFFIPointer_at(IoCFFIPointer *self, IoObject *locals, IoMessage *m)
 	IoObject *pointedToType;
 	char *ptr;
 
-	pos = CNUMBER(IoMessage_locals_numberArgAt_(m, locals, 0));
-	pointedToType = IoObject_getSlot_(self, IOSYMBOL("pointedToType"));
-	ptr = ((char *)*(DATA(self)->valuePointer)) + (IoCFFIDataType_ffiType(pointedToType)->size * pos);
-	
-	return IoCFFIDataType_objectFromData_(pointedToType, (void *)ptr);
+	if(*(DATA(self)->valuePointer) == NULL) {
+		IoState_error_(IOSTATE, m, "cannot read from a NULL pointer");
+	}
+	else {
+		pos = CNUMBER(IoMessage_locals_numberArgAt_(m, locals, 0));
+		pointedToType = IoObject_getSlot_(self, IOSYMBOL("pointedToType"));
+		ptr = ((char *)*(DATA(self)->valuePointer)) + (IoCFFIDataType_ffiType(pointedToType)->size * pos);
+		return IoCFFIDataType_objectFromData_(pointedToType, (void *)ptr);
+	}
+	return IONIL(self);
 }
 
 IoObject *IoCFFIPointer_atPut(IoCFFIPointer *self, IoObject *locals, IoMessage *m)
@@ -245,17 +258,23 @@ IoObject *IoCFFIPointer_atPut(IoCFFIPointer *self, IoObject *locals, IoMessage *
 	IoObject *value, *pointedToType, *d;
 	char *ptr;
 
-	//TODO comprobar overrun y coincidencia de tipos
-	pos = CNUMBER(IoMessage_locals_numberArgAt_(m, locals, 0));
-	value = IoMessage_locals_valueArgAt_(m, locals, 1);
+	if(*(DATA(self)->valuePointer) == NULL) {
+		IoState_error_(IOSTATE, m, "cannot write to a NULL pointer");
+	}
+	else {
+		//TODO comprobar overrun y coincidencia de tipos
+		pos = CNUMBER(IoMessage_locals_numberArgAt_(m, locals, 0));
+		value = IoMessage_locals_valueArgAt_(m, locals, 1);
 
-	pointedToType = IoObject_getSlot_(self, IOSYMBOL("pointedToType"));
-	ptr = ((char *)*(DATA(self)->valuePointer)) + (IoCFFIDataType_ffiType(pointedToType)->size * pos);
+		pointedToType = IoObject_getSlot_(self, IOSYMBOL("pointedToType"));
+		ptr = ((char *)*(DATA(self)->valuePointer)) + (IoCFFIDataType_ffiType(pointedToType)->size * pos);
 
-	d = IOCLONE(pointedToType);
-	IoCFFIDataType_rawSetValue(d, value);
-	memcpy(ptr, (void *)IoCFFIDataType_ValuePointerFromObject_(NULL, d), IoCFFIDataType_ffiType(pointedToType)->size);
-
+		// We will have the GC problem here again, surely... should keep track of the cloned pointedToType...
+		d = IOCLONE(pointedToType);
+		IoCFFIDataType_rawSetValue(d, value);
+		memcpy(ptr, (void *)IoCFFIDataType_ValuePointerFromObject_(self, d), IoCFFIDataType_ffiType(pointedToType)->size);
+	}
+	
 	return self;
 }
 
@@ -264,42 +283,100 @@ IoObject *IoCFFIPointer_asBuffer(IoCFFIPointer *self, IoObject *locals, IoMessag
 	return IoCFFIDataType_asBuffer(self, locals, m);
 }
 
-IoObject *IoCFFIPointer_castTo(IoCFFIPointer *self, IoObject *locals, IoMessage *m)
+IoObject *IoCFFIPointer_cast(IoCFFIPointer *self, IoObject *locals, IoMessage *m)
 {
-    IoObject *toType = IoMessage_locals_valueArgAt_(m, locals, 0);
-    IoObject *o = IoState_on_doCString_withLabel_(IOSTATE, toType, "?typeString", "IoCFFIPointer_castTo");
+	// obj cast(to)
+	// Pointer cast(obj, to)
+	IoObject *from, *toType, *o;
+	int count;
 
-    if(!ISNIL(o)) {
-        char *typeStr = CSTRING(o);
+	count = IoMessage_argCount(m);
+	if ( 1 == count ) {
+		from = self;
+		toType = IoMessage_locals_valueArgAt_(m, locals, 0);
+	}
+	else if ( 2 == count ) {
+		from = IoMessage_locals_valueArgAt_(m, locals, 0);
+		toType = IoMessage_locals_valueArgAt_(m, locals, 1);
+	}
+	else {
+		IoState_error_(IOSTATE, m, "Wrong number of arguments");
+		return IONIL(self);
+	}
+	
+	o = IoState_on_doCString_withLabel_(IOSTATE, toType, "?typeString", "IoCFFIPointer_castTo");
 
-        switch(typeStr[0]) {
-            case '^':
-                toType = IOCLONE(toType);
-                *(DATA(toType)->valuePointer) = *((void **)IoCFFIDataType_ValuePointerFromObject_(toType, self));
-                return toType;
-            case '*':
-                toType = IOCLONE(toType);
-                IoCFFIDataType_rawSetValue(toType, self);
-                return toType;
-            default:
-                IoState_error_(IOSTATE, m, "Wrong type to cast to.");
-                break;
-        }
-    }
-    else {
-        // Mm... well, if the type to cast to does not have a typeString slot,
-        // it should be an Io Object, so the address stored here is a pointer to an
-        // Io Object. Simply cast the pointer and return it... dangerous but...
-        
-        IoObject *obj = (IoObject *)*(DATA(self)->valuePointer);
-        if(ISOBJECT(obj))
-            return (IoObject *)*(DATA(self)->valuePointer);
-    }
+	if ( !ISNIL(o) ) {
+		char *typeStr = CSTRING(o);
 
-    return IONIL(self);
+		switch ( typeStr[0] ) {
+			case '^':
+				toType = IOCLONE(toType);
+				//IoCFFIDataType_rawSetValue(toType, self); //same indirection levels...
+				*(DATA(toType)->valuePointer) = *((void **)IoCFFIDataType_ValuePointerFromObject_(toType, from));
+				DATA(toType)->keepRef = IOREF(from);
+				break;
+			case '*':
+				toType = IOCLONE(toType);
+				IoCFFIDataType_rawSetValue(toType, self);
+				break;
+			default:
+				IoState_error_(IOSTATE, m, "Wrong type to cast to.");
+				return IONIL(self);
+		}
+
+		return toType;
+	}
+	else {
+		// Mm... well, if the type to cast to does not have a typeString slot,
+		// it should be an Io Object, so the address stored here is a pointer to an
+		// Io Object. Simply cast the pointer and return it... dangerous but...
+
+		IoObject *obj = (IoObject *)*(DATA(self)->valuePointer);
+		if( ISOBJECT(obj) )
+			return (IoObject *)*(DATA(self)->valuePointer);
+	}
+
+	return IONIL(self);
+}
+
+IoObject *IoCFFIPointer_size(IoCFFIPointer *self, IoObject *locals, IoMessage *m)
+{
+	return IONUMBER(ffi_type_pointer.size);
 }
 
 /********************************************/
+
+IoCFFIPointer *IoCFFIPointer_rawSetValue(IoCFFIPointer *self, IoObject *source, void *value)
+{
+	IoSeq *typeStringSelf, *typeStringValue;
+
+	typeStringSelf = IoState_on_doCString_withLabel_(IOSTATE, self, "typeString", "IoCFFIPointer_value");
+	typeStringValue = IoState_on_doCString_withLabel_(IOSTATE, source, "?typeString", "IoCFFIPointer_value");
+	if ( ISNIL(typeStringValue) ) {
+		IoState_error_(IOSTATE, NULL, "value is not a CFFI object");
+		return IONIL(self);
+	}
+	else {
+		char *c_self = CSTRING(typeStringSelf) + 1;
+		char *c_value = CSTRING(typeStringValue);
+
+		if ( 0 != strncmp(c_self, c_value, strlen(c_self)) ) {
+			IoState_error_(IOSTATE, NULL, "expected a type %s and got a type %s", c_self, c_value);
+			return IONIL(self);
+		}
+		else {
+			*(DATA(self)->valuePointer) = value;
+			// The GC problem has to do with the fact that Pointer objects (and
+			// CFFI types that takes the data pointer and throw away the owner of
+			// the pointer, ie: Array types) should keep a reference to the owner
+			// of the pointer.
+			DATA(self)->keepRef = IOREF(source);
+		}
+	}
+
+	return self;
+}
 
 IoCFFIPointer *IoCFFIPointer_cloneWithData(IoCFFIPointer *self, void **data)
 {

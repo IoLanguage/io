@@ -232,7 +232,7 @@ void IoAVCodec_mark(IoAVCodec *self)
 
 void IoAVCodec_error_(IoAVCodec *self, IoMessage *m, char *s)
 {
-	fprintf(stderr, s);
+	fprintf(stderr, "%s", s);
 	IoState_error_(IOSTATE, m, s);
 }
 
@@ -258,7 +258,7 @@ IoObject *IoAVCodec_decodeCodecNames(IoAVCodec *self, IoObject *locals, IoMessag
 	Returns a list of strings with the names of the decode codecs.
 	*/
 
-	AVCodec *p = first_avcodec;
+	AVCodec *p = av_codec_next(NULL);
 	IoList *names = IoList_new(IOSTATE);
 
 	while (p)
@@ -268,7 +268,7 @@ IoObject *IoAVCodec_decodeCodecNames(IoAVCodec *self, IoObject *locals, IoMessag
 			IoList_rawAppend_(names, IOSYMBOL(p->name));
 		}
 
-		p = p->next;
+        p = av_codec_next(p);
 	}
 
 	return names;
@@ -280,7 +280,7 @@ IoObject *IoAVCodec_encodeCodecNames(IoAVCodec *self, IoObject *locals, IoMessag
 	Returns a list of strings with the names of the encode codecs.
 	*/
 
-	AVCodec *p = first_avcodec;
+	AVCodec *p = av_codec_next(NULL);
 	IoList *names = IoList_new(IOSTATE);
 
 	while (p)
@@ -290,7 +290,7 @@ IoObject *IoAVCodec_encodeCodecNames(IoAVCodec *self, IoObject *locals, IoMessag
 			IoList_rawAppend_(names, IOSYMBOL(p->name));
 		}
 
-		p = p->next;
+        p = av_codec_next(p);
 	}
 
 	return names;
@@ -472,7 +472,7 @@ int IoAVCodec_findStreams(IoAVCodec *self)
 IoObject *IoAVCodec_isAtEnd(IoAVCodec *self, IoObject *locals, IoMessage *m)
 {
 	/*doc AVCodec isAtEnd
-	Returns true if the stream is at it's end, false otherwise.
+	Returns true if the stream is at its end, false otherwise.
 	*/
 	
 	return IOBOOL(self, DATA(self)->isAtEnd);
@@ -543,7 +543,7 @@ int IoAVCodec_decodeAudioPacket(IoAVCodec *self, AVCodecContext *c, uint8_t *inb
 	while (size > 0)
 	{
 		int outSize;
-		int len = avcodec_decode_audio(c, (int16_t *)outbuf, &outSize, inbuf, size);
+		int len = avcodec_decode_audio2(c, (int16_t *)outbuf, &outSize, inbuf, size);
 
 		if (len < 0)
 		{
@@ -598,20 +598,26 @@ int IoAVCodec_decodeVideoPacket(IoAVCodec *self, AVCodecContext *c, uint8_t *inb
 	return 0;
 }
 
+
 IoSeq *IoAVCode_frameSeqForAVFrame_(IoAVCodec *self, AVFrame *avframe, int srcPixelFormat, int width, int height)
 {
-	AVPicture *rgbPicture = IoAVCode_allocDstPictureIfNeeded(self, srcPixelFormat, width, height);
-	AVPicture srcPicture;
+	AVPicture *rgbPicture = IoAVCode_allocDstPictureIfNeeded(self, PIX_FMT_RGB24, width, height);
 	int result;
+        
+        struct SwsContext *img_convert_ctx;
+        img_convert_ctx = sws_getContext(width, height, srcPixelFormat,
+                                         width, height, PIX_FMT_RGB24,
+                                         SWS_BICUBIC, NULL, NULL, NULL);
+        
+	result = sws_scale(img_convert_ctx, 
+                           avframe->data,    avframe->linesize, 0, height, 
+                           rgbPicture->data, rgbPicture->linesize);
 
-	memcpy(srcPicture.data,     avframe->data,     sizeof(uint8_t *) * 4);
-	memcpy(srcPicture.linesize, avframe->linesize, sizeof(int)       * 4);
+        sws_freeContext(img_convert_ctx);
 
-	result = img_convert(rgbPicture, PIX_FMT_RGB24, &srcPicture, srcPixelFormat, width, height);
-
-	if (result)
+        if (result)
 	{
-		printf("AVCodec: img_convert error?\n");
+		printf("AVCodec: sws_scale error?\n");
 	}
 
 	UArray *data = UArray_newWithData_type_encoding_size_copy_(rgbPicture->data[0], CTYPE_uint8_t, CENCODING_NUMBER, width * height * 3, 1);

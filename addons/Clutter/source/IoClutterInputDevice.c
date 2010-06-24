@@ -1,4 +1,6 @@
 #include "IoClutterInputDevice.h"
+//metadoc ClutterInputDevice category UserInterface
+//metadoc ClutterInputDevice description For more detailed docs see <a href="http://clutter-project.org/docs/clutter/stable/ClutterInputDevice.html">Clutter documentation</a>.
 
 /*** Initalisation functions ***/
 IoTag *IoClutterInputDevice_newTag(void *state) {
@@ -60,10 +62,12 @@ IoObject *IoMessage_locals_clutterDeviceArgAt_(IoMessage *self, IoObject *locals
 }
 
 /*** Object functions ***/
+//doc ClutterInputDevice deviceId
 IO_METHOD(IoClutterInputDevice, getId) {
   return IONUMBER(clutter_input_device_get_device_id(IOCIDEVICE(self)));
 }
 
+//doc ClutterInputDevice deviceType
 IO_METHOD(IoClutterInputDevice, getType) {
   return IONUMBER(clutter_input_device_get_device_type(IOCIDEVICE(self)));
 }

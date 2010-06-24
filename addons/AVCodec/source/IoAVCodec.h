@@ -10,6 +10,12 @@
 #include "IoList.h"
 #include <libavcodec/avcodec.h>
 #include <libavformat/avformat.h>
+/*
+#include <ffmpeg/avcodec.h>
+#include <ffmpeg/avformat.h>
+*/
+#include <libswscale/swscale.h>
+#include <errno.h>
 
 typedef IoObject IoAVCodec;
 

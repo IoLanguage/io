@@ -28,6 +28,10 @@ void IoState_error_(IoState *self, IoMessage *m, const char *format, ...)
 	fputs(CSTRING(description), stderr);
 	fputs("\n\n", stderr);
 	*/
+	while(Collector_isPaused(self->collector))
+	{
+		Collector_popPause(self->collector);
+	}
 
 	{
 		IoCoroutine *coroutine = IoState_currentCoroutine(self);

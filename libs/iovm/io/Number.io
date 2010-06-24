@@ -51,7 +51,7 @@ Number do(
 	//doc Number permutations(size) Returns the permutations where the receiver is the number of different objects and size is the number to be arranged.
 	permutations := method(r, self factorial /((self - r) factorial))
 
-	//doc Number minMax(low, high) Returns a number between or equal to low and high. If the receiver is equal to or between low and high, the reciever is returned. If the reciever is less than low, low is returned. If the receiver is greater than high, high is returned.
+	//doc Number minMax(low, high) Returns a number between or equal to low and high. If the receiver is equal to or between low and high, the receiver is returned. If the receiver is less than low, low is returned. If the receiver is greater than high, high is returned.
 	minMax := method(low, high, min(high) max(low))
 	
 	asJson := getSlot("asString")

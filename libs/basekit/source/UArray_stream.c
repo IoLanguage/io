@@ -9,6 +9,8 @@
 #include <stdio.h>
 #include <stddef.h>
 
+#define CHUNK_SIZE 4096
+
 // read ------------------------------------------------------
 
 size_t UArray_fread_(UArray *self, FILE *fp)
@@ -21,7 +23,7 @@ size_t UArray_fread_(UArray *self, FILE *fp)
 long UArray_readFromCStream_(UArray *self, FILE *fp)
 {
 	long totalItemsRead = 0;
-	long itemsPerBuffer =  4096 / self->itemSize;
+	long itemsPerBuffer = CHUNK_SIZE / self->itemSize;
 	UArray *buffer = UArray_new();
 	UArray_setItemType_(buffer, self->itemType);
 	UArray_setSize_(buffer, itemsPerBuffer);
@@ -77,9 +79,6 @@ long UArray_readFromFilePath_(UArray *self, const UArray *path)
 	return itemsRead;
 }
 
-
-#define CHUNK_SIZE 4096
-
 int UArray_readLineFromCStream_(UArray *self, FILE *stream)
 {
 	int readSomething = 0;
@@ -90,21 +89,22 @@ int UArray_readLineFromCStream_(UArray *self, FILE *stream)
 
 		while (fgets(s, CHUNK_SIZE, stream) != NULL)
 		{
-			char *eol1 = strchr(s, '\n');
-			char *eol2 = strchr(s, '\r');
+			int i;
+			int start = strlen(s) - 1;
+
+			/* Remove trailing newline characters */
+			for (i = start; (i >= 0) && ((s[i] == '\n') || (s[i] == '\r')) ; s[i--] = '\0') ;
 
 			readSomething = 1;
-
-			if (eol1) { *eol1 = 0; } // remove the \n return character
-			if (eol2) { *eol2 = 0; } // remove the \r return character
 
 			if (*s)
 			{
 				UArray_appendCString_(self, s);
 			}
 
-			if (eol1 || eol2)
-			{
+			/* I think this might not quite be right, but it's equivalent to
+			 * what was happening before... */
+			if (i < start) {
 				break;
 			}
 		}

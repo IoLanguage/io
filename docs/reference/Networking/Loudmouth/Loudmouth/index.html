@@ -9,9 +9,54 @@
 		<body>
 		
 <br>
-<h1>Loudmouth Proto</h1>
-<br><br><br><br><br><br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Networking</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>Loudmouth</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>Loudmouth</b>
+<br><br><br>
+<br><br><br>
 <table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td><a href="http://groups.google.com/group/loudmouth-dev/">Loudmouth</a> is an async XMPP library written in C.
+
+Example usage:
+<code><pre>
+acc := Loudmouth with("user@server.com", "super password") do(
+  handleConnect = method(
+    "Connected!" println)
+
+  handleMessage = method(msg
+    "#{msg from} > #{msg plainBody}" println
+    body :=  msg plainBody
+
+    if(body indexOf("#") == 0,
+      body = doString(body) asString)
+
+    # This way you can manipulate
+    # XML nodes with SGML addon
+    XmppChatMessage create\
+      setPlainBody(body)\
+      setTo(msg from)\
+      sendVia(self)
+
+    # or simply send the message (must be a Sequence)
+    # (this is obviously faster)
+    #self send(msg from, body))
+)
+
+acc connect
+# Any Io code after this line won't be executed
+# (unless called as Loudmouth callback or run in separate thread)
+Loudmouth startMainLoop
+
+</pre></code>
+</td></tr>
 <tr><td colspan=3>&nbsp;</td></tr>
 <tr><td colspan=3>&nbsp;</td></tr>
 <tr><td colspan=3>&nbsp;</td></tr>
@@ -22,20 +67,6 @@
 <td>
 <hr align=left color=#ddd height=1>
 <br><br>
-<a name="Loudmouth-asString"></a><b>
-asString
-</b>
-<p>
-<div class=slotDescription>
-Converts XML to Sequence.
-</div>
-<a name="Loudmouth-body"></a><b>
-body
-</b>
-<p>
-<div class=slotDescription>
-Returns value message's body node. If both XHTML and plain versions are available, XHTML version will be returned.
-</div>
 <a name="Loudmouth-connect"></a><b>
 connect
 </b>
@@ -50,12 +81,12 @@ disconnect
 <div class=slotDescription>
 Disconnects from server and returns <code>true</code> if it succeeds.
 </div>
-<a name="Loudmouth-from"></a><b>
-from
+<a name="Loudmouth-handleAuthenticated"></a><b>
+handleAuthenticated
 </b>
 <p>
 <div class=slotDescription>
-Returns sender's JID.
+Slot called upon successful authentication.
 </div>
 <a name="Loudmouth-handleAuthenticationFailure"></a><b>
 handleAuthenticationFailure
@@ -90,14 +121,14 @@ handleMessage(xmppMessage)
 </b>
 <p>
 <div class=slotDescription>
-Slot called when an message arrives via XMPP stream. <code>xmppMessage</code> is a <code>LoudmouthMessage</code> object.
+Slot called when a message arrives via XMPP stream. <code>xmppMessage</code> is a <code>LoudmouthMessage</code> object.
 </div>
 <a name="Loudmouth-handleSslFailure"></a><b>
 handleSslFailure
 </b>
 <p>
 <div class=slotDescription>
-Slot called if SSL-related problems arrive. Method should return <code>true</code> if it wishes make a connection without SSL, <code>false</code> otherwise.
+Slot called if SSL-related problems arrive. Method should return <code>true</code> if it wishes to make a connection without SSL, <code>false</code> otherwise.
 </div>
 <a name="Loudmouth-isConnected"></a><b>
 isConnected
@@ -113,13 +144,6 @@ isSslSupported
 <div class=slotDescription>
 
 </div>
-<a name="Loudmouth-plainBody"></a><b>
-plainBody
-</b>
-<p>
-<div class=slotDescription>
-Returns value of message's body node with XHTML markup.
-</div>
 <a name="Loudmouth-registerAccount"></a><b>
 registerAccount(server, username, password)
 </b>
@@ -132,7 +156,7 @@ send(toJid, message)
 </b>
 <p>
 <div class=slotDescription>
-Sends an message (<code>Sequence</code>) to provided JID (<code>Sequence</code>). Returns <code>true</code> or <code>false</code>.
+Sends a message (<code>Sequence</code>) to provided JID (<code>Sequence</code>). Returns <code>true</code> or <code>false</code>.
 </div>
 <a name="Loudmouth-sendRaw"></a><b>
 sendRaw(body)
@@ -141,26 +165,12 @@ sendRaw(body)
 <div class=slotDescription>
 Sends raw text over XMPP stream. Returns <code>true</code> if no errors occur.
 </div>
-<a name="Loudmouth-sendVia"></a><b>
-sendVia(loudmouthConnection)
-</b>
-<p>
-<div class=slotDescription>
-Converts message to sequence and sends it via provided Loudmouth connection (<code>Loudmouth</code> object). It updates <code>from</code> property and returns <code>true</code> if message is sent.
-</div>
-<a name="Loudmouth-setFrom"></a><b>
-setFrom(jid)
-</b>
-<p>
-<div class=slotDescription>
-Sets sender's JID. Returns <code>self</code>.
-</div>
 <a name="Loudmouth-setPresence"></a><b>
 setPresence(presence[, statusMessage])
 </b>
 <p>
 <div class=slotDescription>
-Sets aviability/presence and status message.
+Sets availability/presence and status message.
 </div>
 <a name="Loudmouth-setStatusMessage"></a><b>
 setStatusMessage(statusMessage)
@@ -169,19 +179,12 @@ setStatusMessage(statusMessage)
 <div class=slotDescription>
 Sets status message.
 </div>
-<a name="Loudmouth-setXmppType"></a><b>
-setXmppType(type)
-</b>
-<p>
-<div class=slotDescription>
-Sets value of <code>type</code> attribute.
-</div>
 <a name="Loudmouth-startMainLoop"></a><b>
 startMainLoop
 </b>
 <p>
 <div class=slotDescription>
-Starts GMainLoop. Should be called after connection is established with the server.
+Starts GMainLoop. Should be called after a connection is established with the server.
 </div>
 <a name="Loudmouth-status"></a><b>
 status
@@ -222,14 +225,7 @@ with(jid, password)
 </b>
 <p>
 <div class=slotDescription>
-Creates new Lodumouth clone with server details provided in <code>jid</code>.
-</div>
-<a name="Loudmouth-xmppType"></a><b>
-xmppType
-</b>
-<p>
-<div class=slotDescription>
-Returns value of <code>type</code> attribute of message node.
+Creates a new Loudmouth clone with server details provided in <code>jid</code>.
 </div>
 </td>
 </tr>
