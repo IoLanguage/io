@@ -4,6 +4,8 @@ VertexDB Request := Object clone do(
 	queryParamNames ::= list("action")
 	action ::= "size"
 	
+	shouldSend ::= true
+	
 	init := method(
 		setQueryParams(queryParams clone)
 		setQueryParamNames(queryParamNames clone)
@@ -57,7 +59,12 @@ VertexDB Request := Object clone do(
 			)
 		
 			r := VertexDB Response clone setRequest(self)
-			r setBody(if(httpMethod asLowercase == "get", url fetch, url post(body)))
+			if(shouldSend,
+				r setBody(if(httpMethod asLowercase == "get", url fetch, url post(body)))
+			,
+				r setBody("SENDING DISABLED")
+			)
+			
 			r setStatusCode(url statusCode)
 		)
 		debugWriteln("dt: ", dt)
