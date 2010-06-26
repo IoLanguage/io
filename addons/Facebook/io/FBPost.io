@@ -1,11 +1,8 @@
 #!/usr/bin/env io
 
 /*
-
 docs at 
 http://developers.facebook.com/docs/reference/api/post
-
-
 */
 
 FBPost := Object clone do(
@@ -31,7 +28,8 @@ FBPost := Object clone do(
 
 		postCall := SystemCall clone setCommand("curl") 
 		postCall setArguments(args)
-		return postCall run stdout readLines
+		writeln(postCall run stdout readLines)
+		//return postCall run stdout readLines
 	)
 )
 
