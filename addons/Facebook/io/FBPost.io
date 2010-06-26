@@ -2,14 +2,9 @@
 
 /*
 
-docs at http://developers.facebook.com/docs/reference/api/post
+docs at 
+http://developers.facebook.com/docs/reference/api/post
 
-sample:
-
-curl -F 'access_token=...' \
-     -F 'message=Hello, Arjun. I like this new API.' \
-     https://graph.facebook.com/arjun/feed
-)
 
 */
 
