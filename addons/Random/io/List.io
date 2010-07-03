@@ -1,5 +1,5 @@
 # The following methods are added only if the Random addon is installed.
-try(Random) ifNil(List do(
+List do(
     //doc List shuffleInPlace Randomizes the order of the elements in the receiver. Returns self.
     shuffleInPlace := method(for(i, 0, size - 1, swapIndices(i, Random value(i, size) floor)))
 
@@ -8,4 +8,4 @@ try(Random) ifNil(List do(
 
     //doc List anyOne Returns a random element of the receiver or nil if the receiver is empty.
     anyOne := method(at(Random value(0, size) floor))
-))
+)
