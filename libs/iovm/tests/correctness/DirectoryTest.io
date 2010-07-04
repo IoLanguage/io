@@ -31,8 +31,8 @@ DirectoryTest := UnitTest clone do(
         assertEquals(list(), Directory with("testDir/emptySubDir") directories)
         # b) has some subdirs,
         assertEquals(
-            dirs map(name),
-            Directory with("testDir") directories map(name)
+            dirs map(name) sort,
+            Directory with("testDir") directories map(name) sort
         )
         # c) has some files, but no subdirs.
         assertEquals(list(), Directory with("testDir/testSubDir") directories)
