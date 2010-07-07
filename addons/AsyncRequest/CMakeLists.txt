@@ -3,28 +3,38 @@
 #
 # Builds the AsyncRequest addon
 
+# Find aio.h
+find_package(AsyncRequest)
+
 # Create the _build bundle hierarchy if needed.
 make_build_bundle(_build)
 
-# Output our dynamic library to the top-level _build hierarchy
-set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/_build/dll)
+if(ASYNCREQUEST_FOUND)
+	# Output our dynamic library to the top-level _build hierarchy
+	set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/_build/dll)
 
-# Generate the IoAsyncRequestInit.c file.
-# Argument SHOULD ALWAYS be the exact name of the addon, case is
-# important.
-generate_ioinit(AsyncRequest)
+	# Generate the IoAsyncRequestInit.c file.
+	# Argument SHOULD ALWAYS be the exact name of the addon, case is
+	# important.
+	generate_ioinit(AsyncRequest)
 
-# Our library sources.
-set(SRCS
-	"${CMAKE_CURRENT_SOURCE_DIR}/source/IoAsyncRequest.c"
-	"${CMAKE_CURRENT_SOURCE_DIR}/source/IoAsyncRequestInit.c"
-)
+	# Our library sources.
+	set(SRCS
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoAsyncRequest.c"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoAsyncRequestInit.c"
+	)
 
-# Now build the shared library
-add_library(IoAsyncRequest SHARED ${SRCS})
-add_dependencies(IoAsyncRequest iovmall)
-target_link_libraries(IoAsyncRequest iovmall)
+	if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+	        set(LINK_RT_LIB "rt")
+	endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
-# Install the addon to our global addons hierarchy.
-install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/addons)
-install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/_build DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/addons/AsyncRequest)
+
+	# Now build the shared library
+	add_library(IoAsyncRequest SHARED ${SRCS})
+	add_dependencies(IoAsyncRequest iovmall)
+	target_link_libraries(IoAsyncRequest iovmall ${LINK_RT_LIB})
+
+	# Install the addon to our global addons hierarchy.
+	install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/addons)
+	install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/_build DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/addons/AsyncRequest)
+endif(ASYNCREQUEST_FOUND)
