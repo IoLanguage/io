@@ -5,6 +5,11 @@
 
 #include "Variant.h"
 
+#if defined(_MSC_VER)
+#define strcasecmp strcmpi
+#define snprintf _snprintf
+#endif
+
 char *_variantBase64Encode(const unsigned char *src, unsigned long srcLength);
 char *_variantBase64Decode(const unsigned char *src, unsigned long srcLength, unsigned long *outLength);
 
