@@ -171,10 +171,10 @@ void IoHttpParser_setHttpField_withName_givenSize_value_givenSize_(void *data, c
 
 	{
 		IoMap *httpFields = IoObject_getSlot_(self, IOSYMBOL("httpFields"));
+		IoSeq *fieldValue = IOSEQ(fieldValueBuffer, fieldValueSize);
 		UArray *fieldName = UArray_newWithData_type_size_copy_((char *)fieldNameBuffer, CTYPE_uint8_t, fieldNameSize, 1);
 		UArray_toupper(fieldName);
 		UArray_replaceCString_withCString_(fieldName, "-", "_");
-		IoSeq *fieldValue = IOSEQ(fieldValueBuffer, fieldValueSize);
 
 		//UArray_toupper(fieldName);
 		//UArray_replaceCString_withCString_(fieldName, "-", "_");
