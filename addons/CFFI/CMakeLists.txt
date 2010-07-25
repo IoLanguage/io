@@ -18,6 +18,9 @@ if(FFI_FOUND)
 	# Additional include directories
 	include_directories(${FFI_INCLUDE_DIRS})
 
+	# Additional link directories
+	link_directories(${FFI_LIBRARY_DIRS})
+
 	# Generate the IoCFFIInit.c file.
 	# Argument SHOULD ALWAYS be the exact name of the addon, case is
 	# important.
