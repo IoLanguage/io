@@ -17,7 +17,7 @@ out := digest OauthString
 #include "IoState.h"
 #include "IoSeq.h"
 
-#define DATA(self) ((IoOauthData *)IoObject_dataPointer(self))
+#define DATA(self) ((Oauth *)IoObject_dataPointer(self))
 
 IoTag *IoOauth_newTag(void *state)
 {
@@ -39,11 +39,32 @@ IoOauth *IoOauth_proto(void *state)
 
 	{
 		IoMethodTable methodTable[] = {
-		{"setConsumerKey", IoOauth_setConsumerKey},
-		{"setConsumerSecret", IoOauth_setConsumerSecret},
-		{"getOauthTokenAndSecretFromUrl", IoOauth_getOauthTokenAndSecretFromUrl},
-		{"getAccessKeyAndSecretFromUrl", IoOauth_getAccessKeyAndSecretFromUrl},
-		{NULL, NULL},
+		
+			{"setConsumerKey", IoOauth_setConsumerKey},
+			{"consumerKey", IoOauth_consumerKey},
+			
+			{"setConsumerSecret", IoOauth_setConsumerSecret},
+			{"consumerSecret", IoOauth_consumerSecret},
+
+			{"setOauthToken", IoOauth_setOauthToken},
+			{"oauthToken", IoOauth_oauthToken},
+			
+			{"setOauthSecret", IoOauth_setOauthSecret},
+			{"oauthSecret", IoOauth_oauthSecret},
+			
+			{"setAccessKey", IoOauth_setAccessKey},
+			{"accessKey", IoOauth_accessKey},
+			
+			{"setAccessSecret", IoOauth_setAccessSecret},
+			{"accessSecret", IoOauth_accessSecret},
+			
+			{"getOauthTokenAndSecretFromUrl", IoOauth_getOauthTokenAndSecretFromUrl},
+			{"getAccessKeyAndSecretFromUrl", IoOauth_getAccessKeyAndSecretFromUrl},
+			
+			{"requestUrl", IoOauth_requestUrl},
+			
+			{NULL, NULL},
+		
 		};
 		IoObject_addMethodTable_(self, methodTable);
 	}
@@ -81,6 +102,15 @@ IoObject *IoOauth_setConsumerKey(IoOauth *self, IoObject *locals, IoMessage *m)
 	return self;
 }
 
+IoObject *IoOauth_consumerKey(IoOauth *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Oauth consumerKey
+	Returns consumerKey.
+	*/
+
+	return IOSYMBOL(string_data(Oauth_consumerKey(IoObject_dataPointer(self))));
+}
+
 IoObject *IoOauth_setConsumerSecret(IoOauth *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Oauth setConsumerKey(aSequence)
@@ -91,6 +121,103 @@ IoObject *IoOauth_setConsumerSecret(IoOauth *self, IoObject *locals, IoMessage *
 	Oauth_setConsumerSecret_(IoObject_dataPointer(self), CSTRING(k));
 	return self;
 }
+
+IoObject *IoOauth_consumerSecret(IoOauth *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Oauth consumerSecret
+	Returns consumerSecret.
+	*/
+
+	return IOSYMBOL(string_data(Oauth_consumerSecret(IoObject_dataPointer(self))));
+}
+
+/* ----------------------------------------------------------- */
+
+IoObject *IoOauth_setOauthToken(IoOauth *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Oauth setOauthToken(aSequence)
+	Sets the oauth key. Returns self.
+	*/
+	IoSeq *k = IoMessage_locals_seqArgAt_(m, locals, 0);
+
+	Oauth_setOauthToken_(IoObject_dataPointer(self), CSTRING(k));
+	return self;
+}
+
+IoObject *IoOauth_oauthToken(IoOauth *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Oauth oauthToken
+	Returns oauthToken.
+	*/
+
+	return IOSYMBOL(string_data(Oauth_oauthToken(IoObject_dataPointer(self))));
+}
+
+IoObject *IoOauth_setOauthSecret(IoOauth *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Oauth setOauthSecret(aSequence)
+	Sets the consumer key. Returns self.
+	*/
+	IoSeq *k = IoMessage_locals_seqArgAt_(m, locals, 0);
+
+	Oauth_setOauthSecret_(IoObject_dataPointer(self), CSTRING(k));
+	return self;
+}
+
+IoObject *IoOauth_oauthSecret(IoOauth *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Oauth oauthSecret
+	Returns oauthSecret.
+	*/
+
+	return IOSYMBOL(string_data(Oauth_oauthSecret(IoObject_dataPointer(self))));
+}
+
+
+/* ----------------------------------------------------------- */
+
+IoObject *IoOauth_setAccessKey(IoOauth *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Oauth setAccessKey(aSequence)
+	Sets the access key. Returns self.
+	*/
+	IoSeq *k = IoMessage_locals_seqArgAt_(m, locals, 0);
+
+	Oauth_setAccessKey_(IoObject_dataPointer(self), CSTRING(k));
+	return self;
+}
+
+IoObject *IoOauth_accessKey(IoOauth *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Oauth accessKey
+	Returns accessKey.
+	*/
+
+	return IOSYMBOL(string_data(Oauth_accessKey(IoObject_dataPointer(self))));
+}
+
+
+IoObject *IoOauth_setAccessSecret(IoOauth *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Oauth setAccessSecret(aSequence)
+	Sets the access secret. Returns self.
+	*/
+	IoSeq *k = IoMessage_locals_seqArgAt_(m, locals, 0);
+
+	Oauth_setAccessSecret_(IoObject_dataPointer(self), CSTRING(k));
+	return self;
+}
+
+IoObject *IoOauth_accessSecret(IoOauth *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Oauth accessSecret
+	Returns accessSecret.
+	*/
+
+	return IOSYMBOL(string_data(Oauth_accessSecret(IoObject_dataPointer(self))));
+}
+
+/* ----------------------------------------------------------- */
 
 IoObject *IoOauth_getOauthTokenAndSecretFromUrl(IoOauth *self, IoObject *locals, IoMessage *m)
 {
@@ -122,6 +249,7 @@ IoObject *IoOauth_requestUrl(IoOauth *self, IoObject *locals, IoMessage *m)
 	IoSeq *url = IoMessage_locals_seqArgAt_(m, locals, 0);
 
 	Oauth_requestUrl_(IoObject_dataPointer(self), CSTRING(url));
-	return self;
+	struct string *s = Oauth_responseData(IoObject_dataPointer(self));
+	return IOSEQ(string_data(s), string_len(s));
 }
 

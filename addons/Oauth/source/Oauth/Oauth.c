@@ -313,7 +313,7 @@ int oauth_get_request_token(const char *fullUrl, const char *consumerKey, const 
 			const char *value 	= ++p;
 			size_t valueLen;
 
-			printf("[%.*s]\n", (signed)nameLen, name);
+			//printf("[%.*s]\n", (signed)nameLen, name);
 
 			for (; p != e && *p != '&'; ++p)
 				continue;
@@ -325,7 +325,7 @@ int oauth_get_request_token(const char *fullUrl, const char *consumerKey, const 
 			else if (nameLen == 18 && memcmp(name, "oauth_token_secret", 18) == 0)
 				string_append(oauthTokenSecret, value, valueLen);
 
-			printf("value =[%.*s]\n", (signed)valueLen, value);
+			//printf("value =[%.*s]\n", (signed)valueLen, value);
 
 			if (p != e)
 				++p;
@@ -398,7 +398,7 @@ int oauth_exchange_reqtoken(const char *fullUrl, const char *consumerKey, const 
 			const char *value 	= ++p;
 			size_t valueLen;
 
-			printf("[%.*s]\n", (signed)nameLen, name);
+			//printf("[%.*s]\n", (signed)nameLen, name);
 
 			for (; p != e && *p != '&'; ++p)
 				continue;
@@ -410,7 +410,7 @@ int oauth_exchange_reqtoken(const char *fullUrl, const char *consumerKey, const 
 			else if (nameLen == 18 && memcmp(name, "oauth_token_secret", 18) == 0)
 				string_append(accessSeret, value, valueLen);
 
-			printf("value =[%.*s]\n", (signed)valueLen, value);
+			//printf("value =[%.*s]\n", (signed)valueLen, value);
 
 			if (p != e)
 				++p;
@@ -534,15 +534,26 @@ void Oauth_free(Oauth* self)
 	free(self);
 }
 
-void Oauth_setConsumerKey_(Oauth* self, char *k)
-{
-	string_set(self->consumer_key, k);
-}
+void Oauth_setConsumerKey_(Oauth* self, char *k)	{ string_set(self->consumer_key, k); }
+struct string *Oauth_consumerKey(Oauth* self)		{ return self->consumer_key; }
 
-void Oauth_setConsumerSecret_(Oauth* self, char *s)
-{
-	string_set(self->consumer_secret, s);
-}
+void Oauth_setConsumerSecret_(Oauth* self, char *s) { string_set(self->consumer_secret, s); }
+struct string *Oauth_consumerSecret(Oauth* self)    { return self->consumer_secret; }
+
+
+void Oauth_setOauthToken_(Oauth* self, char *s)		{ string_set(self->oauth_token, s); }
+struct string *Oauth_oauthToken(Oauth* self)		{ return self->oauth_token; }
+
+void Oauth_setOauthSecret_(Oauth* self, char *s)	{ string_set(self->oauth_secret, s); }
+struct string *Oauth_oauthSecret(Oauth* self)		{ return self->oauth_secret; }
+
+
+void Oauth_setAccessKey_(Oauth* self, char *s)	{ string_set(self->access_key, s); }
+struct string *Oauth_accessKey(Oauth* self)		{ return self->access_key; }
+
+void Oauth_setAccessSecret_(Oauth* self, char *s)	{ string_set(self->access_secret, s); }
+struct string *Oauth_accessSecret(Oauth* self)		{ return self->access_secret; }
+
 
 void Oauth_getOauthTokenAndSecretFromUrl_(Oauth *self, char *url)
 {
@@ -553,7 +564,13 @@ void Oauth_getOauthTokenAndSecretFromUrl_(Oauth *self, char *url)
 void Oauth_getAccessKeyAndSecretFromUrl_(Oauth *self, char *url)
 {
 	// https://www.google.com/accounts/OAuthAuthorizeToken?oauth_token=OBTAINED_REQUEST_TOKEN
-	oauth_exchange_reqtoken(url, string_data(self->consumer_key), string_data(self->consumer_secret), string_data(self->oauth_token), string_data(self->oauth_secret), self->access_key, self->access_secret);
+	oauth_exchange_reqtoken(url, 
+		string_data(self->consumer_key), 
+		string_data(self->consumer_secret), 
+		string_data(self->oauth_token), 
+		string_data(self->oauth_secret), 
+		self->access_key, 
+		self->access_secret);
 }
 
 void Oauth_requestUrl_(Oauth *self, char *url)
@@ -562,8 +579,10 @@ void Oauth_requestUrl_(Oauth *self, char *url)
 	struct http_response resp;
 	http_response_init(&resp);	
 	oauth_http_request("GET", url, NULL, 0, 
-		string_data(self->consumer_key), string_data(self->consumer_secret), 
-		string_data(self->access_key), string_data(self->access_secret), 
+		string_data(self->consumer_key), 
+		string_data(self->consumer_secret), 
+		string_data(self->access_key), 
+		string_data(self->access_secret), 
 		&resp);
 	// printf("got response code %u, content: [%.*s]\n", (unsigned)resp.respCode, (unsigned)resp.contentLen, resp.body + resp.headersSize);
 	string_reset(self->responseData);
