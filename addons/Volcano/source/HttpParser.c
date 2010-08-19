@@ -1,3 +1,5 @@
+#include <stdio.h>
+//#include <stdarg.h>
 #include "HttpParser.h"
 
 HttpParser *HttpParser_new(void)
@@ -33,10 +35,12 @@ void HttpParser_setParseError_(HttpParser *self, const char *format, ...)
 {
 	HttpParser_clearParseError(self);
 
-	va_list ap;
-	va_start(ap, format);
-	self->parseError = UArray_newWithVargs_(format, ap);
-	va_end(ap);
+	{
+		va_list ap;
+		va_start(ap, format);
+		self->parseError = UArray_newWithVargs_(format, ap);
+		va_end(ap);
+	}
 	
 	//move to error state
 	self->parser->cs = 0;

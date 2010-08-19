@@ -14,7 +14,9 @@
  *   34AA973C D4C4DAA4 F61EEB2B DBAD2731 6534016F
  */
 
+#ifndef _MSC_VER
 #include <sys/param.h>
+#endif
 #include <string.h>
 #include "sha1.h"
 

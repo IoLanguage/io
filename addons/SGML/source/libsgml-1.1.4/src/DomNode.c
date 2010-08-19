@@ -15,6 +15,10 @@
 #include "DomNode.h"
 #include "DomNodeList.h"
 
+#if defined(_MSC_VER)
+#define strcasecmp strcmpi
+#endif
+
 DOM_NODE *domNodeNew(unsigned long type, const char *name, const char *value)
 {
 	DOM_NODE *node = (DOM_NODE *)malloc(sizeof(DOM_NODE));

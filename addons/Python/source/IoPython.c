@@ -28,8 +28,10 @@ IoTag *IoPython_newTag(void *state)
 
 IoPython *IoPython_proto(void *state)
 {
+	IoObject *self = NULL;
+
 	Py_Initialize();
-	IoObject *self = IoObject_new(state);
+	self = IoObject_new(state);
 	IoObject_tag_(self, IoPython_newTag(state));
 	IoObject_setDataPointer_(self, PythonData_new());
 	fflush(stdout);
@@ -119,9 +121,9 @@ PyObject *convertIo(IoObject *self, IoObject *obj) {
 		//otherwise you get "Bus error", probably when Python tries to complain that you've passed it an invalid data structure
 		LIST_SAFEFOREACH(IoList_rawList(obj), i, v, PyList_SET_ITEM(ret, i, convertIo(self, v)));
 	} else if(ISMAP(obj)) {
+		IoList* keys = IoMap_rawKeys(obj); //XXX do I have to free this?
 		ret = PyDict_New();
 		Py_INCREF(ret);
-		IoList* keys = IoMap_rawKeys(obj); //XXX do I have to free this?
 		//todo: check for NULL returns from the recursions
 		LIST_SAFEFOREACH(IoList_rawList(keys), i, v, PyDict_SetItem(ret, convertIo(self, v), convertIo(self, IoMap_rawAt(obj, v))));
 	} else {
@@ -158,9 +160,9 @@ IoObject *convertPy(IoObject *self, PyObject *obj) {
 		// Decref?
 	} else if(PyList_Check(obj)) {
 		// We have a list. So, make an Io list, and convert every element, and insert them.
+		int i;
 		int len = PyList_GET_SIZE(obj);
 		ret = IoList_new(IOSTATE);
-		int i;
 		for(i=0;i<len;i++) {
 			PyObject *o = PyList_GET_ITEM(obj, i);
 			IoObject *x = convertPy(self, o);
@@ -168,9 +170,9 @@ IoObject *convertPy(IoObject *self, PyObject *obj) {
 			IoList_rawAppend_(ret, x);
 		}
         } else if(PyTuple_Check(obj)) { 
+                int i;
                 int len = PyTuple_GET_SIZE(obj);
                 ret = IoList_new(IOSTATE);
-                int i;
                 for(i=0;i<len;i++) {
                         PyObject *o = PyTuple_GET_ITEM(obj, i);
                         IoObject *x = convertPy(self, o);
@@ -194,6 +196,7 @@ IoObject *convertPy(IoObject *self, PyObject *obj) {
 
 IoObject *IoPython_call_int(IoPython *self, IoObject *locals, IoMessage *m, int argOffset, char *functionName)
 {
+	PyObject *pFunc = NULL;
 	int argc = IoMessage_argCount(m);
 
 	PyObject *pModule = DATA(self)->data;
@@ -206,18 +209,19 @@ IoObject *IoPython_call_int(IoPython *self, IoObject *locals, IoMessage *m, int 
 		return IONIL(self);
 	}
 
-	PyObject *pFunc = PyObject_GetAttrString(pModule, functionName);
+	pFunc = PyObject_GetAttrString(pModule, functionName);
 	/* pFunc is a new reference */
 
 	if (pFunc && PyCallable_Check(pFunc)) {
 		PyObject *pArgs = PyTuple_New(argc - argOffset); // argc
+		PyObject *pValue = NULL;
 		int i;
 		for(i = argOffset;i<argc;i++) {
 			IoObject *param = IoMessage_locals_valueArgAt_(m, locals, i);
 			PyObject *pyValue = convertIo(self, param);
 			PyTuple_SetItem(pArgs, i-argOffset, pyValue);
 		}
-		PyObject *pValue = PyObject_CallObject(pFunc, pArgs);
+		pValue = PyObject_CallObject(pFunc, pArgs);
 		Py_DECREF(pArgs);
 		Py_XDECREF(pFunc);
 		if (pValue != NULL) {
