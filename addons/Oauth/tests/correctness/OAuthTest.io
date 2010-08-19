@@ -1,1 +1,1 @@
-OauthTest := UnitTest clone do(	testBasic := method(		correct := "12f05c669a0c27f07ed68b8af739a558"				data := """		"""				digest := MD5 clone		digest appendSeq(data)		v := digest md5String		assertEquals(v, correct)	))
+OauthTest := UnitTest clone do(	testBasic := method(		oauth := Oauth clone		oauth setConsumerKey("foo") setConsumerSecret("bar")		oauth		assertEquals(v, correct)	))
