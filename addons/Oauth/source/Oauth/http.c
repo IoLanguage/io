@@ -211,7 +211,7 @@ int http_request(struct url_props *url, const char *method, const struct string 
 		resp->bodyLen+=2;
 	}
 
-	printf("%.*s\n", (unsigned)resp->bodyLen, resp->body);
+	//printf("%.*s\n", (unsigned)resp->bodyLen, resp->body);
 
 	iov.iov_base= resp->body;
 	iov.iov_len = resp->bodyLen;
@@ -484,7 +484,7 @@ readAgain:
 							else
 							{
 								resp->headersSize = p - resp->body;
-								printf("Got headers size:%.*s\n", resp->headersSize, resp->body);
+								//printf("Got headers size:%.*s\n", resp->headersSize, resp->body);
 								break;
 							}
 
@@ -544,7 +544,7 @@ readAgain:
 
 
 
-				printf("Reading content %d %u, respcode = %u, bodyLen now = %u\n", (unsigned)resp->contentLen, chunkedEncoding, (unsigned)resp->respCode, (unsigned)resp->bodyLen);
+				//printf("Reading content %d %u, respcode = %u, bodyLen now = %u\n", (unsigned)resp->contentLen, chunkedEncoding, (unsigned)resp->respCode, (unsigned)resp->bodyLen);
 
 				if (chunkedEncoding)
 				{
