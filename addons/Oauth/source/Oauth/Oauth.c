@@ -576,9 +576,10 @@ void Oauth_getAccessKeyAndSecretFromUrl_(Oauth *self, char *url)
 void Oauth_requestUrl_(Oauth *self, char *url, char *postContent, int contentLength)
 {
 	// http://api.twitter.com/1/statuses/user_timeline.json
+	char *method = postContent == NULL ? "GET" : "POST";
 	struct http_response resp;
 	http_response_init(&resp);	
-	oauth_http_request("POST", 
+	oauth_http_request(method, 
 		url, 
 		postContent, contentLength, 
 		string_data(self->consumer_key), 
