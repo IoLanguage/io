@@ -16,7 +16,7 @@
 #include <stdlib.h>
 #include "crypto.h"
 #include "tls.h"
-#include "oauth.h"
+#include "Oauth.h"
 
 struct signature_param
 {
