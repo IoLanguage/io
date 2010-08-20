@@ -65,6 +65,13 @@ Coroutine do(
 	//metadoc Coroutine category Core
 	//metadoc Coroutine description Coroutine is an primitive for Io's lightweight cooperative C-stack based threads.
 
+	/*
+	init := method(
+		resend
+		"Coroutine init" p[rintln
+	)
+	*/
+	
 	//doc Coroutine stackSize Stack size allocated for each new coroutine. Coroutines will automatically chain themselves as need if more stack space is required.
 	//doc Coroutine setStackSize(aNumber) Sets the stack size in bytes to allocate for new Coros. Returns self.
 	//stackSize ::= 131072 // PPC needs 128k for current parser
@@ -143,8 +150,11 @@ Coroutine do(
 		Promotes receiver to the top of the yieldingCoros queue, but not yielding to it.
 		When current coroutine yields, receiver will resume.
 		*/
-		yieldingCoros remove(self)
-		yieldingCoros atInsert(0, self)
+		//waitingOn remove(call sender)
+		//if(waitingOn isEmpty,
+			yieldingCoros remove(self)
+			yieldingCoros atInsert(0, self)
+		//)
 		//writeln(self label, " resumeLater")
 	)
 

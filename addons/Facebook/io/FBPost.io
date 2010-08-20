@@ -19,10 +19,9 @@ FBPost := Object clone do(
 	debug ::= false
 	
 	post := method(
-		
 		args := list("-F", "access_token=" .. accessToken)
 
-		if(messageText,     args append("-F", "message=" .. messageText))
+		if(messageText, args append("-F", "message=" .. messageText))
 		if(picture,     args append("-F", "picture=" .. picture))
 		if(link,        args append("-F", "link=" .. link))
 		if(caption,     args append("-F", "caption=" .. caption))

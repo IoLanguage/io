@@ -7,7 +7,7 @@
 
 #include "IoObject.h"
 #include "IoSeq.h"
-#include <zlib.h>
+//#include <zlib.h>
 
 #define ISThread(self) IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoThread_rawClone)
 
