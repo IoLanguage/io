@@ -573,12 +573,14 @@ void Oauth_getAccessKeyAndSecretFromUrl_(Oauth *self, char *url)
 		self->access_secret);
 }
 
-void Oauth_requestUrl_(Oauth *self, char *url)
+void Oauth_requestUrl_(Oauth *self, char *url, char *postContent, int contentLength)
 {
 	// http://api.twitter.com/1/statuses/user_timeline.json
 	struct http_response resp;
 	http_response_init(&resp);	
-	oauth_http_request("GET", url, NULL, 0, 
+	oauth_http_request("POST", 
+		url, 
+		postContent, contentLength, 
 		string_data(self->consumer_key), 
 		string_data(self->consumer_secret), 
 		string_data(self->access_key), 

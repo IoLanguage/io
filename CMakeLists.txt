@@ -31,6 +31,15 @@ project(IoLanguage)
 # so dark it's illegible.
 set(CMAKE_COLOR_MAKEFILE off)
 
+OPTION(WITH_DEBUG "enable debug module" ON)
+if (DEBUG)
+message(STATUS "Configuring for debug")
+set(CMAKE_BUILD_TYPE Debug)
+else (DEBUG)
+message(STATUS "Configuring for release")
+set(CMAKE_BUILD_TYPE Release)
+endif (DEBUG)
+
 # Ensure that we find all of our support CMake scripts. These are things like
 # locating required libraries for addons, etc. Store them in modules/
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/modules/")

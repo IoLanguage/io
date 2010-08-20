@@ -45,7 +45,7 @@ struct string *Oauth_accessSecret(Oauth* self);
 void Oauth_getOauthTokenAndSecretFromUrl_(Oauth *self, char *url);
 void Oauth_getAccessKeyAndSecretFromUrl_(Oauth *self, char *url);
 
-void Oauth_requestUrl_(Oauth *self, char *url);
+void Oauth_requestUrl_(Oauth *self, char *url, char *postContent, int contentLength);
 struct string *Oauth_responseData(Oauth *self);
 
 /*

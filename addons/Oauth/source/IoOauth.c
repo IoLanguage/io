@@ -247,8 +247,10 @@ IoObject *IoOauth_requestUrl(IoOauth *self, IoObject *locals, IoMessage *m)
 	Sets the consumer key. Returns self.
 	*/
 	IoSeq *url = IoMessage_locals_seqArgAt_(m, locals, 0);
+	IoSeq *postContent = IoMessage_locals_seqArgAt_(m, locals, 1);
 
-	Oauth_requestUrl_(IoObject_dataPointer(self), CSTRING(url));
+	Oauth_requestUrl_(IoObject_dataPointer(self), CSTRING(url), 
+		CSTRING(postContent), IOSEQ_LENGTH(postContent));
 	struct string *s = Oauth_responseData(IoObject_dataPointer(self));
 	return IOSEQ(string_data(s), string_len(s));
 }
