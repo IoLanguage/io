@@ -16,7 +16,7 @@
 #include <stdlib.h>
 #include "crypto.h"
 #include "tls.h"
-#include "oauth.h"
+#include "Oauth.h"
 
 struct signature_param
 {
@@ -469,7 +469,7 @@ onFailure:
 
 struct string *string_new(void)
 {
-	struct string *self = calloc(0, sizeof(struct string));
+	struct string *self = calloc(1, sizeof(struct string));
 	string_init(self);
 	return self;
 }
@@ -501,9 +501,14 @@ static int global_ttlInitialized = 0;
 
 Oauth *Oauth_new(void)
 {
-	if (!global_ttlInitialized) global_ttlInitialized = tls_init();
-
-	Oauth *self = calloc(0, sizeof(Oauth));
+	if (!global_ttlInitialized) 
+	{
+		global_ttlInitialized = 1;
+		tls_init();
+		//printf("warning: Oauth_new() tls_init()\n");
+	}
+	
+	Oauth *self = calloc(1, sizeof(Oauth));
 	
 	self->consumer_key = string_new();
 	self->consumer_secret = string_new();
@@ -548,8 +553,8 @@ void Oauth_setOauthSecret_(Oauth* self, char *s)	{ string_set(self->oauth_secret
 struct string *Oauth_oauthSecret(Oauth* self)		{ return self->oauth_secret; }
 
 
-void Oauth_setAccessKey_(Oauth* self, char *s)	{ string_set(self->access_key, s); }
-struct string *Oauth_accessKey(Oauth* self)		{ return self->access_key; }
+void Oauth_setAccessKey_(Oauth* self, char *s)		{ string_set(self->access_key, s); }
+struct string *Oauth_accessKey(Oauth* self)			{ return self->access_key; }
 
 void Oauth_setAccessSecret_(Oauth* self, char *s)	{ string_set(self->access_secret, s); }
 struct string *Oauth_accessSecret(Oauth* self)		{ return self->access_secret; }
@@ -573,12 +578,15 @@ void Oauth_getAccessKeyAndSecretFromUrl_(Oauth *self, char *url)
 		self->access_secret);
 }
 
-void Oauth_requestUrl_(Oauth *self, char *url)
+void Oauth_requestUrl_(Oauth *self, char *url, char *postContent, int contentLength)
 {
 	// http://api.twitter.com/1/statuses/user_timeline.json
+	char *method = postContent == NULL ? "GET" : "POST";
 	struct http_response resp;
 	http_response_init(&resp);	
-	oauth_http_request("GET", url, NULL, 0, 
+	oauth_http_request(method, 
+		url, 
+		postContent, contentLength, 
 		string_data(self->consumer_key), 
 		string_data(self->consumer_secret), 
 		string_data(self->access_key), 

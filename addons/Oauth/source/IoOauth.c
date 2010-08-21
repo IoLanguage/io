@@ -243,13 +243,29 @@ IoObject *IoOauth_getAccessKeyAndSecretFromUrl(IoOauth *self, IoObject *locals, 
 
 IoObject *IoOauth_requestUrl(IoOauth *self, IoObject *locals, IoMessage *m)
 {
-	/*doc Oauth setConsumerKey(aSequence)
-	Sets the consumer key. Returns self.
+	/*doc Oauth requestUrl(aUrlString, postContent)
+	Request the given URL. If postContent is not provided, a GET request is sent. Returns self.
 	*/
 	IoSeq *url = IoMessage_locals_seqArgAt_(m, locals, 0);
+	Oauth *oa = IoObject_dataPointer(self);
+	
+	if (IoMessage_argCount(m) > 1)
+	{
+		IoSeq *postContent = IoMessage_locals_seqArgAt_(m, locals, 1);
+		Oauth_requestUrl_(oa, 
+			CSTRING(url), 
+			CSTRING(postContent), 
+			IOSEQ_LENGTH(postContent));
+	}
+	else 
+	{
+		Oauth_requestUrl_(oa, 
+			CSTRING(url), 
+			NULL, 
+			0);
+	}
 
-	Oauth_requestUrl_(IoObject_dataPointer(self), CSTRING(url));
-	struct string *s = Oauth_responseData(IoObject_dataPointer(self));
+	struct string *s = Oauth_responseData(oa);
 	return IOSEQ(string_data(s), string_len(s));
 }
 

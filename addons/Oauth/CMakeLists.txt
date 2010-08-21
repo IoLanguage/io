@@ -1,6 +1,6 @@
 
 # Find image libraries
-find_package(OPENSSL)
+find_package(OpenSSL)
 
 # Create the _build bundle hierarchy if needed.
 make_build_bundle(_build)
