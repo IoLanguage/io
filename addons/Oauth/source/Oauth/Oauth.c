@@ -501,8 +501,12 @@ static int global_ttlInitialized = 0;
 
 Oauth *Oauth_new(void)
 {
-	if (!global_ttlInitialized) global_ttlInitialized = tls_init();
-
+	if (!global_ttlInitialized) 
+	{
+		global_ttlInitialized = 1;
+		tls_init();
+	}
+	
 	Oauth *self = calloc(0, sizeof(Oauth));
 	
 	self->consumer_key = string_new();
@@ -548,8 +552,8 @@ void Oauth_setOauthSecret_(Oauth* self, char *s)	{ string_set(self->oauth_secret
 struct string *Oauth_oauthSecret(Oauth* self)		{ return self->oauth_secret; }
 
 
-void Oauth_setAccessKey_(Oauth* self, char *s)	{ string_set(self->access_key, s); }
-struct string *Oauth_accessKey(Oauth* self)		{ return self->access_key; }
+void Oauth_setAccessKey_(Oauth* self, char *s)		{ string_set(self->access_key, s); }
+struct string *Oauth_accessKey(Oauth* self)			{ return self->access_key; }
 
 void Oauth_setAccessSecret_(Oauth* self, char *s)	{ string_set(self->access_secret, s); }
 struct string *Oauth_accessSecret(Oauth* self)		{ return self->access_secret; }
