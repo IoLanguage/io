@@ -23,6 +23,9 @@
 # hierarchy.
 cmake_minimum_required(VERSION 2.8)
 
+	
+set(CMAKE_C_FLAGS "-g -O0")
+
 # Project name, this gets prefixed to a bunch of stuff under the hood. No
 # spaces, or anything silly like that please.
 project(IoLanguage)
