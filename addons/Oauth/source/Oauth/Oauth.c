@@ -469,7 +469,7 @@ onFailure:
 
 struct string *string_new(void)
 {
-	struct string *self = calloc(0, sizeof(struct string));
+	struct string *self = calloc(1, sizeof(struct string));
 	string_init(self);
 	return self;
 }
@@ -505,9 +505,10 @@ Oauth *Oauth_new(void)
 	{
 		global_ttlInitialized = 1;
 		tls_init();
+		//printf("warning: Oauth_new() tls_init()\n");
 	}
 	
-	Oauth *self = calloc(0, sizeof(Oauth));
+	Oauth *self = calloc(1, sizeof(Oauth));
 	
 	self->consumer_key = string_new();
 	self->consumer_secret = string_new();

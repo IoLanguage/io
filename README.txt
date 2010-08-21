@@ -69,3 +69,11 @@ Builds addons. Some won't build because needed libraries (header files) aren't p
 Installs Io where specified. Note, use forward slashes here, not backslashes.
 
 
+RUNNING TESTS
+-------------
+
+If you're in the io folder, the vm tests can be run with the command:
+
+	io ./libs/iovm/tests/correctness/run.io
+
+
