@@ -97,8 +97,9 @@ IoObject *IoOauth_setConsumerKey(IoOauth *self, IoObject *locals, IoMessage *m)
 	Sets the consumer key. Returns self.
 	*/
 	IoSeq *k = IoMessage_locals_seqArgAt_(m, locals, 0);
-
+	printf("setting consumer key 1\n");
 	Oauth_setConsumerKey_(IoObject_dataPointer(self), CSTRING(k));
+	printf("setting consumer key 2\n");
 	return self;
 }
 

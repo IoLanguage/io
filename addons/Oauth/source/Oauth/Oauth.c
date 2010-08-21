@@ -270,7 +270,11 @@ void oauth_signandappend_oauth_header(const char *reqMethod, struct url_props *u
  *
  *	We now have to exchange it for an ccess token
  */
-int oauth_get_request_token(const char *fullUrl, const char *consumerKey, const char *consumerSecret, struct string *oauthToken, struct string *oauthTokenSecret)
+int oauth_get_request_token(const char *fullUrl, 
+	const char *consumerKey, 
+	const char *consumerSecret, 
+	struct string *oauthToken, 
+	struct string *oauthTokenSecret)
 {
 	struct url_props url;
 	struct string headers;
@@ -471,31 +475,17 @@ struct string *string_new(void)
 {
 	struct string *self = calloc(1, sizeof(struct string));
 	string_init(self);
+	string_append(self, "\0", 1);
+	self->len = 0;
 	return self;
 }
 
 void string_set(struct string *self, char *s)
 {
-	string_reset(self);
 	string_append(self, s, strlen(s));
 }
 
 // ----------------------------
-/*
-typedef struct
-{ 
-	struct string consumer_key;
-	struct string consumer_secret;
-	
-	struct string oauth_token;
-	struct string oauth_secret;
-	
-	struct string access_key;
-	struct string access_secret;
-
-	struct string responseData;
-} Oauth;
-*/
 
 static int global_ttlInitialized = 0;
 
@@ -563,7 +553,11 @@ struct string *Oauth_accessSecret(Oauth* self)		{ return self->access_secret; }
 void Oauth_getOauthTokenAndSecretFromUrl_(Oauth *self, char *url)
 {
 	// https://api.twitter.com/oauth/request_token
-	oauth_get_request_token(url, string_data(self->consumer_key), string_data(self->consumer_secret), self->oauth_token, self->oauth_secret);
+	oauth_get_request_token(url, 
+		string_data(self->consumer_key), 
+		string_data(self->consumer_secret), 
+		self->oauth_token, 
+		self->oauth_secret);
 }
 
 void Oauth_getAccessKeyAndSecretFromUrl_(Oauth *self, char *url)
@@ -593,7 +587,7 @@ void Oauth_requestUrl_(Oauth *self, char *url, char *postContent, int contentLen
 		string_data(self->access_secret), 
 		&resp);
 	// printf("got response code %u, content: [%.*s]\n", (unsigned)resp.respCode, (unsigned)resp.contentLen, resp.body + resp.headersSize);
-	string_reset(self->responseData);
+	self->responseData->len = 0;
 	string_append(self->responseData, resp.body, resp.headersSize + resp.contentLen);
 	http_response_dealloc(&resp);
 }
