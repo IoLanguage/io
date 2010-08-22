@@ -1466,7 +1466,7 @@ static char from_hex(char ch) {
 
 /* Converts an integer value to its hex character*/
 static char to_hex(char code) {
-  static char hex[] = "0123456789abcdef";
+  static char hex[] = "0123456789ABCDEF";
   return hex[code & 15];
 }
 
