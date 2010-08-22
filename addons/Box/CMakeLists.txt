@@ -20,6 +20,8 @@ set(SRCS
 	"${CMAKE_CURRENT_SOURCE_DIR}/source/IoBoxInit.c"
 )
 
+add_definitions(-DBUILDING_BOX_ADDON)
+
 # Now build the shared library
 add_library(IoBox SHARED ${SRCS})
 add_dependencies(IoBox iovmall)
