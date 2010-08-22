@@ -61,6 +61,7 @@ void string_appendfmt(struct string *self, const char *fmt, ...);
 void string_reset(struct string *);
 void string_append_urlencoded_rfc3986(struct string *, const char *, const size_t);
 void string_adjustlen(struct string *, const int factor);
+char *string_cString(struct string *);
 
 
 

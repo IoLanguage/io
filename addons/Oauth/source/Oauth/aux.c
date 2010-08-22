@@ -22,6 +22,13 @@ void string_adjustlen(struct string *self, const int factor)
 	self->data[self->len] = '\0';
 }
 
+char *string_cString(struct string *self)
+{
+	char *cString = calloc(self->len + 1, 1);
+	memcpy(cString, self->data, self->len);
+	return cString;
+}
+
 void string_append_urlencoded_rfc3986(struct string *self, const char *p, const size_t len)
 {
 	const uint8_t *data = (uint8_t *)p, *cp = data;

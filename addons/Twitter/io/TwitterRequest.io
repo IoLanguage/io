@@ -8,14 +8,11 @@ TwitterRequest := Object clone do(
 	//metadoc TwitterRequest category Networking
 	//metadoc TwitterRequest description Represents a Twitter API request and contains its results.
 	
-	host ::= "twitter.com"
-	//doc TwitterRequest host "twitter.com"
+	host ::= "api.twitter.com"
+	//doc TwitterRequest host "api.twitter.com"
 
-	username ::= nil
-	//doc TwitterRequest username Returns the username attribute.
-
-	password ::= nil
-	//doc TwitterRequest password Returns the password attribute.
+	account ::= nil
+	//doc TwitterRequest account Returns the account to pull the Oauth tokens from
 	
 	httpMethod ::= "get"
 	//doc TwitterRequest httpMethod "get"
@@ -65,54 +62,34 @@ TwitterRequest := Object clone do(
 			)
 		)
 		
-		url := URL with("http://" .. host .. path .. ".json" .. queryString) setFollowRedirects(false)
+		urlSeq := "http://" .. host .. path .. ".json" .. queryString
 		
-		delegate ?requestingTwitterUrl(url url)
+		debugWriteln(urlSeq)
 		
-		debugWriteln(url url)
-		
-		if(username and password,
-			url setUsesBasicAuthentication(true)
-			url setUsername(username)
-			url setPassword(password)
-		)
-		
-		headers := Map clone
-		
-		if(fileParamName and file := self perform(fileParamName),
-			ext := file path pathExtension asLowercase
-			if(ext == "jpg") then(
-				type := "image/jpg"
-			) elseif(ext == "gif") then(
-				type := "image/gif"
-			) elseif(ext == "png") then(
-				type := "image/png"
-			) else(
-				type := "application/octet-stream"
-			)
-			
-			boundary := Date clone now asNumber round asHex
-			headers atPut("Content-Type", "multipart/form-data; boundary=" .. boundary)
-			postParams = ("--" .. boundary .. "\r\n") asMutable
-			postParams appendSeq(
-				"Content-Disposition: form-data; name=\"#{URL escapeString(fileParamName)}\"; filename=\"#{file name}\"\r\n" interpolate
-			)
-			postParams appendSeq("Content-Type: " .. type .. "\r\n\r\n")
-			postParams appendSeq(file contents)
-			postParams appendSeq("\r\n")
-			postParams appendSeq("--" .. boundary .. "--\r\n")
-		)
+		oAuth := Oauth clone
+		oAuth setConsumerKey(account consumerKey)
+		oAuth setConsumerSecret(account consumerSecret)
+		oAuth setAccessKey(account accessToken)
+		oAuth setAccessSecret(account accessTokenSecret)
 		
 		response := TwitterResponse clone
-		response setBody(if(httpMethod asLowercase == "get",
-			url fetch
+		responseData := if(postParams isEmpty,
+			oAuth requestUrl(urlSeq)
 		,
-			headers atIfAbsentPut("Content-Type", "application/x-www-form-urlencoded;charset=UTF8")
-			url post(postParams, headers)
-		))
+			oAuth requestUrl(urlSeq,
+				postParams keys map(k,
+					Sequence with(URL escapeString(k), "=", URL escapeString(postParams at(k)))
+				) join("&")
+			)
+		)
+
+		writeln(responseData)
+		System exit
 		response setStatusCode(url statusCode)
-		response setRateLimitRemaining(url ?responseHeaders at("X-RateLimit-Remaining"))
-		response setRateLimitExpiration(url ?responseHeaders at("X-RateLimit-Reset"))
+		
+		//response setRateLimitRemaining(url ?responseHeaders at("X-RateLimit-Remaining"))
+		//response setRateLimitExpiration(url ?responseHeaders at("X-RateLimit-Reset"))
+		
 		setResponse(response)
 		
 		debugWriteln("TwitterResponse body[", response body, "]")

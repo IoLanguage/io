@@ -11,6 +11,22 @@ Object representing a twitter account.
 	password ::= nil
 	//doc TwitterAccount password Returns the account password.
 	//doc TwitterAccount setPassword(aSeq) Sets the account password. Returns self.
+	
+	consumerKey ::= nil
+	//doc TwitterAccount consumerKey Returns the OAuth consumerKey.
+	//doc TwitterAccount setConsumerKey(aKey) Sets the OAuth consumerKey.  Returns self.
+	
+	consumerSecret ::= nil
+	//doc TwitterAccount consumerSecret Returns the OAuth consumerSecret.
+	//doc TwitterAccount setConsumerSecret(aKey) Sets the OAuth consumerSecret.  Returns self.
+	
+	accessToken ::= nil
+	//doc TwitterAccount accessToken Returns the OAuth access token.
+	//doc TwitterAccount setAccessToken(aToken) Sets the OAuth access token.  Returns self.
+	
+	accessTokenSecret ::= nil
+	//doc TwitterAccount accessTokenSecret Returns the OAuth access token secret.
+	//doc TwitterAccount setAccessTokenSecret(aTokenSecret) Sets the OAuth access token secret.  Returns self.
 		
 	profile ::= nil
 	//doc TwitterAccount profile Returns the account Profile object.
@@ -42,14 +58,14 @@ Object representing a twitter account.
 	
 	request := method(
 		//doc TwitterAccount request Returns a new TwitterRequest object for this account.
-		TwitterRequest clone setUsername(screenName) setPassword(password)
+		TwitterRequest clone setAccount(self)
 	)
 	
 	resultsFor := method(request,
 		//doc TwitterAccount resultsFor(aRequest) Returns results for the request.
-		if(isLimited,
-			TwitterException clone setIsRateLimited(true) raise("Rate Limited")
-		)
+		//if(isLimited,
+		//	TwitterException clone setIsRateLimited(true) raise("Rate Limited")
+		//)
 		request execute
 		debugWriteln(request response body)
 		debugWriteln(request response statusCode)
@@ -247,5 +263,95 @@ Object representing a twitter account.
 		//doc TwitterAccount retweet(tweetId) Retweets the tweet with tweetId
 		r := request asRetweet setTweetId(tweetId)
 		resultsFor(r) at("id") asString
+	)
+	
+	Curl := Object clone do(
+		url ::= nil
+		fetch := method(
+			sc := SystemCall clone 
+			sc setCommand("curl") 
+			sc setArguments(list(url))
+			sc run 
+			sc stdout readLines join("\n")
+		)
+	)
+	
+	OAuthSession := Object clone do(
+		MD5
+		
+		account ::= nil
+		
+		requestOAuthAccess := method(
+			requestToken
+			requestAccess
+			requestAccessToken
+		)
+		
+		oauthNonce := method(
+			(Date clone now asNumber asString .. "stylous") md5String
+			"QP70eNmVz8jvdPevU3oJD2AfF7R7odC2XJcn4XlZJqk"
+		)
+		
+		oauthTimestamp := method(
+			Date clone now asNumber asString beforeSeq(".")
+			"1272323042"
+		)
+		
+		oauthCallback ::= "oob"
+		oauthCallback ::= "http://localhost:3005/the_dance/process_callback?service_provider_id=11"
+		
+		signingKey := method(
+			account consumerSecret .. "&"
+		)
+		
+		requestToken := method(
+			httpMethod := "POST"
+			url := "https://api.twitter.com/oauth/request_token"
+			
+			qp := Map clone
+			qp atPut("oauth_callback", oauthCallback urlEncoded)
+			qp atPut("oauth_consumer_key", account consumerKey)
+			qp atPut("oauth_nonce", oauthNonce)
+			qp atPut("oauth_signature_method", "HMAC-SHA1")
+			qp atPut("oauth_timestamp", oauthTimestamp)
+			qp atPut("oauth_version", "1.0")
+			qp asOAuthBaseSeq := method(
+				keys sort map(k,
+					k urlEncoded .. "%3D" .. at(k) urlEncoded
+				) join("%26")
+			)
+			qp asOAuthHeader := method(
+				"OAuth " .. keys sort map(k,
+					k urlEncoded .. "=\"" .. at(k) urlEncoded .. "\""
+				) join(", ")
+			)
+			
+			baseSeq := list(httpMethod, url urlEncoded, qp asOAuthBaseSeq) join("&")
+			
+			writeln(baseSeq)
+			writeln(SHA1 hmac(signingKey, baseSeq) asBase64)
+			authHeader := qp clone atPut("oauth_signature", SHA1 hmac(signingKey, baseSeq) asBase64) asOAuthHeader
+			writeln(authHeader)
+			System exit
+			
+			cr := Curl clone
+			cr setUrl(url)
+			cr headers atPut("Authorization", authHeader)
+			results := Map clone
+			cr post split("&") foreach(kv,
+				pair := kv split("=")
+				results atPut(kv first, kv last)
+			)
+			""
+		)
+		
+		
+	)
+	
+	
+	requestOAuthAccess := method(
+		//doc TwitterAccount requestOAuthAccess Sets the accessToken and accessTokenSecret using CURL + Twitter oob pin.  consumerKey, consumerSecret, username and password must be set.  Returns self
+		
+		OAuthSession clone setAccount(self) requestToken
 	)
 )
