@@ -331,8 +331,6 @@ Object representing a twitter account.
 			writeln(baseSeq)
 			writeln(SHA1 hmac(signingKey, baseSeq) asBase64)
 			authHeader := qp clone atPut("oauth_signature", SHA1 hmac(signingKey, baseSeq) asBase64) asOAuthHeader
-			writeln(authHeader)
-			System exit
 			
 			cr := Curl clone
 			cr setUrl(url)
@@ -341,8 +339,8 @@ Object representing a twitter account.
 			cr post split("&") foreach(kv,
 				pair := kv split("=")
 				results atPut(kv first, kv last)
-			)
-			""
+			) println
+            self
 		)
 		
 		
