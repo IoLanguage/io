@@ -291,13 +291,19 @@ int oauth_get_request_token(const char *fullUrl,
 	oauth_signandappend_oauth_header("GET", &url, consumerKey, consumerSecret, NULL, NULL, time(NULL), NULL, 0, NULL, NULL, NULL, &headers);
 
 	http_response_init(&resp);
+	
+	printf("url = 'https://%s'\n", url.hostName);
+	printf("headers = '%s'\n", headers.data);
+	
 	if (http_request(&url, "GET", &headers, NULL, &resp))
+	{
+		printf("request failure [%s]", resp.body);
 		goto onFailure;
-
+	}
 	p = resp.body + resp.headersSize;
 	e = p + resp.contentLen;
 
-	//printf("Parsing [%.*s]\n", e - p, p);
+	printf("1 Parsing [%.*s]\n", e - p, p);
 
 	while (p != e)
 	{
@@ -317,7 +323,7 @@ int oauth_get_request_token(const char *fullUrl,
 			const char *value 	= ++p;
 			size_t valueLen;
 
-			//printf("[%.*s]\n", (signed)nameLen, name);
+			printf("2 [%.*s]\n", (signed)nameLen, name);
 
 			for (; p != e && *p != '&'; ++p)
 				continue;
@@ -329,7 +335,7 @@ int oauth_get_request_token(const char *fullUrl,
 			else if (nameLen == 18 && memcmp(name, "oauth_token_secret", 18) == 0)
 				string_append(oauthTokenSecret, value, valueLen);
 
-			//printf("value =[%.*s]\n", (signed)valueLen, value);
+			printf("value =[%.*s]\n", (signed)valueLen, value);
 
 			if (p != e)
 				++p;
@@ -382,7 +388,7 @@ int oauth_exchange_reqtoken(const char *fullUrl, const char *consumerKey, const 
 	p = resp.body + resp.headersSize;
 	e = p + resp.contentLen;
 
-	//printf("Parsing [%.*s]\n", e - p, p);
+	printf("3 Parsing [%.*s]\n", e - p, p);
 
 	while (p != e)
 	{
@@ -402,7 +408,7 @@ int oauth_exchange_reqtoken(const char *fullUrl, const char *consumerKey, const 
 			const char *value 	= ++p;
 			size_t valueLen;
 
-			//printf("[%.*s]\n", (signed)nameLen, name);
+			printf("[%.*s]\n", (signed)nameLen, name);
 
 			for (; p != e && *p != '&'; ++p)
 				continue;
@@ -414,7 +420,7 @@ int oauth_exchange_reqtoken(const char *fullUrl, const char *consumerKey, const 
 			else if (nameLen == 18 && memcmp(name, "oauth_token_secret", 18) == 0)
 				string_append(accessSeret, value, valueLen);
 
-			//printf("value =[%.*s]\n", (signed)valueLen, value);
+			printf("value =[%.*s]\n", (signed)valueLen, value);
 
 			if (p != e)
 				++p;
@@ -444,7 +450,15 @@ onFailure:
  *	The actual HTTP request. Make sure you http_response_dealloc(resp) on return
  *	Make sure you have initialized it before providing it to this function
  */
-int oauth_http_request(const char *reqMethod, const char *fullUrl, const char *content, const size_t contentLen, const char *consumerKey, const char *consumerSecret, const char *accessToken, const char *accessSecret, struct http_response *resp)
+int oauth_http_request(const char *reqMethod, 
+	const char *fullUrl, 
+	const char *content, 
+	const size_t contentLen, 
+	const char *consumerKey, 
+	const char *consumerSecret, 
+	const char *accessToken, 
+	const char *accessSecret, 
+	struct http_response *resp)
 {
 	struct url_props url;
 	struct string headers;
@@ -495,7 +509,7 @@ Oauth *Oauth_new(void)
 	{
 		global_ttlInitialized = 1;
 		tls_init();
-		//printf("warning: Oauth_new() tls_init()\n");
+		printf("warning: Oauth_new() tls_init()\n");
 	}
 	
 	Oauth *self = calloc(1, sizeof(Oauth));
@@ -553,6 +567,9 @@ struct string *Oauth_accessSecret(Oauth* self)		{ return self->access_secret; }
 void Oauth_getOauthTokenAndSecretFromUrl_(Oauth *self, char *url)
 {
 	// https://api.twitter.com/oauth/request_token
+	printf("Oauth_getOauthTokenAndSecretFromUrl_ \n");
+	printf("	consumer_key    = '%s' \n", string_data(self->consumer_key));
+	printf("	consumer_secret = '%s' \n", string_data(self->consumer_secret));
 	oauth_get_request_token(url, 
 		string_data(self->consumer_key), 
 		string_data(self->consumer_secret), 
