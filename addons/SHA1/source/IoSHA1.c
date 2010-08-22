@@ -46,6 +46,7 @@ IoSHA1 *IoSHA1_proto(void *state)
 		{"appendSeq", IoSHA1_appendSeq},
 		{"sha1", IoSHA1_sha1},
 		{"sha1String", IoSHA1_sha1String},
+		{"hmac", IoSHA1_hmac},
 		{NULL, NULL},
 		};
 		IoObject_addMethodTable_(self, methodTable);
@@ -119,6 +120,25 @@ IoObject *IoSHA1_sha1String(IoSHA1 *self, IoObject *locals, IoMessage *m)
 	UArray *baString = UArray_asNewHexStringUArray(ba);
 	UArray_free(ba);
 	return IoState_symbolWithUArray_copy_(IOSTATE, baString, 0);
+}
+
+IoObject *IoSHA1_hmac(IoSHA1 *self, IoObject *locals, IoMessage *m)
+{
+	/*doc SHA1 hmac(key, data)
+	Returns a hmac signature sequence or nil on error.
+	*/
+	
+	IoSeq *key = IoMessage_locals_seqArgAt_(m, locals, 0);
+	IoSeq *inSeq = IoMessage_locals_seqArgAt_(m, locals, 1);
+	char resbuf[20];
+	memset(resbuf, 0x0, 20);
+	int ok = hmac_sha1(
+		IOSEQ_BYTES(key), IOSEQ_LENGTH(key),
+		IOSEQ_BYTES(inSeq), IOSEQ_LENGTH(inSeq), 
+		(void *)resbuf);
+	if(ok != 0) return IONIL(self);
+	return IOSEQ(resbuf, 20);
+
 }
 
 

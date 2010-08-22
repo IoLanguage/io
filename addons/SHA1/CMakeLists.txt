@@ -17,6 +17,7 @@ generate_ioinit(SHA1)
 # Our library sources.
 set(SRCS
 	"${CMAKE_CURRENT_SOURCE_DIR}/source/sha1.c"
+	"${CMAKE_CURRENT_SOURCE_DIR}/source/hmac.c"
 	"${CMAKE_CURRENT_SOURCE_DIR}/source/IoSHA1.c"
 	"${CMAKE_CURRENT_SOURCE_DIR}/source/IoSHA1Init.c"
 )
