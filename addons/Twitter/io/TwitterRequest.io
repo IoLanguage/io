@@ -62,15 +62,15 @@ TwitterRequest := Object clone do(
 			)
 		)
 		
-		req := Oauth request
+		req := OauthRequest clone
 		req setUrl("http://" .. host .. path .. ".json" .. queryString)
 		
-		debugWriteln(curl url)
+		debugWriteln(req url)
 		
 		req setConsumerKey(account consumerKey)
 		req setConsumerSecret(account consumerSecret)
-		req setAccessToken(account accessToken)
-		req setAccessTokenSecret(account accessTokenSecret)
+		req setToken(account token)
+		req setTokenSecret(account tokenSecret)
 		
 		resp := if(postParams isEmpty,
 			req get
