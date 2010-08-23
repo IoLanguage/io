@@ -372,9 +372,9 @@ Object representing a twitter account.
                 if(k and v, params atPut(k, v))
             )
             
-            // input user/pass into autho page form
-            params atPut("session[username_or_email]", "stevedekorte")
-            params atPut("session[password]", "twittersucks2")
+            // input user/pass into auth page form
+            params atPut("session[username_or_email]", account screenName)
+            params atPut("session[password]", account password)
             params removeAt("cancel")
             
             //params foreach(k, v, writeln(k, ":", v))
