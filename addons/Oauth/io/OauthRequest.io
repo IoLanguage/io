@@ -1,8 +1,9 @@
 OauthRequest := Object clone do(
-    url ::= nil
+    urlPath ::= nil
     headers ::= nil
 	oauthParams ::= nil
     postParams ::= nil
+	queryParams ::= nil
     body ::= nil
 	httpMethod ::= nil
     
@@ -19,9 +20,10 @@ OauthRequest := Object clone do(
 	tokenSecret ::= nil
     
     init := method(
-        self headers := Map clone
-		self oauthParams := Map clone
-        self postParams := Map clone
+		setHeaders(Map clone)
+		setOauthParams(Map clone)
+		setPostParams(Map clone)
+		setQueryParams(Map clone)
     )
     
 	get := method(
@@ -32,6 +34,10 @@ OauthRequest := Object clone do(
 	post := method(
 		setHttpMethod("POST")
 		send
+	)
+	
+	url := method(
+		urlPath .. queryParams asQueryString
 	)
 	
 	send := method(
@@ -66,17 +72,18 @@ OauthRequest := Object clone do(
 		self
 	)
 
+	Sequence _urlEncoded := Sequence getSlot("urlEncoded")
+	Sequence urlEncoded := method(asUTF8 _urlEncoded)
+
+	Map asQueryString := method(
+		if(isEmpty, "", "?" .. asFormEncodedBody)
+	)
+
 	Map asFormEncodedBody := method(
 		keys sort map(k,
             k urlEncoded .. "=" .. at(k) urlEncoded
         ) join("&")
 	)
-
-    Map asOAuthBaseSeq := method(
-        keys sort map(k,
-            k urlEncoded .. "%3D" .. at(k) urlEncoded
-        ) join("%26")
-    )
 
     Map asOAuthHeader := method(
         "OAuth " .. keys sort map(k,
@@ -85,12 +92,8 @@ OauthRequest := Object clone do(
     )
     
     calcAuthorizationHeader := method(
-		oauthParams merge(postParams) foreach(k, v,
-			writeln(k, ": ", v urlEncoded)
-		)
-		
-        baseSeq := list(httpMethod, url urlEncoded, oauthParams merge(postParams) asOAuthBaseSeq) join("&")
-		writeln("[", baseSeq, "]")
+        baseSeq := list(httpMethod, url urlEncoded, oauthParams merge(postParams) merge(queryParams) asFormEncodedBody urlEncoded) join("&")
+		writeln(baseSeq)
         authHeader := oauthParams clone atPut("oauth_signature", SHA1 hmac(signingKey, baseSeq) asBase64 removeLast) asOAuthHeader
         self headers atPut("Authorization", authHeader)            
     )

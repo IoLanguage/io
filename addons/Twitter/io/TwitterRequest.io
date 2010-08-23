@@ -63,8 +63,8 @@ TwitterRequest := Object clone do(
 		)
 		
 		req := OauthRequest clone
-		req setUrl("http://" .. host .. path .. ".json" .. queryString)
-		//req setUrl("http://" .. host .. "/1" .. path .. ".json")
+		//req setUrl("http://" .. host .. path .. ".json" .. queryString)
+		req setUrlPath("http://" .. host .. "/1" .. path .. ".json")
 		
 		debugWriteln(req url)
 		
