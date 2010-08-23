@@ -2,7 +2,7 @@ Path := Object clone do(
 	//metadoc Path category FileSystem
 
 	//doc Path hasDriveLetters returns true if the platform requires DOS C: style drive letters.
-	hasDriveLetters := System platform containsAnyCaseSeq("Windows") or System platform containsAnyCaseSeq("Cygwin")
+	hasDriveLetters := System platform containsAnyCaseSeq("Windows") or System platform containsAnyCaseSeq("Cygwin") or System platform containsAnyCaseSeq("mingw")
 
 	//doc Path with(aSequence) Returns a new Path object for the given Sequence.
 	with := method(
