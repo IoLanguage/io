@@ -62,33 +62,28 @@ TwitterRequest := Object clone do(
 			)
 		)
 		
-		urlSeq := "http://" .. host .. path .. ".json" .. queryString
+		req := Oauth request
+		req setUrl("http://" .. host .. path .. ".json" .. queryString)
 		
-		debugWriteln(urlSeq)
+		debugWriteln(curl url)
 		
-		oAuth := Oauth clone
-		oAuth setConsumerKey(account consumerKey)
-		oAuth setConsumerSecret(account consumerSecret)
-		oAuth setAccessKey(account accessToken)
-		oAuth setAccessSecret(account accessTokenSecret)
+		req setConsumerKey(account consumerKey)
+		req setConsumerSecret(account consumerSecret)
+		req setAccessToken(account accessToken)
+		req setAccessTokenSecret(account accessTokenSecret)
 		
-		response := TwitterResponse clone
-		responseData := if(postParams isEmpty,
-			oAuth requestUrl(urlSeq)
+		resp := if(postParams isEmpty,
+			req get
 		,
-			oAuth requestUrl(urlSeq,
-				postParams keys map(k,
-					Sequence with(URL escapeString(k), "=", URL escapeString(postParams at(k)))
-				) join("&")
-			)
+			req setPostParams(postParams)
+			req post
 		)
 
-		writeln(responseData)
-		System exit
-		response setStatusCode(url statusCode)
-		
-		//response setRateLimitRemaining(url ?responseHeaders at("X-RateLimit-Remaining"))
-		//response setRateLimitExpiration(url ?responseHeaders at("X-RateLimit-Reset"))
+		response := TwitterResponse clone
+		response setBody(resp body)
+		response setStatusCode(resp statusCode)
+		response setRateLimitRemaining(resp headers at("X-RateLimit-Remaining"))
+		response setRateLimitExpiration(resp headers at("X-RateLimit-Reset"))
 		
 		setResponse(response)
 		
