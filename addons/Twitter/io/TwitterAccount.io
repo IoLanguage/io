@@ -327,7 +327,7 @@ Object representing a twitter account.
                 outMap := Map clone
                 data split("&") foreach(kv, 
                     kv = kv split("=")
-                    writeln("kv: '", kv first, "' : '", kv second, "'")
+                    //writeln("kv: '", kv first, "' : '", kv second, "'")
                     outMap atPut(kv first, kv second)
                 )
                 writeln("-------------------------")
@@ -385,17 +385,14 @@ Object representing a twitter account.
 		
 		requestPin := method(
             SGML
-            System wait(5)
             // load user auth page
             url := "http://api.twitter.com/oauth/authorize?oauth_token=" .. oauthToken
             writeln("curl ", url, " "); File standardOutput flush
-            //System exit
-            //form := URL with(url) fetch asSGML
+            form := URL with(url) fetch asSGML
             
-            sc := SystemCall clone setCommand("curl") setArguments(list(url))
-            sc run 
-            form := sc stdout readLines join("\n") asSGML
-
+            //sc := SystemCall clone setCommand("curl") setArguments(list(url))
+            //sc run 
+            //form := sc stdout readLines join("\n") asSGML
 
             
             params := Map clone
@@ -414,8 +411,10 @@ Object representing a twitter account.
             
             // load pin request page
             pinPage := URL with("http://api.twitter.com/oauth/authorize") post(params) 
-            pin := pinPage asSGML elementsWithNameAndId("div", "oauth_pin") first allText
-            self setPin(pin)
+            daPin := pinPage asSGML elementsWithNameAndId("div", "oauth_pin") first allText
+            self setPin(daPin asMutable strip)
+            writeln("got pin: ", pin)
+            writeln("------------------")
             self
         )
 
@@ -431,14 +430,17 @@ Object representing a twitter account.
             r := OauthRequest clone setUrl("https://api.twitter.com/oauth/access_token") setConsumerSecret(account consumerSecret) setParams(p) post
             setAccessKey(r at("oauth_token"))
             setAccessSecret(r at("oauth_token_secret"))
+            writeln("got accessKey: ", accessKey)
+            writeln("got accessSecret: ", accessSecret)           
+            writeln("------------------")
             self
 		)
 		
 		requestUrl := method(url, body,
             p := Map clone
             p atPut("oauth_consumer_key", account consumerKey)
-            p atPut("oauth_token", oauthToken)
-            r := OauthRequest clone setUrl("https://api.twitter.com/oauth/access_token") setConsumerSecret(account consumerSecret) setParams(p) setBody(body) post          
+            p atPut("oauth_token", accessKey)
+            r := OauthRequest clone setUrl(url) setConsumerSecret(account consumerSecret) setParams(p) setBody(body) post          
 		)
 
 	)
@@ -448,6 +450,6 @@ Object representing a twitter account.
 		Sets the accessToken and accessTokenSecret using CURL + Twitter oob pin.  
 		consumerKey, consumerSecret, username and password must be set.  Returns self
 		*/
-		OAuthSession clone setAccount(self) requestToken requestPin requestAccess requestUrl("", "status=hello+world")
+		OAuthSession clone setAccount(self) requestToken requestPin requestAccess requestUrl("https://api.twitter.com/statuses/update", "status=hello+world")
 	)
 )
