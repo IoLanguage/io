@@ -25,13 +25,13 @@ if(PYTHONLIBS_FOUND)
 	# if-endif bellow should do the trick.
 	#
 	# Another solution is to build the Python package in DEBUG mode.
-	if(WIN32)
+	if(MSVC)
 		if(${PYTHON_DEBUG_LIBRARIES} MATCHES "NOTFOUND")
 			MESSAGE(STATUS "Python addon will be built in RELEASE mode due to the lack of a pythonXY_d.lib")
 			MESSAGE(STATUS "  see addons/Python/CMakeLists.txt for an explanation and possible workarounds")
 			set(CMAKE_BUILD_TYPE "Release")
 		endif(${PYTHON_DEBUG_LIBRARIES} MATCHES "NOTFOUND")
-	endif(WIN32)
+	endif(MSVC)
 
 
 	# Output our dynamic library to the top-level _build hierarchy
