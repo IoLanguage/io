@@ -279,7 +279,19 @@ Object representing a twitter account.
                 self params := Map clone
             )
             
+            oauthNonce := method(
+                (Date clone now asNumber asString .. "stylous") md5String
+            )
+		
+            oauthTimestamp := method(
+			     Date clone now asNumber asString beforeSeq(".")
+            )
+            
             post := method(
+                params atPut("oauth_nonce", oauthNonce)
+                params atPut("oauth_signature_method", "HMAC-SHA1")
+                params atPut("oauth_timestamp", oauthTimestamp)
+                params atPut("oauth_version", "1.0")
                 calcAuthorizationHeader
                 sc := SystemCall clone 
                 sc setCommand("curl") 
@@ -329,15 +341,6 @@ Object representing a twitter account.
 			requestAccessToken
 		)
 		
-		oauthNonce := method(
-			(Date clone now asNumber asString .. "stylous") md5String
-			"QP70eNmVz8jvdPevU3oJD2AfF7R7odC2XJcn4XlZJqk"
-		)
-		
-		oauthTimestamp := method(
-			Date clone now asNumber asString beforeSeq(".")
-			"1272323042"
-		)
 		
 		oauthCallback ::= "oob"
 		//oauthCallback ::= "http://localhost:3005/the_dance/process_callback?service_provider_id=11"
@@ -350,16 +353,9 @@ Object representing a twitter account.
 			p := Map clone
 			p atPut("oauth_callback", oauthCallback)
 			p atPut("oauth_consumer_key", account consumerKey)
-			p atPut("oauth_nonce", oauthNonce)
-			p atPut("oauth_signature_method", "HMAC-SHA1")
-			p atPut("oauth_timestamp", oauthTimestamp)
-			p atPut("oauth_version", "1.0")
-			
 			r := OauthRequest clone setUrl("https://api.twitter.com/oauth/request_token") setParams(p) post
-
             setOauthToken(r at("oauth_token"))
             setOauthSecret(r at("oauth_token_secret"))
-
             self
 		)
 		
@@ -393,40 +389,28 @@ Object representing a twitter account.
 		requestAccess := method(
             p := Map clone
             p atPut("oauth_consumer_key", consumerKey)
-            p atPut("oauth_nonce, "", oauthNonce)
-            p atPut("oauth_signature_method", "HMAC-SHA1")
             p atPut("oauth_token, oathToken)
-            p atPut("oauth_timestamp, oauthTimestamp)
-            p atPut("oauth_verifier", pin)
-            p atPut("oauth_version, "1.0")
-            
+            p atPut("oauth_verifier", pin)            
             r := OauthRequest clone setUrl("https://api.twitter.com/oauth/access_token") setParams(p) post
-            
-            self setAccessKey(r at("oauth_token"))
-            self setAccessSecret(r at("oauth_token_secret"))
+            setAccessKey(r at("oauth_token"))
+            setAccessSecret(r at("oauth_token_secret"))
             self
 		)
 		
 		requestUrl := method(url, body,
             p := Map clone
             p atPut("oauth_consumer_key", consumerKey)
-            p atPut("oauth_nonce, "", oauthNonce)
-            p atPut("oauth_signature_method", "HMAC-SHA1")
             p atPut("oauth_token, oathToken)
-            p atPut("oauth_timestamp, oauthTimestamp)
-            p atPut("oauth_version, "1.0")
-
-            //e.g. body "status=hello+world"            
             r := OauthRequest clone setUrl("https://api.twitter.com/oauth/access_token") setParams(p) setBody(body) post          
 		)
 		
 	)
 	
-	
 	requestOAuthAccess := method(
-	       writeln("local version!")
-		//doc TwitterAccount requestOAuthAccess Sets the accessToken and accessTokenSecret using CURL + Twitter oob pin.  consumerKey, consumerSecret, username and password must be set.  Returns self
-		
-		OAuthSession clone setAccount(self) requestToken requestPin requestAccess
+		/*doc TwitterAccount requestOAuthAccess 
+		Sets the accessToken and accessTokenSecret using CURL + Twitter oob pin.  
+		consumerKey, consumerSecret, username and password must be set.  Returns self
+		*/
+		OAuthSession clone setAccount(self) requestToken requestPin requestAccess requestUrl("", "status=hello+world")
 	)
 )
