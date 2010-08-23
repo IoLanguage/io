@@ -47,7 +47,7 @@ OauthRequest := Object clone do(
 		)
 		args append(url)
 		
-		writeln("[", args join(" "), "]")
+		//writeln("[", args join(" "), "]")
         sc setArguments(args)
         sc run
 
@@ -85,7 +85,12 @@ OauthRequest := Object clone do(
     )
     
     calcAuthorizationHeader := method(
-        baseSeq := list(httpMethod, url urlEncoded, oauthParams asOAuthBaseSeq) join("&")
+		oauthParams merge(postParams) foreach(k, v,
+			writeln(k, ": ", v urlEncoded)
+		)
+		
+        baseSeq := list(httpMethod, url urlEncoded, oauthParams merge(postParams) asOAuthBaseSeq) join("&")
+		writeln("[", baseSeq, "]")
         authHeader := oauthParams clone atPut("oauth_signature", SHA1 hmac(signingKey, baseSeq) asBase64 removeLast) asOAuthHeader
         self headers atPut("Authorization", authHeader)            
     )

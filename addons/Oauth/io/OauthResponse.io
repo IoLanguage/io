@@ -10,7 +10,7 @@ OauthResponse := Object clone do(
 	)
 	
 	parseData := method(
-		writeln("[", data, "]")
+		//writeln("[", data, "]")
 		headersSeq := data beforeSeq("\n")
 		lines := headersSeq split("\n")
 		setStatusCode(lines removeFirst betweenSeq(" ", " "))

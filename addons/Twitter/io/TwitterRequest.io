@@ -64,13 +64,28 @@ TwitterRequest := Object clone do(
 		
 		req := OauthRequest clone
 		req setUrl("http://" .. host .. path .. ".json" .. queryString)
+		//req setUrl("http://" .. host .. "/1" .. path .. ".json")
 		
 		debugWriteln(req url)
 		
+		///*
+		req setCallback(nil)
 		req setConsumerKey(account consumerKey)
 		req setConsumerSecret(account consumerSecret)
 		req setToken(account token)
 		req setTokenSecret(account tokenSecret)
+		//*/
+		
+		/*
+		req setCallback(nil)
+		req setConsumerKey("GDdmIQH6jhtmLUypg82g")
+		req setNonce("oElnnMTQIZvqvlfXM56aBLAf5noGD0AQR3Fmi7Q6Y")
+		req setToken("819797-Jxq8aYUDRmykzVKrgoLhXSq67TEa5ruc4GJC2rWimw")
+		req setTimestamp("1272325550")
+		
+		req setConsumerSecret("MCD8BKwGdgPHvAuvgvz4EQpqDAtx89grbuNMRd7Eh98")
+		req setTokenSecret("J6zix3FfA9LofH0awS24M3HcBYXO5nI1iYe8EfBA")
+		*/
 		
 		resp := if(postParams isEmpty,
 			req get
