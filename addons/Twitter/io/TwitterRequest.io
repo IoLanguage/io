@@ -62,33 +62,43 @@ TwitterRequest := Object clone do(
 			)
 		)
 		
-		urlSeq := "http://" .. host .. path .. ".json" .. queryString
+		req := OauthRequest clone
+		//req setUrl("http://" .. host .. path .. ".json" .. queryString)
+		req setUrlPath("http://" .. host .. "/1" .. path .. ".json")
 		
-		debugWriteln(urlSeq)
+		debugWriteln(req url)
 		
-		oAuth := Oauth clone
-		oAuth setConsumerKey(account consumerKey)
-		oAuth setConsumerSecret(account consumerSecret)
-		oAuth setAccessKey(account accessToken)
-		oAuth setAccessSecret(account accessTokenSecret)
+		///*
+		req setCallback(nil)
+		req setConsumerKey(account consumerKey)
+		req setConsumerSecret(account consumerSecret)
+		req setToken(account token)
+		req setTokenSecret(account tokenSecret)
+		//*/
 		
-		response := TwitterResponse clone
-		responseData := if(postParams isEmpty,
-			oAuth requestUrl(urlSeq)
+		/*
+		req setCallback(nil)
+		req setConsumerKey("GDdmIQH6jhtmLUypg82g")
+		req setNonce("oElnnMTQIZvqvlfXM56aBLAf5noGD0AQR3Fmi7Q6Y")
+		req setToken("819797-Jxq8aYUDRmykzVKrgoLhXSq67TEa5ruc4GJC2rWimw")
+		req setTimestamp("1272325550")
+		
+		req setConsumerSecret("MCD8BKwGdgPHvAuvgvz4EQpqDAtx89grbuNMRd7Eh98")
+		req setTokenSecret("J6zix3FfA9LofH0awS24M3HcBYXO5nI1iYe8EfBA")
+		*/
+		
+		resp := if(postParams isEmpty,
+			req get
 		,
-			oAuth requestUrl(urlSeq,
-				postParams keys map(k,
-					Sequence with(URL escapeString(k), "=", URL escapeString(postParams at(k)))
-				) join("&")
-			)
+			req setPostParams(postParams)
+			req post
 		)
 
-		writeln(responseData)
-		System exit
-		response setStatusCode(url statusCode)
-		
-		//response setRateLimitRemaining(url ?responseHeaders at("X-RateLimit-Remaining"))
-		//response setRateLimitExpiration(url ?responseHeaders at("X-RateLimit-Reset"))
+		response := TwitterResponse clone
+		response setBody(resp body)
+		response setStatusCode(resp statusCode)
+		response setRateLimitRemaining(resp headers at("X-RateLimit-Remaining"))
+		response setRateLimitExpiration(resp headers at("X-RateLimit-Reset"))
 		
 		setResponse(response)
 		

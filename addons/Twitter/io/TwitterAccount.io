@@ -20,13 +20,13 @@ Object representing a twitter account.
 	//doc TwitterAccount consumerSecret Returns the OAuth consumerSecret.
 	//doc TwitterAccount setConsumerSecret(aKey) Sets the OAuth consumerSecret.  Returns self.
 	
-	accessToken ::= nil
-	//doc TwitterAccount accessToken Returns the OAuth access token.
-	//doc TwitterAccount setAccessToken(aToken) Sets the OAuth access token.  Returns self.
+	token ::= nil
+	//doc TwitterAccount token Returns the OAuth token.
+	//doc TwitterAccount setToken(aToken) Sets the OAuth token.  Returns self.
 	
-	accessTokenSecret ::= nil
-	//doc TwitterAccount accessTokenSecret Returns the OAuth access token secret.
-	//doc TwitterAccount setAccessTokenSecret(aTokenSecret) Sets the OAuth access token secret.  Returns self.
+	tokenSecret ::= nil
+	//doc TwitterAccount accessTokenSecret Returns the OAuth token secret.
+	//doc TwitterAccount setAccessTokenSecret(aTokenSecret) Sets the OAuth token secret.  Returns self.
 		
 	profile ::= nil
 	//doc TwitterAccount profile Returns the account Profile object.
@@ -265,191 +265,12 @@ Object representing a twitter account.
 		resultsFor(r) at("id") asString
 	)
 	
-	OAuthSession := Object clone do(
-		MD5
-		
-		/*
-		req := Oauth request
-        req setUrl(someUrl)
-        req setConsumerKey(account consumerKey)
-        req setConsumerSecret(account consumerSecret)
-        req setAccessToken(account accessToken)
-        req setAccessTokenSecret(account accessTokenSecret)
-        req get
-        req setPostParams(postParams)
-        resp := req post
-        
-        resp statusCode
-        resp body
-        
-        */
-
-        OauthRequest := Object clone do(
-            url ::= nil
-            headers ::= nil
-            params ::= nil
-            body ::= nil
-            
-            consumerSecret ::= nil
-            
-            init := method(
-                self headers := Map clone
-                self params := Map clone
-            )
-            
-            oauthNonce := method(
-                (Date clone now asNumber asString .. "stylous") md5String
-            )
-		
-            oauthTimestamp := method(
-			     Date clone now asNumber asString beforeSeq(".")
-            )
-            
-            post := method(
-                params atPut("oauth_nonce", oauthNonce)
-                params atPut("oauth_signature_method", "HMAC-SHA1")
-                params atPut("oauth_timestamp", oauthTimestamp)
-                params atPut("oauth_version", "1.0")
-                calcAuthorizationHeader
-                sc := SystemCall clone 
-                sc setCommand("curl") 
-                args := list(url)
-                headers foreach(k, v, args append("--header", "" .. k .. ": " .. v .. ""))
-                if(body, args append("--data", body))
-                args append("-d", "")
-                writeln("\ncurl\n  ", args join("\n  "), "\n")
-                sc setArguments(args)
-                sc run 
-                data := sc stdout readLines join("\n")
-                if(data containsSeq("=") not, return data) //Exception raise("OauthRequest error: ", data))
-                
-                writeln(url, "\n  [", data split("&"), "]\n\n")
-                outMap := Map clone
-                data split("&") foreach(kv, 
-                    kv = kv split("=")
-                    //writeln("kv: '", kv first, "' : '", kv second, "'")
-                    outMap atPut(kv first, kv second)
-                )
-                writeln("-------------------------")
-                return outMap
-            )
-            
-            Map asOAuthBaseSeq := method(
-                keys sort map(k,
-                    k urlEncoded .. "%3D" .. at(k) urlEncoded
-                ) join("%26")
-            )
-            Map asOAuthHeader := method(
-                "OAuth " .. keys sort map(k,
-                    k urlEncoded .. "=\"" .. at(k) urlEncoded .. "\""
-                ) join(", ")
-            )
-            
-            calcAuthorizationHeader := method(
-                baseSeq := list("POST", url urlEncoded, params asOAuthBaseSeq) join("&")
-                authHeader := params clone atPut("oauth_signature", SHA1 hmac(signingKey, baseSeq) asBase64 removeLast) asOAuthHeader
-                self headers atPut("Authorization", authHeader)            
-            )
-            
-            signingKey := method(consumerSecret .. "&")	
-
-        )
-	
-		account ::= nil
-		pin ::= nil
-		
-		requestOAuthAccess := method(
-			requestToken
-			requestAccess
-			requestAccessToken
-		)
-		
-		
-		oauthCallback ::= "oob"
-		//oauthCallback ::= "http://localhost:3005/the_dance/process_callback?service_provider_id=11"	
-		
-		oauthToken ::= nil
-		oauthSecret ::= nil
-		
-		requestToken := method(			
-			p := Map clone
-			p atPut("oauth_callback", oauthCallback)
-			p atPut("oauth_consumer_key", account consumerKey)
-			r := OauthRequest clone setUrl("https://api.twitter.com/oauth/request_token") setConsumerSecret(account consumerSecret) setParams(p) post
-			writeln("oauth_token= ", r at("oauth_token"))
-			writeln("oauth_token_secret= ", r at("oauth_token_secret"))
-            setOauthToken(r at("oauth_token"))
-            setOauthSecret(r at("oauth_token_secret"))
-            self
-		)
-		
-		requestPin := method(
-            SGML
-            // load user auth page
-            url := "http://api.twitter.com/oauth/authorize?oauth_token=" .. oauthToken
-            writeln("curl ", url, " "); File standardOutput flush
-            form := URL with(url) fetch asSGML
-            
-            //sc := SystemCall clone setCommand("curl") setArguments(list(url))
-            //sc run 
-            //form := sc stdout readLines join("\n") asSGML
-
-            
-            params := Map clone
-            form elementsWithName("input") foreach(e,
-                k := e attributes at("name")
-                v := e attributes at("value")
-                if(k and v, params atPut(k, v))
-            )
-            
-            // input user/pass into auth page form
-            params atPut("session[username_or_email]", account screenName)
-            params atPut("session[password]", account password)
-            params removeAt("cancel")
-            
-            //params foreach(k, v, writeln(k, ":", v))
-            
-            // load pin request page
-            pinPage := URL with("http://api.twitter.com/oauth/authorize") post(params) 
-            daPin := pinPage asSGML elementsWithNameAndId("div", "oauth_pin") first allText
-            self setPin(daPin asMutable strip)
-            writeln("got pin: ", pin)
-            writeln("------------------")
-            self
-        )
-
-
-        accessKey ::= nil
-        accessSecret ::= nil
-        
-		requestAccess := method(
-            p := Map clone
-            p atPut("oauth_consumer_key", account consumerKey)
-            p atPut("oauth_token", oauthToken)
-            p atPut("oauth_verifier", pin)            
-            r := OauthRequest clone setUrl("https://api.twitter.com/oauth/access_token") setConsumerSecret(account consumerSecret) setParams(p) post
-            setAccessKey(r at("oauth_token"))
-            setAccessSecret(r at("oauth_token_secret"))
-            writeln("got accessKey: ", accessKey)
-            writeln("got accessSecret: ", accessSecret)           
-            writeln("------------------")
-            self
-		)
-		
-		requestUrl := method(url, body,
-            p := Map clone
-            p atPut("oauth_consumer_key", account consumerKey)
-            p atPut("oauth_token", accessKey)
-            r := OauthRequest clone setUrl(url) setConsumerSecret(accessSecret) setParams(p) setBody(body) post          
-		)
-
-	)
-	
 	requestOAuthAccess := method(
 		/*doc TwitterAccount requestOAuthAccess 
-		Sets the accessToken and accessTokenSecret using CURL + Twitter oob pin.  
+		Sets the token and tokenSecret using CURL + Oauth oob.
 		consumerKey, consumerSecret, username and password must be set.  Returns self
 		*/
-		OAuthSession clone setAccount(self) requestToken requestPin requestAccess requestUrl("https://api.twitter.com/1/statuses/update.json", "status=hello+world")
+
+		TwitterOauthSession clone setAccount(self) requestOauthAccess account
 	)
 )
