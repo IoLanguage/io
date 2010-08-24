@@ -33,7 +33,7 @@ VertexDB Request := Object clone do(
 				queryParams atPut(name, v asString)
 			)
 		)
-		"?" .. queryParams asQueryString
+		queryParams asQueryString
 	)
 	
 	resource := method(

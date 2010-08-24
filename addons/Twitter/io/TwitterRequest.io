@@ -47,7 +47,7 @@ TwitterRequest := Object clone do(
 				queryParams atPut(name, v asString)
 			)
 		)
-		queryString := if(queryParams size > 0, "?" .. queryParams asQueryString, "")
+		queryString := queryParams asQueryString
 		
 		postParams := Map clone
 		postParamNames foreach(name,

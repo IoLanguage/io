@@ -605,10 +605,14 @@ Object doURL := method(url, self doString(URL clone setURL(url) fetch))
 //doc Sequence asURL Returns a new URL object instance with the receiver as its url string.
 Sequence asURL := method(URL with(self))
 
-//doc Map asQueryString Returns an escaped query string representation of this map
+//doc Map asQueryString Returns a urlencoded query string representation of this map
 Map asQueryString := method(
-	keys sort map(k,
-		Sequence with(URL escapeString(k), "=", URL escapeString(at(k)))
-	) join("&")
+	if(isEmpty, "", "?" .. asFormEncodedBody)
 )
 
+//doc Map asFormEncodedBody Returns a urlencoded query string representation of this map
+Map asFormEncodedBody := method(
+	keys sort map(k,
+        k urlEncoded .. "=" .. at(k) urlEncoded
+    ) join("&")
+)

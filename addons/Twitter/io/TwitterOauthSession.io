@@ -21,7 +21,7 @@ TwitterOauthSession := Object clone do(
 	)
 	
 	requestToken := method(
-		response := newRequest setUrl(baseUrl .. "request_token") post formEncodedMap
+		response := newRequest setUrlPath(baseUrl .. "request_token") post formEncodedMap
 		setAuthorizeToken(response at("oauth_token"))
 		setAuthorizeTokenSecret(response at("oauth_token_secret"))
         self
@@ -53,7 +53,7 @@ TwitterOauthSession := Object clone do(
     )
     
 	accessToken := method(
-		req := newRequest clone setUrl(baseUrl .. "access_token")
+		req := newRequest clone setUrlPath(baseUrl .. "access_token")
 		req setToken(authorizeToken) setTokenSecret(authorizeTokenSecret) setVerifier(verifier)
         response := req post formEncodedMap
 		account setToken(response at("oauth_token"))

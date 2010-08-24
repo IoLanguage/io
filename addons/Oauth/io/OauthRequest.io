@@ -53,7 +53,6 @@ OauthRequest := Object clone do(
 		)
 		args append(url)
 		
-		//writeln("[", args join(" "), "]")
         sc setArguments(args)
         sc run
 
@@ -74,26 +73,32 @@ OauthRequest := Object clone do(
 
 	Sequence _urlEncoded := Sequence getSlot("urlEncoded")
 	Sequence urlEncoded := method(asUTF8 _urlEncoded)
-
-	Map asQueryString := method(
-		if(isEmpty, "", "?" .. asFormEncodedBody)
-	)
-
-	Map asFormEncodedBody := method(
+	
+	Sequence _percentEncoded := Sequence getSlot("percentEncoded")
+	Sequence percentEncoded := method(asUTF8 _percentEncoded)
+	
+	Map asOauthBaseEncoded := method(
 		keys sort map(k,
-            k urlEncoded .. "=" .. at(k) urlEncoded
+            k percentEncoded .. "=" .. at(k) percentEncoded
         ) join("&")
 	)
 
     Map asOAuthHeader := method(
         "OAuth " .. keys sort map(k,
-            k urlEncoded .. "=\"" .. at(k) urlEncoded .. "\""
+            k percentEncoded .. "=\"" .. at(k) percentEncoded .. "\""
         ) join(", ")
     )
     
     calcAuthorizationHeader := method(
-        baseSeq := list(httpMethod, url urlEncoded, oauthParams merge(postParams) merge(queryParams) asFormEncodedBody urlEncoded) join("&")
-		writeln(baseSeq)
+	/*
+		escapedParams := Map clone
+		postParams foreach(k, v,
+			escapedParams atPut(k, v urlEncoded)
+		)
+	*/
+	escapedParams := postParams
+		
+        baseSeq := list(httpMethod, url urlEncoded, oauthParams merge(postParams) merge(queryParams) asOauthBaseEncoded urlEncoded) join("&")
         authHeader := oauthParams clone atPut("oauth_signature", SHA1 hmac(signingKey, baseSeq) asBase64 removeLast) asOAuthHeader
         self headers atPut("Authorization", authHeader)            
     )
