@@ -317,11 +317,11 @@ Object representing a twitter account.
                 headers foreach(k, v, args append("--header", "" .. k .. ": " .. v .. ""))
                 if(body, args append("--data", body))
                 args append("-d", "")
-                //writeln("\ncurl\n  ", args join("\n  "), "\n")
+                writeln("\ncurl\n  ", args join("\n  "), "\n")
                 sc setArguments(args)
                 sc run 
                 data := sc stdout readLines join("\n")
-                if(data containsSeq("=") not, Exception raise("OauthRequest error: ", data))
+                if(data containsSeq("=") not, return data) //Exception raise("OauthRequest error: ", data))
                 
                 writeln(url, "\n  [", data split("&"), "]\n\n")
                 outMap := Map clone
@@ -440,7 +440,7 @@ Object representing a twitter account.
             p := Map clone
             p atPut("oauth_consumer_key", account consumerKey)
             p atPut("oauth_token", accessKey)
-            r := OauthRequest clone setUrl(url) setConsumerSecret(account consumerSecret) setParams(p) setBody(body) post          
+            r := OauthRequest clone setUrl(url) setConsumerSecret(accessSecret) setParams(p) setBody(body) post          
 		)
 
 	)
@@ -450,6 +450,6 @@ Object representing a twitter account.
 		Sets the accessToken and accessTokenSecret using CURL + Twitter oob pin.  
 		consumerKey, consumerSecret, username and password must be set.  Returns self
 		*/
-		OAuthSession clone setAccount(self) requestToken requestPin requestAccess requestUrl("https://api.twitter.com/statuses/update", "status=hello+world")
+		OAuthSession clone setAccount(self) requestToken requestPin requestAccess requestUrl("https://api.twitter.com/1/statuses/update.json", "status=hello+world")
 	)
 )
