@@ -13,7 +13,7 @@ OauthResponse := Object clone do(
 		debugWriteln(data)
 		headersSeq := data beforeSeq("\n")
 		lines := headersSeq split("\n")
-		setStatusCode(lines removeFirst betweenSeq(" ", " "))
+		setStatusCode(lines removeFirst betweenSeq(" ", " ") asNumber)
 		lines foreach(headerLine,
 			headers atPut(headerLine beforeSeq(":"), headerLine afterSeq(": "))
 		)
