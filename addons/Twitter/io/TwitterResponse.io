@@ -92,7 +92,7 @@ TwitterResponse := Object clone do(
 		)
 		
 		if(results type == "Map" and errorMessage,
-			TwitterException clone raise(errorMessage)
+			TwitterException clone raise(statusCode .. " " .. errorMessage)
 		)
 		
 		self
