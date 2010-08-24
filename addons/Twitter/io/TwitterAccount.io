@@ -32,10 +32,6 @@ Object representing a twitter account.
 	//doc TwitterAccount profile Returns the account Profile object.
 	//doc TwitterAccount setProfile(aProfile) Sets the account profile. Returns self.
 		
-	source ::= "API"
-	//doc TwitterAccount source Returns the account source (e.g. "API").
-	//doc TwitterAccount setSource(aSource) Sets the account source. Returns self.
-		
 	rateLimitRemaining ::= nil
 	//doc TwitterAccount rateLimitRemaining Returns the account rateLimitRemaining.
 	//doc TwitterAccount setRateLimitRemaining(aNumber) Sets the account rateLimitRemaining. Returns self.
@@ -156,7 +152,7 @@ Object representing a twitter account.
 	
 	updateStatus := method(message, tweetId,
 		//doc TwitterAccount updateStatus(messageText, tweetId) Updates the status message and returns the results of the request.		
-		r := request asUpdateStatus setStatus(message) setSource(source)
+		r := request asUpdateStatus setStatus(message)
 		if(tweetId,
 			r setInReplyToStatusId(tweetId)
 		)
