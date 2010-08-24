@@ -55,10 +55,12 @@ OauthRequest := Object clone do(
 		
 		debugWriteln("curl ", args join(" "))
         sc setArguments(args)
-        sc run
+        //System exit
+        output := sc runAndReturnOutput
+        //output := sc stdout readLines join("\n")
 		debugWriteln("curl exited")
 
-		OauthResponse clone setData(sc stdout readLines join("\n")) parseData
+		OauthResponse clone setData(output) parseData
 	)
 	
 	setupOauthParams := method(
