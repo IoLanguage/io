@@ -72,7 +72,7 @@ SystemCall do(
 
 		isRunning := false
 		setReturnCode(s)
-		self
+		buffer
 	)
 
 	runWith := method(
