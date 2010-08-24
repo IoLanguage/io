@@ -53,8 +53,10 @@ OauthRequest := Object clone do(
 		)
 		args append(url)
 		
+		debugWriteln("curl ", args join(" "))
         sc setArguments(args)
         sc run
+		debugWriteln("curl exited")
 
 		OauthResponse clone setData(sc stdout readLines join("\n")) parseData
 	)
