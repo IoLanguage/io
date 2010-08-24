@@ -42,7 +42,6 @@ OauthRequest := Object clone do(
 	
 	send := method(
 		setHttpMethod(httpMethod asUppercase)
-		writeln("send httpMethod: ", httpMethod)
 		setupOauthParams
 		calcAuthorizationHeader
 		
