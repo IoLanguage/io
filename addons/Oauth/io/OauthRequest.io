@@ -41,6 +41,8 @@ OauthRequest := Object clone do(
 	)
 	
 	send := method(
+		setHttpMethod(httpMethod asUppercase)
+		writeln("send httpMethod: ", httpMethod)
 		setupOauthParams
 		calcAuthorizationHeader
 		
@@ -103,7 +105,10 @@ OauthRequest := Object clone do(
 	escapedParams := postParams
 		
         baseSeq := list(httpMethod, url urlEncoded, oauthParams merge(postParams) merge(queryParams) asOauthBaseEncoded urlEncoded) join("&")
-        authHeader := oauthParams clone atPut("oauth_signature", SHA1 hmac(signingKey, baseSeq) asBase64 removeLast) asOAuthHeader
+        debugWriteln(baseSeq)
+
+		authHeader := oauthParams clone atPut("oauth_signature", SHA1 hmac(signingKey, baseSeq) asBase64 removeLast) asOAuthHeader
+		debugWriteln(authHeader)
         self headers atPut("Authorization", authHeader)            
     )
     

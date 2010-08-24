@@ -62,6 +62,8 @@ TwitterRequest := Object clone do(
 			)
 		)
 		
+		setHttpMethod(httpMethod asUppercase)
+		
 		req := OauthRequest clone
 		//req setUrl("http://" .. host .. path .. ".json" .. queryString)
 		req setUrlPath("http://" .. host .. "/1" .. path .. ".json" .. queryString)
@@ -87,7 +89,7 @@ TwitterRequest := Object clone do(
 		req setTokenSecret("J6zix3FfA9LofH0awS24M3HcBYXO5nI1iYe8EfBA")
 		*/
 		
-		resp := if(postParams isEmpty,
+		resp := if(httpMethod == "GET",
 			req get
 		,
 			req setPostParams(postParams)
@@ -159,14 +161,16 @@ TwitterRequest := Object clone do(
 	asCreateFriendship := method(
 		setHttpMethod("post")
 		setPath("/friendships/create")
-		addQuerySlots("user_id screen_name follow")
+		//addQuerySlots("user_id screen_name follow")
+		addPostSlots("user_id screen_name follow")
 	)
 	
 	asDestroyFriendship := method(
 		self\
 		setHttpMethod("post")\
 		setPath("/friendships/destroy")\
-		addQuerySlots("user_id screen_name")
+		//addQuerySlots("user_id screen_name")
+		addPostSlots("user_id screen_name")
 	)
 	
 	asFriendIds := method(
@@ -207,8 +211,8 @@ TwitterRequest := Object clone do(
 	asUpdateStatus := method(
 		setHttpMethod("post")
 		setPath("/statuses/update")
-		addQuerySlots("source in_reply_to_status_id")
-		addPostSlots("status")
+		//addQuerySlots("source in_reply_to_status_id")
+		addQuerySlots("status source in_reply_to_status_id")
 	)
 	
 	asDeleteStatus := method(
