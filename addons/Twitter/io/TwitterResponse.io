@@ -28,7 +28,7 @@ TwitterResponse := Object clone do(
 			Exception raise(e message)
 		)
 		
-		errorMessage := results ?at("error")
+		errorMessage := if(results type == "Map", results at("error"), "")
 
 		//Could not find both specified users
 		if(statusCode == 400) then(

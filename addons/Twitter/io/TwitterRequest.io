@@ -246,4 +246,16 @@ TwitterRequest := Object clone do(
 		self newSlot("tweetId")
 		self
 	)
+	
+	asPublicTimeline := method(
+		setPath("/statuses/public_timeline")
+	)
+	
+	asHomeTimeline := method(
+		setPath("/statuses/home_timeline")
+	)
+	
+	asUserTimeline := method(
+		setPath("/statuses/user_timeline")
+	)
 )

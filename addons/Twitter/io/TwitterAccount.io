@@ -269,4 +269,19 @@ Object representing a twitter account.
 
 		TwitterOauthSession clone setAccount(self) requestOauthAccess account
 	)
+	
+	publicTimeline := method(
+		//doc TwitterAccount publicTimeline Returns the public timeline tweets for this account
+		resultsFor(request asPublicTimeline)
+	)
+	
+	homeTimeline := method(
+		//doc TwitterAccount homeTimeline Returns the home timeline tweets for this account
+		resultsFor(request asHomeTimeline)
+	)
+	
+	userTimeline := method(
+		//doc TwitterAccount userTimeline Returns the user timeline tweets for this account
+		resultsFor(request asUserTimeline)
+	)
 )
