@@ -30,15 +30,19 @@ TwitterResponse := Object clone do(
 		
 		errorMessage := if(results type == "Map", results at("error"), "")
 
+		statusErrorMessage := method(
+			statusCode .. " " .. errorMessage
+		)
+
 		//Could not find both specified users
 		if(statusCode == 400) then(
 			e := TwitterException clone setIsBadRequest(true)
 			if(errorMessage ?beginsWithSeq("Rate limit exceeded"),
 				e setIsRateLimited(true)
 			)
-			e raise(if(errorMessage, errorMessage, body))
+			e raise(if(errorMessage, statusErrorMessage, body))
 		) elseif(statusCode == 401) then(
-			TwitterException clone setIsNotAuthorized(true) raise(errorMessage)
+			TwitterException clone setIsNotAuthorized(true) raise(statusErrorMessage)
 		) elseif(statusCode == 403) then(
 			e := TwitterException clone setIsForbidden(true)
 			if(errorMessage,
@@ -68,7 +72,7 @@ TwitterResponse := Object clone do(
 			,
 				errorMessage := body
 			)
-			e raise(errorMessage)
+			e raise(statusErrorMessage)
 		) elseif(statusCode == 404) then(
 			e := TwitterException clone setIsNotFound(true)
 			if(errorMessage,
@@ -78,7 +82,7 @@ TwitterResponse := Object clone do(
 			,
 				errorMessage := body
 			)
-			e raise(errorMessage)
+			e raise(statusErrorMessage)
 		) elseif(statusCode == 500) then(
 			TwitterException clone setError("500 response") setIsInternalError(true) raise(body)
 		) elseif(statusCode == 502) then(
@@ -92,7 +96,7 @@ TwitterResponse := Object clone do(
 		)
 		
 		if(results type == "Map" and errorMessage,
-			TwitterException clone raise(statusCode .. " " .. errorMessage)
+			TwitterException clone raise(statusErrorMessage)
 		)
 		
 		self
