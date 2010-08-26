@@ -128,7 +128,7 @@ IoObject *IoCFFIFunction_call(IoCFFIFunction *self, IoObject *locals, IoMessage 
 		return IONIL(self);
 	}
 
-	funInterface = &(DATA(self)->interface);
+	funInterface = &(DATA(self)->cif);
 	funArgTypeObjects = IoList_rawList(IoObject_getSlot_(self, IOSYMBOL("argumentTypes")));
 	funRetTypeObject = IoObject_getSlot_(self, IOSYMBOL("returnType"));
 
@@ -186,7 +186,7 @@ IoObject *IoCFFIFunction_setCallback(IoCFFIFunction *self, IoObject *locals, IoM
 	DATA(self)->pcl = ffi_closure_alloc(sizeof(ffi_closure), code);
 
 	//Prepare cif for callback
-	funInterface = &(DATA(self)->interface);
+	funInterface = &(DATA(self)->cif);
 	funArgTypeObjects = IoList_rawList(IoObject_getSlot_(self, IOSYMBOL("argumentTypes")));
 	funRetTypeObject = IoObject_getSlot_(self, IOSYMBOL("returnType"));
 	funArgCount = (int)List_size(funArgTypeObjects);
@@ -205,26 +205,30 @@ IoObject *IoCFFIFunction_setCallback(IoCFFIFunction *self, IoObject *locals, IoM
 	}
 
 	//Prepare closure object
-	CallbackContext *ctx = io_calloc(1, sizeof(CallbackContext));
-	DATA(self)->cbCtx = ctx;
-	ctx->self = IOREF(self);
-	ctx->block = IOREF(IoMessage_locals_blockArgAt_(m, locals, 0));
-	o = IoMessage_locals_valueArgAt_(m, locals, 1);
-	if ( !ISNIL(o) ) { 
-		ctx->target = ctx->locals = ctx->context = IOREF(o);
-		//IoState_on_doCString_withLabel_(IOSTATE, self, "getSlot(\"_callback\") setScope(_callbackLocals)", "IoCFFIFunction_setCallback");
-		((IoBlockData *)IoObject_dataPointer(ctx->block))->scope = IOREF(o);
-	}
-	else {
-		ctx->target = ctx->locals = ctx->context = IoState_lobby(IOSTATE);
-	}
-	
-	status = ffi_prep_closure_loc(DATA(self)->pcl, funInterface, IoCFFIFunction_closure, ctx, *code);
-	if ( status != FFI_OK ) {
-		printf("\n\nffi_prep_closure_loc status != FFI_OK\n\n");
-		io_free(funArgTypes);
-		ffi_closure_free(DATA(self)->pcl);
-		return IONIL(self);
+	{
+		CallbackContext *ctx = io_calloc(1, sizeof(CallbackContext));
+		DATA(self)->cbCtx = ctx;
+		ctx->self = IOREF(self);
+		ctx->block = IOREF(IoMessage_locals_blockArgAt_(m, locals, 0));
+		// For Windows
+		IoObject_isActivatable_(ctx->block, 1);
+		o = IoMessage_locals_valueArgAt_(m, locals, 1);
+		if ( !ISNIL(o) ) { 
+			ctx->target = ctx->locals = ctx->context = IOREF(o);
+			//IoState_on_doCString_withLabel_(IOSTATE, self, "getSlot(\"_callback\") setScope(_callbackLocals)", "IoCFFIFunction_setCallback");
+			((IoBlockData *)IoObject_dataPointer(ctx->block))->scope = IOREF(o);
+		}
+		else {
+			ctx->target = ctx->locals = ctx->context = IoState_lobby(IOSTATE);
+		}
+		
+		status = ffi_prep_closure_loc(DATA(self)->pcl, funInterface, IoCFFIFunction_closure, ctx, *code);
+		if ( status != FFI_OK ) {
+			printf("\n\nffi_prep_closure_loc status != FFI_OK\n\n");
+			io_free(funArgTypes);
+			ffi_closure_free(DATA(self)->pcl);
+			return IONIL(self);
+		}
 	}
 
 	return self;
@@ -246,11 +250,16 @@ void IoCFFIFunction_closure(ffi_cif* cif, void* result, void** args, void* userd
 		IoMessage_addCachedArg_(newMessage, obj);
 		}
 	);
-	ret = IoBlock_activate(ctx->block, ctx->target, ctx->locals, newMessage, ctx->context);
+	// IoBlock_activate is not exported on Windows
+	// ctx->block must be activatable
+	//ret = IoBlock_activate(ctx->block, ctx->target, ctx->locals, newMessage, ctx->context);
+	ret = IoObject_activate(ctx->block, ctx->target, ctx->locals, newMessage, ctx->context);
 
 	//these three steps are needed bacause of Numbers being always double
 	retType = IOCLONE(IoObject_getSlot_(self, IOSYMBOL("returnType")));
+	
 	IoCFFIDataType_rawSetValue(retType, ret);
+	
 	memcpy(result, (void *)IoCFFIDataType_ValuePointerFromObject_(retType, retType), cif->rtype->size);
 }
 
@@ -269,5 +278,5 @@ void *IoCFFIFunction_valuePointer(IoCFFIFunction *self)
 //Func called when we are member of a Struct
 void IoCFFIFunction_setValuePointer_offset_(IoCFFIFunction* self, void *ptr, int offset)
 {
-	DATA(self)->valuePointer = ptr + offset;
+	DATA(self)->valuePointer = (void **)((char *)ptr + offset);
 }

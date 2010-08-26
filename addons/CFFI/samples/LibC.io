@@ -32,8 +32,11 @@ LibC := Object clone do(
 	_functions := method(
 		_functions = Map clone do(
 			appendProto(LibC Types)
-	
-			lib := Library clone setName("libc.so.6")
+			if(System platform asLowercase containsSeq("windows"),
+				lib := Library clone setName("msvcrt.dll")
+			,	
+				lib := Library clone setName("libc.so.6")
+			)
 			
 			add := method(name, retType, argTypeList,
 				atPut(name, Function clone setLibrary(lib) setName(name) setReturnType(retType) setArgumentTypes(argTypeList)) 

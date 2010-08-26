@@ -22,8 +22,7 @@ CFFI do(
 			self setValues := method(
 				if(self address isNil not,
 					args := call message argsEvaluatedIn(call sender)
-					size := self size / self arrayType size
-					for(i, 0, size - 1, self atPut(i, args at(i)))
+					for(i, 0, self length - 1, self atPut(i, args at(i)))
 					self
 				,
 					nil
@@ -34,6 +33,8 @@ CFFI do(
 				this := self clone
 				call message clone setName("setValues") doInContext(this, call sender)
 			)
+
+			self length := method(self size / self arrayType size)
 		)
 	)
 )

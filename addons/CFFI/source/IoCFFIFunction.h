@@ -7,7 +7,7 @@
 #define IoCFFIFunction_DEFINED 1
 
 #include "IoObject.h"
-#include <ffi.h>
+#include "ffi.h"
 
 #define ISCFFIFunction(self) IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoCFFIFunction_rawClone)
 
@@ -22,7 +22,7 @@ typedef struct {
 } CallbackContext;
 
 typedef struct {
-	ffi_cif		interface;
+	ffi_cif		cif;
 	ffi_closure	*pcl;
 	void		*code;
 	void		**valuePointer;
