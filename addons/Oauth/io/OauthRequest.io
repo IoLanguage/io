@@ -61,7 +61,7 @@ OauthRequest := Object clone do(
         //output := sc stdout readLines join("\n")
 		debugWriteln("curl exited")
 
-		OauthResponse clone setData(output) parseData
+		OauthResponse clone setRequest(self) setData(output) parseData
 	)
 	
 	setupOauthParams := method(
