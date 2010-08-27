@@ -37,7 +37,7 @@ VertexDB Request := Object clone do(
 	)
 	
 	resource := method(
-		URL escapeString(path) .. queryString
+		path percentEncoded .. queryString
 	)
 	
 	requestUrl := method(
