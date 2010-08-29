@@ -89,7 +89,7 @@ VertexDB do(
 	SizeRequest := Request clone setAction("size")
 	
 	WriteRequest := Request clone setAction("write") addQuerySlots(list("key", "value", "mode"))
-	WriteRequest queryString := method(Sequence with("?action=write&key=", URL escapeString(key), "&value=", URL escapeString(value)))
+	WriteRequest queryString := method(Sequence with("?action=write&key=", key percentEncoded, "&value=", value percentEncoded))
 
 	RmRequest := Request clone setAction("rm") addQuerySlots(list("key"))
 	

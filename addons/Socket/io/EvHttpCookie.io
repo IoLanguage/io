@@ -9,8 +9,8 @@ EvHttpCookie := Object clone do(
 	response ::= nil
 	
 	asHeaderVal := method(
-		name := URL escapeString(name)
-		value := if(value, URL escapeString(value), "")
+		name := name urlEncoded
+		value := if(value, value urlEncoded, "")
 		expires := if(expiresDate isKindOf(Date),
 			expiresDate -= Duration fromNumber(expiresDate gmtOffsetSeconds)
 			"expires=" .. expiresDate asString("%a, %d-%b-%Y %H:%M:%S GMT") .. "; "
