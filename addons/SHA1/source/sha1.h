@@ -9,7 +9,7 @@
 #ifndef _SHA1_H
 #define _SHA1_H
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER) || defined(__MINGW32__)
 #include <sys/types.h>
 typedef unsigned __int8 u_int8_t;
 typedef unsigned __int16 u_int16_t;
@@ -29,7 +29,7 @@ typedef struct {
 	u_int8_t buffer[SHA1_BLOCK_LENGTH];
 } SHA1_CTX;
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) && !defined(__MINGW32__)
 #include <sys/cdefs.h>
 #else
 #define __BEGIN_DECLS
