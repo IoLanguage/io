@@ -31,5 +31,9 @@ endif(MSVC)
 # Our library!
 add_library(sgml STATIC ${SRCS})
 
+if(NOT WIN32)
+	set_target_properties(sgml PROPERTIES COMPILE_FLAGS "-fPIC")
+endif(NOT WIN32)
+
 # Don't install it, we do that ourselves when the addon gets
 # installed.
