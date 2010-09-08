@@ -3,6 +3,15 @@ VertexDB Transaction := Object clone do(
 	requests ::= nil
 	inTransaction ::= false
 	coroSlotName ::= "currentVertexDBTransaction"
+	sendsWrites ::= true
+	
+	writesOff := method(
+		setSendsWrites(false)
+	)
+	
+	writesOn := method(
+		setSendsWrites(true)
+	)
 	
 	init := method(
 		setRequests(List clone)
@@ -31,6 +40,7 @@ VertexDB Transaction := Object clone do(
 	)
 	
 	appendRequest := method(request,
+		request setShouldSend(sendsWrites)
 		if(inTransaction,
 			requests append(request)
 			self
@@ -56,11 +66,11 @@ VertexDB Transaction := Object clone do(
 		_abort
 		//write(" <send"); File standardOutput flush
 		if(body size > 0,
-			TransactionRequest clone\
-				setHost(host)\
-				setPort(port)\
-				setBody(body)\
-				results
+			tr := TransactionRequest clone
+			tr setHost(host)
+			tr setPort(port)
+			tr setBody(body)
+			tr results
 		)
 		//write(">"); File standardOutput flush
 		self

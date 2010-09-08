@@ -193,6 +193,7 @@ IO_METHOD(IoObject, shellExecute)
 	}
 }
 #else
+#ifdef daemon
 IO_METHOD(IoObject, daemon)
 {
 	/*doc System daemon(dontChroot, dontRedirectOutputStreams)
@@ -205,6 +206,13 @@ IO_METHOD(IoObject, daemon)
 	
 	return self;
 }
+#else
+IO_METHOD(IoObject, daemon)
+{
+	IoState_error_(IOSTATE, self, "no daemon function found on this platform.");
+	return self;
+}
+#endif
 #endif
 
 IO_METHOD(IoObject, errorNumberDescription)

@@ -1457,6 +1457,134 @@ The output pointStructSeq would contain 2 raw 32 bit floats.
 	return s;
 }
 
+// ------------------
+
+/* Converts a hex character to its integer value */
+static char from_hex(char ch) 
+{
+	return isdigit(ch) ? ch - '0' : tolower(ch) - 'a' + 10;
+}
+
+/* Converts an integer value to its hex character*/
+static char to_hex(char code) 
+{
+	static char hex[] = "0123456789ABCDEF";
+	return hex[code & 15];
+}
+
+
+/* Returns a url-encoded version of str */
+/* IMPORTANT: be sure to free() the returned string after use */
+static char *url_encode(const char *str, int isPercentEncoded) 
+{
+	const char *pstr = str;
+	char *buf = malloc(strlen(str) * 3 + 1);
+	char *pbuf = buf;
+	
+	while (*pstr) 
+	{
+		if (isalnum(*pstr) || *pstr == '-' || *pstr == '_' || *pstr == '.' || *pstr == '~')
+		{
+			*pbuf++ = *pstr;
+		}
+		else if (!isPercentEncoded && *pstr == ' ') 
+		{
+			*pbuf++ = '+';
+		}
+		else 
+		{
+			*pbuf++ = '%', *pbuf++ = to_hex(*pstr >> 4), *pbuf++ = to_hex(*pstr & 15);
+		}
+		
+		pstr++;
+	}
+	
+	*pbuf = '\0';
+	return buf;
+}
+
+/* Returns a url-decoded version of str */
+/* IMPORTANT: be sure to free() the returned string after use */
+static char *url_decode(const char *str, int isPercentEncoded) 
+{
+	const char *pstr = str;
+	char *buf = malloc(strlen(str) + 1);
+	char *pbuf = buf;
+	
+	while (*pstr) 
+	{
+		if (*pstr == '%') 
+		{
+			if (pstr[1] && pstr[2]) 
+			{
+				*pbuf++ = from_hex(pstr[1]) << 4 | from_hex(pstr[2]);
+				pstr += 2;
+			}
+		} 
+		else if (!isPercentEncoded && *pstr == '+') 
+		{ 
+			*pbuf++ = ' ';
+		} 
+		else 
+		{
+			*pbuf++ = *pstr;
+		}
+		pstr++;
+	}
+	
+	*pbuf = '\0';
+	return buf;
+}
+
+IO_METHOD(IoSeq, percentEncoded)
+{
+/*doc Sequence percentEncoded
+Returns percent encoded version of receiver.
+*/
+	char *s = url_encode(UArray_bytes(DATA(self)), 1);
+	IoObject *result = IOSYMBOL(s);
+	free(s);
+	return result;
+}
+
+IO_METHOD(IoSeq, percentDecoded)
+{
+/*doc Sequence percentDecoded
+Returns percent decoded version of receiver.
+*/
+	char *s = url_decode(UArray_bytes(DATA(self)), 1);
+	IoObject *result = IOSYMBOL(s);
+	free(s);
+	return result;
+}
+
+// ----------------------------
+
+IO_METHOD(IoSeq, urlEncoded)
+{
+/*doc Sequence urlEncoded
+Returns url encoded version of receiver.
+*/
+	char *s = url_encode(UArray_bytes(DATA(self)), 0);
+	IoObject *result = IOSYMBOL(s);
+	free(s);
+	return result;
+}
+
+IO_METHOD(IoSeq, urlDecoded)
+{
+/*doc Sequence urlDecoded
+Returns url decoded version of receiver.
+*/
+	char *s = url_decode(UArray_bytes(DATA(self)), 0);
+	IoObject *result = IOSYMBOL(s);
+	free(s);
+	return result;
+}
+
+// -------------------------
+
+
 void IoSeq_addImmutableMethods(IoSeq *self)
 {
 	IoMethodTable methodTable[] = {
@@ -1543,6 +1671,13 @@ void IoSeq_addImmutableMethods(IoSeq *self)
 
 	{"asStruct", IoSeq_asStruct},
 	{"withStruct", IoSeq_withStruct},
+	
+	{"percentEncoded", IoSeq_percentEncoded},
+	{"percentDecoded", IoSeq_percentDecoded},
+	
+	{"urlEncoded", IoSeq_urlEncoded},
+	{"urlDecoded", IoSeq_urlDecoded},
+	
 	{NULL, NULL},
 	};
 

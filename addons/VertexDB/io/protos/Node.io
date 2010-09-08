@@ -49,6 +49,15 @@ VertexDB Node := Object clone do(
 		read(key) != nil
 	)
 	
+	exists := method(
+		e := try(VertexDB Node with(path pathComponent) hasKey(key))
+		if(e,
+			if(e error containsSeq("path does not exist"), false, e pass)
+		,
+			true
+		)
+	)
+	
 	values := method(
 		queryRequest setOp("values") results
 	)

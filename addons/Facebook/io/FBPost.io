@@ -26,7 +26,7 @@ FBPost := Object clone do(
 		if(link,        args append("-F", "link=" .. link))
 		if(caption,     args append("-F", "caption=" .. caption))
 		if(name,        args append("-F", "name=" .. name))
-		if(description, args append("-F", "description=" .. name))
+		if(description, args append("-F", "description=" .. description))
 		args append(url)
 
 		postCall := SystemCall clone setCommand("curl") 

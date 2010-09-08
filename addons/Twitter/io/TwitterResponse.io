@@ -28,7 +28,7 @@ TwitterResponse := Object clone do(
 			Exception raise(e message)
 		)
 		
-		errorMessage := results ?at("error")
+		errorMessage := if(results type == "Map", results at("error"), "")
 
 		//Could not find both specified users
 		if(statusCode == 400) then(
@@ -53,6 +53,8 @@ TwitterResponse := Object clone do(
 				) elseif(errorMessage containsSeq("You do not have permission to retrieve following status for both specified users")) then(
 					e setIsBlockedOrSuspendedOrProtected(true)
 				) elseif(errorMessage containsSeq("This account is currently suspended")) then(
+					e setIsSuspended(true)
+				) elseif(errorMessage containsSeq("this account has been suspended")) then(
 					e setIsSuspended(true)
 				) elseif(errorMessage containsSeq("You are not friends with the specified user")) then(
 					e setWasntFriend(true)
@@ -90,7 +92,7 @@ TwitterResponse := Object clone do(
 		)
 		
 		if(results type == "Map" and errorMessage,
-			TwitterException clone raise(errorMessage)
+			TwitterException clone raise(statusCode .. " " .. errorMessage)
 		)
 		
 		self

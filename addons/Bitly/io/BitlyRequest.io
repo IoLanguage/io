@@ -31,7 +31,7 @@ BitlyRequest := Object clone do(
 				queryParams atPut(name, v asString)
 			)
 		)
-		queryString := "?" .. queryParams asQueryString
+		queryString := queryParams asQueryString
 		
 		url := URL with("http://" .. host .. path .. queryString) setFollowRedirects(false)
 		

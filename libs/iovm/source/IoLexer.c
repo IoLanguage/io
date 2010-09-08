@@ -27,9 +27,9 @@ IoLexer *IoLexer_new(void)
 	IoLexer *self = (IoLexer *)io_calloc(1, sizeof(IoLexer));
 	self->s = (char *)io_calloc(1, 1);
 	self->s[0] = 0;
-	self->posStack = Stack_new();
-	self->tokenStack = Stack_new();
-	self->tokenStream = List_new();
+	self->posStack      = Stack_new();
+	self->tokenStack    = Stack_new();
+	self->tokenStream   = List_new();
 	self->charLineIndex = List_new();
 	return self;
 }

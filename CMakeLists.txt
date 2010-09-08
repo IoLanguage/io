@@ -23,13 +23,38 @@
 # hierarchy.
 cmake_minimum_required(VERSION 2.8)
 
+	
+set(CMAKE_C_FLAGS "-g -O0")
+
 # Project name, this gets prefixed to a bunch of stuff under the hood. No
 # spaces, or anything silly like that please.
 project(IoLanguage)
 
+# Default config when building with gcc variants
+IF(CMAKE_COMPILER_IS_GNUCC)
+	SET(CMAKE_BUILD_TYPE_DebugFast)
+	SET(CMAKE_CXX_FLAGS_DEBUGFAST "-g -O0")
+	SET(CMAKE_C_FLAGS_DEBUGFAST "-g -O0")
+
+	if(NOT CMAKE_BUILD_TYPE)
+	        SET(CMAKE_BUILD_TYPE "DebugFast")
+	endif(NOT CMAKE_BUILD_TYPE)
+ENDIF(CMAKE_COMPILER_IS_GNUCC)
+
+MESSAGE(STATUS "Configuration set to: ${CMAKE_BUILD_TYPE}")
+
 # Don't want a coloured Makefile. On some platforms, the blue that is used is
 # so dark it's illegible.
 set(CMAKE_COLOR_MAKEFILE off)
+
+OPTION(WITH_DEBUG "enable debug module" ON)
+if (DEBUG)
+message(STATUS "Configuring for debug")
+set(CMAKE_BUILD_TYPE Debug)
+else (DEBUG)
+message(STATUS "Configuring for release")
+set(CMAKE_BUILD_TYPE Release)
+endif (DEBUG)
 
 # Ensure that we find all of our support CMake scripts. These are things like
 # locating required libraries for addons, etc. Store them in modules/
