@@ -7,6 +7,8 @@ All code licensed under the New BSD license.
 
 CFFI
 
+platform := System platform asLowercase
+
 LibC := Object clone do(
 	Types := Object clone do(
 		appendProto(CFFI Types)
@@ -32,7 +34,7 @@ LibC := Object clone do(
 	_functions := method(
 		_functions = Map clone do(
 			appendProto(LibC Types)
-			if(System platform asLowercase containsSeq("windows"),
+			if(platform containsSeq("windows") or platform containsSeq("mingw"),
 				lib := Library clone setName("msvcrt.dll")
 			,	
 				lib := Library clone setName("libc.so.6")

@@ -13,7 +13,8 @@ compare := block(a, b,
 
 
 CmpFunc := Function with(Int, Int ptr, Int ptr)
-if(System platform asLowercase containsSeq("windows"),
+platform := System platform asLowercase
+if(platform containsSeq("windows") or platform containsSeq("mingw"),
 	lib := Library clone setName("msvcrt.dll")
 ,
 	lib := Library clone setName("libc.so.6")
