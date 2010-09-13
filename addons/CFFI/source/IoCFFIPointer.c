@@ -393,5 +393,5 @@ void *IoCFFIPointer_valuePointer(IoCFFIPointer *self)
 //Func called when we are a member of a Struct
 void IoCFFIPointer_setValuePointer_offset_(IoCFFIPointer* self, void *ptr, int offset)
 {
-	DATA(self)->valuePointer = ptr + offset;
+	DATA(self)->valuePointer = (void **)((char *)ptr + offset);
 }

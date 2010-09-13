@@ -1,0 +1,146 @@
+#
+# ====================================================================
+#
+# libffi Windows Makefile
+#
+#
+# ====================================================================
+#
+
+NAME=@name@
+VERSION=@VERSION@
+TARGET=@TARGET@
+CC=@cc@
+AS=@as@
+RC=@rc@
+MT=@mt@
+AR="@ar@"
+SO=@so@
+OBJ=@obj@
+EXE=@exe@
+LA=@la@
+LINK="@link@"
+PREFIX=@prefix@
+TOPDIR=@topdir@
+CPP=@cpp@
+CFLAGS=@cflags@
+LDFLAGS=@ldflags@
+SHFLAGS=@shflags@
+ARFLAGS=@arflags@
+ASFLAGS=@asflags@
+RCFLAGS=@rcflags@
+INCLUDES=@include@
+LIBS=@libs@
+
+VERSION_MAJOR=@VERSION_MAJOR@
+VERSION_MINOR=@VERSION_MINOR@
+VERSION_PATCH=@VERSION_PATCH@
+
+DESTDIR=$(PREFIX)
+DESTBIN=$(PREFIX)\bin
+DESTLIB=$(PREFIX)\lib
+DESTINC=$(PREFIX)\include
+SRCDIR=$(TOPDIR)\src
+
+WORKDIR=$(TOPDIR)\.libs
+SOLIBNAME=lib$(NAME)
+LALIBNAME=$(NAME)
+SHAREDLIB=$(WORKDIR)\$(SOLIBNAME)$(SO)
+STATICLIB=$(WORKDIR)\$(LALIBNAME)$(LA)
+
+BUILDPDB = $(WORKDIR)\$(SOLIBNAME).pdb
+BUILDMAN = $(SHAREDLIB).manifest
+
+HEADERS = \
+	$(TOPDIR)\fficonfig.h
+
+RESOURCES =\
+    $(TOPDIR)\build\libffi.res
+
+OBJECTS = \
+	$(SRCDIR)\closures.obj \
+	$(SRCDIR)\debug.obj \
+	$(SRCDIR)\java_raw_api.obj \
+	$(SRCDIR)\prep_cif.obj \
+	$(SRCDIR)\raw_api.obj \
+	$(SRCDIR)\types.obj \
+	$(SRCDIR)\x86\ffi.obj
+
+!IF "$(TARGET)" == "X86_WIN32"
+OBJECTS = $(OBJECTS) \
+	$(SRCDIR)\x86\win32.obj
+ASMSRCS = \
+    $(SRCDIR)\x86\win32.asm
+!ENDIF
+!IF "$(TARGET)" == "X86_WIN64"
+OBJECTS = $(OBJECTS) \
+	$(SRCDIR)\x86\win64.obj
+ASMSRCS = \
+    $(SRCDIR)\x86\win64.asm
+!ENDIF
+
+.SUFFIXES : .S .asm
+
+all: $(WORKDIR) @targets@
+
+.c$(OBJ):
+	$(CC) -c $(CFLAGS) $(INCLUDES) -Fo$@ -Fd$(WORKDIR)\$(NAME)-src $<
+
+.asm$(OBJ):
+	$(AS) -c $(ASFLAGS) /Fo $@ $<
+
+.S.asm:
+	$(CPP) $(CFLAGS) $(INCLUDES) $< >$@
+
+.rc.res:
+	$(RC) $(RCFLAGS) /fo $@ $<
+
+$(WORKDIR) :
+	-@if not exist "$(WORKDIR)\$(NULL)" mkdir $(WORKDIR)
+
+$(HEADERS) :
+	-@if not exist $(HEADERS) copy $(HEADERS)w $(HEADERS)
+
+$(SHAREDLIB): $(WORKDIR) $(HEADERS) $(ASMSRCS) $(RESOURCES) $(OBJECTS)
+	$(LINK) $(SHFLAGS) $(LDFLAGS) $(LIBS) /pdb:$(BUILDPDB) /out:$(SHAREDLIB) /DEF:$(TOPDIR)\build\libffi.def @<<
+	$(OBJECTS) $(RESOURCES)
+<<
+	-@if exist $(BUILDMAN) \
+		$(MT) -nologo -manifest $(BUILDMAN) -outputresource:$(SHAREDLIB);2
+
+$(STATICLIB): $(WORKDIR) $(HEADERS) $(ASMSRCS) $(OBJECTS)
+	$(AR) $(ARFLAGS) $(LDFLAGS) /out:$(STATICLIB) @<<
+	$(OBJECTS)
+<<
+
+
+!IF !DEFINED(PREFIX) || "$(PREFIX)" == ""
+
+install:
+	@echo ERROR: You must define installation PREFIX=destination
+
+!ELSE
+
+install: all
+	-@xcopy "$(TOPDIR)\include\*.h" "$(DESTINC)\" /Y /Q
+	-@xcopy "$(SRCDIR)\x86\ffitarget.h" "$(DESTINC)\" /Y /Q
+	-@xcopy "$(WORKDIR)\$(LALIBNAME)$(LA)" "$(DESTLIB)\" /Y /Q
+	-@xcopy "$(WORKDIR)\$(SOLIBNAME)$(LA)" "$(DESTLIB)\" /Y /Q
+	-@xcopy "$(WORKDIR)\$(SOLIBNAME)$(SO)" "$(DESTBIN)\" /Y /Q
+	-@xcopy "$(WORKDIR)\$(SOLIBNAME).pdb" "$(DESTLIB)\" /Y /Q
+
+!ENDIF
+
+clean:
+	-@del /Q $(OBJECTS) 2>NUL
+	-@del /Q $(RESOURCES) 2>NUL
+	-@del /Q $(ASMSRCS) 2>NUL
+	-@del /Q /S $(WORKDIR) 2>NUL
+
+distclean: clean
+	-@del /Q $(HEADERS) 2>NUL
+	-@del /Q $(TOPDIR)\build\libffi.rc 2>NUL
+	-@del /Q $(TOPDIR)\build\libffi.def 2>NUL
+	-@del /Q $(TOPDIR)\include\ffi.h 2>NUL
+	-@del /Q $(TOPDIR)\fficonfig.h 2>NUL
+	-@del /Q $(TOPDIR)\Makefile.vc 2>NUL

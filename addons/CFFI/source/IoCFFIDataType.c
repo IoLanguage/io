@@ -138,6 +138,7 @@ void *IoCFFIDataType_ValuePointerFromObject_(IoCFFIDataType *self, IoObject *val
 	else if ( ISCFFIFunction(value) )     return IoCFFIFunction_valuePointer(value);
 	else if ( ISCFFIArray(value) )        return IoCFFIArray_valuePointer(value);
 	else {
+		IoObject_print(value);
 		IoState_error_(IOSTATE, NULL, "unknown object to get pointer from");
 		return NULL;
 	}
@@ -478,7 +479,7 @@ void IoCFFIDataType_setValuePointer_(IoCFFIDataType* self, void *ptr)
 {
 	int offset = CNUMBER( IoObject_getSlot_(self, IOSYMBOL("_offset")) );
 
-	if ( ISCFFIDataType(self) )          POINTER(DATA(self)) = ptr + offset;
+	if ( ISCFFIDataType(self) )          POINTER(DATA(self)) = (char *)ptr + offset;
 	else if ( ISCFFIPointer(self) )      IoCFFIPointer_setValuePointer_offset_(self, ptr, offset);
 	else if ( ISCFFIStructure(self) )    IoCFFIStructure_setValuePointer_offset_(self, ptr, offset);
 	else if ( ISCFFIFunction(self) )     IoCFFIFunction_setValuePointer_offset_(self, ptr, offset);

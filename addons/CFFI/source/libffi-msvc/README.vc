@@ -1,0 +1,51 @@
+
+This is Microsoft Visual C++ port of the libffi
+It contains only the sources needed to build on Windows platform and
+uses Microft nmake for building the binaries.
+
+
+Status
+======
+
+  2010-03-05 12:35:54 Compiles on Win32 and Win64
+
+
+Usage
+=====
+
+Configuration
+
+  libffi needs to be configured before compilation. COnfiguration step
+  creates build files from configuration templates
+    Makefile.vc.in      -> Makefile.vc
+    include/ffi.h.in    -> include/ffi.h
+    build/libffi.rc.in  -> build/libffi.rc
+    build/libffi.def.in -> build/libffi.def
+
+  To run configure use either provided awk or use your own
+
+    build/nawk.exe -f configure.awk
+
+  Configure script accepts various arguments and to get the full list
+  execute
+
+    build/nawk.exe -f configure.awk /help
+
+Compilation
+
+  Compilation requires Microsoft Visual C++ compiler version 6.0 or later.
+  To compile the sources open the Visual Studio Command prompt for desired
+  platform and change directory to the libffi root.
+  Then execute:
+
+    nmake -f Makefile.vc
+
+  Produced binaries are inside .lib directory. To install the libraries inside
+  desired location use /prefix=<path> at configure time or call
+
+    nmake -f Makefile.vc "PREFIX=C:\Path to the insallation" install
+
+Testing
+
+  TODO
+

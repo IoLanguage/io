@@ -64,11 +64,12 @@ void IoCFFIArray_mark(IoCFFIArray *self)
 
 IoCFFIArray *IoCFFIArray_rawClone(IoCFFIArray *proto)
 {
+	IoObject* arrayType = NULL;
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, io_calloc(1, sizeof(IoCFFIArrayData)));
 	memset(DATA(self), 0, sizeof(IoCFFIArrayData));
 
-	IoObject* arrayType = IoObject_getSlot_(proto, IOSYMBOL("arrayType"));
+	arrayType = IoObject_getSlot_(proto, IOSYMBOL("arrayType"));
 
 	if ( !ISNIL(arrayType) ) {
 		DATA(self)->ffiType = DATA(proto)->ffiType;
@@ -119,6 +120,7 @@ IoCFFIArray *IoCFFIArray_with(IoCFFIArray *self, IoObject *locals, IoMessage *m)
 	IoCFFIDataType *type;
 	int size, i;
 	ffi_type *item_type;
+	ffi_cif cif;
 	IoCFFIArray *o = IOCLONE(self);
 
 	IoState_on_doCString_withLabel_(IoObject_state(o), o, "init", "IoCFFIArray_with");
@@ -143,7 +145,6 @@ IoCFFIArray *IoCFFIArray_with(IoCFFIArray *self, IoObject *locals, IoMessage *m)
 	}
 	DATA(o)->ffiType.elements[size] = NULL;
 
-	ffi_cif cif;
 	ffi_prep_cif(&cif, FFI_DEFAULT_ABI, 0, &(DATA(o)->ffiType), NULL);
 
 	return o;
@@ -267,5 +268,5 @@ void IoCFFIArray_setValuePointer_offset_(IoCFFIArray* self, void *ptr, int offse
 		DATA(self)->needToFreeBuffer = 0;
 	}
 
-	DATA(self)->buffer = ptr + offset;
+	DATA(self)->buffer = (char *)ptr + offset;
 }

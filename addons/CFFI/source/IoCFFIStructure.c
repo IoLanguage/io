@@ -18,7 +18,7 @@
 #include <string.h>
 #include <ffi.h>
 
-#ifndef MS_WIN32
+#if !defined(_MSC_VER) && !defined(__MINGW32__)
 #define max(a, b) ((a) > (b) ? (a) : (b))
 #define min(a, b) ((a) < (b) ? (a) : (b))
 #endif
@@ -89,13 +89,15 @@ int IoCFFIStructure_calcOffset(int isUnion, ffi_type* type, int* nextOffset)
 
 IoCFFIStructure *IoCFFIStructure_rawClone(IoCFFIStructure *proto)
 {
+	IoMap* proto_slots;
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, io_calloc(1, sizeof(IoCFFIStructureData)));
 	memset(DATA(self), 0, sizeof(IoCFFIStructureData));
 
-	IoMap* proto_slots = IoObject_getSlot_(proto, IOSYMBOL("_members"));
+	proto_slots = IoObject_getSlot_(proto, IOSYMBOL("_members"));
 
 	if ( !ISNIL(proto_slots) ) {
+		IoMap* members;
 		IoCFFIStructureData* data = DATA(self);
 		data->isUnion = DATA(proto)->isUnion;
 		data->ffiType = DATA(proto)->ffiType;
@@ -109,7 +111,7 @@ IoCFFIStructure *IoCFFIStructure_rawClone(IoCFFIStructure *proto)
 
 		// When a Structure is cloned a new buffer is created to hold the values, thus
 		// we have to travel through all the members to tell them where to store their values.
-		IoMap* members = IoMap_new(IOSTATE);
+		members = IoMap_new(IOSTATE);
 		IoObject_setSlot_to_(self, IOSYMBOL("_members"), members);
 		LIST_FOREACH(IoList_rawList(IoMap_rawKeys(proto_slots)), i, k,
 			{
@@ -169,6 +171,7 @@ IoCFFIStructure *IoCFFIStructure_setMembers(IoCFFIStructure *self, IoObject *loc
 
 	if ( count ) {
 		ffi_type* elements;
+		ffi_cif cif;
 		int i = 0, offset = 0, nextOffset = 0, maxsize = 0;
 		IoMap* members;
 
@@ -189,7 +192,6 @@ IoCFFIStructure *IoCFFIStructure_setMembers(IoCFFIStructure *self, IoObject *loc
 		DATA(self)->ffiType.size = 0;
 		DATA(self)->ffiType.alignment = 0;
 		DATA(self)->ffiType.type = FFI_TYPE_STRUCT;
-		ffi_cif cif;
 		ffi_prep_cif(&cif, FFI_DEFAULT_ABI, 0, &(DATA(self)->ffiType), NULL);
 	
 		if ( DATA(self)->isUnion ) {
@@ -299,6 +301,8 @@ ffi_type *IoCFFIStructure_ffiType(IoCFFIStructure *self)
 
 void IoCFFIStructure_setValuePointer_offset_(IoCFFIStructure* self, void *ptr, int offset)
 {
+	IoMap* members;
+
 	// If self is member of another Structure (nested) we have to free self buffer if
 	// needed and take the pointer and offset passed to store self values. Then tell all
 	// self members to do the same.
@@ -307,9 +311,9 @@ void IoCFFIStructure_setValuePointer_offset_(IoCFFIStructure* self, void *ptr, i
 		DATA(self)->needToFreeBuffer = 0;
 	}
 
-	DATA(self)->buffer = ptr + offset;
+	DATA(self)->buffer = (char *)ptr + offset;
 
-	IoMap* members = IoObject_getSlot_(self, IOSYMBOL("_members"));
+	members = IoObject_getSlot_(self, IOSYMBOL("_members"));
 	LIST_FOREACH(IoList_rawList(IoMap_rawKeys(members)), i, v,
 		IoCFFIDataType_setValuePointer_(IoMap_rawAt(members, v), DATA(self)->buffer);
 	);

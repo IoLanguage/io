@@ -6,12 +6,17 @@
 # Find libgmp
 find_package(FFI)
 
-# Create the _build bundle hierarchy if needed.
-make_build_bundle(_build)
-
 # Did we find libevent? if so, set up the targets and all the
 # support variables.
 if(FFI_FOUND)
+	# Create the _build bundle hierarchy if needed.
+	make_build_bundle(_build)
+
+	# Generate the IoCFFIInit.c file.
+	# Argument SHOULD ALWAYS be the exact name of the addon, case is
+	# important.
+	generate_ioinit(CFFI)
+
 	# Output our dynamic library to the top-level _build hierarchy
 	set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/_build/dll)
 
