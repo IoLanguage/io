@@ -8,6 +8,10 @@ addonFolders foreach(folder,
 	System system("io tools/io/DocsExtractor.io " .. folder path)
 )
 
+// Parse the libs/iovm directory to generate the Core documentation
+// Any reason this was missing ? (Added 2010-09-019 rC)
+System system("io tools/io/DocsExtractor.io " .. "libs/iovm")
+
 prototypes := Map clone
 modules := Map clone
 
@@ -16,7 +20,11 @@ File _write := File getSlot("write")
 File writeln := method(call evalArgs foreach(s, self _write(s)); self _write("\n"); self)
 
 readFolder := method(path,
-	File with(Path with(path, "/docs/docs.txt")) contents split("------\n") foreach(e,
+	file := File with(Path with(path, "/docs/docs.txt"))
+	if(file exists, nil,
+	    "readFolder(#{path}/docs/docs.txt fails\n" interpolate println
+ 	    return)
+        file contents split("------\n") foreach(e,
 		isSlot := e beginsWithSeq("doc")
 		h := e beforeSeq("\n") afterSeq(" ") 
 		if(h,
