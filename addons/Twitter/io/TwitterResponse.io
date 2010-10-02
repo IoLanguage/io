@@ -58,6 +58,8 @@ TwitterResponse := Object clone do(
 					e setIsBlockedOrSuspendedOrProtected(true)
 				) elseif(errorMessage containsSeq("This account is currently suspended")) then(
 					e setIsSuspended(true)
+				) elseif(errorMessage containsSeq("User has been suspended")) then(
+					e setIsSuspended(true)
 				) elseif(errorMessage containsSeq("this account has been suspended")) then(
 					e setIsSuspended(true)
 				) elseif(errorMessage containsSeq("You are not friends with the specified user")) then(
