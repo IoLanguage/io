@@ -860,7 +860,7 @@ IO_METHOD(IoSeq, toBase)
 		IoState_error_(IOSTATE, m, "conversion to base %i not supported", base);
 	}
 	
-	#ifdef _MSC_VER
+	#if defined(_MSC_VER) || defined(__MINGW32__)
 		n = strtoul(IoSeq_asCString(self), NULL, 0);
 	#else
 		n = (unsigned long) IoSeq_asDouble(self);

@@ -49,6 +49,20 @@ Kudos to Daniel A. Koepke
 
 #else
 
+#ifdef __MINGW32__
+
+#ifdef IO_IN_C_FILE
+	// in .c 
+	#define IO_DECLARE_INLINES
+	#define IOINLINE inline
+#else
+	// in .h 
+	#define IO_DECLARE_INLINES
+	#define IOINLINE static inline
+#endif 
+
+#else //__MINGW32__
+
 #ifdef IO_IN_C_FILE
 	// in .c 
 	#define IO_DECLARE_INLINES
@@ -58,6 +72,8 @@ Kudos to Daniel A. Koepke
 	#define IO_DECLARE_INLINES
 	#define IOINLINE extern inline
 #endif 
+
+#endif //__MINGW32__
 
 #endif
 

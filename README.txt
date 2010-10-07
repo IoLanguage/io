@@ -15,6 +15,10 @@ There are a couple ways you can go about building Io, I will give the recommende
 OSX
 ---
 
+If you are using the homebrew package manager you can install Io (though it may not be the latest version) with:
+
+	brew install io
+
 Note: Assuming you wish to install to an alternate location, ensure you supply as an argument to the following command, a -DCMAKE_INSTALL_PREFIX=/path where /path is where you wish to install Io to. This is akin to setting INSTALL_PREFIX with the old build system if you are familiar with it, or --prefix with GNU autotools if you are familiar with that suite.
 
 Ensure you are at the top level of the source tree, that is where this file lives. From here, you are in the right spot to enter these commands:

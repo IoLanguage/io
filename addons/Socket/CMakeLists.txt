@@ -42,9 +42,11 @@ if(EVENT_FOUND)
 
 	set(LIBS "")
 	
-	if(WIN32)
+	if(MSVC)
 		set(LIBS "Ws2_32.lib Iphlpapi.lib")
-	endif(WIN32)
+	elseif(MINGW)
+		set(LIBS "-lws2_32 -liphlpapi")
+	endif()
 	
 	# Now build the shared library
 	add_library(IoSocket SHARED ${SRCS})

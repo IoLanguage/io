@@ -49,7 +49,9 @@ Io> match at(2)
 Io> match at(3)
 ==> nil
 
-# You can access captures by name:
+# You can access captures by name, if you name them:
+Io> match := "37signals" findRegex("(?<number>[0-9]+)(?<word>[a-z]+)(!!)?")
+==> RegexMatch: "37signals"
 Io> match at("number")
 ==> 37
 Io> match at("word")
