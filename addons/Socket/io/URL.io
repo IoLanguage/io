@@ -10,6 +10,7 @@ URL := Notifier clone do(
 	cacheTimeout := 24*60*60
 	followRedirects ::= true
 	maxRedirects ::= 1
+	redirectUrlNormalizer ::= nil
 	
 	cacheStore := method(data,
 		cacheFile setContents(data)
@@ -215,6 +216,9 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 			 		return Error with("max redirects")
 				)
 				newUrl := self responseHeaders at("Location")
+				if(redirectUrlNormalizer,
+					newUrl = redirectUrlNormalizer normalizeRedirectUrl(newUrl)
+				)
 				//writeln("REDIRECT TO ", newUrl)
 				self setRedirectUrl(childUrl(newUrl))
 				
