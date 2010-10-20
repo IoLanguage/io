@@ -342,12 +342,18 @@ static IoRegexMatch *IoRegexMatches_searchFrom_withOptions_(IoRegexMatches *self
 	rangeList = IoList_new(IOSTATE);
 	for (i = 0; i < captureCount; i++) {
 		IoObject *element = 0;
+		// unsure about this locals initialization ...
+		IoObject *locals = NULL;
+		IoMessage *message = IoMessage_new(IOSTATE);
 
 		if (capture[0] == -1 && capture[1] == -1) {
 			/* This capture was not matched. */
 			element = IONIL(self);
 		} else {
 			element = IoRange_new(IOSTATE);
+			IoMessage_setCachedArg_to_(message, 0, IONUMBER(capture[0]));
+			IoMessage_setCachedArg_to_(message, 1, IONUMBER(capture[1]));
+			IoRange_setRange(element, locals, message);
 			IoRange_setFirst(element, IONUMBER(capture[0]));
 			IoRange_setLast(element, IONUMBER(capture[1]));
 		}

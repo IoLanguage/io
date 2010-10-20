@@ -66,14 +66,16 @@ Range do(
 	//doc Range slice(start, end, [by]) Returns a list containing the values from the Range starting at the start parameter, ending at the end parameter, and optionally incremented by the by parameter.
 	slice := method(s, e, b,
 		if(e compare(s) < 0, Exception raise("Starting point must be greater than the ending point."))
+		// keep slice without side-effects
+		self = self clone
 		if(b isNil, b = 1)
 		l := list
 		s repeat(self = self next)
 		i := s
 		while(i <= e,
 			l append(value)
-			self = next
-			i = i + 1
+			self = b repeat(self = self next)
+			i = i + b
 		)
 		l
 	)
