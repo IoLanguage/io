@@ -4,10 +4,47 @@ A regular expression match iterator.
 */
 
 RegexMatches do(
-	/*doc RegexMatches reset
+	/*!doc RegexMatches reset
 	Resets the search position to the beginning of the string. Returns self.
 	*/
 	reset := method(setPosition(0))
+
+	/*!doc RegexMatches at(n) # debug usage
+	Returns the n-th RegexMatch or nil if n is out of bounds
+	*/
+	at := method(n,
+		i := 0; ret := nil
+		self foreach(m,
+			if (i == n , ret := m; break , i = i + 1)
+		)
+		ret
+	)
+
+	/*!doc RegexMatches asStrings # debug usage
+	Returns the list of all matched strings
+	*/
+	asStrings := method(
+		self all map(m,
+					 self string exSlice(m range first, m range last))
+	)
+
+	/*!doc RegexMatches asStringAt(n) # debug usage
+	Returns the n-th matched string or nil if n ist our of bounds
+	*/
+	asStringAt := method(n,
+		i := 0; ret := nil
+		self foreach(m,
+			if (i == n ,
+				ret := self string exSlice(m range first, m range last); break ,
+				i = i + 1
+		) )
+		ret
+	)
+
+	/*!doc RegexMatches count # debug usage
+	Returns the number of matches in the string
+	*/
+	count := method(i := 0; foreach(m, i = i + 1))
 
 	/*doc RegexMatches last
 	Returns the last match in the string.
