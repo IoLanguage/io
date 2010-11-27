@@ -12,7 +12,7 @@ make_build_bundle(_build)
 
 # Did we find OpenGL? if so, set up the targets and all the support
 # variables.
-if(OPENGL_FOUND AND OPENGL_GLU_FOUND AND GLUT_FOUND)
+if(OPENGL_FOUND AND OPENGL_GLU_FOUND AND GLUT_FOUND AND ((GLUT_Xmu_LIBRARY AND GLUT_Xi_LIBRARY) OR NOT ${CMAKE_SYSTEM_NAME} MATCHES "Linux"))
 	# Output our dynamic library to the top-level _build hierarchy
 	set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/_build/dll)
 
@@ -49,4 +49,4 @@ if(OPENGL_FOUND AND OPENGL_GLU_FOUND AND GLUT_FOUND)
 	# Install the addon to our global addons hierarchy.
 	install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/addons)
 	install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/_build DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/addons/OpenGL)
-endif(OPENGL_FOUND AND OPENGL_GLU_FOUND AND GLUT_FOUND)
+endif(OPENGL_FOUND AND OPENGL_GLU_FOUND AND GLUT_FOUND AND ((GLUT_Xmu_LIBRARY AND GLUT_Xi_LIBRARY) OR NOT ${CMAKE_SYSTEM_NAME} MATCHES "Linux"))
