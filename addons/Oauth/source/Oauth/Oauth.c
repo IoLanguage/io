@@ -10,7 +10,13 @@
 #include <stdio.h>
 #include "http.h"
 #include "crypto.h"
-#include "aux.h"
+
+/*
+	"aux" is a reserved device name on Windows and causes both git-bash and CMake to error out when accessing the file name.
+	I've changed the file names to _aux.h and _aux.c to fix it. My apologies to the original author of OAuth.  --Dennis Ferron
+*/
+#include "_aux.h"
+
 #include <time.h>
 #include <sys/time.h>
 #include <stdlib.h>
