@@ -96,18 +96,23 @@ IoObject *IoCFFILibrary_rawOpen(IoObject *self)
 	}
 
 	// TODO DynLib_hasError not declared in dynlib.h
-	if ( DynLib_hasError(library) ) return IONIL(self);
+	//if ( DynLib_hasError(library) ) return IONIL(self);
+	if ( library->error != NULL ) return IONIL(self);
+	
 	
 	return self;
 }
 
 void *IoCFFILibrary_rawGetFuctionPointer_(IoCFFILibrary *self, const char *name)
 {
-	if ( ISNIL( IoCFFILibrary_rawOpen(self) ) ) return NULL;
-		
-	DynLib *library = DATA(self)->library;
+	DynLib *library;
+	void *func_pointer;
 
-	void *func_pointer = DynLib_pointerForSymbolName_(library, name);
+	if ( ISNIL( IoCFFILibrary_rawOpen(self) ) ) return NULL;
+	
+	library = DATA(self)->library;
+
+	func_pointer = DynLib_pointerForSymbolName_(library, name);
 	if ( NULL == func_pointer )
 		IoState_error_(IOSTATE, NULL, "Function \"%s\" not found in library \"%s\"", name, CSTRING(IoObject_getSlot_(self, IOSYMBOL("name"))));
 

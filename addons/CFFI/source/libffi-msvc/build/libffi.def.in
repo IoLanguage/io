@@ -1,0 +1,23 @@
+LIBRARY libffi-@VERSION_MAJOR@
+
+EXPORTS
+    ffi_type_void       DATA
+    ffi_type_uint8      DATA
+    ffi_type_sint8      DATA
+    ffi_type_uint16     DATA
+    ffi_type_sint16     DATA
+    ffi_type_uint32     DATA
+    ffi_type_sint32     DATA
+    ffi_type_uint64     DATA
+    ffi_type_sint64     DATA
+    ffi_type_float      DATA
+    ffi_type_double     DATA
+    ffi_type_pointer    DATA
+
+
+    ffi_call
+    ffi_closure_alloc
+    ffi_closure_free
+    ffi_prep_cif
+    ffi_prep_closure_loc
+       

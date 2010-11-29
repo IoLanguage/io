@@ -12,7 +12,7 @@ make_build_bundle(_build)
 
 # Did we find Font? if so, set up the targets and all the support
 # variables.
-if(GLUT_FOUND)
+if(GLUT_FOUND AND FREETYPE_FOUND AND ((GLUT_Xmu_LIBRARY AND GLUT_Xi_LIBRARY) OR NOT ${CMAKE_SYSTEM_NAME} MATCHES "Linux"))
 	# Output our dynamic library to the top-level _build hierarchy
 	set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/_build/dll)
 
@@ -43,4 +43,4 @@ if(GLUT_FOUND)
 	# Install the addon to our global addons hierarchy.
 	install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/addons)
 	install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/_build DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/addons/Font)
-endif(GLUT_FOUND)
+endif(GLUT_FOUND AND FREETYPE_FOUND AND ((GLUT_Xmu_LIBRARY AND GLUT_Xi_LIBRARY) OR NOT ${CMAKE_SYSTEM_NAME} MATCHES "Linux"))
