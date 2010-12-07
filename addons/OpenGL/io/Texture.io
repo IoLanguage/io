@@ -62,8 +62,11 @@ Texture := Object clone do(
 		self width  := originalWidth roundedUpToPowerOf2
 		self height := originalHeight roundedUpToPowerOf2
 
-		self dataImage := anImage resizedTo(width, height)
-
+        if(width == originalWidth and height == originalHeight,
+            self dataImage := anImage clone
+        ,
+            self dataImage := anImage resizedTo(width, height)
+        )
 /*
 		writeln("dataImage componentCount = ", dataImage componentCount)
 		writeln("dataImage width = ", dataImage width)

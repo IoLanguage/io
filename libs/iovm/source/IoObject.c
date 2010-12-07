@@ -175,6 +175,7 @@ IoObject *IoObject_protoFinish(void *state)
 
 	{"print", IoObject_lobbyPrint},
 	{"do", IoObject_do},
+	{"lexicalDo", IoObject_lexicalDo},
 	{"message", IoObject_message},
 	{"doMessage", IoObject_doMessage},
 	{"doString", IoObject_doString},
@@ -1804,6 +1805,25 @@ IO_METHOD(IoObject, do)
 	{
 		IoMessage *argMessage = IoMessage_rawArgAt_(m, 0);
 		IoMessage_locals_performOn_(argMessage, self, self);
+	}
+
+	return self;
+}
+
+IO_METHOD(IoObject, lexicalDo)
+{
+	/*doc Object lexicalDo(expression)
+	Evaluates the message in the context of the receiver. 
+	The lexical context is added as a proto of the receiver while the argument is evaluated. 
+	Returns self.
+	*/
+
+	if (IoMessage_argCount(m) != 0)
+	{
+		IoMessage *argMessage = IoMessage_rawArgAt_(m, 0);
+		IoObject_rawAppendProto_(self, locals);
+		IoMessage_locals_performOn_(argMessage, self, self);
+		IoObject_rawRemoveProto_(self, locals);
 	}
 
 	return self;

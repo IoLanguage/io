@@ -16,7 +16,7 @@ Image do(
 
 	//doc Image resizedTo(newWidth, newHeight) Scales the image up to newWidth x newHeight.  Returns the newly scaled image.
 	resizedTo := method(w, h,
-		//writeln("resizing ", path, " from ", width, "x", height, " to ", w, "x", h)
+		writeln("resizing ", path, " from ", width, "x", height, " to ", w, "x", h)
 		addAlpha
 		inputSurface := ImageSurface createForData(data, FORMAT_ARGB32, width, height, width * componentCount)
 		outputSurface := ImageSurface create(FORMAT_ARGB32, w, h)
