@@ -277,7 +277,7 @@ Io> list("a", "b", "cd") groupBy(i, v, i == 1) asJson
     asSimpleString := method(
         result := self slice(0, 30) asString
         if(result size > 40,
-            result slice(0, 37) .. "..."
+            result exSlice(0, 37) .. "..."
         ,
             result
         )
