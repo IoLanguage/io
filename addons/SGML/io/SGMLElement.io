@@ -66,7 +66,7 @@ SGMLElement := Object clone do(
 
 	elementWithName := method(name,
 		if(name == self name, return self)
-		subitems detect(elementWithName(name)) returnIfNonNil
+		subitems foreach(elementWithName(name) returnIfNonNil)
 		nil
 	)
 
