@@ -52,6 +52,8 @@ set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/modules/")
 # We want our binaries to go here
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/_build/binaries)
 
+set(CMAKE_INSTALL_LIBDIR ${CMAKE_INSTALL_PREFIX}/lib)
+
 # Macro to create the _build directory hierarchy.
 # Note: I'm not sure we need lib/ or objs/ in there. But I'll leave them in
 # anyway, I'm just not going to do anything with them unless it breaks doing

@@ -57,7 +57,9 @@ set(IOVMALL_STATIC_SRCS
 
 # Create a header file which defines our install prefix. This is
 # only needed because GCC is batshit insane.
-file(WRITE ${CMAKE_CURRENT_SOURCE_DIR}/source/IoInstallPrefix.h "#define INSTALL_PREFIX \"${CMAKE_INSTALL_PREFIX}\"")
+file(WRITE ${CMAKE_CURRENT_SOURCE_DIR}/source/IoInstallPrefix.h "#define INSTALL_PREFIX \"${CMAKE_INSTALL_PREFIX}\"\n")
+file(APPEND ${CMAKE_CURRENT_SOURCE_DIR}/source/IoInstallPrefix.h "#define INSTALL_LIBDIR \"${CMAKE_INSTALL_LIBDIR}\"")
+
 
 # The custom command to generate source/IoVMInit.c which is our
 # "compiled" Io to C source code.
@@ -88,4 +90,4 @@ target_link_libraries(iovmall basekit coroutine garbagecollector)
 
 # The following add the install target, so we put libvmall.* in our
 # install prefix.
-install(TARGETS iovmall DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
+install(TARGETS iovmall DESTINATION ${CMAKE_INSTALL_LIBDIR})

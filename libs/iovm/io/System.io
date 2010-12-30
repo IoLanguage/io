@@ -4,7 +4,7 @@ System do(
 	launchScript := nil
 	//doc System launchScript Returns the path of the io file run on the command line. Returns nil if no file was run.
 
-	ioPath := installPrefix asMutable appendPathSeq("lib") appendPathSeq("io")
+	ioPath := installLibDir asMutable appendPathSeq("io")
 	//doc System ioPath Returns the path of io installation. The default is $INSTALL_PREFIX/lib/io.
 
 	/*doc System getOptions(args) 

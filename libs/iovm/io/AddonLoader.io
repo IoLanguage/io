@@ -93,7 +93,7 @@ Addon := Object clone do(
 
 AddonLoader := Object clone do(
 	//doc Addon searchPaths Returns the list of paths to search for addons.
-	searchPaths := list("io/addons", System installPrefix .. "/lib/io/addons")
+	searchPaths := list("io/addons", System installLibDir .. "/io/addons")
 
 	//doc Addon appendSearchPath(aSequence) Appends the argument to the list of search paths.
 	appendSearchPath := method(p, searchPaths appendIfAbsent(p); self)

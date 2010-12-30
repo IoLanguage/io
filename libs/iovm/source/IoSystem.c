@@ -102,6 +102,7 @@ IoObject *IoSystem_proto(void *state)
 #ifdef WIN32
 	{"shellExecute", IoObject_shellExecute},
 	{"installPrefix", IoObject_installPrefix},
+	{"installLibDir", IoObject_installPrefix},
 #else
 	{"daemon", IoObject_daemon},
 #endif
@@ -144,6 +145,7 @@ IoObject *IoSystem_proto(void *state)
 	
 #ifndef WIN32
 	IoObject_setSlot_to_(self, IOSYMBOL("installPrefix"), IOSYMBOL(INSTALL_PREFIX));
+	IoObject_setSlot_to_(self, IOSYMBOL("installLibDir"), IOSYMBOL(INSTALL_LIBDIR));
 #endif
 
 	return self;

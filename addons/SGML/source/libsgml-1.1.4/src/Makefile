@@ -36,13 +36,13 @@ CMAKE_COMMAND = /usr/bin/cmake
 RM = /usr/bin/cmake -E remove -f
 
 # The program to use to edit the cache.
-CMAKE_EDIT_COMMAND = /usr/bin/cmake-gui
+CMAKE_EDIT_COMMAND = /usr/bin/ccmake
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/dennis/code/LikeMagic-All/io
+CMAKE_SOURCE_DIR = /home/s4504kr/git/io
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/dennis/code/LikeMagic-All/io
+CMAKE_BINARY_DIR = /home/s4504kr/git/io
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -50,7 +50,7 @@ CMAKE_BINARY_DIR = /home/dennis/code/LikeMagic-All/io
 # Special rule for the target edit_cache
 edit_cache:
 	@echo "Running CMake cache editor..."
-	/usr/bin/cmake-gui -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/usr/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -110,14 +110,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/dennis/code/LikeMagic-All/io && $(CMAKE_COMMAND) -E cmake_progress_start /home/dennis/code/LikeMagic-All/io/CMakeFiles /home/dennis/code/LikeMagic-All/io/addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/progress.marks
-	cd /home/dennis/code/LikeMagic-All/io && $(MAKE) -f CMakeFiles/Makefile2 addons/SGML/source/libsgml-1.1.4/src/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/dennis/code/LikeMagic-All/io/CMakeFiles 0
+	cd /home/s4504kr/git/io && $(CMAKE_COMMAND) -E cmake_progress_start /home/s4504kr/git/io/CMakeFiles /home/s4504kr/git/io/addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/progress.marks
+	cd /home/s4504kr/git/io && $(MAKE) -f CMakeFiles/Makefile2 addons/SGML/source/libsgml-1.1.4/src/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/s4504kr/git/io/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/dennis/code/LikeMagic-All/io && $(MAKE) -f CMakeFiles/Makefile2 addons/SGML/source/libsgml-1.1.4/src/clean
+	cd /home/s4504kr/git/io && $(MAKE) -f CMakeFiles/Makefile2 addons/SGML/source/libsgml-1.1.4/src/clean
 .PHONY : clean
 
 # The main clean target
@@ -126,22 +126,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/dennis/code/LikeMagic-All/io && $(MAKE) -f CMakeFiles/Makefile2 addons/SGML/source/libsgml-1.1.4/src/preinstall
+	cd /home/s4504kr/git/io && $(MAKE) -f CMakeFiles/Makefile2 addons/SGML/source/libsgml-1.1.4/src/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/dennis/code/LikeMagic-All/io && $(MAKE) -f CMakeFiles/Makefile2 addons/SGML/source/libsgml-1.1.4/src/preinstall
+	cd /home/s4504kr/git/io && $(MAKE) -f CMakeFiles/Makefile2 addons/SGML/source/libsgml-1.1.4/src/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/dennis/code/LikeMagic-All/io && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/s4504kr/git/io && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/rule:
-	cd /home/dennis/code/LikeMagic-All/io && $(MAKE) -f CMakeFiles/Makefile2 addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/rule
+	cd /home/s4504kr/git/io && $(MAKE) -f CMakeFiles/Makefile2 addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/rule
 .PHONY : addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/rule
 
 # Convenience name for target.
@@ -150,7 +150,7 @@ sgml: addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/rule
 
 # fast build rule for target.
 sgml/fast:
-	cd /home/dennis/code/LikeMagic-All/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build
+	cd /home/s4504kr/git/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build
 .PHONY : sgml/fast
 
 DomComment.o: DomComment.c.o
@@ -158,7 +158,7 @@ DomComment.o: DomComment.c.o
 
 # target to build an object file
 DomComment.c.o:
-	cd /home/dennis/code/LikeMagic-All/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/DomComment.c.o
+	cd /home/s4504kr/git/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/DomComment.c.o
 .PHONY : DomComment.c.o
 
 DomComment.i: DomComment.c.i
@@ -166,7 +166,7 @@ DomComment.i: DomComment.c.i
 
 # target to preprocess a source file
 DomComment.c.i:
-	cd /home/dennis/code/LikeMagic-All/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/DomComment.c.i
+	cd /home/s4504kr/git/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/DomComment.c.i
 .PHONY : DomComment.c.i
 
 DomComment.s: DomComment.c.s
@@ -174,7 +174,7 @@ DomComment.s: DomComment.c.s
 
 # target to generate assembly for a file
 DomComment.c.s:
-	cd /home/dennis/code/LikeMagic-All/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/DomComment.c.s
+	cd /home/s4504kr/git/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/DomComment.c.s
 .PHONY : DomComment.c.s
 
 DomDocument.o: DomDocument.c.o
@@ -182,7 +182,7 @@ DomDocument.o: DomDocument.c.o
 
 # target to build an object file
 DomDocument.c.o:
-	cd /home/dennis/code/LikeMagic-All/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/DomDocument.c.o
+	cd /home/s4504kr/git/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/DomDocument.c.o
 .PHONY : DomDocument.c.o
 
 DomDocument.i: DomDocument.c.i
@@ -190,7 +190,7 @@ DomDocument.i: DomDocument.c.i
 
 # target to preprocess a source file
 DomDocument.c.i:
-	cd /home/dennis/code/LikeMagic-All/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/DomDocument.c.i
+	cd /home/s4504kr/git/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/DomDocument.c.i
 .PHONY : DomDocument.c.i
 
 DomDocument.s: DomDocument.c.s
@@ -198,7 +198,7 @@ DomDocument.s: DomDocument.c.s
 
 # target to generate assembly for a file
 DomDocument.c.s:
-	cd /home/dennis/code/LikeMagic-All/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/DomDocument.c.s
+	cd /home/s4504kr/git/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/DomDocument.c.s
 .PHONY : DomDocument.c.s
 
 DomElement.o: DomElement.c.o
@@ -206,7 +206,7 @@ DomElement.o: DomElement.c.o
 
 # target to build an object file
 DomElement.c.o:
-	cd /home/dennis/code/LikeMagic-All/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/DomElement.c.o
+	cd /home/s4504kr/git/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/DomElement.c.o
 .PHONY : DomElement.c.o
 
 DomElement.i: DomElement.c.i
@@ -214,7 +214,7 @@ DomElement.i: DomElement.c.i
 
 # target to preprocess a source file
 DomElement.c.i:
-	cd /home/dennis/code/LikeMagic-All/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/DomElement.c.i
+	cd /home/s4504kr/git/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/DomElement.c.i
 .PHONY : DomElement.c.i
 
 DomElement.s: DomElement.c.s
@@ -222,7 +222,7 @@ DomElement.s: DomElement.c.s
 
 # target to generate assembly for a file
 DomElement.c.s:
-	cd /home/dennis/code/LikeMagic-All/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/DomElement.c.s
+	cd /home/s4504kr/git/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/DomElement.c.s
 .PHONY : DomElement.c.s
 
 DomNode.o: DomNode.c.o
@@ -230,7 +230,7 @@ DomNode.o: DomNode.c.o
 
 # target to build an object file
 DomNode.c.o:
-	cd /home/dennis/code/LikeMagic-All/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/DomNode.c.o
+	cd /home/s4504kr/git/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/DomNode.c.o
 .PHONY : DomNode.c.o
 
 DomNode.i: DomNode.c.i
@@ -238,7 +238,7 @@ DomNode.i: DomNode.c.i
 
 # target to preprocess a source file
 DomNode.c.i:
-	cd /home/dennis/code/LikeMagic-All/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/DomNode.c.i
+	cd /home/s4504kr/git/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/DomNode.c.i
 .PHONY : DomNode.c.i
 
 DomNode.s: DomNode.c.s
@@ -246,7 +246,7 @@ DomNode.s: DomNode.c.s
 
 # target to generate assembly for a file
 DomNode.c.s:
-	cd /home/dennis/code/LikeMagic-All/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/DomNode.c.s
+	cd /home/s4504kr/git/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/DomNode.c.s
 .PHONY : DomNode.c.s
 
 DomNodeList.o: DomNodeList.c.o
@@ -254,7 +254,7 @@ DomNodeList.o: DomNodeList.c.o
 
 # target to build an object file
 DomNodeList.c.o:
-	cd /home/dennis/code/LikeMagic-All/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/DomNodeList.c.o
+	cd /home/s4504kr/git/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/DomNodeList.c.o
 .PHONY : DomNodeList.c.o
 
 DomNodeList.i: DomNodeList.c.i
@@ -262,7 +262,7 @@ DomNodeList.i: DomNodeList.c.i
 
 # target to preprocess a source file
 DomNodeList.c.i:
-	cd /home/dennis/code/LikeMagic-All/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/DomNodeList.c.i
+	cd /home/s4504kr/git/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/DomNodeList.c.i
 .PHONY : DomNodeList.c.i
 
 DomNodeList.s: DomNodeList.c.s
@@ -270,7 +270,7 @@ DomNodeList.s: DomNodeList.c.s
 
 # target to generate assembly for a file
 DomNodeList.c.s:
-	cd /home/dennis/code/LikeMagic-All/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/DomNodeList.c.s
+	cd /home/s4504kr/git/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/DomNodeList.c.s
 .PHONY : DomNodeList.c.s
 
 DomText.o: DomText.c.o
@@ -278,7 +278,7 @@ DomText.o: DomText.c.o
 
 # target to build an object file
 DomText.c.o:
-	cd /home/dennis/code/LikeMagic-All/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/DomText.c.o
+	cd /home/s4504kr/git/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/DomText.c.o
 .PHONY : DomText.c.o
 
 DomText.i: DomText.c.i
@@ -286,7 +286,7 @@ DomText.i: DomText.c.i
 
 # target to preprocess a source file
 DomText.c.i:
-	cd /home/dennis/code/LikeMagic-All/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/DomText.c.i
+	cd /home/s4504kr/git/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/DomText.c.i
 .PHONY : DomText.c.i
 
 DomText.s: DomText.c.s
@@ -294,7 +294,7 @@ DomText.s: DomText.c.s
 
 # target to generate assembly for a file
 DomText.c.s:
-	cd /home/dennis/code/LikeMagic-All/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/DomText.c.s
+	cd /home/s4504kr/git/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/DomText.c.s
 .PHONY : DomText.c.s
 
 SgmlExtensionHtml.o: SgmlExtensionHtml.c.o
@@ -302,7 +302,7 @@ SgmlExtensionHtml.o: SgmlExtensionHtml.c.o
 
 # target to build an object file
 SgmlExtensionHtml.c.o:
-	cd /home/dennis/code/LikeMagic-All/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/SgmlExtensionHtml.c.o
+	cd /home/s4504kr/git/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/SgmlExtensionHtml.c.o
 .PHONY : SgmlExtensionHtml.c.o
 
 SgmlExtensionHtml.i: SgmlExtensionHtml.c.i
@@ -310,7 +310,7 @@ SgmlExtensionHtml.i: SgmlExtensionHtml.c.i
 
 # target to preprocess a source file
 SgmlExtensionHtml.c.i:
-	cd /home/dennis/code/LikeMagic-All/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/SgmlExtensionHtml.c.i
+	cd /home/s4504kr/git/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/SgmlExtensionHtml.c.i
 .PHONY : SgmlExtensionHtml.c.i
 
 SgmlExtensionHtml.s: SgmlExtensionHtml.c.s
@@ -318,7 +318,7 @@ SgmlExtensionHtml.s: SgmlExtensionHtml.c.s
 
 # target to generate assembly for a file
 SgmlExtensionHtml.c.s:
-	cd /home/dennis/code/LikeMagic-All/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/SgmlExtensionHtml.c.s
+	cd /home/s4504kr/git/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/SgmlExtensionHtml.c.s
 .PHONY : SgmlExtensionHtml.c.s
 
 SgmlExtensionXml.o: SgmlExtensionXml.c.o
@@ -326,7 +326,7 @@ SgmlExtensionXml.o: SgmlExtensionXml.c.o
 
 # target to build an object file
 SgmlExtensionXml.c.o:
-	cd /home/dennis/code/LikeMagic-All/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/SgmlExtensionXml.c.o
+	cd /home/s4504kr/git/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/SgmlExtensionXml.c.o
 .PHONY : SgmlExtensionXml.c.o
 
 SgmlExtensionXml.i: SgmlExtensionXml.c.i
@@ -334,7 +334,7 @@ SgmlExtensionXml.i: SgmlExtensionXml.c.i
 
 # target to preprocess a source file
 SgmlExtensionXml.c.i:
-	cd /home/dennis/code/LikeMagic-All/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/SgmlExtensionXml.c.i
+	cd /home/s4504kr/git/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/SgmlExtensionXml.c.i
 .PHONY : SgmlExtensionXml.c.i
 
 SgmlExtensionXml.s: SgmlExtensionXml.c.s
@@ -342,7 +342,7 @@ SgmlExtensionXml.s: SgmlExtensionXml.c.s
 
 # target to generate assembly for a file
 SgmlExtensionXml.c.s:
-	cd /home/dennis/code/LikeMagic-All/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/SgmlExtensionXml.c.s
+	cd /home/s4504kr/git/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/SgmlExtensionXml.c.s
 .PHONY : SgmlExtensionXml.c.s
 
 SgmlParser.o: SgmlParser.c.o
@@ -350,7 +350,7 @@ SgmlParser.o: SgmlParser.c.o
 
 # target to build an object file
 SgmlParser.c.o:
-	cd /home/dennis/code/LikeMagic-All/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/SgmlParser.c.o
+	cd /home/s4504kr/git/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/SgmlParser.c.o
 .PHONY : SgmlParser.c.o
 
 SgmlParser.i: SgmlParser.c.i
@@ -358,7 +358,7 @@ SgmlParser.i: SgmlParser.c.i
 
 # target to preprocess a source file
 SgmlParser.c.i:
-	cd /home/dennis/code/LikeMagic-All/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/SgmlParser.c.i
+	cd /home/s4504kr/git/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/SgmlParser.c.i
 .PHONY : SgmlParser.c.i
 
 SgmlParser.s: SgmlParser.c.s
@@ -366,7 +366,7 @@ SgmlParser.s: SgmlParser.c.s
 
 # target to generate assembly for a file
 SgmlParser.c.s:
-	cd /home/dennis/code/LikeMagic-All/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/SgmlParser.c.s
+	cd /home/s4504kr/git/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/SgmlParser.c.s
 .PHONY : SgmlParser.c.s
 
 Variant.o: Variant.c.o
@@ -374,7 +374,7 @@ Variant.o: Variant.c.o
 
 # target to build an object file
 Variant.c.o:
-	cd /home/dennis/code/LikeMagic-All/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/Variant.c.o
+	cd /home/s4504kr/git/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/Variant.c.o
 .PHONY : Variant.c.o
 
 Variant.i: Variant.c.i
@@ -382,7 +382,7 @@ Variant.i: Variant.c.i
 
 # target to preprocess a source file
 Variant.c.i:
-	cd /home/dennis/code/LikeMagic-All/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/Variant.c.i
+	cd /home/s4504kr/git/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/Variant.c.i
 .PHONY : Variant.c.i
 
 Variant.s: Variant.c.s
@@ -390,7 +390,7 @@ Variant.s: Variant.c.s
 
 # target to generate assembly for a file
 Variant.c.s:
-	cd /home/dennis/code/LikeMagic-All/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/Variant.c.s
+	cd /home/s4504kr/git/io && $(MAKE) -f addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/build.make addons/SGML/source/libsgml-1.1.4/src/CMakeFiles/sgml.dir/Variant.c.s
 .PHONY : Variant.c.s
 
 # Help Target
@@ -447,6 +447,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/dennis/code/LikeMagic-All/io && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/s4504kr/git/io && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 
