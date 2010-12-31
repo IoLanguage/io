@@ -79,7 +79,7 @@ add_subdirectory(Oauth) # OAuth should no longer break CMake configuration on Wi
 add_subdirectory(Obsidian)
 add_subdirectory(Ogg)
 add_subdirectory(OpenGL)
-#add_subdirectory(PortAudio) # XXX: Dependency broken for me
+add_subdirectory(PortAudio) # XXX: Dependency broken for me
 add_subdirectory(PostgreSQL)
 #add_subdirectory(Postgres)
 add_subdirectory(Python)
