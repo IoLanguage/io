@@ -139,7 +139,7 @@ int mkdir_win32(const char *path, mode_t_win32 mode)
 	/* returns zero on sucess */
 	LPCTSTR lpPathName = path;
 	LPSECURITY_ATTRIBUTES lpSecurityAttributes = NULL;
-	return (CreateDirectory(lpPathName, lpSecurityAttributes) != 0);
+	return (CreateDirectory(lpPathName, lpSecurityAttributes) == 0);
 }
 
 /*
