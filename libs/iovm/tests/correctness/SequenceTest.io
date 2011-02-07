@@ -31,6 +31,15 @@ SequenceTest := UnitTest clone do(
 		string := "blah"
 		assertSame(string, string asString)
 	)
+	
+	testAsList := method(
+	    assertEquals(list(97, 98, 99, 100), "abcd" asList)
+	    vector := Sequence clone setItemType("float32") setEncoding("number")
+	    vector atPut(0, -0.5)
+	    vector atPut(1, 0)
+	    vector atPut(2, 0.5)
+	    assertEquals(list(-0.5, 0, 0.5), vector asList)
+	)
 
 	testAsMutableSequence := method(
 		string := "blah"
