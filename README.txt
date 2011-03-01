@@ -36,7 +36,7 @@ Any Linux distribution will require one additional step be taken. This is becaus
 
 ldconfig
 
-If you are still getting an error when loading the "io" binary about not being able to fins some shared library, then ensure you have the following path, in your /etc/ld.so.conf (or equivalent):
+If you are still getting an error when loading the "io" binary about not being able to find some shared library, then ensure you have the following path, in your /etc/ld.so.conf (or equivalent):
 
 /usr/local/lib
 
