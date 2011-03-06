@@ -15,6 +15,10 @@
 #include "SgmlParser.h"
 #include "SgmlExtensionHtml.h"
 
+#if defined(_MSC_VER)
+#define strcasecmp strcmpi
+#endif
+
 const char *autocloseElements[] = {
 	"br",
 	"dd",

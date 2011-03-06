@@ -35,6 +35,13 @@
 <td>
 <hr align=left color=#ddd height=1>
 <br><br>
+<a name="TwitterAccount-accessTokenSecret"></a><b>
+accessTokenSecret
+</b>
+<p>
+<div class=slotDescription>
+Returns the OAuth token secret.
+</div>
 <a name="TwitterAccount-account"></a><b>
 account
 </b>
@@ -55,6 +62,20 @@ backgroundImageFile
 <p>
 <div class=slotDescription>
 Returns the backgroundImageFile set in the twitter profile.
+</div>
+<a name="TwitterAccount-consumerKey"></a><b>
+consumerKey
+</b>
+<p>
+<div class=slotDescription>
+Returns the OAuth consumerKey.
+</div>
+<a name="TwitterAccount-consumerSecret"></a><b>
+consumerSecret
+</b>
+<p>
+<div class=slotDescription>
+Returns the OAuth consumerSecret.
 </div>
 <a name="TwitterAccount-deleteStatus"></a><b>
 deleteStatus(tweetId)
@@ -119,6 +140,13 @@ hasProtectedUpdates
 <div class=slotDescription>
 Returns true if the account has protected updates, false otherwise.
 </div>
+<a name="TwitterAccount-homeTimeline"></a><b>
+homeTimeline
+</b>
+<p>
+<div class=slotDescription>
+Returns the home timeline tweets for this account
+</div>
 <a name="TwitterAccount-imageFile"></a><b>
 imageFile
 </b>
@@ -182,6 +210,13 @@ profile
 <div class=slotDescription>
 Returns the account Profile object.
 </div>
+<a name="TwitterAccount-publicTimeline"></a><b>
+publicTimeline
+</b>
+<p>
+<div class=slotDescription>
+Returns the public timeline tweets for this account
+</div>
 <a name="TwitterAccount-rateLimitExpiration"></a><b>
 rateLimitExpiration
 </b>
@@ -202,6 +237,14 @@ request
 <p>
 <div class=slotDescription>
 Returns a new TwitterRequest object for this account.
+</div>
+<a name="TwitterAccount-requestOAuthAccess"></a><b>
+requestOAuthAccess
+</b>
+<p>
+<div class=slotDescription>
+Sets the token and tokenSecret using CURL + Oauth oob.
+		consumerKey, consumerSecret, username and password must be set.  Returns self
 </div>
 <a name="TwitterAccount-resultsFor"></a><b>
 resultsFor(aRequest)
@@ -224,12 +267,33 @@ screenName
 <div class=slotDescription>
 Returns the account screenName.
 </div>
+<a name="TwitterAccount-setAccessTokenSecret"></a><b>
+setAccessTokenSecret(aTokenSecret)
+</b>
+<p>
+<div class=slotDescription>
+Sets the OAuth token secret.  Returns self.
+</div>
 <a name="TwitterAccount-setAccount"></a><b>
 setAccount(anAccount)
 </b>
 <p>
 <div class=slotDescription>
 Sets the account associated with this profile. Returns self.
+</div>
+<a name="TwitterAccount-setConsumerKey"></a><b>
+setConsumerKey(aKey)
+</b>
+<p>
+<div class=slotDescription>
+Sets the OAuth consumerKey.  Returns self.
+</div>
+<a name="TwitterAccount-setConsumerSecret"></a><b>
+setConsumerSecret(aKey)
+</b>
+<p>
+<div class=slotDescription>
+Sets the OAuth consumerSecret.  Returns self.
 </div>
 <a name="TwitterAccount-setName"></a><b>
 setName(aSeq)
@@ -273,12 +337,12 @@ setScreenName(aSeq)
 <div class=slotDescription>
 Sets the account screenName. Returns self.
 </div>
-<a name="TwitterAccount-setSource"></a><b>
-setSource(aSource)
+<a name="TwitterAccount-setToken"></a><b>
+setToken(aToken)
 </b>
 <p>
 <div class=slotDescription>
-Sets the account source. Returns self.
+Sets the OAuth token.  Returns self.
 </div>
 <a name="TwitterAccount-show"></a><b>
 show
@@ -315,13 +379,6 @@ sidebarFillColor
 <div class=slotDescription>
 Returns the sidebarFillColor set in the twitter profile.
 </div>
-<a name="TwitterAccount-source"></a><b>
-source
-</b>
-<p>
-<div class=slotDescription>
-Returns the account source (e.g. "API").
-</div>
 <a name="TwitterAccount-textColor"></a><b>
 textColor
 </b>
@@ -335,6 +392,13 @@ tilesBackgroundImage
 <p>
 <div class=slotDescription>
 Returns the tilesBackgroundImage set in the twitter profile.
+</div>
+<a name="TwitterAccount-token"></a><b>
+token
+</b>
+<p>
+<div class=slotDescription>
+Returns the OAuth token.
 </div>
 <a name="TwitterAccount-twitterIdForScreenName"></a><b>
 twitterIdForScreenName(aScreenName)
@@ -412,6 +476,13 @@ userExists(aScreenName)
 <p>
 <div class=slotDescription>
 Returns true if the specified user exists, false otherwise.
+</div>
+<a name="TwitterAccount-userTimeline"></a><b>
+userTimeline
+</b>
+<p>
+<div class=slotDescription>
+Returns the user timeline tweets for this account
 </div>
 </td>
 </tr>

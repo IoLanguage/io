@@ -3,7 +3,8 @@ Socket
 //Object uniqueHexId := method("0x" .. uniqueId asString toBase(16))
 
 SocketTest := UnitTest clone do(
-
+	//debugWriteln := getSlot("writeln")
+	
 	testSocketHttpClient := method(
 		s := Socket clone setHost("www.google.com") setPort(80)
 		s streamOpen

@@ -4,6 +4,8 @@ VertexDB Request := Object clone do(
 	queryParamNames ::= list("action")
 	action ::= "size"
 	
+	shouldSend ::= true
+	
 	init := method(
 		setQueryParams(queryParams clone)
 		setQueryParamNames(queryParamNames clone)
@@ -31,11 +33,11 @@ VertexDB Request := Object clone do(
 				queryParams atPut(name, v asString)
 			)
 		)
-		"?" .. queryParams asQueryString
+		queryParams asQueryString
 	)
 	
 	resource := method(
-		URL escapeString(path) .. queryString
+		path percentEncoded asMutable replaceSeq("%2F", "/") .. queryString
 	)
 	
 	requestUrl := method(
@@ -57,7 +59,12 @@ VertexDB Request := Object clone do(
 			)
 		
 			r := VertexDB Response clone setRequest(self)
-			r setBody(if(httpMethod asLowercase == "get", url fetch, url post(body)))
+			if(shouldSend,
+				r setBody(if(httpMethod asLowercase == "get", url fetch, url post(body)))
+			,
+				r setBody("SENDING DISABLED")
+			)
+			
 			r setStatusCode(url statusCode)
 		)
 		debugWriteln("dt: ", dt)
@@ -82,7 +89,7 @@ VertexDB do(
 	SizeRequest := Request clone setAction("size")
 	
 	WriteRequest := Request clone setAction("write") addQuerySlots(list("key", "value", "mode"))
-	WriteRequest queryString := method(Sequence with("?action=write&key=", URL escapeString(key), "&value=", URL escapeString(value)))
+	WriteRequest queryString := method(Sequence with("?action=write&key=", key percentEncoded, "&value=", value percentEncoded))
 
 	RmRequest := Request clone setAction("rm") addQuerySlots(list("key"))
 	

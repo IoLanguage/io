@@ -33,4 +33,6 @@ IoObject *IoSHA1_appendSeq(IoSHA1 *self, IoObject *locals, IoMessage *m);
 IoObject *IoSHA1_sha1(IoSHA1 *self, IoObject *locals, IoMessage *m);
 IoObject *IoSHA1_sha1String(IoSHA1 *self, IoObject *locals, IoMessage *m);
 
+IoObject *IoSHA1_hmac(IoSHA1 *self, IoObject *locals, IoMessage *m);
+
 #endif

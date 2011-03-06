@@ -193,10 +193,10 @@ detect(optionalIndex, value, message)
 <p>
 <div class=slotDescription>
 Returns the first value for which the message evaluates to a non-nil. Example:
-<code>list(1, 2, 3, 4) detect(i, v, v > 2)
+<pre>list(1, 2, 3, 4) detect(i, v, v > 2)
 ==> 3
 list(1, 2, 3, 4) detect(v, v > 2)
-==> 3</code>
+==> 3</pre>
 </div>
 <a name="List-difference"></a><b>
 difference(list)
@@ -254,6 +254,22 @@ Returns a List with the decoded Nils, Symbols and Numbers from the input raw arr
 	allow the reference to be resolved. 
 	
 	Also see: List asEncodedList.
+</div>
+<a name="List-groupBy"></a><b>
+groupBy
+</b>
+<p>
+<div class=slotDescription>
+Group items in a List by common expression value and return them aggregated in a Map.
+    <em>Note</em>: asJson is used because Map doesn't have asString method implemented.
+<pre>
+Io> list("a", "b", "cd") groupBy(size) asJson
+==> {"2":["cd"],"1":["a","b"]}
+Io> list("a", "b", "cd") groupBy(v, v containsSeq("c")) asJson
+==> {"false":["a","b"],"true":["cd"]}
+Io> list("a", "b", "cd") groupBy(i, v, i == 1) asJson
+==> {"false":["a","cd"],"true":["b"]}
+</pre>
 </div>
 <a name="List-indexOf"></a><b>
 indexOf(anObject)
@@ -347,10 +363,10 @@ mapInPlace(optionalIndex, value, message)
 <div class=slotDescription>
 Replaces each item in the reciever with the result of applying a given message
     to that item. Example:
-<code>list(1, 5, 7, 2) mapInPlace(i, v, i + v)
+<pre>list(1, 5, 7, 2) mapInPlace(i, v, i + v)
 ==> list(1, 6, 9, 5)
 list(1, 5, 7, 2) mapInPlace(v, v + 3)
- ==> list(4, 8, 10, 5)</code>
+ ==> list(4, 8, 10, 5)</pre>
 </div>
 <a name="List-pop"></a><b>
 pop
@@ -388,7 +404,7 @@ reduce
 <div class=slotDescription>
 Also known as foldl or inject. Combines values in target starting on the left.
     If no initial value is paseed the head of the list is used. <br />
-<code>
+<pre>
 Io> list(1, 2, 3) reduce(+)
 ==> 6
 Io> list(1, 2, 3) reduce(xs, x, xs + x)
@@ -397,7 +413,7 @@ Io> list(1, 2, 3) reduce(+, -6) # Passing the initial value.
 ==> 0
 Io> list(1, 2, 3) reduce(xs, x, xs + x, -6)
 ==> 0
-</code>
+</pre>
 </div>
 <a name="List-remove"></a><b>
 remove(anObject, ...)
@@ -492,10 +508,10 @@ selectInPlace(optionalIndex, value, message)
 <div class=slotDescription>
 Like foreach, but the values for which the result of message is either nil
     or false are removed from the List. Example:
-<code>list(1, 5, 7, 2) selectInPlace(i, v, v > 3)
+<pre>list(1, 5, 7, 2) selectInPlace(i, v, v > 3)
 ==> 5, 7
 list(1, 5, 7, 2) selectInPlace(v, v > 3)
- ==> 5, 7</code>
+ ==> 5, 7</pre>
 </div>
 <a name="List-setSize"></a><b>
 setSize

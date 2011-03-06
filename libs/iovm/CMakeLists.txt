@@ -19,7 +19,6 @@ set(IO_SRCS
 	${CMAKE_CURRENT_SOURCE_DIR}/io/A4_Exception.io
 	${CMAKE_CURRENT_SOURCE_DIR}/io/Actor.io
 	${CMAKE_CURRENT_SOURCE_DIR}/io/AddonLoader.io
-	${CMAKE_CURRENT_SOURCE_DIR}/io/B_List.io
 	${CMAKE_CURRENT_SOURCE_DIR}/io/B_Sequence.io
 	${CMAKE_CURRENT_SOURCE_DIR}/io/Block.io
 	${CMAKE_CURRENT_SOURCE_DIR}/io/CFunction.io

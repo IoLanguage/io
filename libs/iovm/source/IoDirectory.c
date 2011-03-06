@@ -601,8 +601,8 @@ IO_METHOD(IoDirectory, setCurrentWorkingDirectory)
 
 	if(chdir(CSTRING(path)) == -1)
 	{
-		return IOSUCCESS(self);
+		return IOFAILURE(self);
 	}
 
-	return IOFAILURE(self);
+	return IOSUCCESS(self);
 }

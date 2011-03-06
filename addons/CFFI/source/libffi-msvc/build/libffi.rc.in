@@ -1,0 +1,61 @@
+/* -----------------------------------------------------------------------
+   libffi.rc - Copyright (c) 1996  Red Hat, Inc.
+   Copyright (c) 2010 Free Software Foundation, Inc
+
+   Microsoft Windows resource file for libffi.
+   ----------------------------------------------------------------------- */
+
+#include <windows.h>
+
+#define LIBFFI_LICENSE \
+  "Copyright (c) 1996-2010  Anthony Green, Red Hat, Inc and others.\r\n"       \
+  "See source files for details.\r\n"                                          \
+  "\r\n"                                                                       \
+  "Permission is hereby granted, free of charge, to any person obtaining\r\n"  \
+  "a copy of this software and associated documentation files (the\r\n"        \
+  "``Software''), to deal in the Software without restriction, including\r\n"  \
+  "without limitation the rights to use, copy, modify, merge, publish,\r\n"    \
+  "distribute, sublicense, and/or sell copies of the Software, and to\r\n"     \
+  "permit persons to whom the Software is furnished to do so, subject to\r\n"  \
+  "the following conditions:\r\n"                                              \
+  "\r\n"                                                                       \
+  "The above copyright notice and this permission notice shall be included\r\n"\
+  " in all copies or substantial portions of the Software.\r\n"
+
+#define LIBFFI_COPYRIGHT \
+  "Copyright (c) 1996  Red Hat, Inc.\r\n"                                      \
+  "Copyright (c) 2010 Free Software Foundation, Inc"
+
+#define LIBFFI_VERSION_STR "@VERSION_MAJOR@.@VERSION_MINOR@.@VERSION_PATCH@.0"
+#define LIBFFI_VERSION_CSV @VERSION_MAJOR@,@VERSION_MINOR@,@VERSION_PATCH@,0
+
+1 VERSIONINFO
+ FILEVERSION LIBFFI_VERSION_CSV
+ PRODUCTVERSION LIBFFI_VERSION_CSV
+ FILEFLAGSMASK VS_FFI_FILEFLAGSMASK
+ FILEFLAGS 0x0L
+ FILEOS VOS_NT
+ FILETYPE VFT_APP
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "Comments",  LIBFFI_LICENSE "\0"
+            VALUE "CompanyName", "Free Software Foundation, Inc\0"
+            VALUE "FileDescription", "Portable Foreign Function Interface Library\0"
+            VALUE "FileVersion", LIBFFI_VERSION_STR "\0"
+            VALUE "InternalName", "libffi-@VERSION_MAJOR@\0"
+            VALUE "LegalCopyright", LIBFFI_COPYRIGHT "\0"
+            VALUE "OriginalFilename", "libffi-@VERSION_MAJOR@.dll\0"
+            VALUE "ProductName", "libffi\0"
+            VALUE "ProductVersion", LIBFFI_VERSION_STR "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+

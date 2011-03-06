@@ -40,10 +40,18 @@ if(EVENT_FOUND)
 		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoSocketInit.c"
 	)
 
+	set(LIBS "")
+	
+	if(MSVC)
+		set(LIBS "Ws2_32.lib Iphlpapi.lib")
+	elseif(MINGW)
+		set(LIBS "-lws2_32 -liphlpapi")
+	endif()
+	
 	# Now build the shared library
 	add_library(IoSocket SHARED ${SRCS})
 	add_dependencies(IoSocket iovmall)
-	target_link_libraries(IoSocket iovmall ${EVENT_LIBRARY})
+	target_link_libraries(IoSocket iovmall ${EVENT_LIBRARY} ${LIBS})
 
 	# Install the addon to our global addons hierarchy.
 	install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/addons)

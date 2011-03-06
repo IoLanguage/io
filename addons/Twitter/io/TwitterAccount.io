@@ -11,14 +11,26 @@ Object representing a twitter account.
 	password ::= nil
 	//doc TwitterAccount password Returns the account password.
 	//doc TwitterAccount setPassword(aSeq) Sets the account password. Returns self.
+	
+	consumerKey ::= nil
+	//doc TwitterAccount consumerKey Returns the OAuth consumerKey.
+	//doc TwitterAccount setConsumerKey(aKey) Sets the OAuth consumerKey.  Returns self.
+	
+	consumerSecret ::= nil
+	//doc TwitterAccount consumerSecret Returns the OAuth consumerSecret.
+	//doc TwitterAccount setConsumerSecret(aKey) Sets the OAuth consumerSecret.  Returns self.
+	
+	token ::= nil
+	//doc TwitterAccount token Returns the OAuth token.
+	//doc TwitterAccount setToken(aToken) Sets the OAuth token.  Returns self.
+	
+	tokenSecret ::= nil
+	//doc TwitterAccount accessTokenSecret Returns the OAuth token secret.
+	//doc TwitterAccount setAccessTokenSecret(aTokenSecret) Sets the OAuth token secret.  Returns self.
 		
 	profile ::= nil
 	//doc TwitterAccount profile Returns the account Profile object.
 	//doc TwitterAccount setProfile(aProfile) Sets the account profile. Returns self.
-		
-	source ::= "API"
-	//doc TwitterAccount source Returns the account source (e.g. "API").
-	//doc TwitterAccount setSource(aSource) Sets the account source. Returns self.
 		
 	rateLimitRemaining ::= nil
 	//doc TwitterAccount rateLimitRemaining Returns the account rateLimitRemaining.
@@ -42,14 +54,14 @@ Object representing a twitter account.
 	
 	request := method(
 		//doc TwitterAccount request Returns a new TwitterRequest object for this account.
-		TwitterRequest clone setUsername(screenName) setPassword(password)
+		TwitterRequest clone setAccount(self)
 	)
 	
 	resultsFor := method(request,
 		//doc TwitterAccount resultsFor(aRequest) Returns results for the request.
-		if(isLimited,
-			TwitterException clone setIsRateLimited(true) raise("Rate Limited")
-		)
+		//if(isLimited,
+		//	TwitterException clone setIsRateLimited(true) raise("Rate Limited")
+		//)
 		request execute
 		debugWriteln(request response body)
 		debugWriteln(request response statusCode)
@@ -140,7 +152,7 @@ Object representing a twitter account.
 	
 	updateStatus := method(message, tweetId,
 		//doc TwitterAccount updateStatus(messageText, tweetId) Updates the status message and returns the results of the request.		
-		r := request asUpdateStatus setStatus(message) setSource(source)
+		r := request asUpdateStatus setStatus(message)
 		if(tweetId,
 			r setInReplyToStatusId(tweetId)
 		)
@@ -247,5 +259,29 @@ Object representing a twitter account.
 		//doc TwitterAccount retweet(tweetId) Retweets the tweet with tweetId
 		r := request asRetweet setTweetId(tweetId)
 		resultsFor(r) at("id") asString
+	)
+	
+	requestOAuthAccess := method(
+		/*doc TwitterAccount requestOAuthAccess 
+		Sets the token and tokenSecret using CURL + Oauth oob.
+		consumerKey, consumerSecret, username and password must be set.  Returns self
+		*/
+
+		TwitterOauthSession clone setAccount(self) requestOauthAccess account
+	)
+	
+	publicTimeline := method(
+		//doc TwitterAccount publicTimeline Returns the public timeline tweets for this account
+		resultsFor(request asPublicTimeline)
+	)
+	
+	homeTimeline := method(
+		//doc TwitterAccount homeTimeline Returns the home timeline tweets for this account
+		resultsFor(request asHomeTimeline)
+	)
+	
+	userTimeline := method(
+		//doc TwitterAccount userTimeline Returns the user timeline tweets for this account
+		resultsFor(request asUserTimeline)
 	)
 )

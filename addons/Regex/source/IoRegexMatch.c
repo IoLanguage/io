@@ -1,7 +1,7 @@
-//metadoc RegexMatche copyright Daniel Rosengren danne.rosengren@gmail.com
-//metadoc RegexMatche license BSD revised
-//metadoc RegexMatche category Parsers
-/*metadoc RegexMatche description
+//metadoc RegexMatch copyright Daniel Rosengren danne.rosengren@gmail.com
+//metadoc RegexMatch license BSD revised
+//metadoc RegexMatch category Parsers
+/*metadoc RegexMatch description
 	
 */
 #include "IoRegexMatch.h"

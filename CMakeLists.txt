@@ -23,9 +23,23 @@
 # hierarchy.
 cmake_minimum_required(VERSION 2.8)
 
+	
 # Project name, this gets prefixed to a bunch of stuff under the hood. No
 # spaces, or anything silly like that please.
 project(IoLanguage)
+
+# Default config when building with gcc variants
+IF(CMAKE_COMPILER_IS_GNUCC)
+	SET(CMAKE_BUILD_TYPE_DebugFast)
+	SET(CMAKE_CXX_FLAGS_DEBUGFAST "-g -O0")
+	SET(CMAKE_C_FLAGS_DEBUGFAST "-g -O0")
+
+	if(NOT CMAKE_BUILD_TYPE)
+	        SET(CMAKE_BUILD_TYPE "DebugFast")
+	endif(NOT CMAKE_BUILD_TYPE)
+ENDIF(CMAKE_COMPILER_IS_GNUCC)
+
+MESSAGE(STATUS "Configuration set to: ${CMAKE_BUILD_TYPE}")
 
 # Don't want a coloured Makefile. On some platforms, the blue that is used is
 # so dark it's illegible.
@@ -68,6 +82,9 @@ endmacro(copy_files)
 # windows support.
 if(${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 	set(BINARY_SUFFIX ".exe")
+	set(CMAKE_STATIC_LIBRARY_PREFIX "lib")
+	set(CMAKE_SHARED_LIBRARY_PREFIX "lib")
+	set(CMAKE_IMPORT_LIBRARY_PREFIX "lib")
 else()
 	set(BINARY_SUFFIX "")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Windows")

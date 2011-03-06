@@ -18,7 +18,7 @@ GooglePage := Object clone do(
 	
     find := method(
 		//doc GooglePage find Runs the search.
-		u := "http://www.google.com/search?q=" .. URL escapeString(searchTerm) .. "&num=100&hl=en&lr=&safe=off&start=" .. (pageNumber * 100) .. "&sa=N"
+		u := "http://www.google.com/search?q=" .. searchTerm percentEncoded .. "&num=100&hl=en&lr=&safe=off&start=" .. (pageNumber * 100) .. "&sa=N"
 		//writeln("page ", pageNumber, " ", u, " ")
 		setLinks(URL with(u) fetch asSGML linkStrings)
 		links selectInPlace(beginsWithSeq("http"))

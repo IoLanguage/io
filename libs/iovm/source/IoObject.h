@@ -186,6 +186,7 @@ IOVM_API IO_METHOD(IoObject, evalArgAndReturnNil);
 IOVM_API IO_METHOD(IoObject, evalArgAndReturnSelf);
 IOVM_API IO_METHOD(IoObject, uniqueId);
 IOVM_API IO_METHOD(IoObject, do);
+IOVM_API IO_METHOD(IoObject, lexicalDo);
 IOVM_API IO_METHOD(IoObject, message);
 
 // compiler

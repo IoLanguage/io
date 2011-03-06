@@ -12,7 +12,7 @@
 extern "C" {
 #endif
 
-#if !defined(__MINGW32__) && defined(WIN32)
+#if defined(WIN32)
 #if defined(BUILDING_COLLECTOR_DLL) || defined(BUILDING_IOVMALL_DLL)
 #define COLLECTOR_API __declspec(dllexport)
 #else

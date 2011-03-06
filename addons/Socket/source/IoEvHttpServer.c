@@ -79,10 +79,11 @@ void IoEvHttpServer_free(IoEvHttpServer *self)
 
 void IoEvHttpServer_readRequestHeaders(IoEvHttpServer *self, IoObject *request, struct evhttp_request *req)
 {	
+	IoMap *headers;
 	//IOASSERT(!ISNIL(request), "nil request");
 	assert(!ISNIL(request));
 	
-	IoMap *headers  = IoObject_getSlot_(request, IOSYMBOL("headers"));
+	headers  = IoObject_getSlot_(request, IOSYMBOL("headers"));
 	//IOASSERT(ISMAP(headers), "request headers not a map");
 	assert(ISMAP(headers));
 	
@@ -133,25 +134,31 @@ void IoEvHttpServer_handleRequest(struct evhttp_request *req, void *arg)
 			break;
 	}
 	
-
-	IoSeq *postData = IOSEQ((const unsigned char *)EVBUFFER_DATA(req->input_buffer), (int)EVBUFFER_LENGTH(req->input_buffer));
+	{
+		IoSeq *postData = IOSEQ((const unsigned char *)EVBUFFER_DATA(req->input_buffer), (int)EVBUFFER_LENGTH(req->input_buffer));
+		
+		request = IOCLONE(request);
+		IoObject_initClone_(self, request, IoMessage_newWithName_label_(IOSTATE, IOSYMBOL("IoEvHttpServer_handleRequest"), IOSYMBOL("IoEvHttpServer")), request);
+		IoObject_setSlot_to_(request, IOSYMBOL("httpMethod"), IOSYMBOL(httpMethod));
+		IoObject_setSlot_to_(request, IOSYMBOL("uri"), IOSYMBOL(uri));
+		IoObject_setSlot_to_(request, IOSYMBOL("postData"), postData);
+		IoEvHttpServer_readRequestHeaders(self, request, req);
+		IoObject_setSlot_to_(self, IOSYMBOL("request"), request);
+	}
 	
-	request = IOCLONE(request);
-	IoObject_initClone_(self, request, IoMessage_newWithName_label_(IOSTATE, IOSYMBOL("IoEvHttpServer_handleRequest"), IOSYMBOL("IoEvHttpServer")), request);
-	IoObject_setSlot_to_(request, IOSYMBOL("httpMethod"), IOSYMBOL(httpMethod));
-	IoObject_setSlot_to_(request, IOSYMBOL("uri"), IOSYMBOL(uri));
-	IoObject_setSlot_to_(request, IOSYMBOL("postData"), postData);
-	IoEvHttpServer_readRequestHeaders(self, request, req);
-	IoObject_setSlot_to_(self, IOSYMBOL("request"), request);
+	{
+		IoObject *response  = IoObject_getSlot_(self, IOSYMBOL("responseProto"));
+		response = IOCLONE(response);
+		IoObject_initClone_(self, response, IoMessage_newWithName_label_(IOSTATE, IOSYMBOL("IoEvHttpServer_handleRequest"), IOSYMBOL("IoEvHttpServer")), response);
+		assert(ISEVOUTRESPONSE(response));
+		IoEvOutResponse_rawSetRequest_(response, req);
+		IoObject_setSlot_to_(self, IOSYMBOL("response"), response);
+	}
 	
-	IoObject *response  = IoObject_getSlot_(self, IOSYMBOL("responseProto"));
-	response = IOCLONE(response);
-	IoObject_initClone_(self, response, IoMessage_newWithName_label_(IOSTATE, IOSYMBOL("IoEvHttpServer_handleRequest"), IOSYMBOL("IoEvHttpServer")), response);
-	assert(ISEVOUTRESPONSE(response));
-	IoEvOutResponse_rawSetRequest_(response, req);
-	IoObject_setSlot_to_(self, IOSYMBOL("response"), response);
-	IoMessage *m = IoMessage_newWithName_label_(IOSTATE, IOSYMBOL("handleRequestCallback"), IOSYMBOL("IoEvHttpServer"));
-	IoMessage_locals_performOn_(m, self, self);
+	{
+		IoMessage *m = IoMessage_newWithName_label_(IOSTATE, IOSYMBOL("handleRequestCallback"), IOSYMBOL("IoEvHttpServer"));
+		IoMessage_locals_performOn_(m, self, self);
+	}
 }
 
 IoObject *IoEvHttpServer_start(IoEvHttpServer *self, IoObject *locals, IoMessage *m)

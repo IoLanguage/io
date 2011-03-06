@@ -21,6 +21,26 @@ typedef void   (IoTagMarkFunc)(void *); // self
 typedef void   (IoTagNotificationFunc)(void *, void *); // self, notification
 typedef void   (IoTagCleanupFunc)(void *); // self
 
+/*
+typedef struct
+{
+	IoTagCursorFirstFunc *nextFunc;
+	IoTagCursorNextFunc *nextFunc;
+	IoTagCursorPreviousFunc *nextFunc;
+	IoTagCursorJumpFunc *nextFunc;
+	IoTagCursorLastFunc *nextFunc;
+}
+*/
+
+/*
+typedef void * (IoTagGetFunc)(void *, void *); // self, symbol -> object or 0x0
+typedef void   (IoTagSetFunc)(void *, void *, void *); // self, symbol, object
+typedef void   (IoTagGetAfterFunc)(void *, void *); // self, symbol -> object or 0x0
+
+typedef void * (IoTagGetMetaFunc)(void *, void *); // self, symbol -> object or 0x0
+typedef void   (IoTagSetMetaFunc)(void *, void *, void *); // self, symbol, object
+*/
+
 typedef void * (IoTagPerformFunc)(void *, void *, void *); // self, locals, message
 typedef void * (IoTagActivateFunc)(void *, void *, void *, void *, void *); // self, target, locals, message, slotContext
 typedef int    (IoTagCompareFunc)(void *, void *); // self and another IoObject
@@ -48,7 +68,13 @@ typedef struct
 	IoTagPerformFunc *performFunc; // lookup and activate, return result
 	IoTagActivateFunc *activateFunc; // return the receiver or compute and return a value
 	IoTagCompareFunc *compareFunc;
-
+	
+	/*
+	IoTagSetFunc *setFunc
+	IoTagGetFunc *getFunc
+	IoTagCursorFunc *cursorFunc
+	*/
+	
 	// persistence
 
 	IoTagWriteToStreamFunc   *writeToStreamFunc;

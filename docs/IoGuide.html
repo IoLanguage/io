@@ -219,6 +219,9 @@ Io distributions are available at:
 	<a name="Introduction-Installing"></a><h3>Installing</h3>
 </td><td></td><td>
 
+
+	Follow the README.txt file in the download to compile and install io.
+<!--
 First compile the Io vm:
 
 <pre>
@@ -324,7 +327,7 @@ io
 </pre>
 
 The io_static executable contains the vm with a minimal set of primitives all statically linked into the executable. The io executable contains just enough to load the iovm dynamically linked library and is able to dynamically load io addons when they are referenced.
-
+-->
 
 </tr><tr><td colspan=3 class=sectionDivider></td></tr>
 <tr><td align=right>
@@ -1157,8 +1160,8 @@ Io> Dog slotNames
 The protos method returns a list of the objects which an object inherits from:
 
 <pre>
-Io> Dog protos
-==> list("Object")
+Io> Dog protos map(type)
+==> list(Object)
 </pre>
 
 <h4>getSlot</h4>

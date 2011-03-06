@@ -12,8 +12,8 @@ SongJamNode := Object clone do(
         
     urlNamed := method(name, 
 	url := protocol getSlot(name) asMutable
-	url replaceSeq("[username]", URL escapeString(username))
-	url replaceSeq("[password]", URL escapeString(password))
+	url replaceSeq("[username]", username urlEncoded)
+	url replaceSeq("[password]", password urlEncoded)
 	url replaceSeq("[path]", path)
 	url replaceSeq(" ", "%20")
 	url asSymbol

@@ -5,6 +5,7 @@
 
 # Find clutter
 find_package(Clutter)
+find_package(Atk)
 find_package(GLIB2)
 find_package(Pango)
 find_package(Cairo)
@@ -14,12 +15,13 @@ make_build_bundle(_build)
 
 # Did we find clutter? if so, set up the targets and all the support
 # variables.
-if(CLUTTER_FOUND AND GLIB2_FOUND AND Pango_1_0_FOUND AND CAIRO_FOUND)
+if(CLUTTER_FOUND AND ATK_FOUND AND GLIB2_FOUND AND Pango_1_0_FOUND AND CAIRO_FOUND)
 	# Output our dynamic library to the top-level _build hierarchy
 	set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/_build/dll)
 
 	# Additional include directories
 	include_directories(${CLUTTER_INCLUDE_DIR})
+	include_directories(${CLUTTER_ATK_DIR})
 	include_directories(${GLIB2_INCLUDE_DIRS})
 	include_directories(${Pango_1_0_INCLUDE_DIR})
 	include_directories(${CAIRO_INCLUDE_DIRS})
@@ -50,6 +52,7 @@ if(CLUTTER_FOUND AND GLIB2_FOUND AND Pango_1_0_FOUND AND CAIRO_FOUND)
 	add_dependencies(IoClutter iovmall)
 	target_link_libraries(IoClutter iovmall
         ${CLUTTER_LIBRARY}
+        ${ATK_LIBRARY}
         ${GLIB2_LIBRARIES}
         ${Pango_1_0_LIBRARIES}
         ${CAIRO_LIBRARIES})
@@ -57,4 +60,4 @@ if(CLUTTER_FOUND AND GLIB2_FOUND AND Pango_1_0_FOUND AND CAIRO_FOUND)
 	# Install the addon to our global addons hierarchy.
 	install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/addons)
 	install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/_build DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/addons/Clutter)
-endif(CLUTTER_FOUND AND GLIB2_FOUND AND Pango_1_0_FOUND AND CAIRO_FOUND)
+endif(CLUTTER_FOUND AND ATK_FOUND AND GLIB2_FOUND AND Pango_1_0_FOUND AND CAIRO_FOUND)

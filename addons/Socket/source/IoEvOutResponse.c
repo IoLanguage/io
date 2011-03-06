@@ -78,40 +78,40 @@ void IoEvOutResponse_writeResponseHeaders(IoEvOutResponse *self)
 	IoMap *headers  = IoObject_getSlot_(self, IOSYMBOL("headers"));
 	assert(ISMAP(headers));
 	
-	const char *headerNames[] = {
-		"Accept-Ranges",
-		"Age",
-		"Allow",
-		"Cache-Control",
-		"Content-Encoding",
-		"Content-Language",
-		"Content-Length",
-		"Content-Location",
-		"Content-Disposition",
-		"Content-MD5",
-		"Content-Range",
-		"Content-Type",
-		"Date",
-		"ETag",
-		"Expires",
-		"Last-Modified",
-		"Location",
-		"Pragma",
-		"Proxy-Authenticate",
-		"Refresh",
-		"Retry-After",
-		"Server",
-		"Set-Cookie",
-		"Trailer",
-		"Transfer-Encoding",
-		"Vary",
-		"Via",
-		"Warning",
-		"WWW-Authenticate",
-		0x0
-	};
-	
 	{
+		const char *headerNames[] = {
+			"Accept-Ranges",
+			"Age",
+			"Allow",
+			"Cache-Control",
+			"Content-Encoding",
+			"Content-Language",
+			"Content-Length",
+			"Content-Location",
+			"Content-Disposition",
+			"Content-MD5",
+			"Content-Range",
+			"Content-Type",
+			"Date",
+			"ETag",
+			"Expires",
+			"Last-Modified",
+			"Location",
+			"Pragma",
+			"Proxy-Authenticate",
+			"Refresh",
+			"Retry-After",
+			"Server",
+			"Set-Cookie",
+			"Trailer",
+			"Transfer-Encoding",
+			"Vary",
+			"Via",
+			"Warning",
+			"WWW-Authenticate",
+			0x0
+		};
+	
 		//struct evkeyvalq *h = req->input_headers;
 		int i = 0;
 		const char *name;
@@ -136,17 +136,19 @@ void IoEvOutResponse_writeResponseHeaders(IoEvOutResponse *self)
 IoObject *IoEvOutResponse_asyncSend(IoEvOutResponse *self, IoObject *locals, IoMessage *m)
 {
 	IoEvOutResponse_writeResponseHeaders(self);
-	
-	IoSeq *data = IoObject_seqGetSlot_(self, IOSYMBOL("data"));
-	IoSeq *responseMessage = IoObject_seqGetSlot_(self, IOSYMBOL("responseMessage"));
-	int statusCode = IoObject_doubleGetSlot_(self, IOSYMBOL("statusCode"));
-	struct evhttp_request *req = REQUEST(self);
 
-	struct evbuffer *buf = evbuffer_new();
-	evbuffer_add(buf, IOSEQ_BYTES(data), IOSEQ_LENGTH(data));
-	evhttp_send_reply(req, statusCode, CSTRING(responseMessage), buf);		
-	//evhttp_send_reply_end(req);
-	evbuffer_free(buf);
+	{
+		IoSeq *data = IoObject_seqGetSlot_(self, IOSYMBOL("data"));
+		IoSeq *responseMessage = IoObject_seqGetSlot_(self, IOSYMBOL("responseMessage"));
+		int statusCode = IoObject_doubleGetSlot_(self, IOSYMBOL("statusCode"));
+		struct evhttp_request *req = REQUEST(self);
+
+		struct evbuffer *buf = evbuffer_new();
+		evbuffer_add(buf, IOSEQ_BYTES(data), IOSEQ_LENGTH(data));
+		evhttp_send_reply(req, statusCode, CSTRING(responseMessage), buf);		
+		//evhttp_send_reply_end(req);
+		evbuffer_free(buf);
+	}
 	
 	return self;
 }
