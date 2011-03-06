@@ -135,7 +135,7 @@ IoObject *IoRange_last(IoRange *self, IoObject *locals, IoMessage *m)
 		result_lt = IoObject_activate(lt, last, locals, newMessage, context);
 
 		// If new last value not out of bounds set it as current
-		if(rd->end > rd->start ? IoNumber_asInt(result_lt) <= 0 : IoNumber_asInt(result_lt) >= 0)
+		if(rd->end >= rd->start ? IoNumber_asInt(result_lt) <= 0 : IoNumber_asInt(result_lt) >= 0)
 		{
 			IoRange_setCurrent(self, last);
 			IoRange_setIndex(self, IONUMBER(CNUMBER(rd->index) + 1));
@@ -171,7 +171,7 @@ IoObject *IoRange_next(IoRange *self, IoObject *locals, IoMessage *m)
 		r_lt = IoObject_activate(lt, ret, locals, newMessage, context);
 
 		// The comparing result depends on a range (his decreasing or increasing)
-		if (rd->end > rd->start ? IoNumber_asInt(r_lt) <= 0 : IoNumber_asInt(r_lt) >= 0)
+		if (rd->end >= rd->start ? IoNumber_asInt(r_lt) <= 0 : IoNumber_asInt(r_lt) >= 0)
 		{
 			IoRange_setCurrent(self, ret);
 			IoRange_setIndex(self, IONUMBER(CNUMBER(rd->index) + 1));
