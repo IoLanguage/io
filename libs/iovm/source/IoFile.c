@@ -694,10 +694,22 @@ IO_METHOD(IoFile, remove)
 	Raises an error if the file exists but is not removed. Returns self.
 	*/
 
-	int error;
+	int error = 0;
 
 #if defined(__SYMBIAN32__)
 	error = -1;
+#elif defined(_MSC_VER) || defined(__MINGW32__)
+	if(IoFile_justExists(self))
+	{
+		if(ISTRUE(IoFile_isDirectory(self, locals, m)))
+		{
+			error = rmdir(CSTRING(DATA(self)->path));
+		}
+		else
+		{
+			error = unlink(CSTRING(DATA(self)->path));
+		}
+	}
 #else
 	error = remove(CSTRING(DATA(self)->path));
 #endif
