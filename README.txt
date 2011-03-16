@@ -50,34 +50,71 @@ Gentoo
 ------
 See OSX instructions.
 
-MS WINDOWS WITH CYGWIN
+MS WINDOWS
+----------
+
+For all the different methods explained here, some of the addons won't compile as they depend on libraries not provided by Io.
+
+For methods A and B you must download and install CMake (at least v2.8) from here: http://www.cmake.org/cmake/resources/software.html
+
+For method C you must install the CMake Cygwin package (at least v2.8) using the Cygwin package installer.
+
+For the "make install" command, if you are on Windows 7/Vista you will need to run your command prompts as Administrator: right-click on the command prompt launcher->"Run as administrator" or something similar)
+
+You will also need to add <install_drive>:\<install_directory>\bin and <install_drive>:\<install_directory>\lib to your PATH environment variable.
+
+A) Building with MSVC
+---------------------
+1) Install Microsoft Visual C++ 2008 Express (should work with other versions).
+2) Install Microsoft Windows SDK 7.0 (or newer).
+3) Install CMake (v2.8 at least)
+4) Run "Vistual Studio 2008 Command Prompt" from the "Microsoft Visual Studio 2008" start menu.
+5) 'cd' to <install_drive>:\Microsoft SDKs\Windows\v7.0\Setup then run: "WindowsSdkVer.exe -version:v7.0" (without the quotes)
+6) Close the command prompt window and run 4) again
+7) Ensure CMake bin path is in the PATH environment variable (eg: echo %PATH% and see that the folder is there) if not you will have to add it to your PATH.
+8) 'cd' to your Io root folder
+9) We want to do an out-of-source build, so: "mkdir buildroot" and "cd buildroot" (without the quotes)
+10a) cmake ..
+or
+10b) cmake -DCMAKE_INSTALL_PREFIX=<install_drive>:\<install_directory> .. (eg: cmake -DCMAKE_INSTALL_PREFIX=C:\Io ..)
+11) nmake
+12) nmake install
+
+
+B) Building with MinGW
 ----------------------
+For automatic MinGW install: http://sourceforge.net/projects/mingw/files/Automated%20MinGW%20Installer
+For non-automatic MinGW install and detailed instructions refer to: http://www.mingw.org/wiki/InstallationHOWTOforMinGW
 
-1) [once] Ensure your VisualStudio has the Windows SDK. 
+1) 'cd' to your Io root folder
+2) We want to do an out-of-source build, so: "mkdir buildroot" and "cd buildroot" (without the quotes)
+3a) cmake -G"MSYS Makefiles" ..
+or
+3b) cmake -G"MSYS Makefiles" -DCMAKE_INSTALL_PREFIX=<install_drive>:/<install_directory> .. (eg: cmake -G"MSYS Makefiles" -DCMAKE_INSTALL_PREFIX=C:/Io ..)
+4) make
+5) make install
 
-2) Start up a Visual Studio Command Prompt using the start menu link (inside the Visual Studio Tools subfolder), or from a command prompt execute "%PROGRAMFILES%\Microsoft Visual Studio 9.0\VC\vcvarsall.bat". This sets up environment variables needed by the compiler.
 
-3) 'cd' to your Git source root folder for Io.
+C) Building with Cygwin
+-----------------------
+Install Cygwin from: http://www.cygwin.com/
 
-4) Run "bash" so that Cygwin tools, "make" in particular, are available.
+1) 'cd' to your Io root folder
+2) We want to do an out-of-source build, so: "mkdir buildroot" and "cd buildroot" (without the quotes)
+3a) cmake ..
+or
+3b) cmake -DCMAKE_INSTALL_PREFIX=<install_drive>:/<install_directory> .. (eg: cmake -DCMAKE_INSTALL_PREFIX=C:/Io ..)
+4) make
+5) make install
 
-5) [once] Run "which link" and ensure it finds VisualStudio's link, not Cygwin's (/bin/link). If this finds Cygwin's, you need to edit your ~/.bashrc file so that the $PATH will contain /bin after the VS bin folder, then restart from step 2.
-
-6) make SYS=Windows vm
-Note that "make CC=cl vm" doesn't work. If SYS is unset, it gets set in the makefile as `uname -s`, which is something like CYGWIN_NT-5.1, and all the command line options will be those of gcc, which are inappropriate for compiling with the Microsoft compiler, cl. INSTALL_PREFIX is no longer needed here on Windows; you can move the installation around, and Io will still work.
-
-7) make SYS=Windows addons
-Builds addons. Some won't build because needed libraries (header files) aren't present. Some others fail to build with errors. Still, some build and are usable.
-
-8) make SYS=Windows INSTALL_PREFIX=C:/Io install
-Installs Io where specified. Note, use forward slashes here, not backslashes.
+note: If you also have CMake 2.8 for Windows installed (apart from CMake for Cygwin) check your PATH environment variable so you won't be running CMake for Windows instead of Cygwin version.
 
 
 RUNNING TESTS
 -------------
 
-If you're in the io folder, the vm tests can be run with the command:
+You should be inside your out-of-source build dir. The vm tests can be run with the command:
 
-	io ./libs/iovm/tests/correctness/run.io
+	io ../libs/iovm/tests/correctness/run.io
 
 
