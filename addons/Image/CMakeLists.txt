@@ -19,6 +19,7 @@ if(PNG_FOUND AND TIFF_FOUND AND JPEG_FOUND)
 
 	# Add definitions
 	add_definitions(${PNG_DEFINITIONS})
+	add_definitions(-DBUILDING_IMAGE_ADDON)
 
 	# Additional include directories
 	include_directories(${PNG_INCLUDE_DIR} ${TIFF_INCLUDE_DIR} ${JPEG_INCLUDE_DIR})
