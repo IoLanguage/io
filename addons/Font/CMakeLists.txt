@@ -4,6 +4,7 @@
 # Builds the Font addon
 
 # Find Font
+find_package(OpenGL)
 find_package(GLUT)
 find_package(Freetype)
 
@@ -12,7 +13,7 @@ make_build_bundle(_build)
 
 # Did we find Font? if so, set up the targets and all the support
 # variables.
-if(GLUT_FOUND AND FREETYPE_FOUND AND ((GLUT_Xmu_LIBRARY AND GLUT_Xi_LIBRARY) OR NOT ${CMAKE_SYSTEM_NAME} MATCHES "Linux"))
+if(OPENGL_FOUND AND GLUT_FOUND AND FREETYPE_FOUND AND ((GLUT_Xmu_LIBRARY AND GLUT_Xi_LIBRARY) OR NOT ${CMAKE_SYSTEM_NAME} MATCHES "Linux"))
 	# Output our dynamic library to the top-level _build hierarchy
 	set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/_build/dll)
 
@@ -38,9 +39,9 @@ if(GLUT_FOUND AND FREETYPE_FOUND AND ((GLUT_Xmu_LIBRARY AND GLUT_Xi_LIBRARY) OR 
 	# Now build the shared library
 	add_library(IoFont SHARED ${SRCS})
 	add_dependencies(IoFont iovmall)
-	target_link_libraries(IoFont iovmall ${GLUT_LIBRARIES} ${FREETYPE_LIBRARIES})
+	target_link_libraries(IoFont iovmall ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES} ${FREETYPE_LIBRARIES})
 
 	# Install the addon to our global addons hierarchy.
 	install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/addons)
 	install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/_build DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/io/addons/Font)
-endif(GLUT_FOUND AND FREETYPE_FOUND AND ((GLUT_Xmu_LIBRARY AND GLUT_Xi_LIBRARY) OR NOT ${CMAKE_SYSTEM_NAME} MATCHES "Linux"))
+endif(OPENGL_FOUND AND GLUT_FOUND AND FREETYPE_FOUND AND ((GLUT_Xmu_LIBRARY AND GLUT_Xi_LIBRARY) OR NOT ${CMAKE_SYSTEM_NAME} MATCHES "Linux"))
