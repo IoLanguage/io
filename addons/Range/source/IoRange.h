@@ -8,6 +8,7 @@
 
 #include "Common.h"
 #include "IoObject.h"
+#include "IoRangeApi.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -29,7 +30,7 @@ typedef struct
 
 IoRange *IoRange_rawClone(IoRange *self);
 IoRange *IoRange_proto(void *state);
-IoRange *IoRange_new(void *state);
+IORANGE_API IoRange *IoRange_new(void *state);
 
 void IoRange_free(IoRange *self);
 void IoRange_mark(IoRange *self);
@@ -43,7 +44,7 @@ IoObject *IoRange_previous(IoRange *self, IoObject *locals, IoMessage *m);
 IoObject *IoRange_index(IoRange *self, IoObject *locals, IoMessage *m);
 IoObject *IoRange_value(IoRange *self, IoObject *locals, IoMessage *m);
 
-IoRange *IoRange_setRange(IoRange *self, IoObject *locals, IoMessage *m);
+IORANGE_API IoRange *IoRange_setRange(IoRange *self, IoObject *locals, IoMessage *m);
 IoRange *IoRange_rewind(IoRange *self, IoObject *locals, IoMessage *m);
 IoObject *IoRange_foreach(IoRange *self, IoObject *locals, IoMessage *m);
 IoObject *IoRange_select(IoRange *self, IoObject *locals, IoMessage *m);

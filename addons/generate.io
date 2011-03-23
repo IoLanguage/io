@@ -6,6 +6,7 @@
 
 Addon := Object clone do(
 	platform := System platform split at(0) asLowercase
+	onWindows := platform == "windows" or platform == "mingw"
 	isStatic := false
 
 	with := method(dir,
@@ -24,7 +25,7 @@ Addon := Object clone do(
 	initFileName := inlineMethod("source/Io#{directory name}Init.c" interpolate)
 
 	generateInit := method(
-		if(platform != "windows" and directory directoryNamed("source") filesWithExtension("m") size != 0, return)
+		if(onWindows not and directory directoryNamed("source") filesWithExtension("m") size != 0, return)
 		initFile := directory fileNamed(initFileName) remove create open
 		initFile write("#include \"IoState.h\"\n")
 		initFile write("#include \"IoObject.h\"\n\n")
@@ -60,7 +61,7 @@ Addon := Object clone do(
 			initFile write("void " .. f name fileName .. "Init(void *context);\n")
 		)
 
-		if (platform == "windows",
+		if (onWindows,
 			initFile write("__declspec(dllexport)\n")
 		)
 		initFile write("\nvoid Io" .. directory name .. "Init(IoObject *context)\n")

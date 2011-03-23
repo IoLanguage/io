@@ -20,6 +20,8 @@ set(SRCS
 	"${CMAKE_CURRENT_SOURCE_DIR}/source/IoRangeInit.c"
 )
 
+add_definitions(-DBUILDING_RANGE_ADDON)
+
 # Now build the shared library
 add_library(IoRange SHARED ${SRCS})
 add_dependencies(IoRange iovmall)

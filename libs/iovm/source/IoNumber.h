@@ -38,7 +38,7 @@ IOVM_API void IoNumber_free(IoNumber *self);
 
 IOVM_API UArray IoNumber_asStackUArray(IoNumber *self);
 IOVM_API int IoNumber_asInt(IoNumber *self);
-long IoNumber_asLong(IoNumber *self);
+IOVM_API long IoNumber_asLong(IoNumber *self);
 IOVM_API double IoNumber_asDouble(IoNumber *self);
 IOVM_API float IoNumber_asFloat(IoNumber *self);
 IOVM_API int IoNumber_compare(IoNumber *self, IoNumber *v);

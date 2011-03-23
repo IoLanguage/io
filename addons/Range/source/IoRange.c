@@ -68,7 +68,7 @@ IoRange *IoRange_rawClone(IoRange *proto)
 	return self;
 }
 
-IoRange *IoRange_new(void *state)
+IORANGE_API IoRange *IoRange_new(void *state)
 {
 	IoRange *proto = IoState_protoWithInitFunction_(state, IoRange_proto);
 	return IOCLONE(proto);
@@ -228,7 +228,7 @@ IoObject *IoRange_value(IoRange *self, IoObject *locals, IoMessage *m)
 
 /* ----------------------------------------------------------- */
 
-IoRange *IoRange_setRange(IoRange *self, IoObject *locals, IoMessage *m)
+IORANGE_API IoRange *IoRange_setRange(IoRange *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Range setRange(start, end, increment)
 	Has several modes of operation. First, if only two parameters are specified, 
