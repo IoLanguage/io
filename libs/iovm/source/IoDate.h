@@ -20,10 +20,10 @@ extern "C" {
 typedef IoObject IoDate;
 
 IoDate *IoDate_proto(void *state);
-IoDate *IoDate_new(void *state);
-IoDate *IoDate_newWithTime_(void *state, time_t t);
-IoDate *IoDate_newWithLocalTime_(void *state, struct tm *t);
-IoDate *IoDate_newWithTimeval_(void *state, struct timeval tv);
+IOVM_API IoDate *IoDate_new(void *state);
+IOVM_API IoDate *IoDate_newWithTime_(void *state, time_t t);
+IOVM_API IoDate *IoDate_newWithLocalTime_(void *state, struct tm *t);
+IOVM_API IoDate *IoDate_newWithTimeval_(void *state, struct timeval tv);
 IoDate *IoDate_rawClone(IoDate *self);
 void IoDate_free(IoDate *self);
 int IoDate_compare(IoDate *self, IoDate *other);

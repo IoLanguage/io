@@ -100,27 +100,27 @@ IoDate *IoDate_rawClone(IoDate *proto)
 	return self;
 }
 
-IoDate *IoDate_new(void *state)
+IOVM_API IoDate *IoDate_new(void *state)
 {
 	IoDate *proto = IoState_protoWithInitFunction_((IoState *)state, IoDate_proto);
 	return IOCLONE(proto);
 }
 
-IoDate *IoDate_newWithTime_(void *state, time_t t)
+IOVM_API IoDate *IoDate_newWithTime_(void *state, time_t t)
 {
 	IoDate *self = IoDate_new(state);
 	Date_fromTime_(DATA(self), t);
 	return self;
 }
 
-IoDate *IoDate_newWithTimeval_(void *state, struct timeval tv)
+IOVM_API IoDate *IoDate_newWithTimeval_(void *state, struct timeval tv)
 {
 	IoDate *self = IoDate_new(state);
 	DATA(self)->tv = tv;
 	return self;
 }
 
-IoDate *IoDate_newWithLocalTime_(void *state, struct tm *t)
+IOVM_API IoDate *IoDate_newWithLocalTime_(void *state, struct tm *t)
 {
 	IoDate *self = IoDate_new(state);
 	Date_fromLocalTime_(DATA(self), t);
