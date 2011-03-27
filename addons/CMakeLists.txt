@@ -59,7 +59,7 @@ add_subdirectory(Facebook)
 add_subdirectory(Flux)
 add_subdirectory(Fnmatch)
 add_subdirectory(Font)
-#add_subdirectory(GLFW) # XXX: Can't meet dependencies
+add_subdirectory(GLFW) # XXX: Can't meet dependencies
 add_subdirectory(GoogleSearch)
 add_subdirectory(HttpClient)
 add_subdirectory(Image)
@@ -73,7 +73,7 @@ add_subdirectory(MD5)
 add_subdirectory(MySQL)
 #add_subdirectory(NetworkAdapter)
 add_subdirectory(NotificationCenter)
-add_subdirectory(Oauth) # OAuth should no longer break CMake configuration on Windows now.
+#add_subdirectory(Oauth) # OAuth should no longer break CMake configuration on Windows now.
 #add_subdirectory(ODE) # XXX: Can't meet dependencies
 #add_subdirectory(ObjcBridge) # XXX: Broken for me -- Objective-C 2.0 not supported
 add_subdirectory(Obsidian)
