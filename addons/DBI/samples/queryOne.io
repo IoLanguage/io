@@ -1,6 +1,7 @@
 #!/usr/bin/env io
 
-doFile("dummydata.io")
+doRelativeFile("dbi_init.io")
+doRelativeFile("dummydata.io")
 
 c := DBI with("sqlite3")
 c optionPut("dbname", "test.db")

@@ -9,7 +9,7 @@ createDummyData := method(c,
 	c executef("INSERT INTO people VALUES (?, ?, ?, ?)",
 		2, "Jane", "Doe", Date fromString("01/19/2004", "%m/%d/%Y"))
 	c executef("INSERT INTO people VALUES (?, ?, ?, ?)",
-		3, "Joey", "Doe", Date fromString("11/18/1921", "%m/%d/%Y"))
+		3, "Joey", "Doe", Date fromString("11/18/1971", "%m/%d/%Y"))
 	c execute("COMMIT")
 )
 
