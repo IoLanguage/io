@@ -67,6 +67,7 @@ io2c
 .rej*
 *autom4te.cache*
 *.cache
+*.user
 *_include
 *tags*
 ./addons/SGML/source/libsgml/Makefile*

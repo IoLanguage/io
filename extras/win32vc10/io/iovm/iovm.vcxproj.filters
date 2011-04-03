@@ -1,0 +1,395 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="io">
+      <UniqueIdentifier>{9db5050a-22c6-4b6f-81e6-f2654a9a4ef1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoBlock.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoCall.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoCFunction.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoCollector.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoCompiler.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoCoroutine.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoDate.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoDebugger.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoDirectory.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoDuration.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoDynLib.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoError.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoFile.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoFile_stat.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoLexer.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoList.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoMap.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoMessage.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoMessage_opShuffle.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoMessage_parser.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoNumber.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoObject.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoObject_flow.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoSandbox.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoSeq.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoSeq_immutable.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoSeq_mutable.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoSeq_vector.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoState.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoState_callbacks.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoState_coros.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoState_debug.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoState_eval.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoState_exceptions.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoState_symbols.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoSystem.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoTag.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoToken.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoVMInit.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoWeakLink.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\PHash.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoProfiler.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoBlock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoCall.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoCFunction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoCollector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoCompiler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoConfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoContext.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoCoroutine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoDate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoDebugger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoDirectory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoDuration.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoDynLib.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoError.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoFile_stat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoLexer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoMessage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoMessage_inline.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoMessage_opShuffle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoMessage_parser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoNumber.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoObject_flow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoObject_inline.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoObject_struct.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoSandbox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoSeq.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoSeq_immutable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoSeq_inline.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoSeq_mutable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoSeq_vector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoState_callbacks.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoState_coros.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoState_debug.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoState_eval.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoState_exceptions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoState_inline.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoState_symbols.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoTag.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoTag_inline.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoToken.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoVersion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoVM.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoVMApi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoWeakLink.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\PHash.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\PHash_inline.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\PHash_struct.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\libs\iovm\io\A0_List.io">
+      <Filter>io</Filter>
+    </None>
+    <None Include="..\..\..\..\libs\iovm\io\A1_OperatorTable.io">
+      <Filter>io</Filter>
+    </None>
+    <None Include="..\..\..\..\libs\iovm\io\A2_Object.io">
+      <Filter>io</Filter>
+    </None>
+    <None Include="..\..\..\..\libs\iovm\io\A3_List.io">
+      <Filter>io</Filter>
+    </None>
+    <None Include="..\..\..\..\libs\iovm\io\A4_Exception.io">
+      <Filter>io</Filter>
+    </None>
+    <None Include="..\..\..\..\libs\iovm\io\Actor.io">
+      <Filter>io</Filter>
+    </None>
+    <None Include="..\..\..\..\libs\iovm\io\AddonLoader.io">
+      <Filter>io</Filter>
+    </None>
+    <None Include="..\..\..\..\libs\iovm\io\B_Sequence.io">
+      <Filter>io</Filter>
+    </None>
+    <None Include="..\..\..\..\libs\iovm\io\Block.io">
+      <Filter>io</Filter>
+    </None>
+    <None Include="..\..\..\..\libs\iovm\io\CFunction.io">
+      <Filter>io</Filter>
+    </None>
+    <None Include="..\..\..\..\libs\iovm\io\Date.io">
+      <Filter>io</Filter>
+    </None>
+    <None Include="..\..\..\..\libs\iovm\io\Debugger.io">
+      <Filter>io</Filter>
+    </None>
+    <None Include="..\..\..\..\libs\iovm\io\Directory.io">
+      <Filter>io</Filter>
+    </None>
+    <None Include="..\..\..\..\libs\iovm\io\DynLib.io">
+      <Filter>io</Filter>
+    </None>
+    <None Include="..\..\..\..\libs\iovm\io\Error.io">
+      <Filter>io</Filter>
+    </None>
+    <None Include="..\..\..\..\libs\iovm\io\File.io">
+      <Filter>io</Filter>
+    </None>
+    <None Include="..\..\..\..\libs\iovm\io\List_schwartzian.io">
+      <Filter>io</Filter>
+    </None>
+    <None Include="..\..\..\..\libs\iovm\io\Map.io">
+      <Filter>io</Filter>
+    </None>
+    <None Include="..\..\..\..\libs\iovm\io\Message.io">
+      <Filter>io</Filter>
+    </None>
+    <None Include="..\..\..\..\libs\iovm\io\Number.io">
+      <Filter>io</Filter>
+    </None>
+    <None Include="..\..\..\..\libs\iovm\io\Sandbox.io">
+      <Filter>io</Filter>
+    </None>
+    <None Include="..\..\..\..\libs\iovm\io\Serialize.io">
+      <Filter>io</Filter>
+    </None>
+    <None Include="..\..\..\..\libs\iovm\io\System.io">
+      <Filter>io</Filter>
+    </None>
+    <None Include="..\..\..\..\libs\iovm\io\UnitTest.io">
+      <Filter>io</Filter>
+    </None>
+    <None Include="..\..\..\..\libs\iovm\io\Vector.io">
+      <Filter>io</Filter>
+    </None>
+    <None Include="..\..\..\..\libs\iovm\io\Y_Path.io">
+      <Filter>io</Filter>
+    </None>
+    <None Include="..\..\..\..\libs\iovm\io\Z_CLI.io">
+      <Filter>io</Filter>
+    </None>
+    <None Include="..\..\..\..\libs\iovm\io\Z_Importer.io">
+      <Filter>io</Filter>
+    </None>
+  </ItemGroup>
+</Project>

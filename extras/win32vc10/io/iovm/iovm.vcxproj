@@ -1,0 +1,367 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Dynamic Debug|Win32">
+      <Configuration>Dynamic Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Dynamic Release|Win32">
+      <Configuration>Dynamic Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Static Debug|Win32">
+      <Configuration>Static Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Static Release|Win32">
+      <Configuration>Static Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{EAB8C2C1-1CD7-4B33-9A36-477607B62930}</ProjectGuid>
+    <RootNamespace>iovm</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Static Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Static Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dynamic Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dynamic Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Static Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Static Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Dynamic Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Dynamic Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Dynamic Debug|Win32'">$(SolutionDir)build\$(ProjectName)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Dynamic Debug|Win32'">$(SolutionDir)temp\$(ProjectName)\$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Dynamic Debug|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Dynamic Release|Win32'">$(SolutionDir)build\$(ProjectName)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Dynamic Release|Win32'">$(SolutionDir)temp\$(ProjectName)\$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Dynamic Release|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Static Debug|Win32'">$(SolutionDir)build\$(ProjectName)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Static Debug|Win32'">$(SolutionDir)temp\$(ProjectName)\$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Static Release|Win32'">$(SolutionDir)build\$(ProjectName)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Static Release|Win32'">$(SolutionDir)temp\$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dynamic Debug|Win32'">
+    <PreBuildEvent>
+      <Command>cd "$(SolutionDir)..\..\..\libs\iovm\io"
+cmd /c "dir /B *.io" | cscript //Nologo "$(ProjectDir)\scripts\microsed.js" "\r\n" " " | cscript //Nologo "$(ProjectDir)\scripts\microxargs.js" "$(SolutionDir)build\io2c\$(Configuration)\bin\io2c.exe" VMCode IoState_doString_ &gt; ..\source\IOVMInit.c
+
+</Command>
+      <Message>Generate IoVMInit.c from Io source files</Message>
+    </PreBuildEvent>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)build\garbagecollector\$(Configuration)\headers;$(SolutionDir)build\coroutine\$(Configuration)\headers;$(SolutionDir)build\basekit\$(Configuration)\headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;BUILDING_IOVM_DLL;BUILDING_IOVMALL_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <ObjectFileName>$(OutDir)objs\</ObjectFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>basekit.lib;coroutine.lib;garbagecollector.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)dll\iovm.dll</OutputFile>
+      <AdditionalLibraryDirectories>$(SolutionDir)build\basekit\$(Configuration)\lib;$(SolutionDir)build\coroutine\$(Configuration)\lib;$(SolutionDir)build\garbagecollector\$(Configuration)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <LinkTimeCodeGeneration>
+      </LinkTimeCodeGeneration>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(OutDir)lib\$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Command>mkdir "$(OutDir)headers"
+xcopy /Y /Q "$(SolutionDir)..\..\..\libs\iovm\source\*.h" "$(OutDir)headers\"
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dynamic Release|Win32'">
+    <PreBuildEvent>
+      <Message>Generate IoVMInit.c from Io source files</Message>
+      <Command>cd "$(SolutionDir)..\..\..\libs\iovm\io"
+cmd /c "dir /B *.io" | cscript //Nologo "$(ProjectDir)\scripts\microsed.js" "\r\n" " " | cscript //Nologo "$(ProjectDir)\scripts\microxargs.js" "$(SolutionDir)build\io2c\$(Configuration)\bin\io2c.exe" VMCode IoState_doString_ &gt; ..\source\IoVMInit.c
+
+</Command>
+    </PreBuildEvent>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)build\garbagecollector\$(Configuration)\headers;$(SolutionDir)build\coroutine\$(Configuration)\headers;$(SolutionDir)build\basekit\$(Configuration)\headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;BUILDING_IOVM_DLL;BUILDING_IOVMALL_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <ObjectFileName>$(OutDir)objs\</ObjectFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <OutputFile>$(OutDir)dll\iovm.dll</OutputFile>
+      <AdditionalLibraryDirectories>$(SolutionDir)build\basekit\$(Configuration)\lib;$(SolutionDir)build\coroutine\$(Configuration)\lib;$(SolutionDir)build\garbagecollector\$(Configuration)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <ProfileGuidedDatabase>
+      </ProfileGuidedDatabase>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <DataExecutionPrevention>
+      </DataExecutionPrevention>
+      <ImportLibrary>$(OutDir)lib\$(TargetName).lib</ImportLibrary>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+    <PostBuildEvent>
+      <Command>mkdir "$(OutDir)headers"
+xcopy /Y /Q "$(SolutionDir)..\..\..\libs\iovm\source\*.h" "$(OutDir)headers\"
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Static Debug|Win32'">
+    <PreBuildEvent>
+      <Command>cd "$(SolutionDir)..\..\..\libs\iovm\io"
+cmd /c "dir /B *.io" | cscript //Nologo "$(ProjectDir)\scripts\microsed.js" "\r\n" " " | cscript //Nologo "$(ProjectDir)\scripts\microxargs.js" "$(SolutionDir)build\io2c\$(Configuration)\bin\io2c.exe" VMCode IoState_doString_ &gt; ..\source\IOVMInit.c
+
+</Command>
+      <Message>Generate IoVMInit.c from Io source files</Message>
+    </PreBuildEvent>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>$(SolutionDir)build\garbagecollector\$(Configuration)\headers;$(SolutionDir)build\coroutine\$(Configuration)\headers;$(SolutionDir)build\basekit\$(Configuration)\headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;BUILDING_IOVM_DLL;BUILDING_IOVMALL_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <ObjectFileName>$(OutDir)objs\</ObjectFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)lib\$(ProjectName).lib</OutputFile>
+    </Lib>
+    <PostBuildEvent>
+      <Command>mkdir "$(OutDir)headers"
+xcopy /Y /Q "$(SolutionDir)..\..\..\libs\iovm\source\*.h" "$(OutDir)headers\"
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Static Release|Win32'">
+    <PreBuildEvent>
+      <Message>Generate IoVMInit.c from Io source files</Message>
+      <Command>cd "$(SolutionDir)..\..\..\libs\iovm\io"
+cmd /c "dir /B *.io" | cscript //Nologo "$(ProjectDir)\scripts\microsed.js" "\r\n" " " | cscript //Nologo "$(ProjectDir)\scripts\microxargs.js" "$(SolutionDir)build\io2c\$(Configuration)\bin\io2c.exe" VMCode IoState_doString_ &gt; ..\source\IOVMInit.c
+
+</Command>
+    </PreBuildEvent>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)build\garbagecollector\$(Configuration)\headers;$(SolutionDir)build\coroutine\$(Configuration)\headers;$(SolutionDir)build\basekit\$(Configuration)\headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;BUILDING_IOVM_DLL;BUILDING_IOVMALL_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling>
+      </ExceptionHandling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <DisableLanguageExtensions>false</DisableLanguageExtensions>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <ObjectFileName>$(OutDir)objs\</ObjectFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)lib\$(ProjectName).lib</OutputFile>
+    </Lib>
+    <PostBuildEvent>
+      <Command>mkdir "$(OutDir)headers"
+xcopy /Y /Q "$(SolutionDir)..\..\..\libs\iovm\source\*.h" "$(OutDir)headers\"
+</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoBlock.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoCall.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoCFunction.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoCollector.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoCompiler.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoCoroutine.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoDate.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoDebugger.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoDirectory.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoDuration.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoDynLib.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoError.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoFile.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoFile_stat.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoLexer.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoList.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoMap.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoMessage.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoMessage_opShuffle.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoMessage_parser.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoNumber.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoObject.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoObject_flow.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoProfiler.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoSandbox.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoSeq.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoSeq_immutable.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoSeq_mutable.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoSeq_vector.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoState.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoState_callbacks.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoState_coros.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoState_debug.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoState_eval.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoState_exceptions.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoState_symbols.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoSystem.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoTag.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoToken.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoVMInit.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\IoWeakLink.c" />
+    <ClCompile Include="..\..\..\..\libs\iovm\source\PHash.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoBlock.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoCall.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoCFunction.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoCollector.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoCompiler.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoConfig.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoContext.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoCoroutine.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoDate.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoDebugger.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoDirectory.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoDuration.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoDynLib.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoError.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoFile.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoFile_stat.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoLexer.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoList.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoMap.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoMessage.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoMessage_inline.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoMessage_opShuffle.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoMessage_parser.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoNumber.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoObject.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoObject_flow.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoObject_inline.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoObject_struct.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoSandbox.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoSeq.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoSeq_immutable.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoSeq_inline.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoSeq_mutable.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoSeq_vector.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoState.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoState_callbacks.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoState_coros.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoState_debug.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoState_eval.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoState_exceptions.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoState_inline.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoState_symbols.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoSystem.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoTag.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoTag_inline.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoToken.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoVersion.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoVM.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoVMApi.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\IoWeakLink.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\PHash.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\PHash_inline.h" />
+    <ClInclude Include="..\..\..\..\libs\iovm\source\PHash_struct.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\libs\iovm\io\A0_List.io" />
+    <None Include="..\..\..\..\libs\iovm\io\A1_OperatorTable.io" />
+    <None Include="..\..\..\..\libs\iovm\io\A2_Object.io" />
+    <None Include="..\..\..\..\libs\iovm\io\A3_List.io" />
+    <None Include="..\..\..\..\libs\iovm\io\A4_Exception.io" />
+    <None Include="..\..\..\..\libs\iovm\io\Actor.io" />
+    <None Include="..\..\..\..\libs\iovm\io\AddonLoader.io" />
+    <None Include="..\..\..\..\libs\iovm\io\B_Sequence.io" />
+    <None Include="..\..\..\..\libs\iovm\io\Block.io" />
+    <None Include="..\..\..\..\libs\iovm\io\CFunction.io" />
+    <None Include="..\..\..\..\libs\iovm\io\Date.io" />
+    <None Include="..\..\..\..\libs\iovm\io\Debugger.io" />
+    <None Include="..\..\..\..\libs\iovm\io\Directory.io" />
+    <None Include="..\..\..\..\libs\iovm\io\DynLib.io" />
+    <None Include="..\..\..\..\libs\iovm\io\Error.io" />
+    <None Include="..\..\..\..\libs\iovm\io\File.io" />
+    <None Include="..\..\..\..\libs\iovm\io\List_schwartzian.io" />
+    <None Include="..\..\..\..\libs\iovm\io\Map.io" />
+    <None Include="..\..\..\..\libs\iovm\io\Message.io" />
+    <None Include="..\..\..\..\libs\iovm\io\Number.io" />
+    <None Include="..\..\..\..\libs\iovm\io\Sandbox.io" />
+    <None Include="..\..\..\..\libs\iovm\io\Serialize.io" />
+    <None Include="..\..\..\..\libs\iovm\io\System.io" />
+    <None Include="..\..\..\..\libs\iovm\io\UnitTest.io" />
+    <None Include="..\..\..\..\libs\iovm\io\Vector.io" />
+    <None Include="..\..\..\..\libs\iovm\io\Y_Path.io" />
+    <None Include="..\..\..\..\libs\iovm\io\Z_CLI.io" />
+    <None Include="..\..\..\..\libs\iovm\io\Z_Importer.io" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\basekit\basekit.vcxproj">
+      <Project>{3dfce12d-0671-4cc6-8e43-a08a18296c81}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\coroutine\coroutine.vcxproj">
+      <Project>{9b47ba52-b730-4e08-8e4e-9ba2bc9f8c5f}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\garbagecollector\garbagecollector.vcxproj">
+      <Project>{5a9d7f60-59a6-4cf1-965e-6f41a329bcde}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\io2c\io2c.vcxproj">
+      <Project>{292ea3c6-672e-4894-9dd4-884370eaec00}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
