@@ -1585,6 +1585,259 @@ Returns url decoded version of receiver.
 // -------------------------
 
 
+IO_METHOD(IoSeq, pack)
+{
+	/*doc Sequence pack(format, value1, ...)
+
+	Returns a new Sequence with the values packed in.
+
+	Codes:
+	
+	*: (one at the beginning of the format string) declare format string as BigEndian
+	B: unsigned byte
+	b: byte
+	C: unsigned char
+	c: char
+	H: unsigned short
+	h: short
+	I: unsigned int
+	i: int
+	L: unsigned long
+	l: long
+	f: float
+	F: double
+	s: string
+
+	A '*' at the begging of the format string indicates native types are to be treated as Big Endiand.
+	
+	A number preceding a code declares an array of that type.
+	
+	In the case of 's', the preceding number indicates the size of the string to be packed.
+	If the string passed is shorter than size, 0 padding will be used to fill to size. If the
+	string passed is longer than size, only size chars will be packed.
+	
+	The difference between b/B and c/C is in the values passed to pack. For b/B pack expects a number.
+	For c/C pack expects a one-char-string (this is the same as '1s' or 's')
+	
+	Examples:
+	
+	s := Sequence pack("IC5s", 100, "a", "hello")
+	s := Sequence pack("5c", "h", "e", "l", "l", "o")
+	s := Sequence pack("I", 0x01020304)
+	s := Sequence pack("*I", 0x01020304)
+
+	*/
+
+	char *strFmt = IoMessage_locals_cStringArgAt_(m, locals, 0);
+	int strFmtLen = strlen(strFmt);
+	int argCount = IoMessage_argCount(m);
+	int isBigEndian = 0, doBigEndian = 0;
+	int i = 0, argIdx = 0, count = 0;
+	
+	char *from = NULL;
+	int size = 0;
+	int padding = 0;
+	char val[16];
+
+	UArray *ua = UArray_new();
+	UArray_setItemType_(ua, CTYPE_uint8_t);
+	UArray_setEncoding_(ua, CENCODING_NUMBER);
+
+	if(strFmt[0] == '*') i = doBigEndian = isBigEndian = 1;
+
+	for(argIdx = 1 ; i < strFmtLen ; i ++)
+	{
+		if(isdigit(strFmt[i]))
+		{
+			count = (count * 10) + (strFmt[i] - 0x30);
+			continue;
+		}
+
+		count = count > 1 ? count : 1;
+
+		doBigEndian = isBigEndian;
+
+		for( ; count > 0 ; count --, argIdx ++)
+		{
+			from = val;
+			padding = 0;
+			size = 0;
+			
+			switch(strFmt[i])
+			{
+				case 'B': //unsigned byte
+				case 'b': //byte
+					val[0] = IoMessage_locals_intArgAt_(m, locals, argIdx);
+					size = sizeof(char);
+				break;
+
+				case 'C': //unsigned char
+				case 'c': //char
+					val[0] = IoMessage_locals_cStringArgAt_(m, locals, argIdx)[0];
+					size = sizeof(char);
+				break;
+
+				case 'H': //unsigned short
+				case 'h': //short
+					*((short *)val) = (short)IoMessage_locals_intArgAt_(m, locals, argIdx);
+					size = sizeof(short);
+				break;
+
+				case 'I': //unsigned int
+				case 'i': //int
+					*((int *)val) = IoMessage_locals_intArgAt_(m, locals, argIdx);
+					size = sizeof(int);
+				break;
+
+				case 'L': //unsigned long
+				case 'l': //long
+					*((long *)val)  = IoMessage_locals_intArgAt_(m, locals, argIdx);
+					size = sizeof(long);
+				break;
+
+				case 'f': //float
+					*((float *)val)  = IoMessage_locals_floatArgAt_(m, locals, argIdx);
+					size = sizeof(float);
+				break;
+
+				case 'F': //double
+					*((double *)val)  = IoMessage_locals_doubleArgAt_(m, locals, argIdx);
+					size = sizeof(double);
+				break;
+				
+				case 's': //string
+					from = IoMessage_locals_cStringArgAt_(m, locals, argIdx);
+					size = strlen(from);
+					if(count > size)
+						padding = count - size;
+					else
+						size = count;
+					doBigEndian = 0;
+					count = 0; //finish processing
+				break;
+			}
+			
+			{
+				int inc = doBigEndian ? -1 : 1;
+				int pos = doBigEndian ? size - 1 : 0;
+				int j = 0;
+				
+				for(j = 0 ; j < size ; j ++, pos += inc)
+					UArray_appendLong_(ua, from[pos]);
+					
+				for(j = 0 ; j < padding ; j ++)
+					UArray_appendLong_(ua, 0);
+			}
+		}
+	}
+
+	return IoSeq_newWithUArray_copy_(IOSTATE, ua, 0);
+}
+
+
+#define SEQ_UNPACK_VALUE_ASSIGN_LOOP(code, type, dest, toObj) \
+case code: \
+{ \
+	int inc = isBigEndian ? -1 : 1; \
+	int pos = isBigEndian ? seqPos + sizeof(type) - 1 : seqPos; \
+	int j; \
+ \
+	for(j = 0 ; j < sizeof(type) ; j ++, pos += inc) \
+		dest[j] = UArray_longAt_(selfUArray, pos); \
+ \
+	toObj = IONUMBER(*((type *)dest)); \
+	seqPos += sizeof(type); \
+} \
+break;
+
+IO_METHOD(IoSeq, unpack)
+{
+	/*doc Sequence unpack(format)
+	
+	Unpacks self into a list using the format passed in. See Sequence pack.
+	
+	Returns a List.
+
+	Examples:
+
+	s := Sequence pack("IC5s", 100, "a", "hello")
+	l := s unpack("IC5s")
+
+	s := Sequence pack("5c", "h", "e", "l", "l", "o")
+	l := s unpack("5c")
+
+	s := Sequence pack("I", 0x01020304)
+	l := s unpack("I")
+
+	s := Sequence pack("*I", 0x01020304)
+	l := s unpack("*I")
+
+	l := "hello" unpack("5c")
+	*/
+
+	char *strFmt = IoMessage_locals_cStringArgAt_(m, locals, 0);
+	int strFmtLen = strlen(strFmt);
+	int isBigEndian = 0, i = 0, count = 0, seqPos = 0;
+	char val[16];
+	
+	IoList *values = IoList_new(IOSTATE);
+	UArray *selfUArray = DATA(self);
+
+	if(strFmt[0] == '*') i = isBigEndian = 1;
+
+	for(count = 0 ; i < strFmtLen ; i ++)
+	{
+		if(isdigit(strFmt[i]))
+		{
+			count = (count * 10) + (strFmt[i] - 0x30);
+			continue;
+		}
+
+		count = count > 1 ? count : 1;
+		
+		for( ; count > 0 ; count --)
+		{
+			IoObject *v;
+
+			switch(strFmt[i])
+			{
+				SEQ_UNPACK_VALUE_ASSIGN_LOOP('b', char, val, v)
+				SEQ_UNPACK_VALUE_ASSIGN_LOOP('B', unsigned char, val, v)
+				SEQ_UNPACK_VALUE_ASSIGN_LOOP('c', char, val, v)
+				SEQ_UNPACK_VALUE_ASSIGN_LOOP('C', unsigned char, val, v)
+				SEQ_UNPACK_VALUE_ASSIGN_LOOP('h', short, val, v)
+				SEQ_UNPACK_VALUE_ASSIGN_LOOP('H', unsigned short, val, v)
+				SEQ_UNPACK_VALUE_ASSIGN_LOOP('i', int, val, v)
+				SEQ_UNPACK_VALUE_ASSIGN_LOOP('I', unsigned int, val, v)
+				SEQ_UNPACK_VALUE_ASSIGN_LOOP('l', long, val, v)
+				SEQ_UNPACK_VALUE_ASSIGN_LOOP('L', unsigned long, val, v)
+				SEQ_UNPACK_VALUE_ASSIGN_LOOP('f', float, val, v)
+				SEQ_UNPACK_VALUE_ASSIGN_LOOP('F', double, val, v)
+				
+				case 's': //string
+				{
+					UArray *ua = UArray_new();
+					UArray_setItemType_(ua, CTYPE_uint8_t);
+					UArray_setEncoding_(ua, CENCODING_ASCII);
+
+					for( ; count > 0 ; count --) {
+						UArray_appendLong_(ua, UArray_longAt_(selfUArray, seqPos ++));
+					}
+
+					v = IoSeq_newWithUArray_copy_(IOSTATE, ua, 0);
+					break;
+				}
+			}
+			
+			IoList_rawAppend_(values, v);
+		}
+	}
+	
+	return values;
+}
+
+// -------------------------
+
 void IoSeq_addImmutableMethods(IoSeq *self)
 {
 	IoMethodTable methodTable[] = {
@@ -1677,7 +1930,10 @@ void IoSeq_addImmutableMethods(IoSeq *self)
 	
 	{"urlEncoded", IoSeq_urlEncoded},
 	{"urlDecoded", IoSeq_urlDecoded},
-	
+
+	{"pack", IoSeq_pack},
+	{"unpack", IoSeq_unpack},
+
 	{NULL, NULL},
 	};
 
