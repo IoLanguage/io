@@ -9,6 +9,7 @@
 #include "IoMessage.h"
 #include "Socket.h"
 #include "IoError.h"
+#include "Address.h"
 
 #define ISSOCKET(self) IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoSocket_rawClone)
 #define SOCKETERROR(leadingErrorDescription) IoError_newWithMessageFormat_(IOSTATE, "%s: %s", leadingErrorDescription, Socket_errorDescription())
@@ -16,6 +17,8 @@
 typedef IoObject IoSocket;
 
 IoSocket *IoMessage_locals_socketArgAt_(IoMessage *self, IoObject *locals, int n);
+IoObject *IoMessage_locals_addressArgAt_(IoMessage *self, IoObject *locals, int n);
+Address *IoSocket_rawAddressFrom_(IoObject *addr);
 
 IoSocket *IoSocket_rawClone(IoSocket *self);
 IoSocket *IoSocket_proto(void *state);
@@ -72,5 +75,9 @@ IoObject *IoSocket_setNoDelay(IoSocket *self, IoObject *locals, IoMessage *m);
 
 IoObject *IoSocket_errorNumber(IoSocket *self, IoObject *locals, IoMessage *m);
 IoObject *IoSocket_errorDescription(IoSocket *self, IoObject *locals, IoMessage *m);
+
+IoObject *IoSocket_setAddress(IoSocket *self, IoObject *locals, IoMessage *m);
+
+IoObject *IoSocket_fromFd(IoSocket *self, IoObject *locals, IoMessage *m);
 
 #endif

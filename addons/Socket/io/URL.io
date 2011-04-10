@@ -398,7 +398,7 @@ page := URL clone setURL(\"http://www.google.com/\") fetch
 		while(socket isOpen,
 			socket streamReadNextChunk returnIfError
 			if(contentLength and b size >= contentLength, break)
-			if(getSlot("progressBlock"), progressBlock(b size, contentLength))
+			if(getSlot("progressBlock"), progressBlock(b size, contentLength) call)
 		)
 
 		if(responseHeaders at("Transfer-Encoding") == "chunked",

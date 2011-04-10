@@ -17,7 +17,7 @@ Host := Object clone do(
 
 	address := method(
 		if(name size == 0, return(Error with("Attempted to lookup empty hostname")))
-		if(ip = DNSResolver ipForHostName(name),
+		if((ip = DNSResolver ipForHostName(name)) isError not,
 			self address = ip
 		,
 			Error with("Could not resolve " .. name)

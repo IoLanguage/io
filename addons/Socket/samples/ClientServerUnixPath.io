@@ -1,10 +1,12 @@
 #!/usr/bin/env io
 
+socketPath := "/tmp/.io_upsocket"
+File with(socketPath) remove
 
 Server := Object clone do(
-    socket := Socket clone setHost("localhost") setPort(8080)
+    socket := Socket clone setPath(socketPath)
     start := method(
-	writeln("server listing on port ", socket port)
+	writeln("server listing on path ", socket path)
 	socket serverOpen
 	socket setReadTimeout(1)
 	
@@ -13,7 +15,7 @@ Server := Object clone do(
 	    write("serverWaitForConnection\n")
 	    s := socket serverWaitForConnection
 	)
-	writeln("server got connection from ", s host)
+	writeln("server got connection ")
 	s write("HELLO")
 	wait(0.1)
 	s read
@@ -30,9 +32,9 @@ Server := Object clone do(
 Server @start
 
 Client := Object clone do(
-    socket := Socket clone setHost("localhost") setPort(8080)
+    socket := Socket clone setPath(socketPath)
     start := method(
-	writeln("client connecting to ", socket host, " on port ", socket port)
+	writeln("client connecting to ", socket path)
 	wait(2)
 	socket connect
 	if (socket isOpen, writeln("client connected"), writeln("connection failed"))

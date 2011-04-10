@@ -58,13 +58,14 @@ typedef int SOCKET_DESCRIPTOR;
 #define SocketErrorStatus() errno
 #endif
 
-#include "IPAddress.h"
+#include "Address.h"
 #include "UArray.h"
 #include "Common.h"
 
 typedef struct
 {
 	SOCKET_DESCRIPTOR fd;
+	uint16_t af;
 } Socket;
 
 void Socket_GlobalInit(void);
@@ -91,21 +92,21 @@ int Socket_makeAsync(Socket *self);
 int Socket_streamOpen(Socket *self);
 int Socket_udpOpen(Socket *self);
 
-int Socket_connectTo(Socket *self, IPAddress *address);
+int Socket_connectTo(Socket *self, Address *addr);
 int Socket_connectToFailed(void);
 int Socket_close(Socket *self);
 int Socket_closeFailed(void);
 
-int Socket_bind(Socket *self, IPAddress *address);
+int Socket_bind(Socket *self, Address *addr);
 int Socket_listen(Socket *self);
 int Socket_asyncFailed(void);
-Socket *Socket_accept(Socket *self, IPAddress *address);
+Socket *Socket_accept(Socket *self, Address *addr);
 
 ssize_t Socket_streamRead(Socket *self, UArray *buffer, size_t readSize);
 ssize_t Socket_streamWrite(Socket *self, UArray *buffer, size_t start, size_t writeSize);
 
-ssize_t Socket_udpRead(Socket *self, IPAddress *address, UArray *buffer, size_t readSize);
-ssize_t Socket_udpWrite(Socket *self, IPAddress *address, UArray *buffer, size_t start, size_t writeSize);
+ssize_t Socket_udpRead(Socket *self, Address *addr, UArray *buffer, size_t readSize);
+ssize_t Socket_udpWrite(Socket *self, Address *addr, UArray *buffer, size_t start, size_t writeSize);
 
 char *Socket_errorDescription(void);
 #endif

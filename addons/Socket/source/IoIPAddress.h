@@ -1,8 +1,8 @@
 //metadoc IPAddress copyright Steve Dekorte 2002
 //metadoc IPAddress license BSD revised
 
-#ifndef IOADDRESS_DEFINED
-#define IOADDRESS_DEFINED 1
+#ifndef IOIPADDRESS_DEFINED
+#define IOIPADDRESS_DEFINED 1
 
 #include "IoObject.h"
 #include "IoSeq.h"
@@ -12,7 +12,7 @@
 
 typedef IoObject IoIPAddress;
 
-IoIPAddress *IoMessage_locals_addressArgAt_(IoMessage *self, IoObject *locals, int n);
+IoIPAddress *IoMessage_locals_ipAddressArgAt_(IoMessage *self, IoObject *locals, int n);
 IPAddress *IoMessage_locals_rawIPAddressArgAt_(IoMessage *self, IoObject *locals, int n);
 
 IoIPAddress *IoIPAddress_proto(void *state);

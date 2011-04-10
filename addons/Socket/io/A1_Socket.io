@@ -27,30 +27,40 @@ Socket do(
 	//doc Socket setAcceptTimeout(seconds) Sets the length of time in seconds for accept timeouts on the socket. Returns self.
 	acceptTimeout ::= 3 //365*24*60*60
 	
-	//doc Socket ipAddress Returns the IpAddress object for the socket.
-	//doc Socket setIpAddress(ipAddressObject) Sets the ipAddress for the socket. Returns self. The setHost() method should generally be used to set the host instead of this method.
-	ipAddress ::= IPAddress clone
+	//deprecated. Just for backward compatibility.
+	ipAddress := method(setAddress(IPAddress clone setIp("127.0.0.1"));address) call
 
 	isSynchronous ::= false
 	syncWaitTime ::= 0.05
 	syncWait := method(System sleep(syncWaitTime))
-	
+
 	init := method(
 		resend
-		self ipAddress   := ipAddress clone
+		self setAddress(self address clone)
+		self ipAddress     := self address
 
-		self readBuffer  := Sequence clone
-		self writeBuffer := Sequence clone
+		self readBuffer    := Sequence clone
+		self writeBuffer   := Sequence clone
 
-		self readEvent   := ReadEvent clone
-		self writeEvent  := WriteEvent clone
+		self readEvent     := ReadEvent clone
+		self writeEvent    := WriteEvent clone
 
-		self read  := self getSlot("streamReadNextChunk")
-		self write := self getSlot("streamWrite")
+		self read          := self getSlot("streamReadNextChunk")
+		self write         := self getSlot("streamWrite")
 		self
 	)
 
-	//doc Socket setHost(hostNameOrIpString) Set the host for the socket. Returns self on success, an Error object otherwise.
+	//doc Socket setPath(unixDomainPath) Sets the Unix Domain socket path for the socket. Returns self.
+	setPath := method(path,
+		if(address isKindOf(UnixPath) not, self setAddress(UnixPath clone); self ipAddress = nil)
+		self address setPath(path)
+		self
+	)
+	
+	//doc Socket path Returns the U for the socket.
+	path := method(address path)
+
+	//doc Socket setHost(hostNameOrIpString) Sets the host for the socket. Returns self on success, an Error object otherwise.
 	setHost := method(ip,
 		if(ip == "localhost") then(
 			ip = "127.0.0.1"
@@ -62,21 +72,24 @@ Socket do(
 				//writeln("host ip = ", ip)
 			)
 		)
-		ipAddress setIp(ip)
+		
+		if(address isKindOf(IPAddress) not, self setAddress(IPAddress clone); self ipAddress = self address)
+		self address setIp(ip)
 		self
 	)
 	
 	//doc Socket host Returns the host for the socket.
-	host := method(ipAddress ip)
+	host := method(address ip)
 
 	//doc Socket setPort(portNumber) Sets the port number for the socket, returns self.
 	setPort := method(port,
-	   ipAddress setPort(port)
-	   self
+		if(address isKindOf(IPAddress) not, self setAddress(IPAddress clone); self ipAddress = self address)
+		self address setPort(port)
+		self
 	)
 
 	//doc Socket port Returns the port number for the socket.
-	port := method(ipAddress port)
+	port := method(address port)
 
 	//doc Socket streamOpen Opens the socket in stream mode. Returns self.
 	streamOpen := method(
@@ -94,13 +107,13 @@ Socket do(
 	connect := method(
 		if(isSynchronous, return syncConnect)
 		isOpen ifFalse(streamOpen returnIfError)
-		asyncConnect(ipAddress) returnIfError ifNil(
+		asyncConnect(address) returnIfError ifNil(
 			writeEvent waitOn(connectTimeout) returnIfError
-			asyncConnect(ipAddress) returnIfError ifNil(
+			asyncConnect(address) returnIfError ifNil(
 				if(System platform containsAnyCaseSeq("windows"),
 					//Some versions of WinSock return an event for select() prematurely
 					writeEvent waitOn(connectTimeout) returnIfError
-					asyncConnect(ipAddress) returnIfError ifNil(
+					asyncConnect(address) returnIfError ifNil(
 						return(Error with("Failed to connect"))
 					)
 				,
@@ -114,7 +127,7 @@ Socket do(
 	syncConnect := method(
 		isOpen ifFalse(streamOpen returnIfError)
 		start := Date clone now
-		while(asyncConnect(ipAddress) returnIfError == nil,
+		while(asyncConnect(address) returnIfError == nil,
 			syncWait
 			if(start secondsSinceNow > connectTimeout, return(Error with("Connect timeout")))
 		)
@@ -253,16 +266,16 @@ Socket do(
 	As soon as any data is available, it reads all of it into the socket's readBuffer.
 	Returns self on success or an Error object on error.
 	*/
-	udpReadNextChunk := method(ipAddress,
+	udpReadNextChunk := method(address,
 		if(isSynchronous, return(syncUdpReadNextChunk))
 		readEvent waitOn(readTimeout) returnIfError
-		while(e := asyncUdpRead(ipAddress, readBuffer, bytesPerRead), e returnIfError)
+		while(e := asyncUdpRead(address, readBuffer, bytesPerRead), e returnIfError)
 		self
 	)
 	
 	syncUdpReadNextChunk := method(
-		while(asyncUdpRead(ipAddress, readBuffer, bytesPerRead) returnIfError not, syncWait) //read and sleep until bytes
-		while(asyncUdpRead(ipAddress, readBuffer, bytesPerRead) returnIfError, nil) //read rest of the bytes
+		while(asyncUdpRead(address, readBuffer, bytesPerRead) returnIfError not, syncWait) //read and sleep until bytes
+		while(asyncUdpRead(address, readBuffer, bytesPerRead) returnIfError, nil) //read rest of the bytes
 		self
 	)
 
@@ -274,7 +287,7 @@ Socket do(
 		total := readBuffer size + numBytes
 
 		while(readBuffer size < total,
-			asyncUdpRead(ipAddress, readBuffer, bytesPerRead) returnIfError
+			asyncUdpRead(address, readBuffer, bytesPerRead) returnIfError
 		)
 		self
 	)
@@ -288,7 +301,7 @@ Socket do(
 	*/
 	serverOpen := method(
 	   streamOpen returnIfError
-	   asyncBind(ipAddress) returnIfError
+	   asyncBind(address) returnIfError
 	   asyncListen returnIfError
 		self
 	)
@@ -298,12 +311,12 @@ Socket do(
 	An Error object is returned on timeour or error.
 	*/	
 	serverWaitForConnection := method(
-		newAddress := IPAddress clone
+		newAddress := address clone
 		//writeln("acceptTimeout: ", acceptTimeout)
 		readEvent waitOn(acceptTimeout) returnIfError
 		socket := asyncAccept(newAddress) returnIfError
 		if(socket,
-			socket setIpAddress(newAddress)
+			socket setAddress(newAddress)
 		,
 			Error with("Timeout")
 		)

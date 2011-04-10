@@ -7,6 +7,7 @@
 
 //#include "Socket.h"
 #include "Common.h"
+#include "Address.h"
 
 #include <sys/types.h>
 #ifndef WIN32
@@ -21,6 +22,7 @@
 #include <sys/ioctl.h>
 #include <sys/time.h>
 #else
+#include <ws2tcpip.h>
 #include <winsock2.h>
 
 // for dog4
@@ -40,6 +42,7 @@ typedef struct
 {
 	socklen_t size;
 	struct sockaddr_in *sockaddr;
+	Address *addr;
 } IPAddress;
 
 IPAddress *IPAddress_new(void);
@@ -49,6 +52,8 @@ void IPAddress_free(IPAddress *self);
 struct sockaddr *IPAddress_sockaddr(IPAddress *self);
 socklen_t IPAddress_size(IPAddress *self);
 void IPAddress_setSize_(IPAddress *self, socklen_t size);
+
+uint16_t IPAddress_family(IPAddress *self);
 
 // ip
 

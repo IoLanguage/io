@@ -31,6 +31,7 @@ v := Object clone do(
 server := Server clone do(
 	setPort(8181)
 	handleSocket := method(socket,
+		socket println
 		while(socket isOpen, socket read)
 		m := doString(socket readBuffer)
 		EmailMessage clone setTo(m to) setFrom(m from) setCC(m cc) setSubject(m subject) setContent(m content) @send

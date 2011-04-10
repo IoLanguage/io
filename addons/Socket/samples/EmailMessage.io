@@ -8,7 +8,7 @@ EmailMessage := Object clone do(
 	
 	mailServerAddress := method(
 		host := to split("@") last
-		address := Host clone setName(host) ?mailServerAddresses ?first
+		address := Host clone setName(host) address
 		if(address, address, host)
 	)
 	
