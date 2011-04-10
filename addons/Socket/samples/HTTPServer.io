@@ -268,8 +268,7 @@ WebRequest do(
 	)
 	done := method(
 		self mySocket write(
-			"HTTP/1.1 ", self responseCode asString, " ",
-			self responseMessage, "\r\n"
+			"HTTP/1.1 " .. self responseCode asString .. " " .. self responseMessage .. "\r\n"
 		)
 		self sentCookies foreach(key, value,
 			self mySocket write(
@@ -297,6 +296,7 @@ WebServerDefaultRequestHandler := WebRequest clone do(
 )
 
 WebServer := Server clone do(
+	setHost("127.0.0.1")
 	setPort(8000)
 	handleSocket := method(aSocket,
 		WebServerDefaultRequestHandler clone @handleSocket(aSocket)

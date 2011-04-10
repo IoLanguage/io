@@ -5,20 +5,24 @@
 
 ip := Host clone setName("www.yahoo.com") address
 
-socket := Socket clone setHost(ip) setPort(80)
-socket connect
+if(ip isError not,
+	socket := Socket clone setHost(ip) setPort(80)
+	e := socket connect
 
-if (socket error) then (
-	writeln(socket error)
-) else (
-	socket write("GET /\n\n")
+	if (e isError) then (
+		writeln(e message)
+	) else (
+		socket write("GET /\n\n")
 
-	response := ""
-	while(socket isOpen,
-		socket streamReadNextChunk
-		response = response .. (socket readBuffer)
+		response := ""
+		while(socket isOpen,
+			socket streamReadNextChunk
+			response = response .. (socket readBuffer)
+		)
+
+		writeln(response)
+		writeln("\nReceived ", response size, " bytes")
 	)
-
-	writeln(response)
-	writeln("\nReceived ", response size, " bytes")
+,
+	ip message println
 )

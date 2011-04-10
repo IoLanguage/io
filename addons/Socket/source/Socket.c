@@ -114,6 +114,9 @@ Socket *Socket_new(void)
 #else
 	self->fd = -1;
 #endif
+
+	self->af = 0;
+	
 	return self;
 }
 
@@ -228,7 +231,7 @@ int Socket_isValid(Socket *self)
 int Socket_streamOpen(Socket *self)
 {
 	SocketResetErrorStatus();
-	self->fd = socket(AF_INET, SOCK_STREAM, 0);
+	self->fd = socket(self->af, SOCK_STREAM, 0);
 
 	return Socket_isOpen(self);
 }
@@ -243,12 +246,12 @@ int Socket_udpOpen(Socket *self)
 
 // ----------------------------------------
 
-int Socket_connectTo(Socket *self, IPAddress *address)
+int Socket_connectTo(Socket *self, Address *addr)
 {
 	int result;
 
 	SocketResetErrorStatus();
-	result = connect(self->fd, IPAddress_sockaddr(address), IPAddress_size(address));
+	result = connect(self->fd, Address_sockaddr(addr), Address_size(addr));
 
 #ifdef WIN32	
 	return result == 0 || SocketErrorStatus() == WSAEISCONN;
@@ -296,12 +299,12 @@ int Socket_closeFailed(void)
 #endif
 }
 
-int Socket_bind(Socket *self, IPAddress *address)
+int Socket_bind(Socket *self, Address *addr)
 {
 	int result;
 
 	SocketResetErrorStatus();
-	result = bind(self->fd, IPAddress_sockaddr(address), IPAddress_size(address));
+	result = bind(self->fd, Address_sockaddr(addr), Address_size(addr));
 
 	return result == 0;
 }
@@ -328,16 +331,16 @@ int Socket_asyncFailed(void)
 #endif
 }
 
-Socket *Socket_accept(Socket *self, IPAddress *address)
+Socket *Socket_accept(Socket *self, Address *addr)
 {
-	socklen_t addressSize = IPAddress_size(address);
+	socklen_t addressSize = Address_size(addr);
 	SOCKET_DESCRIPTOR d;
 
 	SocketResetErrorStatus();
 
-	d = accept(self->fd, IPAddress_sockaddr(address), &addressSize);
+	d = accept(self->fd, Address_sockaddr(addr), &addressSize);
 
-	IPAddress_setSize_(address, addressSize);
+	Address_setSize_(addr, addressSize);
 
 	if (d != -1)
 	{
@@ -411,9 +414,9 @@ ssize_t Socket_streamWrite(Socket *self, UArray *buffer, size_t start, size_t wr
 	return bytesWritten;
 }
 
-ssize_t Socket_udpRead(Socket *self, IPAddress *address, UArray *buffer, size_t readSize)
+ssize_t Socket_udpRead(Socket *self, Address *addr, UArray *buffer, size_t readSize)
 {
-	socklen_t addressSize = IPAddress_size(address);
+	socklen_t addressSize = Address_size(addr);
 	size_t oldSize = UArray_sizeInBytes(buffer);
 	ssize_t bytesRead;
 
@@ -423,12 +426,12 @@ ssize_t Socket_udpRead(Socket *self, IPAddress *address, UArray *buffer, size_t 
 
 	SocketResetErrorStatus();
 
-	bytesRead = recvfrom(self->fd, (uint8_t *)UArray_bytes(buffer), readSize, 0, IPAddress_sockaddr(address), &addressSize);
+	bytesRead = recvfrom(self->fd, (uint8_t *)UArray_bytes(buffer), readSize, 0, Address_sockaddr(addr), &addressSize);
 
 	if (bytesRead > 0)
 	{
 		UArray_setSize_(buffer, oldSize + bytesRead);
-		IPAddress_setSize_(address, addressSize);
+		Address_setSize_(addr, addressSize);
 	}
 	else
 	{
@@ -440,7 +443,7 @@ ssize_t Socket_udpRead(Socket *self, IPAddress *address, UArray *buffer, size_t 
 	return bytesRead;
 }
 
-ssize_t Socket_udpWrite(Socket *self, IPAddress *address, UArray *buffer, size_t start, size_t writeSize)
+ssize_t Socket_udpWrite(Socket *self, Address *addr, UArray *buffer, size_t start, size_t writeSize)
 {
 	size_t bufferSize = UArray_sizeInBytes(buffer);
 	ssize_t bytesWritten;
@@ -454,7 +457,7 @@ ssize_t Socket_udpWrite(Socket *self, IPAddress *address, UArray *buffer, size_t
 
 	SocketResetErrorStatus();
 
-	bytesWritten = sendto(self->fd, UArray_bytes(buffer), writeSize, 0, IPAddress_sockaddr(address), IPAddress_size(address));
+	bytesWritten = sendto(self->fd, UArray_bytes(buffer), writeSize, 0, Address_sockaddr(addr), Address_size(addr));
 
 	// Maintain truthy return value semantics
 	bytesWritten = (bytesWritten < 0) ? 0 : bytesWritten;

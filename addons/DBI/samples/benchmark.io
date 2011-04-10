@@ -1,5 +1,7 @@
 #!/usr/bin/env io
 
+doRelativeFile("dbi_init.io")
+
 recCount := if(System args at(1), System args at(1) asNumber, 50000)
 
 c := DBI with("sqlite3")

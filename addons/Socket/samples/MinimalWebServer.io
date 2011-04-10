@@ -6,7 +6,7 @@ WebRequest := Object clone do(
 		aSocket streamReadNextChunk
 		request := aSocket readBuffer betweenSeq("GET ", " HTTP")
 		if(request endsWithSeq("/"), request appendSeq("index.html"))
-		request = request slice(1)
+		request = request exSlice(1)
 		f := File with(request)
 		if (f exists, aSocket streamWrite(f contents), aSocket streamWrite(request .. " not found"))
 		writeln("requested ", request)

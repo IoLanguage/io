@@ -15,7 +15,7 @@
 
 #define IPADDRESS(self) ((IPAddress *)IoObject_dataPointer(self))
 
-IoIPAddress *IoMessage_locals_addressArgAt_(IoMessage *self, IoObject *locals, int n)
+IoIPAddress *IoMessage_locals_ipAddressArgAt_(IoMessage *self, IoObject *locals, int n)
 {
 	IoObject *v = IoMessage_locals_valueArgAt_(self, locals, n);
 
@@ -29,7 +29,7 @@ IoIPAddress *IoMessage_locals_addressArgAt_(IoMessage *self, IoObject *locals, i
 
 IPAddress *IoMessage_locals_rawIPAddressArgAt_(IoMessage *self, IoObject *locals, int n)
 {
-	return IoIPAddress_rawIPAddress(IoMessage_locals_addressArgAt_(self, locals, n));
+	return IoIPAddress_rawIPAddress(IoMessage_locals_ipAddressArgAt_(self, locals, n));
 }
 
 IPAddress *IoIPAddress_rawIPAddress(IoIPAddress *self)

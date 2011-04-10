@@ -11,8 +11,10 @@ showInfo := method(d,
 	"" println
 )
 
+doRelativeFile("dbi_init.io")
+
 ("Libdbi version: " .. DBI version) println
-(" Drivers found: " .. DBI init) println
+(" Drivers found: " .. numDrivers) println
 "" println
 
 DBI drivers foreach(d, showInfo(d))
