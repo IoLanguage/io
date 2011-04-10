@@ -1645,7 +1645,7 @@ IO_METHOD(IoSeq, pack)
 
 	if(strFmt[0] == '*') i = doBigEndian = isBigEndian = 1;
 
-	for(argIdx = 1 ; i < strFmtLen ; i ++)
+	for(argIdx = 1 ; i < strFmtLen && argIdx < argCount ; i ++)
 	{
 		if(isdigit(strFmt[i]))
 		{
@@ -1782,10 +1782,11 @@ IO_METHOD(IoSeq, unpack)
 	
 	IoList *values = IoList_new(IOSTATE);
 	UArray *selfUArray = DATA(self);
+	size_t selfUArraySize = UArray_size(selfUArray);
 
 	if(strFmt[0] == '*') i = isBigEndian = 1;
 
-	for(count = 0 ; i < strFmtLen ; i ++)
+	for(count = 0 ; i < strFmtLen && seqPos < selfUArraySize; i ++)
 	{
 		if(isdigit(strFmt[i]))
 		{
