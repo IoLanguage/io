@@ -32,4 +32,4 @@ add_library(coroutine SHARED ${SRCS})
 
 # The following add the install target, so we put libcoroutine.* in
 # our install prefix.
-install(TARGETS coroutine DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
+install(TARGETS coroutine DESTINATION lib)

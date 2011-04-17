@@ -25,4 +25,4 @@ target_link_libraries(garbagecollector basekit)
 
 # The following add the install target, so we put libgarbagecollector.*
 # in our install prefix.
-install(TARGETS garbagecollector DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
+install(TARGETS garbagecollector DESTINATION lib)

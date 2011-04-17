@@ -23,4 +23,4 @@ add_library(basekit SHARED ${SRCS})
 
 # The following add the install target, so we put libbasekit.* in our
 # install prefix.
-install(TARGETS basekit DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
+install(TARGETS basekit DESTINATION lib)
