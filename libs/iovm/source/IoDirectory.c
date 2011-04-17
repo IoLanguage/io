@@ -343,6 +343,7 @@ IO_METHOD(IoDirectory, exists)
 		path = IoMessage_locals_symbolArgAt_(m, locals, 0);
 	}
 
+#if !defined(_WIN32) || defined(__CYGWIN__)
 	dirp = opendir(CSTRING(path));
 
 	if (!dirp)
@@ -352,6 +353,12 @@ IO_METHOD(IoDirectory, exists)
 
 	(void)closedir(dirp);
 	return IOTRUE(self);
+#else
+	{
+		DWORD d = GetFileAttributes(CSTRING(path));
+		return (d != INVALID_FILE_ATTRIBUTES) && (d & FILE_ATTRIBUTE_DIRECTORY) ? IOTRUE(self) : IOFALSE(self);
+	}
+#endif
 }
 
 IO_METHOD(IoDirectory, items)
