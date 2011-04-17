@@ -270,11 +270,15 @@ IO_METHOD(IoObject, system)
 	char *buf = NULL;
 	int result = 0;
 	buf = (char *)getcwd(buf, 1024);
-	
+
 	//printf("CURDIR: [%s]\n", buf);
 	//printf("SYSTEM: [%s]\n", CSTRING(s));
-	result = system(CSTRING(s))/ 256;
+	result = system(CSTRING(s));
 	//printf("system result = %i\n", result);
+#if !defined(_WIN32) || defined(__CYGWIN__)	
+	result /= 256;
+#endif
+
 	return IONUMBER(result);
 }
 
