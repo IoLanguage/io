@@ -26,6 +26,8 @@ HCRequest := Object clone do(
 		headers atPut("Connection", "close")
 	)
 	
+        body ::= nil
+
 	with := method(url,
 		self clone setUrl(url)
 	)
@@ -57,4 +59,14 @@ HCRequest := Object clone do(
 	headerAt := method(name,
 		headers at(name)
 	)
+
+        setBody := method(string,
+            self body := string
+            setHeader("Content-Length", body size asString)
+        )
+
+        getBody := method(
+            body ifNilEval(return "")
+            return body
+        )
 )
