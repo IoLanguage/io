@@ -504,6 +504,38 @@ void Coro_setup(Coro *self, void *arg)
 	buf[9] = (int)Coro_Start;
 }
 
+
+// NLB ... guessing. Check data from here 
+// http://state-threads.sourceforge.net/docs/notes.html
+// It appears 2 is the SP and probably 0 is the PC just like on DragonFly
+// /usr/src/lib/libc/arch/i386/gen/setjmp.S appears to confirm this...
+// but I'm segfaulting to an address of 0000, so obviously I'm a but wrong
+// somewhere...
+// Current problem looks like "func" is off by 143 bytes/whatever, and I'm
+// landing in the
+// wrong spot after the return! So my structure is right, but somehow I have
+// the wrong *func
+
+#elif defined(__OpenBSD__)
+
+#define buf (self->env)
+
+void Coro_setup(Coro *self, void *arg)
+{
+  void *stack = Coro_stack(self);
+  size_t stacksize = Coro_stackSize(self);
+  void *func = (void *)Coro_Start;
+  
+  setjmp(buf);
+  
+  buf[2] = (long)(stack + stacksize);
+  buf[0] = (long)Coro_Start;
+  // it would seem this needs to have some value??
+  globalCallbackBlock.context=((CallbackBlock*)arg)->context;
+  globalCallbackBlock.func=((CallbackBlock*)arg)->func;
+  return;
+}
+
 #else
 
 #error "Coro.c Error: Coro_setup() function needs to be defined for this platform."

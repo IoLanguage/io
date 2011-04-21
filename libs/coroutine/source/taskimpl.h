@@ -18,7 +18,6 @@
 
 #if defined __OpenBSD__
 #	undef USE_UCONTEXT
-#	define USE_UCONTEXT 0
 #endif
 
 #if defined __APPLE__

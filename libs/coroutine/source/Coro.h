@@ -13,6 +13,12 @@
 	#define HAS_UCONTEXT 1
 #endif
 
+#if defined(__OpenBSD__)
+#undef HAS_UCONTEXT 
+#undef USE_UCONTEXT
+#undef USE_FIBERS
+#endif
+
 #if defined(__amd64__) && !defined(__x86_64__)
         #define __x86_64__ 1
 #endif

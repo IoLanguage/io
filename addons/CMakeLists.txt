@@ -17,6 +17,12 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 	set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -flat_namespace")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
+# OpenBSD needs /usr/local/lib and /usr/lib searched
+if(${CMAKE_SYSTEM_NAME} MATCHES "OpenBSD")
+	set(CMAKE_SHARED_LINKER_FLAGS "-L/usr/local/lib -L/usr/lib ${CMAKE_SHARED_LINKER_FLAGS}")
+endif(${CMAKE_SYSTEM_NAME} MATCHES "OpenBSD")
+
+
 # Get the filename component, and generate the IoFooInit.c file.
 macro(generate_ioinit NAME)
 	# Ensure the source dir exists.
@@ -93,10 +99,10 @@ add_subdirectory(SGML)
 add_subdirectory(SHA1)
 #add_subdirectory(SQLite) # XXX: Want to delete in favour of SQLite3
 add_subdirectory(SQLite3)
-add_subdirectory(SampleRateConverter)
+#add_subdirectory(SampleRateConverter)
 add_subdirectory(SecureSocket)
 #add_subdirectory(SkipDB) # XXX: Disabled...why?
-add_subdirectory(Socket)
+#add_subdirectory(Socket)
 #add_subdirectory(SoundTouch) # XXX: I can't meet dependencies
 add_subdirectory(SqlDatabase)
 add_subdirectory(Syslog)
