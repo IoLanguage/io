@@ -33,7 +33,7 @@ HCConnection := Object clone do(
 		if(request port asString == "80",
 			request setHeader("Host", request host)
 		,
-			request setHeader("Host", Sequence with(request host, ":", request port))
+			request setHeader("Host", Sequence with(request host, ":", request port asString))
 		)
 
 		request headers select(k, v, v != nil) map(k, v,
