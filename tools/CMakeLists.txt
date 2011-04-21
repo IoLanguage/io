@@ -40,6 +40,12 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "(OpenBSD|FreeBSD|Linux|NetBSD|DragonFly)")
 	list(APPEND LIBS "-lm")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "(OpenBSD|FreeBSD|Linux|NetBSD|DragonFly)")
 
+# Add curses library for readline needs it
+if(${CMAKE_SYSTEM_NAME} MATCHES "OpenBSD")
+	list(APPEND LIBS "-lcurses")
+endif(${CMAKE_SYSTEM_NAME} MATCHES "OpenBSD")
+
+
 add_definitions("-DBUILDING_IOVMALL_DLL")
 
 # Produce the executables!
