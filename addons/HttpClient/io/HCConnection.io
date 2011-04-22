@@ -42,7 +42,7 @@ HCConnection := Object clone do(
 	)
 	
 	httpMessage := method(
-		Sequence with(statusLine, headersLines, headerTerminator, request getBody)
+		Sequence with(statusLine, headersLines, headerTerminator, request body)
 	)
 	
 	sendMessage := method(
