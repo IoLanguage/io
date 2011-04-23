@@ -12,7 +12,8 @@
 //doc HCRequest hasHeader(name) Returns true if this request has a header with name
 //doc HCRequest setHeader(name, value) Sets header with name to value
 //doc HCRequest headerAt(name) Returns the value for header with name
-
+// doc HCRequest setBody(string) Sets the body to string and changes the "Content-Length" header accordingly
+// doc HCReqeust body The message body
 
 HCRequest := Object clone do(
 	url ::= nil
@@ -26,6 +27,8 @@ HCRequest := Object clone do(
 		headers atPut("Connection", "close")
 	)
 	
+        messageBody ::= nil
+
 	with := method(url,
 		self clone setUrl(url)
 	)
@@ -57,4 +60,19 @@ HCRequest := Object clone do(
 	headerAt := method(name,
 		headers at(name)
 	)
+
+        setBody := method(string,
+            messageBody := string
+            if(messageBody isNil,
+                headers removeAt("Content-Length")
+                return
+            )
+
+            setHeader("Content-Length", messageBody size asString)
+        )
+
+        body := method(
+            messageBody ifNilEval(return "")
+            return messageBody
+        )
 )
