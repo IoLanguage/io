@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+<key>autocompleteWords</key>
+<array></array>
+<key>beginCommand</key>
+<string></string>
+<key>beginFirstMultiLineComment</key>
+<string>/*</string>
+<key>beginInstruction</key>
+<string></string>
+<key>beginSecondMultiLineComment</key>
+<string></string>
+<key>beginVariable</key>
+<string></string>
+<key>endCommand</key>
+<string></string>
+<key>endFirstMultiLineComment</key>
+<string>*/</string>
+<key>endInstruction</key>
+<string></string>
+<key>endSecondMultiLineComment</key>
+<string></string>
+<key>endVariable</key>
+<string></string>
+<key>firstSingleLineComment</key>
+<string>#</string>
+<key>firstString</key>
+<string>"</string>
+<key>functionDefinition</key>
+<string>\b(clone|call|init|method|list|vector|block|(\w+(?=\s*\()))\b</string>
+<key>keywords</key>
+<array>
+<string>if</string>
+<string>ifTrue</string>
+<string>ifFalse</string>
+<string>for</string>
+<string>loop</string>
+<string>reverseForeach</string>
+<string>foreach</string>
+<string>map</string>
+<string>continue</string>
+<string>break</string>
+<string>while</string>
+<string>do</string>
+<string>return</string>
+<string>;</string>
+<string>=</string>
+<string>:=</string>
+</array>
+<key>keywordsCaseSensitive</key>
+<false />
+<key>recolourKeywordIfAlreadyColoured</key>
+<true />
+<key>removeFromFunction</key>
+<string></string>
+<key>secondSingleLineComment</key>
+<string>//</string>
+<key>secondstring</key>
+<string>"""</string>
+</dict>
+</plist>
