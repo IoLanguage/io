@@ -261,8 +261,8 @@ Socket do(
 	)
 
 	
-	/*doc Socket udpReadNextChunk(ipAddress)
-	Waits to receive UDP data from the specified ipAddress. 
+	/*doc Socket udpReadNextChunk(address)
+	Waits to receive UDP data from the specified address (IPAddress or UnixPath). 
 	As soon as any data is available, it reads all of it into the socket's readBuffer.
 	Returns self on success or an Error object on error.
 	*/
@@ -279,11 +279,11 @@ Socket do(
 		self
 	)
 
-	/*doc Socket udpRead(ipAddress, numBytes)
-	Waits for and reads numBytes of udp data from the specified ipAddress into the socket's readBuffer.
+	/*doc Socket udpRead(address, numBytes)
+	Waits for and reads numBytes of udp data from the specified address (IPAddress or UnixPath) into the socket's readBuffer.
 	Returns self on success or an Error object on error.
 	*/
-	udpRead := method(ipAddress, numBytes,
+	udpRead := method(address, numBytes,
 		total := readBuffer size + numBytes
 
 		while(readBuffer size < total,
@@ -296,7 +296,7 @@ Socket do(
 	udpWrite := getSlot("asyncUdpWrite")
 
 	/*doc Socket serverOpen 
-	Opens the socket as a stream, binds it to its ipAddress and calls asyncListen to prepare the socket to accept connections.
+	Opens the socket as a stream, binds it to its address and calls asyncListen to prepare the socket to accept connections.
 	Returns self on success or an Error object on error.
 	*/
 	serverOpen := method(

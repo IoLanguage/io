@@ -45,6 +45,9 @@ with kernel threads and socket polling.
 	//doc Server port Returns the port on which the server will listen for connections.
 	port := method(socket port)
 
+	//doc Server setPath(path) Sets the path (for Unix Domain sockets) on which the server will listen  for connections. Returns self.
+	setPath := method(port, socket setPath(path); self)
+
 	/*doc Server start
 	Starts the server. This method will not return until server is stopped, 
 	so you may want to send the start message as an asynchronous message. 

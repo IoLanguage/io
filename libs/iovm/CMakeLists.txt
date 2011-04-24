@@ -88,4 +88,4 @@ target_link_libraries(iovmall basekit coroutine garbagecollector)
 
 # The following add the install target, so we put libvmall.* in our
 # install prefix.
-install(TARGETS iovmall DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
+install(TARGETS iovmall DESTINATION lib)

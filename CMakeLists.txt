@@ -109,3 +109,103 @@ copy_files(coroutine_headers ${PROJECT_SOURCE_DIR}/libs/coroutine/source/*.h ${C
 copy_files(basekit_headers ${PROJECT_SOURCE_DIR}/libs/basekit/source/*.h ${CMAKE_CURRENT_BINARY_DIR}/_build/headers)
 copy_files(garbagecollector_headers ${PROJECT_SOURCE_DIR}/libs/garbagecollector/source/*.h ${CMAKE_CURRENT_BINARY_DIR}/_build/headers)
 copy_files(iovm_headers ${PROJECT_SOURCE_DIR}/libs/iovm/source/*.h ${CMAKE_CURRENT_BINARY_DIR}/_build/headers)
+
+
+# Packaging stuff
+
+#Modified from: http://www.mail-archive.com/cmake@cmake.org/msg32916.html
+MACRO (TODAY RESULT)
+    IF (WIN32)
+        EXECUTE_PROCESS(COMMAND "cmd" " /C date /T" OUTPUT_VARIABLE ${RESULT})
+        string(REGEX REPLACE "(..)/(..)/(....).*" "\\1.\\2.\\3" ${RESULT} 
+${${RESULT}})
+    ELSEIF(UNIX)
+        EXECUTE_PROCESS(COMMAND "date" "+%d/%m/%Y" OUTPUT_VARIABLE ${RESULT})
+        string(REGEX REPLACE "(..)/(..)/(....).*" "\\1.\\2.\\3" ${RESULT} 
+${${RESULT}})
+    ELSE (WIN32)
+        MESSAGE(SEND_ERROR "date not implemented")
+        SET(${RESULT} 000000)
+    ENDIF (WIN32)
+ENDMACRO (TODAY)
+
+TODAY(CMD_DATE)
+STRING(SUBSTRING ${CMD_DATE} 0 2 CMD_DATE_DAY)
+STRING(SUBSTRING ${CMD_DATE} 3 2 CMD_DATE_MON)
+STRING(SUBSTRING ${CMD_DATE} 6 4 CMD_DATE_YEAR)
+SET(CMD_DATE "${CMD_DATE_YEAR}.${CMD_DATE_MON}.${CMD_DATE_DAY}")
+
+IF(WIN32 AND NOT CYGWIN)
+	execute_process(COMMAND "cmd" " /C git rev-parse --short HEAD" OUTPUT_VARIABLE IO_GIT_REV)
+ELSE(WIN32 AND NOT CYGWIN)
+	execute_process(COMMAND git rev-parse --short HEAD OUTPUT_VARIABLE IO_GIT_REV)
+ENDIF(WIN32 AND NOT CYGWIN)
+string(REGEX REPLACE "(.......)." "\\1" IO_GIT_REV ${IO_GIT_REV})
+
+SET(CPACK_PACKAGE_NAME ${PROJECT_NAME})
+SET(CPACK_PACKAGE_VENDOR "iolanguage.com")
+SET(CPACK_PACKAGE_CONTACT "iolanguage@yahoogroups.com")
+SET(CPACK_RESOURCE_FILE_LICENSE ${PROJECT_SOURCE_DIR}/license/bsd_license.txt)
+SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Io Language")
+SET(CPACK_PACKAGE_VERSION "${CMD_DATE}_${IO_GIT_REV}")
+SET(CPACK_PACKAGE_VERSION_MAJOR ${CMD_DATE_YEAR})
+SET(CPACK_PACKAGE_VERSION_MINOR ${CMD_DATE_MON})
+SET(CPACK_PACKAGE_VERSION_PATCH ${CMD_DATE_DAY})
+SET(CPACK_PACKAGE_INSTALL_DIRECTORY ${CPACK_PACKAGE_NAME})
+
+IF(WIN32)
+	# It's not very clear whether redist files for MSVC build are in the path bellow...
+	# The semi-hardcoded path bellow is for Visual Studio 2008 Express.
+	# Anyway, we have to distinguish between Debug and Release redist files as well.
+	IF(MSVC)
+		STRING(REGEX REPLACE "\\\\" "\\\\\\\\" VC_INSTALL_PATH "$ENV{VCINSTALLDIR}")
+		SET(VC_RUNTIME_REDIST_FILES "File '${VC_INSTALL_PATH}\\\\redist\\\\Debug_NonRedist\\\\x86\\\\Microsoft.VC90.DebugCRT\\\\*.*'")
+	ENDIF(MSVC)
+	
+	SET(CPACK_SET_DESTDIR "OFF")
+	SET(CPACK_NSIS_URL_INFO_ABOUT "http://www.iolanguage.com")
+	SET(CPACK_NSIS_HELP_LINK "http://www.iolanguage.com")
+	SET(CPACK_NSIS_MODIFY_PATH "ON")
+	SET(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "
+		WriteIniStr '\$INSTDIR\\\\IoLanguageWebSite.url' 'InternetShortcut' 'URL' '${CPACK_NSIS_URL_INFO_ABOUT}'
+		SetOutPath '\$INSTDIR\\\\lib'
+		SetOverwrite try
+		${VC_RUNTIME_REDIST_FILES}
+	")
+	SET(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS "
+		Delete '\$INSTDIR\\\\IoLanguageWebSite.url'
+		Delete '\$INSTDIR\\\\lib\\\\*.*'
+	")
+
+	SET(CPACK_NSIS_CREATE_ICONS "
+		CreateShortCut '\$SMPROGRAMS\\\\$STARTMENU_FOLDER\\\\Io CLI.lnk' '$INSTDIR\\\\bin\\\\io.exe'
+		CreateShortCut '\$SMPROGRAMS\\\\$STARTMENU_FOLDER\\\\IoLanguage Web Site.lnk' '\$INSTDIR\\\\IoLanguageWebSite.url'
+	")
+	SET(CPACK_NSIS_CREATE_ICONS_EXTRA "CreateShortCut '\$DESKTOP\\\\Io CLI.lnk' '$INSTDIR\\\\bin\\\\io.exe'")
+	SET(CPACK_NSIS_DELETE_ICONS "
+		Delete '\$SMPROGRAMS\\\\$MUI_TEMP\\\\Io CLI.lnk'
+		Delete '\$SMPROGRAMS\\\\$MUI_TEMP\\\\IoLanguage Web Site.lnk'
+	")
+	SET(CPACK_NSIS_DELETE_ICONS_EXTRA "Delete '\$DESKTOP\\\\Io CLI.lnk'")
+ENDIF(WIN32)
+
+IF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+	SET(CPACK_SET_DESTDIR "ON")
+
+	FIND_PROGRAM(DPKG_CMD dpkg)
+	IF(DPKG_CMD)
+		SET(CPACK_GENERATOR ${CPACK_GENERATOR} DEB)
+	ELSE(DPKG_CMD)
+		MESSAGE( STATUS "dpkg binary not found, not building debian package" )
+	ENDIF(DPKG_CMD)
+
+	FIND_PROGRAM(RPMBUILD_CMD rpmbuild)
+	IF(RPMBUILD_CMD)
+		SET( CPACK_GENERATOR ${CPACK_GENERATOR} RPM )
+	ELSE(RPMBUILD_CMD)
+		MESSAGE( STATUS "rpmbuild binary not found, not building rpm package" )
+	ENDIF(RPMBUILD_CMD)
+ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+
+include(CPack)
+
