@@ -8,7 +8,7 @@
  *  format, width, height and # of components.
  *
  *  It's possible to use an external UArray for loading by calling
- *  PNGImage_setExternalUArray_(), but be carefull not to use the
+ *  PNGImage_setExternalUArray_(), but be careful not to use the
  *  PNGImage instance after freeing its external byte array.
  */
 
