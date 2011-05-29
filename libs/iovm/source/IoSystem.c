@@ -17,9 +17,9 @@ Contains methods related to the IoVM.
 #include <unistd.h>
 #endif
 
-#if defined(unix) || defined(__APPLE__) || defined(__NetBSD__)
+#if defined(unix) || defined(__APPLE__) || defined(__NetBSD__) || defined(__OpenBSD__)
 #include <sys/utsname.h>
-#ifdef __NetBSD__
+#if defined(__NetBSD__) || defined(__OpenBSD__)
 # include <sys/param.h>
 #endif
 #ifndef __CYGWIN__
@@ -388,7 +388,7 @@ IO_METHOD(IoObject, platform)
 		default: platform = "Windows";
 	}
 
-#elif defined(unix) || defined(__APPLE__) || defined(__NetBSD__)
+#elif defined(unix) || defined(__APPLE__) || defined(__NetBSD__) || defined(__OpenBSD__)
 	/* Why Apple and NetBSD don't define 'unix' I'll never know. */
 	struct utsname os;
 	int ret = uname(&os);
@@ -420,7 +420,7 @@ IO_METHOD(IoObject, platformVersion)
 	snprintf(platformVersion, sizeof(platformVersion) - 1, "%d.%d",
 		os.dwMajorVersion, os.dwMinorVersion);
 
-#elif defined(unix) || defined(__APPLE__) || defined(__NetBSD__)
+#elif defined(unix) || defined(__APPLE__) || defined(__NetBSD__) || defined(__OpenBSD__)
 	/* Why Apple and NetBSD don't define 'unix' I'll never know. */
 	struct utsname os;
 	int ret = uname(&os);

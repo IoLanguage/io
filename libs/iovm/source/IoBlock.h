@@ -39,7 +39,7 @@ void IoBlock_message_(IoBlock *self, IoMessage *m);
 
 // calling
 
-IoObject *IoBlock_activate(IoBlock *self, IoObject *target, IoObject *locals, IoMessage *m, IoObject *slotContext);
+IOVM_API IoObject *IoBlock_activate(IoBlock *self, IoObject *target, IoObject *locals, IoMessage *m, IoObject *slotContext);
 IO_METHOD(IoBlock, print);
 
 UArray *IoBlock_justCode(IoBlock *self);

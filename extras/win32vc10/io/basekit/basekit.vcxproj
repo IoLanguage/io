@@ -1,0 +1,250 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Dynamic Debug|Win32">
+      <Configuration>Dynamic Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Dynamic Release|Win32">
+      <Configuration>Dynamic Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Static Debug|Win32">
+      <Configuration>Static Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Static Release|Win32">
+      <Configuration>Static Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{3DFCE12D-0671-4CC6-8E43-A08A18296C81}</ProjectGuid>
+    <RootNamespace>basekit</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Static Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Static Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dynamic Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dynamic Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <CharacterSet>NotSet</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Static Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Static Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Dynamic Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Dynamic Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Dynamic Debug|Win32'">$(SolutionDir)build\$(ProjectName)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Dynamic Debug|Win32'">$(SolutionDir)temp\$(ProjectName)\$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Dynamic Release|Win32'">$(SolutionDir)build\$(ProjectName)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Dynamic Release|Win32'">$(SolutionDir)temp\$(ProjectName)\$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Static Debug|Win32'">$(SolutionDir)build\$(ProjectName)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Static Debug|Win32'">$(SolutionDir)temp\$(ProjectName)\$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Static Release|Win32'">$(SolutionDir)build\$(ProjectName)\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Static Release|Win32'">$(SolutionDir)temp\$(ProjectName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dynamic Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>..\..\..\..\libs\basekit\source\simd_cph\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;BUILDING_BASEKIT_DLL;BUILDING_IOVMALL_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <ObjectFileName>$(OutDir)objs\</ObjectFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+    <Lib>
+      <OutputFile>$(OutDir)lib\$(ProjectName).lib</OutputFile>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+    </Lib>
+    <PostBuildEvent>
+      <Command>mkdir "$(OutDir)headers"
+xcopy /Y /Q "$(SolutionDir)..\..\..\libs\basekit\source\*.h" "$(OutDir)headers\"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dynamic Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\..\..\libs\basekit\source\simd_cph\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;BUILDING_BASEKIT_DLL;BUILDING_IOVMALL_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <ObjectFileName>$(OutDir)objs\</ObjectFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)lib\$(ProjectName).lib</OutputFile>
+    </Lib>
+    <PostBuildEvent>
+      <Command>mkdir "$(OutDir)headers"
+xcopy /Y /Q "$(SolutionDir)..\..\..\libs\basekit\source\*.h" "$(OutDir)headers\"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Static Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <AdditionalIncludeDirectories>..\..\..\..\libs\basekit\source\simd_cph\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;BUILDING_BASEKIT_DLL;BUILDING_IOVMALL_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <ObjectFileName>$(OutDir)objs\</ObjectFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+    <Lib>
+      <OutputFile>$(OutDir)lib\$(ProjectName).lib</OutputFile>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+    </Lib>
+    <PostBuildEvent>
+      <Command>mkdir "$(OutDir)headers"
+xcopy /Y /Q "$(SolutionDir)..\..\..\libs\basekit\source\*.h" "$(OutDir)headers\"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Static Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\..\..\libs\basekit\source\simd_cph\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;BUILDING_BASEKIT_DLL;BUILDING_IOVMALL_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <ObjectFileName>$(OutDir)objs\</ObjectFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+    </ClCompile>
+    <Lib>
+      <OutputFile>$(OutDir)lib\$(ProjectName).lib</OutputFile>
+    </Lib>
+    <PostBuildEvent>
+      <Command>mkdir "$(OutDir)headers"
+xcopy /Y /Q "$(SolutionDir)..\..\..\libs\basekit\source\*.h" "$(OutDir)headers\"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\libs\basekit\source\BStream.c" />
+    <ClCompile Include="..\..\..\..\libs\basekit\source\BStreamTag.c" />
+    <ClCompile Include="..\..\..\..\libs\basekit\source\cdecode.c" />
+    <ClCompile Include="..\..\..\..\libs\basekit\source\cencode.c" />
+    <ClCompile Include="..\..\..\..\libs\basekit\source\CHash.c" />
+    <ClCompile Include="..\..\..\..\libs\basekit\source\Common.c" />
+    <ClCompile Include="..\..\..\..\libs\basekit\source\Date.c" />
+    <ClCompile Include="..\..\..\..\libs\basekit\source\Duration.c" />
+    <ClCompile Include="..\..\..\..\libs\basekit\source\DynLib.c" />
+    <ClCompile Include="..\..\..\..\libs\basekit\source\Hash_fnv.c" />
+    <ClCompile Include="..\..\..\..\libs\basekit\source\Hash_murmur.c" />
+    <ClCompile Include="..\..\..\..\libs\basekit\source\Hash_superfast.c" />
+    <ClCompile Include="..\..\..\..\libs\basekit\source\List.c" />
+    <ClCompile Include="..\..\..\..\libs\basekit\source\MainArgs.c" />
+    <ClCompile Include="..\..\..\..\libs\basekit\source\PointerHash.c" />
+    <ClCompile Include="..\..\..\..\libs\basekit\source\PortableGettimeofday.c" />
+    <ClCompile Include="..\..\..\..\libs\basekit\source\PortableSnprintf.c" />
+    <ClCompile Include="..\..\..\..\libs\basekit\source\PortableSorting.c" />
+    <ClCompile Include="..\..\..\..\libs\basekit\source\PortableStrlcpy.c" />
+    <ClCompile Include="..\..\..\..\libs\basekit\source\PortableStrptime.c" />
+    <ClCompile Include="..\..\..\..\libs\basekit\source\PortableTruncate.c" />
+    <ClCompile Include="..\..\..\..\libs\basekit\source\PortableUsleep.c" />
+    <ClCompile Include="..\..\..\..\libs\basekit\source\RandomGen.c" />
+    <ClCompile Include="..\..\..\..\libs\basekit\source\Stack.c" />
+    <ClCompile Include="..\..\..\..\libs\basekit\source\UArray.c" />
+    <ClCompile Include="..\..\..\..\libs\basekit\source\UArray_character.c" />
+    <ClCompile Include="..\..\..\..\libs\basekit\source\UArray_format.c" />
+    <ClCompile Include="..\..\..\..\libs\basekit\source\UArray_math.c" />
+    <ClCompile Include="..\..\..\..\libs\basekit\source\UArray_path.c" />
+    <ClCompile Include="..\..\..\..\libs\basekit\source\UArray_stream.c" />
+    <ClCompile Include="..\..\..\..\libs\basekit\source\UArray_string.c" />
+    <ClCompile Include="..\..\..\..\libs\basekit\source\UArray_utf.c" />
+    <ClCompile Include="..\..\..\..\libs\basekit\source\ucs2.c" />
+    <ClCompile Include="..\..\..\..\libs\basekit\source\ucs4.c" />
+    <ClCompile Include="..\..\..\..\libs\basekit\source\utf8.c" />
+    <ClCompile Include="..\..\..\..\libs\basekit\source\utf_convert.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\libs\basekit\source\Base.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\BStream.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\BStreamTag.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\cdecode.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\cencode.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\CHash.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\CHash_inline.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\Common.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\Common_inline.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\Date.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\Duration.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\DynLib.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\Hash_fnv.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\Hash_murmur.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\Hash_superfast.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\List.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\List_inline.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\MainArgs.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\PointerHash.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\PointerHash_inline.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\PointerHash_struct.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\PortableGettimeofday.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\PortableSorting.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\PortableStdint.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\PortableStrlcpy.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\PortableStrptime.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\PortableTruncate.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\PortableUsleep.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\RandomGen.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\Sorting.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\Stack.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\Stack_inline.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\UArray.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\UArray_character.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\UArray_format.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\UArray_math.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\UArray_path.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\UArray_stream.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\UArray_string.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\UArray_utf.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\utf8.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\utf8internal.h" />
+    <ClInclude Include="..\..\..\..\libs\basekit\source\utf_convert.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

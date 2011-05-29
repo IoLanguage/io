@@ -36,9 +36,15 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "(Darwin|Linux|SunOS|syllable)")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "(Darwin|Linux|SunOS|syllable)")
 
 # Add math library for those who need it
-if(${CMAKE_SYSTEM_NAME} MATCHES "(FreeBSD|Linux|NetBSD|DragonFly)")
+if(${CMAKE_SYSTEM_NAME} MATCHES "(OpenBSD|FreeBSD|Linux|NetBSD|DragonFly)")
 	list(APPEND LIBS "-lm")
-endif(${CMAKE_SYSTEM_NAME} MATCHES "(FreeBSD|Linux|NetBSD|DragonFly)")
+endif(${CMAKE_SYSTEM_NAME} MATCHES "(OpenBSD|FreeBSD|Linux|NetBSD|DragonFly)")
+
+# Add curses library for readline needs it
+if(${CMAKE_SYSTEM_NAME} MATCHES "OpenBSD")
+	list(APPEND LIBS "-lcurses")
+endif(${CMAKE_SYSTEM_NAME} MATCHES "OpenBSD")
+
 
 add_definitions("-DBUILDING_IOVMALL_DLL")
 
