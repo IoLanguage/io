@@ -102,7 +102,7 @@ add_subdirectory(SQLite3)
 #add_subdirectory(SampleRateConverter)
 add_subdirectory(SecureSocket)
 #add_subdirectory(SkipDB) # XXX: Disabled...why?
-#add_subdirectory(Socket)
+add_subdirectory(Socket)
 #add_subdirectory(SoundTouch) # XXX: I can't meet dependencies
 add_subdirectory(SqlDatabase)
 add_subdirectory(Syslog)
