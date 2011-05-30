@@ -27,7 +27,13 @@ SequenceTest := UnitTest clone do(
 		assertEquals(1, "1 2" asNumber)
 		assertEquals(1.2, "1.2" asNumber)
 		//assertEquals(Number constants nan, "five" asNumber)
-		assertEquals(Number constants nan asString, "" asNumber asString)
+		// Windows systems print out NaN constants differently depending on class
+		if(isOnWindows,
+			assertEquals(Number constants nan asString, "-1.#IND") // 0/0
+			assertEquals("" asNumber asString, "1.#QNAN") // Explicit quiet NaN
+		,
+			assertEquals(Number constants nan asString, "" asNumber asString)
+		)
 	)
 
 	testAsString := method(
