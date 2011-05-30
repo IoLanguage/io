@@ -33,7 +33,8 @@ UnicodeTest := UnitTest clone do(
 	)
 
 	tempSystem := method(s,
-		code := (io .. s) asMutable replaceSeq("$0", Path with(wdPath, "printer.io")) replaceSeq("\n", "\\n") 
+		code := (io .. s) asMutable replaceSeq("$0", Path with(wdPath, "printer.io"))
+		if(isOnWindows, code := code replaceSeq("\n", "\\n"))
 		System system(code .. " > " .. tempPath)
 	)
 
