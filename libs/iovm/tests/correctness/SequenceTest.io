@@ -1,5 +1,8 @@
 
 SequenceTest := UnitTest clone do(
+	plat := System platform
+	isOnWindows := plat beginsWithSeq("Windows") or plat beginsWithSeq("mingw")
+
 	testClone := method(
 		string := "blah"
 		assertSame(string, string clone)
@@ -381,22 +384,21 @@ SequenceTest := UnitTest clone do(
 		assertEquals("701", "449" toBase(8))
 	)
 
-	isOnWindows := System platform beginsWithSeq("Windows")
-
 	testAppendPath := method(
 		string := "abc"
 		assertNotSame(string, Path with(string, "def"))
 
-		assertEquals("abc/def", Path with("abc", "def"))
 		assertEquals("abc/def", Path with("abc/", "def"))
 		assertEquals("abc/def/", Path with("abc", "/def/"))
 		assertEquals("/abc/def/", Path with("/abc/", "/def/"))
 
-		// Io on Windows constructs paths using / but tolerates \
 		if(isOnWindows,
 			assertEquals("abc\\def", Path with("abc\\", "def"))
 			assertEquals("abc\\def\\", Path with("abc", "\\def\\"))
 			assertEquals("\\abc\\def\\", Path with("\\abc\\", "\\def\\"))
+			assertEquals("abc\\def", Path with("abc", "def"))
+		,
+			assertEquals("abc/def", Path with("abc", "def"))
 		)
 	)
 
