@@ -102,7 +102,9 @@ add_subdirectory(SQLite3)
 #add_subdirectory(SampleRateConverter)
 add_subdirectory(SecureSocket)
 #add_subdirectory(SkipDB) # XXX: Disabled...why?
-#add_subdirectory(Socket)
+if(${CMAKE_SYSTEM_NAME} MATCHES "OpenBSD") # This hsould not be disabled for any platform. Upgrade Socket to support libevent2
+  add_subdirectory(Socket)
+endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 #add_subdirectory(SoundTouch) # XXX: I can't meet dependencies
 add_subdirectory(SqlDatabase)
 add_subdirectory(Syslog)
