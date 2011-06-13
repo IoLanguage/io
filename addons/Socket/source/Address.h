@@ -5,6 +5,7 @@
 
 #if !defined(_WIN32) || defined(__CYGWIN__)
 #include <unistd.h>
+#include <sys/socket.h>
 #else
 #include <ws2tcpip.h>
 #endif

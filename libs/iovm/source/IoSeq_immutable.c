@@ -1735,7 +1735,7 @@ IO_METHOD(IoSeq, pack)
 }
 
 
-#define SEQ_UNPACK_VALUE_ASSIGN_LOOP(code, type, dest, toObj) \
+/*#define SEQ_UNPACK_VALUE_ASSIGN_LOOP(code, type, dest, toObj) \
 case code: \
 { \
 	int inc = isBigEndian ? -1 : 1; \
@@ -1748,11 +1748,27 @@ case code: \
 	toObj = IONUMBER(*((type *)dest)); \
 	seqPos += sizeof(type); \
 } \
+break;*/
+
+#define SEQ_UNPACK_VALUE_ASSIGN_LOOP(code, type, dest, toObj) \
+case code: \
+{ \
+	int inc = isBigEndian ? -1 : 1; \
+	int pos = isBigEndian ? seqPos + sizeof(type) - 1 : seqPos; \
+	int j; \
+ \
+	for(j = 0 ; j < sizeof(type) ; j ++, pos += inc) \
+		dest[j] = selfUArray[pos]; \
+ \
+	toObj = IONUMBER(*((type *)dest)); \
+	seqPos += sizeof(type); \
+} \
 break;
+
 
 IO_METHOD(IoSeq, unpack)
 {
-	/*doc Sequence unpack(format)
+	/*doc Sequence unpack(optionalStartPosition, format)
 	
 	Unpacks self into a list using the format passed in. See Sequence pack.
 	
@@ -1775,14 +1791,27 @@ IO_METHOD(IoSeq, unpack)
 	l := "hello" unpack("5c")
 	*/
 
-	char *strFmt = IoMessage_locals_cStringArgAt_(m, locals, 0);
-	int strFmtLen = strlen(strFmt);
+	char *strFmt = NULL;
+	int strFmtLen = 0;
 	int isBigEndian = 0, i = 0, count = 0, seqPos = 0;
 	char val[16];
 	
 	IoList *values = IoList_new(IOSTATE);
-	UArray *selfUArray = DATA(self);
-	size_t selfUArraySize = UArray_size(selfUArray);
+	//UArray *selfUArray = DATA(self);
+	char *selfUArray = (char *)DATA(self)->data;
+	size_t selfUArraySize = UArray_size(DATA(self));
+
+	if(IoMessage_argCount(m) == 1)
+	{
+		strFmt = IoMessage_locals_cStringArgAt_(m, locals, 0);
+	}
+	else
+	{	
+		seqPos = IoMessage_locals_intArgAt_(m, locals, 0);
+		strFmt = IoMessage_locals_cStringArgAt_(m, locals, 1);
+	}
+
+	strFmtLen = strlen(strFmt);
 
 	if(strFmt[0] == '*') i = isBigEndian = 1;
 
@@ -1818,13 +1847,27 @@ IO_METHOD(IoSeq, unpack)
 				case 's': //string
 				{
 					UArray *ua = UArray_new();
+					char *uap = (char *)ua->data;
 					UArray_setItemType_(ua, CTYPE_uint8_t);
 					UArray_setEncoding_(ua, CENCODING_ASCII);
-
-					for( ; count > 0 ; count --) {
-						UArray_appendLong_(ua, UArray_longAt_(selfUArray, seqPos ++));
+					
+					if(count == 1) {
+						//while(c = UArray_longAt_(selfUArray, seqPos ++)) {
+						//	UArray_appendLong_(ua, c);
+						//}
+						count = strlen(&selfUArray[seqPos]);
+						UArray_setSize_(ua, count);
+						strcpy(uap, &selfUArray[seqPos]);
 					}
-
+					else {
+						//for( ; count > 0 ; count --) {
+						//	UArray_appendLong_(ua, UArray_longAt_(selfUArray, seqPos ++));
+						//}
+						UArray_setSize_(ua, count);
+						memcpy(uap, &selfUArray[seqPos], count);
+					}
+					seqPos += count;
+					count = 0;
 					v = IoSeq_newWithUArray_copy_(IOSTATE, ua, 0);
 					break;
 				}
