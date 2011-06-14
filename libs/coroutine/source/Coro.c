@@ -14,6 +14,8 @@
 	Ucontext arg support by Olivier Ansaldi
 	Ucontext x86-64 support by James Burgess and Jonathan Wright
 	Russ Cox for the newer portable ucontext implementions.
+        Mac OS X support by Jorge Acereda
+        Guessed setjmp support (Android/Mac OS X/others?) by Jorge Acereda
 
  Notes
 
@@ -291,7 +293,7 @@ void Coro_switchTo_(Coro *self, Coro *next)
 	SwitchToFiber(next->fiber);
 #elif defined(USE_UCONTEXT)
 	swapcontext(&self->env, &next->env);
-#elif defined(USE_SETJMP)
+#elif defined(USE_SETJMP) || defined USE_GUESSED_SETJMP
 	if (setjmp(self->env) == 0)
 	{
 		longjmp(next->env, 1);
@@ -300,12 +302,49 @@ void Coro_switchTo_(Coro *self, Coro *next)
 }
 
 // ---- setup ------------------------------------------
+#if defined USE_GUESSED_SETJMP
+// This isn't bulletproof, but seems to work Well Enough (TM)
+void Coro_setup(Coro *self, void *arg)
+{
+        uintptr_t stackend = Coro_stackSize(self) + (uintptr_t)Coro_stack(self);
+        uintptr_t start = (uintptr_t)Coro_Start;
+        /* since ucontext seems to be broken on amd64 */
+        globalCallbackBlock.context=((CallbackBlock*)arg)->context;
+        globalCallbackBlock.func=((CallbackBlock*)arg)->func;
+        setjmp(self->env);
+end:
+        {
+                uintptr_t i;
+                uintptr_t * sav = (uintptr_t*)self->env;
+                size_t sz = sizeof(self->env)/sizeof(sav[0]);
 
-#if defined(USE_SETJMP) && defined(__x86_64__)
+                // Try to guess PC index
+                i = sz;
+                while (i--)
+                        if (sav[i] == (uintptr_t)&&end)
+                                break;
+                assert(i < sz);
+                sav[i] = start;
+
+                // Try to guess SP index
+                i = sz;
+                while (i--)
+                        if (64 > (- sav[i] + (uintptr_t)&i))
+                                break;
+                assert(i < sz);
+                sav[i] = stackend - sizeof(uintptr_t) - 128;
+        }
+}
+
+#elif defined(USE_SETJMP) && defined(__x86_64__)
 
 void Coro_setup(Coro *self, void *arg)
 {
-	/* since ucontext seems to be broken on amg64 */
+        uintptr_t stackend = Coro_stackSize(self) + (uintptr_t)Coro_stack(self);
+        uintptr_t start = (uintptr_t)Coro_Start;
+	/* since ucontext seems to be broken on amd64 */
+	globalCallbackBlock.context=((CallbackBlock*)arg)->context;
+	globalCallbackBlock.func=((CallbackBlock*)arg)->func;
 
 	setjmp(self->env);
 	/* This is probably not nice in that it deals directly with
@@ -327,8 +366,21 @@ void Coro_setup(Coro *self, void *arg)
 	*   amd64 computer:
 	*   /usr/include/gento-multilib/amd64/bits/setjmp.h
 	*   Which was ultimatly included from setjmp.h in /usr/include. */
-	self->env[0].__jmpbuf[6] = ((unsigned long)(Coro_stack(self)));
-	self->env[0].__jmpbuf[7] = ((long)Coro_Start);
+
+#if defined(__APPLE__) && defined(__x86_64__)
+        *(uintptr_t*)(self->env+4) = stackend - 8;
+        *(uintptr_t*)(self->env+14) = start;
+#elif defined(__APPLE__)
+        *(uintptr_t*)(self->env+9) = stackend - 4;
+        *(uintptr_t*)(self->env+12) = start;
+#elif defined(_MSC_VER)
+        // Broken, use fibers
+        *(uintptr_t*)(self->env+4) = stackend - 8;
+        *(uintptr_t*)(self->env+5) = start;
+#else
+        self->env[0].__jmpbuf[6] = ((unsigned long)(Coro_stack(self)));
+        self->env[0].__jmpbuf[7] = ((long)Coro_Start);
+#endif
 }
 
 #elif defined(HAS_UCONTEXT_ON_PRE_SOLARIS_10)
