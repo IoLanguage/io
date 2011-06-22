@@ -434,7 +434,7 @@ ListTest := UnitTest clone do(
         assertEquals(3, l size)
         assertEquals(list(1, 5, 3), l)
 
-        # Testing the case, where the reciever is empty.
+        # Testing the case, where the receiver is empty.
         l := list()
         l mapInPlace(+ 1)
         assertEquals(0, l size)
@@ -635,7 +635,7 @@ ListTest := UnitTest clone do(
         )
         assertEquals(list("false", "true"), m keys sort)
 
-        # Testing the case, where the reciever is empty.
+        # Testing the case, where the receiver is empty.
         m := list() groupBy(size)
         assertEquals(0, m size)
         assertEquals(list(), m keys)

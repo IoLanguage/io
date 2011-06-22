@@ -205,7 +205,7 @@ options:
   --version   print the version of the interpreter and exit
   -h          print this help message and exit
   -e          eval a given expression and exit
-  -i          run the interpreter, after processsing the files passed
+  -i          run the interpreter, after processing the files passed
 
 """ println
         System exit
