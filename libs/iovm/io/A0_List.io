@@ -127,7 +127,7 @@ list(1, 2, 3, 4) detect(v, v > 2)
     )
 
     /*doc List mapInPlace(optionalIndex, value, message)
-    Replaces each item in the reciever with the result of applying a given message
+    Replaces each item in the receiver with the result of applying a given message
     to that item. Example:
 <pre>list(1, 5, 7, 2) mapInPlace(i, v, i + v)
 ==> list(1, 6, 9, 5)
