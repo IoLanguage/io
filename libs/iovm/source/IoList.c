@@ -1152,21 +1152,21 @@ IO_METHOD(IoList, fromEncodedList)
 
 IO_METHOD(IoList, join)
 {
-	/*doc List join(optionalSeperator)
+	/*doc List join(optionalSeparator)
 	Returns a String with the elements of the receiver concatenated into one String. 
-	If optionalSeperator is provided, it is used to separate the concatenated strings.
+	If optionalSeparator is provided, it is used to separate the concatenated strings.
 	This operation does not respect string encodings.
 	*/
 
 	List *items = IoList_rawList(self);
 	int itemCount = List_size(items);
-	IoSeq *seperator = IoMessage_locals_seqArgAt_(m, locals, 0);
+	IoSeq *separator = IoMessage_locals_seqArgAt_(m, locals, 0);
 	UArray *out = UArray_new();
 	int totalSize = 0;
-	int hasSeperator = !ISNIL(seperator);
-	int seperatorSize = hasSeperator ? IOSEQ_LENGTH(seperator) : 0;
+	int hasSeparator = !ISNIL(separator);
+	int separatorSize = hasSeparator ? IOSEQ_LENGTH(separator) : 0;
 	uint8_t *bytes; 
-	IOASSERT(ISSEQ(seperator), "seperator must be of type Sequence");
+	IOASSERT(ISSEQ(separator), "separator must be of type Sequence");
 	
 	LIST_FOREACH(items, i, v,
 			if(!ISSEQ(v))
@@ -1176,12 +1176,12 @@ IO_METHOD(IoList, join)
 			}
 			totalSize += IoSeq_rawSizeInBytes(v);
 			//printf("UArray_sizeInBytes(v): %i\n", (int) IoSeq_rawSizeInBytes(v));
-			if(hasSeperator) totalSize += seperatorSize;
+			if(hasSeparator) totalSize += separatorSize;
 	)
 	
-	if(hasSeperator) totalSize -= seperatorSize;
+	if(hasSeparator) totalSize -= separatorSize;
 	
-	//printf("seperatorSize: %i\n", (int) seperatorSize);
+	//printf("separatorSize: %i\n", (int) separatorSize);
 	//printf("totalSize: %i\n", (int) totalSize);
 	UArray_sizeTo_(out, totalSize+1);
 	
@@ -1192,10 +1192,10 @@ IO_METHOD(IoList, join)
 		memcpy((char *)bytes, (char *)IoSeq_rawBytes(v), (int)vsize);
 		bytes += vsize;
 		
-		if(hasSeperator && i != itemCount-1) 
+		if(hasSeparator && i != itemCount-1) 
 		{
-			memcpy(bytes, (char *)IoSeq_rawBytes(seperator), seperatorSize);
-			bytes += seperatorSize;
+			memcpy(bytes, (char *)IoSeq_rawBytes(separator), separatorSize);
+			bytes += separatorSize;
 		}
 	)
 	
