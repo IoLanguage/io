@@ -56,7 +56,7 @@ OauthRequest := Object clone do(
 		
 		debugWriteln("curl ", args join(" "))
         sc setArguments(args)
-        //System exit
+//System exit
         output := sc runAndReturnOutput
         //output := sc stdout readLines join("\n")
 		debugWriteln("curl exited")
@@ -101,10 +101,11 @@ OauthRequest := Object clone do(
 			escapedParams atPut(k, v urlEncoded)
 		)
 	*/
-	escapedParams := postParams
+		escapedParams := postParams
 		
-        baseSeq := list(httpMethod, url urlEncoded, oauthParams merge(postParams) merge(queryParams) asOauthBaseEncoded urlEncoded) join("&")
-        debugWriteln(baseSeq)
+        baseSeq := list(httpMethod, urlPath urlEncoded, oauthParams merge(postParams) merge(queryParams) asOauthBaseEncoded urlEncoded) join("&")
+debugWriteln(baseSeq)
+debugWriteln(signingKey)
 
 		authHeader := oauthParams clone atPut("oauth_signature", SHA1 hmac(signingKey, baseSeq) asBase64 removeLast) asOAuthHeader
 		debugWriteln(authHeader)
