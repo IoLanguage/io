@@ -363,11 +363,12 @@ char *IoObjcBridge_nameForTypeChar_(IoObjcBridge *self, char type);
 - (void)layoutManagerDidInvalidateLayout:(NSLayoutManager *)sender;
 
 //NSMenuDelegate
-- (BOOL)menu:(NSMenu *)menu updateItem:(NSMenuItem *)item atIndex:(int)index shouldCancel:(BOOL)shouldCancel;
+//- (BOOL)menu:(NSMenu *)menu updateItem:(NSMenuItem *)item atIndex:(int)index shouldCancel:(BOOL)shouldCancel;
 - (BOOL)menuHasKeyEquivalent:(NSMenu *)menu forEvent:(NSEvent *)event target:(id *)target action:(SEL*)action;
 - (void)menuNeedsUpdate:(NSMenu *)menu;
 - (int)numberOfItemsInMenu:(NSMenu *)menu;
 
+/*
 //NSMenuItem
 - (SEL)action;
 - (NSAttributedString *)attributedTitle;
@@ -422,7 +423,7 @@ char *IoObjcBridge_nameForTypeChar_(IoObjcBridge *self, char type);
 
 //NSMenuValidation
 - (BOOL)validateMenuItem:(id <NSMenuItem>)menuItem;
-
+*/
 //NSNibAwaking
 - (void)awakeFromNib;
 

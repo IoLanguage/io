@@ -829,7 +829,14 @@
 			isa = PBXProject;
 			buildConfigurationList = AA984A69090478C9002242A2 /* Build configuration list for PBXProject "osxvm" */;
 			compatibilityVersion = "Xcode 2.4";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 08FB7794FE84155DC02AAC07 /* osxvm */;
 			projectDirPath = "";
 			projectRoot = "";

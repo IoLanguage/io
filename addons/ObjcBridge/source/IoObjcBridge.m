@@ -248,7 +248,7 @@ IoMessage *IoObjcBridge_ioMessageForNSInvocation_(IoObjcBridge *self, NSInvocati
 	if (debug)
 	{
 		IoState_print_(IOSTATE, "Objc -> Io: ");
-		printf(IoObject_name([[invocation target] ioValue]));
+		printf("%s", IoObject_name([[invocation target] ioValue]));
 		IoState_print_(IOSTATE, " (%s)", IoObjcBridge_nameForTypeChar_(self, *returnType));
 		IoState_print_(IOSTATE, "%s(", methodName);
 	}
@@ -295,25 +295,29 @@ void IoObjcBridge_addValue_(IoObjcBridge *self, IoObject *v, id obj)
 
 const char *IoObjcBridge_selectorEncoding(IoObjcBridge *self, SEL selector)
 {
-	struct objc_method_description *description;
-	description = [@protocol(AddressBook) descriptionForInstanceMethod:selector];
-	if (description)
-		return description->types;
-	description = [@protocol(AppKit) descriptionForInstanceMethod:selector];
-	if (description)
-		return description->types;
-	description = [@protocol(Foundation) descriptionForInstanceMethod:selector];
-	if (description)
-		return description->types;
+	struct objc_method_description description;
+	
+	//description = [@protocol(AddressBook) descriptionForInstanceMethod:selector];
+	description = protocol_getMethodDescription(@protocol(AddressBook), selector, YES, YES);
+	if (description.name) return description.types;
+	
+	//description = [@protocol(AppKit) descriptionForInstanceMethod:selector];
+	description = protocol_getMethodDescription(@protocol(AppKit), selector, YES, YES);
+	if (description.name) return description.types;
+
+//	description = [@protocol(Foundation) descriptionForInstanceMethod:selector];
+	description = protocol_getMethodDescription(@protocol(Foundation), selector, YES, YES);
+	if (description.name) return description.types;
+
 	List *classes = IoObjcBridge_allClasses(self);
 	int i, max = List_size(classes);
 	for (i = 0; i < max; i++)
 	{
 		Class class = List_at_(classes, i);
-		struct objc_method *method = class_getInstanceMethod(class, selector);
+		Method method = class_getInstanceMethod(class, selector);
 		if (!method) method = class_getClassMethod(class, selector);
 		if (method)
-			return method->method_types;
+			return method_getTypeEncoding(method);
 	}
 	return NULL;
 }
@@ -417,9 +421,9 @@ void *IoObjcBridge_cValueForIoObject_ofType_error_(IoObjcBridge *self, IoObject 
 	{
 		case '@':
 			if (ISMUTABLESEQ(value))
-				DATA(self)->cValue.o = [NSMutableString stringWithCString:CSTRING(value)];
+				DATA(self)->cValue.o = [NSMutableString stringWithUTF8String:CSTRING(value)];
 			else if (ISSYMBOL(value))
-				DATA(self)->cValue.o = [NSString stringWithCString:CSTRING(value)];
+				DATA(self)->cValue.o = [NSString stringWithUTF8String:CSTRING(value)];
 			else if (ISNUMBER(value))
 				DATA(self)->cValue.o = [NSNumber numberWithInt:IoNumber_asInt(value)];
 			else if (ISIO2OBJC(value))

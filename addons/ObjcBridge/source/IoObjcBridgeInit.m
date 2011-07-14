@@ -5,7 +5,7 @@
 #include "IoState.h"
 #include "IoObjcBridge.h"
 #include "Io2Objc.h"
-
+ 
 void IoObjcBridgeInit(IoObject *context)
 {
 	IoState *self = IoObject_state(context);

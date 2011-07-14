@@ -23,9 +23,10 @@ Note: Assuming you wish to install to an alternate location, ensure you supply a
 
 Ensure you are at the top level of the source tree, that is where this file lives. From here, you are in the right spot to enter these commands:
 
-mkdir build && cd build
+mkdir build 
+cd build
 cmake ..
-make install
+sudo make install
 
 If you do not wish to install, just run "make" instead of "make install". Currently there is no analogue to the old "make linkInstall". However, if you have used linkInstall in previous versions of Io, you should never have to run linkInstall again, since it created symbolic links to where your Io source was at that time. The only time you would have to do this again, is if you moved the Io source from one dir to another. Most people don't.
 

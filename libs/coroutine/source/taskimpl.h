@@ -54,7 +54,10 @@
 
 //#include "task.h"
 
-#define nil ((void*)0)
+#ifndef nil
+	#define nil ((void*)0)
+#endif
+
 #define nelem(x) (sizeof(x)/sizeof((x)[0]))
 
 /*

@@ -1,5 +1,6 @@
 #include "Runtime.h"
 
+/*
 #ifdef GNUSTEP
 	unsigned int objc_getClassList(Class buffer[], int bufferLen)
 	{
@@ -18,6 +19,9 @@
 		return _objc_msgForward;
 	}
 #endif
+*/
+
+//class_getMethodImplementation
 
 @implementation NSMethodSignature(Io2)
 - (unsigned int)argumentSizeAtIndex:(unsigned int)index
@@ -32,8 +36,9 @@
 
 Class objc_makeClass(const char *name, const char *superName, BOOL isMetaClass)
 {
+	/*
 	Class superClass = objc_getClass(superName);
-	Class class = objc_calloc(1, sizeof(struct objc_class));
+	Class class = objc_calloc(1, sizeof(Class));
 	class->isa = (isMetaClass) ? superClass->isa->isa : objc_makeClass(name, superName, YES);
 	class->name = (isMetaClass) ? strdup(name) : class->isa->name;
 	class->info = (isMetaClass) ? CLS_META : CLS_CLASS;
@@ -46,10 +51,14 @@ Class objc_makeClass(const char *name, const char *superName, BOOL isMetaClass)
 	class->methodLists[0] = (struct objc_method_list *)-1;
 #endif
 	return class;
+	*/
+	printf("ERROR objc_makeClass not supported\n");
+	return nil;
 }
 
 void Io_class_addMethod(Class class, SEL sel, const char *types, IMP imp, BOOL toInstanceMethods)
 {
+	/*
 	if (class == 0) return;
 	if (toInstanceMethods == NO) class = class->isa;
 	size_t size = sizeof(struct objc_method_list) + sizeof(struct objc_method[1]);
@@ -66,4 +75,8 @@ void Io_class_addMethod(Class class, SEL sel, const char *types, IMP imp, BOOL t
 	extern void _objc_flush_caches(Class);
 	class_addMethods(class, methodList);
 	_objc_flush_caches(class);
+	
+	*/
+	printf("ERROR objc_makeClass not supported\n");
+	return;
 }

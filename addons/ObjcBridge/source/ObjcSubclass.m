@@ -40,11 +40,18 @@ static PHash *classProtos = NULL;
 
 + (Class)newClassNamed:(IoSymbol *)ioName proto:(IoObject *)proto
 {
+/*
+	//(Class cls = objc_allocateClassPair(Class superclass, CSTRING(ioName), 0);
+	//objc_registerClassPair(Class cls);
+
 	Class class = objc_makeClass(CSTRING(ioName), "ObjcSubclass", NO);
 	objc_addClass(class);
 	state = IoObject_state(proto);
 	if (class) PHash_at_put_([self classProtos], ioName, proto);
 	return class;
+*/
+	printf("ObjcSubclass ERROR: subclassing not supported\n");
+	return nil;
 }
 
 /*- (BOOL)respondsToSelector:(SEL)sel
@@ -72,7 +79,7 @@ static PHash *classProtos = NULL;
 
 - (void)setProto
 {
-	const char *s = [[self className] cString];
+	const char *s = [[self className] UTF8String];
 
 	if(IoObjcBridge_rawDebugOn(IoObjcBridge_sharedBridge()))
 		printf("classname = %s state = %p\n", s, state);
