@@ -107,7 +107,7 @@ Object squareBrackets := method(
 	call sender doMessage(call message argAt(0), call sender)
 )
 
-addVariableNamed: := method(name,
+addVariableNamed := method(name,
 	self setSlot(name, doString("method(?_" .. name .. ")"))
 	self setSlot("set" .. name asCapitalized .. ":", doString("method(value, self _" .. name .. " := value ; self)"))
 	nil
