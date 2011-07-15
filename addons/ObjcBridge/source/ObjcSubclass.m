@@ -17,7 +17,7 @@
  */
 
 static IoState *state = NULL;
-static PHash *classProtos = NULL;
+static CHash *classProtos = NULL;
 
 @implementation ObjcSubclass
 
@@ -26,16 +26,16 @@ static PHash *classProtos = NULL;
 	return [[self alloc] init];
 }
 
-+ (PHash *)classProtos
++ (CHash *)classProtos
 {
-	if (!classProtos) classProtos = PHash_new();
+	if (!classProtos) classProtos = CHash_new();
 	return classProtos;
 }
 
 + (void)mark
 {
 	if (classProtos)
-		PHASH_FOREACH(classProtos, k, v, IoObject_shouldMark(v));
+		CHASH_FOREACH(classProtos, k, v, IoObject_shouldMark(v));
 }
 
 + (Class)newClassNamed:(IoSymbol *)ioName proto:(IoObject *)proto
@@ -47,7 +47,7 @@ static PHash *classProtos = NULL;
 	Class class = objc_makeClass(CSTRING(ioName), "ObjcSubclass", NO);
 	objc_addClass(class);
 	state = IoObject_state(proto);
-	if (class) PHash_at_put_([self classProtos], ioName, proto);
+	if (class) CHash_at_put_([self classProtos], ioName, proto);
 	return class;
 */
 	printf("ObjcSubclass ERROR: subclassing not supported\n");
@@ -87,7 +87,7 @@ static PHash *classProtos = NULL;
 	if (state)
 	{
 		IoSymbol *className = IoState_symbolWithCString_(state, (char *)s);
-		IoObject *proto = (IoObject *)PHash_at_((void *)[[self class] classProtos], className);
+		IoObject *proto = (IoObject *)CHash_at_((void *)[[self class] classProtos], className);
 		[super init];
 		[self setIoObject: (IoObject *)IOCLONE(proto)];
 		[self setBridge: IoObjcBridge_sharedBridge()];

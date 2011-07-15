@@ -24,7 +24,7 @@ typedef IoObject Io2Objc;
 typedef struct
 {
 	IoObjcBridge *bridge;
-	id object; /* object object that this instance is talking to */
+	id object; /* object that this instance is talking to */
 	unsigned char *returnBuffer;
 	int returnBufferSize;
 } Io2ObjcData;

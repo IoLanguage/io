@@ -14,6 +14,25 @@
 #include "Io2Objc.h"
 #include "Objc2Io.h"
 
+
+int Pointer_equals_(void *v1, void *v2)
+{
+	return (uintptr_t)v1 == (uintptr_t)v2;
+}
+
+uintptr_t Pointer_superfastHash(const void *v)
+{
+	return SuperFastHash((char *)&v, sizeof(void *));
+}
+
+uintptr_t Pointer_murmurHash(const void *v)
+{
+	return (uintptr_t)MurmurHash2((const void *)&v, sizeof(void *), 0);
+}
+
+
+
+
 #define DATA(self) ((IoObjcBridgeData *)IoObject_dataPointer(self))
 
 static IoObjcBridge *sharedBridge = NULL;
@@ -72,8 +91,17 @@ IoObjcBridge *IoObjcBridge_proto(void *state)
 	IoObject_tag_(self, IoObjcBridge_newTag(state));
 
 	IoObject_setDataPointer_(self, objc_calloc(1, sizeof(IoObjcBridgeData)));
-	DATA(self)->io2objcs = PHash_new();
-	DATA(self)->objc2ios = PHash_new();
+
+	DATA(self)->io2objcs = CHash_new();
+	CHash_setEqualFunc_(DATA(self)->io2objcs, (CHashEqualFunc *)Pointer_equals_);
+	CHash_setHash1Func_(DATA(self)->io2objcs, (CHashHashFunc *)Pointer_superfastHash);
+	CHash_setHash2Func_(DATA(self)->io2objcs, (CHashHashFunc *)Pointer_murmurHash);
+	
+	DATA(self)->objc2ios = CHash_new();
+	CHash_setEqualFunc_(DATA(self)->objc2ios, (CHashEqualFunc *)Pointer_equals_);
+	CHash_setHash1Func_(DATA(self)->objc2ios, (CHashHashFunc *)Pointer_superfastHash);
+	CHash_setHash2Func_(DATA(self)->objc2ios, (CHashHashFunc *)Pointer_murmurHash);	
+	
 	IoObjcBridge_setMethodBuffer_(self, "nop");
 
 	sharedBridge = self;
@@ -113,11 +141,11 @@ void IoObjcBridge_free(IoObjcBridge *self)
 {
 	sharedBridge = NULL;
 	
-	PHASH_FOREACH(DATA(self)->objc2ios, k, v, [(id)v autorelease]);
-	PHASH_FOREACH(DATA(self)->io2objcs, k, v, Io2Objc_nullObjcBridge(v));
+	CHASH_FOREACH(DATA(self)->objc2ios, k, v, [(id)v autorelease]);
+	CHASH_FOREACH(DATA(self)->io2objcs, k, v, Io2Objc_nullObjcBridge(v));
 
-	PHash_free(DATA(self)->io2objcs);
-	PHash_free(DATA(self)->objc2ios);
+	CHash_free(DATA(self)->io2objcs);
+	CHash_free(DATA(self)->objc2ios);
 	objc_free(DATA(self)->methodNameBuffer);
 	objc_free(IoObject_dataPointer(self));
 }
@@ -125,12 +153,9 @@ void IoObjcBridge_free(IoObjcBridge *self)
 void IoObjcBridge_mark(IoObjcBridge *self)
 {
 	// mark Io2Objc objects
-	//PHASH_FOREACH(DATA(self)->io2objcs, k, v, IoObject_shouldMark(v));
-
+	//CHash_FOREACH(DATA(self)->io2objcs, k, v, IoObject_shouldMark(v));
 	// mark io values referenced by Objc2Io objects
-	
-	PHASH_FOREACH(DATA(self)->objc2ios, k, v, [(id)v mark]);
-
+	CHASH_FOREACH(DATA(self)->objc2ios, k, v, [(id)v mark]);
 	[ObjcSubclass mark]; // mark io protos for ObjcSubclasses
 }
 
@@ -210,27 +235,27 @@ IoObject *IoObjcBridge_classNamed(IoObjcBridge *self, IoObject *locals, IoMessag
 
 void *IoObjcBridge_proxyForId_(IoObjcBridge *self, id obj)
 {
-	Io2Objc *v = PHash_at_(DATA(self)->io2objcs, obj);
+	Io2Objc *v = CHash_at_(DATA(self)->io2objcs, obj);
 
 	if (!v)
 	{
 		v = Io2Objc_new(IOSTATE);
 		Io2Objc_setBridge(v, self);
 		Io2Objc_setObject(v, obj);
-		PHash_at_put_(DATA(self)->io2objcs, obj, v);
+		CHash_at_put_(DATA(self)->io2objcs, obj, v);
 	}
 	return v;
 }
 
 void *IoObjcBridge_proxyForIoObject_(IoObjcBridge *self, IoObject *v)
 {
-	Objc2Io *obj = PHash_at_(DATA(self)->objc2ios, v);
+	Objc2Io *obj = CHash_at_(DATA(self)->objc2ios, v);
 	if (!obj)
 	{
 		obj = [[[Objc2Io alloc] init] autorelease];
 		[obj setBridge:self];
 		[obj setIoObject:v];
-		//PHash_at_put_(DATA(self)->objc2ios, IOREF(v), obj);
+		//CHash_at_put_(DATA(self)->objc2ios, IOREF(v), obj);
 		IoObjcBridge_addValue_(self, v, obj);
 	}
 	return obj;
@@ -277,20 +302,20 @@ IoMessage *IoObjcBridge_ioMessageForNSInvocation_(IoObjcBridge *self, NSInvocati
 void IoObjcBridge_removeId_(IoObjcBridge *self, id obj)
 {
 	/* Called by Io2Objc instance when freed */
-	PHash_removeKey_(DATA(self)->io2objcs, obj);
+	CHash_removeKey_(DATA(self)->io2objcs, obj);
 }
 
 void IoObjcBridge_removeValue_(IoObjcBridge *self, IoObject *v)
 {
 	/* Called by Objc2Io instance when dealloced */
-	PHash_removeKey_(DATA(self)->objc2ios, v);
+	CHash_removeKey_(DATA(self)->objc2ios, v);
 }
 
 void IoObjcBridge_addValue_(IoObjcBridge *self, IoObject *v, id obj)
 {
 	/* Called by Objc2Io instance when alloced */
 	[obj retain];
-	PHash_at_put_(DATA(self)->objc2ios, IOREF(v), obj);
+	CHash_at_put_(DATA(self)->objc2ios, IOREF(v), obj);
 }
 
 const char *IoObjcBridge_selectorEncoding(IoObjcBridge *self, SEL selector)
@@ -369,19 +394,24 @@ IoObject *IoObjcBridge_ioValueForCValue_ofType_error_(IoObjcBridge *self, void *
 			break;
 		}
 		case 'c': return IoNumber_newWithDouble_(IOSTATE, *(char *)cValue);
-		case 'C': return IoNumber_newWithDouble_(IOSTATE, *(unsigned char *)cValue);
-		case 's': return IoNumber_newWithDouble_(IOSTATE, *(short *)cValue);
-		case 'S': return IoNumber_newWithDouble_(IOSTATE, *(unsigned short *)cValue);
 		case 'i': return IoNumber_newWithDouble_(IOSTATE, *(int *)cValue);
-		case 'I': return IoNumber_newWithDouble_(IOSTATE, *(unsigned int *)cValue);
+		case 's': return IoNumber_newWithDouble_(IOSTATE, *(short *)cValue);
 		case 'l': return IoNumber_newWithDouble_(IOSTATE, *(long *)cValue);
+		case 'q': return IoNumber_newWithDouble_(IOSTATE, *(long long *)cValue);
+		case 'C': return IoNumber_newWithDouble_(IOSTATE, *(unsigned char *)cValue);
+		case 'I': return IoNumber_newWithDouble_(IOSTATE, *(unsigned int *)cValue);
+		case 'S': return IoNumber_newWithDouble_(IOSTATE, *(unsigned short *)cValue);
 		case 'L': return IoNumber_newWithDouble_(IOSTATE, *(unsigned long *)cValue);
+		case 'Q': return IoNumber_newWithDouble_(IOSTATE, *(unsigned long long *)cValue);
 		case 'f': return IoNumber_newWithDouble_(IOSTATE, *(float *)cValue);
 		case 'd': return IoNumber_newWithDouble_(IOSTATE, *(double *)cValue);
-		case 'b': return IoNumber_newWithDouble_(IOSTATE, *(int *)cValue);  // ? Not correct
+		case 'B': return IoNumber_newWithDouble_(IOSTATE, *(int *)cValue);  // C++ bool
 		//case 'v': return IoNumber_newWithDouble_(IOSTATE, (long)cValue);  // ????
-		//case 'r': return IoState_symbolWithCString_(IOSTATE, (char *)cValue); // Can it happen ?
 		case '*': return IoState_symbolWithCString_(IOSTATE, *(char **)cValue);
+			//case '@': return IoState_symbolWithCString_(IOSTATE, (id *)cValue); 
+			//case ':': return IoState_symbolWithCString_(IOSTATE, (SEL *)cValue); 
+		//case '[': an array
+				
 		case '{':
 			if (!strncmp(cType, "{_NSPoint=ff}", 13))
 			{
@@ -487,9 +517,15 @@ void *IoObjcBridge_cValueForIoObject_ofType_error_(IoObjcBridge *self, IoObject 
 			else
 				*error = "requires a number";
 			break;
+		case 'Q':
+			if (ISNUMBER(value))
+				DATA(self)->cValue.LL = IoNumber_asLong(value);
+			else
+				*error = "requires a number";
+			break;
 		case 'l':case 'L':
 			if (ISNUMBER(value))
-				DATA(self)->cValue.l = IoNumber_asDouble(value);
+				DATA(self)->cValue.l = IoNumber_asLong(value);
 			else
 				*error = "requires a number";
 			break;

@@ -233,7 +233,7 @@ void forwardInvocation(id self, SEL sel, NSInvocation *invocation)
 
 	for (class = self->isa ; class != nil ; class = [class superclass]) // class->super_class)
 	{
-		Io2Objc *io2objc = PHash_at_(((IoObjcBridgeData *)DATA(bridge))->io2objcs, class);
+		Io2Objc *io2objc = CHash_at_(((IoObjcBridgeData *)DATA(bridge))->io2objcs, class);
 
 		if (io2objc == NULL)
 			continue;
@@ -263,7 +263,7 @@ void forwardInvocation(id self, SEL sel, NSInvocation *invocation)
 
 BOOL respondsToSelector(id self, SEL sel, SEL selector)
 {
-	Io2Objc *io2objc = PHash_at_(((IoObjcBridgeData *)DATA(IoObjcBridge_sharedBridge()))->io2objcs, self->isa);
+	Io2Objc *io2objc = CHash_at_(((IoObjcBridgeData *)DATA(IoObjcBridge_sharedBridge()))->io2objcs, self->isa);
 	IoObjcBridge *bridge = DATA(io2objc)->bridge;
 	IoState *state = IoObject_state(bridge);
 

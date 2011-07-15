@@ -1102,6 +1102,7 @@ int IoLexer_readCharacter(IoLexer *self)
 
 int IoLexer_readOpChar(IoLexer *self)
 {
+	//return IoLexer_readCharIn_(self, ":'~!@$%^&*-+=|\\<>?/");
 	return IoLexer_readCharIn_(self, ":'~!@$%^&*-+=|\\<>?/");
 }
 
@@ -1119,6 +1120,7 @@ int IoLexer_readLetter(IoLexer *self)
 {
 	return IoLexer_readCharInRange_(self, 'A', 'Z') ||
 		IoLexer_readCharInRange_(self, 'a', 'z') ||
+		IoLexer_readCharIn_(self, ":") ||
 		IoLexer_readNonASCIIChar_(self);
 }
 

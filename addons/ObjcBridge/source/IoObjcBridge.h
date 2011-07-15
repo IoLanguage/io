@@ -10,7 +10,7 @@
 #define IOOBJCBRIDGE_DEFINED 1
 
 #include "IoState.h"
-#include "PHash.h"
+#include "CHash.h"
 #include "Runtime.h"
 
 #define ISOBJCBRIDGE(self) IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoObjcBridge_rawClone)
@@ -19,8 +19,8 @@ typedef IoObject IoObjcBridge;
 
 typedef struct
 {
-	PHash *io2objcs;
-	PHash *objc2ios;
+	CHash *io2objcs;
+	CHash *objc2ios;
 
 	union cValue_tag
 	{
@@ -35,6 +35,7 @@ typedef struct
 		unsigned int I;
 		long l;
 		unsigned long L;
+		unsigned long long LL;
 		float f;
 		double d;
 		// bitfield

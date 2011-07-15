@@ -138,3 +138,5 @@ NSToolbarDisplayModeLabelOnly    := 3
 NSToolbarSizeModeDefault := 0
 NSToolbarSizeModeRegular := 1
 NSToolbarSizeModeSmall   := 2
+
+ObjcBridge autoLookupClassNamesOn
