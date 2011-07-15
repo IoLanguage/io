@@ -263,6 +263,7 @@ void *IoObjcBridge_proxyForIoObject_(IoObjcBridge *self, IoObject *v)
 
 IoMessage *IoObjcBridge_ioMessageForNSInvocation_(IoObjcBridge *self, NSInvocation *invocation)
 {
+	//printf("IoObjcBridge_ioMessageForNSInvocation_\n");
 	int index;
 	BOOL debug = IoObjcBridge_rawDebugOn(self);
 	NSMethodSignature *signature = [invocation methodSignature];
@@ -281,7 +282,8 @@ IoMessage *IoObjcBridge_ioMessageForNSInvocation_(IoObjcBridge *self, NSInvocati
 	{
 		char *error;
 		const char *type = [signature getArgumentTypeAtIndex:index];
-		unsigned char buffer[[signature argumentSizeAtIndex:index]];
+		//unsigned char buffer[[signature argumentSizeAtIndex:index]];
+		unsigned char buffer[10];
 		if (debug)
 		{
 			if (2 < index) printf(", ");

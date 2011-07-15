@@ -23,6 +23,7 @@
 
 //class_getMethodImplementation
 
+/*
 @implementation NSMethodSignature(Io2)
 - (unsigned int)argumentSizeAtIndex:(unsigned int)index
 {
@@ -33,6 +34,7 @@
 #endif
 }
 @end
+*/
 
 Class objc_makeClass(const char *name, const char *superName, BOOL isMetaClass)
 {

@@ -4,6 +4,7 @@
 
 #include "Objc2Io.h"
 #include "List.h"
+#include "IoObjcBridge.h"
 
 @implementation Objc2Io
 
@@ -67,10 +68,26 @@
 
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)selector
 {
+	if(IoObjcBridge_rawDebugOn(IoObjcBridge_sharedBridge()))
+	{
+		printf("methodSignatureForSelector(%s)\n", [NSStringFromSelector(selector) UTF8String]);
+	}
+	
+
+	@try 
 	{
 		const char *encoding = IoObjcBridge_selectorEncoding(bridge, selector);
 		if (encoding)
+		{
 			return [NSMethodSignature signatureWithObjCTypes:encoding];
+		}
+	}
+	@catch (NSException *e) 
+	{
+		if(IoObjcBridge_rawDebugOn(IoObjcBridge_sharedBridge()))
+		{
+			printf("no selector found, using default\n");
+		}		
 	}
 
 	// Note: some methods are dynamically generated, e.g. setter/getters by InterfaceBuilder
@@ -86,6 +103,7 @@
 		memset(encoding, '@', argCount + 3);
 		encoding[argCount + 3] = 0;
 		encoding[2] = ':';
+		printf("encoding: '%s'\n", encoding);
 		NSMethodSignature *signature = [NSMethodSignature signatureWithObjCTypes:encoding];
 		objc_free(encoding);
 		return signature;
@@ -94,7 +112,12 @@
 
 - (void)forwardInvocation:(NSInvocation *)invocation
 {
-
+	if(IoObjcBridge_rawDebugOn(IoObjcBridge_sharedBridge()))
+	{
+		printf("Objc2Io forwardInvocation:\n");
+		//printf("Objc2Io forwardInvocation: %s\n", [NSStringFromSelector([invocation selector]) UTF8String]);
+	}	
+	
 	// perform io message
 	
 	IoMessage *message = IoObjcBridge_ioMessageForNSInvocation_(bridge, invocation);

@@ -186,11 +186,17 @@ IoObject *Io2Objc_perform(Io2Objc *self, IoObject *locals, IoMessage *m)
 
 	/* --- invoke --------------------------- */
 	{
-		NS_DURING
+		@try 
+		{
 			[invocation invoke];
-		NS_HANDLER
-			IoState_error_(IOSTATE, m, "Io Io2Objc perform while sending '%s' %s - %s", methodName, [[localException name] UTF8String], [[localException reason] UTF8String]);
-		NS_ENDHANDLER
+		}
+		@catch (NSException *e) 
+		{
+			IoState_error_(IOSTATE, m, "Io Io2Objc perform while sending '%s' %s - %s", 
+						   methodName, 
+						   [[e name] UTF8String], 
+						   [[e reason] UTF8String]);
+		}
 	}
 
 	/* --- return result --------------------------- */
