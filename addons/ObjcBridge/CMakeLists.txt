@@ -1,5 +1,5 @@
 
-
+if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 # Builds the ObjcBridge addon
 
 # Create the _build bundle hierarchy if needed.
@@ -40,3 +40,5 @@ target_link_libraries(IoObjcBridge iovmall ${ObjcBridge_LIBRARY} IoBox /System/L
 # Install the addon to our global addons hierarchy.
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION lib/io/addons)
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/_build DESTINATION lib/io/addons/ObjcBridge)
+endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+
