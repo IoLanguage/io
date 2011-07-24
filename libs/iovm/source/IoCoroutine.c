@@ -179,7 +179,11 @@ IoObject *IoCoroutine_rawParentCoroutine(IoCoroutine *self)
 
 void IoCoroutine_rawSetRecentInChain_(IoCoroutine *self, IoObject *v)
 {
-	IoObject_setSlot_to_(self, IOSYMBOL("recentInChain"), v);
+	IoObject *c = self;
+	while(!ISNIL(c)){
+		IoObject_setSlot_to_(c, IOSYMBOL("recentInChain"), v);
+		c = IoCoroutine_rawParentCoroutine(c);
+	}
 }
 
 IO_METHOD(IoCoroutine, setRecentInChain)
