@@ -196,7 +196,7 @@ IO_METHOD(IoCoroutine, setRecentInChain)
 	
 	IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 0);
 
-	IoCoroutine_rawSetRecentInChain_(self, v)
+	IoCoroutine_rawSetRecentInChain_(self, v);
 
 	return self;
 }
