@@ -438,6 +438,8 @@ IoObject *IoCoroutine_rawResume(IoCoroutine *self)
 		//printf("IoCoroutine_rawResume: can't resume coro that hasn't been run - so running it\n");
 		IoCoroutine_rawRun(self);
 	}
+	
+	IoCoroutine_rawSetRecentInChain_(self, self);
 
 	return self;
 }
