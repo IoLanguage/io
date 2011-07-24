@@ -424,6 +424,8 @@ void IoCoroutine_raiseError(IoCoroutine *self, IoSymbol *description, IoMessage 
 
 IoObject *IoCoroutine_rawResume(IoCoroutine *self)
 {
+	IoCoroutine_rawSetRecentInChain_(self, self);
+		
 	if(DATA(self)->cid)
 	{
 		IoCoroutine *current = IoState_currentCoroutine(IOSTATE);
@@ -438,8 +440,6 @@ IoObject *IoCoroutine_rawResume(IoCoroutine *self)
 		//printf("IoCoroutine_rawResume: can't resume coro that hasn't been run - so running it\n");
 		IoCoroutine_rawRun(self);
 	}
-	
-	IoCoroutine_rawSetRecentInChain_(self, self);
 
 	return self;
 }
