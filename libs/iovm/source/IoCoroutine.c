@@ -70,6 +70,7 @@ void IoCoroutine_protoFinish(IoCoroutine *self)
 	{"implementation", IoCoroutine_implementation},
 	{"setMessageDebugging", IoCoroutine_setMessageDebugging},
 	{"freeStack", IoCoroutine_freeStack},
+	{"setRecentInChain", IoCoroutine_setRecentInChain},
 	{NULL, NULL},
 	};
 
@@ -172,6 +173,33 @@ void IoCoroutine_rawSetParentCoroutine_(IoCoroutine *self, IoObject *v)
 IoObject *IoCoroutine_rawParentCoroutine(IoCoroutine *self)
 {
 	return IoObject_getSlot_(self, IOSYMBOL("parentCoroutine"));
+}
+
+// recentInChain
+
+void IoCoroutine_rawSetRecentInChain_(IoCoroutine *self, IoObject *v)
+{
+	IoObject_setSlot_to_(self, IOSYMBOL("recentInChain"), v);
+}
+
+IO_METHOD(IoCoroutine, setRecentInChain)
+{
+	/*doc Coroutine setRecentInChain(aCoro)
+	Sets the most recently run coroutine of the chain.
+	Sets all the recentInChain in a direct path up to the top of the coro chain starting at this coro.
+	Returns self.
+	*/
+	
+	IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 0);
+
+	IoCoroutine_rawSetRecentInChain_(self, v)
+
+	return self;
+}
+
+IoObject *IoCoroutine_rawRecentInChain(IoCoroutine *self)
+{
+	return IoObject_getSlot_(self, IOSYMBOL("recentInChain"));
 }
 
 // result
