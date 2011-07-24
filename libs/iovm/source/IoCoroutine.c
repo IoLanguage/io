@@ -348,6 +348,8 @@ void IoCoroutine_clearStack(IoCoroutine *self)
 
 void IoCoroutine_rawRun(IoCoroutine *self)
 {
+	IoCoroutine_rawSetRecentInChain_(self, self);
+	
 	Coro *coro = DATA(self)->cid;
 
 	if (!coro)
