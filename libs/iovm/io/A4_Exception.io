@@ -65,12 +65,9 @@ Coroutine do(
 	//metadoc Coroutine category Core
 	//metadoc Coroutine description Coroutine is an primitive for Io's lightweight cooperative C-stack based threads.
 
-	/*
 	init := method(
-		resend
-		"Coroutine init" p[rintln
+		recentInChain = nil
 	)
-	*/
 	
 	//doc Coroutine stackSize Stack size allocated for each new coroutine. Coroutines will automatically chain themselves as need if more stack space is required.
 	//doc Coroutine setStackSize(aNumber) Sets the stack size in bytes to allocate for new Coros. Returns self.
@@ -85,6 +82,9 @@ Coroutine do(
 
 	//doc Coroutine setParentCoroutine(aCoro) Sets the parent coroutine. Returns self.
 	parentCoroutine ::= nil
+	
+	//doc Coroutine recentInChain Returns the coroutine in the coro chain which was most recently run, so you can pause and resume coroutine based constructs like try and actors.
+	recentInChain := Coroutine
 
 	//doc Coroutine runTarget The object which the coroutine will send a message to when it starts.
 	//doc Coroutine setRunTarget(anObject)
