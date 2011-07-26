@@ -29,19 +29,24 @@ FileTest := UnitTest clone do(
 		assertEquals(1, file exitStatus)
 	)
 
+    plat := System platform
+	isOnWindows := plat beginsWithSeq("Windows") or plat beginsWithSeq("mingw")
+
 	testPOpenSetsTermStatusToSignalWhenSignaled := method(
-		// try to open and close pipe quickly so that SIGPIPE is generated
-		sigpipes := 0
-		othersignals := 0
-		100 repeat(
-			file := File with("echo hello") popen close
-			if(file termSignal == 13,
-				sigpipes = sigpipes + 1
-			,
-				if(file termSignal isNil not, othersignals = othersignals + 1))
-		)
-		assertEquals(0, othersignals)
-		assertNotEquals(0, sigpipes)
+		if(isOnWindows not,
+            // try to open and close pipe quickly so that SIGPIPE is generated
+            sigpipes := 0
+            othersignals := 0
+            100 repeat(
+                file := File with("echo hello") popen close
+                if(file termSignal == 13,
+                    sigpipes = sigpipes + 1
+                ,
+                    if(file termSignal isNil not, othersignals = othersignals + 1))
+            )
+            assertEquals(0, othersignals)
+            assertNotEquals(0, sigpipes)
+        )
 	)
 
 	testPOpenReadToEndPreventsSIGPIPE := method(
