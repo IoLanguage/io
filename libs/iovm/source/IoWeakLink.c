@@ -17,6 +17,7 @@
 #include "IoObject.h"
 #include "IoNumber.h"
 
+static const char *protoId = "WeakLink";
 #define DATA(self) ((IoWeakLinkData *)IoObject_dataPointer(self))
 
 IoTag *IoWeakLink_newTag(void *state)
@@ -69,7 +70,7 @@ IoObject *IoWeakLink_proto(void *state)
 	IoObject_setDataPointer_(self, io_calloc(1, sizeof(IoWeakLinkData)));
 	IoObject_tag_(self, IoWeakLink_newTag(state));
 	DATA(self)->link = NULL;
-	IoState_registerProtoWithFunc_((IoState *)state, self, IoWeakLink_proto);
+	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
 
 	IoObject_addMethodTable_(self, methodTable);
 	return self;
@@ -85,7 +86,7 @@ IoObject *IoWeakLink_rawClone(IoWeakLink *proto)
 
 IoObject *IoWeakLink_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoWeakLink_proto);
+	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 

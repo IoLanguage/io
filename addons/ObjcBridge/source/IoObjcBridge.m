@@ -13,6 +13,8 @@
 #include "IoNumber.h"
 #include "Io2Objc.h"
 #include "Objc2Io.h"
+#include "Hash_superfast.h"
+#include "Hash_murmur.h"
 
 
 int Pointer_equals_(void *v1, void *v2)
@@ -31,7 +33,7 @@ uintptr_t Pointer_murmurHash(const void *v)
 }
 
 
-
+static const char *protoId = "ObjcBridge";
 
 #define DATA(self) ((IoObjcBridgeData *)IoObject_dataPointer(self))
 
@@ -106,7 +108,7 @@ IoObjcBridge *IoObjcBridge_proto(void *state)
 
 	sharedBridge = self;
 
-	IoState_registerProtoWithFunc_(state, self, IoObjcBridge_proto);
+	IoState_registerProtoWithFunc_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -134,12 +136,13 @@ IoObjcBridge *IoObjcBridge_rawClone(IoObjcBridge *self)
 
 IoObjcBridge *IoObjcBridge_new(void *state)
 {
-	return IoState_protoWithInitFunction_(state, IoObjcBridge_proto);
+	return sharedBridge;
+	//return IoState_protoWithInitFunction_(state, protoId);
 }
 
 void IoObjcBridge_free(IoObjcBridge *self)
 {
-	sharedBridge = NULL;
+	//sharedBridge = NULL;
 	
 	CHASH_FOREACH(DATA(self)->objc2ios, k, v, [(id)v autorelease]);
 	CHASH_FOREACH(DATA(self)->io2objcs, k, v, Io2Objc_nullObjcBridge(v));

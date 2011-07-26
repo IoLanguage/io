@@ -17,6 +17,8 @@ A DLL Loader by Kentaro A. Kurahone.
 #include "IoDynLib.h"
 #include "DynLib.h"
 
+static const char *protoId = "DynLib";
+
 #define DATA(self) ((DynLib *)IoObject_dataPointer(self))
 
 static IoTag *IoDynLib_newTag(void *state)
@@ -52,7 +54,7 @@ IoObject *IoDynLib_proto(void *state)
 	IoObject_setDataPointer_(self, DynLib_new());
 	DynLib_setInitArg_(DATA(self), state);
 	DynLib_setFreeArg_(DATA(self), state);
-	IoState_registerProtoWithFunc_((IoState *)state, self, IoDynLib_proto);
+	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
 
 	IoObject_addMethodTable_(self, methodTable);
 	return self;
@@ -60,7 +62,7 @@ IoObject *IoDynLib_proto(void *state)
 
 IoDynLib *IoDynLib_new(void *state)
 {
-	IoDynLib *proto = IoState_protoWithInitFunction_((IoState *)state, IoDynLib_proto);
+	IoDynLib *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 
@@ -194,15 +196,15 @@ intptr_t bouncer(IoBlock *self, intptr_t ret, intptr_t a, intptr_t b, intptr_t c
 	if (m == NULL)
 		m = IoMessage_new(IOSTATE);
 	if (0 < argNames->size)
-		IoMessage_setCachedArg_toInt_(m, 0, a);
+		IoMessage_setCachedArg_toInt_(m, 0, (int)a);
 	if (1 < argNames->size)
-		IoMessage_setCachedArg_toInt_(m, 1, b);
+		IoMessage_setCachedArg_toInt_(m, 1, (int)b);
 	if (2 < argNames->size)
-		IoMessage_setCachedArg_toInt_(m, 2, c);
+		IoMessage_setCachedArg_toInt_(m, 2, (int)c);
 	if (3 < argNames->size)
-		IoMessage_setCachedArg_toInt_(m, 3, d);
+		IoMessage_setCachedArg_toInt_(m, 3, (int)d);
 	if (4 < argNames->size)
-		IoMessage_setCachedArg_toInt_(m, 4, e);
+		IoMessage_setCachedArg_toInt_(m, 4, (int)e);
 
 	n = IoBlock_activate(self, lobby, lobby, m, lobby);
 
@@ -435,7 +437,7 @@ IoDynLib *IoDynLib_justCall(IoDynLib *self, IoObject *locals, IoMessage *m, int 
 	}
 	else
 	{
-		rc = IoDynLib_rawNonVoidCall(f, IoMessage_argCount(m), params);
+		rc = (int)IoDynLib_rawNonVoidCall(f, IoMessage_argCount(m), params);
 	}
 
 	IoState_popCollectorPause(IOSTATE);
@@ -477,7 +479,7 @@ IoDynLib *IoDynLib_callPluginInitFunc(IoDynLib *self, IoObject *locals, IoMessag
 	Returns the result as a Number or raises an exception on error.
 	*/
 	
-	int rc = 0;
+	intptr_t rc = 0;
 	intptr_t *params = NULL;
 	void *f = DynLib_pointerForSymbolName_(DATA(self),
 									CSTRING(IoMessage_locals_symbolArgAt_(m, locals, 0)));

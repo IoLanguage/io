@@ -45,7 +45,7 @@ IOINLINE void *PHash_at_(PHash *self, void *k)
 
 IOINLINE unsigned int PHash_count(PHash *self)
 {
-	return self->keyCount;
+	return (unsigned int)self->keyCount;
 }
 
 IOINLINE int PHashKey_hasKey_(PHash *self, void *key)
@@ -124,7 +124,7 @@ IOINLINE void PHash_clean(PHash *self)
 {\
 	PHash *_self = (self);\
 	unsigned char *_records = _self->records;\
-	unsigned int _i, _size = _self->size;\
+	size_t _i, _size = _self->size;\
 	void *pkey;\
 	void *pvalue;\
 	\

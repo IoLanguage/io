@@ -429,6 +429,7 @@ IoObject *Io2Objc_super(Io2Objc *self, IoObject *locals, IoMessage *m)
 	return result;
 }
 
+
 /*IoObject *Io2Objc_print(Io2Objc *self, IoObject *locals, IoMessage *m)
 {
 	printf("%s", [[DATA(self)->object description] cString]);

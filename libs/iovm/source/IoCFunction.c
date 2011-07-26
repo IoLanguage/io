@@ -16,6 +16,8 @@ methods that require the speed of C or binding to a C library.
 #include "IoNumber.h"
 #include <stddef.h>
 
+static const char *protoId = "IoCFunction";
+
 #define DATA(self) ((IoCFunctionData *)IoObject_dataPointer(self))
 
 IoTag *IoCFunction_newTag(void *state)
@@ -37,7 +39,7 @@ IoCFunction *IoCFunction_proto(void *state)
 	IoObject_setDataPointer_(self, io_calloc(1, sizeof(IoCFunctionData)));
 	DATA(self)->func = IoObject_self;
 	//IoObject_isActivatable_(self, 1);
-	IoState_registerProtoWithFunc_((IoState *)state, self, IoCFunction_proto);
+	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
 	return self;
 }
 
@@ -79,7 +81,7 @@ IoCFunction *IoCFunction_newWithFunctionPointer_tag_name_(void *state,
 												IoTag *typeTag,
 												const char *funcName)
 {
-	IoCFunction *proto = IoState_protoWithInitFunction_((IoState *)state, IoCFunction_proto);
+	IoCFunction *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
 	IoCFunction *self = IOCLONE(proto);
 	DATA(self)->typeTag = typeTag;
 	DATA(self)->func = func;
@@ -236,7 +238,7 @@ void IoCFunction_protoFinish(void *state)
 	{NULL, NULL},
 	};
 
-	IoObject *self = IoState_protoWithInitFunction_((IoState *)state, IoCFunction_proto);
+	IoObject *self = IoState_protoWithInitFunction_((IoState *)state, protoId);
 	IoObject_setSlot_to_(self, IOSYMBOL("type"), IOSYMBOL("CFunction"));
 	IoObject_addMethodTable_(self, methodTable);
 }

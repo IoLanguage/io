@@ -28,6 +28,7 @@ set(SRCS
 		"${CMAKE_CURRENT_SOURCE_DIR}/source/Objc2Io.m"
 		"${CMAKE_CURRENT_SOURCE_DIR}/source/ObjcSubclass.m"
 		"${CMAKE_CURRENT_SOURCE_DIR}/source/Runtime.m"
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoLanguage.m"
 )
 
 set(CMAKE_EXE_LINKER_FLAGS "-framework AppKit")

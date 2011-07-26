@@ -49,6 +49,9 @@ static int rename(void* a, void* b) { return 0; }
 static char* getcwd(char* buf, int size) { return 0; }
 #endif
 
+
+static const char *protoId = "File";
+
 #define DATA(self) ((IoFileData *)IoObject_dataPointer(self))
 
 int fileExists(char *path);
@@ -140,7 +143,7 @@ IoFile *IoFile_proto(void *state)
 	DATA(self)->path  = IOSYMBOL("");
 	DATA(self)->mode  = IOSYMBOL("r+");
 	DATA(self)->flags = IOFILE_FLAGS_NONE;
-	IoState_registerProtoWithFunc_((IoState *)state, self, IoFile_proto);
+	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
 
 	IoObject_addMethodTable_(self, methodTable);
 	IoFile_statInit(self);
@@ -159,7 +162,7 @@ IoFile *IoFile_rawClone(IoFile *proto)
 
 IoFile *IoFile_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoFile_proto);
+	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 
@@ -619,7 +622,7 @@ IO_METHOD(IoFile, contents)
 	*/
 
 	UArray *ba = UArray_new();
-	int result = -1;
+	long result = -1;
 
 	if (DATA(self)->stream == stdin)
 	{
@@ -651,7 +654,7 @@ IO_METHOD(IoFile, asBuffer)
 	*/
 
 	UArray *ba = UArray_new();
-	int result = UArray_readFromFilePath_(ba, IoSeq_rawUArray(DATA(self)->path));
+	long result = UArray_readFromFilePath_(ba, IoSeq_rawUArray(DATA(self)->path));
 
 	if (-1 != result)
 	{
@@ -1022,7 +1025,7 @@ IO_METHOD(IoFile, size)
 
 	if (fp)
 	{
-		int fileSize;
+		long fileSize;
 		fseek(fp, 0, SEEK_END);
 		fileSize = ftell(fp);
 		fclose(fp);

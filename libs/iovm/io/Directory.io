@@ -138,9 +138,16 @@ Directory.io
 		directoryNamed(name)
 	)
 
+	//doc Directory localItems All subitems excluding '.' and '..'.
+	Directory localItems := method( 
+		items select(item, if(item name != "." and item name != ".."))
+	)
+
 	//doc Directory remove Removes the directory.
 	remove := method(
+		localItems foreach(remove)
 		File clone setPath(self path) remove
+		self
 	)
 
 	//doc Directory folderNamedCreateIfAbsent(name) Deprecated. Returns a new Directory object in the directory with the specified name.

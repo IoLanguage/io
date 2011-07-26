@@ -132,7 +132,7 @@ IOINLINE void CHash_clean(CHash *self)
 {\
 	CHash *_self = (self);\
 	unsigned char *_records = _self->records;\
-	unsigned int _i, _size = _self->size;\
+	size_t _i, _size = _self->size;\
 	void *pkey;\
 	void *pvalue;\
 	\

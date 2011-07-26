@@ -1,5 +1,5 @@
-/*   Copyright (c) 2003, Steve Dekorte
-*   All rights reserved. See _BSDLicense.txt.
+/* Copyright (c) 2003, Steve Dekorte
+*  All rights reserved. See _BSDLicense.txt.
 */
 
 #include "Objc2Io.h"
@@ -11,6 +11,7 @@
 - init
 {
 	self = [super init];
+	bridge = IoObjcBridge_sharedBridge();
 	//[obj retain]; // debug test
 	return self;
 }
@@ -68,7 +69,7 @@
 
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)selector
 {
-	if(IoObjcBridge_rawDebugOn(IoObjcBridge_sharedBridge()))
+	if(IoObjcBridge_rawDebugOn(bridge))
 	{
 		printf("methodSignatureForSelector(%s)\n", [NSStringFromSelector(selector) UTF8String]);
 	}
@@ -140,6 +141,11 @@
 			IoState_error_(IoObject_state(bridge), message, "Io Objc2Io forwardInvocation: %s - return type:'%s'", error, returnType);
 		[invocation setReturnValue:cResult];
 	}
+}
+
+- (NSString *)description
+{
+	return [NSString stringWithUTF8String:IoObject_name(ioValue)];
 }
 
 @end

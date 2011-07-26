@@ -13,6 +13,7 @@ Binding to GNU readline.
 
 #include "IoReadLine.h"
 
+static const char *protoId = "ReadLine";
 
 IoTag *IoReadLine_newTag(void *state)
 {
@@ -43,7 +44,7 @@ IoReadLine *IoReadLine_proto(void *state)
 	rl_initialize();
 	using_history();
 
-	IoState_registerProtoWithFunc_((IoState *)state, self, IoReadLine_proto);
+	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
 
 	IoObject_addMethodTable_(self, methodTable);
 

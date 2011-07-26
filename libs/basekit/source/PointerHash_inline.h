@@ -140,7 +140,7 @@ IOINLINE void PointerHash_clean(PointerHash *self)
 {\
 	PointerHash *_self = (self);\
 	unsigned char *_records = _self->records;\
-	unsigned int _i, _size = _self->size;\
+	size_t _i, _size = _self->size;\
 	void *pkey;\
 	void *pvalue;\
 	\

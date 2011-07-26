@@ -12,6 +12,8 @@
 #include "IoObjcBridge.h"
 #include "Runtime.h"
 
+#define ISOBJC2IO(self) IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)Objc2Io_rawClone)
+
 @interface Objc2Io : NSObject // NSProxy
 {
 	IoObjcBridge *bridge;

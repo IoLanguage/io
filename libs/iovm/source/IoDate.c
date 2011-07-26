@@ -16,6 +16,8 @@
 #include <string.h>
 #include <time.h>
 
+static const char *protoId = "IoDate";
+
 #define DATA(self) ((Date *)IoObject_dataPointer(self))
 
 IoTag *IoDate_newTag(void *state)
@@ -86,7 +88,7 @@ IoDate *IoDate_proto(void *state)
 	*/
 	
 	IoObject_setSlot_to_(self, IOSYMBOL("format"), IOSYMBOL("%Y-%m-%d %H:%M:%S %Z"));
-	IoState_registerProtoWithFunc_((IoState *)state, self, IoDate_proto);
+	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
 
 	IoObject_addMethodTable_(self, methodTable);
 	return self;
@@ -102,7 +104,7 @@ IoDate *IoDate_rawClone(IoDate *proto)
 
 IOVM_API IoDate *IoDate_new(void *state)
 {
-	IoDate *proto = IoState_protoWithInitFunction_((IoState *)state, IoDate_proto);
+	IoDate *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 
@@ -443,7 +445,7 @@ IO_METHOD(IoDate, gmtOffset)
 #if defined(__CYGWIN__) || defined(_WIN32)
 	int minutes = _timezone / 60;
 #else
-	int minutes = tp->tm_gmtoff / 60;
+	int minutes = (int)(tp->tm_gmtoff / 60);
 #endif
 	snprintf(buf, sizeof(buf), "%+03d%02d", minutes / 60, minutes % 60);
 

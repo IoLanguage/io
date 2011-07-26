@@ -44,6 +44,7 @@ But the cost to performance seems to outweigh the need to cover this case for no
 #include "IoMessage_parser.h"
 #include "IoMessage_opShuffle.h"
 
+static const char *protoId = "Message";
 #define DATA(self) ((IoMessageData *)IoObject_dataPointer(self))
 
 /*
@@ -149,7 +150,7 @@ IoMessage *IoMessage_proto(void *state)
 	d->label = IOSYMBOL("[unlabeled]");
 	//d->charNumber = -1;
 	d->lineNumber = -1;
-	IoState_registerProtoWithFunc_((IoState *)state, self, IoMessage_proto);
+	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
 
 	IoObject_addMethodTable_(self, methodTable);
 	return self;
@@ -171,7 +172,7 @@ IoMessage *IoMessage_rawClone(IoMessage *proto)
 
 IoMessage *IoMessage_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoMessage_proto);
+	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
 	IoObject *self = IOCLONE(proto);
 	return self;
 }
@@ -185,7 +186,7 @@ void IoMessage_copy_(IoMessage *self, IoMessage *other)
 	{
 		List *l1 = DATA(self)->args;
 		List *l2 = DATA(other)->args;
-		int i, max = List_size(l2);
+		size_t i, max = List_size(l2);
 		List_removeAll(l1);
 
 		for (i = 0; i < max; i ++)
@@ -275,7 +276,7 @@ void IoMessage_mark(IoMessage *self)
 
 void IoMessage_free(IoMessage *self)
 {
-	IoMessageData *d = (IoMessageData *)IoObject_dataPointer(self);
+	//IoMessageData *d = (IoMessageData *)IoObject_dataPointer(self);
 	
 	if (DATA(self)->args)
 	{
@@ -572,7 +573,7 @@ IoObject *IoMessage_locals_performOn_(IoMessage *self, IoObject *locals, IoObjec
 
 int IoMessage_argCount(IoMessage *self)
 {
-	return List_size(DATA(self)->args);
+	return (int)List_size(DATA(self)->args);
 }
 
 void IoMessage_assertArgCount_receiver_(IoMessage *self, int n, IoObject *receiver)
@@ -775,7 +776,7 @@ void IoMessage_appendDescriptionTo_follow_(IoMessage *self, UArray *ba, int foll
 		UArray_appendCString_(ba, CSTRING(data->name));
 
 		{
-			int i, max = List_size(DATA(self)->args);
+			size_t i, max = List_size(DATA(self)->args);
 
 			if (max > 0)
 			{

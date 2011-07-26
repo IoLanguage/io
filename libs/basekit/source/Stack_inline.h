@@ -65,7 +65,7 @@ IOINLINE size_t Stack_totalSize(const Stack *self)
 
 IOINLINE int Stack_count(const Stack *self)
 {
-	return (self->top - self->items);
+	return (int)(self->top - self->items);
 }
 
 IOINLINE void Stack_push_(Stack *self, void *item)

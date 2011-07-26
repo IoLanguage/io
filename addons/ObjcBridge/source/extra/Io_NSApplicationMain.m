@@ -6,7 +6,7 @@ IoObject *Io_NSApplicationMainRun(IoState *state)
 {
     NSString *path = [[[NSBundle mainBundle] resourcePath] 
     stringByAppendingPathComponent:@"main.io"];
-    IoState_doFile_(state, (char *)[path cString]);
+    IoState_doFile_(state, (char *)[path UTF8String]);
     
     NSApplicationMain(state->mainArgs->argc, (const char **)state->mainArgs->argv);
     return 0x0;

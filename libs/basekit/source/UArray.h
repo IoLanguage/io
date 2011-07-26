@@ -73,7 +73,7 @@ typedef struct
 	uint8_t *data;  // memory for items
 	size_t size;    // number of items
 	CTYPE itemType;
-	size_t itemSize;
+	int itemSize;
 	uintptr_t oddHash;
 	uintptr_t evenHash;
 	uint8_t encoding;
@@ -264,12 +264,12 @@ BASEKIT_API void UArray_sortBy_(UArray *self, UArraySortCallback *cmp);
 #define DUARRAY_INTOTHER(MACRO, OP, TYPE1, self, other) \
 	switch (other->itemType)\
 	{\
-		case CTYPE_uint8_t:  MACRO(OP, TYPE1, self, uint8_t,  other); break;\
-		case CTYPE_uint16_t: MACRO(OP, TYPE1, self, uint16_t, other); break;\
-		case CTYPE_uint32_t: MACRO(OP, TYPE1, self, uint32_t, other); break;\
-		case CTYPE_int8_t:   MACRO(OP, TYPE1, self, int8_t,   other); break;\
-		case CTYPE_int16_t:  MACRO(OP, TYPE1, self, int16_t,  other); break;\
-		case CTYPE_int32_t:  MACRO(OP, TYPE1, self, int32_t,  other); break;\
+		case CTYPE_uint8_t:   MACRO(OP, TYPE1, self, uint8_t,  other); break;\
+		case CTYPE_uint16_t:  MACRO(OP, TYPE1, self, uint16_t, other); break;\
+		case CTYPE_uint32_t:  MACRO(OP, TYPE1, self, uint32_t, other); break;\
+		case CTYPE_int8_t:    MACRO(OP, TYPE1, self, int8_t,   other); break;\
+		case CTYPE_int16_t:   MACRO(OP, TYPE1, self, int16_t,  other); break;\
+		case CTYPE_int32_t:   MACRO(OP, TYPE1, self, int32_t,  other); break;\
 		case CTYPE_uintptr_t: MACRO(OP, TYPE1, self, uintptr_t, other); break;\
 	}
 
@@ -391,7 +391,7 @@ BASEKIT_API void UArray_sortBy_(UArray *self, UArraySortCallback *cmp);
 
 #define UARRAY_RFOREACHTYPE(self, i, v, code, TYPE)\
 	{\
-	long i;\
+	size_t i;\
 	for(i = self->size - 1; i > -1; i --)\
 	{\
 		TYPE v = ((TYPE *)self->data)[i];\
@@ -443,6 +443,7 @@ BASEKIT_API void UArray_sortBy_(UArray *self, UArraySortCallback *cmp);
 		case CTYPE_int64_t:   UARRAY_FOREACHTYPEASSIGN(self, i, v, code, int64_t);   break;\
 		case CTYPE_float32_t: UARRAY_FOREACHTYPEASSIGN(self, i, v, code, float32_t); break;\
 		case CTYPE_float64_t: UARRAY_FOREACHTYPEASSIGN(self, i, v, code, float64_t); break;\
+		case CTYPE_uintptr_t: UARRAY_FOREACHTYPEASSIGN(self, i, v, code, uintptr_t); break;\
 	}
 	
 #define UARRAY_FOREACHTYPEASSIGN_VALUE_UNUSED(self, i, code, TYPE)\
@@ -467,6 +468,7 @@ BASEKIT_API void UArray_sortBy_(UArray *self, UArraySortCallback *cmp);
 		case CTYPE_int64_t:   UARRAY_FOREACHTYPEASSIGN_VALUE_UNUSED(self, i, code, int64_t);   break;\
 		case CTYPE_float32_t: UARRAY_FOREACHTYPEASSIGN_VALUE_UNUSED(self, i, code, float32_t); break;\
 		case CTYPE_float64_t: UARRAY_FOREACHTYPEASSIGN_VALUE_UNUSED(self, i, code, float64_t); break;\
+		case CTYPE_uintptr_t: UARRAY_FOREACHTYPEASSIGN_VALUE_UNUSED(self, i, code, uintptr_t); break;\
 	}
 
 // ----------------------------

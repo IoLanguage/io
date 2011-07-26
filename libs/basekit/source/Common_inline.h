@@ -28,12 +28,14 @@ Kudos to Daniel A. Koepke
 #endif
 
 #if defined __XCODE__ && (TARGET_ASPEN_SIMULATOR || TARGET_OS_ASPEN)
-	#define NON_EXTERN_INLINES
+	#define NON_EXTERN_INLINES 1
 #else
 	#if defined __GNUC__ && __GNUC__ >= 4
-		//#define NON_EXTERN_INLINES
+		#define NON_EXTERN_INLINES 1
 	#endif
 #endif
+
+//#define NON_EXTERN_INLINES 1
 
 #ifdef NON_EXTERN_INLINES
 
@@ -70,7 +72,8 @@ Kudos to Daniel A. Koepke
 #else
 	// in .h 
 	#define IO_DECLARE_INLINES
-	#define IOINLINE extern inline
+	//#define IOINLINE extern inline
+	#define IOINLINE  inline
 #endif 
 
 #endif //__MINGW32__

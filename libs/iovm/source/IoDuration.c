@@ -13,6 +13,8 @@ A container for a duration of time.
 #include "IoNumber.h"
 #include <time.h>
 
+static const char *protoId = "Duration";
+
 #define DATA(self) ((Duration *)IoObject_dataPointer(self))
 
 // extend message object
@@ -70,7 +72,7 @@ IoDuration *IoDuration_proto(void *state)
 
 	IoObject_setDataPointer_(self, Duration_new());
 	IoObject_tag_(self, IoDuration_newTag(state));
-	IoState_registerProtoWithFunc_((IoState *)state, self, IoDuration_proto);
+	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
 
 	IoObject_addMethodTable_(self, methodTable);
 	return self;
@@ -86,7 +88,7 @@ IoDuration *IoDuration_rawClone(IoDuration *proto)
 
 IoDuration *IoDuration_new(void *state)
 {
-	IoDuration *proto = IoState_protoWithInitFunction_((IoState *)state, IoDuration_proto);
+	IoDuration *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 

@@ -529,7 +529,7 @@ void UArray_changed(UArray *self)
 
 uintptr_t UArray_superfastHash(UArray *self)
 {
-	return SuperFastHash((char *)(self->data), UArray_sizeInBytes(self));
+	return SuperFastHash((char *)(self->data), (int)UArray_sizeInBytes(self));
 }
 
 uintptr_t UArray_fnvHash(UArray *self)
@@ -539,7 +539,7 @@ uintptr_t UArray_fnvHash(UArray *self)
 
 uintptr_t UArray_murmurHash(UArray *self)
 {
-	return (uintptr_t)MurmurHash2((const void *)(self->data), UArray_sizeInBytes(self), 0);
+	return (uintptr_t)MurmurHash2((const void *)(self->data), (int)UArray_sizeInBytes(self), 0);
 }
 
 // even/odd hashes for cuckoo hashtables

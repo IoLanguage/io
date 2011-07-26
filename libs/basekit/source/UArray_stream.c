@@ -89,8 +89,8 @@ int UArray_readLineFromCStream_(UArray *self, FILE *stream)
 
 		while (fgets(s, CHUNK_SIZE, stream) != NULL)
 		{
-			int i;
-			int start = strlen(s) - 1;
+			long i;
+			long start = strlen(s) - 1;
 
 			/* Remove trailing newline characters */
 			for (i = start; (i >= 0) && ((s[i] == '\n') || (s[i] == '\r')) ; s[i--] = '\0') ;

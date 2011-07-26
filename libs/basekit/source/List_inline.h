@@ -145,7 +145,7 @@ IOINLINE void List_compactIfNeeded(List *self)
 
 IOINLINE void List_removeIndex_(List *self, size_t index)
 {
-	if (index >= 0 && index < self->size)
+	if (index < self->size)
 	{
 		if ( index != self->size - 1)
 		{
@@ -163,19 +163,9 @@ IOINLINE void List_removeIndex_toIndex_(List *self, size_t index1, size_t index2
 {
 	size_t length;
 
-	if (index1 < 0)
-	{
-		index1 = 0;
-	}
-
 	if (index1 > self->size - 1)
 	{
 		index1 = self->size - 1;
-	}
-
-	if (index2 < 0)
-	{
-		index2 = 0;
 	}
 
 	if (index2 > self->size - 1)
@@ -248,11 +238,6 @@ IOINLINE void List_removeItems_(List *self, List *other)
 
 IOINLINE void List_at_insert_(List *self, size_t index, void *item)
 {
-	if (index < 0)
-	{
-		return;
-	}
-
 	if (index > self->size - 1)
 	{
 		List_preallocateToSize_(self, index + 1);
@@ -271,11 +256,6 @@ IOINLINE void List_at_insert_(List *self, size_t index, void *item)
 
 IOINLINE void List_at_put_(List *self, size_t index, void *item)
 {
-	if (index < 0)
-	{
-		return;
-	}
-
 	List_ifNeededSizeTo_(self, index);
 	self->items[index] = item;
 
@@ -380,7 +360,7 @@ IOINLINE int List_removeTrueFor_(List *self, ListCollectCallback* callback)
 
 	self->size = putIndex;
 
-	return getIndex - putIndex;
+	return (int)(getIndex - putIndex);
 }
 
 IOINLINE void List_qsort(List *self, ListSortCallback *callback)

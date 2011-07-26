@@ -168,13 +168,13 @@ size_t ucs2len(ucs2 const *s)
  */
 int ucs2cmp(ucs2 const *s1, ucs2 const *s2)
 {
-  int retval = s1 - s2;
+  uintptr_t retval = (s1 - s2);
 
   if (s1 && s2) 
     while ((retval = (*s1 - *s2)) && (*s1++) && (*s2++))
       ;
 
-  return retval;
+  return (int)retval;
 }
 
 /*
