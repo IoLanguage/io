@@ -36,7 +36,7 @@ Kudos to Daniel A. Koepke
 #endif
 
 //#define NON_EXTERN_INLINES 1
-
+#undef NON_EXTERN_INLINES
 #ifdef NON_EXTERN_INLINES
 
 #ifdef IO_IN_C_FILE
@@ -72,8 +72,11 @@ Kudos to Daniel A. Koepke
 #else
 	// in .h 
 	#define IO_DECLARE_INLINES
-	//#define IOINLINE extern inline
+#ifdef __linux__
+	#define IOINLINE extern inline
+#else
 	#define IOINLINE  inline
+#endif // defined(__LINUX__)
 #endif 
 
 #endif //__MINGW32__

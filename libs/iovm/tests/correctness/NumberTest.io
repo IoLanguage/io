@@ -83,7 +83,8 @@ NumberTest := UnitTest clone do(
 		assertEquals("1.2", 1.2 asString)
 
 		# Windows formats exponents to 3 digits
-		isOnWindows := System platform beginsWithSeq("Windows")
+		plat := System platform
+		isOnWindows := plat beginsWithSeq("Windows") or plat beginsWithSeq("mingw")
 		if(isOnWindows,
 			mersenne8 := "2.147484e+009",
 			mersenne8 := "2.147484e+09")

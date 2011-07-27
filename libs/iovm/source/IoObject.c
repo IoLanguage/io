@@ -2022,7 +2022,7 @@ IO_METHOD(IoObject, become)
 	return self;
 }
 
-IOVM_API IoObject *IoObject_hasDirtySlot_(IoObject *self, IoMessage *m, IoObject *locals)
+IOVM_API IoObject *IoObject_hasDirtySlot_(IoObject *self, IoObject *locals, IoMessage *m)
 {
 	//IoSymbol *slotName = IoMessage_locals_symbolArgAt_(m, locals, 0);
 	int result = PHash_hasDirtyKey_(IoObject_slots(self), IOREF(IoMessage_locals_symbolArgAt_(m, locals, 0)));

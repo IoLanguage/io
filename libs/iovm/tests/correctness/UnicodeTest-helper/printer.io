@@ -10,6 +10,6 @@ if(args at(1) == "--print",
 )
 
 if(args at(1) == "--arg",
-	args at(2) print
+	args at(2) asMutable replaceSeq("\\n", "\n") print
 	exit
 )
