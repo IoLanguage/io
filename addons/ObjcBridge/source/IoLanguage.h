@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "IoState.h"
+#import "Objc2Io.h"
 
 @interface IoLanguage : NSObject 
 {
@@ -15,9 +16,16 @@
 	id delegate;
 }
 
++ shared;
+
 - (void)setDelegate:anObject;
 - delegate;
 
+- (Objc2Io *)lobby;
+
 - doString:(NSString *)s;
+
+- runIoResource:(NSString *)name;
+- runMain;
 
 @end

@@ -45,6 +45,9 @@ typedef struct
 		NSPoint point;
 		NSSize size;
 		NSRect rect;
+		CGPoint cgPoint;
+		CGSize cgSize;
+		CGRect cgRect;
 	} cValue;
 
 	char *methodNameBuffer;

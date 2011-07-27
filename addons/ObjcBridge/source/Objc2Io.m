@@ -148,4 +148,35 @@
 	return [NSString stringWithUTF8String:IoObject_name(ioValue)];
 }
 
+- (NSArray *)_rawSlotNames
+{
+	NSMutableArray *names = [NSMutableArray array];
+	
+	PHASH_FOREACH(IoObject_slots(ioValue), key, value, 
+					  [names addObject:[NSString stringWithUTF8String:CSTRING(key)]];
+	);
+
+	[names sortUsingSelector:@selector(compare:)];
+	return names;
+}
+
+- (size_t)_rawSlotCount
+{
+	return PHash_size(IoObject_slots(ioValue));	
+}
+
+- (Objc2Io *)_rawGetSlot:(NSString *)slotName
+{
+	IoSeq *name = IoState_symbolWithCString_(IoObject_state(ioValue), [slotName UTF8String]);
+	IoObject *ioObj = IoObject_rawGetSlot_(ioValue, name);
+	Objc2Io *obj = [[[Objc2Io alloc] init] autorelease];
+	[obj setIoObject:ioObj];
+	return obj;
+}
+
+- (BOOL)_rawIsActivatable
+{
+	return (BOOL)IoObject_isActivatable(ioValue);
+}
+
 @end

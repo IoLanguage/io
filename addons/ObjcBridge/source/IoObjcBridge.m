@@ -340,7 +340,7 @@ const char *IoObjcBridge_selectorEncoding(IoObjcBridge *self, SEL selector)
 	if (description.name) return description.types;
 
 	List *classes = IoObjcBridge_allClasses(self);
-	int i, max = List_size(classes);
+	size_t i, max = List_size(classes);
 	for (i = 0; i < max; i++)
 	{
 		Class class = List_at_(classes, i);
@@ -359,6 +359,7 @@ const char *IoObjcBridge_selectorEncoding(IoObjcBridge *self, SEL selector)
 IoObject *IoObjcBridge_ioValueForCValue_ofType_error_(IoObjcBridge *self, void *cValue, const char *cType, char **error)
 {
 	*error = NULL;
+	//printf("cType: %s\n", cType);
 	switch (*cType)
 	{
 		case '@':
@@ -372,6 +373,10 @@ IoObject *IoObjcBridge_ioValueForCValue_ofType_error_(IoObjcBridge *self, void *
 		//		return IONUMBER([object doubleValue]);
 			else if ([object isKindOfClass:[Objc2Io class]])
 				return [object ioValue];
+			else if ([object isKindOfClass:[NSString class]])
+				return IOSYMBOL([object UTF8String]);
+			else if ([object isKindOfClass:[NSNumber class]])
+				return IONUMBER([object doubleValue]);
 			else
 				return IoObjcBridge_proxyForId_(self, object);
 		}
@@ -418,6 +423,14 @@ IoObject *IoObjcBridge_ioValueForCValue_ofType_error_(IoObjcBridge *self, void *
 		//case '[': an array
 				
 		case '{':
+			if (!strncmp(cType, "{CGPoint=dd}", 12))
+			{
+				CGPoint p = *(CGPoint *)cValue;
+				vec2f v;
+				v.x = p.x;
+				v.y = p.y;
+				return IoSeq_newVec2f(IOSTATE, v);
+			}
 			if (!strncmp(cType, "{_NSPoint=ff}", 13))
 			{
 				NSPoint p = *(NSPoint *)cValue;
@@ -434,7 +447,20 @@ IoObject *IoObjcBridge_ioValueForCValue_ofType_error_(IoObjcBridge *self, void *
 				v.y = s.height;
 				return IoSeq_newVec2f(IOSTATE, v);
 			}
+			else if (!strncmp(cType, "{CGSize=dd}", 11))
+			{
+				CGSize s = *(NSSize *)cValue;
+				vec2f v;
+				v.x = s.width;
+				v.y = s.height;
+				return IoSeq_newVec2f(IOSTATE, v);
+			}
 			else if (!strncmp(cType, "{_NSRect={_NSPoint=ff}{_NSSize=ff}}", 35))
+			{
+				NSRect r = *(NSRect *)cValue;
+				return IoBox_newSet(IOSTATE, r.origin.x, r.origin.y, 0, r.size.width, r.size.height, 0);
+			}
+			else if (!strncmp(cType, "{CGRect={CGPoint=dd}{CGSize=dd}}", 32))
 			{
 				NSRect r = *(NSRect *)cValue;
 				return IoBox_newSet(IOSTATE, r.origin.x, r.origin.y, 0, r.size.width, r.size.height, 0);
@@ -576,7 +602,8 @@ void *IoObjcBridge_cValueForIoObject_ofType_error_(IoObjcBridge *self, IoObject 
 				*error = "no match for argument type";
 			break;
 		case '{':
-			if (!strncmp(cType, "{_NSPoint=ff}", 13))
+			if (!strcmp(cType, "{_NSPoint=ff}"))
+			{
 				if (ISVECTOR(value))
 				{
 					vec2f v = IoSeq_vec2f(value);
@@ -584,8 +611,25 @@ void *IoObjcBridge_cValueForIoObject_ofType_error_(IoObjcBridge *self, IoObject 
 					DATA(self)->cValue.point.y = v.y;
 				}
 				else
+				{
 					*error = "requires a Point";
-			else if (!strncmp(cType, "{_NSSize=ff}", 12))
+				}
+			}
+			else if (!strcmp(cType, "{CGPoint=dd}"))
+			{
+				if (ISVECTOR(value))
+				{
+					vec2f v = IoSeq_vec2f(value);
+					DATA(self)->cValue.point.x = v.x;
+					DATA(self)->cValue.point.y = v.y;
+				}
+				else
+				{
+					*error = "requires a Point";
+				}
+			}
+			else if (!strcmp(cType, "{_NSSize=ff}"))
+			{
 				if (ISVECTOR(value))
 				{
 					vec2f v = IoSeq_vec2f(value);
@@ -593,23 +637,63 @@ void *IoObjcBridge_cValueForIoObject_ofType_error_(IoObjcBridge *self, IoObject 
 					DATA(self)->cValue.size.height = v.y;
 				}
 				else
+				{
 					*error = "requires a Point";
-			else if (!strncmp(cType, "{_NSRect={_NSPoint=ff}{_NSSize=ff}}", 35))
+				}
+			}
+			else if (!strcmp(cType, "{CGSize=dd}"))
+			{
+				if (ISVECTOR(value))
+				{
+					vec2f v = IoSeq_vec2f(value);
+					DATA(self)->cValue.size.width  = v.x;
+					DATA(self)->cValue.size.height = v.y;
+				}
+				else
+				{
+					*error = "requires a Point";
+				}
+			}
+			else if (!strcmp(cType, "{_NSRect={_NSPoint=ff}{_NSSize=ff}}"))
+			{
 				if (ISBOX(value))
 				{
 					vec2f v1 = IoSeq_vec2f(IoBox_rawOrigin(value));
 					vec2f v2 = IoSeq_vec2f(IoBox_rawSize(value));
 					
 					DATA(self)->cValue.rect.origin.x = v1.x;
-					DATA(self)->cValue.rect.origin.y = v1. y;
+					DATA(self)->cValue.rect.origin.y = v1.y;
 					
 					DATA(self)->cValue.rect.size.width  = v2.x;
 					DATA(self)->cValue.rect.size.height = v2.y;
 				}
 				else
+				{
 					*error = "requires a Box containing 2 points";
+				}
+			}
+			else if (!strcmp(cType, "{CGRect={CGPoint=dd}{CGSize=dd}}"))
+			{
+				if (ISBOX(value))
+				{
+					vec2f v1 = IoSeq_vec2f(IoBox_rawOrigin(value));
+					vec2f v2 = IoSeq_vec2f(IoBox_rawSize(value));
+					
+					DATA(self)->cValue.rect.origin.x = v1.x;
+					DATA(self)->cValue.rect.origin.y = v1.y;
+					
+					DATA(self)->cValue.rect.size.width  = v2.x;
+					DATA(self)->cValue.rect.size.height = v2.y;
+				}
+				else
+				{
+					*error = "requires a Box containing 2 points";
+				}
+			}
 			else
+			{
 				*error = "no match for argument type";
+			}
 			break;
 		default:
 			*error = "no match for argument type";
@@ -621,11 +705,11 @@ void *IoObjcBridge_cValueForIoObject_ofType_error_(IoObjcBridge *self, IoObject 
 
 void IoObjcBridge_setMethodBuffer_(IoObjcBridge *self, char *name)
 {
-	int length = strlen(name);
+	size_t length = strlen(name);
 	if (length > DATA(self)->methodNameBufferSize)
 	{
 		DATA(self)->methodNameBuffer = objc_realloc(DATA(self)->methodNameBuffer, length+1);
-		DATA(self)->methodNameBufferSize = length;
+		DATA(self)->methodNameBufferSize = (int)length;
 	}
 	strcpy(DATA(self)->methodNameBuffer, name);
 }

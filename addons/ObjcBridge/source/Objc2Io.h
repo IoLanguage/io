@@ -30,6 +30,14 @@
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)selector;
 - (void)forwardInvocation:(NSInvocation *)invocation;
 
+- (NSString *)description;
+
+- (NSArray *)_rawSlotNames;
+- (size_t)_rawSlotCount;
+- (Objc2Io *)_rawGetSlot:(NSString *)slotName;
+- (BOOL)_rawIsActivatable;
+
+
 @end
 
 #endif

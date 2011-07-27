@@ -11,10 +11,11 @@
 		AABB98FD13DD7EA500B6A0CB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AABB98FB13DD7EA500B6A0CB /* InfoPlist.strings */; };
 		AABB98FF13DD7EA500B6A0CB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AABB98FE13DD7EA500B6A0CB /* main.m */; };
 		AABB990313DD7EA500B6A0CB /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = AABB990113DD7EA500B6A0CB /* Credits.rtf */; };
-		AABB990613DD7EA500B6A0CB /* IoTestAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AABB990513DD7EA500B6A0CB /* IoTestAppDelegate.m */; };
+		AABB990613DD7EA500B6A0CB /* IoCLIController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABB990513DD7EA500B6A0CB /* IoCLIController.m */; };
 		AABB990913DD7EA500B6A0CB /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABB990713DD7EA500B6A0CB /* MainMenu.xib */; };
 		AABB993713DE37FE00B6A0CB /* IoLanguageKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AABB993313DE379F00B6A0CB /* IoLanguageKit.framework */; };
 		AABB993913DE384400B6A0CB /* IoLanguageKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = AABB993313DE379F00B6A0CB /* IoLanguageKit.framework */; };
+		AAC9B16913DF8DD5001AA0D2 /* IoBrowserController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC9B16813DF8DD5001AA0D2 /* IoBrowserController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,10 +59,12 @@
 		AABB98FE13DD7EA500B6A0CB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		AABB990013DD7EA500B6A0CB /* IoTest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IoTest-Prefix.pch"; sourceTree = "<group>"; };
 		AABB990213DD7EA500B6A0CB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		AABB990413DD7EA500B6A0CB /* IoTestAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IoTestAppDelegate.h; sourceTree = "<group>"; };
-		AABB990513DD7EA500B6A0CB /* IoTestAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IoTestAppDelegate.m; sourceTree = "<group>"; };
+		AABB990413DD7EA500B6A0CB /* IoCLIController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IoCLIController.h; sourceTree = "<group>"; };
+		AABB990513DD7EA500B6A0CB /* IoCLIController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IoCLIController.m; sourceTree = "<group>"; };
 		AABB990813DD7EA500B6A0CB /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		AABB992B13DE379F00B6A0CB /* IoLanguageKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = IoLanguageKit.xcodeproj; path = ../IoLanguageKit/IoLanguageKit.xcodeproj; sourceTree = "<group>"; };
+		AAC9B16713DF8DD5001AA0D2 /* IoBrowserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoBrowserController.h; sourceTree = "<group>"; };
+		AAC9B16813DF8DD5001AA0D2 /* IoBrowserController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IoBrowserController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,8 +120,10 @@
 		AABB98F813DD7EA500B6A0CB /* IoTest */ = {
 			isa = PBXGroup;
 			children = (
-				AABB990413DD7EA500B6A0CB /* IoTestAppDelegate.h */,
-				AABB990513DD7EA500B6A0CB /* IoTestAppDelegate.m */,
+				AAC9B16713DF8DD5001AA0D2 /* IoBrowserController.h */,
+				AAC9B16813DF8DD5001AA0D2 /* IoBrowserController.m */,
+				AABB990413DD7EA500B6A0CB /* IoCLIController.h */,
+				AABB990513DD7EA500B6A0CB /* IoCLIController.m */,
 				AABB990713DD7EA500B6A0CB /* MainMenu.xib */,
 				AABB98F913DD7EA500B6A0CB /* Supporting Files */,
 			);
@@ -224,7 +229,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				AABB98FF13DD7EA500B6A0CB /* main.m in Sources */,
-				AABB990613DD7EA500B6A0CB /* IoTestAppDelegate.m in Sources */,
+				AABB990613DD7EA500B6A0CB /* IoCLIController.m in Sources */,
+				AAC9B16913DF8DD5001AA0D2 /* IoBrowserController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -323,6 +329,7 @@
 				GCC_PREFIX_HEADER = "IoTest/IoTest-Prefix.pch";
 				INFOPLIST_FILE = "IoTest/IoTest-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -339,6 +346,7 @@
 				GCC_PREFIX_HEADER = "IoTest/IoTest-Prefix.pch";
 				INFOPLIST_FILE = "IoTest/IoTest-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
