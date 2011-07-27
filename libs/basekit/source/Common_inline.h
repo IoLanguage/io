@@ -40,13 +40,13 @@ Kudos to Daniel A. Koepke
 
 #if defined(__APPLE__)
 	#ifdef IO_IN_C_FILE
-	// in .c 
-	#define IO_DECLARE_INLINES
-	#define IOINLINE 
+		// in .c 
+		#define IO_DECLARE_INLINES
+		#define IOINLINE 
 	#else
-	// in .h 
-	#define IO_DECLARE_INLINES
-	#define IOINLINE inline
+		// in .h 
+		#define IO_DECLARE_INLINES
+		#define IOINLINE inline
 	#endif 
 #elif defined(__MINGW32__)
 	#ifdef IO_IN_C_FILE
@@ -70,16 +70,12 @@ Kudos to Daniel A. Koepke
 	#endif 
 #else
 	#ifdef IO_IN_C_FILE
-	// in .c 
-	#define IO_DECLARE_INLINES
-	#define IOINLINE 
+		// in .c 
+		#define IO_DECLARE_INLINES
+		#define IOINLINE 
 	#else
-	// in .h 
-	#define IO_DECLARE_INLINES
-	#define IOINLINE inline
+		// in .h 
+		#define IO_DECLARE_INLINES
+		#define IOINLINE inline
 	#endif 
 #endif
-
-/*
-#endif
-*/
