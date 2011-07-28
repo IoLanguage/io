@@ -58,7 +58,7 @@ Kudos to Daniel A. Koepke
 		#define IO_DECLARE_INLINES
 		#define IOINLINE static inline
 	#endif 
-#elif defined(__LINUX__)
+#elif defined(__linux__)
 	#ifdef IO_IN_C_FILE
 		// in .c 
 		#define IO_DECLARE_INLINES
