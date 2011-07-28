@@ -158,4 +158,17 @@ NO  := 0
 
 Object io2ObjcType := "[NOT an Io2Objc object]"
 
-ObjcBridge autoLookupClassNamesOn
+//ObjcBridge autoLookupClassNamesOn
+
+Lobby forward := method(
+	m := call message name
+	v := ObjcBridge classNamed(m)
+	if(v, return v)
+	Importer import(call)
+)
+
+
+
+//writeln("adding search path: ", NSBundle mainBundle resourcePath)
+Importer addSearchPath(NSBundle mainBundle resourcePath) // so we'll try to find protos in the App's resource folder
+
