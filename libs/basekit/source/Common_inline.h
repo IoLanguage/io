@@ -23,6 +23,7 @@ Kudos to Daniel A. Koepke
 #else
 */
 
+/*
 #if defined(__APPLE__)
 	#include "TargetConditionals.h"
 #endif
@@ -34,55 +35,47 @@ Kudos to Daniel A. Koepke
 		#define NON_EXTERN_INLINES 1
 	#endif
 #endif
-
-//#define NON_EXTERN_INLINES 1
-#undef NON_EXTERN_INLINES
-#ifdef NON_EXTERN_INLINES
-
-#ifdef IO_IN_C_FILE
-	// in .c 
-	#define IO_DECLARE_INLINES
-	#define IOINLINE 
-#else
-	// in .h 
-	#define IO_DECLARE_INLINES
-	#define IOINLINE inline
-#endif 
-
-#else
-
-#ifdef __MINGW32__
-
-#ifdef IO_IN_C_FILE
-	// in .c 
-	#define IO_DECLARE_INLINES
-	#define IOINLINE inline
-#else
-	// in .h 
-	#define IO_DECLARE_INLINES
-	#define IOINLINE static inline
-#endif 
-
-#else //__MINGW32__
-
-#ifdef IO_IN_C_FILE
-	// in .c 
-	#define IO_DECLARE_INLINES
-	#define IOINLINE inline
-#else
-	// in .h 
-	#define IO_DECLARE_INLINES
-#ifdef __linux__
-	#define IOINLINE extern inline
-#else
-	#define IOINLINE  inline
-#endif // defined(__LINUX__)
-#endif 
-
-#endif //__MINGW32__
-
-#endif
-
-/*
-#endif
 */
+
+
+#if defined(__APPLE__)
+	#ifdef IO_IN_C_FILE
+		// in .c 
+		#define IO_DECLARE_INLINES
+		#define IOINLINE 
+	#else
+		// in .h 
+		#define IO_DECLARE_INLINES
+		#define IOINLINE inline
+	#endif 
+#elif defined(__MINGW32__)
+	#ifdef IO_IN_C_FILE
+		// in .c 
+		#define IO_DECLARE_INLINES
+		#define IOINLINE inline
+	#else
+		// in .h 
+		#define IO_DECLARE_INLINES
+		#define IOINLINE static inline
+	#endif 
+#elif defined(__LINUX__)
+	#ifdef IO_IN_C_FILE
+		// in .c 
+		#define IO_DECLARE_INLINES
+		#define IOINLINE inline
+	#else
+		// in .h 
+		#define IO_DECLARE_INLINES
+		#define IOINLINE extern inline
+	#endif 
+#else
+	#ifdef IO_IN_C_FILE
+		// in .c 
+		#define IO_DECLARE_INLINES
+		#define IOINLINE 
+	#else
+		// in .h 
+		#define IO_DECLARE_INLINES
+		#define IOINLINE inline
+	#endif 
+#endif

@@ -50,5 +50,8 @@ IoObject *Io2Objc_updateSlot(Io2Objc *self, IoObject *locals, IoMessage *m);
 IoObject *Io2Objc_super(Io2Objc *self, IoObject *locals, IoMessage *m);
 //IoObject *Io2Objc_print(Io2Objc *self, IoObject *locals, IoMessage *m);
 //IoObject *Io2Objc_slotSummary(Io2Objc *self, IoObject *locals, IoMessage *m);
+IoObject *Io2Objc_isIo2Objc(Io2Objc *self, IoObject *locals, IoMessage *m);
+IoObject *Io2Objc_io2ObjcType(Io2Objc *self, IoObject *locals, IoMessage *m);
+
 
 #endif

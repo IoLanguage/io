@@ -25,28 +25,47 @@
 //void IoAddonsInit(IoObject *context);
 //IoState_setBindingsInitCallback(self, (IoStateBindingsInitCallback *)IoAddonsInit);
 
+static IoLanguage *shared = nil;
+
++ (id)shared
+{
+	if (!shared) shared = [[IoLanguage alloc] init];
+	return shared;
+}
+
+void IoBoxInit(IoObject *context);
 void IoObjcBridgeInit(IoObject *context);
 
 void IoLanguageStateBindingsInitCallback(void *context, void *state)
 {
+	IoBoxInit(state);
 	IoObjcBridgeInit(state);
 }
 
 void IoLanguageStatePrintCallback(void *context, const UArray *array)
 {
 	id self = (id)context;
+	NSString *out = [NSString stringWithUTF8String:(const char *)UArray_bytes(array)];
 	if([self delegate] && [[self delegate] respondsToSelector:@selector(printCallback:)])
 	{
-		[[self delegate] printCallback:[NSString stringWithUTF8String:(const char *)UArray_bytes(array)]];
+		[[self delegate] printCallback:out];
+	}
+	else
+	{
+		printf("%s", [out UTF8String]);
 	}
 }
 
-void IoLanguageStateExceptionCallback(void *context, IoObject *ioObj)
+void IoLanguageStateExceptionCallback(void *context, IoObject *exceptionObject)
 {
 	id self = (id)context;
 	if([self delegate] && [[self delegate] respondsToSelector:@selector(exceptionCallback:)])
 	{
 		[[self delegate] exceptionCallback:nil];
+	}
+	else
+	{
+		NSLog(@"io exception");
 	}
 }
 
@@ -78,6 +97,8 @@ void ILanguageoStateActiveCoroCallback(void *context, int r)
 	//IoState_activeCoroCallback_(state, ILanguageoStateActiveCoroCallback);
 	IoState_exitCallback_(state, IoLanguageStateExitCallback);
 	IoState_init(state);
+	[self runIoResource:@"Vector"];
+	[self runIoResource:@"ObjcBridge"];
 	return self;
 }
 
@@ -126,5 +147,38 @@ void ILanguageoStateActiveCoroCallback(void *context, int r)
 	
 	return nil;
 }
+
+- (Objc2Io *)lobby
+{
+	Objc2Io *obj = [[[Objc2Io alloc] init] autorelease];
+	[obj setIoObject:IoState_lobby(state)];
+	return obj;
+}
+
+- runIoResource:(NSString *)name
+{
+	NSString *path = [[NSBundle mainBundle] pathForResource:name ofType:@"io"];
+	NSError *error;
+	
+	if(!path)
+	{
+		path = [[NSBundle bundleForClass:[IoLanguage class]] pathForResource:name ofType:@"io"];
+	}
+	
+	if(path)
+	{
+		//NSLog(@"runIoResource:%@", path);
+		NSString *code = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+		return [self doString:code];
+	}
+	
+	return nil;
+}
+
+- runMain
+{
+	return [self runIoResource:@"main"];
+}
+
 
 @end

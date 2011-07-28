@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AA95DCF813DBBD4200CCD456 /* IoLangKit.h in Headers */ = {isa = PBXBuildFile; fileRef = AA95DCF613DBBD4200CCD456 /* IoLangKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA95DCF913DBBD4200CCD456 /* IoLangKit.m in Sources */ = {isa = PBXBuildFile; fileRef = AA95DCF713DBBD4200CCD456 /* IoLangKit.m */; };
+		AA95DCF813DBBD4200CCD456 /* IoLanguageKit.h in Headers */ = {isa = PBXBuildFile; fileRef = AA95DCF613DBBD4200CCD456 /* IoLanguageKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AABB968C13DD09B800B6A0CB /* Base.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB943613DD09B800B6A0CB /* Base.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AABB968D13DD09B800B6A0CB /* BStream.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB943713DD09B800B6A0CB /* BStream.c */; };
 		AABB968E13DD09B800B6A0CB /* BStream.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB943813DD09B800B6A0CB /* BStream.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -239,8 +238,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		AA95DCF613DBBD4200CCD456 /* IoLangKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoLangKit.h; sourceTree = "<group>"; };
-		AA95DCF713DBBD4200CCD456 /* IoLangKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IoLangKit.m; sourceTree = "<group>"; };
+		AA95DCF613DBBD4200CCD456 /* IoLanguageKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoLanguageKit.h; sourceTree = "<group>"; };
 		AABB943613DD09B800B6A0CB /* Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base.h; sourceTree = "<group>"; };
 		AABB943713DD09B800B6A0CB /* BStream.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BStream.c; sourceTree = "<group>"; };
 		AABB943813DD09B800B6A0CB /* BStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BStream.h; sourceTree = "<group>"; };
@@ -831,8 +829,7 @@
 			isa = PBXGroup;
 			children = (
 				AABB93B313DD09B800B6A0CB /* libs */,
-				AA95DCF613DBBD4200CCD456 /* IoLangKit.h */,
-				AA95DCF713DBBD4200CCD456 /* IoLangKit.m */,
+				AA95DCF613DBBD4200CCD456 /* IoLanguageKit.h */,
 				AAFE00F513D6526E00649838 /* IoLanguageKit */,
 				AAFE00EE13D6526E00649838 /* Frameworks */,
 				AAFE00ED13D6526E00649838 /* Products */,
@@ -891,7 +888,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA95DCF813DBBD4200CCD456 /* IoLangKit.h in Headers */,
+				AA95DCF813DBBD4200CCD456 /* IoLanguageKit.h in Headers */,
 				AABB968C13DD09B800B6A0CB /* Base.h in Headers */,
 				AABB968E13DD09B800B6A0CB /* BStream.h in Headers */,
 				AABB969013DD09B800B6A0CB /* BStreamTag.h in Headers */,
@@ -1077,7 +1074,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA95DCF913DBBD4200CCD456 /* IoLangKit.m in Sources */,
 				AABB968D13DD09B800B6A0CB /* BStream.c in Sources */,
 				AABB968F13DD09B800B6A0CB /* BStreamTag.c in Sources */,
 				AABB969113DD09B800B6A0CB /* cdecode.c in Sources */,
