@@ -392,7 +392,7 @@ BASEKIT_API void UArray_sortBy_(UArray *self, UArraySortCallback *cmp);
 #define UARRAY_RFOREACHTYPE(self, i, v, code, TYPE)\
 	{\
 	size_t i;\
-	for(i = self->size - 1; i > -1; i --)\
+	for(i = self->size - 1; i >= 0; i --)\
 	{\
 		TYPE v = ((TYPE *)self->data)[i];\
 		code;\
