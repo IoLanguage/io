@@ -42,11 +42,11 @@ Kudos to Daniel A. Koepke
 	#ifdef IO_IN_C_FILE
 		// in .c 
 		#define IO_DECLARE_INLINES
-		#define IOINLINE 
+		#define IOINLINE inline
 	#else
 		// in .h 
 		#define IO_DECLARE_INLINES
-		#define IOINLINE inline
+		#define IOINLINE extern inline
 	#endif 
 #elif defined(__MINGW32__)
 	#ifdef IO_IN_C_FILE
