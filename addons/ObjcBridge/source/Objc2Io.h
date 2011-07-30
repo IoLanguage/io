@@ -20,6 +20,8 @@
 	IoObject *ioValue;
 }
 
++ withIoObject:(IoObject *)v;
+
 - (void)setIoObject:(IoObject *)v;
 - (IoObject *)ioValue;
 - (void)setBridge:(IoObjcBridge *)b;

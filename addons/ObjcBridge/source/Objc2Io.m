@@ -8,6 +8,11 @@
 
 @implementation Objc2Io
 
++ withIoObject:(IoObject *)v
+{
+	return IoObjcBridge_proxyForIoObject_(IoObjcBridge_sharedBridge(), v);
+}
+
 - init
 {
 	self = [super init];
@@ -138,7 +143,11 @@
 		char *error;
 		void *cResult = IoObjcBridge_cValueForIoObject_ofType_error_(bridge, result, returnType, &error);
 		if (error)
-			IoState_error_(IoObject_state(bridge), message, "Io Objc2Io forwardInvocation: %s - return type:'%s'", error, returnType);
+		{
+			IoState_error_(IoObject_state(bridge), message, 
+						   "Io Objc2Io forwardInvocation: %s - return type:'%s'", error, returnType);
+		}
+		
 		[invocation setReturnValue:cResult];
 	}
 }
@@ -169,9 +178,7 @@
 {
 	IoSeq *name = IoState_symbolWithCString_(IoObject_state(ioValue), [slotName UTF8String]);
 	IoObject *ioObj = IoObject_rawGetSlot_(ioValue, name);
-	Objc2Io *obj = [[[Objc2Io alloc] init] autorelease];
-	[obj setIoObject:ioObj];
-	return obj;
+	return [Objc2Io withIoObject:ioObj];
 }
 
 - (BOOL)_rawIsActivatable

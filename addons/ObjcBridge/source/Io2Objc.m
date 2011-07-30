@@ -16,9 +16,9 @@ IoTag *Io2Objc_newTag(void *state)
 {
 	IoTag *tag = IoTag_newWithName_("Io2Objc");
 	IoTag_state_(tag, state);
-	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)Io2Objc_rawClone);
-	IoTag_freeFunc_(tag, (IoTagFreeFunc *)Io2Objc_free);
-	IoTag_markFunc_(tag, (IoTagMarkFunc *)Io2Objc_mark);
+	IoTag_cloneFunc_(tag,   (IoTagCloneFunc *)Io2Objc_rawClone);
+	IoTag_freeFunc_(tag,    (IoTagFreeFunc *)Io2Objc_free);
+	IoTag_markFunc_(tag,    (IoTagMarkFunc *)Io2Objc_mark);
 	IoTag_performFunc_(tag, (IoTagPerformFunc *)Io2Objc_perform);
 	return tag;
 }
@@ -78,10 +78,15 @@ Io2Objc *Io2Objc_newWithId_(void *state, id obj)
 void Io2Objc_free(Io2Objc *self)
 {
 	id object = DATA(self)->object;
-	if (IoObjcBridge_sharedBridge()) IoObjcBridge_removeId_(DATA(self)->bridge, object);
+	if (IoObjcBridge_sharedBridge()) 
+	{
+		IoObjcBridge_removeId_(DATA(self)->bridge, object);
+	}
 	//printf("Io2Objc_free %p that referenced a %s\n", (void *)object, [[object className] cString]);
 	if (object != nil && [object class] != object) // && (((Class)object)->info & CLS_META) != CLS_META)
+	{
 		[object autorelease];
+	}
 	objc_free(DATA(self)->returnBuffer);
 	objc_free(DATA(self));
 	IoObject_dataPointer(self) = NULL;
@@ -99,10 +104,14 @@ void Io2Objc_setBridge(Io2Objc *self, void *bridge)
 
 void Io2Objc_setObject(Io2Objc *self, void *object)
 {
-	if (object != nil && ([(id)object class] != (id)object)) //&& (((Class)object)->info & CLS_META) != CLS_META)
+	if (object != nil && ([(id)object class] != (id)object)) //&& (((Class)object)->info & CLS_META) !=CLS_META)
+	{
 		DATA(self)->object = [(id)object retain];
+	}
 	else
+	{
 		DATA(self)->object = (id)object;
+	}
 }
 
 void *Io2Objc_object(Io2Objc *self)
@@ -158,7 +167,8 @@ IoObject *Io2Objc_perform(Io2Objc *self, IoObject *locals, IoMessage *m)
 	
 	if (!respondsToSelector)
 	{
-		printf("%i = [%s respondsToSelector:'%s']\n", (int)respondsToSelector, [[object className] UTF8String], methodName);
+		printf("%i = [%s respondsToSelector:'%s']\n", 
+			   (int)respondsToSelector, [[object className] UTF8String], methodName);
 		return IoObject_perform(self, locals, m);
 	}
 	
@@ -202,8 +212,10 @@ IoObject *Io2Objc_perform(Io2Objc *self, IoObject *locals, IoMessage *m)
 	}
 
 	if (debug)
+	{
 		IoState_print_(IOSTATE, ")\n");
-
+	}
+	
 	/* --- invoke --------------------------- */
 	{
 		@try 
@@ -274,20 +286,25 @@ void forwardInvocation(id self, SEL sel, NSInvocation *invocation)
 	char *name = objc_malloc(2 + strlen(sel_getName([invocation selector])));
 	name[0] = '-';
 	name[1] = 0;
-	IoSymbol *symbol = IoState_symbolWithCString_(IoObject_state(bridge), strcat(name, sel_getName([invocation selector])));
+	IoSymbol *symbol = IoState_symbolWithCString_(IoObject_state(bridge), 
+												  strcat(name, sel_getName([invocation selector])));
 	objc_free(name);
 
 	for (class = self->isa ; class != nil ; class = [class superclass]) // class->super_class)
 	{
 		Io2Objc *io2objc = CHash_at_(((IoObjcBridgeData *)DATA(bridge))->io2objcs, class);
 
-		if (io2objc == NULL)
-			continue;
+		if (io2objc == NULL) 
+		{ 
+			continue; 
+		}
 
 		IoObject *slotValue = IoObject_rawGetSlot_context_(io2objc, symbol, &context);
 
-		if (slotValue == NULL)
-			continue;
+		if (slotValue == NULL) 
+		{ 
+			continue; 
+		}
 
 		save = DATA(target)->object->isa;
 		DATA(target)->object->isa = class;
@@ -299,7 +316,11 @@ void forwardInvocation(id self, SEL sel, NSInvocation *invocation)
 			char *error;
 			void *cResult = IoObjcBridge_cValueForIoObject_ofType_error_(bridge, result, returnType, &error);
 			if (error)
-				IoState_error_(IoObject_state(bridge), message, "Io Io2Objc forwardInvocation %s - return type:'%s'", error, returnType);
+			{
+				IoState_error_(IoObject_state(bridge), 
+							   message, 
+							   "Io Io2Objc forwardInvocation %s - return type:'%s'", error, returnType);
+			}
 			[invocation setReturnValue:cResult];
 		}
 		return;
@@ -317,13 +338,17 @@ BOOL respondsToSelector(id self, SEL sel, SEL selector)
 	char *ioMethodName = IoObjcBridge_ioMethodFor_(bridge, (char *)sel_getName(selector));
 
 	if (debug)
+	{
 		IoState_print_(state, "[Io2Objc respondsToSelector:\"%s\"] ", ioMethodName);
-
+	}
+	
 	BOOL result = class_getInstanceMethod(self->isa, selector) ? YES : NO;
 
 	if (debug)
+	{
 		IoState_print_(state, "= %i\n", result);
-
+	}
+	
 	return result;
 }
 
@@ -332,9 +357,11 @@ NSMethodSignature *methodSignatureForSelector(id self, SEL sel, SEL selector)
 	Method method = class_getInstanceMethod(self->isa, selector);
 
 	if (method)
+	{
 		return [NSMethodSignature signatureWithObjCTypes:method_getTypeEncoding(method)]; //(method->method_types)];
-	else
-		return nil;
+	}
+	
+	return nil;
 }
 
 Io2Objc *Io2Objc_newSubclassNamed(Io2Objc *self, IoObject *locals, IoMessage *m)
@@ -431,6 +458,7 @@ IoObject *Io2Objc_updateSlot(Io2Objc *self, IoObject *locals, IoMessage *m)
 //	IoSymbol *slotName = IOSYMBOL(name);
 	IoSymbol *slotName = IoMessage_locals_symbolArgAt_(m, locals, 0);
 	IoObject *slotValue = IoMessage_locals_valueArgAt_(m, locals, 1);
+	
 	if (ISBLOCK(slotValue))
 	{
 		unsigned int argCount = IoMessage_argCount(slotValue);
@@ -446,16 +474,26 @@ IoObject *Io2Objc_updateSlot(Io2Objc *self, IoObject *locals, IoMessage *m)
 			IoSymbol *symbol = IoState_symbolWithCString_(IOSTATE, strcat(name, CSTRING(slotName)));
 			objc_free(name);
 			if (IoObject_rawGetSlot_(self, symbol))
+			{
 				IoObject_inlineSetSlot_to_(self, symbol, slotValue);
+			}
 			else
+			{
 				IoState_error_(IOSTATE, m, "Slot %s not found. Must define slot using := operator before updating.", CSTRING(slotName));
+			}
 		}
 	}
 	else
+	{
 		if (IoObject_rawGetSlot_(self, slotName))
+		{
 			IoObject_inlineSetSlot_to_(self, slotName, slotValue);
+		}
 		else
+		{
 			IoState_error_(IOSTATE, m, "Slot %s not found. Must define slot using := operator before updating.", CSTRING(slotName));
+		}
+	}
 	return slotValue;
 }
 

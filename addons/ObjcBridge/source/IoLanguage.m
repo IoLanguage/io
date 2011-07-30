@@ -139,10 +139,7 @@ void ILanguageoStateActiveCoroCallback(void *context, int r)
 	
 	if(result) // unknown Io object? return a proxy to it
 	{
-		Objc2Io *objc2io = [[[Objc2Io alloc] init] autorelease];
-		[objc2io setIoObject:result];
-		[objc2io setBridge:IoObjcBridge_sharedBridge()];
-		return objc2io;
+		return [Objc2Io withIoObject:result];
 	}
 	
 	return nil;
@@ -150,9 +147,7 @@ void ILanguageoStateActiveCoroCallback(void *context, int r)
 
 - (Objc2Io *)lobby
 {
-	Objc2Io *obj = [[[Objc2Io alloc] init] autorelease];
-	[obj setIoObject:IoState_lobby(state)];
-	return obj;
+	return [Objc2Io withIoObject:IoState_lobby(state)];
 }
 
 - runIoResource:(NSString *)name
