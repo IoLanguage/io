@@ -88,8 +88,13 @@ IoObject *IoMemcached_new(void *state)
 
 void IoMemcached_free(IoMemcached *self)
 {
-	memcached_free(DATA(self)->mc);
-	free(DATA(self));
+	if (DATA(self) != NULL) {
+		if (DATA(self)->mc != NULL) {
+			memcached_free(DATA(self)->mc);
+		}
+
+		free(DATA(self));
+	}
 }
 
 /*doc Memcached addServer(address)
@@ -467,8 +472,8 @@ IoObject *IoMemcached_stats(IoMemcached *self, IoObject *locals, IoMessage *m)
 	IoMap *results_map = IoMap_new(IOSTATE);
 
 	int i;
-	for(i = 0; i < memcached_server_list_count(DATA(self)->mc->hosts); i++) {
-		memcached_server_st *server = DATA(self)->mc->hosts + i;
+	for(i = 0; i < memcached_server_list_count(DATA(self)->mc->servers); i++) {
+		memcached_server_st *server = DATA(self)->mc->servers + i;
 
 		memcached_stat_st stats;
 		if(memcached_stat_servername(&stats, "", server->hostname, server->port) != 0)
