@@ -12,6 +12,8 @@ Io is two parts - the vm and the `addons/packages`. Don't worry if all the addon
 
 There are a couple ways you can go about building Io, I will give the recommended way, and a note about how to do it alternatively.
 
+NOTE: If you are installing in a production environment, use `cmake -DCMAKE_BUILD_TYPE=release ..` in all the `cmake ..` lines below. This tells CMake to compile with standard optimizations. Without the `-DCMAKE_BUILD_TYPE=release` addition the resulting binaries will have been compiled in debug mode with no standard C optimizations applied.
+
 OSX
 ---
 
