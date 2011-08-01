@@ -297,5 +297,17 @@
          landmarkName = "@implementation IoBrowserController"
          landmarkType = "3">
       </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "0"
+         filePath = "/Users/steve/Developer/opensource/io/libs/basekit/source/Common_inline.h"
+         timestampString = "333934242.297879"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "58"
+         endingLineNumber = "58">
+      </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>

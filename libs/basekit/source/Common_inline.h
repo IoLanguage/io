@@ -37,10 +37,11 @@ Kudos to Daniel A. Koepke
 #else
 */
 
-/*
 #if defined(__APPLE__)
 	#include "TargetConditionals.h"
 #endif
+/*
+
 
 #if defined __XCODE__ && (TARGET_ASPEN_SIMULATOR || TARGET_OS_ASPEN)
 	#define NON_EXTERN_INLINES 1
@@ -52,22 +53,10 @@ Kudos to Daniel A. Koepke
 */
 
 
-#if defined(__APPLE__)
+#if defined(__APPLE__) 
 	
-	#if defined(__GNUC__)
-	
-		#ifdef IO_IN_C_FILE
-			// in .c 
-			#define IO_DECLARE_INLINES
-			#define IOINLINE inline
-		#else
-			// in .h 
-			#define IO_DECLARE_INLINES
-			#define IOINLINE extern inline
-		#endif 
-	
-	#else
-	
+	#if defined __GNUC__ && __GNUC__ >= 4
+		//#warning inline for xcode 
 		#ifdef IO_IN_C_FILE
 			// in .c 
 			#define IO_DECLARE_INLINES
@@ -77,7 +66,18 @@ Kudos to Daniel A. Koepke
 			#define IO_DECLARE_INLINES
 			#define IOINLINE inline
 		#endif
-	
+	#else
+		//#warning inline for NON-xcode 
+		#ifdef IO_IN_C_FILE
+			// in .c 
+			#define IO_DECLARE_INLINES
+			#define IOINLINE inline
+		#else
+			// in .h 
+			#define IO_DECLARE_INLINES
+			#define IOINLINE extern inline
+		#endif 
+
 	#endif
 	
 #elif defined(__MINGW32__)
