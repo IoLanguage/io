@@ -471,11 +471,10 @@ IoObject *IoState_protoWithInitFunction_(IoState *self, const char *v)
 
 	if (!proto)
 	{
-		printf(">>>--------------\n");
 		//printf("*(int *)NULL = 0\n");
 		//*(int *)NULL = 0;
-		printf("123 IoState error: missing proto %s\n", (void *)v);
-		IoState_fatalError_(self, "12345 IoState_protoWithInitFunction() Error: missing proto");
+		//printf("IoState error: missing proto %s\n", v);
+		IoState_fatalError_(self, "IoState_protoWithInitFunction() Error: missing proto");
 	}
 	//printf("1234\n");
 	return proto;

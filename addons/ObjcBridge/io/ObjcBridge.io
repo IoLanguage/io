@@ -42,8 +42,16 @@ NSToolbarSizeModeDefault := 0
 NSToolbarSizeModeRegular := 1
 NSToolbarSizeModeSmall   := 2
 
+NSLeftTextAlignment      := 0
+NSRightTextAlignment     := 1
+NSCenterTextAlignment    := 2
+NSJustifiedTextAlignment := 3
+NSNaturalTextAlignment   := 4
+
 YES := 1
 NO  := 0
+
+// ---------------------------------
 
 Object io2ObjcType := "[NOT an Io2Objc object]"
 
@@ -58,4 +66,4 @@ Lobby forward := method(
 
 //writeln("adding search path: ", NSBundle mainBundle resourcePath)
 Importer addSearchPath(NSBundle mainBundle resourcePath) // so we'll try to find protos in the App's resource folder
-
+Directory setCurrentWorkingDirectory(NSBundle mainBundle resourcePath)

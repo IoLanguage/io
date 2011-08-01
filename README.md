@@ -23,7 +23,8 @@ Note: Assuming you wish to install to an alternate location, ensure you supply a
 
 Ensure you are at the top level of the source tree, that is where this file lives. From here, you are in the right spot to enter these commands:
 
-	mkdir build && cd build
+	mkdir build
+	cd build
 	cmake ..
 	make install
 

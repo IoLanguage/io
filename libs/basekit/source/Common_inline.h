@@ -10,6 +10,20 @@ Trick to get inlining to work with various compilers
 Kudos to Daniel A. Koepke
 */
 
+/*
+ #if !defined(NS_INLINE)
+ #if defined(__GNUC__)
+ #define NS_INLINE static __inline__ __attribute__((always_inline))
+ #elif defined(__MWERKS__) || defined(__cplusplus)
+ #define NS_INLINE static inline
+ #elif defined(_MSC_VER)
+ #define NS_INLINE static __inline
+ #elif TARGET_OS_WIN32
+ #define NS_INLINE static __inline__
+ #endif
+ #endif
+ */
+
 #undef IO_DECLARE_INLINES
 #undef IOINLINE
 
@@ -39,16 +53,35 @@ Kudos to Daniel A. Koepke
 
 
 #if defined(__APPLE__)
-	#ifdef IO_IN_C_FILE
-		// in .c 
-		#define IO_DECLARE_INLINES
-		#define IOINLINE 
+	
+	#if defined(__GNUC__)
+	
+		#ifdef IO_IN_C_FILE
+			// in .c 
+			#define IO_DECLARE_INLINES
+			#define IOINLINE inline
+		#else
+			// in .h 
+			#define IO_DECLARE_INLINES
+			#define IOINLINE extern inline
+		#endif 
+	
 	#else
-		// in .h 
-		#define IO_DECLARE_INLINES
-		#define IOINLINE inline
-	#endif 
+	
+		#ifdef IO_IN_C_FILE
+			// in .c 
+			#define IO_DECLARE_INLINES
+			#define IOINLINE 
+		#else
+			// in .h 
+			#define IO_DECLARE_INLINES
+			#define IOINLINE inline
+		#endif
+	
+	#endif
+	
 #elif defined(__MINGW32__)
+
 	#ifdef IO_IN_C_FILE
 		// in .c 
 		#define IO_DECLARE_INLINES
@@ -58,7 +91,9 @@ Kudos to Daniel A. Koepke
 		#define IO_DECLARE_INLINES
 		#define IOINLINE static inline
 	#endif 
+	
 #elif defined(__linux__)
+
 	#ifdef IO_IN_C_FILE
 		// in .c 
 		#define IO_DECLARE_INLINES
@@ -68,7 +103,9 @@ Kudos to Daniel A. Koepke
 		#define IO_DECLARE_INLINES
 		#define IOINLINE extern inline
 	#endif 
+	
 #else
+
 	#ifdef IO_IN_C_FILE
 		// in .c 
 		#define IO_DECLARE_INLINES
@@ -78,4 +115,5 @@ Kudos to Daniel A. Koepke
 		#define IO_DECLARE_INLINES
 		#define IOINLINE inline
 	#endif 
+	
 #endif
