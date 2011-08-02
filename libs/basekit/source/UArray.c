@@ -804,9 +804,11 @@ void UArray_at_putPointer_(UArray *self, size_t pos, void *v)
 				UArray_changed(self);
 			}
 			return;
+		default:
+			UArray_error_(self, "UArray_at_putPointer_ not supported with this type");
 	}
 
-	UArray_error_(self, "UArray_at_putPointer_ not supported with this type");
+	//UArray_error_(self, "UArray_at_putPointer_ not supported with this type");
 }
 
 void UArray_appendLong_(UArray *self, long v)

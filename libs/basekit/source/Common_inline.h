@@ -55,13 +55,13 @@ Kudos to Daniel A. Koepke
 	#define NS_INLINE static __inline__ __attribute__((always_inline))
 
 	#ifdef IO_IN_C_FILE
-	// in .c 
-	#define IO_DECLARE_INLINES
-	#define IOINLINE NS_INLINE
+		// in .c 
+		#define IO_DECLARE_INLINES
+		#define IOINLINE NS_INLINE
 	#else
-	// in .h 
-	#define IO_DECLARE_INLINES
-	#define IOINLINE NS_INLINE
+		// in .h 
+		#define IO_DECLARE_INLINES
+		#define IOINLINE NS_INLINE
 	#endif 	
 
 /*		

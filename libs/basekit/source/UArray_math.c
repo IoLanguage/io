@@ -7,23 +7,27 @@
 #include <math.h>
 #include <float.h>
 
-//#define IO_USE_SIMD 1
+#if defined(__APPLE__)
+	#define IO_USE_SIMD 1
+#endif
 
 #ifdef IO_USE_SIMD
 
+/*
 #ifdef _MSC_VER
-#pragma message("Note: IO_USE_SIMD on, attempting to use SIMD acceleration")
+	#pragma message("Note: IO_USE_SIMD on, attempting to use SIMD acceleration")
 #else
-#warning Note: IO_USE_SIMD on, attempting to use SIMD acceleration
+	#warning Note: IO_USE_SIMD on, attempting to use SIMD acceleration
 #endif
+*/
 
 #include "simd_cp.h"
 #else
 
 #ifdef _MSC_VER
-#pragma message("Uncomment the IO_USE_SIMD define to turn on SIMD acceleration")
+	#pragma message("Uncomment the IO_USE_SIMD define to turn on SIMD acceleration")
 #else
-#warning Uncomment the IO_USE_SIMD define to turn on SIMD acceleration
+	#warning Uncomment the IO_USE_SIMD define to turn on SIMD acceleration
 #endif
 
 #define __UNK__EMU__
@@ -303,7 +307,7 @@ size_t UArray_bitCount(UArray *self)
 	size_t i, minSize = self->size < other->size ? self->size : other->size;\
 		for(i = 0; i < minSize; i ++)\
 		{\
-			((TYPE1 *)self->data)[i] = ((TYPE1 *)self->data)[i] OP2 ((TYPE2 *)other->data)[i];\
+			((TYPE1 *)self->data)[i] = ((TYPE1 *)self->data)[i] OP2 (TYPE1)((TYPE2 *)other->data)[i];\
 		}\
 }
 
