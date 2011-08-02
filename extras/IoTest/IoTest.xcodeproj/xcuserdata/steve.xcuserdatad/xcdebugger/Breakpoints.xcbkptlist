@@ -303,11 +303,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "0"
          filePath = "/Users/steve/Developer/opensource/io/libs/basekit/source/Common_inline.h"
-         timestampString = "333937784.106837"
+         timestampString = "333938989.242071"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "58"
-         endingLineNumber = "58">
+         startingLineNumber = "72"
+         endingLineNumber = "72">
       </FileBreakpoint>
    </FileBreakpoints>
 </Bucket>

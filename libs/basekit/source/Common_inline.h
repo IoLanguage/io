@@ -51,10 +51,25 @@ Kudos to Daniel A. Koepke
 
 
 #if defined(__APPLE__) 
+
+	#define NS_INLINE static __inline__ __attribute__((always_inline))
+
+	#ifdef IO_IN_C_FILE
+	// in .c 
+	#define IO_DECLARE_INLINES
+	#define IOINLINE NS_INLINE
+	#else
+	// in .h 
+	#define IO_DECLARE_INLINES
+	#define IOINLINE NS_INLINE
+	#endif 	
+
+/*		
 	#include "TargetConditionals.h"
 
-	#if defined(__llvm__) 
-		//defined(__XCODE__) 
+
+	//#if defined(__llvm__)  && 
+	#if defined(__XCODE__) 
 		//__GNUC__ && __GNUC__ >= 4
 		//#warning inline for xcode 
 		#ifdef IO_IN_C_FILE
@@ -79,6 +94,7 @@ Kudos to Daniel A. Koepke
 		#endif 
 
 	#endif
+	*/
 	
 #elif defined(__MINGW32__)
 
