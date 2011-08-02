@@ -1176,15 +1176,15 @@ BASEKIT_API long UArray_rFind_from_(const UArray *self, const UArray *other, siz
 
 #define UARRAY_RFINDANYCASE_TYPES(OP2, TYPE1, self, TYPE2, other)\
 {\
-	long i, j;\
+	size_t i, j;\
 		if(self->size < other->size) return -1;\
 			for(i = self->size - other->size + 1; i > -1; i --)\
 			{\
 				int match = 1;\
 				for(j = 0; j < other->size; j ++)\
 				{\
-					int v1 = ((TYPE1 *)self->data)[i+j];\
-						int v2 = ((TYPE2 *)other->data)[j];\
+					int v1 = (int)((TYPE1 *)self->data)[i+j];\
+						int v2 = (int)((TYPE2 *)other->data)[j];\
 							if (tolower(v1) != tolower(v2)) { match = 0; break; }\
 				}\
 				if(match) return i;\

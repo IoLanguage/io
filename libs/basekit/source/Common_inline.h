@@ -53,7 +53,8 @@ Kudos to Daniel A. Koepke
 #if defined(__APPLE__) 
 	#include "TargetConditionals.h"
 
-	#if defined(__XCODE__) 
+	#if defined(__llvm__) 
+		//defined(__XCODE__) 
 		//__GNUC__ && __GNUC__ >= 4
 		//#warning inline for xcode 
 		#ifdef IO_IN_C_FILE

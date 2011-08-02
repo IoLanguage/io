@@ -494,22 +494,22 @@ void *IoObjcBridge_cValueForIoObject_ofType_error_(IoObjcBridge *self, IoObject 
 			else if (ISLIST(value))
 			{
 				char *error;
-				int i, count = IoList_rawSize(value);
+				size_t i, count = IoList_rawSize(value);
 				id objects[count];
 				for (i = 0; i < count; i ++)
-					objects[i] = *(id *)IoObjcBridge_cValueForIoObject_ofType_error_(self, IoList_rawAt_(value, i), "@", &error);
+					objects[i] = *(id *)IoObjcBridge_cValueForIoObject_ofType_error_(self, IoList_rawAt_(value, (int)i), "@", &error);
 				DATA(self)->cValue.o = [NSArray arrayWithObjects:objects count:count];
 			}
 			else if (ISMAP(value))
 			{
 				char *error;
 				IoList *list = IoMap_rawKeys(value);
-				int i, count = IoList_rawSize(list);
+				size_t i, count = IoList_rawSize(list);
 				id keys[count], objects[count];
 				for (i = 0; i < count; i ++)
 				{
-					keys[i] = *(id *)IoObjcBridge_cValueForIoObject_ofType_error_(self, IoList_rawAt_(list, i), "@", &error);
-					objects[i] = *(id *)IoObjcBridge_cValueForIoObject_ofType_error_(self, IoMap_rawAt(value, IoList_rawAt_(list, i)), "@", &error);
+					keys[i] = *(id *)IoObjcBridge_cValueForIoObject_ofType_error_(self, IoList_rawAt_(list, (int)i), "@", &error);
+					objects[i] = *(id *)IoObjcBridge_cValueForIoObject_ofType_error_(self, IoMap_rawAt(value, IoList_rawAt_(list, (int)i)), "@", &error);
 				}
 				DATA(self)->cValue.o = [NSDictionary dictionaryWithObjects:objects forKeys:keys count:count];
 			}
