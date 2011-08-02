@@ -37,9 +37,6 @@ Kudos to Daniel A. Koepke
 #else
 */
 
-#if defined(__APPLE__)
-	#include "TargetConditionals.h"
-#endif
 /*
 
 
@@ -54,8 +51,10 @@ Kudos to Daniel A. Koepke
 
 
 #if defined(__APPLE__) 
-	
-	#if defined __GNUC__ && __GNUC__ >= 4
+	#include "TargetConditionals.h"
+
+	#if defined(__XCODE__) 
+		//__GNUC__ && __GNUC__ >= 4
 		//#warning inline for xcode 
 		#ifdef IO_IN_C_FILE
 			// in .c 
