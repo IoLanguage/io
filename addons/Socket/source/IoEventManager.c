@@ -25,6 +25,8 @@ A binding for libevent.
 
 #define DATA(self) ((IoEventManagerData *)IoObject_dataPointer(self))
 
+static const char *protoId = "EventManager";
+
 IoTag *IoEventManager_newTag(void *state)
 {
 	IoTag *tag = IoTag_newWithName_("EventManager");
@@ -58,7 +60,7 @@ IoEventManager *IoEventManager_proto(void *vState)
 
 	DATA(self)->activeEvents = List_new();
 
-	IoState_registerProtoWithFunc_((IoState *)state, self, IoEventManager_proto);
+	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -210,7 +212,7 @@ void IoEvent_handleEvent(int fd, short eventType, void *context)
 {
 	IoEvent *self = (IoEvent *)context;
 	struct event *ev = IoEvent_rawEvent(self);
-	IoEventManager *em = IoState_protoWithInitFunction_(IOSTATE, IoEventManager_proto);
+	IoEventManager *em = IoState_protoWithInitFunction_(IOSTATE, protoId);
 	//printf("IoEvent_handleEvent type:%i descriptor:%i\n", eventType, fd);
 	//printf("e: %i\n", List_size(DATA(em)->activeEvents));
 

@@ -26,6 +26,8 @@ sc = SystemCall clone
 #include "IoFile.h"
 #include "callsystem.h"
 
+static const char *protoId = "SystemCall";
+
 #define DATA(self) ((IoSystemCallData *)IoObject_dataPointer(self))
 
 IoTag *IoSystemCall_newTag(void *state)
@@ -54,7 +56,7 @@ IoSystemCall *IoSystemCall_proto(void *state)
 
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoSystemCallData)));
 
-	IoState_registerProtoWithFunc_(state, self, IoSystemCall_proto);
+	IoState_registerProtoWithFunc_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -75,12 +77,12 @@ IoSystemCall *IoSystemCall_rawClone(IoSystemCall *proto)
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoSystemCallData)));
 	IoSystemCall_clearPipeDescriptors(self);
-	return self;
+	return self; 
 }
 
 IoSystemCall *IoSystemCall_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoSystemCall_proto);
+	IoObject *proto = IoState_protoWithInitFunction_(state, protoId);
 	return IoSystemCall_rawClone(proto);
 }
 

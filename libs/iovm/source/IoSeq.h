@@ -59,6 +59,7 @@ IOVM_API IoSeq *IoSeq_rawClone(IoSeq *self);
 IOVM_API IoSeq *IoSeq_new(void *state);
 IOVM_API IoSeq *IoSeq_newWithUArray_copy_(void *state, UArray *ba, int copy);
 IOVM_API IoSeq *IoSeq_newWithData_length_(void *state, const unsigned char *s, size_t length);
+IOVM_API IoSeq *IoSeq_newWithData_length_copy_(void *state, const unsigned char *s, size_t length, int copy);
 IOVM_API IoSeq *IoSeq_newWithCString_length_(void *state, const char *s, size_t length);
 IOVM_API IoSeq *IoSeq_newWithCString_(void *state, const char *s);
 IOVM_API IoSeq *IoSeq_newFromFilePath_(void *state, const char *path);

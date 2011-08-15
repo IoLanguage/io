@@ -15,6 +15,25 @@ if(Addon platform != "darwin",
 	ABSearchElement     := method(ObjcBridge classNamed("ADSearchElement"))
 )
 
+NSImageFrameNone := 0
+NSImageFramePhoto := 1
+NSImageFrameGrayBezel := 2
+NSImageFrameGroove := 3
+NSImageFrameButton := 4
+
+NSNoBorder     := 0
+NSLineBorder   := 1
+NSBezelBorder  := 2
+NSGrooveBorder := 3
+
+NSViewNotSizable     := 0
+NSViewMinXMargin     := 1
+NSViewWidthSizable   := 2
+NSViewMaxXMargin     := 4
+NSViewMinYMargin     := 8
+NSViewHeightSizable  := 16
+NSViewMaxYMargin     := 32
+
 //NSBox -----------------------
 
 NSBoxPrimary   := 0
@@ -50,6 +69,13 @@ NSNaturalTextAlignment   := 4
 
 YES := 1
 NO  := 0
+
+NSTaskTerminationReasonExit := 1
+NSTaskTerminationReasonUncaughtSignal := 2
+
+NSFileHandleNotificationFileHandleItem := "NSFileHandleNotificationFileHandleItem"
+NSFileHandleNotificationDataItem := "NSFileHandleNotificationDataItem"
+NSFileHandleOperationException := "NSFileHandleOperationException"
 
 // ---------------------------------
 

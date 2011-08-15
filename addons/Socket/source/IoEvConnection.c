@@ -12,6 +12,8 @@
 
 #define CONN(self) ((struct evhttp_connection *)IoObject_dataPointer(self))
 
+static const char *protoId = "EvConnection";
+
 IoTag *IoEvConnection_newTag(void *state)
 {
 	IoTag *tag = IoTag_newWithName_("EvConnection");
@@ -28,7 +30,7 @@ IoEvConnection *IoEvConnection_proto(void *state)
 	IoObject_tag_(self, IoEvConnection_newTag(state));
 	IoObject_setDataPointer_(self, 0x0);
 
-	IoState_registerProtoWithFunc_((IoState *)state, self, IoEvConnection_proto);
+	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -55,7 +57,7 @@ IoEvConnection *IoEvConnection_rawClone(IoEvConnection *proto)
 
 IoEvConnection *IoEvConnection_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoEvConnection_proto);
+	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 

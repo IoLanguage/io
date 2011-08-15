@@ -15,6 +15,8 @@
 
 #define IPADDRESS(self) ((IPAddress *)IoObject_dataPointer(self))
 
+static const char *protoId = "IPAddress";
+
 IoIPAddress *IoMessage_locals_ipAddressArgAt_(IoMessage *self, IoObject *locals, int n)
 {
 	IoObject *v = IoMessage_locals_valueArgAt_(self, locals, n);
@@ -53,7 +55,7 @@ IoIPAddress *IoIPAddress_proto(void *state)
 	IoObject_tag_(self, IoIPAddress_newTag(state));
 	IoObject_setDataPointer_(self, IPAddress_new());
 
-	IoState_registerProtoWithFunc_((IoState *)state, self, IoIPAddress_proto);
+	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -80,7 +82,7 @@ IoIPAddress *IoIPAddress_rawClone(IoIPAddress *proto)
 
 IoIPAddress *IoIPAddress_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoIPAddress_proto);
+	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 

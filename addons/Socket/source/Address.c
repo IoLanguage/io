@@ -65,7 +65,7 @@ void Address_setSize_(Address *self, socklen_t size)
 
 int Address_family(Address *self)
 {
-	self->addrFamilyFunc(self->addr);
+	return self->addrFamilyFunc(self->addr);
 }
 
 

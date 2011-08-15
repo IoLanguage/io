@@ -33,11 +33,16 @@ static IoLanguage *shared = nil;
 	return shared;
 }
 
+void IoSocketInit(IoObject *context);
+void IoSystemCallInit(IoObject *context);
 void IoBoxInit(IoObject *context);
 void IoObjcBridgeInit(IoObject *context);
 
+
 void IoLanguageStateBindingsInitCallback(void *context, void *state)
 {
+	IoSocketInit(state);
+	IoSystemCallInit(state);
 	IoBoxInit(state);
 	IoObjcBridgeInit(state);
 }
@@ -97,8 +102,24 @@ void ILanguageoStateActiveCoroCallback(void *context, int r)
 	//IoState_activeCoroCallback_(state, ILanguageoStateActiveCoroCallback);
 	IoState_exitCallback_(state, IoLanguageStateExitCallback);
 	IoState_init(state);
+	
+	[self runIoResource:@"A0_EventManager"];
+	[self runIoResource:@"A1_Socket"];
+	[self runIoResource:@"A2_Server"];
+	[self runIoResource:@"A3_Host"];
+	[self runIoResource:@"A4_Object"];
+	[self runIoResource:@"DNSResolver"];
+	[self runIoResource:@"EvHttpCookie"];
+	[self runIoResource:@"EvHttpServer"];
+	[self runIoResource:@"EvOutResponse"];
+	[self runIoResource:@"EvStatusCodes"];
+	[self runIoResource:@"IPAddress"];
+	[self runIoResource:@"URL"];
+	[self runIoResource:@"UnixPath"];
+	
 	[self runIoResource:@"Vector"];
 	[self runIoResource:@"ObjcBridge"];
+	[self runIoResource:@"SystemCall"];
 	return self;
 }
 

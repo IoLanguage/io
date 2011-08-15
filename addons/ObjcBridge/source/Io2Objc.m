@@ -167,8 +167,7 @@ IoObject *Io2Objc_perform(Io2Objc *self, IoObject *locals, IoMessage *m)
 	
 	if (!respondsToSelector)
 	{
-		printf("%i = [%s respondsToSelector:'%s']\n", 
-			   (int)respondsToSelector, [[object className] UTF8String], methodName);
+		printf("![%s respondsToSelector:'%s']\n", [[object className] UTF8String], methodName);
 		return IoObject_perform(self, locals, m);
 	}
 	

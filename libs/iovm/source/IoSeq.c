@@ -132,6 +132,14 @@ IoSeq *IoSeq_newWithData_length_(void *state, const unsigned char *s, size_t len
 	return self;
 }
 
+IoSeq *IoSeq_newWithData_length_copy_(void *state, const unsigned char *s, size_t length, int copy)
+{
+	IoSeq *self = IoSeq_new(state);
+	UArray_setData_type_size_copy_(DATA(self), (uint8_t *)s, CTYPE_uint8_t, length, copy);
+	//UArray_convertToFixedSizeType(DATA(self));
+	return self;
+}
+
 IoSeq *IoSeq_newWithCString_(void *state, const char *s)
 {
 	return IoSeq_newWithData_length_(state, (unsigned char *)s, strlen(s));

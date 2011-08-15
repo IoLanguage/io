@@ -1,5 +1,4 @@
 
-
 SystemCall do(
 	command ::= ""
 	isRunning ::= false
@@ -65,8 +64,15 @@ SystemCall do(
 			wait(.02)
 			s := self status
 			//buffer appendSeq(stdout readToEnd)
-			buffer appendSeq(stdout readLines join("\n"))
+			if(stdout,
+				e := try(
+					buffer appendSeq(stdout readLines join("\n"))
+				)
+				if(e, e println)
+			)
 		)
+		buffer appendSeq(stdout readLines join("\n"))
+
 		//writeln("self status = ", s)
 		if(aBlock, aBlock call)
 

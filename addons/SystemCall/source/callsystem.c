@@ -362,7 +362,7 @@ callsystem_running(callsystem_pid_t * pid)
 redo:
 	if(waitpid(*pid, &status, WNOHANG) == -1)
 	{
-		if((errno == EINTR))
+		if(errno == EINTR)
 		{
 			errno = 0;
 			goto redo;
@@ -500,7 +500,7 @@ callsystem_pipe(callsystem_fd_t pipes[2])
 	/* we don't know what this pipe will be used for so someone
 	 else will have to make one end "un-inheritable" so the
 	 child doesn't receive it. */
-	if(CreatePipe(&(pipes[0]),&(pipes[1]), &saAttr, 0 /* buf size default*/))
+	if(CreatePipe(&(pipes[0]), &(pipes[1]), &saAttr, 0 /* buf size default*/))
 		return 0;
 	else
 		return -1;

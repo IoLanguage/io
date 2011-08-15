@@ -7,6 +7,58 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA3A0B4113F9C8DA00FB76A0 /* SystemCall.io in Resources */ = {isa = PBXBuildFile; fileRef = AA3A0B2C13F9C8DA00FB76A0 /* SystemCall.io */; };
+		AA3A0B4613F9C8DA00FB76A0 /* callsystem.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0B3313F9C8DA00FB76A0 /* callsystem.c */; };
+		AA3A0B4713F9C8DA00FB76A0 /* callsystem.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3A0B3413F9C8DA00FB76A0 /* callsystem.h */; };
+		AA3A0B4813F9C8DA00FB76A0 /* IoSystemCall.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0B3513F9C8DA00FB76A0 /* IoSystemCall.c */; };
+		AA3A0B4913F9C8DA00FB76A0 /* IoSystemCall.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3A0B3613F9C8DA00FB76A0 /* IoSystemCall.h */; };
+		AA3A0B4A13F9C8DA00FB76A0 /* IoSystemCallInit.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0B3713F9C8DA00FB76A0 /* IoSystemCallInit.c */; };
+		AA3A0BE113F9D1B400FB76A0 /* A0_EventManager.io in Resources */ = {isa = PBXBuildFile; fileRef = AA3A0B7113F9D1B400FB76A0 /* A0_EventManager.io */; };
+		AA3A0BE213F9D1B400FB76A0 /* A1_Socket.io in Resources */ = {isa = PBXBuildFile; fileRef = AA3A0B7213F9D1B400FB76A0 /* A1_Socket.io */; };
+		AA3A0BE313F9D1B400FB76A0 /* A2_Server.io in Resources */ = {isa = PBXBuildFile; fileRef = AA3A0B7313F9D1B400FB76A0 /* A2_Server.io */; };
+		AA3A0BE413F9D1B400FB76A0 /* A3_Host.io in Resources */ = {isa = PBXBuildFile; fileRef = AA3A0B7413F9D1B400FB76A0 /* A3_Host.io */; };
+		AA3A0BE513F9D1B400FB76A0 /* A4_Object.io in Resources */ = {isa = PBXBuildFile; fileRef = AA3A0B7513F9D1B400FB76A0 /* A4_Object.io */; };
+		AA3A0BE613F9D1B400FB76A0 /* DNSResolver.io in Resources */ = {isa = PBXBuildFile; fileRef = AA3A0B7613F9D1B400FB76A0 /* DNSResolver.io */; };
+		AA3A0BE713F9D1B400FB76A0 /* EvHttpCookie.io in Resources */ = {isa = PBXBuildFile; fileRef = AA3A0B7713F9D1B400FB76A0 /* EvHttpCookie.io */; };
+		AA3A0BE813F9D1B400FB76A0 /* EvHttpServer.io in Resources */ = {isa = PBXBuildFile; fileRef = AA3A0B7813F9D1B400FB76A0 /* EvHttpServer.io */; };
+		AA3A0BE913F9D1B400FB76A0 /* EvOutResponse.io in Resources */ = {isa = PBXBuildFile; fileRef = AA3A0B7913F9D1B400FB76A0 /* EvOutResponse.io */; };
+		AA3A0BEA13F9D1B400FB76A0 /* EvStatusCodes.io in Resources */ = {isa = PBXBuildFile; fileRef = AA3A0B7A13F9D1B400FB76A0 /* EvStatusCodes.io */; };
+		AA3A0BEB13F9D1B400FB76A0 /* IPAddress.io in Resources */ = {isa = PBXBuildFile; fileRef = AA3A0B7B13F9D1B400FB76A0 /* IPAddress.io */; };
+		AA3A0BEC13F9D1B400FB76A0 /* UnixPath.io in Resources */ = {isa = PBXBuildFile; fileRef = AA3A0B7C13F9D1B400FB76A0 /* UnixPath.io */; };
+		AA3A0BED13F9D1B400FB76A0 /* URL.io in Resources */ = {isa = PBXBuildFile; fileRef = AA3A0B7D13F9D1B400FB76A0 /* URL.io */; };
+		AA3A0C0613F9D1B400FB76A0 /* Address.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0B9B13F9D1B400FB76A0 /* Address.c */; };
+		AA3A0C0713F9D1B400FB76A0 /* Address.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3A0B9C13F9D1B400FB76A0 /* Address.h */; };
+		AA3A0C0813F9D1B400FB76A0 /* IoDNS.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0B9D13F9D1B400FB76A0 /* IoDNS.c */; };
+		AA3A0C0913F9D1B400FB76A0 /* IoDNS.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3A0B9E13F9D1B400FB76A0 /* IoDNS.h */; };
+		AA3A0C0A13F9D1B400FB76A0 /* IoEvConnection.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0B9F13F9D1B400FB76A0 /* IoEvConnection.c */; };
+		AA3A0C0B13F9D1B400FB76A0 /* IoEvConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3A0BA013F9D1B400FB76A0 /* IoEvConnection.h */; };
+		AA3A0C0C13F9D1B400FB76A0 /* IoEvent.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0BA113F9D1B400FB76A0 /* IoEvent.c */; };
+		AA3A0C0D13F9D1B400FB76A0 /* IoEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3A0BA213F9D1B400FB76A0 /* IoEvent.h */; };
+		AA3A0C0E13F9D1B400FB76A0 /* IoEventManager.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0BA313F9D1B400FB76A0 /* IoEventManager.c */; };
+		AA3A0C0F13F9D1B400FB76A0 /* IoEventManager.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3A0BA413F9D1B400FB76A0 /* IoEventManager.h */; };
+		AA3A0C1013F9D1B400FB76A0 /* IoEvHttpServer.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0BA513F9D1B400FB76A0 /* IoEvHttpServer.c */; };
+		AA3A0C1113F9D1B400FB76A0 /* IoEvHttpServer.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3A0BA613F9D1B400FB76A0 /* IoEvHttpServer.h */; };
+		AA3A0C1213F9D1B400FB76A0 /* IoEvOutRequest.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0BA713F9D1B400FB76A0 /* IoEvOutRequest.c */; };
+		AA3A0C1313F9D1B400FB76A0 /* IoEvOutRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3A0BA813F9D1B400FB76A0 /* IoEvOutRequest.h */; };
+		AA3A0C1413F9D1B400FB76A0 /* IoEvOutResponse.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0BA913F9D1B400FB76A0 /* IoEvOutResponse.c */; };
+		AA3A0C1513F9D1B400FB76A0 /* IoEvOutResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3A0BAA13F9D1B400FB76A0 /* IoEvOutResponse.h */; };
+		AA3A0C1613F9D1B400FB76A0 /* IoIPAddress.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0BAB13F9D1B400FB76A0 /* IoIPAddress.c */; };
+		AA3A0C1713F9D1B400FB76A0 /* IoIPAddress.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3A0BAC13F9D1B400FB76A0 /* IoIPAddress.h */; };
+		AA3A0C1813F9D1B400FB76A0 /* IoSocket.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0BAD13F9D1B400FB76A0 /* IoSocket.c */; };
+		AA3A0C1913F9D1B400FB76A0 /* IoSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3A0BAE13F9D1B400FB76A0 /* IoSocket.h */; };
+		AA3A0C1A13F9D1B400FB76A0 /* IoSocketInit.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0BAF13F9D1B400FB76A0 /* IoSocketInit.c */; };
+		AA3A0C1B13F9D1B400FB76A0 /* IoUnixPath.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0BB013F9D1B400FB76A0 /* IoUnixPath.c */; };
+		AA3A0C1C13F9D1B400FB76A0 /* IoUnixPath.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3A0BB113F9D1B400FB76A0 /* IoUnixPath.h */; };
+		AA3A0C1D13F9D1B400FB76A0 /* IPAddress.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0BB213F9D1B400FB76A0 /* IPAddress.c */; };
+		AA3A0C1E13F9D1B400FB76A0 /* IPAddress.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3A0BB313F9D1B400FB76A0 /* IPAddress.h */; };
+		AA3A0C1F13F9D1B400FB76A0 /* LocalNameServers.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0BB413F9D1B400FB76A0 /* LocalNameServers.c */; };
+		AA3A0C2013F9D1B400FB76A0 /* LocalNameServers.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3A0BB513F9D1B400FB76A0 /* LocalNameServers.h */; };
+		AA3A0C2513F9D1B400FB76A0 /* Socket.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0BBB13F9D1B400FB76A0 /* Socket.c */; };
+		AA3A0C2613F9D1B400FB76A0 /* Socket.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3A0BBC13F9D1B400FB76A0 /* Socket.h */; };
+		AA3A0C2713F9D1B400FB76A0 /* UnixPath.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0BBD13F9D1B400FB76A0 /* UnixPath.c */; };
+		AA3A0C2813F9D1B400FB76A0 /* UnixPath.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3A0BBE13F9D1B400FB76A0 /* UnixPath.h */; };
+		AA3A0C2D13F9DA9E00FB76A0 /* libevent_extra.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA3A0C2C13F9DA9E00FB76A0 /* libevent_extra.a */; };
+		AA3A0C2F13F9E73B00FB76A0 /* libevent_core.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA3A0C2E13F9E73B00FB76A0 /* libevent_core.a */; };
 		AA95DCF813DBBD4200CCD456 /* IoLanguageKit.h in Headers */ = {isa = PBXBuildFile; fileRef = AA95DCF613DBBD4200CCD456 /* IoLanguageKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AABB968C13DD09B800B6A0CB /* Base.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB943613DD09B800B6A0CB /* Base.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AABB968D13DD09B800B6A0CB /* BStream.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB943713DD09B800B6A0CB /* BStream.c */; };
@@ -238,6 +290,58 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		AA3A0B2C13F9C8DA00FB76A0 /* SystemCall.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SystemCall.io; sourceTree = "<group>"; };
+		AA3A0B3313F9C8DA00FB76A0 /* callsystem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = callsystem.c; sourceTree = "<group>"; };
+		AA3A0B3413F9C8DA00FB76A0 /* callsystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = callsystem.h; sourceTree = "<group>"; };
+		AA3A0B3513F9C8DA00FB76A0 /* IoSystemCall.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoSystemCall.c; sourceTree = "<group>"; };
+		AA3A0B3613F9C8DA00FB76A0 /* IoSystemCall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoSystemCall.h; sourceTree = "<group>"; };
+		AA3A0B3713F9C8DA00FB76A0 /* IoSystemCallInit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoSystemCallInit.c; sourceTree = "<group>"; };
+		AA3A0B7113F9D1B400FB76A0 /* A0_EventManager.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = A0_EventManager.io; sourceTree = "<group>"; };
+		AA3A0B7213F9D1B400FB76A0 /* A1_Socket.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = A1_Socket.io; sourceTree = "<group>"; };
+		AA3A0B7313F9D1B400FB76A0 /* A2_Server.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = A2_Server.io; sourceTree = "<group>"; };
+		AA3A0B7413F9D1B400FB76A0 /* A3_Host.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = A3_Host.io; sourceTree = "<group>"; };
+		AA3A0B7513F9D1B400FB76A0 /* A4_Object.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = A4_Object.io; sourceTree = "<group>"; };
+		AA3A0B7613F9D1B400FB76A0 /* DNSResolver.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = DNSResolver.io; sourceTree = "<group>"; };
+		AA3A0B7713F9D1B400FB76A0 /* EvHttpCookie.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = EvHttpCookie.io; sourceTree = "<group>"; };
+		AA3A0B7813F9D1B400FB76A0 /* EvHttpServer.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = EvHttpServer.io; sourceTree = "<group>"; };
+		AA3A0B7913F9D1B400FB76A0 /* EvOutResponse.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = EvOutResponse.io; sourceTree = "<group>"; };
+		AA3A0B7A13F9D1B400FB76A0 /* EvStatusCodes.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = EvStatusCodes.io; sourceTree = "<group>"; };
+		AA3A0B7B13F9D1B400FB76A0 /* IPAddress.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = IPAddress.io; sourceTree = "<group>"; };
+		AA3A0B7C13F9D1B400FB76A0 /* UnixPath.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = UnixPath.io; sourceTree = "<group>"; };
+		AA3A0B7D13F9D1B400FB76A0 /* URL.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = URL.io; sourceTree = "<group>"; };
+		AA3A0B9B13F9D1B400FB76A0 /* Address.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Address.c; sourceTree = "<group>"; };
+		AA3A0B9C13F9D1B400FB76A0 /* Address.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Address.h; sourceTree = "<group>"; };
+		AA3A0B9D13F9D1B400FB76A0 /* IoDNS.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoDNS.c; sourceTree = "<group>"; };
+		AA3A0B9E13F9D1B400FB76A0 /* IoDNS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoDNS.h; sourceTree = "<group>"; };
+		AA3A0B9F13F9D1B400FB76A0 /* IoEvConnection.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoEvConnection.c; sourceTree = "<group>"; };
+		AA3A0BA013F9D1B400FB76A0 /* IoEvConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoEvConnection.h; sourceTree = "<group>"; };
+		AA3A0BA113F9D1B400FB76A0 /* IoEvent.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoEvent.c; sourceTree = "<group>"; };
+		AA3A0BA213F9D1B400FB76A0 /* IoEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoEvent.h; sourceTree = "<group>"; };
+		AA3A0BA313F9D1B400FB76A0 /* IoEventManager.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoEventManager.c; sourceTree = "<group>"; };
+		AA3A0BA413F9D1B400FB76A0 /* IoEventManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoEventManager.h; sourceTree = "<group>"; };
+		AA3A0BA513F9D1B400FB76A0 /* IoEvHttpServer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoEvHttpServer.c; sourceTree = "<group>"; };
+		AA3A0BA613F9D1B400FB76A0 /* IoEvHttpServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoEvHttpServer.h; sourceTree = "<group>"; };
+		AA3A0BA713F9D1B400FB76A0 /* IoEvOutRequest.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoEvOutRequest.c; sourceTree = "<group>"; };
+		AA3A0BA813F9D1B400FB76A0 /* IoEvOutRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoEvOutRequest.h; sourceTree = "<group>"; };
+		AA3A0BA913F9D1B400FB76A0 /* IoEvOutResponse.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoEvOutResponse.c; sourceTree = "<group>"; };
+		AA3A0BAA13F9D1B400FB76A0 /* IoEvOutResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoEvOutResponse.h; sourceTree = "<group>"; };
+		AA3A0BAB13F9D1B400FB76A0 /* IoIPAddress.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoIPAddress.c; sourceTree = "<group>"; };
+		AA3A0BAC13F9D1B400FB76A0 /* IoIPAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoIPAddress.h; sourceTree = "<group>"; };
+		AA3A0BAD13F9D1B400FB76A0 /* IoSocket.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoSocket.c; sourceTree = "<group>"; };
+		AA3A0BAE13F9D1B400FB76A0 /* IoSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoSocket.h; sourceTree = "<group>"; };
+		AA3A0BAF13F9D1B400FB76A0 /* IoSocketInit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoSocketInit.c; sourceTree = "<group>"; };
+		AA3A0BB013F9D1B400FB76A0 /* IoUnixPath.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoUnixPath.c; sourceTree = "<group>"; };
+		AA3A0BB113F9D1B400FB76A0 /* IoUnixPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoUnixPath.h; sourceTree = "<group>"; };
+		AA3A0BB213F9D1B400FB76A0 /* IPAddress.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IPAddress.c; sourceTree = "<group>"; };
+		AA3A0BB313F9D1B400FB76A0 /* IPAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPAddress.h; sourceTree = "<group>"; };
+		AA3A0BB413F9D1B400FB76A0 /* LocalNameServers.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = LocalNameServers.c; sourceTree = "<group>"; };
+		AA3A0BB513F9D1B400FB76A0 /* LocalNameServers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalNameServers.h; sourceTree = "<group>"; };
+		AA3A0BBB13F9D1B400FB76A0 /* Socket.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Socket.c; sourceTree = "<group>"; };
+		AA3A0BBC13F9D1B400FB76A0 /* Socket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Socket.h; sourceTree = "<group>"; };
+		AA3A0BBD13F9D1B400FB76A0 /* UnixPath.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = UnixPath.c; sourceTree = "<group>"; };
+		AA3A0BBE13F9D1B400FB76A0 /* UnixPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnixPath.h; sourceTree = "<group>"; };
+		AA3A0C2C13F9DA9E00FB76A0 /* libevent_extra.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libevent_extra.a; path = ../../../../../../../usr/local/lib/libevent_extra.a; sourceTree = "<group>"; };
+		AA3A0C2E13F9E73B00FB76A0 /* libevent_core.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libevent_core.a; path = ../../../../../../../usr/local/lib/libevent_core.a; sourceTree = "<group>"; };
 		AA95DCF613DBBD4200CCD456 /* IoLanguageKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoLanguageKit.h; sourceTree = "<group>"; };
 		AABB943613DD09B800B6A0CB /* Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base.h; sourceTree = "<group>"; };
 		AABB943713DD09B800B6A0CB /* BStream.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BStream.c; sourceTree = "<group>"; };
@@ -468,15 +572,117 @@
 			buildActionMask = 2147483647;
 			files = (
 				AAFE00F013D6526E00649838 /* Cocoa.framework in Frameworks */,
+				AA3A0C2D13F9DA9E00FB76A0 /* libevent_extra.a in Frameworks */,
+				AA3A0C2F13F9E73B00FB76A0 /* libevent_core.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AA3A0B1B13F9C8DA00FB76A0 /* SystemCall */ = {
+			isa = PBXGroup;
+			children = (
+				AA3A0B2B13F9C8DA00FB76A0 /* io */,
+				AA3A0B3213F9C8DA00FB76A0 /* source */,
+			);
+			name = SystemCall;
+			path = ../addons/SystemCall;
+			sourceTree = "<group>";
+		};
+		AA3A0B2B13F9C8DA00FB76A0 /* io */ = {
+			isa = PBXGroup;
+			children = (
+				AA3A0B2C13F9C8DA00FB76A0 /* SystemCall.io */,
+			);
+			path = io;
+			sourceTree = "<group>";
+		};
+		AA3A0B3213F9C8DA00FB76A0 /* source */ = {
+			isa = PBXGroup;
+			children = (
+				AA3A0B3313F9C8DA00FB76A0 /* callsystem.c */,
+				AA3A0B3413F9C8DA00FB76A0 /* callsystem.h */,
+				AA3A0B3513F9C8DA00FB76A0 /* IoSystemCall.c */,
+				AA3A0B3613F9C8DA00FB76A0 /* IoSystemCall.h */,
+				AA3A0B3713F9C8DA00FB76A0 /* IoSystemCallInit.c */,
+			);
+			path = source;
+			sourceTree = "<group>";
+		};
+		AA3A0B4C13F9D1B400FB76A0 /* Socket */ = {
+			isa = PBXGroup;
+			children = (
+				AA3A0B7013F9D1B400FB76A0 /* io */,
+				AA3A0B9A13F9D1B400FB76A0 /* source */,
+			);
+			name = Socket;
+			path = ../addons/Socket;
+			sourceTree = "<group>";
+		};
+		AA3A0B7013F9D1B400FB76A0 /* io */ = {
+			isa = PBXGroup;
+			children = (
+				AA3A0B7113F9D1B400FB76A0 /* A0_EventManager.io */,
+				AA3A0B7213F9D1B400FB76A0 /* A1_Socket.io */,
+				AA3A0B7313F9D1B400FB76A0 /* A2_Server.io */,
+				AA3A0B7413F9D1B400FB76A0 /* A3_Host.io */,
+				AA3A0B7513F9D1B400FB76A0 /* A4_Object.io */,
+				AA3A0B7613F9D1B400FB76A0 /* DNSResolver.io */,
+				AA3A0B7713F9D1B400FB76A0 /* EvHttpCookie.io */,
+				AA3A0B7813F9D1B400FB76A0 /* EvHttpServer.io */,
+				AA3A0B7913F9D1B400FB76A0 /* EvOutResponse.io */,
+				AA3A0B7A13F9D1B400FB76A0 /* EvStatusCodes.io */,
+				AA3A0B7B13F9D1B400FB76A0 /* IPAddress.io */,
+				AA3A0B7C13F9D1B400FB76A0 /* UnixPath.io */,
+				AA3A0B7D13F9D1B400FB76A0 /* URL.io */,
+			);
+			path = io;
+			sourceTree = "<group>";
+		};
+		AA3A0B9A13F9D1B400FB76A0 /* source */ = {
+			isa = PBXGroup;
+			children = (
+				AA3A0B9B13F9D1B400FB76A0 /* Address.c */,
+				AA3A0B9C13F9D1B400FB76A0 /* Address.h */,
+				AA3A0B9D13F9D1B400FB76A0 /* IoDNS.c */,
+				AA3A0B9E13F9D1B400FB76A0 /* IoDNS.h */,
+				AA3A0B9F13F9D1B400FB76A0 /* IoEvConnection.c */,
+				AA3A0BA013F9D1B400FB76A0 /* IoEvConnection.h */,
+				AA3A0BA113F9D1B400FB76A0 /* IoEvent.c */,
+				AA3A0BA213F9D1B400FB76A0 /* IoEvent.h */,
+				AA3A0BA313F9D1B400FB76A0 /* IoEventManager.c */,
+				AA3A0BA413F9D1B400FB76A0 /* IoEventManager.h */,
+				AA3A0BA513F9D1B400FB76A0 /* IoEvHttpServer.c */,
+				AA3A0BA613F9D1B400FB76A0 /* IoEvHttpServer.h */,
+				AA3A0BA713F9D1B400FB76A0 /* IoEvOutRequest.c */,
+				AA3A0BA813F9D1B400FB76A0 /* IoEvOutRequest.h */,
+				AA3A0BA913F9D1B400FB76A0 /* IoEvOutResponse.c */,
+				AA3A0BAA13F9D1B400FB76A0 /* IoEvOutResponse.h */,
+				AA3A0BAB13F9D1B400FB76A0 /* IoIPAddress.c */,
+				AA3A0BAC13F9D1B400FB76A0 /* IoIPAddress.h */,
+				AA3A0BAD13F9D1B400FB76A0 /* IoSocket.c */,
+				AA3A0BAE13F9D1B400FB76A0 /* IoSocket.h */,
+				AA3A0BAF13F9D1B400FB76A0 /* IoSocketInit.c */,
+				AA3A0BB013F9D1B400FB76A0 /* IoUnixPath.c */,
+				AA3A0BB113F9D1B400FB76A0 /* IoUnixPath.h */,
+				AA3A0BB213F9D1B400FB76A0 /* IPAddress.c */,
+				AA3A0BB313F9D1B400FB76A0 /* IPAddress.h */,
+				AA3A0BB413F9D1B400FB76A0 /* LocalNameServers.c */,
+				AA3A0BB513F9D1B400FB76A0 /* LocalNameServers.h */,
+				AA3A0BBB13F9D1B400FB76A0 /* Socket.c */,
+				AA3A0BBC13F9D1B400FB76A0 /* Socket.h */,
+				AA3A0BBD13F9D1B400FB76A0 /* UnixPath.c */,
+				AA3A0BBE13F9D1B400FB76A0 /* UnixPath.h */,
+			);
+			path = source;
+			sourceTree = "<group>";
+		};
 		AABB93B313DD09B800B6A0CB /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				AA3A0B4C13F9D1B400FB76A0 /* Socket */,
+				AA3A0B1B13F9C8DA00FB76A0 /* SystemCall */,
 				AABB989C13DD7A3B00B6A0CB /* Box */,
 				AABB985513DD79E000B6A0CB /* ObjcBridge */,
 				AABB93B413DD09B800B6A0CB /* basekit */,
@@ -847,6 +1053,8 @@
 		AAFE00EE13D6526E00649838 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AA3A0C2C13F9DA9E00FB76A0 /* libevent_extra.a */,
+				AA3A0C2E13F9E73B00FB76A0 /* libevent_core.a */,
 				AAFE00EF13D6526E00649838 /* Cocoa.framework */,
 				AAFE00F113D6526E00649838 /* Other Frameworks */,
 			);
@@ -1007,6 +1215,23 @@
 				AABB989A13DD79E000B6A0CB /* Runtime.h in Headers */,
 				AABB98CC13DD7A3C00B6A0CB /* IoBox.h in Headers */,
 				AABB98CD13DD7A3C00B6A0CB /* IoBoxApi.h in Headers */,
+				AA3A0B4713F9C8DA00FB76A0 /* callsystem.h in Headers */,
+				AA3A0B4913F9C8DA00FB76A0 /* IoSystemCall.h in Headers */,
+				AA3A0C0713F9D1B400FB76A0 /* Address.h in Headers */,
+				AA3A0C0913F9D1B400FB76A0 /* IoDNS.h in Headers */,
+				AA3A0C0B13F9D1B400FB76A0 /* IoEvConnection.h in Headers */,
+				AA3A0C0D13F9D1B400FB76A0 /* IoEvent.h in Headers */,
+				AA3A0C0F13F9D1B400FB76A0 /* IoEventManager.h in Headers */,
+				AA3A0C1113F9D1B400FB76A0 /* IoEvHttpServer.h in Headers */,
+				AA3A0C1313F9D1B400FB76A0 /* IoEvOutRequest.h in Headers */,
+				AA3A0C1513F9D1B400FB76A0 /* IoEvOutResponse.h in Headers */,
+				AA3A0C1713F9D1B400FB76A0 /* IoIPAddress.h in Headers */,
+				AA3A0C1913F9D1B400FB76A0 /* IoSocket.h in Headers */,
+				AA3A0C1C13F9D1B400FB76A0 /* IoUnixPath.h in Headers */,
+				AA3A0C1E13F9D1B400FB76A0 /* IPAddress.h in Headers */,
+				AA3A0C2013F9D1B400FB76A0 /* LocalNameServers.h in Headers */,
+				AA3A0C2613F9D1B400FB76A0 /* Socket.h in Headers */,
+				AA3A0C2813F9D1B400FB76A0 /* UnixPath.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1064,6 +1289,20 @@
 				AABB96E413DD09B800B6A0CB /* CMakeLists.txt in Resources */,
 				AABB988013DD79E000B6A0CB /* ObjcBridge.io in Resources */,
 				AABB98C913DD7A3C00B6A0CB /* Vector.io in Resources */,
+				AA3A0B4113F9C8DA00FB76A0 /* SystemCall.io in Resources */,
+				AA3A0BE113F9D1B400FB76A0 /* A0_EventManager.io in Resources */,
+				AA3A0BE213F9D1B400FB76A0 /* A1_Socket.io in Resources */,
+				AA3A0BE313F9D1B400FB76A0 /* A2_Server.io in Resources */,
+				AA3A0BE413F9D1B400FB76A0 /* A3_Host.io in Resources */,
+				AA3A0BE513F9D1B400FB76A0 /* A4_Object.io in Resources */,
+				AA3A0BE613F9D1B400FB76A0 /* DNSResolver.io in Resources */,
+				AA3A0BE713F9D1B400FB76A0 /* EvHttpCookie.io in Resources */,
+				AA3A0BE813F9D1B400FB76A0 /* EvHttpServer.io in Resources */,
+				AA3A0BE913F9D1B400FB76A0 /* EvOutResponse.io in Resources */,
+				AA3A0BEA13F9D1B400FB76A0 /* EvStatusCodes.io in Resources */,
+				AA3A0BEB13F9D1B400FB76A0 /* IPAddress.io in Resources */,
+				AA3A0BEC13F9D1B400FB76A0 /* UnixPath.io in Resources */,
+				AA3A0BED13F9D1B400FB76A0 /* URL.io in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1166,6 +1405,25 @@
 				AABB989B13DD79E000B6A0CB /* Runtime.m in Sources */,
 				AABB98CB13DD7A3C00B6A0CB /* IoBox.c in Sources */,
 				AABB98CE13DD7A3C00B6A0CB /* IoBoxInit.c in Sources */,
+				AA3A0B4613F9C8DA00FB76A0 /* callsystem.c in Sources */,
+				AA3A0B4813F9C8DA00FB76A0 /* IoSystemCall.c in Sources */,
+				AA3A0B4A13F9C8DA00FB76A0 /* IoSystemCallInit.c in Sources */,
+				AA3A0C0613F9D1B400FB76A0 /* Address.c in Sources */,
+				AA3A0C0813F9D1B400FB76A0 /* IoDNS.c in Sources */,
+				AA3A0C0A13F9D1B400FB76A0 /* IoEvConnection.c in Sources */,
+				AA3A0C0C13F9D1B400FB76A0 /* IoEvent.c in Sources */,
+				AA3A0C0E13F9D1B400FB76A0 /* IoEventManager.c in Sources */,
+				AA3A0C1013F9D1B400FB76A0 /* IoEvHttpServer.c in Sources */,
+				AA3A0C1213F9D1B400FB76A0 /* IoEvOutRequest.c in Sources */,
+				AA3A0C1413F9D1B400FB76A0 /* IoEvOutResponse.c in Sources */,
+				AA3A0C1613F9D1B400FB76A0 /* IoIPAddress.c in Sources */,
+				AA3A0C1813F9D1B400FB76A0 /* IoSocket.c in Sources */,
+				AA3A0C1A13F9D1B400FB76A0 /* IoSocketInit.c in Sources */,
+				AA3A0C1B13F9D1B400FB76A0 /* IoUnixPath.c in Sources */,
+				AA3A0C1D13F9D1B400FB76A0 /* IPAddress.c in Sources */,
+				AA3A0C1F13F9D1B400FB76A0 /* LocalNameServers.c in Sources */,
+				AA3A0C2513F9D1B400FB76A0 /* Socket.c in Sources */,
+				AA3A0C2713F9D1B400FB76A0 /* UnixPath.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1229,6 +1487,7 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IoLanguageKit/IoLanguageKit-Prefix.pch";
+				HEADER_SEARCH_PATHS = /usr/local/include;
 				INFOPLIST_FILE = "IoLanguageKit/IoLanguageKit-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -1236,6 +1495,10 @@
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/../../addons/Box/_build/dll\"",
 					"\"$(SRCROOT)/../../addons/Box/_build/lib\"",
+					"\"$(SRCROOT)/../../addons/SystemCall/_build/dll\"",
+					"\"$(SRCROOT)/../../addons/SystemCall/_build/lib\"",
+					"\"$(SRCROOT)/../../addons/Socket/_build/dll\"",
+					"\"$(SRCROOT)/../../addons/Socket/_build/lib\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = framework;
@@ -1254,6 +1517,7 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IoLanguageKit/IoLanguageKit-Prefix.pch";
+				HEADER_SEARCH_PATHS = /usr/local/include;
 				INFOPLIST_FILE = "IoLanguageKit/IoLanguageKit-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -1261,6 +1525,10 @@
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/../../addons/Box/_build/dll\"",
 					"\"$(SRCROOT)/../../addons/Box/_build/lib\"",
+					"\"$(SRCROOT)/../../addons/SystemCall/_build/dll\"",
+					"\"$(SRCROOT)/../../addons/SystemCall/_build/lib\"",
+					"\"$(SRCROOT)/../../addons/Socket/_build/dll\"",
+					"\"$(SRCROOT)/../../addons/Socket/_build/lib\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = framework;

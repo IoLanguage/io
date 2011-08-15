@@ -109,7 +109,7 @@
 		memset(encoding, '@', argCount + 3);
 		encoding[argCount + 3] = 0;
 		encoding[2] = ':';
-		printf("encoding: '%s'\n", encoding);
+		//printf("encoding: '%s'\n", encoding);
 		NSMethodSignature *signature = [NSMethodSignature signatureWithObjCTypes:encoding];
 		objc_free(encoding);
 		return signature;
@@ -132,10 +132,15 @@
 	IoObject *result;
 	
 	if (IoTag_performFunc(tag))
+	{
 		result = tag->performFunc(ioValue, ioValue, message);
+	}
 	else
-		result = IoObject_perform(ioValue, ioValue, message);
-
+	{
+		result = IoState_tryToPerform(IoObject_state(ioValue), ioValue, ioValue, message);
+		//result = IoObject_perform(ioValue, ioValue, message);
+	}
+	
 	// convert and return result if not void
 
 	if (*returnType != 'v')

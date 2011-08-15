@@ -19,6 +19,8 @@
 
 #define HTTPD(self) ((struct evhttp *)IoObject_dataPointer(self))
 
+static const char *protoId = "EvHttpServer";
+
 IoTag *IoEvHttpServer_newTag(void *state)
 {
 	IoTag *tag = IoTag_newWithName_("EvHttpServer");
@@ -35,7 +37,7 @@ IoEvHttpServer *IoEvHttpServer_proto(void *state)
 	IoObject_tag_(self, IoEvHttpServer_newTag(state));
 	IoObject_setDataPointer_(self, 0x0);
 
-	IoState_registerProtoWithFunc_((IoState *)state, self, IoEvHttpServer_proto);
+	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -59,7 +61,7 @@ IoEvHttpServer *IoEvHttpServer_rawClone(IoEvHttpServer *proto)
 
 IoEvHttpServer *IoEvHttpServer_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoEvHttpServer_proto);
+	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 
