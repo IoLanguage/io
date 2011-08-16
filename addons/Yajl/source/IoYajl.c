@@ -247,15 +247,16 @@ IoObject *IoYajl_parse(IoYajl *self, IoObject *locals, IoMessage *m)
 	size_t dataSize = IoSeq_rawSizeInBytes(dataSeq);
 	const unsigned char *data = (const unsigned char *)CSTRING(dataSeq);
 	
-	yajl_parser_config cfg = { 1, 0 };
-	yajl_handle hand = yajl_alloc(&callbacks, &cfg,  NULL, (void *) self);  
-    yajl_status stat;        
+	yajl_handle hand = yajl_alloc(&callbacks, NULL, (void *) self);
+	yajl_config(hand, yajl_allow_comments, 1);
+	yajl_config(hand, yajl_dont_validate_strings, 1);
+	
+    yajl_status stat;
 	
 	stat = yajl_parse(hand, data, dataSize);  
-	stat = yajl_parse_complete(hand);  
+	stat = yajl_complete_parse(hand);  
 
-	if (stat != yajl_status_ok &&  
-		stat != yajl_status_insufficient_data)  
+	if (stat != yajl_status_ok)  
 	{  
 		char *str = (char *)yajl_get_error(hand, 1, data, dataSize);
 		IoObject *error = IoError_newWithCStringMessage_(IOSTATE, str);

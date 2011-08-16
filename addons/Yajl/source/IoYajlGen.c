@@ -30,8 +30,11 @@ IoTag *IoYajlGen_newTag(void *state)
 IoYajlGen *IoYajlGen_rawClone(IoYajlGen *proto)
 {
 	IoObject *self = IoObject_rawClonePrimitive(proto);
-	yajl_gen_config config = { 0, "" };
-	IoObject_setDataPointer_(self, yajl_gen_alloc(&config, NULL));
+
+	yajl_gen g = yajl_gen_alloc(NULL);
+	yajl_gen_config(g, yajl_gen_beautify, 0);
+	
+	IoObject_setDataPointer_(self, g);
 	return self;
 }
 
@@ -134,8 +137,9 @@ IoObject *IoYajlGen_generate(IoYajlGen *self, IoObject *locals, IoMessage *m)
 	IoSeq *out = IOSEQ(jsonBuffer, jsonBufferLength);
 	
 	yajl_gen_free(DATA(self));
-	yajl_gen_config config = { 0, "" };
-	IoObject_setDataPointer_(self, yajl_gen_alloc(&config, NULL));
+	yajl_gen g = yajl_gen_alloc(NULL);
+	yajl_gen_config(g, yajl_gen_beautify, 0);
+	IoObject_setDataPointer_(self, g);
 	
     return out;  
 }
@@ -145,8 +149,10 @@ IoYajlGen *IoYajlGen_proto(void *state)
 	IoYajlGen *self = IoObject_new(state);
 	IoObject_tag_(self, IoYajlGen_newTag(state));
 
-	yajl_gen_config config = { 0, "" };
-	IoObject_setDataPointer_(self, yajl_gen_alloc(&config, NULL));
+	yajl_gen g = yajl_gen_alloc(NULL);
+	yajl_gen_config(g, yajl_gen_beautify, 0);
+	
+	IoObject_setDataPointer_(self, g);
 
 	IoState_registerProtoWithFunc_(state, self, IoYajlGen_proto);
 
