@@ -103,6 +103,39 @@ void ILanguageoStateActiveCoroCallback(void *context, int r)
 	IoState_exitCallback_(state, IoLanguageStateExitCallback);
 	IoState_init(state);
 	
+	/*
+	[self runIoResource:@"A0_List"];
+	[self runIoResource:@"A1_OperatorTable"];
+	[self runIoResource:@"A2_Object"];
+	[self runIoResource:@"A3_List"];
+	[self runIoResource:@"A4_Exception"];
+	[self runIoResource:@"Actor"];
+	[self runIoResource:@"AddonLoader"];
+	[self runIoResource:@"B_Sequence"];
+	[self runIoResource:@"Block"];
+	[self runIoResource:@"CFunction"];
+	[self runIoResource:@"Date"];
+	[self runIoResource:@"Debugger"];
+	[self runIoResource:@"Directory"];
+	[self runIoResource:@"DynLib"];
+	[self runIoResource:@"Error"];
+	[self runIoResource:@"File"];
+	[self runIoResource:@"List_schwartzian"];
+	[self runIoResource:@"Map"];
+	[self runIoResource:@"Message"];
+	[self runIoResource:@"Number"];
+	[self runIoResource:@"Profiler"];
+	[self runIoResource:@"Sandbox"];
+	[self runIoResource:@"Serialize"];
+	[self runIoResource:@"System"];
+	[self runIoResource:@"UnitTest"];
+	[self runIoResource:@"Vector"];
+	[self runIoResource:@"Y_Path"];
+	[self runIoResource:@"Z_CLI"];
+	[self runIoResource:@"Z_Importer"];
+	*/
+
+	
 	[self runIoResource:@"A0_EventManager"];
 	[self runIoResource:@"A1_Socket"];
 	[self runIoResource:@"A2_Server"];

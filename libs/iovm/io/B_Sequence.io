@@ -187,9 +187,11 @@ Sequence do(
 	)
 
 	//doc Sequence print Prints contents of a sequence.
-	cPrint := getSlot("print")
-	print := method(
-		self asUTF8 cPrint
+	if(getSlot("cPrint") == nil,
+		cPrint := getSlot("print")
+		print := method(
+			self asUTF8 cPrint
+		)
 	)
 	
 	asDecodedList := method(List fromEncodedList(self))
