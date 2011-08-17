@@ -4,10 +4,10 @@
 # Builds the Yajl addon
 
 # Find yajl
-# find_package(Yajl)
+find_package(Yajl)
 
 # Set yajl compiles as false because of the yaill imcompatibitly issue
-set(YAJL_FOUND FALSE)
+#set(YAJL_FOUND FALSE)
 
 # Create the _build bundle hierarchy if needed.
 make_build_bundle(_build)
