@@ -76,6 +76,13 @@ NSTaskTerminationReasonUncaughtSignal := 2
 NSFileHandleNotificationFileHandleItem := "NSFileHandleNotificationFileHandleItem"
 NSFileHandleNotificationDataItem := "NSFileHandleNotificationDataItem"
 NSFileHandleOperationException := "NSFileHandleOperationException"
+NSFileHandleReadCompletionNotification := "NSFileHandleReadCompletionNotification"
+
+NSTaskDidTerminateNotification := "NSTaskDidTerminateNotification"
+NSTaskTerminationReasonExit := 1
+NSTaskTerminationReasonUncaughtSignal := 2
+
+
 
 // ---------------------------------
 

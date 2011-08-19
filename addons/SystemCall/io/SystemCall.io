@@ -8,10 +8,16 @@ SystemCall do(
 	stderr ::= nil
 	arguments ::= nil
 	environment ::= Map clone
+	readEvent ::= nil
+	writeEvent ::= nil
+	readTimeout ::= 1000
+	writeTimeout ::= 1000
 
 	init := method(
 		self arguments := List clone
 		self environment := environment clone
+		setReadEvent(ReadEvent clone)
+		setWriteEvent(WriteEvent clone)
 	)
 
 	tryToRun := method(times,
@@ -25,59 +31,67 @@ SystemCall do(
 		self
 	)
 	
-	run := method(aBlock,
-		err := self asyncRun(command, arguments, environment)
-		if(err == -1, Exception raise("unable to run command"))
-
-		// replace this with something to watch the file streams?
-		isRunning := true
-		//writeln("self status = ", self status)
-		wait(.00001)
-		s := self status
-		while(isRunning == true and s > 255 and s != -1,
-			//writeln("self status = ", s)
-			if(aBlock, if(aBlock call == false, return false))
-			wait(.02)
-			s := self status
-		)
-		//writeln("self status = ", s)
-		if(aBlock, aBlock call)
-
-		isRunning := false
-		setReturnCode(s)
-		self
+	commandString := method(
+		command .. arguments map(a, "'" .. a .. "'") join(", ")
 	)
 	
-	runAndReturnOutput := method(aBlock,
+	run := method(
+		runWatingOnStdout
+	)
+	
+	runWatingOnStdout := method(
+		runWatingOnStream("stdout")
+	)
+
+	runWatingOnStderr := method(
+		runWatingOnStream("stderr")
+	)
+	
+	didRead := nil
+
+	runWatingOnStream := method(streamName,
 	    buffer := Sequence clone
 		err := self asyncRun(command, arguments, environment)
 		if(err == -1, Exception raise("unable to run command"))
 
-		// replace this with something to watch the file streams?
-		isRunning := true
-		//writeln("self status = ", self status)
-		wait(.00001)
-		s := self status
-		while(isRunning == true and s > 255 and s != -1,
-			//writeln("self status = ", s)
-			if(aBlock, if(aBlock call == false, return false))
-			wait(.02)
-			s := self status
-			//buffer appendSeq(stdout readToEnd)
-			if(stdout,
-				e := try(
-					buffer appendSeq(stdout readLines join("\n"))
-				)
-				if(e, e println)
+		if(streamName == "stdout", stream := stdout)
+		if(streamName == "stderr", stream := stderr)
+		readEvent setDescriptorId(stream descriptorId)
+	
+		//writeln("runWatingOnStream(", streamName, ")")
+		//writeln("SystemCall command: ", commandString)
+		
+		setIsRunning(true)
+		loop(
+//writeln("SystemCall loop 1---------------------------------------")
+//writeln("status 11:", self status)
+//writeln("status 22:", self status)
+//writeln("status 33:", self status)
+			readEvent waitOn(readTimeout) 
+//writeln("status 1:", self status)
+//writeln("status 2:", self status)
+//writeln("status 3:", self status)
+//writeln("SystemCall loop 2--------------------------------------- status ", self status)
+			buffer appendSeq(stream readLines join("\n"))	
+			didRead
+			if(isRunning not, 
+				//writeln("not running")
+				break
 			)
+			if(self status > 255, 
+				//writeln("status > 255")
+				break
+			)
+			if(self status == -1, 
+				//writeln("status == -1")
+				break
+			)
+//writeln("SystemCall loop 3---------------------------------------")
 		)
-		buffer appendSeq(stdout readLines join("\n"))
 
-		//writeln("self status = ", s)
-		if(aBlock, aBlock call)
-
-		isRunning := false
-		setReturnCode(s)
+//writeln("buffer: '", buffer, "'")
+		setIsRunning(false)
+		setReturnCode(self status)
 		buffer
 	)
 

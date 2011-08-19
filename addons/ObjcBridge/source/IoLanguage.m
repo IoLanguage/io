@@ -19,6 +19,24 @@
 - (void)activeCoroCallback:(int)r;
 @end
 
+@implementation NSData (BridgeHelpers)
+
+- (NSString *)asString
+{
+	return [[[NSString alloc] initWithData:self encoding:NSUTF8StringEncoding] autorelease];
+}
+
+@end
+
+@implementation NSString (BridgeHelpers)
+
+- (NSString *)asData
+{
+	return [[NSData alloc] dataWithBytes:[self UTF8String] length:[self lengthOfBytesUsingEncoding:NSUTF8StringEncoding]];
+}
+
+@end
+
 
 @implementation IoLanguage
 

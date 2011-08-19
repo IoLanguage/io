@@ -72,6 +72,7 @@ IoFile *IoFile_proto(void *state)
 {
 	IoMethodTable methodTable[] = {
 	{"descriptor", IoFile_descriptor},
+	{"descriptorId", IoFile_descriptor}, // compatible with Socket
 	// standard I/O
 	{"standardInput", IoFile_standardInput},
 	{"standardOutput", IoFile_standardOutput},

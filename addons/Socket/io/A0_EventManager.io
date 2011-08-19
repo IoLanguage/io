@@ -121,8 +121,7 @@ EventManager do(
 
 	//doc EventManager run Runs the EventManger loop. Does not return. Private - should only be called by resumeIfNeeded.
 	run := method(
-		writeln("EventManager run")
-		Exception raise("EventManager run")
+		//writeln("EventManager run")
 		//Scheduler currentCoroutine setLabel("EventManager")
 		//writeln("EventManager run")
 		setShouldRun(true)
@@ -136,7 +135,7 @@ EventManager do(
 					writeln("label: ", Coroutine yieldingCoros first label)
 				)
 				*/
-				writeln("EventManager listening")
+				//writeln("EventManager listening")
 				er := if(Coroutine yieldingCoros first, listen, if(listensUntilEvent, listenUntilEvent, listen)) 
 				er ifError(e, Exception raise("Unrecoverable Error in EventManager: " .. e description))
 
