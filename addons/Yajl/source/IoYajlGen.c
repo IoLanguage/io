@@ -33,7 +33,7 @@ IoYajlGen *IoYajlGen_rawClone(IoYajlGen *proto)
 
 	yajl_gen g = yajl_gen_alloc(NULL);
 	yajl_gen_config(g, yajl_gen_beautify, 0);
-	
+
 	IoObject_setDataPointer_(self, g);
 	return self;
 }
@@ -62,9 +62,9 @@ IoObject *IoYajlGen_pushNull(IoYajlGen *self, IoObject *locals, IoMessage *m)
 IoObject *IoYajlGen_pushString(IoYajlGen *self, IoObject *locals, IoMessage *m)
 {
 	IoSeq *s = IoMessage_locals_seqArgAt_(m, locals, 0);
-	
-	yajl_gen_string(DATA(self), 
-		(const unsigned char *)IOSYMBOL_BYTES(s), 
+
+	yajl_gen_string(DATA(self),
+		(const unsigned char *)IOSYMBOL_BYTES(s),
 		IOSYMBOL_LENGTH(s));
 
 	return self;
@@ -87,11 +87,11 @@ IoObject *IoYajlGen_pushDouble(IoYajlGen *self, IoObject *locals, IoMessage *m)
 IoObject *IoYajlGen_pushNumberString(IoYajlGen *self, IoObject *locals, IoMessage *m)
 {
 	IoSeq *s = IoMessage_locals_seqArgAt_(m, locals, 0);
-	
-	yajl_gen_number(DATA(self), 
-		(const  char *)IOSYMBOL_BYTES(s), 
+
+	yajl_gen_number(DATA(self),
+		(const  char *)IOSYMBOL_BYTES(s),
 		IOSYMBOL_LENGTH(s));
-		
+
 	return self;
 }
 
@@ -130,18 +130,18 @@ IoObject *IoYajlGen_closeArray(IoYajlGen *self, IoObject *locals, IoMessage *m)
 IoObject *IoYajlGen_generate(IoYajlGen *self, IoObject *locals, IoMessage *m)
 {
 	const unsigned char *jsonBuffer;
-	unsigned int jsonBufferLength;
-		
+	size_t jsonBufferLength;
+
 	yajl_gen_get_buf(DATA(self), &jsonBuffer, &jsonBufferLength);
-	
+
 	IoSeq *out = IOSEQ(jsonBuffer, jsonBufferLength);
-	
+
 	yajl_gen_free(DATA(self));
 	yajl_gen g = yajl_gen_alloc(NULL);
 	yajl_gen_config(g, yajl_gen_beautify, 0);
 	IoObject_setDataPointer_(self, g);
-	
-    return out;  
+
+    return out;
 }
 
 IoYajlGen *IoYajlGen_proto(void *state)
@@ -151,13 +151,13 @@ IoYajlGen *IoYajlGen_proto(void *state)
 
 	yajl_gen g = yajl_gen_alloc(NULL);
 	yajl_gen_config(g, yajl_gen_beautify, 0);
-	
+
 	IoObject_setDataPointer_(self, g);
 
 	IoState_registerProtoWithFunc_(state, self, IoYajlGen_proto);
 
 	{
-		IoMethodTable methodTable[] = 
+		IoMethodTable methodTable[] =
 		{
 			{"pushNull", IoYajlGen_pushNull},
 			{"pushString", IoYajlGen_pushString},
@@ -174,6 +174,6 @@ IoYajlGen *IoYajlGen_proto(void *state)
 		};
 		IoObject_addMethodTable_(self, methodTable);
 	}
-		
+
 	return self;
 }

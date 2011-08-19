@@ -1262,6 +1262,9 @@
 /* Begin PBXProject section */
 		AAFE00E213D6526E00649838 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
 			buildConfigurationList = AAFE00E513D6526E00649838 /* Build configuration list for PBXProject "IoLanguageKit" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
