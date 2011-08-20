@@ -449,7 +449,7 @@ IoObject *IoObjcBridge_ioValueForCValue_ofType_error_(IoObjcBridge *self, void *
 			}
 			else if (!strncmp(cType, "{CGSize=dd}", 11))
 			{
-				CGSize s = *(NSSize *)cValue;
+				CGSize s = *(CGSize *)cValue;
 				vec2f v;
 				v.x = s.width;
 				v.y = s.height;
