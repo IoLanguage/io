@@ -152,13 +152,9 @@ IoObject *Io2Objc_perform(Io2Objc *self, IoObject *locals, IoMessage *m)
 	// see if receiver can handle message -------------
 
 	BOOL respondsToSelector;
-	if (object != nil && [object class] == object) //(((Class)object)->info & CLS_META) == CLS_META)
+	if (object != nil && [object class] == object)
 	{
-		//((Class)object)->info ^= CLS_CLASS;
-		//((Class)object)->info ^= CLS_META;
-		respondsToSelector = [object respondsToSelector:selector];
-		//((Class)object)->info ^= CLS_META;
-		//((Class)object)->info ^= CLS_CLASS;
+		respondsToSelector = [object instancesRespondToSelector:selector];
 	}
 	else
 	{
