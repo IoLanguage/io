@@ -44,7 +44,7 @@ static CHash *classProtos = NULL;
 	//(Class cls = objc_allocateClassPair(Class superclass, CSTRING(ioName), 0);
 	//objc_registerClassPair(Class cls);
 
-	Class class = objc_makeClass(CSTRING(ioName), "ObjcSubclass", NO);
+	Class class = Io_objc_makeClass(CSTRING(ioName), "ObjcSubclass", NO);
 	objc_addClass(class);
 	state = IoObject_state(proto);
 	if (class) CHash_at_put_([self classProtos], ioName, proto);

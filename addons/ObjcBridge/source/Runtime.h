@@ -41,10 +41,12 @@
 	- (struct _arginfo)_argumentInfoAtIndex:(unsigned int)index;
 	@end
 #endif
+
 @interface NSMethodSignature(Io2)
 - (unsigned int)argumentSizeAtIndex:(unsigned int)index;
 @end
-Class objc_makeClass(const char *name, const char *superName, BOOL isMetaClass);
+
+Class Io_objc_makeClass(const char *name, const char *superName, BOOL isMetaClass);
 void Io_class_addMethod(Class class, SEL sel, const char *types, IMP imp, BOOL toInstanceMethods);
 
 #endif

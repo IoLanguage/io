@@ -36,12 +36,12 @@
 @end
 */
 
-Class objc_makeClass(const char *name, const char *superName, BOOL isMetaClass)
+Class Io_objc_makeClass(const char *name, const char *superName, BOOL isMetaClass)
 {
 	/*
 	Class superClass = objc_getClass(superName);
 	Class class = objc_calloc(1, sizeof(Class));
-	class->isa = (isMetaClass) ? superClass->isa->isa : objc_makeClass(name, superName, YES);
+	class->isa = (isMetaClass) ? superClass->isa->isa : Io_objc_makeClass(name, superName, YES);
 	class->name = (isMetaClass) ? strdup(name) : class->isa->name;
 	class->info = (isMetaClass) ? CLS_META : CLS_CLASS;
 	class->instance_size = (isMetaClass) ? superClass->isa->instance_size : superClass->instance_size;
@@ -54,7 +54,7 @@ Class objc_makeClass(const char *name, const char *superName, BOOL isMetaClass)
 #endif
 	return class;
 	*/
-	printf("ERROR objc_makeClass not supported\n");
+	printf("ERROR Io_objc_makeClass not supported\n");
 	return nil;
 }
 
@@ -79,6 +79,6 @@ void Io_class_addMethod(Class class, SEL sel, const char *types, IMP imp, BOOL t
 	_objc_flush_caches(class);
 	
 	*/
-	printf("ERROR objc_makeClass not supported\n");
+	printf("ERROR Io_class_addMethod not supported\n");
 	return;
 }
