@@ -353,14 +353,7 @@ BOOL respondsToSelector(id self, SEL sel, SEL selector)
 
 NSMethodSignature *methodSignatureForSelector(id self, SEL sel, SEL selector)
 {
-	Method method = class_getInstanceMethod(self->isa, selector);
-
-	if (method)
-	{
-		return [NSMethodSignature signatureWithObjCTypes:method_getTypeEncoding(method)]; //(method->method_types)];
-	}
-	
-	return nil;
+    return [NSObject instanceMethodSignatureForSelector: selector];
 }
 
 Io2Objc *Io2Objc_newSubclassNamed(Io2Objc *self, IoObject *locals, IoMessage *m)
