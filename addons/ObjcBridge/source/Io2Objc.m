@@ -83,7 +83,7 @@ void Io2Objc_free(Io2Objc *self)
 		IoObjcBridge_removeId_(DATA(self)->bridge, object);
 	}
 	//printf("Io2Objc_free %p that referenced a %s\n", (void *)object, [[object className] cString]);
-	if (object != nil && [object class] != object) // && (((Class)object)->info & CLS_META) != CLS_META)
+    if (object != nil && !class_isMetaClass([object class]))
 	{
 		[object autorelease];
 	}
@@ -104,7 +104,7 @@ void Io2Objc_setBridge(Io2Objc *self, void *bridge)
 
 void Io2Objc_setObject(Io2Objc *self, void *object)
 {
-	if (object != nil && ([(id)object class] != (id)object)) //&& (((Class)object)->info & CLS_META) !=CLS_META)
+	if (object != nil && !class_isMetaClass([(id)object class]))
 	{
 		DATA(self)->object = [(id)object retain];
 	}
@@ -152,7 +152,7 @@ IoObject *Io2Objc_perform(Io2Objc *self, IoObject *locals, IoMessage *m)
 	// see if receiver can handle message -------------
 
 	BOOL respondsToSelector;
-	if (object != nil && [object class] == object)
+	if (object != nil && class_isMetaClass([object class]))
 	{
 		respondsToSelector = [object instancesRespondToSelector:selector];
 	}
@@ -390,7 +390,7 @@ IoObject *Io2Objc_setSlot(Io2Objc *self, IoObject *locals, IoMessage *m)
 		if (argCount != expectedArgCount)
 			IoState_error_(IOSTATE, m, "Method '%s' is waiting for %i arguments, %i given\n", CSTRING(slotName), expectedArgCount, argCount);
 		Class class = DATA(self)->object;
-	//	if ((class->info & CLS_CLASS) != CLS_CLASS && (class->info & CLS_META) != CLS_META)
+	//	if (class != nil && !class_isMetaClass([class class]))
 	//		IoState_error_(IOSTATE, m, "You cannot add method '%s' to instance '%s'\n", CSTRING(slotName), [[class description] UTF8String]);
 		Method method = class_getInstanceMethod(class, sel_getUid(CSTRING(slotName)));
 		if (method)
@@ -534,7 +534,7 @@ IoObject *Io2Objc_io2ObjcType(Io2Objc *self, IoObject *locals, IoMessage *m)
 				}
 			}
 		}
-		class = class->super_class;
+		class = [class superclass];
 	}
 	NSArray *array = [[set allObjects] sortedArrayUsingSelector:@selector(compare:)];
 	[set release];
