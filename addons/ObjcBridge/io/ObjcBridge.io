@@ -67,6 +67,8 @@ NSCenterTextAlignment    := 2
 NSJustifiedTextAlignment := 3
 NSNaturalTextAlignment   := 4
 
+NSPasteboardTypeString := "public.utf8-plain-text"
+
 YES := 1
 NO  := 0
 
