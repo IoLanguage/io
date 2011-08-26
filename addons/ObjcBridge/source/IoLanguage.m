@@ -51,6 +51,7 @@ static IoLanguage *shared = nil;
 	return shared;
 }
 
+void IoBlowfishInit(IoObject *context);
 void IoSocketInit(IoObject *context);
 void IoSystemCallInit(IoObject *context);
 void IoBoxInit(IoObject *context);
@@ -59,6 +60,7 @@ void IoObjcBridgeInit(IoObject *context);
 
 void IoLanguageStateBindingsInitCallback(void *context, void *state)
 {
+	IoBlowfishInit(state);
 	IoSocketInit(state);
 	IoSystemCallInit(state);
 	IoBoxInit(state);
@@ -171,6 +173,7 @@ void ILanguageoStateActiveCoroCallback(void *context, int r)
 	[self runIoResource:@"Vector"];
 	[self runIoResource:@"ObjcBridge"];
 	[self runIoResource:@"SystemCall"];
+	[self runIoResource:@"Blowfish"];
 	return self;
 }
 

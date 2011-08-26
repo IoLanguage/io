@@ -52,6 +52,8 @@ decryptedData := cipher outputBuffer
 
 #define DATA(self) ((IoBlowfishData *)(IoObject_dataPointer(self)))
 
+static const char *protoId = "Blowfish";
+
 IoTag *IoBlowfish_newTag(void *state)
 {
 	IoTag *tag = IoTag_newWithName_("Blowfish");
@@ -68,7 +70,7 @@ IoBlowfish *IoBlowfish_proto(void *state)
 
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoBlowfishData)));
 
-	IoState_registerProtoWithFunc_(state, self, IoBlowfish_proto);
+	IoState_registerProtoWithFunc_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -93,7 +95,7 @@ IoBlowfish *IoBlowfish_rawClone(IoBlowfish *proto)
 
 IoBlowfish *IoBlowfish_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoBlowfish_proto);
+	IoObject *proto = IoState_protoWithInitFunction_(state, protoId);
 	return IOCLONE(proto);
 }
 
@@ -125,7 +127,7 @@ IoObject *IoBlowfish_beginProcessing(IoObject *self, IoObject *locals, IoMessage
 	UArray *key = IoObject_rawGetUArraySlot(self, locals, m, IOSYMBOL("key"));
 	blowfish_ctx *context = &(DATA(self)->context);
 
-	blowfish_init(context, (uint8_t *)UArray_bytes(key), UArray_sizeInBytes(key));
+	blowfish_init(context, (uint8_t *)UArray_bytes(key), (int)UArray_sizeInBytes(key));
 
 	return self;
 }

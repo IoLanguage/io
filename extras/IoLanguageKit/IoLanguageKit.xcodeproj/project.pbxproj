@@ -273,6 +273,12 @@
 		AABB98CC13DD7A3C00B6A0CB /* IoBox.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB98B113DD7A3B00B6A0CB /* IoBox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AABB98CD13DD7A3C00B6A0CB /* IoBoxApi.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB98B213DD7A3B00B6A0CB /* IoBoxApi.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AABB98CE13DD7A3C00B6A0CB /* IoBoxInit.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB98B313DD7A3B00B6A0CB /* IoBoxInit.c */; };
+		AAC9889E1401CF520028A0A9 /* Blowfish.io in Resources */ = {isa = PBXBuildFile; fileRef = AAC988891401CF510028A0A9 /* Blowfish.io */; };
+		AAC988A01401CF520028A0A9 /* blowfish.c in Sources */ = {isa = PBXBuildFile; fileRef = AAC9888C1401CF510028A0A9 /* blowfish.c */; };
+		AAC988A11401CF520028A0A9 /* blowfish.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC9888D1401CF510028A0A9 /* blowfish.h */; };
+		AAC988A21401CF520028A0A9 /* IoBlowfish.c in Sources */ = {isa = PBXBuildFile; fileRef = AAC9888E1401CF510028A0A9 /* IoBlowfish.c */; };
+		AAC988A31401CF520028A0A9 /* IoBlowfish.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC9888F1401CF510028A0A9 /* IoBlowfish.h */; };
+		AAC988A41401CF520028A0A9 /* IoBlowfishInit.c in Sources */ = {isa = PBXBuildFile; fileRef = AAC988901401CF510028A0A9 /* IoBlowfishInit.c */; };
 		AAFE00F013D6526E00649838 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAFE00EF13D6526E00649838 /* Cocoa.framework */; };
 		AAFE00FA13D6526E00649838 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AAFE00F813D6526E00649838 /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
@@ -556,6 +562,12 @@
 		AABB98B113DD7A3B00B6A0CB /* IoBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoBox.h; sourceTree = "<group>"; };
 		AABB98B213DD7A3B00B6A0CB /* IoBoxApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoBoxApi.h; sourceTree = "<group>"; };
 		AABB98B313DD7A3B00B6A0CB /* IoBoxInit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoBoxInit.c; sourceTree = "<group>"; };
+		AAC988891401CF510028A0A9 /* Blowfish.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Blowfish.io; sourceTree = "<group>"; };
+		AAC9888C1401CF510028A0A9 /* blowfish.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = blowfish.c; sourceTree = "<group>"; };
+		AAC9888D1401CF510028A0A9 /* blowfish.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = blowfish.h; sourceTree = "<group>"; };
+		AAC9888E1401CF510028A0A9 /* IoBlowfish.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoBlowfish.c; sourceTree = "<group>"; };
+		AAC9888F1401CF510028A0A9 /* IoBlowfish.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoBlowfish.h; sourceTree = "<group>"; };
+		AAC988901401CF510028A0A9 /* IoBlowfishInit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoBlowfishInit.c; sourceTree = "<group>"; };
 		AAFE00EC13D6526E00649838 /* IoLanguageKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = IoLanguageKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AAFE00EF13D6526E00649838 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		AAFE00F213D6526E00649838 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -681,6 +693,7 @@
 		AABB93B313DD09B800B6A0CB /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				AAC988781401CF510028A0A9 /* Blowfish */,
 				AA3A0B4C13F9D1B400FB76A0 /* Socket */,
 				AA3A0B1B13F9C8DA00FB76A0 /* SystemCall */,
 				AABB989C13DD7A3B00B6A0CB /* Box */,
@@ -1031,6 +1044,36 @@
 			path = source;
 			sourceTree = "<group>";
 		};
+		AAC988781401CF510028A0A9 /* Blowfish */ = {
+			isa = PBXGroup;
+			children = (
+				AAC988881401CF510028A0A9 /* io */,
+				AAC9888B1401CF510028A0A9 /* source */,
+			);
+			name = Blowfish;
+			path = ../addons/Blowfish;
+			sourceTree = "<group>";
+		};
+		AAC988881401CF510028A0A9 /* io */ = {
+			isa = PBXGroup;
+			children = (
+				AAC988891401CF510028A0A9 /* Blowfish.io */,
+			);
+			path = io;
+			sourceTree = "<group>";
+		};
+		AAC9888B1401CF510028A0A9 /* source */ = {
+			isa = PBXGroup;
+			children = (
+				AAC9888C1401CF510028A0A9 /* blowfish.c */,
+				AAC9888D1401CF510028A0A9 /* blowfish.h */,
+				AAC9888E1401CF510028A0A9 /* IoBlowfish.c */,
+				AAC9888F1401CF510028A0A9 /* IoBlowfish.h */,
+				AAC988901401CF510028A0A9 /* IoBlowfishInit.c */,
+			);
+			path = source;
+			sourceTree = "<group>";
+		};
 		AAFE00E013D6526E00649838 = {
 			isa = PBXGroup;
 			children = (
@@ -1232,6 +1275,8 @@
 				AA3A0C2013F9D1B400FB76A0 /* LocalNameServers.h in Headers */,
 				AA3A0C2613F9D1B400FB76A0 /* Socket.h in Headers */,
 				AA3A0C2813F9D1B400FB76A0 /* UnixPath.h in Headers */,
+				AAC988A11401CF520028A0A9 /* blowfish.h in Headers */,
+				AAC988A31401CF520028A0A9 /* IoBlowfish.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1306,6 +1351,7 @@
 				AA3A0BEB13F9D1B400FB76A0 /* IPAddress.io in Resources */,
 				AA3A0BEC13F9D1B400FB76A0 /* UnixPath.io in Resources */,
 				AA3A0BED13F9D1B400FB76A0 /* URL.io in Resources */,
+				AAC9889E1401CF520028A0A9 /* Blowfish.io in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1427,6 +1473,9 @@
 				AA3A0C1F13F9D1B400FB76A0 /* LocalNameServers.c in Sources */,
 				AA3A0C2513F9D1B400FB76A0 /* Socket.c in Sources */,
 				AA3A0C2713F9D1B400FB76A0 /* UnixPath.c in Sources */,
+				AAC988A01401CF520028A0A9 /* blowfish.c in Sources */,
+				AAC988A21401CF520028A0A9 /* IoBlowfish.c in Sources */,
+				AAC988A41401CF520028A0A9 /* IoBlowfishInit.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1502,6 +1551,8 @@
 					"\"$(SRCROOT)/../../addons/SystemCall/_build/lib\"",
 					"\"$(SRCROOT)/../../addons/Socket/_build/dll\"",
 					"\"$(SRCROOT)/../../addons/Socket/_build/lib\"",
+					"\"$(SRCROOT)/../../addons/Blowfish/_build/dll\"",
+					"\"$(SRCROOT)/../../addons/Blowfish/_build/lib\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = framework;
@@ -1532,6 +1583,8 @@
 					"\"$(SRCROOT)/../../addons/SystemCall/_build/lib\"",
 					"\"$(SRCROOT)/../../addons/Socket/_build/dll\"",
 					"\"$(SRCROOT)/../../addons/Socket/_build/lib\"",
+					"\"$(SRCROOT)/../../addons/Blowfish/_build/dll\"",
+					"\"$(SRCROOT)/../../addons/Blowfish/_build/lib\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = framework;

@@ -31,17 +31,62 @@ Importer := Object clone do(
 				)
 			)
 			directories foreach(folder,
-				path := Path with(folder, protoName .. ".io") asSymbol
+				if(tryToImportProtoFromFolder(protoName, folder), return true)
+			)
+			false
+		)
+
+
+		//doc FileImporter ioFileSuffixes A list of valid io source file suffixes. 
+		ioFileSuffixes ::= list("io", "ioe")
+
+		//doc FileImporter tryToImportProtoFromFolder(protoName, path) Looks for the protoName with the valid ioFileSuffixes and calls importPath if found.
+		tryToImportProtoFromFolder := method(protoName, folder,
+			ioFileSuffixes foreach(suffix,
+				path := Path with(folder, protoName .. "." .. suffix) asSymbol
+				//writeln("looking for ", path)
 				if(File with(path) exists,
-					//writeln("importing: ", path)
-					Lobby doFile(path)
-					return true
+					return importPath(path)
 				)
 			)
 			false
 		)
+
+		key := "deafultKey"
+
+		//doc FileImporter importPath(path) Performs Lobby doFile(path). Can override to deal with other formats.
+		importPath := method(path,
+			//writeln("importing: ", path)
+			if(path endsWithSeq("ioe"),
+				Lobby doString(decryptSourceFile(path), path)
+				didLoadPath(path)
+				return true
+			)
+			Lobby doFile(path)
+			didLoadPath(path)
+			return true
+		)
+
+		decryptSourceFile := method(path,
+			//writeln("decrypting " .. path)
+			return Blowfish clone setKey(key) decrypt(File with(path) contents)
+		)
+
+		encryptSourceFile := method(path,
+			//writeln("encrypting " .. path)
+			es := Blowfish clone setKey(key) encrypt(File with(path) contents)
+			File with(path beforeSeq(".io") .. ".ioe") setContents(es)
+		)
+
+		didLoadPath := method(path,
+			//writeln("FileImporter didLoadPath ", path)
+			//encryptSourceFile(path)
+			//File with(path) remove
+			nil
+		)
 	)
-	
+
+
 	//doc Importer FolderImporter An Importer for objects laid out as folders with files as methods.
 	FolderImporter := Object clone do(
 		importsFrom := "folder"

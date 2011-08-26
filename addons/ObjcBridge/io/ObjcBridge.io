@@ -1,7 +1,7 @@
 
 NSMakePoint := method(x, y, Point clone set(x, y))
-NSMakeSize := method(w, h, Point clone set(w, h))
-NSMakeRect := method(x, y, w, h, Box clone set(NSMakePoint(x, y), NSMakeSize(w, h)))
+NSMakeSize  := method(w, h, Point clone set(w, h))
+NSMakeRect  := method(x, y, w, h, Box clone set(NSMakePoint(x, y), NSMakeSize(w, h)))
 
 // AddressBook -----------------------------------
 
@@ -15,11 +15,11 @@ if(Addon platform != "darwin",
 	ABSearchElement     := method(ObjcBridge classNamed("ADSearchElement"))
 )
 
-NSImageFrameNone := 0
-NSImageFramePhoto := 1
+NSImageFrameNone      := 0
+NSImageFramePhoto     := 1
 NSImageFrameGrayBezel := 2
-NSImageFrameGroove := 3
-NSImageFrameButton := 4
+NSImageFrameGroove    := 3
+NSImageFrameButton    := 4
 
 NSNoBorder     := 0
 NSLineBorder   := 1
@@ -42,13 +42,13 @@ NSBoxSeparator := 2
 NSBoxOldStyle  := 3
 NSBoxCustom    := 4
 
-NSNoTitle     := 0
-NSAboveTop    := 1
-NSAtTop       := 2
-NSBelowTop    := 3
-NSAboveBottom := 4
-NSAtBottom    := 5
-NSBelowBottom := 6
+NSNoTitle      := 0
+NSAboveTop     := 1
+NSAtTop        := 2
+NSBelowTop     := 3
+NSAboveBottom  := 4
+NSAtBottom     := 5
+NSBelowBottom  := 6
 
 //NSToolbarDisplayMode
 NSToolbarDisplayModeDefault      := 0
@@ -70,19 +70,14 @@ NSNaturalTextAlignment   := 4
 YES := 1
 NO  := 0
 
-NSTaskTerminationReasonExit := 1
+NSTaskTerminationReasonExit           := 1
 NSTaskTerminationReasonUncaughtSignal := 2
+NSTaskDidTerminateNotification        := "NSTaskDidTerminateNotification"
 
 NSFileHandleNotificationFileHandleItem := "NSFileHandleNotificationFileHandleItem"
-NSFileHandleNotificationDataItem := "NSFileHandleNotificationDataItem"
-NSFileHandleOperationException := "NSFileHandleOperationException"
+NSFileHandleNotificationDataItem       := "NSFileHandleNotificationDataItem"
+NSFileHandleOperationException         := "NSFileHandleOperationException"
 NSFileHandleReadCompletionNotification := "NSFileHandleReadCompletionNotification"
-
-NSTaskDidTerminateNotification := "NSTaskDidTerminateNotification"
-NSTaskTerminationReasonExit := 1
-NSTaskTerminationReasonUncaughtSignal := 2
-
-
 
 // ---------------------------------
 
@@ -94,6 +89,7 @@ Lobby forward := method(
 	m := call message name
 	v := ObjcBridge classNamed(m)
 	if(v, return v)
+	//writeln("bridge importing ", m)
 	Importer import(call)
 )
 
