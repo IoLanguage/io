@@ -24,6 +24,7 @@ include_directories(
 
 # Our library sources.
 set(SRCS
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/CHash_ObjcBridgeFunctions.m"
 		"${CMAKE_CURRENT_SOURCE_DIR}/source/Io2Objc.m"
 		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoObjcBridge.m"
 		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoObjcBridgeInit.m"
