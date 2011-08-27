@@ -47,6 +47,6 @@
 @end
 
 Class Io_objc_makeClass(const char *name, const char *superName, BOOL isMetaClass);
-void Io_class_addMethod(Class class, SEL sel, const char *types, IMP imp, BOOL toInstanceMethods);
+void Io_class_addMethod(Class class, SEL sel, IMP imp, const char *types, BOOL toInstanceMethods);
 
 #endif

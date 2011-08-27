@@ -52,13 +52,14 @@ Class Io_objc_makeClass(const char *name, const char *superName, BOOL isMetaClas
 	return class;
 }
 
-void Io_class_addMethod(Class class, SEL sel, const char *types, IMP imp, BOOL toInstanceMethods)
+void Io_class_addMethod(Class class, SEL sel, IMP imp, const char *types, BOOL toInstanceMethods)
 {
     BOOL methodAddedSuccessfully = NO;
     if (toInstanceMethods)
         methodAddedSuccessfully = class_addMethod(class, sel, imp, types);
     else
         methodAddedSuccessfully = class_addMethod(object_getClass(class), sel, imp, types);
+
     if (!methodAddedSuccessfully)
         printf("ERROR Io_class_addMethod could not add the method as requested\n");
 
