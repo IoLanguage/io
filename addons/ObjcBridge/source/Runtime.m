@@ -54,25 +54,13 @@ Class Io_objc_makeClass(const char *name, const char *superName, BOOL isMetaClas
 
 void Io_class_addMethod(Class class, SEL sel, const char *types, IMP imp, BOOL toInstanceMethods)
 {
-	/*
-	if (class == 0) return;
-	if (toInstanceMethods == NO) class = class->isa;
-	size_t size = sizeof(struct objc_method_list) + sizeof(struct objc_method[1]);
-	struct objc_method_list *methodList = objc_calloc(1, size);
-	if (methodList == 0) return;
-#ifdef GNUSTEP
-	sel = (SEL)GSNameFromSelector(sel);
-#endif
-	unsigned int num = (methodList->method_count)++;
-	methodList->method_list[num].method_name = sel;
-	methodList->method_list[num].method_types = strdup(types);
-	methodList->method_list[num].method_imp = imp;
-	extern void class_add_method_list(Class, struct objc_method_list *);
-	extern void _objc_flush_caches(Class);
-	class_addMethods(class, methodList);
-	_objc_flush_caches(class);
-	
-	*/
-	printf("ERROR Io_class_addMethod not supported\n");
+    BOOL methodAddedSuccessfully = NO;
+    if (toInstanceMethods)
+        methodAddedSuccessfully = class_addMethod(class, sel, imp, types);
+    else
+        methodAddedSuccessfully = class_addMethod(object_getClass(class), sel, imp, types);
+    if (!methodAddedSuccessfully)
+        printf("ERROR Io_class_addMethod could not add the method as requested\n");
+
 	return;
 }
