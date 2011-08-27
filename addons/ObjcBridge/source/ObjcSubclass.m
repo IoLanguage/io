@@ -40,18 +40,12 @@ static CHash *classProtos = NULL;
 
 + (Class)newClassNamed:(IoSymbol *)ioName proto:(IoObject *)proto
 {
-/*
-	//(Class cls = objc_allocateClassPair(Class superclass, CSTRING(ioName), 0);
-	//objc_registerClassPair(Class cls);
-
 	Class class = Io_objc_makeClass(CSTRING(ioName), "ObjcSubclass", NO);
-	objc_addClass(class);
+	objc_registerClassPair(class);
 	state = IoObject_state(proto);
-	if (class) CHash_at_put_([self classProtos], ioName, proto);
+	if (class)
+        CHash_at_put_([self classProtos], ioName, proto);
 	return class;
-*/
-	printf("ObjcSubclass ERROR: subclassing not supported\n");
-	return nil;
 }
 
 /*- (BOOL)respondsToSelector:(SEL)sel

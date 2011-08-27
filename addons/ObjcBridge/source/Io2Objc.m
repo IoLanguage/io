@@ -354,18 +354,16 @@ NSMethodSignature *methodSignatureForSelector(id self, SEL sel, SEL selector)
 
 Io2Objc *Io2Objc_newSubclassNamed(Io2Objc *self, IoObject *locals, IoMessage *m)
 {
-/*
 	Class class = Io_objc_makeClass(IoMessage_locals_cStringArgAt_(m, locals, 0), [[DATA(self)->object className] UTF8String], NO);
-	objc_addClass(class);
 	Io_class_addMethod(class, sel_getUid("forwardInvocation:"), "v12@0:4@8", (IMP)forwardInvocation, NO);
 	Io_class_addMethod(class, sel_getUid("forwardInvocation:"), "v12@0:4@8", (IMP)forwardInvocation, YES);
 	Io_class_addMethod(class, sel_getUid("respondsToSelector:"), "C12@0:4:8", (IMP)respondsToSelector, YES);
 	Io_class_addMethod(class, sel_getUid("methodSignatureForSelector:"), "@12@0:4:8", (IMP)methodSignatureForSelector, YES);
-	((IoObjcBridgeData *)DATA(DATA(self)->bridge))->allClasses = NULL;
+    objc_registerClassPair(class);
+	
+    ((IoObjcBridgeData *)DATA(DATA(self)->bridge))->allClasses = NULL;
+
 	return IoObjcBridge_proxyForId_(DATA(self)->bridge, class);
-	*/
-	printf("Io2Objc_newSubclassNamed not supported\n");
-	return nil;
 }
 
 IoObject *Io2Objc_metaclass(Io2Objc *self, IoObject *locals, IoMessage *m)

@@ -36,26 +36,20 @@
 @end
 */
 
+
+/**
+ * This method creates a new ObjC class.
+ * You can add methods to it using Io_objc_addMethod().
+ * After adding methods the returned class must be registered with the runtime using
+ * the runtime function objc_registerClassPair().
+ */
 Class Io_objc_makeClass(const char *name, const char *superName, BOOL isMetaClass)
 {
-	/*
 	Class superClass = objc_getClass(superName);
-	Class class = objc_calloc(1, sizeof(Class));
-	class->isa = (isMetaClass) ? superClass->isa->isa : Io_objc_makeClass(name, superName, YES);
-	class->name = (isMetaClass) ? strdup(name) : class->isa->name;
-	class->info = (isMetaClass) ? CLS_META : CLS_CLASS;
-	class->instance_size = (isMetaClass) ? superClass->isa->instance_size : superClass->instance_size;
-#ifdef GNUSTEP
-	class->super_class = (isMetaClass) ? (Class)strdup(superName) : class->isa->super_class;
-#else
-	class->super_class = (isMetaClass) ? superClass->isa : superClass;
-	class->methodLists = objc_calloc(1, sizeof(struct objc_method_list *));
-	class->methodLists[0] = (struct objc_method_list *)-1;
-#endif
+    Class class = objc_allocateClassPair(superClass, name, 0);
+    if (isMetaClass)
+        class = object_getClass(class);
 	return class;
-	*/
-	printf("ERROR Io_objc_makeClass not supported\n");
-	return nil;
 }
 
 void Io_class_addMethod(Class class, SEL sel, const char *types, IMP imp, BOOL toInstanceMethods)
