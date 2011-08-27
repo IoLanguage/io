@@ -6,8 +6,9 @@
 #include "List.h"
 #include "IoState.h"
 #include "IoMessage.h"
-#include <stdlib.h>
 #include "Objc2Io.h"
+#include "CHash_ObjcBridgeFunctions.h"
+#include <stdlib.h>
 
 /*
  * globals are evil, but Objective-C classes are globals already,
@@ -28,7 +29,11 @@ static CHash *classProtos = NULL;
 
 + (CHash *)classProtos
 {
-	if (!classProtos) classProtos = CHash_new();
+	if (!classProtos)
+    {
+        classProtos = CHash_new();
+        CHash_setObjcBridgeHashFunctions(classProtos);
+    }
 	return classProtos;
 }
 
