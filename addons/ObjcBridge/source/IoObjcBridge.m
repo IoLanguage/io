@@ -13,25 +13,7 @@
 #include "IoNumber.h"
 #include "Io2Objc.h"
 #include "Objc2Io.h"
-#include "Hash_superfast.h"
-#include "Hash_murmur.h"
-
-
-int Pointer_equals_(void *v1, void *v2)
-{
-	return (uintptr_t)v1 == (uintptr_t)v2;
-}
-
-uintptr_t Pointer_superfastHash(const void *v)
-{
-	return SuperFastHash((char *)&v, sizeof(void *));
-}
-
-uintptr_t Pointer_murmurHash(const void *v)
-{
-	return (uintptr_t)MurmurHash2((const void *)&v, sizeof(void *), 0);
-}
-
+#include "CHash_ObjcBridgeFunctions.h"
 
 static const char *protoId = "ObjcBridge";
 
@@ -95,14 +77,10 @@ IoObjcBridge *IoObjcBridge_proto(void *state)
 	IoObject_setDataPointer_(self, objc_calloc(1, sizeof(IoObjcBridgeData)));
 
 	DATA(self)->io2objcs = CHash_new();
-	CHash_setEqualFunc_(DATA(self)->io2objcs, (CHashEqualFunc *)Pointer_equals_);
-	CHash_setHash1Func_(DATA(self)->io2objcs, (CHashHashFunc *)Pointer_superfastHash);
-	CHash_setHash2Func_(DATA(self)->io2objcs, (CHashHashFunc *)Pointer_murmurHash);
+    CHash_setObjcBridgeHashFunctions(DATA(self)->io2objcs);
 	
 	DATA(self)->objc2ios = CHash_new();
-	CHash_setEqualFunc_(DATA(self)->objc2ios, (CHashEqualFunc *)Pointer_equals_);
-	CHash_setHash1Func_(DATA(self)->objc2ios, (CHashHashFunc *)Pointer_superfastHash);
-	CHash_setHash2Func_(DATA(self)->objc2ios, (CHashHashFunc *)Pointer_murmurHash);	
+    CHash_setObjcBridgeHashFunctions(DATA(self)->objc2ios);
 	
 	IoObjcBridge_setMethodBuffer_(self, "nop");
 

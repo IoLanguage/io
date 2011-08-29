@@ -6,8 +6,9 @@
 #include "List.h"
 #include "IoState.h"
 #include "IoMessage.h"
-#include <stdlib.h>
 #include "Objc2Io.h"
+#include "CHash_ObjcBridgeFunctions.h"
+#include <stdlib.h>
 
 /*
  * globals are evil, but Objective-C classes are globals already,
@@ -28,7 +29,11 @@ static CHash *classProtos = NULL;
 
 + (CHash *)classProtos
 {
-	if (!classProtos) classProtos = CHash_new();
+	if (!classProtos)
+    {
+        classProtos = CHash_new();
+        CHash_setObjcBridgeHashFunctions(classProtos);
+    }
 	return classProtos;
 }
 
@@ -40,18 +45,12 @@ static CHash *classProtos = NULL;
 
 + (Class)newClassNamed:(IoSymbol *)ioName proto:(IoObject *)proto
 {
-/*
-	//(Class cls = objc_allocateClassPair(Class superclass, CSTRING(ioName), 0);
-	//objc_registerClassPair(Class cls);
-
-	Class class = objc_makeClass(CSTRING(ioName), "ObjcSubclass", NO);
-	objc_addClass(class);
+	Class class = Io_objc_makeClass(CSTRING(ioName), "ObjcSubclass", NO);
+	objc_registerClassPair(class);
 	state = IoObject_state(proto);
-	if (class) CHash_at_put_([self classProtos], ioName, proto);
+	if (class)
+        CHash_at_put_([self classProtos], ioName, proto);
 	return class;
-*/
-	printf("ObjcSubclass ERROR: subclassing not supported\n");
-	return nil;
 }
 
 /*- (BOOL)respondsToSelector:(SEL)sel

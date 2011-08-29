@@ -36,49 +36,32 @@
 @end
 */
 
-Class objc_makeClass(const char *name, const char *superName, BOOL isMetaClass)
+
+/**
+ * This method creates a new ObjC class.
+ * You can add methods to it using Io_objc_addMethod().
+ * After adding methods the returned class must be registered with the runtime using
+ * the runtime function objc_registerClassPair().
+ */
+Class Io_objc_makeClass(const char *name, const char *superName, BOOL isMetaClass)
 {
-	/*
 	Class superClass = objc_getClass(superName);
-	Class class = objc_calloc(1, sizeof(Class));
-	class->isa = (isMetaClass) ? superClass->isa->isa : objc_makeClass(name, superName, YES);
-	class->name = (isMetaClass) ? strdup(name) : class->isa->name;
-	class->info = (isMetaClass) ? CLS_META : CLS_CLASS;
-	class->instance_size = (isMetaClass) ? superClass->isa->instance_size : superClass->instance_size;
-#ifdef GNUSTEP
-	class->super_class = (isMetaClass) ? (Class)strdup(superName) : class->isa->super_class;
-#else
-	class->super_class = (isMetaClass) ? superClass->isa : superClass;
-	class->methodLists = objc_calloc(1, sizeof(struct objc_method_list *));
-	class->methodLists[0] = (struct objc_method_list *)-1;
-#endif
+    Class class = objc_allocateClassPair(superClass, name, 0);
+    if (isMetaClass)
+        class = object_getClass(class);
 	return class;
-	*/
-	printf("ERROR objc_makeClass not supported\n");
-	return nil;
 }
 
-void Io_class_addMethod(Class class, SEL sel, const char *types, IMP imp, BOOL toInstanceMethods)
+void Io_class_addMethod(Class class, SEL sel, IMP imp, const char *types, BOOL toInstanceMethods)
 {
-	/*
-	if (class == 0) return;
-	if (toInstanceMethods == NO) class = class->isa;
-	size_t size = sizeof(struct objc_method_list) + sizeof(struct objc_method[1]);
-	struct objc_method_list *methodList = objc_calloc(1, size);
-	if (methodList == 0) return;
-#ifdef GNUSTEP
-	sel = (SEL)GSNameFromSelector(sel);
-#endif
-	unsigned int num = (methodList->method_count)++;
-	methodList->method_list[num].method_name = sel;
-	methodList->method_list[num].method_types = strdup(types);
-	methodList->method_list[num].method_imp = imp;
-	extern void class_add_method_list(Class, struct objc_method_list *);
-	extern void _objc_flush_caches(Class);
-	class_addMethods(class, methodList);
-	_objc_flush_caches(class);
-	
-	*/
-	printf("ERROR objc_makeClass not supported\n");
+    BOOL methodAddedSuccessfully = NO;
+    if (toInstanceMethods)
+        methodAddedSuccessfully = class_addMethod(class, sel, imp, types);
+    else
+        methodAddedSuccessfully = class_addMethod(object_getClass(class), sel, imp, types);
+
+    if (!methodAddedSuccessfully)
+        printf("ERROR Io_class_addMethod could not add the method as requested\n");
+
 	return;
 }
