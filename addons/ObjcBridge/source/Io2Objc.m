@@ -83,7 +83,7 @@ void Io2Objc_free(Io2Objc *self)
 		IoObjcBridge_removeId_(DATA(self)->bridge, object);
 	}
 	//printf("Io2Objc_free %p that referenced a %s\n", (void *)object, [[object className] cString]);
-	if (object != nil && [object class] != object) // && (((Class)object)->info & CLS_META) != CLS_META)
+    if (object != nil && !class_isMetaClass([object class]))
 	{
 		[object autorelease];
 	}
@@ -104,7 +104,7 @@ void Io2Objc_setBridge(Io2Objc *self, void *bridge)
 
 void Io2Objc_setObject(Io2Objc *self, void *object)
 {
-	if (object != nil && ([(id)object class] != (id)object)) //&& (((Class)object)->info & CLS_META) !=CLS_META)
+	if (object != nil && !class_isMetaClass([(id)object class]))
 	{
 		DATA(self)->object = [(id)object retain];
 	}
@@ -152,13 +152,9 @@ IoObject *Io2Objc_perform(Io2Objc *self, IoObject *locals, IoMessage *m)
 	// see if receiver can handle message -------------
 
 	BOOL respondsToSelector;
-	if (object != nil && [object class] == object) //(((Class)object)->info & CLS_META) == CLS_META)
+	if (object != nil && class_isMetaClass([object class]))
 	{
-		//((Class)object)->info ^= CLS_CLASS;
-		//((Class)object)->info ^= CLS_META;
-		respondsToSelector = [object respondsToSelector:selector];
-		//((Class)object)->info ^= CLS_META;
-		//((Class)object)->info ^= CLS_CLASS;
+		respondsToSelector = [object instancesRespondToSelector:selector];
 	}
 	else
 	{
@@ -353,30 +349,21 @@ BOOL respondsToSelector(id self, SEL sel, SEL selector)
 
 NSMethodSignature *methodSignatureForSelector(id self, SEL sel, SEL selector)
 {
-	Method method = class_getInstanceMethod(self->isa, selector);
-
-	if (method)
-	{
-		return [NSMethodSignature signatureWithObjCTypes:method_getTypeEncoding(method)]; //(method->method_types)];
-	}
-	
-	return nil;
+    return [NSObject instanceMethodSignatureForSelector: selector];
 }
 
 Io2Objc *Io2Objc_newSubclassNamed(Io2Objc *self, IoObject *locals, IoMessage *m)
 {
-/*
-	Class class = objc_makeClass(IoMessage_locals_cStringArgAt_(m, locals, 0), [[DATA(self)->object className] UTF8String], NO);
-	objc_addClass(class);
-	Io_class_addMethod(class, sel_getUid("forwardInvocation:"), "v12@0:4@8", (IMP)forwardInvocation, NO);
-	Io_class_addMethod(class, sel_getUid("forwardInvocation:"), "v12@0:4@8", (IMP)forwardInvocation, YES);
-	Io_class_addMethod(class, sel_getUid("respondsToSelector:"), "C12@0:4:8", (IMP)respondsToSelector, YES);
-	Io_class_addMethod(class, sel_getUid("methodSignatureForSelector:"), "@12@0:4:8", (IMP)methodSignatureForSelector, YES);
-	((IoObjcBridgeData *)DATA(DATA(self)->bridge))->allClasses = NULL;
+	Class class = Io_objc_makeClass(IoMessage_locals_cStringArgAt_(m, locals, 0), [[DATA(self)->object className] UTF8String], NO);
+	Io_class_addMethod(class, sel_getUid("forwardInvocation:"), (IMP)forwardInvocation, "v12@0:4@8", NO);
+	Io_class_addMethod(class, sel_getUid("forwardInvocation:"), (IMP)forwardInvocation, "v12@0:4@8", YES);
+	Io_class_addMethod(class, sel_getUid("respondsToSelector:"), (IMP)respondsToSelector, "C12@0:4:8", YES);
+	Io_class_addMethod(class, sel_getUid("methodSignatureForSelector:"), (IMP)methodSignatureForSelector, "@12@0:4:8", YES);
+    objc_registerClassPair(class);
+	
+    ((IoObjcBridgeData *)DATA(DATA(self)->bridge))->allClasses = NULL;
+
 	return IoObjcBridge_proxyForId_(DATA(self)->bridge, class);
-	*/
-	printf("Io2Objc_newSubclassNamed not supported\n");
-	return nil;
 }
 
 IoObject *Io2Objc_metaclass(Io2Objc *self, IoObject *locals, IoMessage *m)
@@ -401,7 +388,7 @@ IoObject *Io2Objc_setSlot(Io2Objc *self, IoObject *locals, IoMessage *m)
 		if (argCount != expectedArgCount)
 			IoState_error_(IOSTATE, m, "Method '%s' is waiting for %i arguments, %i given\n", CSTRING(slotName), expectedArgCount, argCount);
 		Class class = DATA(self)->object;
-	//	if ((class->info & CLS_CLASS) != CLS_CLASS && (class->info & CLS_META) != CLS_META)
+	//	if (class != nil && !class_isMetaClass([class class]))
 	//		IoState_error_(IOSTATE, m, "You cannot add method '%s' to instance '%s'\n", CSTRING(slotName), [[class description] UTF8String]);
 		Method method = class_getInstanceMethod(class, sel_getUid(CSTRING(slotName)));
 		if (method)
@@ -545,7 +532,7 @@ IoObject *Io2Objc_io2ObjcType(Io2Objc *self, IoObject *locals, IoMessage *m)
 				}
 			}
 		}
-		class = class->super_class;
+		class = [class superclass];
 	}
 	NSArray *array = [[set allObjects] sortedArrayUsingSelector:@selector(compare:)];
 	[set release];
