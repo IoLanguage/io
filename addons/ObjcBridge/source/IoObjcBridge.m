@@ -372,13 +372,31 @@ IoObject *IoObjcBridge_ioValueForCValue_ofType_error_(IoObjcBridge *self, void *
 		//	else if ([object isKindOfClass:[NSNumber class]])
 		//		return IONUMBER([object doubleValue]);
 			else if ([object isKindOfClass:[Objc2Io class]])
+			{
 				return [object ioValue];
+			}
 			else if ([object isKindOfClass:[NSString class]])
+			{
 				return IOSYMBOL([object UTF8String]);
+			}
 			else if ([object isKindOfClass:[NSNumber class]])
+			{
 				return IONUMBER([object doubleValue]);
+			}
+			else if ([object isKindOfClass:[NSArray class]])
+			{
+				//printf("returing an array\n");
+				IoList *ioList = IoList_new(IOSTATE);
+				for(id v in (NSArray *)object)
+				{
+						IoList_rawAppend_(ioList, IoObjcBridge_proxyForId_(self, v)); // not recursive?
+				}
+				return ioList;
+			}
 			else
+			{
 				return IoObjcBridge_proxyForId_(self, object);
+			}
 		}
 		case '#':
 		{
