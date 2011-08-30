@@ -152,6 +152,7 @@ IoObject *Io2Objc_perform(Io2Objc *self, IoObject *locals, IoMessage *m)
 	// see if receiver can handle message -------------
 
 	BOOL respondsToSelector;
+	
 	if (object != nil && class_isMetaClass([object class]))
 	{
 		respondsToSelector = [object instancesRespondToSelector:selector];
@@ -186,21 +187,25 @@ IoObject *Io2Objc_perform(Io2Objc *self, IoObject *locals, IoMessage *m)
 	/* --- attach arguments to invocation --- */
 	{
 		size_t n, max = [methodSignature numberOfArguments];
+		
 		for (n = 2; n < max; n++)
 		{
 			char *error;
 			const char *cType = [methodSignature getArgumentTypeAtIndex:n];
 			IoObject *ioValue = IoMessage_locals_valueArgAt_(m, locals, (int)n-2);
 			void *cValue = IoObjcBridge_cValueForIoObject_ofType_error_(DATA(self)->bridge, ioValue, cType, &error);
+			
 			if (debug)
 			{
 				printf("%s", IoObjcBridge_nameForTypeChar_(DATA(self)->bridge, *cType));
 				if (n < max - 1)
+				{
 					printf(", ");
+				}
 			}
 			if (error)
 			{
-				IoState_error_(IOSTATE, m, "Io Io2Objc perform %s - argtype:'%s' argnum:%i", error, cType, n-2);
+				IoState_error_(IOSTATE, m, "Io Io2Objc perform '%s' - argtype:'%s' argnum:%i ioArgPassed:%s", error, cType, n-2, IoObject_name(ioValue));
 			}
 			[invocation setArgument:cValue atIndex:n]; /* copies the contents of value as a buffer of the appropriate size */
 		}
@@ -209,6 +214,7 @@ IoObject *Io2Objc_perform(Io2Objc *self, IoObject *locals, IoMessage *m)
 	if (debug)
 	{
 		IoState_print_(IOSTATE, ")\n");
+		fflush(stdout);
 	}
 	
 	/* --- invoke --------------------------- */

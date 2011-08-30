@@ -1003,4 +1003,9 @@ char *IoObjcBridge_nameForTypeChar_(IoObjcBridge *self, char type);
 - (void)parserDidStartDocument:(id)parser;
 @end
 
+@interface NSObject (Deprecated)
+- (void)beginSheetForDirectory:dir file:file types:type modalForWindow:window modalDelegate:delegate didEndSelector:(SEL)sel contextInfo:context;
+- (void)my_sheetDidEnd:(id)b returnCode:(NSInteger)c contextInfo:(void *)v;
+@end
+
 #endif

@@ -60,6 +60,8 @@
 		AA3A0C2D13F9DA9E00FB76A0 /* libevent_extra.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA3A0C2C13F9DA9E00FB76A0 /* libevent_extra.a */; };
 		AA3A0C2F13F9E73B00FB76A0 /* libevent_core.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA3A0C2E13F9E73B00FB76A0 /* libevent_core.a */; };
 		AA95DCF813DBBD4200CCD456 /* IoLanguageKit.h in Headers */ = {isa = PBXBuildFile; fileRef = AA95DCF613DBBD4200CCD456 /* IoLanguageKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA9B4A97140C4A3E00265535 /* CHash_ObjcBridgeFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9B4A95140C4A3D00265535 /* CHash_ObjcBridgeFunctions.h */; };
+		AA9B4A98140C4A3E00265535 /* CHash_ObjcBridgeFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9B4A96140C4A3E00265535 /* CHash_ObjcBridgeFunctions.m */; };
 		AABB968C13DD09B800B6A0CB /* Base.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB943613DD09B800B6A0CB /* Base.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AABB968D13DD09B800B6A0CB /* BStream.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB943713DD09B800B6A0CB /* BStream.c */; };
 		AABB968E13DD09B800B6A0CB /* BStream.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB943813DD09B800B6A0CB /* BStream.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -349,6 +351,8 @@
 		AA3A0C2C13F9DA9E00FB76A0 /* libevent_extra.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libevent_extra.a; path = ../../../../../../../usr/local/lib/libevent_extra.a; sourceTree = "<group>"; };
 		AA3A0C2E13F9E73B00FB76A0 /* libevent_core.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libevent_core.a; path = ../../../../../../../usr/local/lib/libevent_core.a; sourceTree = "<group>"; };
 		AA95DCF613DBBD4200CCD456 /* IoLanguageKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoLanguageKit.h; sourceTree = "<group>"; };
+		AA9B4A95140C4A3D00265535 /* CHash_ObjcBridgeFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHash_ObjcBridgeFunctions.h; sourceTree = "<group>"; };
+		AA9B4A96140C4A3E00265535 /* CHash_ObjcBridgeFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHash_ObjcBridgeFunctions.m; sourceTree = "<group>"; };
 		AABB943613DD09B800B6A0CB /* Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base.h; sourceTree = "<group>"; };
 		AABB943713DD09B800B6A0CB /* BStream.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BStream.c; sourceTree = "<group>"; };
 		AABB943813DD09B800B6A0CB /* BStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BStream.h; sourceTree = "<group>"; };
@@ -998,6 +1002,8 @@
 		AABB986D13DD79E000B6A0CB /* source */ = {
 			isa = PBXGroup;
 			children = (
+				AA9B4A95140C4A3D00265535 /* CHash_ObjcBridgeFunctions.h */,
+				AA9B4A96140C4A3E00265535 /* CHash_ObjcBridgeFunctions.m */,
 				AABB987113DD79E000B6A0CB /* Io2Objc.h */,
 				AABB987213DD79E000B6A0CB /* Io2Objc.m */,
 				AABB987313DD79E000B6A0CB /* IoLanguage.h */,
@@ -1277,6 +1283,7 @@
 				AA3A0C2813F9D1B400FB76A0 /* UnixPath.h in Headers */,
 				AAC988A11401CF520028A0A9 /* blowfish.h in Headers */,
 				AAC988A31401CF520028A0A9 /* IoBlowfish.h in Headers */,
+				AA9B4A97140C4A3E00265535 /* CHash_ObjcBridgeFunctions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1476,6 +1483,7 @@
 				AAC988A01401CF520028A0A9 /* blowfish.c in Sources */,
 				AAC988A21401CF520028A0A9 /* IoBlowfish.c in Sources */,
 				AAC988A41401CF520028A0A9 /* IoBlowfishInit.c in Sources */,
+				AA9B4A98140C4A3E00265535 /* CHash_ObjcBridgeFunctions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

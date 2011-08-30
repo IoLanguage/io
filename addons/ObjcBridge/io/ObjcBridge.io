@@ -72,14 +72,19 @@ NSPasteboardTypeString := "public.utf8-plain-text"
 YES := 1
 NO  := 0
 
-NSTaskTerminationReasonExit           := 1
-NSTaskTerminationReasonUncaughtSignal := 2
-NSTaskDidTerminateNotification        := "NSTaskDidTerminateNotification"
+NSTaskTerminationReasonExit            := 1
+NSTaskTerminationReasonUncaughtSignal  := 2
+NSTaskDidTerminateNotification         := "NSTaskDidTerminateNotification"
 
 NSFileHandleNotificationFileHandleItem := "NSFileHandleNotificationFileHandleItem"
 NSFileHandleNotificationDataItem       := "NSFileHandleNotificationDataItem"
 NSFileHandleOperationException         := "NSFileHandleOperationException"
 NSFileHandleReadCompletionNotification := "NSFileHandleReadCompletionNotification"
+
+// NSPanel
+
+NSCancelButton := 0
+NSOKButton     := 1
 
 // ---------------------------------
 
