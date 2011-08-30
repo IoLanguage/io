@@ -281,6 +281,8 @@
 		AAC988A41401CF520028A0A9 /* IoBlowfishInit.c in Sources */ = {isa = PBXBuildFile; fileRef = AAC988901401CF510028A0A9 /* IoBlowfishInit.c */; };
 		AAFE00F013D6526E00649838 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAFE00EF13D6526E00649838 /* Cocoa.framework */; };
 		AAFE00FA13D6526E00649838 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AAFE00F813D6526E00649838 /* InfoPlist.strings */; };
+		DCC2F0B9140CAC2400D22ABE /* CHash_ObjcBridgeFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = DCC2F0B7140CAC2400D22ABE /* CHash_ObjcBridgeFunctions.h */; };
+		DCC2F0BA140CAC2400D22ABE /* CHash_ObjcBridgeFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC2F0B8140CAC2400D22ABE /* CHash_ObjcBridgeFunctions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -576,6 +578,8 @@
 		AAFE00F713D6526E00649838 /* IoLanguageKit-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "IoLanguageKit-Info.plist"; sourceTree = "<group>"; };
 		AAFE00F913D6526E00649838 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		AAFE00FB13D6526E00649838 /* IoLanguageKit-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IoLanguageKit-Prefix.pch"; sourceTree = "<group>"; };
+		DCC2F0B7140CAC2400D22ABE /* CHash_ObjcBridgeFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHash_ObjcBridgeFunctions.h; sourceTree = "<group>"; };
+		DCC2F0B8140CAC2400D22ABE /* CHash_ObjcBridgeFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHash_ObjcBridgeFunctions.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -998,6 +1002,8 @@
 		AABB986D13DD79E000B6A0CB /* source */ = {
 			isa = PBXGroup;
 			children = (
+				DCC2F0B7140CAC2400D22ABE /* CHash_ObjcBridgeFunctions.h */,
+				DCC2F0B8140CAC2400D22ABE /* CHash_ObjcBridgeFunctions.m */,
 				AABB987113DD79E000B6A0CB /* Io2Objc.h */,
 				AABB987213DD79E000B6A0CB /* Io2Objc.m */,
 				AABB987313DD79E000B6A0CB /* IoLanguage.h */,
@@ -1277,6 +1283,7 @@
 				AA3A0C2813F9D1B400FB76A0 /* UnixPath.h in Headers */,
 				AAC988A11401CF520028A0A9 /* blowfish.h in Headers */,
 				AAC988A31401CF520028A0A9 /* IoBlowfish.h in Headers */,
+				DCC2F0B9140CAC2400D22ABE /* CHash_ObjcBridgeFunctions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1476,6 +1483,7 @@
 				AAC988A01401CF520028A0A9 /* blowfish.c in Sources */,
 				AAC988A21401CF520028A0A9 /* IoBlowfish.c in Sources */,
 				AAC988A41401CF520028A0A9 /* IoBlowfishInit.c in Sources */,
+				DCC2F0BA140CAC2400D22ABE /* CHash_ObjcBridgeFunctions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
