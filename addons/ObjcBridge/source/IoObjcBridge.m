@@ -336,6 +336,7 @@ const char *IoObjcBridge_selectorEncoding(IoObjcBridge *self, SEL selector)
 
 IoObject *IoObjcBridge_ioValueForCValue_ofType_error_(IoObjcBridge *self, void *cValue, const char *cType, char **error)
 {
+    #warning IoObjcBridge_ioValueForCValue_ofType_error_ doesn't check for cycles
 	*error = NULL;
 	//printf("cType: %s\n", cType);
 	switch (*cType)
@@ -363,13 +364,46 @@ IoObject *IoObjcBridge_ioValueForCValue_ofType_error_(IoObjcBridge *self, void *
 			}
 			else if ([object isKindOfClass:[NSArray class]])
 			{
-				//printf("returing an array\n");
 				IoList *ioList = IoList_new(IOSTATE);
 				for(id v in (NSArray *)object)
 				{
-						IoList_rawAppend_(ioList, IoObjcBridge_proxyForId_(self, v)); // not recursive?
+                    IoObject *ioValue = IoObjcBridge_ioValueForCValue_ofType_error_(self, &v, "@", error);
+                    if (*error)
+                    {
+                        return IONIL(self);
+                    }
+                    else
+                    {
+                        IoList_rawAppend_(ioList, ioValue);
+                    }
 				}
 				return ioList;
+			}
+            else if ([object isKindOfClass:[NSDictionary class]])
+			{
+				IoMap *ioMap = IoMap_new(IOSTATE);
+				for(id k in [(NSDictionary *)object allKeys])
+				{
+                    id v = [(NSDictionary *)object objectForKey:k];
+                    
+                    IoObject *ioValue;
+                    
+                    if ([k isKindOfClass:[NSString class]])
+                    {
+                        ioValue = IoObjcBridge_ioValueForCValue_ofType_error_(self, &v, "@", error);
+                        if (*error)
+                        {
+                            return IONIL(self);
+                        }
+                    }
+                    else
+                    {
+                        ioValue = IoObjcBridge_proxyForId_(self, v);
+                    }
+                    
+                    IoMap_rawAtPut(ioMap, IOSYMBOL([(NSString *)k UTF8String]), ioValue);
+				}
+                return ioMap;
 			}
 			else
 			{
