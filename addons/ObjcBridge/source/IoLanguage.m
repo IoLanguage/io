@@ -51,6 +51,8 @@ static IoLanguage *shared = nil;
 	return shared;
 }
 
+void IoYajlInit(IoObject *context);
+void IoMD5Init(IoObject *context);
 void IoBlowfishInit(IoObject *context);
 void IoSocketInit(IoObject *context);
 void IoSystemCallInit(IoObject *context);
@@ -60,6 +62,8 @@ void IoObjcBridgeInit(IoObject *context);
 
 void IoLanguageStateBindingsInitCallback(void *context, void *state)
 {
+	IoYajlInit(state);
+	IoMD5Init(state);
 	IoBlowfishInit(state);
 	IoSocketInit(state);
 	IoSystemCallInit(state);

@@ -59,6 +59,19 @@
 		AA3A0C2813F9D1B400FB76A0 /* UnixPath.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3A0BBE13F9D1B400FB76A0 /* UnixPath.h */; };
 		AA3A0C2D13F9DA9E00FB76A0 /* libevent_extra.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA3A0C2C13F9DA9E00FB76A0 /* libevent_extra.a */; };
 		AA3A0C2F13F9E73B00FB76A0 /* libevent_core.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA3A0C2E13F9E73B00FB76A0 /* libevent_core.a */; };
+		AA43FAD6141043FB00381C6A /* MD5_extras.io in Resources */ = {isa = PBXBuildFile; fileRef = AA43FABF141043FB00381C6A /* MD5_extras.io */; };
+		AA43FADA141043FB00381C6A /* IoMD5.c in Sources */ = {isa = PBXBuildFile; fileRef = AA43FAC5141043FB00381C6A /* IoMD5.c */; };
+		AA43FADB141043FB00381C6A /* IoMD5.h in Headers */ = {isa = PBXBuildFile; fileRef = AA43FAC6141043FB00381C6A /* IoMD5.h */; };
+		AA43FADC141043FB00381C6A /* IoMD5Init.c in Sources */ = {isa = PBXBuildFile; fileRef = AA43FAC7141043FB00381C6A /* IoMD5Init.c */; };
+		AA43FADD141043FB00381C6A /* md5.c in Sources */ = {isa = PBXBuildFile; fileRef = AA43FAC8141043FB00381C6A /* md5.c */; };
+		AA43FADE141043FB00381C6A /* md5.h in Headers */ = {isa = PBXBuildFile; fileRef = AA43FAC9141043FB00381C6A /* md5.h */; };
+		AA43FB08141044D700381C6A /* YajlElement.io in Resources */ = {isa = PBXBuildFile; fileRef = AA43FAF2141044D700381C6A /* YajlElement.io */; };
+		AA43FB0A141044D700381C6A /* IoYajl.c in Sources */ = {isa = PBXBuildFile; fileRef = AA43FAF5141044D700381C6A /* IoYajl.c */; };
+		AA43FB0B141044D700381C6A /* IoYajl.h in Headers */ = {isa = PBXBuildFile; fileRef = AA43FAF6141044D700381C6A /* IoYajl.h */; };
+		AA43FB0C141044D700381C6A /* IoYajlGen.c in Sources */ = {isa = PBXBuildFile; fileRef = AA43FAF7141044D700381C6A /* IoYajlGen.c */; };
+		AA43FB0D141044D700381C6A /* IoYajlGen.h in Headers */ = {isa = PBXBuildFile; fileRef = AA43FAF8141044D700381C6A /* IoYajlGen.h */; };
+		AA43FB0E141044D700381C6A /* IoYajlInit.c in Sources */ = {isa = PBXBuildFile; fileRef = AA43FAF9141044D700381C6A /* IoYajlInit.c */; };
+		AA43FB1514104A9700381C6A /* libyajl_s.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA43FB1414104A9700381C6A /* libyajl_s.a */; };
 		AA95DCF813DBBD4200CCD456 /* IoLanguageKit.h in Headers */ = {isa = PBXBuildFile; fileRef = AA95DCF613DBBD4200CCD456 /* IoLanguageKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AABB968C13DD09B800B6A0CB /* Base.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB943613DD09B800B6A0CB /* Base.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AABB968D13DD09B800B6A0CB /* BStream.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB943713DD09B800B6A0CB /* BStream.c */; };
@@ -350,6 +363,19 @@
 		AA3A0BBE13F9D1B400FB76A0 /* UnixPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnixPath.h; sourceTree = "<group>"; };
 		AA3A0C2C13F9DA9E00FB76A0 /* libevent_extra.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libevent_extra.a; path = ../../../../../../../usr/local/lib/libevent_extra.a; sourceTree = "<group>"; };
 		AA3A0C2E13F9E73B00FB76A0 /* libevent_core.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libevent_core.a; path = ../../../../../../../usr/local/lib/libevent_core.a; sourceTree = "<group>"; };
+		AA43FABF141043FB00381C6A /* MD5_extras.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MD5_extras.io; sourceTree = "<group>"; };
+		AA43FAC5141043FB00381C6A /* IoMD5.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoMD5.c; sourceTree = "<group>"; };
+		AA43FAC6141043FB00381C6A /* IoMD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoMD5.h; sourceTree = "<group>"; };
+		AA43FAC7141043FB00381C6A /* IoMD5Init.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoMD5Init.c; sourceTree = "<group>"; };
+		AA43FAC8141043FB00381C6A /* md5.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = md5.c; sourceTree = "<group>"; };
+		AA43FAC9141043FB00381C6A /* md5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = md5.h; sourceTree = "<group>"; };
+		AA43FAF2141044D700381C6A /* YajlElement.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = YajlElement.io; sourceTree = "<group>"; };
+		AA43FAF5141044D700381C6A /* IoYajl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoYajl.c; sourceTree = "<group>"; };
+		AA43FAF6141044D700381C6A /* IoYajl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoYajl.h; sourceTree = "<group>"; };
+		AA43FAF7141044D700381C6A /* IoYajlGen.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoYajlGen.c; sourceTree = "<group>"; };
+		AA43FAF8141044D700381C6A /* IoYajlGen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoYajlGen.h; sourceTree = "<group>"; };
+		AA43FAF9141044D700381C6A /* IoYajlInit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoYajlInit.c; sourceTree = "<group>"; };
+		AA43FB1414104A9700381C6A /* libyajl_s.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libyajl_s.a; path = ../../../../../../../../../opt/local/lib/libyajl_s.a; sourceTree = "<group>"; };
 		AA95DCF613DBBD4200CCD456 /* IoLanguageKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoLanguageKit.h; sourceTree = "<group>"; };
 		AABB943613DD09B800B6A0CB /* Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base.h; sourceTree = "<group>"; };
 		AABB943713DD09B800B6A0CB /* BStream.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BStream.c; sourceTree = "<group>"; };
@@ -590,6 +616,7 @@
 				AAFE00F013D6526E00649838 /* Cocoa.framework in Frameworks */,
 				AA3A0C2D13F9DA9E00FB76A0 /* libevent_extra.a in Frameworks */,
 				AA3A0C2F13F9E73B00FB76A0 /* libevent_core.a in Frameworks */,
+				AA43FB1514104A9700381C6A /* libyajl_s.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -694,9 +721,70 @@
 			path = source;
 			sourceTree = "<group>";
 		};
+		AA43FAAE141043FB00381C6A /* MD5 */ = {
+			isa = PBXGroup;
+			children = (
+				AA43FABE141043FB00381C6A /* io */,
+				AA43FAC4141043FB00381C6A /* source */,
+			);
+			path = MD5;
+			sourceTree = "<group>";
+		};
+		AA43FABE141043FB00381C6A /* io */ = {
+			isa = PBXGroup;
+			children = (
+				AA43FABF141043FB00381C6A /* MD5_extras.io */,
+			);
+			path = io;
+			sourceTree = "<group>";
+		};
+		AA43FAC4141043FB00381C6A /* source */ = {
+			isa = PBXGroup;
+			children = (
+				AA43FAC5141043FB00381C6A /* IoMD5.c */,
+				AA43FAC6141043FB00381C6A /* IoMD5.h */,
+				AA43FAC7141043FB00381C6A /* IoMD5Init.c */,
+				AA43FAC8141043FB00381C6A /* md5.c */,
+				AA43FAC9141043FB00381C6A /* md5.h */,
+			);
+			path = source;
+			sourceTree = "<group>";
+		};
+		AA43FAE1141044D600381C6A /* Yajl */ = {
+			isa = PBXGroup;
+			children = (
+				AA43FAF1141044D700381C6A /* io */,
+				AA43FAF4141044D700381C6A /* source */,
+			);
+			path = Yajl;
+			sourceTree = "<group>";
+		};
+		AA43FAF1141044D700381C6A /* io */ = {
+			isa = PBXGroup;
+			children = (
+				AA43FAF2141044D700381C6A /* YajlElement.io */,
+			);
+			path = io;
+			sourceTree = "<group>";
+		};
+		AA43FAF4141044D700381C6A /* source */ = {
+			isa = PBXGroup;
+			children = (
+				AA43FAF5141044D700381C6A /* IoYajl.c */,
+				AA43FAF6141044D700381C6A /* IoYajl.h */,
+				AA43FAF7141044D700381C6A /* IoYajlGen.c */,
+				AA43FAF8141044D700381C6A /* IoYajlGen.h */,
+				AA43FAF9141044D700381C6A /* IoYajlInit.c */,
+				AA43FB1414104A9700381C6A /* libyajl_s.a */,
+			);
+			path = source;
+			sourceTree = "<group>";
+		};
 		AABB93B313DD09B800B6A0CB /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				AA43FAE1141044D600381C6A /* Yajl */,
+				AA43FAAE141043FB00381C6A /* MD5 */,
 				AAC988781401CF510028A0A9 /* Blowfish */,
 				AA3A0B4C13F9D1B400FB76A0 /* Socket */,
 				AA3A0B1B13F9C8DA00FB76A0 /* SystemCall */,
@@ -1284,6 +1372,10 @@
 				AAC988A11401CF520028A0A9 /* blowfish.h in Headers */,
 				AAC988A31401CF520028A0A9 /* IoBlowfish.h in Headers */,
 				DCC2F0B9140CAC2400D22ABE /* CHash_ObjcBridgeFunctions.h in Headers */,
+				AA43FADB141043FB00381C6A /* IoMD5.h in Headers */,
+				AA43FADE141043FB00381C6A /* md5.h in Headers */,
+				AA43FB0B141044D700381C6A /* IoYajl.h in Headers */,
+				AA43FB0D141044D700381C6A /* IoYajlGen.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1359,6 +1451,8 @@
 				AA3A0BEC13F9D1B400FB76A0 /* UnixPath.io in Resources */,
 				AA3A0BED13F9D1B400FB76A0 /* URL.io in Resources */,
 				AAC9889E1401CF520028A0A9 /* Blowfish.io in Resources */,
+				AA43FAD6141043FB00381C6A /* MD5_extras.io in Resources */,
+				AA43FB08141044D700381C6A /* YajlElement.io in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1484,6 +1578,12 @@
 				AAC988A21401CF520028A0A9 /* IoBlowfish.c in Sources */,
 				AAC988A41401CF520028A0A9 /* IoBlowfishInit.c in Sources */,
 				DCC2F0BA140CAC2400D22ABE /* CHash_ObjcBridgeFunctions.m in Sources */,
+				AA43FADA141043FB00381C6A /* IoMD5.c in Sources */,
+				AA43FADC141043FB00381C6A /* IoMD5Init.c in Sources */,
+				AA43FADD141043FB00381C6A /* md5.c in Sources */,
+				AA43FB0A141044D700381C6A /* IoYajl.c in Sources */,
+				AA43FB0C141044D700381C6A /* IoYajlGen.c in Sources */,
+				AA43FB0E141044D700381C6A /* IoYajlInit.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1547,7 +1647,10 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IoLanguageKit/IoLanguageKit-Prefix.pch";
-				HEADER_SEARCH_PATHS = /usr/local/include;
+				HEADER_SEARCH_PATHS = (
+					/opt/local/include,
+					/usr/local/include,
+				);
 				INFOPLIST_FILE = "IoLanguageKit/IoLanguageKit-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -1561,6 +1664,11 @@
 					"\"$(SRCROOT)/../../addons/Socket/_build/lib\"",
 					"\"$(SRCROOT)/../../addons/Blowfish/_build/dll\"",
 					"\"$(SRCROOT)/../../addons/Blowfish/_build/lib\"",
+					"\"$(SRCROOT)/../../libs/MD5/_build/dll\"",
+					"\"$(SRCROOT)/../../libs/MD5/_build/lib\"",
+					"\"$(SRCROOT)/../../libs/Yajl/_build/dll\"",
+					"\"$(SRCROOT)/../../libs/Yajl/_build/lib\"",
+					/opt/local/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = framework;
@@ -1579,7 +1687,10 @@
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "IoLanguageKit/IoLanguageKit-Prefix.pch";
-				HEADER_SEARCH_PATHS = /usr/local/include;
+				HEADER_SEARCH_PATHS = (
+					/opt/local/include,
+					/usr/local/include,
+				);
 				INFOPLIST_FILE = "IoLanguageKit/IoLanguageKit-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -1593,6 +1704,11 @@
 					"\"$(SRCROOT)/../../addons/Socket/_build/lib\"",
 					"\"$(SRCROOT)/../../addons/Blowfish/_build/dll\"",
 					"\"$(SRCROOT)/../../addons/Blowfish/_build/lib\"",
+					"\"$(SRCROOT)/../../libs/MD5/_build/dll\"",
+					"\"$(SRCROOT)/../../libs/MD5/_build/lib\"",
+					"\"$(SRCROOT)/../../libs/Yajl/_build/dll\"",
+					"\"$(SRCROOT)/../../libs/Yajl/_build/lib\"",
+					/opt/local/lib,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = framework;
