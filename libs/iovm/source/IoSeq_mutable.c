@@ -1002,6 +1002,35 @@ IO_METHOD(IoSeq, divideEquals)
 	return self;
 }
 
+IO_METHOD(IoSeq, powerEquals)
+{
+	/*doc Sequence **=(aSeq)
+	Raises the values of the receiver in the corresponding values of aSeq.
+	Only works on Sequences whose item type is numeric. Returns self.
+	*/
+	
+	IoObject *other = IoMessage_locals_valueArgAt_(m, locals, 0);
+
+	IO_ASSERT_NOT_SYMBOL(self);
+	IO_ASSERT_NUMBER_ENCODING(self);
+
+	if (ISSEQ(other))
+	{
+		UArray_power_(DATA(self), DATA(other));
+	}
+	else if (ISNUMBER(other))
+	{
+		double value = IoNumber_asDouble(other);
+		UArray_powerScalarDouble_(DATA(self), value);
+	}
+	else
+	{
+		IoMessage_locals_numberArgAt_errorForType_(self, locals, 0, "Sequence or Number");
+	}
+
+	return self;
+}
+
 IoObject *IoSeq_clone(IoSeq *self)
 {
 	return IoSeq_newWithUArray_copy_(IOSTATE, DATA(self), 1);
@@ -1020,8 +1049,8 @@ IO_METHOD(IoSeq, add)
 
 IO_METHOD(IoSeq, subtract)
 {
-	/*doc Sequence +(aSeq)
-	Vector addition - Adds the values of aSeq to the corresponding values of the receiver 
+	/*doc Sequence -(aSeq)
+	Vector subtraction - Subtracts the values of aSeq from the corresponding values of the receiver 
 	returning a new vector with the result.
 	Only works on Sequences whose item type is numeric.
 	*/
@@ -1043,12 +1072,23 @@ IO_METHOD(IoSeq, multiply)
 IO_METHOD(IoSeq, divide)
 {
 	/*doc Sequence /(aSeq)
-	Divides the values of aSeq to the corresponding values of the receiver 
+	Divides the values of the receiver by the corresponding values of aSeq 
 	returning a new vector with the result.
 	Only works on Sequences whose item type is numeric. 
 	*/
 	
 	return IoSeq_divideEquals(IoSeq_clone(self), locals, m);
+}
+
+IO_METHOD(IoSeq, power)
+{
+	/*doc Sequence **(aSeq)
+	Raises the values of the receiver in the corresponding values of aSeq 
+	returning a new vector with the result.
+	Only works on Sequences whose item type is numeric. 
+	*/
+	
+	return IoSeq_powerEquals(IoSeq_clone(self), locals, m);
 }
 
 IO_METHOD(IoSeq, dotProduct)
@@ -1413,11 +1453,13 @@ void IoSeq_addMutableMethods(IoSeq *self)
 	{"-=", IoSeq_subtractEquals},
 	{"*=", IoSeq_multiplyEquals},
 	{"/=", IoSeq_divideEquals},
+	{"**=", IoSeq_powerEquals},
 
 	{"+", IoSeq_add},
 	{"-", IoSeq_subtract},
 	{"*", IoSeq_multiply},
 	{"/", IoSeq_divide},
+	{"**", IoSeq_power},
 
 		//
 	{"dotProduct", IoSeq_dotProduct},

@@ -50,6 +50,23 @@ Multiplies the values of aSeq to the corresponding values of the receiver
 	returning a new vector with the result.
 	Only works on Sequences whose item type is numeric.
 </div>
+<a name="Sequence-**"></a><b>
+**(aSeq)
+</b>
+<p>
+<div class=slotDescription>
+Raises the values of the receiver in the corresponding values of aSeq 
+	returning a new vector with the result.
+	Only works on Sequences whose item type is numeric.
+</div>
+<a name="Sequence-**="></a><b>
+**=(aSeq)
+</b>
+<p>
+<div class=slotDescription>
+Raises the values of the receiver in the corresponding values of aSeq.
+	Only works on Sequences whose item type is numeric. Returns self.
+</div>
 <a name="Sequence-*="></a><b>
 *=(aSeq)
 </b>
@@ -75,6 +92,15 @@ Vector addition - adds the values of aSeq to the corresponding values of the rec
 Vector addition - adds the values of aSeq to those of the receiver.
 	Only works on Sequences whose item type is numeric. Returns self.
 </div>
+<a name="Sequence--"></a><b>
+-(aSeq)
+</b>
+<p>
+<div class=slotDescription>
+Vector subtraction - Subtracts the values of aSeq from the corresponding values of the receiver 
+	returning a new vector with the result.
+	Only works on Sequences whose item type is numeric.
+</div>
 <a name="Sequence--="></a><b>
 -=(aSeq)
 </b>
@@ -95,7 +121,7 @@ Returns a copy of the receiver with aSequence appended to it.
 </b>
 <p>
 <div class=slotDescription>
-Divides the values of aSeq to the corresponding values of the receiver 
+Divides the values of the receiver by the corresponding values of aSeq 
 	returning a new vector with the result.
 	Only works on Sequences whose item type is numeric.
 </div>
@@ -1148,6 +1174,48 @@ occurancesOfSeq(aSeq)
 <div class=slotDescription>
 Returns count of aSeq in the receiver.
 </div>
+<a name="Sequence-pack"></a><b>
+pack(format, value1, ...)
+</b>
+<p>
+<div class=slotDescription>
+Returns a new Sequence with the values packed in.
+
+	Codes:
+	
+	*: (one at the beginning of the format string) declare format string as BigEndian
+	B: unsigned byte
+	b: byte
+	C: unsigned char
+	c: char
+	H: unsigned short
+	h: short
+	I: unsigned int
+	i: int
+	L: unsigned long
+	l: long
+	f: float
+	F: double
+	s: string
+
+	A '*' at the begging of the format string indicates native types are to be treated as Big Endiand.
+	
+	A number preceding a code declares an array of that type.
+	
+	In the case of 's', the preceding number indicates the size of the string to be packed.
+	If the string passed is shorter than size, 0 padding will be used to fill to size. If the
+	string passed is longer than size, only size chars will be packed.
+	
+	The difference between b/B and c/C is in the values passed to pack. For b/B pack expects a number.
+	For c/C pack expects a one-char-string (this is the same as '1s' or 's')
+	
+	Examples:
+	
+	s := Sequence pack("IC5s", 100, "a", "hello")
+	s := Sequence pack("5c", "h", "e", "l", "l", "o")
+	s := Sequence pack("I", 0x01020304)
+	s := Sequence pack("*I", 0x01020304)
+</div>
 <a name="Sequence-pathComponent"></a><b>
 pathComponent
 </b>
@@ -1580,6 +1648,31 @@ unescape
 <p>
 <div class=slotDescription>
 Escape codes replaced with escape characters. Returns self.
+</div>
+<a name="Sequence-unpack"></a><b>
+unpack(optionalStartPosition, format)
+</b>
+<p>
+<div class=slotDescription>
+Unpacks self into a list using the format passed in. See Sequence pack.
+	
+	Returns a List.
+
+	Examples:
+
+	s := Sequence pack("IC5s", 100, "a", "hello")
+	l := s unpack("IC5s")
+
+	s := Sequence pack("5c", "h", "e", "l", "l", "o")
+	l := s unpack("5c")
+
+	s := Sequence pack("I", 0x01020304)
+	l := s unpack("I")
+
+	s := Sequence pack("*I", 0x01020304)
+	l := s unpack("*I")
+
+	l := "hello" unpack("5c")
 </div>
 <a name="Sequence-uppercase"></a><b>
 uppercase
