@@ -15,6 +15,8 @@ This object can be used to parse Yajl / HTML / XML.
 
 #define DATA(self) ((IoYajlData *)(IoObject_dataPointer(self)))
 
+const char *protoId = "Yajl";
+
 IoTag *IoYajl_newTag(void *state)
 {
 	IoTag *tag = IoTag_newWithName_("YajlParser");
@@ -50,7 +52,7 @@ IoYajl *IoYajl_proto(void *state)
 	DATA(self)->addMapKeyMessage = IoMessage_newWithName_label_(state,
 												   IOSYMBOL("addMapKey"), IOSYMBOL("YajlParser"));
 
-	IoState_registerProtoWithFunc_(state, self, IoYajl_proto);
+	IoState_registerProtoWithFunc_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -72,7 +74,7 @@ IoYajl *IoYajl_rawClone(IoYajl *proto)
 
 IoYajl *IoYajl_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoYajl_proto);
+	IoObject *proto = IoState_protoWithInitFunction_(state, protoId);
 	return IOCLONE(proto);
 }
 
@@ -247,14 +249,14 @@ IoObject *IoYajl_parse(IoYajl *self, IoObject *locals, IoMessage *m)
 	size_t dataSize = IoSeq_rawSizeInBytes(dataSeq);
 	const unsigned char *data = (const unsigned char *)CSTRING(dataSeq);
 	
-	yajl_handle hand = yajl_alloc(&callbacks, NULL, (void *) self);
-	yajl_config(hand, yajl_allow_comments, 1);
-	yajl_config(hand, yajl_dont_validate_strings, 1);
+	yajl_handle hand = yajl_alloc(&callbacks, NULL, NULL, (void *) self);
+	//yajl_config(hand, yajl_allow_comments, 1);
+	//yajl_config(hand, yajl_dont_validate_strings, 1);
 	
     yajl_status stat;
 	
 	stat = yajl_parse(hand, data, dataSize);  
-	stat = yajl_complete_parse(hand);  
+	stat = yajl_parse_complete(hand);  
 
 	if (stat != yajl_status_ok)  
 	{  

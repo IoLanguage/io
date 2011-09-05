@@ -15,6 +15,11 @@ static const char *protoId = "Box";
 
 #define DATA(self) ((IoBoxData *)IoObject_dataPointer(self))
 
+const char *IoBox_protoId(void)
+{
+	return protoId;
+}
+
 void *IoMessage_locals_boxArgAt_(IoMessage *self, void *locals, int n)
 {
 	IoObject *v = IoMessage_locals_valueArgAt_(self, locals, n);

@@ -15,6 +15,8 @@ This object can be used to parse YajlGen / HTML / XML.
 
 #define DATA(self) ((yajl_gen)(IoObject_dataPointer(self)))
 
+static const char *protoId = "protoId";
+
 IoTag *IoYajlGen_newTag(void *state)
 {
 	IoTag *tag = IoTag_newWithName_("YajlGen");
@@ -31,8 +33,8 @@ IoYajlGen *IoYajlGen_rawClone(IoYajlGen *proto)
 {
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 
-	yajl_gen g = yajl_gen_alloc(NULL);
-	yajl_gen_config(g, yajl_gen_beautify, 0);
+	yajl_gen g = yajl_gen_alloc(NULL, NULL);
+	//yajl_gen_config(g, yajl_gen_beautify, 0);
 
 	IoObject_setDataPointer_(self, g);
 	return self;
@@ -40,7 +42,7 @@ IoYajlGen *IoYajlGen_rawClone(IoYajlGen *proto)
 
 IoYajlGen *IoYajlGen_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoYajlGen_proto);
+	IoObject *proto = IoState_protoWithInitFunction_(state, protoId);
 	return IOCLONE(proto);
 }
 
@@ -130,15 +132,15 @@ IoObject *IoYajlGen_closeArray(IoYajlGen *self, IoObject *locals, IoMessage *m)
 IoObject *IoYajlGen_generate(IoYajlGen *self, IoObject *locals, IoMessage *m)
 {
 	const unsigned char *jsonBuffer;
-	size_t jsonBufferLength;
+	unsigned int jsonBufferLength;
 
 	yajl_gen_get_buf(DATA(self), &jsonBuffer, &jsonBufferLength);
 
 	IoSeq *out = IOSEQ(jsonBuffer, jsonBufferLength);
 
 	yajl_gen_free(DATA(self));
-	yajl_gen g = yajl_gen_alloc(NULL);
-	yajl_gen_config(g, yajl_gen_beautify, 0);
+	yajl_gen g = yajl_gen_alloc(NULL, NULL);
+	//yajl_gen_config(g, yajl_gen_beautify, 0);
 	IoObject_setDataPointer_(self, g);
 
     return out;
@@ -149,12 +151,12 @@ IoYajlGen *IoYajlGen_proto(void *state)
 	IoYajlGen *self = IoObject_new(state);
 	IoObject_tag_(self, IoYajlGen_newTag(state));
 
-	yajl_gen g = yajl_gen_alloc(NULL);
-	yajl_gen_config(g, yajl_gen_beautify, 0);
+	yajl_gen g = yajl_gen_alloc(NULL, NULL);
+	//yajl_gen_config(g, yajl_gen_beautify, 0);
 
 	IoObject_setDataPointer_(self, g);
 
-	IoState_registerProtoWithFunc_(state, self, IoYajlGen_proto);
+	IoState_registerProtoWithFunc_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] =

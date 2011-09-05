@@ -17,6 +17,8 @@ generate_ioinit(ObjcBridge)
 
 # Additional include directories
 include_directories(
+	${CMAKE_CURRENT_SOURCE_DIR}/../Yajl/source
+	${CMAKE_CURRENT_SOURCE_DIR}/../MD5/source
 	${CMAKE_CURRENT_SOURCE_DIR}/../Box/source
 	${CMAKE_CURRENT_SOURCE_DIR}/../Socket/source
 	${CMAKE_CURRENT_SOURCE_DIR}/../SystemCall/source
@@ -39,8 +41,8 @@ set(CMAKE_EXE_LINKER_FLAGS "-framework AppKit")
 
 # Now build the shared library
 add_library(IoObjcBridge SHARED ${SRCS})
-add_dependencies(IoObjcBridge iovmall Foundation IoBox IoSocket IoBlowfish IoSystemCall)
-target_link_libraries(IoObjcBridge iovmall ${ObjcBridge_LIBRARY} IoBox IoSocket IoBlowfish IoSystemCall /System/Library/Frameworks/Foundation.framework/Versions/C/Foundation /System/Library/Frameworks/AppKit.framework/Versions/C/AppKit)
+add_dependencies(IoObjcBridge iovmall Foundation IoMD5 IoYajl IoBox IoSocket IoBlowfish IoSystemCall)
+target_link_libraries(IoObjcBridge iovmall ${ObjcBridge_LIBRARY} IoMD5 IoYajl IoBox IoSocket IoBlowfish IoSystemCall /System/Library/Frameworks/Foundation.framework/Versions/C/Foundation /System/Library/Frameworks/AppKit.framework/Versions/C/AppKit)
 
 # Install the addon to our global addons hierarchy.
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION lib/io/addons)
