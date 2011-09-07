@@ -178,6 +178,11 @@ void ILanguageoStateActiveCoroCallback(void *context, int r)
 	[self runIoResource:@"ObjcBridge"];
 	[self runIoResource:@"SystemCall"];
 	[self runIoResource:@"Blowfish"];
+	
+	[self runIoResource:@"MD5_extras"];
+	
+	[self runIoResource:@"YajlElement"];
+	
 	return self;
 }
 
