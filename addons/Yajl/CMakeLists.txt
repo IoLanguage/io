@@ -4,7 +4,10 @@
 # Builds the Yajl addon
 
 # Find yajl
-find_package(Yajl)
+find_package(Yajl 2)
+# NOTE: This version argument is, actually, not working. To make it work, we
+# should write cmake config for Yajl that will find a correct and compatible
+# version of library.
 
 # Set yajl compiles as false because of the yaill imcompatibitly issue
 #set(YAJL_FOUND FALSE)
