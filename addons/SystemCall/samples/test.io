@@ -1,3 +1,3 @@
 #!/usr/bin/env io
 
-SystemCall clone setCommand("ls") run stdout readLines foreach(println)
+SystemCall clone setCommand("ls") run split("\n") foreach(println)

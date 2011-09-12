@@ -1,3 +1,4 @@
+Socket
 
 SystemCall do(
 	command ::= ""
@@ -32,7 +33,7 @@ SystemCall do(
 	)
 	
 	commandString := method(
-		command .. arguments map(a, "'" .. a .. "'") join(", ")
+		command .. " " .. arguments map(a, "'" .. a .. "'") join(" ")
 	)
 	
 	run := method(
@@ -92,6 +93,7 @@ SystemCall do(
 //writeln("buffer: '", buffer, "'")
 		setIsRunning(false)
 		setReturnCode(self status)
+		//writeln("systemcall returning")
 		buffer
 	)
 
