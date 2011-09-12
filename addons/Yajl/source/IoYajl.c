@@ -125,7 +125,7 @@ static int IoYajl_callback_boolean(void *ctx, int boolean)
   
 #include <stdlib.h>
 	 
-static int IoYajl_callback_number(void *ctx, const char * s, unsigned int l)  
+static int IoYajl_callback_number(void *ctx, const char * s, size_t l)  
 {  
 	IoYajl *self = ctx;
 	//IoState_pushRetainPool(IOSTATE);
@@ -154,7 +154,7 @@ static int IoYajl_callback_number(void *ctx, const char * s, unsigned int l)
 }
 
 static int IoYajl_callback_string(void *ctx, const unsigned char * stringVal,  
-                           unsigned int stringLen)  
+                           size_t stringLen)  
 {  
 	IoYajl *self = ctx;
 	//IoState_pushRetainPool(IOSTATE);
@@ -168,7 +168,7 @@ static int IoYajl_callback_string(void *ctx, const unsigned char * stringVal,
 }   
   
 static int IoYajl_callback_map_key(void *ctx, const unsigned char * stringVal,  
-                            unsigned int stringLen)  
+                            size_t stringLen)  
 {  
 	IoYajl *self = ctx;
 	//IoState_pushRetainPool(IOSTATE);
@@ -249,14 +249,14 @@ IoObject *IoYajl_parse(IoYajl *self, IoObject *locals, IoMessage *m)
 	size_t dataSize = IoSeq_rawSizeInBytes(dataSeq);
 	const unsigned char *data = (const unsigned char *)CSTRING(dataSeq);
 	
-	yajl_handle hand = yajl_alloc(&callbacks, NULL, NULL, (void *) self);
+	yajl_handle hand = yajl_alloc(&callbacks, NULL, (void *) self);
 	//yajl_config(hand, yajl_allow_comments, 1);
 	//yajl_config(hand, yajl_dont_validate_strings, 1);
 	
     yajl_status stat;
 	
 	stat = yajl_parse(hand, data, dataSize);  
-	stat = yajl_parse_complete(hand);  
+	stat = yajl_complete_parse(hand);  
 
 	if (stat != yajl_status_ok)  
 	{  
