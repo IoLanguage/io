@@ -254,17 +254,15 @@ IoMessage *IoObjcBridge_ioMessageForNSInvocation_(IoObjcBridge *self, NSInvocati
 	NSMethodSignature *signature = [invocation methodSignature];
 	char *methodName = IoObjcBridge_ioMethodFor_(self, (char *)sel_getName([invocation selector]));
 	
-	/*
 	if(!strcmp(methodName, "sheetDidEnd:returnCode:contextInfo:"))
 	{
-		debug = 1;
+		debug ++;
 		//signature = [NSMethodSignature signatureWithObjCTypes:"@:iii"];
 		//signature = [NSMethodSignature signatureWithObjCTypes:"@:@q^v"];
 
 		//methodName = "sheetDidEnd:returnCode:contextInfo:";
 		//signature = [NSObject methodSignatureForSelector:NSSelectorFromString(@"my_sheetDidEnd:returnCode:contextInfo:")];
 	}
-	*/
 	
 	IoMessage *message = IoMessage_newWithName_(IOSTATE, IoState_symbolWithCString_(IOSTATE, methodName));
 	const char *returnType = [[invocation methodSignature] methodReturnType];
@@ -303,6 +301,11 @@ IoMessage *IoObjcBridge_ioMessageForNSInvocation_(IoObjcBridge *self, NSInvocati
 	if (debug) 
 	{
 		printf(")\n");
+	}
+	
+	if(!strcmp(methodName, "sheetDidEnd:returnCode:contextInfo:"))
+	{
+		debug --;
 	}
 	
 	return message;
@@ -698,7 +701,8 @@ void *IoObjcBridge_cValueForIoObject_ofType_error_(IoObjcBridge *self, IoObject 
 				}
 				else
 				{
-					DATA(self)->cValue.v = value;
+					//DATA(self)->cValue.v = value; //not safe
+					DATA(self)->cValue.v = (void *)0x0;
 					//*error = "requires a string";
 				}
 			}
