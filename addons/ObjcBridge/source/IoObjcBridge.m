@@ -257,7 +257,7 @@ IoMessage *IoObjcBridge_ioMessageForNSInvocation_(IoObjcBridge *self, NSInvocati
 	if(!strcmp(methodName, "sheetDidEnd:returnCode:contextInfo:"))
 	{
 		debug ++;
-		//signature = [NSMethodSignature signatureWithObjCTypes:"@:iii"];
+		signature = [NSMethodSignature signatureWithObjCTypes:"^@:iiii"];
 		//signature = [NSMethodSignature signatureWithObjCTypes:"@:@q^v"];
 
 		//methodName = "sheetDidEnd:returnCode:contextInfo:";
