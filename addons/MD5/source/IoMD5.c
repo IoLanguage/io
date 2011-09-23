@@ -83,7 +83,7 @@ IoObject *IoMD5_appendSeq(IoMD5 *self, IoObject *locals, IoMessage *m)
 	IOASSERT(DATA(self)->isDone == 0, "cannot append to an already calculated md5");
 	io_md5_append(&(DATA(self)->mstate),
 				(unsigned char const *)IoSeq_rawBytes(buffer),
-				IoSeq_rawSize(buffer));
+				(int)IoSeq_rawSize(buffer));
 	return self;
 }
 

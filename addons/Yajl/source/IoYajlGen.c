@@ -132,7 +132,7 @@ IoObject *IoYajlGen_closeArray(IoYajlGen *self, IoObject *locals, IoMessage *m)
 IoObject *IoYajlGen_generate(IoYajlGen *self, IoObject *locals, IoMessage *m)
 {
 	const unsigned char *jsonBuffer;
-	unsigned int jsonBufferLength;
+	size_t jsonBufferLength;
 
 	yajl_gen_get_buf(DATA(self), &jsonBuffer, &jsonBufferLength);
 

@@ -254,13 +254,17 @@ IoMessage *IoObjcBridge_ioMessageForNSInvocation_(IoObjcBridge *self, NSInvocati
 	NSMethodSignature *signature = [invocation methodSignature];
 	char *methodName = IoObjcBridge_ioMethodFor_(self, (char *)sel_getName([invocation selector]));
 	
+	/*
 	if(!strcmp(methodName, "sheetDidEnd:returnCode:contextInfo:"))
 	{
-		signature = [NSMethodSignature signatureWithObjCTypes:"@:@q^v"];
+		debug = 1;
+		//signature = [NSMethodSignature signatureWithObjCTypes:"@:iii"];
+		//signature = [NSMethodSignature signatureWithObjCTypes:"@:@q^v"];
 
 		//methodName = "sheetDidEnd:returnCode:contextInfo:";
 		//signature = [NSObject methodSignatureForSelector:NSSelectorFromString(@"my_sheetDidEnd:returnCode:contextInfo:")];
 	}
+	*/
 	
 	IoMessage *message = IoMessage_newWithName_(IOSTATE, IoState_symbolWithCString_(IOSTATE, methodName));
 	const char *returnType = [[invocation methodSignature] methodReturnType];
@@ -345,6 +349,7 @@ const char *IoObjcBridge_selectorEncoding(IoObjcBridge *self, SEL selector)
 	for (i = 0; i < max; i++)
 	{
 		Class class = List_at_(classes, i);
+		//if(i == 145) NSLog(@"className 145: %@", NSStringFromClass(class));
 		Method method = class_getInstanceMethod(class, selector);
 		if (!method) method = class_getClassMethod(class, selector);
 		if (method)
