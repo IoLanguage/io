@@ -57,8 +57,8 @@
 		AA3A0C2613F9D1B400FB76A0 /* Socket.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3A0BBC13F9D1B400FB76A0 /* Socket.h */; };
 		AA3A0C2713F9D1B400FB76A0 /* UnixPath.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0BBD13F9D1B400FB76A0 /* UnixPath.c */; };
 		AA3A0C2813F9D1B400FB76A0 /* UnixPath.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3A0BBE13F9D1B400FB76A0 /* UnixPath.h */; };
-		AA3A0C2D13F9DA9E00FB76A0 /* libevent_extra.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA3A0C2C13F9DA9E00FB76A0 /* libevent_extra.a */; };
-		AA3A0C2F13F9E73B00FB76A0 /* libevent_core.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA3A0C2E13F9E73B00FB76A0 /* libevent_core.a */; };
+		AA43763E143CFE70005BF99C /* libevent_core.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA43763C143CFE70005BF99C /* libevent_core.a */; };
+		AA43763F143CFE70005BF99C /* libevent_extra.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AA43763D143CFE70005BF99C /* libevent_extra.a */; };
 		AA95DCF813DBBD4200CCD456 /* IoLanguageKit.h in Headers */ = {isa = PBXBuildFile; fileRef = AA95DCF613DBBD4200CCD456 /* IoLanguageKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AA9AFEA2141EAD230078E31B /* MD5_extras.io in Resources */ = {isa = PBXBuildFile; fileRef = AA9AFE7F141EAD230078E31B /* MD5_extras.io */; };
 		AA9AFEA6141EAD230078E31B /* IoMD5.c in Sources */ = {isa = PBXBuildFile; fileRef = AA9AFE85141EAD230078E31B /* IoMD5.c */; };
@@ -361,8 +361,8 @@
 		AA3A0BBC13F9D1B400FB76A0 /* Socket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Socket.h; sourceTree = "<group>"; };
 		AA3A0BBD13F9D1B400FB76A0 /* UnixPath.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = UnixPath.c; sourceTree = "<group>"; };
 		AA3A0BBE13F9D1B400FB76A0 /* UnixPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnixPath.h; sourceTree = "<group>"; };
-		AA3A0C2C13F9DA9E00FB76A0 /* libevent_extra.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libevent_extra.a; path = ../../../../../../../usr/local/lib/libevent_extra.a; sourceTree = "<group>"; };
-		AA3A0C2E13F9E73B00FB76A0 /* libevent_core.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libevent_core.a; path = ../../../../../../../usr/local/lib/libevent_core.a; sourceTree = "<group>"; };
+		AA43763C143CFE70005BF99C /* libevent_core.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libevent_core.a; path = ../../../../../../../../usr/local/lib/libevent_core.a; sourceTree = "<group>"; };
+		AA43763D143CFE70005BF99C /* libevent_extra.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libevent_extra.a; path = ../../../../../../../../usr/local/lib/libevent_extra.a; sourceTree = "<group>"; };
 		AA95DCF613DBBD4200CCD456 /* IoLanguageKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoLanguageKit.h; sourceTree = "<group>"; };
 		AA9AFE7F141EAD230078E31B /* MD5_extras.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MD5_extras.io; sourceTree = "<group>"; };
 		AA9AFE85141EAD230078E31B /* IoMD5.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoMD5.c; sourceTree = "<group>"; };
@@ -614,9 +614,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				AAFE00F013D6526E00649838 /* Cocoa.framework in Frameworks */,
-				AA3A0C2D13F9DA9E00FB76A0 /* libevent_extra.a in Frameworks */,
-				AA3A0C2F13F9E73B00FB76A0 /* libevent_core.a in Frameworks */,
 				AA9AFEB9141EB0580078E31B /* libyajl_s.a in Frameworks */,
+				AA43763E143CFE70005BF99C /* libevent_core.a in Frameworks */,
+				AA43763F143CFE70005BF99C /* libevent_extra.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1192,8 +1192,8 @@
 		AAFE00EE13D6526E00649838 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				AA3A0C2C13F9DA9E00FB76A0 /* libevent_extra.a */,
-				AA3A0C2E13F9E73B00FB76A0 /* libevent_core.a */,
+				AA43763C143CFE70005BF99C /* libevent_core.a */,
+				AA43763D143CFE70005BF99C /* libevent_extra.a */,
 				AAFE00EF13D6526E00649838 /* Cocoa.framework */,
 				AAFE00F113D6526E00649838 /* Other Frameworks */,
 			);
