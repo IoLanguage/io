@@ -44,7 +44,6 @@
 .DS_Store
 .libs
 .deps*
-*.a
 *.la
 *.lo
 *.so
