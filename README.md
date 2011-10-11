@@ -5,6 +5,12 @@ ABOUT
 Io is a dynamic prototype-based programming language. 
 The programming guide and reference manual can be found in the docs folder.
 
+REQUIREMENTS
+============
+
+ * [yajl](https://github.com/lloyd/yajl)
+ * [libevent](http://libevent.org/)
+
 INSTALLING
 ==========
 
