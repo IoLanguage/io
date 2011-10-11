@@ -54,7 +54,7 @@ add_subdirectory(Blowfish)
 add_subdirectory(Box)
 add_subdirectory(CFFI)
 add_subdirectory(CGI)
-#add_subdirectory(Cairo) # XXX: Broken on OSX: ld: library not found for -lpng12
+add_subdirectory(Cairo) # XXX: Broken on OSX: ld: library not found for -lpng12
 add_subdirectory(Clutter)
 add_subdirectory(ContinuedFraction)
 add_subdirectory(Curses)

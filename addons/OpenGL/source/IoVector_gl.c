@@ -13,7 +13,7 @@
 void IoVector_glInit(IoObject *context)
 {
 	IoState *state = IoObject_state(context);
-	IoObject *self = IoSeq_new(state);
+	IoObject *self = IoState_protoWithName_(state, "Sequence");
 
 	{
 		IoMethodTable methodTable[] = {
