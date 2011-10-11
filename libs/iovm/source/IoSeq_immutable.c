@@ -1,4 +1,3 @@
-
 //metadoc Sequence category Core
 //metadoc Sequence copyright Steve Dekorte 2002
 //metadoc Sequence license BSD revised
@@ -214,7 +213,7 @@ IO_METHOD(IoSeq, asBinaryNumber)
 
 	if (max < bc)
 	{
-		IoState_error_(IOSTATE, m, "requested first %i bytes, but Sequence only contians %i bytes", bc, max);
+		IoState_error_(IOSTATE, m, "requested first %i bytes, but Sequence only contains %i bytes", bc, max);
 	}
 
 	memcpy(&d, UArray_bytes(DATA(self)), bc);
