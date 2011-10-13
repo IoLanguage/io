@@ -706,7 +706,8 @@ IO_METHOD(IoSeq, asList)
 		}
 		else
 		{
-			List_append_(list, IONUMBER(UArray_longAt_(DATA(self), i)));
+			long c = UArray_longAt_(DATA(self), i);
+			List_append_(list, IOSYMBOL(&c));
 		}
 	}
 

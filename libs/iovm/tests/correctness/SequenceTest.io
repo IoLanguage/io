@@ -42,7 +42,7 @@ SequenceTest := UnitTest clone do(
 	)
 
 	testAsList := method(
-		assertEquals(list(97, 98, 99, 100), "abcd" asList)
+		assertEquals(list("a", "b", "c", "d"), "abcd" asList)
 		vector := Sequence clone setItemType("float32") setEncoding("number")
 		vector atPut(0, -0.5)
 		vector atPut(1, 0)
