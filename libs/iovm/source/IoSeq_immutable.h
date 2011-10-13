@@ -21,6 +21,7 @@ IOVM_API IO_METHOD(IoSeq, asSymbol);
 IOVM_API IO_METHOD(IoSeq, isMutable);
 IOVM_API IO_METHOD(IoSeq, isSymbol);
 IOVM_API IO_METHOD(IoSeq, asNumber);
+IOVM_API IO_METHOD(IoSeq, asList);
 
 IOVM_API IO_METHOD(IoSeq, whiteSpaceStrings);
 
