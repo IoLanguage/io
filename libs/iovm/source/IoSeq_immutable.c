@@ -688,6 +688,31 @@ IO_METHOD(IoSeq, asNumber)
 	return IONUMBER(d);
 }
 
+IO_METHOD(IoSeq, asList)
+{
+	/*doc Sequence asList
+	Returns the receiver converted to a List containing all elements of the Sequence.
+	*/
+
+	List *list = List_new();
+
+	size_t i;
+
+	for (i = 0; i < UArray_size(DATA(self)); i++)
+	{
+		if(UArray_isFloatType(DATA(self)))
+		{
+			List_append_(list, IONUMBER(UArray_doubleAt_(DATA(self), i)));
+		}
+		else
+		{
+			List_append_(list, IONUMBER(UArray_longAt_(DATA(self), i)));
+		}
+	}
+
+	return IoList_newWithList_(IOSTATE, list);
+}
+
 IoList *IoSeq_whiteSpaceStrings(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Sequence whiteSpaceStrings
@@ -1910,6 +1935,7 @@ void IoSeq_addImmutableMethods(IoSeq *self)
 	{"asSymbol", IoSeq_asSymbol},
 	{"asString", IoSeq_asSymbol},
 	{"asNumber", IoSeq_asNumber},
+	{"asList", IoSeq_asList},
 	{"whiteSpaceStrings", IoSeq_whiteSpaceStrings},
 	{"print", IoSeq_print},
 	{"linePrint", IoSeq_linePrint},
