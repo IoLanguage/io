@@ -105,7 +105,7 @@ UArray *UArray_asNewHexStringUArray(UArray *self)
 
 	for(i = 0; i < self->size; i ++)
 	{
-		int v = UArray_longAt_(self, i);
+		long v = UArray_longAt_(self, i);
 		char *s = (char *)(ba->data + i * 2);
 
 		if (v < 16)

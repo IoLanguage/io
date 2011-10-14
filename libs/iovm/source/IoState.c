@@ -370,16 +370,36 @@ void IoState_init(IoState *self)
 	}
 }
 
-void IoState_registerProtoWithFunc_(IoState *self, IoObject *proto, IoStateProtoFunc *func)
+/*
+IoObject_registerAsProto(IoObject *self)
 {
-	if (PointerHash_at_(self->primitives, (void *)func))
+	IoState_registerProtoWithNamed_(IOSTATE, self, IoObject_name(self));
+}
+
+void IoState_registerProtoWithNamed_(IoState *self, IoObject *proto, const char *name)
+{
+	if (PointerHash_at_(self->primitives, (void *)name))
+	{
+		printf("Error registering proto: %s\n", IoObject_name(proto));
+		IoState_fatalError_(self, "IoState_registerProtoWithFunc_() Error: attempt to add the same proto twice");
+	}
+	
+	IoState_retain_(self, proto);
+	PointerHash_at_put_(self->primitives, (void *)func, proto);
+	//printf("registered %s\n", IoObject_name(proto));
+}
+*/
+
+void IoState_registerProtoWithFunc_(IoState *self, IoObject *proto, const char *v)
+{
+	if (PointerHash_at_(self->primitives, (void *)v))
 	{
 		printf("Error registering proto: %s\n", IoObject_name(proto));
 		IoState_fatalError_(self, "IoState_registerProtoWithFunc_() Error: attempt to add the same proto twice");
 	}
 
 	IoState_retain_(self, proto);
-	PointerHash_at_put_(self->primitives, (void *)func, proto);
+	PointerHash_at_put_(self->primitives, (void *)v, proto);
 	//printf("registered %s\n", IoObject_name(proto));
 }
 
@@ -442,20 +462,21 @@ void MissingProtoError(void)
 	printf("missing proto\n");
 }
 
-IoObject *IoState_protoWithInitFunction_(IoState *self, IoStateProtoFunc *func)
+IoObject *IoState_protoWithInitFunction_(IoState *self, const char *v)
 {
-	IoObject *proto = PointerHash_at_(self->primitives, (void *)func);
+	IoObject *proto = PointerHash_at_(self->primitives, (void *)v);
 
-	//printf("IoState_protoWithInitFunction_(self, %p)\n", (void *)func);
+	//printf("1234 IoState_protoWithInitFunction_(self, %s)\n", v);
+	//printf("123 IoState_protoWithInitFunction_(self, %s)\n", v);
 
 	if (!proto)
 	{
-		//MissingProtoError();
-		printf("IoState error: missing proto %p\n", (void *)func);
-
+		//printf("*(int *)NULL = 0\n");
+		//*(int *)NULL = 0;
+		//printf("IoState error: missing proto %s\n", v);
 		IoState_fatalError_(self, "IoState_protoWithInitFunction() Error: missing proto");
 	}
-
+	//printf("1234\n");
 	return proto;
 }
 

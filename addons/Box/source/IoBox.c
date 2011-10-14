@@ -11,7 +11,14 @@ A primitive for fast operations on rectangles.
 #include "IoNumber.h"
 #include <math.h>
 
+static const char *protoId = "Box";
+
 #define DATA(self) ((IoBoxData *)IoObject_dataPointer(self))
+
+const char *IoBox_protoId(void)
+{
+	return protoId;
+}
 
 void *IoMessage_locals_boxArgAt_(IoMessage *self, void *locals, int n)
 {
@@ -48,7 +55,7 @@ IoBox *IoBox_rawClone(IoBox *proto)
 
 IoBox *IoBox_new(void *state)
 {
-	IoBox *proto = IoState_protoWithInitFunction_(state, IoBox_proto);
+	IoBox *proto = IoState_protoWithInitFunction_(state, protoId);
 	return IOCLONE(proto);
 }
 
@@ -474,7 +481,7 @@ IoBox *IoBox_proto(void *state)
 	DATA(self)->origin = IoSeq_newVec3f(state, o);
 	DATA(self)->size   = IoSeq_newVec3f(state, o);
 
-	IoState_registerProtoWithFunc_(state, self, IoBox_proto);
+	IoState_registerProtoWithFunc_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {

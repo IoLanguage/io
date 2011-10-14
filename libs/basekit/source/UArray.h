@@ -73,7 +73,7 @@ typedef struct
 	uint8_t *data;  // memory for items
 	size_t size;    // number of items
 	CTYPE itemType;
-	size_t itemSize;
+	int itemSize;
 	uintptr_t oddHash;
 	uintptr_t evenHash;
 	uint8_t encoding;
@@ -264,13 +264,14 @@ BASEKIT_API void UArray_sortBy_(UArray *self, UArraySortCallback *cmp);
 #define DUARRAY_INTOTHER(MACRO, OP, TYPE1, self, other) \
 	switch (other->itemType)\
 	{\
-		case CTYPE_uint8_t:  MACRO(OP, TYPE1, self, uint8_t,  other); break;\
-		case CTYPE_uint16_t: MACRO(OP, TYPE1, self, uint16_t, other); break;\
-		case CTYPE_uint32_t: MACRO(OP, TYPE1, self, uint32_t, other); break;\
-		case CTYPE_int8_t:   MACRO(OP, TYPE1, self, int8_t,   other); break;\
-		case CTYPE_int16_t:  MACRO(OP, TYPE1, self, int16_t,  other); break;\
-		case CTYPE_int32_t:  MACRO(OP, TYPE1, self, int32_t,  other); break;\
+		case CTYPE_uint8_t:   MACRO(OP, TYPE1, self, uint8_t,  other); break;\
+		case CTYPE_uint16_t:  MACRO(OP, TYPE1, self, uint16_t, other); break;\
+		case CTYPE_uint32_t:  MACRO(OP, TYPE1, self, uint32_t, other); break;\
+		case CTYPE_int8_t:    MACRO(OP, TYPE1, self, int8_t,   other); break;\
+		case CTYPE_int16_t:   MACRO(OP, TYPE1, self, int16_t,  other); break;\
+		case CTYPE_int32_t:   MACRO(OP, TYPE1, self, int32_t,  other); break;\
 		case CTYPE_uintptr_t: MACRO(OP, TYPE1, self, uintptr_t, other); break;\
+		default: UArray_error_(self, "unsupported array op"); \
 	}
 
 #define DUARRAY_OTHER(MACRO, OP, TYPE1, self, other) \
@@ -298,6 +299,7 @@ BASEKIT_API void UArray_sortBy_(UArray *self, UArraySortCallback *cmp);
 		case CTYPE_int8_t:   DUARRAY_INTOTHER(MACRO, OP, int8_t,   self, other);\
 		case CTYPE_int16_t:  DUARRAY_INTOTHER(MACRO, OP, int16_t,  self, other);\
 		case CTYPE_int32_t:  DUARRAY_INTOTHER(MACRO, OP, uint32_t, self, other);\
+		default: UArray_error_(self, "unsupported array op"); \
 	}
 
 #define DUARRAY_SELF(MACRO, OP, self, other) \
@@ -331,7 +333,7 @@ BASEKIT_API void UArray_sortBy_(UArray *self, UArraySortCallback *cmp);
 	size_t i, minSize = self->size < other->size ? self->size : other->size;\
 	for(i = 0; i < minSize; i ++)\
 	{\
-		((TYPE1 *)self->data)[i] OP2 ((TYPE2 *)other->data)[i];\
+		((TYPE1 *)self->data)[i] OP2 (TYPE1)((TYPE2 *)other->data)[i];\
 	}\
 	return; \
 }
@@ -391,8 +393,8 @@ BASEKIT_API void UArray_sortBy_(UArray *self, UArraySortCallback *cmp);
 
 #define UARRAY_RFOREACHTYPE(self, i, v, code, TYPE)\
 	{\
-	long i;\
-	for(i = self->size - 1; i > -1; i --)\
+	size_t i;\
+	for(i = self->size - 1; i >= 0; i --)\
 	{\
 		TYPE v = ((TYPE *)self->data)[i];\
 		code;\
@@ -426,7 +428,7 @@ BASEKIT_API void UArray_sortBy_(UArray *self, UArraySortCallback *cmp);
 		for(i = 0; i < self->size; i ++)\
 		{\
 			TYPE v = ((TYPE *)self->data)[i];\
-			((TYPE *)self->data)[i] = code;\
+			((TYPE *)self->data)[i] = (TYPE)(code);\
 		}\
 	}
 
@@ -443,6 +445,7 @@ BASEKIT_API void UArray_sortBy_(UArray *self, UArraySortCallback *cmp);
 		case CTYPE_int64_t:   UARRAY_FOREACHTYPEASSIGN(self, i, v, code, int64_t);   break;\
 		case CTYPE_float32_t: UARRAY_FOREACHTYPEASSIGN(self, i, v, code, float32_t); break;\
 		case CTYPE_float64_t: UARRAY_FOREACHTYPEASSIGN(self, i, v, code, float64_t); break;\
+		case CTYPE_uintptr_t: UARRAY_FOREACHTYPEASSIGN(self, i, v, code, uintptr_t); break;\
 	}
 	
 #define UARRAY_FOREACHTYPEASSIGN_VALUE_UNUSED(self, i, code, TYPE)\
@@ -450,7 +453,7 @@ BASEKIT_API void UArray_sortBy_(UArray *self, UArraySortCallback *cmp);
 		size_t i;\
 		for(i = 0; i < self->size; i ++)\
 		{\
-			((TYPE *)self->data)[i] = code;\
+			((TYPE *)self->data)[i] = (TYPE)(code);\
 		}\
 	}
 
@@ -467,6 +470,7 @@ BASEKIT_API void UArray_sortBy_(UArray *self, UArraySortCallback *cmp);
 		case CTYPE_int64_t:   UARRAY_FOREACHTYPEASSIGN_VALUE_UNUSED(self, i, code, int64_t);   break;\
 		case CTYPE_float32_t: UARRAY_FOREACHTYPEASSIGN_VALUE_UNUSED(self, i, code, float32_t); break;\
 		case CTYPE_float64_t: UARRAY_FOREACHTYPEASSIGN_VALUE_UNUSED(self, i, code, float64_t); break;\
+		case CTYPE_uintptr_t: UARRAY_FOREACHTYPEASSIGN_VALUE_UNUSED(self, i, code, uintptr_t); break;\
 	}
 
 // ----------------------------

@@ -29,12 +29,12 @@ UARRAY_IOP(toupper);
 
 BASEKIT_API int UArray_isLowercase(UArray *self)
 {
-	UARRAY_INTFOREACH(self, i, v, if(v != tolower(v)) return 0);
+	UARRAY_INTFOREACH(self, i, v, if(v != tolower((int)v)) return 0);
 	return 1;
 }
 
 BASEKIT_API int UArray_isUppercase(UArray *self)
 {
-	UARRAY_INTFOREACH(self, i, v, if(v != toupper(v)) return 0);
+	UARRAY_INTFOREACH(self, i, v, if(v != toupper((int)v)) return 0);
 	return 1;
 }

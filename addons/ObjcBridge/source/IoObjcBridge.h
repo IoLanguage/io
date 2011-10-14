@@ -45,6 +45,9 @@ typedef struct
 		NSPoint point;
 		NSSize size;
 		NSRect rect;
+		CGPoint cgPoint;
+		CGSize cgSize;
+		CGRect cgRect;
 	} cValue;
 
 	char *methodNameBuffer;
@@ -998,6 +1001,11 @@ char *IoObjcBridge_nameForTypeChar_(IoObjcBridge *self, char type);
 - (void)parser:(id)parser validationErrorOccurred:(id)validationError;
 - (void)parserDidEndDocument:(id)parser;
 - (void)parserDidStartDocument:(id)parser;
+@end
+
+@interface NSObject (Deprecated)
+- (void)beginSheetForDirectory:dir file:file types:type modalForWindow:window modalDelegate:delegate didEndSelector:(SEL)sel contextInfo:context;
+- (void)my_sheetDidEnd:(id)b returnCode:(NSInteger)c contextInfo:(void *)v;
 @end
 
 #endif

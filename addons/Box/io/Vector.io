@@ -40,10 +40,12 @@ Box do(
 	serialized := method(b,
 		if(b == nil, b := Sequence clone)
 		b appendSeq("Box clone do(")
-		b appendSeq("setOrigin(")
+		b appendSeq("setOrigin(") 
+		b appendSeq(self origin x, ", ", self origin y)
 		//origin serialized(b)
 		b appendSeq("); ")
 		b appendSeq("setSize(")
+		b appendSeq(self size width, ", ", self size height)
 		//size serialized(b)
 		b appendSeq("));")
 	)

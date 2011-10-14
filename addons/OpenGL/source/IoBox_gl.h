@@ -8,7 +8,7 @@
 #include "IoState.h"
 #include "IoBox.h"
 
-void  IoBox_glInit(IoObject *context);
+void IoBox_glInit(IoObject *context);
 
 IoObject *IoBox_drawAsRect(IoBox *self, IoObject *locals, IoMessage *m);
 /*

@@ -16,6 +16,8 @@ A mutable array of values. The first index is 0.
 #include "IoBlock.h"
 #include <math.h>
 
+static const char *protoId = "List";
+
 #define DATA(self) ((List *)(IoObject_dataPointer(self)))
 
 IoTag *IoList_newTag(void *state)
@@ -115,7 +117,7 @@ IoList *IoList_proto(void *state)
 	IoObject_tag_(self, IoList_newTag(state));
 
 	IoObject_setDataPointer_(self, List_new());
-	IoState_registerProtoWithFunc_((IoState *)state, self, IoList_proto);
+	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
 
 	IoObject_addMethodTable_(self, methodTable);
 	return self;
@@ -131,7 +133,7 @@ IoList *IoList_rawClone(IoList *proto)
 
 IoList *IoList_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoList_proto);
+	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 
@@ -241,7 +243,7 @@ size_t IoList_rawSize(IoList *self)
 	return List_size(DATA(self));
 }
 
-int IoList_rawIndexOf_(IoList *self, IoObject *v)
+long IoList_rawIndexOf_(IoList *self, IoObject *v)
 {
 	List *list = DATA(self);
 
@@ -257,7 +259,7 @@ int IoList_rawIndexOf_(IoList *self, IoObject *v)
 
 void IoList_checkIndex(IoList *self, IoMessage *m, char allowsExtending, int index, const char *methodName)
 {
-	int max = List_size(DATA(self));
+	size_t max = List_size(DATA(self));
 
 	if (allowsExtending)
 	{
@@ -278,7 +280,7 @@ IO_METHOD(IoList, with)
 	Returns a new List containing the arguments. 
 	*/
 
-	int n, argCount = IoMessage_argCount(m);
+	int n, argCount = (int)IoMessage_argCount(m);
 	IoList *ioList = IOCLONE(self);
 
 	for (n = 0; n < argCount; n ++)
@@ -304,7 +306,7 @@ IO_METHOD(IoList, indexOf)
 
 	{
 		IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 0);
-		int i = IoList_rawIndexOf_(self, v);
+		size_t i = IoList_rawIndexOf_(self, v);
 
 		return i == -1 ? IONIL(self) :
 			(IoObject *)IONUMBER(IoList_rawIndexOf_(self, v));
@@ -403,17 +405,17 @@ void IoList_sliceIndex(int *index, int step, int size)
 
 void IoList_sliceArguments(IoList *self, IoObject *locals, IoMessage *m, int *start, int *end, int *step)
 {
-    int size = IoList_rawSize(self);
+    size_t size = IoList_rawSize(self);
     /* Checking step, before any other arguments. */
     *step = (IoMessage_argCount(m) == 3) ? IoMessage_locals_intArgAt_(m, locals, 2) : 1;
     IOASSERT(step != 0, "step cannot be equal to zero");
 
     *start = IoMessage_locals_intArgAt_(m, locals, 0);
-    *end  = (IoMessage_argCount(m) >= 2) ? IoMessage_locals_intArgAt_(m, locals, 1) : size;
+    *end  = (IoMessage_argCount(m) >= 2) ? IoMessage_locals_intArgAt_(m, locals, 1) : (int)size;
 
     /* Fixing slice index values. */
-	IoList_sliceIndex(start, *step, size);
-	IoList_sliceIndex(end, *step, size);
+	IoList_sliceIndex(start, *step, (int)size);
+	IoList_sliceIndex(end, *step, (int)size);
 }
 
 IO_METHOD(IoList, slice)
@@ -555,7 +557,7 @@ IO_METHOD(IoList, reverseForeach)
 	IoObject *result = IONIL(self);
 	IoSymbol *slotName, *valueName;
 	IoMessage *doMessage;
-	int i;
+	long i;
 
 	IoMessage_foreachArgs(m, self, &slotName, &valueName, &doMessage);
 
@@ -634,7 +636,7 @@ IO_METHOD(IoList, appendSeq)
 		{
 			List *selfList  = DATA(self);
 			List *otherList = DATA(other);
-			int i, max = List_size(otherList);
+			size_t i, max = List_size(otherList);
 
 			for (i = 0; i < max; i ++)
 			{
@@ -716,7 +718,7 @@ IO_METHOD(IoList, remove)
 		// slow pass to remove values that match comparision test
 		for (;;)
 		{
-			int i = IoList_rawIndexOf_(self, v);
+			long i = IoList_rawIndexOf_(self, v);
 
 			if (i == -1)
 			{
@@ -1037,7 +1039,7 @@ IO_METHOD(IoList, asEncodedList)
 		else if(ISSEQ(item))
 		{
 			UArray *s = IoSeq_rawUArray(item);
-			uint32_t size = UArray_size(s);
+			uint32_t size = (uint32_t)UArray_size(s);
 
 			UArray_appendLong_(u, IOLIST_ENCODING_TYPE_SYMBOL);
 			UArray_appendLong_(u, UArray_encoding(s));
@@ -1159,12 +1161,12 @@ IO_METHOD(IoList, join)
 	*/
 
 	List *items = IoList_rawList(self);
-	int itemCount = List_size(items);
+	size_t itemCount = List_size(items);
 	IoSeq *separator = IoMessage_locals_seqArgAt_(m, locals, 0);
 	UArray *out = UArray_new();
 	int totalSize = 0;
 	int hasSeparator = !ISNIL(separator);
-	int separatorSize = hasSeparator ? IOSEQ_LENGTH(separator) : 0;
+	size_t separatorSize = hasSeparator ? IOSEQ_LENGTH(separator) : 0;
 	uint8_t *bytes; 
 	IOASSERT(ISSEQ(separator), "separator must be of type Sequence");
 	

@@ -259,7 +259,7 @@ double RandomGen_randomDouble(RandomGen *self)
 
 int RandomGen_randomInt(RandomGen *self)
 {
-	return genrand_int32(self);
+	return (int)genrand_int32(self);
 }
 
 #include <math.h>

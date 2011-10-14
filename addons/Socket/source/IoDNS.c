@@ -164,7 +164,7 @@ int assemble(unsigned char *packetData, uint32_t packetDataSize, uint16_t id, co
 
 	p += 4;
 
-	return p - packetData;
+	return (int)(p - packetData);
 }
 
 // binding -------------------------------
@@ -352,7 +352,7 @@ the hostName and IP or an error string on error.
 	struct msg msg;
 
 	unsigned char *buf = IoSeq_rawBytes(packet);
-	int len = IoSeq_rawSize(packet);
+	int len = (int)IoSeq_rawSize(packet);
 
 	if (disassemble(buf, len, &msg))
 	{

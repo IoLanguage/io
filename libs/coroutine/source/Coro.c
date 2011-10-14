@@ -70,7 +70,6 @@ typedef struct CallbackBlock
 #endif
 } CallbackBlock;
 
-static CallbackBlock globalCallbackBlock;
 
 Coro *Coro_new(void)
 {
@@ -266,6 +265,8 @@ void Coro_StartWithArg(CallbackBlock *block)
 	printf("Scheduler error: returned from coro start function\n");
 	exit(-1);
 }
+
+static CallbackBlock globalCallbackBlock;
 
 
 void Coro_Start(void)

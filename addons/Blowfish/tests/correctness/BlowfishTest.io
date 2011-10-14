@@ -8,8 +8,6 @@ Sequence asChars := method(
 */
 		
 BlowfishTest := UnitTest clone do(
-	type := "BlowfishTest"
-	
 	testBasic := method(
 		s := "This is a test."
 			

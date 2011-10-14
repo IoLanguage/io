@@ -1,0 +1,1738 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		AA3A0B4113F9C8DA00FB76A0 /* SystemCall.io in Resources */ = {isa = PBXBuildFile; fileRef = AA3A0B2C13F9C8DA00FB76A0 /* SystemCall.io */; };
+		AA3A0B4613F9C8DA00FB76A0 /* callsystem.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0B3313F9C8DA00FB76A0 /* callsystem.c */; };
+		AA3A0B4713F9C8DA00FB76A0 /* callsystem.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3A0B3413F9C8DA00FB76A0 /* callsystem.h */; };
+		AA3A0B4813F9C8DA00FB76A0 /* IoSystemCall.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0B3513F9C8DA00FB76A0 /* IoSystemCall.c */; };
+		AA3A0B4913F9C8DA00FB76A0 /* IoSystemCall.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3A0B3613F9C8DA00FB76A0 /* IoSystemCall.h */; };
+		AA3A0B4A13F9C8DA00FB76A0 /* IoSystemCallInit.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0B3713F9C8DA00FB76A0 /* IoSystemCallInit.c */; };
+		AA3A0BE113F9D1B400FB76A0 /* A0_EventManager.io in Resources */ = {isa = PBXBuildFile; fileRef = AA3A0B7113F9D1B400FB76A0 /* A0_EventManager.io */; };
+		AA3A0BE213F9D1B400FB76A0 /* A1_Socket.io in Resources */ = {isa = PBXBuildFile; fileRef = AA3A0B7213F9D1B400FB76A0 /* A1_Socket.io */; };
+		AA3A0BE313F9D1B400FB76A0 /* A2_Server.io in Resources */ = {isa = PBXBuildFile; fileRef = AA3A0B7313F9D1B400FB76A0 /* A2_Server.io */; };
+		AA3A0BE413F9D1B400FB76A0 /* A3_Host.io in Resources */ = {isa = PBXBuildFile; fileRef = AA3A0B7413F9D1B400FB76A0 /* A3_Host.io */; };
+		AA3A0BE513F9D1B400FB76A0 /* A4_Object.io in Resources */ = {isa = PBXBuildFile; fileRef = AA3A0B7513F9D1B400FB76A0 /* A4_Object.io */; };
+		AA3A0BE613F9D1B400FB76A0 /* DNSResolver.io in Resources */ = {isa = PBXBuildFile; fileRef = AA3A0B7613F9D1B400FB76A0 /* DNSResolver.io */; };
+		AA3A0BE713F9D1B400FB76A0 /* EvHttpCookie.io in Resources */ = {isa = PBXBuildFile; fileRef = AA3A0B7713F9D1B400FB76A0 /* EvHttpCookie.io */; };
+		AA3A0BE813F9D1B400FB76A0 /* EvHttpServer.io in Resources */ = {isa = PBXBuildFile; fileRef = AA3A0B7813F9D1B400FB76A0 /* EvHttpServer.io */; };
+		AA3A0BE913F9D1B400FB76A0 /* EvOutResponse.io in Resources */ = {isa = PBXBuildFile; fileRef = AA3A0B7913F9D1B400FB76A0 /* EvOutResponse.io */; };
+		AA3A0BEA13F9D1B400FB76A0 /* EvStatusCodes.io in Resources */ = {isa = PBXBuildFile; fileRef = AA3A0B7A13F9D1B400FB76A0 /* EvStatusCodes.io */; };
+		AA3A0BEB13F9D1B400FB76A0 /* IPAddress.io in Resources */ = {isa = PBXBuildFile; fileRef = AA3A0B7B13F9D1B400FB76A0 /* IPAddress.io */; };
+		AA3A0BEC13F9D1B400FB76A0 /* UnixPath.io in Resources */ = {isa = PBXBuildFile; fileRef = AA3A0B7C13F9D1B400FB76A0 /* UnixPath.io */; };
+		AA3A0BED13F9D1B400FB76A0 /* URL.io in Resources */ = {isa = PBXBuildFile; fileRef = AA3A0B7D13F9D1B400FB76A0 /* URL.io */; };
+		AA3A0C0613F9D1B400FB76A0 /* Address.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0B9B13F9D1B400FB76A0 /* Address.c */; };
+		AA3A0C0713F9D1B400FB76A0 /* Address.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3A0B9C13F9D1B400FB76A0 /* Address.h */; };
+		AA3A0C0813F9D1B400FB76A0 /* IoDNS.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0B9D13F9D1B400FB76A0 /* IoDNS.c */; };
+		AA3A0C0913F9D1B400FB76A0 /* IoDNS.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3A0B9E13F9D1B400FB76A0 /* IoDNS.h */; };
+		AA3A0C0A13F9D1B400FB76A0 /* IoEvConnection.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0B9F13F9D1B400FB76A0 /* IoEvConnection.c */; };
+		AA3A0C0B13F9D1B400FB76A0 /* IoEvConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3A0BA013F9D1B400FB76A0 /* IoEvConnection.h */; };
+		AA3A0C0C13F9D1B400FB76A0 /* IoEvent.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0BA113F9D1B400FB76A0 /* IoEvent.c */; };
+		AA3A0C0D13F9D1B400FB76A0 /* IoEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3A0BA213F9D1B400FB76A0 /* IoEvent.h */; };
+		AA3A0C0E13F9D1B400FB76A0 /* IoEventManager.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0BA313F9D1B400FB76A0 /* IoEventManager.c */; };
+		AA3A0C0F13F9D1B400FB76A0 /* IoEventManager.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3A0BA413F9D1B400FB76A0 /* IoEventManager.h */; };
+		AA3A0C1013F9D1B400FB76A0 /* IoEvHttpServer.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0BA513F9D1B400FB76A0 /* IoEvHttpServer.c */; };
+		AA3A0C1113F9D1B400FB76A0 /* IoEvHttpServer.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3A0BA613F9D1B400FB76A0 /* IoEvHttpServer.h */; };
+		AA3A0C1213F9D1B400FB76A0 /* IoEvOutRequest.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0BA713F9D1B400FB76A0 /* IoEvOutRequest.c */; };
+		AA3A0C1313F9D1B400FB76A0 /* IoEvOutRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3A0BA813F9D1B400FB76A0 /* IoEvOutRequest.h */; };
+		AA3A0C1413F9D1B400FB76A0 /* IoEvOutResponse.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0BA913F9D1B400FB76A0 /* IoEvOutResponse.c */; };
+		AA3A0C1513F9D1B400FB76A0 /* IoEvOutResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3A0BAA13F9D1B400FB76A0 /* IoEvOutResponse.h */; };
+		AA3A0C1613F9D1B400FB76A0 /* IoIPAddress.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0BAB13F9D1B400FB76A0 /* IoIPAddress.c */; };
+		AA3A0C1713F9D1B400FB76A0 /* IoIPAddress.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3A0BAC13F9D1B400FB76A0 /* IoIPAddress.h */; };
+		AA3A0C1813F9D1B400FB76A0 /* IoSocket.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0BAD13F9D1B400FB76A0 /* IoSocket.c */; };
+		AA3A0C1913F9D1B400FB76A0 /* IoSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3A0BAE13F9D1B400FB76A0 /* IoSocket.h */; };
+		AA3A0C1A13F9D1B400FB76A0 /* IoSocketInit.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0BAF13F9D1B400FB76A0 /* IoSocketInit.c */; };
+		AA3A0C1B13F9D1B400FB76A0 /* IoUnixPath.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0BB013F9D1B400FB76A0 /* IoUnixPath.c */; };
+		AA3A0C1C13F9D1B400FB76A0 /* IoUnixPath.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3A0BB113F9D1B400FB76A0 /* IoUnixPath.h */; };
+		AA3A0C1D13F9D1B400FB76A0 /* IPAddress.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0BB213F9D1B400FB76A0 /* IPAddress.c */; };
+		AA3A0C1E13F9D1B400FB76A0 /* IPAddress.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3A0BB313F9D1B400FB76A0 /* IPAddress.h */; };
+		AA3A0C1F13F9D1B400FB76A0 /* LocalNameServers.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0BB413F9D1B400FB76A0 /* LocalNameServers.c */; };
+		AA3A0C2013F9D1B400FB76A0 /* LocalNameServers.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3A0BB513F9D1B400FB76A0 /* LocalNameServers.h */; };
+		AA3A0C2513F9D1B400FB76A0 /* Socket.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0BBB13F9D1B400FB76A0 /* Socket.c */; };
+		AA3A0C2613F9D1B400FB76A0 /* Socket.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3A0BBC13F9D1B400FB76A0 /* Socket.h */; };
+		AA3A0C2713F9D1B400FB76A0 /* UnixPath.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3A0BBD13F9D1B400FB76A0 /* UnixPath.c */; };
+		AA3A0C2813F9D1B400FB76A0 /* UnixPath.h in Headers */ = {isa = PBXBuildFile; fileRef = AA3A0BBE13F9D1B400FB76A0 /* UnixPath.h */; };
+		AA95DCF813DBBD4200CCD456 /* IoLanguageKit.h in Headers */ = {isa = PBXBuildFile; fileRef = AA95DCF613DBBD4200CCD456 /* IoLanguageKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AA9AFEA2141EAD230078E31B /* MD5_extras.io in Resources */ = {isa = PBXBuildFile; fileRef = AA9AFE7F141EAD230078E31B /* MD5_extras.io */; };
+		AA9AFEA6141EAD230078E31B /* IoMD5.c in Sources */ = {isa = PBXBuildFile; fileRef = AA9AFE85141EAD230078E31B /* IoMD5.c */; };
+		AA9AFEA7141EAD230078E31B /* IoMD5.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9AFE86141EAD230078E31B /* IoMD5.h */; };
+		AA9AFEA8141EAD230078E31B /* IoMD5Init.c in Sources */ = {isa = PBXBuildFile; fileRef = AA9AFE87141EAD230078E31B /* IoMD5Init.c */; };
+		AA9AFEA9141EAD230078E31B /* md5.c in Sources */ = {isa = PBXBuildFile; fileRef = AA9AFE88141EAD230078E31B /* md5.c */; };
+		AA9AFEAA141EAD230078E31B /* md5.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9AFE89141EAD230078E31B /* md5.h */; };
+		AA9AFEAE141EAD230078E31B /* YajlElement.io in Resources */ = {isa = PBXBuildFile; fileRef = AA9AFE93141EAD230078E31B /* YajlElement.io */; };
+		AA9AFEB0141EAD230078E31B /* IoYajl.c in Sources */ = {isa = PBXBuildFile; fileRef = AA9AFE96141EAD230078E31B /* IoYajl.c */; };
+		AA9AFEB1141EAD230078E31B /* IoYajl.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9AFE97141EAD230078E31B /* IoYajl.h */; };
+		AA9AFEB2141EAD230078E31B /* IoYajlGen.c in Sources */ = {isa = PBXBuildFile; fileRef = AA9AFE98141EAD230078E31B /* IoYajlGen.c */; };
+		AA9AFEB3141EAD230078E31B /* IoYajlGen.h in Headers */ = {isa = PBXBuildFile; fileRef = AA9AFE99141EAD230078E31B /* IoYajlGen.h */; };
+		AA9AFEB4141EAD230078E31B /* IoYajlInit.c in Sources */ = {isa = PBXBuildFile; fileRef = AA9AFE9A141EAD230078E31B /* IoYajlInit.c */; };
+		AABB968C13DD09B800B6A0CB /* Base.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB943613DD09B800B6A0CB /* Base.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB968D13DD09B800B6A0CB /* BStream.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB943713DD09B800B6A0CB /* BStream.c */; };
+		AABB968E13DD09B800B6A0CB /* BStream.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB943813DD09B800B6A0CB /* BStream.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB968F13DD09B800B6A0CB /* BStreamTag.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB943913DD09B800B6A0CB /* BStreamTag.c */; };
+		AABB969013DD09B800B6A0CB /* BStreamTag.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB943A13DD09B800B6A0CB /* BStreamTag.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB969113DD09B800B6A0CB /* cdecode.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB943B13DD09B800B6A0CB /* cdecode.c */; };
+		AABB969213DD09B800B6A0CB /* cdecode.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB943C13DD09B800B6A0CB /* cdecode.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB969313DD09B800B6A0CB /* cencode.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB943D13DD09B800B6A0CB /* cencode.c */; };
+		AABB969413DD09B800B6A0CB /* cencode.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB943E13DD09B800B6A0CB /* cencode.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB969513DD09B800B6A0CB /* CHash.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB943F13DD09B800B6A0CB /* CHash.c */; };
+		AABB969613DD09B800B6A0CB /* CHash.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB944013DD09B800B6A0CB /* CHash.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB969713DD09B800B6A0CB /* CHash_inline.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB944113DD09B800B6A0CB /* CHash_inline.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB969813DD09B800B6A0CB /* Common.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB944213DD09B800B6A0CB /* Common.c */; };
+		AABB969913DD09B800B6A0CB /* Common.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB944313DD09B800B6A0CB /* Common.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB969A13DD09B800B6A0CB /* Common_inline.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB944413DD09B800B6A0CB /* Common_inline.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB969B13DD09B800B6A0CB /* Date.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB944513DD09B800B6A0CB /* Date.c */; };
+		AABB969C13DD09B800B6A0CB /* Date.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB944613DD09B800B6A0CB /* Date.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB969D13DD09B800B6A0CB /* Duration.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB944713DD09B800B6A0CB /* Duration.c */; };
+		AABB969E13DD09B800B6A0CB /* Duration.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB944813DD09B800B6A0CB /* Duration.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB969F13DD09B800B6A0CB /* DynLib.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB944913DD09B800B6A0CB /* DynLib.c */; };
+		AABB96A013DD09B800B6A0CB /* DynLib.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB944A13DD09B800B6A0CB /* DynLib.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96A113DD09B800B6A0CB /* Hash_fnv.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB944B13DD09B800B6A0CB /* Hash_fnv.c */; };
+		AABB96A213DD09B800B6A0CB /* Hash_fnv.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB944C13DD09B800B6A0CB /* Hash_fnv.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96A313DD09B800B6A0CB /* Hash_murmur.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB944D13DD09B800B6A0CB /* Hash_murmur.c */; };
+		AABB96A413DD09B800B6A0CB /* Hash_murmur.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB944E13DD09B800B6A0CB /* Hash_murmur.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96A513DD09B800B6A0CB /* Hash_superfast.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB944F13DD09B800B6A0CB /* Hash_superfast.c */; };
+		AABB96A613DD09B800B6A0CB /* Hash_superfast.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB945013DD09B800B6A0CB /* Hash_superfast.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96A713DD09B800B6A0CB /* List.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB945113DD09B800B6A0CB /* List.c */; };
+		AABB96A813DD09B800B6A0CB /* List.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB945213DD09B800B6A0CB /* List.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96A913DD09B800B6A0CB /* List_inline.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB945313DD09B800B6A0CB /* List_inline.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96AA13DD09B800B6A0CB /* MainArgs.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB945413DD09B800B6A0CB /* MainArgs.c */; };
+		AABB96AB13DD09B800B6A0CB /* MainArgs.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB945513DD09B800B6A0CB /* MainArgs.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96AC13DD09B800B6A0CB /* PointerHash.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB945613DD09B800B6A0CB /* PointerHash.c */; };
+		AABB96AD13DD09B800B6A0CB /* PointerHash.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB945713DD09B800B6A0CB /* PointerHash.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96AE13DD09B800B6A0CB /* PointerHash_inline.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB945813DD09B800B6A0CB /* PointerHash_inline.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96AF13DD09B800B6A0CB /* PointerHash_struct.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB945913DD09B800B6A0CB /* PointerHash_struct.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96B013DD09B800B6A0CB /* PortableGettimeofday.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB945A13DD09B800B6A0CB /* PortableGettimeofday.c */; };
+		AABB96B113DD09B800B6A0CB /* PortableGettimeofday.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB945B13DD09B800B6A0CB /* PortableGettimeofday.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96B213DD09B800B6A0CB /* PortableSnprintf.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB945C13DD09B800B6A0CB /* PortableSnprintf.c */; };
+		AABB96B313DD09B800B6A0CB /* PortableSorting.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB945D13DD09B800B6A0CB /* PortableSorting.c */; };
+		AABB96B413DD09B800B6A0CB /* PortableSorting.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB945E13DD09B800B6A0CB /* PortableSorting.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96B513DD09B800B6A0CB /* PortableStdint.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB945F13DD09B800B6A0CB /* PortableStdint.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96B613DD09B800B6A0CB /* PortableStrlcpy.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB946013DD09B800B6A0CB /* PortableStrlcpy.c */; };
+		AABB96B713DD09B800B6A0CB /* PortableStrlcpy.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB946113DD09B800B6A0CB /* PortableStrlcpy.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96B813DD09B800B6A0CB /* PortableStrptime.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB946213DD09B800B6A0CB /* PortableStrptime.c */; };
+		AABB96B913DD09B800B6A0CB /* PortableStrptime.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB946313DD09B800B6A0CB /* PortableStrptime.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96BA13DD09B800B6A0CB /* PortableTruncate.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB946413DD09B800B6A0CB /* PortableTruncate.c */; };
+		AABB96BB13DD09B800B6A0CB /* PortableTruncate.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB946513DD09B800B6A0CB /* PortableTruncate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96BC13DD09B800B6A0CB /* PortableUsleep.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB946613DD09B800B6A0CB /* PortableUsleep.c */; };
+		AABB96BD13DD09B800B6A0CB /* PortableUsleep.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB946713DD09B800B6A0CB /* PortableUsleep.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96BE13DD09B800B6A0CB /* RandomGen.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB946813DD09B800B6A0CB /* RandomGen.c */; };
+		AABB96BF13DD09B800B6A0CB /* RandomGen.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB946913DD09B800B6A0CB /* RandomGen.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96C113DD09B800B6A0CB /* simd_cp.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB946E13DD09B800B6A0CB /* simd_cp.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96C213DD09B800B6A0CB /* simd_cp_arm-iwmmx.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB946F13DD09B800B6A0CB /* simd_cp_arm-iwmmx.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96C313DD09B800B6A0CB /* simd_cp_emu.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB947013DD09B800B6A0CB /* simd_cp_emu.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96C413DD09B800B6A0CB /* simd_cp_x86.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB947113DD09B800B6A0CB /* simd_cp_x86.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96CA13DD09B800B6A0CB /* Stack.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB947813DD09B800B6A0CB /* Stack.c */; };
+		AABB96CB13DD09B800B6A0CB /* Stack.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB947913DD09B800B6A0CB /* Stack.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96CC13DD09B800B6A0CB /* Stack_inline.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB947A13DD09B800B6A0CB /* Stack_inline.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96CD13DD09B800B6A0CB /* UArray.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB947B13DD09B800B6A0CB /* UArray.c */; };
+		AABB96CE13DD09B800B6A0CB /* UArray.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB947C13DD09B800B6A0CB /* UArray.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96CF13DD09B800B6A0CB /* UArray_character.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB947D13DD09B800B6A0CB /* UArray_character.c */; };
+		AABB96D013DD09B800B6A0CB /* UArray_character.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB947E13DD09B800B6A0CB /* UArray_character.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96D113DD09B800B6A0CB /* UArray_format.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB947F13DD09B800B6A0CB /* UArray_format.c */; };
+		AABB96D213DD09B800B6A0CB /* UArray_format.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB948013DD09B800B6A0CB /* UArray_format.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96D313DD09B800B6A0CB /* UArray_math.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB948113DD09B800B6A0CB /* UArray_math.c */; };
+		AABB96D413DD09B800B6A0CB /* UArray_math.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB948213DD09B800B6A0CB /* UArray_math.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96D513DD09B800B6A0CB /* UArray_path.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB948313DD09B800B6A0CB /* UArray_path.c */; };
+		AABB96D613DD09B800B6A0CB /* UArray_path.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB948413DD09B800B6A0CB /* UArray_path.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96D713DD09B800B6A0CB /* UArray_stream.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB948513DD09B800B6A0CB /* UArray_stream.c */; };
+		AABB96D813DD09B800B6A0CB /* UArray_stream.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB948613DD09B800B6A0CB /* UArray_stream.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96D913DD09B800B6A0CB /* UArray_string.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB948713DD09B800B6A0CB /* UArray_string.c */; };
+		AABB96DA13DD09B800B6A0CB /* UArray_string.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB948813DD09B800B6A0CB /* UArray_string.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96DB13DD09B800B6A0CB /* UArray_utf.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB948913DD09B800B6A0CB /* UArray_utf.c */; };
+		AABB96DC13DD09B800B6A0CB /* UArray_utf.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB948A13DD09B800B6A0CB /* UArray_utf.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96DD13DD09B800B6A0CB /* ucs2.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB948B13DD09B800B6A0CB /* ucs2.c */; };
+		AABB96DE13DD09B800B6A0CB /* ucs4.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB948C13DD09B800B6A0CB /* ucs4.c */; };
+		AABB96DF13DD09B800B6A0CB /* utf8.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB948D13DD09B800B6A0CB /* utf8.c */; };
+		AABB96E013DD09B800B6A0CB /* utf8.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB948E13DD09B800B6A0CB /* utf8.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96E113DD09B800B6A0CB /* utf8internal.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB948F13DD09B800B6A0CB /* utf8internal.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96E213DD09B800B6A0CB /* utf_convert.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB949013DD09B800B6A0CB /* utf_convert.c */; };
+		AABB96E313DD09B800B6A0CB /* utf_convert.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB949113DD09B800B6A0CB /* utf_convert.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96E413DD09B800B6A0CB /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = AABB949213DD09B800B6A0CB /* CMakeLists.txt */; };
+		AABB96F813DD09B900B6A0CB /* 386-ucontext.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB94B013DD09B800B6A0CB /* 386-ucontext.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96F913DD09B900B6A0CB /* amd64-ucontext.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB94B113DD09B800B6A0CB /* amd64-ucontext.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96FA13DD09B900B6A0CB /* asm.S in Sources */ = {isa = PBXBuildFile; fileRef = AABB94B213DD09B800B6A0CB /* asm.S */; };
+		AABB96FB13DD09B900B6A0CB /* context.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB94B313DD09B800B6A0CB /* context.c */; };
+		AABB96FC13DD09B900B6A0CB /* Coro.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB94B413DD09B800B6A0CB /* Coro.c */; };
+		AABB96FD13DD09B900B6A0CB /* Coro.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB94B513DD09B800B6A0CB /* Coro.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96FE13DD09B900B6A0CB /* power-ucontext.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB94B613DD09B800B6A0CB /* power-ucontext.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB96FF13DD09B900B6A0CB /* taskimpl.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB94B713DD09B800B6A0CB /* taskimpl.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB970E13DD09B900B6A0CB /* Collector.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB94CF13DD09B800B6A0CB /* Collector.c */; };
+		AABB970F13DD09B900B6A0CB /* Collector.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB94D013DD09B800B6A0CB /* Collector.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB971013DD09B900B6A0CB /* Collector_inline.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB94D113DD09B800B6A0CB /* Collector_inline.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB971113DD09B900B6A0CB /* CollectorMarker.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB94D213DD09B800B6A0CB /* CollectorMarker.c */; };
+		AABB971213DD09B900B6A0CB /* CollectorMarker.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB94D313DD09B800B6A0CB /* CollectorMarker.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB971313DD09B900B6A0CB /* CollectorMarker_inline.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB94D413DD09B800B6A0CB /* CollectorMarker_inline.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB97C513DD09B900B6A0CB /* IoBlock.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB959213DD09B800B6A0CB /* IoBlock.c */; };
+		AABB97C613DD09B900B6A0CB /* IoBlock.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB959313DD09B800B6A0CB /* IoBlock.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB97C713DD09B900B6A0CB /* IoCall.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB959413DD09B800B6A0CB /* IoCall.c */; };
+		AABB97C813DD09B900B6A0CB /* IoCall.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB959513DD09B800B6A0CB /* IoCall.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB97C913DD09B900B6A0CB /* IoCFunction.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB959613DD09B800B6A0CB /* IoCFunction.c */; };
+		AABB97CA13DD09B900B6A0CB /* IoCFunction.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB959713DD09B800B6A0CB /* IoCFunction.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB97CB13DD09B900B6A0CB /* IoCollector.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB959813DD09B800B6A0CB /* IoCollector.c */; };
+		AABB97CC13DD09B900B6A0CB /* IoCollector.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB959913DD09B800B6A0CB /* IoCollector.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB97CD13DD09B900B6A0CB /* IoCompiler.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB959A13DD09B800B6A0CB /* IoCompiler.c */; };
+		AABB97CE13DD09B900B6A0CB /* IoCompiler.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB959B13DD09B800B6A0CB /* IoCompiler.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB97CF13DD09B900B6A0CB /* IoConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB959C13DD09B800B6A0CB /* IoConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB97D013DD09B900B6A0CB /* IoContext.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB959D13DD09B800B6A0CB /* IoContext.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB97D113DD09B900B6A0CB /* IoCoroutine.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB959E13DD09B800B6A0CB /* IoCoroutine.c */; };
+		AABB97D213DD09B900B6A0CB /* IoCoroutine.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB959F13DD09B800B6A0CB /* IoCoroutine.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB97D313DD09B900B6A0CB /* IoDate.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB95A013DD09B800B6A0CB /* IoDate.c */; };
+		AABB97D413DD09B900B6A0CB /* IoDate.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95A113DD09B800B6A0CB /* IoDate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB97D513DD09B900B6A0CB /* IoDebugger.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB95A213DD09B800B6A0CB /* IoDebugger.c */; };
+		AABB97D613DD09B900B6A0CB /* IoDebugger.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95A313DD09B800B6A0CB /* IoDebugger.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB97D713DD09B900B6A0CB /* IoDirectory.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB95A413DD09B800B6A0CB /* IoDirectory.c */; };
+		AABB97D813DD09B900B6A0CB /* IoDirectory.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95A513DD09B800B6A0CB /* IoDirectory.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB97D913DD09B900B6A0CB /* IoDuration.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB95A613DD09B800B6A0CB /* IoDuration.c */; };
+		AABB97DA13DD09B900B6A0CB /* IoDuration.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95A713DD09B800B6A0CB /* IoDuration.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB97DB13DD09B900B6A0CB /* IoDynLib.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB95A813DD09B800B6A0CB /* IoDynLib.c */; };
+		AABB97DC13DD09B900B6A0CB /* IoDynLib.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95A913DD09B800B6A0CB /* IoDynLib.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB97DD13DD09B900B6A0CB /* IoError.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB95AA13DD09B800B6A0CB /* IoError.c */; };
+		AABB97DE13DD09B900B6A0CB /* IoError.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95AB13DD09B800B6A0CB /* IoError.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB97DF13DD09B900B6A0CB /* IoFile.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB95AC13DD09B800B6A0CB /* IoFile.c */; };
+		AABB97E013DD09B900B6A0CB /* IoFile.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95AD13DD09B800B6A0CB /* IoFile.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB97E113DD09B900B6A0CB /* IoFile_stat.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB95AE13DD09B800B6A0CB /* IoFile_stat.c */; };
+		AABB97E213DD09B900B6A0CB /* IoFile_stat.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95AF13DD09B800B6A0CB /* IoFile_stat.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB97E313DD09B900B6A0CB /* IoInstallPrefix.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95B013DD09B800B6A0CB /* IoInstallPrefix.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB97E413DD09B900B6A0CB /* IoLexer.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB95B113DD09B800B6A0CB /* IoLexer.c */; };
+		AABB97E513DD09B900B6A0CB /* IoLexer.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95B213DD09B800B6A0CB /* IoLexer.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB97E613DD09B900B6A0CB /* IoList.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB95B313DD09B800B6A0CB /* IoList.c */; };
+		AABB97E713DD09B900B6A0CB /* IoList.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95B413DD09B800B6A0CB /* IoList.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB97E813DD09B900B6A0CB /* IoMap.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB95B513DD09B800B6A0CB /* IoMap.c */; };
+		AABB97E913DD09B900B6A0CB /* IoMap.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95B613DD09B800B6A0CB /* IoMap.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB97EA13DD09B900B6A0CB /* IoMessage.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB95B713DD09B800B6A0CB /* IoMessage.c */; };
+		AABB97EB13DD09B900B6A0CB /* IoMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95B813DD09B800B6A0CB /* IoMessage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB97EC13DD09B900B6A0CB /* IoMessage_inline.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95B913DD09B800B6A0CB /* IoMessage_inline.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB97ED13DD09B900B6A0CB /* IoMessage_opShuffle.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB95BA13DD09B800B6A0CB /* IoMessage_opShuffle.c */; };
+		AABB97EE13DD09B900B6A0CB /* IoMessage_opShuffle.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95BB13DD09B800B6A0CB /* IoMessage_opShuffle.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB97EF13DD09B900B6A0CB /* IoMessage_parser.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB95BC13DD09B800B6A0CB /* IoMessage_parser.c */; };
+		AABB97F013DD09B900B6A0CB /* IoMessage_parser.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95BD13DD09B800B6A0CB /* IoMessage_parser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB97F113DD09B900B6A0CB /* IoNumber.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB95BE13DD09B800B6A0CB /* IoNumber.c */; };
+		AABB97F213DD09B900B6A0CB /* IoNumber.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95BF13DD09B800B6A0CB /* IoNumber.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB97F313DD09B900B6A0CB /* IoObject.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB95C013DD09B800B6A0CB /* IoObject.c */; };
+		AABB97F413DD09B900B6A0CB /* IoObject.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95C113DD09B800B6A0CB /* IoObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB97F513DD09B900B6A0CB /* IoObject_flow.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB95C213DD09B800B6A0CB /* IoObject_flow.c */; };
+		AABB97F613DD09B900B6A0CB /* IoObject_flow.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95C313DD09B800B6A0CB /* IoObject_flow.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB97F713DD09B900B6A0CB /* IoObject_inline.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95C413DD09B800B6A0CB /* IoObject_inline.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB97F813DD09B900B6A0CB /* IoObject_struct.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95C513DD09B800B6A0CB /* IoObject_struct.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB97F913DD09B900B6A0CB /* IoProfiler.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB95C613DD09B800B6A0CB /* IoProfiler.c */; };
+		AABB97FA13DD09B900B6A0CB /* IoProfiler.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95C713DD09B800B6A0CB /* IoProfiler.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB97FB13DD09B900B6A0CB /* IoSandbox.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB95C813DD09B800B6A0CB /* IoSandbox.c */; };
+		AABB97FC13DD09B900B6A0CB /* IoSandbox.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95C913DD09B800B6A0CB /* IoSandbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB97FD13DD09B900B6A0CB /* IoSeq.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB95CA13DD09B800B6A0CB /* IoSeq.c */; };
+		AABB97FE13DD09B900B6A0CB /* IoSeq.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95CB13DD09B800B6A0CB /* IoSeq.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB97FF13DD09B900B6A0CB /* IoSeq_immutable.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB95CC13DD09B800B6A0CB /* IoSeq_immutable.c */; };
+		AABB980013DD09B900B6A0CB /* IoSeq_immutable.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95CD13DD09B800B6A0CB /* IoSeq_immutable.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB980113DD09B900B6A0CB /* IoSeq_inline.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95CE13DD09B800B6A0CB /* IoSeq_inline.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB980213DD09B900B6A0CB /* IoSeq_mutable.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB95CF13DD09B800B6A0CB /* IoSeq_mutable.c */; };
+		AABB980313DD09B900B6A0CB /* IoSeq_mutable.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95D013DD09B800B6A0CB /* IoSeq_mutable.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB980413DD09B900B6A0CB /* IoSeq_vector.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB95D113DD09B800B6A0CB /* IoSeq_vector.c */; };
+		AABB980513DD09B900B6A0CB /* IoSeq_vector.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95D213DD09B800B6A0CB /* IoSeq_vector.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB980613DD09B900B6A0CB /* IoState.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB95D313DD09B800B6A0CB /* IoState.c */; };
+		AABB980713DD09B900B6A0CB /* IoState.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95D413DD09B800B6A0CB /* IoState.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB980813DD09B900B6A0CB /* IoState_callbacks.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB95D513DD09B800B6A0CB /* IoState_callbacks.c */; };
+		AABB980913DD09B900B6A0CB /* IoState_callbacks.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95D613DD09B800B6A0CB /* IoState_callbacks.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB980A13DD09B900B6A0CB /* IoState_coros.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB95D713DD09B800B6A0CB /* IoState_coros.c */; };
+		AABB980B13DD09B900B6A0CB /* IoState_coros.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95D813DD09B800B6A0CB /* IoState_coros.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB980C13DD09B900B6A0CB /* IoState_debug.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB95D913DD09B800B6A0CB /* IoState_debug.c */; };
+		AABB980D13DD09B900B6A0CB /* IoState_debug.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95DA13DD09B800B6A0CB /* IoState_debug.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB980E13DD09B900B6A0CB /* IoState_eval.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB95DB13DD09B800B6A0CB /* IoState_eval.c */; };
+		AABB980F13DD09B900B6A0CB /* IoState_eval.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95DC13DD09B800B6A0CB /* IoState_eval.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB981013DD09B900B6A0CB /* IoState_exceptions.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB95DD13DD09B800B6A0CB /* IoState_exceptions.c */; };
+		AABB981113DD09B900B6A0CB /* IoState_exceptions.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95DE13DD09B800B6A0CB /* IoState_exceptions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB981213DD09B900B6A0CB /* IoState_inline.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95DF13DD09B800B6A0CB /* IoState_inline.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB981313DD09B900B6A0CB /* IoState_symbols.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB95E013DD09B800B6A0CB /* IoState_symbols.c */; };
+		AABB981413DD09B900B6A0CB /* IoState_symbols.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95E113DD09B800B6A0CB /* IoState_symbols.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB981513DD09B900B6A0CB /* IoSystem.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB95E213DD09B800B6A0CB /* IoSystem.c */; };
+		AABB981613DD09B900B6A0CB /* IoSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95E313DD09B800B6A0CB /* IoSystem.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB981713DD09B900B6A0CB /* IoTag.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB95E413DD09B800B6A0CB /* IoTag.c */; };
+		AABB981813DD09B900B6A0CB /* IoTag.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95E513DD09B800B6A0CB /* IoTag.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB981913DD09B900B6A0CB /* IoTag_inline.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95E613DD09B800B6A0CB /* IoTag_inline.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB981A13DD09B900B6A0CB /* IoToken.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB95E713DD09B800B6A0CB /* IoToken.c */; };
+		AABB981B13DD09B900B6A0CB /* IoToken.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95E813DD09B800B6A0CB /* IoToken.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB981C13DD09B900B6A0CB /* IoVersion.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95E913DD09B800B6A0CB /* IoVersion.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB981D13DD09B900B6A0CB /* IoVM.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95EA13DD09B800B6A0CB /* IoVM.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB981E13DD09B900B6A0CB /* IoVMApi.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95EB13DD09B800B6A0CB /* IoVMApi.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB981F13DD09B900B6A0CB /* IoVMInit.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB95EC13DD09B800B6A0CB /* IoVMInit.c */; };
+		AABB982013DD09B900B6A0CB /* IoWeakLink.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB95ED13DD09B800B6A0CB /* IoWeakLink.c */; };
+		AABB982113DD09B900B6A0CB /* IoWeakLink.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95EE13DD09B800B6A0CB /* IoWeakLink.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB982213DD09B900B6A0CB /* PHash.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB95EF13DD09B800B6A0CB /* PHash.c */; };
+		AABB982313DD09B900B6A0CB /* PHash.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95F013DD09B800B6A0CB /* PHash.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB982413DD09B900B6A0CB /* PHash_inline.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95F113DD09B800B6A0CB /* PHash_inline.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB982513DD09B900B6A0CB /* PHash_struct.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB95F213DD09B800B6A0CB /* PHash_struct.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB988013DD79E000B6A0CB /* ObjcBridge.io in Resources */ = {isa = PBXBuildFile; fileRef = AABB985B13DD79E000B6A0CB /* ObjcBridge.io */; };
+		AABB988F13DD79E000B6A0CB /* Io2Objc.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB987113DD79E000B6A0CB /* Io2Objc.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB989013DD79E000B6A0CB /* Io2Objc.m in Sources */ = {isa = PBXBuildFile; fileRef = AABB987213DD79E000B6A0CB /* Io2Objc.m */; };
+		AABB989113DD79E000B6A0CB /* IoLanguage.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB987313DD79E000B6A0CB /* IoLanguage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB989213DD79E000B6A0CB /* IoLanguage.m in Sources */ = {isa = PBXBuildFile; fileRef = AABB987413DD79E000B6A0CB /* IoLanguage.m */; };
+		AABB989313DD79E000B6A0CB /* IoObjcBridge.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB987513DD79E000B6A0CB /* IoObjcBridge.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB989413DD79E000B6A0CB /* IoObjcBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = AABB987613DD79E000B6A0CB /* IoObjcBridge.m */; };
+		AABB989513DD79E000B6A0CB /* IoObjcBridgeInit.m in Sources */ = {isa = PBXBuildFile; fileRef = AABB987713DD79E000B6A0CB /* IoObjcBridgeInit.m */; };
+		AABB989613DD79E000B6A0CB /* Objc2Io.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB987813DD79E000B6A0CB /* Objc2Io.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB989713DD79E000B6A0CB /* Objc2Io.m in Sources */ = {isa = PBXBuildFile; fileRef = AABB987913DD79E000B6A0CB /* Objc2Io.m */; };
+		AABB989813DD79E000B6A0CB /* ObjcSubclass.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB987A13DD79E000B6A0CB /* ObjcSubclass.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB989913DD79E000B6A0CB /* ObjcSubclass.m in Sources */ = {isa = PBXBuildFile; fileRef = AABB987B13DD79E000B6A0CB /* ObjcSubclass.m */; };
+		AABB989A13DD79E000B6A0CB /* Runtime.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB987C13DD79E000B6A0CB /* Runtime.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB989B13DD79E000B6A0CB /* Runtime.m in Sources */ = {isa = PBXBuildFile; fileRef = AABB987D13DD79E000B6A0CB /* Runtime.m */; };
+		AABB98C913DD7A3C00B6A0CB /* Vector.io in Resources */ = {isa = PBXBuildFile; fileRef = AABB98AD13DD7A3B00B6A0CB /* Vector.io */; };
+		AABB98CB13DD7A3C00B6A0CB /* IoBox.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB98B013DD7A3B00B6A0CB /* IoBox.c */; };
+		AABB98CC13DD7A3C00B6A0CB /* IoBox.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB98B113DD7A3B00B6A0CB /* IoBox.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB98CD13DD7A3C00B6A0CB /* IoBoxApi.h in Headers */ = {isa = PBXBuildFile; fileRef = AABB98B213DD7A3B00B6A0CB /* IoBoxApi.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AABB98CE13DD7A3C00B6A0CB /* IoBoxInit.c in Sources */ = {isa = PBXBuildFile; fileRef = AABB98B313DD7A3B00B6A0CB /* IoBoxInit.c */; };
+		AAC9889E1401CF520028A0A9 /* Blowfish.io in Resources */ = {isa = PBXBuildFile; fileRef = AAC988891401CF510028A0A9 /* Blowfish.io */; };
+		AAC988A01401CF520028A0A9 /* blowfish.c in Sources */ = {isa = PBXBuildFile; fileRef = AAC9888C1401CF510028A0A9 /* blowfish.c */; };
+		AAC988A11401CF520028A0A9 /* blowfish.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC9888D1401CF510028A0A9 /* blowfish.h */; };
+		AAC988A21401CF520028A0A9 /* IoBlowfish.c in Sources */ = {isa = PBXBuildFile; fileRef = AAC9888E1401CF510028A0A9 /* IoBlowfish.c */; };
+		AAC988A31401CF520028A0A9 /* IoBlowfish.h in Headers */ = {isa = PBXBuildFile; fileRef = AAC9888F1401CF510028A0A9 /* IoBlowfish.h */; };
+		AAC988A41401CF520028A0A9 /* IoBlowfishInit.c in Sources */ = {isa = PBXBuildFile; fileRef = AAC988901401CF510028A0A9 /* IoBlowfishInit.c */; };
+		AAFE00F013D6526E00649838 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AAFE00EF13D6526E00649838 /* Cocoa.framework */; };
+		AAFE00FA13D6526E00649838 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AAFE00F813D6526E00649838 /* InfoPlist.strings */; };
+		DC055A6C143D1585005FA878 /* libevent_core.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC055A69143D1585005FA878 /* libevent_core.a */; };
+		DC055A6D143D1585005FA878 /* libevent_extra.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC055A6A143D1585005FA878 /* libevent_extra.a */; };
+		DC055A6E143D1585005FA878 /* libyajl_s.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC055A6B143D1585005FA878 /* libyajl_s.a */; };
+		DCC2F0B9140CAC2400D22ABE /* CHash_ObjcBridgeFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = DCC2F0B7140CAC2400D22ABE /* CHash_ObjcBridgeFunctions.h */; };
+		DCC2F0BA140CAC2400D22ABE /* CHash_ObjcBridgeFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC2F0B8140CAC2400D22ABE /* CHash_ObjcBridgeFunctions.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		AA95DBF913DBAE1F00CCD456 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Libraries;
+			dstSubfolderSpec = 1;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		AA3A0B2C13F9C8DA00FB76A0 /* SystemCall.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SystemCall.io; sourceTree = "<group>"; };
+		AA3A0B3313F9C8DA00FB76A0 /* callsystem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = callsystem.c; sourceTree = "<group>"; };
+		AA3A0B3413F9C8DA00FB76A0 /* callsystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = callsystem.h; sourceTree = "<group>"; };
+		AA3A0B3513F9C8DA00FB76A0 /* IoSystemCall.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoSystemCall.c; sourceTree = "<group>"; };
+		AA3A0B3613F9C8DA00FB76A0 /* IoSystemCall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoSystemCall.h; sourceTree = "<group>"; };
+		AA3A0B3713F9C8DA00FB76A0 /* IoSystemCallInit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoSystemCallInit.c; sourceTree = "<group>"; };
+		AA3A0B7113F9D1B400FB76A0 /* A0_EventManager.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = A0_EventManager.io; sourceTree = "<group>"; };
+		AA3A0B7213F9D1B400FB76A0 /* A1_Socket.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = A1_Socket.io; sourceTree = "<group>"; };
+		AA3A0B7313F9D1B400FB76A0 /* A2_Server.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = A2_Server.io; sourceTree = "<group>"; };
+		AA3A0B7413F9D1B400FB76A0 /* A3_Host.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = A3_Host.io; sourceTree = "<group>"; };
+		AA3A0B7513F9D1B400FB76A0 /* A4_Object.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = A4_Object.io; sourceTree = "<group>"; };
+		AA3A0B7613F9D1B400FB76A0 /* DNSResolver.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = DNSResolver.io; sourceTree = "<group>"; };
+		AA3A0B7713F9D1B400FB76A0 /* EvHttpCookie.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = EvHttpCookie.io; sourceTree = "<group>"; };
+		AA3A0B7813F9D1B400FB76A0 /* EvHttpServer.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = EvHttpServer.io; sourceTree = "<group>"; };
+		AA3A0B7913F9D1B400FB76A0 /* EvOutResponse.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = EvOutResponse.io; sourceTree = "<group>"; };
+		AA3A0B7A13F9D1B400FB76A0 /* EvStatusCodes.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = EvStatusCodes.io; sourceTree = "<group>"; };
+		AA3A0B7B13F9D1B400FB76A0 /* IPAddress.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = IPAddress.io; sourceTree = "<group>"; };
+		AA3A0B7C13F9D1B400FB76A0 /* UnixPath.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = UnixPath.io; sourceTree = "<group>"; };
+		AA3A0B7D13F9D1B400FB76A0 /* URL.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = URL.io; sourceTree = "<group>"; };
+		AA3A0B9B13F9D1B400FB76A0 /* Address.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Address.c; sourceTree = "<group>"; };
+		AA3A0B9C13F9D1B400FB76A0 /* Address.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Address.h; sourceTree = "<group>"; };
+		AA3A0B9D13F9D1B400FB76A0 /* IoDNS.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoDNS.c; sourceTree = "<group>"; };
+		AA3A0B9E13F9D1B400FB76A0 /* IoDNS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoDNS.h; sourceTree = "<group>"; };
+		AA3A0B9F13F9D1B400FB76A0 /* IoEvConnection.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoEvConnection.c; sourceTree = "<group>"; };
+		AA3A0BA013F9D1B400FB76A0 /* IoEvConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoEvConnection.h; sourceTree = "<group>"; };
+		AA3A0BA113F9D1B400FB76A0 /* IoEvent.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoEvent.c; sourceTree = "<group>"; };
+		AA3A0BA213F9D1B400FB76A0 /* IoEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoEvent.h; sourceTree = "<group>"; };
+		AA3A0BA313F9D1B400FB76A0 /* IoEventManager.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoEventManager.c; sourceTree = "<group>"; };
+		AA3A0BA413F9D1B400FB76A0 /* IoEventManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoEventManager.h; sourceTree = "<group>"; };
+		AA3A0BA513F9D1B400FB76A0 /* IoEvHttpServer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoEvHttpServer.c; sourceTree = "<group>"; };
+		AA3A0BA613F9D1B400FB76A0 /* IoEvHttpServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoEvHttpServer.h; sourceTree = "<group>"; };
+		AA3A0BA713F9D1B400FB76A0 /* IoEvOutRequest.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoEvOutRequest.c; sourceTree = "<group>"; };
+		AA3A0BA813F9D1B400FB76A0 /* IoEvOutRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoEvOutRequest.h; sourceTree = "<group>"; };
+		AA3A0BA913F9D1B400FB76A0 /* IoEvOutResponse.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoEvOutResponse.c; sourceTree = "<group>"; };
+		AA3A0BAA13F9D1B400FB76A0 /* IoEvOutResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoEvOutResponse.h; sourceTree = "<group>"; };
+		AA3A0BAB13F9D1B400FB76A0 /* IoIPAddress.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoIPAddress.c; sourceTree = "<group>"; };
+		AA3A0BAC13F9D1B400FB76A0 /* IoIPAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoIPAddress.h; sourceTree = "<group>"; };
+		AA3A0BAD13F9D1B400FB76A0 /* IoSocket.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoSocket.c; sourceTree = "<group>"; };
+		AA3A0BAE13F9D1B400FB76A0 /* IoSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoSocket.h; sourceTree = "<group>"; };
+		AA3A0BAF13F9D1B400FB76A0 /* IoSocketInit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoSocketInit.c; sourceTree = "<group>"; };
+		AA3A0BB013F9D1B400FB76A0 /* IoUnixPath.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoUnixPath.c; sourceTree = "<group>"; };
+		AA3A0BB113F9D1B400FB76A0 /* IoUnixPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoUnixPath.h; sourceTree = "<group>"; };
+		AA3A0BB213F9D1B400FB76A0 /* IPAddress.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IPAddress.c; sourceTree = "<group>"; };
+		AA3A0BB313F9D1B400FB76A0 /* IPAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPAddress.h; sourceTree = "<group>"; };
+		AA3A0BB413F9D1B400FB76A0 /* LocalNameServers.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = LocalNameServers.c; sourceTree = "<group>"; };
+		AA3A0BB513F9D1B400FB76A0 /* LocalNameServers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalNameServers.h; sourceTree = "<group>"; };
+		AA3A0BBB13F9D1B400FB76A0 /* Socket.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Socket.c; sourceTree = "<group>"; };
+		AA3A0BBC13F9D1B400FB76A0 /* Socket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Socket.h; sourceTree = "<group>"; };
+		AA3A0BBD13F9D1B400FB76A0 /* UnixPath.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = UnixPath.c; sourceTree = "<group>"; };
+		AA3A0BBE13F9D1B400FB76A0 /* UnixPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnixPath.h; sourceTree = "<group>"; };
+		AA95DCF613DBBD4200CCD456 /* IoLanguageKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoLanguageKit.h; sourceTree = "<group>"; };
+		AA9AFE7F141EAD230078E31B /* MD5_extras.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MD5_extras.io; sourceTree = "<group>"; };
+		AA9AFE85141EAD230078E31B /* IoMD5.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoMD5.c; sourceTree = "<group>"; };
+		AA9AFE86141EAD230078E31B /* IoMD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoMD5.h; sourceTree = "<group>"; };
+		AA9AFE87141EAD230078E31B /* IoMD5Init.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoMD5Init.c; sourceTree = "<group>"; };
+		AA9AFE88141EAD230078E31B /* md5.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = md5.c; sourceTree = "<group>"; };
+		AA9AFE89141EAD230078E31B /* md5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = md5.h; sourceTree = "<group>"; };
+		AA9AFE93141EAD230078E31B /* YajlElement.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = YajlElement.io; sourceTree = "<group>"; };
+		AA9AFE96141EAD230078E31B /* IoYajl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoYajl.c; sourceTree = "<group>"; };
+		AA9AFE97141EAD230078E31B /* IoYajl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoYajl.h; sourceTree = "<group>"; };
+		AA9AFE98141EAD230078E31B /* IoYajlGen.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoYajlGen.c; sourceTree = "<group>"; };
+		AA9AFE99141EAD230078E31B /* IoYajlGen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoYajlGen.h; sourceTree = "<group>"; };
+		AA9AFE9A141EAD230078E31B /* IoYajlInit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoYajlInit.c; sourceTree = "<group>"; };
+		AABB943613DD09B800B6A0CB /* Base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base.h; sourceTree = "<group>"; };
+		AABB943713DD09B800B6A0CB /* BStream.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BStream.c; sourceTree = "<group>"; };
+		AABB943813DD09B800B6A0CB /* BStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BStream.h; sourceTree = "<group>"; };
+		AABB943913DD09B800B6A0CB /* BStreamTag.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BStreamTag.c; sourceTree = "<group>"; };
+		AABB943A13DD09B800B6A0CB /* BStreamTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BStreamTag.h; sourceTree = "<group>"; };
+		AABB943B13DD09B800B6A0CB /* cdecode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cdecode.c; sourceTree = "<group>"; };
+		AABB943C13DD09B800B6A0CB /* cdecode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cdecode.h; sourceTree = "<group>"; };
+		AABB943D13DD09B800B6A0CB /* cencode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cencode.c; sourceTree = "<group>"; };
+		AABB943E13DD09B800B6A0CB /* cencode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cencode.h; sourceTree = "<group>"; };
+		AABB943F13DD09B800B6A0CB /* CHash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CHash.c; sourceTree = "<group>"; };
+		AABB944013DD09B800B6A0CB /* CHash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHash.h; sourceTree = "<group>"; };
+		AABB944113DD09B800B6A0CB /* CHash_inline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHash_inline.h; sourceTree = "<group>"; };
+		AABB944213DD09B800B6A0CB /* Common.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Common.c; sourceTree = "<group>"; };
+		AABB944313DD09B800B6A0CB /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
+		AABB944413DD09B800B6A0CB /* Common_inline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common_inline.h; sourceTree = "<group>"; };
+		AABB944513DD09B800B6A0CB /* Date.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Date.c; sourceTree = "<group>"; };
+		AABB944613DD09B800B6A0CB /* Date.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Date.h; sourceTree = "<group>"; };
+		AABB944713DD09B800B6A0CB /* Duration.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Duration.c; sourceTree = "<group>"; };
+		AABB944813DD09B800B6A0CB /* Duration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Duration.h; sourceTree = "<group>"; };
+		AABB944913DD09B800B6A0CB /* DynLib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = DynLib.c; sourceTree = "<group>"; };
+		AABB944A13DD09B800B6A0CB /* DynLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynLib.h; sourceTree = "<group>"; };
+		AABB944B13DD09B800B6A0CB /* Hash_fnv.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Hash_fnv.c; sourceTree = "<group>"; };
+		AABB944C13DD09B800B6A0CB /* Hash_fnv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hash_fnv.h; sourceTree = "<group>"; };
+		AABB944D13DD09B800B6A0CB /* Hash_murmur.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Hash_murmur.c; sourceTree = "<group>"; };
+		AABB944E13DD09B800B6A0CB /* Hash_murmur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hash_murmur.h; sourceTree = "<group>"; };
+		AABB944F13DD09B800B6A0CB /* Hash_superfast.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Hash_superfast.c; sourceTree = "<group>"; };
+		AABB945013DD09B800B6A0CB /* Hash_superfast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hash_superfast.h; sourceTree = "<group>"; };
+		AABB945113DD09B800B6A0CB /* List.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = List.c; sourceTree = "<group>"; };
+		AABB945213DD09B800B6A0CB /* List.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = List.h; sourceTree = "<group>"; };
+		AABB945313DD09B800B6A0CB /* List_inline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = List_inline.h; sourceTree = "<group>"; };
+		AABB945413DD09B800B6A0CB /* MainArgs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = MainArgs.c; sourceTree = "<group>"; };
+		AABB945513DD09B800B6A0CB /* MainArgs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainArgs.h; sourceTree = "<group>"; };
+		AABB945613DD09B800B6A0CB /* PointerHash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PointerHash.c; sourceTree = "<group>"; };
+		AABB945713DD09B800B6A0CB /* PointerHash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointerHash.h; sourceTree = "<group>"; };
+		AABB945813DD09B800B6A0CB /* PointerHash_inline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointerHash_inline.h; sourceTree = "<group>"; };
+		AABB945913DD09B800B6A0CB /* PointerHash_struct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointerHash_struct.h; sourceTree = "<group>"; };
+		AABB945A13DD09B800B6A0CB /* PortableGettimeofday.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PortableGettimeofday.c; sourceTree = "<group>"; };
+		AABB945B13DD09B800B6A0CB /* PortableGettimeofday.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PortableGettimeofday.h; sourceTree = "<group>"; };
+		AABB945C13DD09B800B6A0CB /* PortableSnprintf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PortableSnprintf.c; sourceTree = "<group>"; };
+		AABB945D13DD09B800B6A0CB /* PortableSorting.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PortableSorting.c; sourceTree = "<group>"; };
+		AABB945E13DD09B800B6A0CB /* PortableSorting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PortableSorting.h; sourceTree = "<group>"; };
+		AABB945F13DD09B800B6A0CB /* PortableStdint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PortableStdint.h; sourceTree = "<group>"; };
+		AABB946013DD09B800B6A0CB /* PortableStrlcpy.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PortableStrlcpy.c; sourceTree = "<group>"; };
+		AABB946113DD09B800B6A0CB /* PortableStrlcpy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PortableStrlcpy.h; sourceTree = "<group>"; };
+		AABB946213DD09B800B6A0CB /* PortableStrptime.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PortableStrptime.c; sourceTree = "<group>"; };
+		AABB946313DD09B800B6A0CB /* PortableStrptime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PortableStrptime.h; sourceTree = "<group>"; };
+		AABB946413DD09B800B6A0CB /* PortableTruncate.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PortableTruncate.c; sourceTree = "<group>"; };
+		AABB946513DD09B800B6A0CB /* PortableTruncate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PortableTruncate.h; sourceTree = "<group>"; };
+		AABB946613DD09B800B6A0CB /* PortableUsleep.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PortableUsleep.c; sourceTree = "<group>"; };
+		AABB946713DD09B800B6A0CB /* PortableUsleep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PortableUsleep.h; sourceTree = "<group>"; };
+		AABB946813DD09B800B6A0CB /* RandomGen.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = RandomGen.c; sourceTree = "<group>"; };
+		AABB946913DD09B800B6A0CB /* RandomGen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RandomGen.h; sourceTree = "<group>"; };
+		AABB946E13DD09B800B6A0CB /* simd_cp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = simd_cp.h; sourceTree = "<group>"; };
+		AABB946F13DD09B800B6A0CB /* simd_cp_arm-iwmmx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "simd_cp_arm-iwmmx.h"; sourceTree = "<group>"; };
+		AABB947013DD09B800B6A0CB /* simd_cp_emu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = simd_cp_emu.h; sourceTree = "<group>"; };
+		AABB947113DD09B800B6A0CB /* simd_cp_x86.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = simd_cp_x86.h; sourceTree = "<group>"; };
+		AABB947813DD09B800B6A0CB /* Stack.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Stack.c; sourceTree = "<group>"; };
+		AABB947913DD09B800B6A0CB /* Stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stack.h; sourceTree = "<group>"; };
+		AABB947A13DD09B800B6A0CB /* Stack_inline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stack_inline.h; sourceTree = "<group>"; };
+		AABB947B13DD09B800B6A0CB /* UArray.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = UArray.c; sourceTree = "<group>"; };
+		AABB947C13DD09B800B6A0CB /* UArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UArray.h; sourceTree = "<group>"; };
+		AABB947D13DD09B800B6A0CB /* UArray_character.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = UArray_character.c; sourceTree = "<group>"; };
+		AABB947E13DD09B800B6A0CB /* UArray_character.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UArray_character.h; sourceTree = "<group>"; };
+		AABB947F13DD09B800B6A0CB /* UArray_format.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = UArray_format.c; sourceTree = "<group>"; };
+		AABB948013DD09B800B6A0CB /* UArray_format.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UArray_format.h; sourceTree = "<group>"; };
+		AABB948113DD09B800B6A0CB /* UArray_math.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = UArray_math.c; sourceTree = "<group>"; };
+		AABB948213DD09B800B6A0CB /* UArray_math.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UArray_math.h; sourceTree = "<group>"; };
+		AABB948313DD09B800B6A0CB /* UArray_path.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = UArray_path.c; sourceTree = "<group>"; };
+		AABB948413DD09B800B6A0CB /* UArray_path.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UArray_path.h; sourceTree = "<group>"; };
+		AABB948513DD09B800B6A0CB /* UArray_stream.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = UArray_stream.c; sourceTree = "<group>"; };
+		AABB948613DD09B800B6A0CB /* UArray_stream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UArray_stream.h; sourceTree = "<group>"; };
+		AABB948713DD09B800B6A0CB /* UArray_string.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = UArray_string.c; sourceTree = "<group>"; };
+		AABB948813DD09B800B6A0CB /* UArray_string.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UArray_string.h; sourceTree = "<group>"; };
+		AABB948913DD09B800B6A0CB /* UArray_utf.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = UArray_utf.c; sourceTree = "<group>"; };
+		AABB948A13DD09B800B6A0CB /* UArray_utf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UArray_utf.h; sourceTree = "<group>"; };
+		AABB948B13DD09B800B6A0CB /* ucs2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ucs2.c; sourceTree = "<group>"; };
+		AABB948C13DD09B800B6A0CB /* ucs4.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ucs4.c; sourceTree = "<group>"; };
+		AABB948D13DD09B800B6A0CB /* utf8.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = utf8.c; sourceTree = "<group>"; };
+		AABB948E13DD09B800B6A0CB /* utf8.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utf8.h; sourceTree = "<group>"; };
+		AABB948F13DD09B800B6A0CB /* utf8internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utf8internal.h; sourceTree = "<group>"; };
+		AABB949013DD09B800B6A0CB /* utf_convert.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = utf_convert.c; sourceTree = "<group>"; };
+		AABB949113DD09B800B6A0CB /* utf_convert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utf_convert.h; sourceTree = "<group>"; };
+		AABB949213DD09B800B6A0CB /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		AABB94B013DD09B800B6A0CB /* 386-ucontext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "386-ucontext.h"; sourceTree = "<group>"; };
+		AABB94B113DD09B800B6A0CB /* amd64-ucontext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "amd64-ucontext.h"; sourceTree = "<group>"; };
+		AABB94B213DD09B800B6A0CB /* asm.S */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = asm.S; sourceTree = "<group>"; };
+		AABB94B313DD09B800B6A0CB /* context.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = context.c; sourceTree = "<group>"; };
+		AABB94B413DD09B800B6A0CB /* Coro.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Coro.c; sourceTree = "<group>"; };
+		AABB94B513DD09B800B6A0CB /* Coro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Coro.h; sourceTree = "<group>"; };
+		AABB94B613DD09B800B6A0CB /* power-ucontext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "power-ucontext.h"; sourceTree = "<group>"; };
+		AABB94B713DD09B800B6A0CB /* taskimpl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = taskimpl.h; sourceTree = "<group>"; };
+		AABB94CF13DD09B800B6A0CB /* Collector.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Collector.c; sourceTree = "<group>"; };
+		AABB94D013DD09B800B6A0CB /* Collector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Collector.h; sourceTree = "<group>"; };
+		AABB94D113DD09B800B6A0CB /* Collector_inline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Collector_inline.h; sourceTree = "<group>"; };
+		AABB94D213DD09B800B6A0CB /* CollectorMarker.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = CollectorMarker.c; sourceTree = "<group>"; };
+		AABB94D313DD09B800B6A0CB /* CollectorMarker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectorMarker.h; sourceTree = "<group>"; };
+		AABB94D413DD09B800B6A0CB /* CollectorMarker_inline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectorMarker_inline.h; sourceTree = "<group>"; };
+		AABB959213DD09B800B6A0CB /* IoBlock.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoBlock.c; sourceTree = "<group>"; };
+		AABB959313DD09B800B6A0CB /* IoBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoBlock.h; sourceTree = "<group>"; };
+		AABB959413DD09B800B6A0CB /* IoCall.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoCall.c; sourceTree = "<group>"; };
+		AABB959513DD09B800B6A0CB /* IoCall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoCall.h; sourceTree = "<group>"; };
+		AABB959613DD09B800B6A0CB /* IoCFunction.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoCFunction.c; sourceTree = "<group>"; };
+		AABB959713DD09B800B6A0CB /* IoCFunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoCFunction.h; sourceTree = "<group>"; };
+		AABB959813DD09B800B6A0CB /* IoCollector.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoCollector.c; sourceTree = "<group>"; };
+		AABB959913DD09B800B6A0CB /* IoCollector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoCollector.h; sourceTree = "<group>"; };
+		AABB959A13DD09B800B6A0CB /* IoCompiler.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoCompiler.c; sourceTree = "<group>"; };
+		AABB959B13DD09B800B6A0CB /* IoCompiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoCompiler.h; sourceTree = "<group>"; };
+		AABB959C13DD09B800B6A0CB /* IoConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoConfig.h; sourceTree = "<group>"; };
+		AABB959D13DD09B800B6A0CB /* IoContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoContext.h; sourceTree = "<group>"; };
+		AABB959E13DD09B800B6A0CB /* IoCoroutine.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoCoroutine.c; sourceTree = "<group>"; };
+		AABB959F13DD09B800B6A0CB /* IoCoroutine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoCoroutine.h; sourceTree = "<group>"; };
+		AABB95A013DD09B800B6A0CB /* IoDate.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoDate.c; sourceTree = "<group>"; };
+		AABB95A113DD09B800B6A0CB /* IoDate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoDate.h; sourceTree = "<group>"; };
+		AABB95A213DD09B800B6A0CB /* IoDebugger.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoDebugger.c; sourceTree = "<group>"; };
+		AABB95A313DD09B800B6A0CB /* IoDebugger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoDebugger.h; sourceTree = "<group>"; };
+		AABB95A413DD09B800B6A0CB /* IoDirectory.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoDirectory.c; sourceTree = "<group>"; };
+		AABB95A513DD09B800B6A0CB /* IoDirectory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoDirectory.h; sourceTree = "<group>"; };
+		AABB95A613DD09B800B6A0CB /* IoDuration.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoDuration.c; sourceTree = "<group>"; };
+		AABB95A713DD09B800B6A0CB /* IoDuration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoDuration.h; sourceTree = "<group>"; };
+		AABB95A813DD09B800B6A0CB /* IoDynLib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoDynLib.c; sourceTree = "<group>"; };
+		AABB95A913DD09B800B6A0CB /* IoDynLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoDynLib.h; sourceTree = "<group>"; };
+		AABB95AA13DD09B800B6A0CB /* IoError.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoError.c; sourceTree = "<group>"; };
+		AABB95AB13DD09B800B6A0CB /* IoError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoError.h; sourceTree = "<group>"; };
+		AABB95AC13DD09B800B6A0CB /* IoFile.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoFile.c; sourceTree = "<group>"; };
+		AABB95AD13DD09B800B6A0CB /* IoFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoFile.h; sourceTree = "<group>"; };
+		AABB95AE13DD09B800B6A0CB /* IoFile_stat.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoFile_stat.c; sourceTree = "<group>"; };
+		AABB95AF13DD09B800B6A0CB /* IoFile_stat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoFile_stat.h; sourceTree = "<group>"; };
+		AABB95B013DD09B800B6A0CB /* IoInstallPrefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoInstallPrefix.h; sourceTree = "<group>"; };
+		AABB95B113DD09B800B6A0CB /* IoLexer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoLexer.c; sourceTree = "<group>"; };
+		AABB95B213DD09B800B6A0CB /* IoLexer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoLexer.h; sourceTree = "<group>"; };
+		AABB95B313DD09B800B6A0CB /* IoList.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoList.c; sourceTree = "<group>"; };
+		AABB95B413DD09B800B6A0CB /* IoList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoList.h; sourceTree = "<group>"; };
+		AABB95B513DD09B800B6A0CB /* IoMap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoMap.c; sourceTree = "<group>"; };
+		AABB95B613DD09B800B6A0CB /* IoMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoMap.h; sourceTree = "<group>"; };
+		AABB95B713DD09B800B6A0CB /* IoMessage.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoMessage.c; sourceTree = "<group>"; };
+		AABB95B813DD09B800B6A0CB /* IoMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoMessage.h; sourceTree = "<group>"; };
+		AABB95B913DD09B800B6A0CB /* IoMessage_inline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoMessage_inline.h; sourceTree = "<group>"; };
+		AABB95BA13DD09B800B6A0CB /* IoMessage_opShuffle.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoMessage_opShuffle.c; sourceTree = "<group>"; };
+		AABB95BB13DD09B800B6A0CB /* IoMessage_opShuffle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoMessage_opShuffle.h; sourceTree = "<group>"; };
+		AABB95BC13DD09B800B6A0CB /* IoMessage_parser.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoMessage_parser.c; sourceTree = "<group>"; };
+		AABB95BD13DD09B800B6A0CB /* IoMessage_parser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoMessage_parser.h; sourceTree = "<group>"; };
+		AABB95BE13DD09B800B6A0CB /* IoNumber.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoNumber.c; sourceTree = "<group>"; };
+		AABB95BF13DD09B800B6A0CB /* IoNumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoNumber.h; sourceTree = "<group>"; };
+		AABB95C013DD09B800B6A0CB /* IoObject.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoObject.c; sourceTree = "<group>"; };
+		AABB95C113DD09B800B6A0CB /* IoObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoObject.h; sourceTree = "<group>"; };
+		AABB95C213DD09B800B6A0CB /* IoObject_flow.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoObject_flow.c; sourceTree = "<group>"; };
+		AABB95C313DD09B800B6A0CB /* IoObject_flow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoObject_flow.h; sourceTree = "<group>"; };
+		AABB95C413DD09B800B6A0CB /* IoObject_inline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoObject_inline.h; sourceTree = "<group>"; };
+		AABB95C513DD09B800B6A0CB /* IoObject_struct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoObject_struct.h; sourceTree = "<group>"; };
+		AABB95C613DD09B800B6A0CB /* IoProfiler.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoProfiler.c; sourceTree = "<group>"; };
+		AABB95C713DD09B800B6A0CB /* IoProfiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoProfiler.h; sourceTree = "<group>"; };
+		AABB95C813DD09B800B6A0CB /* IoSandbox.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoSandbox.c; sourceTree = "<group>"; };
+		AABB95C913DD09B800B6A0CB /* IoSandbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoSandbox.h; sourceTree = "<group>"; };
+		AABB95CA13DD09B800B6A0CB /* IoSeq.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoSeq.c; sourceTree = "<group>"; };
+		AABB95CB13DD09B800B6A0CB /* IoSeq.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoSeq.h; sourceTree = "<group>"; };
+		AABB95CC13DD09B800B6A0CB /* IoSeq_immutable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoSeq_immutable.c; sourceTree = "<group>"; };
+		AABB95CD13DD09B800B6A0CB /* IoSeq_immutable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoSeq_immutable.h; sourceTree = "<group>"; };
+		AABB95CE13DD09B800B6A0CB /* IoSeq_inline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoSeq_inline.h; sourceTree = "<group>"; };
+		AABB95CF13DD09B800B6A0CB /* IoSeq_mutable.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoSeq_mutable.c; sourceTree = "<group>"; };
+		AABB95D013DD09B800B6A0CB /* IoSeq_mutable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoSeq_mutable.h; sourceTree = "<group>"; };
+		AABB95D113DD09B800B6A0CB /* IoSeq_vector.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoSeq_vector.c; sourceTree = "<group>"; };
+		AABB95D213DD09B800B6A0CB /* IoSeq_vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoSeq_vector.h; sourceTree = "<group>"; };
+		AABB95D313DD09B800B6A0CB /* IoState.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoState.c; sourceTree = "<group>"; };
+		AABB95D413DD09B800B6A0CB /* IoState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoState.h; sourceTree = "<group>"; };
+		AABB95D513DD09B800B6A0CB /* IoState_callbacks.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoState_callbacks.c; sourceTree = "<group>"; };
+		AABB95D613DD09B800B6A0CB /* IoState_callbacks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoState_callbacks.h; sourceTree = "<group>"; };
+		AABB95D713DD09B800B6A0CB /* IoState_coros.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoState_coros.c; sourceTree = "<group>"; };
+		AABB95D813DD09B800B6A0CB /* IoState_coros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoState_coros.h; sourceTree = "<group>"; };
+		AABB95D913DD09B800B6A0CB /* IoState_debug.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoState_debug.c; sourceTree = "<group>"; };
+		AABB95DA13DD09B800B6A0CB /* IoState_debug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoState_debug.h; sourceTree = "<group>"; };
+		AABB95DB13DD09B800B6A0CB /* IoState_eval.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoState_eval.c; sourceTree = "<group>"; };
+		AABB95DC13DD09B800B6A0CB /* IoState_eval.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoState_eval.h; sourceTree = "<group>"; };
+		AABB95DD13DD09B800B6A0CB /* IoState_exceptions.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoState_exceptions.c; sourceTree = "<group>"; };
+		AABB95DE13DD09B800B6A0CB /* IoState_exceptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoState_exceptions.h; sourceTree = "<group>"; };
+		AABB95DF13DD09B800B6A0CB /* IoState_inline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoState_inline.h; sourceTree = "<group>"; };
+		AABB95E013DD09B800B6A0CB /* IoState_symbols.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoState_symbols.c; sourceTree = "<group>"; };
+		AABB95E113DD09B800B6A0CB /* IoState_symbols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoState_symbols.h; sourceTree = "<group>"; };
+		AABB95E213DD09B800B6A0CB /* IoSystem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoSystem.c; sourceTree = "<group>"; };
+		AABB95E313DD09B800B6A0CB /* IoSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoSystem.h; sourceTree = "<group>"; };
+		AABB95E413DD09B800B6A0CB /* IoTag.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoTag.c; sourceTree = "<group>"; };
+		AABB95E513DD09B800B6A0CB /* IoTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoTag.h; sourceTree = "<group>"; };
+		AABB95E613DD09B800B6A0CB /* IoTag_inline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoTag_inline.h; sourceTree = "<group>"; };
+		AABB95E713DD09B800B6A0CB /* IoToken.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoToken.c; sourceTree = "<group>"; };
+		AABB95E813DD09B800B6A0CB /* IoToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoToken.h; sourceTree = "<group>"; };
+		AABB95E913DD09B800B6A0CB /* IoVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoVersion.h; sourceTree = "<group>"; };
+		AABB95EA13DD09B800B6A0CB /* IoVM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoVM.h; sourceTree = "<group>"; };
+		AABB95EB13DD09B800B6A0CB /* IoVMApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoVMApi.h; sourceTree = "<group>"; };
+		AABB95EC13DD09B800B6A0CB /* IoVMInit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoVMInit.c; sourceTree = "<group>"; };
+		AABB95ED13DD09B800B6A0CB /* IoWeakLink.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoWeakLink.c; sourceTree = "<group>"; };
+		AABB95EE13DD09B800B6A0CB /* IoWeakLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoWeakLink.h; sourceTree = "<group>"; };
+		AABB95EF13DD09B800B6A0CB /* PHash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PHash.c; sourceTree = "<group>"; };
+		AABB95F013DD09B800B6A0CB /* PHash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHash.h; sourceTree = "<group>"; };
+		AABB95F113DD09B800B6A0CB /* PHash_inline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHash_inline.h; sourceTree = "<group>"; };
+		AABB95F213DD09B800B6A0CB /* PHash_struct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHash_struct.h; sourceTree = "<group>"; };
+		AABB985B13DD79E000B6A0CB /* ObjcBridge.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ObjcBridge.io; sourceTree = "<group>"; };
+		AABB987113DD79E000B6A0CB /* Io2Objc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Io2Objc.h; sourceTree = "<group>"; };
+		AABB987213DD79E000B6A0CB /* Io2Objc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Io2Objc.m; sourceTree = "<group>"; };
+		AABB987313DD79E000B6A0CB /* IoLanguage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoLanguage.h; sourceTree = "<group>"; };
+		AABB987413DD79E000B6A0CB /* IoLanguage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IoLanguage.m; sourceTree = "<group>"; };
+		AABB987513DD79E000B6A0CB /* IoObjcBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoObjcBridge.h; sourceTree = "<group>"; };
+		AABB987613DD79E000B6A0CB /* IoObjcBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IoObjcBridge.m; sourceTree = "<group>"; };
+		AABB987713DD79E000B6A0CB /* IoObjcBridgeInit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IoObjcBridgeInit.m; sourceTree = "<group>"; };
+		AABB987813DD79E000B6A0CB /* Objc2Io.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Objc2Io.h; sourceTree = "<group>"; };
+		AABB987913DD79E000B6A0CB /* Objc2Io.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Objc2Io.m; sourceTree = "<group>"; };
+		AABB987A13DD79E000B6A0CB /* ObjcSubclass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjcSubclass.h; sourceTree = "<group>"; };
+		AABB987B13DD79E000B6A0CB /* ObjcSubclass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjcSubclass.m; sourceTree = "<group>"; };
+		AABB987C13DD79E000B6A0CB /* Runtime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Runtime.h; sourceTree = "<group>"; };
+		AABB987D13DD79E000B6A0CB /* Runtime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Runtime.m; sourceTree = "<group>"; };
+		AABB98AD13DD7A3B00B6A0CB /* Vector.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Vector.io; sourceTree = "<group>"; };
+		AABB98B013DD7A3B00B6A0CB /* IoBox.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoBox.c; sourceTree = "<group>"; };
+		AABB98B113DD7A3B00B6A0CB /* IoBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoBox.h; sourceTree = "<group>"; };
+		AABB98B213DD7A3B00B6A0CB /* IoBoxApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoBoxApi.h; sourceTree = "<group>"; };
+		AABB98B313DD7A3B00B6A0CB /* IoBoxInit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoBoxInit.c; sourceTree = "<group>"; };
+		AAC988891401CF510028A0A9 /* Blowfish.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Blowfish.io; sourceTree = "<group>"; };
+		AAC9888C1401CF510028A0A9 /* blowfish.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = blowfish.c; sourceTree = "<group>"; };
+		AAC9888D1401CF510028A0A9 /* blowfish.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = blowfish.h; sourceTree = "<group>"; };
+		AAC9888E1401CF510028A0A9 /* IoBlowfish.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoBlowfish.c; sourceTree = "<group>"; };
+		AAC9888F1401CF510028A0A9 /* IoBlowfish.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoBlowfish.h; sourceTree = "<group>"; };
+		AAC988901401CF510028A0A9 /* IoBlowfishInit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoBlowfishInit.c; sourceTree = "<group>"; };
+		AAFE00EC13D6526E00649838 /* IoLanguageKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = IoLanguageKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AAFE00EF13D6526E00649838 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		AAFE00F213D6526E00649838 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		AAFE00F313D6526E00649838 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		AAFE00F413D6526E00649838 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		AAFE00F713D6526E00649838 /* IoLanguageKit-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "IoLanguageKit-Info.plist"; sourceTree = "<group>"; };
+		AAFE00F913D6526E00649838 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		AAFE00FB13D6526E00649838 /* IoLanguageKit-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IoLanguageKit-Prefix.pch"; sourceTree = "<group>"; };
+		DC055A69143D1585005FA878 /* libevent_core.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libevent_core.a; sourceTree = "<group>"; };
+		DC055A6A143D1585005FA878 /* libevent_extra.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libevent_extra.a; sourceTree = "<group>"; };
+		DC055A6B143D1585005FA878 /* libyajl_s.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libyajl_s.a; sourceTree = "<group>"; };
+		DCC2F0B7140CAC2400D22ABE /* CHash_ObjcBridgeFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHash_ObjcBridgeFunctions.h; sourceTree = "<group>"; };
+		DCC2F0B8140CAC2400D22ABE /* CHash_ObjcBridgeFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHash_ObjcBridgeFunctions.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AAFE00E813D6526E00649838 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AAFE00F013D6526E00649838 /* Cocoa.framework in Frameworks */,
+				DC055A6C143D1585005FA878 /* libevent_core.a in Frameworks */,
+				DC055A6D143D1585005FA878 /* libevent_extra.a in Frameworks */,
+				DC055A6E143D1585005FA878 /* libyajl_s.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		AA3A0B1B13F9C8DA00FB76A0 /* SystemCall */ = {
+			isa = PBXGroup;
+			children = (
+				AA3A0B2B13F9C8DA00FB76A0 /* io */,
+				AA3A0B3213F9C8DA00FB76A0 /* source */,
+			);
+			name = SystemCall;
+			path = ../addons/SystemCall;
+			sourceTree = "<group>";
+		};
+		AA3A0B2B13F9C8DA00FB76A0 /* io */ = {
+			isa = PBXGroup;
+			children = (
+				AA3A0B2C13F9C8DA00FB76A0 /* SystemCall.io */,
+			);
+			path = io;
+			sourceTree = "<group>";
+		};
+		AA3A0B3213F9C8DA00FB76A0 /* source */ = {
+			isa = PBXGroup;
+			children = (
+				AA3A0B3313F9C8DA00FB76A0 /* callsystem.c */,
+				AA3A0B3413F9C8DA00FB76A0 /* callsystem.h */,
+				AA3A0B3513F9C8DA00FB76A0 /* IoSystemCall.c */,
+				AA3A0B3613F9C8DA00FB76A0 /* IoSystemCall.h */,
+				AA3A0B3713F9C8DA00FB76A0 /* IoSystemCallInit.c */,
+			);
+			path = source;
+			sourceTree = "<group>";
+		};
+		AA3A0B4C13F9D1B400FB76A0 /* Socket */ = {
+			isa = PBXGroup;
+			children = (
+				AA3A0B7013F9D1B400FB76A0 /* io */,
+				AA3A0B9A13F9D1B400FB76A0 /* source */,
+			);
+			name = Socket;
+			path = ../addons/Socket;
+			sourceTree = "<group>";
+		};
+		AA3A0B7013F9D1B400FB76A0 /* io */ = {
+			isa = PBXGroup;
+			children = (
+				AA3A0B7113F9D1B400FB76A0 /* A0_EventManager.io */,
+				AA3A0B7213F9D1B400FB76A0 /* A1_Socket.io */,
+				AA3A0B7313F9D1B400FB76A0 /* A2_Server.io */,
+				AA3A0B7413F9D1B400FB76A0 /* A3_Host.io */,
+				AA3A0B7513F9D1B400FB76A0 /* A4_Object.io */,
+				AA3A0B7613F9D1B400FB76A0 /* DNSResolver.io */,
+				AA3A0B7713F9D1B400FB76A0 /* EvHttpCookie.io */,
+				AA3A0B7813F9D1B400FB76A0 /* EvHttpServer.io */,
+				AA3A0B7913F9D1B400FB76A0 /* EvOutResponse.io */,
+				AA3A0B7A13F9D1B400FB76A0 /* EvStatusCodes.io */,
+				AA3A0B7B13F9D1B400FB76A0 /* IPAddress.io */,
+				AA3A0B7C13F9D1B400FB76A0 /* UnixPath.io */,
+				AA3A0B7D13F9D1B400FB76A0 /* URL.io */,
+			);
+			path = io;
+			sourceTree = "<group>";
+		};
+		AA3A0B9A13F9D1B400FB76A0 /* source */ = {
+			isa = PBXGroup;
+			children = (
+				AA3A0B9B13F9D1B400FB76A0 /* Address.c */,
+				AA3A0B9C13F9D1B400FB76A0 /* Address.h */,
+				AA3A0B9D13F9D1B400FB76A0 /* IoDNS.c */,
+				AA3A0B9E13F9D1B400FB76A0 /* IoDNS.h */,
+				AA3A0B9F13F9D1B400FB76A0 /* IoEvConnection.c */,
+				AA3A0BA013F9D1B400FB76A0 /* IoEvConnection.h */,
+				AA3A0BA113F9D1B400FB76A0 /* IoEvent.c */,
+				AA3A0BA213F9D1B400FB76A0 /* IoEvent.h */,
+				AA3A0BA313F9D1B400FB76A0 /* IoEventManager.c */,
+				AA3A0BA413F9D1B400FB76A0 /* IoEventManager.h */,
+				AA3A0BA513F9D1B400FB76A0 /* IoEvHttpServer.c */,
+				AA3A0BA613F9D1B400FB76A0 /* IoEvHttpServer.h */,
+				AA3A0BA713F9D1B400FB76A0 /* IoEvOutRequest.c */,
+				AA3A0BA813F9D1B400FB76A0 /* IoEvOutRequest.h */,
+				AA3A0BA913F9D1B400FB76A0 /* IoEvOutResponse.c */,
+				AA3A0BAA13F9D1B400FB76A0 /* IoEvOutResponse.h */,
+				AA3A0BAB13F9D1B400FB76A0 /* IoIPAddress.c */,
+				AA3A0BAC13F9D1B400FB76A0 /* IoIPAddress.h */,
+				AA3A0BAD13F9D1B400FB76A0 /* IoSocket.c */,
+				AA3A0BAE13F9D1B400FB76A0 /* IoSocket.h */,
+				AA3A0BAF13F9D1B400FB76A0 /* IoSocketInit.c */,
+				AA3A0BB013F9D1B400FB76A0 /* IoUnixPath.c */,
+				AA3A0BB113F9D1B400FB76A0 /* IoUnixPath.h */,
+				AA3A0BB213F9D1B400FB76A0 /* IPAddress.c */,
+				AA3A0BB313F9D1B400FB76A0 /* IPAddress.h */,
+				AA3A0BB413F9D1B400FB76A0 /* LocalNameServers.c */,
+				AA3A0BB513F9D1B400FB76A0 /* LocalNameServers.h */,
+				AA3A0BBB13F9D1B400FB76A0 /* Socket.c */,
+				AA3A0BBC13F9D1B400FB76A0 /* Socket.h */,
+				AA3A0BBD13F9D1B400FB76A0 /* UnixPath.c */,
+				AA3A0BBE13F9D1B400FB76A0 /* UnixPath.h */,
+			);
+			path = source;
+			sourceTree = "<group>";
+		};
+		AA9AFE79141EAD230078E31B /* MD5 */ = {
+			isa = PBXGroup;
+			children = (
+				AA9AFE7E141EAD230078E31B /* io */,
+				AA9AFE84141EAD230078E31B /* source */,
+			);
+			name = MD5;
+			path = ../addons/MD5;
+			sourceTree = "<group>";
+		};
+		AA9AFE7E141EAD230078E31B /* io */ = {
+			isa = PBXGroup;
+			children = (
+				AA9AFE7F141EAD230078E31B /* MD5_extras.io */,
+			);
+			path = io;
+			sourceTree = "<group>";
+		};
+		AA9AFE84141EAD230078E31B /* source */ = {
+			isa = PBXGroup;
+			children = (
+				AA9AFE85141EAD230078E31B /* IoMD5.c */,
+				AA9AFE86141EAD230078E31B /* IoMD5.h */,
+				AA9AFE87141EAD230078E31B /* IoMD5Init.c */,
+				AA9AFE88141EAD230078E31B /* md5.c */,
+				AA9AFE89141EAD230078E31B /* md5.h */,
+			);
+			path = source;
+			sourceTree = "<group>";
+		};
+		AA9AFE8D141EAD230078E31B /* Yajl */ = {
+			isa = PBXGroup;
+			children = (
+				AA9AFE92141EAD230078E31B /* io */,
+				AA9AFE95141EAD230078E31B /* source */,
+			);
+			name = Yajl;
+			path = ../addons/Yajl;
+			sourceTree = "<group>";
+		};
+		AA9AFE92141EAD230078E31B /* io */ = {
+			isa = PBXGroup;
+			children = (
+				AA9AFE93141EAD230078E31B /* YajlElement.io */,
+			);
+			path = io;
+			sourceTree = "<group>";
+		};
+		AA9AFE95141EAD230078E31B /* source */ = {
+			isa = PBXGroup;
+			children = (
+				AA9AFE96141EAD230078E31B /* IoYajl.c */,
+				AA9AFE97141EAD230078E31B /* IoYajl.h */,
+				AA9AFE98141EAD230078E31B /* IoYajlGen.c */,
+				AA9AFE99141EAD230078E31B /* IoYajlGen.h */,
+				AA9AFE9A141EAD230078E31B /* IoYajlInit.c */,
+			);
+			path = source;
+			sourceTree = "<group>";
+		};
+		AABB93B313DD09B800B6A0CB /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				AA9AFE79141EAD230078E31B /* MD5 */,
+				AA9AFE8D141EAD230078E31B /* Yajl */,
+				AAC988781401CF510028A0A9 /* Blowfish */,
+				AA3A0B4C13F9D1B400FB76A0 /* Socket */,
+				AA3A0B1B13F9C8DA00FB76A0 /* SystemCall */,
+				AABB989C13DD7A3B00B6A0CB /* Box */,
+				AABB985513DD79E000B6A0CB /* ObjcBridge */,
+				AABB93B413DD09B800B6A0CB /* basekit */,
+				AABB949213DD09B800B6A0CB /* CMakeLists.txt */,
+				AABB949313DD09B800B6A0CB /* coroutine */,
+				AABB94B813DD09B800B6A0CB /* garbagecollector */,
+				AABB94D513DD09B800B6A0CB /* iovm */,
+			);
+			name = libs;
+			path = ../../libs;
+			sourceTree = "<group>";
+		};
+		AABB93B413DD09B800B6A0CB /* basekit */ = {
+			isa = PBXGroup;
+			children = (
+				AABB943313DD09B800B6A0CB /* source */,
+			);
+			path = basekit;
+			sourceTree = "<group>";
+		};
+		AABB943313DD09B800B6A0CB /* source */ = {
+			isa = PBXGroup;
+			children = (
+				AABB943613DD09B800B6A0CB /* Base.h */,
+				AABB943713DD09B800B6A0CB /* BStream.c */,
+				AABB943813DD09B800B6A0CB /* BStream.h */,
+				AABB943913DD09B800B6A0CB /* BStreamTag.c */,
+				AABB943A13DD09B800B6A0CB /* BStreamTag.h */,
+				AABB943B13DD09B800B6A0CB /* cdecode.c */,
+				AABB943C13DD09B800B6A0CB /* cdecode.h */,
+				AABB943D13DD09B800B6A0CB /* cencode.c */,
+				AABB943E13DD09B800B6A0CB /* cencode.h */,
+				AABB943F13DD09B800B6A0CB /* CHash.c */,
+				AABB944013DD09B800B6A0CB /* CHash.h */,
+				AABB944113DD09B800B6A0CB /* CHash_inline.h */,
+				AABB944213DD09B800B6A0CB /* Common.c */,
+				AABB944313DD09B800B6A0CB /* Common.h */,
+				AABB944413DD09B800B6A0CB /* Common_inline.h */,
+				AABB944513DD09B800B6A0CB /* Date.c */,
+				AABB944613DD09B800B6A0CB /* Date.h */,
+				AABB944713DD09B800B6A0CB /* Duration.c */,
+				AABB944813DD09B800B6A0CB /* Duration.h */,
+				AABB944913DD09B800B6A0CB /* DynLib.c */,
+				AABB944A13DD09B800B6A0CB /* DynLib.h */,
+				AABB944B13DD09B800B6A0CB /* Hash_fnv.c */,
+				AABB944C13DD09B800B6A0CB /* Hash_fnv.h */,
+				AABB944D13DD09B800B6A0CB /* Hash_murmur.c */,
+				AABB944E13DD09B800B6A0CB /* Hash_murmur.h */,
+				AABB944F13DD09B800B6A0CB /* Hash_superfast.c */,
+				AABB945013DD09B800B6A0CB /* Hash_superfast.h */,
+				AABB945113DD09B800B6A0CB /* List.c */,
+				AABB945213DD09B800B6A0CB /* List.h */,
+				AABB945313DD09B800B6A0CB /* List_inline.h */,
+				AABB945413DD09B800B6A0CB /* MainArgs.c */,
+				AABB945513DD09B800B6A0CB /* MainArgs.h */,
+				AABB945613DD09B800B6A0CB /* PointerHash.c */,
+				AABB945713DD09B800B6A0CB /* PointerHash.h */,
+				AABB945813DD09B800B6A0CB /* PointerHash_inline.h */,
+				AABB945913DD09B800B6A0CB /* PointerHash_struct.h */,
+				AABB945A13DD09B800B6A0CB /* PortableGettimeofday.c */,
+				AABB945B13DD09B800B6A0CB /* PortableGettimeofday.h */,
+				AABB945C13DD09B800B6A0CB /* PortableSnprintf.c */,
+				AABB945D13DD09B800B6A0CB /* PortableSorting.c */,
+				AABB945E13DD09B800B6A0CB /* PortableSorting.h */,
+				AABB945F13DD09B800B6A0CB /* PortableStdint.h */,
+				AABB946013DD09B800B6A0CB /* PortableStrlcpy.c */,
+				AABB946113DD09B800B6A0CB /* PortableStrlcpy.h */,
+				AABB946213DD09B800B6A0CB /* PortableStrptime.c */,
+				AABB946313DD09B800B6A0CB /* PortableStrptime.h */,
+				AABB946413DD09B800B6A0CB /* PortableTruncate.c */,
+				AABB946513DD09B800B6A0CB /* PortableTruncate.h */,
+				AABB946613DD09B800B6A0CB /* PortableUsleep.c */,
+				AABB946713DD09B800B6A0CB /* PortableUsleep.h */,
+				AABB946813DD09B800B6A0CB /* RandomGen.c */,
+				AABB946913DD09B800B6A0CB /* RandomGen.h */,
+				AABB946A13DD09B800B6A0CB /* simd_cph */,
+				AABB947813DD09B800B6A0CB /* Stack.c */,
+				AABB947913DD09B800B6A0CB /* Stack.h */,
+				AABB947A13DD09B800B6A0CB /* Stack_inline.h */,
+				AABB947B13DD09B800B6A0CB /* UArray.c */,
+				AABB947C13DD09B800B6A0CB /* UArray.h */,
+				AABB947D13DD09B800B6A0CB /* UArray_character.c */,
+				AABB947E13DD09B800B6A0CB /* UArray_character.h */,
+				AABB947F13DD09B800B6A0CB /* UArray_format.c */,
+				AABB948013DD09B800B6A0CB /* UArray_format.h */,
+				AABB948113DD09B800B6A0CB /* UArray_math.c */,
+				AABB948213DD09B800B6A0CB /* UArray_math.h */,
+				AABB948313DD09B800B6A0CB /* UArray_path.c */,
+				AABB948413DD09B800B6A0CB /* UArray_path.h */,
+				AABB948513DD09B800B6A0CB /* UArray_stream.c */,
+				AABB948613DD09B800B6A0CB /* UArray_stream.h */,
+				AABB948713DD09B800B6A0CB /* UArray_string.c */,
+				AABB948813DD09B800B6A0CB /* UArray_string.h */,
+				AABB948913DD09B800B6A0CB /* UArray_utf.c */,
+				AABB948A13DD09B800B6A0CB /* UArray_utf.h */,
+				AABB948B13DD09B800B6A0CB /* ucs2.c */,
+				AABB948C13DD09B800B6A0CB /* ucs4.c */,
+				AABB948D13DD09B800B6A0CB /* utf8.c */,
+				AABB948E13DD09B800B6A0CB /* utf8.h */,
+				AABB948F13DD09B800B6A0CB /* utf8internal.h */,
+				AABB949013DD09B800B6A0CB /* utf_convert.c */,
+				AABB949113DD09B800B6A0CB /* utf_convert.h */,
+			);
+			path = source;
+			sourceTree = "<group>";
+		};
+		AABB946A13DD09B800B6A0CB /* simd_cph */ = {
+			isa = PBXGroup;
+			children = (
+				AABB946D13DD09B800B6A0CB /* include */,
+			);
+			path = simd_cph;
+			sourceTree = "<group>";
+		};
+		AABB946D13DD09B800B6A0CB /* include */ = {
+			isa = PBXGroup;
+			children = (
+				AABB946E13DD09B800B6A0CB /* simd_cp.h */,
+				AABB946F13DD09B800B6A0CB /* simd_cp_arm-iwmmx.h */,
+				AABB947013DD09B800B6A0CB /* simd_cp_emu.h */,
+				AABB947113DD09B800B6A0CB /* simd_cp_x86.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		AABB949313DD09B800B6A0CB /* coroutine */ = {
+			isa = PBXGroup;
+			children = (
+				AABB94AF13DD09B800B6A0CB /* source */,
+			);
+			path = coroutine;
+			sourceTree = "<group>";
+		};
+		AABB94AF13DD09B800B6A0CB /* source */ = {
+			isa = PBXGroup;
+			children = (
+				AABB94B013DD09B800B6A0CB /* 386-ucontext.h */,
+				AABB94B113DD09B800B6A0CB /* amd64-ucontext.h */,
+				AABB94B213DD09B800B6A0CB /* asm.S */,
+				AABB94B313DD09B800B6A0CB /* context.c */,
+				AABB94B413DD09B800B6A0CB /* Coro.c */,
+				AABB94B513DD09B800B6A0CB /* Coro.h */,
+				AABB94B613DD09B800B6A0CB /* power-ucontext.h */,
+				AABB94B713DD09B800B6A0CB /* taskimpl.h */,
+			);
+			path = source;
+			sourceTree = "<group>";
+		};
+		AABB94B813DD09B800B6A0CB /* garbagecollector */ = {
+			isa = PBXGroup;
+			children = (
+				AABB94CE13DD09B800B6A0CB /* source */,
+			);
+			path = garbagecollector;
+			sourceTree = "<group>";
+		};
+		AABB94CE13DD09B800B6A0CB /* source */ = {
+			isa = PBXGroup;
+			children = (
+				AABB94CF13DD09B800B6A0CB /* Collector.c */,
+				AABB94D013DD09B800B6A0CB /* Collector.h */,
+				AABB94D113DD09B800B6A0CB /* Collector_inline.h */,
+				AABB94D213DD09B800B6A0CB /* CollectorMarker.c */,
+				AABB94D313DD09B800B6A0CB /* CollectorMarker.h */,
+				AABB94D413DD09B800B6A0CB /* CollectorMarker_inline.h */,
+			);
+			path = source;
+			sourceTree = "<group>";
+		};
+		AABB94D513DD09B800B6A0CB /* iovm */ = {
+			isa = PBXGroup;
+			children = (
+				AABB959113DD09B800B6A0CB /* source */,
+			);
+			path = iovm;
+			sourceTree = "<group>";
+		};
+		AABB959113DD09B800B6A0CB /* source */ = {
+			isa = PBXGroup;
+			children = (
+				AABB959213DD09B800B6A0CB /* IoBlock.c */,
+				AABB959313DD09B800B6A0CB /* IoBlock.h */,
+				AABB959413DD09B800B6A0CB /* IoCall.c */,
+				AABB959513DD09B800B6A0CB /* IoCall.h */,
+				AABB959613DD09B800B6A0CB /* IoCFunction.c */,
+				AABB959713DD09B800B6A0CB /* IoCFunction.h */,
+				AABB959813DD09B800B6A0CB /* IoCollector.c */,
+				AABB959913DD09B800B6A0CB /* IoCollector.h */,
+				AABB959A13DD09B800B6A0CB /* IoCompiler.c */,
+				AABB959B13DD09B800B6A0CB /* IoCompiler.h */,
+				AABB959C13DD09B800B6A0CB /* IoConfig.h */,
+				AABB959D13DD09B800B6A0CB /* IoContext.h */,
+				AABB959E13DD09B800B6A0CB /* IoCoroutine.c */,
+				AABB959F13DD09B800B6A0CB /* IoCoroutine.h */,
+				AABB95A013DD09B800B6A0CB /* IoDate.c */,
+				AABB95A113DD09B800B6A0CB /* IoDate.h */,
+				AABB95A213DD09B800B6A0CB /* IoDebugger.c */,
+				AABB95A313DD09B800B6A0CB /* IoDebugger.h */,
+				AABB95A413DD09B800B6A0CB /* IoDirectory.c */,
+				AABB95A513DD09B800B6A0CB /* IoDirectory.h */,
+				AABB95A613DD09B800B6A0CB /* IoDuration.c */,
+				AABB95A713DD09B800B6A0CB /* IoDuration.h */,
+				AABB95A813DD09B800B6A0CB /* IoDynLib.c */,
+				AABB95A913DD09B800B6A0CB /* IoDynLib.h */,
+				AABB95AA13DD09B800B6A0CB /* IoError.c */,
+				AABB95AB13DD09B800B6A0CB /* IoError.h */,
+				AABB95AC13DD09B800B6A0CB /* IoFile.c */,
+				AABB95AD13DD09B800B6A0CB /* IoFile.h */,
+				AABB95AE13DD09B800B6A0CB /* IoFile_stat.c */,
+				AABB95AF13DD09B800B6A0CB /* IoFile_stat.h */,
+				AABB95B013DD09B800B6A0CB /* IoInstallPrefix.h */,
+				AABB95B113DD09B800B6A0CB /* IoLexer.c */,
+				AABB95B213DD09B800B6A0CB /* IoLexer.h */,
+				AABB95B313DD09B800B6A0CB /* IoList.c */,
+				AABB95B413DD09B800B6A0CB /* IoList.h */,
+				AABB95B513DD09B800B6A0CB /* IoMap.c */,
+				AABB95B613DD09B800B6A0CB /* IoMap.h */,
+				AABB95B713DD09B800B6A0CB /* IoMessage.c */,
+				AABB95B813DD09B800B6A0CB /* IoMessage.h */,
+				AABB95B913DD09B800B6A0CB /* IoMessage_inline.h */,
+				AABB95BA13DD09B800B6A0CB /* IoMessage_opShuffle.c */,
+				AABB95BB13DD09B800B6A0CB /* IoMessage_opShuffle.h */,
+				AABB95BC13DD09B800B6A0CB /* IoMessage_parser.c */,
+				AABB95BD13DD09B800B6A0CB /* IoMessage_parser.h */,
+				AABB95BE13DD09B800B6A0CB /* IoNumber.c */,
+				AABB95BF13DD09B800B6A0CB /* IoNumber.h */,
+				AABB95C013DD09B800B6A0CB /* IoObject.c */,
+				AABB95C113DD09B800B6A0CB /* IoObject.h */,
+				AABB95C213DD09B800B6A0CB /* IoObject_flow.c */,
+				AABB95C313DD09B800B6A0CB /* IoObject_flow.h */,
+				AABB95C413DD09B800B6A0CB /* IoObject_inline.h */,
+				AABB95C513DD09B800B6A0CB /* IoObject_struct.h */,
+				AABB95C613DD09B800B6A0CB /* IoProfiler.c */,
+				AABB95C713DD09B800B6A0CB /* IoProfiler.h */,
+				AABB95C813DD09B800B6A0CB /* IoSandbox.c */,
+				AABB95C913DD09B800B6A0CB /* IoSandbox.h */,
+				AABB95CA13DD09B800B6A0CB /* IoSeq.c */,
+				AABB95CB13DD09B800B6A0CB /* IoSeq.h */,
+				AABB95CC13DD09B800B6A0CB /* IoSeq_immutable.c */,
+				AABB95CD13DD09B800B6A0CB /* IoSeq_immutable.h */,
+				AABB95CE13DD09B800B6A0CB /* IoSeq_inline.h */,
+				AABB95CF13DD09B800B6A0CB /* IoSeq_mutable.c */,
+				AABB95D013DD09B800B6A0CB /* IoSeq_mutable.h */,
+				AABB95D113DD09B800B6A0CB /* IoSeq_vector.c */,
+				AABB95D213DD09B800B6A0CB /* IoSeq_vector.h */,
+				AABB95D313DD09B800B6A0CB /* IoState.c */,
+				AABB95D413DD09B800B6A0CB /* IoState.h */,
+				AABB95D513DD09B800B6A0CB /* IoState_callbacks.c */,
+				AABB95D613DD09B800B6A0CB /* IoState_callbacks.h */,
+				AABB95D713DD09B800B6A0CB /* IoState_coros.c */,
+				AABB95D813DD09B800B6A0CB /* IoState_coros.h */,
+				AABB95D913DD09B800B6A0CB /* IoState_debug.c */,
+				AABB95DA13DD09B800B6A0CB /* IoState_debug.h */,
+				AABB95DB13DD09B800B6A0CB /* IoState_eval.c */,
+				AABB95DC13DD09B800B6A0CB /* IoState_eval.h */,
+				AABB95DD13DD09B800B6A0CB /* IoState_exceptions.c */,
+				AABB95DE13DD09B800B6A0CB /* IoState_exceptions.h */,
+				AABB95DF13DD09B800B6A0CB /* IoState_inline.h */,
+				AABB95E013DD09B800B6A0CB /* IoState_symbols.c */,
+				AABB95E113DD09B800B6A0CB /* IoState_symbols.h */,
+				AABB95E213DD09B800B6A0CB /* IoSystem.c */,
+				AABB95E313DD09B800B6A0CB /* IoSystem.h */,
+				AABB95E413DD09B800B6A0CB /* IoTag.c */,
+				AABB95E513DD09B800B6A0CB /* IoTag.h */,
+				AABB95E613DD09B800B6A0CB /* IoTag_inline.h */,
+				AABB95E713DD09B800B6A0CB /* IoToken.c */,
+				AABB95E813DD09B800B6A0CB /* IoToken.h */,
+				AABB95E913DD09B800B6A0CB /* IoVersion.h */,
+				AABB95EA13DD09B800B6A0CB /* IoVM.h */,
+				AABB95EB13DD09B800B6A0CB /* IoVMApi.h */,
+				AABB95EC13DD09B800B6A0CB /* IoVMInit.c */,
+				AABB95ED13DD09B800B6A0CB /* IoWeakLink.c */,
+				AABB95EE13DD09B800B6A0CB /* IoWeakLink.h */,
+				AABB95EF13DD09B800B6A0CB /* PHash.c */,
+				AABB95F013DD09B800B6A0CB /* PHash.h */,
+				AABB95F113DD09B800B6A0CB /* PHash_inline.h */,
+				AABB95F213DD09B800B6A0CB /* PHash_struct.h */,
+			);
+			path = source;
+			sourceTree = "<group>";
+		};
+		AABB985513DD79E000B6A0CB /* ObjcBridge */ = {
+			isa = PBXGroup;
+			children = (
+				AABB985A13DD79E000B6A0CB /* io */,
+				AABB986D13DD79E000B6A0CB /* source */,
+			);
+			name = ObjcBridge;
+			path = ../addons/ObjcBridge;
+			sourceTree = "<group>";
+		};
+		AABB985A13DD79E000B6A0CB /* io */ = {
+			isa = PBXGroup;
+			children = (
+				AABB985B13DD79E000B6A0CB /* ObjcBridge.io */,
+			);
+			path = io;
+			sourceTree = "<group>";
+		};
+		AABB986D13DD79E000B6A0CB /* source */ = {
+			isa = PBXGroup;
+			children = (
+				DCC2F0B7140CAC2400D22ABE /* CHash_ObjcBridgeFunctions.h */,
+				DCC2F0B8140CAC2400D22ABE /* CHash_ObjcBridgeFunctions.m */,
+				AABB987113DD79E000B6A0CB /* Io2Objc.h */,
+				AABB987213DD79E000B6A0CB /* Io2Objc.m */,
+				AABB987313DD79E000B6A0CB /* IoLanguage.h */,
+				AABB987413DD79E000B6A0CB /* IoLanguage.m */,
+				AABB987513DD79E000B6A0CB /* IoObjcBridge.h */,
+				AABB987613DD79E000B6A0CB /* IoObjcBridge.m */,
+				AABB987713DD79E000B6A0CB /* IoObjcBridgeInit.m */,
+				AABB987813DD79E000B6A0CB /* Objc2Io.h */,
+				AABB987913DD79E000B6A0CB /* Objc2Io.m */,
+				AABB987A13DD79E000B6A0CB /* ObjcSubclass.h */,
+				AABB987B13DD79E000B6A0CB /* ObjcSubclass.m */,
+				AABB987C13DD79E000B6A0CB /* Runtime.h */,
+				AABB987D13DD79E000B6A0CB /* Runtime.m */,
+			);
+			path = source;
+			sourceTree = "<group>";
+		};
+		AABB989C13DD7A3B00B6A0CB /* Box */ = {
+			isa = PBXGroup;
+			children = (
+				AABB98AC13DD7A3B00B6A0CB /* io */,
+				AABB98AF13DD7A3B00B6A0CB /* source */,
+			);
+			name = Box;
+			path = ../addons/Box;
+			sourceTree = "<group>";
+		};
+		AABB98AC13DD7A3B00B6A0CB /* io */ = {
+			isa = PBXGroup;
+			children = (
+				AABB98AD13DD7A3B00B6A0CB /* Vector.io */,
+			);
+			path = io;
+			sourceTree = "<group>";
+		};
+		AABB98AF13DD7A3B00B6A0CB /* source */ = {
+			isa = PBXGroup;
+			children = (
+				AABB98B013DD7A3B00B6A0CB /* IoBox.c */,
+				AABB98B113DD7A3B00B6A0CB /* IoBox.h */,
+				AABB98B213DD7A3B00B6A0CB /* IoBoxApi.h */,
+				AABB98B313DD7A3B00B6A0CB /* IoBoxInit.c */,
+			);
+			path = source;
+			sourceTree = "<group>";
+		};
+		AAC988781401CF510028A0A9 /* Blowfish */ = {
+			isa = PBXGroup;
+			children = (
+				AAC988881401CF510028A0A9 /* io */,
+				AAC9888B1401CF510028A0A9 /* source */,
+			);
+			name = Blowfish;
+			path = ../addons/Blowfish;
+			sourceTree = "<group>";
+		};
+		AAC988881401CF510028A0A9 /* io */ = {
+			isa = PBXGroup;
+			children = (
+				AAC988891401CF510028A0A9 /* Blowfish.io */,
+			);
+			path = io;
+			sourceTree = "<group>";
+		};
+		AAC9888B1401CF510028A0A9 /* source */ = {
+			isa = PBXGroup;
+			children = (
+				AAC9888C1401CF510028A0A9 /* blowfish.c */,
+				AAC9888D1401CF510028A0A9 /* blowfish.h */,
+				AAC9888E1401CF510028A0A9 /* IoBlowfish.c */,
+				AAC9888F1401CF510028A0A9 /* IoBlowfish.h */,
+				AAC988901401CF510028A0A9 /* IoBlowfishInit.c */,
+			);
+			path = source;
+			sourceTree = "<group>";
+		};
+		AAFE00E013D6526E00649838 = {
+			isa = PBXGroup;
+			children = (
+				AABB93B313DD09B800B6A0CB /* libs */,
+				AA95DCF613DBBD4200CCD456 /* IoLanguageKit.h */,
+				AAFE00F513D6526E00649838 /* IoLanguageKit */,
+				AAFE00EE13D6526E00649838 /* Frameworks */,
+				AAFE00ED13D6526E00649838 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		AAFE00ED13D6526E00649838 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AAFE00EC13D6526E00649838 /* IoLanguageKit.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AAFE00EE13D6526E00649838 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DC055A69143D1585005FA878 /* libevent_core.a */,
+				DC055A6A143D1585005FA878 /* libevent_extra.a */,
+				DC055A6B143D1585005FA878 /* libyajl_s.a */,
+				AAFE00EF13D6526E00649838 /* Cocoa.framework */,
+				AAFE00F113D6526E00649838 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AAFE00F113D6526E00649838 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AAFE00F213D6526E00649838 /* AppKit.framework */,
+				AAFE00F313D6526E00649838 /* CoreData.framework */,
+				AAFE00F413D6526E00649838 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		AAFE00F513D6526E00649838 /* IoLanguageKit */ = {
+			isa = PBXGroup;
+			children = (
+				AAFE00F613D6526E00649838 /* Supporting Files */,
+			);
+			path = IoLanguageKit;
+			sourceTree = "<group>";
+		};
+		AAFE00F613D6526E00649838 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				AAFE00F713D6526E00649838 /* IoLanguageKit-Info.plist */,
+				AAFE00F813D6526E00649838 /* InfoPlist.strings */,
+				AAFE00FB13D6526E00649838 /* IoLanguageKit-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		AAFE00E913D6526E00649838 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA95DCF813DBBD4200CCD456 /* IoLanguageKit.h in Headers */,
+				AABB968C13DD09B800B6A0CB /* Base.h in Headers */,
+				AABB968E13DD09B800B6A0CB /* BStream.h in Headers */,
+				AABB969013DD09B800B6A0CB /* BStreamTag.h in Headers */,
+				AABB969213DD09B800B6A0CB /* cdecode.h in Headers */,
+				AABB969413DD09B800B6A0CB /* cencode.h in Headers */,
+				AABB969613DD09B800B6A0CB /* CHash.h in Headers */,
+				AABB969713DD09B800B6A0CB /* CHash_inline.h in Headers */,
+				AABB969913DD09B800B6A0CB /* Common.h in Headers */,
+				AABB969A13DD09B800B6A0CB /* Common_inline.h in Headers */,
+				AABB969C13DD09B800B6A0CB /* Date.h in Headers */,
+				AABB969E13DD09B800B6A0CB /* Duration.h in Headers */,
+				AABB96A013DD09B800B6A0CB /* DynLib.h in Headers */,
+				AABB96A213DD09B800B6A0CB /* Hash_fnv.h in Headers */,
+				AABB96A413DD09B800B6A0CB /* Hash_murmur.h in Headers */,
+				AABB96A613DD09B800B6A0CB /* Hash_superfast.h in Headers */,
+				AABB96A813DD09B800B6A0CB /* List.h in Headers */,
+				AABB96A913DD09B800B6A0CB /* List_inline.h in Headers */,
+				AABB96AB13DD09B800B6A0CB /* MainArgs.h in Headers */,
+				AABB96AD13DD09B800B6A0CB /* PointerHash.h in Headers */,
+				AABB96AE13DD09B800B6A0CB /* PointerHash_inline.h in Headers */,
+				AABB96AF13DD09B800B6A0CB /* PointerHash_struct.h in Headers */,
+				AABB96B113DD09B800B6A0CB /* PortableGettimeofday.h in Headers */,
+				AABB96B413DD09B800B6A0CB /* PortableSorting.h in Headers */,
+				AABB96B513DD09B800B6A0CB /* PortableStdint.h in Headers */,
+				AABB96B713DD09B800B6A0CB /* PortableStrlcpy.h in Headers */,
+				AABB96B913DD09B800B6A0CB /* PortableStrptime.h in Headers */,
+				AABB96BB13DD09B800B6A0CB /* PortableTruncate.h in Headers */,
+				AABB96BD13DD09B800B6A0CB /* PortableUsleep.h in Headers */,
+				AABB96BF13DD09B800B6A0CB /* RandomGen.h in Headers */,
+				AABB96C113DD09B800B6A0CB /* simd_cp.h in Headers */,
+				AABB96C213DD09B800B6A0CB /* simd_cp_arm-iwmmx.h in Headers */,
+				AABB96C313DD09B800B6A0CB /* simd_cp_emu.h in Headers */,
+				AABB96C413DD09B800B6A0CB /* simd_cp_x86.h in Headers */,
+				AABB96CB13DD09B800B6A0CB /* Stack.h in Headers */,
+				AABB96CC13DD09B800B6A0CB /* Stack_inline.h in Headers */,
+				AABB96CE13DD09B800B6A0CB /* UArray.h in Headers */,
+				AABB96D013DD09B800B6A0CB /* UArray_character.h in Headers */,
+				AABB96D213DD09B800B6A0CB /* UArray_format.h in Headers */,
+				AABB96D413DD09B800B6A0CB /* UArray_math.h in Headers */,
+				AABB96D613DD09B800B6A0CB /* UArray_path.h in Headers */,
+				AABB96D813DD09B800B6A0CB /* UArray_stream.h in Headers */,
+				AABB96DA13DD09B800B6A0CB /* UArray_string.h in Headers */,
+				AABB96DC13DD09B800B6A0CB /* UArray_utf.h in Headers */,
+				AABB96E013DD09B800B6A0CB /* utf8.h in Headers */,
+				AABB96E113DD09B800B6A0CB /* utf8internal.h in Headers */,
+				AABB96E313DD09B800B6A0CB /* utf_convert.h in Headers */,
+				AABB96F813DD09B900B6A0CB /* 386-ucontext.h in Headers */,
+				AABB96F913DD09B900B6A0CB /* amd64-ucontext.h in Headers */,
+				AABB96FD13DD09B900B6A0CB /* Coro.h in Headers */,
+				AABB96FE13DD09B900B6A0CB /* power-ucontext.h in Headers */,
+				AABB96FF13DD09B900B6A0CB /* taskimpl.h in Headers */,
+				AABB970F13DD09B900B6A0CB /* Collector.h in Headers */,
+				AABB971013DD09B900B6A0CB /* Collector_inline.h in Headers */,
+				AABB971213DD09B900B6A0CB /* CollectorMarker.h in Headers */,
+				AABB971313DD09B900B6A0CB /* CollectorMarker_inline.h in Headers */,
+				AABB97C613DD09B900B6A0CB /* IoBlock.h in Headers */,
+				AABB97C813DD09B900B6A0CB /* IoCall.h in Headers */,
+				AABB97CA13DD09B900B6A0CB /* IoCFunction.h in Headers */,
+				AABB97CC13DD09B900B6A0CB /* IoCollector.h in Headers */,
+				AABB97CE13DD09B900B6A0CB /* IoCompiler.h in Headers */,
+				AABB97CF13DD09B900B6A0CB /* IoConfig.h in Headers */,
+				AABB97D013DD09B900B6A0CB /* IoContext.h in Headers */,
+				AABB97D213DD09B900B6A0CB /* IoCoroutine.h in Headers */,
+				AABB97D413DD09B900B6A0CB /* IoDate.h in Headers */,
+				AABB97D613DD09B900B6A0CB /* IoDebugger.h in Headers */,
+				AABB97D813DD09B900B6A0CB /* IoDirectory.h in Headers */,
+				AABB97DA13DD09B900B6A0CB /* IoDuration.h in Headers */,
+				AABB97DC13DD09B900B6A0CB /* IoDynLib.h in Headers */,
+				AABB97DE13DD09B900B6A0CB /* IoError.h in Headers */,
+				AABB97E013DD09B900B6A0CB /* IoFile.h in Headers */,
+				AABB97E213DD09B900B6A0CB /* IoFile_stat.h in Headers */,
+				AABB97E313DD09B900B6A0CB /* IoInstallPrefix.h in Headers */,
+				AABB97E513DD09B900B6A0CB /* IoLexer.h in Headers */,
+				AABB97E713DD09B900B6A0CB /* IoList.h in Headers */,
+				AABB97E913DD09B900B6A0CB /* IoMap.h in Headers */,
+				AABB97EB13DD09B900B6A0CB /* IoMessage.h in Headers */,
+				AABB97EC13DD09B900B6A0CB /* IoMessage_inline.h in Headers */,
+				AABB97EE13DD09B900B6A0CB /* IoMessage_opShuffle.h in Headers */,
+				AABB97F013DD09B900B6A0CB /* IoMessage_parser.h in Headers */,
+				AABB97F213DD09B900B6A0CB /* IoNumber.h in Headers */,
+				AABB97F413DD09B900B6A0CB /* IoObject.h in Headers */,
+				AABB97F613DD09B900B6A0CB /* IoObject_flow.h in Headers */,
+				AABB97F713DD09B900B6A0CB /* IoObject_inline.h in Headers */,
+				AABB97F813DD09B900B6A0CB /* IoObject_struct.h in Headers */,
+				AABB97FA13DD09B900B6A0CB /* IoProfiler.h in Headers */,
+				AABB97FC13DD09B900B6A0CB /* IoSandbox.h in Headers */,
+				AABB97FE13DD09B900B6A0CB /* IoSeq.h in Headers */,
+				AABB980013DD09B900B6A0CB /* IoSeq_immutable.h in Headers */,
+				AABB980113DD09B900B6A0CB /* IoSeq_inline.h in Headers */,
+				AABB980313DD09B900B6A0CB /* IoSeq_mutable.h in Headers */,
+				AABB980513DD09B900B6A0CB /* IoSeq_vector.h in Headers */,
+				AABB980713DD09B900B6A0CB /* IoState.h in Headers */,
+				AABB980913DD09B900B6A0CB /* IoState_callbacks.h in Headers */,
+				AABB980B13DD09B900B6A0CB /* IoState_coros.h in Headers */,
+				AABB980D13DD09B900B6A0CB /* IoState_debug.h in Headers */,
+				AABB980F13DD09B900B6A0CB /* IoState_eval.h in Headers */,
+				AABB981113DD09B900B6A0CB /* IoState_exceptions.h in Headers */,
+				AABB981213DD09B900B6A0CB /* IoState_inline.h in Headers */,
+				AABB981413DD09B900B6A0CB /* IoState_symbols.h in Headers */,
+				AABB981613DD09B900B6A0CB /* IoSystem.h in Headers */,
+				AABB981813DD09B900B6A0CB /* IoTag.h in Headers */,
+				AABB981913DD09B900B6A0CB /* IoTag_inline.h in Headers */,
+				AABB981B13DD09B900B6A0CB /* IoToken.h in Headers */,
+				AABB981C13DD09B900B6A0CB /* IoVersion.h in Headers */,
+				AABB981D13DD09B900B6A0CB /* IoVM.h in Headers */,
+				AABB981E13DD09B900B6A0CB /* IoVMApi.h in Headers */,
+				AABB982113DD09B900B6A0CB /* IoWeakLink.h in Headers */,
+				AABB982313DD09B900B6A0CB /* PHash.h in Headers */,
+				AABB982413DD09B900B6A0CB /* PHash_inline.h in Headers */,
+				AABB982513DD09B900B6A0CB /* PHash_struct.h in Headers */,
+				AABB988F13DD79E000B6A0CB /* Io2Objc.h in Headers */,
+				AABB989113DD79E000B6A0CB /* IoLanguage.h in Headers */,
+				AABB989313DD79E000B6A0CB /* IoObjcBridge.h in Headers */,
+				AABB989613DD79E000B6A0CB /* Objc2Io.h in Headers */,
+				AABB989813DD79E000B6A0CB /* ObjcSubclass.h in Headers */,
+				AABB989A13DD79E000B6A0CB /* Runtime.h in Headers */,
+				AABB98CC13DD7A3C00B6A0CB /* IoBox.h in Headers */,
+				AABB98CD13DD7A3C00B6A0CB /* IoBoxApi.h in Headers */,
+				AA3A0B4713F9C8DA00FB76A0 /* callsystem.h in Headers */,
+				AA3A0B4913F9C8DA00FB76A0 /* IoSystemCall.h in Headers */,
+				AA3A0C0713F9D1B400FB76A0 /* Address.h in Headers */,
+				AA3A0C0913F9D1B400FB76A0 /* IoDNS.h in Headers */,
+				AA3A0C0B13F9D1B400FB76A0 /* IoEvConnection.h in Headers */,
+				AA3A0C0D13F9D1B400FB76A0 /* IoEvent.h in Headers */,
+				AA3A0C0F13F9D1B400FB76A0 /* IoEventManager.h in Headers */,
+				AA3A0C1113F9D1B400FB76A0 /* IoEvHttpServer.h in Headers */,
+				AA3A0C1313F9D1B400FB76A0 /* IoEvOutRequest.h in Headers */,
+				AA3A0C1513F9D1B400FB76A0 /* IoEvOutResponse.h in Headers */,
+				AA3A0C1713F9D1B400FB76A0 /* IoIPAddress.h in Headers */,
+				AA3A0C1913F9D1B400FB76A0 /* IoSocket.h in Headers */,
+				AA3A0C1C13F9D1B400FB76A0 /* IoUnixPath.h in Headers */,
+				AA3A0C1E13F9D1B400FB76A0 /* IPAddress.h in Headers */,
+				AA3A0C2013F9D1B400FB76A0 /* LocalNameServers.h in Headers */,
+				AA3A0C2613F9D1B400FB76A0 /* Socket.h in Headers */,
+				AA3A0C2813F9D1B400FB76A0 /* UnixPath.h in Headers */,
+				AAC988A11401CF520028A0A9 /* blowfish.h in Headers */,
+				AAC988A31401CF520028A0A9 /* IoBlowfish.h in Headers */,
+				DCC2F0B9140CAC2400D22ABE /* CHash_ObjcBridgeFunctions.h in Headers */,
+				AA9AFEA7141EAD230078E31B /* IoMD5.h in Headers */,
+				AA9AFEAA141EAD230078E31B /* md5.h in Headers */,
+				AA9AFEB1141EAD230078E31B /* IoYajl.h in Headers */,
+				AA9AFEB3141EAD230078E31B /* IoYajlGen.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		AAFE00EB13D6526E00649838 /* IoLanguageKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AAFE00FE13D6526E00649838 /* Build configuration list for PBXNativeTarget "IoLanguageKit" */;
+			buildPhases = (
+				AAFE00E713D6526E00649838 /* Sources */,
+				AAFE00E813D6526E00649838 /* Frameworks */,
+				AAFE00E913D6526E00649838 /* Headers */,
+				AAFE00EA13D6526E00649838 /* Resources */,
+				AA95DBF913DBAE1F00CCD456 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = IoLanguageKit;
+			productName = IoLanguageKit;
+			productReference = AAFE00EC13D6526E00649838 /* IoLanguageKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AAFE00E213D6526E00649838 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = AAFE00E513D6526E00649838 /* Build configuration list for PBXProject "IoLanguageKit" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				English,
+			);
+			mainGroup = AAFE00E013D6526E00649838;
+			productRefGroup = AAFE00ED13D6526E00649838 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AAFE00EB13D6526E00649838 /* IoLanguageKit */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AAFE00EA13D6526E00649838 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AAFE00FA13D6526E00649838 /* InfoPlist.strings in Resources */,
+				AABB96E413DD09B800B6A0CB /* CMakeLists.txt in Resources */,
+				AABB988013DD79E000B6A0CB /* ObjcBridge.io in Resources */,
+				AABB98C913DD7A3C00B6A0CB /* Vector.io in Resources */,
+				AA3A0B4113F9C8DA00FB76A0 /* SystemCall.io in Resources */,
+				AA3A0BE113F9D1B400FB76A0 /* A0_EventManager.io in Resources */,
+				AA3A0BE213F9D1B400FB76A0 /* A1_Socket.io in Resources */,
+				AA3A0BE313F9D1B400FB76A0 /* A2_Server.io in Resources */,
+				AA3A0BE413F9D1B400FB76A0 /* A3_Host.io in Resources */,
+				AA3A0BE513F9D1B400FB76A0 /* A4_Object.io in Resources */,
+				AA3A0BE613F9D1B400FB76A0 /* DNSResolver.io in Resources */,
+				AA3A0BE713F9D1B400FB76A0 /* EvHttpCookie.io in Resources */,
+				AA3A0BE813F9D1B400FB76A0 /* EvHttpServer.io in Resources */,
+				AA3A0BE913F9D1B400FB76A0 /* EvOutResponse.io in Resources */,
+				AA3A0BEA13F9D1B400FB76A0 /* EvStatusCodes.io in Resources */,
+				AA3A0BEB13F9D1B400FB76A0 /* IPAddress.io in Resources */,
+				AA3A0BEC13F9D1B400FB76A0 /* UnixPath.io in Resources */,
+				AA3A0BED13F9D1B400FB76A0 /* URL.io in Resources */,
+				AAC9889E1401CF520028A0A9 /* Blowfish.io in Resources */,
+				AA9AFEA2141EAD230078E31B /* MD5_extras.io in Resources */,
+				AA9AFEAE141EAD230078E31B /* YajlElement.io in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AAFE00E713D6526E00649838 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AABB968D13DD09B800B6A0CB /* BStream.c in Sources */,
+				AABB968F13DD09B800B6A0CB /* BStreamTag.c in Sources */,
+				AABB969113DD09B800B6A0CB /* cdecode.c in Sources */,
+				AABB969313DD09B800B6A0CB /* cencode.c in Sources */,
+				AABB969513DD09B800B6A0CB /* CHash.c in Sources */,
+				AABB969813DD09B800B6A0CB /* Common.c in Sources */,
+				AABB969B13DD09B800B6A0CB /* Date.c in Sources */,
+				AABB969D13DD09B800B6A0CB /* Duration.c in Sources */,
+				AABB969F13DD09B800B6A0CB /* DynLib.c in Sources */,
+				AABB96A113DD09B800B6A0CB /* Hash_fnv.c in Sources */,
+				AABB96A313DD09B800B6A0CB /* Hash_murmur.c in Sources */,
+				AABB96A513DD09B800B6A0CB /* Hash_superfast.c in Sources */,
+				AABB96A713DD09B800B6A0CB /* List.c in Sources */,
+				AABB96AA13DD09B800B6A0CB /* MainArgs.c in Sources */,
+				AABB96AC13DD09B800B6A0CB /* PointerHash.c in Sources */,
+				AABB96B013DD09B800B6A0CB /* PortableGettimeofday.c in Sources */,
+				AABB96B213DD09B800B6A0CB /* PortableSnprintf.c in Sources */,
+				AABB96B313DD09B800B6A0CB /* PortableSorting.c in Sources */,
+				AABB96B613DD09B800B6A0CB /* PortableStrlcpy.c in Sources */,
+				AABB96B813DD09B800B6A0CB /* PortableStrptime.c in Sources */,
+				AABB96BA13DD09B800B6A0CB /* PortableTruncate.c in Sources */,
+				AABB96BC13DD09B800B6A0CB /* PortableUsleep.c in Sources */,
+				AABB96BE13DD09B800B6A0CB /* RandomGen.c in Sources */,
+				AABB96CA13DD09B800B6A0CB /* Stack.c in Sources */,
+				AABB96CD13DD09B800B6A0CB /* UArray.c in Sources */,
+				AABB96CF13DD09B800B6A0CB /* UArray_character.c in Sources */,
+				AABB96D113DD09B800B6A0CB /* UArray_format.c in Sources */,
+				AABB96D313DD09B800B6A0CB /* UArray_math.c in Sources */,
+				AABB96D513DD09B800B6A0CB /* UArray_path.c in Sources */,
+				AABB96D713DD09B800B6A0CB /* UArray_stream.c in Sources */,
+				AABB96D913DD09B800B6A0CB /* UArray_string.c in Sources */,
+				AABB96DB13DD09B800B6A0CB /* UArray_utf.c in Sources */,
+				AABB96DD13DD09B800B6A0CB /* ucs2.c in Sources */,
+				AABB96DE13DD09B800B6A0CB /* ucs4.c in Sources */,
+				AABB96DF13DD09B800B6A0CB /* utf8.c in Sources */,
+				AABB96E213DD09B800B6A0CB /* utf_convert.c in Sources */,
+				AABB96FA13DD09B900B6A0CB /* asm.S in Sources */,
+				AABB96FB13DD09B900B6A0CB /* context.c in Sources */,
+				AABB96FC13DD09B900B6A0CB /* Coro.c in Sources */,
+				AABB970E13DD09B900B6A0CB /* Collector.c in Sources */,
+				AABB971113DD09B900B6A0CB /* CollectorMarker.c in Sources */,
+				AABB97C513DD09B900B6A0CB /* IoBlock.c in Sources */,
+				AABB97C713DD09B900B6A0CB /* IoCall.c in Sources */,
+				AABB97C913DD09B900B6A0CB /* IoCFunction.c in Sources */,
+				AABB97CB13DD09B900B6A0CB /* IoCollector.c in Sources */,
+				AABB97CD13DD09B900B6A0CB /* IoCompiler.c in Sources */,
+				AABB97D113DD09B900B6A0CB /* IoCoroutine.c in Sources */,
+				AABB97D313DD09B900B6A0CB /* IoDate.c in Sources */,
+				AABB97D513DD09B900B6A0CB /* IoDebugger.c in Sources */,
+				AABB97D713DD09B900B6A0CB /* IoDirectory.c in Sources */,
+				AABB97D913DD09B900B6A0CB /* IoDuration.c in Sources */,
+				AABB97DB13DD09B900B6A0CB /* IoDynLib.c in Sources */,
+				AABB97DD13DD09B900B6A0CB /* IoError.c in Sources */,
+				AABB97DF13DD09B900B6A0CB /* IoFile.c in Sources */,
+				AABB97E113DD09B900B6A0CB /* IoFile_stat.c in Sources */,
+				AABB97E413DD09B900B6A0CB /* IoLexer.c in Sources */,
+				AABB97E613DD09B900B6A0CB /* IoList.c in Sources */,
+				AABB97E813DD09B900B6A0CB /* IoMap.c in Sources */,
+				AABB97EA13DD09B900B6A0CB /* IoMessage.c in Sources */,
+				AABB97ED13DD09B900B6A0CB /* IoMessage_opShuffle.c in Sources */,
+				AABB97EF13DD09B900B6A0CB /* IoMessage_parser.c in Sources */,
+				AABB97F113DD09B900B6A0CB /* IoNumber.c in Sources */,
+				AABB97F313DD09B900B6A0CB /* IoObject.c in Sources */,
+				AABB97F513DD09B900B6A0CB /* IoObject_flow.c in Sources */,
+				AABB97F913DD09B900B6A0CB /* IoProfiler.c in Sources */,
+				AABB97FB13DD09B900B6A0CB /* IoSandbox.c in Sources */,
+				AABB97FD13DD09B900B6A0CB /* IoSeq.c in Sources */,
+				AABB97FF13DD09B900B6A0CB /* IoSeq_immutable.c in Sources */,
+				AABB980213DD09B900B6A0CB /* IoSeq_mutable.c in Sources */,
+				AABB980413DD09B900B6A0CB /* IoSeq_vector.c in Sources */,
+				AABB980613DD09B900B6A0CB /* IoState.c in Sources */,
+				AABB980813DD09B900B6A0CB /* IoState_callbacks.c in Sources */,
+				AABB980A13DD09B900B6A0CB /* IoState_coros.c in Sources */,
+				AABB980C13DD09B900B6A0CB /* IoState_debug.c in Sources */,
+				AABB980E13DD09B900B6A0CB /* IoState_eval.c in Sources */,
+				AABB981013DD09B900B6A0CB /* IoState_exceptions.c in Sources */,
+				AABB981313DD09B900B6A0CB /* IoState_symbols.c in Sources */,
+				AABB981513DD09B900B6A0CB /* IoSystem.c in Sources */,
+				AABB981713DD09B900B6A0CB /* IoTag.c in Sources */,
+				AABB981A13DD09B900B6A0CB /* IoToken.c in Sources */,
+				AABB981F13DD09B900B6A0CB /* IoVMInit.c in Sources */,
+				AABB982013DD09B900B6A0CB /* IoWeakLink.c in Sources */,
+				AABB982213DD09B900B6A0CB /* PHash.c in Sources */,
+				AABB989013DD79E000B6A0CB /* Io2Objc.m in Sources */,
+				AABB989213DD79E000B6A0CB /* IoLanguage.m in Sources */,
+				AABB989413DD79E000B6A0CB /* IoObjcBridge.m in Sources */,
+				AABB989513DD79E000B6A0CB /* IoObjcBridgeInit.m in Sources */,
+				AABB989713DD79E000B6A0CB /* Objc2Io.m in Sources */,
+				AABB989913DD79E000B6A0CB /* ObjcSubclass.m in Sources */,
+				AABB989B13DD79E000B6A0CB /* Runtime.m in Sources */,
+				AABB98CB13DD7A3C00B6A0CB /* IoBox.c in Sources */,
+				AABB98CE13DD7A3C00B6A0CB /* IoBoxInit.c in Sources */,
+				AA3A0B4613F9C8DA00FB76A0 /* callsystem.c in Sources */,
+				AA3A0B4813F9C8DA00FB76A0 /* IoSystemCall.c in Sources */,
+				AA3A0B4A13F9C8DA00FB76A0 /* IoSystemCallInit.c in Sources */,
+				AA3A0C0613F9D1B400FB76A0 /* Address.c in Sources */,
+				AA3A0C0813F9D1B400FB76A0 /* IoDNS.c in Sources */,
+				AA3A0C0A13F9D1B400FB76A0 /* IoEvConnection.c in Sources */,
+				AA3A0C0C13F9D1B400FB76A0 /* IoEvent.c in Sources */,
+				AA3A0C0E13F9D1B400FB76A0 /* IoEventManager.c in Sources */,
+				AA3A0C1013F9D1B400FB76A0 /* IoEvHttpServer.c in Sources */,
+				AA3A0C1213F9D1B400FB76A0 /* IoEvOutRequest.c in Sources */,
+				AA3A0C1413F9D1B400FB76A0 /* IoEvOutResponse.c in Sources */,
+				AA3A0C1613F9D1B400FB76A0 /* IoIPAddress.c in Sources */,
+				AA3A0C1813F9D1B400FB76A0 /* IoSocket.c in Sources */,
+				AA3A0C1A13F9D1B400FB76A0 /* IoSocketInit.c in Sources */,
+				AA3A0C1B13F9D1B400FB76A0 /* IoUnixPath.c in Sources */,
+				AA3A0C1D13F9D1B400FB76A0 /* IPAddress.c in Sources */,
+				AA3A0C1F13F9D1B400FB76A0 /* LocalNameServers.c in Sources */,
+				AA3A0C2513F9D1B400FB76A0 /* Socket.c in Sources */,
+				AA3A0C2713F9D1B400FB76A0 /* UnixPath.c in Sources */,
+				AAC988A01401CF520028A0A9 /* blowfish.c in Sources */,
+				AAC988A21401CF520028A0A9 /* IoBlowfish.c in Sources */,
+				AAC988A41401CF520028A0A9 /* IoBlowfishInit.c in Sources */,
+				DCC2F0BA140CAC2400D22ABE /* CHash_ObjcBridgeFunctions.m in Sources */,
+				AA9AFEA6141EAD230078E31B /* IoMD5.c in Sources */,
+				AA9AFEA8141EAD230078E31B /* IoMD5Init.c in Sources */,
+				AA9AFEA9141EAD230078E31B /* md5.c in Sources */,
+				AA9AFEB0141EAD230078E31B /* IoYajl.c in Sources */,
+				AA9AFEB2141EAD230078E31B /* IoYajlGen.c in Sources */,
+				AA9AFEB4141EAD230078E31B /* IoYajlInit.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		AAFE00F813D6526E00649838 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AAFE00F913D6526E00649838 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		AAFE00FC13D6526E00649838 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				VALID_ARCHS = x86_64;
+			};
+			name = Debug;
+		};
+		AAFE00FD13D6526E00649838 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				SDKROOT = macosx;
+				VALID_ARCHS = x86_64;
+			};
+			name = Release;
+		};
+		AAFE00FF13D6526E00649838 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "IoLanguageKit/IoLanguageKit-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					/opt/local/include,
+					/usr/local/include,
+				);
+				INFOPLIST_FILE = "IoLanguageKit/IoLanguageKit-Info.plist";
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/../../addons/Box/_build/dll\"",
+					"\"$(SRCROOT)/../../addons/Box/_build/lib\"",
+					"\"$(SRCROOT)/../../addons/SystemCall/_build/dll\"",
+					"\"$(SRCROOT)/../../addons/SystemCall/_build/lib\"",
+					"\"$(SRCROOT)/../../addons/Socket/_build/dll\"",
+					"\"$(SRCROOT)/../../addons/Socket/_build/lib\"",
+					"\"$(SRCROOT)/../../addons/Blowfish/_build/dll\"",
+					"\"$(SRCROOT)/../../addons/Blowfish/_build/lib\"",
+					/opt/local/lib,
+					/usr/local/Cellar/libevent/2.0.12/lib,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		AAFE010013D6526E00649838 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "IoLanguageKit/IoLanguageKit-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					/opt/local/include,
+					/usr/local/include,
+				);
+				INFOPLIST_FILE = "IoLanguageKit/IoLanguageKit-Info.plist";
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/../../addons/Box/_build/dll\"",
+					"\"$(SRCROOT)/../../addons/Box/_build/lib\"",
+					"\"$(SRCROOT)/../../addons/SystemCall/_build/dll\"",
+					"\"$(SRCROOT)/../../addons/SystemCall/_build/lib\"",
+					"\"$(SRCROOT)/../../addons/Socket/_build/dll\"",
+					"\"$(SRCROOT)/../../addons/Socket/_build/lib\"",
+					"\"$(SRCROOT)/../../addons/Blowfish/_build/dll\"",
+					"\"$(SRCROOT)/../../addons/Blowfish/_build/lib\"",
+					/opt/local/lib,
+					/usr/local/Cellar/libevent/2.0.12/lib,
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AAFE00E513D6526E00649838 /* Build configuration list for PBXProject "IoLanguageKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AAFE00FC13D6526E00649838 /* Debug */,
+				AAFE00FD13D6526E00649838 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AAFE00FE13D6526E00649838 /* Build configuration list for PBXNativeTarget "IoLanguageKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AAFE00FF13D6526E00649838 /* Debug */,
+				AAFE010013D6526E00649838 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = AAFE00E213D6526E00649838 /* Project object */;
+}

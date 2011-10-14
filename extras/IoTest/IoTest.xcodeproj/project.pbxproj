@@ -1,0 +1,378 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		AABB98F313DD7EA500B6A0CB /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AABB98F213DD7EA500B6A0CB /* Cocoa.framework */; };
+		AABB98FD13DD7EA500B6A0CB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AABB98FB13DD7EA500B6A0CB /* InfoPlist.strings */; };
+		AABB98FF13DD7EA500B6A0CB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AABB98FE13DD7EA500B6A0CB /* main.m */; };
+		AABB990313DD7EA500B6A0CB /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = AABB990113DD7EA500B6A0CB /* Credits.rtf */; };
+		AABB990613DD7EA500B6A0CB /* IoCLIController.m in Sources */ = {isa = PBXBuildFile; fileRef = AABB990513DD7EA500B6A0CB /* IoCLIController.m */; };
+		AABB990913DD7EA500B6A0CB /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = AABB990713DD7EA500B6A0CB /* MainMenu.xib */; };
+		AABB993713DE37FE00B6A0CB /* IoLanguageKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AABB993313DE379F00B6A0CB /* IoLanguageKit.framework */; };
+		AABB993913DE384400B6A0CB /* IoLanguageKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = AABB993313DE379F00B6A0CB /* IoLanguageKit.framework */; };
+		AAC9B16913DF8DD5001AA0D2 /* IoBrowserController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC9B16813DF8DD5001AA0D2 /* IoBrowserController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		AABB993213DE379F00B6A0CB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AABB992B13DE379F00B6A0CB /* IoLanguageKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AAFE00EC13D6526E00649838;
+			remoteInfo = IoLanguageKit;
+		};
+		AABB993513DE37AB00B6A0CB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AABB992B13DE379F00B6A0CB /* IoLanguageKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = AAFE00EB13D6526E00649838;
+			remoteInfo = IoLanguageKit;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		AABB991B13DD7F3800B6A0CB /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				AABB993913DE384400B6A0CB /* IoLanguageKit.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		AABB98EE13DD7EA500B6A0CB /* IoTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IoTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AABB98F213DD7EA500B6A0CB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		AABB98F513DD7EA500B6A0CB /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		AABB98F613DD7EA500B6A0CB /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		AABB98F713DD7EA500B6A0CB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		AABB98FA13DD7EA500B6A0CB /* IoTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "IoTest-Info.plist"; sourceTree = "<group>"; };
+		AABB98FC13DD7EA500B6A0CB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		AABB98FE13DD7EA500B6A0CB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		AABB990013DD7EA500B6A0CB /* IoTest-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IoTest-Prefix.pch"; sourceTree = "<group>"; };
+		AABB990213DD7EA500B6A0CB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		AABB990413DD7EA500B6A0CB /* IoCLIController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IoCLIController.h; sourceTree = "<group>"; };
+		AABB990513DD7EA500B6A0CB /* IoCLIController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IoCLIController.m; sourceTree = "<group>"; };
+		AABB990813DD7EA500B6A0CB /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		AABB992B13DE379F00B6A0CB /* IoLanguageKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = IoLanguageKit.xcodeproj; path = ../IoLanguageKit/IoLanguageKit.xcodeproj; sourceTree = "<group>"; };
+		AAC9B16713DF8DD5001AA0D2 /* IoBrowserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoBrowserController.h; sourceTree = "<group>"; };
+		AAC9B16813DF8DD5001AA0D2 /* IoBrowserController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IoBrowserController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AABB98EB13DD7EA500B6A0CB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AABB993713DE37FE00B6A0CB /* IoLanguageKit.framework in Frameworks */,
+				AABB98F313DD7EA500B6A0CB /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		AABB98E313DD7EA500B6A0CB = {
+			isa = PBXGroup;
+			children = (
+				AABB992B13DE379F00B6A0CB /* IoLanguageKit.xcodeproj */,
+				AABB98F813DD7EA500B6A0CB /* IoTest */,
+				AABB98F113DD7EA500B6A0CB /* Frameworks */,
+				AABB98EF13DD7EA500B6A0CB /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		AABB98EF13DD7EA500B6A0CB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AABB98EE13DD7EA500B6A0CB /* IoTest.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AABB98F113DD7EA500B6A0CB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AABB98F213DD7EA500B6A0CB /* Cocoa.framework */,
+				AABB98F413DD7EA500B6A0CB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AABB98F413DD7EA500B6A0CB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AABB98F513DD7EA500B6A0CB /* AppKit.framework */,
+				AABB98F613DD7EA500B6A0CB /* CoreData.framework */,
+				AABB98F713DD7EA500B6A0CB /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		AABB98F813DD7EA500B6A0CB /* IoTest */ = {
+			isa = PBXGroup;
+			children = (
+				AAC9B16713DF8DD5001AA0D2 /* IoBrowserController.h */,
+				AAC9B16813DF8DD5001AA0D2 /* IoBrowserController.m */,
+				AABB990413DD7EA500B6A0CB /* IoCLIController.h */,
+				AABB990513DD7EA500B6A0CB /* IoCLIController.m */,
+				AABB990713DD7EA500B6A0CB /* MainMenu.xib */,
+				AABB98F913DD7EA500B6A0CB /* Supporting Files */,
+			);
+			path = IoTest;
+			sourceTree = "<group>";
+		};
+		AABB98F913DD7EA500B6A0CB /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				AABB98FA13DD7EA500B6A0CB /* IoTest-Info.plist */,
+				AABB98FB13DD7EA500B6A0CB /* InfoPlist.strings */,
+				AABB98FE13DD7EA500B6A0CB /* main.m */,
+				AABB990013DD7EA500B6A0CB /* IoTest-Prefix.pch */,
+				AABB990113DD7EA500B6A0CB /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		AABB992C13DE379F00B6A0CB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AABB993313DE379F00B6A0CB /* IoLanguageKit.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AABB98ED13DD7EA500B6A0CB /* IoTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AABB990C13DD7EA500B6A0CB /* Build configuration list for PBXNativeTarget "IoTest" */;
+			buildPhases = (
+				AABB98EA13DD7EA500B6A0CB /* Sources */,
+				AABB98EB13DD7EA500B6A0CB /* Frameworks */,
+				AABB98EC13DD7EA500B6A0CB /* Resources */,
+				AABB991B13DD7F3800B6A0CB /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AABB993613DE37AB00B6A0CB /* PBXTargetDependency */,
+			);
+			name = IoTest;
+			productName = IoTest;
+			productReference = AABB98EE13DD7EA500B6A0CB /* IoTest.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AABB98E513DD7EA500B6A0CB /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = AABB98E813DD7EA500B6A0CB /* Build configuration list for PBXProject "IoTest" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = AABB98E313DD7EA500B6A0CB;
+			productRefGroup = AABB98EF13DD7EA500B6A0CB /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = AABB992C13DE379F00B6A0CB /* Products */;
+					ProjectRef = AABB992B13DE379F00B6A0CB /* IoLanguageKit.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				AABB98ED13DD7EA500B6A0CB /* IoTest */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		AABB993313DE379F00B6A0CB /* IoLanguageKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = IoLanguageKit.framework;
+			remoteRef = AABB993213DE379F00B6A0CB /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AABB98EC13DD7EA500B6A0CB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AABB98FD13DD7EA500B6A0CB /* InfoPlist.strings in Resources */,
+				AABB990313DD7EA500B6A0CB /* Credits.rtf in Resources */,
+				AABB990913DD7EA500B6A0CB /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AABB98EA13DD7EA500B6A0CB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AABB98FF13DD7EA500B6A0CB /* main.m in Sources */,
+				AABB990613DD7EA500B6A0CB /* IoCLIController.m in Sources */,
+				AAC9B16913DF8DD5001AA0D2 /* IoBrowserController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AABB993613DE37AB00B6A0CB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = IoLanguageKit;
+			targetProxy = AABB993513DE37AB00B6A0CB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		AABB98FB13DD7EA500B6A0CB /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AABB98FC13DD7EA500B6A0CB /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		AABB990113DD7EA500B6A0CB /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AABB990213DD7EA500B6A0CB /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		AABB990713DD7EA500B6A0CB /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AABB990813DD7EA500B6A0CB /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		AABB990A13DD7EA500B6A0CB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		AABB990B13DD7EA500B6A0CB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		AABB990D13DD7EA500B6A0CB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../Library/Developer/Xcode/DerivedData/IoLanguageKit-hanhligazbywwchezjqioayewyzi/Build/Products/Debug\"",
+					"\"$(SRCROOT)\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "IoTest/IoTest-Prefix.pch";
+				INFOPLIST_FILE = "IoTest/IoTest-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = x86_64;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		AABB990E13DD7EA500B6A0CB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../Library/Developer/Xcode/DerivedData/IoLanguageKit-hanhligazbywwchezjqioayewyzi/Build/Products/Debug\"",
+					"\"$(SRCROOT)\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "IoTest/IoTest-Prefix.pch";
+				INFOPLIST_FILE = "IoTest/IoTest-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = x86_64;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AABB98E813DD7EA500B6A0CB /* Build configuration list for PBXProject "IoTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AABB990A13DD7EA500B6A0CB /* Debug */,
+				AABB990B13DD7EA500B6A0CB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AABB990C13DD7EA500B6A0CB /* Build configuration list for PBXNativeTarget "IoTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AABB990D13DD7EA500B6A0CB /* Debug */,
+				AABB990E13DD7EA500B6A0CB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = AABB98E513DD7EA500B6A0CB /* Project object */;
+}

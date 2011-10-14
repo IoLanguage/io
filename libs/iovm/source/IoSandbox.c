@@ -18,6 +18,7 @@ Sandbox can be used to run separate instances of Io within the same process.
 #include <errno.h>
 #include <stdio.h>
 
+static const char *protoId = "Sandbox";
 #define DATA(self) ((IoState *)IoObject_dataPointer(self))
 
 IoTag *IoSandbox_newTag(void *state)
@@ -43,7 +44,7 @@ IoSandbox *IoSandbox_proto(void *state)
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoSandbox_newTag(state));
 
-	IoState_registerProtoWithFunc_((IoState *)state, self, IoSandbox_proto);
+	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
 
 	IoObject_addMethodTable_(self, methodTable);
 
@@ -88,7 +89,7 @@ void IoSandbox_printCallback(void *voidSelf, const UArray *ba)
 
 IoSandbox *IoSandbox_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoSandbox_proto);
+	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 

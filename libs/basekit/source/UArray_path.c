@@ -109,8 +109,11 @@ UArray *UArray_fileName(UArray *self)
 	long dotPos = UArray_findPathExtension(self);
 
 	//if (extPos == -1) { extPos = 0; } else { extPos ++; }
-	if (dotPos == -1) dotPos = self->size;
-
+	if (dotPos == -1 || dotPos < extPos) 
+	{
+		dotPos = self->size -1;
+	}
+	
 	return UArray_range(self, extPos, dotPos - extPos);
 }
 

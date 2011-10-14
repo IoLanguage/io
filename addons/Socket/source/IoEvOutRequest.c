@@ -12,6 +12,9 @@
 
 #define REQUEST(self) ((struct evhttp_request *)IoObject_dataPointer(self))
 
+static const char *protoId = "EvOutRequest";
+
+
 IoTag *IoEvOutRequest_newTag(void *state)
 {
 	IoTag *tag = IoTag_newWithName_("EvRequest");
@@ -28,7 +31,7 @@ IoEvOutRequest *IoEvOutRequest_proto(void *state)
 	IoObject_tag_(self, IoEvOutRequest_newTag(state));
 	IoObject_setDataPointer_(self, 0x0);
 
-	IoState_registerProtoWithFunc_((IoState *)state, self, IoEvOutRequest_proto);
+	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -58,7 +61,7 @@ IoEvOutRequest *IoEvOutRequest_rawClone(IoEvOutRequest *proto)
 
 IoEvOutRequest *IoEvOutRequest_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoEvOutRequest_proto);
+	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 
@@ -107,7 +110,15 @@ void IoEvOutRequest_RequestDoneCallback(struct evhttp_request *request, void *ar
 		const char *name;
 		IoMap *responseHeaders = IoMap_new(IOSTATE);
 		
-		IoObject_setSlot_to_(self, IOSYMBOL("data"), IOSEQ(b->buffer, b->off));
+		
+
+		//IoObject_setSlot_to_(self, IOSYMBOL("data"), IOSEQ(b->buffer, b->off));
+		size_t datlen = evbuffer_get_length(b);
+		unsigned char *data = malloc(datlen);
+		evbuffer_copyout(b, data, datlen);		
+		IoSeq *dataSeq = IoSeq_newWithData_length_copy_(IOSTATE, data, datlen, 0);
+		IoObject_setSlot_to_(self, IOSYMBOL("data"), dataSeq);
+		
 		IoObject_setSlot_to_(self, IOSYMBOL("responseHeaders"), responseHeaders);
 		IoObject_setSlot_to_(self, IOSYMBOL("responseCode"), IONUMBER(request->response_code));
 		

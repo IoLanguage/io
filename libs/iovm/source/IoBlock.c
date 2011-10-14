@@ -15,6 +15,8 @@ They are typically used to represent object methods.
 #include "IoList.h"
 #include "UArray.h"
 
+static const char *protoId = "IoBlock";
+
 #define DATA(self) ((IoBlockData *)IoObject_dataPointer(self))
 
 IoTag *IoBlock_newTag(void *state)
@@ -124,7 +126,7 @@ IoBlock *IoBlock_proto(void *vState)
 	DATA(self)->message  = IOSTATE->nilMessage;
 	DATA(self)->argNames = List_new();
 	DATA(self)->scope    = NULL;
-	IoState_registerProtoWithFunc_((IoState *)state, self, IoBlock_proto);
+	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
 
 	IoObject_addMethodTable_(self, methodTable);
 	return self;
@@ -146,7 +148,7 @@ IoBlock *IoBlock_rawClone(IoBlock *proto)
 
 IoBlock *IoBlock_new(IoState *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoBlock_proto);
+	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 
@@ -245,7 +247,7 @@ IoObject *IoBlock_activate(IoBlock *self, IoObject *target, IoObject *locals, Io
 	IoObject_isReferenced_(callObject, 0);
 
 	LIST_FOREACH(argNames, i, name,
-		IoObject *arg = IoMessage_locals_valueArgAt_(m, locals, i);
+		IoObject *arg = IoMessage_locals_valueArgAt_(m, locals, (int)i);
 		// gc may kick in while evaling locals, so we need to be safe
 		IoObject_setSlot_to_(blockLocals, name, arg);
 	);

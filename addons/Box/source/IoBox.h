@@ -19,6 +19,8 @@ typedef struct
 	IoSeq *size;
 } IoBoxData;
 
+IOBOX_API const char *IoBox_protoId(void);
+
 IOBOX_API IoBox *IoBox_rawClone(IoBox *self);
 IOBOX_API IoBox *IoBox_proto(void *state);
 IOBOX_API IoBox *IoBox_new(void *state);

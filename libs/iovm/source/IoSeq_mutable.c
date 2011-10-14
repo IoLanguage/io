@@ -770,10 +770,10 @@ IO_METHOD(IoSeq, capitalize)
 	First charater of the receiver is made uppercase.
 	*/
 
-	int firstChar = UArray_firstLong(DATA(self));
+	long firstChar = UArray_firstLong(DATA(self));
 
 	IO_ASSERT_NOT_SYMBOL(self);
-	UArray_at_putLong_(DATA(self), 0, toupper(firstChar));
+	UArray_at_putLong_(DATA(self), 0, toupper((int)firstChar));
 	return self;
 }
 
@@ -805,7 +805,7 @@ IO_METHOD(IoSeq, interpolateInPlace)
 	IoSeq *codeString;
 	UArray *evaluatedCodeAsString = NULL;
 	const char *label;
-	int from, to;
+	long from, to;
 	UArray begin = UArray_stackAllocedWithCString_("#{");
 	UArray end = UArray_stackAllocedWithCString_("}");
 

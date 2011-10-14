@@ -12,6 +12,8 @@
 
 #define REQUEST(self) ((struct evhttp_request *)IoObject_dataPointer(self))
 
+static const char *protoId = "EvOutResponse";
+
 IoTag *IoEvOutResponse_newTag(void *state)
 {
 	IoTag *tag = IoTag_newWithName_("EvOutRequest");
@@ -28,7 +30,7 @@ IoEvOutResponse *IoEvOutResponse_proto(void *state)
 	IoObject_tag_(self, IoEvOutResponse_newTag(state));
 	IoObject_setDataPointer_(self, 0x0);
 
-	IoState_registerProtoWithFunc_((IoState *)state, self, IoEvOutResponse_proto);
+	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -53,7 +55,7 @@ IoEvOutResponse *IoEvOutResponse_rawClone(IoEvOutResponse *proto)
 
 IoEvOutResponse *IoEvOutResponse_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoEvOutResponse_proto);
+	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 

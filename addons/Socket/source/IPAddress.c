@@ -18,7 +18,7 @@ IPAddress *IPAddress_setIPAddress_size_(IPAddress *self,
 {
 	self->sockaddr = io_realloc(self->sockaddr, size);
 	memcpy(self->sockaddr, address, size);
-	self->size = size;
+	self->size = (int)size;
 	return self;
 }
 

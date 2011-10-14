@@ -83,7 +83,8 @@ size_t CollectorMarker_checkObjectPointer(CollectorMarker *marker)
 	else 
 	{ 
 		// read a word of memory to check for bad pointers
-		uintptr_t p = *(uintptr_t *)(marker->object); 
+		uintptr_t p = *(uintptr_t *)(marker->object);
+		return p-p; // so compiler doesn't complain about unused variable
 	}
 	
 	return 0;

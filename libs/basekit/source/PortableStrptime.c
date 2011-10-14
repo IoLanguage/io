@@ -120,7 +120,7 @@ char *io_strptime(char *buf, char *fmt, struct tm *tm)
 
 		char    c,
 				*ptr;
-		int     i,
+		long     i,
 				len;
 
 	len = 0;
@@ -206,7 +206,7 @@ char *io_strptime(char *buf, char *fmt, struct tm *tm)
 						if (i < 0 || i > 366)
 								return NULL;
 
-						tm->tm_yday = i;
+						tm->tm_yday = (int)i;
 						break;
 
 				case 'M':
@@ -217,7 +217,7 @@ char *io_strptime(char *buf, char *fmt, struct tm *tm)
 						if (i < 0 || i > 59)
 								return NULL;
 
-						tm->tm_min = i;
+						tm->tm_min = (int)i;
 
 						somethingToDoWithSpaces(buf, &ptr);
 						break;
@@ -230,7 +230,7 @@ char *io_strptime(char *buf, char *fmt, struct tm *tm)
 						if (i < 0 || i > 60) // Earlier 61 was also allowed.
 								return NULL;
 
-						tm->tm_sec = i;
+						tm->tm_sec = (int)i;
 
 						somethingToDoWithSpaces(buf, &ptr);
 						break;
@@ -244,7 +244,7 @@ char *io_strptime(char *buf, char *fmt, struct tm *tm)
 						if (i < 0 || i > 23)
 								return NULL;
 
-						tm->tm_hour = i;
+						tm->tm_hour = (int)i;
 
 						somethingToDoWithSpaces(buf, &ptr);
 						break;
@@ -258,7 +258,7 @@ char *io_strptime(char *buf, char *fmt, struct tm *tm)
 						if (i < 1 || i > 12)
 								return NULL;
 
-						tm->tm_hour = i;
+						tm->tm_hour = (int)i;
 
 						somethingToDoWithSpaces(buf, &ptr);
 						break;
@@ -272,7 +272,7 @@ char *io_strptime(char *buf, char *fmt, struct tm *tm)
 						if (i < 1 || i > 31)
 								return NULL;
 
-						tm->tm_mday = i;
+						tm->tm_mday = (int)i;
 
 						somethingToDoWithSpaces(buf, &ptr);
 						break;
@@ -285,7 +285,7 @@ char *io_strptime(char *buf, char *fmt, struct tm *tm)
 						if (i < 1 || i > 12)
 								return NULL;
 
-						tm->tm_mon = i - 1;
+						tm->tm_mon = (int)(i - 1);
 
 						somethingToDoWithSpaces(buf, &ptr);
 						break;
@@ -301,7 +301,7 @@ char *io_strptime(char *buf, char *fmt, struct tm *tm)
 						if (i < 0 || i > 9999)
 								return NULL;
 
-						tm->tm_year = i - 1900;
+						tm->tm_year = (int)(i - 1900);
 
 						somethingToDoWithSpaces(buf, &ptr);
 						break;
@@ -317,7 +317,7 @@ char *io_strptime(char *buf, char *fmt, struct tm *tm)
 						if (i < 0 || i > 99)
 								return NULL;
 
-						tm->tm_year = i;
+						tm->tm_year = (int)i;
 
 						somethingToDoWithSpaces(buf, &ptr);
 						break;
@@ -364,7 +364,7 @@ char *io_strptime(char *buf, char *fmt, struct tm *tm)
 						if (i == asizeof(En_US.weekday_names))
 								return NULL;
 
-						tm->tm_wday = i;
+						tm->tm_wday = (int)i;
 						buf += len;
 						break;
 
@@ -387,7 +387,7 @@ char *io_strptime(char *buf, char *fmt, struct tm *tm)
 						if (i == asizeof(En_US.month_names))
 								return NULL;
 
-						tm->tm_mon = i;
+						tm->tm_mon = (int)i;
 						buf += len;
 						break;
 				}

@@ -15,6 +15,8 @@ This object can be used to parse YajlGen / HTML / XML.
 
 #define DATA(self) ((yajl_gen)(IoObject_dataPointer(self)))
 
+static const char *protoId = "protoId";
+
 IoTag *IoYajlGen_newTag(void *state)
 {
 	IoTag *tag = IoTag_newWithName_("YajlGen");
@@ -30,14 +32,17 @@ IoTag *IoYajlGen_newTag(void *state)
 IoYajlGen *IoYajlGen_rawClone(IoYajlGen *proto)
 {
 	IoObject *self = IoObject_rawClonePrimitive(proto);
-	yajl_gen_config config = { 0, "" };
-	IoObject_setDataPointer_(self, yajl_gen_alloc(&config, NULL));
+
+	yajl_gen g = yajl_gen_alloc(NULL);
+	//yajl_gen_config(g, yajl_gen_beautify, 0);
+
+	IoObject_setDataPointer_(self, g);
 	return self;
 }
 
 IoYajlGen *IoYajlGen_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoYajlGen_proto);
+	IoObject *proto = IoState_protoWithInitFunction_(state, protoId);
 	return IOCLONE(proto);
 }
 
@@ -59,9 +64,9 @@ IoObject *IoYajlGen_pushNull(IoYajlGen *self, IoObject *locals, IoMessage *m)
 IoObject *IoYajlGen_pushString(IoYajlGen *self, IoObject *locals, IoMessage *m)
 {
 	IoSeq *s = IoMessage_locals_seqArgAt_(m, locals, 0);
-	
-	yajl_gen_string(DATA(self), 
-		(const unsigned char *)IOSYMBOL_BYTES(s), 
+
+	yajl_gen_string(DATA(self),
+		(const unsigned char *)IOSYMBOL_BYTES(s),
 		IOSYMBOL_LENGTH(s));
 
 	return self;
@@ -84,11 +89,11 @@ IoObject *IoYajlGen_pushDouble(IoYajlGen *self, IoObject *locals, IoMessage *m)
 IoObject *IoYajlGen_pushNumberString(IoYajlGen *self, IoObject *locals, IoMessage *m)
 {
 	IoSeq *s = IoMessage_locals_seqArgAt_(m, locals, 0);
-	
-	yajl_gen_number(DATA(self), 
-		(const  char *)IOSYMBOL_BYTES(s), 
+
+	yajl_gen_number(DATA(self),
+		(const  char *)IOSYMBOL_BYTES(s),
 		IOSYMBOL_LENGTH(s));
-		
+
 	return self;
 }
 
@@ -127,17 +132,18 @@ IoObject *IoYajlGen_closeArray(IoYajlGen *self, IoObject *locals, IoMessage *m)
 IoObject *IoYajlGen_generate(IoYajlGen *self, IoObject *locals, IoMessage *m)
 {
 	const unsigned char *jsonBuffer;
-	unsigned int jsonBufferLength;
-		
+	size_t jsonBufferLength;
+
 	yajl_gen_get_buf(DATA(self), &jsonBuffer, &jsonBufferLength);
-	
+
 	IoSeq *out = IOSEQ(jsonBuffer, jsonBufferLength);
-	
+
 	yajl_gen_free(DATA(self));
-	yajl_gen_config config = { 0, "" };
-	IoObject_setDataPointer_(self, yajl_gen_alloc(&config, NULL));
-	
-    return out;  
+	yajl_gen g = yajl_gen_alloc(NULL);
+	//yajl_gen_config(g, yajl_gen_beautify, 0);
+	IoObject_setDataPointer_(self, g);
+
+    return out;
 }
 
 IoYajlGen *IoYajlGen_proto(void *state)
@@ -145,13 +151,15 @@ IoYajlGen *IoYajlGen_proto(void *state)
 	IoYajlGen *self = IoObject_new(state);
 	IoObject_tag_(self, IoYajlGen_newTag(state));
 
-	yajl_gen_config config = { 0, "" };
-	IoObject_setDataPointer_(self, yajl_gen_alloc(&config, NULL));
+	yajl_gen g = yajl_gen_alloc(NULL);
+	//yajl_gen_config(g, yajl_gen_beautify, 0);
 
-	IoState_registerProtoWithFunc_(state, self, IoYajlGen_proto);
+	IoObject_setDataPointer_(self, g);
+
+	IoState_registerProtoWithFunc_(state, self, protoId);
 
 	{
-		IoMethodTable methodTable[] = 
+		IoMethodTable methodTable[] =
 		{
 			{"pushNull", IoYajlGen_pushNull},
 			{"pushString", IoYajlGen_pushString},
@@ -168,6 +176,6 @@ IoYajlGen *IoYajlGen_proto(void *state)
 		};
 		IoObject_addMethodTable_(self, methodTable);
 	}
-		
+
 	return self;
 }

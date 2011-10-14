@@ -55,6 +55,8 @@ double log2(double n)
 
 #define DATA(self) CNUMBER(self)
 
+static const char *protoId = "Number";
+
 IoNumber *IoNumber_numberForDouble_canUse_(IoNumber *self, double n, IoNumber *other)
 {
 	if (DATA(self)  == n) return self;
@@ -199,7 +201,7 @@ IoNumber *IoNumber_proto(void *state)
 
 	IoObject_tag_(self, IoNumber_newTag(state));
 	DATA(self) = 0;
-	IoState_registerProtoWithFunc_((IoState *)state, self, IoNumber_proto);
+	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
 
 	IoObject_addMethodTable_(self, methodTable);
 	return self;
@@ -214,7 +216,7 @@ IoNumber *IoNumber_rawClone(IoNumber *proto)
 
 IoNumber *IoNumber_newWithDouble_(void *state, double n)
 {
-	IoNumber *proto = IoState_protoWithInitFunction_((IoState *)state, IoNumber_proto);
+	IoNumber *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
 	IoNumber *self = IOCLONE(proto); // since Numbers have no refs, we can avoid IOCLONE
 	DATA(self) = n;
 	return self;
@@ -300,13 +302,13 @@ void IoNumber_Double_intoCString_(double n, char *s, size_t maxSize)
 	}
 	else
 	{
-		int l;
+		long l;
 
 		snprintf(s, maxSize, "%.16f", n);
 
 		// remove the trailing zeros ex: 10.00 -> 10
 
-		l = strlen(s) - 1;
+		l = (long)strlen(s) - 1;
 
 		while (l > 0)
 		{

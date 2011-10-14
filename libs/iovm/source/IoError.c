@@ -9,6 +9,8 @@ An object that contains error information and flow control based on errors.
 #include "IoState.h"
 #include "IoSeq.h"
 
+static const char *protoId = "Error";
+
 IoTag *IoError_newTag(void *state)
 {
 	IoTag *tag = IoTag_newWithName_("Error");
@@ -22,7 +24,7 @@ IoError *IoError_proto(void *state)
 	IoError *self = IoObject_new(state);
 	IoObject_tag_(self, IoError_newTag(state));
 
-	IoState_registerProtoWithFunc_(state, self, IoError_proto);
+	IoState_registerProtoWithFunc_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -41,7 +43,7 @@ IoError *IoError_rawClone(IoError *proto)
 
 IoError *IoError_new(void *state)
 {
-	IoError *proto = IoState_protoWithInitFunction_(state, IoError_proto);
+	IoError *proto = IoState_protoWithInitFunction_(state, protoId);
 	return IOCLONE(proto);
 }
 

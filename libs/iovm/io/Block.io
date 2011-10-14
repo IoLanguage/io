@@ -15,6 +15,11 @@ getSlot("Block") do(
 		writeln(asString)
 	)
 
+  	//doc Block callWithArgList(aList) Activates the block with the given argument list.
+	callWithArgList := method(argList,
+		getSlot("self") doMessage(argList asMessage setName("call"))
+	)
+
   //doc Block println Same as <tt>print</tt>.
 	println := getSlot("print")
     

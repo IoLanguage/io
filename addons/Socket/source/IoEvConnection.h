@@ -1,7 +1,6 @@
 //metadoc Event copyright Steve Dekorte 2002
 //metadoc Event license BSD revised
 /*metadoc EvRequest description
-
 */
 
 #ifndef IOEVCONNECTION_DEFINED
@@ -10,7 +9,8 @@
 #include "IoObject.h"
 #include "Socket.h"
 #include <sys/queue.h>
-#include <event.h>
+#include "event.h"
+//#include <event.h>
 #include <evhttp.h>
 
 #define ISEVCONNECTION(self) IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoEvConnection_rawClone)

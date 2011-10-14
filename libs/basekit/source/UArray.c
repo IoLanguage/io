@@ -145,15 +145,15 @@ size_t UArray_sizeRequiredToContain_(const UArray *self, const UArray *other)
 
 void UArray_rawSetItemType_(UArray *self, CTYPE type)
 {
-	size_t itemSize = CTYPE_size(type);
+	int itemSize = (int)CTYPE_size(type);
 	self->itemType = type;
 	self->itemSize = itemSize;
 }
 
 void UArray_setItemType_(UArray *self, CTYPE type)
 {
-	size_t itemSize = CTYPE_size(type);
-	div_t q = div(UArray_sizeInBytes(self), itemSize);
+	int itemSize = (int)CTYPE_size(type);
+	div_t q = div((int)UArray_sizeInBytes(self), (int)itemSize);
 
 	if (q.rem != 0)
 	{
@@ -315,7 +315,7 @@ UArray UArray_stackAllocedWithData_type_size_(void *data, CTYPE type, size_t siz
 #endif
 
 	self.itemType = type;
-	self.itemSize = CTYPE_size(type);
+	self.itemSize = (int)CTYPE_size(type);
 	self.size = size;
 	self.data = data;
 	return self;
@@ -502,6 +502,7 @@ void UArray_copyItems_(UArray *self, const UArray *other)
 	{
 		DUARRAY_OP(UARRAY_BASICOP_TYPES, =, self, other);
 	}
+	
 	UArray_changed(self);
 }
 
@@ -774,7 +775,7 @@ void UArray_at_putLong_(UArray *self, size_t pos, long v)
 
 	//if(UArray_longAt_(self, pos) != v)
 	{
-		UARRAY_RAWAT_PUT_(self, pos, v);
+		UARRAY_RAWAT_PUT_(self, pos, (uint32_t)v);
 		UArray_changed(self);
 	}
 }
@@ -803,9 +804,11 @@ void UArray_at_putPointer_(UArray *self, size_t pos, void *v)
 				UArray_changed(self);
 			}
 			return;
+		default:
+			UArray_error_(self, "UArray_at_putPointer_ not supported with this type");
 	}
 
-	UArray_error_(self, "UArray_at_putPointer_ not supported with this type");
+	//UArray_error_(self, "UArray_at_putPointer_ not supported with this type");
 }
 
 void UArray_appendLong_(UArray *self, long v)
@@ -1175,15 +1178,15 @@ BASEKIT_API long UArray_rFind_from_(const UArray *self, const UArray *other, siz
 
 #define UARRAY_RFINDANYCASE_TYPES(OP2, TYPE1, self, TYPE2, other)\
 {\
-	long i, j;\
+	size_t i, j;\
 		if(self->size < other->size) return -1;\
 			for(i = self->size - other->size + 1; i > -1; i --)\
 			{\
 				int match = 1;\
 				for(j = 0; j < other->size; j ++)\
 				{\
-					int v1 = ((TYPE1 *)self->data)[i+j];\
-						int v2 = ((TYPE2 *)other->data)[j];\
+					int v1 = (int)((TYPE1 *)self->data)[i+j];\
+						int v2 = (int)((TYPE2 *)other->data)[j];\
 							if (tolower(v1) != tolower(v2)) { match = 0; break; }\
 				}\
 				if(match) return i;\
@@ -1240,6 +1243,7 @@ int UArray_isSignedType(const UArray *self)
 		case CTYPE_int64_t:   return 1;
 		case CTYPE_float32_t: return 1;
 		case CTYPE_float64_t: return 1;
+		case CTYPE_uintptr_t: return 0;
 	}
 	return 0;
 }

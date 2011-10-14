@@ -15,6 +15,8 @@ This object can be used to parse Yajl / HTML / XML.
 
 #define DATA(self) ((IoYajlData *)(IoObject_dataPointer(self)))
 
+const char *protoId = "Yajl";
+
 IoTag *IoYajl_newTag(void *state)
 {
 	IoTag *tag = IoTag_newWithName_("YajlParser");
@@ -50,7 +52,7 @@ IoYajl *IoYajl_proto(void *state)
 	DATA(self)->addMapKeyMessage = IoMessage_newWithName_label_(state,
 												   IOSYMBOL("addMapKey"), IOSYMBOL("YajlParser"));
 
-	IoState_registerProtoWithFunc_(state, self, IoYajl_proto);
+	IoState_registerProtoWithFunc_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -72,7 +74,7 @@ IoYajl *IoYajl_rawClone(IoYajl *proto)
 
 IoYajl *IoYajl_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoYajl_proto);
+	IoObject *proto = IoState_protoWithInitFunction_(state, protoId);
 	return IOCLONE(proto);
 }
 
@@ -123,7 +125,7 @@ static int IoYajl_callback_boolean(void *ctx, int boolean)
   
 #include <stdlib.h>
 	 
-static int IoYajl_callback_number(void *ctx, const char * s, unsigned int l)  
+static int IoYajl_callback_number(void *ctx, const char * s, size_t l)  
 {  
 	IoYajl *self = ctx;
 	//IoState_pushRetainPool(IOSTATE);
@@ -152,7 +154,7 @@ static int IoYajl_callback_number(void *ctx, const char * s, unsigned int l)
 }
 
 static int IoYajl_callback_string(void *ctx, const unsigned char * stringVal,  
-                           unsigned int stringLen)  
+                           size_t stringLen)  
 {  
 	IoYajl *self = ctx;
 	//IoState_pushRetainPool(IOSTATE);
@@ -166,7 +168,7 @@ static int IoYajl_callback_string(void *ctx, const unsigned char * stringVal,
 }   
   
 static int IoYajl_callback_map_key(void *ctx, const unsigned char * stringVal,  
-                            unsigned int stringLen)  
+                            size_t stringLen)  
 {  
 	IoYajl *self = ctx;
 	//IoState_pushRetainPool(IOSTATE);
@@ -247,15 +249,16 @@ IoObject *IoYajl_parse(IoYajl *self, IoObject *locals, IoMessage *m)
 	size_t dataSize = IoSeq_rawSizeInBytes(dataSeq);
 	const unsigned char *data = (const unsigned char *)CSTRING(dataSeq);
 	
-	yajl_parser_config cfg = { 1, 0 };
-	yajl_handle hand = yajl_alloc(&callbacks, &cfg,  NULL, (void *) self);  
-    yajl_status stat;        
+	yajl_handle hand = yajl_alloc(&callbacks, NULL, (void *) self);
+	//yajl_config(hand, yajl_allow_comments, 1);
+	//yajl_config(hand, yajl_dont_validate_strings, 1);
+	
+    yajl_status stat;
 	
 	stat = yajl_parse(hand, data, dataSize);  
-	stat = yajl_parse_complete(hand);  
+	stat = yajl_complete_parse(hand);  
 
-	if (stat != yajl_status_ok &&  
-		stat != yajl_status_insufficient_data)  
+	if (stat != yajl_status_ok)  
 	{  
 		char *str = (char *)yajl_get_error(hand, 1, data, dataSize);
 		IoObject *error = IoError_newWithCStringMessage_(IOSTATE, str);

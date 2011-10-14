@@ -1,5 +1,8 @@
 
 SequenceTest := UnitTest clone do(
+	plat := System platform
+	isOnWindows := plat beginsWithSeq("Windows") or plat beginsWithSeq("mingw")
+
 	testClone := method(
 		string := "blah"
 		assertSame(string, string clone)
@@ -24,12 +27,27 @@ SequenceTest := UnitTest clone do(
 		assertEquals(1, "1 2" asNumber)
 		assertEquals(1.2, "1.2" asNumber)
 		//assertEquals(Number constants nan, "five" asNumber)
-		assertEquals(Number constants nan asString, "" asNumber asString)
+		// Windows systems print out NaN constants differently depending on class
+		if(isOnWindows,
+			assertEquals(Number constants nan asString, "-1.#IND") // 0/0
+			assertEquals("" asNumber asString, "1.#QNAN") // Explicit quiet NaN
+		,
+			assertEquals(Number constants nan asString, "" asNumber asString)
+		)
 	)
 
 	testAsString := method(
 		string := "blah"
 		assertSame(string, string asString)
+	)
+
+	testAsList := method(
+		assertEquals(list("a", "b", "c", "d"), "abcd" asList)
+		vector := Sequence clone setItemType("float32") setEncoding("number")
+		vector atPut(0, -0.5)
+		vector atPut(1, 0)
+		vector atPut(2, 0.5)
+		assertEquals(list(-0.5, 0, 0.5), vector asList)
 	)
 
 	testAsMutableSequence := method(
@@ -381,22 +399,21 @@ SequenceTest := UnitTest clone do(
 		assertEquals("701", "449" toBase(8))
 	)
 
-	isOnWindows := System platform beginsWithSeq("Windows")
-
 	testAppendPath := method(
 		string := "abc"
 		assertNotSame(string, Path with(string, "def"))
 
-		assertEquals("abc/def", Path with("abc", "def"))
 		assertEquals("abc/def", Path with("abc/", "def"))
 		assertEquals("abc/def/", Path with("abc", "/def/"))
 		assertEquals("/abc/def/", Path with("/abc/", "/def/"))
 
-		// Io on Windows constructs paths using / but tolerates \
 		if(isOnWindows,
 			assertEquals("abc\\def", Path with("abc\\", "def"))
 			assertEquals("abc\\def\\", Path with("abc", "\\def\\"))
 			assertEquals("\\abc\\def\\", Path with("\\abc\\", "\\def\\"))
+			assertEquals("abc\\def", Path with("abc", "def"))
+		,
+			assertEquals("abc/def", Path with("abc", "def"))
 		)
 	)
 

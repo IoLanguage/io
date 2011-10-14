@@ -59,7 +59,7 @@ double Date_SecondsFrom1970ToNow(void)
 
 void Date_now(Date *self)
 {
-	double s, us;
+	//double s, us;
 	struct timeval timeval;
 	struct timezone timezone;
 
@@ -157,7 +157,7 @@ void Date_setYear_(Date *self, long v)
 {
 	time_t t = self->tv.tv_sec;
 	struct tm *tm = localtime(&t);
-	tm->tm_year = v - 1900;
+	tm->tm_year = (int)v - 1900;
 	self->tv.tv_sec = mktime(tm);
 }
 
@@ -241,7 +241,7 @@ UArray *Date_asSerialization(Date *self)
 {
 	int32_t *data = malloc(4 * sizeof(int32_t));
 	
-	data[0] = self->tv.tv_sec;
+	data[0] = (int32_t)self->tv.tv_sec;
 	data[1] = self->tv.tv_usec;
 	data[2] = self->tz.tz_minuteswest;
 	data[3] = self->tz.tz_dsttime;
@@ -252,9 +252,9 @@ UArray *Date_asSerialization(Date *self)
 Date *Date_fromSerialization(Date *self, UArray *serialization)
 {
 	self->tv.tv_sec = UArray_longAt_(serialization, 0);
-	self->tv.tv_usec = UArray_longAt_(serialization, 1);
-	self->tz.tz_minuteswest = UArray_longAt_(serialization, 2);
-	self->tz.tz_dsttime = UArray_longAt_(serialization, 3);
+	self->tv.tv_usec = (int)UArray_longAt_(serialization, 1);
+	self->tz.tz_minuteswest = (int)UArray_longAt_(serialization, 2);
+	self->tz.tz_dsttime = (int)UArray_longAt_(serialization, 3);
 	
 	return self;
 }
@@ -268,7 +268,7 @@ unsigned char Date_isDaylightSavingsTime(const Date *self)
 
 int Date_isLeapYear(const Date *self)
 {
-	int year = Date_year(self);
+	long year = Date_year(self);
 
 	if (((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0))
 	{

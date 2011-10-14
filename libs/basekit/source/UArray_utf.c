@@ -73,7 +73,7 @@ int UArray_maxCharSize(const UArray *self)
 		return maxCharSize;
 	}
 
-	return self->itemSize;
+	return (int)(self->itemSize);
 }
 
 size_t UArray_numberOfCharacters(const UArray *self)

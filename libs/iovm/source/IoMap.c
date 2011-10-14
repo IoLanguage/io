@@ -16,6 +16,8 @@ A key/value dictionary appropriate for holding large key/value collections.
 #include "IoList.h"
 #include "IoBlock.h"
 
+static const char *protoId = "Map";
+
 #define DATA(self) ((PHash *)IoObject_dataPointer(self))
 
 IoTag *IoMap_newTag(void *state)
@@ -85,7 +87,7 @@ IoMap *IoMap_proto(void *state)
 	IoObject_tag_(self, IoMap_newTag(state));
 	IoObject_setDataPointer_(self, PHash_new());
 
-	IoState_registerProtoWithFunc_((IoState *)state, self, IoMap_proto);
+	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
 
 	IoObject_addMethodTable_(self, methodTable);
 	return self;
@@ -100,7 +102,7 @@ IoMap *IoMap_rawClone(IoMap *proto)
 
 IoMap *IoMap_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoMap_proto);
+	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 

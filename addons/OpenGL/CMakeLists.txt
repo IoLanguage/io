@@ -31,6 +31,7 @@ if(OPENGL_FOUND AND OPENGL_GLU_FOUND AND GLUT_FOUND AND ((GLUT_Xmu_LIBRARY AND G
 
 	# Our library sources.
 	set(SRCS
+		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoVector_gl.c"
 		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoBox_gl.c"
 		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoGLScissor.c"
 		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoGLU.c"

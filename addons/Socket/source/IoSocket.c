@@ -42,6 +42,8 @@ the host attribute. Returns self.
 #include "IoUnixPath.h"
 #include "Address.h"
 
+static const char *protoId = "Socket";
+
 IoSocket *IoMessage_locals_socketArgAt_(IoMessage *self, IoObject *locals, int n)
 {
 	IoObject *v = IoMessage_locals_valueArgAt_(self, locals, n);
@@ -77,6 +79,8 @@ IoObject *IoMessage_locals_addressArgAt_(IoMessage *self, IoObject *locals, int 
 #endif
 		IoMessage_locals_numberArgAt_errorForType_(self, locals, n, type);
 	}
+	
+	return IONIL(self);
 }
 
 Address *IoSocket_rawAddressFrom_(IoObject *addr)
@@ -123,7 +127,7 @@ IoSocket *IoSocket_proto(void *state)
 	IoObject_tag_(self, IoSocket_newTag(state));
 	IoObject_setDataPointer_(self, Socket_new());
 
-	IoState_registerProtoWithFunc_((IoState *)state, self, IoSocket_proto);
+	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -188,7 +192,7 @@ IoSocket *IoSocket_rawClone(IoSocket *proto)
 
 IoSocket *IoSocket_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoSocket_proto);
+	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 

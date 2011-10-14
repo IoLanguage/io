@@ -13,25 +13,9 @@
 #include "IoNumber.h"
 #include "Io2Objc.h"
 #include "Objc2Io.h"
+#include "CHash_ObjcBridgeFunctions.h"
 
-
-int Pointer_equals_(void *v1, void *v2)
-{
-	return (uintptr_t)v1 == (uintptr_t)v2;
-}
-
-uintptr_t Pointer_superfastHash(const void *v)
-{
-	return SuperFastHash((char *)&v, sizeof(void *));
-}
-
-uintptr_t Pointer_murmurHash(const void *v)
-{
-	return (uintptr_t)MurmurHash2((const void *)&v, sizeof(void *), 0);
-}
-
-
-
+static const char *protoId = "ObjcBridge";
 
 #define DATA(self) ((IoObjcBridgeData *)IoObject_dataPointer(self))
 
@@ -70,6 +54,7 @@ List *IoObjcBridge_allClasses(IoObjcBridge *self)
 		{
 			List_append_(DATA(self)->allClasses, classes[n]);
 		}
+		
 		objc_free(classes); // memory leak - test
 		return DATA(self)->allClasses;
 	}
@@ -93,20 +78,16 @@ IoObjcBridge *IoObjcBridge_proto(void *state)
 	IoObject_setDataPointer_(self, objc_calloc(1, sizeof(IoObjcBridgeData)));
 
 	DATA(self)->io2objcs = CHash_new();
-	CHash_setEqualFunc_(DATA(self)->io2objcs, (CHashEqualFunc *)Pointer_equals_);
-	CHash_setHash1Func_(DATA(self)->io2objcs, (CHashHashFunc *)Pointer_superfastHash);
-	CHash_setHash2Func_(DATA(self)->io2objcs, (CHashHashFunc *)Pointer_murmurHash);
+    CHash_setObjcBridgeHashFunctions(DATA(self)->io2objcs);
 	
 	DATA(self)->objc2ios = CHash_new();
-	CHash_setEqualFunc_(DATA(self)->objc2ios, (CHashEqualFunc *)Pointer_equals_);
-	CHash_setHash1Func_(DATA(self)->objc2ios, (CHashHashFunc *)Pointer_superfastHash);
-	CHash_setHash2Func_(DATA(self)->objc2ios, (CHashHashFunc *)Pointer_murmurHash);	
+    CHash_setObjcBridgeHashFunctions(DATA(self)->objc2ios);
 	
 	IoObjcBridge_setMethodBuffer_(self, "nop");
 
 	sharedBridge = self;
 
-	IoState_registerProtoWithFunc_(state, self, IoObjcBridge_proto);
+	IoState_registerProtoWithFunc_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -134,12 +115,13 @@ IoObjcBridge *IoObjcBridge_rawClone(IoObjcBridge *self)
 
 IoObjcBridge *IoObjcBridge_new(void *state)
 {
-	return IoState_protoWithInitFunction_(state, IoObjcBridge_proto);
+	return sharedBridge;
+	//return IoState_protoWithInitFunction_(state, protoId);
 }
 
 void IoObjcBridge_free(IoObjcBridge *self)
 {
-	sharedBridge = NULL;
+	//sharedBridge = NULL;
 	
 	CHASH_FOREACH(DATA(self)->objc2ios, k, v, [(id)v autorelease]);
 	CHASH_FOREACH(DATA(self)->io2objcs, k, v, Io2Objc_nullObjcBridge(v));
@@ -244,12 +226,14 @@ void *IoObjcBridge_proxyForId_(IoObjcBridge *self, id obj)
 		Io2Objc_setObject(v, obj);
 		CHash_at_put_(DATA(self)->io2objcs, obj, v);
 	}
+	
 	return v;
 }
 
 void *IoObjcBridge_proxyForIoObject_(IoObjcBridge *self, IoObject *v)
 {
 	Objc2Io *obj = CHash_at_(DATA(self)->objc2ios, v);
+	
 	if (!obj)
 	{
 		obj = [[[Objc2Io alloc] init] autorelease];
@@ -258,9 +242,10 @@ void *IoObjcBridge_proxyForIoObject_(IoObjcBridge *self, IoObject *v)
 		//CHash_at_put_(DATA(self)->objc2ios, IOREF(v), obj);
 		IoObjcBridge_addValue_(self, v, obj);
 	}
+	
 	return obj;
 }
-
+ 
 IoMessage *IoObjcBridge_ioMessageForNSInvocation_(IoObjcBridge *self, NSInvocation *invocation)
 {
 	//printf("IoObjcBridge_ioMessageForNSInvocation_\n");
@@ -268,9 +253,25 @@ IoMessage *IoObjcBridge_ioMessageForNSInvocation_(IoObjcBridge *self, NSInvocati
 	BOOL debug = IoObjcBridge_rawDebugOn(self);
 	NSMethodSignature *signature = [invocation methodSignature];
 	char *methodName = IoObjcBridge_ioMethodFor_(self, (char *)sel_getName([invocation selector]));
+	
+	if(!strcmp(methodName, "sheetDidEnd:returnCode:contextInfo:"))
+	{
+		debug ++;
+		signature = [NSMethodSignature signatureWithObjCTypes:"^@:iiii"];
+		//signature = [NSMethodSignature signatureWithObjCTypes:"@:@q^v"];
+
+		//methodName = "sheetDidEnd:returnCode:contextInfo:";
+		//signature = [NSObject methodSignatureForSelector:NSSelectorFromString(@"my_sheetDidEnd:returnCode:contextInfo:")];
+	}
+	
 	IoMessage *message = IoMessage_newWithName_(IOSTATE, IoState_symbolWithCString_(IOSTATE, methodName));
 	const char *returnType = [[invocation methodSignature] methodReturnType];
-	if (!*returnType) returnType = "?";
+	
+	if (!*returnType) 
+	{
+		returnType = "?";
+	}
+	
 	if (debug)
 	{
 		IoState_print_(IOSTATE, "Objc -> Io: ");
@@ -278,26 +279,35 @@ IoMessage *IoObjcBridge_ioMessageForNSInvocation_(IoObjcBridge *self, NSInvocati
 		IoState_print_(IOSTATE, " (%s)", IoObjcBridge_nameForTypeChar_(self, *returnType));
 		IoState_print_(IOSTATE, "%s(", methodName);
 	}
+
 	for (index = 2; index < [signature numberOfArguments]; index++)
 	{
 		char *error;
 		const char *type = [signature getArgumentTypeAtIndex:index];
 		//unsigned char buffer[[signature argumentSizeAtIndex:index]];
 		unsigned char buffer[10];
+		
 		if (debug)
 		{
 			if (2 < index) printf(", ");
-			printf("%s", IoObjcBridge_nameForTypeChar_(self, *type));
+			printf("%s [%c]", IoObjcBridge_nameForTypeChar_(self, *type), *type);
 		}
 		[invocation getArgument:buffer atIndex:index];
 		IoMessage_setCachedArg_to_(message, index-2, IoObjcBridge_ioValueForCValue_ofType_error_(self, buffer, (char *)type, &error));
 		if (error)
 			IoState_error_(IOSTATE, message, "Io IoObjcBridge ioMessageForNSInvocation %s - argtype:'%s' argnum:%i", error, type, index-2);
 	}
-	if (debug)
+	
+	if (debug) 
 	{
 		printf(")\n");
 	}
+	
+	if(!strcmp(methodName, "sheetDidEnd:returnCode:contextInfo:"))
+	{
+		debug --;
+	}
+	
 	return message;
 }
 
@@ -337,10 +347,12 @@ const char *IoObjcBridge_selectorEncoding(IoObjcBridge *self, SEL selector)
 	if (description.name) return description.types;
 
 	List *classes = IoObjcBridge_allClasses(self);
-	int i, max = List_size(classes);
+	size_t i, max = List_size(classes);
+	
 	for (i = 0; i < max; i++)
 	{
 		Class class = List_at_(classes, i);
+		//if(i == 145) NSLog(@"className 145: %@", NSStringFromClass(class));
 		Method method = class_getInstanceMethod(class, selector);
 		if (!method) method = class_getClassMethod(class, selector);
 		if (method)
@@ -355,44 +367,105 @@ const char *IoObjcBridge_selectorEncoding(IoObjcBridge *self, SEL selector)
 
 IoObject *IoObjcBridge_ioValueForCValue_ofType_error_(IoObjcBridge *self, void *cValue, const char *cType, char **error)
 {
+    #warning IoObjcBridge_ioValueForCValue_ofType_error_ doesn't check for cycles
 	*error = NULL;
+	//printf("cType: %s\n", cType);
 	switch (*cType)
 	{
 		case '@':
 		{
 			id object = *(id *)cValue;
+			
 			if (!object)
+			{
 				return IONIL(self);
-		//	else if ([object isKindOfClass:[NSString class]])
-		//		return IOSYMBOL((char *)[object cString]);
-		//	else if ([object isKindOfClass:[NSNumber class]])
-		//		return IONUMBER([object doubleValue]);
+			}
 			else if ([object isKindOfClass:[Objc2Io class]])
+			{
 				return [object ioValue];
+			}
+			else if ([object isKindOfClass:[NSString class]])
+			{
+				return IOSYMBOL([object UTF8String]);
+			}
+			else if ([object isKindOfClass:[NSNumber class]])
+			{
+				return IONUMBER([object doubleValue]);
+			}
+			else if ([object isKindOfClass:[NSArray class]])
+			{
+				IoList *ioList = IoList_new(IOSTATE);
+				
+				for(id v in (NSArray *)object)
+				{
+                    IoObject *ioValue = IoObjcBridge_ioValueForCValue_ofType_error_(self, &v, "@", error);
+                    if (*error)
+                    {
+                        return IONIL(self);
+                    }
+                    else
+                    {
+                        IoList_rawAppend_(ioList, ioValue);
+                    }
+				}
+				return ioList;
+			}
+            else if ([object isKindOfClass:[NSDictionary class]])
+			{
+				IoMap *ioMap = IoMap_new(IOSTATE);
+				for(id k in [(NSDictionary *)object allKeys])
+				{
+                    id v = [(NSDictionary *)object objectForKey:k];
+                    
+                    IoObject *ioValue;
+                    
+                    if ([k isKindOfClass:[NSString class]])
+                    {
+                        ioValue = IoObjcBridge_ioValueForCValue_ofType_error_(self, &v, "@", error);
+                        if (*error)
+                        {
+                            return IONIL(self);
+                        }
+                    }
+                    else
+                    {
+                        ioValue = IoObjcBridge_proxyForId_(self, v);
+                    }
+                    
+                    IoMap_rawAtPut(ioMap, IOSYMBOL([(NSString *)k UTF8String]), ioValue);
+				}
+                return ioMap;
+			}
 			else
+			{
 				return IoObjcBridge_proxyForId_(self, object);
+			}
 		}
 		case '#':
 		{
 			Class class = *(Class *)cValue;
+			
 			if (!class)
+			{
 				return IONIL(self);
-		//	else if ([class isKindOfClass:[NSString class]])
-		//		return IOSYMBOL((char *)[class cString]);
-		//	else if ([class isKindOfClass:[NSNumber class]])
-		//		return IONUMBER([class doubleValue]);
-		//	else if ([class isKindOfClass:[Objc2Io class]])
-		//		return [class ioValue];
+			}
 			else
+			{
 				return IoObjcBridge_proxyForId_(self, class);
+			}
 		}
 		case ':':
 		{
 			SEL selector = *(SEL *)cValue;
+			
 			if (selector)
-				return IOSYMBOL(sel_getName(selector));
+			{
+				return IOSYMBOL(sel_getName(selector)); 
+			}
 			else
+			{
 				*error = "null selector";
+			}
 			break;
 		}
 		case 'c': return IoNumber_newWithDouble_(IOSTATE, *(char *)cValue);
@@ -408,13 +481,20 @@ IoObject *IoObjcBridge_ioValueForCValue_ofType_error_(IoObjcBridge *self, void *
 		case 'f': return IoNumber_newWithDouble_(IOSTATE, *(float *)cValue);
 		case 'd': return IoNumber_newWithDouble_(IOSTATE, *(double *)cValue);
 		case 'B': return IoNumber_newWithDouble_(IOSTATE, *(int *)cValue);  // C++ bool
-		//case 'v': return IoNumber_newWithDouble_(IOSTATE, (long)cValue);  // ????
+		//case 'v': return IONIL(IOSTATE);  // void
 		case '*': return IoState_symbolWithCString_(IOSTATE, *(char **)cValue);
-			//case '@': return IoState_symbolWithCString_(IOSTATE, (id *)cValue); 
 			//case ':': return IoState_symbolWithCString_(IOSTATE, (SEL *)cValue); 
 		//case '[': an array
 				
 		case '{':
+			if (!strncmp(cType, "{CGPoint=dd}", 12))
+			{
+				CGPoint p = *(CGPoint *)cValue;
+				vec2f v;
+				v.x = p.x;
+				v.y = p.y;
+				return IoSeq_newVec2f(IOSTATE, v);
+			}
 			if (!strncmp(cType, "{_NSPoint=ff}", 13))
 			{
 				NSPoint p = *(NSPoint *)cValue;
@@ -431,14 +511,48 @@ IoObject *IoObjcBridge_ioValueForCValue_ofType_error_(IoObjcBridge *self, void *
 				v.y = s.height;
 				return IoSeq_newVec2f(IOSTATE, v);
 			}
+			else if (!strncmp(cType, "{CGSize=dd}", 11))
+			{
+				CGSize s = *(CGSize *)cValue;
+				vec2f v;
+				v.x = s.width;
+				v.y = s.height;
+				return IoSeq_newVec2f(IOSTATE, v);
+			}
 			else if (!strncmp(cType, "{_NSRect={_NSPoint=ff}{_NSSize=ff}}", 35))
 			{
 				NSRect r = *(NSRect *)cValue;
 				return IoBox_newSet(IOSTATE, r.origin.x, r.origin.y, 0, r.size.width, r.size.height, 0);
 			}
+			else if (!strncmp(cType, "{CGRect={CGPoint=dd}{CGSize=dd}}", 32))
+			{
+				NSRect r = *(NSRect *)cValue;
+				return IoBox_newSet(IOSTATE, r.origin.x, r.origin.y, 0, r.size.width, r.size.height, 0);
+			}
+			else
+			{
+				*error = "unsupported struct";
+			}
+			break;
+		case '^':
+			if (!strncmp(cType, "^v", 2))
+			{
+				return IONIL(self);
+				// do we assume it's an Io object? how do we test for that?
+				//IoObject *iobj = *(IoObject **)cValue;
+				//if (!iobj) return IONIL(self);
+				//return iobj;
+			}
+			else
+			{
+				*error = "unsupported pointer type";
+			}
+			break;
+			
 		default:
 			*error = "no match for argument type";
 	}
+	
 	return IONIL(self);
 }
 
@@ -449,6 +563,7 @@ IoObject *IoObjcBridge_ioValueForCValue_ofType_error_(IoObjcBridge *self, void *
 void *IoObjcBridge_cValueForIoObject_ofType_error_(IoObjcBridge *self, IoObject *value, const char *cType, char **error)
 {
 	*error = NULL;
+	
 	switch (*cType)
 	{
 		case '@':
@@ -465,22 +580,22 @@ void *IoObjcBridge_cValueForIoObject_ofType_error_(IoObjcBridge *self, IoObject 
 			else if (ISLIST(value))
 			{
 				char *error;
-				int i, count = IoList_rawSize(value);
+				size_t i, count = IoList_rawSize(value);
 				id objects[count];
 				for (i = 0; i < count; i ++)
-					objects[i] = *(id *)IoObjcBridge_cValueForIoObject_ofType_error_(self, IoList_rawAt_(value, i), "@", &error);
+					objects[i] = *(id *)IoObjcBridge_cValueForIoObject_ofType_error_(self, IoList_rawAt_(value, (int)i), "@", &error);
 				DATA(self)->cValue.o = [NSArray arrayWithObjects:objects count:count];
 			}
 			else if (ISMAP(value))
 			{
 				char *error;
 				IoList *list = IoMap_rawKeys(value);
-				int i, count = IoList_rawSize(list);
+				size_t i, count = IoList_rawSize(list);
 				id keys[count], objects[count];
 				for (i = 0; i < count; i ++)
 				{
-					keys[i] = *(id *)IoObjcBridge_cValueForIoObject_ofType_error_(self, IoList_rawAt_(list, i), "@", &error);
-					objects[i] = *(id *)IoObjcBridge_cValueForIoObject_ofType_error_(self, IoMap_rawAt(value, IoList_rawAt_(list, i)), "@", &error);
+					keys[i] = *(id *)IoObjcBridge_cValueForIoObject_ofType_error_(self, IoList_rawAt_(list, (int)i), "@", &error);
+					objects[i] = *(id *)IoObjcBridge_cValueForIoObject_ofType_error_(self, IoMap_rawAt(value, IoList_rawAt_(list, (int)i)), "@", &error);
 				}
 				DATA(self)->cValue.o = [NSDictionary dictionaryWithObjects:objects forKeys:keys count:count];
 			}
@@ -519,7 +634,7 @@ void *IoObjcBridge_cValueForIoObject_ofType_error_(IoObjcBridge *self, IoObject 
 			else
 				*error = "requires a number";
 			break;
-		case 'Q':
+		case 'Q':case 'q':
 			if (ISNUMBER(value))
 				DATA(self)->cValue.LL = IoNumber_asLong(value);
 			else
@@ -554,26 +669,51 @@ void *IoObjcBridge_cValueForIoObject_ofType_error_(IoObjcBridge *self, IoObject 
 			// fall through to '*' if strings are equal
 		case '*':
 			if (ISSYMBOL(value))
+			{
 				DATA(self)->cValue.cp = CSTRING(value);
+			}
 			else
+			{
 				*error = "requires a string";
-			break;
+				break;
+			}
 		case '^':
 			if (!strncmp(cType, "^@", 2))
+			{
 				if (ISIO2OBJC(value))
+				{
 					DATA(self)->cValue.v = &((Io2ObjcData *)IoObject_dataPointer(value))->object;
+				}
 				else
+				{
 					*error = "requires an Io2Objc";
+				}
+			}
 			else if (!strncmp(cType, "^v", 2))
+			{
 				if (ISSYMBOL(value))
+				{
 					DATA(self)->cValue.v = CSTRING(value);
+				}
+				else if(ISNIL(value))
+				{
+					DATA(self)->cValue.v = nil;
+				}
 				else
-					*error = "requires a string";
+				{
+					//DATA(self)->cValue.v = value; //not safe
+					DATA(self)->cValue.v = (void *)0x0;
+					//*error = "requires a string";
+				}
+			}
 			else
+			{
 				*error = "no match for argument type";
+			}
 			break;
 		case '{':
-			if (!strncmp(cType, "{_NSPoint=ff}", 13))
+			if (!strcmp(cType, "{_NSPoint=ff}"))
+			{
 				if (ISVECTOR(value))
 				{
 					vec2f v = IoSeq_vec2f(value);
@@ -581,8 +721,25 @@ void *IoObjcBridge_cValueForIoObject_ofType_error_(IoObjcBridge *self, IoObject 
 					DATA(self)->cValue.point.y = v.y;
 				}
 				else
+				{
 					*error = "requires a Point";
-			else if (!strncmp(cType, "{_NSSize=ff}", 12))
+				}
+			}
+			else if (!strcmp(cType, "{CGPoint=dd}"))
+			{
+				if (ISVECTOR(value))
+				{
+					vec2f v = IoSeq_vec2f(value);
+					DATA(self)->cValue.point.x = v.x;
+					DATA(self)->cValue.point.y = v.y;
+				}
+				else
+				{
+					*error = "requires a Point";
+				}
+			}
+			else if (!strcmp(cType, "{_NSSize=ff}"))
+			{
 				if (ISVECTOR(value))
 				{
 					vec2f v = IoSeq_vec2f(value);
@@ -590,27 +747,68 @@ void *IoObjcBridge_cValueForIoObject_ofType_error_(IoObjcBridge *self, IoObject 
 					DATA(self)->cValue.size.height = v.y;
 				}
 				else
+				{
 					*error = "requires a Point";
-			else if (!strncmp(cType, "{_NSRect={_NSPoint=ff}{_NSSize=ff}}", 35))
+				}
+			}
+			else if (!strcmp(cType, "{CGSize=dd}"))
+			{
+				if (ISVECTOR(value))
+				{
+					vec2f v = IoSeq_vec2f(value);
+					DATA(self)->cValue.size.width  = v.x;
+					DATA(self)->cValue.size.height = v.y;
+				}
+				else
+				{
+					*error = "requires a Point";
+				}
+			}
+			else if (!strcmp(cType, "{_NSRect={_NSPoint=ff}{_NSSize=ff}}"))
+			{
 				if (ISBOX(value))
 				{
 					vec2f v1 = IoSeq_vec2f(IoBox_rawOrigin(value));
 					vec2f v2 = IoSeq_vec2f(IoBox_rawSize(value));
 					
 					DATA(self)->cValue.rect.origin.x = v1.x;
-					DATA(self)->cValue.rect.origin.y = v1. y;
+					DATA(self)->cValue.rect.origin.y = v1.y;
 					
 					DATA(self)->cValue.rect.size.width  = v2.x;
 					DATA(self)->cValue.rect.size.height = v2.y;
 				}
 				else
+				{
 					*error = "requires a Box containing 2 points";
+				}
+			}
+			else if (!strcmp(cType, "{CGRect={CGPoint=dd}{CGSize=dd}}"))
+			{
+				if (ISBOX(value))
+				{
+					vec2f v1 = IoSeq_vec2f(IoBox_rawOrigin(value));
+					vec2f v2 = IoSeq_vec2f(IoBox_rawSize(value));
+					
+					DATA(self)->cValue.rect.origin.x = v1.x;
+					DATA(self)->cValue.rect.origin.y = v1.y;
+					
+					DATA(self)->cValue.rect.size.width  = v2.x;
+					DATA(self)->cValue.rect.size.height = v2.y;
+				}
+				else
+				{
+					*error = "requires a Box containing 2 points";
+				}
+			}
 			else
+			{
 				*error = "no match for argument type";
+			}
 			break;
 		default:
 			*error = "no match for argument type";
 	}
+	
 	return &DATA(self)->cValue;
 }
 
@@ -618,12 +816,14 @@ void *IoObjcBridge_cValueForIoObject_ofType_error_(IoObjcBridge *self, IoObject 
 
 void IoObjcBridge_setMethodBuffer_(IoObjcBridge *self, char *name)
 {
-	int length = strlen(name);
+	size_t length = strlen(name);
+	
 	if (length > DATA(self)->methodNameBufferSize)
 	{
 		DATA(self)->methodNameBuffer = objc_realloc(DATA(self)->methodNameBuffer, length+1);
-		DATA(self)->methodNameBufferSize = length;
+		DATA(self)->methodNameBufferSize = (int)length;
 	}
+	
 	strcpy(DATA(self)->methodNameBuffer, name);
 }
 
@@ -659,8 +859,10 @@ IoObject *IoObjcBridge_newClassNamed_withProto_(IoObjcBridge *self, IoObject *lo
 	Class sub = objc_lookUpClass(subClassName);
 
 	if (sub)
+	{
 		IoState_error_(IOSTATE, m, "Io ObjcBridge newClassNamed_withProto_ '%s' class already exists", subClassName);
-
+	}
+	
 	sub = [ObjcSubclass newClassNamed:ioSubClassName proto:proto];
 	return IoObjcBridge_proxyForId_(self, sub);
 }
@@ -680,6 +882,7 @@ char *IoObjcBridge_nameForTypeChar_(IoObjcBridge *self, char type)
 		case 'I': return "unsigned int";
 		case 'l': return "long";
 		case 'L': return "unsigned long";
+		case 'q': return "long long";
 		case 'f': return "float";
 		case 'd': return "double";
 		case 'b': return "bitfield";

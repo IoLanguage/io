@@ -10,6 +10,9 @@
 
 #define EVENT(self) ((struct event *)IoObject_dataPointer(self))
 
+static const char *protoId = "Event";
+
+
 IoEvent *IoMessage_locals_eventArgAt_(IoMessage *self, IoObject *locals, int n)
 {
 	IoObject *v = IoMessage_locals_valueArgAt_(self, locals, n);
@@ -38,7 +41,7 @@ IoEvent *IoEvent_proto(void *state)
 	IoObject_tag_(self, IoEvent_newTag(state));
 	IoObject_setDataPointer_(self, (struct event *)io_calloc(1, sizeof(struct event)));
 
-	IoState_registerProtoWithFunc_((IoState *)state, self, IoEvent_proto);
+	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -68,7 +71,7 @@ IoEvent *IoEvent_rawClone(IoEvent *proto)
 
 IoEvent *IoEvent_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoEvent_proto);
+	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 
@@ -98,7 +101,7 @@ void IoEvent_free(IoEvent *self)
 
 	/*
 	{
-		IoEventManager *em = IoState_protoWithInitFunction_(IOSTATE, IoEventManager_proto);
+		IoEventManager *em = IoState_protoWithInitFunction_(IOSTATE, protoId);
 		
 		if(em && IoEventManager_rawHasActiveEvent_(em, self))
 		{

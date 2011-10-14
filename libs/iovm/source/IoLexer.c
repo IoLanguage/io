@@ -472,7 +472,7 @@ int IoLexer_grabLength(IoLexer *self)
 	char *s1 = IoLexer_lastPos(self);
 	char *s2 = IoLexer_current(self);
 
-	return s2 - s1;
+	return (int)(s2 - s1);
 }
 
 void IoLexer_grabTokenType_(IoLexer *self, IoTokenType type)
@@ -495,7 +495,7 @@ IoToken *IoLexer_addTokenString_length_type_(IoLexer *self, const char *s1, size
 	IoToken *top = IoLexer_currentToken(self);
 	IoToken *t = IoToken_new();
 
-	t->lineNumber = IoLexer_currentLineNumber(self);
+	t->lineNumber = (int)IoLexer_currentLineNumber(self);
 	//t->charNumber = (int)(s1 - self->s);
 	t->charNumber = (int)(self->current - self->s);
 
@@ -966,7 +966,7 @@ int IoLexer_readTokenString_(IoLexer *self, const char *s)
 
 int IoLexer_readString_(IoLexer *self, const char *s)
 {
-	int len = strlen(s);
+	size_t len = strlen(s);
 
 	if (IoLexer_onNULL(self))
 	{

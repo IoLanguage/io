@@ -44,7 +44,6 @@
 .DS_Store
 .libs
 .deps*
-*.a
 *.la
 *.lo
 *.so
@@ -95,3 +94,5 @@ cmake_install.cmake
 install_manifest.txt
 Makefile
 IoInstallPrefix.h
+xcuserdata
+build

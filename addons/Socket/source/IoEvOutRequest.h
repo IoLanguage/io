@@ -32,4 +32,21 @@ IoObject *IoEvOutRequest_encodeUri(IoEvOutRequest *self, IoObject *locals, IoMes
 IoObject *IoEvOutRequest_decodeUri(IoEvOutRequest *self, IoObject *locals, IoMessage *m);
 IoObject *IoEvOutRequest_htmlEscape(IoEvOutRequest *self, IoObject *locals, IoMessage *m);
 
+/*
+//TODO: Cheap hack, clean this shit
+#ifndef __linux__
+struct evbuffer {
+    u_char *buffer;
+    u_char *orig_buffer;
+    
+    size_t misalign;
+    size_t totallen;
+    size_t off;
+
+    void (*cb)(struct evbuffer *, size_t, size_t, void *);
+    void *cbarg;
+}; 
+#endif // ndef __linux__ 
+*/
+
 #endif

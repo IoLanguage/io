@@ -100,7 +100,7 @@ void IoBox_glInit(IoObject *context)
 {
 	IoState *state = IoObject_state(context);
 
-	IoObject *self = IoState_protoWithInitFunction_(state, IoBox_proto);
+	IoObject *self = IoState_protoWithInitFunction_(state, IoBox_protoId());
 
 	{
 		IoMethodTable methodTable[] = {

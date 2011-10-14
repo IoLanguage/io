@@ -8,15 +8,17 @@
 #include "List.h"
 #include "IoBlock.h"
 
+static const char *protoId = "Io2Objc";
+
 #define DATA(self) ((Io2ObjcData *)IoObject_dataPointer(self))
 
 IoTag *Io2Objc_newTag(void *state)
 {
 	IoTag *tag = IoTag_newWithName_("Io2Objc");
 	IoTag_state_(tag, state);
-	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)Io2Objc_rawClone);
-	IoTag_freeFunc_(tag, (IoTagFreeFunc *)Io2Objc_free);
-	IoTag_markFunc_(tag, (IoTagMarkFunc *)Io2Objc_mark);
+	IoTag_cloneFunc_(tag,   (IoTagCloneFunc *)Io2Objc_rawClone);
+	IoTag_freeFunc_(tag,    (IoTagFreeFunc *)Io2Objc_free);
+	IoTag_markFunc_(tag,    (IoTagMarkFunc *)Io2Objc_mark);
 	IoTag_performFunc_(tag, (IoTagPerformFunc *)Io2Objc_perform);
 	return tag;
 }
@@ -33,7 +35,7 @@ Io2Objc *Io2Objc_proto(void *state)
 	DATA(self)->object = nil;
 	DATA(self)->bridge = IoObjcBridge_sharedBridge();
 	assert(DATA(self)->bridge != NULL);
-	IoState_registerProtoWithFunc_(state, self, Io2Objc_proto);
+	IoState_registerProtoWithFunc_(state, self, protoId);
 
 	IoMethodTable methodTable[] = {
 		{"newSubclassNamed:", Io2Objc_newSubclassNamed},
@@ -43,6 +45,7 @@ Io2Objc *Io2Objc_proto(void *state)
 		{"super", Io2Objc_super},
 		//{"print", Io2Objc_print},
 		//{"slotSummary", Io2Objc_slotSummary},
+		//{"io2ObjcType", Io2Objc_io2ObjcType},
 		{NULL, NULL}
 	};
 	IoObject_addMethodTable_(self, methodTable);
@@ -61,7 +64,7 @@ Io2Objc *Io2Objc_rawClone(Io2Objc *proto)
 
 Io2Objc *Io2Objc_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, Io2Objc_proto);
+	IoObject *proto = IoState_protoWithInitFunction_(state, protoId);
 	return IOCLONE(proto);
 }
 
@@ -75,10 +78,15 @@ Io2Objc *Io2Objc_newWithId_(void *state, id obj)
 void Io2Objc_free(Io2Objc *self)
 {
 	id object = DATA(self)->object;
-	if (IoObjcBridge_sharedBridge()) IoObjcBridge_removeId_(DATA(self)->bridge, object);
+	if (IoObjcBridge_sharedBridge()) 
+	{
+		IoObjcBridge_removeId_(DATA(self)->bridge, object);
+	}
 	//printf("Io2Objc_free %p that referenced a %s\n", (void *)object, [[object className] cString]);
-	if (object != nil && [object class] != object) // && (((Class)object)->info & CLS_META) != CLS_META)
+    if (object != nil && !class_isMetaClass([object class]))
+	{
 		[object autorelease];
+	}
 	objc_free(DATA(self)->returnBuffer);
 	objc_free(DATA(self));
 	IoObject_dataPointer(self) = NULL;
@@ -96,10 +104,14 @@ void Io2Objc_setBridge(Io2Objc *self, void *bridge)
 
 void Io2Objc_setObject(Io2Objc *self, void *object)
 {
-	if (object != nil && ([(id)object class] != (id)object)) //&& (((Class)object)->info & CLS_META) != CLS_META)
+	if (object != nil && !class_isMetaClass([(id)object class]))
+	{
 		DATA(self)->object = [(id)object retain];
+	}
 	else
+	{
 		DATA(self)->object = (id)object;
+	}
 }
 
 void *Io2Objc_object(Io2Objc *self)
@@ -124,26 +136,38 @@ IoObject *Io2Objc_perform(Io2Objc *self, IoObject *locals, IoMessage *m)
 	id object = DATA(self)->object;
 	BOOL debug = IoObjcBridge_rawDebugOn(DATA(self)->bridge);
 	IoObject *result;
+	
 
-	//NSLog(@"[%@<%i> %s]", NSStringFromClass( [object class] ), object, CSTRING(m->method));
-
+	if(strcmp(methodName, "io2ObjcType") == 0)
+	{
+		return IOSYMBOL([[object className] UTF8String]);
+	}
+	
+	if(debug)
+	{
+		//printf(":: [%s<%p> %s]\n", [[object className] UTF8String], (void *)object, methodName);
+		printf(":: [%s %s]\n", [[object className] UTF8String], methodName);
+	}
+	
 	// see if receiver can handle message -------------
 
 	BOOL respondsToSelector;
-	if (object != nil && [object class] == object) //(((Class)object)->info & CLS_META) == CLS_META)
+	
+	if (object != nil && class_isMetaClass([object class]))
 	{
-		//((Class)object)->info ^= CLS_CLASS;
-		//((Class)object)->info ^= CLS_META;
-		respondsToSelector = [object respondsToSelector:selector];
-		//((Class)object)->info ^= CLS_META;
-		//((Class)object)->info ^= CLS_CLASS;
+		respondsToSelector = [object instancesRespondToSelector:selector];
 	}
 	else
+	{
 		respondsToSelector = [object respondsToSelector:selector];
-
+	}
+	
 	if (!respondsToSelector)
+	{
+		printf("![%s respondsToSelector:'%s']\n", [[object className] UTF8String], methodName);
 		return IoObject_perform(self, locals, m);
-
+	}
+	
 	methodSignature = [object methodSignatureForSelector:selector];
 
 	/* --- create an invocation ------------- */
@@ -162,28 +186,37 @@ IoObject *Io2Objc_perform(Io2Objc *self, IoObject *locals, IoMessage *m)
 
 	/* --- attach arguments to invocation --- */
 	{
-		int n, max = [methodSignature numberOfArguments];
+		size_t n, max = [methodSignature numberOfArguments];
+		
 		for (n = 2; n < max; n++)
 		{
 			char *error;
 			const char *cType = [methodSignature getArgumentTypeAtIndex:n];
-			IoObject *ioValue = IoMessage_locals_valueArgAt_(m, locals, n-2);
+			IoObject *ioValue = IoMessage_locals_valueArgAt_(m, locals, (int)n-2);
 			void *cValue = IoObjcBridge_cValueForIoObject_ofType_error_(DATA(self)->bridge, ioValue, cType, &error);
+			
 			if (debug)
 			{
 				printf("%s", IoObjcBridge_nameForTypeChar_(DATA(self)->bridge, *cType));
 				if (n < max - 1)
+				{
 					printf(", ");
+				}
 			}
 			if (error)
-				IoState_error_(IOSTATE, m, "Io Io2Objc perform %s - argtype:'%s' argnum:%i", error, cType, n-2);
+			{
+				IoState_error_(IOSTATE, m, "Io Io2Objc perform '%s' - argtype:'%s' argnum:%i ioArgPassed:%s", error, cType, n-2, IoObject_name(ioValue));
+			}
 			[invocation setArgument:cValue atIndex:n]; /* copies the contents of value as a buffer of the appropriate size */
 		}
 	}
 
 	if (debug)
+	{
 		IoState_print_(IOSTATE, ")\n");
-
+		fflush(stdout);
+	}
+	
 	/* --- invoke --------------------------- */
 	{
 		@try 
@@ -203,22 +236,42 @@ IoObject *Io2Objc_perform(Io2Objc *self, IoObject *locals, IoMessage *m)
 	{
 		char *error;
 		const char *cType = [methodSignature methodReturnType];
-		unsigned int length = [methodSignature methodReturnLength];
+		size_t length = [methodSignature methodReturnLength];
 
 		if (*cType == 'v')
+		{
 			return IONIL(self); /* void */
-
+		}
+		
 		if ((unsigned int)DATA(self)->returnBufferSize < length)
 		{
 			DATA(self)->returnBuffer = objc_realloc(DATA(self)->returnBuffer, length);
-			DATA(self)->returnBufferSize = length;
+			DATA(self)->returnBufferSize = (int)length;
 		}
 
 		[invocation getReturnValue:DATA(self)->returnBuffer];
 		result = IoObjcBridge_ioValueForCValue_ofType_error_(DATA(self)->bridge, DATA(self)->returnBuffer, cType, &error);
+
 		if (error)
+		{
 			IoState_error_(IOSTATE, m, "Io Io2Objc perform %s - return type:'%s'", error, cType);
+		}
+		else if(debug)
+		{
+			if(ISIO2OBJC(result))
+			{
+				IoState_print_(IOSTATE, "Io -> Objc: return %s %s %s\n", 
+							   cType, 
+							   IoObject_name(result),
+							   [[(id)Io2Objc_object(result) className] UTF8String]);
+			}
+			else
+			{
+				IoState_print_(IOSTATE, "Io -> Objc: RETURN %s %s\n", cType, IoObject_name(result));
+			}
+		}
 	}
+	
 	return result;
 }
 
@@ -234,20 +287,25 @@ void forwardInvocation(id self, SEL sel, NSInvocation *invocation)
 	char *name = objc_malloc(2 + strlen(sel_getName([invocation selector])));
 	name[0] = '-';
 	name[1] = 0;
-	IoSymbol *symbol = IoState_symbolWithCString_(IoObject_state(bridge), strcat(name, sel_getName([invocation selector])));
+	IoSymbol *symbol = IoState_symbolWithCString_(IoObject_state(bridge), 
+												  strcat(name, sel_getName([invocation selector])));
 	objc_free(name);
 
 	for (class = self->isa ; class != nil ; class = [class superclass]) // class->super_class)
 	{
 		Io2Objc *io2objc = CHash_at_(((IoObjcBridgeData *)DATA(bridge))->io2objcs, class);
 
-		if (io2objc == NULL)
-			continue;
+		if (io2objc == NULL) 
+		{ 
+			continue; 
+		}
 
 		IoObject *slotValue = IoObject_rawGetSlot_context_(io2objc, symbol, &context);
 
-		if (slotValue == NULL)
-			continue;
+		if (slotValue == NULL) 
+		{ 
+			continue; 
+		}
 
 		save = DATA(target)->object->isa;
 		DATA(target)->object->isa = class;
@@ -259,7 +317,11 @@ void forwardInvocation(id self, SEL sel, NSInvocation *invocation)
 			char *error;
 			void *cResult = IoObjcBridge_cValueForIoObject_ofType_error_(bridge, result, returnType, &error);
 			if (error)
-				IoState_error_(IoObject_state(bridge), message, "Io Io2Objc forwardInvocation %s - return type:'%s'", error, returnType);
+			{
+				IoState_error_(IoObject_state(bridge), 
+							   message, 
+							   "Io Io2Objc forwardInvocation %s - return type:'%s'", error, returnType);
+			}
 			[invocation setReturnValue:cResult];
 		}
 		return;
@@ -277,40 +339,37 @@ BOOL respondsToSelector(id self, SEL sel, SEL selector)
 	char *ioMethodName = IoObjcBridge_ioMethodFor_(bridge, (char *)sel_getName(selector));
 
 	if (debug)
+	{
 		IoState_print_(state, "[Io2Objc respondsToSelector:\"%s\"] ", ioMethodName);
-
+	}
+	
 	BOOL result = class_getInstanceMethod(self->isa, selector) ? YES : NO;
 
 	if (debug)
+	{
 		IoState_print_(state, "= %i\n", result);
-
+	}
+	
 	return result;
 }
 
 NSMethodSignature *methodSignatureForSelector(id self, SEL sel, SEL selector)
 {
-	Method method = class_getInstanceMethod(self->isa, selector);
-
-	if (method)
-		return [NSMethodSignature signatureWithObjCTypes:method_getTypeEncoding(method)]; //(method->method_types)];
-	else
-		return nil;
+    return [NSObject instanceMethodSignatureForSelector: selector];
 }
 
 Io2Objc *Io2Objc_newSubclassNamed(Io2Objc *self, IoObject *locals, IoMessage *m)
 {
-/*
-	Class class = objc_makeClass(IoMessage_locals_cStringArgAt_(m, locals, 0), [[DATA(self)->object className] UTF8String], NO);
-	objc_addClass(class);
-	Io_class_addMethod(class, sel_getUid("forwardInvocation:"), "v12@0:4@8", (IMP)forwardInvocation, NO);
-	Io_class_addMethod(class, sel_getUid("forwardInvocation:"), "v12@0:4@8", (IMP)forwardInvocation, YES);
-	Io_class_addMethod(class, sel_getUid("respondsToSelector:"), "C12@0:4:8", (IMP)respondsToSelector, YES);
-	Io_class_addMethod(class, sel_getUid("methodSignatureForSelector:"), "@12@0:4:8", (IMP)methodSignatureForSelector, YES);
-	((IoObjcBridgeData *)DATA(DATA(self)->bridge))->allClasses = NULL;
+	Class class = Io_objc_makeClass(IoMessage_locals_cStringArgAt_(m, locals, 0), [[DATA(self)->object className] UTF8String], NO);
+	Io_class_addMethod(class, sel_getUid("forwardInvocation:"), (IMP)forwardInvocation, "v12@0:4@8", NO);
+	Io_class_addMethod(class, sel_getUid("forwardInvocation:"), (IMP)forwardInvocation, "v12@0:4@8", YES);
+	Io_class_addMethod(class, sel_getUid("respondsToSelector:"), (IMP)respondsToSelector, "C12@0:4:8", YES);
+	Io_class_addMethod(class, sel_getUid("methodSignatureForSelector:"), (IMP)methodSignatureForSelector, "@12@0:4:8", YES);
+    objc_registerClassPair(class);
+	
+    ((IoObjcBridgeData *)DATA(DATA(self)->bridge))->allClasses = NULL;
+
 	return IoObjcBridge_proxyForId_(DATA(self)->bridge, class);
-	*/
-	printf("Io2Objc_newSubclassNamed not supported\n");
-	return nil;
 }
 
 IoObject *Io2Objc_metaclass(Io2Objc *self, IoObject *locals, IoMessage *m)
@@ -335,7 +394,7 @@ IoObject *Io2Objc_setSlot(Io2Objc *self, IoObject *locals, IoMessage *m)
 		if (argCount != expectedArgCount)
 			IoState_error_(IOSTATE, m, "Method '%s' is waiting for %i arguments, %i given\n", CSTRING(slotName), expectedArgCount, argCount);
 		Class class = DATA(self)->object;
-	//	if ((class->info & CLS_CLASS) != CLS_CLASS && (class->info & CLS_META) != CLS_META)
+	//	if (class != nil && !class_isMetaClass([class class]))
 	//		IoState_error_(IOSTATE, m, "You cannot add method '%s' to instance '%s'\n", CSTRING(slotName), [[class description] UTF8String]);
 		Method method = class_getInstanceMethod(class, sel_getUid(CSTRING(slotName)));
 		if (method)
@@ -391,6 +450,7 @@ IoObject *Io2Objc_updateSlot(Io2Objc *self, IoObject *locals, IoMessage *m)
 //	IoSymbol *slotName = IOSYMBOL(name);
 	IoSymbol *slotName = IoMessage_locals_symbolArgAt_(m, locals, 0);
 	IoObject *slotValue = IoMessage_locals_valueArgAt_(m, locals, 1);
+	
 	if (ISBLOCK(slotValue))
 	{
 		unsigned int argCount = IoMessage_argCount(slotValue);
@@ -406,16 +466,26 @@ IoObject *Io2Objc_updateSlot(Io2Objc *self, IoObject *locals, IoMessage *m)
 			IoSymbol *symbol = IoState_symbolWithCString_(IOSTATE, strcat(name, CSTRING(slotName)));
 			objc_free(name);
 			if (IoObject_rawGetSlot_(self, symbol))
+			{
 				IoObject_inlineSetSlot_to_(self, symbol, slotValue);
+			}
 			else
+			{
 				IoState_error_(IOSTATE, m, "Slot %s not found. Must define slot using := operator before updating.", CSTRING(slotName));
+			}
 		}
 	}
 	else
+	{
 		if (IoObject_rawGetSlot_(self, slotName))
+		{
 			IoObject_inlineSetSlot_to_(self, slotName, slotValue);
+		}
 		else
+		{
 			IoState_error_(IOSTATE, m, "Slot %s not found. Must define slot using := operator before updating.", CSTRING(slotName));
+		}
+	}
 	return slotValue;
 }
 
@@ -428,6 +498,17 @@ IoObject *Io2Objc_super(Io2Objc *self, IoObject *locals, IoMessage *m)
 	DATA(self)->object->isa = save;
 	return result;
 }
+
+IoObject *Io2Objc_isIo2Objc(Io2Objc *self, IoObject *locals, IoMessage *m)
+{
+	return IOTRUE(self);
+}
+
+IoObject *Io2Objc_io2ObjcType(Io2Objc *self, IoObject *locals, IoMessage *m)
+{
+	return IOSYMBOL([[(id)Io2Objc_object(self) className] UTF8String]);
+}
+
 
 /*IoObject *Io2Objc_print(Io2Objc *self, IoObject *locals, IoMessage *m)
 {
@@ -457,7 +538,7 @@ IoObject *Io2Objc_super(Io2Objc *self, IoObject *locals, IoMessage *m)
 				}
 			}
 		}
-		class = class->super_class;
+		class = [class superclass];
 	}
 	NSArray *array = [[set allObjects] sortedArrayUsingSelector:@selector(compare:)];
 	[set release];

@@ -28,6 +28,8 @@ Generally, the more objects in your heap, the larger you'll want this number.
 #include "IoList.h"
 #include "IoBlock.h"
 
+//static const char *protoId = "IoCollector";
+
 typedef IoObject IoCollector;
 
 IO_METHOD(IoCollector, collect)
@@ -36,7 +38,7 @@ IO_METHOD(IoCollector, collect)
 	Runs garbage collector. Returns the number of items collected. 
 	*/
 
-	int count = Collector_collect(IOSTATE->collector);
+	size_t count = Collector_collect(IOSTATE->collector);
 	//io_show_mem("after Collector collect");
 	return IONUMBER(count);
 }

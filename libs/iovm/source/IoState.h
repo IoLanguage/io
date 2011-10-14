@@ -170,8 +170,8 @@ void IoState_setupSingletons(IoState *self);
 
 // setup tags
 
-IOVM_API void IoState_registerProtoWithFunc_(IoState *self, IoObject *proto, IoStateProtoFunc *func);
-IOVM_API IoObject *IoState_protoWithInitFunction_(IoState *self, IoStateProtoFunc *func);
+IOVM_API void IoState_registerProtoWithFunc_(IoState *self, IoObject *proto, const char *v);
+IOVM_API IoObject *IoState_protoWithInitFunction_(IoState *self, const char *v);
 IOVM_API IoObject *IoState_protoWithName_(IoState *self, const char *name);
 
 IOVM_API void IoState_done(IoState *self);

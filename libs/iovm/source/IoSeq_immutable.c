@@ -1,4 +1,3 @@
-
 //metadoc Sequence category Core
 //metadoc Sequence copyright Steve Dekorte 2002
 //metadoc Sequence license BSD revised
@@ -214,7 +213,7 @@ IO_METHOD(IoSeq, asBinaryNumber)
 
 	if (max < bc)
 	{
-		IoState_error_(IOSTATE, m, "requested first %i bytes, but Sequence only contians %i bytes", bc, max);
+		IoState_error_(IOSTATE, m, "requested first %i bytes, but Sequence only contains %i bytes", bc, max);
 	}
 
 	memcpy(&d, UArray_bytes(DATA(self)), bc);
@@ -485,7 +484,7 @@ IO_METHOD(IoSeq, findSeqs)
 	List *delims = IoList_rawList(others);
 	long f = 0;
 	long firstIndex = -1;
-	int match = 0;
+	size_t match = 0;
 
 	if (IoMessage_argCount(m) > 1)
 	{
@@ -493,7 +492,7 @@ IO_METHOD(IoSeq, findSeqs)
 	}
 
 	{
-		int index;
+		size_t index;
 
 		LIST_FOREACH(delims, i, s,
 			if (!ISSEQ((IoSeq *)s))
@@ -503,7 +502,11 @@ IO_METHOD(IoSeq, findSeqs)
 
 			index = UArray_find_from_(DATA(self), DATA(((IoSeq *)s)), f);
 
-			if(index != -1 && (firstIndex == -1 || index < firstIndex)) { firstIndex = index; match = i; }
+			if(index != -1 && (firstIndex == -1 || index < firstIndex)) 
+			{ 
+				firstIndex = (long)index; 
+				match = i; 
+			}
 		);
 	}
 
@@ -685,6 +688,32 @@ IO_METHOD(IoSeq, asNumber)
 	return IONUMBER(d);
 }
 
+IO_METHOD(IoSeq, asList)
+{
+	/*doc Sequence asList
+	Returns the receiver converted to a List containing all elements of the Sequence.
+	*/
+
+	List *list = List_new();
+
+	size_t i;
+
+	for (i = 0; i < UArray_size(DATA(self)); i++)
+	{
+		if(UArray_isFloatType(DATA(self)))
+		{
+			List_append_(list, IONUMBER(UArray_doubleAt_(DATA(self), i)));
+		}
+		else
+		{
+			long c = UArray_longAt_(DATA(self), i);
+			List_append_(list, IOSYMBOL(&c));
+		}
+	}
+
+	return IoList_newWithList_(IOSTATE, list);
+}
+
 IoList *IoSeq_whiteSpaceStrings(IoSeq *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Sequence whiteSpaceStrings
@@ -792,7 +821,7 @@ IO_METHOD(IoSeq, splitAt)
 	Returns a list containing the two parts of the receiver as split at the given index.
 	*/
 	
-	int index = IoMessage_locals_intArgAt_(m, locals, 0);
+	size_t index = IoMessage_locals_intArgAt_(m, locals, 0);
 	IoList *splitSeqs = IoList_new(IOSTATE);
 	index = UArray_wrapPos_(DATA(self), index);
 
@@ -1199,7 +1228,7 @@ IO_METHOD(IoSeq, asCapitalized)
 
 	/* need to fix for multi-byte characters */
 
-	int firstChar = UArray_firstLong(DATA(self));
+	int firstChar = (int)UArray_firstLong(DATA(self));
 	int upperChar = toupper(firstChar);
 
 	if (ISSYMBOL(self) && (firstChar == upperChar))
@@ -1423,7 +1452,7 @@ The output pointStructSeq would contain 2 raw 32 bit floats.
 	List *members = IoList_rawList(IoMessage_locals_listArgAt_(m, locals, 0));
 	int memberIndex;
 	size_t maxSize = List_size(members) * 8;
-	IoSeq *s = IoSeq_newWithData_length_(IOSTATE, malloc(maxSize), maxSize);
+	IoSeq *s = IoSeq_newWithData_length_(IOSTATE, (unsigned char *)malloc(maxSize), maxSize);
 	unsigned char *data = IoSeq_rawBytes(s);
 	size_t offset = 0;
 
@@ -1478,7 +1507,7 @@ static char to_hex(char code)
 static char *url_encode(const char *str, int isPercentEncoded) 
 {
 	const char *pstr = str;
-	char *buf = malloc(strlen(str) * 3 + 1);
+	char *buf = (char *)malloc(strlen(str) * 3 + 1);
 	char *pbuf = buf;
 	
 	while (*pstr) 
@@ -1508,7 +1537,7 @@ static char *url_encode(const char *str, int isPercentEncoded)
 static char *url_decode(const char *str, int isPercentEncoded) 
 {
 	const char *pstr = str;
-	char *buf = malloc(strlen(str) + 1);
+	char *buf = (char *)malloc(strlen(str) + 1);
 	char *pbuf = buf;
 	
 	while (*pstr) 
@@ -1541,7 +1570,7 @@ IO_METHOD(IoSeq, percentEncoded)
 /*doc Sequence percentEncoded
 Returns percent encoded version of receiver.
 */
-	char *s = url_encode(UArray_bytes(DATA(self)), 1);
+	char *s = url_encode((const char *)UArray_bytes(DATA(self)), 1);
 	IoObject *result = IOSYMBOL(s);
 	free(s);
 	return result;
@@ -1552,7 +1581,7 @@ IO_METHOD(IoSeq, percentDecoded)
 /*doc Sequence percentDecoded
 Returns percent decoded version of receiver.
 */
-	char *s = url_decode(UArray_bytes(DATA(self)), 1);
+	char *s = url_decode((const char *)UArray_bytes(DATA(self)), 1);
 	IoObject *result = IOSYMBOL(s);
 	free(s);
 	return result;
@@ -1565,7 +1594,7 @@ IO_METHOD(IoSeq, urlEncoded)
 /*doc Sequence urlEncoded
 Returns url encoded version of receiver.
 */
-	char *s = url_encode(UArray_bytes(DATA(self)), 0);
+	char *s = url_encode((const char *)UArray_bytes(DATA(self)), 0);
 	IoObject *result = IOSYMBOL(s);
 	free(s);
 	return result;
@@ -1576,7 +1605,7 @@ IO_METHOD(IoSeq, urlDecoded)
 /*doc Sequence urlDecoded
 Returns url decoded version of receiver.
 */
-	char *s = url_decode(UArray_bytes(DATA(self)), 0);
+	char *s = url_decode((const char *)UArray_bytes(DATA(self)), 0);
 	IoObject *result = IOSYMBOL(s);
 	free(s);
 	return result;
@@ -1629,14 +1658,17 @@ IO_METHOD(IoSeq, pack)
 	*/
 
 	char *strFmt = IoMessage_locals_cStringArgAt_(m, locals, 0);
-	int strFmtLen = strlen(strFmt);
+	size_t strFmtLen = strlen(strFmt);
 	int argCount = IoMessage_argCount(m);
-	int isBigEndian = 0, doBigEndian = 0;
-	int i = 0, argIdx = 0, count = 0;
+	int isBigEndian = 0;
+	int doBigEndian = 0;
+	size_t i = 0;
+	int argIdx = 0;
+	size_t count = 0;
 	
 	char *from = NULL;
-	int size = 0;
-	int padding = 0;
+	size_t size = 0;
+	size_t padding = 0;
 	char val[16];
 
 	UArray *ua = UArray_new();
@@ -1718,8 +1750,8 @@ IO_METHOD(IoSeq, pack)
 			}
 			
 			{
-				int inc = doBigEndian ? -1 : 1;
-				int pos = doBigEndian ? size - 1 : 0;
+				long inc = doBigEndian ? -1 : 1;
+				long pos = doBigEndian ? size - 1 : 0;
 				int j = 0;
 				
 				for(j = 0 ; j < size ; j ++, pos += inc)
@@ -1753,9 +1785,9 @@ break;*/
 #define SEQ_UNPACK_VALUE_ASSIGN_LOOP(code, type, dest, toObj) \
 case code: \
 { \
-	int inc = isBigEndian ? -1 : 1; \
-	int pos = isBigEndian ? seqPos + sizeof(type) - 1 : seqPos; \
-	int j; \
+	size_t inc = isBigEndian ? -1 : 1; \
+	size_t pos = isBigEndian ? seqPos + sizeof(type) - 1 : seqPos; \
+	size_t j; \
  \
 	for(j = 0 ; j < sizeof(type) ; j ++, pos += inc) \
 		dest[j] = selfUArray[pos]; \
@@ -1792,8 +1824,11 @@ IO_METHOD(IoSeq, unpack)
 	*/
 
 	char *strFmt = NULL;
-	int strFmtLen = 0;
-	int isBigEndian = 0, i = 0, count = 0, seqPos = 0;
+	size_t strFmtLen = 0;
+	int isBigEndian = 0;
+	size_t i = 0;
+	size_t count = 0;
+	size_t seqPos = 0;
 	char val[16];
 	
 	IoList *values = IoList_new(IOSTATE);
@@ -1901,6 +1936,7 @@ void IoSeq_addImmutableMethods(IoSeq *self)
 	{"asSymbol", IoSeq_asSymbol},
 	{"asString", IoSeq_asSymbol},
 	{"asNumber", IoSeq_asNumber},
+	{"asList", IoSeq_asList},
 	{"whiteSpaceStrings", IoSeq_whiteSpaceStrings},
 	{"print", IoSeq_print},
 	{"linePrint", IoSeq_linePrint},

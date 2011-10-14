@@ -13,6 +13,8 @@ Basic support for profiling Io code execution.
 
 typedef IoObject IoProfiler;
 
+//static const char *protoId = "Profiler";
+
 IO_METHOD(IoProfiler, reset)
 {
 	/*doc Profiler reset

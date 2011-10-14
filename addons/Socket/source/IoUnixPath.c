@@ -5,6 +5,8 @@
 
 #define UNIXPATH(self) ((UnixPath *)IoObject_dataPointer(self))
 
+static const char *protoId = "UnixPath";
+
 IoTag *IoUnixPath_newTag(void *state)
 {
 	IoTag *tag = IoTag_newWithName_("UnixPath");
@@ -23,7 +25,7 @@ IoUnixPath *IoUnixPath_proto(void *state)
 	IoObject_setDataPointer_(self, UnixPath_new());
 #endif
 
-	IoState_registerProtoWithFunc_((IoState *)state, self, IoUnixPath_proto);
+	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -49,7 +51,7 @@ IoUnixPath *IoUnixPath_rawClone(IoUnixPath *proto)
 
 IoUnixPath *IoUnixPath_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoUnixPath_proto);
+	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 

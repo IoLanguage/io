@@ -31,8 +31,7 @@ Event do(
 		)
 	)
 
-	/*doc Event waitOnOrExcept(timeout) 
-	*/
+	// doc Event waitOnOrExcept(timeout) 
 	waitOn := method(t,
 		if(t, timeout = t)
 
@@ -104,8 +103,7 @@ EventManager do(
 	realAddEvent := getSlot("addEvent")
 	shouldRun ::= true
 
-	/*doc EventManager addEvent(event, descriptor, eventType, timeout) 
-	*/
+	// doc EventManager addEvent(event, descriptor, eventType, timeout) 
 	addEvent := method(e, descriptorId, eventType, timeout,
 		//writeln("addEvent")
 		//Exception raise("EventManager addEvent " .. e eventTypeName .. " - begin")
@@ -123,6 +121,7 @@ EventManager do(
 
 	//doc EventManager run Runs the EventManger loop. Does not return. Private - should only be called by resumeIfNeeded.
 	run := method(
+		//writeln("EventManager run")
 		//Scheduler currentCoroutine setLabel("EventManager")
 		//writeln("EventManager run")
 		setShouldRun(true)

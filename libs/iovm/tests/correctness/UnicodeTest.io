@@ -6,7 +6,7 @@
 // 5. argument treating is the same as for input code
 
 UnicodeTest := UnitTest clone do(
-    io := "_build/binaries/io_static " # Yep, ugly, but at least it works :)
+	io := Path with("_build", "binaries", "io_static ") # Yep, ugly, but at least it works :)
 
 	wdPath := Path with(method(call message label pathComponent) call, "UnicodeTest-helper")
 	tempPath := Path with(wdPath, "UnicodeTest.tmp")
@@ -21,7 +21,8 @@ UnicodeTest := UnitTest clone do(
 	monoQuoteString := "Hello, world!\nЗдравствуй, мир!\n"
 	monoQuoteString = monoQuoteString .. "この世界お。今日は！\n"
 
-	isOnWindows := System platform beginsWithSeq("Windows")
+	plat := System platform
+	isOnWindows := plat beginsWithSeq("Windows") or plat beginsWithSeq("mingw")
 	if(isOnWindows,
 		diffCmd := "diff -q --strip-trailing-cr ",
 		diffCmd := "diff -q "
@@ -33,6 +34,7 @@ UnicodeTest := UnitTest clone do(
 
 	tempSystem := method(s,
 		code := (io .. s) asMutable replaceSeq("$0", Path with(wdPath, "printer.io"))
+		if(isOnWindows, code := code replaceSeq("\n", "\\n"))
 		System system(code .. " > " .. tempPath)
 	)
 
@@ -85,17 +87,17 @@ UnicodeTest := UnitTest clone do(
 	)
 
 	testArgsMonoQuote := method(
-		tempSystem("$0 --arg '" .. monoQuoteString asUTF8 .. "'")
+		tempSystem("$0 --arg \"" .. monoQuoteString asUTF8 .. "\"")
 		assertDiff
 	)
 
 	testArgsTriQuote := method(
-		tempSystem("$0 --arg '" .. triQuoteString asUTF8 .. "'")
+		tempSystem("$0 --arg \"" .. triQuoteString asUTF8 .. "\"")
 		assertDiff
 	)
 
 	testArgsFile := method(
-		tempSystem("$0 --arg '" .. fileString asUTF8 .. "'")
+		tempSystem("$0 --arg \"" .. fileString asUTF8 .. "\"")
 		assertDiff
 	)
 
@@ -103,7 +105,7 @@ UnicodeTest := UnitTest clone do(
 		// this removeLast thing is here to remove last "\n",
 		// which io interpreter adds after executing the code
 		string := monoQuoteString asMutable asUTF8 removeLast escape
-		tempSystem("-e '\"#{string}\" println'" interpolate)
+		tempSystem("-e \"\\\"#{string}\\\" println\"" interpolate)
 		assertDiff
 	)
 

@@ -68,7 +68,7 @@ Coroutine do(
 	/*
 	init := method(
 		resend
-		"Coroutine init" p[rintln
+		"Coroutine init" println
 	)
 	*/
 	

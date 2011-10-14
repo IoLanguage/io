@@ -65,15 +65,15 @@ size_t Stack_memorySize(const Stack *self)
 
 void Stack_compact(Stack *self)
 {
-	int oldSize = (1 + self->top - self->items)*sizeof(void *);
+	size_t oldSize = (1 + self->top - self->items)*sizeof(void *);
 	self->items = (void **)io_realloc(self->items, oldSize);
 }
 
 void Stack_resize(Stack *self)
 {
-	int oldSize = (self->memEnd - self->items)*sizeof(void *);
-	int newSize = oldSize*STACK_RESIZE_FACTOR;
-	int i = self->top - self->items;
+	size_t oldSize = (self->memEnd - self->items)*sizeof(void *);
+	size_t newSize = oldSize*STACK_RESIZE_FACTOR;
+	size_t i = self->top - self->items;
 	self->items = (void **)io_realloc(self->items, newSize);
 	self->top = self->items + i;
 	self->memEnd = self->items + (newSize/sizeof(void *));

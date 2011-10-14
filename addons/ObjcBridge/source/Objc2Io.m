@@ -1,5 +1,5 @@
-/*   Copyright (c) 2003, Steve Dekorte
-*   All rights reserved. See _BSDLicense.txt.
+/* Copyright (c) 2003, Steve Dekorte
+*  All rights reserved. See _BSDLicense.txt.
 */
 
 #include "Objc2Io.h"
@@ -8,9 +8,15 @@
 
 @implementation Objc2Io
 
++ withIoObject:(IoObject *)v
+{
+	return IoObjcBridge_proxyForIoObject_(IoObjcBridge_sharedBridge(), v);
+}
+
 - init
 {
 	self = [super init];
+	bridge = IoObjcBridge_sharedBridge();
 	//[obj retain]; // debug test
 	return self;
 }
@@ -68,7 +74,7 @@
 
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)selector
 {
-	if(IoObjcBridge_rawDebugOn(IoObjcBridge_sharedBridge()))
+	if(IoObjcBridge_rawDebugOn(bridge))
 	{
 		printf("methodSignatureForSelector(%s)\n", [NSStringFromSelector(selector) UTF8String]);
 	}
@@ -103,7 +109,7 @@
 		memset(encoding, '@', argCount + 3);
 		encoding[argCount + 3] = 0;
 		encoding[2] = ':';
-		printf("encoding: '%s'\n", encoding);
+		//printf("encoding: '%s'\n", encoding);
 		NSMethodSignature *signature = [NSMethodSignature signatureWithObjCTypes:encoding];
 		objc_free(encoding);
 		return signature;
@@ -126,10 +132,15 @@
 	IoObject *result;
 	
 	if (IoTag_performFunc(tag))
+	{
 		result = tag->performFunc(ioValue, ioValue, message);
+	}
 	else
-		result = IoObject_perform(ioValue, ioValue, message);
-
+	{
+		result = IoState_tryToPerform(IoObject_state(ioValue), ioValue, ioValue, message);
+		//result = IoObject_perform(ioValue, ioValue, message);
+	}
+	
 	// convert and return result if not void
 
 	if (*returnType != 'v')
@@ -137,9 +148,47 @@
 		char *error;
 		void *cResult = IoObjcBridge_cValueForIoObject_ofType_error_(bridge, result, returnType, &error);
 		if (error)
-			IoState_error_(IoObject_state(bridge), message, "Io Objc2Io forwardInvocation: %s - return type:'%s'", error, returnType);
+		{
+			IoState_error_(IoObject_state(bridge), message, 
+						   "Io Objc2Io forwardInvocation: %s - return type:'%s'", error, returnType);
+		}
+		
 		[invocation setReturnValue:cResult];
 	}
+}
+
+- (NSString *)description
+{
+	return [NSString stringWithUTF8String:IoObject_name(ioValue)];
+}
+
+- (NSArray *)_rawSlotNames
+{
+	NSMutableArray *names = [NSMutableArray array];
+	
+	PHASH_FOREACH(IoObject_slots(ioValue), key, value, 
+					  [names addObject:[NSString stringWithUTF8String:CSTRING(key)]];
+	);
+
+	[names sortUsingSelector:@selector(compare:)];
+	return names;
+}
+
+- (size_t)_rawSlotCount
+{
+	return PHash_size(IoObject_slots(ioValue));	
+}
+
+- (Objc2Io *)_rawGetSlot:(NSString *)slotName
+{
+	IoSeq *name = IoState_symbolWithCString_(IoObject_state(ioValue), [slotName UTF8String]);
+	IoObject *ioObj = IoObject_rawGetSlot_(ioValue, name);
+	return [Objc2Io withIoObject:ioObj];
+}
+
+- (BOOL)_rawIsActivatable
+{
+	return (BOOL)IoObject_isActivatable(ioValue);
 }
 
 @end

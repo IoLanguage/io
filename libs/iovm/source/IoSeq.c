@@ -14,6 +14,7 @@
 
 #define DATA(self) ((UArray *)(IoObject_dataPointer(self)))
 //#define HASHIVAR(self) ((self)->extraData)
+static const char *protoId = "Seq";
 
 int ISMUTABLESEQ(IoObject *self)
 {
@@ -90,7 +91,7 @@ IoSeq *IoSeq_proto(void *state)
 	IoObject_tag_(self, IoSeq_newTag(state));
 	IoObject_setDataPointer_(self, UArray_new());
 
-	IoState_registerProtoWithFunc_((IoState *)state, self, IoSeq_proto);
+	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
 	return self;
 }
 
@@ -119,7 +120,7 @@ IoSeq *IoSeq_rawClone(IoSeq *proto)
 
 IoSeq *IoSeq_new(void *state)
 {
-	IoSeq *proto = IoState_protoWithInitFunction_((IoState *)state, IoSeq_proto);
+	IoSeq *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 
@@ -127,6 +128,14 @@ IoSeq *IoSeq_newWithData_length_(void *state, const unsigned char *s, size_t len
 {
 	IoSeq *self = IoSeq_new(state);
 	UArray_setData_type_size_copy_(DATA(self), (uint8_t *)s, CTYPE_uint8_t, length, 1);
+	//UArray_convertToFixedSizeType(DATA(self));
+	return self;
+}
+
+IoSeq *IoSeq_newWithData_length_copy_(void *state, const unsigned char *s, size_t length, int copy)
+{
+	IoSeq *self = IoSeq_new(state);
+	UArray_setData_type_size_copy_(DATA(self), (uint8_t *)s, CTYPE_uint8_t, length, copy);
 	//UArray_convertToFixedSizeType(DATA(self));
 	return self;
 }
