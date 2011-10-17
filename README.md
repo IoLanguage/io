@@ -10,6 +10,7 @@ REQUIREMENTS
 
  * [yajl](https://github.com/lloyd/yajl)
  * [libevent](http://libevent.org/)
+ * [pcre](http://www.pcre.org/)
 
 INSTALLING
 ==========
