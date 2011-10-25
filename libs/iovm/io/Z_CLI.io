@@ -2,7 +2,7 @@ Locals removeSlot("doFile")
 
 DummyLine := File standardInput do(
     readLine := method(prompt,
-        prompt print
+        if(prompt, prompt print)
         resend
     )
 )
