@@ -627,21 +627,24 @@ Trims the whitespace (or optionalSequence) off both ends:
 ==> "Trim this string"
 </pre>	
 */
+	IoSeq* str = self;
 
-	IO_ASSERT_NOT_SYMBOL(self);
+	if (ISSYMBOL(self))
+		str = IoSeq_rawMutableCopy(self);
+	//IO_ASSERT_NOT_SYMBOL(self);
 
 	if (IoMessage_argCount(m) > 0)
 	{
 		IoSeq *other  = IoMessage_locals_seqArgAt_(m, locals, 0);
-		UArray_strip_(DATA(self), DATA(other));
+		UArray_strip_(DATA(str), DATA(other));
 	}
 	else
 	{
 		UArray space = UArray_stackAllocedWithCString_(WHITESPACE);
-		UArray_strip_(DATA(self), &space);
+		UArray_strip_(DATA(str), &space);
 	}
 
-	return self;
+	return str;
 }
 
 IO_METHOD(IoSeq, lstrip)
@@ -655,21 +658,24 @@ stripped from the beginning of the receiver. Example:
 ==> "the tail"
 </pre>	
 */
+	IoSeq* str = self;
 
-	IO_ASSERT_NOT_SYMBOL(self);
+	if (ISSYMBOL(self))
+		str = IoSeq_rawMutableCopy(self);
+	//IO_ASSERT_NOT_SYMBOL(self);
 
 	if (IoMessage_argCount(m) > 0)
 	{
 		IoSeq *other  = IoMessage_locals_seqArgAt_(m, locals, 0);
-		UArray_lstrip_(DATA(self), DATA(other));
+		UArray_lstrip_(DATA(str), DATA(other));
 	}
 	else
 	{
 		UArray space = UArray_stackAllocedWithCString_(WHITESPACE);
-		UArray_lstrip_(DATA(self), &space);
+		UArray_lstrip_(DATA(str), &space);
 	}
 
-	return self;
+	return str;
 }
 
 IO_METHOD(IoSeq, rstrip)
@@ -682,21 +688,24 @@ aSequence stripped from the end of the receiver. Example:
 ==> "Cut the"
 </pre>	
 */
+	IoSeq* str = self;
 
-	IO_ASSERT_NOT_SYMBOL(self);
+	if (ISSYMBOL(self))
+		str = IoSeq_rawMutableCopy(self);
+	//IO_ASSERT_NOT_SYMBOL(self);
 
 	if (IoMessage_argCount(m) > 0)
 	{
 		IoSeq *other  = IoMessage_locals_seqArgAt_(m, locals, 0);
-		UArray_rstrip_(DATA(self), DATA(other));
+		UArray_rstrip_(DATA(str), DATA(other));
 	}
 	else
 	{
 		UArray space = UArray_stackAllocedWithCString_(WHITESPACE);
-		UArray_rstrip_(DATA(self), &space);
+		UArray_rstrip_(DATA(str), &space);
 	}
 
-	return self;
+	return str;
 }
 
 // -----------------------------------------------------------
