@@ -66,6 +66,13 @@ struct IoState
 	IoSymbol *stackSizeSymbol;
 	IoSymbol *typeSymbol;
 	IoSymbol *updateSlotSymbol;
+	
+	IoSymbol *runTargetSymbol;
+	IoSymbol *runMessageSymbol;
+	IoSymbol *runLocalsSymbol;
+	IoSymbol *parentCoroutineSymbol;
+	IoSymbol *resultSymbol;
+	IoSymbol *exceptionSymbol;
 
 	IoObject *setSlotBlock;
 	IoObject *localsUpdateSlotCFunc;

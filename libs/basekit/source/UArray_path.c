@@ -105,10 +105,10 @@ UArray *UArray_pathExtension(UArray *self)
 
 UArray *UArray_fileName(UArray *self)
 {
+	// it looks like there is a memory stomping bug in this method...
 	long extPos = UArray_findLastPathComponent(self);
 	long dotPos = UArray_findPathExtension(self);
 
-	//if (extPos == -1) { extPos = 0; } else { extPos ++; }
 	if (dotPos == -1 || dotPos < extPos) 
 	{
 		dotPos = self->size -1;

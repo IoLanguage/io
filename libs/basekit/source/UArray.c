@@ -991,8 +991,27 @@ void UArray_at_putAll_(UArray *self, size_t pos, const UArray *other)
 }
 
 int UArray_compare_(const UArray *self, const UArray *other)
-{
-	DUARRAY_OP(UARRAY_COMPARE_TYPES, NULL, self, other);
+{	
+	if(self->itemType == CTYPE_uint32_t && other->itemType == CTYPE_uint8_t)
+	{
+		size_t i, minSize = self->size < other->size ? self->size : other->size;
+		for(i = 0; i < minSize; i ++)
+		{
+			uint32_t v1 = ((uint32_t *)self->data)[i];
+			uint8_t v2 = ((uint8_t *)other->data)[i];
+			if (v1 > v2) return 1;
+			if (v1 < v2) return -1;
+		}
+		if(self->size != other->size)
+		{
+			return self->size < other->size ? -1 : 1;
+		}
+	}
+	else
+	{
+		DUARRAY_OP(UARRAY_COMPARE_TYPES, NULL, self, other);	
+	}
+	
 	return 0;
 }
 
