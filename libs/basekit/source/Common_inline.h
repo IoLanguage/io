@@ -108,7 +108,7 @@ Kudos to Daniel A. Koepke
 		#define IOINLINE static inline
 	#endif 
 	
-#elif defined(__linux__)
+#elif defined(__linux__) || defined(__OpenBSD__) || defined(__NetBSD__) || defined(__FreeBSD__)
 
 	#ifdef IO_IN_C_FILE
 		// in .c 
