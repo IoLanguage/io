@@ -17,9 +17,10 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 	set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -flat_namespace")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
-# OpenBSD needs /usr/local/lib and /usr/lib searched
+# Packages are installed under /usr/local on OpenBSD
 if(${CMAKE_SYSTEM_NAME} MATCHES "OpenBSD")
-	set(CMAKE_SHARED_LINKER_FLAGS "-L/usr/local/lib -L/usr/lib ${CMAKE_SHARED_LINKER_FLAGS}")
+	set(CMAKE_C_FLAGS  "-I/usr/local/include ${CMAKE_SHARED_LINKER_FLAGS}")
+	set(CMAKE_SHARED_LINKER_FLAGS "-L/usr/local/lib ${CMAKE_SHARED_LINKER_FLAGS}")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "OpenBSD")
 
 
