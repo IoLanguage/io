@@ -303,41 +303,7 @@ void Coro_switchTo_(Coro *self, Coro *next)
 }
 
 // ---- setup ------------------------------------------
-#if defined USE_GUESSED_SETJMP
-// This isn't bulletproof, but seems to work Well Enough (TM)
-void Coro_setup(Coro *self, void *arg)
-{
-        uintptr_t stackend = Coro_stackSize(self) + (uintptr_t)Coro_stack(self);
-        uintptr_t start = (uintptr_t)Coro_Start;
-        /* since ucontext seems to be broken on amd64 */
-        globalCallbackBlock.context=((CallbackBlock*)arg)->context;
-        globalCallbackBlock.func=((CallbackBlock*)arg)->func;
-        setjmp(self->env);
-end:
-        {
-                uintptr_t i;
-                uintptr_t * sav = (uintptr_t*)self->env;
-                size_t sz = sizeof(self->env)/sizeof(sav[0]);
-
-                // Try to guess PC index
-                i = sz;
-                while (i--)
-                        if (sav[i] == (uintptr_t)&&end)
-                                break;
-                assert(i < sz);
-                sav[i] = start;
-
-                // Try to guess SP index
-                i = sz;
-                while (i--)
-                        if (64 > (- sav[i] + (uintptr_t)&i))
-                                break;
-                assert(i < sz);
-                sav[i] = stackend - sizeof(uintptr_t) - 128;
-        }
-}
-
-#elif defined(USE_SETJMP) && defined(__x86_64__)
+#if defined(USE_SETJMP) && defined(__x86_64__)
 
 void Coro_setup(Coro *self, void *arg)
 {
@@ -569,29 +535,60 @@ void Coro_setup(Coro *self, void *arg)
 // wrong spot after the return! So my structure is right, but somehow I have
 // the wrong *func
 
-#elif defined(__OpenBSD__)
+#elif defined(__OpenBSD__) && defined(__i386__)
 
 #define buf (self->env)
 
 void Coro_setup(Coro *self, void *arg)
 {
-  void *stack = Coro_stack(self);
-  size_t stacksize = Coro_stackSize(self);
-  void *func = (void *)Coro_Start;
-  
-  setjmp(buf);
-  
-  buf[2] = (long)(stack + stacksize);
-  buf[0] = (long)Coro_Start;
-  // it would seem this needs to have some value??
-  globalCallbackBlock.context=((CallbackBlock*)arg)->context;
-  globalCallbackBlock.func=((CallbackBlock*)arg)->func;
-  return;
+	void *stack = Coro_stack(self);
+	size_t stacksize = Coro_stackSize(self);
+	void *func = (void *)Coro_Start;
+
+	setjmp(buf);
+
+	buf[2] = (long)(stack + stacksize);
+	buf[0] = (long)Coro_Start;
+	// it would seem this needs to have some value??
+	globalCallbackBlock.context=((CallbackBlock*)arg)->context;
+	globalCallbackBlock.func=((CallbackBlock*)arg)->func;
+	return;
 }
 
 #else
 
-#error "Coro.c Error: Coro_setup() function needs to be defined for this platform."
+/* Use POSIX ucontext by default */
+void Coro_setup(Coro *self, void *arg)
+{
+	uintptr_t stackend = Coro_stackSize(self) + (uintptr_t)Coro_stack(self);
+	uintptr_t start = (uintptr_t)Coro_Start;
+	/* since ucontext seems to be broken on amd64 */
+	globalCallbackBlock.context=((CallbackBlock*)arg)->context;
+	globalCallbackBlock.func=((CallbackBlock*)arg)->func;
+	setjmp(self->env);
+end:
+	{
+		uintptr_t i;
+		uintptr_t * sav = (uintptr_t*)self->env;
+		size_t sz = sizeof(self->env)/sizeof(sav[0]);
+
+		// Try to guess PC index
+		i = sz;
+		while (i--)
+				if (sav[i] == (uintptr_t)&&end)
+						break;
+		assert(i < sz);
+		sav[i] = start;
+
+		// Try to guess SP index
+		i = sz;
+		while (i--)
+			if (64 > (- sav[i] + (uintptr_t)&i))
+				break;
+		assert(i < sz);
+		sav[i] = stackend - sizeof(uintptr_t) - 128;
+	}
+}
 
 #endif
 
@@ -757,7 +754,7 @@ void Coro_setup(Coro *self, void *arg)
 
 /* FreeBSD supports ucontext - so we don't need this stuff anymore
 
-#elif defined(__FreeBSD__)
+#elif defined(__FreeBSD__)  && defined(__i386__)
 // FreeBSD.
 #if defined(_JBLEN) && (_JBLEN == 81)
 // FreeBSD/Alpha
@@ -780,7 +777,7 @@ Coro_UnsupportedPlatformError();
 
 /* NetBSD supports ucontext - so we don't need this stuff anymore
 
-#elif defined(__NetBSD__)
+#elif defined(__NetBSD__) && defined(__i386__)
 
 void Coro_setup(Coro *self, void *arg)
 {
@@ -833,7 +830,6 @@ void Coro_setup(Coro *self, void *arg)
 #endif
 #endif
 
-
 #elif defined(__SVR4) && defined(__sun)
 					// Solaris
 #if defined(SUN_PROGRAM_COUNTER)
@@ -848,6 +844,4 @@ void Coro_setup(Coro *self, void *arg)
 					buf[SUN_STACK_END_INDEX] = (JBTYPE)x;
 
 					*/
-
-
 
