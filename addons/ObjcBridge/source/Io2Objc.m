@@ -128,6 +128,8 @@ void Io2Objc_nullObjcBridge(Io2Objc *self)
 
 IoObject *Io2Objc_perform(Io2Objc *self, IoObject *locals, IoMessage *m)
 {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init]; /* hack */
+
 	/* --- get the method signature ------------ */
 	NSInvocation *invocation = nil;
 	NSMethodSignature *methodSignature;
@@ -217,8 +219,10 @@ IoObject *Io2Objc_perform(Io2Objc *self, IoObject *locals, IoMessage *m)
 		fflush(stdout);
 	}
 	
+	
 	/* --- invoke --------------------------- */
 	{
+
 		@try 
 		{
 			[invocation invoke];
@@ -230,6 +234,7 @@ IoObject *Io2Objc_perform(Io2Objc *self, IoObject *locals, IoMessage *m)
 						   [[e name] UTF8String], 
 						   [[e reason] UTF8String]);
 		}
+		//[pool release];
 	}
 
 	/* --- return result --------------------------- */
@@ -271,6 +276,7 @@ IoObject *Io2Objc_perform(Io2Objc *self, IoObject *locals, IoMessage *m)
 			}
 		}
 	}
+	[pool release];
 	
 	return result;
 }

@@ -340,7 +340,7 @@ void IoDynLib_rawVoidCall(void *f, int argCount, intptr_t *params)
 
 intptr_t IoDynLib_rawNonVoidCall(void *f, int argCount, intptr_t *params)
 {
-	intptr_t rc;
+	intptr_t rc = 0;
 
 	switch(argCount - 1)
 	{
