@@ -80,14 +80,14 @@ IO_METHOD(IoFile, stat)
 	Updates the receiver's meta info cache.
 	*/
 
-	struct stat *statInfo;
+	//struct stat *statInfo;
 
 	if (!DATA(self)->info)
 	{
 		DATA(self)->info = io_calloc(1, sizeof(struct stat));
 	}
 
-	statInfo = DATA(self)->info;
+	//statInfo = DATA(self)->info;
 
 	if (stat(CSTRING(DATA(self)->path), (struct stat *)(DATA(self)->info)) != 0)
 	{

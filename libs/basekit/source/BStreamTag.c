@@ -28,7 +28,7 @@ unsigned char BStreamTag_asUnsignedChar(BStreamTag *self)
 {
 	BStreamTag t = *self;
 	unsigned char c = 0;
-	c = c | t.isArray << 7;
+	//c = c | t.isArray << 7;
 	c = c | t.type << 5;
 	c = c | t.byteCount;
 	return c;

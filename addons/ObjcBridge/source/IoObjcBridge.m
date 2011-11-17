@@ -225,6 +225,7 @@ void *IoObjcBridge_proxyForId_(IoObjcBridge *self, id obj)
 		Io2Objc_setBridge(v, self);
 		Io2Objc_setObject(v, obj);
 		CHash_at_put_(DATA(self)->io2objcs, obj, v);
+		//printf("io2objcs %i\n", (int)CHash_size(DATA(self)->io2objcs));
 	}
 	
 	return v;
@@ -241,6 +242,7 @@ void *IoObjcBridge_proxyForIoObject_(IoObjcBridge *self, IoObject *v)
 		[obj setIoObject:v];
 		//CHash_at_put_(DATA(self)->objc2ios, IOREF(v), obj);
 		IoObjcBridge_addValue_(self, v, obj);
+		//printf("objc2ios %i\n", (int)CHash_size(DATA(self)->objc2ios));
 	}
 	
 	return obj;

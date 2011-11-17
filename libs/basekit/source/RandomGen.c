@@ -280,7 +280,7 @@ double RandomGen_gaussian(RandomGen *self, double m, double s)
 
 	w = sqrt( (-2.0 * log( w ) ) / w );
 	y1 = x1 * w;
-	y2 = x2 * w;
+	//y2 = x2 * w;
 
 		// The following code resulted in a lot of nans being returned. The
 		// following code *should* also be slower.
