@@ -543,7 +543,7 @@ void Coro_setup(Coro *self, void *arg)
 // wrong spot after the return! So my structure is right, but somehow I have
 // the wrong *func
 
-#elif defined(__OpenBSD__) && defined(__i386__)
+#elif defined(__OpenBSD__) && defined(__i386__) || defined(__NetBSD__) && defined(__i386__)
 
 #define buf (self->env)
 
