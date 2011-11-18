@@ -181,6 +181,9 @@
  *
  */
 
+/* Use sys/stdint.h on Modern BSDs */
+#ifndef _SYS_STDINT_H_
+
 #include <stddef.h>
 #include <limits.h>
 #include <signal.h>
@@ -797,3 +800,5 @@ int main () {
 }
 
 #endif
+
+#endif /* _SYS_STDINT_H_ */

@@ -23,6 +23,12 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "OpenBSD")
 	set(CMAKE_SHARED_LINKER_FLAGS "-L/usr/local/lib ${CMAKE_SHARED_LINKER_FLAGS}")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "OpenBSD")
 
+# Packages are installed under /usr/pkg on NetBSD
+if(${CMAKE_SYSTEM_NAME} MATCHES "NetBSD")
+	set(CMAKE_C_FLAGS  "-I/usr/pkg/ninclude ${CMAKE_SHARED_LINKER_FLAGS}")
+	set(CMAKE_SHARED_LINKER_FLAGS "-L/usr/pkg/lib ${CMAKE_SHARED_LINKER_FLAGS}")
+endif(${CMAKE_SYSTEM_NAME} MATCHES "NetBSD")
+
 
 # Get the filename component, and generate the IoFooInit.c file.
 macro(generate_ioinit NAME)
