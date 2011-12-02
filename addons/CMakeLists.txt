@@ -19,16 +19,9 @@ endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 # Packages are installed under /usr/local on OpenBSD
 if(${CMAKE_SYSTEM_NAME} MATCHES "OpenBSD")
-	set(CMAKE_C_FLAGS  "-I/usr/local/include ${CMAKE_SHARED_LINKER_FLAGS}")
+	set(CMAKE_C_FLAGS  "-I/usr/local/include ${CMAKE_C_FLAGS}")
 	set(CMAKE_SHARED_LINKER_FLAGS "-L/usr/local/lib ${CMAKE_SHARED_LINKER_FLAGS}")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "OpenBSD")
-
-# Packages are installed under /usr/pkg on NetBSD
-if(${CMAKE_SYSTEM_NAME} MATCHES "NetBSD")
-	set(CMAKE_C_FLAGS  "-I/usr/pkg/ninclude ${CMAKE_SHARED_LINKER_FLAGS}")
-	set(CMAKE_SHARED_LINKER_FLAGS "-L/usr/pkg/lib ${CMAKE_SHARED_LINKER_FLAGS}")
-endif(${CMAKE_SYSTEM_NAME} MATCHES "NetBSD")
-
 
 # Get the filename component, and generate the IoFooInit.c file.
 macro(generate_ioinit NAME)
@@ -61,10 +54,10 @@ add_subdirectory(Blowfish)
 add_subdirectory(Box)
 add_subdirectory(CFFI)
 add_subdirectory(CGI)
-add_subdirectory(Cairo) # XXX: Broken on OSX: ld: library not found for -lpng12
+#add_subdirectory(Cairo) # XXX: Broken on OSX: ld: library not found for -lpng12
 add_subdirectory(Clutter)
 add_subdirectory(ContinuedFraction)
-add_subdirectory(Curses)
+#add_subdirectory(Curses)
 add_subdirectory(DBI)
 add_subdirectory(DistributedObjects)
 add_subdirectory(EditLine)
