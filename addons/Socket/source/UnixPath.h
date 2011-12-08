@@ -41,7 +41,7 @@ void UnixPath_setSize_(UnixPath *self, socklen_t size);
 
 uint16_t UnixPath_family(UnixPath *self);
 
-void UnixPath_setPath_(UnixPath *self, char *path);
-char *UnixPath_path(UnixPath *self);
+void UnixPath_setPath_(UnixPath *self, char *path, size_t pathlen);
+char *UnixPath_path(UnixPath *self, size_t *pathlen);
 
 #endif
