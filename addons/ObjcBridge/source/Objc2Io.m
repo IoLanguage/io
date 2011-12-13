@@ -140,8 +140,8 @@
 	}
 	else
 	{
-		//result = IoState_tryToPerform(IoObject_state(ioValue), ioValue, ioValue, message);
-		result = IoObject_perform(ioValue, ioValue, message);
+		result = IoState_tryToPerform(IoObject_state(ioValue), ioValue, ioValue, message);
+		//result = IoObject_perform(ioValue, ioValue, message);
 	}
 	
 	// convert and return result if not void

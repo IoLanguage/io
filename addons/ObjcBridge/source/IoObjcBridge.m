@@ -570,9 +570,9 @@ void *IoObjcBridge_cValueForIoObject_ofType_error_(IoObjcBridge *self, IoObject 
 	{
 		case '@':
 			if (ISMUTABLESEQ(value))
-				DATA(self)->cValue.o = [NSMutableString stringWithUTF8String:CSTRING(value)];
+				DATA(self)->cValue.o = [NSMutableString stringWithUTF8String:UTF8CSTRING(value)];
 			else if (ISSYMBOL(value))
-				DATA(self)->cValue.o = [NSString stringWithUTF8String:CSTRING(value)];
+				DATA(self)->cValue.o = [NSString stringWithUTF8String:UTF8CSTRING(value)];
 			else if (ISNUMBER(value))
 				DATA(self)->cValue.o = [NSNumber numberWithInt:IoNumber_asInt(value)];
 			else if (ISIO2OBJC(value))

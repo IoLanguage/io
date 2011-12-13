@@ -402,25 +402,25 @@ IoDynLib *IoDynLib_justCall(IoDynLib *self, IoObject *locals, IoMessage *m, int 
 	if (IoMessage_argCount(m) > 1)
 	{
 		params = io_calloc(1, IoMessage_argCount(m) * sizeof(unsigned int));
-	}
 
-	for (n = 0; n < IoMessage_argCount(m) - 1; n++)
-	{
-		IoObject *arg = IoMessage_locals_valueArgAt_(m, locals, n + 1);
-		intptr_t p = marshal(self, arg);
-
-		params[n] = p;
-
-		/*
-		if (p == 0)
+		for (n = 0; n < IoMessage_argCount(m) - 1; n++)
 		{
-			IoState_error_(IOSTATE, m, "DynLib error marshalling argument (%i) to call '%s'.",
-						n + 1, CSTRING(callName));
-			// FIXME this can leak memory.
-			io_free(params);
-			return IONIL(self);
+			IoObject *arg = IoMessage_locals_valueArgAt_(m, locals, n + 1);
+			intptr_t p = marshal(self, arg);
+
+			params[n] = p;
+
+			/*
+			if (p == 0)
+			{
+				IoState_error_(IOSTATE, m, "DynLib error marshalling argument (%i) to call '%s'.",
+							n + 1, CSTRING(callName));
+				// FIXME this can leak memory.
+				io_free(params);
+				return IONIL(self);
+			}
+			*/
 		}
-		*/
 	}
 
 #if 0
@@ -442,14 +442,16 @@ IoDynLib *IoDynLib_justCall(IoDynLib *self, IoObject *locals, IoMessage *m, int 
 
 	IoState_popCollectorPause(IOSTATE);
 
-
-	for (n = 0; n < IoMessage_argCount(m) - 1; n ++)
+	if(params)
 	{
-		IoObject *arg = IoMessage_locals_valueArgAt_(m, locals, n + 1);
-		demarshal(self, arg, params[n]);
-	}
+		for (n = 0; n < IoMessage_argCount(m) - 1; n ++)
+		{
+			IoObject *arg = IoMessage_locals_valueArgAt_(m, locals, n + 1);
+			demarshal(self, arg, params[n]);
+		}
 
-	io_free(params);
+		io_free(params);
+	}
 
 	return isVoid ? IONIL(self) : IONUMBER(rc);
 }

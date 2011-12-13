@@ -804,7 +804,7 @@ IO_METHOD(IoSeq, interpolateInPlace)
 	IoObject *evaluatedCode;
 	IoSeq *codeString;
 	UArray *evaluatedCodeAsString = NULL;
-	const char *label;
+	//const char *label;
 	long from, to;
 	UArray begin = UArray_stackAllocedWithCString_("#{");
 	UArray end = UArray_stackAllocedWithCString_("}");
@@ -813,7 +813,7 @@ IO_METHOD(IoSeq, interpolateInPlace)
 
 	context = IoMessage_locals_valueArgAt_(m, locals, 0);
 	string = DATA(self);
-	label = "IoSeq_interpolateInPlace()";
+	//label = "IoSeq_interpolateInPlace()";
 	from = 0;
 
 	context = (context == IONIL(self)) ? locals : context;

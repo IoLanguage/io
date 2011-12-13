@@ -104,6 +104,11 @@ IOVM_API int IoSeq_rawEqualsCString_(IoSeq *self, const char *s);
 IOVM_API double IoSeq_rawAsDoubleFromHex(IoSeq *self);
 IOVM_API double IoSeq_rawAsDoubleFromOctal(IoSeq *self);
 
+IOVM_API IoSeq *IoSeq_asUTF8Seq(void *state, IoSeq *self);
+
+#define UTF8CSTRING(s) IoSeq_asCString(IoSeq_asUTF8Seq((IoState*)IOSTATE, s))
+//#define UTF8CSTRING(s) CSTRING(IoSeq_newSymbolWithCString_(IOSTATE, CSTRING(s)))
+
 // hashing
 /*
 int IoSeq_rawEqualTo(IoSeq *self, IoObject *other);

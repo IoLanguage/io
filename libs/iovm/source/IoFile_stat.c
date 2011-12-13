@@ -89,10 +89,10 @@ IO_METHOD(IoFile, stat)
 
 	//statInfo = DATA(self)->info;
 
-	if (stat(CSTRING(DATA(self)->path), (struct stat *)(DATA(self)->info)) != 0)
+	if (stat(UTF8CSTRING(DATA(self)->path), (struct stat *)(DATA(self)->info)) != 0)
 	{
 		IoState_error_(IOSTATE, m, "unable to stat '%s': %s",
-						CSTRING(DATA(self)->path),
+						UTF8CSTRING(DATA(self)->path),
 						strerror(errno));
 	}
 
@@ -245,10 +245,10 @@ IO_METHOD(IoFile, isLink)
 
 	struct stat buf;
 
-	if (lstat(CSTRING(DATA(self)->path), &buf) != 0)
+	if (lstat(UTF8CSTRING(DATA(self)->path), &buf) != 0)
 	{
 		IoState_error_(IOSTATE, m, "unable to stat '%s': %s",
-						CSTRING(DATA(self)->path),
+						UTF8CSTRING(DATA(self)->path),
 						strerror(errno));
 	}
 

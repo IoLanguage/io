@@ -1670,6 +1670,7 @@ IO_METHOD(IoSeq, pack)
 	size_t size = 0;
 	size_t padding = 0;
 	char val[16];
+	memset(val, 0x0, 16);
 
 	UArray *ua = UArray_new();
 	UArray_setItemType_(ua, CTYPE_uint8_t);
@@ -1755,10 +1756,14 @@ IO_METHOD(IoSeq, pack)
 				int j = 0;
 				
 				for(j = 0 ; j < size ; j ++, pos += inc)
+				{
 					UArray_appendLong_(ua, from[pos]);
+				}
 					
 				for(j = 0 ; j < padding ; j ++)
+				{
 					UArray_appendLong_(ua, 0);
+				}
 			}
 		}
 	}

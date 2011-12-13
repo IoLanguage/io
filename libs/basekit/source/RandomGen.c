@@ -270,7 +270,7 @@ int RandomGen_randomInt(RandomGen *self)
 double RandomGen_gaussian(RandomGen *self, double m, double s)
 {
 		// http://www.taygeta.com/random/gaussian.html
-	double x1, x2, w, y1, y2;
+	double x1, x2, w, y1; //, y2;
 
 	do {
 		x1 = 2.0 * RandomGen_randomDouble(self) - 1.0;

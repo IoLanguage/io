@@ -756,12 +756,14 @@ double IoObject_doubleGetSlot_(IoObject *self, IoSymbol *slotName)
 	{
 		IoState_error_(IOSTATE, NULL, "missing slot %s in %s",
 					CSTRING(slotName), IoObject_name(self));
+		return 0;
 	}
 
 	if (!ISNUMBER(v))
 	{
 		IoState_error_(IOSTATE, NULL, "slot %s in %s must be a number, not a %s",
 					CSTRING(slotName), IoObject_name(self), IoObject_name(v));
+		return 0;
 	}
 
 	return CNUMBER(v);
@@ -775,12 +777,14 @@ IoObject *IoObject_symbolGetSlot_(IoObject *self, IoSymbol *slotName)
 	{
 		IoState_error_(IOSTATE, NULL, "missing slot %s in %s",
 					CSTRING(slotName), IoObject_name(self));
+		return NULL;
 	}
 
 	if (!ISSYMBOL(v))
 	{
 		IoState_error_(IOSTATE, NULL, "slot %s in %s must be a symbol, not a %s",
 					CSTRING(slotName), IoObject_name(self), IoObject_name(v));
+		return NULL;
 	}
 
 	return v;

@@ -151,7 +151,7 @@ int chdir(const char *path)
 */
 #endif
 
-int isDirectory(struct dirent *dp, char *path)
+int isDirectory(struct dirent *dp, const char *path)
 {
 	struct stat st;
 
@@ -287,7 +287,7 @@ IO_METHOD(IoDirectory, setPath)
 	/*
 	{
 		UArray *path = IoSeq_rawUArray(DATA(self)->path);
-		printf("IoDirectory_setPath path = \"%s\" %i\n", UArray_asCString(path), UArray_itemSize(path));
+		printf("IoDirectory_setPath path = \"%s\" %i\n", CSTRING(path), UArray_itemSize(path));
 	}
 	*/
 	return self;
@@ -302,26 +302,56 @@ IO_METHOD(IoDirectory, name)
 	return IoSeq_lastPathComponent(DATA(self)->path, locals, m);
 }
 
+// _DARWIN_FEATURE_64_BIT_INODE
+
 IoObject *IoDirectory_itemForDirent_(IoDirectory *self, struct dirent *dp)
 {
 	IoSymbol *pathString;
 	int isDir;
 	UArray *path = IoSeq_rawUArray(DATA(self)->path);
 	UArray *ba = UArray_clone(path);
+	UArray_convertToUTF8(ba);
 
-	/*
-	printf("IoDirectory_itemForDirent_ path = \"%s\" %i\n", p, path->itemSize);
-	printf("IoDirectory_itemForDirent_ ba = \"%s\" %i\n", UArray_asCString(ba), ba->itemSize);
-	*/
+
+	//printf("IoDirectory_itemForDirent_ path = \"%s\" %i\n", (char *)UArray_bytes(path), path->itemSize);
+	//printf("IoDirectory_itemForDirent_ ba = \"%s\" %i\n", (char *)UArray_bytes(ba), ba->itemSize);
+
 	if (UArray_size(ba) && !IS_PATH_SEPERATOR(UArray_longAt_(ba, UArray_size(ba) - 1)))
 	{
 		UArray_appendCString_(ba, IO_PATH_SEPARATOR);
 	}
+	
+	UArray_appendBytes_size_(ba, (const unsigned char *)(dp->d_name), dp->d_namlen);
 
-	UArray_appendCString_(ba, dp->d_name);
-	pathString = IoState_symbolWithUArray_copy_(IOSTATE, ba, 0);
 
-	isDir = isDirectory(dp, CSTRING(pathString));
+	//printf("ba1: '%s' %i\n", (char *)UArray_bytes(ba), (int)UArray_sizeInBytes(ba));
+
+	isDir = isDirectory(dp, (const char *)UArray_bytes(ba));
+	
+	pathString = IoState_symbolWithUArray_copy_convertToFixedWidth(IOSTATE, ba, 0);
+
+	//printf("dp->d_name: '%s' %i\n", (char *)dp->d_name, (int)dp->d_namlen );
+
+	//printf("IoDirectory_itemForDirent_: '%s'\n", CSTRING(pathString));
+
+/*	
+	printf("before conversion: '");
+	UArray_print(ba);
+	printf("' ");
+	printf("maxCharSize: %i ", (int)UArray_maxCharSize(ba));
+	printf("encoding: %s\n", CENCODING_name(UArray_encoding(ba)));
+
+	UArray_convertToFixedSizeType(ba);
+	
+
+	printf(" after conversion: '");
+	UArray_print(ba);
+	printf("' ");
+	printf("maxCharSize: %i ", (int)UArray_maxCharSize(ba));
+	printf("encoding: %s\n", CENCODING_name(UArray_encoding(ba)));
+*/
+	
+
 
 	if (isDir)
 	{
@@ -372,8 +402,15 @@ IO_METHOD(IoDirectory, items)
 	*/
 
 	IoList *items = IoList_new(IOSTATE);
-	IoDirectoryData *data = DATA(self);
-	DIR *dirp = opendir(CSTRING(data->path));
+	//IoDirectoryData *data = DATA(self);
+	
+	//DIR *dirp = opendir(CSTRING(data->path));
+	
+	UArray *path = IoSeq_rawUArray(DATA(self)->path);
+	UArray *ba = UArray_clone(path);
+	UArray_convertToUTF8(ba);
+	
+	DIR *dirp = opendir((char *)UArray_bytes(ba));
 	struct dirent *dp;
 
 	if (!dirp)
@@ -387,6 +424,8 @@ IO_METHOD(IoDirectory, items)
 	}
 
 	(void)closedir(dirp);
+	
+	UArray_free(ba);
 	return items;
 }
 
@@ -394,7 +433,7 @@ IoObject *IoDirectory_justFullPath(IoDirectory *self, IoSymbol *name)
 {
 	UArray *fullPath = UArray_clone(IoSeq_rawUArray(DATA(self)->path));
 	UArray_appendPath_(fullPath, IoSeq_rawUArray(name));
-	return IoState_symbolWithUArray_copy_(IOSTATE, fullPath, 0);
+	return IoState_symbolWithUArray_copy_convertToFixedWidth(IOSTATE, fullPath, 0);
 }
 
 IoObject *IoDirectory_justAt(IoDirectory *self, IoSymbol *name)
@@ -567,7 +606,7 @@ UArray *IoDirectory_CurrentWorkingDirectoryAsUArray(void)
 	if (!buf)
 	{
 		return UArray_newWithCString_copy_(".", 1);
-	}
+	} 
 	else
 	{
 		UArray *ba =  UArray_newWithData_type_size_copy_((unsigned char *)buf, CTYPE_uint8_t, strlen(buf), 1);
@@ -589,7 +628,7 @@ IO_METHOD(IoDirectory, currentWorkingDirectory)
 	Returns the current working directory path.
 	*/
 
-	return IoState_symbolWithUArray_copy_(IOSTATE,
+	return IoState_symbolWithUArray_copy_convertToFixedWidth(IOSTATE,
 											IoDirectory_CurrentWorkingDirectoryAsUArray(), 0);
 }
 

@@ -147,13 +147,14 @@ void Coro_setStackSize_(Coro *self, size_t sizeInBytes)
 }
 
 #if __GNUC__ == 4
-uint8_t *Coro_CurrentStackPointer(void) __attribute__ ((noinline));
+ptrdiff_t *Coro_CurrentStackPointer(void) __attribute__ ((noinline));
 #endif
 
-uint8_t *Coro_CurrentStackPointer(void)
+ptrdiff_t *Coro_CurrentStackPointer(void)
 {
-	uint8_t a;
-	uint8_t *b = &a; // to avoid compiler warning about unused variables
+	ptrdiff_t a;
+	ptrdiff_t *b = &a; // to avoid compiler warning about unused variables
+	//ptrdiff_t *c = a ^ (b ^ a); // to avoid 
 	return b;
 }
 
@@ -167,9 +168,13 @@ size_t Coro_bytesLeftOnStack(Coro *self)
 	ptrdiff_t end   = start + self->requestedStackSize;
 
 	if (stackMovesUp) // like PPC
+	{
 		return end - p1;
+	}
 	else // like x86
+	{
 		return p1 - start;
+	}
 }
 
 int Coro_stackSpaceAlmostGone(Coro *self)

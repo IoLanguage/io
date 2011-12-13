@@ -41,7 +41,7 @@ IoObject *IoState_numberWithDouble_(IoState *self, double n)
 // strings ----------------------------------
 
 
-IoSymbol *IoState_symbolWithUArray_copy_(IoState *self, UArray *ba, int copy)
+IoSymbol *IoState_symbolWithUArray_copy_(IoState *self, UArray *ba, int copy) // carefull - doesn't convert to fixed width
 {
 	IoSymbol *ioSymbol = CHash_at_(self->symbols, ba);
 
@@ -58,6 +58,13 @@ IoSymbol *IoState_symbolWithUArray_copy_(IoState *self, UArray *ba, int copy)
 
 	IoState_stackRetain_(self, ioSymbol);
 	return ioSymbol;
+}
+
+IoSymbol *IoState_symbolWithUArray_copy_convertToFixedWidth(IoState *self, UArray *ba, int copy) 
+{
+	IoSymbol *r = IoState_symbolWithCString_length_(self, (const char *)UArray_bytes(ba), UArray_sizeInBytes(ba));
+	if(!copy) UArray_free(ba);
+	return r;
 }
 
 IoSymbol *IoState_symbolWithCString_length_(IoState *self, const char *s, size_t length)

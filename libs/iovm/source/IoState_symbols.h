@@ -6,6 +6,7 @@ IOVM_API void IoState_setupCachedNumbers(IoState *self);
 IOVM_API IoObject *IoState_numberWithDouble_(IoState *self, double n);
 
 IOVM_API IoSymbol *IoState_symbolWithUArray_copy_(IoState *self, UArray *ba, int copy);
+IOVM_API IoSymbol *IoState_symbolWithUArray_copy_convertToFixedWidth(IoState *self, UArray *ba, int copy);
 IOVM_API IoSymbol *IoState_symbolWithCString_(IoState *self, const char *s);
 IOVM_API IoSymbol *IoState_symbolWithCString_length_(IoState *self, const char *s, size_t length);
 
