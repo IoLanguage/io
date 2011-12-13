@@ -69,8 +69,10 @@ void IoUnixPath_free(IoUnixPath *self)
 IoObject *IoUnixPath_setPath(IoUnixPath *self, IoObject *locals, IoMessage *m)
 {
 #if !defined(_WIN32) || defined(__CYGWIN__)
-	char *pathString = IoSeq_asCString(IoMessage_locals_seqArgAt_(m, locals, 0));
-	UnixPath_setPath_(UNIXPATH(self), pathString);
+  IoObject * path = IoMessage_locals_seqArgAt_(m, locals, 0);
+	char *pathString = IoSeq_asCString(path);
+	size_t pathlen = IoSeq_rawSizeInBytes(path);
+	UnixPath_setPath_(UNIXPATH(self), pathString, pathlen);
 	return self;
 #else
 	return IOSYMBOL("Sorry, no Unix Domain sockets on Windows MSCRT");
@@ -80,7 +82,9 @@ IoObject *IoUnixPath_setPath(IoUnixPath *self, IoObject *locals, IoMessage *m)
 IoObject *IoUnixPath_path(IoUnixPath *self, IoObject *locals, IoMessage *m)
 {
 #if !defined(_WIN32) || defined(__CYGWIN__)
-	return IOSYMBOL(UnixPath_path(UNIXPATH(self)));
+  size_t pathlen;
+  char* path = UnixPath_path(UNIXPATH(self), &pathlen);
+  return IoState_symbolWithCString_length_(IOSTATE, path, pathlen);
 #else
 	return IOSYMBOL("Sorry, no Unix Domain sockets on Windows MSCRT");
 #endif

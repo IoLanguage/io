@@ -2,11 +2,15 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define PATHLEN_TO_SIZE(pathlen) ((pathlen) + sizeof(sa_family_t))
+#define SIZE_TO_PATHLEN(size)    ((size)    - sizeof(sa_family_t))
+#define MAXSIZE                  (sizeof(struct sockaddr_un))
+
 UnixPath *UnixPath_new(void)
 {
 	UnixPath *self = io_calloc(1, sizeof(UnixPath));
 	self->sockaddr = io_calloc(1, sizeof(struct sockaddr_un));
-	self->size = sizeof(struct sockaddr_un);
+	self->size = sizeof(sa_family_t);
 	self->addr = Address_newWithUnixPath(self);
 	return self;
 }
@@ -47,15 +51,18 @@ uint16_t UnixPath_family(UnixPath *self)
 	return AF_UNIX;
 }
 
-void UnixPath_setPath_(UnixPath *self, char *path)
+void UnixPath_setPath_(UnixPath *self, char *path, size_t pathlen)
 {
 	self->sockaddr->sun_family = AF_UNIX;
-	strncpy(self->sockaddr->sun_path, path, UNIX_PATH_MAX);
+	self->size = PATHLEN_TO_SIZE(pathlen);
+	if(self->size > MAXSIZE) self->size = MAXSIZE;
+	memcpy(self->sockaddr->sun_path, path, SIZE_TO_PATHLEN(self->size));
 	//printf("UnixPath_setPath: %s\n", self->sockaddr->sun_path);
 }
 
-char *UnixPath_path(UnixPath *self)
+char *UnixPath_path(UnixPath *self, size_t *pathlen)
 {
 	//printf("UnixPath_path: %s\n", self->sockaddr->sun_path);
+	*pathlen = SIZE_TO_PATHLEN(self->size);
 	return self->sockaddr->sun_path;
 }
