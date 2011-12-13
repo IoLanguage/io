@@ -264,7 +264,7 @@ The default format is "%Y %d %H:%M:%S".
 	}
 
 	ba = Duration_asUArrayWithFormat_(DATA(self), format);
-	return IoState_symbolWithUArray_copy_(IOSTATE, ba, 0);
+	return IoState_symbolWithUArray_copy_convertToFixedWidth(IOSTATE, ba, 0);
 }
 
 IO_METHOD(IoDuration, printDuration)

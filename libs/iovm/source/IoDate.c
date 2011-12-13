@@ -638,7 +638,7 @@ null string if no time zone can be obtained
 
 	{
 		UArray *ba = Date_asString(DATA(self), format);
-		return IoState_symbolWithUArray_copy_(IOSTATE, ba, 0);
+		return IoState_symbolWithUArray_copy_convertToFixedWidth(IOSTATE, ba, 0);
 	}
 }
 
