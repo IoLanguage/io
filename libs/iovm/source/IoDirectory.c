@@ -318,7 +318,7 @@ IoObject *IoDirectory_itemForDirent_(IoDirectory *self, struct dirent *dp)
 		UArray_appendCString_(ba, IO_PATH_SEPARATOR);
 	}
 	
-	UArray_appendBytes_size_(ba, (const unsigned char *)(dp->d_name), dp->d_namlen);
+	UArray_appendBytes_size_(ba, (const unsigned char *)(dp->d_name), strlen(dp->d_name));
 
 
 	//printf("ba1: '%s' %i\n", (char *)UArray_bytes(ba), (int)UArray_sizeInBytes(ba));
