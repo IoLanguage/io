@@ -136,12 +136,12 @@ IoObject *IoSystemCall_asyncRun(IoSystemCall *self, IoObject *locals, IoMessage 
 		IOASSERT(ISSEQ(k), "envKeys must be strings");
 		v = IoMap_rawAt(envMap, k);
 		IOASSERT(ISSEQ(v), "envValues must be strings");
-		callsystem_setenv(&(DATA(self)->env), CSTRING(k), CSTRING(v));
+		callsystem_setenv(&(DATA(self)->env), UTF8CSTRING(k), UTF8CSTRING(v));
 	);
 
 	LIST_FOREACH(args, i, arg,
 		IOASSERT(ISSEQ(arg), "args must be strings");
-		callsystem_argv_pushback(&DATA(self)->args, CSTRING(arg));
+		callsystem_argv_pushback(&DATA(self)->args, UTF8CSTRING(arg));
 	);
 
 
