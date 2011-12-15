@@ -7,7 +7,7 @@
 #include "IoCoroutine.h"
 #include "IoSeq.h"
 
-#define IOSTATE_SHOW_ERRORS 1
+//#define IOSTATE_SHOW_ERRORS 1
 
 void IoState_fatalError_(IoState *self, char *error)
 {
