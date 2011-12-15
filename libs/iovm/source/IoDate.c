@@ -628,12 +628,12 @@ null string if no time zone can be obtained
 
 	if (IoMessage_argCount(m) == 1)
 	{
-		format = UTF8CSTRING(IoMessage_locals_symbolArgAt_(m, locals, 0));
+		format = CSTRING(IoMessage_locals_symbolArgAt_(m, locals, 0));
 	}
 	else
 	{
 		IoObject *f = IoObject_getSlot_(self, IOSYMBOL("format"));
-		if (ISSEQ(f)) { format = UTF8CSTRING(f); }
+		if (ISSEQ(f)) { format = CSTRING(f); }
 	}
 
 	{
