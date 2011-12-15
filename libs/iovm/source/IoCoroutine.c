@@ -615,7 +615,7 @@ void IoCoroutine_rawPrintBackTrace(IoCoroutine *self)
 
 		if (error)
 		{
-			fputs(CSTRING(error), stderr);
+			fputs(UTF8CSTRING(error), stderr);
 			fputs("\n", stderr);
 		}
 		else

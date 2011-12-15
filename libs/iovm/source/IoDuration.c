@@ -260,7 +260,7 @@ The default format is "%Y %d %H:%M:%S".
 
 	if (IoMessage_argCount(m) == 1)
 	{
-		format = CSTRING(IoMessage_locals_symbolArgAt_(m, locals, 0));
+		format = UTF8CSTRING(IoMessage_locals_symbolArgAt_(m, locals, 0));
 	}
 
 	ba = Duration_asUArrayWithFormat_(DATA(self), format);

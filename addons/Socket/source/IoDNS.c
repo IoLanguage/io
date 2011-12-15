@@ -177,7 +177,7 @@ Assembles a DNS query packet for the given host name and returns it in a Sequenc
 	IoSeq *hostName = IoMessage_locals_seqArgAt_(m, locals, 0);
 	IoSeq *packet = IoSeq_new(IOSTATE);
 	int packetLength;
-	char *host = CSTRING(hostName);
+	char *host = UTF8CSTRING(hostName);
 
 	IoSeq_rawSetSize_(packet, 512);
 	packetLength = assemble(IoSeq_rawBytes(packet), 512, 0, host);
