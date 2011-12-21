@@ -1,4 +1,3 @@
-
 NotificationListener := Object clone do(
 	//metadoc NotificationListener category Core
 	
@@ -22,12 +21,12 @@ NotificationListener := Object clone do(
 /*doc NotificationListener handleNotification(aNotification) 
 Checks to see if aNotification matches the listener criteria and if so, sends it to the target. Implementation:
 <pre>
-if((name == nil or name == n name) and(object == nil or sender == n sender),
+if((name == nil or name == n name) and(sender == nil or sender == n sender),
 	target perform(action, n)
 )
 </pre>
 */
-		if((name == nil or name == n name) and(object == nil or sender == n sender),
+		if((name == nil or name == n name) and(sender == nil or sender == n sender),
 			target perform(action, n)
 		)
 	)
