@@ -128,7 +128,84 @@ void *IoCoroutine_cid(IoCoroutine *self)
 	return DATA(self)->cid;
 }
 
+/*
 // runTarget
+
+void IoCoroutine_rawSetRunTarget_(IoCoroutine *self, IoObject *v)
+{
+	IoObject_setSlot_to_(self, IOSTATE->runTargetSymbol, v);
+}
+
+IoObject *IoCoroutine_rawRunTarget(IoCoroutine *self)
+{
+	return IoObject_rawGetSlot_(self, IOSTATE->runTargetSymbol);
+}
+
+// runMessage
+
+void IoCoroutine_rawSetRunMessage_(IoCoroutine *self, IoObject *v)
+{
+	IoObject_setSlot_to_(self, IOSTATE->runMessageSymbol, v);
+}
+
+IoObject *IoCoroutine_rawRunMessage(IoCoroutine *self)
+{
+	return IoObject_rawGetSlot_(self, IOSTATE->runMessageSymbol);
+}
+
+// runLocals
+
+void IoCoroutine_rawSetRunLocals_(IoCoroutine *self, IoObject *v)
+{
+	IoObject_setSlot_to_(self, IOSTATE->runLocalsSymbol, v);
+}
+
+IoObject *IoCoroutine_rawRunLocals(IoCoroutine *self)
+{
+	return IoObject_rawGetSlot_(self, IOSTATE->runLocalsSymbol);
+}
+
+// parent
+
+void IoCoroutine_rawSetParentCoroutine_(IoCoroutine *self, IoObject *v)
+{
+	IoObject_setSlot_to_(self, IOSTATE->parentCoroutineSymbol, v);
+}
+
+IoObject *IoCoroutine_rawParentCoroutine(IoCoroutine *self)
+{
+	return IoObject_getSlot_(self, IOSTATE->parentCoroutineSymbol);
+}
+
+// result
+
+void IoCoroutine_rawSetResult_(IoCoroutine *self, IoObject *v)
+{
+	IoObject_setSlot_to_(self, IOSTATE->resultSymbol, v);
+}
+
+IoObject *IoCoroutine_rawResult(IoCoroutine *self)
+{
+	return IoObject_getSlot_(self, IOSTATE->resultSymbol);
+}
+
+// exception
+
+void IoCoroutine_rawRemoveException(IoCoroutine *self)
+{
+	IoObject_removeSlot_(self, IOSTATE->exceptionSymbol);
+}
+
+void IoCoroutine_rawSetException_(IoCoroutine *self, IoObject *v)
+{
+	IoObject_setSlot_to_(self, IOSTATE->exceptionSymbol, v);
+}
+
+IoObject *IoCoroutine_rawException(IoCoroutine *self)
+{
+	return IoObject_getSlot_(self, IOSTATE->exceptionSymbol);
+}
+*/
 
 void IoCoroutine_rawSetRunTarget_(IoCoroutine *self, IoObject *v)
 {
@@ -204,6 +281,7 @@ IoObject *IoCoroutine_rawException(IoCoroutine *self)
 {
 	return IoObject_getSlot_(self, IOSYMBOL("exception"));
 }
+
 
 // ioStack
 

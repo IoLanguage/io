@@ -167,6 +167,11 @@ IoSeq *IoSeq_newWithUArray_copy_(void *state, UArray *ba, int copy)
 	return self;
 }
 
+IoSeq *IoSeq_asUTF8Seq(void *state, IoSeq *self)
+{
+	return IoSeq_newWithUArray_copy_(state, UArray_asUTF8(DATA(self)), 0);
+}
+
 IoSeq *IoSeq_newFromFilePath_(void *state, const char *path)
 {
 	IoSeq *self = IoSeq_new(state);

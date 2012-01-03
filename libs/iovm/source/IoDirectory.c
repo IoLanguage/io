@@ -151,7 +151,7 @@ int chdir(const char *path)
 */
 #endif
 
-int isDirectory(struct dirent *dp, char *path)
+int isDirectory(struct dirent *dp, const char *path)
 {
 	struct stat st;
 
@@ -287,7 +287,7 @@ IO_METHOD(IoDirectory, setPath)
 	/*
 	{
 		UArray *path = IoSeq_rawUArray(DATA(self)->path);
-		printf("IoDirectory_setPath path = \"%s\" %i\n", UArray_asCString(path), UArray_itemSize(path));
+		printf("IoDirectory_setPath path = \"%s\" %i\n", UTF8CSTRING(path), UArray_itemSize(path));
 	}
 	*/
 	return self;
@@ -302,26 +302,30 @@ IO_METHOD(IoDirectory, name)
 	return IoSeq_lastPathComponent(DATA(self)->path, locals, m);
 }
 
+// _DARWIN_FEATURE_64_BIT_INODE
+
 IoObject *IoDirectory_itemForDirent_(IoDirectory *self, struct dirent *dp)
 {
 	IoSymbol *pathString;
 	int isDir;
 	UArray *path = IoSeq_rawUArray(DATA(self)->path);
 	UArray *ba = UArray_clone(path);
+	UArray_convertToUTF8(ba);
 
-	/*
-	printf("IoDirectory_itemForDirent_ path = \"%s\" %i\n", p, path->itemSize);
-	printf("IoDirectory_itemForDirent_ ba = \"%s\" %i\n", UArray_asCString(ba), ba->itemSize);
-	*/
+
 	if (UArray_size(ba) && !IS_PATH_SEPERATOR(UArray_longAt_(ba, UArray_size(ba) - 1)))
 	{
 		UArray_appendCString_(ba, IO_PATH_SEPARATOR);
 	}
+	
+	UArray_appendBytes_size_(ba, (const unsigned char *)(dp->d_name), strlen(dp->d_name));
 
-	UArray_appendCString_(ba, dp->d_name);
-	pathString = IoState_symbolWithUArray_copy_(IOSTATE, ba, 0);
 
-	isDir = isDirectory(dp, CSTRING(pathString));
+	//printf("ba1: '%s' %i\n", (char *)UArray_bytes(ba), (int)UArray_sizeInBytes(ba));
+
+	isDir = isDirectory(dp, (const char *)UArray_bytes(ba));
+	
+	pathString = IoState_symbolWithUArray_copy_convertToFixedWidth(IOSTATE, ba, 0);
 
 	if (isDir)
 	{
@@ -347,7 +351,7 @@ IO_METHOD(IoDirectory, exists)
 	}
 
 #if !defined(_WIN32) || defined(__CYGWIN__)
-	dirp = opendir(CSTRING(path));
+	dirp = opendir(UTF8CSTRING(path));
 
 	if (!dirp)
 	{
@@ -358,7 +362,7 @@ IO_METHOD(IoDirectory, exists)
 	return IOTRUE(self);
 #else
 	{
-		DWORD d = GetFileAttributes(CSTRING(path));
+		DWORD d = GetFileAttributes(UTF8CSTRING(path));
 		return (d != INVALID_FILE_ATTRIBUTES) && (d & FILE_ATTRIBUTE_DIRECTORY) ? IOTRUE(self) : IOFALSE(self);
 	}
 #endif
@@ -372,13 +376,12 @@ IO_METHOD(IoDirectory, items)
 	*/
 
 	IoList *items = IoList_new(IOSTATE);
-	IoDirectoryData *data = DATA(self);
-	DIR *dirp = opendir(CSTRING(data->path));
+	DIR *dirp = opendir(UTF8CSTRING(DATA(self)->path));
 	struct dirent *dp;
 
 	if (!dirp)
 	{
-		IoState_error_(IOSTATE, m, "Unable to open directory %s", CSTRING(DATA(self)->path));
+		IoState_error_(IOSTATE, m, "Unable to open directory %s", UTF8CSTRING(DATA(self)->path));
 	}
 
 	while ((dp = readdir(dirp)) != NULL)
@@ -387,6 +390,7 @@ IO_METHOD(IoDirectory, items)
 	}
 
 	(void)closedir(dirp);
+	
 	return items;
 }
 
@@ -394,7 +398,7 @@ IoObject *IoDirectory_justFullPath(IoDirectory *self, IoSymbol *name)
 {
 	UArray *fullPath = UArray_clone(IoSeq_rawUArray(DATA(self)->path));
 	UArray_appendPath_(fullPath, IoSeq_rawUArray(name));
-	return IoState_symbolWithUArray_copy_(IOSTATE, fullPath, 0);
+	return IoState_symbolWithUArray_copy_convertToFixedWidth(IOSTATE, fullPath, 0);
 }
 
 IoObject *IoDirectory_justAt(IoDirectory *self, IoSymbol *name)
@@ -403,7 +407,7 @@ IoObject *IoDirectory_justAt(IoDirectory *self, IoSymbol *name)
 	IoSymbol *fullPath = IoDirectory_justFullPath(self, name);
 	struct stat st;
 
-	if (stat(CSTRING(fullPath), &st) == -1)
+	if (stat(UTF8CSTRING(fullPath), &st) == -1)
 	{
 		return IONIL(self);
 	}
@@ -433,7 +437,7 @@ IO_METHOD(IoDirectory, at)
 	IoObject *item = IoDirectory_justAt(self, name);
 	if (ISNIL(item))
 	{
-		IoState_error_(IOSTATE, m, "Unable to open path %s", CSTRING(IoDirectory_justFullPath(self, name)));
+		IoState_error_(IOSTATE, m, "Unable to open path %s", UTF8CSTRING(IoDirectory_justFullPath(self, name)));
 	}
 	return item;
 	*/
@@ -446,7 +450,7 @@ IO_METHOD(IoDirectory, atPut)
 	IoObject *item = IoDirectory_justAt(self, name);
 	if (ISNIL(item))
 	{
-		IoState_error_(IOSTATE,  m, "Unable to open path %s", CSTRING(IoDirectory_justFullPath(self, name)));
+		IoState_error_(IOSTATE,  m, "Unable to open path %s", UTF8CSTRING(IoDirectory_justFullPath(self, name)));
 	}
 	return item;
 }
@@ -456,12 +460,12 @@ IO_METHOD(IoDirectory, atPut)
 IO_METHOD(IoDirectory, itemNamed)
 {
 	IoSymbol *itemName = IoMessage_locals_symbolArgAt_(m, locals, 0);
-	char *name = CSTRING(itemName);
-	DIR *dirp = opendir(CSTRING(DATA(self)->path));
+	char *name = UTF8CSTRING(itemName);
+	DIR *dirp = opendir(UTF8CSTRING(DATA(self)->path));
 	struct dirent *dp;
 	if (!dirp)
 	{
-		IoState_error_(IOSTATE, m, "Unable to open directory %s", CSTRING(DATA(self)->path));
+		IoState_error_(IOSTATE, m, "Unable to open directory %s", UTF8CSTRING(DATA(self)->path));
 	}
 
 	while ((dp = readdir(dirp)) != NULL)
@@ -496,13 +500,13 @@ IO_METHOD(IoDirectory, createSubdirectory)
 	if (ISFILE(currentItem))
 	{
 		IoState_error_(IOSTATE, m, "Attempt to create directory %s on top of existing file",
-						CSTRING(subfolderName));
+						UTF8CSTRING(subfolderName));
 	}
 	else
 	{
 		IoSymbol *fullPath = IoDirectory_justFullPath(self, subfolderName);
 
-		MKDIR(CSTRING(fullPath), S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
+		MKDIR(UTF8CSTRING(fullPath), S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
 		return IoDirectory_newWithPath_(state, fullPath);
 	}
 
@@ -517,10 +521,10 @@ IO_METHOD(IoDirectory, create)
 	Returns self on success (or if the directory already exists), nil on failure.
 	*/
 	
-	if (!opendir(CSTRING(DATA(self)->path)))
+	if (!opendir(UTF8CSTRING(DATA(self)->path)))
 	{
 		// not there, so make it
-		int r = MKDIR(CSTRING(DATA(self)->path), S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
+		int r = MKDIR(UTF8CSTRING(DATA(self)->path), S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
 		return (r == 0) ? self : IONIL(self);
 	}
 	
@@ -535,12 +539,12 @@ IO_METHOD(IoDirectory, size)
 	*/
 
 	int count = 0;
-	DIR *dirp = opendir(CSTRING(DATA(self)->path));
+	DIR *dirp = opendir(UTF8CSTRING(DATA(self)->path));
 	struct dirent *dp;
 
 	if (!dirp)
 	{
-		IoState_error_(IOSTATE, m, "Unable to open directory %s", CSTRING(DATA(self)->path));
+		IoState_error_(IOSTATE, m, "Unable to open directory %s", UTF8CSTRING(DATA(self)->path));
 	}
 
 	while ((dp = readdir(dirp)) != NULL)
@@ -567,7 +571,7 @@ UArray *IoDirectory_CurrentWorkingDirectoryAsUArray(void)
 	if (!buf)
 	{
 		return UArray_newWithCString_copy_(".", 1);
-	}
+	} 
 	else
 	{
 		UArray *ba =  UArray_newWithData_type_size_copy_((unsigned char *)buf, CTYPE_uint8_t, strlen(buf), 1);
@@ -589,7 +593,7 @@ IO_METHOD(IoDirectory, currentWorkingDirectory)
 	Returns the current working directory path.
 	*/
 
-	return IoState_symbolWithUArray_copy_(IOSTATE,
+	return IoState_symbolWithUArray_copy_convertToFixedWidth(IOSTATE,
 											IoDirectory_CurrentWorkingDirectoryAsUArray(), 0);
 }
 
@@ -609,7 +613,7 @@ IO_METHOD(IoDirectory, setCurrentWorkingDirectory)
 
 	IoSymbol *path = IoMessage_locals_symbolArgAt_(m, locals, 0);
 
-	if(chdir(CSTRING(path)) == -1)
+	if(chdir(UTF8CSTRING(path)) == -1)
 	{
 		return IOFAILURE(self);
 	}

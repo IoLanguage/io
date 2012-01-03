@@ -1,3 +1,19 @@
+tildeExpandsTo := method(
+    platform := System platform
+
+    if(platform == "windows" or platform == "mingw",
+        # Windows
+        System getEnvironmentVariable("UserProfile"),
+
+        # Unix
+        System getEnvironmentVariable("HOME")
+    )
+)
+
+Sequence stringByExpandingTilde := method(
+	self split("~") join(tildeExpandsTo())
+)
+
 Path := Object clone do(
 	//metadoc Path category FileSystem
 
@@ -34,6 +50,8 @@ Path := Object clone do(
 
 	//doc Path absolute Returns an absolute version of the path.
 	absolute := method(path,
+		path := path stringByExpandingTilde
+
 		if(isPathAbsolute(path),
 			path
 		,

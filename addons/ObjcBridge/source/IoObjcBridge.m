@@ -225,6 +225,7 @@ void *IoObjcBridge_proxyForId_(IoObjcBridge *self, id obj)
 		Io2Objc_setBridge(v, self);
 		Io2Objc_setObject(v, obj);
 		CHash_at_put_(DATA(self)->io2objcs, obj, v);
+		//printf("io2objcs %i\n", (int)CHash_size(DATA(self)->io2objcs));
 	}
 	
 	return v;
@@ -241,6 +242,7 @@ void *IoObjcBridge_proxyForIoObject_(IoObjcBridge *self, IoObject *v)
 		[obj setIoObject:v];
 		//CHash_at_put_(DATA(self)->objc2ios, IOREF(v), obj);
 		IoObjcBridge_addValue_(self, v, obj);
+		//printf("objc2ios %i\n", (int)CHash_size(DATA(self)->objc2ios));
 	}
 	
 	return obj;
@@ -568,9 +570,9 @@ void *IoObjcBridge_cValueForIoObject_ofType_error_(IoObjcBridge *self, IoObject 
 	{
 		case '@':
 			if (ISMUTABLESEQ(value))
-				DATA(self)->cValue.o = [NSMutableString stringWithUTF8String:CSTRING(value)];
+				DATA(self)->cValue.o = [NSMutableString stringWithUTF8String:UTF8CSTRING(value)];
 			else if (ISSYMBOL(value))
-				DATA(self)->cValue.o = [NSString stringWithUTF8String:CSTRING(value)];
+				DATA(self)->cValue.o = [NSString stringWithUTF8String:UTF8CSTRING(value)];
 			else if (ISNUMBER(value))
 				DATA(self)->cValue.o = [NSNumber numberWithInt:IoNumber_asInt(value)];
 			else if (ISIO2OBJC(value))

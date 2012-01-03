@@ -7,7 +7,7 @@ dynlibs := Directory with("addons") directories map(f,
 ) select(!= nil)
 
 depends := dynlibs map(dllFile,
-   lines := SystemCall clone setCommand("otool") setArguments(list("-L", dllFile path)) run stdout readLines 
+   lines := SystemCall clone setCommand("otool") setArguments(list("-L", dllFile path)) run split("\n") //stdout readLines 
 	//foreach(println)
 	lines mapInPlace(beforeSeq("(") strip) 
 	lines removeFirst
@@ -29,7 +29,7 @@ installScript := external fileNamed("install.sh") remove open
 depends foreach(depend,
 	writeln("copying ", depend, " to ", external path)
 	installScript write("cp ", Path with(external path, depend lastPathComponent), " ", depend, "\n");
-	SystemCall clone setCommand("cp") setArguments(list(depend, external path)) run stdout readLines 
+	SystemCall clone setCommand("cp") setArguments(list(depend, external path)) run split("\n") //stdout readLines 
 )
 installScript close
 SystemCall clone setCommand("chmod") setArguments(list("ug+x", installScript path)) run 

@@ -7,6 +7,13 @@
 # build both because we need the static binary to use our build
 # system written in Io, before Io gets installed. Makes sense, eh?
 
+# Set RPATH if the the install prefix is a non-system location
+LIST(FIND CMAKE_PLATFORM_IMPLICIT_LINK_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/lib" isSystemDir)
+IF("${isSystemDir}" STREQUAL "-1")
+	SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+ENDIF("${isSystemDir}" STREQUAL "-1")
+
+
 # Some platform specific stuff. Do we have a sane popen? By sane
 # we mean does it allow for a bidirectional pipe to be opened?
 if(${CMAKE_SYSTEM_NAME} MATCHES "(Darwin|FreeBSD|NetBSD)")

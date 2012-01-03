@@ -118,6 +118,9 @@
 
 - (void)forwardInvocation:(NSInvocation *)invocation
 {
+	IoState *state = IoObject_state(ioValue);
+	IoState_pushRetainPool(state); // fix for leak
+
 	if(IoObjcBridge_rawDebugOn(IoObjcBridge_sharedBridge()))
 	{
 		printf("Objc2Io forwardInvocation:\n");
@@ -155,6 +158,7 @@
 		
 		[invocation setReturnValue:cResult];
 	}
+	IoState_popRetainPool(state);
 }
 
 - (NSString *)description

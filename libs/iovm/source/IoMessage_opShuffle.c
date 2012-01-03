@@ -390,16 +390,19 @@ void Levels_attach(Levels *self, IoMessage *msg, List *expressions)
 			// Could be handled as, message(:= 42) -> setSlot(nil, 42)
 
 			IoState_error_(state, msg, "compile error: %s requires a symbol to its left.", messageName);
+			return;
 		}
 
 		if (IoMessage_argCount(attaching) > 0) // a(1,2,3) := b ;
 		{
 			IoState_error_(state, msg, "compile error: The symbol to the left of %s cannot have arguments.", messageName);
+			return;
 		}
 
 		if (msgArgCount > 1) // setSlot("a") :=(b, c, d) e ;
 		{
 			IoState_error_(state, msg, "compile error: Assign operator passed multiple arguments, e.g., a := (b, c).", messageName);
+			return;
 		}
 
 
