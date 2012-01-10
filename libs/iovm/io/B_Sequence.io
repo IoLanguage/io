@@ -220,11 +220,10 @@ Sequence do(
 	fileName := method(
 		if(self isEmpty, return(self))
 		lastPathComponent := self split("/") last
-		parts := lastPathComponent split(".") exSlice(0, -1)
+		parts := lastPathComponent split(".") 
 		if(parts size > 1,
-			parts exSlice(0, -1) join(".")
-		,
-			parts first
+			parts removeLast
 		)
+		parts join(".")
 	)
 )
