@@ -230,7 +230,7 @@ IoObject *IoSQLite3_open(IoSQLite3 *self, IoObject *locals, IoMessage *m)
 		DATA(self)->path = IOREF(IoMessage_locals_symbolArgAt_(m, locals, 0));
 	}
 
-	IoSQLite3_justOpen(self)
+	IoSQLite3_justOpen(self);
 	return self;
 }
 
