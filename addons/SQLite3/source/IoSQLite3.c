@@ -201,6 +201,18 @@ IoObject *IoSQLite3_setTimeoutSeconds(IoSQLite3 *self, IoObject *locals, IoMessa
 	return self;
 }
 
+void IoSQLite3_justOpen(IoSQLite3 *self)
+{
+	sqlite3_open(CSTRING(DATA(self)->path), &(DATA(self)->db));
+	
+	IoSQLite3_showError(self);
+	
+	sqlite3_busy_handler(DATA(self)->db, IoSQLite3_busyHandler, self);
+	sqlite3_busy_timeout(DATA(self)->db, DATA(self)->timeoutSeconds * 1000);
+	return self;
+}
+
+
 IoObject *IoSQLite3_open(IoSQLite3 *self, IoObject *locals, IoMessage *m)
 {
 	/*doc SQLite3 open(optionalPathString)
@@ -218,12 +230,7 @@ IoObject *IoSQLite3_open(IoSQLite3 *self, IoObject *locals, IoMessage *m)
 		DATA(self)->path = IOREF(IoMessage_locals_symbolArgAt_(m, locals, 0));
 	}
 
-	sqlite3_open(CSTRING(DATA(self)->path), &(DATA(self)->db));
-
-	IoSQLite3_showError(self);
-
-	sqlite3_busy_handler(DATA(self)->db, IoSQLite3_busyHandler, self);
-	sqlite3_busy_timeout(DATA(self)->db, DATA(self)->timeoutSeconds * 1000);
+	IoSQLite3_justOpen(self)
 	return self;
 }
 
@@ -329,7 +336,7 @@ IoObject *IoSQLite3_execWithCallback(IoSQLite3 *self,
 
 	if (!DATA(self)->db)
 	{
-		IoSQLite3_open(self, locals, m);
+		IoSQLite3_justOpen(self);
 
 		if (!DATA(self)->db)
 		{
