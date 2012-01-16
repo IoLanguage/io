@@ -17,9 +17,11 @@ An object for encoding and decoding audio files (principally WAV and AIFF) using
 
 #define DATA(self) ((IoLibSndFileData *)IoObject_dataPointer(self))
 
+static const char *protoId = "LibSndFile";
+
 IoTag *IoLibSndFile_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("LibSndFile");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoLibSndFile_rawClone);
 	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoLibSndFile_mark);
@@ -37,7 +39,7 @@ IoLibSndFile *IoLibSndFile_proto(void *state)
 	DATA(self)->outputBuffer = IoSeq_new(state);
 	DATA(self)->sfinfo = calloc(1, sizeof(SF_INFO));
 
-	IoState_registerProtoWithFunc_(state, self, IoLibSndFile_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -68,7 +70,7 @@ IoLibSndFile *IoLibSndFile_rawClone(IoLibSndFile *proto)
 
 IoLibSndFile *IoLibSndFile_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoLibSndFile_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

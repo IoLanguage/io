@@ -14,9 +14,11 @@ ODEJoint binding
 
 /* ----------------------------------------------------------- */
 
+static const char *protoId = "ODEHinge2";
+
 IoTag *IoODEHinge2_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("ODEHinge2");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoODEHinge2_free);
 	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoODEHinge2_mark);

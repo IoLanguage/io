@@ -24,9 +24,11 @@ result := z outputBuffer
 
 #define DATA(self) ((IoLZOData *)(IoObject_dataPointer(self)))
 
+static const char *protoId = "LZODecoder";
+
 IoTag *IoLZODecoder_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("LZODecoder");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoLZODecoder_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoLZODecoder_rawClone);
@@ -40,7 +42,7 @@ IoLZODecoder *IoLZODecoder_proto(void *state)
 
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoLZOData)));
 
-	IoState_registerProtoWithFunc_(state, self, IoLZODecoder_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -64,7 +66,7 @@ IoLZODecoder *IoLZODecoder_rawClone(IoLZODecoder *proto)
 
 IoLZODecoder *IoLZODecoder_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoLZODecoder_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

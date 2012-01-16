@@ -25,9 +25,11 @@ Currently supported formats include PNG(which supports alpha), JPG and TIFF.
 
 #define DATA(self) ((IoImageData *)IoObject_dataPointer(self))
 
+static const char *protoId = "Image";
+
 IoTag *IoImage_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("Image");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoImage_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoImage_free);
@@ -46,7 +48,7 @@ IoImage *IoImage_proto(void *state)
 	DATA(self)->image = Image_new();
 	Image_setExternalUArray_(DATA(self)->image, IoSeq_rawUArray(DATA(self)->buffer));
 
-	IoState_registerProtoWithFunc_(state, self, IoImage_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -107,7 +109,7 @@ IoImage *IoImage_rawClone(IoImage *proto)
 
 IoImage *IoImage_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoImage_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

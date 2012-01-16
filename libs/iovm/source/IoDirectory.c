@@ -181,13 +181,13 @@ int isDirectory(struct dirent *dp, const char *path)
 }
 
 
-static const char *protoId = "IoDirectory";
+static const char *protoId = "Directory";
 
 #define DATA(self) ((IoDirectoryData *)IoObject_dataPointer(self))
 
 IoTag *IoDirectory_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("Directory");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoDirectory_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoDirectory_free);
@@ -203,7 +203,7 @@ IoDirectory *IoDirectory_proto(void *state)
 	IoObject_setDataPointer_(self, io_calloc(1, sizeof(IoDirectoryData)));
 	DATA(self)->path = IOSYMBOL(".");
 
-	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
+	IoState_registerProtoWithId_((IoState *)state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -235,7 +235,7 @@ IoDirectory *IoDirectory_rawClone(IoDirectory *proto)
 
 IoDirectory *IoDirectory_new(void *state)
 {
-	IoDirectory *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
+	IoDirectory *proto = IoState_protoWithId_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 

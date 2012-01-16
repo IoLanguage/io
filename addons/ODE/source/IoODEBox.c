@@ -16,9 +16,11 @@ ODEBox binding
 #define DATA(self) ((IoODEBoxData *)IoObject_dataPointer(self))
 #define GEOMID (DATA(self)->geomId)
 
+static const char *protoId = "ODEBox";
+
 IoTag *IoODEBox_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("ODEBox");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoODEBox_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoODEBox_rawClone);
@@ -34,7 +36,7 @@ IoODEBox *IoODEBox_proto(void *state)
 
 	GEOMID = 0;
 
-	IoState_registerProtoWithFunc_(state, self, IoODEBox_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -62,7 +64,7 @@ IoODEBox *IoODEBox_rawClone(IoODEBox *proto)
 
 IoODEBox *IoODEBox_new(void *state, dGeomID geomId)
 {
-	IoODEBox *proto = IoState_protoWithInitFunction_(state, IoODEBox_proto);
+	IoODEBox *proto = IoState_protoWithId_(state, protoId);
 	IoODEBox *self = IOCLONE(proto);
 	GEOMID = geomId;
 	dGeomSetData(GEOMID, self);

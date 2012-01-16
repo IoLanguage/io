@@ -10,13 +10,13 @@ Call stores slots related to activation.
 #include "IoState.h"
 #include "IoObject.h"
 
-static const char *protoId = "IoCall";
+static const char *protoId = "Call";
 
 #define DATA(self) ((IoCallData *)IoObject_dataPointer(self))
 
 IoTag *IoCall_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("Call");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCall_rawClone);
 	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoCall_mark);
@@ -60,7 +60,7 @@ IoCall *IoCall_proto(void *vState)
 	IoObject_tag_(self, IoCall_newTag(state));
 	IoCall_initSlots(self);
 
-	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
+	IoState_registerProtoWithId_((IoState *)state, self, protoId);
 
 	IoObject_addMethodTable_(self, methodTable);
 	return self;
@@ -77,7 +77,7 @@ IoCall *IoCall_rawClone(IoCall *proto)
 
 IoCall *IoCall_new(IoState *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
+	IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 

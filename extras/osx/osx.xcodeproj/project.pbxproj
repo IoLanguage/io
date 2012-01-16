@@ -20,31 +20,19 @@
 		AA1C3FB90B7448B500334368 /* SHash_inline.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA1C3FAB0B7448B500334368 /* SHash_inline.h */; };
 		AA1C3FBA0B7448B500334368 /* SHash.c in Sources */ = {isa = PBXBuildFile; fileRef = AA1C3FAC0B7448B500334368 /* SHash.c */; };
 		AA1C3FBB0B7448B500334368 /* SHash.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA1C3FAD0B7448B500334368 /* SHash.h */; };
-		AA6ABF8D0BA8012F0049770F /* build.io in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA6ABF760BA8012F0049770F /* build.io */; };
-		AA6ABF8E0BA8012F0049770F /* depends in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA6ABF770BA8012F0049770F /* depends */; };
-		AA6ABF8F0BA8012F0049770F /* frameworks in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA6ABF780BA8012F0049770F /* frameworks */; };
+		AA3D09DD14C3CD99002E4947 /* IoOggInit.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3D09D414C3CD99002E4947 /* IoOggInit.c */; };
+		AA3D09DE14C3CD99002E4947 /* IoOggPacket.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3D09D514C3CD99002E4947 /* IoOggPacket.c */; };
+		AA3D09DF14C3CD99002E4947 /* IoOggPage.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3D09D714C3CD99002E4947 /* IoOggPage.c */; };
+		AA3D09E014C3CD99002E4947 /* IoOggStreamState.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3D09D914C3CD99002E4947 /* IoOggStreamState.c */; };
+		AA3D09E114C3CD99002E4947 /* IoOggSyncState.c in Sources */ = {isa = PBXBuildFile; fileRef = AA3D09DB14C3CD99002E4947 /* IoOggSyncState.c */; };
 		AA6ABF900BA8012F0049770F /* Vector.io in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA6ABF7A0BA8012F0049770F /* Vector.io */; };
-		AA6ABF910BA8012F0049770F /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = AA6ABF7B0BA8012F0049770F /* Makefile */; };
-		AA6ABF920BA8012F0049770F /* protos in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA6ABF7C0BA8012F0049770F /* protos */; };
 		AA6ABF930BA8012F0049770F /* IoBox.c in Sources */ = {isa = PBXBuildFile; fileRef = AA6ABF800BA8012F0049770F /* IoBox.c */; };
 		AA6ABF940BA8012F0049770F /* IoBox.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA6ABF810BA8012F0049770F /* IoBox.h */; };
-		AA6ABF950BA8012F0049770F /* mandlebrot.c in Sources */ = {isa = PBXBuildFile; fileRef = AA6ABF840BA8012F0049770F /* mandlebrot.c */; };
-		AA6ABF960BA8012F0049770F /* mandlebrot.io in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA6ABF850BA8012F0049770F /* mandlebrot.io */; };
-		AA6ABF970BA8012F0049770F /* mandlebrot.py in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA6ABF860BA8012F0049770F /* mandlebrot.py */; };
-		AA6ABF980BA8012F0049770F /* runSpeedTests.io in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA6ABF870BA8012F0049770F /* runSpeedTests.io */; };
-		AA6ABF990BA8012F0049770F /* speed.io in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA6ABF880BA8012F0049770F /* speed.io */; };
-		AA6ABF9A0BA8012F0049770F /* speed.py in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA6ABF890BA8012F0049770F /* speed.py */; };
-		AA6ABF9B0BA8012F0049770F /* SpeedResults.txt in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA6ABF8A0BA8012F0049770F /* SpeedResults.txt */; };
-		AA6ABF9C0BA8012F0049770F /* run.io in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA6ABF8B0BA8012F0049770F /* run.io */; };
-		AA6ABF9D0BA8012F0049770F /* VectorTest.io in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA6ABF8C0BA8012F0049770F /* VectorTest.io */; };
 		AA6ABFE30BA8D27E0049770F /* IoSeq_vector.c in Sources */ = {isa = PBXBuildFile; fileRef = AA6ABFE10BA8D27E0049770F /* IoSeq_vector.c */; };
 		AA6ABFE40BA8D27E0049770F /* IoSeq_vector.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA6ABFE20BA8D27E0049770F /* IoSeq_vector.h */; };
 		AA7D63400B60124100D7DEA9 /* IoAsyncRequest.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D57B80B60123800D7DEA9 /* IoAsyncRequest.c */; };
 		AA7D63410B60124100D7DEA9 /* IoAsyncRequest.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D57B90B60123800D7DEA9 /* IoAsyncRequest.h */; };
 		AA7D63420B60124100D7DEA9 /* IoAsyncRequestInit.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D57BA0B60123800D7DEA9 /* IoAsyncRequestInit.c */; };
-		AA7D63520B60124100D7DEA9 /* IoAVCodec.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D57D60B60123800D7DEA9 /* IoAVCodec.c */; };
-		AA7D63530B60124100D7DEA9 /* IoAVCodec.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D57D70B60123800D7DEA9 /* IoAVCodec.h */; };
-		AA7D63540B60124100D7DEA9 /* IoAVCodecInit.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D57D80B60123800D7DEA9 /* IoAVCodecInit.c */; };
 		AA7D635D0B60124100D7DEA9 /* IoBigNum.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D57EC0B60123800D7DEA9 /* IoBigNum.c */; };
 		AA7D635E0B60124100D7DEA9 /* IoBigNum.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D57ED0B60123800D7DEA9 /* IoBigNum.h */; };
 		AA7D635F0B60124100D7DEA9 /* IoBigNumInit.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D57EE0B60123800D7DEA9 /* IoBigNumInit.c */; };
@@ -53,20 +41,8 @@
 		AA7D636C0B60124100D7DEA9 /* IoBlowfish.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D58060B60123900D7DEA9 /* IoBlowfish.c */; };
 		AA7D636D0B60124100D7DEA9 /* IoBlowfish.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D58070B60123900D7DEA9 /* IoBlowfish.h */; };
 		AA7D636E0B60124100D7DEA9 /* IoBlowfishInit.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D58080B60123900D7DEA9 /* IoBlowfishInit.c */; };
-		AA7D637A0B60124100D7DEA9 /* IoCFFIDataType.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D581A0B60123900D7DEA9 /* IoCFFIDataType.c */; };
-		AA7D637B0B60124100D7DEA9 /* IoCFFIDataType.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D581B0B60123900D7DEA9 /* IoCFFIDataType.h */; };
-		AA7D637C0B60124100D7DEA9 /* IoCFFIFunction.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D581C0B60123900D7DEA9 /* IoCFFIFunction.c */; };
-		AA7D637D0B60124100D7DEA9 /* IoCFFIFunction.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D581D0B60123900D7DEA9 /* IoCFFIFunction.h */; };
-		AA7D637E0B60124100D7DEA9 /* IoCFFILibrary.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D581E0B60123900D7DEA9 /* IoCFFILibrary.c */; };
-		AA7D637F0B60124100D7DEA9 /* IoCFFILibrary.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D581F0B60123900D7DEA9 /* IoCFFILibrary.h */; };
-		AA7D63800B60124100D7DEA9 /* IoCFFIPointer.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D58200B60123900D7DEA9 /* IoCFFIPointer.c */; };
-		AA7D63810B60124100D7DEA9 /* IoCFFIPointer.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D58210B60123900D7DEA9 /* IoCFFIPointer.h */; };
 		AA7D638C0B60124100D7DEA9 /* IoCGIInit.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D58370B60123900D7DEA9 /* IoCGIInit.c */; };
 		AA7D63950B60124100D7DEA9 /* IoContinuedFractionInit.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D584A0B60123900D7DEA9 /* IoContinuedFractionInit.c */; };
-		AA7D639D0B60124100D7DEA9 /* IoContractsInit.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D585C0B60123900D7DEA9 /* IoContractsInit.c */; };
-		AA7D63AA0B60124100D7DEA9 /* IoCurses.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D58740B60123900D7DEA9 /* IoCurses.c */; };
-		AA7D63AB0B60124100D7DEA9 /* IoCurses.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D58750B60123900D7DEA9 /* IoCurses.h */; };
-		AA7D63AC0B60124100D7DEA9 /* IoCursesInit.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D58760B60123900D7DEA9 /* IoCursesInit.c */; };
 		AA7D66700B60124100D7DEA9 /* IoFluxInit.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5C6C0B60123B00D7DEA9 /* IoFluxInit.c */; };
 		AA7D66780B60124100D7DEA9 /* IoFnmatch.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5C7F0B60123B00D7DEA9 /* IoFnmatch.c */; };
 		AA7D66790B60124100D7DEA9 /* IoFnmatch.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5C800B60123B00D7DEA9 /* IoFnmatch.h */; };
@@ -78,10 +54,6 @@
 		AA7D66920B60124100D7DEA9 /* IoFont.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5CA40B60123B00D7DEA9 /* IoFont.c */; };
 		AA7D66930B60124100D7DEA9 /* IoFont.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5CA50B60123B00D7DEA9 /* IoFont.h */; };
 		AA7D66940B60124100D7DEA9 /* IoFontInit.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5CA60B60123B00D7DEA9 /* IoFontInit.c */; };
-		AA7D66A00B60124100D7DEA9 /* IoGLFW.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5CB70B60123B00D7DEA9 /* IoGLFW.c */; };
-		AA7D66A10B60124100D7DEA9 /* IoGLFW.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5CB80B60123B00D7DEA9 /* IoGLFW.h */; };
-		AA7D66A20B60124100D7DEA9 /* IoGLFWconst.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5CB90B60123B00D7DEA9 /* IoGLFWconst.h */; };
-		AA7D66A30B60124100D7DEA9 /* IoGLFWfunc.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5CBA0B60123B00D7DEA9 /* IoGLFWfunc.h */; };
 		AA7D66BE0B60124100D7DEA9 /* IoImage.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5CE00B60123B00D7DEA9 /* IoImage.c */; };
 		AA7D66BF0B60124100D7DEA9 /* IoImage.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5CE10B60123B00D7DEA9 /* IoImage.h */; };
 		AA7D66C00B60124100D7DEA9 /* IoImageApi.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5CE20B60123B00D7DEA9 /* IoImageApi.h */; };
@@ -112,7 +84,6 @@
 		AA7D672A0B60124200D7DEA9 /* lzodefs.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5D7F0B60123B00D7DEA9 /* lzodefs.h */; };
 		AA7D672B0B60124200D7DEA9 /* minilzo.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5D800B60123B00D7DEA9 /* minilzo.c */; };
 		AA7D672C0B60124200D7DEA9 /* minilzo.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5D810B60123B00D7DEA9 /* minilzo.h */; };
-		AA7D672D0B60124200D7DEA9 /* minilzo_COPYING in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5D820B60123B00D7DEA9 /* minilzo_COPYING */; };
 		AA7D673C0B60124200D7DEA9 /* IoMD5.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5D9C0B60123B00D7DEA9 /* IoMD5.c */; };
 		AA7D673D0B60124200D7DEA9 /* IoMD5.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5D9D0B60123B00D7DEA9 /* IoMD5.h */; };
 		AA7D673E0B60124200D7DEA9 /* IoMD5Init.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5D9E0B60123B00D7DEA9 /* IoMD5Init.c */; };
@@ -129,47 +100,6 @@
 		AA7D676E0B60124200D7DEA9 /* ObjcSubclass.m in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5DEC0B60123C00D7DEA9 /* ObjcSubclass.m */; };
 		AA7D676F0B60124200D7DEA9 /* Runtime.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5DED0B60123C00D7DEA9 /* Runtime.h */; };
 		AA7D67700B60124200D7DEA9 /* Runtime.m in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5DEE0B60123C00D7DEA9 /* Runtime.m */; };
-		AA7D67A70B60124200D7DEA9 /* geom.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5E300B60123C00D7DEA9 /* geom.c */; };
-		AA7D67A80B60124200D7DEA9 /* geom.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5E310B60123C00D7DEA9 /* geom.h */; };
-		AA7D67A90B60124200D7DEA9 /* IoODEBall.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5E320B60123C00D7DEA9 /* IoODEBall.c */; };
-		AA7D67AA0B60124200D7DEA9 /* IoODEBall.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5E330B60123C00D7DEA9 /* IoODEBall.h */; };
-		AA7D67AB0B60124200D7DEA9 /* IoODEBody.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5E340B60123C00D7DEA9 /* IoODEBody.c */; };
-		AA7D67AC0B60124200D7DEA9 /* IoODEBody.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5E350B60123C00D7DEA9 /* IoODEBody.h */; };
-		AA7D67AD0B60124200D7DEA9 /* IoODEBody_typedef.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5E360B60123C00D7DEA9 /* IoODEBody_typedef.h */; };
-		AA7D67AE0B60124200D7DEA9 /* IoODEBox.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5E370B60123C00D7DEA9 /* IoODEBox.c */; };
-		AA7D67AF0B60124200D7DEA9 /* IoODEBox.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5E380B60123C00D7DEA9 /* IoODEBox.h */; };
-		AA7D67B00B60124200D7DEA9 /* IoODEContact.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5E390B60123C00D7DEA9 /* IoODEContact.c */; };
-		AA7D67B10B60124200D7DEA9 /* IoODEContact.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5E3A0B60123C00D7DEA9 /* IoODEContact.h */; };
-		AA7D67B20B60124200D7DEA9 /* IoODEContactJoint.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5E3B0B60123C00D7DEA9 /* IoODEContactJoint.c */; };
-		AA7D67B30B60124200D7DEA9 /* IoODEContactJoint.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5E3C0B60123C00D7DEA9 /* IoODEContactJoint.h */; };
-		AA7D67B40B60124200D7DEA9 /* IoODEFixed.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5E3D0B60123C00D7DEA9 /* IoODEFixed.c */; };
-		AA7D67B50B60124200D7DEA9 /* IoODEFixed.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5E3E0B60123C00D7DEA9 /* IoODEFixed.h */; };
-		AA7D67B60B60124200D7DEA9 /* IoODEHinge.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5E3F0B60123C00D7DEA9 /* IoODEHinge.c */; };
-		AA7D67B70B60124200D7DEA9 /* IoODEHinge.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5E400B60123C00D7DEA9 /* IoODEHinge.h */; };
-		AA7D67B80B60124200D7DEA9 /* IoODEHinge2.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5E410B60123C00D7DEA9 /* IoODEHinge2.c */; };
-		AA7D67B90B60124200D7DEA9 /* IoODEHinge2.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5E420B60123C00D7DEA9 /* IoODEHinge2.h */; };
-		AA7D67BA0B60124200D7DEA9 /* IoODEInit.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5E430B60123C00D7DEA9 /* IoODEInit.c */; };
-		AA7D67BB0B60124200D7DEA9 /* IoODEJoint.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5E440B60123C00D7DEA9 /* IoODEJoint.c */; };
-		AA7D67BC0B60124200D7DEA9 /* IoODEJoint.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5E450B60123C00D7DEA9 /* IoODEJoint.h */; };
-		AA7D67BD0B60124200D7DEA9 /* IoODEJoint_internal.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5E460B60123C00D7DEA9 /* IoODEJoint_internal.h */; };
-		AA7D67BE0B60124200D7DEA9 /* IoODEJoint_typedef.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5E470B60123C00D7DEA9 /* IoODEJoint_typedef.h */; };
-		AA7D67BF0B60124200D7DEA9 /* IoODEJointGroup.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5E480B60123C00D7DEA9 /* IoODEJointGroup.c */; };
-		AA7D67C00B60124200D7DEA9 /* IoODEJointGroup.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5E490B60123C00D7DEA9 /* IoODEJointGroup.h */; };
-		AA7D67C10B60124200D7DEA9 /* IoODEJointGroup_typedef.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5E4A0B60123C00D7DEA9 /* IoODEJointGroup_typedef.h */; };
-		AA7D67C20B60124200D7DEA9 /* IoODEMass.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5E4B0B60123C00D7DEA9 /* IoODEMass.c */; };
-		AA7D67C30B60124200D7DEA9 /* IoODEMass.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5E4C0B60123C00D7DEA9 /* IoODEMass.h */; };
-		AA7D67C40B60124200D7DEA9 /* IoODEPlane.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5E4D0B60123C00D7DEA9 /* IoODEPlane.c */; };
-		AA7D67C50B60124200D7DEA9 /* IoODEPlane.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5E4E0B60123C00D7DEA9 /* IoODEPlane.h */; };
-		AA7D67C60B60124200D7DEA9 /* IoODESimpleSpace.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5E4F0B60123C00D7DEA9 /* IoODESimpleSpace.c */; };
-		AA7D67C70B60124200D7DEA9 /* IoODESimpleSpace.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5E500B60123C00D7DEA9 /* IoODESimpleSpace.h */; };
-		AA7D67C80B60124200D7DEA9 /* IoODESlider.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5E510B60123C00D7DEA9 /* IoODESlider.c */; };
-		AA7D67C90B60124200D7DEA9 /* IoODESlider.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5E520B60123C00D7DEA9 /* IoODESlider.h */; };
-		AA7D67CA0B60124200D7DEA9 /* IoODEUniversal.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5E530B60123C00D7DEA9 /* IoODEUniversal.c */; };
-		AA7D67CB0B60124200D7DEA9 /* IoODEUniversal.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5E540B60123C00D7DEA9 /* IoODEUniversal.h */; };
-		AA7D67CC0B60124200D7DEA9 /* IoODEWorld.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5E550B60123C00D7DEA9 /* IoODEWorld.c */; };
-		AA7D67CD0B60124200D7DEA9 /* IoODEWorld.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5E560B60123C00D7DEA9 /* IoODEWorld.h */; };
-		AA7D67CE0B60124200D7DEA9 /* IoVector_ode.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5E570B60123C00D7DEA9 /* IoVector_ode.c */; };
-		AA7D67CF0B60124200D7DEA9 /* IoVector_ode.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5E580B60123C00D7DEA9 /* IoVector_ode.h */; };
 		AA7D69490B60124200D7DEA9 /* GLIncludes.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5FF20B60123D00D7DEA9 /* GLIncludes.h */; };
 		AA7D694A0B60124200D7DEA9 /* IoBox_gl.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D5FF30B60123D00D7DEA9 /* IoBox_gl.c */; };
 		AA7D694B0B60124200D7DEA9 /* IoBox_gl.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D5FF40B60123D00D7DEA9 /* IoBox_gl.h */; };
@@ -194,10 +124,6 @@
 		AA7D69640B60124200D7DEA9 /* IoOpenGLInit.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D600D0B60123D00D7DEA9 /* IoOpenGLInit.c */; };
 		AA7D69650B60124200D7DEA9 /* IoVector_gl.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D600E0B60123D00D7DEA9 /* IoVector_gl.c */; };
 		AA7D69660B60124200D7DEA9 /* IoVector_gl.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D600F0B60123D00D7DEA9 /* IoVector_gl.h */; };
-		AA7D69670B60124200D7DEA9 /* IoGLE.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D60110B60123D00D7DEA9 /* IoGLE.c */; };
-		AA7D69680B60124200D7DEA9 /* IoGLE.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D60120B60123D00D7DEA9 /* IoGLE.h */; };
-		AA7D69690B60124200D7DEA9 /* IoSceneNode.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D60130B60123D00D7DEA9 /* IoSceneNode.c */; };
-		AA7D696A0B60124200D7DEA9 /* IoSceneNode.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D60140B60123D00D7DEA9 /* IoSceneNode.h */; };
 		AA7D69730B60124200D7DEA9 /* AudioDevice.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D60240B60123D00D7DEA9 /* AudioDevice.c */; };
 		AA7D69740B60124200D7DEA9 /* AudioDevice.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D60250B60123D00D7DEA9 /* AudioDevice.h */; };
 		AA7D69750B60124200D7DEA9 /* IoAudioDevice.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D60260B60123D00D7DEA9 /* IoAudioDevice.c */; };
@@ -542,6 +468,19 @@
 		AABF82E50B76B45F002DBAB5 /* UArray_stream.c in Sources */ = {isa = PBXBuildFile; fileRef = AABF82E30B76B45F002DBAB5 /* UArray_stream.c */; };
 		AABF82E60B76B45F002DBAB5 /* UArray_stream.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AABF82E40B76B45F002DBAB5 /* UArray_stream.h */; };
 		AABFA2B90D59800D00FE7A84 /* Image.c in Sources */ = {isa = PBXBuildFile; fileRef = AABFA2B70D59800C00FE7A84 /* Image.c */; };
+		AAF30B3314C3C8AB003304B9 /* IoError.c in Sources */ = {isa = PBXBuildFile; fileRef = AAF30B2A14C3C890003304B9 /* IoError.c */; };
+		AAF30B3414C3C8AB003304B9 /* IoProfiler.c in Sources */ = {isa = PBXBuildFile; fileRef = AAF30B2D14C3C895003304B9 /* IoProfiler.c */; };
+		AAF30B3514C3C8AB003304B9 /* PHash.c in Sources */ = {isa = PBXBuildFile; fileRef = AAF30B3114C3C8A1003304B9 /* PHash.c */; };
+		AAF30B4914C3C927003304B9 /* IoYajl.c in Sources */ = {isa = PBXBuildFile; fileRef = AAF30B3F14C3C927003304B9 /* IoYajl.c */; };
+		AAF30B4A14C3C927003304B9 /* IoYajlGen.c in Sources */ = {isa = PBXBuildFile; fileRef = AAF30B4114C3C927003304B9 /* IoYajlGen.c */; };
+		AAF30B4B14C3C927003304B9 /* IoYajlInit.c in Sources */ = {isa = PBXBuildFile; fileRef = AAF30B4314C3C927003304B9 /* IoYajlInit.c */; };
+		AAF30B5A14C3CA7B003304B9 /* Address.c in Sources */ = {isa = PBXBuildFile; fileRef = AAF30B4C14C3CA78003304B9 /* Address.c */; };
+		AAF30B5B14C3CA7B003304B9 /* IoEvConnection.c in Sources */ = {isa = PBXBuildFile; fileRef = AAF30B4E14C3CA78003304B9 /* IoEvConnection.c */; };
+		AAF30B5C14C3CA7B003304B9 /* IoEvHttpServer.c in Sources */ = {isa = PBXBuildFile; fileRef = AAF30B5014C3CA78003304B9 /* IoEvHttpServer.c */; };
+		AAF30B5D14C3CA7B003304B9 /* IoEvOutRequest.c in Sources */ = {isa = PBXBuildFile; fileRef = AAF30B5214C3CA79003304B9 /* IoEvOutRequest.c */; };
+		AAF30B5E14C3CA7B003304B9 /* IoEvOutResponse.c in Sources */ = {isa = PBXBuildFile; fileRef = AAF30B5414C3CA79003304B9 /* IoEvOutResponse.c */; };
+		AAF30B5F14C3CA7B003304B9 /* IoUnixPath.c in Sources */ = {isa = PBXBuildFile; fileRef = AAF30B5614C3CA7A003304B9 /* IoUnixPath.c */; };
+		AAF30B6014C3CA7B003304B9 /* UnixPath.c in Sources */ = {isa = PBXBuildFile; fileRef = AAF30B5814C3CA7A003304B9 /* UnixPath.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -553,22 +492,13 @@
 			files = (
 				8DD76FB00486AB0100D96B5E /* osx.1 in CopyFiles */,
 				AA7D63410B60124100D7DEA9 /* IoAsyncRequest.h in CopyFiles */,
-				AA7D63530B60124100D7DEA9 /* IoAVCodec.h in CopyFiles */,
 				AA7D635E0B60124100D7DEA9 /* IoBigNum.h in CopyFiles */,
 				AA7D636B0B60124100D7DEA9 /* blowfish.h in CopyFiles */,
 				AA7D636D0B60124100D7DEA9 /* IoBlowfish.h in CopyFiles */,
-				AA7D637B0B60124100D7DEA9 /* IoCFFIDataType.h in CopyFiles */,
-				AA7D637D0B60124100D7DEA9 /* IoCFFIFunction.h in CopyFiles */,
-				AA7D637F0B60124100D7DEA9 /* IoCFFILibrary.h in CopyFiles */,
-				AA7D63810B60124100D7DEA9 /* IoCFFIPointer.h in CopyFiles */,
-				AA7D63AB0B60124100D7DEA9 /* IoCurses.h in CopyFiles */,
 				AA7D66790B60124100D7DEA9 /* IoFnmatch.h in CopyFiles */,
 				AA7D668F0B60124100D7DEA9 /* FreeTypeErrorCodes.h in CopyFiles */,
 				AA7D66910B60124100D7DEA9 /* GLFont.h in CopyFiles */,
 				AA7D66930B60124100D7DEA9 /* IoFont.h in CopyFiles */,
-				AA7D66A10B60124100D7DEA9 /* IoGLFW.h in CopyFiles */,
-				AA7D66A20B60124100D7DEA9 /* IoGLFWconst.h in CopyFiles */,
-				AA7D66A30B60124100D7DEA9 /* IoGLFWfunc.h in CopyFiles */,
 				AA7D66BF0B60124100D7DEA9 /* IoImage.h in CopyFiles */,
 				AA7D66C00B60124100D7DEA9 /* IoImageApi.h in CopyFiles */,
 				AA7D66C30B60124100D7DEA9 /* JPGImage.h in CopyFiles */,
@@ -583,7 +513,6 @@
 				AA7D67290B60124200D7DEA9 /* lzoconf.h in CopyFiles */,
 				AA7D672A0B60124200D7DEA9 /* lzodefs.h in CopyFiles */,
 				AA7D672C0B60124200D7DEA9 /* minilzo.h in CopyFiles */,
-				AA7D672D0B60124200D7DEA9 /* minilzo_COPYING in CopyFiles */,
 				AA7D673D0B60124200D7DEA9 /* IoMD5.h in CopyFiles */,
 				AA7D67400B60124200D7DEA9 /* md5.h in CopyFiles */,
 				AA7D67660B60124200D7DEA9 /* Io2Objc.h in CopyFiles */,
@@ -591,28 +520,6 @@
 				AA7D676B0B60124200D7DEA9 /* Objc2Io.h in CopyFiles */,
 				AA7D676D0B60124200D7DEA9 /* ObjcSubclass.h in CopyFiles */,
 				AA7D676F0B60124200D7DEA9 /* Runtime.h in CopyFiles */,
-				AA7D67A80B60124200D7DEA9 /* geom.h in CopyFiles */,
-				AA7D67AA0B60124200D7DEA9 /* IoODEBall.h in CopyFiles */,
-				AA7D67AC0B60124200D7DEA9 /* IoODEBody.h in CopyFiles */,
-				AA7D67AD0B60124200D7DEA9 /* IoODEBody_typedef.h in CopyFiles */,
-				AA7D67AF0B60124200D7DEA9 /* IoODEBox.h in CopyFiles */,
-				AA7D67B10B60124200D7DEA9 /* IoODEContact.h in CopyFiles */,
-				AA7D67B30B60124200D7DEA9 /* IoODEContactJoint.h in CopyFiles */,
-				AA7D67B50B60124200D7DEA9 /* IoODEFixed.h in CopyFiles */,
-				AA7D67B70B60124200D7DEA9 /* IoODEHinge.h in CopyFiles */,
-				AA7D67B90B60124200D7DEA9 /* IoODEHinge2.h in CopyFiles */,
-				AA7D67BC0B60124200D7DEA9 /* IoODEJoint.h in CopyFiles */,
-				AA7D67BD0B60124200D7DEA9 /* IoODEJoint_internal.h in CopyFiles */,
-				AA7D67BE0B60124200D7DEA9 /* IoODEJoint_typedef.h in CopyFiles */,
-				AA7D67C00B60124200D7DEA9 /* IoODEJointGroup.h in CopyFiles */,
-				AA7D67C10B60124200D7DEA9 /* IoODEJointGroup_typedef.h in CopyFiles */,
-				AA7D67C30B60124200D7DEA9 /* IoODEMass.h in CopyFiles */,
-				AA7D67C50B60124200D7DEA9 /* IoODEPlane.h in CopyFiles */,
-				AA7D67C70B60124200D7DEA9 /* IoODESimpleSpace.h in CopyFiles */,
-				AA7D67C90B60124200D7DEA9 /* IoODESlider.h in CopyFiles */,
-				AA7D67CB0B60124200D7DEA9 /* IoODEUniversal.h in CopyFiles */,
-				AA7D67CD0B60124200D7DEA9 /* IoODEWorld.h in CopyFiles */,
-				AA7D67CF0B60124200D7DEA9 /* IoVector_ode.h in CopyFiles */,
 				AA7D69490B60124200D7DEA9 /* GLIncludes.h in CopyFiles */,
 				AA7D694B0B60124200D7DEA9 /* IoBox_gl.h in CopyFiles */,
 				AA7D694E0B60124200D7DEA9 /* IoGLconst.h in CopyFiles */,
@@ -629,8 +536,6 @@
 				AA7D69610B60124200D7DEA9 /* IoGLUTfunc.h in CopyFiles */,
 				AA7D69630B60124200D7DEA9 /* IoOpenGL.h in CopyFiles */,
 				AA7D69660B60124200D7DEA9 /* IoVector_gl.h in CopyFiles */,
-				AA7D69680B60124200D7DEA9 /* IoGLE.h in CopyFiles */,
-				AA7D696A0B60124200D7DEA9 /* IoSceneNode.h in CopyFiles */,
 				AA7D69740B60124200D7DEA9 /* AudioDevice.h in CopyFiles */,
 				AA7D69760B60124200D7DEA9 /* IoAudioDevice.h in CopyFiles */,
 				AA7D69780B60124200D7DEA9 /* IoAudioMixer.h in CopyFiles */,
@@ -832,20 +737,8 @@
 				AA1C3FB90B7448B500334368 /* SHash_inline.h in CopyFiles */,
 				AA1C3FBB0B7448B500334368 /* SHash.h in CopyFiles */,
 				AABF82E60B76B45F002DBAB5 /* UArray_stream.h in CopyFiles */,
-				AA6ABF8D0BA8012F0049770F /* build.io in CopyFiles */,
-				AA6ABF8E0BA8012F0049770F /* depends in CopyFiles */,
-				AA6ABF8F0BA8012F0049770F /* frameworks in CopyFiles */,
 				AA6ABF900BA8012F0049770F /* Vector.io in CopyFiles */,
-				AA6ABF920BA8012F0049770F /* protos in CopyFiles */,
 				AA6ABF940BA8012F0049770F /* IoBox.h in CopyFiles */,
-				AA6ABF960BA8012F0049770F /* mandlebrot.io in CopyFiles */,
-				AA6ABF970BA8012F0049770F /* mandlebrot.py in CopyFiles */,
-				AA6ABF980BA8012F0049770F /* runSpeedTests.io in CopyFiles */,
-				AA6ABF990BA8012F0049770F /* speed.io in CopyFiles */,
-				AA6ABF9A0BA8012F0049770F /* speed.py in CopyFiles */,
-				AA6ABF9B0BA8012F0049770F /* SpeedResults.txt in CopyFiles */,
-				AA6ABF9C0BA8012F0049770F /* run.io in CopyFiles */,
-				AA6ABF9D0BA8012F0049770F /* VectorTest.io in CopyFiles */,
 				AA6ABFE40BA8D27E0049770F /* IoSeq_vector.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
@@ -868,31 +761,24 @@
 		AA1C3FAB0B7448B500334368 /* SHash_inline.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SHash_inline.h; sourceTree = "<group>"; };
 		AA1C3FAC0B7448B500334368 /* SHash.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = SHash.c; sourceTree = "<group>"; };
 		AA1C3FAD0B7448B500334368 /* SHash.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SHash.h; sourceTree = "<group>"; };
-		AA6ABF760BA8012F0049770F /* build.io */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = build.io; path = ../../addons/Box/build.io; sourceTree = SOURCE_ROOT; };
-		AA6ABF770BA8012F0049770F /* depends */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = depends; path = ../../addons/Box/depends; sourceTree = SOURCE_ROOT; };
-		AA6ABF780BA8012F0049770F /* frameworks */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = frameworks; path = ../../addons/Box/frameworks; sourceTree = SOURCE_ROOT; };
+		AA3D09CE14C3CD99002E4947 /* Ogg.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Ogg.io; sourceTree = "<group>"; };
+		AA3D09D414C3CD99002E4947 /* IoOggInit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoOggInit.c; sourceTree = "<group>"; };
+		AA3D09D514C3CD99002E4947 /* IoOggPacket.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoOggPacket.c; sourceTree = "<group>"; };
+		AA3D09D614C3CD99002E4947 /* IoOggPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoOggPacket.h; sourceTree = "<group>"; };
+		AA3D09D714C3CD99002E4947 /* IoOggPage.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoOggPage.c; sourceTree = "<group>"; };
+		AA3D09D814C3CD99002E4947 /* IoOggPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoOggPage.h; sourceTree = "<group>"; };
+		AA3D09D914C3CD99002E4947 /* IoOggStreamState.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoOggStreamState.c; sourceTree = "<group>"; };
+		AA3D09DA14C3CD99002E4947 /* IoOggStreamState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoOggStreamState.h; sourceTree = "<group>"; };
+		AA3D09DB14C3CD99002E4947 /* IoOggSyncState.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoOggSyncState.c; sourceTree = "<group>"; };
+		AA3D09DC14C3CD99002E4947 /* IoOggSyncState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoOggSyncState.h; sourceTree = "<group>"; };
 		AA6ABF7A0BA8012F0049770F /* Vector.io */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = Vector.io; path = ../../addons/Box/io/Vector.io; sourceTree = SOURCE_ROOT; };
-		AA6ABF7B0BA8012F0049770F /* Makefile */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.make; name = Makefile; path = ../../addons/Box/Makefile; sourceTree = SOURCE_ROOT; };
-		AA6ABF7C0BA8012F0049770F /* protos */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = protos; path = ../../addons/Box/protos; sourceTree = SOURCE_ROOT; };
 		AA6ABF800BA8012F0049770F /* IoBox.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoBox.c; path = ../../addons/Box/source/IoBox.c; sourceTree = SOURCE_ROOT; };
 		AA6ABF810BA8012F0049770F /* IoBox.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoBox.h; path = ../../addons/Box/source/IoBox.h; sourceTree = SOURCE_ROOT; };
-		AA6ABF840BA8012F0049770F /* mandlebrot.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = mandlebrot.c; path = ../../addons/Box/tests/performance/mandlebrot.c; sourceTree = SOURCE_ROOT; };
-		AA6ABF850BA8012F0049770F /* mandlebrot.io */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = mandlebrot.io; path = ../../addons/Box/tests/performance/mandlebrot.io; sourceTree = SOURCE_ROOT; };
-		AA6ABF860BA8012F0049770F /* mandlebrot.py */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.python; name = mandlebrot.py; path = ../../addons/Box/tests/performance/mandlebrot.py; sourceTree = SOURCE_ROOT; };
-		AA6ABF870BA8012F0049770F /* runSpeedTests.io */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = runSpeedTests.io; path = ../../addons/Box/tests/performance/runSpeedTests.io; sourceTree = SOURCE_ROOT; };
-		AA6ABF880BA8012F0049770F /* speed.io */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = speed.io; path = ../../addons/Box/tests/performance/speed.io; sourceTree = SOURCE_ROOT; };
-		AA6ABF890BA8012F0049770F /* speed.py */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.script.python; name = speed.py; path = ../../addons/Box/tests/performance/speed.py; sourceTree = SOURCE_ROOT; };
-		AA6ABF8A0BA8012F0049770F /* SpeedResults.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = SpeedResults.txt; path = ../../addons/Box/tests/performance/SpeedResults.txt; sourceTree = SOURCE_ROOT; };
-		AA6ABF8B0BA8012F0049770F /* run.io */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = run.io; path = ../../addons/Box/tests/run.io; sourceTree = SOURCE_ROOT; };
-		AA6ABF8C0BA8012F0049770F /* VectorTest.io */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = VectorTest.io; path = ../../addons/Box/tests/VectorTest.io; sourceTree = SOURCE_ROOT; };
 		AA6ABFE10BA8D27E0049770F /* IoSeq_vector.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoSeq_vector.c; path = ../../libs/iovm/source/IoSeq_vector.c; sourceTree = SOURCE_ROOT; };
 		AA6ABFE20BA8D27E0049770F /* IoSeq_vector.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoSeq_vector.h; path = ../../libs/iovm/source/IoSeq_vector.h; sourceTree = SOURCE_ROOT; };
 		AA7D57B80B60123800D7DEA9 /* IoAsyncRequest.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoAsyncRequest.c; path = ../../addons/AsyncRequest/source/IoAsyncRequest.c; sourceTree = SOURCE_ROOT; };
 		AA7D57B90B60123800D7DEA9 /* IoAsyncRequest.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoAsyncRequest.h; path = ../../addons/AsyncRequest/source/IoAsyncRequest.h; sourceTree = SOURCE_ROOT; };
 		AA7D57BA0B60123800D7DEA9 /* IoAsyncRequestInit.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoAsyncRequestInit.c; path = ../../addons/AsyncRequest/source/IoAsyncRequestInit.c; sourceTree = SOURCE_ROOT; };
-		AA7D57D60B60123800D7DEA9 /* IoAVCodec.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoAVCodec.c; path = ../../addons/AVCodec/source/IoAVCodec.c; sourceTree = SOURCE_ROOT; };
-		AA7D57D70B60123800D7DEA9 /* IoAVCodec.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoAVCodec.h; path = ../../addons/AVCodec/source/IoAVCodec.h; sourceTree = SOURCE_ROOT; };
-		AA7D57D80B60123800D7DEA9 /* IoAVCodecInit.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoAVCodecInit.c; path = ../../addons/AVCodec/source/IoAVCodecInit.c; sourceTree = SOURCE_ROOT; };
 		AA7D57EC0B60123800D7DEA9 /* IoBigNum.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoBigNum.c; path = ../../addons/BigNum/source/IoBigNum.c; sourceTree = SOURCE_ROOT; };
 		AA7D57ED0B60123800D7DEA9 /* IoBigNum.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoBigNum.h; path = ../../addons/BigNum/source/IoBigNum.h; sourceTree = SOURCE_ROOT; };
 		AA7D57EE0B60123800D7DEA9 /* IoBigNumInit.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoBigNumInit.c; path = ../../addons/BigNum/source/IoBigNumInit.c; sourceTree = SOURCE_ROOT; };
@@ -901,20 +787,8 @@
 		AA7D58060B60123900D7DEA9 /* IoBlowfish.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoBlowfish.c; path = ../../addons/Blowfish/source/IoBlowfish.c; sourceTree = SOURCE_ROOT; };
 		AA7D58070B60123900D7DEA9 /* IoBlowfish.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoBlowfish.h; path = ../../addons/Blowfish/source/IoBlowfish.h; sourceTree = SOURCE_ROOT; };
 		AA7D58080B60123900D7DEA9 /* IoBlowfishInit.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoBlowfishInit.c; path = ../../addons/Blowfish/source/IoBlowfishInit.c; sourceTree = SOURCE_ROOT; };
-		AA7D581A0B60123900D7DEA9 /* IoCFFIDataType.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoCFFIDataType.c; path = ../../addons/CFFI/source/IoCFFIDataType.c; sourceTree = SOURCE_ROOT; };
-		AA7D581B0B60123900D7DEA9 /* IoCFFIDataType.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoCFFIDataType.h; path = ../../addons/CFFI/source/IoCFFIDataType.h; sourceTree = SOURCE_ROOT; };
-		AA7D581C0B60123900D7DEA9 /* IoCFFIFunction.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoCFFIFunction.c; path = ../../addons/CFFI/source/IoCFFIFunction.c; sourceTree = SOURCE_ROOT; };
-		AA7D581D0B60123900D7DEA9 /* IoCFFIFunction.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoCFFIFunction.h; path = ../../addons/CFFI/source/IoCFFIFunction.h; sourceTree = SOURCE_ROOT; };
-		AA7D581E0B60123900D7DEA9 /* IoCFFILibrary.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoCFFILibrary.c; path = ../../addons/CFFI/source/IoCFFILibrary.c; sourceTree = SOURCE_ROOT; };
-		AA7D581F0B60123900D7DEA9 /* IoCFFILibrary.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoCFFILibrary.h; path = ../../addons/CFFI/source/IoCFFILibrary.h; sourceTree = SOURCE_ROOT; };
-		AA7D58200B60123900D7DEA9 /* IoCFFIPointer.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoCFFIPointer.c; path = ../../addons/CFFI/source/IoCFFIPointer.c; sourceTree = SOURCE_ROOT; };
-		AA7D58210B60123900D7DEA9 /* IoCFFIPointer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoCFFIPointer.h; path = ../../addons/CFFI/source/IoCFFIPointer.h; sourceTree = SOURCE_ROOT; };
 		AA7D58370B60123900D7DEA9 /* IoCGIInit.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoCGIInit.c; path = ../../addons/CGI/source/IoCGIInit.c; sourceTree = SOURCE_ROOT; };
 		AA7D584A0B60123900D7DEA9 /* IoContinuedFractionInit.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoContinuedFractionInit.c; path = ../../addons/ContinuedFraction/source/IoContinuedFractionInit.c; sourceTree = SOURCE_ROOT; };
-		AA7D585C0B60123900D7DEA9 /* IoContractsInit.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoContractsInit.c; path = ../../addons/Contracts/source/IoContractsInit.c; sourceTree = SOURCE_ROOT; };
-		AA7D58740B60123900D7DEA9 /* IoCurses.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoCurses.c; path = ../../addons/Curses/source/IoCurses.c; sourceTree = SOURCE_ROOT; };
-		AA7D58750B60123900D7DEA9 /* IoCurses.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoCurses.h; path = ../../addons/Curses/source/IoCurses.h; sourceTree = SOURCE_ROOT; };
-		AA7D58760B60123900D7DEA9 /* IoCursesInit.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoCursesInit.c; path = ../../addons/Curses/source/IoCursesInit.c; sourceTree = SOURCE_ROOT; };
 		AA7D5C6C0B60123B00D7DEA9 /* IoFluxInit.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoFluxInit.c; path = ../../addons/Flux/source/IoFluxInit.c; sourceTree = SOURCE_ROOT; };
 		AA7D5C7F0B60123B00D7DEA9 /* IoFnmatch.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoFnmatch.c; path = ../../addons/Fnmatch/source/IoFnmatch.c; sourceTree = SOURCE_ROOT; };
 		AA7D5C800B60123B00D7DEA9 /* IoFnmatch.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoFnmatch.h; path = ../../addons/Fnmatch/source/IoFnmatch.h; sourceTree = SOURCE_ROOT; };
@@ -926,10 +800,6 @@
 		AA7D5CA40B60123B00D7DEA9 /* IoFont.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoFont.c; path = ../../addons/Font/source/IoFont.c; sourceTree = SOURCE_ROOT; };
 		AA7D5CA50B60123B00D7DEA9 /* IoFont.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoFont.h; path = ../../addons/Font/source/IoFont.h; sourceTree = SOURCE_ROOT; };
 		AA7D5CA60B60123B00D7DEA9 /* IoFontInit.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoFontInit.c; path = ../../addons/Font/source/IoFontInit.c; sourceTree = SOURCE_ROOT; };
-		AA7D5CB70B60123B00D7DEA9 /* IoGLFW.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoGLFW.c; path = ../../addons/GLFW/source/IoGLFW.c; sourceTree = SOURCE_ROOT; };
-		AA7D5CB80B60123B00D7DEA9 /* IoGLFW.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoGLFW.h; path = ../../addons/GLFW/source/IoGLFW.h; sourceTree = SOURCE_ROOT; };
-		AA7D5CB90B60123B00D7DEA9 /* IoGLFWconst.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoGLFWconst.h; path = ../../addons/GLFW/source/IoGLFWconst.h; sourceTree = SOURCE_ROOT; };
-		AA7D5CBA0B60123B00D7DEA9 /* IoGLFWfunc.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoGLFWfunc.h; path = ../../addons/GLFW/source/IoGLFWfunc.h; sourceTree = SOURCE_ROOT; };
 		AA7D5CE00B60123B00D7DEA9 /* IoImage.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoImage.c; path = ../../addons/Image/source/IoImage.c; sourceTree = SOURCE_ROOT; };
 		AA7D5CE10B60123B00D7DEA9 /* IoImage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoImage.h; path = ../../addons/Image/source/IoImage.h; sourceTree = SOURCE_ROOT; };
 		AA7D5CE20B60123B00D7DEA9 /* IoImageApi.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoImageApi.h; path = ../../addons/Image/source/IoImageApi.h; sourceTree = SOURCE_ROOT; };
@@ -960,7 +830,6 @@
 		AA7D5D7F0B60123B00D7DEA9 /* lzodefs.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = lzodefs.h; path = ../../addons/LZO/source/lzodefs.h; sourceTree = SOURCE_ROOT; };
 		AA7D5D800B60123B00D7DEA9 /* minilzo.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = minilzo.c; path = ../../addons/LZO/source/minilzo.c; sourceTree = SOURCE_ROOT; };
 		AA7D5D810B60123B00D7DEA9 /* minilzo.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = minilzo.h; path = ../../addons/LZO/source/minilzo.h; sourceTree = SOURCE_ROOT; };
-		AA7D5D820B60123B00D7DEA9 /* minilzo_COPYING */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; name = minilzo_COPYING; path = ../../addons/LZO/source/minilzo_COPYING; sourceTree = SOURCE_ROOT; };
 		AA7D5D9C0B60123B00D7DEA9 /* IoMD5.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoMD5.c; path = ../../addons/MD5/source/IoMD5.c; sourceTree = SOURCE_ROOT; };
 		AA7D5D9D0B60123B00D7DEA9 /* IoMD5.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoMD5.h; path = ../../addons/MD5/source/IoMD5.h; sourceTree = SOURCE_ROOT; };
 		AA7D5D9E0B60123B00D7DEA9 /* IoMD5Init.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoMD5Init.c; path = ../../addons/MD5/source/IoMD5Init.c; sourceTree = SOURCE_ROOT; };
@@ -977,47 +846,6 @@
 		AA7D5DEC0B60123C00D7DEA9 /* ObjcSubclass.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = ObjcSubclass.m; path = ../../addons/ObjcBridge/source/ObjcSubclass.m; sourceTree = SOURCE_ROOT; };
 		AA7D5DED0B60123C00D7DEA9 /* Runtime.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Runtime.h; path = ../../addons/ObjcBridge/source/Runtime.h; sourceTree = SOURCE_ROOT; };
 		AA7D5DEE0B60123C00D7DEA9 /* Runtime.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = Runtime.m; path = ../../addons/ObjcBridge/source/Runtime.m; sourceTree = SOURCE_ROOT; };
-		AA7D5E300B60123C00D7DEA9 /* geom.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = geom.c; path = ../../addons/ODE/source/geom.c; sourceTree = SOURCE_ROOT; };
-		AA7D5E310B60123C00D7DEA9 /* geom.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = geom.h; path = ../../addons/ODE/source/geom.h; sourceTree = SOURCE_ROOT; };
-		AA7D5E320B60123C00D7DEA9 /* IoODEBall.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoODEBall.c; path = ../../addons/ODE/source/IoODEBall.c; sourceTree = SOURCE_ROOT; };
-		AA7D5E330B60123C00D7DEA9 /* IoODEBall.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoODEBall.h; path = ../../addons/ODE/source/IoODEBall.h; sourceTree = SOURCE_ROOT; };
-		AA7D5E340B60123C00D7DEA9 /* IoODEBody.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoODEBody.c; path = ../../addons/ODE/source/IoODEBody.c; sourceTree = SOURCE_ROOT; };
-		AA7D5E350B60123C00D7DEA9 /* IoODEBody.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoODEBody.h; path = ../../addons/ODE/source/IoODEBody.h; sourceTree = SOURCE_ROOT; };
-		AA7D5E360B60123C00D7DEA9 /* IoODEBody_typedef.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoODEBody_typedef.h; path = ../../addons/ODE/source/IoODEBody_typedef.h; sourceTree = SOURCE_ROOT; };
-		AA7D5E370B60123C00D7DEA9 /* IoODEBox.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoODEBox.c; path = ../../addons/ODE/source/IoODEBox.c; sourceTree = SOURCE_ROOT; };
-		AA7D5E380B60123C00D7DEA9 /* IoODEBox.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoODEBox.h; path = ../../addons/ODE/source/IoODEBox.h; sourceTree = SOURCE_ROOT; };
-		AA7D5E390B60123C00D7DEA9 /* IoODEContact.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoODEContact.c; path = ../../addons/ODE/source/IoODEContact.c; sourceTree = SOURCE_ROOT; };
-		AA7D5E3A0B60123C00D7DEA9 /* IoODEContact.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoODEContact.h; path = ../../addons/ODE/source/IoODEContact.h; sourceTree = SOURCE_ROOT; };
-		AA7D5E3B0B60123C00D7DEA9 /* IoODEContactJoint.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoODEContactJoint.c; path = ../../addons/ODE/source/IoODEContactJoint.c; sourceTree = SOURCE_ROOT; };
-		AA7D5E3C0B60123C00D7DEA9 /* IoODEContactJoint.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoODEContactJoint.h; path = ../../addons/ODE/source/IoODEContactJoint.h; sourceTree = SOURCE_ROOT; };
-		AA7D5E3D0B60123C00D7DEA9 /* IoODEFixed.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoODEFixed.c; path = ../../addons/ODE/source/IoODEFixed.c; sourceTree = SOURCE_ROOT; };
-		AA7D5E3E0B60123C00D7DEA9 /* IoODEFixed.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoODEFixed.h; path = ../../addons/ODE/source/IoODEFixed.h; sourceTree = SOURCE_ROOT; };
-		AA7D5E3F0B60123C00D7DEA9 /* IoODEHinge.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoODEHinge.c; path = ../../addons/ODE/source/IoODEHinge.c; sourceTree = SOURCE_ROOT; };
-		AA7D5E400B60123C00D7DEA9 /* IoODEHinge.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoODEHinge.h; path = ../../addons/ODE/source/IoODEHinge.h; sourceTree = SOURCE_ROOT; };
-		AA7D5E410B60123C00D7DEA9 /* IoODEHinge2.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoODEHinge2.c; path = ../../addons/ODE/source/IoODEHinge2.c; sourceTree = SOURCE_ROOT; };
-		AA7D5E420B60123C00D7DEA9 /* IoODEHinge2.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoODEHinge2.h; path = ../../addons/ODE/source/IoODEHinge2.h; sourceTree = SOURCE_ROOT; };
-		AA7D5E430B60123C00D7DEA9 /* IoODEInit.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoODEInit.c; path = ../../addons/ODE/source/IoODEInit.c; sourceTree = SOURCE_ROOT; };
-		AA7D5E440B60123C00D7DEA9 /* IoODEJoint.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoODEJoint.c; path = ../../addons/ODE/source/IoODEJoint.c; sourceTree = SOURCE_ROOT; };
-		AA7D5E450B60123C00D7DEA9 /* IoODEJoint.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoODEJoint.h; path = ../../addons/ODE/source/IoODEJoint.h; sourceTree = SOURCE_ROOT; };
-		AA7D5E460B60123C00D7DEA9 /* IoODEJoint_internal.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoODEJoint_internal.h; path = ../../addons/ODE/source/IoODEJoint_internal.h; sourceTree = SOURCE_ROOT; };
-		AA7D5E470B60123C00D7DEA9 /* IoODEJoint_typedef.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoODEJoint_typedef.h; path = ../../addons/ODE/source/IoODEJoint_typedef.h; sourceTree = SOURCE_ROOT; };
-		AA7D5E480B60123C00D7DEA9 /* IoODEJointGroup.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoODEJointGroup.c; path = ../../addons/ODE/source/IoODEJointGroup.c; sourceTree = SOURCE_ROOT; };
-		AA7D5E490B60123C00D7DEA9 /* IoODEJointGroup.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoODEJointGroup.h; path = ../../addons/ODE/source/IoODEJointGroup.h; sourceTree = SOURCE_ROOT; };
-		AA7D5E4A0B60123C00D7DEA9 /* IoODEJointGroup_typedef.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoODEJointGroup_typedef.h; path = ../../addons/ODE/source/IoODEJointGroup_typedef.h; sourceTree = SOURCE_ROOT; };
-		AA7D5E4B0B60123C00D7DEA9 /* IoODEMass.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoODEMass.c; path = ../../addons/ODE/source/IoODEMass.c; sourceTree = SOURCE_ROOT; };
-		AA7D5E4C0B60123C00D7DEA9 /* IoODEMass.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoODEMass.h; path = ../../addons/ODE/source/IoODEMass.h; sourceTree = SOURCE_ROOT; };
-		AA7D5E4D0B60123C00D7DEA9 /* IoODEPlane.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoODEPlane.c; path = ../../addons/ODE/source/IoODEPlane.c; sourceTree = SOURCE_ROOT; };
-		AA7D5E4E0B60123C00D7DEA9 /* IoODEPlane.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoODEPlane.h; path = ../../addons/ODE/source/IoODEPlane.h; sourceTree = SOURCE_ROOT; };
-		AA7D5E4F0B60123C00D7DEA9 /* IoODESimpleSpace.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoODESimpleSpace.c; path = ../../addons/ODE/source/IoODESimpleSpace.c; sourceTree = SOURCE_ROOT; };
-		AA7D5E500B60123C00D7DEA9 /* IoODESimpleSpace.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoODESimpleSpace.h; path = ../../addons/ODE/source/IoODESimpleSpace.h; sourceTree = SOURCE_ROOT; };
-		AA7D5E510B60123C00D7DEA9 /* IoODESlider.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoODESlider.c; path = ../../addons/ODE/source/IoODESlider.c; sourceTree = SOURCE_ROOT; };
-		AA7D5E520B60123C00D7DEA9 /* IoODESlider.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoODESlider.h; path = ../../addons/ODE/source/IoODESlider.h; sourceTree = SOURCE_ROOT; };
-		AA7D5E530B60123C00D7DEA9 /* IoODEUniversal.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoODEUniversal.c; path = ../../addons/ODE/source/IoODEUniversal.c; sourceTree = SOURCE_ROOT; };
-		AA7D5E540B60123C00D7DEA9 /* IoODEUniversal.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoODEUniversal.h; path = ../../addons/ODE/source/IoODEUniversal.h; sourceTree = SOURCE_ROOT; };
-		AA7D5E550B60123C00D7DEA9 /* IoODEWorld.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoODEWorld.c; path = ../../addons/ODE/source/IoODEWorld.c; sourceTree = SOURCE_ROOT; };
-		AA7D5E560B60123C00D7DEA9 /* IoODEWorld.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoODEWorld.h; path = ../../addons/ODE/source/IoODEWorld.h; sourceTree = SOURCE_ROOT; };
-		AA7D5E570B60123C00D7DEA9 /* IoVector_ode.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoVector_ode.c; path = ../../addons/ODE/source/IoVector_ode.c; sourceTree = SOURCE_ROOT; };
-		AA7D5E580B60123C00D7DEA9 /* IoVector_ode.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoVector_ode.h; path = ../../addons/ODE/source/IoVector_ode.h; sourceTree = SOURCE_ROOT; };
 		AA7D5FF20B60123D00D7DEA9 /* GLIncludes.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = GLIncludes.h; path = ../../addons/OpenGL/source/GLIncludes.h; sourceTree = SOURCE_ROOT; };
 		AA7D5FF30B60123D00D7DEA9 /* IoBox_gl.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoBox_gl.c; path = ../../addons/OpenGL/source/IoBox_gl.c; sourceTree = SOURCE_ROOT; };
 		AA7D5FF40B60123D00D7DEA9 /* IoBox_gl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoBox_gl.h; path = ../../addons/OpenGL/source/IoBox_gl.h; sourceTree = SOURCE_ROOT; };
@@ -1042,10 +870,6 @@
 		AA7D600D0B60123D00D7DEA9 /* IoOpenGLInit.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoOpenGLInit.c; path = ../../addons/OpenGL/source/IoOpenGLInit.c; sourceTree = SOURCE_ROOT; };
 		AA7D600E0B60123D00D7DEA9 /* IoVector_gl.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoVector_gl.c; path = ../../addons/OpenGL/source/IoVector_gl.c; sourceTree = SOURCE_ROOT; };
 		AA7D600F0B60123D00D7DEA9 /* IoVector_gl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoVector_gl.h; path = ../../addons/OpenGL/source/IoVector_gl.h; sourceTree = SOURCE_ROOT; };
-		AA7D60110B60123D00D7DEA9 /* IoGLE.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoGLE.c; path = ../../addons/OpenGL/source/new/IoGLE.c; sourceTree = SOURCE_ROOT; };
-		AA7D60120B60123D00D7DEA9 /* IoGLE.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoGLE.h; path = ../../addons/OpenGL/source/new/IoGLE.h; sourceTree = SOURCE_ROOT; };
-		AA7D60130B60123D00D7DEA9 /* IoSceneNode.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoSceneNode.c; path = ../../addons/OpenGL/source/new/IoSceneNode.c; sourceTree = SOURCE_ROOT; };
-		AA7D60140B60123D00D7DEA9 /* IoSceneNode.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoSceneNode.h; path = ../../addons/OpenGL/source/new/IoSceneNode.h; sourceTree = SOURCE_ROOT; };
 		AA7D60240B60123D00D7DEA9 /* AudioDevice.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = AudioDevice.c; path = ../../addons/PortAudio/source/AudioDevice.c; sourceTree = SOURCE_ROOT; };
 		AA7D60250B60123D00D7DEA9 /* AudioDevice.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AudioDevice.h; path = ../../addons/PortAudio/source/AudioDevice.h; sourceTree = SOURCE_ROOT; };
 		AA7D60260B60123D00D7DEA9 /* IoAudioDevice.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoAudioDevice.c; path = ../../addons/PortAudio/source/IoAudioDevice.c; sourceTree = SOURCE_ROOT; };
@@ -1400,6 +1224,35 @@
 		AABF82E40B76B45F002DBAB5 /* UArray_stream.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = UArray_stream.h; sourceTree = "<group>"; };
 		AABFA2B70D59800C00FE7A84 /* Image.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Image.c; sourceTree = "<group>"; };
 		AABFA2B80D59800D00FE7A84 /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
+		AAF30B2A14C3C890003304B9 /* IoError.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoError.c; sourceTree = "<group>"; };
+		AAF30B2B14C3C891003304B9 /* IoError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoError.h; sourceTree = "<group>"; };
+		AAF30B2C14C3C894003304B9 /* IoInstallPrefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoInstallPrefix.h; sourceTree = "<group>"; };
+		AAF30B2D14C3C895003304B9 /* IoProfiler.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoProfiler.c; sourceTree = "<group>"; };
+		AAF30B2E14C3C898003304B9 /* IoProfiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoProfiler.h; sourceTree = "<group>"; };
+		AAF30B2F14C3C899003304B9 /* PHash_inline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHash_inline.h; sourceTree = "<group>"; };
+		AAF30B3014C3C89A003304B9 /* PHash_struct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHash_struct.h; sourceTree = "<group>"; };
+		AAF30B3114C3C8A1003304B9 /* PHash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PHash.c; sourceTree = "<group>"; };
+		AAF30B3214C3C8A2003304B9 /* PHash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PHash.h; sourceTree = "<group>"; };
+		AAF30B3C14C3C927003304B9 /* YajlElement.io */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = YajlElement.io; sourceTree = "<group>"; };
+		AAF30B3F14C3C927003304B9 /* IoYajl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoYajl.c; sourceTree = "<group>"; };
+		AAF30B4014C3C927003304B9 /* IoYajl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoYajl.h; sourceTree = "<group>"; };
+		AAF30B4114C3C927003304B9 /* IoYajlGen.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoYajlGen.c; sourceTree = "<group>"; };
+		AAF30B4214C3C927003304B9 /* IoYajlGen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoYajlGen.h; sourceTree = "<group>"; };
+		AAF30B4314C3C927003304B9 /* IoYajlInit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoYajlInit.c; sourceTree = "<group>"; };
+		AAF30B4C14C3CA78003304B9 /* Address.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Address.c; sourceTree = "<group>"; };
+		AAF30B4D14C3CA78003304B9 /* Address.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Address.h; sourceTree = "<group>"; };
+		AAF30B4E14C3CA78003304B9 /* IoEvConnection.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoEvConnection.c; sourceTree = "<group>"; };
+		AAF30B4F14C3CA78003304B9 /* IoEvConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoEvConnection.h; sourceTree = "<group>"; };
+		AAF30B5014C3CA78003304B9 /* IoEvHttpServer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoEvHttpServer.c; sourceTree = "<group>"; };
+		AAF30B5114C3CA78003304B9 /* IoEvHttpServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoEvHttpServer.h; sourceTree = "<group>"; };
+		AAF30B5214C3CA79003304B9 /* IoEvOutRequest.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoEvOutRequest.c; sourceTree = "<group>"; };
+		AAF30B5314C3CA79003304B9 /* IoEvOutRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoEvOutRequest.h; sourceTree = "<group>"; };
+		AAF30B5414C3CA79003304B9 /* IoEvOutResponse.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoEvOutResponse.c; sourceTree = "<group>"; };
+		AAF30B5514C3CA79003304B9 /* IoEvOutResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoEvOutResponse.h; sourceTree = "<group>"; };
+		AAF30B5614C3CA7A003304B9 /* IoUnixPath.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = IoUnixPath.c; sourceTree = "<group>"; };
+		AAF30B5714C3CA7A003304B9 /* IoUnixPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IoUnixPath.h; sourceTree = "<group>"; };
+		AAF30B5814C3CA7A003304B9 /* UnixPath.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = UnixPath.c; sourceTree = "<group>"; };
+		AAF30B5914C3CA7A003304B9 /* UnixPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnixPath.h; sourceTree = "<group>"; };
 		C6A0FF2C0290799A04C91782 /* osx.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = osx.1; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1461,17 +1314,44 @@
 			path = ../../addons/TagDB/source;
 			sourceTree = SOURCE_ROOT;
 		};
+		AA3D09C814C3CD99002E4947 /* Ogg */ = {
+			isa = PBXGroup;
+			children = (
+				AA3D09CD14C3CD99002E4947 /* io */,
+				AA3D09D314C3CD99002E4947 /* source */,
+			);
+			path = Ogg;
+			sourceTree = "<group>";
+		};
+		AA3D09CD14C3CD99002E4947 /* io */ = {
+			isa = PBXGroup;
+			children = (
+				AA3D09CE14C3CD99002E4947 /* Ogg.io */,
+			);
+			path = io;
+			sourceTree = "<group>";
+		};
+		AA3D09D314C3CD99002E4947 /* source */ = {
+			isa = PBXGroup;
+			children = (
+				AA3D09D414C3CD99002E4947 /* IoOggInit.c */,
+				AA3D09D514C3CD99002E4947 /* IoOggPacket.c */,
+				AA3D09D614C3CD99002E4947 /* IoOggPacket.h */,
+				AA3D09D714C3CD99002E4947 /* IoOggPage.c */,
+				AA3D09D814C3CD99002E4947 /* IoOggPage.h */,
+				AA3D09D914C3CD99002E4947 /* IoOggStreamState.c */,
+				AA3D09DA14C3CD99002E4947 /* IoOggStreamState.h */,
+				AA3D09DB14C3CD99002E4947 /* IoOggSyncState.c */,
+				AA3D09DC14C3CD99002E4947 /* IoOggSyncState.h */,
+			);
+			path = source;
+			sourceTree = "<group>";
+		};
 		AA6ABF750BA8012F0049770F /* Box */ = {
 			isa = PBXGroup;
 			children = (
-				AA6ABF760BA8012F0049770F /* build.io */,
-				AA6ABF770BA8012F0049770F /* depends */,
-				AA6ABF780BA8012F0049770F /* frameworks */,
 				AA6ABF790BA8012F0049770F /* io */,
-				AA6ABF7B0BA8012F0049770F /* Makefile */,
-				AA6ABF7C0BA8012F0049770F /* protos */,
 				AA6ABF7F0BA8012F0049770F /* source */,
-				AA6ABF820BA8012F0049770F /* tests */,
 			);
 			name = Box;
 			path = ../../addons/Box;
@@ -1496,51 +1376,21 @@
 			path = ../../addons/Box/source;
 			sourceTree = SOURCE_ROOT;
 		};
-		AA6ABF820BA8012F0049770F /* tests */ = {
-			isa = PBXGroup;
-			children = (
-				AA6ABF830BA8012F0049770F /* performance */,
-				AA6ABF8B0BA8012F0049770F /* run.io */,
-				AA6ABF8C0BA8012F0049770F /* VectorTest.io */,
-			);
-			name = tests;
-			path = ../../addons/Box/tests;
-			sourceTree = SOURCE_ROOT;
-		};
-		AA6ABF830BA8012F0049770F /* performance */ = {
-			isa = PBXGroup;
-			children = (
-				AA6ABF840BA8012F0049770F /* mandlebrot.c */,
-				AA6ABF850BA8012F0049770F /* mandlebrot.io */,
-				AA6ABF860BA8012F0049770F /* mandlebrot.py */,
-				AA6ABF870BA8012F0049770F /* runSpeedTests.io */,
-				AA6ABF880BA8012F0049770F /* speed.io */,
-				AA6ABF890BA8012F0049770F /* speed.py */,
-				AA6ABF8A0BA8012F0049770F /* SpeedResults.txt */,
-			);
-			name = performance;
-			path = ../../addons/Box/tests/performance;
-			sourceTree = SOURCE_ROOT;
-		};
 		AA7D57800B60123800D7DEA9 /* addons */ = {
 			isa = PBXGroup;
 			children = (
 				AA7D57810B60123800D7DEA9 /* AppleExtras */,
 				AA7D57A50B60123800D7DEA9 /* AsyncRequest */,
-				AA7D57BC0B60123800D7DEA9 /* AVCodec */,
 				AA7D57DA0B60123800D7DEA9 /* BigNum */,
 				AA7D57F00B60123800D7DEA9 /* Blowfish */,
 				AA6ABF750BA8012F0049770F /* Box */,
-				AA7D580C0B60123900D7DEA9 /* CFFI */,
 				AA7D58260B60123900D7DEA9 /* CGI */,
 				AA7D583A0B60123900D7DEA9 /* ContinuedFraction */,
 				AA7D584C0B60123900D7DEA9 /* Contracts */,
-				AA7D585F0B60123900D7DEA9 /* Curses */,
 				AA9150CC0D5B30EB00CBBF14 /* DBI */,
 				AA7D588F0B60123900D7DEA9 /* Flux */,
 				AA7D5C6E0B60123B00D7DEA9 /* Fnmatch */,
 				AA7D5C850B60123B00D7DEA9 /* Font */,
-				AA7D5CA80B60123B00D7DEA9 /* GLFW */,
 				AA7D5CBB0B60123B00D7DEA9 /* Image */,
 				AA7D5CF00B60123B00D7DEA9 /* LibSndFile */,
 				AA7D5D0D0B60123B00D7DEA9 /* Libxml2 */,
@@ -1548,7 +1398,7 @@
 				AA7D5D600B60123B00D7DEA9 /* LZO */,
 				AA7D5D860B60123B00D7DEA9 /* MD5 */,
 				AA7D5DB60B60123B00D7DEA9 /* ObjcBridge */,
-				AA7D5DF00B60123C00D7DEA9 /* ODE */,
+				AA3D09C814C3CD99002E4947 /* Ogg */,
 				AA7D5E6E0B60123C00D7DEA9 /* OpenGL */,
 				AA7D60160B60123D00D7DEA9 /* PortAudio */,
 				AA7D60320B60123D00D7DEA9 /* Postgres */,
@@ -1572,6 +1422,7 @@
 				AA7D624F0B60123F00D7DEA9 /* TagLib */,
 				AA7D62680B60123F00D7DEA9 /* Thread */,
 				AA7D62880B60123F00D7DEA9 /* User */,
+				AAF30B3614C3C923003304B9 /* Yajl */,
 				AA7D629F0B60123F00D7DEA9 /* UUID */,
 				AA7D63000B60123F00D7DEA9 /* Zlib */,
 			);
@@ -1606,26 +1457,6 @@
 			);
 			name = source;
 			path = ../../addons/AsyncRequest/source;
-			sourceTree = SOURCE_ROOT;
-		};
-		AA7D57BC0B60123800D7DEA9 /* AVCodec */ = {
-			isa = PBXGroup;
-			children = (
-				AA7D57D50B60123800D7DEA9 /* source */,
-			);
-			name = AVCodec;
-			path = ../../addons/AVCodec;
-			sourceTree = SOURCE_ROOT;
-		};
-		AA7D57D50B60123800D7DEA9 /* source */ = {
-			isa = PBXGroup;
-			children = (
-				AA7D57D60B60123800D7DEA9 /* IoAVCodec.c */,
-				AA7D57D70B60123800D7DEA9 /* IoAVCodec.h */,
-				AA7D57D80B60123800D7DEA9 /* IoAVCodecInit.c */,
-			);
-			name = source;
-			path = ../../addons/AVCodec/source;
 			sourceTree = SOURCE_ROOT;
 		};
 		AA7D57DA0B60123800D7DEA9 /* BigNum */ = {
@@ -1668,31 +1499,6 @@
 			);
 			name = source;
 			path = ../../addons/Blowfish/source;
-			sourceTree = SOURCE_ROOT;
-		};
-		AA7D580C0B60123900D7DEA9 /* CFFI */ = {
-			isa = PBXGroup;
-			children = (
-				AA7D58190B60123900D7DEA9 /* source */,
-			);
-			name = CFFI;
-			path = ../../addons/CFFI;
-			sourceTree = SOURCE_ROOT;
-		};
-		AA7D58190B60123900D7DEA9 /* source */ = {
-			isa = PBXGroup;
-			children = (
-				AA7D581A0B60123900D7DEA9 /* IoCFFIDataType.c */,
-				AA7D581B0B60123900D7DEA9 /* IoCFFIDataType.h */,
-				AA7D581C0B60123900D7DEA9 /* IoCFFIFunction.c */,
-				AA7D581D0B60123900D7DEA9 /* IoCFFIFunction.h */,
-				AA7D581E0B60123900D7DEA9 /* IoCFFILibrary.c */,
-				AA7D581F0B60123900D7DEA9 /* IoCFFILibrary.h */,
-				AA7D58200B60123900D7DEA9 /* IoCFFIPointer.c */,
-				AA7D58210B60123900D7DEA9 /* IoCFFIPointer.h */,
-			);
-			name = source;
-			path = ../../addons/CFFI/source;
 			sourceTree = SOURCE_ROOT;
 		};
 		AA7D58260B60123900D7DEA9 /* CGI */ = {
@@ -1743,30 +1549,9 @@
 		AA7D585B0B60123900D7DEA9 /* source */ = {
 			isa = PBXGroup;
 			children = (
-				AA7D585C0B60123900D7DEA9 /* IoContractsInit.c */,
 			);
 			name = source;
 			path = ../../addons/Contracts/source;
-			sourceTree = SOURCE_ROOT;
-		};
-		AA7D585F0B60123900D7DEA9 /* Curses */ = {
-			isa = PBXGroup;
-			children = (
-				AA7D58730B60123900D7DEA9 /* source */,
-			);
-			name = Curses;
-			path = ../../addons/Curses;
-			sourceTree = SOURCE_ROOT;
-		};
-		AA7D58730B60123900D7DEA9 /* source */ = {
-			isa = PBXGroup;
-			children = (
-				AA7D58740B60123900D7DEA9 /* IoCurses.c */,
-				AA7D58750B60123900D7DEA9 /* IoCurses.h */,
-				AA7D58760B60123900D7DEA9 /* IoCursesInit.c */,
-			);
-			name = source;
-			path = ../../addons/Curses/source;
 			sourceTree = SOURCE_ROOT;
 		};
 		AA7D588F0B60123900D7DEA9 /* Flux */ = {
@@ -1829,27 +1614,6 @@
 			);
 			name = source;
 			path = ../../addons/Font/source;
-			sourceTree = SOURCE_ROOT;
-		};
-		AA7D5CA80B60123B00D7DEA9 /* GLFW */ = {
-			isa = PBXGroup;
-			children = (
-				AA7D5CB60B60123B00D7DEA9 /* source */,
-			);
-			name = GLFW;
-			path = ../../addons/GLFW;
-			sourceTree = SOURCE_ROOT;
-		};
-		AA7D5CB60B60123B00D7DEA9 /* source */ = {
-			isa = PBXGroup;
-			children = (
-				AA7D5CB70B60123B00D7DEA9 /* IoGLFW.c */,
-				AA7D5CB80B60123B00D7DEA9 /* IoGLFW.h */,
-				AA7D5CB90B60123B00D7DEA9 /* IoGLFWconst.h */,
-				AA7D5CBA0B60123B00D7DEA9 /* IoGLFWfunc.h */,
-			);
-			name = source;
-			path = ../../addons/GLFW/source;
 			sourceTree = SOURCE_ROOT;
 		};
 		AA7D5CBB0B60123B00D7DEA9 /* Image */ = {
@@ -1964,7 +1728,6 @@
 				AA7D5D7F0B60123B00D7DEA9 /* lzodefs.h */,
 				AA7D5D800B60123B00D7DEA9 /* minilzo.c */,
 				AA7D5D810B60123B00D7DEA9 /* minilzo.h */,
-				AA7D5D820B60123B00D7DEA9 /* minilzo_COPYING */,
 			);
 			name = source;
 			path = ../../addons/LZO/source;
@@ -2020,64 +1783,6 @@
 			path = ../../addons/ObjcBridge/source;
 			sourceTree = SOURCE_ROOT;
 		};
-		AA7D5DF00B60123C00D7DEA9 /* ODE */ = {
-			isa = PBXGroup;
-			children = (
-				AA7D5E2F0B60123C00D7DEA9 /* source */,
-			);
-			name = ODE;
-			path = ../../addons/ODE;
-			sourceTree = SOURCE_ROOT;
-		};
-		AA7D5E2F0B60123C00D7DEA9 /* source */ = {
-			isa = PBXGroup;
-			children = (
-				AA7D5E300B60123C00D7DEA9 /* geom.c */,
-				AA7D5E310B60123C00D7DEA9 /* geom.h */,
-				AA7D5E320B60123C00D7DEA9 /* IoODEBall.c */,
-				AA7D5E330B60123C00D7DEA9 /* IoODEBall.h */,
-				AA7D5E340B60123C00D7DEA9 /* IoODEBody.c */,
-				AA7D5E350B60123C00D7DEA9 /* IoODEBody.h */,
-				AA7D5E360B60123C00D7DEA9 /* IoODEBody_typedef.h */,
-				AA7D5E370B60123C00D7DEA9 /* IoODEBox.c */,
-				AA7D5E380B60123C00D7DEA9 /* IoODEBox.h */,
-				AA7D5E390B60123C00D7DEA9 /* IoODEContact.c */,
-				AA7D5E3A0B60123C00D7DEA9 /* IoODEContact.h */,
-				AA7D5E3B0B60123C00D7DEA9 /* IoODEContactJoint.c */,
-				AA7D5E3C0B60123C00D7DEA9 /* IoODEContactJoint.h */,
-				AA7D5E3D0B60123C00D7DEA9 /* IoODEFixed.c */,
-				AA7D5E3E0B60123C00D7DEA9 /* IoODEFixed.h */,
-				AA7D5E3F0B60123C00D7DEA9 /* IoODEHinge.c */,
-				AA7D5E400B60123C00D7DEA9 /* IoODEHinge.h */,
-				AA7D5E410B60123C00D7DEA9 /* IoODEHinge2.c */,
-				AA7D5E420B60123C00D7DEA9 /* IoODEHinge2.h */,
-				AA7D5E430B60123C00D7DEA9 /* IoODEInit.c */,
-				AA7D5E440B60123C00D7DEA9 /* IoODEJoint.c */,
-				AA7D5E450B60123C00D7DEA9 /* IoODEJoint.h */,
-				AA7D5E460B60123C00D7DEA9 /* IoODEJoint_internal.h */,
-				AA7D5E470B60123C00D7DEA9 /* IoODEJoint_typedef.h */,
-				AA7D5E480B60123C00D7DEA9 /* IoODEJointGroup.c */,
-				AA7D5E490B60123C00D7DEA9 /* IoODEJointGroup.h */,
-				AA7D5E4A0B60123C00D7DEA9 /* IoODEJointGroup_typedef.h */,
-				AA7D5E4B0B60123C00D7DEA9 /* IoODEMass.c */,
-				AA7D5E4C0B60123C00D7DEA9 /* IoODEMass.h */,
-				AA7D5E4D0B60123C00D7DEA9 /* IoODEPlane.c */,
-				AA7D5E4E0B60123C00D7DEA9 /* IoODEPlane.h */,
-				AA7D5E4F0B60123C00D7DEA9 /* IoODESimpleSpace.c */,
-				AA7D5E500B60123C00D7DEA9 /* IoODESimpleSpace.h */,
-				AA7D5E510B60123C00D7DEA9 /* IoODESlider.c */,
-				AA7D5E520B60123C00D7DEA9 /* IoODESlider.h */,
-				AA7D5E530B60123C00D7DEA9 /* IoODEUniversal.c */,
-				AA7D5E540B60123C00D7DEA9 /* IoODEUniversal.h */,
-				AA7D5E550B60123C00D7DEA9 /* IoODEWorld.c */,
-				AA7D5E560B60123C00D7DEA9 /* IoODEWorld.h */,
-				AA7D5E570B60123C00D7DEA9 /* IoVector_ode.c */,
-				AA7D5E580B60123C00D7DEA9 /* IoVector_ode.h */,
-			);
-			name = source;
-			path = ../../addons/ODE/source;
-			sourceTree = SOURCE_ROOT;
-		};
 		AA7D5E6E0B60123C00D7DEA9 /* OpenGL */ = {
 			isa = PBXGroup;
 			children = (
@@ -2114,22 +1819,9 @@
 				AA7D600D0B60123D00D7DEA9 /* IoOpenGLInit.c */,
 				AA7D600E0B60123D00D7DEA9 /* IoVector_gl.c */,
 				AA7D600F0B60123D00D7DEA9 /* IoVector_gl.h */,
-				AA7D60100B60123D00D7DEA9 /* new */,
 			);
 			name = source;
 			path = ../../addons/OpenGL/source;
-			sourceTree = SOURCE_ROOT;
-		};
-		AA7D60100B60123D00D7DEA9 /* new */ = {
-			isa = PBXGroup;
-			children = (
-				AA7D60110B60123D00D7DEA9 /* IoGLE.c */,
-				AA7D60120B60123D00D7DEA9 /* IoGLE.h */,
-				AA7D60130B60123D00D7DEA9 /* IoSceneNode.c */,
-				AA7D60140B60123D00D7DEA9 /* IoSceneNode.h */,
-			);
-			name = new;
-			path = ../../addons/OpenGL/source/new;
 			sourceTree = SOURCE_ROOT;
 		};
 		AA7D60160B60123D00D7DEA9 /* PortAudio */ = {
@@ -2521,6 +2213,20 @@
 		AA7D61BB0B60123E00D7DEA9 /* source */ = {
 			isa = PBXGroup;
 			children = (
+				AAF30B4C14C3CA78003304B9 /* Address.c */,
+				AAF30B4D14C3CA78003304B9 /* Address.h */,
+				AAF30B4E14C3CA78003304B9 /* IoEvConnection.c */,
+				AAF30B4F14C3CA78003304B9 /* IoEvConnection.h */,
+				AAF30B5014C3CA78003304B9 /* IoEvHttpServer.c */,
+				AAF30B5114C3CA78003304B9 /* IoEvHttpServer.h */,
+				AAF30B5214C3CA79003304B9 /* IoEvOutRequest.c */,
+				AAF30B5314C3CA79003304B9 /* IoEvOutRequest.h */,
+				AAF30B5414C3CA79003304B9 /* IoEvOutResponse.c */,
+				AAF30B5514C3CA79003304B9 /* IoEvOutResponse.h */,
+				AAF30B5614C3CA7A003304B9 /* IoUnixPath.c */,
+				AAF30B5714C3CA7A003304B9 /* IoUnixPath.h */,
+				AAF30B5814C3CA7A003304B9 /* UnixPath.c */,
+				AAF30B5914C3CA7A003304B9 /* UnixPath.h */,
 				AA7D61BC0B60123E00D7DEA9 /* IoDNS.c */,
 				AA7D61BD0B60123E00D7DEA9 /* IoDNS.h */,
 				AA7D61BE0B60123E00D7DEA9 /* IoEvent.c */,
@@ -2908,6 +2614,15 @@
 		AA86BF2F0B6051FF00495786 /* source */ = {
 			isa = PBXGroup;
 			children = (
+				AAF30B2A14C3C890003304B9 /* IoError.c */,
+				AAF30B2B14C3C891003304B9 /* IoError.h */,
+				AAF30B2C14C3C894003304B9 /* IoInstallPrefix.h */,
+				AAF30B2D14C3C895003304B9 /* IoProfiler.c */,
+				AAF30B2E14C3C898003304B9 /* IoProfiler.h */,
+				AAF30B2F14C3C899003304B9 /* PHash_inline.h */,
+				AAF30B3014C3C89A003304B9 /* PHash_struct.h */,
+				AAF30B3114C3C8A1003304B9 /* PHash.c */,
+				AAF30B3214C3C8A2003304B9 /* PHash.h */,
 				AA86BF300B6051FF00495786 /* IoBlock.c */,
 				AA86BF310B6051FF00495786 /* IoBlock.h */,
 				AA86BF320B6051FF00495786 /* IoCall.c */,
@@ -3060,6 +2775,35 @@
 			path = source;
 			sourceTree = "<group>";
 		};
+		AAF30B3614C3C923003304B9 /* Yajl */ = {
+			isa = PBXGroup;
+			children = (
+				AAF30B3B14C3C927003304B9 /* io */,
+				AAF30B3E14C3C927003304B9 /* source */,
+			);
+			path = Yajl;
+			sourceTree = "<group>";
+		};
+		AAF30B3B14C3C927003304B9 /* io */ = {
+			isa = PBXGroup;
+			children = (
+				AAF30B3C14C3C927003304B9 /* YajlElement.io */,
+			);
+			path = io;
+			sourceTree = "<group>";
+		};
+		AAF30B3E14C3C927003304B9 /* source */ = {
+			isa = PBXGroup;
+			children = (
+				AAF30B3F14C3C927003304B9 /* IoYajl.c */,
+				AAF30B4014C3C927003304B9 /* IoYajl.h */,
+				AAF30B4114C3C927003304B9 /* IoYajlGen.c */,
+				AAF30B4214C3C927003304B9 /* IoYajlGen.h */,
+				AAF30B4314C3C927003304B9 /* IoYajlInit.c */,
+			);
+			path = source;
+			sourceTree = "<group>";
+		};
 		C6A0FF2B0290797F04C91782 /* Documentation */ = {
 			isa = PBXGroup;
 			children = (
@@ -3120,22 +2864,13 @@
 			files = (
 				AA7D63400B60124100D7DEA9 /* IoAsyncRequest.c in Sources */,
 				AA7D63420B60124100D7DEA9 /* IoAsyncRequestInit.c in Sources */,
-				AA7D63520B60124100D7DEA9 /* IoAVCodec.c in Sources */,
-				AA7D63540B60124100D7DEA9 /* IoAVCodecInit.c in Sources */,
 				AA7D635D0B60124100D7DEA9 /* IoBigNum.c in Sources */,
 				AA7D635F0B60124100D7DEA9 /* IoBigNumInit.c in Sources */,
 				AA7D636A0B60124100D7DEA9 /* blowfish.c in Sources */,
 				AA7D636C0B60124100D7DEA9 /* IoBlowfish.c in Sources */,
 				AA7D636E0B60124100D7DEA9 /* IoBlowfishInit.c in Sources */,
-				AA7D637A0B60124100D7DEA9 /* IoCFFIDataType.c in Sources */,
-				AA7D637C0B60124100D7DEA9 /* IoCFFIFunction.c in Sources */,
-				AA7D637E0B60124100D7DEA9 /* IoCFFILibrary.c in Sources */,
-				AA7D63800B60124100D7DEA9 /* IoCFFIPointer.c in Sources */,
 				AA7D638C0B60124100D7DEA9 /* IoCGIInit.c in Sources */,
 				AA7D63950B60124100D7DEA9 /* IoContinuedFractionInit.c in Sources */,
-				AA7D639D0B60124100D7DEA9 /* IoContractsInit.c in Sources */,
-				AA7D63AA0B60124100D7DEA9 /* IoCurses.c in Sources */,
-				AA7D63AC0B60124100D7DEA9 /* IoCursesInit.c in Sources */,
 				AA7D66700B60124100D7DEA9 /* IoFluxInit.c in Sources */,
 				AA7D66780B60124100D7DEA9 /* IoFnmatch.c in Sources */,
 				AA7D667A0B60124100D7DEA9 /* IoFnmatchInit.c in Sources */,
@@ -3143,7 +2878,6 @@
 				AA7D66900B60124100D7DEA9 /* GLFont.c in Sources */,
 				AA7D66920B60124100D7DEA9 /* IoFont.c in Sources */,
 				AA7D66940B60124100D7DEA9 /* IoFontInit.c in Sources */,
-				AA7D66A00B60124100D7DEA9 /* IoGLFW.c in Sources */,
 				AA7D66BE0B60124100D7DEA9 /* IoImage.c in Sources */,
 				AA7D66C10B60124100D7DEA9 /* IoImageInit.c in Sources */,
 				AA7D66C20B60124100D7DEA9 /* JPGImage.c in Sources */,
@@ -3169,25 +2903,6 @@
 				AA7D676C0B60124200D7DEA9 /* Objc2Io.m in Sources */,
 				AA7D676E0B60124200D7DEA9 /* ObjcSubclass.m in Sources */,
 				AA7D67700B60124200D7DEA9 /* Runtime.m in Sources */,
-				AA7D67A70B60124200D7DEA9 /* geom.c in Sources */,
-				AA7D67A90B60124200D7DEA9 /* IoODEBall.c in Sources */,
-				AA7D67AB0B60124200D7DEA9 /* IoODEBody.c in Sources */,
-				AA7D67AE0B60124200D7DEA9 /* IoODEBox.c in Sources */,
-				AA7D67B00B60124200D7DEA9 /* IoODEContact.c in Sources */,
-				AA7D67B20B60124200D7DEA9 /* IoODEContactJoint.c in Sources */,
-				AA7D67B40B60124200D7DEA9 /* IoODEFixed.c in Sources */,
-				AA7D67B60B60124200D7DEA9 /* IoODEHinge.c in Sources */,
-				AA7D67B80B60124200D7DEA9 /* IoODEHinge2.c in Sources */,
-				AA7D67BA0B60124200D7DEA9 /* IoODEInit.c in Sources */,
-				AA7D67BB0B60124200D7DEA9 /* IoODEJoint.c in Sources */,
-				AA7D67BF0B60124200D7DEA9 /* IoODEJointGroup.c in Sources */,
-				AA7D67C20B60124200D7DEA9 /* IoODEMass.c in Sources */,
-				AA7D67C40B60124200D7DEA9 /* IoODEPlane.c in Sources */,
-				AA7D67C60B60124200D7DEA9 /* IoODESimpleSpace.c in Sources */,
-				AA7D67C80B60124200D7DEA9 /* IoODESlider.c in Sources */,
-				AA7D67CA0B60124200D7DEA9 /* IoODEUniversal.c in Sources */,
-				AA7D67CC0B60124200D7DEA9 /* IoODEWorld.c in Sources */,
-				AA7D67CE0B60124200D7DEA9 /* IoVector_ode.c in Sources */,
 				AA7D694A0B60124200D7DEA9 /* IoBox_gl.c in Sources */,
 				AA7D69520B60124200D7DEA9 /* IoGLScissor.c in Sources */,
 				AA7D69540B60124200D7DEA9 /* IoGLU.c in Sources */,
@@ -3196,8 +2911,6 @@
 				AA7D69620B60124200D7DEA9 /* IoOpenGL.c in Sources */,
 				AA7D69640B60124200D7DEA9 /* IoOpenGLInit.c in Sources */,
 				AA7D69650B60124200D7DEA9 /* IoVector_gl.c in Sources */,
-				AA7D69670B60124200D7DEA9 /* IoGLE.c in Sources */,
-				AA7D69690B60124200D7DEA9 /* IoSceneNode.c in Sources */,
 				AA7D69730B60124200D7DEA9 /* AudioDevice.c in Sources */,
 				AA7D69750B60124200D7DEA9 /* IoAudioDevice.c in Sources */,
 				AA7D69770B60124200D7DEA9 /* IoAudioMixer.c in Sources */,
@@ -3344,9 +3057,7 @@
 				AA1C3FB20B7448B500334368 /* UArray_utf.c in Sources */,
 				AA1C3FBA0B7448B500334368 /* SHash.c in Sources */,
 				AABF82E50B76B45F002DBAB5 /* UArray_stream.c in Sources */,
-				AA6ABF910BA8012F0049770F /* Makefile in Sources */,
 				AA6ABF930BA8012F0049770F /* IoBox.c in Sources */,
-				AA6ABF950BA8012F0049770F /* mandlebrot.c in Sources */,
 				AA6ABFE30BA8D27E0049770F /* IoSeq_vector.c in Sources */,
 				AABFA2B90D59800D00FE7A84 /* Image.c in Sources */,
 				AA9150E30D5B30EB00CBBF14 /* IoDBI.c in Sources */,
@@ -3357,6 +3068,24 @@
 				AA14627C0DCD4B2B00FB1808 /* IoTagDB.c in Sources */,
 				AA14627D0DCD4B2B00FB1808 /* IoTagDBInit.c in Sources */,
 				AA1462B40DCECF5800FB1808 /* PortableSorting.c in Sources */,
+				AAF30B3314C3C8AB003304B9 /* IoError.c in Sources */,
+				AAF30B3414C3C8AB003304B9 /* IoProfiler.c in Sources */,
+				AAF30B3514C3C8AB003304B9 /* PHash.c in Sources */,
+				AAF30B4914C3C927003304B9 /* IoYajl.c in Sources */,
+				AAF30B4A14C3C927003304B9 /* IoYajlGen.c in Sources */,
+				AAF30B4B14C3C927003304B9 /* IoYajlInit.c in Sources */,
+				AAF30B5A14C3CA7B003304B9 /* Address.c in Sources */,
+				AAF30B5B14C3CA7B003304B9 /* IoEvConnection.c in Sources */,
+				AAF30B5C14C3CA7B003304B9 /* IoEvHttpServer.c in Sources */,
+				AAF30B5D14C3CA7B003304B9 /* IoEvOutRequest.c in Sources */,
+				AAF30B5E14C3CA7B003304B9 /* IoEvOutResponse.c in Sources */,
+				AAF30B5F14C3CA7B003304B9 /* IoUnixPath.c in Sources */,
+				AAF30B6014C3CA7B003304B9 /* UnixPath.c in Sources */,
+				AA3D09DD14C3CD99002E4947 /* IoOggInit.c in Sources */,
+				AA3D09DE14C3CD99002E4947 /* IoOggPacket.c in Sources */,
+				AA3D09DF14C3CD99002E4947 /* IoOggPage.c in Sources */,
+				AA3D09E014C3CD99002E4947 /* IoOggStreamState.c in Sources */,
+				AA3D09E114C3CD99002E4947 /* IoOggSyncState.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -15,6 +15,8 @@ the ANSI C time() and clock() return values.
 
 #define DATA(self) ((RandomGen *)(IoObject_dataPointer(self)))
 
+static const char *protoId = "Random";
+
 void IoRandom_writeToStream_(IoRandom *self, BStream *stream)
 {
 	RandomGen *r = DATA(self);

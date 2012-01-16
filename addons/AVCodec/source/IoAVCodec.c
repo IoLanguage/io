@@ -34,6 +34,7 @@ videoFrameCount
 #include <limits.h>
 //#include <math.h>
 
+static const char *protoId = "AVCodec";
 
 #define DATA(self) ((IoAVCodecData *)IoObject_dataPointer(self))
 
@@ -46,7 +47,7 @@ void IoAVCodec_registerIfNeeded(IoAVCodec *self)
 
 IoTag *IoAVCodec_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("AVCodec");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoAVCodec_rawClone);
 	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoAVCodec_mark);
@@ -64,7 +65,7 @@ IoAVCodec *IoAVCodec_proto(void *state)
 	DATA(self)->inputBuffer  = IoSeq_new(state);
 	DATA(self)->outputBuffer = IoSeq_new(state);
 
-	IoState_registerProtoWithFunc_(state, self, IoAVCodec_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	IoAVCodec_registerIfNeeded(self);
 
@@ -104,7 +105,7 @@ IoAVCodec *IoAVCodec_rawClone(IoAVCodec *proto)
 
 IoAVCodec *IoAVCodec_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoAVCodec_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

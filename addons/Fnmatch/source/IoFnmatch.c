@@ -16,9 +16,11 @@ Note: not all options are supported on all platforms.
 
 #define DATA(self) ((IoFnmatchData *)IoObject_dataPointer(self))
 
+static const char *protoId = "Fnmatch";
+
 IoTag *IoFnmatch_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("Fnmatch");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoFnmatch_free);
 	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoFnmatch_mark);
@@ -34,7 +36,7 @@ IoFnmatch *IoFnmatch_proto(void *state)
 	IoObject_setDataPointer_(self, io_calloc(1, sizeof(IoFnmatchData)));
 	DATA(self)->string = IOSYMBOL("");
 	DATA(self)->pattern = DATA(self)->string;
-	IoState_registerProtoWithFunc_(state, self, IoFnmatch_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 	IoMethodTable methodTable[] = {
@@ -93,7 +95,7 @@ IoFnmatch *IoFnmatch_rawClone(IoFnmatch *proto)
 
 IoFnmatch *IoFnmatch_new(void *state)
 {
-	IoFnmatch *proto = IoState_protoWithInitFunction_(state, IoFnmatch_proto);
+	IoFnmatch *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

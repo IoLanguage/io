@@ -17,9 +17,11 @@
 #include "IoDirectory.h"
 #include <stdlib.h>
 
+static const char *protoId = "User";
+
 IoTag *IoUser_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("User");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoUser_rawClone);
 	return tag;
@@ -30,7 +32,7 @@ IoUser *IoUser_proto(void *state)
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoUser_newTag(state));
 
-	IoState_registerProtoWithFunc_(state, self, IoUser_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -53,7 +55,7 @@ IoUser *IoUser_rawClone(IoUser *proto)
 
 IoUser *IoUser_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoUser_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

@@ -14,10 +14,11 @@
 #include "IoSeq.h"
 
 #define DATA(self) ((IoSoundTouchData *)IoObject_dataPointer(self))
+static const char *protoId = "SoundTouch";
 
 IoTag *IoSoundTouch_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("SoundTouch");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoSoundTouch_rawClone);
 	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoSoundTouch_mark);
@@ -35,7 +36,7 @@ IoSoundTouch *IoSoundTouch_proto(void *state)
 	DATA(self)->inputBuffer  = IoSeq_new(state);
 	DATA(self)->outputBuffer = IoSeq_new(state);
 
-	IoState_registerProtoWithFunc_(state, self, IoSoundTouch_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -73,7 +74,7 @@ IoSoundTouch *IoSoundTouch_rawClone(IoSoundTouch *proto)
 
 IoSoundTouch *IoSoundTouch_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoSoundTouch_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

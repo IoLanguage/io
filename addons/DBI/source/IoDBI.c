@@ -23,9 +23,11 @@ void ReportDBIError(dbi_conn conn, void *state, IoMessage *m)
 	IoState_error_(state, m, "libdbi: %i: %s\n", errorCode, error);
 }
 
+static const char *protoId = "DBI";
+
 IoTag *IoDBI_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("DBI");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoDBI_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoDBI_free);
@@ -41,7 +43,7 @@ IoDBI *IoDBI_proto(void *state)
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoDBIData)));
 	DATA(self)->driverCount = 0;
 
-	IoState_registerProtoWithFunc_(state, self, IoDBI_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {

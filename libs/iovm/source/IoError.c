@@ -24,7 +24,7 @@ IoError *IoError_proto(void *state)
 	IoError *self = IoObject_new(state);
 	IoObject_tag_(self, IoError_newTag(state));
 
-	IoState_registerProtoWithFunc_(state, self, protoId);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -43,7 +43,7 @@ IoError *IoError_rawClone(IoError *proto)
 
 IoError *IoError_new(void *state)
 {
-	IoError *proto = IoState_protoWithInitFunction_(state, protoId);
+	IoError *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

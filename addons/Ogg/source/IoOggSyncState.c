@@ -15,17 +15,18 @@ A wrapper around the libogg ogg_sync_state object.
 #include <assert.h>
 
 #define DATA(self) ((ogg_sync_state*)(IoObject_dataPointer(self)))
+static const char *protoId = "OggSyncState";
 
 IoObject *IoMessage_locals_oggSyncStateArgAt_(IoMessage *self, IoObject *locals, int n)
 {
   IoObject* v = IoMessage_locals_valueArgAt_(self, locals, n);
-  if (!ISOGGSYNCSTATE(v)) IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "OggSyncState");
+  if (!ISOGGSYNCSTATE(v)) IoMessage_locals_numberArgAt_errorForType_(self, locals, n, protoId);
   return v;
 }
 
 IoTag *IoOggSyncState_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("OggSyncState");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoOggSyncState_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoOggSyncState_rawClone);
@@ -44,7 +45,7 @@ IoOggSyncState *IoOggSyncState_proto(void *state)
 
 	IoObject_setDataPointer_(self, data);
 
-	IoState_registerProtoWithFunc_(state, self, IoOggSyncState_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -74,7 +75,7 @@ IoOggSyncState *IoOggSyncState_rawClone(IoOggSyncState *proto)
 
 IoOggSyncState *IoOggSyncState_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoOggSyncState_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

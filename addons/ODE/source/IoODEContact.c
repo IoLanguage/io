@@ -15,9 +15,11 @@ ODEContact binding
 
 #define DATA(self) ((IoODEContactData *)IoObject_dataPointer(self))
 
+static const char *protoId = "ODEContact";
+
 IoTag *IoODEContact_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("ODEContact");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoODEContact_free);
 	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoODEContact_mark);
@@ -32,7 +34,7 @@ IoODEContact *IoODEContact_proto(void *state)
 
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoODEContactData)));
 
-	IoState_registerProtoWithFunc_(state, self, IoODEContact_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -135,13 +137,13 @@ void IoODEContact_mark(IoODEContact *self)
 
 IoODEContact *IoODEContact_new(void *state)
 {
-	IoODEContact *proto = IoState_protoWithInitFunction_(state, IoODEContact_proto);
+	IoODEContact *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 
 IoODEContact *IoODEContact_newContactGeom(void *state, dContactGeom *contact)
 {
-	IoODEContact *proto = IoState_protoWithInitFunction_(state, IoODEContact_proto);
+	IoODEContact *proto = IoState_protoWithId_(state, protoId);
 	IoODEContact *self = IOCLONE(proto);
 
 	memcpy(&(DATA(self)->geom), contact, sizeof(*contact));

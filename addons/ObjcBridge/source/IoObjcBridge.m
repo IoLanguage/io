@@ -62,7 +62,7 @@ List *IoObjcBridge_allClasses(IoObjcBridge *self)
 
 IoTag *IoObjcBridge_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("ObjcBridge");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoObjcBridge_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoObjcBridge_free);
@@ -87,7 +87,7 @@ IoObjcBridge *IoObjcBridge_proto(void *state)
 
 	sharedBridge = self;
 
-	IoState_registerProtoWithFunc_(state, self, protoId);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -116,7 +116,7 @@ IoObjcBridge *IoObjcBridge_rawClone(IoObjcBridge *self)
 IoObjcBridge *IoObjcBridge_new(void *state)
 {
 	return sharedBridge;
-	//return IoState_protoWithInitFunction_(state, protoId);
+	//return IoState_protoWithId_(state, protoId);
 }
 
 void IoObjcBridge_free(IoObjcBridge *self)

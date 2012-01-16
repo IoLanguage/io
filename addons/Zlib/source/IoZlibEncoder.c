@@ -24,10 +24,11 @@ result := z outputBuffer
 #include "IoSeq.h"
 
 #define DATA(self) ((IoZlibEncoderData *)(IoObject_dataPointer(self)))
+static const char *protoId = "ZlibEncoder";
 
 IoTag *IoZlibEncoder_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("ZlibEncoder");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoZlibEncoder_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoZlibEncoder_rawClone);
@@ -43,7 +44,7 @@ IoZlibEncoder *IoZlibEncoder_proto(void *state)
 	DATA(self)->strm = calloc(1, sizeof(z_stream));
 	DATA(self)->level = 9;
 
-	IoState_registerProtoWithFunc_(state, self, IoZlibEncoder_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -68,7 +69,7 @@ IoZlibEncoder *IoZlibEncoder_rawClone(IoZlibEncoder *proto)
 
 IoZlibEncoder *IoZlibEncoder_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoZlibEncoder_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

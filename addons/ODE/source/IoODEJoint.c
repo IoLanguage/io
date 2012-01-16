@@ -14,10 +14,12 @@ ODEJoint binding
 
 /* ----------------------------------------------------------- */
 
+static const char *protoId = "ODEJoint";
+
 IoTag *IoODEJoint_newTag(void *state)
 {
 		// TODO: Get rid of IoODEJoint as an IoObject. Can't be manipulated directly through Io.
-	IoTag *tag = IoTag_newWithName_("ODEJoint");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoODEJoint_free);
 	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoODEJoint_mark);
@@ -32,7 +34,7 @@ IoODEJoint *IoODEJoint_proto(void *state)
 
 	IoODEJoint_protoCommon(self);
 
-	IoState_registerProtoWithFunc_(state, self, IoODEJoint_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -80,7 +82,7 @@ void IoODEJoint_mark(IoODEJoint *self)
 
 IoODEJoint *IoODEJoint_newProtoCommon(void *state, IoStateProtoFunc *func, IoODEJointGroup *jointGroup)
 {
-	IoODEJoint *proto = IoState_protoWithInitFunction_(state, func);
+	IoODEJoint *proto = IoState_protoWithId_(state, func);
 	IoODEJoint *self = IOCLONE(proto);
 	JOINTGROUP = jointGroup;
 	return self;

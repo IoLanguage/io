@@ -22,7 +22,7 @@ static const char *protoId = "Map";
 
 IoTag *IoMap_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("Map");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoMap_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoMap_free);
@@ -87,7 +87,7 @@ IoMap *IoMap_proto(void *state)
 	IoObject_tag_(self, IoMap_newTag(state));
 	IoObject_setDataPointer_(self, PHash_new());
 
-	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
+	IoState_registerProtoWithId_((IoState *)state, self, protoId);
 
 	IoObject_addMethodTable_(self, methodTable);
 	return self;
@@ -102,7 +102,7 @@ IoMap *IoMap_rawClone(IoMap *proto)
 
 IoMap *IoMap_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
+	IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 

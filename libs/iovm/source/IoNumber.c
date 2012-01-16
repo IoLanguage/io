@@ -66,7 +66,7 @@ IoNumber *IoNumber_numberForDouble_canUse_(IoNumber *self, double n, IoNumber *o
 
 IoTag *IoNumber_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("Number");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoNumber_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoNumber_free);
@@ -201,7 +201,7 @@ IoNumber *IoNumber_proto(void *state)
 
 	IoObject_tag_(self, IoNumber_newTag(state));
 	DATA(self) = 0;
-	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
+	IoState_registerProtoWithId_((IoState *)state, self, protoId);
 
 	IoObject_addMethodTable_(self, methodTable);
 	return self;
@@ -216,7 +216,7 @@ IoNumber *IoNumber_rawClone(IoNumber *proto)
 
 IoNumber *IoNumber_newWithDouble_(void *state, double n)
 {
-	IoNumber *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
+	IoNumber *proto = IoState_protoWithId_((IoState *)state, protoId);
 	IoNumber *self = IOCLONE(proto); // since Numbers have no refs, we can avoid IOCLONE
 	DATA(self) = n;
 	return self;

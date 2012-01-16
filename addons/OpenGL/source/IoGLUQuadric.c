@@ -12,6 +12,8 @@
 
 #define DATA(self) ((IoGLUQuadricData *)IoObject_dataPointer(self))
 
+static const char *protoId = "GLUQuadric";
+
 IoObject *IoMessage_locals_gluQuadricArgAt_(IoMessage *self, IoObject *locals, int n)
 {
 	IoObject *v = IoMessage_locals_valueArgAt_(self, locals, n);
@@ -21,7 +23,7 @@ IoObject *IoMessage_locals_gluQuadricArgAt_(IoMessage *self, IoObject *locals, i
 
 IoTag *IoGLUQuadric_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("GLUQuadric");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoGLUQuadric_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoGLUQuadric_free);
@@ -33,11 +35,8 @@ IoGLUQuadric *IoGLUQuadric_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoGLUQuadric_newTag(state));
-
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoGLUQuadricData)));
-
-	IoState_registerProtoWithFunc_(state, self, IoGLUQuadric_proto);
-
+	IoState_registerProtoWithId_(state, self, protoId);
 	return self;
 }
 
@@ -52,7 +51,7 @@ IoGLUQuadric *IoGLUQuadric_rawClone(IoGLUQuadric *proto)
 
 IoGLUQuadric *IoGLUQuadric_new(void *state)
 {
-	IoGLUQuadric *proto = IoState_protoWithInitFunction_(state, IoGLUQuadric_proto);
+	IoGLUQuadric *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

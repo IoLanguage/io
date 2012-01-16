@@ -23,7 +23,7 @@ static const char *protoId = "Sandbox";
 
 IoTag *IoSandbox_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("Sandbox");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoSandbox_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoSandbox_free);
@@ -44,7 +44,7 @@ IoSandbox *IoSandbox_proto(void *state)
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoSandbox_newTag(state));
 
-	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
+	IoState_registerProtoWithId_((IoState *)state, self, protoId);
 
 	IoObject_addMethodTable_(self, methodTable);
 
@@ -89,7 +89,7 @@ void IoSandbox_printCallback(void *voidSelf, const UArray *ba)
 
 IoSandbox *IoSandbox_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
+	IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 

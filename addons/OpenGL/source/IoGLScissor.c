@@ -9,9 +9,11 @@
 
 #define DATA(self) ((IoGLScissorData *)IoObject_dataPointer(self))
 
+static const char *protoId = "GLScissor";
+
 IoTag *IoGLScissor_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("GLScissor");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoGLScissor_mark);
 	return tag;
@@ -27,7 +29,7 @@ IoGLScissor *IoGLScissor_proto(void *state)
 	DATA(self)->rect    = IoBox_new(state);
 	DATA(self)->tmpRect = IoBox_new(state);
 
-	IoState_registerProtoWithFunc_(state, self, IoGLScissor_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 	IoMethodTable methodTable[] = {
@@ -66,7 +68,7 @@ IoGLScissor *IoGLScissor_rawClone(IoGLScissor *proto)
 
 IoGLScissor *IoGLScissor_new(void *state)
 {
-	IoGLScissor *proto = IoState_protoWithInitFunction_(state, IoGLScissor_proto);
+	IoGLScissor *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

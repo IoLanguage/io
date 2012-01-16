@@ -15,11 +15,11 @@ This object can be used to parse Yajl / HTML / XML.
 
 #define DATA(self) ((IoYajlData *)(IoObject_dataPointer(self)))
 
-const char *protoId = "Yajl";
+static const char *protoId = "YajlParser";
 
 IoTag *IoYajl_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("YajlParser");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoYajl_rawClone);
 	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoYajl_mark);
@@ -52,7 +52,7 @@ IoYajl *IoYajl_proto(void *state)
 	DATA(self)->addMapKeyMessage = IoMessage_newWithName_label_(state,
 												   IOSYMBOL("addMapKey"), IOSYMBOL("YajlParser"));
 
-	IoState_registerProtoWithFunc_(state, self, protoId);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -74,7 +74,7 @@ IoYajl *IoYajl_rawClone(IoYajl *proto)
 
 IoYajl *IoYajl_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, protoId);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 
@@ -90,8 +90,6 @@ void IoYajl_mark(IoYajl *self)
 
 void IoYajl_free(IoYajl *self)
 {
-
-
 	io_free(DATA(self));
 }
 
@@ -130,24 +128,24 @@ static int IoYajl_callback_number(void *ctx, const char * s, size_t l)
 	IoYajl *self = ctx;
 	//IoState_pushRetainPool(IOSTATE);
 	{
-	IoMessage *m = DATA(self)->addValueMessage;
-	if (l > 10)
-	{
-		
-		IoMessage_setCachedArg_to_(m, 0, IOSEQ((const unsigned char *)s, l));
-	}
-	else
-	{
-		if (atoll(s) > 2147483647)
+		IoMessage *m = DATA(self)->addValueMessage;
+		if (l > 10)
 		{
+			
 			IoMessage_setCachedArg_to_(m, 0, IOSEQ((const unsigned char *)s, l));
 		}
 		else
 		{
-			IoMessage_setCachedArg_to_(m, 0, IONUMBER(atof(s)));
+			if (atoll(s) > 2147483647)
+			{
+				IoMessage_setCachedArg_to_(m, 0, IOSEQ((const unsigned char *)s, l));
+			}
+			else
+			{
+				IoMessage_setCachedArg_to_(m, 0, IONUMBER(atof(s)));
+			}
 		}
-	}
-	IoObject_perform(self, self, m);
+		IoObject_perform(self, self, m);
 	}
 	//IoState_popRetainPool(IOSTATE);
     return 1;  

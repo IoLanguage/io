@@ -15,11 +15,11 @@ This object can be used to parse YajlGen / HTML / XML.
 
 #define DATA(self) ((yajl_gen)(IoObject_dataPointer(self)))
 
-static const char *protoId = "protoId";
+static const char *protoId = "YajlGen";
 
 IoTag *IoYajlGen_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("YajlGen");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoYajlGen_rawClone);
 	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoYajlGen_mark);
@@ -42,7 +42,7 @@ IoYajlGen *IoYajlGen_rawClone(IoYajlGen *proto)
 
 IoYajlGen *IoYajlGen_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, protoId);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 
@@ -156,7 +156,7 @@ IoYajlGen *IoYajlGen_proto(void *state)
 
 	IoObject_setDataPointer_(self, g);
 
-	IoState_registerProtoWithFunc_(state, self, protoId);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] =

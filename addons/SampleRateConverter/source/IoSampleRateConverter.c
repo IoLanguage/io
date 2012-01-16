@@ -16,9 +16,11 @@
 
 #define DATA(self) ((IoSampleRateConverterData *)IoObject_dataPointer(self))
 
+static const char *protoId = "SampleRateConverter";
+
 IoTag *IoSampleRateConverter_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("SampleRateConverter");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoSampleRateConverter_rawClone);
 	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoSampleRateConverter_mark);
@@ -36,7 +38,7 @@ IoSampleRateConverter *IoSampleRateConverter_proto(void *state)
 	DATA(self)->inputBuffer  = IoSeq_new(state);
 	DATA(self)->outputBuffer = IoSeq_new(state);
 
-	IoState_registerProtoWithFunc_(state, self, IoSampleRateConverter_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -69,7 +71,7 @@ IoSampleRateConverter *IoSampleRateConverter_rawClone(IoSampleRateConverter *pro
 
 IoSampleRateConverter *IoSampleRateConverter_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoSampleRateConverter_proto);
+	IoObject *proto = IoState_protoWithd_(state, protoId);
 	return IOCLONE(proto);
 }
 

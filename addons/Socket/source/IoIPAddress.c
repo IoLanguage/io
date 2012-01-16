@@ -41,7 +41,7 @@ IPAddress *IoIPAddress_rawIPAddress(IoIPAddress *self)
 
 IoTag *IoIPAddress_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("IPAddress");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoIPAddress_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoIPAddress_free);
@@ -55,7 +55,7 @@ IoIPAddress *IoIPAddress_proto(void *state)
 	IoObject_tag_(self, IoIPAddress_newTag(state));
 	IoObject_setDataPointer_(self, IPAddress_new());
 
-	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
+	IoState_registerProtoWithId_((IoState *)state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -82,7 +82,7 @@ IoIPAddress *IoIPAddress_rawClone(IoIPAddress *proto)
 
 IoIPAddress *IoIPAddress_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
+	IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 

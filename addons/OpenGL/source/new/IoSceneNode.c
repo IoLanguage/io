@@ -12,10 +12,11 @@
 #include <math.h>
 
 #define DATA(self) ((IoSceneNodeData *)self->data)
+static const char *protoId = "SceneNode";
 
 IoTag *IoSceneNode_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("SceneNode");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoSceneNode_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoSceneNode_free);
@@ -34,7 +35,7 @@ IoSceneNode *IoSceneNode_proto(void *state)
 	DATA(self)->subnodes = NULL;
 	DATA(self)->event    = NULL;
 	
-	IoState_registerProtoWithFunc_(state, self, IoSceneNode_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 	
 	IoObject_addMethod_( self, IOSYMBOL("advance"), IoSceneNode_advance );
 	IoObject_addMethod_( self, IOSYMBOL("display"), IoSceneNode_display );
@@ -50,7 +51,7 @@ IoSceneNode *IoSceneNode_proto(void *state)
 
 IoSceneNode *IoSceneNode_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoSceneNode_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	IoObject *self  = IoSceneNode_rawClone( proto );
 	
 	return self;

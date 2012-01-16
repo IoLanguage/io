@@ -23,6 +23,8 @@ value := sensors getRightLightSensor
 
 #define DATA(self) ((IoAppleSensorsData *)(IoObject_dataPointer(self)))
 
+const char *protoId = "AppleSensors";
+
 IoTag *IoAppleSensors_newTag(void *state)
 {
 	IoTag *tag = IoTag_newWithName_("AppleSensors");
@@ -39,7 +41,7 @@ IoAppleSensors *IoAppleSensors_proto(void *state)
 
 	//IoObject_setDataPointer_(self, calloc(1, sizeof(IoAppleSensorsData)));
 
-	IoState_registerProtoWithFunc_(state, self, IoAppleSensors_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -72,7 +74,7 @@ IoAppleSensors *IoAppleSensors_rawClone(IoAppleSensors *proto)
 
 IoAppleSensors *IoAppleSensors_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoAppleSensors_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

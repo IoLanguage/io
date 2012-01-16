@@ -27,7 +27,7 @@ IoEvent *IoMessage_locals_eventArgAt_(IoMessage *self, IoObject *locals, int n)
 
 IoTag *IoEvent_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("Event");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoEvent_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoEvent_free);
@@ -41,7 +41,7 @@ IoEvent *IoEvent_proto(void *state)
 	IoObject_tag_(self, IoEvent_newTag(state));
 	IoObject_setDataPointer_(self, (struct event *)io_calloc(1, sizeof(struct event)));
 
-	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
+	IoState_registerProtoWithId_((IoState *)state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -71,7 +71,7 @@ IoEvent *IoEvent_rawClone(IoEvent *proto)
 
 IoEvent *IoEvent_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
+	IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 
@@ -101,7 +101,7 @@ void IoEvent_free(IoEvent *self)
 
 	/*
 	{
-		IoEventManager *em = IoState_protoWithInitFunction_(IOSTATE, protoId);
+		IoEventManager *em = IoState_protoWithId_(IOSTATE, protoId);
 		
 		if(em && IoEventManager_rawHasActiveEvent_(em, self))
 		{

@@ -14,9 +14,11 @@ ODEFixed binding
 
 /* ----------------------------------------------------------- */
 
+static const char *protoId = "ODEFixed";
+
 IoTag *IoODEFixed_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("ODEFixed");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoODEFixed_free);
 	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoODEFixed_mark);
@@ -31,7 +33,7 @@ IoODEFixed *IoODEFixed_proto(void *state)
 
 	IoODEJoint_protoCommon(self);
 
-	IoState_registerProtoWithFunc_(state, self, IoODEFixed_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {

@@ -15,6 +15,8 @@ ODEPlane binding
 #define DATA(self) ((IoODEPlaneData *)IoObject_dataPointer(self))
 #define GEOMID (DATA(self)->geomId)
 
+static const char *protoId = "ODEPlane";
+
 IoTag *IoODEPlane_newTag(void *state)
 {
 	IoTag *tag = IoTag_newWithName_("ODEPlane");
@@ -58,7 +60,7 @@ IoODEPlane *IoODEPlane_rawClone(IoODEPlane *proto)
 
 IoODEPlane *IoODEPlane_new(void *state, dGeomID geomId)
 {
-	IoODEPlane *proto = IoState_protoWithInitFunction_(state, IoODEPlane_proto);
+	IoODEPlane *proto = IoState_protoWithId_(state, protoId);
 	IoODEPlane *self = IOCLONE(proto);
 	GEOMID = geomId;
 	dGeomSetData(GEOMID, self);

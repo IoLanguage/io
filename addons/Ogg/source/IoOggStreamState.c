@@ -15,17 +15,18 @@ A wrapper around the libogg ogg_stream_state object.
 #include <assert.h>
 
 #define DATA(self) ((ogg_stream_state*)(IoObject_dataPointer(self)))
+static const char *protoId = "OggStreamState";
 
 IoObject *IoMessage_locals_oggStreamStateArgAt_(IoMessage *self, IoObject *locals, int n)
 {
   IoObject* v = IoMessage_locals_valueArgAt_(self, locals, n);
-  if (!ISOGGSTREAMSTATE(v)) IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "OggStreamState");
+  if (!ISOGGSTREAMSTATE(v)) IoMessage_locals_numberArgAt_errorForType_(self, locals, n, protoId);
   return v;
 }
 
 IoTag *IoOggStreamState_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("OggStreamState");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoOggStreamState_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoOggStreamState_rawClone);
@@ -40,7 +41,7 @@ IoOggStreamState *IoOggStreamState_proto(void *state)
 	ogg_stream_state* data = calloc(1, sizeof(ogg_stream_state));
 	IoObject_setDataPointer_(self, data);
 
-	IoState_registerProtoWithFunc_(state, self, IoOggStreamState_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -69,7 +70,7 @@ IoOggStreamState *IoOggStreamState_rawClone(IoOggStreamState *proto)
 
 IoOggStreamState *IoOggStreamState_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoOggStreamState_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 
