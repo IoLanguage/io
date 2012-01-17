@@ -21,7 +21,7 @@ static const char *protoId = "Thread";
 
 IoTag *IoThread_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_protoId);
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoThread_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoThread_rawClone);

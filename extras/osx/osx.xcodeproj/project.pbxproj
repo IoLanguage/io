@@ -128,14 +128,6 @@
 		AA7D69740B60124200D7DEA9 /* AudioDevice.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D60250B60123D00D7DEA9 /* AudioDevice.h */; };
 		AA7D69750B60124200D7DEA9 /* IoAudioDevice.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D60260B60123D00D7DEA9 /* IoAudioDevice.c */; };
 		AA7D69760B60124200D7DEA9 /* IoAudioDevice.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D60270B60123D00D7DEA9 /* IoAudioDevice.h */; };
-		AA7D69770B60124200D7DEA9 /* IoAudioMixer.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D60290B60123D00D7DEA9 /* IoAudioMixer.c */; };
-		AA7D69780B60124200D7DEA9 /* IoAudioMixer.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D602A0B60123D00D7DEA9 /* IoAudioMixer.h */; };
-		AA7D69790B60124200D7DEA9 /* IoAudioTrack.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D602B0B60123D00D7DEA9 /* IoAudioTrack.c */; };
-		AA7D697A0B60124200D7DEA9 /* IoAudioTrack.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D602C0B60123D00D7DEA9 /* IoAudioTrack.h */; };
-		AA7D697B0B60124200D7DEA9 /* IoMP3Decoder.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D602D0B60123D00D7DEA9 /* IoMP3Decoder.c */; };
-		AA7D697C0B60124200D7DEA9 /* IoMP3Decoder.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D602E0B60123D00D7DEA9 /* IoMP3Decoder.h */; };
-		AA7D697D0B60124200D7DEA9 /* IoMP3Encoder.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D602F0B60123D00D7DEA9 /* IoMP3Encoder.c */; };
-		AA7D697E0B60124200D7DEA9 /* IoMP3Encoder.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D60300B60123D00D7DEA9 /* IoMP3Encoder.h */; };
 		AA7D698C0B60124200D7DEA9 /* IoPython.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D604F0B60123D00D7DEA9 /* IoPython.c */; };
 		AA7D698D0B60124200D7DEA9 /* IoPython.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = AA7D60500B60123D00D7DEA9 /* IoPython.h */; };
 		AA7D698E0B60124200D7DEA9 /* IoPythonInit.c in Sources */ = {isa = PBXBuildFile; fileRef = AA7D60510B60123D00D7DEA9 /* IoPythonInit.c */; };
@@ -538,10 +530,6 @@
 				AA7D69660B60124200D7DEA9 /* IoVector_gl.h in CopyFiles */,
 				AA7D69740B60124200D7DEA9 /* AudioDevice.h in CopyFiles */,
 				AA7D69760B60124200D7DEA9 /* IoAudioDevice.h in CopyFiles */,
-				AA7D69780B60124200D7DEA9 /* IoAudioMixer.h in CopyFiles */,
-				AA7D697A0B60124200D7DEA9 /* IoAudioTrack.h in CopyFiles */,
-				AA7D697C0B60124200D7DEA9 /* IoMP3Decoder.h in CopyFiles */,
-				AA7D697E0B60124200D7DEA9 /* IoMP3Encoder.h in CopyFiles */,
 				AA7D698D0B60124200D7DEA9 /* IoPython.h in CopyFiles */,
 				AA7D69900B60124200D7DEA9 /* PythonData.h in CopyFiles */,
 				AA7D699D0B60124200D7DEA9 /* IoQDBM.h in CopyFiles */,
@@ -874,14 +862,6 @@
 		AA7D60250B60123D00D7DEA9 /* AudioDevice.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = AudioDevice.h; path = ../../addons/PortAudio/source/AudioDevice.h; sourceTree = SOURCE_ROOT; };
 		AA7D60260B60123D00D7DEA9 /* IoAudioDevice.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoAudioDevice.c; path = ../../addons/PortAudio/source/IoAudioDevice.c; sourceTree = SOURCE_ROOT; };
 		AA7D60270B60123D00D7DEA9 /* IoAudioDevice.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoAudioDevice.h; path = ../../addons/PortAudio/source/IoAudioDevice.h; sourceTree = SOURCE_ROOT; };
-		AA7D60290B60123D00D7DEA9 /* IoAudioMixer.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoAudioMixer.c; path = ../../addons/PortAudio/source/new/IoAudioMixer.c; sourceTree = SOURCE_ROOT; };
-		AA7D602A0B60123D00D7DEA9 /* IoAudioMixer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoAudioMixer.h; path = ../../addons/PortAudio/source/new/IoAudioMixer.h; sourceTree = SOURCE_ROOT; };
-		AA7D602B0B60123D00D7DEA9 /* IoAudioTrack.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoAudioTrack.c; path = ../../addons/PortAudio/source/new/IoAudioTrack.c; sourceTree = SOURCE_ROOT; };
-		AA7D602C0B60123D00D7DEA9 /* IoAudioTrack.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoAudioTrack.h; path = ../../addons/PortAudio/source/new/IoAudioTrack.h; sourceTree = SOURCE_ROOT; };
-		AA7D602D0B60123D00D7DEA9 /* IoMP3Decoder.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoMP3Decoder.c; path = ../../addons/PortAudio/source/new/IoMP3Decoder.c; sourceTree = SOURCE_ROOT; };
-		AA7D602E0B60123D00D7DEA9 /* IoMP3Decoder.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoMP3Decoder.h; path = ../../addons/PortAudio/source/new/IoMP3Decoder.h; sourceTree = SOURCE_ROOT; };
-		AA7D602F0B60123D00D7DEA9 /* IoMP3Encoder.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoMP3Encoder.c; path = ../../addons/PortAudio/source/new/IoMP3Encoder.c; sourceTree = SOURCE_ROOT; };
-		AA7D60300B60123D00D7DEA9 /* IoMP3Encoder.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoMP3Encoder.h; path = ../../addons/PortAudio/source/new/IoMP3Encoder.h; sourceTree = SOURCE_ROOT; };
 		AA7D604F0B60123D00D7DEA9 /* IoPython.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoPython.c; path = ../../addons/Python/source/IoPython.c; sourceTree = SOURCE_ROOT; };
 		AA7D60500B60123D00D7DEA9 /* IoPython.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = IoPython.h; path = ../../addons/Python/source/IoPython.h; sourceTree = SOURCE_ROOT; };
 		AA7D60510B60123D00D7DEA9 /* IoPythonInit.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = IoPythonInit.c; path = ../../addons/Python/source/IoPythonInit.c; sourceTree = SOURCE_ROOT; };
@@ -1840,26 +1820,9 @@
 				AA7D60250B60123D00D7DEA9 /* AudioDevice.h */,
 				AA7D60260B60123D00D7DEA9 /* IoAudioDevice.c */,
 				AA7D60270B60123D00D7DEA9 /* IoAudioDevice.h */,
-				AA7D60280B60123D00D7DEA9 /* new */,
 			);
 			name = source;
 			path = ../../addons/PortAudio/source;
-			sourceTree = SOURCE_ROOT;
-		};
-		AA7D60280B60123D00D7DEA9 /* new */ = {
-			isa = PBXGroup;
-			children = (
-				AA7D60290B60123D00D7DEA9 /* IoAudioMixer.c */,
-				AA7D602A0B60123D00D7DEA9 /* IoAudioMixer.h */,
-				AA7D602B0B60123D00D7DEA9 /* IoAudioTrack.c */,
-				AA7D602C0B60123D00D7DEA9 /* IoAudioTrack.h */,
-				AA7D602D0B60123D00D7DEA9 /* IoMP3Decoder.c */,
-				AA7D602E0B60123D00D7DEA9 /* IoMP3Decoder.h */,
-				AA7D602F0B60123D00D7DEA9 /* IoMP3Encoder.c */,
-				AA7D60300B60123D00D7DEA9 /* IoMP3Encoder.h */,
-			);
-			name = new;
-			path = ../../addons/PortAudio/source/new;
 			sourceTree = SOURCE_ROOT;
 		};
 		AA7D60320B60123D00D7DEA9 /* Postgres */ = {
@@ -2913,10 +2876,6 @@
 				AA7D69650B60124200D7DEA9 /* IoVector_gl.c in Sources */,
 				AA7D69730B60124200D7DEA9 /* AudioDevice.c in Sources */,
 				AA7D69750B60124200D7DEA9 /* IoAudioDevice.c in Sources */,
-				AA7D69770B60124200D7DEA9 /* IoAudioMixer.c in Sources */,
-				AA7D69790B60124200D7DEA9 /* IoAudioTrack.c in Sources */,
-				AA7D697B0B60124200D7DEA9 /* IoMP3Decoder.c in Sources */,
-				AA7D697D0B60124200D7DEA9 /* IoMP3Encoder.c in Sources */,
 				AA7D698C0B60124200D7DEA9 /* IoPython.c in Sources */,
 				AA7D698E0B60124200D7DEA9 /* IoPythonInit.c in Sources */,
 				AA7D698F0B60124200D7DEA9 /* PythonData.c in Sources */,
