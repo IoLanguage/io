@@ -46,7 +46,7 @@ void *IoRandom_readFromStream(IoRandom *self, BStream *stream)
 
 IoTag *IoRandom_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("Random");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoRandom_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoRandom_free);
@@ -73,7 +73,7 @@ IoRandom *IoRandom_proto(void *state)
 
 	RandomGen_chooseRandomSeed(DATA(self));
 
-	IoState_registerProtoWithFunc_((IoState *)state, self, IoRandom_proto);
+	IoState_registerProtoWithName_((IoState *)state, self, protoId);
 
 	IoObject_addMethodTable_(self, methodTable);
 	return self;
