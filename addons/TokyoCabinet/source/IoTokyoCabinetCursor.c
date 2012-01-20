@@ -1,4 +1,3 @@
-
 //metadoc TokyoCabinetCursor category Databases
 //metadoc TokyoCabinetCursor copyright Steve Dekorte 2002
 //metadoc TokyoCabinetCursor license BSD revised
@@ -24,9 +23,11 @@ A database cursor.
 #define TokyoCabinetCursor(self) ((BDBCUR *)(IoObject_dataPointer(self)))
 #define TokyoCabinet(self) (((BDBCUR *)(IoObject_dataPointer(self)))->bdb)
 
+static const char *protoId = "TokyoCabinetCursor";
+
 IoTag *IoTokyoCabinetCursor_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("TokyoCabinetCursor");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoTokyoCabinetCursor_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoTokyoCabinetCursor_rawClone);
@@ -55,7 +56,7 @@ IoTokyoCabinetCursor *IoTokyoCabinetCursor_proto(void *state)
 	IoObject_tag_(self, IoTokyoCabinetCursor_newTag(state));
 
 	IoObject_setDataPointer_(self, NULL);
-	IoState_registerProtoWithFunc_((IoState *)state, self, IoTokyoCabinetCursor_proto);
+	IoState_registerProtoWithId_((IoState *)state, self, protoId);
 
 	IoObject_addMethodTable_(self, methodTable);
 	return self;
@@ -71,7 +72,7 @@ IoTokyoCabinetCursor *IoTokyoCabinetCursor_rawClone(IoTokyoCabinetCursor *proto)
 
 IoTokyoCabinetCursor *IoTokyoCabinetCursor_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoTokyoCabinetCursor_proto);
+	IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 

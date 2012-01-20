@@ -15,16 +15,18 @@ A wrapper around the libvorbis vorbis_info object.
 
 #define DATA(self) ((vorbis_info*)(IoObject_dataPointer(self)))
 
+static const char *protoId = "VorbisInfo";
+
 IoObject *IoMessage_locals_vorbisInfoArgAt_(IoMessage *self, IoObject *locals, int n)
 {
   IoObject* v = IoMessage_locals_valueArgAt_(self, locals, n);
-  if (!ISVORBISINFO(v)) IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "VorbisInfo");
+  if (!ISVORBISINFO(v)) IoMessage_locals_numberArgAt_errorForType_(self, locals, n, protoId);
   return v;
 }
 
 IoTag *IoVorbisInfo_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("VorbisInfo");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoVorbisInfo_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoVorbisInfo_rawClone);
@@ -40,7 +42,7 @@ IoVorbisInfo *IoVorbisInfo_proto(void *state)
         vorbis_info_init(data);
 	IoObject_setDataPointer_(self, data);
 
-	IoState_registerProtoWithFunc_(state, self, IoVorbisInfo_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -59,20 +61,20 @@ IoVorbisInfo *IoVorbisInfo_rawClone(IoVorbisInfo *proto)
 {
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	vorbis_info* data = calloc(1, sizeof(vorbis_info));
-        vorbis_info_init(data);
+	vorbis_info_init(data);
 	IoObject_setDataPointer_(self, data);
 	return self;
 }
 
 IoVorbisInfo *IoVorbisInfo_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoVorbisInfo_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 
 void IoVorbisInfo_free(IoVorbisInfo *self)
 {
-        vorbis_info_clear(DATA(self));
+	vorbis_info_clear(DATA(self));
 	free(DATA(self));
 }
 

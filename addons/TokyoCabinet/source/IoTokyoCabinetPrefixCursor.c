@@ -24,9 +24,11 @@ A database cursor.
 #define TokyoCabinetPrefixCursor(self) ((BDBCUR *)(IoObject_dataPointer(self)))
 #define TokyoCabinet(self) (((BDBCUR *)(IoObject_dataPointer(self)))->bdb)
 
+static const char *protoId = "TokyoCabinetPrefixCursor";
+
 IoTag *IoTokyoCabinetPrefixCursor_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("TokyoCabinetPrefixCursor");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoTokyoCabinetPrefixCursor_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoTokyoCabinetPrefixCursor_rawClone);
@@ -55,7 +57,7 @@ IoTokyoCabinetPrefixCursor *IoTokyoCabinetPrefixCursor_proto(void *state)
 	IoObject_tag_(self, IoTokyoCabinetPrefixCursor_newTag(state));
 
 	IoObject_setDataPointer_(self, NULL);
-	IoState_registerProtoWithFunc_((IoState *)state, self, IoTokyoCabinetPrefixCursor_proto);
+	IoState_registerProtoWithId_((IoState *)state, self, protoId);
 
 	IoObject_addMethodTable_(self, methodTable);
 	return self;
@@ -71,7 +73,7 @@ IoTokyoCabinetPrefixCursor *IoTokyoCabinetPrefixCursor_rawClone(IoTokyoCabinetPr
 
 IoTokyoCabinetPrefixCursor *IoTokyoCabinetPrefixCursor_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoTokyoCabinetPrefixCursor_proto);
+	IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 

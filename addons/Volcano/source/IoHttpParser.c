@@ -11,9 +11,11 @@
 #define PARSER(self) (HttpParser *)IoObject_dataPointer(self)
 #define IOSEQDATA(self) ((UArray *)(IoObject_dataPointer(self)))
 
+static const char *protoId = "HttpParser";
+
 IoTag *IoHttpParser_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("HttpParser");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoHttpParser_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoHttpParser_rawClone);
@@ -26,7 +28,7 @@ IoHttpParser *IoHttpParser_proto(void *state)
 
 	IoObject_tag_(self, IoHttpParser_newTag(state));
 
-	IoState_registerProtoWithFunc_(state, self, IoHttpParser_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 	
 	IoHttpParser_initState(self);
 
@@ -53,7 +55,7 @@ IoHttpParser *IoHttpParser_rawClone(IoHttpParser *proto)
 
 IoHttpParser *IoHttpParser_new(void *state)
 {
-	IoHttpParser *proto = IoState_protoWithInitFunction_(state, IoHttpParser_proto);
+	IoHttpParser *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 
