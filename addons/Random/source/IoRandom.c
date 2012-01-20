@@ -73,7 +73,7 @@ IoRandom *IoRandom_proto(void *state)
 
 	RandomGen_chooseRandomSeed(DATA(self));
 
-	IoState_registerProtoWithName_((IoState *)state, self, protoId);
+	IoState_registerProtoWithId_((IoState *)state, self, protoId);
 
 	IoObject_addMethodTable_(self, methodTable);
 	return self;
