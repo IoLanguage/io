@@ -147,13 +147,14 @@ void Coro_setStackSize_(Coro *self, size_t sizeInBytes)
 }
 
 #if __GNUC__ == 4
-uint8_t *Coro_CurrentStackPointer(void) __attribute__ ((noinline));
+ptrdiff_t *Coro_CurrentStackPointer(void) __attribute__ ((noinline));
 #endif
 
-uint8_t *Coro_CurrentStackPointer(void)
+ptrdiff_t *Coro_CurrentStackPointer(void)
 {
-	uint8_t a;
-	uint8_t *b = &a; // to avoid compiler warning about unused variables
+	ptrdiff_t a;
+	ptrdiff_t *b = &a; // to avoid compiler warning about unused variables
+	//ptrdiff_t *c = a ^ (b ^ a); // to avoid 
 	return b;
 }
 
@@ -167,9 +168,13 @@ size_t Coro_bytesLeftOnStack(Coro *self)
 	ptrdiff_t end   = start + self->requestedStackSize;
 
 	if (stackMovesUp) // like PPC
+	{
 		return end - p1;
+	}
 	else // like x86
+	{
 		return p1 - start;
+	}
 }
 
 int Coro_stackSpaceAlmostGone(Coro *self)
@@ -303,46 +308,32 @@ void Coro_switchTo_(Coro *self, Coro *next)
 }
 
 // ---- setup ------------------------------------------
-#if defined USE_GUESSED_SETJMP
-// This isn't bulletproof, but seems to work Well Enough (TM)
+#if defined(USE_SETJMP) && defined(__APPLE__)
+
 void Coro_setup(Coro *self, void *arg)
 {
-        uintptr_t stackend = Coro_stackSize(self) + (uintptr_t)Coro_stack(self);
-        uintptr_t start = (uintptr_t)Coro_Start;
-        /* since ucontext seems to be broken on amd64 */
-        globalCallbackBlock.context=((CallbackBlock*)arg)->context;
-        globalCallbackBlock.func=((CallbackBlock*)arg)->func;
-        setjmp(self->env);
-end:
-        {
-                uintptr_t i;
-                uintptr_t * sav = (uintptr_t*)self->env;
-                size_t sz = sizeof(self->env)/sizeof(sav[0]);
+	uintptr_t stackend = Coro_stackSize(self) + (uintptr_t)Coro_stack(self);
+	uintptr_t start = (uintptr_t)Coro_Start;
+	/* since ucontext seems to be broken on amd64 */
+	globalCallbackBlock.context=((CallbackBlock*)arg)->context;
+	globalCallbackBlock.func=((CallbackBlock*)arg)->func;
 
-                // Try to guess PC index
-                i = sz;
-                while (i--)
-                        if (sav[i] == (uintptr_t)&&end)
-                                break;
-                assert(i < sz);
-                sav[i] = start;
+	setjmp(self->env);
 
-                // Try to guess SP index
-                i = sz;
-                while (i--)
-                        if (64 > (- sav[i] + (uintptr_t)&i))
-                                break;
-                assert(i < sz);
-                sav[i] = stackend - sizeof(uintptr_t) - 128;
-        }
+#if defined(__x86_64__)
+        *(uintptr_t*)(self->env+4) = stackend - 8;
+        *(uintptr_t*)(self->env+14) = start;
+#else
+        *(uintptr_t*)(self->env+9) = stackend - 4;
+        *(uintptr_t*)(self->env+12) = start;
+#endif
 }
 
-#elif defined(USE_SETJMP) && defined(__x86_64__)
-
+#elif defined(USE_SETJMP) && defined(__linux__)
 void Coro_setup(Coro *self, void *arg)
 {
-        uintptr_t stackend = Coro_stackSize(self) + (uintptr_t)Coro_stack(self);
-        uintptr_t start = (uintptr_t)Coro_Start;
+	uintptr_t stackend = Coro_stackSize(self) + (uintptr_t)Coro_stack(self);
+	uintptr_t start = (uintptr_t)Coro_Start;
 	/* since ucontext seems to be broken on amd64 */
 	globalCallbackBlock.context=((CallbackBlock*)arg)->context;
 	globalCallbackBlock.func=((CallbackBlock*)arg)->func;
@@ -368,20 +359,8 @@ void Coro_setup(Coro *self, void *arg)
 	*   /usr/include/gento-multilib/amd64/bits/setjmp.h
 	*   Which was ultimatly included from setjmp.h in /usr/include. */
 
-#if defined(__APPLE__) && defined(__x86_64__)
-        *(uintptr_t*)(self->env+4) = stackend - 8;
-        *(uintptr_t*)(self->env+14) = start;
-#elif defined(__APPLE__)
-        *(uintptr_t*)(self->env+9) = stackend - 4;
-        *(uintptr_t*)(self->env+12) = start;
-#elif defined(_MSC_VER)
-        // Broken, use fibers
-        *(uintptr_t*)(self->env+4) = stackend - 8;
-        *(uintptr_t*)(self->env+5) = start;
-#else
-        self->env[0].__jmpbuf[6] = ((unsigned long)(Coro_stack(self)));
-        self->env[0].__jmpbuf[7] = ((long)Coro_Start);
-#endif
+	self->env[0].__jmpbuf[6] = ((unsigned long)(Coro_stack(self)));
+	self->env[0].__jmpbuf[7] = ((long)Coro_Start);
 }
 
 #elif defined(HAS_UCONTEXT_ON_PRE_SOLARIS_10)
@@ -569,29 +548,60 @@ void Coro_setup(Coro *self, void *arg)
 // wrong spot after the return! So my structure is right, but somehow I have
 // the wrong *func
 
-#elif defined(__OpenBSD__)
+#elif defined(__OpenBSD__) && defined(__i386__) || defined(__NetBSD__) && defined(__i386__)
 
 #define buf (self->env)
 
 void Coro_setup(Coro *self, void *arg)
 {
-  void *stack = Coro_stack(self);
-  size_t stacksize = Coro_stackSize(self);
-  void *func = (void *)Coro_Start;
-  
-  setjmp(buf);
-  
-  buf[2] = (long)(stack + stacksize);
-  buf[0] = (long)Coro_Start;
-  // it would seem this needs to have some value??
-  globalCallbackBlock.context=((CallbackBlock*)arg)->context;
-  globalCallbackBlock.func=((CallbackBlock*)arg)->func;
-  return;
+	void *stack = Coro_stack(self);
+	size_t stacksize = Coro_stackSize(self);
+	void *func = (void *)Coro_Start;
+
+	setjmp(buf);
+
+	buf[2] = (long)(stack + stacksize);
+	buf[0] = (long)Coro_Start;
+	// it would seem this needs to have some value??
+	globalCallbackBlock.context=((CallbackBlock*)arg)->context;
+	globalCallbackBlock.func=((CallbackBlock*)arg)->func;
+	return;
 }
 
 #else
 
-#error "Coro.c Error: Coro_setup() function needs to be defined for this platform."
+/* Use POSIX ucontext by default */
+void Coro_setup(Coro *self, void *arg)
+{
+	uintptr_t stackend = Coro_stackSize(self) + (uintptr_t)Coro_stack(self);
+	uintptr_t start = (uintptr_t)Coro_Start;
+	/* since ucontext seems to be broken on amd64 */
+	globalCallbackBlock.context=((CallbackBlock*)arg)->context;
+	globalCallbackBlock.func=((CallbackBlock*)arg)->func;
+	setjmp(self->env);
+end:
+	{
+		uintptr_t i;
+		uintptr_t * sav = (uintptr_t*)self->env;
+		size_t sz = sizeof(self->env)/sizeof(sav[0]);
+
+		// Try to guess PC index
+		i = sz;
+		while (i--)
+				if (sav[i] == (uintptr_t)&&end)
+						break;
+		assert(i < sz);
+		sav[i] = start;
+
+		// Try to guess SP index
+		i = sz;
+		while (i--)
+			if (64 > (- sav[i] + (uintptr_t)&i))
+				break;
+		assert(i < sz);
+		sav[i] = stackend - sizeof(uintptr_t) - 128;
+	}
+}
 
 #endif
 
@@ -757,7 +767,7 @@ void Coro_setup(Coro *self, void *arg)
 
 /* FreeBSD supports ucontext - so we don't need this stuff anymore
 
-#elif defined(__FreeBSD__)
+#elif defined(__FreeBSD__)  && defined(__i386__)
 // FreeBSD.
 #if defined(_JBLEN) && (_JBLEN == 81)
 // FreeBSD/Alpha
@@ -780,7 +790,7 @@ Coro_UnsupportedPlatformError();
 
 /* NetBSD supports ucontext - so we don't need this stuff anymore
 
-#elif defined(__NetBSD__)
+#elif defined(__NetBSD__) && defined(__i386__)
 
 void Coro_setup(Coro *self, void *arg)
 {
@@ -833,7 +843,6 @@ void Coro_setup(Coro *self, void *arg)
 #endif
 #endif
 
-
 #elif defined(__SVR4) && defined(__sun)
 					// Solaris
 #if defined(SUN_PROGRAM_COUNTER)
@@ -848,6 +857,4 @@ void Coro_setup(Coro *self, void *arg)
 					buf[SUN_STACK_END_INDEX] = (JBTYPE)x;
 
 					*/
-
-
 

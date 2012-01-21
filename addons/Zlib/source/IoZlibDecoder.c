@@ -25,10 +25,11 @@ result := z outputBuffer
 #include <errno.h>
 
 #define DATA(self) ((IoZlibDecoderData *)(IoObject_dataPointer(self)))
+static const char *protoId = "ZlibDecoder";
 
 IoTag *IoZlibDecoder_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("ZlibDecoder");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoZlibDecoder_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoZlibDecoder_rawClone);
@@ -43,7 +44,7 @@ IoZlibDecoder *IoZlibDecoder_proto(void *state)
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoZlibDecoderData)));
 	DATA(self)->strm = calloc(1, sizeof(z_stream));
 
-	IoState_registerProtoWithFunc_(state, self, IoZlibDecoder_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -68,7 +69,7 @@ IoZlibDecoder *IoZlibDecoder_rawClone(IoZlibDecoder *proto)
 
 IoZlibDecoder *IoZlibDecoder_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoZlibDecoder_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

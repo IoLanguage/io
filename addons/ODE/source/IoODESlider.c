@@ -15,9 +15,11 @@ ODEJoint binding
 
 /* ----------------------------------------------------------- */
 
+static const char *protoId = "ODESlider";
+
 IoTag *IoODESlider_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("ODESlider");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoODESlider_free);
 	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoODESlider_mark);

@@ -17,11 +17,11 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 	set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -flat_namespace")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
-# OpenBSD needs /usr/local/lib and /usr/lib searched
+# Packages are installed under /usr/local on OpenBSD
 if(${CMAKE_SYSTEM_NAME} MATCHES "OpenBSD")
-	set(CMAKE_SHARED_LINKER_FLAGS "-L/usr/local/lib -L/usr/lib ${CMAKE_SHARED_LINKER_FLAGS}")
+	set(CMAKE_C_FLAGS  "-I/usr/local/include ${CMAKE_C_FLAGS}")
+	set(CMAKE_SHARED_LINKER_FLAGS "-L/usr/local/lib ${CMAKE_SHARED_LINKER_FLAGS}")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "OpenBSD")
-
 
 # Get the filename component, and generate the IoFooInit.c file.
 macro(generate_ioinit NAME)
@@ -52,12 +52,12 @@ add_subdirectory(BigNum)
 add_subdirectory(Bitly)
 add_subdirectory(Blowfish)
 add_subdirectory(Box)
-add_subdirectory(CFFI)
+#add_subdirectory(CFFI)
 add_subdirectory(CGI)
-add_subdirectory(Cairo) # XXX: Broken on OSX: ld: library not found for -lpng12
+#add_subdirectory(Cairo) # XXX: Broken on OSX: ld: library not found for -lpng12
 add_subdirectory(Clutter)
 add_subdirectory(ContinuedFraction)
-add_subdirectory(Curses)
+#add_subdirectory(Curses)
 add_subdirectory(DBI)
 add_subdirectory(DistributedObjects)
 add_subdirectory(EditLine)

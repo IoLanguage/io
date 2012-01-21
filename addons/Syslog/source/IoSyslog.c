@@ -41,9 +41,11 @@ Note: This is partially tested. Please let me know of any problems you happen to
 
 #define DATA(self) ((IoSyslogData *)IoObject_dataPointer(self))
 
+static const char *protoId = "Syslog";
+
 IoTag *IoSyslog_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("Syslog");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoSyslog_mark);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoSyslog_free);
@@ -79,7 +81,7 @@ IoSyslog *IoSyslog_proto(void *state)
 	DATA(self)->priorityMap = IoMap_new(IOSTATE);
 	DATA(self)->maskMap = IoMap_new(IOSTATE);
 
-	IoState_registerProtoWithFunc_(state, self, IoSyslog_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -114,7 +116,7 @@ IoSyslog *IoSyslog_rawClone(IoSyslog *proto)
 
 IoSyslog *IoSyslog_new(void *state)
 {
-	IoSyslog *proto = IoState_protoWithInitFunction_(state, IoSyslog_proto);
+	IoSyslog *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

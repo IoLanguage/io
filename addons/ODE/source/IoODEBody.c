@@ -16,6 +16,8 @@ ODEBody binding
 #define BODYID (DATA(self)->bodyId)
 #define WORLD (DATA(self)->world)
 
+static const char *protoId = "ODEBody";
+
 void IoODEBody_assertValidBody(IoODEBody *self, IoObject *locals, IoMessage *m)
 {
 	IOASSERT(WORLD, "This ODE body belongs to an ODE world which has been freed.");
@@ -51,7 +53,7 @@ dBodyID IoMessage_locals_odeBodyIdArgAt_(IoMessage *self, void *locals, int n)
 
 IoTag *IoODEBody_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("ODEBody");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoODEBody_free);
 	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoODEBody_mark);
@@ -69,7 +71,7 @@ IoODEBody *IoODEBody_proto(void *state)
 	BODYID = 0;
 	WORLD = 0L;
 
-	IoState_registerProtoWithFunc_(state, self, IoODEBody_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -143,13 +145,13 @@ void IoODEBody_mark(IoODEBody *self)
 
 IoODEBody *IoODEBody_new(void *state)
 {
-	IoODEBody *proto = IoState_protoWithInitFunction_(state, IoODEBody_proto);
+	IoODEBody *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 
 IoODEBody *IoODEBody_newBodyProtoWithWorld(void *state, IoODEWorld *world)
 {
-	IoODEBody *proto = IoState_protoWithInitFunction_(state, IoODEBody_proto);
+	IoODEBody *proto = IoState_protoWithId_(state, protoId);
 	IoODEBody *self = IOCLONE(proto);
 	WORLD = world;
 	return self;

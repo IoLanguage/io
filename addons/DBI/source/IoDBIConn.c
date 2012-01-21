@@ -15,9 +15,11 @@
 
 #define DATA(self) ((IoDBIConnData *)IoObject_dataPointer(self))
 
+static const char *protoId = "DBIConn";
+
 IoTag *IoDBIConn_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("DBIConn");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoDBIConn_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoDBIConn_free);
@@ -33,7 +35,7 @@ IoDBIConn *IoDBIConn_proto(void *state)
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoDBIConnData)));
 	DATA(self)->conn = NULL;
 
-	IoState_registerProtoWithFunc_(state, self, IoDBIConn_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -84,7 +86,7 @@ void IoDBIConn_free(IoDBIConn *self)
 
 IoDBIConn *IoDBIConn_new(void *state, dbi_conn conn)
 {
-	IoDBIConn *self = IOCLONE(IoState_protoWithInitFunction_(state, IoDBIConn_proto));
+	IoDBIConn *self = IOCLONE(IoState_protoWithId_(state, protoId));
 	DATA(self)->conn = conn;
 	return self;
 }

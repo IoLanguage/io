@@ -14,9 +14,11 @@ ODEContactJoint binding
 
 /* ----------------------------------------------------------- */
 
+static const char *protoId = "ODEContactJoint";
+
 IoTag *IoODEContactJoint_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("ODEContactJoint");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoODEContactJoint_free);
 	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoODEContactJoint_mark);
@@ -31,7 +33,7 @@ IoODEContactJoint *IoODEContactJoint_proto(void *state)
 
 	IoODEJoint_protoCommon(self);
 
-	IoState_registerProtoWithFunc_(state, self, IoODEContactJoint_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {

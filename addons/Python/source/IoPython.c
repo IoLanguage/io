@@ -17,6 +17,9 @@ This object provides access the world of python.
 
 #define DATA(self) ((PythonData *)IoObject_dataPointer(self))
 
+
+static const char *protoId = "Python";
+
 IoTag *IoPython_newTag(void *state)
 {
 	IoTag *tag = IoTag_newWithName_("Python");
@@ -35,7 +38,7 @@ IoPython *IoPython_proto(void *state)
 	IoObject_tag_(self, IoPython_newTag(state));
 	IoObject_setDataPointer_(self, PythonData_new());
 	fflush(stdout);
-	IoState_registerProtoWithFunc_(state, self, IoPython_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -63,7 +66,7 @@ IoPython *IoPython_rawClone(IoPython *proto)
 
 IoPython *IoPython_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoPython_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

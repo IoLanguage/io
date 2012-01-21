@@ -15,9 +15,11 @@
 
 #define DATA(self) ((IoMP3DecoderData *)IoObject_dataPointer(self))
 
+static const char *protoId = "MP3Decoder";
+
 IoTag *IoMP3Decoder_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("MP3Decoder");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoMP3Decoder_rawClone);
 	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoMP3Decoder_mark);
@@ -39,7 +41,7 @@ IoMP3Decoder *IoMP3Decoder_proto(void *state)
 	DATA(self)->outputBuffer = IoSeq_new(state);
 	DATA(self)->tmpInputBa = UArray_new();
 	
-	IoState_registerProtoWithFunc_(state, self, IoMP3Decoder_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 	
 	{
 		IoMethodTable methodTable[] = {
@@ -72,7 +74,7 @@ IoMP3Decoder *IoMP3Decoder_rawClone(IoMP3Decoder *proto)
 
 IoMP3Decoder *IoMP3Decoder_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoMP3Decoder_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

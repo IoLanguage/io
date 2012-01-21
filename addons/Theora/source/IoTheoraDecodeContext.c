@@ -27,17 +27,19 @@ typedef struct
 
 #define DATA(self) ((IoTheoraDecodeContextData*)(IoObject_dataPointer(self)))
 
+static const char *protoId = "TheoraDecodeContext";
+
 
 IoObject *IoMessage_locals_theoraDecodeContextArgAt_(IoMessage *self, IoObject *locals, int n)
 {
   IoObject* v = IoMessage_locals_valueArgAt_(self, locals, n);
-  if (!ISTHEORADECODECONTEXT(v)) IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "TheoraDecodeContext");
+  if (!ISTHEORADECODECONTEXT(v)) IoMessage_locals_numberArgAt_errorForType_(self, locals, n, protoId);
   return v;
 }
 
 IoTag *IoTheoraDecodeContext_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("TheoraDecodeContext");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoTheoraDecodeContext_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoTheoraDecodeContext_rawClone);
@@ -52,7 +54,7 @@ IoTheoraDecodeContext *IoTheoraDecodeContext_proto(void *state)
 	IoTheoraDecodeContextData* data = calloc(1, sizeof(IoTheoraDecodeContextData));
 	IoObject_setDataPointer_(self, data);
 
-	IoState_registerProtoWithFunc_(state, self, IoTheoraDecodeContext_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -78,7 +80,7 @@ IoTheoraDecodeContext *IoTheoraDecodeContext_rawClone(IoTheoraDecodeContext *pro
 
 IoTheoraDecodeContext *IoTheoraDecodeContext_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoTheoraDecodeContext_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

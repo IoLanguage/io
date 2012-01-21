@@ -16,16 +16,18 @@
 
 #define DATA(self) ((IoGLEData *)self->data)
 
+static const char *protoId = "GLE";
+
 IoTag *IoGLE_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("GLE");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoGLE_rawClone;
-				  /*
-				   IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoGLE_free;
-							    IoTag_markFunc_(tag, (IoTagMarkFunc *)IoGLE_mark;
-											*/
-				  return tag;
+	/*
+	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoGLE_free;
+	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoGLE_mark;
+	*/
+	return tag;
 }
 
 IoGLE *IoGLE_proto(void *state)
@@ -34,13 +36,15 @@ IoGLE *IoGLE_proto(void *state)
 	IoObject_tag_(self, IoGLE_newTag(state));
 	/*self->data = calloc(1, sizeof(IoGLEData));*/
 	
-	IoState_registerProtoWithFunc_(state, self, IoGLE_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 	IoGLE_protoInit(self);
 	return self;
 }
 
 IoGLE *IoGLE_new(void *state)
-{ return IoState_protoWithInitFunction_(state, IoGLE_proto); }
+{ 
+	return IoState_protoWithId_(state, protoId); 
+}
 
 /*
  void IoGLE_free(IoGLE *self) 
@@ -54,7 +58,7 @@ IoGLE *IoGLE_new(void *state)
 
 IoObject *IoGLE_rawClone(IoGLE *self)
 { 
-	return IoState_protoWithInitFunction_(IOSTATE, IoGLE_proto); 
+	return IoState_protoWithId_(IOSTATE, protoId); 
 }
 
 /* --- GLE -------------------------------------------------------- */

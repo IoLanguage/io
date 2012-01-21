@@ -34,7 +34,7 @@ void *IoMessage_locals_boxArgAt_(IoMessage *self, void *locals, int n)
 
 IoTag *IoBox_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("Box");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoBox_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoBox_rawClone);
@@ -55,7 +55,7 @@ IoBox *IoBox_rawClone(IoBox *proto)
 
 IoBox *IoBox_new(void *state)
 {
-	IoBox *proto = IoState_protoWithInitFunction_(state, protoId);
+	IoBox *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 
@@ -481,7 +481,7 @@ IoBox *IoBox_proto(void *state)
 	DATA(self)->origin = IoSeq_newVec3f(state, o);
 	DATA(self)->size   = IoSeq_newVec3f(state, o);
 
-	IoState_registerProtoWithFunc_(state, self, protoId);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {

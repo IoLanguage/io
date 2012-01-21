@@ -26,10 +26,12 @@ ODEJointGroup binding
 #define WORLD (DATA(self)->world)
 #define WORLDID (IoODEWorld_rawWorldId(WORLD))
 
+static const char *protoId = "ODEJointGroup";
+
 
 IoTag *IoODEJointGroup_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("ODEJointGroup");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoODEJointGroup_free);
 	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoODEJointGroup_mark);
@@ -122,13 +124,13 @@ void IoODEJointGroup_mark(IoODEJointGroup *self)
 
 IoODEJointGroup *IoODEJointGroup_new(void *state)
 {
-	IoODEJointGroup *proto = IoState_protoWithInitFunction_(state, IoODEJointGroup_proto);
+	IoODEJointGroup *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 
 IoODEJointGroup *IoODEJointGroup_newJointGroupProtoWithWorld(void *state, IoODEWorld *world)
 {
-	IoODEJointGroup *proto = IoState_protoWithInitFunction_(state, IoODEJointGroup_proto);
+	IoODEJointGroup *proto = IoState_protoWithId_(state, protoId);
 	IoODEJointGroup *self = IOCLONE(proto);
 	WORLD = world;
 	return self;

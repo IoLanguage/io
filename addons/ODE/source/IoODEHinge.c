@@ -14,9 +14,11 @@ ODEHinge binding
 
 /* ----------------------------------------------------------- */
 
+static const char *protoId = "ODEHinge";
+
 IoTag *IoODEHinge_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("ODEHinge");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoODEHinge_free);
 	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoODEHinge_mark);
@@ -31,7 +33,7 @@ IoODEHinge *IoODEHinge_proto(void *state)
 
 	IoODEJoint_protoCommon(self);
 
-	IoState_registerProtoWithFunc_(state, self, IoODEHinge_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {

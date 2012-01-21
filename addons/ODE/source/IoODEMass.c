@@ -12,9 +12,11 @@ ODEMass binding
 
 #define DATA(self) ((IoODEMassData *)IoObject_dataPointer(self))
 
+static const char *protoId = "ODEMass";
+
 IoTag *IoODEMass_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("ODEMass");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoODEMass_free);
 	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoODEMass_mark);
@@ -75,7 +77,7 @@ void IoODEMass_mark(IoODEMass *self)
 
 IoODEMass *IoODEMass_new(void *state)
 {
-	IoODEMass *proto = IoState_protoWithInitFunction_(state, IoODEMass_proto);
+	IoODEMass *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

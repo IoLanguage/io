@@ -376,10 +376,10 @@ Object do(
 	//doc Object ancestors Returns a list of all of the receiver's ancestors as found by recursively following the protos links.
 
 	ancestors := method(a,
-		if(a, if(a detect(x, x isIdenticalTo(self)), return a), a = List clone)
-		a append(self)
-		self protos foreach(ancestors(a))
-		a
+	  if(a, if(a detect(x, getSlot("x") isIdenticalTo(getSlot("self"))), return a), a = List clone)
+	  a append(getSlot("self"))
+	  self protos foreach(ancestors(a))
+	  a
 	)
 
 	//doc Object isKindOf(anObject) Returns true if anObject is in the receiver's ancestors.

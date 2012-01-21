@@ -18,9 +18,12 @@ ODESimpleSpace binding
 #define DATA(self) ((IoODESimpleSpaceData *)IoObject_dataPointer(self))
 #define SPACEID (DATA(self)->spaceId)
 
+static const char *protoId = "ODESimpleSpace";
+
+
 IoTag *IoODESimpleSpace_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("ODESimpleSpace");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoODESimpleSpace_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoODESimpleSpace_rawClone);
@@ -64,7 +67,7 @@ IoODESimpleSpace *IoODESimpleSpace_rawClone(IoODESimpleSpace *proto)
 
 IoODESimpleSpace *IoODESimpleSpace_new(void *state)
 {
-	IoODESimpleSpace *proto = IoState_protoWithInitFunction_(state, IoODESimpleSpace_proto);
+	IoODESimpleSpace *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

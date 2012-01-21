@@ -10,6 +10,7 @@
 #include "IoBuffer.h"
 #include "IoNil.h"
 
+static const char *protoId = "Sound";
 
 IoObject *IoMessage_locals_audioTrackArgAt_(IoMessage *self, IoObject *locals, int n)
 {
@@ -22,7 +23,7 @@ IoObject *IoMessage_locals_audioTrackArgAt_(IoMessage *self, IoObject *locals, i
 
 IoTag *IoAudioTrack_newTag(void *state)
 {
-  IoTag *tag = IoTag_newWithName_("Sound");
+  IoTag *tag = IoTag_newWithName_(protoId);
   IoTag_state_(tag, state);
   IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoAudioTrack_rawClone);
   IoTag_markFunc_(tag, (IoTagMarkFunc *)IoAudioTrack_mark);
@@ -41,7 +42,7 @@ IoAudioTrack *IoAudioTrack_proto(void *state)
   DATA(self)->sound = Sound_new();
   Sound_setExternalData_(DATA(self)->sound, IoBuffer_rawUArray(DATA(self)->buffer));
   
-  IoState_registerProtoWithFunc_(state, self, IoAudioTrack_proto);
+  IoState_registerProtoWithId_(state, self, protoId);
 
   IoObject_addMethod_(self, IOSTRING("setPath"), IoAudioTrack_setPath);
   IoObject_addMethod_(self, IOSTRING("path"), IoAudioTrack_path);
@@ -116,7 +117,7 @@ IoAudioTrack *IoAudioTrack_rawClone(IoAudioTrack *self)
 
 IoAudioTrack *IoAudioTrack_new(void *state)
 {
-  IoObject *proto = IoState_protoWithInitFunction_(state, IoAudioTrack_proto);
+  IoObject *proto = IoState_protoWithId_(state, protoId);
   return IoAudioTrack_rawClone(proto);
 }
 

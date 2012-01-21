@@ -96,6 +96,7 @@ ObjectTest := UnitTest clone do(
 		assertEquals(f, list("b", "c", "d", "a", "b", "c"))
 	)
 
+	/*
 	_willFree2 := method(
 		Lobby willFreeWorked := false
 		Object clone do(willFree := method(Lobby willFreeWorked := true))
@@ -107,6 +108,7 @@ ObjectTest := UnitTest clone do(
 		Collector collect
 		assertEquals(Lobby willFreeWorked, true)
 	)
+	*/
 
 	testLazySlot := method(
 		o := Object clone

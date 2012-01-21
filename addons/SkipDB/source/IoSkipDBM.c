@@ -15,10 +15,11 @@ The root skipdb can be accessed using the root method.
 #include "IoNumber.h"
 
 #define SKIPDBM(self) ((SkipDBM *)(IoObject_dataPointer(self)))
+static const char *protoId = "SkipDBM";
 
 IoTag *IoSkipDBM_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("SkipDBM");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoSkipDBM_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoSkipDBM_rawClone);
@@ -57,7 +58,7 @@ IoSkipDBM *IoSkipDBM_proto(void *state)
 	IoObject_tag_(self, IoSkipDBM_newTag(state));
 
 	IoObject_setDataPointer_(self, SkipDBM_new());
-	IoState_registerProtoWithFunc_((IoState *)state, self, IoSkipDBM_proto);
+	IoState_registerProtoWithId_((IoState *)state, self, protoId);
 
 	IoObject_addMethodTable_(self, methodTable);
 	return self;
@@ -73,7 +74,7 @@ IoSkipDBM *IoSkipDBM_rawClone(IoSkipDBM *proto)
 
 IoSkipDBM *IoSkipDBM_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoSkipDBM_proto);
+	IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 

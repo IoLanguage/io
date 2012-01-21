@@ -270,7 +270,7 @@ int RandomGen_randomInt(RandomGen *self)
 double RandomGen_gaussian(RandomGen *self, double m, double s)
 {
 		// http://www.taygeta.com/random/gaussian.html
-	double x1, x2, w, y1, y2;
+	double x1, x2, w, y1; //, y2;
 
 	do {
 		x1 = 2.0 * RandomGen_randomDouble(self) - 1.0;
@@ -280,7 +280,7 @@ double RandomGen_gaussian(RandomGen *self, double m, double s)
 
 	w = sqrt( (-2.0 * log( w ) ) / w );
 	y1 = x1 * w;
-	y2 = x2 * w;
+	//y2 = x2 * w;
 
 		// The following code resulted in a lot of nans being returned. The
 		// following code *should* also be slower.

@@ -62,7 +62,7 @@ List *IoObjcBridge_allClasses(IoObjcBridge *self)
 
 IoTag *IoObjcBridge_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("ObjcBridge");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoObjcBridge_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoObjcBridge_free);
@@ -87,7 +87,7 @@ IoObjcBridge *IoObjcBridge_proto(void *state)
 
 	sharedBridge = self;
 
-	IoState_registerProtoWithFunc_(state, self, protoId);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -116,7 +116,7 @@ IoObjcBridge *IoObjcBridge_rawClone(IoObjcBridge *self)
 IoObjcBridge *IoObjcBridge_new(void *state)
 {
 	return sharedBridge;
-	//return IoState_protoWithInitFunction_(state, protoId);
+	//return IoState_protoWithId_(state, protoId);
 }
 
 void IoObjcBridge_free(IoObjcBridge *self)
@@ -225,6 +225,7 @@ void *IoObjcBridge_proxyForId_(IoObjcBridge *self, id obj)
 		Io2Objc_setBridge(v, self);
 		Io2Objc_setObject(v, obj);
 		CHash_at_put_(DATA(self)->io2objcs, obj, v);
+		//printf("io2objcs %i\n", (int)CHash_size(DATA(self)->io2objcs));
 	}
 	
 	return v;
@@ -241,6 +242,7 @@ void *IoObjcBridge_proxyForIoObject_(IoObjcBridge *self, IoObject *v)
 		[obj setIoObject:v];
 		//CHash_at_put_(DATA(self)->objc2ios, IOREF(v), obj);
 		IoObjcBridge_addValue_(self, v, obj);
+		//printf("objc2ios %i\n", (int)CHash_size(DATA(self)->objc2ios));
 	}
 	
 	return obj;
@@ -568,9 +570,9 @@ void *IoObjcBridge_cValueForIoObject_ofType_error_(IoObjcBridge *self, IoObject 
 	{
 		case '@':
 			if (ISMUTABLESEQ(value))
-				DATA(self)->cValue.o = [NSMutableString stringWithUTF8String:CSTRING(value)];
+				DATA(self)->cValue.o = [NSMutableString stringWithUTF8String:UTF8CSTRING(value)];
 			else if (ISSYMBOL(value))
-				DATA(self)->cValue.o = [NSString stringWithUTF8String:CSTRING(value)];
+				DATA(self)->cValue.o = [NSString stringWithUTF8String:UTF8CSTRING(value)];
 			else if (ISNUMBER(value))
 				DATA(self)->cValue.o = [NSNumber numberWithInt:IoNumber_asInt(value)];
 			else if (ISIO2OBJC(value))

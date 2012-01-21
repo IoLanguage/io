@@ -11,6 +11,8 @@
 #include "IoSeq.h"
 #include "IoMap.h"
 
+static const char *protoId = "Linker";
+
 double fptrToDouble(void* fptr)
 {
 	double x;
@@ -23,7 +25,7 @@ IoLinker *IoLinker_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 
-	IoState_registerProtoWithFunc_(state, self, IoLinker_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {

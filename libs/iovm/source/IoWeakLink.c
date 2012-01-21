@@ -22,7 +22,7 @@ static const char *protoId = "WeakLink";
 
 IoTag *IoWeakLink_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("WeakLink");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoWeakLink_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoWeakLink_free);
@@ -70,7 +70,7 @@ IoObject *IoWeakLink_proto(void *state)
 	IoObject_setDataPointer_(self, io_calloc(1, sizeof(IoWeakLinkData)));
 	IoObject_tag_(self, IoWeakLink_newTag(state));
 	DATA(self)->link = NULL;
-	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
+	IoState_registerProtoWithId_((IoState *)state, self, protoId);
 
 	IoObject_addMethodTable_(self, methodTable);
 	return self;
@@ -86,7 +86,7 @@ IoObject *IoWeakLink_rawClone(IoWeakLink *proto)
 
 IoObject *IoWeakLink_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
+	IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 

@@ -11,9 +11,12 @@
 
 #define DATA(self) ((IoRangeData *)IoObject_dataPointer(self))
 
+static const char *protoId = "Range";
+
+
 IoTag *IoRange_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("Range");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoRange_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoRange_free);
@@ -33,7 +36,7 @@ IoRange *IoRange_proto(void *state)
 	DATA(self)->increment = IONIL(self);
 	DATA(self)->index = IONIL(self);
 
-	IoState_registerProtoWithFunc_((IoState *)state, self, IoRange_proto);
+	IoState_registerProtoWithId_((IoState *)state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -70,7 +73,7 @@ IoRange *IoRange_rawClone(IoRange *proto)
 
 IORANGE_API IoRange *IoRange_new(void *state)
 {
-	IoRange *proto = IoState_protoWithInitFunction_(state, IoRange_proto);
+	IoRange *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

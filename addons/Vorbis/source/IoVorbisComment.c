@@ -15,16 +15,18 @@ A wrapper around the libvorbis vorbis_comment object.
 
 #define DATA(self) ((vorbis_comment*)(IoObject_dataPointer(self)))
 
+static const char *protoId = "VorbisComment";
+
 IoObject *IoMessage_locals_vorbisCommentArgAt_(IoMessage *self, IoObject *locals, int n)
 {
   IoObject* v = IoMessage_locals_valueArgAt_(self, locals, n);
-  if (!ISVORBISCOMMENT(v)) IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "VorbisComment");
+  if (!ISVORBISCOMMENT(v)) IoMessage_locals_numberArgAt_errorForType_(self, locals, n, protoId);
   return v;
 }
 
 IoTag *IoVorbisComment_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("VorbisComment");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoVorbisComment_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoVorbisComment_rawClone);
@@ -37,10 +39,10 @@ IoVorbisComment *IoVorbisComment_proto(void *state)
 	IoObject_tag_(self, IoVorbisComment_newTag(state));
 
 	vorbis_comment* data = calloc(1, sizeof(vorbis_comment));
-        vorbis_comment_init(data);
+	vorbis_comment_init(data);
 	IoObject_setDataPointer_(self, data);
 
-	IoState_registerProtoWithFunc_(state, self, IoVorbisComment_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -57,14 +59,14 @@ IoVorbisComment *IoVorbisComment_rawClone(IoVorbisComment *proto)
 {
 	IoObject *self = IoObject_rawClonePrimitive(proto);
 	vorbis_comment* data = calloc(1, sizeof(vorbis_comment));
-        vorbis_comment_init(data);
+	vorbis_comment_init(data);
 	IoObject_setDataPointer_(self, data);
 	return self;
 }
 
 IoVorbisComment *IoVorbisComment_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoVorbisComment_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

@@ -74,7 +74,7 @@ IoObject *IoMessage_activate(IoMessage *self, IoObject *target, IoObject *locals
 
 IoTag *IoMessage_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("Message");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoMessage_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoMessage_free);
@@ -150,7 +150,7 @@ IoMessage *IoMessage_proto(void *state)
 	d->label = IOSYMBOL("[unlabeled]");
 	//d->charNumber = -1;
 	d->lineNumber = -1;
-	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
+	IoState_registerProtoWithId_((IoState *)state, self, protoId);
 
 	IoObject_addMethodTable_(self, methodTable);
 	return self;
@@ -172,7 +172,7 @@ IoMessage *IoMessage_rawClone(IoMessage *proto)
 
 IoMessage *IoMessage_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
+	IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
 	IoObject *self = IOCLONE(proto);
 	return self;
 }
@@ -502,10 +502,13 @@ IoObject *IoMessage_locals_performOn_(IoMessage *self, IoObject *locals, IoObjec
 	do
 	{
 		//md = DATA(m);
+
 		//printf("%s %i\n", CSTRING(IoMessage_name(m)), state->stopStatus);
 		//printf(" %s\n", CSTRING(IoMessage_name(m)));
-		//if(state->showAllMessages) 
-		//printf("M:%s:%s:%i\n", CSTRING(IoMessage_name(m)), CSTRING(IoMessage_rawLabel(m)), IoMessage_rawLineNumber(m));
+		if(state->showAllMessages) 
+		{
+			printf("M:%s:%s:%i\n", CSTRING(IoMessage_name(m)), CSTRING(IoMessage_rawLabel(m)), IoMessage_rawLineNumber(m));
+		}
 		
 		md = DATA(m);
 

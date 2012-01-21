@@ -144,7 +144,7 @@ IoFile *IoFile_proto(void *state)
 	DATA(self)->path  = IOSYMBOL("");
 	DATA(self)->mode  = IOSYMBOL("r+");
 	DATA(self)->flags = IOFILE_FLAGS_NONE;
-	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
+	IoState_registerProtoWithId_((IoState *)state, self, protoId);
 
 	IoObject_addMethodTable_(self, methodTable);
 	IoFile_statInit(self);
@@ -163,7 +163,7 @@ IoFile *IoFile_rawClone(IoFile *proto)
 
 IoFile *IoFile_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
+	IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 
@@ -279,12 +279,12 @@ int fileExists(char *path)
 
 int IoFile_justExists(IoFile *self)
 {
-	return fileExists(CSTRING(DATA(self)->path));
+	return fileExists(UTF8CSTRING(DATA(self)->path));
 }
 
 int IoFile_create(IoFile *self)
 {
-	FILE *fp = fopen(CSTRING(DATA(self)->path), "w");
+	FILE *fp = fopen(UTF8CSTRING(DATA(self)->path), "w");
 
 	if (fp)
 	{
@@ -470,16 +470,16 @@ IO_METHOD(IoFile, open)
 
 			if(!IoFile_justExists(self))
 			{
-				IoState_error_(IOSTATE, m, "unable to create file '%s': %s", CSTRING(DATA(self)->path), strerror(errno));
+				IoState_error_(IOSTATE, m, "unable to create file '%s': %s", UTF8CSTRING(DATA(self)->path), strerror(errno));
 			}
 		}
 
-		DATA(self)->stream = fopen(CSTRING(DATA(self)->path), mode);
+		DATA(self)->stream = fopen(UTF8CSTRING(DATA(self)->path), mode);
 	}
 
 	if (DATA(self)->stream == NULL)
 	{
-		IoState_error_(IOSTATE, m, "unable to open file path '%s': %s", CSTRING(DATA(self)->path), strerror(errno));
+		IoState_error_(IOSTATE, m, "unable to open file path '%s': %s", UTF8CSTRING(DATA(self)->path), strerror(errno));
 	}
 
 	return self;
@@ -515,7 +515,7 @@ IO_METHOD(IoFile, reopen)
 
 	if (!DATA(self)->stream)
 	{
-		FILE *fp = freopen(CSTRING(DATA(self)->path), CSTRING(DATA(self)->mode), DATA(otherFile)->stream);
+		FILE *fp = freopen(UTF8CSTRING(DATA(self)->path), CSTRING(DATA(self)->mode), DATA(otherFile)->stream);
 
 		if (fp)
 		{
@@ -524,7 +524,7 @@ IO_METHOD(IoFile, reopen)
 		else
 		{
 			printf("%i:%s\n", errno, strerror(errno));
-			IoState_error_(IOSTATE, m, "unable to reopen to file '%s' with mode %s.", CSTRING(DATA(self)->path), CSTRING(DATA(self)->mode));
+			IoState_error_(IOSTATE, m, "unable to reopen to file '%s' with mode %s.", UTF8CSTRING(DATA(self)->path), CSTRING(DATA(self)->mode));
 			fclose(fp);
 		}
 	}
@@ -555,7 +555,7 @@ IO_METHOD(IoFile, popen)
 
 #if defined(SANE_POPEN)
 	DATA(self)->mode = IOREF(IOSYMBOL("a+"));
-	DATA(self)->stream = popen(CSTRING(DATA(self)->path), "r+");
+	DATA(self)->stream = popen(UTF8CSTRING(DATA(self)->path), "r+");
 #elif defined(__SYMBIAN32__)
 	/* Symbian does not implement popen.
 		* (There is popen3() but it is "internal and not intended for use.")
@@ -564,11 +564,11 @@ IO_METHOD(IoFile, popen)
 	DATA(self)->stream = NULL;
 #else
 	DATA(self)->mode = IOREF(IOSYMBOL("r"));
-	DATA(self)->stream = popen(CSTRING(DATA(self)->path), "r");
+	DATA(self)->stream = popen(UTF8CSTRING(DATA(self)->path), "r");
 #endif
 	if (DATA(self)->stream == NULL)
 	{
-		IoState_error_(IOSTATE, m, "error executing file path '%s'", CSTRING(DATA(self)->path));
+		IoState_error_(IOSTATE, m, "error executing file path '%s'", UTF8CSTRING(DATA(self)->path));
 	}
 
 	return self;
@@ -610,7 +610,7 @@ IoObject *IoFile_rawAsString(IoFile *self)
 	else
 	{
 		UArray_free(ba);
-		IoState_error_(IOSTATE, NULL, "unable to read file '%s'", CSTRING(DATA(self)->path));
+		IoState_error_(IOSTATE, NULL, "unable to read file '%s'", UTF8CSTRING(DATA(self)->path));
 	}
 
 	return IONIL(self);
@@ -641,7 +641,7 @@ IO_METHOD(IoFile, contents)
 	else
 	{
 		UArray_free(ba);
-		IoState_error_(IOSTATE, m, "unable to read file '%s'", CSTRING(DATA(self)->path));
+		IoState_error_(IOSTATE, m, "unable to read file '%s'", UTF8CSTRING(DATA(self)->path));
 	}
 
 	return IONIL(self);
@@ -664,7 +664,7 @@ IO_METHOD(IoFile, asBuffer)
 	else
 	{
 		UArray_free(ba);
-		IoState_error_(IOSTATE, m, "unable to read file '%s'", CSTRING(DATA(self)->path));
+		IoState_error_(IOSTATE, m, "unable to read file '%s'", UTF8CSTRING(DATA(self)->path));
 	}
 
 	return IONIL(self);
@@ -688,7 +688,7 @@ IO_METHOD(IoFile, exists)
 		path = DATA(self)->path;
 	}
 
-	return IOBOOL(self, fileExists(CSTRING(path)));
+	return IOBOOL(self, fileExists(UTF8CSTRING(path)));
 }
 
 IO_METHOD(IoFile, remove)
@@ -707,20 +707,20 @@ IO_METHOD(IoFile, remove)
 	{
 		if(ISTRUE(IoFile_isDirectory(self, locals, m)))
 		{
-			error = rmdir(CSTRING(DATA(self)->path));
+			error = rmdir(UTF8CSTRING(DATA(self)->path));
 		}
 		else
 		{
-			error = unlink(CSTRING(DATA(self)->path));
+			error = unlink(UTF8CSTRING(DATA(self)->path));
 		}
 	}
 #else
-	error = remove(CSTRING(DATA(self)->path));
+	error = remove(UTF8CSTRING(DATA(self)->path));
 #endif
 
 	if (error && IoFile_justExists(self))
 	{
-		IoState_error_(IOSTATE, m, "error removing file '%s'", CSTRING(DATA(self)->path));
+		IoState_error_(IOSTATE, m, "error removing file '%s'", UTF8CSTRING(DATA(self)->path));
 	}
 	return self;
 }
@@ -732,7 +732,7 @@ IO_METHOD(IoFile, truncateToSize)
 	*/
 
 	long newSize = IoMessage_locals_longArgAt_(m, locals, 0);
-	truncate(CSTRING(DATA(self)->path), newSize);
+	truncate(UTF8CSTRING(DATA(self)->path), newSize);
 	return self;
 }
 
@@ -746,8 +746,8 @@ IO_METHOD(IoFile, moveTo_)
 	*/
 
 	IoSymbol *newPath = IoMessage_locals_symbolArgAt_(m, locals, 0);
-	const char *fromPath = CSTRING(DATA(self)->path);
-	const char *toPath = CSTRING(newPath);
+	const char *fromPath = UTF8CSTRING(DATA(self)->path);
+	const char *toPath = UTF8CSTRING(newPath);
 
 	if(strcmp(fromPath, toPath) != 0)
 	{
@@ -784,7 +784,7 @@ IO_METHOD(IoFile, write)
 		if (ferror(DATA(self)->stream) != 0)
 		{
 			IoState_error_(IOSTATE, m, "error writing to file '%s'",
-							CSTRING(DATA(self)->path));
+							UTF8CSTRING(DATA(self)->path));
 		}
 	}
 
@@ -838,7 +838,7 @@ IO_METHOD(IoFile, readLine)
 	end of the file has been reached.
 	*/
 
-	//char *path = CSTRING(DATA(self)->path); // tmp for debugging
+	//char *path = UTF8CSTRING(DATA(self)->path); // tmp for debugging
 
 	IoFile_assertOpen(self, locals, m);
 
@@ -865,7 +865,7 @@ IO_METHOD(IoFile, readLine)
 		{
 			UArray_free(ba);
 			clearerr(DATA(self)->stream);
-			IoState_error_(IOSTATE, m, "error reading from file '%s'", CSTRING(DATA(self)->path));
+			IoState_error_(IOSTATE, m, "error reading from file '%s'", UTF8CSTRING(DATA(self)->path));
 			return IONIL(self);
 		}
 
@@ -886,7 +886,7 @@ UArray *IoFile_readUArrayOfLength_(IoFile *self, IoObject *locals, IoMessage *m)
 	{
 		clearerr(DATA(self)->stream);
 		UArray_free(ba);
-		IoState_error_(IOSTATE, m, "error reading file '%s'", CSTRING(DATA(self)->path));
+		IoState_error_(IOSTATE, m, "error reading file '%s'", UTF8CSTRING(DATA(self)->path));
 	}
 
 	if (!UArray_size(ba))
@@ -974,7 +974,7 @@ IO_METHOD(IoFile, position_)
 	if (fseek(DATA(self)->stream, pos, 0) != 0)
 	{
 		IoState_error_(IOSTATE, m, "unable to set position %i file path '%s'",
-						(int)pos, CSTRING(DATA(self)->path));
+						(int)pos, UTF8CSTRING(DATA(self)->path));
 	}
 
 	return self;
@@ -1022,7 +1022,7 @@ IO_METHOD(IoFile, size)
 	Returns the file size in bytes.
 	*/
 
-	FILE *fp = fopen(CSTRING(DATA(self)->path), "r");
+	FILE *fp = fopen(UTF8CSTRING(DATA(self)->path), "r");
 
 	if (fp)
 	{
@@ -1034,7 +1034,7 @@ IO_METHOD(IoFile, size)
 	}
 	else
 	{
-		IoState_error_(IOSTATE, m, "unable to open file '%s'", CSTRING(DATA(self)->path));
+		IoState_error_(IOSTATE, m, "unable to open file '%s'", UTF8CSTRING(DATA(self)->path));
 	}
 
 	return IONIL(self);
@@ -1053,7 +1053,7 @@ IO_METHOD(IoFile, assertOpen)
 {
 	if (!DATA(self)->stream)
 	{
-		IoState_error_(IOSTATE, m, "file '%s' not yet open", CSTRING(DATA(self)->path));
+		IoState_error_(IOSTATE, m, "file '%s' not yet open", UTF8CSTRING(DATA(self)->path));
 	}
 	return self;
 }
@@ -1064,7 +1064,7 @@ IO_METHOD(IoFile, assertWrite)
 
 	if ((strcmp(mode, "r+")) && (strcmp(mode, "a+")) && (strcmp(mode, "w")))
 	{
-		IoState_error_(IOSTATE, m, "file '%s' not open for write", CSTRING(DATA(self)->path));
+		IoState_error_(IOSTATE, m, "file '%s' not open for write", UTF8CSTRING(DATA(self)->path));
 	}
 
 	return self;
@@ -1107,7 +1107,7 @@ IO_METHOD(IoFile, atPut)
 	if (fputc(c, DATA(self)->stream) == EOF)
 	{
 		int pos = IoMessage_locals_intArgAt_(m, locals, 0); // BUG - this may not be the same when evaled
-		IoState_error_(IOSTATE, m, "error writing to position %i in file '%s'", pos, CSTRING(DATA(self)->path));
+		IoState_error_(IOSTATE, m, "error writing to position %i in file '%s'", pos, UTF8CSTRING(DATA(self)->path));
 	}
 
 	return self;

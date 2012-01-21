@@ -15,10 +15,11 @@ An iterator object for a SkipDB.
 #include "IoNumber.h"
 
 #define CURSOR(self) ((SkipDBCursor *)(IoObject_dataPointer(self)))
+static const char *protoId = "SkipDBCursor";
 
 IoTag *IoSkipDBCursor_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("SkipDBCursor");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoSkipDBCursor_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoSkipDBCursor_rawClone);
@@ -55,7 +56,7 @@ IoSkipDBCursor *IoSkipDBCursor_proto(void *state)
 	IoObject_tag_(self, IoSkipDBCursor_newTag(state));
 
 	IoObject_setDataPointer_(self, NULL);
-	IoState_registerProtoWithFunc_((IoState *)state, self, IoSkipDBCursor_proto);
+	IoState_registerProtoWithID_((IoState *)state, self, protoId);
 
 	IoObject_addMethodTable_(self, methodTable);
 	return self;
@@ -71,7 +72,7 @@ IoSkipDBCursor *IoSkipDBCursor_rawClone(IoSkipDBCursor *proto)
 
 IoSkipDBCursor *IoSkipDBCursor_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoSkipDBCursor_proto);
+	IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 

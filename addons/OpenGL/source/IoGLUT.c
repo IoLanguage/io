@@ -19,12 +19,13 @@
 
 void IoGlutTimerFunc(int vv);
 
+static const char *protoId = "GLUT";
 static IoGLUT *proto = NULL;
 
 
 IoTag *IoGLUT_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("GLUT");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoGLUT_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoGLUT_free);
@@ -86,7 +87,7 @@ IoGLUT *IoGLUT_proto(void *state)
 	DATA(self)->lastJ = UArray_new();
 	UArray_setItemType_(DATA(self)->lastJ, CTYPE_float32_t);
 
-	IoState_registerProtoWithFunc_(state, self, IoGLUT_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 
 	//-----------------------------
@@ -121,7 +122,7 @@ IoGLUT *IoGLUT_proto(void *state)
 
 IoGLUT *IoGLUT_new(void *state)
 {
-	return IoState_protoWithInitFunction_(state, IoGLUT_proto);
+	return IoState_protoWithId_(state, protoId);
 }
 
 void IoGLUT_free(IoGLUT *self)
@@ -168,7 +169,7 @@ void IoGLUT_mark(IoGLUT *self)
 
 IoObject *IoGLUT_rawClone(IoGLUT *self)
 {
-	return IoState_protoWithInitFunction_(IOSTATE, IoGLUT_proto);
+	return IoState_protoWithId_(IOSTATE, protoId);
 }
 
 /* ----------------------------------------------------------- */

@@ -34,9 +34,11 @@ Smaller fonts (those having a point size around 30 or smaller, depending on the 
 
 #define DATA(self) ((IoFontData *)IoObject_dataPointer(self))
 
+static const char *protoId = "Font";
+
 IoTag *IoFont_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("Font");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoFont_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoFont_free);
@@ -53,7 +55,7 @@ IoFont *IoFont_proto( void *state )
 	DATA(self)->path = IOSYMBOL(".");
 	DATA(self)->font = GLFont_new();
 	DATA(self)->isProto = 1;
-	IoState_registerProtoWithFunc_(state, self, IoFont_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -91,7 +93,7 @@ IoFont *IoFont_rawClone(IoFont *proto)
 
 IoFont *IoFont_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoFont_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

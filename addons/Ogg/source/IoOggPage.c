@@ -13,17 +13,18 @@ A wrapper around the libogg ogg_page object.
 #include <assert.h>
 
 #define DATA(self) ((ogg_page*)(IoObject_dataPointer(self)))
+static const char *protoId = "OggPage";
 
 IoObject *IoMessage_locals_oggPageArgAt_(IoMessage *self, IoObject *locals, int n)
 {
   IoObject* v = IoMessage_locals_valueArgAt_(self, locals, n);
-  if (!ISOGGPAGE(v)) IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "OggPage");
+  if (!ISOGGPAGE(v)) IoMessage_locals_numberArgAt_errorForType_(self, locals, n, protoId);
   return v;
 }
 
 IoTag *IoOggPage_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("OggPage");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoOggPage_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoOggPage_rawClone);
@@ -38,7 +39,7 @@ IoOggPage *IoOggPage_proto(void *state)
 	ogg_page* data = calloc(1, sizeof(ogg_page));
 	IoObject_setDataPointer_(self, data);
 
-	IoState_registerProtoWithFunc_(state, self, IoOggPage_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -69,7 +70,7 @@ IoOggPage *IoOggPage_rawClone(IoOggPage *proto)
 
 IoOggPage *IoOggPage_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoOggPage_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

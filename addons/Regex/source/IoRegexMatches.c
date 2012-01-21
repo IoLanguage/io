@@ -15,6 +15,8 @@
 
 #define DATA(self) ((IoRegexMatchesData *)IoObject_dataPointer(self))
 
+static const char *protoId = "RegexMatches";
+
 static IoRegexMatch *IoRegexMatches_search(IoRegex *self, IoMessage *m);
 static IoRegexMatch *IoRegexMatches_searchWithOptions_(IoRegex *self, IoMessage *m, int options);
 static IoRegexMatch *IoRegexMatches_searchFrom_withOptions_(IoRegexMatches *self, IoMessage *m, int position, int options);
@@ -24,7 +26,7 @@ static IoObject *IoRegexMatches_rawsetPosition_(IoRegexMatches *self, int positi
 
 IoTag *IoRegexMatches_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("RegexMatches");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoRegexMatches_rawClone);
 	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoRegexMatches_mark);
@@ -92,7 +94,7 @@ IoRegexMatches *IoRegexMatches_rawClone(IoRegexMatches *proto)
 
 IoRegexMatches *IoRegexMatches_new(void *state)
 {
-	IoRegexMatches *proto = IoState_protoWithInitFunction_(state, IoRegexMatches_proto);
+	IoRegexMatches *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

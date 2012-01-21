@@ -21,14 +21,14 @@ license
 
 BStream *BStream_new(void)
 {
-	int flipEndian;
+	//int flipEndian;
 	BStream *self = (BStream *)io_calloc(1, sizeof(BStream));
 	self->ba = UArray_new();
 	self->index = 0;
 	self->ownsUArray = 1;
 	self->tmp = UArray_new();
 	self->errorBa = UArray_new();
-	flipEndian = 0;
+	//flipEndian = 0;
 	self->typeBuf = (unsigned char *)io_calloc(1, 512);
 	return self;
 }

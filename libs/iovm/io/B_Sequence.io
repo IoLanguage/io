@@ -216,4 +216,14 @@ Sequence do(
 		
 		"\"" .. self asMutable replaceSeq("\\", "\\\\") replaceMap(replacementMap) .. "\""
 	)
+
+	fileName := method(
+		if(self isEmpty, return(self))
+		lastPathComponent := self split("/") last
+		parts := lastPathComponent split(".") 
+		if(parts size > 1,
+			parts removeLast
+		)
+		parts join(".")
+	)
 )

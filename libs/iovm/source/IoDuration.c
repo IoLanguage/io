@@ -32,7 +32,7 @@ typedef struct tm tm;
 
 IoTag *IoDuration_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("Duration");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoDuration_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoDuration_free);
@@ -72,7 +72,7 @@ IoDuration *IoDuration_proto(void *state)
 
 	IoObject_setDataPointer_(self, Duration_new());
 	IoObject_tag_(self, IoDuration_newTag(state));
-	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
+	IoState_registerProtoWithId_((IoState *)state, self, protoId);
 
 	IoObject_addMethodTable_(self, methodTable);
 	return self;
@@ -88,7 +88,7 @@ IoDuration *IoDuration_rawClone(IoDuration *proto)
 
 IoDuration *IoDuration_new(void *state)
 {
-	IoDuration *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
+	IoDuration *proto = IoState_protoWithId_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 
@@ -264,7 +264,7 @@ The default format is "%Y %d %H:%M:%S".
 	}
 
 	ba = Duration_asUArrayWithFormat_(DATA(self), format);
-	return IoState_symbolWithUArray_copy_(IOSTATE, ba, 0);
+	return IoState_symbolWithUArray_copy_convertToFixedWidth(IOSTATE, ba, 0);
 }
 
 IO_METHOD(IoDuration, printDuration)

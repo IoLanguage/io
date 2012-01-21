@@ -21,10 +21,11 @@ out := digest md5String
 #include "IoSeq.h"
 
 #define DATA(self) ((IoSHA1Data *)IoObject_dataPointer(self))
+static const char *protoId = "SHA1";
 
 IoTag *IoSHA1_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("SHA1");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoSHA1_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoSHA1_rawClone);
@@ -39,7 +40,7 @@ IoSHA1 *IoSHA1_proto(void *state)
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoSHA1Data)));
 	SHA1Init(&(DATA(self)->context));
 
-	IoState_registerProtoWithFunc_(state, self, IoSHA1_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -64,7 +65,7 @@ IoSHA1 *IoSHA1_rawClone(IoSHA1 *proto)
 
 IoSHA1 *IoSHA1_new(void *state)
 {
-	IoSHA1 *proto = IoState_protoWithInitFunction_(state, IoSHA1_proto);
+	IoSHA1 *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

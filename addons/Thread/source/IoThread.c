@@ -17,9 +17,11 @@ Thread createThread("1+1") // evals 1+1 in a new thread and an independent Io VM
 #include "Thread.h"
 #include "List.h"
 
+static const char *protoId = "Thread";
+
 IoTag *IoThread_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("Thread");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoThread_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoThread_rawClone);
@@ -31,7 +33,7 @@ IoThread *IoThread_proto(void *state)
 	IoThread *self = IoObject_new(state);
 	IoObject_tag_(self, IoThread_newTag(state));
 
-	IoState_registerProtoWithFunc_(state, self, IoThread_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -56,7 +58,7 @@ IoThread *IoThread_rawClone(IoThread *proto)
 
 IoThread *IoThread_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoThread_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

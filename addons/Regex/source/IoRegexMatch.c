@@ -12,10 +12,11 @@
 
 #define DATA(self) ((IoRegexMatchData *)IoObject_dataPointer(self))
 
+static const char *protoId = "RegexMatch";
 
 IoTag *IoRegexMatch_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("RegexMatch");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoRegexMatch_rawClone);
 	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoRegexMatch_mark);
@@ -61,7 +62,7 @@ IoRegexMatch *IoRegexMatch_rawClone(IoRegexMatch *proto)
 
 IoRegexMatch *IoRegexMatch_newWithRegex_subject_captureRanges_(void *state, IoRegex *regex, IoSymbol *subject, IoList *captureRanges)
 {
-	IoRegexMatch *self = IOCLONE(IoState_protoWithInitFunction_(state, IoRegexMatch_proto));
+	IoRegexMatch *self = IOCLONE(IoState_protoWithId_(state, protoId));
 	DATA(self)->regex = IOREF(regex);
 	DATA(self)->subject = IOREF(subject);
 	DATA(self)->ranges = captureRanges;

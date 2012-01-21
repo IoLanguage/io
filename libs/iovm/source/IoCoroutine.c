@@ -17,7 +17,7 @@ Object wrapper for an Io coroutine.
 
 //#define DEBUG
 
-static const char *protoId = "IoCoroutine";
+static const char *protoId = "Coroutine";
 
 #define DATA(self) ((IoCoroutineData *)IoObject_dataPointer(self))
 
@@ -30,7 +30,7 @@ IoCoroutine *IoMessage_locals_coroutineArgAt_(IoMessage *self, void *locals, int
 
 IoTag *IoCoroutine_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("Coroutine");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCoroutine_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCoroutine_rawClone);
@@ -48,7 +48,7 @@ IoCoroutine *IoCoroutine_proto(void *state)
 #ifdef STACK_POP_CALLBACK
 	Stack_popCallback_(DATA(self)->ioStack, IoObject_freeIfUnreferenced);
 #endif
-	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
+	IoState_registerProtoWithId_((IoState *)state, self, protoId);
 
 	/* init Coroutine proto's coro as the main one */
 	{
@@ -92,7 +92,7 @@ IoCoroutine *IoCoroutine_rawClone(IoCoroutine *proto)
 
 IoCoroutine *IoCoroutine_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
+	IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
 	IoObject *self = IOCLONE(proto);
 	return self;
 }
@@ -128,7 +128,84 @@ void *IoCoroutine_cid(IoCoroutine *self)
 	return DATA(self)->cid;
 }
 
+/*
 // runTarget
+
+void IoCoroutine_rawSetRunTarget_(IoCoroutine *self, IoObject *v)
+{
+	IoObject_setSlot_to_(self, IOSTATE->runTargetSymbol, v);
+}
+
+IoObject *IoCoroutine_rawRunTarget(IoCoroutine *self)
+{
+	return IoObject_rawGetSlot_(self, IOSTATE->runTargetSymbol);
+}
+
+// runMessage
+
+void IoCoroutine_rawSetRunMessage_(IoCoroutine *self, IoObject *v)
+{
+	IoObject_setSlot_to_(self, IOSTATE->runMessageSymbol, v);
+}
+
+IoObject *IoCoroutine_rawRunMessage(IoCoroutine *self)
+{
+	return IoObject_rawGetSlot_(self, IOSTATE->runMessageSymbol);
+}
+
+// runLocals
+
+void IoCoroutine_rawSetRunLocals_(IoCoroutine *self, IoObject *v)
+{
+	IoObject_setSlot_to_(self, IOSTATE->runLocalsSymbol, v);
+}
+
+IoObject *IoCoroutine_rawRunLocals(IoCoroutine *self)
+{
+	return IoObject_rawGetSlot_(self, IOSTATE->runLocalsSymbol);
+}
+
+// parent
+
+void IoCoroutine_rawSetParentCoroutine_(IoCoroutine *self, IoObject *v)
+{
+	IoObject_setSlot_to_(self, IOSTATE->parentCoroutineSymbol, v);
+}
+
+IoObject *IoCoroutine_rawParentCoroutine(IoCoroutine *self)
+{
+	return IoObject_getSlot_(self, IOSTATE->parentCoroutineSymbol);
+}
+
+// result
+
+void IoCoroutine_rawSetResult_(IoCoroutine *self, IoObject *v)
+{
+	IoObject_setSlot_to_(self, IOSTATE->resultSymbol, v);
+}
+
+IoObject *IoCoroutine_rawResult(IoCoroutine *self)
+{
+	return IoObject_getSlot_(self, IOSTATE->resultSymbol);
+}
+
+// exception
+
+void IoCoroutine_rawRemoveException(IoCoroutine *self)
+{
+	IoObject_removeSlot_(self, IOSTATE->exceptionSymbol);
+}
+
+void IoCoroutine_rawSetException_(IoCoroutine *self, IoObject *v)
+{
+	IoObject_setSlot_to_(self, IOSTATE->exceptionSymbol, v);
+}
+
+IoObject *IoCoroutine_rawException(IoCoroutine *self)
+{
+	return IoObject_getSlot_(self, IOSTATE->exceptionSymbol);
+}
+*/
 
 void IoCoroutine_rawSetRunTarget_(IoCoroutine *self, IoObject *v)
 {
@@ -204,6 +281,7 @@ IoObject *IoCoroutine_rawException(IoCoroutine *self)
 {
 	return IoObject_getSlot_(self, IOSYMBOL("exception"));
 }
+
 
 // ioStack
 

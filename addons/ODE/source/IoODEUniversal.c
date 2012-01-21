@@ -14,9 +14,11 @@ ODEJoint binding
 
 /* ----------------------------------------------------------- */
 
+static const char *protoId = "ODEUniversal";
+
 IoTag *IoODEUniversal_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("ODEUniversal");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoODEUniversal_free);
 	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoODEUniversal_mark);

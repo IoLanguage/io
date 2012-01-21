@@ -38,6 +38,7 @@ db close
 typedef int (ResultRowCallback)(void *, int , char **, char **);
 
 #define DATA(self) ((IoSQLite3Data *)IoObject_dataPointer(self))
+static const char *protoId = "SQLite3";
 
 /*
  static int IoSQLite3_resultRow(void *context, int argc, char **argv, char **azColName);
@@ -46,7 +47,7 @@ typedef int (ResultRowCallback)(void *, int , char **, char **);
 
 IoTag *IoSQLite3_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("SQLite3");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoSQLite3_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoSQLite3_free);
@@ -62,7 +63,7 @@ IoSQLite3 *IoSQLite3_proto(void *state)
 	IoObject_setDataPointer_(self, io_calloc(1, sizeof(IoSQLite3Data)));
 	DATA(self)->path = IOSYMBOL(".");
 
-	IoState_registerProtoWithFunc_(state, self, IoSQLite3_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -103,7 +104,7 @@ IoSQLite3 *IoSQLite3_rawClone(IoSQLite3 *proto)
 
 IoSQLite3 *IoSQLite3_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoSQLite3_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 
@@ -201,6 +202,18 @@ IoObject *IoSQLite3_setTimeoutSeconds(IoSQLite3 *self, IoObject *locals, IoMessa
 	return self;
 }
 
+void IoSQLite3_justOpen(IoSQLite3 *self)
+{
+	sqlite3_open(CSTRING(DATA(self)->path), &(DATA(self)->db));
+	
+	IoSQLite3_showError(self);
+	
+	sqlite3_busy_handler(DATA(self)->db, IoSQLite3_busyHandler, self);
+	sqlite3_busy_timeout(DATA(self)->db, DATA(self)->timeoutSeconds * 1000);
+	return self;
+}
+
+
 IoObject *IoSQLite3_open(IoSQLite3 *self, IoObject *locals, IoMessage *m)
 {
 	/*doc SQLite3 open(optionalPathString)
@@ -218,12 +231,7 @@ IoObject *IoSQLite3_open(IoSQLite3 *self, IoObject *locals, IoMessage *m)
 		DATA(self)->path = IOREF(IoMessage_locals_symbolArgAt_(m, locals, 0));
 	}
 
-	sqlite3_open(CSTRING(DATA(self)->path), &(DATA(self)->db));
-
-	IoSQLite3_showError(self);
-
-	sqlite3_busy_handler(DATA(self)->db, IoSQLite3_busyHandler, self);
-	sqlite3_busy_timeout(DATA(self)->db, DATA(self)->timeoutSeconds * 1000);
+	IoSQLite3_justOpen(self);
 	return self;
 }
 
@@ -329,7 +337,7 @@ IoObject *IoSQLite3_execWithCallback(IoSQLite3 *self,
 
 	if (!DATA(self)->db)
 	{
-		IoSQLite3_open(self, locals, m);
+		IoSQLite3_justOpen(self);
 
 		if (!DATA(self)->db)
 		{

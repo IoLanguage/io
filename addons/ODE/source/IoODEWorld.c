@@ -16,9 +16,11 @@ ODEWorld binding
 #define DATA(self) ((IoODEWorldData *)IoObject_dataPointer(self))
 #define WORLDID (DATA(self)->worldId)
 
+static const char *protoId = "ODEWorld";
+
 IoTag *IoODEWorld_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("ODEWorld");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoODEWorld_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoODEWorld_rawClone);
@@ -37,7 +39,7 @@ IoODEWorld *IoODEWorld_proto(void *state)
 	DATA(self)->bodies = 0L;
 	DATA(self)->jointGroups = 0L;
 
-	IoState_registerProtoWithFunc_(state, self, IoODEWorld_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -76,7 +78,7 @@ IoODEWorld *IoODEWorld_rawClone(IoODEWorld *proto)
 
 IoODEWorld *IoODEWorld_new(void *state)
 {
-	IoODEWorld *proto = IoState_protoWithInitFunction_(state, IoODEWorld_proto);
+	IoODEWorld *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

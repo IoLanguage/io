@@ -18,9 +18,11 @@ The AudioDevice object can used to write audio data as if directly to the audio 
 
 #define DATA(self) ((IoAudioDeviceData *)IoObject_dataPointer(self))
 
+static const char *protoId = "AudioDevice";
+
 IoTag *IoAudioDevice_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("AudioDevice");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoAudioDevice_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoAudioDevice_free);
@@ -36,9 +38,9 @@ IoAudioDevice *IoAudioDevice_proto(void *state)
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoAudioDeviceData)));
 
 	DATA(self)->writeBuffer = IoSeq_new(state);
-	DATA(self)->readBuffer = IoSeq_new(state);
+	DATA(self)->readBuffer  = IoSeq_new(state);
 	DATA(self)->audioDevice = AudioDevice_new();
-	IoState_registerProtoWithFunc_(state, self, IoAudioDevice_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 	IoMethodTable methodTable[] = {
@@ -71,7 +73,7 @@ IoAudioDevice *IoAudioDevice_rawClone(IoAudioDevice *proto)
 
 IoAudioDevice *IoAudioDevice_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoAudioDevice_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

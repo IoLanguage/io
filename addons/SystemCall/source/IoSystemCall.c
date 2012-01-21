@@ -32,7 +32,7 @@ static const char *protoId = "SystemCall";
 
 IoTag *IoSystemCall_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("SystemCall");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoSystemCall_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoSystemCall_rawClone);
@@ -56,7 +56,7 @@ IoSystemCall *IoSystemCall_proto(void *state)
 
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoSystemCallData)));
 
-	IoState_registerProtoWithFunc_(state, self, protoId);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -82,7 +82,7 @@ IoSystemCall *IoSystemCall_rawClone(IoSystemCall *proto)
 
 IoSystemCall *IoSystemCall_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, protoId);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IoSystemCall_rawClone(proto);
 }
 
@@ -136,12 +136,12 @@ IoObject *IoSystemCall_asyncRun(IoSystemCall *self, IoObject *locals, IoMessage 
 		IOASSERT(ISSEQ(k), "envKeys must be strings");
 		v = IoMap_rawAt(envMap, k);
 		IOASSERT(ISSEQ(v), "envValues must be strings");
-		callsystem_setenv(&(DATA(self)->env), CSTRING(k), CSTRING(v));
+		callsystem_setenv(&(DATA(self)->env), UTF8CSTRING(k), UTF8CSTRING(v));
 	);
 
 	LIST_FOREACH(args, i, arg,
 		IOASSERT(ISSEQ(arg), "args must be strings");
-		callsystem_argv_pushback(&DATA(self)->args, CSTRING(arg));
+		callsystem_argv_pushback(&DATA(self)->args, UTF8CSTRING(arg));
 	);
 
 
