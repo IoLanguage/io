@@ -13,6 +13,7 @@ set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/_build/dll)
 #file(GLOB IO_SRCS "io/*.io")
 set(IO_SRCS
 	${CMAKE_CURRENT_SOURCE_DIR}/io/A0_List.io
+	${CMAKE_CURRENT_SOURCE_DIR}/io/A0_Object.io
 	${CMAKE_CURRENT_SOURCE_DIR}/io/A1_OperatorTable.io
 	${CMAKE_CURRENT_SOURCE_DIR}/io/A2_Object.io
 	${CMAKE_CURRENT_SOURCE_DIR}/io/A3_List.io
