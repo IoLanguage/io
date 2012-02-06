@@ -3,6 +3,10 @@ import time
 
 oneMillion = 1000000
 
+if sys.version_info >= (3,):
+  def xrange(v):
+    return range(int(v))
+
 class Tester:
   def foo(self):
     return 1
@@ -12,7 +16,7 @@ class Tester:
     
   def endTimer(self, s):
     mps = 1/(time.time() - self.t1)
-    print "Python %s := %0.2f" % (s, mps)
+    print("Python %s := %0.2f" % (s, mps))
    
   def testSlot(self):
     self.beginTimer()
@@ -61,21 +65,21 @@ class Tester:
     self.endTimer("localSets          ")
     
   def test(self):
-    print ""
+    print("")
     self.testLocals()
     self.testSetLocals()
-    print ""
+    print("")
     self.testSlot()
     self.testSetSlot()
-    print ""
+    print("")
     self.testBlock()
     self.testInstantiations()
 
     import sys
-    print "Python version := \"%i.%i.%i %s %i\"" % tuple(sys.version_info)
-    print ""
-    print "// values in millions per second"
-    print ""
+    print("Python version := \"%i.%i.%i %s %i\"" % tuple(sys.version_info))
+    print("")
+    print("// values in millions per second")
+    print("")
 
 
 Tester().test()
