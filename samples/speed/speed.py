@@ -72,7 +72,7 @@ class Tester:
     self.testInstantiations()
 
     import sys
-    print "Python version := \"%i.%i.%i %s %i\"" % sys.version_info
+    print "Python version := \"%i.%i.%i %s %i\"" % tuple(sys.version_info)
     print ""
     print "// values in millions per second"
     print ""
