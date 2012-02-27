@@ -21,4 +21,8 @@ TraitsTest := UnitTest clone do(
     assertEquals(42, B fooFromA)
     assertEquals(23, B foo)
   )
+
+  testMissingArguments := method(
+    assertRaisesException(A addTrait)
+  )
 )
