@@ -478,6 +478,11 @@ IO_METHOD(IoObject, sleep)
 
 	double seconds = IoMessage_locals_doubleArgAt_(m, locals, 0);
 	unsigned int microseconds = (seconds * 1000000);
+	while (microseconds > 999999)
+	{
+	    usleep(999999);
+	    microseconds -= 999999;
+	}
 	usleep(microseconds);
 	return self;
 }
