@@ -34,11 +34,7 @@ struct IoObjectData
 
 	union
 	{
-		union
-		{
-			void *ptr;
-			void *ptr2;
-		} pointers;
+		void *ptr;
 		double d;
 		uint32_t ui32;
 	} data; // 8 bytes (9+8 = 17)
@@ -78,11 +74,8 @@ struct IoObjectData
 
 
 
-#define IoObject_dataPointer(self)          IoObject_deref(self)->data.pointers.ptr
-#define IoObject_setDataPointer_(self, v)   IoObject_deref(self)->data.pointers.ptr = (void *)(v);
-
-#define IoObject_dataPointer2(self)          IoObject_deref(self)->data.pointers.ptr2
-#define IoObject_setDataPointer2_(self, v)   IoObject_deref(self)->data.pointers.ptr2 = (void *)(v);
+#define IoObject_dataPointer(self)          IoObject_deref(self)->data.ptr
+#define IoObject_setDataPointer_(self, v)   IoObject_deref(self)->data.ptr = (void *)(v);
 
 #define IoObject_dataDouble(self)           IoObject_deref(self)->data.d
 #define IoObject_setDataDouble_(self, v)    IoObject_deref(self)->data.d = (double)(v);
