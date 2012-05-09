@@ -7,10 +7,11 @@
 
 #define EXTENTS(self) ((cairo_text_extents_t *)IoObject_dataPointer(self))
 
+static const char *protoId = "CairoTextExtents";
 
 static IoTag *IoCairoTextExtents_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("CairoTextExtents");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCairoTextExtents_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCairoTextExtents_free);
@@ -50,7 +51,7 @@ IoCairoTextExtents *IoCairoTextExtents_rawClone(IoCairoTextExtents *proto)
 
 IoCairoTextExtents *IoCairoTextExtents_newWithRawTextExtents(void *state, cairo_text_extents_t *extents)
 {
-	IoCairoTextExtents *self = IOCLONE(IoState_protoWithInitFunction_(state, IoCairoTextExtents_proto));
+	IoCairoTextExtents *self = IOCLONE(IoState_protoWithId_(state, protoId));
 	memcpy(EXTENTS(self), extents, sizeof(cairo_text_extents_t));
 	return self;
 }

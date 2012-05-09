@@ -28,8 +28,10 @@ my close
 
 #define DATA(self) ((IoMySQLData*) IoObject_dataPointer(self))
 
+static const char *protoId = "MySQL";
+
 IoTag* IoMySQL_newTag(void* state) {
-	IoTag* tag = IoTag_newWithName_("MySQL");
+	IoTag* tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc*) IoMySQL_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc*) IoMySQL_rawClone);
@@ -68,7 +70,7 @@ IoObject* IoMySQL_rawClone(IoObject* proto) {
 
 IoObject* IoMySQL_new(void* state) 
 {
-	IoObject* proto = IoState_protoWithInitFunction_(state, IoMySQL_proto);
+	IoObject* proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

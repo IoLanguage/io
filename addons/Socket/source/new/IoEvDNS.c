@@ -12,9 +12,11 @@
 
 #define DNS(self) ((struct evdns_base *)IoObject_dataPointer(self))
 
+static const char *protoId = "EvDNS";
+
 IoTag *IoEvDNS_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("EvDNS");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoEvDNS_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoEvDNS_free);
@@ -52,7 +54,7 @@ IoEvDNS *IoEvDNS_rawClone(IoEvDNS *proto)
 
 IoEvDNS *IoEvDNS_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoEvDNS_proto);
+	IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
 	return self; // singleton
 }
 

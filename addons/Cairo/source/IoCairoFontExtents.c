@@ -7,10 +7,11 @@
 
 #define EXTENTS(self) ((cairo_font_extents_t *)IoObject_dataPointer(self))
 
+static const char *protoId = "CairoFontExtents";
 
 static IoTag *IoCairoFontExtents_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("CairoFontExtents");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCairoFontExtents_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCairoFontExtents_free);
@@ -49,7 +50,7 @@ IoCairoFontExtents *IoCairoFontExtents_rawClone(IoCairoFontExtents *proto)
 
 IoCairoFontExtents *IoCairoFontExtents_newWithRawFontExtents(void *state, cairo_font_extents_t *extents)
 {
-	IoCairoFontExtents *self = IOCLONE(IoState_protoWithInitFunction_(state, IoCairoFontExtents_proto));
+	IoCairoFontExtents *self = IOCLONE(IoState_protoWithInitId_(state, protoId));
 	memcpy(EXTENTS(self), extents, sizeof(cairo_font_extents_t));
 	return self;
 }

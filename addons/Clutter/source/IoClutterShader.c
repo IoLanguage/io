@@ -2,9 +2,11 @@
 //metadoc ClutterShader category UserInterface
 //metadoc ClutterShader description For more detailed docs see <a href="http://clutter-project.org/docs/clutter/stable/clutter-Shaders.html">Clutter documentation</a>.
 
+static const char *protoId = "ClutterShader";
+
 /*** Initalisation functions ***/
 IoTag *IoClutterShader_newTag(void *state) {
-  IoTag *tag = IoTag_newWithName_("ClutterShader");
+  IoTag *tag = IoTag_newWithName_(protoId);
 
   IoTag_state_(tag, state);
   IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoClutterShader_free);
@@ -49,7 +51,7 @@ IoClutterShader *IoClutterShader_rawClone(IoClutterShader *proto) {
 }
 
 IoClutterShader *IoClutterShader_new(void *state) {
-  IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoClutterShader_proto);
+  IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
   return IOCLONE(proto);
 }
 

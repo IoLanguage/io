@@ -18,9 +18,11 @@
 #define DATA(self) ((IoCFFIFunctionData *)(IoObject_dataPointer(self)))
 void IoCFFIFunction_closure(ffi_cif* cif, void* result, void** args, void* userdata);
 
+static const char *protoId = "Function";
+
 IoTag *IoCFFIFunction_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("Function");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCFFIFunction_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCFFIFunction_rawClone);
@@ -66,7 +68,7 @@ IoCFFIFunction *IoCFFIFunction_rawClone(IoCFFIFunction *proto)
 
 IoCFFIFunction *IoCFFIFunction_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoCFFIFunction_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

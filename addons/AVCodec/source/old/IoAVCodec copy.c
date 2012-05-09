@@ -19,6 +19,8 @@ AVCodec ioDoc(
 #define DATA(self) ((IoAVCodecData *)IoObject_dataPointer(self))
 #define IVAR(name) (((IoAVCodecData *)IoObject_dataPointer(self))->name)
 
+static const char *protoId = "AVCodec";
+
 void IoAVCodec_registerIfNeeded(IoAVCodec *self) 
 { 
 	avcodec_init();
@@ -28,7 +30,7 @@ void IoAVCodec_registerIfNeeded(IoAVCodec *self)
 
 IoTag *IoAVCodec_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("AVCodec");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoAVCodec_rawClone);
 	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoAVCodec_mark);
@@ -91,7 +93,7 @@ IoAVCodec *IoAVCodec_rawClone(IoAVCodec *proto)
 
 IoAVCodec *IoAVCodec_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoAVCodec_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

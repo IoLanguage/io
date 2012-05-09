@@ -2,9 +2,11 @@
 //metadoc ClutterEvent category UserInterface
 //metadoc ClutterEvent description For more detailed docs see <a href="http://clutter-project.org/docs/clutter/stable/clutter-Events.html">Clutter documentation</a>.
 
+static const char *protoId = "ClutterEvent";
+
 /*** Initalisation functions ***/
 IoTag *IoClutterEvent_newTag(void *state) {
-  IoTag *tag = IoTag_newWithName_("ClutterEvent");
+  IoTag *tag = IoTag_newWithName_(protoId);
 
   IoTag_state_(tag, state);
   IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoClutterEvent_free);
@@ -55,7 +57,7 @@ IoClutterEvent *IoClutterEvent_rawClone(IoClutterEvent *proto) {
 }
 
 IoClutterEvent *IoClutterEvent_new(void *state) {
-  IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoClutterEvent_proto);
+  IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
   return IOCLONE(proto);
 }
 

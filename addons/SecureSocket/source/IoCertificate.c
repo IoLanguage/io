@@ -14,6 +14,8 @@ Read-only interface to SSL X509 certificates.
 #include "IoDate.h"
 #include "common.h"
 
+static const char *protoId = "Certificate";
+
 IoCertificate *IoMessage_locals_certificateArgAt_(IoMessage *self, IoObject *locals, int n)
 {
 	IoObject *v = IoMessage_locals_valueArgAt_(self, locals, n);
@@ -37,7 +39,7 @@ typedef struct {
 
 IoTag *IoCertificate_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("Certificate");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCertificate_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCertificate_rawClone);
@@ -103,7 +105,7 @@ void IoCertificate_free(IoCertificate *self)
 
 IoCertificate *IoCertificate_newWithX509_shouldFree(void *state, X509 *x509, int shouldFree)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoCertificate_proto);
+	IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
 	IoCertificate *self = IOCLONE(proto);
 	Certificate *certData = calloc(1, sizeof(Certificate));
 	certData->shouldFree = shouldFree;

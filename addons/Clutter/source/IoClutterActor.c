@@ -2,9 +2,11 @@
 //metadoc ClutterActor category UserInterface
 //metadoc ClutterActor description For more detailed docs see <a href="http://clutter-project.org/docs/clutter/stable/ClutterActor.html">Clutter documentation</a>.
 
+static const char *protoId = "ClutterActor";
+
 /*** Initalisation functions ***/
 IoTag *IoClutterActor_newTag(void *state) {
-  IoTag *tag = IoTag_newWithName_("ClutterActor");
+  IoTag *tag = IoTag_newWithName_(protoId);
 
   IoTag_state_(tag, state);
   IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoClutterActor_free);
@@ -106,7 +108,7 @@ IoClutterActor *IoClutterActor_rawClone(IoClutterActor *proto) {
 }
 
 IoClutterActor *IoClutterActor_new(void *state) {
-  IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoClutterActor_proto);
+  IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
   return IOCLONE(proto);
 }
 

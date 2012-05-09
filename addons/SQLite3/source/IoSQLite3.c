@@ -210,7 +210,6 @@ void IoSQLite3_justOpen(IoSQLite3 *self)
 	
 	sqlite3_busy_handler(DATA(self)->db, IoSQLite3_busyHandler, self);
 	sqlite3_busy_timeout(DATA(self)->db, DATA(self)->timeoutSeconds * 1000);
-	return self;
 }
 
 

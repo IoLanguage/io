@@ -8,6 +8,7 @@
 
 #define MATRIX(self) ((cairo_matrix_t *)IoObject_dataPointer(self))
 
+static const char *protoId = "CairoMatrix";
 
 void *IoMessage_locals_cairoMatrixArgAt_(IoMessage *self, void *locals, int n)
 {
@@ -20,7 +21,7 @@ void *IoMessage_locals_cairoMatrixArgAt_(IoMessage *self, void *locals, int n)
 
 static IoTag *IoCairoMatrix_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("CairoMatrix");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCairoMatrix_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCairoMatrix_rawClone);
@@ -68,12 +69,12 @@ IoCairoMatrix *IoCairoMatrix_rawClone(IoCairoMatrix *proto)
 
 IoCairoMatrix *IoCairoMatrix_new(void *state)
 {
-	return IoState_protoWithInitFunction_(state, IoCairoMatrix_proto);
+	return IoState_protoWithId_(state, protoId);
 }
 
 IoCairoMatrix *IoCairoMatrix_newWithRawMatrix_(void *state, cairo_matrix_t *matrix)
 {
-	IoCairoMatrix *self = IOCLONE(IoState_protoWithInitFunction_(state, IoCairoMatrix_proto));
+	IoCairoMatrix *self = IOCLONE(IoState_protoWithId_(state, protoId));
 	memcpy(MATRIX(self), matrix, sizeof(cairo_matrix_t));
 	return self;
 }

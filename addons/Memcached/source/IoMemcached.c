@@ -25,9 +25,11 @@ based on C <a href="http://tangent.org/552/libmemcached.html">libmemcached</a>.
 #define _FLAG_BOOLEAN  3
 #define _FLAG_OBJECT   4
 
+static const char *protoId = "Memcached";
+
 IoTag *IoMemcached_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("Memcached");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoMemcached_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoMemcached_rawClone);
@@ -82,7 +84,7 @@ IoObject *IoMemcached_rawClone(IoMemcached *proto)
 
 IoObject *IoMemcached_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoMemcached_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

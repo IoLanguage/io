@@ -19,6 +19,8 @@ one method, hello, which does the obvious job of greeting the world.
  */
 #define DATA(self) ((IoNullAddonData *)IoObject_dataPointer(self))
 
+static const char *protoId = "NullAddon";
+
 /*
  * IoTag structures are type descriptors, which includes the linkages
  * necessary to:
@@ -30,7 +32,7 @@ one method, hello, which does the obvious job of greeting the world.
 IoTag *IoNullAddon_newTag(void *state)
 {
     /* The tag name determines the type name. */
-	IoTag *tag = IoTag_newWithName_("NullAddon");
+	IoTag *tag = IoTag_newWithName_(protoId);
 
     /* Since some functions don't accept an explicit IoState parameter,
      * we rely on back-links to provide access to the containing state.
@@ -153,7 +155,7 @@ IoNullAddon *IoNullAddon_rawClone(IoNullAddon *proto)
  */
 IoNullAddon *IoNullAddon_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoNullAddon_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 
