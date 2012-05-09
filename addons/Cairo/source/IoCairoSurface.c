@@ -13,10 +13,11 @@
 #include "IoCairoPDFSurface.h"
 #include "IoCairoSVGSurface.h"
 
+static const char *protoId = "CairoSurface";
 
 static IoTag *IoCairoSurface_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("CairoSurface");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCairoSurface_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCairoSurface_free);
@@ -92,7 +93,7 @@ IoCairoSurface *IoCairoSurface_newWithRawSurface_(void *state, IoMessage *m, cai
 			IoState_error_(state, 0, "Unsupported surface type");
 	}
 
-	self = IOCLONE(IoState_protoWithInitFunction_(state, initFunc));
+	self = IOCLONE(IoState_protoWithId_(state, protoId));
 	IoObject_setDataPointer_(self, surface);
 	return self;
 }

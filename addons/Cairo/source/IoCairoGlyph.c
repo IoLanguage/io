@@ -7,10 +7,11 @@
 
 #define GLYPH(self) ((cairo_glyph_t *)IoObject_dataPointer(self))
 
+static const char *protoId = "CairoGlyph";
 
 static IoTag *IoCairoGlyph_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("CairoGlyph");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCairoGlyph_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCairoGlyph_free);
@@ -53,7 +54,7 @@ IoCairoGlyph *IoCairoGlyph_rawClone(IoCairoGlyph *proto)
 
 IoCairoGlyph *IoCairoGlyph_newWithRawGlyph_(void *state, cairo_glyph_t *glyph)
 {
-	IoCairoGlyph *self = IOCLONE(IoState_protoWithInitFunction_(state, IoCairoGlyph_proto));
+	IoCairoGlyph *self = IOCLONE(IoState_protoWithInitId_(state, protoId));
 	memcpy(GLYPH(self), glyph, sizeof(cairo_glyph_t));
 	return self;
 }

@@ -19,9 +19,11 @@ out := digest OauthString
 
 #define DATA(self) ((Oauth *)IoObject_dataPointer(self))
 
+static const char *protoId = "Oauth";
+
 IoTag *IoOauth_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("Oauth");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoOauth_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoOauth_rawClone);
@@ -80,7 +82,7 @@ IoOauth *IoOauth_rawClone(IoOauth *proto)
 
 IoOauth *IoOauth_new(void *state)
 {
-	IoOauth *proto = IoState_protoWithInitFunction_(state, IoOauth_proto);
+	IoOauth *proto = IoState_protoWithId_(state, proto);
 	return IOCLONE(proto);
 }
 

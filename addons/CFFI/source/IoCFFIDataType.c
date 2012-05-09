@@ -19,11 +19,13 @@
 #define DATA(self) ((IoCFFIDataTypeData *)(IoObject_dataPointer(self)))
 #define POINTER(data) ((data)->valuePointer)
 
+static const char *protoId = "DataType";
+
 void *IoCFFIDataType_null = NULL;
 
 IoTag *IoCFFIDataType_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("DataType");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCFFIDataType_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCFFIDataType_rawClone);
@@ -68,7 +70,7 @@ IoCFFIDataType *IoCFFIDataType_rawClone(IoCFFIDataType *proto)
 
 IoCFFIDataType *IoCFFIDataType_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoCFFIDataType_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

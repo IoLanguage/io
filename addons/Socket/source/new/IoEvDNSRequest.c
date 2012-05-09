@@ -12,11 +12,13 @@
 
 #define REQUEST(self) ((struct evdns_request *)IoObject_dataPointer(self))
 
-EvDNSRequest_resolv_conf_parse(DNS_OPTIONS_ALL, "/etc/resolv.conf"); 
+EvDNSRequest_resolv_conf_parse(DNS_OPTIONS_ALL, "/etc/resolv.conf");
+
+static const char *protoId = "EvDNSRequest";
 
 IoTag *IoEvDNSRequest_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("EvDNSRequest");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoEvDNSRequest_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoEvDNSRequest_free);
@@ -59,7 +61,7 @@ IoEvDNSRequest *IoEvDNSRequest_rawClone(IoEvDNSRequest *proto)
 
 IoEvDNSRequest *IoEvDNSRequest_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoEvDNSRequest_proto);
+	IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 

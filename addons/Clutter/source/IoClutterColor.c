@@ -1,6 +1,8 @@
 #include "IoClutterColor.h"
 #define DATA(self) ((IoClutterColorData*)IoObject_dataPointer(self))
 
+static const char *protoId = "ClutterColor";
+
 //metadoc ClutterColor category UserInterface
 /*metadoc ClutterColor description
 <p>
@@ -11,7 +13,7 @@ blue := "#00f" asClutterColor
 
 /*** Initalisation functions ***/
 IoTag *IoClutterColor_newTag(void *state) {
-  IoTag *tag = IoTag_newWithName_("ClutterColor");
+  IoTag *tag = IoTag_newWithName_(protoId);
 
   IoTag_state_(tag, state);
   IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoClutterColor_free);
@@ -65,7 +67,7 @@ IoClutterColor *IoClutterColor_rawClone(IoClutterColor *proto) {
 }
 
 IoClutterColor *IoClutterColor_new(void *state) {
-  IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoClutterColor_proto);
+  IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
 
   return IOCLONE(proto);
 }

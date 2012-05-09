@@ -29,9 +29,11 @@
 #define __func__ __FUNCTION__
 #endif
 
+static const char *protoId = "CairoContext";
+
 static IoTag *IoCairoContext_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("CairoContext");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCairoContext_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCairoContext_free);
@@ -210,7 +212,7 @@ IoCairoContext *IoCairoContext_rawClone(IoCairoContext *proto)
 
 IoCairoContext *IoCairoContext_newWithSurface_(void *state, IoCairoImageSurface *surface)
 {
-	IoCairoContext *self = IOCLONE(IoState_protoWithInitFunction_(state, IoCairoContext_proto));
+	IoCairoContext *self = IOCLONE(IoState_protoWithInitId_(state, protoId));
 	cairo_t *rawContext = cairo_create(IoCairoSurface_rawSurface(surface));
 	checkStatus_(state, 0, cairo_status(rawContext));
 	IoObject_setDataPointer_(self, rawContext);

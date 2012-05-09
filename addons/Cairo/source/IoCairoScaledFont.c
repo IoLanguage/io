@@ -17,6 +17,7 @@
 #define FONT(self) ((cairo_scaled_font_t *)IoObject_dataPointer(self))
 #define CHECK_STATUS(self) checkStatus_(IOSTATE, m, cairo_scaled_font_status(FONT(self)))
 
+static const char *protoId = "CairoScaledFont";
 
 void *IoMessage_locals_cairoScaledFontArgAt_(IoMessage *self, void *locals, int n)
 {
@@ -29,7 +30,7 @@ void *IoMessage_locals_cairoScaledFontArgAt_(IoMessage *self, void *locals, int 
 
 static IoTag *IoCairoScaledFont_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("CairoScaledFont");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCairoScaledFont_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCairoScaledFont_rawClone);
@@ -75,7 +76,7 @@ IoCairoScaledFont *IoCairoScaledFont_rawClone(IoCairoScaledFont *proto)
 
 IoCairoScaledFont *IoCairoScaledFont_newWithRawScaledFont_(void *state, IoMessage *m, cairo_scaled_font_t *font)
 {
-	IoCairoScaledFont *self = IOCLONE(IoState_protoWithInitFunction_(state, IoCairoScaledFont_proto));
+	IoCairoScaledFont *self = IOCLONE(IoState_protoWithId_(state, protoId));
 	IoObject_setDataPointer_(self, font);
 	CHECK_STATUS(self);
 	return self;
