@@ -12,9 +12,11 @@
 
 #define DATA(self) ((IoCFFIArrayData *)(IoObject_dataPointer(self)))
 
+static const char *protoId = "Array";
+
 IoTag *IoCFFIArray_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("Array");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCFFIArray_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCFFIArray_rawClone);
@@ -85,7 +87,7 @@ IoCFFIArray *IoCFFIArray_rawClone(IoCFFIArray *proto)
 
 IoCFFIArray *IoCFFIArray_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoCFFIArray_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

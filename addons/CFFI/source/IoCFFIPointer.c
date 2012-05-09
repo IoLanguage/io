@@ -21,9 +21,11 @@
 #define DATA(self) ((IoCFFIPointerData *)(IoObject_dataPointer(self)))
 #define POINTER(data) ((data)->valuePointer + (data)->valueOffset)
 
+static const char *protoId = "Pointer";
+
 IoTag *IoCFFIPointer_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("Pointer");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCFFIPointer_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCFFIPointer_rawClone);
@@ -74,7 +76,7 @@ IoCFFIPointer *IoCFFIPointer_rawClone(IoCFFIPointer *proto)
 
 IoCFFIPointer *IoCFFIPointer_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoCFFIPointer_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 
@@ -100,7 +102,7 @@ IoCFFIPointer *IoCFFIPointer_ToType_(IoObject *type)
 	// this is a hack so macros relying on self will work
 	self = type;
 
-	pointers = IoObject_getSlot_(IoState_protoWithInitFunction_(IOSTATE, IoCFFIPointer_proto), IOSYMBOL("pointers"));
+	pointers = IoObject_getSlot_(IoState_protoWithId_(IOSTATE, protoId), IOSYMBOL("pointers"));
 	key = IoState_on_doCString_withLabel_(IOSTATE, type, "uniqueHexId", "IoCFFIPointer_ToType_");
 
 	pointer = IoMap_rawAt(pointers, key);

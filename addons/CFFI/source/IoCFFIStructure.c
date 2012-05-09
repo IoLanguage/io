@@ -25,11 +25,13 @@
 
 #define DATA(self) ((IoCFFIStructureData *)(IoObject_dataPointer(self)))
 
+static const char *protoId = "Structure";
+
 void *IoCFFIStructure_null = NULL;
 
 IoTag *IoCFFIStructure_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("Structure");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCFFIStructure_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCFFIStructure_rawClone);
@@ -127,7 +129,7 @@ IoCFFIStructure *IoCFFIStructure_rawClone(IoCFFIStructure *proto)
 
 IoCFFIStructure *IoCFFIStructure_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoCFFIStructure_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

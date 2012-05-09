@@ -11,6 +11,7 @@
 #define DATA(self) ((IoCairoPathData *)IoObject_dataPointer(self))
 #define PATH(self) (DATA(self)->path)
 
+static const char *protoId = "CairoPath";
 
 void *IoMessage_locals_cairoPathArgAt_(IoMessage *self, void *locals, int n)
 {
@@ -23,7 +24,7 @@ void *IoMessage_locals_cairoPathArgAt_(IoMessage *self, void *locals, int n)
 
 static IoTag *IoCairoPath_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("CairoPath");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCairoPath_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCairoPath_free);
@@ -66,7 +67,7 @@ IoCairoPath *IoCairoPath_newWithRawPath_(void *state, cairo_path_t *path)
 
 	checkStatus_(state, 0, path->status);
 
-	self = IOCLONE(IoState_protoWithInitFunction_(state, IoCairoPath_proto));
+	self = IOCLONE(IoState_protoWithInitId_(state, protoId));
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoCairoPathData)));
 	DATA(self)->path = path;
 	DATA(self)->refCount = 1;

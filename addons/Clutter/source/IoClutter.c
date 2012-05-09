@@ -20,9 +20,11 @@ For detailed docs, see <a href="http://clutter-project.org/docs/clutter/stable/"
 </p>
 */ 
 
+static const char *protoId = "Clutter";
+
 /*** Initalisation functions ***/
 IoTag *IoClutter_newTag(void *state) {
-  IoTag *tag = IoTag_newWithName_("Clutter");
+  IoTag *tag = IoTag_newWithName_(protoId);
 
   IoTag_state_(tag, state);
   IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoClutter_free);
@@ -83,7 +85,7 @@ IoClutter *IoClutter_rawClone(IoClutter *proto) {
 }
 
 IoClutter *IoClutter_new(void *state) {
-  IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoClutter_proto);
+  IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
   return IOCLONE(proto);
 }
 

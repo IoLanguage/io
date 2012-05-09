@@ -2,9 +2,11 @@
 //metadoc ClutterInputDevice category UserInterface
 //metadoc ClutterInputDevice description For more detailed docs see <a href="http://clutter-project.org/docs/clutter/stable/ClutterInputDevice.html">Clutter documentation</a>.
 
+static const char *protoId = "ClutterInputDevice";
+
 /*** Initalisation functions ***/
 IoTag *IoClutterInputDevice_newTag(void *state) {
-  IoTag *tag = IoTag_newWithName_("ClutterInputDevice");
+  IoTag *tag = IoTag_newWithName_(protoId);
 
   IoTag_state_(tag, state);
   IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoClutterInputDevice_free);
@@ -37,7 +39,7 @@ IoClutterInputDevice *IoClutterInputDevice_rawClone(IoClutterInputDevice *proto)
 }
 
 IoClutterInputDevice *IoClutterInputDevice_new(void *state) {
-  IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoClutterInputDevice_proto);
+  IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
   return IOCLONE(proto);
 }
 

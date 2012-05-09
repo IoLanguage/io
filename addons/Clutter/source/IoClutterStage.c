@@ -2,9 +2,11 @@
 //metadoc ClutterStage category UserInterface
 //metadoc ClutterStage description For more detailed docs see <a href="http://clutter-project.org/docs/clutter/stable/ClutterStage.html">Clutter documentation</a>.
 
+static const char *protoId = "ClutterStage";
+
 /*** Initalisation functions ***/
 IoTag *IoClutterStage_newTag(void *state) {
-  IoTag *tag = IoTag_newWithName_("ClutterStage");
+  IoTag *tag = IoTag_newWithName_(protoId);
 
   IoTag_state_(tag, state);
   IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoClutterActor_free);
@@ -42,7 +44,7 @@ IoClutterStage *IoClutterStage_rawClone(IoClutterStage *proto) {
 }
 
 IoClutterStage *IoClutterStage_new(void *state) {
-  IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoClutterStage_proto);
+  IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
   return IOCLONE(proto);
 }
 
