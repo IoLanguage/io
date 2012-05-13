@@ -1977,7 +1977,7 @@ The above will print 1 through 5, each on its own line.
 The methods openForAppending, openForReading, or openForUpdating are used for opening files. To erase an existing file before opening a new open, the remove method can be used. Example:
 
 <pre>
-f := File with("foo.txt)
+f := File with("foo.txt")
 f remove
 f openForUpdating
 f write("hello world!")
