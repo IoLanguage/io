@@ -79,7 +79,7 @@ IoCairoFontOptions *IoCairoFontOptions_new(void *state, IoMessage *m)
 
 IoCairoFontOptions *IoCairoFontOptions_newWithRawFontOptions_(void *state, IoMessage *m, cairo_font_options_t *options)
 {
-	IoCairoFontOptions *self = IOCLONE(IoState_protoWithId_(state, proto));
+	IoCairoFontOptions *self = IOCLONE(IoState_protoWithId_(state, protoId));
 	IoObject_setDataPointer_(self, options);
 	CHECK_STATUS(self);
 	return self;
