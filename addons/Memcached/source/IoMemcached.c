@@ -472,39 +472,48 @@ values are maps with actual stats.
 IoObject *IoMemcached_stats(IoMemcached *self, IoObject *locals, IoMessage *m)
 {
 	IoMap *results_map = IoMap_new(IOSTATE);
+	memcached_st *mc = DATA(self)->mc;
 
-	int i;
-	for(i = 0; i < memcached_server_list_count(DATA(self)->mc->servers); i++) {
-		memcached_server_st *server = DATA(self)->mc->servers + i;
-
-		memcached_stat_st stats;
-		if(memcached_stat_servername(&stats, "", server->hostname, server->port) != 0)
+	uint32_t pos = 0;
+	while(pos < memcached_server_count(mc)) {
+		memcached_server_instance_st server = memcached_server_instance_by_position(mc, pos);
+		if(server == NULL)
 			continue;
 
-		memcached_return rc;
-		char **ckeys = memcached_stat_get_keys(DATA(self)->mc, &stats, &rc);
+		const char *hostname = memcached_server_name(server);
+		const in_port_t port = memcached_server_port(server);
 
-		int ckeys_count = 0;
-		while(ckeys[ckeys_count] != NULL)
-			ckeys_count++;
+		memcached_stat_st stats;
+		memcached_return_t rc = memcached_stat_servername(&stats, "", hostname, port);
+		if(rc != MEMCACHED_SUCCESS)
+			continue;
+
+		char **ckeys = memcached_stat_get_keys(mc, &stats, &rc);
+		if(rc != MEMCACHED_SUCCESS)
+			continue;
 
 		IoMap *per_server_map = IoMap_new(IOSTATE);
-		int k;
-		for(k = 0; k < ckeys_count; k++) {
-			char *ckey = ckeys[k];
-			char *cvalue = memcached_stat_get_value(DATA(self)->mc, &stats, ckey, &rc);
+		char *ckey = *ckeys;
+		while(ckey != NULL) {
+			char *cvalue = memcached_stat_get_value(mc, &stats, ckey, &rc);
+			if(rc != MEMCACHED_SUCCESS)
+				continue;
+
 			IoMap_rawAtPut(per_server_map, IOSYMBOL(ckey), IOSYMBOL(cvalue));
 			free(cvalue);
+			ckey++;
 		}
 
 		free(ckeys);
 
 		// "127.0.0.1:11211"
-		char *server_key = (char *) malloc((strlen(server->hostname) + 1 + 5 + 1) * sizeof(char));
-		sprintf(server_key, "%s:%d", server->hostname, server->port);
+		char *server_key = (char *) malloc((strlen(hostname) + 1 + 5 + 1) * sizeof(char));
+		sprintf(server_key, "%s:%d", hostname, port);
 
 		IoMap_rawAtPut(results_map, IOSYMBOL(server_key), per_server_map);
 		free(server_key);
+
+		pos++;
 	}
 
 	return results_map;
