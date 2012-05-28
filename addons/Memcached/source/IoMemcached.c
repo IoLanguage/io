@@ -105,7 +105,7 @@ Returns self.
 */
 IoObject *IoMemcached_addServer(IoMemcached *self, IoObject *locals, IoMessage *m)
 {
-	memcached_server_st *server;
+	memcached_server_list_st server;
 
 	server = memcached_servers_parse(IoMessage_locals_cStringArgAt_(m, locals, 0));
 	memcached_server_push(DATA(self)->mc, server);
@@ -132,7 +132,7 @@ IoObject *IoMemcached_set(IoMemcached *self, IoObject *locals, IoMessage *m)
 	size_t size;
 	char *cvalue = IoMemcached_serialize(self, locals, value, &size, &flags);
 
-	memcached_return rc;
+	memcached_return_t rc;
 	rc = memcached_set(DATA(self)->mc,
 		CSTRING(key), IOSEQ_LENGTH(key),
 		cvalue, size,
@@ -164,7 +164,7 @@ IoObject *IoMemcached_add(IoMemcached *self, IoObject *locals, IoMessage *m)
 	size_t size;
 	char *cvalue = IoMemcached_serialize(self, locals, value, &size, &flags);
 
-	memcached_return rc;
+	memcached_return_t rc;
 	rc = memcached_add(DATA(self)->mc,
 		CSTRING(key), IOSEQ_LENGTH(key),
 		cvalue, size,
@@ -200,7 +200,7 @@ IoObject *IoMemcached_replace(IoMemcached *self, IoObject *locals, IoMessage *m)
 	size_t size;
 	char *cvalue = IoMemcached_serialize(self, locals, value, &size, &flags);
 
-	memcached_return rc;
+	memcached_return_t rc;
 	rc = memcached_replace(DATA(self)->mc,
 		CSTRING(key), IOSEQ_LENGTH(key),
 		cvalue, size,
@@ -230,7 +230,7 @@ IoObject *IoMemcached_append(IoMemcached *self, IoObject *locals, IoMessage *m)
 	IoSeq *key   = IoMessage_locals_seqArgAt_(m, locals, 0);
 	IoSeq *value = IoMessage_locals_seqArgAt_(m, locals, 1);
 
-	memcached_return rc;
+	memcached_return_t rc;
 	rc = memcached_append(DATA(self)->mc,
 		CSTRING(key),   IOSEQ_LENGTH(key),
 		CSTRING(value), IOSEQ_LENGTH(value),
@@ -254,7 +254,7 @@ IoObject *IoMemcached_prepend(IoMemcached *self, IoObject *locals, IoMessage *m)
 	IoSeq *key   = IoMessage_locals_seqArgAt_(m, locals, 0);
 	IoSeq *value = IoMessage_locals_seqArgAt_(m, locals, 1);
 
-	memcached_return rc;
+	memcached_return_t rc;
 	rc = memcached_prepend(DATA(self)->mc,
 		CSTRING(key),   IOSEQ_LENGTH(key),
 		CSTRING(value), IOSEQ_LENGTH(value),
@@ -279,7 +279,7 @@ IoObject *IoMemcached_get(IoMemcached *self, IoObject *locals, IoMessage *m)
 
 	size_t size;
 	uint32_t flags;
-	memcached_return rc;
+	memcached_return_t rc;
 
 	char *cvalue;
 	cvalue = memcached_get(DATA(self)->mc,
@@ -322,7 +322,7 @@ IoObject *IoMemcached_getMulti(IoMemcached *self, IoObject *locals, IoMessage *m
 		IOASSERT(IOSEQ_LENGTH(key) < MEMCACHED_MAX_KEY, "key is too long");
 	}
 
-	char **ckeys = (char **) malloc(sizeof(char *) * keys_list_size);
+	const char **ckeys = (const char **) malloc(sizeof(const char *) * keys_list_size);
 	size_t *ckey_lengths = (size_t *) malloc(sizeof(size_t) * keys_list_size);
 
 	for(i = 0; i < keys_list_size; i++) {
@@ -330,7 +330,7 @@ IoObject *IoMemcached_getMulti(IoMemcached *self, IoObject *locals, IoMessage *m
 		ckey_lengths[i] = strlen(ckeys[i]);
 	}
 
-	memcached_return rc = memcached_mget(DATA(self)->mc, ckeys, ckey_lengths, keys_list_size);
+	memcached_return_t rc = memcached_mget(DATA(self)->mc, ckeys, ckey_lengths, keys_list_size);
 
 	free(ckeys);
 	free(ckey_lengths);
@@ -377,7 +377,7 @@ IoObject *IoMemcached_delete(IoMemcached *self, IoObject *locals, IoMessage *m)
 
 	time_t time = IoMessage_argCount(m) == 2 ? IoMessage_locals_intArgAt_(m, locals, 1) : 0;
 
-	memcached_return rc;
+	memcached_return_t rc;
 	rc = memcached_delete(DATA(self)->mc,
 		CSTRING(key), IOSEQ_LENGTH(key),
 		time
@@ -423,7 +423,7 @@ IoObject *IoMemcached_incr(IoMemcached *self, IoObject *locals, IoMessage *m)
 
 	uint64_t new_value;
 
-	memcached_return rc;
+	memcached_return_t rc;
 	rc = memcached_increment(DATA(self)->mc,
 		CSTRING(key), IOSEQ_LENGTH(key),
 		offset, &new_value
@@ -451,7 +451,7 @@ IoObject *IoMemcached_decr(IoMemcached *self, IoObject *locals, IoMessage *m)
 
 	uint64_t new_value;
 
-	memcached_return rc;
+	memcached_return_t rc;
 	rc = memcached_decrement(DATA(self)->mc,
 		CSTRING(key), IOSEQ_LENGTH(key),
 		offset, &new_value
@@ -473,39 +473,57 @@ IoObject *IoMemcached_stats(IoMemcached *self, IoObject *locals, IoMessage *m)
 {
 	IoMap *results_map = IoMap_new(IOSTATE);
 
-	int i;
-	for(i = 0; i < memcached_server_list_count(DATA(self)->mc->servers); i++) {
-		memcached_server_st *server = DATA(self)->mc->servers + i;
-
-		memcached_stat_st stats;
-		if(memcached_stat_servername(&stats, "", server->hostname, server->port) != 0)
+	int errors = 0;
+	uint32_t pos = 0;
+	while(pos < memcached_server_count(DATA(self)->mc)) {
+		memcached_server_instance_st server = memcached_server_instance_by_position(DATA(self)->mc, pos);
+		if(server == NULL)
 			continue;
 
-		memcached_return rc;
-		char **ckeys = memcached_stat_get_keys(DATA(self)->mc, &stats, &rc);
+		const char *hostname = memcached_server_name(server);
+		const in_port_t port = memcached_server_port(server);
 
-		int ckeys_count = 0;
-		while(ckeys[ckeys_count] != NULL)
-			ckeys_count++;
+		memcached_stat_st stats;
+		memcached_return_t rc = memcached_stat_servername(&stats, "", hostname, port);
+		if(rc != MEMCACHED_SUCCESS) {
+			errors++;
+			continue;
+		}
+
+		char **ckeys = memcached_stat_get_keys(DATA(self)->mc, &stats, &rc);
+		if(rc != MEMCACHED_SUCCESS) {
+			errors++;
+			continue;
+		}
 
 		IoMap *per_server_map = IoMap_new(IOSTATE);
-		int k;
-		for(k = 0; k < ckeys_count; k++) {
-			char *ckey = ckeys[k];
+		char *ckey = *ckeys;
+		while(ckey != NULL) {
 			char *cvalue = memcached_stat_get_value(DATA(self)->mc, &stats, ckey, &rc);
+			if(rc != MEMCACHED_SUCCESS) {
+				errors++;
+				continue;
+			}
+
 			IoMap_rawAtPut(per_server_map, IOSYMBOL(ckey), IOSYMBOL(cvalue));
 			free(cvalue);
+			ckey++;
 		}
 
 		free(ckeys);
 
 		// "127.0.0.1:11211"
-		char *server_key = (char *) malloc((strlen(server->hostname) + 1 + 5 + 1) * sizeof(char));
-		sprintf(server_key, "%s:%d", server->hostname, server->port);
+		char *server_key = (char *) malloc((strlen(hostname) + 1 + 5 + 1) * sizeof(char));
+		sprintf(server_key, "%s:%d", hostname, port);
 
 		IoMap_rawAtPut(results_map, IOSYMBOL(server_key), per_server_map);
 		free(server_key);
+
+		pos++;
 	}
+
+	if(errors > 0)
+		IoState_error_(IOSTATE, m, memcached_strerror(DATA(self)->mc, MEMCACHED_SOME_ERRORS));
 
 	return results_map;
 }
