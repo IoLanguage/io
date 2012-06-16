@@ -29,8 +29,10 @@ Here's an example that prints Hello at column 5 and row 7;
 <p>
 <pre>
 Curses begin
-Curses move(5, 7) print(\"Hello\")
+Curses clear
+Curses move(5, 7) write("Wait 5 seconds")
 Curses refresh
+System sleep(5)
 Curses end
 </pre>
 </td></tr>
