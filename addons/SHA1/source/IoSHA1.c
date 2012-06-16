@@ -10,7 +10,7 @@ Example:
 <pre>
 digest := SHA1 clone
 digest appendSeq("this is a message")
-out := digest md5String
+out := digest sha1String
 </pre>
 
 */
