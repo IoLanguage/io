@@ -1869,14 +1869,14 @@ Getting the character (byte) at position N:
 Slicing:
 
 <pre>
-"Kirikuro" slice(0, 2)
+"Kirikuro" exSlice(0, 2)
 ==> "Ki"
 
-"Kirikuro" slice(-2)  # NOT: slice(-2, 0)!
+"Kirikuro" exSlice(-2)  # NOT: exSlice(-2, 0)!
 ==> "ro"
 
-Io> "Kirikuro" slice(0, -2)
-# "Kiriku"
+Io> "Kirikuro" exSlice(0, -2)
+==> "Kiriku"
 </pre>
 
 Stripping whitespace:
