@@ -19,6 +19,9 @@ if(SQLITE_FOUND)
 	# Additional include directories
 	include_directories(${SQLITE_INCLUDE_DIRS})
 
+	# Additional link directories
+	link_directories(${SQLITE_LIBRARY_DIRS})
+
 	# Generate the IoSQLite3Init.c file.
 	# Argument SHOULD ALWAYS be the exact name of the addon, case is
 	# important.
