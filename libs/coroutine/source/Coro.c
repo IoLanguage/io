@@ -85,6 +85,14 @@ Coro *Coro_new(void)
 	return self;
 }
 
+// Returns a size that corresponds to `size` aligned on `alignment` bounds
+static inline size_t aligned_size(size_t size, size_t alignment)
+{
+	assert(alignment <= 0x8000);
+	size_t r = size + --alignment + 2;
+	return (r + 2 + alignment) & ~alignment;
+}
+
 #ifndef USE_FIBERS
 void Coro_allocStackIfNeeded(Coro *self)
 {
@@ -599,7 +607,7 @@ end:
 			if (64 > (- sav[i] + (uintptr_t)&i))
 				break;
 		assert(i < sz);
-		sav[i] = stackend - sizeof(uintptr_t) - 128;
+		sav[i] = aligned_size(stackend - sizeof(uintptr_t) - 128, 16);
 	}
 }
 
