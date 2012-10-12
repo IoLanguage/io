@@ -21,6 +21,8 @@ An ordered key/value database that supports transactions and arbitrary kay and v
 
 #define QDBM(self) ((VILLA *)(IoObject_dataPointer(self)))
 
+static const char *protoId = "QDBM";
+
 int pathCompare(const char *p1, const char *p2, char sepChar)
 {
 	int i;
@@ -209,7 +211,7 @@ IoQDBM *IoQDBM_proto(void *state)
 	IoObject_tag_(self, IoQDBM_newTag(state));
 
 	IoObject_setDataPointer_(self, NULL);
-	IoState_registerProtoWithFunc_((IoState *)state, self, IoQDBM_proto);
+	IoState_registerProtoWithId_((IoState *)state, self, protoId);
 
 	IoObject_addMethodTable_(self, methodTable);
 	return self;
@@ -225,7 +227,7 @@ IoQDBM *IoQDBM_rawClone(IoQDBM *proto)
 
 IoQDBM *IoQDBM_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoQDBM_proto);
+	IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 

@@ -1,6 +1,8 @@
 #include "IoLoudmouth.h"
 #define LMCONN(self) ((LmConnection *) IoObject_dataPointer(self))
 
+static const char *protoId = "Loudmouth";
+
 /*** Helper functions ***/
 LmMessageType str2msg_type(char *str) {
   if(!strcmp(str, "message"))      return LM_MESSAGE_TYPE_MESSAGE;
@@ -103,7 +105,7 @@ LmSSLResponse onSslError(LmSSL *ssl, LmSSLStatus status, void* data) {
 
 /*** Initialisation functions ***/
 IoTag *IoLoudmouth_newTag(void *state) {
-  IoTag *tag = IoTag_newWithName_("Loudmouth");
+  IoTag *tag = IoTag_newWithName_(protoId);
 
   IoTag_state_(tag, state);
   IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoLoudmouth_free);
@@ -152,7 +154,7 @@ IoLoudmouth *IoLoudmouth_rawClone(IoLoudmouth *proto) {
 }
 
 IoLoudmouth *IoLoudmouth_new(void *state) {
-  IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoLoudmouth_proto);
+  IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
   return IOCLONE(proto);
 }
 

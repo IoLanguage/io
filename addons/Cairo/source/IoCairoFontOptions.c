@@ -10,6 +10,7 @@
 #define OPTIONS(self) ((cairo_font_options_t *)IoObject_dataPointer(self))
 #define CHECK_STATUS(self) checkStatus_(IOSTATE, m, cairo_font_options_status(OPTIONS(self)))
 
+static const char *protoId = "CairoFontOptions";
 
 void *IoMessage_locals_cairoFontOptionsArgAt_(IoMessage *self, void *locals, int n)
 {
@@ -22,7 +23,7 @@ void *IoMessage_locals_cairoFontOptionsArgAt_(IoMessage *self, void *locals, int
 
 static IoTag *IoCairoFontOptions_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("CairoFontOptions");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCairoFontOptions_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCairoFontOptions_rawClone);
@@ -78,7 +79,7 @@ IoCairoFontOptions *IoCairoFontOptions_new(void *state, IoMessage *m)
 
 IoCairoFontOptions *IoCairoFontOptions_newWithRawFontOptions_(void *state, IoMessage *m, cairo_font_options_t *options)
 {
-	IoCairoFontOptions *self = IOCLONE(IoState_protoWithInitFunction_(state, IoCairoFontOptions_proto));
+	IoCairoFontOptions *self = IOCLONE(IoState_protoWithId_(state, protoId));
 	IoObject_setDataPointer_(self, options);
 	CHECK_STATUS(self);
 	return self;

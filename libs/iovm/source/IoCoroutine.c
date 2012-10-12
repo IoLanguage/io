@@ -17,7 +17,7 @@ Object wrapper for an Io coroutine.
 
 //#define DEBUG
 
-static const char *protoId = "IoCoroutine";
+static const char *protoId = "Coroutine";
 
 #define DATA(self) ((IoCoroutineData *)IoObject_dataPointer(self))
 
@@ -30,7 +30,7 @@ IoCoroutine *IoMessage_locals_coroutineArgAt_(IoMessage *self, void *locals, int
 
 IoTag *IoCoroutine_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("Coroutine");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCoroutine_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCoroutine_rawClone);
@@ -48,7 +48,7 @@ IoCoroutine *IoCoroutine_proto(void *state)
 #ifdef STACK_POP_CALLBACK
 	Stack_popCallback_(DATA(self)->ioStack, IoObject_freeIfUnreferenced);
 #endif
-	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
+	IoState_registerProtoWithId_((IoState *)state, self, protoId);
 
 	/* init Coroutine proto's coro as the main one */
 	{
@@ -92,7 +92,7 @@ IoCoroutine *IoCoroutine_rawClone(IoCoroutine *proto)
 
 IoCoroutine *IoCoroutine_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
+	IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
 	IoObject *self = IOCLONE(proto);
 	return self;
 }

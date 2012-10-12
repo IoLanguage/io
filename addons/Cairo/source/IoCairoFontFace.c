@@ -7,6 +7,7 @@
 
 #define FACE(self) ((cairo_font_face_t *)IoObject_dataPointer(self))
 
+static const char *protoId = "CairoFontFace";
 
 void *IoMessage_locals_cairoFontFaceArgAt_(IoMessage *self, void *locals, int n)
 {
@@ -19,7 +20,7 @@ void *IoMessage_locals_cairoFontFaceArgAt_(IoMessage *self, void *locals, int n)
 
 static IoTag *IoCairoFontFace_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("CairoFontFace");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCairoFontFace_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCairoFontFace_free);
@@ -46,7 +47,7 @@ IoCairoFontFace *IoCairoFontFace_rawClone(IoCairoFontFace *proto)
 
 IoCairoFontFace *IoCairoFontFace_newWithRawFontFace_(void *state, cairo_font_face_t *face)
 {
-	IoCairoFontFace *self = IOCLONE(IoState_protoWithInitFunction_(state, IoCairoFontFace_proto));
+	IoCairoFontFace *self = IOCLONE(IoState_protoWithInitId_(state, protoId));
 	IoObject_setDataPointer_(self, face);
 	return self;
 }

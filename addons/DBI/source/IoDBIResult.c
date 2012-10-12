@@ -16,9 +16,11 @@
 
 #define DATA(self) ((IoDBIResultData *)IoObject_dataPointer(self))
 
+static const char *protoId = "DBIResult";
+
 IoTag *IoDBIResult_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("DBIResult");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoDBIResult_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoDBIResult_free);
@@ -35,7 +37,7 @@ IoDBIResult *IoDBIResult_proto(void *state)
 	DATA(self)->conn = NULL;
 	DATA(self)->result = NULL;
 
-	IoState_registerProtoWithFunc_(state, self, IoDBIResult_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -79,12 +81,9 @@ void IoDBIResult_free(IoDBIResult *self)
 
 IoDBIResult *IoDBIResult_new(void *state, dbi_result result)
 {
-	IoDBIResult *self = IOCLONE(IoState_protoWithInitFunction_(state,
-				IoDBIResult_proto));
-
+	IoDBIResult *self = IOCLONE(IoState_protoWithId_(state, protoId));
 	DATA(self)->result = result;
 	DATA(self)->conn = dbi_result_get_conn(result);
-
 	return self;
 }
 

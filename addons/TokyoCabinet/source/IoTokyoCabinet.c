@@ -22,6 +22,8 @@ An ordered key/value database that supports transactions and arbitrary key and v
 
 #define TokyoCabinet(self) ((TCBDB *)(IoObject_dataPointer(self)))
 
+static const char *protoId = "TokyoCabinet";
+
 static int pathCompare(const char *p1, const char *p2, char sepChar, void *op)
 {
 	int i;
@@ -162,7 +164,7 @@ static int compareStrNumFunc(const char *a, int asize, const char *b, int bsize,
 
 IoTag *IoTokyoCabinet_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("TokyoCabinet");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoTokyoCabinet_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoTokyoCabinet_rawClone);
@@ -201,7 +203,7 @@ IoTokyoCabinet *IoTokyoCabinet_proto(void *state)
 	IoObject_tag_(self, IoTokyoCabinet_newTag(state));
 
 	IoObject_setDataPointer_(self, NULL);
-	IoState_registerProtoWithFunc_((IoState *)state, self, IoTokyoCabinet_proto);
+	IoState_registerProtoWithId_((IoState *)state, self, protoId);
 
 	IoObject_addMethodTable_(self, methodTable);
 	return self;
@@ -217,7 +219,7 @@ IoTokyoCabinet *IoTokyoCabinet_rawClone(IoTokyoCabinet *proto)
 
 IoTokyoCabinet *IoTokyoCabinet_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoTokyoCabinet_proto);
+	IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 

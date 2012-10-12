@@ -31,6 +31,8 @@ Example:
 #include "IoSocket.h"
 #include "common.h"
 
+static const char *protoId = "SecureSocket";
+
 IoSecureSocket *IoMessage_locals_secureSocketArgAt_(IoMessage *self, IoObject *locals, int n)
 {
 	IoObject *v = IoMessage_locals_valueArgAt_(self, locals, n);
@@ -59,7 +61,7 @@ SSL *IoSecureSocket_SSL(IoSecureSocket *self)
 
 IoTag *IoSecureSocket_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("SecureSocket");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoSecureSocket_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoSecureSocket_rawClone);	
@@ -188,7 +190,7 @@ IoSecureSocket *IoSecureSocket_rawClone(IoSecureSocket *proto)
 
 IoSecureSocket *IoSecureSocket_newWithCTX_(void *state, SSL_CTX *ctx)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoSecureSocket_proto);
+	IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
 	IoSecureSocket *self = IOCLONE(proto);
 	SecureSocket *ssock = (SecureSocket *)calloc(1, sizeof(SecureSocket));
 	IoObject_setDataPointer_(self, ssock);
@@ -205,7 +207,7 @@ IoSecureSocket *IoSecureSocket_newWithCTX_(void *state, SSL_CTX *ctx)
 
 IoSecureSocket *IoSecureSocket_newWithSSL_IP_(void *state, SSL *ssl, IoIPAddress *ip)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoSecureSocket_proto);
+	IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
 	IoSecureSocket *self = IOCLONE(proto);
 	SecureSocket *ssock = (SecureSocket *)calloc(1, sizeof(SecureSocket));
 	ssock->ssl = ssl;

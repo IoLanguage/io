@@ -9,13 +9,13 @@ using the <a href=http://www.pcre.org/>PCRE</a> library by Philip Hazel.</p>
 <pre>	
 Io> re := "is.*a" asRegex
 Io> "This is a test. This is also a test." \
-    allMatchesOfRegex(" is[^.]*a") replaceAllWith(" is not a")
+    matchesOfRegex(" is[^.]*a") replaceAllWith(" is not a")
 ==> "This is not a test. This is not a test.
 </pre>
 
 <h4>Example 2</h4>
 <pre>	
-Io> "11aabb" allMatchesOfRegex("aa*")
+Io> "11aabb" matchesOfRegex("aa*")
 ==> list("a", "a")
 
 Io> re := "(wom)(bat)" asRegex

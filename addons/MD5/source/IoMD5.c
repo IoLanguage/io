@@ -23,7 +23,7 @@ static const char *protoId = "MD5";
 
 IoTag *IoMD5_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("MD5");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoMD5_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoMD5_rawClone);
@@ -38,7 +38,7 @@ IoMD5 *IoMD5_proto(void *state)
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoMD5Data)));
 	io_md5_init(&(DATA(self)->mstate));
 
-	IoState_registerProtoWithFunc_(state, self, protoId);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -62,7 +62,7 @@ IoMD5 *IoMD5_rawClone(IoMD5 *proto)
 
 IoMD5 *IoMD5_new(void *state)
 {
-	IoMD5 *proto = IoState_protoWithInitFunction_(state, protoId);
+	IoMD5 *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

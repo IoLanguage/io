@@ -14,7 +14,7 @@ static const char *protoId = "Io2Objc";
 
 IoTag *Io2Objc_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("Io2Objc");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag,   (IoTagCloneFunc *)Io2Objc_rawClone);
 	IoTag_freeFunc_(tag,    (IoTagFreeFunc *)Io2Objc_free);
@@ -35,7 +35,7 @@ Io2Objc *Io2Objc_proto(void *state)
 	DATA(self)->object = nil;
 	DATA(self)->bridge = IoObjcBridge_sharedBridge();
 	assert(DATA(self)->bridge != NULL);
-	IoState_registerProtoWithFunc_(state, self, protoId);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	IoMethodTable methodTable[] = {
 		{"newSubclassNamed:", Io2Objc_newSubclassNamed},
@@ -64,7 +64,7 @@ Io2Objc *Io2Objc_rawClone(Io2Objc *proto)
 
 Io2Objc *Io2Objc_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, protoId);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

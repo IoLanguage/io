@@ -15,6 +15,8 @@ the ANSI C time() and clock() return values.
 
 #define DATA(self) ((RandomGen *)(IoObject_dataPointer(self)))
 
+static const char *protoId = "Random";
+
 void IoRandom_writeToStream_(IoRandom *self, BStream *stream)
 {
 	RandomGen *r = DATA(self);
@@ -44,7 +46,7 @@ void *IoRandom_readFromStream(IoRandom *self, BStream *stream)
 
 IoTag *IoRandom_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("Random");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoRandom_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoRandom_free);
@@ -71,7 +73,7 @@ IoRandom *IoRandom_proto(void *state)
 
 	RandomGen_chooseRandomSeed(DATA(self));
 
-	IoState_registerProtoWithFunc_((IoState *)state, self, IoRandom_proto);
+	IoState_registerProtoWithId_((IoState *)state, self, protoId);
 
 	IoObject_addMethodTable_(self, methodTable);
 	return self;

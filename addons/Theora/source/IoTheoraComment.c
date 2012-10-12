@@ -16,16 +16,18 @@ A wrapper around the libtheora th_comment object.
 
 #define DATA(self) ((th_comment*)(IoObject_dataPointer(self)))
 
+static const char *protoId = "TheoraComment";
+
 IoObject *IoMessage_locals_theoraCommentArgAt_(IoMessage *self, IoObject *locals, int n)
 {
   IoObject* v = IoMessage_locals_valueArgAt_(self, locals, n);
-  if (!ISTHEORACOMMENT(v)) IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "TheoraComment");
+  if (!ISTHEORACOMMENT(v)) IoMessage_locals_numberArgAt_errorForType_(self, locals, n, protoId);
   return v;
 }
 
 IoTag *IoTheoraComment_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("TheoraComment");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoTheoraComment_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoTheoraComment_rawClone);
@@ -41,7 +43,7 @@ IoTheoraComment *IoTheoraComment_proto(void *state)
 	//        th_comment_init(data);
 	IoObject_setDataPointer_(self, data);
 
-	IoState_registerProtoWithFunc_(state, self, IoTheoraComment_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -65,7 +67,7 @@ IoTheoraComment *IoTheoraComment_rawClone(IoTheoraComment *proto)
 
 IoTheoraComment *IoTheoraComment_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoTheoraComment_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

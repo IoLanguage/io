@@ -14,7 +14,7 @@
 
 #define DATA(self) ((UArray *)(IoObject_dataPointer(self)))
 //#define HASHIVAR(self) ((self)->extraData)
-static const char *protoId = "Seq";
+static const char *protoId = "Sequence";
 
 int ISMUTABLESEQ(IoObject *self)
 {
@@ -74,7 +74,7 @@ void IoSeq_readFromStream_(IoSeq *self, BStream *stream)
 
 IoTag *IoSeq_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("Sequence");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoSeq_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoSeq_free);
@@ -91,7 +91,7 @@ IoSeq *IoSeq_proto(void *state)
 	IoObject_tag_(self, IoSeq_newTag(state));
 	IoObject_setDataPointer_(self, UArray_new());
 
-	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
+	IoState_registerProtoWithId_((IoState *)state, self, protoId);
 	return self;
 }
 
@@ -120,7 +120,7 @@ IoSeq *IoSeq_rawClone(IoSeq *proto)
 
 IoSeq *IoSeq_new(void *state)
 {
-	IoSeq *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
+	IoSeq *proto = IoState_protoWithId_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 

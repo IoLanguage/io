@@ -12,10 +12,11 @@ This object can be used to parse SGML / HTML / XML.
 #include <ctype.h>
 
 #define DATA(self) ((IoSGMLParserData *)(IoObject_dataPointer(self)))
+static const char *protoId = "SGMLParser";
 
 IoTag *IoSGMLParser_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("SGMLParser");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoSGMLParser_rawClone);
 	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoSGMLParser_mark);
@@ -42,7 +43,7 @@ IoSGMLParser *IoSGMLParser_proto(void *state)
 	DATA(self)->newTextMessage = IoMessage_newWithName_label_(state,
 												   IOSYMBOL("newText"), IOSYMBOL("SGMLParser"));
 
-	IoState_registerProtoWithFunc_(state, self, IoSGMLParser_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -92,7 +93,7 @@ IoSGMLParser *IoSGMLParser_rawClone(IoSGMLParser *proto)
 
 IoSGMLParser *IoSGMLParser_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoSGMLParser_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

@@ -33,7 +33,7 @@ System do(
 		optsNoKey := List clone
 
 		arguments foreach(i, arg,
-			if(arg beginsWithSeq("--") isNil,
+			if(arg beginsWithSeq("--") isFalse,
 				optsNoKey append(arg)
 				continue
 			)
@@ -86,4 +86,11 @@ System do(
 		result stderr := File with(stderrPath) contents
 		result
 	)
+	
+
+	//doc System iospecVersion The version of IoSpec our IoVM is compatible with
+	iospecVersion := "0.1.0"
+
+	//doc System iovmName The name of our IoVM as used by IoSpec
+	iovmName := "iolanguage"
 )

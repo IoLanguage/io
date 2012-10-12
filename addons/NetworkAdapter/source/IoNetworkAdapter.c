@@ -11,9 +11,11 @@ Interface to network adapter functionality.
 #include "OSXMacAddress.h"
 #include "WindowsMacAddress.h"
 
+static const char *protoId = "NetworkAdapter";
+
 IoTag *IoNetworkAdapter_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("NetworkAdapter");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoNetworkAdapter_rawClone);
 	return tag;
@@ -44,7 +46,7 @@ IoNetworkAdapter *IoNetworkAdapter_rawClone(IoNetworkAdapter *proto)
 
 IoNetworkAdapter *IoNetworkAdapter_new(void *state)
 {
-	IoNetworkAdapter *proto = IoState_protoWithInitFunction_(state, IoNetworkAdapter_proto);
+	IoNetworkAdapter *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

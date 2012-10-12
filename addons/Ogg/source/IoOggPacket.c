@@ -14,16 +14,18 @@ A wrapper around the libogg ogg_packet object. No methods - used internally.
 
 #define DATA(self) ((ogg_packet*)(IoObject_dataPointer(self)))
 
+static const char *protoId = "OggPacket";
+
 IoObject *IoMessage_locals_oggPacketArgAt_(IoMessage *self, IoObject *locals, int n)
 {
   IoObject* v = IoMessage_locals_valueArgAt_(self, locals, n);
-  if (!ISOGGPACKET(v)) IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "OggPacket");
+  if (!ISOGGPACKET(v)) IoMessage_locals_numberArgAt_errorForType_(self, locals, n, protoId);
   return v;
 }
 
 IoTag *IoOggPacket_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("OggPacket");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoOggPacket_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoOggPacket_rawClone);
@@ -38,7 +40,7 @@ IoOggPacket *IoOggPacket_proto(void *state)
 	ogg_packet* data = calloc(1, sizeof(ogg_packet));
 	IoObject_setDataPointer_(self, data);
 
-	IoState_registerProtoWithFunc_(state, self, IoOggPacket_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -60,7 +62,7 @@ IoOggPacket *IoOggPacket_rawClone(IoOggPacket *proto)
 
 IoOggPacket *IoOggPacket_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoOggPacket_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

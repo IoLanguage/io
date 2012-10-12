@@ -18,9 +18,11 @@ asynchronous in Io.
 #define IOCB(self) ((struct aiocb *)(IoObject_dataPointer(self)))
 #define IOCB_BUFFER(self) ((void *)(IOCB(self)->aio_buf))
 
+static const char *protoId = "AsyncRequest";
+
 IoTag *IoAsyncRequest_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("AsyncRequest");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoAsyncRequest_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoAsyncRequest_free);
@@ -34,7 +36,7 @@ IoAsyncRequest *IoAsyncRequest_proto(void *state)
 
 	IoObject_setDataPointer_(self, calloc(1, sizeof(struct aiocb)));
 
-	IoState_registerProtoWithFunc_(state, self, IoAsyncRequest_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -65,7 +67,7 @@ IoAsyncRequest *IoAsyncRequest_rawClone(IoAsyncRequest *proto)
 
 IoAsyncRequest *IoAsyncRequest_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoAsyncRequest_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

@@ -599,7 +599,7 @@ end:
 			if (64 > (- sav[i] + (uintptr_t)&i))
 				break;
 		assert(i < sz);
-		sav[i] = stackend - sizeof(uintptr_t) - 128;
+		sav[i] = stackend - sizeof(uintptr_t)*2 - 128;
 	}
 }
 

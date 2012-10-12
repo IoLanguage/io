@@ -8,6 +8,8 @@
 #include "IoSeq.h"
 #include "IoList.h"
 
+#define USE_MINILZO 1
+
 #if defined USE_MINILZO
 #include "minilzo.h"
 #elif defined USE_LIBLZO

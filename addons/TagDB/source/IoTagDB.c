@@ -31,9 +31,11 @@ tdb delete
 
 #define DATA(self) ((TagDB *)IoObject_dataPointer(self))
 
+static const char *protoId = "TagDB";
+
 IoTag *IoTagDB_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("TagDB");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoTagDB_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoTagDB_free);
@@ -50,7 +52,7 @@ IoTagDB *IoTagDB_rawClone(IoTagDB *proto)
 
 IoTagDB *IoTagDB_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoTagDB_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 
@@ -299,12 +301,14 @@ IoObject *IoTagDB_allUniqueTagIds(IoTagDB *self, IoObject *locals, IoMessage *m)
 	return IoSeq_newWithUArray_copy_(IOSTATE, ua, 0);
 }
 
+const char *protoId = "TagDB";
+
 IoTagDB *IoTagDB_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoTagDB_newTag(state));
 
-	IoState_registerProtoWithFunc_(state, self, IoTagDB_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {

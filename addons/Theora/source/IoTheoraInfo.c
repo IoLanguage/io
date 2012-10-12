@@ -16,16 +16,18 @@ A wrapper around the libtheora th_info object.
 
 #define DATA(self) ((th_info*)(IoObject_dataPointer(self)))
 
+static const char *protoId = "TheoraInfo";
+
 IoObject *IoMessage_locals_theoraInfoArgAt_(IoMessage *self, IoObject *locals, int n)
 {
   IoObject* v = IoMessage_locals_valueArgAt_(self, locals, n);
-  if (!ISTHEORAINFO(v)) IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "TheoraInfo");
+  if (!ISTHEORAINFO(v)) IoMessage_locals_numberArgAt_errorForType_(self, locals, n, protoId);
   return v;
 }
 
 IoTag *IoTheoraInfo_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("TheoraInfo");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoTheoraInfo_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoTheoraInfo_rawClone);
@@ -41,7 +43,7 @@ IoTheoraInfo *IoTheoraInfo_proto(void *state)
         th_info_init(data);
 	IoObject_setDataPointer_(self, data);
 
-	IoState_registerProtoWithFunc_(state, self, IoTheoraInfo_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -67,7 +69,7 @@ IoTheoraInfo *IoTheoraInfo_rawClone(IoTheoraInfo *proto)
 
 IoTheoraInfo *IoTheoraInfo_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoTheoraInfo_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

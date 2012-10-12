@@ -7,10 +7,11 @@
 
 #define RECT(self) ((cairo_rectangle_t *)IoObject_dataPointer(self))
 
+static const char *protoId = "CairoRectangle";
 
 static IoTag *IoCairoRectangle_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("CairoRectangle");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCairoRectangle_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCairoRectangle_free);
@@ -48,7 +49,7 @@ IoCairoRectangle *IoCairoRectangle_rawClone(IoCairoRectangle *proto)
 
 IoCairoRectangle *IoCairoRectangle_newWithRawRectangle_(void *state, cairo_rectangle_t *rect)
 {
-	IoCairoRectangle *self = IOCLONE(IoState_protoWithInitFunction_(state, IoCairoRectangle_proto));
+	IoCairoRectangle *self = IOCLONE(IoState_protoWithId_(state, protoId));
 	memcpy(RECT(self), rect, sizeof(cairo_rectangle_t));
 	return self;
 }

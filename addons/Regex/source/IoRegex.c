@@ -15,11 +15,14 @@
 
 #define DATA(self) ((IoRegexData *)IoObject_dataPointer(self))
 
+static const char *protoId = "Regex";
+
+
 static IoRegex *IoRegex_cloneWithOptions_(IoRegex *self, int options);
 
 IoTag *IoRegex_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("Regex");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoRegex_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoRegex_rawClone);
@@ -35,7 +38,7 @@ IoRegex *IoRegex_proto(void *state)
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoRegexData)));
 	DATA(self)->pattern = IOSYMBOL("");
 
-	IoState_registerProtoWithFunc_(state, self, IoRegex_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -84,7 +87,7 @@ IoRegex *IoRegex_rawClone(IoRegex *proto)
 
 IoRegex *IoRegex_newWithPattern_(void *state, IoSymbol *pattern)
 {
-	IoRegex *self = IOCLONE(IoState_protoWithInitFunction_(state, IoRegex_proto));
+	IoRegex *self = IOCLONE(IoState_protoWithId_(state, protoId));
 	DATA(self)->pattern = IOREF(pattern);
 	return self;
 }
@@ -92,15 +95,21 @@ IoRegex *IoRegex_newWithPattern_(void *state, IoSymbol *pattern)
 void IoRegex_free(IoRegex *self)
 {
 	if (DATA(self)->regex)
+	{
 		Regex_free(DATA(self)->regex);
+	}
+	
 	free(DATA(self));
 }
 
 void IoRegex_mark(IoRegex *self)
 {
 	IoObject_shouldMark(DATA(self)->pattern);
+	
 	if (DATA(self)->namedCaptures)
+	{
 		IoObject_shouldMark(DATA(self)->namedCaptures);
+	}
 }
 
 
@@ -110,8 +119,10 @@ Regex *IoRegex_rawRegex(IoRegex *self)
 	char *error = 0;
 
 	if (regex)
+	{
 		return regex;
-
+	}
+	
 	DATA(self)->regex = regex = Regex_newFromPattern_withOptions_(
 		CSTRING(DATA(self)->pattern),
 		DATA(self)->options
@@ -119,8 +130,10 @@ Regex *IoRegex_rawRegex(IoRegex *self)
 
 	error = (char *)Regex_error(regex);
 	if(error)
+	{
 		IoState_error_(IOSTATE, 0, error);
-
+	}
+	
 	return regex;
 }
 

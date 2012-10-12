@@ -16,10 +16,11 @@ An ordered key/value database implemented using a skiplist data structure.
 #include "IoNumber.h"
 
 #define SKIPDB(self) ((SkipDB *)(IoObject_dataPointer(self)))
+static const char *protoId = "SkipDB";
 
 IoTag *IoSkipDB_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("SkipDB");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoSkipDB_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoSkipDB_rawClone);
@@ -55,7 +56,7 @@ IoSkipDB *IoSkipDB_proto(void *state)
 	IoObject_tag_(self, IoSkipDB_newTag(state));
 
 	IoObject_setDataPointer_(self, NULL);
-	IoState_registerProtoWithFunc_((IoState *)state, self, IoSkipDB_proto);
+	IoState_registerProtoWithId_((IoState *)state, self, protoId);
 
 	IoObject_addMethodTable_(self, methodTable);
 	return self;
@@ -71,7 +72,7 @@ IoSkipDB *IoSkipDB_rawClone(IoSkipDB *proto)
 
 IoSkipDB *IoSkipDB_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, IoSkipDB_proto);
+	IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 

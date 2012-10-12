@@ -38,7 +38,7 @@ IoObject *IoObject_activateFunc(IoObject *self,
 
 IoTag *IoObject_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("Object");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoObject_rawClone);
 	IoTag_activateFunc_(tag, (IoTagActivateFunc *)NULL); // IoObject_activateFunc;
@@ -79,7 +79,7 @@ IoObject *IoObject_proto(void *state)
 	IoObject_slots_(self, PHash_new());
 	IoObject_ownsSlots_(self, 1);
 	//IoObject_state_(self, state);
-	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
+	IoState_registerProtoWithId_((IoState *)state, self, protoId);
 	return self;
 }
 
@@ -226,7 +226,7 @@ IoObject *IoObject_protoFinish(void *state)
 	{NULL, NULL},
 	};
 
-	IoObject *self = IoState_protoWithInitFunction_((IoState *)state, protoId);
+	IoObject *self = IoState_protoWithId_((IoState *)state, protoId);
 
 	IoObject_addTaglessMethodTable_(self, methodTable);
 	return self;
@@ -296,7 +296,7 @@ void IoObject_addTaglessMethodTable_(IoObject *self, IoMethodTable *methodTable)
 
 IoObject *IoObject_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
+	IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 
@@ -1883,7 +1883,7 @@ IO_METHOD(IoObject, setIsActivatableMethod)
 	*/
 
 	IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 0);
-	IoObject *objectProto = IoState_protoWithInitFunction_(IOSTATE, protoId);
+	IoObject *objectProto = IoState_protoWithId_(IOSTATE, protoId);
 
 	IoTag_activateFunc_(IoObject_tag(objectProto), (IoTagActivateFunc *)IoObject_activateFunc);
 

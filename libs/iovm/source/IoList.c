@@ -22,7 +22,7 @@ static const char *protoId = "List";
 
 IoTag *IoList_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("List");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoList_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoList_rawClone);
@@ -117,7 +117,7 @@ IoList *IoList_proto(void *state)
 	IoObject_tag_(self, IoList_newTag(state));
 
 	IoObject_setDataPointer_(self, List_new());
-	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
+	IoState_registerProtoWithId_((IoState *)state, self, protoId);
 
 	IoObject_addMethodTable_(self, methodTable);
 	return self;
@@ -133,7 +133,7 @@ IoList *IoList_rawClone(IoList *proto)
 
 IoList *IoList_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
+	IoObject *proto = IoState_protoWithId_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 

@@ -47,6 +47,7 @@ t save
 #include <taglib/tag_c.h>
 
 #define DATA(self) ((IoTagLibData *)IoObject_dataPointer(self))
+static const char *protoId = "TagLib";
 
 IoTag *IoTagLib_newTag(void *state)
 {
@@ -61,7 +62,7 @@ IoTagLib *IoTagLib_proto(void *state)
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoTagLib_newTag(state));
 
-	IoState_registerProtoWithFunc_(state, self, IoTagLib_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -83,7 +84,7 @@ IoTagLib *IoTagLib_rawClone(IoTagLib *proto)
 
 IoTagLib *IoTagLib_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoTagLib_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

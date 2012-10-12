@@ -21,6 +21,8 @@
 
 /*#define DEBUG*/
 
+static const char *protoId = "AudioEvent";
+
 AudioEvent *AudioEvent_new(void)
 {
 	AudioEvent *self = calloc(1, sizeof(AudioEvent));
@@ -79,7 +81,7 @@ void AudioEvent_show(AudioEvent *self)
 
 IoTag *IoAudioMixer_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("AudioMixer");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoAudioMixer_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoAudioMixer_free);
@@ -120,7 +122,7 @@ IoAudioMixer *IoAudioMixer_proto(void *state)
 	SoundTouch_setChannels(DATA(self)->soundTouch, 2);
 	DATA(self)->tempo = 1.0;
 	
-	IoState_registerProtoWithFunc_(state, self, IoAudioMixer_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 	
 	{
 		IoMethodTable methodTable[] = {
@@ -188,7 +190,7 @@ IoAudioMixer *IoAudioMixer_rawClone(IoAudioMixer *proto)
 
 IoAudioMixer *IoAudioMixer_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoAudioMixer_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

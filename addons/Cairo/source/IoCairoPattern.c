@@ -15,10 +15,11 @@
 
 #define DATA(self) ((IoCairoPatternData *)IoObject_dataPointer(self))
 
+static const char *protoId = "CairoPattern";
 
 IoTag *IoCairoPattern_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("CairoPattern");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCairoPattern_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCairoPattern_free);
@@ -79,7 +80,7 @@ IoCairoPattern *IoCairoPattern_newWithRawPattern_(void *state, IoMessage *m, cai
 			IoState_error_(state, 0, "Unsupported pattern type");
 	}
 
-	self = IOCLONE(IoState_protoWithInitFunction_(state, initFunc));
+	self = IOCLONE(IoState_protoWithId_(state, protoId));
 	IoObject_setDataPointer_(self, pattern);
 	return self;
 }

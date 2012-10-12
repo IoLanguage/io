@@ -17,6 +17,8 @@
 
 #define DATA(self) ((IoGLFWData *)IoObject_dataPointer(self))
 
+static const char *protoId = "GLFW";
+
 static IoGLFW *proto = NULL;
 
 // Callbacks
@@ -36,7 +38,8 @@ IoObject *IoGLFW_tryCallback(IoGLFW *self, IoObject *locals, IoMessage *m)
 	return IoCoroutine_rawResult(tryCoro);
 }
 
-int IoGLFWCloseCallback(){
+int IoGLFWCloseCallback()
+{
 	IoState_pushRetainPool(IoObject_state(proto));
 
 	IoNumber* res = IoGLFW_tryCallback(proto, DATA(proto)->closeTarget, DATA(proto)->closeMessage);
@@ -46,7 +49,8 @@ int IoGLFWCloseCallback(){
 	return IoNumber_asInt(res);
 }
 
-void IoGLFWSizeCallback(int width, int height){
+void IoGLFWSizeCallback(int width, int height)
+{
 	IoState_pushRetainPool(IoObject_state(proto));
 
 	IoMessage_setCachedArg_toInt_(DATA(proto)->sizeMessage, 0, width);
@@ -153,7 +157,7 @@ IoGLFW *IoGLFW_proto(void *state)
 
 	DATA(self)->coroutine = IoCoroutine_new(state);
 
-	IoState_registerProtoWithFunc_(state, self, IoGLFW_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	IoGLFW_protoInit(self);
 	return self;
@@ -161,7 +165,7 @@ IoGLFW *IoGLFW_proto(void *state)
 
 IoGLFW *IoGLFW_new(void *state)
 {
-	return IoState_protoWithInitFunction_(state, IoGLFW_proto);
+	return IoState_protoWithId_(state, protoId);
 }
 
 void IoGLFW_free(IoGLFW *self)
@@ -193,7 +197,7 @@ void IoGLFW_mark(IoGLFW *self)
 
 IoObject *IoGLFW_rawClone(IoGLFW *self)
 {
-	return IoState_protoWithInitFunction_(IOSTATE, IoGLFW_proto);
+	return IoState_protoWithId_(IOSTATE, protoId);
 }
 
 

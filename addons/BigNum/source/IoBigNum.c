@@ -7,9 +7,11 @@ Warning: GMP uses the restrictive GNU license which can be a problem if you are 
 
 #define DATA(self) ((IoBigNumData *)(IoObject_dataPointer(self)))
 
+static const char *protoId = "BigNum";
+
 IoTag *IoBigNum_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("BigNum");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoBigNum_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoBigNum_free);
@@ -23,7 +25,7 @@ IoBigNum *IoBigNum_proto(void *state)
 	IoObject_tag_(self, IoBigNum_newTag(state));
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoBigNumData)));
 	mpz_init(DATA(self)->integer);
-	IoState_registerProtoWithFunc_(state, self, IoBigNum_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 	IoMethodTable methodTable[] = {
 		{"+", IoBigNum_add}
 		//doc BigNum +(aNum) Add op. Returns result.
@@ -146,7 +148,7 @@ IoBigNum *IoBigNum_rawClone(IoBigNum * proto)
 
 IoBigNum *IoBigNum_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoBigNum_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

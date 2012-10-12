@@ -13,6 +13,8 @@
 #define ISOPEN(self) (DATA(self)->writer)
 #define DATA(self) ((IoXmlWriterData*)IoObject_dataPointer(self))
 
+static const char *protoId = "XmlWriter";
+
 void IoXmlWriter_raiseErrors_(IoXmlWriter *self, IoMessage *m, int rc)
 {
 	if ( rc < 0 )
@@ -23,7 +25,7 @@ void IoXmlWriter_raiseErrors_(IoXmlWriter *self, IoMessage *m, int rc)
 
 IoTag *IoXmlWriter_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("XmlWriter");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoXmlWriter_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoXmlWriter_free);
@@ -45,7 +47,7 @@ IoXmlWriter *IoXmlWriter_proto(void *state)
 
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoXmlWriterData)));
 
-	IoState_registerProtoWithFunc_(state, self, IoXmlWriter_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 	IoMethodTable methodTable[] = {
 		{"openFilename", IoXmlWriter_openFilename},
 		{"openStandardOut", IoXmlWriter_openStandardOut},
@@ -121,7 +123,7 @@ IoXmlWriter *IoXmlWriter_proto(void *state)
 
 IoXmlWriter *IoXmlWriter_new(void *state)
 {
-	IoXmlWriter *proto = IoState_protoWithInitFunction_(state, IoXmlWriter_proto);
+	IoXmlWriter *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

@@ -135,7 +135,7 @@ IoObject *IoSystem_proto(void *state)
 
 	//IoObject_setSlot_to_(self, IOSYMBOL("distribution"), IOSYMBOL("Io"));
 	IoObject_setSlot_to_(self, IOSYMBOL("type"), IOSYMBOL("System"));
-	//IoState_registerProtoWithFunc_((IoState *)state, self, IoSystem_proto);
+	//IoState_registerProtoWithId_((IoState *)state, self, protoId);
 
 
 	/*doc System installPrefix
@@ -478,6 +478,11 @@ IO_METHOD(IoObject, sleep)
 
 	double seconds = IoMessage_locals_doubleArgAt_(m, locals, 0);
 	unsigned int microseconds = (seconds * 1000000);
+	while (microseconds > 999999)
+	{
+	    usleep(999999);
+	    microseconds -= 999999;
+	}
 	usleep(microseconds);
 	return self;
 }

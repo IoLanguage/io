@@ -11,12 +11,14 @@
 #define DATA(self) ((IoCairoPathElementData *)IoObject_dataPointer(self))
 #define PATH_DATA(self) (DATA(self)->pathData)
 
+static const char *protoId = "CairoPathElement";
+
 static int IoCairoPathElement_pointCount(IoCairoPathElement *self);
 
 
 static IoTag *IoCairoPathElement_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("CairoPathElement");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCairoPathElement_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCairoPathElement_free);
@@ -53,7 +55,7 @@ IoCairoPathElement *IoCairoPathElement_rawClone(IoCairoPathElement *proto)
 
 IoCairoPathElement *IoCairoPathElement_newWithPath_dataOffset_(void *state, IoObject *path, int offset)
 {
-	IoCairoPathElement *self = IOCLONE(IoState_protoWithInitFunction_(state, IoCairoPathElement_proto));
+	IoCairoPathElement *self = IOCLONE(IoState_protoWithId_(state, protoId));
 	cairo_path_t *rawPath = ((IoCairoPathData *)IoObject_dataPointer(path))->path;
 
 	IoObject_setDataPointer_(self, malloc(sizeof(IoCairoPathElementData)));

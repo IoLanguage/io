@@ -16,13 +16,13 @@ methods that require the speed of C or binding to a C library.
 #include "IoNumber.h"
 #include <stddef.h>
 
-static const char *protoId = "IoCFunction";
+static const char *protoId = "CFunction";
 
 #define DATA(self) ((IoCFunctionData *)IoObject_dataPointer(self))
 
 IoTag *IoCFunction_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("CFunction");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCFunction_rawClone);
 	IoTag_markFunc_(tag, (IoTagMarkFunc *)IoCFunction_mark);
@@ -39,7 +39,7 @@ IoCFunction *IoCFunction_proto(void *state)
 	IoObject_setDataPointer_(self, io_calloc(1, sizeof(IoCFunctionData)));
 	DATA(self)->func = IoObject_self;
 	//IoObject_isActivatable_(self, 1);
-	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
+	IoState_registerProtoWithId_((IoState *)state, self, protoId);
 	return self;
 }
 
@@ -81,7 +81,7 @@ IoCFunction *IoCFunction_newWithFunctionPointer_tag_name_(void *state,
 												IoTag *typeTag,
 												const char *funcName)
 {
-	IoCFunction *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
+	IoCFunction *proto = IoState_protoWithId_((IoState *)state, protoId);
 	IoCFunction *self = IOCLONE(proto);
 	DATA(self)->typeTag = typeTag;
 	DATA(self)->func = func;
@@ -238,7 +238,7 @@ void IoCFunction_protoFinish(void *state)
 	{NULL, NULL},
 	};
 
-	IoObject *self = IoState_protoWithInitFunction_((IoState *)state, protoId);
+	IoObject *self = IoState_protoWithId_((IoState *)state, protoId);
 	IoObject_setSlot_to_(self, IOSYMBOL("type"), IOSYMBOL("CFunction"));
 	IoObject_addMethodTable_(self, methodTable);
 }

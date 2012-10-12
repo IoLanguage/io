@@ -404,6 +404,11 @@ void IoState_registerProtoWithNamed_(IoState *self, IoObject *proto, const char 
 
 void IoState_registerProtoWithFunc_(IoState *self, IoObject *proto, const char *v)
 {
+	IoState_registerProtoWithId_(self, proto, v);
+}
+
+IOVM_API void IoState_registerProtoWithId_(IoState *self, IoObject *proto, const char *v)
+{
 	if (PointerHash_at_(self->primitives, (void *)v))
 	{
 		printf("Error registering proto: %s\n", IoObject_name(proto));
@@ -474,21 +479,18 @@ void MissingProtoError(void)
 	printf("missing proto\n");
 }
 
-IoObject *IoState_protoWithInitFunction_(IoState *self, const char *v)
+IoObject *IoState_protoWithId_(IoState *self, const char *v)
 {
 	IoObject *proto = PointerHash_at_(self->primitives, (void *)v);
 
-	//printf("1234 IoState_protoWithInitFunction_(self, %s)\n", v);
-	//printf("123 IoState_protoWithInitFunction_(self, %s)\n", v);
+	//printf("IoState_protoWithId_(self, %s)\n", v);
 
 	if (!proto)
 	{
-		//printf("*(int *)NULL = 0\n");
-		//*(int *)NULL = 0;
-		//printf("IoState error: missing proto %s\n", v);
-		IoState_fatalError_(self, "IoState_protoWithInitFunction() Error: missing proto");
+		printf("IoState fatal error: missing proto '%s'", v);
+		IoState_fatalError_(self, "IoState_protoWithId_() Error: missing proto with id");
 	}
-	//printf("1234\n");
+
 	return proto;
 }
 

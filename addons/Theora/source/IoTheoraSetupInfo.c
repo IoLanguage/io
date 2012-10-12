@@ -16,16 +16,18 @@ A wrapper around the libtheora th_setup_info object.
 
 #define DATA(self) ((th_setup_info**)(IoObject_dataPointer(self)))
 
+static const char *protoId = "TheoraSetupInfo";
+
 IoObject *IoMessage_locals_theoraSetupInfoArgAt_(IoMessage *self, IoObject *locals, int n)
 {
   IoObject* v = IoMessage_locals_valueArgAt_(self, locals, n);
-  if (!ISTHEORASETUPINFO(v)) IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "TheoraSetupInfo");
+  if (!ISTHEORASETUPINFO(v)) IoMessage_locals_numberArgAt_errorForType_(self, locals, n, protoId);
   return v;
 }
 
 IoTag *IoTheoraSetupInfo_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("TheoraSetupInfo");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoTheoraSetupInfo_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoTheoraSetupInfo_rawClone);
@@ -40,7 +42,7 @@ IoTheoraSetupInfo *IoTheoraSetupInfo_proto(void *state)
 	th_setup_info** data = calloc(1, sizeof(th_setup_info*));
 	IoObject_setDataPointer_(self, data);
 
-	IoState_registerProtoWithFunc_(state, self, IoTheoraSetupInfo_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -62,7 +64,7 @@ IoTheoraSetupInfo *IoTheoraSetupInfo_rawClone(IoTheoraSetupInfo *proto)
 
 IoTheoraSetupInfo *IoTheoraSetupInfo_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoTheoraSetupInfo_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

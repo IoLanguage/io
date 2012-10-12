@@ -17,9 +17,11 @@
 
 #define DATA(self) ((IoGLUData *)IoObject_dataPointer(self))
 
+static const char *protoId = "GLU";
+
 IoTag *IoGLU_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("GLU");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoGLU_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoGLU_free);
@@ -31,14 +33,15 @@ IoGLU *IoGLU_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoGLU_newTag(state));
-
-	IoState_registerProtoWithFunc_(state, self, IoGLU_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 	IoGLU_protoInit(self);
 	return self;
 }
 
 IoGLU *IoGLU_new(void *state)
-{ return IoState_protoWithInitFunction_(state, IoGLU_proto); }
+{ 
+	return IoState_protoWithId_(state, protoId); 
+}
 
 void IoGLU_free(IoGLU *self)
 {
@@ -47,12 +50,15 @@ void IoGLU_free(IoGLU *self)
 }
 
 void IoGLU_mark(IoGLU *self)
-{}
+{
+}
 
 /* ----------------------------------------------------------- */
 
 IoObject *IoGLU_rawClone(IoGLU *self)
-{ return IoState_protoWithInitFunction_(IOSTATE, IoGLU_proto); }
+{ 
+	return IoState_protoWithId_(IOSTATE, protoId); 
+}
 
 /* --- GLU -------------------------------------------------------- */
 

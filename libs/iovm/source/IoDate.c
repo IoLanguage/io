@@ -16,13 +16,13 @@
 #include <string.h>
 #include <time.h>
 
-static const char *protoId = "IoDate";
+static const char *protoId = "Date";
 
 #define DATA(self) ((Date *)IoObject_dataPointer(self))
 
 IoTag *IoDate_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("Date");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoDate_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoDate_free);
@@ -88,7 +88,7 @@ IoDate *IoDate_proto(void *state)
 	*/
 	
 	IoObject_setSlot_to_(self, IOSYMBOL("format"), IOSYMBOL("%Y-%m-%d %H:%M:%S %Z"));
-	IoState_registerProtoWithFunc_((IoState *)state, self, protoId);
+	IoState_registerProtoWithId_((IoState *)state, self, protoId);
 
 	IoObject_addMethodTable_(self, methodTable);
 	return self;
@@ -104,7 +104,7 @@ IoDate *IoDate_rawClone(IoDate *proto)
 
 IOVM_API IoDate *IoDate_new(void *state)
 {
-	IoDate *proto = IoState_protoWithInitFunction_((IoState *)state, protoId);
+	IoDate *proto = IoState_protoWithId_((IoState *)state, protoId);
 	return IOCLONE(proto);
 }
 

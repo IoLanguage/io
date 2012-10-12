@@ -36,6 +36,7 @@ db close
 typedef int (ResultRowCallback)(void *, int , char **, char **);
 
 #define DATA(self) ((IoSQLiteData *)IoObject_dataPointer(self))
+static const char *protoId = "SQLite";
 
 /*
  static int IoSQLite_resultRow(void *context, int argc, char **argv, char **azColName);
@@ -44,7 +45,7 @@ typedef int (ResultRowCallback)(void *, int , char **, char **);
 
 IoTag *IoSQLite_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("SQLite");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoSQLite_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoSQLite_free);
@@ -61,7 +62,7 @@ IoSQLite *IoSQLite_proto(void *state)
 	DATA(self)->path = IOSYMBOL(".");
 	IoSQLite_error_(self, "");
 
-	IoState_registerProtoWithFunc_(state, self, IoSQLite_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -103,7 +104,7 @@ IoSQLite *IoSQLite_rawClone(IoSQLite *proto)
 
 IoSQLite *IoSQLite_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoSQLite_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

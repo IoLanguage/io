@@ -18,11 +18,11 @@
 #include "IoState.h"
 #include "IoSeq.h"
 
-#include <uuid/uuid.h>
+static const char *protoId = "UUID";
 
 IoTag *IoUUID_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("UUID");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoUUID_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoUUID_rawClone);
@@ -34,7 +34,7 @@ IoUUID *IoUUID_proto(void *state)
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoUUID_newTag(state));
 
-	IoState_registerProtoWithFunc_(state, self, IoUUID_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -56,7 +56,7 @@ IoUUID *IoUUID_rawClone(IoUUID *proto)
 
 IoUUID *IoUUID_new(void *state)
 {
-	IoUUID *proto = IoState_protoWithInitFunction_(state, IoUUID_proto);
+	IoUUID *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 

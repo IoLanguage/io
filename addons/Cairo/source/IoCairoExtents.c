@@ -7,10 +7,11 @@
 
 #define DATA(self) ((IoCairoExtentsData *)IoObject_dataPointer(self))
 
+static const char *protoId = "CairoExtents";
 
 static IoTag *IoCairoExtents_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("CairoExtents");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCairoExtents_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCairoExtents_free);
@@ -48,7 +49,7 @@ IoCairoExtents *IoCairoExtents_rawClone(IoCairoExtents *proto)
 
 IoCairoExtents *IoCairoExtents_newSet(void *state, double x1, double y1, double x2, double y2)
 {
-	IoCairoExtents *self = IOCLONE(IoState_protoWithInitFunction_(state, IoCairoExtents_proto));
+	IoCairoExtents *self = IOCLONE(IoState_protoWithInitId_(state, protoId));
 	DATA(self)->x1 = x1;
 	DATA(self)->y1 = y1;
 	DATA(self)->x2 = x2;
