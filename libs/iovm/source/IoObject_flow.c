@@ -25,7 +25,8 @@ IO_METHOD(IoObject, while)
 		{
 			IoState_clearTopPool(state);
 			IoState_stackRetain_(state, result);
-			c = ISTRUE(IoMessage_locals_valueArgAt_(m, locals, 0));
+			IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 0);
+			c = ISTRUE(IoMessage_locals_performOn_(IOSTATE->asBooleanMessage, v, v));
 
 			if (!c)
 			{
@@ -80,7 +81,7 @@ done:
 IO_METHOD(IoObject, for)
 {
 	/*doc Object for(<counter>, <start>, <end>, <do message>)
-	A for-loop control structure. See the io Programming Guide for a full description. 
+	A for-loop control structure. See the io Programming Guide for a full description.
 	*/
 
 	IoMessage_assertArgCount_receiver_(m, 4, self);
@@ -165,7 +166,7 @@ IO_METHOD(IoObject, return)
 IO_METHOD(IoObject, returnIfNonNil)
 {
 	/*doc Object returnIfNonNil
-	Returns the receiver from the current execution block if it is non nil. 
+	Returns the receiver from the current execution block if it is non nil.
 	Otherwise returns the receiver locally.
 	*/
 
@@ -180,7 +181,7 @@ IO_METHOD(IoObject, returnIfNonNil)
 IO_METHOD(IoObject, break)
 {
 	/*doc Object break(optionalReturnValue)
-	Break the current loop, if any. 
+	Break the current loop, if any.
 	*/
 
 	IoObject *v = IONIL(self);
@@ -198,7 +199,7 @@ IO_METHOD(IoObject, continue)
 {
 	/*doc Object continue
 	Skip the rest of the current loop iteration and start on
-	the next, if any. 
+	the next, if any.
 	*/
 
 	IoState_continue(IOSTATE);
@@ -229,8 +230,8 @@ IO_METHOD(IoObject, if)
 	Returns the result of the evaluated message or Nil if none was evaluated.
 	*/
 
-	const IoObject *const r = IoMessage_locals_valueArgAt_(m, locals, 0);
-	const int condition = ISTRUE((IoObject *)r);
+	IoObject *r = IoMessage_locals_valueArgAt_(m, locals, 0);
+	const int condition = ISTRUE(IoMessage_locals_performOn_(IOSTATE->asBooleanMessage, r, r));
 	const int index = condition ? 1 : 2;
 
 	if (index < IoMessage_argCount(m))

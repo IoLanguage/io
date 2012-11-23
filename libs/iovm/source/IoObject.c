@@ -124,6 +124,7 @@ IoObject *IoObject_protoFinish(void *state)
 	{">", IoObject_isGreaterThan_},
 	{">=", IoObject_isGreaterThanOrEqualTo_},
 	{"<=", IoObject_isLessThanOrEqualTo_},
+	{"asBoolean", IoObject_asBoolean},
 
 	// comparison
 
@@ -1765,6 +1766,14 @@ IO_METHOD(IoObject, isLessThanOrEqualTo_)
 	return IOBOOL(self, IoObject_compare(self, v) <= 0);
 }
 
+IO_METHOD(IoObject, asBoolean)
+{
+	if (self == IOSTATE->ioFalse || self == IOSTATE->ioNil)
+		return self;
+	else
+		return IOSTATE->ioTrue;
+}
+
 IO_METHOD(IoObject, isGreaterThan_)
 {
 	/*doc Object >(expression)
@@ -1819,8 +1828,8 @@ IO_METHOD(IoObject, do)
 IO_METHOD(IoObject, lexicalDo)
 {
 	/*doc Object lexicalDo(expression)
-	Evaluates the message in the context of the receiver. 
-	The lexical context is added as a proto of the receiver while the argument is evaluated. 
+	Evaluates the message in the context of the receiver.
+	The lexical context is added as a proto of the receiver while the argument is evaluated.
 	Returns self.
 	*/
 
