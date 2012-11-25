@@ -64,7 +64,7 @@
                 
         -->    
     
-        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
+        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" scope="meta.default">
         
             <!-- 
             The <keywords> tag specifies keyword groups within the current state.
@@ -92,7 +92,7 @@
             -->    
         	
 
-            <keywords id="Keywords" color="#d90" useforautocomplete="no">
+            <keywords id="Keywords" color="#d90" useforautocomplete="no" scope="keyword.io">
                 <string>self</string>
                 <string>sender</string>
                 <string>and</string>
@@ -118,15 +118,15 @@
                 <string>while</string>
             </keywords>
 
-            <keywords id="Numbers" color="#009919" useforautocomplete="no">
+            <keywords id="Numbers" color="#009919" useforautocomplete="no" scope="constant.numeric.keyword.io">
 				<regex>(?&lt;=[^[A-Za-z0-9]]|^)((([0-9]+\.[0-9]*)|(\.[0-9]+)([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]))(([uU][lL]?)|([lL][uU]?))?))(?=[^[A-Za-z0-9]]|$)</regex>
             </keywords>
 
-            <keywords id="Operators" color="#407" useforautocomplete="no">
+            <keywords id="Operators" color="#407" useforautocomplete="no" scope="language.operator.io">
 				<regex>([\+\-\*\\\=\{\}\[\]\|\!\:\&lt;\&gt;])</regex>
             </keywords>
 
-            <keywords id="Brackets" color="#f00" useforautocomplete="no">
+            <keywords id="Brackets" color="#f00" useforautocomplete="no" scope="language.operator.io">
 				<regex>([\(\)])</regex>
             </keywords>
         </default>      
@@ -138,22 +138,22 @@
             contain a <regex> tag. They can contain <keywords> tags like specified above.
         -->    
         
-        <state id="HashComment" color="#b00" background-color="none" font-weight="bold" font-style="italic">
+        <state id="HashComment" color="#b00" background-color="none" font-weight="bold" font-style="italic" scope="comment.line.hash.io">
             <begin><regex>#</regex></begin>
             <end><regex>[\n\r]</regex></end>
         </state>
 
-        <state id="Comment" color="#b00" background-color="none" font-weight="normal" font-style="italic">
+        <state id="Comment" color="#b00" background-color="none" font-weight="normal" font-style="italic" scope="comment.block.io">
             <begin><regex>/\*</regex></begin>
             <end><regex>\*/</regex></end>
         </state>
         
-        <state id="SingleComment" color="#b00" background-color="none" font-weight="normal" font-style="italic">
+        <state id="SingleComment" color="#b00" background-color="none" font-weight="normal" font-style="italic" scope="comment.line.double-slash.io">
             <begin><regex>//</regex></begin>
             <end><regex>[\n\r]</regex></end>
         </state>
         
-        <state id="String" color="#060" background-color="none" font-weight="normal" font-style="normal">
+        <state id="String" color="#060" background-color="none" font-weight="normal" font-style="normal" scope="string.double.io">
             <begin><regex>"|"""</regex></begin>
             <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
         </state>
