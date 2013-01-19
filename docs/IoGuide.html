@@ -1756,7 +1756,7 @@ a atPut(6, "Fred")
 ==> Exception: index out of bounds
 </pre>
 
-Remove an item at a given index:
+Remove the given item:
 
 <pre>
 a remove("foo")
@@ -2008,7 +2008,7 @@ files := dir files
 Get a list of both the file and directory objects in a directory:
 
 <pre>
-items := Directory items
+items := dir items
 ==> list(Directory_0x8446b0, File_0x820c40, ...)
 
 items at(4) name
