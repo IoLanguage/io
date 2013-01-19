@@ -143,8 +143,8 @@ extern pid_t rfork_thread(int, void*, int(*)(void*), void*);
 #if defined(__arm__)
 int getmcontext(mcontext_t*);
 void setmcontext(const mcontext_t*);
-#define	setcontext(u)	setmcontext(&(u)->uc_mcontext)
-#define	getcontext(u)	getmcontext(&(u)->uc_mcontext)
+#define    setcontext(u)    setmcontext((void *)&((u)->uc_mcontext.arm_r0))
+#define    getcontext(u)    getmcontext((void *)&((u)->uc_mcontext.arm_r0))
 #endif
 
 /*

@@ -18,8 +18,6 @@
 #include "IoState.h"
 #include "IoSeq.h"
 
-#include <uuid/uuid.h>
-
 static const char *protoId = "UUID";
 
 IoTag *IoUUID_newTag(void *state)

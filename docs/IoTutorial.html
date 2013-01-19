@@ -171,7 +171,7 @@ Io> for(i, 1, 10, write(i, " "))
 Io> d foreach(i, v, writeln(i, ": ", v))
 0: 5
 1: 123
-3: 20
+2: 20
 
 Io> list("abc", "def", "ghi") foreach(println)
 abc
@@ -212,10 +212,10 @@ Io> s findSeq("is")
 Io> s findSeq("test")
 ==> 10
 
-Io> s slice(10)
+Io> s exSlice(10)
 ==> "test"
 
-Io> s slice(2, 10)
+Io> s exSlice(2, 10)
 ==> "is is a "
 
 </PRE>

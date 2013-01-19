@@ -72,7 +72,7 @@ Directory.io
 		list reverseInPlace
 	)
 
-	//doc Directory accessibleAncestors Returns a list of accessizble ancestor directories.
+	//doc Directory accessibleAncestors Returns a list of accessible ancestor directories.
 	accessibleAncestors := method(ancestorDirectories select(isAccessible))
 
 	//doc Directory parents Deprecated. Replaced by ancestorDirectories.
