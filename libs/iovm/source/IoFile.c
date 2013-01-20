@@ -1173,7 +1173,7 @@ and line and execute aMessage.
 Example usage:
 <pre>	
 aFile foreachLine(i, v, writeln("Line ", i, ": ", v))
-aFile foreach(v, writeln("Line: ", v))
+aFile foreachLine(v, writeln("Line: ", v))
 </pre>	
 */
 
