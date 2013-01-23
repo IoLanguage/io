@@ -6,7 +6,7 @@
 The Blowfish object can be used to do encryption and decryption using 
 the <a href=http://en.wikipedia.org/wiki/Blowfish_(cipher)>Blowfish</a> keyed, symmetric block cipher.
 <p>
-Example encryption and decription;
+Example encryption and description;
 
 <pre>	
 key := "secret"
