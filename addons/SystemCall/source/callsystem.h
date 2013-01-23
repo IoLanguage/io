@@ -1,10 +1,10 @@
 #ifndef CALLSYSTEM_INCLUDED
 #define CALLSYSTEM_INCLUDED
 /*
-  callsystem    - system() on steorids (by ceteh?)
+  callsystem    - system() on steroids (by ceteh?)
 
   features:
-   - asynchonous running of a child process
+   - asynchronous running of a child process
    - setup of the environment
    - substitution of environment variables
    - connect all 3 standard streams to pipes, null devices, or files

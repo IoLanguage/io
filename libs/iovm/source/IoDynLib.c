@@ -460,7 +460,7 @@ IoDynLib *IoDynLib_call(IoDynLib *self, IoObject *locals, IoMessage *m)
 {
 	/*doc DynLib call(functionName, <arg1>, <arg2>, ...)
 	Call's the dll function of the specified name with the arguments provided. 
-	Returns the a Number with the result value.
+	Returns a Number with the result value.
 	*/
 	return IoDynLib_justCall(self, locals, m, 0);
 }
