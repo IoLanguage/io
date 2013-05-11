@@ -63,7 +63,7 @@ Multiplies the values of aSeq to the corresponding values of the receiver.
 </b>
 <p>
 <div class=slotDescription>
-Vector addition - Adds the values of aSeq to the corresponding values of the receiver 
+Vector addition - adds the values of aSeq to the corresponding values of the receiver 
 	returning a new vector with the result.
 	Only works on Sequences whose item type is numeric.
 </div>
@@ -134,7 +134,7 @@ acos
 </b>
 <p>
 <div class=slotDescription>
-Sets each value of the Sequence to the trigonometric arcsine of it's value.
+Sets each value of the Sequence to the trigonometric arcsine of its value.
 Returns self.
 </div>
 <a name="Sequence-afterSeq"></a><b>
@@ -595,7 +595,7 @@ clipAfterSeq(aSequence)
 <p>
 <div class=slotDescription>
 Removes the contents of the receiver after the end of
-	the first occurance of aSequence. Returns true if anything was
+	the first occurrence of aSequence. Returns true if anything was
 	removed, or false otherwise.
 </div>
 <a name="Sequence-clipAfterStartOfSeq"></a><b>
@@ -604,7 +604,7 @@ clipAfterStartOfSeq(aSequence)
 <p>
 <div class=slotDescription>
 Removes the contents of the receiver after the beginning of
-	the first occurance of aSequence. Returns true if anything was
+	the first occurrence of aSequence. Returns true if anything was
 	removed, or false otherwise.
 </div>
 <a name="Sequence-clipBeforeEndOfSeq"></a><b>
@@ -613,7 +613,7 @@ clipBeforeEndOfSeq(aSequence)
 <p>
 <div class=slotDescription>
 Removes the contents of the receiver before the end of
-	the first occurance of aSequence. Returns true if anything was
+	the first occurrence of aSequence. Returns true if anything was
 	removed, or false otherwise.
 </div>
 <a name="Sequence-clipBeforeSeq"></a><b>
@@ -1258,7 +1258,7 @@ removeSeq(aSequence)
 </b>
 <p>
 <div class=slotDescription>
-Removes occurances of aSequence from the receiver.
+Removes occurrences of aSequence from the receiver.
 </div>
 <a name="Sequence-removeSlice"></a><b>
 removeSlice(startIndex, endIndex)
@@ -1287,7 +1287,7 @@ replaceFirstSeq(aSequence, anotherSequence, optionalStartIndex)
 </b>
 <p>
 <div class=slotDescription>
-Returns a new Sequence with the first occurance of aSequence
+Returns a new Sequence with the first occurrence of aSequence
 	replaced with anotherSequence in the receiver. If optionalStartIndex is
 	provided, the search for aSequence begins at that index. Returns self.
 </div>
@@ -1303,7 +1303,7 @@ replaceSeq(aSequence, anotherSequence)
 </b>
 <p>
 <div class=slotDescription>
-Returns a new Sequence with all occurances of aSequence
+Returns a new Sequence with all occurrences of aSequence
 	replaced with anotherSequence in the receiver. Returns self.
 </div>
 <a name="Sequence-reverse"></a><b>
@@ -1414,7 +1414,7 @@ size
 <p>
 <div class=slotDescription>
 Returns the length in number of items (which may or may not
-be the number of bytes, depending on the item type) of the receiver. For example,
+be the number of bytes, depending on the item type) of the receiver. For example:
 <p>
 <pre>	
 "abc" size == 3
@@ -1547,7 +1547,7 @@ tan
 </b>
 <p>
 <div class=slotDescription>
-Sets each value of the Sequence to the trigonometric tangent of it's value.
+Sets each value of the Sequence to the trigonometric tangent of its value.
 Returns self.
 </div>
 <a name="Sequence-tanh"></a><b>
@@ -1615,7 +1615,7 @@ with(aSequence, ...)
 </b>
 <p>
 <div class=slotDescription>
-Returns a new Sequence which is the concatination of the arguments.
+Returns a new Sequence which is the concatenation of the arguments.
 	The returned sequence will have the same mutability status as the receiver.
 </div>
 <a name="Sequence-withStruct"></a><b>

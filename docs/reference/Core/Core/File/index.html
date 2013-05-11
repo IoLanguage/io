@@ -285,7 +285,7 @@ moveTo(pathString)
 <p>
 <div class=slotDescription>
 Moves the file specified by the receiver's path to the
-	new path pathString. Raises an File doesNotExist exception if the
+	new path pathString. Raises a File doesNotExist exception if the
 	file does not exist or a File nameConflict exception if the file
 	nameString already exists.
 </div>
@@ -435,7 +435,7 @@ reopen(otherFile, mode)
 </b>
 <p>
 <div class=slotDescription>
-Reopen's otherFile and redirects its stream to this file's path using mode.
+Reopens otherFile and redirects its stream to this file's path using mode.
 	If mode is omitted, it is copied from otherFile.
 	Returns self or raises a File exception on error.
 </div>
@@ -579,7 +579,7 @@ truncateToSize(numberOfBytes)
 </b>
 <p>
 <div class=slotDescription>
-Trunctates the file's size to the numberOfBytes. Returns self.
+Truncates the file's size to the numberOfBytes. Returns self.
 </div>
 <a name="File-userId"></a><b>
 userId
