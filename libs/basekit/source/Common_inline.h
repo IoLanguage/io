@@ -53,7 +53,7 @@ Kudos to Daniel A. Koepke
 #if defined(__APPLE__) 
 
 	#ifndef NS_INLINE
-		#define NS_INLINE static __inline__ __attribute__((always_inline))
+		#define NS_INLINE static inline
 	#endif
 
 	#ifdef IO_IN_C_FILE
