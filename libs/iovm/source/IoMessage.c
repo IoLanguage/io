@@ -1313,15 +1313,12 @@ IoMessage *IoMessage_asMessageWithEvaluatedArgs(IoMessage *self, IoObject *local
 		context = IoMessage_locals_valueArgAt_(m, locals, 0);
 	}
 
-	if (IoMessage_needsEvaluation(self))
+	if (!IoMessage_needsEvaluation(self))
 	{
-		sendMessage = IoMessage_newWithName_(state, IoMessage_name(self));
-	}
-	else
-	{
-		sendMessage = self;
+		return self;
 	}
 
+	sendMessage = IoMessage_newWithName_(state, IoMessage_name(self));
 	for (i = 0; i < max; i ++)
 	{
 		IoMessage *arg = IoMessage_rawArgAt_(self, i);
