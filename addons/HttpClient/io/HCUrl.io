@@ -43,8 +43,8 @@ HCUrl := Object clone do(
 	
 	resource := method(
 		r := urlSeq afterSeq("//") ?afterSeq("/")
-		if(r == nil or r == "", r = "/")
-		r beforeSeq("#")
+		if(r == nil, r = "")
+		"/"..(r) beforeSeq("#")
 	)
 	
 	get := method(
