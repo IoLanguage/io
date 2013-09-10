@@ -25,7 +25,7 @@ IoCairoRectangle *IoCairoRectangle_proto(void *state)
 
 	IoObject_setDataPointer_(self, calloc(1, sizeof(cairo_rectangle_t)));
 
-	IoState_registerProtoWithFunc_(state, self, IoCairoRectangle_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {

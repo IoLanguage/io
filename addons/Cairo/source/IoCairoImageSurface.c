@@ -9,15 +9,17 @@
 #include "IoNumber.h"
 #include "IoSeq.h"
 #include "tools.h"
+#define CAIRO_HAS_PNG_FUNCTIONS 1
 
 #define DATA_SEQ(self) cairo_surface_get_user_data(SURFACE(self), &dataKey)
 
 static const cairo_user_data_key_t dataKey;
 
+static const char *protoId = "CairoImageSurface";
 
 static IoTag *IoCairoImageSurface_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("CairoImageSurface");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCairoImageSurface_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCairoSurface_free);
@@ -29,16 +31,16 @@ IoCairoImageSurface *IoCairoImageSurface_proto(void *state)
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairoImageSurface_newTag(state));
 
-	IoState_registerProtoWithFunc_(state, self, IoCairoImageSurface_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	IoCairoSurface_addMethods(self);
 	{
 		IoMethodTable methodTable[] = {
 			{"create", IoCairoImageSurface_create},
 			{"createForData", IoCairoImageSurface_createForData},
-			#if CAIRO_HAS_PNG_FUNCTIONS
+//			#if CAIRO_HAS_PNG_FUNCTIONS
 			{"createFromPNG", IoCairoImageSurface_createFromPNG},
-			#endif
+//			#endif
 
 			{"getFormat", IoCairoImageSurface_getFormat},
 			{"getWidth", IoCairoImageSurface_getWidth},
@@ -46,9 +48,9 @@ IoCairoImageSurface *IoCairoImageSurface_proto(void *state)
 			{"getStride", IoCairoImageSurface_getStride},
 			{"getData", IoCairoImageSurface_getData},
 
-			#if CAIRO_HAS_PNG_FUNCTIONS
+//			#if CAIRO_HAS_PNG_FUNCTIONS
 			{"writeToPNG", IoCairoImageSurface_writeToPNG},
-			#endif
+//			#endif
 
 			{NULL, NULL},
 		};

@@ -8,7 +8,7 @@
 #include "IoCairoPattern.h"
 #include "IoCairoPattern_inline.h"
 #include "tools.h"
-
+static const char *protoId = "RadialGradient";
 
 static IoTag *IoCairoRadialGradient_newTag(void *state)
 {
@@ -24,7 +24,7 @@ IoCairoRadialGradient *IoCairoRadialGradient_proto(void *state)
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairoRadialGradient_newTag(state));
 
-	IoState_registerProtoWithFunc_(state, self, IoCairoRadialGradient_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	IoCairoGradient_addMethods(self);
 	{

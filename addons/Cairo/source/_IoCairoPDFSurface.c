@@ -9,10 +9,11 @@
 #include "IoCairoSurface_inline.h"
 #include <cairo-pdf.h>
 
+static const char *protoId = "CairoPDFSurface";
 
 static IoTag *IoCairoPDFSurface_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("CairoPDFSurface");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCairoPDFSurface_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCairoSurface_free);
@@ -24,7 +25,7 @@ IoCairoPDFSurface *IoCairoPDFSurface_proto(void *state)
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairoPDFSurface_newTag(state));
 
-	IoState_registerProtoWithFunc_(state, self, IoCairoPDFSurface_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	IoCairoSurface_addMethods(self);
 	{

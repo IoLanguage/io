@@ -37,7 +37,7 @@ IoRegex *IoRegex_proto(void *state)
 
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoRegexData)));
 	DATA(self)->pattern = IOSYMBOL("");
-
+	printf("Registering Regex: %s\n", protoId);
 	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
