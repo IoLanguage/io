@@ -386,7 +386,7 @@ void Image_resizeTo(Image *self, int w, int h, Image *outImage)
 	Image_setData_width_height_componentCount_(outImage, outUArray, w, h, componentCount);
 }
 
-inline unsigned char *Image_pixelAt(Image *self, int x, int y)
+unsigned char *Image_pixelAt(Image *self, int x, int y)
 {
 	int bps = 8;
 	int spp = Image_componentCount(self);

@@ -11,10 +11,11 @@
 #include "IoList.h"
 #include <cairo-svg.h>
 
+static const char *protoId = "CairoSVGSurface";
 
 static IoTag *IoCairoSVGSurface_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("CairoSVGSurface");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCairoSVGSurface_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCairoSurface_free);
@@ -26,7 +27,7 @@ IoCairoSVGSurface *IoCairoSVGSurface_proto(void *state)
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairoSVGSurface_newTag(state));
 
-	IoState_registerProtoWithFunc_(state, self, IoCairoSVGSurface_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	IoCairoSurface_addMethods(self);
 	{

@@ -9,10 +9,11 @@
 #include "IoCairoSurface_inline.h"
 #include <cairo-ps.h>
 
+static const char *protoId = "CairoPSSurface";
 
 static IoTag *IoCairoPSSurface_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("CairoPSSurface");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCairoPSSurface_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCairoSurface_free);
@@ -24,7 +25,7 @@ IoCairoPSSurface *IoCairoPSSurface_proto(void *state)
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairoPSSurface_newTag(state));
 
-	IoState_registerProtoWithFunc_(state, self, IoCairoPSSurface_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	IoCairoSurface_addMethods(self);
 	{

@@ -25,7 +25,7 @@ IoCairoFontExtents *IoCairoFontExtents_proto(void *state)
 
 	IoObject_setDataPointer_(self, calloc(1, sizeof(cairo_font_extents_t)));
 
-	IoState_registerProtoWithFunc_(state, self, IoCairoFontExtents_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -50,7 +50,8 @@ IoCairoFontExtents *IoCairoFontExtents_rawClone(IoCairoFontExtents *proto)
 
 IoCairoFontExtents *IoCairoFontExtents_newWithRawFontExtents(void *state, cairo_font_extents_t *extents)
 {
-	IoCairoFontExtents *self = IOCLONE(IoState_protoWithInitId_(state, protoId));
+	//IoCairoFontExtents *self = IOCLONE(IoState_protoWithInitId_(state, protoId));
+	IoCairoFontExtents *self = IOCLONE(IoState_protoWithId_(state, protoId));
 	memcpy(EXTENTS(self), extents, sizeof(cairo_font_extents_t));
 	return self;
 }

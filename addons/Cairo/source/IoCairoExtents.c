@@ -25,7 +25,7 @@ IoCairoExtents *IoCairoExtents_proto(void *state)
 
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoCairoExtentsData)));
 
-	IoState_registerProtoWithFunc_(state, self, IoCairoExtents_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -49,7 +49,8 @@ IoCairoExtents *IoCairoExtents_rawClone(IoCairoExtents *proto)
 
 IoCairoExtents *IoCairoExtents_newSet(void *state, double x1, double y1, double x2, double y2)
 {
-	IoCairoExtents *self = IOCLONE(IoState_protoWithInitId_(state, protoId));
+	//IoCairoExtents *self = IOCLONE(IoState_protoWithInitId_(state, protoId));
+	IoCairoExtents *self = IOCLONE(IoState_protoWithId_(state, protoId));
 	DATA(self)->x1 = x1;
 	DATA(self)->y1 = y1;
 	DATA(self)->x2 = x2;

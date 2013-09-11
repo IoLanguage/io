@@ -25,7 +25,7 @@ IoCairoTextExtents *IoCairoTextExtents_proto(void *state)
 
 	IoObject_setDataPointer_(self, calloc(1, sizeof(cairo_text_extents_t)));
 
-	IoState_registerProtoWithFunc_(state, self, IoCairoTextExtents_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {

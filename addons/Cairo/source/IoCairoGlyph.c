@@ -25,7 +25,7 @@ IoCairoGlyph *IoCairoGlyph_proto(void *state)
 
 	IoObject_setDataPointer_(self, calloc(1, sizeof(cairo_glyph_t)));
 
-	IoState_registerProtoWithFunc_(state, self, IoCairoGlyph_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -54,7 +54,8 @@ IoCairoGlyph *IoCairoGlyph_rawClone(IoCairoGlyph *proto)
 
 IoCairoGlyph *IoCairoGlyph_newWithRawGlyph_(void *state, cairo_glyph_t *glyph)
 {
-	IoCairoGlyph *self = IOCLONE(IoState_protoWithInitId_(state, protoId));
+	//IoCairoGlyph *self = IOCLONE(IoState_protoWithInitId_(state, protoId));
+	IoCairoGlyph *self = IOCLONE(IoState_protoWithId_(state, protoId));
 	memcpy(GLYPH(self), glyph, sizeof(cairo_glyph_t));
 	return self;
 }

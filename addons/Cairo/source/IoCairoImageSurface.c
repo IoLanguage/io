@@ -14,10 +14,11 @@
 
 static const cairo_user_data_key_t dataKey;
 
+static const char *protoId = "CairoImageSurface";
 
 static IoTag *IoCairoImageSurface_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("CairoImageSurface");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCairoImageSurface_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCairoSurface_free);
@@ -29,7 +30,7 @@ IoCairoImageSurface *IoCairoImageSurface_proto(void *state)
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairoImageSurface_newTag(state));
 
-	IoState_registerProtoWithFunc_(state, self, IoCairoImageSurface_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	IoCairoSurface_addMethods(self);
 	{
