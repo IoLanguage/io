@@ -36,7 +36,7 @@ IoCairoMatrix *IoCairoMatrix_proto(void *state)
 	IoObject_setDataPointer_(self, malloc(sizeof(cairo_matrix_t)));
 	cairo_matrix_init_identity(MATRIX(self));
 
-	IoState_registerProtoWithFunc_(state, self, IoCairoMatrix_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {

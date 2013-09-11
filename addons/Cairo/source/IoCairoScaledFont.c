@@ -42,7 +42,7 @@ IoCairoScaledFont *IoCairoScaledFont_proto(void *state)
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairoScaledFont_newTag(state));
 
-	IoState_registerProtoWithFunc_(state, self, IoCairoScaledFont_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {

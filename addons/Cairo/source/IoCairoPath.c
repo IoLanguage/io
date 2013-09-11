@@ -36,7 +36,7 @@ IoCairoPath *IoCairoPath_proto(void *state)
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairoPath_newTag(state));
 
-	IoState_registerProtoWithFunc_(state, self, IoCairoPath_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -67,7 +67,8 @@ IoCairoPath *IoCairoPath_newWithRawPath_(void *state, cairo_path_t *path)
 
 	checkStatus_(state, 0, path->status);
 
-	self = IOCLONE(IoState_protoWithInitId_(state, protoId));
+	//self = IOCLONE(IoState_protoWithInitId_(state, protoId));
+	self = IOCLONE(IoState_protoWithId_(state, protoId));
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoCairoPathData)));
 	DATA(self)->path = path;
 	DATA(self)->refCount = 1;

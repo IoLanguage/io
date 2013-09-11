@@ -45,7 +45,7 @@ IoCairoContext *IoCairoContext_proto(void *state)
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairoContext_newTag(state));
 
-	IoState_registerProtoWithFunc_(state, self, IoCairoContext_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -212,7 +212,8 @@ IoCairoContext *IoCairoContext_rawClone(IoCairoContext *proto)
 
 IoCairoContext *IoCairoContext_newWithSurface_(void *state, IoCairoImageSurface *surface)
 {
-	IoCairoContext *self = IOCLONE(IoState_protoWithInitId_(state, protoId));
+	//IoCairoContext *self = IOCLONE(IoState_protoWithInitId_(state, protoId));
+	IoCairoContext *self = IOCLONE(IoState_protoWithId_(state, protoId));
 	cairo_t *rawContext = cairo_create(IoCairoSurface_rawSurface(surface));
 	checkStatus_(state, 0, cairo_status(rawContext));
 	IoObject_setDataPointer_(self, rawContext);
