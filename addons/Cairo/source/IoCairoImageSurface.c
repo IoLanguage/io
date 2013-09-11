@@ -9,7 +9,6 @@
 #include "IoNumber.h"
 #include "IoSeq.h"
 #include "tools.h"
-#define CAIRO_HAS_PNG_FUNCTIONS 1
 
 #define DATA_SEQ(self) cairo_surface_get_user_data(SURFACE(self), &dataKey)
 
@@ -38,9 +37,9 @@ IoCairoImageSurface *IoCairoImageSurface_proto(void *state)
 		IoMethodTable methodTable[] = {
 			{"create", IoCairoImageSurface_create},
 			{"createForData", IoCairoImageSurface_createForData},
-//			#if CAIRO_HAS_PNG_FUNCTIONS
+			#if CAIRO_HAS_PNG_FUNCTIONS
 			{"createFromPNG", IoCairoImageSurface_createFromPNG},
-//			#endif
+			#endif
 
 			{"getFormat", IoCairoImageSurface_getFormat},
 			{"getWidth", IoCairoImageSurface_getWidth},
@@ -48,9 +47,9 @@ IoCairoImageSurface *IoCairoImageSurface_proto(void *state)
 			{"getStride", IoCairoImageSurface_getStride},
 			{"getData", IoCairoImageSurface_getData},
 
-//			#if CAIRO_HAS_PNG_FUNCTIONS
+			#if CAIRO_HAS_PNG_FUNCTIONS
 			{"writeToPNG", IoCairoImageSurface_writeToPNG},
-//			#endif
+			#endif
 
 			{NULL, NULL},
 		};
