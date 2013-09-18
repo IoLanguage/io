@@ -71,7 +71,7 @@ void IoODEContactJoint_mark(IoODEContactJoint *self)
 
 IoODEContactJoint *IoODEContactJoint_new(void *state, IoODEJointGroup *jointGroup, dJointID jointId)
 {
-	IoODEContactJoint *self = IoODEJoint_newProtoCommon(state, IoODEContactJoint_proto, jointGroup);
+	IoODEContactJoint *self = IoODEJoint_newProtoCommon(state, protoId, jointGroup);
 
 	JOINTID = jointId;
 	IoODEJointGroup_addJoint(JOINTGROUP, self);

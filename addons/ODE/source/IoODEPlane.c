@@ -35,7 +35,7 @@ IoODEPlane *IoODEPlane_proto(void *state)
 
 	GEOMID = 0;
 
-	IoState_registerProtoWithFunc_(state, self, IoODEPlane_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {

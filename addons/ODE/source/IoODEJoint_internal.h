@@ -9,7 +9,7 @@
 #define JOINTGROUPID (IoODEJointGroup_rawJointGroupId(JOINTGROUP))
 
 void IoODEJoint_protoCommon(IoODEJoint *self);
-IoODEJoint *IoODEJoint_newProtoCommon(void *state, IoStateProtoFunc *func, IoODEJointGroup *jointGroup);
+IoODEJoint *IoODEJoint_newProtoCommon(void *state, const char *protoWithId, IoODEJointGroup *jointGroup);
 
 void IoODEJoint_assertValidJoint(IoODEJoint *self, IoObject *locals, IoMessage *m);
 
