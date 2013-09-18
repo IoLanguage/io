@@ -33,7 +33,7 @@ IoODEUniversal *IoODEUniversal_proto(void *state)
 
 	IoODEJoint_protoCommon(self);
 
-	IoState_registerProtoWithFunc_(state, self, IoODEUniversal_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -91,7 +91,7 @@ void IoODEUniversal_mark(IoODEUniversal *self)
 
 IoODEJoint *IoODEUniversal_newProto(void *state, IoODEJointGroup *jointGroup)
 {
-	return IoODEJoint_newProtoCommon(state, IoODEUniversal_proto, jointGroup);
+	return IoODEJoint_newProtoCommon(state, protoId, jointGroup);
 }
 
 /* ----------------------------------------------------------- */

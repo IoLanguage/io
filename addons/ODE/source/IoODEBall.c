@@ -54,7 +54,6 @@ IoODEBall *IoODEBall_proto(void *state)
 IoODEBall *IoODEBall_rawClone(IoODEBall *proto)
 {
 	IoObject *self = IoODEJoint_rawClone(proto);
-
 	if(DATA(proto)->jointGroup)
 	{
 		IoODEJointGroup *jointGroup = DATA(proto)->jointGroup;
@@ -78,7 +77,7 @@ void IoODEBall_mark(IoODEBall *self)
 
 IoODEJoint *IoODEBall_newProto(void *state, IoODEJointGroup *jointGroup)
 {
-	return IoODEJoint_newProtoCommon(state, IoODEBall_proto, jointGroup);
+	return IoODEJoint_newProtoCommon(state, protoId, jointGroup);
 }
 
 /* ----------------------------------------------------------- */

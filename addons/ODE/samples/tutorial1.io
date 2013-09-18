@@ -2,7 +2,7 @@
 
 # Port of http://pyode.sourceforge.net/tutorials/tutorial1.html
 
-r := DynLib clone setPath("/opt/local/lib/libode.dylib") open
+r := DynLib clone setPath("/usr/local/lib/libode.la") open
 
 writeln("r = ", r)
 writeln("loaded ode")

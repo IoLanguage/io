@@ -50,7 +50,7 @@ IoODEJointGroup *IoODEJointGroup_proto(void *state)
 	WORLD = 0L;
 	DATA(self)->joints = 0L;
 
-	IoState_registerProtoWithFunc_(state, self, IoODEJointGroup_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {

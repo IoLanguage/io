@@ -54,7 +54,7 @@ add_subdirectory(Blowfish)
 add_subdirectory(Box)
 #add_subdirectory(CFFI)
 add_subdirectory(CGI)
-#add_subdirectory(Cairo) # XXX: Broken on OSX: ld: library not found for -lpng12
+add_subdirectory(Cairo) # XXX: Broken on OSX: ld: library not found for -lpng12
 add_subdirectory(Clutter)
 add_subdirectory(ContinuedFraction)
 #add_subdirectory(Curses)
@@ -80,7 +80,7 @@ add_subdirectory(MySQL)
 #add_subdirectory(NetworkAdapter)
 add_subdirectory(NotificationCenter)
 #add_subdirectory(Oauth) # OAuth should no longer break CMake configuration on Windows now.
-#add_subdirectory(ODE) # XXX: Can't meet dependencies
+add_subdirectory(ODE) # XXX: Can't meet dependencies
 add_subdirectory(ObjcBridge) # XXX: Broken for me -- Objective-C 2.0 not supported
 add_subdirectory(Obsidian)
 add_subdirectory(Ogg)

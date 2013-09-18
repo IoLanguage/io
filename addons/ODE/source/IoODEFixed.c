@@ -75,7 +75,7 @@ void IoODEFixed_mark(IoODEFixed *self)
 
 IoODEJoint *IoODEFixed_newProto(void *state, IoODEJointGroup *jointGroup)
 {
-	return IoODEJoint_newProtoCommon(state, IoODEFixed_proto, jointGroup);
+	return IoODEJoint_newProtoCommon(state, protoId, jointGroup);
 }
 
 /* ----------------------------------------------------------- */

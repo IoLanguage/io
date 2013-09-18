@@ -33,7 +33,7 @@ IoODEHinge2 *IoODEHinge2_proto(void *state)
 
 	IoODEJoint_protoCommon(self);
 
-	IoState_registerProtoWithFunc_(state, self, IoODEHinge2_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -90,7 +90,7 @@ void IoODEHinge2_mark(IoODEHinge2 *self)
 
 IoODEJoint *IoODEHinge2_newProto(void *state, IoODEJointGroup *jointGroup)
 {
-	return IoODEJoint_newProtoCommon(state, IoODEHinge2_proto, jointGroup);
+	return IoODEJoint_newProtoCommon(state, protoId, jointGroup);
 }
 
 /* ----------------------------------------------------------- */

@@ -87,7 +87,7 @@ void IoODEHinge_mark(IoODEHinge *self)
 
 IoODEJoint *IoODEHinge_newProto(void *state, IoODEJointGroup *jointGroup)
 {
-	return IoODEJoint_newProtoCommon(state, IoODEHinge_proto, jointGroup);
+	return IoODEJoint_newProtoCommon(state, protoId, jointGroup);
 }
 
 /* ----------------------------------------------------------- */
