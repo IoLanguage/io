@@ -29,7 +29,7 @@ IoCairoSurface *IoCairoSurface_proto(void *state)
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairoSurface_newTag(state));
 
-	IoState_registerProtoWithFunc_(state, self, IoCairoSurface_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	IoCairoSurface_addMethods(self);
 

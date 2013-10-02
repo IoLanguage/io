@@ -949,7 +949,7 @@ The above code creates a new "subclass" of object named Dog and adds a bark slot
 Dog bark
 </pre>
 
-The default return value of a block is the  result of the last expression.
+The default return value of a block is the result of the last expression.
 
 <h4>Arguments</h4>
 
@@ -1284,7 +1284,7 @@ Also supported are Smalltalk style ifTrue, ifFalse, ifNil and ifNonNil methods:
 (y < 10) ifTrue(x := y) ifFalse(x := 2)
 </pre>
 
-Notice that the condition expression must have parenthesis surrounding it.
+Notice that the condition expression must have parentheses surrounding it.
 
 
 
@@ -1676,7 +1676,7 @@ MyErrorType := Error clone
 Primitives are objects built into Io whose methods are typically implemented in C and store some hidden data in their instances. For example, the Number primitive has a double precision floating point number as its hidden data and its methods that do arithmetic operations are C functions. All Io primitives inherit from the Object prototype and are mutable. That is, their methods can be changed. The reference docs contain more info on primitives.
 <p>
 
-This document is not meant as a reference manual, but an overview of the base primitives and bindings is provided here to give the user a jump start and a feel for what is available and where to look in the reference documentation for further details.
+This document is not meant as a reference manual, but an overview of the base primitives and bindings is provided here to give the user a jump-start and a feel for what is available and where to look in the reference documentation for further details.
 
 
 </tr><tr><td colspan=3 class=sectionDivider></td></tr>
@@ -1908,7 +1908,7 @@ Splitting a string:
 ==> list("the", "quick", "brown", "fox")
 </pre>
 
-Splitting by others character is possible as well.
+Splitting by other characters is possible as well.
 
 <pre>
 "a few good men" split("e")
@@ -1944,7 +1944,7 @@ Interpolate will eval anything with #{} as Io code in the local context. The cod
 </td><td></td><td>
 	
 
-A range is a container containing a start and an end point, and instructions on how to get from the start, to the end. Using Ranges is often convenient when creating large lists of sequential data as they can be easily converted to lists, or as a replacement for the for() method.
+A range is a container containing a start and an end point, and instructions on how to get from the start to the end. Using Ranges is often convenient when creating large lists of sequential data as they can be easily converted to lists, or as a replacement for the for() method.
 
 <h4>The Range protocol</h4>
 

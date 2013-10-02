@@ -9,10 +9,11 @@
 #include "IoNumber.h"
 #include "tools.h"
 
+static const char *protoId = "SurfacePattern";
 
 static IoTag *IoCairoSurfacePattern_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("SurfacePattern");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCairoSurfacePattern_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCairoPattern_free);
@@ -24,7 +25,7 @@ IoCairoSurfacePattern *IoCairoSurfacePattern_proto(void *state)
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairoSurfacePattern_newTag(state));
 
-	IoState_registerProtoWithFunc_(state, self, IoCairoSurfacePattern_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	IoCairoPattern_addMethods(self);
 	{

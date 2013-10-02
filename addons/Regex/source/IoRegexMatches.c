@@ -46,7 +46,7 @@ IoRegexMatches *IoRegexMatches_proto(void *state)
 	DATA(self)->captureArray = UArray_new();
 	UArray_setItemType_(DATA(self)->captureArray, CTYPE_uint32_t);
 
-	IoState_registerProtoWithFunc_(state, self, IoRegexMatches_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {

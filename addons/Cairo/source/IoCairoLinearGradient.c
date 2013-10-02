@@ -9,10 +9,11 @@
 #include "IoCairoPattern_inline.h"
 #include "tools.h"
 
+static const char *protoId = "LinearGradient";
 
 static IoTag *IoCairoLinearGradient_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("LinearGradient");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCairoLinearGradient_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCairoPattern_free);
@@ -24,7 +25,7 @@ IoCairoLinearGradient *IoCairoLinearGradient_proto(void *state)
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairoLinearGradient_newTag(state));
 
-	IoState_registerProtoWithFunc_(state, self, IoCairoLinearGradient_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	IoCairoGradient_addMethods(self);
 	{

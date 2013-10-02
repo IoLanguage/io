@@ -9,10 +9,11 @@
 #include "IoNumber.h"
 #include "tools.h"
 
+static const char *protoId = "Gradient";
 
 static IoTag *IoCairoGradient_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("Gradient");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCairoGradient_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCairoPattern_free);
@@ -24,7 +25,7 @@ IoCairoGradient *IoCairoGradient_proto(void *state)
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairoGradient_newTag(state));
 
-	IoState_registerProtoWithFunc_(state, self, IoCairoGradient_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	IoCairoGradient_addMethods(self);
 

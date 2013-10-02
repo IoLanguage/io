@@ -74,15 +74,16 @@ void IoODEJoint_free(IoODEJoint *self)
 
 void IoODEJoint_mark(IoODEJoint *self)
 {
+    
 	if(JOINTGROUP)
 	{
 		IoObject_shouldMark((IoObject *)JOINTGROUP);
 	}
 }
 
-IoODEJoint *IoODEJoint_newProtoCommon(void *state, IoStateProtoFunc *func, IoODEJointGroup *jointGroup)
+IoODEJoint *IoODEJoint_newProtoCommon(void *state, const char *protoWithId, IoODEJointGroup *jointGroup)
 {
-	IoODEJoint *proto = IoState_protoWithId_(state, func);
+	IoODEJoint *proto = IoState_protoWithId_(state, protoWithId);
 	IoODEJoint *self = IOCLONE(proto);
 	JOINTGROUP = jointGroup;
 	return self;
@@ -111,15 +112,14 @@ IoObject *IoODEJoint_jointGroup(IoODEJoint *self, IoObject *locals, IoMessage *m
 
 void IoODEJoint_assertValidJoint(IoODEJoint *self, IoObject *locals, IoMessage *m)
 {
-	IOASSERT(JOINTGROUP, "This ODE joint belongs to an ODE joint group which has been freed or emptied.");
-	IOASSERT(JOINTID, "ODE Joint cannot be used directly. Clone the joint and use the Joint on the cloned joint.");
+	//IOASSERT(JOINTGROUP, "This ODE joint belongs to an ODE joint group which has been freed or emptied.");
+	//IOASSERT(JOINTID, "ODE Joint cannot be used directly. Clone the joint and use the Joint on the cloned joint.");
 }
 
 IoObject *IoODEJoint_attach(IoODEJoint *self, IoObject *locals, IoMessage *m)
 {
 	dBodyID body1 = IoMessage_locals_odeBodyIdArgAt_(m, locals, 0);
 	dBodyID body2 = IoMessage_locals_odeBodyIdArgAt_(m, locals, 1);
-
 	IoODEJoint_assertValidJoint(self, locals, m);
 	dJointAttach(JOINTID, body1, body2);
 	return self;

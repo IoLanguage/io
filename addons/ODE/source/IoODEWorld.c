@@ -214,7 +214,8 @@ IoObject *IoODEWorld_stepFast1(IoODEWorld *self, IoObject *locals, IoMessage *m)
 	const int maxIterations = IoMessage_locals_intArgAt_(m, locals, 1);
 
 	IoODEWorld_assertHasWorldId(self, locals, m);
-	dWorldStepFast1(WORLDID, stepSize, maxIterations);
+    dWorldQuickStep(WORLDID, stepSize);
+	//dWorldStepFast1(WORLDID, stepSize, maxIterations);
 	return self;
 }
 

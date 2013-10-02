@@ -31,7 +31,7 @@ IoCairoPattern *IoCairoPattern_proto(void *state)
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairoPattern_newTag(state));
 
-	IoState_registerProtoWithFunc_(state, self, IoCairoPattern_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	IoCairoPattern_addMethods(self);
 	return self;

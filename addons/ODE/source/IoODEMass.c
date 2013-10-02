@@ -31,7 +31,7 @@ IoODEMass *IoODEMass_proto(void *state)
 
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoODEMassData)));
 
-	IoState_registerProtoWithFunc_(state, self, IoODEMass_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {

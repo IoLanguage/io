@@ -8,10 +8,10 @@ Cairo is a 2D graphics library. http://cairographics.org/
 #include "IoNumber.h"
 #include <cairo-svg.h>
 
-
+static const char *protoId = "Cairo";
 static IoTag *IoCairo_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("Cairo");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCairo_rawClone);
 	return tag;
@@ -22,7 +22,7 @@ IoCairo *IoCairo_proto(void *state)
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairo_newTag(state));
 
-	IoState_registerProtoWithFunc_(state, self, IoCairo_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {

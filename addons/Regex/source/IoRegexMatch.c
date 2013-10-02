@@ -33,8 +33,7 @@ IoRegexMatch *IoRegexMatch_proto(void *state)
 	DATA(self)->regex = IONIL(self);
 	DATA(self)->subject = IOSYMBOL("");
 	DATA(self)->ranges = IoList_new(state);
-
-	IoState_registerProtoWithFunc_(state, self, IoRegexMatch_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {

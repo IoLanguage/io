@@ -39,7 +39,7 @@ IoODESimpleSpace *IoODESimpleSpace_proto(void *state)
 
 	SPACEID = 0;
 
-	IoState_registerProtoWithFunc_(state, self, IoODESimpleSpace_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {

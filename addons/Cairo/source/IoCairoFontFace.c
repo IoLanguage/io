@@ -32,7 +32,7 @@ IoCairoFontFace *IoCairoFontFace_proto(void *state)
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairoFontFace_newTag(state));
 
-	IoState_registerProtoWithFunc_(state, self, IoCairoFontFace_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	return self;
 }
@@ -47,7 +47,8 @@ IoCairoFontFace *IoCairoFontFace_rawClone(IoCairoFontFace *proto)
 
 IoCairoFontFace *IoCairoFontFace_newWithRawFontFace_(void *state, cairo_font_face_t *face)
 {
-	IoCairoFontFace *self = IOCLONE(IoState_protoWithInitId_(state, protoId));
+	//IoCairoFontFace *self = IOCLONE(IoState_protoWithInitId_(state, protoId));
+	IoCairoFontFace *self = IOCLONE(IoState_protoWithId_(state, protoId));
 	IoObject_setDataPointer_(self, face);
 	return self;
 }

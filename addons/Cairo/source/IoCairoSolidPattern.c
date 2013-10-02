@@ -8,10 +8,11 @@
 #include "IoCairoPattern_inline.h"
 #include "tools.h"
 
+static const char *protoId = "SolidPattern";
 
 static IoTag *IoCairoSolidPattern_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("SolidPattern");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCairoSolidPattern_rawClone);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCairoPattern_free);
@@ -23,7 +24,7 @@ IoCairoSolidPattern *IoCairoSolidPattern_proto(void *state)
 	IoObject *self = IoObject_new(state);
 	IoObject_tag_(self, IoCairoSolidPattern_newTag(state));
 
-	IoState_registerProtoWithFunc_(state, self, IoCairoSolidPattern_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	IoCairoPattern_addMethods(self);
 	{
