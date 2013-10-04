@@ -1,10 +1,10 @@
 //metadoc SystemCall license BSD revised
 //metadoc SystemCall category Server
 /*metadoc SystemCall description
-A binding for "callsystem - system() on steorids"
+A binding for "callsystem - system() on steroids"
 
 <UL>
-<LI> asynchonous running of a child process
+<LI> asynchronous running of a child process
 <LI> setup of the environment
 <LI> substitution of environment variables
 <LI> connect all 3 standard streams to pipes, null devices, or files

@@ -78,7 +78,7 @@ Loudmouth startMainLoop
   handleConnectFailure  := method()
   //doc Loudmouth handleAuthenticated Slot called upon successful authentication.
   handleAuthenticated   := method()
-  //doc Loudmouth handleAuthenticationFailure Slot called if username/password combinaton is wrong.
+  //doc Loudmouth handleAuthenticationFailure Slot called if username/password combination is wrong.
   handleAuthenticationFailure := method()
   //doc Loudmouth handleDisconnect Slot called upon closing the connection with the server.
   handleDisconnect      := method()
