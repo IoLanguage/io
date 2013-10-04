@@ -215,7 +215,7 @@ void IoState_new_atAddress(void *address)
 
 		//IoState_popCollectorPause(self);
 		IoState_clearRetainStack(self);
-	
+
 		//Collector_check(self->collector);
 		Collector_collect(self->collector);
 		//io_show_mem("after IoState_clearRetainStack and Collector_collect");
@@ -324,7 +324,7 @@ void IoState_setupCachedMessages(IoState *self)
 {
 	self->asStringMessage = IoMessage_newWithName_(self, SIOSYMBOL("asString"));
 	IoState_retain_(self, self->asStringMessage);
-	
+
 	self->collectedLinkMessage = IoMessage_newWithName_(self, SIOSYMBOL("collectedLink"));
 	IoState_retain_(self, self->collectedLinkMessage);
 
@@ -333,10 +333,10 @@ void IoState_setupCachedMessages(IoState *self)
 
 	//self->doStringMessage = IoMessage_newWithName_(self, SIOSYMBOL("doString"));
 	//IoState_retain_(self, self->doStringMessage);
-	
+
 	self->initMessage = IoMessage_newWithName_(self, SIOSYMBOL("init"));
 	IoState_retain_(self, self->initMessage);
-	
+
 	self->mainMessage = IoMessage_newWithName_(self, SIOSYMBOL("main"));
 	IoState_retain_(self, self->mainMessage);
 
@@ -351,7 +351,7 @@ void IoState_setupCachedMessages(IoState *self)
 
 	self->objectForReferenceIdMessage = IoMessage_newWithName_(self, SIOSYMBOL("objectForReferenceId"));
 	IoState_retain_(self, self->objectForReferenceIdMessage);
-			
+
 	self->runMessage = IoMessage_newWithName_(self, SIOSYMBOL("run"));
 	IoState_retain_(self, self->runMessage);
 
@@ -360,9 +360,12 @@ void IoState_setupCachedMessages(IoState *self)
 
 	self->yieldMessage = IoMessage_newWithName_(self, SIOSYMBOL("yield"));
 	IoState_retain_(self, self->yieldMessage);
-	
+
 	self->didFinishMessage = IoMessage_newWithName_(self, SIOSYMBOL("didFinish"));
 	IoState_retain_(self, self->didFinishMessage);
+
+	self->asBooleanMessage = IoMessage_newWithName_(self, SIOSYMBOL("asBoolean"));
+	IoState_retain_(self, self->asBooleanMessage);
 }
 
 IO_METHOD(IoObject, initBindings)
@@ -395,7 +398,7 @@ void IoState_registerProtoWithNamed_(IoState *self, IoObject *proto, const char 
 		printf("Error registering proto: %s\n", IoObject_name(proto));
 		IoState_fatalError_(self, "IoState_registerProtoWithFunc_() Error: attempt to add the same proto twice");
 	}
-	
+
 	IoState_retain_(self, proto);
 	PointerHash_at_put_(self->primitives, (void *)func, proto);
 	//printf("registered %s\n", IoObject_name(proto));
@@ -566,7 +569,7 @@ void IoState_runCLI(IoState *self)
 {
 	IoObject *result = IoState_on_doCString_withLabel_(self, self->lobby, "CLI run", "IoState_runCLI()");
 	IoObject *e = IoCoroutine_rawException(self->currentCoroutine);
-	
+
 	if (e != self->ioNil)
 	{
 		self->exitResult = -1;
