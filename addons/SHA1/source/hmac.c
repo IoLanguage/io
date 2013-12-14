@@ -484,6 +484,7 @@ sha1_process_block (const void *buffer, size_t len, struct sha1_ctx *ctx)
 // ----------------------------------
 
 #include "sha1.h"
+#include "hmac.h"
 #include <string.h>
 
 #define IPAD 0x36
