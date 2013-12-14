@@ -177,6 +177,7 @@ IOVM_API IO_METHOD(IoObject, isLessThan_);
 IOVM_API IO_METHOD(IoObject, isLessThanOrEqualTo_);
 IOVM_API IO_METHOD(IoObject, isGreaterThan_);
 IOVM_API IO_METHOD(IoObject, isGreaterThanOrEqualTo_);
+IOVM_API IO_METHOD(IoObject, asBoolean);
 
 // meta
 

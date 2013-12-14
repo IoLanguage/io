@@ -14,7 +14,7 @@
 #include "CHash.h"
 #include "MainArgs.h"
 #include "IoObject_struct.h"
-#include "RandomGen.h" 
+#include "RandomGen.h"
 #define COLLECTOROBJECTTYPE IoObjectData
 
 #include "Collector.h"
@@ -66,7 +66,7 @@ struct IoState
 	IoSymbol *stackSizeSymbol;
 	IoSymbol *typeSymbol;
 	IoSymbol *updateSlotSymbol;
-	
+
 	IoSymbol *runTargetSymbol;
 	IoSymbol *runMessageSymbol;
 	IoSymbol *runLocalsSymbol;
@@ -93,6 +93,7 @@ struct IoState
 	IoMessage *willFreeMessage;
 	IoMessage *yieldMessage;
 	IoMessage *didFinishMessage;
+	IoMessage *asBooleanMessage;
 
 	List *cachedNumbers;
 
@@ -156,10 +157,10 @@ struct IoState
 
 	int shouldExit;
 	int exitResult;
-	
+
 	int receivedSignal;
 	int showAllMessages;
-	
+
 	//CHash *profiler;
 };
 
