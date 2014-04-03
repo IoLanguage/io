@@ -98,7 +98,7 @@ Kudos to Daniel A. Koepke
 	#endif
 	*/
 	
-#elif defined(__MINGW32__)
+#elif defined(__MINGW32__) || defined(_MSC_VER)
 
 	#ifdef IO_IN_C_FILE
 		// in .c 
