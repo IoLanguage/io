@@ -23,9 +23,10 @@ IO_METHOD(IoObject, while)
 
 		for (;;)
 		{
+			IoObject *v;
 			IoState_clearTopPool(state);
 			IoState_stackRetain_(state, result);
-			IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 0);
+			v = IoMessage_locals_valueArgAt_(m, locals, 0);
 			c = ISTRUE(IoMessage_locals_performOn_(IOSTATE->asBooleanMessage, v, v));
 
 			if (!c)

@@ -1670,9 +1670,10 @@ IO_METHOD(IoSeq, pack)
 	size_t size = 0;
 	size_t padding = 0;
 	char val[16];
+	UArray *ua = UArray_new();
+	
 	memset(val, 0x0, 16);
 
-	UArray *ua = UArray_new();
 	UArray_setItemType_(ua, CTYPE_uint8_t);
 	UArray_setEncoding_(ua, CENCODING_NUMBER);
 
