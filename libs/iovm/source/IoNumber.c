@@ -6,6 +6,12 @@
 A container for a double (a 64bit floating point number on most platforms).
 */
 
+#ifdef _MSC_VER
+#define _USE_MATH_DEFINES
+#endif
+
+#include <math.h>
+
 #define _GNU_SOURCE // for round
 #include "IoNumber.h"
 #include "IoObject.h"
@@ -15,11 +21,6 @@ A container for a double (a 64bit floating point number on most platforms).
 #include "IoDate.h"
 #include "IoState.h"
 
-#ifdef _MSC_VER
-#define _USE_MATH_DEFINES
-#endif
-
-#include <math.h>
 #include <ctype.h>
 #include <assert.h>
 
@@ -38,7 +39,7 @@ A container for a double (a 64bit floating point number on most platforms).
 #include <float.h>
 #endif
 
-#ifdef _MSC_VER
+#if !defined(isnan) && defined(_MSC_VER)
 #define isnan _isnan
 #endif
 
