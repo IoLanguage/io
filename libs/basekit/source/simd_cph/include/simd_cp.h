@@ -88,6 +88,11 @@ THE AUTHOR'S WRITTEN PERMISSION, WITH THE FOLLOWING EXCEPTIONS:
       #define __MSVC__X86__
       #define __FOUND
    #endif
+   
+   #ifdef _M_AMD64
+      #define __MSVC__X86__
+      #define __FOUND
+   #endif
 
    #ifdef _M_ALPHA /* for Compaq Alpha CPU */
       #define __MSVC__AXP__ 
@@ -110,7 +115,11 @@ THE AUTHOR'S WRITTEN PERMISSION, WITH THE FOLLOWING EXCEPTIONS:
 /* Include the correct SIMD file */
 
 #if defined(__SIMD_NO_SIMD__) || defined(__SIMD_EMU__)
-   #warning Including Emulated SIMD support...
+   #ifdef _MSC_VER
+      #pragma message("Including Emulated SIMD support...")
+   #else
+      #warning Including Emulated SIMD support...
+   #endif
    #define __UNK__EMU__
    #include <simd_cp_emu.h>
 #endif

@@ -6,6 +6,7 @@
 A mutable array of values. The first index is 0.
 */
 
+#include <math.h>
 #include "IoList.h"
 #include "IoObject.h"
 #include "IoState.h"
@@ -14,7 +15,6 @@ A mutable array of values. The first index is 0.
 #include "IoState.h"
 #include "IoNumber.h"
 #include "IoBlock.h"
-#include <math.h>
 
 static const char *protoId = "List";
 

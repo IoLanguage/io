@@ -132,8 +132,9 @@ IoObject *IoSHA1_hmac(IoSHA1 *self, IoObject *locals, IoMessage *m)
 	IoSeq *key = IoMessage_locals_seqArgAt_(m, locals, 0);
 	IoSeq *inSeq = IoMessage_locals_seqArgAt_(m, locals, 1);
 	char resbuf[20];
+	int ok;
 	memset(resbuf, 0x0, 20);
-	int ok = hmac_sha1(
+	ok = hmac_sha1(
 		IOSEQ_BYTES(key), IOSEQ_LENGTH(key),
 		IOSEQ_BYTES(inSeq), IOSEQ_LENGTH(inSeq), 
 		(void *)resbuf);

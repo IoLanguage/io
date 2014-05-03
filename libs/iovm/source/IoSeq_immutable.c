@@ -6,7 +6,7 @@ A Sequence is a container for a list of data elements.
 Immutable Sequences are also called "Symbols".
 */
 
-
+#include <math.h> // for NAN macro
 #define _GNU_SOURCE // for NAN macro
 #include "IoSeq.h"
 #include "IoState.h"
@@ -17,7 +17,8 @@ Immutable Sequences are also called "Symbols".
 #include "IoList.h"
 #include <ctype.h>
 #include <errno.h>
-#include <math.h> // for NAN macro
+
+#ifndef NAN
 #ifdef _MSC_VER
 static double dNaN()
 {
@@ -25,9 +26,9 @@ static double dNaN()
 	return a / b;
 }
 #define NAN dNaN()
-#endif
-#ifndef NAN
+#else
 #define NAN 0.0/0.0
+#endif
 #endif
 
 #define DATA(self) ((UArray *)IoObject_dataPointer(self))
@@ -1670,9 +1671,10 @@ IO_METHOD(IoSeq, pack)
 	size_t size = 0;
 	size_t padding = 0;
 	char val[16];
+	UArray *ua = UArray_new();
+	
 	memset(val, 0x0, 16);
 
-	UArray *ua = UArray_new();
 	UArray_setItemType_(ua, CTYPE_uint8_t);
 	UArray_setEncoding_(ua, CENCODING_NUMBER);
 
