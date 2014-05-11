@@ -26,6 +26,7 @@ Kudos to Daniel A. Koepke
 
 #undef IO_DECLARE_INLINES
 #undef IOINLINE
+#undef IOINLINE_RECURSIVE
 
 /*
 #if defined(__cplusplus)
@@ -53,18 +54,21 @@ Kudos to Daniel A. Koepke
 #if defined(__APPLE__) 
 
 	#ifndef NS_INLINE
-		#define NS_INLINE static inline
+		#define NS_INLINE static __inline__ __attribute__((always_inline))
 	#endif
 
-	#ifdef IO_IN_C_FILE
-		// in .c 
-		#define IO_DECLARE_INLINES
-		#define IOINLINE NS_INLINE
+	#define IO_DECLARE_INLINES
+	#define IOINLINE NS_INLINE
+
+	/* clang is smart enough to handle inlining recursive functions,
+	 * so defer to the value defined by NS_INLINE; GCC is not, so
+	 * fall back to static inline for it.
+	 */
+	#ifdef __clang__
+		#define IOINLINE_RECURSIVE NS_INLINE
 	#else
-		// in .h 
-		#define IO_DECLARE_INLINES
-		#define IOINLINE NS_INLINE
-	#endif 	
+		#define IOINLINE_RECURSIVE static inline
+	#endif
 
 /*		
 	#include "TargetConditionals.h"
@@ -104,10 +108,12 @@ Kudos to Daniel A. Koepke
 		// in .c 
 		#define IO_DECLARE_INLINES
 		#define IOINLINE inline
+		#define IOINLINE_RECURSIVE inline
 	#else
 		// in .h 
 		#define IO_DECLARE_INLINES
 		#define IOINLINE static inline
+		#define IOINLINE_RECURSIVE static inline
 	#endif 
 	
 #elif defined(__linux__) || defined(__OpenBSD__) || defined(__NetBSD__) || defined(__FreeBSD__)
@@ -116,10 +122,12 @@ Kudos to Daniel A. Koepke
 		// in .c 
 		#define IO_DECLARE_INLINES
 		#define IOINLINE inline
+		#define IOINLINE_RECURSIVE inline
 	#else
 		// in .h 
 		#define IO_DECLARE_INLINES
 		#define IOINLINE extern inline
+		#define IOINLINE_RECURSIVE extern inline
 	#endif 
 	
 #else
@@ -128,10 +136,12 @@ Kudos to Daniel A. Koepke
 		// in .c 
 		#define IO_DECLARE_INLINES
 		#define IOINLINE 
+		#define IOINLINE_RECURSIVE
 	#else
 		// in .h 
 		#define IO_DECLARE_INLINES
 		#define IOINLINE inline
+		#define IOINLINE_RECURSIVE inline
 	#endif 
 	
 #endif
