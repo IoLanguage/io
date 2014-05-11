@@ -275,7 +275,7 @@ IOINLINE void IoObject_inlineSetSlot_to_(IoObject *self,
 	*/
 }
 
-IOINLINE IoObject *IoObject_rawGetSlot_context_(IoObject *self,
+IOINLINE_RECURSIVE IoObject *IoObject_rawGetSlot_context_(IoObject *self,
 												IoSymbol *slotName,
 												IoObject **context)
 {
@@ -318,7 +318,7 @@ IOINLINE IoObject *IoObject_rawGetSlot_context_(IoObject *self,
 	return v;
 }
 
-IOINLINE IoObject *IoObject_rawGetSlot_(IoObject *self, IoSymbol *slotName)
+IOINLINE_RECURSIVE IoObject *IoObject_rawGetSlot_(IoObject *self, IoSymbol *slotName)
 {
 	register IoObject *v = (IoObject *)NULL;
 
