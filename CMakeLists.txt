@@ -57,7 +57,7 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/_build/binaries)
 # anyway, I'm just not going to do anything with them unless it breaks doing
 # nothing breaks something.
 macro(make_build_bundle NAME)
-	file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${NAME}/binaries ${CMAKE_CURRENT_BINARY_DIR}/${NAME}/objs ${CMAKE_CURRENT_BINARY_DIR}/${NAME}/headers ${CMAKE_CURRENT_BINARY_DIR}/${NAME}/lib ${NAME}/dll)
+	file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${NAME}/binaries ${CMAKE_CURRENT_BINARY_DIR}/${NAME}/objs ${CMAKE_CURRENT_BINARY_DIR}/${NAME}/headers ${CMAKE_CURRENT_BINARY_DIR}/${NAME}/lib ${CMAKE_CURRENT_BINARY_DIR}/${NAME}/dll)
 endmacro(make_build_bundle)
 
 # Generic macro to copy files mattching GLOBPAT in the current source
