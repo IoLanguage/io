@@ -16,7 +16,7 @@ Importer := Object clone do(
 
 		directories := list("")
 
-		import := method(protoName,
+		import := method(protoName, originalCall,
 			if(System ?launchPath, directories appendIfAbsent(System launchPath))
 			if(System getEnvironmentVariable("IOIMPORT"),
 				ioImportEnv := System getEnvironmentVariable("IOIMPORT")
@@ -30,8 +30,9 @@ Importer := Object clone do(
 					)
 				)
 			)
+
 			directories foreach(folder,
-				if(tryToImportProtoFromFolder(protoName, folder), return true)
+				if(tryToImportProtoFromFolder(protoName, folder, originalCall), return true)
 			)
 			false
 		)
@@ -41,9 +42,18 @@ Importer := Object clone do(
 		ioFileSuffixes ::= list("io", "ioe")
 
 		//doc FileImporter tryToImportProtoFromFolder(protoName, path) Looks for the protoName with the valid ioFileSuffixes and calls importPath if found.
-		tryToImportProtoFromFolder := method(protoName, folder,
+		tryToImportProtoFromFolder := method(protoName, folder, originalCall,
+			importedFrom := Path absolute(originalCall message label) asMutable lowercase
+
 			ioFileSuffixes foreach(suffix,
 				path := Path with(folder, protoName .. "." .. suffix) asSymbol
+				normalized := Path absolute(path) asMutable lowercase
+
+				// skip file in which 'import' was called
+				if(normalized == importedFrom,
+					continue
+				)
+
 				//writeln("looking for ", path)
 				if(File with(path) exists,
 					return importPath(path)
@@ -122,7 +132,7 @@ Importer := Object clone do(
 		protoName := originalCall message name
 		//writeln("Importer looking for '", protoName, "'")
 
-		if(protoName at(0) isUppercase and(importer := importers detect(import(protoName))),
+		if(protoName at(0) isUppercase and(importer := importers detect(import(protoName, originalCall))),
 			if(Lobby hasSlot(protoName) not,
 				Exception raiseFrom(originalCall, "Importer slot '" .. protoName .. "' missing after " .. importer importsFrom .. " load")
 			)
