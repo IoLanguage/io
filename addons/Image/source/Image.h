@@ -94,6 +94,7 @@ IOIMAGE_API void Image_height_(Image *self, int h);
 IOIMAGE_API int Image_componentCount(Image *self);
 IOIMAGE_API int Image_isRGBA8(Image *self);
 IOIMAGE_API int Image_isRGB8(Image *self);
+IOIMAGE_API int Image_isGrayscale(Image *self);
 
 IOIMAGE_API int Image_sizeInBytes(Image *self);
 IOIMAGE_API uint8_t *Image_data(Image *self);
@@ -120,11 +121,30 @@ IOIMAGE_API void Image_decodingHeightHint_(Image *self, int v);
 IOIMAGE_API int Image_decodingHeightHint(Image *self);
 
 IOIMAGE_API void Image_makeRGBA(Image *self);
+IOIMAGE_API void Image_makeGrayscale(Image *self);
 
 IOIMAGE_API ImageBounds Image_bounds(Image *self, int cutoff);
 
 IOIMAGE_API int Image_baselineHeight(Image *self);
 IOIMAGE_API ColorStruct Image_averageColor(Image *self);
+
+IOIMAGE_API UArray* Image_histogram(Image *self);
+IOIMAGE_API void Image_equalizeHistogram(Image *self, int mode);
+
+IOIMAGE_API void Image_linearContrast(Image *self);
+IOIMAGE_API void Image_bitPlain(Image *self, int component, int bit);
+IOIMAGE_API void Image_setIntensityInRangeTo_(Image *self, int component, int left, int right, int newValue);
+
+IOIMAGE_API void Image_thresholdByGradient(Image* self);
+IOIMAGE_API void Image_thresholdByHistogram(Image* self);
+IOIMAGE_API void Image_thresholdByOtsu(Image* self);
+
+IOIMAGE_API Image* Image_applyLinearFilter(Image* self, int filterWidth, int filterHeight, UArray* filter);
+IOIMAGE_API Image* Image_applyMaxFilter(Image* self, int filterWidth, int filterHeight);
+IOIMAGE_API Image* Image_applyMinFilter(Image* self, int filterWidth, int filterHeight);
+IOIMAGE_API Image* Image_applyWeightedMedianFilter(Image* self, int filterWidth, int filterHeight, UArray* filter);
+IOIMAGE_API Image* Image_applyNonlinearGradientsFilter(Image* self);
+
 
 #endif
 

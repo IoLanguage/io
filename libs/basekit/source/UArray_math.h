@@ -25,6 +25,7 @@ BASEKIT_API void UArray_addScalarDouble_(UArray *self, double v);
 BASEKIT_API void UArray_subtractScalarDouble_(UArray *self, double v);
 BASEKIT_API void UArray_multiplyScalarDouble_(UArray *self, double v);
 BASEKIT_API void UArray_divideScalarDouble_(UArray *self, double v);
+BASEKIT_API void UArray_powerScalarDouble_(UArray *self, double v);
 
 // bitwise logic
 
@@ -66,8 +67,7 @@ BASEKIT_API void UArray_tanh(UArray *self);
 BASEKIT_API void UArray_exp(UArray *self);
 BASEKIT_API void UArray_log(UArray *self);
 BASEKIT_API void UArray_log10(UArray *self);
-
-//void UArray_pow(UArray *self, const UArray *other);
+BASEKIT_API void UArray_pow(UArray *self, const UArray *other);
 
 BASEKIT_API void UArray_sqrt(UArray *self);
 BASEKIT_API void UArray_ceil(UArray *self);

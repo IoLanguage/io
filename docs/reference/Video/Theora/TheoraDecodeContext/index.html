@@ -2,7 +2,7 @@
 		<html>
 		<head>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-		<title>EventManager</title>
+		<title>TheoraDecodeContext</title>
 		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
 		<link rel="stylesheet" href="../../../../docs.css">
 		</head>
@@ -12,21 +12,18 @@
 <h1>Io Reference</h1>
 <br><br><br>
 <br><br><br>
-<a class='column' href='../../index.html'>Networking</a>
+<a class='column' href='../../index.html'>Video</a>
 &nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
-<a class='column' href='../index.html'>Socket</a>
+<a class='column' href='../index.html'>Theora</a>
 &nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
-<b>EventManager</b>
+<b>TheoraDecodeContext</b>
 <br><br><br>
 <br><br><br>
 <table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
 <tr>
 <td align=right></td>
 <td></td>
-<td>	Object for libevent (kqueue/epoll/poll/select) library. 
-	Usefull for getting notifications for descriptor (a socket or file) events.
-	Events include read (the descriptor has unread data or timeout) and write (the descriptor wrote some data or timeout).
-	Also, timer and signal events are supported.
+<td>A wrapper around the libtheora th_dec_ctx object.
 </td></tr>
 <tr><td colspan=3>&nbsp;</td></tr>
 <tr><td colspan=3>&nbsp;</td></tr>
@@ -36,15 +33,7 @@
 </td>
 <td></td>
 <td>
-<hr align=left color=#ddd height=1>
 <br><br>
-<a name="EventManager-run"></a><b>
-run
-</b>
-<p>
-<div class=slotDescription>
-Runs the EventManger loop. Does not return. Private - should only be called by resumeIfNeeded.
-</div>
 </td>
 </tr>
 </table>

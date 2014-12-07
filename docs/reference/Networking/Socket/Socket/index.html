@@ -60,6 +60,13 @@ acceptTimeout
 <div class=slotDescription>
 Returns the length of time in seconds for accept timeouts on the socket.
 </div>
+<a name="Socket-address"></a><b>
+address
+</b>
+<p>
+<div class=slotDescription>
+Returns the address (IPAddress or UnixPath) object for the socket.
+</div>
 <a name="Socket-appendToWriteBuffer"></a><b>
 appendToWriteBuffer(aSequence)
 </b>
@@ -68,7 +75,7 @@ appendToWriteBuffer(aSequence)
 Appends aSequence to the write buffer if it is non-nil. Returns self.
 </div>
 <a name="Socket-asyncAccept"></a><b>
-asyncAccept(ipAddressObject)
+asyncAccept(addressObject)
 </b>
 <p>
 <div class=slotDescription>
@@ -82,11 +89,11 @@ asyncBind
 Binds the socket and returns self immediately or an Error object on error.
 </div>
 <a name="Socket-asyncConnect"></a><b>
-asyncConnect(ipAddressObject)
+asyncConnect(addressObject)
 </b>
 <p>
 <div class=slotDescription>
-Connects to the given IPAddress and returns self or an Error object on error.
+Connects to the given Address and returns self or an Error object on error.
 </div>
 <a name="Socket-asyncListen"></a><b>
 asyncListen
@@ -199,6 +206,13 @@ errorNumber
 <div class=slotDescription>
 Returns the socket error number for the last error.
 </div>
+<a name="Socket-fromFd"></a><b>
+fromFd(descriptorId, addressFamily)
+</b>
+<p>
+<div class=slotDescription>
+Creates a new Socket with the low-level file descriptor (fd) set to descriptorId and it's address family (AF_INET or AF_UNIX) set to addressFamily.
+</div>
 <a name="Socket-getSocketReadLowWaterMark"></a><b>
 getSocketReadLowWaterMark
 </b>
@@ -220,13 +234,6 @@ host
 <div class=slotDescription>
 Returns the host for the socket.
 </div>
-<a name="Socket-ipAddress"></a><b>
-ipAddress
-</b>
-<p>
-<div class=slotDescription>
-Returns the IpAddress object for the socket.
-</div>
 <a name="Socket-isOpen"></a><b>
 isOpen
 </b>
@@ -247,6 +254,13 @@ isValid
 <p>
 <div class=slotDescription>
 Returns true if the socket is in valid state, closes the socket and returns false otherwise.
+</div>
+<a name="Socket-path"></a><b>
+path
+</b>
+<p>
+<div class=slotDescription>
+Returns the U for the socket.
 </div>
 <a name="Socket-port"></a><b>
 port
@@ -299,7 +313,7 @@ serverOpen
 </b>
 <p>
 <div class=slotDescription>
-Opens the socket as a stream, binds it to its ipAddress and calls asyncListen to prepare the socket to accept connections.
+Opens the socket as a stream, binds it to its address and calls asyncListen to prepare the socket to accept connections.
 	Returns self on success or an Error object on error.
 </div>
 <a name="Socket-serverWaitForConnection"></a><b>
@@ -316,6 +330,13 @@ setAcceptTimeout(seconds)
 <p>
 <div class=slotDescription>
 Sets the length of time in seconds for accept timeouts on the socket. Returns self.
+</div>
+<a name="Socket-setAddress"></a><b>
+setAddress(addressObject)
+</b>
+<p>
+<div class=slotDescription>
+Sets the address (IPAddress or UnixPath) for the socket. Returns self. For IP sockets the setHost() method should generally be used to set the host instead of this method. For Unix Domain sockets use the setPath() method.
 </div>
 <a name="Socket-setBytesPerRead"></a><b>
 setBytesPerRead(numberOfBytes)
@@ -351,14 +372,7 @@ setHost(hostNameOrIpString)
 </b>
 <p>
 <div class=slotDescription>
-Set the host for the socket. Returns self on success, an Error object otherwise.
-</div>
-<a name="Socket-setIpAddress"></a><b>
-setIpAddress(ipAddressObject)
-</b>
-<p>
-<div class=slotDescription>
-Sets the ipAddress for the socket. Returns self. The setHost() method should generally be used to set the host instead of this method.
+Sets the host for the socket. Returns self on success, an Error object otherwise.
 </div>
 <a name="Socket-setNoDelay"></a><b>
 setNoDelay
@@ -366,6 +380,13 @@ setNoDelay
 <p>
 <div class=slotDescription>
 Sets the socket to be no-delay. Returns self on success or nil on error.
+</div>
+<a name="Socket-setPath"></a><b>
+setPath(unixDomainPath)
+</b>
+<p>
+<div class=slotDescription>
+Sets the Unix Domain socket path for the socket. Returns self.
 </div>
 <a name="Socket-setPort"></a><b>
 setPort(portNumber)
@@ -464,19 +485,19 @@ udpOpen
 Opens the socket in UDP (connectionless) mode. Returns self.
 </div>
 <a name="Socket-udpRead"></a><b>
-udpRead(ipAddress, numBytes)
+udpRead(address, numBytes)
 </b>
 <p>
 <div class=slotDescription>
-Waits for and reads numBytes of udp data from the specified ipAddress into the socket's readBuffer.
+Waits for and reads numBytes of udp data from the specified address (IPAddress or UnixPath) into the socket's readBuffer.
 	Returns self on success or an Error object on error.
 </div>
 <a name="Socket-udpReadNextChunk"></a><b>
-udpReadNextChunk(ipAddress)
+udpReadNextChunk(address)
 </b>
 <p>
 <div class=slotDescription>
-Waits to receive UDP data from the specified ipAddress. 
+Waits to receive UDP data from the specified address (IPAddress or UnixPath). 
 	As soon as any data is available, it reads all of it into the socket's readBuffer.
 	Returns self on success or an Error object on error.
 </div>

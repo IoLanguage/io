@@ -28,6 +28,7 @@ typedef struct
 IOIMAGE_API IoImage *IoImage_proto(void *state);
 IOIMAGE_API IoImage *IoImage_new(void *state);
 IOIMAGE_API IoImage *IoImage_newWithPath_(void *state, IoSymbol *path);
+IOIMAGE_API IoImage *IoImage_newWithImage_(void *state, Image* image);
 IOIMAGE_API IoImage *IoImage_rawClone(IoImage *self);
 
 IOIMAGE_API void IoImage_free(IoImage *self);
@@ -58,6 +59,10 @@ IOIMAGE_API IoObject *IoImage_isRGBA8(IoImage *self, IoObject *locals, IoMessage
 IOIMAGE_API IoObject *IoImage_isL8(IoImage *self, IoObject *locals, IoMessage *m);
 IOIMAGE_API IoObject *IoImage_isLA8(IoImage *self, IoObject *locals, IoMessage *m);
 
+IOIMAGE_API IoObject *IoImage_makeRGBA8(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_makeL8(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_makeGrayscale(IoImage *self, IoObject *locals, IoMessage *m);
+
 IOIMAGE_API IoObject *IoImage_resizedTo(IoImage *self, IoObject *locals, IoMessage *m);
 IOIMAGE_API IoObject *IoImage_crop(IoImage *self, IoObject *locals, IoMessage *m);
 IOIMAGE_API IoObject *IoImage_addAlpha(IoImage *self, IoObject *locals, IoMessage *m);
@@ -78,5 +83,27 @@ IOIMAGE_API IoObject *IoImage_baselineHeight(IoImage *self, IoObject *locals, Io
 IOIMAGE_API IoObject *IoImage_bounds(IoImage *self, IoObject *locals, IoMessage *m);
 
 IOIMAGE_API IoObject *IoImage_averageColor(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_histogram(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_equalizeHistogram(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_linearContrast(IoImage *self, IoObject *locals, IoMessage *m);
+
+IOIMAGE_API IoObject *IoImage_componentPlain(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_bitPlain(IoImage *self, IoObject *locals, IoMessage *m);
+
+IOIMAGE_API IoObject *IoImage_thresholdByGradient(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_thresholdByHistogram(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_thresholdByOtsu(IoImage *self, IoObject *locals, IoMessage *m);
+
+IOIMAGE_API IoObject *IoImage_filterLinear(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_filterUniformAverage(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_filterGauss(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_filterSobel(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_filterKirsch(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_filterUnsharpMask(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_filterMin(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_filterMax(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_filterMedian(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_filterWeightedMedian(IoImage *self, IoObject *locals, IoMessage *m);
+IOIMAGE_API IoObject *IoImage_filterNonlinearGradients(IoImage *self, IoObject *locals, IoMessage *m);
 
 #endif
