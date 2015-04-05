@@ -16,7 +16,7 @@ value := sensors getRightLightSensor
 */
 
 #include "IoAppleSensors.h"
-#include "AppleSensors.h"
+#include "AppleLMU.h"
 #include "IoState.h"
 #include "IoNumber.h"
 #include "IoSeq.h"

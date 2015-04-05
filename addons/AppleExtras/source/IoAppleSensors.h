@@ -6,7 +6,7 @@
 #include "IoObject.h"
 #include "IoSeq.h"
 #include "IoList.h"
-#include "AppleSensors.h"
+#include "AppleLMU.h"
 
 #define ISAppleSensors(self) IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoAppleSensors_rawClone)
 

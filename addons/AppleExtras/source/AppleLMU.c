@@ -14,40 +14,37 @@ enum {
 };
 
 
-#include <mach/mach.h>
-//#include <Carbon/Carbon.h>
-#include <IOKit/IOKitLib.h>
-#include <CoreFoundation/CoreFoundation.h>
+#include "AppleLMU.h"
 
-static io_connect_t dataPort = 0; // shared?
+static io_connect_t lmuDataPort = 0; // shared?
 
-io_connect_t getDataPort(void)
+io_connect_t lmuGetDataPort(void)
 {
 	kern_return_t     kr;
 	io_service_t      serviceObject;
 
-	if (dataPort) return dataPort;
+	if (lmuDataPort) return lmuDataPort;
 
 	// Look up a registered IOService object whose class is AppleLMUController
 	serviceObject = IOServiceGetMatchingService(kIOMasterPortDefault, IOServiceMatching("AppleLMUController"));
 
 	if (!serviceObject)
 	{
-		printf("getLightSensors() error: failed to find ambient light sensor\n");
+		printf("AppleLMU error: failed to find ambient light sensor\n");
 		return 0;
 	}
 
 	// Create a connection to the IOService object
-	kr = IOServiceOpen(serviceObject, mach_task_self(), 0, &dataPort);
+	kr = IOServiceOpen(serviceObject, mach_task_self(), 0, &lmuDataPort);
 	IOObjectRelease(serviceObject);
 
 	if (kr != KERN_SUCCESS)
 	{
-		printf("getLightSensors() error: failed to open IoService object\n");
+		printf("AppleLMU error: failed to open IOService object\n");
 		return 0;
 	}
 
-	return dataPort;
+	return lmuDataPort;
 }
 
 void getLightSensors(float *left, float *right)
@@ -60,7 +57,7 @@ void getLightSensors(float *left, float *right)
 
 	kern_return_t kr;
 
-    kr = IOConnectCallScalarMethod(getDataPort(),
+    kr = IOConnectCallScalarMethod(lmuGetDataPort(),
 		kGetSensorReadingID,
 		inputValues,
 		inputCount,
@@ -130,7 +127,7 @@ float getKeyboardBrightness(void)
 
     uint32_t out_brightness;
 
-	kr = IOConnectCallScalarMethod(getDataPort(),
+	kr = IOConnectCallScalarMethod(lmuGetDataPort(),
 	    kGetLEDBrightnessID,
 		inputValues,
 		inputCount,
@@ -169,7 +166,7 @@ void setKeyboardBrightness(float in)
     uint32_t out_brightness;
 
 	//kr = IOConnectMethodScalarIScalarO(dp, kSetLEDBrightnessID,
-	kr = IOConnectCallScalarMethod(getDataPort(),
+	kr = IOConnectCallScalarMethod(lmuGetDataPort(),
 	    kSetLEDBrightnessID,
 		inputValues,
 		inputCount,
