@@ -89,7 +89,7 @@ kern_return_t SMCCall(int index, SMCKeyData_t *inputStructure, SMCKeyData_t *out
 	structureInputSize = sizeof(SMCKeyData_t);
 	structureOutputSize = sizeof(SMCKeyData_t);
 	
-	return IOConnectCallStructMethod( conn, index,
+	return IOConnectCallStructMethod( smcGetDataPort(), index,
 									 // inputStructure
 									 inputStructure, structureInputSize,
 									 // ouputStructure
@@ -199,7 +199,7 @@ char representValue(SMCVal_t value)
 	return "error";
 }
 
-SMCVal_t createEmptyValue {
+SMCVal_t createEmptyValue() {
 	SMCVal_t newVal;
 	memset(&newVal, 0, sizeof(newVal));
 	return newVal;
