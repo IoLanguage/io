@@ -17,6 +17,7 @@ value := sensors getRightLightSensor
 
 #include "IoAppleSensors.h"
 #include "AppleLMU.h"
+#include "AppleSMC.h"
 #include "IoState.h"
 #include "IoNumber.h"
 #include "IoSeq.h"
@@ -53,6 +54,11 @@ IoAppleSensors *IoAppleSensors_proto(void *state)
 
 		{"getKeyboardBrightness", IoAppleSensors_getKeyboardBrightness},
 		{"setKeyboardBrightness", IoAppleSensors_setKeyboardBrightness},
+			
+		{"getCPUTemperature", IoAppleSensors_getCPUTemperature},
+		{"getGPUTemperature", IoAppleSensors_getGPUTemperature},
+		{"getPalmTemperature", IoAppleSensors_getPalmTemperature},
+		{"getBatteryTemperature", IoAppleSensors_getBatteryTemperature},
 
 		//{"smsDetect", IoAppleSensors_smsDetect},
 		{"smsVector", IoAppleSensors_smsVector},
@@ -139,6 +145,62 @@ IoObject *IoAppleSensors_setKeyboardBrightness(IoAppleSensors *self, IoObject *l
 	float v = IoMessage_locals_floatArgAt_(m, locals, 0);
 	setKeyboardBrightness(v);
 	return self;
+}
+
+IoObject *IoAppleSensors_getCPUTemperature(IoAppleSensors *self, IoObject *locals, IoMessage *m)
+{
+	/*doc AppleSensors getCPUTemperature
+		Returns a number for the CPU temperature sensor.
+	 */
+	SMCVal_t val = createEmptyValue();
+	kern_return_t result = SMCReadKey("TC0P", &val);
+	if (result = kIOReturnSuccess) {
+		float ftemp = atof(representValue(val));
+		return IONUMBER(0);
+	}
+	return IONUMBER(-127);
+}
+
+IoObject *IoAppleSensors_getGPUTemperature(IoAppleSensors *self, IoObject *locals, IoMessage *m)
+{
+	/*doc AppleSensors getGPUTemperature
+		Returns a number for the GPU temperature sensor.
+	 */
+	SMCVal_t val = createEmptyValue();
+	kern_return_t result = SMCReadKey("TG0P", &val);
+	if (result = kIOReturnSuccess) {
+		float ftemp = atof(representValue(val));
+		return IONUMBER(0);
+	}
+	return IONUMBER(-127);
+}
+
+IoObject *IoAppleSensors_getPalmTemperature(IoAppleSensors *self, IoObject *locals, IoMessage *m)
+{
+	/*doc AppleSensors getPalmTemperature
+		Returns a number for the Palm Rest Area temperature sensor.
+	 */
+	SMCVal_t val = createEmptyValue();
+	kern_return_t result = SMCReadKey("Ts0P", &val);
+	if (result = kIOReturnSuccess) {
+		float ftemp = atof(representValue(val));
+		return IONUMBER(0);
+	}
+	return IONUMBER(-127);
+}
+
+IoObject *IoAppleSensors_getBatteryTemperature(IoAppleSensors *self, IoObject *locals, IoMessage *m)
+{
+	/*doc AppleSensors getBatteryTemperature
+		Returns a number for the Battery temperature sensor.
+	 */
+	SMCVal_t val = createEmptyValue();
+	kern_return_t result = SMCReadKey("TB0T", &val);
+	if (result = kIOReturnSuccess) {
+		float ftemp = atof(representValue(val));
+		return IONUMBER(0);
+	}
+	return IONUMBER(-127);
 }
 
 #include "unimotion.h"
