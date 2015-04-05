@@ -198,3 +198,9 @@ char representValue(SMCVal_t value)
 	}
 	return "error";
 }
+
+SMCVal_t createEmptyValue {
+	SMCVal_t newVal;
+	memset(&newVal, 0, sizeof(newVal));
+	return newVal;
+}
