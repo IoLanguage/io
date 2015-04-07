@@ -24,6 +24,10 @@ value := sensors getRightLightSensor
 #include "IoState.h"
 #include "IoObject.h"
 #include "unimotion.h"
+#include <mach/mach.h>
+//#include <Carbon/Carbon.h>
+#include <IOKit/IOKitLib.h>
+#include <CoreFoundation/CoreFoundation.h>
 
 #define DATA(self) ((IoAppleSensorsData *)(IoObject_dataPointer(self)))
 
@@ -31,7 +35,7 @@ const char *protoId = "AppleSensors";
 
 IoTag *IoAppleSensors_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("AppleSensors");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoAppleSensors_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoAppleSensors_rawClone);
@@ -44,32 +48,24 @@ IoAppleSensors *IoAppleSensors_proto(void *state)
 	IoObject_tag_(self, IoAppleSensors_newTag(state));
 
 	//IoObject_setDataPointer_(self, calloc(1, sizeof(IoAppleSensorsData)));
-	
-	IoObject_setDataPointer_(self, calloc(1, sizeof(IoAppleSensorsData)));
-//io_AppleSensors_init(&(DATA(self)->mstate));
 
 	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
-		{"getLeftLightSensor", IoAppleSensors_getLeftLightSensor},
-		{"getRightLightSensor", IoAppleSensors_getRightLightSensor},
-
-		{"getDisplayBrightness", IoAppleSensors_getDisplayBrightness},
-		{"setDisplayBrightness", IoAppleSensors_setDisplayBrightness},
-
-		{"getKeyboardBrightness", IoAppleSensors_getKeyboardBrightness},
-		{"setKeyboardBrightness", IoAppleSensors_setKeyboardBrightness},
-			
-		{"getCPUTemperature", IoAppleSensors_getCPUTemperature},
-		{"getGPUTemperature", IoAppleSensors_getGPUTemperature},
-		{"getPalmTemperature", IoAppleSensors_getPalmTemperature},
-		{"getBatteryTemperature", IoAppleSensors_getBatteryTemperature},
-
-		//{"smsDetect", IoAppleSensors_smsDetect},
-		{"smsVector", IoAppleSensors_smsVector},
-
-		{NULL, NULL},
+			{"getLeftLightSensor", IoAppleSensors_getLeftLightSensor},
+			{"getRightLightSensor", IoAppleSensors_getRightLightSensor},
+			{"getDisplayBrightness", IoAppleSensors_getDisplayBrightness},
+			{"setDisplayBrightness", IoAppleSensors_setDisplayBrightness},
+			{"getKeyboardBrightness", IoAppleSensors_getKeyboardBrightness},
+			{"setKeyboardBrightness", IoAppleSensors_setKeyboardBrightness},
+			{"getCPUTemperature", IoAppleSensors_getCPUTemperature},
+			{"getGPUTemperature", IoAppleSensors_getGPUTemperature},
+			{"getPalmTemperature", IoAppleSensors_getPalmTemperature},
+			{"getBatteryTemperature", IoAppleSensors_getBatteryTemperature},
+			//{"smsDetect", IoAppleSensors_smsDetect},
+			{"smsVector", IoAppleSensors_smsVector},
+			{NULL, NULL},
 		};
 		IoObject_addMethodTable_(self, methodTable);
 	}
@@ -94,7 +90,7 @@ void IoAppleSensors_free(IoAppleSensors *self)
 {
 	SMCClose();
 	LMUClose();
-	free(IoObject_dataPointer(self));
+	//free(IoObject_dataPointer(self));
 }
 
 // -----------------------------------------------------------
@@ -161,10 +157,16 @@ IoObject *IoAppleSensors_getCPUTemperature(IoAppleSensors *self, IoObject *local
 		Returns a number for the CPU temperature sensor.
 	 */
 	SMCVal_t val = createEmptyValue();
+	char* str;
 	kern_return_t result = SMCReadKey("TC0P", &val);
-	if (result = kIOReturnSuccess) {
-		float ftemp = atof(representValue(val));
-		return IONUMBER(0);
+	if (result == kIOReturnSuccess) {
+		result = representValue(val, str);
+		if (result == TRUE) {
+			float ftemp = atof(str);
+			//free(&str);
+			//free(str);
+			return IONUMBER(ftemp);
+		}
 	}
 	return IONUMBER(-127);
 }
@@ -175,10 +177,14 @@ IoObject *IoAppleSensors_getGPUTemperature(IoAppleSensors *self, IoObject *local
 		Returns a number for the GPU temperature sensor.
 	 */
 	SMCVal_t val = createEmptyValue();
+	char* str;
 	kern_return_t result = SMCReadKey("TG0P", &val);
-	if (result = kIOReturnSuccess) {
-		float ftemp = atof(representValue(val));
-		return IONUMBER(0);
+	if (result == kIOReturnSuccess) {
+		result = representValue(val, str);
+		if (result == TRUE) {
+			float ftemp = atof(str);
+			return IONUMBER(ftemp);
+		}
 	}
 	return IONUMBER(-127);
 }
@@ -189,10 +195,14 @@ IoObject *IoAppleSensors_getPalmTemperature(IoAppleSensors *self, IoObject *loca
 		Returns a number for the Palm Rest Area temperature sensor.
 	 */
 	SMCVal_t val = createEmptyValue();
+	char* str;
 	kern_return_t result = SMCReadKey("Ts0P", &val);
-	if (result = kIOReturnSuccess) {
-		float ftemp = atof(representValue(val));
-		return IONUMBER(0);
+	if (result == kIOReturnSuccess) {
+		result = representValue(val, str);
+		if (result == TRUE) {
+			float ftemp = atof(str);
+			return IONUMBER(ftemp);
+		}
 	}
 	return IONUMBER(-127);
 }
@@ -203,10 +213,14 @@ IoObject *IoAppleSensors_getBatteryTemperature(IoAppleSensors *self, IoObject *l
 		Returns a number for the Battery temperature sensor.
 	 */
 	SMCVal_t val = createEmptyValue();
+	char* str;
 	kern_return_t result = SMCReadKey("TB0T", &val);
-	if (result = kIOReturnSuccess) {
-		float ftemp = atof(representValue(val));
-		return IONUMBER(0);
+	if (result == kIOReturnSuccess) {
+		result = representValue(val, str);
+		if (result == TRUE) {
+			float ftemp = atof(str);
+			return IONUMBER(ftemp);
+		}
 	}
 	return IONUMBER(-127);
 }

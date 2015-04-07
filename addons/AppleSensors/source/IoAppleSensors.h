@@ -17,21 +17,21 @@ IoAppleSensors *IoAppleSensors_proto(void *state);
 IoAppleSensors *IoAppleSensors_rawClone(IoAppleSensors *self);
 void IoAppleSensors_free(IoAppleSensors *self);
 
-IoObject *IoAppleSensors_getLeftLightSensor(IoAppleSensors *self, IoObject *locals, IoMessage *m);
-IoObject *IoAppleSensors_getRightLightSensor(IoAppleSensors *self, IoObject *locals, IoMessage *m);
+IoObject *IoAppleSensors_getLeftLightSensor(IoObject *self, IoObject *locals, IoMessage *m);
+IoObject *IoAppleSensors_getRightLightSensor(IoObject *self, IoObject *locals, IoMessage *m);
 
-IoObject *IoAppleSensors_getDisplayBrightness(IoAppleSensors *self, IoObject *locals, IoMessage *m);
-IoObject *IoAppleSensors_setDisplayBrightness(IoAppleSensors *self, IoObject *locals, IoMessage *m);
+IoObject *IoAppleSensors_getDisplayBrightness(IoObject *self, IoObject *locals, IoMessage *m);
+IoObject *IoAppleSensors_setDisplayBrightness(IoObject *self, IoObject *locals, IoMessage *m);
 
-IoObject *IoAppleSensors_getKeyboardBrightness(IoAppleSensors *self, IoObject *locals, IoMessage *m);
-IoObject *IoAppleSensors_setKeyboardBrightness(IoAppleSensors *self, IoObject *locals, IoMessage *m);
+IoObject *IoAppleSensors_getKeyboardBrightness(IoObject *self, IoObject *locals, IoMessage *m);
+IoObject *IoAppleSensors_setKeyboardBrightness(IoObject *self, IoObject *locals, IoMessage *m);
 
-IoObject *IoAppleSensors_getCPUTemperature(IoAppleSensors *self, IoObject *locals, IoMessage *m);
-IoObject *IoAppleSensors_getGPUTemperature(IoAppleSensors *self, IoObject *locals, IoMessage *m);
-IoObject *IoAppleSensors_getPalmTemperature(IoAppleSensors *self, IoObject *locals, IoMessage *m);
-IoObject *IoAppleSensors_getBatteryTemperature(IoAppleSensors *self, IoObject *locals, IoMessage *m);
+IoObject *IoAppleSensors_getCPUTemperature(IoObject *self, IoObject *locals, IoMessage *m);
+IoObject *IoAppleSensors_getGPUTemperature(IoObject *self, IoObject *locals, IoMessage *m);
+IoObject *IoAppleSensors_getPalmTemperature(IoObject *self, IoObject *locals, IoMessage *m);
+IoObject *IoAppleSensors_getBatteryTemperature(IoObject *self, IoObject *locals, IoMessage *m);
 
-//IoObject *IoAppleSensors_smsDetect(IoAppleSensors *self, IoObject *locals, IoMessage *m);
-IoObject *IoAppleSensors_smsVector(IoAppleSensors *self, IoObject *locals, IoMessage *m);
+//IoObject *IoAppleSensors_smsDetect(IoObject *self, IoObject *locals, IoMessage *m);
+IoObject *IoAppleSensors_smsVector(IoObject *self, IoObject *locals, IoMessage *m);
 
 #endif
