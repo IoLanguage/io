@@ -97,4 +97,4 @@ io_connect_t smcGetDataPort(void);
 kern_return_t SMCClose();
 kern_return_t SMCReadKey(UInt32Char_t key, SMCVal_t *val);
 SMCVal_t createEmptyValue();
-char representValue(SMCVal_t value);
+bool representValue(SMCVal_t value, char* str);

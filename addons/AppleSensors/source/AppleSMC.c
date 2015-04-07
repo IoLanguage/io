@@ -128,9 +128,8 @@ kern_return_t SMCReadKey(UInt32Char_t key, SMCVal_t *val)
 	return kIOReturnSuccess;
 }
 
-char representValue(SMCVal_t value)
+bool representValue(SMCVal_t value, char* str)
 {
-	char* str;
 	if (value.dataSize > 0) {
 		if ((strcmp(value.dataType, DATATYPE_UINT8) == 0) ||
 			(strcmp(value.dataType, DATATYPE_UINT16) == 0) ||
@@ -194,9 +193,9 @@ char representValue(SMCVal_t value)
 			}
 			snprintf(str, 15, "%s ", tempAb);
 		}
-		return str;
+		return TRUE;
 	}
-	return "error";
+	return FALSE;
 }
 
 SMCVal_t createEmptyValue() {
