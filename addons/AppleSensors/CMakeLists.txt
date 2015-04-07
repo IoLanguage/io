@@ -15,12 +15,24 @@ generate_ioinit(AppleSensors)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/_build/dll)
 
 # Our library sources.
-set(SRCS "${CMAKE_CURRENT_SOURCE_DIR}/source/IoAppleSensorsInit.c")
+set(SRCS
+	"${CMAKE_CURRENT_SOURCE_DIR}/source/IoAppleSensors.c"
+	"${CMAKE_CURRENT_SOURCE_DIR}/source/AppleSMC.c"
+	"${CMAKE_CURRENT_SOURCE_DIR}/source/AppleLMU.c"
+	"${CMAKE_CURRENT_SOURCE_DIR}/source/unimotion.c"
+	"${CMAKE_CURRENT_SOURCE_DIR}/source/IoAppleSensorsInit.c"
+)
+
+find_library(IOKIT IOKit)
+if (NOT IOKIT)
+    message(FATAL_ERROR "IOKit not found")
+endif()
+#add_executable(IoAppleSensors ${program_SOURCES})
 
 # Now build the shared library
 add_library(IoAppleSensors SHARED ${SRCS})
 add_dependencies(IoAppleSensors iovmall)
-target_link_libraries(IoAppleSensors iovmall)
+target_link_libraries(IoAppleSensors iovmall ${IOKIT})
 
 # Install the addon to our global addons hierarchy.
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION lib/io/addons)
