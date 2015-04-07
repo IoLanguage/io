@@ -30,6 +30,9 @@ IoObject *IoAppleSensors_getCPUTemperature(IoObject *self, IoObject *locals, IoM
 IoObject *IoAppleSensors_getGPUTemperature(IoObject *self, IoObject *locals, IoMessage *m);
 IoObject *IoAppleSensors_getPalmTemperature(IoObject *self, IoObject *locals, IoMessage *m);
 IoObject *IoAppleSensors_getBatteryTemperature(IoObject *self, IoObject *locals, IoMessage *m);
+IoObject *IoAppleSensors_getRAMTemperature(IoAppleSensors *self, IoObject *locals, IoMessage *m);
+IoObject *IoAppleSensors_getPCHTemperature(IoAppleSensors *self, IoObject *locals, IoMessage *m);
+IoObject *IoAppleSensors_getPowerTemperature(IoAppleSensors *self, IoObject *locals, IoMessage *m);
 
 //IoObject *IoAppleSensors_smsDetect(IoObject *self, IoObject *locals, IoMessage *m);
 IoObject *IoAppleSensors_smsVector(IoObject *self, IoObject *locals, IoMessage *m);
