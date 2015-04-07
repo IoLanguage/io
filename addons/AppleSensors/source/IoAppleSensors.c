@@ -162,7 +162,7 @@ IoObject *IoAppleSensors_getCPUTemperature(IoAppleSensors *self, IoObject *local
 	if (result == kIOReturnSuccess) {
 		result = representValue(val, &cStr[0]);
 		if (result == TRUE) {
-			float ftemp = atof(&cStr);
+			float ftemp = atof(&cStr[0]);
 			return IONUMBER(ftemp);
 		}
 	}
@@ -180,7 +180,7 @@ IoObject *IoAppleSensors_getGPUTemperature(IoAppleSensors *self, IoObject *local
 	if (result == kIOReturnSuccess) {
 		result = representValue(val, &cStr[0]);
 		if (result == TRUE) {
-			float ftemp = atof(&cStr);
+			float ftemp = atof(&cStr[0]);
 			return IONUMBER(ftemp);
 		}
 	}
@@ -198,7 +198,7 @@ IoObject *IoAppleSensors_getPalmTemperature(IoAppleSensors *self, IoObject *loca
 	if (result == kIOReturnSuccess) {
 		result = representValue(val, &cStr[0]);
 		if (result == TRUE) {
-			float ftemp = atof(&cStr);
+			float ftemp = atof(&cStr[0]);
 			return IONUMBER(ftemp);
 		}
 	}
@@ -216,7 +216,7 @@ IoObject *IoAppleSensors_getBatteryTemperature(IoAppleSensors *self, IoObject *l
 	if (result == kIOReturnSuccess) {
 		result = representValue(val, &cStr[0]);
 		if (result == TRUE) {
-			float ftemp = atof(&cStr);
+			float ftemp = atof(&cStr[0]);
 			return IONUMBER(ftemp);
 		}
 	}
@@ -234,7 +234,7 @@ IoObject *IoAppleSensors_getPowerTemperature(IoAppleSensors *self, IoObject *loc
 	if (result == kIOReturnSuccess) {
 		result = representValue(val, &cStr[0]);
 		if (result == TRUE) {
-			float ftemp = atof(&cStr);
+			float ftemp = atof(&cStr[0]);
 			return IONUMBER(ftemp);
 		}
 	}
@@ -252,7 +252,7 @@ IoObject *IoAppleSensors_getPCHTemperature(IoAppleSensors *self, IoObject *local
 	if (result == kIOReturnSuccess) {
 		result = representValue(val, &cStr[0]);
 		if (result == TRUE) {
-			float ftemp = atof(&cStr);
+			float ftemp = atof(&cStr[0]);
 			return IONUMBER(ftemp);
 		}
 	}
@@ -270,7 +270,7 @@ IoObject *IoAppleSensors_getRAMTemperature(IoAppleSensors *self, IoObject *local
 	if (result == kIOReturnSuccess) {
 		result = representValue(val, &cStr[0]);
 		if (result == TRUE) {
-			float ftemp = atof(&cStr);
+			float ftemp = atof(&cStr[0]);
 			return IONUMBER(ftemp);
 		}
 	}
