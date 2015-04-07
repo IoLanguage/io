@@ -223,6 +223,60 @@ IoObject *IoAppleSensors_getBatteryTemperature(IoAppleSensors *self, IoObject *l
 	return IONUMBER(-127);
 }
 
+IoObject *IoAppleSensors_getPowerTemperature(IoAppleSensors *self, IoObject *locals, IoMessage *m)
+{
+	/*doc AppleSensors getPowerTemperature
+		Returns a number for the Power board temperature sensor.
+	 */
+	SMCVal_t val = createEmptyValue();
+	char cStr[16];
+	kern_return_t result = SMCReadKey("Ts0S", &val);
+	if (result == kIOReturnSuccess) {
+		result = representValue(val, &cStr[0]);
+		if (result == TRUE) {
+			float ftemp = atof(&cStr);
+			return IONUMBER(ftemp);
+		}
+	}
+	return IONUMBER(-127);
+}
+
+IoObject *IoAppleSensors_getPCHTemperature(IoAppleSensors *self, IoObject *locals, IoMessage *m)
+{
+	/*doc AppleSensors getPCHTemperature
+		Returns a number for Intel's Platform Controller Hub temperature sensor.
+	 */
+	SMCVal_t val = createEmptyValue();
+	char cStr[16];
+	kern_return_t result = SMCReadKey("TP0P", &val);
+	if (result == kIOReturnSuccess) {
+		result = representValue(val, &cStr[0]);
+		if (result == TRUE) {
+			float ftemp = atof(&cStr);
+			return IONUMBER(ftemp);
+		}
+	}
+	return IONUMBER(-127);
+}
+
+IoObject *IoAppleSensors_getRAMTemperature(IoAppleSensors *self, IoObject *locals, IoMessage *m)
+{
+	/*doc AppleSensors getRAMTemperature
+		Returns a number for the RAM temperature sensor.
+	 */
+	SMCVal_t val = createEmptyValue();
+	char cStr[16];
+	kern_return_t result = SMCReadKey("TM0P", &val);
+	if (result == kIOReturnSuccess) {
+		result = representValue(val, &cStr[0]);
+		if (result == TRUE) {
+			float ftemp = atof(&cStr);
+			return IONUMBER(ftemp);
+		}
+	}
+	return IONUMBER(-127);
+}
+
 static int smsType = -1;
 
 IoObject *IoAppleSensors_smsVector(IoAppleSensors *self, IoObject *locals, IoMessage *m)
