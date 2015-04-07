@@ -45,7 +45,7 @@ endmacro(generate_ioinit)
 # flux should be commented out here until such time as they are in
 # a stable state.
 #add_subdirectory(AVCodec) # XXX: Broken
-#add_subdirectory(AppleExtras)
+#add_subdirectory(AppleSensors)
 add_subdirectory(AsyncRequest)
 #add_subdirectory(Beanstalk) # XXX: Broken, no YAML addon
 add_subdirectory(BigNum)
@@ -81,7 +81,7 @@ add_subdirectory(MySQL)
 add_subdirectory(NotificationCenter)
 #add_subdirectory(Oauth) # OAuth should no longer break CMake configuration on Windows now.
 add_subdirectory(ODE) # XXX: Can't meet dependencies
-add_subdirectory(ObjcBridge) # XXX: Broken for me -- Objective-C 2.0 not supported
+# add_subdirectory(ObjcBridge)  XXX: Broken for me -- Objective-C 2.0 not supported
 add_subdirectory(Obsidian)
 add_subdirectory(Ogg)
 add_subdirectory(OpenGL)
