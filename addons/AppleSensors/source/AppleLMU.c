@@ -88,33 +88,53 @@ void getLightSensors(float *left, float *right)
 
 float getDisplayBrightness(void)
 {
-	CGDisplayErr      dErr;
-	io_service_t      service;
-	CGDirectDisplayID targetDisplay;
-
-	CFStringRef key = CFSTR(kIODisplayBrightnessKey);
-	float brightness = HUGE_VALF;
-
-	targetDisplay = CGMainDisplayID();
-	service = CGDisplayIOServicePort(targetDisplay);
-
-	dErr = IODisplayGetFloatParameter(service, kNilOptions, key, &brightness);
-
+	float brightness = 1.0f;
+	io_iterator_t iterator;
+	kern_return_t result =
+	IOServiceGetMatchingServices(kIOMasterPortDefault,
+								 IOServiceMatching("IODisplayConnect"),
+								 &iterator);
+	
+	// If we were successful
+	if (result == kIOReturnSuccess)
+	{
+		io_object_t service;
+		
+		while ((service = IOIteratorNext(iterator)))
+		{
+			IODisplayGetFloatParameter(service,
+									   kNilOptions,
+									   CFSTR(kIODisplayBrightnessKey),
+									   &brightness);
+			
+			// Let the object go
+			IOObjectRelease(service);
+		}
+	}
+	
 	return brightness;
 }
 
 void setDisplayBrightness(float brightness)
 {
-	CGDisplayErr      dErr;
-	io_service_t      service;
-	CGDirectDisplayID targetDisplay;
-	CFStringRef key = CFSTR(kIODisplayBrightnessKey);
-
-	targetDisplay = CGMainDisplayID();
-	service = CGDisplayIOServicePort(targetDisplay);
-
-	dErr = IODisplaySetFloatParameter(service, kNilOptions, key, brightness);
-
+	io_iterator_t iterator;
+	kern_return_t result = IOServiceGetMatchingServices(kIOMasterPortDefault,
+														IOServiceMatching("IODisplayConnect"),
+														&iterator);
+	
+	// If we were successful
+	if (result == kIOReturnSuccess)
+	{
+		io_object_t service;
+		while ((service = IOIteratorNext(iterator))) {
+			IODisplaySetFloatParameter(service, kNilOptions, CFSTR(kIODisplayBrightnessKey), brightness);
+			
+			// Let the object go
+			IOObjectRelease(service);
+			
+			return;
+		}
+	}
 }
 
 // Keyboard Brightness
