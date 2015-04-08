@@ -1,4 +1,3 @@
-
 //metadoc List category Core
 //metadoc List copyright Steve Dekorte 2002
 //metadoc List license BSD revised
@@ -302,7 +301,7 @@ IO_METHOD(IoList, indexOf)
 
 	int count = IoMessage_argCount(m);
 
-	IOASSERT(count, "remove requires at least one argument");
+	IOASSERT(count, "indexOf requires at least one argument");
 
 	{
 		IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 0);
