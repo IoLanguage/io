@@ -45,7 +45,7 @@ endmacro(generate_ioinit)
 # flux should be commented out here until such time as they are in
 # a stable state.
 #add_subdirectory(AVCodec) # XXX: Broken
-#add_subdirectory(AppleExtras)
+add_subdirectory(AppleSensors)
 add_subdirectory(AsyncRequest)
 #add_subdirectory(Beanstalk) # XXX: Broken, no YAML addon
 add_subdirectory(BigNum)
