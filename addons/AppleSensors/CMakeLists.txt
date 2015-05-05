@@ -35,4 +35,6 @@ if (IOKIT)
   # Install the addon to our global addons hierarchy.
   install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION lib/io/addons)
   install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/_build DESTINATION lib/io/addons/AppleSensors)
+else()
+  message(STATUS "Not building AppleSensors because IOKit was not found")
 endif()
