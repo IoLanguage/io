@@ -11,11 +11,12 @@ H := method(n, f, u, t,
 )
 
 hanoi := method(n,
-    if (n > 0 and n <= 10) then (
+	i := n
+    if (n > 0 and n <= i) then (
         H(n, 1, 2, 3)
     ) else (
-        writeln("usage: hanoi n, where 0 < n <= 10")
+        writeln("usage: hanoi n, where n > 0")
     )
 )
 
-hanoi(3)
+hanoi(12)
