@@ -1909,7 +1909,7 @@ IO_METHOD(IoSeq, unpack)
 						memcpy(uap, &selfUArray[seqPos], count);
 					}
 					seqPos += count;
-					count = 0;
+					count = 1;
 					v = IoSeq_newWithUArray_copy_(IOSTATE, ua, 0);
 					break;
 				}
