@@ -1748,7 +1748,7 @@ IO_METHOD(IoSeq, pack)
 					else
 						size = count;
 					doBigEndian = 0;
-					count = 0; //finish processing
+					count = 1; //finish processing
 				break;
 			}
 			
