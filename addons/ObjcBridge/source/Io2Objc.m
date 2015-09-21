@@ -297,7 +297,7 @@ void forwardInvocation(id self, SEL sel, NSInvocation *invocation)
 												  strcat(name, sel_getName([invocation selector])));
 	objc_free(name);
 
-	for (class = self->isa ; class != nil ; class = [class superclass]) // class->super_class)
+	for (class = object_getClass(self) ; class != nil ; class = [class superclass]) // class->super_class)
 	{
 		Io2Objc *io2objc = CHash_at_(((IoObjcBridgeData *)DATA(bridge))->io2objcs, class);
 
@@ -313,10 +313,10 @@ void forwardInvocation(id self, SEL sel, NSInvocation *invocation)
 			continue; 
 		}
 
-		save = DATA(target)->object->isa;
-		DATA(target)->object->isa = class;
+		save = object_getClass(DATA(target)->object);
+		object_setClass(DATA(target)->object, class);
 		result = IoObject_activate(slotValue, target, target, message, context);
-		DATA(target)->object->isa = save;
+		object_setClass(DATA(target)->object, save);
 
 		if (*returnType != 'v')
 		{
@@ -337,7 +337,7 @@ void forwardInvocation(id self, SEL sel, NSInvocation *invocation)
 
 BOOL respondsToSelector(id self, SEL sel, SEL selector)
 {
-	Io2Objc *io2objc = CHash_at_(((IoObjcBridgeData *)DATA(IoObjcBridge_sharedBridge()))->io2objcs, self->isa);
+	Io2Objc *io2objc = CHash_at_(((IoObjcBridgeData *)DATA(IoObjcBridge_sharedBridge()))->io2objcs, object_getClass(self));
 	IoObjcBridge *bridge = DATA(io2objc)->bridge;
 	IoState *state = IoObject_state(bridge);
 
@@ -349,7 +349,7 @@ BOOL respondsToSelector(id self, SEL sel, SEL selector)
 		IoState_print_(state, "[Io2Objc respondsToSelector:\"%s\"] ", ioMethodName);
 	}
 	
-	BOOL result = class_getInstanceMethod(self->isa, selector) ? YES : NO;
+	BOOL result = class_getInstanceMethod(object_getClass(self), selector) ? YES : NO;
 
 	if (debug)
 	{
@@ -380,7 +380,7 @@ Io2Objc *Io2Objc_newSubclassNamed(Io2Objc *self, IoObject *locals, IoMessage *m)
 
 IoObject *Io2Objc_metaclass(Io2Objc *self, IoObject *locals, IoMessage *m)
 {
-	return IoObjcBridge_proxyForId_(DATA(self)->bridge, DATA(self)->object->isa);
+	return IoObjcBridge_proxyForId_(DATA(self)->bridge, object_getClass(DATA(self)->object));
 }
 
 IoObject *Io2Objc_setSlot(Io2Objc *self, IoObject *locals, IoMessage *m)
@@ -498,10 +498,10 @@ IoObject *Io2Objc_updateSlot(Io2Objc *self, IoObject *locals, IoMessage *m)
 IoObject *Io2Objc_super(Io2Objc *self, IoObject *locals, IoMessage *m)
 {
 	IoMessage *message = List_at_(IOMESSAGEDATA(m)->args, 0);
-	Class save = DATA(self)->object->isa;
-	DATA(self)->object->isa = [save superclass]; // save->super_class;
+	Class save = object_getClass(DATA(self)->object);
+	object_setClass(DATA(self)->object, [save superclass]); // save->super_class;
 	IoObject *result = Io2Objc_perform(self, locals, message);
-	DATA(self)->object->isa = save;
+	object_setClass(DATA(self)->object, save);
 	return result;
 }
 
@@ -526,7 +526,7 @@ IoObject *Io2Objc_io2ObjcType(Io2Objc *self, IoObject *locals, IoMessage *m)
 {
 	int i;
 	struct objc_method_list *methods;
-	Class class = DATA(self)->object->isa;
+	Class class = object_getClass(DATA(self)->object);
 	NSMutableSet *set = [[NSMutableSet alloc] initWithCapacity:32];
 	while (class != nil)
 	{
