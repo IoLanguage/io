@@ -12,6 +12,11 @@ Terminology
 */
 //metadoc Sequence category Core
 
+#pragma GCC diagnostic push
+
+//Suppresses incorrect warning from GCC about CTYPE never having value of -1
+#pragma GCC diagnostic ignored "-Wtautological-constant-out-of-range-compare"
+
 #include "IoSeq.h"
 #include "IoState.h"
 #include "IoCFunction.h"
@@ -1521,3 +1526,4 @@ void IoSeq_addMutableMethods(IoSeq *self)
 
 	IoObject_addMethodTable_(self, methodTable);
 }
+#pragma GCC pop
