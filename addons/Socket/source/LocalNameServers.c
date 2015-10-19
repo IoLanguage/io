@@ -157,7 +157,8 @@ void LocalNameServers_findIps(LocalNameServers *self)
 
 void LocalNameServers_findIps(LocalNameServers *self)
 {
-	char *path = tmpnam(NULL);
+        char *path = NULL;
+	mkstemp(path);
 	char *command = io_malloc(1024);
 	char *answerBuffer = io_calloc(1, 1024);
 	char *answer = answerBuffer;
