@@ -90,7 +90,7 @@ list(APPEND IOVMALL_STATIC_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/iovm/source/IoVMInit
 # ...And the static library. Refer to IOVMALL_STATIC_SRCS definition
 # up top.
 add_library(iovmall_static STATIC ${IOVMALL_STATIC_SRCS})
-add_dependencies(iovmall_static io2c basekit coroutine garabagecollector iovmall)
+add_dependencies(iovmall_static io2c basekit coroutine garbagecollector iovmall)
 
 # Define the subdirectories we can reach from here that we want
 # to go into and build stuff.
