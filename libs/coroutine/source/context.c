@@ -52,11 +52,20 @@ void
 makecontext(ucontext_t *ucp, void (*func)(void), int argc, ...)
 {
 	int *sp;
+	int i;
+	va_list arg;
 
+	/* Set sp to end of allocated stack area */
 	sp = (int*)ucp->uc_stack.ss_sp+ucp->uc_stack.ss_size/4;
+	/* reserve space for argc ints */
 	sp -= argc;
 	sp = (void*)((uintptr_t)sp - (uintptr_t)sp%16);	/* 16-align for OS X */
-	memmove(sp, &argc+1, argc*sizeof(int));
+	
+	/* Copy arguments into reserved space on stack */
+	va_start(arg, argc);
+	for (i=0; i<argc; i++)
+		sp[i] = va_arg(arg, int);
+	va_end(arg);
 
 	*--sp = 0;		/* return address */
 	ucp->uc_mcontext.mc_eip = (long)func;
