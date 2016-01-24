@@ -117,19 +117,31 @@ Kudos to Daniel A. Koepke
 	#endif 
 	
 #elif defined(__linux__) || defined(__OpenBSD__) || defined(__NetBSD__) || defined(__FreeBSD__)
-
-	#ifdef IO_IN_C_FILE
-		// in .c 
-		#define IO_DECLARE_INLINES
-		#define IOINLINE inline
-		#define IOINLINE_RECURSIVE inline
+	#ifdef __GNUC_STDC_INLINE__
+		#ifdef IO_IN_C_FILE
+			// in .c
+			#define IO_DECLARE_INLINES
+			#define IOINLINE
+			#define IOINLINE_RECURSIVE
+		#else
+			// in .h
+			#define IO_DECLARE_INLINES
+			#define IOINLINE inline
+			#define IOINLINE_RECURSIVE inline
+		#endif
 	#else
-		// in .h 
-		#define IO_DECLARE_INLINES
-		#define IOINLINE extern inline
-		#define IOINLINE_RECURSIVE extern inline
-	#endif 
-	
+		#ifdef IO_IN_C_FILE
+			// in .c
+			#define IO_DECLARE_INLINES
+			#define IOINLINE inline
+			#define IOINLINE_RECURSIVE inline
+		#else
+			// in .h
+			#define IO_DECLARE_INLINES
+			#define IOINLINE extern inline
+			#define IOINLINE_RECURSIVE extern inline
+		#endif
+	#endif
 #else
 
 	#ifdef IO_IN_C_FILE
