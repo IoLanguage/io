@@ -114,7 +114,7 @@ Sequence do(
 		self performWithArgList("split", call evalArgs) selectInPlace(size != 0)
 	)
 
-	//doc Sequence findNthSeq(aSequence, n) Returns a number with the nth occurence of aSequence.
+	//doc Sequence findNthSeq(aSequence, n) Returns a number with the nth occurrence of aSequence.
 	findNthSeq := method(str, n,
 		num := self findSeq(str)
 		if(num isNil, return nil)

@@ -336,7 +336,7 @@ IO_METHOD(IoSeq, preallocateToSize)
 IO_METHOD(IoSeq, replaceSeq)
 {
 	/*doc Sequence replaceSeq(aSequence, anotherSequence)
-	Returns a new Sequence with all occurances of aSequence
+	Returns a new Sequence with all occurences of aSequence
 	replaced with anotherSequence in the receiver. Returns self.
 	*/
 
@@ -350,7 +350,7 @@ IO_METHOD(IoSeq, replaceSeq)
 IO_METHOD(IoSeq, removeSeq)
 {
 	/*doc Sequence removeSeq(aSequence)
-	Removes occurances of aSequence from the receiver.
+	Removes occurences of aSequence from the receiver.
 	*/
 
 	IoSeq *subSeq   = IoMessage_locals_seqArgAt_(m, locals, 0);
@@ -363,7 +363,7 @@ IO_METHOD(IoSeq, removeSeq)
 IO_METHOD(IoSeq, replaceFirstSeq)
 {
 	/*doc Sequence replaceFirstSeq(aSequence, anotherSequence, optionalStartIndex)
-	Returns a new Sequence with the first occurance of aSequence
+	Returns a new Sequence with the first occurence of aSequence
 	replaced with anotherSequence in the receiver. If optionalStartIndex is
 	provided, the search for aSequence begins at that index. Returns self.
 	*/
@@ -458,7 +458,7 @@ IO_METHOD(IoSeq, clipAfterSeq)
 {
 	/*doc Sequence clipAfterSeq(aSequence)
 	Removes the contents of the receiver after the end of
-	the first occurance of aSequence. Returns true if anything was
+	the first occurence of aSequence. Returns true if anything was
 	removed, or false otherwise.
 	*/
 
@@ -473,7 +473,7 @@ IO_METHOD(IoSeq, clipBeforeEndOfSeq)
 {
 	/*doc Sequence clipBeforeEndOfSeq(aSequence)
 	Removes the contents of the receiver before the end of
-	the first occurance of aSequence. Returns true if anything was
+	the first occurence of aSequence. Returns true if anything was
 	removed, or false otherwise.
 	*/
 
@@ -487,7 +487,7 @@ IO_METHOD(IoSeq, clipAfterStartOfSeq)
 {
 	/*doc Sequence clipAfterStartOfSeq(aSequence)
 	Removes the contents of the receiver after the beginning of
-	the first occurance of aSequence. Returns true if anything was
+	the first occurence of aSequence. Returns true if anything was
 	removed, or false otherwise.
 	*/
 

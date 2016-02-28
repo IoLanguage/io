@@ -38,7 +38,7 @@ List do(
     result)
 
     /*doc List insertAfter(item, afterItem)
-    Inserts item after first occurance of afterItem and returns self. If afterItem
+    Inserts item after first occurrence of afterItem and returns self. If afterItem
     is not found, item is appended to the end of the list.
     */
     insertAfter := method(item, afterItem,
@@ -48,7 +48,7 @@ List do(
     )
 
     /*doc List insertBefore(item, beforeItem)
-    Inserts item before first occurance of beforeItem or to the end of the list if
+    Inserts item before first occurrence of beforeItem or to the end of the list if
     beforeItem is not found. Returns self.
     */
     insertBefore := method(item, beforeItem,

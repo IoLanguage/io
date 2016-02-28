@@ -50,7 +50,7 @@ TestRunner := Object clone do(
     )
     error := method(name, exc,
         # We need to store both the name of the failed slot and
-        # the exception occured, so that we can output them together
+        # the exception occurred, so that we can output them together
         # later on.
         self exceptions append(list(name, exc))
         "E" print
@@ -83,7 +83,7 @@ to run and values - lists of test slots theese UnitTests provide.*/
     printExceptions := method(
         "\n" print
 
-        # Printing exceptions in the order they occured.
+        # Printing exceptions in the order they occurred.
         exceptions foreach(exc,
             ("=" repeated(width) .. "\nFAIL: " .. exc at(0) .. \
              "\n" .. "-" repeated(width)) println
