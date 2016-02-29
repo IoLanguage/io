@@ -1159,7 +1159,7 @@ IO_METHOD(IoSeq, asIoPath)
 	return IoSeq_newSymbolWithUArray_copy_(IOSTATE, UArray_asUnixPath(IoSeq_rawUArray(self)), 0);
 }
 
-// occurances
+// occurences
 
 IO_METHOD(IoSeq, beforeSeq)
 {
@@ -1250,9 +1250,9 @@ IO_METHOD(IoSeq, asCapitalized)
 	}
 }
 
-IO_METHOD(IoSeq, occurancesOfSeq)
+IO_METHOD(IoSeq, occurencesOfSeq)
 {
-	/*doc Sequence occurancesOfSeq(aSeq)
+	/*doc Sequence occurencesOfSeq(aSeq)
 	Returns count of aSeq in the receiver.
 	*/
 
@@ -1997,7 +1997,7 @@ void IoSeq_addImmutableMethods(IoSeq *self)
 	{"asUppercase", IoSeq_asUppercase},
 	{"asLowercase", IoSeq_asLowercase},
 	{"with", IoSeq_with},
-	{"occurancesOfSeq", IoSeq_occurancesOfSeq},
+	{"occurencesOfSeq", IoSeq_occurencesOfSeq},
 	{"interpolate", IoSeq_interpolate},
 	{"distanceTo", IoSeq_distanceTo},
 
