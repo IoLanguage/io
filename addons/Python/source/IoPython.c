@@ -153,7 +153,7 @@ IoObject *convertPy(IoObject *self, PyObject *obj) {
 		ret = IONIL(self); 
 	} else if(PyUnicode_Check(obj)) {
 		// Convert to Io sequence and return.
-		IoSeq *ret = IoSeq_newWithCString_(IOSTATE, PyUnicode_AsASCIIString(obj));
+		IoSeq *ret = IoSeq_newWithCString_(IOSTATE, PyUnicode_AsUTF8(obj));
 		return ret;
 		// TODO:::: Memory management! Who's responsible here! (I am, that's who)
 	} else if(PyFloat_Check(obj)) {
@@ -291,7 +291,7 @@ IoObject *IoPython_import(IoPython *self, IoObject *locals, IoMessage *m)
 		PyObject *value = PyDict_GetItem(dict, key);
 		// TODO: Not allowed method vall IoSeq_newSymbolWithCString_
 		if(!PyCallable_Check(value)) {// don't want methods blocking the forward
-			IoObject_setSlot_to_(self, IOSYMBOL(PyUnicode_AsASCIIString(key)), convertPy(self, value));
+			IoObject_setSlot_to_(self, IOSYMBOL(PyUnicode_AsUTF8(key)), convertPy(self, value));
 		}
 	}
 	*/
