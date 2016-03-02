@@ -291,7 +291,7 @@ IoObject *IoPython_import(IoPython *self, IoObject *locals, IoMessage *m)
 		PyObject *value = PyDict_GetItem(dict, key);
 		// TODO: Not allowed method vall IoSeq_newSymbolWithCString_
 		if(!PyCallable_Check(value)) {// don't want methods blocking the forward
-			IoObject_setSlot_to_(self, IOSYMBOL(PyUnicode_AsString(key)), convertPy(self, value));
+			IoObject_setSlot_to_(self, IOSYMBOL(PyUnicode_AsASCIIString(key)), convertPy(self, value));
 		}
 	}
 	*/
