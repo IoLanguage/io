@@ -12,6 +12,7 @@ This object provides access the world of python.
 #include "IoList.h"
 #include "IoMap.h"
 #include "IoDirectory.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -115,7 +116,7 @@ PyObject *convertIo(IoObject *self, IoObject *obj) {
 		ret = PyFloat_FromDouble(CNUMBER(obj));
 		Py_INCREF(ret);
 	} else if(ISSEQ(obj)) {
-		ret = PyString_FromString(CSTRING(obj));
+		ret = PyUnicode_FromString(CSTRING(obj));
 		Py_INCREF(ret);
 	} else if(ISLIST(obj)) {
 		ret = PyList_New(IoList_rawSize(obj));
@@ -150,16 +151,16 @@ IoObject *convertPy(IoObject *self, PyObject *obj) {
 	
 	if(obj == Py_None) {
 		ret = IONIL(self); 
-	} else if(PyString_Check(obj)) {
+	} else if(PyUnicode_Check(obj)) {
 		// Convert to Io sequence and return.
-		IoSeq *ret = IoSeq_newWithCString_(IOSTATE, PyString_AsString(obj));
+		IoSeq *ret = IoSeq_newWithCString_(IOSTATE, PyUnicode_AsUTF8(obj));
 		return ret;
 		// TODO:::: Memory management! Who's responsible here! (I am, that's who)
 	} else if(PyFloat_Check(obj)) {
 		ret = IoNumber_newWithDouble_(IOSTATE, PyFloat_AS_DOUBLE(obj));
 		//Py_DECREF(obj);
-	} else if(PyInt_Check(obj)) {
-		ret = IoNumber_newWithDouble_(IOSTATE, PyInt_AS_LONG(obj));
+	} else if(PyLong_Check(obj)) {
+		ret = IoNumber_newWithDouble_(IOSTATE, PyLong_AS_LONG(obj));
 		// Decref?
 	} else if(PyList_Check(obj)) {
 		// We have a list. So, make an Io list, and convert every element, and insert them.
@@ -270,7 +271,7 @@ IoObject *IoPython_import(IoPython *self, IoObject *locals, IoMessage *m)
 	char *nameString = IoSeq_asCString(name);
 
 	PyObject *pName, *pModule;
-	pName = PyString_FromString(nameString);
+	pName = PyUnicode_FromString(nameString);
 	/* Error checking of pName left out */
 
 	pModule = PyImport_Import(pName);
@@ -290,7 +291,7 @@ IoObject *IoPython_import(IoPython *self, IoObject *locals, IoMessage *m)
 		PyObject *value = PyDict_GetItem(dict, key);
 		// TODO: Not allowed method vall IoSeq_newSymbolWithCString_
 		if(!PyCallable_Check(value)) {// don't want methods blocking the forward
-			IoObject_setSlot_to_(self, IOSYMBOL(PyString_AsString(key)), convertPy(self, value));
+			IoObject_setSlot_to_(self, IOSYMBOL(PyUnicode_AsUTF8(key)), convertPy(self, value));
 		}
 	}
 	*/

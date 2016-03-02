@@ -1,5 +1,7 @@
+#ifndef PYTHONDATA_H
+#define PYTHONDATA_H
+
 #include <Python.h>
-//#include <python2.4/Python.h>
 
 typedef struct
 {
@@ -8,3 +10,5 @@ typedef struct
 
 PythonData *PythonData_new(void);
 void PythonData_free(PythonData *self);
+
+#endif /* PYTHONDATA_H */

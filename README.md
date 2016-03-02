@@ -11,6 +11,7 @@ REQUIREMENTS
  * [yajl](https://github.com/lloyd/yajl)
  * [libevent](http://libevent.org/)
  * [pcre](http://www.pcre.org/)
+ * [python v.3.3.0+](https://www.python.org/downloads/)
 
 INSTALLING
 ==========
