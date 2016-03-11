@@ -478,7 +478,7 @@ IO_METHOD(IoSeq, findSeqs)
 	in the receiver after the startIndex, and a \"match\" slot, which 
 	contains a reference to the matching sequence from listOfSequences. 
 	If no startIndex is specified, the search starts at index 0. 
-	nil is returned if no occurences are found. 
+	nil is returned if no occurrences are found. 
 	*/
 
 	IoList *others = IoMessage_locals_listArgAt_(m, locals, 0);
@@ -531,7 +531,7 @@ IO_METHOD(IoSeq, findSeq)
 	Returns a number with the first occurrence of aSequence in
 	the receiver after the startIndex. If no startIndex is specified,
 	the search starts at index 0.
-	nil is returned if no occurences are found. 
+	nil is returned if no occurrences are found. 
 	*/
 
 	IoSeq *otherSequence = IoMessage_locals_seqArgAt_(m, locals, 0);
@@ -1159,7 +1159,7 @@ IO_METHOD(IoSeq, asIoPath)
 	return IoSeq_newSymbolWithUArray_copy_(IOSTATE, UArray_asUnixPath(IoSeq_rawUArray(self)), 0);
 }
 
-// occurences
+// occurrences
 
 IO_METHOD(IoSeq, beforeSeq)
 {
@@ -1250,9 +1250,9 @@ IO_METHOD(IoSeq, asCapitalized)
 	}
 }
 
-IO_METHOD(IoSeq, occurencesOfSeq)
+IO_METHOD(IoSeq, occurrencesOfSeq)
 {
-	/*doc Sequence occurencesOfSeq(aSeq)
+	/*doc Sequence occurrencesOfSeq(aSeq)
 	Returns count of aSeq in the receiver.
 	*/
 
@@ -1997,7 +1997,7 @@ void IoSeq_addImmutableMethods(IoSeq *self)
 	{"asUppercase", IoSeq_asUppercase},
 	{"asLowercase", IoSeq_asLowercase},
 	{"with", IoSeq_with},
-	{"occurencesOfSeq", IoSeq_occurencesOfSeq},
+	{"occurrencesOfSeq", IoSeq_occurrencesOfSeq},
 	{"interpolate", IoSeq_interpolate},
 	{"distanceTo", IoSeq_distanceTo},
 
