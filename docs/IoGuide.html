@@ -2139,7 +2139,7 @@ A simple whois client:
 <pre>
 whois := method(host,
     socket := Socket clone \
-		setHostName("rs.internic.net") setPort(43) 
+		setHost("rs.internic.net") setPort(43) 
     socket connect streamWrite(host, "\n")
     while(socket streamReadNextChunk, nil)
     return socket readBuffer
