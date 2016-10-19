@@ -24,13 +24,14 @@ set(SRCS
 )
 
 find_library(IOKIT IOKit)
+find_library(FOUNDATION Foundation)
 if (IOKIT)
   #add_executable(IoAppleSensors ${program_SOURCES})
 
   # Now build the shared library
   add_library(IoAppleSensors SHARED ${SRCS})
   add_dependencies(IoAppleSensors iovmall)
-  target_link_libraries(IoAppleSensors iovmall ${IOKIT})
+  target_link_libraries(IoAppleSensors iovmall ${IOKIT} ${FOUNDATION})
 
   # Install the addon to our global addons hierarchy.
   install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION lib/io/addons)
