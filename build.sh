@@ -1,7 +1,7 @@
 #!/bin/sh
 # Build script for Steve
 
-INSTALL_PREFIX="/usr/local"
+INSTALL_PREFIX="${INSTALL_PREFIX:-/usr/local}"
 
 if [ X"$1" = X"linkInstall" ]; then
 	rm -rf $INSTALL_PREFIX/lib/io $INSTALL_PREFIX/bin/io
