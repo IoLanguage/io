@@ -67,7 +67,7 @@ BASEKIT_API void UArray_tanh(UArray *self);
 BASEKIT_API void UArray_exp(UArray *self);
 BASEKIT_API void UArray_log(UArray *self);
 BASEKIT_API void UArray_log10(UArray *self);
-BASEKIT_API void UArray_pow(UArray *self, const UArray *other);
+BASEKIT_API void UArray_power_(UArray *self, const UArray *other);
 
 BASEKIT_API void UArray_sqrt(UArray *self);
 BASEKIT_API void UArray_ceil(UArray *self);
