@@ -1,3 +1,4 @@
+//metadoc Random category Math
 # The following methods are added only if the Random addon is installed.
 List do(
     //doc List shuffleInPlace Randomizes the order of the elements in the receiver. Returns self.
