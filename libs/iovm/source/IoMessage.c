@@ -401,8 +401,8 @@ void IoMessage_setCachedArg_toInt_(IoMessage *self, int n, int anInt)
 IO_METHOD(IoMessage, lineNumber)
 {
 	/*doc Message lineNumber
-	Returns the line number of the message. The charcter number
-	is typically the line number in the source text from with the message was read. 
+	Returns the line number of the message. The character number
+	is typically the line number in the source text from which the message was read.
 	*/
 
 	return IONUMBER(DATA(self)->lineNumber);
@@ -421,8 +421,8 @@ IO_METHOD(IoMessage, setLineNumber)
 IO_METHOD(IoMessage, characterNumber)
 {
 	/*doc Message characterNumber
-	Returns the message character number. The charcter number is typically
-	the beginning character index in the source text from with the message was read. 
+	Returns the message character number. The character number is typically
+	the beginning character index in the source text from which the message was read.
 	*/
 
 	return IONUMBER(0);
@@ -1095,7 +1095,7 @@ IO_METHOD(IoMessage, setArguments)
 IO_METHOD(IoMessage, appendArg)
 {
 /*doc Message appendArg(aMessage)
-Adds aMessage to the argument list of receiver. Examples,
+Adds aMessage to the argument list of receiver. Examples:
 <pre>	
 Io> message(a) appendArg(message(b))
 ==> a(b)

@@ -1044,7 +1044,7 @@ IoObject *IoSeq_clone(IoSeq *self)
 IO_METHOD(IoSeq, add)
 {
 	/*doc Sequence +(aSeq)
-	Vector addition - Adds the values of aSeq to the corresponding values of the receiver 
+	Vector addition - adds the values of aSeq to the corresponding values of the receiver
 	returning a new vector with the result.
 	Only works on Sequences whose item type is numeric.
 	*/
@@ -1168,37 +1168,37 @@ Returns self.
 IoSeqMutateNoArgNoResultOp(rangeFill);
 
 /*doc Sequence sin
-Sets each value of the Sequence to the trigonometric sine of it's value.
+Sets each value of the Sequence to the trigonometric sine of its value.
 Returns self.
 */
 IoSeqMutateNoArgNoResultOp(sin);
 
 /*doc Sequence cos
-Sets each value of the Sequence to the trigonometric cosine of it's value.
+Sets each value of the Sequence to the trigonometric cosine of its value.
 Returns self.
 */
 IoSeqMutateNoArgNoResultOp(cos);
 
 /*doc Sequence tan
-Sets each value of the Sequence to the trigonometric tangent of it's value.
+Sets each value of the Sequence to the trigonometric tangent of its value.
 Returns self.
 */
 IoSeqMutateNoArgNoResultOp(tan);
 
 /*doc Sequence asin
-Sets each value of the Sequence to the trigonometric arcsine of it's value.
+Sets each value of the Sequence to the trigonometric arcsine of its value.
 Returns self.
 */
 IoSeqMutateNoArgNoResultOp(asin);
 
 /*doc Sequence acos
-Sets each value of the Sequence to the trigonometric arcsine of it's value.
+Sets each value of the Sequence to the trigonometric arcsine of its value.
 Returns self.
 */
 IoSeqMutateNoArgNoResultOp(acos);
 
 /*doc Sequence atan
-Sets each value of the Sequence to the trigonometric arctangent of it's value.
+Sets each value of the Sequence to the trigonometric arctangent of its value.
 Returns self.
 */
 IoSeqMutateNoArgNoResultOp(atan);

@@ -593,7 +593,7 @@ done:
 IO_METHOD(IoList, appendIfAbsent)
 {
 	/*doc List appendIfAbsent(anObject)
-	Adds each value not already contained by the receiver, returns self. 
+	Adds each value not already contained by the receiver. Returns self. 
 	*/
 
 	int n;
@@ -806,7 +806,7 @@ IO_METHOD(IoList, atPut)
 
 IO_METHOD(IoList, setSize)
 {
-	/*doc List setSize
+	/*doc List setSize(newSize)
 	Sets the size of the receiver by either removing excess items or adding nils as needed.
 	*/
 	

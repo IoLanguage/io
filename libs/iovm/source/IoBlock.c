@@ -365,7 +365,7 @@ IoObject *IoObject_block(IoObject *target, IoObject *locals, IoMessage *m)
 IO_METHOD(IoBlock, print)
 {
 	/*doc Block print
-	prints an Io source code representation of the block/method
+	Prints an Io source code representation of the block/method.
 	*/
 
 	UArray *ba = IoBlock_justCode(self);
@@ -413,7 +413,7 @@ IO_METHOD(IoBlock, code)
 IO_METHOD(IoBlock, code_)
 {
 	/*doc Block setCode(aString)
-	Set's the receiver's message to a compiled version of aString. Returns self
+	Sets the receiver's message to a compiled version of aString. Returns self.
 	*/
 
 	IoSymbol *string = IoMessage_locals_symbolArgAt_(m, locals, 0);
