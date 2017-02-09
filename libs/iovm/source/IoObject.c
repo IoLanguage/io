@@ -4,7 +4,7 @@
 //metadoc Object license BSD revised
 /*metadoc Object description
 An Object is a key/value dictionary with string keys and values of any type.
-The prototype Object contains a clone slot that is a CFuntion that creates new objects.
+The prototype Object contains a clone slot that is a CFunction that creates new objects.
 When cloned, an Object will call its init slot (with no arguments).
 */
 
@@ -1646,7 +1646,7 @@ IO_METHOD(IoObject, memorySizeMethod)
 }
 
 /*doc Object checkMemory()
-	accesses memory in the IoObjectData struct that should be accessible.  Should cause a memory access
+	Accesses memory in the IoObjectData struct that should be accessible.  Should cause a memory access
 	exception if memory is corrupt.
 	*/
 int IoObject_rawCheckMemory(IoObject *self)

@@ -1044,7 +1044,7 @@ IoObject *IoSeq_clone(IoSeq *self)
 IO_METHOD(IoSeq, add)
 {
 	/*doc Sequence +(aSeq)
-	Vector addition - Adds the values of aSeq to the corresponding values of the receiver 
+	Vector addition - adds the values of aSeq to the corresponding values of the receiver
 	returning a new vector with the result.
 	Only works on Sequences whose item type is numeric.
 	*/
@@ -1180,7 +1180,7 @@ Returns self.
 IoSeqMutateNoArgNoResultOp(cos);
 
 /*doc Sequence tan
-Sets each value of the Sequence to the trigonometric tangent of it's value.
+Sets each value of the Sequence to the trigonometric tangent of its value.
 Returns self.
 */
 IoSeqMutateNoArgNoResultOp(tan);
@@ -1192,7 +1192,7 @@ Returns self.
 IoSeqMutateNoArgNoResultOp(asin);
 
 /*doc Sequence acos
-Sets each value of the Sequence to the trigonometric arcsine of it's value.
+Sets each value of the Sequence to the trigonometric arcsine of its value.
 Returns self.
 */
 IoSeqMutateNoArgNoResultOp(acos);

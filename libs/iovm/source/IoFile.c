@@ -488,7 +488,7 @@ IO_METHOD(IoFile, open)
 IO_METHOD(IoFile, reopen)
 {
 	/*doc File reopen(otherFile, mode)
-	Reopen's otherFile and redirects its stream to this file's path using mode.
+	Reopens otherFile and redirects its stream to this file's path using mode.
 	If mode is omitted, it is copied from otherFile.
 	Returns self or raises a File exception on error.
 	*/
@@ -728,7 +728,7 @@ IO_METHOD(IoFile, remove)
 IO_METHOD(IoFile, truncateToSize)
 {
 	/*doc File truncateToSize(numberOfBytes)
-	Trunctates the file's size to the numberOfBytes. Returns self.
+	Truncates the file's size to the numberOfBytes. Returns self.
 	*/
 
 	long newSize = IoMessage_locals_longArgAt_(m, locals, 0);
@@ -740,7 +740,7 @@ IO_METHOD(IoFile, moveTo_)
 {
 	/*doc File moveTo(pathString)
 	Moves the file specified by the receiver's path to the
-	new path pathString. Raises an File doesNotExist exception if the
+	new path pathString. Raises a File doesNotExist exception if the
 	file does not exist or a File nameConflict exception if the file
 	nameString already exists.
 	*/

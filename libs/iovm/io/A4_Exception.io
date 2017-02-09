@@ -81,7 +81,7 @@ Coroutine do(
 	//doc Coroutine setException
 	exception ::= nil
 
-	//doc Coroutine parentCoroutine Returns the parent coroutine this one was chained from or nil if it wasn't chained. When a Coroutine ends, it will attempt to resume it's parent.
+	//doc Coroutine parentCoroutine Returns the parent coroutine this one was chained from or nil if it wasn't chained. When a Coroutine ends, it will attempt to resume its parent.
 
 	//doc Coroutine setParentCoroutine(aCoro) Sets the parent coroutine. Returns self.
 	parentCoroutine ::= nil

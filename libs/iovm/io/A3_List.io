@@ -126,7 +126,7 @@ list(1,2,list(3,4,list(5))) flatten
 
     /*doc List reduce
     Also known as foldl or inject. Combines values in target starting on the left.
-    If no initial value is paseed the head of the list is used. <br />
+    If no initial value is passed the head of the list is used. <br />
 <pre>
 Io> list(1, 2, 3) reduce(+)
 ==> 6

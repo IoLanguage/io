@@ -267,8 +267,13 @@ IoObject *IoCurses_noEcho(IoCurses *self, IoObject *locals, IoMessage *m)
 IoObject *IoCurses_move(IoCurses *self, IoObject *locals, IoMessage *m)
 {
 	/*doc Curses move(x, y)
-	Moves the cursor to column y and row x on the terminal.
+	Moves the cursor to column x and row y on the terminal.
 	(0, 0) is at the top-left of the terminal. Returns self.
+	- Be careful if you are used to the C implementation of Curses
+	- as the coordinates are the other way around. Here they are like
+	- graphical XY coordinates, whereas in C Curses the rational is
+	- more like typing text. You go down on the line you want and then
+	- you move horizontally.
 	*/
 
 	int x = IoNumber_asInt(IoMessage_locals_numberArgAt_(m, locals, 0));

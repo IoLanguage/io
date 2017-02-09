@@ -47,7 +47,7 @@ IoObject *IoSeq_rawAsSymbol(IoSeq *self)
 IO_METHOD(IoSeq, with)
 {
 	/*doc Sequence with(aSequence, ...)
-	Returns a new Sequence which is the concatination of the arguments.
+	Returns a new Sequence which is the concatenation of the arguments.
 	The returned sequence will have the same mutability status as the receiver.
 	*/
 
@@ -293,7 +293,7 @@ IO_METHOD(IoSeq, size)
 {
 /*doc Sequence size
 Returns the length in number of items (which may or may not
-be the number of bytes, depending on the item type) of the receiver. For example,
+be the number of bytes, depending on the item type) of the receiver. For example:
 <p>
 <pre>	
 "abc" size == 3
