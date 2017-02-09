@@ -57,7 +57,7 @@ add_subdirectory(CGI)
 add_subdirectory(Cairo) # XXX: Broken on OSX: ld: library not found for -lpng12
 add_subdirectory(Clutter)
 add_subdirectory(ContinuedFraction)
-#add_subdirectory(Curses)
+add_subdirectory(Curses)
 add_subdirectory(DBI)
 add_subdirectory(DistributedObjects)
 add_subdirectory(EditLine)
