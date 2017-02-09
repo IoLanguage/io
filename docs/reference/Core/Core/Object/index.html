@@ -160,6 +160,13 @@ actorRun
 <div class=slotDescription>
 Starts actor mode if not started already. Basically, sets actorProcessQueue for later execution.
 </div>
+<a name="Object-addTrait"></a><b>
+addTrait
+</b>
+<p>
+<div class=slotDescription>
+Takes another object, whose slots will be copied into the receiver. Optionally takes a second argument, a Map object containing string -> string pairs, holding conflicting slot names and names to rename them to. I.e., if you have two objects A and B, both have a slot named foo, you issue A addTrait(B, Map clone atPut("foo", "newFoo")) the value of B foo will be placed in A newFoo.
+</div>
 <a name="Object-ancestorWithSlot"></a><b>
 ancestorWithSlot(slotName)
 </b>
@@ -746,8 +753,8 @@ lexicalDo(expression)
 </b>
 <p>
 <div class=slotDescription>
-Evaluates the message in the context of the receiver. 
-	The lexical context is added as a proto of the receiver while the argument is evaluated. 
+Evaluates the message in the context of the receiver.
+	The lexical context is added as a proto of the receiver while the argument is evaluated.
 	Returns self.
 </div>
 <a name="Object-list"></a><b>
@@ -1037,7 +1044,7 @@ returnIfNonNil
 </b>
 <p>
 <div class=slotDescription>
-Returns the receiver from the current execution block if it is non nil. 
+Returns the receiver from the current execution block if it is non nil.
 	Otherwise returns the receiver locally.
 </div>
 <a name="Object-self"></a><b>

@@ -28,11 +28,9 @@
 Here's an example that prints Hello at column 5 and row 7;
 <p>
 <pre>
-Curses begin
-Curses clear
-Curses move(5, 7) write("Wait 5 seconds")
+Curses init
+Curses move(5, 7) print(\"Hello\")
 Curses refresh
-System sleep(5)
 Curses end
 </pre>
 </td></tr>
@@ -51,8 +49,8 @@ begin
 </b>
 <p>
 <div class=slotDescription>
-Sets the terminal to curses mode. 
-	This should be called before any other curses methods. 
+Sets the terminal to curses mode.
+	This should be called before any other curses methods.
 	Returns self.
 </div>
 <a name="Curses-cBreak"></a><b>
@@ -60,7 +58,7 @@ cBreak(aString)
 </b>
 <p>
 <div class=slotDescription>
-Disables line buffering and erase/kill character-processing. 
+Disables line buffering and erase/kill character-processing.
 	cBreak should be on for most purposes. Returns self.
 </div>
 <a name="Curses-clear"></a><b>
@@ -82,7 +80,7 @@ delete(n)
 </b>
 <p>
 <div class=slotDescription>
-Deletes n characters at the current position. Text to the right is shifted left. 
+Deletes n characters at the current position. Text to the right is shifted left.
 	n is optional and defaults to 1. Returns self.
 </div>
 <a name="Curses-echo"></a><b>
@@ -97,7 +95,7 @@ end
 </b>
 <p>
 <div class=slotDescription>
-Ends curses mode. This should be called before standard io's read 
+Ends curses mode. This should be called before standard io's read
 	and write methods are used. Returs self.
 </div>
 <a name="Curses-get"></a><b>
@@ -112,7 +110,7 @@ getCh
 </b>
 <p>
 <div class=slotDescription>
-Reads a single-byte character from the terminal associated with the 
+Reads a single-byte character from the terminal associated with the
 	current or specified window. Returns a Number containing the byte.
 </div>
 <a name="Curses-hasColors"></a><b>
@@ -141,7 +139,7 @@ insert(aString)
 </b>
 <p>
 <div class=slotDescription>
-Inserts the string at the current position on the terminal, 
+Inserts the string at the current position on the terminal,
 	pushing existing text to the right. Returns self.
 </div>
 <a name="Curses-move"></a><b>
@@ -149,20 +147,20 @@ move(x, y)
 </b>
 <p>
 <div class=slotDescription>
-Moves the cursor to column x and row y on the terminal. 
-	(0, 0) is at the top-left of the terminal. Returns self. 
-	Be careful if you are used to the C implementation of Curses 
-	as the coordinates are the other way around. Here they are like 
-	graphical XY coordinates, whereas in C Curses the rational is 
-	more like typing text. You go down on the line you want and then 
-	you move horizontally.
+Moves the cursor to column x and row y on the terminal.
+	(0, 0) is at the top-left of the terminal. Returns self.
+	- Be careful if you are used to the C implementation of Curses
+	- as the coordinates are the other way around. Here they are like
+	- graphical XY coordinates, whereas in C Curses the rational is
+	- more like typing text. You go down on the line you want and then
+	- you move horizontally.
 </div>
 <a name="Curses-noCBreak"></a><b>
 noCBreak
 </b>
 <p>
 <div class=slotDescription>
-Allows line buffering and erase/kill character-processing. 
+Allows line buffering and erase/kill character-processing.
 	cBreak should be on for most purposes. Returns self.
 </div>
 <a name="Curses-noEcho"></a><b>
@@ -177,7 +175,7 @@ nodelay(aBoolean)
 </b>
 <p>
 <div class=slotDescription>
-Enables or disables block during read. 
+Enables or disables block during read.
 	If aNumber is zero, nodelay is set to be false, otherwise it is set to be true.
 </div>
 <a name="Curses-print"></a><b>
@@ -185,7 +183,7 @@ print(aString)
 </b>
 <p>
 <div class=slotDescription>
-Prints the string to the current position on the terminal, 
+Prints the string to the current position on the terminal,
 	overwriting existing text on the terminal. Returns self.
 </div>
 <a name="Curses-refresh"></a><b>
@@ -193,7 +191,7 @@ refresh
 </b>
 <p>
 <div class=slotDescription>
-Copies the current buffer to the screen. This must be called to make 
+Copies the current buffer to the screen. This must be called to make
 	changes to the screen. Returns self.
 </div>
 <a name="Curses-scroll"></a><b>
@@ -343,7 +341,7 @@ writeCharacter(aCharacter)
 </b>
 <p>
 <div class=slotDescription>
-Prints the aCharacter to the current position on the terminal, 
+Prints the aCharacter to the current position on the terminal,
 	overwriting existing text on the terminal. Returns self.
 </div>
 <a name="Curses-x"></a><b>

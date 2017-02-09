@@ -68,6 +68,14 @@ baselineHeight
 Returns the pixel height (relative to the bottom of the image) which first contains a non-white pixel or -1 if
 	no baseline is found.
 </div>
+<a name="Image-bitPlain"></a><b>
+bitPlain(component, bit)
+</b>
+<p>
+<div class=slotDescription>
+Replaces contents with black-and-white image where white appears if and only if specified component contained 1 on the specified bit plain.
+	Returns self.
+</div>
 <a name="Image-bounds"></a><b>
 bounds(cutoff)
 </b>
@@ -82,6 +90,14 @@ componentCount
 <p>
 <div class=slotDescription>
 Returns the number of color components in the receiver as a Number.
+</div>
+<a name="Image-componentPlain"></a><b>
+componentPlain(component)
+</b>
+<p>
+<div class=slotDescription>
+Removes other components except specified from the image.
+	Returns self.
 </div>
 <a name="Image-crop"></a><b>
 crop(x, y, width, height)
@@ -120,12 +136,101 @@ encodingQuality
 <div class=slotDescription>
 Returns the encodingQuality setting.
 </div>
+<a name="Image-equalizeHistogram"></a><b>
+equalizeHistogram(mode)
+</b>
+<p>
+<div class=slotDescription>
+Performs histogram equalization. Mode denotes quality factor and processing speed. Mode should be in range [0..3].
+	Returns self.
+</div>
 <a name="Image-error"></a><b>
 error
 </b>
 <p>
 <div class=slotDescription>
 Returns a String containing the current error or nil if there is no error.
+</div>
+<a name="Image-filterGauss"></a><b>
+filterGauss(sigma)
+</b>
+<p>
+<div class=slotDescription>
+Returns new image as a result of applying filter. Implements Gauss smoothing filtering with parameter sigma.
+</div>
+<a name="Image-filterKirsch"></a><b>
+filterKirsch(a)
+</b>
+<p>
+<div class=slotDescription>
+Returns new image as a result of applying Kirsch filter.
+	The argument denotes direction: 0, 1, 2, ... -> 0, pi / 4, pi / 2, ...
+</div>
+<a name="Image-filterLinear"></a><b>
+filterLinear(filterSizeX, filterSizeY, filter)
+</b>
+<p>
+<div class=slotDescription>
+Returns new image as a result of applying filter.
+</div>
+<a name="Image-filterMax"></a><b>
+filterMax(filterSizeX, filterSizeY)
+</b>
+<p>
+<div class=slotDescription>
+Returns new image as a result of applying filter.
+</div>
+<a name="Image-filterMedian"></a><b>
+filterMedian(filterSizeX, filterSizeY)
+</b>
+<p>
+<div class=slotDescription>
+Returns new image as a result of applying filter.
+</div>
+<a name="Image-filterMin"></a><b>
+filterMin(filterSizeX, filterSizeY)
+</b>
+<p>
+<div class=slotDescription>
+Returns new image as a result of applying filter.
+</div>
+<a name="Image-filterNonlinearGradients"></a><b>
+filterNonlinearGradients
+</b>
+<p>
+<div class=slotDescription>
+Returns new image as a result of applying filter. Calculates abs(f'x) + abs(f'y).
+</div>
+<a name="Image-filterSobel"></a><b>
+filterSobel(a)
+</b>
+<p>
+<div class=slotDescription>
+Returns new image as a result of applying Sobel filter.
+	The argument denotes direction: 0, 1, 2, ... -> 0, pi / 4, pi / 2, ...
+</div>
+<a name="Image-filterUniformAverage"></a><b>
+filterUniformAverage(filterSizeX, filterSizeY)
+</b>
+<p>
+<div class=slotDescription>
+Returns new image as a result of applying filter. Implements low pass filtering.
+</div>
+<a name="Image-filterUnsharpMask"></a><b>
+filterUnsharpMask(a)
+</b>
+<p>
+<div class=slotDescription>
+Returns new image as a result of applying filter. Implements unsharp mask filtering. 
+	The result is sharpened image.
+	The parameter value may by any but it makes sense if it is > 0.
+</div>
+<a name="Image-filterWeightedMedian"></a><b>
+filterWeightedMedian(filterSizeX, filterSizeY, filter)
+</b>
+<p>
+<div class=slotDescription>
+Returns new image as a result of applying filter.
 </div>
 <a name="Image-flipX"></a><b>
 flipX
@@ -147,6 +252,13 @@ height
 <p>
 <div class=slotDescription>
 Returns the image hieght.
+</div>
+<a name="Image-histogram"></a><b>
+histogram
+</b>
+<p>
+<div class=slotDescription>
+Returns array with histogram values interleaved by channels.
 </div>
 <a name="Image-isL8"></a><b>
 isL8
@@ -175,6 +287,35 @@ isRGBA8
 <p>
 <div class=slotDescription>
 Returns true if the receiver is in RGBA8 format, false otherwise.
+</div>
+<a name="Image-linearContrast"></a><b>
+linearContrast
+</b>
+<p>
+<div class=slotDescription>
+Performs contrast linarization. Per-pixel per-channel transformation that extends intensity to its full range.
+	Returns self.
+</div>
+<a name="Image-makeGrayscale"></a><b>
+makeGrayscale
+</b>
+<p>
+<div class=slotDescription>
+Converts color model to Luminance or Luminance-Alpha 8bit (grayscale). Returns self.
+</div>
+<a name="Image-makeL8"></a><b>
+makeL8
+</b>
+<p>
+<div class=slotDescription>
+Converts color model to Luminance 8bit (grayscale). Returns self.
+</div>
+<a name="Image-makeRGBA8"></a><b>
+makeRGBA8
+</b>
+<p>
+<div class=slotDescription>
+Converts color model to RGBA 8bit. Returns self.
 </div>
 <a name="Image-open"></a><b>
 open(optionalPathString)
@@ -255,6 +396,14 @@ setPath(aString)
 <p>
 <div class=slotDescription>
 Sets the image path. Returns self.
+</div>
+<a name="Image-thresholdByGradient"></a><b>
+thresholdByGradient
+</b>
+<p>
+<div class=slotDescription>
+Performs thresholding. Threshold value is finded using Otsu's method.
+	Returns self.
 </div>
 <a name="Image-width"></a><b>
 width
