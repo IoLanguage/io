@@ -31,9 +31,11 @@ Curses end
 
 #define DATA(self) ((IoCursesData *)IoObject_dataPointer(self))
 
+static const char protoId[] = "Curses";
+
 IoTag *IoCurses_newTag(void *state)
 {
-	IoTag *tag = IoTag_newWithName_("Curses");
+	IoTag *tag = IoTag_newWithName_(protoId);
 	IoTag_state_(tag, state);
 	IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoCurses_free);
 	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoCurses_rawClone);
@@ -46,7 +48,7 @@ IoCurses *IoCurses_proto(void *state)
 	IoObject_tag_(self, IoCurses_newTag(state));
 
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoCursesData)));
-	IoState_registerProtoWithFunc_(state, self, IoCurses_proto);
+	IoState_registerProtoWithId_(state, self, protoId);
 
 	{
 		IoMethodTable methodTable[] = {
@@ -119,7 +121,7 @@ IoCurses *IoCurses_rawClone(IoCurses *proto)
 
 IoCurses *IoCurses_new(void *state)
 {
-	IoObject *proto = IoState_protoWithInitFunction_(state, IoCurses_proto);
+	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
 }
 
@@ -181,7 +183,6 @@ IoObject *IoCurses_end(IoCurses *self, IoObject *locals, IoMessage *m)
 	Ends curses mode. This should be called before standard io's read
 	and write methods are used. Returs self.
 	*/
-	printf("IoCurses_end\n");
 
 	//echo();
 	//nocbreak();
