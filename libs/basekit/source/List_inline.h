@@ -2,7 +2,7 @@
 //metadoc List license BSD revised
 /*metadoc List description
 List is an array of void pointers.
-The List is not responsible for io_freeing it's elements.
+The List is not responsible for io_freeing its elements.
 */
 
 #ifdef LIST_C

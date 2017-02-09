@@ -175,7 +175,7 @@ IO_METHOD(IoCall, coroutine)
 IO_METHOD(IoCall, evalArgAt)
 {
 	/*doc Call evalArgAt(argNumber)
-	Evaluates the specified argument of the Call's message in the context of it's sender.
+	Evaluates the specified argument of the Call's message in the context of its sender.
 	*/
 	
 	int n = IoMessage_locals_intArgAt_(m, locals, 0);
