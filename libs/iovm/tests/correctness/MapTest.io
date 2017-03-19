@@ -155,4 +155,12 @@ MapTest := UnitTest clone do(
 		assertEquals(0, m at("a"))
 		assertFalse(m hasKey("c"))
 	)
+
+	testPairs := method(
+		p :=  Map clone atPut("a", 0) atPut("b", 1) pairs
+		assertTrue(p contains(Tuple clone set("a", 0)))
+		assertTrue(p contains(Tuple clone set("b", 1)))
+		assertEquals(p size, 2)
+
+	)
 )
