@@ -338,6 +338,16 @@ BASEKIT_API void UArray_sortBy_(UArray *self, UArraySortCallback *cmp);
 	return; \
 }
 
+#define UARRAY_FUNCTION_TYPES(FUNCTION_NAME, TYPE1, self, TYPE2, other)\
+{\
+	size_t i, minSize = self->size < other->size ? self->size : other->size;\
+	for(i = 0; i < minSize; i ++)\
+	{\
+		((TYPE1 *)self->data)[i] = FUNCTION_NAME(((TYPE1 *)self->data)[i], (TYPE1)((TYPE2 *)other->data)[i]);\
+	}\
+	return; \
+}
+
 //printf("%i: " #TYPE1 " %f " #OP2 " " #TYPE2 " %i\n", i, ((TYPE1 *)self->data)[i], ((TYPE2 *)other->data)[i]);
 
 // single array ops

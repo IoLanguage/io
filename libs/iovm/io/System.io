@@ -33,7 +33,7 @@ System do(
 		optsNoKey := List clone
 
 		arguments foreach(i, arg,
-			if(arg beginsWithSeq("--") isFalse,
+			if(not(arg beginsWithSeq("--")),
 				optsNoKey append(arg)
 				continue
 			)

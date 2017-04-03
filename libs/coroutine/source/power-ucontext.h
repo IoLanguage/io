@@ -2,7 +2,6 @@ typedef unsigned long ulong;
 
 #define	setcontext(u)	_setmcontext(&(u)->mc)
 #define	getcontext(u)	_getmcontext(&(u)->mc)
-typedef unsigned long ulong; /* not available on OS X 10.4.11 */
 typedef struct mcontext mcontext_t;
 typedef struct ucontext ucontext_t;
 struct mcontext

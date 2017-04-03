@@ -186,7 +186,7 @@ IoObject *IoAudioDevice_read(IoAudioDevice *self, IoObject *locals, IoMessage *m
 IoObject *IoAudioDevice_error(IoAudioDevice *self, IoObject *locals, IoMessage *m)
 {
 	/*doc AudioDevice error
-	Returns an error string if an error has occured, Nil otherwise.
+	Returns an error string if an error has occurred, Nil otherwise.
 	*/
 
 	const char *e = AudioDevice_error(DATA(self)->audioDevice);

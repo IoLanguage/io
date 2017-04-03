@@ -12,6 +12,11 @@ Terminology
 */
 //metadoc Sequence category Core
 
+#pragma GCC diagnostic push
+
+//Suppresses incorrect warning from GCC about CTYPE never having value of -1
+#pragma GCC diagnostic ignored "-Wtautological-constant-out-of-range-compare"
+
 #include "IoSeq.h"
 #include "IoState.h"
 #include "IoCFunction.h"
@@ -331,7 +336,7 @@ IO_METHOD(IoSeq, preallocateToSize)
 IO_METHOD(IoSeq, replaceSeq)
 {
 	/*doc Sequence replaceSeq(aSequence, anotherSequence)
-	Returns a new Sequence with all occurances of aSequence
+	Returns a new Sequence with all occurrences of aSequence
 	replaced with anotherSequence in the receiver. Returns self.
 	*/
 
@@ -345,7 +350,7 @@ IO_METHOD(IoSeq, replaceSeq)
 IO_METHOD(IoSeq, removeSeq)
 {
 	/*doc Sequence removeSeq(aSequence)
-	Removes occurances of aSequence from the receiver.
+	Removes occurrences of aSequence from the receiver.
 	*/
 
 	IoSeq *subSeq   = IoMessage_locals_seqArgAt_(m, locals, 0);
@@ -358,7 +363,7 @@ IO_METHOD(IoSeq, removeSeq)
 IO_METHOD(IoSeq, replaceFirstSeq)
 {
 	/*doc Sequence replaceFirstSeq(aSequence, anotherSequence, optionalStartIndex)
-	Returns a new Sequence with the first occurance of aSequence
+	Returns a new Sequence with the first occurrence of aSequence
 	replaced with anotherSequence in the receiver. If optionalStartIndex is
 	provided, the search for aSequence begins at that index. Returns self.
 	*/
@@ -453,7 +458,7 @@ IO_METHOD(IoSeq, clipAfterSeq)
 {
 	/*doc Sequence clipAfterSeq(aSequence)
 	Removes the contents of the receiver after the end of
-	the first occurance of aSequence. Returns true if anything was
+	the first occurrence of aSequence. Returns true if anything was
 	removed, or false otherwise.
 	*/
 
@@ -468,7 +473,7 @@ IO_METHOD(IoSeq, clipBeforeEndOfSeq)
 {
 	/*doc Sequence clipBeforeEndOfSeq(aSequence)
 	Removes the contents of the receiver before the end of
-	the first occurance of aSequence. Returns true if anything was
+	the first occurrence of aSequence. Returns true if anything was
 	removed, or false otherwise.
 	*/
 
@@ -482,7 +487,7 @@ IO_METHOD(IoSeq, clipAfterStartOfSeq)
 {
 	/*doc Sequence clipAfterStartOfSeq(aSequence)
 	Removes the contents of the receiver after the beginning of
-	the first occurance of aSequence. Returns true if anything was
+	the first occurrence of aSequence. Returns true if anything was
 	removed, or false otherwise.
 	*/
 
@@ -1002,6 +1007,35 @@ IO_METHOD(IoSeq, divideEquals)
 	return self;
 }
 
+IO_METHOD(IoSeq, powerEquals)
+{
+	/*doc Sequence **=(aSeq)
+	Raises the values of the receiver in the corresponding values of aSeq.
+	Only works on Sequences whose item type is numeric. Returns self.
+	*/
+	
+	IoObject *other = IoMessage_locals_valueArgAt_(m, locals, 0);
+
+	IO_ASSERT_NOT_SYMBOL(self);
+	IO_ASSERT_NUMBER_ENCODING(self);
+
+	if (ISSEQ(other))
+	{
+		UArray_power_(DATA(self), DATA(other));
+	}
+	else if (ISNUMBER(other))
+	{
+		double value = IoNumber_asDouble(other);
+		UArray_powerScalarDouble_(DATA(self), value);
+	}
+	else
+	{
+		IoMessage_locals_numberArgAt_errorForType_(self, locals, 0, "Sequence or Number");
+	}
+
+	return self;
+}
+
 IoObject *IoSeq_clone(IoSeq *self)
 {
 	return IoSeq_newWithUArray_copy_(IOSTATE, DATA(self), 1);
@@ -1010,7 +1044,7 @@ IoObject *IoSeq_clone(IoSeq *self)
 IO_METHOD(IoSeq, add)
 {
 	/*doc Sequence +(aSeq)
-	Vector addition - Adds the values of aSeq to the corresponding values of the receiver 
+	Vector addition - adds the values of aSeq to the corresponding values of the receiver
 	returning a new vector with the result.
 	Only works on Sequences whose item type is numeric.
 	*/
@@ -1020,8 +1054,8 @@ IO_METHOD(IoSeq, add)
 
 IO_METHOD(IoSeq, subtract)
 {
-	/*doc Sequence +(aSeq)
-	Vector addition - Adds the values of aSeq to the corresponding values of the receiver 
+	/*doc Sequence -(aSeq)
+	Vector subtraction - Subtracts the values of aSeq from the corresponding values of the receiver 
 	returning a new vector with the result.
 	Only works on Sequences whose item type is numeric.
 	*/
@@ -1043,12 +1077,23 @@ IO_METHOD(IoSeq, multiply)
 IO_METHOD(IoSeq, divide)
 {
 	/*doc Sequence /(aSeq)
-	Divides the values of aSeq to the corresponding values of the receiver 
+	Divides the values of the receiver by the corresponding values of aSeq 
 	returning a new vector with the result.
 	Only works on Sequences whose item type is numeric. 
 	*/
 	
 	return IoSeq_divideEquals(IoSeq_clone(self), locals, m);
+}
+
+IO_METHOD(IoSeq, power)
+{
+	/*doc Sequence **(aSeq)
+	Raises the values of the receiver in the corresponding values of aSeq 
+	returning a new vector with the result.
+	Only works on Sequences whose item type is numeric. 
+	*/
+	
+	return IoSeq_powerEquals(IoSeq_clone(self), locals, m);
 }
 
 IO_METHOD(IoSeq, dotProduct)
@@ -1123,37 +1168,37 @@ Returns self.
 IoSeqMutateNoArgNoResultOp(rangeFill);
 
 /*doc Sequence sin
-Sets each value of the Sequence to the trigonometric sine of it's value.
+Sets each value of the Sequence to the trigonometric sine of its value.
 Returns self.
 */
 IoSeqMutateNoArgNoResultOp(sin);
 
 /*doc Sequence cos
-Sets each value of the Sequence to the trigonometric cosine of it's value.
+Sets each value of the Sequence to the trigonometric cosine of its value.
 Returns self.
 */
 IoSeqMutateNoArgNoResultOp(cos);
 
 /*doc Sequence tan
-Sets each value of the Sequence to the trigonometric tangent of it's value.
+Sets each value of the Sequence to the trigonometric tangent of its value.
 Returns self.
 */
 IoSeqMutateNoArgNoResultOp(tan);
 
 /*doc Sequence asin
-Sets each value of the Sequence to the trigonometric arcsine of it's value.
+Sets each value of the Sequence to the trigonometric arcsine of its value.
 Returns self.
 */
 IoSeqMutateNoArgNoResultOp(asin);
 
 /*doc Sequence acos
-Sets each value of the Sequence to the trigonometric arcsine of it's value.
+Sets each value of the Sequence to the trigonometric arcsine of its value.
 Returns self.
 */
 IoSeqMutateNoArgNoResultOp(acos);
 
 /*doc Sequence atan
-Sets each value of the Sequence to the trigonometric arctangent of it's value.
+Sets each value of the Sequence to the trigonometric arctangent of its value.
 Returns self.
 */
 IoSeqMutateNoArgNoResultOp(atan);
@@ -1413,11 +1458,13 @@ void IoSeq_addMutableMethods(IoSeq *self)
 	{"-=", IoSeq_subtractEquals},
 	{"*=", IoSeq_multiplyEquals},
 	{"/=", IoSeq_divideEquals},
+	{"**=", IoSeq_powerEquals},
 
 	{"+", IoSeq_add},
 	{"-", IoSeq_subtract},
 	{"*", IoSeq_multiply},
 	{"/", IoSeq_divide},
+	{"**", IoSeq_power},
 
 		//
 	{"dotProduct", IoSeq_dotProduct},
@@ -1479,3 +1526,4 @@ void IoSeq_addMutableMethods(IoSeq *self)
 
 	IoObject_addMethodTable_(self, methodTable);
 }
+#pragma GCC pop

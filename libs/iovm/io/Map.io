@@ -41,7 +41,7 @@ Map do(
 	)
 
 	/*doc Map select(optionalIndex, optionalValue, message)
-		Create a new Map with keys,values of self for which message evaluated
+		Creates a new Map with keys,values of self for which message evaluated
 		to non-nil.
 	*/
 	select := method(
@@ -99,7 +99,7 @@ Map do(
 		addKeysAndValues(anotherMap keys, anotherMap values)
 	)
 
-	//doc Map reverseMap Create a new Map using values as keys and keys as values
+	//doc Map reverseMap Creates a new Map using values as keys and keys as values
 	reverseMap := method(
 		Map clone addKeysAndValues(values, keys)
 	)
@@ -111,12 +111,12 @@ Map do(
 		o
 	)
 
-	//doc Map isEmpty returns true if this map doesn't contain any pairs.
+	//doc Map isEmpty Returns true if this map doesn't contain any pairs.
 	isEmpty := method(
 		keys isEmpty
 	)
 
-    //doc Map isNotEmpty returns true if this map contains at least one pair.
+    //doc Map isNotEmpty Returns true if this map contains at least one pair.
     isNotEmpty := method(
         keys isNotEmpty
     )

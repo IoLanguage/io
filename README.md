@@ -14,6 +14,7 @@ REQUIREMENTS
  * [ode](http://www.ode.org/)
  * [sqlite](http://www.sqlite.org/)
 
+
 INSTALLING
 ==========
 
@@ -70,12 +71,12 @@ The above path will change depending on what you set your `CMAKE_INSTALL_PREFIX`
 Debian or Ubuntu
 ----------------
 
-See OSX instructions.
+See [OSX instructions](#OSX).
 
 Gentoo
 ------
 
-See OSX instructions.
+See [OSX instructions](#OSX).
 
 MS WINDOWS
 ----------

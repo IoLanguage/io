@@ -7,9 +7,7 @@
 #include <math.h>
 #include <float.h>
 
-#if defined(__APPLE__)
-	#define IO_USE_SIMD 1
-#endif
+#define IO_USE_SIMD 1
 
 #ifdef IO_USE_SIMD
 
@@ -138,6 +136,18 @@ void UArray_divide_(UArray *self, const UArray *other)
 	DUARRAY_OP(UARRAY_BASICOP_TYPES, /=, self, other);
 }
 
+void UArray_power_(UArray *self, const UArray *other)
+{
+/*
+	if (self->itemType == CTYPE_float32_t && other->itemType == CTYPE_float32_t)
+	{
+		vfloat32_div((float32_t *)self->data, (float32_t *)other->data, UArray_minSizeWith_(self, other));
+		return;
+	}
+*/
+	DUARRAY_OP(UARRAY_FUNCTION_TYPES, pow, self, other);
+}
+
 #define UARRAY_DOT(OP2, TYPE1, self, TYPE2, other)\
 {\
 	double p = 0;\
@@ -174,6 +184,11 @@ void UArray_multiplyScalarDouble_(UArray *self, double value)
 void UArray_divideScalarDouble_(UArray *self, double value)
 {
 	UARRAY_FOREACHASSIGN(self, i, v, v / value);
+}
+
+void UArray_powerScalarDouble_(UArray *self, double value)
+{
+	UARRAY_FOREACHASSIGN(self, i, v, pow(v, value));
 }
 
 // bitwise
@@ -305,10 +320,10 @@ size_t UArray_bitCount(UArray *self)
 #define UARRAY_LOGICOP_TYPES(OP2, TYPE1, self, TYPE2, other)\
 {\
 	size_t i, minSize = self->size < other->size ? self->size : other->size;\
-		for(i = 0; i < minSize; i ++)\
-		{\
-			((TYPE1 *)self->data)[i] = ((TYPE1 *)self->data)[i] OP2 (TYPE1)((TYPE2 *)other->data)[i];\
-		}\
+	for(i = 0; i < minSize; i ++)\
+	{\
+		((TYPE1 *)self->data)[i] = ((TYPE1 *)self->data)[i] OP2 (TYPE1)((TYPE2 *)other->data)[i];\
+	}\
 }
 
 void UArray_logicalOr_(UArray *self, const UArray *other)

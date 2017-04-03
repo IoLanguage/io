@@ -476,7 +476,7 @@ IoObject *IoMemcached_stats(IoMemcached *self, IoObject *locals, IoMessage *m)
 	int errors = 0;
 	uint32_t pos = 0;
 	while(pos < memcached_server_count(DATA(self)->mc)) {
-		memcached_server_instance_st server = memcached_server_instance_by_position(DATA(self)->mc, pos);
+		const memcached_instance_st *server = memcached_server_instance_by_position(DATA(self)->mc, pos);
 		if(server == NULL)
 			continue;
 

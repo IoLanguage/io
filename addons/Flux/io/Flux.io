@@ -13,7 +13,7 @@ Flux := Object clone do(
 	appendProto(Views)
 	
 	//doc Message fluxPath  The root directory of the Flux addon
-	fluxPath := if(Directory with("io/addons/Flux") exists, "io/addons/Flux", "/usr/local/lib/io/addons/Flux")
+	fluxPath := if(Directory with("io/addons/Flux") exists, "io/addons/Flux", System ioPath .. "/addons/Flux")
 	//doc Message fluxSource  The directory of Flux where Flux.io is located. This directory is added to the Importer searchPaths.
 	fluxSource := Path with(fluxPath, "io/Flux")
 	//doc Message fluxPath  The directory where the .io files for the Flux views are located. This directory is added to the Importer searchPaths.

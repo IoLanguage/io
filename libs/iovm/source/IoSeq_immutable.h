@@ -98,7 +98,7 @@ IOVM_API IO_METHOD(IoSeq, asIoPath);
 IOVM_API IO_METHOD(IoSeq, beforeSeq);
 IOVM_API IO_METHOD(IoSeq, afterSeq);
 
-IOVM_API IO_METHOD(IoSeq, occurancesOfSeq);
+IOVM_API IO_METHOD(IoSeq, occurrencesOfSeq);
 
 // encoding
 

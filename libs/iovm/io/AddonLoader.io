@@ -52,7 +52,11 @@ Addon := Object clone do(
 		dependencies foreach(d,
 			if(Lobby getSlot(d) == nil,
 				//writeln("loading dependency ", d)
-				AddonLoader loadAddonNamed(d)
+				if(AddonLoader hasAddonNamed(d)) then(
+				    AddonLoader loadAddonNamed(d)
+				) else(
+				    Exception raise("Failed to load Addon " .. name .. " - Addon " .. name .. " depends on Addon " .. d .. " but Addon " .. d .. " cannot be found.")
+				)
 			)
 		)
 	)

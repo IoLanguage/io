@@ -150,7 +150,7 @@ IoObject *IoSystem_proto(void *state)
 }
 
 /*doc System args
-	Returns the list of command line argument strings the program was run with.")
+	Returns the list of command line argument strings the program was run with.
 */
 	
 /*

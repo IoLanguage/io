@@ -488,6 +488,8 @@ ListTest := UnitTest clone do(
 		assertEquals(t, t asEncodedList asDecodedList)
 		t := list("foo")
 		assertEquals(t, t asEncodedList asDecodedList)
+		t := list("foo", nil)
+		assertEquals(t, t asEncodedList asDecodedList)
 	)
 
     testSlice := method(

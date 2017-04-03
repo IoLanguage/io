@@ -1,4 +1,3 @@
-
 //metadoc List category Core
 //metadoc List copyright Steve Dekorte 2002
 //metadoc List license BSD revised
@@ -6,6 +5,7 @@
 A mutable array of values. The first index is 0.
 */
 
+#include <math.h>
 #include "IoList.h"
 #include "IoObject.h"
 #include "IoState.h"
@@ -14,7 +14,6 @@ A mutable array of values. The first index is 0.
 #include "IoState.h"
 #include "IoNumber.h"
 #include "IoBlock.h"
-#include <math.h>
 
 static const char *protoId = "List";
 
@@ -302,7 +301,7 @@ IO_METHOD(IoList, indexOf)
 
 	int count = IoMessage_argCount(m);
 
-	IOASSERT(count, "remove requires at least one argument");
+	IOASSERT(count, "indexOf requires at least one argument");
 
 	{
 		IoObject *v = IoMessage_locals_valueArgAt_(m, locals, 0);
@@ -594,7 +593,7 @@ done:
 IO_METHOD(IoList, appendIfAbsent)
 {
 	/*doc List appendIfAbsent(anObject)
-	Adds each value not already contained by the receiver, returns self. 
+	Adds each value not already contained by the receiver. Returns self. 
 	*/
 
 	int n;
@@ -807,7 +806,7 @@ IO_METHOD(IoList, atPut)
 
 IO_METHOD(IoList, setSize)
 {
-	/*doc List setSize
+	/*doc List setSize(newSize)
 	Sets the size of the receiver by either removing excess items or adding nils as needed.
 	*/
 	
@@ -1092,8 +1091,12 @@ IO_METHOD(IoList, fromEncodedList)
 	
 	// add bounds checks 
 	
-	while (index <= uSize - 7)
+	while (index < uSize)
 	{
+		if (index + 3 > uSize)
+		{
+			break;
+		}
 		uint8_t type     = d[index + 0];
 		uint8_t encoding = d[index + 1];
 		uint8_t itemType = d[index + 2];
@@ -1105,6 +1108,10 @@ IO_METHOD(IoList, fromEncodedList)
 		}
 		else if(type == IOLIST_ENCODING_TYPE_NUMBER)
 		{
+			if (index + sizeof(float32_t) > uSize)
+			{
+				break;
+			}
 			float32_t f = *((float32_t *)(d + index));
 			
 			index += sizeof(float32_t);
@@ -1112,6 +1119,10 @@ IO_METHOD(IoList, fromEncodedList)
 		}
 		else if(type == IOLIST_ENCODING_TYPE_SYMBOL)
 		{
+			if (index + sizeof(uint32_t) > uSize)
+			{
+				break;
+			}
 			uint32_t size = *((uint32_t *)(d + index));
 			UArray *o;
 			
@@ -1119,8 +1130,7 @@ IO_METHOD(IoList, fromEncodedList)
 			
 			if (index + size > uSize)
 			{
-				List_free(list);
-				return IONIL(self);
+				break;
 			}
 
 			o = UArray_newWithData_type_size_copy_((void *)(d + index), itemType, size, 1);
@@ -1132,7 +1142,11 @@ IO_METHOD(IoList, fromEncodedList)
 		else if(type == IOLIST_ENCODING_TYPE_REFERENCE)
 		{
 			// should we have a Number reference encoding?
-			uint32_t id = *((uint32_t *)(d + index));
+			if (index + sizeof(uint32_t) > uSize)
+			{
+				break;
+			}
+			uint32_t id= *((uint32_t *)(d + index));
 			IoMessage_setCachedArg_to_(rm, 0, IONUMBER(id));
 			IoMessage_setCachedArg_to_(rm, 0, IONIL(self));
 			
@@ -1148,8 +1162,16 @@ IO_METHOD(IoList, fromEncodedList)
 			IOASSERT(0, "unrecognized encoded type");
 		}
 	}
-	
-	return IoList_newWithList_(IOSTATE, list);
+	if (index == uSize)
+	{
+	  return IoList_newWithList_(IOSTATE, list);
+	}
+	else
+	{
+	  /* Decode error for some reason */
+	  List_free(list);
+	  return IONIL(self);
+	}
 }
 
 IO_METHOD(IoList, join)

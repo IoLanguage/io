@@ -1,6 +1,5 @@
 #!/usr/bin/env io
 
-
 oneMillion := 1000000
 
 results := List clone

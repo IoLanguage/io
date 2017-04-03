@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+		<html>
+		<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Oauth</title>
+		<META HTTP-EQUIV="EXPIRES" CONTENT=0>
+		<link rel="stylesheet" href="../../../../docs.css">
+		</head>
+		<body>
+		
+<br>
+<h1>Io Reference</h1>
+<br><br><br>
+<br><br><br>
+<a class='column' href='../../index.html'>Digests</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<a class='column' href='../index.html'>Oauth</a>
+&nbsp;&nbsp;<font color=#ccc>/</font>&nbsp;&nbsp;
+<b>Oauth</b>
+<br><br><br>
+<br><br><br>
+<table border=0 cellspacing=0 style="margin-left:8em; width:40em; line-height:1.2em;">
+<tr>
+<td align=right></td>
+<td></td>
+<td>An object for calculating Oauth hashes. Each hash calculation should instantiate its own Oauth instance.
+<p>
+Example:
+<pre>
+digest := Oauth clone
+digest appendSeq("this is a message")
+out := digest OauthString
+</pre>
+</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr><td colspan=3>&nbsp;</td></tr>
+<tr>
+<td align=right>
+</td>
+<td></td>
+<td>
+<hr align=left color=#ddd height=1>
+<br><br>
+<a name="Oauth-accessKey"></a><b>
+accessKey
+</b>
+<p>
+<div class=slotDescription>
+Returns accessKey.
+</div>
+<a name="Oauth-accessSecret"></a><b>
+accessSecret
+</b>
+<p>
+<div class=slotDescription>
+Returns accessSecret.
+</div>
+<a name="Oauth-consumerKey"></a><b>
+consumerKey
+</b>
+<p>
+<div class=slotDescription>
+Returns consumerKey.
+</div>
+<a name="Oauth-consumerSecret"></a><b>
+consumerSecret
+</b>
+<p>
+<div class=slotDescription>
+Returns consumerSecret.
+</div>
+<a name="Oauth-getAccessKeyAndSecretFromUrl"></a><b>
+getAccessKeyAndSecretFromUrl(aSequence)
+</b>
+<p>
+<div class=slotDescription>
+getAccessKeyAndSecretFromUrl Returns self.
+</div>
+<a name="Oauth-getOauthTokenAndSecretFromUrl"></a><b>
+getOauthTokenAndSecretFromUrl(aSequence)
+</b>
+<p>
+<div class=slotDescription>
+getOauthTokenAndSecretFromUrl Returns self.
+</div>
+<a name="Oauth-oauthSecret"></a><b>
+oauthSecret
+</b>
+<p>
+<div class=slotDescription>
+Returns oauthSecret.
+</div>
+<a name="Oauth-oauthToken"></a><b>
+oauthToken
+</b>
+<p>
+<div class=slotDescription>
+Returns oauthToken.
+</div>
+<a name="Oauth-requestUrl"></a><b>
+requestUrl(aUrlString, postContent)
+</b>
+<p>
+<div class=slotDescription>
+Request the given URL. If postContent is not provided, a GET request is sent. Returns self.
+</div>
+<a name="Oauth-setAccessKey"></a><b>
+setAccessKey(aSequence)
+</b>
+<p>
+<div class=slotDescription>
+Sets the access key. Returns self.
+</div>
+<a name="Oauth-setAccessSecret"></a><b>
+setAccessSecret(aSequence)
+</b>
+<p>
+<div class=slotDescription>
+Sets the access secret. Returns self.
+</div>
+<a name="Oauth-setConsumerKey"></a><b>
+setConsumerKey(aSequence)
+</b>
+<p>
+<div class=slotDescription>
+Sets the consumer key. Returns self.
+</div>
+<a name="Oauth-setOauthSecret"></a><b>
+setOauthSecret(aSequence)
+</b>
+<p>
+<div class=slotDescription>
+Sets the consumer key. Returns self.
+</div>
+<a name="Oauth-setOauthToken"></a><b>
+setOauthToken(aSequence)
+</b>
+<p>
+<div class=slotDescription>
+Sets the oauth key. Returns self.
+</div>
+</td>
+</tr>
+</table>
+<br><br><br><br><br>
+</body>
+</html>

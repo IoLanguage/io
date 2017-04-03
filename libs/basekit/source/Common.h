@@ -1,4 +1,3 @@
-
 //metadoc Common copyright Steve Dekorte 2002
 //metadoc Common license BSD revised
 /*metadoc Common description
@@ -75,7 +74,6 @@ typedef long long int64_t;
 #ifndef __MINGW32__
 #define usleep(x) Sleep(((x)+999)/1000)
 #endif
-#define ssize_t SSIZE_T
 
 #define HAS_FIBERS 1
 

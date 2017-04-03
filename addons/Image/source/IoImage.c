@@ -22,6 +22,7 @@ Currently supported formats include PNG(which supports alpha), JPG and TIFF.
 #include "IoNumber.h"
 #include "IoSeq.h"
 #include "Image.h"
+#include <math.h>
 
 #define DATA(self) ((IoImageData *)IoObject_dataPointer(self))
 
@@ -62,6 +63,7 @@ IoImage *IoImage_proto(void *state)
 
 		{"data", IoImage_data},
 		{"componentCount", IoImage_componentCount},
+		{"isGrayscale", IoImage_isL8},
 		{"isL8", IoImage_isL8},
 		{"isLA8", IoImage_isLA8},
 		{"isRGB8", IoImage_isRGB8},
@@ -71,6 +73,10 @@ IoImage *IoImage_proto(void *state)
 		{"crop", IoImage_crop},
 		{"addAlpha", IoImage_addAlpha},
 		{"removeAlpha", IoImage_removeAlpha},
+		
+		{"makeRGBA8", IoImage_makeRGBA8},
+		{"makeL8", IoImage_makeL8},
+		{"makeGrayscale", IoImage_makeGrayscale},
 
 		// extras
 
@@ -88,7 +94,27 @@ IoImage *IoImage_proto(void *state)
 		
 		{"baselineHeight", IoImage_baselineHeight},
 		{"averageColor", IoImage_averageColor},
+		{"histogram", IoImage_histogram},
+		{"equalizeHistogram", IoImage_equalizeHistogram},
+		{"linearContrast", IoImage_linearContrast},
+		{"bitPlain", IoImage_bitPlain},
+		{"componentPlain", IoImage_componentPlain},
 		
+		{"thresholdByGradient", IoImage_thresholdByGradient},
+		{"thresholdByHistogram", IoImage_thresholdByHistogram},
+		{"thresholdByOtsu", IoImage_thresholdByOtsu},
+		
+		{"filterLinear", IoImage_filterLinear},
+		{"filterUniformAverage", IoImage_filterUniformAverage},
+		{"filterGauss", IoImage_filterGauss},
+		{"filterKirsch", IoImage_filterKirsch},
+		{"filterSobel", IoImage_filterSobel},
+		{"filterUnsharpMask", IoImage_filterUnsharpMask},
+		{"filterMin", IoImage_filterMin},
+		{"filterMax", IoImage_filterMax},
+		{"filterMedian", IoImage_filterMedian},
+		{"filterWeightedMedian", IoImage_filterWeightedMedian},
+
 		{"bounds", IoImage_bounds},
 
 		{NULL, NULL},
@@ -111,6 +137,15 @@ IoImage *IoImage_new(void *state)
 {
 	IoObject *proto = IoState_protoWithId_(state, protoId);
 	return IOCLONE(proto);
+}
+
+IOIMAGE_API IoImage *IoImage_newWithImage_(void *state, Image* image)
+{
+	IoImage* self = IoImage_new(state);
+	DATA(self)->image = image;
+	DATA(self)->buffer = IoSeq_newWithData_length_(state, Image_data(image), Image_sizeInBytes(image));
+	Image_setExternalUArray_(image, IoSeq_rawUArray(DATA(self)->buffer));
+	return self;
 }
 
 /* ----------------------------------------------------------- */
@@ -301,7 +336,7 @@ IoObject *IoImage_isL8(IoImage *self, IoObject *locals, IoMessage *m)
 	Returns true if the receiver is in L8 (8bit Luminance) format, false otherwise.
 	*/
 
-	return IOBOOL(self, Image_componentCount(DATA(self)->image) == 1);
+	return IOBOOL(self, Image_isL8(DATA(self)->image));
 }
 
 IoObject *IoImage_isLA8(IoImage *self, IoObject *locals, IoMessage *m)
@@ -312,6 +347,35 @@ IoObject *IoImage_isLA8(IoImage *self, IoObject *locals, IoMessage *m)
 
 	return IOBOOL(self, Image_componentCount(DATA(self)->image) == 2);
 }
+
+IoObject *IoImage_makeRGBA8(IoImage *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Image makeRGBA8
+	Converts color model to RGBA 8bit. Returns self.
+	*/
+	Image_makeRGBA(DATA(self)->image);
+	return self;
+}
+
+IoObject *IoImage_makeL8(IoImage *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Image makeL8
+	Converts color model to Luminance 8bit (grayscale). Returns self.
+	*/
+	Image_removeAlpha(DATA(self)->image);
+	Image_makeGrayscale(DATA(self)->image);
+	return self;
+}
+
+IoObject *IoImage_makeGrayscale(IoImage *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Image makeGrayscale
+	Converts color model to Luminance or Luminance-Alpha 8bit (grayscale). Returns self.
+	*/
+	Image_makeGrayscale(DATA(self)->image);
+	return self;
+}
+
 
 IoObject *IoImage_crop(IoImage *self, IoObject *locals, IoMessage *m)
 {
@@ -486,12 +550,290 @@ IoObject *IoImage_averageColor(IoImage *self, IoObject *locals, IoMessage *m)
 	ColorStruct c = Image_averageColor(DATA(self)->image);
 	vec3f v;
 	
-	v.x = c.r;	
-	v.y = c.g;	
+	v.x = c.r;
+	v.y = c.g;
 	v.z = c.b;
 	
 	return IoSeq_newVec3f(IOSTATE, v);
 }
 
+IoObject *IoImage_histogram(IoImage *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Image histogram
+	Returns array with histogram values interleaved by channels.
+	*/
+	return IoSeq_newWithUArray_copy_(IOSTATE, Image_histogram(DATA(self)->image), 0);
+}
 
+IoObject *IoImage_equalizeHistogram(IoImage *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Image equalizeHistogram(mode)
+	Performs histogram equalization. Mode denotes quality factor and processing speed. Mode should be in range [0..3].
+	Returns self.
+	*/
+	int arg = IoMessage_locals_intArgAt_(m, locals, 0);
+	Image_equalizeHistogram(DATA(self)->image, (arg > 3 ? 3 : (arg < 0 ? 0 : arg)));
+	return self;
+}
+
+IoObject *IoImage_linearContrast(IoImage *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Image linearContrast
+	Performs contrast linarization. Per-pixel per-channel transformation that extends intensity to its full range.
+	Returns self.
+	*/
+	Image_linearContrast(DATA(self)->image);
+	return self;
+}
+
+IOIMAGE_API IoObject *IoImage_componentPlain(IoImage *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Image componentPlain(component)
+	Removes other components except specified from the image.
+	Returns self.
+	*/
+	int component = IoMessage_locals_intArgAt_(m, locals, 0) % Image_componentCount(DATA(self)->image);
+	Image_bitMask(DATA(self)->image, component, 255); 
+	return self;
+}
+
+IOIMAGE_API IoObject *IoImage_bitPlain(IoImage *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Image bitPlain(component, bit)
+	Replaces contents with black-and-white image where white appears if and only if specified component contained 1 on the specified bit plain.
+	Returns self.
+	*/
+	int component = IoMessage_locals_intArgAt_(m, locals, 0) % Image_componentCount(DATA(self)->image);
+	int bit = IoMessage_locals_intArgAt_(m, locals, 0) % 8;
+	Image_bitMask(DATA(self)->image, component, 1 << bit);
+	UArray* imageByteArray = Image_byteArray(DATA(self)->image);
+	UArray_multiplyScalarDouble_(imageByteArray, (1 << (7 - bit)));
+	return self;
+}
+
+IoObject *IoImage_thresholdByGradient(IoImage *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Image thresholdByGradient
+	Performs thresholding. Threshold value is finded using gradients method.
+	Returns self.
+	*/
+	Image_thresholdByGradient(DATA(self)->image);
+	return self;
+}
+
+IoObject *IoImage_thresholdByHistogram(IoImage *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Image thresholdByGradient
+	Performs thresholding. Threshold value is finded using histogram splitting method.
+	Returns self.
+	*/
+	Image_thresholdByHistogram(DATA(self)->image);
+	return self;
+}
+
+IoObject *IoImage_thresholdByOtsu(IoImage *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Image thresholdByGradient
+	Performs thresholding. Threshold value is finded using Otsu's method.
+	Returns self.
+	*/
+	Image_thresholdByOtsu(DATA(self)->image);
+	return self;
+}
+
+
+IOIMAGE_API IoObject *IoImage_filterLinear(IoImage *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Image filterLinear(filterSizeX, filterSizeY, filter)
+	Returns new image as a result of applying filter.
+	*/
+	int filterSizeX = IoMessage_locals_intArgAt_(m, locals, 0);
+	int filterSizeY = IoMessage_locals_intArgAt_(m, locals, 1);
+	IoObject *ioFilter = IoMessage_locals_seqArgAt_(m, locals, 2);
+	if(IoSeq_rawSize(ioFilter) < filterSizeX * filterSizeY)
+	{
+		IoState_error_(IOSTATE, m, "filter should be a Sequence with size >= filterSizeX * filterSizeY");
+		return self;
+	}
+	UArray* filter = IoSeq_rawUArray(ioFilter);
+	return IoImage_newWithImage_(IOSTATE, Image_applyLinearFilter(DATA(self)->image, filterSizeX, filterSizeY, filter));
+}
+
+IOIMAGE_API IoObject *IoImage_filterUniformAverage(IoImage *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Image filterUniformAverage(filterSizeX, filterSizeY)
+	Returns new image as a result of applying filter. Implements low pass filtering.
+	*/
+	int filterSizeX = IoMessage_locals_intArgAt_(m, locals, 0);
+	int filterSizeY = IoMessage_locals_intArgAt_(m, locals, 1);
+	UArray* filter = UArray_new();
+	UArray_setItemType_(filter, CTYPE_int8_t);
+	UArray_setEncoding_(filter, CENCODING_NUMBER);
+	UArray_setSize_(filter, filterSizeX * filterSizeY);
+	memset(UArray_mutableBytes(filter), 1, filterSizeX * filterSizeY);
+	IoImage* toReturn = IoImage_newWithImage_(IOSTATE, Image_applyLinearFilter(DATA(self)->image, filterSizeX, filterSizeY, filter));
+	UArray_free(filter);
+	return toReturn;
+}
+
+IOIMAGE_API IoObject *IoImage_filterGauss(IoImage *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Image filterGauss(sigma)
+	Returns new image as a result of applying filter. Implements Gauss smoothing filtering with parameter sigma.
+	*/
+	double sigma = IoMessage_locals_doubleArgAt_(m, locals, 0);
+	int filterSize = round(sigma * 2.5) * 2 + 1;
+	UArray* filter = UArray_new();
+	UArray_setItemType_(filter, CTYPE_int8_t);
+	UArray_setEncoding_(filter, CENCODING_NUMBER);
+	UArray_setSize_(filter, filterSize * filterSize);
+	int8_t *filterBytes = UArray_mutableBytes(filter);
+	int x, y, x1, y1;
+	for(y = 0; y < filterSize; y++)
+	{
+		y1 = y - filterSize / 2;
+		for(x = 0; x < filterSize; x++)
+		{
+			x1 = x - filterSize / 2;
+			filterBytes[x + y * filterSize] = exp(-(x1*x1 + y1*y1)/2/sigma) * filterSize * filterSize * 2;
+		}
+	}
+	IoImage* toReturn = IoImage_newWithImage_(IOSTATE, Image_applyLinearFilter(DATA(self)->image, filterSize, filterSize, filter));
+	UArray_free(filter);
+	return toReturn;
+}
+
+IOIMAGE_API IoObject *IoImage_filterUnsharpMask(IoImage *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Image filterUnsharpMask(a)
+	Returns new image as a result of applying filter. Implements unsharp mask filtering. 
+	The result is sharpened image.
+	The parameter value may by any but it makes sense if it is > 0.
+	*/
+	int a = IoMessage_locals_intArgAt_(m, locals, 0);
+	UArray* filter = UArray_new();
+	UArray_setItemType_(filter, CTYPE_int8_t);
+	UArray_setEncoding_(filter, CENCODING_NUMBER);
+	UArray_setSize_(filter, 9);
+	int8_t *filterBytes = UArray_mutableBytes(filter);
+	
+	filterBytes[0] = -1; filterBytes[1] = -1;    filterBytes[2] = -1;
+	filterBytes[3] = -1; filterBytes[4] = a + 8; filterBytes[5] = -1;
+	filterBytes[6] = -1; filterBytes[7] = -1;    filterBytes[8] = -1;
+	IoImage* toReturn = IoImage_newWithImage_(IOSTATE, Image_applyLinearFilter(DATA(self)->image, 3, 3, filter));
+	UArray_free(filter);
+	return toReturn;
+}
+
+IOIMAGE_API IoObject *IoImage_filterSobel(IoImage *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Image filterSobel(a)
+	Returns new image as a result of applying Sobel filter.
+	The argument denotes direction: 0, 1, 2, ... -> 0, pi / 4, pi / 2, ...
+	*/
+	int a = IoMessage_locals_intArgAt_(m, locals, 0);
+	a = ((a % 8) + 8) % 8;
+	static int mapOfPixels[8] = {0, 1, 2, 5, 8, 7, 6, 3};
+	static int contentsOfPixels[8] = {-1, -2, -1, 0, 1, 2, 1, 0};
+	UArray* filter = UArray_new();
+	UArray_setItemType_(filter, CTYPE_int8_t);
+	UArray_setEncoding_(filter, CENCODING_NUMBER);
+	UArray_setSize_(filter, 9);
+	int8_t *filterBytes = UArray_mutableBytes(filter);
+	int i;
+	for(i = 0; i < 8; i++)
+	{
+		filterBytes[(i + a) % 8] = contentsOfPixels[i];
+	}
+	IoImage* toReturn = IoImage_newWithImage_(IOSTATE, Image_applyLinearFilter(DATA(self)->image, 3, 3, filter));
+	UArray_free(filter);
+	return toReturn;
+}
+
+IOIMAGE_API IoObject *IoImage_filterKirsch(IoImage *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Image filterKirsch(a)
+	Returns new image as a result of applying Kirsch filter.
+	The argument denotes direction: 0, 1, 2, ... -> 0, pi / 4, pi / 2, ...
+	*/
+	int a = IoMessage_locals_intArgAt_(m, locals, 0);
+	a = ((a % 8) + 8) % 8;
+	static int mapOfPixels[8] = {0, 1, 2, 5, 8, 7, 6, 3};
+	static int contentsOfPixels[8] = {3, 3, 3, 3, -5, -5, -5, 3};
+	UArray* filter = UArray_new();
+	UArray_setItemType_(filter, CTYPE_int8_t);
+	UArray_setEncoding_(filter, CENCODING_NUMBER);
+	UArray_setSize_(filter, 9);
+	int8_t *filterBytes = UArray_mutableBytes(filter);
+	int i;
+	for(i = 0; i < 8; i++)
+	{
+		filterBytes[(i + a) % 8] = contentsOfPixels[i];
+	}
+	IoImage* toReturn = IoImage_newWithImage_(IOSTATE, Image_applyLinearFilter(DATA(self)->image, 3, 3, filter));
+	UArray_free(filter);
+	return toReturn;
+}
+
+IOIMAGE_API IoObject *IoImage_filterMin(IoImage *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Image filterMin(filterSizeX, filterSizeY)
+	Returns new image as a result of applying filter.
+	*/
+	int filterSizeX = IoMessage_locals_intArgAt_(m, locals, 0);
+	int filterSizeY = IoMessage_locals_intArgAt_(m, locals, 1);
+	return IoImage_newWithImage_(IOSTATE, Image_applyMinFilter(DATA(self)->image, filterSizeX, filterSizeY));
+}
+
+IOIMAGE_API IoObject *IoImage_filterMax(IoImage *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Image filterMax(filterSizeX, filterSizeY)
+	Returns new image as a result of applying filter.
+	*/
+	int filterSizeX = IoMessage_locals_intArgAt_(m, locals, 0);
+	int filterSizeY = IoMessage_locals_intArgAt_(m, locals, 1);
+	return IoImage_newWithImage_(IOSTATE, Image_applyMaxFilter(DATA(self)->image, filterSizeX, filterSizeY));
+}
+
+IOIMAGE_API IoObject *IoImage_filterMedian(IoImage *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Image filterMedian(filterSizeX, filterSizeY)
+	Returns new image as a result of applying filter.
+	*/
+	int filterSizeX = IoMessage_locals_intArgAt_(m, locals, 0);
+	int filterSizeY = IoMessage_locals_intArgAt_(m, locals, 1);
+	UArray* filter = UArray_new();
+	UArray_setItemType_(filter, CTYPE_int8_t);
+	UArray_setEncoding_(filter, CENCODING_NUMBER);
+	UArray_setSize_(filter, filterSizeX * filterSizeY);
+	memset(UArray_mutableBytes(filter), 1, filterSizeX * filterSizeY);
+	IoImage* toReturn = IoImage_newWithImage_(IOSTATE, Image_applyWeightedMedianFilter(DATA(self)->image, filterSizeX, filterSizeY, filter));
+	UArray_free(filter);
+	return toReturn;
+}
+
+IOIMAGE_API IoObject *IoImage_filterWeightedMedian(IoImage *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Image filterWeightedMedian(filterSizeX, filterSizeY, filter)
+	Returns new image as a result of applying filter.
+	*/
+	int filterSizeX = IoMessage_locals_intArgAt_(m, locals, 0);
+	int filterSizeY = IoMessage_locals_intArgAt_(m, locals, 1);
+	IoObject *ioFilter = IoMessage_locals_seqArgAt_(m, locals, 2);
+	if(IoSeq_rawSize(ioFilter) < filterSizeX * filterSizeY)
+	{
+		IoState_error_(IOSTATE, m, "filter should be a Sequence with size >= filterSizeX * filterSizeY");
+		return self;
+	}
+	UArray* filter = IoSeq_rawUArray(ioFilter);
+	return IoImage_newWithImage_(IOSTATE, Image_applyWeightedMedianFilter(DATA(self)->image, filterSizeX, filterSizeY, filter));
+}
+
+IOIMAGE_API IoObject *IoImage_filterNonlinearGradients(IoImage *self, IoObject *locals, IoMessage *m)
+{
+	/*doc Image filterNonlinearGradients
+	Returns new image as a result of applying filter. Calculates abs(f'x) + abs(f'y).
+	*/
+	return IoImage_newWithImage_(IOSTATE, Image_applyNonlinearGradientsFilter(DATA(self)->image));
+}
 

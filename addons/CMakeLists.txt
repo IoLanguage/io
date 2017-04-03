@@ -45,7 +45,7 @@ endmacro(generate_ioinit)
 # flux should be commented out here until such time as they are in
 # a stable state.
 #add_subdirectory(AVCodec) # XXX: Broken
-#add_subdirectory(AppleExtras)
+add_subdirectory(AppleSensors)
 add_subdirectory(AsyncRequest)
 #add_subdirectory(Beanstalk) # XXX: Broken, no YAML addon
 add_subdirectory(BigNum)
@@ -57,7 +57,7 @@ add_subdirectory(CGI)
 add_subdirectory(Cairo) # XXX: Broken on OSX: ld: library not found for -lpng12
 add_subdirectory(Clutter)
 add_subdirectory(ContinuedFraction)
-#add_subdirectory(Curses)
+add_subdirectory(Curses)
 add_subdirectory(DBI)
 add_subdirectory(DistributedObjects)
 add_subdirectory(EditLine)
@@ -75,7 +75,7 @@ add_subdirectory(Libxml2)
 add_subdirectory(Loki)
 add_subdirectory(Loudmouth)
 add_subdirectory(MD5)
-add_subdirectory(Memcached)
+#add_subdirectory(Memcached)
 add_subdirectory(MySQL)
 #add_subdirectory(NetworkAdapter)
 add_subdirectory(NotificationCenter)

@@ -38,7 +38,7 @@ List do(
     result)
 
     /*doc List insertAfter(item, afterItem)
-    Inserts item after first occurance of afterItem and returns self. If afterItem
+    Inserts item after first occurrence of afterItem and returns self. If afterItem
     is not found, item is appended to the end of the list.
     */
     insertAfter := method(item, afterItem,
@@ -48,7 +48,7 @@ List do(
     )
 
     /*doc List insertBefore(item, beforeItem)
-    Inserts item before first occurance of beforeItem or to the end of the list if
+    Inserts item before first occurrence of beforeItem or to the end of the list if
     beforeItem is not found. Returns self.
     */
     insertBefore := method(item, beforeItem,
@@ -126,7 +126,7 @@ list(1,2,list(3,4,list(5))) flatten
 
     /*doc List reduce
     Also known as foldl or inject. Combines values in target starting on the left.
-    If no initial value is paseed the head of the list is used. <br />
+    If no initial value is passed the head of the list is used. <br />
 <pre>
 Io> list(1, 2, 3) reduce(+)
 ==> 6
@@ -275,7 +275,7 @@ Io> list("a", "b", "cd") groupBy(i, v, i == 1) asJson
 
     asString := method("list(" .. self join(", ") .. ")")
     asSimpleString := method(
-        result := self slice(0, 30) asString
+        result := self slice(0, 30) map(asSimpleString) asString
         if(result size > 40,
             result exSlice(0, 37) .. "..."
         ,

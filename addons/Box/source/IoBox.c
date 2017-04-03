@@ -5,11 +5,11 @@
 A primitive for fast operations on rectangles.
 */
 
+#include <math.h>
 #include "IoBox.h"
 #include "IoState.h"
 #include "IoSeq.h"
 #include "IoNumber.h"
-#include <math.h>
 
 static const char *protoId = "Box";
 

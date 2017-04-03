@@ -23,6 +23,12 @@
 # hierarchy.
 cmake_minimum_required(VERSION 2.8)
 
+# Mac OS X: Setting policy CMP0042 to the new behavior generates dylibs with
+# RPATH-relative install name that is better suited for Mac OS X applications
+# embedding Io in their bundle.
+if(POLICY CMP0042)
+	cmake_policy(SET CMP0042 NEW)
+endif()
 	
 # Project name, this gets prefixed to a bunch of stuff under the hood. No
 # spaces, or anything silly like that please.
@@ -33,7 +39,7 @@ IF(CMAKE_COMPILER_IS_GNUCC)
 	SET(CMAKE_BUILD_TYPE_DebugFast)
 	SET(CMAKE_CXX_FLAGS_DEBUGFAST "-g -O0")
 	SET(CMAKE_C_FLAGS_DEBUGFAST "-g -O0")
-
+	SET(CMAKE_C_FLAGS "-msse2")
 	if(NOT CMAKE_BUILD_TYPE)
 	        SET(CMAKE_BUILD_TYPE "DebugFast")
 	endif(NOT CMAKE_BUILD_TYPE)
@@ -57,7 +63,7 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/_build/binaries)
 # anyway, I'm just not going to do anything with them unless it breaks doing
 # nothing breaks something.
 macro(make_build_bundle NAME)
-	file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${NAME}/binaries ${CMAKE_CURRENT_BINARY_DIR}/${NAME}/objs ${CMAKE_CURRENT_BINARY_DIR}/${NAME}/headers ${CMAKE_CURRENT_BINARY_DIR}/${NAME}/lib ${NAME}/dll)
+	file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${NAME}/binaries ${CMAKE_CURRENT_BINARY_DIR}/${NAME}/objs ${CMAKE_CURRENT_BINARY_DIR}/${NAME}/headers ${CMAKE_CURRENT_BINARY_DIR}/${NAME}/lib ${CMAKE_CURRENT_BINARY_DIR}/${NAME}/dll)
 endmacro(make_build_bundle)
 
 # Generic macro to copy files mattching GLOBPAT in the current source

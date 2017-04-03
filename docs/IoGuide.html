@@ -84,7 +84,7 @@
 
 <div class=indexSection><a href="#Exceptions">Exceptions</a></div>
 <div class=indexItem><a href="#Exceptions-Raise">Raise</a></div>
-<div class=indexItem><a href="#ExceptionsTry-and-Catch">try, catch</a></div>
+<div class=indexItem><a href="#Exceptions-Try-and-Catch">try, catch</a></div>
 <div class=indexItem><a href="#Exceptions-Pass">Pass</a></div>
 <div class=indexItem><a href="#Exceptions-Custom-Exceptions">Custom Exceptions</a></div>
 
@@ -1750,7 +1750,7 @@ Set the item at a given index:
 
 <pre>
 a atPut(2, "foo")
-==> list(33, "a", "foo", "b")
+==> list(33, "a", "foo")
 
 a atPut(6, "Fred")
 ==> Exception: index out of bounds
@@ -1767,7 +1767,7 @@ Inserting an item at a given index:
 
 <pre>
 a atInsert(2, "foo")
-==> list(33, "a", "foo", "56")
+==> list(33, "a", "foo", "b")
 </pre>
 
 <h4>foreach</h4>
@@ -1922,7 +1922,7 @@ Converting to number:
 ==> 13
 
 "a13" asNumber
-==> nil
+==> nan
 </pre>
 
 String interpolation:
@@ -2139,7 +2139,7 @@ A simple whois client:
 <pre>
 whois := method(host,
     socket := Socket clone \
-		setHostName("rs.internic.net") setPort(43) 
+		setHost("rs.internic.net") setPort(43) 
     socket connect streamWrite(host, "\n")
     while(socket streamReadNextChunk, nil)
     return socket readBuffer

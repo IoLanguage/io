@@ -14,9 +14,12 @@
 #include <ctype.h>
 #include <math.h>
 
+#include <RandomGen.h>
+
 #include "PNGImage.h"
 #include "JPGImage.h"
 #include "TIFFImage.h"
+
 
 /*
 #include <stdarg.h>
@@ -302,6 +305,16 @@ int Image_isRGBA8(Image *self)
 	return self->componentCount == 4;
 }
 
+int Image_isLA8(Image *self)
+{
+	return self->componentCount == 2;
+}
+
+int Image_isL8(Image *self)
+{
+	return self->componentCount == 1;
+}
+
 int Image_sizeInBytes(Image *self)
 {
 	return self->height * self->width * self->componentCount;
@@ -437,6 +450,18 @@ void Image_addAlpha(Image *self)
 
 		self->componentCount = 4;
 	}
+	if(Image_isL8(self))
+	{
+		uint8_t opaqueAlphaValue[1];
+		UArray opaqueAlpha;
+
+		opaqueAlphaValue[0] = 255;
+		opaqueAlpha = UArray_stackAllocedWithData_type_size_(opaqueAlphaValue, CTYPE_uint8_t, 1);
+		UArray_insert_every_(self->byteArray, &opaqueAlpha, 1);
+		//UArray_stackFree(&opaqueAlpha);
+
+		self->componentCount = 4;
+	}
 }
 
 void Image_removeAlpha(Image *self)
@@ -445,6 +470,11 @@ void Image_removeAlpha(Image *self)
 	{
 		UArray_leave_thenRemove_(self->byteArray, 3, 1);
 		self->componentCount = 3;
+	}
+	if (Image_isLA8(self))
+	{
+		UArray_leave_thenRemove_(self->byteArray, 1, 1);
+		self->componentCount = 1;
 	}
 }
 
@@ -484,9 +514,37 @@ void Image_makeRGBA(Image *self)
 {
 	if (self->componentCount == 3)
 	{
-		//Image_addAlpha(self);
+		Image_addAlpha(self);
 		//printf("converted component count from 3 to 4\n");
 	} 
+	else if (self->componentCount == 2)
+	{
+		size_t numPixels = self->width * self->height;
+		size_t p1;
+		size_t p2 = 0;
+		uint8_t *outData;
+		uint8_t *inData;
+		UArray *outUArray = UArray_new();
+		UArray_setItemType_(outUArray, CTYPE_int8_t);
+		UArray_setEncoding_(outUArray, CENCODING_NUMBER);
+		UArray_setSize_(outUArray, 4 * self->width * self->height);
+		outData = (uint8_t *)UArray_mutableBytes(outUArray);
+		inData  = (uint8_t *)UArray_bytes(self->byteArray);
+		
+		for (p1 = 0; p1 < numPixels; p1 ++)
+		{
+			outData[p2] = inData[p1 * 2];     p2 ++;
+			outData[p2] = inData[p1 * 2];     p2 ++;
+			outData[p2] = inData[p1 * 2];     p2 ++;
+			outData[p2] = inData[p1 * 2 + 1]; p2 ++;
+		}
+		
+		UArray *inUArray = self->byteArray;
+		UArray_copyData_(inUArray, outUArray);
+		UArray_free(outUArray);
+		self->componentCount = 4;
+		//printf("converted component count from 2 to 4\n");
+	}
 	else if (self->componentCount == 1)
 	{
 		size_t numPixels = self->width * self->height;
@@ -495,8 +553,10 @@ void Image_makeRGBA(Image *self)
 		uint8_t *outData;
 		uint8_t *inData;
 		UArray *outUArray = UArray_new();
+		UArray_setItemType_(outUArray, CTYPE_int8_t);
+		UArray_setEncoding_(outUArray, CENCODING_NUMBER);
 		UArray_setSize_(outUArray, 4 * self->width * self->height);
-		outData = (uint8_t *)UArray_bytes(outUArray);
+		outData = (uint8_t *)UArray_mutableBytes(outUArray);
 		inData  = (uint8_t *)UArray_bytes(self->byteArray);
 		
 		for (p1 = 0; p1 < numPixels; p1 ++)
@@ -507,11 +567,67 @@ void Image_makeRGBA(Image *self)
 			outData[p2] = 255; p2 ++;
 		}
 		
-		UArray_copy_(self->byteArray, outUArray);
+		UArray *inUArray = self->byteArray;
+		UArray_copyData_(inUArray, outUArray);
 		UArray_free(outUArray);
-
 		self->componentCount = 4;
 		//printf("converted component count from 1 to 4\n");
+	}
+}
+
+void Image_makeGrayscale(Image *self)
+{
+	int componentCount = self->componentCount;
+	if(componentCount == 3)
+	{
+		size_t numPixels = self->width * self->height;
+		size_t p1;
+		uint8_t *outData;
+		uint8_t *inData;
+		UArray *outUArray = UArray_new();
+		UArray_setItemType_(outUArray, CTYPE_int8_t);
+		UArray_setEncoding_(outUArray, CENCODING_NUMBER);
+		UArray_setSize_(outUArray, numPixels);
+		outData = (uint8_t *)UArray_mutableBytes(outUArray);
+		inData  = (uint8_t *)UArray_bytes(self->byteArray);
+		
+		for (p1 = 0; p1 < numPixels; p1 ++)
+		{
+			outData[p1] = inData[p1 * componentCount + 0] * 0.21 + 
+			              inData[p1 * componentCount + 1] * 0.71 +
+			              inData[p1 * componentCount + 2] * 0.07;
+		}
+		
+		UArray *inUArray = self->byteArray;
+		UArray_copyData_(inUArray, outUArray);
+		UArray_free(outUArray);
+		self->componentCount = 1;
+	} 
+	else if(componentCount == 4)
+	{
+		size_t numPixels = self->width * self->height;
+		size_t p1;
+		uint8_t *outData;
+		uint8_t *inData;
+		UArray *outUArray = UArray_new();
+		UArray_setItemType_(outUArray, CTYPE_int8_t);
+		UArray_setEncoding_(outUArray, CENCODING_NUMBER);
+		UArray_setSize_(outUArray, numPixels * 2);
+		outData = (uint8_t *)UArray_mutableBytes(outUArray);
+		inData  = (uint8_t *)UArray_bytes(self->byteArray);
+		
+		for (p1 = 0; p1 < numPixels; p1 ++)
+		{
+			outData[p1 * 2] = inData[p1 * componentCount + 0] * 0.21 + 
+			                  inData[p1 * componentCount + 1] * 0.71 +
+			                  inData[p1 * componentCount + 2] * 0.07;
+			outData[p1 * 2 + 1] = inData[p1 * componentCount + 3];
+		}
+		
+		UArray *inUArray = self->byteArray;
+		UArray_copyData_(inUArray, outUArray);
+		UArray_free(outUArray);
+		self->componentCount = 2;
 	}
 }
 
@@ -602,18 +718,12 @@ ColorStruct Image_averageColor(Image *self)
 	cs[2] = 0;
 	cs[3] = 0;
 	
-	for (y = 0; y < self->height; y ++)
+	int p;
+	int imageSizeInBytes = self->width * self->height * componentCount;
+	for (p = 0; p < imageSizeInBytes; p++)
 	{
-		for (x = 0; x < self->width; x ++)
-		{
-			int p = (x + (y * self->width))*componentCount;
-			int c;
-			
-			for (c = 0; c < componentCount; c ++)
-			{
-				cs[c] += d[p + c];
-			}
-		}
+		c = p % componentCount;
+		cs[c] += d[p];
 	}
 
 	//printf("color %i %i %i\n", (int)cs[0], (int)cs[1], (int)cs[2]);
@@ -645,3 +755,630 @@ ColorStruct Image_averageColor(Image *self)
 	
 	return s;
 }
+
+UArray* Image_histogram(Image *self)
+{
+	int componentCount = self->componentCount;
+	UArray *toReturn = UArray_new();
+	UArray_setItemType_(toReturn, CTYPE_int32_t);
+	UArray_setEncoding_(toReturn, CENCODING_NUMBER);
+	UArray_setSize_(toReturn, componentCount * 256);
+	int32_t *outD = (int32_t *)UArray_mutableBytes(toReturn);
+	uint8_t *inD = (uint8_t *)UArray_bytes(self->byteArray);
+	int p, c;
+	
+	int imageSizeInBytes = self->width * self->height * componentCount;
+	for (p = 0; p < imageSizeInBytes; p++)
+	{
+		c = p % componentCount;
+		outD[inD[p] * componentCount + c] ++;
+	}
+	
+	return toReturn;
+}
+
+void Image_equalizeHistogram(Image *self, int mode)
+{
+	int componentCount = self->componentCount;
+	uint8_t *d = (uint8_t *)UArray_mutableBytes(self->byteArray);
+	UArray* histogram = Image_histogram(self);
+	int32_t* h = (int32_t*) UArray_bytes(histogram);
+	uint32_t *left = io_calloc(256 * self->componentCount, sizeof(*left));
+	uint32_t *right = io_calloc(256 * self->componentCount, sizeof(*right));
+	int hAvg = (self->width * self->height + 255) / 256;
+	int hInt, j, c, z, x, y;
+	for(c = 0; c < componentCount; c++)
+	{
+		hInt = 0;
+		z = 0;
+		for(j = 0; j < 256; j++)
+		{
+			left[j * componentCount + c] = z;
+			hInt += h[j * componentCount + c];
+			while(hInt > hAvg)
+			{
+				hInt -= hAvg;
+				z = (z < 255 ? z + 1 : 255);
+			}
+			right[j * componentCount + c] = z;
+		}
+	}
+	
+	RandomGen* random = RandomGen_new();
+	
+	for (y = 0; y < self->height; y ++)
+	{
+		for (x = 0; x < self->width; x ++)
+		{
+			int p = (x + (y * self->width))*componentCount;
+			
+			for (c = 0; c < componentCount; c ++)
+			{
+				int ppc = p + c;
+				int dppc = d[ppc];
+				int l = left[dppc * componentCount + c];
+				int r = right[dppc * componentCount + c];
+				if(mode == 0)
+				{
+					d[ppc] = (l + r) / 2;
+				}
+				else if(mode == 1)
+				{
+					d[ppc] = l + (r - l + 1) * RandomGen_randomDouble(random);
+				}
+				else if(mode == 2)
+				{
+					uint32_t avg = dppc +
+					               (x > 0            ? d[ppc - componentCount]               : dppc) +
+					               (y > 0            ? d[ppc - componentCount * self->width] : dppc) +
+					               (x < self->width  ? d[ppc + componentCount]               : dppc) +
+					               (y < self->height ? d[ppc + componentCount * self->width] : dppc);
+					avg /= 5;
+					d[ppc] = (avg > r ? r : (avg < l ? l : avg));
+				}
+				else if(mode == 3)
+				{
+					uint32_t avg = dppc +
+					               (x > 0                                   ? d[ppc - componentCount]                     : dppc) +
+					               (y > 0                                   ? d[ppc - componentCount * self->width]       : dppc) +
+					               (x < self->width                         ? d[ppc + componentCount]                     : dppc) +
+					               (y < self->height                        ? d[ppc + componentCount * self->width]       : dppc) +
+					               ((x > 0) && (y > 0)                      ? d[ppc - componentCount * (self->width + 1)] : dppc) +
+					               ((x > 0) && (y < self->height)           ? d[ppc + componentCount * (self->width - 1)] : dppc) +
+					               ((x < self->width) && (y < self->height) ? d[ppc + componentCount * (self->width + 1)] : dppc) +
+					               ((x < self->width) && (y > 0)            ? d[ppc - componentCount * (self->width - 1)] : dppc);
+					avg /= 9;
+					d[ppc] = (avg > r ? r : (avg < l ? l : avg));
+				}
+			}
+		}
+	}
+	
+	io_free(left);
+	io_free(right);
+	
+	UArray_free(histogram);
+	RandomGen_free(random);
+}
+
+void Image_linearContrast(Image *self)
+{
+	int componentCount = self->componentCount;
+	uint8_t *left = io_malloc(componentCount * sizeof(*left));
+	uint8_t *right = io_malloc(componentCount * sizeof(*right));
+	memset(left, 0xFF, componentCount);
+	memset(right, 0x00, componentCount);
+	uint8_t *d = (uint8_t *)UArray_mutableBytes(self->byteArray);
+	int p, c;
+	
+	int imageSizeInBytes = self->width * self->height * componentCount;
+	for (p = 0; p < imageSizeInBytes; p++)
+	{
+		c = p % componentCount;
+		left[c] = (left[c] > d[p] ? d[p] : left[c]);
+		right[c] = (right[c] < d[p] ? d[p] : right[c]);
+	}
+	
+	for (p = 0; p < imageSizeInBytes; p++)
+	{
+		c = p % componentCount;
+		if(left[c] != right[c])
+		{
+			d[p] = ((double) d[p] - left[c]) / (right[c] - left[c]) * 255;
+		}
+	}
+	
+	io_free(left);
+	io_free(right);
+}
+
+IOIMAGE_API void Image_bitMask(Image *self, int component, int bitMask)
+{
+	int componentCount = self->componentCount;
+	uint8_t *d = (uint8_t *)UArray_mutableBytes(self->byteArray);
+	int p = component;
+	
+	int imageSizeInBytes = self->width * self->height * componentCount;
+	while(p < imageSizeInBytes)
+	{
+		d[p / componentCount] = d[p] & bitMask;
+		p += componentCount;
+	}
+	self->componentCount = 1;
+	UArray_setSize_(self->byteArray, self->width * self->height);
+}
+
+IOIMAGE_API void Image_setIntensityInRangeTo_(Image *self, int component, int left, int right, int newValue)
+{
+	
+}
+
+IOIMAGE_API void Image_thresholdByHistogram(Image* self)
+{
+	Image_removeAlpha(self);
+	Image_makeGrayscale(self);
+	UArray* histogram = Image_histogram(self);
+	int32_t *h = (int32_t*) UArray_bytes(histogram);
+	uint8_t *d = (uint8_t *)UArray_mutableBytes(self->byteArray);
+	int imageSizeInBytes = self->width * self->height;
+	int p;
+	int t = 128, mu1, mu2, muCount1, muCount2;
+	int tVals[256];
+	
+	for(p = 0; p < 256; p++)
+	{
+		tVals[p] = -1;
+	}
+	
+	while(1)
+	{
+		mu1 = muCount1 = mu2 = muCount2 = 0;
+		for(p = 0; p < t; p++)
+		{
+			mu1 += h[p] * p;
+			muCount1 += h[p];
+		}
+		for(p = t; p < 256; p++)
+		{
+			mu2 += h[p] * p;
+			muCount2 += h[p];
+		}
+		if(muCount1 > 0) mu1 /= muCount1;
+		if(muCount2 > 0) mu2 /= muCount2;
+		int newT = (mu1 + mu2) / 2;
+		int oldTVals = tVals[newT];
+		tVals[newT] = t;
+		t = newT;
+		if(oldTVals >= 0) break;
+	}
+	
+	int initialT = t;
+	int currentT = t;
+	int countT = 1;
+	do {
+		currentT = tVals[currentT];
+		t += currentT;
+		countT++;
+	} while(currentT != initialT);
+	
+	t /= countT;
+	
+	for(p = 0; p < imageSizeInBytes; p++)
+	{
+		if(d[p] >= t)
+		{
+			d[p] = 255;
+		} else {
+			d[p] = 0;
+		}
+	}
+	
+	UArray_free(histogram);
+}
+
+IOIMAGE_API void Image_thresholdByOtsu(Image* self)
+{
+	Image_removeAlpha(self);
+	Image_makeGrayscale(self);
+	UArray* histogram = Image_histogram(self);
+	int32_t *h = (int32_t*) UArray_bytes(histogram);
+	uint8_t *d = (uint8_t *)UArray_mutableBytes(self->byteArray);
+	int imageSizeInBytes = self->width * self->height;
+	int p;
+	int t = 0, curT;
+	float sigmaBT = 0; 
+	float mu1, mu2, muCount1, muCount2;
+	
+	for(curT = 0; curT < 256; curT++)
+	{
+		mu1 = muCount1 = mu2 = muCount2 = 0;
+		for(p = 0; p < curT; p++)
+		{
+			mu1 += h[p] * p;
+			muCount1 += h[p];
+		}
+		for(p = curT; p < 256; p++)
+		{
+			mu2 += h[p] * p;
+			muCount2 += h[p];
+		}
+		if(muCount1 > 0) mu1 /= muCount1;
+		if(muCount2 > 0) mu2 /= muCount2;
+		muCount1 /= imageSizeInBytes;
+		muCount2 /= imageSizeInBytes;
+		float curSigma = (mu1 - mu2) * (mu1 - mu2) * muCount1 * muCount2;
+		if(curSigma > sigmaBT)
+		{
+			t = curT;
+			sigmaBT = curSigma;
+		}
+	}
+	
+	for(p = 0; p < imageSizeInBytes; p++)
+	{
+		if(d[p] >= t)
+		{
+			d[p] = 255;
+		} else {
+			d[p] = 0;
+		}
+	}
+	
+	UArray_free(histogram);
+}
+
+IOIMAGE_API void Image_thresholdByGradient(Image* self)
+{
+	Image_removeAlpha(self);
+	Image_makeGrayscale(self);
+	uint8_t *d = (uint8_t *)UArray_mutableBytes(self->byteArray);
+	int imageSizeInBytes = self->width * self->height;
+	int x, y, p, t;
+	long sumG = 0;
+	long sumGf = 0;
+	
+	for (y = 1; y < self->height - 1; y ++)
+	{
+		for (x = 1; x < self->width - 1; x ++)
+		{
+			int p = (x + (y * self->width));
+			int gx = d[p + 1] - d[p - 1];
+			int gy = d[p + self->width] - d[p - self->width];
+			int g = (gx > gy ? gx : gy);
+			sumG  += g;
+			sumGf += d[p] * g;
+		}
+	}
+	
+	t = sumGf / sumG;
+	
+	for(p = 0; p < imageSizeInBytes; p++)
+	{
+		if(d[p] >= t)
+		{
+			d[p] = 255;
+		} else {
+			d[p] = 0;
+		}
+	}
+}
+
+IOIMAGE_API Image* Image_applyLinearFilter(Image* self, int filterWidth, int filterHeight, UArray* filter)
+{
+	int componentCount = self->componentCount;
+	
+	Image* toReturn = Image_new();
+	toReturn->componentCount = componentCount;
+	if((self->width < filterWidth) || (self->height < filterHeight) || (filterWidth < 1) || (filterHeight < 1)) return toReturn;
+	
+	int newWidth = self->width - filterWidth + 1;
+	int newHeight = self->height - filterHeight + 1;
+	toReturn->width = newWidth;
+	toReturn->height = newHeight;
+
+	UArray *toReturnArray = UArray_new();
+	UArray_free(toReturn->byteArray);
+	toReturn->byteArray = toReturnArray;
+	UArray_setItemType_(toReturnArray, CTYPE_int8_t);
+	UArray_setEncoding_(toReturnArray, CENCODING_NUMBER);
+	UArray_setSize_(toReturnArray, newWidth * newHeight * componentCount);
+	uint8_t *outD = (uint8_t *)UArray_mutableBytes(toReturnArray);
+	uint8_t *inD = (uint8_t *)UArray_bytes(self->byteArray);
+	
+	double sum = 0;
+	int p;
+	for(p = 0; p < filterHeight * filterWidth; p++)
+	{
+		sum += UArray_doubleAt_(filter, p);
+	}
+	if(sum == 0)
+	{
+		sum = 1;
+	}
+	
+	int x, y, c;
+	int filterX, filterY;
+	
+	for(x = 0; x < newWidth; x++)
+	{
+		for(y = 0; y < newHeight; y++)
+		{
+			for(c = 0; c < componentCount; c++)
+			{
+				p = (x + y * self->width) * componentCount + c; 
+				double newValue = 0;
+				for(filterX = 0; filterX < filterWidth; filterX++)
+				{
+					for(filterY = 0; filterY < filterHeight; filterY++)
+					{
+						newValue += UArray_doubleAt_(filter, filterX + filterY * filterWidth) *
+						            inD[p + (filterX + filterY * self->width) * componentCount];
+					}
+				}
+				newValue /= sum;
+				outD[(x + y * newWidth) * componentCount + c] = (newValue < 256 ? (newValue > 0 ? newValue : 0) : 255);
+			}
+		}
+	}
+	
+	return toReturn;
+}
+
+static uint8_t medianByQSort(uint8_t* buffer, int size)
+{
+	int leftBound = 0, rightBound = size - 1;
+	while(1) {
+		if(leftBound == rightBound) return buffer[leftBound];
+		int left = leftBound, right = rightBound;
+		uint8_t mid = buffer[(left + right) / 2];
+		do {
+			while(buffer[left] < mid) left ++;
+			while(buffer[right] > mid) right --;
+			if(left <= right)
+			{
+				uint8_t temp = buffer[left];
+				buffer[left] = buffer[right];
+				buffer[right] = temp;
+				left++; right--;
+			}
+		} while(left <= right);
+		if(right >= size / 2)
+		{
+			rightBound = right;
+		} else {
+			leftBound = left;
+		}
+	}
+}
+
+static uint8_t medianBySelectSort(uint8_t* buffer, int size)
+{
+	int i, j, k;
+	for(i = 0; i <= size / 2; i++)
+	{
+		k = i;
+		for(j = i + 1; j < size; j++)
+		{
+			if(buffer[k] > buffer[j]) k = j;
+		}
+		if(k != i)
+		{
+			uint8_t swap = buffer[i];
+			buffer[i] = buffer[k];
+			buffer[k] = swap;
+		}
+	}
+	return buffer[size / 2];
+}
+
+IOIMAGE_API Image* Image_applyWeightedMedianFilter(Image* self, int filterWidth, int filterHeight, UArray* filter)
+{
+	int componentCount = self->componentCount;
+	
+	Image* toReturn = Image_new();
+	toReturn->componentCount = componentCount;
+	if((self->width < filterWidth) || (self->height < filterHeight) || (filterWidth < 1) || (filterHeight < 1)) return toReturn;
+	
+	int newWidth = self->width - filterWidth + 1;
+	int newHeight = self->height - filterHeight + 1;
+	toReturn->width = newWidth;
+	toReturn->height = newHeight;
+
+	UArray *toReturnArray = UArray_new();
+	UArray_free(toReturn->byteArray);
+	toReturn->byteArray = toReturnArray;
+	UArray_setItemType_(toReturnArray, CTYPE_int8_t);
+	UArray_setEncoding_(toReturnArray, CENCODING_NUMBER);
+	UArray_setSize_(toReturnArray, newWidth * newHeight * componentCount);
+	uint8_t *outD = (uint8_t *)UArray_mutableBytes(toReturnArray);
+	uint8_t *inD = (uint8_t *)UArray_bytes(self->byteArray);
+	
+	int sum = 0;
+	int p;
+	for(p = 0; p < filterHeight * filterWidth; p++)
+	{
+		sum += UArray_longAt_(filter, p);
+	}
+	if(sum % 2 == 0)
+	{
+		return toReturn;
+	}
+	
+	uint8_t *buffer = io_malloc(sum);
+	int positionInBuffer, weight, positionInWeight;
+	
+	int x, y, c;
+	int filterX, filterY;
+	
+	for(x = 0; x < newWidth; x++)
+	{
+		for(y = 0; y < newHeight; y++)
+		{
+			for(c = 0; c < componentCount; c++)
+			{
+				p = (x + y * self->width) * componentCount + c; 
+				positionInBuffer = 0;
+				for(filterX = 0; filterX < filterWidth; filterX++)
+				{
+					for(filterY = 0; filterY < filterHeight; filterY++)
+					{
+						weight = UArray_longAt_(filter, filterX + filterY * filterWidth);
+						for(positionInWeight = 0; positionInWeight < weight; positionInWeight++)
+						{
+							buffer[positionInBuffer++] = inD[p + (filterX + filterY * self->width) * componentCount];
+						}
+					}
+				}
+				outD[(x + y * newWidth) * componentCount + c] = (sum > 64 ? medianByQSort(buffer, sum) : medianBySelectSort(buffer, sum));
+			}
+		}
+	}
+	
+	io_free(buffer);	
+	return toReturn;
+}
+
+IOIMAGE_API Image* Image_applyMinFilter(Image* self, int filterWidth, int filterHeight)
+{
+	int componentCount = self->componentCount;
+	
+	Image* toReturn = Image_new();
+	toReturn->componentCount = componentCount;
+	if((self->width < filterWidth) || (self->height < filterHeight) || (filterWidth < 1) || (filterHeight < 1)) return toReturn;
+	
+	int newWidth = self->width - filterWidth + 1;
+	int newHeight = self->height - filterHeight + 1;
+	toReturn->width = newWidth;
+	toReturn->height = newHeight;
+
+	UArray *toReturnArray = UArray_new();
+	UArray_free(toReturn->byteArray);
+	toReturn->byteArray = toReturnArray;
+	UArray_setItemType_(toReturnArray, CTYPE_int8_t);
+	UArray_setEncoding_(toReturnArray, CENCODING_NUMBER);
+	UArray_setSize_(toReturnArray, newWidth * newHeight * componentCount);
+	uint8_t *outD = (uint8_t *)UArray_mutableBytes(toReturnArray);
+	uint8_t *inD = (uint8_t *)UArray_bytes(self->byteArray);
+	
+	int p;
+	int x, y, c;
+	int filterX, filterY;
+	uint8_t value, candidate;
+	
+	for(x = 0; x < newWidth; x++)
+	{
+		for(y = 0; y < newHeight; y++)
+		{
+			for(c = 0; c < componentCount; c++)
+			{
+				p = (x + y * self->width) * componentCount + c; 
+				value = inD[p];
+				for(filterX = 0; filterX < filterWidth; filterX++)
+				{
+					for(filterY = 0; filterY < filterHeight; filterY++)
+					{
+						candidate = inD[p + (filterX + filterY * self->width) * componentCount];
+						if(candidate < value) value = candidate;
+					}
+				}
+				outD[(x + y * newWidth) * componentCount + c] = value;
+			}
+		}
+	}
+	
+	return toReturn;
+}
+
+IOIMAGE_API Image* Image_applyMaxFilter(Image* self, int filterWidth, int filterHeight)
+{
+	int componentCount = self->componentCount;
+	
+	Image* toReturn = Image_new();
+	toReturn->componentCount = componentCount;
+	if((self->width < filterWidth) || (self->height < filterHeight) || (filterWidth < 1) || (filterHeight < 1)) return toReturn;
+	
+	int newWidth = self->width - filterWidth + 1;
+	int newHeight = self->height - filterHeight + 1;
+	toReturn->width = newWidth;
+	toReturn->height = newHeight;
+
+	UArray *toReturnArray = UArray_new();
+	UArray_free(toReturn->byteArray);
+	toReturn->byteArray = toReturnArray;
+	UArray_setItemType_(toReturnArray, CTYPE_int8_t);
+	UArray_setEncoding_(toReturnArray, CENCODING_NUMBER);
+	UArray_setSize_(toReturnArray, newWidth * newHeight * componentCount);
+	uint8_t *outD = (uint8_t *)UArray_mutableBytes(toReturnArray);
+	uint8_t *inD = (uint8_t *)UArray_bytes(self->byteArray);
+	
+	int p;
+	int x, y, c;
+	int filterX, filterY;
+	uint8_t value, candidate;
+	
+	for(x = 0; x < newWidth; x++)
+	{
+		for(y = 0; y < newHeight; y++)
+		{
+			for(c = 0; c < componentCount; c++)
+			{
+				p = (x + y * self->width) * componentCount + c; 
+				value = inD[p];
+				for(filterX = 0; filterX < filterWidth; filterX++)
+				{
+					for(filterY = 0; filterY < filterHeight; filterY++)
+					{
+						candidate = inD[p + (filterX + filterY * self->width) * componentCount];
+						if(candidate > value) value = candidate;
+					}
+				}
+				outD[(x + y * newWidth) * componentCount + c] = value;
+			}
+		}
+	}
+	
+	return toReturn;
+}
+
+IOIMAGE_API Image* Image_applyNonlinearGradientsFilter(Image* self)
+{
+	int componentCount = self->componentCount;
+	
+	Image* toReturn = Image_new();
+	toReturn->componentCount = componentCount;
+	
+	int width = self->width;
+	int height = self->height;
+	toReturn->width = width - 2;
+	toReturn->height = height - 2;
+
+	UArray *toReturnArray = UArray_new();
+	UArray_free(toReturn->byteArray);
+	toReturn->byteArray = toReturnArray;
+	UArray_setItemType_(toReturnArray, CTYPE_int8_t);
+	UArray_setEncoding_(toReturnArray, CENCODING_NUMBER);
+	UArray_setSize_(toReturnArray, (width - 2) * (height - 2) * componentCount);
+	uint8_t *outD = (uint8_t *)UArray_mutableBytes(toReturnArray);
+	uint8_t *inD = (uint8_t *)UArray_bytes(self->byteArray);
+	
+	int p;
+	int x, y, c;
+	int value;
+	
+	for(x = 1; x < width - 1; x++)
+	{
+		for(y = 1; y < height - 1; y++)
+		{
+			for(c = 0; c < componentCount; c++)
+			{
+				int value = abs((int) inD[((x) + (y - 1) * width) * componentCount + c] - (int) inD[((x) + (y + 1) * width) * componentCount + c]) +
+					    abs((int) inD[((x - 1) + (y) * width) * componentCount + c] - (int) inD[((x + 1) + (y) * width) * componentCount + c]);
+				outD[((x - 1) + (y - 1) * (width - 2)) * componentCount + c] = (value < 256) ? value : 255;
+			}
+		}
+	}
+	
+	return toReturn;
+}
+
+

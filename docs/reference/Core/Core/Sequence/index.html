@@ -50,6 +50,23 @@ Multiplies the values of aSeq to the corresponding values of the receiver
 	returning a new vector with the result.
 	Only works on Sequences whose item type is numeric.
 </div>
+<a name="Sequence-**"></a><b>
+**(aSeq)
+</b>
+<p>
+<div class=slotDescription>
+Raises the values of the receiver in the corresponding values of aSeq 
+	returning a new vector with the result.
+	Only works on Sequences whose item type is numeric.
+</div>
+<a name="Sequence-**="></a><b>
+**=(aSeq)
+</b>
+<p>
+<div class=slotDescription>
+Raises the values of the receiver in the corresponding values of aSeq.
+	Only works on Sequences whose item type is numeric. Returns self.
+</div>
 <a name="Sequence-*="></a><b>
 *=(aSeq)
 </b>
@@ -63,7 +80,7 @@ Multiplies the values of aSeq to the corresponding values of the receiver.
 </b>
 <p>
 <div class=slotDescription>
-Vector addition - adds the values of aSeq to the corresponding values of the receiver 
+Vector addition - adds the values of aSeq to the corresponding values of the receiver
 	returning a new vector with the result.
 	Only works on Sequences whose item type is numeric.
 </div>
@@ -74,6 +91,15 @@ Vector addition - adds the values of aSeq to the corresponding values of the rec
 <div class=slotDescription>
 Vector addition - adds the values of aSeq to those of the receiver.
 	Only works on Sequences whose item type is numeric. Returns self.
+</div>
+<a name="Sequence--"></a><b>
+-(aSeq)
+</b>
+<p>
+<div class=slotDescription>
+Vector subtraction - Subtracts the values of aSeq from the corresponding values of the receiver 
+	returning a new vector with the result.
+	Only works on Sequences whose item type is numeric.
 </div>
 <a name="Sequence--="></a><b>
 -=(aSeq)
@@ -95,7 +121,7 @@ Returns a copy of the receiver with aSequence appended to it.
 </b>
 <p>
 <div class=slotDescription>
-Divides the values of aSeq to the corresponding values of the receiver 
+Divides the values of the receiver by the corresponding values of aSeq 
 	returning a new vector with the result.
 	Only works on Sequences whose item type is numeric.
 </div>
@@ -325,6 +351,13 @@ asJson
 <div class=slotDescription>
 Converts to form that could be interpreted as json if it already contains json, e.g. {"aaa":"bbb"} --> "{\"aaa\":\"bbb\"}"
 </div>
+<a name="Sequence-asList"></a><b>
+asList
+</b>
+<p>
+<div class=slotDescription>
+Returns the receiver converted to a List containing all elements of the Sequence.
+</div>
 <a name="Sequence-asLowercase"></a><b>
 asLowercase
 </b>
@@ -459,7 +492,7 @@ asin
 </b>
 <p>
 <div class=slotDescription>
-Sets each value of the Sequence to the trigonometric arcsine of it's value.
+Sets each value of the Sequence to the trigonometric arcsine of its value.
 Returns self.
 </div>
 <a name="Sequence-at"></a><b>
@@ -489,7 +522,7 @@ atan
 </b>
 <p>
 <div class=slotDescription>
-Sets each value of the Sequence to the trigonometric arctangent of it's value.
+Sets each value of the Sequence to the trigonometric arctangent of its value.
 Returns self.
 </div>
 <a name="Sequence-beforeSeq"></a><b>
@@ -677,7 +710,7 @@ cos
 </b>
 <p>
 <div class=slotDescription>
-Sets each value of the Sequence to the trigonometric cosine of it's value.
+Sets each value of the Sequence to the trigonometric cosine of its value.
 Returns self.
 </div>
 <a name="Sequence-cosh"></a><b>
@@ -780,7 +813,7 @@ findNthSeq(aSequence, n)
 </b>
 <p>
 <div class=slotDescription>
-Returns a number with the nth occurence of aSequence.
+Returns a number with the nth occurrence of aSequence.
 </div>
 <a name="Sequence-findRegex"></a><b>
 findRegex(aRegexOrString, [startIndex])
@@ -799,7 +832,7 @@ findSeq(aSequence, optionalStartIndex)
 Returns a number with the first occurrence of aSequence in
 	the receiver after the startIndex. If no startIndex is specified,
 	the search starts at index 0.
-	nil is returned if no occurences are found.
+	nil is returned if no occurrences are found.
 </div>
 <a name="Sequence-findSeqs"></a><b>
 findSeqs(listOfSequences, optionalStartIndex)
@@ -811,7 +844,7 @@ Returns an object with two slots - an \"index\" slot which contains
 	in the receiver after the startIndex, and a \"match\" slot, which 
 	contains a reference to the matching sequence from listOfSequences. 
 	If no startIndex is specified, the search starts at index 0. 
-	nil is returned if no occurences are found.
+	nil is returned if no occurrences are found.
 </div>
 <a name="Sequence-floor"></a><b>
 floor
@@ -1141,12 +1174,54 @@ normalize
 Divides each value of the Sequence by the max value of the sequence.
 Returns self.
 </div>
-<a name="Sequence-occurancesOfSeq"></a><b>
-occurancesOfSeq(aSeq)
+<a name="Sequence-occurrencesOfSeq"></a><b>
+occurrencesOfSeq(aSeq)
 </b>
 <p>
 <div class=slotDescription>
 Returns count of aSeq in the receiver.
+</div>
+<a name="Sequence-pack"></a><b>
+pack(format, value1, ...)
+</b>
+<p>
+<div class=slotDescription>
+Returns a new Sequence with the values packed in.
+
+	Codes:
+	
+	*: (one at the beginning of the format string) declare format string as BigEndian
+	B: unsigned byte
+	b: byte
+	C: unsigned char
+	c: char
+	H: unsigned short
+	h: short
+	I: unsigned int
+	i: int
+	L: unsigned long
+	l: long
+	f: float
+	F: double
+	s: string
+
+	A '*' at the begging of the format string indicates native types are to be treated as Big Endiand.
+	
+	A number preceding a code declares an array of that type.
+	
+	In the case of 's', the preceding number indicates the size of the string to be packed.
+	If the string passed is shorter than size, 0 padding will be used to fill to size. If the
+	string passed is longer than size, only size chars will be packed.
+	
+	The difference between b/B and c/C is in the values passed to pack. For b/B pack expects a number.
+	For c/C pack expects a one-char-string (this is the same as '1s' or 's')
+	
+	Examples:
+	
+	s := Sequence pack("IC5s", 100, "a", "hello")
+	s := Sequence pack("5c", "h", "e", "l", "l", "o")
+	s := Sequence pack("I", 0x01020304)
+	s := Sequence pack("*I", 0x01020304)
 </div>
 <a name="Sequence-pathComponent"></a><b>
 pathComponent
@@ -1397,7 +1472,7 @@ sin
 </b>
 <p>
 <div class=slotDescription>
-Sets each value of the Sequence to the trigonometric sine of it's value.
+Sets each value of the Sequence to the trigonometric sine of its value.
 Returns self.
 </div>
 <a name="Sequence-sinh"></a><b>
@@ -1580,6 +1655,31 @@ unescape
 <p>
 <div class=slotDescription>
 Escape codes replaced with escape characters. Returns self.
+</div>
+<a name="Sequence-unpack"></a><b>
+unpack(optionalStartPosition, format)
+</b>
+<p>
+<div class=slotDescription>
+Unpacks self into a list using the format passed in. See Sequence pack.
+	
+	Returns a List.
+
+	Examples:
+
+	s := Sequence pack("IC5s", 100, "a", "hello")
+	l := s unpack("IC5s")
+
+	s := Sequence pack("5c", "h", "e", "l", "l", "o")
+	l := s unpack("5c")
+
+	s := Sequence pack("I", 0x01020304)
+	l := s unpack("I")
+
+	s := Sequence pack("*I", 0x01020304)
+	l := s unpack("*I")
+
+	l := "hello" unpack("5c")
 </div>
 <a name="Sequence-uppercase"></a><b>
 uppercase

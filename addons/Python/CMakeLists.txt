@@ -4,7 +4,7 @@
 # Builds the Python addon
 
 # Find curses
-find_package(PythonLibs)
+find_package(PythonLibs 3.3 REQUIRED)
 
 # Create the _build bundle hierarchy if needed.
 make_build_bundle(_build)

@@ -6,7 +6,7 @@ A Sequence is a container for a list of data elements.
 Immutable Sequences are also called "Symbols".
 */
 
-
+#include <math.h> // for NAN macro
 #define _GNU_SOURCE // for NAN macro
 #include "IoSeq.h"
 #include "IoState.h"
@@ -17,7 +17,8 @@ Immutable Sequences are also called "Symbols".
 #include "IoList.h"
 #include <ctype.h>
 #include <errno.h>
-#include <math.h> // for NAN macro
+
+#ifndef NAN
 #ifdef _MSC_VER
 static double dNaN()
 {
@@ -25,9 +26,9 @@ static double dNaN()
 	return a / b;
 }
 #define NAN dNaN()
-#endif
-#ifndef NAN
+#else
 #define NAN 0.0/0.0
+#endif
 #endif
 
 #define DATA(self) ((UArray *)IoObject_dataPointer(self))
@@ -46,7 +47,7 @@ IoObject *IoSeq_rawAsSymbol(IoSeq *self)
 IO_METHOD(IoSeq, with)
 {
 	/*doc Sequence with(aSequence, ...)
-	Returns a new Sequence which is the concatination of the arguments.
+	Returns a new Sequence which is the concatenation of the arguments.
 	The returned sequence will have the same mutability status as the receiver.
 	*/
 
@@ -292,7 +293,7 @@ IO_METHOD(IoSeq, size)
 {
 /*doc Sequence size
 Returns the length in number of items (which may or may not
-be the number of bytes, depending on the item type) of the receiver. For example,
+be the number of bytes, depending on the item type) of the receiver. For example:
 <p>
 <pre>	
 "abc" size == 3
@@ -477,7 +478,7 @@ IO_METHOD(IoSeq, findSeqs)
 	in the receiver after the startIndex, and a \"match\" slot, which 
 	contains a reference to the matching sequence from listOfSequences. 
 	If no startIndex is specified, the search starts at index 0. 
-	nil is returned if no occurences are found. 
+	nil is returned if no occurrences are found. 
 	*/
 
 	IoList *others = IoMessage_locals_listArgAt_(m, locals, 0);
@@ -530,7 +531,7 @@ IO_METHOD(IoSeq, findSeq)
 	Returns a number with the first occurrence of aSequence in
 	the receiver after the startIndex. If no startIndex is specified,
 	the search starts at index 0.
-	nil is returned if no occurences are found. 
+	nil is returned if no occurrences are found. 
 	*/
 
 	IoSeq *otherSequence = IoMessage_locals_seqArgAt_(m, locals, 0);
@@ -1158,7 +1159,7 @@ IO_METHOD(IoSeq, asIoPath)
 	return IoSeq_newSymbolWithUArray_copy_(IOSTATE, UArray_asUnixPath(IoSeq_rawUArray(self)), 0);
 }
 
-// occurances
+// occurrences
 
 IO_METHOD(IoSeq, beforeSeq)
 {
@@ -1249,9 +1250,9 @@ IO_METHOD(IoSeq, asCapitalized)
 	}
 }
 
-IO_METHOD(IoSeq, occurancesOfSeq)
+IO_METHOD(IoSeq, occurrencesOfSeq)
 {
-	/*doc Sequence occurancesOfSeq(aSeq)
+	/*doc Sequence occurrencesOfSeq(aSeq)
 	Returns count of aSeq in the receiver.
 	*/
 
@@ -1670,9 +1671,10 @@ IO_METHOD(IoSeq, pack)
 	size_t size = 0;
 	size_t padding = 0;
 	char val[16];
+	UArray *ua = UArray_new();
+	
 	memset(val, 0x0, 16);
 
-	UArray *ua = UArray_new();
 	UArray_setItemType_(ua, CTYPE_uint8_t);
 	UArray_setEncoding_(ua, CENCODING_NUMBER);
 
@@ -1746,7 +1748,7 @@ IO_METHOD(IoSeq, pack)
 					else
 						size = count;
 					doBigEndian = 0;
-					count = 0; //finish processing
+					count = 1; //finish processing
 				break;
 			}
 			
@@ -1907,7 +1909,7 @@ IO_METHOD(IoSeq, unpack)
 						memcpy(uap, &selfUArray[seqPos], count);
 					}
 					seqPos += count;
-					count = 0;
+					count = 1;
 					v = IoSeq_newWithUArray_copy_(IOSTATE, ua, 0);
 					break;
 				}
@@ -1995,7 +1997,7 @@ void IoSeq_addImmutableMethods(IoSeq *self)
 	{"asUppercase", IoSeq_asUppercase},
 	{"asLowercase", IoSeq_asLowercase},
 	{"with", IoSeq_with},
-	{"occurancesOfSeq", IoSeq_occurancesOfSeq},
+	{"occurrencesOfSeq", IoSeq_occurrencesOfSeq},
 	{"interpolate", IoSeq_interpolate},
 	{"distanceTo", IoSeq_distanceTo},
 

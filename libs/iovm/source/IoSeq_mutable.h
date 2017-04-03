@@ -82,11 +82,13 @@ IOVM_API IO_METHOD(IoSeq, addEquals);
 IOVM_API IO_METHOD(IoSeq, subtractEquals);
 IOVM_API IO_METHOD(IoSeq, multiplyEquals);
 IOVM_API IO_METHOD(IoSeq, divideEquals);
+IOVM_API IO_METHOD(IoSeq, powerEquals);
 
 IOVM_API IO_METHOD(IoSeq, add);
 IOVM_API IO_METHOD(IoSeq, subtract);
 IOVM_API IO_METHOD(IoSeq, multiply);
 IOVM_API IO_METHOD(IoSeq, divide);
+IOVM_API IO_METHOD(IoSeq, power);
 
 
 IOVM_API IO_METHOD(IoSeq, dotProduct);
