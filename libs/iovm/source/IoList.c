@@ -14,6 +14,7 @@ A mutable array of values. The first index is 0.
 #include "IoState.h"
 #include "IoNumber.h"
 #include "IoBlock.h"
+#include "IoTuple.h"
 
 static const char *protoId = "List";
 
@@ -1225,4 +1226,5 @@ IO_METHOD(IoList, join)
 	
 	return IoSeq_newWithUArray_copy_(IOSTATE, out, 0);
 }
+
 

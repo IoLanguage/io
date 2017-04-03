@@ -152,6 +152,7 @@ void UArray_rawSetItemType_(UArray *self, CTYPE type)
 
 void UArray_setItemType_(UArray *self, CTYPE type)
 {
+
 	int itemSize = (int)CTYPE_size(type);
 	div_t q = div((int)UArray_sizeInBytes(self), (int)itemSize);
 
@@ -167,7 +168,6 @@ void UArray_setItemType_(UArray *self, CTYPE type)
 	self->size = q.quot;
 
 	// ensure encoding is sane for type
-
 	if (UArray_isFloatType(self))
 	{
 		self->encoding = CENCODING_NUMBER;
@@ -480,6 +480,7 @@ void UArray_sizeTo_(UArray *self, size_t size)
 
 void UArray_copy_(UArray *self, const UArray *other)
 {
+
 	UArray_setItemType_(self, UArray_itemType(other));
 	UArray_setEncoding_(self, UArray_encoding(other));
 	UArray_setSize_(self, UArray_size(other));

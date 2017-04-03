@@ -19,6 +19,13 @@ Map do(
 		self keys map(k, list(k, self at(k)))
 	)
 
+	//doc Map pairs returns a list of Tuples of key value pairs
+	pairs := method(
+		self keys map(k,Tuple clone set(k,self at(k)))
+	)
+
+	asString := method("map(" .. self pairs join(", ") .. ")")
+
 	/*doc Map map(key, value, message)
 		Create a List of results of message applied to self's items in a random
 		order.
