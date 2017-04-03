@@ -178,6 +178,14 @@ List *List_select_(List *self, ListSelectCallback *callback)
 	return r;
 }
 
+void* List_reduce_(List* self,ListReduceCallback* callback)
+{
+	List *r = List_new();
+	void* acc = NULL;
+	LIST_FOREACH(self, i, v, if (i == 0) acc = v; else acc = ((*callback)(acc,v)));
+	return (void*)acc;
+}
+
 void *List_detect_(List *self, ListDetectCallback *callback)
 {
 	LIST_FOREACH(self, i, v, if (v && (*callback)(v)) return v; );

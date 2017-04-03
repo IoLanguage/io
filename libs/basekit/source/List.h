@@ -33,6 +33,7 @@ typedef void  (ListDoCallback)(void *);
 typedef void  (ListDoWithCallback)(void *, void *);
 typedef void *(ListCollectCallback)(void *);
 typedef int   (ListSelectCallback)(void *);
+typedef void *(ListReduceCallback)(void *, void *);
 typedef int   (ListDetectCallback)(void *);
 typedef int   (ListSortCallback)(const void *, const void *);
 typedef int   (ListSortRCallback)(void *, const void *, const void *);
@@ -85,6 +86,7 @@ BASEKIT_API List *List_map_(List *self, ListCollectCallback *callback);
 BASEKIT_API void List_mapInPlace_(List *self, ListCollectCallback *callback);
 BASEKIT_API void *List_detect_(List *self, ListDetectCallback *callback);
 BASEKIT_API List *List_select_(List *self, ListSelectCallback *callback);
+BASEKIT_API void *List_reduce_(List *self, ListReduceCallback *callback);
 
 BASEKIT_API void *List_anyOne(const List *self);
 BASEKIT_API void List_shuffle(List *self);

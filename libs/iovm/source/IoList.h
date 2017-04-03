@@ -57,6 +57,7 @@ IOVM_API IO_METHOD(IoList, sliceInPlace);
 
 IOVM_API IO_METHOD(IoList, mapInPlace);
 IOVM_API IO_METHOD(IoList, map);
+IOVM_API IO_METHOD(IoList, reduce);
 
 IOVM_API IO_METHOD(IoList, select);
 IOVM_API IO_METHOD(IoList, detect);
