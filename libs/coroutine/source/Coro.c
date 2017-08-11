@@ -146,7 +146,7 @@ void Coro_setStackSize_(Coro *self, size_t sizeInBytes)
 	//printf("Coro_%p io_reallocating stack size %i\n", (void *)self, sizeInBytes);
 }
 
-#if __GNUC__ == 4
+#if __GNUC__ >= 4
 ptrdiff_t *Coro_CurrentStackPointer(void) __attribute__ ((noinline));
 #endif
 
