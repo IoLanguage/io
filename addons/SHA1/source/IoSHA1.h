@@ -8,6 +8,7 @@
 #include "IoObject.h"
 #include "IoNumber.h"
 #include "sha1.h"
+#include "hmac.h"
 
 #define ISSHA1(self) IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoSHA1_rawClone)
 
