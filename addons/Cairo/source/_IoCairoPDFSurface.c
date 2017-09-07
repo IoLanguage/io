@@ -64,7 +64,7 @@ IoObject *IoCairoPDFSurface_setSize(IoCairoPDFSurface *self, IoObject *locals, I
 	double w = IoMessage_locals_doubleArgAt_(m, locals, 0);
 	double h = IoMessage_locals_doubleArgAt_(m, locals, 1);
 
-	cairo_ps_surface_set_size(SURFACE(self), w, h);
+	cairo_pdf_surface_set_size(SURFACE(self), w, h);
 	CHECK_STATUS(self);
 	return self;
 }
