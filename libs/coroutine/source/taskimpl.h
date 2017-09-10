@@ -52,6 +52,10 @@
 #	include <inttypes.h>
 #endif
 
+#if defined(__linux__)
+#	include <ucontext.h>
+#endif
+
 //#include "task.h"
 
 #ifndef nil
@@ -146,6 +150,7 @@ void setmcontext(const mcontext_t*);
 #define    setcontext(u)    setmcontext((void *)&((u)->uc_mcontext.arm_r0))
 #define    getcontext(u)    getmcontext((void *)&((u)->uc_mcontext.arm_r0))
 #endif
+
 
 /*
 typedef struct Context Context;
