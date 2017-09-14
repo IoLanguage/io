@@ -35,7 +35,7 @@ endif()
 project(IoLanguage)
 
 # Default config when building with gcc variants
-IF(CMAKE_COMPILER_IS_GNUCC)
+IF(CMAKE_COMPILER_IS_GNUCC OR (CMAKE_C_COMPILER_ID MATCHES "Clang"))
 	SET(CMAKE_BUILD_TYPE_DebugFast)
 	SET(CMAKE_CXX_FLAGS_DEBUGFAST "-g -O0")
 	SET(CMAKE_C_FLAGS_DEBUGFAST "-g -O0")
