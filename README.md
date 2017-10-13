@@ -10,7 +10,7 @@ REQUIREMENTS
  * [yajl](https://github.com/lloyd/yajl)
  * [libevent](http://libevent.org/)
  * [pcre](http://www.pcre.org/)
- * [memcached]
+ * [memcached](https://memcached.org/)
  * [ode](http://www.ode.org/)
  * [sqlite](http://www.sqlite.org/)
 
