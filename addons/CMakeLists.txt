@@ -113,7 +113,7 @@ add_subdirectory(Theora)
 add_subdirectory(Thread)
 add_subdirectory(TokyoCabinet)
 add_subdirectory(Twitter)
-add_subdirectory(UUID)
+add_subdirectory(UUID) # api deprecation errors on building
 add_subdirectory(User)
 add_subdirectory(VertexDB)
 add_subdirectory(Volcano)
