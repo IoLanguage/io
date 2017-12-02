@@ -19,8 +19,8 @@ if(OPENGL_FOUND AND OPENGL_GLU_FOUND AND GLUT_FOUND AND ((GLUT_Xmu_LIBRARY AND G
 	# Additional include directories
 	include_directories(
 		${OPENGL_INCLUDE_DIR}
-        ${GLUT_INCLUDE_DIR}
-		${CMAKE_CURRENT_SOURCE_DIR}/../Box/source
+    ${GLUT_INCLUDE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/../Box/source
 		${CMAKE_CURRENT_SOURCE_DIR}/../Image/source
 	)
 
@@ -40,12 +40,15 @@ if(OPENGL_FOUND AND OPENGL_GLU_FOUND AND GLUT_FOUND AND ((GLUT_Xmu_LIBRARY AND G
 		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoVector_gl.c"
 		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoOpenGL.c"
 		"${CMAKE_CURRENT_SOURCE_DIR}/source/IoOpenGLInit.c"
+    # building with box sources prevents linkining issue
+    "${CMAKE_CURRENT_SOURCE_DIR}/../Box/source/IoBox.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/../Box/source/IoBoxInit.c"
 	)
 
 	# Now build the shared library
 	add_library(IoOpenGL SHARED ${SRCS})
-	add_dependencies(IoOpenGL iovmall IoBox)
-	target_link_libraries(IoOpenGL iovmall IoBox ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES})
+  add_dependencies(IoOpenGL iovmall)
+  target_link_libraries(IoOpenGL iovmall ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES})
 
 	# Install the addon to our global addons hierarchy.
 	install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION lib/io/addons)
