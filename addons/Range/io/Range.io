@@ -74,7 +74,7 @@ Range do(
 		i := s
 		while(i <= e,
 			l append(value)
-			self = b repeat(self = self next)
+			b repeat(self = self ?next)
 			i = i + b
 		)
 		l

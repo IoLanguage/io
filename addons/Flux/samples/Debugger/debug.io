@@ -1,5 +1,7 @@
 #!/usr/bin/env io
 
+Flux
+
 Runner := Object clone do(  
   run := method(msg,
     self turnOnMessageDebugging
