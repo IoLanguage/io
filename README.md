@@ -24,8 +24,8 @@ There are a couple ways you can go about building Io, I will give the recommende
 
 NOTE: If you are installing in a production environment, use `cmake -DCMAKE_BUILD_TYPE=release ..` in all the `cmake ..` lines below. This tells CMake to compile with standard optimizations. Without the `-DCMAKE_BUILD_TYPE=release` addition the resulting binaries will have been compiled in debug mode with no standard C optimizations applied.
 
-OSX
----
+OS X
+----
 
 If you are using the homebrew package manager you can install Io (though it may not be the latest version) with:
 
@@ -71,14 +71,14 @@ The above path will change depending on what you set your `CMAKE_INSTALL_PREFIX`
 Debian or Ubuntu
 ----------------
 
-See [OSX instructions](#OSX).
+See [OS X instructions](#OS_X).
 
 Gentoo
 ------
 
-See [OSX instructions](#OSX).
+See [OS X instructions](#OS_X).
 
-MS WINDOWS
+MS Windows
 ----------
 
 For all the different methods explained here, some of the addons won't compile as they depend on libraries not provided by Io.
