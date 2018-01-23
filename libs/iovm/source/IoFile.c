@@ -6,10 +6,10 @@
 Encapsulates file i/o. Here's an example of opening a file, 
 and reversing its lines:
 <pre>	
-file = File clone openForUpdating("/tmp/test")
-lines = file readLines reverse
+file := File clone openForUpdating("/tmp/test")
+lines := file readLines reverse
 file rewind
-lines foreach(i, line, file write(line, "\n"))
+lines foreach(line, file write(line, "\n"))
 file close
 </pre>	
 */
