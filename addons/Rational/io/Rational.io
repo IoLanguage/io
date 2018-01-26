@@ -23,7 +23,7 @@ Rational := Object clone do(
 	//doc Rational setDenominator(aNumber) Sets the denominator. Returns self.	
 	denominator ::= 0
 
-	//doc Rational with(aNumerator, aDenominator) Convenience constructor. Returns a new Rational number whose numerator and denominator are represented by the arguments aNumerator and aDenominator respectively.")
+	//doc Rational with(aNumerator, aDenominator) Convenience constructor. Returns a new Rational number whose numerator and denominator are represented by the arguments aNumerator and aDenominator respectively.
 	with := method(n, d,
 		if(d < 0,
 			n = -n
@@ -161,6 +161,6 @@ Number do(
 		b gcd(self % b)
 	)
 
-	//doc Rational asRational Converts the number to a Rational number. CAVEAT: Numbers in Io are floating point entities, which means since they are imprecise, this conversion may yield values not expected.")
+	//doc Rational asRational Converts the number to a Rational number. CAVEAT: Numbers in Io are floating point entities, which means since they are imprecise, this conversion may yield values not expected.
 	asRational := method(Rational with(self, 1))
 )

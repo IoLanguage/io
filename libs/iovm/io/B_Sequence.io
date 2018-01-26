@@ -150,7 +150,7 @@ Sequence do(
 			r
 	)
 
-	//doc Sequence prependSeq(object1, object2, ...) Prepends given objects asString in reverse order to the receiver.  Returns self.")
+	//doc Sequence prependSeq(object1, object2, ...) Prepends given objects asString in reverse order to the receiver.  Returns self.
 	prependSeq := method(self atInsertSeq(0, call evalArgs join); self)
 
 	//doc Sequence itemCopy Returns a new sequence containing the items from the receiver.
@@ -179,7 +179,7 @@ Sequence do(
 	//doc Sequence reverse Reverses the ordering of all the items of the receiver. Returns copy of receiver.
 	reverse := method(self itemCopy reverseInPlace)
 
-	//doc Sequence asHex Returns a hex string for the receiving sequence, e.g., \"abc\" asHex -> \"616263\".")
+	//doc Sequence asHex Returns a hex string for the receiving sequence, e.g., \"abc\" asHex -> \"616263\".
 	asHex := method(
 		r := Sequence clone
 		self foreach(c, r appendSeq(c asHex))
