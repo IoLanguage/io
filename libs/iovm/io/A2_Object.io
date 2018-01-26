@@ -1,5 +1,5 @@
 /*
-//metadoc nil description nil is a singleton object that is used as a placeholder and to mean false in Io.")
+//metadoc nil description nil is a singleton object that is used as a placeholder and to mean false in Io.
 
 nil do(
 	//doc nil clone returns self since nil is a singleton.
