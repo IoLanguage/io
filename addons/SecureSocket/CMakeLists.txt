@@ -11,7 +11,7 @@ make_build_bundle(_build)
 
 # Did we find SecureSocket? if so, set up the targets and all the support
 # variables.
-if(SSL_FOUND)
+if(OPENSSL_FOUND)
 	# Output our dynamic library to the top-level _build hierarchy
 	set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/_build/dll)
 
@@ -37,9 +37,9 @@ if(SSL_FOUND)
 	# Now build the shared library
 	add_library(IoSecureSocket SHARED ${SRCS})
 	add_dependencies(IoSecureSocket IoSocket iovmall)
-	target_link_libraries(IoSecureSocket iovmall ${SSL_LIBRARY} IoSocket)
+	target_link_libraries(IoSecureSocket iovmall ${OPENSSL_LIBRARIES} IoSocket)
 
 	# Install the addon to our global addons hierarchy.
 	install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION lib/io/addons)
 	install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/_build DESTINATION lib/io/addons/SecureSocket)
-endif(SSL_FOUND)
+endif(OPENSSL_FOUND)

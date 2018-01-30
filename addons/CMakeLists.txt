@@ -34,6 +34,7 @@ macro(generate_ioinit NAME)
 	add_custom_command(
 		OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/source/Io${NAME}Init.c
 		COMMAND ${PROJECT_BINARY_DIR}/_build/binaries/io_static ${CMAKE_SOURCE_DIR}/addons/generate.io ${CMAKE_SOURCE_DIR}/addons ${NAME}
+		DEPENDS io_static
 	)
 
 	# Clean up our mess.
