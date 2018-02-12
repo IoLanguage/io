@@ -92,9 +92,11 @@ to run and values - lists of test slots theese UnitTests provide.*/
     )
 
     printSummary := method(
+        // Round run time to milliseconds
+        runtimeForDisplay := ((runtime * 1000) - (runtime * 1000 % 1)) / 1000
         "-" repeated(width) println
         ("Ran " .. testCount .. " test" .. if(testCount != 1, "s", "") .. \
-         " in " .. runtime .. "s\n") println
+         " in " .. runtimeForDisplay .. "s\n") println
 
         result := if(exceptions isNotEmpty,
             "FAILED (failures #{exceptions size})" interpolate
