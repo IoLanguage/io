@@ -2,6 +2,12 @@
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 # Builds the ObjcBridge addon
 
+# This addon depends on the Yajl addon, which will only be built if the YAJL
+# lib was found. Skip build if missing. (This is hacky.)
+
+find_package(Yajl 2)
+if(YAJL_FOUND)
+
 # Create the _build bundle hierarchy if needed.
 make_build_bundle(_build)
 
@@ -49,5 +55,10 @@ target_link_libraries(IoObjcBridge iovmall ${ObjcBridge_LIBRARY} IoMD5 IoYajl Io
 # Install the addon to our global addons hierarchy.
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} DESTINATION lib/io/addons)
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/_build DESTINATION lib/io/addons/ObjcBridge)
+
+else(YAJL_FOUND)
+  message("YAJL was not found; not building ObjcBridge addon")
+endif(YAJL_FOUND)
+
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
