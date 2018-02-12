@@ -56,7 +56,7 @@ IoEditLine *IoEditLine_proto(void *state)
 
 	el_source(DATA(self)->editline, NULL);
 
-	IoState_registerProtoWithFunc_((IoState *)state, self, IoEditLine_proto);
+	IoState_registerProtoWithFunc_((IoState *)state, self, (char *) IoEditLine_proto);
 
 	IoObject_addMethodTable_(self, methodTable);
 

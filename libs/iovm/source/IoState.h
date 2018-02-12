@@ -175,6 +175,7 @@ IOVM_API void IoState_init(IoState *self);
 void IoState_setupQuickAccessSymbols(IoState *self);
 void IoState_setupCachedMessages(IoState *self);
 void IoState_setupSingletons(IoState *self);
+void IoState_registerProtoWithFunc_(IoState *self, IoObject *proto, const char *v);
 
 // setup tags
 
