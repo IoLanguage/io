@@ -32,7 +32,7 @@ endif()
 	
 # Project name, this gets prefixed to a bunch of stuff under the hood. No
 # spaces, or anything silly like that please.
-project(IoLanguage)
+project(IoLanguage C)
 
 # Default config when building with gcc variants
 IF(CMAKE_COMPILER_IS_GNUCC OR (CMAKE_C_COMPILER_ID MATCHES "Clang"))
