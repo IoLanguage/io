@@ -687,7 +687,7 @@ IOIMAGE_API IoObject *IoImage_filterGauss(IoImage *self, IoObject *locals, IoMes
 	UArray_setItemType_(filter, CTYPE_int8_t);
 	UArray_setEncoding_(filter, CENCODING_NUMBER);
 	UArray_setSize_(filter, filterSize * filterSize);
-	int8_t *filterBytes = UArray_mutableBytes(filter);
+	int8_t *filterBytes = (int8_t *) UArray_mutableBytes(filter);
 	int x, y, x1, y1;
 	for(y = 0; y < filterSize; y++)
 	{
@@ -715,7 +715,7 @@ IOIMAGE_API IoObject *IoImage_filterUnsharpMask(IoImage *self, IoObject *locals,
 	UArray_setItemType_(filter, CTYPE_int8_t);
 	UArray_setEncoding_(filter, CENCODING_NUMBER);
 	UArray_setSize_(filter, 9);
-	int8_t *filterBytes = UArray_mutableBytes(filter);
+	int8_t *filterBytes = (int8_t *) UArray_mutableBytes(filter);
 	
 	filterBytes[0] = -1; filterBytes[1] = -1;    filterBytes[2] = -1;
 	filterBytes[3] = -1; filterBytes[4] = a + 8; filterBytes[5] = -1;
@@ -739,7 +739,7 @@ IOIMAGE_API IoObject *IoImage_filterSobel(IoImage *self, IoObject *locals, IoMes
 	UArray_setItemType_(filter, CTYPE_int8_t);
 	UArray_setEncoding_(filter, CENCODING_NUMBER);
 	UArray_setSize_(filter, 9);
-	int8_t *filterBytes = UArray_mutableBytes(filter);
+	int8_t *filterBytes = (int8_t *) UArray_mutableBytes(filter);
 	int i;
 	for(i = 0; i < 8; i++)
 	{
@@ -764,7 +764,7 @@ IOIMAGE_API IoObject *IoImage_filterKirsch(IoImage *self, IoObject *locals, IoMe
 	UArray_setItemType_(filter, CTYPE_int8_t);
 	UArray_setEncoding_(filter, CENCODING_NUMBER);
 	UArray_setSize_(filter, 9);
-	int8_t *filterBytes = UArray_mutableBytes(filter);
+	int8_t *filterBytes = (int8_t *) UArray_mutableBytes(filter);
 	int i;
 	for(i = 0; i < 8; i++)
 	{
