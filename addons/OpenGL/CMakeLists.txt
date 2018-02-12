@@ -47,6 +47,14 @@ if(OPENGL_FOUND AND OPENGL_GLU_FOUND AND GLUT_FOUND AND ((GLUT_Xmu_LIBRARY AND G
 
 	# Now build the shared library
 	add_library(IoOpenGL SHARED ${SRCS})
+
+    # GLUT is deprecated on macOS 10.6 and later. Make the deprecation warnings
+    # more concise
+    if (APPLE)
+        message(WARNING "GLUT is deprecated on macOS 10.6")
+        target_compile_options(IoOpenGL PUBLIC -Wno-deprecated)
+    endif (APPLE)
+    
   add_dependencies(IoOpenGL iovmall)
   target_link_libraries(IoOpenGL iovmall ${OPENGL_LIBRARIES} ${GLUT_LIBRARIES})
 
