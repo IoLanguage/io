@@ -145,6 +145,11 @@ IOIMAGE_API Image* Image_applyMinFilter(Image* self, int filterWidth, int filter
 IOIMAGE_API Image* Image_applyWeightedMedianFilter(Image* self, int filterWidth, int filterHeight, UArray* filter);
 IOIMAGE_API Image* Image_applyNonlinearGradientsFilter(Image* self);
 
+IOIMAGE_API void Image_bitMask(Image *self, int component, int bitMask);
+
+// internals
+
+int Image_isL8(Image *self);
 
 #endif
 
