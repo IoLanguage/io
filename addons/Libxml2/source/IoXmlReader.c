@@ -41,7 +41,7 @@ IoXmlReader *IoXmlReader_proto(void *state)
 
 	IoObject_setDataPointer_(self, calloc(1, sizeof(IoXmlReaderData)));
 
-	IoState_registerProtoWithFunc_(state, self, IoXmlReader_proto);
+	IoState_registerProtoWithFunc_(state, self, (void *)IoXmlReader_proto);
 	IoMethodTable methodTable[] = {
 		{"parseFile", IoXmlReader_parseFile},
 		{"parseString", IoXmlReader_parseString},
