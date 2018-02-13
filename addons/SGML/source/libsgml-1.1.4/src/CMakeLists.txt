@@ -31,8 +31,12 @@ endif(MSVC)
 # Our library!
 add_library(sgml STATIC ${SRCS})
 
+# Libsgml issues some warnings under clang. Since it's a third-party library, just
+# silence the warnings instead of modifying the source code.
+target_compile_options(sgml PUBLIC -Wno-pointer-sign)
+
 if(NOT WIN32)
-	set_target_properties(sgml PROPERTIES COMPILE_FLAGS "-fPIC")
+	target_compile_options(sgml PUBLIC -fPIC)
 endif(NOT WIN32)
 
 # Don't install it, we do that ourselves when the addon gets
