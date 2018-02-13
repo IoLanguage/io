@@ -3,7 +3,10 @@
 
 #include "IoMessage_opShuffle.h"
 #include "IoMap.h"
+#include "IoObject.h"
 #include "IoNumber.h"
+#include "List.h"
+#include "PHash.h"
 #include <ctype.h>
 
 #define DATA(self) ((IoMessageData *)IoObject_dataPointer(self))
@@ -156,7 +159,7 @@ IoMap *getOpTable(IoObject *self, const char *slotName, IoMap *create(IoState *s
 		OperatorTable slot, we'll create one for it instead of using
 		Core Message OperatorTable operators. Oh well.
 		*/
-		
+
 		IoMap *result = create(IOSTATE);
 		IoObject_setSlot_to_(self, symbol, result);
 		return result;
@@ -176,7 +179,7 @@ Levels *Levels_new(IoMessage *msg)
 	// Otherwise, use Core OperatorTable, and if that does not exist, create it.
 	if (opTable == NULL)
 	{
-		/* 
+		/*
 		There is a chance the message didn't have it, but the core did---due
 		to the Core not being part of the message's protos. Use Core
 		Message's OperatorTable
@@ -337,72 +340,94 @@ int Levels_isAssignOperator(Levels *self, IoSymbol *operator)
 	return IoMap_rawAt(self->assignOperatorTable, operator) != NULL;
 }
 
-IoSymbol *Levels_nameForAssignOperator(Levels *self, IoState *state, IoSymbol *operator, IoSymbol *slotName, IoMessage *msg)
-{
+IoSymbol *Levels_nameForAssignOperator(Levels *self, IoState *state, IoSymbol *operator,
+                                       IoSymbol *slotName, IoMessage *msg) {
 	IoObject *value = IoMap_rawAt(self->assignOperatorTable, operator);
-	char *operatorString = CSTRING(operator);
+	const char *operatorString = CSTRING(operator);
 
-	if (value != NULL && ISSYMBOL(value))
-	{
-		if (strcmp(operatorString, ":=") == 0 && isupper(CSTRING(slotName)[0]))
-		{
+	if (value != NULL && ISSYMBOL(value)) {
+		if (strcmp(operatorString, ":=") == 0 && isupper(CSTRING(slotName)[0])) {
 			return state->setSlotWithTypeSymbol;
 		}
-		else
-		{
+		else {
 			return value;
 		}
 	}
 	else
 	{
-		IoState_error_(IoObject_state(msg), msg, "compile error: Value for '%s' in Message OperatorTable assignOperators is not a symbol. Values in the OperatorTable assignOperators are symbols which are the name of the operator.", operatorString);
-		return NULL; // To keep the compiler happy.
+      const char *error =
+        "compile error: Value for '%s' in Message OperatorTable assignOperators is not a symbol. "
+        "Values in the OperatorTable assignOperators are symbols which are the name of the operator.";
+
+      IoState_error_(IoObject_state(msg), msg, error, operatorString);
+      return NULL; // To keep the compiler happy.
 	}
 }
 
-void Levels_attach(Levels *self, IoMessage *msg, List *expressions)
-{
-	// TODO clean up this method.
-
+void Levels_attach(Levels *self, IoMessage *msg, List *expressions) {
 	IoState *state = IoObject_state(msg);
 	IoSymbol *messageSymbol = IoMessage_name(msg);
-	char *messageName = CSTRING(messageSymbol);
+	const char *messageName = CSTRING(messageSymbol);
 	int precedence = Levels_levelForOp(self, messageName, messageSymbol, msg);
 
 	int msgArgCount = IoMessage_argCount(msg);
 
 	/*
-	// o a := b c ; d  becomes  o setSlot("a", b c) ; d
+	// Expression:  o a := b c ; d
+	// becomes:     o setSlot("a", b c) ; d
 	//
 	// a      attaching
 	// :=     msg
 	// b c    msg->next
+    //
 	*/
-	
+
 	if (Levels_isAssignOperator(self, messageSymbol))
 	{
 		Level *currentLevel = Levels_currentLevel(self);
 		IoMessage *attaching = currentLevel->message;
 		IoSymbol *setSlotName;
 
-		if (attaching == NULL) // := b ;
-		{
-			// Could be handled as, message(:= 42) -> setSlot(nil, 42)
-
-			IoState_error_(state, msg, "compile error: %s requires a symbol to its left.", messageName);
-			return;
+		if (attaching == NULL) /* := b ; */ {
+          // Could be handled as, message(:= 42) -> setSlot(nil, 42)
+          const char *text = "compile error: %s requires an expression to its left.";
+          IoState_error_(state, msg, text, messageName);
+          return;
 		}
 
-		if (IoMessage_argCount(attaching) > 0) // a(1,2,3) := b ;
-		{
-			IoState_error_(state, msg, "compile error: The symbol to the left of %s cannot have arguments.", messageName);
-			return;
+		if (IoMessage_argCount(attaching) > 0) { // a(1,2,3) := b ;
+          // Expression: target msgName(v1, v1, v3) assignOp   v4    ; rest
+          //                    ^^^^^^^^^^^^^^^^^^^ ^^^^^^^^  ^^^^^  ^^^^^^
+          //                      slotNameMessage     msg      val    rest
+          // becomes:    target assignOpName(msgName(v1, v2, v3), v4) ; rest
+
+          setSlotName = Levels_nameForAssignOperator(
+            self, state, messageSymbol, NULL, msg
+          );
+
+          IoMessage *slotNameMessageCopy = IoMessage_deepCopyOf_(attaching);
+          IoMessage_rawSetNext_(slotNameMessageCopy, NULL);
+
+          IoMessage *slotNameMessage = attaching;
+          DATA(slotNameMessage)->name = setSlotName;
+          DATA(slotNameMessage)->args = List_new();
+          IoMessage_addArg_(slotNameMessage, slotNameMessageCopy);
+
+          IoMessage *value = IoMessage_deepCopyOf_(DATA(msg)->next);
+          IoMessage_rawSetNext_(value, NULL);
+
+          IoMessage *rest = IoMessage_deepCopyOf_(DATA(DATA(msg)->next)->next);
+          IoMessage_rawSetNext_(slotNameMessage, rest);
+          IoMessage_addArg_(slotNameMessage, value);
+
+          /* printf("slotNameMessage: %s\n", CSTRING(IoObject_asString_(slotNameMessage, msg))); */
+          /* printf("rest: %s\n", CSTRING(IoObject_asString_(rest, msg))); */
+          return;
 		}
 
-		if (msgArgCount > 1) // setSlot("a") :=(b, c, d) e ;
-		{
-			IoState_error_(state, msg, "compile error: Assign operator passed multiple arguments, e.g., a := (b, c).", messageName);
-			return;
+		if (msgArgCount > 1) { // setSlot("a") :=(b, c, d) e ;
+          IoState_error_(state, msg, "compile error: Assign operator passed multiple arguments, e.g., a := (b, c).", messageName);
+          return;
 		}
 
 
@@ -571,4 +596,3 @@ IoMessage *IoMessage_opShuffle(IoMessage *self, IoObject *locals, IoMessage *m)
 
 	return self;
 }
-
