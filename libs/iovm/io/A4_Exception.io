@@ -172,7 +172,7 @@ Coroutine do(
 			if(next,
 				next resume
 			,
-				//Exception raise("Scheduler: nothing left to resume so we are exiting")
+				Exception raise("Scheduler: nothing left to resume so we are exiting")
 				writeln("Scheduler: nothing left to resume so we are exiting")
 				self showStack
 				System exit
