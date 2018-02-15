@@ -139,7 +139,7 @@ IoObject *IoSHA1_hmac(IoSHA1 *self, IoObject *locals, IoMessage *m)
 		IOSEQ_BYTES(inSeq), IOSEQ_LENGTH(inSeq), 
 		(void *)resbuf);
 	if(ok != 0) return IONIL(self);
-	return IOSEQ(resbuf, 20);
+	return IOSEQ((unsigned char *) resbuf, 20);
 
 }
 
