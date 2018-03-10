@@ -15,7 +15,7 @@ x86 do(
 	*/
 
 	// Database created from the NASM documentation
-	doFile("x86opcodes.io")
+	doRelativeFile("x86opcodes.io")
 
 	// fix Jcc NEAR
 	x86opcodes at("Jcc") atPut(0, list("imm", "", "0F80+ccrw/rd", 1))

@@ -7,10 +7,13 @@
 #include "IoObject.h"
 #include "IoNumber.h"
 
-#define ISLinker(self) IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoLinker_rawClone)
+// #define ISLinker(self) IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoLinker_rawClone)
 
 typedef IoObject IoLinker;
 IoLinker *IoLinker_proto(void *state);
+IoLinker *IoLinker_rawClone(IoLinker *self);
+IoLinker *IoLinker_new(void *state);
+void IoLinker_free(IoLinker *self);
 
 /* ----------------------------------------------------------- */
 

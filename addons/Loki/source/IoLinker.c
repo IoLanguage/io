@@ -21,11 +21,25 @@ double fptrToDouble(void* fptr)
 	return x;
 }
 
+IoTag *IoLinker_newTag(void *state)
+{
+	IoTag *tag = IoTag_newWithName_(protoId);
+
+	IoTag_state_(tag, state);
+
+    /* IoTag_freeFunc_(tag, (IoTagFreeFunc *)IoLinker_free); */
+
+	IoTag_cloneFunc_(tag, (IoTagCloneFunc *)IoLinker_rawClone);
+
+	return tag;
+}
+
 IoLinker *IoLinker_proto(void *state)
 {
 	IoObject *self = IoObject_new(state);
+    IoObject_tag_(self, IoLinker_newTag(state));
 
-	IoState_registerProtoWithId_(state, self, protoId);
+    /* IoState_registerProtoWithFunc_(state, self, IoLinker_proto); */
 
 	{
 		IoMethodTable methodTable[] = {
@@ -41,6 +55,19 @@ IoLinker *IoLinker_proto(void *state)
 	IoObject_setSlot_to_(self, IOSYMBOL("IoMessage_locals_valueArgAt_"), IONUMBER(fptrToDouble(IoMessage_locals_valueArgAt_)));
 
 	return self;
+}
+
+IoLinker *IoLinker_rawClone(IoLinker *proto)
+{
+	IoLinker *self = IoObject_rawClonePrimitive(proto);
+
+	return self;
+}
+
+IoLinker *IoLinker_new(void *state)
+{
+	IoObject *proto = IoState_protoWithId_(state, protoId);
+	return IOCLONE(proto);
 }
 
 IoObject *IoLinker_makeCFunction(IoLinker *self, IoObject *locals, IoMessage *m)

@@ -2,7 +2,7 @@
 	-- Loki -- BasicBlock/ControlFlowGraph, Register Allocation --
 */
 
-doFile("Assembler.io")
+doRelativeFile("Assembler.io")
 
 CodeGeneration := Object clone
 CodeGeneration do(
