@@ -2,7 +2,7 @@
 	-- Loki -- x86 Loki primitives --
 */
 
-doFile("CodeGeneration.io")
+doRelativeFile("CodeGeneration.io")
 
 // a method that returns "self"
 Object procedure := method(
