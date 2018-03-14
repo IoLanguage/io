@@ -1,1 +1,0 @@
-HttpClient := Object clone

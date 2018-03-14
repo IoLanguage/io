@@ -1,1 +1,0 @@
-Volcano := "See Volcano/bin/example.io"
