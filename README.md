@@ -35,19 +35,6 @@ Ensure you are at the top level of the source tree, that is where this file live
 
 If you do not wish to install, just run `make` instead of `make install`. Currently there is no analogue to the old `make linkInstall`. However, if you have used `linkInstall` in previous versions of Io, you should never have to run `linkInstall` again, since it created symbolic links to where your Io source was at that time. The only time you would have to do this again, is if you moved the Io source from one dir to another. Most people don't.
 
-Additional MacOS build instructions
------------------------------------
-ODE
----
-When I tried to install ode via brew, it didn't come preinstalled with drawstuff library. So the solution is to compile and install ode directly.  Instructions are from <https://bitbucket.org/odedevs/ode>
-
-### Building ODE manually
-1. Uninstall ode first. `brew uninstall ode`
-2. Get a tarbuild (0.13 is the one I tried)
-3. Run configure with drawstuff. `./configure --with-drawstuff=OSX`
-4. `make;sudo make install`
-
-
 Any Linux Distribution
 ----------------------
 
