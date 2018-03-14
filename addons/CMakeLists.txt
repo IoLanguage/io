@@ -41,7 +41,5 @@ macro(generate_ioinit NAME)
 	set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "${CMAKE_CURRENT_SOURCE_DIR}/source/Io${NAME}Init.c")
 endmacro(generate_ioinit)
 
-add_subdirectory(Regex)
 add_subdirectory(User)
 add_subdirectory(Yajl)
-add_subdirectory(Range)
