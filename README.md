@@ -8,17 +8,11 @@ REQUIREMENTS
 ============
 
  * [yajl](https://github.com/lloyd/yajl)
- * [libevent](http://libevent.org/)
  * [pcre](http://www.pcre.org/)
- * [memcached](https://memcached.org/)
- * [ode](http://www.ode.org/)
- * [sqlite](http://www.sqlite.org/)
 
 
 INSTALLING
 ==========
-
-Io is two parts - the vm and the `addons/packages`. Don't worry if all the addons don't compile for you - some are platform specific or not well supported.
 
 There are a couple ways you can go about building Io, I will give the recommended way, and a note about how to do it alternatively.
 
