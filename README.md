@@ -8,7 +8,6 @@ REQUIREMENTS
 ============
 
  * [yajl](https://github.com/lloyd/yajl)
- * [pcre](http://www.pcre.org/)
 
 
 INSTALLING
