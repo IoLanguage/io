@@ -17,6 +17,8 @@ Immutable Sequences are also called "Symbols".
 #include "IoList.h"
 #include <ctype.h>
 #include <errno.h>
+#include "json.h"
+#include "IoMap.h"
 
 #ifndef NAN
 #ifdef _MSC_VER
@@ -270,6 +272,81 @@ IO_METHOD(IoSeq, linePrint)
 	IoState_justPrintln_(IOSTATE);
 	return self;
 }
+
+//
+// Sequence parseJson
+//
+
+static void parse_json_objects_list(JSON* object, size_t num_of_objects, IoMap* map);
+static void parse_json_object(JSON* object, IoMap* map);
+static void parse_json_array(JSON* object, IoMap* map);
+
+IOVM_API IO_METHOD(IoSeq, parseJson) {
+    /*doc Sequence parseJson
+     Interprets the Sequence as JSON and returns a Map.
+     */
+    size_t size = IoSeq_rawSizeInBytes(self);
+    IoMap* map = IoMap_new(IOSTATE);
+
+    if(size == 0)
+        return map;
+
+    JSON output[size];
+    char* value = IoSeq_asCString(self);
+
+    int n;
+
+    n = jsonparse(value, output, size);
+
+    if(n == 0) 
+        IoState_error_(IOSTATE, m, "Bad JSON format.");
+
+    parse_json_objects_list(output, n, map);
+
+    return map;
+}
+
+void parse_json_objects_list(JSON* object, size_t num_of_objects, IoMap* map) {
+    int i;
+
+    for(i = 0; i < num_of_objects; i++) {
+        parse_json_object(&object[i], map);
+    }
+}
+
+void parse_json_object(JSON* object, IoMap* map) {
+    switch(object->type) {
+        case '{':
+            break;
+        case '[':
+            /* i+= */parse_json_array(object, map);
+            break;
+        case '"':
+            break;
+        case '0':
+            break;
+        case 't':
+            break;
+        case 'f':
+            break;
+        case 'n':
+            break;
+    }
+}
+
+void parse_json_array(JSON* object, IoMap* map) {
+    JSON* current_obj = object+1;
+    char buf[4048];
+
+    while(current_obj) {
+        puts("------------the next is------------");
+        memset(buf, 0, 4048);
+        memcpy(buf, current_obj->src, current_obj->len);
+        printf("%s\n", buf);
+        current_obj = current_obj->next;
+    }
+}
+//--------------------------------------
 
 IO_METHOD(IoSeq, isEmpty)
 {
@@ -1947,6 +2024,7 @@ void IoSeq_addImmutableMethods(IoSeq *self)
 	{"whiteSpaceStrings", IoSeq_whiteSpaceStrings},
 	{"print", IoSeq_print},
 	{"linePrint", IoSeq_linePrint},
+	{"parseJson", IoSeq_parseJson},
 	{"size", IoSeq_size},
 	{"sizeInBytes", IoSeq_sizeInBytes},
 	{"isZero", IoSeq_isZero},

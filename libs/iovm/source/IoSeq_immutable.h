@@ -28,6 +28,8 @@ IOVM_API IO_METHOD(IoSeq, whiteSpaceStrings);
 IOVM_API IO_METHOD(IoSeq, print);
 IOVM_API IO_METHOD(IoSeq, linePrint);
 
+IOVM_API IO_METHOD(IoSeq, parseJson);
+
 // access
 
 IOVM_API IO_METHOD(IoSeq, size);

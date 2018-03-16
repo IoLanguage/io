@@ -116,7 +116,6 @@ copy_files(basekit_headers ${PROJECT_SOURCE_DIR}/libs/basekit/source/*.h ${CMAKE
 copy_files(garbagecollector_headers ${PROJECT_SOURCE_DIR}/libs/garbagecollector/source/*.h ${CMAKE_CURRENT_BINARY_DIR}/_build/headers)
 copy_files(iovm_headers ${PROJECT_SOURCE_DIR}/libs/iovm/source/*.h ${CMAKE_CURRENT_BINARY_DIR}/_build/headers)
 
-
 # Packaging stuff
 
 #Modified from: http://www.mail-archive.com/cmake@cmake.org/msg32916.html
