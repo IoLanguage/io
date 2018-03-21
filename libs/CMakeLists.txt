@@ -55,7 +55,7 @@ file(GLOB COROUTINE_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/coroutine/source/*.c")
 file(GLOB BASEKIT_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/basekit/source/*.c")
 file(GLOB GARBAGECOLLECTOR_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/garbagecollector/source/*.c")
 file(GLOB IOVM_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/iovm/source/*.c")
-list(APPEND IOVM_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/../deps/json/json.c)
+list(APPEND IOVM_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/../deps/parson/parson.c)
 
 # Marvelous flags, likely compiler dependent.
 #add_definitions(-DBUILDING_IOVM_DLL)# -DINSTALL_PREFIX="${CMAKE_INSTALL_PREFIX}")
@@ -79,7 +79,7 @@ add_custom_command(
 # Include dirs, -I flags and whatnot
 include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}/iovm/source
-	${CMAKE_CURRENT_SOURCE_DIR}/../deps/json
+	${CMAKE_CURRENT_SOURCE_DIR}/../deps/parson
 	${CMAKE_CURRENT_SOURCE_DIR}/basekit/source
 	${CMAKE_CURRENT_SOURCE_DIR}/basekit/source/simd_cph/include
 	${CMAKE_CURRENT_SOURCE_DIR}/coroutine/source

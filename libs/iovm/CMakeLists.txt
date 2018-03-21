@@ -73,7 +73,7 @@ add_definitions(-DBUILDING_IOVM_DLL)# -DINSTALL_PREFIX="${CMAKE_INSTALL_PREFIX}"
 
 # Include dirs, -I flags and whatnot
 include_directories(
-	${CMAKE_CURRENT_SOURCE_DIR}/../../deps/json
+	${CMAKE_CURRENT_SOURCE_DIR}/../../deps/parson
 	${CMAKE_CURRENT_SOURCE_DIR}/../basekit/source
 	${CMAKE_CURRENT_SOURCE_DIR}/../coroutine/source
 	${CMAKE_CURRENT_SOURCE_DIR}/../garbagecollector/source
@@ -82,7 +82,7 @@ include_directories(
 # Our library sources.
 file(GLOB SRCS "source/*.c")
 list(APPEND SRCS source/IoVMInit.c)
-list(APPEND SRCS ../../deps/json/json.c)
+list(APPEND SRCS ../../deps/parson/parson.c)
 
 # Now build the shared library
 add_library(iovmall SHARED ${SRCS})

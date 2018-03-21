@@ -17,7 +17,7 @@ Immutable Sequences are also called "Symbols".
 #include "IoList.h"
 #include <ctype.h>
 #include <errno.h>
-#include "json.h"
+#include "parson.h"
 #include "IoMap.h"
 
 #ifndef NAN
@@ -277,75 +277,84 @@ IO_METHOD(IoSeq, linePrint)
 // Sequence parseJson
 //
 
-static void parse_json_objects_list(JSON* object, size_t num_of_objects, IoMap* map);
-static void parse_json_object(JSON* object, IoMap* map);
-static void parse_json_array(JSON* object, IoMap* map);
+static IoObject* parse_json_value(IoObject* self, JSON_Value* value);
+static IoMap* parse_json_object(IoObject* self, JSON_Object* object);
+static IoList* parse_json_array(IoObject* self, JSON_Array* array);
 
 IOVM_API IO_METHOD(IoSeq, parseJson) {
     /*doc Sequence parseJson
      Interprets the Sequence as JSON and returns a Map.
      */
-    size_t size = IoSeq_rawSizeInBytes(self);
-    IoMap* map = IoMap_new(IOSTATE);
-
-    if(size == 0)
-        return map;
-
-    JSON output[size];
+    IoMap* result;
+    JSON_Value* output;
     char* value = IoSeq_asCString(self);
 
-    int n;
+    if(IoSeq_rawSizeInBytes(self) == 0)
+        IoState_error_(IOSTATE, m, "Can't parse empty string.");
 
-    n = jsonparse(value, output, size);
+    output = json_parse_string_with_comments(value);
 
-    if(n == 0) 
-        IoState_error_(IOSTATE, m, "Bad JSON format.");
+    if(!output) 
+        IoState_error_(IOSTATE, m, "Can't parse JSON.");
 
-    parse_json_objects_list(output, n, map);
+    result = parse_json_object(self, json_object(output));
+
+    json_value_free(output);
+
+    return result;
+}
+
+IoMap* parse_json_object(IoObject* self, JSON_Object* object) {
+    IoMap* map = IoMap_new(IOSTATE);
+    IoObject* value;
+    char* key;
+    size_t num_of_keys = json_object_get_count(object);
+    size_t i;
+
+    for(i = 0; i < num_of_keys; i++) {
+        key = (char*) json_object_get_name(object, i);
+        value = parse_json_value(self, json_object_get_value(object, key));
+        IoMap_rawAtPut(map, IOSYMBOL(key), value);
+    }
 
     return map;
 }
 
-void parse_json_objects_list(JSON* object, size_t num_of_objects, IoMap* map) {
-    int i;
-
-    for(i = 0; i < num_of_objects; i++) {
-        parse_json_object(&object[i], map);
+IoObject* parse_json_value(IoObject* self, JSON_Value* value) {
+    switch(json_type(value)) {
+        case JSONError:
+            return 0;
+        case JSONNull:
+            return IOSTATE->ioNil;
+        case JSONString:
+            return IoSeq_newWithCString_(IOSTATE, json_string(value));
+        case JSONNumber:
+            return IoNumber_newWithDouble_(IOSTATE, json_value_get_number(value));
+        case JSONObject:
+            return parse_json_object(self, json_object(value));
+        case JSONArray:
+            return parse_json_array(self, json_array(value));
+        case JSONBoolean:
+            return IOBOOL(self, json_boolean(value));
+        default:
+            return 0;
     }
 }
 
-void parse_json_object(JSON* object, IoMap* map) {
-    switch(object->type) {
-        case '{':
-            break;
-        case '[':
-            /* i+= */parse_json_array(object, map);
-            break;
-        case '"':
-            break;
-        case '0':
-            break;
-        case 't':
-            break;
-        case 'f':
-            break;
-        case 'n':
-            break;
+IoList* parse_json_array(IoObject* self, JSON_Array* array) {
+    IoList* list = IoList_new(IOSTATE);
+    IoObject* value;
+    size_t num_of_elements = json_array_get_count(array);
+    size_t i;
+
+    for(i = 0; i < num_of_elements; i++) {
+        value = parse_json_value(self, json_array_get_value(array, i));
+        IoList_rawAppend_(list, value);
     }
+    
+    return list;
 }
 
-void parse_json_array(JSON* object, IoMap* map) {
-    JSON* current_obj = object+1;
-    char buf[4048];
-
-    while(current_obj) {
-        puts("------------the next is------------");
-        memset(buf, 0, 4048);
-        memcpy(buf, current_obj->src, current_obj->len);
-        printf("%s\n", buf);
-        current_obj = current_obj->next;
-    }
-}
 //--------------------------------------
 
 IO_METHOD(IoSeq, isEmpty)
