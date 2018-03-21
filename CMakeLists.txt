@@ -51,10 +51,6 @@ MESSAGE(STATUS "Configuration set to: ${CMAKE_BUILD_TYPE}")
 # so dark it's illegible.
 set(CMAKE_COLOR_MAKEFILE off)
 
-# Ensure that we find all of our support CMake scripts. These are things like
-# locating required libraries for addons, etc. Store them in modules/
-set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/modules/")
-
 # We want our binaries to go here
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/_build/binaries)
 

@@ -42,4 +42,3 @@ macro(generate_ioinit NAME)
 endmacro(generate_ioinit)
 
 add_subdirectory(User)
-add_subdirectory(Yajl)
