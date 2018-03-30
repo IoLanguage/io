@@ -19,6 +19,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../basekit/source)
 
 # Sources... in all their wonderous glory!
 file(GLOB SRCS "source/*.c")
+file(GLOB HEADERS "source/*.h")
 
 # Hackery for CMake's horrible ASM support... but not on Windows
 if(NOT ${CMAKE_SYSTEM_NAME} MATCHES "Windows")
@@ -29,7 +30,11 @@ endif(NOT ${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 
 # Now build the shared library
 add_library(coroutine SHARED ${SRCS})
+set_target_properties(coroutine PROPERTIES PUBLIC_HEADER "${HEADERS}")
 
 # The following add the install target, so we put libcoroutine.* in
 # our install prefix.
-install(TARGETS coroutine DESTINATION lib)
+install(TARGETS coroutine
+    LIBRARY DESTINATION lib
+    PUBLIC_HEADER DESTINATION include/io
+    )

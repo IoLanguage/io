@@ -83,12 +83,17 @@ include_directories(
 file(GLOB SRCS "source/*.c")
 list(APPEND SRCS source/IoVMInit.c)
 list(APPEND SRCS ../../deps/parson/parson.c)
+file(GLOB HEADERS "source/*.h")
 
 # Now build the shared library
 add_library(iovmall SHARED ${SRCS})
 add_dependencies(iovmall io2c basekit coroutine garbagecollector)
+set_target_properties(iovmall PROPERTIES PUBLIC_HEADER "${HEADERS}")
 target_link_libraries(iovmall basekit coroutine garbagecollector)
 
 # The following add the install target, so we put libvmall.* in our
 # install prefix.
-install(TARGETS iovmall DESTINATION lib)
+install(TARGETS iovmall 
+	LIBRARY DESTINATION lib
+	PUBLIC_HEADER DESTINATION include/io
+	)

@@ -14,10 +14,12 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../basekit/source)
 
 # Our library sources.
 file(GLOB SRCS "source/*.c")
+file(GLOB HEADERS "source/*.h")
 
 # Now build the shared library
 add_library(garbagecollector SHARED ${SRCS})
 add_dependencies(garbagecollector basekit)
+set_target_properties(garbagecollector PROPERTIES PUBLIC_HEADER "${HEADERS}")
 target_link_libraries(garbagecollector basekit)
 
 # ...And the static library
@@ -25,4 +27,7 @@ target_link_libraries(garbagecollector basekit)
 
 # The following add the install target, so we put libgarbagecollector.*
 # in our install prefix.
-install(TARGETS garbagecollector DESTINATION lib)
+install(TARGETS garbagecollector 
+	LIBRARY DESTINATION lib
+	PUBLIC_HEADER DESTINATION include/io
+	)
