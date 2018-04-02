@@ -68,3 +68,6 @@ target_link_libraries(io basekit coroutine garbagecollector iovmall ${LIBS})
 # The following add the install target, so we put io and io_static in our
 # install prefix.
 install(TARGETS io io_static DESTINATION bin)
+
+# Eerie
+install(SCRIPT "${CMAKE_SOURCE_DIR}/InstallEerie.cmake")
