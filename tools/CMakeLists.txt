@@ -72,6 +72,5 @@ install(TARGETS io io_static DESTINATION bin)
 # Eerie
 
 if(NOT WITHOUT_EERIE)
-    message(STATUS "WITHOUT_EERIE: ${WITHOUT_EERIE}")
     install(SCRIPT "${CMAKE_SOURCE_DIR}/InstallEerie.cmake")
 endif(NOT WITHOUT_EERIE)
