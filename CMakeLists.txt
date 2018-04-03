@@ -34,6 +34,8 @@ endif()
 # spaces, or anything silly like that please.
 project(IoLanguage C)
 
+set(WITHOUT_EERIE 0 CACHE BOOL "Don't install Eerie")
+
 # Default config when building with gcc variants
 IF(CMAKE_COMPILER_IS_GNUCC OR (CMAKE_C_COMPILER_ID MATCHES "Clang"))
 	SET(CMAKE_BUILD_TYPE_DebugFast)

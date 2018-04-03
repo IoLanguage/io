@@ -70,4 +70,8 @@ target_link_libraries(io basekit coroutine garbagecollector iovmall ${LIBS})
 install(TARGETS io io_static DESTINATION bin)
 
 # Eerie
-install(SCRIPT "${CMAKE_SOURCE_DIR}/InstallEerie.cmake")
+
+if(NOT WITHOUT_EERIE)
+    message(STATUS "WITHOUT_EERIE: ${WITHOUT_EERIE}")
+    install(SCRIPT "${CMAKE_SOURCE_DIR}/InstallEerie.cmake")
+endif(NOT WITHOUT_EERIE)
