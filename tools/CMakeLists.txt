@@ -72,5 +72,10 @@ install(TARGETS io io_static DESTINATION bin)
 # Eerie
 
 if(NOT WITHOUT_EERIE)
+    add_custom_command(TARGET io
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/eerie ${CMAKE_BINARY_DIR}
+        )
+
     install(SCRIPT "${CMAKE_SOURCE_DIR}/InstallEerie.cmake")
 endif(NOT WITHOUT_EERIE)
