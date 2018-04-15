@@ -33,7 +33,15 @@ target_link_libraries(basekit ${BASEKIT_LIBS})
 
 # The following add the install target, so we put libbasekit.* in our
 # install prefix.
-install(TARGETS basekit 
-    LIBRARY DESTINATION lib
-    PUBLIC_HEADER DESTINATION include/io
-    )
+if(WIN32)
+    install(TARGETS basekit 
+        RUNTIME DESTINATION lib
+        PUBLIC_HEADER DESTINATION include/io
+        )
+else()
+    install(TARGETS basekit 
+        LIBRARY DESTINATION lib
+        PUBLIC_HEADER DESTINATION include/io
+        )
+endif(WIN32)
+

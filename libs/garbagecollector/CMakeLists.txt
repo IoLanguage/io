@@ -27,7 +27,15 @@ target_link_libraries(garbagecollector basekit)
 
 # The following add the install target, so we put libgarbagecollector.*
 # in our install prefix.
-install(TARGETS garbagecollector 
-	LIBRARY DESTINATION lib
-	PUBLIC_HEADER DESTINATION include/io
-	)
+if(WIN32)
+    install(TARGETS garbagecollector
+        RUNTIME DESTINATION lib
+        PUBLIC_HEADER DESTINATION include/io
+        )
+else()
+    install(TARGETS garbagecollector
+        LIBRARY DESTINATION lib
+        PUBLIC_HEADER DESTINATION include/io
+        )
+endif(WIN32)
+

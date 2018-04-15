@@ -11,7 +11,7 @@ add_definitions("-DBUILDING_CORO_DLL")
 
 # Check if we're on FreeBSD, if so, use ucontext.
 if(${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
-	add_definitions("-DUSE_UCONTEXT")
+    add_definitions("-DUSE_UCONTEXT")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
 
 # Set up Coroutine include dirs, -I args to compiler.
@@ -23,9 +23,9 @@ file(GLOB HEADERS "source/*.h")
 
 # Hackery for CMake's horrible ASM support... but not on Windows
 if(NOT ${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-	set(ASM_SOURCES source/asm.S)
-	set_source_files_properties(${ASM_SOURCES} PROPERTIES LANGUAGE C)
-	list(APPEND SRCS ${ASM_SOURCES})
+    set(ASM_SOURCES source/asm.S)
+    set_source_files_properties(${ASM_SOURCES} PROPERTIES LANGUAGE C)
+    list(APPEND SRCS ${ASM_SOURCES})
 endif(NOT ${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 
 # Now build the shared library
@@ -34,7 +34,15 @@ set_target_properties(coroutine PROPERTIES PUBLIC_HEADER "${HEADERS}")
 
 # The following add the install target, so we put libcoroutine.* in
 # our install prefix.
-install(TARGETS coroutine
-    LIBRARY DESTINATION lib
-    PUBLIC_HEADER DESTINATION include/io
-    )
+if(WIN32)
+    install(TARGETS coroutine
+        RUNTIME DESTINATION lib
+        PUBLIC_HEADER DESTINATION include/io
+        )
+else()
+    install(TARGETS coroutine
+        LIBRARY DESTINATION lib
+        PUBLIC_HEADER DESTINATION include/io
+        )
+endif(WIN32)
+
