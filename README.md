@@ -14,6 +14,10 @@ You should clone this repo with `--recursive` flag:
 git clone --recursive https://github.com/IoLanguage/io.git
 ```
 
+* [OS X](#os-x)
+* [Any Linux Distribution](#any-linux-distribution)
+* [MS Windows](#ms-windows)
+
 NOTE: If you are installing in a production environment, use `cmake -DCMAKE_BUILD_TYPE=release ..` in all the `cmake ..` lines below. This tells CMake to compile with standard optimizations. Without the `-DCMAKE_BUILD_TYPE=release` addition the resulting binaries will have been compiled in debug mode with no standard C optimizations applied.
 
 OS X
@@ -106,8 +110,20 @@ For non-automatic MinGW install and detailed instructions refer to: <http://www.
 4. `make`
 5. `make install`
 
+### C) Building with MinGW-W64
 
-### C) Building with Cygwin
+1. `cd` to your Io root folder
+2. We want to do an out-of-source build, so: `mkdir buildroot` and `cd buildroot`
+3. a) `cmake -G"MinGW Makefiles" ..`
+	
+	or
+	
+	b) `cmake -G"MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=<install_drive>:/<install_directory> ..` (eg: `cmake -G"MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=C:/Io ..`)
+4. `mingw32-make`
+5. `mingw32-make install`
+
+
+### D) Building with Cygwin
 
 Install Cygwin from: <http://www.cygwin.com/>
 
