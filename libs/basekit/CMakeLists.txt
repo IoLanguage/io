@@ -35,7 +35,7 @@ target_link_libraries(basekit ${BASEKIT_LIBS})
 # install prefix.
 if(WIN32)
     install(TARGETS basekit 
-        RUNTIME DESTINATION lib
+        RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}
         PUBLIC_HEADER DESTINATION include/io
         )
 else()
@@ -44,4 +44,3 @@ else()
         PUBLIC_HEADER DESTINATION include/io
         )
 endif(WIN32)
-

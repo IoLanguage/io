@@ -36,7 +36,7 @@ set_target_properties(coroutine PROPERTIES PUBLIC_HEADER "${HEADERS}")
 # our install prefix.
 if(WIN32)
     install(TARGETS coroutine
-        RUNTIME DESTINATION lib
+        RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}
         PUBLIC_HEADER DESTINATION include/io
         )
 else()
@@ -45,4 +45,3 @@ else()
         PUBLIC_HEADER DESTINATION include/io
         )
 endif(WIN32)
-

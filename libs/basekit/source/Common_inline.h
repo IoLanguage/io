@@ -102,13 +102,13 @@ Kudos to Daniel A. Koepke
 	#endif
 	*/
 	
-#elif defined(__MINGW32__) || defined(_MSC_VER)
+#elif defined(__MINGW32__) || defined(__MINGW64__) || defined(_MSC_VER)
 
 	#ifdef IO_IN_C_FILE
 		// in .c 
 		#define IO_DECLARE_INLINES
-		#define IOINLINE inline
-		#define IOINLINE_RECURSIVE inline
+		#define IOINLINE static inline // TODO changed for testing don't forget to update
+		#define IOINLINE_RECURSIVE static inline // same here
 	#else
 		// in .h 
 		#define IO_DECLARE_INLINES

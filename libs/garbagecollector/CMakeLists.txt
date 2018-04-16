@@ -29,7 +29,7 @@ target_link_libraries(garbagecollector basekit)
 # in our install prefix.
 if(WIN32)
     install(TARGETS garbagecollector
-        RUNTIME DESTINATION lib
+        RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}
         PUBLIC_HEADER DESTINATION include/io
         )
 else()
@@ -38,4 +38,3 @@ else()
         PUBLIC_HEADER DESTINATION include/io
         )
 endif(WIN32)
-

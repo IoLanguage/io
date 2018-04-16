@@ -69,7 +69,7 @@ add_custom_command(
     )
 
 # Marvelous flags, likely compiler dependent.
-add_definitions(-DBUILDING_IOVM_DLL)# -DINSTALL_PREFIX="${CMAKE_INSTALL_PREFIX}")
+add_definitions("-DBUILDING_IOVM_DLL")# -DINSTALL_PREFIX="${CMAKE_INSTALL_PREFIX}")
 
 # Include dirs, -I flags and whatnot
 include_directories(
@@ -95,7 +95,7 @@ target_link_libraries(iovmall basekit coroutine garbagecollector)
 # install prefix.
 if(WIN32)
     install(TARGETS iovmall 
-        RUNTIME DESTINATION lib
+        RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}
         PUBLIC_HEADER DESTINATION include/io
         )
 else()
