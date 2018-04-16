@@ -119,8 +119,7 @@ For non-automatic MinGW install and detailed instructions refer to: <http://www.
 	or
 	
 	b) `cmake -G"MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=<install_drive>:/<install_directory> ..` (eg: `cmake -G"MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=C:/Io ..`)
-4. `mingw32-make`
-5. `mingw32-make install`
+4. `mingw32-make install`
 
 
 ### D) Building with Cygwin
