@@ -3,4 +3,4 @@
 	url = https://github.com/kgabis/parson.git
 [submodule "eerie"]
 	path = eerie
-	url = https://github.com/tonikasoft/eerie.git
+	url = https://github.com/IoLanguage/eerie.git
