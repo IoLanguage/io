@@ -69,19 +69,17 @@ add_custom_command(
 )
 
 # Handle annoying NAN
-include(CheckCXXSourceCompiles)
-CHECK_CXX_SOURCE_COMPILES("
+include(CheckCSourceRuns)
+check_c_source_runs("
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
 #define _GNU_SOURCE
-#include <assert.h>
 
 int main(){
 	char buf[5];
 	sprintf(buf, \"%f\", NAN);
-	assert(strcmp(buf, \"nan\") == 0);
-	return 0;
+	return strcmp(buf, \"nan\");
 }
 " HAVE_POSITIVE_NAN)
 if (NOT HAVE_POSITIVE_NAN)
