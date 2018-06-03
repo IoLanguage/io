@@ -15,7 +15,9 @@ Terminology
 #pragma GCC diagnostic push
 
 //Suppresses incorrect warning from GCC about CTYPE never having value of -1
+#ifndef __MINGW64__
 #pragma GCC diagnostic ignored "-Wtautological-constant-out-of-range-compare"
+#endif
 
 #include "IoSeq.h"
 #include "IoState.h"

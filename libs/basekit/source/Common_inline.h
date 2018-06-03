@@ -102,21 +102,27 @@ Kudos to Daniel A. Koepke
 	#endif
 	*/
 	
-#elif defined(__MINGW32__) || defined(__MINGW64__) || defined(_MSC_VER)
+#elif (defined(__MINGW32__) || defined(_MSC_VER)) && !defined(__MINGW64__) 
 
 	#ifdef IO_IN_C_FILE
 		// in .c 
 		#define IO_DECLARE_INLINES
-		#define IOINLINE static inline // TODO changed for testing don't forget to update
-		#define IOINLINE_RECURSIVE static inline // same here
+		#define IOINLINE inline
+		#define IOINLINE_RECURSIVE inline
 	#else
 		// in .h 
 		#define IO_DECLARE_INLINES
 		#define IOINLINE static inline
 		#define IOINLINE_RECURSIVE static inline
 	#endif 
-	
-#elif defined(__linux__) || defined(__OpenBSD__) || defined(__NetBSD__) || defined(__FreeBSD__)
+
+#elif defined(__MINGW64__)
+
+        #define IO_DECLARE_INLINES
+        #define IOINLINE static inline
+        #define IOINLINE_RECURSIVE static inline
+    
+#elif defined(__linux__) || defined(__OpenBSD__) || defined(__NetBSD__) || defined(__FreeBSD__) || defined(__MINGW64__)
 	#ifdef __GNUC_STDC_INLINE__
 		#ifdef IO_IN_C_FILE
 			// in .c
