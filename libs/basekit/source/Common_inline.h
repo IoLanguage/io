@@ -122,7 +122,7 @@ Kudos to Daniel A. Koepke
         #define IOINLINE static inline
         #define IOINLINE_RECURSIVE static inline
     
-#elif defined(__linux__) || defined(__OpenBSD__) || defined(__NetBSD__) || defined(__FreeBSD__) || defined(__MINGW64__)
+#elif defined(__linux__) || defined(__OpenBSD__) || defined(__NetBSD__) || defined(__FreeBSD__)
 	#ifdef __GNUC_STDC_INLINE__
 		#ifdef IO_IN_C_FILE
 			// in .c
