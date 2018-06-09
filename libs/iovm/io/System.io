@@ -7,7 +7,7 @@ System do(
 	//doc System ioPath Returns the path of io installation. The default is $INSTALL_PREFIX/lib/io.
     ioPath := method(
         os := self platform asLowercase
-        if(os != "mingw" and (os != "windows"),
+        if(os == "mingw" or (os == "windows"),
             return self installPrefix
             ,
             return self installPrefix asMutable appendPathSeq("lib") appendPathSeq("io")
