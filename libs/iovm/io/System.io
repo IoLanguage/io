@@ -8,7 +8,7 @@ System do(
     ioPath := method(
         os := self platform asLowercase
         if(os != "mingw" and (os != "windows"),
-            return self installPrefix asMutable appendPathSeq("io")
+            return self installPrefix
             ,
             return self installPrefix asMutable appendPathSeq("lib") appendPathSeq("io")
         )
