@@ -50,12 +50,13 @@ Addon := Object clone do(
 	loadDependencies := method(
 		//writeln(name, " depends on ", dependencies)
 		dependencies foreach(d,
-			if(Lobby getSlot(d) == nil,
+            depName := d asMutable strip
+			if(Lobby getSlot(depName) == nil,
 				//writeln("loading dependency ", d)
-				if(AddonLoader hasAddonNamed(d)) then(
-				    AddonLoader loadAddonNamed(d)
+				if(AddonLoader hasAddonNamed(depName)) then(
+				    AddonLoader loadAddonNamed(depName)
 				) else(
-				    Exception raise("Failed to load Addon " .. name .. " - Addon " .. name .. " depends on Addon " .. d .. " but Addon " .. d .. " cannot be found.")
+				    Exception raise("Failed to load Addon " .. name .. " - Addon " .. name .. " depends on Addon " .. depName .. " but Addon " .. depName .. " cannot be found.")
 				)
 			)
 		)
