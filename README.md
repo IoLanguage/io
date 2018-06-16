@@ -18,6 +18,8 @@ git clone --recursive https://github.com/IoLanguage/io.git
 * [Any Linux Distribution](#any-linux-distribution)
 * [MS Windows](#ms-windows)
 
+Io comes with [Eerie](https://github.com/IoLanguage/eerie) — the package manager. If you want to build without Eerie you can use `-DWITHOUT_EERIE=1` option in cmake command.
+
 NOTE: If you are installing in a production environment, use `cmake -DCMAKE_BUILD_TYPE=release ..` in all the `cmake ..` lines below. This tells CMake to compile with standard optimizations. Without the `-DCMAKE_BUILD_TYPE=release` addition the resulting binaries will have been compiled in debug mode with no standard C optimizations applied.
 
 OS X
