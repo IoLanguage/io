@@ -68,6 +68,24 @@ add_custom_command(
     DEPENDS io2c
     )
 
+# Handle annoying NAN
+include(CheckCSourceRuns)
+check_c_source_runs("
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#define _GNU_SOURCE
+
+int main(){
+	char buf[5];
+	sprintf(buf, \"%f\", NAN);
+	return strcmp(buf, \"nan\");
+}
+" HAVE_POSITIVE_NAN)
+if (NOT HAVE_POSITIVE_NAN)
+	add_definitions(-DUSE_BUILTIN_NAN)
+endif()
+
 # Marvelous flags, likely compiler dependent.
 add_definitions("-DBUILDING_IOVM_DLL")# -DINSTALL_PREFIX="${CMAKE_INSTALL_PREFIX}")
 

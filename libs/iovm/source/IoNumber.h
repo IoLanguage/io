@@ -5,6 +5,10 @@
 #ifndef IONUMBER_DEFINED
 #define IONUMBER_DEFINED 1
 
+#include <math.h>
+#define _GNU_SOURCE // for NAN macro, round
+#include <endian.h>
+
 #include "IoVMApi.h"
 
 #include "Common.h"
@@ -13,6 +17,20 @@
 
 #ifdef __cplusplus
 extern "C" {
+#endif
+
+/* NAN! x86 hardware happens to set the sign bit for all those 0/0 divisions.
+ * So 0/0, -0/0, 0/-0, -0/-0 all give -NaN.
+ */
+#if defined(USE_BUILTIN_NAN) || !defined(NAN)
+static union { unsigned long long __c; double __d; } __nan_union
+	__attribute_used__ = { 0x7ff8000000000000 };
+#undef NAN
+#define NAN (__nan_union.__d)
+#endif
+
+#if !defined(isnan) && defined(_MSC_VER)
+#define isnan _isnan
 #endif
 
 #define ISNUMBER(self) IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoNumber_rawClone)
