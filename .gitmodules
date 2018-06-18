@@ -1,0 +1,6 @@
+[submodule "deps/parson"]
+	path = deps/parson
+	url = https://github.com/kgabis/parson.git
+[submodule "eerie"]
+	path = eerie
+	url = https://github.com/IoLanguage/eerie.git

@@ -1,9 +1,0 @@
-prompt=no
-distinguished_name=RC
-[RC]
-countryName=IN
-stateOrProvinceName=TN
-localityName=CH
-organizationName=dtls-example
-emailAddress=hi2arun@gmail.com
-commonName=dtlsserver

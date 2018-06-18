@@ -368,7 +368,7 @@ void Levels_attach(Levels *self, IoMessage *msg, List *expressions) {
 	IoState *state = IoObject_state(msg);
 	IoSymbol *messageSymbol = IoMessage_name(msg);
 	const char *messageName = CSTRING(messageSymbol);
-	int precedence = Levels_levelForOp(self, messageName, messageSymbol, msg);
+	int precedence = Levels_levelForOp(self, (char*) messageName, messageSymbol, msg);
 
 	int msgArgCount = IoMessage_argCount(msg);
 

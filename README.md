@@ -4,23 +4,21 @@ ABOUT
 Io is a dynamic prototype-based programming language. 
 The programming guide and reference manual can be found in the docs folder.
 
-REQUIREMENTS
-============
-
- * [yajl](https://github.com/lloyd/yajl)
- * [libevent](http://libevent.org/)
- * [pcre](http://www.pcre.org/)
- * [memcached](https://memcached.org/)
- * [ode](http://www.ode.org/)
- * [sqlite](http://www.sqlite.org/)
-
-
 INSTALLING
 ==========
 
-Io is two parts - the vm and the `addons/packages`. Don't worry if all the addons don't compile for you - some are platform specific or not well supported.
-
 There are a couple ways you can go about building Io, I will give the recommended way, and a note about how to do it alternatively.
+
+You should clone this repo with `--recursive` flag:
+```
+git clone --recursive https://github.com/IoLanguage/io.git
+```
+
+* [OS X](#os-x)
+* [Any Linux Distribution](#any-linux-distribution)
+* [MS Windows](#ms-windows)
+
+Io comes with [Eerie](https://github.com/IoLanguage/eerie) — the package manager. If you want to build without Eerie you can use `-DWITHOUT_EERIE=1` option in cmake command.
 
 NOTE: If you are installing in a production environment, use `cmake -DCMAKE_BUILD_TYPE=release ..` in all the `cmake ..` lines below. This tells CMake to compile with standard optimizations. Without the `-DCMAKE_BUILD_TYPE=release` addition the resulting binaries will have been compiled in debug mode with no standard C optimizations applied.
 
@@ -41,19 +39,6 @@ Ensure you are at the top level of the source tree, that is where this file live
 	make install
 
 If you do not wish to install, just run `make` instead of `make install`. Currently there is no analogue to the old `make linkInstall`. However, if you have used `linkInstall` in previous versions of Io, you should never have to run `linkInstall` again, since it created symbolic links to where your Io source was at that time. The only time you would have to do this again, is if you moved the Io source from one dir to another. Most people don't.
-
-Additional MacOS build instructions
------------------------------------
-ODE
----
-When I tried to install ode via brew, it didn't come preinstalled with drawstuff library. So the solution is to compile and install ode directly.  Instructions are from <https://bitbucket.org/odedevs/ode>
-
-### Building ODE manually
-1. Uninstall ode first. `brew uninstall ode`
-2. Get a tarbuild (0.13 is the one I tried)
-3. Run configure with drawstuff. `./configure --with-drawstuff=OSX`
-4. `make;sudo make install`
-
 
 Any Linux Distribution
 ----------------------
@@ -127,8 +112,19 @@ For non-automatic MinGW install and detailed instructions refer to: <http://www.
 4. `make`
 5. `make install`
 
+### C) Building with MinGW-W64
 
-### C) Building with Cygwin
+1. `cd` to your Io root folder
+2. We want to do an out-of-source build, so: `mkdir buildroot` and `cd buildroot`
+3. a) `cmake -G"MinGW Makefiles" ..`
+	
+	or
+	
+	b) `cmake -G"MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=<install_drive>:/<install_directory> ..` (eg: `cmake -G"MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=C:/Io ..`)
+4. `mingw32-make install`
+
+
+### D) Building with Cygwin
 
 Install Cygwin from: <http://www.cygwin.com/>
 

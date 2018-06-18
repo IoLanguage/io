@@ -15,6 +15,8 @@ Immutable Sequences are also called "Symbols".
 #include "IoList.h"
 #include <ctype.h>
 #include <errno.h>
+#include "parson.h"
+#include "IoMap.h"
 
 #define DATA(self) ((UArray *)IoObject_dataPointer(self))
 
@@ -255,6 +257,90 @@ IO_METHOD(IoSeq, linePrint)
 	IoState_justPrintln_(IOSTATE);
 	return self;
 }
+
+//
+// Sequence parseJson
+//
+
+static IoObject* parse_json_value(IoObject* self, JSON_Value* value);
+static IoMap* parse_json_object(IoObject* self, JSON_Object* object);
+static IoList* parse_json_array(IoObject* self, JSON_Array* array);
+
+IOVM_API IO_METHOD(IoSeq, parseJson) {
+    /*doc Sequence parseJson
+     Interprets the Sequence as JSON and returns a Map.
+     */
+    IoMap* result;
+    JSON_Value* output;
+    char* value = IoSeq_asCString(self);
+
+    if(IoSeq_rawSizeInBytes(self) == 0)
+        IoState_error_(IOSTATE, m, "Can't parse empty string.");
+
+    output = json_parse_string_with_comments(value);
+
+    if(!output) 
+        IoState_error_(IOSTATE, m, "Can't parse JSON.");
+
+    result = parse_json_object(self, json_object(output));
+
+    json_value_free(output);
+
+    return result;
+}
+
+IoMap* parse_json_object(IoObject* self, JSON_Object* object) {
+    IoMap* map = IoMap_new(IOSTATE);
+    IoObject* value;
+    char* key;
+    size_t num_of_keys = json_object_get_count(object);
+    size_t i;
+
+    for(i = 0; i < num_of_keys; i++) {
+        key = (char*) json_object_get_name(object, i);
+        value = parse_json_value(self, json_object_get_value(object, key));
+        IoMap_rawAtPut(map, IOSYMBOL(key), value);
+    }
+
+    return map;
+}
+
+IoObject* parse_json_value(IoObject* self, JSON_Value* value) {
+    switch(json_type(value)) {
+        case JSONError:
+            return 0;
+        case JSONNull:
+            return IOSTATE->ioNil;
+        case JSONString:
+            return IoSeq_newWithCString_(IOSTATE, json_string(value));
+        case JSONNumber:
+            return IoNumber_newWithDouble_(IOSTATE, json_value_get_number(value));
+        case JSONObject:
+            return parse_json_object(self, json_object(value));
+        case JSONArray:
+            return parse_json_array(self, json_array(value));
+        case JSONBoolean:
+            return IOBOOL(self, json_boolean(value));
+        default:
+            return 0;
+    }
+}
+
+IoList* parse_json_array(IoObject* self, JSON_Array* array) {
+    IoList* list = IoList_new(IOSTATE);
+    IoObject* value;
+    size_t num_of_elements = json_array_get_count(array);
+    size_t i;
+
+    for(i = 0; i < num_of_elements; i++) {
+        value = parse_json_value(self, json_array_get_value(array, i));
+        IoList_rawAppend_(list, value);
+    }
+    
+    return list;
+}
+
+//--------------------------------------
 
 IO_METHOD(IoSeq, isEmpty)
 {
@@ -1932,6 +2018,7 @@ void IoSeq_addImmutableMethods(IoSeq *self)
 	{"whiteSpaceStrings", IoSeq_whiteSpaceStrings},
 	{"print", IoSeq_print},
 	{"linePrint", IoSeq_linePrint},
+	{"parseJson", IoSeq_parseJson},
 	{"size", IoSeq_size},
 	{"sizeInBytes", IoSeq_sizeInBytes},
 	{"isZero", IoSeq_isZero},

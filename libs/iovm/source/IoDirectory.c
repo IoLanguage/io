@@ -42,10 +42,12 @@ static char* getcwd(char* buf, int size) { return 0; }
 #else
 
 #include <windows.h>
+#ifndef __MINGW64__
 #define S_IRGRP 0
 #define S_IXGRP 0
 #define S_IROTH 0
 #define S_IXOTH 0
+#endif
 #ifndef	__MINGW32__
 #define S_IRWXU 0
 #endif

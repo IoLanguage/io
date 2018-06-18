@@ -21,9 +21,11 @@ endif(${CMAKE_SYSTEM_NAME} MATCHES "(Darwin|Linux|SunOS|syllable)")
 
 # Our library sources.
 file(GLOB SRCS "source/*.c")
+file(GLOB HEADERS "source/*.h")
 
 # Now build the shared library
 add_library(basekit SHARED ${SRCS})
+set_target_properties(basekit PROPERTIES PUBLIC_HEADER "${HEADERS}")
 target_link_libraries(basekit ${BASEKIT_LIBS})
 
 # ...And the static library
@@ -31,4 +33,14 @@ target_link_libraries(basekit ${BASEKIT_LIBS})
 
 # The following add the install target, so we put libbasekit.* in our
 # install prefix.
-install(TARGETS basekit DESTINATION lib)
+if(WIN32)
+    install(TARGETS basekit 
+        RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}
+        PUBLIC_HEADER DESTINATION include/io
+        )
+else()
+    install(TARGETS basekit 
+        LIBRARY DESTINATION lib
+        PUBLIC_HEADER DESTINATION include/io
+        )
+endif(WIN32)

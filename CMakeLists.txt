@@ -34,6 +34,8 @@ endif()
 # spaces, or anything silly like that please.
 project(IoLanguage C)
 
+set(WITHOUT_EERIE 0 CACHE BOOL "Don't install Eerie")
+
 # Default config when building with gcc variants
 IF(CMAKE_COMPILER_IS_GNUCC OR (CMAKE_C_COMPILER_ID MATCHES "Clang"))
 	SET(CMAKE_BUILD_TYPE_DebugFast)
@@ -50,10 +52,6 @@ MESSAGE(STATUS "Configuration set to: ${CMAKE_BUILD_TYPE}")
 # Don't want a coloured Makefile. On some platforms, the blue that is used is
 # so dark it's illegible.
 set(CMAKE_COLOR_MAKEFILE off)
-
-# Ensure that we find all of our support CMake scripts. These are things like
-# locating required libraries for addons, etc. Store them in modules/
-set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/modules/")
 
 # We want our binaries to go here
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/_build/binaries)
@@ -104,7 +102,6 @@ set(IOVM_SOURCE_DIR ${PROJECT_SOURCE_DIR}/libs/iovm/source)
 # Subdirectories. These directories should have their own CMakeLists.txt.
 add_subdirectory(libs)
 add_subdirectory(tools)
-add_subdirectory(addons)
 
 # Ensure the _build hierarchy is created top-level, this is where our
 # binaries go.
@@ -115,7 +112,6 @@ copy_files(coroutine_headers ${PROJECT_SOURCE_DIR}/libs/coroutine/source/*.h ${C
 copy_files(basekit_headers ${PROJECT_SOURCE_DIR}/libs/basekit/source/*.h ${CMAKE_CURRENT_BINARY_DIR}/_build/headers)
 copy_files(garbagecollector_headers ${PROJECT_SOURCE_DIR}/libs/garbagecollector/source/*.h ${CMAKE_CURRENT_BINARY_DIR}/_build/headers)
 copy_files(iovm_headers ${PROJECT_SOURCE_DIR}/libs/iovm/source/*.h ${CMAKE_CURRENT_BINARY_DIR}/_build/headers)
-
 
 # Packaging stuff
 

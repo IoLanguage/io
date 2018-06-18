@@ -1,11 +1,18 @@
 System do(
 	args := list()
 	
-	launchScript := nil
 	//doc System launchScript Returns the path of the io file run on the command line. Returns nil if no file was run.
+	launchScript := nil
 
-	ioPath := installPrefix asMutable appendPathSeq("lib") appendPathSeq("io")
 	//doc System ioPath Returns the path of io installation. The default is $INSTALL_PREFIX/lib/io.
+    ioPath := method(
+        os := self platform asLowercase
+        if(os == "mingw" or (os == "windows"),
+            return self installPrefix
+            ,
+            return self installPrefix asMutable appendPathSeq("lib") appendPathSeq("io")
+        )
+    )
 
 	/*doc System getOptions(args) 
 	This primitive is used to get command line options similar to Cs getopt().
