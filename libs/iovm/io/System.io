@@ -89,8 +89,10 @@ System do(
 		result exitStatus := exitStatus
 		result failed := method(exitStatus != successStatus)
 		result succeeded := method(exitStatus == successStatus)
-		result stdout := File with(stdoutPath) contents
-		result stderr := File with(stderrPath) contents
+        stdoutFile := File with(stdoutPath)
+        stderrFile := File with(stderrPath)
+		result stdout := if(stdoutFile exists, stdoutFile contents, nil)
+		result stderr := if(stderrFile exists, stderrFile contents, nil)
 		result
 	)
 	
