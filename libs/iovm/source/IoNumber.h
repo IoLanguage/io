@@ -7,7 +7,7 @@
 
 #include <math.h>
 #define _GNU_SOURCE // for NAN macro, round
-#include <endian.h>
+#include <sys/types.h>
 
 #include "IoVMApi.h"
 

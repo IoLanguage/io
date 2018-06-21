@@ -98,12 +98,21 @@ Addon := Object clone do(
 
 AddonLoader := Object clone do(
     //doc Addon searchPaths Returns the list of paths to search for addons.
-    searchPaths := list("eerie/base/addons", 
-        "eerie/activeEnv/addons", 
-        (System installPrefix .. "/eerie/base/addons") asOSPath,
-        (System installPrefix .. "/eerie/activeEnv/addons") asOSPath,
-        (System installPrefix .. "/lib/io/eerie/base/addons") asOSPath,
-        (System installPrefix .. "/lib/io/eerie/activeEnv/addons") asOSPath
+
+    searchPaths := method(
+        platform := System platform asLowercase
+        eerieBasePath := nil
+        eerieActiveEnvPath := nil
+
+        if(platform == "windows" or platform == "mingw",
+            eerieBasePath := (System installPrefix .. "/eerie/base/addons") asOSPath
+            eerieActiveEnvPath := (System installPrefix .. "/eerie/activeEnv/addons") asOSPath
+            ,
+            eerieBasePath := ("~/.eerie/base/addons" stringByExpandingTilde) asOSPath
+            eerieActiveEnvPath := ("~/.eerie/activeEnv/addons" stringByExpandingTilde) asOSPath
+        )
+
+        return list("eerie/base/addons", "eerie/activeEnv/addons", eerieBasePath, eerieActiveEnvPath)
     )
 
     //doc Addon appendSearchPath(aSequence) Appends the argument to the list of search paths.

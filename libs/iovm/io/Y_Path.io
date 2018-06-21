@@ -1,5 +1,5 @@
 tildeExpandsTo := method(
-    platform := System platform
+    platform := System platform asLowercase
 
     if(platform == "windows" or platform == "mingw",
         # Windows
