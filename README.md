@@ -1,70 +1,110 @@
-ABOUT
+# <div style="width:100%;text-align:center">The Io Language</div>
+
+# Table of Contents
+
+* [Table of Contents](#table-of-contents)
+* [What is Io?](#what-is-io?)
+	* [Quick Links](#quick-links)
+* [Installing](#installing)
+	* [From a Package Manager](#from-a-package-manager)
+	* [From Source](#from-source)
+		* [Linux Build Instructions](#linux-build-instructions)
+			* [Note About Building Eerie](#note-about-building-eerie)
+		* [OS X Build Instructions](#os-x-build-instructions)
+		* [Windows Build Instructions](#windows-build-instructions)
+			* [Building with MSVC](#building-with-msvc)
+			* [Building with MinGW](#building-with-mingw)
+			* [Building with MinGW-W64](#building-with-mingw-w64)
+			* [Building with Cygwin](#building-with-cygwin)
+* [Running Tests](#running-tests)
+
+What is Io?
 =====
 
-Io is a dynamic prototype-based programming language. 
-The programming guide and reference manual can be found in the docs folder.
+Io is a dynamic prototype-based programming language in the same realm as Smalltalk and Self. It revolves around the idea of message passing from object to object.
 
-INSTALLING
+For further information, the programming guide and reference manual can be found in the docs folder.
+
+Quick Links
+---
+* The Wikipedia page for Io has a good overview and shows a few interesting examples of the language: <https://en.wikipedia.org/wiki/Io_(programming_language)>.
+* The entry on the c2 wiki has good discussion about the merits of the language: <http://wiki.c2.com/?IoLanguage>.
+
+
+Installing
 ==========
 
-There are a couple ways you can go about building Io, I will give the recommended way, and a note about how to do it alternatively.
+From a Package Manager
+---
 
-You should clone this repo with `--recursive` flag:
+Io is currently only packaged for OS X. To install it, open a terminal and type:
+
+```
+brew install io
+```
+
+Note that this package may not be as updated as the version from the source repository.
+
+From Source
+---
+
+### Linux Build Instructions
+
+First, make sure that this repo and all of its submodules have been cloned to your computer by running `git clone` with the `--recursive` flag:
+
 ```
 git clone --recursive https://github.com/IoLanguage/io.git
 ```
 
-* [OS X](#os-x)
-* [Any Linux Distribution](#any-linux-distribution)
-* [MS Windows](#ms-windows)
+Io uses the [CMake build system](https://cmake.org/) and supports all of the normal flags and features provided by CMake. To prepare the project for building, run the following commands:
 
-Io comes with [Eerie](https://github.com/IoLanguage/eerie) — the package manager. If you want to build without Eerie you can use `-DWITHOUT_EERIE=1` option in cmake command.
+```
+cd io/           # To get into the cloned folder
+mkdir build      # To contain the CMake data
+cd build/
+cmake ..         # This populates the build folder with a Makefile and all of the related things necessary to begin building
+```
 
-NOTE: If you are installing in a production environment, use `cmake -DCMAKE_BUILD_TYPE=release ..` in all the `cmake ..` lines below. This tells CMake to compile with standard optimizations. Without the `-DCMAKE_BUILD_TYPE=release` addition the resulting binaries will have been compiled in debug mode with no standard C optimizations applied.
+In a production environment, pass the flag `-DCMAKE_BUILD_TYPE=release` to the `cmake` command to ensure that the C compiler does the proper optimizations. Without this flag, Io is built in debug mode without standard C optimizations.
 
-OS X
-----
+To install to a different folder than `/usr/local/bin/`, pass the flag `-DCMAKE_INSTALL_PREFIX=/path/to/your/folder/` to the `cmake` command.
 
-If you are using the homebrew package manager you can install Io (though it may not be the latest version) with:
+To build without Eerie, the Io package manager, pass the flag `-DWITHOUT_EERIE=1` to the `cmake` command.
 
-	brew install io
+Once CMake has finished preparing the build environment, ensure you are inside the build folder, and run:
 
-Note: Assuming you wish to install to an alternate location, ensure you supply as an argument to the following command, a `-DCMAKE_INSTALL_PREFIX=/path` where `/path` is where you wish to install Io to. This is akin to setting `INSTALL_PREFIX` with the old build system if you are familiar with it, or `--prefix` with GNU autotools if you are familiar with that suite.
+```
+make
+sudo make install
+```
 
-Ensure you are at the top level of the source tree, that is where this file lives. From here, you are in the right spot to enter these commands:
+This should build and install the Io language and Eerie, the Io package manager. Io can then be run with the `io` command and Eerie can be run with the `eerie` command.
 
-	mkdir build
-	cd build
-	cmake ..
-	make install
+#### Note About Building Eerie
 
-If you do not wish to install, just run `make` instead of `make install`. Currently there is no analogue to the old `make linkInstall`. However, if you have used `linkInstall` in previous versions of Io, you should never have to run `linkInstall` again, since it created symbolic links to where your Io source was at that time. The only time you would have to do this again, is if you moved the Io source from one dir to another. Most people don't.
+Running `eerie` after installing with `sudo make install` may shoot back an error such as this one:
 
-Any Linux Distribution
-----------------------
+```
+Exception: unable to open file path '/home/<user>/.eerie/config.json': Permission denied
+---------
+openForUpdating                     Eerie.io 77
+Object Eerie                         eerie 3
+CLI doFile                           Z_CLI.io 140
+CLI run                              IoState_runCLI() 1
+```
 
-Any Linux distribution will require one additional step be taken. This is because GNU ld is what's technically known as a "dumb" linker -- it has to be told to regenerate its hash of libraries if something changes, other platforms do not have this problem. To complete this step, run the following command:
+If this occurs, this is because the `~/.eerie/` folder isn't accessible due to your user permissions. To fix this, go to your home folder and run:
 
-	ldconfig
+```
+sudo chown -R <your username>:<your username> .eerie/
+```
 
-If you are still getting an error when loading the `io` binary about not being able to find some shared library, then ensure you have the following path, in your `/etc/ld.so.conf` (or equivalent):
 
-	/usr/local/lib
+### OS X Build Instructions
 
-The above path will change depending on what you set your `CMAKE_INSTALL_PREFIX` to, it will be whatever that is with `/lib` appended. The default is `/usr/local` so the above will work for the common case.
+See the [Linux build instructions](#linux-build-instructions).
 
-Debian or Ubuntu
-----------------
-
-See [OS X instructions](#OS_X).
-
-Gentoo
-------
-
-See [OS X instructions](#OS_X).
-
-MS Windows
-----------
+### Windows Build Instructions
 
 For all the different methods explained here, some of the addons won't compile as they depend on libraries not provided by Io.
 
@@ -76,7 +116,7 @@ For the `make install` command, if you are on Windows 7/Vista you will need to r
 
 You will also need to add `<install_drive>:\<install_directory>\bin` and `<install_drive>:\<install_directory>\lib` to your `PATH` environment variable.
 
-### A) Building with MSVC
+#### Building with MSVC
 
 1. Install Microsoft Visual C++ 2008 Express (should work with other versions).
 2. Install Microsoft Windows SDK 7.0 (or newer).
@@ -88,15 +128,15 @@ You will also need to add `<install_drive>:\<install_directory>\bin` and `<insta
 8. `cd` to your Io root folder
 9. We want to do an out-of-source build, so: `mkdir buildroot` and `cd buildroot`
 10. a) `cmake ..`
-	
+
 	or
-	
+
 	b) `cmake -DCMAKE_INSTALL_PREFIX=<install_drive>:\<install_directory> ..` (eg: `cmake -DCMAKE_INSTALL_PREFIX=C:\Io ..`)
 11. `nmake`
 12. `nmake install`
 
 
-### B) Building with MinGW
+#### Building with MinGW
 
 For automatic MinGW install: <http://sourceforge.net/projects/mingw/files/Automated%20MinGW%20Installer>
 
@@ -105,35 +145,35 @@ For non-automatic MinGW install and detailed instructions refer to: <http://www.
 1. `cd` to your Io root folder
 2. We want to do an out-of-source build, so: `mkdir buildroot` and `cd buildroot`
 3. a) `cmake -G"MSYS Makefiles" ..`
-	
+
 	or
-	
+
 	b) `cmake -G"MSYS Makefiles" -DCMAKE_INSTALL_PREFIX=<install_drive>:/<install_directory> ..` (eg: `cmake -G"MSYS Makefiles" -DCMAKE_INSTALL_PREFIX=C:/Io ..`)
 4. `make`
 5. `make install`
 
-### C) Building with MinGW-W64
+#### Building with MinGW-W64
 
 1. `cd` to your Io root folder
 2. We want to do an out-of-source build, so: `mkdir buildroot` and `cd buildroot`
 3. a) `cmake -G"MinGW Makefiles" ..`
-	
+
 	or
-	
+
 	b) `cmake -G"MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=<install_drive>:/<install_directory> ..` (eg: `cmake -G"MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=C:/Io ..`)
 4. `mingw32-make install`
 
 
-### D) Building with Cygwin
+#### Building with Cygwin
 
 Install Cygwin from: <http://www.cygwin.com/>
 
 1. `cd` to your Io root folder
 2. We want to do an out-of-source build, so: `mkdir buildroot` and `cd buildroot`
 3. a) `cmake ..`
-	
+
 	or
-	
+
 	b) `cmake -DCMAKE_INSTALL_PREFIX=<install_drive>:/<install_directory> ..` (eg: `cmake -DCMAKE_INSTALL_PREFIX=C:/Io ..`)
 4. `make`
 5. `make install`
@@ -141,8 +181,8 @@ Install Cygwin from: <http://www.cygwin.com/>
 Note: If you also have CMake 2.8 for Windows installed (apart from CMake for Cygwin) check your `PATH` environment variable so you won't be running CMake for Windows instead of Cygwin version.
 
 
-RUNNING TESTS
--------------
+Running Tests
+===
 
 You should be inside your out-of-source build dir. The vm tests can be run with the command:
 
