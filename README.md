@@ -1,4 +1,4 @@
-<p align="center"><h1>The Io Language</h1></p>
+<div style="width:100%;text-align:center;font-weight:bold;font-size:3em;">The Io Language</div>
 
 # Table of Contents
 
