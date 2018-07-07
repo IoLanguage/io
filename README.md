@@ -3,7 +3,8 @@
 # Table of Contents
 
 * [Table of Contents](#table-of-contents)
-* [What is Io?](#what-is-io?)
+* [What is Io?](#what-is-io)
+	* [Example Code](#example-code)
 	* [Quick Links](#quick-links)
 * [Installing](#installing)
 	* [From a Package Manager](#from-a-package-manager)
@@ -17,6 +18,7 @@
 			* [Building with MinGW-W64](#building-with-mingw-w64)
 			* [Building with Cygwin](#building-with-cygwin)
 * [Running Tests](#running-tests)
+* [Installing Addons](#installing-addons)
 
 What is Io?
 =====
@@ -187,3 +189,22 @@ Running Tests
 You should be inside your out-of-source build dir. The vm tests can be run with the command:
 
 	io ../libs/iovm/tests/correctness/run.io
+
+Installing Addons
+===
+
+Many of the common features provided by the Io language aren't prepackaged in the Io core. Instead, these features are contained in addons that get loaded when launching the Io VM. In the past, these addons were automatically installed by the build process, but now they must be installed through [Eerie](https://github.com/IoLanguage/eerie), the Io package manager.
+
+Most of these addons are housed under the IoLanguage group on GitHub: https://github.com/IoLanguage.
+
+To install an addon, ensure both Io and Eerie are installed correctly, then run:
+
+```
+eerie install <link to the git repository>
+```
+
+For example, to build the `Range` addon, run the command:
+
+```
+eerie install https://github.com/IoLanguage/Range.git
+```
