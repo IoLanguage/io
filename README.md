@@ -1,5 +1,7 @@
 # The Io Language
 
+_Note: This document is intended to be used as a reference for setting up and configuring Io. For a guide on how to use the language itself, please visit the website at <http://iolanguage.org/guide/guide.html>._
+
 # Table of Contents
 
 * [Table of Contents](#table-of-contents)
