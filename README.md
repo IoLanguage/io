@@ -208,3 +208,5 @@ For example, to build and install the `Range` addon, run the command:
 ```
 eerie install https://github.com/IoLanguage/Range.git
 ```
+
+To ensure that an addon installed correctly, pull up an Io interpreter and type the name of the object provided by the addon. It should load dynamically and automatically into the interpreter session, populating a slot in `Lobby Protos Addons`. [Here is an example recording of how to install an addon into Io](https://asciinema.org/a/knHDJhBJwvXC2MkW43bAfFgtE).
