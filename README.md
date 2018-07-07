@@ -1,4 +1,4 @@
-<div style="width:100%;text-align:center;font-weight:bold;font-size:3em;">The Io Language</div>
+# The Io Language
 
 # Table of Contents
 
