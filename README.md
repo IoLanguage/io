@@ -203,7 +203,7 @@ To install an addon, ensure both Io and Eerie are installed correctly, then run:
 eerie install <link to the git repository>
 ```
 
-For example, to build the `Range` addon, run the command:
+For example, to build and install the `Range` addon, run the command:
 
 ```
 eerie install https://github.com/IoLanguage/Range.git
