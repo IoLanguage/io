@@ -23,8 +23,7 @@ extern "C" {
  * So 0/0, -0/0, 0/-0, -0/-0 all give -NaN.
  */
 #if defined(USE_BUILTIN_NAN) || !defined(NAN)
-static union { unsigned long long __c; double __d; } __nan_union
-	__attribute_used__ = { 0x7ff8000000000000 };
+static union { unsigned long long __c; double __d; } __nan_union = { 0x7ff8000000000000 };
 #undef NAN
 #define NAN (__nan_union.__d)
 #endif
