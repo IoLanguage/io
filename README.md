@@ -125,7 +125,7 @@ You will also need to add `<install_drive>:\<install_directory>\bin` and `<insta
 1. Install Microsoft Visual C++ 2008 Express (should work with other versions).
 2. Install Microsoft Windows SDK 7.0 (or newer).
 3. Install CMake (v2.8 at least)
-4. Run "Vistual Studio 2008 Command Prompt" from the "Microsoft Visual Studio 2008" start menu.
+4. Run "Visual Studio 2008 Command Prompt" from the "Microsoft Visual Studio 2008" start menu.
 5. `cd` to `<install_drive>:\Microsoft SDKs\Windows\v7.0\Setup` then run: `WindowsSdkVer.exe -version:v7.0`
 6. Close the command prompt window and run step 4 again
 7. Ensure CMake bin path is in the `PATH` environment variable (eg: `echo %PATH%` and see that the folder is there) if not you will have to add it to your `PATH`.
