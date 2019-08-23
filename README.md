@@ -69,13 +69,6 @@ Io> holmes := Contact clone setName("Holmes") setAddress("221B Baker St") setCit
   address          = "221B Baker St"
   city             = "London"
   name             = "Holmes"
-
-Io> holmes := Contact clone setName("Holmes") setAddress("221B Baker St") setCity("London")
-==>  Contact_0x7fbc3be497c0:
-  address          = "221B Baker St"
-  city             = "London"
-  name             = "Holmes"
-
 Io> Contact fullAddress := method(list(name, address, city) join("\n"))
 ==> method(
     list(name, address, city) join("\n")
@@ -84,11 +77,8 @@ Io> holmes fullAddress
 ==> Holmes
 221B Baker St
 London
-Io> holmes fullAddress
-==> Holmes
-221B Baker St
-London
 ```
+
 
 
 
