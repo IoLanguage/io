@@ -37,6 +37,7 @@ Basic Math
 ```
 Io> 1 + 1
 ==> 2
+
 Io> 2 sqrt
 ==> 1.4142135623730951
 ```
@@ -46,8 +47,10 @@ Lists
 ```
 Io> d := List clone append(30, 10, 5, 20)
 ==> list(30, 10, 5, 20)
+
 Io> d := d sort
 ==> list(5, 10, 20, 30)
+
 Io> d select (>10)
 ==> list(20, 30)
 ```
@@ -58,21 +61,27 @@ Objects
 Io> Contact := Object clone
 ==>  Contact_0x7fbc3bc8a6d0:
   type = "Contact"
+
 Io> Contact name ::= nil
 ==> nil
+
 Io> Contact address ::= nil
 ==> nil
+
 Io> Contact city ::= nil
 ==> nil
+
 Io> holmes := Contact clone setName("Holmes") setAddress("221B Baker St") setCity("London")
 ==>  Contact_0x7fbc3be2b470:
   address          = "221B Baker St"
   city             = "London"
   name             = "Holmes"
+
 Io> Contact fullAddress := method(list(name, address, city) join("\n"))
 ==> method(
     list(name, address, city) join("\n")
 )
+
 Io> holmes fullAddress
 ==> Holmes
 221B Baker St
@@ -264,4 +273,4 @@ For example, to build and install the `Range` addon, run the command:
 eerie install https://github.com/IoLanguage/Range.git
 ```
 
-To ensure that an addon installed correctly, pull up an Io interpreter and type the name of the object provided by the addon. It should load dynamically and automatically into the interpreter session, populating a slot in `Lobby Protos Addons`. [Here is an example recording of how to install an addon into Io](https://asciinema.org/a/knHDJhBJwvXC2MkW43bAfFgtE).
+To ensure that an addon installed correctly, pull up an Io interpreter and type the name of the object provided by the addon. It should load dynamically and automatically into the interpreter session, populating a slot in `Lobby Protos Addons`.
