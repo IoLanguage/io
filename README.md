@@ -29,6 +29,69 @@ Io is a dynamic prototype-based programming language in the same realm as Smallt
 
 For further information, the programming guide and reference manual can be found in the docs folder.
 
+
+Example Code
+---
+Basic Math
+
+```
+Io> 1 + 1
+==> 2
+Io> 2 sqrt
+==> 1.4142135623730951
+```
+
+Lists
+
+```
+Io> d := List clone append(30, 10, 5, 20)
+==> list(30, 10, 5, 20)
+Io> d := d sort
+==> list(5, 10, 20, 30)
+Io> d select (>10)
+==> list(20, 30)
+```
+
+Objects
+
+```
+Io> Contact := Object clone
+==>  Contact_0x7fbc3bc8a6d0:
+  type = "Contact"
+Io> Contact name ::= nil
+==> nil
+Io> Contact address ::= nil
+==> nil
+Io> Contact city ::= nil
+==> nil
+Io> holmes := Contact clone setName("Holmes") setAddress("221B Baker St") setCity("London")
+==>  Contact_0x7fbc3be2b470:
+  address          = "221B Baker St"
+  city             = "London"
+  name             = "Holmes"
+
+Io> holmes := Contact clone setName("Holmes") setAddress("221B Baker St") setCity("London")
+==>  Contact_0x7fbc3be497c0:
+  address          = "221B Baker St"
+  city             = "London"
+  name             = "Holmes"
+
+Io> Contact fullAddress := method(list(name, address, city) join("\n"))
+==> method(
+    list(name, address, city) join("\n")
+)
+Io> holmes fullAddress
+==> Holmes
+221B Baker St
+London
+Io> holmes fullAddress
+==> Holmes
+221B Baker St
+London
+```
+
+
+
 Quick Links
 ---
 * The Wikipedia page for Io has a good overview and shows a few interesting examples of the language: <https://en.wikipedia.org/wiki/Io_(programming_language)>.
