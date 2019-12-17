@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>04E42947-73D9-4D2D-BAED-FDA54E3F973E</string>
+	<key>IDESourceControlProjectName</key>
+	<string>osxvm</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>FB8601C7F256436F4A55D1D3D8A97FFADB69CAE2</key>
+		<string>https://github.com/stevedekorte/io.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>extras/osxvm/osxvm.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>FB8601C7F256436F4A55D1D3D8A97FFADB69CAE2</key>
+		<string>../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/stevedekorte/io.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>FB8601C7F256436F4A55D1D3D8A97FFADB69CAE2</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>FB8601C7F256436F4A55D1D3D8A97FFADB69CAE2</string>
+			<key>IDESourceControlWCCName</key>
+			<string>io</string>
+		</dict>
+	</array>
+</dict>
+</plist>
