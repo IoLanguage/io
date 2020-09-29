@@ -19,6 +19,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
 
       # - name: Install Makefile
         # if: matrix.os == 'ubuntu-latest'
@@ -35,8 +37,6 @@ jobs:
         run: |
           mkdir build
           cd build
-          pwd
-          ls
           cmake ..
           make
 
