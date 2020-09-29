@@ -20,11 +20,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Install Makefile
-        if: matrix.os == 'ubuntu-latest' || matrix.os == 'debian-latest'
-        run: |
-          apt update
-          apt install -y build-essential
+      # - name: Install Makefile
+        # if: matrix.os == 'ubuntu-latest'
+        # run: |
+          # apt-get install sudo -y
+          # sudo apt-get update -y
+          # sudo apt-get install -y build-essential
 
       - name: Setup cmake
         uses: jwlawson/actions-setup-cmake@v1.3
