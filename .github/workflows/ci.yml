@@ -35,6 +35,8 @@ jobs:
         run: |
           mkdir build
           cd build
+          pwd
+          ls
           cmake ..
           make
 
