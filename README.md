@@ -34,7 +34,7 @@ Example Code
 ---
 Basic Math
 
-```
+```Io
 Io> 1 + 1
 ==> 2
 
@@ -44,7 +44,7 @@ Io> 2 sqrt
 
 Lists
 
-```
+```Io
 Io> d := List clone append(30, 10, 5, 20)
 ==> list(30, 10, 5, 20)
 
@@ -57,7 +57,7 @@ Io> d select (>10)
 
 Objects
 
-```
+```Io
 Io> Contact := Object clone
 ==>  Contact_0x7fbc3bc8a6d0:
   type = "Contact"
