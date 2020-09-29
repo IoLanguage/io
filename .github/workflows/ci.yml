@@ -22,18 +22,18 @@ jobs:
         with:
           submodules: 'recursive'
 
-      # - name: Install Makefile
-        # if: matrix.os == 'ubuntu-latest'
-        # run: |
-          # apt-get install sudo -y
-          # sudo apt-get update -y
-          # sudo apt-get install -y build-essential
+      # needed to test localy with nectos/act, don't delete it
+      # neither uncomment, because on Github the image already has build-essential
+      - name: Install Makefile
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          apt-get update -y
+          apt-get install -y build-essential
 
       - name: Setup cmake
         uses: jwlawson/actions-setup-cmake@v1.3
 
       - name: Build
-        # if: runner.os != 'Windows'
         run: |
           mkdir build
           cd build
