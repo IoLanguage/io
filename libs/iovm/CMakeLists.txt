@@ -70,20 +70,18 @@ add_custom_command(
 
 # Handle annoying NAN
 include(CheckCSourceRuns)
-if (NOT CMAKE_C_COMPILER_ID MATCHES "MSVC")
-    check_c_source_runs("
-    #include <stdio.h>
-    #include <string.h>
-    #include <math.h>
-    #define _GNU_SOURCE
+check_c_source_runs("
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#define _GNU_SOURCE
 
-    int main(){
-        char buf[5];
-        sprintf(buf, \"%f\", NAN);
-        return strcmp(buf, \"nan\");
-    }
-    " HAVE_POSITIVE_NAN)
-endif()
+int main(){
+char buf[5];
+sprintf(buf, \"%f\", NAN);
+return strcmp(buf, \"nan\");
+}
+" HAVE_POSITIVE_NAN)
 if (NOT HAVE_POSITIVE_NAN)
 	add_definitions(-DUSE_BUILTIN_NAN)
 endif()

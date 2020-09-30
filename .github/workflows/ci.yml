@@ -64,4 +64,4 @@ jobs:
       - name: Test
         run: |
           cd build
-          ./_build/binaries/io ../libs/iovm/tests/correctness/run.io
+          _build/binaries/io.exe ../libs/iovm/tests/correctness/run.io
