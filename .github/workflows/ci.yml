@@ -52,6 +52,7 @@ jobs:
 
       - name: Test Eerie runs
         run: |
+          export PATH=$PATH:/usr/local/bin:/usr/local/lib:/usr/local/include/
           ~/.eerie/base/bin/eerie -v
 
       - name: Test
