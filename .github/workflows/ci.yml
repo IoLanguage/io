@@ -40,6 +40,11 @@ jobs:
           cmake ..
           make
 
+      - name: Install
+        run: |
+          cd build
+          sudo make install
+
       - name: Install Eerie
         run: |
           cd build
@@ -70,6 +75,11 @@ jobs:
           cd build
           cmake -G"MinGW Makefiles" ..
           make
+
+      - name: Install
+        run: |
+          cd build
+          make install
 
       - name: Install Eerie
         run: |
