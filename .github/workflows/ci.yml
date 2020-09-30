@@ -52,9 +52,8 @@ jobs:
 
       - name: Test Eerie runs
         run: |
-          sudo ldconfig
           export EERIEDIR=~/.eerie
-          export PATH=$PATH:/usr/local/bin:/usr/local/lib:/usr/local/include/
+          # export PATH=$PATH:/usr/local/bin:/usr/local/lib:/usr/local/include/
           ~/.eerie/base/bin/eerie -v
 
       - name: Test
