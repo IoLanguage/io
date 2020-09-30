@@ -54,8 +54,10 @@ jobs:
         with:
           submodules: 'recursive'
 
-      - name: Build
+      - name: Use MSVC command prompt
         uses: ilammy/msvc-dev-cmd
+
+      - name: Build
         run: |
           mkdir build
           cd build
