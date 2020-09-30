@@ -54,15 +54,12 @@ jobs:
         with:
           submodules: 'recursive'
 
-      - name: Use MSVC command prompt
-        uses: ilammy/msvc-dev-cmd@v1
-
       - name: Build
         run: |
           mkdir build
           cd build
-          cmake -G "NMake Makefiles" ..
-          nmake
+          cmake -G"MinGW Makefiles" ..
+          make
 
       - name: Test
         run: |
