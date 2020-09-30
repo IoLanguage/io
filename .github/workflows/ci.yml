@@ -28,7 +28,7 @@ jobs:
         # if: matrix.os == 'ubuntu-latest'
         # run: |
           # apt-get update -y
-          # apt-get install -y build-essential
+          # apt-get install -y build-essential sudo git
 
       - name: Setup cmake
         uses: jwlawson/actions-setup-cmake@v1.3
@@ -52,6 +52,7 @@ jobs:
 
       - name: Test Eerie runs
         run: |
+          export EERIEDIR=~/.eerie
           export PATH=$PATH:/usr/local/bin:/usr/local/lib:/usr/local/include/
           ~/.eerie/base/bin/eerie -v
 
