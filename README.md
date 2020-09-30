@@ -126,8 +126,6 @@ In a production environment, pass the flag `-DCMAKE_BUILD_TYPE=release` to the `
 
 To install to a specific folder, pass the flag `-DCMAKE_INSTALL_PREFIX=/path/to/your/folder/` to the `cmake` command.
 
-To build without Eerie, the Io package manager, pass the flag `-DWITHOUT_EERIE=1` to the `cmake` command.
-
 ### Linux Build Instructions
 
 To prepare the project for building, run the following commands:
@@ -150,28 +148,10 @@ Once CMake has finished preparing the build environment, ensure you are inside t
 ```
 make
 sudo make install
+./_build/binaries/io setup.io # installs Eerie, the Io package manager
 ```
 
 This should build and install the Io language and Eerie, the Io package manager. Io can then be run with the `io` command and Eerie can be run with the `eerie` command.
-
-#### Note About Building Eerie
-
-Running `eerie` after installing with `sudo make install` may shoot back an error such as this one:
-
-```
-Exception: unable to open file path '/home/<user>/.eerie/config.json': Permission denied
----------
-openForUpdating                     Eerie.io 77
-Object Eerie                         eerie 3
-CLI doFile                           Z_CLI.io 140
-CLI run                              IoState_runCLI() 1
-```
-
-If this occurs, this is because the `~/.eerie/` folder isn't accessible due to your user permissions. To fix this, go to your home folder and run:
-
-```
-sudo chown -R <your username>:<your username> .eerie/
-```
 
 
 ### OS X Build Instructions
@@ -204,6 +184,7 @@ method of building on Windows.
 	b) `cmake -G"MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=<install_drive>:/<install_directory> ..` (eg: `cmake -G"MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=C:/Io ..`)
 4. `make`
 5. `make install`
+6. `./_build/binaries/io_static setup.io`
 
 
 #### Building with MinGW

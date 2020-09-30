@@ -40,6 +40,18 @@ jobs:
           cmake ..
           make
 
+      - name: Install
+        run: |
+          sudo make install
+
+      - name: Install Eerie
+        run: |
+          ./_build/binaries/io setup.io
+
+      - name: Test Eerie runs
+        run: |
+          ~/.eerie/base/bin/eerie -v
+
       - name: Test
         run: |
           cd build
@@ -62,9 +74,20 @@ jobs:
           cmake -G"MinGW Makefiles" ..
           make
 
+      - name: Install
+        run: |
+          make install
+
+      - name: Install Eerie
+        run: |
+          & _build/binaries/io_static.exe --% setup.io
+
+      - name: Test Eerie runs
+        run: |
+          & _build/binaries/io_static.exe --% -e "System installPrefix println"
+
       - name: Test
         run: |
           cd build
           & _build/binaries/io_static.exe --% --version
           & _build/binaries/io_static.exe --% ../libs/iovm/tests/correctness/run.io
-        # shell: cmd
