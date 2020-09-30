@@ -40,10 +40,6 @@ jobs:
           cmake ..
           make
 
-      - name: Install
-        run: |
-          sudo make install
-
       - name: Install Eerie
         run: |
           ./_build/binaries/io setup.io
@@ -73,10 +69,6 @@ jobs:
           cd build
           cmake -G"MinGW Makefiles" ..
           make
-
-      - name: Install
-        run: |
-          make install
 
       - name: Install Eerie
         run: |
