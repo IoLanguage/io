@@ -65,6 +65,5 @@ jobs:
       - name: Test
         run: |
           cd build
-          dir _build/binaries
-          & '_build/binaries/io.exe' --% --version
-          & '_build/binaries/io.exe' --% ../libs/iovm/tests/correctness/run.io
+          & ./_build/binaries/io --% --version
+          & ./_build/binaries/io --% ../libs/iovm/tests/correctness/run.io
