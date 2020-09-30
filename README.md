@@ -114,15 +114,23 @@ Note that this package may not be as updated as the version from the source repo
 From Source
 ---
 
-### Linux Build Instructions
-
 First, make sure that this repo and all of its submodules have been cloned to your computer by running `git clone` with the `--recursive` flag:
 
 ```
 git clone --recursive https://github.com/IoLanguage/io.git
 ```
 
-Io uses the [CMake build system](https://cmake.org/) and supports all of the normal flags and features provided by CMake. To prepare the project for building, run the following commands:
+Io uses the [CMake build system](https://cmake.org/) and supports all of the normal flags and features provided by CMake. 
+
+In a production environment, pass the flag `-DCMAKE_BUILD_TYPE=release` to the `cmake` command to ensure that the C compiler does the proper optimizations. Without this flag, Io is built in debug mode without standard C optimizations.
+
+To install to a specific folder, pass the flag `-DCMAKE_INSTALL_PREFIX=/path/to/your/folder/` to the `cmake` command.
+
+To build without Eerie, the Io package manager, pass the flag `-DWITHOUT_EERIE=1` to the `cmake` command.
+
+### Linux Build Instructions
+
+To prepare the project for building, run the following commands:
 
 ```
 cd io/           # To get into the cloned folder
@@ -137,7 +145,7 @@ To install to a different folder than `/usr/local/bin/`, pass the flag `-DCMAKE_
 
 To build without Eerie, the Io package manager, pass the flag `-DWITHOUT_EERIE=1` to the `cmake` command.
 
-Once CMake has finished preparing the build environment, ensure you are inside the build folder and run:
+Once CMake has finished preparing the build environment, ensure you are inside the build folder, and run:
 
 ```
 make
