@@ -59,7 +59,7 @@ jobs:
           mkdir build
           cd build
           cmake -G"MinGW Makefiles" ..
-          nmake
+          make
 
       - name: Test
         run: |
