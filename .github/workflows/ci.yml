@@ -42,6 +42,7 @@ jobs:
 
       - name: Install Eerie
         run: |
+          cd build
           ./_build/binaries/io setup.io
 
       - name: Test Eerie runs
@@ -72,6 +73,7 @@ jobs:
 
       - name: Install Eerie
         run: |
+          cd build
           & _build/binaries/io_static.exe --% setup.io
 
       - name: Test Eerie runs
