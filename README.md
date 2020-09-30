@@ -180,14 +180,49 @@ See the [Linux build instructions](#linux-build-instructions).
 
 ### Windows Build Instructions
 
-For methods A and B you must download and install CMake (at least v2.8) from here: <http://www.cmake.org/cmake/resources/software.html>
+You need CMake or CMake Cygwin (at least v2.8), depending on the building method
+you choose.
 
-For method C you must install the CMake Cygwin package (at least v2.8) using the Cygwin package installer.
-
-For the `make install` command, if you are on Windows 7/Vista you will need to run your command prompts as Administrator: right-click on the command prompt launcher->"Run as administrator" or something similar)
+For the `make install` command, if you are on Windows 7/Vista you will need to
+run your command prompts as Administrator: right-click on the command prompt
+launcher->"Run as administrator" or something similar.
 
 You will also need to add `<install_drive>:\<install_directory>\bin` and `<install_drive>:\<install_directory>\lib` to your `PATH` environment variable.
 
+
+#### Building with MinGW-W64 (Recommended)
+
+We use this method in our CI, so this should be considered an official/supported
+method of building on Windows.
+
+1. `cd` to your Io root folder
+2. We want to do an out-of-source build, so: `mkdir buildroot` and `cd buildroot`
+3. a) `cmake -G"MinGW Makefiles" ..`
+
+	or
+
+	b) `cmake -G"MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=<install_drive>:/<install_directory> ..` (eg: `cmake -G"MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=C:/Io ..`)
+4. `make`
+5. `make install`
+
+
+#### Building with MinGW
+
+For automatic MinGW install: <http://sourceforge.net/projects/mingw/files/Automated%20MinGW%20Installer>
+
+For non-automatic MinGW install and detailed instructions refer to: <http://www.mingw.org/wiki/InstallationHOWTOforMinGW>
+
+1. `cd` to your Io root folder
+2. We want to do an out-of-source build, so: `mkdir buildroot` and `cd buildroot`
+3. a) `cmake -G"MSYS Makefiles" ..`
+
+	or
+
+	b) `cmake -G"MSYS Makefiles" -DCMAKE_INSTALL_PREFIX=<install_drive>:/<install_directory> ..` (eg: `cmake -G"MSYS Makefiles" -DCMAKE_INSTALL_PREFIX=C:/Io ..`)
+4. `make`
+5. `make install`
+   
+   
 #### Building with MSVC
 
 1. Install Microsoft Visual C++ 2008 Express (should work with other versions).
@@ -206,34 +241,6 @@ You will also need to add `<install_drive>:\<install_directory>\bin` and `<insta
 	b) `cmake -DCMAKE_INSTALL_PREFIX=<install_drive>:\<install_directory> ..` (eg: `cmake -DCMAKE_INSTALL_PREFIX=C:\Io ..`)
 11. `nmake`
 12. `nmake install`
-
-
-#### Building with MinGW
-
-For automatic MinGW install: <http://sourceforge.net/projects/mingw/files/Automated%20MinGW%20Installer>
-
-For non-automatic MinGW install and detailed instructions refer to: <http://www.mingw.org/wiki/InstallationHOWTOforMinGW>
-
-1. `cd` to your Io root folder
-2. We want to do an out-of-source build, so: `mkdir buildroot` and `cd buildroot`
-3. a) `cmake -G"MSYS Makefiles" ..`
-
-	or
-
-	b) `cmake -G"MSYS Makefiles" -DCMAKE_INSTALL_PREFIX=<install_drive>:/<install_directory> ..` (eg: `cmake -G"MSYS Makefiles" -DCMAKE_INSTALL_PREFIX=C:/Io ..`)
-4. `make`
-5. `make install`
-
-#### Building with MinGW-W64
-
-1. `cd` to your Io root folder
-2. We want to do an out-of-source build, so: `mkdir buildroot` and `cd buildroot`
-3. a) `cmake -G"MinGW Makefiles" ..`
-
-	or
-
-	b) `cmake -G"MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=<install_drive>:/<install_directory> ..` (eg: `cmake -G"MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=C:/Io ..`)
-4. `mingw32-make install`
 
 
 #### Building with Cygwin
