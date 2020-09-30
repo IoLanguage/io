@@ -55,13 +55,15 @@ jobs:
           submodules: 'recursive'
 
       - name: Build
+        uses: ilammy/msvc-dev-cmd
         run: |
           mkdir build
           cd build
-          cmake -G"MinGW Makefiles" ..
-          make
+          cmake ..
+          nmake
 
       - name: Test
         run: |
           cd build
-          .\_build\binaries\io.exe ..\libs\iovm\tests\correctness\run.io
+          dir
+          ./_build/binaries/io.exe ../libs/iovm/tests/correctness/run.io
