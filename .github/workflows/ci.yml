@@ -78,6 +78,7 @@ jobs:
 
       - name: Test Eerie runs
         run: |
+          cd build
           & _build/binaries/io_static.exe --% -e "System installPrefix println"
 
       - name: Test
