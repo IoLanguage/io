@@ -51,3 +51,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: Setup cmake
+        uses: jwlawson/actions-setup-cmake@v1.3
+
+      - name: Build
+        run: |
+          mkdir build
+          cd build
+          cmake ..
+          nmake
+
+      - name: Test
+        run: |
+          cd build
+          ./_build/binaries/io ../libs/iovm/tests/correctness/run.io

@@ -172,8 +172,6 @@ See the [Linux build instructions](#linux-build-instructions).
 
 ### Windows Build Instructions
 
-For all the different methods explained here, some of the add-ons won't compile as they depend on libraries not provided by Io.
-
 For methods A and B you must download and install CMake (at least v2.8) from here: <http://www.cmake.org/cmake/resources/software.html>
 
 For method C you must install the CMake Cygwin package (at least v2.8) using the Cygwin package installer.
