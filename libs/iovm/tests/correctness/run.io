@@ -12,8 +12,8 @@ if(System args size > 1,
             )
         ) ?showStack
     )
-    FileCollector run size # size returns non-0 code on failure
+    System exit(FileCollector run size)
 ,
     # Run all tests in the current directory.
-    DirectoryCollector run size # size returns non-0 code on failure
+    System exit(DirectoryCollector run size)
 )

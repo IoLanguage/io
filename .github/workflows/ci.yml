@@ -49,12 +49,7 @@ jobs:
         run: |
           cd build
           ./_build/binaries/io setup.io
-
-      - name: Test Eerie runs
-        run: |
-          export EERIEDIR=~/.eerie
-          # export PATH=$PATH:/usr/local/bin:/usr/local/lib:/usr/local/include/
-          ~/.eerie/base/bin/eerie -v
+          eerie -v
 
       - name: Test
         run: |
