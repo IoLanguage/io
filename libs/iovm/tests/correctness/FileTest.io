@@ -29,16 +29,17 @@ FileTest := UnitTest clone do(
 		assertEquals(1, file exitStatus)
 	)
 
-    plat := System platform
-	isOnWindows := plat beginsWithSeq("Windows") or plat beginsWithSeq("mingw")
-
 	testPOpenSetsTermStatusToSignalWhenSignaled := method(
-		if(isOnWindows not,
+        isWindows := (System platform containsAnyCaseSeq("windows") or(
+                    System platform containsAnyCaseSeq("mingw")))
+		if(isWindows not,
             // try to open and close pipe quickly so that SIGPIPE is generated
             sigpipes := 0
             othersignals := 0
             100 repeat(
-                file := File with("echo hello") popen close
+                file := File with("echo hello")
+                file setContents("echo hello") popen close
+                "term signal is #{file termSignal}" println
                 if(file termSignal == 13,
                     sigpipes = sigpipes + 1
                 ,
