@@ -37,9 +37,9 @@ FileTest := UnitTest clone do(
             sigpipes := 0
             othersignals := 0
             100 repeat(
-                file := File with("sigpipe_test") setContents("echo hello") 
-                file popen close
-                "term signal is #{file termSignal}" interpolate println
+                file := File with("echo hello") popen
+                file close
+                "#{file exitStatus}" interpolate println
                 if(file termSignal == 13,
                     sigpipes = sigpipes + 1
                 ,
