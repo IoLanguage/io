@@ -5,6 +5,8 @@ Directory do(
     /*doc Directory walk
     Recursively walks the current directory, and executes a given callback on
     each item (either File or Directory) found, excluding "." and "..".
+
+    **Note, the method does not guarantee any ordering.**
 <pre>
 Io> Directory walk(println)
 A0_List.io
@@ -43,7 +45,10 @@ Directory.io
 		Directory clone setPath(p)
 	)
 
-    //doc Directory directories Returns a list of subdirectories in the receiver.
+    /*doc Directory directories Returns a list of subdirectories in the receiver.
+    
+    **Note, the method does not guarantee any ordering.**
+    */
     directories := method(
         items select(item,
             item isKindOf(Directory) and item name != "." and item name != ".."
@@ -138,7 +143,10 @@ Directory.io
 		directoryNamed(name)
 	)
 
-	//doc Directory localItems All subitems excluding '.' and '..'.
+	/*doc Directory localItems All subitems excluding '.' and '..'.
+    
+    **Note, the method does not guarantee any ordering.**
+    */
 	Directory localItems := method( 
 		items select(item, if(item name != "." and item name != ".."))
 	)

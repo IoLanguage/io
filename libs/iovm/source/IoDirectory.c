@@ -375,6 +375,8 @@ IO_METHOD(IoDirectory, items)
 	/*doc Directory items
 	Returns a list object containing File and Directory objects
 	for the files and directories of the receiver's path. 
+
+    **Note, the method does not guarantee any ordering.**
 	*/
 
 	IoList *items = IoList_new(IOSTATE);
