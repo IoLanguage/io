@@ -48,7 +48,9 @@ jobs:
       - name: Install Eerie
         run: |
           cd build
-          ./_build/binaries/io setup.io
+          PATH=$PATH:_build/binaries/ . ./install_unix.sh
+          echo $EERIEDIR
+          echo $PATH
           eerie -v
 
       - name: Test

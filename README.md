@@ -148,7 +148,7 @@ Once CMake has finished preparing the build environment, ensure you are inside t
 ```
 make
 sudo make install
-./_build/binaries/io setup.io # installs Eerie, the Io package manager
+PATH=$PATH:_build/binaries/ . ./install-unix.sh  # installs Eerie, the Io package manager
 ```
 
 This should build and install the Io language and Eerie, the Io package manager. Io can then be run with the `io` command and Eerie can be run with the `eerie` command.
