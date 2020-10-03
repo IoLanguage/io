@@ -24,11 +24,11 @@ jobs:
 
       # needed to test localy with nektos/act, don't delete it
       # neither uncomment, because on Github the image already has build-essential
-      # - name: Install Makefile
-        # if: matrix.os == 'ubuntu-latest'
-        # run: |
-          # apt-get update -y
-          # apt-get install -y build-essential sudo git
+      - name: Install Makefile
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          apt-get update -y
+          apt-get install -y build-essential sudo git
 
       - name: Setup cmake
         uses: jwlawson/actions-setup-cmake@v1.3
