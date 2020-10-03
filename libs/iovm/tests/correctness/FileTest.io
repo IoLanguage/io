@@ -37,7 +37,7 @@ FileTest := UnitTest clone do(
             sigpipes := 0
             othersignals := 0
             100 repeat(
-                file := File with("echo hello && echo hello && echo hello") popen close
+                file := File with("echo hello") popen flush close
                 if(file termSignal == 13,
                     sigpipes = sigpipes + 1
                 ,
