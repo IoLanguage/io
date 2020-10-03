@@ -40,7 +40,7 @@ FileTest := UnitTest clone do(
         # discussion. 
         isGithubActions := System getEnvironmentVariable("CI")
         "#{isGithubActions}" interpolate println
-		if((isWindows and isGithubActions) not,
+		if((isWindows or isGithubActions) not,
             // try to open and close pipe quickly so that SIGPIPE is generated
             sigpipes := 0
             othersignals := 0
