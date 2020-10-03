@@ -42,8 +42,8 @@ FileTest := UnitTest clone do(
         # termSignal.
         #
         # If this test fails on your system, please, open an issue for further
-        # discussion. 
-        isGithubActions := System getEnvironmentVariable("CI")
+        # discussion. Or just fix it if you know how to do it...
+        isGithubActions := System getEnvironmentVariable("GITHUB_ACTIONS")
 		if((isWindows or isGithubActions) not,
             // try to open and close pipe quickly so that SIGPIPE is generated
             sigpipes := 0
