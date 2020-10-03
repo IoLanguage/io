@@ -36,10 +36,14 @@ FileTest := UnitTest clone do(
         # this test. But it's always failed on Github Actions! Even with the
         # same Ubuntu machine image. So we disable this test there.
         #
+        # It seems like it's not about setting the termination status, because
+        # it sets it. It just doesn't set SIGPIPE. So it looks like the problem
+        # is in generating SIGPIPE rather then with the implemenation of File
+        # termSignal.
+        #
         # If this test fails on your system, please, open an issue for further
         # discussion. 
         isGithubActions := System getEnvironmentVariable("CI")
-        "#{isGithubActions}" interpolate println
 		if((isWindows or isGithubActions) not,
             // try to open and close pipe quickly so that SIGPIPE is generated
             sigpipes := 0
