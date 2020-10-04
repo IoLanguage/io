@@ -12,7 +12,6 @@ _Note: This document is intended to be used as a reference for setting up and co
 	* [From a Package Manager](#from-a-package-manager)
 	* [From Source](#from-source)
 		* [Linux Build Instructions](#linux-build-instructions)
-			* [Note About Building Eerie](#note-about-building-eerie)
 		* [macOS Build Instructions](#macOS-build-instructions)
 		* [Windows Build Instructions](#windows-build-instructions)
 			* [Building with MinGW-W64](#building-with-mingw-w64)
