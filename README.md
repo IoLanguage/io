@@ -202,11 +202,12 @@ method of building on Windows.
 	or
 
 	b) `cmake -G"MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=<install_drive>:/<install_directory> ..` (eg: `cmake -G"MinGW Makefiles" -DCMAKE_INSTALL_PREFIX=C:/Io ..`)
-4. `make`
-5. `make install`
+4. `mingw32-make`
+5. `mingw32-make install` (if you use cmd.exe, you should run it as
+   Administrator)
 6. Install [Eerie](https://github.com/IoLanguage/eerie), the Io package manager
    (see Eerie [repo](https://github.com/IoLanguage/eerie) for installation
-   options): `./_build/binaries/io_static setup.io`.
+   options): `_build\binaries\io_static setup.io`.
 
 
 #### Building with MinGW
