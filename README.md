@@ -1,3 +1,5 @@
+[Join Io community on Slack](https://join.slack.com/t/iolanguage/shared_invite/zt-jgv7a478-onIqvPzhgUgDMOdqX5ChAw)
+
 # The Io Language
 
 _Note: This document is intended to be used as a reference for setting up and configuring Io. For a guide on how to use the language itself, please visit the website at <http://iolanguage.org/guide/guide.html>._
