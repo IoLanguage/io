@@ -643,7 +643,7 @@ IO_METHOD(IoNumber, atan2)
 IO_METHOD(IoNumber, ceil)
 {
 	/*doc Number ceil
-	Returns the a number with the receiver's value rounded up to
+	Returns a number with the receiver's value rounded up to
 	the nearest integer if its fractional component is greater than 0.
 	*/
 
