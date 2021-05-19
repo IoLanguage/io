@@ -117,6 +117,12 @@ IOVM_API IoObject *IoCoroutine_rawRunMessage(IoCoroutine *self);
 IOVM_API void IoCoroutine_rawSetParentCoroutine_(IoCoroutine *self, IoObject *v);
 IOVM_API IoObject *IoCoroutine_rawParentCoroutine(IoCoroutine *self);
 
+// recentInChain
+
+IOVM_API void IoCoroutine_rawSetRecentInChain_(IoCoroutine *self, IoObject *v);
+IOVM_API IO_METHOD(IoCoroutine, setRecentInChain);
+IOVM_API IoObject *IoCoroutine_rawRecentInChain(IoCoroutine *self);
+
 // try
 
 IOVM_API IO_METHOD(IoCoroutine, start);
