@@ -6,6 +6,7 @@
 #define IOMESSAGE_DEFINED 1
 
 #include "Common.h"
+#include "IoObject.h"
 #include "IoObject_struct.h"
 #include "IoTag.h"
 #include "IoVMApi.h"
