@@ -33,7 +33,7 @@ jobs:
       - name: Check format
         uses: jidicula/clang-format-action@v3.4.0
         with:
-          clang-format-version: '12'
+          clang-format-version: '11'
           check-path: 'libs'
 
       - name: Setup cmake
@@ -69,7 +69,7 @@ jobs:
       - name: Check format
         uses: jidicula/clang-format-action@v3.4.0
         with:
-          clang-format-version: '12'
+          clang-format-version: '11'
           check-path: 'libs'
 
       - name: Build
