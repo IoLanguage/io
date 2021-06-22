@@ -9,7 +9,7 @@ on:
       - master
 
 jobs:
-  linter:
+  formatter:
 
     runs-on: ubuntu-latest
     steps:
