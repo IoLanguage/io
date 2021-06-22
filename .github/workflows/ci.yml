@@ -9,6 +9,22 @@ on:
       - master
 
 jobs:
+  linter:
+
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+
+      - name: Check format
+        uses: jidicula/clang-format-action@v3.4.0
+        with:
+          clang-format-version: '11'
+          check-path: 'libs'
+
   build-unix:
 
     runs-on: ${{ matrix.os }}
@@ -29,13 +45,6 @@ jobs:
         # run: |
           # apt-get update -y
           # apt-get install -y build-essential sudo git
-
-      - name: Check format
-        uses: DoozyX/clang-format-lint-action@v0.12
-        with:
-          source: 'libs'
-          extensions: 'h,c'
-          style: file
 
       - name: Setup cmake
         uses: jwlawson/actions-setup-cmake@v1.9
@@ -66,13 +75,6 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: 'recursive'
-
-      - name: Check format
-        uses: DoozyX/clang-format-lint-action@v0.12
-        with:
-          source: 'libs'
-          extensions: 'h,c'
-          style: file
 
       - name: Build
         run: |
