@@ -7,9 +7,9 @@
 #include "BStream.h"
 #include "Collector.h"
 #include "Common.h"
+#include "IoMessage.h"
 #include "IoTag.h"
 #include "PHash_struct.h"
-#include "IoMessage.h"
 
 #ifdef __cplusplus
 extern "C" {
