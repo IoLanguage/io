@@ -35,9 +35,9 @@
 #include <time.h>
 
 #ifndef _WIN32
-#include <unistd.h>
 #include <sys/time.h>
 #include <sys/types.h>
+#include <unistd.h>
 #ifndef __MINGW32__
 #include <sys/wait.h>
 #endif

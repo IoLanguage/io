@@ -93,7 +93,7 @@ size_t IoObject_memorySize(IoObject *self) {
 
     if (!ISNUMBER(self)) {
         //		if(IoObject_dataPointer(self)) size +=
-        //io_memsize(IoObject_dataPointer(self));
+        // io_memsize(IoObject_dataPointer(self));
     }
 
     return size;
