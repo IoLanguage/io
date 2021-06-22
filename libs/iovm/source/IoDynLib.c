@@ -323,16 +323,19 @@ intptr_t IoDynLib_rawNonVoidCall(void *f, int argCount, intptr_t *params) {
         rc = ((intptr_t(*)(intptr_t, intptr_t))f)(params[0], params[1]);
         break;
     case 3:
-        rc = ((intptr_t(*)(intptr_t, intptr_t, intptr_t))f)(
-            params[0], params[1], params[2]);
+        rc =
+            ((intptr_t(*)(intptr_t, intptr_t, intptr_t))f)(params[0], params[1],
+                                                           params[2]);
         break;
     case 4:
-        rc = ((intptr_t(*)(intptr_t, intptr_t, intptr_t, intptr_t))f)(
-            params[0], params[1], params[2], params[3]);
+        rc = ((intptr_t(*)(intptr_t, intptr_t, intptr_t,
+                           intptr_t))f)(params[0], params[1], params[2],
+                                        params[3]);
         break;
     case 5:
-        rc = ((intptr_t(*)(intptr_t, intptr_t, intptr_t, intptr_t, intptr_t))f)(
-            params[0], params[1], params[2], params[3], params[4]);
+        rc = ((intptr_t(*)(intptr_t, intptr_t, intptr_t, intptr_t,
+                           intptr_t))f)(params[0], params[1], params[2],
+                                        params[3], params[4]);
         break;
     case 6:
         rc = ((intptr_t(*)(intptr_t, intptr_t, intptr_t, intptr_t, intptr_t,
@@ -341,15 +344,16 @@ intptr_t IoDynLib_rawNonVoidCall(void *f, int argCount, intptr_t *params) {
         break;
     case 7:
         rc = ((intptr_t(*)(intptr_t, intptr_t, intptr_t, intptr_t, intptr_t,
-                           intptr_t, intptr_t))f)(
-            params[0], params[1], params[2], params[3], params[4], params[5],
-            params[6]);
+                           intptr_t, intptr_t))f)(params[0], params[1],
+                                                  params[2], params[3],
+                                                  params[4], params[5],
+                                                  params[6]);
         break;
     case 8:
-        rc = ((intptr_t(*)(intptr_t, intptr_t, intptr_t, intptr_t, intptr_t,
-                           intptr_t, intptr_t, intptr_t))f)(
-            params[0], params[1], params[2], params[3], params[4], params[5],
-            params[6], params[7]);
+        rc = ((intptr_t(*)(
+            intptr_t, intptr_t, intptr_t, intptr_t, intptr_t, intptr_t,
+            intptr_t, intptr_t))f)(params[0], params[1], params[2], params[3],
+                                   params[4], params[5], params[6], params[7]);
         break;
     }
 

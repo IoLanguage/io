@@ -45,9 +45,9 @@ object
 
 typedef void *(IoTagPerformFunc)(void *, void *,
                                  void *); // self, locals, message
-typedef void *(IoTagActivateFunc)(
-    void *, void *, void *, void *,
-    void *); // self, target, locals, message, slotContext
+typedef void *(
+    IoTagActivateFunc)(void *, void *, void *, void *,
+                       void *); // self, target, locals, message, slotContext
 typedef int(IoTagCompareFunc)(void *, void *); // self and another IoObject
 
 typedef void(IoTagWriteToStreamFunc)(void *, BStream *); // self, store, stream
