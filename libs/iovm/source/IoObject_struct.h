@@ -9,6 +9,7 @@
 #include "Common.h"
 #include "IoTag.h"
 #include "PHash_struct.h"
+#include "IoMessage.h"
 
 #ifdef __cplusplus
 extern "C" {

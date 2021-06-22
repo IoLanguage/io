@@ -19,7 +19,7 @@ _Note: This document is intended to be used as a reference for setting up and co
 			* [Building with MSVC](#building-with-msvc)
 			* [Building with Cygwin](#building-with-cygwin)
 * [Running Tests](#running-tests)
-* [Installing Add-ons](#installing-add-ons)
+* [Installing Addons](#installing-addons)
 
 What is Io?
 =====
@@ -295,7 +295,7 @@ the command:
 
 	io ../libs/iovm/tests/correctness/run.io
 
-Installing Add-ons
+Installing Addons
 ===
 
 Many of the common features provided by the Io language aren't prepackaged in
