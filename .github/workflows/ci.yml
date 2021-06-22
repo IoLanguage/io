@@ -35,6 +35,7 @@ jobs:
         with:
           source: 'libs'
           extensions: 'h,c'
+          style: file
 
       - name: Setup cmake
         uses: jwlawson/actions-setup-cmake@v1.9
@@ -71,6 +72,7 @@ jobs:
         with:
           source: 'libs'
           extensions: 'h,c'
+          style: file
 
       - name: Build
         run: |
