@@ -36,6 +36,7 @@ jobs:
           source: 'libs'
           extensions: 'h,c'
           style: 'llvm'
+          clangFormatVersion: 12
 
       - name: Setup cmake
         uses: jwlawson/actions-setup-cmake@v1.9
@@ -73,6 +74,7 @@ jobs:
           source: 'libs'
           extensions: 'h,c'
           style: 'llvm'
+          clangFormatVersion: 12
 
       - name: Build
         run: |
