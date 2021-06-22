@@ -1,6 +1,6 @@
 /*
-	copyright: Steve Dekorte, 2006. All rights reserved.
-	license: See _BSDLicense.txt.
+        copyright: Steve Dekorte, 2006. All rights reserved.
+        license: See _BSDLicense.txt.
 */
 
 // set
@@ -40,7 +40,7 @@ BASEKIT_API void UArray_setAllBitsTo_(UArray *self, uint8_t aBool);
 BASEKIT_API uint8_t UArray_byteAt_(UArray *self, size_t i);
 BASEKIT_API int UArray_bitAt_(UArray *self, size_t i);
 BASEKIT_API void UArray_setBit_at_(UArray *self, int b, size_t i);
-BASEKIT_API UArray * UArray_asBits(const UArray *self);
+BASEKIT_API UArray *UArray_asBits(const UArray *self);
 BASEKIT_API size_t UArray_bitCount(UArray *self);
 
 // boolean logic
@@ -58,7 +58,7 @@ BASEKIT_API void UArray_asin(UArray *self);
 BASEKIT_API void UArray_acos(UArray *self);
 BASEKIT_API void UArray_atan(UArray *self);
 
-//void UArray_atan2(UArray *self, const UArray *other);
+// void UArray_atan2(UArray *self, const UArray *other);
 
 BASEKIT_API void UArray_sinh(UArray *self);
 BASEKIT_API void UArray_cosh(UArray *self);
@@ -75,8 +75,8 @@ BASEKIT_API void UArray_floor(UArray *self);
 BASEKIT_API void UArray_abs(UArray *self);
 BASEKIT_API void UArray_round(UArray *self);
 
-//void UArray_ldexp(UArray *self, const UArray *other);
-//void UArray_fmod(UArray *self, const UArray *other);
+// void UArray_ldexp(UArray *self, const UArray *other);
+// void UArray_fmod(UArray *self, const UArray *other);
 
 BASEKIT_API void UArray_square(UArray *self);
 BASEKIT_API void UArray_normalize(UArray *self);
@@ -112,5 +112,6 @@ BASEKIT_API void UArray_removeEvenIndexes(UArray *self);
 
 BASEKIT_API void UArray_reverseItemByteOrders(UArray *self);
 
-BASEKIT_API void UArray_addEqualsOffsetXScaleYScale(UArray *self, UArray *other, float offset, float xscale, float yscale);
-
+BASEKIT_API void UArray_addEqualsOffsetXScaleYScale(UArray *self, UArray *other,
+                                                    float offset, float xscale,
+                                                    float yscale);

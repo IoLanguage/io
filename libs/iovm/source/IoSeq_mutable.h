@@ -90,7 +90,6 @@ IOVM_API IO_METHOD(IoSeq, multiply);
 IOVM_API IO_METHOD(IoSeq, divide);
 IOVM_API IO_METHOD(IoSeq, power);
 
-
 IOVM_API IO_METHOD(IoSeq, dotProduct);
 IOVM_API IO_METHOD(IoSeq, sum);
 IOVM_API IO_METHOD(IoSeq, product);

@@ -1,11 +1,12 @@
 /*
-	copyright: Steve Dekorte, 2006. All rights reserved.
-	license: See _BSDLicense.txt.
+        copyright: Steve Dekorte, 2006. All rights reserved.
+        license: See _BSDLicense.txt.
 */
 
 BASEKIT_API int UArray_convertToFixedSizeType(UArray *self);
 
-BASEKIT_API size_t UArray_numberOfCharacters(const UArray *self); // returns 0 on error
+BASEKIT_API size_t
+UArray_numberOfCharacters(const UArray *self); // returns 0 on error
 
 BASEKIT_API int UArray_maxCharSize(const UArray *self);
 BASEKIT_API int UArray_isMultibyte(const UArray *self);

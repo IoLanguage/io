@@ -1,6 +1,6 @@
 
-//metadoc Coroutine copyright Steve Dekorte 2002
-//metadoc Coroutine license BSD revised
+// metadoc Coroutine copyright Steve Dekorte 2002
+// metadoc Coroutine license BSD revised
 
 #ifndef IoCoroutine_DEFINED
 #define IoCoroutine_DEFINED 1
@@ -15,15 +15,15 @@
 extern "C" {
 #endif
 
-#define ISCOROUTINE(self) IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoCoroutine_rawClone)
+#define ISCOROUTINE(self)                                                      \
+    IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoCoroutine_rawClone)
 
 typedef IoObject IoCoroutine;
 
-typedef struct
-{
-	Coro *cid;
-	Stack *ioStack;
-	int debuggingOn;
+typedef struct {
+    Coro *cid;
+    Stack *ioStack;
+    int debuggingOn;
 } IoCoroutineData;
 
 IOVM_API IoCoroutine *IoCoroutine_proto(void *state);
@@ -43,8 +43,8 @@ IOVM_API void *IoCoroutine_cid(IoCoroutine *self);
 
 // label
 
-//void IoCoroutine_rawSetLabel_(IoCoroutine *self, IoSymbol *s);
-//IoObject *IoCoroutine_rawLabel(IoCoroutine *self);
+// void IoCoroutine_rawSetLabel_(IoCoroutine *self, IoSymbol *s);
+// IoObject *IoCoroutine_rawLabel(IoCoroutine *self);
 
 IOVM_API IO_METHOD(IoCoroutine, setLabel);
 IOVM_API IO_METHOD(IoCoroutine, label);
@@ -66,7 +66,8 @@ IOVM_API IoObject *IoCoroutine_rawRunLocals(IoCoroutine *self);
 
 // parent
 
-IOVM_API void IoCoroutine_rawSetParentCoroutine_(IoCoroutine *self, IoObject *v);
+IOVM_API void IoCoroutine_rawSetParentCoroutine_(IoCoroutine *self,
+                                                 IoObject *v);
 IOVM_API IoObject *IoCoroutine_rawParentCoroutine(IoCoroutine *self);
 // exception
 
@@ -88,12 +89,13 @@ IOVM_API int IoCoroutine_rawIoStackSize(IoCoroutine *self);
 
 IOVM_API void IoCoroutine_rawRun(IoCoroutine *self);
 IOVM_API void IoCoroutine_clearStack(IoCoroutine *self);
-IOVM_API void IoCoroutine_try(IoCoroutine *self, IoObject *target, IoObject *locals, IoMessage *message);
-IOVM_API IoCoroutine *IoCoroutine_newWithTry(void *state,
-											IoObject *target,
-											IoObject *locals,
-											IoMessage *message);
-IOVM_API void IoCoroutine_raiseError(IoCoroutine *self, IoSymbol *description, IoMessage *m);
+IOVM_API void IoCoroutine_try(IoCoroutine *self, IoObject *target,
+                              IoObject *locals, IoMessage *message);
+IOVM_API IoCoroutine *IoCoroutine_newWithTry(void *state, IoObject *target,
+                                             IoObject *locals,
+                                             IoMessage *message);
+IOVM_API void IoCoroutine_raiseError(IoCoroutine *self, IoSymbol *description,
+                                     IoMessage *m);
 
 // methods
 
@@ -114,7 +116,8 @@ IOVM_API IoObject *IoCoroutine_rawRunMessage(IoCoroutine *self);
 
 // parent
 
-IOVM_API void IoCoroutine_rawSetParentCoroutine_(IoCoroutine *self, IoObject *v);
+IOVM_API void IoCoroutine_rawSetParentCoroutine_(IoCoroutine *self,
+                                                 IoObject *v);
 IOVM_API IoObject *IoCoroutine_rawParentCoroutine(IoCoroutine *self);
 
 // recentInChain
@@ -134,14 +137,16 @@ IOVM_API IO_METHOD(IoCoroutine, currentCoroutine);
 // stack trace
 
 IOVM_API IoObject *IoObject_callStack(IoCoroutine *self);
-IOVM_API void IoObject_appendStackEntryDescription(IoCoroutine *self, UArray *ba);
+IOVM_API void IoObject_appendStackEntryDescription(IoCoroutine *self,
+                                                   UArray *ba);
 IOVM_API void IoCoroutine_rawPrint(IoCoroutine *self);
 
 // debugging
 
 IOVM_API int IoCoroutine_rawDebuggingOn(IoCoroutine *self);
 IOVM_API IO_METHOD(IoCoroutine, setMessageDebugging);
-IOVM_API IoObject *IoObject_performWithDebugger(IoCoroutine *self, IoObject *locals, IoMessage *m);
+IOVM_API IoObject *IoObject_performWithDebugger(IoCoroutine *self,
+                                                IoObject *locals, IoMessage *m);
 IOVM_API IO_METHOD(IoCoroutine, callStack);
 IOVM_API void IoCoroutine_rawPrintBackTrace(IoCoroutine *self);
 

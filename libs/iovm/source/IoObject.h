@@ -1,6 +1,6 @@
 
-//metadoc Object copyright Steve Dekorte 2002
-//metadoc Object license BSD revised
+// metadoc Object copyright Steve Dekorte 2002
+// metadoc Object license BSD revised
 
 #ifndef OBJECT_DEFINED
 #define OBJECT_DEFINED 1
@@ -18,8 +18,8 @@ extern "C" {
 #define IOREF(value) IoObject_addingRef_((IoObject *)self, (IoObject *)value)
 //#define IOALLOCREF(value) IoObject_isReferenced_(value, 1)
 
-#define IOOBJECT_ISTYPE(self, typeName) \
-	IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)Io ## typeName ## _rawClone)
+#define IOOBJECT_ISTYPE(self, typeName)                                        \
+    IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)Io##typeName##_rawClone)
 
 #define ISOBJECT(self) IOOBJECT_ISTYPE(self, Object)
 
@@ -37,10 +37,15 @@ IOVM_API IoObject *IoObject_justClone(IoObject *self);
 IOVM_API IoObject *IoObject_rawClonePrimitive(IoObject *self);
 IOVM_API IoObject *IoObject_new(void *state);
 
-IOVM_API IoObject *IoObject_addMethod_(IoObject *self, IoSymbol *slotName, IoMethodFunc *fp);
-IOVM_API void IoObject_addMethodTable_(IoObject *self, IoMethodTable *methodTable);
-IOVM_API IoObject *IoObject_addTaglessMethod_(IoObject *self, IoSymbol *slotName, IoMethodFunc *fp);
-IOVM_API void IoObject_addTaglessMethodTable_(IoObject *self, IoMethodTable *methodTable);
+IOVM_API IoObject *IoObject_addMethod_(IoObject *self, IoSymbol *slotName,
+                                       IoMethodFunc *fp);
+IOVM_API void IoObject_addMethodTable_(IoObject *self,
+                                       IoMethodTable *methodTable);
+IOVM_API IoObject *IoObject_addTaglessMethod_(IoObject *self,
+                                              IoSymbol *slotName,
+                                              IoMethodFunc *fp);
+IOVM_API void IoObject_addTaglessMethodTable_(IoObject *self,
+                                              IoMethodTable *methodTable);
 
 IOVM_API void IoObject_dealloc(IoObject *self);
 IOVM_API void IoObject_willFree(IoObject *self);
@@ -53,7 +58,7 @@ IOVM_API int IoObject_rawProtosCount(IoObject *self);
 IOVM_API void IoObject_rawAppendProto_(IoObject *self, IoObject *p);
 IOVM_API void IoObject_rawPrependProto_(IoObject *self, IoObject *p);
 IOVM_API void IoObject_rawRemoveProto_(IoObject *self, IoObject *p);
-//IOVM_API void IoObject_rawRemoveAllProtos(IoObject *self);
+// IOVM_API void IoObject_rawRemoveAllProtos(IoObject *self);
 IOVM_API void IoObject_rawSetProto_(IoObject *self, IoObject *proto);
 
 IOVM_API IO_METHOD(IoObject, objectProto);
@@ -69,21 +74,22 @@ IOVM_API unsigned int IoObject_rawHasProto_(IoObject *self, IoObject *p);
 // slots
 
 IOVM_API void IoObject_createSlots(IoObject *self);
-IOVM_API void IoObject_setSlot_to_(IoObject *self, IoSymbol *slotName, IoObject *value);
+IOVM_API void IoObject_setSlot_to_(IoObject *self, IoSymbol *slotName,
+                                   IoObject *value);
 
 IOVM_API IoObject *IoObject_getSlot_(IoObject *self, IoSymbol *slotName);
 IOVM_API IoObject *IoObject_symbolGetSlot_(IoObject *self, IoSymbol *slotName);
 IOVM_API IoObject *IoObject_seqGetSlot_(IoObject *self, IoSymbol *slotName);
 IOVM_API double IoObject_doubleGetSlot_(IoObject *self, IoSymbol *slotName);
 
-//IoObject *IoObject_objectWithSlotValue_(IoObject *self, IoObject *slotValue);
+// IoObject *IoObject_objectWithSlotValue_(IoObject *self, IoObject *slotValue);
 IOVM_API void IoObject_removeSlot_(IoObject *self, IoSymbol *slotName);
 
 // perform and activate
 
-//IOVM_API IoObject *IoObject_activate(IoObject *self, IoObject *target, IoObject *locals, IoMessage *m, IoObject *slotContext);
-//IOVM_API IO_METHOD(IoObject, perform);
-//IO_METHOD(IoObject, forward);
+// IOVM_API IoObject *IoObject_activate(IoObject *self, IoObject *target,
+// IoObject *locals, IoMessage *m, IoObject *slotContext); IOVM_API
+// IO_METHOD(IoObject, perform); IO_METHOD(IoObject, forward);
 IOVM_API IO_METHOD(IoObject, localsForward);
 
 // tag functions
@@ -106,7 +112,8 @@ IOVM_API void IoObject_show(IoObject *self);
 IOVM_API IO_METHOD(IoObject, clone);
 IOVM_API IO_METHOD(IoObject, cloneWithoutInit);
 IOVM_API IO_METHOD(IoObject, shallowCopy);
-IOVM_API IoObject *IoObject_initClone_(IoObject *self, IoObject *locals, IoMessage *m, IoObject *newObject);
+IOVM_API IoObject *IoObject_initClone_(IoObject *self, IoObject *locals,
+                                       IoMessage *m, IoObject *newObject);
 
 // printing
 
@@ -134,7 +141,7 @@ IOVM_API IO_METHOD(IoObject, protoRemoveAllSlots);
 IOVM_API IO_METHOD(IoObject, protoSlotNames);
 IOVM_API IO_METHOD(IoObject, protoSlotValues);
 
-//IO_METHOD(IoObject, forward_);
+// IO_METHOD(IoObject, forward_);
 IOVM_API IO_METHOD(IoObject, super);
 IOVM_API IO_METHOD(IoObject, contextWithSlot);
 IOVM_API IO_METHOD(IoObject, ancestorWithSlot);
@@ -181,7 +188,7 @@ IOVM_API IO_METHOD(IoObject, asBoolean);
 
 // meta
 
-//IOVM_API IO_METHOD(IoObject, truthValueOfArg);
+// IOVM_API IO_METHOD(IoObject, truthValueOfArg);
 IOVM_API IO_METHOD(IoObject, evalArg);
 IOVM_API IO_METHOD(IoObject, evalArgAndReturnNil);
 IOVM_API IO_METHOD(IoObject, evalArgAndReturnSelf);
@@ -192,10 +199,11 @@ IOVM_API IO_METHOD(IoObject, message);
 
 // compiler
 
-IOVM_API IoObject *IoObject_rawDoString_label_(IoObject *self, IoSymbol *string, IoSymbol *label);
+IOVM_API IoObject *IoObject_rawDoString_label_(IoObject *self, IoSymbol *string,
+                                               IoSymbol *label);
 IOVM_API IO_METHOD(IoObject, doString);
 IOVM_API IO_METHOD(IoObject, doFile);
-//IO_METHOD(IoObject, unpack);
+// IO_METHOD(IoObject, unpack);
 
 // activatable
 
@@ -205,20 +213,19 @@ IOVM_API IO_METHOD(IoObject, isActivatableMethod);
 // eval
 
 IOVM_API IoObject *IoObject_rawDoMessage(IoObject *self, IoMessage *m);
-IOVM_API IoObject *IoObject_eval(IoObject *self, IoMessage *m, IoObject *locals);
+IOVM_API IoObject *IoObject_eval(IoObject *self, IoMessage *m,
+                                 IoObject *locals);
 
 IOVM_API IO_METHOD(IoObject, argIsActivationRecord);
 IOVM_API IO_METHOD(IoObject, argIsCall);
 
-IOVM_API UArray *IoObject_rawGetUArraySlot(IoObject *self,
-								IoObject *locals,
-								IoMessage *m,
-								IoSymbol *slotName);
+IOVM_API UArray *IoObject_rawGetUArraySlot(IoObject *self, IoObject *locals,
+                                           IoMessage *m, IoSymbol *slotName);
 
 IOVM_API UArray *IoObject_rawGetMutableUArraySlot(IoObject *self,
-								IoObject *locals,
-								IoMessage *m,
-								IoSymbol *slotName);
+                                                  IoObject *locals,
+                                                  IoMessage *m,
+                                                  IoSymbol *slotName);
 
 IOVM_API IO_METHOD(IoObject, become);
 
@@ -230,10 +237,11 @@ IOVM_API void IoObject_removeListener_(IoObject *self, void *listener);
 // persistence
 
 IOVM_API void IoObject_protoClean(IoObject *self);
-IOVM_API IoObject *IoObject_hasDirtySlot_(IoObject *self, IoMessage *m, IoObject *locals);
+IOVM_API IoObject *IoObject_hasDirtySlot_(IoObject *self, IoMessage *m,
+                                          IoObject *locals);
 IOVM_API IO_METHOD(IoObject, markClean);
 
-//IOVM_API PID_TYPE IoObject_pid(IoObject *self);
+// IOVM_API PID_TYPE IoObject_pid(IoObject *self);
 
 // asString helper
 

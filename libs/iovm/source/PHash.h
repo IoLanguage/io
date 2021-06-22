@@ -16,7 +16,7 @@
 #include "PortableStdint.h"
 
 /*
-#define BASEKIT_API 
+#define BASEKIT_API
 #define io_calloc calloc
 #define io_free free
 #define io_malloc malloc
@@ -36,7 +36,7 @@ void PHash_copy_(PHash *self, const PHash *other);
 PHash *PHash_clone(PHash *self);
 void PHash_free(PHash *self);
 
-//void PHash_at_put_(PHash *self, void *k, void *v);
+// void PHash_at_put_(PHash *self, void *k, void *v);
 void PHash_removeKey_(PHash *self, void *k);
 IOVM_API size_t PHash_size(PHash *self); // actually the keyCount
 
@@ -45,13 +45,13 @@ void PHash_compact(PHash *self);
 
 // --- private methods ----------------------------------------
 
-IOVM_API void PHash_setSize_(PHash *self, size_t size); 
-IOVM_API void PHash_insert_(PHash *self, PHashRecord *x); 
-IOVM_API void PHash_grow(PHash *self); 
-//void PHash_shrinkIfNeeded(PHash *self); 
-IOVM_API void PHash_shrink(PHash *self); 
+IOVM_API void PHash_setSize_(PHash *self, size_t size);
+IOVM_API void PHash_insert_(PHash *self, PHashRecord *x);
+IOVM_API void PHash_grow(PHash *self);
+// void PHash_shrinkIfNeeded(PHash *self);
+IOVM_API void PHash_shrink(PHash *self);
 IOVM_API void PHash_show(PHash *self);
-IOVM_API void PHash_updateMask(PHash *self); 
+IOVM_API void PHash_updateMask(PHash *self);
 
 #include "PHash_inline.h"
 

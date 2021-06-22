@@ -105,4 +105,3 @@ IOVM_API IO_METHOD(IoSeq, occurrencesOfSeq);
 // encoding
 
 IOVM_API IO_METHOD(IoSeq, asBase64);
-

@@ -1,6 +1,6 @@
 
-//metadoc Sequence copyright Steve Dekorte 2002
-//metadoc Sequence license BSD revised
+// metadoc Sequence copyright Steve Dekorte 2002
+// metadoc Sequence license BSD revised
 
 #ifdef IOSEQ_C
 #define IO_IN_C_FILE
@@ -11,7 +11,7 @@
 /*
 IOINLINE int ISMUTABLESEQ(IoObject *self)
 {
-	return ISSEQ(self) && !(IoObject_isSymbol(self));
+        return ISSEQ(self) && !(IoObject_isSymbol(self));
 }
 */
 

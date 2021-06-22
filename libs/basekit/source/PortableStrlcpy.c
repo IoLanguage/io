@@ -33,29 +33,26 @@
  * will be copied.  Always NUL terminates (unless len == 0).
  * Returns strlen(src); if retval >= len, truncation occurred.
  */
-size_t PortableStrlcpy(char* dest, const char* src, size_t len)
-{
-	char* d = dest;
-	const char* s = src;
-	size_t n = len;
+size_t PortableStrlcpy(char *dest, const char *src, size_t len) {
+    char *d = dest;
+    const char *s = src;
+    size_t n = len;
 
-	/* Copy as many bytes as will fit */
-	if (n != 0 && --n != 0)
-	{
-		do
-		{
-			if ((*d++ = *s++) == 0)
-				break;
-		} while (--n != 0);
-	}
+    /* Copy as many bytes as will fit */
+    if (n != 0 && --n != 0) {
+        do {
+            if ((*d++ = *s++) == 0)
+                break;
+        } while (--n != 0);
+    }
 
-	/* Not enough room in dest, add NUL and traverse rest of src */
-	if (n == 0)
-	{
-		if (len != 0)
-			*d = '\0'; /* NUL-terminate dest */
-		while (*s++);
-	}
+    /* Not enough room in dest, add NUL and traverse rest of src */
+    if (n == 0) {
+        if (len != 0)
+            *d = '\0'; /* NUL-terminate dest */
+        while (*s++)
+            ;
+    }
 
-	return (s - src - 1); /* count doesn't include NUL */
+    return (s - src - 1); /* count doesn't include NUL */
 }

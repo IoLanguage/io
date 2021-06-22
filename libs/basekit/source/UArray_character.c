@@ -1,6 +1,6 @@
 /*
-	copyright: Steve Dekorte, 2006. All rights reserved.
-	license: See _BSDLicense.txt.
+        copyright: Steve Dekorte, 2006. All rights reserved.
+        license: See _BSDLicense.txt.
 */
 
 #include "UArray.h"
@@ -9,8 +9,10 @@
 
 // set
 
-#define UARRAY_IOP(OP) \
-void UArray_ ## OP (UArray *self) { UARRAY_FOREACHASSIGN(self, i, v, OP((int)v)); }
+#define UARRAY_IOP(OP)                                                         \
+    void UArray_##OP(UArray *self) {                                           \
+        UARRAY_FOREACHASSIGN(self, i, v, OP((int)v));                          \
+    }
 
 UARRAY_IOP(isalnum);
 UARRAY_IOP(isalpha);
@@ -27,14 +29,12 @@ UARRAY_IOP(isxdigit);
 UARRAY_IOP(tolower);
 UARRAY_IOP(toupper);
 
-BASEKIT_API int UArray_isLowercase(UArray *self)
-{
-	UARRAY_INTFOREACH(self, i, v, if(v != tolower((int)v)) return 0);
-	return 1;
+BASEKIT_API int UArray_isLowercase(UArray *self) {
+    UARRAY_INTFOREACH(self, i, v, if (v != tolower((int)v)) return 0);
+    return 1;
 }
 
-BASEKIT_API int UArray_isUppercase(UArray *self)
-{
-	UARRAY_INTFOREACH(self, i, v, if(v != toupper((int)v)) return 0);
-	return 1;
+BASEKIT_API int UArray_isUppercase(UArray *self) {
+    UARRAY_INTFOREACH(self, i, v, if (v != toupper((int)v)) return 0);
+    return 1;
 }

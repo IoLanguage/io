@@ -1,5 +1,5 @@
-//metadoc Date copyright Steve Dekorte 2002
-//metadoc Date license BSD revised
+// metadoc Date copyright Steve Dekorte 2002
+// metadoc Date license BSD revised
 
 #include "Base.h"
 
@@ -15,10 +15,9 @@
 extern "C" {
 #endif
 
-typedef struct
-{
-	struct timeval  tv;
-	struct timezone tz;
+typedef struct {
+    struct timeval tv;
+    struct timezone tz;
 } Date;
 
 BASEKIT_API double Date_SecondsFrom1970ToNow(void);
@@ -79,11 +78,13 @@ BASEKIT_API double Date_secondsSince_(const Date *self, const Date *other);
 
 // format
 
-BASEKIT_API void Date_fromString_format_(Date *self, const char *s, const char *format);
+BASEKIT_API void Date_fromString_format_(Date *self, const char *s,
+                                         const char *format);
 
 // durations
 
-BASEKIT_API Duration *Date_newDurationBySubtractingDate_(const Date *self, const Date *other);
+BASEKIT_API Duration *Date_newDurationBySubtractingDate_(const Date *self,
+                                                         const Date *other);
 BASEKIT_API void Date_addDuration_(Date *self, const Duration *d);
 BASEKIT_API void Date_subtractDuration_(Date *self, const Duration *d);
 

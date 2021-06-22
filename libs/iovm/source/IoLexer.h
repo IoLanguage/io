@@ -1,7 +1,8 @@
 
-//metadoc Lexer copyrigth Steve Dekorte, 2003
-//metadoc Lexer license BSD revised
-//metadoc Lexer description The lexer takes source code and produces a token stream.
+// metadoc Lexer copyrigth Steve Dekorte, 2003
+// metadoc Lexer license BSD revised
+// metadoc Lexer description The lexer takes source code and produces a token
+// stream.
 
 #ifndef IOLEXER_DEFINED
 #define IOLEXER_DEFINED 1
@@ -16,19 +17,18 @@ extern "C" {
 
 typedef int uchar_t;
 
-typedef struct
-{
-	char *s;
-	char *current;
-	List *charLineIndex;
-	size_t lineHint;
-	size_t maxChar;
-	Stack *posStack;
-	Stack *tokenStack;
-	List *tokenStream;
-	size_t resultIndex;
-	IoToken *errorToken;
-	char *errorDescription;
+typedef struct {
+    char *s;
+    char *current;
+    List *charLineIndex;
+    size_t lineHint;
+    size_t maxChar;
+    Stack *posStack;
+    Stack *tokenStack;
+    List *tokenStream;
+    size_t resultIndex;
+    IoToken *errorToken;
+    char *errorDescription;
 } IoLexer;
 
 IoLexer *IoLexer_new(void);
@@ -66,7 +66,8 @@ int IoLexer_onNULL(IoLexer *self);
 
 int IoToken_grabLength(IoLexer *self);
 void IoToken_grabTokenType_(IoLexer *self, IoTokenType type);
-IoToken *IoLexer_addTokenString_length_type_(IoLexer *self, const char *s1, size_t len, IoTokenType type);
+IoToken *IoLexer_addTokenString_length_type_(IoLexer *self, const char *s1,
+                                             size_t len, IoTokenType type);
 
 // reading
 

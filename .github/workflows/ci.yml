@@ -1,0 +1,97 @@
+name: CI
+
+on: 
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  formatter:
+
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+
+      - name: Check format
+        uses: DoozyX/clang-format-lint-action@v0.12
+        with:
+          source: 'libs'
+          extensions: 'h,c'
+          style: file
+          clangFormatVersion: 12
+
+  unix:
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ macOS-latest, ubuntu-latest ]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+
+      # needed to test localy with nektos/act, don't delete it
+      # neither uncomment, because on Github the image already has build-essential
+      # - name: Install Makefile
+        # if: matrix.os == 'ubuntu-latest'
+        # run: |
+          # apt-get update -y
+          # apt-get install -y build-essential sudo git
+
+      - name: Setup cmake
+        uses: jwlawson/actions-setup-cmake@v1.9
+
+      - name: Build
+        run: |
+          mkdir build
+          cd build
+          cmake ..
+          make
+
+      - name: Install
+        run: |
+          cd build
+          sudo make install
+
+      - name: Test
+        run: |
+          cd build
+          ./_build/binaries/io --version
+          ./_build/binaries/io ../libs/iovm/tests/correctness/run.io
+
+  windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+
+      - name: Build
+        run: |
+          mkdir build
+          cd build
+          cmake -G"MinGW Makefiles" ..
+          make
+
+      - name: Install
+        run: |
+          cd build
+          make install
+
+      - name: Test
+        run: |
+          cd build
+          & _build/binaries/io_static.exe --% --version
+          & _build/binaries/io_static.exe --% ../libs/iovm/tests/correctness/run.io

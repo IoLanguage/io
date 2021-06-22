@@ -23,9 +23,9 @@
  */
 
 #ifndef UTF8INTERNAL_H
-#define UTF8INTERNAL_H 
+#define UTF8INTERNAL_H
 
-/**@IFILE utf8internal.h 
+/**@IFILE utf8internal.h
  * UTF-8 macros.
  *
  * @author Pekka Pessi <Pekka.Pessi@nokia.com>
@@ -33,53 +33,48 @@
  * @date Created: Tue Apr 21 15:32:02 1998 pessi
  */
 
-#define UTF8_ANALYZE(s, ascii, latin1, ucs2, ucs4, errors) \
-do {  \
-  if (s) while (*s) { \
-    utf8 c = *s++; \
-    if (IS_UTF8_1(c)) \
-      ascii++; \
-    else if (IS_UTF8_I(c)) { \
-      if (IS_UTF8_X(s[0])) \
-	latin1++, s++; \
-      else \
-	errors++; \
-    } \
-    else if (IS_UTF8_2(c)) { \
-      if (IS_UTF8_X(s[0])) \
-	ucs2++, s++; \
-      else \
-	errors++; \
-    } \
-    else if (IS_UTF8_3(c)) { \
-      if (IS_UTF8_X(s[0]) && IS_UTF8_X(s[1])) \
-	ucs2++, s++, s++; \
-      else \
-	errors++; \
-    } \
-    else if (IS_UTF8_4(c)) { \
-      if (IS_UTF8_X(s[0]) && IS_UTF8_X(s[1]) && IS_UTF8_X(s[2])) \
-	ucs4++, s++, s++, s++; \
-      else \
-	errors++; \
-    } \
-    else if (IS_UTF8_5(c)) { \
-      if (IS_UTF8_X(s[0]) && IS_UTF8_X(s[1]) &&  \
-	  IS_UTF8_X(s[2]) && IS_UTF8_X(s[3])) \
-	ucs4++, s++, s++, s++, s++; \
-      else \
-	errors++; \
-    } \
-    else if (IS_UTF8_6(c)) { \
-      if (IS_UTF8_X(s[0]) && IS_UTF8_X(s[1]) &&  \
-	  IS_UTF8_X(s[2]) && IS_UTF8_X(s[3]) && IS_UTF8_X(s[4])) \
-	ucs4++, s++, s++, s++, s++, s++; \
-      else \
-	errors++; \
-    } \
-    else \
-	errors++; \
-  } \
-} while(0)
+#define UTF8_ANALYZE(s, ascii, latin1, ucs2, ucs4, errors)                     \
+    do {                                                                       \
+        if (s)                                                                 \
+            while (*s) {                                                       \
+                utf8 c = *s++;                                                 \
+                if (IS_UTF8_1(c))                                              \
+                    ascii++;                                                   \
+                else if (IS_UTF8_I(c)) {                                       \
+                    if (IS_UTF8_X(s[0]))                                       \
+                        latin1++, s++;                                         \
+                    else                                                       \
+                        errors++;                                              \
+                } else if (IS_UTF8_2(c)) {                                     \
+                    if (IS_UTF8_X(s[0]))                                       \
+                        ucs2++, s++;                                           \
+                    else                                                       \
+                        errors++;                                              \
+                } else if (IS_UTF8_3(c)) {                                     \
+                    if (IS_UTF8_X(s[0]) && IS_UTF8_X(s[1]))                    \
+                        ucs2++, s++, s++;                                      \
+                    else                                                       \
+                        errors++;                                              \
+                } else if (IS_UTF8_4(c)) {                                     \
+                    if (IS_UTF8_X(s[0]) && IS_UTF8_X(s[1]) && IS_UTF8_X(s[2])) \
+                        ucs4++, s++, s++, s++;                                 \
+                    else                                                       \
+                        errors++;                                              \
+                } else if (IS_UTF8_5(c)) {                                     \
+                    if (IS_UTF8_X(s[0]) && IS_UTF8_X(s[1]) &&                  \
+                        IS_UTF8_X(s[2]) && IS_UTF8_X(s[3]))                    \
+                        ucs4++, s++, s++, s++, s++;                            \
+                    else                                                       \
+                        errors++;                                              \
+                } else if (IS_UTF8_6(c)) {                                     \
+                    if (IS_UTF8_X(s[0]) && IS_UTF8_X(s[1]) &&                  \
+                        IS_UTF8_X(s[2]) && IS_UTF8_X(s[3]) && IS_UTF8_X(s[4])) \
+                        ucs4++, s++, s++, s++, s++, s++;                       \
+                    else                                                       \
+                        errors++;                                              \
+                } else                                                         \
+                    errors++;                                                  \
+            }                                                                  \
+    } while (0)
 
 #endif /* UTF8INTERNAL_H */

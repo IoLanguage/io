@@ -1,5 +1,5 @@
-//metadoc Map copyright Steve Dekorte 2002
-//metadoc Map license BSD revised
+// metadoc Map copyright Steve Dekorte 2002
+// metadoc Map license BSD revised
 
 #ifndef IoMap_DEFINED
 #define IoMap_DEFINED 1
@@ -13,7 +13,8 @@
 extern "C" {
 #endif
 
-#define ISMAP(self) IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoMap_rawClone)
+#define ISMAP(self)                                                            \
+    IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoMap_rawClone)
 
 typedef IoObject IoMap;
 

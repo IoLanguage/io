@@ -1,5 +1,5 @@
-//metadoc File copyright Steve Dekorte 2002
-//metadoc File license BSD revised
+// metadoc File copyright Steve Dekorte 2002
+// metadoc File license BSD revised
 
 #ifndef IOSEQ_FNMATCH_DEFINED
 #define IOSEQ_FNMATCH_DEFINED 1

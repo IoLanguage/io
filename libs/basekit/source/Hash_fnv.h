@@ -76,12 +76,10 @@
 #if !defined(__FNV_H__)
 #define __FNV_H__
 
-
 /*
  * 32 bit FNV-0 hash type
  */
 typedef unsigned long Fnv32_t;
-
 
 /*
  * 32 bit FNV-0 zero initial basis
@@ -90,7 +88,6 @@ typedef unsigned long Fnv32_t;
  * the FNV-1 hash and initial basis instead.
  */
 #define FNV0_32_INIT ((Fnv32_t)0)
-
 
 /*
  * 32 bit FNV-1 and FNV-1a non-zero initial basis
@@ -107,12 +104,10 @@ typedef unsigned long Fnv32_t;
 #define FNV1_32_INIT ((Fnv32_t)0x811c9dc5)
 #define FNV1_32A_INIT FNV1_32_INIT
 
-
 /*
  * determine how 64 bit unsigned values are represented
  */
 //#include "longlong.h"
-
 
 /*
  * 64 bit FNV-0 hash
@@ -124,7 +119,6 @@ typedef struct {
     unsigned long w32[2];
 } Fnv64_t;
 #endif
-
 
 /*
  * 64 bit FNV-0 zero initial basis
@@ -138,7 +132,6 @@ typedef struct {
 extern const Fnv64_t fnv1_64_init;
 #define FNV0_64_INIT (fnv1_64_init)
 #endif
-
 
 /*
  * 64 bit FNV-1 non-zero initial basis
@@ -162,7 +155,6 @@ extern const Fnv64_t fnv1_64a_init;
 #define FNV1_64A_INIT FNV1_64_INIT
 #endif
 
-
 /*
  * external functions
  */
@@ -174,6 +166,5 @@ extern Fnv32_t fnv_32a_buf(void *buf, size_t len, Fnv32_t hashval);
 extern Fnv32_t fnv_32a_str(char *buf, Fnv32_t hashval);
 extern Fnv64_t fnv_64a_buf(void *buf, size_t len, Fnv64_t hashval);
 extern Fnv64_t fnv_64a_str(char *buf, Fnv64_t hashval);
-
 
 #endif /* __FNV_H__ */

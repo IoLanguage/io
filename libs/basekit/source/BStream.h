@@ -1,10 +1,10 @@
 /*
-copyright 
-	Steve Dekorte, 2004
+copyright
+        Steve Dekorte, 2004
 license
-	BSD revised
+        BSD revised
 description
-	A Binary Stream that supports tagged items.
+        A Binary Stream that supports tagged items.
 */
 
 #ifndef BSTREAM_DEFINED
@@ -18,17 +18,16 @@ description
 extern "C" {
 #endif
 
-//typedef struct UArray UArray;
+// typedef struct UArray UArray;
 
-typedef struct
-{
-	UArray *ba;
-	size_t index;
-	unsigned char ownsUArray;
-	UArray *tmp;
-	UArray *errorBa;
-	int flipEndian;
-	unsigned char *typeBuf;
+typedef struct {
+    UArray *ba;
+    size_t index;
+    unsigned char ownsUArray;
+    UArray *tmp;
+    UArray *errorBa;
+    int flipEndian;
+    unsigned char *typeBuf;
 } BStream;
 
 /*
@@ -60,7 +59,8 @@ BASEKIT_API void BStream_free(BStream *self);
 
 BASEKIT_API char *BStream_errorString(BStream *self);
 BASEKIT_API void BStream_setUArray_(BStream *self, UArray *ba);
-BASEKIT_API void BStream_setData_length_(BStream *self, unsigned char *data, size_t length);
+BASEKIT_API void BStream_setData_length_(BStream *self, unsigned char *data,
+                                         size_t length);
 BASEKIT_API UArray *BStream_byteArray(BStream *self);
 BASEKIT_API void BStream_empty(BStream *self);
 BASEKIT_API int BStream_isEmpty(BStream *self);
@@ -76,7 +76,9 @@ BASEKIT_API void BStream_writeInt32_(BStream *self, int32_t v);
 BASEKIT_API void BStream_writeInt64_(BStream *self, int64_t v);
 #endif
 BASEKIT_API void BStream_writeDouble_(BStream *self, double v);
-BASEKIT_API void BStream_writeData_length_(BStream *self, const unsigned char *data, size_t length);
+BASEKIT_API void BStream_writeData_length_(BStream *self,
+                                           const unsigned char *data,
+                                           size_t length);
 BASEKIT_API void BStream_writeCString_(BStream *self, const char *s);
 BASEKIT_API void BStream_writeUArray_(BStream *self, UArray *ba);
 
@@ -105,7 +107,9 @@ BASEKIT_API void BStream_writeTaggedInt32_(BStream *self, int32_t v);
 BASEKIT_API void BStream_writeTaggedInt64_(BStream *self, int64_t v);
 #endif
 BASEKIT_API void BStream_writeTaggedDouble_(BStream *self, double v);
-BASEKIT_API void BStream_writeTaggedData_length_(BStream *self, const unsigned char *data, size_t length);
+BASEKIT_API void BStream_writeTaggedData_length_(BStream *self,
+                                                 const unsigned char *data,
+                                                 size_t length);
 BASEKIT_API void BStream_writeTaggedCString_(BStream *self, const char *s);
 BASEKIT_API void BStream_writeTaggedUArray_(BStream *self, UArray *ba);
 
@@ -128,4 +132,3 @@ BASEKIT_API void BStream_show(BStream *self);
 }
 #endif
 #endif
-

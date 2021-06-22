@@ -1,6 +1,6 @@
 
-//metadoc Date copyright Steve Dekorte 2002
-//metadoc Date license BSD revised
+// metadoc Date copyright Steve Dekorte 2002
+// metadoc Date license BSD revised
 
 #ifndef IODATE_DEFINED
 #define IODATE_DEFINED 1
@@ -14,8 +14,9 @@
 extern "C" {
 #endif
 
-#define ISDATE(self) IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoDate_rawClone)
-#define IODATE(time) IoDate_newWithTime_((IoState*)IOSTATE, (time_t)time)
+#define ISDATE(self)                                                           \
+    IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoDate_rawClone)
+#define IODATE(time) IoDate_newWithTime_((IoState *)IOSTATE, (time_t)time)
 
 typedef IoObject IoDate;
 
@@ -28,8 +29,8 @@ IoDate *IoDate_rawClone(IoDate *self);
 void IoDate_free(IoDate *self);
 int IoDate_compare(IoDate *self, IoDate *other);
 
-//void IoDate_writeToStream_(IoDate *self, BStream *stream);
-//void IoDate_readFromStream_(IoDate *self, BStream *stream);
+// void IoDate_writeToStream_(IoDate *self, BStream *stream);
+// void IoDate_readFromStream_(IoDate *self, BStream *stream);
 
 double IoDate_difference_(IoDate *self, IoDate *other);
 
@@ -68,7 +69,7 @@ IO_METHOD(IoDate, isValidTime);
 IO_METHOD(IoDate, secondsSince_);
 IO_METHOD(IoDate, secondsSinceNow);
 IO_METHOD(IoDate, isPast);
-//IO_METHOD(IoDate, dateAfterSeconds_);
+// IO_METHOD(IoDate, dateAfterSeconds_);
 IO_METHOD(IoDate, printDate);
 
 // coversions

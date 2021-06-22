@@ -1,6 +1,6 @@
 
-//metadoc File copyright Steve Dekorte 2002
-//metadoc File license BSD revised
+// metadoc File copyright Steve Dekorte 2002
+// metadoc File license BSD revised
 
 #ifndef IOFILE_DEFINED
 #define IOFILE_DEFINED 1
@@ -15,18 +15,17 @@
 extern "C" {
 #endif
 
-#define ISFILE(self) \
-	IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoFile_rawClone)
+#define ISFILE(self)                                                           \
+    IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoFile_rawClone)
 
 typedef IoObject IoFile;
 
-typedef struct
-{
-	FILE *stream;
-	IoSymbol *path;
-	IoSymbol *mode;
-	unsigned char flags;
-	void *info; /* reserved for use in OS specific extensions */
+typedef struct {
+    FILE *stream;
+    IoSymbol *path;
+    IoSymbol *mode;
+    unsigned char flags;
+    void *info; /* reserved for use in OS specific extensions */
 } IoFileData;
 
 #define IOFILE_FLAGS_NONE 0x0
@@ -102,8 +101,8 @@ IO_METHOD(IoFile, atPut);
 IO_METHOD(IoFile, foreach);
 IO_METHOD(IoFile, foreachLine);
 
-//IoObject *IoFile_rawDo(IoFile *self, IoObject *context);
-//IO_METHOD(IoFile, do);
+// IoObject *IoFile_rawDo(IoFile *self, IoObject *context);
+// IO_METHOD(IoFile, do);
 
 /*
 IO_METHOD(IoFile, makeUnbuffered);

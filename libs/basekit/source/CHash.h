@@ -1,5 +1,5 @@
-//metadoc CHash copyright Steve Dekorte 2009
-//metadoc CHash license BSD revised
+// metadoc CHash copyright Steve Dekorte 2009
+// metadoc CHash license BSD revised
 
 #ifndef CHASH_DEFINED
 #define CHASH_DEFINED 1
@@ -13,26 +13,24 @@ extern "C" {
 #endif
 
 #define CHASH_MAXLOOP 5
-	
-typedef int (CHashEqualFunc)(void *, void *);
-typedef intptr_t (CHashHashFunc)(void *);
 
-typedef struct
-{
-	void *k;
-	void *v;
+typedef int(CHashEqualFunc)(void *, void *);
+typedef intptr_t(CHashHashFunc)(void *);
+
+typedef struct {
+    void *k;
+    void *v;
 } CHashRecord;
-	
-typedef struct
-{
-	unsigned char *records;
-	size_t size;
-	size_t keyCount;
-	CHashHashFunc *hash1;
-	CHashHashFunc *hash2;
-	CHashEqualFunc *equals;
-	intptr_t mask;
-	int isResizing;
+
+typedef struct {
+    unsigned char *records;
+    size_t size;
+    size_t keyCount;
+    CHashHashFunc *hash1;
+    CHashHashFunc *hash2;
+    CHashEqualFunc *equals;
+    intptr_t mask;
+    int isResizing;
 } CHash;
 
 BASEKIT_API CHash *CHash_new(void);
@@ -53,16 +51,15 @@ BASEKIT_API void CHash_compact(CHash *self);
 
 // private methods -------------------------------
 
-BASEKIT_API void CHash_setSize_(CHash *self, size_t size); 
-BASEKIT_API int CHash_insert_(CHash *self, CHashRecord *x); 
-BASEKIT_API void CHash_grow(CHash *self); 
-BASEKIT_API void CHash_shrink(CHash *self); 
+BASEKIT_API void CHash_setSize_(CHash *self, size_t size);
+BASEKIT_API int CHash_insert_(CHash *self, CHashRecord *x);
+BASEKIT_API void CHash_grow(CHash *self);
+BASEKIT_API void CHash_shrink(CHash *self);
 BASEKIT_API void CHash_show(CHash *self);
-BASEKIT_API void CHash_updateMask(CHash *self); 
-BASEKIT_API float CHash_density(CHash *self); 
+BASEKIT_API void CHash_updateMask(CHash *self);
+BASEKIT_API float CHash_density(CHash *self);
 
 #include "CHash_inline.h"
-
 
 #ifdef __cplusplus
 }

@@ -1,6 +1,6 @@
 
-//metadoc Sandbox copyright Steve Dekorte 2002
-//metadoc Sandbox license BSD revised
+// metadoc Sandbox copyright Steve Dekorte 2002
+// metadoc Sandbox license BSD revised
 
 #ifndef IoSandbox_DEFINED
 #define IoSandbox_DEFINED 1
@@ -15,8 +15,8 @@
 extern "C" {
 #endif
 
-#define ISSANDBOX(self) \
-	IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoSandbox_rawClone)
+#define ISSANDBOX(self)                                                        \
+    IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoSandbox_rawClone)
 
 typedef IoObject IoSandbox;
 
@@ -27,7 +27,8 @@ IoSandbox *IoSandbox_new(void *state);
 void IoSandbox_free(IoSandbox *self);
 void IoSandbox_mark(IoSandbox *self);
 
-IoNumber *IoSandbox_messageCount(IoSandbox *self, IoObject *locals, IoMessage *m);
+IoNumber *IoSandbox_messageCount(IoSandbox *self, IoObject *locals,
+                                 IoMessage *m);
 IO_METHOD(IoSandbox, setMessageCount);
 IoNumber *IoSandbox_timeLimit(IoSandbox *self, IoObject *locals, IoMessage *m);
 IO_METHOD(IoSandbox, setTimeLimit);

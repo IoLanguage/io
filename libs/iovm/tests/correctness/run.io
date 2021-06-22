@@ -12,8 +12,8 @@ if(System args size > 1,
             )
         ) ?showStack
     )
-    FileCollector run
+    System exit(FileCollector run size)
 ,
     # Run all tests in the current directory.
-    DirectoryCollector run
+    System exit(DirectoryCollector run size)
 )

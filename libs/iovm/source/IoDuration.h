@@ -1,6 +1,6 @@
 
-//metadoc Duration copyright Steve Dekorte 2002
-//metadoc Duration license BSD revised
+// metadoc Duration copyright Steve Dekorte 2002
+// metadoc Duration license BSD revised
 
 #ifndef IODURATION_DEFINED
 #define IODURATION_DEFINED 1
@@ -16,11 +16,13 @@ extern "C" {
 
 // extend message object
 
-#define ISDURATION(self) IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoDuration_rawClone)
+#define ISDURATION(self)                                                       \
+    IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoDuration_rawClone)
 
 typedef IoObject IoDuration;
 
-IoDuration *IoMessage_locals_durationArgAt_(IoMessage *self, void *locals, int n);
+IoDuration *IoMessage_locals_durationArgAt_(IoMessage *self, void *locals,
+                                            int n);
 
 IoDuration *IoDuration_proto(void *state);
 IoDuration *IoDuration_rawClone(IoDuration *self);

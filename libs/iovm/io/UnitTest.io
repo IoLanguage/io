@@ -59,7 +59,10 @@ TestRunner := Object clone do(
 
 /*doc TestRunner run(testMap)
 Runs all tests from a given Map object, where keys are names of the UnitTests
-to run and values - lists of test slots theese UnitTests provide.*/
+to run and values - lists of test slots theese UnitTests provide.
+
+Returns a `list` which is empty if the tests passed or contains exceptions on 
+failures.*/
     run := method(testMap,
         self cases := testMap # Storing a reference to the test map.
         self runtime := Date secondsToRun(
@@ -78,6 +81,8 @@ to run and values - lists of test slots theese UnitTests provide.*/
 
         printExceptions
         printSummary
+
+        self exceptions
     )
 
     printExceptions := method(
