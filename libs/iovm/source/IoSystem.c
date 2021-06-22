@@ -69,7 +69,7 @@ static void setenv(const char *varName, const char *value, int force) {
 }
 
 //#define setenv(k, v, o) SetEnvironmentVariable((k), (v)) // removed by james
-//burgess #define getpid GetCurrentProcessId  // removed by james burgess
+// burgess #define getpid GetCurrentProcessId  // removed by james burgess
 //#define setenv(k, v, o) SetEnvironmentVariable((k), (v))
 #endif
 

@@ -78,13 +78,6 @@ jobs:
         with:
           submodules: 'recursive'
 
-      - name: Check format
-        uses: DoozyX/clang-format-lint-action@v0.12
-        with:
-          source: 'libs'
-          extensions: 'h,c'
-          style: file
-
       - name: Build
         run: |
           mkdir build
