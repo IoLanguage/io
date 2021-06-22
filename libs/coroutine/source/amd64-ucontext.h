@@ -107,9 +107,9 @@ struct mcontext {
 #define _MC_FPFMT_NODEV 0x10000 /* device not present or configured */
 #define _MC_FPFMT_XMM 0x10002
     long mc_fpformat;
-#define _MC_FPOWNED_NONE 0x20000 /* FP state not used */
-#define _MC_FPOWNED_FPU 0x20001 /* FP state came from FPU */
-#define _MC_FPOWNED_PCB 0x20002 /* FP state came from PCB */
+#define _MC_FPOWNED_NONE 0x20000 // FP state not used
+#define _MC_FPOWNED_FPU 0x20001 // FP state came from FPU
+#define _MC_FPOWNED_PCB 0x20002 // FP state came from PCB
     long mc_ownedfp;
     /*
      * See <machine/fpu.h> for the internals of mc_fpstate[].
