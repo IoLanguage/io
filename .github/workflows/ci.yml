@@ -31,7 +31,10 @@ jobs:
           # apt-get install -y build-essential sudo git
 
       - name: Check format
-        uses: yshui/git-clang-format-lint@master
+        uses: DoozyX/clang-format-lint-action@v0.12
+        with:
+          source: 'libs'
+          extensions: 'h,c'
 
       - name: Setup cmake
         uses: jwlawson/actions-setup-cmake@v1.9
@@ -64,7 +67,10 @@ jobs:
           submodules: 'recursive'
 
       - name: Check format
-        uses: yshui/git-clang-format-lint@master
+        uses: DoozyX/clang-format-lint-action@v0.12
+        with:
+          source: 'libs'
+          extensions: 'h,c'
 
       - name: Build
         run: |
