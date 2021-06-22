@@ -25,6 +25,7 @@ jobs:
           source: 'libs'
           extensions: 'h,c'
           style: file
+          clangFormatVersion: 12
 
   build-unix:
 
