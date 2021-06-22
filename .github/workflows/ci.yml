@@ -35,7 +35,6 @@ jobs:
         with:
           source: 'libs'
           extensions: 'h,c'
-          style: 'llvm'
           clangFormatVersion: 12
 
       - name: Setup cmake
@@ -73,7 +72,6 @@ jobs:
         with:
           source: 'libs'
           extensions: 'h,c'
-          style: 'llvm'
           clangFormatVersion: 12
 
       - name: Build
