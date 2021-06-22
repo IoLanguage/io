@@ -27,7 +27,7 @@ jobs:
           style: file
           clangFormatVersion: 12
 
-  build-unix:
+  unix:
 
     runs-on: ${{ matrix.os }}
     strategy:
@@ -69,7 +69,7 @@ jobs:
           ./_build/binaries/io --version
           ./_build/binaries/io ../libs/iovm/tests/correctness/run.io
 
-  build-windows:
+  windows:
     runs-on: windows-latest
 
     steps:
