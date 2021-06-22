@@ -31,7 +31,7 @@ jobs:
           # apt-get install -y build-essential sudo git
 
       - name: Setup cmake
-        uses: jwlawson/actions-setup-cmake@v1.3
+        uses: jwlawson/actions-setup-cmake@v1.9
 
       - name: Build
         run: |
