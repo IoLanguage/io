@@ -7,13 +7,13 @@
 */
 
 #include "IoMessage_parser.h"
-#include "IoLexer.h"
-#include "IoMap.h"
 #include "IoMessage_opShuffle.h"
-#include "IoNumber.h"
 #include "IoObject.h"
 #include "IoSeq.h"
+#include "IoMap.h"
+#include "IoNumber.h"
 #include "IoState.h"
+#include "IoLexer.h"
 #include <ctype.h>
 
 #define DATA(self) ((IoMessageData *)IoObject_dataPointer(self))

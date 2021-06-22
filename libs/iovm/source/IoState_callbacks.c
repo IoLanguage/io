@@ -1,9 +1,9 @@
 #include "IoState.h"
 
-#include "IoCoroutine.h"
-#include "IoNumber.h"
 #include "IoObject.h"
+#include "IoCoroutine.h"
 #include "IoSeq.h"
+#include "IoNumber.h"
 #include "IoWeakLink.h"
 
 void IoState_setBindingsInitCallback(IoState *self,

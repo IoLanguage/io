@@ -5,8 +5,8 @@
 #define IoMap_DEFINED 1
 
 #include "Common.h"
-#include "IoList.h"
 #include "IoObject.h"
+#include "IoList.h"
 #include "PHash.h"
 
 #ifdef __cplusplus

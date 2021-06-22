@@ -7,9 +7,9 @@ Basic support for profiling Io code execution.
 */
 
 #include "IoProfiler.h"
-#include "IoBlock.h"
-#include "IoList.h"
 #include "IoNumber.h"
+#include "IoList.h"
+#include "IoBlock.h"
 
 typedef IoObject IoProfiler;
 

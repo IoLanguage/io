@@ -4,10 +4,10 @@
 */
 
 #include "UArray.h"
-#include <stdarg.h>
-#include <stddef.h>
-#include <stdio.h>
 #include <string.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <stddef.h>
 
 void UArray_appendPath_(UArray *self, const UArray *path) {
     const UArray sep = UArray_stackAllocedWithCString_(OS_PATH_SEPARATOR);

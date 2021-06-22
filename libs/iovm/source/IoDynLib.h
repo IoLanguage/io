@@ -10,10 +10,10 @@
 #define IODYNLIB_DEFINED 1
 
 #include "Common.h"
-#include "IoMessage.h"
 #include "IoObject.h"
-#include "IoSeq.h"
 #include "IoState.h"
+#include "IoSeq.h"
+#include "IoMessage.h"
 
 #ifdef __cplusplus
 extern "C" {

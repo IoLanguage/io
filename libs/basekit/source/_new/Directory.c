@@ -7,8 +7,8 @@
 #include <sys/stat.h>
 
 #ifndef _WIN32
-#include <dirent.h>
 #include <sys/types.h>
+#include <dirent.h>
 
 /*#ifdef __CYGWIN__*/
 #include <sys/file.h>

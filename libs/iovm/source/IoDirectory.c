@@ -13,10 +13,10 @@ Cygwin code by Mike Austin. WIN32 code by Daniel Vollmer.
 */
 
 #include "IoDirectory.h"
-#include "IoFile.h"
-#include "IoList.h"
-#include "IoNumber.h"
 #include "IoState.h"
+#include "IoNumber.h"
+#include "IoList.h"
+#include "IoFile.h"
 #include <sys/stat.h>
 
 #if !defined(_MSC_VER) && !defined(__SYMBIAN32__)
@@ -347,8 +347,6 @@ IO_METHOD(IoDirectory, items) {
     /*doc Directory items
     Returns a list object containing File and Directory objects
     for the files and directories of the receiver's path.
-
-**Note, the method does not guarantee any ordering.**
     */
 
     IoList *items = IoList_new(IOSTATE);

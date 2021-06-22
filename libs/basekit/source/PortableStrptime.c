@@ -36,15 +36,15 @@
 /* A few changes by Steve Dekorte:
  * - renamed function and moved En_US into function
  */
-#include "PortableStrptime.h"
 #include "Base.h"
+#include "PortableStrptime.h"
 
 /*#ifdef IO_NEEDS_STRPTIME*/
 
+#include <time.h>
 #include <ctype.h>
 #include <locale.h>
 #include <string.h>
-#include <time.h>
 
 #define asizeof(a) (sizeof(a) / sizeof((a)[0]))
 

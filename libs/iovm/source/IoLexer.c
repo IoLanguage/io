@@ -7,10 +7,10 @@ Aug 2004 - removed {} from op chars
 */
 
 #include "IoLexer.h"
-#include <ctype.h>
-#include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
+#include <stddef.h>
 
 //#define LEXER_DEBUG
 //#define LEXER_DEBUG_TOKENS

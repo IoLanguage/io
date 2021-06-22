@@ -1,5 +1,5 @@
-#include "IoNumber.h"
 #include "IoSeq.h"
+#include "IoNumber.h"
 
 #define IO_ASSERT_NOT_SYMBOL(self) IoAssertNotSymbol(self, m)
 

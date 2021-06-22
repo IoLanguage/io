@@ -5,10 +5,10 @@
 #ifndef IOLIST_DEFINED
 #define IOLIST_DEFINED 1
 
-#include "Common.h"
-#include "IoObject.h"
-#include "IoState.h"
 #include "IoVMApi.h"
+#include "Common.h"
+#include "IoState.h"
+#include "IoObject.h"
 #include "List.h"
 
 #ifdef __cplusplus

@@ -6,15 +6,15 @@
 A DLL Loader by Kentaro A. Kurahone.
 */
 
-#include "IoDynLib.h"
-#include "DynLib.h"
+#include "IoObject.h"
+#include "IoState.h"
+#include "IoSeq.h"
 #include "IoBlock.h"
+#include "IoNumber.h"
 #include "IoList.h"
 #include "IoMessage.h"
-#include "IoNumber.h"
-#include "IoObject.h"
-#include "IoSeq.h"
-#include "IoState.h"
+#include "IoDynLib.h"
+#include "DynLib.h"
 
 static const char *protoId = "DynLib";
 

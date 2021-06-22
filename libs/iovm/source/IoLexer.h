@@ -7,9 +7,9 @@
 #ifndef IOLEXER_DEFINED
 #define IOLEXER_DEFINED 1
 
-#include "IoToken.h"
 #include "List.h"
 #include "Stack.h"
+#include "IoToken.h"
 
 #ifdef __cplusplus
 extern "C" {

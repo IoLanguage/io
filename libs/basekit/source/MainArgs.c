@@ -1,12 +1,12 @@
 // metadoc MainArgs copyright Steve Dekorte 2002
 // metadoc MainArgs license BSD revised
 
-#include "MainArgs.h"
 #include "Base.h"
-#include "PortableStrlcpy.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "MainArgs.h"
+#include "PortableStrlcpy.h"
 
 MainArgs *MainArgs_new(void) {
     MainArgs *self = (MainArgs *)io_calloc(1, sizeof(MainArgs));

@@ -24,9 +24,9 @@ Generally, the more objects in your heap, the larger you'll want this number.
 */
 
 #include "IoCollector.h"
-#include "IoBlock.h"
-#include "IoList.h"
 #include "IoNumber.h"
+#include "IoList.h"
+#include "IoBlock.h"
 
 // static const char *protoId = "IoCollector";
 

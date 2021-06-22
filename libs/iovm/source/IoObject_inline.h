@@ -8,8 +8,8 @@
 #include "Common_inline.h"
 #ifdef IO_DECLARE_INLINES
 
-#include "IoState.h"
 #include "IoVMApi.h"
+#include "IoState.h"
 #include "PHash.h"
 
 #define Records_recordAt_(records, pos)                                        \

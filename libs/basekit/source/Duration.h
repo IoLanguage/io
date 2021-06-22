@@ -5,8 +5,8 @@
 #define DURATION_DEFINED 1
 
 #include "Common.h"
-#include "PortableGettimeofday.h"
 #include "UArray.h"
+#include "PortableGettimeofday.h"
 
 #ifdef __cplusplus
 extern "C" {

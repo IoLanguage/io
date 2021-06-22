@@ -28,16 +28,16 @@
 #endif
 #endif
 
-#include <assert.h>
 #include <errno.h>
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 #include <time.h>
 
 #ifndef _WIN32
+#include <unistd.h>
 #include <sys/time.h>
 #include <sys/types.h>
-#include <unistd.h>
 #ifndef __MINGW32__
 #include <sys/wait.h>
 #endif

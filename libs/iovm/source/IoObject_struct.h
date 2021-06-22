@@ -4,12 +4,11 @@
 #ifndef OBJECT_STRUCT_DEFINED
 #define OBJECT_STRUCT_DEFINED 1
 
-#include "BStream.h"
-#include "Collector.h"
 #include "Common.h"
-#include "IoMessage.h"
-#include "IoTag.h"
 #include "PHash_struct.h"
+#include "BStream.h"
+#include "IoTag.h"
+#include "Collector.h"
 
 #ifdef __cplusplus
 extern "C" {

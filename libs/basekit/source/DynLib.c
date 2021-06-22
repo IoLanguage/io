@@ -5,8 +5,8 @@
         Window fix, Chuck Adams, 2004-02-06
 */
 
-#include "DynLib.h"
 #include "Base.h"
+#include "DynLib.h"
 #include "PortableStrlcpy.h"
 
 #include <stdio.h>

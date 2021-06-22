@@ -9,8 +9,8 @@
 
 #include "Common.h"
 #include <stdarg.h>
-#include <stddef.h>
 #include <stdio.h>
+#include <stddef.h>
 
 #ifdef __cplusplus
 extern "C" {

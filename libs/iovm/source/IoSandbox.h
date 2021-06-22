@@ -6,9 +6,9 @@
 #define IoSandbox_DEFINED 1
 
 #include "Common.h"
-#include "IoNumber.h"
 #include "IoObject.h"
 #include "UArray.h"
+#include "IoNumber.h"
 //#include "IoSeq.h"
 
 #ifdef __cplusplus

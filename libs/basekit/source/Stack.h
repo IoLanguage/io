@@ -13,11 +13,11 @@
 #define STACK_DEFINED 1
 
 #include "Common.h"
-#include "List.h"
-#include <stddef.h>
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
+#include <stddef.h>
+#include "List.h"
 
 #ifdef __cplusplus
 extern "C" {

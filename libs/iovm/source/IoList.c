@@ -5,14 +5,15 @@
 A mutable array of values. The first index is 0.
 */
 
+#include <math.h>
 #include "IoList.h"
-#include "IoBlock.h"
-#include "IoCFunction.h"
-#include "IoNumber.h"
 #include "IoObject.h"
+#include "IoState.h"
+#include "IoCFunction.h"
 #include "IoSeq.h"
 #include "IoState.h"
-#include <math.h>
+#include "IoNumber.h"
+#include "IoBlock.h"
 
 static const char *protoId = "List";
 

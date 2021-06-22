@@ -4,10 +4,10 @@
 */
 
 #include "UArray.h"
-#include <stdarg.h>
-#include <stddef.h>
-#include <stdio.h>
 #include <string.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <stddef.h>
 
 UArray *UArray_newWithFormat_(const char *format, ...) {
     UArray *self;

@@ -2,10 +2,10 @@
 //--metadoc State copyright Steve Dekorte 2002
 //--metadoc State license BSD revised
 
-#include "IoObject.h"
 #include "IoState.h"
-#include "PortableGettimeofday.h"
+#include "IoObject.h"
 #include <time.h>
+#include "PortableGettimeofday.h"
 
 IoObject *IoState_tryToPerform(IoState *self, IoObject *target,
                                IoObject *locals, IoMessage *m) {

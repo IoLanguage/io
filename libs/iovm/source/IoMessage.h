@@ -5,13 +5,12 @@
 #ifndef IOMESSAGE_DEFINED
 #define IOMESSAGE_DEFINED 1
 
-#include "Common.h"
-#include "IoObject.h"
-#include "IoObject_struct.h"
-#include "IoTag.h"
 #include "IoVMApi.h"
+#include "Common.h"
 #include "List.h"
 #include "UArray.h"
+#include "IoTag.h"
+#include "IoObject_struct.h"
 
 #ifdef __cplusplus
 extern "C" {

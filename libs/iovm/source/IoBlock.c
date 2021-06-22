@@ -7,12 +7,12 @@ They are typically used to represent object methods.
 // metadoc Block category Core
 
 #include "IoBlock.h"
-#include "IoCFunction.h"
-#include "IoList.h"
 #include "IoMessage.h"
 #include "IoMessage_parser.h"
-#include "IoNumber.h"
+#include "IoCFunction.h"
 #include "IoSeq.h"
+#include "IoNumber.h"
+#include "IoList.h"
 #include "UArray.h"
 
 static const char *protoId = "Block";

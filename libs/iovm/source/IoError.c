@@ -6,8 +6,8 @@ An object that contains error information and flow control based on errors.
 */
 
 #include "IoError.h"
-#include "IoSeq.h"
 #include "IoState.h"
+#include "IoSeq.h"
 
 static const char *protoId = "Error";
 

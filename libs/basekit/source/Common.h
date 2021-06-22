@@ -9,9 +9,9 @@ These defines are helpful for doing OS specific checks in the code.
 #define IOCOMMON_DEFINED 1
 
 /*#define LOW_MEMORY_SYSTEM 1*/
-#include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stddef.h>
 
 #if defined(__SVR4) && defined(__sun)
 #include <inttypes.h>
@@ -132,8 +132,8 @@ as errors in my dev settings */
 #include <memory.h>
 
 /* strlen undefined */
-#include <malloc.h> /* for calloc */
 #include <string.h>
+#include <malloc.h> /* for calloc */
 #endif
 #else
 

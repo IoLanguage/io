@@ -4,13 +4,13 @@
 */
 
 #include "UArray.h"
-#include "utf8.h"
 #include "utf_convert.h"
-#include <assert.h>
-#include <stdarg.h>
-#include <stddef.h>
-#include <stdio.h>
 #include <string.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <stddef.h>
+#include "utf8.h"
+#include <assert.h>
 
 int UArray_MachineIsLittleEndian(void) {
     unsigned int i = 0x1;

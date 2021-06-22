@@ -7,10 +7,10 @@ A container for a duration of time.
 */
 
 #include "IoDuration.h"
-#include "IoCFunction.h"
-#include "IoNumber.h"
-#include "IoObject.h"
 #include "IoState.h"
+#include "IoCFunction.h"
+#include "IoObject.h"
+#include "IoNumber.h"
 #include <time.h>
 
 static const char *protoId = "Duration";

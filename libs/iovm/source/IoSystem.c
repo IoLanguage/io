@@ -6,8 +6,8 @@ Contains methods related to the IoVM.
 */
 
 #include "IoSystem.h"
-#include "IoMessage_parser.h"
 #include "IoNumber.h"
+#include "IoMessage_parser.h"
 #include "IoVersion.h"
 #ifndef WIN32
 #include "IoInstallPrefix.h"
@@ -69,7 +69,7 @@ static void setenv(const char *varName, const char *value, int force) {
 }
 
 //#define setenv(k, v, o) SetEnvironmentVariable((k), (v)) // removed by james
-// burgess #define getpid GetCurrentProcessId  // removed by james burgess
+//burgess #define getpid GetCurrentProcessId  // removed by james burgess
 //#define setenv(k, v, o) SetEnvironmentVariable((k), (v))
 #endif
 
@@ -152,12 +152,12 @@ IO_METHOD(IoObject, errorNumber)
 }
 */
 
-#include <errno.h>
 #include <stdio.h>
+#include <errno.h>
 
 #ifdef WIN32
-#include "IoError.h"
 #include <shellapi.h>
+#include "IoError.h"
 #include <stdint.h>
 IO_METHOD(IoObject, shellExecute) {
     LPCTSTR operation;

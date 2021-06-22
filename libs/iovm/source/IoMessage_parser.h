@@ -5,8 +5,8 @@
 #ifndef IOMESSAGE_PARSER_DEFINED
 #define IOMESSAGE_PARSER_DEFINED 1
 
-#include "IoLexer.h"
 #include "IoMessage.h"
+#include "IoLexer.h"
 
 #ifdef __cplusplus
 extern "C" {

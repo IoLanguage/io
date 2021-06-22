@@ -12,10 +12,10 @@
 */
 
 #include "IoWeakLink.h"
-#include "IoNumber.h"
-#include "IoObject.h"
 #include "IoSeq.h"
 #include "IoState.h"
+#include "IoObject.h"
+#include "IoNumber.h"
 
 static const char *protoId = "WeakLink";
 #define DATA(self) ((IoWeakLinkData *)IoObject_dataPointer(self))

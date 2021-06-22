@@ -7,8 +7,8 @@ Call stores slots related to activation.
 */
 
 #include "IoCall.h"
-#include "IoObject.h"
 #include "IoState.h"
+#include "IoObject.h"
 
 static const char *protoId = "Call";
 

@@ -32,13 +32,13 @@
         before the setjmp occurs would be helpful also.
  */
 
-#include "Coro.h"
 #include "Base.h"
-#include "taskimpl.h"
-#include <stddef.h>
+#include "Coro.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stddef.h>
+#include "taskimpl.h"
 
 #ifdef USE_VALGRIND
 #include <valgrind/valgrind.h>

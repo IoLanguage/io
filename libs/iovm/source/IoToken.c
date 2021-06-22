@@ -3,9 +3,9 @@
 // metadoc Token license BSD revised
 
 #include "IoToken.h"
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 IoToken *IoToken_new(void) {
     IoToken *self = (IoToken *)io_calloc(1, sizeof(IoToken));

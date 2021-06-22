@@ -4,10 +4,10 @@
 #ifndef IOWEAKLINK_DEFINED
 #define IOWEAKLINK_DEFINED 1
 
-#include "BStream.h"
 #include "Common.h"
-#include "IoMessage.h"
 #include "IoObject_struct.h"
+#include "IoMessage.h"
+#include "BStream.h"
 
 #ifdef __cplusplus
 extern "C" {

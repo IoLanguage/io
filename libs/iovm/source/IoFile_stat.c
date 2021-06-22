@@ -4,12 +4,12 @@
 // metadoc File credits Initial version contributed by Miles Egan.
 
 #include "IoFile_stat.h"
-#include "IoDate.h"
 #include "IoState.h"
+#include "IoDate.h"
 #include <errno.h>
 #include <stdio.h>
-#include <sys/stat.h>
 #include <sys/types.h>
+#include <sys/stat.h>
 
 #define DATA(self) ((IoFileData *)IoObject_dataPointer(self))
 

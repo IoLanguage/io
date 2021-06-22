@@ -1,8 +1,8 @@
 //--metadoc State copyright Steve Dekorte 2002
 //--metadoc State license BSD revised
 
-#include "IoObject.h"
 #include "IoState.h"
+#include "IoObject.h"
 
 IoObject *IoState_currentCoroutine(IoState *self) {
     return self->currentCoroutine;

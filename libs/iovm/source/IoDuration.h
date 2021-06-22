@@ -5,10 +5,10 @@
 #ifndef IODURATION_DEFINED
 #define IODURATION_DEFINED 1
 
+#include <sys/types.h>
 #include "Common.h"
 #include "Duration.h"
 #include "IoObject.h"
-#include <sys/types.h>
 
 #ifdef __cplusplus
 extern "C" {

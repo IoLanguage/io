@@ -25,8 +25,8 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "PortableStrlcpy.h"
 #include <sys/types.h>
+#include "PortableStrlcpy.h"
 
 /*
  * Copy src to string dest of size len.  At most len-1 characters

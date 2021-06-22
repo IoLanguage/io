@@ -12,8 +12,8 @@
 #include "IoVMApi.h"
 
 #include "Common.h"
-#include "IoObject.h"
 #include "IoState.h"
+#include "IoObject.h"
 
 #ifdef __cplusplus
 extern "C" {

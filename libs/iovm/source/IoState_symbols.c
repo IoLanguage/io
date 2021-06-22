@@ -2,10 +2,10 @@
 //--metadoc State copyright Steve Dekorte 2002
 //--metadoc State license BSD revised
 
-#include "IoNumber.h"
+#include "IoState.h"
 #include "IoObject.h"
 #include "IoSeq.h"
-#include "IoState.h"
+#include "IoNumber.h"
 
 #define MIN_CACHED_NUMBER -10
 #define MAX_CACHED_NUMBER 256

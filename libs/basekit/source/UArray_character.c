@@ -4,8 +4,8 @@
 */
 
 #include "UArray.h"
-#include <ctype.h>
 #include <math.h>
+#include <ctype.h>
 
 // set
 

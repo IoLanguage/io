@@ -7,10 +7,10 @@
 #include "PHash.h"
 #undef PHASH_C
 #include "IoObject.h"
-#include <assert.h>
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
+#include <assert.h>
 
 PHash *PHash_new(void) {
     PHash *self = (PHash *)io_calloc(1, sizeof(PHash));

@@ -2,10 +2,10 @@
 //--metadoc State copyright Steve Dekorte 2002
 //--metadoc State license BSD revised
 
-#include "IoCoroutine.h"
-#include "IoObject.h"
-#include "IoSeq.h"
 #include "IoState.h"
+#include "IoObject.h"
+#include "IoCoroutine.h"
+#include "IoSeq.h"
 
 //#define IOSTATE_SHOW_ERRORS 1
 

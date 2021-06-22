@@ -12,19 +12,21 @@ objects. When cloned, an Object will call its init slot (with no arguments).
 #define IOOBJECT_C
 #include "IoObject.h"
 #undef IOOBJECT_C
-#include "IoBlock.h"
-#include "IoCFunction.h"
 #include "IoCoroutine.h"
-#include "IoFile.h"
-#include "IoList.h"
+#include "IoTag.h"
+#include "IoCFunction.h"
+#include "IoSeq.h"
+#include "IoNumber.h"
 #include "IoMessage.h"
 #include "IoMessage_parser.h"
-#include "IoNumber.h"
+#include "IoCFunction.h"
+#include "IoBlock.h"
+#include "IoList.h"
 #include "IoObject.h"
+#include "IoFile.h"
 #include "IoSeq.h"
-#include "IoTag.h"
-#include <stddef.h>
 #include <string.h>
+#include <stddef.h>
 
 static const char *protoId = "Object";
 
@@ -93,7 +95,7 @@ size_t IoObject_memorySize(IoObject *self) {
 
     if (!ISNUMBER(self)) {
         //		if(IoObject_dataPointer(self)) size +=
-        // io_memsize(IoObject_dataPointer(self));
+        //io_memsize(IoObject_dataPointer(self));
     }
 
     return size;

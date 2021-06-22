@@ -8,18 +8,18 @@
 #include "IoVMApi.h"
 
 //#include "Collector.h"
-#include "CHash.h"
-#include "IoObject_struct.h"
-#include "MainArgs.h"
-#include "PointerHash.h"
-#include "RandomGen.h"
 #include "Stack.h"
+#include "PointerHash.h"
+#include "CHash.h"
+#include "MainArgs.h"
+#include "IoObject_struct.h"
+#include "RandomGen.h"
 #define COLLECTOROBJECTTYPE IoObjectData
 
 #include "Collector.h"
 
-#include "IoCoroutine.h"
 #include "IoSeq.h"
+#include "IoCoroutine.h"
 
 #define IOMESSAGE_INLINE_PERFORM 1
 //#define IO_BLOCK_LOCALS_RECYCLING 1
@@ -205,9 +205,9 @@ IOVM_API int IoState_exitResult(IoState *self);
 #include "IoState_coros.h"
 #include "IoState_debug.h"
 #include "IoState_eval.h"
+#include "IoState_symbols.h"
 #include "IoState_exceptions.h"
 #include "IoState_inline.h"
-#include "IoState_symbols.h"
 
 #ifdef __cplusplus
 }

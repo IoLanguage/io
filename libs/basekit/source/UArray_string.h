@@ -8,10 +8,10 @@
         license: See _BSDLicense.txt.
 */
 
-#include <stdarg.h>
-#include <stddef.h>
-#include <stdio.h>
 #include <string.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <stddef.h>
 
 BASEKIT_API void UArray_append_(UArray *self, const UArray *other);
 BASEKIT_API void UArray_appendCString_(UArray *self, const char *s);

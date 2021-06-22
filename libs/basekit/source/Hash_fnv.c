@@ -60,8 +60,8 @@
  * Share and Enjoy!	:-)
  */
 
-#include "Hash_fnv.h"
 #include <stdlib.h>
+#include "Hash_fnv.h"
 
 /*
  * 32 bit magic FNV-0 and FNV-1 prime

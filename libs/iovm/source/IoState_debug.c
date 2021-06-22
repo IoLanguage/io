@@ -1,5 +1,5 @@
-#include "IoObject.h"
 #include "IoState.h"
+#include "IoObject.h"
 #include "IoSystem.h"
 
 void IoState_show(IoState *self) {
@@ -72,8 +72,8 @@ void IoState_UserInterruptHandler(int sig) {
         // what could we do here to tell which IoState we are in?
         // send the interrupt to all of them? interactively let the user choose
         // one? interrupt the first stat created
-        printf("	Received signal but since multiple Io states are in "
-               "use\n");
+        printf(
+            "	Received signal but since multiple Io states are in use\n");
         printf(
             "	we don't know which state to send the signal to. Exiting.\n");
         exit(0);

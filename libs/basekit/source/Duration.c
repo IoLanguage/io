@@ -4,10 +4,10 @@
 #define DURATION_C
 #include "Duration.h"
 #undef DURATION_C
-#include <math.h>
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
+#include <math.h>
 
 typedef struct {
     double years;

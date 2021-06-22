@@ -5,13 +5,13 @@
 #define DATE_C
 #include "Date.h"
 #undef DATE_C
-#include "PortableStrptime.h"
-#include "UArray.h"
-#include <math.h>
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include <math.h>
+#include "PortableStrptime.h"
+#include "UArray.h"
 
 Date *Date_new(void) {
     Date *self = (Date *)io_calloc(1, sizeof(Date));

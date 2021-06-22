@@ -4,8 +4,8 @@
 */
 
 #include "UArray.h"
-#include <float.h>
 #include <math.h>
+#include <float.h>
 
 #define IO_USE_SIMD 1
 
@@ -501,8 +501,8 @@ void UArray_changed(UArray *self) {
 }
 
 #include "Hash_fnv.h"
-#include "Hash_murmur.h"
 #include "Hash_superfast.h"
+#include "Hash_murmur.h"
 
 uintptr_t UArray_superfastHash(UArray *self) {
     return SuperFastHash((char *)(self->data), (int)UArray_sizeInBytes(self));

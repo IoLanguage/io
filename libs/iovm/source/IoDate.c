@@ -6,12 +6,12 @@
 // metadoc Date credits fromString method by Sean Perry
 
 #include "IoDate.h"
+#include "IoState.h"
 #include "IoCFunction.h"
-#include "IoDuration.h"
-#include "IoNumber.h"
 #include "IoObject.h"
 #include "IoSeq.h"
-#include "IoState.h"
+#include "IoNumber.h"
+#include "IoDuration.h"
 #include "PortableStrptime.h"
 #include <string.h>
 #include <time.h>

@@ -6,9 +6,9 @@
 #define IODATE_DEFINED 1
 
 #include "Common.h"
-#include "Date.h"
 #include "IoObject.h"
 #include "IoSeq.h"
+#include "Date.h"
 
 #ifdef __cplusplus
 extern "C" {

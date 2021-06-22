@@ -77,9 +77,9 @@ check_c_source_runs("
 #define _GNU_SOURCE
 
 int main(){
-char buf[5];
-sprintf(buf, \"%f\", NAN);
-return strcmp(buf, \"nan\");
+	char buf[5];
+	sprintf(buf, \"%f\", NAN);
+	return strcmp(buf, \"nan\");
 }
 " HAVE_POSITIVE_NAN)
 if (NOT HAVE_POSITIVE_NAN)

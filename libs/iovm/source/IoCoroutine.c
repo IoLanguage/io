@@ -7,13 +7,13 @@ Object wrapper for an Io coroutine.
 */
 
 #include "IoCoroutine.h"
-#include "IoBlock.h"
-#include "IoCFunction.h"
-#include "IoList.h"
-#include "IoNumber.h"
 #include "IoObject.h"
-#include "IoSeq.h"
 #include "IoState.h"
+#include "IoCFunction.h"
+#include "IoSeq.h"
+#include "IoNumber.h"
+#include "IoList.h"
+#include "IoBlock.h"
 
 //#define DEBUG
 

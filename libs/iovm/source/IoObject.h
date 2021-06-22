@@ -23,8 +23,8 @@ extern "C" {
 
 #define ISOBJECT(self) IOOBJECT_ISTYPE(self, Object)
 
-#include "IoMessage.h"
 #include "IoObject_struct.h"
+#include "IoMessage.h"
 #include "IoSeq.h"
 
 IOVM_API IoObject *IoObject_proto(void *state);

@@ -11,9 +11,9 @@
 #define PHASH_DEFINED 1
 
 #include "Common.h"
+#include <stddef.h>
 #include "IoVMApi.h"
 #include "PortableStdint.h"
-#include <stddef.h>
 
 /*
 #define BASEKIT_API

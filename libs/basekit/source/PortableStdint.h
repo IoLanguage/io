@@ -184,9 +184,9 @@
 /* Use sys/stdint.h on Modern BSDs */
 #ifndef _SYS_STDINT_H_
 
+#include <stddef.h>
 #include <limits.h>
 #include <signal.h>
-#include <stddef.h>
 
 /*
  *  For gcc with _STDINT_H, fill in the PRINTF_INT*_MODIFIER macros, and
@@ -750,8 +750,8 @@ typedef ptrdiff_t intptr_t;
  *  defined more than once.
  */
 
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 
 #define glue3_aux(x, y, z) x##y##z

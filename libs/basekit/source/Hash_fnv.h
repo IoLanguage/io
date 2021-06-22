@@ -76,8 +76,6 @@
 #if !defined(__FNV_H__)
 #define __FNV_H__
 
-#include <stddef.h>
-
 /*
  * 32 bit FNV-0 hash type
  */

@@ -1,7 +1,7 @@
-#include "PortableGettimeofday.h"
-#include <sys/timeb.h>
-#include <sys/types.h>
 #include <time.h>
+#include <sys/types.h>
+#include <sys/timeb.h>
+#include "PortableGettimeofday.h"
 
 #if defined(__WIN32__) || defined(WIN32) || defined(_WIN32) || defined(_MSC_VER)
 

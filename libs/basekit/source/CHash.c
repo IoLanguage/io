@@ -6,10 +6,10 @@
 #define CHASH_C
 #include "CHash.h"
 #undef CHASH_C
-#include <assert.h>
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
+#include <assert.h>
 
 CHash *CHash_new(void) {
     CHash *self = (CHash *)io_calloc(1, sizeof(CHash));

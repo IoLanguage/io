@@ -6,10 +6,10 @@
 #define POINTERHASH_C
 #include "PointerHash.h"
 #undef POINTERHASH_C
-#include <assert.h>
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
+#include <assert.h>
 
 PointerHash *PointerHash_new(void) {
     PointerHash *self = (PointerHash *)io_calloc(1, sizeof(PointerHash));

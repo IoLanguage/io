@@ -4,13 +4,13 @@
 */
 
 #include "UArray.h"
-#include "cdecode.h"
 #include "cencode.h"
-#include <ctype.h>
-#include <stdarg.h>
-#include <stddef.h>
-#include <stdio.h>
+#include "cdecode.h"
 #include <string.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <stddef.h>
+#include <ctype.h>
 
 void UArray_append_(UArray *self, const UArray *other) {
     if (UArray_itemSize(self) < UArray_itemSize(other)) {

@@ -11,8 +11,8 @@
 #define POINTERHASH_DEFINED 1
 
 #include "Common.h"
-#include "PortableStdint.h"
 #include <stddef.h>
+#include "PortableStdint.h"
 
 #ifdef __cplusplus
 extern "C" {

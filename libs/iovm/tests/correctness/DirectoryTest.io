@@ -49,10 +49,8 @@ DirectoryTest := UnitTest clone do(
         # Checking that all the subdirectories are walked.
         found := list()
         testDir walk(f, if(f isKindOf(File), found append(f name)))
-        assertEquals(self files map(name) size, found size)
-        # the lists should be sorted as Directory walk doesn't guarantee
-        # ordering
-        assertEquals(self files map(name) sort, found sort)
+        assertEquals(3, found size)
+        assertEquals(self files map(name), found)
 
         # Checking that "." and ".." are excluded.
         found := list()
@@ -72,10 +70,7 @@ DirectoryTest := UnitTest clone do(
         assertEquals(3, files size)
         # File object comparison is not implemented, so we have to compare
         # the files by the name :/
-
-        # the lists should be sorted as Directory walk doesn't guarantee
-        # ordering
-        assertEquals(self files map(name) sort, files map(name) sort)
+        assertEquals(self files map(name), files map(name))
     )
 
     testFilesWithExtension := method(

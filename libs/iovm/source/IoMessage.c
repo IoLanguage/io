@@ -30,19 +30,20 @@ now.
 #define IOMESSAGE_C
 #include "IoMessage.h"
 #undef IOMESSAGE_C
-#include "IoBlock.h"
-#include "IoCFunction.h"
-#include "IoDate.h"
-#include "IoList.h"
-#include "IoMap.h"
-#include "IoMessage_opShuffle.h"
-#include "IoMessage_parser.h"
-#include "IoNumber.h"
 #include "IoSeq.h"
+#include "IoMap.h"
+#include "IoNumber.h"
 #include "IoState.h"
 #include "IoState_debug.h"
+#include "IoCFunction.h"
+#include "IoBlock.h"
+#include "IoList.h"
+#include "IoDate.h"
+#include "IoSeq.h"
 #include <ctype.h>
 #include <stdarg.h>
+#include "IoMessage_parser.h"
+#include "IoMessage_opShuffle.h"
 
 static const char *protoId = "Message";
 #define DATA(self) ((IoMessageData *)IoObject_dataPointer(self))

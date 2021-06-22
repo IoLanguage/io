@@ -3,8 +3,8 @@
 
 #include "IoMessage_opShuffle.h"
 #include "IoMap.h"
-#include "IoNumber.h"
 #include "IoObject.h"
+#include "IoNumber.h"
 #include "List.h"
 #include "PHash.h"
 #include <ctype.h>

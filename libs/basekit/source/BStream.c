@@ -11,11 +11,11 @@ license
 #include "BStream.h"
 //#undef BStream_C
 
-#include <ctype.h>
-#include <limits.h>
-#include <math.h>
-#include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
+#include <stdlib.h>
+#include <math.h>
+#include <limits.h>
 
 #define BSTREAM_IS_BIG_ENDIAN 1
 

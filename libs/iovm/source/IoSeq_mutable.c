@@ -19,14 +19,14 @@ character encoding
 #pragma GCC diagnostic ignored "-Wtautological-constant-out-of-range-compare"
 #endif
 
-#include "IoCFunction.h"
-#include "IoList.h"
-#include "IoMap.h"
-#include "IoMessage.h"
-#include "IoNumber.h"
-#include "IoObject.h"
 #include "IoSeq.h"
 #include "IoState.h"
+#include "IoCFunction.h"
+#include "IoObject.h"
+#include "IoNumber.h"
+#include "IoMessage.h"
+#include "IoList.h"
+#include "IoMap.h"
 #include <ctype.h>
 #include <errno.h>
 

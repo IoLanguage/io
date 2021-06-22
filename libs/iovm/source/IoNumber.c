@@ -11,13 +11,15 @@ A container for a double (a 64bit floating point number on most platforms).
 #endif
 
 #include "IoNumber.h"
-#include "IoDate.h"
 #include "IoObject.h"
+#include "IoState.h"
 #include "IoSeq.h"
+#include "IoSeq.h"
+#include "IoDate.h"
 #include "IoState.h"
 
-#include <assert.h>
 #include <ctype.h>
+#include <assert.h>
 
 #include <setjmp.h>
 #if defined(_BSD_PPC_SETJMP_H_)

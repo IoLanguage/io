@@ -55,11 +55,11 @@
  *
  **************************************************************/
 
+#include <string.h>
 #include <ctype.h>
+#include <sys/types.h>
 #include <stdarg.h>
 #include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
 
 #define NO_CONFIG_H 1
 #define HAVE_STRING_H 1
@@ -91,8 +91,8 @@
 #ifdef HAVE_CTYPE_H
 #include <ctype.h>
 #endif
-#include <stdarg.h>
 #include <sys/types.h>
+#include <stdarg.h>
 #ifdef HAVE_STDLIB_H
 #include <stdlib.h>
 #endif

@@ -6,17 +6,17 @@ A Sequence is a container for a list of data elements.
 Immutable Sequences are also called "Symbols".
 */
 
-#include "IoCFunction.h"
-#include "IoList.h"
-#include "IoMap.h"
-#include "IoMessage.h"
-#include "IoNumber.h"
-#include "IoObject.h"
 #include "IoSeq.h"
 #include "IoState.h"
-#include "parson.h"
+#include "IoCFunction.h"
+#include "IoObject.h"
+#include "IoNumber.h"
+#include "IoMessage.h"
+#include "IoList.h"
 #include <ctype.h>
 #include <errno.h>
+#include "parson.h"
+#include "IoMap.h"
 
 #define DATA(self) ((UArray *)IoObject_dataPointer(self))
 

@@ -7,11 +7,11 @@ Contains methods related to the compiling code.
 */
 
 #include "IoCompiler.h"
-#include "IoLexer.h"
-#include "IoList.h"
-#include "IoMessage_parser.h"
 #include "IoNumber.h"
+#include "IoMessage_parser.h"
+#include "IoLexer.h"
 #include "IoToken.h"
+#include "IoList.h"
 
 IoObject *IoCompiler_proto(void *state) {
     IoMethodTable methodTable[] = {

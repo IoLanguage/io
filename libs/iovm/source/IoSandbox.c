@@ -7,13 +7,14 @@ Sandbox can be used to run separate instances of Io within the same process.
 */
 
 #include "IoSandbox.h"
-#include "IoCFunction.h"
-#include "IoList.h"
-#include "IoObject.h"
 #include "IoSeq.h"
 #include "IoState.h"
-#include "PortableTruncate.h"
+#include "IoCFunction.h"
+#include "IoObject.h"
+#include "IoList.h"
+#include "IoSeq.h"
 #include "UArray.h"
+#include "PortableTruncate.h"
 #include <errno.h>
 #include <stdio.h>
 

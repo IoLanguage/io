@@ -1,6 +1,6 @@
 
-#include "IoNumber.h"
 #include "IoObject.h"
+#include "IoNumber.h"
 
 // loops ---------------------------------------
 

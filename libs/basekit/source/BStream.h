@@ -10,9 +10,9 @@ description
 #ifndef BSTREAM_DEFINED
 #define BSTREAM_DEFINED 1
 
-#include "BStreamTag.h"
 #include "Common.h"
 #include "UArray.h"
+#include "BStreamTag.h"
 
 #ifdef __cplusplus
 extern "C" {

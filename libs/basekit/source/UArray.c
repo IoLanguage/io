@@ -9,10 +9,10 @@ license: See _BSDLicense.txt.
 #include "UArray.h"
 #undef UArray_C
 
-#include <ctype.h>
-#include <limits.h>
-#include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
+#include <stdlib.h>
+#include <limits.h>
 
 size_t CTYPE_size(CTYPE type) {
     switch (type) {

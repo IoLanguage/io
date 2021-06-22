@@ -49,8 +49,8 @@
  Vol. 8, No. 1, January 1998, pp 3--30.
  */
 
-#include "RandomGen.h"
 #include "Base.h"
+#include "RandomGen.h"
 
 /* Period parameters */
 #define N RANDOMGEN_N
@@ -239,8 +239,8 @@ int main(void)
    This stuff added by Steve Dekorte, 2004 07 04
 */
 
-#include <stdlib.h>
 #include <time.h>
+#include <stdlib.h>
 
 RandomGen *RandomGen_new(void) {
     RandomGen *self = (RandomGen *)io_calloc(1, sizeof(RandomGen));

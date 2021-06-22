@@ -14,20 +14,21 @@ file close
 </pre>
 */
 
-#include "IoFile.h"
-#include "IoCFunction.h"
 #include "IoDate.h"
+#include "IoFile.h"
 #include "IoFile_stat.h"
-#include "IoList.h"
-#include "IoObject.h"
 #include "IoSeq.h"
 #include "IoState.h"
-#include "PortableTruncate.h"
+#include "IoCFunction.h"
+#include "IoObject.h"
+#include "IoList.h"
+#include "IoSeq.h"
 #include "UArray.h"
+#include "PortableTruncate.h"
 #include <errno.h>
 #include <stdio.h>
-#include <sys/stat.h>
 #include <sys/types.h>
+#include <sys/stat.h>
 /*#include <sys/wait.h>*/
 
 #if !defined(_MSC_VER) && !defined(__SYMBIAN32__)

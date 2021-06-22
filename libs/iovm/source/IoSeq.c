@@ -1,15 +1,15 @@
 #define IOSEQ_C
 #include "IoSeq.h"
 #undef IOSEQ_C
-#include "IoCFunction.h"
-#include "IoList.h"
-#include "IoMessage.h"
-#include "IoNumber.h"
-#include "IoObject.h"
-#include "IoSeq.h"
-#include "IoSeq_immutable.h"
 #include "IoSeq_mutable.h"
+#include "IoSeq_immutable.h"
 #include "IoState.h"
+#include "IoCFunction.h"
+#include "IoObject.h"
+#include "IoNumber.h"
+#include "IoMessage.h"
+#include "IoList.h"
+#include "IoSeq.h"
 #include <ctype.h>
 
 #define DATA(self) ((UArray *)(IoObject_dataPointer(self)))

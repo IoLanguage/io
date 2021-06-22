@@ -7,13 +7,14 @@ A key/value dictionary appropriate for holding large key/value collections.
 */
 
 #include "IoMap.h"
-#include "IoBlock.h"
-#include "IoCFunction.h"
-#include "IoList.h"
-#include "IoNumber.h"
 #include "IoObject.h"
+#include "IoState.h"
+#include "IoCFunction.h"
 #include "IoSeq.h"
 #include "IoState.h"
+#include "IoNumber.h"
+#include "IoList.h"
+#include "IoBlock.h"
 
 static const char *protoId = "Map";
 
