@@ -148,13 +148,18 @@ cd build/
 cmake ..         # This populates the build folder with a Makefile and all of the related things necessary to begin building
 ```
 
-In a production environment, pass the flag `-DCMAKE_BUILD_TYPE=release` to the `cmake` command to ensure that the C compiler does the proper optimizations. Without this flag, Io is built in debug mode without standard C optimizations.
+In a production environment, pass the flag `-DCMAKE_BUILD_TYPE=release` to the
+`cmake` command to ensure that the C compiler does the proper optimizations.
+Without this flag, Io is built in debug mode without standard C optimizations.
 
-To install to a different folder than `/usr/local/bin/`, pass the flag `-DCMAKE_INSTALL_PREFIX=/path/to/your/folder/` to the `cmake` command.
+To install to a different folder than `/usr/local/bin/`, pass the flag
+`-DCMAKE_INSTALL_PREFIX=/path/to/your/folder/` to the `cmake` command.
 
-To build without Eerie, the Io package manager, pass the flag `-DWITHOUT_EERIE=1` to the `cmake` command.
+To build without Eerie, the Io package manager, pass the flag
+`-DWITHOUT_EERIE=1` to the `cmake` command.
 
-Once CMake has finished preparing the build environment, ensure you are inside the build folder, and run:
+Once CMake has finished preparing the build environment, ensure you are inside
+the build folder, and run:
 
 ```
 make
@@ -293,11 +298,6 @@ the command:
 Installing Add-ons
 ===
 
-<<<<<<< HEAD
-Many of the common features provided by the Io language aren't prepackaged in the Io core. Instead, these features are contained in add-ons that get loaded when launching the Io VM. In the past, these add-ons were automatically installed by the build process, but now they must be installed through [Eerie](https://github.com/IoLanguage/eerie), the Io package manager.
-
-Most of these add-ons are housed under the IoLanguage group on GitHub: https://github.com/IoLanguage.
-=======
 Many of the common features provided by the Io language aren't prepackaged in
 the Io core. Instead, these features are contained in addons that get loaded
 when launching the Io VM. In the past, these addons were automatically installed
@@ -306,7 +306,6 @@ by the build process, but now they must be installed through
 
 Most of these addons are housed under the IoLanguage group on GitHub:
 https://github.com/IoLanguage.
->>>>>>> Fix PATH export during installation
 
 To install an addon, ensure both Io and Eerie are installed correctly, then run:
 
@@ -320,11 +319,7 @@ For example, to build and install the `Range` addon, run the command:
 eerie install https://github.com/IoLanguage/Range.git
 ```
 
-<<<<<<< HEAD
-To ensure that an addon is installed correctly, pull up an Io interpreter and type the name of the object provided by the addon. It should load dynamically and automatically into the interpreter session, populating a slot in `Lobby Protos Add-ons`.
-=======
 To ensure that an addon installed correctly, pull up an Io interpreter and type
 the name of the object provided by the addon. It should load dynamically and
 automatically into the interpreter session, populating a slot in `Lobby Protos
 Addons`.
->>>>>>> Fix PATH export during installation
