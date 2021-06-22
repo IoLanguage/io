@@ -1,19 +1,20 @@
-//metadoc Map copyright Steve Dekorte 2002
-//metadoc Map license BSD revised
+// metadoc Map copyright Steve Dekorte 2002
+// metadoc Map license BSD revised
 
 #ifndef IoMap_DEFINED
 #define IoMap_DEFINED 1
 
 #include "Common.h"
-#include "IoObject.h"
 #include "IoList.h"
+#include "IoObject.h"
 #include "PHash.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#define ISMAP(self) IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoMap_rawClone)
+#define ISMAP(self)                                                            \
+    IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoMap_rawClone)
 
 typedef IoObject IoMap;
 

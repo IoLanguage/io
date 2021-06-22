@@ -1,6 +1,6 @@
 
-//metadoc Call copyright Steve Dekorte 2002
-//metadoc Call license BSD revised
+// metadoc Call copyright Steve Dekorte 2002
+// metadoc Call license BSD revised
 
 #ifndef IoCall_DEFINED
 #define IoCall_DEFINED 1
@@ -12,28 +12,24 @@
 extern "C" {
 #endif
 
-#define ISACTIVATIONCONTEXT(self) IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoCall_rawClone)
+#define ISACTIVATIONCONTEXT(self)                                              \
+    IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoCall_rawClone)
 
 typedef IoObject IoCall;
 
-typedef struct
-{
-	IoObject *sender;
-	IoObject *message;
-	IoObject *target;
-	IoObject *slotContext;
-	IoObject *activated;
-	IoObject *coroutine;
-		int stopStatus;
+typedef struct {
+    IoObject *sender;
+    IoObject *message;
+    IoObject *target;
+    IoObject *slotContext;
+    IoObject *activated;
+    IoObject *coroutine;
+    int stopStatus;
 } IoCallData;
 
-IoCall *IoCall_with(void *state,
-					IoObject *sender,
-					IoObject *target,
-					IoObject *message,
-					IoObject *slotContext,
-					IoObject *activated,
-					IoObject *coroutine);
+IoCall *IoCall_with(void *state, IoObject *sender, IoObject *target,
+                    IoObject *message, IoObject *slotContext,
+                    IoObject *activated, IoObject *coroutine);
 
 IoCall *IoCall_proto(void *state);
 IoCall *IoCall_rawClone(IoCall *self);

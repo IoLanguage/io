@@ -1,6 +1,5 @@
 
 #include "IoBlock.h"
-#include "IoSeq.h"
 #include "IoCFunction.h"
 #include "IoCoroutine.h"
 #include "IoDate.h"
@@ -10,6 +9,6 @@
 #include "IoMessage.h"
 #include "IoMessage_parser.h"
 #include "IoObject.h"
-#include "IoState.h"
 #include "IoSeq.h"
+#include "IoState.h"
 #include "IoTag.h"

@@ -1,6 +1,6 @@
 
-//metadoc Context copyright Steve Dekorte 2002
-//metadoc Context license BSD revised
+// metadoc Context copyright Steve Dekorte 2002
+// metadoc Context license BSD revised
 
 #ifndef IOCONTEXT_DEFINED
 #define IOCONTEXT_DEFINED 1
@@ -11,12 +11,11 @@
 extern "C" {
 #endif
 
-typedef struct
-{
-	void *self;       // activationContext
-	void *locals;     // currentContext
-	void *message;
-	void *slotContext;
+typedef struct {
+    void *self;   // activationContext
+    void *locals; // currentContext
+    void *message;
+    void *slotContext;
 } IoContext;
 
 #define IOCONTEXT(self, locals, message) ((IoContext *){self, locals, message})
@@ -29,16 +28,14 @@ typedef struct
 
 example:
 
-	IO_METHOD(IoDuration, days);
+        IO_METHOD(IoDuration, days);
 
 becomes:
 
-	IoObject *IoDuration_days(IoContext *context);
+        IoObject *IoDuration_days(IoContext *context);
 */
 
 #ifdef __cplusplus
 }
 #endif
 #endif
-
-

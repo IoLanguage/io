@@ -15,16 +15,15 @@ extern "C" {
 typedef void DynLibNoArgFunction(void);
 typedef void DynLibOneArgFunction(void *arg);
 
-typedef struct
-{
-	char *path;
-	char *initFuncName;
-	void *initArg;
-	char *freeFuncName;
-	void *freeArg;
-	char *error;
-	void *handle;
-	int refCount;
+typedef struct {
+    char *path;
+    char *initFuncName;
+    void *initArg;
+    char *freeFuncName;
+    void *freeArg;
+    char *error;
+    void *handle;
+    int refCount;
 } DynLib;
 
 BASEKIT_API DynLib *DynLib_new(void);
@@ -47,7 +46,8 @@ BASEKIT_API char *DynLib_error(DynLib *self);
 BASEKIT_API void DynLib_open(DynLib *self);
 BASEKIT_API unsigned char DynLib_isOpen(DynLib *self);
 BASEKIT_API void DynLib_close(DynLib *self);
-BASEKIT_API void *DynLib_pointerForSymbolName_(DynLib *self, const char *symbolName);
+BASEKIT_API void *DynLib_pointerForSymbolName_(DynLib *self,
+                                               const char *symbolName);
 
 #ifdef __cplusplus
 }

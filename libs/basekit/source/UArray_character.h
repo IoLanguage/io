@@ -1,6 +1,6 @@
 /*
-	copyright: Steve Dekorte, 2006. All rights reserved.
-	license: See _BSDLicense.txt.
+        copyright: Steve Dekorte, 2006. All rights reserved.
+        license: See _BSDLicense.txt.
 */
 
 BASEKIT_API void UArray_isalnum(UArray *self);

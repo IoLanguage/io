@@ -60,14 +60,13 @@
  * Share and Enjoy!	:-)
  */
 
-#include <stdlib.h>
 #include "Hash_fnv.h"
+#include <stdlib.h>
 
 /*
  * 32 bit magic FNV-0 and FNV-1 prime
  */
 #define FNV_32_PRIME ((Fnv32_t)0x01000193)
-
 
 /*
  * fnv_32_buf - perform a 32 bit Fowler/Noll/Vo hash on a buffer
@@ -86,32 +85,30 @@
  * NOTE: To use the recommended 32 bit FNV-1 hash, use FNV1_32_INIT as the hval
  *	 argument on the first call to either fnv_32_buf() or fnv_32_str().
  */
-Fnv32_t
-fnv_32_buf(void *buf, size_t len, Fnv32_t hval)
-{
-    unsigned char *bp = (unsigned char *)buf;	/* start of buffer */
-    unsigned char *be = bp + len;		/* beyond end of buffer */
+Fnv32_t fnv_32_buf(void *buf, size_t len, Fnv32_t hval) {
+    unsigned char *bp = (unsigned char *)buf; /* start of buffer */
+    unsigned char *be = bp + len;             /* beyond end of buffer */
 
     /*
      * FNV-1 hash each octet in the buffer
      */
     while (bp < be) {
 
-	/* multiply by the 32 bit FNV magic prime mod 2^32 */
+        /* multiply by the 32 bit FNV magic prime mod 2^32 */
 #if defined(NO_FNV_GCC_OPTIMIZATION)
-	hval *= FNV_32_PRIME;
+        hval *= FNV_32_PRIME;
 #else
-	hval += (hval<<1) + (hval<<4) + (hval<<7) + (hval<<8) + (hval<<24);
+        hval += (hval << 1) + (hval << 4) + (hval << 7) + (hval << 8) +
+                (hval << 24);
 #endif
 
-	/* xor the bottom with the current octet */
-	hval ^= (Fnv32_t)*bp++;
+        /* xor the bottom with the current octet */
+        hval ^= (Fnv32_t)*bp++;
     }
 
     /* return our new hash value */
     return hval;
 }
-
 
 /*
  * fnv_32_str - perform a 32 bit Fowler/Noll/Vo hash on a string
@@ -129,25 +126,24 @@ fnv_32_buf(void *buf, size_t len, Fnv32_t hval)
  * NOTE: To use the recommended 32 bit FNV-1 hash, use FNV1_32_INIT as the hval
  *	 argument on the first call to either fnv_32_buf() or fnv_32_str().
  */
-Fnv32_t
-fnv_32_str(char *str, Fnv32_t hval)
-{
-    unsigned char *s = (unsigned char *)str;	/* unsigned string */
+Fnv32_t fnv_32_str(char *str, Fnv32_t hval) {
+    unsigned char *s = (unsigned char *)str; /* unsigned string */
 
     /*
      * FNV-1 hash each octet in the buffer
      */
     while (*s) {
 
-	/* multiply by the 32 bit FNV magic prime mod 2^32 */
+        /* multiply by the 32 bit FNV magic prime mod 2^32 */
 #if defined(NO_FNV_GCC_OPTIMIZATION)
-	hval *= FNV_32_PRIME;
+        hval *= FNV_32_PRIME;
 #else
-	hval += (hval<<1) + (hval<<4) + (hval<<7) + (hval<<8) + (hval<<24);
+        hval += (hval << 1) + (hval << 4) + (hval << 7) + (hval << 8) +
+                (hval << 24);
 #endif
 
-	/* xor the bottom with the current octet */
-	hval ^= (Fnv32_t)*s++;
+        /* xor the bottom with the current octet */
+        hval ^= (Fnv32_t)*s++;
     }
 
     /* return our new hash value */

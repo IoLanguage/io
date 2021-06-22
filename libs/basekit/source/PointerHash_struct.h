@@ -9,18 +9,16 @@
 extern "C" {
 #endif
 
-typedef struct
-{
-	void *k;
-	void *v;
+typedef struct {
+    void *k;
+    void *v;
 } PointerHashRecord;
-	
-typedef struct
-{
-	unsigned char *records;
-	size_t size;
-	size_t keyCount;
-	intptr_t mask;
+
+typedef struct {
+    unsigned char *records;
+    size_t size;
+    size_t keyCount;
+    intptr_t mask;
 } PointerHash;
 
 #ifdef __cplusplus

@@ -45,12 +45,6 @@ jobs:
           cd build
           sudo make install
 
-      - name: Install Eerie
-        run: |
-          cd build
-          export PATH=$PATH:_build/binaries/; . ./install_unix.sh
-          eerie -v
-
       - name: Test
         run: |
           cd build

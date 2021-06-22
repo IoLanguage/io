@@ -1,22 +1,22 @@
 
-//metadoc List copyright Steve Dekorte 2002
-//metadoc List license BSD revised
+// metadoc List copyright Steve Dekorte 2002
+// metadoc List license BSD revised
 
 #ifndef IOLIST_DEFINED
 #define IOLIST_DEFINED 1
 
-#include "IoVMApi.h"
 #include "Common.h"
-#include "IoState.h"
 #include "IoObject.h"
+#include "IoState.h"
+#include "IoVMApi.h"
 #include "List.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#define ISLIST(self) \
-	IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoList_rawClone)
+#define ISLIST(self)                                                           \
+    IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoList_rawClone)
 
 typedef IoObject IoList;
 
@@ -28,8 +28,8 @@ IOVM_API void IoList_free(IoList *self);
 IOVM_API void IoList_mark(IoList *self);
 IOVM_API int IoList_compare(IoList *self, IoList *otherList);
 
-//IOVM_API void IoList_writeToStream_(IoList *self, BStream *stream);
-//IOVM_API void IoList_readFromStream_(IoList *self, BStream *stream);
+// IOVM_API void IoList_writeToStream_(IoList *self, BStream *stream);
+// IOVM_API void IoList_readFromStream_(IoList *self, BStream *stream);
 
 IOVM_API List *IoList_rawList(IoList *self);
 IOVM_API IoObject *IoList_rawAt_(IoList *self, int i);
@@ -85,12 +85,11 @@ IOVM_API IO_METHOD(IoList, swapIndices);
 IOVM_API IO_METHOD(IoList, reverseInPlace);
 IOVM_API IO_METHOD(IoList, sortInPlace);
 IOVM_API IO_METHOD(IoList, sortInPlaceBy);
-IOVM_API IO_METHOD(IoList, selectInPlace);\
+IOVM_API IO_METHOD(IoList, selectInPlace);
 
 IOVM_API IO_METHOD(IoList, asEncodedList);
 IOVM_API IO_METHOD(IoList, fromEncodedList);
 IOVM_API IO_METHOD(IoList, join);
-
 
 #ifdef __cplusplus
 }

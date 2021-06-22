@@ -1,31 +1,30 @@
-//metadoc Block copyright Steve Dekorte 2002
-//metadoc Block license BSD revised
+// metadoc Block copyright Steve Dekorte 2002
+// metadoc Block license BSD revised
 
 #ifndef IOBLOCK_DEFINED
 #define IOBLOCK_DEFINED 1
 
 #include "Common.h"
-#include "List.h"
+#include "IoCall.h"
 #include "IoObject.h"
 #include "IoState.h"
-#include "IoCall.h"
-
+#include "List.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#define ISBLOCK(self) IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoBlock_rawClone)
+#define ISBLOCK(self)                                                          \
+    IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoBlock_rawClone)
 
 typedef IoObject IoBlock;
 
-typedef struct
-{
-	IoMessage *message;
-	List *argNames;
-	IoObject *scope; // if 0x0, then use target as the locals proto
-	int passStops;
-	clock_t profilerTime;
+typedef struct {
+    IoMessage *message;
+    List *argNames;
+    IoObject *scope; // if 0x0, then use target as the locals proto
+    int passStops;
+    clock_t profilerTime;
 } IoBlockData;
 
 IoBlock *IoBlock_proto(void *state);
@@ -35,12 +34,14 @@ void IoBlock_mark(IoBlock *self);
 void IoBlock_free(IoBlock *self);
 void IoBlock_message_(IoBlock *self, IoMessage *m);
 
-//void IoBlock_writeToStream_(IoBlock *self, BStream *stream);
-//void IoBlock_readFromStream_(IoBlock *self, BStream *stream);
+// void IoBlock_writeToStream_(IoBlock *self, BStream *stream);
+// void IoBlock_readFromStream_(IoBlock *self, BStream *stream);
 
 // calling
 
-IOVM_API IoObject *IoBlock_activate(IoBlock *self, IoObject *target, IoObject *locals, IoMessage *m, IoObject *slotContext);
+IOVM_API IoObject *IoBlock_activate(IoBlock *self, IoObject *target,
+                                    IoObject *locals, IoMessage *m,
+                                    IoObject *slotContext);
 IO_METHOD(IoBlock, print);
 
 UArray *IoBlock_justCode(IoBlock *self);

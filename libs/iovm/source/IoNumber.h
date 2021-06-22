@@ -1,6 +1,6 @@
 
-//metadoc Number copyright Steve Dekorte 2002
-//metadoc Number license BSD revised
+// metadoc Number copyright Steve Dekorte 2002
+// metadoc Number license BSD revised
 
 #ifndef IONUMBER_DEFINED
 #define IONUMBER_DEFINED 1
@@ -12,8 +12,8 @@
 #include "IoVMApi.h"
 
 #include "Common.h"
-#include "IoState.h"
 #include "IoObject.h"
+#include "IoState.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -23,7 +23,10 @@ extern "C" {
  * So 0/0, -0/0, 0/-0, -0/-0 all give -NaN.
  */
 #if defined(USE_BUILTIN_NAN) || !defined(NAN)
-static union { unsigned long long __c; double __d; } __nan_union = { 0x7ff8000000000000 };
+static union {
+    unsigned long long __c;
+    double __d;
+} __nan_union = {0x7ff8000000000000};
 #undef NAN
 #define NAN (__nan_union.__d)
 #endif
@@ -32,8 +35,9 @@ static union { unsigned long long __c; double __d; } __nan_union = { 0x7ff800000
 #define isnan _isnan
 #endif
 
-#define ISNUMBER(self) IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoNumber_rawClone)
-#define IONUMBER(num) IoState_numberWithDouble_((IoState*)IOSTATE, (double)num)
+#define ISNUMBER(self)                                                         \
+    IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoNumber_rawClone)
+#define IONUMBER(num) IoState_numberWithDouble_((IoState *)IOSTATE, (double)num)
 #define CNUMBER(self) IoObject_dataDouble((IoNumber *)self)
 
 #if defined WIN32 && !defined __MINGW32__
@@ -48,8 +52,8 @@ IOVM_API IoNumber *IoNumber_newWithDouble_(void *state, double n);
 IOVM_API IoNumber *IoNumber_newCopyOf_(IoNumber *number);
 IOVM_API void IoNumber_copyFrom_(IoNumber *self, IoNumber *number);
 
-//IOVM_API void IoNumber_writeToStream_(IoNumber *self, BStream *stream);
-//IOVM_API void *IoNumber_readFromStream_(IoNumber *self, BStream *stream);
+// IOVM_API void IoNumber_writeToStream_(IoNumber *self, BStream *stream);
+// IOVM_API void *IoNumber_readFromStream_(IoNumber *self, BStream *stream);
 
 IOVM_API void IoNumber_free(IoNumber *self);
 
@@ -60,7 +64,7 @@ IOVM_API double IoNumber_asDouble(IoNumber *self);
 IOVM_API float IoNumber_asFloat(IoNumber *self);
 IOVM_API int IoNumber_compare(IoNumber *self, IoNumber *v);
 IOVM_API void IoNumber_print(IoNumber *self);
-//void IoNumber_rawSet(IoNumber *self, double v);
+// void IoNumber_rawSet(IoNumber *self, double v);
 #define IoNumber_rawSet(self, v) CNUMBER(self) = v;
 
 // -----------------------------------------------------------
@@ -80,7 +84,7 @@ IOVM_API IO_METHOD(IoNumber, asString);
 IOVM_API IO_METHOD(IoNumber, justAsString);
 IOVM_API IO_METHOD(IoNumber, asCharacter);
 IOVM_API IO_METHOD(IoNumber, asUint32Buffer);
-//IO_METHOD(IoNumber, asDate);
+// IO_METHOD(IoNumber, asDate);
 
 // no arg methods
 
@@ -102,8 +106,8 @@ IOVM_API IO_METHOD(IoNumber, max);
 IOVM_API IO_METHOD(IoNumber, min);
 IOVM_API IO_METHOD(IoNumber, mod);
 
-//IO_METHOD(IoNumber, mod);
-//IO_METHOD(IoNumber, rad);
+// IO_METHOD(IoNumber, mod);
+// IO_METHOD(IoNumber, rad);
 
 IOVM_API IO_METHOD(IoNumber, pow);
 
@@ -118,8 +122,8 @@ IOVM_API IO_METHOD(IoNumber, cubed);
 
 IOVM_API IO_METHOD(IoNumber, tan);
 
-//IO_METHOD(IoNumber, frexp);
-//IO_METHOD(IoNumber, ldexp);
+// IO_METHOD(IoNumber, frexp);
+// IO_METHOD(IoNumber, ldexp);
 
 IOVM_API IO_METHOD(IoNumber, random);
 IOVM_API IO_METHOD(IoNumber, gaussianRandom);

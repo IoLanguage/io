@@ -1,20 +1,19 @@
-//metadoc Duration copyright Steve Dekorte 2002
-//metadoc Duration license BSD revised
+// metadoc Duration copyright Steve Dekorte 2002
+// metadoc Duration license BSD revised
 
 #ifndef DURATION_DEFINED
 #define DURATION_DEFINED 1
 
 #include "Common.h"
-#include "UArray.h"
 #include "PortableGettimeofday.h"
+#include "UArray.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-typedef struct
-{
-	double seconds;
+typedef struct {
+    double seconds;
 } Duration;
 
 BASEKIT_API Duration *Duration_new(void);
@@ -49,7 +48,8 @@ BASEKIT_API void Duration_fromSeconds_(Duration *self, double s);
 
 // strings
 
-BASEKIT_API UArray *Duration_asUArrayWithFormat_(const Duration *self, const char *format);
+BASEKIT_API UArray *Duration_asUArrayWithFormat_(const Duration *self,
+                                                 const char *format);
 BASEKIT_API void Duration_print(const Duration *self);
 
 // math

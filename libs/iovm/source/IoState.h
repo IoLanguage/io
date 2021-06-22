@@ -1,26 +1,25 @@
 
-//metadoc State copyright Steve Dekorte 2002
-//metadoc State license BSD revised
+// metadoc State copyright Steve Dekorte 2002
+// metadoc State license BSD revised
 
 #ifndef IOSTATE_DEFINED
 #define IOSTATE_DEFINED 1
 
-
 #include "IoVMApi.h"
 
 //#include "Collector.h"
-#include "Stack.h"
-#include "PointerHash.h"
 #include "CHash.h"
-#include "MainArgs.h"
 #include "IoObject_struct.h"
+#include "MainArgs.h"
+#include "PointerHash.h"
 #include "RandomGen.h"
+#include "Stack.h"
 #define COLLECTOROBJECTTYPE IoObjectData
 
 #include "Collector.h"
 
-#include "IoSeq.h"
 #include "IoCoroutine.h"
+#include "IoSeq.h"
 
 #define IOMESSAGE_INLINE_PERFORM 1
 //#define IO_BLOCK_LOCALS_RECYCLING 1
@@ -37,131 +36,130 @@ typedef struct IoState IoState;
 
 typedef IoObject *(IoStateProtoFunc)(void *);
 
-struct IoState
-{
-	RandomGen *randomGen;
-	PointerHash *primitives;
-	CHash *symbols;
+struct IoState {
+    RandomGen *randomGen;
+    PointerHash *primitives;
+    CHash *symbols;
 
-	// coroutines
+    // coroutines
 
-	IoObject *objectProto;
-	IoObject *mainCoroutine;    // the object that represents the main "thread"
-	IoObject *currentCoroutine; // the object whose coroutine is active
-	Stack *currentIoStack;      // quick access to current coro's retain stack
+    IoObject *objectProto;
+    IoObject *mainCoroutine;    // the object that represents the main "thread"
+    IoObject *currentCoroutine; // the object whose coroutine is active
+    Stack *currentIoStack;      // quick access to current coro's retain stack
 
-	// quick access objects
+    // quick access objects
 
-	IoSymbol *activateSymbol;
-	IoSymbol *callSymbol;
-	IoSymbol *forwardSymbol;
-	IoSymbol *noShufflingSymbol;
-	IoSymbol *opShuffleSymbol;
-	//IoSymbol *performSymbol;
-	//IoSymbol *referenceIdSymbol;
-	IoSymbol *semicolonSymbol;
-	IoSymbol *selfSymbol;
-	IoSymbol *setSlotSymbol;
-	IoSymbol *setSlotWithTypeSymbol;
-	IoSymbol *stackSizeSymbol;
-	IoSymbol *typeSymbol;
-	IoSymbol *updateSlotSymbol;
+    IoSymbol *activateSymbol;
+    IoSymbol *callSymbol;
+    IoSymbol *forwardSymbol;
+    IoSymbol *noShufflingSymbol;
+    IoSymbol *opShuffleSymbol;
+    // IoSymbol *performSymbol;
+    // IoSymbol *referenceIdSymbol;
+    IoSymbol *semicolonSymbol;
+    IoSymbol *selfSymbol;
+    IoSymbol *setSlotSymbol;
+    IoSymbol *setSlotWithTypeSymbol;
+    IoSymbol *stackSizeSymbol;
+    IoSymbol *typeSymbol;
+    IoSymbol *updateSlotSymbol;
 
-	IoSymbol *runTargetSymbol;
-	IoSymbol *runMessageSymbol;
-	IoSymbol *runLocalsSymbol;
-	IoSymbol *parentCoroutineSymbol;
-	IoSymbol *resultSymbol;
-	IoSymbol *exceptionSymbol;
+    IoSymbol *runTargetSymbol;
+    IoSymbol *runMessageSymbol;
+    IoSymbol *runLocalsSymbol;
+    IoSymbol *parentCoroutineSymbol;
+    IoSymbol *resultSymbol;
+    IoSymbol *exceptionSymbol;
 
-	IoObject *setSlotBlock;
-	IoObject *localsUpdateSlotCFunc;
-	IoObject *localsProto;
+    IoObject *setSlotBlock;
+    IoObject *localsUpdateSlotCFunc;
+    IoObject *localsProto;
 
-	IoMessage *asStringMessage;
-	IoMessage *collectedLinkMessage;
-	IoMessage *compareMessage;
-	//IoMessage *doStringMessage;
-	IoMessage *initMessage;
-	IoMessage *mainMessage;
-	IoMessage *nilMessage;
-	IoMessage *opShuffleMessage;
-	IoMessage *printMessage;
-	IoMessage *referenceIdForObjectMessage;
-	IoMessage *objectForReferenceIdMessage;
-	IoMessage *runMessage;
-	IoMessage *willFreeMessage;
-	IoMessage *yieldMessage;
-	IoMessage *didFinishMessage;
-	IoMessage *asBooleanMessage;
+    IoMessage *asStringMessage;
+    IoMessage *collectedLinkMessage;
+    IoMessage *compareMessage;
+    // IoMessage *doStringMessage;
+    IoMessage *initMessage;
+    IoMessage *mainMessage;
+    IoMessage *nilMessage;
+    IoMessage *opShuffleMessage;
+    IoMessage *printMessage;
+    IoMessage *referenceIdForObjectMessage;
+    IoMessage *objectForReferenceIdMessage;
+    IoMessage *runMessage;
+    IoMessage *willFreeMessage;
+    IoMessage *yieldMessage;
+    IoMessage *didFinishMessage;
+    IoMessage *asBooleanMessage;
 
-	List *cachedNumbers;
+    List *cachedNumbers;
 
-	// singletons
+    // singletons
 
-	IoObject *ioNil;
-	IoObject *ioTrue;
-	IoObject *ioFalse;
+    IoObject *ioNil;
+    IoObject *ioTrue;
+    IoObject *ioFalse;
 
-	// Flow control singletons
+    // Flow control singletons
 
-	IoObject *ioNormal;
-	IoObject *ioBreak;
-	IoObject *ioContinue;
-	IoObject *ioReturn;
-	IoObject *ioEol;
+    IoObject *ioNormal;
+    IoObject *ioBreak;
+    IoObject *ioContinue;
+    IoObject *ioReturn;
+    IoObject *ioEol;
 
-	// garbage collection
+    // garbage collection
 
-	Collector *collector;
-	IoObject *lobby;
-	IoObject *core;
+    Collector *collector;
+    IoObject *lobby;
+    IoObject *core;
 
-	// recycling
+    // recycling
 
-	List *recycledObjects;
-	size_t maxRecycledObjects;
+    List *recycledObjects;
+    size_t maxRecycledObjects;
 
-	// startup environment
+    // startup environment
 
-	MainArgs *mainArgs;
+    MainArgs *mainArgs;
 
-	// current execution state
+    // current execution state
 
-	int stopStatus;
-	void *returnValue;
+    int stopStatus;
+    void *returnValue;
 
-	// embedding
+    // embedding
 
-	void *callbackContext;
-	IoStateBindingsInitCallback *bindingsInitCallback;
-	IoStatePrintCallback        *printCallback;
-	IoStateExceptionCallback    *exceptionCallback;
-	IoStateExitCallback         *exitCallback;
-	IoStateActiveCoroCallback   *activeCoroCallback;
+    void *callbackContext;
+    IoStateBindingsInitCallback *bindingsInitCallback;
+    IoStatePrintCallback *printCallback;
+    IoStateExceptionCallback *exceptionCallback;
+    IoStateExitCallback *exitCallback;
+    IoStateActiveCoroCallback *activeCoroCallback;
 
-	// debugger
+    // debugger
 
-	int debugOn;
-	IoObject *debugger;
-	IoMessage *vmWillSendMessage;
+    int debugOn;
+    IoObject *debugger;
+    IoMessage *vmWillSendMessage;
 
-	// SandBox limits
+    // SandBox limits
 
-	int messageCountLimit;
-	int messageCount;
-	double timeLimit;
-	double endTime;
+    int messageCountLimit;
+    int messageCount;
+    double timeLimit;
+    double endTime;
 
-	// exiting
+    // exiting
 
-	int shouldExit;
-	int exitResult;
+    int shouldExit;
+    int exitResult;
 
-	int receivedSignal;
-	int showAllMessages;
+    int receivedSignal;
+    int showAllMessages;
 
-	//CHash *profiler;
+    // CHash *profiler;
 };
 
 #define IOSTATE_STRUCT_DEFINED
@@ -169,17 +167,19 @@ struct IoState
 // setup
 
 IOVM_API IoState *IoState_new(void);
-IOVM_API void IoState_new_atAddress(void* address);
+IOVM_API void IoState_new_atAddress(void *address);
 IOVM_API void IoState_init(IoState *self);
 
 void IoState_setupQuickAccessSymbols(IoState *self);
 void IoState_setupCachedMessages(IoState *self);
 void IoState_setupSingletons(IoState *self);
-void IoState_registerProtoWithFunc_(IoState *self, IoObject *proto, const char *v);
+void IoState_registerProtoWithFunc_(IoState *self, IoObject *proto,
+                                    const char *v);
 
 // setup tags
 
-IOVM_API void IoState_registerProtoWithId_(IoState *self, IoObject *proto, const char *v);
+IOVM_API void IoState_registerProtoWithId_(IoState *self, IoObject *proto,
+                                           const char *v);
 IOVM_API IoObject *IoState_protoWithId_(IoState *self, const char *v);
 
 IOVM_API IoObject *IoState_protoWithName_(IoState *self, const char *name);
@@ -205,9 +205,9 @@ IOVM_API int IoState_exitResult(IoState *self);
 #include "IoState_coros.h"
 #include "IoState_debug.h"
 #include "IoState_eval.h"
-#include "IoState_symbols.h"
 #include "IoState_exceptions.h"
 #include "IoState_inline.h"
+#include "IoState_symbols.h"
 
 #ifdef __cplusplus
 }

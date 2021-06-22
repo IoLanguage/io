@@ -1,6 +1,6 @@
 
-//metadoc Compiler copyright Steve Dekorte 2002
-//metadoc Compiler license BSD revised
+// metadoc Compiler copyright Steve Dekorte 2002
+// metadoc Compiler license BSD revised
 
 #ifndef IoCompiler_DEFINED
 #define IoCompiler_DEFINED 1

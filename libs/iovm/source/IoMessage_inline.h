@@ -1,6 +1,6 @@
 
-//metadoc Message copyright Steve Dekorte 2002
-//metadoc Message license BSD revised
+// metadoc Message copyright Steve Dekorte 2002
+// metadoc Message license BSD revised
 
 #ifdef IOMESSAGE_C
 #define IO_IN_C_FILE
@@ -15,32 +15,32 @@
 
 IOINLINE IoSymbol *IoMessage_name(IoMessage *self)
 {
-	return IOMESSAGEDATA(self)->name;
+        return IOMESSAGEDATA(self)->name;
 }
 
 IOINLINE void IoMessage_addArg_(IoMessage *self, IoMessage *m)
 {
-	List_append_(IOMESSAGEDATA(self)->args, IOREF(m));
+        List_append_(IOMESSAGEDATA(self)->args, IOREF(m));
 }
 
 IOINLINE IoMessage *IoMessage_rawArgAt_(IoMessage *self, int n)
 {
-	return List_at_(IOMESSAGEDATA(self)->args, n);
+        return List_at_(IOMESSAGEDATA(self)->args, n);
 }
 
 IOINLINE IoSymbol *IoMessage_rawLabel(IoMessage *self)
 {
-	return IOMESSAGEDATA(self)->label;
+        return IOMESSAGEDATA(self)->label;
 }
 
 IOINLINE List *IoMessage_rawArgs(IoMessage *self)
 {
-	return IOMESSAGEDATA(self)->args;
+        return IOMESSAGEDATA(self)->args;
 }
 
 IOINLINE IoObject *IoMessage_name(self)
 {
-	return (((IoMessageData *)IoObject_dataPointer(self))->name);
+        return (((IoMessageData *)IoObject_dataPointer(self))->name);
 }
 
 */
