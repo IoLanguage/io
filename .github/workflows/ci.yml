@@ -78,16 +78,6 @@ jobs:
           cd build
           make install
 
-      - name: Install Eerie
-        run: |
-          cd build
-          & _build/binaries/io_static.exe --% setup.io
-
-      - name: Test Eerie runs
-        run: |
-          cd build
-          & _build/binaries/io_static.exe --% -e "System installPrefix println"
-
       - name: Test
         run: |
           cd build
