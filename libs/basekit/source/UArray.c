@@ -12,6 +12,7 @@ license: See _BSDLicense.txt.
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <limits.h>
 
 size_t CTYPE_size(CTYPE type) {
@@ -919,9 +920,9 @@ void UArray_at_putAll_(UArray *self, size_t pos, const UArray *other) {
             TYPE1 v1 = ((TYPE1 *)self->data)[i];                               \
             TYPE2 v2 = ((TYPE2 *)other->data)[i];                              \
             if (v1 != v2)                                                      \
-                return 0;                                                      \
+                return false;                                                  \
         }                                                                      \
-        return 1;                                                              \
+        return true;                                                           \
     }
 
 #define UARRAY_GT_TYPES(OP2, TYPE1, self, TYPE2, other)                        \
@@ -932,9 +933,9 @@ void UArray_at_putAll_(UArray *self, size_t pos, const UArray *other) {
             TYPE1 v1 = ((TYPE1 *)self->data)[i];                               \
             TYPE2 v2 = ((TYPE2 *)other->data)[i];                              \
             if (v1 < v2)                                                       \
-                return 0;                                                      \
+                return false;                                                  \
         }                                                                      \
-        return 1;                                                              \
+        return true;                                                           \
     }
 
 #define UARRAY_LT_TYPES(OP2, TYPE1, self, TYPE2, other)                        \
@@ -945,9 +946,9 @@ void UArray_at_putAll_(UArray *self, size_t pos, const UArray *other) {
             TYPE1 v1 = ((TYPE1 *)self->data)[i];                               \
             TYPE2 v2 = ((TYPE2 *)other->data)[i];                              \
             if (v1 > v2)                                                       \
-                return 0;                                                      \
+                return false;                                                  \
         }                                                                      \
-        return 1;                                                              \
+        return true;                                                           \
     }
 
 int UArray_compare_(const UArray *self, const UArray *other) {
@@ -971,14 +972,14 @@ int UArray_compare_(const UArray *self, const UArray *other) {
     return 0;
 }
 
-int UArray_equals_(const UArray *self, const UArray *other) {
+bool UArray_equals_(const UArray *self, const UArray *other) {
     if (self->size != other->size)
-        return 0;
+        return false;
     DUARRAY_OP(UARRAY_EQ_TYPES, NULL, self, other);
-    return 0;
+    return false;
 }
 
-int UArray_greaterThan_(const UArray *self, const UArray *other) {
+bool UArray_greaterThan_(const UArray *self, const UArray *other) {
     if (self->encoding == CENCODING_NUMBER) {
         DUARRAY_OP(UARRAY_GT_TYPES, NULL, self, other);
     }
@@ -986,7 +987,7 @@ int UArray_greaterThan_(const UArray *self, const UArray *other) {
     return UArray_compare_(self, other) > 0;
 }
 
-int UArray_lessThan_(const UArray *self, const UArray *other) {
+bool UArray_lessThan_(const UArray *self, const UArray *other) {
     if (self->encoding == CENCODING_NUMBER) {
         DUARRAY_OP(UARRAY_LT_TYPES, NULL, self, other);
     }
@@ -994,33 +995,33 @@ int UArray_lessThan_(const UArray *self, const UArray *other) {
     return UArray_compare_(self, other) < 0;
 }
 
-int UArray_greaterThanOrEqualTo_(const UArray *self, const UArray *other) {
+bool UArray_greaterThanOrEqualTo_(const UArray *self, const UArray *other) {
     if (self->encoding == CENCODING_NUMBER) {
-        if (UArray_greaterThan_(self, other) | UArray_equals_(self, other)) {
-            return 1;
+        if (UArray_greaterThan_(self, other) || UArray_equals_(self, other)) {
+            return true;
         } else {
-            return 0;
+            return false;
         }
     }
 
     return UArray_compare_(self, other) >= 0;
 }
 
-int UArray_lessThanOrEqualTo_(const UArray *self, const UArray *other) {
+bool UArray_lessThanOrEqualTo_(const UArray *self, const UArray *other) {
     if (self->encoding == CENCODING_NUMBER) {
-        if (UArray_lessThan_(self, other) | UArray_equals_(self, other)) {
-            return 1;
+        if (UArray_lessThan_(self, other) || UArray_equals_(self, other)) {
+            return true;
         } else {
-            return 0;
+            return false;
         }
     }
 
     return UArray_compare_(self, other) <= 0;
 }
 
-int UArray_isZero(const UArray *self) {
-    UARRAY_FOREACH(self, i, v, if (v) return 0;)
-    return 1;
+bool UArray_isZero(const UArray *self) {
+    UARRAY_FOREACH(self, i, v, if (v) return false;)
+    return true;
 }
 
 // find
