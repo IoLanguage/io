@@ -170,9 +170,9 @@ BASEKIT_API bool UArray_equals_(const UArray *self, const UArray *other);
 BASEKIT_API bool UArray_greaterThan_(const UArray *self, const UArray *other);
 BASEKIT_API bool UArray_lessThan_(const UArray *self, const UArray *other);
 BASEKIT_API bool UArray_greaterThanOrEqualTo_(const UArray *self,
-                                             const UArray *other);
+                                              const UArray *other);
 BASEKIT_API bool UArray_lessThanOrEqualTo_(const UArray *self,
-                                          const UArray *other);
+                                           const UArray *other);
 BASEKIT_API bool UArray_isZero(const UArray *self);
 
 // contains
