@@ -621,9 +621,9 @@ void fgListRemove(SFG_List *list, SFG_Node *node)
 {
     SFG_Node *ln;
 
-    if( ln = (SFG_Node *)node->Next )
+    if( (ln = (SFG_Node *)node->Next) )
         ln->Prev = node->Prev;
-    if( ln = (SFG_Node *)node->Prev )
+    if( (ln = (SFG_Node *)node->Prev) )
         ln->Next = node->Next;
     if( (ln = (SFG_Node *)list->First) == node )
         list->First = node->Next;
