@@ -117,6 +117,24 @@ brew install io
 Note that this package may not be as updated as the version from the source
 repository.
 
+To install via Homebrew on an M1 Mac, first install Homebrew under x86_64, into /usr/local:
+
+```
+arch -x86_64 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+```
+
+Then install io with this installation of Homebrew:
+
+```
+arch -x86_64 /usr/local/Homebrew/bin/brew install io
+```
+
+Following that, you can run io under Rosetta 2 with:
+
+```
+arch -x86_64 io
+```
+
 From Source
 ---
 
