@@ -200,6 +200,10 @@ command.
 
 See the [Linux build instructions](#linux-build-instructions).
 
+Note: Building Io for arm64-based macOS machines is unsupported. To build and run
+on an M1 or newer, build Io for x86_64 by adding
+`-DCMAKE_OSX_ARCHITECTURES="x86_64"` to your CMake invocation.
+
 ### Windows Build Instructions
 
 You need CMake or CMake Cygwin (at least v2.8), depending on the building method
