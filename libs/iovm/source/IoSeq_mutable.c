@@ -12,13 +12,6 @@ character encoding
 */
 // metadoc Sequence category Core
 
-#pragma GCC diagnostic push
-
-// Suppresses incorrect warning from GCC about CTYPE never having value of -1
-#ifndef __MINGW64__
-#pragma GCC diagnostic ignored "-Wtautological-constant-out-of-range-compare"
-#endif
-
 #include "IoSeq.h"
 #include "IoState.h"
 #include "IoCFunction.h"
@@ -1442,4 +1435,3 @@ IoSeqMutateNoArgNoResultOp(ceil)
 
     IoObject_addMethodTable_(self, methodTable);
 }
-#pragma GCC pop

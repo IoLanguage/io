@@ -16,7 +16,7 @@ set(BASEKIT_LIBS)
 
 # Add dynamic loader library for those who need it
 if(${CMAKE_SYSTEM_NAME} MATCHES "(Darwin|Linux|SunOS|syllable)")
-	list(APPEND BASEKIT_LIBS "-ldl")
+	list(APPEND BASEKIT_LIBS dl m)
 endif(${CMAKE_SYSTEM_NAME} MATCHES "(Darwin|Linux|SunOS|syllable)")
 
 # Our library sources.

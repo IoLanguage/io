@@ -21,7 +21,7 @@
 # Require CMake 2.8. I know for sure that this will not work with CMake 2.6
 # due to the use of the FILE command we use when creating the bundle
 # hierarchy.
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8.12)
 
 # Mac OS X: Setting policy CMP0042 to the new behavior generates dylibs with
 # RPATH-relative install name that is better suited for Mac OS X applications
