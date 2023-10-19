@@ -108,7 +108,7 @@ CLI := Object clone do(
         outPrompt print
 
         if(exc := try(getSlot("result") asString println),
-            "<exception while dislaying result>" println
+            "<exception while displaying result>" println
             exc showStack
         )
     )
