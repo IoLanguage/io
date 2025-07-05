@@ -110,15 +110,25 @@ extern void makecontext(ucontext_t *, void (*)(), int, ...);
 #endif
 
 #if defined(__APPLE__)
+#if defined(__i386__)
 #define mcontext libthread_mcontext
 #define mcontext_t libthread_mcontext_t
 #define ucontext libthread_ucontext
 #define ucontext_t libthread_ucontext_t
-#if defined(__i386__)
 #include "386-ucontext.h"
 #elif defined(__x86_64__)
+#define mcontext libthread_mcontext
+#define mcontext_t libthread_mcontext_t
+#define ucontext libthread_ucontext
+#define ucontext_t libthread_ucontext_t
 #include "amd64-ucontext.h"
+#elif defined(__arm64__) || defined(__aarch64__)
+#include "arm64-ucontext.h"
 #else
+#define mcontext libthread_mcontext
+#define mcontext_t libthread_mcontext_t
+#define ucontext libthread_ucontext
+#define ucontext_t libthread_ucontext_t
 #include "power-ucontext.h"
 #endif
 #endif
