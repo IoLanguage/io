@@ -132,43 +132,5 @@ void Coro_switchTo_(Coro *self, Coro *next) {
         coro_arm64_setcontext((void*)to_context);
     }
     
-    // No return statement needed - when resuming this coroutine later,
-    // execution will continue from this point
-    
-    /* *********************************************************************************
-    arm64_context_t *from_context = (arm64_context_t *)&self->env;
-    arm64_context_t *to_context = (arm64_context_t *)&next->env;
-    
-    // Combined save/restore in a single inline assembly block to ensure proper flow
-    asm volatile(
-        // Save current context
-        "stp x19, x20, [%[from], #0]\n"   // Save x19, x20
-        "stp x21, x22, [%[from], #16]\n"  // Save x21, x22
-        "stp x23, x24, [%[from], #32]\n"  // Save x23, x24
-        "stp x25, x26, [%[from], #48]\n"  // Save x25, x26
-        "stp x27, x28, [%[from], #64]\n"  // Save x27, x28
-        "stp x29, x30, [%[from], #80]\n"  // Save fp (x29), lr (x30)
-        "mov x16, sp\n"                   // Get current stack pointer
-        "str x16, [%[from], #96]\n"       // Save stack pointer
-        
-        // Restore next context
-        "ldp x19, x20, [%[to], #0]\n"     // Restore x19, x20
-        "ldp x21, x22, [%[to], #16]\n"    // Restore x21, x22
-        "ldp x23, x24, [%[to], #32]\n"    // Restore x23, x24
-        "ldp x25, x26, [%[to], #48]\n"    // Restore x25, x26
-        "ldp x27, x28, [%[to], #64]\n"    // Restore x27, x28
-        "ldp x29, x30, [%[to], #80]\n"    // Restore fp (x29), lr (x30)
-        "ldr x16, [%[to], #96]\n"         // Get new stack pointer
-        "mov sp, x16\n"                   // Restore stack pointer
-        
-        : // No outputs
-        : [from] "r" (from_context), [to] "r" (to_context) // Inputs
-        : "x16", "memory" // Clobbers
-    );
-    
-    // No return statement needed - when resuming this coroutine later,
-    // execution will continue from this point
-
-    */
 }
 #endif
