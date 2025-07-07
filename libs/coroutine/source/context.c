@@ -1,5 +1,6 @@
 /* Copyright (c) 2005-2006 Russ Cox, MIT; see COPYRIGHT */
 
+#include <stdio.h>
 #include "taskimpl.h"
 
 #if defined(__APPLE__)
@@ -8,6 +9,9 @@
 #define NEEDSWAPCONTEXT
 #elif defined(__x86_64__)
 #define NEEDAMD64MAKECONTEXT
+#define NEEDSWAPCONTEXT
+#elif defined(__arm64__) || defined(__aarch64__)
+#define NEEDARM64MAKECONTEXT
 #define NEEDSWAPCONTEXT
 #else
 #define NEEDPOWERMAKECONTEXT
@@ -115,6 +119,7 @@ void makecontext(ucontext_t *uc, void (*fn)(void), int argc, ...) {
     uc->uc_mcontext.arm_lr = (uint)fn;
 }
 #endif
+
 
 #ifdef NEEDSWAPCONTEXT
 int swapcontext(ucontext_t *oucp, const ucontext_t *ucp) {

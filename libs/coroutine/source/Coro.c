@@ -65,6 +65,7 @@ typedef struct CallbackBlock {
 #endif
 } CallbackBlock;
 
+#if !defined(__arm64__) && !defined(__aarch64__)
 Coro *Coro_new(void) {
     Coro *self = (Coro *)io_calloc(1, sizeof(Coro));
     self->requestedStackSize = CORO_DEFAULT_STACK_SIZE;
@@ -566,6 +567,7 @@ end : {
 
 #endif
 
+#endif
 // old code
 
 /*

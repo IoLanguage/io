@@ -21,7 +21,8 @@
 # Require CMake 2.8. I know for sure that this will not work with CMake 2.6
 # due to the use of the FILE command we use when creating the bundle
 # hierarchy.
-cmake_minimum_required(VERSION 2.8.12)
+#cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.5)
 
 # Mac OS X: Setting policy CMP0042 to the new behavior generates dylibs with
 # RPATH-relative install name that is better suited for Mac OS X applications
@@ -34,15 +35,23 @@ endif()
 # spaces, or anything silly like that please.
 project(IoLanguage C)
 
+# Enable ASM language for ARM64 coroutine support
+enable_language(ASM)
+
 # Default config when building with gcc variants
 IF(CMAKE_COMPILER_IS_GNUCC OR (CMAKE_C_COMPILER_ID MATCHES "Clang"))
-	SET(CMAKE_BUILD_TYPE_DebugFast)
-	SET(CMAKE_CXX_FLAGS_DEBUGFAST "-g -O0")
-	SET(CMAKE_C_FLAGS_DEBUGFAST "-g -O0")
-	SET(CMAKE_C_FLAGS "-msse2")
-	if(NOT CMAKE_BUILD_TYPE)
-	        SET(CMAKE_BUILD_TYPE "DebugFast")
-	endif(NOT CMAKE_BUILD_TYPE)
+    SET(CMAKE_BUILD_TYPE_DebugFast)
+    SET(CMAKE_CXX_FLAGS_DEBUGFAST "-g -O0")
+    SET(CMAKE_C_FLAGS_DEBUGFAST "-g -O0")
+    
+    # Only use -msse2 flag for x86/x86_64 architectures.
+    if(NOT CMAKE_SYSTEM_PROCESSOR MATCHES "arm64|aarch64")
+        SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -msse2")
+    endif()
+    
+    if(NOT CMAKE_BUILD_TYPE)
+            SET(CMAKE_BUILD_TYPE "DebugFast")
+    endif(NOT CMAKE_BUILD_TYPE)
 ENDIF(CMAKE_COMPILER_IS_GNUCC OR (CMAKE_C_COMPILER_ID MATCHES "Clang"))
 
 MESSAGE(STATUS "Configuration set to: ${CMAKE_BUILD_TYPE}")

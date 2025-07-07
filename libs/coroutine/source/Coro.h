@@ -9,6 +9,11 @@
 #define USE_UCONTEXT 1
 #endif
 
+#if defined(__APPLE__) && (defined(__arm64__) || defined(__aarch64__))
+#include "arm64-ucontext.h"
+#define USE_UCONTEXT 1
+#endif
+
 #if defined(__FreeBSD__)
 #define HAS_UCONTEXT 1
 #endif

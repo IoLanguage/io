@@ -46,9 +46,10 @@ set(IO_SRCS
 
 # Hackery for CMake's horrible ASM support
 if(NOT ${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-	set(ASM_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/coroutine/source/asm.S)
-	set_source_files_properties(${ASM_SOURCES} PROPERTIES LANGUAGE C)
-endif(NOT ${CMAKE_SYSTEM_NAME} MATCHES "Windows")
+    # Always include asm.S for all architectures
+    set(ASM_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/coroutine/source/asm.S)
+    set_source_files_properties(${ASM_SOURCES} PROPERTIES LANGUAGE C)
+endif()
 
 # Object files from every lib. Used to create iovmall static library.
 file(GLOB COROUTINE_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/coroutine/source/*.c")
