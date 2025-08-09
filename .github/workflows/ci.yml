@@ -4,18 +4,22 @@ on:
   push:
     branches:
       - master
+      - main
+      - develop
   pull_request:
     branches:
       - master
+      - main
+      - develop
+  workflow_dispatch:
 
 jobs:
   formatter:
-
+    name: Code Formatting Check
     runs-on: ubuntu-latest
     steps:
-
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           submodules: 'recursive'
 
@@ -28,35 +32,36 @@ jobs:
           clangFormatVersion: 12
 
   unix:
-
+    name: Unix Build (${{ matrix.os }} - ${{ matrix.build_type }})
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [ macOS-latest, ubuntu-latest ]
+        build_type: [ Debug, Release ]
+        include:
+          # Test on Apple Silicon
+          - os: macos-14
+            build_type: Release
+          # Test on older macOS
+          - os: macos-12
+            build_type: Release
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           submodules: 'recursive'
 
-      # needed to test localy with nektos/act, don't delete it
-      # neither uncomment, because on Github the image already has build-essential
-      # - name: Install Makefile
-        # if: matrix.os == 'ubuntu-latest'
-        # run: |
-          # apt-get update -y
-          # apt-get install -y build-essential sudo git
-
       - name: Setup cmake
-        uses: jwlawson/actions-setup-cmake@v1.9
+        uses: jwlawson/actions-setup-cmake@v1.14
 
       - name: Build
         run: |
           mkdir build
           cd build
-          cmake ..
-          make
+          cmake -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} ..
+          make -j$([ "$(uname)" = "Darwin" ] && sysctl -n hw.ncpu || nproc)
 
       - name: Install
         run: |
@@ -68,6 +73,18 @@ jobs:
           cd build
           ./_build/binaries/io --version
           ./_build/binaries/io ../libs/iovm/tests/correctness/run.io
+        timeout-minutes: 10
+
+      - name: Test Samples
+        if: matrix.build_type == 'Release'
+        run: |
+          cd build
+          for sample in ../samples/misc/*.io; do
+            if [ -f "$sample" ]; then
+              echo "Testing: $(basename $sample)"
+              timeout 5s ./_build/binaries/io "$sample" || echo "Sample timed out or failed: $sample"
+            fi
+          done
 
   windows:
     runs-on: windows-latest
