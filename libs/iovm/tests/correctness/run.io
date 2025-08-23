@@ -5,8 +5,8 @@ if(System args size > 1,
     System args slice(1) foreach(name,
         try(
             if(name endsWithSeq(".io"),
-                # FIXME: This is platform dependent!
-                Lobby doFile(System launchPath .. "/" ..  name)
+                # Use Path for platform-independent file joining
+                Lobby doFile(Path with(System launchPath, name))
             ,
                 Lobby doString(name)
             )
