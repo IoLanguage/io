@@ -112,8 +112,7 @@ IoMessage *IoMessage_newParse(void *state, IoLexer *lexer) {
         IoMessage *self = IoMessage_newParseNextMessageChain(state, lexer);
 
         if (IoLexer_topType(lexer) != NO_TOKEN) {
-            // TODO: Exception as the end was expected
-            IoState_error_(state, self, "compile error: %s", "unused tokens");
+            IoState_error_(state, self, "compile error: %s", "unexpected token");
         }
 
         return self;
@@ -224,13 +223,13 @@ void IoMessage_parseArgs(IoMessage *self, IoLexer *lexer) {
             //	// Allow the last arg to be empty as in, "foo(a,b,c,)".
             //}
             else {
-                // TODO: Exception, missing message
+                IoState_error_(IOSTATE, self, "compile error: %s", "expected argument");
             }
         }
     }
 
     if (IoLexer_topType(lexer) != CLOSEPAREN_TOKEN) {
-        // TODO: Exception, missing close paren
+        IoState_error_(IOSTATE, self, "compile error: %s", "missing closing parenthesis");
     }
     IoLexer_pop(lexer);
 }
