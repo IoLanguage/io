@@ -3,9 +3,6 @@
 #
 # Build the coroutine library.
 
-# Output our dynamic library to the top-level _build hierarchy
-set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/_build/dll)
-
 # Definitions, love them.
 add_definitions("-DBUILDING_CORO_DLL")
 
@@ -32,16 +29,13 @@ endif(NOT ${CMAKE_SYSTEM_NAME} MATCHES "Windows")
 add_library(coroutine SHARED ${SRCS})
 set_target_properties(coroutine PROPERTIES PUBLIC_HEADER "${HEADERS}")
 
+# Now build the static library
+add_library(coroutine_static STATIC ${SRCS})
+set_target_properties(coroutine PROPERTIES PUBLIC_HEADER "${HEADERS}")
+
 # The following add the install target, so we put libcoroutine.* in
 # our install prefix.
-if(WIN32)
-    install(TARGETS coroutine
-        RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}
-        PUBLIC_HEADER DESTINATION include/io
-        )
-else()
-    install(TARGETS coroutine
-        LIBRARY DESTINATION lib
-        PUBLIC_HEADER DESTINATION include/io
-        )
-endif(WIN32)
+install (
+  TARGETS coroutine
+  FILE_SET HEADERS
+)

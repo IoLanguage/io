@@ -7,9 +7,9 @@ All rights reserved. See _License.txt.
 #include <stdlib.h>
 
 void showUsage(void) {
-    printf("usage: io2c ObjectName ParseFunctionName ioFile1 ioFile2 ...\n");
-    printf("output is sent to standard output\n");
-    printf("ParseFunctionName is either IoState_on_doCString_withLabel_ or "
+    fprintf(stderr, "usage: io2c ObjectName ParseFunctionName ioFile1 ioFile2 ...\n");
+    fprintf(stderr, "output is sent to standard output\n");
+    fprintf(stderr, "ParseFunctionName is either IoState_on_doCString_withLabel_ or "
            "IoState_on_doPackedCString_withLabel_\n\n");
 }
 
@@ -42,13 +42,12 @@ void quoteStream(FILE *in, FILE *out) {
     fputs("\";\n\n", out);
 }
 
-void processFile(const char *objectName, const char *fileName,
+void processFile(FILE* out, const char *objectName, const char *fileName,
                  const char *parseFunctionName) {
     FILE *in = fopen(fileName, "r");
-    FILE *out = stdout;
 
     if (!in) {
-        printf("unable to open input file %s\n", fileName);
+        fprintf(stderr, "unable to open input file %s\n", fileName);
         exit(-1);
     }
 
@@ -84,7 +83,7 @@ int main(int argc, const char *argv[]) {
 
         for (i = 3; i < argc; i++) {
             const char *fileName = argv[i];
-            processFile(objectName, fileName, parseFunctionName);
+            processFile(out, objectName, fileName, parseFunctionName);
         }
 
         fputs("}\n\n", out);
