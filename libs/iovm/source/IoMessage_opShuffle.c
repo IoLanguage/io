@@ -383,9 +383,15 @@ void Levels_attach(Levels *self, IoMessage *msg, List *expressions) {
 
             IoMessage *value = IoMessage_deepCopyOf_(DATA(msg)->next);
             IoMessage_rawSetNext_(value, NULL);
-
-            IoMessage *rest =
-                IoMessage_deepCopyOf_(DATA(DATA(msg)->next)->next);
+            // Step forward twice to the "next" part of the expression,
+            // which may be NULL, and make a copy.
+            IoMessage *rest = DATA(msg->next);
+            if (rest) {
+                rest = DATA(rest->next);
+            }
+            if (rest) {
+                rest = IoMessage_deepCopyOf_(rest);
+            }
             IoMessage_rawSetNext_(slotNameMessage, rest);
             IoMessage_addArg_(slotNameMessage, value);
 
