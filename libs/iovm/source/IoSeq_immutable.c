@@ -854,22 +854,21 @@ IO_METHOD(IoSeq, toBase) {
     /*doc Sequence toBase(aNumber)
     Returns a Sequence containing the receiver (which is
     assumed to be a base 10 number) converted to the specified base.
-    Only base 8 and 16 are currently supported.
     */
 
     const char *const table = "0123456789abcdefghijklmnopqrstuvwxyz";
     int base = IoMessage_locals_intArgAt_(m, locals, 0);
     char buf[64], *ptr = buf + 64;
-    unsigned long n = 0;
+    uintptr_t n = 0;
 
     if (base < 2 || base > 36) {
         IoState_error_(IOSTATE, m, "conversion to base %i not supported", base);
     }
 
 #if defined(_MSC_VER) || defined(__MINGW32__)
-    n = strtoul(IoSeq_asCString(self), NULL, 0);
+    n = (uintptr_t)strtoull(IoSeq_asCString(self), NULL, 0);
 #else
-    n = (unsigned long)IoSeq_asDouble(self);
+    n = (uintptr_t)IoSeq_asDouble(self);
 #endif
 
     /* Build the converted string backwards. */
