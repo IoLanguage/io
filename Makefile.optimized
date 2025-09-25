@@ -1,0 +1,163 @@
+# Optimized Makefile for Io Language on Mac
+# Provides simple commands for common build tasks
+
+.PHONY: all build clean test install help debug release quick bench setup
+
+# Default target
+all: build
+
+# Color output
+RED := \033[0;31m
+GREEN := \033[0;32m
+YELLOW := \033[1;33m
+BLUE := \033[0;34m
+NC := \033[0m
+
+# Detect system
+CORES := $(shell sysctl -n hw.ncpu)
+ARCH := $(shell uname -m)
+
+# Build directories
+BUILD_DIR := build
+BUILD_DEBUG_DIR := build-debug
+BUILD_RELEASE_DIR := build-release
+
+help:
+	@echo "$(BLUE)Io Language Build System$(NC)"
+	@echo ""
+	@echo "$(GREEN)Quick Commands:$(NC)"
+	@echo "  make              - Build Io (optimized for your Mac)"
+	@echo "  make quick        - Fast incremental build"
+	@echo "  make clean        - Clean build from scratch"
+	@echo "  make test         - Run test suite"
+	@echo ""
+	@echo "$(GREEN)Build Variants:$(NC)"
+	@echo "  make debug        - Debug build with symbols"
+	@echo "  make release      - Release build with max optimization"
+	@echo "  make bench        - Benchmark build with profiling"
+	@echo ""
+	@echo "$(GREEN)Installation:$(NC)"
+	@echo "  make install      - Install to /usr/local (requires sudo)"
+	@echo "  make setup        - Install build dependencies via Homebrew"
+	@echo ""
+	@echo "$(YELLOW)System: $(ARCH) with $(CORES) cores$(NC)"
+
+# Standard optimized build
+build:
+	@echo "$(BLUE)Building Io (optimized)...$(NC)"
+	@chmod +x build_optimized.sh
+	@./build_optimized.sh
+
+# Quick incremental build (no reconfigure)
+quick:
+	@echo "$(BLUE)Quick build...$(NC)"
+	@if [ -d "$(BUILD_DIR)" ]; then \
+		cd $(BUILD_DIR) && $(MAKE) -j$(CORES); \
+	else \
+		$(MAKE) build; \
+	fi
+
+# Clean build
+clean:
+	@echo "$(RED)Cleaning all build artifacts...$(NC)"
+	@rm -rf $(BUILD_DIR) $(BUILD_DEBUG_DIR) $(BUILD_RELEASE_DIR)
+	@rm -f io
+	@echo "$(GREEN)✓ Clean complete$(NC)"
+	@$(MAKE) build
+
+# Debug build
+debug:
+	@echo "$(BLUE)Building Io (debug mode)...$(NC)"
+	@mkdir -p $(BUILD_DEBUG_DIR)
+	@cd $(BUILD_DEBUG_DIR) && \
+		cmake -DCMAKE_BUILD_TYPE=Debug \
+			  -DCMAKE_C_FLAGS="-g -O0 -fsanitize=address" \
+			  -DCMAKE_EXE_LINKER_FLAGS="-fsanitize=address" \
+			  .. && \
+		$(MAKE) -j$(CORES)
+	@ln -sf $(BUILD_DEBUG_DIR)/_build/binaries/io io-debug
+	@echo "$(GREEN)✓ Debug build complete: ./io-debug$(NC)"
+
+# Release build with maximum optimization
+release:
+	@echo "$(BLUE)Building Io (release mode)...$(NC)"
+	@mkdir -p $(BUILD_RELEASE_DIR)
+	@cd $(BUILD_RELEASE_DIR) && \
+		cmake -DCMAKE_BUILD_TYPE=Release \
+			  -DCMAKE_C_FLAGS="-O3 -march=native -mtune=native -flto -DNDEBUG" \
+			  -DCMAKE_EXE_LINKER_FLAGS="-flto -Wl,-dead_strip_dylibs" \
+			  .. && \
+		$(MAKE) -j$(CORES)
+	@ln -sf $(BUILD_RELEASE_DIR)/_build/binaries/io io-release
+	@echo "$(GREEN)✓ Release build complete: ./io-release$(NC)"
+
+# Benchmark build
+bench: release
+	@echo "$(BLUE)Building with profiling support...$(NC)"
+	@cd $(BUILD_RELEASE_DIR) && \
+		cmake -DCMAKE_C_FLAGS="-O3 -march=native -pg" \
+			  -DCMAKE_EXE_LINKER_FLAGS="-pg" \
+			  .. && \
+		$(MAKE) -j$(CORES)
+	@echo "$(GREEN)✓ Benchmark build ready$(NC)"
+
+# Run tests
+test: build
+	@echo "$(BLUE)Running Io test suite...$(NC)"
+	@if [ -f "$(BUILD_DIR)/_build/binaries/io" ]; then \
+		$(BUILD_DIR)/_build/binaries/io libs/iovm/tests/correctness/run.io; \
+	else \
+		echo "$(RED)✗ Io not built. Run 'make build' first$(NC)"; \
+	fi
+
+# Install to system
+install: build
+	@echo "$(BLUE)Installing Io...$(NC)"
+	@cd $(BUILD_DIR) && sudo $(MAKE) install
+	@echo "$(GREEN)✓ Io installed to /usr/local$(NC)"
+
+# Setup development environment
+setup:
+	@echo "$(BLUE)Setting up development environment...$(NC)"
+	@command -v brew >/dev/null 2>&1 || { \
+		echo "$(YELLOW)Installing Homebrew...$(NC)"; \
+		/bin/bash -c "$$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"; \
+	}
+	@echo "$(YELLOW)Installing build dependencies...$(NC)"
+	@brew install cmake ninja ccache
+	@echo "$(GREEN)✓ Development environment ready$(NC)"
+
+# Benchmark runner
+benchmark: bench
+	@echo "$(BLUE)Running benchmarks...$(NC)"
+	@$(BUILD_RELEASE_DIR)/_build/binaries/io samples/speed/speed.io
+
+# Create Xcode project
+xcode:
+	@echo "$(BLUE)Generating Xcode project...$(NC)"
+	@mkdir -p build-xcode
+	@cd build-xcode && cmake -G Xcode ..
+	@echo "$(GREEN)✓ Xcode project created in build-xcode/$(NC)"
+	@echo "Open with: open build-xcode/IoLanguage.xcodeproj"
+
+# Development build with compile_commands.json for IDEs
+dev:
+	@echo "$(BLUE)Creating development build with IDE support...$(NC)"
+	@mkdir -p $(BUILD_DIR)
+	@cd $(BUILD_DIR) && \
+		cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
+			  -DCMAKE_BUILD_TYPE=Debug .. && \
+		$(MAKE) -j$(CORES)
+	@ln -sf $(BUILD_DIR)/compile_commands.json compile_commands.json
+	@echo "$(GREEN)✓ Development build ready with compile_commands.json$(NC)"
+
+# Print system info
+info:
+	@echo "$(BLUE)System Information:$(NC)"
+	@echo "  Architecture: $(ARCH)"
+	@echo "  CPU Cores: $(CORES)"
+	@echo "  Compiler: $$(clang --version | head -1)"
+	@echo "  CMake: $$(cmake --version | head -1)"
+	@echo "  macOS: $$(sw_vers -productVersion)"
+
+.DEFAULT_GOAL := help

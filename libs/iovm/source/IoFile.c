@@ -1003,6 +1003,7 @@ IO_METHOD(IoFile, atPut) {
     positionNumber. Returns self.
     */
 
+    int pos = IoMessage_locals_intArgAt_(m, locals, 0);
     int c = IoMessage_locals_intArgAt_(m, locals, 1);
 
     IoFile_assertOpen(self, locals, m);
@@ -1010,8 +1011,6 @@ IO_METHOD(IoFile, atPut) {
     IoFile_position_(self, locals, m); // works since first arg is the same
 
     if (fputc(c, DATA(self)->stream) == EOF) {
-        int pos = IoMessage_locals_intArgAt_(
-            m, locals, 0); // BUG - this may not be the same when evaled
         IoState_error_(IOSTATE, m, "error writing to position %i in file '%s'",
                        pos, UTF8CSTRING(DATA(self)->path));
     }
