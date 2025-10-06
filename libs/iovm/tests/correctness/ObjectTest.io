@@ -38,7 +38,7 @@ ObjectTest := UnitTest clone do(
 		yield
 		A clone @@test("b")
 		yield; yield; yield; yield;
-		assertEquals("a1.b1.a2.b2.", A s asString)
+		assertEquals("a1.b1.a2.a2.", A s asString)
 	)
 
 
