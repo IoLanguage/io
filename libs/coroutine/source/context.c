@@ -11,8 +11,10 @@
 #define NEEDAMD64MAKECONTEXT
 #define NEEDSWAPCONTEXT
 #elif defined(__arm64__) || defined(__aarch64__)
+#if !defined(__APPLE__)
 #define NEEDARM64MAKECONTEXT
 #define NEEDSWAPCONTEXT
+#endif
 #else
 #define NEEDPOWERMAKECONTEXT
 #define NEEDSWAPCONTEXT

@@ -12,6 +12,7 @@
 #if defined(__APPLE__) && (defined(__arm64__) || defined(__aarch64__))
 #include "arm64-ucontext.h"
 #define USE_UCONTEXT 1
+#define USE_ARM64_CONTEXT 1
 #endif
 
 #if defined(__FreeBSD__)
@@ -76,6 +77,8 @@
 
 #if defined(USE_FIBERS)
 #define CORO_IMPLEMENTATION "fibers"
+#elif defined(USE_ARM64_CONTEXT)
+#define CORO_IMPLEMENTATION "arm64"
 #elif defined(USE_UCONTEXT)
 #include <sys/ucontext.h>
 #define CORO_IMPLEMENTATION "ucontext"
@@ -101,6 +104,8 @@ struct Coro {
 
 #if defined(USE_FIBERS)
     void *fiber;
+#elif defined(USE_ARM64_CONTEXT)
+    IoCoroARM64Context env;
 #elif defined(USE_UCONTEXT)
     ucontext_t env;
 #elif defined(USE_SETJMP)

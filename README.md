@@ -200,8 +200,8 @@ command.
 
 See the [Linux build instructions](#linux-build-instructions).
 
-Note: Building Io for arm64-based macOS machines is unsupported. To build and run
-on an M1 or newer, build Io for x86_64 by adding
+Apple Silicon (arm64) Macs are supported natively. The standard build commands
+work out of the box. If you specifically need an x86_64 binary for Rosetta, add
 `-DCMAKE_OSX_ARCHITECTURES="x86_64"` to your CMake invocation.
 
 ### Windows Build Instructions
