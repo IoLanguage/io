@@ -97,3 +97,4 @@ IoInstallPrefix.h
 xcuserdata
 build
 .idea
+cmake-install
