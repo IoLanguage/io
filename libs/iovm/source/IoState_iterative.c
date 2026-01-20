@@ -152,17 +152,38 @@ IoObject *IoState_evalLoop_(IoState *state) {
                 break;
             }
 
-            // Need to evaluate this message - start with arguments
-            frame->argCount = IoMessage_argCount(m);
-            frame->currentArgIndex = 0;
+            // Check if this is a special form that needs lazy argument evaluation
+            IoSymbol *messageName = IoMessage_name(m);
+            int isSpecialForm = (messageName == state->ifSymbol ||
+                                 messageName == state->whileSymbol ||
+                                 messageName == state->loopSymbol ||
+                                 messageName == state->forSymbol);
 
-            if (frame->argCount > 0) {
-                // Allocate array for argument values
-                frame->argValues = io_calloc(frame->argCount, sizeof(IoObject *));
-                frame->state = FRAME_STATE_EVAL_ARGS;
-            } else {
-                // No args, go straight to slot lookup
+            // DEBUG
+            if (state->showAllMessages && messageName == state->ifSymbol) {
+                printf("SPECIAL FORM DETECTED: %s (skipping arg eval)\n", CSTRING(messageName));
+            }
+
+            if (isSpecialForm) {
+                // Special forms handle their own argument evaluation
+                // Skip to slot lookup with no args evaluated
+                frame->argCount = 0;
+                frame->currentArgIndex = 0;
+                frame->argValues = NULL;
                 frame->state = FRAME_STATE_LOOKUP_SLOT;
+            } else {
+                // Regular message - evaluate arguments eagerly
+                frame->argCount = IoMessage_argCount(m);
+                frame->currentArgIndex = 0;
+
+                if (frame->argCount > 0) {
+                    // Allocate array for argument values
+                    frame->argValues = io_calloc(frame->argCount, sizeof(IoObject *));
+                    frame->state = FRAME_STATE_EVAL_ARGS;
+                } else {
+                    // No args, go straight to slot lookup
+                    frame->state = FRAME_STATE_LOOKUP_SLOT;
+                }
             }
             break;
         }
@@ -260,7 +281,15 @@ IoObject *IoState_evalLoop_(IoState *state) {
                                     frame->message, frame->slotContext);
                     IoState_popRetainPoolExceptFor_(state, frame->result);
 
-                    frame->state = FRAME_STATE_CONTINUE_CHAIN;
+                    // Check if primitive set up control flow handling
+                    if (state->needsControlFlowHandling) {
+                        // Primitive modified frame state, don't change it
+                        state->needsControlFlowHandling = 0;
+                        // Continue loop with new frame state
+                    } else {
+                        // Normal return, continue chain
+                        frame->state = FRAME_STATE_CONTINUE_CHAIN;
+                    }
                 }
             } else {
                 // Not activatable - just return the value
@@ -273,6 +302,13 @@ IoObject *IoState_evalLoop_(IoState *state) {
         case FRAME_STATE_CONTINUE_CHAIN: {
             // Move to next message in chain
             IoMessage *next = IOMESSAGEDATA(frame->message)->next;
+
+            // DEBUG
+            if (state->showAllMessages && next) {
+                printf("CONTINUE_CHAIN: current=%s, next=%s\n",
+                       CSTRING(IoMessage_name(frame->message)),
+                       CSTRING(IoMessage_name(next)));
+            }
 
             if (next) {
                 // Update target to be the result
@@ -310,9 +346,89 @@ IoObject *IoState_evalLoop_(IoState *state) {
                     parent->result = result;
                     parent->state = FRAME_STATE_CONTINUE_CHAIN;
                 }
+                // If parent is in a control flow state or waiting for result, store it
+                else if (parent->state == FRAME_STATE_IF_CONVERT_BOOLEAN ||
+                         parent->state == FRAME_STATE_IF_EVAL_BRANCH ||
+                         parent->state == FRAME_STATE_WHILE_EVAL_CONDITION ||
+                         parent->state == FRAME_STATE_WHILE_EVAL_BODY ||
+                         parent->state == FRAME_STATE_LOOP_EVAL_BODY ||
+                         parent->state == FRAME_STATE_FOR_EVAL_SETUP ||
+                         parent->state == FRAME_STATE_FOR_EVAL_BODY ||
+                         parent->state == FRAME_STATE_CONTINUE_CHAIN) {
+                    parent->result = result;
+                    // State already set by parent before pushing child, don't change it
+                }
             }
 
             IoState_popFrame_(state);
+            break;
+        }
+
+        case FRAME_STATE_IF_EVAL_CONDITION: {
+            // Push a frame to evaluate the condition
+            IoEvalFrame *condFrame = IoState_pushFrame_(state);
+            condFrame->message = frame->controlFlow.ifInfo.conditionMsg;
+            condFrame->target = frame->locals;
+            condFrame->locals = frame->locals;
+            condFrame->cachedTarget = frame->locals;
+            condFrame->state = FRAME_STATE_START;
+
+            // When condition returns, convert it to boolean
+            frame->state = FRAME_STATE_IF_CONVERT_BOOLEAN;
+            break;
+        }
+
+        case FRAME_STATE_IF_CONVERT_BOOLEAN: {
+            // Condition has been evaluated, now convert to boolean
+            IoObject *condResult = frame->result;
+
+            // Push frame to send 'asBoolean' message to result
+            IoEvalFrame *boolFrame = IoState_pushFrame_(state);
+            boolFrame->message = state->asBooleanMessage;
+            boolFrame->target = condResult;
+            boolFrame->locals = condResult;
+            boolFrame->cachedTarget = condResult;
+            boolFrame->state = FRAME_STATE_START;
+
+            // When boolean conversion returns, evaluate branch
+            frame->state = FRAME_STATE_IF_EVAL_BRANCH;
+            break;
+        }
+
+        case FRAME_STATE_IF_EVAL_BRANCH: {
+            // Boolean result is in frame->result
+            int condition = ISTRUE(frame->result);
+
+            // Store the condition result for potential use
+            frame->controlFlow.ifInfo.conditionResult = condition;
+
+            // DEBUG
+            if (state->showAllMessages) {
+                printf("IF_EVAL_BRANCH: condition=%d, evaluating %s branch\n",
+                       condition,
+                       condition ? "TRUE" : "FALSE");
+            }
+
+            // Determine which branch to take
+            IoMessage *branch = condition ? frame->controlFlow.ifInfo.trueBranch
+                                           : frame->controlFlow.ifInfo.falseBranch;
+
+            if (branch) {
+                // Evaluate the branch
+                IoEvalFrame *branchFrame = IoState_pushFrame_(state);
+                branchFrame->message = branch;
+                branchFrame->target = frame->locals;
+                branchFrame->locals = frame->locals;
+                branchFrame->cachedTarget = frame->locals;
+                branchFrame->state = FRAME_STATE_START;
+
+                // When branch returns, continue with the chain
+                frame->state = FRAME_STATE_CONTINUE_CHAIN;
+            } else {
+                // No branch for this condition, return boolean
+                frame->result = IOBOOL(frame->target, condition);
+                frame->state = FRAME_STATE_CONTINUE_CHAIN;
+            }
             break;
         }
 
@@ -326,6 +442,15 @@ IoObject *IoState_evalLoop_(IoState *state) {
 static void IoState_activateBlock_(IoState *state, IoEvalFrame *callerFrame) {
     IoBlock *block = (IoBlock *)callerFrame->slotValue;
     IoBlockData *blockData = (IoBlockData *)IoObject_dataPointer(block);
+
+    // DEBUG
+    if (state->showAllMessages) {
+        printf("ACTIVATING BLOCK (method call), body message: %s\n",
+               blockData->message ? CSTRING(IoMessage_name(blockData->message)) : "NULL");
+        if (blockData->message && IOMESSAGEDATA(blockData->message)->next) {
+            printf("  ... with next: %s\n", CSTRING(IoMessage_name(IOMESSAGEDATA(blockData->message)->next)));
+        }
+    }
 
     // Create block locals
     IoObject *blockLocals = IOCLONE(state->localsProto);

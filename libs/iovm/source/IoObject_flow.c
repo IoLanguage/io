@@ -1,6 +1,7 @@
 
 #include "IoObject.h"
 #include "IoNumber.h"
+#include "IoEvalFrame.h"
 
 // loops ---------------------------------------
 
@@ -213,13 +214,49 @@ IO_METHOD(IoObject, if) {
     Returns the result of the evaluated message or Nil if none was evaluated.
     */
 
-    IoObject *r = IoMessage_locals_valueArgAt_(m, locals, 0);
-    const int condition =
-        ISTRUE(IoMessage_locals_performOn_(IOSTATE->asBooleanMessage, r, r));
-    const int index = condition ? 1 : 2;
+    IoState *state = IOSTATE;
 
-    if (index < IoMessage_argCount(m))
-        return IoMessage_locals_valueArgAt_(m, locals, index);
+    // Check if we're in iterative evaluation mode
+    if (state->currentFrame != NULL) {
+        // Non-reentrant version for iterative evaluator
+        IoEvalFrame *frame = state->currentFrame;
 
-    return IOBOOL(self, condition);
+        // Get the argument messages (not evaluated yet)
+        IoMessage *conditionMsg = IoMessage_rawArgAt_(m, 0);
+        IoMessage *trueBranch = IoMessage_rawArgAt_(m, 1);
+        IoMessage *falseBranch = IoMessage_argCount(m) > 2 ? IoMessage_rawArgAt_(m, 2) : NULL;
+
+        // DEBUG
+        if (state->showAllMessages) {
+            printf("IF primitive: condition=%s, true=%s, false=%s\n",
+                   conditionMsg ? CSTRING(IoMessage_name(conditionMsg)) : "NULL",
+                   trueBranch ? CSTRING(IoMessage_name(trueBranch)) : "NULL",
+                   falseBranch ? CSTRING(IoMessage_name(falseBranch)) : "NULL");
+        }
+
+        // Set up control flow info
+        frame->controlFlow.ifInfo.conditionMsg = conditionMsg;
+        frame->controlFlow.ifInfo.trueBranch = trueBranch;
+        frame->controlFlow.ifInfo.falseBranch = falseBranch;
+
+        // Change frame state to start IF evaluation
+        frame->state = FRAME_STATE_IF_EVAL_CONDITION;
+
+        // Signal that we've set up control flow handling
+        state->needsControlFlowHandling = 1;
+
+        // Return placeholder (will be replaced by actual result)
+        return state->ioNil;
+    } else {
+        // Original reentrant version for recursive evaluator
+        IoObject *r = IoMessage_locals_valueArgAt_(m, locals, 0);
+        const int condition =
+            ISTRUE(IoMessage_locals_performOn_(state->asBooleanMessage, r, r));
+        const int index = condition ? 1 : 2;
+
+        if (index < IoMessage_argCount(m))
+            return IoMessage_locals_valueArgAt_(m, locals, index);
+
+        return IOBOOL(self, condition);
+    }
 }

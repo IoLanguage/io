@@ -54,6 +54,38 @@ void IoEvalFrame_mark(IoEvalFrame *self) {
         }
     }
 
+    // Mark control flow continuation info based on current state
+    switch (self->state) {
+        case FRAME_STATE_IF_EVAL_CONDITION:
+        case FRAME_STATE_IF_CONVERT_BOOLEAN:
+        case FRAME_STATE_IF_EVAL_BRANCH:
+            IoObject_shouldMarkIfNonNull(self->controlFlow.ifInfo.conditionMsg);
+            IoObject_shouldMarkIfNonNull(self->controlFlow.ifInfo.trueBranch);
+            IoObject_shouldMarkIfNonNull(self->controlFlow.ifInfo.falseBranch);
+            break;
+
+        case FRAME_STATE_WHILE_EVAL_CONDITION:
+        case FRAME_STATE_WHILE_EVAL_BODY:
+            IoObject_shouldMarkIfNonNull(self->controlFlow.whileInfo.conditionMsg);
+            IoObject_shouldMarkIfNonNull(self->controlFlow.whileInfo.bodyMsg);
+            break;
+
+        case FRAME_STATE_LOOP_EVAL_BODY:
+            IoObject_shouldMarkIfNonNull(self->controlFlow.loopInfo.bodyMsg);
+            break;
+
+        case FRAME_STATE_FOR_EVAL_SETUP:
+        case FRAME_STATE_FOR_EVAL_BODY:
+            IoObject_shouldMarkIfNonNull(self->controlFlow.forInfo.setupMsg);
+            IoObject_shouldMarkIfNonNull(self->controlFlow.forInfo.bodyMsg);
+            IoObject_shouldMarkIfNonNull(self->controlFlow.forInfo.counter);
+            IoObject_shouldMarkIfNonNull(self->controlFlow.forInfo.collection);
+            break;
+
+        default:
+            break;
+    }
+
     // Recursively mark parent frame
     if (self->parent) {
         IoEvalFrame_mark(self->parent);
@@ -80,6 +112,9 @@ void IoEvalFrame_reset(IoEvalFrame *self) {
     self->call = NULL;
     self->blockLocals = NULL;
     self->passStops = 0;
+
+    // Clear control flow union
+    memset(&self->controlFlow, 0, sizeof(self->controlFlow));
 
     // Free argument values if allocated
     if (self->argValues) {

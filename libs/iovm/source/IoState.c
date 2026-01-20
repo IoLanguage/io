@@ -216,6 +216,7 @@ void IoState_new_atAddress(void *address) {
         self->currentFrame = NULL;
         self->frameDepth = 0;
         self->maxFrameDepth = 10000;  // Default max depth
+        self->needsControlFlowHandling = 0;
 
         // Initialize frame pool
         self->framePoolCount = 0;
@@ -270,6 +271,13 @@ void IoState_setupQuickAccessSymbols(IoState *self) {
     self->stackSizeSymbol = IoState_retainedSymbol(self, "stackSize");
     self->typeSymbol = IoState_retainedSymbol(self, "type");
     self->updateSlotSymbol = IoState_retainedSymbol(self, "updateSlot");
+
+    // Special form symbols (for lazy evaluation)
+    self->ifSymbol = IoState_retainedSymbol(self, "if");
+    self->whileSymbol = IoState_retainedSymbol(self, "while");
+    self->loopSymbol = IoState_retainedSymbol(self, "loop");
+    self->forSymbol = IoState_retainedSymbol(self, "for");
+
     self->runTargetSymbol = IoState_retainedSymbol(self, "runTarget");
     self->runMessageSymbol = IoState_retainedSymbol(self, "runMessage");
     self->runLocalsSymbol = IoState_retainedSymbol(self, "runLocals");

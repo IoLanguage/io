@@ -65,6 +65,12 @@ struct IoState {
     IoSymbol *typeSymbol;
     IoSymbol *updateSlotSymbol;
 
+    // Special form symbols (for lazy evaluation)
+    IoSymbol *ifSymbol;
+    IoSymbol *whileSymbol;
+    IoSymbol *loopSymbol;
+    IoSymbol *forSymbol;
+
     IoSymbol *runTargetSymbol;
     IoSymbol *runMessageSymbol;
     IoSymbol *runLocalsSymbol;
@@ -137,6 +143,9 @@ struct IoState {
     // Frame pool for fast allocation
     struct IoEvalFrame *framePool[256]; // Pool of pre-allocated frames
     int framePoolCount;                  // Number of frames in pool
+
+    // Control flow handling flag (for non-reentrant primitives)
+    int needsControlFlowHandling;      // Set by primitives that modify frame state
 
     // embedding
 

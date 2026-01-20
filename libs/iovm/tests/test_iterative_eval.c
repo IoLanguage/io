@@ -150,11 +150,25 @@ int test_nested_blocks(IoState *state) {
 int test_lazy_args(IoState *state) {
     printf("Test 9: Lazy argument evaluation... ");
 
+    // Disable verbose debug for this test
+    int oldShowAll = state->showAllMessages;
+    state->showAllMessages = 0;
+
     // if() is a special form that doesn't evaluate all arguments
+    printf("\n>>> Setting up counter and increment method\n");
     testEvalCode(state, "counter := 0");
     testEvalCode(state, "increment := method(counter = counter + 1)");
+
+    printf(">>> Calling if(true, increment, increment)\n");
+    state->showAllMessages = 1;  // Enable for just the if call
     testEvalCode(state, "if(true, increment, increment)");
+    state->showAllMessages = 0;
+
+    printf(">>> Getting counter value\n");
     IoObject *result = testEvalCode(state, "counter");
+
+    // Restore debug setting
+    state->showAllMessages = oldShowAll;
 
     // Should only increment once (true branch)
     if (!ISNUMBER(result) || IoNumber_asInt(result) != 1) {
@@ -192,6 +206,9 @@ int main(int argc, char **argv) {
 
     int passed = 0;
     int total = 0;
+
+    // Enable debug output for lazy args test
+    int enableDebug = (argc > 1 && strcmp(argv[1], "-debug") == 0);
 
     // Run tests
     total++; passed += test_literal(state);
