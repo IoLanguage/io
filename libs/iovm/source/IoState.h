@@ -129,6 +129,15 @@ struct IoState {
     int stopStatus;
     void *returnValue;
 
+    // iterative evaluation frame stack (for continuations)
+    struct IoEvalFrame *currentFrame;  // Top of the evaluation frame stack
+    int frameDepth;                    // Current frame depth
+    int maxFrameDepth;                 // Maximum allowed frame depth
+
+    // Frame pool for fast allocation
+    struct IoEvalFrame *framePool[256]; // Pool of pre-allocated frames
+    int framePoolCount;                  // Number of frames in pool
+
     // embedding
 
     void *callbackContext;

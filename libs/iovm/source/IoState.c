@@ -212,6 +212,15 @@ void IoState_new_atAddress(void *address) {
         self->stopStatus = MESSAGE_STOP_STATUS_NORMAL;
         self->returnValue = self->ioNil;
 
+        // Initialize iterative evaluation frame stack
+        self->currentFrame = NULL;
+        self->frameDepth = 0;
+        self->maxFrameDepth = 10000;  // Default max depth
+
+        // Initialize frame pool
+        self->framePoolCount = 0;
+        memset(self->framePool, 0, sizeof(self->framePool));
+
         IoState_clearRetainStack(self);
 
         IoState_popCollectorPause(self);
