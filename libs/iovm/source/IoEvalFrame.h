@@ -30,15 +30,45 @@ typedef enum {
     FRAME_STATE_IF_EVAL_CONDITION,    // Evaluating 'if' condition
     FRAME_STATE_IF_CONVERT_BOOLEAN,   // Converting condition result to boolean
     FRAME_STATE_IF_EVAL_BRANCH,       // Evaluating 'if' true/false branch
+
+    // While loop states
     FRAME_STATE_WHILE_EVAL_CONDITION, // Evaluating 'while' condition
+    FRAME_STATE_WHILE_CHECK_CONDITION,// Converting condition to boolean
+    FRAME_STATE_WHILE_DECIDE,         // Deciding whether to continue or exit
     FRAME_STATE_WHILE_EVAL_BODY,      // Evaluating 'while' body
-    FRAME_STATE_LOOP_EVAL_BODY,       // Evaluating 'loop' body
+
+    // Loop (infinite) states
+    FRAME_STATE_LOOP_EVAL_BODY,       // Starting 'loop' body
+    FRAME_STATE_LOOP_AFTER_BODY,      // After 'loop' body, check break/continue
+
+    // For loop states
     FRAME_STATE_FOR_EVAL_SETUP,       // Evaluating 'for' setup (range/collection)
-    FRAME_STATE_FOR_EVAL_BODY         // Evaluating 'for' body
+    FRAME_STATE_FOR_EVAL_BODY,        // Starting 'for' body
+    FRAME_STATE_FOR_AFTER_BODY,       // After 'for' body, increment and check
+
+    // Callcc states
+    FRAME_STATE_CALLCC_EVAL_BLOCK,    // Evaluating callcc block body
+
+    // Coroutine states
+    FRAME_STATE_CORO_WAIT_CHILD,      // Waiting for child coroutine to complete
+    FRAME_STATE_CORO_YIELDED,         // Yielded, will resume here when switched back
+
+    // doString/doMessage/doFile states (Phase 1: C stack elimination)
+    FRAME_STATE_DO_EVAL,              // Ready to evaluate compiled code
+    FRAME_STATE_DO_WAIT               // Waiting for evaluation result
 } IoFrameState;
+
+// Magic value to identify valid frames (detect stale pointers / memory corruption)
+#define IOEVAL_FRAME_MAGIC 0xFRAE1234u
+// Use a simpler hex literal
+#undef IOEVAL_FRAME_MAGIC
+#define IOEVAL_FRAME_MAGIC 0xF4AE1234u
 
 // Evaluation frame - represents one activation record
 struct IoEvalFrame {
+    // Magic sentinel - must always be IOEVAL_FRAME_MAGIC
+    unsigned int magic;
+
     // Message chain being evaluated
     IoMessage *message;          // Current message in chain
 
@@ -71,6 +101,7 @@ struct IoEvalFrame {
     // For block activation
     IoObject *blockLocals;       // Block's local context (NULL if not a block)
     int passStops;               // Whether to pass stop status (break/continue/return)
+    int isNestedEvalRoot;        // True if this is a nested eval boundary (for IoMessage_locals_performOn_iterative)
 
     // Control flow continuation info (only one active at a time)
     union {
@@ -84,21 +115,40 @@ struct IoEvalFrame {
         struct {
             IoMessage *conditionMsg;      // Condition message to evaluate
             IoMessage *bodyMsg;           // Body message to execute
+            IoObject *lastResult;         // Last body result (for return value)
             int conditionResult;          // Result of condition evaluation
         } whileInfo;
 
         struct {
             IoMessage *bodyMsg;           // Body message to execute
+            IoObject *lastResult;         // Last body result (for break value)
         } loopInfo;
 
         struct {
-            IoMessage *setupMsg;          // Range/collection to iterate over
             IoMessage *bodyMsg;           // Body message to execute
-            IoObject *counter;            // Current counter/iterator value
-            IoObject *collection;         // Collection being iterated
-            int currentIndex;             // Current iteration index
-            int collectionSize;           // Total size of collection
+            IoSymbol *counterName;        // Name of counter variable
+            double startValue;            // Start value
+            double endValue;              // End value
+            double increment;             // Increment value
+            double currentValue;          // Current counter value
+            IoObject *lastResult;         // Last body result
+            int initialized;              // Whether loop has started
         } forInfo;
+
+        struct {
+            IoObject *continuation;       // The Continuation object
+            IoObject *blockLocals;        // Block's local context
+        } callccInfo;
+
+        struct {
+            IoObject *childCoroutine;     // Child coroutine we're waiting for
+        } coroInfo;
+
+        struct {
+            IoMessage *codeMessage;       // The parsed/compiled message to evaluate
+            IoObject *evalTarget;         // Target for evaluation (self)
+            IoObject *evalLocals;         // Locals for evaluation (context)
+        } doInfo;
     } controlFlow;
 };
 

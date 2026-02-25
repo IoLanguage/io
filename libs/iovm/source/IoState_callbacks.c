@@ -1,6 +1,7 @@
 #include "IoState.h"
 
 #include "IoObject.h"
+#include <stdio.h>
 #include "IoCoroutine.h"
 #include "IoSeq.h"
 #include "IoNumber.h"

@@ -65,21 +65,43 @@ void IoEvalFrame_mark(IoEvalFrame *self) {
             break;
 
         case FRAME_STATE_WHILE_EVAL_CONDITION:
+        case FRAME_STATE_WHILE_CHECK_CONDITION:
+        case FRAME_STATE_WHILE_DECIDE:
         case FRAME_STATE_WHILE_EVAL_BODY:
             IoObject_shouldMarkIfNonNull(self->controlFlow.whileInfo.conditionMsg);
             IoObject_shouldMarkIfNonNull(self->controlFlow.whileInfo.bodyMsg);
+            IoObject_shouldMarkIfNonNull(self->controlFlow.whileInfo.lastResult);
             break;
 
         case FRAME_STATE_LOOP_EVAL_BODY:
+        case FRAME_STATE_LOOP_AFTER_BODY:
             IoObject_shouldMarkIfNonNull(self->controlFlow.loopInfo.bodyMsg);
+            IoObject_shouldMarkIfNonNull(self->controlFlow.loopInfo.lastResult);
             break;
 
         case FRAME_STATE_FOR_EVAL_SETUP:
         case FRAME_STATE_FOR_EVAL_BODY:
-            IoObject_shouldMarkIfNonNull(self->controlFlow.forInfo.setupMsg);
+        case FRAME_STATE_FOR_AFTER_BODY:
             IoObject_shouldMarkIfNonNull(self->controlFlow.forInfo.bodyMsg);
-            IoObject_shouldMarkIfNonNull(self->controlFlow.forInfo.counter);
-            IoObject_shouldMarkIfNonNull(self->controlFlow.forInfo.collection);
+            IoObject_shouldMarkIfNonNull(self->controlFlow.forInfo.counterName);
+            IoObject_shouldMarkIfNonNull(self->controlFlow.forInfo.lastResult);
+            break;
+
+        case FRAME_STATE_CALLCC_EVAL_BLOCK:
+            IoObject_shouldMarkIfNonNull(self->controlFlow.callccInfo.continuation);
+            IoObject_shouldMarkIfNonNull(self->controlFlow.callccInfo.blockLocals);
+            break;
+
+        case FRAME_STATE_CORO_WAIT_CHILD:
+        case FRAME_STATE_CORO_YIELDED:
+            IoObject_shouldMarkIfNonNull(self->controlFlow.coroInfo.childCoroutine);
+            break;
+
+        case FRAME_STATE_DO_EVAL:
+        case FRAME_STATE_DO_WAIT:
+            IoObject_shouldMarkIfNonNull(self->controlFlow.doInfo.codeMessage);
+            IoObject_shouldMarkIfNonNull(self->controlFlow.doInfo.evalTarget);
+            IoObject_shouldMarkIfNonNull(self->controlFlow.doInfo.evalLocals);
             break;
 
         default:
@@ -98,6 +120,7 @@ void IoEvalFrame_reset(IoEvalFrame *self) {
         return;
     }
 
+    self->magic = IOEVAL_FRAME_MAGIC;
     self->message = NULL;
     self->target = NULL;
     self->locals = NULL;
@@ -112,6 +135,7 @@ void IoEvalFrame_reset(IoEvalFrame *self) {
     self->call = NULL;
     self->blockLocals = NULL;
     self->passStops = 0;
+    self->isNestedEvalRoot = 0;
 
     // Clear control flow union
     memset(&self->controlFlow, 0, sizeof(self->controlFlow));

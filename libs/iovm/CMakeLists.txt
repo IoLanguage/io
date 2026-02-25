@@ -93,7 +93,6 @@ add_definitions("-DBUILDING_IOVM_DLL")# -DINSTALL_PREFIX="${CMAKE_INSTALL_PREFIX
 include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/../../deps/parson
     ${CMAKE_CURRENT_SOURCE_DIR}/../basekit/source
-    ${CMAKE_CURRENT_SOURCE_DIR}/../coroutine/source
     ${CMAKE_CURRENT_SOURCE_DIR}/../garbagecollector/source
     )
 
@@ -105,20 +104,27 @@ file(GLOB HEADERS "source/*.h")
 
 # Now build the shared library
 add_library(iovmall SHARED ${SRCS})
-add_dependencies(iovmall io2c basekit coroutine garbagecollector)
+add_dependencies(iovmall io2c basekit garbagecollector)
 set_target_properties(iovmall PROPERTIES PUBLIC_HEADER "${HEADERS}")
-target_link_libraries(iovmall basekit coroutine garbagecollector)
+target_link_libraries(iovmall basekit garbagecollector)
 
 # The following add the install target, so we put libvmall.* in our
 # install prefix.
 if(WIN32)
-    install(TARGETS iovmall 
+    install(TARGETS iovmall
         RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}
         PUBLIC_HEADER DESTINATION include/io
         )
 else()
-    install(TARGETS iovmall 
+    install(TARGETS iovmall
         LIBRARY DESTINATION lib
         PUBLIC_HEADER DESTINATION include/io
         )
 endif(WIN32)
+
+# Test for iterative evaluator
+add_executable(test_iterative_eval tests/test_iterative_eval.c)
+target_link_libraries(test_iterative_eval iovmall)
+set_target_properties(test_iterative_eval PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/_build/binaries
+)

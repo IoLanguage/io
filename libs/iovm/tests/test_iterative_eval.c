@@ -197,6 +197,77 @@ int test_list(IoState *state) {
     return 1;
 }
 
+// Test callcc (call with current continuation)
+int test_callcc_normal(IoState *state) {
+    printf("Test 11: callcc normal return... ");
+
+    // callcc with a block that returns normally
+    // The result should be the block's return value
+    IoObject *result = testEvalCode(state,
+        "callcc(block(cont, \"normal return\"))");
+
+    if (!ISSEQ(result)) {
+        printf("FAILED (not a sequence)\n");
+        return 0;
+    }
+
+    if (strcmp(CSTRING(result), "normal return") != 0) {
+        printf("FAILED (got '%s', expected 'normal return')\n", CSTRING(result));
+        return 0;
+    }
+
+    printf("PASSED\n");
+    return 1;
+}
+
+// Test callcc with continuation invocation
+int test_callcc_invoke(IoState *state) {
+    printf("Test 12: callcc continuation invoke... ");
+
+    // callcc with a block that invokes the continuation
+    // The result should be the value passed to invoke
+    IoObject *result = testEvalCode(state,
+        "callcc(block(cont, cont invoke(42); 999))");
+
+    if (!ISNUMBER(result)) {
+        printf("FAILED (not a number, got type %s)\n",
+               IoObject_name(result));
+        return 0;
+    }
+
+    if (IoNumber_asInt(result) != 42) {
+        printf("FAILED (got %d, expected 42)\n", IoNumber_asInt(result));
+        return 0;
+    }
+
+    printf("PASSED\n");
+    return 1;
+}
+
+// Test continuation as escape mechanism
+int test_callcc_escape(IoState *state) {
+    printf("Test 13: callcc escape pattern... ");
+
+    // Use continuation to escape from nested evaluation
+    // The "normal" value should never be reached
+    IoObject *result = testEvalCode(state,
+        "callcc(block(escape, if(true, escape invoke(\"escaped\")); \"normal\"))");
+
+    if (!ISSEQ(result)) {
+        printf("FAILED (not a sequence, got type %s)\n",
+               IoObject_name(result));
+        return 0;
+    }
+
+    if (strcmp(CSTRING(result), "escaped") != 0) {
+        printf("FAILED (got '%s', expected 'escaped')\n", CSTRING(result));
+        return 0;
+    }
+
+    printf("PASSED\n");
+    return 1;
+}
+
 int main(int argc, char **argv) {
     printf("=== Iterative Evaluator Tests ===\n\n");
 
@@ -221,6 +292,9 @@ int main(int argc, char **argv) {
     total++; passed += test_nested_blocks(state);
     total++; passed += test_lazy_args(state);
     total++; passed += test_list(state);
+    total++; passed += test_callcc_normal(state);
+    total++; passed += test_callcc_invoke(state);
+    total++; passed += test_callcc_escape(state);
 
     // Print summary
     printf("\n=== Results ===\n");

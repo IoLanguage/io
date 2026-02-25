@@ -14,9 +14,35 @@ IO_METHOD(IoObject, while) {
 
     IoMessage_assertArgCount_receiver_(m, 2, self);
 
-    {
+    IoState *state = IOSTATE;
+
+    // Check if we're in iterative evaluation mode
+    // Use iterative path only if we're in the iterative eval loop AND not inside
+    // the recursive evaluator (which can be called from CFunctions like doString)
+    if (state->currentFrame != NULL && !state->inRecursiveEval) {
+        // Non-reentrant version for iterative evaluator
+        IoEvalFrame *frame = state->currentFrame;
+
+        // Get the argument messages (not evaluated yet)
+        IoMessage *conditionMsg = IoMessage_rawArgAt_(m, 0);
+        IoMessage *bodyMsg = IoMessage_rawArgAt_(m, 1);
+
+        // Set up control flow info
+        frame->controlFlow.whileInfo.conditionMsg = conditionMsg;
+        frame->controlFlow.whileInfo.bodyMsg = bodyMsg;
+        frame->controlFlow.whileInfo.lastResult = NULL;
+
+        // Change frame state to start WHILE evaluation
+        frame->state = FRAME_STATE_WHILE_EVAL_CONDITION;
+
+        // Signal that we've set up control flow handling
+        state->needsControlFlowHandling = 1;
+
+        // Return placeholder
+        return state->ioNil;
+    } else {
+        // Original reentrant version for recursive evaluator
         IoObject *result = IONIL(self);
-        IoState *state = IOSTATE;
         unsigned char c;
 
         IoState_resetStopStatus(state);
@@ -52,11 +78,36 @@ IO_METHOD(IoObject, loop) {
     */
 
     IoMessage_assertArgCount_receiver_(m, 1, self);
-    {
-        IoState *state = IOSTATE;
+
+    IoState *state = IOSTATE;
+
+    // Check if we're in iterative evaluation mode
+    // Use iterative path only if we're in the iterative eval loop AND not inside
+    // the recursive evaluator (which can be called from CFunctions like doString)
+    if (state->currentFrame != NULL && !state->inRecursiveEval) {
+        // Non-reentrant version for iterative evaluator
+        IoEvalFrame *frame = state->currentFrame;
+
+        // Get the body message (not evaluated yet)
+        IoMessage *bodyMsg = IoMessage_rawArgAt_(m, 0);
+
+        // Set up control flow info
+        frame->controlFlow.loopInfo.bodyMsg = bodyMsg;
+        frame->controlFlow.loopInfo.lastResult = NULL;
+
+        // Change frame state to start LOOP evaluation
+        frame->state = FRAME_STATE_LOOP_EVAL_BODY;
+
+        // Signal that we've set up control flow handling
+        state->needsControlFlowHandling = 1;
+
+        // Return placeholder
+        return state->ioNil;
+    } else {
+        // Original reentrant version for recursive evaluator
         IoObject *result;
 
-        IoState_resetStopStatus(IOSTATE);
+        IoState_resetStopStatus(state);
         IoState_pushRetainPool(state);
 
         for (;;) {
@@ -64,7 +115,7 @@ IO_METHOD(IoObject, loop) {
 
             result = IoMessage_locals_valueArgAt_(m, locals, 0);
 
-            if (IoState_handleStatus(IOSTATE)) {
+            if (IoState_handleStatus(state)) {
                 goto done;
             }
         }
@@ -83,8 +134,54 @@ IO_METHOD(IoObject, for)
 
     IoMessage_assertArgCount_receiver_(m, 4, self);
 
-    {
-        IoState *state = IOSTATE;
+    IoState *state = IOSTATE;
+
+    // Check if we're in iterative evaluation mode
+    // Use iterative path only if we're in the iterative eval loop AND not inside
+    // the recursive evaluator (which can be called from CFunctions like doString)
+    if (state->currentFrame != NULL && !state->inRecursiveEval) {
+        // Non-reentrant version for iterative evaluator
+        IoEvalFrame *frame = state->currentFrame;
+
+        IoMessage *indexMessage = IoMessage_rawArgAt_(m, 0);
+        IoSymbol *counterName = IoMessage_name(indexMessage);
+
+        // For the iterative version, we need to evaluate start/end/increment
+        // synchronously since they're simple numeric expressions.
+        // This is a pragmatic choice - these are almost always literals or
+        // simple variable lookups.
+        double startValue = IoMessage_locals_doubleArgAt_(m, locals, 1);
+        double endValue = IoMessage_locals_doubleArgAt_(m, locals, 2);
+        double increment = 1;
+        IoMessage *doMessage;
+
+        if (IoMessage_argCount(m) > 4) {
+            increment = IoMessage_locals_doubleArgAt_(m, locals, 3);
+            doMessage = IoMessage_rawArgAt_(m, 4);
+        } else {
+            doMessage = IoMessage_rawArgAt_(m, 3);
+        }
+
+        // Set up control flow info
+        frame->controlFlow.forInfo.bodyMsg = doMessage;
+        frame->controlFlow.forInfo.counterName = counterName;
+        frame->controlFlow.forInfo.startValue = startValue;
+        frame->controlFlow.forInfo.endValue = endValue;
+        frame->controlFlow.forInfo.increment = increment;
+        frame->controlFlow.forInfo.currentValue = startValue;
+        frame->controlFlow.forInfo.lastResult = NULL;
+        frame->controlFlow.forInfo.initialized = 0;
+
+        // Change frame state to start FOR evaluation
+        frame->state = FRAME_STATE_FOR_EVAL_BODY;
+
+        // Signal that we've set up control flow handling
+        state->needsControlFlowHandling = 1;
+
+        // Return placeholder
+        return state->ioNil;
+    } else {
+        // Original reentrant version for recursive evaluator
         IoMessage *indexMessage = IoMessage_rawArgAt_(m, 0);
         IoMessage *doMessage;
         IoObject *result = IONIL(self);
@@ -100,10 +197,6 @@ IO_METHOD(IoObject, for)
             doMessage = IoMessage_rawArgAt_(m, 4);
         } else {
             doMessage = IoMessage_rawArgAt_(m, 3);
-            //			if (startValue > endValue)
-            //			{
-            //				increment = -1;
-            //			}
         }
 
         IoState_resetStopStatus(state);
@@ -118,22 +211,17 @@ IO_METHOD(IoObject, for)
                     break;
             }
 
-            /*if (result != locals && result != self)
-             * IoState_immediatelyFreeIfUnreferenced_(state, result);*/
             IoState_clearTopPool(state);
 
             {
                 num = IONUMBER(i);
                 IoObject_addingRef_(locals, num);
                 PHash_at_put_(IoObject_slots(locals), slotName, num);
-
-                // IoObject_setSlot_to_(self, slotName, num);
             }
 
-            /*IoObject_setSlot_to_(locals, slotName, IONUMBER(i));*/
             result = IoMessage_locals_performOn_(doMessage, locals, self);
 
-            if (IoState_handleStatus(IOSTATE)) {
+            if (IoState_handleStatus(state)) {
                 goto done;
             }
         }
@@ -217,7 +305,9 @@ IO_METHOD(IoObject, if) {
     IoState *state = IOSTATE;
 
     // Check if we're in iterative evaluation mode
-    if (state->currentFrame != NULL) {
+    // Use iterative path only if we're in the iterative eval loop AND not inside
+    // the recursive evaluator (which can be called from CFunctions like doString)
+    if (state->currentFrame != NULL && !state->inRecursiveEval) {
         // Non-reentrant version for iterative evaluator
         IoEvalFrame *frame = state->currentFrame;
 

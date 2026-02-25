@@ -74,7 +74,7 @@ System do(
 		self exit
 	)
 	
-	//doc System runCommand Calls system and redirects stdout/err to tmp files.  Returns object with exitStatus, stdout and stderr slots.
+	//doc System runCommand(cmd, successStatus) Calls system and redirects stdout/err to tmp files.  Returns object with exitStatus, stdout and stderr slots.
 	runCommand := method(cmd, successStatus,
 		successStatus := if(successStatus, successStatus, 0)
 		tmpDirPath := System getEnvironmentVariable("TMPDIR")

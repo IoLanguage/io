@@ -6,23 +6,50 @@
 #define IoCoroutine_DEFINED 1
 #include "IoVMApi.h"
 
-#include "IoState.h"
-
 #include "Common.h"
-#include "Coro.h"
+#include "Stack.h"
+#include "IoObject_struct.h"
+#include "IoMessage.h"
+#include "IoSeq.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+// Forward declarations to avoid circular includes
+struct IoEvalFrame;
+struct IoState;
 
 #define ISCOROUTINE(self)                                                      \
     IoObject_hasCloneFunc_(self, (IoTagCloneFunc *)IoCoroutine_rawClone)
 
 typedef IoObject IoCoroutine;
 
+/*
+ * Frame-based coroutine data structure.
+ *
+ * ARCHITECTURE NOTE:
+ * The iterative evaluator runs a SINGLE eval loop on the main C stack.
+ * Coroutines are implemented by swapping which heap-allocated frame stack
+ * the eval loop processes. There is NO C stack switching (no setjmp/longjmp,
+ * no ucontext, no fibers).
+ *
+ * When a coroutine is RUNNING:
+ *   - frameStack is NULL
+ *   - Its frames are in state->currentFrame
+ *
+ * When a coroutine is SUSPENDED:
+ *   - frameStack points to its saved frame stack
+ *   - state->currentFrame belongs to whoever is running
+ *
+ * Switching coroutines = save current frames, restore target frames, return.
+ * The eval loop continues processing whatever frames are now current.
+ */
 typedef struct {
-    Coro *cid;
-    Stack *ioStack;
+    struct IoEvalFrame *frameStack;   // Suspended frame stack (NULL if running)
+    Stack *ioStack;                   // Retain stack for GC
+    int stopStatus;                   // Per-coroutine stop status
+    IoObject *returnValue;            // Per-coroutine return value
     int debuggingOn;
 } IoCoroutineData;
 
@@ -39,7 +66,10 @@ IOVM_API void IoCoroutine_rawShow(IoCoroutine *self);
 IOVM_API IO_METHOD(IoCoroutine, main);
 IOVM_API IO_METHOD(IoCoroutine, freeStack);
 
-IOVM_API void *IoCoroutine_cid(IoCoroutine *self);
+// Frame-based coroutine state management
+IOVM_API void IoCoroutine_saveState_(IoCoroutine *self, struct IoState *state);
+IOVM_API void IoCoroutine_restoreState_(IoCoroutine *self, struct IoState *state);
+IOVM_API struct IoEvalFrame *IoCoroutine_rawFrameStack(IoCoroutine *self);
 
 // label
 
@@ -149,6 +179,8 @@ IOVM_API IoObject *IoObject_performWithDebugger(IoCoroutine *self,
                                                 IoObject *locals, IoMessage *m);
 IOVM_API IO_METHOD(IoCoroutine, callStack);
 IOVM_API void IoCoroutine_rawPrintBackTrace(IoCoroutine *self);
+
+IOVM_API IO_METHOD(IoCoroutine, rawSignalException);
 
 #ifdef __cplusplus
 }

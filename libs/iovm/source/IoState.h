@@ -70,6 +70,12 @@ struct IoState {
     IoSymbol *whileSymbol;
     IoSymbol *loopSymbol;
     IoSymbol *forSymbol;
+    IoSymbol *callccSymbol;
+    IoSymbol *methodSymbol;
+    IoSymbol *blockSymbol;
+    IoSymbol *foreachSymbol;
+    IoSymbol *reverseForeachSymbol;
+    IoSymbol *foreachLineSymbol;
 
     IoSymbol *runTargetSymbol;
     IoSymbol *runMessageSymbol;
@@ -146,6 +152,16 @@ struct IoState {
 
     // Control flow handling flag (for non-reentrant primitives)
     int needsControlFlowHandling;      // Set by primitives that modify frame state
+    int continuationInvoked;           // Set when a continuation replaces the frame stack
+    int nestedEvalDepth;               // Depth of nested eval loops (for IoCoroutine_try)
+
+    // Error handling flag - set when IoState_error_ is called
+    // Helper functions check this to return early after raising errors
+    int errorRaised;
+
+    // Track when we're inside the recursive evaluator (IoMessage_locals_performOn_)
+    // Control flow primitives (if, while, etc.) check this to use recursive path
+    int inRecursiveEval;
 
     // embedding
 
@@ -219,6 +235,11 @@ IOVM_API void IoState_runCLI(IoState *self);
 
 IOVM_API IoObject *IoState_objectWithPid_(IoState *self, PID_TYPE pid);
 IOVM_API int IoState_exitResult(IoState *self);
+
+// Check for pre-evaluated argument in the current eval frame.
+// Returns the pre-evaluated value if available, NULL otherwise.
+// Defined in IoState_iterative.c to avoid circular IoEvalFrame.h include.
+IOVM_API IoObject *IoState_preEvalArgAt_(IoState *self, IoMessage *msg, int n);
 
 #include "IoState_coros.h"
 #include "IoState_debug.h"

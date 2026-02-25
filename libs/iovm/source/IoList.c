@@ -460,6 +460,8 @@ list(1, 2, 3) foreach(v, writeln(v))</pre>
     }
 
     IoMessage_foreachArgs(m, self, &slotName, &valueName, &doMessage);
+    // foreachArgs returns NULLs on error — bail out, eval loop handles errorRaised
+    if (state->errorRaised) return IONIL(self);
 
     IoState_pushRetainPool(state);
 
@@ -495,6 +497,8 @@ IO_METHOD(IoList, reverseForeach) {
     long i;
 
     IoMessage_foreachArgs(m, self, &slotName, &valueName, &doMessage);
+    // foreachArgs returns NULLs on error — bail out, eval loop handles errorRaised
+    if (state->errorRaised) return IONIL(self);
 
     IoState_pushRetainPool(state);
 

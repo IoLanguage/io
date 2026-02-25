@@ -456,6 +456,20 @@ IoObject *IoMessage_locals_performOn_(IoMessage *self, IoObject *locals,
     // IoMessageData *md;
     IoMessageData *md;
 
+    // Mark that we're in the recursive evaluator so that control flow
+    // primitives (if, while, etc.) use their recursive implementation
+    int wasInRecursiveEval = state->inRecursiveEval;
+    state->inRecursiveEval = 1;
+
+    // Save and clear currentFrame so that pre-evaluated args from the
+    // iterative evaluator don't leak into recursive evaluation.
+    // CFunctions like foreach() read their own args (via valueArgAt_)
+    // before calling performOn_ for the body, so they already have
+    // what they need. Clearing currentFrame here prevents the body's
+    // messages from accidentally matching stale pre-evaluated values.
+    struct IoEvalFrame *savedCurrentFrame = state->currentFrame;
+    state->currentFrame = NULL;
+
     if (state->receivedSignal) {
         IoState_callUserInterruptHandler(IOSTATE);
     }
@@ -501,12 +515,24 @@ IoObject *IoMessage_locals_performOn_(IoMessage *self, IoObject *locals,
                 result = IoObject_tag(target)->performFunc(target, locals, m);
 #endif
                 IoState_popRetainPoolExceptFor_(state, result);
+
+                // Check for error raised during message evaluation
+                // (e.g., Io-level exception via rawSignalException).
+                // Don't clear errorRaised — let the iterative eval loop
+                // handle clearing it and unwinding frames.
+                if (state->errorRaised) {
+                    state->inRecursiveEval = wasInRecursiveEval;
+                    state->currentFrame = savedCurrentFrame;
+                    return state->ioNil;
+                }
             }
 
             // IoObject_freeIfUnreferenced(target);
             target = result;
 
             if (state->stopStatus != MESSAGE_STOP_STATUS_NORMAL) {
+                state->inRecursiveEval = wasInRecursiveEval;
+                state->currentFrame = savedCurrentFrame;
                 return state->returnValue;
                 /*
                 result = state->returnValue;
@@ -523,6 +549,8 @@ IoObject *IoMessage_locals_performOn_(IoMessage *self, IoObject *locals,
         }
     } while ((m = md->next));
 
+    state->inRecursiveEval = wasInRecursiveEval;
+    state->currentFrame = savedCurrentFrame;
     return result;
 }
 
@@ -555,6 +583,7 @@ IoObject *IoMessage_locals_numberArgAt_(IoMessage *self, IoObject *locals,
 
     if (!ISNUMBER(v)) {
         IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "Number");
+        return IOSTATE->ioNil;  // Return early after error
     }
 
     return v;
@@ -606,6 +635,7 @@ IoObject *IoMessage_locals_seqArgAt_(IoMessage *self, IoObject *locals, int n) {
 
     if (!ISSEQ(v)) {
         IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "Sequence");
+        return IOSTATE->ioNil;  // Return early after error
     }
 
     return v;
@@ -623,6 +653,7 @@ IoObject *IoMessage_locals_symbolArgAt_(IoMessage *self, IoObject *locals,
 
     if (!ISSEQ(v)) {
         IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "Sequence");
+        return IOSTATE->ioNil;  // Return early after error
     }
 
     return IoSeq_rawAsSymbol(v);
@@ -635,6 +666,7 @@ IoObject *IoMessage_locals_mutableSeqArgAt_(IoMessage *self, IoObject *locals,
     if (!ISMUTABLESEQ(v)) {
         IoMessage_locals_numberArgAt_errorForType_(self, locals, n,
                                                    "mutable Sequence");
+        return IOSTATE->ioNil;  // Return early after error
     }
 
     return v;
@@ -643,39 +675,49 @@ IoObject *IoMessage_locals_mutableSeqArgAt_(IoMessage *self, IoObject *locals,
 IoObject *IoMessage_locals_blockArgAt_(IoMessage *self, IoObject *locals,
                                        int n) {
     IoObject *v = IoMessage_locals_valueArgAt_(self, locals, n);
-    if (!ISBLOCK(v))
+    if (!ISBLOCK(v)) {
         IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "Block");
+        return IOSTATE->ioNil;  // Return early after error
+    }
     return v;
 }
 
 IoObject *IoMessage_locals_dateArgAt_(IoMessage *self, IoObject *locals,
                                       int n) {
     IoObject *v = IoMessage_locals_valueArgAt_(self, locals, n);
-    if (!ISDATE(v))
+    if (!ISDATE(v)) {
         IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "Date");
+        return IOSTATE->ioNil;  // Return early after error
+    }
     return v;
 }
 
 IoObject *IoMessage_locals_messageArgAt_(IoMessage *self, IoObject *locals,
                                          int n) {
     IoObject *v = IoMessage_locals_valueArgAt_(self, locals, n);
-    if (!ISMESSAGE(v))
+    if (!ISMESSAGE(v)) {
         IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "Message");
+        return IOSTATE->ioNil;  // Return early after error
+    }
     return v;
 }
 
 IoObject *IoMessage_locals_listArgAt_(IoMessage *self, IoObject *locals,
                                       int n) {
     IoObject *v = IoMessage_locals_valueArgAt_(self, locals, n);
-    if (!ISLIST(v))
+    if (!ISLIST(v)) {
         IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "List");
+        return IOSTATE->ioNil;  // Return early after error
+    }
     return v;
 }
 
 IoObject *IoMessage_locals_mapArgAt_(IoMessage *self, IoObject *locals, int n) {
     IoObject *v = IoMessage_locals_valueArgAt_(self, locals, n);
-    if (!ISMAP(v))
+    if (!ISMAP(v)) {
         IoMessage_locals_numberArgAt_errorForType_(self, locals, n, "Map");
+        return IOSTATE->ioNil;  // Return early after error
+    }
     return v;
 }
 
@@ -1166,6 +1208,15 @@ void IoMessage_foreachArgs(IoMessage *self, IoObject *receiver,
     int offset;
 
     IoMessage_assertArgCount_receiver_(self, 2, receiver);
+
+    // IoState_error_ no longer longjmps — it returns normally.
+    // Must bail out before accessing args that may not exist.
+    if (IOSTATE->errorRaised) {
+        *indexSlotName = NULL;
+        *valueSlotName = NULL;
+        *doMessage = NULL;
+        return;
+    }
 
     if (IoMessage_argCount(self) > 2) {
         *indexSlotName = IoMessage_name(IoMessage_rawArgAt_(self, 0));

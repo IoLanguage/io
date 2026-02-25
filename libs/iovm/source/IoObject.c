@@ -13,6 +13,7 @@ objects. When cloned, an Object will call its init slot (with no arguments).
 #include "IoObject.h"
 #undef IOOBJECT_C
 #include "IoCoroutine.h"
+#include "IoContinuation.h"
 #include "IoTag.h"
 #include "IoCFunction.h"
 #include "IoSeq.h"
@@ -166,6 +167,7 @@ IoObject *IoObject_protoFinish(void *state) {
         {"break", IoObject_break},
         {"continue", IoObject_continue},
         {"stopStatus", IoObject_stopStatus},
+        {"callcc", IoObject_callcc},
 
         // utility
 
@@ -1300,13 +1302,32 @@ IO_METHOD(IoObject, doMessage) {
     context in which the message is evaluated.
     */
 
+    IoState *state = IOSTATE;
+
+    // Get the message argument (unevaluated - it's a message literal)
     IoMessage *aMessage = IoMessage_locals_messageArgAt_(m, locals, 0);
     IoObject *context = self;
 
+    // Get optional context argument (may need evaluation)
     if (IoMessage_argCount(m) >= 2) {
         context = IoMessage_locals_valueArgAt_(m, locals, 1);
     }
 
+    // Check if we can use the iterative path
+    if (state->currentFrame != NULL && !state->inRecursiveEval) {
+        // Iterative path - set up frame state machine
+        IoEvalFrame *frame = state->currentFrame;
+
+        frame->controlFlow.doInfo.codeMessage = aMessage;
+        frame->controlFlow.doInfo.evalTarget = self;
+        frame->controlFlow.doInfo.evalLocals = context;
+        frame->state = FRAME_STATE_DO_EVAL;
+
+        state->needsControlFlowHandling = 1;
+        return state->ioNil;  // Placeholder, real result comes from frame
+    }
+
+    // Recursive fallback
     return IoMessage_locals_performOn_(aMessage, context, self);
 }
 
@@ -1315,9 +1336,11 @@ IO_METHOD(IoObject, doString) {
     Evaluates the string in the context of the receiver. Returns the result.
     */
 
+    IoState *state = IOSTATE;
+
+    // Get the string argument (may need evaluation if not a literal)
     IoSymbol *string = IoMessage_locals_seqArgAt_(m, locals, 0);
     IoSymbol *label;
-    IoObject *result;
 
     if (IoMessage_argCount(m) > 1) {
         label = IoMessage_locals_symbolArgAt_(m, locals, 1);
@@ -1325,9 +1348,37 @@ IO_METHOD(IoObject, doString) {
         label = IOSYMBOL("doString");
     }
 
-    IoState_pushRetainPool(IOSTATE);
+    // Check if we can use the iterative path
+    if (state->currentFrame != NULL && !state->inRecursiveEval) {
+        // Iterative path - compile and set up frame state machine
+        IoEvalFrame *frame = state->currentFrame;
+
+        // Compile the string to a message (this is pure C, no re-entrancy)
+        IoState_pushCollectorPause(state);
+        IoMessage *codeMsg = IoMessage_newFromText_labelSymbol_(state,
+            CSTRING(string), label);
+        IoState_popCollectorPause(state);
+
+        if (!codeMsg) {
+            IoState_error_(state, m, "doString: failed to compile string");
+            return state->ioNil;
+        }
+
+        // Set up frame for evaluation
+        frame->controlFlow.doInfo.codeMessage = codeMsg;
+        frame->controlFlow.doInfo.evalTarget = self;
+        frame->controlFlow.doInfo.evalLocals = self;
+        frame->state = FRAME_STATE_DO_EVAL;
+
+        state->needsControlFlowHandling = 1;
+        return state->ioNil;  // Placeholder, real result comes from frame
+    }
+
+    // Recursive fallback
+    IoObject *result;
+    IoState_pushRetainPool(state);
     result = IoObject_rawDoString_label_(self, string, label);
-    IoState_popRetainPoolExceptFor_(IOSTATE, result);
+    IoState_popRetainPoolExceptFor_(state, result);
     return result;
 }
 
@@ -1337,16 +1388,46 @@ IO_METHOD(IoObject, doFile) {
     pathString is relative to the current working directory.
     */
 
+    IoState *state = IOSTATE;
+
     IoSymbol *path = IoMessage_locals_symbolArgAt_(m, locals, 0);
-    IoFile *file = IoFile_newWithPath_(IOSTATE, path);
+    IoFile *file = IoFile_newWithPath_(state, path);
     IoSymbol *string =
         (IoSymbol *)IoSeq_rawAsSymbol(IoFile_contents(file, locals, m));
 
-    if (IoSeq_rawSize(string)) {
-        return IoObject_rawDoString_label_(self, string, path);
-    } else {
+    if (!IoSeq_rawSize(string)) {
         return IONIL(self);
     }
+
+    // Check if we can use the iterative path
+    if (state->currentFrame != NULL && !state->inRecursiveEval) {
+        // Iterative path - compile and set up frame state machine
+        IoEvalFrame *frame = state->currentFrame;
+
+        // Compile the file contents to a message (pure C, no re-entrancy)
+        IoState_pushCollectorPause(state);
+        IoMessage *codeMsg = IoMessage_newFromText_labelSymbol_(state,
+            CSTRING(string), path);
+        IoState_popCollectorPause(state);
+
+        if (!codeMsg) {
+            IoState_error_(state, m, "doFile: failed to compile file %s",
+                          CSTRING(path));
+            return state->ioNil;
+        }
+
+        // Set up frame for evaluation
+        frame->controlFlow.doInfo.codeMessage = codeMsg;
+        frame->controlFlow.doInfo.evalTarget = self;
+        frame->controlFlow.doInfo.evalLocals = self;
+        frame->state = FRAME_STATE_DO_EVAL;
+
+        state->needsControlFlowHandling = 1;
+        return state->ioNil;  // Placeholder, real result comes from frame
+    }
+
+    // Recursive fallback
+    return IoObject_rawDoString_label_(self, string, path);
 }
 
 IO_METHOD(IoObject, isIdenticalTo) {

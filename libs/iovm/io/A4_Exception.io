@@ -287,9 +287,9 @@ Coroutine do(
 	)
 
 	raiseException := method(e,
-		//doc Coroutine raiseException Sets exception in the receiver and resumes parent coroutine.
+		//doc Coroutine raiseException Sets exception in the receiver and signals the eval loop to unwind.
 		self setException(e)
-		resumeParentCoroutine
+		rawSignalException
 	)
 )
 
@@ -337,10 +337,10 @@ Object do(
 		See also documentation for Exception catch and pass.
 		*/
 		coro := Coroutine clone
-		coro setParentCoroutine(Scheduler currentCoroutine)
-		coro setRunTarget(call sender)
-		coro setRunLocals(call sender)
-		coro setRunMessage(call argAt(0))
+		coro setSlot("parentCoroutine", Scheduler currentCoroutine)
+		coro setSlot("runTarget", call sender)
+		coro setSlot("runLocals", call sender)
+		coro setSlot("runMessage", call argAt(0))
 		coro run
 		if(coro exception, coro exception, nil)
 	)
@@ -351,9 +351,9 @@ Object do(
 		Returns a new coro to be run in a context of sender.
 		*/
 		coro := Coroutine clone
-		coro setRunTarget(call sender)
-		coro setRunLocals(call sender)
-		coro setRunMessage(call argAt(0))
+		coro setSlot("runTarget", call sender)
+		coro setSlot("runLocals", call sender)
+		coro setSlot("runMessage", call argAt(0))
 		coro
 	)
 
@@ -363,9 +363,9 @@ Object do(
 		Returns a coro.
 		*/
 		coro := Coroutine clone
-		coro setRunTarget(call sender)
-		coro setRunLocals(call sender)
-		coro setRunMessage(call argAt(0))
+		coro setSlot("runTarget", call sender)
+		coro setSlot("runLocals", call sender)
+		coro setSlot("runMessage", call argAt(0))
 		Coroutine yieldingCoros atInsert(0, Scheduler currentCoroutine)
 		coro run
 		coro
@@ -381,9 +381,9 @@ Object do(
 		Note: run target is <tt>self</tt> (i.e. receiver), not <tt>call sender</tt> as in coroDo.
 		*/
 		coro := Coroutine clone
-		coro setRunTarget(self)
-		coro setRunLocals(call sender)
-		coro setRunMessage(call argAt(0))
+		coro setSlot("runTarget", self)
+		coro setSlot("runLocals", call sender)
+		coro setSlot("runMessage", call argAt(0))
 		Coroutine yieldingCoros atInsert(0, coro)
 		coro
 	)
@@ -392,9 +392,9 @@ Object do(
 	coroWith := method(
 		//doc Object coroWith(code) Returns a new coro to be run in a context of receiver.
 		coro := Coroutine clone
-		coro setRunTarget(self)
-		coro setRunLocals(call sender)
-		coro setRunMessage(call argAt(0))
+		coro setSlot("runTarget", self)
+		coro setSlot("runLocals", call sender)
+		coro setSlot("runMessage", call argAt(0))
 		coro
 	)
 

@@ -9,6 +9,7 @@
 #include "IoObject.h"
 #include "IoState.h"
 #include "IoCall.h"
+#include <time.h>
 
 #ifdef __cplusplus
 extern "C" {

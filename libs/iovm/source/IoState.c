@@ -9,6 +9,7 @@
 #include "IoObject.h"
 #include "IoCall.h"
 #include "IoCoroutine.h"
+#include "IoContinuation.h"
 #include "IoSeq.h"
 #include "IoNumber.h"
 #include "IoCFunction.h"
@@ -183,6 +184,8 @@ void IoState_new_atAddress(void *address) {
         IoObject_setSlot_to_(core, SIOSYMBOL("Map"), IoMap_proto(self));
         // IoObject_setSlot_to_(core, SIOSYMBOL("Range"), IoRange_proto(self));
         IoObject_setSlot_to_(core, SIOSYMBOL("Coroutine"), self->mainCoroutine);
+        IoObject_setSlot_to_(core, SIOSYMBOL("Continuation"),
+                             IoContinuation_proto(self));
         IoObject_setSlot_to_(core, SIOSYMBOL("Error"), IoError_proto(self));
         IoObject_setSlot_to_(core, SIOSYMBOL("File"), IoFile_proto(self));
         IoObject_setSlot_to_(core, SIOSYMBOL("Directory"),
@@ -217,6 +220,10 @@ void IoState_new_atAddress(void *address) {
         self->frameDepth = 0;
         self->maxFrameDepth = 10000;  // Default max depth
         self->needsControlFlowHandling = 0;
+        self->continuationInvoked = 0;
+        self->nestedEvalDepth = 0;
+        self->errorRaised = 0;
+        self->inRecursiveEval = 0;
 
         // Initialize frame pool
         self->framePoolCount = 0;
@@ -277,6 +284,12 @@ void IoState_setupQuickAccessSymbols(IoState *self) {
     self->whileSymbol = IoState_retainedSymbol(self, "while");
     self->loopSymbol = IoState_retainedSymbol(self, "loop");
     self->forSymbol = IoState_retainedSymbol(self, "for");
+    self->callccSymbol = IoState_retainedSymbol(self, "callcc");
+    self->methodSymbol = IoState_retainedSymbol(self, "method");
+    self->blockSymbol = IoState_retainedSymbol(self, "block");
+    self->foreachSymbol = IoState_retainedSymbol(self, "foreach");
+    self->reverseForeachSymbol = IoState_retainedSymbol(self, "reverseForeach");
+    self->foreachLineSymbol = IoState_retainedSymbol(self, "foreachLine");
 
     self->runTargetSymbol = IoState_retainedSymbol(self, "runTarget");
     self->runMessageSymbol = IoState_retainedSymbol(self, "runMessage");

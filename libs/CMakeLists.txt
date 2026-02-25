@@ -44,15 +44,8 @@ set(IO_SRCS
 	${CMAKE_CURRENT_SOURCE_DIR}/io/Z_Importer.io
 )
 
-# Hackery for CMake's horrible ASM support
-if(NOT ${CMAKE_SYSTEM_NAME} MATCHES "Windows")
-    # Always include asm.S for all architectures
-    set(ASM_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/coroutine/source/asm.S)
-    set_source_files_properties(${ASM_SOURCES} PROPERTIES LANGUAGE C)
-endif()
-
 # Object files from every lib. Used to create iovmall static library.
-file(GLOB COROUTINE_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/coroutine/source/*.c")
+# Note: libcoroutine removed - coroutines now use frame-based implementation
 file(GLOB BASEKIT_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/basekit/source/*.c")
 file(GLOB GARBAGECOLLECTOR_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/garbagecollector/source/*.c")
 file(GLOB IOVM_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/iovm/source/*.c")
@@ -62,8 +55,6 @@ list(APPEND IOVM_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/../deps/parson/parson.c)
 #add_definitions(-DBUILDING_IOVM_DLL)# -DINSTALL_PREFIX="${CMAKE_INSTALL_PREFIX}")
 
 set(IOVMALL_STATIC_SRCS
-	${COROUTINE_SRCS}
-	${ASM_SOURCES}
 	${BASEKIT_SRCS}
 	${GARBAGECOLLECTOR_SRCS}
 	${IOVM_SRCS}
@@ -83,7 +74,6 @@ include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}/../deps/parson
 	${CMAKE_CURRENT_SOURCE_DIR}/basekit/source
 	${CMAKE_CURRENT_SOURCE_DIR}/basekit/source/simd_cph/include
-	${CMAKE_CURRENT_SOURCE_DIR}/coroutine/source
 	${CMAKE_CURRENT_SOURCE_DIR}/garbagecollector/source
 )
 
@@ -93,11 +83,11 @@ list(APPEND IOVMALL_STATIC_SRCS ${CMAKE_CURRENT_SOURCE_DIR}/iovm/source/IoVMInit
 # ...And the static library. Refer to IOVMALL_STATIC_SRCS definition
 # up top.
 add_library(iovmall_static STATIC ${IOVMALL_STATIC_SRCS})
-add_dependencies(iovmall_static io2c basekit coroutine garbagecollector iovmall)
+add_dependencies(iovmall_static io2c basekit garbagecollector iovmall)
 
 # Define the subdirectories we can reach from here that we want
 # to go into and build stuff.
-add_subdirectory(coroutine)
+# Note: coroutine subdirectory removed - using frame-based coroutines
 add_subdirectory(basekit)
 add_subdirectory(garbagecollector)
 add_subdirectory(iovm)
